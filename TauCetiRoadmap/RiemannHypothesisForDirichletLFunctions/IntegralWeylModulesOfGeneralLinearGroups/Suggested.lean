@@ -21,17 +21,14 @@ of `L(λ)` for split semisimple Lie algebras over `ℚ` (`LieAlgebra.Basis.highe
 not for `𝔤𝔩_N` and with no dual lattice; its Weyl modules `TauCeti.weylModuleOfShape` are modules
 over `ℚ`-algebras with no integral form.
 
-Stated below: the sandwich exponent (headline (1); 0.3 (b), (c)), local and global; the clauses of
-integral branching (headline (2); 1.1 (a), (d)) about the integer `c_Br` alone; from headline (3),
-the block cut (2.1 (b)), local and global, and the block-first form of the graded Pieri bound
-(2.2 (a)); and the Fischer norm of `v_λ` (3.2 (a)), the identity behind headline (4).
+Stated below: the sandwich exponent (headline (1); 0.3 (b), (c)), local and global; integral
+branching (headline (2)): the integral map of 1.1 (a) with the composite of 1.1 (e) in norm form,
+the bound `⟨ξ, ξ⟩_λ ≤ dim V_λ` of 1.1 (e), and the clauses of 1.1 (a), (d) about the integer
+`c_Br`; from headline (3), the block cut (2.1 (b)), local and global, and the block-first form of
+the graded Pieri bound (2.2 (a)); and the Fischer norm of `v_λ` (3.2 (a)), the identity behind
+headline (4).
 
 Not statable at the pins:
-* Integral branching (1.1) beyond the integer `c_Br`: the `GL_{N−1}`-equivariant map with
-  `v_σ ↦ c_Br·ξ` maps `∇_ℤ(σ)` into `∇_ℤ(λ)`, its adjoint maps `Δ_ℤ(λ)` into `Δ_ℤ(σ)`, and their
-  composite is `c_Br²·⟨ξ, ξ⟩_λ`. It lacks the actions of `GL_N` and `GL_{N−1}` on the models, with
-  their determinant twists, the equivariant maps between them, and the normalised contravariant
-  form.
 * Linkage in multiset form and the embedding of simple constituents (2.1 (d), (e)), the last clause
   of headline (3): they lack the action of `∏_τ GL_N(O)` on the reduction modulo `ϖ` of a tensor
   product of models, the algebra it generates with the weight projectors, and the subquotients of
@@ -45,7 +42,10 @@ The rank statement of 0.1 (the number of semistandard tableaux with entries `< N
 headline, and it is not stated here. The general identity 3.1 (the Fischer norm of a product of
 leading minors of an `n × l` matrix of variables is the hook product, also for nested families of
 rows and columns) is statable at the pins; it is not a headline, and only its case for `v_λ`, which
-headline (4) contains as 3.2 (a), is stated here.
+headline (4) contains as 3.2 (a), is stated here. Of integral branching, 1.1 (b) (the adjoint
+maps `Δ_ℤ(λ)` into `Δ_ℤ(σ)`) is 1.1 (a) read through the duality of `Δ_ℤ` and `∇_ℤ` for the
+normalised forms (README, Conventions), and 1.1 (f) is the formula on bideterminants from which the
+route deduces 1.1 (a); neither is stated here.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.IntegralWeylModulesOfGeneralLinearGroups
@@ -56,7 +56,10 @@ open scoped Pointwise
 /-! ## Layer 0: The polynomial model and the sandwich exponent -/
 
 /-- The normalised weight `λ⁰ := λ − λ_{N−1}·(1, …, 1)` of a weight `λ` of `GL_N`, as a vector of
-natural numbers (for a dominant `λ`, the partition `λ⁰`; the subtraction is truncated at `0`). -/
+natural numbers (for a dominant `λ`, the partition `λ⁰`; the subtraction is truncated at `0`). For a
+dominant `λ` its entries are the row lengths of Tau Ceti's `TauCeti.DominantWeight.detShiftShape`
+(`TauCeti.DominantWeight.rowLen_detShiftShape`); it is defined here for every weight vector, as the
+lattices below are. -/
 def normalizedWeight {N : ℕ} (lam : Fin N → ℤ) (s : Fin N) : ℕ :=
   (lam s - lam ⟨N - 1, by have := s.isLt; omega⟩).toNat
 
@@ -111,6 +114,11 @@ noncomputable def weylLattice (R : Type*) [CommRing R] {N : ℕ} (lam : Fin N �
       f = word.foldr (fun o g => dividedRowOperator R o.1 o.2.1 o.2.2 g)
         (highestWeightVector R (normalizedWeight lam))}
 
+/-- The Fischer form `⟨f, f⟩_F = Σ_α f_α²·α!` of a polynomial `f = Σ_α f_α x^α` with integer
+coefficients, `α! = ∏_i α_i!`. -/
+noncomputable def fischerNormSq {σ : Type*} (f : MvPolynomial σ ℤ) : ℤ :=
+  ∑ α ∈ f.support, f.coeff α ^ 2 * α.prod fun _ k => (k.factorial : ℤ)
+
 /-- **The sandwich exponent, local form** (0.3 (b), in the polynomial model of 0.3 (c)). Let `O`
 be a discrete valuation ring of characteristic `0` and residue characteristic `p`, and `λ` a
 dominant weight of `GL_N`, `N = n + 1`. Then `p^e·∇_O(λ) ⊂ (dim V_λ)·Δ_O(λ)` with
@@ -162,9 +170,58 @@ theorem branchingInteger_ne_zero_and_abs_le (m : ℕ) (lam : Fin (m + 1) → ℤ
           (m * ∑ i : Fin m, (interlacingDefectSet m lam sigma i).card) := by
   sorry
 
+/-- The vector `ξ` of 1.1, for a weight `λ` of `GL_{m+1}` and a weight `σ` of `GL_m`: the product
+over `i < m` of the leading minor `Δ_{i+1}` to the power `σ_i − λ_{i+1}` and of the minor on the
+rows `0, …, i − 1, m` and the columns `0, …, i` to the power `λ_i − σ_i` (the exponents are
+truncated at `0`; for `σ` interlacing `λ` both are nonnegative). -/
+noncomputable def branchingVector (m : ℕ) (lam : Fin (m + 1) → ℤ) (sigma : Fin m → ℤ) :
+    MvPolynomial (Fin (m + 1) × Fin (m + 1)) ℤ :=
+  ∏ i : Fin m,
+    leadingMinor ℤ (m + 1) ((i : ℕ) + 1) (by omega) ^ (sigma i - lam i.succ).toNat *
+      Matrix.det (Matrix.of fun a s : Fin ((i : ℕ) + 1) =>
+        (X (if (a : ℕ) < i then (⟨a, by omega⟩ : Fin (m + 1)) else Fin.last m,
+          (⟨s, by omega⟩ : Fin (m + 1))) : MvPolynomial (Fin (m + 1) × Fin (m + 1)) ℤ)) ^
+        (lam i.castSucc - sigma i).toNat
+
+/-- **Integral branching** (1.1 (a), with the composite of 1.1 (e) in norm form). Let `N = m + 1`,
+`λ` a weight of `GL_N` and `σ` a weight of `GL_{N−1}` interlacing it, `λ_i ≥ σ_i ≥ λ_{i+1}` for
+`i ≤ N − 2`. There is a `ℤ`-linear map `io` from the polynomials in the `(N−1) × (N−1)` matrix of
+variables to those in the `N × N` matrix with `io(v_σ) = c_Br·ξ` that commutes on `∇_ℤ(σ)` with the
+divided row operators `E_{ab}^{(k)}`, `a ≠ b ≤ N − 2` (`GL_{N−1}` acting on the first `N − 1` rows);
+on `∇_ℤ(σ)` these two properties determine `io` and make it the `GL_{N−1}`-equivariant map of 1.1.
+It maps `∇_ℤ(σ)` into `∇_ℤ(λ)`, and `⟨io f, io f⟩_λ = c_Br²·⟨ξ, ξ⟩_λ·⟨f, f⟩_σ` for `f ∈ ∇_ℤ(σ)`,
+written with the Fischer forms as `⟨v_σ, v_σ⟩_F·⟨io f, io f⟩_F = c_Br²·⟨ξ, ξ⟩_F·⟨f, f⟩_F`; by
+polarisation this is `br∘io = c_Br²·⟨ξ, ξ⟩_λ·id` for the adjoint `br` of `io`. -/
+theorem exists_integral_branching (m : ℕ) (lam : Fin (m + 1) → ℤ) (sigma : Fin m → ℤ)
+    (hinterlace : ∀ i : Fin m, sigma i ≤ lam i.castSucc ∧ lam i.succ ≤ sigma i) :
+    ∃ io : MvPolynomial (Fin m × Fin m) ℤ →ₗ[ℤ] MvPolynomial (Fin (m + 1) × Fin (m + 1)) ℤ,
+      io (highestWeightVector ℤ (normalizedWeight sigma)) =
+          branchingInteger m lam sigma • branchingVector m lam sigma ∧
+        (∀ (a b : Fin m) (k : ℕ), a ≠ b → ∀ f ∈ dualWeylLattice ℤ sigma,
+          io (dividedRowOperator ℤ a b k f) =
+            dividedRowOperator ℤ a.castSucc b.castSucc k (io f)) ∧
+        (∀ f ∈ dualWeylLattice ℤ sigma, io f ∈ dualWeylLattice ℤ lam) ∧
+        ∀ f ∈ dualWeylLattice ℤ sigma,
+          fischerNormSq (highestWeightVector ℤ (normalizedWeight sigma)) * fischerNormSq (io f) =
+            branchingInteger m lam sigma ^ 2 * fischerNormSq (branchingVector m lam sigma) *
+              fischerNormSq f := by
+  sorry
+
+/-- **The norm of `ξ`** (1.1 (e), last clause). Let `N = m + 1`, `λ` a dominant weight of `GL_N`
+and `σ` a weight of `GL_{N−1}` interlacing it (the interlacing already forces `λ` to be dominant;
+`hlam` forms `dim V_λ`). Then `⟨ξ, ξ⟩_λ ≤ dim V_λ`, written with the Fischer form as
+`⟨ξ, ξ⟩_F ≤ dim V_λ·⟨v_λ, v_λ⟩_F`. -/
+theorem fischerNormSq_branchingVector_le (m : ℕ) (lam : Fin (m + 1) → ℤ) (hlam : Antitone lam)
+    (sigma : Fin m → ℤ)
+    (hinterlace : ∀ i : Fin m, sigma i ≤ lam i.castSucc ∧ lam i.succ ≤ sigma i) :
+    fischerNormSq (branchingVector m lam sigma) ≤
+      (TauCeti.weylDimension ⟨lam, hlam⟩ : ℤ) *
+        fischerNormSq (highestWeightVector ℤ (normalizedWeight lam)) := by
+  sorry
+
 /-! ## Layer 2: The exponent of the Weyl lattice and the graded Pieri bound -/
 
-/-- **The block cut, local form** (2.1 (b), over every `O` as in 2.1 (a)). Let `O` be a discrete
+/-- **The block cut, local form** (2.1 (b), over a discrete valuation ring). Let `O` be a discrete
 valuation ring of characteristic `0` and residue characteristic `ℓ`, `λ` a dominant weight of
 `GL_{a+b}`, cut into `λ′ = (λ_0, …, λ_{a−1})` and `λ″ = (λ_a, …, λ_{a+b−1})`, and `w ≥ 0` such that
 all shifted weights `λ_c + a + b − 1 − c` of `λ` lie in an interval of length `w`. If
@@ -226,7 +283,7 @@ over that range and every factor is positive. -/
 noncomputable def pieriDenominator (r w i q : ℕ) (lam₂ : Fin q → ℕ) : ℕ :=
   ∏ c ∈ Ico (-(q : ℤ)) w, ((w : ℤ) - c).toNat ^ pieriContentMultiplicity r w i q lam₂ c
 
-/-- **The graded Pieri bound, block first** (2.2 (a), over every `O` as in 2.1 (a)). Let `O` be a
+/-- **The graded Pieri bound, block first** (2.2 (a), over a discrete valuation ring). Let `O` be a
 discrete valuation ring of characteristic `0` and residue characteristic `ℓ`, `λ₂` a partition with
 `q` parts and `λ₂(0) ≤ w`, `λ = (w^r, λ₂)` (a dominant weight of `GL_{r+q}`), `ξ` a non-increasing
 grading, `i′ ∈ ℤ` and `e_L ≥ 0` with `ℓ^{e_L}·∇_O(λ₂)_{μ₂} ⊂ Δ_O(λ₂)` for every weight `μ₂` of
@@ -251,11 +308,6 @@ theorem pow_smul_dualWeylLatticeWeightSpace_le_weylLattice_of_block_first (O : T
   sorry
 
 /-! ## Layer 3: Fischer norms and slopes -/
-
-/-- The Fischer form `⟨f, f⟩_F = Σ_α f_α²·α!` of a polynomial `f = Σ_α f_α x^α` with integer
-coefficients, `α! = ∏_i α_i!`. -/
-noncomputable def fischerNormSq {σ : Type*} (f : MvPolynomial σ ℤ) : ℤ :=
-  ∑ α ∈ f.support, f.coeff α ^ 2 * α.prod fun _ k => (k.factorial : ℤ)
 
 /-- **The Fischer norm of `v_λ`** (3.2 (a); its identity is the case of 3.1 for the leading
 principal minors of a square matrix). Let `λ` be a dominant weight of `GL_N`, `N = n + 1`, and
