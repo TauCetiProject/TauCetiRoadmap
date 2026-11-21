@@ -1666,7 +1666,8 @@ one direction above each embedding of `K₀`" is the set of words covered. Three
 because every factor costs at least `1` (enlarging `E` to contain the images of `K₀(μ_p)` changes neither side: `H¹_f` commutes
 with the flat base change `O → O′`; this reduction is this roadmap's); and a statement of [FormalProof]: a finite class
 decomposes over the embeddings of `K₀` as in
-steps (a)–(c) of the route of 4.10d(1), over `O[[π′]]` (with WachLatticesOverTheCyclotomicTower §6.10(1) for `π′` at the cuts), and each piece lifts modulo at most
+steps (a)–(c) of the route of 4.10d(1), over `O[[π′]]` (with the general form of WachLatticesOverTheCyclotomicTower §6.10(1),
+which is that roadmap's own, for `π′` at the cuts), and each piece lifts modulo at most
 `e_K(e_K + 1)m` exceptional classes per embedding of `K₀` (a universal part as in 4.10d(3)), which gives `Y` (its conclusion
 is `Formalism.MainNotions.N.Ln34.killA` of [FormalProof]). Then the length of
 the cokernel is at most ((generators)`·Y + n·e_K(e_K + 1)m·E′`)`·length_O(O/p)` (each generator of the quotient by the span of the
@@ -1822,7 +1823,7 @@ Layer 5 (local duality).
 
 ### Examples
 
-Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class lies in `H¹(ℚ_p, E(−1))`, whose finite part is `0` (4.9a). For `F` imaginary quadratic and `V = E(1)`, the left side of (H3) is `2` against `r[F:ℚ]/2 = 1`, so the Bloch–Kato condition is not balanced (4.9b). For `V = ℚ_p(u)`, `u ≠ 0`, over `ℚ_p` with `p` odd, `H⁰(ℚ_p(μ_{p^m}), ℚ_p/ℤ_p(u))` has exponent exactly `m + v_p(u)`, against the bound `m + v_p(u) + 2` of 4.9d. For the lattice `T₁ = {(a, b) ∈ p^{−1}ℤ_p ⊕ ℤ_p(p − 1) : pa ≡ b (mod p)}` and `f(a, b) = b`, the cokernel on finite classes is `Hom(G_K, 𝔽_p)/Hom^{ur}(G_K, 𝔽_p)`, of exponent `1`, where 4.10c (3) gives `e° = 3`. At `s = 1`, `H = 2h`, `M = h`, `p = 3` and `h = 1` the exponent of 4.10e (1) is at most `13 ≤ 18h`. In 4.10f, `N = 2` and `η = r′ = 1` give `k = 200`. For `U = E` trivial and `K = ℚ_p` the bound of 4.10g (2) is `2e·length_O(O/p)`.
+Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class lies in `H¹(ℚ_p, E(−1))`, whose finite part is `0` (4.9a). For `F` imaginary quadratic and `V = E(1)`, the left side of (H3) is `2` against `r[F:ℚ]/2 = 1`, so the Bloch–Kato condition is not balanced (4.9b). For `V = ℚ_p(u)`, `u ≠ 0`, over `ℚ_p` with `p` odd, `H⁰(ℚ_p(μ_{p^m}), ℚ_p/ℤ_p(u))` has exponent exactly `m + v_p(u)`, against the bound `m + v_p(u) + 2` of 4.9d. For the lattice `T₁ = {(a, b) ∈ p^{−1}ℤ_p ⊕ ℤ_p(p − 1) : pa ≡ b (mod p)}` and `f(a, b) = b`, the cokernel on finite classes is `Hom(G_K, 𝔽_p)/Hom^{ur}(G_K, 𝔽_p)`, of exponent `1`, where the refinement of 4.10c (3) gives `e° = 3`. At `s = 1`, `H = 2h`, `M = h`, `p = 3` and `h = 1` the exponent of 4.10e (1) is at most `13 ≤ 18h`. In 4.10f, `N = 2` and `η = r′ = 1` give `k = 200`. For `U = E` trivial and `K = ℚ_p` the bound of 4.10g (2) is `2e·length_O(O/p)`.
 
 ### Dependencies
 
