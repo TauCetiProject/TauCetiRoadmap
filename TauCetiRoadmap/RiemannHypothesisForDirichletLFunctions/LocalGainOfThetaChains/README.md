@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap proves the divisibility that a chain of theta lifts between definite unitary groups gains at the primes inert in the imaginary quadratic subfield `K` of an abelian CM host `E`, and bounds the colength of the sublattice of automorphic forms on which the gain holds. The objects are those of [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md): the lattices `ℳ^{int}_j` of integral algebraic forms on the unitary groups `U(X_j)` of the column spaces (values in the Weyl lattices), the step operators `K_j(ξ)` of a tuple `ξ` of twisting characters (theta lifts written as class-set operators with CM theta kernels), the chain lift `col_ξ`, the source lattice `M_u` of a word `u`, and the top period `P̃_ξ(φ, F)` against row forms `F`. At a prime `p ≥ 5` inert in `K` and unramified in `E`, the theta kernel of a step, read in the logarithmic coordinates of the Lubin–Tate formal groups of height two at the places above `p`, is an integral series times `exp(−β)` with `β` a Hermitian biextension cocycle, and the Taylor bounds of [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md) turn the large top entry `a_τ`, which stays in every weight of the chain, into an explicit power of `p` at every step.
 
-The headline theorems are these. (1) *The gain of a step and of the chain lift* (4.10, 4.11). Under the size conditions of 4.10, let `p ≥ 5` be a prime inert in `K`, unramified in `E`, with `p ≤ X″` and of split type (complex conjugation is not a power of `Frob_p`), `𝔭 | p` a place of the field `𝕃`, and `ξ` a tuple unramified above `p`. Then every step maps `ℳ^{int}_{j−1}` into `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, where `g⁰_j` is the operator-free gain, `F_j` the bulk and `E_{u,j}` the cost of the ledger of 4.9e–4.9f; hence `col_ξ(ℳ^{int}_0) ⊂ p^{Σ_j(g⁰_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)}·ℳ^{int}_m` locally at `𝔭`, and the periods of row forms have valuation at least `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋` at `𝔭`. (2) *The refined gain on the Hecke image and its colength* (4.14, 4.15c). Let `𝒱` be a set of linked places above such a `p` with Hecke types and `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})`, the `y_v` being Hida-normalised Hecke operators at the places above `p`. On `𝒴·ℳ^{int}_0` the chain gains `Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)` with the refined gain `g_j`: a top at an even position gains `γ_LT(p)·α_s` and a top at an odd position its whole ramp sum, at the price `P_j(v)` per step. If moreover the depth property `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` with `c*_p ≥ 8(D_p + 1)` holds at every `v ∈ 𝒱`, `m·Σ_v sh_v ≤ 1/2`, `p^e·ℳ^∨_0 ⊂ ℳ^{int}_0` and the standing conditions of 4.15c hold, then `𝒴·ℳ^{int}_0 ∩ p^τ·ℳ^{int}_0` has colength at most `e_R·rank·(τ + 2S·m·Σ_v sh_v)` in `ℳ^{int}_0`, with `τ = e + Σ_{v∈𝒱} m(⌈dep_v⌉ + D_p + 1)` and `S ≥ max_v 𝔵_v`. (3) *The gain sublattice* (4.16). Given served data with the depth property and `InertFreeUpTo 4`, the sublattice `N_u ⊂ M_u` cut out by these local conditions satisfies `N_u ⊂ p^{τ_N(𝔭)}M_u` and `length_{𝒪_𝔭}(M_u/N_u)_𝔭 ≤ e_𝔭·d^{all}_u·(τ_N(𝔭) + 𝔦(𝔭))` at every `𝔭` not above the level prime `T(u)`, and, under the hypotheses of 4.10 and 4.10a, for every `φ ∈ N_u` and every row form `F` the period `P̃_{ξ_𝔭}(φ, F)` is `0` or has valuation at least `⌊e_𝔭·𝔊_u(𝔭)⌋` at `𝔭`, `𝔊_u` being the net exponent of the ledger. (4) *The gain inequality* (4.17a). With the data of 4.17, at every `𝔭` above a prime `p ≤ X″` inert in `K` and not in `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and `Σ_j Σ_{τ∈Φ_top(𝔭)} (V_{j,τ}(p) − ℒ(p)) − m·ℒ_f(p) ≤ Σ_j g_j(𝔭) − τ_N(𝔭)`, where `V_{j,τ}(p) = Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊` is the ramp sum of a top and `ℒ`, `ℒ_f` are explicit losses, whose sums over the primes weighted by `log p` are at most a constant times `b` (4.17b).
+The headline theorems are these. (1) *The gain of a step and of the chain lift* (4.10, 4.11). Under the size conditions of 4.10, let `p ≥ 5` be a prime inert in `K`, unramified in `E`, with `p ≤ X″` and of split type (complex conjugation is not a power of `Frob_p`), `𝔭 | p` a place of the field `𝕃`, and `ξ` a tuple unramified above `p`. Then every step maps `ℳ^{int}_{j−1}` into `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, where `g⁰_j` is the operator-free gain, `F_j` the bulk and `E_{u,j}` the cost of the ledger of 4.9e–4.9f; hence `col_ξ(ℳ^{int}_0) ⊂ p^{Σ_j(g⁰_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)}·ℳ^{int}_m` locally at `𝔭`, and the periods of row forms have valuation at least `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋` at `𝔭`. (2) *The refined gain on the Hecke image and its colength* (4.14, 4.15c). Let `𝒱` be a set of linked places above such a `p` with Hecke types and `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})`, the `y_v` being Hida-normalised Hecke operators at the places above `p`. On `𝒴·ℳ^{int}_0` the chain gains `Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)` with the refined gain `g_j`: a top at an even position gains `γ_LT(p)·α_s` and a top at an odd position its whole ramp sum, at the price `P_j(v)` per step. If moreover the depth property `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` with `c*_p ≥ 8(D_p + 1)` holds at every `v ∈ 𝒱`, `m·Σ_v sh_v ≤ 1/2`, `p^e·ℳ^∨_0 ⊂ ℳ^{int}_0` and the standing conditions of 4.15c hold, then `𝒴·ℳ^{int}_0 ∩ p^τ·ℳ^{int}_0` has colength at most `e_R·rank·(τ + 2S·m·Σ_v sh_v)` in `ℳ^{int}_0`, with `τ = e + Σ_{v∈𝒱} m(⌈dep_v⌉ + D_p + 1)` and `S ≥ max_v 𝔵_v`. (3) *The gain sublattice* (4.16). Given served data with the depth property and `InertFreeUpTo 4`, the sublattice `N_u ⊂ M_u` cut out by these local conditions satisfies `N_u ⊂ p^{τ_N(𝔭)}M_u` and `length_{𝒪_𝔭}(M_u/N_u)_𝔭 ≤ e_𝔭·d^{all}_u·(τ_N(𝔭) + 𝔦(𝔭))` at every `𝔭` not above the level prime `T(u)`, and, under the hypotheses of 4.10 and 4.10a, for every `φ ∈ N_u` and every row form `F` the period `P̃_{ξ_𝔭}(φ, F)` is `0` or has valuation at least `⌊e_𝔭·𝔊_u(𝔭)⌋` at `𝔭`, `𝔊_u` being the net exponent of the ledger. (4) *The gain inequality* (4.17a). With the data of 4.17, at every `𝔭` above a prime `p ≤ X″` inert in `K` and not in `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and `Σ_j Σ_{τ∈Φ_top(𝔭)} (V_{j,τ}(p) − ℒ(p)) − m·ℒ_f(p) ≤ Σ_j g_j(𝔭) − τ_N(𝔭)`, where `V_{j,τ}(p) = Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊` is the ramp sum of a top and `ℒ`, `ℒ_f` are explicit losses: summed over the primes `p ≤ X″` with weight `log p`, `ℒ` gives at most a constant times `b` and `ℒ_f` at most `C·f·X″·(N_m²·log 2a + log²2a)` (4.17b).
 
 The roadmap builds on [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), which supplies the chain, its integral forms, step operators and periods; on [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md), the first part of the same layer, which supplies the Taylor bounds on height-two formal groups and the depth of a weight; on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) for the hosts, their Frobenius data and the tops; on [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) for the sandwich exponent between Weyl and dual Weyl lattices and the integral invariant projectors; and on [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) and [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) for Gross's models of algebraic modular forms and the Satake transform. Within the family [RiemannHypothesisForDirichletLFunctions](../README.md), the gain sublattice and the gain inequality feed the division inequality and the Frobenius-restricted inequality of the later theta-chain roadmaps.
 
@@ -35,7 +35,7 @@ Layer 4 here is the second part of the layer of that number (its first part is T
 | `σ_d` | the nontrivial element of the inertia group at `d` | FrobeniusRestrictedRieszSums §0.3 |
 | `SplitRamification d, InertFreeUpTo B` | host predicates: every ramified prime other than `d` splits in `K` and `I_d = {1, σ_d}`, `σ_d ∉ Φ`; no prime `p ≤ B` is inert in `K` | FrobeniusRestrictedRieszSums §0.3 |
 | `(q, d)` | auxiliary pair | FrobeniusRestrictedRieszSums §0.4 |
-| `A` | `Gal(E/ℚ(√−q, √−d)) ⊂ Φ` | FrobeniusRestrictedRieszSums §0.4 |
+| `A, A₀, o` | `Gal(E/ℚ(√−q, √−d)) ⊂ Φ`; the kernel of the restriction to `A` of the character `ψ` of the cyclic host, and its index `[A : A₀]` | FrobeniusRestrictedRieszSums §0.4 |
 | `par_τ` | partner bijection `G∖Φ → Φ`, `g ↦ cgτ` | FrobeniusRestrictedRieszSums §0.6 |
 | `Φ_top` | the tops, `Φ_top ⊂ A` | FrobeniusRestrictedRieszSums §0.6 |
 | `ω, ω₀, δ_top` | coset profile and its lower bound, selection density | FrobeniusRestrictedRieszSums §0.7 |
@@ -648,9 +648,9 @@ when `i_v = 0`) gives `Σ_{B_{m′}}(r^H − P^{ex}) + Σ_{∉B_{m′}}r⁰ ≥ 
 with the ledger data `(α̂, ĉ)` by monotonicity, 4.9e (b)): one factor `y_v` buys the refined gain of
 `v` at one step. A generator of `𝒴·ℳ^{int}_0` is `∏_{v∈B}y_v^m(F₀)` with `F₀ ∈ p^{Σ_{𝒱∖B}𝔵_v}ℳ^{int}_0`; take
 `B_j := {v ∈ B : r^H_j − P_j ≥ r⁰_j}`; the places of `𝒱 ∖ B` receive `𝔵_v ≥ Σ_j(r^H_j − P_j − r⁰_j)₊` in advance.
-`𝔵_v ≤ mγ_LTΣα_s`: `Σ_j(r^H_j − P_j − r⁰_j)₊ ≤ Σ_j(γ_LTΣα_s − P_j) ≤ mγ_LTΣα_s − m` because `r^H_j ≤ γ_LTΣα̂_s ≤ γ_LTΣα_s` and
-`P_j ≥ 1`, and the
-ceiling adds less than `1`. (b): the local model of 4.12 (o) is the chain of the tuple read at the places above `p`; that
+`𝔵_v ≤ mγ_LTΣα_s`: since `r⁰_j ≥ 0` and `r^H_j ≤ γ_LTΣα̂_s ≤ γ_LTΣα_s`, each term `(r^H_j − P_j − r⁰_j)₊` is at most
+`(γ_LTΣα_s − P_j)₊`, which is `0` when `γ_LTΣα_s ≤ P_j` and at most `γ_LTΣα_s − 1` otherwise (`P_j ≥ 1`); so the sum is `0`
+when `γ_LTΣα_s ≤ 1`, and otherwise at most `mγ_LTΣα_s − m`, and the ceiling adds less than `1`. (b): the local model of 4.12 (o) is the chain of the tuple read at the places above `p`; that
 comparison (the identification of the forms and of the kernels at the places above `p`) is not given here (4.12, route).
 
 *NEW*. *Needs:* 4.9e, 4.9f, 4.11, 4.12, 4.13.
@@ -693,7 +693,7 @@ dual Weyl lattice `∇` of the tuple of Frobenius twists of `L` (the coefficient
 `⟨F, G⟩_h := G(p^{h}F)` against the dual lattices; an *edge* of type `r` into `L` is `e = (L″ ⊂ L)` with `pL ⊂ L″`,
 `L/L″ ≅ (𝒪/p)^r` (its *source* `L″`, *target* `L`); `H^{½}(e) := p^{−h/2}H(L″ + √p·L)` (the half-way lattice) and `H^{½}(e)^∨` the
 lattice dual to it for `⟨·, ·⟩_h`. For integers `dep, c ≥ 0` (exponents of `w`) put
-`C(e) := w^{−dep}H(L″) ∩ H^{½}(e) ∩ ⋂_{e′≠e, src e′ = L″}w^cRe(e′)` and
+`C(e) := w^{−dep}H(L″) ∩ H^{½}(e) ∩ ⋂_{e′≠e, src e′ = L″}w^cH^{½}(e′)` and
 `C′(e) := w^{−dep}H(L)^∨ ∩ H^{½}(e)^∨ ∩ ⋂_{e′≠e, tgt e′ = L}w^cH^{½}(e′)^∨`.
 *The hypotheses (H_I).* Integers `s_max, G′ ≥ 1`, `Y ≥ 1`, `D_p, c* ≥ 0`, `Λ_log := C₀s_max²·log a`, where `C₀ ≥ 1`,
 `C_m ≥ 13` (below), `C_H` and `Y_b ≥ C_H` are absolute constants fixed once for all, large enough for 4.14h (`C_H` large compared
@@ -717,7 +717,9 @@ dual variables), the functional dual to `X^{d−1}Y` is `d·ξ^{d−1}η`, so `(
 `p | d`, and is not the polynomial letter). For a rational line `g` (an element of `GL_k(W(𝔽_{Q₀}))` up to the stabiliser of its first basis line modulo `p`),
 the *lift at `g`* of a polynomial reads the letter at position `s` in the basis `σ^s(g)` and multiplies by `w` the non-special
 variables of vector letters and the special variables of covector letters; `F` has *order `≥ j` at `g`* if its lift has
-coefficients in `w^j𝒪` (this is `F ∈ w^jRe(e_g)`, `e_g` the edge of `g`).
+coefficients in `w^j𝒪` (this is `F ∈ w^jH^{½}(e_g)`, `e_g` the edge of `g`, out of the lattice of the frame: read in the frame
+`σ^s(g)` with the transport of 4.12 (b), the half-way lattice consists of the polynomials whose lift is integral, the factor
+`p^{−h/2}` accounting for the degrees of the vector letters).
 *Segments.* The even tops cut the orbit into *segments*; a segment has a start even top with vector letter `x`, odd tops
 `y_1, …, y_s` at distances `d_1 < ⋯ < d_s` with letters `v_i` (vector, degree `a⁻_{y_i}`) and `ξ_i` (covector, degree `a_{y_i}`), and
 an end even top at distance `G` with letters `x^+` (vector) and `η` (covector); `P_i := p^{G−d_i}`, `Q := p^G`; `y_i` is *near* if
@@ -837,7 +839,7 @@ Assume (H_I) of 4.14b with the
 windows of `a_s` and `a⁻_s` enlarged by `2Λ_log·b′/k`, let `c := c_v` and `μ := κ₁c + μ′ = 13k·s_max·p^{G′}·c + μ′` with `μ′ ∈ {0, 12c}`
 (`κ₁`, `BL_E` of 4.14b). For every rational line `g`, every family `β` of blocks of `BL_0` and all `u_j ∈ Bl_μ(b_j)` there is
 `F ∈ 𝕊(a, a⁻)` such that (i) `w^{ord(β)}F` is integral; (ii) the lift of `F` at `g` is `≡ σ_β(u) (mod w^c)`; (iii) `F` has order `≥ c`
-at every rational line other than `g`. Equivalently `F ∈ C(e_g)` with `dep = ord(β)` and `F ≡ w^{−ord(β)}σ_β(u)` modulo `w^cRe(e_g)`
+at every rational line other than `g`. Equivalently `F ∈ C(e_g)` with `dep = ord(β)` and `F ≡ w^{−ord(β)}σ_β(u)` modulo `w^cH^{½}(e_g)`
 in the coordinates of the edge. Every kept block lies in `BL_0`, and `ord(β) ≤ dep°_v + R°_v` for every kept family.
 
 *Route.* (1) *Generators.* The thresholded polynomials `y` are spanned by standard polynomials `∏_cK_c(κ)_{I(c)}`, `κ` a path of
@@ -993,7 +995,7 @@ whose Gram matrix `B_e` for `⟨·, ·⟩_h` satisfies `B_eM_e = z_e·1` with `M
 the cost `2n′c″` in the depth; blocks for the flat weights `(A_s, 0, …, 0, −B_s)` come from the two-letter model
 `𝕊(A, B) = ⊕_jV(A − j, B − j)`; a block for `𝕊` at an edge gives blocks for the shifted flat weights whose sizes add up, so a
 bound for one `(A, B)` controls a weighted sum of the shares of the shifted weights, and averaging over the boxes gives the
-mean bound (this reduction is not proved here). (2) By 4.14d every symbol of a kept family is, up to `w^cRe(e)`, `w^{ord(β)}`
+mean bound (this reduction is not proved here). (2) By 4.14d every symbol of a kept family is, up to `w^cH^{½}(e)`, `w^{ord(β)}`
 times a vector of `C(e)` with depth `ord(β) ≤ dep°_v + R°_v`. (3) By 4.14e the Gram matrix for `⟨·, ·⟩_h` of these vectors and of the
 corresponding vectors of the dual edge is, modulo `w^c`, block diagonal in `β` with blocks `κ_β·⊗_j`(segment form). (4) By 4.14f
 the segment lattices at the margin `μ₀` of 4.14b have ranks whose product is `≥ (1 − κ_P)·dim 𝕊/#ℙ^{k−1}(𝔽_{Q₀})`. (5) By 4.14g the bad shares of the segment
@@ -1066,7 +1068,9 @@ vectors `y^iζ`. In general walk with counters `n_v ≤ m`: while at least `β +
 remaining factor costs `βS`. An exceptional vector is determined by `B` and the counters in `B` (every place below
 `max B` outside `B` is complete, every place above is untouched): `m^{β+1}` choices.
 
-*NEW* (elementary; a statement about commuting endomorphisms of a module over a discrete valuation ring). *Needs:* Mathlib (modules over a discrete valuation ring).
+*NEW* (elementary; a statement about commuting endomorphisms of a module over a discrete valuation ring). [FormalProof] states it for
+modules over any commutative ring and any `π`: `Formalism.G0.WalkSharp` (`src/Formalism/SubspaceCounting/Statement.lean`), proved as
+`Formalism.G0.walkSharp_true`. *Needs:* Mathlib (modules over a discrete valuation ring).
 
 ### 4.15c Colength of the Hecke image
 
@@ -1098,7 +1102,10 @@ those of `𝒴·ℳ^∨_0` in `ℳ^∨_0`. Length: in a basis adapted to `P ⊂ 
 `g_β ≤ rank(mΣsh)^{β+1}/(β+1)!`, and `Σ_βg_β ≤ rank(e^{mΣsh} − 1) ≤ 2rank·mΣsh`; saturation of `M′` (`M′/(M′ ∩ Q)` injects
 into `M/Q`) gives the clauses on `M′`.
 
-*NEW*. *Needs:* 4.14, 4.15, 4.15b; Mathlib `Module.Basis.SmithNormalForm`.
+*NEW*. [FormalProof] states the module-theoretic part (from the spanning hypothesis of 4.15b with shares `κ_v`, `a_v + b_v ≤ c_v` and
+`m·Σ_vκ_v ≤ 1/2` to the exceptional vectors for every `β` and the length bound) as `Formalism.G0.ManyOrbitsRefined`
+(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.many_orbits_refined_holds`; the spanning
+lemma from `DepthBound` and the sandwich are not part of that statement. *Needs:* 4.14, 4.15, 4.15b; Mathlib `Module.Basis.SmithNormalForm`.
 
 ### 4.15d Good orbits and their probability
 
@@ -1107,7 +1114,8 @@ For `δ ∈ (0, 1)`, `h, x > 0` and integers `r ≥ 2`, `L₂ ≥ 1`, `M₀ ≥ 
 (for `δ, h, x, r, L₂, M₀`) if: every window of `L₂` consecutive positions contains at most `r − 1` tops; cutting the orbit
 into `⌊n′/((6r + 1)u)⌋` *tiles* of `6r + 1` consecutive *cells* of length `u` (the remaining fewer than `(6r + 1)u` positions
 form an incomplete tile, which is never marked), and calling a tile *marked* if its odd cells contain no top and each of its
-`3r` even cells contains exactly one top, at an even position, every tile has a marked tile among the next `M₀`; and
+`3r` even cells contains exactly one top, at an even position, every tile has a marked tile among the next `M₀` tiles, counted
+cyclically among the complete tiles (the incomplete tile is skipped); and
 every window of length `G′` contains at most `N₁` tops. *Probability.* Let `0 < ω₀ ≤ 1` and `(M₀ + 1)(6r + 1)u ≤ n′`. If
 the positions are tops independently, each with a probability in `[ω₀δ, δ]`, then conditionally on one position being a
 top the orbit fails to be good with probability at most
@@ -1123,7 +1131,11 @@ positions: the count is dominated by `Bin(G′, δ)`. With `q` the probability t
 probability at most `(1 − q)^{M₀−1} ≤ 2(1 − q)^{M₀}` (`q ≤ 1/2`), and the union is over at most `n′/((6r + 1)u) + 1 ≤ n′/2` tiles, which
 absorbs the factor `2`: the bound is the second term of `p_orb`.
 
-*NEW* (definition; elementary probability). *Needs:* Mathlib probability (independent Bernoulli variables, binomial tails).
+*NEW* (definition; elementary probability). [FormalProof] proves the bound for equal probabilities `δ` (`ω₀ = 1`), with `u`, `G′`, `N₁`
+free, for the weaker predicate that asks, at every complete tile, for a marked tile among the tile itself and the next `M₀`:
+`Formalism.G0.TileConditionFailureProbBound`
+(`src/Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`. *Needs:*
+Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.15e Theorem II (small primes)
 
@@ -1344,7 +1356,8 @@ in `K` exceeds `B_s`) with `B_s ≥ max(12, x^{c_s})` for some `c_s > 0` (which 
 it): the small-prime theorem 4.15e is stated for `p ≥ 13`, and `L₁(p) ≤ C/c_s` for every prime inert in `K`, bounded
 independently of `x`; fix `L_b ≥ 1` with `L₂ ≤ L_b` (`L₂` below; such an `L_b` exists by that bound). Put `h_A := 2 + 8ε` and assume
 `x^{h_A} ≤ |A| ≤ 2x^{h_A}` (`SizeA` of ThetaChainsOnDefiniteUnitaryGroups §2.1 with `A_n = h_A`), so that every Frobenius orbit has length `≤ 2x^{h_A}` and `δ_top|A| ≥ 16o²/ω₀²` (the
-hypothesis of FrobeniusRestrictedRieszSums §0.7) for `x ≥ x₀`; the thresholds `x₀` below depend only on `ε`, `c_s`, `ω₀`, `L_b` and the constants fixed before `ε`. At the scale
+hypothesis of FrobeniusRestrictedRieszSums §0.7, where `o = [A : A₀]` is the index of the subgroup `A₀ ⊂ A` on whose cosets the coset profile is
+defined: `A₀` is the kernel of the restriction to `A` of the character `ψ` of the cyclic host, FrobeniusRestrictedRieszSums §0.4) for `x ≥ x₀`; the thresholds `x₀` below depend only on `ε`, `c_s`, `ω₀`, `L_b` and the constants fixed before `ε`. At the scale
 `x`, put `δ_top := x^{−ε/8}` (the selection density of FrobeniusRestrictedRieszSums §0.7), `r_G := ⌈8(h_A + 2)/ε⌉ + 1`, `u := ⌈1/δ_top⌉`, the tile parameter
 `h_II := max(1, (5ω₀)^{−3r_G})·(h_A + 3) − 3` (`= h_A` when `ω₀ ≥ 1/5`, in particular for a uniform selection),
 `M₀ := ⌈10^{6r_G+1}(h_II + 3)log x⌉`, `G′ := (M₀ + 5)(6r_G + 1)u`, `N₁ := ⌈max(6e·G′δ_top, (h_II + 3)log₂x)⌉ + 1`, `s_max := N₁`,
@@ -1427,14 +1440,16 @@ orbit is not given here. Tops whose orbit at `p` is linked and not served are no
 Data of 4.17. Under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1), `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `k ≥ x²s_max³log a` and `X″·(Sc + k + ϑ)·log(2a) ≤ b`, for `x ≥ x₀(ε)`:
 `Σ_{p<X′}(log p)·(ℒ(p) − C(Sc + k + ϑ)lg_p(2a)) ≤ C₁·b`, `C₁` depending only on the constants fixed before `ε`, and
 `Σ_{p≤X″}(log p)·C(Sc + k + ϑ)lg_p(2a) ≤ C·X″(Sc + k + ϑ)·log a ≤ C·b`. No factor `x^{Cε}` is needed: the term `b′/x` summed
-over `p < X′` is `≤ log 4·X′b′/x = log 4·b`, and every other term sums to `o(b)`.
+over `p < X′` is `≤ log 4·X′b′/x = log 4·b`, and every other term sums to `o(b)`. The floors satisfy
+`Σ_{p≤X″}(log p)·ℒ_f(p) ≤ C·f·X″·(N_m²·log 2a + log²2a)` (`C` absolute, for every `a ≥ 1`).
 
 *Route.* Summing with weight
 `log p` over `p < X′` (Chebyshev: `Σ_{p≤y}log p ≤ log 4·y`; Mertens: `Σ_{p<y}log p/p ≤ log y + C`): the term `b′/x` gives `log 4·b`
 exactly (`X′b′ = xb`); the term `b^{1/2}` gives `≤ log 4·X′b^{1/2} = o(b)`; the terms `a·p^{−ℓ(p)}` (`≤ a/(k²Y_II³)`), `a/p²` (`p ≥ p₀`),
 `Λ_log·a/(pk)`, `r_Gb′log x` (`p < p₀`), `Sc`, `(w″ + t)log x/δ_top` give `o(b)` under `p₀ = k²Y_II`, `k ≥ x²s_max³log a`, `SizeSc`, `SizeT` (inside
 `Size(x, ε)`), `X′ = e^{x^{ε/3}}`, `b = e^{x^ε}`; the term `ϑ` gives `≤ C·log 4·X′ϑ ≤ C·b/log(2a)` by the last hypothesis (`X′ ≤ X″`),
-which also gives the second sum.
+which also gives the second sum. The floors: `lg_p(2a) ≤ log_2(2a) + 1 ≤ 3·log 2a` for every prime `p` and `a ≥ 1`, so
+`ℒ_f(p) ≤ C·f·(3N_m²·log 2a + 9·log²2a)`, and Chebyshev's bound over `p ≤ X″` gives the third sum.
 
 *Checks.* `Σ_{p<p₀}log p·[C·r_G·b′·log x] ≤ C·p₀·r_G·b′·log x = C·k²Y_II·r_G·log x·x·b/X′ = o(b)`. Without the hypothesis on `ϑ` the
 sum fails: for `ϑ = b′/4` the term `C·ϑ` summed over `p₀ ≤ p < X′` with weight `log p` is about `C·X′b′/4 = C·x·b/4`.
@@ -1516,7 +1531,6 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data o
 - GluedTargetAndDivisionInequality uses the ledger of 4.9e–4.9f (gains, bulks and costs, the net exponent `𝔊_u`), the step bound 4.10, the gain sublattice 4.16 and the column bound at the level prime 4.16b for the slope of the glued target and the division inequality.
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses the diagrams of step `j` of 4.9f (d): ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 identifies their total size `D^H_j` with `DF(λ^W_j)`.
 - ThetaChainsAndFrobeniusPrimeSums applies the data and statements of the gain inequality (4.17–4.17d), the ledger (4.9, 4.9e, 4.9f), the step bound 4.10, the gain sublattice 4.16, the statements at the level prime (4.16a–4.16c) and the depth theorems (4.15–4.15f); ThetaChainsAndFrobeniusPrimeSums §10.6 fixes the order of the constants (the layer exponent `A_n = 2 + 8ε`, the exponent `c_s = ε/(5J)` of the inert-free bound), and ThetaChainsAndFrobeniusPrimeSums §10.0 (H2) states the inert-free bound and the host condition `HostSplitting E` of chain data.
-- TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f bounds the depth of the row side by the bulk `F_j` of 4.9f (d), the same number that the column side gains in 4.10.
 
 ## Scope and ownership
 
@@ -1614,7 +1628,7 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*; the file paths and declaration names given at a target refer to that source at commit `ab0b7522a5ccc9b8530edf475af5088f8f6464aa`.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999): 4.12. D. Mumford, *Abelian Varieties* (the theorem of the cube); K. Weierstrass (the sigma function): 4.9a.
 - J. Lubin and J. Tate (1965); T. Honda (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.9–4.10 here, and the first part of Layer 4 (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c). B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974). P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967). R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962): 4.9d. F. G. Frobenius and L. Stickelberger (the sigma function and the theorem of the cube): 4.9a. K. Mahler; Y. Amice (binomial polynomials on discs): 4.14a. P. Pieri; D. P. Zhelobenko (branching): 4.14f. J. C. Jantzen, *Representations of algebraic groups*, II.5–II.6: 4.16a. H. Chernoff (tail bounds): 4.17d. K. Bannai and S. Kobayashi (2010): 4.10. P. Doubilet, G.-C. Rota and J. Stein (1974); C. De Concini, D. Eisenbud and C. Procesi (1980): 4.12. H. Hida: 4.12. S. Rallis (1982); S. Kudla (1986, 1994): 4.12.
