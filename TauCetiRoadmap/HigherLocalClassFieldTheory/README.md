@@ -411,27 +411,25 @@ Theorem 2], as Bloch and Kato cite it.
 and §3.0a (the norm residue isomorphism, for injectivity); ProfiniteCohomology Layer 12 (the
 graded cup product).
 
-### 2.2 Fesenko's theorem
+### 2.2 Fesenko's theorem: characteristic `p` and the first step
 
 [Fesenko 2000a, §6.5 Lemma and §6.6 Theorems 2–3; Fesenko 2001, Theorems 4.5 and 4.7].
-`Λ_m(F) = ⋂_{l ≥ 1} l K_m(F)`, and it is a divisible group. So `K_m^top(F)` has no nonzero
-infinitely divisible elements. In characteristic `p`, `K_m^top(F)` has no `p`-torsion
-[Fesenko 2000b, §7.2, Corollary]; if a primitive `l`-th root of unity `ζ_l` lies in `F`, the
-`l`-torsion of `K_m^top(F)` is `{ζ_l}·K_{m−1}^top(F)`. The inclusion `⋂ lK_m ⊆ Λ_m` is the
-lemma of §6.5. The reverse inclusion in characteristic `p` uses the injectivity of the
-differential symbol `K_m(F)/p → Ω^m_F` and the Hausdorff topology of `Ω^m_F`; in mixed
-characteristic it runs, as in the proof of Theorem 3, by induction on `r` in `p^r`. The case
-`r = 1` is 2.2a: its graded pieces are quotients of `Ω^j_{K_{n−1}}`, finite-dimensional over
-`K_{n−1}^p`, on which the topology induced from `K_{n−1}` is Hausdorff. The induction step uses the
-pairing `(α, χ)_r : K_m(F)/p^r × H^{n+1−m}(F, μ_{p^r}^{⊗(n−m)}) → H^{n+1}(F, μ_{p^r}^{⊗n})`,
-the norm residue symbol `K_m(F)/p^r → H^m(F, μ_{p^r}^{⊗m})` followed by the cup product. It is
-not built here: the symbol is KTheoryFiniteLocalFields §3.0a (in characteristic `0`, `p` is
-invertible in `F`; Bloch and Kato's Theorem (5.12) is this case), and the cup product is
-ProfiniteCohomology Layer 12. What is built here is that `A_χ = {α : (α, χ)_r = 0}` is open
-[Fesenko 2001, Lemma 4.7], and the projection formula
-`(N_{L/F} β, χ)_{r,F} = (β, res χ)_{r,L}`, from §3.0a's compatibility of the symbol with norms
-and corestriction and Layer 12's projection formula. The step then identifies `( , )_r` with
-Vostokov's pairing (5.3) up to sign [Fesenko 2000a, §6.6, proof of Theorem 3].
+For every `F` under the class field hypothesis, `⋂_{l ≥ 1} lK_m(F) ⊆ Λ_m(F)` (the lemma of §6.5).
+
+- **Characteristic `p`** [Fesenko 2000a, §6.6, Theorem 2; Fesenko 2001, Theorem 4.5].
+  `Λ_m(F) = ⋂_{l ≥ 1} l K_m(F)`, and it is a divisible group, so `K_m^top(F)` has no nonzero
+  infinitely divisible elements. `K_m^top(F)` has no `p`-torsion [Fesenko 2000b, §7.2,
+  Corollary]. The reverse inclusion uses the injectivity of the differential symbol
+  `K_m(F)/p → Ω^m_F` and the Hausdorff topology of `Ω^m_F`.
+- **Mixed characteristic, first step** [Fesenko 2000a, §6.6, proof of Theorem 3, case `r = 1`].
+  `Λ_m(F) ⊆ pVK_m(F)`. After adjoining `μ_p` (its degree is prime to
+  `p`, and `VK_m(F)` is `l`-divisible for `l` prime to `p`), the intersection of the open
+  subgroups of `VK_m(F)` containing `pVK_m(F)` is `pVK_m(F)`. This is because the graded
+  pieces of 2.2a are quotients of `Ω^j_{K_{n−1}}`, finite-dimensional over `K_{n−1}^p`, on
+  which the topology induced from `K_{n−1}` is Hausdorff. The full theorem in mixed
+  characteristic is 5.4a: its induction on `r` in `p^r` uses the Hilbert pairing.
+- **Torsion prime to `p`.** If a primitive `l`-th root of unity `ζ_l` lies in `F` and `p ∤ l`,
+  the `l`-torsion of `K_m^top(F)` is `{ζ_l}·K_{m−1}^top(F)`.
 
 **Checks.**
 
@@ -441,8 +439,7 @@ Vostokov's pairing (5.3) up to sign [Fesenko 2000a, §6.6, proof of Theorem 3].
   `p`-torsion.
 
 *Needs:* 2.1, 2.2a, 1.3; KTheoryFiniteLocalFields §3.0 (the differential symbol in characteristic
-`p`) and §3.0a (the norm residue symbol and its norm compatibility); ProfiniteCohomology Layer 12
-(cup product and projection formula); 5.3 for the induction step in mixed characteristic.
+`p`).
 
 ### 2.3 The degree map
 
@@ -529,7 +526,8 @@ For `F = 𝔽_p((t₁))((t₂))` and `ℓ ∣ p − 1`, `K_2^top(F)/ℓ ≅ (ℤ
 
 ### Dependencies
 
-Layers 0–1; K2SymbolsBrauer §§5.4, 9.11, 9.16, 9.17, 10.24, 10.26; KTheoryFiniteLocalFields §3.0.
+Layers 0–1; K2SymbolsBrauer §§5.4, 9.11, 9.16, 9.17, 10.24, 10.26; KTheoryFiniteLocalFields §§3.0,
+3.0a; ProfiniteCohomology Layer 12.
 
 ## Layer 3: the class field axioms
 
@@ -869,6 +867,41 @@ Let `F` be of mixed characteristic with `p = 2`. Every open subgroup of index `2
 
 *Needs:* 2.4, 2.6, 4.5.
 
+### 5.4a Fesenko's theorem in mixed characteristic
+
+[Fesenko 2000a, §6.6, Theorem 3 and its proof; Fesenko 2001, Theorem 4.7 and Lemma 4.7]. Let `F`
+be of mixed characteristic. Then `Λ_m(F) = ⋂_{l ≥ 1} lK_m(F)`, and it is a divisible group. If
+`ζ_{p^r} ∈ F`, the `p^r`-torsion of `K_m^top(F)` is `{ζ_{p^r}}·K_{m−1}^top(F)`.
+
+The proof shows that `p^r VK_m(F)` is the intersection of the open subgroups of `VK_m(F)` that
+contain it, by induction on `r`. The case `r = 1` is 2.2. For the step, use the pairing
+`(α, χ)_r : K_m(F)/p^r × H^{n+1−m}(F, μ_{p^r}^{⊗(n−m)}) → H^{n+1}(F, μ_{p^r}^{⊗n})`: the norm
+residue symbol `K_m(F)/p^r → H^m(F, μ_{p^r}^{⊗m})` followed by the cup product. The pairing is
+not built here. The symbol is KTheoryFiniteLocalFields §3.0a (in characteristic `0`, `p` is
+invertible in `F`; Bloch and Kato's Theorem (5.12) is this case), and the cup product is
+ProfiniteCohomology Layer 12. This target builds two things:
+
+- that `A_χ = {α : (α, χ)_r = 0}` is open [Fesenko 2001, Lemma 4.7];
+- the projection formula `(N_{L/F} β, χ)_{r,F} = (β, res χ)_{r,L}`, from §3.0a's compatibility of
+  the symbol with norms and corestriction and Layer 12's projection formula.
+
+An element `α` of the intersection lies in `A_χ` for every `χ`. Take `L = F(μ_{p^r})` with
+`[L : F] = p^s`. By induction `α = N_{L/F} β` with `β ∈ VK_m(L)`, so `β` is orthogonal to
+`res H^{n+1−m}(F)`. When `p > 2`, the pairing over `L` is identified with Vostokov's pairing of
+5.3 up to sign, and explicit calculation with it gives
+`β ∈ (σ − 1)K_m(L) + p^{r−s} res K_m(F) + p^r K_m(L)`, so `α ∈ p^r K_m(F)`. When `p = 2`, the
+explicit step is cited to [Fesenko 2001, Theorem 4.7] at paper level. The torsion statement
+comes from the coefficient sequence `0 → μ_{p^s}^{⊗n} → μ_{p^{s+1}}^{⊗n} → μ_p^{⊗n} → 0`,
+compared with the symbol.
+
+**Checks.**
+
+- For `n = 1`, `Λ_1(F) = 1` and the `p^r`-torsion of `Fˣ` is `μ_{p^r}`, which is `{ζ_{p^r}}`
+  times `K_0^top(F) = ℤ`.
+
+*Needs:* 2.1, 2.2, 2.2a, 5.3; KTheoryFiniteLocalFields §3.0a (the norm residue symbol and
+its norm compatibility); ProfiniteCohomology Layer 12 (cup product and projection formula).
+
 ### 5.5 The existence theorem
 
 [Fesenko 2000c, §10.5]. For `n ≥ 2` and `char K_{n−1} = p`, `L ↦ N_{L/F}K_n^top(L)` is an
@@ -903,14 +936,14 @@ norm group by 4.4.
 [Fesenko 2000c, §10.5, Corollary 1]. For `n ≥ 2` and `char K_{n−1} = p`, `Ψ_F` is injective. By
 4.5 its kernel is the intersection of the norm groups of the finite abelian extensions, which by
 5.5 is the intersection of the open subgroups of finite index of `K_n^top(F)`, which is zero by
-2.6. With 2.2, the kernel of `K_n(F) → Gal(F^ab/F)` is `⋂_{l ≥ 1} lK_n(F)`.
+2.6. With 2.2 and 5.4a, the kernel of `K_n(F) → Gal(F^ab/F)` is `⋂_{l ≥ 1} lK_n(F)`.
 
 **Checks.**
 
 - `{1 − t_1, t_2} ≠ 0` in `K_2^top(𝔽_p((t₁))((t₂)))` and `Ψ_F` moves a root of
   `y^p − y = t_1^{−1}` (5.2).
 
-*Needs:* 2.2, 2.6, 4.5, 5.5.
+*Needs:* 2.2, 2.6, 4.5, 5.4a, 5.5.
 
 ### Examples
 
@@ -919,8 +952,8 @@ On `ℚ_p{{t}}`, `(u, {t, p})_ℓ = u^{(p−1)/ℓ}` for `u ∈ μ_{p−1}` and 
 
 ### Dependencies
 
-Layers 0–4; FunctionFieldArithmetic §§3.1, 4.3; FormalLaurentPuiseux L2–L3; Tau Ceti
-`TauCeti.kummerMap`.
+Layers 0–4; FunctionFieldArithmetic §§3.1, 4.3; FormalLaurentPuiseux L2–L3; KTheoryFiniteLocalFields
+§3.0a and ProfiniteCohomology Layer 12 (for 5.4a); Tau Ceti `TauCeti.kummerMap`.
 
 ## Scope and ownership
 
@@ -978,8 +1011,8 @@ It does not own:
 
 - §3.0a: for `l` invertible in a field `F`, the norm residue isomorphism
   `K_m(F)/l ≅ H^m(F, μ_l^{⊗m})`, sending `{a_1, …, a_m}` to `κ(a_1) ∪ ⋯ ∪ κ(a_m)`, with its
-  compatibility with restriction and with norms and corestriction along finite extensions (2.2,
-  2.2a).
+  compatibility with restriction and with norms and corestriction along finite extensions (2.2a,
+  5.4a).
 - §3.0: for a field of characteristic `p`, `dlog : K_m(F)/p ≅ ν_F(m) ⊆ Ω^m_F`, in particular the
   injectivity of the differential symbol.
 
@@ -987,7 +1020,7 @@ It does not own:
 
 - Layer 12: the graded cup product on continuous cohomology in all degrees, its compatibility with
   connecting maps, and (with Layer 10) the projection formula `cor(res(x) ∪ y) = x ∪ cor(y)`
-  (2.2, 2.2a).
+  (2.2a, 5.4a).
 
 ### From FunctionFieldArithmetic
 
