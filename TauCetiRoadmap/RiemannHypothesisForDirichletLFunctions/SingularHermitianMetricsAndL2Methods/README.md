@@ -118,7 +118,9 @@ and proves Nadel vanishing. Layer 9 bounds Bergman kernels from below and comput
 - **Normal crossings.** A *normal crossings divisor* `D` in a complex manifold `X̄` is a reduced hypersurface such
   that every point of `X̄` has a holomorphic chart to a polydisc in which `D = {z₁⋯z_k = 0}` for some `k`; it is
   *simple* when its irreducible components are smooth. The *Poincaré polydisc* is
-  `Δ*^k × Δ^{n−k}` with `Δ = {|z| < 1/2}`, `Δ* = Δ ∖ {0}`.
+  `Δ*^k × Δ^{n−k}` with `Δ = {|z| < 1/2}`, `Δ* = Δ ∖ {0}`. For the analytification of a simple normal crossings divisor
+  on a smooth complex algebraic variety, these charts are ComplexComparisonPartII C-1.4's `sncPolydiscChart`
+  (`snc_exists_polydiscChart`).
 
 ## Layer 0: Plurisubharmonic functions
 
@@ -230,12 +232,16 @@ radii `r` and `R` (for `n ≥ 2`, `μ_u(B(a, r)) ≤ (M(R) − M(r))/(c_n(r^{2�
 `n`; for `n = 1` the same with `log(R/r)` in place of `r^{2−2n} − R^{2−2n}`);
 (b) Hartogs' lemma: if `u_k` are plurisubharmonic on a connected open `U`, locally uniformly bounded above, then either
 `u_k → −∞` locally uniformly, or a subsequence `u_{k_j}` converges in `L¹_loc(U)` to a plurisubharmonic `u`, and then
-`limsup_j sup_K u_{k_j} ≤ sup_K u` for every compact `K ⊂ U`.
+`limsup_j sup_K u_{k_j} ≤ sup_K u` for every compact `K ⊂ U`. For `n = 1`, ArithmeticDynamics §2.4 has the neighbouring
+statement on the Riemann sphere: the normalised Laplacian `(2π)^{−1}Δ` of differences of subharmonic potentials whose
+Riesz distributions are Radon measures, positive in subharmonic charts and continuous, as distributions, under locally
+uniform convergence of the potentials.
 
 *Route.* (a) Let `U ⊃ B̄` be the open set on which `u` is plurisubharmonic. For `ε` smaller than the distance from `B̄`
 to the complement of `U`, the smooth `u_ε` of 0.3(a) is defined on a neighbourhood of `B̄`, so Green's representation
-formula holds for it on `B(a, R)` itself, with the Poisson kernel and the Green function `G_R` of that ball (the planar
-case is ComplexHessianEquations §7.1; in `ℝ^{2n}` the same proof with the Newtonian kernel); no smaller ball is needed.
+formula holds for it on `B(a, R)` itself, with the Poisson kernel and the Green function `G_R` of that ball (PDE §3.4
+(C15): the Green and Poisson kernels of a ball and the Green representation in every dimension; the planar case is also
+ComplexHessianEquations §7.1); no smaller ball is needed.
 Let `ε → 0`: the left sides decrease to `u(x)` and the Poisson integrals converge by monotone convergence on the sphere,
 so the potentials `P_R[u_ε] − u_ε` converge pointwise on `B(a, R)` to the superharmonic function `P_R[u] − u`. The Green
 potentials `∫_{B(a,R)} G_R(·, y)dμ_{u_ε}(y)` converge in `L¹(B(a, R))` to `∫_{B(a,R)} G_R(·, y)dμ_u(y)`: `μ_{u_ε} = μ_u ∗ ρ_ε`
@@ -254,8 +260,8 @@ converge in `L¹_loc` along a further subsequence; the `limsup` inequality comes
 balls and the `L¹_loc` convergence. The means themselves need neither tend to `−∞` nor be bounded (fourth Check), which is
 why the subsequence is chosen first.
 
-*Needs:* 0.1–0.3; ComplexHessianEquations §7.1; Tau Ceti's planar kernels and Weyl's lemma (as cited by
-ComplexHessianEquations).
+*Needs:* 0.1–0.3; ComplexHessianEquations §7.1; Tau Ceti's planar kernels; PDE §3.1 (C12) (Weyl's lemma) and §3.4
+(C15).
 
 **Checks.**
 
@@ -353,7 +359,8 @@ theorem and is not used here.
 **Checks.**
 
 - `ℝ ⊂ ℂ` has measure zero and is not pluripolar: a polar set in `ℂ` has logarithmic capacity zero, while a
-  segment of length `ℓ` has capacity `ℓ/4`. Measure zero does not characterise pluripolar sets.
+  segment of length `ℓ` has capacity `ℓ/4` (ClassicalArithmeticCompletion §§6.18, 6.40). Measure zero does not
+  characterise pluripolar sets.
 - `u = −log|z|` on the punctured disc is subharmonic and not bounded above near `0`; it has no subharmonic
   extension.
 - Disconnected witness neighbourhoods. On `U = U₁ ⊔ U₂`, two disjoint discs, `v = −∞` on `U₁` and `v = 0` on `U₂` is
@@ -371,7 +378,7 @@ plurisubharmonic function on `W` is plurisubharmonic on `V`, and on a complex ma
 (b) the composite of a plurisubharmonic function with a holomorphic map of reduced complex spaces is plurisubharmonic;
 in particular, for a resolution `π : Ỹ → Y`, `u ∘ π` is plurisubharmonic on the manifold `Ỹ`, and a continuous metric on a
 line bundle over `Y` whose local weights are restrictions of plurisubharmonic functions under local embeddings
-(semipositivity on singular complex points as used in arithmetic intersection theory, tested through local
+(the semipositivity of ArakelovGeometryAndAbelianHeightsPartII §0.1, tested through local
 embeddings) pulls back to a semipositive metric on `Ỹ`. The converse of (a), that every plurisubharmonic function in this sense is locally such a
 restriction, is the theorem of Fornæss and Narasimhan and is not needed here.
 
@@ -392,7 +399,7 @@ holomorphic discs are holomorphic discs; upper semicontinuity is preserved.
 
 ### Dependencies
 
-ComplexKahlerGeometry K3 and K3.0; ComplexComparisonPartII C-1.1 and C5.4; ComplexHessianEquations §§5.4 and 7.1; Tau Ceti's Levi form, subharmonic functions and sub-mean-value lemmas; Mathlib's upper semicontinuity, `EReal`, `Real.circleAverage`, Lebesgue measure, `Lp` spaces, distributions and convolution.
+ComplexKahlerGeometry K3 and K3.0; ComplexComparisonPartII C-1.1 and C5.4; ComplexHessianEquations §§5.4 and 7.1; PDE §§3.1 and 3.4; Tau Ceti's Levi form, subharmonic functions and sub-mean-value lemmas; Mathlib's upper semicontinuity, `EReal`, `Real.circleAverage`, Lebesgue measure, `Lp` spaces, distributions and convolution.
 
 ## Layer 1: Lelong numbers and integrability
 
@@ -892,7 +899,9 @@ since `log ℓ → ∞` at `Z` while its variation along the path is bounded by 
 
 Prove: if `Z` is a closed analytic subset of a complex manifold `X`, nowhere dense, and `u`, `g` are forms with
 `L²_loc` coefficients on `X` with `∂̄u = g` on `X ∖ Z` in the sense of distributions, then `∂̄u = g` on `X`. In
-particular an `L²_loc` function holomorphic on `X ∖ Z` is holomorphic on `X`.
+particular an `L²_loc` function holomorphic on `X ∖ Z` is holomorphic on `X`. The form that the family uses is
+[FormalProof], `ReciprocityTheory/L2DbarEstimates/WeakHolomorphy/HoloWeakStatement.lean`
+(`ReciprocityTheory.L2DbarEstimates.C.ExtStatement`).
 
 *Route.* Locally `Z ⊂ V(g)` for a holomorphic `g ≢ 0` with `|g| < e^{−1}`. The cut-off functions
 `θ_k = ρ(k^{−1}·log log(1/|g|²))`, with `ρ` smooth, `ρ = 1` on `(−∞, 1]` and `ρ = 0` on `[2, ∞)`, equal `1` off a
@@ -971,6 +980,9 @@ smooth metric `h` with `iΘ_h(L) ≤ A·ω` for some `A ≥ 0`, and `F : B(0, r)
 `X` compact and `h` smooth, `B_{h^k, dV}(x) ≤ C·k^n` for all `k ≥ 1` and `x`, with `C` depending on `(X, h, dV)`.
 (d) (weighted mean value) For `f` holomorphic on a neighbourhood of the closed ball `|w| ≤ R` in `ℂ^n` and real
 `λ_1, …, λ_n` of any signs, `|f(0)|²·∫_{|w|<R}e^{−Σ_jλ_j|w_j|²}dλ ≤ ∫_{|w|<R}|f|²e^{−Σ_jλ_j|w_j|²}dλ`.
+The same holds, with the same proof, for every measurable weight `ρ ≥ 0` on the ball that is invariant under the torus
+action `w_j ↦ e^{iθ_j}w_j`, in particular for every radial weight `ρ(|w|)`, and for `f` holomorphic on the open ball:
+`|f(0)|²·∫_{|w|<R}ρ dλ ≤ ∫_{|w|<R}|f|²ρ dλ` (both sides possibly infinite).
 
 *Route.* (a) `log|f|² − φ + A|z − a|²` is plurisubharmonic, so its exponential `|f|²e^{−φ+A|z−a|²}` is
 plurisubharmonic and satisfies the sub-mean-value inequality over the ball (0.2(a)); bound `e^{A|z−a|²}` by
@@ -1008,7 +1020,12 @@ Prove: let `Ω ⊂ ℂ^n` be pseudoconvex and `φ` plurisubharmonic of class `C�
 theorem in the form with the datum measured by the Levi form of the weight (for smooth `φ`, the case of the trivial line
 bundle with weight `φ` on `Ω` of [CADG] chapter VIII, Th. 6.1, p. 376); it needs no lower bound for `i∂∂̄φ`, only the
 finiteness of the right side. The same holds, with the same proof, on a Stein Riemann domain `Ω → ℂ^n` (a Stein manifold
-with a local biholomorphism to `ℂ^n`), the coordinates and `dλ` being pulled back.
+with a local biholomorphism to `ℂ^n`), the coordinates and `dλ` being pulled back. The form that the family uses is
+[FormalProof], `ReciprocityTheory/L2DbarEstimates/JacobianInterpolationStatement.lean`
+(`ReciprocityTheory.L2DbarEstimates.HStatement`), proved in `ReciprocityTheory/L2DbarEstimates/NormFibrations/Hormander.lean`
+(`ReciprocityTheory.L2DbarEstimates.hormander`); the local estimate:
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArakelovVolumes/UpperBounds/InterpStatementPfC.lean`
+(`ReciprocityTheory.ChartRestriction.G.AR.Up.HE.hormander_open`).
 
 *Route.* As for 3.1, with one more approximation because the supplier needs smooth data. On a relatively compact
 pseudoconvex `Ω_k ⋐ Ω` with a smooth strictly plurisubharmonic exhaustion, replace `φ` on a neighbourhood of `Ω̄_k` by its
@@ -1112,7 +1129,14 @@ finite, there is a holomorphic `F` on `Ω` whose jet of order `s` at `z` is that
 
 and in particular `≤ ∫_Ω|∂̄F₀|²_{i∂∂̄φ}e^{−φ}|g|^{−2(n+s)}dλ`, since `i∂∂̄Φ ≥ i∂∂̄φ` (norms of 3.8). The right sides are integrals
 over the supports of the `∂̄χ_z`, which avoid `Z`, so that `Φ` is of class `C²` there; the first is finite when `i∂∂̄Φ` is
-positive definite there, which can hold where `i∂∂̄φ` is degenerate. `Z` need not be reduced.
+positive definite there, which can hold where `i∂∂̄φ` is degenerate. `Z` need not be reduced. On a Stein manifold, at
+finitely many points and with local sup bounds in place of the weighted `L²` bound, the neighbouring statement is
+RealAnalyticGeometry R3.1's finite-point jet interpolation, by the weight `(n + d)·log|z − a|²` cut off near each point.
+The form that the family uses is [FormalProof],
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArakelovVolumes/UpperBounds/WeightFunctionOnFrames.lean`
+(`ReciprocityTheory.ChartRestriction.G.AR.Up.InterpStatement`), with the local estimate
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArakelovVolumes/UpperBounds/InterpStatementPfC.lean`
+(`ReciprocityTheory.ChartRestriction.G.AR.Up.HE.hormander_open`).
 
 *Route.* On each component of `Ω` choose `k` with `g_k ≢ 0` and put `Ω′ = Ω ∖ {g_k = 0}`; it is pseudoconvex (the maximum
 of an exhaustion of `Ω` and `−log|g_k|²` is an exhaustion) and contains no point of `Z`, so `Φ = φ + (n + s)·log|g|²` is of
@@ -1141,6 +1165,11 @@ holomorphic on `Ω` and not all identically zero on any component, `|g|² = Σ_j
 (a) (*Skoda*) For every real `α > 1` and every holomorphic `f` on `Ω` with `I = ∫_Ω|f|²|g|^{−2(αq+1)}e^{−φ}dλ < ∞` there are
 holomorphic `h_1, …, h_p` on `Ω` with `f = Σ_j g_jh_j` and `∫_Ω Σ_j|h_j|²·|g|^{−2αq}e^{−φ}dλ ≤ (α/(α − 1))·I` ([CADG]
 chapter VIII, Th. 9.10, p. 392, with `m = q ≥ 1` and `m + ε = αq`, so that `1 + m/ε = α/(α − 1)`).
+The form that the family uses is [FormalProof], `ReciprocityTheory/L2DbarEstimates/JacobianInterpolationStatement.lean`
+(`ReciprocityTheory.L2DbarEstimates.SStatement`), proved in `ReciprocityTheory/L2DbarEstimates/NormFibrations/Hormander.lean`
+(`ReciprocityTheory.L2DbarEstimates.skoda`), with
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArakelovVolumes/UpperBounds/UpDivStatementPfA.lean`
+(`ReciprocityTheory.ChartRestriction.G.AR.Up.UpDivA.skoda_open`).
 
 (b) (*Powers of the ideal*) For every real `β > q`, every integer `a ≥ 1` and every holomorphic `f` with
 `I_{β,a} = ∫_Ω|f|²|g|^{−2(β+a)}e^{−φ}dλ < ∞` there are holomorphic `h_J`, `J = (j_1, …, j_a) ∈ {1, …, p}^a`, with
@@ -1257,6 +1286,15 @@ of `K_X ⊗ L` over `Y` with `∫_Y |f|²/|Λ^r(ds)|² dV_{Y,ω} < ∞` extends 
 over `X` with `∫_X |F|²/(|s|^{2r}(−log|s|)²) dV_{X,ω} ≤ C_r ∫_Y |f|²/|Λ^r(ds)|² dV_{Y,ω}`, where `C_r` depends
 only on `r`.
 
+*A second form.* For a compact complex manifold `X` of dimension `n ≥ 1` carrying a positive line bundle, hermitian
+line bundles `E`, `L` with smooth metrics, sections `s_1, …, s_n ∈ H⁰(X, L)` with `Σ_k|s_k|² ≤ 1` whose common zero set
+`Z` is finite and transverse, `ψ = n·log Σ_k|s_k|²`, and `δ > 0` such that `iΘ(E) + α·i∂∂̄ψ ≥ 0` on `X ∖ Z` for every
+`α ∈ [1, 1 + δ]`, every function `f` on `Z` is the restriction of a section `F` of `K_X ⊗ E` with
+`∫_X |F|²e^{−ψ}/(1 + δ²ψ²) ≤ (34/δ)·c_n·Σ_{P∈Z}|f(P)|²/|det(ds)(P)|²`, `c_n` depending only on `n`. This is the case,
+with a finite transverse zero set, of the extension theorem for weights with log canonical singularities; its curvature
+hypothesis does not imply the second hypothesis of 4.2, so it is not a case of 4.2. It is the form that [FormalProof]
+proves.
+
 *Route.* A known theorem (Ohsawa–Takegoshi, Manivel; in this form Demailly's: [AMAG] Th. 13.6, pp. 125–126, stated there for
 `∂̄`-closed `(0,q)`-forms, of which this is the case `q = 0`), proof not given here. The standard
 method: extend `f` to a smooth section `F̃` near `Y` and put `G_ε = θ(|s|²/ε²)F̃` with a cut-off `θ`; on `X ∖ {s = 0}`, which
@@ -1295,9 +1333,10 @@ negative Green function with pole `z`; equality holds when `D` is simply connect
 
 *Route.* The case `n = 1` of 4.1 for `D − z` and `φ = 0`: there is `F ∈ O(D)` with `F(z) = 1` and
 `∫_D|F|² ≤ π/c_D(z)²`, so `K_D(z) ≥ |F(z)|²/‖F‖² ≥ c_D(z)²/π`. For simply connected `D` both sides transform under a
-Riemann map as densities of weight `|ψ′|²`, and they are equal at the centre of the disc.
+Riemann map (the Riemann map `ψ` normalised at `z` of ClassicalArithmeticCompletion §6.20, so that
+`c_D(z) = |ψ′(z)| = 1/cr(D, z)`) as densities of weight `|ψ′|²`, and they are equal at the centre of the disc.
 
-*Needs:* 4.1; 3.6.
+*Needs:* 4.1; 3.6; ClassicalArithmeticCompletion §6.20.
 
 **Checks.**
 
@@ -1309,7 +1348,7 @@ For the unit polydisc, `φ = 0` and `f = 1`, every extension satisfies `∫|F|²
 
 ### Dependencies
 
-Layers 0 and 3; ComplexKahlerGeometry K4.
+Layers 0 and 3; ComplexKahlerGeometry K4; ClassicalArithmeticCompletion §6.20.
 
 ## Layer 5: Good metrics along a normal crossings boundary
 
@@ -1802,7 +1841,8 @@ compact metric space) and put `h_k = max(f_k, −k) + 1/k`: continuous, `> u_k`,
 `w_1` for `(u_1, h_1)` and `w_{k+1}` for `(u_{k+1}, min(h_{k+1}, w_k))`, admissible since `w_k > u_k ≥ u_{k+1}`; then
 `w_{k+1} < w_k` and `u ≤ u_k < w_k < h_k → u`. (b) A known theorem
 (Fornæss–Narasimhan, for Stein spaces). Let `ψ` be a smooth strictly plurisubharmonic exhaustion (RealAnalyticGeometry
-R3.0), `X_k = {ψ < k}`, and `B` a smooth convex function on `ℝ` with `B′ ≥ 1` and `B(t) ≥ sup_{X_{t+1}}φ + 1` (the right
+R3.1, the converse exhaustion theorem), `X_k = {ψ < k}`, and `B` a smooth convex function on `ℝ` with `B′ ≥ 1` and
+`B(t) ≥ sup_{X_{t+1}}φ + 1` (the right
 side is finite and nondecreasing in `t`, so such a convex majorant exists); then `B ∘ ψ` is smooth, strictly
 plurisubharmonic, and `≥ φ + 1`. The construction of (a) (the comparison of two charts, the gluing for the bounded
 truncations `max(φ, −j)` and the inductive choice) applies verbatim on the relatively compact `X_{k+2}`, covered by finitely
@@ -1823,7 +1863,7 @@ decreases: on `{ψ ≤ k + ½}` by (ii), `χ_{k+1} ≤ χ_k` and the monotonicit
 `χ_k(ψ(x)) → −∞`. Alternatively, embed `X` as a closed submanifold of `ℂ^N` with a holomorphic retraction of a neighbourhood
 and convolve there.
 
-*Needs:* 0.1–0.4, 1.1; RealAnalyticGeometry R3.0.
+*Needs:* 0.1–0.4, 1.1; RealAnalyticGeometry R3.0–R3.1.
 
 **Checks.**
 
@@ -1928,7 +1968,14 @@ decreases on `[e, ∞)`, so `E(c₀t^m) ≤ E(t)`; and, when `φ_t ≥ −C·log
 `|s′|² = |s∘h|²`.
 
 *A second route for (b)–(c), without 7.4.* It gives *almost monotone* families, `φ_t ≤ φ_{t′} + C·ε(t′)` for `t ≤ t′`, in
-place of decreasing ones. In a polydisc chart of radius `2` adapted to `D` (`D = {z₁⋯z_k = 0}`) write `γ = i∂∂̄q` with `q`
+place of decreasing ones. Under the gradient hypothesis of (c) this is the construction of [FormalProof], whose families
+satisfy `φ_t ≤ φ + t^{1/3} + ε(t)` where `e + log(1/|s|²) ≤ log(1/t)`, that is on `{|s|² ≥ e^e·t}`, and
+`φ_t ≤ φ + t^{1/3} + ε(t)·(e + log(1/|s|²))` everywhere off `D`; the closeness on `{|s|² ≥ t}` stated below is that of the
+family `φ_{e^{−e}t}`, and the families and bounds of this route under that hypothesis follow from [FormalProof],
+`ReciprocityTheory/AnalyticForms/LeviForms/IsRegFamilyInhabitStatement.lean` (`ReciprocityTheory.AnForm.P.RegGlobalStatement`;
+the families `ReciprocityTheory.AnForm.P.IsRegFamily`, the gradient bound `ReciprocityTheory.AnForm.P.IsGradBound`).
+Without the gradient hypothesis the construction below is this roadmap's. In a polydisc chart of
+radius `2` adapted to `D` (`D = {z₁⋯z_k = 0}`) write `γ = i∂∂̄q` with `q`
 smooth, `u = q + φ` (plurisubharmonic off `D`, `−C·log log(1/|s|²) ≤ u ≤ C`) and `S(z, r) = sup_{P(z,r)}u` over the polydisc of
 radius `r`. By Hadamard's three-circle theorem on polydiscs, `S(z, r)` is convex and nondecreasing in `log r`. Every
 `P(z, t/16)` with `|z| < 5/4` contains a point at distance `≥ t/32` from the coordinate hyperplanes, where
@@ -1943,9 +1990,8 @@ maximum with cut-off corrections of size `K·ε(t)`, as in 7.3 and 7.5(a): on an
 `O(ε(t))`, because a polydisc of one chart lies between polydiscs of comparable radii of the other and the three-circle
 bound applies; the gluing produces the loss `C·ε(t)·ω`, and adding `K·ε(t)` restores `φ ≤ φ_t`. Under the gradient hypothesis
 of (c), `S(z, 2t) ≤ u(z) + C·t^{1/3}` on `{|s|² ≥ t}` as in the first route, which gives the bound on `δ(t)` of (c) and
-`φ_t ≤ φ + C·t^{1/3} + C·ε(t)` on `{|s|² ≥ t}`; the clause of (c) with `t^{1/3}` alone comes from the first route. The
-routes of 7.8 work for almost monotone families with `φ_{t₀} + C·ε(t₀)` in place of `φ_{t₀}`; exact monotonicity, which
-limits of intersection numbers along monotone regularisations use, comes from the first route.
+`φ_t ≤ φ + C·t^{1/3} + C·ε(t)` on `{|s|² ≥ t}`; the clause of (c) with `t^{1/3}` alone comes from the first route. Exact
+monotonicity, which limits of intersection numbers along monotone regularisations use, comes from the first route.
 
 *Needs:* 0.1–0.5, 1.1, 2.5, 5.1, 5.3, 5.5, 7.3, 7.4, 7.5; ComplexComparisonPartII C5.4.
 
@@ -2008,7 +2054,12 @@ quasi-plurisubharmonic, not `≡ −∞` on any component, with `(i/2π)∂∂̄
 `v_i` with `ω_i + (i/2π)∂∂̄v_i ≥ 0` and `sup v_i − inf v_i ≤ M`,
 `∫_{X̄}(−ψ)·∏_i(ω_i + (i/2π)∂∂̄v_i) ≤ ∫_{X̄}(−ψ)·∏_iω_i + A·M·Σ_j∫_{X̄}ω ∧ ∏_{i≠j}ω_i`.
 The case used below is `ψ = log|s|²` with `Aω ≥ c₁(O(D))`: `∫log(1/|s|²)·∏_i(ω_i + (i/2π)∂∂̄v_i) ≤ C(1 + M)`. No property of
-the divisor of `s` is used beyond its being effective.
+the divisor of `s` is used beyond its being effective. For Kähler `ω_i` and `ψ = log|s|²`, `|s| ≤ 1`, with a divisor of
+simple normal crossings support, (a) and the two bounds of (b) for `μ` are in [FormalProof], with unspecified constants
+(the bounds of (b): [FormalProof], `ReciprocityTheory/AnalyticForms/LeviForms/IsRegFamilyInhabitStatement.lean`
+(`ReciprocityTheory.AnForm.P.TailBoundStatement`));
+the forms for semipositive `ω_i` and for an arbitrary `ψ`, which the route of (d) uses on `Δ`, and the constants `C₀`,
+`16·C₀` are proved by the routes below.
 
 (b) (*boundary mass*) In the setting of (a) put `r = e − ψ ≥ e` and
 `C₀ = e·∫∏_iω_i + ∫(−ψ)·∏_iω_i + A·Σ_j∫ω ∧ ∏_{i≠j}ω_i`. For all `C₁ ≥ 0`, all smooth functions `u_i` on `X̄` with
@@ -2025,7 +2076,8 @@ continuous on `X̄ ∖ D` with `|g_t| ≤ C·log R_s` and converging locally uni
 singular form (the density of `∏_i(γ_i + (i/2π)∂∂̄φ_i)` on `X̄ ∖ D`). In particular `μ_∞` and the signed singular form have the
 cohomological total masses `∫∏_i(γ_i + m′ω)` and `∫∏_iγ_i`.
 
-(d) (*divisors crossing the boundary*) Let the families be monotone and `C²`, and let `v` be a holomorphic section of a line
+(d) (*divisors crossing the boundary*) Let the families be `C²` and either monotone or almost monotone
+(`φ_{i,t} ≤ φ_{i,t′} + η(t′)` for `t ≤ t′`, with `η(t′) → 0` as `t′ → 0`), and let `v` be a holomorphic section of a line
 bundle with a smooth metric, `|v| ≤ 1`, whose divisor `Δ` is smooth and reduced and has no component contained in `D` (for
 instance `Δ` meeting `D` with normal crossings). Then `log|v|` is `μ_∞`-integrable and `∫(−log|v|²)dμ_t → ∫(−log|v|²)dμ_∞`,
 and the same holds for the signed forms.
@@ -2058,11 +2110,15 @@ the first term is bounded and continuous, so (c) applies, and it suffices that `
 (the same then holds for `μ_∞` by (c) applied to `min(w_ε, N)`, which also gives the integrability of `log|v|`). Induct on
 the number `a` of regularised factors in `J(a, ε, t) = ∫w_ε·T_1(t) ∧ ⋯ ∧ T_a(t) ∧ Ω^{n−a}`,
 `T_i(t) = γ_i + m′ω + (i/2π)∂∂̄φ_{i,t}`, `Ω ≥ ω` Kähler. For `a = 0`, dominated convergence. Step: for `t ≤ t₀`,
-`T_{a+1}(t) = T_{a+1}(t₀) + (i/2π)∂∂̄u` with `u = φ_t − φ_{t₀} ≤ 0` (monotone), and `S` the other factors;
+`T_{a+1}(t) = T_{a+1}(t₀) + (i/2π)∂∂̄u` with `u = φ_t − φ_{t₀} ≤ 0` (monotone; in the almost monotone case `u ≤ η(t₀)`:
+apply the argument to `u − η(t₀) ≤ 0`, the constant `η(t₀)` contributing nothing because
+`∫(i/2π)∂∂̄w_ε ∧ S = c₁·[S] − Δ·[S] = 0`), and `S` the other factors;
 `∫w_εT_{a+1}(t₀) ∧ S ≤ C(t₀)·J(a, ε, t)`, and `∫w_ε·(i/2π)∂∂̄u ∧ S = ∫u·(i/2π)∂∂̄w_ε ∧ S` with `(i/2π)∂∂̄w_ε = κ_ε − [Δ]`,
 `κ_ε = c₁ + (i/2π)∂∂̄log(|v|² + ε) = (ε/(|v|² + ε))·c₁ + P_ε`, `P_ε ≥ 0` (the computation of `i∂∂̄log(|v|² + ε)` as for
 `log(|s|² + τ)`), `c₁` the Chern form of the line bundle of `v`; so `∫u·(i/2π)∂∂̄w_ε ∧ S ≤ C∫(−u)ω ∧ S + ∫_Δ(−u)S`. Now
-`0 ≤ −u ≤ φ_{t₀} − φ`. Split at a level `N`: on the compact set `{R_s ≤ N}` of `X̄ ∖ D`, and on its intersection with `Δ`,
+`0 ≤ −u ≤ φ_{t₀} − φ` (for `u − η(t₀)` in the almost monotone case, `≤ φ_{t₀} − φ + η(t₀)`, and `η(N, t₀) + η(t₀)`,
+which also tends to `0` as `t₀ → 0`, replaces `η(N, t₀)` below). Split at a level `N`: on the compact set `{R_s ≤ N}`
+of `X̄ ∖ D`, and on its intersection with `Δ`,
 `φ_{t₀} − φ ≤ η(N, t₀)`, which tends to `0` as `t₀ → 0` (`C²`, hence uniform, convergence on compact sets); on `{R_s > N}`,
 `φ_{t₀} − φ ≤ C − φ ≤ 2C·log R_s`. The masses of `ω ∧ S` on `X̄` and of `S` on `Δ` are bounded uniformly (cohomological), and
 (b) on `X̄`, and on `Δ` for the restricted weights with `ψ = log|s|²|_Δ` (quasi-plurisubharmonic on `Δ`, not `≡ −∞` on any
@@ -2091,7 +2147,7 @@ For `φ = 0` on the unit disc and `m = 1`, the Bergman approximant is `log(1/(π
 
 ### Dependencies
 
-Layers 0–6; ComplexKahlerGeometry K3 and K4; RealAnalyticGeometry R3.0; ComplexComparisonPartII C5.4.
+Layers 0–6; ComplexKahlerGeometry K3 and K4; RealAnalyticGeometry R3.0–R3.1; ComplexComparisonPartII C5.4.
 
 ## Layer 8: Singular L² estimates on Kähler manifolds and Nadel vanishing
 
@@ -2158,6 +2214,9 @@ increasing `χ` (which only increases the curvature), and 8.1, in its form with 
 - The comparison 6.3(b) with Nadel's theorem for `h = ∏|s_i|^{−2c_i} × (smooth)` on a projective manifold
   recovers, on smooth `X`, Nadel vanishing for pairs, MultiplierIdealsOfPairsAndPointSeparation §9.10c, for
   `L − Δ` ample.
+- For a nonzero ideal `a` on a smooth projective `X`, generators `g_j` of `a ⊗ M` and `L − cM` ample, the metric
+  `h = h_{L−cM} ⊗ (Σ_j|g_j|²)^{−c}` with `h_{L−cM}` positive has `iΘ_h ≥ εω`, and 6.3(a) and GAGA turn 8.2 into the
+  multiplier-ideal vanishing of AlgebraicModuliForArithmeticGeometry §9.10 (stated there for `L − cM` nef and big).
 
 ### 8.3 Separation of points and jets by multiplier ideals
 
@@ -2166,7 +2225,9 @@ then the restriction map `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L ⊗ O_X/J(h))_
 counts its stalk twice and the map is not onto: second Check.) ([AMAG] Cor. 5.12, p. 40.) In particular, if
 `J(h)_{x_i} = m_{x_i}` for each `i` (an isolated non-integrability point of multiplicity one), sections of
 `K_X ⊗ L` separate the points `x_1, …, x_r`; if `J(h)_{x} ⊆ m_x^{s+1}` with `x` isolated, they generate all
-`s`-jets at `x` modulo `J(h)_x`.
+`s`-jets at `x` modulo `J(h)_x`. For a smooth positive `L`, 8.3 for `L^m ⊗ K_X^{−1}` with the weights
+`(n + 1)·log|z − x_i|²` cut off near one or two points gives, for `m` large independently of the points, the
+separation of points and first jets by `H⁰(X, L^m)` that GeometricQuantization §6.2 uses for the Kodaira embedding.
 
 *Route.* The exact sequence `0 → K ⊗ L ⊗ J → K ⊗ L → K ⊗ L ⊗ O/J → 0` and `H¹(K ⊗ L ⊗ J) = 0` (8.2) make
 `H⁰(K ⊗ L) → H⁰(K ⊗ L ⊗ O/J)` surjective; `O/J` is supported on `Z`, and the stalks at the distinct isolated points
@@ -2361,9 +2422,9 @@ Layers 1–5, 7 and 8; AlgebraicModuliForArithmeticGeometry §1.6.
 - HeightsForLogSingularMetrics §§0.4, 4.3a, 14.1(c): arithmetic intersection numbers and volumes of log-log
   singular hermitian line bundles as limits of monotone regularisations, their rate, and the reflection formula for the
   limit numbers, using 5.3, 5.5, 7.7 (with the pull-back 7.7 (d) along projective bundles and fibre squares) and 7.8.
-- ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a: logarithmic growth of the Hodge metric in the sense of 5.3(i) and semipositivity of
-  the Hodge bundle of a semi-abelian scheme with abelian generic fibre over a curve, using 3.2a (curvature of the top piece of a polarised variation
-  and of quotients) and 2.5.
+- ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a: logarithmic growth of the Hodge metric in the sense of
+  5.3(i) and semipositivity of the Hodge bundle of a semi-abelian scheme over a curve, whose route uses, where the
+  generic fibre is abelian, 3.2a (curvature of the top piece of a polarised variation and of quotients) and 2.5.
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties: plurisubharmonic functions (0.1–0.3), complete Kähler metrics off analytic sets of
   complete Kähler manifolds (3.3(b)), sup-norm bounds for holomorphic forms (3.7), Bergman-kernel lower bounds by peak
   sections (9.1), `L²` estimates with weights singular at points (3.5), the regularisation of log-log singular metrics and
@@ -2507,6 +2568,16 @@ complete Kähler metric from an exhaustion, the weighted `∂̄` theorem with gr
 local uniform exponential integrability estimate for `C²` plurisubharmonic functions, and the Green representation of
 a `C²` function on a planar disc, which 0.3a extends).
 
+### From TauCetiRoadmap.PDE
+
+§3.1 (C12) (Weyl's lemma) and §3.4 (C15) (the Green and Poisson kernels of a ball and the Green representation, in every
+dimension), used in 0.3a.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§6.20 (the conformal radius `cr(Ω, p) = 1/|φ′(p)|` of the normalised Riemann map), used in 4.3; §§6.18 and 6.40 (the
+transfinite diameter, `|b − a|/4` for a segment), in 0.5's first Check.
+
 ### From TauCetiRoadmap.CharacteristicClasses
 
 C4.1 (invariant polynomials, Chern–Weil forms, transgression and connection independence) and C4.2 (Chern forms
@@ -2554,9 +2625,19 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   *Monge–Ampère equations in big cohomology classes*, Acta Math. 205 (2010) (non-pluripolar products and full mass): 7.8.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. Its analytic part proves 7.8 (the energy inequality,
-  the boundary mass bound uniformly for mixed measures with independent parameters, and the convergence statements)
-  in this form, and constructs the almost monotone regularisations of the second route of 7.7 (b)–(c).
+  <https://github.com/leanprover-community/riemann-hypothesis>. Its analytic part proves the statements of 7.8 in the
+  following case: the weights `φ_i` smooth on `X̄ ∖ D`; the forms `ω_i` of (a) and (b) Kähler; `ψ = log|s|²` for a
+  holomorphic section `s` of a hermitian line bundle with `|s| ≤ 1` whose divisor has simple normal crossings support,
+  multiplicities being allowed; the constants of (a) and (b) not made explicit; in (b)–(d), families of regularisations
+  that satisfy, with one constant `C` and `ε(t) = C·log log(1/t)/log(1/t)`, the bounds `φ ≤ φ_t ≤ C` and
+  `φ_t ≥ −C·log log(1/t)`, the loss `γ + (i/2π)∂∂̄φ_t ≥ −ε(t)ω`, the closeness `φ_t ≤ φ + t^{1/3} + ε(t)` where
+  `R_s ≤ log(1/t)`, the bound `φ_t ≤ φ + t^{1/3} + ε(t)·R_s` on `X̄ ∖ D`, and almost monotonicity
+  `φ_t ≤ φ_{t′} + C·ε(t′)` for `t ≤ t′`, and that converge in `C²` on compact subsets of `X̄ ∖ D`; in (b) with independent
+  parameters below a bound depending on the families; in (d) for a divisor `Δ` such that `D + Δ` has simple normal
+  crossings. It constructs such families for every such weight that satisfies the gradient bound of 7.7 (c), by the
+  second route of 7.7, and proves that weights and families pull back, at the same parameter, along holomorphic maps `h`
+  for which the divisor of `h^*s` has simple normal crossings support, the boundary function upstairs being `|s∘h|²`.
+  The statements of 7.7 and 7.8 beyond this case rest on the routes given there.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J.-P. Demailly, *Regularization of closed positive currents and intersection theory*, J. Algebraic Geom. 1
   (1992), Proposition 3.7 (located in the author's manuscript): 7.3, 7.7.
