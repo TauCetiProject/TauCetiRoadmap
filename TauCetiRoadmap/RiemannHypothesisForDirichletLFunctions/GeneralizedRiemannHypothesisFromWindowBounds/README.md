@@ -107,8 +107,8 @@ them instead from the bounds that the Riemann hypothesis gives.
   of RiemannHypothesisStatementsAndConsequences §8.4a(b): the Riesz sum `rieszSum` of
   RiemannHypothesisStatementsAndConsequences §8.4a(a) of the coefficients of
   `−L′/L(·, ψ)`, plus `y · (L′/L)(1, ψ)` for `ψ ≠ 1`, and minus `y log y` plus
-  `(1 + EK(K)) y` for `ψ = 1`, where `EK(K) = NumberField.eulerKroneckerConstant K` and
-  `EK(ℚ) = γ`. It is complex-valued; `Re G_ψ` enters families. For a primitive Dirichlet character
+  `(1 + EK(K)) y` for `ψ = 1`, where `EK(K)` is the Euler–Kronecker constant
+  *NumberField.eulerKroneckerConstant* `K` and `EK(ℚ) = γ`. It is complex-valued; `Re G_ψ` enters families. For a primitive Dirichlet character
   `κ`, `G_κ` denotes `PrimitiveDirichletCharacter.rieszRemainder κ`, which is the remainder of the
   character of `ℚ` attached to `κ` (RiemannHypothesisStatementsAndConsequences §8.4a(b)).
 - **Windows.** `HasWindows S λ`, for `S ⊆ ℝ` and `λ > 1`, is PositivityOfDirichletSeriesWithKernels
@@ -163,7 +163,7 @@ Mathlib `Finsupp`, `Finsupp.mapDomain`, `Finsupp.filter`, `Finsupp.le_def`.
 ### 0.2 Cyclic families of Dirichlet characters as families over `ℚ`
 
 For a primitive Dirichlet character `ψ` of order `o`, its cyclic family `𝒦(ψ)` is that of
-FrobeniusRestrictedRieszSums §0.5 (`DirichletCharacter.cyclicFamily`): the set of primitive
+FrobeniusRestrictedRieszSums §0.5: the set of primitive
 Dirichlet characters inducing the powers `ψ^k`, `k ∈ ℤ/o`, with `k ↦ (ψ^k)*` a bijection onto it,
 `1, ψ ∈ 𝒦(ψ)`, closed under inversion, and every conductor dividing that of `ψ`. It is not
 redefined here; it is read as a finite set of bundles, a `Finset PrimitiveDirichletCharacter`
@@ -377,14 +377,14 @@ real poles of `Φ_w` have positive leading coefficients (0.6), so either `Φ_w` 
 PositivityOfDirichletSeriesWithKernels §6.4(b), (c). The conclusion on `ζ_K` is the first
 alternative at the member `1`, whose L-function
 is `ζ_K`. `ζ` is negative, so nonzero, on `(0, 1)` (ExplicitZetaBounds §0.3,
-`riemannZeta_neg_of_pos_of_lt_one`, which takes no record), and
+its case `q = 1`, which takes no record), and
 `ZeroFreeRightOf θ (dedekindZetaC ℚ) ↔ ZeroFreeRightOf θ riemannZeta`
 (RiemannHypothesisStatementsAndConsequences §9.5,
 rational bullet, stated for every real threshold).
 
 *Needs:* 0.5, 0.6; PositivityOfDirichletSeriesWithKernels §6.4;
 RiemannHypothesisStatementsAndConsequences §§9.2, 9.5;
-ExplicitZetaBounds §0.3 (`riemannZeta_neg_of_pos_of_lt_one`).
+ExplicitZetaBounds §0.3 (the negativity of `ζ` on `(0, 1)`).
 
 **Checks.**
 
@@ -421,14 +421,13 @@ real poles have residue `m/β > 0`.
 (`ψ(x) − x = O(√x log² x)`); conversely, an
 upper bound at every `1/2 + ε` gives `ZeroFreeRightOf (1/2 + ε) (dedekindZetaC ℚ)` by (b) at
 `K = ℚ`, `ζ` having no zero in `(0, 1)` (ExplicitZetaBounds §0.3,
-`riemannZeta_neg_of_pos_of_lt_one`), and a lower bound gives it by
-(a); then RiemannHypothesisStatementsAndConsequences §9.2 (`zeroFreeRightOf_iff_forall_gt`) and the
-rational bullet of its §9.5 at
-`σ = 1/2` (`NumberField.extendedRiemannHypothesis_rat_iff`).
+its case `q = 1`), and a lower bound gives it by
+(a); then the monotonicity clause of RiemannHypothesisStatementsAndConsequences §9.2 and the
+rational bullet of its §9.5 at `σ = 1/2`.
 
 *Needs:* ArithmeticDirichletSeriesPartII §4.1; PositivityOfDirichletSeriesWithKernels §6.4;
 RiemannHypothesisStatementsAndConsequences §§9.2, 9.5, 9.9; LFunctions
-Layers 3, 8; ExplicitZetaBounds §0.3 (`riemannZeta_neg_of_pos_of_lt_one`); Tau Ceti
+Layers 3, 8; ExplicitZetaBounds §0.3 (the negativity of `ζ` on `(0, 1)`); Tau Ceti
 `TauCeti.primeIdealTheorem`.
 
 **Checks.**
@@ -519,10 +518,10 @@ Route: PositivityOfDirichletSeriesWithKernels §6.9(b) for `G = −G_w`: the rig
 if there is one right of `θ`, is real
 with negative leading coefficient, that is a real pole of `Φ_w` with positive residue, which 0.6
 allows; it bounds the real parts of all poles. For `ζ` there is no real zero in `(0, 1)`
-(ExplicitZetaBounds §0.3, `riemannZeta_neg_of_pos_of_lt_one`).
+(ExplicitZetaBounds §0.3, its case `q = 1`).
 
 *Needs:* 0.4, 0.5, 0.6; PositivityOfDirichletSeriesWithKernels §§6.8, 6.9; ExplicitZetaBounds §0.3
-(`riemannZeta_neg_of_pos_of_lt_one`).
+(the negativity of `ζ` on `(0, 1)`).
 
 ### 2.5 Windowed bounds for `ψ_K(x) − x`
 
@@ -539,10 +538,10 @@ Route: PositivityOfDirichletSeriesWithKernels §6.9(b) with `A = 1` for `G(y) = 
 first statement and
 `G(y) = ψ_K(y) − y` in the second, with the integrability and the transform of 1.3, whose poles in
 `Re s > 0` are simple with residue `−m/ρ`. For `K = ℚ`, `ζ` has no real zero in `(0, 1)`
-(ExplicitZetaBounds §0.3, `riemannZeta_neg_of_pos_of_lt_one`).
+(ExplicitZetaBounds §0.3, its case `q = 1`).
 
 *Needs:* 1.3; PositivityOfDirichletSeriesWithKernels §§6.8, 6.9; ExplicitZetaBounds §0.3
-(`riemannZeta_neg_of_pos_of_lt_one`).
+(the negativity of `ζ` on `(0, 1)`).
 
 ### Examples
 
@@ -605,8 +604,8 @@ window ratio `λ` may depend on `ε`. A single exponent does not suffice: the wi
 `θ ∈ (σ, 1)` gives zero-freeness right of `θ` (2.1), not right of `σ`.
 
 Route: (←) 3.2. (→) for `0 < ε < 1 − σ`, 2.1 at `θ = σ + ε` gives zero-freeness right of
-`σ + ε`, and RiemannHypothesisStatementsAndConsequences §9.2's `zeroFreeRightOf_iff_forall_gt` gives
-it right of `σ`.
+`σ + ε`, and the monotonicity clause of RiemannHypothesisStatementsAndConsequences §9.2 (zero-free
+right of `σ` exactly when zero-free right of every `σ′ > σ`) gives it right of `σ`.
 
 *Needs:* 2.1, 3.2; RiemannHypothesisStatementsAndConsequences §9.2.
 
@@ -649,8 +648,7 @@ RiemannHypothesisStatementsAndConsequences §8.4a(b)) and `Re G = G`.
 Route: 3.3 at `σ = 1/2` for `w = single 1 1` over `ℚ`, for which `G_w = Re G`. The L-function of
 the trivial character is `dedekindZetaC ℚ` (RiemannHypothesisStatementsAndConsequences §9.5, trivial
 character), and the
-rational bullet of its §9.5 at `σ = 1/2` (`NumberField.extendedRiemannHypothesis_rat_iff`) identifies its
-hypothesis with `RiemannHypothesis`.
+rational bullet of its §9.5 at `σ = 1/2` identifies its hypothesis with `RiemannHypothesis`.
 
 *Needs:* 3.3; RiemannHypothesisStatementsAndConsequences §§8.4a(b), 9.5.
 
@@ -683,8 +681,8 @@ Let `ψ` be a character of `K`. If for every
 `ψ.character.GeneralizedRiemannHypothesis`. The families and the window ratios may depend on `ε`.
 
 Route: 2.1 at `θ = 1/2 + ε`, `C = 1`, for `w_ε`, of which `ψ` is a member, gives
-`ZeroFreeRightOf (1/2 + ε) (heckeLFunctionC ψ.character)` for every `ε ∈ (0, 1/2)`; then
-RiemannHypothesisStatementsAndConsequences §9.2's `zeroFreeRightOf_iff_forall_gt`.
+`ZeroFreeRightOf (1/2 + ε) (heckeLFunctionC ψ.character)` for every `ε ∈ (0, 1/2)`; then the
+monotonicity clause of RiemannHypothesisStatementsAndConsequences §9.2.
 
 *Needs:* 2.1; RiemannHypothesisStatementsAndConsequences §§9.2, 9.5.
 
@@ -708,8 +706,8 @@ is equivalent to the generalized Riemann hypothesis for every Dirichlet characte
 
 Route: by 0.3 the sum in (i) is `G_{w_ℚ}`, and `w_ℚ` is a weighted family whose members form
 `𝒦_ℚ(ψ)` (0.2). The hypothesis of the image of `κ` is that of `κ.character`:
-RiemannHypothesisStatementsAndConsequences §11.1
-(`toPrimitiveRayClassCharacter_of`) writes the image as the primitive character of
+RiemannHypothesisStatementsAndConsequences §11.1, by the definition of the equivalence, writes the
+image as the primitive character of
 `(ratDirichletEquiv q _).symm κ.character`, `q` the level of `κ`,
 RiemannHypothesisStatementsAndConsequences §9.2's
 ray-class clause passes to that presentation, and the rational bullet of its §9.5 to `κ.character.LFunction`.
@@ -783,9 +781,9 @@ For every `N ≥ 1` and `χ : DirichletCharacter ℂ N`:
   Mathlib's value `(γ − log 4π)/2` is not `0`), and `re_eq_half_of_riemannZeta_eq_zero`: every
   zero of `riemannZeta` with `0 < Re s < 1` has `Re s = 1/2`.
 
-Route: 5.1 with RiemannHypothesisStatementsAndConsequences §9.4's consumer forms
-(`GeneralizedRiemannHypothesis.LFunction_ne_zero`, `GeneralizedRiemannHypothesis.re_eq_half`),
-which rest on its value form and its strip form for every character, primitive or not; 5.2 with
+Route: 5.1 with RiemannHypothesisStatementsAndConsequences §9.4's consumer forms, which rest on its
+value form (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`) and its strip form
+(`generalizedRiemannHypothesis_iff_re_eq_half`) for every character, primitive or not; 5.2 with
 RiemannHypothesisStatementsAndConsequences §9.3's `riemannHypothesis_iff_riemannZeta_ne_zero`.
 
 *Needs:* 5.1, 5.2; RiemannHypothesisStatementsAndConsequences §§9.3, 9.4.
@@ -805,8 +803,8 @@ point of positive order of its completed function, Mathlib's
 `DirichletCharacter.completedLFunction χ`, has real part `1/2`. And
 `riemannZetaData.GeneralizedRiemannHypothesis`.
 
-Route: 5.1 and RiemannHypothesisStatementsAndConsequences §9.4's completed-function clause
-(`generalizedRiemannHypothesis_iff_dirichletData`), which rests on the uncompleted form of its §9.3: the
+Route: 5.1 and RiemannHypothesisStatementsAndConsequences §9.4's completed-function clause, which
+rests on the uncompleted form of its §9.3: the
 record has a meromorphic continuation and a functional equation (LFunctions Layer 4,
 `dirichletData`), its gamma shifts `0` or `1` have real part at least `−1/2`, so the gamma factor
 has neither zero nor pole on `Re s > 1/2`, and its continued L-function is `χ.LFunction`; 5.2 and
@@ -821,8 +819,9 @@ the `ζ` bridge of its §9.3.
 `NumberField.ExtendedRiemannHypothesis (CyclotomicField q ℚ)` for every `q ≥ 1`.
 
 Route: by Kronecker–Weber (ClassFieldTheory Layer 13, `kroneckerWeber`) `K` embeds in `ℚ(ζ_f)` for
-some `f ≥ 1`, and AnalyticNumberTheoryPartI §2.42 for that `f` (its abelian equivalence,
-`NumberField.extendedRiemannHypothesis_iff_of_isAbelianGalois`, and its corollary for the
+some `f ≥ 1`, and AnalyticNumberTheoryPartI §2.42 for that `f` (its abelian equivalence of the
+extended Riemann hypothesis of `K` with the hypothesis for the characters of the product
+`ζ_K = ∏_χ L(s, χ*)`, and its corollary for the
 hypothesis of every Dirichlet character) gives `NumberField.ExtendedRiemannHypothesis K` from the
 hypothesis for the Dirichlet characters modulo `f`, which 5.1 supplies. The cyclotomic case is the
 case `K = ℚ(ζ_q)`, `f = q`.
@@ -899,8 +898,8 @@ Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
   the class of every integral ideal prime to `q`, a product of such primes, so the two are equal
   (`RayClassGroup.hom_ext`) and
   `PrimitiveRayClassCharacter.of_induced` makes `φ̃` the image of `κ` under
-  `toPrimitiveRayClassCharacter` (RiemannHypothesisStatementsAndConsequences §11.1,
-  `toPrimitiveRayClassCharacter_of`); the
+  `toPrimitiveRayClassCharacter` (RiemannHypothesisStatementsAndConsequences §11.1, by the
+  definition of the equivalence); the
   theorem is 5.1 for `κ`, read through RiemannHypothesisStatementsAndConsequences §9.5's rational bullet.
 - `K = ℚ(i)`, `L = ℚ(i, √−3)`, `φ` the nontrivial character of `Gal(L/K)`: `φ̃` is the character
   `(·/3) ∘ N` of modulus `(3)`, of order `2`, and the theorem applies.
@@ -1135,24 +1134,35 @@ through §9.5's presented-versus-primitive clause.
 
 ### 6.5 Primes in progressions (AnalyticNumberTheoryPartI §1.9(ii))
 
-`psiAP_isBigO`: for every `q ≥ 1` and `a` prime to `q`, `ψ(x; a, q) − x/φ(q) = O(√x log² x)`;
-and, uniformly, there is an absolute `C` with
-`|ψ(x; a, q) − x/φ(q)| ≤ C √x log²(qx)` for every `q ≥ 1`, every `a` prime to `q` and every
-`x ≥ 2`.
+`psiAP_isBigO`: for every `q ≥ 1` and `a` prime to `q`, `ψ(x; a, q) − x/φ(q) = O(√x log² x)`,
+the implied constant depending on `q`. Hence the conclusion of AnalyticNumberTheoryPartI §1.9(ii),
+`ψ(x; a, q) − x/φ(q) = O_{q,ε}(x^{1/2+ε})` for every `ε > 0` (`psiAP_isBigO_of_dirichletGRH`), holds
+with no hypothesis.
 
-Route: §1.9(ii) at `σ = 1/2` (`psiAP_isBigO_of_generalizedRiemannHypothesis` and the uniform form),
-its hypothesis for every character modulo `q` being 5.1.
+Route: RiemannHypothesisStatementsAndConsequences §9.9(ii) at the modulus `(q)∞` and `σ = 1/2`, in
+its rational case for the primes in a reduced class modulo `q`, whose hypothesis for every Dirichlet
+character modulo `q` is 5.1 (through §9.5's rational bullet), as in 6.4. The weaker form follows
+from `log² x ≤ C_ε x^ε` for `x ≥ 2`.
 
-*Needs:* 5.1; AnalyticNumberTheoryPartI §1.9.
+*Needs:* 5.1; RiemannHypothesisStatementsAndConsequences §§9.5, 9.9; AnalyticNumberTheoryPartI §1.9.
 
-### 6.6 Littlewood's class-number bound (AnalyticNumberTheoryPartI §1.9(iv))
+### 6.6 Littlewood's class-number bound (RiemannHypothesisStatementsAndConsequences §9.7)
 
 There is an absolute `c > 0` with
-`h(D) ≥ c √|D|/log log |D|` for every fundamental discriminant `D < −4`.
+`h(D) ≥ c √|D|/log log |D|` for every fundamental discriminant `D < −4`, `h(D)` the class number of
+the imaginary quadratic field of discriminant `D`. It is the lower bound for `L(1, χ)` of
+Littlewood's bounds in 6.2(ii) read through the class number formula.
 
-Route: §1.9(iv) with 5.1 at `χ_D`; Littlewood's bounds for `L(1, χ)` are 6.2(ii).
+Route: let `K` be the imaginary quadratic field of discriminant `D` and `χ_D` its quadratic
+character, primitive of conductor `|D| ≥ 7` (Tau Ceti
+`TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantCharCast`), hence nontrivial. As
+`D ≠ −3, −4`, `K` has two units and `h(D) = √|D| L(1, χ_D)/π` (Tau Ceti
+`TauCeti.NumberField.classNumber_eq_LFunction_one_of_discr_ne`), so `L(1, χ_D) = π h(D)/√|D| > 0`.
+Littlewood's lower bound of 6.2(ii) at `q = |D| ≥ 3` gives `L(1, χ_D) ≥ (C log log |D|)⁻¹`, hence the
+bound with `c = 1/(πC)`.
 
-*Needs:* 5.1; AnalyticNumberTheoryPartI §1.9.
+*Needs:* 6.2; Tau Ceti `TauCeti.NumberField.classNumber_eq_LFunction_one_of_discr_ne`,
+`TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantCharCast`.
 
 ### 6.7 The mod-eight zero clause (AnalyticNumberTheoryPartI §0.16; ErdosProgressionPowers §0.9)
 
@@ -1966,16 +1976,17 @@ at the left end of its range.
   after a prime `p ≤ 10⁷` is at most `0.365 · 3p^{2/3}`, and a sieve finds a prime between `n³` and
   `(n + 1)³` for every `n ≤ 214`.
 
-### 6.25 Norm-composed characters (QuasiRiemannHypothesis §5.5(c))
+### 6.25 Norm-composed characters (QuasiRiemannHypothesis §5.4)
 
 For every number field `K` abelian over `ℚ` and every
-Dirichlet character `χ`, `heckeLFunctionC (χ ∘ N_{K/ℚ})` is zero-free right of `1/2`.
+Dirichlet character `χ`, `heckeLFunctionC (χ ∘ N_{K/ℚ})` is zero-free right of `1/2`, where
+`χ ∘ N_{K/ℚ}` is the norm-composed character of QuasiRiemannHypothesis §5.4.
 
-Route: §5.5(c) at `σ₀ = 1/2`, whose hypothesis for every Dirichlet character is 5.1. The primitive
-characters of the `χ ∘ N_{K/ℚ}` are the characters `φ̃` of 5.6 (5.6, its bullet), so this is 5.6
-for them, read through RiemannHypothesisStatementsAndConsequences §9.5's presented-versus-primitive clause.
+Route: a corollary of 5.6. The primitive characters of the `χ ∘ N_{K/ℚ}` are the characters `φ̃`
+of 5.6 (5.6, its bullet), so this is 5.6 for them, read through
+RiemannHypothesisStatementsAndConsequences §9.5's presented-versus-primitive clause.
 
-*Needs:* 5.1, 5.6; QuasiRiemannHypothesis §5.5; RiemannHypothesisStatementsAndConsequences §9.5.
+*Needs:* 5.6; QuasiRiemannHypothesis §5.4; RiemannHypothesisStatementsAndConsequences §9.5.
 
 ### 6.26 Least character values (QuasiRiemannHypothesis §§11.2, 11.3; SieveMethodsAndPrimePatterns §2.9)
 
@@ -2030,7 +2041,7 @@ normal closure of degree `m_N`. The clause of
 of `ζ_K` with `β > 1/2` and `|γ| ≤ 1`; this is its whole quadratic part.
 
 Route: for a quadratic field `F`, `ζ_F = ζ · L(·, χ_F)` and `ζ` has no zero in `(0, 1)`
-(ExplicitZetaBounds §0.3, `riemannZeta_neg_of_pos_of_lt_one`), so by 5.3 a real zero `β ∈ (0, 1)`
+(ExplicitZetaBounds §0.3, its case `q = 1`), so by 5.3 a real zero `β ∈ (0, 1)`
 of `ζ_F` is `1/2`, and it is one exactly when `L(1/2, χ_F) = 0`; then
 `(1 − β) log d_F = (log d_F)/2 ≥ (log 3)/2`, and `β ≤ 1 − 1/(c √d_F)` exactly when `c √d_F ≥ 2`,
 which holds for every `d_F ≥ 15` when `c ≥ 2/√15`. At the nine fields with `d_F ≤ 13`
@@ -2055,7 +2066,7 @@ order of the discriminants above, are `0.4565`, `0.6439`, `0.2176`, `1.1107`, `0
 `0.9534`, `0.4894` and `0.4220`, all positive.
 
 *Needs:* 5.3, 5.5; ExplicitNumberFields §§0.5, 4.7, 4.9; ExplicitZetaBounds §0.3
-(`riemannZeta_neg_of_pos_of_lt_one`); Mathlib `DirichletCharacter.LFunction_eq_LSeries`,
+(the negativity of `ζ` on `(0, 1)`); Mathlib `DirichletCharacter.LFunction_eq_LSeries`,
 `DirichletCharacter.differentiable_LFunction`, `sum_mul_eq_sub_sub_integral_mul`,
 `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
 
@@ -2222,7 +2233,8 @@ Layers 4 and 5; RiemannHypothesisStatementsAndConsequences §§8.8, 9.3–9.9; Z
 8.8; AnalyticNumberTheoryPartI; ClassicalArithmeticCompletion; ExplicitZetaBounds;
 ExplicitPrimeCounting; ErdosProgressionPowers; QuasiRiemannHypothesis; SieveMethodsAndPrimePatterns;
 ExplicitNumberFields; ExplicitMultiplicativeFunctions; WeilPositivityAndLiCriterion;
-ClassFieldTheory Layers 12 and 13; Tau Ceti's class-group equivalence, moduli and Mertens constant;
+ClassFieldTheory Layers 12 and 13; Tau Ceti's class-group equivalence, moduli, Mertens constant and
+class number formula of imaginary quadratic fields;
 Mathlib's Chebyshev functions, Dirichlet L-functions, Weierstrass approximation and Jensen's inequality.
 
 ## Scope and ownership
@@ -2299,7 +2311,7 @@ nothing here uses them.
   normalization, the ray-class Artin map at the
   conductor, Kronecker–Weber and the Hilbert class field: ClassFieldTheory C.6, Layers 12–13;
 - the Chebyshev bound `ψ_K(x) ≪ x`: Tau Ceti `TauCeti.primeIdealTheorem`;
-- the negativity of `ζ` on `(0, 1)`: ExplicitZetaBounds §0.3 (`riemannZeta_neg_of_pos_of_lt_one`);
+- the negativity of `ζ` on `(0, 1)`: ExplicitZetaBounds §0.3, its case `q = 1`;
 - the statements that the targets of Layer 6 cite, in their form under the hypothesis that
   Layer 5 proves: the roadmap named there.
 
@@ -2309,8 +2321,6 @@ nothing here uses them.
   this roadmap cites them from its §10.11;
 - Landau's theorem for Laplace transforms and its windowed form for transforms in general
   (PositivityOfDirichletSeriesWithKernels Layer 6); this roadmap applies them to L-functions;
-- the two-sided converse "`ψ(x) − x = O(x^{σ+ε})` for every `ε` gives a zero-free half-plane"
-  (AnalyticNumberTheoryPartI §1.9(iii));
 - the Riemann hypothesis for Dedekind zeta functions of fields not abelian over `ℚ`, for
   ray-class characters not of the form of 5.6, and for Artin, automorphic and Rankin–Selberg
   L-functions: no roadmap here proves them, and no target of Layer 6 removes them;
@@ -2368,7 +2378,11 @@ nothing here uses them.
   whose composites with `idealClass 𝔪` agree, that is which agree on the classes of all integral
   ideals prime to `𝔪`, are equal) (5.6);
 - `TauCeti.LFunctions.mertensConstant` (the Mertens constant of a number field; over `ℚ` the
-  Meissel–Mertens constant) (6.29).
+  Meissel–Mertens constant) (6.29);
+- `TauCeti.NumberField.classNumber_eq_LFunction_one_of_discr_ne` (the class number formula
+  `h = √|D| L(1, χ_D)/π` of an imaginary quadratic field of discriminant `D ≠ −3, −4`) and
+  `TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantCharCast` (`χ_D` is primitive of
+  conductor `|D|`) (6.6).
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -2380,40 +2394,41 @@ nothing here uses them.
 
 - §8.4a (a): `rieszSum`, its continuity.
 - §8.4a (b): `PrimitiveRayClassCharacter.rieszRemainder ψ` and `PrimitiveDirichletCharacter.rieszRemainder`,
-  their agreement over `ℚ`; `NumberField.eulerKroneckerConstant`; the conjugation
+  their agreement over `ℚ`; the Euler–Kronecker constant *NumberField.eulerKroneckerConstant*; the
+  conjugation
   `rieszRemainder ψ⁻¹ = conj (rieszRemainder ψ)`; the Mellin transform `Φ_ψ` on `Re s > 1`; `Φ_ψ`
   meromorphic on `ℂ`, analytic at `1`, with poles in `Re s > 0` exactly at the zeros of `L(·, ψ)`,
   simple with residue `m_ρ/(ρ(1 − ρ))`; the size bound `‖rieszRemainder ψ y‖ ≤ C_ψ y` for `y ≥ 1`.
 - §8.8: *PrimitiveRayClassCharacter.of_comp_dictionary_eq*, the independence of the primitive
   characters `PrimitiveRayClassCharacter.of (ψ ∘ Φ)` from the dictionary (Conventions, for 5.6 and 6.4).
-- §9.2: `ZeroFreeRightOf`, monotonicity and `zeroFreeRightOf_iff_forall_gt`, germs, products and the
-  converse product clause, values.
+- §9.2: `ZeroFreeRightOf`, monotonicity (with zero-freeness right of `σ` equivalent to zero-freeness
+  right of every `σ′ > σ`), germs, products and the converse product clause, values.
 - §9.3: `AnalyticLFunctionData.GeneralizedRiemannHypothesis`, its half-plane form, the `ζ` bridge
   (`riemannHypothesis_iff_zeroFreeRightOf`, `riemannHypothesis_iff_riemannZeta_ne_zero`,
   `riemannZetaData.GeneralizedRiemannHypothesis ↔ RiemannHypothesis`), the invariance of the zero
   set of a completed function under `ρ ↦ 1 − ρ̄`.
-- §9.4: `DirichletCharacter.GeneralizedRiemannHypothesis`; its value form, strip forms, inverse,
-  change of level and primitive character (`generalizedRiemannHypothesis_primitiveCharacter_iff`),
-  completed-function clause (`generalizedRiemannHypothesis_iff_dirichletData`), modulus one
-  (`generalizedRiemannHypothesis_modOne_iff`), quantified forms and consumer forms
-  (`GeneralizedRiemannHypothesis.LFunction_ne_zero`, `GeneralizedRiemannHypothesis.re_eq_half`).
+- §9.4: `DirichletCharacter.GeneralizedRiemannHypothesis`; its value form
+  (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`), strip forms
+  (`generalizedRiemannHypothesis_iff_re_eq_half`), inverse, change of level and primitive character
+  (`generalizedRiemannHypothesis_primitiveCharacter_iff`), completed-function clause, modulus one
+  (`generalizedRiemannHypothesis_modOne_iff`), quantified forms and consumer forms.
 - §9.5: `NumberField.ExtendedRiemannHypothesis`, `RayClassCharacter.GeneralizedRiemannHypothesis`;
   the inverse clause; presented and primitive; the trivial character; the records; the rational
   bullet, at every threshold `σ`: `ZeroFreeRightOf σ (dedekindZetaC ℚ) ↔ ZeroFreeRightOf σ riemannZeta`
   and
   `ZeroFreeRightOf σ (heckeLFunctionC ((ratDirichletEquiv q hq).symm χ)) ↔ ZeroFreeRightOf σ χ.LFunction`,
-  with their cases `σ = 1/2` (`NumberField.extendedRiemannHypothesis_rat_iff`).
+  with their cases `σ = 1/2`.
 - §9.6: (a) exceptional zeros, (c) the remainder under a zero-free half-plane (for 3.2, 6.1), the
   Check on zero counts.
-- §§9.7, 9.8: discharged in 6.2, 6.3. §9.9: the conditional prime counts, used in 1.3 (c) at `ℚ` and
-  discharged in 6.4.
-- §10.2: the nonvanishing and analyticity of the gamma factor on `Re s > 0`
-  (`DirichletCharacter.gammaFactor_ne_zero_of_re_pos`, used through §9.4).
+- §§9.7, 9.8: discharged in 6.2, 6.3, and through 6.2 the lower bound for `L(1, χ)` in 6.6. §9.9: the
+  conditional prime counts, used in 1.3 (c) at `ℚ` and discharged in 6.4, and at the modulus `(q)∞`
+  for `ψ(x; a, q)` in 6.5.
+- §10.2: the nonvanishing and analyticity of the gamma factor on `Re s > 0`, used through §9.4.
 - §10.3: `PrimitiveDirichletCharacter` with `of`, `1`, `⁻¹` and `LFunction`.
 - §11.1: `PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter`, with its values, conductors,
-  compatibility with `1` and `⁻¹`, `toPrimitiveRayClassCharacter_of` (the image of the bundle of a
-  character of level `q` is the primitive character of `(ratDirichletEquiv q _).symm χ`), and the
-  agreement of the L-functions.
+  compatibility with `1` and `⁻¹`, its definition (the image of the bundle of a character of level
+  `q` is the primitive character of `(ratDirichletEquiv q _).symm χ`), and the agreement of the
+  L-functions.
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -2471,8 +2486,8 @@ nothing here uses them.
 - §2.42: for `K ⊆ ℚ(ζ_f)` abelian, `ζ_K = ∏_χ L(s, χ*)` as meromorphic functions over the
   characters modulo `f` trivial on the subgroup fixing `K`, and the equivalence of
   `NumberField.ExtendedRiemannHypothesis K` with the hypothesis for these characters
-  (`NumberField.extendedRiemannHypothesis_iff_of_isAbelianGalois`) (for 5.5).
-- §§0.16, 1.9, 2.49: discharged in 6.5–6.8.
+  (for 5.5).
+- §§0.16, 1.9(ii), 2.49: discharged in 6.7, 6.5 and 6.8.
 
 ### From RieszSumsOverPrimesAndExceptionalZeros, a sub-roadmap of this family
 
@@ -2493,7 +2508,7 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.ExplicitZetaBounds
 
-- §0.3: `riemannZeta_neg_of_pos_of_lt_one`, `riemannZeta s < 0` for real `0 < s < 1`, with no
+- §0.3, its case `q = 1`: `riemannZeta s < 0` for real `0 < s < 1`, with no
   record (for 1.2, 1.3, 2.4, 2.5, 6.28).
 - §§0.2, 0.4, 0.4b, 2.9, 7.2–7.6, 7.9, 7.10, 8.1, 8.3–8.5, 9.3: the statements discharged in
   6.11–6.15, with the implications from the hypothesis to `DirichletGRHUpTo`, `PlattRecord`,
@@ -2551,7 +2566,7 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.QuasiRiemannHypothesis
 
-- §5.5(c), §§11.2, 11.3: discharged in 6.25, 6.26.
+- §5.4: the norm-composed character `χ ∘ N_{K/ℚ}` (6.25); §§11.2, 11.3: discharged in 6.26.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
@@ -2559,9 +2574,9 @@ nothing here uses them.
 
 ### From TauCetiRoadmap.ExplicitNumberFields
 
-- §§0.5 (*QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*,
-  *DGLSWSmallFieldGRH*, the Dedekind conjecture for Galois fields), 3.5, 3.6, 4.7, 4.9, 6.4, 7.2,
-  7.4: the statements discharged in 6.27–6.30; of 4.7 also its consequence at `c₈ = π/6`,
+- §§0.5 (*QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*, the
+  Dedekind conjecture for Galois fields), 3.5, 3.6, 4.7, 4.9, 6.4, 7.2, 7.4, and *DGLSWSmallFieldGRH*
+  of its list of computational hypotheses before §0.1: the statements discharged in 6.27–6.30; of 4.7 also its consequence at `c₈ = π/6`,
   `κ_K > 0.0014480/(n · t_K · d_K^{1/n})` (6.28).
 - §3.5: the route of Garcia–Lee's Mertens lemma from Schoenfeld's estimate for `x ≥ 13.5` and
   *GarciaLeeMertensSmallRange* below; 6.29 supplies the estimate.
