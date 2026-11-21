@@ -2,6 +2,8 @@ module
 
 public import Mathlib
 public import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.ProP
+public import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+public import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 public import TauCeti.Topology.Algebra.Group.Profinite.ProP.CohomologicalDimension
 
 /-!
@@ -13,30 +15,36 @@ layer nor the roadmap.
 
 Stated here, against the pinned Mathlib and Tau Ceti:
 
-* the index set `ℤ(p)` of Abrashkin's generators (conventions);
-* the truncated Magnus algebra `R⟨X⟩ / 𝒥ⁿ`, the finite level of the profinite Magnus algebra
-  of README 0.1;
-* the class-two Campbell–Hausdorff law `x ∘ y = x + y + ½⁅x, y⁆` and its associativity on a
-  Lie algebra of nilpotency class two (README 0.3); the identification `F/C₃(F) ≅ G(L₂)` there
-  goes through `x_i ↦ exp(X_i)`, not `1 + X_i`;
+* the absolute upper ramification filtration `G_K(v)` of a local field, a copy of
+  ClassFieldTheory's one local definition `localAbsoluteUpperRamificationGroup` (the infimum over
+  finite Galois subextensions of the preimages of Tau Ceti's `upperRamificationGroup`);
+* **Theorem A** [Abrashkin 2010] (README 5.4 and 6.4): a filtered isomorphism of maximal pro-`p`
+  quotients `Γ_K(p) ≃ₜ* Γ_{K'}(p)` is induced by conjugation with an isomorphism of algebraic
+  closures carrying `K` onto `K'`, for every `p`, in both characteristics;
+* **Theorem A′** [Abrashkin 2000] (README 9.3): the same for `G_K ≃ₜ* G_{K'}`, for `p ≠ 2`;
+* the class-two Campbell–Hausdorff law `x ∘ y = x + y + ½⁅x, y⁆` (README 0.3), with its
+  associativity proved as a check on the definition;
 * `cd_p Γ_K(p) ≤ 1` for a field of characteristic `p` (README 1.1), from which Tau Ceti's pointed
-  Serre theorem gives that `Γ_K(p)` is free pro-`p` on a basis converging to `1`;
-* the ring and module of Deligne's truncated triple `Tr_e(F)` (README 10.1), for the valuation
-  ring of any discretely valued field, Deligne's generality.
+  Serre theorem gives that `Γ_K(p)` is free pro-`p` on a basis converging to `1`.
 
 Not stated here:
 
-* the profinite Magnus algebra itself (README 0.1) and Lazard's isomorphism (0.2): the inverse
-  limit over finite sets of variables and truncation degrees is data, specified in `README.md`;
-* every statement involving the upper filtration of `Γ_K(p)` or `G_K` (Layers 2–9, 11): the
-  absolute upper filtration of ClassFieldTheory Layer 7 and the filtered groups of
-  FilteredLocalGaloisGroups have no declaration at the pins;
+* the profinite Magnus algebra (README 0.1) and Lazard's isomorphism (0.2): the inverse limit
+  over finite sets of variables and truncation degrees is data, specified in `README.md`. Its
+  finite levels are GeometricTopology §4.12.1's truncated Magnus algebra;
+* the class-two identification `F/C₃(F) ≅ G(L₂)` of README 0.3, which goes through
+  `x_i ↦ exp(X_i)` in the profinite Magnus algebra;
+* the ramification ideals and Theorems B and B′ of [Abrashkin 2010] (Layer 2), the systems of
+  Layers 3–4 and the Main Lemma (Layer 8): they live in the profinite Magnus algebra or in
+  quotients of it;
 * the liftings `O_M(L)` and the Magnus embedding `ψ_f` (README 1.2–1.6), which need the
   profinite Magnus algebra over `O(K(p))`;
 * the field of norms (Layer 6 and README 9.2), which FieldOfNorms owns and which has no
   declaration at the pins;
-* Deligne's categories `(ext F)^e` and `(ext Tr_e F)^e` and the equivalence `T` (README
-  10.2–10.4): their morphisms are classes of morphisms, specified in `README.md`.
+* Deligne's triples, the categories `(ext F)^e` and `(ext Tr_e F)^e` and the equivalence of
+  [Deligne 1984, Thm. 2.8] (README Layer 10), and Theorem B of [Abrashkin 2000] (Layer 11): their
+  morphisms are classes of morphisms and the filtrations are quotient filtrations, specified in
+  `README.md`.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/Abrashkin/`, with Layer 0 in
 `TauCeti/Topology/Algebra/Group/Profinite/Free/Magnus/` and Layer 10 in
@@ -47,30 +55,83 @@ Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/Abrashkin/`, with Lay
 
 namespace TauCetiRoadmap.LocalAnabelianGeometryPartII
 
-/-! ## Conventions: the index set `ℤ(p)` -/
+open TauCeti
+open scoped ValuativeRel
 
-/-- `ℤ(p)`, the positive integers prime to `p`: the indices `a` of Abrashkin's generators
-`D_{an}` [Abrashkin 2010, §1.2; Abrashkin 2000, §2.1]. -/
-def primeToP (p : ℕ) : Set ℕ := {a | 0 < a ∧ p.Coprime a}
+/-! ## Conventions: the absolute upper filtration -/
 
-/-! ## Layer 0.1: the truncated Magnus algebra -/
+section Filtration
 
-section Magnus
+/-- **The absolute upper ramification group** `G_K(v)` of a local field, in Serre's numbering:
+an absolute Galois automorphism lies in it when its restriction to every finite Galois
+subextension lies in that subextension's upper group [Serre, *Local Fields*, IV §3,
+Proposition 14]. A copy of ClassFieldTheory's `localAbsoluteUpperRamificationGroup`; the
+README's `F_K` of FilteredLocalGaloisGroups 2.1 is this filtration. -/
+noncomputable def localAbsoluteUpperRamificationGroup
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (v : LocalFieldsRamification.RamificationIndexDomain) : Subgroup (Field.absoluteGaloisGroup K) :=
+  ⨅ M : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+    letI := finiteIntermediateFieldValuativeRel K (AlgebraicClosure K) M.toIntermediateField
+    letI := finiteIntermediateFieldTopology K (AlgebraicClosure K) M.toIntermediateField
+    letI := finiteIntermediateField_isNonarchimedeanLocalField K (AlgebraicClosure K)
+      M.toIntermediateField
+    letI := finiteIntermediateField_valuativeExtension K (AlgebraicClosure K) M.toIntermediateField
+    (LocalFieldsRamification.upperRamificationGroup K M v).comap (AlgEquiv.restrictNormalHom M)
 
-variable (R : Type*) [CommRing R] (X : Type*)
+end Filtration
 
-/-- The relation killing every word of length `n` in the free associative algebra `R⟨X⟩`. -/
-def truncRel (n : ℕ) : FreeAlgebra R X → FreeAlgebra R X → Prop :=
-  fun a b => (∃ w : List X, w.length = n ∧ a = (w.map (FreeAlgebra.ι R)).prod) ∧ b = 0
+/-! ## Layers 5, 6 and 9: Theorems A and A′ -/
 
-/-- The **truncated Magnus algebra** `R⟨X⟩ / 𝒥ⁿ`: noncommuting variables `X`, words of length
-`≥ n` killed. For finite `X` and `R = W_M(k)` it is Abrashkin's level `𝒜_{CMk} mod 𝒥ⁿ`
-[Abrashkin 2010, §1.2]; the profinite Magnus algebra of README 0.1 is the inverse limit over
-finite subsets of variables, `n` and, for `R = W(k)`, `p`-adic truncations. -/
-abbrev TruncatedMagnus (n : ℕ) : Type _ :=
-  RingQuot (truncRel R X n)
+section TheoremA
 
-end Magnus
+variable (p : ℕ) [Fact p.Prime]
+  (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+  [CharP 𝓀[K] p]
+  (K' : Type) [Field K'] [ValuativeRel K'] [TopologicalSpace K'] [IsNonarchimedeanLocalField K']
+  [CharP 𝓀[K'] p]
+
+/-- **Theorem A** [Abrashkin 2010, Thm. A] (README 5.4, 6.4). For every prime `p`, `p = 2`
+included, and local fields `K`, `K'` of residue characteristic `p` in either characteristic,
+every isomorphism `g : Γ_K(p) ≃ₜ* Γ_{K'}(p)` carrying the image of `G_K(v)` onto that of
+`G_{K'}(v)` for every `v ≥ 0` is induced by conjugation with a ring isomorphism
+`e : K̄ ≃ K̄'` that restricts to a continuous isomorphism `K ≃ K'`. The README's `μ : K(p) ≃ K'(p)`
+is the restriction of `e`; it is unique (README 5.5), while `e` is not. -/
+theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroupProP
+    (g : absoluteGaloisGroupProP p K ≃ₜ* absoluteGaloisGroupProP p K')
+    (hg : ∀ v : LocalFieldsRamification.RamificationIndexDomain, 0 ≤ (v : ℝ) →
+      ((localAbsoluteUpperRamificationGroup K v).map
+          (absoluteGaloisGroupProPQuotientMap p K).toMonoidHom).map g.toMulEquiv.toMonoidHom =
+        (localAbsoluteUpperRamificationGroup K' v).map
+          (absoluteGaloisGroupProPQuotientMap p K').toMonoidHom) :
+    ∃ (e : AlgebraicClosure K ≃+* AlgebraicClosure K') (e₀ : K ≃+* K'),
+      Continuous e₀ ∧
+      (∀ x : K, e (algebraMap K (AlgebraicClosure K) x) =
+        algebraMap K' (AlgebraicClosure K') (e₀ x)) ∧
+      ∀ τ : Field.absoluteGaloisGroup K, ∃ τ' : Field.absoluteGaloisGroup K',
+        (∀ y, (show AlgebraicClosure K' ≃ₐ[K'] AlgebraicClosure K' from τ') y =
+          e ((show AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K from τ) (e.symm y))) ∧
+        g (absoluteGaloisGroupProPQuotientMap p K τ) = absoluteGaloisGroupProPQuotientMap p K' τ' :=
+  sorry
+
+/-- **Theorem A′** [Abrashkin 2000, Thm. A′, p. 139] (README 9.3). For `p ≠ 2` and local fields
+`K`, `K'` of residue characteristic `p`, every isomorphism `G : G_K ≃ₜ* G_{K'}` carrying `G_K(v)`
+onto `G_{K'}(v)` for every `v ≥ 0` is `τ ↦ e ∘ τ ∘ e⁻¹` for a ring isomorphism `e : K̄ ≃ K̄'`
+that restricts to a continuous isomorphism `K ≃ K'`. -/
+theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroup (hp : p ≠ 2)
+    (G : Field.absoluteGaloisGroup K ≃ₜ* Field.absoluteGaloisGroup K')
+    (hG : ∀ v : LocalFieldsRamification.RamificationIndexDomain, 0 ≤ (v : ℝ) →
+      (localAbsoluteUpperRamificationGroup K v).map G.toMulEquiv.toMonoidHom =
+        localAbsoluteUpperRamificationGroup K' v) :
+    ∃ (e : AlgebraicClosure K ≃+* AlgebraicClosure K') (e₀ : K ≃+* K'),
+      Continuous e₀ ∧
+      (∀ x : K, e (algebraMap K (AlgebraicClosure K) x) =
+        algebraMap K' (AlgebraicClosure K') (e₀ x)) ∧
+      ∀ (τ : Field.absoluteGaloisGroup K) (y : AlgebraicClosure K'),
+        (show AlgebraicClosure K' ≃ₐ[K'] AlgebraicClosure K' from G τ) y =
+          e ((show AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K from τ) (e.symm y)) :=
+  sorry
+
+end TheoremA
 
 /-! ## Layer 0.3: the class-two group law -/
 
@@ -83,18 +144,18 @@ nilpotency class two over a ring in which `2` is invertible it is a group law wi
 and inverse `x ↦ -x`, the group `G(L)` of [Abrashkin 2000, §3.1] in class two. -/
 def classTwoMul (x y : L) : L := x + y + (⅟2 : R) • ⁅x, y⁆
 
-/-- The product `classTwoMul` is **associative** when `L` has nilpotency class two. -/
+/-- `classTwoMul` is **associative** when `L` has nilpotency class two. This is a check on the
+definition, proved here, not a milestone; the content of README 0.3 is the identification
+`F/C₃(F) ≅ G(L₂)`, which is not stated in this file. -/
 theorem classTwoMul_assoc (hL : ∀ x y z : L, ⁅x, ⁅y, z⁆⁆ = 0) (x y z : L) :
-    classTwoMul R x (classTwoMul R y z) = classTwoMul R (classTwoMul R x y) z :=
-  sorry
+    classTwoMul R x (classTwoMul R y z) = classTwoMul R (classTwoMul R x y) z := by
+  simp [classTwoMul, hL, add_assoc, add_comm, add_left_comm]
 
 end ClassTwo
 
 /-! ## Layer 1.1: Witt's theorem in characteristic `p` -/
 
 section Witt
-
-open TauCeti
 
 /-- **Witt's theorem** [Serre, *Galois Cohomology*, II §2.2]: for a field `K` of characteristic
 `p`, the maximal pro-`p` quotient `Γ_K(p)` of `G_K` has `p`-cohomological dimension at most `1`.
@@ -107,30 +168,5 @@ theorem cohomologicalDimensionAt_absoluteGaloisGroupProP_le_one_of_charP (p : �
   sorry
 
 end Witt
-
-/-! ## Layer 10.1: Deligne's truncated triple -/
-
-section Deligne
-
-open IsLocalRing
-
-/-! Deligne's generality: `𝒪` is the valuation ring of a complete discretely valued field with
-perfect residue field [Deligne 1984, 1.2]; completeness and perfectness are not needed to define
-the triple. -/
-
-variable (𝒪 : Type*) [CommRing 𝒪] [IsDomain 𝒪] [IsDiscreteValuationRing 𝒪]
-
-/-- The ring of **Deligne's triple** `Tr_e(F) = (𝒪_F/𝔪^e, 𝔪/𝔪^{e+1}, ε)`: the truncated
-valuation ring `𝒪/𝔪^e`, of length `e` [Deligne 1984, 1.2]. -/
-abbrev deligneRing (e : ℕ) : Type _ := 𝒪 ⧸ maximalIdeal 𝒪 ^ e
-
-/-- The module of **Deligne's triple** `Tr_e(F)`: `𝔪/𝔪^{e+1}`, free of rank one over
-`deligneRing 𝒪 e`, with `ε : 𝔪/𝔪^{e+1} → 𝔪/𝔪^e` the projection onto the maximal ideal of
-`deligneRing 𝒪 e` [Deligne 1984, 1.2]. -/
-abbrev deligneModule (e : ℕ) : Type _ :=
-  ↥(maximalIdeal 𝒪) ⧸
-    Submodule.comap (Submodule.subtype (maximalIdeal 𝒪)) (maximalIdeal 𝒪 ^ (e + 1) : Ideal 𝒪)
-
-end Deligne
 
 end TauCetiRoadmap.LocalAnabelianGeometryPartII
