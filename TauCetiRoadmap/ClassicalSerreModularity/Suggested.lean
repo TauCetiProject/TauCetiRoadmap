@@ -1,0 +1,129 @@
+import Mathlib
+import TauCeti.NumberTheory.NumberField.Global.Places.Completion
+
+/-!
+# Rank-two lifting inputs for Serre's conjecture: target signatures
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap.
+
+The statements are Clozel–Harris–Taylor's Lemma 4.1.2 (I.0), soluble extensions of a number
+field with prescribed completions at finitely many finite and infinite places, over Tau Ceti's
+places and completions; and Khare–Wintenberger's Lemma 8.2 (R27.1), the positive Dirichlet
+density of the auxiliary primes, over Mathlib's absolute Galois group, algebraic integers,
+arithmetic Frobenius elements, inertia groups, complex conjugations and Dirichlet density.
+
+Headline theorems that are not statable at the pins, with the carrier each lacks:
+
+* Moret-Bailly's theorem (I.0): a topology on the points of a scheme over a completion of a
+  number field, in which the local conditions are open sets.
+* Controlled residual potential modularity (I.0): cuspidal automorphic representations of `GL₂`
+  over a totally real field, and Serre's weight `k(ρ̄)`.
+* The two Skinner–Wiles ordinary lifting theorems over `ℚ` (I.1): the attachment of a `p`-adic
+  representation of `G_ℚ` to a newform (Tau Ceti's newforms carry no Galois representation),
+  and, for the residually reducible theorem, the semisimplified reduction of a `p`-adic
+  representation, which needs a stable lattice.
+* Khare–Wintenberger's lifting theorem, crystalline lifting with a matching-weight seed and
+  Kisin's potentially Barsotti–Tate theorem with Hypothesis `(H)` (I.2), and the prescribed lifts
+  (I.3): crystalline, semistable and potentially Barsotti–Tate local conditions, and Serre's
+  weight.
+* Global finiteness (I.2) and Böckle's presentation of minimal deformation rings (R26.1): Galois
+  deformation rings.
+* The families through prescribed lifts and the modularity transfer (I.3): compatible systems of
+  Galois representations.
+* The good-dihedral predicate and its image lemma (R27.1): the Artin conductor of a
+  two-dimensional representation of `G_ℚ`.
+* Rank-two irreducibility and the Hecke-valued representation of the definite unitary tower
+  (R33.1): cuspidal automorphic representations of `GL₂` over CM fields, definite unitary groups
+  with their Hecke algebras, and polarized deformation problems.
+* The twist-two vanishing (R33.1): the Galois group `G_{L,S}` of the maximal extension unramified
+  outside a finite set of places; continuous group cohomology itself is at the pin.
+-/
+
+noncomputable section
+
+namespace TauCetiRoadmap.ClassicalSerreModularity
+
+open NumberField TauCeti
+open scoped TensorProduct
+
+/-! ## Arithmetic carriers -/
+
+/-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, with Mathlib's Krull topology. As in
+EllipticCurveModularity, the body of `Field.absoluteGaloisGroup ℚ` is unfolded so that Tau Ceti's
+actions on algebraic integers and elliptic torsion apply directly. -/
+abbrev GQ : Type := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
+
+/-- The ring `ℤ̄` of algebraic integers, on which `G_ℚ` acts. -/
+abbrev IntBar : Type := 𝓞 (AlgebraicClosure ℚ)
+
+/-- `σ` is an arithmetic Frobenius element at some prime `Q` of `ℤ̄` containing `r`:
+`σ x ≡ x ^ q` modulo `Q` for every algebraic integer `x`, where `q` is the residue characteristic
+of `Q`. For a prime number `r` (then `q = r`) these are the elements `Frob_r` of the sources, for
+all choices of a prime above `r`. -/
+def IsFrobAt (σ : GQ) (r : ℕ) : Prop :=
+  ∃ Q : Ideal IntBar, Q.IsPrime ∧ (r : IntBar) ∈ Q ∧ IsArithFrobAt ℤ σ Q
+
+/-- `ρ` is unramified at `r`: trivial on the inertia group of every prime of `ℤ̄` containing `r`. -/
+def IsUnramifiedAt {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) : Prop :=
+  ∀ Q : Ideal IntBar, Q.IsPrime → (r : IntBar) ∈ Q → Q.inertia GQ ≤ ρ.ker
+
+/-! ## Layer I: Lifting and compatible-system inputs -/
+
+/-- `I.0/soluble-totally-real-base-change` (Clozel–Harris–Taylor, Lemma 4.1.2): let `K` be a
+number field, `D/K` a finite Galois extension inside `K̄`, and `S` a finite set of places of `K`,
+finite or infinite, with a finite Galois extension `L v` of the completion `K_v` for each
+`v ∈ S`. Then some finite soluble Galois extension `E/K` inside `K̄`, linearly disjoint from `D`,
+has completion `L v` at every place above each `v ∈ S`: `K_v ⊗_K E` is a product of `n ≥ 1`
+copies of `L v` as a `K_v`-algebra. Prescribing `ℝ` at every real place makes `E` totally real,
+and prescribing `K_v` makes `v` split completely. -/
+theorem soluble_prescribed_completions (K : Type*) [Field K] [NumberField K]
+    (D : IntermediateField K (AlgebraicClosure K)) [FiniteDimensional K D] [IsGalois K D]
+    (S : Finset (GlobalNumberFields.Place K)) (L : S → Type*) [∀ v, Field (L v)]
+    [∀ v : S, Algebra (GlobalNumberFields.Place.Completion v.1) (L v)]
+    [∀ v : S, FiniteDimensional (GlobalNumberFields.Place.Completion v.1) (L v)]
+    [∀ v : S, IsGalois (GlobalNumberFields.Place.Completion v.1) (L v)] :
+    ∃ E : IntermediateField K (AlgebraicClosure K),
+      FiniteDimensional K E ∧ IsGalois K E ∧ Group.IsSolvable (E ≃ₐ[K] E) ∧
+        E.LinearDisjoint D ∧
+        ∀ v : S, ∃ n : ℕ, 0 < n ∧
+          Nonempty (AlgEquiv (GlobalNumberFields.Place.Completion v.1)
+            (GlobalNumberFields.Place.Completion v.1 ⊗[K] E) (Fin n → L v)) := by
+  sorry
+
+/-! ## Layer R27.1: The auxiliary-prime theorem -/
+
+/-- `ρ_proj(a)` and `ρ_proj(b)` are conjugate in the projective image: `ρ(a)` is a scalar multiple
+of `ρ(τ b τ⁻¹)` for some `τ`. -/
+def IsProjConj {G k : Type*} [Group G] [CommRing k] (ρ : G →* GL (Fin 2) k) (a b : G) : Prop :=
+  ∃ (τ : G) (z : k),
+    (ρ a : Matrix (Fin 2) (Fin 2) k) = z • (ρ (τ * b * τ⁻¹) : Matrix (Fin 2) (Fin 2) k)
+
+/-- The nonzero primes of `ℤ = 𝓞 ℚ` generated by an element of a set `S` of natural numbers, the
+form in which Mathlib's Dirichlet density takes a set of rational primes. -/
+def primesOfRat (S : Set ℕ) : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ)) :=
+  {v | Ideal.absNorm v.asIdeal ∈ S}
+
+/-- `R27.1/lemma-8-2-chebotarev-choice-of-auxiliary-primes`: the primes `q` at which `ρ̄` is
+unramified such that (i) `ρ̄_proj(Frob_q)` and `ρ̄_proj(c)` are conjugate in the projective image,
+(ii) `q ≡ 1` modulo every prime `ℓ ≤ p − 1` and modulo `8`, and (iii) `q ≡ −1` modulo `p`. -/
+def auxiliaryPrimes {p : ℕ} (ρ : GQ →* GL (Fin 2) (ZMod p)) (c : GQ) : Set ℕ :=
+  {q | q.Prime ∧ IsUnramifiedAt ρ q ∧ (∃ σ : GQ, IsFrobAt σ q ∧ IsProjConj ρ σ c) ∧
+    (∀ ℓ : ℕ, ℓ.Prime → ℓ ≤ p - 1 → q % ℓ = 1) ∧ q % 8 = 1 ∧ q % p = p - 1}
+
+/-- `R27.1/lemma-8-2-chebotarev-choice-of-auxiliary-primes` (Khare–Wintenberger Lemma 8.2,
+Dieulefait–Pacetti Lemma 1.15): for `p ≡ 1 mod 4` and `ρ̄ : G_ℚ → GL₂(𝔽_p)` with coefficients in
+the prime field, continuous, odd and of non-solvable image, the primes of the lemma have positive
+Dirichlet density. Absolute irreducibility is not a hypothesis: a non-solvable subgroup of
+`GL₂(𝔽_p)` stabilises no line over `𝔽̄_p`. -/
+theorem lemma_8_2 {p : ℕ} [Fact p.Prime] (hp : p % 4 = 1) (ρ : GQ →* GL (Fin 2) (ZMod p))
+    (hcont : IsOpen (ρ.ker : Set GQ)) (hns : ¬ Group.IsSolvable ρ.range)
+    {φ : AlgebraicClosure ℚ →+* ℂ} {c : GQ} (hc : ComplexEmbedding.IsConj φ c)
+    (hodd : Matrix.det (ρ c : Matrix (Fin 2) (Fin 2) (ZMod p)) = -1) :
+    ∃ δ : ℝ, 0 < δ ∧ NumberField.Set.HasDirichletDensity (primesOfRat (auxiliaryPrimes ρ c)) δ := by
+  sorry
+
+end TauCetiRoadmap.ClassicalSerreModularity
+
+end
