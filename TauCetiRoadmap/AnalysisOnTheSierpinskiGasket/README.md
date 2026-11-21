@@ -43,12 +43,12 @@ functions, Layer 4 effective resistance and Layer 5 the Laplacian.
 
 ## How to read the build
 
-Layer 1 depends on no other layer. Layer 2 uses Layer 1. Layer 3 uses Layers 1 and 2. Layer 4
-uses Layers 1 and 2 and the density statement 1.2. Layer 5 uses Layers 1 to 3, and 5.4 also
-uses 4.1 and 4.2. Every target ends with a *Needs:* line, and every claim carries a locator or
-says that it is proved here; a statement that specialises one of Kigami's general theorems says
-which of his hypotheses the gasket meets, and the Conventions say why it meets them.
-`Suggested.lean` states the headline theorems of every layer.
+Layer 1 depends on no other layer. Layer 2 uses Layer 1. Layer 3 uses Layers 1 and 2. Layer 4 uses
+Layers 1 and 2 and the density statement 1.2. Layer 5 uses Layers 1 to 3; 5.3 also uses 4.1, 4.2
+and 4.4, and 5.4 also uses 4.1 and 4.2. Every target ends with a *Needs:* line, and every claim
+carries a locator or says that it is proved here; a statement that specialises one of Kigami's
+general theorems says which of his hypotheses the gasket meets, and the Conventions say why it
+meets them. `Suggested.lean` states the headline theorems of every layer.
 
 ## Conventions
 
@@ -96,11 +96,11 @@ which of his hypotheses the gasket meets, and the Conventions say why it meets t
     graph with unit conductances is `(3/5) D`; this is the computation of 2.2 below.
   - *Regular* (Definition 4.4): every `rᵢ = 1` is less than `5/3`.
   - *Admissible measure* (Definition 5.5, p. 737): `μ` is a Borel probability measure on a compact
-    metric space, hence regular; it charges every open subset of `K`, which contains a cell of
-    mass `3^(−m)`; it gives `V₀` mass `0`, because `pᵢ` lies in the cell `F_(i⋯i)(K)` of mass
-    `3^(−m)` for every `m`; the integrability condition (4) holds for every measure under a
-    regular harmonic structure (Kig93, remark after Definition 5.5, with Proposition 5.4, p. 737).
-    The mass of a cell is Kig93, Lemma 1.13, p. 725.
+    metric space, hence regular; it charges every nonempty relatively open subset of `K`, which
+    contains a cell of mass `3^(−m)`; it gives `V₀` mass `0`, because `pᵢ` lies in the cell
+    `F_(i⋯i)(K)` of mass `3^(−m)` for every `m`; the integrability condition (4) holds for every
+    measure under a regular harmonic structure (Kig93, remark after Definition 5.5, with
+    Proposition 5.4, p. 737). The mass of a cell is Kig93, Lemma 1.13, p. 725.
   - *The difference operators* (Definition 2.2 and the remark after it, pp. 726–727): with
     `r = (1, 1, 1)`, Kigami's `H_m` is the graph Laplacian of the level-`m` graph with unit
     conductances, `H_m f (p) = ∑_(q ∼ p) (f(q) − f(p))`, so the Laplacian `L_m` of the level
@@ -700,17 +700,86 @@ IFS.measure_attractor_eq_one); Mathlib `MeasureTheory.Measure.map`,
 Prove `existsUnique_isLaplacianOn`: for an attractor `K`, `φ` continuous on `K` and corner values
 `b`, there is `f` with `Δf = φ` and `f(pᵢ) = bᵢ`, and two such functions agree on `K` (Kig93,
 Theorem 6.9, p. 743). Kigami's solution is `∑ᵢ bᵢ ψᵢ − G_μ φ`, with `ψᵢ` the harmonic functions
-of 3.3 and `G_μ` the Green operator of his §5; uniqueness comes from Gauss–Green: a solution with
-`φ = 0` and `b = 0` has `E(f) = 0` by 5.2, so it vanishes on `V_*`, and on `K` by continuity and
-1.2.
+of 3.3 and `G_μ` the Green operator of his §5, whose defining property is Theorem 5.8 (2), p. 738:
+`λ^m H_(m,p)(G_μ φ) = −∫ ψ_p^m φ dμ` at every `p ∈ V_m \ V₀`. The route below obtains a function
+with that property, up to sign, level by level, without the Green function.
+
+Route. Let `μ` be the measure of 5.2 (FractalGeometry 1.5, IFS.existsUnique_selfSimilarMeasure,
+with `μ K = 1` by IFS.measure_attractor_eq_one); `Δ` does not mention `μ`, which enters only the
+proof. Write `E_n(u, v) = ∑_(z ∈ V_n) u(z) (L_n v)(z)`, the symmetric bilinear form with
+`E_n(u, u) = E_n(u)` (Conventions).
+
+- *Tent functions.* For `x ∈ V_m` let `ψ_x^m` be the indicator of `x` on `V_m`, extended by the
+  rule (2.3) to every level above `m`. Its energies are constant from level `m` on (2.3), so by 4.4
+  it is continuous on `K` (we use that version). The rule has nonnegative weights and reproduces
+  constants, so on `V_*`, and by continuity and 1.2 on `K`, `ψ_x^m ≥ 0` and
+  `∑_(x ∈ V_m) ψ_x^m = 1`. On a cell `F_w(K)` of level `m` of which `x` is not a corner, `ψ_x^m`
+  is `0` at the vertices, hence on the cell (`F_w(K)` lies in the closure of `F_w(V_*) ⊆ V_*`), so
+  `ψ_x^m(y) ≠ 0` with `y ∈ K` forces `|y − x| ≤ 2^(−m)` (cells of level `m` have diameter at most
+  `2^(−m)`, as `K ⊆ T` by 1.2). For `x ∉ V₀`, `∫ ψ_x^m dμ = (2/3) 3^(−m)` (5.1). Both
+  `ψ_x^m` and `∑_(y ∈ V_(m+1)) ψ_x^m(y) ψ_y^(m+1)` follow the rule from level `m + 1` on and agree
+  on `V_(m+1)`, so they are equal on `V_*`, and on `K` by continuity and 1.2.
+- *Level solutions.* For each `m` there is exactly one `g_m` on `V_m`, `0` on `V₀`, with
+  `−(L_m g_m)(x) = ∫_K ψ_x^m φ dμ` for `x ∈ V_m \ V₀`: the map sending a function on `V_m \ V₀`,
+  extended by `0` on `V₀`, to the restriction of its `L_m` to `V_m \ V₀` is a linear endomorphism
+  of a finite-dimensional space, and injective because an element of its kernel is harmonic off
+  `V₀` with zero values on `V₀`, hence `0` (ElectricalNetworksAndRandomWalks 1.2,
+  existsUnique_isHarmonicAt, with `B = V₀` and 1.3); so it is surjective (Mathlib
+  `LinearMap.injective_iff_surjective`, for an endomorphism of a finite-dimensional space).
+- *Consistency: `g_(m+1) = g_m` on `V_m`.* If `h` follows the rule from level `m` to `m + 1`, then
+  `E_(m+1)(h, u) = E_m(h, u)` for every `u`. Indeed `h` minimises `E_(m+1)` among the functions
+  equal to it on `V_m` (by 2.2 the least value is `E_m(h)`, and `E_(m+1)(h) = E_m(h)` by 2.3), so
+  `E_(m+1)(h, d) = 0` when `d = 0` on `V_m`. Write `u = ũ + d` with `ũ` the rule extension of `u`
+  from `V_m` and `d = 0` on `V_m`; the quadratic forms `E_(m+1)` and `E_m` agree on the linear
+  space of functions following the rule from `m` to `m + 1` (2.3), hence so do their bilinear
+  forms, and `E_(m+1)(h, u) = E_(m+1)(h, ũ) = E_m(h, ũ) = E_m(h, u)`. Now let `x ∈ V_m \ V₀`;
+  `ψ_x^m` vanishes on `V₀`, so by the last property of the tent functions
+  `E_(m+1)(ψ_x^m, g_(m+1)) = −∑_y ψ_x^m(y) ∫_K ψ_y^(m+1) φ dμ = −∫_K ψ_x^m φ dμ`, and by the
+  identity just proved this is `E_m(ψ_x^m, g_(m+1)) = (L_m g_(m+1))(x)`. So `g_(m+1)` restricted to
+  `V_m` solves the level-`m` system, and equals `g_m` by uniqueness.
+- *Bounded energy.* Let `g` be `g_m` on each `V_m` and `0` off `V_*`. Then
+  `E_m(g) = ∑_(x ∈ V_m) g(x) (L_m g)(x) = −∫_K (∑_(x ∈ V_m) g(x) ψ_x^m) φ dμ ≤ ‖g‖_m ‖φ‖_K`, with
+  `‖g‖_m = max_(V_m) |g|` and `‖φ‖_K = sup_K |φ|` (the terms at `V₀` vanish since `g = 0` there,
+  and `|∑_x g(x) ψ_x^m| ≤ ‖g‖_m` on `K` since the tents are nonnegative with sum `1`). As in 5.4,
+  Dirichlet's principle in `levelNetwork m` (ElectricalNetworksAndRandomWalks 2.2,
+  isLeast_dirichletEnergy, with 1.3), 4.1 and 4.2 give
+  `g(x)² = (g(x) − g(p₀))² ≤ R(x, p₀) E_m(g) ≤ (5/3) E_m(g)`. Hence `‖g‖_m ≤ (5/3) ‖φ‖_K` and
+  `E_m(g) ≤ (5/3) ‖φ‖_K²` for every `m`, so `E(g) < ∞`, and 4.4 gives `g̃` continuous on `K` equal
+  to `g` on `V_*`.
+- *Conclusion.* Let `f = g̃ + h_b`, with `h_b` the harmonic function of 3.3 with corner values `b`;
+  `f(pᵢ) = bᵢ`, and `(L_m h_b)(x) = 0` for `x ∉ V₀`. At `x ∈ V_m \ V₀`,
+  `(3/2) 5^m ∑_(y ∼ x) (f(y) − f(x)) = (3/2) 3^m ∫_K ψ_x^m φ dμ`, so, by the properties of the
+  tent functions, it differs from `φ(x)` by at most
+  `(3/2) 3^m ∫_K ψ_x^m |φ − φ(x)| dμ ≤ sup {|φ(y) − φ(x)| : y ∈ K, |y − x| ≤ 2^(−m)}`, which is
+  at most `ε` for large `m`, uniformly in `x`, because `φ` is uniformly continuous on the compact
+  set `K` (Mathlib `IsCompact.uniformContinuousOn_of_continuous`).
+
+Uniqueness comes from Gauss–Green: the difference of two solutions satisfies `Δd = 0` with
+`d = 0` on `V₀`, so by 5.2 with `u = v = d` the energies `E_m(d)` tend to `0`; they are
+nondecreasing (2.2), so all vanish and `d` is constant, hence `0`, on every `V_m` (2.1); and `d = 0`
+on `K` by continuity and 1.2.
 
 **Checks.**
 - `φ = 1`, `b = 0`: the solution `u` of 5.1, with `u(q₂) = −1/15`; it is negative at every
   vertex outside `V₀`, since at a vertex where it attained a value `≥ 0` maximal among its
   neighbours the level sum could not be positive.
 - `φ = 0`, `b = (1, 0, 0)`: the harmonic function of 3.3.
+- The consistency step needs the integrals `∫_K ψ_x^m φ dμ`, not samples of `φ`. Take `φ =
+  ψ_(q₂)^1` (not harmonic at `q₂`) and `b = 0`. The integrals are exact: for harmonic `h`, `h'`
+  with corner values `c`, `c'`, `∫ h h' dμ = (3 c·c' + 4 (∑ cᵢ)(∑ c'ᵢ))/45`. This is the unique
+  solution of `M = (1/3) ∑ᵢ ᵗAᵢ M Aᵢ` normalised by `∫ 1 dμ = 1`, with `Aᵢ` the matrices of 3.5,
+  and each `ψ_x^m φ ∘ F_w` with `|w| = m ≥ 1` is such a product. The level solutions `g_m`, `m = 1,
+  …, 4`, restrict to one another, with `g_m(q₂) = −1/45`. With the right sides `(2/3) 3^(−m) φ(x)`
+  they do not: `g_m(q₂) = −1/25, −29/1125, −43/1875, −629/28125`. At `q₂` the level sum `(3/2) 3^m
+  ∫ ψ_(q₂)^m φ dμ` differs from `φ(q₂) = 1` by `−(8/15)(3/5)^(m−1)`, which tends to `0`. For
+  harmonic `φ` the two right sides coincide.
 
-*Needs:* 1.2, 3.3, 5.1, 5.2. (Kig93, Theorem 6.9, p. 743.)
+*Needs:* 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 3.3, 4.1, 4.2, 4.4, 5.1, 5.2;
+ElectricalNetworksAndRandomWalks 1.2 (existsUnique_isHarmonicAt), 2.2 (isLeast_dirichletEnergy);
+FractalGeometry 1.5 (IFS.existsUnique_selfSimilarMeasure, IFS.measure_attractor_eq_one); Mathlib
+`LinearMap.injective_iff_surjective`, `IsCompact.uniformContinuousOn_of_continuous`,
+`ContinuousOn.integrableOn_compact`. (Kig93, Theorem 6.9, p. 743, and Theorem 5.8 (2), p. 738;
+the route is proved here.)
 
 ### 5.4 Harmonic functions solve Laplace's equation
 
@@ -745,10 +814,11 @@ sides and its normal derivatives `1/3`; the harmonic functions with their normal
 
 ### Dependencies
 
-Layers 1 to 3 (1.1, 1.2, 1.3, 2.1, 2.3, 3.1, 3.2, 3.3) and, for 5.4, 4.1 and 4.2;
-ElectricalNetworksAndRandomWalks 2.2; FractalGeometry 1.4, 1.5; Mathlib
+Layers 1 to 3 (1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3) and, for 5.3, 4.1, 4.2 and 4.4, for
+5.4, 4.1 and 4.2; ElectricalNetworksAndRandomWalks 1.2, 2.2; FractalGeometry 1.4, 1.5; Mathlib
 `MeasureTheory.Measure.map`, `MeasureTheory.integral_map`, `ContinuousOn.integrableOn_compact`,
-`Matrix.mulVec`, `dotProduct`.
+`Matrix.mulVec`, `dotProduct`, `LinearMap.injective_iff_surjective`,
+`IsCompact.uniformContinuousOn_of_continuous`.
 
 ## Scope and ownership
 
@@ -778,11 +848,12 @@ Taken from other roadmaps and not restated:
 Outside this roadmap: spectral decimation and the eigenvalues of the Laplacian (Fukushima and
 Shima; Strichartz, eq. (18), p. 1202, states the relation `λ_m = λ_(m+1)(5 − λ_(m+1))`); the lower
 bound `R(x, y) ≥ c |x − y|^β` and the extension of `R` to a metric on `K`; the Dirichlet form
-properties of the energy (closedness, the Markov and local properties, regularity: Kig93,
-Theorem 7.4 (2), (4), (5)); the Green function and its explicit formula; the converse of 5.2, that
-the weak equation `E(u, v) = −∫ φ v dμ` for all `v` vanishing on `V₀` implies `Δu = φ`; other
-post-critically finite sets and harmonic structures; energy measures, heat kernels, Brownian
-motion on the gasket and the spectral dimension.
+properties of the energy (closedness, the Markov and local properties, regularity: Kig93, Theorem
+7.4 (2), (4), (5)); the Green function `g(x, y)`, the Green operator `G_μ` and their explicit
+formulas (5.3 constructs its solution level by level without them); the converse of 5.2, that the
+weak equation `E(u, v) = −∫ φ v dμ` for all `v` vanishing on `V₀` implies `Δu = φ`; other
+post-critically finite sets and harmonic structures; energy measures, heat kernels, Brownian motion
+on the gasket and the spectral dimension.
 
 ## Exact supplier contracts
 
@@ -816,6 +887,10 @@ motion on the gasket and the spectral dimension.
   a.e.-measurable map and an a.e.-strongly measurable integrand).
   `Mathlib/MeasureTheory/Function/LocallyIntegrable.lean`: `ContinuousOn.integrableOn_compact` (a
   function continuous on a compact set is integrable on it for a locally finite measure).
+- `Mathlib/LinearAlgebra/FiniteDimensional/Basic.lean`: `LinearMap.injective_iff_surjective` (an
+  endomorphism of a finite-dimensional vector space is injective exactly when it is surjective).
+  `Mathlib/Topology/UniformSpace/HeineCantor.lean`: `IsCompact.uniformContinuousOn_of_continuous`
+  (a function continuous on a compact set is uniformly continuous on it).
 - `Mathlib/Basic/ENNReal/Inv.lean`: `ENNReal.mul_iSup`. `Mathlib/Basic/ENNReal/BigOperators.lean`:
   `ENNReal.finsetSum_iSup_of_monotone` (a finite sum of suprema of monotone families over a
   directed order is the supremum of the sums).
@@ -834,8 +909,12 @@ Nothing is consumed; `Suggested.lean` imports no Tau Ceti module.
 - 1.4: the coding map onto the attractor, used in the Conventions for Kigami's self-similar
   structure.
 - 1.5: IFS.existsUnique_selfSimilarMeasure (the measure `μ` with weights `1/3` exists and is
-  unique) and IFS.measure_attractor_eq_one (it gives `K` mass `1`); the bullet that `μ` is the
-  image of the product measure under the coding map gives the masses of cells.
+  unique) and IFS.measure_attractor_eq_one (it gives `K` mass `1`); the bullets that `μ` is the
+  image of the product measure under the coding map and that `μ(F_w(K)) ≥ 3^(−m)` for a word of
+  length `m`, used in the Conventions. Equality, also used there, needs one more step, because the
+  coding map of the gasket is not injective (a junction point has two codes): the preimage of
+  `F_w(K)` is the cylinder of `w` together with finitely many sequences, and the product measure
+  has no atoms (the argument of Kig93, Lemma 1.13, p. 725).
 
 ### From TauCetiRoadmap.ElectricalNetworksAndRandomWalks
 
@@ -844,9 +923,9 @@ Nothing is consumed; `Suggested.lean` imports no Tau Ceti module.
   `Network.effResistance`, `Network.dirichletEnergy`; copied verbatim.
 - 1.2: existsUnique_isHarmonicAt (on a connected network, a function on a nonempty set `B` has
   exactly one extension harmonic outside `B`) and exists_mem_le_of_isHarmonicAt (the maximum
-  principle); used in 3.3 and 3.4 with `B = V₀`.
+  principle); used in 3.3, 3.4 and 5.3 with `B = V₀`.
 - 2.2: isLeast_dirichletEnergy (on a connected network, for `a ≠ z`, the least Dirichlet energy
-  of a function equal to `1` at `a` and `0` at `z` is `1/R(a ↔ z)`); used in 4.1.
+  of a function equal to `1` at `a` and `0` at `z` is `1/R(a ↔ z)`); used in 4.1, 5.3 and 5.4.
 - 2.5: effResistance_pos, effResistance_comm and effResistance_triangle; used in 4.1 and 4.2.
 
 ## References
