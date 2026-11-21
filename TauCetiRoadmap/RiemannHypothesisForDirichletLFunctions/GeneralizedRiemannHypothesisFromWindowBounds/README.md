@@ -2110,7 +2110,7 @@ of *QuadraticRealZeroGap* `c` and of *ImaginaryQuadraticRealZeroGap* `c` at ever
 `F` with `c √d_F ≥ 2`. Given *SmallQuadraticCentralValues*: that condition, for every `c > 0`, at
 the nine fields with `d_F ≤ 13`; and *QuadraticRealZeroGap* `c`, hence
 *ImaginaryQuadraticRealZeroGap* `c`, for every `c ≥ 2/√15`, among them `c = π/6`. Hence, without
-the gap hypothesis: given *SmallQuadraticCentralValues*, §4.7's bound
+the gap hypothesis: given *SmallQuadraticCentralValues*, the bound of ExplicitNumberFields §4.7,
 `κ_K > (1/c₄) min(1/(starkAlpha K · log d_K), 1/(c₈ d_K^{1/n}))` for `n ≥ 3` at every
 `c₈ ≥ 2/√15`, and its consequence at `c₈ = π/6`,
 `κ_K > 0.0014480/(n · t_K · d_K^{1/n})` for `n ≥ 3`; with no hypothesis,
