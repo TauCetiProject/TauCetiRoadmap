@@ -23,9 +23,10 @@ Discharging this file finishes neither a layer nor the roadmap.
 
 Every bold headline of the README is stated here, and so are the expansion theorem of README 6.1
 and the exceptional sets of README 7.4. Of the prose targets without a Lean name, the
-classification of the singular points of DLMF 28.2.2 (README 1.4) needs AsymptoticExpansions'
-notions of regular and irregular singular points, the expansions in Mathieu functions (README
-6.3–6.4) and the integrals of README 8.5 beyond 28.28.11 need the Fourier-coefficient and
+classification of the singular points of DLMF 28.2.2 (README 1.4: irregular at `∞` for `q ≠ 0`,
+regular for `q = 0`) needs the notions of regular and irregular singular points of DLMF §2.7,
+which AsymptoticExpansions does not define as predicates, the expansions in Mathieu functions
+(README 6.3–6.4) and the integrals of README 8.5 beyond 28.28.11 need the Fourier-coefficient and
 joining-factor families written out, and the continued Bessel evaluations other than `J_μ⟨L⟩`
 (README Conventions) need local copies of their series; the other prose targets are statable
 with the definitions below and are left to the README.

@@ -237,8 +237,9 @@ me_ν(0, q) = (π / ∫₀^π |w_I(x) + i sin(πν)/w_II(π) · w_II(x)|² dx)^{
     value `J_{1/2}(e^{2πi}) = J_{1/2}(1) = 0.67139 67071`; principal values lose the sheet.
   - At integer order, `J_n⟨L⟩ = J_n(e^L)` for every `L` (no winding).
 
-- **Corrections to DLMF.** Several printed statements are false, and the roadmap states corrected
-  forms; each is checked numerically in the Checks or Examples of its layer:
+- **Corrections to DLMF.** Several printed statements are false or lack a condition, and the
+  roadmap states corrected forms; each is checked numerically in the Checks or Examples of its
+  layer:
   - §28.20(iii): the solutions of 28.20.2 are asymptotic to `ζ^{−1/2} e^{±2ihζ}`, not
     `ζ^{1/2}` (8.2);
   - 28.5.6: `C_{2m+1}(−q) = −S_{2m+1}(q)` (4.3);
@@ -250,7 +251,9 @@ me_ν(0, q) = (π / ∫₀^π |w_I(x) + i sin(πν)/w_II(π) · w_II(x)|² dx)^{
     invariant under `z ↦ −z` and `M^{(3)}_ν` is not; the identities hold for `Re z > 0`,
     `0 < Im z < π` (8.5);
   - 28.28.11: the factor is `e^{iνπ/2}`, not `e^{iνπ}` (8.5);
-  - 28.28.16: the overall sign, and the lower sign belongs to `−π ≤ y ≤ 0` (8.5).
+  - 28.28.16: the overall sign, and the lower sign belongs to `−π ≤ y ≤ 0` (8.5);
+  - §28.2(i), after 28.2.2: `∞` is an irregular singular point only for `q ≠ 0`; for `q = 0` it
+    is regular with exponents `±√a/2` (1.4).
 
 ## Layer 1: periodic equations and their basic solutions
 
@@ -353,7 +356,10 @@ The elliptic coordinates of the plane are `x + iy = c cosh(ξ + iη)` with `c > 
   (`mathieu_cos_form`); and if `w` solves the modified equation and `cosh g(ζ) = ζ`, `u` solves
   DLMF 28.20.2, `(ζ² − 1) u″ + ζ u′ + (4qζ² − 2q − a) u = 0` (`modifiedMathieu_cosh_form`);
 - DLMF 28.2.2 has regular singularities at `0` and `1` with exponents `0` and `½`
-  (AsymptoticExpansions §10.3) and an irregular singularity of rank one at `∞`.
+  (AsymptoticExpansions §10.3); at `∞` it has an irregular singularity for `q ≠ 0` and a regular
+  one with exponents `±√a/2` for `q = 0`. For `q ≠ 0` the singularity has rank one in the sense
+  of DLMF §2.7(ii) (`f₀ = g₀ = 0`, `g₁ = −q`), but the characteristic equation `λ² = 0` has a
+  double root, so AsymptoticExpansions §10.4 (which needs `λ₁ ≠ λ₂`) does not apply.
 
 The separation is the identity `cosh 2ξ − cos 2η = 2(sinh² ξ + sin² η) = 2 |sinh(ξ + iη)|²`, and
 `|d(c cosh w)/dw|² = c² |sinh w|²`. Whittaker–Watson and Courant–Hilbert reach Mathieu's equation
@@ -370,6 +376,11 @@ spheroidal equation.
 - With the modified equation written `X″ + (a − 2q cosh 2ξ) X = 0` instead, the product
   `X(ξ)Θ(η)` gives `ΔF = −2(a − q cosh 2ξ − q cos 2η) F`, which is not a multiple of
   `|sinh w|² F`: the sign in the modified equation is forced.
+- In 28.2.2 written as `u″ + f u′ + g u = 0`, `f = 1/ζ + ½ζ^{−2} + O(ζ^{−3})` and
+  `g = −q/ζ − (a + 2q)/(4ζ²) + O(ζ^{−3})` as `ζ → ∞`, so `ζ² g` is bounded exactly when `q = 0`.
+- `q = 0`: `u = cos(√a z)` with `ζ = sin² z` solves 28.2.2 and grows like `ζ^{√a/2}`; at
+  `a = 2.3`, `u(ζ)/ζ^{√a/2}` is `−1.03755 − 0.98488i` at `ζ = −10⁸(1 − 10⁻³ i)` and at
+  `ζ = −10¹²(1 − 10⁻³ i)` (principal branches), so `∞` is regular, not irregular, at `q = 0`.
 
 *Needs:* 1.2; AsymptoticExpansions §10.3 (for the classification of the singular points); Mathlib
 `Laplacian.laplacian`, `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`.
@@ -1442,7 +1453,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 7. **Dependence on `q`** (7.1–7.5).
 8. **Modified Mathieu functions** (8.1–8.5).
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the targets that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other targets have the
 same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer
