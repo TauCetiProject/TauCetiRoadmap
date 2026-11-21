@@ -14,7 +14,7 @@ Layer 1, the only layer, defines the congruence module along a central idempoten
 
 ## Conventions
 
-`O` is a discrete valuation ring with fraction field `K`, normalized valuation `v`, uniformizer `ϖ` and residue field `k`; `length_O` is the length of an `O`-module, possibly infinite, and for a nonzero ideal `I ⊆ O`, `v(I)` is the valuation of a generator, which is `length_O(O/I)`. Completeness of `O` and finiteness of its residue field are assumed only where a statement says so. `K/O` is the quotient of `K` by `O`, with the discrete topology; for a representation on a free `O`-module `T`, `T ⊗ K/O` carries the induced action. For an ideal `J` of a ring acting on `M`, `M[J] = {m ∈ M : Jm = 0}`.
+`O` is a discrete valuation ring with fraction field `K`, normalized valuation `v`, uniformizer `ϖ` and residue field `k`; `length_O` is the length of an `O`-module, possibly infinite, and for a nonzero ideal `I ⊆ O`, `v(I)` is the valuation of a generator, which is `length_O(O/I)` (for the congruence ideals, [FormalProof], `Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.vcc`)). Completeness of `O` and finiteness of its residue field are assumed only where a statement says so. `K/O` is the quotient of `K` by `O`, with the discrete topology; for a representation on a free `O`-module `T`, `T ⊗ K/O` carries the induced action. For an ideal `J` of a ring acting on `M`, `M[J] = {m ∈ M : Jm = 0}`.
 
 In the split case (1.7a), `X` is a finite set, `A ⊆ O^X` an `O`-subalgebra separating the points, `λ_x : A → O` evaluation at `x`, `V_x` the `x`-eigenspace of `M_K = M ⊗ K`, `mult(x) = dim_K V_x`, and `𝔞_Y = {f ∈ A : f|_Y = 0}` for `Y ⊆ X`; 1.7a fixes the rest of this notation, and 1.8c–1.8e use it with the notation `𝒜`, `y_γ`, `Y`, `Y_s`, `ψ_b` and `c(π)` that 1.8c introduces.
 
@@ -69,6 +69,10 @@ follows by localization. `Suggested.lean` states the last sentence of (4) as
 `length_quot_annihilators_le_sum_rank_mul_of_endomorphisms`, with `Ψ` in the form of (3).
 The congruence module along a central idempotent for a general finite `A`, with (1) and (2), is this roadmap's; [FormalProof]
 has the congruence module only relative to a set of points of a split algebra, the case of (3), which is the case used.
+For the split-case notation and (3): [FormalProof], `Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.Vx`),
+`Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.BasicNotions.ccAt`). The last sentence of (4) follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenUnitLeOfFamily.lean`
+(`GlobalTheory.EtaFromCut.congMod_le_of_family`), `Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.CongMod`).
 
 *Route.* (1) For `m ∈ M`, `em ∈ M` exactly when `(1−e)m ∈ M`, and then `m = em + (1−e)m` with both summands in `M`; the map
 `M → eM` is onto, and `e` central makes everything `A`-linear. (2) `𝔞_e ⊗ K = e(A ⊗ K)`, so `m` is killed by `𝔞_e` exactly
@@ -221,6 +225,12 @@ idempotent `E` cutting out the `χ`-line, its characters being congruent to one 
 unit case ([Ribet76], [BC09]). In place of (4) it has: if for every `m` and all `a_1, …, a_m ∈ 𝒜` the coefficients of
 `x ↦ det(Σ_iX_ia_i(x))` lie in `A`, then (P) holds in the form without variables
 (`Formalism/CharacterColumnKernels/IdempotentNormalForms/IsUnitDetOfConst.lean` (`Formalism.NG.blockDet`)).
+For the ideal `c(π)` and the elements `y_γ`: [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GlobalCore.lean` (`GlobalTheory.Cut.ccOff`),
+`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.ycoc`),
+`Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean` (`Formalism.MainNotions.N.yg`). For (2):
+[FormalProof], `Formalism/CharacterColumnKernels/StatementPsi.lean` (`Formalism.NG.colPsi`). (5) follows from [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean` (`Formalism.MainNotions.N.VanishingLemma`).
 
 *Route.* (1) Choose `γ_1, …, γ_g` with `Y = Σ_q𝒜y_{γ_q}` and let `Rel ⊆ 𝒜^g` be the relations among the `y_{γ_q}` on `Xs`, so
 that `𝒜^g/Rel ≅ Y_s`. Every coefficient of the generic determinant of an array of relations is a function in `A` by (P),
@@ -436,6 +446,16 @@ matrix algebra, with `E′` of rank one at every point as a hypothesis
 `Formalism.MainNotions.N.GoodCongruenceObjects`)), so it asserts nothing at `t = 1`, and needs only `t ≥ 2`
 (`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IdempotentBlockRootFactorsRankOneDomainStatement.lean`
 (`GlobalTheory.T.idempotentBlock_rootFactors_rank_one_domain`): rank one and `E′² = δ_{A′}·E′` at a point with distinct roots).
+For the Setting, (Col), (Row), the module with columns, `Ψ_b` and the local conditions at `Col`: [FormalProof],
+`Formalism/CharacterColumnKernels/StatGlobalModule.lean` (`Formalism.NG.colRelJ`),
+`Formalism/WachLatticeTwists/RealClassMaps/RealClassMapTheorem.lean`
+(`Formalism.RepresentationBoundsCohomology.FIN.InRhoFixReal`). (2) follows from [FormalProof],
+`Formalism/WachLatticeTwists/RamifiedBlockRings/RamifiedBlockProofs/LengthBoundViaSplitting.lean`
+(`Formalism.RepresentationBoundsCohomology.ringDataObjects.length_bound_via_splitting`). (3a) follows from [FormalProof],
+`Formalism/WachLatticeTwists/RealClassMaps/Statement.lean` (`Formalism.RepresentationBoundsCohomology.FIN.InRowReal`). For
+`t ≥ 2`, the element `E′` of (4), `δ_{A′}` and `v(δ_{A′}(π′))`: [FormalProof],
+`Formalism/SharpRestriction/LevelLetterCocycles/QuotientHomNonvanishingBound.lean` (`Formalism.MainNotions.N.Eel`),
+`Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.BasicNotions.NData.vdel`).
 
 *Route.* (1) The first inequality is 1.8c(1) with `Y_c` in place of `Y_s`: `Y_c` is finitely generated, the coefficients of
 the generic determinants of arrays of its relations lie in `A` by (P), and it suffices that `Hom_𝒜(Y_c, V_x) ≠ 0` for

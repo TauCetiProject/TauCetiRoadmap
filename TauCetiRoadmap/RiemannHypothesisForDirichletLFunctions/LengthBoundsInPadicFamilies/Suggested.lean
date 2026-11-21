@@ -70,7 +70,10 @@ discrete valuation ring, `X` a finite set, `A ⊆ O^X` an `O`-subalgebra separat
 `Z ⊆ X`, the congruence module `Ψ_Z(M) = M/(M[𝔞_Z] + M[𝔞_{X∖Z}])` (1.7a (3)), where `𝔞_Y` is the
 ideal of the functions of `A` vanishing on `Y`, has length
 `η_Z(M) ≤ Σ_{π∈Z} mult(π)·v(cc_Z(π))`, with `mult(π)` the rank of `M[ker λ_π]` and
-`cc_Z(π) = {f(π) : f ∈ A, f = 0 on X ∖ Z}` the relative congruence ideal. -/
+`cc_Z(π) = {f(π) : f ∈ A, f = 0 on X ∖ Z}` the relative congruence ideal. Follows from
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenUnitLeOfFamily.lean`
+(`GlobalTheory.EtaFromCut.congMod_le_of_family`), `Formalism/CharacterColumnKernels/StatementN.lean`
+(`Formalism.NG.CongMod`). -/
 theorem length_quot_annihilators_le_sum_rank_mul_relCongruence
     {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     {X : Type*} [Fintype X] [DecidableEq X]
@@ -92,7 +95,10 @@ theorem length_quot_annihilators_le_sum_rank_mul_relCongruence
 `length_quot_annihilators_le_sum_rank_mul_relCongruence`, let `S ⊆ X` and, for each `π ∈ S`, let
 `α_π` be an `O`-linear endomorphism of `M` commuting with `A`, killing `M ∩ V_x = M[ker λ_x]` for
 every `x ∉ S` and acting on `M ∩ V_π = M[ker λ_π]` by a nonzero scalar `a_π ∈ O`. Then
-`η_S(M) ≤ Σ_{π∈S} mult(π)·v(a_π)`. Nothing is asked of `α_π` on `V_x` for the other `x ∈ S`. -/
+`η_S(M) ≤ Σ_{π∈S} mult(π)·v(a_π)`. Nothing is asked of `α_π` on `V_x` for the other `x ∈ S`.
+Follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LenUnitLeOfFamily.lean`
+(`GlobalTheory.EtaFromCut.congMod_le_of_family`). -/
 theorem length_quot_annihilators_le_sum_rank_mul_of_endomorphisms
     {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     {X : Type*} [Fintype X] [DecidableEq X]
