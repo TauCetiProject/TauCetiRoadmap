@@ -168,7 +168,7 @@ Units: the primaries have total mass `1`, separation `1`, and revolve on circles
 centre of mass with angular velocity `1` (the two-body central configuration of D.4 with masses
 `1 − μ`, `μ` at distance `1` has `lam = 1`). The frame rotates counterclockwise with them, the
 primary of mass `1 − μ` sits at `(−μ, 0)` and the primary of mass `μ` at `(1 − μ, 0)`, with
-`0 < μ < 1`; nothing assumes `μ ≤ ½`. These are also the conventions of RestrictedThreeBody (an open roadmap, not on main).
+`0 < μ < 1`; nothing assumes `μ ≤ ½`. These are also the conventions of RestrictedThreeBody.
 
 Define `amendedPotential μ x y = (x² + y²)/2 + (1 − μ)/r₁ + μ/r₂` with
 `r₁ = √((x + μ)² + y²)` and `r₂ = √((x − 1 + μ)² + y²)`, and the rotating-frame vector field
@@ -754,14 +754,14 @@ problem with the spectrum of their linearisations and the instability statements
   Here solutions of the Kepler equations enter 3.1 and 3.2 only as hypotheses; nothing about them
   is stated. The angular momentum of D.2 is the mass-weighted sum over the bodies of
   `TauCeti.angularMomentum`, the one-particle angular momentum of the same file.
-- **The restricted problem's Hamiltonian.** RestrictedThreeBody (an open roadmap, not on main; its Lane B,
+- **The restricted problem's Hamiltonian.** RestrictedThreeBody (its Lane B,
   items 7–9) treats the rotating-frame Hamiltonian, Hamilton's equations, the Jacobi integral and the limit
   `μ = 0`, and states Poincaré's nonintegrability theorem. This roadmap defines the amended
   potential `Ω`, which is `(x² + y²)/2` plus the planar potential of RestrictedThreeBody (the
   same masses at the same points), and studies only the equilibria and their linearisations,
   which that roadmap does not treat; this roadmap does not depend on that one.
   Hill regions, which follow from the Jacobi integral, are not treated here.
-- **Hamiltonian systems.** HamiltonianSystems (an open roadmap, not on main) develops Noether's theorem and moment maps
+- **Hamiltonian systems.** HamiltonianSystems develops Noether's theorem and moment maps
   abstractly; the first integrals of Layer 1 are proved directly on the equations of motion, and
   this roadmap does not depend on that one.
 
