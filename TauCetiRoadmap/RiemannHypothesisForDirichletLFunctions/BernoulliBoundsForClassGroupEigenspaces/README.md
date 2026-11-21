@@ -13,9 +13,9 @@ Layer 6 defines `Ш¹(F, ℓ, e)` and its strict form, proves the duality with t
 Notation and conventions not restated here are those of the roadmaps this one extends: ArithmeticKTheory (its Conventions, with the étale groups of ArithmeticKTheory §6.1 and the cohomological kernels `Sha²_{i,ℓ}(F)` of ArithmeticKTheory §6.9), EulerSystemsCyclotomicMainConjecture (its Conventions), IntegralIwasawaTheory (its Conventions and Layer 0: towers, Iwasawa modules, `Γ` and the Teichmüller character `ω`) and KatoEulerSystems (its Conventions: the newform `f`, its coefficient field, `V_λ(f)`, `E_λ`-coefficients and admissible pairs; and KatoEulerSystems §4.1: the group of inner twists, the field `F⁰`, Momose's quaternion algebra `B` over `F⁰` and the open subgroup `H` of `G_ℚ`).
 
 - `F` is a number field, `ℓ` a prime, `S_ℓ` and `S_∞` the sets of places of `F` above `ℓ` and at infinity, `G_F` the absolute Galois group of `F` and `G_{F,S}` the Galois group of the maximal extension of `F` unramified outside `S`; `r₁(F)` is the number of real places. `H^i(𝒪_F[1/ℓ], ℤ_ℓ(j))` is continuous étale cohomology with Tate-twisted coefficients, as in ArithmeticKTheory.
-- Lengths `length_{ℤ_ℓ}` take values in `ℕ∞`. For the integers `O` of a finite extension `Φ` of `ℚ_ℓ`, with ramification index `e_O`, an `O`-length is divided by `e_O`, and `v_O` is the valuation of `Φ` normalized by `v_O(ℓ) = 1`, so that both are measured in units of `ℓ`. For an abelian group `A`, `A{ℓ}` is its `ℓ`-primary part and `A_tors` its torsion subgroup.
+- Lengths `length_{ℤ_ℓ}` take values in `ℕ∞`. For the integers `O` of a finite extension `Φ` of `ℚ_ℓ`, with ramification index `e_O`, an `O`-length is divided by `e_O` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/ShaFamMono.lean` (`UpperTheory.V.Chr.nrm`), `Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/SelmerTransport/ConjStableShaFam.lean` (`UpperTheory.V.Base.eO`)), and `v_O` is the valuation of `Φ` normalized by `v_O(ℓ) = 1`, so that both are measured in units of `ℓ`. For an abelian group `A`, `A{ℓ}` is its `ℓ`-primary part and `A_tors` its torsion subgroup.
 - `Ш¹(F, ℓ, e)` and its strict form `Ш¹_str(F, ℓ, e)` are defined in 6.17. For a CM field `F` with maximal totally real subfield `F⁺` and `ℓ` odd, `Ш⁺(F, ℓ, e)` and `Ш⁻(F, ℓ, e)` are the eigenspaces of complex conjugation for `(−1)^e` and `(−1)^{e+1}` (6.17 (f)). `V(F, t)` is the total of 6.17 (e). The component `Ш_{ψ,e}(S)` and its normalized length `V_ℓ(ψ, e; S)` are defined in 6.18.
-- Dirichlet characters are characters of `G_ℚ` through arithmetic Frobenius, with values in `ℚ̄_ℓ` through a fixed embedding; `χ_ℓ` is the `ℓ`-adic cyclotomic character. Generalized Bernoulli numbers `B_{k,ψ}` are those of Tau Ceti's `DirichletCharacter.generalizedBernoulli` (CyclotomicClassGroupsAndStickelberger §3.1), with `B_{1,1} = +1/2`; `P_k` is the product of the primes `≤ k`.
+- Dirichlet characters are characters of `G_ℚ` through arithmetic Frobenius ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/ShaFamMono.lean` (`UpperTheory.V.Chr.dirG`)), with values in `ℚ̄_ℓ` through a fixed embedding; `χ_ℓ` is the `ℓ`-adic cyclotomic character. Generalized Bernoulli numbers `B_{k,ψ}` are those of Tau Ceti's `DirichletCharacter.generalizedBernoulli` (CyclotomicClassGroupsAndStickelberger §3.1), with `B_{1,1} = +1/2` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/BernoulliNumbers/MapGenBChar.lean` (`UpperTheory.V.Bern.genB`, `UpperTheory.V.Bern.bcoef`)); `P_k` is the product of the primes `≤ k`.
 - In Layer 9, `L` is a number field of degree `n` and discriminant `d_L`, `H_m(G; ℤ)` is the homology of a group `G` with trivial coefficients `ℤ`, and "absolute" means independent of all data.
 - The formal proof [FormalProof] (References) is cited by file and declaration at the commit the References name, and `AV/` abbreviates its directory `src/Development/AutomorphicArithmetic/AutomorphicVarieties/`. Where a target names it, the form it states is recorded there, with its hypotheses; a wider form stated by the target is this roadmap's own, proved by the route written at the target. Its lengths over `O` are not divided by `e_O`.
 
@@ -72,14 +72,23 @@ so `Ш⁻(F, ℓ, e) ≅ Ш¹(F⁺, ℓ, e)` for odd `e` and `Ш⁺(F, ℓ, e) �
 places, from Poitou–Tate duality, local finiteness and local Tate duality taken as hypotheses: the equality
 `length Sha²_{e,ℓ}(F) = length Ш¹(F, ℓ, e)` as `GlobalTheory.TateLimit.ptShaAt`
 (`src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/LengthEqLengthInvariantsOfTorsionLevels.lean`), the inequality
-of (c) as `UpperTheory.V.PropA.shaLeV` (`AV/AdditiveValuationNorms/ShaLeV.lean`) and the order identity as
-`UpperTheory.V.LDataCardLeFinrank.vFormula_of_classicalTheorems` (`AV/GaloisLibrary/GaloisCohomologyLength/Formula.lean`).
+of (c) as `UpperTheory.V.PropA.shaLeV` (`AV/AdditiveValuationNorms/ShaLeV.lean`), the length of `H²` being [FormalProof],
+`Formalism/GaloisCohomology/Statement.lean` (`Formalism.GaloisCohomology.VLen`), and the order identity as
+`UpperTheory.V.LDataCardLeFinrank.vFormula_of_classicalTheorems` (`AV/GaloisLibrary/GaloisCohomologyLength/Formula.lean`);
+also [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/GaloisCohomologyLength/VFormula.lean`
+(`UpperTheory.V.LDataCardLeFinrank.vFormula`), of the statement [FormalProof], `Formalism/GaloisCohomology/Statement.lean`
+(`Formalism.GaloisCohomology.VFormula`).
 (d) as inequalities of lengths, for cyclotomic layers (`LateralTheory.Q.SLayerCut.sha_le`,
 `src/Development/EtaleCohomology/CyclotomicDiscriminants/SLayerCut.lean`) and for `ℓ = 2` and `[F′ : F] = 2`
-(`UpperTheory.V.Two.shaTwo`, `AV/QuadraticExtensions/ShaTwo.lean`). (e) as the bound `V(F, t) ≤ B`, with the finiteness of
+(`UpperTheory.V.Two.shaTwo`, `AV/QuadraticExtensions/ShaTwo.lean`; the kernel of length at most one: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/QuadraticExtensions/KerTwo.lean` (`UpperTheory.V.Two.kerTwo`)).
+(e) as the bound `V(F, t) ≤ B`, with the finiteness of
 the groups it sums, the predicate `UpperTheory.Top.VVle`, and its monotonicity `UpperTheory.Top.VVle.mono`
 (`src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`). (f) as the additivity of lengths
-`UpperTheory.V.shaLen_eq_add` (`AV/LengthEqAddEigen.lean`). The Pontryagin duality and the finiteness of (b), the strict
+`UpperTheory.V.shaLen_eq_add` (`AV/LengthEqAddEigen.lean`), with `Ш⁺` and `Ш⁻` as [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LengthEqAddEigen.lean`
+(`UpperTheory.V.ShaPlus`, `UpperTheory.V.ShaMinus`).
+The Pontryagin duality and the finiteness of (b), the strict
 form and its real-place quotient, the comparison with `WK^sym_{2e}(F){ℓ}`, the case `ℓ = 2` with real places in (b)–(c), the clause `ℓ ∤ [F′:F]` of
 (d), the statements of (e) on the support and the product, and the identification with `Ш¹(F⁺, ℓ, e)` in (f) are this
 roadmap's, by the routes below.
@@ -139,7 +148,9 @@ and its equality only for `S = {ℓ} ⊂ {ℓ} ∪ {p | N}` and `ψ` of order pr
 to `ℓ` (`UpperTheory.V.Chr.eigV`, `AV/CharacterLevelBounds/EigV.lean`); (c) for every odd `ℓ`, with the sum and the defect
 as above, the defect an explicit function `UpperTheory.V.Chr.loss` of `ℓ`, `N`, `[F:ℚ]` and `e`
 (`UpperTheory.V.Chr.reduction_to_dirichletChar_any_level_of_le`,
-`AV/CharacterLevelBounds/ReductionToDirichletCharAnyLevelOfLe.lean`); (d) with `#T` times the length of
+`AV/CharacterLevelBounds/ReductionToDirichletCharAnyLevelOfLe.lean`), through [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/GaloisCohomologyLength/LevelInertiaLeLevelDec.lean`
+(`UpperTheory.V.LDataCardLeFinrank.nuBound`); (d) with `#T` times the length of
 `H⁰(G_ℚ, (Φ/O)(ψ⁻¹χ_ℓ^{−e}))` in place of `2[L:ℚ] · f_L · e`, for a set `T` of generators of `Gal(L/ℚ)`
 (`UpperTheory.V.Chr.upV`, `AV/CharacterLevelBounds/LiftGens.lean`). The sum of (b), the equality of (a) in general and the
 constant of (d) are this roadmap's.
@@ -197,7 +208,9 @@ at most `b^a`, where `b ≥ 1` bounds the Euclidean norms of the boundaries of t
 the smaller of the ranks in degrees `k` and `k + 1` (Gabber's lemma, Soulé 1999, Proposition 3, p. 6); Soulé applies it to `SL_N(ℤ)` acting on a
 cell complex only modulo the primes `≤ N + 1`, which contain those dividing the orders of the stabilizers (Soulé 1999, proof
 of Theorem 1, pp. 7–8); the bound here includes those primes through the bound for finite groups. [FormalProof] states the
-bound for a group acting on an acyclic complex as `UpperTheory.V.KH.mainFace` (`AV/TorsionBoundsChains/LogLeExp.lean`) and
+bound for a group acting on an acyclic complex as `UpperTheory.V.KH.mainFace` (`AV/TorsionBoundsChains/LogLeExp.lean`), the
+bound being [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/TorsionBoundsChains/FaceDSingle.lean`
+(`UpperTheory.V.KH.bound`), and
 the bound for finite groups as `UpperTheory.V.KH.finGroup` (`AV/TorsionBoundsChains/FinGroup.lean`); it does not state
 Gabber's lemma.
 
@@ -336,6 +349,9 @@ the product with `g` of a cycle of the centralizer. (For `i = 1` the class is `v
   element `b ∈ 𝒪_L` divisible by the support of `𝔡` and by the primes ramified in `F/L`), is `pe·v(N_{γ,κ^E}(α))`, with
   `N_{γ,a}(α) = ∏_j γ^j(α)^{a^j}` and `pe = ∏_{j≤2E, j≠E}(κ^E − κ^j)`.
 
+Additive classes and `zc`: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ClassCounting/HasVal.lean`
+(`UpperTheory.V.ZK.IsAdd`, `UpperTheory.V.ZK.zc`).
 [FormalProof] states these as propositions of `AV/ModularityArgument/ClassCounting/LemmaKOfSteps.lean` and proves them: (a)
 for every `q ≥ 1` in place of `ℓ^ν` and every `i ≥ 2`, as `UpperTheory.V.ZK.STheta`, proved through
 `UpperTheory.V.ZK.sThetaOf` (`AV/ModularityArgument/ClassCounting/SThetaOf.lean`); the relation of (b1) as
@@ -385,6 +401,8 @@ Equivalently (by 6.17(c)) `length Ш¹(L, ℓ, E) · log ℓ` satisfies a bound 
 number field `L`, totally imaginary if `ℓ = 2`, the same bound holds with `L(μ_ℓ)` (`L(μ₄)` if `ℓ = 2`) in place of `L` on the right,
 because corestriction `H²(𝒪_{L(μ_ℓ)}[1/ℓ], ℤ_ℓ(E+1)) → H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` is onto, `H²` being the top cohomological degree.
 [FormalProof] states the bound, with the same hypotheses, as `UpperTheory.V.LemmaK` (`AV/GeneratorCountTuples/LemmaK.lean`),
+the bound being [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/GeneratorCountTuples/LemmaK.lean`
+(`UpperTheory.V.kBound`),
 and proves `∃ C_K, LemmaK C_K` by the first route below as `UpperTheory.V.ZK.lemmaK`
 (`AV/ModularityArgument/ClassCounting/LemmaKOfLitN.lean`), from Poitou–Tate duality, local finiteness and local Tate duality
 taken as hypotheses. The corestriction form is this roadmap's.
