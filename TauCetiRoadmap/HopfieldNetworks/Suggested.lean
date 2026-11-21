@@ -54,7 +54,7 @@ def asyncUpdate [DecidableEq ι] (W : Matrix ι ι ℝ) (θ : ι → ℝ) (i : �
     (if 0 < localField W θ x i then false else if localField W θ x i < 0 then true else x i)
 
 /-- 1.2: a configuration is stable when no single-unit update changes it. -/
-def IsStable [DecidableEq ι] (W : Matrix ι ι ℝ) (θ : ι → ℝ) (x : ι → Bool) : Prop :=
+def IsStableState [DecidableEq ι] (W : Matrix ι ι ℝ) (θ : ι → ℝ) (x : ι → Bool) : Prop :=
   ∀ i, asyncUpdate W θ i x = x
 
 /-- 1.3: for symmetric weights with nonnegative diagonal, an update that changes the
@@ -85,10 +85,10 @@ theorem asyncTraj_changes_finite [DecidableEq ι] {W : Matrix ι ι ℝ} (hW : W
 
 /-- 2.2: for symmetric weights with nonnegative diagonal and a schedule that updates every
 unit infinitely often, the trajectory is eventually constant at a stable configuration. -/
-theorem exists_isStable_asyncTraj [DecidableEq ι] {W : Matrix ι ι ℝ} (hW : W.IsSymm)
+theorem exists_isStableState_asyncTraj [DecidableEq ι] {W : Matrix ι ι ℝ} (hW : W.IsSymm)
     (hdiag : ∀ i, 0 ≤ W i i) (θ : ι → ℝ) {u : ℕ → ι} (hu : ∀ i T, ∃ t, T ≤ t ∧ u t = i)
     (x : ι → Bool) :
-    ∃ T, IsStable W θ (asyncTraj W θ u x T) ∧
+    ∃ T, IsStableState W θ (asyncTraj W θ u x T) ∧
       ∀ t, T ≤ t → asyncTraj W θ u x t = asyncTraj W θ u x T :=
   sorry
 

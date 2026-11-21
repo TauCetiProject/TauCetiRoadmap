@@ -70,7 +70,7 @@ The objects below are fixed before any target; every target uses them unchanged.
 - **The update.** `asyncUpdate W θ i x` changes only unit `i`: its spin becomes `1` if the local
   field is positive, `−1` if it is negative, and the unit keeps its state if the field is `0`.
   `syncUpdate W θ x` applies the same rule to every unit at once, all fields computed from `x`.
-  `IsStable W θ x` says that no single-unit update changes `x`, that is, for every unit the
+  `IsStableState W θ x` says that no single-unit update changes `x`, that is, for every unit the
   field is `0` or has the sign of its spin.
 - **Why "keep on a tie".** With this rule an update that changes `x` flips unit `i` only when
   `s_i h_i < 0`, and the energy then changes by exactly `2 s_i h_i − 2 W i i`, which is negative
@@ -113,8 +113,8 @@ Define `localField W θ x i`, `hopfieldEnergy W θ x`, and, copied from QuantumO
 
 ### 1.2 The update and stable configurations
 
-Define `asyncUpdate W θ i x` and `IsStable W θ x` as in the design note. A step of the route
-of 2.2:
+Define `asyncUpdate W θ i x` and `IsStableState W θ x` as in the design note. A step of the
+route of 2.2:
 
 - A configuration is stable if and only if, for every unit, its field is `0` or has the sign of
   its spin.
@@ -129,9 +129,10 @@ then for every `θ`, unit `i` and configuration `x` with `asyncUpdate W θ i x �
 of `asyncUpdate W θ i x` is strictly smaller than that of `x`. Route: the update changes `x`
 only by flipping unit `i` when `s_i h_i(x) < 0`, and by 1.1 the energy then changes by
 `2 s_i h_i(x) − 2 W i i < 0`. Consequently a global minimizer of the energy over the finitely
-many configurations is stable. (Proved here; the energy argument is due to Hopfield. MacKay
-§42.4, pp. 507–508, explains the convergence of the continuous network through a Lyapunov
-function and names symmetric connections and asynchronous updates as what it needs.)
+many configurations is stable. (Proved here. The energy argument is attributed to Hopfield
+(1982), named only: his paper was not consulted; Ramsauer et al., p. 2, cite it for the binary
+network. MacKay §42.4, pp. 507–508, explains the convergence of the continuous network through a
+Lyapunov function and names symmetric connections and asynchronous updates as what it needs.)
 *Needs:* 1.1; Mathlib `Matrix.IsSymm.apply`.
 
 **Checks.**
@@ -143,8 +144,8 @@ function and names symmetric connections and asynchronous updates as what it nee
 - *The diagonal sign is needed.* One unit with `W = (−1)`, `θ = 0`: the field is `−s`, so every
   update flips the unit while the energy stays `½`.
 - Brute force over all symmetric matrices with entries in `{−2, …, 2}` and nonnegative diagonal,
-  `θ ∈ {−1, 0, 1}ⁿ`, all configurations and units, `n ≤ 3`: every changing update lowers the
-  energy by exactly `2 s_i h_i − 2 W i i > 0`.
+  `θ ∈ {−1, 0, 1}ⁿ`, all configurations and units, `n ≤ 3`: every changing update changes the
+  energy by exactly `E(new) − E(old) = 2 s_i h_i − 2 W i i`, and this is negative (at most `−2`).
 
 ### Examples
 
@@ -171,16 +172,28 @@ particular finitely many. (Proved here.) *Needs:* 1.3; Mathlib `Set.ncard` and t
 
 **Checks.**
 
-- The bound is not attained in small cases: by an exact search over all schedules (the longest
-  chain of changing updates), for symmetric matrices with entries in `{−1, 0, 1, 2}` and
-  nonnegative diagonal, `θ ∈ {−1, 0, 1}ⁿ`, the largest number of changes is `1, 2, 4` for
-  `n = 1, 2, 3`, against `1, 3, 7`.
+- *The bound is attained for `n = 1, 2` and for no `n ≥ 3`.* For `n = 1`: `W = 0`, `θ = 1`,
+  spin `−1`: the first update changes the unit, with energies `1, −1`. For `n = 2`: off-diagonal
+  weights `−1`, zero diagonal, `θ = (0, −2)`, spins `(1, 1)`, schedule `1, 2, 1`: the fields met
+  are `−1, −1, 1`, each against the spin, the spins pass through `(−1, 1)`, `(−1, −1)`,
+  `(1, −1)` and the energies are `3, 1, −1, −3`, so there are three changes. For `n ≥ 3`, every
+  real `W` satisfying the hypotheses and every real `θ`: with `y_0 = x(t₁)` and
+  `y_k = x(t_k + 1)`, consecutive `y_k` differ at one unit and have strictly decreasing energies
+  (1.3), so `Π_i s_i(y_k)` alternates in sign; if the `y_k` were all `2ⁿ` configurations,
+  `Σ_x Π_i s_i(x) · E(x)` would be `±Σ_k (E(y_(2k)) − E(y_(2k+1))) ≠ 0`, whereas it is `0`
+  because `E` is a polynomial of degree at most `2 < n` in the spins. For `n = 3` the largest
+  number of changes is therefore `6`, attained with all off-diagonal weights `−1`, zero
+  diagonal, `θ = (−3, −1, 1)`, spins `(1, 1, 1)` and schedule `3, 2, 1, 2, 3, 2`: the energies
+  are `6, 4, 2, 0, −2, −4, −6`.
+- By an exact search over all schedules (the longest chain of changing updates), for symmetric
+  matrices with entries in `{−1, 0, 1, 2}` and nonnegative diagonal and `θ ∈ {−1, 0, 1}ⁿ`, the
+  largest number of changes is `1, 2, 4` for `n = 1, 2, 3`.
 - Both hypotheses are needed: the two examples of 1.3 change infinitely often.
 
 ### 2.2 Convergence to a stable configuration
 
-Prove (`exists_isStable_asyncTraj`) that if `W` is symmetric with nonnegative diagonal and the
-schedule `u` is fair, then for every `θ` and `x` there is a time `T` such that the trajectory is
+Prove (`exists_isStableState_asyncTraj`) that if `W` is symmetric with nonnegative diagonal and
+the schedule `u` is fair, then for every `θ` and `x` there is a time `T` such that the trajectory is
 constant from `T` on and `asyncTraj W θ u x T` is stable. Route: by 2.1 there is a `T` after
 which nothing changes; for a unit `i`, fairness gives `t ≥ T` with `u t = i`, and
 `asyncUpdate W θ i (x T) = x (t + 1) = x T`. (Proved here.) *Needs:* 2.1, 1.2.
@@ -194,7 +207,7 @@ which nothing changes; for a unit `i`, fairness gives `t ≥ T` with `u t = i`, 
   on two units, and the only schedule on one unit) are fair, and neither trajectory is eventually
   constant.
 - Round-robin schedules of length `n · 2ⁿ + n` end at a stable configuration for every network
-  and initial configuration of the first Check of 2.1.
+  and initial configuration of the search of the second Check of 2.1.
 
 ### Examples
 
@@ -220,8 +233,9 @@ map of `W'`. Along the orbit `x(t)`, put
 of `W'` gives `L(t + 1) − L(t) = −Σ_i (s_i(x(t + 1)) − s_i(x(t − 1))) h'_i(x(t))`. Each term is
 `0` or `2 |h'_i(x(t))| > 0`, the latter exactly for the units where `x(t + 1)` and `x(t − 1)`
 differ. So `L` is nonincreasing and drops whenever `x(t + 1) ≠ x(t − 1)`; it takes finitely many
-values, so `x(t + 1) = x(t − 1)` from some time on. (Proved here; the theorem is due to Goles and
-coauthors.) *Needs:* 1.1, 1.2.
+values, so `x(t + 1) = x(t − 1)` from some time on. (Proved here. The theorem is attributed to
+Goles and coauthors, named only: no paper of theirs was consulted, so the hypotheses above are
+not compared with a published statement.) *Needs:* 1.1, 1.2.
 
 **Checks.**
 
@@ -580,6 +594,10 @@ network, attention layers and every algorithm, program and running time.
   University Press, 2003; version 7.2 (fourth printing, 28 March 2005), open on the author's
   book pages. Chapter 42: §42.2 and eq. (42.2), p. 506; eq. (42.5), p. 507; §42.4, pp. 507–508;
   solutions to Exercises 42.3 and 42.4, pp. 520–521 (printed page numbers).
-- Attributions made in prose without a locator: J. J. Hopfield (the binary network and its
-  energy function); E. Goles and coauthors (the period-two theorem for synchronous threshold
-  networks with symmetric weights).
+- J. J. Hopfield, *Neural networks and physical systems with emergent collective computational
+  abilities*, Proceedings of the National Academy of Sciences 79 (1982), no. 8, 2554–2558,
+  doi:10.1073/pnas.79.8.2554 (bibliographic data from the DOI registry). Named only, not
+  consulted: the attribution of the energy argument in 1.3. Ramsauer et al., p. 2, cite it for
+  the binary network.
+- Named only, with no paper consulted: E. Goles and coauthors, for the period-two theorem of 3.1
+  (synchronous threshold networks with symmetric weights).
