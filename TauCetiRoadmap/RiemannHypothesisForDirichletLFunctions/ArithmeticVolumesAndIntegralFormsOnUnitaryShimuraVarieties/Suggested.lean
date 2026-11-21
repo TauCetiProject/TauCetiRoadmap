@@ -28,9 +28,10 @@ arithmetic varieties with their arithmetic degrees, or slopes of Hermitian vecto
   model, the Lie algebra of the universal semi-abelian scheme with its eigen-decomposition, the
   Hodge metric and the arithmetic degree of a metrised line bundle.
 * The average arithmetic volume theorem (8.17): under a transitive symmetry of the CM type,
-  `p, q ≥ 1`, `N ≥ 3` and `3·min(p, q) + 1 ≤ N`, the mean over the components of the volume slopes of
-  the forms of a dominant weight `u` with strictly decreasing entries and gap `g` in the smaller
-  block is at least `−C·[(log B(u, g) + log rd_E + |(L′/L)(1, χ_K)|)·|u|₁ + q·spread(u)]`. It lacks,
+  `|Φ| ≥ 2`, `p, q ≥ 1`, `3q + 1 ≤ N` and at most `4|Φ|N²` primes dividing `2·disc(E)` and the
+  level, the mean over the components of the volume slopes of the forms of a dominant weight `u`
+  with strictly decreasing entries and gap `g` in the block of the last `q` indices is at least
+  `−C·[(log B(u, g) + log rd_E + |(L′/L)(1, χ_K)|)·|u|₁ + q·spread(u)]`. It lacks,
   besides these, the flag bundles of the automorphic vector bundles, log-log singular metrics,
   mixed integral structures and arithmetic volumes.
 * The slope of the step lattices (8.19 (b)): for the unitary groups of a chain of theta lifts,
@@ -57,14 +58,14 @@ noncomputable def logPeriod (τ : UpperHalfPlane) : ℝ :=
   Real.log (4 * Real.pi * τ.im * ‖ModularForm.eta (τ : ℂ)‖ ^ 4)
 
 /-- **Chowla–Selberg, class-mean form** (README 8.5 (a)). Let `K` be an imaginary quadratic field
-of discriminant `−D`, `σ` a complex embedding of `K`, and `χ` the quadratic character of `K`, a
-Dirichlet character modulo `D` characterised by `ζ_K(s) = ζ(s)·L(s, χ)` for `Re s > 1`. For every
-choice of points `τ_C` of the upper half-plane such that the image under `σ` of some fractional
-ideal of the class `C` is homothetic to `ℤ + ℤτ_C`, the mean over the ideal classes of the
-logarithmic periods is `γ + log(2π/√D) − (L′/L)(1, χ)`. -/
+of discriminant `−D` with `D > 4`, `σ` a complex embedding of `K`, and `χ` the quadratic character
+of `K`, a Dirichlet character modulo `D` characterised by `ζ_K(s) = ζ(s)·L(s, χ)` for `Re s > 1`.
+For every choice of points `τ_C` of the upper half-plane such that the image under `σ` of some
+fractional ideal of the class `C` is homothetic to `ℤ + ℤτ_C`, the mean over the ideal classes of
+the logarithmic periods is `γ + log(2π/√D) − (L′/L)(1, χ)`. -/
 theorem chowlaSelberg_classMean (K : Type*) [Field K] [NumberField K] [IsTotallyComplex K]
     (hK : Module.finrank ℚ K = 2) (σ : K →+* ℂ)
-    (D : ℕ) [NeZero D] (hD : discr K = -(D : ℤ)) (χ : DirichletCharacter ℂ D)
+    (D : ℕ) [NeZero D] (hD : discr K = -(D : ℤ)) (hD4 : 4 < D) (χ : DirichletCharacter ℂ D)
     (hχ : ∀ s : ℂ, 1 < s.re → dedekindZeta K s = riemannZeta s * χ.LFunction s)
     (τ : ClassGroup (𝓞 K) → UpperHalfPlane)
     (hτ : ∀ C, ∃ I : (FractionalIdeal (𝓞 K)⁰ K)ˣ, ClassGroup.mk K I = C ∧
