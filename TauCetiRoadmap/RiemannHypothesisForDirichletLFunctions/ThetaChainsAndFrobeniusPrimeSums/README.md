@@ -284,9 +284,10 @@ only in Checks.
 | `ι_ξ` | the good descent of a tuple `ξ` | RowTowerAndRallisIdentities §5.4 |
 | `R_E` | `rd_E^{C_R}` in `SizeGen` | ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a |
 
-**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider statement would need its own proof.
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
 
 ## Layer 9: Sources, rank matching and the slope inequality of the chain
 
