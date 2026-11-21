@@ -31,21 +31,23 @@ Mathlib has `CyclotomicField`, the Galois group of a cyclotomic extension
 from which they could be defined once the groups `Ш¹(F, ℓ, e)` are.
 
 * The polynomial bound away from the bad primes (7.2, 7.3): for every primitive `χ` there is `C`
-  such that for every layer `n ≥ 2`, every set `Q` of two primes `q ≡ 3 mod 4` prime to `f_χ` and
-  every `t ≥ 2` with `min Q > max(2t + 1, P(χ))`, the sum over the odd primes `ℓ ∉ B(χ)` of
+  such that for every layer `n ≥ 2`, every pair `Q` of primes, one `≡ 3 mod 8` and one `≡ 7 mod 16`,
+  prime to `f_χ`, and every `t ≥ 2` with `min Q > max(2t + 1, P(χ))`, the sum over the odd primes
+  `ℓ ∉ B(χ)` of
   `log ℓ · Σ_{1 ≤ e < t} length Ш¹(E_n(χ, Q), ℓ, e)` is at most `(N t)^C`, `N = N_n(χ, Q)`; at the
   primes of `B(χ)` the plus part is at most `(N t)^C + C·B` for a bound `B` of the twist sums over
   finitely many fixed cyclotomic fields. It lacks the groups `Ш¹(F, ℓ, e)` (the coefficient
   module `ℚ_ℓ/ℤ_ℓ(−e)` and the local condition away from `ℓ`), their plus and minus parts for a CM
   field, and the host fields.
-* The window theorem (7.4) and its budget form (7.6): for primitive `χ`, `a ≥ 2`, `α, κ ≥ 1` and
-  `0 < δ ≤ 1` there are `J ≥ 1`, `C` and `X₀` such that for every `X ≥ X₀` and every set `Q` of two
-  primes `q ≡ 3 mod 4` with `v₂(q + 1) ≤ a`, `q ∤ f_χ`, `q > 2X^κ + 1 + P(χ)` and
+* The window theorem (7.4) and its budget form (7.6): for primitive `χ`, `α, κ ≥ 1` and
+  `0 < δ ≤ 1` there are `J ≥ 1`, `C` and `X₀` such that for every `X ≥ X₀` and every pair `Q` of
+  primes, one `≡ 3 mod 8` and one `≡ 7 mod 16`, with `q ∤ f_χ`, `q > 2X^κ + 1 + P(χ)` and
   `Σ_{q ∈ Q} log q ≤ X^{δ/J}`, some `Y ∈ [X^{1/J}, X^{1/2}]` has the property that for every
   `x ∈ [Y, Y²]`, every `n ≥ 2` with `2^n ≤ x^α` and every `2 ≤ t ≤ x^κ` the groups
   `Ш¹(E_n(χ, Q), ℓ, e)`, `1 ≤ e < t`, are finite and `V(E_n(χ, Q), t) ≤ (N t)^C + exp(x^δ)`. It
   lacks the same carriers, and the total `V(F, t)` built from them.
-* The tower form (7.5): for primitive `χ` and `κ, δ > 0` there are `J` and `k₁` such that every
+* The tower form (7.5), the roadmap's own corollary of the window theorem: for primitive `χ` and
+  `κ, δ > 0` there are `J` and `k₁` such that every
   `k₀ ≥ k₁` has some `k ∈ [k₀, J k₀]` with `V(E_n(χ, ∅), ⌊2^{κn}⌋) ≤ exp(2^{δn})` for every
   `n ∈ [k, 2k − 2]`. It lacks the same carriers.
 
