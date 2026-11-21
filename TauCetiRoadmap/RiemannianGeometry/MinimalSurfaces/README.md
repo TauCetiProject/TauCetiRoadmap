@@ -47,7 +47,9 @@ build, Layer k being MSk, and own:
   `Ric > 0`, and the examples in `S³` and `ℝP³`.
 - MS7: the equivalence between stability and positive Jacobi functions, Jacobi functions
   from Killing fields, the gradient estimate for positive Jacobi fields, the curvature
-  estimate for stable surfaces, Bernstein's theorem, and limits of stable hypersurfaces.
+  estimate for stable surfaces, Bernstein's theorem, and limits of stable hypersurfaces;
+  stability and strict stability of a hypersurface tested by ambient functions across the
+  singular set of its closure, with the strict-stability criterion for cones (7.8).
 - MS8: the removable-singularity theorem for embedded minimal surfaces with quadratic area
   growth and finite total curvature.
 - MS9: compactness under bounded area and total curvature, multiplicity-one regularity, and
@@ -107,7 +109,8 @@ Boundaries with the parent and with other roadmaps:
   neighbourhoods and multi-valued graphs of MS2, together with the multi-valued graph
   machinery of [CM4]; they are outside this sub-roadmap. So are the strong half-space theorem
   (the version for two disjoint surfaces), existence theory (the Plateau problem) and
-  singular hypersurfaces.
+  singular hypersurfaces. Item 7.8 concerns smooth hypersurfaces, tested by ambient functions
+  that cross the singular set of their closure; it asserts nothing about that singular set.
 
 ## Conventions
 
@@ -382,7 +385,9 @@ to a positive Jacobi field uses the Schrödinger spectral and Dirichlet theory o
 manifolds with boundary (R5c), together with interior Harnack and elliptic compactness on an
 exhaustion in the noncompact case. Item 7.7 on limits of stable hypersurfaces additionally uses
 MS2 (graph differences), MS5 (compactness under bounded curvature) and MS6 (one-sided stability
-on the normal double cover).
+on the normal double cover). Item 7.8 on stability across a singular set uses only the stability
+form of this layer and 6.3, the closed-manifold spectral theory of MS1 (a) on the link of a
+cone, and a one-variable Hardy inequality that it proves.
 
 MS8 (removable singularities) rests on MS1 (Hessian of `r²` and ambient blow-up), on MS2 (the
 small-data Dirichlet problem for minimal graphs, built by the Banach-space implicit function
@@ -1180,7 +1185,7 @@ normal connection.
 
 ### 6.1 Morse index on compact minimal submanifolds and negative eigenvalues of `−J^⊥`
 
-*Sources:* [Simons]; [CM, §1.8]; [Chodosh, §24].
+*Sources:* [Simons]; [CM, §1.8]; [Chodosh, Theorem 23.2, p. 60], for the index form.
 
 Let Σ be compact: when Σ is closed (`∂Σ = ∅`), take `Γ(ν_f) = C^∞(Σ;ν_f)` as the space of
 admissible normal sections; when Σ has nonempty smooth boundary `∂Σ`, impose homogeneous
@@ -1652,6 +1657,95 @@ embedded minimal surfaces in U with locally bounded area have a subsequence conv
 
 *Needs:* 5.2, 2.5, 7.1, 6.3; 7.5, for surfaces.
 
+### 7.8 Stability across a singular set, strict stability and minimal cones
+
+*Sources:* [Simon23, §1, pp. 3–4, and 4.12, pp. 21–22]; [Simon21, §1, 1.1–1.5, pp. 2–3,
+and §3, pp. 6–8]; [Chodosh, Proposition 26.1, p. 64].
+
+Let U be an open subset of a Riemannian `(n+1)`-manifold `(N,g)`, `n ≥ 2`, and Σ ⊂ U a smooth
+embedded hypersurface without boundary, not necessarily closed in U and not necessarily
+two-sided, with local unit normals ±ν and measure μ of the induced metric. Its singular set is
+`sing Σ = (Σ̄ ∩ U) ∖ Σ`, with the convention that every point of `Σ̄ ∩ U` near which `Σ̄` is a
+smooth embedded hypersurface without boundary lies in Σ (otherwise replace Σ by that regular
+part) [Simon23, p. 3]. Assume locally finite area, `μ(Σ ∩ K) < ∞` for every compact `K ⊂ U`.
+Σ need not be minimal. The test functions are `ζ ∈ C^∞_c(U)`, functions on the ambient set
+that need not vanish near `sing Σ`; ∇ζ is the gradient on Σ of the restriction of ζ. Then
+`∫_Σ |∇ζ|²` and `∫_Σ Ric_g(ν,ν)ζ²` are finite, while `∫_Σ |A|²ζ² ∈ [0,∞]`. Define:
+
+- Σ is *stable in U* if `∫_Σ |A|²ζ² dμ + ∫_Σ Ric_g(ν,ν)ζ² dμ ≤ ∫_Σ |∇ζ|² dμ` for every such
+  ζ: this is `Q(ζ) ≥ 0` with the Q of this layer, read without `∞ − ∞`.
+- For a continuous weight `w : U → [0,∞)`, with `w⁻²` read as `+∞` where `w = 0` (so that a
+  hyperplane through 0, the cone over a great sphere, is allowed with weight `|X|`), and `κ > 0`,
+  Σ is *strictly stable in U with weight w and constant κ* if for every such ζ
+  `∫_Σ |A|²ζ² dμ + ∫_Σ Ric_g(ν,ν)ζ² dμ + κ ∫_Σ (|∇ζ|² + w⁻²ζ²) dμ ≤ ∫_Σ |∇ζ|² dμ`,
+  the weighted integral being in `[0,∞]`; *strictly stable with weight w* if some κ > 0 works.
+
+For an oriented Σ, the Euclidean case, `Ric = 0` and μ the Hausdorff measure, is [Simon23, 1.2,
+pp. 3–4], with the weight `|x| + |ξ|` on `ℝ^p × ℝ^q × ℝ^ℓ`; there the hypersurface is minimal
+for a metric close to the Euclidean one, and the Euclidean inequality is what is asserted. For a
+cone with vertex 0 the weight is `|X|` [Simon21, 1.4, p. 2]. The forms involve ν only through
+`|A|²` and `Ric_g(ν,ν)`, which do not depend on the sign of ν (6.3), so the definitions need no
+global normal; on a one-sided Σ they are stronger than the stability of 6.3 (Checks), and
+two-sidedness enters only in the variational meaning. Prove:
+
+- Variational meaning, for Σ two-sided with global unit normal ν. If Σ is minimal and ζ
+  vanishes near `sing Σ`, its restriction has compact support in Σ and `Q(ζ)` is the second
+  variation of area along ζν (this layer's opening, R5b). When `sing Σ = ∅`, stability in U is
+  the stability of this layer: every compactly supported smooth function on Σ, now closed in U,
+  extends to some `ζ ∈ C^∞_c(U)` through a tubular neighbourhood.
+- Elementary properties. Strict stability implies stability. Test functions in `C¹_c(U)` are
+  also admissible: approximate in C¹ with supports in one compact set, apply Fatou's lemma to the
+  nonnegative terms and pass to the limit in the others. Comparable weights give the same notion:
+  if `a w ≤ w′ ≤ b w` on Σ with `0 < a ≤ b`, strict stability with w′ and constant κ gives it
+  with w and constant `κ min(1, b⁻²)`. For `ℝ^p × ℝ^q × ℝ^ℓ`, the weight `|x| + |ξ|` and the
+  distance `(|x|² + |ξ|²)^(1/2)` to the axis `{0} × {0} × ℝ^ℓ` lie within a factor √2 of each
+  other. In Euclidean space with a weight homogeneous of degree one, every dilate of a strictly
+  stable Σ is strictly stable with the same constant, all terms scaling by `t^(n−2)`.
+- Reduction [Simon23, 4.12 and the lines after it, pp. 21–22]. If `|A|² + Ric_g(ν,ν) ≤ c₀ w⁻²`
+  on Σ for some `c₀ ≥ 0`, then Σ is strictly stable with weight w iff there is `λ > 0` with
+  `∫_Σ (|A|² + Ric_g(ν,ν))ζ² + λ ∫_Σ w⁻²ζ² ≤ ∫_Σ |∇ζ|²` for every ζ, and then
+  `κ = ½ min(λ, (1 + c₀/λ)⁻¹)` works. Route: the weaker inequality gives
+  `∫|∇ζ|² ≤ Q(ζ) + c₀∫w⁻²ζ² ≤ (1 + c₀/λ) Q(ζ)`; average it with `Q(ζ) ≥ λ∫w⁻²ζ²`.
+- Cones [Simon21, 1.1–1.5, pp. 2–3]. Let `n ≥ 3`, Γ ⊂ Sⁿ a closed embedded hypersurface of the
+  unit sphere with second fundamental form `A_Γ` in Sⁿ, `C = {tω : t > 0, ω ∈ Γ} ⊂ ℝ^(n+1)`,
+  `U = ℝ^(n+1)`, `w(X) = |X|`, and Σ = C (the whole hyperplane when Γ is a great sphere, by the
+  convention); C is minimal iff Γ is minimal in Sⁿ (R5a.2 of the parent). Then
+  `|A_C|²(tω) = t⁻²|A_Γ|²(ω)`. Let `λ₁` be the lowest eigenvalue of `−Δ_Γ − |A_Γ|²` on Γ
+  (MS1 (a)). Prove: C is strictly stable with weight |X| iff `λ₁ + ((n−2)/2)² > 0`, and stable
+  iff `λ₁ + ((n−2)/2)² ≥ 0` [Chodosh, Proposition 26.1, p. 64]. Route: in polar coordinates
+  `Q(ζ) = ∫_0^∞ ∫_Γ (ζ_r² + r⁻²(|∇_Γζ|² − |A_Γ|²ζ²)) r^(n−1) dμ_Γ dr`; expanding `ζ(r,·)` in the
+  eigenbasis of `−Δ_Γ − |A_Γ|²` (MS1 (a)) reduces both statements to the weighted Hardy
+  inequality `∫_0^∞ f′² r^(n−1) dr ≥ ((n−2)/2)² ∫_0^∞ f² r^(n−3) dr` for `f ∈ C¹_c([0,∞))`, which
+  follows by expanding `∫_0^∞ (f′ r^((n−1)/2) + ((n−2)/2) f r^((n−3)/2))² dr ≥ 0` and integrating
+  the cross term by parts (for f vanishing near 0, the substitution `u = r^((n−1)/2) f` turns it
+  into the half-line Hardy inequality of UnboundedOperators UO-D07, which is not an input here),
+  and whose constant cannot be improved (truncations of
+  `r^(−(n−2)/2)`, multiplied by the first eigenfunction, give the converse directions). The
+  reduction above, with `c₀ = max |A_Γ|²`, upgrades the weighted inequality to strict stability.
+
+**Checks.**
+
+- The Simons cone `{|x| = |ξ|} ⊂ ℝ⁴ × ℝ⁴`, n = 7: Γ = `S³(1/√2) × S³(1/√2) ⊂ S⁷` has
+  principal curvatures ±1, three of each, so `|A_Γ|² = 6`, `λ₁ = −6` with constant eigenfunction,
+  and `λ₁ + (5/2)² = 1/4 > 0`: strictly stable with weight |X| ([Simon21, §3, p. 8], where
+  `2(λ₁ + 25/4)^(1/2) = 1`). For the cones `C_(p,q)` over
+  `S^p((p/(p+q))^(1/2)) × S^q((q/(p+q))^(1/2)) ⊂ S^(p+q+1)`, `n = p+q+1`, `|A_Γ|² = n−1` and
+  `λ₁ + ((n−2)/2)² = (n² − 8n + 8)/4`, negative for `n ≤ 6` and positive for `n ≥ 7`; so
+  `C_(1,1) ⊂ ℝ⁴`, with `λ₁ = −2` against `1/4`, is not stable.
+- Stable but not strictly stable: the plane `ℝ² × {0} ⊂ ℝ³` (n = 2) with weight |X| has A = 0
+  and is stable, but `∫ |X|⁻²ζ²` diverges logarithmically whenever `ζ(0) ≠ 0`, so no κ works. For
+  `n ≥ 3` a hyperplane is strictly stable with weight |X|, by the Hardy inequality.
+- Test functions must cross the singular set: for the half-plane
+  `Σ = {x₃ = 0, x₂ > 0} ⊂ U = ℝ³`, with `sing Σ` the line `{x₂ = x₃ = 0}` and weight `|x₂|`, the
+  one-dimensional Hardy inequality `∫_0^∞ φ²/x² ≤ 4∫_0^∞ φ′²` gives the strict inequality with
+  `κ = 1/5` for every ζ vanishing near that line, while any ζ nonzero somewhere on the line makes
+  `∫ x₂⁻²ζ² = ∞`: Σ is stable in U and not strictly stable with this weight.
+- One-sided: `ℝP² ⊂ ℝP³`, with `U = ℝP³`, is stable in the sense of 6.3 (6.5) but not stable
+  in U: ζ = 1 gives `∫(|A|² + Ric(ν,ν)) dμ = 2 · 2π > 0 = ∫|∇1|² dμ`.
+
+*Needs:* this layer's Q and 6.3; R5b (the second variation); MS1 (a), on the link Γ; R5a.2 of
+the parent (the minimal-cone equivalence).
+
 ### Examples
 
 - The catenoid: three explicit Jacobi functions, the stable half `{v ≥ 0}` with
@@ -1667,7 +1761,8 @@ eigenfunction, strict domain monotonicity and Dirichlet problem; R7.0's Bochner 
 and 3.6 for the Gauss curvature, the two-dimensional Simons identity and its ambient terms;
 R4.1's smooth upper distance barriers; the pinned Green identity and maximum principle at a
 local maximum; PDE C14, E23 and E25 for the exhaustion in 7.2. Items 7.1–7.5 are independent of
-Layers 2, 4 and 5; 7.6 uses 2.2, and 7.7 uses 2.5 and 5.2.
+Layers 2, 4 and 5; 7.6 uses 2.2, and 7.7 uses 2.5 and 5.2. Item 7.8 uses 6.3, MS1 (a) and R5a.2
+of the parent.
 
 ## Layer 8 (MS8): removable singularities
 
@@ -2350,6 +2445,11 @@ estimate and the uniqueness of the helicoid [CM4] consume MS2 and MS7.
   Princeton University Press, 1983, 111–126.
 - [SY] R. Schoen and S.-T. Yau, *On the structure of manifolds with positive scalar
   curvature*, Manuscripta Math. 28 (1979), 159–183, doi:10.1007/BF01647970.
+- [Simon21] L. Simon, *A Liouville-type theorem for stable minimal hypersurfaces*, Ars
+  Inveniendi Analytica (2021), Paper No. 5; locators are to arXiv:2101.06404v2.
+- [Simon23] L. Simon, *Stable minimal hypersurfaces in `ℝ^(N+1+ℓ)` with singular set an
+  arbitrary closed `K ⊂ {0} × ℝ^ℓ`*, Ann. of Math. 197 (2023); locators are to
+  arXiv:2101.06401v2.
 - [Simons] J. Simons, *Minimal varieties in riemannian manifolds*, Ann. of Math. (2) 88
   (1968), 62–105, doi:10.2307/1970556.
 - [White] B. White, *Introduction to minimal surface theory*, in *Geometric Analysis*,
