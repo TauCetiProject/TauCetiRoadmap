@@ -69,8 +69,7 @@ Headlines not statable at the pins:
   `X* ≃ β_m^* Q*` (Milestone 6, §§6.1–6.3): they need `Q` above, and an atlas on the literal pullback
   over the punctured disc, which is not a carrier at the pins;
 * the reglued manifold, its independence of choices and its fundamental group and first homology
-  (Milestone 6, §§6.4–6.6): they need `Q` and open gluing of complex manifolds, which is not a carrier
-  at the pins.
+  (Milestone 6, §§6.4–6.6): they need `Q` above.
 -/
 
 namespace TauCetiRoadmap.ComplexTori
