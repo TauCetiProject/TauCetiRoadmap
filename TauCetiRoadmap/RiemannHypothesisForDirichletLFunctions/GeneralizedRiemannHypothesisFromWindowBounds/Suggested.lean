@@ -15,8 +15,9 @@ number theorem in progressions with the square-root error term (6.5).
 
 Of the statements below, `riemannHypothesis`, `LFunction_ne_zero_of_one_half_lt_re` and
 `re_eq_half_of_LFunction_eq_zero` are, binder for binder, theorems of the formal proof
-[FormalProof]. `meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re`, the two statements on
-`riemannZeta` and `re_eq_half_of_meromorphicOrderAt_completedLFunction_pos` follow from them by
+[FormalProof]. `meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re`,
+`riemannZeta_ne_zero_of_one_half_lt_re` and
+`re_eq_half_of_meromorphicOrderAt_completedLFunction_pos` follow from them by
 Mathlib alone, and so does the implication from the window bounds to `RiemannHypothesis` in
 `riemannHypothesis_iff_forall_exists_windows`, given the windowed theorem of that proof. The
 converse implication there, the two statements on Dedekind zeta functions and Hecke L-functions,
@@ -73,10 +74,11 @@ place.
   finite computations and zero counts, which the Riemann hypothesis does not give.
 
 The other targets of Layer 6 are statements of other roadmaps with the hypotheses that Layer 5
-proves removed; they are not headlines of this roadmap and are not stated here. Two special cases
-are not stated separately: the completed Riemann zeta function, which is the case `N = 1` of the
-statement on completed L-functions (Mathlib's `DirichletCharacter.completedLFunction_modOne_eq`),
-and the cyclotomic fields of 5.5.
+proves removed; they are not headlines of this roadmap and are not stated here. Three special cases
+are not stated separately: the zeros of `riemannZeta` in the critical strip (5.3), the case `N = 1`
+of `re_eq_half_of_LFunction_eq_zero` (Mathlib's `DirichletCharacter.LFunction_modOne_eq`); the
+completed Riemann zeta function, the case `N = 1` of the statement on completed L-functions
+(Mathlib's `DirichletCharacter.completedLFunction_modOne_eq`); and the cyclotomic fields of 5.5.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.GeneralizedRiemannHypothesisFromWindowBounds
@@ -139,12 +141,6 @@ theorem re_eq_half_of_LFunction_eq_zero {N : ℕ} [NeZero N] (χ : DirichletChar
 `(γ - log (4π)) / 2`. -/
 theorem riemannZeta_ne_zero_of_one_half_lt_re {s : ℂ} (hs : 1 / 2 < s.re) :
     riemannZeta s ≠ 0 := by
-  sorry
-
-/-- **The zeros of the Riemann zeta function in the critical strip** (5.3). Every zero `s` of
-`riemannZeta` with `0 < Re s < 1` has `Re s = 1/2`. -/
-theorem re_eq_half_of_riemannZeta_eq_zero {s : ℂ} (hs₀ : 0 < s.re) (hs₁ : s.re < 1)
-    (hs : riemannZeta s = 0) : s.re = 1 / 2 := by
   sorry
 
 /-- **Completed L-functions of primitive characters** (5.4). For a primitive Dirichlet character

@@ -138,9 +138,13 @@ them instead from the bounds that the Riemann hypothesis gives.
 - **No fixed constants.** Every exponent, window ratio and weight of a statement here is a
   parameter with its true constraint.
 
-**Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
-hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider statement would need its own proof.
+**Statements of the formal proof.** The headline theorems that [FormalProof] states (5.2 and the
+value and strip forms of 5.3) are stated here in the form that proof establishes: their hypotheses,
+ranges and constants are those of the proof, including restrictions that the route written here
+does not visibly use. The targets that the proof states only over `ℚ` or in a weaker form (0.5,
+0.6, 2.1, 2.2: the Layer 0 preamble), and the implications from window bounds whose step it takes
+(3.3, 3.5, 4.2), are stated in the generality given with each, and the routes written here prove
+them in that generality.
 
 ## Layer 0: weighted families and their Riesz remainders
 
@@ -795,8 +799,8 @@ RiemannHypothesisStatementsAndConsequences §§9.4,
 
 `riemannHypothesis`: `RiemannHypothesis`.
 
-Route: 5.1 at modulus one, and RiemannHypothesisStatementsAndConsequences §9.4's
-`generalizedRiemannHypothesis_modOne_iff`.
+Route: 5.1 at modulus one, and the clause "modulus one and the principal character" of
+RiemannHypothesisStatementsAndConsequences §9.4.
 The route uses the window bounds at the trivial character only, whose cyclic family is `{1}`
 (ThetaChainsAndFrobeniusPrimeSums §10.11 at `ψ = 1`).
 
@@ -812,8 +816,9 @@ For every `N ≥ 1` and `χ : DirichletCharacter ℂ N`:
 - `re_eq_half_of_LFunction_eq_zero`: if `0 < Re s < 1` and
   `χ.LFunction s = 0`, then `Re s = 1/2`, imprimitive characters included;
 - `riemannZeta_ne_zero_of_one_half_lt_re`: `riemannZeta s ≠ 0` whenever `1/2 < Re s` (at `s = 1`
-  Mathlib's value `(γ − log 4π)/2` is not `0`), and `re_eq_half_of_riemannZeta_eq_zero`: every
-  zero of `riemannZeta` with `0 < Re s < 1` has `Re s = 1/2`.
+  Mathlib's value `(γ − log 4π)/2` is not `0`); and every zero of `riemannZeta` with
+  `0 < Re s < 1` has `Re s = 1/2`, the case `N = 1` of the strip form
+  (`DirichletCharacter.LFunction_modOne_eq`).
 
 Route: 5.1 with RiemannHypothesisStatementsAndConsequences §9.4's consumer forms, which rest on its
 value form (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`) and its strip form
@@ -982,8 +987,10 @@ predicates in which the cited roadmaps write them. Each hypothesis list after
 "given" below is the cited statement's own hypothesis list with the removed hypotheses taken out,
 together with every named proposition that the cited statement's route uses and its list does
 not name; such an addition says where the route uses it. Where the cited roadmap states the
-implication from the hypothesis to one of its own records, the route inserts 5.1–5.6 into that
-implication; no such implication is proved again here.
+implication from the hypothesis to one of its own records (ExplicitZetaBounds §0.2 for
+`DirichletGRHUpTo`), the route inserts 5.1–5.6 into that implication; where the cited section
+states no such implication, the route derives the statement here from that section's definitions
+and Layer 5 (6.7, 6.12, 6.13 through 6.3, 6.15).
 
 6.11 gives `RiemannHypothesisUpTo H` and `GRH*(q, H)` at every height `H` and modulus `q`, 6.12 the
 records `PlattRecord` and `LuZamanZhaoRecord`, and 6.14 the zero-free regions and zero-density
@@ -1077,13 +1084,14 @@ and the strip form of 5.3.
 No target removes a hypothesis that 5.1–5.6 do not give: the Riemann hypothesis of a field not
 abelian over `ℚ`, of a Hecke character not of the form of 5.6, or of an Artin, automorphic or
 Rankin–Selberg L-function; nonvanishing at the central point; simplicity of zeros; the Dedekind
-conjecture. The one exception is the gap hypothesis of 6.28 at the nine quadratic fields with
-`d_F ≤ 13`, where 5.3 reduces it to `L(1/2, χ_F) ≠ 0` and a finite verification proved there
-supplies that. A finite computational record is removed only where what it supplies to the cited
-statement follows from 5.1–5.3 together with the hypotheses that the statement keeps: in the
-statements of 6.14(a)–(b); with the regions and densities that the statements of 6.19 and 6.22
-take from ExplicitZetaBounds, whose records (`BrentPlattTrudgianRecord`, `HiaryRecord` and the
-others that ExplicitZetaBounds lists with each region and density) go with the object they serve;
+conjecture. At the nine quadratic fields with `d_F ≤ 13`, where 5.3 reduces the gap hypothesis
+of 6.28 to `L(1/2, χ_F) ≠ 0`, 6.28 takes in its place the finite record
+*SmallQuadraticCentralValues* that it states. A finite computational record is removed only where
+what it supplies to the cited statement follows from 5.1–5.3 together with the hypotheses that
+the statement keeps: in the statements of 6.14(a)–(b); with the regions and densities that the
+statements of 6.19 and 6.22 take from ExplicitZetaBounds, whose records
+(`BrentPlattTrudgianRecord`, `HiaryRecord` and the others that ExplicitZetaBounds lists with each
+region and density) go with the object they serve;
 *PlattCentralRecord* in 6.22, whose only role there is to exclude an exceptional zero;
 *JohnstonTable* in 6.17, whose only role is to carry Johnston's bounds beyond the range in which
 ExplicitPrimeCounting §2.3 proves sharper ones at a fixed verified height, a range that 5.2,
@@ -1230,12 +1238,12 @@ odd conductor dividing its deletion level `M_a` and `≠ 1`, through which the i
 headline theorems `character_family`, `effective_prime_bound` and `fixed_length_finiteness`, the
 three that carry it.
 
-Route: §0.16's observation that the zero clause follows from the hypothesis for every character
-modulo `8` (RiemannHypothesisStatementsAndConsequences §9.4, strip form), with 5.1;
-ErdosProgressionPowers §0.9 defines its
-copy by the statement of §0.16.
+Route: the zero clause is the strip form of 5.3 (`re_eq_half_of_LFunction_eq_zero`) at each of
+the four Dirichlet characters modulo `8`, imprimitive ones included; it holds at every height, so
+in particular for `|Im s| ≤ 10000`. ErdosProgressionPowers §0.9 defines its copy by the statement
+of §0.16.
 
-*Needs:* 5.1; AnalyticNumberTheoryPartI §0.16; ErdosProgressionPowers §§0.9, 2.3, 2.6.
+*Needs:* 5.3; AnalyticNumberTheoryPartI §0.16; ErdosProgressionPowers §§0.9, 2.3, 2.6.
 
 ### 6.8 The effective Chebotarev theorem for abelian fields (AnalyticNumberTheoryPartI §2.49)
 
@@ -1330,17 +1338,19 @@ for every primitive quadratic `χ ≠ 1` modulo `q`, of every conductor `q`, giv
 `LuZamanZhaoLOneRecord` alone (ExplicitZetaBounds §9.3 states it for `q ≤ 10¹⁰`, given also
 `LuZamanZhaoRecord`).
 
-Route: §0.4b's implications from the hypothesis for the primitive characters of modulus
-`2 ≤ q ≤ 400 000` to `PlattRecord`, and from the hypothesis for every nonprincipal quadratic
-character of modulus at most `10¹⁰` to `LuZamanZhaoRecord`, with 5.1. Such a character has modulus
-`q ≥ 3`, where `1 − 1/(5 log q) > 1/2`, and the value form of 5.3 applies. For the lower bound:
+Route: `PlattRecord` is `DirichletGRHUpTo q (plattHeight q)` for every `2 ≤ q ≤ 400 000`
+(ExplicitZetaBounds §§0.3, 0.4b), an instance of 6.11. `LuZamanZhaoRecord` asks `L(σ, χ) ≠ 0` for
+every quadratic character `χ`, nonprincipal by the convention of ExplicitZetaBounds, of modulus
+`q ≤ 10¹⁰` and every real `σ ≥ 1 − 1/(5 log q)` (§0.4b): such a character has modulus `q ≥ 3`,
+where `1 − 1/(5 log q) ≥ 1 − 1/(5 log 3) = 0.8180 > 1/2`, and the value form of 5.3 applies. For
+the lower bound:
 `LuZamanZhaoLOneRecord` is the range `q ≤ 10⁶`; above it, Hoffstein's lemma of §9.3 (for `χ` real
 primitive of conductor `q > 10⁶` with `L(σ, χ) ≠ 0` for every real `σ > 1 − 1/(11.657 log q)`,
 `L(1, χ) > 1.507/(11.657 log q)`) has its hypothesis by 5.3, since `χ ≠ 1` and
 `1 − 1/(11.657 log q) > 1/2`, and `1.507/11.657 = 0.12928 > 1/8`. The cap `q ≤ 10¹⁰` of §9.3 comes
 only from `LuZamanZhaoRecord`, which gives Hoffstein's hypothesis there.
 
-*Needs:* 5.1, 5.3; ExplicitZetaBounds §§0.4b, 9.3 (with Hoffstein's lemma).
+*Needs:* 5.3, 6.11; ExplicitZetaBounds §§0.3, 0.4b, 9.3 (with Hoffstein's lemma).
 
 **Checks.**
 
@@ -1352,10 +1362,14 @@ only from `LuZamanZhaoRecord`, which gives Hoffstein's hypothesis there.
 There is `C` with
 `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ C log T/log log T` for every `T ≥ 16`.
 
-Route: §2.9's corollary of RiemannHypothesisStatementsAndConsequences §9.8(i) under
-`RiemannHypothesis`, with 5.2.
+Route: by ExplicitZetaBounds §2.9, `N(T) = ϑ(T)/π + 1 + S(T)` for `T > 0` not an ordinate, at an
+ordinate `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right, and
+`7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)` for `T ≥ e`. 6.3 bounds `|S(T)|` by
+`C log T/log log T` off the ordinates; the ordinates are discrete and `log T/log log T` is
+continuous on `T ≥ 16`, so the limit from the right obeys the same bound. The statement follows
+with the constant `C + 1`, since `1/(40T) < log T/log log T` for `T ≥ 16`.
 
-*Needs:* 5.2; ExplicitZetaBounds §2.9.
+*Needs:* 6.3; ExplicitZetaBounds §2.9.
 
 ### 6.14 Zero-free regions, zero densities and `1/ζ` near the line one (ExplicitZetaBounds §§7.2–7.6, 7.10, 8.1, 8.3–8.5)
 
@@ -1453,10 +1467,12 @@ premise *RealZeroGap* `c ∞` of its §6.7(a) holds with `c = (log 3)/2 > 1/6.50
 the regions of Kadiri and of McCurley (6.22 shows directly that no modulus is exceptional for
 either).
 
-Route: §7.9's implication from the hypothesis for every real primitive character of conductor
-`q ≥ 3` to *HasLandauSiegelGap* `((log 3)/2) ∞`, with 5.1; antitonicity in `c`.
+Route: let `χ` be a primitive real nonprincipal character of conductor `q ≥ 3`. By the strip form
+of 5.3 a real zero `β ∈ (0, 1)` of `L(s, χ)` is `1/2`, so `(1 − β) log q = (log q)/2 ≥ (log 3)/2`:
+this is *HasLandauSiegelGap* `((log 3)/2) ∞` as ExplicitZetaBounds §7.9 defines it, and §7.9's
+antitonicity in both arguments gives the rest.
 
-*Needs:* 5.1; ExplicitZetaBounds §7.9.
+*Needs:* 5.3; ExplicitZetaBounds §7.9.
 
 **Checks.**
 
@@ -1492,6 +1508,12 @@ Route: 5.2.
 
 ### 6.17 Bounds from verified heights (ExplicitPrimeCounting §§2.3, 2.6)
 
+Write *JohnstonInitialRanges* for the proposition that `|ψ(x) − x| < √x log² x` for `3 ≤ x ≤ 59`,
+`|θ(x) − x| < √x log² x` for `3 ≤ x ≤ 599`, `|π*(x) − li x| < √x log x` for `2 ≤ x < 97`, and
+`|π(x) − li x| < √x log x` for `2 ≤ x ≤ 2657`: the four inequalities of Johnston's Theorem 4.1 at
+the constant `a = 1` on the ranges below those of the four bounds of §2.3, a finite record
+(Checks).
+
 - The four bounds of §2.3 hold for every `x` in their ranges, each given `ButheVerified`,
   `Buthe2016Range` and Rosser's zero count, through which the route of §2.3 counts the zeros for
   `x ≥ 10¹⁹` (`buthe_of_riemannHypothesisUpTo` and `johnston_of_riemannHypothesisUpTo` give
@@ -1502,22 +1524,11 @@ Route: 5.2.
 - Büthe's general theorem of §2.3 without `RH(c/ε)`, at all its
   parameters; and its table rows (*Buthe2016Table1*,
   *Buthe2016Table2*), each given its table proposition, without the height `RH(T)` of the row.
-- With no hypothesis, the initial ranges: `|ψ(x) − x| < √x log² x` for `3 ≤ x ≤ 59`,
-  `|θ(x) − x| < √x log² x` for `3 ≤ x ≤ 599`, `|π*(x) − li x| < √x log x` for `2 ≤ x < 97`, and
-  `|π(x) − li x| < √x log x` for `2 ≤ x ≤ 2657`: the four inequalities of Johnston's Theorem 4.1 at
-  the constant `a = 1` on the ranges below those of the four bounds above. Route: a finite
-  verification. The four step functions jump only at integers, so on each piece
-  `[u, v) = [j/16, (j + 1)/16)` meeting a range they are constant, equal to some `c`;
-  `|c − F(x)| ≤ max(|c − F(u)|, |c − F(v)|)` for `F(x) = x` or `F = li`, both increasing, and
-  `√x log² x` and `√x log x` are increasing on `x ≥ 2`; so the inequality on `[u, v)` follows
-  from `max(|c − F(u)|, |c − F(v)|) < √u log^k u` (`k = 2` for `ψ`, `θ`, `k = 1` for `π*`, `π`),
-  an inequality between explicit numbers, decided with rational enclosures of the logarithms (the
-  series of `2 atanh((m − 1)/(m + 1))` with its geometric tail), of the square roots, of `γ` and of
-  `li x = γ + log log x + ∑_{n ≥ 1} (log x)ⁿ/(n·n!)` (truncated with a bound for the tail).
 - Johnston's Theorem 4.1 for every real `a ≥ 1`, in particular at every row `(a, K)` of
   *JohnstonTable* (`a = 1, 10, …, 10⁷`), and every `x` in its ranges, each given `ButheVerified`,
-  `Buthe2016Range` and Rosser's zero count, the hypotheses of the four bounds above, and without
-  the table proposition:
+  `Buthe2016Range` and Rosser's zero count, the hypotheses of the four bounds above, and
+  *JohnstonInitialRanges*, through which the route covers the ranges below those of the four
+  bounds, and without the table proposition:
   `|ψ(x) − x| < a √x log² x`, `x ≥ 3`,
   `|θ(x) − x| < a √x log² x`, `x ≥ 3`,
   `|π*(x) − li x| < a √x log x`, `x ≥ 2` and
@@ -1533,7 +1544,7 @@ Route: 6.11 gives `RiemannHypothesisUpTo T` for every `T`, so Büthe's criterion
 `4.92 √(x/log x) ≤ T`, Johnston's criteria and the heights of the rows are met at every `x`. For
 Johnston's statements: on the ranges of the four bounds above (`x > 59`, `x > 599`, `x ≥ 97`,
 `x > 2657`) those bounds, since `√x log² x` and `√x log x` are positive there and
-`1/(8π) < 1 ≤ a`; below them the initial ranges of the third item, since `1 ≤ a`. So the iteration that
+`1/(8π) < 1 ≤ a`; below them *JohnstonInitialRanges*, since `1 ≤ a`. So the iteration that
 *JohnstonTable* asserts beyond the range of the four bounds at a fixed height is not used.
 
 *Needs:* 6.11; ExplicitPrimeCounting §§1.3, 2.3, 2.6; ExplicitZetaBounds §§0.4, 5.2 (Rosser's zero
@@ -1542,13 +1553,15 @@ count); Mathlib `Chebyshev.psi`, `Chebyshev.theta`.
 **Checks.**
 
 - The initial ranges are needed (negative control): the four bounds of §2.3 start at `59`, `599`,
-  `97` and `2657`, while Johnston's statements start at `3` and `2`; and the verification is at
-  the constant of the smallest row only: at `x = 3`, `|ψ(3) − 3| = 3 − log 6 = 1.2082` against
-  `√3 log² 3 = 2.0905`, so the constant `1/2` in place of `1` would fail there.
-- The partition: on a whole unit interval the comparison of the route can fail where the
-  inequality holds: on `[3, 4)`, `ψ = log 6` and `|log 6 − 4| = 2.2082` exceeds `√3 log² 3`. With
-  the pieces of length `1/16` the largest ratio of the left side to the right is `0.6082` for `ψ`
-  and `θ` (on `[49/16, 25/8)`) and `0.6301` for `π*` and `π` (on `[47/16, 3)`).
+  `97` and `2657`, while Johnston's statements start at `3` and `2`; and *JohnstonInitialRanges*
+  is at the constant of the smallest row only: at `x = 3`, `|ψ(3) − 3| = 3 − log 6 = 1.2082`
+  against `√3 log² 3 = 2.0905`, so the constant `1/2` in place of `1` would fail there.
+- *JohnstonInitialRanges* holds. The four step functions jump only at integers, `x` and `li x`
+  increase, and `√x log² x` and `√x log x` increase on `x ≥ 2`, so on a piece `[j/16, (j + 1)/16)`
+  meeting a range the inequality follows from a comparison at the two ends of the piece; the
+  largest ratio of the left side to the right is then `0.6082` for `ψ` and `θ` (on
+  `[49/16, 25/8)`) and `0.6301` for `π*` and `π` (on `[47/16, 3)`). Unit pieces do not suffice:
+  on `[3, 4)`, `ψ = log 6`, and `|log 6 − 4| = 2.2082` exceeds `√3 log² 3`.
 
 ### 6.18 Short intervals under the Riemann hypothesis (ExplicitPrimeCounting §2.5)
 
@@ -2078,20 +2091,22 @@ Route: the hypothesis of §6.4, `GRHMod p` (§0.5), is given by 5.1, which gives
 
 ### 6.28 Quadratic zero gaps and small fields (ExplicitNumberFields §0.5)
 
-With no hypothesis: `L(1/2, χ_F) > 0` at the nine quadratic fields
-`F` with `d_F ≤ 13`, of discriminants `−3, −4, 5, −7, 8, −8, −11, 12, 13`, `χ_F` the primitive real
-character of conductor `d_F`. *UniformQuadraticZeroGap* `c` for every
-`0 < c ≤ (log 3)/2`; the condition of *QuadraticRealZeroGap* `c`
-and of *ImaginaryQuadraticRealZeroGap* `c` at every quadratic field `F` with `c √d_F ≥ 2`, and, for
-every `c > 0`, at the nine fields with `d_F ≤ 13`; and *QuadraticRealZeroGap*
-`c`, hence *ImaginaryQuadraticRealZeroGap* `c`, for every `c ≥ 2/√15`, among them `c = π/6`. Hence,
-without the gap hypothesis: §4.7's bound
+Write *SmallQuadraticCentralValues* for the proposition that `L(1/2, χ_F) ≠ 0` at the nine
+quadratic fields `F` with `d_F ≤ 13`, of discriminants `−3, −4, 5, −7, 8, −8, −11, 12, 13`, `χ_F`
+the primitive real character of conductor `d_F`, a finite record (Checks).
+
+With no hypothesis: *UniformQuadraticZeroGap* `c` for every `0 < c ≤ (log 3)/2`, and the condition
+of *QuadraticRealZeroGap* `c` and of *ImaginaryQuadraticRealZeroGap* `c` at every quadratic field
+`F` with `c √d_F ≥ 2`. Given *SmallQuadraticCentralValues*: that condition, for every `c > 0`, at
+the nine fields with `d_F ≤ 13`; and *QuadraticRealZeroGap* `c`, hence
+*ImaginaryQuadraticRealZeroGap* `c`, for every `c ≥ 2/√15`, among them `c = π/6`. Hence, without
+the gap hypothesis: given *SmallQuadraticCentralValues*, §4.7's bound
 `κ_K > (1/c₄) min(1/(starkAlpha K · log d_K), 1/(c₈ d_K^{1/n}))` for `n ≥ 3` at every
-`c₈ ≥ 2/√15`; its consequence at `c₈ = π/6`,
-`κ_K > 0.0014480/(n · t_K · d_K^{1/n})` for `n ≥ 3`;
+`c₈ ≥ 2/√15`, and its consequence at `c₈ = π/6`,
+`κ_K > 0.0014480/(n · t_K · d_K^{1/n})` for `n ≥ 3`; with no hypothesis,
 §4.7's instance under the uniform gap,
 `κ_K > (1/c₄) min(1/(starkAlpha K · log d_K), e c₀/(2 d_K^{1/n}))` for `n ≥ 3` at every
-`0 < c₀ ≤ (log 3)/2`; and §4.9's two real-zero bounds at every `0 < c₀ ≤ 1/4`,
+`0 < c₀ ≤ (log 3)/2`, and §4.9's two real-zero bounds at every `0 < c₀ ≤ 1/4`,
 `(1 − β) log d_K ≥ c₀` for `K/ℚ` Galois of degree
 `n ≥ 2` and `(1 − β) log d_K ≥ c₀/m_N` for `K` of degree `n ≥ 2` with
 normal closure of degree `m_N`. The clause of
@@ -2104,41 +2119,34 @@ Route: for a quadratic field `F`, `ζ_F = ζ · L(·, χ_F)` and `ζ` has no zer
 of `ζ_F` is `1/2`, and it is one exactly when `L(1/2, χ_F) = 0`; then
 `(1 − β) log d_F = (log d_F)/2 ≥ (log 3)/2`, and `β ≤ 1 − 1/(c √d_F)` exactly when `c √d_F ≥ 2`,
 which holds for every `d_F ≥ 15` when `c ≥ 2/√15`. At the nine fields with `d_F ≤ 13`
-the positivity of `L(1/2, χ_F)` leaves no real zero in `(0, 1)`, so the condition holds there at every
+*SmallQuadraticCentralValues* leaves no real zero in `(0, 1)`, so the condition holds there at every
 `c > 0`; the next field, `d_F = 15`, is why the range of the gap *QuadraticRealZeroGap* `c` stops at `2/√15`
 (`π/6 = 0.5236 ≥ 2/√15 = 0.5164`). The bound at `c₈ = π/6` is §4.7's derivation of
 that consequence from the clause at `c₈ = π/6`. *DGLSWSmallFieldGRH* asks for no zero with
 `β > 1/2`, which 5.5 gives for every abelian field, and every quadratic field is abelian.
 
-Route of the positivity of `L(1/2, χ_F)` at the nine fields: a finite verification. For a
-nonprincipal character `χ` the
-partial sums `∑_{n ≤ x} χ(n) n^{−s}` converge locally uniformly on `Re s > 0` (Abel summation,
-`sum_mul_eq_sub_sub_integral_mul`, the sums of `χ` over intervals being bounded), so the limit is
-analytic there, equal to `L(s, χ)` on `Re s > 1` (`DirichletCharacter.LFunction_eq_LSeries`) and
-hence on `Re s > 0` (`DirichletCharacter.differentiable_LFunction`,
-`AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`); so `L(1/2, χ_F) = ∑ χ_F(n) n^{−1/2}`. With
-`q = d_F`, sum to `M = 1000 q`, enclosing each `n^{−1/2}` between consecutive multiples of `10⁻¹²`
-(`⌊10¹²/√n⌋ = ⌊√⌊10²⁴/n⌋⌋`, an integer square root); since `q` divides `M` and `χ_F` sums to `0` over
-a period, Abel summation bounds the tail beyond `M` by `B_q (M + 1)^{−1/2}`, `B_q` the largest
-`|∑_{n ≤ j} χ_F(n)|` for `j ≤ q` (`1, 1, 1, 2, 1, 2, 3, 1, 2`). The lower bounds obtained, in the
-order of the discriminants above, are `0.4565`, `0.6439`, `0.2176`, `1.1107`, `0.3625`, `1.0668`,
-`0.9534`, `0.4894` and `0.4220`, all positive.
-
 *Needs:* 5.3, 5.5; ExplicitNumberFields §§0.5, 4.7, 4.9; ExplicitZetaBounds §0.3
-(the negativity of `ζ` on `(0, 1)`); Mathlib `DirichletCharacter.LFunction_eq_LSeries`,
-`DirichletCharacter.differentiable_LFunction`, `sum_mul_eq_sub_sub_integral_mul`,
-`AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
+(the negativity of `ζ` on `(0, 1)`).
 
 **Checks.**
 
+- *SmallQuadraticCentralValues* holds. For a nonprincipal `χ` the series `∑ χ(n) n^{−1/2}`
+  converges to `L(1/2, χ)`, the sums of `χ` over intervals being bounded. With `q = d_F` and
+  `M = 1000 q`, `q` divides `M` and `χ_F` sums to `0` over a period, so by Abel summation the tail
+  beyond `M` is at most `B_q (M + 1)^{−1/2}`, `B_q` the largest `|∑_{n ≤ j} χ_F(n)|` for `j ≤ q`
+  (`1, 1, 1, 2, 1, 2, 3, 1, 2` in the order of the discriminants above). The partial sums to `M`
+  less these tails give the lower bounds `0.4565`, `0.6439`, `0.2176`, `1.1107`, `0.3625`,
+  `1.0668`, `0.9534`, `0.4894` and `0.4220`, all positive. The record is the case of these nine
+  characters of `PlattCentralRecord` (ExplicitZetaBounds §0.4b), which asks the same of every
+  primitive character of conductor up to `2·10⁶`.
 - The nine fields are needed for *QuadraticRealZeroGap* `(π/6)` (negative control): at `d_F ≤ 13`,
   `(π/6) √d_F ≤ (π/6) √13 = 1.888 < 2`, so a central zero would violate the condition there, and 5.3
   does not exclude one; three of them (`−3`, `−4`, `5`) are already zero-free on `(0, 1)` by
-  ExplicitNumberFields' Checks of §0.5, the other six only by the computation.
+  ExplicitNumberFields' Checks of §0.5, the other six only by *SmallQuadraticCentralValues*.
 - The lower end `2/√15` of the range of *QuadraticRealZeroGap* `c` is where these inputs stop: at
   `c < 2/√15` the
-  condition at `ℚ(√−15)` asks `L(1/2, χ₋₁₅) ≠ 0`, which neither 5.3 nor the computation above
-  provides.
+  condition at `ℚ(√−15)` asks `L(1/2, χ₋₁₅) ≠ 0`, which neither 5.3 nor
+  *SmallQuadraticCentralValues* provides.
 
 ### 6.29 Residues and Mertens sums (ExplicitNumberFields 3.5, 3.6)
 
@@ -2329,10 +2337,10 @@ nothing here uses them.
   every form of Layer 5, the extended Riemann hypothesis for fields abelian over `ℚ`, and the
   Riemann hypothesis for the Hecke characters of 5.6 (Layer 5);
 - the statements of Layer 6, including Schoenfeld's Mertens estimate from `13.5`, given the
-  finite range *SchoenfeldMertensSmallRange*, which 6.29 states as a hypothesis; the initial ranges
-  of Johnston's bounds at the constant `1`, a finite verification
-  proved here (6.17); the positivity of `L(1/2, χ_F)` at the nine quadratic fields with
-  `d_F ≤ 13`, a finite verification proved here (6.28); the record
+  finite range *SchoenfeldMertensSmallRange*, which 6.29 states as a hypothesis; the records
+  *JohnstonInitialRanges*, the initial ranges of Johnston's bounds at the constant `1`, and
+  *SmallQuadraticCentralValues*, the nonvanishing of `L(1/2, χ_F)` at the nine quadratic fields with
+  `d_F ≤ 13`, which 6.17 and 6.28 state and take as hypotheses; the record
   *ZetaZeroReciprocalLowRange*, which the Layer 6 introduction states and its statements take as a
   hypothesis; the proposition *RamareRumelyRows*, in which 6.22 states the tabulated rows of
   Ramaré–Rumely and Dusart as a hypothesis; the record *RamareSaouterGapRange*, which 6.24 states
@@ -2386,8 +2394,8 @@ nothing here uses them.
 - the Riemann hypothesis for Dedekind zeta functions of fields not abelian over `ℚ`, for
   ray-class characters not of the form of 5.6, and for Artin, automorphic and Rankin–Selberg
   L-functions: no roadmap here proves them, and no target of Layer 6 removes them;
-- nonvanishing at the central point (beyond the nine quadratic characters of 6.28), simplicity
-  of zeros, the Dedekind conjecture and every numerical record; so the explicit zero count of
+- nonvanishing at the central point, simplicity of zeros, the Dedekind conjecture and every
+  numerical record; so the explicit zero count of
   ExplicitZetaBounds §5.3, whose only hypothesis
   is such a record, Rosser's bound for `N(T)` below the height `1467` (its records
   `ZetaZeroFreeUpTo 14` and `ZetaArgumentBoundUpTo 6800000 2`), the reciprocal-zero records, the
@@ -2419,11 +2427,7 @@ nothing here uses them.
   `CyclotomicField`, `IsAbelianGalois`;
 - `polynomialFunctions_closure_eq_top` (Weierstrass approximation on `[a, b]`) and
   `AnalyticOnNhd.sum_divisor_le` (Jensen's inequality: the zeros, with multiplicity, of a function
-  analytic on a closed disc, bounded by `M ≥ 1` on its boundary and nonzero at its centre) (6.32);
-- `DirichletCharacter.LFunction_eq_LSeries`, `DirichletCharacter.differentiable_LFunction`,
-  `sum_mul_eq_sub_sub_integral_mul` (Abel summation on an interval) and
-  `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq` (the identity theorem), for the series of
-  `L(1/2, χ)` in 6.28.
+  analytic on a closed disc, bounded by `M ≥ 1` on its boundary and nonzero at its centre) (6.32).
 
 ### From Tau Ceti
 
@@ -2473,8 +2477,8 @@ nothing here uses them.
 - §9.4: `DirichletCharacter.GeneralizedRiemannHypothesis`; its value form
   (`generalizedRiemannHypothesis_iff_LFunction_ne_zero`), strip forms
   (`generalizedRiemannHypothesis_iff_re_eq_half`), inverse, change of level and primitive character
-  (`generalizedRiemannHypothesis_primitiveCharacter_iff`), completed-function clause, modulus one
-  (`generalizedRiemannHypothesis_modOne_iff`), quantified forms and consumer forms.
+  (`generalizedRiemannHypothesis_primitiveCharacter_iff`), completed-function clause, the clause on
+  modulus one and the principal character, quantified forms and consumer forms.
 - §9.5: `NumberField.ExtendedRiemannHypothesis`, `RayClassCharacter.GeneralizedRiemannHypothesis`;
   the inverse clause; the strip forms (5.5, 5.6, 6.10); presented and primitive; the trivial
   character; the records; the rational
@@ -2576,9 +2580,12 @@ nothing here uses them.
 - §0.3, its case `q = 1`: `riemannZeta s < 0` for real `0 < s < 1`, with no
   record (for 1.2, 1.3, 2.4, 2.5, 6.28).
 - §§0.2, 0.4, 0.4b, 2.9, 7.2–7.6, 7.9, 7.10, 8.1, 8.3–8.5, 9.3: the statements discharged in
-  6.11–6.15, with the implications from the hypothesis to `DirichletGRHUpTo`, `PlattRecord`,
-  `LuZamanZhaoRecord`, *HasLandauSiegelGap* `((log 3)/2) ∞` and the count `N(T)` that §§0.2, 0.4b,
-  7.9 and 2.9 state, and Hoffstein's lemma of §9.3 (for 6.12).
+  6.11–6.15; §0.2's law `(∀ H, GRH(q, H)) ↔ DirichletGRH χ` for every primitive `χ` modulo `q`
+  (6.11); the definitions of `PlattRecord` through `plattHeight` (§§0.3, 0.4b), of
+  `LuZamanZhaoRecord` (§0.4b, a quadratic character being nonprincipal) and of
+  *HasLandauSiegelGap* with its antitonicity (§7.9), from which 6.12 and 6.15 derive them;
+  §2.9's relation `N(T) = ϑ(T)/π + 1 + S(T)` and its bracket for `ϑ` (6.13); and Hoffstein's
+  lemma of §9.3 (for 6.12).
 - §7.3a: *ClassicalZeroFreeRegion*; §8.3a: *ZetaZeroDensityBound* (6.14(d)).
 - §0.4, the records `ZetaZeroFreeUpTo 14` and `ZetaArgumentBoundUpTo 6800000 2`, and §5.2, Rosser's
   bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for every `T ≥ 2` under them
@@ -2608,7 +2615,8 @@ nothing here uses them.
   *ZeroCountBound* at Rosser's triple `0.137 0.443 1.588 0 2`, the bound that Rosser's zero count
   gives.
 - §2.3, the four bounds of Büthe and Johnston, from which 6.17 derives Johnston's Theorem 4.1 at
-  every `a ≥ 1` together with its initial ranges, without *JohnstonTable*; §6.1, the rows
+  every `a ≥ 1`, with the record *JohnstonInitialRanges* of its initial ranges, without
+  *JohnstonTable*; §6.1, the rows
   of *RamareRumelyTable1* and *Dusart2002Table*, which 6.22 states as *RamareRumelyRows*, the
   implication from `GRH*(k, H)` for every `H` to each row, and not through the general shape.
 - §§3.4, 7.1–7.3, 7.5: the statements of 6.19's third item and of 6.24, as statements (their
@@ -2663,15 +2671,19 @@ nothing here uses them.
 ## References
 
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for
-  Dirichlet L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the route of
-  this roadmap: of the transform of a family with its positive residues
+  Dirichlet L-functions announced in [Announcement], which gives its source as fourteen archive
+  parts on the author's site, <https://alpo.ge/lean.tar.gz.part01> to `lean.tar.gz.part14`
+  (footnote 1, p. 1). A repository with a public verification setup:
+  <https://github.com/leanprover-community/riemann-hypothesis>. The formalization is the source of
+  the route of this roadmap: of the transform of a family with its positive residues
   (0.5, 0.6), of the windowed Landau theorem for families in its upper-bound forms (2.1–2.3, through
   PositivityOfDirichletSeriesWithKernels §6.8; the lower-bound form 2.4 and the form 2.5 for
   `ψ_K(x) − x` are drawn here from the dichotomy of that §6.8), and of the passage from the window
   bounds for cyclic families to the hypothesis (Layer 4, 5.1).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026:
-  <https://alpo.ge/remark.pdf> (Layers 4–5).
+  <https://alpo.ge/remark.pdf>, p. 1: the announcement of proofs of the Riemann hypothesis and of
+  the generalized Riemann hypothesis, formalized in Lean (Layer 5), and the location of the Lean
+  source (footnote 1).
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905): Landau's theorem on Laplace
   and Mellin transforms of functions bounded on one side (1.1–1.3).
 - A. E. Ingham, *The Distribution of Prime Numbers*, Cambridge Tracts in Mathematics 30 (1932),
