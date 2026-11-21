@@ -77,7 +77,7 @@ at a time with (10) and (2) (peeling does not change the degrees), then drop the
 multiplicity symbol in multigraded form over a local base (Serre, Ch. IV; mixed multiplicities in the sense of Teissier and
 Bhattacharya); in geometric terms, intersection numbers of Cartier divisors on a scheme proper over `Spec B` whose common
 zero locus lies over the closed point. *Needs:* DeformationAndDerivedPatchingAlgebra §§1.3–1.5, 3.11–3.13; DerivedModuleAlgebra §0.K.1 (Koszul complexes);
-GrothendieckEulerForms Layer 5; Mathlib `GradedAlgebra`, `DirectSum`, `Module.length`.
+GrothendieckEulerForms §§5.1–5.2; Mathlib `GradedAlgebra`, `DirectSum`, `Module.length`.
 
 **Checks.**
 
@@ -139,7 +139,7 @@ On `O[T]`, the section `πⁿT` of degree `1` has Koszul Euler characteristic `n
 
 ### Dependencies
 
-DeformationAndDerivedPatchingAlgebra §§1.3–1.5, 3.11–3.13 (3.16, 3.17); DerivedModuleAlgebra §0.K.1 (Koszul complexes); GrothendieckEulerForms Layer 5 (Euler characteristics); Mathlib graded algebras, `Module.length`, `Algebra.norm` and `LinearMap.det`.
+DeformationAndDerivedPatchingAlgebra §§1.3–1.5, 3.11–3.13 (3.16, 3.17); DerivedModuleAlgebra §0.K.1 (Koszul complexes); GrothendieckEulerForms §§5.1–5.2 (Euler characteristics); Mathlib graded algebras, `Module.length`, `Algebra.norm` and `LinearMap.det`.
 
 ## Layer 4: Torus-graded algebras and the graded cotangent bound
 
@@ -283,7 +283,8 @@ Smith normal form over a PID.
   `Δ_{e_2}H = 1 = 2^0`.
 - (*comparison with complete intersections*) In the toy datum the `O`-flat quotient of `A_0/(I ∩ A_0)` is the complete
   intersection `T_0 = O[[X]]/(X(X − πⁿ))`, finite flat over `O`; at the augmentation `y : X ↦ 0` its cotangent module
-  `(X)/(X², πⁿX)` and its congruence module `O/η`, `η := y(Ann_{T_0}(ker y)) = πⁿO`, both have length `n`, as the Wiles–Lenstra
+  `(X)/(X², πⁿX)` and its congruence module `Ψ_y(T_0) ≅ O/η_y`, `η_y = πⁿO` (PadicFamilies §§1.7–1.8; `T_0` is reduced and
+  finite flat), both have length `n`, as the Wiles–Lenstra
   equality for complete intersections requires, and `n` is also `Σ_ξ v(ξ(a))`. The graded bound gives `n ≤ 2n`: it is not
   sharp here, and it has no converse. `A/I` itself is not a complete intersection at the closed point: its local ring there has
   the components `b = 0` (the plane `O[c, d]`, of dimension `3`) and `d = 0`, `bc = πⁿ` (the two-signed one, of dimension `2`), so it
@@ -368,8 +369,9 @@ generate an ideal `𝔞` with `A/𝔞 ≅ R₀/J′` and `√J′ = √J`: the s
 `(m·y, det m)` onto `(M·Y, det M)`. The connectedness bound by arithmetic rank (DeformationAndDerivedPatchingAlgebra §6.6) gives
 `c(R₀/J) = c(A/𝔞) ≥ dim A − ara(𝔞) − 1 ≥ dim R₀ − g − b − 2 = D`; Krull's height theorem bounds the height of every minimal prime
 of `𝔞` by `(g + 1)² + (g + 1) + b`, and catenarity of `A` gives `dim A/P ≥ D + 1`, i.e. `dim R₀/P ≥ D + 1` for the minimal primes
-of `J`. *Needs:* DeformationAndDerivedPatchingAlgebra §6.6 (connectedness dimension, its invariance under radicals, the bound by arithmetic rank); dimension theory
-of complete local rings (catenarity, Krull's height theorem, the dimension formula); Mathlib `Matrix.det`, `MvPowerSeries`,
+of `J`. *Needs:* DeformationAndDerivedPatchingAlgebra §6.6 (connectedness dimension, its invariance under radicals, the bound by arithmetic rank); catenarity
+of complete local rings (SchemeAndStackFoundations §§0.16, 0.21), Krull's height theorem and the dimension formula; Mathlib
+`Matrix.det`, `MvPowerSeries`,
 `Ideal.minimalPrimes`, `Ideal.height`.
 
 **Checks.**
@@ -397,7 +399,9 @@ coefficient vectors in `O^{D₀}` are linearly independent modulo `π`, with `Σ
    `O[[X₁, …, X_{D₀}]]`, and a prime `Z` with `dim B/Z ≥ 1 + D₀` exists only if `B = O[[X₁, …, X_{D₀}]]`; then `Z = 0`, which is
    contained in every prime.
 
-Clause (1) is stated in `Suggested.lean` as `le_of_determinantalPresentation`.
+Clause (1) is stated in `Suggested.lean` as `le_of_determinantalPresentation`. When `𝔸` comes from a two-block generalized
+matrix algebra (IntegralHeckeAndGaloisDeterminants §1.3) whose off-diagonal entry modules are identified by a polarization,
+`N = A_12 ≅ A_21` and `ired(N)` is the reducibility ideal `I_red = A_12A_21` of IntegralHeckeAndGaloisDeterminants §1.4.
 
 *Route.* (1) Write `Σ_jλ_{ij}(X)m_j = Σ_jc_{ij}m_j` with `c_{ij} ∈ 𝔧`: the `z_{ij} := λ_{ij}(X) − c_{ij}` give relations `Σ_jz_{ij}m_j = 0`,
 and Cramer's rule (`adj(z)·z = det z·1`) gives `det z ∈ Ann_B N`. `𝔸` is local with maximal ideal `𝔪_B ⊕ N` (for `u ∈ B^×`,
@@ -450,7 +454,11 @@ Prove:
 
 For local `R`, the chain hypothesis of (1) holds when `c(R/𝔰) ≥ D₁` (DeformationAndDerivedPatchingAlgebra §6.6; by the component-partition definition of `c`, this says
 that `dim R/𝔰 ≥ D₁` and that the adjacency graph on the components is connected), in particular when `𝔰` is chained in dimension
-`D₁` (6.10), and trivially when `R/√𝔰` is irreducible.
+`D₁` (6.10), and trivially when `R/√𝔰` is irreducible. The same propagation is carried out for particular deformation rings by
+ClassicalSerreModularity `I.1/pseudo-deformation-rings-and-pro-modularity` (the key proposition of Skinner–Wiles, from `(P1)`
+and `(P2)`, for the pro-modular primes of `R_𝒟`), by PotentialAutomorphyInfrastructurePartII §§8.4–8.5 (potentially
+pro-automorphic minimal primes, with adjacency from the bound on `c(R₁)`) and by GL2ModularityLifting §§10.3 and 10.12 (Pan's
+good components, by the partition argument of (2)).
 
 *Route.* (1) For a component `Q` let `Inv(Q)` say: `Q ∈ TI` implies `Q` good, and either `Q` is good and in `TI`, or `Q` is thick and
 lies in a nice prime of `TE` reached by a chain of links from a nice prime of `TE` with a good generization in `TI`. *Start:* let
@@ -516,13 +524,19 @@ Prove:
    in every `N_k` is zero (Stacks, Tags 09B8, 05GG and 031D).
 
 Clause (2) is stated in `Suggested.lean` as `exists_patched_module_up_to_element`, with the weakly regular form of
-quasi-regularity.
+quasi-regularity. HilbertModularVarietiesAndShimuraCurves §R18.4.29 is the neighbouring construction without an inverted
+element: over the integers of a finite extension of `ℚ_l`, it patches finitely generated modules with uniformly bounded
+numbers of generators into `lim_a ∏_𝒰(M_n/aM_n)` and proves finite freeness for systems free of fixed rank; (2) allows
+unbounded ranks and maps that are inverse only up to `f`, and concludes quasi-regularity, not freeness.
 
 *Route.* (1) For each open normal `V` the subgroups `ker(π_N)V/V` of the finite group `Ph/V` take finitely many values, so one of
-them, `K_V/V`, occurs for `𝒰`-almost all `N`; for `V′ ⊆ V`, `K_{V′}V = K_V` (two sets of `𝒰` meet). Put `K_∞ := ⋂_VK_V`; then
-`K_∞V = K_V`: for `x ∈ K_V` the closed sets `xV ∩ K_{V′}`, `V′ ⊆ V`, are nonempty and directed, so by compactness they have a
+them, `K_V/V`, occurs for `𝒰`-almost all `N` (finite germ evaluation, DeformationAndDerivedPatchingAlgebra §8.1, for the finite
+set of subgroups of `Ph/V`); for `V′ ⊆ V`, `K_{V′}V = K_V` (two sets of `𝒰` meet). Put `K_∞ := ⋂_VK_V`; then
+`K_∞V = K_V`: for `x ∈ K_V` the closed sets `xV ∩ K_{V′}`, `V′ ⊆ V`, are nonempty and directed, so by compactness
+(ProfiniteProPGroups Layer 0, the compactness lemma) they have a
 common point, which lies in `K_∞ ∩ xV`. Uniqueness: a closed subgroup is the intersection of its products with the open normal
-subgroups. For the commutation fix `V` and let `ℓ^a` be the `ℓ`-part of `|Ph/V|`; for `𝒰`-almost all `N` the lifts are congruent
+subgroups (ProfiniteProPGroups Layer 0, closed and open subgroups).
+For the commutation fix `V` and let `ℓ^a` be the `ℓ`-part of `|Ph/V|`; for `𝒰`-almost all `N` the lifts are congruent
 to their limits modulo `V`, `ker(π_N)V = K_∞V` and `q_N ≡ 1` modulo `ℓ^a`; in `Ph/K_∞V`, a quotient of `Γ_N`, the image of `τ_N` lies
 in an `ℓ`-group, so its order divides `ℓ^a`, and the relation becomes `φ^{−1}τφ = τ`; as `G_∞ = lim_VPh/K_∞V`, the limits commute
 in `G_∞`. This is the diagonal extraction of DeformationAndDerivedPatchingAlgebra §5.3 for closed normal subgroups of a topologically finitely generated profinite
@@ -533,7 +547,8 @@ are generated by a bounded number of elements. (2) Put `I_{k,j} := (σ)^k + 𝔪
 coordinates; the relation holds coordinatewise in `S_∞/I_{a+1,j}`, where the monomials of degree `a` are independent modulo
 `(σ) + 𝔪_Λ^j`. (ii) There are `R`-linear `Φ : 𝒳 → Z₁`, `Ψ : Z₁ → 𝒳`, `Z₁ := Lim_𝒰(I_{1,•}; M_•)`, with `ΦΨ = f` and `ΨΦ = f`: choose
 `ν(N)`, the largest `j ≤ N` for which the maps exist at `N`; `ν(N) ≥ j` for `𝒰`-almost all `N` because `𝒰` contains the cofinite sets;
-the maps modulo `I_{1,ν(N)}` induce maps of the limits, and the limit of the constant family `𝒳` is `𝒳` (`𝒳` is `𝔪_Λ`-adically
+the maps modulo `I_{1,ν(N)}` induce maps of the limits, and the limit of the constant family `𝒳` is `𝒳`
+(DeformationAndDerivedPatchingAlgebra §8.1 on each finite `𝒳/𝔪_Λ^j𝒳`; `𝒳` is `𝔪_Λ`-adically
 complete with finite quotients, the residue field being finite). (iii) Put `Z_k := Lim_𝒰(I_{k,•}; M_•)` (with `ν(N)` the largest
 `j ≤ N` for which the freeness holds at `N`). The `Z_k` need not be finite; `Z_{k+1} → Z_k` is onto with kernel `(σ)^kZ_{k+1}` because
 `(σ)^k` is generated by finitely many monomials, and `(σ)^kZ_k = 0`. The finiteness is that of `R[1/f] ⊗ Z₁ ≅ R[1/f] ⊗ 𝒳` (from
@@ -557,7 +572,8 @@ at `q_{i′}𝔹`, so a prime `Z′` of `𝔹_{i′}` lies over `z`; it is in th
 `Z′ ∩ R = Z ∩ R`; it contains `𝔦` because `𝔦` acts nilpotently on `𝕄`. (4) `N := lim_kN_k` is `𝔶`-adically complete with
 `N/𝔶^kN = N_k` (Tag 09B8), so an element dying in every `N_k` lies in `⋂_k𝔶^kN = 0`; the completion `Ŝ` is `𝔶Ŝ`-adically complete
 with `Ŝ/𝔶Ŝ = S/𝔶` (Tag 05GG), `N` is an `Ŝ`-module as a limit of `S/𝔶^k`-modules, and `N/𝔶ŜN = N₁` is finite, so `N` is finite over
-`Ŝ` (Tag 031D). *Needs:* DeformationAndDerivedPatchingAlgebra §§3.1, 5.3, 6.1, 6.2; ProfiniteProPGroups Layer 4
+`Ŝ` (Tag 031D). *Needs:* DeformationAndDerivedPatchingAlgebra §§3.1, 5.3, 6.1, 6.2, 8.1 (finite germ evaluation);
+ProfiniteProPGroups Layers 0 (the compactness lemma, closed and open subgroups, quotients), 3 (topological generation) and 4
 (the free profinite group on a finite set); Mathlib `Ultrafilter`, `Filter.Germ`, `ProfiniteGrp`, `AdicCompletion`,
 `RingTheory.Sequence.IsWeaklyRegular`.
 
@@ -622,7 +638,7 @@ The generic incidence `{m·y = 0, y ≠ 0}` has an irreducible closure of codime
 
 ### Dependencies
 
-6.11 uses 6.10 (1), and 6.15 and 6.16 use the setting of 6.14. 6.10–6.16 use DeformationAndDerivedPatchingAlgebra §§1.9, 3.1, 5.3–5.4, 6.1–6.2 and 6.6, ProfiniteProPGroups Layer 4 (the free profinite group on a finite set) and Mathlib ultrafilters, `Matrix.det`, `Matrix.adjugate`, `MvPowerSeries`, `PrimeSpectrum` and `AdicCompletion`.
+6.11 uses 6.10 (1), and 6.15 and 6.16 use the setting of 6.14. 6.10–6.16 use DeformationAndDerivedPatchingAlgebra §§1.9, 3.1, 5.3–5.4, 6.1–6.2, 6.6 and 8.1, ProfiniteProPGroups Layers 0, 3 and 4 (profinite foundations, topological generation, the free profinite group on a finite set), SchemeAndStackFoundations §§0.16, 0.21 (catenarity of complete local rings) and Mathlib ultrafilters, `Matrix.det`, `Matrix.adjugate`, `MvPowerSeries`, `PrimeSpectrum` and `AdicCompletion`.
 
 ## Downstream consumers
 
@@ -634,7 +650,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns Koszul Euler characteristics of sections of standard multigraded algebras over a local base with their calculus (3.16); the order of an element on a module finite over the coefficient ring (3.17); torus-graded local algebras with a fixed integral point, their cotangent lattices, two-signed points, the derivation bound and the graded formal implicit function theorem (4.8); the graded cotangent bound with the monomial count it uses (4.9); the generic determinantal incidence locus and determinantal sections chained in a dimension (6.10); finite `ℤ/2`-graded algebras with a determinantal presentation (6.11); propagation of a property along components (6.12); limit groups and patching up to an inverted element, with its support statements (6.13); and weighted presentations: the coordinate grading, the graded part and the rescaling ring (6.14–6.16). The Wiles–Lenstra criterion is not a target here: 4.9 is a cotangent *bound*, not a numerical criterion; it bounds the weight `−1` cotangent length at a torus-fixed point by valuations at the other orbits, with a factor `2`, has no converse and concludes nothing about the ring, and its Checks compare it with the equality for complete intersections.
 
-The theory these statements extend is owned by [DeformationAndDerivedPatchingAlgebra](../../DeformationAndDerivedPatchingAlgebra/README.md): ordinary graded modules (DeformationAndDerivedPatchingAlgebra §§1.3–1.5), relative cotangent spaces and formal presentations (DeformationAndDerivedPatchingAlgebra §1.9), depth (DeformationAndDerivedPatchingAlgebra §3.1), Hilbert polynomials, multiplicities, the Koszul Euler characteristic of a parameter list on a local module and Serre's inequality `length(M/(x)M) ≥ e_(x)(M)`, all ungraded and for one ideal (DeformationAndDerivedPatchingAlgebra §§3.11–3.13), integral points (DeformationAndDerivedPatchingAlgebra §4.2), cofinal cutoffs, diagonal extraction and the limit presentation (DeformationAndDerivedPatchingAlgebra §§5.3–5.4), near faithfulness and support under base change (DeformationAndDerivedPatchingAlgebra §§6.1–6.2), and the connectedness dimension with its bound by arithmetic rank (DeformationAndDerivedPatchingAlgebra §6.6). The patching of its Layer 5 inverts no element, and its Layer 8 fixes an ultrafilter for complexes, not for limit groups. Koszul complexes are DerivedModuleAlgebra §0.K.1, Euler characteristics GrothendieckEulerForms Layer 5, Hilbert–Samuel polynomials PadicLocalLanglandsForGL2Qp §0.5, and the free profinite group on a finite set ProfiniteProPGroups Layer 4. LefschetzPencilsAndVanishingCycles has an implicit function theorem for henselian pairs, not the weight-compatible form over `E[[t]]` that 4.8 (4) states. Congruence modules and congruence ideals are PadicFamilies §§1.7–1.8; the Check of 4.9 that uses a congruence module defines it. Iyengar, Khare and Manning treat congruence modules in higher codimension.
+The theory these statements extend is owned by [DeformationAndDerivedPatchingAlgebra](../../DeformationAndDerivedPatchingAlgebra/README.md): ordinary graded modules (DeformationAndDerivedPatchingAlgebra §§1.3–1.5), relative cotangent spaces and formal presentations (DeformationAndDerivedPatchingAlgebra §1.9), depth (DeformationAndDerivedPatchingAlgebra §3.1), Hilbert polynomials, multiplicities, the Koszul Euler characteristic of a parameter list on a local module and Serre's inequality `length(M/(x)M) ≥ e_(x)(M)`, all ungraded and for one ideal (DeformationAndDerivedPatchingAlgebra §§3.11–3.13), integral points (DeformationAndDerivedPatchingAlgebra §4.2), cofinal cutoffs, diagonal extraction and the limit presentation (DeformationAndDerivedPatchingAlgebra §§5.3–5.4), near faithfulness and support under base change (DeformationAndDerivedPatchingAlgebra §§6.1–6.2), and the connectedness dimension with its bound by arithmetic rank (DeformationAndDerivedPatchingAlgebra §6.6). The patching of its Layer 5 has finite-level comparison isomorphisms and inverts `π` (DeformationAndDerivedPatchingAlgebra §§5.7–5.8); 6.13 (2) inverts an arbitrary `f ∈ R` and allows maps that are inverse only up to `f`. DeformationAndDerivedPatchingAlgebra §8.1 supplies finite germ evaluation for a fixed ultrafilter, which 6.13 uses; its Layer 8 patches complexes, not limit groups. Koszul complexes are DerivedModuleAlgebra §0.K.1, Euler characteristics GrothendieckEulerForms §§5.1–5.2, Hilbert–Samuel polynomials PadicLocalLanglandsForGL2Qp §0.5, and the free profinite group on a finite set ProfiniteProPGroups Layer 4. LefschetzPencilsAndVanishingCycles §2.4 has Tougeron's implicit function theorem for henselian pairs, not the weight-compatible form over `E[[t]]` that 4.8 (4) states. Congruence modules and congruence ideals are PadicFamilies §§1.7–1.8. Iyengar, Khare and Manning treat congruence modules in higher codimension.
 
 In this family, UniformWildKernelBounds uses these statements, as listed under Downstream consumers above.
 
@@ -649,6 +665,7 @@ In this family, UniformWildKernelBounds uses these statements, as listed under D
 - §3.13: for a parameter list `x` on a nonzero finite module `M`, `e_(x)(M) = Σ_i (−1)^i length H_i(x; M)` and `length(M/(x)M) ≥ e_(x)(M)` (3.16).
 - §4.2: algebraic integral points of finite local algebras over a discrete valuation ring (4.8).
 - §§5.3–5.4: compatible presentation towers at cofinal cutoffs, diagonal extraction, and the limit presentation with its actions (6.13).
+- §8.1: finite germ evaluation for a fixed ultrafilter, the unique large fibre of a family with values in a finite set (6.13 (1), (2)).
 - §6.1: near faithfulness, and the support of a finite module as the zero locus of its annihilator (6.13 (fib)).
 - §6.2: support under base change of a finite module, with equality for finite modules (6.13 (fib)).
 - §6.6: the connectedness dimension `c` of a Noetherian local ring by component partitions, with `dim ∅ = −1`, its invariance under radicals and its value `dim A` on irreducible `A`; the arithmetic rank `ara`; and `c(A/I) ≥ c(A) − ara(I) − 1` for complete Noetherian local `A` and proper `I` (6.10, 6.12).
@@ -659,7 +676,7 @@ In this family, UniformWildKernelBounds uses these statements, as listed under D
 
 ### From TauCetiRoadmap.GrothendieckEulerForms
 
-Layer 5: finite-support Euler characteristics of bounded complexes and their additivity (3.16).
+§§5.1–5.2: signed sums of finitely supported graded families with the finite-exact-sequence formula, and the Euler characteristic of a bounded complex equal to its alternating homology sum (3.16).
 
 ### From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
@@ -667,7 +684,13 @@ Layer 5: finite-support Euler characteristics of bounded complexes and their add
 
 ### From TauCetiRoadmap.ProfiniteProPGroups
 
-Layer 4: the free profinite group on a finite set, with its continuous universal property (6.13 (1)); in Tau Ceti `TauCeti.freeProfiniteGroup` and `TauCeti.freeProfiniteGroup.lift`.
+- Layer 0: the compactness lemma for directed families of nonempty closed subsets, closed and open subgroups, and quotients by closed normal subgroups (6.13 (1)).
+- Layer 3: topological generation, `TauCeti.IsTopologicallyFinitelyGenerated` (6.13 (1)).
+- Layer 4: the free profinite group on a finite set, with its continuous universal property (6.13 (1)); in Tau Ceti `TauCeti.freeProfiniteGroup` and `TauCeti.freeProfiniteGroup.lift`.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.16: catenary and universally catenary rings, with additivity of heights along chains; §0.21: complete Noetherian local rings are excellent, hence universally catenary (6.10).
 
 ### From Mathlib
 
