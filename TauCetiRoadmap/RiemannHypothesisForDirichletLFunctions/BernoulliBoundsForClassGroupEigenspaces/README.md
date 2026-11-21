@@ -93,7 +93,8 @@ form of ArithmeticKTheory §6.8's order identity. (d) The inclusion is HeckeIdea
 with generator acting on `μ_{ℓ^∞}` through `κ = 1 + ℓ^c u`, `H⁰(F′, ℚ_ℓ/ℤ_ℓ(−e))` is cyclic of order `ℓ^{c+m+v_ℓ(e)}` and the norm
 `Σ_{j<ℓ^m} κ^{−ej}` has valuation exactly `m`, so `Ĥ⁰ = 0`; the Herbrand quotient of a finite module is `1`, so `H¹ = 0`. (e) ArithmeticKTheory Layer 3 (finiteness of
 `K_{2e}(𝒪_F)`) and ArithmeticKTheory §6.1. (f) `2` is invertible in `ℤ_ℓ`; restriction–corestriction for `F/F⁺`.
-*Needs:* ArithmeticKTheory §§6.1, 6.3, 6.8, 6.9 and Layer 3; ArithmeticGaloisDuality §D7.6; HeckeIdealsAndTaylorWilesRelations §10.1; ProfiniteCohomology Layers 6–7.
+*Needs:* ArithmeticKTheory §§6.1, 6.3, 6.8, 6.9 and Layer 3; ArithmeticGaloisDuality §D7.6; HeckeIdealsAndTaylorWilesRelations §10.1;
+ProfiniteCohomology §5.4 (inflation–restriction) and ProfiniteCohomology §§6.2–6.3 (corestriction).
 
 **Checks.**
 
@@ -149,7 +150,8 @@ to `ℓ`, and then zero at `p`: `W^{I_p} = 0` if `ψ` is ramified at `p`, and `F
 `p^{−e}ψ(p)⁻¹ ≠ 1`. The same with decomposition groups above `ℓ`. (c) The same with the `H¹` of the finite inertia and
 decomposition quotients as defect. (d) Inflation–restriction from `G_ℚ` to `G_L`; the `H⁰`-term and the local invariants at the
 primes dividing `f_L` are bounded by the orders of the roots of unity of `ℓ`-power order in `L` and in its completions, at most
-`2 f_L e` in length for each of the `[L:ℚ]` characters. *Needs:* 6.17; ProfiniteCohomology Layer 7 (Shapiro);
+`2 f_L e` in length for each of the `[L:ℚ]` characters. *Needs:* 6.17; ProfiniteCohomology §5.4 (inflation–restriction) and
+ProfiniteCohomology §7.2 (Shapiro);
 PadicMeasuresIwasawaAlgebras §6.1 (character components).
 
 **Checks.**
@@ -164,7 +166,7 @@ For `F = ℚ` and `ℓ = 2`, `V(ℚ, 2) = 0`; over `ℚ(i)`, `Ш¹(ℚ(i), 2, e)
 
 ### Dependencies
 
-ArithmeticKTheory §§6.1, 6.3, 6.7, 6.8, 6.9, 7.4 and Layer 3; HeckeIdealsAndTaylorWilesRelations §10.1; ArithmeticGaloisDuality §D7.6; ProfiniteCohomology Layers 6–7 (inflation–restriction, Shapiro's lemma); PadicMeasuresIwasawaAlgebras §6.1.
+ArithmeticKTheory §§6.1, 6.3, 6.7, 6.8, 6.9, 7.4 and Layer 3; HeckeIdealsAndTaylorWilesRelations §10.1; ArithmeticGaloisDuality §D7.6; ProfiniteCohomology §§5.4, 6.2–6.3, 7.2 (inflation–restriction, corestriction, Shapiro's lemma); PadicMeasuresIwasawaAlgebras §6.1.
 
 ## Layer 9: Explicit torsion bounds for K-groups
 
@@ -240,8 +242,13 @@ convex sets, finitely many meeting each compact convex subset, by induction on t
 hyperplane and Mayer–Vietoris. (e) A simplex has a matrix `A` of common minimal vectors with `|N(det A)|` bounded through the
 Hermite–Minkowski lower bound for determinants, Hadamard's inequality and `2^{nN} det G = |d_L|^N (∏_w det h_w)²`; the left class of
 such a matrix `A` is determined by `I = |N(det A)| ∈ ℤ` and by `I·A⁻¹` modulo `I`, and the vertices with given minimal vectors by Cramer's
-rule. (f) An element of finite order congruent to `1` modulo `3` in a ring finite free over `ℤ` is `1` (Minkowski).
-*Needs:* LatticePackingsAndPerfectForms §§1.7–1.8 (Minkowski and Hermite for real forms), LatticePackingsAndPerfectForms §§4.1, 4.9 (the case `L = ℚ`: the
+rule. (f) An element of finite order congruent to `1` modulo `3` in a ring finite free over `ℤ` is `1` (Minkowski:
+K3SurfacesAndSymplecticBoundedness §4.5, applied in `GL_{nN}(ℤ)` through a `ℤ`-basis of `𝒪_L`; a finite subgroup of `GL_N(𝒪_L)` then
+injects into `GL_N(𝒪_L/3)`); stabilizers of vertices lie in the automorphism group of the Gram matrix of `q_h` on `ℤ^{nN}`,
+finite by LatticePackingsAndPerfectForms §4.4.
+*Needs:* LatticePackingsAndPerfectForms §§1.7–1.8 (Minkowski and Hermite for real forms), LatticePackingsAndPerfectForms §4.4
+(automorphism groups of forms), K3SurfacesAndSymplecticBoundedness §4.5 (finite subgroups modulo `3`),
+LatticePackingsAndPerfectForms §§4.1, 4.9 (the case `L = ℚ`: the
 Ryshkov polyhedron and its tiling by Voronoi domains, of which (a)–(b) are the number-field generalization); Mathlib
 `Matrix.det`, `NumberField.discr`. For `L = ℚ` the count of Voronoi's cells by the size of their minimal vectors is
 Soulé 1999, Propositions 1–2, pp. 3–4; Soulé 2003 and BFEH 2014 use Ash's well-rounded retract (BFEH 2014, Theorem 2.2,
@@ -290,11 +297,12 @@ of `ρ_j` without Borel's theorem; this is the case 9.7 uses. [FormalProof] stat
 
 *Route.* A Bockstein identifies the obstruction to lifting a mod-`ℓ^ν` cycle with torsion in degree `j − 1`; on liftable cycles `Φ`
 descends to a homomorphism on integral homology; `Φ` is primitive, so `ℓ^{j−1}Φ` factors through the primitive part, of rank `ρ_j` (ArithmeticKTheory §3.4) modulo torsion: `∏_{t<j−1}(ψ^ℓ − ℓ^{t+2})` projects onto
-the primitive part because `ψ^ℓ` is the `ℓ`-th convolution power of the identity of the Hopf algebra `H_*(GL(𝒪_L); ℚ)`, which
+the primitive part because `ψ^ℓ` is the `ℓ`-th convolution power of the identity of the Hopf algebra `H_*(GL(𝒪_L); ℚ)`
+(free graded-commutative on its primitive part, Polylogarithms §2.2), which
 acts on products of `k` primitive classes by `ℓ^k`: the factors kill the products of `2, …, j` primitives and multiply the
 primitive part by `ℓ^{j−1}` times a unit. Homological stability
 compares the torsion at different `n`. *Needs:* ArithmeticKTheory §3.4 (Borel's ranks); SchemeKTheoryOperations §6.7 (homological stability for
-`GL_n`); 9.4.
+`GL_n`); Polylogarithms §2.2 (the rational homology of `GL(R)` as a Hopf algebra and its primitives); 9.4.
 
 ### 9.6 The additive classes of finite fields and the cycle with prescribed residues
 
@@ -360,8 +368,9 @@ characters, with determinant `1` for `t ≠ t₀` and determinant `β = α^{P_{M
 `t = t₀`; the masses of colliding characters carry the same twist because `κ^i mod ℓ^ν` and `γ^i` have the same period. (b4)
 moves the cycle into `Aut_{𝒪_L}(𝒪_F^J)`, hence into `GL_N(𝒪_L)` after adding a complement; evaluation by the block formula of (a)
 at the reductions gives `pe·v(N_{γ,κ^E}(α))`, using `T·p(γ⁻¹) ≡ p(κ)·T` modulo `q` for `T = Σ_s κ^sγ^s`. Equivalently, `y` is a
-homological model of the transfer of `b_ζ^E·{α}` in `K_{2E+1}(F; ℤ/q)`, `b_ζ ∈ K₂(F; ℤ/q)` the Bott element of `ζ`. *Needs:* ArithmeticKTheory §§2.1–2.3 (localization and residue transfer), ArithmeticKTheory §5.1
-(Bott elements); GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation of the homology of `GL(k)` and of `K_*(k)`),
+homological model of the transfer of `b_ζ^E·{α}` in `K_{2E+1}(F; ℤ/q)`, `b_ζ ∈ K₂(F; ℤ/q)` the Bott element of `ζ`. *Needs:* ArithmeticKTheory §§2.1–2.3 (localization and residue transfer), KTheoryFiniteLocalFields §§1.1–1.2
+(coefficient products and Bott classes);
+GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation of the homology of `GL(k)` and of `K_*(k)`),
 for (a); Mathlib `groupHomology`, the Künneth
 formula.
 
@@ -408,7 +417,9 @@ IntegralIwasawaTheory §§0.1–0.3, 10.5; SchemeKTheoryOperations §6.7; Chebot
 ### 9.8 K-groups
 
 (a) For every `m ≥ 1` there is a positive integer `R_m`, depending only on `m`, such that for every ring `R` the kernel of the
-Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is killed by `R_m` (Arlettaz 1991, Theorem 1.5). (b) There is an absolute `C` such that for every number
+Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is killed by `R_m` (Arlettaz 1991, Theorem 1.5). For a ring whose K-groups are
+finitely generated, ArithmeticKTheoryPartII §8.3 shows that no odd prime `ℓ ≥ (m + 3)/2` divides the order of this kernel; (a)
+also covers the small primes, for every ring. (b) There is an absolute `C` such that for every number
 field `L` and `m ≥ 2`, the part of `K_m(𝒪_L)_tors` prime to `R_m` has order `≤ exp((2|d_L|)^{(mn)^C})`; for even `m` the same holds for the
 `ℓ`-part for every odd `ℓ`, and for `ℓ = 2` when `L` is totally imaginary, with `#K_m(𝒪_L){ℓ} ≤ #(K_m(𝒪_L)/ℓ)^{v_ℓ(R_m)}·#H_m(GL(𝒪_L); ℤ)_tors{ℓ}`
 and `#(K_m(𝒪_L)/ℓ) ≤ h_{L(μ_ℓ)} ℓ^{n(ℓ−1)}`. The form (b), which discards only the primes dividing `R_m`, is this roadmap's,
@@ -440,7 +451,7 @@ For `ι = {1}` and `Λ₀ = {b}` the quotient is `ℤ/b` and the bound `b^{#ι}`
 
 ### Dependencies
 
-Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 5.1, 6.1; LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.9; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §§3.12, 3.18, 3.20, 3.35, 4.21–4.24; GeneralizedCohomology G2.7, G5.6; AlgebraicTopology §8.3; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
+Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1; LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.4, 4.9; K3SurfacesAndSymplecticBoundedness §4.5; Polylogarithms §2.2; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); KTheoryFiniteLocalFields §§1.1–1.2; IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §§3.12, 3.18, 3.20, 3.35, 4.21–4.24; GeneralizedCohomology G2.7, G5.6; AlgebraicTopology §8.3; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
 
 ## Layer 10: Minus parts of twisted Sha groups and Bernoulli numbers
 
@@ -489,6 +500,14 @@ DirichletPadicLFunctions §0.4; LFunctions Layer 4.
 - No exceptional case is needed: for `ψ = 1` and `(ℓ − 1) | (e + 1)`, `B_{e+1}` has `ℓ` in its denominator (von Staudt), and so does
   `B_{e+1}/(e + 1)`, while `ℓ ≤ e + 2` divides `P_{e+2}`, which makes `N·P_{e+2}·B_{e+1}` integral at `ℓ`.
 - The character is `ψ`, not `ψ⁻¹`: the `ψ⁻¹χ_ℓ^{−e}`-twisted classes see the `ℓ`-adic `L`-function of `ψω^{e+1}`.
+- For `ψ` factoring through `Gal(ℚ(μ_ℓ)/ℚ)`, IntegralIwasawaTheory §12.3 (with `F = ℚ`, `p = ℓ`, `n = e + 1` and its `χ` equal to
+  `ψ`) gives an exact formula for the order of the coinvariants `X_{ψω^{e+1}}(−e−1)_Γ` through `L_S(−e, ψ)`; (a) is an
+  inequality for every conductor.
+- (b) is the analogue in twist `e ≥ 1` of the relative class number formula of CyclotomicClassGroupsAndStickelberger §3.4 and
+  of its bound in CyclotomicClassGroupsAndStickelberger §4.1, where the minus part of the class group is measured by the `B_{1,χ}`.
+- For odd `e`, EulerSystemsCyclotomicMainConjecture §5.3 (c) gives, over `ℚ(μ_{ℓ^∞})^+`, the characteristic ideal of the dual
+  of the Selmer group of `ℚ_ℓ/ℤ_ℓ(−e)` with the unramified condition at `ℓ`; the groups here are at finite level and vanish at
+  the places above `ℓ`.
 
 ### Examples
 
@@ -526,8 +545,8 @@ Let `G` be the Galois group of the maximal pro-`p` extension of `A` unramified o
 `H¹(G/H, ℤ/p) → H¹(G, ℤ/p) → H¹(H, ℤ/p)^G → H²(G/H, ℤ/p) ≅ ℤ/p`, whose first map is injective with one-dimensional source; so
 `dim 𝒱^σ ≤ dim H¹(G, ℤ/p) − 1 + 1`. The `p`-rank of `G^{ab}` exceeds `rank_p X(A)` by at most `#P`, since the inertia groups at places
 prime to `p` are procyclic in a pro-`p` quotient. Hence `dim 𝒱^σ ≤ rank_p X(A) + #P`. The iterated bound follows by induction.
-*Needs:* IntegralIwasawaTheory §§0.3, 3.4–3.5; ClassFieldTheory Layers 8–12 (ramification of abelian extensions, class field theory over the
-layers); ProfiniteCohomology Layers 6, 9.
+*Needs:* IntegralIwasawaTheory §§0.3, 3.5; ClassFieldTheory Layers 8–12 (ramification of abelian extensions, class field theory over the
+layers); ProfiniteCohomology §5.5 (five-term sequence) and ProfiniteCohomology §9.6 (Kummer).
 
 **Checks.**
 
@@ -545,6 +564,8 @@ layers); ProfiniteCohomology Layers 6, 9.
   of them (each has order `p` and its generator lies outside `H`), and `H^{ab}` has rank `2`. The model is for odd `p` only: for
   `p = 2` the group of order `8` so generated is dihedral and `(xy)² = [x, y] ∈ H`. `X′` is a quotient of `X`, which is what
   consumers use.
+- The bound `dim 𝒱^σ ≤ rank_p X(A) + #P` of the route is the infinite-level rank analogue of Chevalley's ambiguous-class
+  formula (IntegralIwasawaTheory §3.5).
 
 ### Examples
 
@@ -552,7 +573,7 @@ For `p = 2`, `A = ℚ(i)(μ_{2^∞})` and `A′ = A(√−q)` with `q ≡ 3 mod 
 
 ### Dependencies
 
-IntegralIwasawaTheory §§0.3, 3.4–3.5; ClassFieldTheory Layers 8–12; ProfiniteCohomology Layers 6 and 9.
+IntegralIwasawaTheory §§0.3, 3.5; ClassFieldTheory Layers 8–12; ProfiniteCohomology §§5.5, 9.6.
 
 ## Layer 12: Specialization at finite-order characters of abelian extensions
 
@@ -582,6 +603,8 @@ for the comparison with the finite étale `H²` eigenspace of the correct parity
 - For `E` a CM quadratic extension of `F` and `χ = χ_{E/F}`, `n = e + 1` with `e` even: the formula gives the order of the minus part of
   `H²(𝒪_E[1/p], ℤ_p(e+1))` through `L_S(−e, χ_{E/F})`, a value that is nonzero because `χ_{E/F}` is totally odd and `e` even.
 - `χ = 1` and `E = F(μ_p)` recover IntegralIwasawaTheory §12.3; `p | o_χ` is excluded, as in IntegralIwasawaTheory §12.1, where eigenspaces and quotients differ integrally.
+- For `χ = 1`, `E = F` and `n = 2k`, the formula is the cohomological form of the `p`-part, `p` odd, of ArithmeticKTheory §7.5's
+  `|ζ_F(1 − 2k)| = 2^{r₁}|K_{4k−2}(𝒪_F)|/|K_{4k−1}(𝒪_F)|`.
 - The part of `H²` is the `χ⁻¹`-part: for `E′ = ℚ(μ₇)`, `p = 7`, `n = 2`, `χ = ω⁴`, adding `2` to `S` adds one to the length of the
   `χ`-part (the residue groups are `Ind μ₇(𝔽₈)`, with the characters `ω, ω⁴`), while `1 − 2χ(2) ≡ 4` is a unit and `1 − 2χ⁻¹(2) ≡ 0`
   modulo `7`.
@@ -689,7 +712,7 @@ Not owned here. The theory these statements extend belongs to four roadmaps. [Ar
 
 ### From TauCetiRoadmap.ArithmeticKTheory
 
-Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §5.1: Bott elements (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1).
+Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1).
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
@@ -701,7 +724,7 @@ Layer 3: finite generation of the K-groups of rings of integers and finiteness o
 
 ### From TauCetiRoadmap.IntegralIwasawaTheory
 
-§§0.1–0.3: cyclotomic extensions, towers and their layers, and ramification and inertia in a procyclic tower (9.7, 11.1). §§3.4–3.5: rank criteria, norm descent and Greenberg's condition, and the ray-class comparisons (11.1). §10.4: arithmetic-character Euler characteristics, for the Euler quotient and the absence of finite submodules (12.1). §10.5: Galois descent of twists, for the injectivity of restriction to the cyclotomic tower on `Ш¹` and the comparison with the finite étale `H²` eigenspace (9.7, 12.1). §12.1: the character-quotient main conjecture; §12.2: inflation, induction and going up; §12.3: the specialization at arithmetic weights for `E = F(μ_p)` (12.1).
+§§0.1–0.3: cyclotomic extensions, towers and their layers, and ramification and inertia in a procyclic tower (9.7, 11.1). §3.5: the ray-class comparisons, with the `p`-split quotient `X/D_∞` and Chevalley's ambiguous-class formula (11.1). §10.4: arithmetic-character Euler characteristics, for the Euler quotient and the absence of finite submodules (12.1). §10.5: Galois descent of twists, for the injectivity of restriction to the cyclotomic tower on `Ш¹` and the comparison with the finite étale `H²` eigenspace (9.7, 12.1). §12.1: the character-quotient main conjecture; §12.2: inflation, induction and going up; §12.3: the specialization at arithmetic weights for `E = F(μ_p)` (12.1).
 
 ### From TauCetiRoadmap.KatoEulerSystems
 
@@ -709,7 +732,7 @@ Layer 3: finite generation of the K-groups of rings of integers and finiteness o
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
-Layers 6–7: change of groups, inflation–restriction, coinduced modules and Shapiro's lemma (6.17, 6.18). Layer 9: the Galois interface, Hilbert 90 and Kummer theory (11.1).
+§5.4: inflation–restriction (6.17, 6.18); §5.5: the five-term sequence (11.1); §§6.2–6.3: corestriction and `cor ∘ res` (6.17); §7.2: Shapiro's lemma (6.18); §9.6: the Kummer sequence (11.1).
 
 ### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
@@ -717,15 +740,27 @@ Layers 6–7: change of groups, inflation–restriction, coinduced modules and S
 
 ### From TauCetiRoadmap.LatticePackingsAndPerfectForms
 
-§1.7: Minkowski's bound for real forms; §1.8: Hermite's inequality for real forms; §4.1: perfection; §4.9: the Ryshkov polyhedron and Voronoi neighbours, the case `L = ℚ` of 9.3 (a)–(b) (9.3).
+§1.7: Minkowski's bound for real forms; §1.8: Hermite's inequality for real forms; §4.1: perfection; §4.4: the finiteness of the automorphism group `{U ∈ GL_n(ℤ) : UᵀAU = A}` of a positive definite real form `A` (9.3 (f)); §4.9: the Ryshkov polyhedron and Voronoi neighbours, the case `L = ℚ` of 9.3 (a)–(b) (9.3).
+
+### From TauCetiRoadmap.K3SurfacesAndSymplecticBoundedness
+
+§4.5: for every odd prime `ℓ`, reduction `GL_n(ℤ_ℓ) → GL_n(𝔽_ℓ)` is injective on finite subgroups, so every finite subgroup of `GL_n(ℤ)` embeds in `GL_n(𝔽₃)` (9.3 (f)).
 
 ### From TauCetiRoadmap.SchemeKTheoryOperations
 
 §6.7: van der Kallen's homology stability: for a ring `R` with Bass's stable range condition `SR_{s+2}` and `e = max(1, s)`, the map `H_m(GL_n(R); ℤ) → H_m(GL_{n+1}(R); ℤ)` is onto for `n ≥ 2m + e − 1` and bijective for `n ≥ 2m + e`, and so is the map to `H_m(GL(R); ℤ)` (9.5, 9.7, 9.8).
 
+### From TauCetiRoadmap.Polylogarithms
+
+§2.2 (its rational primitive K-theory): for a unital ring `R`, the rational homology of `BGL(R)^+`, that is of `GL(R)`, is the free graded-commutative Hopf algebra on `K_*(R) ⊗ ℚ`, with `K_j(R) ⊗ ℚ ≅ Prim H_j(GL(R); ℚ)` and the primitive projection the convolution logarithm of the identity (9.5).
+
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
 §13.8b: the Brauer-lift equivalence `BGL(𝔽_q)⁺ ≃ fib(ψ^q − 1 : BU → BU)`, with Quillen's computation of the homology of `GL(𝔽_q)`; §13.8c: `K_{2i}(𝔽_q) = 0` and `K_{2i−1}(𝔽_q) ≅ ℤ/(q^i − 1)` for `i ≥ 1` (9.6 (a)).
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+§1.1: the coefficient K-groups `K_*(R; ℤ/m)` and, for `m = ℓ^ν` outside `{2, 3, 4, 8}`, their products; §1.2: the Bott class `β_ω ∈ K₂(R; ℤ/m)` of a root of unity `ω` of exact order `m`, with Bockstein `[ω]` (9.6).
 
 ### From TauCetiRoadmap.Chebotarev
 
