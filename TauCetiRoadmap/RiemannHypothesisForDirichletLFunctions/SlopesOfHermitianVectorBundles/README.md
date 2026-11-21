@@ -496,7 +496,7 @@ with `x_v ∈ K_v^n` the component at `v` and `|·|` the standard Euclidean or H
 −deĝ_n(Ē) + γ(K,n) + n·log 2 − n·log c_K − (1/d)·log((dn)!)  ≤  Σ_{l<n} log λ_l(Ē)  ≤  −deĝ_n(Ē) + γ(K,n) + n·log 2.
 ```
 
-In rank one `B_Ē` is an approximation body of SubspaceTheorem §4.1 (one coordinate form, with `Q^(c_v)` the radius `|A_v|^(−1)`), and SubspaceTheorem §4.2 applies as it stands. In rank `n ≥ 2` it is not (a product of Euclidean or Hermitian balls is not cut out by finitely many conditions `v(L(x)) ≤ Q^c`), and two things here rest on AdelicHeightsAndSuccessiveMinima §3.1: the attainment of the `λ_l(Ē)` by one family (their definition is SubspaceTheorem §4.2's), and the lower bound of (iii), the only statement of this target that uses that `B_Ē` is balanced over the completions. The upper bound of (iii) is the half used in 4.2, 4.4 and 6.4.
+In rank one `B_Ē` is an approximation body of SubspaceTheorem §4.1 (one coordinate form, with `Q^(c_v)` the radius `|A_v|^(−1)`), and SubspaceTheorem §4.2 applies as it stands. In rank `n ≥ 2` it is not (a product of Euclidean or Hermitian balls is not cut out by finitely many conditions `v(L(x)) ≤ Q^c`), and two things here rest on AdelicHeightsAndSuccessiveMinima §3.1: the attainment of the `λ_l(Ē)` by one family (their definition is SubspaceTheorem §4.2's), and the lower bound of (iii), the only statement of this target that uses that `B_Ē` is balanced over the completions. The upper bound of (iii) is the half used in 4.2, 4.4 and 6.4; it follows from [FormalProof], `Formalism/SuccessiveMinima/StatementMink.lean` (`Formalism.FN.MinkowskiIIUpper`).
 
 *Route.* (i) The covolume of an `O_K`-module (SubspaceTheorem §4.1, `Submodule.covolume_mixedImage`) is `covol(O_K)^n` divided by the product over `𝔭` of the largest value of a determinant of `n` vectors of `E_𝔭 = A_𝔭^(−1)(O_𝔭^n)`, which is `|det A_𝔭|_𝔭^(−1)`. `B_Ē` is the product over `v` of the preimages of unit balls under `A_v`, and the change of variables at `v` divides the volume of the unit ball by `|det A_v|_v^(mult(v))` (the real determinant of a complex matrix is `|det|²`). The quotient is `exp(deĝ(Ē))·β_n(K)/covol(O_K)^n` because `deĝ(Ē) = −Σ_v mult(v)·log|det A_v|_v − Σ_𝔭 log|det A_𝔭|_𝔭` (1.1). The volume of a unit ball is classical (Mathlib). (ii)–(iii) AdelicHeightsAndSuccessiveMinima §3.1: `B_Ē` is compact, convex and symmetric with `0` in its interior, and balanced over the completions because multiplying `x_v` by `a ∈ K_v` with `|a| ≤ 1` does not increase `|A_v x_v|`. Take logarithms and divide by `d`.
 
@@ -1094,7 +1094,16 @@ deĝ_n(M̄_T) ≥ e_T·ht_J̄(f) − c·( ϱ(T − D) − N_0·D(D + 1) ) − N_
 
   [FormalProof] has (f′) for irreducible `f`, with `Λ_0 ≥ 1`, and with the floor `cst` of a family of generators of `M_J` of
   norm at most `Λ ≥ 1`; the statement for `f` primitive in the last argument, without the condition on `Λ_0`, and for an
-  arbitrary floor `c ≥ 0` is this roadmap's generalisation, proved by the route below.
+  arbitrary floor `c ≥ 0` is this roadmap's generalisation, proved by the route below. Flatness on a subspace at `s`, the
+  graded system over `J̄` with its constant `β`, and (a′) are those of [FormalProof],
+  `Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.Sys.FlatAt`,
+  `GlobalTheory.HSShort.Sys.Hyp`, `GlobalTheory.HSShort.Sys.Short`). For irreducible `f`, (d′) follows from [FormalProof],
+  `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsShortColumnsDetNeZeroHilbertSamuel.lean`
+  (`GlobalTheory.HSShort.ChooseCols.exists_cols`), with
+  `Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.Sys.deepRank`,
+  `GlobalTheory.HSShort.Sys.expo`); in the setting of [FormalProof] described above, (e′) follows from [FormalProof],
+  `Development/AbelianVarietyTheory/Proofs/DivisorProofs/SlopeLowerBoundTopLatticeOffHypersurface.lean`
+  (`GlobalTheory.HSShort.SlopeTop.slopeBound`).
 
 The columns of (d′) are those of 6.7 (d) with constant columns added: `N_0` columns carrying the `δ` points through the levels `a < T − D`, `ϱ` columns spanning the deepest step, and `w` constant columns completing them to a basis of `V_T`, each of which costs `log Λ_T`. If the system also satisfies (c) of 6.7, then `ϱ = r_T − N_0`: by step (1) of 6.7's route the map `(v_γ)_γ ↦ Σ_{|γ|=T−D} x(s)^γ v_γ` on copies of `V_D` has rank `r_T − N_0` at the generic point, and that rank is attained at the rational points off a hypersurface; so `w = 0`, `ϱ = z·r_T`, and (e′) is the first display of 6.7a (iv). For a system as in the remark in 6.7 (`A` and `ℳ` nef and big, `Φ ≠ 0`) with `T ≥ 2D`, (c) fails, and `w ≥ Q_Φ(T − D) ≥ 1`, because the `N_0 + ϱ` columns of step (1) of the route below, taken at one point, are independent vectors of `G(T − D) ⊗ E`; for such systems only 6.7b applies. Against the second line of 6.7a (iv), the display of (f′) carries `D(D + 1)·c` in the part weighted by `1 − z`, `T` in place of `T − D`, and `log Λ_T`. The four conditions of (f′) enter through one identity: with `r_T(1 − z) = N_0`, `r_T·z = ϱ + w` and `e_T·ht_J̄(f) = N_0·(T + D(D + 1))·h_J̄`, the right side of (e′) minus `r_T` times the right side of (f′) is
 
@@ -1129,7 +1138,11 @@ The theta-chain roadmaps of the family RiemannHypothesisForDirichletLFunctions, 
 In the three main uses the form needed is the one [FormalProof] states: ThetaChainsAndFrobeniusPrimeSums §9.6 uses the last
 form of 5.5 (ii) exactly (`e ≤ 1/4`, the constants `4`, integral maps with archimedean heights), GluedTargetAndDivisionInequality
 uses the lower bound of 1.2a (iii), not the identity with `δ_{t₀}`, and ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties
-uses 6.7b (f′) with the hypotheses of [FormalProof] (an irreducible `f`, `Λ_0 ≥ 1` and the floor `cst`).
+uses 6.7b (f′) with the hypotheses of [FormalProof] (an irreducible `f`, `Λ_0 ≥ 1` and the floor `cst`). These three forms are
+[FormalProof], `Formalism/HarderNarasimhan/StatementFrameF.lean` (`Formalism.HN.TheoremFSharp`),
+`Formalism/QuotientMetricDivisors/RatHermLcvTwist.lean` (`Formalism.DivisionValues.StepBW`) and
+`Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.SlopeBound`)
+respectively.
 
 FaltingsFinitenessAndIsogenyTheoremsPartII does not consume this roadmap: for Bost's proof of the period theorem it needs the attained maximal slope with its invariance under finite extension and the bound `−h_Ē(e) ≤ μ̂_max(Ē)`, the morphism inequality `μ̂_min(Ē) ≤ μ̂_max(F̄) + h(φ)`, the metric-rescaling law and the bound `μ̂_max(Sym^n Ē) ≤ n·(μ̂_max(Ē) + 2·log r)` for every rank `r ≥ 1` and every `n ≥ 0`, and it requests them from ArakelovGeometryAndAbelianHeights in its supplier contracts, together with the isometric base change of the symmetric powers of a Hermitian tangent bundle. The first three (`gap:hermitian-maximal-slope-existence`, `gap:hermitian-morphism-slope`, `gap:hermitian-metric-rescaling`) are 2.1 with 3.5, 2.4 (a) with 2.2, and 2.1 with 1.7 here, and the base change is the case of 1.3a (iv). The fourth (`gap:hermitian-symmetric-power-slope`) is 4.5 (b2) only for `r ≤ 2`: for `r ≥ 3` the constant `log r + (r(r − 1)/2)·log 2` of 4.5 (b2) exceeds `2·log r` (at `r = 3`, `log 3 + 3·log 2 ≈ 3.18` against `2·log 3 ≈ 2.20`), and no statement here gives the requested constant at those ranks.
 
