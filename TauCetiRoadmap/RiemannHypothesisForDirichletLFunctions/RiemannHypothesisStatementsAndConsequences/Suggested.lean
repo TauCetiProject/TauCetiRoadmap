@@ -54,7 +54,9 @@ open scoped ArithmeticFunction.vonMangoldt
 
 /-! ## Layer 8: Riesz sums, smoothed explicit formulas, abelian character sums -/
 
-/-- The Riesz sum (8.4a (a)): `∑_{1 ≤ n ≤ y} a(n) (y/n − 1)`, which is `0` for `y < 1`. -/
+/-- The Riesz sum (8.4a (a)): `∑_{1 ≤ n ≤ y} a(n) (y/n − 1)`, which is `0` for `y < 1`.
+For coefficients of the form `Λ(n) f(n)` it is [FormalProof],
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.ramp`). -/
 noncomputable def rieszSum (a : ℕ → ℂ) (y : ℝ) : ℂ :=
   ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, a n * ((y : ℂ) / n - 1)
 
@@ -66,13 +68,15 @@ def ZeroFreeRightOf (σ : ℝ) (f : ℂ → ℂ) : Prop :=
   ∀ s : ℂ, σ < s.re → meromorphicOrderAt f s ≤ 0
 
 /-- The Riemann hypothesis is the absence of zeros of `ζ` right of the critical line, read
-through orders (9.3). -/
+through orders (9.3). The direction to `RiemannHypothesis` follows from [FormalProof],
+`Formalism/GammaFactorNonvanishing/RhOfRight.lean` (`Formalism.VW.rh_of_right`). -/
 theorem riemannHypothesis_iff_zeroFreeRightOf :
     RiemannHypothesis ↔ ZeroFreeRightOf (1 / 2) riemannZeta := by
   sorry
 
 /-- The value form of the Riemann hypothesis (9.3); it needs no condition `s ≠ 1`, Mathlib's
-value of `riemannZeta` at `1` being nonzero. -/
+value of `riemannZeta` at `1` being nonzero. The direction to `RiemannHypothesis` follows from
+[FormalProof], `Formalism/GammaFactorNonvanishing/RhOfRight.lean` (`Formalism.VW.rh_of_right`). -/
 theorem riemannHypothesis_iff_riemannZeta_ne_zero :
     RiemannHypothesis ↔ ∀ s : ℂ, 1 / 2 < s.re → riemannZeta s ≠ 0 := by
   sorry
@@ -93,14 +97,17 @@ theorem generalizedRiemannHypothesis_iff_LFunction_ne_zero {N : ℕ} [NeZero N]
   sorry
 
 /-- The strip form (9.4): every zero of `L(·, χ)` in the open critical strip lies on the critical
-line. -/
+line. It follows from [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`). -/
 theorem generalizedRiemannHypothesis_iff_re_eq_half {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.GeneralizedRiemannHypothesis ↔
       ∀ ρ : ℂ, 0 < ρ.re → ρ.re < 1 → χ.LFunction ρ = 0 → ρ.re = 1 / 2 := by
   sorry
 
-/-- The hypothesis for the principal character modulo any `N ≥ 1` is `RiemannHypothesis` (9.4). -/
+/-- The hypothesis for the principal character modulo any `N ≥ 1` is `RiemannHypothesis` (9.4).
+It follows from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
+(`UpperTheory.Top.imprimitive`). -/
 theorem generalizedRiemannHypothesis_one_iff (N : ℕ) [NeZero N] :
     (1 : DirichletCharacter ℂ N).GeneralizedRiemannHypothesis ↔ RiemannHypothesis := by
   sorry
@@ -120,7 +127,9 @@ instance _root_.DirichletCharacter.instNeZeroConductor {R : Type*} [CommMonoidWi
   ⟨χ.conductor_ne_zero⟩
 
 /-- A Dirichlet character and its primitive character satisfy the hypothesis together (9.4).
-The primitive induction of AnalyticNumberTheoryPartI §1.6, through the strip forms of 9.4. -/
+The primitive induction of AnalyticNumberTheoryPartI §1.6, through the strip forms of 9.4.
+It follows from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
+(`UpperTheory.Top.imprimitive`). -/
 theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) :
     χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis := by
@@ -129,7 +138,9 @@ theorem generalizedRiemannHypothesis_primitiveCharacter_iff {N : ℕ} [NeZero N]
 /-! ## Layer 10: Primitive Dirichlet characters, conductors and gamma factors -/
 
 /-- A primitive Dirichlet character bundled with its conductor (10.3): a level, a character of that
-level and a proof that it is primitive. -/
+level and a proof that it is primitive. The bundle is that of [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean`
+(`Formalism.HC.PChar`). -/
 structure PrimitiveDirichletCharacter where
   /-- The level, which is the conductor. -/
   level : ℕ+
@@ -140,7 +151,9 @@ structure PrimitiveDirichletCharacter where
 
 /-- The Riesz remainder of a primitive Dirichlet character (8.4a (b)):
 `∑_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y · L′/L(1, χ)` for `χ ≠ 1`, and
-`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` at level `1`. -/
+`∑_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` at level `1`. It is [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
+(`Formalism.HC.An.gChi`). -/
 noncomputable def PrimitiveDirichletCharacter.rieszRemainder (χ : PrimitiveDirichletCharacter)
     (y : ℝ) : ℂ :=
   if χ.level = 1 then

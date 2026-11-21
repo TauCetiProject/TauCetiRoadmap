@@ -173,7 +173,10 @@ shift of ZerosOfLFunctions §8.2 for the L-functions involved.
 
 **(a) Riesz sums.** For `a : ℕ → ℂ` and real `y`, define `rieszSum a y` as
 `∑_{1 ≤ n ≤ y} a(n) (y/n − 1)`, the sum over `Finset.Icc 1 ⌊y⌋₊`, which is `0` for `y < 1`. It is
-`y` times the first Riesz mean of the sequence `a(n)/n`.
+`y` times the first Riesz mean of the sequence `a(n)/n`. For coefficients of the form `Λ(n) f(n)` it is
+[FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.ramp`),
+`Formalism/StatementOC.lean` (`Formalism.Sz`),
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.sumLamChi`).
 
 - `y ↦ rieszSum a y` is continuous on `ℝ`, affine on each `[n, n + 1]`, and `0` on `(−∞, 1]`.
 - Normalization: for `y > 0`, `∑_{1 ≤ n ≤ y} a(n) (1 − n/y) = y⁻¹ · rieszSum (fun n ↦ n · a n) y`,
@@ -190,8 +193,9 @@ shift of ZerosOfLFunctions §8.2 for the L-functions involved.
 - Ideal coefficients: for a coefficient function `b` on the nonzero ideals of `𝓞 K`,
   `∑_{𝔑𝔞 ≤ y} b(𝔞) (y/𝔑𝔞 − 1) = rieszSum (normCoeff b) y`; no second Riesz sum is defined.
 
-Route: termwise, from `∫_n^∞ (y/n − 1) y^(−s−1) dy = n^(−s)/(s(s − 1))` for `Re s > 1`. The
-inversion: with `b(n) = a(n)/n` and `s = w + 1`, `LSeries a s = LSeries b w`, the kernel is
+Route: termwise, from `∫_n^∞ (y/n − 1) y^(−s−1) dy = n^(−s)/(s(s − 1))` for `Re s > 1`, which is
+[FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/MellinRamp.lean` (`Deduction.mellin_ramp`).
+The inversion: with `b(n) = a(n)/n` and `s = w + 1`, `LSeries a s = LSeries b w`, the kernel is
 `y^{w+1}/(w(w + 1))`, and `b` is absolutely summable on `Re w > 0`, so ExplicitZetaBounds §6.1a at
 `j = 1`, `x = y` and the line `Re w = c − 1 > 0` gives `∑_{n ≤ y} b(n)(y − n) = rieszSum a y`.
 The normalization:
@@ -214,17 +218,25 @@ For a primitive Dirichlet character `χ` (`PrimitiveDirichletCharacter`, 10.3),
 `Λ(n) χ(n)` and `logDeriv χ.LFunction 1`, and at level `1` with `Λ(n)` and `−y log y + (1 + γ) y`;
 it equals the remainder of the primitive ray-class character of `ℚ` attached to `χ`
 (*toPrimitiveRayClassCharacter*, 11.1, whose L-functions agree with those of `χ`).
+The Dirichlet remainder is [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.gChi`),
+`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean` (`Deduction.Gchi`), and, at level `1`,
+`Formalism/StatementOC.lean` (`Formalism.Gz`).
 `Λ(ψ, ·)` denotes the completed function of the record `heckeData ψ`.
 
 - Conjugation: `rieszRemainder ψ⁻¹ y = conj (rieszRemainder ψ y)`, from the conjugate coefficients
   and `L_{ψ⁻¹}(s) = conj L_ψ(conj s)` near `s = 1`, which holds on `Re s > 1` and extends by
-  uniqueness of continuation; for real `ψ` the remainder is real.
+  uniqueness of continuation; for real `ψ` the remainder is real. Over `ℚ` it is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiConj.lean` (`Deduction.Gchi_conj`).
 - Mellin transform: let `Q_ψ` be the quotient
   `Q_ψ(s) = −[logDeriv L_ψ s − s · logDeriv L_ψ 1]/(s(s − 1))` for `ψ ≠ 1` and
   `Q_1(s) = −[logDeriv ζ_K s + 1/(s − 1) + 1 − (1 + EK(K)) s]/(s(s − 1))`, and write `Φ_ψ` for
   its meromorphic normal form `toMeromorphicNFOn Q_ψ univ`, which is
   `TauCeti.meromorphicContinuation 1 Q_ψ`. On `Re s > 1` the quotient is analytic, `Φ_ψ = Q_ψ`
-  there, and `∫_1^∞ rieszRemainder ψ y · y^(−s−1) dy = Φ_ψ(s)`.
+  there, and `∫_1^∞ rieszRemainder ψ y · y^(−s−1) dy = Φ_ψ(s)`. Over `ℚ` this transform is [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiModOne.lean` (`Deduction.mellin_Gchi_modOne`) and
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean`
+  (`Deduction.mellin_Gchi_of_ne_one`).
 - Continuation and poles: `Φ_ψ` is meromorphic on `ℂ`, with the punctured germ of `Q_ψ` at every
   point. It is analytic at `1`, where `Q_ψ` has a removable singularity, with value
   `Φ_ψ(1) = D(1) − D′(1)` for `ψ ≠ 1`, `D = logDeriv L_ψ`, and `Φ_1(1) = 1 + EK(K) − c₁(K)`, where
@@ -232,7 +244,10 @@ it equals the remainder of the primitive ray-class character of `ℚ` attached t
   `Φ_1(1) = 1 + γ + γ² + 2γ₁`, `γ₁` the first Stieltjes constant. The total function `Q_ψ` itself
   takes the value `0` at `1`, its denominator vanishing there, so it is not analytic at `1` when
   that limit is not `0`; only `Φ_ψ` is. On `Re s > 0` the poles of `Φ_ψ` are exactly the zeros `ρ`
-  of `L_ψ`, each simple with residue `m_ρ/(ρ(1 − ρ))`, `m_ρ = meromorphicOrderAt L_ψ ρ`.
+  of `L_ψ`, each simple with residue `m_ρ/(ρ(1 − ρ))`, `m_ρ = meromorphicOrderAt L_ψ ρ`. Over `ℚ` the
+  analyticity at `1` and the poles with their residues follow from [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean` (`Deduction.poleData_char`),
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LogDerivLocal.lean` (`Deduction.logDeriv_local`).
 - Explicit formula: for `y ≥ 1`,
   `rieszRemainder ψ y = ∑'_ρ m_ρ y^ρ/(ρ(1 − ρ)) + E_ψ(y)`, the sum over the zeros of the completed
   function `Λ(ψ, ·)` with `m_ρ = (divisor Λ(ψ, ·) univ ρ).toNat`, absolutely summable; `E_ψ(y)` is
@@ -621,6 +636,8 @@ order right of `1/2` is a zero other than `1`, and it is not a trivial zero, so
 Conversely, a zero `s ≠ 1` of `riemannZeta` that is not trivial has `Re s > 0`
 (`riemannZeta_eq_zero_iff_of_re_nonpos`); if `Re s < 1/2`, then `1 − s` is a zero
 (`riemannZeta_one_sub`) with `Re (1 − s) > 1/2`; so either form gives `Re s = 1/2`.
+For both forms the direction to `RiemannHypothesis` follows from [FormalProof],
+`Formalism/GammaFactorNonvanishing/RhOfRight.lean` (`Formalism.VW.rh_of_right`).
 
 *Needs:* 9.2; ZerosOfLFunctions §§1.5, 1.6 and Layer 9 (*AllOnCriticalLine*, and *GRH* with its
 bridge to `RiemannHypothesis`); LFunctions Layer 0 (`AnalyticLFunctionData.dual_completed`,
@@ -667,12 +684,16 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   clause of QuasiRiemannHypothesis §1.1).
 - **Inverse.** For every `σ`, `ZeroFreeRightOf σ χ⁻¹.LFunction ↔ ZeroFreeRightOf σ χ.LFunction`,
   from `L(χ⁻¹, conj s) = conj L(χ, s)` (Tau Ceti `DirichletCharacter.LFunction_inv_conj`) and 9.2's
-  symmetry; hence `χ⁻¹.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis`.
+  symmetry; hence `χ⁻¹.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis`. It follows from [FormalProof],
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LFunctionConj.lean` (`Deduction.LFunction_conj`),
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/GchiConj.lean` (`Deduction.Gchi_conj_LFunction`).
 - **Change of level and the primitive character.**
   `(changeLevel h ψ).GeneralizedRiemannHypothesis ↔ ψ.GeneralizedRiemannHypothesis` for `M ∣ N`, and
   `χ.primitiveCharacter.GeneralizedRiemannHypothesis ↔ χ.GeneralizedRiemannHypothesis`
   (`generalizedRiemannHypothesis_primitiveCharacter_iff`), by 9.2 at `σ = 1/2`
   (AnalyticNumberTheoryPartI §1.6 states the primitive reduction for *DirichletGRH*).
+  The second follows from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
+  (`UpperTheory.Top.imprimitive`), `Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.prim_zero`).
 - **Reflection.** For primitive `χ` and `0 < Re ρ < 1`,
   `meromorphicOrderAt χ.LFunction ρ = meromorphicOrderAt χ⁻¹.LFunction (1 − ρ)`, by
   `IsPrimitive.completedLFunction_one_sub` and `LFunction_eq_completed_div_gammaFactor`: the gamma
@@ -693,7 +714,9 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   `χ.GeneralizedRiemannHypothesis ↔ ∀ s, 0 < Re s → (χ ≠ 1 ∨ s ≠ 1) → χ.LFunction s = 0 →
   Re s = 1/2`, whose right side is AnalyticNumberTheoryPartI §1.6's *DirichletGRH* `χ`; an
   imprimitive `χ` has the zeros of its primitive character in the open strip, its deleted Euler
-  factors vanishing only on `Re s = 0`.
+  factors vanishing only on `Re s = 0`. The first form at `σ = 1/2` follows from [FormalProof],
+  `Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`, `Claim.prim_reflect`),
+  `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LFunctionConj.lean` (`Deduction.LFunction_conj`).
 - **Completed function.** For primitive `χ`,
   `χ.GeneralizedRiemannHypothesis ↔ (dirichletData χ hχ).GeneralizedRiemannHypothesis`
   (9.3, uncompleted form; *continuedL* of the record is `χ.LFunction`, ZerosOfLFunctions
@@ -705,6 +728,10 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   `(1 : DirichletCharacter ℂ N).GeneralizedRiemannHypothesis ↔ RiemannHypothesis`
   (`generalizedRiemannHypothesis_one_iff`), its primitive character being the character modulo
   `1`. So the hypothesis for every character modulo any `q` contains `RiemannHypothesis`.
+  The equivalence at modulus one follows from [FormalProof],
+  `Formalism/GammaFactorNonvanishing/CritLine.lean` (`Formalism.VW.rh_of_every`),
+  `Formalism/GammaFactorNonvanishing/RhOfRight.lean` (`Formalism.VW.rh_of_right`); that for every `N` from
+  [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean` (`UpperTheory.Top.imprimitive`).
 - **Quantified forms.** For `q ≥ 1`,
   `(∀ χ : DirichletCharacter ℂ q, χ.GeneralizedRiemannHypothesis) ↔
   ∀ (f : ℕ) [NeZero f], f ∣ q → ∀ χ : DirichletCharacter ℂ f, χ.IsPrimitive →
@@ -714,12 +741,15 @@ quantifiers over this predicate, and the hypothesis of a primitive character bun
   (`forall_generalizedRiemannHypothesis_iff_forall_isPrimitive`). The instance binder `[NeZero f]`
   makes `χ.LFunction` well typed. Through the strip forms at `σ = 1/2`, the left side of the first
   is `GRHMod q` of ExplicitNumberFields §0.5, and the first is the passage to imprimitive characters
-  of ExplicitZetaBounds §0.2 at unbounded height.
+  of ExplicitZetaBounds §0.2 at unbounded height. The form over one modulus follows from [FormalProof],
+  `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean` (`UpperTheory.Top.imprimitive`).
 - **Bridge.** `χ.GeneralizedRiemannHypothesis ↔ DirichletGRH χ` (AnalyticNumberTheoryPartI §1.6),
   which is the second strip form: the two definitions read orders on `Re s > 1/2` here and values
   on `Re s > 0`, the pole of the principal character excepted, there, and are equivalent.
 - **Consumer forms.** From the hypothesis, `1/2 < Re s` and `χ ≠ 1 ∨ s ≠ 1`,
   `χ.LFunction s ≠ 0`; from the hypothesis, `0 < Re s < 1` and `χ.LFunction s = 0`, `Re s = 1/2`.
+  They follow from [FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean`
+  (`UpperTheory.Top.imprimitive`) and `Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.strip`).
 
 *Needs:* 9.2, 9.3, 10.2; QuasiRiemannHypothesis §1.1 (the Dirichlet clause); AnalyticNumberTheoryPartI
 §1.6 (`DirichletGRH`, for the bridge);
@@ -1227,7 +1257,9 @@ Prove that for `0 < Re s`,
 `χ.completedLFunction` coincide with multiplicity, through
 `LFunction_eq_completed_div_gammaFactor`. For primitive `χ ≠ 1` this multiplicity statement is the
 completion comparison of ZerosOfLFunctions §6.4a (for the record's completed function, which has
-the further nonzero factor `q^(s/2)`); 10.2 gives it for every `χ`.
+the further nonzero factor `q^(s/2)`); 10.2 gives it for every `χ`. The nonvanishing of the gamma factor is [FormalProof],
+`Formalism/GammaFactorNonvanishing/CritLine.lean` (`Formalism.VW.gammaFactor_ne_zero`),
+`Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean` (`Claim.gamma_ne_zero`).
 
 *Needs:* Mathlib `DirichletCharacter.gammaFactor`, `DirichletCharacter.Even.gammaFactor_def`,
 `DirichletCharacter.Odd.gammaFactor_def`, `DirichletCharacter.even_or_odd`,
@@ -1247,15 +1279,18 @@ Define `PrimitiveDirichletCharacter`, a primitive Dirichlet character bundled wi
 a level `level : ℕ+`, a character `character : DirichletCharacter ℂ level` and a proof
 `isPrimitive : character.IsPrimitive`. It is the Dirichlet counterpart of
 `PrimitiveRayClassCharacter`, built on Mathlib's characters so that its L-function is Mathlib's
-`DirichletCharacter.LFunction`; a primitive character cannot carry a second level.
+`DirichletCharacter.LFunction`; a primitive character cannot carry a second level. The bundle is that of [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean` (`Formalism.HC.PChar`).
 
 - *PrimitiveDirichletCharacter.of* `χ`, for `[NeZero N]` and `χ : DirichletCharacter ℂ N`, the
   *bundle of `χ`*: the bundle of `χ.conductor`, `χ.primitiveCharacter` and
   `primitiveCharacter_isPrimitive`. Its level is `χ.conductor`; the bundle of the character of a
   bundle `ψ` is `ψ`; and for `M ∣ N` and `ψ : DirichletCharacter ℂ M`, `changeLevel h ψ` and `ψ`
-  have the same bundle (`changeLevel_primitiveCharacter`).
+  have the same bundle (`changeLevel_primitiveCharacter`). It follows from [FormalProof],
+  `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean` (`Formalism.HC.PChar.of`).
 - Equality: two bundles are equal exactly when their characters agree after lifting both to the
-  product of the levels (`DirichletCharacter.changeLevel`).
+  product of the levels (`DirichletCharacter.changeLevel`). This and the change of level above follow from [FormalProof],
+  `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.An.Induces.unique`).
 - `1`, the character modulo `1`; the trivial character modulo every `N` has bundle `1`.
 - `ψ⁻¹`, the inverse character at the same level, primitive by `IsPrimitive.inv`; the bundle of
   `χ⁻¹` is the inverse of the bundle of `χ` (`conductor_inv`, the primitive character of `χ⁻¹`
@@ -1692,3 +1727,8 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
 - J. E. Littlewood, *On the class-number of the corpus `P(√−k)`*, Proc. London Math. Soc. (2) 27
   (1928) — the bounds `(C log log q)⁻¹ ≪ L(1, χ) ≪ log log q` under the Riemann hypothesis for `χ`
   (9.7(ii)(d), its case `σ₀ = 1/2`).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann
+  hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification
+  setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 8.4a, 9.3,
+  9.4, 10.2 and 10.3 that the family uses.
+- **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
