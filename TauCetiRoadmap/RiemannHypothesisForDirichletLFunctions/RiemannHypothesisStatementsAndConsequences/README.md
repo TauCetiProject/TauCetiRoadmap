@@ -97,6 +97,11 @@ Layer 0: the analytic records `AnalyticLFunctionData` and their predicates).
 - **Citations.** LFunctions has no numbered sections; it is cited by layer and by declaration
   name, as in "LFunctions Layer 5 (`heckeLFunctionC_eq`)".
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 3: Three-circles convexity for analytic functions
 
 The growth bounds of 9.7 interpolate a logarithm between three circles. This layer states the
