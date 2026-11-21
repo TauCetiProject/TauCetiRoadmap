@@ -265,7 +265,8 @@ surely; and every admissible strategy with terminal payoff H has the wealth
 
 `V_t = e^(rt) E_Q[e^(−rT) H | F_t]`,   t ∈ [0, T],
 
-so the wealth process is unique up to indistinguishability. *Route:* represent
+so the wealth process is unique up to indistinguishability (Shreve 2004, §5.2.4 for the pricing
+formula and §5.3.2 for replication). *Route:* represent
 `M_t = E_Q[e^(−rT) H | F_t] = M₀ + ∫₀ᵗ h dW^Q` by §2.1; since d(S/β) = σ(S/β) dW^Q, the holdings
 `a_t = β_t h_t/(σ S_t)` and `b_t = M_t − a_t S_t/β_t` give a strategy with discounted wealth M; its
 integrability against S and β follows from `∫₀ᵀ h² dt < ∞` and the continuity of S and β, and it is
@@ -295,10 +296,10 @@ An **arbitrage** is a strategy whose initial cost is 0 almost surely, whose term
 nonnegative almost surely, and whose terminal payoff is positive with positive probability: Tau
 Ceti's `TauCeti.Finance.IsArbitrage P V₀ V_T`, which depends only on the null sets of P
 (`TauCeti.Finance.isArbitrage_iff_of_absolutelyContinuous`). Prove that **no admissible strategy is
-an arbitrage**. *Route:* the discounted wealth is a Q-martingale, so `E_Q[V_T/β_T] = V₀ = 0`, and a
-nonnegative variable with Q-mean zero vanishes Q-almost surely, hence P-almost surely. For simple
-strategies trading at finitely many dates the statement is Tau Ceti's
-`TauCeti.Probability.IsFilteredPreBrownianReal.not_isArbitrage_geometricBrownianMotion`.
+an arbitrage** (Shreve 2004, §5.4.3). *Route:* the discounted wealth is a Q-martingale, so
+`E_Q[V_T/β_T] = V₀ = 0`, and a nonnegative variable with Q-mean zero vanishes Q-almost surely,
+hence P-almost surely. For simple strategies trading at finitely many dates the statement is Tau
+Ceti's `TauCeti.Probability.IsFilteredPreBrownianReal.not_isArbitrage_geometricBrownianMotion`.
 
 Prove the **static-claim extension**. Let H be a claim replicated by an admissible strategy (a, b)
 of initial cost q, and suppose that H can also be bought or sold at time 0 at a price p, held to
@@ -406,7 +407,8 @@ strategy (a, b), then dt × P-almost everywhere on {t ∈ [t₀, T) : (S_t, t) �
 
 `a_t = ∂C/∂s(S_t, t)`,   `b_t = (C(S_t, t) − S_t ∂C/∂s(S_t, t))/β_t`,
 
-and the Black–Scholes operator of C (Convention 8) vanishes at (S_t, t). *Route:* Itô's formula
+and the Black–Scholes operator of C (Convention 8) vanishes at (S_t, t) (for constant
+coefficients, Shreve 2004, §4.5). *Route:* Itô's formula
 for C(S_t, t) and the self-financing equation give two decompositions of the same continuous
 semimartingale; their martingale parts agree, which identifies a where σ ≠ 0, and then their drifts
 agree. The pointwise identity behind the drifts is Tau Ceti's
@@ -599,8 +601,8 @@ the delta hedge of the call, and at maturity let `a_T = 1{S_T > K}` and `b_T = �
 the almost-sure limits of the hedge as t ↑ T, worth (S_T − K)⁺. Prove that (a, b) is an admissible
 strategy (§2.2), self-financing, with wealth C(S_t, t) for t ∈ [0, T] and terminal payoff
 (S_T − K)⁺; it is therefore the replicating strategy of §2.2 for H = (S_T − K)⁺, and its initial
-cost is `TauCeti.BlackScholes.callPrice s r σ K T`. Prove the same for the put with
-`a_t = −Φ(−d₊(S_t, T − t))`, `b_t = K e^(−r(T−t)) Φ(−d₋(S_t, T − t))/β_t` for t < T,
+cost is `TauCeti.BlackScholes.callPrice s r σ K T` (Shreve 2004, §4.5). Prove the same for the put
+with `a_t = −Φ(−d₊(S_t, T − t))`, `b_t = K e^(−r(T−t)) Φ(−d₋(S_t, T − t))/β_t` for t < T,
 `a_T = −1{S_T < K}`, `b_T = K 1{S_T < K}/β_T`, wealth P(S_t, t) and payoff (K − S_T)⁺.
 *Route:* the growth criterion of §3.2 with p = 1, whose inputs are in Tau Ceti: the equation
 (`TauCeti.BlackScholes.callValue_pde`), the bounds on the price and the delta, the martingale
