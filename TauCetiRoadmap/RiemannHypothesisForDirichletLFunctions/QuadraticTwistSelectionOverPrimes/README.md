@@ -377,5 +377,5 @@ RieszSumsOverPrimesAndExceptionalZeros §1.4e and its corollary (a zero-free box
 ## References
 
 - P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339: the prime number theorem in progressions in Linnik's range, with relative error and the exceptional term, that 2.7a uses in the form of RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii).
-- [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the twist-selection theorem (2.7b–2.7d) and its route (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes).
-- [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the twist-selection theorem (2.7b–2.7d) and its route (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes).
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
