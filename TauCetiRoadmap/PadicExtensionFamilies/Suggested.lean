@@ -12,6 +12,8 @@ import TauCeti.Analysis.Convex.Sequence.Face
 import TauCeti.NumberTheory.NewtonPolygon.Slopes
 import TauCeti.NumberTheory.LocalField.MassFormula.Basic
 import TauCeti.NumberTheory.LocalField.MassFormula.Representative
+import TauCeti.NumberTheory.LocalField.MassFormula.Eisenstein.Region
+import TauCeti.FieldTheory.IntermediateField.RootCount
 
 /-!
 # Ramification polygons, slopes and families of p-adic extensions: target signatures
@@ -21,7 +23,8 @@ against the pinned Mathlib and Tau Ceti APIs: invariance of root differences, ad
 wild residual polynomials on the faces of the ramification polygon, the discriminant integral,
 the slope-polygon theorem, the polygon-to-break theorem, the height identity and the
 denominator theorem for rams, the weighted formula for the Galois mean slope, invariance of the
-indices of inseparability, Miki's ordered decomposition, Ore's realizability theorem, Krasner's
+indices of inseparability, Miki's ordered decomposition, the Eisenstein volume of an
+isomorphism-closed set of extensions, Ore's realizability theorem, Krasner's
 refined count, Monge's class count, completeness of a finite totally ramified list by its mass,
 and the Galois root-discriminant product formula. Polygons are Tau Ceti's
 `Polynomial.newtonPolygon`, `Polynomial.newtonSlopes`, `TauCeti.lowerConvexEnvelope` and
@@ -36,9 +39,10 @@ representative sets are the pinned `totallyRamifiedOfDegree`, `IntermediateField
 and `IsRepresentativeSet`.
 
 Not statable at the pins:
-- the jump-set classification of 4.2: the pins have a `ℤ_p`-module structure only on the deep
-  units (`deepUnitPadicIntModule`), not on all principal units `U¹(K)`, and no filtered
-  `ℤ_p`-modules with the standard filtered presentation of `U¹(K)`;
+- the jump-set classification of 4.2 and the jump-set statements of 4.3 (admissibility,
+  the Haar and shooting-game measures, Pagano's mass formula): the pins have a `ℤ_p`-module
+  structure only on the deep units (`deepUnitPadicIntModule`), not on all principal units `U¹(K)`,
+  and no filtered `ℤ_p`-modules with the standard filtered presentation of `U¹(K)`;
 - the family theorems of Layer 6 (the compatibility classification of Herbrand invariants, the
   generic polynomial with its coverage and existence theorems, and the family mass formula with
   its comparison with Serre's formula): their statements are in terms of the decomposition of a
@@ -381,6 +385,23 @@ theorem miki_decomposition_exists_unique_levels (p : ℕ) [Fact p.Prime]
         ∀ i, (D.factor i = 1 ↔ D'.factor i = 1) ∧
           (D.factor i ≠ 1 → addValInt K ((D.factor i : K) - 1) =
             addValInt K ((D'.factor i : K) - 1))) := by
+  sorry
+
+open scoped ENNReal in
+/-- `README.md`, Layer 4, 4.3(e). **The Eisenstein volume of an isomorphism-closed set**
+(Serre's first proof, as used by Pagano's Theorem 1.8). For `n > 0` and a set `S ⊆ σ_K(n)` closed
+under `K`-isomorphism, the Eisenstein coefficient vectors whose polynomial has a root in some
+member of `S` have volume `vol(eisensteinSet K n) · (1/n) Σ_{L ∈ S} q^{-c(L)}`, for a Haar measure
+normalized on the integer box; `c` is the wild exponent and `q` the residue cardinality. -/
+theorem measure_eisensteinSet_setOf_exists_rootCount_pos (n : ℕ) (hn : 0 < n)
+    (S : Set (IntermediateField K (SeparableClosure K)))
+    (hS : S ⊆ totallyRamifiedOfDegree K n)
+    (hiso : ∀ E ∈ S, ∀ F ∈ totallyRamifiedOfDegree K n, Nonempty (E ≃ₐ[K] F) → F ∈ S)
+    [MeasurableSpace (Fin n → K)] [BorelSpace (Fin n → K)] (μ : Measure (Fin n → K))
+    [μ.IsAddHaarMeasure] (hμ : μ (integerBox K (Fin n)) = 1) :
+    μ {a ∈ eisensteinSet K n | ∃ E ∈ S, 0 < E.rootCount a} =
+      μ (eisensteinSet K n) *
+        ∑' E : S, 1 / ((n : ℝ≥0∞) * (Nat.card 𝓀[K] : ℝ≥0∞) ^ E.1.wildExponent) := by
   sorry
 
 /-! ## Layer 5: Krasner's count by degree and discriminant -/
