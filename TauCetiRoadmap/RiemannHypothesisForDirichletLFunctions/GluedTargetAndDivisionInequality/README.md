@@ -428,7 +428,9 @@ of this layer whose bound uses the congruence lengths (8.20, 8.22, 8.24 (b)); th
 are bounded per step by CongruenceModulesOfThetaLifts §7.16a (3); they enter through 8.20b. The structures `𝔼_{1,𝕃}`, `R_0`, `R` of RowTowerAndRallisIdentities §5.8 and 7.13 rest on the
 hypotheses of RowTowerAndRallisIdentities §5.8 (among them `x ≥ x₀` and the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e), which every target of this layer that uses them carries
 by reference (8.9, 8.20–8.22, 8.24a, 8.24). The targets that apply ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (8.19e (a), 8.24a, 8.24, and 8.20
-through them) assume, as §8.19b does, that `d` is prime (`K = ℚ(√−d)`) and that `2` is ramified in `E`.
+through them) assume, as §8.19b does, that `d` is prime (`K = ℚ(√−d)`) and that `2` is ramified in `E`. Those that apply
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19d (8.19e, 8.20–8.22, 8.24a, 8.24) are stated in the setting of those targets:
+`K = ℚ(√−d)` for a prime `d ≡ 7 (mod 16)` and `E` unramified over `F` at every finite place (the hosts of the chain are of this kind).
 
 Some clauses of this layer are statements whose routes are not given, or not given in full, here: the hypotheses of the
 index statement for the lattices of the chain (8.19e (c)); the bound for the base-level congruence lengths with the factor
@@ -935,8 +937,8 @@ mean different exponent of `E`, at every `ℓ ∈ S_small`.
 (P1) `2·DF(λ^W_j) + 2 < g_i` (`i = 0, 1`), where `λ^W_j = w_F + T·w_L`;
 (P2) `DF(λ^W_j) ≤ k·(2f·b + f(Sc + η_w))` and `k ≤ min(q, d) − 1`;
 (P3) `m ≥ 2`, `k ≥ m + 3`, every prime inert in `K` is `≥ 5`; `w_j(τ) > 0`; with `W(τ)` the gap of `w_L` at the index `k − 1` at the big
-position of `τ` and `R_w` its remaining degree: `(1 − θ₀)·w_j(τ) ≤ T·W(τ) ≤ w_j(τ) + C₁(Sc + η_w)` for some `0 ≤ θ₀ ≤ 1` with
-`(k − 1)θ₀ ≤ 5m`; `R_w ≥ 0` and `T·R_w ≤ C₁·f·k·(Sc + η_w)`; `T·(w_L)_{τ,0} ≤ 3b` for every `τ`; `n(w_L) ≥ 10r(f + f²(k − 1)³L²/m)` for the logarithmic size `L`; `w_j(τ′) ≤ X″·w_j(τ)` for all `τ, τ′`;
+position of `τ` and `R_w^{tot}` its remaining degree summed over the orbits: `(1 − θ₀)·w_j(τ) ≤ T·W(τ) ≤ w_j(τ) + C₁(Sc + η_w)` for some `0 ≤ θ₀ ≤ 1` with
+`(k − 1)θ₀ ≤ 5m`; `R_w^{tot} ≥ 0` and `T·R_w^{tot} ≤ C₁·f·k·(Sc + η_w)`; `T·(w_L)_{τ,0} ≤ 3b` for every `τ`; `n(w_L) ≥ 10r(f + f²(k − 1)³L²/m)` for the logarithmic size `L`; `w_j(τ′) ≤ X″·w_j(τ)` for all `τ, τ′`;
 (P4) with `A := (2b + Sc)/T`: `(w_L)_{τ,0} ≤ A` for `τ ∈ Φ`, and
 `T·(f·q_j·(1 + vd/2)·A + q_j·Σ_{τ∉Φ}(w_L)_{τ,0}) ≤ C_P·m·(2 + vd)·(2f·b + f(Sc + η_w))`, `C_P ≥ 1`;
 (P5) `0 ≤ min(w_j(τ), w_j(cσ_dτ)) ≤ 2b′` on every pair of places exchanged by the inertia at `d`.
@@ -1076,7 +1078,9 @@ The values of `F_j` (`0` above `q` and the small primes, `−D^H_j/2` above the 
 provides and `ν_W(𝔩) = 0`. Otherwise TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19d and TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f (a), with the row datum of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19e (c) at the points of the chain (signature
 `(p_j, q_j) = (k + j − 1, m − j)`; `ℓ ≠ 2`, `ℓ ∤ disc(E)`, `ℓ` prime to the level; the row datum at the orbits disjoint from their
 conjugate), summed over the Frobenius orbits (`Σn_o = f`, `Σ_{orbits}Σ_aw(a) ≤ wt_j`, `j_t = m`, `n = k − 1`; orbits of type (A) at a
-prime inert in `K` of split type; the term `T·R_w^{tot}/(ℓ − 1)` of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19d with the total remaining degree, bounded by (P3)), or the
+prime inert in `K` of split type; the term `T·R_w^{tot}/(ℓ − 1)` of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19d with the total remaining degree, bounded by (P3);
+the depth on the `n(w_L) ≥ f·((i₀ + 1)(k − 1) + 8r)` copies that TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f asks, which (P3) provides as
+`i₀ ≤ 2L + 3`), or the
 clause of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f for the type of the orbits (g2 at a prime split in `K`, type (K), at every `ℓ ≥ 3`, so also at a split prime `3`;
 g1 for Frobenius equal to complex conjugation, type (C); g3 for odd conjugate type (O) at orbits alternating between `Φ` and
 `cΦ`), gives
@@ -1137,7 +1141,8 @@ kernels); the last index is bounded by ArithmeticVolumesAndIntegralFormsOnUnitar
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (c), `𝔰_j` dividing the three products of scalars, which are `𝔰_j` times `z(w_F)·(g₀g₁)^{f·r·(n_P − n_P⁰)}`,
 `z(w_F + n·w_L)·(g₀g₁)^{f·r·(n_P + n·n_W − n_P⁰)}` and `z(λ^W_j)·(g₀g₁)^{f·r·(r + t − n_P⁰)}`, with `N(λ^W_j) = N(w_L)^T·N(w_F)`), whose
 hypotheses (N3)–(N5), (I1)–(I8) hold at these parameters ((N0) being assumed). (N3): by 8.20 (vii) (a), ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a) and the bounds for the scalars (with
-`G = C·f·r·(L + log(g₀g₁qd) + log p_o) + 2·max(log[𝕂:ℚ] + log|d_𝕂|/[𝕂:ℚ], log[E:ℚ] + log|d_E|/[E:ℚ])`; a finite spanning subset with
+`G = P_Λ + 3x^ε + 2·max(log[𝕂:ℚ] + log rd(𝕂), log[E:ℚ] + log rd_E) + 2·f·r·(λ^* + 2·log p_o) + 31·f·r·x^ε`, `P_Λ ≤ 1009·f·r·x^ε`,
+`λ^* = log(g₀g₁) + log(f²·q·d)`, as in ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N3); a finite spanning subset with
 these bounds is extracted from the spanning set of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a)). (N4): the depth sum by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a′ (a); integrality by 8.20 (vii) (b):
 `s_W·Th^{all}(w) ⊂ M_w` because `v_𝔩(s_W) = v_𝔩(N(w)) + Σ_ℓ e_𝔩·c_ℓ(w)` covers the loss of 8.20 (vii) (b) (`c_ℓ(w) = v_ℓ(Q)·DF(w) ≥ vd(ℓ)·DF(w)` at the
 small primes, `⌈DF(w)/2⌉ ≥ vd·DF(w)/2` at `q`, `d`, every prime of `f_E` lying in `S_small ∪ {q, d}`, ThetaChainsOnDefiniteUnitaryGroups §2.1), and the short theta series
@@ -1309,7 +1314,7 @@ depending on `ε`.
 
 *Route.* (a) `E_{u,j}` is defined by cases (LocalGainOfThetaChains §4.9f (e)); by the product formula `Σ_{𝔭|p} sz_𝔭(·)` of an entry that depends on `𝔭`
 only through `p` is `2 log p` times it. (i) Stabilisers: `Σ_𝔭 sz_𝔭(v_p(D_Γ)) = 2 log D_Γ ≤ C·f·N_m·log(f·N_m)` (ThetaChainsOnDefiniteUnitaryGroups §3.6). (ii) Primes
-`≤ X″` inert in `K`: at most `C·B₀` per step (the cost terms `𝔩_j`, `𝔯_j` of LocalGainOfThetaChains §4.9e (b) sum to this by Mertens), of which the returned
+`≤ X″` inert in `K`: at most `C·B₀` per step (the cost terms `𝔯_j` of LocalGainOfThetaChains §4.9f (e), with the loss `dl_v` of LocalGainOfThetaChains §4.9e (b), sum to this by Mertens), of which the returned
 bulk `𝔉^A_j(p) ≤ 2fmb/p` sums to `o(B₀)`; at the primes of conjugate type the entry of LocalGainOfThetaChains §4.9f (e) likewise. (iii) `d`:
 `|Ẽ_{u,j}(𝔭)| ≤ |Φ_top|·b + 2f·k·b′` at `𝔭 | d` (the weights on the side `A` are `≤ 2b′`, the first rows on the other side `≤ 2b`), so
 `Σ_{𝔭|d} sz_𝔭 ≤ 2 log d·(|Φ_top|·b + 2f·k·b′) ≤ C·B₀`. (iv) Type primes: the cost sits at the places above one prime of `K` over
@@ -1371,7 +1376,8 @@ of the twist places of `ξ_𝔭`: for every `1 ≤ s ≤ h_sq`, whenever `z ∈ 
 (d) Consequently, for `ξ = ξ_𝔭`,
 `v_𝔭(r_{ij}(ξ_𝔭)) ≤ |v_𝔭(A)| + |v_𝔭(A′)| + 4Σ_{s≤h_sq}(|g_s(𝔭)| + |v_𝔭(Λ(s, ν_1δ_ℓ)/Λ(s, ν_1)) + g_s(𝔭)|) + 5Σ_{s≤h_sq}n_s(ℓ)v_𝔭(ℓ) + 2h_sq·v_𝔭(ℓ)/ℓ² + 6d_l(𝔭) + (p_□ + q_□)·2Σ_𝔮c(𝔮)v_𝔭(N𝔮)`, with `A, A′` the bottom norms of the base tuple.
 
-*Route.* (a) The tower recursion of RowTowerAndRallisIdentities §5.8d (ThetaLiftsForDefiniteUnitaryGroups §6.12), the Rallis norms of the
+*Route.* (a) The tower recursion of RowTowerAndRallisIdentities §5.8d (ThetaLiftsForDefiniteUnitaryGroups §6.12, with one constant `C` for every
+set `T ⊆ P` of places, `P` a fixed finite set of places of `F` split in `E`, so that `C` cancels in `r_{ij}(ξ)`), the Rallis norms of the
 definite bottom pair, and the functional equation AnalyticNumberTheoryPartI §2.3a in ratio form. (b) ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for the numerator, the gauge `g_s`
 for the denominator. (c) Both values are toric sums (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (i), with no correction factor, `ψ_𝔭` being ramified at all of
 `Q(ξ_𝔭)`); the `𝔭`-adic valuation of `z` is read through an embedding of `ℂ` into an algebraic closure of the `ℓ`-adic
@@ -1683,7 +1689,8 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 ### From ThetaLiftsForDefiniteUnitaryGroups, a sub-roadmap of this family
 
-- 6.12: the tower recursion of the constants, through RowTowerAndRallisIdentities §5.8d. Used in 8.24a.
+- 6.12: the tower recursion of the constants, with one constant for every set `T ⊆ P` inside a fixed finite set `P` of split
+  places, through RowTowerAndRallisIdentities §5.8d. Used in 8.24a.
 
 ## References
 
