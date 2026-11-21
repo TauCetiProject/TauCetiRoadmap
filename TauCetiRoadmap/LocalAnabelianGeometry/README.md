@@ -79,9 +79,10 @@ Layer 7 the uniformizing characters. Layer 8 proves the theorems.
   `d^i_K(V) = dim_K (ℂ_p ⊗_{ℚ_p} V(χ_cyc^{−i}))^{G_K}`, the dimension over `K` (not over `ℚ_p`),
   computed in the `p`-adic model 0.1. So `d^1_K(ℚ_p(1)) = 1`, and `d^i_K(V)` counts the weight `i`.
   The sign of the Hodge–Tate criterion 7.3 follows the arithmetic normalization: a uniformizing
-  character has its nonzero Hodge–Tate number at `i = −1` (the computed Check in 7.3). With `Art_K`
-  normalized geometrically the character of 7.2 on `ℚ_p` would be `χ_cyc` and the nonzero number
-  would sit at `i = 1`.
+  character has its nonzero Hodge–Tate number at `i = −1` (the computed Check in 7.3). This is a
+  choice of sign, not a difference in content: with `Art_K` normalized geometrically (the
+  character of 7.2 on `ℚ_p` is then `χ_cyc`), or with the twist `V(χ_cyc^{i})` in place of
+  `V(χ_cyc^{−i})` in the definition of `d^i`, the nonzero number sits at `i = 1`.
 - **Parity index.** `ε_p = 1` for `p` odd and `ε_2 = 2`. It enters only through the depth
   `ε_p·e_L`, at which the logarithm is an isomorphism `U_L^{(ε_p e_L)} ≅ p^{ε_p} 𝒪_L`.
 - **Field isomorphisms** are ring isomorphisms. Between finite extensions of `ℚ_p` every ring
