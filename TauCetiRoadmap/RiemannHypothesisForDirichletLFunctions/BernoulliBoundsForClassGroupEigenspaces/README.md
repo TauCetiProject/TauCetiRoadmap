@@ -17,7 +17,7 @@ Notation and conventions not restated here are those of the roadmaps this one ex
 - `Ш¹(F, ℓ, e)` and its strict form `Ш¹_str(F, ℓ, e)` are defined in 6.17. For a CM field `F` with maximal totally real subfield `F⁺` and `ℓ` odd, `Ш⁺(F, ℓ, e)` and `Ш⁻(F, ℓ, e)` are the eigenspaces of complex conjugation for `(−1)^e` and `(−1)^{e+1}` (6.17 (f)). `V(F, t)` is the total of 6.17 (e). The component `Ш_{ψ,e}(S)` and its normalized length `V_ℓ(ψ, e; S)` are defined in 6.18.
 - Dirichlet characters are characters of `G_ℚ` through arithmetic Frobenius ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/ShaFamMono.lean` (`UpperTheory.V.Chr.dirG`)), with values in `ℚ̄_ℓ` through a fixed embedding; `χ_ℓ` is the `ℓ`-adic cyclotomic character. Generalized Bernoulli numbers `B_{k,ψ}` are those of Tau Ceti's `DirichletCharacter.generalizedBernoulli` (CyclotomicClassGroupsAndStickelberger §3.1), with `B_{1,1} = +1/2` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/GaloisLibrary/BernoulliNumbers/MapGenBChar.lean` (`UpperTheory.V.Bern.genB`, `UpperTheory.V.Bern.bcoef`)); `P_k` is the product of the primes `≤ k`.
 - In Layer 9, `L` is a number field of degree `n` and discriminant `d_L`, `H_m(G; ℤ)` is the homology of a group `G` with trivial coefficients `ℤ`, and "absolute" means independent of all data.
-- The formal proof [FormalProof] (References) is cited by file and declaration at the commit the References name, and `AV/` abbreviates its directory `src/Development/AutomorphicArithmetic/AutomorphicVarieties/`. Where a target names it, the form it states is recorded there, with its hypotheses; a wider form stated by the target is this roadmap's own, proved by the route written at the target. Its lengths over `O` are not divided by `e_O`.
+- The formal proof [FormalProof] (References) is cited by file and declaration at the commit the References name; paths are relative to the `src` directory of its repository, and `AV/` abbreviates the directory `Development/AutomorphicArithmetic/AutomorphicVarieties/`. Where a target names it, the form it states is recorded there, with its hypotheses; a wider form stated by the target is this roadmap's own, proved by the route written at the target. Its lengths over `O` are not divided by `e_O`.
 
 ## Layer 6: Twisted Tate–Shafarevich groups and character components
 
@@ -65,13 +65,13 @@ eigenspaces of complex conjugation for `(−1)^e` and `(−1)^{e+1}`; the `(+1)`
 so `Ш⁻(F, ℓ, e) ≅ Ш¹(F⁺, ℓ, e)` for odd `e` and `Ш⁺(F, ℓ, e) ≅ Ш¹(F⁺, ℓ, e)` for even `e`.
 
 [FormalProof] defines `Ш¹(F, ℓ, e)` through chosen decomposition groups as `Formalism.GaloisCohomology.Sha`, with length
-`shaLen` (`src/Formalism/GaloisCohomology/Statement.lean`), and states these forms of the clauses above. (a) for lengths:
+`shaLen` (`Formalism/GaloisCohomology/Statement.lean`), and states these forms of the clauses above. (a) for lengths:
 `UpperTheory.V.LDataCardLeFinrank.shaLen_eq_shaInv`, `shaInv_congr` and `indep`
 (`AV/GaloisLibrary/GaloisCohomologyLength/ShaLenEqShaInv.lean`), with `shaInv` the choice-free length
 (`AV/GaloisLibrary/GaloisCohomologyLength/LevelInertiaLeLevelDec.lean`). (b) and (c) only for `ℓ` odd or `F` without real
 places, from Poitou–Tate duality, local finiteness and local Tate duality taken as hypotheses: the equality
 `length Sha²_{e,ℓ}(F) = length Ш¹(F, ℓ, e)` as `GlobalTheory.TateLimit.ptShaAt`
-(`src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/LengthEqLengthInvariantsOfTorsionLevels.lean`), the inequality
+(`Development/AbelianVarietyTheory/Proofs/FoundationProofs/LengthEqLengthInvariantsOfTorsionLevels.lean`), the inequality
 of (c) as `UpperTheory.V.PropA.shaLeV` (`AV/AdditiveValuationNorms/ShaLeV.lean`), the length of `H²` being [FormalProof],
 `Formalism/GaloisCohomology/Statement.lean` (`Formalism.GaloisCohomology.VLen`), and the order identity as
 `UpperTheory.V.LDataCardLeFinrank.vFormula_of_classicalTheorems` (`AV/GaloisLibrary/GaloisCohomologyLength/Formula.lean`);
@@ -79,12 +79,12 @@ also [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/Galo
 (`UpperTheory.V.LDataCardLeFinrank.vFormula`), of the statement [FormalProof], `Formalism/GaloisCohomology/Statement.lean`
 (`Formalism.GaloisCohomology.VFormula`).
 (d) as inequalities of lengths, for cyclotomic layers (`LateralTheory.Q.SLayerCut.sha_le`,
-`src/Development/EtaleCohomology/CyclotomicDiscriminants/SLayerCut.lean`) and for `ℓ = 2` and `[F′ : F] = 2`
+`Development/EtaleCohomology/CyclotomicDiscriminants/SLayerCut.lean`) and for `ℓ = 2` and `[F′ : F] = 2`
 (`UpperTheory.V.Two.shaTwo`, `AV/QuadraticExtensions/ShaTwo.lean`; the kernel of length at most one: [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/QuadraticExtensions/KerTwo.lean` (`UpperTheory.V.Two.kerTwo`)).
 (e) as the bound `V(F, t) ≤ B`, with the finiteness of
 the groups it sums, the predicate `UpperTheory.Top.VVle`, and its monotonicity `UpperTheory.Top.VVle.mono`
-(`src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`). (f) as the additivity of lengths
+(`Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`). (f) as the additivity of lengths
 `UpperTheory.V.shaLen_eq_add` (`AV/LengthEqAddEigen.lean`), with `Ш⁺` and `Ш⁻` as [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/LengthEqAddEigen.lean`
 (`UpperTheory.V.ShaPlus`, `UpperTheory.V.ShaMinus`).
@@ -356,11 +356,11 @@ Additive classes and `zc`: [FormalProof],
 for every `q ≥ 1` in place of `ℓ^ν` and every `i ≥ 2`, as `UpperTheory.V.ZK.STheta`, proved through
 `UpperTheory.V.ZK.sThetaOf` (`AV/ModularityArgument/ClassCounting/SThetaOf.lean`); the relation of (b1) as
 `UpperTheory.V.ZK.SRel`, proved as `LateralTheory.Q.SRelT.SRel_of`
-(`src/Development/EtaleCohomology/CyclotomicDiscriminants/SRelTPf.lean`), with the bound `2E + 1` for the number of generators
+(`Development/EtaleCohomology/CyclotomicDiscriminants/SRelTPf.lean`), with the bound `2E + 1` for the number of generators
 of `H_{2E}(C_q × C_q; ℤ/q)` (`LateralTheory.Q.SRelT.gen_two`, same file); (b2) as `UpperTheory.V.ZK.SEta`,
 proved as `UpperTheory.V.ZK.sEta` (`AV/ModularityArgument/ClassCounting/ExpStep.lean`);
 (b3) as `UpperTheory.V.ZK.SStein`, proved as `LateralTheory.Q.SSteinT.SStein_of`
-(`src/Development/EtaleCohomology/CyclotomicDiscriminants/SSteinTPf.lean`); (b4) as `UpperTheory.V.ZK.Cl.cChain`
+(`Development/EtaleCohomology/CyclotomicDiscriminants/SSteinTPf.lean`); (b4) as `UpperTheory.V.ZK.Cl.cChain`
 (`AV/ModularityArgument/ClassCounting/LatticeBlockClasses/CChain.lean`); (b5) with the element `b` in
 `𝒪_F` (its norm to `L` serves for `b ∈ 𝒪_L`), as `UpperTheory.V.ZK.SClass`, proved through `UpperTheory.V.ZK.sClassOf`
 (`AV/ModularityArgument/ClassCounting/SClassOf.lean`).
@@ -687,10 +687,10 @@ character `χ` of conductor dividing `p`; and `V_λ(f)` is irreducible on `G_{K(
 13.1 for admissibility are this roadmap's route to that instance.
 
 [FormalProof] states it only over `ℚ`, with `ℚ̄_p`-coefficients, for `p` odd, `k = 2e + 1` and `r = e`, and with, in place of
-admissibility, the conditions `GlobalTheory.Ord2.admitted` (`src/Development/AbelianVarietyTheory/Definitions/Foundations/FinalTheorems.lean`)
+admissibility, the conditions `GlobalTheory.Ord2.admitted` (`Development/AbelianVarietyTheory/Definitions/Foundations/FinalTheorems.lean`)
 and `GlobalTheory.Ord2.SrcL` (an ordinary newform of level prime to `p`), as `GlobalTheory.Ord2.VanishOrdL`
-(`src/Development/AbelianVarietyTheory/Definitions/Foundations/VanishOrdL.lean`); it proves this as
-`GlobalTheory.Ord2.vanishOrdL_of_zetaUr` (`src/Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`)
+(`Development/AbelianVarietyTheory/Definitions/Foundations/VanishOrdL.lean`); it proves this as
+`GlobalTheory.Ord2.vanishOrdL_of_zetaUr` (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`)
 through an Euler system, not through the finiteness of Selmer groups. The statement for every abelian `K`, every `k` and `r`
 and every admissible pair is this roadmap's.
 
