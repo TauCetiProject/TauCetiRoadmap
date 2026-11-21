@@ -237,11 +237,12 @@ finite index and a finite-dimensional `A`, the induced representation `Ind_S^G A
 finite-dimensional with `finrank k (Ind_S^G A) = [G : S] · finrank k A`. Its finite-dimensional
 form is a functor `FDRep k S ⥤ FDRep k G` whose composite with the forgetful functor to `Rep` is
 Mathlib's induction, up to an equivariant linear equivalence (natural in `A`). Over a commutative
-ring, `Ind_S^G A` is, as a module, the product of copies of `A` indexed by the right cosets of `S`,
-and, through `Sg ↦ g⁻¹S`, the free left-coset model `Ind_S^G A ≃ₗ[k] (G ⧸ S →₀ A)`: the generator
-`⟦g ⊗ a⟧` goes to the vector at the coset `g⁻¹S` with value `a` corrected by the right-coset factor
-of `g`, and `x : G` moves the value at a coset `q` to the coset `x q`, corrected by an element of
-`S`. The two carriers are not definitionally equal.
+ring and for `S` of finite index, `Ind_S^G A` is, as a module, the product of copies of `A`
+indexed by the right cosets of `S`, and, through `Sg ↦ g⁻¹S`, the free left-coset model
+`Ind_S^G A ≃ₗ[k] (G ⧸ S →₀ A)`: the generator `⟦g ⊗ a⟧` goes to the vector at the coset `g⁻¹S`
+with value `a` corrected by the right-coset factor of `g`, and `x : G` moves the value at a coset
+`q` to the coset `x q`, corrected by an element of `S`. The two carriers are not definitionally
+equal.
 *In Tau Ceti:* `TauCeti.Rep.finiteDimensional_ind`, `TauCeti.Rep.finrank_ind`, `TauCeti.Rep.indSubtypeEquivPi`, `Rep.indLeftCosetCoinvariantEquiv`, `Rep.indLeftCosetCoinvariantEquiv_mk`, `Rep.indLeftCosetCoinvariantEquiv_ρ_apply`, `TauCeti.indFDRep`, `TauCeti.indFDRepFunctor`, `TauCeti.indFDRepForgetEquiv`, `TauCeti.indFDRepForgetIso`, `TauCeti.indFDRepForgetNatIso`, `TauCeti.finrank_indFDRep`.
 
 **The induced-character formula.** For a field `k`, `S` of finite index, `A : FDRep k S` and
@@ -572,11 +573,11 @@ nonidentity double coset is disjoint, induction is an isomorphism of `k`-algebra
 `End_H(V) ≅ End_G(Ind_H^G V)`.
 *In Tau Ceti:* `FDRep.simple_indFDRep_of_forall_mackeyDisjoint`, `FDRep.indEndAlgHom`, `FDRep.indEndAlgEquiv`.
 
-**The endomorphism-division characterization.** In a category in which every object is injective,
-as Mathlib makes `FDRep k G` for finite `G` with `|G|` nonzero in `k`, an object `X` is simple
-exactly when `End X` is nontrivial and every nonzero endomorphism of `X` is a unit. Nontriviality
-excludes the zero object. Over a field that does not split `G` this, and not `dim End X = 1`, is
-the criterion for simplicity.
+**The endomorphism-division characterization.** In a preadditive category with kernels in which
+every object is injective, as Mathlib makes `FDRep k G` for finite `G` with `|G|` nonzero in `k`,
+an object `X` is simple exactly when `End X` is nontrivial and every nonzero endomorphism of `X`
+is a unit. Nontriviality excludes the zero object. Over a field that does not split `G` this, and
+not `dim End X = 1`, is the criterion for simplicity.
 *In Tau Ceti:* `CategoryTheory.simple_iff_nontrivial_end_and_isUnit`.
 
 **The Mackey irreducibility criterion.** For finite `G`, `hG` and `hSplitG` (a hypothesis on `G`
@@ -1152,12 +1153,17 @@ representations, Isaacs, Ch. 11):
 
 - `exists_scalarProjectiveInertiaExtension`: a compatible projective extension exists;
 - `scalarProjectiveInertiaExtension_class_eq`: any two have cohomologous factor sets, so they
-  define one class `cliffordObstruction V hScalar ∈ H²(Q, kˣ)`
-  (`scalarProjectiveInertiaExtension_class_eq_obstruction`);
+  define one class `cliffordObstruction V hScalar ∈ H²(Q, kˣ)`, the class of a chosen one;
 - `cliffordObstruction_eq_zero_iff`: the class vanishes exactly when an ordinary representation of
-  `T` on the same space `V` restricts to the given action of `N`;
-- `cliffordObstruction_eq_native`: over an algebraically closed field it is Tau Ceti's
-  `TauCeti.cliffordObstruction`.
+  `T` on the same space `V` restricts to the given action of `N`.
+
+Two statements follow from these and are proved in `Suggested.lean`: every compatible projective
+extension has the class `cliffordObstruction V hScalar`
+(`scalarProjectiveInertiaExtension_class_eq_obstruction`, from the uniqueness statement), and over
+an algebraically closed field the class is Tau Ceti's `TauCeti.cliffordObstruction`
+(`cliffordObstruction_eq_native`, from Tau Ceti's
+`TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction` applied to
+the chosen extension).
 
 API: the class is unchanged when `V` is replaced by an isomorphic representation (whose inertia
 group is the same, `TauCeti.inertia_congr`) and transported along an isomorphism of quotient
