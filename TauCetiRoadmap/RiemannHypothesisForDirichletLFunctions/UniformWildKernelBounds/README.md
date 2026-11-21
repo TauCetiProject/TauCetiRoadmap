@@ -131,6 +131,11 @@ theorems and the form in which they are consumed.
   are as in ReducibilityIdealsAndUltrafilterPatching §4.8.
 - *Routes not given here.* A target or clause whose route this roadmap does not give is stated precisely and says that its route is not given here, with what the statement is: a theorem of [FormalProof], or a named theorem of the literature; an outline of the mechanism may follow. Every statement is unconditional. A target whose route uses a theorem of the first kind says so in a sentence "The route uses …, whose routes are not given in full (see there)", which names those statements, directly or through the targets indicated; theorems of the literature are cited like suppliers.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: host fields, characters and the case split
 
 ### 0.1 Dyadic host fields
