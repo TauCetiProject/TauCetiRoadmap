@@ -28,24 +28,24 @@ Conventions (README, Conventions), after Edmonds, *Angular Momentum in Quantum M
 `D^j_{m'm}(euler α β γ) = e^{im'α} d^j_{m'm}(β) e^{imγ}` exactly as in Edmonds (4.1.12).
 
 Two definitions are local copies. `jacobi` is the Jacobi polynomial of the LaguerreJacobi roadmap,
-§3.2, verbatim. `pauliRotation` is the matrix of Tau Ceti's double cover `SU(2) → SO(3)` (the
-action on `ℝ³` by conjugation through the Pauli map), which Tau Ceti provides after the pin of this
-repository; it is spelled out here by the same formula. The upstream declarations of the double
-cover consumed by the README (Exact supplier contracts) are `TauCeti.pauliRotation`,
-`TauCeti.SU2.toSO3`, `TauCeti.SU2.toSO3_surjective`, `TauCeti.SU2.toSO3_eq_one_iff` and
-`TauCeti.SU2.quotientKerToSO3`; the pin cannot `#check` them.
+§3.2, verbatim. `pauliRotation` is a local copy of `TauCeti.pauliRotation`, the matrix of Tau
+Ceti's double cover `SU(2) → SO(3)` (the action on `ℝ³` by conjugation through the Pauli map), with
+the same formula. The upstream declarations of the double cover consumed by the README (Exact
+supplier contracts) are `TauCeti.pauliRotation`, `TauCeti.SU2.toSO3`,
+`TauCeti.SU2.toSO3_surjective`, `TauCeti.SU2.toSO3_eq_one_iff` and `TauCeti.SU2.quotientKerToSO3`;
+they are named here, not `#check`ed.
 
-Five declarations are supporting steps proved here, not targets: `monomialNorm_pos`,
+Six declarations are supporting steps proved here, not targets: `monomialNorm_pos`,
 `continuous_unitaryModel`, `isIrreducible_unitaryModel` (needed by `irrepModel`),
-`matrixElement_eq_conj_matrixCoeff` and `eulerLaplacian_sphere`.
+`matrixElement_eq_conj_matrixCoeff`, `matrixElement_one` and `eulerLaplacian_sphere`.
 
 Bold headlines of the README not stated here: the raising and lowering operators (§4.1), read off
 the matrices; Jacobi orthogonality for integral parameters (§3.3), a consistency check; the
 expansion of class functions in characters (§3.4); the Gegenbauer form (§2.6), which needs a
 Gegenbauer polynomial; the comparison with the spherical harmonics of SpecialFunctionsLegendre
-(§6.1), whose definition is not on the pinned main; the irreducible pieces `H_l` and the
+(§6.1), whose definition is not on the pinned main; and the irreducible pieces `H_l` and the
 decomposition of `L²(S²)` (§6.3), which need the representation on a span of functions on the
-sphere; and the zonal spherical functions (§6.4).
+sphere.
 -/
 
 @[expose] public section
@@ -133,8 +133,8 @@ def rotationY (β : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
 
 /-- The rotation attached to `g ∈ SU(2)`: column `b` is the vector of Pauli coordinates
 `(Re A₁₀, Im A₁₀, Re A₀₀)` of `A = g σ(e_b) g*`, where `σ(x) = [[x₂, x₀ - i x₁], [x₀ + i x₁, -x₂]]`
-is the Pauli map. This is the matrix of Tau Ceti's double cover `SU(2) → SO(3)`, which Tau Ceti
-provides after the pin of this repository; the local copy uses the same formula. -/
+is the Pauli map. This is a local copy of `TauCeti.pauliRotation`, the matrix of Tau Ceti's double
+cover `SU(2) → SO(3)`, with the same formula. -/
 def pauliRotation (g : SU2) : Matrix (Fin 3) (Fin 3) ℝ :=
   Matrix.of fun a b ↦
     let x : Fin 3 → ℝ := Pi.single b 1
@@ -289,10 +289,10 @@ theorem matrixElement_spinHalf (i j : Fin 2) (g : SU2) :
 
 /-! ### 2.2 The group law, unitarity and the centre -/
 
-/-- The matrix elements of the identity form the identity matrix. -/
+/-- Supporting step: the matrix elements of the identity form the identity matrix. -/
 theorem matrixElement_one (d : ℕ) (i j : Fin (d + 1)) :
     matrixElement d i j 1 = if i = j then 1 else 0 := by
-  sorry
+  simp [matrixElement, EuclideanSpace.inner_single_left]
 
 /-- **The group law** `D(gh) = D(g) D(h)`. -/
 theorem matrixElement_mul (d : ℕ) (i j : Fin (d + 1)) (g h : SU2) :
@@ -830,6 +830,26 @@ theorem eulerLaplacian_sphere (u : ℝ × ℝ → ℂ) (p : ℝ × ℝ × ℝ) :
     eulerLaplacian (fun r ↦ u (r.2.1, r.1)) p = sphereLaplacian u (p.2.1, p.1) := by
   simp [eulerLaplacian, sphereLaplacian]
 
+/-! ### 6.3 Harmonic analysis on the sphere -/
+
+/-- **The surface measure in polar coordinates.** For measurable `F ≥ 0` on `ℝ³`,
+`∫⁻ F d(toSphere) = ∫⁻_{(0, π) × (0, 2π)} F(spherePoint θ φ) sin θ dθ dφ`. -/
+theorem lintegral_toSphere_eq_setLIntegral_spherePoint
+    (F : EuclideanSpace ℝ (Fin 3) → ENNReal) (hF : Measurable F) :
+    ∫⁻ x, F x ∂(volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere =
+      ∫⁻ p in Ioo 0 π ×ˢ Ioo 0 (2 * π),
+        F (spherePoint p.1 p.2) * ENNReal.ofReal (Real.sin p.1) := by
+  sorry
+
+/-- **The surface measure in polar coordinates**, for the Bochner integral of a function
+integrable on the sphere. -/
+theorem integral_toSphere_eq_setIntegral_spherePoint (F : EuclideanSpace ℝ (Fin 3) → ℂ)
+    (hF : Integrable (fun x : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1 ↦ F x)
+      (volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere) :
+    ∫ x, F x ∂(volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere =
+      ∫ p in Ioo 0 π ×ˢ Ioo 0 (2 * π), Real.sin p.1 • F (spherePoint p.1 p.2) := by
+  sorry
+
 /-! ### 6.4 The Gel'fand pair (SU(2), T) -/
 
 /-- Convolution on `SU(2)` for the normalized Haar measure. -/
@@ -847,6 +867,26 @@ theorem convolution_comm (f₁ f₂ : SU2 → ℂ) (hf₁ : Continuous f₁) (hf
     (hT₁ : ∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, f₁ (k₁ * g * k₂) = f₁ g)
     (hT₂ : ∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, f₂ (k₁ * g * k₂) = f₂ g) :
     convolution f₁ f₂ = convolution f₂ f₁ := by
+  sorry
+
+/-- **The zonal spherical functions** of the Gel'fand pair (SU(2), T). A continuous
+bi-`T`-invariant `φ` with `φ(1) = 1` is an eigenfunction of convolution by every continuous
+bi-`T`-invariant function if and only if `φ = D^l_{00} = P_l(cos β)` for some `l`. -/
+theorem eq_matrixElement_zonal_iff (φ : SU2 → ℂ) (hφ : Continuous φ)
+    (hT : ∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, φ (k₁ * g * k₂) = φ g) (h1 : φ 1 = 1) :
+    (∀ f : SU2 → ℂ, Continuous f → (∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, f (k₁ * g * k₂) = f g) →
+        ∃ c : ℂ, convolution f φ = c • φ) ↔
+      ∃ l : ℕ, φ = matrixElement (2 * l) ⟨l, by omega⟩ ⟨l, by omega⟩ := by
+  sorry
+
+/-- **The zonal spherical functions through the functional equation.** A continuous
+bi-`T`-invariant `φ` with `φ(1) = 1` satisfies
+`(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if and only if
+`φ = D^l_{00}` for some `l`. -/
+theorem eq_matrixElement_zonal_iff_integral_mul_torusExp_mul (φ : SU2 → ℂ) (hφ : Continuous φ)
+    (hT : ∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, φ (k₁ * g * k₂) = φ g) (h1 : φ 1 = 1) :
+    (∀ g h : SU2, ((2 * π)⁻¹ : ℂ) * ∫ t in (0 : ℝ)..(2 * π), φ (g * torusExp t * h) = φ g * φ h) ↔
+      ∃ l : ℕ, φ = matrixElement (2 * l) ⟨l, by omega⟩ ⟨l, by omega⟩ := by
   sorry
 
 /-! ## Supplier contracts consumed (README, Exact supplier contracts) -/
@@ -875,6 +915,8 @@ theorem convolution_comm (f₁ f₂ : SU2 → ℂ) (hf₁ : Continuous f₁) (hf
 #check @Polynomial.Chebyshev.U
 #check @ordinaryHypergeometric
 #check @MeasureTheory.Measure.toSphere
+#check @MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul
+#check @MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul
 #check @TauCeti.krawtchouk
 #check @TauCeti.convolutionCLM
 #check @TauCeti.convolutionCLM_toLp_apply

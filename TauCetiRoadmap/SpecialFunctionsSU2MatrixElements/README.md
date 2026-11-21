@@ -20,9 +20,9 @@ The roadmap rests on Tau Ceti's SU(2) development (the models `Sym^d`, their irr
 exhaustion, their characters and the double cover SU(2) → SO(3)) and its compact-group development
 (Haar measure, Schur orthogonality, Peter–Weyl), and on the Jacobi, Legendre and Gegenbauer
 polynomials of the LaguerreJacobi roadmap. SpecialFunctionsLegendre supplies the spherical
-harmonics on `S²` with their orthonormality, addition theorem and completeness, and this roadmap
-identifies them with the columns of `D^l`; RiemannianGeometry supplies the completeness of
-harmonic polynomials on spheres. SpecialFunctionsGroupModels consumes the Euler convention, the
+harmonics on `S²` with their orthonormality, addition theorem and completeness (the last resting on
+RiemannianGeometry's completeness of harmonic polynomials on spheres), and this roadmap identifies
+them with the columns of `D^l`. SpecialFunctionsGroupModels consumes the Euler convention, the
 Haar density, the unitary model and the matrix elements, and continues them to SU(1,1) and the
 Euclidean motion groups.
 
@@ -36,15 +36,17 @@ Miller, and of the DLMF for the normalizations; it follows none of them section 
 
 ## How to read the build
 
-Each layer has numbered subsections. Each subsection lists its targets as bold headlines with
-their Lean names, a source locator for a headline that restates a source result and a proof route
-for a corollary, and Checks, which are sanity checks of the key definitions and theorems. Layers 1
-and 2 are the foundation. Given Layer 2, the other layers use each other as follows: §3.2 uses the
-addition theorem of §3.1, and §3.3 the Haar formula of §1.3; Layer 4 uses only Layers 1 and 2;
-Layer 5 uses the unitarity of §2.2; §6.1 uses the Ferrers form and the symmetries of §§2.5–2.6;
-§6.2 uses the Laplacian in Euler angles of §4.3 and the differential equation of §4.2; §6.3 uses
-Schur orthogonality (§3.3), Plancherel (§3.4), the addition theorem (§3.1) and the irreducibility
-of §1.4; §6.4 uses Schur orthogonality (§3.3) and the functional equation of §3.2.
+Each layer has numbered subsections. Each subsection lists its targets as bold headlines with their
+Lean names, a source locator for a headline that restates a source result and a proof route for a
+corollary, and Checks, which are sanity checks of the key definitions and theorems. Layers 1 and 2
+are the foundation; within them, the unitarity of §1.4, and with it `irrepModel`, uses the entry
+formula of §2.1, which needs only the definition of `unitaryModel`. Given Layer 2, the other layers
+use each other as follows: §3.2 uses the addition theorem of §3.1, and §3.3 the Haar formula of
+§1.3; Layer 4 uses only Layers 1 and 2; Layer 5 uses the unitarity of §2.2; §6.1 uses the Ferrers
+form and the symmetries of §§2.5–2.6; §6.2 uses the Laplacian in Euler angles of §4.3 and the
+differential equation of §4.2; §6.3 uses the points of §6.1, Schur orthogonality (§3.3), Plancherel
+(§3.4), the addition theorem (§3.1) and the irreducibility of §1.4; §6.4 uses Schur orthogonality
+(§3.3), Plancherel (§3.4) and the functional equation of §3.2.
 
 ## Conventions
 
@@ -84,9 +86,8 @@ The convention is that of Edmonds [E], chosen so that every displayed formula of
   `euler α β (γ + 2π) = -euler α β γ`. The SU(2) box is therefore `0 ≤ α < 2π`, `0 < β < π`,
   `-2π ≤ γ < 2π` (`eulerBox`).
 - Rotations. Tau Ceti's double cover `SU(2) → SO(3)` is the action on `ℝ³` by conjugation
-  through the Pauli map `x ↦ [[x₂, x₀ - i x₁], [x₀ + i x₁, -x₂]]`. Tau Ceti provides it after the
-  pin of this repository, so `Suggested.lean` carries its matrix as the local copy
-  `pauliRotation`, with the same formula. It sends `g_α` to `R_z(-α)` and `b_β` to `R_y(-β)`, so
+  through the Pauli map `x ↦ [[x₂, x₀ - i x₁], [x₀ + i x₁, -x₂]]`. `pauliRotation` is a local copy
+  of its matrix, with the same formula. It sends `g_α` to `R_z(-α)` and `b_β` to `R_y(-β)`, so
   `pauliRotation (euler α β γ) = R_z(-α) R_y(-β) R_z(-γ)` (`rotationZ`, `rotationY`).
 - Edmonds describes `D(αβγ)` as the operator of the rotation of the coordinate frame
   [E, §4.1, p. 53]; in fixed axes that frame rotation is `R_z(α) R_y(β) R_z(γ)` [E, §1.3, p. 8].
@@ -104,7 +105,9 @@ The convention is that of Edmonds [E], chosen so that every displayed formula of
   `m = i - l`; it equals `Y_l^m` on the unit sphere, and §6.1 compares it with the spherical
   harmonic of SpecialFunctionsLegendre §3.1.
 - The surface measure on `S²`, for `L²(S²)` in §6.3, is `MeasureTheory.Measure.toSphere` of
-  Lebesgue measure, of total mass `4π`.
+  Lebesgue measure, of total mass `4π`. In polar coordinates it is `sin θ dθ dφ` on
+  `(0, π) × (0, 2π)` (`lintegral_toSphere_eq_setLIntegral_spherePoint`, §6.3), the measure of the
+  spherical harmonics of SpecialFunctionsLegendre.
 - Vilenkin and Klimyk use the basis `ψ_n = z₁^{l-n} z₂^{l+n}/√·`, which is `e_i` with
   `n_VK = d/2 - i = -m`, and the Euler element `u(φ, θ, ψ) = g_φ a_θ g_ψ` with
   `a_θ = [[cos(θ/2), i sin(θ/2)], [i sin(θ/2), cos(θ/2)]]` (`eulerMiddleX`, `eulerX`). Their
@@ -292,8 +295,9 @@ Sources: [E, (4.1.5), p. 54; (4.1.10), p. 55; p. 56]; [VK, §6.3.1, p. 280, (3)]
 
 Sources: [E, §4.2, pp. 59–60]; [M, §5-16, p. 219]; [VK, §6.3.6, p. 287].
 
-- **The identity and the group law** (`matrixElement_one`, `matrixElement_mul`). `D(1) = 1` and
-  `D(gh) = D(g) D(h)` as matrices. Route: homomorphism of `unitaryModel`.
+- **The group law** (`matrixElement_mul`). `D(gh) = D(g) D(h)` as matrices. Route: homomorphism
+  of `unitaryModel`. Its companion `D(1) = 1` (`matrixElement_one`) is a supporting step, proved
+  in `Suggested.lean` by `simp`.
 - **Unitarity** (`matrixElement_inv`, `sum_conj_matrixElement_mul_matrixElement`,
   `sum_matrixElement_mul_conj_matrixElement`). `D_{m'm}(g⁻¹) = conj D_{mm'}(g)`, and the columns
   and the rows of `D(g)` are orthonormal. Route: `isUnitary_unitaryModel`.
@@ -423,7 +427,9 @@ Sources: [VK, §6.1.1, p. 269; §6.3.3, p. 285, (4)–(5)]; [KV, p. 178, (19)].
   `D_{m'm}(eulerX φ θ ψ) = i^{m - m'} e^{i(m'φ + mψ)} d_{-m',-m}(θ)` for all real angles. With
   `t^{VK}_{mn} = D_{-m,-n}`, this is Vilenkin and Klimyk's
   `t^{VK}_{mn}(u) = i^{m-n} e^{-i(mφ+nψ)} P^l_{mn}(cos θ)` [VK, §6.3.3, p. 285, (4)–(5);
-  KV, p. 178, (19)] with `P^l_{mn}(cos θ) = d^l_{mn}(θ)`. Route: `eulerX_eq_euler` and
+  KV, p. 178, (19)] with `P^l_{mn}(cos θ) = d^l_{mn}(θ)`. Their `P^l_{mn}` excludes the factor
+  `i^{m-n}`, so it is real for real `θ`; Vilenkin's 1968 book has that factor inside `P^l_{mn}`
+  [VK, §6.3.3, p. 285, (4) and footnote 1]. Route: `eulerX_eq_euler` and
   `matrixElement_euler`; the phases `e^{∓iπ/4 · 2m}` give `i^{m-n}`.
 
 **Checks.**
@@ -793,20 +799,33 @@ SpecialFunctionsLegendre owns the orthonormality and the addition theorem of the
 harmonics (its §3.2; DLMF 14.30.8, 14.30.9) and their completeness in `L²` of the sphere (its
 §3.3), in the polar coordinates with the weight `sin θ`. RiemannianGeometry R8.2 owns the
 completeness of the restricted harmonic polynomials on spheres, which at `m = 2` is the density
-half of that completeness. Here the group acts on these spaces.
+half of that completeness. Here the polar coordinates are compared with the surface measure
+`toSphere`, and the group acts on these spaces.
 
+- **The surface measure in polar coordinates** (`lintegral_toSphere_eq_setLIntegral_spherePoint`,
+  `integral_toSphere_eq_setIntegral_spherePoint`). For measurable `F : ℝ³ → [0, ∞]`,
+  `∫⁻ F d(toSphere) = ∫⁻_{(0, π) × (0, 2π)} F(spherePoint θ φ) sin θ dθ dφ`, and the same holds
+  for the Bochner integral of a complex `F` integrable on the sphere for `toSphere`. So the
+  complement in `S²` of the image of `(0, π) × (0, 2π)` is `toSphere`-null, and
+  `F ↦ F ∘ spherePoint` is a unitary map from `L²(S²)` onto `L²((0, π) × (0, 2π), sin θ dθ dφ)`.
+  Route: `toSphere s = 3 · vol(Ioo 0 1 • s)` (the definition of `toSphere`), and the change of
+  variables `(r, θ, φ) ↦ r · spherePoint θ φ` on `(0, 1) × (0, π) × (0, 2π)`, injective with
+  Jacobian `r² sin θ` and with a null complement of its image in the punctured ball
+  (`MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul` and
+  `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`), with `∫_0^1 r² dr = 1/3`.
 - **The irreducible pieces.** For each `l`, the span `H_l` of the restrictions to the unit sphere
   of the `sphericalHarmonic l i`, `i ≤ 2l`, is invariant under `f ↦ f ∘ R(g)⁻¹`, and as a
   representation of SU(2) it is equivalent to `unitaryModel (2l)`: irreducible, of dimension
   `2l + 1`, and factoring through SO(3). Route: by `sphericalHarmonic_rotation` the operator of `g`
-  has the matrix `D^l(g)` in the spanning family; the family is linearly independent by the
-  comparison of §6.1 and the orthonormality of SpecialFunctionsLegendre §3.2; then
+  has the matrix `D^l(g)` in the spanning family; the family is orthonormal in `L²(S²)`, hence
+  linearly independent, by the comparison of §6.1, the unitary map of the first headline and the
+  orthonormality of SpecialFunctionsLegendre §3.2; then
   `isIrreducible_unitaryModel` and `exists_unitaryModel_eq_comp_pauliRotation`.
 - **The decomposition of `L²(S²)` into irreducibles.** `L²(S²)` is the Hilbert direct sum of the
   `H_l`, `l ≥ 0`, each irreducible of dimension `2l + 1`, so each irreducible representation of
-  SO(3) occurs exactly once. Route: the previous headline, with orthogonality from
-  SpecialFunctionsLegendre §3.2 and density from RiemannianGeometry R8.2 at `m = 2`, both through
-  the comparison of §6.1.
+  SO(3) occurs exactly once. Route: the previous headline, and the Hilbert basis of
+  SpecialFunctionsLegendre §3.3 (orthonormality from its §3.2), carried to `L²(S²)` by the unitary
+  map of the first headline and the comparison of §6.1.
 
 The group gives proofs of the results owned by SpecialFunctionsLegendre: orthonormality is Schur
 orthogonality (§3.3) pushed forward by `orbitPoint`; completeness is Plancherel on SU(2) (§3.4)
@@ -818,6 +837,11 @@ is `legendre_addition` in the form `D^l_{00}(g⁻¹h) = Σ_m conj D^l_{m0}(g) D^
 
 **Checks** (the definitions are those of §6.1):
 
+- `F = 1`: both sides of `lintegral_toSphere_eq_setLIntegral_spherePoint` are `4π`; on the left
+  `toSphere univ = 3 · vol(ball 0 1) = 3 · 4π/3`, on the right `2π ∫_0^π sin θ dθ = 4π`.
+- `F = x₃²`: both sides are `4π/3`, the right one `2π ∫_0^π cos² θ sin θ dθ = 2π · 2/3`.
+- Negative control: without the weight `sin θ` the right side at `F = 1` is `2π² = 19.739`, not
+  `4π = 12.566`.
 - `H_0` is spanned by the constant `1/√(4π)`, and `H_1` by the restrictions of `x₃` and
   `x₁ ± i x₂`, the linear forms, of dimension `3`.
 - The rotation law at `l = 1`, `i = 2`, `g = torusExp t`: `R(g)⁻¹ = R_z(2t)` multiplies
@@ -838,15 +862,22 @@ Sources: [D, §§6–7, pp. 18–21]; [W, Ch. 8]; [VK, §6.3.11, p. 297].
   `D = diag(i, -i)`, since `D b_β D⁻¹ = b_{-β}`.
 - **The commutative algebra** (`convolution_comm`). Convolution of continuous bi-`T`-invariant
   functions is commutative. Route: Gel'fand's trick with the anti-automorphism `g ↦ g⁻¹`.
-- **The zonal spherical functions.** A continuous bi-`T`-invariant `φ : SU(2) → ℂ` with
-  `φ(1) = 1` satisfies, for every continuous bi-`T`-invariant `f`, `convolution f φ = λ_f φ` with
-  a scalar `λ_f`, if and only if `φ = D^l_{00}` for some `l`, where `D^l_{00} = P_l(cos β)`;
-  equivalently, if and only if `φ` satisfies the functional equation of §3.2. Route: for
+- **The zonal spherical functions** (`eq_matrixElement_zonal_iff`,
+  `eq_matrixElement_zonal_iff_integral_mul_torusExp_mul`). A continuous bi-`T`-invariant
+  `φ : SU(2) → ℂ` with `φ(1) = 1` satisfies, for every continuous bi-`T`-invariant `f`,
+  `convolution f φ = λ_f φ` with a scalar `λ_f`, if and only if `φ = D^l_{00}` for some `l`, where
+  `D^l_{00} = P_l(cos β)`; and it satisfies the functional equation
+  `(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if and only if
+  `φ = D^l_{00}` for some `l`. Route: for
   `φ = D^l_{00}`, expand `φ(h⁻¹g)` by `matrixElement_mul`; left `T`-invariance of `f` kills the
   terms `μ ≠ 0`, leaving `λ_f = ∫ f conj D^l_{00}`. Conversely, Plancherel (§3.4) and
   bi-`T`-invariance write `φ = Σ_l c_l D^l_{00}`, and the cases `f = D^{l'}_{00}`, for which
   `convolution f φ = c_{l'} D^{l'}_{00}/(2l' + 1)` by Schur (§3.3), leave a single `l`, with
-  `c_l = 1` from `φ(1) = 1`.
+  `c_l = 1` from `φ(1) = 1`. For the functional equation, `integral_matrixElement_mul_torusExp_mul`
+  (§3.2) gives one direction; conversely, multiplying the equation at `(h, x)` by `f(h)` and
+  integrating in `h` gives, by the right `T`-invariance of `f`, `convolution f̌ φ = (∫ f φ) φ`
+  with `f̌(h) = f(h⁻¹)`, which runs over all continuous bi-`T`-invariant functions, and the first
+  equivalence applies.
 
 **Checks.**
 
@@ -889,16 +920,16 @@ Sources: [D, §§6–7, pp. 18–21]; [W, Ch. 8]; [VK, §6.3.11, p. 297].
 ## Scope and ownership
 
 The roadmap is complete when Tau Ceti proves every statement of `Suggested.lean` and the prose
-targets of the layers below.
+targets of the layers above.
 
 Inputs:
 - Tau Ceti's SU(2) development: the models `Sym^d`, the weight basis, irreducibility and
   exhaustion, characters, the Weyl integration formula, and the double cover `SU(2) → SO(3)`.
 - Its compact-group development: normalized Haar measure, Schur orthogonality, Peter–Weyl.
-- Mathlib's Chebyshev polynomials, the Gauss series and the surface measure on spheres.
+- Mathlib's Chebyshev polynomials, the Gauss series, the surface measure on spheres and the
+  change of variables formula.
 - The Jacobi polynomials of the LaguerreJacobi roadmap (§§3.2–3.4, 4.3, 6.1–6.2).
-- The spherical harmonics of SpecialFunctionsLegendre (§§3.1–3.3) and the completeness of
-  RiemannianGeometry R8.2, for §§6.1 and 6.3.
+- The spherical harmonics of SpecialFunctionsLegendre (§§3.1–3.3), for §§6.1 and 6.3.
 
 Owned here:
 - Euler angles on SU(2) and SO(3), and the Haar measures in Euler angles;
@@ -913,6 +944,7 @@ Owned here:
 - the Krawtchouk polynomials `K_s(x; p, N)` for real `p` (DLMF 18.20.6), their expression
   through `d^j` and their orthogonality; Tau Ceti's coding-theory Krawtchouk values are the
   integer case `p = (q - 1)/q` in another normalization (§5.2);
+- the surface measure `toSphere` of `S²` in polar coordinates (§6.3);
 - what needs the group on `S²`: the polynomial carrier `sphericalHarmonic` on `ℝ³` with its
   comparison to SpecialFunctionsLegendre's spherical harmonics, the orbit, column and row
   formulas, the rotation law, the irreducibility of the spaces `H_l` and the decomposition of
@@ -931,7 +963,8 @@ Not owned:
   (SpecialFunctionsLegendre, §§2.5 and 3.1–3.3); §2.6 writes the Ferrers functions of integer
   order through derivatives of `P_l`, and §3.1 states the addition theorem in the matrix elements
   `d^l_{m0}`;
-- the completeness of the restricted harmonic polynomials on spheres (RiemannianGeometry R8.2);
+- the completeness of the restricted harmonic polynomials on spheres (RiemannianGeometry R8.2),
+  which this roadmap uses through SpecialFunctionsLegendre §3.3;
 - convolution on a compact group as an operator on `L²` (Tau Ceti); §6.4 uses convolution of
   functions, which agrees with it on continuous functions;
 - the matrix element of a unitary representation in a Hilbert basis for a general group. That
@@ -964,12 +997,11 @@ defines.
 - `ContinuousLinearEquiv.congr`, `ContinuousLinearEquiv.continuous_congr` and
   `ContinuousLinearEquiv.isIrreducible_congr`: transport of a representation along a continuous
   linear equivalence.
-- The double cover `SU(2) → SO(3)` from Tau Ceti's SU2 Adjoint module, which postdates the pin
-  of this repository: its matrix, the homomorphism, its surjectivity, its kernel `{±1}` and the
-  topological isomorphism `SU(2)/{±1} ≃ SO(3)`. `pauliRotation` is the local copy of the matrix;
-  the module docstring of `Suggested.lean` names the five upstream declarations, which the pin
-  cannot check. §4.1 uses, in prose, the differential of `Sym^d` from Tau Ceti's SU2 Differential
-  module.
+- The double cover `SU(2) → SO(3)` from Tau Ceti's SU2 Adjoint module: its matrix, the homomorphism,
+  its surjectivity, its kernel `{±1}` and the topological isomorphism `SU(2)/{±1} ≃ SO(3)`.
+  `pauliRotation` is a local copy of the matrix, with the same formula; the module docstring of
+  `Suggested.lean` names the five upstream declarations. §4.1 uses, in prose, the differential of
+  `Sym^d` from Tau Ceti's SU2 Differential module.
 - `TauCeti.krawtchouk`, the coding-theory Krawtchouk values, for the comparison Check of §5.2.
 - `TauCeti.convolutionCLM` with `TauCeti.convolutionCLM_toLp_apply`, for the agreement Check of
   §6.4.
@@ -978,6 +1010,8 @@ defines.
 
 - `Polynomial.Chebyshev.U`, `ordinaryHypergeometric` and `ascPochhammer`.
 - `MeasureTheory.Measure.toSphere`.
+- `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul` and
+  `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`, for §6.3.
 
 ### From the LaguerreJacobi roadmap
 
@@ -992,16 +1026,13 @@ defines.
 
 - §3.1: the spherical harmonic `Y_{l,m}(θ, φ)` of DLMF 14.30.1, for the comparison of §6.1.
 - §3.2: orthonormality, for the linear independence in §6.3 and the orthogonality of the `H_l`.
-- §3.3: completeness, and the change of variables from the polar coordinates to `S²`, for §6.3;
-  the angular-momentum equation and the harmonic polynomials, cited in §6.2.
+- §3.3: completeness, the Hilbert basis of `L²((0, π) × (0, 2π), sin θ dθ dφ)`, for §6.3; the
+  angular-momentum equation and the harmonic polynomials, cited in §6.2.
 - §2.5: the addition theorem in Ferrers functions, cited in §3.1.
 
-### From RiemannianGeometry
-
-- R8.2 at `m = 2`: the restrictions of the harmonic polynomials are dense in `L²(S²)`, for the
-  decomposition of §6.3.
-
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+
+No Tau Ceti roadmap owns these topics; each is material for a further roadmap built on this one.
 
 - Matrix elements on `SL(2, ℂ)` and complex Euler angles [VK, §6.3.3, p. 284].
 - Degree-shift recurrences, Christoffel–Darboux, and generating functions in the degree
