@@ -168,9 +168,10 @@ theorem log_norm_riemannZeta_le_of_riemannHypothesis (h : RiemannHypothesis) :
 
 /-- Littlewood's bounds (9.7 (ii) (d), at `ℚ`): with one absolute constant `C`, every primitive
 `χ ≠ 1` modulo `q ≥ 3` satisfying its hypothesis has `(C log log q)⁻¹ ≤ |L(1, χ)| ≤ C log log q`
-and `|L′/L(1, χ)| ≤ C log log q`. -/
+and `|L′/L(1, χ)| ≤ C log log q`. The condition `χ ≠ 1` is not a hypothesis: the trivial
+character has conductor `1`, so it is not primitive modulo `q ≥ 3`. -/
 theorem LFunction_one_bounds_of_generalizedRiemannHypothesis :
-    ∃ C : ℝ, ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 3 ≤ q → χ.IsPrimitive → χ ≠ 1 →
+    ∃ C : ℝ, ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 3 ≤ q → χ.IsPrimitive →
       χ.GeneralizedRiemannHypothesis →
         (C * Real.log (Real.log q))⁻¹ ≤ ‖χ.LFunction 1‖ ∧
           ‖χ.LFunction 1‖ ≤ C * Real.log (Real.log q) ∧
