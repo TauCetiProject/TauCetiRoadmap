@@ -31,7 +31,7 @@ here.
   with the constant `c_K` of an integral basis, when `0` is an interior point of `B` and `B` is
   balanced over the completions.
 
-The theorems of DiophantineApproximationAndTranscendence §2.5 that 2.5a cites in its names are not
+The theorems of DiophantineApproximationAndTranscendence §2.5 that 2.5a cites are not
 stated: the invariance of both heights under finite extension, the absolute Siegel lemma of Roy
 and Thunder and the dual-height identity. Nor are the elementary clauses of 2.5a that are not
 headlines: the independence of the scalar and of the Plücker vector, the height of vectors at

@@ -8,7 +8,7 @@
 
 The heights are those of [DiophantineApproximationAndTranscendence](../../DiophantineApproximationAndTranscendence/README.md) §2.5, which also proves their invariance under finite extension and the dual-height identity `H_A(U) = |det A|_𝔸 · H_{A^(−t)}(U^⊥)`, `U^⊥` the annihilator of `U` for the dot product; the minima over `K` are those [SubspaceTheorem](../../SubspaceTheorem/README.md) §4.2 defines, and their bounds come from the two halves of the real Minkowski theorem in Tau Ceti through the proofs of SubspaceTheorem §4.2, which carry over. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) reads the degrees of sub-bundles of a Hermitian vector bundle as adelic subspace heights and obtains the successive minima of the bundle from (2).
 
-Layer 2 below writes out the adelic heights of vectors and subspaces and proves the elementary properties that DiophantineApproximationAndTranscendence §2.5 does not state (2.5a); its number and the id 2.5a place it beside §2.5, whose height it names. Layer 3 proves, for every balanced body, the attainment of the minima over `K` by one family, their comparison with the real minima, and Minkowski's second theorem over `K` (3.1).
+Layer 2 below writes out the adelic heights of vectors and subspaces and proves the elementary properties that DiophantineApproximationAndTranscendence §2.5 does not state (2.5a); its number and the id 2.5a place it beside §2.5, whose height it writes out. Layer 3 proves, for every balanced body, the attainment of the minima over `K` by one family, their comparison with the real minima, and Minkowski's second theorem over `K` (3.1).
 
 ## Conventions
 
@@ -35,24 +35,29 @@ where `w` runs over the places of `L`, `v(w)` is the place of `K` below `w`, `A_
 `K_{v(w)} ⊂ L_w`, `|·|_w` is the Euclidean (Hermitian) norm on `L_w^n` at infinite `w`, `mult(w) ∈ {1, 2}`, and the
 absolute value of `L_w` is ideal-normalised at finite `w`. For an `L`-subspace `U ⊂ L^n` of dimension `p ≥ 1` put
 `adelicSubspaceHeight A U = adelicHeight (Λ^p A) y` for a nonzero Plücker vector `y` of `U`, and
-`adelicSubspaceHeight A 0 = 1`. These are this roadmap's names for the height `H_A` of DiophantineApproximationAndTranscendence §2.5, written out over every `L`. Provide:
+`adelicSubspaceHeight A 0 = 1`. These are this roadmap's names for the height adelicSymmetricPowerHeight of
+DiophantineApproximationAndTranscendence §2.5 and for its subspace height through the exterior powers of `A`, written
+out over every `L`; they define no second height. Provide:
 
 - *Well defined*: `adelicHeight A (a·x) = adelicHeight A x` for `a ∈ L^×`, and `adelicSubspaceHeight A U` does not
   depend on the Plücker vector.
 - *Standard data*: `adelicHeight 1 x = TauCeti.absoluteHeight2 x` (and `= height2 x` for `x ∈ K^n`), and
-  `adelicSubspaceHeight 1 U = Submodule.subspaceHeight U` for `K`-subspaces `U`.
+  `adelicSubspaceHeight 1 U = Submodule.subspaceHeight U` for `K`-subspaces `U`. For nonzero `x ∈ K^n`, `log adelicHeight A x`
+  is the height `h_ℒ̄(x)` of ArakelovGeometryAndAbelianHeights §1.12 for `O(1)` on the space of lines of the lattice
+  `{y : A_𝔭 y ∈ 𝓞_𝔭^n for all 𝔭}` with the Fubini–Study metrics of the norms `|A_v ·|`, and for `A = 1` this is the
+  Fubini–Study degree of ArakelovGeometryAndAbelianHeights §1.14 divided by `[K:ℚ]`.
 - *Change of basis*: for `g ∈ GL_n(K)`, `adelicHeight (A·g) (g^(−1) x) = adelicHeight A x` and
-  `adelicSubspaceHeight (A·g) (g^(−1) U) = adelicSubspaceHeight A U`.
+  `adelicSubspaceHeight (A·g) (g^(−1) U) = adelicSubspaceHeight A U`. This is the analogue, with Euclidean norms at the
+  infinite places, of the change of variables that DiophantineApproximationAndTranscendence §2.5 states for
+  `TauCeti.twistedHeight`, and when every `A_v` has entries in `K` the value `|det A|_𝔸` below is its determinant
+  product `TauCeti.deltaL` of `v ↦ A_v`.
 - *Extreme cases*: `adelicSubspaceHeight A (L^n) = |det A|_𝔸 = ∏_v |det A_v|_v^(w_v)` (`w_v = mult(v)/[K:ℚ]` at infinite and
   `1/[K:ℚ]` at finite places); `adelicSubspaceHeight A (L·x) = adelicHeight A x`; for `n = 1`,
   `adelicHeight A x = |det A|_𝔸` for every nonzero `x`.
 
-DiophantineApproximationAndTranscendence §2.5 proves the following of this height, which 2.5a cites in these names
-and does not prove again: both heights are unchanged when `L` is replaced by a finite extension, so they are functions
-on `ℚ̄^n` and on the `ℚ̄`-subspaces defined over a number field; `absoluteAdelicMinima` bounds the product of the
-`ℚ̄`-infima `μ_i` of `adelicHeight A`; and the dual-height identity reads
-`adelicSubspaceHeight A U = |det A|_𝔸 · adelicSubspaceHeight (A^(−t)) U^⊥`, `U^⊥` the annihilator of `U` for the dot
-product.
+The invariance of both heights under finite extension, `absoluteAdelicMinima` and the dual-height identity are
+DiophantineApproximationAndTranscendence §2.5's (its paragraphs on adelic symmetric powers and absolute small vectors
+and on absolute adelic minima), and they apply to these names as they stand.
 
 *Route.* Scalar invariance and independence of the Plücker vector are the product formula for `L` (Mathlib
 `NumberField.prod_abs_eq_one`), since two Plücker vectors differ by a nonzero scalar. At the finitely many places where
@@ -97,15 +102,16 @@ SubspaceTheorem §4.2 defines the successive minima over `K` of a module with re
 
 Let `B ⊂ ι → mixedSpace K` be compact, convex, symmetric, with `0` in its interior, and **balanced over the
 completions**: if `x ∈ B` and `a ∈ mixedSpace K` has `‖a_v‖ ≤ 1` at every infinite place, then `a·x ∈ B`.
-For a finitely generated `𝓞 K`-module `Λ ⊆ ι → K` spanning it, `μ l` is the `K`-minimum of SubspaceTheorem §4.2:
-the infimum of the `t > 0` such that `Λ ∩ t • B` contains `l + 1` vectors linearly independent over `K`, indexed from
-`0`, and `0` for `l ≥ card ι`. The definition reads `B` only as a set, so it applies to these bodies unchanged. Prove,
+For a finitely generated `𝓞 K`-module `Λ ⊆ ι → K` spanning it, `μ l` is the `K`-minimum of SubspaceTheorem §4.2,
+indexed from `0`, whose definition reads `B` only as a set, so it applies to these bodies unchanged. Prove,
 with the constant `c_K ≥ 1` of SubspaceTheorem §4.2, the largest house of a member of a fixed integral basis of `𝓞 K`,
 and `d = [K:ℚ]`, `n = card ι`:
 
 - *Attainment by one family*: `card ι` vectors of `Λ`, linearly independent over `K`, the `l`-th in `μ l • B`.
 - *Comparison with the real minima* of `Λ.mixedImage` and `B`: `λ l ≤ μ l`, `μ l ≤ λ (d l)` and, using
-  balancedness, `λ (d (l + 1) − 1) ≤ c_K · μ l`.
+  balancedness, `λ (d (l + 1) − 1) ≤ c_K · μ l`. After a `K`-basis identifies a `K`-subspace `W ⊆ K^m` with `K^k`,
+  DiophantineApproximationAndTranscendence §2.8 gives `μ l ≤ λ (d l)` for the lattice `W ∩ 𝓞_K^m` and the product of
+  the local unit slices, as the selection siegelBasisExtraction; the form here holds for every module and body as above.
 - *Minkowski's second theorem over `K`*, for any Haar measure:
 
 ```text
@@ -124,7 +130,10 @@ by the third comparison, as in the route below.
 The approximation bodies of SubspaceTheorem §4.1 are balanced (Tau Ceti `TauCeti.NumberField.mul_mem_approxBody`), and
 for them the three statements above are SubspaceTheorem §4.2's. What 3.1 adds are the bodies that are not cut out by
 linear forms with coefficients in `K`, such as the closed disc of the second Check, to which it carries §4.2's proofs
-over.
+over. For the body `{x : |A_v x_v| ≤ 1 at every infinite v}` and the module `{x : A_𝔭 x ∈ 𝓞_𝔭^n for all 𝔭}` of an
+`A ∈ GL_n(𝔸_K)`, the upper bound and the attainment give the fixed-field adelic basis estimate that
+DiophantineApproximationAndTranscendence §2.5 proves in symmetric dimension `r + 1` (its paragraph on adelic symmetric
+powers and absolute small vectors).
 
 *Route.* The proofs of SubspaceTheorem §4.2 apply verbatim: attainment uses that a dilate of a compact body contains
 finitely many lattice points; the first two comparisons and the upper bound use the real Minkowski theorem
@@ -142,8 +151,9 @@ theorem over `K` in two halves: the lower bound
 `IsBalancedOverCompletions B`, with `c_K` the largest house of a member of an integral basis taken as an argument, and
 the upper bound `prod_successiveMinimum_pow_mul_measure_le_of_convex`, for every compact convex symmetric `B`.
 
-*Needs:* SubspaceTheorem §§4.1–4.2 (the minima over `K`, the constant `c_K` and the proofs carried over); Tau Ceti's
-two halves of the real Minkowski theorem and its extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`.
+*Needs:* SubspaceTheorem §§4.1–4.2 (the minima over `K`, the constant `c_K` and the proofs carried over);
+DiophantineApproximationAndTranscendence §0.0 (the two halves of the real Minkowski theorem, in Tau Ceti) and §2.8 (the
+extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`).
 
 **Checks.**
 
@@ -163,19 +173,19 @@ The Checks of 3.1 work three instances over `ℚ` and `ℚ(i)`. For `Λ = ℤ` a
 
 ### Dependencies
 
-SubspaceTheorem §§4.1–4.2 (approximation bodies, mixed images, the minima over `K` and the proofs carried over); Tau Ceti's two halves of the real Minkowski theorem, `ZLattice.two_pow_div_factorial_mul_covolume_le_prod_successiveMin_mul_measureReal` and `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, and its extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`. Layer 3 does not use Layer 2.
+SubspaceTheorem §§4.1–4.2 (approximation bodies, mixed images, the minima over `K` and the proofs carried over); DiophantineApproximationAndTranscendence §0.0 (Tau Ceti's two halves of the real Minkowski theorem, used in their real-valued forms `ZLattice.two_pow_div_factorial_mul_covolume_le_prod_successiveMin_mul_measureReal` and `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`) and §2.8 (Tau Ceti's extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`). Layer 3 does not use Layer 2.
 
 ## Downstream consumers
 
-In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) reads the degree of a sub-bundle of a Hermitian vector bundle as an adelic subspace height, and the heights of vectors and the absolute minima of the bundle through 2.5a, at SlopesOfHermitianVectorBundles §§1.1, 1.3, 1.6, 4.3 and 4.3a; it obtains the attainment of the successive minima over `K` of a bundle of rank at least two, and their lower bound, from 3.1, at SlopesOfHermitianVectorBundles §4.1.
+In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) reads the degree of a sub-bundle of a Hermitian vector bundle as an adelic subspace height, and the heights of vectors, through 2.5a, at SlopesOfHermitianVectorBundles §§1.1, 1.3, 1.6 and 4.3, and takes the absolute minima of the bundle, at SlopesOfHermitianVectorBundles §§4.3 and 4.3a, from DiophantineApproximationAndTranscendence §2.5 (`absoluteAdelicMinima`); it obtains the attainment of the successive minima over `K` of a bundle of rank at least two, and their lower bound, from 3.1, at SlopesOfHermitianVectorBundles §4.1.
 
 ## Scope and ownership
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the names `adelicHeight` and `adelicSubspaceHeight` for the height `H_A` of DiophantineApproximationAndTranscendence §2.5, written out over every finite extension of `K`, with the elementary properties that §2.5 does not state: independence of the scalar and of the Plücker vector, the values at `A = 1`, change of basis, the whole space, lines and the case `n = 1` (2.5a); and, for every compact convex symmetric body with `0` in its interior that is balanced over the completions, the attainment of the successive minima over `K` by one family, their comparison with the real minima and Minkowski's second theorem over `K`, with its upper half for every compact convex symmetric body (3.1).
+This roadmap owns the elementary properties that DiophantineApproximationAndTranscendence §2.5 does not state of its height adelicSymmetricPowerHeight and of its subspace height through exterior powers, written out over every finite extension of `K` as `adelicHeight` and `adelicSubspaceHeight`: independence of the scalar and of the Plücker vector, the values at `A = 1`, change of basis, the whole space, lines and the case `n = 1` (2.5a); and, for every compact convex symmetric body with `0` in its interior that is balanced over the completions, the attainment of the successive minima over `K` by one family, their comparison with the real minima and Minkowski's second theorem over `K`, with its upper half for every compact convex symmetric body (3.1).
 
-Not owned here. The height `H_A` as a construction (with its subspace height through exterior powers), its adelic carrier, its restricted product, its invariance under finite extension and its local isometric reduction, the subspace heights, the absolute Siegel lemma of Roy and Thunder (`absoluteAdelicMinima`) and the dual-height identity are [DiophantineApproximationAndTranscendence](../../DiophantineApproximationAndTranscendence/README.md) §2.5; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity in its names and adds nothing to them. The extraction lemma through field towers is DiophantineApproximationAndTranscendence §2.8, already in the Tau Ceti library. The approximation domains and bodies, pseudo-bases, mixed images and their covolumes are [SubspaceTheorem](../../SubspaceTheorem/README.md) §4.1; the successive minima over `K` themselves, the constant `c_K`, and the attainment, the comparisons and Minkowski's second theorem over `K` for the approximation bodies are SubspaceTheorem §4.2; the span statements for balanced bodies are SubspaceTheorem §4.3. Both halves of the real Minkowski theorem are already in the Tau Ceti library; the lower half is the item `minkowski_second_lower` of [SuccessiveMinima](../../SuccessiveMinima/README.md) §2.1.
+Not owned here. The height `H_A` as a construction, adelicSymmetricPowerHeight (with its subspace height through exterior powers), its adelic carrier, its restricted product, its invariance under finite extension and its local isometric reduction, the subspace heights, the absolute Siegel lemma of Roy and Thunder (`absoluteAdelicMinima`) and the dual-height identity are [DiophantineApproximationAndTranscendence](../../DiophantineApproximationAndTranscendence/README.md) §2.5; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity and adds nothing to them. The extraction lemma through field towers is DiophantineApproximationAndTranscendence §2.8, already in the Tau Ceti library. The approximation domains and bodies, pseudo-bases, mixed images and their covolumes are [SubspaceTheorem](../../SubspaceTheorem/README.md) §4.1; the successive minima over `K` themselves, the constant `c_K`, and the attainment, the comparisons and Minkowski's second theorem over `K` for the approximation bodies are SubspaceTheorem §4.2; the span statements for balanced bodies are SubspaceTheorem §4.3. Both halves of the real Minkowski theorem are DiophantineApproximationAndTranscendence §0.0, in the Tau Ceti library; the lower half is also the item `minkowski_second_lower` of [SuccessiveMinima](../../SuccessiveMinima/README.md) §2.1.
 
 Its consumer in the family is SlopesOfHermitianVectorBundles, as described under Downstream consumers above.
 
@@ -183,7 +193,7 @@ Its consumer in the family is SlopesOfHermitianVectorBundles, as described under
 
 ### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
 
-§2.5: the height `H_A` of vectors for `A ∈ GL_n(𝔸_K)`, with its subspace height through the exterior powers of `A`, which `adelicHeight` and `adelicSubspaceHeight` write out over every finite extension of `K`; the adelic carrier, `A ∈ GL_n(𝔸_K)` integral and invertible at almost every finite place, with its restricted product; the extension invariance of the adelic height (local degrees add up, and the norms at the places above `v` are those at `v`); the local isometric reduction (at every finite place where `A_𝔭 ∈ GL_n(𝓞_𝔭)`, `A_𝔭` preserves the max norm); Tau Ceti's `TauCeti.plucker`, `TauCeti.height2`, `TauCeti.absoluteHeight2` and `Submodule.subspaceHeight`, the `[K:ℚ]`-th root of `Submodule.relativeSubspaceArakelovHeight`; `absoluteAdelicMinima`, for `n ≥ 2` the bounds `|det A|_𝔸 ≤ ∏ μ_i ≤ 2^(n(n−1)/2) |det A|_𝔸` for the infima of `H_A` over `ℚ̄^n`; and the dual-height identity `H_A(U) = |det A|_𝔸 · H_{A^(−t)}(U^⊥)`; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity in its names.
+§0.0: the two halves of Minkowski's second theorem for a discrete full lattice (in the Tau Ceti library, below; 3.1). §2.5: the height `H_A` of vectors for `A ∈ GL_n(𝔸_K)`, adelicSymmetricPowerHeight, with its subspace height through the exterior powers of `A`, which `adelicHeight` and `adelicSubspaceHeight` write out over every finite extension of `K`; the adelic carrier, `A ∈ GL_n(𝔸_K)` integral and invertible at almost every finite place, with its restricted product; the extension invariance of the adelic height (local degrees add up, and the norms at the places above `v` are those at `v`); the local isometric reduction (at every finite place where `A_𝔭 ∈ GL_n(𝓞_𝔭)`, `A_𝔭` preserves the max norm); Tau Ceti's `TauCeti.plucker`, `TauCeti.height2`, `TauCeti.absoluteHeight2` and `Submodule.subspaceHeight`, the `[K:ℚ]`-th root of `Submodule.relativeSubspaceArakelovHeight`; `absoluteAdelicMinima`, for `n ≥ 2` the bounds `|det A|_𝔸 ≤ ∏ μ_i ≤ 2^(n(n−1)/2) |det A|_𝔸` for the infima of `H_A` over `ℚ̄^n`; and the dual-height identity `H_A(U) = |det A|_𝔸 · H_{A^(−t)}(U^⊥)`; 2.5a cites the extension invariance, `absoluteAdelicMinima` and the dual-height identity. §2.8: the extraction lemma through field towers (in the Tau Ceti library, below; 3.1).
 
 ### From TauCetiRoadmap.SubspaceTheorem
 
@@ -195,7 +205,7 @@ Its consumer in the family is SlopesOfHermitianVectorBundles, as described under
 
 ### From Tau Ceti
 
-`ZLattice.successiveMin`, with the two halves of Minkowski's second theorem for a discrete full lattice in a finite-dimensional real normed space and a convex body symmetric about `0`: the lower half `ZLattice.two_pow_div_factorial_mul_covolume_le_prod_successiveMin_mul_measureReal`, for a body with `0` in its interior, and the upper half `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`; the extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`, which selects `l + 1` vectors independent over `K` from `d (l + 1)` vectors whose images are independent over `ℝ` (3.1); the approximation bodies `TauCeti.NumberField.approxBody` of SubspaceTheorem §4.1 and their balancedness `TauCeti.NumberField.mul_mem_approxBody`; `Submodule.mixedImage`; `TauCeti.plucker`, `TauCeti.height2`, `TauCeti.absoluteHeight2` and `Submodule.subspaceHeight`; the extension map of adele rings `NumberField.adeleExtension` and the idele norm `TauCeti.GlobalNumberFields.ideleNorm`, through which `Suggested.lean` reads the components of `A` above the places of `L` and `|det A|_𝔸`.
+`ZLattice.successiveMin`, with the two halves of Minkowski's second theorem for a discrete full lattice in a finite-dimensional real normed space and a convex body symmetric about `0`: the lower half `ZLattice.two_pow_div_factorial_mul_covolume_le_prod_successiveMin_mul_measureReal`, for a body with `0` in its interior, and the upper half `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`; the extraction lemma `TauCeti.exists_linearIndependent_comp_finrank_mul`, which selects `l + 1` vectors independent over `K` from `d (l + 1)` vectors whose images are independent over `ℝ` (3.1); the approximation bodies `TauCeti.NumberField.approxBody` of SubspaceTheorem §4.1 and their balancedness `TauCeti.NumberField.mul_mem_approxBody`; `Submodule.mixedImage`; `TauCeti.plucker`, `TauCeti.height2`, `TauCeti.absoluteHeight2` and `Submodule.subspaceHeight`; the extension map of adele rings `NumberField.adeleExtension` (GlobalNumberFields Layer 8) and the idele norm `TauCeti.GlobalNumberFields.ideleNorm` (GlobalNumberFields Layer 6, trivial on principal ideles), through which `Suggested.lean` reads the components of `A` above the places of `L` and `|det A|_𝔸`.
 
 ## References
 
