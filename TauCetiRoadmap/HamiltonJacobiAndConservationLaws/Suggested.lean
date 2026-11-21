@@ -18,10 +18,10 @@ noncharacteristic data (§2.2); for the pinned `TauCeti.hopfLax`, the Lipschitz 
 semigroup property, the equation at points of differentiability and the uniqueness of
 semiconcave weak solutions (§3.1–§3.3); viscosity sub- and supersolutions of a first-order
 equation with their differential characterization (§4.1), the comparison principle and
-uniqueness for the Cauchy problem (§4.3) with existence of its solution (§4.5), and the
-eikonal equation for the distance to the complement (§4.7); integral solutions in one space dimension with Oleinik's uniqueness theorem
-and the existence theorem (§5.1–§5.3); and Kružkov entropy solutions with the `L¹`
-contraction and the existence theorem (§6.1, §6.2, §6.4).
+uniqueness for the Cauchy problem (§4.3) with existence of its solution (§4.5), and the eikonal
+equation for the distance to the complement (§4.7); integral solutions in one space dimension
+with Oleinik's uniqueness theorem and the existence theorem (§5.1–§5.3); and Kružkov entropy
+solutions with the `L¹` contraction and the existence theorem (§6.1, §6.2, §6.4).
 
 The control problem of §4.6 is stated on the carriers of OptimalControlAndHamiltonJacobi,
 which are not at the pins.
