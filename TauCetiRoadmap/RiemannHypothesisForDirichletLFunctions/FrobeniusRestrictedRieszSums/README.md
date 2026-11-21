@@ -103,7 +103,7 @@ constraints stated where they enter; the values of particular constructions appe
 | `γ` | Euler's constant | Conventions |
 | `G_χ, G_1` | Riesz remainders of a primitive `χ ≠ 1` and of the trivial character | Conventions |
 | `c_ex, c_box` | a gap for the exceptional zeros of the real characters of a cyclic host; the gap of the thin-scale box hypothesis | 1.4 |
-| `C_Λ, s_th, ν̂` | Lipschitz constant of the remainders (RieszSumsOverPrimesAndExceptionalZeros §1.4h), thin-scale saving, Fourier coefficients of `ν` | 1.7, 1.4, 1.6 |
+| `C_Λ, s_th, ν̂` | Lipschitz constant of the remainders (RieszSumsOverPrimesAndExceptionalZeros §1.4h (b′)–(c′)), thin-scale saving, Fourier coefficients of `ν` | 1.7, 1.4, 1.6 |
 | `𝔄, 𝔜_{ν₀}(x), 𝔔_x, x₁` | averaged sum of the `m` differences, the family sum `G_1(x) + (3o + 1)^{−1}Σ_{κ≠1} Re G_κ(x)`, the logarithmic size of 1.7, the threshold of 1.9 | 1.7, 1.9 |
 
 **Statements of the formal proof.** A target whose status or route names [FormalProof] is stated in the form that proof establishes: its
@@ -839,7 +839,9 @@ of the conductor of a real character divides `8` (AnalyticNumberTheoryPartI §0.
 of an element of `𝔛_n⟨ψ⟩` divides
 `f_ψ`; a product of primitive characters of coprime conductors is primitive (`q, d ∤ 2f_ψ`). For `(i, j) = (0, 0)`,
 `c_ex(ψ)` applies; for the others, the box hypothesis. (b) RieszSumsOverPrimesAndExceptionalZeros §1.4i (b) for the field `E` with
-the gap `c_ex` of (a); the bound `exp(−c₁(log y)^{1−α})` decreases in `y`.
+the gap `c_ex` of (a); the bound `exp(−c₁(log y)^{1−α})` decreases in `y`. The form of the formal proof,
+RieszSumsOverPrimesAndExceptionalZeros §1.4i (b′), gives (b) with a constant `c₁` depending on `c_ex`, from the absence of
+real zeros in `(1 − c_ex, 1)` that (a) states.
 
 *Checks.*
 - An instance of (b): for `ε > 0`, `X = e^{x^{ε/3}}/3` and `log f_E ≤ 2x^{ε/5} log² x`, (b) with `α = 31/50` gives
@@ -908,7 +910,7 @@ Put
 `ν̂₀(κ) = 1/(3o + 1)` for `κ ≠ 1`),
 
 `𝔔_x = log(x + 1) + C_Λ + max{|(L′/L)(1, χ*)| : 1 ≠ χ ∈ Ĝ, χ|_{A₀} = 1}`, `C_Λ` the absolute constant of
-RieszSumsOverPrimesAndExceptionalZeros §1.4h.
+RieszSumsOverPrimesAndExceptionalZeros §1.4h (b′)–(c′).
 
 *Theorem.* Let `ε > 0`, and let `C′`, `k` and `Err` be real. Assume `η_top ≤ x^{−1+ε}`, `m ≤ x^{1/2+ε/2}`, `xm ≤ k`, the
 *cost conditions* `2f(x + 1)·s_th ≤ 1/x` and `6f(x + 1)(ϑ + 1) ≤ b/x`, and `|(L′/L)(1, χ*)| ≤ C′ log x` for the
@@ -928,8 +930,8 @@ at most `3(a_τ/b)(ϑ + 1) ≤ 3(x + 1)(ϑ + 1)` per pair `(g, χ)` by RieszSums
 weight `|Φ|^{−1}·|Φ|·|G| = 2f`. What remains, the thick part
 `|Φ|^{−1} Σ_{s∈𝒯} Σ_χ conj χ(σ_d u₀ s τ^{−1})·b·G_{χ*}(a_τ/b)`, does not depend on `j`, and by 1.5 and `|Φ| = 2|A|`
 its mean over `u₀ ∈ A₀` is `b(δ_th/2) Σ_{χ|A₀=1} conj χ(σ_d)χ(τ)G_{χ*}(a_τ/b)`. Sum over `τ ∈ Φ_top`: for a kept
-`χ = χ_κ` (`χ(σ_d) = 1`, 0.5(iii)) move `a_τ/b` to `x` at cost `𝔔_x` per top (RieszSumsOverPrimesAndExceptionalZeros §1.4h (b)) and replace `Σ_τ χ(τ)` by
-`ν̂₀(κ)|Φ_top|` at cost `oη_top|Φ_top|·|G_κ(x)| ≤ oη_top|Φ_top|·x𝔔_x` (1.6, RieszSumsOverPrimesAndExceptionalZeros §1.4h (c)); `ν̂₀(κ)` is real. A non-kept `χ`
+`χ = χ_κ` (`χ(σ_d) = 1`, 0.5(iii)) move `a_τ/b` to `x` at cost `𝔔_x` per top (RieszSumsOverPrimesAndExceptionalZeros §1.4h (b′)) and replace `Σ_τ χ(τ)` by
+`ν̂₀(κ)|Φ_top|` at cost `oη_top|Φ_top|·|G_κ(x)| ≤ oη_top|Φ_top|·x𝔔_x` (1.6, RieszSumsOverPrimesAndExceptionalZeros §1.4h (c′)); `ν̂₀(κ)` is real. A non-kept `χ`
 contributes at most `|Φ_top|·(|G_{χ*}(x)| + 𝔔_x)`. So `𝔄`, the mean over `u₀ ∈ A₀` of the sums of the hypothesis, is at
 most `Err` and at least
 `m b(δ_th/2)|Φ_top|·(𝔜_{ν₀}(x) − Σ_χ |G_{χ*}(x)| − (4o + o²η_top x)𝔔_x) − 2f m|Φ_top|·(3(x + 1)(ϑ + 1) + (x + 1)b·s_th)`.
@@ -992,8 +994,9 @@ Hypothesis (ii) and the saving `s_th` of 1.7 concern other characters
 or other scales than the conclusion. They are not consequences of 1.4 alone: on a host of 0.4, (ii) is a property of the
 auxiliary pair, and the saving follows from 1.4 (b) under the thin-scale box hypothesis of 1.4 (a), a further property
 of the pair, and the bound `log f_E ≤ (log(X′/3))^α`, which bounds the layer and the sizes of `q` and `d` against the
-thin scale (`f_E = lcm(2^{n+2}, f_ψ)·q·d`, 0.4 (c)). The twist selection of QuadraticTwistSelectionOverPrimes
-§§2.7c–2.7d supplies (ii) and the box hypothesis when it is run for a set of characters containing the members of `𝒦(ψ)`
+thin scale (`f_E = lcm(2^{n+2}, f_ψ)·q·d`, 0.4 (c)). The twist selection in the form of the formal proof,
+QuadraticTwistSelectionOverPrimes §2.7c (a′)–(c′) and QuadraticTwistSelectionOverPrimes §2.7d (ii′) (box width `1/400`),
+supplies (ii) and the box hypothesis with `c_box = 1/400` when it is run for a set of characters containing the members of `𝒦(ψ)`
 and every real primitive character of conductor dividing `8f_ψ`, for instance the primitive characters inducing the
 characters modulo `8f_ψ`; the bound on `f_E` is a condition on the choice of the layer and of the sizes of the pair.
 
@@ -1136,21 +1139,26 @@ roadmaps named under Downstream consumers.
 
 ### From RieszSumsOverPrimesAndExceptionalZeros, a sub-roadmap of this family
 
-- §1.4h: Lipschitz and size bounds of the Riesz remainder: for an absolute `C_Λ` and every primitive `χ ≠ 1`:
-  (a) `|w·G_χ(a/w) − w′·G_χ(a/w′)| ≤ 3(a/min(w, w′))|w − w′|` (and for `G_1`); (b) `|G_χ(y) − G_χ(z)| ≤ |y − z|(log max(y, z) + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y) − G_1(z)| ≤ C_Λ|y − z|` for `y, z ≥ 1`; (c) `|G_χ(y)| ≤ y(log y + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y)| ≤ C_Λy`
+- §1.4h (a) and (b′)–(c′), the form of the formal proof of (b), (c): Lipschitz and size bounds of the Riesz remainder: for
+  an absolute `C_Λ` and every primitive `χ ≠ 1`:
+  (a) `|w·G_χ(a/w) − w′·G_χ(a/w′)| ≤ 3(a/min(w, w′))|w − w′|` (and for `G_1`); (b′) `|G_χ(y) − G_χ(z)| ≤ |y − z|(log max(y, z) + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y) − G_1(z)| ≤ C_Λ|y − z|` for `y, z ≥ 1`; (c′) `|G_χ(y)| ≤ y(log y + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y)| ≤ C_Λy`
   for `y ≥ 1`. Used in 1.7, 1.9.
-- §1.4i: (a) `|G_χ(y) − y^β/(β(1 − β))| ≤ C·y·(log 3f_χ)^5·exp(−c·log y/(√(log y) + log f_χ))` for `y ≥ 2`, the term present only
-  for a real `χ` with an exceptional zero `β` (ZerosOfLFunctions §6.3), and `|G_1(y)| ≤ Cy·exp(−c√(log y))`; (b) for a finite
+- §1.4i: (c′), the form of the formal proof: for every `c₀ > 0` there are `C, c > 0` with
+  `|G_χ(y)| ≤ C·y·(log 3f_χ)^5·exp(−c·log y/(√(log y) + log f_χ))` for `y ≥ 2` and every primitive `χ ≠ 1` such that, if `χ` is
+  real, `L(s, χ)` has no real zero in `(1 − c₀, 1)`, and `|G_1(y)| ≤ Cy·exp(−c√(log y))`; (b) for a finite
   abelian `E/ℚ` and `c_ex ∈ (0, 1/2]` with `1 − β ≥ c_ex` for every exceptional zero of a real `χ*`, `χ ∈ Ĝ`: for every
   `α ∈ [1/2, 1)` there is `y₀(α, c_ex)` with `|G_{χ*}(y)| ≤ y·exp(−c₁(log y)^{1−α})` for all `χ ∈ Ĝ` and `y ≥ y₀` with
-  `log f_E ≤ (log y)^α`. Used in 1.4.
+  `log f_E ≤ (log y)^α`, `c₁` absolute; (b′), the form of the formal proof: the same with `c₁ = c₁(c_ex)`, when no `L(s, χ*)`,
+  `χ ∈ Ĝ` real and nonprincipal, has a real zero in `(1 − c_ex, 1)`. Used in 1.4.
 
 ### From QuadraticTwistSelectionOverPrimes, a sub-roadmap of this family
 
-- §2.7d: twisting by two primes chosen in succession: (i) with the conductor bounds `N₀` and `N₀q`, box heights `N₀U₁` (`j = 0`)
-  and `N₀qU₂` (`j = 1`); (ii) with conductor bounds `F₁ ≥ N₀`, `F₂(q) ≥ N₀q` admissible for §2.7c, box heights `F₁U₁` (`j = 0`) and
-  `F₂(q)U₂` (`j = 1`), so `N₀U₁U₂` at `F₂ = N₀U₁`; and its Check: congruences on `q` and `d` (`q | d + 1`, `d ≡ −1` modulo the small
-  odd primes, a class modulo `16`) enter only through the progressions and satisfy the hypotheses of §2.7c. Used in the
+- §2.7c (a′)–(c′) and §2.7d (ii′) at its instance, the forms of the formal proof (box width `1/400`): twisting by two primes
+  chosen in succession, `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` with `q·∏_{3≤p≤z} p | d + 1` (`z = Y^{ε/5}`, `0 < ε < 1/52`); for
+  a proportion at least `1 − η` of the `q`, and for each such `q` of the `d`, for every primitive `ξ` inducing a character
+  modulo `N₀` and `(i, j) ∈ {0, 1}² ∖ {(0, 0)}`, the primitive character `χ` inducing `ξ·(·/q)^i·(·/d)^j` satisfies (a′)
+  `L(s, χ) ≠ 0` for `Re s > 1 − 1/400` and `|Im s|` at most the box height (`N₀U₁` if `j = 0`, `N₀U₁U₂` if `j = 1`), (b′)
+  `|(L′/L)(1, χ)| ≤ C log Y` with an absolute `C`, and (c′) `|G_χ(y)| ≤ y^{1/2+τ}` for every `y ∈ [Y, Y^K]`. Used in the
   remark of 1.9.
 
 ### From Mathlib
