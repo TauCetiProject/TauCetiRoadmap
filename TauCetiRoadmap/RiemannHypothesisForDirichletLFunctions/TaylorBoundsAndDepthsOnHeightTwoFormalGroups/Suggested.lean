@@ -28,10 +28,11 @@ the pins.
   monomials; written out from Mathlib's power series these form a long ad hoc encoding of the
   setting of 4.3, which is not made here.
 * The depth at the points of a unitary moduli problem (4.19f (a)): at an algebraic integral framed
-  point with an integral chart of a PEL moduli problem of unitary type for a CM field `E`, above a
-  prime `ℓ ≥ 5` unramified in `E` and prime to the level, all of whose orbits alternate between the
-  CM type and its conjugate without being stable under conjugation, the depth `ν` of a dominant
-  weight satisfies `T·ν ≤ Σ_{orbits}𝔉_ℓ(n·w) + C·err + T·R_w^{tot}/(ℓ − 1)`. It lacks PEL moduli
+  point with an integral chart of a PEL moduli problem of unitary type whose polarisation `λ` is
+  principal, for a CM field `E`, above a prime `ℓ ≥ 5` unramified in `E` and prime to the level,
+  all of whose orbits alternate between the CM type and its conjugate without being stable under
+  conjugation, the depth `ν` of a dominant weight satisfies
+  `T·ν ≤ Σ_{orbits}𝔉_ℓ(n·w) + C·err + T·R_w^{tot}/(ℓ − 1)`. It lacks PEL moduli
   problems of unitary type and their points over complete discrete valuation rings (PELModuli
   §M1.7), semi-abelian schemes and their formal completions along the zero section
   (ShimuraCompactifications §6.1), rigidified cubical line bundles with their biextensions, integral
