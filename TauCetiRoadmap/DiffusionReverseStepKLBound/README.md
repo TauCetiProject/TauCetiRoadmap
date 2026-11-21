@@ -125,17 +125,19 @@ first moment and mean `b = ∫ y dν`, every `a : E` and every `σ > 0`,
     klDiv ν N(a, σ²) = klDiv ν N(b, σ²) + ofReal (‖a − b‖²/(2σ²)).
 
 Route. The log-likelihood ratio of `N(b, σ²)` against `N(a, σ²)` is the affine function
-`y ↦ (‖y − a‖² − ‖y − b‖²)/(2σ²)` (Tau Ceti `multivariateGaussian_eq_withDensity` and
-`multivariateGaussianPDFReal_def`). It is integrable against `ν` and against `N(b, σ²)`, with the
-same integral `‖a − b‖²/(2σ²)` against both, because both laws have mean `b`. If
-`ν ≪ N(b, σ²)`, Csiszár's Pythagorean identity (Tau Ceti `TauCeti.klDiv_eq_klDiv_add_klDiv`)
+`y ↦ (‖y − a‖² − ‖y − b‖²)/(2σ²)` (Tau Ceti
+`TauCeti.Probability.multivariateGaussian_eq_withDensity` and
+`TauCeti.Probability.multivariateGaussianPDFReal_def`). It is integrable against `ν` and against
+`N(b, σ²)`, with the same integral `‖a − b‖²/(2σ²)` against both, because both laws have mean
+`b`. If `ν ≪ N(b, σ²)`, Csiszár's Pythagorean identity (Tau Ceti `TauCeti.klDiv_eq_klDiv_add_klDiv`)
 gives `klDiv ν N(a) = klDiv ν N(b) + klDiv N(b) N(a)`, and the last term is `‖a − b‖²/(2σ²)`
 (MathematicalStatisticsNonparametric 1.3, `klDiv_multivariateGaussian`). Otherwise `ν` is not
 absolutely continuous with respect to Lebesgue measure, hence not with respect to `N(a, σ²)`
 either, and both sides are `∞`. Only the first moment of `ν` is used. Equivalently,
-`N(a, σ²)` is the tilt of `N(b, σ²)` by that affine function, whose exponential has integral `1`,
-and Tau Ceti's change of reference for tilted measures, `TauCeti.klDiv_tilted_eq_boltzmannEntropy`
-with `TauCeti.klDiv_eq_boltzmannEntropy_of_measure_univ_eq`, gives the identity in `EReal`.
+`N(a, σ²)` is the tilt of `N(b, σ²)` by the negative of that affine function, whose exponential
+has integral `1` against `N(b, σ²)`, and Tau Ceti's change of reference for tilted measures,
+`TauCeti.klDiv_tilted_eq_boltzmannEntropy` with
+`TauCeti.klDiv_eq_boltzmannEntropy_of_measure_univ_eq`, gives the identity in `EReal`.
 (Proved here.)
 
 **Checks.**
@@ -147,8 +149,8 @@ with `TauCeti.klDiv_eq_boltzmannEntropy_of_measure_univ_eq`, gives the identity 
 
 *Needs:* MathematicalStatisticsNonparametric 1.3 (`klDiv_multivariateGaussian`); Tau Ceti
 `TauCeti.klDiv_eq_klDiv_add_klDiv` (or `TauCeti.klDiv_tilted_eq_boltzmannEntropy`),
-`multivariateGaussian_eq_withDensity`,
-`multivariateGaussianPDFReal_def`; Mathlib `klDiv`, `MeasureTheory.llr`.
+`TauCeti.Probability.multivariateGaussian_eq_withDensity`,
+`TauCeti.Probability.multivariateGaussianPDFReal_def`; Mathlib `klDiv`, `MeasureTheory.llr`.
 
 ### 1.3 A Gaussian tilted by a function with Lipschitz gradient
 
@@ -171,10 +173,10 @@ and the Gaussian density; `h` is positive and continuously differentiable,
 `V(y) = ‖y − c‖²/(2σ²)`, which is `(1/σ²)`-strongly convex (Mathlib `strongConvexOn_iff_convex`:
 `V − ‖y‖²/(2σ²)` is affine). The identification of the Gibbs law `volume.tilted (−V)` of
 LogConcaveFunctionalInequalities 1.1 with `N(c, σ²)` is proved here, from Tau Ceti
-`multivariateGaussian_eq_withDensity` with the positive definite covariance `σ² • 1` and
-`multivariateGaussianPDFReal_def`, the normalising constant being `(2πσ²)^(d/2)`. So
-LogConcaveFunctionalInequalities 2.3 gives the logarithmic Sobolev inequality for `N(c, σ²)` with
-constant `σ²`, and 1.1 gives
+`TauCeti.Probability.multivariateGaussian_eq_withDensity` with the positive definite covariance
+`σ² • 1` and `TauCeti.Probability.multivariateGaussianPDFReal_def`, the normalising constant
+being `(2πσ²)^(d/2)`. So LogConcaveFunctionalInequalities 2.3 gives the logarithmic Sobolev
+inequality for `N(c, σ²)` with constant `σ²`, and 1.1 gives
 `klDiv ν N(c, σ²) ≤ (σ²/2) ∫ ‖∇f(y) − ∇f(b)‖² dν ≤ (σ² L²/2) ∫ ‖y − b‖² dν`. Finally 1.2 gives
 `klDiv ν N(b, σ²) ≤ klDiv ν N(c, σ²)`. (Proved here.)
 
@@ -199,8 +201,9 @@ constant `σ²`, and 1.1 gives
   side is positive.
 
 *Needs:* 1.1, 1.2; LogConcaveFunctionalInequalities 1.1 (the Gibbs law) and 2.3
-(`logSobolevInequality_gibbsMeasure`); Tau Ceti `multivariateGaussian_eq_withDensity`,
-`multivariateGaussianPDFReal_def`; Mathlib `MeasureTheory.Measure.tilted`,
+(`logSobolevInequality_gibbsMeasure`); Tau Ceti
+`TauCeti.Probability.multivariateGaussian_eq_withDensity`,
+`TauCeti.Probability.multivariateGaussianPDFReal_def`; Mathlib `MeasureTheory.Measure.tilted`,
 `MeasureTheory.isProbabilityMeasure_tilted`, `MeasureTheory.tilted_of_not_integrable`,
 `strongConvexOn_iff_convex`, `MeasureTheory.withDensity_mul`.
 
@@ -253,19 +256,22 @@ Route, each step with its owner.
   identification of its two-time law `twoTimeLaw` with `q_{t−1} ⊗ₘ noiseKernel α_t` is proved
   here. Its kernels are `gaussianKernel c v` of DenoisingDiffusion 1.2, the image of `N(0, v)`
   under `e ↦ c • x + e`, which is `N(c • x, v)` (Mathlib `Kernel.map_apply`, Tau Ceti
-  `map_affine_multivariateGaussian`); and `noiseKernel a x = N(√a • x, 1 − a)`
-  (DenoisingDiffusion 2.1, `noiseKernel_apply`). So `gaussianKernel √a (1 − a)` and
-  `noiseKernel a` agree at every point, for the levels of the two marginals and for the step.
+  `TauCeti.Probability.map_affine_multivariateGaussian`); and
+  `noiseKernel a x = N(√a • x, 1 − a)` (DenoisingDiffusion 2.1, `noiseKernel_apply`). So
+  `gaussianKernel √a (1 − a)` and `noiseKernel a` agree at every point, for the levels of the two
+  marginals and for the step.
 - (b) Disintegration. `TauCeti.klDiv_compProd_right` writes the divergence as
   `∫⁻ x, klDiv (B x) (κ x) ∂q_t`, with `κ` the model kernel.
 - (c) The two kernels. `κ x = N(m_t x, v)` is proved here from the definition of
   `epsModelKernel`: the image of `N(0, v)` under the translation by `m_t x` (Mathlib
-  `Kernel.map_apply`, Tau Ceti `map_affine_multivariateGaussian` with the identity matrix).
+  `Kernel.map_apply`, Tau Ceti `TauCeti.Probability.map_affine_multivariateGaussian` with the
+  identity matrix).
   `B x = N(x/√α_t, v).tilted (log p_{t−1})`, with
   `p_{t−1} = smoothedDensity μ₀ √ᾱ_{t−1} √(1 − ᾱ_{t−1})`, is proved here from the Bayes density
   of (a), because
   `φ_{β_t}(x − √α_t y) = α_t^(−d/2) φ_v(y − x/√α_t)` as functions of `y` (Tau Ceti
-  `multivariateGaussian_eq_withDensity`, `multivariateGaussianPDFReal_def`). The density
+  `TauCeti.Probability.multivariateGaussian_eq_withDensity`,
+  `TauCeti.Probability.multivariateGaussianPDFReal_def`). The density
   `p_{t−1}` is positive and infinitely differentiable (DenoisingDiffusion 3.1), and bounded by
   `(2π(1 − ᾱ_{t−1}))^(−d/2)`, the maximum of the Gaussian density it averages, so
   `exp ∘ log p_{t−1} = p_{t−1}` is integrable under `N(x/√α_t, v)`.
@@ -327,8 +333,10 @@ reverse step would give only a first-order term, which does not vanish when the 
 Lipschitz constant, third bullet) and 3.1 (Bayes' formula and the moments of the backward kernel);
 DenoisingDiffusion 1.2 (`gaussianKernel`), 2.1 (`noiseKernel_apply`), 2.2 (`alphaBar`,
 `forwardMarginal`), 3.1 (positivity and bound of the smoothed density) and 4.3 (`epsModelKernel`,
-the minimizer); Tau Ceti `TauCeti.klDiv_compProd_right`, `multivariateGaussian_eq_withDensity`,
-`multivariateGaussianPDFReal_def`, `map_affine_multivariateGaussian`,
+the minimizer); Tau Ceti `TauCeti.klDiv_compProd_right`,
+`TauCeti.Probability.multivariateGaussian_eq_withDensity`,
+`TauCeti.Probability.multivariateGaussianPDFReal_def`,
+`TauCeti.Probability.map_affine_multivariateGaussian`,
 `TauCeti.Probability.stdGaussian_map_norm_sq`,
 `TauCeti.Probability.integral_id_chiSquaredMeasure`; Mathlib `Kernel.map_apply`,
 `Measure.lintegral_compProd`.
@@ -445,11 +453,12 @@ samplers.
 
 ### From Tau Ceti
 
-- `TauCeti/Probability/Distributions/Gaussian/Density.lean`: `multivariateGaussianPDFReal`,
-  `multivariateGaussianPDFReal_def`, `multivariateGaussian_eq_withDensity` (positive definite
-  covariance).
-- `TauCeti/Probability/Distributions/Gaussian/Affine.lean`: `map_affine_multivariateGaussian`
-  (positive semidefinite covariance).
+- `TauCeti/Probability/Distributions/Gaussian/Density.lean`:
+  `TauCeti.Probability.multivariateGaussianPDFReal`,
+  `TauCeti.Probability.multivariateGaussianPDFReal_def`,
+  `TauCeti.Probability.multivariateGaussian_eq_withDensity` (positive definite covariance).
+- `TauCeti/Probability/Distributions/Gaussian/Affine.lean`:
+  `TauCeti.Probability.map_affine_multivariateGaussian` (positive semidefinite covariance).
 - `TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`: `TauCeti.klDiv_compProd_right`
   (finite measure, finite kernels, countably generated spaces).
 - `TauCeti/InformationTheory/KullbackLeibler/ChangeOfReference.lean`:

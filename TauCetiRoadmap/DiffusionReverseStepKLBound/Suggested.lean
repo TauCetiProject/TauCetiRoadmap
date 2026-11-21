@@ -25,8 +25,10 @@ Gibbs law) and 2.3 (`logSobolevInequality_gibbsMeasure`); MathematicalStatistics
 (`klDiv_multivariateGaussian`); Tau Ceti `TauCeti.klDiv_compProd_right`,
 `TauCeti.klDiv_eq_klDiv_add_klDiv`, `TauCeti.klDiv_tilted_eq_boltzmannEntropy`,
 `TauCeti.klDiv_eq_boltzmannEntropy_of_measure_univ_eq`,
-`multivariateGaussian_eq_withDensity`, `multivariateGaussianPDFReal_def`,
-`map_affine_multivariateGaussian`, `TauCeti.Probability.stdGaussian_map_norm_sq` and
+`TauCeti.Probability.multivariateGaussian_eq_withDensity`,
+`TauCeti.Probability.multivariateGaussianPDFReal_def`,
+`TauCeti.Probability.map_affine_multivariateGaussian`,
+`TauCeti.Probability.stdGaussian_map_norm_sq` and
 `TauCeti.Probability.integral_id_chiSquaredMeasure`.
 -/
 
