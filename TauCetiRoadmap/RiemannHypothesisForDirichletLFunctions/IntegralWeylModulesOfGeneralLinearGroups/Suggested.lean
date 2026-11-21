@@ -59,7 +59,8 @@ open scoped Pointwise
 natural numbers (for a dominant `λ`, the partition `λ⁰`; the subtraction is truncated at `0`). For a
 dominant `λ` its entries are the row lengths of Tau Ceti's `TauCeti.DominantWeight.detShiftShape`
 (`TauCeti.DominantWeight.rowLen_detShiftShape`); it is defined here for every weight vector, as the
-lattices below are. -/
+lattices below are. Defined in [FormalProof], `Formalism/LocalRingCardinality/DataCoeff.lean`
+(`Formalism.BasicNotions.DomWeight.natW`). -/
 def normalizedWeight {N : ℕ} (lam : Fin N → ℤ) (s : Fin N) : ℕ :=
   (lam s - lam ⟨N - 1, by have := s.isLt; omega⟩).toNat
 
@@ -115,29 +116,28 @@ noncomputable def weylLattice (R : Type*) [CommRing R] {N : ℕ} (lam : Fin N �
         (highestWeightVector R (normalizedWeight lam))}
 
 /-- The Fischer form `⟨f, f⟩_F = Σ_α f_α²·α!` of a polynomial `f = Σ_α f_α x^α` with integer
-coefficients, `α! = ∏_i α_i!`. -/
+coefficients, `α! = ∏_i α_i!`. Defined in [FormalProof], `Formalism/FockGram/StatementFock.lean`
+(`Formalism.E.fock`). -/
 noncomputable def fischerNormSq {σ : Type*} (f : MvPolynomial σ ℤ) : ℤ :=
   ∑ α ∈ f.support, f.coeff α ^ 2 * α.prod fun _ k => (k.factorial : ℤ)
 
 /-- **The sandwich exponent, local form** (0.3 (b), in the polynomial model of 0.3 (c)). Let `O`
 be a discrete valuation ring of characteristic `0` and residue characteristic `p`, and `λ` a
-dominant weight of `GL_N`, `N = n + 1`. Then `p^e·∇_O(λ) ⊂ (dim V_λ)·Δ_O(λ)` with
-`e = (N(N−1)/2)·⌊log_p(λ_0 − λ_{N−1} + N − 1)⌋`, `dim V_λ` the Weyl dimension. -/
-theorem pow_smul_dualWeylLattice_le_smul_weylLattice (O : Type*) [CommRing O] [IsDomain O]
+dominant weight of `GL_N`, `N = n + 1`. Then `p^e·∇_O(λ) ⊂ Δ_O(λ)` with
+`e = (N(N−1)/2)·⌊log_p(λ_0 − λ_{N−1} + N − 1)⌋`. -/
+theorem pow_smul_dualWeylLattice_le_weylLattice (O : Type*) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [CharZero O] (p : ℕ) [Fact p.Prime]
     [CharP (IsLocalRing.ResidueField O) p] (n : ℕ) (lam : Fin (n + 1) → ℤ) (hlam : Antitone lam) :
     ((p : O) ^ ((n + 1) * n / 2 * Nat.log p ((lam 0 - lam (Fin.last n)).toNat + n))) •
-        dualWeylLattice O lam ≤
-      (TauCeti.weylDimension ⟨lam, hlam⟩ : O) • weylLattice O lam := by
+        dualWeylLattice O lam ≤ weylLattice O lam := by
   sorry
 
 /-- **The sandwich exponent, global form** (0.3 (c)). For a dominant weight `λ` of `GL_N`,
-`N = n + 1`, `lcm(1, …, λ_0 − λ_{N−1} + N − 1)^{N(N−1)/2}·∇_ℤ(λ) ⊂ (dim V_λ)·Δ_ℤ(λ)`. -/
-theorem lcm_pow_smul_dualWeylLattice_le_smul_weylLattice (n : ℕ) (lam : Fin (n + 1) → ℤ)
+`N = n + 1`, `lcm(1, …, λ_0 − λ_{N−1} + N − 1)^{N(N−1)/2}·∇_ℤ(λ) ⊂ Δ_ℤ(λ)`. -/
+theorem lcm_pow_smul_dualWeylLattice_le_weylLattice (n : ℕ) (lam : Fin (n + 1) → ℤ)
     (hlam : Antitone lam) :
     (((Icc 1 ((lam 0 - lam (Fin.last n)).toNat + n)).lcm id ^ ((n + 1) * n / 2) : ℕ) : ℤ) •
-        dualWeylLattice ℤ lam ≤
-      (TauCeti.weylDimension ⟨lam, hlam⟩ : ℤ) • weylLattice ℤ lam := by
+        dualWeylLattice ℤ lam ≤ weylLattice ℤ lam := by
   sorry
 
 /-! ## Layer 1: Integral branching from `GL_N` to `GL_{N−1}` -/
@@ -145,7 +145,8 @@ theorem lcm_pow_smul_dualWeylLattice_le_smul_weylLattice (n : ℕ) (lam : Fin (n
 /-- For a weight `λ` of `GL_{m+1}` and a weight `σ` of `GL_m`, and `i < m`, the set
 `R_i ∖ {σ_i}` of 1.1, where `D₀ := Σ_{i<m} (σ_i − λ_{i+1})` and
 `R_i := [λ_{i+1}, min(λ_i, λ_{i+1} + D₀)] ∩ ℤ`. The interlacing defect `D₁` of 1.1 is the sum of the
-cardinalities of these sets. -/
+cardinalities of these sets. `R_i` is defined in [FormalProof],
+`Formalism/BranchSandwichDivisors/StatementR.lean` (`Formalism.BranchingDeterminantCap.rset`). -/
 def interlacingDefectSet (m : ℕ) (lam : Fin (m + 1) → ℤ) (sigma : Fin m → ℤ) (i : Fin m) :
     Finset ℤ :=
   (Icc (lam i.succ) (min (lam i.castSucc) (lam i.succ + ∑ j : Fin m, (sigma j - lam j.succ)))).erase
@@ -226,7 +227,10 @@ valuation ring of characteristic `0` and residue characteristic `ℓ`, `λ` a do
 `GL_{a+b}`, cut into `λ′ = (λ_0, …, λ_{a−1})` and `λ″ = (λ_a, …, λ_{a+b−1})`, and `w ≥ 0` such that
 all shifted weights `λ_c + a + b − 1 − c` of `λ` lie in an interval of length `w`. If
 `ℓ^{e₁}·∇_O(λ′) ⊂ Δ_O(λ′)` and `ℓ^{e₂}·∇_O(λ″) ⊂ Δ_O(λ″)`, then
-`ℓ^{e₁ + e₂ + ab·⌊log_ℓ w⌋}·∇_O(λ) ⊂ Δ_O(λ)`. -/
+`ℓ^{e₁ + e₂ + ab·⌊log_ℓ w⌋}·∇_O(λ) ⊂ Δ_O(λ)`. This follows from [FormalProof],
+`Formalism/PieriBlockIdeals/StatementE.lean` (`Formalism.CohomologicalDescent.E.ExCut`) and
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeylLatticeExactExponentBlockCut.lean`
+(`GlobalTheory.LeviCut.exCut`). -/
 theorem pow_smul_dualWeylLattice_le_weylLattice_of_blocks (O : Type*) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [CharZero O] (ℓ : ℕ) [Fact ℓ.Prime]
     [CharP (IsLocalRing.ResidueField O) ℓ] (a b : ℕ) (lam : Fin (a + b) → ℤ) (hlam : Antitone lam)
@@ -241,7 +245,9 @@ theorem pow_smul_dualWeylLattice_le_weylLattice_of_blocks (O : Type*) [CommRing 
 /-- **The block cut, global form** (2.1 (b)). Let `λ` be a dominant weight of `GL_{a+b}`, cut into
 `λ′ = (λ_0, …, λ_{a−1})` and `λ″ = (λ_a, …, λ_{a+b−1})`, and `w ≥ 0` such that all shifted weights
 of `λ` lie in an interval of length `w`. If `c₁·∇_ℤ(λ′) ⊂ Δ_ℤ(λ′)` and `c₂·∇_ℤ(λ″) ⊂ Δ_ℤ(λ″)`,
-then `c₁c₂·lcm(1, …, w)^{ab}·∇_ℤ(λ) ⊂ Δ_ℤ(λ)`. -/
+then `c₁c₂·lcm(1, …, w)^{ab}·∇_ℤ(λ) ⊂ Δ_ℤ(λ)`. This follows from [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeylLatticeExactExponentBlockCut.lean`
+(`GlobalTheory.LeviCut.cut_incl`). -/
 theorem lcm_pow_smul_dualWeylLattice_le_weylLattice_of_blocks (a b : ℕ) (lam : Fin (a + b) → ℤ)
     (hlam : Antitone lam) (w : ℕ)
     (hw : ∀ c d : Fin (a + b), lam c - (c : ℕ) - (lam d - (d : ℕ)) ≤ w) (c₁ c₂ : ℤ)
@@ -254,7 +260,9 @@ theorem lcm_pow_smul_dualWeylLattice_le_weylLattice_of_blocks (a b : ℕ) (lam :
   sorry
 
 /-- The weight space `∇_R(λ)_μ`: the elements of `∇_R(λ)` all of whose monomials have weight `μ`,
-the weight of a monomial being its vector of row degrees plus `λ_{N−1}·(1, …, 1)`. -/
+the weight of a monomial being its vector of row degrees plus `λ_{N−1}·(1, …, 1)`. Defined in
+[FormalProof], `Formalism/PieriBlockIdeals/StatementLD.lean`
+(`Formalism.CohomologicalDescent.LD.nablaWt`). -/
 noncomputable def dualWeylLatticeWeightSpace (R : Type*) [CommRing R] {N : ℕ}
     (lam mu : Fin N → ℤ) : Submodule R (MvPolynomial (Fin N × Fin N) R) :=
   dualWeylLattice R lam ⊓ restrictSupport R {m | ∀ a : Fin N,
@@ -277,9 +285,10 @@ noncomputable def pieriContentMultiplicity (r w i q : ℕ) (lam₂ : Fin q → �
   (pieriShapes r w i q lam₂).sup fun τ =>
     (univ.filter fun b : Fin q => (lam₂ b : ℤ) ≤ c + (b : ℕ) ∧ c + (b : ℕ) < τ b).card
 
-/-- The Pieri denominator `D(r, w, i, λ₂) = ∏_c (w − c)^{m(c)}` of 2.2. The contents of the boxes
-of a skew shape in `Sh(r, w, i, λ₂)` lie in `[−(q − 1), w)` when `λ₂(0) ≤ w`, so the product is
-over that range and every factor is positive. -/
+/-- The Pieri denominator: `∏_c (w − c)^{m(c)}` over `c ∈ [−q, w)`. When `λ₂(b) ≤ w` for every
+`b`, the hypothesis of 2.2 and of the theorem below, the contents of the boxes of a skew shape in
+`Sh(r, w, i, λ₂)` lie in `[−(q − 1), w)`, so this is `D(r, w, i, λ₂)` of 2.2 and every factor is
+positive; without that hypothesis it can differ from `D(r, w, i, λ₂)`. -/
 noncomputable def pieriDenominator (r w i q : ℕ) (lam₂ : Fin q → ℕ) : ℕ :=
   ∏ c ∈ Ico (-(q : ℤ)) w, ((w : ℤ) - c).toNat ^ pieriContentMultiplicity r w i q lam₂ c
 
@@ -289,7 +298,9 @@ discrete valuation ring of characteristic `0` and residue characteristic `ℓ`, 
 grading, `i′ ∈ ℤ` and `e_L ≥ 0` with `ℓ^{e_L}·∇_O(λ₂)_{μ₂} ⊂ Δ_O(λ₂)` for every weight `μ₂` of
 `GL_q` with `Σ_b ξ(r + b)(λ₂(b) − μ₂(b)) ≤ i′`. Then for every `i ≥ 0` and every weight `μ` of
 `GL_{r+q}` with `Σ_{a<r} μ(a) = r·w − i` and `Σ_a ξ(a)(λ(a) − μ(a)) ≤ i′`,
-`ℓ^{e_L + v_ℓ(D(r, w, i, λ₂))}·∇_O(λ)_μ ⊂ Δ_O(λ)`. -/
+`ℓ^{e_L + v_ℓ(D(r, w, i, λ₂))}·∇_O(λ)_μ ⊂ Δ_O(λ)`. This follows from [FormalProof],
+`Formalism/PieriBlockIdeals/PieriColumnMinors/CorollaryOfParamsLinkage.lean`
+(`Formalism.CohomologicalDescent.Down.hG`). -/
 theorem pow_smul_dualWeylLatticeWeightSpace_le_weylLattice_of_block_first (O : Type*)
     [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [CharZero O] (ℓ : ℕ) [Fact ℓ.Prime]
     [CharP (IsLocalRing.ResidueField O) ℓ] (r q w : ℕ) (lam₂ : Fin q → ℕ) (hlam₂ : Antitone lam₂)
@@ -315,7 +326,12 @@ principal minors of a square matrix). Let `λ` be a dominant weight of `GL_N`, `
 vector with column degrees `μ_0, …, μ_{N−1}`; every such partition arises, and `v_λ` and `c_λ`
 depend on `λ⁰` alone. Then `⟨v_λ, v_λ⟩_F = H(λ⁰)`, the product of the hook lengths of `λ⁰`; and
 `c_λ = H(λ⁰)/∏_s λ⁰_s!` satisfies `1 ≤ c_λ ≤ (λ⁰_0 + N − 1)^{N(N−1)/2}`, written here
-multiplicatively. -/
+multiplicatively. This follows from [FormalProof],
+`Development/AbelianVarietyTheory/BlockTheory/TorsionBlocks/BottomMinor.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.CornerMinors.HookNorm`),
+`Development/AbelianVarietyTheory/Proofs/FoundationProofs/PolarisationOperatorApplyVariable.lean`
+(`GlobalTheory.MinorNorm.hookNorm`) and `Formalism/PeriodIntegrals/HookBound.lean`
+(`PI.HookBound`). -/
 theorem fischerNormSq_highestWeightVector (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
     fischerNormSq (highestWeightVector ℤ fun s : Fin (n + 1) => μ.rowLen s) =
         ∏ c ∈ μ.cells, (μ.hookLength c : ℤ) ∧
