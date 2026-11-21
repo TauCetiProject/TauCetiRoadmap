@@ -92,10 +92,12 @@ Define `lensJacobian ψ₀ pos m z` as the determinant of `fderiv ℝ (lensMap �
 magnification `magnification ψ₀ pos m z = (lensJacobian ψ₀ pos m z)⁻¹`, and `NonCaustic ψ₀ pos m w`:
 no image of `w` has Jacobian `0`. Where the Jacobian vanishes the magnification has the junk value
 `0`. Off the positions, for twice differentiable `ψ₀`, the derivative of the lens map is the
-Hessian of the time delay, so a
-minimum or a maximum of the time delay has positive Jacobian and a saddle negative Jacobian; the
-signed magnification is Petters–Werner's `(−1)^{Ind} / |det Jac η|` (§1.2, p. 3), positive for
-minima and maxima and negative for saddles.
+Hessian of the time delay, so the images with nonzero Jacobian are its nondegenerate critical
+points: there a local minimum or maximum of the time delay has positive Jacobian and a saddle
+negative Jacobian, while a degenerate critical point, such as a point of the Einstein ring in the
+second Check, has Jacobian `0`. At the images with nonzero Jacobian the signed magnification is
+Petters–Werner's `(−1)^{Ind} / |det Jac η|` (§1.2, p. 3), positive for minima and maxima and
+negative for saddles.
 
 **Checks.**
 - One unit mass at `0`: the Jacobian is `1 − 1/|z|⁴` (1.2). At the images `2` and `−1/2` of the
@@ -103,7 +105,9 @@ minima and maxima and negative for saddles.
   image is a minimum of the time delay and the inner one a saddle.
 - One mass `M > 0` at `a`: the Jacobian vanishes exactly on the Einstein ring `|z − a| = √M`,
   whose points are images of `a` only (2.2), so a source is non-caustic exactly when it is not
-  `a`.
+  `a`. The time delay of `a` is `r²/2 − M log r` with `r = |z − a|`, whose derivative `r − M/r`
+  changes sign from negative to positive at `r = √M`; so every point of the ring is a minimum of
+  the time delay with Jacobian `0`, and the restriction to nonzero Jacobian above is needed.
 
 ### D.4 The singular isothermal sphere
 
@@ -235,8 +239,9 @@ from 2.1 and use `t₊ t₋ = −M` and `t₊ − t₋ = √(u² + 4M)`.
 
 Prove `sis_images`: for `b > 0` and `w ≠ 0`, the images are `w + b w/|w|` and `w − b w/|w|`
 when `|w| < b`, and `w + b w/|w|` alone when `|w| ≥ b`; the source `0` is imaged onto the circle
-`|z| = b` (Narayan–Bartelmann, §3.1, equation (46) and the sentence after it, p. 18, in signed
-one-dimensional coordinates).
+`|z| = b` (Narayan–Bartelmann, §3.1, p. 18, in signed one-dimensional coordinates: equation (46)
+for `|w| < b` and the sentence after equation (47) for `|w| > b`; the ring of a centred source is
+§2.1.4, equation (20), p. 9; the case `|w| = b` is computed here).
 
 Route: an image `z ≠ 0` satisfies `z (1 − b/|z|) = w`, so `z` is a real multiple `t w/|w|` with
 `t − b · sign t = |w|`; for `t > 0` this is `t = |w| + b`, for `t < 0` it is `t = |w| − b`,
@@ -330,7 +335,9 @@ continuously differentiable on an open set `U` that contains every point `x` of 
 Then the winding number of `f ∘ circleMap c R` about `0` is the sum over `p ∈ S` of the winding
 numbers of `f ∘ circleMap p ε` (Sète–Luce–Liesen, Theorem 2.6, p. 6, for continuous maps and a
 Jordan curve, with the exceptional points inside; here the curves are circles and `f` is
-continuously differentiable).
+continuously differentiable). The statement is given with one open set `U` because 4.1 applies it
+to a lens map, continuously differentiable off the positions; the route uses the derivative of `f`
+along the circles and the continuity of `f` on the set `K` below.
 
 Route. Write `γ = circleMap c R` and `γ_p = circleMap p ε` on `[0, 2π]`, `D_p` for the closed
 disc `|x − p| ≤ ε`, and `K` for the compact set `{x : |x − c| ≤ R, |x − p| ≥ ε for all p ∈ S}`.
@@ -626,9 +633,16 @@ Neighbouring roadmaps. DifferentialGeometry, Layer 10, plans the Brouwer mapping
 maps between compact connected oriented manifolds without boundary, and MorseNovikov, 7.1 and 7.3,
 the vector-field Poincaré–Hopf theorem on compact manifolds without boundary, with the local
 index `sgn det` of a nondegenerate zero. Layers 3 and 4 here work in the plane, on a disc with
-holes and with point-mass poles, and do not depend on either. PlanarTopology, Layer 1, defines an
-integer winding number of polygonal loops by a signed ray-crossing count; Layer 3 uses Tau Ceti's
-index-integral winding number instead and does not depend on it.
+holes and with point-mass poles, and do not depend on either. ConformalMapping, §5.4, defines the
+integer index `continuousIndex` of a continuous closed loop by a continuous argument lift, and
+§5.5 plans, without a declared theorem, its agreement with `TauCeti.Contour.windingNumber` on
+closed piecewise continuously differentiable loops and its invariance under pointwise proximity
+for continuous loops; with that index the argument principle of Sète–Luce–Liesen could be stated
+for continuous maps. None of the targets of Layer 3 is stated there, and the theorems declared
+there that use the index (`continuous_jordan_index`, `continuous_boundary_argument_principle`,
+`jordan_index_of_isPiecewiseC1On`) are about Jordan curves and holomorphic maps; Layer 3 uses the
+index integral on continuously differentiable composites with circles and does not depend on that
+index.
 
 Not treated here:
 
@@ -642,6 +656,8 @@ Not treated here:
 - External shear in Witt's bound, lenses on several planes, the counts of minima, saddles and
   maxima separately, stochastic lensing and the local theory of caustics.
 - Deriving the lens equation from general relativity: the lens map is the starting definition.
+- Winding numbers or crossing parities of polygonal loops defined by counting crossings with a
+  ray; Layer 3 uses only Tau Ceti's index-integral winding number.
 
 ## Exact supplier contracts
 
