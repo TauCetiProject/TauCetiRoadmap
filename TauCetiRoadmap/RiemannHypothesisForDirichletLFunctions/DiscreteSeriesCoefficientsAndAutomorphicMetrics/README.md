@@ -20,6 +20,11 @@ Groups compact at infinity (Layer 7), with the notation of AutomorphicFormsOnRed
 
 Shimura varieties (Layer 10). `(G, X)` is a Shimura datum, `K` a neat level (not a maximal compact subgroup), `K_∞` the stabiliser of a point of `X`, `Sh_K^Σ` a smooth projective toroidal compactification of `Sh_K` with boundary `D`, `X̌` the compact dual of `X`, `V̌(J)` the homogeneous vector bundle on `X̌` defined by a representation `J`, and `χ_top` the topological Euler characteristic.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 2: Coefficients and tensor products of discrete series
 
 The lowest-`K`-type coefficient of a discrete series of `U(p, q)` with gapped parameter (an explicit formula, its decay and its weighted integrability), and the tensor products of gapped discrete series with the standard representation, its dual and its exterior powers.
