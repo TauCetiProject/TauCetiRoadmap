@@ -2143,6 +2143,17 @@ zero. If its supercuspidal support is `{π_{θ̃_1}, …, π_{θ̃_r}}`, with `�
 constituent of the `GL_n(k)`-module `π^{K₁}` lies in the Harish-Chandra series of `(∏_i GL_{n_i}(k), ⊠_i σ_{θ_i})`;
 equivalently its semisimple label (5.7) is the **label of `π`**, `m_π(O) = #{i : θ_i ∈ O}`. The label of
 `π ⊗ (χ∘det)` for tamely ramified `χ` is the translate of `m_π` by `χ|_{𝒪^×}`.
+In [FormalProof] these statements are made for complex representations, with depth zero taken to mean `π^{K₁} ≠ 0`: that a
+`K₁`-fixed vector of `π` gives one in every member of its supercuspidal support, for every nonarchimedean local field `F`;
+the converse, and the statement on labels, only for `F` of characteristic zero, the latter in this form: every member `x`
+of the support is supercuspidal of depth zero, the character of `x^{K₁}` is that of a `σ_θ` with `θ` regular, and the
+character of `π^{K₁}` has a nonzero inner product with the Harish-Chandra product of these characters (so some irreducible
+constituent of `π^{K₁}` lies in the series). The statement for every constituent, the converse and the labels in positive
+characteristic, and the rule for twists are this roadmap's, by the route below, which does not use the characteristic (the
+converse through LocalFactorsOfTwistsAndTypes §2.1 (a)). The first of these statements is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroSupport.lean`
+(`GlobalTheory.Published.DepthZeroSupport`),
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsContractNeZero.lean` (`GlobalTheory.SmGL.depthZeroSupport`).
 
 *Route.* The equivalences from 6.0 and 6.1. Labels: embed `π` in the normalised induction from its cuspidal
 support (SmoothRepresentationsOfLocalGroups SR.3.1); by the Iwasawa decomposition `GL_n(F) = P·K`, a
@@ -2168,6 +2179,14 @@ contains every irreducible representation whose supercuspidal support consists o
 stable under twisting by characters, contragredients, and the passage to subquotients of parabolic
 inductions of its members, and for `n = 1` consists of all characters. Its members `π` with `χ` tamely
 ramified throughout are exactly those of depth zero.
+In [FormalProof] the class has this form: every member of the supercuspidal support is a character of `F^×`, or `F` is
+isomorphic to a field `ℚ_p` and the member is `χ ⊗ π₀` with `π₀` of depth zero; members of rank at least two are thus
+admitted only over the fields `ℚ_p`. Its properties are stated there for complex representations and `F` of
+characteristic zero: a twist or the contragredient of a supercuspidal member of the class is in the class; a Langlands
+quotient is in the class if and only if the supercuspidal representations at the beginnings of its segments are; and for
+`π₀` irreducible of depth zero, `χ ⊗ π₀` has depth zero if and only if `χ` is tamely ramified. The class over every
+nonarchimedean local field, positive characteristic included, and its stability under subquotients of parabolic
+inductions, are this roadmap's, by the route below.
 
 *Route.* Definitions and SR.3.1 (supercuspidal support of subquotients and twists); 6.3 for the last
 statement.
