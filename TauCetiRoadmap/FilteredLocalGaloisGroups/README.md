@@ -107,10 +107,12 @@ extensions of `ℚ_p`.
   and `haveI`, as `TauCeti/NumberTheory/LocalField/Herbrand/CyclicReduction.lean` does. The
   absolute Galois group of `L` is identified with the open subgroup `L.fixingSubgroup` of `G_K`
   (2.0).
-- **Mixed characteristic** in Layer 3 is the hypothesis of ClassFieldTheory's
-  `injective_artinMap`: `(p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]`,
-  carried by every Layer 3 theorem, beside the local-field structure
-  `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`.
+- **Mixed characteristic** in Layer 3 is `(p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
+  [Module.Finite ℚ_[p] K]`, carried by every Layer 3 theorem, beside the local-field structure
+  `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. It gives
+  `[CharZero K]`, the hypothesis of Tau Ceti's `injective_artinMap`.
+- **Universes.** Layer 3 takes `K : Type` and `zHat.{0}`, because Tau Ceti's
+  `TauCeti.ClassFieldTheory.artinMap` is stated in `Type`.
 
 ## Layer 0: the closed derived series and solvable quotients
 
@@ -150,8 +152,9 @@ isomorphisms of every `G^n`.
 
 ### 0.3 Quotients
 
-For `G` compact Hausdorff and `m, n ≥ 0`, the image of `G^[m]` in `G^{m+n}` is `(G^{m+n})^[m]`
-(`map_closedDerivedSeries_solvableQuotient`), and `(G^{m+n})^m ≅ G^m` canonically; these are the
+For `G` compact and `m, n ≥ 0`, the image of `G^[m]` in `G^{m+n}` is `(G^{m+n})^[m]`
+(`map_closedDerivedSeries_solvableQuotient`): `G^{m+n}` is Hausdorff because `G^[m+n]` is closed,
+so 0.2 applies. Moreover `(G^{m+n})^m ≅ G^m` canonically; these are the
 transition maps `G^{m+1} → G^m`. A profinite `G` has profinite solvable quotients.
 
 *Needs:* 0.1, 0.2.
@@ -174,16 +177,17 @@ isomorphism.
 
 ### 0.5 The commutator of an intersection
 
-For `G` profinite and `N` a closed normal subgroup,
+For `G` profinite and `N` any subgroup,
 `closure ⁅N, N⁆ = ⋂_U closure ⁅N·U, N·U⁆` over the open normal subgroups `U` of `G`
 (`topologicalClosure_commutator_eq_iInf`). The inclusion `⊆` is monotonicity. For `⊇`, if `x` lies
 in every `closure ⁅NU, NU⁆`, then `x ∈ ⁅NU, NU⁆·U = ⁅N, N⁆·U`, because `⁅NU, NU⁆·U` is open hence
 closed and `⁅nu, n'u'⁆ ≡ ⁅n, n'⁆ mod U`; and `⋂_U ⁅N, N⁆·U = closure ⁅N, N⁆`. Equivalently
 `(⋂ H)^ab = lim H^ab` over the open normal `H ⊇ N` [Hyeon 2025, proof of Prop. A.1].
 
-*Needs:* Mathlib's `OpenNormalSubgroup`, `exist_openNormalSubgroup_sub_open_nhds_of_one` and
-`closedSubgroup_eq_sInf_open` (`Mathlib/Topology/Algebra/ClopenNhdofOne.lean`), from which the
-closure of a subgroup `A` of a profinite group is `⋂_U A·U` over the open normal `U`.
+*Needs:* Mathlib's `OpenNormalSubgroup`,
+`ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one` and
+`ProfiniteGrp.closedSubgroup_eq_sInf_open` (`Mathlib/Topology/Algebra/ClopenNhdofOne.lean`, stated
+for `ProfiniteGrp` objects), from which the closure of a subgroup `A` of a profinite group is `⋂_U A·U` over the open normal `U`.
 
 ### 0.6 Divisibility in profinite abelian groups
 
@@ -333,10 +337,15 @@ conventions.
 For a finite separable subextension `L` of `AlgebraicClosure K`, an isomorphism of topological
 groups `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup` whose composite with the inclusion into
 `G_K` is `absoluteGaloisGroupExtend K L σ` for the embedding `σ` of `L` into `SeparableClosure K`
-induced by the inclusion (`exists_continuousMulEquiv_fixingSubgroup`). It is the composite of
-`absoluteGaloisGroupRestrictEquiv L`, `absoluteGaloisGroupEquivFixingSubgroup K L σ`, and the
-transport of `σ.fieldRange.fixingSubgroup ≤ AbsoluteGaloisGroup K` to
-`L.fixingSubgroup ≤ G_K` along `absoluteGaloisGroupRestrictEquiv K`. For every `L`-embedding `ι`
+induced by the inclusion (`exists_continuousMulEquiv_fixingSubgroup`). Tau Ceti's
+`absoluteGaloisGroupExtendEquiv K L σ hU` is such an isomorphism onto any `U` with
+`(absoluteGaloisGroupExtend K L σ).range = U`, with `coe_absoluteGaloisGroupExtendEquiv_apply`
+for the compatibility, so what is left is the equality of subgroups
+`(absoluteGaloisGroupExtend K L σ).range = L.fixingSubgroup`
+(`range_absoluteGaloisGroupExtend_eq_fixingSubgroup`). Tau Ceti's
+`map_range_absoluteGaloisGroupExtend` computes the range in the separable-closure model as
+`σ.fieldRange.fixingSubgroup`; its transport along `absoluteGaloisGroupRestrictEquiv K` is
+`L.fixingSubgroup` because `σ` is induced by the inclusion. For every `L`-embedding `ι`
 of `AlgebraicClosure K` into `AlgebraicClosure L`, Mathlib's
 `Field.absoluteGaloisGroup.mapOfAlgebra K L`, through which
 RamificationOfCompleteDiscretelyValuedFields §4a.2 reads `G_L` in `G_K`, is injective with image
@@ -344,9 +353,10 @@ RamificationOfCompleteDiscretelyValuedFields §4a.2 reads `G_L` in `G_K`, is inj
 `L.fixingSubgroup`: two `L`-isomorphisms between the algebraic closures differ by an element of
 `G_L`. So statements about normal subgroups of `G_L` do not depend on the model.
 
-*Needs:* Tau Ceti's `absoluteGaloisGroupRestrictEquiv`, `absoluteGaloisGroupEquivFixingSubgroup`,
-`galoisSubgroupEquiv`, `absoluteGaloisGroupExtend`, `injective_absoluteGaloisGroupExtend`,
-`continuous_absoluteGaloisGroupExtend` (`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/`) and
+*Needs:* Tau Ceti's `absoluteGaloisGroupExtendEquiv`, `coe_absoluteGaloisGroupExtendEquiv_apply`,
+`map_range_absoluteGaloisGroupExtend`, `absoluteGaloisGroupRestrictEquiv`,
+`absoluteGaloisGroupEquivFixingSubgroup`, `galoisSubgroupEquiv`, `absoluteGaloisGroupExtend`,
+`injective_absoluteGaloisGroupExtend`, `continuous_absoluteGaloisGroupExtend` (`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/`) and
 `TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes` (`AbsoluteGaloisGroup/Map.lean`); Mathlib's
 `IntermediateField.fixingSubgroup`.
 
@@ -455,11 +465,12 @@ homomorphism, `zHat.lift` being continuous. Its image is compact, `𝒪_F^×` an
 hence closed, and contains `Art_F(Fˣ) = Art_F(𝒪_F^×)·Art_F(ϖ)^ℤ`, which is dense
 (`denseRange_artinMap`); so it is surjective. If `Art_F(u)·Art_F(ϖ)^ᶻ a = 1`, the unramified
 coordinate gives `a = 0` (`unramifiedCoordinate_artinMap`), and then `u = 1` (`injective_artinMap`).
-It is a continuous bijection from a compact space to a Hausdorff one. It is the profinite
-completion `(Fˣ)^ ≅ G_F^ab` of local reciprocity read in the coordinates `Fˣ = 𝒪_F^× × ϖ^ℤ`.
+It is a continuous bijection from a compact space to a Hausdorff one. It is Tau Ceti's
+`profiniteCompletionArtinEquiv`, the isomorphism `(Fˣ)^ ≅ G_F^ab` of the profinite completion,
+read in the coordinates `Fˣ = 𝒪_F^× × ϖ^ℤ`.
 
 *Needs:* ClassFieldTheory: Tau Ceti's `artinMap`, `continuous_artinMap`, `denseRange_artinMap`,
-`unramifiedCoordinate_artinMap`, and the Layer 8 target `injective_artinMap`; Tau Ceti's
+`unramifiedCoordinate_artinMap`, `injective_artinMap` (`[CharZero K]`); Tau Ceti's
 `TauCeti.zHat.lift`, `TauCeti.IsUniformizer`.
 
 **Checks.**
@@ -532,8 +543,8 @@ AnabelianGeometryAndNonabelianChabauty (see *Scope and ownership*) and is not a 
 
 ### Dependencies
 
-Layer 0, 2.0, ClassFieldTheory (Tau Ceti's absolute Artin map and the Layer 8 target
-`injective_artinMap`). Layer 3 does not need Layer 1 or 2.1–2.4.
+Layer 0, 2.0, ClassFieldTheory (Tau Ceti's absolute Artin map and its injectivity
+`injective_artinMap` in characteristic zero). Layer 3 does not need Layer 1 or 2.1–2.4.
 
 ## Worked examples
 
@@ -575,8 +586,8 @@ This roadmap owns:
   finite extension of `ℚ_p` attached to a uniformizer, the centre of `G_K^{m+1}`, and
   centre-freeness of `G_K^m` (`m ≥ 2`) for finite extensions of `ℚ_p`. The coordinate
   description is the profinite completion of local reciprocity written in coordinates attached to
-  a uniformizer; the comparison with the profinite completion of `Kˣ` listed in ClassFieldTheory
-  is not restated here.
+  a uniformizer; the isomorphism with the profinite completion of `Kˣ` is Tau Ceti's
+  `profiniteCompletionArtinEquiv` and is not restated here.
 
 Nothing in Mathlib or Tau Ceti defines the closed derived series, solvable quotients of topological
 groups, filtrations of groups, filtered or outer filtered isomorphisms, Herbrand functions of an
@@ -613,7 +624,8 @@ It does not own:
   Hodge–Tate numbers from filtered groups: LocalAnabelianGeometry.
 - **Local fields of positive characteristic** in Layer 3. Layers 0–2 hold for every
   nonarchimedean local field. Layer 3 needs the injectivity of the absolute local Artin map, which
-  ClassFieldTheory states for finite extensions of `ℚ_p` only, and is stated for those.
+  ClassFieldTheory states in characteristic zero only, and is stated for finite extensions of
+  `ℚ_p`.
 
 ## Exact supplier contracts
 
@@ -639,7 +651,8 @@ trivial intersection, `G_K^0` Tau Ceti's `TauCeti.inertiaSubgroup` and the closu
 every algebraic Galois `E/K`, and transport along a continuous field isomorphism with an extension
 to algebraic closures.
 
-Implemented in Tau Ceti (`TauCeti/NumberTheory/ClassFieldTheory/Local/`):
+Implemented in Tau Ceti (`TauCeti/NumberTheory/ClassFieldTheory/Local/` and
+`LocalExistence/ArtinMap.lean`):
 
 - `TauCeti.ClassFieldTheory.artinMap K : Kˣ →* Field.absoluteGaloisGroupAbelianization K`, with
   `continuous_artinMap`, `denseRange_artinMap`;
@@ -649,11 +662,10 @@ Implemented in Tau Ceti (`TauCeti/NumberTheory/ClassFieldTheory/Local/`):
   closures by `e'`, carries `Art_K(x)` to `Art_{K'}(e x)`, conjugation by `e'` acting on the
   abelianizations;
 - **the unramified coordinate** `TauCeti.unramifiedCoordinate K : G_K^ab →ₜ* zHat`, with
-  `unramifiedCoordinate_artinMap`: the coordinate of `Art_K(x)` is the normalized valuation of `x`.
-
-A target of its Layer 8, for finite extensions of `ℚ_p`:
-
-- **injectivity** `injective_artinMap`.
+  `unramifiedCoordinate_artinMap`: the coordinate of `Art_K(x)` is the normalized valuation of `x`;
+- **injectivity** `injective_artinMap` under `[CharZero K]` (ClassFieldTheory Layer 8), and
+  `profiniteCompletionArtinEquiv` under `[CharZero K]`: the extension of `artinMap` to an
+  isomorphism of topological groups from the profinite completion of `Kˣ` onto `G_K^ab`.
 
 Used only in the worked examples: the cyclotomic normalization
 `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic`, and Layer 7's absolute
