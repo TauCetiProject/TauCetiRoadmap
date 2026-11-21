@@ -381,6 +381,7 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
+        - SequentCalculusAndCutElimination
         - SerreWeightAndLevelOptimisation
         - ShimuraCompactifications
         - ShimuraData
@@ -443,6 +444,7 @@ body:
         - VonNeumannAlgebras
         - WeightsInEtaleCohomology
         - WeilConjectures
+        - WeilPositivityAndLiCriterion
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
         - ZerosOfLFunctions
