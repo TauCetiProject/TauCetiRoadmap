@@ -20,7 +20,8 @@ The headline theorems are these.
   of absolute value less than `n`, antipodally, then two comparable sign vectors carry opposite
   labels. A second form labels the integer points of an `ℓ¹`-ball in `ℤⁿ` by `±1, …, ±n`,
   antipodally on its boundary, and finds two points within one step in every coordinate with
-  opposite labels.
+  opposite labels. Both forms follow from Tucker's lemma for a flag of hemispheres, stated through
+  counts of simplices and proved by a parity count.
 - *Kneser's conjecture (Lovász's theorem) and Dol'nikov's theorem.* For `k ≥ 1` and `n ≥ 2k − 1`,
   the graph on the `k`-subsets of an `n`-set, two subsets adjacent when disjoint, has chromatic
   number `n − 2k + 2`. More generally, if the disjointness graph of a family of nonempty subsets
@@ -39,10 +40,11 @@ restated and not rederived. The Petersen graph of HamiltonianCycles and the Knes
 an example in SpectralGraphBounds are Kneser graphs in the sense defined here.
 
 Layer 1 below proves Sperner's lemma on the staircase subdivision and its form with owners.
-Layer 2 proves the two forms of Tucker's lemma. Layer 3 defines Kneser graphs and proves
-Dol'nikov's theorem and Kneser's conjecture from the octahedral form of Tucker's lemma. Layer 4
-proves the Borsuk–Ulam theorem from the lattice form of Tucker's lemma by compactness, and Layer 5
-proves the ham sandwich theorem from it. Layers 1 and 2 depend on no other layer.
+Layer 2 proves Tucker's lemma for a flag of hemispheres and derives from it the two forms above.
+Layer 3 defines Kneser graphs and proves Dol'nikov's theorem and Kneser's conjecture from the
+octahedral form of Tucker's lemma. Layer 4 proves the Borsuk–Ulam theorem from the lattice form
+of Tucker's lemma by compactness, and Layer 5 proves the ham sandwich theorem from it. Layers 1
+and 2 depend on no other layer.
 
 ## Conventions
 
@@ -88,8 +90,8 @@ proves the ham sandwich theorem from it. Layers 1 and 2 depend on no other layer
   below is stated for every norm, so either model may be used. For `r < 0` the sphere is empty and
   for `r = 0` it is `{0}`.
 - **Dimensions** are `Module.finrank ℝ E`. Mathlib sets the rank of an infinite-dimensional space
-  to `0`, so a hypothesis `finrank F < finrank E` forces `E` to be finite-dimensional but says
-  nothing about `F`; the target space carries `[FiniteDimensional ℝ F]` explicitly.
+  to `0`, so the Borsuk–Ulam theorem asks `finrank F < finrank E` only when `E` is
+  finite-dimensional, and the target space carries `[FiniteDimensional ℝ F]` explicitly.
 - **Half-spaces and bisection.** For `a ≠ 0` in a real inner product space `E` and `b : ℝ`, the
   open half-spaces are `{x | inner ℝ a x < b}` and `{x | b < inner ℝ a x}`, and the hyperplane is
   `{x | inner ℝ a x = b}`. A measure is bisected when the two open half-spaces have equal measure.
@@ -204,7 +206,103 @@ other layer.
 
 ## Layer 2: Tucker's lemma
 
-### 2.1 The octahedral Tucker lemma
+### 2.1 Tucker's lemma for a flag of hemispheres
+
+Prove `flag_tucker`. The data are a type `V` of vertices with an involution `ι`, a natural
+number `n`, finite families `H 0, H 1, …` of finite subsets of `V`, and a labelling
+`lab : V → ℤ`. A member of `H d` with `k + 1` elements is a `k`-simplex of `H d`; for a set `s`
+of vertices `ιs` is its image, and `−H d` is the family of the `ιs` with `s` in `H d`, so that
+`ρ` lies in `−H d` exactly when `ιρ` lies in `H d`. Assume, for every `d < n`:
+
+- deleting one vertex of a member of `H (d + 1)` gives a member of `H (d + 1)`;
+- every member `s` of `H d` lies in `H (d + 1)`, and so does `ιs`;
+- no `d`-simplex `s` of `H d` has `ιs` in `H d`;
+- every `d`-simplex `ρ` of `H (d + 1)` lies in exactly one `(d + 1)`-simplex of `H (d + 1)` when
+  `ρ` or `ιρ` is in `H d`, and in exactly two otherwise;
+
+and that `H 0` has exactly one `0`-simplex. If every vertex of a member of `H n` has a nonzero
+label of absolute value at most `n`, and `lab (ι v) = −lab v` for every vertex `v` of a member
+of some `H d` with `d < n`, then some member of `H n` has two distinct vertices `u` and `w` with
+`lab u = −lab w`. (Prescott–Su, Theorem 2, p. 6, for a centrally symmetric triangulation of
+`Sⁿ` aligned with a flag of hemispheres, defined on p. 2, where `H d` is the set of simplices
+lying in the `d`-th hemisphere; the hypotheses here are the facts about the flag that their
+proof of Theorem 1, pp. 3–5, uses, two of them stated there without argument; the statement,
+which needs no ambient sphere, is proved here.)
+
+The families are `Finset (Finset V)`, not Mathlib's `PreAbstractSimplicialComplex`, whose faces
+form a `Set` of nonempty finite sets: the statement counts simplices, and it needs closure only
+under deleting one vertex. The conclusion lies in `H n`, half of the sphere in the setting of
+Prescott–Su.
+
+Route: a parity count, the counting form of the path-following proof of Prescott–Su's Theorem 1
+(pp. 4–5), carried out in one hemisphere at a time as they describe after Fan on p. 6. Suppose
+that no member of `H n` has two distinct vertices with opposite labels. By the second hypothesis
+every member of an `H d` with `d ≤ n` is a member of `H n`, so on each such simplex the labels
+are nonzero, at most `n` in absolute value, and two labels of equal absolute value are equal.
+Call a set of nonzero integers alternating when its elements have distinct absolute values and,
+listed by increasing absolute value, alternate in sign; its sign is that of its element of least
+absolute value. Let `a d` be the number of `d`-simplices of `H d` whose `d + 1` labels are
+distinct and form an alternating set. Then `a 0 = 1`, from the one `0`-simplex of `H 0`, and
+`a n = 0`, since `n + 1` labels of distinct absolute values do not fit into `±1, …, ±n`. We show
+that `a d` and `a (d − 1)` have the same parity for `1 ≤ d ≤ n`, a contradiction. Fix such a `d`
+and a sign `ε`, and call a `(d − 1)`-simplex of `H d` a door when its `d` labels are distinct and
+form an alternating set of sign `ε`.
+
+1. *A `d`-simplex `τ` of `H d` has an odd number of facets that are doors exactly when its labels
+   are `d + 1` distinct labels forming an alternating set.* If the labels of `τ` take at most
+   `d − 1` values, no facet is a door. If they take `d` values, only the two facets that omit one
+   of the two vertices with a common label can be doors, and they carry the same labels: `0` or
+   `2` doors. If they take `d + 1` values `ℓ₀, …, ℓ_d`, in order of absolute value, the facet
+   omitting `ℓ_i` is a door when the remaining signs alternate and the first of them is `ε`. If
+   the signs of `ℓ₀, …, ℓ_d` alternate, omitting `ℓ₀` or `ℓ_d` leaves alternating sets of the two
+   opposite signs, and omitting an inner label leaves two neighbours of equal sign: one door. If
+   exactly one pair of neighbours `ℓ_j`, `ℓ_(j+1)` has equal signs, omitting either of them leaves
+   alternating sets of one and the same sign, the sign of `ℓ₀` (for `j = 0` the signs of `ℓ₀` and
+   `ℓ₁` agree), and omitting any other label keeps the pair: `0` or `2` doors. With two or more
+   such pairs, omitting one label keeps one of them: no door.
+2. *Doors in two ways.* Every facet of a `d`-simplex of `H d` lies in `H d` (first hypothesis).
+   Count the pairs of a door and a `d`-simplex of `H d` containing it: by the fourth hypothesis
+   a door in `H (d − 1)` or `−H (d − 1)` lies in one `d`-simplex of `H d` and every other door in
+   two. With step 1, `a d` has the parity of the number of doors in `H (d − 1)` or `−H (d − 1)`.
+3. *The boundary doors.* The `(d − 1)`-simplices of `H (d − 1)` and of `−H (d − 1)` are
+   `(d − 1)`-simplices of `H d` (second hypothesis), and none is in both (third hypothesis). The
+   map `ρ ↦ ιρ` is a bijection from the `(d − 1)`-simplices of `H (d − 1)` onto those of
+   `−H (d − 1)` that negates labels (antisymmetry on the vertices of `H (d − 1)`), so it carries
+   alternating sets of sign `−ε` to alternating sets of sign `ε`. Hence the doors in `H (d − 1)`
+   or `−H (d − 1)` number `b ε + b (−ε) = a (d − 1)`, where `b ε'` counts the
+   `(d − 1)`-simplices of `H (d − 1)` whose `d` distinct labels form an alternating set of sign
+   `ε'`.
+
+The proof uses no topology: the topological input of Prescott–Su, that the hemispheres are balls
+with the stated boundaries, enters only through the four hypotheses, which 2.2 and 2.3 prove for
+their complexes by counting.
+
+**Checks.**
+- For `n = 0` the one `0`-simplex of `H 0` lies in `H n` and would need a nonzero label of
+  absolute value `0`: no labelling exists and the theorem holds vacuously. For `n = 1`, with `v`
+  the vertex of `H 0`, the edges of `H 1` form a graph in which `v` and `ιv` have degree one and
+  every other vertex of `H 1` degree two; the path from `v` ends at `ιv`, so an antisymmetric
+  labelling by `±1` changes sign along one of its edges.
+- Each hypothesis is needed; below `v` is the vertex of `H 0`, and the other hypotheses hold in
+  each example, checked mechanically. For `n = 1`: with a second vertex `w` in `H 0`, the edges
+  `{v, ιw}` and `{w, ιv}` labelled `1, 1` and `−1, −1`; without the incidence count, `H 1` made
+  of `{v}` and `{ιv}` alone; without closure under deleting a vertex, the edges `{v, x}` and
+  `{ιv, ιx}` without the vertices `x`, `ιx`, labelled `1, 1, −1, −1`; with a label `2`, the path
+  `v, x, ιv` labelled `1, 2, −1`, and with a label `0`, the same path labelled `1, 0, −1`; without
+  antisymmetry, the edge `{v, ιv}` labelled `1, 1`. For `n = 2`, let `H 1` be the path `v, w, ιv`
+  together with a 4-cycle `c₀c₁c₂c₃`, labelled `1, 2, −1` and `1, 2, −1, −2`, and let `H 2` be
+  the eight triangles `{pᵢ, pᵢ₊₁, cᵢ}`, `{pᵢ₊₁, cᵢ, cᵢ₊₁}` (indices modulo `4`) between the
+  4-cycle `p = (v, w, ιv, ιw)`, labelled `1, 2, −1, −2`, and the 4-cycle `c`. If `ι` maps `cᵢ`
+  to `cᵢ₊₂`, only the third hypothesis fails. If `ι` maps the `cᵢ` to four further vertices,
+  labelled oppositely, only the requirement `ιs ∈ H 2` for `s` in `H 1` fails; building `H 2` in
+  the same way on the 4-cycle `ιc₂, ιc₃, ιc₀, ιc₁`, labelled `1, 2, −1, −2`, in place of `c`, only
+  the requirement `s ∈ H 2` fails. In none of these examples does a member of `H n` have two
+  vertices with opposite labels.
+
+*Needs:* Mathlib `Finset.filter`, `Finset.image`, `Finset.erase`, `Function.Involutive`. (Proved
+here.)
+
+### 2.2 The octahedral Tucker lemma
 
 Prove `octahedral_tucker`: let `n ≥ 1` and let `lab` assign to every nonzero sign vector
 `X : Fin n → SignType` an integer with `lab X ≠ 0`, `|lab X| < n` and `lab (−X) = −lab X`. Then
@@ -212,15 +310,40 @@ there are signed sets `A ≠ 0` and `B` with `A ≤ B` and `lab A = −lab B` (Z
 p. 5, stated for every `n`; for `n = 0` there is no nonzero sign vector and the conclusion fails,
 so `n ≥ 1` is assumed). Such `A` and `B` are distinct, since a label is nonzero.
 
-Route: the nonzero sign vectors are the vertices of the barycentric subdivision of the boundary of
-the cross-polytope in `ℝⁿ`, an `(n − 1)`-sphere; two of them span an edge exactly when they are
-comparable (Matoušek, §2, p. 2). Tucker's lemma for this triangulation with labels
-`±1, …, ±(n − 1)` is Prescott–Su, the statement of Tucker's lemma on p. 258, proved as Theorem 2,
-p. 264, for every symmetric triangulation of the sphere aligned with a flag of hemispheres; a
-refinement of the octahedral subdivision is aligned with hemispheres (remarked on p. 264; the
-flag is written out in the route of 2.2, one dimension lower here, and applies since every
-simplex of the barycentric subdivision lies in a closed orthant). The proof is a path-following
-argument over almost-alternating simplices and uses no topology.
+Route: apply 2.1 with `n − 1` in place of `n`, the sign vectors as vertices and `ι` the
+negation. For `d ≤ n − 1` let `H d` be the family of chains, that is sets of pairwise comparable
+signed sets (the empty set included), of nonzero sign vectors `X` with `X j = 0` for `j > d` and
+`X d ≥ 0`. These are the simplices of the barycentric subdivision of the boundary of the
+cross-polytope in `ℝⁿ` (Matoušek, §2, p. 2) lying in a hemisphere of a flag. A chain of `H (n − 1)`
+with distinct elements of opposite labels gives the conclusion: its smaller element is `A`, which
+is nonzero, and its larger is `B`. The labels satisfy the hypotheses of 2.1, since
+`|lab X| ≤ n − 1`. The hypotheses on the flag are proved here, for every `n ≥ 1`:
+
+- If `Y ≤ Z` and `Y ≠ Z` then the support of `Y` is a proper subset of that of `Z`. So a chain of
+  nonzero sign vectors supported in `k` coordinates has at most `k` elements, and one with `k`
+  elements has supports of sizes `1, 2, …, k`.
+- Subsets of chains are chains, so deleting a vertex stays in `H d`. A member of `H d` or of
+  `−H d` has `X j = 0` for `j > d`, so it lies in `H (d + 1)`. The only nonzero sign vector with
+  `X j = 0` for `j ≥ 1` and `X 0 ≥ 0` is `(1, 0, …, 0)`, the one `0`-simplex of `H 0`.
+- A chain in `H d` whose negation is in `H d` has `X d = 0` throughout, so it is supported in `d`
+  coordinates and has at most `d` elements, not `d + 1`.
+- Let `1 ≤ k ≤ n − 1` and let `ρ` be a chain of `k` elements in `H k`. The chains of `k + 1`
+  elements in `H k` have supports of sizes `1, …, k + 1`, so those containing `ρ` are `ρ` with
+  one sign vector `Z` added whose support has the size `j` that `ρ` misses, comparable with all
+  of `ρ`. If `j ≤ k`, the top element of `ρ` has full support `{0, …, k}`; for `j = 1`, `Z` is
+  the least element of `ρ`, of support size `2`, restricted to one of its two coordinates, and for
+  `1 < j ≤ k` the supports of the neighbours `Y` and `W` of sizes `j − 1` and `j + 1` differ in
+  two coordinates, and `Z` is `Y` extended by `W` at one of them. Either way there are two
+  choices, both with `Z k ≥ 0`, and `X k ≠ 0` at the top of `ρ`, so `ρ` is in neither `H (k − 1)`
+  nor `−H (k − 1)`. If `j = k + 1`, the top element `Y` of `ρ` misses one coordinate `i` and `Z`
+  is `Y` extended by a nonzero sign at `i`. For `i ≠ k` both signs give `Z k = Y k ≥ 0`, two
+  choices, and `Y k ≠ 0`, so `ρ` is in neither family. For `i = k` the sign must be positive, one
+  choice; then `X k = 0` on `ρ`, the top element `Y` has full support `{0, …, k − 1}`, and every
+  element `X ≤ Y` has `X (k − 1)` equal to `0` or to `Y (k − 1)`, so `ρ` lies in `H (k − 1)` or in
+  `−H (k − 1)` according to the sign of `Y (k − 1)`. So the count is `1` exactly when `ρ` or its
+  negation is in `H (k − 1)`.
+
+The route therefore uses no topology.
 
 **Checks.**
 - The bound on the labels cannot be raised to `|lab X| ≤ n`: label `X` by `±(i + 1)`, where `i` is
@@ -232,67 +355,100 @@ argument over almost-alternating simplices and uses no topology.
   holds vacuously. An exhaustive search over all antipodal labellings confirms the lemma for
   `n = 2` and `n = 3`, and finds labellings with no complementary pair for `n = 2, 3` when labels
   up to `±n` are allowed.
-- For `n ≤ 5` it was checked mechanically that the chains of nonzero sign vectors are the
-  simplices of a complex each lying in a closed orthant, and that the flag `H_d`, `d < n`, of 2.2
-  (coordinates `u₀, …, u_(n−1)`) gives subcomplexes of dimension `d` and Euler characteristic `1`
-  with boundary `H_(d−1) ∪ −H_(d−1)`, and `H_(n−1) ∪ −H_(n−1)` is the whole complex.
+- The families `H d` were checked mechanically against the hypotheses of 2.1 for `n ≤ 6`. The
+  number of `d`-simplices of `H d` is `2ᵈ (d + 1)!`, that is `1, 4, 24, 192, 1920, 23040` for
+  `d ≤ 5`: a chain of `d + 1` elements of `H d` is an ordering of the coordinates `0, …, d`
+  together with a sign for each, the sign at `d` positive.
 
-*Needs:* Mathlib `SignType`. (Ziegler, Lemma 4.1, statement; proof from Prescott–Su, Theorem 2.)
+*Needs:* 2.1; Mathlib `SignType`. (Ziegler, Lemma 4.1, statement; proof from 2.1 by the route
+above.)
 
-### 2.2 Tucker's lemma on the lattice cross-polytope
+### 2.3 Tucker's lemma on the lattice cross-polytope
 
 Prove `lattice_tucker`: let `m : ℕ` and let `lab` assign to every integer point `x` with
 `∑ i, |x i| ≤ m` an integer with `lab x ≠ 0` and `|lab x| ≤ n`, such that `lab (−x) = −lab x`
 whenever `∑ i, |x i| = m`. Then there are two such points `x`, `y`, close (`|x i − y i| ≤ 1` for
 every `i`), with `lab x = −lab y`. For `n = 0` no labelling exists, and for `m = 0` the point `0`
 lies on the boundary sphere and would need `lab 0 = −lab 0`, so the statement holds vacuously in
-both cases. (Proved here from Prescott–Su, Theorem 2, p. 264; this is Tucker's lemma for special
-triangulations of the octahedral ball, Matoušek, Lemma 2.1, p. 2, applied to one explicit
-triangulation.)
+both cases. (Proved here from 2.1; this is Tucker's lemma for special triangulations of the
+octahedral ball, Matoušek, Lemma 2.1, p. 2, applied to one explicit triangulation.)
 
-Route: triangulate the ball `∑ |xᵢ| ≤ m` as follows. On the closed orthant with sign vector `s`,
-the map `x ↦ y`, `y_k = ∑_(j ≥ k) |x_j|`, is linear and carries the orthant's part of the ball
-onto the order simplex `m ≥ y₀ ≥ ⋯ ≥ y_(n−1) ≥ 0`; pull back its Freudenthal triangulation, as in
-1.1. On the face shared by two orthants the two linear maps agree, and they carry each facet
-`x_k = 0` onto the face `y_k = y_(k+1)` (`y_(n−1) = 0` for `k = n − 1`), which lies in the
-Freudenthal arrangement and so is a union of Freudenthal faces; hence both orthants induce the
-same triangulation on the shared face, and the pieces fit into a triangulation `T` of the ball
-with `2ⁿ mⁿ` top simplices. Its vertices are the integer points of the ball; it refines the
-orthant decomposition and is symmetric under `x ↦ −x`; and two vertices of one simplex lie in a
-common closed orthant and have values of `y` differing by a vector of zeros, or of zeros and
-minus ones, so they are close. Glue `T` to a second copy along the boundary sphere, the
-second copy labelled at the image of `x` by `−lab (−x)`; this is consistent on the boundary
-because `lab` is antipodal there. Sending `x` in the first copy to `(x, m − ∑ |xᵢ|)` and in the
-second to `(x, −(m − ∑ |xᵢ|))` places the result on the `ℓ¹`-sphere of radius `m` in
-`ℝ^(n+1)`, linearly on each simplex. The result is a symmetric triangulation of the
-`n`-sphere refining the octahedral subdivision with an antisymmetric labelling by `±1, …, ±n`
-(the radial projection `u ↦ u / ‖u‖₂`, an odd homeomorphism, makes it one of the unit sphere).
-It is aligned with hemispheres, that is (Prescott–Su, p. 259), it has a flag of hemispheres with
-each `H_d` contained in its `d`-skeleton: with coordinates `u₀, …, u_n` on `ℝ^(n+1)`, let `H_d` be
-the points of the sphere with `u_(d+1) = ⋯ = u_n = 0` and `u_d ≥ 0`. Then `H_(d−1) ⊆ H_d`, `H₀` is
-one point, `H_d ∩ −H_d = H_(d−1) ∪ −H_(d−1)`, and `H_n ∪ −H_n` is the sphere; the radial
-projection carries `H_d` onto a closed hemisphere of the unit `d`-sphere of the subspace
-`u_(d+1) = ⋯ = u_n = 0`, so `H_d` is a `d`-ball bounded by `H_d ∩ −H_d`. Every simplex lies in a
-closed orthant of `ℝ^(n+1)`, so each coordinate has constant sign on it, and its intersection
-with `H_d` is a face of it (where the coordinates `u_(d+1), …, u_n`, and `u_d` if it is negative
-somewhere, vanish). That face lies in one closed orthant of the coordinate subspace
-`u_(d+1) = ⋯ = u_n = 0`, on the `d`-dimensional face of the cross-polytope there, so `H_d` is a
-union of simplices of dimension at most `d`: a subcomplex contained in the `d`-skeleton.
-Prescott–Su, Theorem 2, gives a complementary edge. If the edge lies in the second copy, its
-antipodal edge lies in `T` and is complementary too. An edge of `T` joins two close points.
+Route: let `n ≥ 1` and `m ≥ 1`, and apply 2.1 with the integer points of `ℤⁿ` as vertices and
+`ι` the negation. For `x : Fin n → ℤ` let `z x` be the vector of partial sums
+`z_j = |x 0| + ⋯ + |x j|`, `j < n`. On a closed orthant (a sign vector `s` with `s i · x i ≥ 0`
+for all `i`) the map `z` is a bijection from the integer points of the ball `∑ |x i| ≤ m` onto
+the integer points of the order simplex `Δ : 0 ≤ z₀ ≤ ⋯ ≤ z_(n−1) ≤ m`, with inverse
+`x i = s i (z_i − z_(i−1))`. Put `z_(−1) = 0`, `z_n = m` and `h_i = z_i − z_(i−1)` for
+`0 ≤ i ≤ n`, so that `h = (|x 0|, …, |x (n − 1)|, m − ∑ |x i|)` and `Δ` is `h ≥ 0`. Let `T` be
+the family of sets `S` of integer points of the ball that lie in one closed orthant and whose
+points `z x` form a chain for the componentwise order with largest and smallest elements
+differing by a vector of zeros and ones. Its `n`-simplices in a closed orthant are the sets whose
+`z`-points are `p, p + e_(c₁), …, p + e_(c₁) + ⋯ + e_(cₙ)` with `c₁, …, cₙ` an ordering of the
+coordinates: under `x ↦ h`, which lands in `simplexGrid n m`, these are the cells of 1.1 (a
+remark; the route does not use it). Every step `e_c` of such a chain raises `h_c` and lowers
+`h_(c+1)` by one. Let `H n = T`, and for
+`d < n` let `H d` consist of the members of `T` all of whose points satisfy `∑ |x i| = m`,
+`x j = 0` for `j > d` and `x d ≥ 0`. A member of `T` with two distinct points of opposite labels
+gives the conclusion: two points of one member of `T` lie in one closed orthant and their
+`z`-points differ by a vector `δ` of zeros and ones, so `|x i|` and `|y i|` differ by
+`δ_i − δ_(i−1)` and `|x i − y i| ≤ 1`. The labels satisfy the hypotheses of 2.1, antisymmetry
+being needed only on the boundary sphere. The hypotheses on the flag are proved here, for all
+`n ≥ 1` and `m ≥ 1`:
+
+- Subsets of members of `T` are members, and so for each `H d`. `T` is symmetric, since
+  `z (−x) = z x`, so `−H d` consists of the members of `T` on the sphere with `x j = 0` for `j > d`
+  and `x d ≤ 0`; both `H d` and `−H d` lie in `H (d + 1)`. Every single point of the ball is a
+  member of `T`, and the one point of the sphere with `x j = 0` for `j ≥ 1` and `x 0 ≥ 0` is
+  `m e₀`, the one `0`-simplex of `H 0`.
+- A member of `H d` whose negation is in `H d` has `x d = 0` at each of its points. For `d = 0`
+  no point of the sphere has `x = 0`, as `m ≥ 1`. For `d ≥ 1` its points have `z_j = m` for
+  `j ≥ d − 1`, so its `z`-points form a chain that changes only the `d − 1` coordinates
+  `j < d − 1`, each by at most one; it has at most `d` points, not `d + 1`.
+- *The incidence count in `T`.* Let `ρ` be an `(n − 1)`-simplex of `T`, with `z`-points
+  `q₁ < ⋯ < qₙ`. An `n`-simplex of `T` containing `ρ` is `ρ` with one point `p` added, where
+  `z p` completes the `q`'s to a chain of `n + 1` points with unit steps, each coordinate once.
+  There are exactly two candidates for `z p`. If `qₙ − q₁` has `n` ones, one step of the `q`'s is
+  `e_a + e_b`, say from `q`, and `z p` is `q + e_a` or `q + e_b`. Otherwise `qₙ − q₁` misses one
+  coordinate `c`, every step is a unit vector, so `z p` cannot lie strictly between two `q`'s, and
+  it is `qₙ + e_c` or `q₁ − e_c`. In a closed orthant containing `ρ` a candidate gives a point of
+  the ball exactly when it lies in `Δ`, that is when no `h_i` becomes negative. In the first case,
+  `q + e_a` lowers only `h_(a+1)`, which stays nonnegative unless `h_(a+1) (q) = 0`; then
+  `h_(a+1) (q + e_a + e_b) ≥ 0` forces `b = a + 1`, and symmetrically `q + e_b` fails only if
+  `a = b + 1`. So at most one candidate fails, and one fails exactly when the double step is
+  `e_(i−1) + e_i` with `h_i (q) = 0`; since no other step touches `z_(i−1)` or `z_i`, this says
+  that `h_i` vanishes on all of `ρ`. Conversely `h_i` is constant
+  along the `q`'s only if the double step is `e_(i−1) + e_i`, as every coordinate is stepped once
+  and `h_i` changes at a step that touches exactly one of `z_(i−1)`, `z_i`. In the second case
+  `qₙ + e_c` fails only if `h_(c+1) (qₙ) = 0` and `q₁ − e_c` only if `h_c (q₁) = 0`; as no step
+  touches `z_c`, `h_(c+1)` increases and `h_c` decreases along the chain, so these say that
+  `h_(c+1)`, respectively `h_c`, vanishes on `ρ`, and these are the only `h_i` that can be
+  constant on `ρ`. Both cannot vanish: then no step would touch `z_(c−1)` or `z_(c+1)`, forcing
+  `n = 1` and `m = h₀ + h₁ = 0`. So, with `m ≥ 1`, at most one `h_i` vanishes on `ρ`; if none does,
+  both candidates lie in `Δ`, and if one does, exactly one. An `n`-simplex of `T` lies in exactly
+  one closed orthant, since no `h_i` is constant on its `z`-points, while `ρ` lies in `2ᵏ` closed
+  orthants, where `k` is the number of coordinates `x i`, `i < n`, vanishing on `ρ`, that is of
+  `h_i` with `i < n` vanishing on `ρ`. So the number of `n`-simplices of `T` containing `ρ` is
+  `2` if no `h_i` vanishes on `ρ`, `2 · 1` if some `h_i` with `i < n` does (the two simplices lie
+  on the two sides of `x i = 0`), and `1` if `h_n` does, that is if `ρ` lies on the sphere. A
+  member of `T` on the sphere lies in a closed orthant, so `x (n − 1)` has one sign on it and it
+  lies in `H (n − 1)` or `−H (n − 1)`; one off the sphere lies in neither.
+- *The incidence count in `H k`, `1 ≤ k < n`.* Dropping the coordinates `j ≥ k` is a bijection
+  from the points of `H k` onto the integer points of the ball of radius `m` in `ℤᵏ`, with inverse
+  `y ↦ (y, m − ∑ |y i|, 0, …, 0)`. It carries `z x` to the first `k` coordinates of `z x`, the
+  others being `m`, and closed orthants to closed orthants, so it carries the members of `H k`
+  onto the members of the family `T` built in `ℤᵏ`. The sphere of the ball in `ℤᵏ` corresponds to
+  `x k = 0`, that is to members of `H (k − 1)` or `−H (k − 1)`, as in the previous step. So the
+  count in `H k` is the count in `T` for `ℤᵏ`, proved in the previous step with `k` for `n`.
 
 **Checks.**
 - The triangulation `T` was checked mechanically for `n ≤ 3`, `m ≤ 3` (`n = 3` with `m ≤ 2`):
   there are `2ⁿ mⁿ` top simplices, every face of codimension one lies in two of them or, exactly
   when it lies on the boundary sphere, in one; `T` is symmetric; every simplex lies in a closed
   orthant; any two vertices of a simplex are close.
-- The glued triangulation was checked mechanically for `n ≤ 2`, `m ≤ 4`; `n = 3`, `m ≤ 3`;
-  `n = 4`, `m ≤ 2`: it is symmetric, every face of codimension one lies in two top simplices, the
-  Euler characteristic is `1 + (−1)ⁿ`, every simplex lies in a closed orthant of `ℝ^(n+1)`, and for
-  each `d` the simplices with all vertices in `H_d` form a pure `d`-dimensional complex of Euler
-  characteristic `1` that covers `H_d` (its projection to `u₀, …, u_(d−1)` has volume
-  `2ᵈ mᵈ / d!`) and whose boundary is `H_(d−1) ∪ −H_(d−1)`. Every antipodal labelling by
-  `±1, …, ±n` has a complementary edge for `n = 1`, `m ≤ 4`; `n = 2`, `m ≤ 2`; `n = 3`, `m = 1`.
+- The families `H d` were checked mechanically against the hypotheses of 2.1, with `2ⁿ mⁿ`
+  `n`-simplices of `T` and any two vertices of a member close, for `n = 1`, `m ≤ 6`; `n = 2`,
+  `m ≤ 5`; `n = 3`, `m ≤ 4`; `n = 4`, `m ≤ 3`; `n = 5`, `m ≤ 2`. For `m = 0` they fail: `H 0` is
+  `{0}`, which is its own negation, so `m = 0` is treated apart.
 - The label bound cannot be raised to `n + 1`: for `n = 1`, `m = 2`, the labels `1, 1, 2, −1, −1`
   at `−2, −1, 0, 1, 2` are antipodal at `±2`, and no two consecutive points carry opposite labels.
 - An exhaustive search over antipodal labellings finds no labelling without a complementary close
@@ -300,19 +456,21 @@ antipodal edge lies in `T` and is complementary too. An edge of `T` joins two cl
 - For `n = 1` the lemma is the discrete intermediate value theorem: the labels `±1` at `−m` and
   `m` are opposite, so the sign changes between two consecutive integers.
 
-*Needs:* Mathlib `Finset.sum`, `abs`. (Proved here, from Prescott–Su, Theorem 2, by the route
-above.)
+*Needs:* 2.1; Mathlib `Finset.sum`, `abs`. (Proved here, from 2.1, by the route above.)
 
 ### Examples
 
 The barycentric subdivision of the boundary of the square (`n = 2`): eight vertices
 `(±1, 0), (0, ±1), (±1, ±1)` forming an octagon; with labels `±1` antipodal, some comparable pair,
-an edge of the octagon, has opposite labels. The triangulation `T` of the lattice diamond
-`|x₀| + |x₁| ≤ 2`, with 16 triangles.
+an edge of the octagon, has opposite labels; the flag of 2.2 is `H 0 = {(1, 0)}` and `H 1` the
+path `(1, 0), (1, 1), (0, 1), (−1, 1), (−1, 0)`. The triangulation `T` of the lattice diamond
+`|x₀| + |x₁| ≤ 2`, with 16 triangles, and its flag `H 0 = {(2, 0)}`, `H 1` the path
+`(2, 0), (1, 1), (0, 2), (−1, 1), (−2, 0)`, `H 2 = T`.
 
 ### Dependencies
 
-Mathlib `SignType`, `Finset.sum`. No other layer.
+Mathlib `SignType`, `Finset.sum`, `Finset.filter`, `Finset.image`, `Finset.erase`,
+`Function.Involutive`. No other layer.
 
 ## Layer 3: Kneser graphs
 
@@ -355,7 +513,7 @@ signed set `(A⁺, A⁻)` on `α` as follows. If `|A⁺| + |A⁻| ≥ n − m`, 
 member of `𝓕` inside `A⁺` or inside `A⁻`; take the least such member `S` and the label `±c(S)`,
 with the sign of the part containing `S`. Otherwise take the label `±(m + |A⁺| + |A⁻|)`, with the
 sign of the nonempty part, or of the smaller part in the chosen order when both are nonempty. The
-labels are nonzero, of absolute value at most `n − 1`, and antipodal, so 2.1 gives `A ≤ B`, with
+labels are nonzero, of absolute value at most `n − 1`, and antipodal, so 2.2 gives `A ≤ B`, with
 `A ≠ B`, and opposite labels. Then `|A⁺ ∪ A⁻| < |B⁺ ∪ B⁻|`, which excludes the second case for
 both, so the labels come from members `S ⊆ A⁺ ⊆ B⁺` and `T ⊆ B⁻` of the same colour. As `B⁺` and
 `B⁻` are disjoint, so are `S` and `T`, and `S ≠ T` since both are nonempty: two adjacent vertices
@@ -369,7 +527,7 @@ of the same colour.
   family of at most 9 nonempty subsets of a 4-point set (27824 families), the chromatic number of
   the Kneser graph is at least the least size of `Y`.
 
-*Needs:* 2.1, 3.1; Mathlib `SimpleGraph.Colorable`, `SimpleGraph.Coloring`. (Ziegler,
+*Needs:* 2.2, 3.1; Mathlib `SimpleGraph.Colorable`, `SimpleGraph.Coloring`. (Ziegler,
 Theorem 4.2, with the extension to singletons proved here.)
 
 ### 3.3 Kneser's conjecture
@@ -408,7 +566,7 @@ element, capped at `3`); `kneserGraph (Fin 6) 2`, of chromatic number `4`; the f
 
 ### Dependencies
 
-2.1; Mathlib `SimpleGraph`, `SimpleGraph.Colorable`, `SimpleGraph.Coloring`,
+2.2; Mathlib `SimpleGraph`, `SimpleGraph.Colorable`, `SimpleGraph.Coloring`,
 `SimpleGraph.chromaticNumber`. No other layer.
 
 ## Layer 4: the Borsuk–Ulam theorem
@@ -416,8 +574,9 @@ element, capped at `3`); `kneserGraph (Fin 6) 2`, of chromatic number `4`; the f
 ### 4.1 The Borsuk–Ulam theorem
 
 Prove `borsuk_ulam`: let `E` and `F` be real normed spaces with `F` finite-dimensional and
-`finrank F < finrank E`, and let `r ≥ 0`. Every continuous `f` from the sphere
-`Metric.sphere (0 : E) r` to `F` has a point `x` with `f (−x) = f x` (Prescott–Su, p. 258, states
+`finrank F < finrank E` if `E` is finite-dimensional (no condition if it is not), and let
+`r ≥ 0`. Every continuous `f` from the sphere `Metric.sphere (0 : E) r` to `F` has a point `x`
+with `f (−x) = f x` (Prescott–Su, p. 1, states
 it for maps from the round sphere `Sⁿ` to `ℝⁿ` and calls the derivation from Tucker's lemma
 relatively easy; the statement here, for every norm and every target of smaller dimension, is
 proved here).
@@ -429,7 +588,7 @@ Route.
    there is `m` with `max over i of |fᵢ x − fᵢ y| < ε` whenever every coordinate of `x − y` is at
    most `1/m` in absolute value. Label each integer point `z` with `∑ |zᵢ| ≤ m` by `±(i + 1)`, where
    `i` is the least index with `|fᵢ (z/m)|` maximal and the sign is that of `fᵢ (z/m)`, which is
-   nonzero. On the boundary `f` is odd, so the labelling is antipodal there, and 2.2 gives close
+   nonzero. On the boundary `f` is odd, so the labelling is antipodal there, and 2.3 gives close
    points `z`, `w` with labels `i + 1` and `−(i + 1)`: then `fᵢ (z/m) ≥ ε` and `fᵢ (w/m) ≤ −ε`,
    a difference of at least `2ε`, against uniform continuity.
 2. *Round sphere.* For `f` continuous on the unit sphere of `EuclideanSpace ℝ (Fin (n + 1))` with
@@ -437,8 +596,13 @@ Route.
    divided by its Euclidean norm, which is never zero. Then `h` maps `B` continuously into the
    sphere, and on the boundary of `B` it is odd. So `g ∘ h` satisfies the hypotheses of step 1,
    and a zero `x` gives `f (h x) = f (−h x)`. For `n = 0` the target is a point.
-3. *General spaces.* If `r = 0` the sphere is `{0}` and `x = 0` works. If `r > 0`, let
-   `d = finrank E`, so `d ≥ 1` and `E` is finite-dimensional; a continuous linear equivalence
+3. *General spaces.* If `r = 0` the sphere is `{0}` and `x = 0` works. Let `r > 0`. If `E` is
+   infinite-dimensional, its rank is not below `ℵ₀` (Mathlib `Module.rank_lt_aleph0_iff`), so it
+   has `finrank F + 1` linearly independent vectors (`exists_linearIndependent_of_le_rank`), whose
+   span `W` has dimension `finrank F + 1` (`finrank_span_eq_card`); the sphere of radius `r` of
+   `W` lies in that of `E` and is closed under negation, and the finite-dimensional case applied to
+   `f` restricted to it gives the pair. So let `E` be finite-dimensional and `d = finrank E`, so
+   `d ≥ 1` by the hypothesis; a continuous linear equivalence
    `L : E ≃L ℝ^d` (Mathlib `ContinuousLinearEquiv.ofFinrankEq` with the Euclidean space) and the
    radial map `x ↦ L x / ‖L x‖` give an odd homeomorphism from `Metric.sphere (0 : E) r` onto the
    unit sphere of `EuclideanSpace ℝ (Fin d)`, with inverse `u ↦ r • L⁻¹ u / ‖L⁻¹ u‖`. Compose `f`
@@ -452,13 +616,18 @@ Route.
   the inequality holds for `E = ℝ²`, and a linear injection of `ℝ²` into `F` restricted to the
   circle separates every antipodal pair.
 - `r ≥ 0` is needed: for `r < 0` the sphere is empty.
+- The theorem covers infinite-dimensional `E`: for the unit sphere of the Hilbert space `ℓ²` and
+  any finite-dimensional `F` the hypothesis holds, and the conclusion follows from the case of a
+  subspace of dimension `finrank F + 1`.
 - On the unit circle, `f (x₀, x₁) = x₀` takes equal values exactly at the antipodal pair
   `(0, ±1)`. On the cube boundary `‖x‖ = 1` of `Fin 2 → ℝ` with the sup norm, the same map takes
   equal values at the antipodal points `(0, ±1)`, which lie on that sphere as well.
 
-*Needs:* 2.2; Mathlib `Metric.sphere`, its `InvolutiveNeg` instance and `coe_neg_sphere`,
+*Needs:* 2.3; Mathlib `Metric.sphere`, its `InvolutiveNeg` instance and `coe_neg_sphere`,
 `IsCompact.exists_isMinOn`, `CompactSpace.uniformContinuous_of_continuous`,
-`ContinuousLinearEquiv.ofFinrankEq`, `EuclideanSpace`, `Module.finrank`. (Proved here.)
+`ContinuousLinearEquiv.ofFinrankEq`, `EuclideanSpace`, `Module.finrank`,
+`Module.rank_lt_aleph0_iff`, `exists_linearIndependent_of_le_rank`, `finrank_span_eq_card`.
+(Proved here.)
 
 ### Examples
 
@@ -468,7 +637,7 @@ temperature and pressure pair on the Earth's surface, agrees at some antipodal p
 
 ### Dependencies
 
-2.2; Mathlib `Metric.sphere`, `InvolutiveNeg`, `IsCompact.exists_isMinOn`,
+2.3; Mathlib `Metric.sphere`, `InvolutiveNeg`, `IsCompact.exists_isMinOn`,
 `CompactSpace.uniformContinuous_of_continuous`, `ContinuousLinearEquiv.ofFinrankEq`,
 `EuclideanSpace`. No other layer.
 
@@ -532,16 +701,16 @@ the centres; three point clouds smoothed into small balls in space are bisected 
   preferences is a limit, over `N → ∞`, of 1.3 with `L p` the choice of agent `p` at a cut-set,
   as in Su, §§3–4; the owners of 1.1 replace the iterated barycentric subdivision there.
 - Lower bounds for chromatic numbers of set systems through 3.2, and Schrijver's stable Kneser
-  graphs, which need a stronger form of 2.1 (Ziegler, §8).
+  graphs, which need a stronger form of 2.2 (Ziegler, §8).
 - Mass partitions beyond bisection, which rest on 4.1 or on its generalisations to other group
   actions (Roldán-Pensado–Soberón, §1.3).
 
 ## Scope and ownership
 
 This roadmap owns: the staircase subdivision of the simplex, Sperner labellings and Sperner's
-lemma in the forms of 1.2 and 1.3; the octahedral and lattice forms of Tucker's lemma; Kneser
-graphs of set families and of `k`-subsets, Dol'nikov's theorem and Kneser's conjecture; the
-Borsuk–Ulam theorem; the ham sandwich theorem.
+lemma in the forms of 1.2 and 1.3; Tucker's lemma for a flag of hemispheres and its octahedral
+and lattice forms; Kneser graphs of set families and of `k`-subsets, Dol'nikov's theorem and
+Kneser's conjecture; the Borsuk–Ulam theorem; the ham sandwich theorem.
 
 Already in the libraries and therefore not targets:
 
@@ -570,9 +739,11 @@ Left to other roadmaps:
 
 Outside the scope: necklace splitting, whose discrete form needs a rounding argument from the
 continuous splitting that this roadmap does not specify; Schrijver's theorem and the
-`Zₚ`-Tucker lemma; Fan's combinatorial lemma; Kneser hypergraphs; the Lusternik–Schnirelmann–Borsuk
-covering theorem; the equivalence of Borsuk–Ulam with its other classical forms; Sperner's lemma
-for arbitrary triangulations and polytopal subdivisions; every algorithm or path-following
+`Zₚ`-Tucker lemma; Fan's combinatorial lemma as a statement (its parity argument, for labels
+`±1, …, ±n` on a flag, is part of the route of 2.1); Kneser hypergraphs; the
+Lusternik–Schnirelmann–Borsuk covering theorem; the equivalence of Borsuk–Ulam with its other
+classical forms; Sperner's lemma for arbitrary triangulations and polytopal subdivisions; every
+algorithm or path-following
 procedure as a target.
 
 ## Exact supplier contracts
@@ -584,6 +755,10 @@ procedure as a target.
   `Mathlib/Order/Interval/Finset/Defs.lean`: `Finset.Icc`. `Pi.single` (the function equal to a
   given value at one index and zero elsewhere). `Equiv.Perm`, `Function.Bijective`.
 - `Mathlib/Data/Sign/Defs.lean`: `SignType` (the three signs `-1, 0, 1`, with negation).
+- `Finset.filter`, `Finset.image`, `Finset.erase`, `Finset.card` and `Function.Involutive`, used as
+  they are. `Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`:
+  `PreAbstractSimplicialComplex` (a downward closed set of nonempty finite sets), which 2.1 does
+  not use, for the reason given there.
 - `Mathlib/Combinatorics/SimpleGraph/Basic.lean`: `SimpleGraph` (a symmetric irreflexive
   relation). `Mathlib/Combinatorics/SimpleGraph/Coloring/Vertex.lean`: `SimpleGraph.Coloring.mk`
   (a colouring from a map that separates adjacent vertices), `SimpleGraph.Colorable G n` (a
@@ -599,6 +774,11 @@ procedure as a target.
 - `Mathlib/Topology/Algebra/Module/FiniteDimension.lean`: `ContinuousLinearEquiv.ofFinrankEq`
   (two finite-dimensional Hausdorff topological vector spaces of equal dimension are continuously
   linearly equivalent). `EuclideanSpace ℝ (Fin n)`, `Module.finrank`, `FiniteDimensional`.
+- `Mathlib/LinearAlgebra/Dimension/Free.lean`: `Module.rank_lt_aleph0_iff` (a free module has
+  rank below `ℵ₀` if and only if it is finite). `Mathlib/LinearAlgebra/Dimension/Finite.lean`:
+  `exists_linearIndependent_of_le_rank` (`k` linearly independent vectors exist when `k` is at
+  most the rank). `Mathlib/LinearAlgebra/Dimension/Constructions.lean`: `finrank_span_eq_card`
+  (the span of a finite linearly independent family has dimension its cardinality).
 - `Mathlib/MeasureTheory/Integral/Lebesgue/DominatedConvergence.lean`:
   `MeasureTheory.tendsto_lintegral_filter_of_dominated_convergence` (along a countably generated
   filter, measurable functions bounded almost everywhere by a function of finite lower integral
@@ -616,9 +796,11 @@ Nothing is consumed. The two Tau Ceti declarations named in the scope section ab
 ## References
 
 - Timothy Prescott and Francis Edward Su, *A constructive proof of Ky Fan's generalization of
-  Tucker's lemma*, J. Combin. Theory Ser. A 111 (2005), 257–265; the published version as posted
-  on F. E. Su's page at Harvey Mudd College (with errata), also arXiv:math/0310444. The statement
-  of Tucker's lemma on p. 258 and Theorem 2 with the remarks after it on p. 264.
+  Tucker's lemma*, arXiv:math/0310444v1, published in J. Combin. Theory Ser. A 111 (2005),
+  257–265; page numbers are those of the arXiv version: the statement of Tucker's lemma and the
+  remark on Borsuk–Ulam (p. 1), the flag of hemispheres and alternating simplices (p. 2),
+  Theorem 1 (p. 3) and its proof (pp. 4–5), the remark after Fan and Theorem 2 with the remarks
+  after it (p. 6).
 - Günter M. Ziegler, *Generalized Kneser coloring theorems with combinatorial proofs*,
   arXiv:math/0103146: §2 (notation, pp. 2–3, and the colourability defect, p. 3), Lemmas 3.1
   and 3.2 (pp. 4–5), Lemma 4.1 and Theorem 4.2 (p. 5).
@@ -633,5 +815,4 @@ Nothing is consumed. The two Tau Ceti declarations named in the scope section ab
   (p. 5).
 - L. Lovász (1978) is named for Kneser's conjecture as Matoušek and Ziegler attribute it, and
   V. L. Dol'nikov for 3.2 as Ziegler does; no locator into their papers is given. The name of the
-  staircase subdivision after H. W. Kuhn is customary; no source for it was opened, and its
-  properties are proved in 1.1.
+  staircase subdivision after H. W. Kuhn is customary; its properties are proved in 1.1.

@@ -71,7 +71,29 @@ theorem exists_close_bijective_labels (n N : ℕ)
 
 /-! ## Layer 2: Tucker's lemma -/
 
-/-- 2.1 The octahedral Tucker lemma: an antipodal labelling of the nonzero sign vectors of length
+/-- 2.1 Tucker's lemma for a flag of hemispheres, in combinatorial form. `H d` lists the
+simplices of the `d`-th hemisphere as finite sets of vertices, `ι` is the antipodal involution.
+For `d < n`: deleting a vertex of a simplex of `H (d + 1)` stays in `H (d + 1)`; `H d` and its
+image under `ι` lie in `H (d + 1)`; no `d`-simplex of `H d` has its image in `H d`; a
+`d`-simplex of `H (d + 1)` is a facet of one `(d + 1)`-simplex of `H (d + 1)` when it or its
+image lies in `H d`, and of two otherwise. If `H 0` has one vertex, and the vertices of `H n`
+carry nonzero labels of absolute value at most `n`, antisymmetric on the vertices of the `H d`
+with `d < n`, then a simplex of `H n` has two distinct vertices with opposite labels. -/
+theorem flag_tucker {V : Type*} [DecidableEq V] (n : ℕ) (H : ℕ → Finset (Finset V))
+    (ι : V → V) (hι : Function.Involutive ι)
+    (hdown : ∀ d < n, ∀ τ ∈ H (d + 1), ∀ v ∈ τ, τ.erase v ∈ H (d + 1))
+    (hmono : ∀ d < n, ∀ σ ∈ H d, σ ∈ H (d + 1) ∧ σ.image ι ∈ H (d + 1))
+    (hdisj : ∀ d < n, ∀ σ ∈ H d, σ.card = d + 1 → σ.image ι ∉ H d)
+    (hinc : ∀ d < n, ∀ ρ ∈ H (d + 1), ρ.card = d + 1 →
+      ((H (d + 1)).filter fun τ => ρ ⊆ τ ∧ τ.card = d + 2).card =
+        if ρ ∈ H d ∨ ρ.image ι ∈ H d then 1 else 2)
+    (hH₀ : ((H 0).filter fun σ => σ.card = 1).card = 1)
+    (lab : V → ℤ) (hlab : ∀ σ ∈ H n, ∀ v ∈ σ, lab v ≠ 0 ∧ |lab v| ≤ n)
+    (hodd : ∀ d < n, ∀ σ ∈ H d, ∀ v ∈ σ, lab (ι v) = -lab v) :
+    ∃ σ ∈ H n, ∃ u ∈ σ, ∃ w ∈ σ, u ≠ w ∧ lab u = -lab w := by
+  sorry
+
+/-- 2.2 The octahedral Tucker lemma: an antipodal labelling of the nonzero sign vectors of length
 `n ≥ 1` by nonzero integers of absolute value less than `n` has signed sets `A ≤ B` with opposite
 labels. -/
 theorem octahedral_tucker {n : ℕ} (hn : 0 < n) (lab : (Fin n → SignType) → ℤ)
@@ -80,7 +102,7 @@ theorem octahedral_tucker {n : ℕ} (hn : 0 < n) (lab : (Fin n → SignType) →
     ∃ A B : Fin n → SignType, A ≠ 0 ∧ (∀ i, A i ≠ 0 → B i = A i) ∧ lab A = -lab B := by
   sorry
 
-/-- 2.2 Tucker's lemma on the lattice cross-polytope: a labelling of the integer points of the
+/-- 2.3 Tucker's lemma on the lattice cross-polytope: a labelling of the integer points of the
 `ℓ¹`-ball of radius `m` in `ℤⁿ` by nonzero integers of absolute value at most `n`, antipodal on
 the boundary sphere, has two points within one in every coordinate with opposite labels. -/
 theorem lattice_tucker {n : ℕ} (m : ℕ) (lab : (Fin n → ℤ) → ℤ)
@@ -124,10 +146,11 @@ theorem chromaticNumber_kneserGraph {α : Type*} [Fintype α] {k : ℕ} (hk : 0 
 
 /-- 4.1 The Borsuk–Ulam theorem: a continuous map from a sphere `‖x‖ = r ≥ 0` of a real normed
 space `E` to a finite-dimensional real normed space of smaller dimension takes the same value at
-some pair of antipodal points. -/
+some pair of antipodal points. The dimension condition is asked only for finite-dimensional `E`,
+since Mathlib's `finrank` of an infinite-dimensional space is `0`. -/
 theorem borsuk_ulam {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
-    (hEF : Module.finrank ℝ F < Module.finrank ℝ E) {r : ℝ} (hr : 0 ≤ r)
+    (hEF : FiniteDimensional ℝ E → Module.finrank ℝ F < Module.finrank ℝ E) {r : ℝ} (hr : 0 ≤ r)
     {f : Metric.sphere (0 : E) r → F} (hf : Continuous f) : ∃ x, f (-x) = f x := by
   sorry
 
