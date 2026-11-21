@@ -111,8 +111,8 @@ section keeps its number.
   Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
   lattice coefficients.
 - [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
-  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
-  annihilation, and the vanishing of Bloch–Kato groups.
+  twisted Tate–Shafarevich groups and their bounds by Bernoulli numbers, explicit torsion bounds for
+  the homology of `GL_N(𝒪_L)`, étale cohomology and K-groups, and the vanishing of Bloch–Kato groups.
 - [**Theta kernels for unitary dual pairs**](ThetaKernelsForUnitaryDualPairs/README.md):
   the Weil representation, splittings and theta kernels for unitary dual pairs, the local theta
   correspondence, convergence and unfolding.
