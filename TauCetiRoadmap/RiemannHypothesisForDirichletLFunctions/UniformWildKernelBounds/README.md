@@ -89,7 +89,8 @@ theorems and the form in which they are consumed.
 - `Ш¹(F, ℓ, e)` is the group of BernoulliBoundsForClassGroupEigenspaces §6.17: the classes in
   `H¹(G_{F,S}, ℚ_ℓ/ℤ_ℓ(−e))`, `S` the places above `ℓ` and the infinite places, whose restrictions to the
   decomposition groups at the places above `ℓ` vanish; there is no condition at the real places. These
-  are the classes unramified outside `ℓ` and trivial at every place above `ℓ`. Lengths are
+  are the classes unramified outside `ℓ` and trivial at every place above `ℓ` ([FormalProof],
+  `Formalism/GaloisCohomology/Statement.lean` (`Formalism.GaloisCohomology.Sha`)). Lengths are
   `Module.length` over `ℤ_ℓ`, valued in `ℕ∞`. For a coefficient ring `O` (the ring of integers of a
   finite extension `Φ` of `ℚ_ℓ`, ramification index `e_O`) an `O`-length is divided by `e_O`.
 - `V(F, t)` is the total of BernoulliBoundsForClassGroupEigenspaces §6.17. For fixed `e` only finitely many `ℓ`
@@ -101,13 +102,19 @@ theorems and the form in which they are consumed.
   Teichmüller part. For a Dirichlet character `ψ`, `e ≥ 1` and a finite set `S` of primes containing `ℓ`,
   `V_ℓ(ψ, e; S)` is the normalized length of BernoulliBoundsForClassGroupEigenspaces §6.18's component group `Ш_{ψ,e}(S)`:
   classes in `H¹(G_ℚ, (Φ/O)(ψ⁻¹ χ_ℓ^{−e}))` unramified at every prime and zero on the decomposition groups
-  at the primes of `S`. Write `V_ℓ(ψ, e)` for `S = {ℓ} ∪ {p : p | f_ψ}`.
+  at the primes of `S`. Write `V_ℓ(ψ, e)` for `S = {ℓ} ∪ {p : p | f_ψ}` ([FormalProof],
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/ShaFamMono.lean` (`UpperTheory.V.Chr.V'`),
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+  (`UpperTheory.V.HV.Vlen`)).
 - `f_ψ` is the conductor and `o_ψ` the order of `ψ`; `v_ℓ` the `ℓ`-adic valuation, extended to `ℚ̄_ℓ`
   with `v_ℓ(ℓ) = 1`; `log` the natural logarithm. `C`, `c`, `A`, `J` denote constants whose dependence is
   stated in each target. The explicit quantities `B(χ)`, `P(χ)`, `R₁(ℓ, χ)` of 0.3 are fixed choices that serve every
   target below.
 - Hodge–Tate weights are those of AutomorphicGaloisRepresentationsPartII: the cyclotomic character has weight `−1`,
-  and a regular algebraic `π` of `GL_n` of weight `a` has labelled weights `a_{τ,i} + n − i`. A character of a local
+  and a regular algebraic `π` of `GL_n` of weight `a` has labelled weights `a_{τ,i} + n − i` ([FormalProof],
+  `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/GaloisRepDefiniteUnitary.lean`
+  (`GlobalTheory.GalAut.galoisRep_definiteUnitary_tyz`), `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasString.lean`
+  (`GlobalTheory.GalDef.jumpsOf`)). A character of a local
   Galois group that agrees with `χ_ℓ^m` on an open subgroup of inertia has *cyclotomic exponent* `m` (and Hodge–Tate
   weight `−m`); the exponents of an ordinary representation are those of its graded characters. Statements about
   ordinary characters are made in cyclotomic exponents.
@@ -163,7 +170,9 @@ The host fields of Layers 5–7 (Conventions) are these fields with `n ≥ 2` an
 
 For a Dirichlet character `ψ` modulo `N` with values in a field of characteristic `0` and a prime `r`,
 `comp_r ψ` is the restriction of `ψ` to the factor `(ℤ/r^{v_r(N)})^×` of `(ℤ/N)^×` (Chinese remainder
-theorem), so `ψ = ∏_r comp_r ψ`. For a prime `ℓ`, `ψ = ψ_{[ℓ]} ψ^{[ℓ′]}` uniquely with `ψ_{[ℓ]}` of `ℓ`-power order
+theorem), so `ψ = ∏_r comp_r ψ` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+(`UpperTheory.V.HV.comp`)). For a prime `ℓ`, `ψ = ψ_{[ℓ]} ψ^{[ℓ′]}` uniquely with `ψ_{[ℓ]}` of `ℓ`-power order
 and `ψ^{[ℓ′]}` of order prime to `ℓ`. The *tame part away from `ℓ`* is `χ_P(ℓ, ψ) = ψ^{[ℓ′]} (comp_ℓ ψ^{[ℓ′]})⁻¹`,
 and `c₂(ψ) = v₂(f_{comp₂ ψ})`. Prove uniqueness of these decompositions, multiplicativity in `ψ`,
 `f_{comp_r ψ} = r^{v_r(f_ψ)}`, `o_ψ = lcm_r o_{comp_r ψ}`, compatibility with Galois conjugation of the
@@ -191,7 +200,11 @@ every `q ∈ Q`. For an odd prime `ℓ` let `d_ℓ` be the order of `ℓ` modulo
 
 Prove, for every odd `ℓ ∉ B(χ)`, every field `E = E_n(χ, Q)` with `Q` `t`-large, and every `ψ ∈ X(E, e)`:
 (a) `ℓ ≥ 5`, `ℓ ∤ o_χ f_χ h_χ` and `ℓ ∉ {p_K, p₁}`; (b) `ℓ ∤ [E : ℚ]`; (c) `ℓ ∤ o_ψ` and `(comp_ℓ ψ)² = 1`; (d) if
-`(ℓ − 1) | 2e` for some `1 ≤ e < t`, then `e ≥ 2`, `ℓ ≤ 2t + 1`, `ℓ ∤ N` and `χ_P(ℓ, ψ) = ψ`.
+`(ℓ − 1) | 2e` for some `1 ≤ e < t`, then `e ≥ 2`, `ℓ ≤ 2t + 1`, `ℓ ∤ N` and `χ_P(ℓ, ψ) = ψ` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/BchiFacts.lean` (`UpperTheory.V.HV.bchiFacts`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/StmtFields.lean` (`UpperTheory.V.pK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+(`UpperTheory.V.HV.Host.Big`)).
 
 *Route.* (b) The odd part of `[E : ℚ]` divides `o_χ` (0.1(iii)). (c) `o_ψ` divides `2^k o_χ`; for `ℓ | N`, either
 `ℓ ∈ Q`, where the `ℓ`-component is quadratic, or `ℓ | f_χ`, excluded. (d) `ℓ − 1 ≥ 4` divides `2e`, so `e ≥ 2`
@@ -211,7 +224,8 @@ For a host field `E = E_n(χ, Q)`, an odd prime `ℓ`, `e ≥ 1` and `ψ ∈ X(E
 `(ℓ − 1) | 2e`, `o_ψ` is odd and `ψ ≠ 1`; *Case IV* if `ℓ ∈ B(χ)`, `e ≥ 2` and the order of `χ_P(ℓ, ψ)` is odd;
 *Case V* if `ℓ ∈ B(χ)` and `e = 1`, *large* if `R₁(ℓ, χ) ≤ 2^{c₂(ψ)}` and *small* otherwise. Prove the
 coverage theorem: if `Q` is `t`-large and `e < t`, every `(ℓ, e, ψ)` with `ℓ ∉ B(χ)` is in Case I, Z, II or
-III, and every one with `ℓ ∈ B(χ)` in Case II, IV or V.
+III, and every one with `ℓ ∈ B(χ)` in Case II, IV or V ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Cases.lean` (`UpperTheory.V.HV.cases`)).
 
 *Route.* For `ℓ ∉ B(χ)` with `(ℓ − 1) | 2e`, 0.3(d) gives `e ≥ 2` and `χ_P(ℓ, ψ) = ψ`; `ψ = 1`, `o_ψ` odd and
 `ψ ≠ 1`, `o_ψ` even give Z, III, II. For `ℓ ∈ B(χ)`, `e = 1` is V and otherwise the parity of the order of
@@ -267,7 +281,9 @@ scalar `u^{−eℓ^{m′}} − 1`). So the classes trivial above `ℓ` are those
 
 Let `X` be a `ℤ_ℓ`-module generated by `R ≥ 1` elements and `g` an automorphism of `X` with
 `(g − 1)^M X ⊂ ℓX` for some `M`. Put `j₀ = ⌊log_ℓ R⌋ + 3`. Prove that for every `m ≥ j₀`,
-`length coker(g^{ℓ^m} − 1) ≤ length coker(g^{ℓ^{j₀}} − 1) + R (m − j₀)` in `ℕ∞`. For `X = Λ/(F)` free over `ℤ_ℓ` this is the
+`length coker(g^{ℓ^m} − 1) ≤ length coker(g^{ℓ^{j₀}} − 1) + R (m − j₀)` in `ℕ∞` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AdditiveValuationNorms/Growth.lean` (`UpperTheory.V.PropA.growth`)). For
+`X = Λ/(F)` free over `ℤ_ℓ` this is the
 inequality form of the cyclotomic growth step of PadicMeasuresIwasawaAlgebras §4.7 (there the growth per layer is exactly
 `deg F ≤ R` beyond a cutoff of the same size); 1.2 allows torsion and infinite cokernels.
 
@@ -288,7 +304,9 @@ Induct on `m`. The argument is pointwise: `X` may have torsion. *Needs:* Mathlib
 Let `X` be a `ℤ_ℓ`-module generated by `R ≥ 1` elements, `g` an endomorphism of `X`, `c ≥ 1` (`c ≥ 2` if `ℓ = 2`) and `u ∈ ℤ_ℓ`
 with `v_ℓ(u − 1) = c`. Prove that for every
 `j ≥ 0` there are `s_1, …, s_R ∈ ℤ_ℓ` (the *centres at level `j`*) such that for every integer `e ≥ 0`,
-`length coker(u^{eℓ^j} g^{ℓ^j} − 1) ≤ Σ_{i=1}^R (j + c + v_ℓ(e − s_i))`, with `v_ℓ(0) = ∞`.
+`length coker(u^{eℓ^j} g^{ℓ^j} − 1) ≤ Σ_{i=1}^R (j + c + v_ℓ(e − s_i))`, with `v_ℓ(0) = ∞` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AdditiveValuationNorms/ExistsCentresLevel.lean`
+(`UpperTheory.V.PropA.exists_centres_level`)).
 
 *Route.* Present `X` as a quotient of `ℤ_ℓ^R` and lift `g` to any matrix `S ∈ M_R(ℤ_ℓ)`; the cokernel of
 `w g^{ℓ^j} − 1` is a quotient of that of `w S^{ℓ^j} − 1`, of length `v_ℓ det(w S^{ℓ^j} − 1) = Σ_i v_ℓ(w z_i^{ℓ^j} − 1)`,
@@ -312,7 +330,8 @@ needed. *Needs:* Mathlib `Matrix.det`, `PadicInt`, compactness of `ℤ_ℓ`.
 
 In 1.3, fix `j` and its centres; for `Z ≥ 1` let `Exc(Z)` be the set of `e ∈ [1, Z]` with `v_ℓ(e − s_i) > ⌊log_ℓ Z⌋` for
 some `i`. Prove `#Exc(Z) ≤ R`, and that every `e ∈ [1, Z] ∖ Exc(Z)` has
-`length coker(u^{eℓ^j} g^{ℓ^j} − 1) ≤ R (j + c + log_ℓ Z)`.
+`length coker(u^{eℓ^j} g^{ℓ^j} − 1) ≤ R (j + c + log_ℓ Z)` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Exc.lean` (`UpperTheory.V.Win.exc`)).
 
 *Route.* Two integers of `[1, Z]` congruent to the same `s_i` modulo `ℓ^{⌊log_ℓ Z⌋+1} > Z` are equal; off `Exc(Z)`
 use 1.3. *Needs:* 1.3.
@@ -322,7 +341,11 @@ use 1.3. *Needs:* 1.3.
 Assume `X′_∞(L)` is finitely generated over `ℤ_ℓ`, let `R = R(L)` and `j₀ = ⌊log_ℓ R⌋ + 3`. Prove that there are
 `s_1, …, s_R ∈ ℤ_ℓ` such that for every `e ≥ 1` and `m ≥ 0`:
 (a) `length Ш¹(L_m, ℓ, e) ≤ Σ_i (max(m, j₀) + c + v_ℓ(e − s_i))`;
-(b) `length Ш¹(L_m, ℓ, e) ≤ length H²(𝒪_{L_{j₀}}[1/ℓ], ℤ_ℓ(e + 1)) + R · max(0, m − j₀)`.
+(b) `length Ш¹(L_m, ℓ, e) ≤ length H²(𝒪_{L_{j₀}}[1/ℓ], ℤ_ℓ(e + 1)) + R · max(0, m − j₀)` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AdditiveValuationNorms/ExistsCentresLevel.lean`
+(`UpperTheory.V.PropA.exists_centres`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/SecondBound.lean` (`UpperTheory.V.Win.ABound`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/NumberFieldTowers/XTwApplyApply.lean` (`UpperTheory.V.Tower.IsTower`)).
 
 *Route.* `γ` acts on the finite group `X′_∞/ℓ` through a pro-`ℓ` group, hence unipotently. Take the centres of 1.3
 at level `j₀` for `g = γ` on `X′_∞`; for `m ≥ j₀` add `R(m − j₀)` by 1.2, and transport by 1.1. So the centres, and
@@ -333,7 +356,10 @@ the exceptional sets of 1.4, are those of the single layer `j₀`. For (b), 1.2 
 
 Let `C_K` be the absolute constant of BernoulliBoundsForClassGroupEigenspaces §9.7. In 1.5, for `Z ≥ 1`, every `1 ≤ e ≤ Z` and `m ≥ 0`:
 `length Ш¹(L_m, ℓ, e) ≤ R (max(m, j₀) + c + log_ℓ Z)` if `e ∉ Exc(Z)`, and
-`length Ш¹(L_m, ℓ, e) ≤ 2 exp((2e [L_{j₀} : ℚ])^{C_K} log(2|d_{L_{j₀}}|)) + R m` if `e ∈ Exc(Z)`.
+`length Ш¹(L_m, ℓ, e) ≤ 2 exp((2e [L_{j₀} : ℚ])^{C_K} log(2|d_{L_{j₀}}|)) + R m` if `e ∈ Exc(Z)` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Klen.lean` (`UpperTheory.V.Win.klen`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/GeneratorCountTuples/LemmaK.lean` (`UpperTheory.V.LemmaK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/ImportsAlt.lean` (`UpperTheory.V.Win.point`)).
 
 *Route.* 1.4 off `Exc(Z)`; on `Exc(Z)`, 1.5(b) and BernoulliBoundsForClassGroupEigenspaces §9.7 at the totally complex `L_{j₀} ⊇ μ_ℓ`, with
 `length ≤ 2 log #` for a finite `ℓ`-group. Only the shape `log log #H² ≤ P(e, [L:ℚ])·log(2|d_L|)`, `P`
@@ -354,7 +380,8 @@ From this family: BernoulliBoundsForClassGroupEigenspaces. Other roadmaps: Integ
 ### 2.1 A pigeonhole on scales
 
 Let `R ∈ ℕ`, `B ≥ 1`, `U > 0` and `T ⊂ ℝ` finite with `#T ≤ R`. Prove that there is `y ∈ [U/(2^{R+2} B^R), U/2]` such
-that every `a ∈ T` satisfies `a > 2y` or `B a ≤ y`.
+that every `a ∈ T` satisfies `a > 2y` or `B a ≤ y` (for `B > 1` this follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Window1.lean` (`UpperTheory.V.Win.window1`)).
 
 *Route.* Each `a ∈ T` forbids the `y` with `a/2 ≤ y < Ba`, an interval of logarithmic length `log 2B`; `R` of them
 have total logarithmic length `R log 2B`, less than the logarithmic length `(R + 1) log 2 + R log B` of the
@@ -372,7 +399,11 @@ Let `C_K` be as in 1.6, enlarged if necessary so that `C_K ≥ 1` (the bound of 
 generated, `Σ_{(ℓ,L)∈𝓛} R(L) ≤ R` and `[L_{j₀(L)} : ℚ] ≤ d`. Prove
 that for every `X ≥ 2` there is `Y ∈ [X^{1/J}, X^{1/2}]` such that for every `x ∈ [Y, Y²]`, every `(ℓ, L) ∈ 𝓛`, every
 `m ≥ 0` and every `1 ≤ e ≤ x^κ`:
-`length Ш¹(L_m, ℓ, e) ≤ R(L)(m + j₀(L) + c(L) + κ log_ℓ X) + 2 exp((2d)^{C_K} x^{δ/2} log(2|d_{L_{j₀(L)}}|))`.
+`length Ш¹(L_m, ℓ, e) ≤ R(L)(m + j₀(L) + c(L) + κ log_ℓ X) + 2 exp((2d)^{C_K} x^{δ/2} log(2|d_{L_{j₀(L)}}|))` (follows from
+[FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Window.lean`
+(`UpperTheory.V.Win.window`), `Development/AutomorphicArithmetic/AutomorphicVarieties/PrimeSetBoundDataOfPrimitiveChar.lean`
+(`UpperTheory.V.BConst.J`), `Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/ImportsAlt.lean`
+(`UpperTheory.V.Win.point`)).
 
 *Route.* With `Z = ⌊X^κ⌋` the exceptional sets of 1.4 over `𝓛` have at most `R` elements in all. Apply 2.1 to
 `U = log X`, `B = 2C_Kκ/δ` and `T = {log e/κ : e exceptional}`: for `log x ∈ [log Y, 2 log Y]` every exceptional
@@ -458,7 +489,10 @@ polynomial form, for `GL_n` over totally real and CM fields, of the finiteness A
 `H ≥ 0` and every strictly decreasing `m ∈ ℤⁿ` with `|m_i| ≤ H`, and the infinitesimal character `{m_i + (n − 1)/2}` at every
 embedding (the one of the representations whose Galois representations have cyclotomic exponents `m`, 4.8), the number of
 isomorphism classes of conjugate self-dual cuspidal automorphic representations `π` of `GL_n(𝔸_K)` with that infinitesimal
-character and `π^{K(M)} ≠ 0` is at most `c (M(H + 1))^A`.
+character and `π^{K(M)} ≠ 0` is at most `c (M(H + 1))^A` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/IsoOfFrob.lean` (`UpperTheory.V.Af.CardK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/IsoOfFrob.lean` (`UpperTheory.V.Af.SigK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/IsoOfFrob.lean` (`UpperTheory.V.Af.infOf`)).
 
 *Route.* `π^{K(M)} ≠ 0` gives `π^{K(3M)} ≠ 0`, and `K(3M)` lies in the neat normal subgroup `K(3)` of `GL_n(𝒪̂_K)`. By
 ArithmeticLocallySymmetricSpaces ALS.5b.6 (for `K` totally real or CM), applied to the regular `L`-algebraic twist
@@ -506,7 +540,12 @@ Eisenstein trace. The routes of 5.4 and 6.4 use only this form.
 `β(i)` have absolute values in `(q^{e/2}, q^{e/2+1})` and product of absolute value `q^{2(e+1)}`. Its traces satisfy
 `|s_i| < 2(q^{e/2+1} + q^{e/2})` for every `i`, while the trace `θ + Ψ + α + 1` of an Eisenstein datum with `|θ| = q^{e+1}`,
 `|Ψ| = q^e`, `|α| = q` has absolute value `≥ q^{e+1} − q^e − q − 1`; for `q ≥ 5` and `e ≥ 2` the two never coincide. When
-`θ = q^{e+1}z₁`, `Ψ = q^e z₂`, `α = qz₃` with `z_i^k = 1`, the conjugates of the Eisenstein trace number at most `φ(k)`.
+`θ = q^{e+1}z₁`, `Ψ = q^e z₂`, `α = qz₃` with `z_i^k = 1`, the conjugates of the Eisenstein trace number at most `φ(k)` (follows
+from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AfStmt.lean`
+(`UpperTheory.V.Af.NumberSp4Alt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/CongruenceNumberRankThree.lean`
+(`UpperTheory.V.Af.eis4`)).
 
 *Route.* (a) The product over the `Aut(ℂ)`-set `I × J` is fixed by `Aut(ℂ)`, hence rational, and an algebraic integer, hence
 an integer; each factor is nonzero; the size bound is termwise; `q` is an `ℓ`-unit, so each `v_ℓ(s_i − t_j)` is
@@ -568,7 +607,9 @@ values of `a_σ` at the points of `A/I_A` do not depend on the lift. Let `I_A` b
 `cotLen_{−1}(F) ≤ 2 · Σ_{ξ∈𝒯} v(ξ(a_σ))`.
 
 When `T₁ = 1` (so `A = R^{gr}`), every `Ē`-point `ξ` of `A/I_A` carries `ρ_ξ := ξ ∘ r`, `ξ(a_σ) = tr ρ_ξ(σ) − tr r₀(σ)`, and
-`ρ_{u·ξ} = w(u)ρ_ξ w(u)⁻¹` for the cocharacter `w` identifying `T` with `𝔾_m`.
+`ρ_{u·ξ} = w(u)ρ_ξ w(u)⁻¹` for the cocharacter `w` identifying `T` with `𝔾_m`. The bound follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/OrbitVanishingLocal.lean` (`UpperTheory.V.Alg.LemmaM`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/ModelUpper.lean` (`UpperTheory.V.U3.model_upper`).
 
 *Route.* The diagonal entries of `r` have weight `0`, so the trace lies in the weight-zero part, and `x(a_σ) = 0` because
 `x(I) = 0`; (M5) of §4.9 is the hypothesis on `a_σ`, and §4.9(1) gives the finiteness of orbits and the bound; an element of
@@ -614,7 +655,9 @@ on `s` (two choices of `δ_s` have the same reduction), `s ↦ δ_s mod b` is `O
 because the coefficient of `X` records `c_s`. The entries of `r` at the position of `X` have weight `χ_X`, trivial on `T₁`, so
 they lie in `A`, and injectivity survives the restriction to `A`, where the derivations have weight `−1`. So `D` is an
 `O`-linear injective map `𝒮 → Hom_O(A, O/b)` whose values kill `F` and are reductions modulo `b` of the `O`-valued point
-derivations `δ_s|_A` of weight `−1`: ReducibilityIdealsAndUltrafilterPatching §4.8(3), in the form of the formal proof (finite
+derivations `δ_s|_A` of weight `−1`: ReducibilityIdealsAndUltrafilterPatching §4.8(3), in the form of the formal proof
+([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/OrbitVanishingLocal.lean`
+(`UpperTheory.V.Alg.LemmaM'`): finite
 residue field, `D` additive, `x` killing `A_{−1}`), with `c = b` and `M = 𝒮` applies. When
 `R^{gr}/I` represents `𝒟`, `δ_s mod b` is the point of `R^{gr}/I` with values in `O[ε]/(bε, ε²)` given by the first-order lift
 `(1 + εc_s(g)X)r₀(g)`, and the hypothesis says that this point lifts to an `O`-valued derivation of `R`. *Needs:* 3.3;
@@ -636,7 +679,10 @@ character of odd conductor `f` with `φ^{q−1} = 1`, and `ξ` a primitive chara
 residue field of the ring of integers `O` of a finite extension of `ℚ_ℓ` containing the values of `φξ`. Prove: (a) `B` is a
 unit at every place above `ℓ`; (b) for `φ` primitive of conductor `f` and `γ = (φξ)^{±1}`, viewed residually with values in
 `𝔽`: `B_{1,γ⁻¹}` kills the `γ`-coinvariants `(Cl(ℚ(μ_{f·2^m})) ⊗ O)_γ` (the quotient by the `σ − γ(σ)`, which differs from the
-`γ`-eigenspace when `ℓ` divides `[ℚ(μ_{f·2^m}) : ℚ]`), and every everywhere unramified class in `H¹(G_ℚ, 𝔽(γ))` is zero.
+`γ`-eigenspace when `ℓ` divides `[ℚ(μ_{f·2^m}) : ℚ]`), and every everywhere unramified class in `H¹(G_ℚ, 𝔽(γ))` is zero (this last
+clause: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LevelCohomology/UnramifiedCocycleIsCoboundaryOfBernoulliUnit.lean`
+(`UpperTheory.V.X.CorX`)).
 
 *Route.* (a) Put `N = 2^m`, `s = f·2^k`, `M = 2^{m−k}`; the hypothesis is `s ≤ M`, and gives `M ≥ 2^k ≥ 4`. Let `𝔅` be the ring of
 `ℓ`-integral elements with residue in `𝔽_q`; it contains the values of `φ` and `1/N`. *Folding.* For `u ∈ ℤ/N` let
@@ -710,7 +756,9 @@ local `B`-algebra `R^□` with an `X`-weighted presentation relative to `B` havi
 each an entry of `r(s) − r₀(s)` for some `s ∈ Γ` or of some `α_v − 1`, and `dim_k Ob(ad_χ)` relations (at most that many are needed;
 the list is padded with zeros), where `H¹_c` is the space of pairs (a cocycle of `Γ` with values in `ad_χ` vanishing on the `N_q`,
 vectors `y_v` at the framed places with the cocycle equal on `G_v` to the coboundary of `y_v`, `y_{v₀} = 0`), cocycles and not classes,
-and `Ob` the framed two-cocycles modulo framed two-coboundaries.
+and `Ob` the framed two-cocycles modulo framed two-coboundaries ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/FramedTwoCoboundaries.lean`
+(`UpperTheory.V.Alg.LemmaP`)).
 
 *Route.* GlobalGaloisDeformations §3.7 (with §8.4 for the polarized case) gives the presentation `B[[x₁, …, x_g]] ↠ R^□` with `g` the
 dimension of the relative tangent space, the cone `H¹`, and a kernel generated by at most `dim Ob` elements, the obstruction
@@ -758,7 +806,9 @@ with `Ψ̄(g) = 1`; and `r ≡ diag(Ψ̄^{w_i})`, `ψ_{v,i} ≡ Ψ̄^{w_i}|_{G_v
 `Ψ̄^{w_i}|_{I_v}` (LocalGaloisDeformationRings §1.3), a power series ring in `nd` variables over `O`.
 
 Prove that there are absolute constants `a₁, a₂, a₃` (independent of `L`, `ℓ`, `Ψ̄`, `n` and `C₀`) such that, calling the frame
-*big* when `d > a₁C₀ + a₂` and `d_v ≥ a₃` for every `v | ℓ`:
+*big* when `d > a₁C₀ + a₂` and `d_v ≥ a₃` for every `v | ℓ` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/ContinuousCoboundaries2.lean`
+(`UpperTheory.V.Fr.Frame.Big`)):
 
 (a) (*the space*) under (F1)–(F3) and the class conditions, the functor of lifts is represented by a complete local noetherian
 `O`-algebra `R`; the closure `B ⊂ R` of the
@@ -779,19 +829,27 @@ closed point of `B`, `R_x` is the complete local ring of `A` at `x` (over an unr
 `R_x ≅ O′[[x₁, …, x_N]]/(f₁, …, f_{N′})` with
 `N − N′ ≥ nd + 1`; and at a point `x` on the block locus (`n = 3`), `R_x` has a `ℤ/2`-graded presentation, by the parity of the
 weight, with at least `3d + 1` more even variables than even relations and, after adding zero relations, as many odd
-relations as odd variables, the odd variables generating the ideal of the block locus.
+relations as odd variables, the odd variables generating the ideal of the block locus ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/HasObs.lean` (`UpperTheory.V.Fr.pres`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/Integral.lean` (`UpperTheory.V.Fr.Space.Loc.Pres`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/Integral.lean`
+(`UpperTheory.V.Fr.Space.Loc.EPres`)).
 
 (c) (*small loci*) under (F1)–(F3) and the class conditions, at every closed point `x` of the core the upper triangular locus
 does not pass through
 `x`, the lower triangular locus of `R_x` has dimension `≤ (n − 1)d + a₁C₀ + a₂`, and the fibre of `R_x` over the closed point of
 `B` has dimension `≤ 2C₀`; and at every closed point `x` over the closed point of `B`, if `P` is an off-triangular prime of `R_x`
 containing the image of an ideal `M ⊂ B` with `B/M` finite over `Λ`, a coincidence at `v` modulo `P` gives
-`dim R_x/P + d_v ≤ nd + a₃`, and `dim R_x/P + d_v ≤ nd + a₃ − 1` if moreover `ϖ ∈ P`.
+`dim R_x/P + d_v ≤ nd + a₃`, and `dim R_x/P + d_v ≤ nd + a₃ − 1` if moreover `ϖ ∈ P` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/CharpolyCoeffsInSubalgebra.lean`
+(`UpperTheory.V.Fr.l51`)).
 
 (d) (*nice primes*) at a closed point `x` of the core, a prime `p` of `R_x` is *nice* if `dim R_x/p = 1`, `ℓ ∈ p`, `p` is
 off-triangular, and no two `ψ_{v,i}` are congruent modulo `p` on `N_v`; if (F1)–(F3) and the class conditions hold and the frame
 is big, `M ⊂ B` has `B/M` finite over `Λ`
-and an ideal `I ⊃ M R_x` has `dim R_x/I ≥ nd + 1`, then `I` lies in a nice prime.
+and an ideal `I ⊃ M R_x` has `dim R_x/I ≥ nd + 1`, then `I` lies in a nice prime ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/PropagationTheoremGL2.lean`
+(`UpperTheory.V.Pr.Nice`)).
 
 *Route.* (a) The normalization (diag) leaves the one-dimensional torus `diag(a, a⁻¹)`, resp. `diag(a, 1, a⁻¹)`; the weight-zero
 monomials generate the invariants because `r(g₀) − r(g₀*)` is diagonal with pairwise distinct residual entries, so the matrix
@@ -843,10 +901,16 @@ every off-triangular prime of `A₂`. Prove: (a) (*sharp ideal*) if `x` is not o
 irreducible and `(0)` is chained in dimension `3d + 1`; if `x` is on the block locus, write the odd relations of 3.11(b) as
 `M·Y` for a `g × g` matrix `M` over the maximal ideal and put `𝔰 = (det M)`: every prime off the block locus contains `𝔰`, `𝔰` is
 chained in dimension `3d + 1` (ReducibilityIdealsAndUltrafilterPatching §6.10(2)), and every minimal prime of `𝔰` is irreducible or *thick*: of block type, and over its
-residue domain there is a nonsplit ordinary extension of the middle character `μ` by the corner `W`. (b) (*thick
-components*) under (H₂), the block components of `R_x` have dimension exactly `3d + 2`, and a thick minimal prime of `𝔰` is a
+residue domain there is a nonsplit ordinary extension of the middle character `μ` by the corner `W` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/ChainedOfComap.lean` (`UpperTheory.V.Fr.sharp3`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/Integral.lean`
+(`UpperTheory.V.Fr.Space.Loc.Sharp`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/Integral.lean` (`UpperTheory.V.Fr.Chained`)). (b)
+(*thick components*) under (H₂), the block components of `R_x` have dimension exactly `3d + 2`, and a thick minimal prime of `𝔰` is a
 whole block component. (c) (*finiteness of the block locus*) under (H₂) there is an ideal `I₃ ⊂ B` with `B/I₃` finite over `Λ`
-contained in the contraction to `B` of every prime of `A` of block type.
+contained in the contraction to `B` of every prime of `A` of block type ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/QuotientHomNonvanishingBound.lean`
+(`UpperTheory.V.Fr.l53`)).
 
 *Route.* (a) An odd power series in the kernel without unit linear coefficients is `Σ_j M_jY_j`; Cramer gives
 `adj(M)·(M·Y) = det M · Y`, so `det M · Y_j = 0` and every prime not containing all `Y_j` contains `det M`; ReducibilityIdealsAndUltrafilterPatching §6.10(2) with
@@ -871,7 +935,9 @@ entry `(3, 2)` is `g ↦ y(g*)`, and `a(gh) = Ψ̄(h)a(g) + y(g*)y(h) + Ψ̄(g)�
 `y`, but for `y` in the `η_{L/L⁺}`-eigenspace an entry `a` exists, by an explicit quadratic formula (`ℓ` odd). A class for `Ψ̄⁻¹`
 alone does not make the core nonempty in rank two; a class for `Ψ̄⁻²` alone leaves the core inside the block locus in rank
 three.) Prove: the
-core (3.11(a)) is nonempty and preconnected; closed points are dense in every
+core (3.11(a)) is nonempty and preconnected (for `n = 2`, preconnectedness: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/PreconnectedRankTwo.lean`
+(`UpperTheory.V.Fr.preconnected_rank_two`)); closed points are dense in every
 locally closed subset of it; for `n = 3` the core lies in the closure of its part off the block locus; every homogeneous
 prime of `A` off the upper triangular locus lies in a closed point of the core; and for a prime `Z` of `B` and an
 irreducible prime `ξ` of `A` over a prime containing `Z` there are a closed point `x` of the core and an irreducible prime
@@ -972,7 +1038,13 @@ polarized, absolutely irreducible on `G′` and `Hom_{G′}(r₁, r₂) = 0`. A 
 `det(tr D(g_ih_j))_{1≤i,j≤n²}` (`g_i, h_j ∈ G_L`) is not in `q` (then `D mod q` is the determinant of an absolutely irreducible
 representation over an algebraic closure of `κ(q)`), *thick* if it is not stable and
 the Cayley–Hamilton quotient of `B[G_L]` by `D`, the ordinary relations and the tame inertia (IntegralHeckeAndGaloisDeterminants
-§1.1) is not semisimple at `q`.
+§1.1) is not semisimple at `q` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/UniversalOrdinaryDeterminantRing.lean`
+(`UpperTheory.V.W.Point`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/UniversalOrdinaryDeterminantRing.lean`
+(`UpperTheory.V.W.UniversalOrdinaryDeterminantRing.IsStable`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/UniversalOrdinaryDeterminantRing.lean`
+(`UpperTheory.V.W.UniversalOrdinaryDeterminantRing.IsThick`)).
 
 *Normalized points and Selmer groups.* A point of type I or E is *normalized* if `ρ` is orthogonal for the standard form, block
 diagonal of block sizes `(a, n − a)` (`a = n` in type I) with flags adapted to the blocks, and the `K[[T]]`-span of `ρ(G′)`
@@ -991,7 +1063,7 @@ finite set `Σ ⊂ G′` *detects* at the point if every `z ∈ TwZ` over `K[[T]
 
 Prove: (a) (*type I*) if `x` is of type I with (N1), (N3), (N4) and `J ⊂ ker x`, then `J ⊂ q` for every prime `q ⊂ ker x`;
 (b) (*chains of type E*) if `x₀, …, x_h` are of type E with (N1), (N3), (N4), `e_i ⊂ ker x_i ∩ ker x_{i+1}` are thick primes,
-and some stable `q₁` has `J ⊂ q₁ ⊂ ker x₀`, then `J ⊂ q` for every stable or thick prime `q ⊂ ker x_h`; (c) (*the three Selmer counts*) (K1′) and (K2′) are theorems of [FormalProof] whose route is not given here (their count uses local class field theory in the form of a splitting of the pro-`ℓ` completion of `G_v^{ab}` into its torsion subgroup and `ℤ_ℓ^{d_v} × ℤ_ℓ`); (K1)–(K3)
+and some stable `q₁` has `J ⊂ q₁ ⊂ ker x₀`, then `J ⊂ q` for every stable or thick prime `q ⊂ ker x_h` ((a), (b): [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean` (`UpperTheory.V.Pa.PfromAut`)); (c) (*the three Selmer counts*) (K1′) and (K2′) are theorems of [FormalProof] whose route is not given here (their count uses local class field theory in the form of a splitting of the pro-`ℓ` completion of `G_v^{ab}` into its torsion subgroup and `ℤ_ℓ^{d_v} × ℤ_ℓ`); (K1)–(K3)
 follow from them: at a normalized point with (N1), (N3), (N4) and Taylor–Wiles elements `σ₁, …, σ_q ∈ G′` at which `ρ` has `n` distinct
 eigenvalues and which detect, with `D₀ := nd + nq`, there is `C` such that for all `m` and all large `N`, at level `N` and modulo
 `T^m`: (K1′) `#Sel1 ≤ #Bd1·|K|^{mD₀ + C}`, `Bd1` its coboundaries; (K2′)
@@ -1008,7 +1080,13 @@ block-off-diagonal antisymmetric matrices, and `ρ¹ = (1 + Σ_k ε_kκ_k)r` ove
 `ad ρ¹ ⊗ χ`, with diagonal part in the `η`-component and off-diagonal parts in the `ε′_k`-components, with `z(σg) = s·ᵗz(g)`
 componentwise for a sign `s = ±1`, and such that `tr(z(g)ρ¹(g))_η = 0` for all `g ∈ G′`, is a coboundary of an element with the
 same symmetry. Consequently, at a normalized point of type I or E, `G′` detects, and so does a finite subset of any dense
-subset of `G′`.
+subset of `G′` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PatchedSupportCompletions.lean`
+(`UpperTheory.V.Pa.Detection`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/DeterminantPadicFree/FrameWith.lean`
+(`UpperTheory.V.Pa.DetFr`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PatchedSupportCompletions.lean`
+(`UpperTheory.V.Pa.Choice`)).
 The routes of (a) and (b) use (K1′) and (K2′) of (c), whose routes are not given in full (see there).
 [FormalProof] states (K1′) and (K2′) as `UpperTheory.V.Pa.FirstOrderDualArithmeticBound` and
 `UpperTheory.V.Pa.TaylorWilesObstructionBound` (`AV/PatchingModules/TaylorWilesObstructionBound.lean`), with the counts
@@ -1129,7 +1207,14 @@ if `n = 3` and `p` is of block type, then over `K((T))`, `ρ_p ≅ W ⊕ μ` on 
 block type*) for `σ` of rank two, irreducible on every subgroup of finite index, a character `ψ`, and `u` such that the
 eigenvalues of `σ(u)` and `ψ(u)` have free ratios, for every `(y, z) ∈ GL₂ × 𝔾_m` there is `h` in any given open subgroup with
 `charpoly(yσ(h))·(X − zψ(h))` separable; hence (N3) holds at `x_p` for `p` nice of block type; (h) (*comparison*) `(r, (ψ_{v,i})) ↦ (det(r ⊗ κ), (ψ_{v,i}κ|_{G_v}))`
-defines a surjection `Φ : B_det → B`.
+defines a surjection `Φ : B_det → B` ((a)–(c), (e)–(g): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/NiceSep.lean` (`UpperTheory.V.Pr.niceSep`); (h),
+with the setting: [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/PxIsCont.lean`
+(`UpperTheory.V.Pr.phiEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/SecondThirdPrimeConditionTransferAlt.lean`
+(`UpperTheory.V.Pr.Setup`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CurveDVRSpecialization/SecondThirdPrimeConditionTransferAlt.lean`
+(`UpperTheory.V.Pr.Setup.PhiEx`)).
 
 *Route.* (a) At a nice prime the `ψ_{v,a}` are pairwise distinct on `N_v` modulo `p`, while their reductions agree there ((F3));
 so each ratio maps `N_v` into the `1`-units of `K[[T]]`, a torsion-free group in characteristic `ℓ`; and `ψ_{v,i} ≠ ψ_{v,j}χ_ℓ`
@@ -1202,7 +1287,11 @@ successive characters `ψ_0, …, ψ_{n−1}` (`ψ_0` the subrepresentation) and
 of Hodge–Tate weight `−1`). (b) Let `C` be a local ring with maximal ideal `𝔪_C`, `r : H → GL_n(C)` a homomorphism and
 `ψ_0, …, ψ_{n−1}` characters of `H` with values in `C^×`, with `∏_i(r(g_i) − ψ_i(g_i)) = 0` for all `(g_i) ∈ Hⁿ`,
 `charpoly r(t) = ∏(X − ψ_i(t))` for all `t`, and some `s` with the `ψ_i(s)` pairwise distinct modulo `𝔪_C`. Then `Cⁿ` has a full
-flag of `H`-stable free direct summands with successive characters `ψ_0, …, ψ_{n−1}`. (a) is a corollary of PadicHodgeTheory
+flag of `H`-stable free direct summands with successive characters `ψ_0, …, ψ_{n−1}` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/FlagLoc.lean` (`UpperTheory.V.Fr.flag_loc`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/FrobeniusSmoothVectors/ZpowWNe.lean` (`UpperTheory.V.Fr.flag`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeilGroupCharacters/UniversalOrdinaryDeterminantRing.lean`
+(`UpperTheory.V.W.HasFlag`)). (a) is a corollary of PadicHodgeTheory
 §3.6; (b) applies over a field and over `Ē[ε]`.
 
 *Route.* (a) De Rham implies potentially semistable (Berger: NoncommutativeAndEquivariantIwasawa §F.6). Inertia acts on the
@@ -1226,7 +1315,9 @@ there is an `O`-algebra homomorphism `φ : R → E[[t_i]]` (no continuity is ask
 additively) sending every homogeneous element of weight `χ` to a series all of whose monomials have weight `χ`, with constant
 term `x`, such that every `t_i` is the linear part of some `φ(f)` and every element of `ker x` whose image has zero linear part
 lies in the saturation of `(ker x)²` (the two chart conditions of ReducibilityIdealsAndUltrafilterPatching §4.8, for the grading
-group `X`); `φ` is a *chart*. For `X = ℤ` and a graded algebra this is §4.8's graded smooth point.
+group `X`); `φ` is a *chart* ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CommutativeAlgebra/OrbitVanishingLocal.lean`
+(`UpperTheory.V.Alg.SmoothPt`)). For `X = ℤ` and a graded algebra this is §4.8's graded smooth point.
 
 In 3.6, let the base `B` be smooth at its origin with `ℓ_χ` coordinates of weight `χ`, and let `𝔘 = R^□` be the framed ring, with
 `a_χ = dim_k H¹_c(ad_χ)` new variables and `o_χ = dim_k Ob(ad_χ)` relations of weight `χ`. Let `t₁, …, t_p ∈ 𝔘` be homogeneous elements
@@ -1258,7 +1349,8 @@ constant term `x` such that: for every `N` and every series `f`, some nonzero mu
 `φ(R)` modulo `(t)^N`; if `φ(a) ∈ (t)^N` then some nonzero multiple of `a` lies in `(ker x)^N + P`; some `y` with `x(y) ≠ 0` has
 `yP ⊆ I`; `P` is the only minimal prime over `I` contained in `ker x`; and `dim R/P = n + 1`, `n` being the `E`-dimension of the
 space of `E`-valued point derivations of `R/I` at `x`. In particular `φ` is a chart of `R/P` at `x` with `n` coordinates (the two
-chart conditions are the density and injectivity clauses for `N = 2`).
+chart conditions are the density and injectivity clauses for `N = 2`) ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PadicHodgeTheory/SmoothCompl.lean` (`UpperTheory.V.Loc.smoothCompl`)).
 
 In the applications the `t_k` are the frame coordinates and normalization conditions that are eliminated (their
 differentials are independent), the `s_k` are the remaining normalization conditions, which become equations, and `R/(q)`
@@ -1369,7 +1461,8 @@ homomorphism `A → C`; (line) every residual lattice over `k′[X]` is the imag
 `A → k′[X]` that kills `𝔪_B`. The weight algebra `Λ → B` is the map given by the characters `ψ_{v,i}|_{I_v}`. For a `k′`-point `x` of `A`
 whose pair is a residual lattice, the completion `R_x` of `A` at `x` is flat over `A` and, with the image of the pair, is the universal
 ring of lifts of `x`. No grading of `A` and no action of the rank-two torus on `Spec A` is asserted, and `B` is not asserted to be a
-ring of invariants;
+ring of invariants ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/RedIdeal.lean`
+(`UpperTheory.V.Ws.Space`));
 
 (b) (*presentation*) at **every** residual lattice `x`: `R_x ≅ O′[[x₁, …, x_N]]/(f₁, …, f_{N′})` (`O′` the unramified extension of `O`
 with residue field `k′`) with `N − N′ ≥ 2d + 2 − 2·#{v | ℓ}`; hence any two minimal primes of `R_x` are joined by a chain of minimal
@@ -1381,12 +1474,17 @@ only if its off-diagonal support lies in one of nine sets of roots: the eight se
 of the unipotent radical of one of the two parabolic subgroups containing the torus with Levi roots `±γ`), and `{±β, ±θ}`. At a
 good residual lattice, for each of the eight sets `S` the locus of `R_x` where the support lies in `S` has dimension
 `≤ d + 20C + 1`; in cases (i)–(iv) so has the locus of `{±β, ±θ}`; in cases (v), (vi), at every prime of the locus of `{±β, ±θ}` and
-for every `v | ℓ`, either `ψ_{v,1} = ψ_{v,2}` on `G_v` or `ψ_{v,2} = ψ_{v,4}` on `G_v`;
+for every `v | ℓ`, either `ψ_{v,1} = ψ_{v,2}` on `G_v` or `ψ_{v,2} = ψ_{v,4}` on `G_v` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.RedA`), `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/RedIdeal.lean`
+(`UpperTheory.V.Ws.Fr.Good`));
 
 (b″) (*fibres and coincidences*) for a prime `𝔮` of `R_x` at which the representation is absolutely irreducible, or has support in
 `{±β, ±θ}` with these four roots occurring: `dim R_x/𝔮 ≤ dim B/(𝔮 ∩ B) + 2 + 4·#{v | ℓ}`. For an ideal `M ⊂ B` with `B/M` finite
 over `Λ`, a prime `𝔮 ⊃ (M, ϖ)` of `B` containing `ψ_{v,i}(s) − ψ_{v,j}(s)` for all `s ∈ U_v`, for some `v | ℓ` and `i ≠ j`, has
-`dim B/𝔮 ≤ 2d + 1 − d_v`;
+`dim B/𝔮 ≤ 2d + 1 − d_v` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.FibY`));
 
 (c) (*propagation at a good lattice*) assume `d > 20C + 2·#{v | ℓ}` and `d_v > 2 + 6·#{v | ℓ}` for every `v | ℓ`, and let `J ⊂ B` be an
 ideal with `B/J` finite over `Λ` satisfying (P1₄): whenever a prime of dimension one and characteristic `ℓ` of some `R_x`, at which
@@ -1397,7 +1495,9 @@ ideals `J` with all the clauses of 3.20(e), and under the single inequality `30(
 local degrees above `ℓ`) gives the two inequalities above. The form above is what its route uses;
 
 (d) (*lines*) if `x, x′` are linked and **every** irreducible component of `Spec A` through `x′` lies in `V(J)`, then some
-irreducible component through `x` does.
+irreducible component through `x` does ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/CompactIntegralFields/AlgHomResUnique.lean`
+(`UpperTheory.V.Ws.conn`)).
 
 The route of (a) uses ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, whose routes are not given in full (see there), and through (a) so do the routes of (b″), (c) and (d) (the rings `B ⊂ A` and the identification of `R_x`); in (b) and (b′), `R_x` may be read as the universal ring of lifts of `x`, which exists without (a).
 
@@ -1547,15 +1647,23 @@ by 0.3), `ᾱ|_{G_{F₀}}` is the character of `F₀K′/F₀` for an imaginary 
 split, with `K′ ⊄ L_{T₀}` (in the route, `K′ = ℚ(√−q)` for a prime `q ∉ S` that splits in `K`), that is, `ᾱ` is nontrivial on
 `G_{L_{T₀}}`, as the definition of a tower field requires; in Case II, `Ψ̄|_{G_{F₀}}` is the character of `F₀k₀/F₀` for a real
 quadratic field `k₀` in which `2` and `ℓ` split, it is unramified everywhere and trivial on the decomposition groups above `ℓ`, and
-`ᾱ⁴ ≠ 1` at some element of every decomposition group of `F₀` above `ℓ` and of every inertia group of `F₀` above `2`;
+`ᾱ⁴ ≠ 1` at some element of every decomposition group of `F₀` above `ℓ` and of every inertia group of `F₀` above `2` (follows from
+[FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/NearSplit.lean`
+(`UpperTheory.V.Ws.Tower.Ok`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.Four`));
 
 (a′) (*stability*) every `ℓ`-extension of a tower datum is a tower datum; an `ℓ`-extension of `T₀` of (a) has the properties listed
-in (a), tameness at `ℓ` apart, with the same `K` (and the same `k₀`, resp. `K′`);
+in (a), tameness at `ℓ` apart, with the same `K` (and the same `k₀`, resp. `K′`) (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/CompactIntegralFields/PowOneInj.lean`
+(`UpperTheory.V.Ws.leFit`), `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/NearSplit.lean`
+(`UpperTheory.V.Ws.Tower.Le`));
 
 (b) (*uniform constant*) for a tower datum `T₁` tame at `ℓ` there is an integer `C ≥ 1` that is a constant of 3.19 (the conditions
 under *The constant*) over every layer `F_{T₁,m}` of the cyclotomic `ℤ_ℓ`-extension of `F_{T₁}`; `ψ` has order prime to `ℓ` on
 `G_{F_{T₁,m}}` for all large `m`; and as `[F_{T₁,m} : ℚ]` and the local degrees above `ℓ` grow like `ℓ^m` while the number of places above
-`ℓ` stays bounded, the inequalities of 3.19(c) hold over `F_{T₁,m}` for all large `m`;
+`ℓ` stays bounded, the inequalities of 3.19(c) hold over `F_{T₁,m}` for all large `m` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/CompactIntegralFields/X2.lean` (`UpperTheory.V.Ws.x2`));
 
 (c) (*chains*) for a tower datum `T₀` of (a) and every lift `ρ` of type `𝒟_sp` to a complete discrete valuation ring of
 characteristic `0` or `ℓ` that is absolutely irreducible, or a nonsplit block triangular extension in which `⟨e₂, e₄⟩` is stable
@@ -1568,7 +1676,13 @@ coboundary there; a finite set `W` of primes `w ∉ S`, `w ≡ 1 mod ℓ`, compl
 `ω`; and the `ℓ`-extension `T₁` of `T₀` by the subfields of degree `ℓ` of the `ℚ(μ_w)`, `w ∈ W`, tame at `ℓ`; such that over every
 `ℓ`-extension `T` of `T₁` on which `ψ` has order prime to `ℓ` there is a seed (d), and `c|_{G_{F_T}}` (with the flags induced by that
 of `ρ`) is joined to the residual lattice of the seed by a finite chain of links through good residual lattices of 3.19 over
-`T`, the two ends included;
+`T`, the two ends included (Case II: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/Chain2.lean`
+(`UpperTheory.V.Ws.deep_tower_residue_chain_exists`); Case III: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.RankFourChainReductionDense`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalTwists/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.Chain4`));
 
 (d) (*seeds*) the two existence statements below are theorems of [FormalProof] whose route is not given here (their two constructions are outlined after the routes). A *seed* over a tower datum `T` is a lift of 3.19 over `T` with values in the ring of integers of a
 finite extension of `Φ`, absolutely irreducible on `G_{L_T(μ_{ℓ^∞})}`, whose ordinary characters satisfy `ψ_{v,i}² = χ_ℓ^{h_i}` on an
@@ -1803,8 +1917,16 @@ AutomorphicGaloisRepresentationsPartII AG2.5, AG2.6; ModularityAndLanglandsExten
 The data are those of the setting of 4.5 (which uses only Layer 0): `ℓ`, `e`, `N`, `ψ`, `O`, `η₄`, `S_b`, `T_b`, the host data (including
 the Bernoulli threshold), `Ψ = χ_ℓ^eψ`, and the problem `𝒟_G`, with `ad = ⊕_j ad_j` the `𝒢₃`-adjoint of `r̄` graded by the unitary
 weights. Prove that the host data imply: (a) (*separation*) for every `v ∈ T_b` there is `x_v` in the decomposition group at `v` with
-`η₄(x_v) = 1`, `ω(x_v) = 1` and `Ψ(x_v)² − 1` a unit; and `Ψ` is trivial on `I_p ∩ ker η₄ ∩ ker Ψ̄` at the primes `p ∉ T_b`; (b) (*local
-vanishing*) `H²(G_{ℚ_v}, ad_j) = 0` for `v ∈ T_b`, `j ≠ 0`, and `H¹(G_{ℚ_v}, ad_j) = 0` for `v ∈ S_b`, `j ≠ 0`; (c) (*the count*)
+`η₄(x_v) = 1`, `ω(x_v) = 1` and `Ψ(x_v)² − 1` a unit; and `Ψ` is trivial on `I_p ∩ ker η₄ ∩ ker Ψ̄` at the primes `p ∉ T_b`
+([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/DyadicCharacterPowerNeOne.lean`
+(`UpperTheory.V.UnitaryThreeInertia.exists_sigma`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/HostOk.lean`
+(`UpperTheory.V.UnitaryThreeInertia.hostFrame_ok`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/AdjointDiagonalRepPreservesWeightPiece.lean`
+(`UpperTheory.V.UnitaryThreeInertia.Frame.Ok`)); (b) (*local
+vanishing*) `H²(G_{ℚ_v}, ad_j) = 0` for `v ∈ T_b`, `j ≠ 0`, and `H¹(G_{ℚ_v}, ad_j) = 0` for `v ∈ S_b`, `j ≠ 0` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/AdjointDiagonalRepPreservesWeightPiece.lean`
+(`UpperTheory.V.UnitaryThreeInertia.Frame.LocVan`)); (c) (*the count*)
 `dim H¹_𝓛(ad_j) − dim Ob(ad_j) = 0, −1, 0, +1, +1` for `j = −2, −1, 0, 1, 2`, where `H¹_𝓛` is the residual Selmer group with the
 local conditions of `𝒟_G` (at `ℓ`: a coboundary in negative weight, unramified in weight `0`, free in positive weight; elsewhere
 zero on `I_p ∩ G_{ℚ(i)} ∩ ker Ψ̄`) and `Ob(ad_j)` the dual Selmer group (classes of `ad_j^*(1)` with the orthogonal local conditions,
@@ -1860,7 +1982,12 @@ the places of `L` above `M′` are split over `L⁺`, and `χ′` is unramified 
 form up to complex conjugation (`ᵗr(g)Pr(cgc⁻¹) = P`), residually `χ̄_ℓ^jχ̄′ ⊕ 1 ⊕ (χ̄_ℓ^jχ̄′)⁻¹`, diagonalisable with characters
 `χ′, 1, χ′⁻¹` on every inertia group away from `ℓ`, with at every place above `ℓ` a stable flag on whose graded pieces inertia acts
 by `χ_ℓ^m, 1, χ_ℓ^{−m}`, and such that `r ⊗ χ_ℓ⁻¹` is automorphic in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f),
-with the clauses (w1), (w2) there. The clauses (w1), (w2) in (c), and (d), are theorems of [FormalProof] whose route is not given
+with the clauses (w1), (w2) there. (a), apart from its value `L(1 − k, χ)/2 = −B_{k,χ}/(2k)`: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/ConstSmall.lean` (`UpperTheory.V.Sd.EisChi`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/ConstSmall.lean` (`UpperTheory.V.Sd.EisCoef`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/ConstSmall.lean` (`UpperTheory.V.Sd.EisVan`); (b) follows
+from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/ShapeFacts.lean`
+(`UpperTheory.V.Sd.PropEG`). The clauses (w1), (w2) in (c), and (d), are theorems of [FormalProof] whose route is not given
 here; (d) is outlined in step (6) of the route of 4.2. [FormalProof] states (c) as `UpperTheory.V.Sd.Seed2Alt`
 (`DTC/SdStmt.lean`), proved as `UpperTheory.V.Z.Bc.second_initial_of_prints` (`DTC/FinOrderOfKills.lean`), and (d) as
 `UpperTheory.V.Z.Sym.UnitaryThreeAutomorphyDense` (`DTC/SymUse.lean`), proved as
@@ -1929,7 +2056,9 @@ Let `K` be an imaginary quadratic field with character `η_K` and discriminant `
 there is a continuous character `κ` of `G_K`, the `ℓ`-adic character (AutomorphicGaloisRepresentationsPartII AG2.0) of an algebraic
 Hecke character of `K` with exponents `−1` and `0` at the two embeddings, unramified outside `ℓd_K`, such that `κκ^c = χ_ℓ⁻¹`,
 `κ ∘ Ver = η_Kχ_ℓ⁻¹` (`Ver : G_ℚ^{ab} → G_K^{ab}` the transfer; equivalently `κ(t²) = −χ_ℓ(t)⁻¹` for `t ∉ G_K`), and `κ` has order prime to
-`ℓ` on every inertia group at a place not above `ℓ`. Consequently, for a CM field `L ⊇ K`, `κ|_{G_L}` is a character as in 3.16 with
+`ℓ` on every inertia group at a place not above `ℓ` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/ShapeFacts.lean` (`UpperTheory.V.Sd.Twist`)).
+Consequently, for a CM field `L ⊇ K`, `κ|_{G_L}` is a character as in 3.16 with
 `n = 2`, for every `M` divisible by `ℓd_K` (in rank three `χ_ℓ⁻¹|_{G_L}` serves). It weakens the canonical conditions of
 ComplexMultiplicationAndExplicitReciprocity §4.3 (Gross–Rohrlich characters, which exist only for `d_K ≠ −3` with `d_K` odd or
 `8 | d_K`) so as to exist for every imaginary quadratic field.
@@ -2020,7 +2149,12 @@ coordinates in weights `−2, …, 2`: there is a homomorphism `𝔘 → Φ[[t�
 the universal lift to a series homogeneous of the weight of the entry, for weights of the `t_i` of which `1, 2, 3, 4, 2` are
 `−2, …, 2`, and inducing an isomorphism from the cotangent space of `R_ℓ` at `x`, tensored with `Φ`, to `⊕Φt_i`. All this for `ℓ`
 split or inert in `K`, for every `e ≥ 1`, also when `e = 1` and `Ψ = χ_ℓ` on the decomposition group, and for `O` the ring of integers
-of any finite extension of `ℚ_ℓ`. (*Remark.* `R_ℓ` is the component through the diagonal lift of the Zariski closure of the locus
+of any finite extension of `ℚ_ℓ` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CrystallineOrdinaryIdeals/OrdinaryLocusIdealLeKerOfIsBasePoint.lean`
+(`GlobalTheory.OrdLoc.saturatedOrdinaryIdeal_smooth_at_residualRep`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PadicHodgeTheory/RtChart.lean` (`UpperTheory.V.Loc.rtChart`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PadicHodgeTheory/RtPoints.lean` (`UpperTheory.V.Loc.rtPoints`)).
+(*Remark.* `R_ℓ` is the component through the diagonal lift of the Zariski closure of the locus
 of lifts that are ordinary at the places of `K` above `ℓ`, with diagonal characters equal on `I_ℓ ∩ ker η_K` to `χ_ℓ^e comp_ℓψ`, `1`,
 `(χ_ℓ^e comp_ℓψ)⁻¹`, and whose consecutive diagonal characters are not in ratio `χ_ℓ` on the decomposition group: the relations
 with the characters `Ψ, 1, Ψ⁻¹` on `I_ℓ ∩ ker η_K` hold on `R_ℓ`, at its points over finite local algebras, which separate it;
@@ -2047,7 +2181,8 @@ the route below;
 
 (shape) every two-signed point is of *type I* (`ρ_ξ` irreducible) or of *type II*: `ρ_ξ ≅ W|_{G_K} ⊕ μ` on the coordinates
 `{1, 3}` and `{2}`, for a character `μ` of `G_K` and a two-dimensional representation `W` of `G_ℚ` with `det W = η_K` and
-`W|_{G_K}` irreducible, determined up to twist by `η_K`;
+`W|_{G_K}` irreducible, determined up to twist by `η_K` (with the last clause of (points): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/PtShape.lean` (`UpperTheory.V.U3.twoPt_shape`));
 
 (strong irreducibility) if moreover `(ℓ − 1) ∤ 2e` and `(comp_ℓ ψ)² = 1`, every type I point is irreducible on every open
 subgroup of `G_K` and of `G_{K(μ_{ℓ^∞})}`, and at every type II point `W` is irreducible on every open subgroup of `G_K` and of
@@ -2146,7 +2281,12 @@ quadratic field `K′` with `W|_{G_{K′}}` irreducible, `W|_{G_{K′}}` satisfi
 HeckeIdealsAndTaylorWilesRelations §3.13a(f);
 
 (d) every type I point as in (b) is *unlinked* at `ℓ`: at each place of `K` above `ℓ` no two of its ordinary characters are in
-ratio `χ_ℓ` on the decomposition group.
+ratio `χ_ℓ` on the decomposition group ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AdmissibleTypeIEvenLevel.lean`
+(`UpperTheory.V.Z.J.admissible_typeI_even_level_alt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/AutP.lean` (`UpperTheory.V.Th.Unl`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/NumberU3US.lean`
+(`UpperTheory.V.Z.J.AdmI_s`)).
 
 The route uses HeckeIdealsAndTaylorWilesRelations §4.2a, in (a)–(c) through steps (3)–(5), 3.15(c) (K1′), (K2′), in (a)–(c) through step (4), and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), in (a)–(c) through step (6), all also in (d) through (b); their routes are not given in full (see there). The clauses (w1), (w2) in (b) and (c) are theorems of [FormalProof] whose routes are not given here. [FormalProof] states (a), (b) and (c) as `UpperTheory.V.Aut.AutomorphyUnramifiedCoefficientsAlt` (`DTC/AutomorphyUnramifiedCoefficients.lean`), under the hypotheses of 4.2 for coefficients unramified over `ℤ_ℓ`, with the automorphy of (b) in the form `UpperTheory.V.U3.Dat.IsAutIAlt` (`DTC/IsAutI.lean`): `ρ|_{G_K} ⊗ χ_ℓ⁻¹` attached, with the clauses (w1), (w2); the weight of `π` is not a clause of its statement.
 
@@ -2201,9 +2341,10 @@ conjugation, `c` by `X ↦ −X^*`, the adjoint for the form), and `H¹_f(ℚ, a
 (PotentialAutomorphyInfrastructurePartII §9.3). Under the hypotheses of 4.2, prove: (i) (*diagonal points*) a point
 of `𝒟` that is both upper and lower triangular is the diagonal point; (ii) (*rigidity at the diagonal point*)
 `H¹_f(ℚ, Φ(Ψ⁻¹)) = H¹_f(ℚ, Φ(Ψ⁻²)) = 0` and the same for the `η_K`-twists, and the weight-zero deformations of the diagonal
-characters are trivial; so the tangent vectors of weight `≤ 0` at the diagonal point vanish rationally; (iii) (*rigidity at
-two-signed points*) `H¹_f(ℚ, ad r) = 0` at every two-signed point; (iv) at
-every two-signed point `ξ`, any two `Ē`-valued point derivations of `A/I` at `ξ` are proportional. The route of (iii), (iv) uses, through 4.2(b)–(d), HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
+characters are trivial; so the tangent vectors of weight `≤ 0` at the diagonal point vanish rationally ((i), (ii): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/Rigid0.lean` (`UpperTheory.V.U3.PtHyp`)); (iii)
+(*rigidity at two-signed points*) `H¹_f(ℚ, ad r) = 0` at every two-signed point; (iv) at
+every two-signed point `ξ`, any two `Ē`-valued point derivations of `A/I` at `ξ` are proportional ((iii), (iv) follow from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/RigEnd3.lean` (`UpperTheory.V.Th.RigidityFirstCase`)). The route of (iii), (iv) uses, through 4.2(b)–(d), HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
 
 *Route.* (i) A point that is both upper and lower triangular is diagonal, `diag(Ψ′, μ, Ψ′⁻¹)`; `Ψ′Ψ⁻¹` and `μ` are characters
 of `G_K` of `ℓ`-power order, trivial on inertia away from `ℓ` (the condition away from `ℓ`) and with the inertial characters
@@ -2252,7 +2393,9 @@ direction. *Needs:* 4.1, 4.2; BernoulliBoundsForClassGroupEigenspaces §§6.17, 
 *Setting.* Let `χ` be primitive, `E = E_n(χ, Q)` a host field, `ℓ` odd, `2 ≤ e < t`, and `ψ ∈ X(E, e)` in Case II or Case III
 (0.4), so that `χ_P(ℓ, ψ) ≠ 1`. Let `O` be the ring of integers of a finite extension `Φ` of `ℚ_ℓ` containing the values of `ψ`
 and the `2^m`-th roots of unity, with residue field `k`. Let `ξ = ξ₀ξ′`, `ξ′` an odd primitive character of conductor `2^m`, where
-`m = m(ℓ, ψ)` is the least integer with `2^m ≥ max(ℓN·4^{n₀}, 2^{c₂(ψ)+6}·o_χ·ℓ³·f_χ²)` in Case II and with
+`m = m(ℓ, ψ)` is the least integer with `2^m ≥ max(ℓN·4^{n₀}, 2^{c₂(ψ)+6}·o_χ·ℓ³·f_χ²)` in Case II ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+(`UpperTheory.V.HV.Host.nII`)) and with
 `2^m ≥ max(ℓ·f_χ·p₁(χ)·4^{n₀}, 8ℓ²)` in Case III; here `n₀ = v₂(ℓ^{f₀} − 1)`, `f₀` is the order of `ℓ` modulo `lcm(4, o₁)`, and `o₁` the
 order of the prime-to-`ℓ` part of `ψ` with its component at `2` removed. `ξ₀ = 1` in Case II, and in Case III `ξ₀` is a character
 modulo `p₁(χ)` of order exactly `o_ψ`. Put `Ψ = χ_ℓ^e ψ`,
@@ -2284,15 +2427,23 @@ two of the four characters differ by `ω` on `G_L`); no nontrivial quadratic cha
 by multiplication; some ratio of two of them has order `> 4` on `G_L`; and at each place of `F` above `ℓ`, either `ω` is ramified,
 or some element of the decomposition group has `ω = 1`, `Ψ̄ = 1`, `ᾱ ≠ 1`. The condition on `ω` gives, by Chebotarev, auxiliary
 places `v₀` of `L`, of prime norm, of residue characteristic outside any given finite set, split over `F`, at which the four
-residual characters agree and are unramified and `Nv₀ ≢ 1 mod ℓ`.
+residual characters agree and are unramified and `Nv₀ ≢ 1 mod ℓ` (tower fields and the host: [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/NearSplit.lean` (`UpperTheory.V.Ws.Tower.Ok`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/NearSplit.lean` (`UpperTheory.V.Ws.Ctx2`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+(`UpperTheory.V.HV.Host`)).
 
 *Prove:*
 
 (local chart) the completed tensor product over `O` of the framed rings of the conditions of `𝒟_sp` at the places of `T` (the
 component through `r₀` of the ordinary lifts with the fixed inertial characters at `ℓ`, and of the lifts trivial on `I_p ∩ ker ψ` at
 `p ∈ S_b`) is smooth at `r₀` (in the sense of 3.18) with `2 + b` coordinates on each positive root, `1 + b` on each negative root and
-`2 + 2b` in weight `0`, `b = #S_b`: the ring at `ℓ` is regular at `r₀`, the component through `r₀` is unique, and it has `2`
-coordinates on each positive root, `1` on each negative root and `2` in weight `0`; the ring at each `p ∈ S_b` has `1` on each root
+`2 + 2b` in weight `0`, `b = #S_b` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/LocBase.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.locBase`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/ResidueCharMemLevelPrimes.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.LocBase`)): the ring at `ℓ` is regular at `r₀`, the component through `r₀` is
+unique, and it has `2` coordinates on each positive root, `1` on each negative root and `2` in weight `0`; the ring at each `p ∈ S_b` has `1` on each root
 and `2` in weight `0`;
 
 (model) there are a complete local domain `R` with a `ℤ²`-weighted presentation, smooth at its origin `x` (3.18) with one
@@ -2304,7 +2455,13 @@ whose restrictions at `T` are points of the local rings; it need not represent `
 subalgebra `A = ⊕_n R_{(0,n)}` of `λ`-weight zero, graded by the `μ`-weight, is a graded local algebra with a torus-fixed point
 (ReducibilityIdealsAndUltrafilterPatching §4.8), generated over `A₀` in weights `±1, ±2`, and `x` is a graded smooth point of `A`, for the
 saturated square of `A`, with `0, r, m, r′ + 1, 1` coordinates of weights `−2, −1, 0, 1, 2`; `F, E, Z` are equations of `A` of weights
-`−1, 1, 0`, and `F, Z` span `cot_{−1}(x)`, `cot_0(x)` of `A` over `Φ`;
+`−1, 1, 0`, and `F, Z` span `cot_{−1}(x)`, `cot_0(x)` of `A` over `Φ` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/ExModel.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.exModel`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/EntryMem.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Model`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/ASmooth.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.aSmooth`));
 
 (points) every `Ē`-point of `A/(F, E, Z)` lifts to an `Ē`-point of `R^{gr}/(F, E, Z)` (the quotient by `λ` is surjective on geometric
 points), and such a point can be moved by the rank-two torus to an integral point congruent to `r₀`, that is to an `Ē`-point of
@@ -2313,7 +2470,9 @@ lie in one `𝔾_m`-orbit.
 Every `Ē`-point `ρ` of `𝒟_sp` is irreducible, or *triangular* for an ordering of the basis, or *block* triangular for
 `⟨e₁, e₃⟩ ⊕ ⟨e₂, e₄⟩` (all entries of positive `λ`-weight vanish, or all of negative `λ`-weight) with both entries `(1, 3)` and
 `(3, 1)` not identically zero; a triangular point has either all entries of negative `μ`-weight zero and inertial character
-`θ` on the entry `(1, 1)` at `ℓ`, or all entries of positive `μ`-weight zero and inertial character `α` there, the second
+`θ` on the entry `(1, 1)` at `ℓ`, or all entries of positive `μ`-weight zero and inertial character `α` there ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DiagCases.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.diagCases`)), the second
 being possible only if `Ψ̄` is trivial on the decomposition group at `ℓ`;
 
 (unlinked) every point is unlinked at `ℓ` on every open subgroup `U` of the decomposition group containing `Frob_ℓ`: its
@@ -2324,14 +2483,21 @@ decomposition group itself; the form for its open subgroups containing `Frob_ℓ
 (tangent) for every `b ≠ 0` in `O` and every class of `Ш_{ψ,e}(S)` killed by `b`, with normalized cocycle `c` (3.4, normalized at
 the marked element `g₂`, at which `Ψ̄(g₂) ≠ 1`), there is an
 `O`-valued point derivation of `R` at `x` of weight `(0, −1)`, killing `(F, E, Z)` modulo `b`, that agrees modulo `b` with the
-first-order lift `(1 + εc(g)(E_{31} + E_{42}))r₀(g)`: the hypothesis of 3.4 holds;
+first-order lift `(1 + εc(g)(E_{31} + E_{42}))r₀(g)`: the hypothesis of 3.4 holds ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/MPrime.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.mPrime`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/EntryMem.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Model`));
 
 (irreducibility) every irreducible point `ρ` is irreducible on `G_{K(μ_{ℓ^∞})}` for every abelian field `K` unramified at the
 primes of `S` other than `ℓ`; it is irreducible on `G_L` and on `G_{L(μ_{ℓ^∞})}` for every tower field `L`; and if moreover some
 element of a decomposition group of `L` above `ℓ`, in the kernel of `χ_ℓ`, has eigenvalues under `ρ` with no ratio of finite
 order, every nonempty open subset of `G_{L(μ_{ℓ^∞})}` contains an element at which `ρ` has separable characteristic
 polynomial. The same holds for points over `k[[t]]` whose ordinary characters are pairwise distinct on `I_ℓ ∩ ker χ_ℓ`, with
-the element supplied automatically. At an irreducible point with values in `ℚ̄_ℓ` that is automorphic over a tower field `L`
+the element supplied automatically (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/CompactIntegralFields/H4.lean` (`UpperTheory.V.Ws.h4`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/AutomorphicCharacters/IrrOfStab.lean`
+(`UpperTheory.V.Ws.auIrr`)). At an irreducible point with values in `ℚ̄_ℓ` that is automorphic over a tower field `L`
 and unlinked ((unlinked)), such an element exists (*free ratios at characteristic zero*). The same two conclusions for
 representations of `G_L` automorphic in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f), which need not be points of
 `𝒟_sp`, are 3.20(f);
@@ -2343,14 +2509,22 @@ irreducible, is
 `T₁` as in 3.20(c) and, for every large `m`, with `T` the `m`-th layer of the cyclotomic `ℤ_ℓ`-extension of `F_{T₁}`, a lattice whose
 restriction to `G_{F_T}` is a point of `V(J)` for an ideal `J` as in 3.20(e) over `T`; consequently pro-modular
 `Ē`-points are *weakly pure* (3.20(e)(pur)): on an open subgroup, at almost all Frobenius elements `σ`, of norm `Q`, any two
-eigenvalues `y, z` of `ρ(σ)` satisfy `|y| < Q|z|` under the isomorphism `ι` of 3.20(e)(pur);
+eigenvalues `y, z` of `ρ(σ)` satisfy `|y| < Q|z|` under the isomorphism `ι` of 3.20(e)(pur) (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PotentialModularityTower.lean`
+(`UpperTheory.V.Ws.ProModAlt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PromodularityCaseThree.lean`
+(`UpperTheory.V.Cu.PromodularityCaseThreeDense`));
 
 (a) for every lift of type `𝒟_sp` over a complete local `O`-algebra, the `O`-algebra generated by the monomials of weight `(0, 0)`
 in its matrix entries is finite over `O`; equivalently, every lift to a complete discrete valuation ring of characteristic `ℓ`
 has, on a subgroup of finite index, the weight-zero monomials of `r̄₀`; consequently the image of `A₀` in `A/(F, E, Z)` is finite
 over `O`;
 
-(a′) no point of `𝒟_sp` is of block type with irreducible block on `⟨e₁, e₃⟩`;
+(a′) no point of `𝒟_sp` is of block type with irreducible block on `⟨e₁, e₃⟩` ((a), (a′): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/IsAut4.lean`
+(`UpperTheory.V.Aut.SymplecticFourImageDense`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DecompSigmaOrd.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Raw.Fin0`));
 
 (b) every irreducible point `ρ` with values in `ℚ̄_ℓ` is automorphic over imaginary quadratic fields: there is an isomorphism
 `ι : ℚ̄_ℓ ≅ ℂ` such that for every imaginary quadratic field `K` with `ρ|_{G_K}` irreducible, `ρ|_{G_K}` is attached to a regular
@@ -2511,7 +2685,9 @@ clauses (w1), (w2) there, and every type I point is unlinked at `ℓ` (so is eve
 [FormalProof] is for type I points);
 
 (c) `H¹_f(ℚ, ad r) = 0` at every type I point, and at every two-signed point any two `Ē`-valued point derivations of `A/I`
-are proportional;
+are proportional (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/HostNumberS.lean`
+(`UpperTheory.V.UnitaryThreeInertia.HostRigid_s`));
 
 (d) `𝒟_G` has no two-signed point of type II.
 
@@ -2577,7 +2753,11 @@ Prove: (a) in 4.2, every two-signed point of `𝒟(ψ, e, K)` is of type I, irre
 `G_{K(μ_{ℓ^∞})}`, or of type II with `W` irreducible on every open subgroup of `G_K` and of `G_{K(μ_{ℓ^∞})}`; (b) in 4.5, every
 two-signed point of `𝒟_G` is of type I and irreducible on every open subgroup of `G_{ℚ(i)}` and of `G_{ℚ(i, μ_{ℓ^∞})}`; (c) in 4.4,
 every two-signed point of `A/(F, E, Z)` comes from a point of `R^{gr}/(F, E, Z)` whose representation, after scaling by the torus, is
-an irreducible point of `𝒟_sp`; two-signed points whose representations are conjugate lie in one `𝔾_m`-orbit (so the orbits of
+an irreducible point of `𝒟_sp` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/TwoIrr.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.twoIrr`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/IrrIff.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.irrIff`)); two-signed points whose representations are conjugate lie in one
+`𝔾_m`-orbit (so the orbits of
 two-signed points map injectively to the conjugacy classes of irreducible points of `𝒟_sp`; it is not asserted that every
 irreducible point of `𝒟_sp` arises); and these representations are irreducible on `G_{K(μ_{ℓ^∞})}` for every abelian `K` unramified at the primes of `S` other than
 `ℓ`; and for every point `x₁ ≠ x` of `A/(F, E, Z)` that is both negative-zero and positive-zero, the points of `A/(F, E, Z)` with
@@ -2606,8 +2786,14 @@ the decomposition group at `ℓ`. *Needs:* 4.1, 4.4, 4.5.
 In 4.4, prove: (i) `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0` at every irreducible point `ρ` of `𝒟_sp` with values in `ℚ̄_ℓ`, `𝔰𝔭₄(ρ)` the adjoint
 representation of `Sp₄` composed with `ρ`; (ii) every first-order deformation of `ρ` that is a point of `𝒟_sp` over `Ē[ε]` is
 `ρ + ε(Xρ − ρX)` with `X ∈ 𝔰𝔭₄(Ē)`; (iii) at every two-signed point of `A/(F, E, Z)`, any two `Ē`-valued point derivations of `A`
-killing `(F, E, Z)` are proportional; (iv) (*the clauses (w1), (w2) under twist and restriction*) let `K` be a CM field and
-`r : G_K → GL_n(ℚ̄_ℓ)`, `n ≥ 1`, a continuous representation satisfying the clauses (w1), (w2) of HeckeIdealsAndTaylorWilesRelations
+killing `(F, E, Z)` are proportional ((ii), (iii) follow from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/RigEnd3.lean`
+(`UpperTheory.V.Th.RigiditySymplecticFour`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DecompSigmaOrd.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Raw.RigidAt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/RigidDiag.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.rigidDiag`)); (iv) (*the clauses (w1), (w2) under twist and restriction*) let `K` be
+a CM field and `r : G_K → GL_n(ℚ̄_ℓ)`, `n ≥ 1`, a continuous representation satisfying the clauses (w1), (w2) of HeckeIdealsAndTaylorWilesRelations
 §3.13a(f); then `r ⊗ μ` satisfies them for every continuous character `μ` of `G_K` attached through `ι` to an algebraic Hecke
 character; and if `r` is attached to a regular algebraic cuspidal representation of `GL_n(𝔸_K)`, is polarized
 (`ᵗr(g)Pr(cgc⁻¹) = μ₀(g)P` for a complex conjugation `c`, an invertible matrix `P` and an algebraic character `μ₀` of `G_{F₀}`, `F₀ ⊂ K` totally
@@ -2664,22 +2850,43 @@ trivial on `G_{F(μ_M)}` (so `r(I_w)` is finite), and at every `w | ℓ` there i
 characters `κ_i`, `κ_i|_{I_w} = χ_ℓ^{m_i}χ_i` with `χ_i` trivial on `G_{F(μ_M)}`; and that it is *unlinked at `ℓ`* if moreover
 `κ_i ≠ κ_jχ_ℓ` on the decomposition group for all `i, j`. The *weight of `m`* is the weight `a` of AutomorphicGaloisRepresentationsPartII
 AG2.0 with labelled weights `a_{τ,i} + n − i = −m_{n+1−i}` at every embedding `τ` (the Hodge–Tate weights `−m_i`); twisting `r` by `χ_ℓ^k`
-replaces `m` by `m + k` and `a` by `a − k`. Prove:
+replaces `m` by `m + k` and `a` by `a − k` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/LocIsotypic.lean` (`UpperTheory.V.Af.FlagAt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AutomorphicForms/IsoOfFrob.lean` (`UpperTheory.V.Af.infOf`)). Prove:
 
 (0) (*level theorem*) for `F` CM, `ℓ` odd and `r` attached to a regular algebraic polarized cuspidal `π` of `GL_n(𝔸_F)` (conjugate
 self-dual up to a twist, as in AutomorphicGaloisRepresentationsPartII AG2.6): if `r` has Galois level `M` and cyclotomic exponents
 `m`, and either `ℓ | M` or `r` is unlinked at `ℓ`, then `π^{K(M)} ≠ 0` for the principal congruence subgroup
-`K(M) = ker(GL_n(𝒪̂_F) → GL_n(𝒪̂_F/M))`, and `π` has the weight of `m` (in [FormalProof] the level statement is local at the
-places above `ℓ`, and the clause on the weight is not part of it: that clause is the roadmap's own, by the route below);
+`K(M) = ker(GL_n(𝒪̂_F) → GL_n(𝒪̂_F/M))`, and `π` has the weight of `m` (this follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevDefs.lean`
+(`UpperTheory.V.Lev.FixedSsAlt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevFixed.lean`
+(`UpperTheory.V.Lev.fixedSs_of_prints`), whose level statement is local at the
+places above `ℓ`; the clause on the weight is not part of it: that clause is the roadmap's own, by the route below);
 
 (a) in 4.2, every type I point has Galois level `N` and cyclotomic exponents `(e, 0, −e)` over `K` and is unlinked (4.2(d)), so
 `π^{K(N)} ≠ 0`, with `N` independent of `ℓ` (`ℓ | N` is allowed); at every type II point `W` has Galois level `N|d_K|` and exponents
 `(e, −e)` over `ℚ` and is unlinked, and the cuspidal representation of `GL₂(𝔸_ℚ)` attached to `W ⊗ χ_ℓ^{−e}` has a nonzero vector
-fixed by the principal congruence subgroup of level `N|d_K|`;
+fixed by the principal congruence subgroup of level `N|d_K|` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/NumberU3US.lean`
+(`UpperTheory.V.Z.J.Adm3U_s`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AfStmt.lean`
+(`UpperTheory.V.Af.Adm3Alt`), `Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/AutP.lean`
+(`UpperTheory.V.Th.Unl`));
 
-(b) in 4.5, every type I point has Galois level `N` over `ℚ(i)` and is unlinked, so `π^{K(N)} ≠ 0`;
+(b) in 4.5, every type I point has Galois level `N` over `ℚ(i)` and is unlinked, so `π^{K(N)} ≠ 0` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/LevelAt.lean`
+(`UpperTheory.V.UnitaryThreeInertia.levelAt_of_pt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeDeformations/LevelAway.lean`
+(`UpperTheory.V.UnitaryThreeInertia.levelAway_of_pt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/EHostUnl.lean`
+(`UpperTheory.V.Z.J.hostUnlE_alt`));
 
-(c) in 4.4, every point has Galois level `M = ℓ·2^m·N·p₁(χ)` and cyclotomic exponents `(e + 1, e, 1, 0)`, and `ℓ | M` (the points
+(c) in 4.4, every point has Galois level `M = ℓ·2^m·N·p₁(χ)` and cyclotomic exponents `(e + 1, e, 1, 0)`, and `ℓ | M`
+([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DirGPowOne.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.levOf`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AfStmt.lean`
+(`UpperTheory.V.Af.AdmRAlt`); the points
 are also unlinked, 4.4 (unlinked)); so for every
 imaginary quadratic `K` with `ρ|_{G_K}` irreducible, the representation of 4.4(b) over `K` (polarized: `ρ` is symplectic with
 multiplier `θ`) has a nonzero `K(M)`-fixed vector.
@@ -2735,7 +2942,10 @@ Layers 0 and 3 above. From this family: ReducibilityIdealsAndUltrafilterPatching
 
 ### 5.1 Class numbers of quadratic fields
 
-For every prime `ℓ ≡ 1 mod 4` prove `h(ℚ(√ℓ)) < ℓ`; in particular `ℓ ∤ h(ℚ(√ℓ))`. The general bound
+For every prime `ℓ ≡ 1 mod 4` prove `h(ℚ(√ℓ)) < ℓ`; in particular `ℓ ∤ h(ℚ(√ℓ))` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LevelCohomology/HQuad.lean` (`UpperTheory.V.X.hQuad`),
+`Development/AbelianVarietyTheory/Proofs/CovolumeBounds/ExistsIdealInClassOfNormLeSqrtDiscr.lean`
+(`GlobalTheory.classNumber_le_sqrt_discr_mul_pow_pred`)). The general bound
 `NumberField.classNumber_le_bound` of EffectiveBounds (`h ≤ |d|·4ⁿ`) is too weak for this.
 
 *Route.* The discriminant of `ℚ(√ℓ)` is `ℓ`, and `b = √ℓ` is admissible (ExplicitNumberFields §0.3: it is at least the
@@ -2749,8 +2959,10 @@ less than `ℓ` because `1 + log y < y` for `y > 1`. *Needs:* ExplicitNumberFiel
 
 ### 5.2 Case Z: the trivial character
 
-Prove `Ш¹(ℚ, ℓ, e) = 0` for every prime `ℓ ≥ 5` and every even `e ≥ 2` with `(ℓ − 1) | 2e`. Through the duality of
-BernoulliBoundsForClassGroupEigenspaces §6.17 this extends the unconditional vanishing of the trivial component in
+Prove `Ш¹(ℚ, ℓ, e) = 0` for every prime `ℓ ≥ 5` and every even `e ≥ 2` with `(ℓ − 1) | 2e` ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.PropZ`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LevelCohomology/PropZ.lean` (`UpperTheory.V.X.propZ`)). Through the
+duality of BernoulliBoundsForClassGroupEigenspaces §6.17 this extends the unconditional vanishing of the trivial component in
 ArithmeticKTheory §7.5 (`K_{2e}(ℤ){ℓ} = 0` for `(ℓ − 1) | e`) to `(ℓ − 1) | 2e`; the new case is the quadratic component of `ℚ(√ℓ)`.
 
 *Route.* `Ш¹(ℚ, ℓ, e)` is a finite `ℓ`-group (BernoulliBoundsForClassGroupEigenspaces §6.17(b)), so it suffices to show that it has no element of
@@ -2773,7 +2985,7 @@ to `ℓ` by 5.1; so the class vanishes on `G_F`, hence on `G_ℚ`. *Needs:* 5.1;
 Call `(ψ, e, ℓ, K)`, with `ψ` a character modulo an even `N`, *Case-I admissible* if the hypotheses of 4.2 hold and `ℓ ∤ h_K`.
 Prove: if `(ψ, e, ℓ, K)` is Case-I admissible and `σ ∈ G_K` satisfies `tr ρ(σ) ≠ t := Ψ(σ) + 1 + Ψ(σ)⁻¹` for every two-signed point
 `ρ` of `𝒟(ψ, e, K)`, then `V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) ≤ 2 Σ_{ρ∈𝒳} v_ℓ(tr ρ(σ) − t)` for a finite set `𝒳` of two-signed
-points with pairwise non-isomorphic restrictions to `G_K`, each of type I or of type II as in 4.6(a). The route uses, through 4.2 and 4.3, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
+points with pairwise non-isomorphic restrictions to `G_K`, each of type I or of type II as in 4.6(a) (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/NumberU3US.lean` (`UpperTheory.V.Z.J.OneCharU_s`), `Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/ModelUpper.lean` (`UpperTheory.V.U3.model_upper`)). The route uses, through 4.2 and 4.3, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
 
 *Route.* Reduce to unramified `O`. Apply 3.3 to the model of 4.1 (`T₁ = 1`). (M1): 4.1 (model) gives the counts (square in
 weights `−2` and `0`, one equation more than coordinates in weight `−1`, one coordinate more than equations in weights `1`
@@ -2789,7 +3001,7 @@ two-signed points are the classes of their restrictions to `G_K` (4.1 (points)),
 Let `K` be imaginary quadratic. Prove that there are `c_K, A_K > 0` such that for every even `N ≥ 2` with `(d_K, N) = 1`, every
 `e ≥ 1`, every prime `p ≥ 7` with `p ∤ N d_K`, and every `Aut(ℂ)`-orbit `𝒪` of Dirichlet characters modulo `N` with
 `ψ(−1) = (−1)^e`, there is `NN ∈ ℤ ∖ {0}` with `log|NN| ≤ c_K #𝒪 (N(e + 1))^{A_K} log p` and `Σ_{ψ∈𝒪} V_ℓ(ψ, e) ≤ 2 v_ℓ(NN)` for every
-prime `ℓ ≠ p` at which every `ψ ∈ 𝒪` is Case-I admissible. The route uses, through 5.3, 4.2, 4.3 and 4.8, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
+prime `ℓ ≠ p` at which every `ψ ∈ 𝒪` is Case-I admissible ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean` (`UpperTheory.V.U3.PropGK`), `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean` (`UpperTheory.V.HV.orb`)). The route uses, through 5.3, 4.2, 4.3 and 4.8, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
 
 *Route.* Take `w | p` in `K`, `q = Nw ≥ 7`, `σ = Frob_w`; then `Ψ(σ) = q^eψ(q)` and `t_ψ := Ψ(σ) + 1 + Ψ(σ)⁻¹` is the Eisenstein
 trace of 3.2(b) with `z = ψ(q)⁻¹`. Let `I = I₁ ⊔ I₂`, with `I₁` the set of isomorphism classes of regular algebraic conjugate
@@ -2814,9 +3026,14 @@ AutomorphicGaloisRepresentationsPartII AG2.0, AG2.3; AutomorphicLFunctionsAndLoc
 (a) *Character form.* For `K` and `c_K, A_K` as in 5.4, prove: for every even `N ≥ 2` with `(d_K, N) = 1`, every `e ≥ 1` and
 every `Aut(ℂ)`-orbit `𝒪` of characters modulo `N` with `ψ(−1) = (−1)^e`,
 `Σ_ℓ log ℓ · Σ_{ψ∈𝒪} V_ℓ(ψ, e) ≤ 4 c_K #𝒪 (N(e + 1))^{A_K} log(7N|d_K|)`, the sum over the primes `ℓ` at which every `ψ ∈ 𝒪` is
-Case-I admissible.
+Case-I admissible (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/KatoUse.lean` (`UpperTheory.V.U3.CorGK`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/CorGSumLog.lean` (`UpperTheory.V.U3.corGK`)).
 (b) *Host form.* For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8`
-and one `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large) and every `1 ≤ e < t`: `Σ_{ℓ ∉ B(χ), (ℓ−1)∤2e} log ℓ · length Ш⁺(E, ℓ, e) ≤ (N t)^C`.
+and one `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large) and every `1 ≤ e < t`: `Σ_{ℓ ∉ B(χ), (ℓ−1)∤2e} log ℓ · length Ш⁺(E, ℓ, e) ≤ (N t)^C`
+(follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean`
+(`UpperTheory.V.HV.CountI`), `Development/AutomorphicArithmetic/AutomorphicVarieties/UnitaryThreeGroups/CountI.lean`
+(`UpperTheory.V.U3.countI`)).
 The route uses, through 5.4, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
 
 *Route.* (a) Take the two least primes `p ≠ p′`, `p, p′ ≥ 7`, not dividing `N d_K`; every admissible `ℓ` differs from
@@ -2836,8 +3053,16 @@ depend on `K_χ` and on `B(χ)`. *Needs:* 0.3, 0.4, 5.4; BernoulliBoundsForClass
 ### 5.6 Auxiliary symplectic data
 
 In the host setting, let `ℓ` be odd, `e ≥ 2` and `ψ ∈ X(E, e)` in Case II or III, so that `χ_P(ℓ, ψ) ≠ 1`. Prove that there is
-`ξ = ξ₀ξ′` as in 4.4, with the exponent `m = m(ℓ, ψ)` of 4.4, for which (G1) and (G2) of 4.4 hold, and that `2^{m(ℓ,ψ)} ≤ (ℓN)^{c(χ)}` for
-a constant `c(χ)` depending on `χ` only.
+`ξ = ξ₀ξ′` as in 4.4, with the exponent `m = m(ℓ, ψ)` of 4.4, for which (G1) and (G2) of 4.4 hold ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DataEx.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.dataEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DecompSigmaOrd.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Raw.Good`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/SymplecticGSp4/DecompSigmaOrd.lean`
+(`UpperTheory.V.GradeZeroInterpolatingElement.Raw.XVan`)), and that `2^{m(ℓ,ψ)} ≤ (ℓN)^{c(χ)}` for
+a constant `c(χ)` depending on `χ` only (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/DirichletPrimeToLPartMulLPowerPart.lean`
+(`UpperTheory.V.HV.Host.nII`)).
 
 *Route.* Only the reductions `γ̄` enter (G1), and the reduction of a character of `ℓ`-power order is trivial; so replace each
 character by its prime-to-`ℓ` part. Put `d := f₀` and `k := n₀` (the integers of the Setting of 4.4: `f₀` the order of `ℓ` modulo
@@ -2866,7 +3091,7 @@ by `5`, on which `ξ′` is faithful, and `v₂(v^{2^a} − 1) = v₂(v² − 1)
 ### 5.7 Cases II and III
 
 For `χ` there is `C` such that for every host field `E`, every odd `ℓ`, every `2 ≤ e < t` and every `ψ ∈ X(E, e)` in Case II or III:
-`V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) log ℓ ≤ (ℓNe)^C`. The route uses, through 4.4 and 4.6–4.8, 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)), 4.7(iv) and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d), whose routes are not given in full (see there).
+`V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) log ℓ ≤ (ℓNe)^C` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountII`), `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/ConductorAtMapInjectiveCoeff.lean` (`UpperTheory.V.Th.sp4Main_alt`)). The route uses, through 4.4 and 4.6–4.8, 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)), 4.7(iv) and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d), whose routes are not given in full (see there).
 
 *Route.*
 
@@ -2935,7 +3160,10 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 ### 6.1 Components of bounded order
 
 Let `ψ` be a Dirichlet character of conductor `N`, `ℓ` an odd prime, `e ≥ 1`, and `L` the field cut out by `ψ` and `μ_ℓ`, of
-conductor dividing `ℓN`. Prove `V_ℓ(ψ, e) ≤ 2 exp((2e [L:ℚ])^{C_K} [L:ℚ] log(2ℓN)) + 2[L:ℚ] ℓ N e`.
+conductor dividing `ℓN`. Prove `V_ℓ(ψ, e) ≤ 2 exp((2e [L:ℚ])^{C_K} [L:ℚ] log(2ℓN)) + 2[L:ℚ] ℓ N e` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/LiftGens.lean` (`UpperTheory.V.Chr.upV`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/AdditiveValuationNorms/ShaLeV.lean` (`UpperTheory.V.PropA.shaLeV`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Klen.lean` (`UpperTheory.V.Win.klen`)).
 
 *Route.* Going up to `L` (BernoulliBoundsForClassGroupEigenspaces §6.18(d), with the conductor `ℓN` of `L` in the local term), `length Ш¹ ≤ length H²`
 (§6.17(c)) and §9.7 at the totally complex `L ⊇ μ_ℓ`, with `log|d_L| ≤ [L:ℚ] log(ℓN)`. *Needs:* BernoulliBoundsForClassGroupEigenspaces §§6.17,
@@ -2944,7 +3172,9 @@ conductor dividing `ℓN`. Prove `V_ℓ(ψ, e) ≤ 2 exp((2e [L:ℚ])^{C_K} [L:�
 ### 6.2 Case V small
 
 For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` and every `ψ ∈ X(E, 1)` with
-`2^{c₂(ψ)} < R₁(ℓ, χ)`: `V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C`.
+`2^{c₂(ψ)} < R₁(ℓ, χ)`: `V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountVs`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountV`)).
 
 *Route.* The `2`-part of `ψ` has conductor below `R₁(ℓ, χ)` and its odd part divides `o_χ` times a quadratic part, so
 `o_ψ` and the degree of `L` in 6.1 are bounded in terms of `χ`, `ℓ ≤ max B(χ)`. *Needs:* 0.3, 6.1.
@@ -2953,7 +3183,8 @@ For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` 
 
 For `χ`, `ℓ ∈ B(χ)` and `j ≥ 0` there is `C`, depending on `χ`, `ℓ` and `j`, such that for every host field `E` and every `B ≥ 0` with
 `Σ_{1≤e<t} length Ш¹(ℚ(μ_{ℓ^{j+1} f_χ}), ℓ, e) ≤ B`, every character `ψ` of `Gal(E/ℚ)` with `χ_P(ℓ, ψ)` of odd order satisfies
-`Σ_e V_ℓ(ψ, e) ≤ B + (N t)^C`, the sum over the `e` with `2 ≤ e < t` and `ψ ∈ X(E, e)`.
+`Σ_e V_ℓ(ψ, e) ≤ B + (N t)^C`, the sum over the `e` with `2 ≤ e < t` and `ψ ∈ X(E, e)` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/LayerLe.lean` (`UpperTheory.V.HV.CountIV`)).
 
 *Route.* The `2`-power and quadratic components of such `ψ` are trivial, so its conductor divides `f_χ` and it factors
 through `ℚ(μ_{f_χ}) ⊂ ℚ(μ_{ℓ^{j+1} f_χ})`, for every `j`; going up (BernoulliBoundsForClassGroupEigenspaces §6.18(d), with the conductor `ℓ^{j+1} f_χ` in the
@@ -2962,7 +3193,7 @@ local term) and summation over `e`. *Needs:* 0.2, 0.3; BernoulliBoundsForClassGr
 ### 6.4 Case V large
 
 For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` and every `ψ ∈ X(E, 1)` with `R₁(ℓ, χ) ≤ 2^{c₂(ψ)}`:
-`V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C`. The route uses, through 4.5 and 4.8(b), 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
+`V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C` (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountV`), `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/CountVOf.lean` (`UpperTheory.V.UnitaryThreeInertia.countV_of_finiteness_duality_euler_host`)). The route uses, through 4.5 and 4.8(b), 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
 
 *Route.* As 5.3–5.4 relative to `ℚ(i)`, resting on 4.5 instead of 4.1–4.3. The host data of 4.5 hold (4.5, setting), so `𝒟_G(ψ, 1)`
 is defined for an arbitrary coefficient ring `O`, lengths being divided by `e_O`. Apply 3.3 to its model (`T₁ = 1`): (M1) from
@@ -2977,7 +3208,9 @@ the least such `p` is polynomial in `N`, `log|NN|/log ℓ` is polynomial in `N`.
 ### 6.5 The minus part at the odd primes dividing the degree
 
 Prove that there is an absolute constant `C` such that for every abelian CM field `E` of degree `n` contained in `ℚ(μ_N)`, every
-odd prime `ℓ` and every `e ≥ 1`: `Ш⁻(E, ℓ, e)` has finite length and `log ℓ · length Ш⁻(E, ℓ, e) ≤ C·ℓ·n²·(e + 1)·log²(eℓN)`.
+odd prime `ℓ` and every `e ≥ 1`: `Ш⁻(E, ℓ, e)` has finite length and `log ℓ · length Ш⁻(E, ℓ, e) ≤ C·ℓ·n²·(e + 1)·log²(eℓN)`
+([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/OddResidueBounds/ZeroMemUnrHom.lean`
+(`UpperTheory.V.Odd.StickBound`)).
 
 *Route.* Put `M = Nℓ`, `k = e + 1`, `a = 2M + 1`, `Γ = Gal(E/ℚ)`, `X = H¹(G_{E,S}, ℚ_ℓ/ℤ_ℓ(−e))`. For `b` prime to `M` let `σ_b ∈ Γ` be the
 restriction of `ζ_M ↦ ζ_M^b`; `c = σ_{−1}` is complex conjugation and `σ_a = 1`. `Γ` acts on `X` by `(σx)(g) = χ_ℓ(σ̃)^{−e}·x(σ̃⁻¹gσ̃)`,
@@ -3043,7 +3276,7 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
-`Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C`. The route uses, through 5.5 and 5.7, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+`Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C` (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/LayerLe.lean` (`UpperTheory.V.HV.SumOut`)). The route uses, through 5.5 and 5.7, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* For each `e`, Case I primes by 5.5(b). Every other good prime has `(ℓ − 1) | 2e`, hence `ℓ ≤ 2t + 1` (0.3(d)); at
 most `2t` such primes, at most `N` characters each, in Case Z (5.2), II or III (5.7), each at most `(ℓNe)^C ≤ (2Nt²)^C`.
@@ -3053,7 +3286,7 @@ Sum over `e < t`. *Needs:* 0.4, 5.2, 5.5, 5.7; BernoulliBoundsForClassGroupEigen
 
 For `χ` and `j : B(χ) → ℕ` there is `C`, depending on `χ` and `j`, such that for every host field `E` and every `B ≥ 0` bounding
 `Σ_{1≤e<t} length Ш¹(ℚ(μ_{ℓ^{j(ℓ)+1} f_χ}), ℓ, e)` for every `ℓ ∈ B(χ)`:
-`Σ_{ℓ odd} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C + C B`. The route uses, through 5.7, 6.4 and 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+`Σ_{ℓ odd} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C + C B` (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/LayerLe.lean` (`UpperTheory.V.HV.PointHV`)). The route uses, through 5.7, 6.4 and 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* For `ℓ ∈ B(χ)`, BernoulliBoundsForClassGroupEigenspaces §6.18(c) bounds `length Ш⁺` by the component lengths plus a defect
 polynomial in `Ne` per character; by 0.4 each component is in Case II (5.7), IV (6.3) or V (6.2, 6.4); the
@@ -3064,7 +3297,13 @@ BernoulliBoundsForClassGroupEigenspaces §6.18.
 
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
-(a) `Σ_{ℓ odd} log ℓ Σ_{1≤e<t} length Ш⁻(E, ℓ, e) ≤ (N t)^C`; (b) `Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ Σ_{1≤e<t} length Ш¹(E, ℓ, e) ≤ (N t)^C`.
+(a) `Σ_{ℓ odd} log ℓ Σ_{1≤e<t} length Ш⁻(E, ℓ, e) ≤ (N t)^C` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimeSetBoundDataOfPrimitiveChar.lean` (`UpperTheory.V.ThmBcFree`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/OddResidueBounds/ZeroMemUnrHom.lean` (`UpperTheory.V.Odd.PrimeBound`));
+(b) `Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ Σ_{1≤e<t} length Ш¹(E, ℓ, e) ≤ (N t)^C` (follows from [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/LengthEqAddEigen.lean` (`UpperTheory.V.shaLen_eq_add`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/LayerLe.lean` (`UpperTheory.V.HV.SumOut`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimeSetBoundDataOfPrimitiveChar.lean` (`UpperTheory.V.ThmBcFree`)).
 The route of (b) uses, through 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* (a) `E` is an abelian CM field of conductor `N`, contained in `ℚ(μ_N)`, with `[E : ℚ] ≤ N`. For the odd `ℓ ∤ [E : ℚ]`:
