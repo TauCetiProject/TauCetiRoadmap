@@ -94,7 +94,8 @@ in `ℙ^n_{O_K}`, also prove the three local statements on which the identity re
   `‖s‖_σ(x) = |⟨σ(s), x⟩|/‖x‖` is the Fubini–Study norm of the section `⟨s, ·⟩` (Philippon, Théorème 2, p. 256, restated
   as Corollaire 4, p. 272).
 
-*Route.* (i)–(iii) are local; the identity follows from them and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a along one rational
+*Route.* The identity is proved here, by this route; its published source is the comparison theorem of Bost, Gillet and
+Soulé (References). (i)–(iii) are local; the identity follows from them and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a along one rational
 hyperplane section, by induction on `d`.
 
 (ii) Let `R = O_{K,𝔭}`, `π` a uniformiser, `v` its valuation, and scale `F_Z` to content `1` at `𝔭`. First let
@@ -415,7 +416,7 @@ Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a; AlgebraicModuliFo
 ## Downstream consumers
 
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses 6.1 for the comparison of the self-intersection of the metrised `O(1)` on the image of a component with its Chow height (the bound "volume `≤` height" of the slope argument). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e (its preamble and (e3)) applies 6.2 (b) to the coordinate bundle `J̄` = the lattice of integral forms of weight `u₁` on a component `Z`, with its Petersson metrics (rank `N_Z`), and the image `X_Z` (`d = D`, degree `δ_Z`), divided by `(D + 1)·δ_Z`: `h(u₁, Z) = ht_J̄(f_Z)/((D + 1)·δ_Z) + ½·Σ_{k=1}^{N_Z−1} 1/k`, the form over a coordinate bundle in which SlopesOfHermitianVectorBundles §6.7a is stated; ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses the height of 6.2 (a) of `X_Z` for that bundle.
-- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same), and the change of metric in its route is the formula of 5.1.
+- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same).
 
 ## Scope and ownership
 
