@@ -738,7 +738,9 @@ independently of `i`. Equivalently, for every class function `χ` of `G_n`,
 `⟨χ|_{H_i}, ϕ_i⟩ = ⟨χ, Γ_{(k,n−k)}⟩ + Σ_{j=0}^{k−1} (q^{k−j} − q^{k−j−1})·⟨χ, Γ_{(j,n−j)}⟩`.
 (c) For every representation `π` of `G_n`, `dim Hom_{H_i}(ϕ_i, π) ≥ (q^k − q^{k−1})·dim Hom_{U_n}(ψ, π)`, with equality iff
 `⟨π, Γ_{(j,n−j)}⟩ = 0` for `1 ≤ j ≤ k` (for instance when `π` is cuspidal).
-There is no hypothesis on `q` (`q = 2` and non-prime `q` included). For `i = 0`, `H₀` is the group of unitriangular matrices
+There is no hypothesis on `q` (`q = 2` and non-prime `q` included). *Status.* (b) is the statement of [FormalProof], which
+proves the equality of multiplicities for every finite-dimensional representation, at `i = 0` and from each position to the
+next. For `i = 0`, `H₀` is the group of unitriangular matrices
 whose `(k+1)`-st column vanishes above the diagonal and `ϕ₀ = ψ|_{H₀}`; for `n = k + 2s + 1` and `i = s` the block sits in the
 middle of the chain. The position `i = n − k` is excluded: there the group is `U_n` and the representation is `Γ_{(n−k,k)}`.
 The character form of (b) is stated as `bessel_pairing_eq`, with `besselCharacter` for `ϕ_i` and
@@ -789,9 +791,15 @@ distinct), and `c_j = #{I ⊂ {1, …, t} : Σ_{l∈I} d_l = j}`.
 involving `s/g` and `sn/g` use `g`), and for each `v` let `(H_{i_v}, ϕ_{i_v})` in
 `GL_n(𝔽_{q_v})` be as in 2.7(b) with the same `n` and `k`, and `(L_v, σ_v)` a cuspidal pair as above, `L_v = ∏_l GL_{d_{v,l}}`. The
 multiplicity `m` of `⊠_v ϕ_{i_v}` in `⊠_v R_{L_v}^G σ_v` satisfies, with `n̄ = ∏_v q_v^k`,
-`∏_v(1 − q_v^{−1}) ≤ m/n̄ ≤ ∏_v∏_l(1 + q_v^{−d_{v,l}})`, hence `1 − s/g ≤ m/n̄ ≤ e^{sn/g}`. Consequently, if `sn ≤ g`, then
-`(1 − δ)·n̄ ≤ m ≤ (1 + δ)·n̄` with `δ = 2sn/g`.
+`∏_v(1 − q_v^{−1}) ≤ m/n̄ ≤ ∏_v∏_l(1 + q_v^{−d_{v,l}})`, hence `1 − s/g ≤ m/n̄ ≤ e^{sn/g}`. *The form of the formal proof.*
+Consequently, if `2sn ≤ g`, then `(1 − δ)·n̄ ≤ m ≤ (1 + δ)·n̄` with `δ = 4sn/g`; this is the form with the constants of
+[FormalProof] (there `s = 2f` and the statement reads: if `4f·n ≤ g`, then `|m − n̄| ≤ (8f·n/g)·n̄`). The bounds above give
+more, by `e^x ≤ 1 + 2x` on `[0, 1]`: the same inequalities with `δ = 2sn/g` as soon as `sn ≤ g`; this sharper form is this
+roadmap's own estimate, an elementary consequence of (a), and is not used by [FormalProof].
 The bounds concern the whole Harish-Chandra induced representation `R_L^G σ`, not its constituents.
+
+*Status.* (a), (b) and the first form of (c) are the statements of [FormalProof], for every finite field and every position
+`0 ≤ i ≤ n − k − 1`; the bound `q^k(1 + (2n − 1)/q)` is stated there, with the lower bound, under `n ≤ q`.
 
 *Route.* (a) By the Mackey formula (ReductiveGroups 7d) and cuspidality of `σ`, `*R_{M}^G R_L^G σ` for `M = GL_j × GL_{n−j}` is the
 sum, over the subsets `I` with `Σ_{l∈I} d_l = j` (the double cosets `W_M\W/W_L` with `wLw⁻¹ ⊂ M`), of
@@ -818,7 +826,8 @@ If `sn ≤ g`, then `1 − s/g ≥ 1 − δ` and `e^{sn/g} ≤ 1 + 2sn/g`, as `e
   multiplicity is `1`, still below the lower bound `q − 1` when `q ≥ 3`.
 - The hypothesis `n ≤ q` of the last bound of (b) is needed: for `q = 2`, `n = 7`, `k = 3`, `L = T` (`c_j = C(7, j)`),
   `m(σ) = 35 + 4 + 14 + 21 = 74 > 60 = 2³(1 + 13/2)`, while `q^k(1 + q^{−1})^n = 8·(3/2)^7 ≈ 136.7`.
-- With `s = 2f` fields and `n = r`, (c) gives the deviation `δ = 4fr/g` under `2fr ≤ g`, in particular under `4fr ≤ g`.
+- With `s = 2f` fields and `n = r`, the first form of (c) is the deviation `δ = 8fr/g` under `4fr ≤ g`, the statement of
+  [FormalProof]; the sharper form gives `δ = 4fr/g` under `2fr ≤ g`.
 
 ### Examples
 
@@ -2122,27 +2131,34 @@ statement.
 
 ### 6.5 The local type statement
 
-Let `F` be a nonarchimedean local field with residue field `k`, `a, b ≥ 1`, `J ⊂ GL_{a+b}(𝒪_F)` the subgroup of the
-parahoric subgroup of type `(a, b)` whose upper left `a × a` block is `≡ 1` modulo `ϖ`, `α` a character of `k^×` and `f` a
-squarefree label of degree `a` over `k` with `f({α}) = 0`: the orbit `{α}` does not occur in `f` (in the labelled form of 5.7,
-`P_O` does not divide `f` for `O = {α}`). If an irreducible smooth representation `π` of `GL_{a+b}(F)` has a
-nonzero vector on which the lower right block of `J` acts by `α∘det` (through the reduction) and on whose `GL_a(k)`-span the
-series idempotent of `f` (5.7) does not vanish, then `π ≅ π_f × (α̃∘det ⊗ π_sph)` (normalised parabolic induction,
-irreducible), with `π_f` irreducible of depth zero with label `f`, `π_sph` irreducible spherical of `GL_b(F)`, and `α̃` a
-tamely ramified character of `F^×` lifting `α`.
+Let `F` be a nonarchimedean local field whose residue field `k` has prime order `p`, `a, b ≥ 1`, and
+`J ⊂ GL_{a+b}(𝒪_F)` the group of the matrices whose lower left `b × a` block is `≡ 0` and whose upper left `a × a` block is
+`≡ 1` modulo `ϖ`. Let `χ` be a tamely ramified character of `F^×` with reduction `α` on `k^×`, and `f` a label of degree `a`
+over `k` in which the orbit `{α}` does not occur (in the labelled form of 5.7, `P_O` does not divide `f` for `O = {α}`).
+Let `π` be an irreducible smooth representation of `GL_{a+b}(F)` with a vector `x` such that `π(h)x = α(det h̄)·x` for every
+`h ∈ J`, `h̄` the reduction of the lower right `b × b` block of `h`, and such that the series idempotent `z_f` of `f` (5.7)
+does not kill `x`: `Σ_{g∈GL_a(k)} z_f(g)·π(g̃)x ≠ 0`, with `g̃ ∈ GL_a(𝒪_F)`, in the upper left block, a lift of `g`. Then
+`π ≅ π₁ × ((χ∘det) ⊗ π_sph)` (parabolic induction, irreducible), with `π_sph` an irreducible spherical representation of
+`GL_b(F)` and `π₁` an irreducible representation of `GL_a(F)` having a vector fixed by `1 + ϖM_a(𝒪_F)` that `z_f` does not
+kill; so `π₁` has depth zero and, by 6.3, label `f`. The label `f` need not be squarefree. This is the statement of
+[FormalProof], which has it for residue fields of prime order; for a general finite residue field it is not claimed
+here.
 
-*Route.* The Jacquet module of `π` along the parabolic subgroup of type `(a, b)` has a constituent `ρ_a ⊗ ρ_b`, with `ρ_b`
-a twist of a spherical representation and `ρ_a` of label `f` (6.0, 6.3); the inertial supports of the two factors are
-disjoint, because `{α}` does not occur in `f`, so the induced representation is irreducible (Bernstein–Zelevinsky) and
-equals `π`.
+*Route.* The Jacquet module of `π` along the parabolic subgroup of type `(a, b)` has an irreducible subquotient carrying the
+vector `x` with both block actions (injectivity of the Jacquet map on vectors of depth zero, 6.0). Hence at least `b`
+members of the supercuspidal support of `π` are unramified twists of `χ`. If more than `b` were, the geometric lemma
+would place one of them in the `GL_a` block, and `α` would occur in `f` (6.3). So exactly `b` are, and `π` is the product
+of a representation `π₁` of `GL_a(F)` and a representation `π₂` of `GL_b(F)` with disjoint, hence unlinked, supports:
+irreducible (Bernstein–Zelevinsky). `π₂ ⊗ χ^{−1}∘det` is spherical, and by the geometric lemma again the vector comes
+from `π₁`. *Status.* Statement of [FormalProof].
 
 *Needs:* 6.0, 6.3; 5.7; SmoothRepresentationsOfLocalGroups SR.2.2 (Jacquet functors and parabolic induction), SR.3.1
 (supercuspidal support).
 
 **Checks.**
-- The condition on `{α}` cannot be reversed: for `a = b = 1`, `f` the label `{α}` and `π = (α̃∘det) ⊗ St`, the Iwahori-fixed
+- The condition on `{α}` cannot be reversed: for `a = b = 1`, `f` the label `{α}` and `π = (χ∘det) ⊗ St`, the Iwahori-fixed
   line of `St` is a line of `π` on which `J` acts through `α` of the lower right entry and `GL_1(k)` through `α`, so the
-  idempotent of `f` does not kill it; but `π` is a constituent of the reducible `i_B(α̃ν^{1/2} ⊗ α̃ν^{−1/2})` (`ν = |·|`) and
+  idempotent of `f` does not kill it; but `π` is a constituent of the reducible `i_B(χν^{1/2} ⊗ χν^{−1/2})` (`ν = |·|`) and
   not an irreducible parabolic induction.
 
 ### Examples
@@ -2441,8 +2457,10 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   of compact induction).
 - [FormalProof] The Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions
   announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. Source of the statements of 2.7(b) (the Bessel-type
-  decomposition) and of 2.8 (the multiplicities of the Bessel-type characters in Harish-Chandra induced cuspidal
-  representations and their near-constancy over several places).
+  <https://github.com/leanprover-community/riemann-hypothesis>. Source of the statements of 2.7 (b), (c) (the Bessel-type
+  decomposition and the inequality), of 2.8 (a), (b) and the first form of 2.8 (c) (the multiplicities of the Bessel-type
+  characters in Harish-Chandra induced cuspidal representations and their near-constancy over several places), of the
+  lower bound of 5.8 (c), of 5.11 (e) in the form stated (the lift of labels in prime degree), and of 6.5 (the local type
+  statement, for residue fields of prime order).
 - [Announcement] The announcement of that proof by its author, 20 November 2026: <https://alpo.ge/remark.pdf>. Cited
   at 2.7(b) and 2.8.
