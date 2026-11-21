@@ -66,9 +66,10 @@ MetaplecticAutomorphicForms §0.15), with
 `B(x, (n(B) − 1)x)` computed from the Gram matrix; the Levi formula is the substitution `φ ↦ φ(m(A)⁻¹x) = φ(xA)` times the
 modulus and the character of the splitting of MetaplecticAutomorphicForms §3.3 on the Levi subgroup (Gan–Ichino §7.4, p. 35, the Levi formula of
 the splittings that Gan–Ichino §4.1, p. 12, fixes and MetaplecticAutomorphicForms §3.3 follows, read in the left-action convention: `det(m(A)|_Y) = det A⁻¹`, and `χ_V(det A⁻¹) = χ̃_V(det m(A))` for even `n`).
-The formal proof states the Levi and unipotent formulas in
+The formal proof states the Levi formula, as a law, under the isometries stabilising a subspace `Y′ ⊂ W`, for the
+functionals invariant under the Heisenberg translations by `V ⊗ Y′`, in
 `Development/AbelianVarietyTheory/Definitions/Divisors/HilbertNinetyQuotientHomEqIff.lean`
-(`GlobalTheory.WeilM.SiegelRule`).
+(`GlobalTheory.WeilM.SiegelRule`); the unipotent formula rests on the route above.
 Orthogonal sums: route not given here; the statement is that the splitting of a product of unitary groups of orthogonal
 pieces is the product of the splittings of the pieces, with the characters as in (a) and (b). Both forms are part of
 Kudla's construction of the splittings (S. Kudla,
@@ -187,7 +188,8 @@ type-II correspondence of MetaplecticAutomorphicForms §3.14, and for `d = n` (a
 This is the unitary analogue of MetaplecticAutomorphicForms §3.21 (Rallis' parameters for orthogonal–symplectic pairs).
 
 *The form of the formal proof.* In the inert case the formal proof has no Hecke map `ξ` and no Satake parameter, and
-(ii)–(iv) there rest on the sources cited below; for the trivial representation it has equal spherical functionals on
+(ii)–(iv) there are this roadmap's own, proved by the route below ((ii)–(iii) by Rallis' computation, published for
+orthogonal–symplectic pairs; (iv) from (i)); for the trivial representation it has equal spherical functionals on
 the translates of the two lattice vectors (FormalProof,
 `Development/WeilBound/ThetaLifts/SphericalLattices/HoweInert.lean` (`PositivityTheory.Sph.SphFun`)).
 The formal proof states the inert case of (i) in `Development/WeilBound/ThetaLifts/SphericalLattices/HoweInert.lean`
@@ -218,7 +220,7 @@ through the Satake transform; the parameter of `θ(π)` is that of MetaplecticAu
 nonzero `ω → π ⊗ θ(π)` restricts to a surjection `ω^K → π^K ⊗ θ(π)` of `U(W)`-modules; by the second
 clause of (i) its value at `φ₀` is nonzero, and `φ₀` is `K′`-fixed.
 
-(S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982);
+(S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982), there for orthogonal–symplectic pairs;
 R. Howe, *θ-series and invariant theory*, Proc. Sympos. Pure Math. 33 (1979); Mínguez08, Théorème 1, p. 718, for the
 split case, stated for the action `Φ(g⁻¹xh)` of Mínguez08 (1.4), p. 721, which differs from the one here by `h ↦ ᵗh⁻¹`.) *Needs:* 3.9a; MetaplecticAutomorphicForms §§2.6a, 3.2a, 3.3, 3.14, 3.18 (conventions for the characters);
 SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.4.
@@ -744,7 +746,7 @@ parabolics shows that the two spherical quotients have the same Satake parameter
 each side: `(α(ϖ)q^{(a−1)/2 − i})_{i<a} ∪ (β(ϖ)q^{(a′−1)/2 − j})_{j<a′}` in base-change coordinates, for both (`q`
 the residue cardinality of `E`, as in 3.21a(iii)).
 
-(Howe 1979; Rallis 1982.)
+(Howe 1979; Rallis 1982, there for orthogonal–symplectic pairs.)
 The statement follows from the formal proof,
 `Development/WeilBound/CoreStatements/CompactAveragingSplitting/EigenvectorLifting/FinSplit.lean`
 (`PositivityTheory.ThK.FinInert`), `Development/WeilBound/ThetaLifts/SphericalLattices/FunDefs.lean`
@@ -1773,8 +1775,8 @@ moreover `m > 2d(n)` (Weil's range) the Eisenstein series converges absolutely a
 *Route.* Weil's range: compare the two sides as functions of moderate growth with the same Fourier
 coefficients, the nondegenerate ones being products of local Siegel densities (Weil65). The remaining
 convergent range `d(n) < m ≤ 2d(n)`: Ichino's argument by the doubling seesaw and the analytic continuation of
-both sides; GQT credits Ichino 2007 with the Siegel–Weil formula in the convergent range (GQT §1.7, p. 3, and the proof
-of Proposition 11.1 (ii), p. 53), while GQT Theorem 7.1 (p. 33) is the anisotropic case `r = 0` only, which is
+both sides; GQT credits Ichino 2007 with the Siegel–Weil formula in the convergent range (the proof of GQT
+Proposition 11.1 (ii), p. 53), while GQT Theorem 7.1 (p. 33) is the anisotropic case `r = 0` only, which is
 MetaplecticAutomorphicForms §6.4. (A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math.
 113 (1965); A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007).)
 The formal proof states the theorem, in the case used, in
@@ -1922,8 +1924,8 @@ the identity at `s₀`. In (ii) the integrability hypothesis gives holomorphy of
 continuation identifies the global `L`-factor with `l` at `s₀`.
 
 (Rallis 1984, *Injectivity properties of liftings associated to Weil representations*, §1, Proposition 1.1, pp. 149–150,
-there for orthogonal–symplectic pairs in Weil's range; Piatetski-Shapiro–Rallis, LNM 1254 (1987); Ichino 2007; GQT, Propositions 11.1 (ii) and 11.2, p. 53, and §11.6,
-p. 54.)
+there for orthogonal–symplectic pairs in Weil's range; Piatetski-Shapiro–Rallis, LNM 1254 (1987); Ichino 2007; GQT §1.7, p. 3 (the credits for Weil's convergent range),
+Propositions 11.1 (ii) and 11.2, p. 53, and §11.6, p. 54.)
 The formal proof states (i), in the cases used, in
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/GlobalFormAniso.lean`
 (`GlobalTheory.BottomRallis.GlobalFormAnisoAt`),
@@ -2194,7 +2196,7 @@ Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
 
 ## References
 
-- GQT: Wee Teck Gan, Yannan Qiu and Shuichiro Takeda, The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula, arXiv:1207.4709v3: the parameters of Layers 5–6 (§§2.2–2.3, pp. 8–9; Weil's convergent range, §3.1, p. 14), the credits for the Siegel–Weil formula in the convergent range (§1.7, p. 3; Theorem 7.1, p. 33, for `r = 0`; proof of Proposition 11.1 (ii), p. 53) (6.4a) and the doubling form of the Rallis inner product formula (Propositions 11.1–11.2, p. 53; §11.6, p. 54) (6.13a).
+- GQT: Wee Teck Gan, Yannan Qiu and Shuichiro Takeda, The regularized Siegel–Weil formula (the second term identity) and the Rallis inner product formula, arXiv:1207.4709v3: the parameters of Layers 5–6 (§§2.2–2.3, pp. 8–9; Weil's convergent range, §3.1, p. 14), the credits for the Siegel–Weil formula in the convergent range (Theorem 7.1, p. 33, for `r = 0`; proof of Proposition 11.1 (ii), p. 53) (6.4a), the credits for the Rallis inner product formula in Weil's convergent range (§1.7, p. 3) and the doubling form of that formula (Propositions 11.1–11.2, p. 53; §11.6, p. 54) (6.13a).
 - Gan–Ichino: Wee Teck Gan and Atsushi Ichino, The Gross–Prasad conjecture and local theta correspondence, arXiv:1409.6824v2, §4.1 (p. 12) and §7.4 (p. 35): the normalisation of the splittings and its Levi formula (3.3b, 4.4a).
 - Kudla96: Stephen S. Kudla, Notes on the local theta correspondence, 1996, III.4, Propositions 4.1, 4.3–4.5 (pp. 45–49): persistence and the stable range, for symplectic–orthogonal Witt towers (3.9a).
 - Stephen S. Kudla, Splitting metaplectic covers of dual reductive pairs, Israel J. Math. 87 (1994): the splittings and orthogonal sums (3.3b, 4.4a).
@@ -2202,7 +2204,7 @@ Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
 - Jian-Shu Li, Singular unitary representations of classical groups, Invent. Math. 97 (1989), and Nonvanishing theorems for the cohomology of certain arithmetic quotients, J. reine angew. Math. 428 (1992): bump vectors (3.9a) and the convergent range of the inner product formula (6.13b).
 - Jian-Shu Li, Theta lifting for unitary representations with nonzero cohomology, Duke Math. J. 61 (1990): the theta lifts of discrete series for the data of 3.46a (its remark).
 - Ichino20: Atsushi Ichino, Theta lifting for discrete series representations of real unitary groups, arXiv:2002.09148v1 (2020), §1 (pp. 1–2), Theorem 4.1 and Remark 4.2 (pp. 7–8), §7.2 (p. 30): the hypothesis of Li's theorem, the general case and the convergence of the zeta integral (3.46a).
-- Stephen Rallis, Langlands' functoriality and the Weil representation, Amer. J. Math. 104 (1982): the unramified correspondence (3.21a, 3.47a).
+- Stephen Rallis, Langlands' functoriality and the Weil representation, Amer. J. Math. 104 (1982): the unramified correspondence, there for orthogonal–symplectic pairs (3.21a, 3.47a).
 - Roger Howe, θ-series and invariant theory, Proc. Sympos. Pure Math. 33 (1979): spherical vectors of the oscillator representation (3.21a, 3.47a).
 - Roger Howe, Transcending classical invariant theory, J. Amer. Math. Soc. 2 (1989), and Remarks on classical invariant theory, Trans. Amer. Math. Soc. 313 (1989): the Fock model, joint harmonics and the Capelli identity (3.45, 3.46, 3.47b).
 - Mínguez08: Alberto Mínguez, Correspondance de Howe explicite : paires duales de type II, Ann. Sci. ÉNS (4) 41 (2008), Théorème 1 (p. 718) and (1.4) (p. 721): the split case (3.21a, 3.47).
@@ -2217,7 +2219,7 @@ Layers 4–5: Schur orthogonality and the Peter–Weyl theorem.
 - Stephen Rallis, L-functions and the oscillator representation, Lecture Notes in Math. 1245 (1987): constant terms and the tower property (5.7c, 5.7d).
 - Stephen S. Kudla and Stephen Rallis, A regularized Siegel–Weil formula: the first term identity, Ann. of Math. 140 (1994): the tower formula and the maps of 5.7c and 5.7d.
 - John Tate, Fourier analysis in number fields and Hecke's zeta-functions (thesis, 1950): the cone integrals and their functional equation (5.7c, 5.7e).
-- Atsushi Ichino, On the Siegel–Weil formula for unitary groups, Math. Z. 255 (2007): the convergent range of the Siegel–Weil formula (6.4a), as credited in GQT §1.7 (p. 3) and in the proof of GQT Proposition 11.1 (ii) (p. 53), and the Rallis inner product formula (6.13a, 6.13b).
+- Atsushi Ichino, On the Siegel–Weil formula for unitary groups, Math. Z. 255 (2007): the convergent range of the Siegel–Weil formula (6.4a), as credited in the proof of GQT Proposition 11.1 (ii) (p. 53), and the Rallis inner product formula (6.13a, 6.13b), as credited in GQT §1.7 (p. 3).
 - Stephen Rallis, On the Howe duality conjecture, Compositio Math. 51 (1984), §1, Theorem 1.1.1 (p. 345): the tower property, for orthogonal–symplectic pairs (5.6a).
 - Stephen Rallis, Injectivity properties of liftings associated to Weil representations, Compositio Math. 52 (1984), §1, Proposition 1.1 (pp. 149–150): the Rallis inner product formula, for orthogonal–symplectic pairs in Weil's range (6.13a, 6.13b).
 - Atsushi Ichino, A regularized Siegel–Weil formula for unitary groups, Math. Z. 247 (2004): the inner product formula (6.13b).
