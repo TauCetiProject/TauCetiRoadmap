@@ -42,7 +42,13 @@ metrics with semipositive other factors (metrics at distance at most `ε` change
 the mixed degree of the other factors), and the first-order expansion in the route of HeightsRationalPointsAndObstructions
 §5.17g follows from it.
 
-*Route.* The formula is proved here, by this route; no published statement of it is cited. By multilinearity write `L_0` as a difference of generated bundles and put the change of metric on the first. For
+*Route.* The formula is proved here, by this route; no published statement of it is cited. It is [FormalProof],
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArithmeticIntersection/RationalSections/ThmISt.lean`
+(`ReciprocityTheory.ChartRestriction.G.AI.I2.MetricChangeStatement`), proved in
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/InterDerived.lean`
+(`ReciprocityTheory.ChartRestriction.G.Geo.metricChange`), with its form on schemes in
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/EqOfIsometricTrivShift.lean` (`GlobalTheory.Published.ArMetric`).
+By multilinearity write `L_0` as a difference of generated bundles and put the change of metric on the first. For
 a section `s` of a generated bundle whose divisor meets `𝒳` properly, the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a is the intersection on
 `div s`, which does not involve the metric of `L_0`, minus `Σ_σ ∫ log ‖s‖_σ·c_1(L̄_1) ∧ ⋯ ∧ c_1(L̄_d)`; replacing `‖s‖` by
 `e^{−f}‖s‖` adds `Σ_σ ∫ f·c_1(L̄_1) ∧ ⋯ ∧ c_1(L̄_d)`.
@@ -103,7 +109,21 @@ in `ℙ^n_{O_K}`, also prove the three local statements on which the identity re
   as Corollaire 4, p. 272).
 
 *Route.* The identity is proved here, by this route; its published source is the comparison theorem of Bost, Gillet and
-Soulé (References). (i)–(iii) are local; the identity follows from them and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a along one rational
+Soulé (References). The form that the family uses follows from [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
+(`GlobalTheory.Published.FubiniStudyChowHeight`), with `Development/AbelianVarietyTheory/Definitions/Divisors/PointHeight.lean`
+(`GlobalTheory.ChowHt.formHeight`) and `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
+(`GroundTheory.Heights₂.Heights.ChowHeightMul.Statement`). Of the local statements, (i) is [FormalProof],
+`GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
+(`GroundTheory.Heights₂.Heights.ChowFormSection.Statement`); (ii) follows from [FormalProof],
+`GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
+(`GroundTheory.Heights₂.Heights.ChowFormSectionVertical.Statement`, `GroundTheory.Heights₂.Heights.vertTermAt`); for
+(iii) the form that the family uses is [FormalProof],
+`GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
+(`GroundTheory.Heights₂.Heights.MahlerSection.Statement`), proved in
+`Development/AutomorphicSpectrum/Proofs/AlgebraProofs/MahlerSectionStatementHolds.lean`
+(`GlobalTheory.CompanionTheory.Ar.Short.mahlerSection`).
+(i)–(iii) are local; the identity follows from them and the Cartier recursion of HeightsRationalPointsAndObstructions §5.17a along one rational
 hyperplane section, by induction on `d`.
 
 (ii) Let `R = O_{K,𝔭}`, `π` a uniformiser, `v` its valuation, and scale `F_Z` to content `1` at `𝔭`. First let
@@ -175,7 +195,8 @@ projectiveCycleHeight(Z) = projectiveCycleHeight(Z·H_s)
 ```
 
 Take `F_{Z·H_s} = F_Z(s, ·)` ((i); SlopesOfHermitianVectorBundles §6.6 (i)). Summing (ii) and (iii) over all places, `ht(F_Z)` satisfies the same recursion
-with the extra term `−½·H_n·deg Z`, so
+with the extra term `−½·H_n·deg Z` ([FormalProof], `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
+(`GroundTheory.Heights₂.Heights.ChowHeightRecursion.Statement`, `GroundTheory.Heights₂.Heights.chowHt`)), so
 `projectiveCycleHeight(Z) − ht(F_Z) = projectiveCycleHeight(Z·H_s) − ht(F_{Z·H_s}) + ½·H_n·deg Z`. For `d = 0` the same
 holds with `Z·H_s = 0`: the recursion has no horizontal term, and the constant `F_Z(s)` has height `0` by the product
 formula. Induction on `d` gives the constant `(d + 1)·½·H_n = c(d, n)`.
@@ -312,11 +333,19 @@ when `K` is replaced by a finite extension `L` (and `J̄`, `Z` by `J̄_{O_L}`, `
 the identity is 6.1. For `Z ≠ 0`, divided by `(d + 1)·deg Z`:
 `projectiveCycleHeight_J̄(Z)/((d + 1)·deg Z) = ht_J̄(F_Z)/((d + 1)·deg Z) + ½·Σ_{k=1}^{N−1} 1/k`. For a free `M_J` with
 an `O_K`-basis this is the comparison of the height with the Chow form in the coordinates of that basis and with arbitrary
-Hermitian metrics, which is the form the family uses; the case of a lattice that is not free is reduced to it by a finite
+Hermitian metrics, which is the form the family uses ([FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
+(`GlobalTheory.Published.FubiniStudyChowHeight`), with `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/GenIdeal.lean`
+(`ChowFormHeightComparison₂.CF.StMain`) and `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/FormHeightOneEq.lean`
+(`ChowFormHeightComparison₂.CF.D.formHeight_one_eq`)); the case of a lattice that is not free is reduced to it by a finite
 extension ((a3)).
 
 *Route.* (a1)–(a7) and (b) are proved here, by these routes; no published statement of them is cited other than the
-exact value of the height of `ℙ^{N−1}` in (a7), and the standard case on which (b) rests is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b. (a2): the induced isomorphism of models carries `Ō(1)_J̄` isometrically to
+exact value of the height of `ℙ^{N−1}` in (a7), and the standard case on which (b) rests is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b;
+for `M_J = O_K^N` the metrised `𝒪(1)` and the intersection number of (a) are those of [FormalProof],
+`Development/AbelianVarietyTheory/Definitions/Divisors/ExistsIsClosedImmersionGenericPoint.lean` (`GlobalTheory.HermLB.fs`,
+`GlobalTheory.HermLB.IsSelfInter`) and `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/GenIdeal.lean`
+(`ChowFormHeightComparison₂.CF.IsFS`). (a2): the induced isomorphism of models carries `Ō(1)_J̄` isometrically to
 `Ō(1)_{J̄′}`. (a3): a flat `O_L`-scheme is the closure of its generic fibre, so the closure of `Z_L` is `𝒵 ⊗_{O_K} O_L` (the
 base change of AlgebraicModuliForArithmeticGeometry §1.1), and
 the intersection numbers of HeightsRationalPointsAndObstructions §5.17a scale by `[L:K]`. (a5): the closure of `x` is a section `ε` of `ℙ(M_J^∨)` over `O_K`,
@@ -329,9 +358,13 @@ point height `h_{Ō(1)_J̄}(x)` of ArakelovGeometryAndAbelianHeights §1.12, and
 (a6): `Ō(1)_{J̄′}` is `Ō(1)_J̄` with the
 norms `e^{−f}‖·‖`, `f = (f_σ)_σ`, which is invariant under complex conjugation by the conjugation condition on `h` and `h′`;
 apply the change-of-metric formula 5.1 to the `d + 1` factors in turn, the `j`-th time with `j`
-factors already changed. (a4) is (a6) with `f = t` at every `σ`: the dual norms of `J̄(t)` are `e^{t}‖·‖^∨_σ`, and the forms
+factors already changed. (a6) is [FormalProof],
+`Development/AutomorphicSpectrum/Proofs/MetricProofs/IntersectionNumberMetricChangeStatement.lean`
+(`GlobalTheory.T.intersection_number_metric_change`).
+(a4) is (a6) with `f = t` at every `σ`: the dual norms of `J̄(t)` are `e^{t}‖·‖^∨_σ`, and the forms
 `c_1` do not change (and `∫_{Z_σ(ℂ)} c_1^d = deg Z`, ComplexComparisonPartII C5.4, `chernFubiniStudyIntersection`); for
-`J̄ = Ō_K^{n+1}` it is the rescaling Check of HeightsRationalPointsAndObstructions §5.9b.
+`J̄ = Ō_K^{n+1}` it is the rescaling Check of HeightsRationalPointsAndObstructions §5.9b. (a4) follows from [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/EqOfIsometricTrivShift.lean` (`GlobalTheory.Published.ArShift`).
 (a7): both sides are invariant under finite extension ((a3); ArakelovGeometryAndAbelianHeights §1.6),
 and after a finite extension `M_J` is free. Indeed `M_J` is a direct sum of `N` fractional ideals (the image of a nonzero
 linear form on `M_J` is a fractional ideal, which is projective, so it splits off; induct on the rank); a fractional ideal
