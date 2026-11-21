@@ -27,7 +27,8 @@ vanishing theorems used for full faithfulness in characteristic `0`. PerfectoidS
 tilt and the Fontaine–Wintenberger theorem, which the last layer compares with this construction.
 The local anabelian roadmaps consume the Galois-group isomorphism and the lifting of isomorphisms.
 
-The layers, in build order:
+The layers, in build order, except that Layer 4 also uses the completed perfection of Layer 5,
+which does not depend on Layer 4:
 
 - **Layer 0**, APF extensions: their Herbrand functions `ψ_{L/K}` and `φ_{L/K}`, stability, the
   strictly APF extensions with the invariants `i(L/K)` and `c(L/K)`, the tower of elementary
@@ -69,10 +70,11 @@ The layers, in build order:
   part `E`, the elements separable over `K`, is finite over `K` of degree `[G_K : U]`, and lies in
   `L` because an element separable over `K` and purely inseparable over `L` is in `L`. Then
   `U = E.fixingSubgroup`, because an automorphism fixing `E` fixes its purely inseparable closure.
-  This is the first target of Layer 0.
-- **The upper filtration** is `F_K`, written `G_K(u)`, of FilteredLocalGaloisGroups Layer 2:
-  `G_K(u) = G_K^u` of RamificationOfCompleteDiscretelyValuedFields §4a.1 for `u ≥ −1`, and `G_K`
-  for `u < −1`. For `L/K` Galois, `Gal(L/K)` carries the quotient filtration `Gal(L/K)^u`, the
+  This description is target 0.0.
+- **The upper filtration** is `F_K`, written `G_K(u)`, of FilteredLocalGaloisGroups Layer 2. By
+  its 2.1, `G_K(u)` is ClassFieldTheory Layer 7's `localAbsoluteUpperRamificationGroup K u` for
+  `u ≥ −1`, and `G_K` for `u < −1`; on a local field this agrees with `G_K^u` of
+  RamificationOfCompleteDiscretelyValuedFields §4a.1. For `L/K` Galois, `Gal(L/K)` carries the quotient filtration `Gal(L/K)^u`, the
   image of `G_K(u)`.
 - **Herbrand functions** are FilteredLocalGaloisGroups Layer 1's `GroupFiltration.herbrandPsi F_K G_L`:
   `ψ_{L/K}(u) = (1/f) ∫_0^u [G_K : G_K(t)·G_L] dt` for `u ≥ 0`, with `f = [G_K : G_K(0)·G_L]`, and
@@ -110,357 +112,428 @@ The layers, in build order:
 
 Let `L/K` be separable algebraic, `H = G_L`.
 
-- **0.0 The fixing-subgroup model.** An isomorphism of topological groups
-  `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup` for every separable algebraic `L`. It is the
-  composite of `absoluteGaloisGroupRestrictEquiv L`, Tau Ceti's
-  `absoluteGaloisGroupEquivFixingSubgroup K L σ` (`AbsoluteGaloisGroup/Extension.lean`, no
-  finiteness hypothesis) for the inclusion `σ` of `L` into
-  `SeparableClosure K = separableClosure K (AlgebraicClosure K)`, and
-  `absoluteGaloisGroupRestrictEquiv K`, which carries `L.fixingSubgroup` onto
-  `σ.fieldRange.fixingSubgroup`. For finite `L` it is the isomorphism of FilteredLocalGaloisGroups 2.0
-  (`exists_continuousMulEquiv_fixingSubgroup`), and its composite with the inclusion into `G_K` is
-  `absoluteGaloisGroupExtend K L σ`.
-- **0.1 Definition.** `L/K` is **APF** if `G_K(u)·H` is open in `G_K` for every `u ≥ −1`
-  [Wintenberger 1983, 1.2.1]. `G_K(u)·H` is a subgroup because `G_K(u)` is normal. It is open
-  exactly when it has finite index. By the conventions it is then `E_u.fixingSubgroup` for a unique
-  `E_u ∈ 𝓔_{L/K}`, the fixed field of `G_K(u)·H` in `L`. `u ↦ E_u` is monotone and
-  `⋃_u E_u = L`. Finite separable extensions are APF, because `H` is open. An APF extension has finite
-  residue extension: `E_0 = L ∩ K^ur` is the maximal unramified subextension. The maximal unramified
-  extension `K^ur` is not APF, because `G_K(0)·G_{K^ur} = G_{K^ur}` has infinite index.
-- **0.2 Herbrand functions.** For `L/K` APF, `ψ_{L/K}` and `φ_{L/K}` as in the conventions. The
-  integrand is finite and monotone. `ψ_{L/K}` is continuous, strictly increasing, piecewise
-  linear, the identity on `(−∞, 0]`, and a bijection of `ℝ` onto itself. This extends
-  FilteredLocalGaloisGroups' `strictMono_herbrandPsi` and `surjective_herbrandPsi` from open `H`
-  to closed `H` with every `G(t)·H` open. On `(−∞, u]`, `ψ_{L/K} = ψ_{E/K}` for every
-  `E ∈ 𝓔_{L/K}` containing `E_u`: for `t ≤ u`, `G_K(t)·H = G_K(t)·E.fixingSubgroup`. **Transitivity**
-  [Wintenberger 1983, 1.2.1]: for `E ∈ 𝓔_{L/K}` with `L/E` APF (equivalently `L/K` APF, by 0.3),
-  `ψ_{L/K} = ψ_{L/E} ∘ ψ_{E/K}`. Here `ψ_{L/E}` is computed in `G_E` with the filtration `F_E`, which
-  is the restriction of `F_K` to `G_E` by FilteredLocalGaloisGroups 2.2.
-- **0.3 Stability** [Wintenberger 1983, Prop. 1.2.3]. For `K ⊆ M ⊆ N`:
-  - if `M/K` is finite, `N/K` is APF iff `N/M` is;
-  - if `N/M` is finite, `N/K` is APF iff `M/K` is;
-  - if `N/K` is APF, so is `M/K`;
-  - the same three statements for strictly APF, and the inequalities between the invariants below.
+### 0.0 The fixing-subgroup model
 
-  The APF part is the index identity
-  `(G_K : G_K(u)G_N) = (G_K : G_K(u)G_M)·(G_M : (G_M ∩ G_K(u))G_N)`. The strict part uses the
-  monotonicity of `v ↦ (G_K^0 : (G_K^0 ∩ G_M)G_K(v))`, as in [Wintenberger 1983, 1.2.4].
-- **0.4 Strictly APF, `i(L/K)` and `c(L/K)`** [Wintenberger 1983, 1.2.1].
-  - `i(L/K) = sup {u ≥ −1 : G_K(u)·H = G_K}`.
-  - `L/K` is **strictly APF** if `liminf_{u → ∞} ψ_{L/K}(u) / (G_K^0 : G_L^0 G_K(u)) > 0`.
-  - When `i(L/K) > 0`, which happens exactly when `L/K` is a totally ramified `p`-extension,
-    `c(L/K) = inf_{u > i(L/K)} ψ_{L/K}(u) / (G_K^0 : G_L^0 G_K(u))`. `L/K` is strictly APF iff
-    `c(L/K) > 0`.
-  - Both invariants are unchanged when `AlgebraicClosure K` is replaced by another algebraic
-    closure.
-  - Every finite separable extension is strictly APF.
-- **0.5 Elementary extensions and the elementary tower** [Wintenberger 1983, 1.3–1.4].
-  - A finite `L/K` is **elementary of level `i > 0`** if `G_K(i)·H = G_K` and
-    `G_K(i + ε)·H = H` for every `ε > 0`. Equivalently, every `K`-embedding `σ ≠ id` of `L` into
-    `AlgebraicClosure K` has Wintenberger lower index `i`. Such an extension is totally ramified of
-    `p`-power degree, and elementary abelian when Galois.
-  - **The elementary tower** of an APF `L/K`. Put `K_0 = E_0 = L ∩ K^ur`, and let `K_1` be the
-    fixed field in `L` of `G_K(0+)·H`, `G_K(0+) = closure ⋃_{w > 0} G_K(w)`. Let
-    `b_1 < b_2 < …` be the jumps of `u ↦ G_K(u)·H` in `(0, ∞)`, which are finite in each bounded
-    interval and infinitely many when `L/K` is infinite, and put `K_n = E_{b_n}` for `n ≥ 1`. `E_u`
-    is constant on `(0, b_1]`, so this gives the same `K_1`. With `i_n = ψ_{L/K}(b_n)`:
-    - `K_0 = L ∩ K^ur`;
-    - `K_1/K_0` is totally ramified of degree prime to `p`, so `K_1` is the maximal tame
-      subextension;
-    - `K_{n+1}/K_n` is elementary of level `i_n = i(L/K_n)` for `n ≥ 1`;
-    - `⋃ K_n = L`, and `i_n → ∞` when `L/K` is infinite.
+An isomorphism of topological groups `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup` for every
+separable algebraic `L`. It is the composite of `absoluteGaloisGroupRestrictEquiv L`, Tau Ceti's
+`absoluteGaloisGroupEquivFixingSubgroup K L σ` (`AbsoluteGaloisGroup/Extension.lean`, no finiteness
+hypothesis) for the inclusion `σ` of `L` into
+`SeparableClosure K = separableClosure K (AlgebraicClosure K)`, and
+`absoluteGaloisGroupRestrictEquiv K`, which carries `L.fixingSubgroup` onto
+`σ.fieldRange.fixingSubgroup`. For finite `L` it is the isomorphism of FilteredLocalGaloisGroups 2.0
+(`exists_continuousMulEquiv_fixingSubgroup`), and its composite with the inclusion into `G_K` is
+`absoluteGaloisGroupExtend K L σ`.
 
-    These properties characterize the tower.
-  - **Criterion.** `L/K` is strictly APF iff `i_n / [K_{n+1} : K]` is bounded below by a positive
-    constant. When `K = K_1`, `i(L/K) = i_1` and `c(L/K) = inf_n i_n / [K_{n+1} : K]`.
-  - **The converse construction** [Wintenberger 1983, 1.4.2]. An increasing sequence `K_n` with
-    `K_0/K` unramified, `K_1/K_0` totally ramified of degree prime to `p`, and `K_{n+1}/K_n`
-    elementary of strictly increasing level `i_n` (tending to `∞` if the sequence is infinite) has
-    APF union. Its Herbrand function is computed from the `i_n`.
-- **0.6 Galois and abelian extensions.**
-  - For `L/K` Galois, `L/K` is APF iff every `Gal(L/K)^u` is open in `Gal(L/K)`. Equivalently, the
-    quotient filtration has finitely many jumps in each bounded interval and `Gal(L/K)^0` is open.
-  - **An abelian `L/K` with finite residue extension is strictly APF.** Write `G = Gal(L/K)` and
-    `q_L = #k_L`.
-    - By Hasse–Arf at every finite level, the upper jumps of `G` are integers, so `G^u = G^{⌈u⌉}`.
-    - For `n ≥ 1` and every finite level `M`, `Gal(M/K)^n / Gal(M/K)^{n+1}` is
-      `G_j/G_{j+1}` for the lower index `j = ψ_{M/K}(n)`, which embeds in `k_M ⊆ k_L`
-      (`ramificationGroupGradedToResidueField`). So `[G^n : G^{n+1}] ≤ q_L`.
-    - `G^0` is open because the residue extension is finite, and `G^0/G^{0+}` embeds in `k_L^×`.
-      So every `G^u` is open, and `L/K` is APF.
-    - For `u ∈ (n, n+1]` with `n ≥ 1`, the index `(G^0 : G^u)` is `I_{n+1} = (G^0 : G^{n+1})`, while
-      `ψ_{L/K}(u) ≥ ψ_{L/K}(n) ≥ I_n`. The ratio of 0.4 is therefore at least
-      `I_n / I_{n+1} ≥ 1/q_L`.
+**Open subgroups above `G_L`.** For `L` separable algebraic, `E ↦ E.fixingSubgroup` is a
+bijection from `𝓔_{L/K}` onto the open subgroups of `G_K` containing `G_L`, with
+`[G_K : E.fixingSubgroup] = [E : K]`, by the argument of the conventions.
 
-    This covers the cyclotomic tower and every `ℤ_p`-extension with finite residue extension, in
-    both characteristics.
+### 0.1 Definition
+
+`L/K` is **APF** if `G_K(u)·H` is open in `G_K` for every `u ≥ −1` [Wintenberger 1983, 1.2.1].
+`G_K(u)·H` is a subgroup because `G_K(u)` is normal. It is open exactly when it has finite index. By
+the conventions it is then `E_u.fixingSubgroup` for a unique `E_u ∈ 𝓔_{L/K}`, the fixed field of
+`G_K(u)·H` in `L`. `u ↦ E_u` is monotone and `⋃_u E_u = L`. Finite separable extensions are APF,
+because `H` is open. An APF extension has finite residue extension: `E_0 = L ∩ K^ur` is the maximal
+unramified subextension. The maximal unramified extension `K^ur` is not APF, because
+`G_K(0)·G_{K^ur} = G_{K^ur}` has infinite index.
+
+### 0.2 Herbrand functions
+
+For `L/K` APF, `ψ_{L/K}` and `φ_{L/K}` as in the conventions. The integrand is finite and monotone.
+`ψ_{L/K}` is continuous, strictly increasing, piecewise linear, the identity on `(−∞, 0]`, and a
+bijection of `ℝ` onto itself. This extends FilteredLocalGaloisGroups' `strictMono_herbrandPsi` and
+`surjective_herbrandPsi` from open `H` to closed `H` with every `G(t)·H` open. On `(−∞, u]`,
+`ψ_{L/K} = ψ_{E/K}` for every `E ∈ 𝓔_{L/K}` containing `E_u`: for `t ≤ u`,
+`G_K(t)·H = G_K(t)·E.fixingSubgroup`. **Transitivity** [Wintenberger 1983, 1.2.1]: for `E ∈ 𝓔_{L/K}`
+with `L/E` APF (equivalently `L/K` APF, by 0.3), `ψ_{L/K} = ψ_{L/E} ∘ ψ_{E/K}`. Here `ψ_{L/E}` is
+computed in `G_E` with the filtration `F_E`, which is the restriction of `F_K` to `G_E` by
+FilteredLocalGaloisGroups 2.2.
+
+### 0.3 Stability [Wintenberger 1983, Prop. 1.2.3]
+
+For `K ⊆ M ⊆ N`:
+- if `M/K` is finite, `N/K` is APF iff `N/M` is;
+- if `N/M` is finite, `N/K` is APF iff `M/K` is;
+- if `N/K` is APF, so is `M/K`;
+- the same three statements for strictly APF, and the inequalities between the invariants below.
+
+The APF part is the index identity
+`(G_K : G_K(u)G_N) = (G_K : G_K(u)G_M)·(G_M : (G_M ∩ G_K(u))G_N)`. The strict part uses the
+monotonicity of `v ↦ (G_K^0 : (G_K^0 ∩ G_M)G_K(v))`, as in [Wintenberger 1983, 1.2.4].
+
+### 0.4 Strictly APF, `i(L/K)` and `c(L/K)` [Wintenberger 1983, 1.2.1]
+
+- `i(L/K) = sup {u ≥ −1 : G_K(u)·H = G_K}`.
+- `L/K` is **strictly APF** if `liminf_{u → ∞} ψ_{L/K}(u) / (G_K^0 : G_L^0 G_K(u)) > 0`.
+- When `i(L/K) > 0`, which happens exactly when `L/K` is a totally ramified `p`-extension,
+  `c(L/K) = inf_{u > i(L/K)} ψ_{L/K}(u) / (G_K^0 : G_L^0 G_K(u))`. `L/K` is strictly APF iff
+  `c(L/K) > 0`.
+- Both invariants are unchanged when `AlgebraicClosure K` is replaced by another algebraic
+  closure.
+- Every finite separable extension is strictly APF.
+
+### 0.5 Elementary extensions and the elementary tower [Wintenberger 1983, 1.3–1.4]
+
+- A finite `L/K` is **elementary of level `i > 0`** if `G_K(i)·H = G_K` and
+  `G_K(i + ε)·H = H` for every `ε > 0`. Equivalently, every `K`-embedding `σ ≠ id` of `L` into
+  `AlgebraicClosure K` has Wintenberger lower index `i`. Such an extension is totally ramified of
+  `p`-power degree, and elementary abelian when Galois.
+- **The elementary tower** of an APF `L/K`. Put `K_0 = E_0 = L ∩ K^ur`, and let `K_1` be the
+  fixed field in `L` of `G_K(0+)·H`, `G_K(0+) = closure ⋃_{w > 0} G_K(w)`. Let
+  `b_1 < b_2 < …` be the jumps of `u ↦ G_K(u)·H` in `(0, ∞)`, which are finite in each bounded
+  interval and infinitely many when `L/K` is infinite, and put `K_n = E_{b_n}` for `n ≥ 1`. `E_u`
+  is constant on `(0, b_1]`, so this gives the same `K_1`. With `i_n = ψ_{L/K}(b_n)`:
+  - `K_0 = L ∩ K^ur`;
+  - `K_1/K_0` is totally ramified of degree prime to `p`, so `K_1` is the maximal tame
+    subextension;
+  - `K_{n+1}/K_n` is elementary of level `i_n = i(L/K_n)` for `n ≥ 1`;
+  - `⋃ K_n = L`, and `i_n → ∞` when `L/K` is infinite.
+
+  These properties characterize the tower.
+- **Criterion.** `L/K` is strictly APF iff `i_n / [K_{n+1} : K]` is bounded below by a positive
+  constant. When `K = K_1`, `i(L/K) = i_1` and `c(L/K) = inf_n i_n / [K_{n+1} : K]`.
+- **The converse construction** [Wintenberger 1983, Rem. 1.4.2]. Let `K_n` be an increasing
+  sequence with `K_0/K` unramified, `K_1/K_0` totally ramified of degree `d` prime to `p`, and
+  `K_{n+1}/K_n` elementary of strictly increasing level `i_n` and degree `p^{r_n}`. Put
+  `b_n = d⁻¹[i_1 + (i_2 − i_1)p^{−r_1} + … + (i_n − i_{n−1})p^{−r_1−…−r_{n−1}}]`. Then the union
+  `L` is APF if and only if the sequence is finite or `b_n → ∞`. In that case the `b_n` are the
+  jumps of `u ↦ G_K(u)·G_L` in `(0, ∞)`, the `K_n` are the elementary tower of `L/K`, and
+  `ψ_{L/K}` is the piecewise linear function with `ψ_{L/K}(b_n) = i_n`, of slope `d` on
+  `[0, b_1]` and `d p^{r_1+…+r_n}` on `[b_n, b_{n+1}]`. Strictly increasing levels alone do not
+  suffice; see the worked example of a tower with bounded breaks.
+
+### 0.6 Galois and abelian extensions
+
+- For `L/K` Galois, `L/K` is APF iff every `Gal(L/K)^u` is open in `Gal(L/K)`. Equivalently, the
+  quotient filtration has finitely many jumps in each bounded interval and `Gal(L/K)^0` is open.
+- **An abelian `L/K` with finite residue extension is strictly APF.** Write `G = Gal(L/K)` and
+  `q_L = #k_L`.
+  - By Hasse–Arf at every finite level, the upper jumps of `G` are integers, so `G^u = G^{⌈u⌉}`.
+  - For `n ≥ 1` and every finite level `M`, `Gal(M/K)^n / Gal(M/K)^{n+1}` is
+    `G_j/G_{j+1}` for the lower index `j = ψ_{M/K}(n)`, which embeds in `k_M ⊆ k_L`
+    (`ramificationGroupGradedToResidueField`). So `[G^n : G^{n+1}] ≤ q_L`.
+  - `G^0` is open because the residue extension is finite, and `G^0/G^{0+}` embeds in `k_L^×`.
+    So every `G^u` is open, and `L/K` is APF.
+  - For `u ∈ (n, n+1]` with `n ≥ 1`, the index `(G^0 : G^u)` is `I_{n+1} = (G^0 : G^{n+1})`, while
+    `ψ_{L/K}(u) ≥ ψ_{L/K}(n) ≥ I_n`. The ratio of 0.4 is therefore at least
+    `I_n / I_{n+1} ≥ 1/q_L`.
+
+  This covers the cyclotomic tower and every `ℤ_p`-extension with finite residue extension, in
+  both characteristics.
 
 ## Layer 1: the field of norms
 
 Let `L/K` be an infinite APF extension. `K_0` and `K_1` are its maximal unramified and maximal
 tame subextensions, both finite (0.5).
 
-- **1.1 The carrier** [Wintenberger 1983, 2.1.1]. `fieldOfNorms K L` is the submonoid of
-  `∏_{E ∈ 𝓔_{L/K}} E` of norm-compatible families. A family with one zero coordinate is zero
-  (`eq_zero_or_forall_ne_zero`), so `X_K(L) = X_K(L)^× ∪ {0}`, with `X_K(L)^× = lim E^×` as groups.
-  Only the cofinal subsystems matter: for `𝓔' ⊆ 𝓔_{L/K}` cofinal, restriction is a bijection onto
-  the norm-compatible families on `𝓔'`.
-- **1.2 Valuation and residue field** [Wintenberger 1983, 2.1.2].
-  - `v(α) = v_E(α_E)` for any `E ⊇ K_0`. It is independent of `E` by `normalizedValuation_norm`,
-    because `f(E'/E) = 1` for `K_0 ⊆ E ⊆ E'` in `L`.
-  - For `x` in the residue field `k_L = k_{K_0}`, `f_{L/K}(x) = (x_E)`, where `x_E` is the
-    `[E : K_1]`-th root of the Teichmüller representative `[x]` for `E ⊇ K_1`. This is defined
-    because `[E : K_1]` is a power of `p`. `f_{L/K}` is a multiplicative embedding of `k_L`.
-- **1.3 The norm estimates** [Wintenberger 1983, Prop. 2.2.1, Lems. 2.2.2.1, 2.2.2.3]. Let `E'/E`
-  be finite separable, nontrivial, totally ramified, of `p`-power degree, and `i = i(E'/E)`. Then:
-  - (i) `v_E(N(α + β) − N(α) − N(β)) ≥ (p − 1) i / p` for `α, β ∈ 𝒪_{E'}`
-    (`norm_add_sub_norm_sub_norm_mem` in the Galois case);
-  - (ii) every `a ∈ 𝒪_E` satisfies `v_E(N(α) − a) ≥ (p − 1) i / p` for some `α ∈ 𝒪_{E'}`
-    (`exists_norm_sub_mem`).
+### 1.1 The carrier [Wintenberger 1983, 2.1.1]
 
-  The estimate is transitive in towers (Lem. 2.2.2.1), and the cyclic case of degree `p` is
-  Lem. 2.2.2.3, where Tau Ceti's `exists_norm_one_add_eq_of_mem_maximalIdeal_pow` expands the
-  norm. For non-Galois `E'/E`, `i(E'/E)` is read through `ψ_{E'/E}` of
-  RamificationOfCompleteDiscretelyValuedFields §4a.2.
-- **1.4 The ring `A_K(L)`** [Wintenberger 1983, 2.2.3–2.2.4].
-  - For `E ∈ 𝓔_{L/K}`, let `r(E)` be the least integer `≥ (p − 1) i(L/E) / p`. The family
-    `r(E)` is increasing and tends to `∞` (Lem. 2.2.3.1, from `i(L/K_n) = i(K_{n+1}/K_n) → ∞`
-    along the elementary tower).
-  - Fix an increasing integer family `0 < s(E) ≤ r(E)` with `s(E) → ∞`, and put
-    `Ā_E = 𝒪_E / 𝔪_E^{s(E)}` for `E ⊇ K_1`. By 1.3(i), with 1.3(ii) for surjectivity, the norms
-    induce surjective ring homomorphisms `Ā_{E'} → Ā_E`. `A_K(L) = lim Ā_E`.
-  - `A_K(L)` is a ring of characteristic `p` (Prop. 2.2.4). For `a ≠ 0`, `w(a) = v_{E'}(â_{E'})` for
-    any lifts `â_{E'}` and all `E'` containing some `E` with `a_E ≠ 0`. `w` is a surjective valuation
-    onto `ℕ ∪ {∞}`, and `A_K(L)` is separated and complete for it. `f_{L/K}` induces an
-    isomorphism of `k_L` onto its residue field.
-  - The result does not depend on the choice of `s`.
-- **1.5 The field structure** [Wintenberger 1983, Thm. 2.1.3, Prop. 2.3.1].
-  - `ξ : 𝒪_{X_K(L)} → A_K(L)`, `α ↦ (ᾱ_E)`, is a bijection on the families with `v ≥ 0`. Its
-    inverse is `η(a)_E = lim_{E'} N_{E'/E}(â_{E'})` for any lifts `â_{E'}`. The key estimate is
-    Lem. 2.3.2.1: `v_{E'}(α − β) ≥ t` implies `v_E(N α − N β) ≥ φ_{E'/E}(t)`.
-  - For `α, β ∈ X_K(L)` and `E ∈ 𝓔_{L/K}`, `N_{E'/E}(α_{E'} + β_{E'})` converges along `𝓔_{L/E}`
-    to some `γ_E`, and `α + β = (γ_E)` is norm-compatible.
-  - With this addition, `X_K(L)` is a field of characteristic `p`, complete for `v`, with
-    `v(X_K(L)^×) = ℤ` and residue field `k_L` through `f_{L/K}`. `k_L` is finite, so `X_K(L)` is a
-    nonarchimedean local field: `X_K(L)` carries `Field`, `ValuativeRel`, `TopologicalSpace` and
-    `IsNonarchimedeanLocalField` instances.
-  - A uniformizer is any `α` with `v(α) = 1`, and `X_K(L) ≅ k_L((α))`.
-- **1.6 Change of base** [Wintenberger 1983, 2.1.4]. For `K' ∈ 𝓔_{L/K}`, `𝓔_{L/K'}` is cofinal in
-  `𝓔_{L/K}`, and restriction identifies `X_K(L)` with `X_{K'}(L)` as valued fields. The residue
-  embeddings differ by a Frobenius power: `f_{L/K'} = f_{L/K} ∘ σ^r`, where `p^r` is the largest
-  power of `p` dividing `e(K'/K)` and `σ` is the absolute Frobenius of `k_L`.
+`fieldOfNorms K L` is the submonoid of `∏_{E ∈ 𝓔_{L/K}} E` of norm-compatible families. A family
+with one zero coordinate is zero (`eq_zero_or_forall_ne_zero`), so `X_K(L) = X_K(L)^× ∪ {0}`, with
+`X_K(L)^× = lim E^×` as groups. Only the cofinal subsystems matter: for `𝓔' ⊆ 𝓔_{L/K}` cofinal,
+restriction is a bijection onto the norm-compatible families on `𝓔'`.
+
+### 1.2 Valuation and residue field [Wintenberger 1983, 2.1.2]
+
+- `v(α) = v_E(α_E)` for any `E ⊇ K_0`. It is independent of `E` by `normalizedValuation_norm`,
+  because `f(E'/E) = 1` for `K_0 ⊆ E ⊆ E'` in `L`.
+- For `x` in the residue field `k_L = k_{K_0}`, `f_{L/K}(x) = (x_E)`, where `x_E` is the
+  `[E : K_1]`-th root of the Teichmüller representative `[x]` for `E ⊇ K_1`. This is defined
+  because `[E : K_1]` is a power of `p`. `f_{L/K}` is a multiplicative embedding of `k_L`.
+
+### 1.3 The norm estimates [Wintenberger 1983, Prop. 2.2.1, Lems. 2.2.2.1, 2.2.2.3]
+
+Let `E'/E` be finite separable, nontrivial, totally ramified, of `p`-power degree, and
+`i = i(E'/E)`. Then:
+- (i) `v_E(N(α + β) − N(α) − N(β)) ≥ (p − 1) i / p` for `α, β ∈ 𝒪_{E'}`
+  (`norm_add_sub_norm_sub_norm_mem` in the Galois case);
+- (ii) every `a ∈ 𝒪_E` satisfies `v_E(N(α) − a) ≥ (p − 1) i / p` for some `α ∈ 𝒪_{E'}`
+  (`exists_norm_sub_mem`).
+
+The estimate is transitive in towers (Lem. 2.2.2.1), and the cyclic case of degree `p` is
+Lem. 2.2.2.3, where Tau Ceti's `exists_norm_one_add_eq_of_mem_maximalIdeal_pow` expands the
+norm. For non-Galois `E'/E`, `i(E'/E)` is read through `ψ_{E'/E}` of
+RamificationOfCompleteDiscretelyValuedFields §4a.2.
+
+### 1.4 The ring `A_K(L)` [Wintenberger 1983, 2.2.3–2.2.4]
+
+- For `E ∈ 𝓔_{L/K}`, let `r(E)` be the least integer `≥ (p − 1) i(L/E) / p`. The family
+  `r(E)` is increasing and tends to `∞` (Lem. 2.2.3.1, from `i(L/K_n) = i(K_{n+1}/K_n) → ∞`
+  along the elementary tower).
+- Fix an increasing integer family `0 < s(E) ≤ r(E)` with `s(E) → ∞`, and put
+  `Ā_E = 𝒪_E / 𝔪_E^{s(E)}` for `E ⊇ K_1`. By 1.3(i), with 1.3(ii) for surjectivity, the norms
+  induce surjective ring homomorphisms `Ā_{E'} → Ā_E`. `A_K(L) = lim Ā_E`.
+- `A_K(L)` is a ring of characteristic `p` (Prop. 2.2.4). For `a ≠ 0`, `w(a) = v_{E'}(â_{E'})` for
+  any lifts `â_{E'}` and all `E'` containing some `E` with `a_E ≠ 0`. `w` is a surjective valuation
+  onto `ℕ ∪ {∞}`, and `A_K(L)` is separated and complete for it. `f_{L/K}` induces an
+  isomorphism of `k_L` onto its residue field.
+- The result does not depend on the choice of `s`.
+
+### 1.5 The field structure [Wintenberger 1983, Thm. 2.1.3, Prop. 2.3.1]
+
+- `ξ : 𝒪_{X_K(L)} → A_K(L)`, `α ↦ (ᾱ_E)`, is a bijection on the families with `v ≥ 0`. Its
+  inverse is `η(a)_E = lim_{E'} N_{E'/E}(â_{E'})` for any lifts `â_{E'}`. The key estimate is
+  Lem. 2.3.2.1: `v_{E'}(α − β) ≥ t` implies `v_E(N α − N β) ≥ φ_{E'/E}(t)`.
+- For `α, β ∈ X_K(L)` and `E ∈ 𝓔_{L/K}`, `N_{E'/E}(α_{E'} + β_{E'})` converges along `𝓔_{L/E}`
+  to some `γ_E`, and `α + β = (γ_E)` is norm-compatible.
+- With this addition, `X_K(L)` is a field of characteristic `p`, complete for `v`, with
+  `v(X_K(L)^×) = ℤ` and residue field `k_L` through `f_{L/K}`. `k_L` is finite, so `X_K(L)` is a
+  nonarchimedean local field: `X_K(L)` carries `Field`, `ValuativeRel`, `TopologicalSpace` and
+  `IsNonarchimedeanLocalField` instances.
+- A uniformizer is any `α` with `v(α) = 1`, and `X_K(L) ≅ k_L((α))`.
+
+### 1.6 Change of base [Wintenberger 1983, 2.1.4]
+
+For `K' ∈ 𝓔_{L/K}`, `𝓔_{L/K'}` is cofinal in `𝓔_{L/K}`, and restriction identifies `X_K(L)` with
+`X_{K'}(L)` as valued fields. The residue embeddings differ by a Frobenius power:
+`f_{L/K'} = f_{L/K} ∘ σ^r`, where `p^r` is the largest power of `p` dividing `e(K'/K)` and `σ` is
+the absolute Frobenius of `k_L`.
 
 ## Layer 2: functoriality and Galois groups
 
 Let `L, L'` be infinite APF extensions of `K`.
 
-- **2.1 Finite embeddings** [Wintenberger 1983, 3.1.1–3.1.2]. Let `τ : L → L'` be a
-  `K`-embedding with `L'/τL` finite separable, and `𝓔_τ` the set of `E' ∈ 𝓔_{L'/K}` with
-  `τL ⊗_{τL ∩ E'} E' ≅ L'`, a cofinal subset. Then:
-  - `X_K(τ)(α)_{E'} = τ(α_{τ^{-1}(τL ∩ E')})` for `E' ∈ 𝓔_τ` defines a continuous embedding
-    `X_K(L) → X_K(L')`;
-  - `X_K(L')` is finite separable over its image, of degree `[L' : τL]`;
-  - `X_K` is a functor;
-  - for `L'/τL` Galois, `σ ↦ X_K(σ)` identifies `Gal(L'/τL)` with the Galois group of
-    `X_K(L')` over the image of `X_K(L)`.
+### 2.1 Finite embeddings [Wintenberger 1983, 3.1.1–3.1.2]
 
-  The faithfulness of the action (Lem. 3.1.3.1) comes from the residue field and a uniformizer.
-- **2.2 The equivalence of categories** [Wintenberger 1983, 3.2.1–3.2.3].
-  - For `M/L` separable algebraic, `X_{L/K}(M) = colim X_K(L')` over the finite subextensions `L'`
-    of `M/L`. For finite `M/L`, `X_{L/K}(M) = X_K(M)`.
-  - `X_{L/K}` is an equivalence from separable algebraic extensions of `L`, with
-    `L`-embeddings, to separable algebraic extensions of `X_K(L)`, with `X_K(L)`-embeddings.
-    Essential surjectivity is proved through discriminants [Wintenberger 1983, 3.2.5].
-  - **Corollary.** `X̄ = X_{L/K}(K^sep)` is a separable closure of `X_K(L)`, and
-    `Gal(K^sep/L) ≅ Gal(X̄/X_K(L))`. As topological groups, through 0.0 and Tau Ceti's
-    `absoluteGaloisGroupRestrictEquiv`, which compares the separable and algebraic closure
-    models:
-    `Field.absoluteGaloisGroup L ≃ₜ* Field.absoluteGaloisGroup (X_K(L))`. This is the
-    **field-of-norms isomorphism**, written `ι_{L/K}`.
-- **2.3 Galois `L/K`** [Wintenberger 1983, 3.2.4, Cor. 3.3.4].
-  - `Gal(L/K)` acts faithfully on `X_K(L)` by continuous automorphisms.
-  - Its image is closed in `Aut(X_K(L))`, topologized by the lower filtration, and the two
-    topologies on `Gal(L/K)` agree.
-  - `G_K` is identified with the group of automorphisms of `X̄` that stabilize `X_K(L)` and
-    induce on it an element of the image of `Gal(L/K)`.
+Let `τ : L → L'` be a `K`-embedding with `L'/τL` finite separable, and `𝓔_τ` the set of
+`E' ∈ 𝓔_{L'/K}` with `τL ⊗_{τL ∩ E'} E' ≅ L'`, a cofinal subset. Then:
+- `X_K(τ)(α)_{E'} = τ(α_{τ^{-1}(τL ∩ E')})` for `E' ∈ 𝓔_τ` defines a continuous embedding
+  `X_K(L) → X_K(L')`;
+- `X_K(L')` is finite separable over its image, of degree `[L' : τL]`;
+- `X_K` is a functor;
+- for `L'/τL` Galois, `σ ↦ X_K(σ)` identifies `Gal(L'/τL)` with the Galois group of
+  `X_K(L')` over the image of `X_K(L)`.
+
+The faithfulness of the action (Lem. 3.1.3.1) comes from the residue field and a uniformizer.
+
+### 2.2 The equivalence of categories [Wintenberger 1983, 3.2.1–3.2.3]
+
+- For `M/L` separable algebraic, `X_{L/K}(M) = colim X_K(L')` over the finite subextensions `L'`
+  of `M/L`. For finite `M/L`, `X_{L/K}(M) = X_K(M)`.
+- `X_{L/K}` is an equivalence from separable algebraic extensions of `L`, with
+  `L`-embeddings, to separable algebraic extensions of `X_K(L)`, with `X_K(L)`-embeddings.
+  Essential surjectivity is proved through discriminants [Wintenberger 1983, 3.2.5].
+- **Corollary.** `X̄ = X_{L/K}(K^sep)` is a separable closure of `X_K(L)`, and
+  `Gal(K^sep/L) ≅ Gal(X̄/X_K(L))`. As topological groups, through 0.0 and Tau Ceti's
+  `absoluteGaloisGroupRestrictEquiv`, which compares the separable and algebraic closure
+  models:
+  `Field.absoluteGaloisGroup L ≃ₜ* Field.absoluteGaloisGroup (X_K(L))`. This is the
+  **field-of-norms isomorphism**, written `ι_{L/K}`.
+
+### 2.3 Galois `L/K` [Wintenberger 1983, 3.2.4, Cor. 3.3.4]
+
+- `Gal(L/K)` acts faithfully on `X_K(L)` by continuous automorphisms.
+- Its image is closed in `Aut(X_K(L))`, topologized by the lower filtration, and the two
+  topologies on `Gal(L/K)` agree.
+- `G_K` is identified with the group of automorphisms of `X̄` that stabilize `X_K(L)` and
+  induce on it an element of the image of `Gal(L/K)`.
 
 ## Layer 3: ramification
 
-- **3.1 Lower indices on the field of norms** [Wintenberger 1983, Prop. 3.3.2]. For `L/K` APF and
-  `σ` a `K`-automorphism of `L`, there is `E ∈ 𝓔_{L/K}` such that, for every `E' ⊇ E` in
-  `𝓔_{L/K}` stable under `σ`, the lower index of `σ|_{E'}` equals that of `X_K(σ)` on `X_K(L)`.
-- **3.2 The upper filtration of `Gal(L/K)`** [Wintenberger 1983, Cor. 3.3.4]. For `L/K` Galois
-  APF and `u ≥ −1`:
-  `Gal(L/K)^u = Gal(L/K)_{ψ_{L/K}(u)}`. The left side is the quotient filtration of
-  FilteredLocalGaloisGroups 2.1. The right side is the lower filtration of `Gal(L/K)` acting on
-  `X_K(L)`.
-- **3.3 The upper filtration above `L`** [Wintenberger 1983, Cor. 3.3.6]. For `M/K` Galois with
-  `L ⊆ M`, `G = Gal(M/K)` and `H = Gal(M/L) ≅ Gal(X_{L/K}(M)/X_K(L))` (2.2), with `H` carrying the
-  upper filtration of the extension `X_{L/K}(M)/X_K(L)` of a local field:
-  `H^{ψ_{L/K}(u)} = G^u ∩ H` for every `u ≥ −1`. For `M/L` infinite, the upper filtration of `H` is
-  the quotient filtration of `F_{X_K(L)}` (FilteredLocalGaloisGroups 2.1 applied to the local
-  field `X_K(L)`).
-  **Absolute form.** `ι_{L/K}` carries `G_K(u) ∩ G_L` onto `G_{X_K(L)}(ψ_{L/K}(u))` for every
-  `u ≥ −1`, with `G_L = L.fixingSubgroup` through 0.0. This is the case
-  `M = separableClosure K (AlgebraicClosure K)`, which is Galois over `K` in every characteristic,
-  read through `absoluteGaloisGroupRestrictEquiv K`.
-- **3.4 Transitivity** [Wintenberger 1983, Prop. 3.4.1]. For `M/L` separable algebraic, `M/K` is
-  APF iff `X_{L/K}(M)/X_K(L)` is. Then `X_K(M) ≅ X_{X_K(L)}(X_{L/K}(M))`, compatibly with the
-  embeddings of 2.1 and with `ι`.
+### 3.1 Lower indices on the field of norms [Wintenberger 1983, Prop. 3.3.2]
+
+For `L/K` APF and `σ` a `K`-automorphism of `L`, there is `E ∈ 𝓔_{L/K}` such that, for every
+`E' ⊇ E` in `𝓔_{L/K}` stable under `σ`, the lower index of `σ|_{E'}` equals that of `X_K(σ)` on
+`X_K(L)`.
+
+### 3.2 The upper filtration of `Gal(L/K)` [Wintenberger 1983, Cor. 3.3.4]
+
+For `L/K` Galois APF and `u ≥ −1`: `Gal(L/K)^u = Gal(L/K)_{ψ_{L/K}(u)}`. The left side is the
+quotient filtration of FilteredLocalGaloisGroups 2.1. The right side is the lower filtration of
+`Gal(L/K)` acting on `X_K(L)`.
+
+### 3.3 The upper filtration above `L` [Wintenberger 1983, Cor. 3.3.6]
+
+For `M/K` Galois with `L ⊆ M`, `G = Gal(M/K)` and `H = Gal(M/L) ≅ Gal(X_{L/K}(M)/X_K(L))` (2.2),
+with `H` carrying the upper filtration of the extension `X_{L/K}(M)/X_K(L)` of a local field:
+`H^{ψ_{L/K}(u)} = G^u ∩ H` for every `u ≥ −1`. For `M/L` infinite, the upper filtration of `H` is
+the quotient filtration of `F_{X_K(L)}` (FilteredLocalGaloisGroups 2.1 applied to the local field
+`X_K(L)`). **Absolute form.** `ι_{L/K}` carries `G_K(u) ∩ G_L` onto `G_{X_K(L)}(ψ_{L/K}(u))` for
+every `u ≥ −1`, with `G_L = L.fixingSubgroup` through 0.0. This is the case
+`M = separableClosure K (AlgebraicClosure K)`, which is Galois over `K` in every characteristic,
+read through `absoluteGaloisGroupRestrictEquiv K`.
+
+### 3.4 Transitivity [Wintenberger 1983, Prop. 3.4.1]
+
+For `M/L` separable algebraic, `M/K` is APF iff `X_{L/K}(M)/X_K(L)` is. Then
+`X_K(M) ≅ X_{X_K(L)}(X_{L/K}(M))`, compatibly with the embeddings of 2.1 and with `ι`.
 
 ## Layer 4: full faithfulness
 
-For a group `Γ ≅ ℤ_p` of continuous automorphisms of a local field `X` of characteristic `p` with
-generator `σ`, let `i_n` be the Wintenberger lower index of `σ^{p^n}` (the conventions). Then
-`i_{n+1} − i_n = p^{n+1} e(Γ)` for `n` large, for a unique integer `e(Γ) ≥ 1`, or
+For a group `Γ ≅ ℤ_p` of wildly ramified continuous automorphisms (lower index at least `2`, as in
+4.1) of a local field `X` of characteristic `p` with generator `σ`, let `i_n` be the Wintenberger
+lower index of `σ^{p^n}` (the conventions). Then `i_{n+1} − i_n = p^{n+1} e(Γ)` for `n` large, for a unique integer `e(Γ) ≥ 1`, or
 `i_n/p^n → ∞`, and then `e(Γ) = ∞` [Wintenberger 2004, Introduction]. When `e(Γ)` is finite,
 `lim_n i_n/p^n = p e(Γ)/(p − 1)`. For `X = X_K(L)` and `Γ = X_K(Gal(L/K))` with `L/K` a totally
 ramified `ℤ_p`-extension, `e(Γ) = e_K`, the absolute ramification index of `K`, in characteristic
 `0`, and `e(Γ) = ∞` in characteristic `p` [Wintenberger 2004, 2.1], by 3.1.
 
-- **4.1 The categories** [Wintenberger 2004, 2.7].
-  - **`ΓEXT`.** Objects: `L/K` with `K` a nonarchimedean local field and `L/K` Galois, totally
-    ramified, with `Γ = Gal(L/K) ≅ ℤ_p`. Such an `L/K` is strictly APF (0.6). Morphisms
-    `L/K → L'/K'`: continuous field embeddings `i : L → L'` with `i(K) ⊆ K'`, `K'` finite
-    separable over `i(K)`, and `i(L)·K' = L'`.
-  - **`ΓAUT`.** Objects: `(X, Γ)` with `X` a nonarchimedean local field of characteristic `p` and
-    `Γ ≅ ℤ_p` a group of continuous automorphisms of `X` with lower index at least `2` (wildly
-    ramified). Morphisms `(X, Γ) → (X', Γ')`: continuous field embeddings `j : X → X'` with `X'`
-    finite separable over `j(X)`, `j(X)` stable under `Γ'`, and `Γ'` acting on `j(X)` through
-    `Γ`. Restriction is then an isomorphism of `Γ'` onto an open subgroup `Γ^{p^{n_0}}` of `Γ`.
-  - **The functor `X`.** `L/K ↦ (X_K(L), X_K(Γ))`, an object by 2.3 and 3.1. On a morphism `i`,
-    `X(i)` is `X_{K'}` of `i` (2.1), after the change of base `X_K(L) = X_{K_n}(L)` (1.6) for the
-    layer `K_n` with `i(K_n) ⊆ K'`.
-- **4.2 Full faithfulness** [Wintenberger 2004, Thm. 2]. `X` is fully faithful.
-  - **Faithful.** `X(i)` determines `i` on the residue field, through `f_{L/K}` (1.2), and on the
-    component `π_E` of a uniformizer of `X_K(L)` for every `E ∈ 𝓔_{L/K}`. Each `E` is generated
-    by `π_E` over the unramified extension of `K` with the residue field of `E`, which `i`
-    determines through Teichmüller representatives in characteristic `0` and through the residue
-    field in characteristic `p`. [Keating 2009, §3] gives the same argument.
-  - **Full.** Let `j : (X, Γ) → (X', Γ')` be a morphism, `X = X_K(L)`, `X' = X_{K'}(L')`. Replacing
-    `K` by a layer `K_n`, assume `n_0 = 0`. Extend `j` to the separable closures of 2.2; by 2.3 it
-    induces a continuous homomorphism `G_{K'} → G_K`. Then
-    `e(Γ') = e(X'/j(X)) · e(Γ)` [Wintenberger 2004, Lem. 1], where `e(X'/j(X))` is the
-    ramification index of `X'` over `j(X)`. The proof applies [Serre, *Local Fields*, IV,
-    Prop. 3] to the `j(X)`-embeddings of `X'` and compares the lower indices of `Γ'` and `Γ` for
-    `n` large.
-    So `e(Γ)` and `e(Γ')` are both finite or both infinite, `e_{K'} = e(X'/j(X)) · e_K` in
-    characteristic `0` [Wintenberger 2004, 2.8], and `K`, `L`, `K'`, `L'` have the same
-    characteristic.
-  - **Characteristic `0`.** The completed perfection of `X_{L/K}(K^sep)` is `R(Ĉ)` (5.2 with
-    `M = K^sep`). Fix `ε ∈ R(Ĉ)` with `ε_0` a primitive `p`-th root of unity and `ε_{n+1}^p = ε_n`.
-    If `u ≠ 1` in `U^{(1)}_{R(Ĉ)}` and a continuous `η : G_K → ℤ_p^×` satisfy `τ(u) = u^{η(τ)}` for
-    all `τ`, then `η = χ_cyc` and `u ∈ ε^{ℤ_p}` [Wintenberger 2004, Prop. 2].
-    - First, `η(I_K)` is infinite. Otherwise `η` is unramified on `G_{K''}` for a finite extension
-      `K''/K`, and the components `u_n` lie in the fixed field of `G_{K''} ∩ ker η` in `Ĉ`, which
-      is the completion of an unramified extension of `K''` (PadicPeriodRings §1.2,
-      `padicComplex_fixed_closure_eq`). That field is discretely valued, so a compatible system of
-      `p`-power roots of a principal unit in it consists of roots of unity; then `u ∈ ε^{ℤ_p}`,
-      so `η = χ_cyc`, which is ramified.
-    - Then `τ(log u_n) = η(τ) log u_n`, so `log u_n ∈ Ĉ(η⁻¹)^{G_K}`. This is `0` by the `H⁰` part
-      of PadicPeriodRings §2, `tateSen_character`: `η⁻¹` takes values in `ℤ_p^× ⊆ 𝒪_K^×`, its
-      image is closed in `ℤ_p^×` and so finite or containing an open subgroup isomorphic to
-      `ℤ_p`, and `η⁻¹(I_K)` is infinite. So the `u_n` are compatible `p`-power roots of unity.
+### 4.1 The categories [Wintenberger 2004, 2.7]
 
-    Applied to `j(ε)`, with `η` the cyclotomic character of `K` composed with `G_{K'} → G_K`, this
-    gives `j(ε) = ε'^a` with `a ∈ ℤ_p`. It is a unit: `v_{X'}(ε' − 1) = e(Γ')/(p − 1)` and
-    `v_X(ε − 1) = e(Γ)/(p − 1)` [Wintenberger 2004, 2.8], so
-    `v_{X'}(j(ε) − 1) = e(X'/j(X)) · e(Γ)/(p − 1) = e(Γ')/(p − 1) = v_{X'}(ε' − 1)`.
-    With `ξ = ∑_{i<p} [ε]^i ∈ W(𝒪_{R(Ĉ)})`, `θ` gives `W(𝒪_{R(Ĉ)})/ξ ≅ 𝒪_Ĉ` (5.2
-    and [Wintenberger 1983, Prop. 4.3.7]), so `𝒪_{K_n} = (W(𝒪_{R(Ĉ)})/ξ)^{G_{K_n}}` by Ax–Sen–Tate
-    (PadicPeriodRings §1.2) [Wintenberger 2004, Prop. 3]. Extend `j` to the completed
-    perfections. `W(j)` carries `ξ` to `∑_{i<p} [ε']^{ai}`, which satisfies the generator
-    criterion of [Wintenberger 1983, Prop. 4.3.7] for `ker θ'`, and commutes with `G_{K'} → G_K`.
-    So it induces compatible embeddings `𝒪_{K_n} → 𝒪_{K'_n}`, whose union is the required
-    `i : L → L'`.
-  - **Characteristic `p`.** `x ↦ x_0` identifies `R(L̂)` with `L̂` (5.2), so `X_K(L) ⊆ L̂`. For
-    `x ∈ X_K(L)`, its component `x_{K_n}` is the limit in `L̂` of an expression in `x` and the
-    action of `Γ^{p^n}` on `X_K(L)` alone [Wintenberger 2004, Prop. 1], written `N_n(x)`, and for a
-    uniformizer `π` of `X_K(L)`,
-    `K_n` is generated over the residue field by the component `N_n(π)` [Wintenberger 2004,
-    Cor. 1]. Define `i` on `K_n` by `i(N_n(x)) = N'_n(j(x))`.
-- **4.3 Lifting isomorphisms** (the form [Abrashkin 2010, §7] consumes). Let `L/K`, `L'/K'` be
-  infinite Galois APF extensions with groups `G`, `G'`. Suppose `G` has an open normal subgroup
-  `Γ_1 ≅ ℤ_p` whose fixed field `K_1` has `L/K_1` totally ramified. Let `μ̃ : X_K(L) → X_{K'}(L')`
-  be a continuous field isomorphism with `μ̃ X_K(G) μ̃⁻¹ = X_{K'}(G')`. Then there is a unique
-  field isomorphism `μ : L → L'` with `μ(K) = K'` whose transport `X_K(L) ≅ X_{K'}(L')` is `μ̃`, and
-  `μ σ μ⁻¹` is the element of `G'` corresponding to `μ̃ X_K(σ) μ̃⁻¹`.
-  - **Transport the `ℤ_p`-extension.** `Γ'_1`, the subgroup of `G'` corresponding to
-    `μ̃ X_K(Γ_1) μ̃⁻¹` (faithfulness of 2.3), is open, normal and `≅ ℤ_p`. Let `K'_1` be its fixed
-    field. `X_K(σ)` acts on the residue field of `X_K(L)` as `σ` acts on `𝓀[L]` through `f_{L/K}`
-    (1.2), and `μ̃` induces an isomorphism of residue fields intertwining the actions. `Γ_1` acts
-    trivially on `𝓀[L]`, so `Γ'_1` acts trivially on `𝓀[L']`, and `L'/K'_1` is totally ramified.
-    Lower indices are preserved by `μ̃` (3.1), so `X_{K'}(Γ'_1)` is wildly ramified.
-  - **Apply 4.2.** `μ̃` is an isomorphism `(X_{K_1}(L), Γ_1) ≅ (X_{K'_1}(L'), Γ'_1)` in `ΓAUT`
-    (1.6), so `μ̃ = X(μ)` for an isomorphism `μ : L/K_1 → L'/K'_1` of `ΓEXT`. A fully faithful
-    functor reflects isomorphisms.
-  - **Equivariance.** For `σ ∈ G` let `σ'` be the element of `G'` with
-    `X_{K'}(σ') = μ̃ X_K(σ) μ̃⁻¹`. `σ` and `σ'` preserve `K_1` and `K'_1` by normality, so `μσ` and
-    `σ'μ` are morphisms `L/K_1 → L'/K'_1` with the same image under `X`. By faithfulness
-    `μσ = σ'μ`. So `μ G μ⁻¹ = G'`, and `μ(K) = μ(L^G) = L'^{G'} = K'`. Uniqueness is
-    faithfulness.
-- **4.4 Cofinal systems.** Let `E` be a nonarchimedean local field, `E(p)` a maximal
-  `p`-extension, and `E_∞ ⊆ E(p)` a ramified `ℤ_p`-extension: in characteristic `0`, the
-  `ℤ_p`-quotient of `E(μ_{p^∞})/E`, ramified because `χ_cyc(G_E(0))` is open; in characteristic
-  `p`, the `ℤ_p`-extension of a Witt vector `[t⁻¹]`, `t` a uniformizer, through
-  FunctionFieldArithmetic §3.1. For every finite Galois `F/E` inside `E(p)`,
-  `E_F = F·E_∞` satisfies the hypothesis of 4.3 over `E`: for `m` large,
-  `Gal(E_F/F·E_m)` is open, normal (`F·E_m/E` is Galois), `≅ ℤ_p`, and totally ramified, because
-  the residue extension of `E_F/F` is finite and so lies in some `F·E_m`. The `E_F` exhaust
-  `E(p)`.
+- **`ΓEXT`.** Objects: `L/K` with `K` a nonarchimedean local field and `L/K` Galois, totally
+  ramified, with `Γ = Gal(L/K) ≅ ℤ_p`. Such an `L/K` is strictly APF (0.6). Morphisms
+  `L/K → L'/K'`: continuous field embeddings `i : L → L'` with `i(K) ⊆ K'`, `K'` finite
+  separable over `i(K)`, and `i(L)·K' = L'`.
+- **`ΓAUT`.** Objects: `(X, Γ)` with `X` a nonarchimedean local field of characteristic `p` and
+  `Γ ≅ ℤ_p` a group of continuous automorphisms of `X` with lower index at least `2` (wildly
+  ramified). Morphisms `(X, Γ) → (X', Γ')`: continuous field embeddings `j : X → X'` with `X'`
+  finite separable over `j(X)`, `j(X)` stable under `Γ'`, and `Γ'` acting on `j(X)` through
+  `Γ`. Restriction is then an isomorphism of `Γ'` onto an open subgroup `Γ^{p^{n_0}}` of `Γ`.
+- **The functor `X`.** `L/K ↦ (X_K(L), X_K(Γ))`, an object by 2.3 and 3.1. On a morphism `i`,
+  `X(i)` is `X_{K'}` of `i` (2.1), after the change of base `X_K(L) = X_{K_n}(L)` (1.6) for the
+  layer `K_n` with `i(K_n) ⊆ K'`.
+
+### 4.2 Full faithfulness [Wintenberger 2004, Thm. 2]
+
+`X` is fully faithful.
+- **Faithful.** `X(i)` determines `i` on the residue field, through `f_{L/K}` (1.2), and on the
+  component `π_E` of a uniformizer of `X_K(L)` for every `E ∈ 𝓔_{L/K}`. Each `E` is generated
+  by `π_E` over the subfield generated by the Teichmüller representatives, on which `i` is
+  determined by its action on the residue field: `E = W(k_E)[1/p](π_E)` in characteristic `0`,
+  and `E = k_E((π_E))` in characteristic `p`. [Keating 2009, §3] gives the same argument.
+- **Full.** Let `j : (X, Γ) → (X', Γ')` be a morphism, `X = X_K(L)`, `X' = X_{K'}(L')`. Replacing
+  `K` by a layer `K_n`, assume `n_0 = 0`. Extend `j` to the separable closures of 2.2; by 2.3 it
+  induces a continuous homomorphism `G_{K'} → G_K`. Then
+  `e(Γ') = e(X'/j(X)) · e(Γ)` [Wintenberger 2004, Lem. 1], where `e(X'/j(X))` is the
+  ramification index of `X'` over `j(X)`. The proof applies [Serre, *Local Fields*, IV,
+  Prop. 3] to the `j(X)`-embeddings of `X'` and compares the lower indices of `Γ'` and `Γ` for
+  `n` large.
+  So `e(Γ)` and `e(Γ')` are both finite or both infinite, `e_{K'} = e(X'/j(X)) · e_K` in
+  characteristic `0` [Wintenberger 2004, 2.8], and `K`, `L`, `K'`, `L'` have the same
+  characteristic.
+- **Characteristic `0`.** The completed perfection of `X_{L/K}(K^sep)` is `R(Ĉ)` (5.2 with
+  `M = K^sep`). Fix `ε ∈ R(Ĉ)` with `ε_0` a primitive `p`-th root of unity and `ε_{n+1}^p = ε_n`.
+  If `u ≠ 1` in `U^{(1)}_{R(Ĉ)}` and a continuous `η : G_K → ℤ_p^×` satisfy `τ(u) = u^{η(τ)}` for
+  all `τ`, then `η = χ_cyc` and `u ∈ ε^{ℚ_p}` [Wintenberger 2004, Prop. 2]. The set is `ε^{ℚ_p}`,
+  not `ε^{ℤ_p}`: `ε^{1/p} = (ε_1, ε_2, …)` is a solution whose `0`-th component has order `p²`.
+  - First, `η(I_K)` is infinite. Otherwise `η` is unramified on `G_{K''}` for a finite extension
+    `K''/K`, and the components `u_n` lie in the fixed field of `G_{K''} ∩ ker η` in `Ĉ`, which
+    is the completion of an unramified extension of `K''` (PadicPeriodRings §1.2,
+    `padicComplex_fixed_closure_eq`). That field is discretely valued, so a compatible system of
+    `p`-power roots of a principal unit in it consists of roots of unity; then `u ∈ ε^{ℚ_p}`,
+    so `η = χ_cyc`, which is ramified.
+  - Then `τ(log u_n) = η(τ) log u_n`, so `log u_n ∈ Ĉ(η⁻¹)^{G_K}`. This is `0` by the `H⁰` part
+    of PadicPeriodRings §2, `tateSen_character`: `η⁻¹` takes values in `ℤ_p^× ⊆ 𝒪_K^×`, its
+    image is closed in `ℤ_p^×` and so finite or containing an open subgroup isomorphic to
+    `ℤ_p`, and `η⁻¹(I_K)` is infinite. So the `u_n` are compatible `p`-power roots of unity.
+
+  Applied to `j(ε)`, with `η` the cyclotomic character of `K` composed with `G_{K'} → G_K`, this
+  gives `j(ε) = ε'^a` with `a ∈ ℚ_p`. It is a unit of `ℤ_p`: in characteristic `p`,
+  `v_{X'}(ε'^a − 1) = p^{v_p(a)} · v_{X'}(ε' − 1)`, while `v_{X'}(ε' − 1) = e(Γ')/(p − 1)` and
+  `v_X(ε − 1) = e(Γ)/(p − 1)` [Wintenberger 2004, 2.8] give
+  `v_{X'}(j(ε) − 1) = e(X'/j(X)) · e(Γ)/(p − 1) = e(Γ')/(p − 1) = v_{X'}(ε' − 1)`. So
+  `v_p(a) = 0`.
+  With `ξ = ∑_{i<p} [ε]^i ∈ W(𝒪_{R(Ĉ)})`, `θ` gives `W(𝒪_{R(Ĉ)})/ξ ≅ 𝒪_Ĉ` (5.2
+  and [Wintenberger 1983, Prop. 4.3.7]), so `𝒪_{K_n} = (W(𝒪_{R(Ĉ)})/ξ)^{G_{K_n}}` by Ax–Sen–Tate
+  (PadicPeriodRings §1.2) [Wintenberger 2004, Prop. 3]. Extend `j` to the completed
+  perfections. `W(j)` carries `ξ` to `∑_{i<p} [ε']^{ai}`, which satisfies the generator
+  criterion of [Wintenberger 1983, Prop. 4.3.7] for `ker θ'`, and commutes with `G_{K'} → G_K`.
+  So it induces compatible embeddings `𝒪_{K_n} → 𝒪_{K'_n}`, whose union is the required
+  `i : L → L'`.
+- **Characteristic `p`.** `x ↦ x_0` identifies `R(L̂)` with `L̂` (5.2), so `X_K(L) ⊆ L̂`. For
+  `x ∈ X_K(L)`, its component `x_{K_n}` is the limit in `L̂` of an expression in `x` and the
+  action of `Γ^{p^n}` on `X_K(L)` alone [Wintenberger 2004, Prop. 1], written `N_n(x)`, and for a
+  uniformizer `π` of `X_K(L)`,
+  `K_n` is generated over the residue field by the component `N_n(π)` [Wintenberger 2004,
+  Cor. 1]. Define `i` on `K_n` by `i(N_n(x)) = N'_n(j(x))`.
+
+### 4.3 Lifting isomorphisms (the form [Abrashkin 2010, §7] consumes)
+
+Let `L/K`, `L'/K'` be infinite Galois APF extensions with groups `G`, `G'`. Suppose `G` has an open
+normal subgroup `Γ_1 ≅ ℤ_p` whose fixed field `K_Γ` has `L/K_Γ` totally ramified. Let
+`μ̃ : X_K(L) → X_{K'}(L')` be a continuous field isomorphism with `μ̃ X_K(G) μ̃⁻¹ = X_{K'}(G')`.
+Then there is a unique field isomorphism `μ : L → L'` with `μ(K) = K'` whose transport
+`X_K(L) ≅ X_{K'}(L')` is `μ̃`, and `μ σ μ⁻¹` is the element of `G'` corresponding to
+`μ̃ X_K(σ) μ̃⁻¹`.
+- **Transport the `ℤ_p`-extension.** `Γ'_1`, the subgroup of `G'` corresponding to
+  `μ̃ X_K(Γ_1) μ̃⁻¹` (faithfulness of 2.3), is open, normal and `≅ ℤ_p`. Let `K'_Γ` be its fixed
+  field. `X_K(σ)` acts on the residue field of `X_K(L)` as `σ` acts on `k_L` through `f_{L/K}`
+  (1.2), and `μ̃` induces an isomorphism of residue fields intertwining the actions. `Γ_1` acts
+  trivially on `k_L`, so `Γ'_1` acts trivially on `k_{L'}`, and `L'/K'_Γ` is totally ramified.
+  Lower indices are preserved by `μ̃` (3.1), so `X_{K'}(Γ'_1)` is wildly ramified.
+- **Apply 4.2.** `μ̃` is an isomorphism `(X_{K_Γ}(L), Γ_1) ≅ (X_{K'_Γ}(L'), Γ'_1)` in `ΓAUT`
+  (1.6), so `μ̃ = X(μ)` for an isomorphism `μ : L/K_Γ → L'/K'_Γ` of `ΓEXT`. A fully faithful
+  functor reflects isomorphisms.
+- **Equivariance.** For `σ ∈ G` let `σ'` be the element of `G'` with
+  `X_{K'}(σ') = μ̃ X_K(σ) μ̃⁻¹`. `σ` and `σ'` preserve `K_Γ` and `K'_Γ` by normality, so `μσ` and
+  `σ'μ` are morphisms `L/K_Γ → L'/K'_Γ` with the same image under `X`. By faithfulness
+  `μσ = σ'μ`. So `μ G μ⁻¹ = G'`, and `μ(K) = μ(L^G) = L'^{G'} = K'`. Uniqueness is
+  faithfulness.
+
+### 4.4 Cofinal systems
+
+Let `E` be a nonarchimedean local field, `E(p)` a maximal `p`-extension, and `E_∞ ⊆ E(p)` a ramified
+`ℤ_p`-extension: in characteristic `0`, the `ℤ_p`-quotient of `E(μ_{p^∞})/E`, ramified because
+`χ_cyc(G_E(0))` is open; in characteristic `p`, the `ℤ_p`-extension of a Witt vector `[t⁻¹]`, `t` a
+uniformizer, through FunctionFieldArithmetic §3.1. For every finite Galois `F/E` inside `E(p)`,
+`E_F = F·E_∞` satisfies the hypothesis of 4.3 over `E`: for `m` large, `Gal(E_F/F·E_m)` is open,
+normal (`F·E_m/E` is Galois), `≅ ℤ_p`, and totally ramified, because the residue extension of
+`E_F/F` is finite and so lies in some `F·E_m`. The `E_F` exhaust `E(p)`.
 
 ## Layer 5: comparison with tilting
 
 Let `L/K` be an infinite strictly APF extension, `L̂` the completion of `L`, and `M/L` separable
 algebraic with completion `M̂`.
 
-- **5.0 Tilts as sequences.** For a complete valued field `E` of residue characteristic `p` with
-  `𝒪_E` `p`-adically complete, `x ↦ ((x^{1/p^n})^♯)_n` is a multiplicative bijection from
-  Mathlib's `Tilt` of `E` onto the sequences `(x_n)` in `E` with `x_{n+1}^p = x_n`. It is built from
-  `PreTilt.untilt` and carries the field operations to the termwise product and the limit sum of
-  the conventions. For a perfectoid `E` it agrees with PerfectoidSpaces P1's sharp map.
-- **5.1 The embedding into the tilt** [Wintenberger 1983, Prop. 4.2.1, Lem. 4.2.2.1].
-  - For `E'/E` a totally ramified `p`-extension, `v_E(N_{E'/E}(α)/α^{[E' : E]} − 1) ≥ c(E'/E)`
-    for every `α ∈ E'^×`.
-  - Hence, for `α ∈ X_K(L)` and `n ≥ 0`, `α_E^{[E : K_1]/p^n}` converges along the `E ∈ 𝓔_{L/K}`
-    with `p^n ∣ [E : K_1]` to some `x_n ∈ L̂`.
-  - `Λ_{L/K}(α) = (x_n)_n` lies in `R(L̂)`, and `Λ_{L/K} : X_K(L) → R(L̂)` is a continuous field
-    embedding.
-- **5.2 The completed perfection** [Wintenberger 1983, Thm. 4.3.2, Cor. 4.3.4].
-  - `Λ` extends to `Λ_{M/L/K}` on the completed perfection `X_{L/K}(M)^{perf,∧}`.
-  - In characteristic `0`, the composite `𝒪_{X^{perf,∧}} → 𝒪_{R(M̂)} → 𝒪_{M̂}/p`, the second map
-    `x ↦ x_0 mod p`, is surjective [Wintenberger 1983, Thm. 4.3.2].
-  - `Λ_{M/L/K}` is an isomorphism `X_{L/K}(M)^{perf,∧} ≅ R(M̂)` [Wintenberger 1983, Cor. 4.3.4]:
-    `𝒪_{R(M̂)} = lim 𝒪_{M̂}/p` along Frobenius, and the surjectivity above holds at every stage.
-  - **Characteristic `p`** [Wintenberger 1983, Cor. 4.3.4, from 4.3.3]. `M̂` is perfect, and
-    `x ↦ x_0` is an isomorphism `R(M̂) ≅ M̂`. For `L'` finite over `L` and `γ` as in 4.3.3.1, every
-    `t ∈ 𝒪_{L'}` is congruent modulo `{v ≥ γ}` to `Λ(a)_0` for some `a ∈ 𝒪_{X^{perf,∧}}` (4.3.3.1).
-    Iterating with an element `β` of small positive valuation (4.3.3.2) gives `a_r` with
-    `v(t − Λ(a_r)_0) ≥ γ + r·v(β)` and `a_{r+1} − a_r → 0`. In characteristic `p` there is no
-    bound `v(p)` to stop at, so `a = lim a_r` exists in the complete `𝒪_{X^{perf,∧}}` and
-    `t = Λ(a)_0`. Passing to `M = ⋃ L'` and completing, `x ↦ x_0` maps `R(M̂)` onto `M̂`. By
-    [Wintenberger 1983, Rem. 4.1.3.3] this map identifies `R(E)` with the largest perfect subfield
-    of a complete `E` of characteristic `p`, so that subfield is `M̂`.
-  - In characteristic `0`, `W(𝒪_{R(M̂)}) → 𝒪_{M̂}` is surjective. Its kernel is principal, by
-    PerfectoidSpaces P1 (the kernel of `θ`) [Wintenberger 1983, Prop. 4.3.7].
-- **5.3 Perfectoidness.** In characteristic `0`, `L̂` is a perfectoid field by P1.11's criterion,
-  the hypotheses of `Perfectoid.fontaineWintenberger_nonempty` for `L̂` with the norm of the
-  conventions.
-  - Frobenius is surjective on `𝒪_{L̂}/p`, by the characteristic-`0` surjectivity in 5.2 with
-    `M = L`.
-  - The value group is not discrete, because `e(E/K)` is unbounded on `𝓔_{L/K}`.
-  - So `X_K(L)^{perf,∧} ≅ L̂♭`.
-- **5.4 Agreement with Fontaine–Wintenberger.** In characteristic `0`, the following composite is
-  `Perfectoid.fontaineWintenberger` for `L̂`, preceded by the restriction isomorphism `G_L ≅ G_{L̂}`
-  and followed by the identification of `G_{L̂♭}` with `G_{X_K(L)}` along 5.3:
-  - `ι_{L/K}`;
-  - then the isomorphism `G_{X_K(L)} ≅ G_{X_K(L)^{perf,∧}}`, given by the insensitivity of finite
-    separable extensions to completed perfection;
-  - then 5.3.
+### 5.0 Tilts as sequences
 
-  Both sides are determined by their action on `R(M̂)` for finite `M/L`. That action is
-  coordinatewise for `Perfectoid.fontaineWintenberger`, and through `Λ_{M/L/K}` and 2.1 for the
-  composite.
+For a complete valued field `E` of residue characteristic `p` with `𝒪_E` `p`-adically complete,
+`x ↦ ((x^{1/p^n})^♯)_n` is a multiplicative bijection from Mathlib's `Tilt` of `E` onto the
+sequences `(x_n)` in `E` with `x_{n+1}^p = x_n`. It is built from `PreTilt.untilt` and carries the
+field operations to the termwise product and the limit sum of the conventions. For a perfectoid `E`
+it agrees with PerfectoidSpaces P1's sharp map.
+
+### 5.1 The embedding into the tilt [Wintenberger 1983, Prop. 4.2.1, Lem. 4.2.2.1]
+
+- For `E'/E` a totally ramified `p`-extension, `v_E(N_{E'/E}(α)/α^{[E' : E]} − 1) ≥ c(E'/E)`
+  for every `α ∈ E'^×`.
+- Hence, for `α ∈ X_K(L)` and `n ≥ 0`, `α_E^{[E : K_1]/p^n}` converges along the `E ∈ 𝓔_{L/K}`
+  with `p^n ∣ [E : K_1]` to some `x_n ∈ L̂`.
+- `Λ_{L/K}(α) = (x_n)_n` lies in `R(L̂)`, and `Λ_{L/K} : X_K(L) → R(L̂)` is a continuous field
+  embedding.
+
+### 5.2 The completed perfection [Wintenberger 1983, Thm. 4.3.2, Cor. 4.3.4]
+
+- `Λ` extends to `Λ_{M/L/K}` on the completed perfection `X_{L/K}(M)^{perf,∧}`.
+- In characteristic `0`, the composite `𝒪_{X^{perf,∧}} → 𝒪_{R(M̂)} → 𝒪_{M̂}/p`, the second map
+  `x ↦ x_0 mod p`, is surjective [Wintenberger 1983, Thm. 4.3.2].
+- `Λ_{M/L/K}` is an isomorphism `X_{L/K}(M)^{perf,∧} ≅ R(M̂)` [Wintenberger 1983, Cor. 4.3.4]:
+  `𝒪_{R(M̂)} = lim 𝒪_{M̂}/p` along Frobenius, and the surjectivity above holds at every stage.
+- **Characteristic `p`** [Wintenberger 1983, Cor. 4.3.4, from 4.3.3]. `M̂` is perfect, and
+  `x ↦ x_0` is an isomorphism `R(M̂) ≅ M̂`. For `L'` finite over `L` and `γ` as in 4.3.3.1, every
+  `t ∈ 𝒪_{L'}` is congruent modulo `{v ≥ γ}` to `Λ(a)_0` for some `a ∈ 𝒪_{X^{perf,∧}}` (4.3.3.1).
+  Iterating with an element `β` of small positive valuation (4.3.3.2) gives `a_r` with
+  `v(t − Λ(a_r)_0) ≥ γ + r·v(β)` and `a_{r+1} − a_r → 0`. In characteristic `p` there is no
+  bound `v(p)` to stop at, so `a = lim a_r` exists in the complete `𝒪_{X^{perf,∧}}` and
+  `t = Λ(a)_0`. Passing to `M = ⋃ L'` and completing, `x ↦ x_0` maps `R(M̂)` onto `M̂`. By
+  [Wintenberger 1983, Rem. 4.1.3.3] this map identifies `R(E)` with the largest perfect subfield
+  of a complete `E` of characteristic `p`, so that subfield is `M̂`.
+- In characteristic `0`, `W(𝒪_{R(M̂)}) → 𝒪_{M̂}` is surjective. Its kernel is principal, by
+  PerfectoidSpaces P1 (the kernel of `θ`) [Wintenberger 1983, Prop. 4.3.7].
+
+### 5.3 Perfectoidness
+
+In characteristic `0`, `L̂` is a perfectoid field by P1.11's criterion, the hypotheses of
+`Perfectoid.fontaineWintenberger_nonempty` for `L̂` with the norm of the conventions.
+- Frobenius is surjective on `𝒪_{L̂}/p`, by the characteristic-`0` surjectivity in 5.2 with
+  `M = L`.
+- The value group is not discrete, because `e(E/K)` is unbounded on `𝓔_{L/K}`.
+- So `X_K(L)^{perf,∧} ≅ L̂♭`.
+
+### 5.4 Agreement with Fontaine–Wintenberger
+
+In characteristic `0`, the following composite is `Perfectoid.fontaineWintenberger` for `L̂`,
+preceded by the restriction isomorphism `G_L ≅ G_{L̂}` and followed by the identification of
+`G_{L̂♭}` with `G_{X_K(L)}` along 5.3:
+- `ι_{L/K}`;
+- then the isomorphism `G_{X_K(L)} ≅ G_{X_K(L)^{perf,∧}}`, given by the insensitivity of finite
+  separable extensions to completed perfection;
+- then 5.3.
+
+Both sides are determined by their action on `R(M̂)` for finite `M/L`. That action is
+coordinatewise for `Perfectoid.fontaineWintenberger`, and through `Λ_{M/L/K}` and 2.1 for the
+composite.
 
 ## Worked examples
 
@@ -480,8 +553,16 @@ algebraic with completion `M̂`.
     `N_{E'/E}(1 − x) = ∏_i (1 − x_i) = 1 − a`, and here the minimal polynomial is `X^p − ζ_{p^n}`.
   - `v(π) = v_{ℚ_p(μ_p)}(1 − ζ_p) = 1`, which for `p = 2` reads `v_{ℚ_2}(2) = 1`. So
     `X_{ℚ_p}(L) ≅ 𝔽_p((π))`.
-  - Check: `ū ↦ π` identifies the reduction `𝔽_p((ū))` of the completed Amice field `E_C`,
-    `C = ℚ_p`, of NoncommutativeAndEquivariantIwasawa §F.6 stage 1 with `X_{ℚ_p}(L)`.
+  - For `p` odd, `1 − π = (ζ_{p^n})_n`. The family `(ζ_{p^n})_n` is norm-compatible, since the
+    minimal polynomial `X^p − ζ_{p^n}` has constant term `−ζ_{p^n}` and `p` is odd. The norms in
+    the tower have odd degree, so `−1 = (−1)_n` and `N(ζ_{p^m} − 1) = ζ_{p^n} − 1`, and the sum of
+    1.5 gives `(ζ_{p^n})_n − 1 = (ζ_{p^n} − 1)_n = −π`. So
+    `X_K(γ)(1 − π) = (1 − π)^{χ_cyc(γ)}` for `γ ∈ Gal(L/K)`.
+  - Check: `1 + ū ↦ 1 − π`, that is `ū ↦ −π`, identifies the reduction `𝔽_p((ū))` of the completed
+    Amice field `E_C`, `C = ℚ_p`, of NoncommutativeAndEquivariantIwasawa §F.6 stage 1 with
+    `X_{ℚ_p}(L)`, intertwining its cyclotomic action `γ(1 + ū) = (1 + ū)^{χ_cyc(γ)}` with
+    `X_K(γ)`. The identification `ū ↦ π` does not: for `χ_cyc(γ) = −1` the coefficients of `π²`
+    in `X_K(γ)(1 + π) = 2 − (1 − π)^{−1}` and in `(1 + π)^{−1}` are `−1` and `1`.
   - By 3.2, for `γ` with `χ_cyc(γ) ∈ (1 + p^n ℤ_p) ∖ (1 + p^{n+1} ℤ_p)`, `n ≥ 1`, the lower index
     of `X_K(γ)` is `ψ_{L/K}(n) + 1 = p^n`. Equivalently, `v(γπ − π) = p^n`.
 - **Kummer tower.** `K = ℚ_p`, `p` odd, `L = ℚ_p(p^{1/p^∞})`. This is the case `K = ℚ_p`, `π = p`
@@ -499,6 +580,13 @@ algebraic with completion `M̂`.
   - `Λ_{L/K}(t) = (p, p^{1/p}, p^{1/p²}, …)`, the element `t` with `t^♯ = p` of PerfectoidSpaces'
     check `fontaine_wintenberger_test_kummer_tower`, and §R07.4.3's image `(π_n mod p)_n` of `u`
     in `Fr R`. Through 5.4, that check's `G_{ℚ_p(p^{1/p^∞})} ≅ G_{𝔽_p((t))}` is `ι_{L/K}`.
+- **A tower with bounded breaks is not APF** (0.5, the converse construction). `K = 𝔽_2((t))`,
+  `K_0 = K_1 = K`, and `K_{n+1} = K_n(y_n)` with `y_n² − y_n = π_n^{−(2n−1)}` for a uniformizer
+  `π_n` of `K_n`. Each step is Artin–Schreier of degree `2` with break `2n − 1`, so elementary of
+  level `i_n = 2n − 1`, strictly increasing to `∞`. But `d = 1`, `r_n = 1` and
+  `b_n = 1 + 2(2⁻¹ + … + 2^{−(n−1)}) < 3`, so every `K_n/K` has its upper breaks below `3`,
+  `G_K(3) ⊆ ⋂_n G_{K_n} = G_L`, and `G_K(3)·G_L = G_L` has infinite index: the union `L` is not
+  APF.
 - **Change of base.** For the cyclotomic tower and `K' = ℚ_p(μ_p)`, `p` odd,
   `X_{ℚ_p}(L) = X_{K'}(L)` (1.6). `e(K'/ℚ_p) = p − 1` is prime to `p`, so `f_{L/K'} = f_{L/K}`.
 - **`e(Γ)` and ramification** (Layer 4). For `K = ℚ_p`, `p` odd, `L` the cyclotomic
@@ -594,7 +682,8 @@ FunctionFieldArithmetic §3.1. The anabelian roadmaps consume 2.2, 3.3, 4.3 and 
 ### From RamificationOfCompleteDiscretelyValuedFields
 
 - **§4a.1**: `G_K^u`, closed normal antitone, mapping onto `Gal(M/K)^u` for each finite Galois `M`,
-  with `G_K^0` inertia.
+  with `G_K^0` inertia. On a local field it agrees with the steps of FilteredLocalGaloisGroups'
+  `F_K`, which that roadmap's 2.1 takes from ClassFieldTheory Layer 7.
 - **§4a.2**: for finite separable `E/K`, `ψ_{E/K}` with the tower law, the open-subgroup identity
   `G_K^u ∩ G_E = G_E^{ψ_{E/K}(u)}`, and the integral formula.
 
