@@ -52,7 +52,7 @@ invariants under one factor of the rank-two torus, graded by the other), bounded
 two-signed points, which residually reducible automorphy lifting (Layers 3 and 4) makes automorphic and
 hence finitely many and polynomially counted.
 
-Some theorems are stated precisely without their route being given here (see the Conventions): the Selmer counts of the patching argument (3.15(c)), the seeds and three clauses of the Hecke ideals of the symplectic problem (3.20(d), (e)), the model of the Eisenstein problem relative to the Gaussian field (4.5 (model), with (i) and (ii) of 4.3 for that problem), two statements of commutative algebra used by the route to the space of symplectic residual lattices (ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a)), and the automorphic patching data and the adjoint vanishing at regular elements of HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d). The routes of the three headline theorems use them through the plus part in Cases I, II, III and V large; the routes for the `2`-part, the minus part and Cases Z, IV and V small do not.
+Some theorems are stated precisely without their route being given here (see the Conventions): the Selmer counts of the patching argument (3.15(c)), the seeds and three clauses of the Hecke ideals of the symplectic problem (3.20(d), (e)), the model of the Eisenstein problem relative to the Gaussian field (4.5 (model), with (i) and (ii) of 4.3 for that problem), the clauses (w1), (w2) of the automorphy statements 3.22(c), 4.2(b) and 4.5(b), two statements of commutative algebra used by the route to the space of symplectic residual lattices (ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a)), and the automorphic patching data and the adjoint vanishing at regular elements of HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d). The routes of the three headline theorems use them through the plus part in Cases I, II, III and V large; the routes for the `2`-part, the minus part and Cases Z, IV and V small do not.
 
 The roadmap builds on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md), whose §0.4 defines the dyadic host fields; on [BernoulliBoundsForClassGroupEigenspaces](../BernoulliBoundsForClassGroupEigenspaces/README.md), which, extending [ArithmeticKTheory](../../ArithmeticKTheory/README.md) and [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md), carries the groups `Ш¹(F, ℓ, e)`, their duality with étale wild kernels, the total `V`, its decomposition into plus, minus and character components, the explicit torsion bound of Soulé type and the minus part of abelian fields by generalized Bernoulli numbers; on [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) for the Ferrero–Washington theorem and ranks of Iwasawa modules in cyclotomic towers; on [ReducibilityIdealsAndUltrafilterPatching](../ReducibilityIdealsAndUltrafilterPatching/README.md), extending [DeformationAndDerivedPatchingAlgebra](../../DeformationAndDerivedPatchingAlgebra/README.md), for the graded cotangent bound and the patching algebra; and on PotentialAutomorphyInfrastructurePartII, with its extension [HeckeIdealsAndTaylorWilesRelations](../HeckeIdealsAndTaylorWilesRelations/README.md), for ordinary Hida theory on definite unitary groups, also at Eisenstein maximal ideals, soluble descent and the vanishing of adjoint Selmer groups. The other suppliers (Galois representations and local–global compatibility, local
 deformation rings, Kato's Euler system, among others) are listed in the supplier contracts. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), its window theorem, in the budget form 7.6, bounds the Ш-term in the congruence modules of theta lifts of [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and enters the host supply of [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md).
@@ -480,7 +480,9 @@ algebraic integers and `s_i ≠ t_j` for all `i ∈ I`, `j ∈ J`; let `S₀, T�
 
 (a) `NN := ∏_{(i,j)∈I×J} q^h (s_i − t_j)` is a nonzero integer with `log|NN| ≤ #I · #J · (h log q + log(S₀ + T₀))`; for every
 prime `ℓ ≠ p` and every embedding `ℚ̄ → ℚ̄_ℓ`, `Σ_{(i,j)∈I×J} v_ℓ(s_i − t_j) = v_ℓ(NN)`, all terms being nonnegative; in
-particular `Σ_{j∈J} Σ_{i∈X_j} v_ℓ(s_i − t_j) ≤ v_ℓ(NN)` for any subsets `X_j ⊂ I`.
+particular `Σ_{j∈J} Σ_{i∈X_j} v_ℓ(s_i − t_j) ≤ v_ℓ(NN)` for any subsets `X_j ⊂ I`. (This abstract form is the roadmap's own;
+[FormalProof] states only instances of it. 5.4, 5.7 and 6.4 use it for one family of Frobenius traces and one family of
+Eisenstein traces, in the form of the last inequality.)
 
 (b) (*rank three*) A *family of normalized eigenvalue triples at `q`* is a finite set `I` with, for every `τ ∈ Aut(ℂ)`, a
 permutation `i ↦ τi` of `I` (for instance an action of `Aut(ℂ)`), and multisets `β(i)` of three algebraic numbers with
@@ -585,7 +587,8 @@ When `T₁ = 1` (so `A = R^{gr}`), every `Ē`-point `ξ` of `A/I_A` carries `ρ_
 
 ### 3.4 Selmer groups as tangent vectors of weight −1
 
-Let `Γ`, `r₀` and a graded deformation model `(R, x, r, T₁, I)` be as in 3.3, and `𝒟` a deformation problem of `r₀` (lifts
+Let `Γ`, `r₀` and a graded deformation model `(R, x, r, T₁, I)` be as in 3.3, with the residue field of `O` finite, and `𝒟` a
+deformation problem of `r₀` (lifts
 with local conditions, normalized at marked elements so that the infinitesimal conjugations preserving the
 normalization are those of `T`). The model is a *model of `𝒟`* if `r` is a lift of type `𝒟` over `R^{gr}/I` whose entries
 generate `R^{gr}/I`, and the grading of `R` is the action of `T` by conjugation. Let `φ : Γ → O^×` be a character and `X` a
@@ -737,7 +740,8 @@ its inertia group and `N_v := I_v ∩ ker χ_ℓ`; `g₀ ∈ G₀` is an element
 `Ψ̄|_{G_L}` (in particular `ω`, `ωΨ̄^{±1}`, `ωΨ̄^{±2}` are nontrivial on `G_L`); (F2) `Ψ̄² ≠ 1` on every `G_v`, `v | ℓ`; (F3) `Ψ̄` is
 trivial on every `N_v`. The *strict* `H¹` of a character `γ` of `Γ` (or of `G₀`) is the group of classes in `H¹(Γ, k(γ))` (or
 `H¹(G₀, k(γ))`) whose restrictions to the decomposition groups above `ℓ` vanish; `C₀` is an integer bounding the
-`k`-dimensions of the strict `H¹` of `Ψ̄⁻²η_{L/L⁺}` over `Γ` and of `Ψ̄⁻¹` over `G₀`, and of `Hom(Γ, k)`. A *lift* over a complete
+`k`-dimensions of the strict `H¹` of `Ψ̄⁻²η_{L/L⁺}` over `Γ` and of `Ψ̄⁻¹` over `G₀`, and of `Hom(Γ, k)`. The *class conditions* are:
+the strict `H¹` over `Γ` of `Ψ̄⁻²η_{L/L⁺}` and that of `Ψ̄⁻¹η_{L/L⁺}` are both nonzero. A *lift* over a complete
 local `O`-algebra `C` with residue field `k` is a pair `(r, (ψ_{v,i}))` of a continuous homomorphism `r : G₀ → GL_n(C)` and
 continuous characters `ψ_{v,i} : G_v → C^×` (`v | ℓ`, `0 ≤ i < n`) such that (pol) `r(g*) = J ᵗr(g) J` for `g ∈ G₀`, `J` the
 antidiagonal matrix with entries `1`; (diag) `r(g₀) − r(g₀*)` is diagonal; (ord) `(r(g₁) − ψ_{v,0}(g₁))⋯(r(g_n) − ψ_{v,n−1}(g_n)) = 0`
@@ -761,19 +765,22 @@ primes of `A` over the closed point of `B` that are not on the upper triangular 
 nonsplit lower triangular residual lattices with semisimplification `⊕Ψ̄^{w_i}`. For a closed point `x` of `A` over the
 closed point of `B`, `R_x` is the complete local ring of `A` at `x` (over an unramified extension `O′` of `O`).
 
-(b) (*presentations*) under (F1)–(F3), at every closed point `x` over the closed point of `B`, `R_x ≅ O′[[x₁, …, x_N]]/(f₁, …, f_{N′})` with
+(b) (*presentations*) under (F1)–(F3) and the class conditions, at every closed point `x` over the closed point of `B`,
+`R_x ≅ O′[[x₁, …, x_N]]/(f₁, …, f_{N′})` with
 `N − N′ ≥ nd + 1`; and at a point `x` on the block locus (`n = 3`), `R_x` has a `ℤ/2`-graded presentation, by the parity of the
 weight, with at least `3d + 1` more even variables than even relations and, after adding zero relations, as many odd
 relations as odd variables, the odd variables generating the ideal of the block locus.
 
-(c) (*small loci*) under (F1)–(F3), at every closed point `x` of the core the upper triangular locus does not pass through
+(c) (*small loci*) under (F1)–(F3) and the class conditions, at every closed point `x` of the core the upper triangular locus
+does not pass through
 `x`, the lower triangular locus of `R_x` has dimension `≤ (n − 1)d + a₁C₀ + a₂`, and the fibre of `R_x` over the closed point of
 `B` has dimension `≤ 2C₀`; and at every closed point `x` over the closed point of `B`, if `P` is an off-triangular prime of `R_x`
 containing the image of an ideal `M ⊂ B` with `B/M` finite over `Λ`, a coincidence at `v` modulo `P` gives
 `dim R_x/P + d_v ≤ nd + a₃`, and `dim R_x/P + d_v ≤ nd + a₃ − 1` if moreover `ϖ ∈ P`.
 
 (d) (*nice primes*) at a closed point `x` of the core, a prime `p` of `R_x` is *nice* if `dim R_x/p = 1`, `ℓ ∈ p`, `p` is
-off-triangular, and no two `ψ_{v,i}` are congruent modulo `p` on `N_v`; if the frame is big, `M ⊂ B` has `B/M` finite over `Λ`
+off-triangular, and no two `ψ_{v,i}` are congruent modulo `p` on `N_v`; if (F1)–(F3) and the class conditions hold and the frame
+is big, `M ⊂ B` has `B/M` finite over `Λ`
 and an ideal `I ⊃ M R_x` has `dim R_x/I ≥ nd + 1`, then `I` lies in a nice prime.
 
 *Route.* (a) The normalization (diag) leaves the one-dimensional torus `diag(a, a⁻¹)`, resp. `diag(a, 1, a⁻¹)`; the weight-zero
@@ -818,7 +825,8 @@ ArithmeticGaloisDuality R02.5.1 (the Greenberg–Wiles formula); LocalGaloisDefo
 
 ### 3.12 The block locus in rank three
 
-In 3.11 with `n = 3`, assume (F1)–(F3) and that the frame is big, and let `x` be a closed point of the core. Let
+In 3.11 with `n = 3`, assume (F1)–(F3), the class conditions, and that the frame is big, and let `x` be a closed point of the
+core. Let
 `A₂ ⊃ B₂ ⊃ Λ₂` be the space of 3.11 with `n = 2` for the same `Ψ̄` (the space of the *corner*, the coordinates `{1, 3}`), and
 consider the hypothesis (H₂): there is an ideal `I₂ ⊂ B₂` with `B₂/I₂` finite over `Λ₂` contained in the contraction to `B₂` of
 every off-triangular prime of `A₂`. Prove: (a) (*sharp ideal*) if `x` is not on the block locus, every minimal prime of `R_x` is
@@ -846,7 +854,7 @@ trivial on inertia at `ℓ` modulo `I₃` and the weight ideal, has finite expon
 
 ### 3.13 The space of residual lattices
 
-In 3.11, assume (F1)–(F3) and that the strict `H¹` over `Γ` of `Ψ̄⁻²η_{L/L⁺}` is nonzero, and if `n = 3` also that of `Ψ̄⁻¹η_{L/L⁺}`.
+In 3.11, assume (F1)–(F3) and the class conditions (for `n = 2` the route uses only the class for `Ψ̄⁻²η_{L/L⁺}`).
 (The entry `a` of weight `−2` carries `Ψ̄⁻²` on `G₀`, and the polarization `a(g*) = a(g)` makes it a cocycle of `Γ` for
 `Ψ̄⁻²η_{L/L⁺}` when the entries of weight `−1` vanish. In rank three the entry `y` at `(2, 1)` is a cocycle for `Ψ̄⁻¹` on `G₀`, the
 entry `(3, 2)` is `g ↦ y(g*)`, and `a(gh) = Ψ̄(h)a(g) + y(g*)y(h) + Ψ̄(g)⁻¹a(h)`; the polarization puts no eigenspace condition on
@@ -889,7 +897,7 @@ of `ℚ(μ_w)` and the `m`-th layer of the cyclotomic `ℤ_ℓ`-extension of `�
 `L_m/L_m⁺` is unramified at all finite places and split above `M`, `μ_ℓ ⊄ L⁺_{m,v}` for `v | ℓ`, and `Ψ̄|_{G_{L_m⁺}}`, with
 `Γ_m` the group of 3.11 for `L_m⁺` and `Ψ̄|_{G_{L_m⁺}}`, a complex conjugation and the marked element `g₀ = s^{ℓ^a}` (a power of `s` lying in `G_{L_m}`; since
 `η_{k₁} = η_K` locally at `ℓ`, `s` fixes `k₁K` locally, the other parts of `L_m` have `ℓ`-power degree, and `Ψ̄(s)` has order prime to
-`ℓ`, so `Ψ̄(g₀)² ≠ 1`), satisfies (F1)–(F3) of 3.11 with the constant `C₀` and the hypotheses of 3.13 for `n = 2` and `n = 3`; and
+`ℓ`, so `Ψ̄(g₀)² ≠ 1`), satisfies (F1)–(F3) of 3.11 with the constant `C₀` and the class conditions of 3.11; and
 `L_m` is big (3.11) for all `m` large. The order of choice is: `k₁` and `w`, then `C₀`, then the layer.
 
 *Route.* `L_m⁺` is cut out by an open subgroup `H₀ ∩ H_w ∩ H_H ∩ H_m` of `Gal(ℚ^{ab}/ℚ)`: `H₀` of index two defining `k₁` (it agrees
@@ -1075,7 +1083,8 @@ HeckeIdealsAndTaylorWilesRelations §§3.13a, 4.2a.
 
 ### 3.16 The patching conditions at nice primes in ranks two and three
 
-In 3.11, assume (F1)–(F3), that the frame is big and that `L/L⁺` is unramified at every finite place. Let `M` be an integer
+In 3.11, assume (F1)–(F3), the class conditions, that the frame is big and that `L/L⁺` is unramified at every finite place. Let
+`M` be an integer
 divisible by `ℓ` and by the primes below the ramification set of `Γ`, such that every place of `L⁺` above `M` splits in `L`. Let `κ`
 be a continuous character of `G_L`, the `ℓ`-adic character of an algebraic Hecke character, with `κκ^c = χ_ℓ^{1−n}`, unramified
 outside the places above `M`, and of order prime to `ℓ` on the inertia group at every place not above `ℓ` (in rank three
@@ -1323,7 +1332,8 @@ The split lattice is not good.)
 *The constant.* `C ≥ 1` is an integer such that: `F` has at most `C` places above `ℓ`; for each of the eight roots `γ`, the space
 of locally constant cocycles of `Γ` in `k(γ̄)` that vanish on `𝒩` and at `g₀` and are coboundaries on every `G_v` has dimension
 `≤ C`; the space of such cocycles without the last condition has dimension `≤ C` for `γ = ±Ψ`, and `≤ d + C` for the six roots
-`±α, ±β, ±θ`; and `Hom(Γ/⟨𝒩⟩, k)` has dimension `≤ C`.
+`±α, ±β, ±θ`; and `Hom(Γ/⟨𝒩⟩, k)` has dimension `≤ C`; and for each of the six roots `±α, ±β, ±θ`, the sum over `v | ℓ` of the
+dimensions of the spaces of locally constant cocycles of `G_v` in `k(γ̄)` is `≤ d + C`.
 
 *Prove:* (a) (*the space*) for every finite extension
 `k′` of `k`, with `O′` the unramified extension of `O` with residue field `k′`, there are a complete local noetherian `O′`-algebra `B`
@@ -1343,7 +1353,8 @@ ring of invariants;
 
 (b) (*presentation*) at **every** residual lattice `x`: `R_x ≅ O′[[x₁, …, x_N]]/(f₁, …, f_{N′})` (`O′` the unramified extension of `O`
 with residue field `k′`) with `N − N′ ≥ 2d + 2 − 2·#{v | ℓ}`; hence any two minimal primes of `R_x` are joined by a chain of minimal
-primes in which consecutive members `P, Q` satisfy `dim R_x/(P + Q) ≥ 2d + 2 − 2·#{v | ℓ}`;
+primes in which consecutive members `P, Q` satisfy `dim R_x/(P + Q) ≥ 2d + 2 − 2·#{v | ℓ}` (stated in [FormalProof] for the
+layers of the tower data of 3.20);
 
 (b′) (*reducible loci*) the representation over the fraction field of `R_x/𝔭`, `𝔭` a prime, is not absolutely irreducible if and
 only if its off-diagonal support lies in one of nine sets of roots: the eight sets `{γ, −γ} ∪ U` (`γ ∈ {α, β, Ψ, θ}`, `U` the roots
@@ -1360,7 +1371,10 @@ over `Λ`, a prime `𝔮 ⊃ (M, ϖ)` of `B` containing `ψ_{v,i}(s) − ψ_{v,j
 (c) (*propagation at a good lattice*) assume `d > 20C + 2·#{v | ℓ}` and `d_v > 2 + 6·#{v | ℓ}` for every `v | ℓ`, and let `J ⊂ B` be an
 ideal with `B/J` finite over `Λ` satisfying (P1₄): whenever a prime of dimension one and characteristic `ℓ` of some `R_x`, at which
 the representation is absolutely irreducible with pairwise distinct ordinary characters on every `U_v`, contains `J`, every prime
-below it contains `J`. Then at every good residual lattice, if one irreducible component of `Spec R_x` lies in `V(J)`, all do;
+below it contains `J`. Then at every good residual lattice, if one irreducible component of `Spec R_x` lies in `V(J)`, all do.
+In [FormalProof] this statement is made for the layers of the tower data of 3.20 on which `ψ` has order prime to `ℓ`, for
+ideals `J` with all the clauses of 3.20(e), and under the single inequality `30(C + 1)² ≤ d`, which for an abelian field (equal
+local degrees above `ℓ`) gives the two inequalities above. The form above is what its route uses;
 
 (d) (*lines*) if `x, x′` are linked and **every** irreducible component of `Spec A` through `x′` lies in `V(J)`, then some
 irreducible component through `x` does.
@@ -1562,11 +1576,13 @@ anticyclotomic character `β ≡ 1` of `G_K`, unramified outside `ℓ` and facto
 contained in the kernel of a seed (d) over `T` contains `J`; (pur) every point of `A` over `V(J)` that is the restriction of an
 `Ē`-point `ρ` of `𝒟_sp` is weakly pure: on an open subgroup, at almost all Frobenius elements `σ`, of norm `Q`, any two
 eigenvalues `y, z` of `ρ(σ)` satisfy `|y| < Q|z|` under one fixed isomorphism `ι : ℚ̄_ℓ ≅ ℂ` (that of
-HeckeIdealsAndTaylorWilesRelations §3.13a(d)); (aut) for such a `ρ` with `ρ|_{G_L}` irreducible, `ρ|_{G_L}`, polarized by the
-symplectic form with multiplier `θ`, is automorphic in the sense of PotentialAutomorphyInfrastructurePartII §0.9;
+HeckeIdealsAndTaylorWilesRelations §3.13a(d)); (aut) for such a `ρ`, continuous with multiplier `θ` and with `ρ|_{G_L}` irreducible:
+for every imaginary quadratic field `K′` with `ρ|_{G_{K′}}` irreducible, `ρ|_{G_{K′}}` is attached to a regular algebraic cuspidal
+representation of `GL₄(𝔸_{K′})` and satisfies the clauses (w1), (w2) of HeckeIdealsAndTaylorWilesRelations §3.13a(f);
 
-(f) (*free ratios and regular elements*) let `L` be a tower field and `ρ : G_L → GL₄(ℚ̄_ℓ)` a continuous representation attached to a
-regular algebraic conjugate self-dual cuspidal representation of `GL₄(𝔸_L)`, irreducible on `G_{L(μ_{ℓ^∞})}`, with at each place
+(f) (*free ratios and regular elements*) let `L` be a tower field and `ρ : G_L → GL₄(ℚ̄_ℓ)` a continuous representation automorphic
+in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f) (attached to a regular algebraic conjugate self-dual cuspidal
+representation of `GL₄(𝔸_L)`, with the clauses (w1), (w2)), irreducible on `G_{L(μ_{ℓ^∞})}`, with at each place
 `v | ℓ` a stable flag whose characters have integral cyclotomic exponents `m_{v,1} > ⋯ > m_{v,4}` with `m_{v,i} − m_{v,i+1} ≥ 2` (they
 may depend on `v`), and whose residual characters satisfy the two conditions of a tower field (no quadratic character through `ω`
 permutes them; some ratio has order `> 4`); then at each `v | ℓ` some element of the decomposition group in the kernel of `χ_ℓ` has
@@ -1608,7 +1624,8 @@ extension `L/F` and the values at the marked element; they are tested at element
 character of order prime to `ℓ` taking the same nontriviality at `g` and at `g^{ℓ^j}`. (b) Ferrero–Washington for the abelian field cut
 out by the residual characters over `F_{T₁}(μ_ℓ)` (IntegralIwasawaTheory §§3.4, 5.6) bounds the class-group ranks uniformly in `m`,
 which bounds the strict cocycle spaces, `Hom(Γ/⟨𝒩⟩, k)` and, through the Euler characteristic (`−[F_{T₁,m} : ℚ]` for an odd character,
-`0` for an even one, ArithmeticGaloisDuality R02.5.1), the spaces of cocycles vanishing on `𝒩`; the number of places above the
+`0` for an even one, ArithmeticGaloisDuality R02.5.1), the spaces of cocycles vanishing on `𝒩`; the local cocycle spaces have
+dimension `d_v + 1` or `d_v + 2`, and the number of places above the
 primes of `S` is bounded in the tower; the `ℓ`-part of `ψ`, trivial on `G_{F_{T₁}(μ_{ℓ^∞})}`, factors through the cyclotomic
 `ℤ_ℓ`-extension and dies on a layer. The routes of (a), (a′), (b), (c), (f), of the clauses (fin), (inv) and (seed) of (e)
 (for (seed), up to the clauses (w1), (w2) noted there) and of the character `κ₀` in the construction of `κ` are given; for the
@@ -1673,7 +1690,7 @@ of a tower datum (`2 ∈ S`). The maps classify the twisted determinant from the
 the condition on `ω` in the definition of tower fields, by Chebotarev; the patching data are HeckeIdealsAndTaylorWilesRelations §4.2a. (P1₄) is 3.15(a) with `n = 4`, a prime below a point contracting to a prime below its image,
 with (N1), (N3), (N4) and type I at such a prime obtained as in 3.16(a)–(d) from the conditions on tower fields (in rank four the
 ratio of order `> 4` replaces the coset argument of 3.16(c)); (pur) is HeckeIdealsAndTaylorWilesRelations §3.13a(d), all multiplicities `m_i` being `1` because no two
-residual characters differ by `ω` on `G_L` (a piece with `m_i ≥ 2` has two residual constituents differing by `ω̄`); (aut) is HeckeIdealsAndTaylorWilesRelations §3.13a(e) followed by PotentialAutomorphyInfrastructurePartII §0.8 to remove `κ`. *Route of (fin).* A prime of `B` containing `J`, `ϖ` and the `ψ_{v,i}(s) − 1` is maximal:
+residual characters differ by `ω` on `G_L` (a piece with `m_i ≥ 2` has two residual constituents differing by `ω̄`); (aut) is HeckeIdealsAndTaylorWilesRelations §3.13a(e) followed by PotentialAutomorphyInfrastructurePartII §0.8 to remove `κ`, descent from `L` to `ℚ` (`L/ℚ` abelian) and base change to `K′` (PotentialAutomorphyInfrastructurePartII §0.9). *Route of (fin).* A prime of `B` containing `J`, `ϖ` and the `ψ_{v,i}(s) − 1` is maximal:
 modulo it the weight algebra is constant, the image of the determinant ring is integral over the residue field (HeckeIdealsAndTaylorWilesRelations §3.13a(b)), hence
 so are the characteristic polynomials of `r(g²)`, `g ∈ G_{F_T}`, and of `r(g)`, and the `ψ_{v,i}` (the places above `ℓ` split in `K`);
 integral elements of a complete local domain over its finite residue field are constants; conclude by (genB) of 3.19(a). *Route
@@ -1688,9 +1705,9 @@ the Hecke quotient at each auxiliary place (HeckeIdealsAndTaylorWilesRelations �
 (its exponents `h_i/2 + integer ± nb/2` are integers; the seed's own exponents are half-integers in Case III, so no statement
 about automorphic representations applies to the seed or to an algebraic twist of it); it is irreducible on `G_{L(μ_{ℓ^∞})}`
 because the seed is; the element with free ratios and the regular elements are (f) for `ρ`; the
-exponents differ by at least `2` at each place and may depend on the place. Both HeckeIdealsAndTaylorWilesRelations §3.13a(f) and
-HeckeIdealsAndTaylorWilesRelations §9.9(d) ask that `ρ` be automorphic in the sense of the former, with its clauses (w1), (w2);
-the verification of (w1), (w2) for `ρ` is not given here.
+exponents differ by at least `2` at each place and may depend on the place. HeckeIdealsAndTaylorWilesRelations §3.13a(f),
+HeckeIdealsAndTaylorWilesRelations §9.9(d) and (f) above ask that `ρ` be automorphic in the sense of the first, with its
+clauses (w1), (w2); the verification of (w1), (w2) for `ρ` is not given here.
 By HeckeIdealsAndTaylorWilesRelations §9.9(d′) at that point, every prime of the universal ordinary
 determinant ring contained in its kernel contains the Hecke ideal; mapping to `B`, every prime of `B` in the kernel of the seed
 contains the ideal built with `κβ^n`, which is `J` by (inv).
@@ -1759,7 +1776,8 @@ balanced, and at `S_b` the local `H¹` vanishes for `j ≠ 0`); `ℓ` contribute
 global term `h⁰(ad_j)` is `1` for `j = 0` and `0` otherwise; and `h⁰(ad_j^*(1)) = 0`, because `ℚ(i)` is not in the field cut out by `ω`
 and `Ψ̄` (as in (f)). (d) The reduction of `Ψ⁻²η₄` is that of `φξ`, with `φ` the odd-conductor part, of conductor `f`, of the
 prime-to-`ℓ` part of `ψ^{−2}ω^{−2e}`, and `ξ` the `2`-part of `ψ^{−2}η₄`, of conductor `2^{c₂(ψ)−1}` (`c₂(ψ) ≥ 4`); `φξ` is odd (`Ψ(c) = 1`,
-`η₄(c) = −1`), and the Bernoulli threshold of the host data is the hypothesis of 3.5 for `(φ, ξ)` with `m = c₂(ψ) − 1`, so 3.5(b)
+`η₄(c) = −1`), and the Bernoulli threshold of the host data gives the hypothesis of 3.5 for `(φ, ξ)` with `m = c₂(ψ) − 1`,
+`d = f₀`, `k = n₀`, so 3.5(b)
 kills the everywhere unramified classes for `Ψ̄⁻²η₄`. A class of `H¹_𝓛(ad_{−2})` is unramified outside `T_b` (on inertia it factors through `r̄(I_p)`, of
 order prime to `ℓ`), its restrictions at the places of `S_b` vanish by (b), and at `ℓ` it is a coboundary by the local condition in
 negative weight; so it is unramified everywhere, hence zero. (e) `h(ℚ(i)) = 1`. (f) `s = x_ℓ` by (a); `ℚ(i)` is not in the field of
@@ -1785,8 +1803,10 @@ eigenvalue at every prime `p` is congruent to `1 + φθ_w(p)p^{k−1}` modulo th
 for every `B` there are `m ≥ B` with `m ≡ j mod ℓ − 1` and a continuous `σ : G_ℚ → GL₂(ℚ̄_ℓ)` with `det σ = η_Kθ_w`, residually
 `χ̄_ℓ^jχ̄′η_K ⊕ (χ̄_ℓ^jχ̄′)⁻¹`, such that `σ|_{G_L}` is irreducible, preserves a symmetric form up to complex conjugation
 (`ᵗσ(g)Pσ(cgc⁻¹) = P`), is diagonalisable with characters `χ′^{±1}` on every inertia group away from `ℓ`, has at every place above
-`ℓ` a stable line on which inertia acts by `χ_ℓ^m`, with quotient `χ_ℓ^{−m}`, and `σ|_{G_L} ⊗ κ|_{G_L}` is attached to a regular
-algebraic conjugate self-dual cuspidal representation of `GL₂(𝔸_L)`.
+`ℓ` a stable line on which inertia acts by `χ_ℓ^m`, with quotient `χ_ℓ^{−m}`, and `σ|_{G_L} ⊗ κ|_{G_L}` is automorphic in the sense of
+HeckeIdealsAndTaylorWilesRelations §3.13a(f): attached to a regular algebraic conjugate self-dual cuspidal representation of
+`GL₂(𝔸_L)`, with the clauses (w1), (w2) there. The clauses (w1), (w2) in (c) are a theorem of [FormalProof] whose route is not
+given here.
 
 *Route.* (a) The coefficients and the value `L(1 − k, χ)/2` of the constant term at `∞` are those of ModularForms Layer 0 with
 DirichletPadicLFunctions §0.4. For a class `a` modulo `N` let `E_a` be the Eisenstein series of weight `k`, a constant times
@@ -1959,7 +1979,8 @@ weight `−1` and one coordinate more than equations in weights `1` and `2`;
 conditions of `𝒟`; two points whose representations have isomorphic restrictions to `G_K` lie in one `𝔾_m`-orbit;
 
 (tangent) the hypothesis of 3.4 holds for `𝒮` the restriction to `G_K` of `Ш_{ψ,e}` (injective, as `[K : ℚ] = 2` is prime to
-`ℓ`) and the root vector of weight `−1` carrying `Ψ⁻¹`;
+`ℓ`) and the root vector of weight `−1` carrying `Ψ⁻¹`. In [FormalProof] (model) and (tangent) are stated for data in general
+position, that is under the hypotheses of 4.2; for other data they are the roadmap's own, by the route below;
 
 (shape) every two-signed point is of *type I* (`ρ_ξ` irreducible) or of *type II*: `ρ_ξ ≅ W|_{G_K} ⊕ μ` on the coordinates
 `{1, 3}` and `{2}`, for a character `μ` of `G_K` and a two-dimensional representation `W` of `G_ℚ` with `det W = η_K` and
@@ -2042,8 +2063,8 @@ LocalGaloisDeformationRings §§1.7, 1.9 (ordinary flags).
 
 ### 4.2 Finiteness and automorphy on the unitary Eisenstein component
 
-In 4.1, assume: `N` even with `f_ψ | N`; `ℓ ∤ o_ψ`; `(comp_ℓ ψ)² = 1`; `(ℓ − 1) ∤ 2e`; `(d_K, N) = 1`; `K` is not contained in the
-field cut out by `ω` and `χ_P(ℓ, ψ)`. (These give the general-position conditions: `Ψ̄²` is nontrivial on inertia at `ℓ`, so
+In 4.1, assume: `N` even with `f_ψ | N`; `ℓ ∤ o_ψ`; `(comp_ℓ ψ)² = 1`; `(ℓ − 1) ∤ 2e`; `(d_K, N) = 1`; `ℓ ∤ h_K`; `K` is not contained
+in the field cut out by `ω` and `χ_P(ℓ, ψ)`. (These give the general-position conditions: `Ψ̄²` is nontrivial on inertia at `ℓ`, so
 `Ψ̄, 1, Ψ̄⁻¹` are pairwise distinct on the decomposition groups above `ℓ`; `η_K` is unramified at `ℓ`; `K` is not in the field
 of `ω` and `Ψ̄`. `(ℓ − 1) ∤ 2e` excludes `ℓ = 3`.) Prove that there are a marked element `g₁` and an abelian CM field `L ⊇ K`,
 both depending only on `(ψ, e, K)`, such that:
@@ -2051,8 +2072,9 @@ both depending only on `(ψ, e, K)`, such that:
 (a) every lift of `r̄` of type `𝒟` to a complete discrete valuation ring of characteristic `ℓ` has, on a subgroup of finite
 index, the characteristic polynomials of `r̄`; consequently the image of `A₀` in `A/I` is finite over `O`;
 
-(b) for every type I point `ρ` with values in the ring of integers of a finite extension of `Φ`, `ρ ⊗ χ_ℓ⁻¹` is attached to a
-regular algebraic conjugate self-dual cuspidal representation `π` of `GL₃(𝔸_K)` of weight `(e − 1, 0, 1 − e)` at both
+(b) for every type I point `ρ` with values in the ring of integers of a finite extension of `Φ`, `ρ ⊗ χ_ℓ⁻¹` is automorphic in
+the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f): it is attached to a regular algebraic conjugate self-dual
+cuspidal representation `π` of `GL₃(𝔸_K)`, with the clauses (w1), (w2) there; `π` has weight `(e − 1, 0, 1 − e)` at both
 embeddings, in the labelled weights of AutomorphicGaloisRepresentationsPartII AG2.0 (so that `ρ` has cyclotomic exponents
 `(e, 0, −e)` and Hodge–Tate weights `{e, 0, −e}`);
 
@@ -2061,7 +2083,7 @@ embeddings, in the labelled weights of AutomorphicGaloisRepresentationsPartII AG
 (d) every type I point as in (b) is *unlinked* at `ℓ`: at each place of `K` above `ℓ` no two of its ordinary characters are in
 ratio `χ_ℓ` on the decomposition group.
 
-The route uses HeckeIdealsAndTaylorWilesRelations §4.2a, in (a)–(c) through steps (3)–(5), and 3.15(c) (K1′), (K2′), in (a)–(c) through step (4), both also in (d) through (b); their routes are not given in full (see there). The verification of the clauses (w1), (w2) of HeckeIdealsAndTaylorWilesRelations §3.13a(f) at the seeds of step (6) is not given here.
+The route uses HeckeIdealsAndTaylorWilesRelations §4.2a, in (a)–(c) through steps (3)–(5), 3.15(c) (K1′), (K2′), in (a)–(c) through step (4), and the clauses (w1), (w2) of 3.22(c), in (a)–(c) through step (6), all also in (d) through (b); their routes are not given in full (see there). The verification of the clauses (w1), (w2) of HeckeIdealsAndTaylorWilesRelations §3.13a(f) at the rank-three seeds of step (6) is not given here. The clauses (w1), (w2) in (b) are a theorem of [FormalProof] whose route is not given here.
 
 *Route.* (1) *Frame:* the datum `(K, Ψ, 2ℓN|d_K|, ℚ)` is in general position (3.14): an inertia element `s` at `ℓ` with
 `Ψ̄(s)² ≠ 1` has `η_K(s) = 1`, `η_K` being unramified at `ℓ`; `Ψ̄` is a power of `ω` on inertia at `ℓ`, as for every Dirichlet character
@@ -2085,8 +2107,9 @@ nebentypus by a character of order `ℓ` and conductor `w` (3.22(b)), by Hida th
 lift (GL2AutomorphicRepresentationsAndTransfer R17.4.13); the rank-two seeds are those of 3.22(c), with `χ′` and `j` such that
 `χ̄_ℓ^jχ̄′ = Ψ̄`, the auxiliary prime `w` of 3.14 and `L` the field of the frame (which contains the field of degree `ℓ` and conductor
 `w`); both kinds are points of `B_det/J`
-(HeckeIdealsAndTaylorWilesRelations §3.13a(f), with `n = 3`, resp. `n = 2`, in its range `2 ≤ n ≤ 4`; the verification of the
-clauses (w1), (w2) of its automorphy at the seeds is not given here), and 3.13 makes them local components.
+(HeckeIdealsAndTaylorWilesRelations §3.13a(f), with `n = 3`, resp. `n = 2`, in its range `2 ≤ n ≤ 4`; the clauses (w1), (w2) of
+its automorphy are those of 3.22(c) at the rank-two seeds, and their verification at the rank-three seeds is not given here),
+and 3.13 makes them local components.
 (7) The argument is run for two auxiliary neat places and glued. (8) *Descent:* a pro-modular type I point is an arithmetic
 point of `B_det/J` with irreducible
 representation, hence automorphic over `L` (§3.13a(e)); it descends to `K` by soluble base change and descent
@@ -2109,12 +2132,12 @@ SmoothRepresentationsOfLocalGroups SR.5.2.
 
 For a point `ρ` of `𝒟`, `ad r` denotes `𝔤𝔩₃` with `G_ℚ` acting through the `𝒢₃`-valued extension of `ρ` (`G_K` by
 conjugation, `c` by `X ↦ −X^*`, the adjoint for the form), and `H¹_f(ℚ, ad r)` its Bloch–Kato Selmer group
-(PotentialAutomorphyInfrastructurePartII §9.3). Under the hypotheses of 4.2 and `ℓ ∤ h_K`, prove: (i) (*diagonal points*) a point
+(PotentialAutomorphyInfrastructurePartII §9.3). Under the hypotheses of 4.2, prove: (i) (*diagonal points*) a point
 of `𝒟` that is both upper and lower triangular is the diagonal point; (ii) (*rigidity at the diagonal point*)
 `H¹_f(ℚ, Φ(Ψ⁻¹)) = H¹_f(ℚ, Φ(Ψ⁻²)) = 0` and the same for the `η_K`-twists, and the weight-zero deformations of the diagonal
 characters are trivial; so the tangent vectors of weight `≤ 0` at the diagonal point vanish rationally; (iii) (*rigidity at
 two-signed points*) `H¹_f(ℚ, ad r) = 0` at every two-signed point; (iv) at
-every two-signed point `ξ`, any two `Ē`-valued point derivations of `A/I` at `ξ` are proportional. The route of (iii), (iv) uses, through 4.2(b)–(d), HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), whose routes are not given in full (see there).
+every two-signed point `ξ`, any two `Ē`-valued point derivations of `A/I` at `ξ` are proportional. The route of (iii), (iv) uses, through 4.2(b)–(d), HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), whose routes are not given in full (see there).
 
 *Route.* (i) A point that is both upper and lower triangular is diagonal, `diag(Ψ′, μ, Ψ′⁻¹)`; `Ψ′Ψ⁻¹` and `μ` are characters
 of `G_K` of `ℓ`-power order, trivial on inertia away from `ℓ` (the condition away from `ℓ`) and with the inertial characters
@@ -2235,7 +2258,8 @@ order, every nonempty open subset of `G_{L(μ_{ℓ^∞})}` contains an element a
 polynomial. The same holds for points over `k[[t]]` whose ordinary characters are pairwise distinct on `I_ℓ ∩ ker χ_ℓ`, with
 the element supplied automatically. At an irreducible point with values in `ℚ̄_ℓ` that is automorphic over a tower field `L`
 and unlinked ((unlinked)), such an element exists (*free ratios at characteristic zero*). The same two conclusions for
-representations of `G_L` attached to cuspidal representations of `GL₄(𝔸_L)`, which need not be points of `𝒟_sp`, are 3.20(f);
+representations of `G_L` automorphic in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f), which need not be points of
+`𝒟_sp`, are 3.20(f);
 
 (∗) every lift of type `𝒟_sp` to a complete discrete valuation ring of characteristic `0` or `ℓ` that is absolutely irreducible, or a
 nonsplit block triangular extension in which `⟨e₂, e₄⟩` is stable (the entries of positive `λ`-weight vanish) and absolutely
@@ -2253,9 +2277,10 @@ over `O`;
 
 (a′) no point of `𝒟_sp` is of block type with irreducible block on `⟨e₁, e₃⟩`;
 
-(b) every irreducible point `ρ` with values in `ℚ̄_ℓ` is automorphic: `ρ` is attached to a regular algebraic essentially self-dual
-cuspidal representation of `GL₄(𝔸_ℚ)`, and for every imaginary quadratic field `K` with `ρ|_{G_K}` irreducible, `ρ|_{G_K}` is attached
-to a regular algebraic cuspidal automorphic representation of `GL₄(𝔸_K)`.
+(b) every irreducible point `ρ` with values in `ℚ̄_ℓ` is automorphic over imaginary quadratic fields: there is an isomorphism
+`ι : ℚ̄_ℓ ≅ ℂ` such that for every imaginary quadratic field `K` with `ρ|_{G_K}` irreducible, `ρ|_{G_K}` is attached to a regular
+algebraic cuspidal automorphic representation of `GL₄(𝔸_K)` and satisfies the clauses (w1), (w2) of
+HeckeIdealsAndTaylorWilesRelations §3.13a(f).
 
 The routes of (∗), (a), (a′), (b) and (points) use 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 through 3.19(a), and, through 3.20(e), HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d), whose routes are not given in full (see there).
 
@@ -2358,12 +2383,10 @@ no invariants there, and the ordinary condition at `ℓ` admits the positive roo
 least one dimension ((G1) concerns classes trivial at `ℓ` and does not apply). The determinants of the two blocks are, on an
 open subgroup, `χ_ℓ^{e+2}` and `χ_ℓ^e` (the inertial characters at `ℓ` and unramifiedness elsewhere), so at a Frobenius of norm `Q`
 there `|det_{⟨e₁,e₃⟩}| = Q²|det_{⟨e₂,e₄⟩}|`, which weak purity excludes. (b) An irreducible point is pro-modular (∗) and irreducible on
-`G_L` for the tower field `L = L_T` of its pro-modularity ((irreducibility)), so 3.20(e)(aut) makes `ρ|_{G_L}`, polarized by the
-symplectic form with the odd multiplier `θ`, automorphic; as `L/ℚ` is abelian and `ρ|_{G_L}` irreducible, it descends to `ℚ`
-(PotentialAutomorphyInfrastructurePartII §0.9 with `F = ℚ`, `M = L`), and the cuspidal representation of `GL₄(𝔸_ℚ)` base-changes
-to every imaginary quadratic `K` with `ρ|_{G_K}` irreducible (§0.9 with `M = K`). *Needs:* 0.4, 3.3, 3.4, 3.6, 3.17–3.20;
-BernoulliBoundsForClassGroupEigenspaces §6.17; ArithmeticGaloisDuality R02.5.1; LocalGaloisDeformationRings §§1.7, 1.9; PotentialAutomorphyInfrastructurePartII
-§0.9; AutomorphicGaloisRepresentationsPartII AG2.2, AG2.5, AG2.6; ModularityAndLanglandsExtensions §2.43.
+`G_L` for the tower field `L = L_T` of its pro-modularity ((irreducibility)), so 3.20(e)(aut) gives (b), with the isomorphism `ι`
+of 3.20(e)(pur). *Needs:* 0.4, 3.3, 3.4, 3.6, 3.17–3.20;
+BernoulliBoundsForClassGroupEigenspaces §6.17; ArithmeticGaloisDuality R02.5.1; LocalGaloisDeformationRings §§1.7, 1.9;
+AutomorphicGaloisRepresentationsPartII AG2.2, AG2.5, AG2.6; ModularityAndLanglandsExtensions §2.43.
 
 **Checks.**
 
@@ -2380,11 +2403,12 @@ BernoulliBoundsForClassGroupEigenspaces §6.17; ArithmeticGaloisDuality R02.5.1;
 finite extension `Φ` of `ℚ_ℓ` containing the values of `ψ` (lengths normalized by `e_O`), `η₄` the character of `ℚ(i)`;
 `ψ = ψ^{[ℓ′]}ψ_{[ℓ]}` (0.2); `S_b` the primes `p ≠ ℓ` at which `ψ_{[ℓ]}` is ramified; `T_b = {ℓ} ∪ S_b`. Assume (*host data*): there
 is `o₁ ≥ 1` such that every odd primary component of `ψ^{[ℓ′]}` has order dividing `2o₁`; `c₂(ψ) ≥ 4`; `8o₁v² < 2^{c₂(ψ)}` for every
-`v ∈ T_b`; and (*Bernoulli threshold*) there is `d ≥ 1` with `4 | ℓ^d − 1` such that, with `k = v₂(ℓ^d − 1)`, the odd-conductor part
-`φ` of the prime-to-`ℓ` part of `ψ^{−2}ω^{−2e}` has order dividing `ℓ^d − 1` and conductor `f` with `2k ≤ c₂(ψ) − 1` and
-`4f·4^k ≤ 2^{c₂(ψ)}` (the hypothesis of 3.5 for the reduction of `Ψ⁻²η₄`). In the host setting these hold for `ψ ∈ X(E, 1)`,
-`ℓ ∈ B(χ)`, `R₁(ℓ, χ) ≤ 2^{c₂(ψ)}`, with `o₁ = o_χ`; for the threshold take `d = d_ℓ` of 0.3: `f` divides `ℓf_χ`, the order of `φ`
-divides `ℓ^{d_ℓ} − 1`, and `4f·4^k ≤ R₁(ℓ, χ)`, `4^k ≤ R₁(ℓ, χ)/16`.
+`v ∈ T_b`; and (*Bernoulli threshold*) there is an integer `q₀ ≥ 1` divisible by the conductor of `ψ₁²`, `ψ₁` being the
+prime-to-`ℓ` part of `ψ` with its component at `2` removed, such that `2ℓ·q₀·4^{n₀} ≤ 2^{c₂(ψ)}`, where `n₀ = v₂(ℓ^{f₀} − 1)` and `f₀`
+is the order of `ℓ` modulo `lcm(4, o(ψ₁))`, `o(ψ₁)` the order of `ψ₁` (this gives the hypothesis of 3.5 for the reduction of
+`Ψ⁻²η₄`, with `d = f₀`, `k = n₀` and `m = c₂(ψ) − 1`: the odd-conductor part of the prime-to-`ℓ` part of `ψ^{−2}ω^{−2e}` has order
+dividing `ℓ^{f₀} − 1` and conductor dividing `ℓq₀`). In the host setting these hold for `ψ ∈ X(E, e)`, `e ≥ 1`, with
+`R₁(ℓ, χ) ≤ 2^{c₂(ψ)}`, `o₁ = o_χ` and `q₀ = f_χ`: `2ℓf_χ·4^{n₀} ≤ R₁(ℓ, χ)`.
 
 *The problem `𝒟_G = 𝒟_G(ψ, e)`:* `𝒢₃`-valued lifts of `Ψ̄ ⊕ 1 ⊕ Ψ̄⁻¹` (`Ψ = χ_ℓ^eψ`) with multiplier `η₄`, normalized at complex
 conjugation and at a marked element `g₁` (`η₄(g₁) = 1`, `Ψ̄(g₁)² ≠ 1`); at `ℓ` ordinary (upper triangular after conjugation by an
@@ -2406,15 +2430,16 @@ the variables of weight `j` exceed the relations of weight `j` by at least `0, �
 the characteristic polynomials of `r̄`; consequently the image of `A₀` in `A/I` is finite over `O`;
 
 (b) every point of `𝒟_G` with values in the integers of a finite extension of `Φ` that is irreducible on every open subgroup
-of `G_{ℚ(i)}`, in particular every type I point, is automorphic, `ρ|_{G_{ℚ(i)}} ⊗ χ_ℓ⁻¹` being attached to a regular algebraic
-conjugate self-dual cuspidal representation of `GL₃(𝔸_{ℚ(i)})`, and every point is unlinked at `ℓ`;
+of `G_{ℚ(i)}`, in particular every type I point, is automorphic in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f):
+`ρ|_{G_{ℚ(i)}} ⊗ χ_ℓ⁻¹` is attached to a regular algebraic conjugate self-dual cuspidal representation of `GL₃(𝔸_{ℚ(i)})`, with the
+clauses (w1), (w2) there, and every point is unlinked at `ℓ`;
 
 (c) `H¹_f(ℚ, ad r) = 0` at every type I point, and at every two-signed point any two `Ē`-valued point derivations of `A/I`
 are proportional;
 
 (d) `𝒟_G` has no two-signed point of type II.
 
-The routes of (a), (b) and (c) use, through the route of 4.2, HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), and the route of (c) also uses (model) and (i), (ii) of 4.3 for `𝒟_G`; the routes of these statements are not given in full (see there).
+The routes of (a), (b) and (c) use, through the route of 4.2, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), and the route of (c) also uses (model) and (i), (ii) of 4.3 for `𝒟_G`; the routes of these statements are not given in full (see there). The clauses (w1), (w2) in (b) are a theorem of [FormalProof] whose route is not given here.
 
 *Route.* 3.21 turns the host data into the conditions used: the elements `x_v` of the decomposition groups of `T_b` with
 `η₄(x_v) = ω(x_v) = 1` and `Ψ̄(x_v)² ≠ 1`, which replace "`Ψ̄²` nontrivial on inertia at `ℓ`" of 4.2 (the three characters are separated
@@ -2486,9 +2511,9 @@ the decomposition group at `ℓ`. *Needs:* 4.1, 4.4, 4.5.
 In 4.4, prove: (i) `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0` at every irreducible point `ρ` of `𝒟_sp` with values in `ℚ̄_ℓ`, `𝔰𝔭₄(ρ)` the adjoint
 representation of `Sp₄` composed with `ρ`; (ii) every first-order deformation of `ρ` that is a point of `𝒟_sp` over `Ē[ε]` is
 `ρ + ε(Xρ − ρX)` with `X ∈ 𝔰𝔭₄(Ē)`; (iii) at every two-signed point of `A/(F, E, Z)`, any two `Ē`-valued point derivations of `A`
-killing `(F, E, Z)` are proportional. The route uses HeckeIdealsAndTaylorWilesRelations §9.9(d) (in (i); the verification of the clauses (w1), (w2) of its hypothesis of automorphy is not given here) and, through 4.4(∗), (a), (b) and 4.6(c), 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)) and HeckeIdealsAndTaylorWilesRelations §4.2a, whose routes are not given in full (see there).
+killing `(F, E, Z)` are proportional. The route uses HeckeIdealsAndTaylorWilesRelations §9.9(d) (in (i); 4.4(b) gives the clauses (w1), (w2) of its hypothesis of automorphy over the imaginary quadratic field of the tower datum, and their passage to the twist over the tower field is not given here) and, through 4.4(∗), (a), (b) and 4.6(c), 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)) and HeckeIdealsAndTaylorWilesRelations §4.2a, whose routes are not given in full (see there).
 
-*Route.* (i) `ρ` is automorphic over `ℚ` and over every imaginary quadratic field over which it stays irreducible (4.4(b)). If `ρ`
+*Route.* (i) `ρ` is automorphic over every imaginary quadratic field over which it stays irreducible (4.4(b)). If `ρ`
 is irreducible on every open subgroup of `G_ℚ`, it is so on every open subgroup of `G_{ℚ(μ_{ℓ^∞})}` (the derived-group argument of
 4.1), and HeckeIdealsAndTaylorWilesRelations §9.9(b) applies over an imaginary quadratic field unramified at the primes of
 `S`. Otherwise apply §9.9(d) over the tower field `L = L_T` of the pro-modularity of `ρ` (4.4 (∗), 3.20(c)), with `n = 4`, to
@@ -2498,9 +2523,11 @@ and those of `S` split in `L` (definition of tower fields); `ρ` and `κ` are un
 inertia elements at the places of `S` prime to `ℓ` at which its residual characters are trivial (such an element is killed by `κ̄`
 and by `r̄₀`, hence by `ρ`, by the conditions of `𝒟_sp`, `ψ` having order prime to `ℓ` on `G_{F_T}` by 3.20(b), and by `κ`, of order
 prime to `ℓ` on inertia away from `ℓ`); the auxiliary place `v₀`, of prime norm, is given by the condition on `ω` in the
-definition of tower fields; `ρ|_{G_L}` is automorphic (4.4(∗), (b); automorphy in the sense of HeckeIdealsAndTaylorWilesRelations
-§3.13a(f), which HeckeIdealsAndTaylorWilesRelations §9.9(d) asks, includes the clauses (w1), (w2), whose verification is not
-given here), ordinary with the
+definition of tower fields; `ρ|_{G_L}` is attached to a regular algebraic cuspidal representation (4.4(b) over the imaginary
+quadratic field `K` of the tower datum, on which `ρ` is irreducible, and soluble base change from `K` to `L`,
+PotentialAutomorphyInfrastructurePartII §0.9; automorphy in the sense of HeckeIdealsAndTaylorWilesRelations §3.13a(f), which
+HeckeIdealsAndTaylorWilesRelations §9.9(d) asks, includes the clauses (w1), (w2), which 4.4(b) gives for `ρ|_{G_K}`; their passage
+to `ρ|_{G_L} ⊗ κ` is not given here), ordinary with the
 distinct cyclotomic exponents `e + 1, e, 1, 0`, with residual representation a sum of four pairwise distinct characters,
 absolutely irreducible on `G_{L(μ_{ℓ^∞})}`, with an element of free ratios in a decomposition group above `ℓ` (free ratios at
 characteristic zero) and hence regular elements in every nonempty open subset of `G_{L(μ_{ℓ^∞})}` (4.4 (irreducibility)). So `H¹_f(L⁺, ad r) = 0` for the `𝒢₄`-adjoint representation `ad r` of `G_{L⁺}`. `𝔰𝔭₄(ρ)|_{G_{L⁺}}` is the direct summand of `ad r` on which complex conjugation acts through `ρ`, and
@@ -2521,7 +2548,7 @@ of `𝒟_sp` congruent to `r₀`, and since the weight-zero ring of the fibre is
 extends to the completion: a first-order deformation of the point that is again a point. By (ii) it is `ρ + ε(Xρ − ρX)`; the
 normalization forces `X` into the Lie algebra of the torus (the block condition at one marked element kills the odd-root
 directions, the normalized entries at the other kill the `±Ψ` directions), and on `A_n` only its `μ`-component acts:
-`δ(f) = b·n·x(f)`. *Needs:* 3.17, 3.20, 4.1, 4.4, 4.6; PotentialAutomorphyInfrastructurePartII §§0.8, 9.1–9.3, 9.8 and HeckeIdealsAndTaylorWilesRelations §9.9;
+`δ(f) = b·n·x(f)`. *Needs:* 3.17, 3.20, 4.1, 4.4, 4.6; PotentialAutomorphyInfrastructurePartII §§0.8, 0.9, 9.1–9.3, 9.8 and HeckeIdealsAndTaylorWilesRelations §9.9;
 AutomorphicGaloisRepresentationsPartII AG2.2.
 
 ### 4.8 Levels of the automorphic points
@@ -2550,7 +2577,7 @@ fixed by the principal congruence subgroup of level `N|d_K|`;
 imaginary quadratic `K` with `ρ|_{G_K}` irreducible, the representation of 4.4(b) over `K` (polarized: `ρ` is symplectic with
 multiplier `θ`) has a nonzero `K(M)`-fixed vector.
 
-The routes of (a) and (b) use, through 4.2(b), (d) and 4.5(b), HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′); the route of (c) uses, through 4.4(b), 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)) and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d). The routes of these statements are not given in full (see there).
+The routes of (a) and (b) use, through 4.2(b), (d) and 4.5(b), HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c); the route of (c) uses, through 4.4(b), 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)) and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d). The routes of these statements are not given in full (see there).
 
 *Route.* (0) Away from `ℓ`: by local–global compatibility (AutomorphicGaloisRepresentationsPartII AG2.5, *Caraiani's full
 away-prime compatibility*) the Weil–Deligne parameter of `π_w` is that of `r|_{G_{F_w}}`, with monodromy `0` because `r(I_w)` is
@@ -2639,7 +2666,7 @@ to `ℓ` by 5.1; so the class vanishes on `G_F`, hence on `G_ℚ`. *Needs:* 5.1;
 Call `(ψ, e, ℓ, K)`, with `ψ` a character modulo an even `N`, *Case-I admissible* if the hypotheses of 4.2 hold and `ℓ ∤ h_K`.
 Prove: if `(ψ, e, ℓ, K)` is Case-I admissible and `σ ∈ G_K` satisfies `tr ρ(σ) ≠ t := Ψ(σ) + 1 + Ψ(σ)⁻¹` for every two-signed point
 `ρ` of `𝒟(ψ, e, K)`, then `V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) ≤ 2 Σ_{ρ∈𝒳} v_ℓ(tr ρ(σ) − t)` for a finite set `𝒳` of two-signed
-points with pairwise non-isomorphic restrictions to `G_K`, each of type I or of type II as in 4.6(a). The route uses, through 4.2 and 4.3, HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), whose routes are not given in full (see there).
+points with pairwise non-isomorphic restrictions to `G_K`, each of type I or of type II as in 4.6(a). The route uses, through 4.2 and 4.3, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), whose routes are not given in full (see there).
 
 *Route.* Reduce to unramified `O`. Apply 3.3 to the model of 4.1 (`T₁ = 1`). (M1): 4.1 (model) gives the counts (square in
 weights `−2` and `0`, one equation more than coordinates in weight `−1`, one coordinate more than equations in weights `1`
@@ -2655,7 +2682,7 @@ two-signed points are the classes of their restrictions to `G_K` (4.1 (points)),
 Let `K` be imaginary quadratic. Prove that there are `c_K, A_K > 0` such that for every even `N ≥ 2` with `(d_K, N) = 1`, every
 `e ≥ 1`, every prime `p ≥ 7` with `p ∤ N d_K`, and every `Aut(ℂ)`-orbit `𝒪` of Dirichlet characters modulo `N` with
 `ψ(−1) = (−1)^e`, there is `NN ∈ ℤ ∖ {0}` with `log|NN| ≤ c_K #𝒪 (N(e + 1))^{A_K} log p` and `Σ_{ψ∈𝒪} V_ℓ(ψ, e) ≤ 2 v_ℓ(NN)` for every
-prime `ℓ ≠ p` at which every `ψ ∈ 𝒪` is Case-I admissible. The route uses, through 5.3, 4.2, 4.3 and 4.8, HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), whose routes are not given in full (see there).
+prime `ℓ ≠ p` at which every `ψ ∈ 𝒪` is Case-I admissible. The route uses, through 5.3, 4.2, 4.3 and 4.8, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), whose routes are not given in full (see there).
 
 *Route.* Take `w | p` in `K`, `q = Nw ≥ 7`, `σ = Frob_w`; then `Ψ(σ) = q^eψ(q)` and `t_ψ := Ψ(σ) + 1 + Ψ(σ)⁻¹` is the Eisenstein
 trace of 3.2(b) with `z = ψ(q)⁻¹`. Let `I = I₁ ⊔ I₂`, with `I₁` the set of isomorphism classes of regular algebraic conjugate
@@ -2683,7 +2710,7 @@ every `Aut(ℂ)`-orbit `𝒪` of characters modulo `N` with `ψ(−1) = (−1)^e
 Case-I admissible.
 (b) *Host form.* For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8`
 and one `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large) and every `1 ≤ e < t`: `Σ_{ℓ ∉ B(χ), (ℓ−1)∤2e} log ℓ · length Ш⁺(E, ℓ, e) ≤ (N t)^C`.
-The route uses, through 5.4, HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), whose routes are not given in full (see there).
+The route uses, through 5.4, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), whose routes are not given in full (see there).
 
 *Route.* (a) Take the two least primes `p ≠ p′`, `p, p′ ≥ 7`, not dividing `N d_K`; every admissible `ℓ` differs from
 one of them, so 5.4 gives `Σ_ψ V_ℓ(ψ, e) ≤ 2v_ℓ(NN_p) + 2v_ℓ(NN_{p′})`; sum over `ℓ` with `Σ_ℓ log ℓ v_ℓ(NN) ≤ log|NN|`.
@@ -2828,7 +2855,7 @@ local term) and summation over `e`. *Needs:* 0.2, 0.3; BernoulliBoundsForClassGr
 ### 6.4 Case V large
 
 For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` and every `ψ ∈ X(E, 1)` with `R₁(ℓ, χ) ≤ 2^{c₂(ψ)}`:
-`V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C`. The route uses, through 4.5 and 4.8(b), 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`, HeckeIdealsAndTaylorWilesRelations §4.2a and 3.15(c) (K1′), (K2′), whose routes are not given in full (see there).
+`V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C`. The route uses, through 4.5 and 4.8(b), 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c), whose routes are not given in full (see there).
 
 *Route.* As 5.3–5.4 relative to `ℚ(i)`, resting on 4.5 instead of 4.1–4.3. The host data of 4.5 hold (4.5, setting), so `𝒟_G(ψ, 1)`
 is defined for an arbitrary coefficient ring `O`, lengths being divided by `e_O`. Apply 3.3 to its model (`T₁ = 1`): (M1) from
@@ -2909,7 +2936,7 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
-`Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C`. The route uses, through 5.5 and 5.7, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+`Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C`. The route uses, through 5.5 and 5.7, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* For each `e`, Case I primes by 5.5(b). Every other good prime has `(ℓ − 1) | 2e`, hence `ℓ ≤ 2t + 1` (0.3(d)); at
 most `2t` such primes, at most `N` characters each, in Case Z (5.2), II or III (5.7), each at most `(ℓNe)^C ≤ (2Nt²)^C`.
@@ -2919,7 +2946,7 @@ Sum over `e < t`. *Needs:* 0.4, 5.2, 5.5, 5.7; BernoulliBoundsForClassGroupEigen
 
 For `χ` and `j : B(χ) → ℕ` there is `C`, depending on `χ` and `j`, such that for every host field `E` and every `B ≥ 0` bounding
 `Σ_{1≤e<t} length Ш¹(ℚ(μ_{ℓ^{j(ℓ)+1} f_χ}), ℓ, e)` for every `ℓ ∈ B(χ)`:
-`Σ_{ℓ odd} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C + C B`. The route uses, through 5.7, 6.4 and 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+`Σ_{ℓ odd} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C + C B`. The route uses, through 5.7, 6.4 and 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* For `ℓ ∈ B(χ)`, BernoulliBoundsForClassGroupEigenspaces §6.18(c) bounds `length Ш⁺` by the component lengths plus a defect
 polynomial in `Ne` per character; by 0.4 each component is in Case II (5.7), IV (6.3) or V (6.2, 6.4); the
@@ -2931,7 +2958,7 @@ BernoulliBoundsForClassGroupEigenspaces §6.18.
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
 (a) `Σ_{ℓ odd} log ℓ Σ_{1≤e<t} length Ш⁻(E, ℓ, e) ≤ (N t)^C`; (b) `Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ Σ_{1≤e<t} length Ш¹(E, ℓ, e) ≤ (N t)^C`.
-The route of (b) uses, through 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+The route of (b) uses, through 7.1, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* (a) `E` is an abelian CM field of conductor `N`, contained in `ℚ(μ_N)`, with `[E : ℚ] ≤ N`. For the odd `ℓ ∤ [E : ℚ]`:
 BernoulliBoundsForClassGroupEigenspaces §10.1(b), summed over `e < t`, gives at most `t·N·log(16N^{t+1}t!)`. An odd `ℓ | [E : ℚ]` divides
@@ -2946,7 +2973,7 @@ Let `χ` be primitive, `α, κ ≥ 1` and `0 < δ ≤ 1`. Prove that there are `
 every pair `Q = {q, q′}` of primes with `q ≡ 3 mod 8`, `q′ ≡ 7 mod 16`, `q, q′ ∤ f_χ`, `q, q′ > 2X^κ + 1 + P(χ)` and
 `log q + log q′ ≤ X^{δ/J}`, there is `Y ∈ [X^{1/J}, X^{1/2}]` such that for every `x ∈ [Y, Y²]`, every `n ≥ 2` with `2^n ≤ x^α` and
 every `2 ≤ t ≤ x^κ`: the groups `Ш¹(E_n(χ, Q), ℓ, e)`, `ℓ` prime, `1 ≤ e < t`, are finite, and
-`V(E_n(χ, Q), t) ≤ (N t)^C + exp(x^δ)`, `N = N_n(χ, Q)`. The route uses, through 7.2 and 7.3, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+`V(E_n(χ, Q), t) ≤ (N t)^C + exp(x^δ)`, `N = N_n(χ, Q)`. The route uses, through 7.2 and 7.3, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* Take the window of 2.4 for `M = ℚ(χ)`, `𝔅 = {(ℓ, ℚ(μ_{ℓ f_χ})) : ℓ ∈ B(χ)}` and `δ/2` in place of `δ`, with exponent
 `J_{2.4}`, and put `J = 2J_{2.4}`: then `Σ_{q∈Q} log q ≤ X^{δ/J} = X^{(δ/2)/J_{2.4}}` is the hypothesis of 2.4, and its window lies in
@@ -2961,7 +2988,7 @@ BernoulliBoundsForClassGroupEigenspaces §6.17(b). *Needs:* 2.4, 7.2, 7.3; Berno
 For every primitive `χ` and `κ, δ > 0` there are `J` and `k₁` such that for every `k₀ ≥ k₁` some `k ∈ [k₀, J k₀]` satisfies
 `V(E_n(χ, ∅), ⌊2^{κn}⌋) ≤ exp(2^{δn})` for every `n ∈ [k, 2k − 2]`. *Status.* This form is the roadmap's own corollary of 7.4,
 not on the path of [FormalProof]: the family's main theorems use the window theorem over host fields with two auxiliary primes
-only. The route uses, through 7.4, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+only. The route uses, through 7.4, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *Route.* Apply 7.4 with `α = 1`, `max(κ, 1)` and `min(δ, 1)/2` to `X = 2^{J k₀}` and `Q = {q, q′}`, `q ≡ 3 mod 8`,
 `q′ ≡ 7 mod 16`, both in `(2X^{max(κ,1)} + 1 + P(χ), 4X^{max(κ,1)} + 4P(χ)]`; let `k = ⌈log₂ Y⌉`, so that `2^n ∈ [Y, Y²]` for
@@ -2979,7 +3006,7 @@ with `2^n ≤ x^α`, with `E = E_n(χ, {q, q′})` and `t = ⌊x^κ⌋`: every `
 `Σ_ℓ log ℓ · Σ_{0<e<t} length Ш¹(E, ℓ, e) ≤ exp(x^ε)`. Here `Ш¹(E, ℓ, e)` is the group of classes of `H¹(𝒪_E[1/ℓ], ℚ_ℓ/ℤ_ℓ(−e))`
 unramified outside `ℓ` and trivial at every place above `ℓ`. `J` depends on `χ, ε, κ, α` only; a layer function `n(x)` with
 `n(x) ≥ 2` and `2^{n(x)} ≤ x^α` for all `x ≥ x₁` is an instance after enlarging `X₀` so that `X₀^{1/J} ≥ x₁` (every scale of the
-window is `≥ Y₀ ≥ X₀^{1/J}`). The route uses, through 7.4, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
+window is `≥ Y₀ ≥ X₀^{1/J}`). The route uses, through 7.4, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut) and the maps of (e)); the clauses (w1), (w2) of 3.22(c); 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`; HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
 
 *The form of the formal proof.* For pairs of the two classes, 7.6 follows from the joint window statement of [FormalProof], which
 allows every `κ ≥ 1` and every layer `n ≥ 2` with `2^n ≤ x^α` at each scale of the window; the headline of [FormalProof] is the
@@ -3023,7 +3050,8 @@ HeckeIdealsAndTaylorWilesRelations §10.1, PotentialAutomorphyInfrastructurePart
 and BernoulliBoundsForClassGroupEigenspaces §§13.1, 14.1. Among the statements its route uses, these are theorems of [FormalProof] whose routes are not given in full here: 3.15(c) (K1′), (K2′)
 (the Selmer counts of the patching argument), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (the weight-zero part of a
 weighted presentation and the rescaling ring, through the space of symplectic residual lattices 3.19(a)), 3.20(d) and (e) (the
-seeds, and the clauses (P1₄), (pur), (aut) and the maps of the Hecke ideals of rank four), 4.5 (model) and (i), (ii) of 4.3 for
+seeds, and the clauses (P1₄), (pur), (aut) and the maps of the Hecke ideals of rank four), the clauses (w1), (w2) of 3.22(c)
+(automorphy of the rank-two seeds), 4.5 (model) and (i), (ii) of 4.3 for
 `𝒟_G` (the Eisenstein problem relative to the Gaussian field), and HeckeIdealsAndTaylorWilesRelations §4.2a (automorphic
 patching data at a reducible residual determinant) and §9.9(d) (adjoint vanishing at regular elements).
 
@@ -3116,7 +3144,7 @@ Additions to ArithmeticKTheory: §6.17: the group `Ш¹(F, ℓ, e)` (classes unr
 
 §10.1, an addition to ArithmeticGaloisDuality: `Ш¹_{S;Σ}(F, W)` and `Ш²_S(F, T)` for a `ℤ_p`-lattice `T`, `W = V/T`, their lengths in `ℕ∞`, limits, and the duality of `Ш²_S(F, T)` with `Ш¹_S(F, T^D)`.
 
-Additions to PotentialAutomorphyInfrastructurePartII: §3.13a (the universal ordinary determinant ring `B` of a residual sum of pairwise distinct characters, with an auxiliary place `v₀` of prime norm, which exists when the residual pair is an ordinary determinant, and the ideal `J`, kernel of the surjection from `B` onto the big ordinary Hecke algebra of the definite unitary group at the corresponding Eisenstein maximal ideal, with `B/J` finite, torsion-free and reduced over `Λ`, the ordinary relations, density of points with distinct inertial characters, the decomposition of arithmetic points into twisted pieces `ρ′_i ⊗ χ_ℓ^{−j}` with `ρ′_i` continuous, and weak purity at almost all places under the one fixed `ι : ℚ̄_ℓ ≅ ℂ` when all multiplicities are one, classicality of irreducible arithmetic points, (f) for `2 ≤ n ≤ 4` automorphic points as points of `V(J)`, automorphy including the clauses (w1), (w2) (seeds as points), and (g) the stability of `J` under twists by characters `γ ≡ 1` with `γ(cgc⁻¹)γ(g) = 1`, trivial on the inertia groups at `S_t` and at `v₀` and on the prescribed torsion), in 3.15, 3.16, 3.20 ((g) in (inv) of (e)), 4.2, 4.5; §4.2a (automorphic patching data of `J` at every Taylor–Wiles datum, the datum being elements `σ_j` and, at each level, places above pairwise distinct places of `L⁺` whose Frobenius elements agree with the `σ_j` on the residual characters and converge to them in a quotient of `G_{L⁺,S}`: a base module, lifts of the residual eigenvalues and an exponent `e` (one may take `e = n!`) given per datum, algebras `R_N` carrying an ordinary determinant (not necessarily the universal ones), patching modules free of finite rank, possibly depending on the level, over the group rings of the diamond operators, comparison maps with composites `f`, and `(f·tr_{D_N}(h·r))^e` killing the patching module for the two kinds of Taylor–Wiles elements `r`; the route of the existence of the level modules and of the two maps is not given there), in 3.15, 3.20, 4.2, 4.5; §9.9: (a) `H¹_f(F⁺, ad r) = 0` at automorphic points of rank two or three over imaginary CM fields irreducible on every open subgroup of `G_F`; (b) `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0` for `ρ : G_ℚ → GSp₄` irreducible on every open subgroup of `G_ℚ` and automorphic over an imaginary quadratic field; (c) `H¹_f(ℚ, ad W) = 0` for a two-dimensional `W` of `G_ℚ` with `det W` the character of an imaginary quadratic field `F` and `W|_{G_F}` as in (a); (d) (its route is not given there): `H¹_f(L⁺, ad ρ) = 0` for `L` a CM field with `L/L⁺` unramified at the finite places, `μ_p ⊄ L` and every place of `L⁺` above `p` split in `L`, `ρ` (rank `n` with `2 ≤ n ≤ 4`) attached to a regular algebraic conjugate self-dual cuspidal representation, automorphic in the sense of §3.13a(f) with its clauses (w1), (w2), unramified outside a finite set of places split in `L`, trivial on the inertia elements at those places prime to `p` at which the residual characters are trivial, unramified at an auxiliary place `v₀` of prime norm at which the residual characters agree, are unramified and `Nv₀ ≢ 1 mod p`, ordinary with distinct cyclotomic exponents at each place above `p` (which may depend on the place), residually a sum of pairwise distinct characters, with an element of free ratios in a decomposition group above `p` in the kernel of the cyclotomic character, absolutely irreducible on `G_{L(μ_{p^∞})}`, and with regular semisimple elements in every nonempty open subset of `G_{L(μ_{p^∞})}`, in 4.7(i); (d′) under the hypotheses of (d), if moreover the cyclotomic exponents differ by at least `2` at each place above `p`, every point derivation of the universal ordinary determinant ring at the point of `ρ` vanishing on the weight algebra is zero and every prime contained in the kernel of that point contains the Hecke ideal, in 3.20(e)(seed).
+Additions to PotentialAutomorphyInfrastructurePartII: §3.13a (the universal ordinary determinant ring `B` of a residual sum of pairwise distinct characters, with an auxiliary place `v₀` of prime norm, which exists when the residual pair is an ordinary determinant, and the ideal `J`, kernel of the surjection from `B` onto the big ordinary Hecke algebra of the definite unitary group at the corresponding Eisenstein maximal ideal, with `B/J` finite, torsion-free and reduced over `Λ`, the ordinary relations, density of points with distinct inertial characters, the decomposition of arithmetic points into twisted pieces `ρ′_i ⊗ χ_ℓ^{−j}` with `ρ′_i` continuous, and weak purity at almost all places under the one fixed `ι : ℚ̄_ℓ ≅ ℂ` when all multiplicities are one, classicality of irreducible arithmetic points, (f) for `2 ≤ n ≤ 4` automorphic points as points of `V(J)`, automorphy including the clauses (w1), (w2) (seeds as points), and (g) the stability of `J` under twists by characters `γ ≡ 1` with `γ(cgc⁻¹)γ(g) = 1`, trivial on the inertia groups at `S_t` and at `v₀` and on the prescribed torsion), in 3.15, 3.16, 3.20 ((g) in (inv) of (e)), 3.22, 4.2, 4.4, 4.5; §4.2a (automorphic patching data of `J` at every Taylor–Wiles datum, the datum being elements `σ_j` and, at each level, places above pairwise distinct places of `L⁺` whose Frobenius elements agree with the `σ_j` on the residual characters and converge to them in a quotient of `G_{L⁺,S}`: a base module, lifts of the residual eigenvalues and an exponent `e` (one may take `e = n!`) given per datum, algebras `R_N` carrying an ordinary determinant (not necessarily the universal ones), patching modules free of finite rank, possibly depending on the level, over the group rings of the diamond operators, comparison maps with composites `f`, and `(f·tr_{D_N}(h·r))^e` killing the patching module for the two kinds of Taylor–Wiles elements `r`; the route of the existence of the level modules and of the two maps is not given there), in 3.15, 3.20, 4.2, 4.5; §9.9: (a) `H¹_f(F⁺, ad r) = 0` at automorphic points of rank two or three over imaginary CM fields irreducible on every open subgroup of `G_F`; (b) `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0` for `ρ : G_ℚ → GSp₄` irreducible on every open subgroup of `G_ℚ` and automorphic over an imaginary quadratic field; (c) `H¹_f(ℚ, ad W) = 0` for a two-dimensional `W` of `G_ℚ` with `det W` the character of an imaginary quadratic field `F` and `W|_{G_F}` as in (a); (d) (its route is not given there): `H¹_f(L⁺, ad ρ) = 0` for `L` a CM field with `L/L⁺` unramified at the finite places, `μ_p ⊄ L` and every place of `L⁺` above `p` split in `L`, `ρ` (rank `n` with `2 ≤ n ≤ 4`) attached to a regular algebraic conjugate self-dual cuspidal representation, automorphic in the sense of §3.13a(f) with its clauses (w1), (w2), unramified outside a finite set of places split in `L`, trivial on the inertia elements at those places prime to `p` at which the residual characters are trivial, unramified at an auxiliary place `v₀` of prime norm at which the residual characters agree, are unramified and `Nv₀ ≢ 1 mod p`, ordinary with distinct cyclotomic exponents at each place above `p` (which may depend on the place), residually a sum of pairwise distinct characters, with an element of free ratios in a decomposition group above `p` in the kernel of the cyclotomic character, absolutely irreducible on `G_{L(μ_{p^∞})}`, and with regular semisimple elements in every nonempty open subset of `G_{L(μ_{p^∞})}`, in 4.7(i); (d′) under the hypotheses of (d), if moreover the cyclotomic exponents differ by at least `2` at each place above `p`, every point derivation of the universal ordinary determinant ring at the point of `ρ` vanishing on the weight algebra is zero and every prime contained in the kernel of that point contains the Hecke ideal, in 3.20(e)(seed).
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
@@ -3144,7 +3172,7 @@ Additions to DeformationAndDerivedPatchingAlgebra: §4.8: graded local algebras 
 
 ### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
 
-§0.1 (ordinary representations), §0.8 (automorphy is invariant under algebraic twists, in 3.20(d), (e) and 4.7(i)), §0.9 (soluble base change and descent of polarized automorphy, for `r|_{G_M}` irreducible, `M` CM or totally real, used with `F = ℚ` in 4.4(b), in 3.22(c), and in the outline of 3.20(d)), §2.1 (the group `𝒢_n`), §2.2 (the determinant subring), §§3.8–3.13 (Iwahori levels, the big ordinary Hecke algebra, Hida classicality, the `Λ`-adic Galois representation at non-Eisenstein maximal ideals); §7.5 (restriction of pseudodeformations to a subgroup of finite index is finite), in 3.20(e); §9.1 (generic Galois representations; a `ρ` whose Frobenius-semisimplified Weil–Deligne representation is `rec^T` of a generic representation is generic; genericity descends from a finite extension), §9.2 (`H¹_f = H¹_g` at generic places), §9.3 (the adjoint Bloch–Kato Selmer group of a conjugate self-dual representation), §9.8 (ordinary tangent vectors of trivial weight lie in `H¹_g`).
+§0.1 (ordinary representations), §0.8 (automorphy is invariant under algebraic twists, in 3.20(d), (e) and 4.7(i)), §0.9 (soluble base change and descent of polarized automorphy, for `r|_{G_M}` irreducible, `M` CM or totally real, used with `F = ℚ` in the outline of 3.20(e), in 3.22(c) and 4.7(i), and in the outline of 3.20(d)), §2.1 (the group `𝒢_n`), §2.2 (the determinant subring), §§3.8–3.13 (Iwahori levels, the big ordinary Hecke algebra, Hida classicality, the `Λ`-adic Galois representation at non-Eisenstein maximal ideals); §7.5 (restriction of pseudodeformations to a subgroup of finite index is finite), in 3.20(e); §9.1 (generic Galois representations; a `ρ` whose Frobenius-semisimplified Weil–Deligne representation is `rec^T` of a generic representation is generic; genericity descends from a finite extension), §9.2 (`H¹_f = H¹_g` at generic places), §9.3 (the adjoint Bloch–Kato Selmer group of a conjugate self-dual representation), §9.8 (ordinary tangent vectors of trivial weight lie in `H¹_g`).
 
 ### From TauCetiRoadmap.SelmerIwasawaCohomology
 
