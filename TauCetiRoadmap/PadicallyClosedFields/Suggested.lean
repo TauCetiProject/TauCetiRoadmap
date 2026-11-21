@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.ModelTheory.Algebra.Group.Basic
 
 /-!
 # p-adically closed fields: suggested signatures
@@ -14,12 +13,20 @@ type `(e, f)`, p-adically closed fields, the Kochen operator, the language `pcLa
 quantifier elimination theorem, and the headline theorems of Layers 1, 3, 4, 5 and 7.
 
 `valLang`, `valStructure`, `valueGroup` and `padicValuationSubring` are copies of AxKochenErshov
-0.1–0.2 and 6.1, and `orderedGroup`, `orderedGroupStructure` and `IsPresburgerGroup` copies of
-SaturationAndQuantifierElimination 3.1 and 3.3, which own them.
+0.1–0.2 and 6.1, and `IsPresburgerGroup` a copy of SaturationAndQuantifierElimination 3.3, which
+own them.
 
 The valued-field structure is passed explicitly, so each statement shows which valuation it is
-about. The theorems take `K : Type`; the README puts no universe restriction on them. Layers 0.2–0.3,
-2, 3.4 and 6 are stated in `README.md` only.
+about. The theorems take `K : Type`; the README puts no universe restriction on them.
+
+Some layers are stated in `README.md` only, for want of a carrier at the pins:
+- 0.2–0.3, the coarse valuation and the invariants of extensions, need the coarsening of
+  LocalFieldsRamificationPartII §5.1;
+- 2, the general embedding theorem, needs saturation, which is SaturationAndQuantifierElimination's
+  Layer 0;
+- 3.4, decidability, needs a coding of theories (SaturationAndQuantifierElimination §4.3);
+- 6, the Nullstellensatz and Hilbert's seventeenth problem, needs the `π`-adic Kochen operator
+  over a base, the Kochen ring and rational places of function fields.
 
 Suggested homes: `TauCeti/RingTheory/Valuation/PValuation.lean`,
 `TauCeti/ModelTheory/Algebra/ValuedField/PadicallyClosed.lean`.
@@ -82,17 +89,13 @@ structure IsPValuation (d : ℕ) (V : ValuationSubring K) : Prop where
   card_quotient : Nat.card (V ⧸ Ideal.span {(p : V)}) = p ^ d
 
 /-- **0.1** A p-valuation of type `(e, f)` (p.93): `|p| < 1`, at most `e` values in `[|p|, 1)`,
-and residue degree dividing `f`. -/
+and residue degree dividing `f`. Prestel–Roquette take `e, f ≥ 1`; the theorems below carry this as
+hypotheses. -/
 structure IsPValuationOfType (e f : ℕ) (V : ValuationSubring K) : Prop where
   charZero : CharZero K
   valuation_p_lt_one : V.valuation (p : K) < 1
   ramification_le : {γ : V.ValueGroup | V.valuation (p : K) ≤ γ ∧ γ < 1}.encard ≤ e
   residue_pow : ∀ x : IsLocalRing.ResidueField V, x ^ (p ^ f) = x
-
-/-- **0.1** `K` is formally p-adic of p-rank `d` when it carries a p-valuation of p-rank `d`
-(p.92). -/
-def IsFormallyPadic (d : ℕ) (K : Type*) [Field K] : Prop :=
-  ∃ V : ValuationSubring K, IsPValuation p d V
 
 end Layer0
 
@@ -121,6 +124,18 @@ theorem exists_padicClosure {d : ℕ} {K : Type} [Field K] {V : ValuationSubring
     (hV : IsPValuation p d V) :
     ∃ (L : Type) (_ : Field L) (_ : Algebra K L) (W : ValuationSubring L),
       Algebra.IsAlgebraic K L ∧ W.comap (algebraMap K L) = V ∧ IsPadicallyClosed p d W :=
+  sorry
+
+/-- **1.2** Uniqueness of p-adic closures (Thm. 3.2): the p-adic closures of `K` are unique up to
+`K`-isomorphism of valued fields exactly when the value group of `K` is a `ℤ`-group. -/
+theorem isPresburgerGroup_iff_padicClosure_unique {d : ℕ} {K : Type} [Field K]
+    {V : ValuationSubring K} (hV : IsPValuation p d V) :
+    IsPresburgerGroup (valueGroup V) ↔
+      ∀ (L L' : Type) [Field L] [Field L'] [Algebra K L] [Algebra K L'] [Algebra.IsAlgebraic K L]
+        [Algebra.IsAlgebraic K L'] (W : ValuationSubring L) (W' : ValuationSubring L'),
+        W.comap (algebraMap K L) = V → W'.comap (algebraMap K L') = V →
+        IsPadicallyClosed p d W → IsPadicallyClosed p d W' →
+        ∃ σ : L ≃ₐ[K] L', W'.comap (σ : L →+* L') = W :=
   sorry
 
 /-- **1.3** A subfield algebraically closed in a p-adically closed field is p-adically closed of
@@ -243,14 +258,15 @@ section Layer5
 variable (p : ℕ) [Fact p.Prime] {K : Type*} [Field K]
 
 /-- **5** The p-adic Kochen operator of type `(e, f)` (p.92):
-`γ(x) = p⁻¹ · [(x^q − x) − (x^q − x)⁻¹]^(−e)`, `q = p^f`. Where `(x^q − x)² = 1` the operator has a
-pole and this function takes the value `0`. -/
+`γ(x) = p⁻¹ · [(x^q − x) − (x^q − x)⁻¹]^(−e)`, `q = p^f`, for `e, f ≥ 1`. Where `(x^q − x)² = 1`
+the operator has a pole and this function takes the value `0`. -/
 noncomputable def kochen (e f : ℕ) (x : K) : K :=
   (p : K)⁻¹ * ((x ^ p ^ f - x) - (x ^ p ^ f - x)⁻¹)⁻¹ ^ e
 
 /-- **5** Lem. 6.1: a valuation is a p-valuation of type `(e, f)` exactly when `|p| < 1` and the
 Kochen operator has no pole and is integral on `K`. -/
-theorem isPValuationOfType_iff [CharZero K] (e f : ℕ) (he : 0 < e) (V : ValuationSubring K) :
+theorem isPValuationOfType_iff [CharZero K] (e f : ℕ) (he : 0 < e) (hf : 0 < f)
+    (V : ValuationSubring K) :
     IsPValuationOfType p e f V ↔
       V.valuation (p : K) < 1 ∧
         ∀ x : K, ((x ^ p ^ f - x) ^ 2 ≠ 1 ∧ kochen p e f x ∈ V) :=
@@ -258,7 +274,8 @@ theorem isPValuationOfType_iff [CharZero K] (e f : ℕ) (he : 0 < e) (V : Valuat
 
 /-- **5** Thm. 6.15 for `e = 1`: the valuation ring of a henselian p-valuation of type `(1, f)` is
 the image of the Kochen operator, so it is existentially `∅`-definable in the ring language. -/
-theorem range_kochen_eq [CharZero K] (f : ℕ) (V : ValuationSubring K) [HenselianLocalRing V]
+theorem range_kochen_eq [CharZero K] (f : ℕ) (hf : 0 < f) (V : ValuationSubring K)
+    [HenselianLocalRing V]
     (hV : IsPValuationOfType p 1 f V) :
     Set.range (kochen p 1 f) = (V : Set K) :=
   sorry

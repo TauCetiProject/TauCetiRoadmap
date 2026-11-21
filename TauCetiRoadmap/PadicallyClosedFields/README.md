@@ -67,7 +67,7 @@ fields, and Layer 7 the absolute Galois group.
 - **Finite extensions of `ℚ_p`** are fields `F` with `[Algebra ℚ_[p] F] [FiniteDimensional ℚ_[p] F]`,
   with the valuation subring of the unique prolongation of `ℤ_p`: the `W` with
   `W.comap (algebraMap ℚ_[p] F) = padicValuationSubring p`.
-- **The Kochen operator** of type `(e, f)` is
+- **The Kochen operator** of type `(e, f)`, for natural numbers `e, f ≥ 1`, is
   `γ(x) = p⁻¹ · [(x^q − x) − (x^q − x)⁻¹]^(−e)`, `q = p^f` (Prestel–Roquette p.92). It has a pole
   where `(x^q − x)² = 1`. In Lean, where `0⁻¹ = 0`, `γ` takes the value `0` there, and statements
   that need `γ` to be finite carry the condition `(x^q − x)² ≠ 1` explicitly. Over a p-valued base
@@ -78,9 +78,10 @@ fields, and Layer 7 the absolute Galois group.
 
 ### 0.1 Definitions
 
-`IsPValuation p d V`: `K` has characteristic `0` and `V` has p-rank `d ≥ 1`. `IsFormallyPadic p d K`:
-some valuation subring of `K` is a p-valuation of p-rank `d` (p.92). A p-valuation is *of type
-`(e, f)`* when its ramification index is at most `e` and its residue degree divides `f` (p.93).
+`IsPValuation p d V`: `K` has characteristic `0` and `V` has p-rank `d ≥ 1`. `K` is *formally
+p-adic of p-rank `d`* when some valuation subring of `K` is a p-valuation of p-rank `d` (p.92).
+For natural numbers `e, f ≥ 1`, a p-valuation is *of type `(e, f)`* when its ramification index is
+at most `e` and its residue degree divides `f` (p.93).
 API:
 
 - `d = e·f` (p.15), and conversely a valued field of characteristic `0` with residue
@@ -181,8 +182,9 @@ p-adically closed; one exists by Zorn's lemma (p.33).
   closed in `L`.
 - The three steps of the proof are targets (Lem. 3.5, pp.39–44): for `L` henselian p-valued with
   residue field of order `q`, the roots of `X^q − X` are a set of representatives of the residue
-  field, algebraic over every subfield; if `k_K = k_L`, `K` contains a prime element of `L` that
-  is a root of an Eisenstein polynomial over `K`; and if `K` and `L` have the same p-rank, every
+  field, algebraic over every subfield; if `k_K = k_L`, some prime element of `L` is a root of an
+  Eisenstein polynomial for `L` with coefficients in `K`, so that `K` contains a prime element of
+  `L` when `K` is algebraically closed in `L`; and if `K` and `L` have the same p-rank, every
   `α ∈ Γ_L` with `αⁿ ∈ Γ_K` is the value of some `t ∈ L` with `tⁿ ∈ K`.
 - For `L` henselian of the same p-rank as `K ⊆ L` and `|b| ∈ Γ_K`, `b = c·uⁿ` with `c ∈ K` and
   `u` a unit of `L` (Lem. 3.6, pp.45–46).
@@ -213,9 +215,12 @@ with `c_i ∈ K` and `∏ n_i = [L : K]` (Cor. 3.9, p.53).
 
 **Checks.**
 
-- `ℚ_p(√p)` and `ℚ_p(√(up))`, for `p` odd and `u ∈ ℤ` a non-square modulo `p`, are henselian
-  quadratic extensions of `ℚ_p` of p-rank `2`; `p` is a square in the first only, so by Cor. 3.11
-  they are not isomorphic.
+- For `K = ℚ_p((t))` with the composed valuation, of p-rank `1`, and `p` odd and `u ∈ ℤ` a
+  non-square modulo `p`, `L = K(√t)` and `L' = K(√(ut))` are henselian quadratic extensions of
+  p-rank `1`. `t` is a square in `L` only, since `√t, √(ut) ∈ L'` would give `√u ∈ L'` and residue
+  degree `2`, so by Cor. 3.11 they are not `K`-isomorphic.
+- The hypothesis on the p-rank is needed: `ℚ_p(√p)` and `ℚ_p(√(up))` have p-rank `2`, not that of
+  `ℚ_p`, and Cor. 3.11 says nothing about them.
 - For `K = ℚ_p`, `(ℚ/ℤ) ⊗ Γ̇_K = 0`, so `ℚ_p` is its own unique p-adic closure, as 1.1 says.
 
 ### Dependencies
@@ -242,8 +247,12 @@ Saturation is SaturationAndQuantifierElimination's `IsSaturated` (its Layer 0) i
 
 The proof reduces Thm. 4.3 to transcendence degree `1` (Rems. 4.4–4.6), using that an extension
 embeds once each finitely generated subextension does, by saturation, and treats the rational
-case through Props. 4.10A–B. A henselian `L'` whose value group satisfies
-`ℚ ⊗ Γ_{L'} = ℚ + Γ_{L'}` also serves (Rem. 4.12, p.82); a merely henselian `L'` does not.
+case through Props. 4.10A–B. The proof uses the p-adic closure of `L'` only through its value
+group, so in Thm. 4.3 any sufficiently saturated henselian extension `L'` of `K` with
+`ℚ ⊗ Γ_{L'} = ℚ + Γ_{L'}`, `ℚ` embedded by `|p| ↦ 1`, also serves, with no condition on its
+residue field; so `L'` need not be p-valued of p-rank `d`. It suffices that some intermediate field
+of `L'/K` satisfies the condition, for instance `K` itself when `K` is p-adically closed
+(Rem. 4.12, p.82). A merely henselian `L'` does not serve.
 
 ### Dependencies
 
@@ -328,8 +337,10 @@ extensions); Layers 1–2.
 
 `pcLang d` is `valLang` with constants `u₁, …, u_d` and predicates `Pₙ`, `n ≥ 1`. A p-adically
 closed field `K` of p-rank `d` is a `pcLang d`-structure once `u₁, …, u_d ∈ O` are chosen to form an
-`𝔽_p`-basis of `O/pO` and `Pₙ` is read as the set of `n`-th powers. In this language every
-substructure of a p-valued field of p-rank `d` is again p-valued of p-rank `d` (p.84).
+`𝔽_p`-basis of `O/pO` and `Pₙ` is read as the set of `n`-th powers. In this language the fraction
+field of every substructure of a p-valued field of p-rank `d`, with the induced valuation, is again
+p-valued of p-rank `d` (p.84): it contains the `uᵢ`, which stay independent modulo `p`. The
+language has no inverse, so a substructure is a subring.
 
 - *Quantifier Elimination Theorem* (Thm. 5.6, p.91): the theory of p-adically closed fields of
   p-rank `d` in `pcLang d` eliminates quantifiers. Thm. 5.5 is substructure completeness, and the
@@ -341,16 +352,20 @@ substructure of a p-valued field of p-rank `d` is again p-valued of p-rank `d` (
   subset of `Kⁿ` is a finite union of sets `X ∩ Y` with `X` open and `Y` the zero set of a
   polynomial; an infinite definable subset of `K` has nonempty interior (Thm. 2); the
   model-theoretic algebraic closure of a set is its relative field-theoretic algebraic closure
-  (Thm. 3); and the theory is algebraically bounded (Thm. 4).
+  (Thm. 3); and the theory is algebraically bounded (Thm. 4). These hold uniformly in the models
+  of the theory; over a fixed finite extension `F` of `ℚ_p`, with coefficients from `F`, the
+  definable sets and their dimension theory are LogicAndDefinabilityInNumberTheory §2.2's.
 
 **Checks.**
 
-- The predicates `Pₙ` are needed: in `ℚ_p` the nonzero squares are infinite and coinfinite, while
-  a quantifier-free `valLang` formula in one variable without `Pₙ` defines a finite Boolean
-  combination of zero sets and discs. Macintyre's appendix (pp.609–610) shows more: in an
-  `ℵ₁`-saturated model, `t²` and `k·t²`, `k` a non-square unit and `|t| < |p|ⁿ` for all `n`,
-  satisfy the same formulas of the valued-field language quantifying only over the value group,
-  yet only the first is a square.
+- The predicates `Pₙ` are needed: in `ℚ_p` the squares contain `p^(2k)` and miss `p^(2k+1)`, so the
+  set and its complement both accumulate at `0`. A quantifier-free `valLang` formula in one
+  variable without `Pₙ` defines a finite Boolean combination of zero sets of polynomials and sets
+  `|g(x)| ≤ |h(x)|`, and for `x` near `0` each of these is decided by the lowest-order terms of `g`
+  and `h`, so it contains or misses a punctured neighbourhood of `0`. Macintyre's appendix
+  (pp.609–610) shows more: in an `ℵ₁`-saturated model, `t²` and `k·t²`, `k` a non-square unit
+  and `|t| < |p|ⁿ` for all `n`, satisfy the same formulas of the valued-field language
+  quantifying only over the value group, yet only the first is a square.
 - The constants are needed for `d > 1`: in `ℚ_p(√p)` the `valLang`-substructure generated by `∅`
   is `ℤ` with the induced divisibility, inside `ℚ` of p-rank `1`, so without the constants a
   substructure of a field of p-rank `2` need not have p-rank `2`.
@@ -385,9 +400,9 @@ Over a p-valued base `k` with prime element `π`, and `K/k` any extension, `O[γ
   holomorphy ring of the p-valuations of relative type `(1, f)`; maximal ideals `P` of `R`
   correspond bijectively to them, with `O_v = R_P`. `R` is then a Prüfer ring (Cor. 6.16, p.117).
 - *Uniqueness and definability* (Thm. 6.15, p.115): if `K` is henselian for a p-valuation `v` of
-  relative type `(e, f)`, then `v` is the only p-valuation of `K`; if moreover `e = 1`, then
-  `O_v = γK`, the image of `γ`. So the valuation ring of a henselian unramified p-valued field is
-  existentially `∅`-definable in the ring language.
+  relative type `(e, f)`, then `v` is the only p-valuation of `K`, of any type and p-rank; if
+  moreover `e = 1`, then `O_v = γK`, the image of `γ`. So the valuation ring of a henselian
+  unramified p-valued field is existentially `∅`-definable in the ring language.
 - *Principal Ideal Theorem* (Thm. 6.17, p.118): for a nonempty set of valuations of `K` with finite
   residue fields of bounded order, the holomorphy ring is a Bézout ring with fraction field `K`.
 
@@ -502,10 +517,13 @@ This roadmap owns: p-valuations, p-rank, formally p-adic fields and the coarse v
 p-valued field; p-adically closed fields and p-adic closures, with the radical structure,
 embedding and isomorphism theorems; the general embedding theorem; the axiomatization, model
 completeness, elementary equivalence, completions and decidability of the theory of p-adically
-closed fields of p-rank `d`; its quantifier elimination in `pcLang d` and Macintyre's theorem for
-`ℚ_p`; the Kochen operator, the Kochen ring and its spectral and ideal theory; places, the
-Nullstellensatz and Hilbert's seventeenth problem over p-adically closed fields; and the
-absolute Galois groups of p-adically closed fields.
+closed fields of p-rank `d`; the parameter-free quantifier elimination in `pcLang d` for the theory
+of p-adically closed fields of p-rank `d`, of which Macintyre's theorem is the case `d = 1`, and
+Macintyre's results on definable sets uniformly in its models (the elimination and definable sets
+over a fixed `F` with coefficients from `F` are LogicAndDefinabilityInNumberTheory §2.2's); the
+Kochen operator, the Kochen ring and its spectral and ideal theory; places, the Nullstellensatz
+and Hilbert's seventeenth problem over p-adically closed fields; and the absolute Galois groups of
+p-adically closed fields.
 
 Boundaries:
 
@@ -559,11 +577,6 @@ Layer 2: existence and uniqueness of the unramified extension of each degree.
 `Algebra.adjoin`, `Localization`, `IsIntegrallyClosed`, `IsBezout`, `MvPolynomial`,
 `FunctionField`, `Field.absoluteGaloisGroup`, `ContinuousMulEquiv`,
 `FirstOrder.Language.ring`, `FirstOrder.Ring.compatibleRingOfRing`.
-
-### From Tau Ceti
-
-`FirstOrder.Language.group`, `TauCeti.Group.structureOfGroup`
-(`TauCeti/ModelTheory/Algebra/Group/Basic.lean`).
 
 ## References
 
