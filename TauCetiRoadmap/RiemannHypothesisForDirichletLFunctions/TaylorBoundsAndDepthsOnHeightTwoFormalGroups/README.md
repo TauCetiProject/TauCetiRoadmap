@@ -32,7 +32,7 @@ There is one layer, numbered `4` as in the family's core. It sets up Gauss norms
 | `𝒜, 𝒜̂, L, Λ(L)` | the semi-abelian model of an integral point, its formal completion, the rigidified symmetric cubical line bundle and its biextension (local notation of 4.8b) | 4.8b |
 | `Lie_τ` | the `τ`-eigenspace of `Lie(𝒜/R)`; a frame is a basis of each `Lie_τ` | 4.8b |
 | integral charts | existence, chart-independence of the depth, saturated frames | 4.8b′ |
-| `ν_y(κ; n, m_L), ν_𝔩(κ; n, m_L)` | depth of a weight at a framed point and at a place, with multiplier `m_L` (the level when not written) | 4.8b |
+| `ν_y(κ; n, m_L), ν_𝔩(κ; n, m_L)` | depth of a weight at a framed point and at a place (cut off below at `0`), with multiplier `m_L` (the level when not written) | 4.8b |
 
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
@@ -183,6 +183,8 @@ set), their rescalings `𝒵_{s,·} := π_p^{−1}z_{s,·}`, and the *rescaled l
 `𝒮` (the change of coordinates and its inverse are integral, HodgeTateLatticesAndLubinTateLogarithms §3.4 (e)), and in these
 coordinates the class of (ii) has `𝔥 ≡ Σ_{s ∈ ℤ/n′} υ_s Σ_· 𝒮_{s,·}^p·𝒮_{s+1,·} (mod p)` with `υ_s = −𝔰σ(𝔠)` for `s` even
 and `υ_s = 𝔠` for `s` odd. For several places with disjoint variables the classes multiply.
+`𝔰 = 1` (logarithm `Σ_jT^{p^{2j}}/p^j`) is the case of [FormalProof]; for `𝔰 = −1` the statements (i)–(iii), read with the same
+formulas, are this roadmap's own and are reduced to `𝔰 = 1` in the route.
 
 *Route.* (i) Average `β(ζx, ζ^{−p}y)` over `ζ ∈ μ_{p²−1}` to get `G ≃ β` supported on monomials `x^ay^b` with
 `a ≡ pb (mod p² − 1)`. Differentiating the additivity in the first variable gives `∂_xG ≡ ℓ_𝔰′(x)·f(y)` modulo
@@ -431,7 +433,8 @@ and one derivative of `Q` in the direction `ξ_s^{(p^{2e′+1})} ⊗ e_b` at the
 `m^{tl}_k` of pairs fitting into the boxes `n_{·,·}` and absorbed by `Q` (the Hasse derivative of `Q` in the pair
 directions is nonzero) with
 `v_p(Jet) ≥ γ_LT·Σ_{s∈𝔗}α_s − Σ_φ m^{tt}_φ − Σ_k m^{tl}_k − lg`, `lg := C·Σ_s(NN′·lg_p(2 + deg_s) + lg_p(2 + α_s)²)`,
-`deg_s` the degree of the operator at the letter `s`.
+`deg_s` the degree of the operator at the letter `s`. For the class at the sign `𝔰 = −1` of 4.4 this target, with its
+consequences, is this roadmap's own; [FormalProof] has the sign `𝔰 = 1`.
 *Consequences.* For the products of minors of Young diagrams `ν(s)` (as in 4.7) with top rows `ξ_s`, put
 `α_s := ν(s)_0 − ν(s)_1` on `𝔗`, `c(s) := ν(s)_1` on `𝔗` and `ν(s)_0` elsewhere,
 `Dist(s) := {e odd : 0 < e < n′, s + e ∈ 𝔗}`. Then the jets have valuation at least:
@@ -462,30 +465,31 @@ box (the odd top's if `b < i`, the even top's if not), and so does every top–l
 
 ### 4.8a Jets of a Gaussian against products of minors
 
-Let `𝒦` be a complete ultrametric
-field of characteristic `0`, `0 < ϖ < 1`, `H` a finite set, `S ∈ 𝒦` with `|S| ≤ ϖ^{−1/2}`, `u_t ∈ 𝒦` with `|u_t| ≤ 1`
-(`t ∈ H`), `σ` a power series in the variables `X_{(i,t),a,b}` (`i ∈ {0, 1}`, `t ∈ H`, `a < N`, `b < N′`) with
-`n!·coeff_n σ` integral for every `n`, and for each `(i, t)` an integral frame `x_{(i,t)}` of unit determinant and a
-product `P_{i,t}` of minors of `x_{(i,t)}·∂`, one for each column of a Young diagram `ν(i,t)`, the minor of a column of
-height `h ≥ 1` being taken on the first `h` rows and on any `h` columns. Then for every subset `𝔗 ⊂ H`
-`|[∏_{i,t}P_{i,t}(∂)·(exp(−S·Σ_tu_tΣ_{a,b}X_{(0,t),a,b}X_{(1,t),a,b})·σ)](0)| ≤ ϖ^{−½Σ_tc_t}`, with
-`c_t := |ν(0,t)|` for `t ∉ 𝔗` and `c_t := |ν(0,t)| − ν(0,t)_0 + ν(0,t)_1 + ν(1,t)_0` for `t ∈ 𝔗`.
+Let `p` be a prime, `H` a finite set, `S ∈ ℂ_p` with
+`|S| ≤ p^{1/2}`, `u_t ∈ ℂ_p` with `|u_t| ≤ 1` (`t ∈ H`), `σ` a power series over `ℂ_p` in the variables `X_{(i,t),a,b}`
+(`i ∈ {0, 1}`, `t ∈ H`, `a < N`, `b < N′`) with `n!·coeff_n σ` integral for every `n`, and for each `(i, t)` a Young diagram
+`ν(i,t)` with, for each of its columns, of height `h ≥ 1`, a choice of `h` columns `b`. For frames `x_{(i,t)}` (matrices of
+variables) let `P_{i,t}(x; ∂)` be the product, over the columns of `ν(i,t)`, of the minors of `x_{(i,t)}·∂` on the first `h`
+rows and on the chosen columns. Then every coefficient of the polynomial
+`x ↦ [∏_{i,t}P_{i,t}(x; ∂)·(exp(−S·Σ_tu_tΣ_{a,b}X_{(0,t),a,b}X_{(1,t),a,b})·σ)](0)` has absolute value at most `p^{½Σ_tc′_t}`,
+`c′_t := |ν(0,t)| − ν(0,t)_0 + min(ν(0,t)_0, ν(1,t)_0)`; in particular the jet at integral frames is bounded by this
+number. Consequently, for every subset `𝔗 ⊂ H` it is bounded by `p^{½Σ_tc_t}` with `c_t := |ν(0,t)|` for `t ∉ 𝔗` and
+`c_t := |ν(0,t)| − ν(0,t)_0 + ν(1,t)_0` for `t ∈ 𝔗`, and a fortiori with `c_t := |ν(0,t)| − ν(0,t)_0 + ν(0,t)_1 + ν(1,t)_0` for
+`t ∈ 𝔗`, the count used downstream (Downstream consumers).
 
-*Route.* Change variables at each pair by the frame on one side and its inverse transpose on the other; the quadratic
-form is preserved and the operator on the side `0` is in the standard frame. For a diagonal form each monomial `κ` of
-the operator costs `½Σ_t min(κ_{(0,t)}, κ_{(1,t)})` (a jet of the Gaussian is a sum over matchings, each matched pair
-costing `|S|`: Wick). In the standard frame every monomial of a minor contains exactly one variable of the first row,
-and in any frame at most one variable of a given row: so the first-row variables of the side `0` are matched at most
-`ν(1,t)_0` times (once per minor at `(1, t)`), and the others at most `|ν(0,t)| − ν(0,t)_0` times; the statement keeps the weaker
-exponent with `ν(0,t)_1` added.
+*Route.* Expanding the exponential, the jet against an operator `P` is a sum over `n ∈ ℕ^H` of `∏_t(−S·u_t)^{n_t}` times an
+integer times an integral jet of `σ`, the integer being a coefficient of `∏_tΛ_t^{n_t}P/n_t!`,
+`Λ_t := Σ_{a,b}∂²/∂X_{(0,t),a,b}∂X_{(1,t),a,b}` acting on the symbol of `P`; and `Λ_t^n` annihilates the product of the minors
+for `n > c′_t`; a term with every `n_t ≤ c′_t` has absolute value at most `∏_t|S|^{n_t} ≤ p^{½Σ_tc′_t}`. The vanishing is not
+given here.
 
-*Check.* `H = {t}`, `N = N′ = 1`, `S = ϖ^{−1/2}`, `u = 1`, `σ = 1`, `P_{0,t} = ∂_{X_0}^n`, `P_{1,t} = ∂_{X_1}^n` (`n` minors
-of height `1` on each side, `ν(0,t) = ν(1,t) = (n)`): the jet is `n!·(−S)^n`, of absolute value `|n!|·ϖ^{−n/2}`, against
-the bound `ϖ^{−n/2}` (`c_t = n` whether or not `t ∈ 𝔗`): the exponent `½` per matched pair is attained up to `|n!|`.
+*Check.* `H = {t}`, `N = N′ = 1`, `|S| = p^{1/2}`, `u = 1`, `σ = 1`, `P_{0,t} = ∂_{X_0}^n`, `P_{1,t} = ∂_{X_1}^n` (`n` minors
+of height `1` on each side, `ν(0,t) = ν(1,t) = (n)`): the jet is `n!·(−S)^n`, of absolute value `|n!|·p^{n/2}`, against
+the bound `p^{n/2}` (`c′_t = n`, and `c_t = n` whether or not `t ∈ 𝔗`): the exponent `½` per matched pair is attained up to `|n!|`.
 
 *KNOWN* (Wick's theorem), *NEW* in this form. *Needs:* Mathlib (determinants, power series).
 
-*In [FormalProof]:* ThmB (`Formalism/GaussJetBounds/StatementN.lean`), proved as thmB (`Formalism/GaussJetBounds/FinalB.lean`), with the exponent above, `c_t` for `t ∈ 𝔗` carrying the second row `ν(0,t)_1`.
+*In [FormalProof]:* ThmB (`Formalism/GaussJetBounds/StatementN.lean`), proved as thmB (`Formalism/GaussJetBounds/FinalB.lean`), with the last exponent above, `c_t` for `t ∈ 𝔗` carrying the second row `ν(0,t)_1`; the bound with `c′_t` over `ℂ_p` is also proved there.
 
 ### 4.8b Framed points, integral charts and the depth of a weight
 
@@ -536,8 +540,9 @@ embedding.
   `dep_y(κ; 𝔠, n, m_L) := inf_{P, f} v_R(P(D)(f·exp(m_L·Σ_{b<n}h_L(x_b)))(0))`,
   the infimum over `P ∈ ℋ_κ(n)` and the power series `f` with coefficients in `R` in the `n` copies `x_b` of the coordinates
   (`v_R(0) = ∞`); `ν_y(κ; n, m_L) := inf_𝔠 dep_y(κ; 𝔠, n, m_L)` over the integral charts of `y`; and, for a place `𝔩` of a number
-  field over which `M` is defined, `ν_𝔩(κ; n, m_L) := sup_y ν_y(κ; n, m_L)` over the algebraic integral framed points above `𝔩` that
-  have an integral chart (with `v_R` normalised by `v_R(ℓ) = 1`, `ℓ` the residue characteristic of `𝔩`). When `m_L` is not written
+  field over which `M` is defined, `ν_𝔩(κ; n, m_L) := max(0, sup_y ν_y(κ; n, m_L))`, the supremum over the algebraic integral
+  framed points above `𝔩` that have an integral chart (with `v_R` normalised by `v_R(ℓ) = 1`, `ℓ` the residue characteristic of
+  `𝔩`); the cut-off at `0` is part of the definition. When `m_L` is not written
   it is the level of the level structure of the moduli problem.
 
 *Checks.* (Frames) Two frames of `y` differ by `g ∈ ∏_τGL_{n_τ}(R)`; `g` acts on `ℋ_κ(n)`
@@ -553,7 +558,7 @@ increase with `n`: a polynomial on `n` copies is one on `n + 1` copies. (Harmoni
 *NEW* (definitions). *Needs:* PELModuli M1.3, M1.7; ShimuraCompactifications 6.1; AbelianSchemesAndArithmeticModuli A2.3;
 Mathlib `PowerSeries`, `MvPolynomial`, `Matrix.det`.
 
-*In [FormalProof]:* framed and integral points FrPt (`Formalism/LocalToGlobal/ProjectiveLattices/IsCombAt.lean`) and IntFr (`Formalism/LocalToGlobal/ProjectiveLattices/VAtVNeBot.lean`), integral charts IntegralChartA3 (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), the depths nuLocC, nuLoc and nuSup (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`). There `w₀ = (1 + √−d)/2` is fixed, for fields `E ⊃ ℚ(√−d)` with `d` a prime `≡ 7 (mod 16)` and `E/E⁺` unramified at every finite place (Host, `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean`), and an algebraic point is one with a finite residue field (IntFr.IsAlg).
+*In [FormalProof]:* framed and integral points FrPt (`Formalism/LocalToGlobal/ProjectiveLattices/IsCombAt.lean`) and IntFr (`Formalism/LocalToGlobal/ProjectiveLattices/VAtVNeBot.lean`), integral charts IntegralChartA3 (`Formalism/LocalToGlobal/ProjectiveLattices/ChartDirectionsIntegral.lean`), the depths nuLocC, nuLoc and nuSup (`Formalism/LocalToGlobal/ProjectiveLattices/PlaceBelow.lean`), where the depth at a place is also cut off below at `0`. There `w₀ = (1 + √−d)/2` is fixed, for fields `E ⊃ ℚ(√−d)` with `d` a prime `≡ 7 (mod 16)` and `E/E⁺` unramified at every finite place (Host, `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/TwoWeightEqOneAddRoot.lean`), and an algebraic point is one with a finite residue field (IntFr.IsAlg).
 
 ### 4.8b′ Integral charts
 
@@ -643,8 +648,9 @@ and their part of the bound is `Σ_{τ∈T}len(τ)·κ_{τ,0} ≤ Λ·max_{τ∈
 `≥ x`. Applied to characters at a prime `p ≠ 2` unramified in `E`, at an algebraic integral framed point, with `τ_1, …, τ_{n_o}` and
 `S(τ_s)` as in 4.8c: every family of `n` vectors `w_1, …, w_n` of the `τ_s`-part of the frame which is part of an integral basis of
 it has `n` characters `χ_ρ` with `v(det(⟨w_q, dlog χ_ρ⟩)) ≤ S(τ_s)`. *One minor:* for one leading principal minor `Δ` of the frame at
-`τ_s` and `k ≥ 0`, the *factor depth* `dep^{fac}_y(Δ^k) := inf_f v(Δ^k(D)(∏_bf_b(x_b))(0))`, the infimum over power series `f_b` with
-coefficients in `O` in the copies of the coordinates (no polarisation factor), is at most `k·S(τ_s)` (with `v(p) = 1`). If the ranks
+`τ_s` and `k ≥ 0`, the *factor depth* `dep^{fac}_y(Δ^k) := inf_f v(Δ^k(D)(f)(0))`, the infimum over the power series `f` with
+coefficients in `O` in the copies of the coordinates (products `∏_bf_b(x_b)` suffice for the upper bound; no polarisation factor),
+is at most `k·S(τ_s)` (with `v(p) = 1`). If the ranks
 `r(τ̄_{s+i})` are constant equal to `B`, then `S(τ_s) = B/(p − 1)`; if they alternate between `A` (`i` odd) and `B` (`i` even), then
 `S(τ_s) = (pA + B)/(p² − 1) = B/(p − 1) + (A − B)·γ_LT(p)`.
 
@@ -678,7 +684,8 @@ with `n = r` and `S = 1` the minor is the determinant of the span. In the produc
 exponents `(2B, 0)`: assigning `B` to each embedding would bound the part by `B(κ_{τ,0} + κ_{τ′,0})`, which is false when
 `κ_{τ,0} > κ_{τ′,0}`; the correct part is `2B·κ_{τ,0} ≤ 2B·max κ`. For a power of one minor no flow is possible (the programme
 of a single capacity is `γ_LT·D`, 4.6), so the rate `S(τ)` of the one-minor clause is the right one there. The factor depth has
-no polarisation factor; the same bound for the depth of 4.8b, at the places of `E⁺` split in `E`, is 4.19f (o).
+no polarisation factor; the same bound for the depth of 4.8b, for powers of minors on isotropic combinations of the copies, is
+4.19f (o).
 
 *NEW* ((a) as a statement; (b), (c) elementary). *Needs:* 4.8b, 4.8c; PELModuli M1.7.
 
@@ -898,37 +905,42 @@ gives the last term `T·n_o·n³log²(n + 1)` of `err`. The parity of `n_o` is n
 4.19, `C` complete. An *integral gauged formal group law* of period `n_o` over `(C, v)` consists of: a formal group law `F` in
 variables `x` with coefficients in `O`, with logarithm `lg` and exponential `ex` (inverse series over `C`, tangent to the identity);
 a series `h(x, x′)` over `C` with `h(x, 0) = h(0, x′) = 0` such that `exp(h(x, z) + h(y, z) − h(x +_F y, z))`,
-`exp(h(x, y) + h(x, z) − h(x, y +_F z))` and `exp(h(y, x) − h(x, y))` have coefficients in `O`; a unit `N` of `O` (the *level*); two
+`exp(h(x, y) + h(x, z) − h(x, y +_F z))` and `exp(h(y, x) − h(x, y))` have coefficients in `O`; a natural number `N` that is a unit
+of `O` (the *level*); two
 families of tangent vectors `u(g, c)` (`g ∈ {0, 1}`, `c ∈ I_g`), together part of an `O`-basis, with types in `ℤ/n_o`; endomorphisms
 `M_0`, `M_1` of `F` with coefficients in `O`, linear in logarithm coordinates, `M_g` the projector onto the span of the vectors of
-side `g`, adjoint to each other for `h` (`exp(h(M_gx, y) − h(x, M_{1−g}y))` integral); and for each side an endomorphism with
-coefficients in `O` acting on the vectors of type `a` by `ζ(a)`, `ζ` injective with values roots of unity of order prime to `ℓ`,
-`ζ(a + 1) = ζ(a)^ℓ`, with an integral adjoint. Its *polarisation series* are the components
+side `g`, adjoint to each other for `h` (`exp(h(M_gx, y) − h(x, M_{1−g}y))` integral); and for each side `g` an endomorphism with
+coefficients in `O` acting on the vectors of type `a` of the side `g` by `ζ(a)`, with an adjoint for `h` that has coefficients in
+`O` and acts on the vectors of type `a` of the other side by the same `ζ(a)`; here `ζ` is injective with values roots of unity of
+order prime to `ℓ` and `ζ(a + 1) = ζ(a)^ℓ`. Its *polarisation series* are the components
 `h_{g,a,a′}(X, X′)` of `N·h(ex(Σ_cX_cu(g, c)), ex(Σ_{c′}X′_{c′}u(1 − g, c′)))` in the variables of types `a` and `a′`; its
 *quasi-logarithms* are `ζ_v(x) := −Σ_iv_i·(∂h/∂x′_i)(x, 0)`; its *typical curves* of side `g` are the sequences `(x_s)`,
-`x_s ∈ C^{I_g ⊔ I_{1−g}}`, for which there are an integral curve `γ` of `F` and integral series `λ_q` with
-`lg(γ(t)) = Σ_cu(g, c)Σ_sx_s(c)t^{ℓ^s}` and, for the directions `q` of the other side, `x_0(q) ∈ O` and
-`Σ_{s≥1}x_s(q)t^{ℓ^s}` is `λ_q(t) − ζ_{u(1−g,q)}(γ(t))` without its term of degree one in `t` (so the tangent component `x_0(q)` along the
-other side is an arbitrary integral number, `0` allowed, and the zero curve has integral tangent).
+`x_s ∈ C^{I_g ⊔ I_{1−g}}`, for which there are an integral curve `γ` of `F` and integral series `λ_q` without constant term
+with `lg(γ(t)) = Σ_cu(g, c)Σ_sx_s(c)t^{ℓ^s}` and, for every direction `q` of the other side,
+`Σ_{s≥0}x_s(q)t^{ℓ^s} = λ_q(t) − ζ_{u(1−g,q)}(γ(t)) + Σ_cζ¹_q(u(g, c))·Σ_{s≥0}x_s(c)t^{ℓ^s}`, the last sum over the `c ∈ I_g` of the
+type of `q`, where `ζ¹_q` is the linear part of the quasi-logarithm `ζ_{u(1−g,q)}` (so the part of the quasi-logarithm that is
+linear along the directions of the type of `q` is removed from every coefficient; the linear parts between different types are
+integral, by the endomorphisms `ζ`, so the tangent component `x_0(q)` is an arbitrary integral number, `0` allowed).
 *Statement.* (a) *Universal part.* For every integral gauged formal group law of period `n_o`:
 (a1) the typical curves of each side form a module with the properties of (RD1), with `I^∨_g := I_{1−g}`;
 (a2) every `h_{g,a,a′}` has no monomial in the variables of one side only (isotropy, (RD3));
 (a3) for every system of curves with unimodular tangent matrix the integral germs are the power series with coefficients in `O` in
 the coordinates `x` of `F`, read in logarithm coordinates; so their ring does not depend on the system (RD6);
-(a4) for `a′ ≠ a` and a direction `k` of type `a′` of the other side, `∂h_{g,a,a′}/∂X′_k + N·ζ_k` is an integral germ; so (RD2) holds with
-the pairing `−N·δ` (perfect, `N` a unit), and (RD4) holds;
+(a4) if the datum is alternating: for `a′ − a` odd and a direction `k` of type `a′` of the other side, `∂h_{g,a,a′}/∂X′_k + N·ζ_k`
+is an integral germ; and (RD2) holds with the pairing `−N·δ` (perfect, `N` a unit); so (RD4) holds;
 (a5) if the ranks are `n + j` at the big positions and `j′` at the others and the datum is alternating, the first clause of (RD5)
 implies the second.
-(b) *Non-degeneracy.* The first clause of (RD5) holds at a big `(g, a)` if the cocycle is non-degenerate modulo `𝔪` there: for every
-integral curve with tangent of type `a` nonzero modulo `𝔪` that is additive modulo `𝔪` in degrees `< ℓ`, the linear term of
-`h(x, y) + h(x, z) − h(x, y +_F z)` along its tangent is not a coboundary modulo `𝔪`.
+(b) *Non-degeneracy.* For an alternating datum, the first clause of (RD5) holds at every big `(g, a)` if the cocycle is
+non-degenerate modulo `𝔪`: for every integral curve with tangent nonzero modulo `𝔪` that is additive modulo `𝔪` in degrees `< ℓ`
+in each variable, the part of `h(x, y) + h(x, z) − h(x, y +_F z)` that is linear in `x`, along its tangent, is not congruent
+modulo `𝔪` to the coboundary `b(y +_F z) − b(y) − b(z)` of a series `b` with coefficients in `O`.
 (c) *At the points.* Let `y` be an algebraic integral framed point of a PEL moduli problem of unitary type (4.8b) with an integral
 chart, above a prime `ℓ ≠ 2` unramified in `E` and prime to the level, and `C`, `O` as in 4.8c with `v(ℓ) = 1`. Let an orbit of
 `Frob_ℓ` on the embeddings of `E` into `C`, `τ_{s+1} = Frob∘τ_s`, disjoint from the orbit of the conjugate embeddings, be given on
 which the ranks `n_{τ_s}` alternate between `n + j` and `j′` (sides: the embeddings `τ_s` and their conjugates) or are constant equal
 to `n + j` with conjugate rank `j′`, with `j′ < n`. Then the
-chart over `C`, with the eigen-frame of the orbit, is an integral gauged formal group law, non-degenerate modulo `𝔪` at the big
-positions; by (a), (b) it carries a row datum (alternating or constant), with `I^∨_g = I_{1−g}`; (RD7) holds; and for every dominant weight and every plan of 4.19 the product of its
+chart over `C`, with the eigen-frame of the orbit, is an integral gauged formal group law, non-degenerate modulo `𝔪`;
+by (a), (b) it carries a row datum (alternating or constant), with `I^∨_g = I_{1−g}`; (RD7) holds; and for every dominant weight and every plan of 4.19 the product of its
 blocks is an integral harmonic polynomial of that weight (4.8b) whose jet against a product of germs in disjoint copies is the
 product of the jets of the blocks, each with the component of `h` named by the block. Hence the depth of the weight at `y` with
 multiplier the level (4.8b, on the copies the plan uses) is at most the value of the product of the blocks: `ν ≤ ν_bl(N)` for every
@@ -943,7 +955,7 @@ coordinates of `F`; the identification of the integral germs of a system of curv
 system of curves is a point of `F` with integral coordinates in the curve parameters, and the quasi-logarithm of a direction `q` of the
 other side at that point is an integral series plus `ζ_q` of the system plus a linear term; (ii) `∂h/∂X′_k` in exponential coordinates
 is an integral series minus the quasi-logarithm of `u(1 − g, k)` at the point; subtracting and multiplying by `N`, the difference of
-`∂h_{g,a,a′}/∂X′_k` and `−N·ζ_k` on a component with `a′ ≠ a` is integral. Statements (i), (ii) and, beneath them, the additivity of the
+`∂h_{g,a,a′}/∂X′_k` and `−N·ζ_k` for `a′ − a` odd is integral. Statements (i), (ii) and, beneath them, the additivity of the
 quasi-logarithm modulo integral series with two transport statements, are not proved here. (a5) By alternation `(1 − g, a + 1)` is
 big and `(1 − g, a + 2)` is not. On the other side, at type `a + 1`, there are `M ≥ n + j − j′` good curves with saturated tangents; by
 the first clause, applied to combinations with `ℓ`-th roots of the coefficients (`C` algebraically closed), the `I^∨`-parts at `t^ℓ` of
@@ -971,9 +983,10 @@ group law in the sense above. Already a CM elliptic curve at a prime inert in it
 direction twice, and so does its fourth power (signature `(4, 0)`, with `n = 3`, `j = 1`, `j′ = 0`, `j_t = 1`);
 the two side projectors would have to come from separate idempotents of the single local field `E_w`, which has none. Moreover the
 identification `(0, s) = (1, s + n_c)` makes a component `h_{0,s,s+n_c}` a series in the variables of ONE embedding, so isotropy
-(a2) does not make the polarisation factor `1` in a copy carrying a single minor there. The typical curves need the integral tangent
-component: with the zero curve, all `λ_q = 0` and a correction `ℓ^{−1}t` along one direction of the other side, the first
-coefficient would be `ℓ^{−1}`, against (RD1). In the realisation `I^∨_g = I_{1−g}`, so `#I^∨_{g,a} + #I_{g,a} = n + j + j′` at every
+(a2) does not make the polarisation factor `1` in a copy carrying a single minor there. The correction in the definition of the
+typical curves makes them independent of a bilinear term of `h`, in logarithm coordinates, between equal types, which the three
+conditions on `h` do not see; without it the Verschiebung of a typical curve would have a first coefficient that need not be
+integral. In the realisation `I^∨_g = I_{1−g}`, so `#I^∨_{g,a} + #I_{g,a} = n + j + j′` at every
 position.
 
 *NEW* (as a statement); ingredients classical in kind (Cartier's typical curves; quasi-logarithms and the universal vector extension,
@@ -999,9 +1012,22 @@ satisfying, orbit by orbit, the hypotheses of 4.19d (`(1 − θ₀)w ≤ T·W �
 there; `ν := ν_y(κ; n_cp)` is the depth of 4.8b, with multiplier the level, on `n_cp ≥ f·((i₀ + 1)·n + 8r)` copies (this number is at
 least what each clause needs: `f·(i₀·n + 2r)` in (a), `8rf` in (g1), `4rf` in (g2), `f·((i₀ + 1)·n + 4r)` in (g3)); `ν_bl(i₀)` is the
 block depth at level `i₀` summed over the orbits (4.19); and `err` is the error term of 4.19d summed over the orbits. Then:
-(o) *One minor.* At a place of `E⁺` above `ℓ` split in `E` (orbits of types (A), (K)), for a leading principal minor `Δ` of the frame at
-`τ_s` and `k ≥ 0`, the depth of `Δ^k` in the sense of 4.8b (with the polarisation factor, the copies carrying `Δ^k` only) is at most
-`k·S(τ_s)`, `S` of 4.8c. This clause is this roadmap's own statement and not a step of [FormalProof].
+(o) *Powers of leading minors.* Let `ℓ` be any prime and `y` an integral framed point of `M` with an integral chart above `ℓ` (no
+condition on `ℓ`). For each embedding `τ` and each `i < n_τ` let `k_{τ,i} ≥ 0`, and for each `(τ, i)` with `k_{τ,i} ≠ 0` choose a
+block of `2(i + 1)` copies, the blocks pairwise disjoint, and in it `i + 1` combinations of the copies with coefficients in `R`, with
+a minor of size `i + 1` that is a unit, which to every `ℓ`-adic precision are the images under `τ` of combinations with
+coefficients in `𝒪_E` that are isotropic for the form `Σ_jx_jx̄′_j` on the copies. Let `P` be the product over `(τ, i)` of the
+`k_{τ,i}`-th powers of the minor of the first `i + 1` frame vectors at `τ` on these combinations (a harmonic polynomial). Then for
+every multiplier `m_L ≥ 1` `inf_f v(P(D)(f·exp(m_L·Σ_bh_L(x_b)))(0)) = Σ_{τ,i}dep^{fac}_y(δ_{τ,i}^{k_{τ,i}})` (`f` with coefficients in
+`R`, `v(ℓ) = 1`), the sum of the factor depths of 4.18 (c) of the powers of the leading minors `δ_{τ,i}`, taken with the infimum
+over all series with coefficients in `O` (4.18) in the copies; this number is finite and `≥ 0`. At an algebraic point it is `0`
+when every `k_{τ,i} < ℓ`, each term is at most `(i + 1)·k_{τ,i}/(ℓ − 1)`, and for `ℓ ≠ 2` unramified in `E` each term is at most
+`k_{τ,i}·S(τ)` (4.8c, 4.18 (c)).
+*Remark* (this roadmap's own, not a step of [FormalProof], and not used). At a place of `E⁺` above `ℓ` split in `E` (orbits of
+types (A), (K)), for the leading principal minor `Δ` on the first `n₁` frame vectors at an embedding `τ_s` of the larger rank of its
+orbit, with `n₁` greater than the smaller rank, and `k ≥ 0`, the depth of `Δ^k` in the sense of 4.8b (with the polarisation factor,
+the copies carrying `Δ^k` only) is at most `k·S(τ_s)`, `S` of 4.8c. It is not a case of (o), where the minors are taken on isotropic
+combinations of the copies.
 (a) *Alternating orbits.* If every orbit at `ℓ` is of type (A): `ν ≤ ν_bl(i₀)` and
 `T·ν ≤ Σ_{orbits}𝔉_ℓ(n·w) + C·err + T·R_w^{tot}/(ℓ − 1)` (4.19d).
 (g1) *Conjugation.* If every orbit is of type (C): `T·ν ≤ ρ_LT(ℓ)·n·Σ_{τ∈Φ}w(τ) + C·err` (the sum over the embeddings of `Φ`, each once).
@@ -1013,17 +1039,22 @@ parity): `T·ν ≤ Σ_{orbits}𝔉_ℓ(ℤ/n_c; n·w) + C·err`, `𝔉_ℓ(ℤ/
 the alternation: Check.)
 (g4) *Depth zero.* If every first row of `κ` is `≤ s(ℓ − 1)` for an integer `s ≥ 1` and `n_cp ≥ 4r·s·f`, then `ν ≤ 0`.
 
-*Route.* (o) The one-minor clause of 4.18 (c) bounds the factor depth; at an orbit disjoint from its conjugate, 4.19e (c) for the plan
-consisting of one character block, in copies of one side, identifies the depth of 4.8b with the value of the block, the polarisation
-factor being `1` there by isotropy. This covers the minors on the first `n₁` frame vectors at an embedding of the larger rank of its
-orbit with `n₁` greater than the smaller rank (4.19e (c) asks `j′ < n`); for the other leading principal minors (o) is not given
-here. (a) 4.19e (c) on each orbit gives the row data, (RD7) and, at level `N = i₀`, `ν ≤ ν_bl(i₀)` on the `n_cp` copies (the depth
+*Route.* (o) The equality rests on four statements: integral germs on the copies and on the combinations have the same values to
+every precision (two statements), the depth over `R` equals the depth over the valuation ring of an algebraically closed extension,
+and the depth without the polarisation factor of the product on isotropic combinations is the sum of the factor depths. They are
+not given here. The bound `k_{τ,i}·S(τ)` of a term is the one-minor clause of 4.18 (c); that the sum is `≥ 0`, its value `0` for
+`k_{τ,i} < ℓ` and the bound `(i + 1)·k_{τ,i}/(ℓ − 1)` are not given here. (Remark) The one-minor clause of 4.18 (c) bounds the factor
+depth; at an orbit disjoint from its conjugate, 4.19e (c) for the plan consisting of one character block, in copies of one side,
+identifies the depth of 4.8b with the value of the block, the polarisation factor being `1` there by isotropy; 4.19e (c) asks
+`j′ < n`, whence the condition on `n₁`. (a) 4.19e (c) on each orbit gives the row data, (RD7) and, at level
+`N = i₀`, `ν ≤ ν_bl(i₀)` on the `n_cp` copies (the depth
 does not increase with the number of copies, 4.8b, Check); then 4.19d on each orbit, the values adding over disjoint copies
 (4.19c (iv)). (g2) At an orbit of type (K) a plan has no bi-block; with `y = 0` the value bound is
 `Σ_aW(a)·j_t/(ℓ − 1) + R_w/(ℓ − 1)` (4.19, constant datum, rate of 4.19e (c); 4.19c (ii)–(iv), valid for `ℓ ≥ 3` without bi-blocks), and
 `T·W ≤ w + C₁S_E`, summed over the orbits (`Σn_o = f` over the orbits in `Φ`), give the bound with 4.19e (c). (g4) Monomial blocks spread
 over the copies so that every row exponent is `< ℓ` have value `0` (4.19c (iii), any `ℓ ≥ 3`); at orbits of types (A), (K), 4.19e (c)
-turns this into `ν ≤ 0`. (o), (g2) and (g4) at types (A), (K) use only 4.8c, 4.18 and 4.19e (c), which need `ℓ ≠ 2`. Not given here:
+turns this into `ν ≤ 0`. The remark after (o), (g2) and (g4) at types (A), (K) use only 4.8c, 4.18 and 4.19e (c), which need
+`ℓ ≠ 2`. Not given here:
 (g1), (g3), and (g4) at orbits of types (O), (C): 4.19e (c) does not apply at an orbit stable under conjugation (the two families of
 the realisation share their vectors, 4.19e, Check), and a construction on the tangent directions of such an orbit, each counted
 once, is not given here.
@@ -1038,7 +1069,7 @@ which does not alternate.
 
 *NEW* (as a statement). *Needs:* 4.6, 4.8b, 4.8c, 4.18, 4.19, 4.19c, 4.19d, 4.19e.
 
-*In [FormalProof]* (`Development/AbelianVarietyTheory/Definitions/Jets/DepthNumbersThresholdEq.lean`): (a) is InertBd, proved as GlobalTheory.T.inertPrimeDepthContentBound_proof; (g1) is PhiCBd, proved as GlobalTheory.T.complexConjFrobeniusDepthContentBound_proof; (g2) is SplitBd, a weaker form with an unspecified constant on the main term; (g4) is ZeroBd, proved as GlobalTheory.T.largePrime_packages_depth_nonpos (these proofs in `Development/AbelianVarietyTheory/Proofs/JetHarmonics/`); (g3) is UpperTheory.rowBound_le_Fnum_sum_add_error (`Development/AutomorphicArithmetic/OrbitLabellings/RowBoundLeFnumSumAddError.lean`). There (a), (g1), (g2) and (g3) assume `T·R_w^{tot} ≤ C₁·f·(n + 1)·S_E`, as here, so that no remaining-degree term appears; here (a) and (g2) keep the term `T·R_w^{tot}/(ℓ − 1)` that their routes give. (o) is not stated there.
+*In [FormalProof]* (`Development/AbelianVarietyTheory/Definitions/Jets/DepthNumbersThresholdEq.lean`): (a) is InertBd, proved as GlobalTheory.T.inertPrimeDepthContentBound_proof; (g1) is PhiCBd, proved as GlobalTheory.T.complexConjFrobeniusDepthContentBound_proof; (g2) is SplitBd, a weaker form with an unspecified constant on the main term; (g4) is ZeroBd, proved as GlobalTheory.T.largePrime_packages_depth_nonpos (these proofs in `Development/AbelianVarietyTheory/Proofs/JetHarmonics/`); (g3) is UpperTheory.rowBound_le_Fnum_sum_add_error (`Development/AutomorphicArithmetic/OrbitLabellings/RowBoundLeFnumSumAddError.lean`). There (a), (g1), (g2) and (g3) assume `T·R_w^{tot} ≤ C₁·f·(n + 1)·S_E`, as here, so that no remaining-degree term appears; here (a) and (g2) keep the term `T·R_w^{tot}/(ℓ − 1)` that their routes give. The equality of (o) is stated and proved there, at every place above every prime; the remark after (o) is not stated there.
 
 ### Examples
 
@@ -1047,7 +1078,7 @@ which does not alternate.
 - For `n′ = 2`, `p = 3` the torus-invariant monomials `x₀^a x₁^b` are those with `a ≡ 3b (mod 8)`; in degree `4` both are bi-power, in degree `8` none is (4.3, Check). The coefficient `𝔠/p` of `xy^p` in `G_𝔠` attains the bound of 4.3 at the bi-power monomial `e₀ + pe₁` (4.4, Checks).
 - For `y² = 4x³ − 4x` at `p = 7` the coefficient `−G₈/8` of `z⁸` in `log σ(z)` has `v_7 = −1`, so the derivatives of `σ` at `0` are divisible only by `p^{ρ_LT·m − O(log m)}`: the one-letter rate of 4.5 is the true order (4.5, Check).
 - For `n′ = 2`, `p = 3`: `D = (1, 1)` gives `𝔉_3 = 1/4 = ρ_LT·2`, and `D = (1, 0)` gives `𝔉_3 = γ_LT = 3/8` (4.6, Checks).
-- With one pair of variables and `n` minors of height `1` on each side, the jet of the Gaussian is `n!·(−S)^n`, against the bound `ϖ^{−n/2}` of 4.8a (4.8a, Check).
+- With one pair of variables and `n` minors of height `1` on each side, the jet of the Gaussian is `n!·(−S)^n`, against the bound `p^{n/2}` of 4.8a (4.8a, Check).
 - At a ramified quadratic place, `Lie_τ = R·(X + ϖ)` and `Lie_{τ′} = R·(X − ϖ)` are saturated of rank one but together span a submodule of index `|2ϖ|^{−1}` (4.8b, Checks).
 - For `E_w = ℚ_{p²}` and a one-dimensional formal group of height two, `S = γ_LT(p)` in 4.8c (4.8c, Checks).
 - For `n₀ = 2`, `h₁ = 0` the capacity jet is, up to its leading factor, `≡ y + 1 (mod ℓ)`: the window of 4.19b is necessary (4.19b, Checks).
@@ -1059,9 +1090,9 @@ The layer uses HodgeTateLatticesAndLubinTateLogarithms §§3.1–3.5 (in 4.3–4
 
 ## Downstream consumers
 
-- LocalGainOfThetaChains §§4.9–4.17d apply this roadmap to the chain of theta lifts at a prime `p ≥ 5` inert in the CM field and unramified in the host: the theta function of a step kernel has the shape of 4.5 and 4.5a in the coordinates of the two dual isotropic formal groups at the places above `p`, with the cocycle of the CM curve of 4.4a; the steps gain by 4.5–4.8; the ledger takes the cost at `d` from the Gaussian jets of 4.8a; and the bulk divisibility of the short rows is the number that also bounds the depth of the row side (4.19f).
-- GluedTargetAndDivisionInequality §§8.20, 8.20a (the depth table) use the integral charts and the depth bounds 4.8b, 4.8b′, 4.8c, 4.18 and 4.19d–4.19f.
-- ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.18c, 8.19a, 8.19a′ use the depth of a weight (4.8b, 4.8b′), with 4.8c and 4.18.
+- LocalGainOfThetaChains §§4.9–4.17d apply this roadmap to the chain of theta lifts at a prime `p ≥ 5` inert in the CM field and unramified in the host: the theta function of a step kernel has the shape of 4.5 and 4.5a in the coordinates of the two dual isotropic formal groups at the places above `p`, with the cocycle of the CM curve of 4.4a; the steps gain by 4.5–4.8; the ledger takes the cost at `d` from the Gaussian jets of 4.8a (its last count, at `p = d`); and the bulk divisibility of the short rows is the number that also bounds the depth of the row side (4.19f).
+- GluedTargetAndDivisionInequality §§8.20, 8.20a (the depth table) use the integral charts and the depth bounds 4.8b, 4.8b′, 4.8c, 4.18 and 4.19d–4.19f (with multiplier the first integer of the level, `g₀g₁` at the chain; the bounds of 4.8b′, 4.18 and the bound `DF/(ℓ − 1)` hold for every multiplier).
+- ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.18c, 8.19a, 8.19a′ use the depth of a weight (4.8b, 4.8b′), with 4.8c, 4.18 and 4.19f (o) (with multiplier the first integer of the level, `g₀g₁` at the chain; the bounds of 4.8b′, 4.18 and the bound `DF/(ℓ − 1)` hold for every multiplier).
 - ThetaChainsAndFrobeniusPrimeSums §10.9 uses 4.6 (b).
 
 ## Scope and ownership
