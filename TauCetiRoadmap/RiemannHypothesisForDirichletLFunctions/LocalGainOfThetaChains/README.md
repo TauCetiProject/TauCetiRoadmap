@@ -164,7 +164,11 @@ odd order (`c ∈ ⟨ch⟩` iff some odd power of `h` is `1`; the class is empty
 and split in `ℚ(√−q)` the odd positions lie in `cσ_dA`, so no top has a top at odd distance and `p` is unlinked
 (FrobeniusRestrictedRieszSums §0.6(iv)). The places of `ℬ_p` at a prime inert in `K` and in `ℚ(√−q)` carry no top, and every linked place lies in `𝒜_p`.
 
-*NEW* (definitions). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6.
+*NEW* (definitions). The positions and the types: [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.partner`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.HEv`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.IsCs`).
+*Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6.
 
 ### 4.9a The host property at an inert prime
 
@@ -344,7 +348,15 @@ gain everything, linked terms included. `n′ = 2`, `𝔗_v = {0}`: `r^H_j(v) = 
 `r⁰_j(v) = (Σ_{e odd}(α̂_0/p^e − ĉ_j(1))₊ − dl_v)₊`. At a prime split in `K` and at a prime of conjugate or odd conjugate
 type the gain is `0`.
 
-*NEW* (definitions). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.1, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9; IntegralWeylModulesOfGeneralLinearGroups §0.3.
+*NEW* (definitions). `r⁰_j(v)`, `r^H_j(v)` and `dl_v` of (b): [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.g0`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.gU`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.dl`).
+`𝔖(p)`, `τ_N(𝔭)` and `𝔦(𝔭)` of (f): [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Sig`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.tauP`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.ioP`).
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.1, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9; IntegralWeylModulesOfGeneralLinearGroups §0.3.
 
 ### 4.9f Definitions: the bulk, the cost and the ledger
 
@@ -423,7 +435,11 @@ The term `(k − 1)·Σ_{τ∈Φ∖A}w_j(τ)/p³` at odd conjugate type is small
 conjugate type is `≡ ±1 (mod 2^{e+2})` (`|A| ≤ o·2^e`), so `Σ_p log p/p³ ≤ log(2^e)/2^{3e}` over these primes, and for
 `k ≤ x⁵ ≤ 2^{5e/2}` the sum `Σ_p 2 log p·(k − 1)·Σ_{τ∈Φ∖A}w_j(τ)/p³` is `≤ 20·f·b = o(B₀)`.
 
-*NEW* (definitions). *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.9, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, 4.9, 4.9e; AnalyticNumberTheoryPartI §0.11.
+*NEW* (definitions). The cost of (e): [FormalProof], `Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.Eval`);
+`Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.EatI`);
+`Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.EatG`). The net exponent of (g): [FormalProof],
+`Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.SizeData₂.sg`).
+*Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.9, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, 4.9, 4.9e; AnalyticNumberTheoryPartI §0.11.
 
 ### 4.10 The gain of a step
 
@@ -526,11 +542,17 @@ with `r⁰_j(v)`, where `dl_v` and `(α̂, ĉ)` enter, are separate statements o
 and the reading of the step as a class sum of kernels, as part of `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`.
 [FormalProof] has the step bounds for the base tuple and the tuples used at the places (and two auxiliary tuples of its
 construction); for a tuple that is not used the bound is not a statement of [FormalProof].
+(iii): [FormalProof], `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.OneLiftAtDiscriminant`).
+(iv) follows from [FormalProof], `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.LiftIntegrality`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, ThetaChainsOnDefiniteUnitaryGroups §3.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a, 4.9, 4.9a, 4.9b, 4.9c, 4.9d, 4.9e, 4.9f.
 
 ### 4.10a The chain at the type primes
 
-*The form of the formal proof.* Let `g ∈ {g₀, g₁}`, `ϖ_g = π_g` as in 4.9f (e) (the prime of `K` above `g` modulo which the
+*The form of the formal proof.* [FormalProof],
+`Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.UsedTuplesBoundByConstant`);
+`Formalism/SharpRestriction/Divisibility/LiftErrorLocal.lean` (`Formalism.MainNotions.LiftErrorLocal.errC`);
+`Formalism/SharpRestriction/AdmissibleParameterJoins/GandSx.lean` (`Formalism.MainNotions.J.sumFE_atG_le`).
+Let `g ∈ {g₀, g₁}`, `ϖ_g = π_g` as in 4.9f (e) (the prime of `K` above `g` modulo which the
 finite datum of the step at `g` is taken, ThetaChainsOnDefiniteUnitaryGroups §3.2 Lemma (ii)), and `C₁` a constant fixed before `ε` with
 `2C₁ ≤ C_cost` (`C₁ = 1` serves). Assume, for `g ∈ {g₀, g₁}`, every word `u` and every step `j`:
 `g > 2f·N_m + 1`, `g > 2·Σ_{τ∈Φ}|ν_j(τ)| + 2` and `g > Σ_{τ∈Φ}|ν_j(τ)| + N_m`
@@ -598,7 +620,10 @@ column (ThetaChainsOnDefiniteUnitaryGroups §3.9), so a scalar `c` with `v_𝔭(
 *NEW* (composition). [FormalProof] states the period bound of (i)–(ii), with the chain lift written as a sum over index paths and
 the stabiliser orders dividing one integer `D` (trivial at the first step), as `Formalism.L2.DIV.PathBound`
 (`src/Formalism/LocalToGlobal/Divisibility/JetBounds/Statement.lean`), proved as `Formalism.L2.DIV.path_height_bound`; its bound is
-`Σ_j(s_j − v_p(D))`. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.5, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9e, 4.9f, 4.10.
+`Σ_j(s_j − v_p(D))`. (iii) follows from [FormalProof],
+`Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.NoOperatorOrbitBound`);
+`Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean` (`Formalism.MainNotions.LocalQuadraticParts.adm12`).
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.5, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9e, 4.9f, 4.10.
 
 ### 4.12 The local model of the Hecke operators
 
@@ -765,7 +790,11 @@ place of `P_j(v)`, its own logarithmic losses in `r⁰` and `r^H`, the excess wi
 the stabiliser term, as `Formalism.MainNotions.FormalGroupSystem.Conclusion5` (`src/Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean`), proved,
 under the hypotheses `Formalism.MainNotions.FormalGroupSystem.admitted`, as part of `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`; the bound
 on the excess, without the ceiling, is `Formalism.MainNotions.FormalGroupSystem.RelativePresentationLiterature`, proved as
-`Formalism.MainNotions.FormalGroupSystem.Pf.relative_presentation_of_d7`. *Needs:* 4.9e, 4.9f, 4.11, 4.12, 4.13.
+`Formalism.MainNotions.FormalGroupSystem.Pf.relative_presentation_of_d7`. (b) follows from [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` (`Formalism.MainNotions.WeilJacquetShalikaLaw.Conclusion1`);
+`Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.UnitBoundLowTerm`);
+`Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean` (`Formalism.MainNotions.LocalQuadraticParts.adm2`).
+*Needs:* 4.9e, 4.9f, 4.11, 4.12, 4.13.
 
 ### 4.14a Elementary divisors along a progression
 
@@ -880,7 +909,9 @@ order `P_1o_1 + o^+` counts the powers of `w` that the lift at the line of the e
 `V_1` and of `x^+`. Without the thresholds on the first rows of `y` the span would contain polynomials of order larger than
 the depth `dep°_v + R°_v`.
 
-*NEW* (definitions). *Needs:* 4.12; ArithmeticLocallySymmetricSpaces ALS.F.7.
+*NEW* (definitions). (H_I), `dep°_v`, `R°_v`, `c_v`: [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean` (`Formalism.MainNotions.flipOneThree.HypI`).
+*Needs:* 4.12; ArithmeticLocallySymmetricSpaces ALS.F.7.
 
 ### 4.14c Frobenius-twisted columns at rational planes
 
@@ -1411,6 +1442,9 @@ conjugate type). At `d`, 4.10(iii) with 4.11(i). At the type primes, 4.10a (a st
 (`src/Formalism/SharpRestriction/GlobalTheoremInputs.lean`), derived as `Formalism.MainNotions.G.linkG_at_of`
 (`src/Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`), and the column bound of the route of (ii), away from the type primes, as
 `Formalism.MainNotions.WeilJacquetShalikaLaw.Conclusion1` (`src/Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`).
+(ii): [FormalProof], `Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean` (`Formalism.MainNotions.LocalQuadraticParts.adm2`);
+`Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean` (`Formalism.MainNotions.WeightDegreeSizes.L2BoundAlt`);
+`Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.admissible_level_two`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9e, 4.9f, 4.10, 4.10a, 4.11, 4.12, 4.14, 4.15, 4.15c.
 
 ### 4.16a The kernels at the level prime
@@ -1513,7 +1547,9 @@ the weights `2ϱ(𝔭)` (`Σ_{𝔭|π_u}ϱ(𝔭)e_𝔭 = ½log T(u)`, and `|𝒫
 between `S` and `B_v`, and the description of `B_v` in coordinates (surjectivity of the coordinate map for trivial
 stabilisers).
 
-*NEW* (the count), *KNOWN* in kind (symmetry of weight multiplicities). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, 4.15a, 4.16, 4.16a; ClassicalGroups §4.3; ReductiveGroups §10B.
+*NEW* (the count), *KNOWN* in kind (symmetry of weight multiplicities). (a): [FormalProof],
+`Formalism/LocalToGlobal/GlobalTheory/GL6/CongruenceNoKernelOfHeckeRamified.lean` (`Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.HeckeIntegralLevelZero`).
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, 4.15a, 4.16, 4.16a; ClassicalGroups §4.3; ReductiveGroups §10B.
 
 ### 4.17 Definitions: the data of the gain inequality
 
@@ -1583,7 +1619,10 @@ A check of the cited sandwich exponent, outside the ranks of the chain (which ha
 `max_iv_p(C(n, i)) = ⌊log_p(n + 1)⌋ − v_p(n + 1)`: the bound `⌊log_p(n + 1)⌋` of IntegralWeylModulesOfGeneralLinearGroups §0.3 (b) is
 attained exactly when `p ∤ n + 1`, and the sharper form with `dim V_λ = n + 1` is exact.
 
-*NEW* (definitions). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9, 4.9e, 4.14b, 4.15, 4.15d, 4.15e, 4.15f, 4.16.
+*NEW* (definitions). `Drop`: [FormalProof], `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.NoGain`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Cand`);
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.InBand`).
+*Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9, 4.9e, 4.14b, 4.15, 4.15d, 4.15e, 4.15f, 4.16.
 
 ### 4.17a The gain inequality
 
@@ -1648,7 +1687,10 @@ which also gives the second sum. The floors: `lg_p(2a) ≤ log_2(2a) + 1 ≤ 3·
 *Checks.* `Σ_{p<p₀}log p·[C·r_G·b′·log x] ≤ C·p₀·r_G·b′·log x = C·k²Y_II·r_G·log x·x·b/X′ = o(b)`. Without the hypothesis on `ϑ` the
 sum fails: for `ϑ = b′/4` the term `C·ϑ` summed over `p₀ ≤ p < X′` with weight `log p` is about `C·X′b′/4 = C·x·b/4`.
 
-*NEW* (orders of magnitude). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib Chebyshev bounds.
+*NEW* (orders of magnitude). It follows from [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.WeightedPrimeSumBound`);
+`Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/SecondConstantNonneg.lean` (`Formalism.MainNotions.AuxBlock8.Pf.G5.PrimeSumNumericFacts`).
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib Chebyshev bounds.
 
 ### 4.17d Selection of the tops
 
@@ -1719,7 +1761,10 @@ the shares `1/30`, and the primes above `X″` `1/40`.
 The primes of odd conjugate type are in `Drop` at every size and are left out of (i)–(iii): in its own accounting
 [FormalProof] treats those with long orbits outside the band as candidates, and their ask is charged with the prime sums,
 outside this layer (a prime inert in `K` and in `ℚ(√−q)` whose `h_p` has odd order is `≡ ±1 (mod 2^{e+2})`, so these primes
-lie among those of small order); it is not bounded by this statement.
+lie among those of small order); it is not bounded by this statement. The charge and the congruence: [FormalProof],
+`Formalism/SizeWindowBrackets/ChainSlopeWindows/AdmissibleSchurLemma.lean` (`Formalism.LFunctionChainParameters.DeficitSplitLemmas.first_kind_bucket_bound`);
+`Formalism/SizeWindowBrackets/SecondKindBucket.lean` (`Formalism.LFunctionChainParameters.DeficitSplitLemmas.FirstKindBucket`);
+`Development/AutomorphicArithmetic/OrbitLabellings/TwoPowDvdSubOrAddOneOfOddAddOrderOfHP.lean` (`UpperTheory.two_pow_dvd_sub_or_add_one_of_odd_addOrderOf_hP`).
 
 *Route.* Markov's inequality over the boxes with the mean bound of 4.15f at `p ≥ p₀` (the common share of 4.17, admissible for the
 weights of all the words, is at most the function `sh_v(a, a⁻)` of 4.15f, which depends only on the top weights of `v` and serves all
@@ -1733,14 +1778,20 @@ bound of 4.15e at `p < p₀` (at the scale `a − c″` of 4.17, for every point
 orders of the elements `h_p`, the second about the primes with a power near `X′`), and they are not proved in this roadmap.
 [FormalProof] proves both for its family: (O1) from the same bound for the sum over all odd primes `p < X″` whose class in
 `(ℤ/2^{e+2})^×/{±1}` has order `< x^{ε/4}` (`2^e` the 2-part scale of `|A|`: on a cyclic host the order of that class
-divides the order of `h_p`), (O2) from a count of the primes with a power in a short interval around `X′`. A target for them belongs where
-the host is chosen. (iii) The accounting is
+divides the order of `h_p`), (O2) from a count of the primes with a power in a short interval around `X′`; (O1) and (O2)
+follow from [FormalProof], `Formalism/SharpRestriction/GrowthBounds/TopChoiceBounds.lean` (`Formalism.MainNotions.G.TopChoiceBounds.family_order_bound_holds`);
+`Formalism/SharpRestriction/GrowthBounds/TopChoiceBounds.lean` (`Formalism.MainNotions.G.TopChoiceBounds.family_band_ratio_holds`).
+A target for them belongs where the host is chosen. (iii) The accounting is
 the one displayed; the bounds of the losses in these units are those of the family of [FormalProof], sharper than 4.17b,
 and their derivation from the losses of 4.17 is not given here.
 The bound on `Σ log p·𝔦(p)`: by 4.14 (a), `𝔵_v ≤ mγ_LT(p)Σ_{s∈𝔗_v}α_s` with `γ_LT(p) ≤ (1 + 1/168)/p` (`p ≥ 13`) and `α_s ≤ (1 + θ_a)a`, so
 `𝔦(p) ≤ 2𝔖(p)·m·(1 + 1/168)(1 + θ_a)a|Φ_top|/p ≤ 2.02·𝔖(p)·m·a|Φ_top|/p` for `x ≥ x₀`, and `Σ_p log p·𝔦(p) ≤ 2.02·m·a|Φ_top|·W/4`.
 
-*NEW*. *Needs:* FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9e, 4.14, 4.15e, 4.15f, 4.17, 4.17a, 4.17b, 4.17d.
+*NEW*. (i) and (ii) follow from [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/DfcHigh.lean` (`Formalism.MainNotions.AuxBlock8.Pf.G5.sdiff_le`);
+`Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.adm3`);
+`Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.ArchimedeanSignatureMatching`).
+*Needs:* FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9e, 4.14, 4.15e, 4.15f, 4.17, 4.17a, 4.17b, 4.17d.
 
 ### Examples
 
