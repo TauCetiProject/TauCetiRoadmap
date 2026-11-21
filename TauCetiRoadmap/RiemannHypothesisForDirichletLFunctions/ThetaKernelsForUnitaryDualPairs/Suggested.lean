@@ -32,9 +32,9 @@ theta correspondence.
 * Local matching at split places (3.47): for `E = F × F`, `dim V = a > a′ = dim V′`,
   `dim W = a + a′` and `ν = α/β` ramified or with `ν(ϖ) ≠ 1`, the theta quotients of the trivial
   representations of `U(V)` and `U(V′)` are irreducible and isomorphic to the normalised induction
-  `α_w ∘ det_a × β_w ∘ det_{a′}` of `GL_{a+a′}(F)`. It lacks, besides these, the coinvariants of a
-  smooth representation and the normalised parabolic induction of smooth representations of
-  `GL_N(F)`.
+  `α_w ∘ det_a × β_w ∘ det_{a′}` of `GL_{a+a′}(F)`. It lacks, besides these, the normalised parabolic
+  induction of smooth representations of `GL_N(F)`; the coinvariants themselves are Mathlib's
+  `Representation.Coinvariants`, available once the two Weil representations are.
 * Weil's convergence criterion and the Siegel–Weil formula in Weil's convergent range (5.7a, 6.4a):
   the theta integral over `[U(V)]` converges absolutely when `V` is anisotropic or
   `m − r > (dim W)/2`, and equals the value at `s₀` of the Siegel Eisenstein series when `r > 0`
