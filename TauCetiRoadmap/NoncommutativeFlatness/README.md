@@ -1063,7 +1063,7 @@ radical on both sides.
   1. *Nil implies T-nilpotent for product-closed sets* (adapting [Fisher-Nil, Lemmas 1.1, 1.3,
      Thms. 1.5, 2.1, pp. 75–77], printed there for nil subrings; [AF, Thm. 29.2, pp. 323–324] is
      the parallel statement for nil one-sided ideals; the extension to product-closed sets and the
-     written Noetherian argument are this roadmap's, not independently audited): let `I ⊆ S` be
+     written Noetherian argument are this roadmap's): let `I ⊆ S` be
      closed under composition with every member nilpotent. If `M` is Artinian, `S` has the
      ascending chain condition on left annihilators ([Fisher-Nil, Lemma 1.1]); if `I` is not left
      T-nilpotent, Fisher's selection ([Fisher-Nil, Lemma 1.3]), which maximizes left annihilators
@@ -1218,11 +1218,10 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
   Hoshino's flat-dominant dimension ([Ho, Theorem, p. 275]; [Xi, §1, p. 34]).
 - **Tau Ceti refactors (no shims):**
   - From 0.1, generalize ArtinAlgebras §1.1's single-representable finite-generation and
-    finite-presentation API (on Tau Ceti `main`, `TauCeti/CategoryTheory/FinitelyPresentedFunctor/`)
-    to finite sums via morphism matrices, retaining single-representable versions under suitable
-    biproduct hypotheses, and migrate downstream additive, abelian, and Krull–Schmidt consumers to
-    that interface (with right-minimal representable covers identified with essential epimorphisms
-    in 4.2).
+    finite-presentation API to finite sums via morphism matrices, retaining single-representable
+    versions under suitable biproduct hypotheses, and migrate downstream additive, abelian, and
+    Krull–Schmidt consumers to that interface (with right-minimal representable covers identified
+    with essential epimorphisms in 4.2).
   - From 0.2, `TauCeti.small_mulOpposite` removes redundant `[Small.{v} Aᵐᵒᵖ]` binders.
   - From 0.3, `TauCeti.IsSuperfluous` generalizes from `Submodule R M` to lattices with `⊤`.
   - From 2.3, `TauCeti.flatModuleFilteredFree` is reproved from `BalancedFlat.isDenseAt`.
@@ -1285,9 +1284,7 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
   Ceti's DG modules (`TauCeti/CategoryTheory/DG/Functor/Category.lean`) are out of scope.
 - **Finitely presented functors.** `mod C` is owned by
   [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md) §1.1, whose single-representable
-  predicate is `IsFinitelyPresentedFunctor` in ArtinAlgebras' `Suggested.lean` (implemented on
-  current Tau Ceti `main` as `TauCeti.IsFinitelyPresentedFunctor` in
-  `TauCeti/CategoryTheory/FinitelyPresentedFunctor/Basic.lean`, not yet at this roadmap's pin). 0.1
+  predicate is `IsFinitelyPresentedFunctor`. 0.1
   extends it to categories without finite biproducts by finite sums of representables, keeping the
   name: the two agree when `C` has finite biproducts (a named target of 0.1), but not on one-object
   categories, where over `ℤ`, `ℤ²` is not a quotient of `ℤ`. Tau Ceti keeps one predicate; the
