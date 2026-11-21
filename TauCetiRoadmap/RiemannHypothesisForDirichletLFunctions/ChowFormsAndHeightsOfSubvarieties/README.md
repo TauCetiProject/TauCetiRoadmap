@@ -221,7 +221,7 @@ current); Mathlib `Polynomial.gaussNorm_mul`.
   `|u_0|²` is `Beta(1, n)`, SlopesOfHermitianVectorBundles §6.6 (vi); for `n = 0`, `|u_0| = 1`), so `c(0, n) = ½·H_n`. For `[1:1] ∈ ℙ¹(ℚ)`:
   `projectiveCycleHeight = ½log 2`, `ht = ½log 2 − ½`, `c(0, 1) = ½`. The torus Mahler measure of `u_0 + u_1` is `0`, which
   would give a difference `½log 2` depending on the point: the sphere, not the torus, makes the constant independent of `Z`
-  (for the sup metric the torus measure is the right one: the Mahler formula of ArithmeticDynamics §4.29, with constant `0`).
+  (for points of `ℙ¹` with the sup metric the torus measure is the right one: the Mahler formula of ArithmeticDynamics §4.29, with constant `0`).
 - *A closed point of degree two.* The form `Σ_i x_iu_i` needs a `K`-rational point; for a closed point of degree `e` the
   Chow form is the product of the linear forms of its `e` geometric points. For `Z = [1 : i]` over `ℚ` (the point
   `X_0² + X_1² = 0`, `deg Z = 2`), `F_Z = (u_0 + iu_1)(u_0 − iu_1) = u_0² + u_1²`, of content `1`. The closure of `Z` is
@@ -313,8 +313,10 @@ projectiveCycleHeight_J̄(ℙ(J^∨)) = deĝ_n(J̄) + projectiveCycleHeight(ℙ^
 with `deĝ_n(J̄) = deĝ(J̄)/[K:ℚ]` the normalised Arakelov degree (ArakelovGeometryAndAbelianHeights §1.3) and
 `projectiveCycleHeight(ℙ^{N−1})` the height of `ℙ^{N−1}`, the case `J̄ = Ō_K^N`, which does not depend on `K`. It
 satisfies `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N`; this bound is what HeightsForLogSingularMetrics uses (Downstream
-consumers). Its exact value is `½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k = (N/2)·(Σ_{k=1}^{N} 1/k − 1)`, the height of projective
-space of Bost, Gillet and Soulé (References), which is at most `(N/2)·log N`. With (a5) this gives the height in the two
+consumers). Its exact value is `½·Σ_{m=1}^{N−1} Σ_{k=1}^{m} 1/k = (N/2)·(Σ_{k=1}^{N} 1/k − 1)` (`½` and `5/4` for
+`N = 2, 3`), which the recursion of the route gives for `J̄ = Ō_K^N` (for a standard basis vector `u`, `Σ_σ log ‖u‖_σ = 0`
+and each step adds `½·Σ_{k=1}^{N−1} 1/k`); it is the height of projective space of Bost, Gillet and Soulé (References),
+and is at most `(N/2)·log N`. With (a5) this gives the height in the two
 extreme dimensions.
 
 (b) *Comparison with the Chow form.* Let `Z` be an effective `d`-cycle in `ℙ(J^∨)` and `F_Z` its Chow form: the multiform on
@@ -388,9 +390,18 @@ transitively: ComplexKahlerGeometry K7.2, the normalisation and unitary invarian
 `∫ log(|ξ(u)|/‖ξ‖^∨_σ)·c_1^{N−1} = log ‖u‖_σ − ½·Σ_{k=1}^{N−1} 1/k` (SlopesOfHermitianVectorBundles §6.6 (vi)). The Cartier recursion of HeightsRationalPointsAndObstructions §5.17a gives
 `projectiveCycleHeight_J̄(ℙ(J^∨)) = projectiveCycleHeight_{J̄/u}(ℙ((J/Ku)^∨)) − (1/[K:ℚ])·Σ_σ log ‖u‖_σ + ½·Σ_{k=1}^{N−1} 1/k`,
 and `deĝ(J̄) = deĝ(J̄/u) − Σ_σ log ‖u‖_σ` (ArakelovGeometryAndAbelianHeights §§1.3, 1.5, for the sub-bundle `O_Ku` with the
-restricted metrics); induct on `N`. The bound: the points of `ℙ^{N−1}` whose coordinates are roots of unity are Zariski
+restricted metrics); induct on `N`. The decomposition, multiplied by `[K:ℚ]`, for `J̄` the dual of a Hermitian lattice of
+rank `N ≥ 1` in `K^N` (every `J̄` is isometric to one) is [FormalProof],
+`GroundTheory/HeightsAndTheta/Heights/HeightKernels/ScaledExample.lean`
+(`GroundTheory.Heights₂.Heights.DualTopMetricChange.Statement`, `GroundTheory.Heights₂.Heights.DualTopLatticeChange.Statement`,
+`GroundTheory.Heights₂.Heights.DualTopStandard.Statement`: the change to the standard metrics, the change to the standard
+lattice, and the reduction of `Ō_K^N` to `ℙ^{N−1}` over `ℚ`). The bound: the points of `ℙ^{N−1}` whose coordinates are roots of unity are Zariski
 dense and have height at most `½·log N`, so the upper half of the successive-minima inequality
-(HeightsRationalPointsAndObstructions §5.17f) gives `projectiveCycleHeight(ℙ^{N−1}) ≤ N·½·log N`.
+(HeightsRationalPointsAndObstructions §5.17f) gives `projectiveCycleHeight(ℙ^{N−1}) ≤ N·½·log N`. This is [FormalProof],
+`GroundTheory/HeightsAndTheta/Heights/HeightKernels/StatementsGrassHeight.lean`
+(`GroundTheory.Heights₂.Heights.GrassHeightBound.Statement`, for one factor of lines, that is `ℙ^{N−1}` over `ℚ`), whose
+statement takes the upper half of the successive-minima inequality as a hypothesis, proved in
+`GroundTheory/HeightsAndTheta/Heights/HeightKernels/Assembly.lean` (`GroundTheory.Heights₂.Heights.GrassHeightBound.full`).
 
 (b) A change of structure, reduced to a change of the metrics at the complex embeddings, and the variation of both sides
 along a path of metrics. (1) *Reductions.* For `N = 1`, `ℙ(J^∨)` is a point `[ξ]`, `Z = (deg Z)·[ξ]`, `F_Z = ξ^{deg Z}`, and
@@ -507,7 +518,7 @@ Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f; AlgebraicM
 ## Downstream consumers
 
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses 6.1 for the comparison of the self-intersection of the metrised `O(1)` on the image of a component with its Chow height (the bound "volume `≤` height" of the slope argument). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e (its preamble and (e3)) applies 6.2 (b) to the coordinate bundle `J̄` = the lattice of integral forms of weight `u₁` on a component `Z`, with its Petersson metrics (rank `N_Z`), and the image `X_Z` (`d = D`, degree `δ_Z`), divided by `(D + 1)·δ_Z`: `h(u₁, Z) = ht_J̄(f_Z)/((D + 1)·δ_Z) + ½·Σ_{k=1}^{N_Z−1} 1/k`, the form over a coordinate bundle in which SlopesOfHermitianVectorBundles §6.7a is stated; ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18 (b) uses the height of 6.2 (a) of `X_Z` for that bundle.
-- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same); HeightsForLogSingularMetrics §4.3b uses the bound `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N` of (a7).
+- HeightsForLogSingularMetrics §4.3b (a), the height of the projective bundle of lines in a Hermitian vector bundle `Ē`, is 6.2 (a7) for `J̄ = Ē^∨` (the model `Proj Sym E^∨ = ℙ(M_J^∨)` and the metrised `O(1)` are the same); HeightsForLogSingularMetrics §4.3b uses the bound `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N` of (a7). Its Layer 0 (0.4 (b), (c)) uses the change-of-metric formula 5.1.
 
 ## Scope and ownership
 
