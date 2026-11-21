@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"QuaternionicAnalysis","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"the §1.2 composition, inverse and norm identities for the multiplication maps as stated lemmas","state":"partial"},{"id":"Layer 2","remaining":"the §2.4 statement that the coordinate projections have no one-sided slope","state":"partial"},{"id":"Layer 3","remaining":"rightQuotient_rigidity via the reflection, and twoSidedQuotient_rigidity","state":"partial"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","remaining":"the §5.4 comparisons of face integrals with BoxIntegral and with integralTopForm of smooth forms","state":"partial"},{"id":"Layer 6","remaining":"the §6.4 derivative representation and the universal estimate C_m R^-m M","state":"partial"}],"readme_sha":"81c3a8fb02d17b6c59cfe84127ea52122f42362d7c57a5f8d555da5c6eceb823","roadmap":"QuaternionicAnalysis","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+# Status: QuaternionicAnalysis
+
+This file documents the status of the QuaternionicAnalysis roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The Cauchy–Fueter formula is proved on both sides, for boxes and for affine parallelepipeds. From it, Fueter regular functions are real analytic, smooth, harmonic and determined by their values on any open set. What remains is the universal derivative estimate of Layer 6, the right and two-sided rigidity theorems of Layer 3, the comparison theorems of §5.4, and small items in Layers 1 and 2.
+
+### Named results
+
+- **Left quotient rigidity** — on a connected open set, a function with a left quotient derivative at every point is `q ↦ a + q*b`. Pointwise differentiability is the only hypothesis ([`leftQuotient_rigidity`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Rigidity.html#TauCeti.leftQuotient_rigidity)).
+- **The Cauchy theorems** — a function continuous on a closed box and left (resp. right) Fueter regular inside it has zero ordered boundary flux, with no continuity of the derivative assumed. Cofactor-form versions hold on positively oriented parallelepipeds ([`left_cauchy_box`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Cauchy.html#TauCeti.left_cauchy_box), [`left_cauchy_affine_cofactor`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Cauchy/Affine.html#TauCeti.left_cauchy_affine_cofactor)).
+- **The Cauchy–Fueter formulas** — `f(q₀)` is `1/(2π²)` times the boundary integral of `G(q − q₀) Dq f(q)` for left regular `f`, or of `f(q) Dq G(q − q₀)` for right regular `f`. Both hold on boxes and on affine parallelepipeds with an interior pole ([`left_cauchyFueter_affine`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Cauchy/Representation.html#TauCeti.left_cauchyFueter_affine), [`right_cauchyFueter_box`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Cauchy/CutoffField.html#TauCeti.right_cauchyFueter_box)).
+- **Real analyticity and uniqueness of regular functions** — a left or right regular function on an open set is real analytic there, so it is `C^∞`. Its Taylor series at `q₀` converges on a ball of radius `(√2 − 1)R/2` whenever the function is regular on the ball of radius `R`. Two regular functions that agree on an open piece of a connected domain agree throughout (`LeftFueterOn.analyticOnNhd`).
+- **Harmonicity of regular functions** — a left or right regular function has vanishing Laplacian, with no smoothness hypothesis, since smoothness now follows from analyticity ([`LeftFueterOn.laplacian_eq_zero`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Harmonic.html#TauCeti.LeftFueterOn.laplacian_eq_zero)).
+
+### Notable definitions and infrastructure
+
+- **Pointwise Fueter regularity** — a real derivative at the point that satisfies the ordered Fueter equation. It comes with component systems, closure rules and [the reflection that exchanges left and right](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Reflection.html#TauCeti.leftFueterAt_star_star_iff), which carries every left result to the right ([`LeftFueterAt`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Fueter.html#TauCeti.LeftFueterAt)).
+- **The affine face functional and divergence theorem** — Mathlib's box divergence theorem is transported along `u ↦ p + Lu` by a cofactor pullback. The [raw face integral of the ordered surface form](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/AffineFace.html#ContinuousLinearMap.rawAffineBoundary) is identified with that cofactor sum, which moves the Cauchy theory off axis-aligned boxes ([`integral_divergence_affineFluxPullback`](https://taucetiproject.org/docs/TauCeti/MeasureTheory/Integral/DivergenceTheorem/Affine.html#ContinuousLinearEquiv.integral_divergence_affineFluxPullback)).
+- **Power series of Cauchy–Fueter potentials** — the kernel is expanded around a point off the boundary and integrated term by term, giving an explicit radius `(√2 − 1)δ`. This is what turns the representation formula into analyticity ([`hasFPowerSeriesOnBall_integral_cauchyFueterKernel_mul`](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Analytic.html#TauCeti.hasFPowerSeriesOnBall_integral_cauchyFueterKernel_mul)).
+
+### Roadmap coverage
+
+Layer 4 is done. Layers 1 and 2 are done apart from small items: the §1.2 composition, inverse and norm identities are not stated as separate lemmas, and §2.4 lacks the statement that the coordinate projections have no one-sided slope. Layer 3 has only the left classification. The right and two-sided classifications are absent. Layer 5 is done apart from §5.4's comparison theorems: Bochner face integrals against `BoxIntegral`, and against smooth top-form integration. The Cauchy theorems on parallelepipeds are stated in cofactor form, with the raw face functional identified separately. Layer 6 is done for §6.1–§6.3 and the right-sided versions of §6.5. The §6.4 derivative representation and universal estimate are open; only the kernel's derivative bounds exist.
+
+## The frontier
+
+- **The universal derivative estimate (§6.4)** — represent `iteratedFDeriv ℝ m f` by differentiating under the face integrals, then bound it by `C_m R⁻ᵐ M` using the cube of side `R` centred at `q₀`. The pole-independent [kernel derivative bounds](https://taucetiproject.org/docs/TauCeti/Analysis/Quaternion/Kernel.html#TauCeti.exists_norm_iteratedFDeriv_cauchyFueterKernel_le) are already in place.
+- **Right and two-sided rigidity** — transport right slopes to left slopes through the reflection `T(f)(q) = conj(f(conj q))` to get `a + b*q`. The simultaneous-slope lemma, which is already proved, then gives the two-sided form `a + r*q` with `r` real.
+- **The §5.4 comparison theorems** — face integrals against Mathlib's `BoxIntegral` for continuous coefficients, and against `integralTopForm` for smooth ones. These depend on DifferentialGeometry's smooth forms and are not used by any Cauchy theorem.
+- **The small Layer 1 and 2 lemmas** — the composition, inverse and norm identities for the multiplication maps, and the absence of one-sided slopes for the coordinate projections.

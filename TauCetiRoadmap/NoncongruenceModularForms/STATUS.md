@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"NoncongruenceModularForms","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"0.3 corollaries: free-product form, torsion classes, free torsion-free subgroups of rank 1 + n/6, abelianization Z/6","state":"partial"},{"id":"Layer 1","remaining":"modularTriple, Millington's theorem, finiteness at fixed index","state":"untouched"},{"id":"Layer 2","remaining":"cusp widths, elliptic counts and genus read from the modular triple, with their geometric identifications","state":"untouched"},{"id":"Layer 3","remaining":"general level, comparison with the geometric level, wohlfahrt_strict, congruence closure, order and composition-factor obstructions","state":"partial"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"untouched"}],"readme_sha":"6f0c7756ee575252b15bd54841c25e4f90beb81c3acaa6558e68c09877470147","roadmap":"NoncongruenceModularForms","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+# Status: NoncongruenceModularForms
+
+This file documents the status of the NoncongruenceModularForms roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Layer 0 is done apart from the free-product corollaries of 0.3: the triangle-group presentation of `PSL₂(ℤ)` is proved, and lifts and projective indices are in place. Layer 3 has the strict level and its main laws. Everything that depends on the coset dictionary has not begun: the modular triple, the permutation invariants, Hsu's test, Farey symbols, the Belyi cover, and the modular-forms layers.
+
+### Named results
+
+- **The modular group is the triangle group Δ(3, 2, ∞)** — [`modularEquiv`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Fuchsian/LevelOne/TriangleGroup.html#TauCeti.ModularGroup.modularEquiv) identifies `PSL₂(ℤ)` with `⟨x, y, z | x³, y², zyx⟩` by `x ↦ U = ST⁻¹`, `y ↦ S`, `z ↦ T`, the normalization the coset dictionary requires. Injectivity comes from Poincaré's polygon theorem, transported by the mirror automorphism, not from ping-pong.
+- **The projective index loses a factor of two exactly when `−I` is missing** — a subgroup of `SL₂(R)` without `−I` has [twice the index of its image in `PSL₂(R)`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/SpecialLinearGroup/Projective.html#Matrix.SpecialLinearGroup.two_mul_index_map_mk'_of_neg_one_notMem), and one containing `−I` has [the same index](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/SpecialLinearGroup/Projective.html#Matrix.SpecialLinearGroup.index_map_mk'_of_neg_one_mem). For `N ≥ 3` this gives the [projective index of `Γ(N)`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/Projective.html#TauCeti.CongruenceSubgroup.two_mul_index_map_Gamma) as `|SL₂(ℤ/N)| / 2`.
+- **The strict level is the lcm of the strict cusp widths** — for a finite-index `Γ ≤ SL₂(ℤ)`, with or without `−1`, [`strictLevel_eq_lcm_cuspTranslationOrbitWidth`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/StrictLevel.html#Subgroup.strictLevel_eq_lcm_cuspTranslationOrbitWidth) identifies the least `N` with all conjugates of `Tᴺ` in `Γ` with the lcm of its strict widths.
+- **The intersection law for strict levels** — [`strictLevel_inf`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/StrictLevel.html#Subgroup.strictLevel_inf) gives `N_s(Γ₁ ⊓ Γ₂) = lcm(N_s(Γ₁), N_s(Γ₂))`, and the strict level is [unchanged by the normal core](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/StrictLevel.html#Subgroup.strictLevel_normalCore).
+
+### Notable definitions and infrastructure
+
+- **The pinned generators** [R = ST](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/Modular/Generators.html#TauCeti.ModularGroup.R) and [U = ST⁻¹](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/Modular/Generators.html#TauCeti.ModularGroup.U) record every sign relation in `SL₂(ℤ)` (`R³ = −I`, `U³ = I`, `TSU = −I`). Every later translation between source conventions relies on them.
+- **The lift `±Γ̄`** [`Subgroup.liftSL`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/SpecialLinearGroup/Projective.html#Subgroup.liftSL) is the full preimage of a subgroup of `PSL(n, R)`. It matches the subgroups of `PSL` with [the subgroups of `SL` containing the centre](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/SpecialLinearGroup/Projective.html#Subgroup.range_liftSL), preserves the index, and commutes with conjugation. This is how the roadmap says "`Γ̄` is congruence".
+- **The strict level** [`Subgroup.strictLevel`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/StrictLevel.html#Subgroup.strictLevel) is the modulus in the strict Wohlfahrt theorem. It is computed for `Γ(N)`, `Γ₀(N)` and `Γ₁(N)`, and it [divides `N` for any subgroup containing `Γ(N)`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/StrictLevel.html#CongruenceSubgroup.strictLevel_dvd_of_Gamma_le).
+
+### Roadmap coverage
+
+Layer 0 is partial. 0.1, 0.2 and the isomorphism of 0.3 are proved, and 0.4 is done in substance, including its checks (`Γ(3)` has integral index 24 and projective index 12, and the lift of the trivial group is `{±I}`), though no definition is named `psl2Index`. Still missing are the corollaries of 0.3: the free-product form, conjugacy of torsion elements, freeness of torsion-free subgroups with rank `1 + n/6`, and the abelianization `ℤ/6`. Layer 3 is partial. The strict-level half of 3.1 is done. Not done: the general level `orderOf σinf` and the comparison `N_s ∈ {N, 2N}`, the comparison with the geometric level, Wohlfahrt in both forms, the congruence closure, and the order and composition-factor obstructions. Layers 1, 2 and 4–9 are untouched.
+
+## The frontier
+
+- **The modular triple (1.1)** — define `modularTriple` as `cosetTriple` transported along `modularEquiv`, and prove the order relations, the LMFDB permutations and independence of the numbering. Every layer from 1 to 6 waits on this.
+- **The strict Wohlfahrt theorem (3.3)** — `IsCongruenceSubgroup Γ ↔ Gamma (strictLevel Γ) ≤ Γ`, by the Kiming–Schütt–Verrill matrix reduction. The strict level, its divisibility by any congruence modulus, and now the lift and index comparison are available. The signed version waits on ModularFormsPartII W1.8.
+- **The free-product corollaries of 0.3** — torsion classes and the abelianization should follow from the isomorphism already in hand. Freeness of torsion-free subgroups needs Kurosh from FreeGroupsAndLimitGroups §4.11.
+- **Millington's theorem (1.2)** — conjugacy classes of index-`n` subgroups matched with connected triples with `σ0³ = σ1² = 1`. It needs 1.1 only.
+- **The general level (3.1)** — `orderOf σinf` as the lcm of the permutation cusp widths, and `N_s ∣ 2N`. This needs 1.1 and 2.1.

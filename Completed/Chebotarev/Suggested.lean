@@ -448,13 +448,13 @@ theorem galoisCharacterWeight_eq_onIdeals_cyclotomicArtin {m : ℕ} [NeZero m]
   MonoidHom.galoisCharacterWeight_eq_onIdeals_cyclotomicArtin χ I
 
 /-- **Cancellation**, from the class-by-class ray counts, for a nontrivial ray class character. -/
-theorem hasCancellation_restrict_galoisCharacterUnitaryWeight {m : ℕ} [NeZero m]
+theorem hasCancellation_restrictAway_galoisCharacterUnitaryWeight {m : ℕ} [NeZero m]
     [IsCyclotomicExtension {m} K F] (χ : (F ≃ₐ[K] F) →* ℂˣ)
     (hχ : χ.comp (cyclotomicArtin K F m) ≠ 1) :
-    HasCancellation ((MonoidHom.galoisCharacterUnitaryWeight (L := F) χ).restrict
+    HasCancellation ((MonoidHom.galoisCharacterUnitaryWeight (L := F) χ).restrictAway
       ((cyclotomicModulus K m).support : Set (HeightOneSpectrum (𝓞 K)))
       (cyclotomicModulus K m).support.finite_toSet) :=
-  MonoidHom.hasCancellation_restrict_galoisCharacterUnitaryWeight χ hχ
+  MonoidHom.hasCancellation_restrictAway_galoisCharacterUnitaryWeight χ hχ
 
 /-- **The continued series** `cyclotomicCharacterSeriesC` agrees with the `L`-series on
 `Re s > 1`. -/
@@ -1304,7 +1304,7 @@ trivial extension `K / K`, whose single fibre accounts for `ψ_K` up to `O(log x
 theorem tendsto_primePsi_univ :
     Tendsto (fun x : ℝ ↦ primePsi K Set.univ x / x) atTop (𝓝 1) := by
   have h1 := NumberField.Chebotarev.tendsto_frobeniusPsi K K 1
-  rw [ConjClasses.one_eq_mk_one, TauCeti.ConjClasses.card_carrier_mk_one, Nat.card_unique,
+  rw [ConjClasses.one_eq_mk_one, ConjClasses.card_carrier_mk_one, Nat.card_unique,
     Nat.cast_one, div_one] at h1
   have h2 := (NumberField.Chebotarev.primePsi_univ_sub_sum_frobeniusPsi_isBigO_log K K
     |>.trans_isLittleO Real.isLittleO_log_id_atTop).tendsto_div_nhds_zero
@@ -1462,7 +1462,7 @@ as the private `TauCeti.NumberField.Chebotarev.tendsto_primeCount_univ` does. -/
 theorem tendsto_primeCount_univ :
     Tendsto (fun x : ℝ ↦ primeCount K Set.univ x / (x / Real.log x)) atTop (𝓝 1) := by
   simpa only [natCast_frobeniusPrimeCount, TauCeti.NumberField.Chebotarev.frobeniusPrimeSet_self,
-    ConjClasses.one_eq_mk_one, TauCeti.ConjClasses.card_carrier_mk_one, Nat.card_unique,
+    ConjClasses.one_eq_mk_one, ConjClasses.card_carrier_mk_one, Nat.card_unique,
     Nat.cast_one, div_one] using NumberField.Chebotarev.tendsto_frobeniusPrimeCount K K 1
 
 /-- **Natural-density Chebotarev**, from the counting theorem, not from Layer 10. -/

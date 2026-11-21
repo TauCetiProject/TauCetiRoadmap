@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"SobolevPolynomialApproximation","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"the full API of the bundled directional derivative, Sobolev classes of polynomials, the kernel of the top seminorm, and the quotient","state":"partial"},{"id":"Layer 2","remaining":"the p = infinity case of 2.1, affine scaling of seminorms (2.2) and the geometric bounds (2.3)","state":"partial"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","remaining":"Bramble-Hilbert with explicit constants, its sublinear and bilinear forms, and Deny-Lions","state":"partial"},{"id":"Layer 5","remaining":"the embedding into continuous functions with explicit constants (5.1) and continuity up to the boundary (5.3)","state":"partial"}],"readme_sha":"d72260f616026286b49b73b704bbe0c05f9acf03025254a1fff5ae67070eb9f3","roadmap":"SobolevPolynomialApproximation","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+# Status: SobolevPolynomialApproximation
+
+This file documents the status of the SobolevPolynomialApproximation roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Layer 1 is mostly built: contractions, polynomials of bounded degree, order truncation with seminorms, and change of exponent are all in place, along with the algebraic polynomial Poincaré lemma. The polynomial kernel of the top seminorm, the step that the layer's title points to, is not yet proved. Density of functions smooth up to the boundary (§5.2) is done, and higher-order Rellich (§4.3) and the finite-exponent change of variables are already available from elsewhere in Tau Ceti. The averaged Taylor polynomial, Bramble–Hilbert, Deny–Lions and the explicit embedding have not begun.
+
+### Named results
+
+- **Density of functions smooth up to the boundary on star-shaped domains.** On an open set that is star-shaped with respect to every point of a ball, restrictions of whole-space test functions are dense in `W^{k,p}` for every order `k` and every `p < ∞`. The domain does not need to be bounded ([`denseRange_restrictL_ofTestFunctionₗ_top_of_forall_starConvex`](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/StarConvex.html#TauCeti.Wkp.denseRange_restrictL_ofTestFunctionₗ_top_of_forall_starConvex), with a [convex version](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/StarConvex.html#TauCeti.Wkp.denseRange_restrictL_ofTestFunctionₗ_top_of_convex)). At `p = ∞` it [fails](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Interval.html#TauCeti.Wkp.not_dense_contDiff_representatives_Ioo_top) already on an interval.
+- **The polynomial Poincaré lemma.** A family of polynomials of degree at most `m` whose mixed partial derivatives agree is the gradient of a polynomial of degree at most `m + 1`, over any `ℚ`-algebra ([`exists_pderiv_eq`](https://taucetiproject.org/docs/TauCeti/RingTheory/MvPolynomial/PoincareLemma.html#MvPolynomial.exists_pderiv_eq)).
+- **Norm equivalence with the seminorms.** For every order and exponent, the `W^{k,p}` graph norm and the Euclidean combination of the seminorms are within a factor `√2` of each other, in both directions ([`norm_le_sqrt_two_mul`](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Seminorm.html#TauCeti.Wkp.norm_le_sqrt_two_mul), [`sqrt_le_sqrt_two_mul_norm`](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Seminorm.html#TauCeti.Wkp.sqrt_le_sqrt_two_mul_norm)). They are equal at `p = 2`.
+- **The dimension of polynomials of bounded degree.** Real polynomial functions of total degree at most `m` in `n` variables form a space of dimension `(m + n).choose n` ([`finrank_polynomialsDegLE`](https://taucetiproject.org/docs/TauCeti/Analysis/MvPolynomial/PolynomialSpace.html#TauCeti.finrank_polynomialsDegLE)).
+- **Rellich–Kondrachov in every order.** On a bounded Lipschitz domain, dropping the top derivative is a compact operator `W^{k+1,p} → W^{k,p}` (`TauCeti.Wkp.isCompactOperator_lowerOrderL_of_isLipschitzDomainWith`). This is §4.3, which Tau Ceti proved before this roadmap.
+
+### Notable definitions and infrastructure
+
+- **Order truncation and the seminorms**, [`toOrderL`](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Basic.html#TauCeti.Wkp.toOrderL) and [`seminorm`](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Seminorm.html#TauCeti.Wkp.seminorm). Every later estimate is stated in these. The seminorm agrees with the classical `Lᵖ` norm of the derivative for smooth representatives, and its [behaviour under lowering the exponent](https://taucetiproject.org/docs/TauCeti/Analysis/Sobolev/Wkp/Seminorm.html#TauCeti.Wkp.seminorm_ofExponentLEL_le) is what the `p = ∞` arguments of Layers 2 and 5 will use.
+- **Contractions of iterated gradients**, [`contractL`](https://taucetiproject.org/docs/TauCeti/Analysis/Calculus/IteratedGradient/Contraction.html#TauCeti.IteratedGradient.contractL) and [`fullContractL`](https://taucetiproject.org/docs/TauCeti/Analysis/Calculus/IteratedGradient/Contraction.html#TauCeti.IteratedGradient.fullContractL), with the correct homogeneity and norm bounds. These are the basis-free way of writing Taylor terms that the averaged Taylor polynomial and its derivative identity need.
+- **The bounded-degree polynomial space** [`polynomialsDegLE`](https://taucetiproject.org/docs/TauCeti/Analysis/MvPolynomial/PolynomialSpace.html#TauCeti.polynomialsDegLE), where the averaged Taylor polynomial will take its values.
+
+### Roadmap coverage
+
+Layer 1 is partial. §1.1–§1.4 are done. §1.5 has only the bundled operator `Wkp.lineDerivL`: its relation to contractions of the higher weak derivatives and its seminorm bound are missing. §1.6 has the algebraic lemma but not the Sobolev classes of polynomials. §1.7 and §1.8 are missing. Layer 2 is partial: §2.1 holds for `p < ∞` through Tau Ceti's existing `W^{k,p}` change of variables, while `p = ∞`, affine scaling (§2.2) and the geometric bounds (§2.3) are missing. Layer 3 is untouched. Layer 4 is partial: §4.3 is available, but Bramble–Hilbert, its functional forms and Deny–Lions are not. Layer 5 is partial. §5.2 is done, but the explicit embedding (§5.1) and continuity up to the boundary (§5.3) are not.
+
+## The frontier
+
+- **Directional derivatives and seminorms (§1.5).** The operator already exists. What remains is to prove that its higher weak derivatives are contractions of those of `u`, the bound `|∂_v u|_{j,p} ≤ ‖v‖ |u|_{j+1,p}`, and the iterated-component description.
+- **Sobolev classes of polynomials (§1.6).** This needs the continuous linear map from `polynomialsDegLE` into `W^{k,p}(Ω)` on bounded `Ω`, injective when `Ω` is nonempty. The algebraic Poincaré lemma is ready to be transferred to it.
+- **Kernel of the top seminorm (§1.7) and the quotient (§1.8).** These are an induction from the constant-on-connected lemma once the two items above exist. They also unblock Deny–Lions, whose compactness input (§4.3) is already in hand.
+- **Affine scaling (§2.2–§2.3).** This specialises the existing change of variables to affine maps order by order. The new exponent-change bound should make the `p = ∞` case reachable.
+- **The averaged Taylor polynomial (§3.2–§3.3).** This opens Layer 3 and, through the representation formula, both Bramble–Hilbert and the explicit embedding. Contractions and the polynomial space are now in place.

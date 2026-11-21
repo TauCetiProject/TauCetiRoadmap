@@ -1,0 +1,12 @@
+# Progress log: SmoothRepresentationsOfLocalGroups
+
+An append-only record of what landed on the SmoothRepresentationsOfLocalGroups roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"030f59c696a076a2d3fc597d5921a9a07cbb146a","prs":["forgejo:https://git.taucetiproject.org/taucetiproject/tauceti@1#191"],"roadmap":"SmoothRepresentationsOfLocalGroups","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+## SmoothRepresentationsOfLocalGroups: 2026-11-18 to 2026-11-19 (`030f59c` to `b235000`)
+
+The roadmap's first target has landed: [van Dantzig's theorem](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Group/OpenSubgroup/Compact.html#TauCeti.IsTopologicalGroup.locallyCompact_totallyDisconnected_tfae), which says that for a Hausdorff topological group, being locally compact and totally disconnected, being locally compact and nonarchimedean, and having a neighbourhood basis of compact open subgroups at the identity are all equivalent (https://git.taucetiproject.org/taucetiproject/tauceti/pulls/191). It is also available as an [instance](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Group/OpenSubgroup/Compact.html#TauCeti.IsTopologicalGroup.nonarchimedeanGroup_of_weaklyLocallyCompactSpace): a zero-dimensional, weakly locally compact group is nonarchimedean. Both have additive versions.
+
+The proof follows the roadmap's plan. The [left translation stabilizer of a compact open set is open](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Group/OpenSubgroup/Compact.html#IsCompact.isOpen_stabilizer), so a compact open set containing the identity [contains a compact open subgroup](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Group/OpenSubgroup/Compact.html#IsCompact.exists_openSubgroup_subset). The same work supplies the facts that smoothness will rely on. Compact open subgroups are [directed under intersection](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Group/OpenSubgroup/Compact.html#OpenSubgroup.directedOn_isCompact), and a compact subgroup of a totally disconnected group can be [packaged as a profinite group](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/Category/ProfiniteGrp/Basic.html#ProfiniteGrp.ofCompactSubgroup). Smooth representations themselves have not appeared yet: neither the smoothness predicate nor the smooth category is in the library.
