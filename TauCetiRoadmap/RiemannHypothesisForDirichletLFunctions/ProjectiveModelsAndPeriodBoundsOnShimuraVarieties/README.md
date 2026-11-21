@@ -14,6 +14,11 @@ Notation and conventions not restated here are those of ShimuraCompactifications
 
 `Ẑ = ∏_ℓ ℤ_ℓ`, `Ẑ^p = ∏_{ℓ≠p} ℤ_ℓ` and `𝔸_f = Ẑ ⊗ ℚ`. For a scheme in characteristic `p`, `Fr` is the absolute Frobenius and `Fr^*` the pull-back along it; the Verschiebung of a commutative group scheme is that of ShimuraCompactifications §6.18. For a rigidified line bundle `L` on a commutative group scheme with group law `m`, `Λ(L) = m^*L ⊗ pr₁^*L^{−1} ⊗ pr₂^*L^{−1}`; for a line bundle `M` on an abelian variety `B`, `K(M)` is the kernel of the map `B → B^∨`, `x ↦ t_x^*M ⊗ M^{−1}`. For an endomorphism `w` of `G`, `(1, w) : G → G ×_S G` is the morphism `x ↦ (x, wx)`, and `𝒫` is the Poincaré bundle on `A ×_S A^∨` for an abelian scheme `A`. Logarithms are natural. Internal references `k.n` name target `k.n` of this roadmap.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Semi-abelian degenerations: Lie algebras, periods, conjugate data
 
 The statements of this layer concern one semi-abelian scheme at a time: its Hodge metric near the boundary and the positivity of its Hodge bundle over curves in characteristic zero, its periods over a polydisc, and a substitute in characteristic `p` for the de Rham homology of an abelian scheme.
