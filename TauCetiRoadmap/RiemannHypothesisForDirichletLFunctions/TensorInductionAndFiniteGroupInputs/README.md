@@ -18,6 +18,11 @@ In Layer 7, `ℂ[M_{n×m}]` is the ring of polynomial functions on complex `n ×
 
 Layer 9 fixes its notation at the start of 9.1.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Tensor induction and coset characters in prime index
 
 Both targets add to the virtual-character ring of InductionRestriction Layer 6 for a finite group with a normal subgroup of prime index.
