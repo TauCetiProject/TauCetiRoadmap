@@ -1680,12 +1680,12 @@ that need not vanish near `sing Σ`; ∇ζ is the gradient on Σ of the restrict
   `∫_Σ |A|²ζ² dμ + ∫_Σ Ric_g(ν,ν)ζ² dμ + κ ∫_Σ (|∇ζ|² + w⁻²ζ²) dμ ≤ ∫_Σ |∇ζ|² dμ`,
   the weighted integral being in `[0,∞]`; *strictly stable with weight w* if some κ > 0 works.
 
-The Euclidean case, `Ric = 0` and μ the Hausdorff measure, is [Simon23, 1.2, pp. 3–4], with the
-weight `|x| + |ξ|` on `ℝ^p × ℝ^q × ℝ^ℓ`; there the hypersurface is minimal for a metric close to
-the Euclidean one, and the Euclidean inequality is what is asserted. For a cone with vertex 0 the
-weight is `|X|` [Simon21, 1.4, p. 2]. The forms involve ν only through `|A|²` and
-`Ric_g(ν,ν)`, which do not depend on the sign of ν (6.3), so the definitions need no global
-normal; on a one-sided Σ they are stronger than the stability of 6.3 (Checks), and
+For an oriented Σ, the Euclidean case, `Ric = 0` and μ the Hausdorff measure, is [Simon23, 1.2,
+pp. 3–4], with the weight `|x| + |ξ|` on `ℝ^p × ℝ^q × ℝ^ℓ`; there the hypersurface is minimal
+for a metric close to the Euclidean one, and the Euclidean inequality is what is asserted. For a
+cone with vertex 0 the weight is `|X|` [Simon21, 1.4, p. 2]. The forms involve ν only through
+`|A|²` and `Ric_g(ν,ν)`, which do not depend on the sign of ν (6.3), so the definitions need no
+global normal; on a one-sided Σ they are stronger than the stability of 6.3 (Checks), and
 two-sidedness enters only in the variational meaning. Prove:
 
 - Variational meaning, for Σ two-sided with global unit normal ν. If Σ is minimal and ζ
