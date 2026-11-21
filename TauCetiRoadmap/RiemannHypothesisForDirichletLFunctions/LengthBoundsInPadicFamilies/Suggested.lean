@@ -44,13 +44,14 @@ needs constructions the pins do not have, listed below, and nothing is stated in
   `PolynomialLaw` satisfying Tau Ceti's `PolynomialLaw.IsMultiplicative` and
   `PolynomialLaw.IsHomogeneousOfDegree`, though its specialisation along `λ_x : A → O` has no
   carrier (the pins have no base change of polynomial laws). What the pins lack besides is the
-  coefficient module and the cocycles of the hypothesis. The coefficients `ρ_b ⊗ χ^{−1} ⊗ K/O` are not a `TopRep`: `K/O`, for
-  an abstract fraction field `K`, carries no topology, and Tau Ceti's `TauCeti.ofDiscreteModule`
-  takes the discrete topology and the action as instances. The cut cocycles are built from the
-  constructions of 1.8c (the algebra `𝒜` spanned by the `r(g)`, the block maps `ψ_b` of a
-  conjugation over `K`, an idempotent `E`, the module `Y_s`, and its homomorphisms into
-  `(K/O)^{d_b}` through `ψ_b`). Stating the headline would take a chain of definitions of this
-  roadmap's own constructions, not a few simple ones, so it is stated in the README only.
+  coefficient module and the cocycles of the hypothesis. The coefficients `ρ_b ⊗ χ^{−1} ⊗ K/O`
+  are not a `TopRep`: `K/O`, for an abstract fraction field `K`, carries no topology, and Tau
+  Ceti's `TauCeti.ofDiscreteModule` takes the discrete topology and the action as instances. The
+  cut cocycles are built from the constructions of 1.8c (the algebra `𝒜` spanned by the `r(g)`,
+  the block maps `ψ_b` of a conjugation over `K`, an idempotent `E`, the module `Y_s`, and its
+  homomorphisms into `(K/O)^{d_b}` through `ψ_b`). Stating the headline would take a chain of
+  definitions of this roadmap's own constructions, not a few simple ones, so it is stated in the
+  README only.
 
 The extension-module bound 1.8c (1), for an arbitrary group without topology, is algebra on finitely
 many matrices and statable in Mathlib; it is the step of the route to the third headline that
