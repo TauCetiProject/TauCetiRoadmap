@@ -19,6 +19,11 @@ Notation and conventions not restated here are those of the roadmaps this one ex
 - In Layer 9, `L` is a number field of degree `n` and discriminant `d_L`, `H_m(G; ℤ)` is the homology of a group `G` with trivial coefficients `ℤ`, and "absolute" means independent of all data.
 - The formal proof [FormalProof] (References) is cited by file and declaration at the commit the References name; paths are relative to the `src` directory of its repository, and `AV/` abbreviates the directory `Development/AutomorphicArithmetic/AutomorphicVarieties/`. Where a target names it, the form it states is recorded there, with its hypotheses; a wider form stated by the target is this roadmap's own, proved by the route written at the target. Its lengths over `O` are not divided by `e_O`.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 6: Twisted Tate–Shafarevich groups and character components
 
 This layer defines the twisted Tate–Shafarevich groups with divisible coefficients `ℚ_ℓ/ℤ_ℓ(−e)`, relates them to the cohomological wild kernels and to `H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, sums their lengths over all primes and twists, and decomposes them over abelian fields into components indexed by Dirichlet characters.
