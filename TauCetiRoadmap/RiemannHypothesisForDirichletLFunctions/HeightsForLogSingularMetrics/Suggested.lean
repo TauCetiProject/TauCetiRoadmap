@@ -46,24 +46,20 @@ integral model.
 * The reflection formula (14.1 (a), (c)): for a Hermitian vector bundle `V̄` of rank two on a
   projective arithmetic variety `Z`, `π : ℙ(V) → Z` with relative tangent bundle `Ξ̄` and a
   hermitian `ℚ`-line bundle `M̄` on `Z`, `(Ξ̄^{2k}·π^*M̄^{D+1−2k}) = 2κ(k)·deg(Ξ^{2k−1}·π^*M^{D+1−2k})`,
-  also for the limit numbers of log-log integrable metrics that are round on almost every fibre
-  and whose log-log singular semipositive pieces have close `C²` regularisations. It lacks,
-  besides the carriers of the first two bullets, Hermitian vector bundles on arithmetic
+  also for the limit numbers of log-log integrable metrics that are round on almost every fibre.
+  It lacks, besides the carriers of the first two bullets, Hermitian vector bundles on arithmetic
   varieties, the projective bundle `ℙ(V)` with its tautological and relative tangent bundles and
   their induced metrics, and geometric intersection numbers on the generic fibre.
-* The logarithmic bound for the maximal slope of the Lie algebra (16.1): for every CM field `E`
-  of the family (it contains a square root of `−d` for a prime `d ≡ 7 (mod 16)`, and `O_E` is
-  unramified over the integers of its maximal real subfield) and every semi-abelian scheme `G`
-  over `O_L` with an action of `O_E` and a symmetric rigidified cubical line bundle `ℒ` on `G`
-  for which the adjoint of `a ∈ O_E` is its complex conjugate, such that the generic fibre `A` is
-  an abelian variety of dimension `g` on which `ℒ` is ample and defines a principal polarisation,
+* The logarithmic bound for the maximal slope of the Lie algebra (16.1 (a)): for every semi-abelian
+  scheme `G` over the ring of integers `O_L` of a number field whose generic fibre `A` is a
+  principally polarised abelian variety of dimension `g`,
   `μ̂_max(Lie Ḡ) ≤ C·log(2 + g + max(h(A), 0))` with an absolute constant `C`. It lacks
-  semi-abelian schemes over rings of integers with the action of `O_E` and cubical line bundles,
-  their Lie algebras as `O_L`-lattices, principal polarisations with their Riemann forms at the
-  complex embeddings, the Hodge inner product, the Hermitian vector bundle structure, the maximal
-  slope, and the Faltings height in Deligne's normalisation.
+  semi-abelian schemes over rings of integers, their Lie algebras as `O_L`-lattices, principal
+  polarisations with their Riemann forms at the complex embeddings, the Hodge inner product, the
+  Hermitian vector bundle structure, the maximal slope, and the Faltings height in Deligne's
+  normalisation.
 
-Over `ℚ` a Hermitian vector bundle is a Euclidean lattice, for which Mathlib has `ZLattice` and
+Over `ℚ` a Hermitian vector bundle is a Euclidean lattice, for which Mathlib has `IsZLattice` and
 `ZLattice.covolume`; the absolute Siegel lemma for `K = ℚ` still needs vectors over every finite
 extension of `ℚ`, and it is a special case of the headline, so it is not stated either.
 -/
