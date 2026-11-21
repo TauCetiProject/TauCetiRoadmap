@@ -38,13 +38,14 @@ The roadmap builds on Mathlib's model theory (types, ultraproducts, elementary e
 partial equivalences, `Language.order`, computability), on Tau Ceti's infinitary logic, which
 supplies potential isomorphisms and Karp's theorem, and on Tau Ceti's first-order language of
 groups. It takes the proof calculus and its completeness theorem from
-SequentCalculusAndCutElimination. It feeds the model theory of valued fields: AxKochenErshov uses
-saturation, back-and-forth families and the theory of `ℤ`-groups, and PadicallyClosedFields uses
-the quantifier elimination tests, model completeness and decidability.
+SequentCalculusAndCutElimination, and the effective coding of formulas from RandomGraphs. It
+feeds the model theory of valued fields: AxKochenErshov uses saturation, back-and-forth families
+and the theory of `ℤ`-groups, and the planned roadmap PadicallyClosedFields uses the quantifier
+elimination tests, model completeness and decidability.
 
 Layer 0 builds saturated structures and their existence. Layer 1 proves that back-and-forth
 families preserve formulas. Layer 2 gives quantifier elimination and model completeness with
-their tests. Layer 3 treats ordered abelian groups. Layer 4 codes formulas and derivations
+their tests. Layer 3 treats ordered abelian groups. Layer 4 codes theories and derivations
 effectively and proves that complete recursively enumerable theories are decidable.
 
 ## Conventions
@@ -62,12 +63,14 @@ effectively and proves that complete recursively enumerable theories are decidab
   `κ : Cardinal.{w}` with `M : Type w`; statements comparing structures in different universes use
   `Cardinal.lift`.
 - **Quantifier elimination.** The declarations and names of Layer 2.1–2.2 are those of the Mathlib
-  series mathlib4#41112–#41116: `Theory.IsQFEquivalent`, `Theory.HasQuantifierElimination`, and
-  the criteria named in 2.2. Tau Ceti builds them now in that shape; when the series lands, the
-  Tau Ceti declarations are deleted and Mathlib's used.
-- **Universes of models.** Quantification over all models of `T` is over models in
-  `Type (max u v)` for `L : Language.{u, v}`, as in Mathlib's `Theory.IsComplete` and
-  `Theory.ModelType`. By Löwenheim–Skolem this loses nothing.
+  file `Mathlib/ModelTheory/QuantifierElimination.lean` proposed in the Mathlib quantifier
+  elimination series (see the supplier contracts): `Theory.IsQFEquivalent`,
+  `Theory.HasQuantifierElimination`, and the criteria named in 2.2. Tau Ceti builds them in that
+  shape, and uses Mathlib's declarations in their place once Mathlib has them.
+- **Models.** A model of a theory is nonempty, as are the carriers of Mathlib's
+  `Theory.ModelType`, over which `T ⊨ᵇ φ` and `φ ⇔[T] ψ` quantify. Quantification over all models
+  of `T` is over nonempty models in `Type (max u v)` for `L : Language.{u, v}`, as in Mathlib's
+  `Theory.IsComplete` and `Theory.ModelType`. By Löwenheim–Skolem this loses nothing.
 - **Ordered abelian groups are multiplicative.** An ordered abelian group is
   `[CommGroup Γ] [LinearOrder Γ] [IsOrderedMonoid Γ]`, as for Mathlib's value groups
   `(ValueGroupWithZero R)ˣ`. Its language `orderedGroup` is `Language.group.sum Language.order`:
@@ -79,10 +82,13 @@ effectively and proves that complete recursively enumerable theories are decidab
   `n : ℕ`, a unary predicate `Dₙ`, read in an ordered group with chosen `ϖ` as
   `Dₙ(x) :↔ ∃ y, yⁿ = x`. In a `ℤ`-group, `ϖ` is the least element greater than `1`.
 - **Effectivity.** Computability is Mathlib's `Primcodable`, `Computable`, `REPred` and
-  `ComputablePred`. A language is effective when `Σ n, L.Functions n` and `Σ n, L.Relations n` are
-  `Primcodable` with decidable equality. A theory is recursively enumerable when `REPred (· ∈ T)`
-  holds for the coding of sentences of Layer 4.1, and decidable when `ComputablePred (T ⊨ᵇ ·)`
-  holds.
+  `ComputablePred`. Formulas are coded by RandomGraphs' `boundedCode : L.BoundedFormula (Fin m) n → ℕ`
+  (its §5.2), and the effective languages are its effectively presented ones: `Primcodable`
+  symbol families, with the arity of a symbol computable from its code. A sentence is coded as a
+  formula over `Fin 0` with no bound positions. A theory `T` is recursively enumerable when the set
+  of codes of its sentences is (`REPred` of `n ↦ ∃ φ ∈ T, boundedCode φ = n`), and decidable when
+  the set of codes of its consequences is computable (`ComputablePred` of
+  `n ↦ ∃ φ, boundedCode φ = n ∧ T ⊨ᵇ φ`).
 
 ## Layer 0: saturated structures
 
@@ -125,12 +131,18 @@ realized in `M`. API:
 - Every structure has a `κ`-saturated elementary extension, for every `κ`. The proof is an
   elementary chain of length a regular cardinal `≥ κ`, each step realizing all types over the
   previous model (Tent–Ziegler Cor. 2.2.9), with the union an elementary extension of each member
-  (Tarski's chain lemma, Tent–Ziegler Thm. 2.1.4). The chain lemma is itself a target here,
-  stated for Mathlib's `DirectLimit` of a directed system of elementary embeddings.
+  (Tarski's chain lemma, Tent–Ziegler Thm. 2.1.4). The chain lemma for Mathlib's `DirectLimit` of a
+  directed system of elementary embeddings is the first-order instance of InfinitaryModelExistence
+  §2.4 (`aElementary_of_cocone`, `aElementary_directLimit_of`), for its first-order image fragment
+  (its §1.2). The target here is the bridge: an embedding is an `ElementaryEmbedding` if and only
+  if it is `AElementary` for the first-order image fragment. InfinitaryModelExistence §2.1 gives
+  the forward direction.
 - With the size bound: for an infinite cardinal `λ ≥ #L`, a structure of cardinality at most
-  `2^λ` has a `λ⁺`-saturated elementary extension of cardinality `2^λ` (Tent–Ziegler Lem. 6.1.2).
-  For every infinite `κ`, `M` has a `κ⁺`-saturated elementary extension of cardinality at most
-  `#M ^ κ` (Marker Thm. 4.3.12).
+  `2^λ` has a `λ⁺`-saturated elementary extension of cardinality at most `2^λ` (Tent–Ziegler
+  Lem. 6.1.2). For every infinite `κ ≥ #L`, `M` has a `κ⁺`-saturated elementary extension of
+  cardinality at most `#M ^ κ` (Marker Thm. 4.3.12). The hypothesis on `#L` is needed: for `M = ℕ`
+  with a unary predicate for every subset and `κ = ℵ₀`, an `ℵ₁`-saturated extension realizes the
+  `2^(2^ℵ₀)` ultrafilters on `ℕ` as pairwise incompatible types over `∅`.
 
 ### 0.4 Ultraproducts
 
@@ -157,7 +169,8 @@ with `i ∈ Iₖ` and `{φ₁, …, φₖ}` realized in `M i`. Łoś's theorem i
 
 Mathlib `Theory.CompleteType`, `Theory.typeOf`, `completeTheory`, `ElementaryEmbedding`,
 `Ultraproduct.sentence_realize`, `Filter.Product`, `CountableInterFilter`, `DirectLimit`,
-`exists_elementaryEmbedding_card_eq`, `isSatisfiable_iff_isFinitelySatisfiable`.
+`exists_elementaryEmbedding_card_eq`, `isSatisfiable_iff_isFinitelySatisfiable`;
+InfinitaryModelExistence §1.2 (the first-order image fragment), §2.1 and §2.4.
 
 ## Layer 1: back-and-forth families
 
@@ -182,9 +195,9 @@ Mathlib `Theory.CompleteType`, `Theory.typeOf`, `completeTheory`, `ElementaryEmb
 
 The restrictions of the members of a back-and-forth family to finitely generated substructures of
 their domains form a potential isomorphism in the sense of Tau Ceti's
-`TauCeti.PotentialIso`. With Tau Ceti's `PotentialIso.infEquivAt` and
-`InfEquivAt.elementarilyEquivalent`, this gives a second proof of `M ≅[L] N`; the theorem is
-`IsBackAndForth.potentialIso`.
+`TauCeti.PotentialIso`; the theorem is `IsBackAndForth.potentialIso`. For relational languages,
+Tau Ceti's `PotentialIso.infEquivAt` and `InfEquivAt.elementarilyEquivalent` then give a second
+proof of `M ≅[L] N`.
 
 **Checks.**
 
@@ -214,7 +227,8 @@ Mathlib `PartialEquiv`, `PartialEquiv.toEquiv`, `PartialEquiv.toEmbeddingOfEqTop
 
 ### 2.2 The Mathlib criteria
 
-Built here with the names and statements of mathlib4#41114–#41115:
+Built here with the names and statements of the Mathlib series (these are its names, and only
+the second is prototyped in `Suggested.lean`):
 
 - `hasQuantifierElimination_iff_finite_isQFEquivalent`: finitely many free variables suffice;
 - `hasQuantifierElimination_iff_ex_isQFEquivalent_of_isQF`: elimination of one existential
@@ -242,10 +256,10 @@ generated by the constants are isomorphic in all models (Tent–Ziegler Lem. 3.2
 
 ### 2.5 Model completeness
 
-`IsModelComplete T`: every embedding between models of `T` is elementary.
+`IsModelComplete T`: every embedding between nonempty models of `T` is elementary.
 
 - *Robinson's test* (Tent–Ziegler Lem. 3.2.7; Marker Exercise 3.4.12(b), (d)). The following are equivalent: `T` is model
-  complete; for every embedding `M ↪ N` of models of `T`, an existential formula with parameters
+  complete; for every embedding `M ↪ N` of nonempty models of `T`, an existential formula with parameters
   from `M` that holds in `N` holds in `M`; every formula is equivalent modulo `T` to a universal
   formula (Mathlib `BoundedFormula.IsUniversal`); every formula is equivalent modulo `T` to an
   existential one.
@@ -273,7 +287,10 @@ to equivalence of theories (Tent–Ziegler Thm. 3.2.9).
   `Multiplicative (2ℤ) ↪ Multiplicative ℤ` is an embedding of models, since `2ℤ ≅ ℤ`, and the
   image of the least element `> 1` of `2ℤ` is not least in `ℤ`. In `zGroupLang` this inclusion is
   not an embedding, since it does not preserve `ϖ`.
-- Dense linear orders without endpoints: quantifier elimination agrees with mathlib4#41116.
+- Dense linear orders without endpoints: quantifier elimination agrees with the Mathlib series.
+- The empty order is a model of Mathlib's `dlo` (no axiom asserts existence), and the empty map
+  into `ℚ` is an embedding that does not preserve `∃ x, ⊤`. Model completeness of `dlo` holds only
+  because `IsModelComplete` quantifies over nonempty models.
 
 ### Dependencies
 
@@ -290,7 +307,8 @@ of an ordered group from Tau Ceti's `TauCeti.Group.structureOfGroup` and Mathlib
 `Theory.group` along `LHom.sumInl`, commutativity, Mathlib's `linearOrderTheory` for the sum
 language, and `x ≤ y → x * z ≤ y * z`. The bridge, in both directions: a model of
 `Theory.orderedAbelianGroup` is an ordered abelian group with the given operations and order,
-and an ordered abelian group is a model.
+and an ordered abelian group is a model. The theories `Theory.orderedAbelianGroup`, `Theory.doag`
+and `Theory.zGroup` of this layer are proposed names; `Suggested.lean` does not declare them.
 
 ### 3.2 Divisible ordered abelian groups
 
@@ -306,7 +324,8 @@ nontrivial ordered abelian groups with `RootableBy Γ ℕ`.
 
 ### 3.3 `ℤ`-groups
 
-`IsZGroup Γ`: there is `ϖ > 1` below every element greater than `1`, and for every `n > 0` every
+`IsPresburgerGroup Γ` (the name keeps apart Mathlib's `IsZGroup`, a group whose Sylow subgroups
+are cyclic): there is `ϖ > 1` below every element greater than `1`, and for every `n > 0` every
 element is `ϖᵏ·δⁿ` for some `k < n`. Then `[Γ : Γⁿ] = n` with coset representatives
 `1, ϖ, …, ϖⁿ⁻¹`, since a power `ϖᵏ = δⁿ` with `0 < k < n` would force `ϖ ≤ δ` and `δⁿ > ϖᵏ`.
 `Theory.zGroup` axiomatizes `ℤ`-groups in `orderedGroup`, with the least element `ϖ` existentially
@@ -319,7 +338,7 @@ quantified in each axiom.
 - The theory of `ℤ`-groups is complete in `zGroupLang` and in `orderedGroup`, and `Multiplicative
   ℤ` is its prime model: it embeds into every `ℤ`-group, and in `zGroupLang` the embedding is
   elementary.
-- `Γ ≅[orderedGroup] Multiplicative ℤ ↔ IsZGroup Γ`. The `ℤ`-groups are Robinson–Zakon's
+- `Γ ≅[orderedGroup] Multiplicative ℤ ↔ IsPresburgerGroup Γ`. The `ℤ`-groups are Robinson–Zakon's
   regularly discrete groups (Def. 3.3(iii)), whose axioms are complete (Thm. 4.4), so that all of
   them are elementarily equivalent (Thm. 4.7).
 - The theory of `ℤ`-groups in `zGroupLang` is model complete.
@@ -356,25 +375,32 @@ Mathlib `Language.order`, `orderStructure`, `linearOrderTheory`, `Language.sumSt
 
 ### 4.1 Effective codings
 
-For an effective language, `Primcodable` instances on `L.Term α`, `Σ n, L.BoundedFormula α n`,
-`L.Formula α` and `L.Sentence` for `Primcodable α`, built on Mathlib's `Term.listEncode` and
-`BoundedFormula.listEncode`. The constructors (`equal`, `rel`, `imp`, `all`, `falsum`), `not`,
-`relabel`, `toFormula` and the substitution of SequentCalculusAndCutElimination's `inst` are
-primitive recursive, and `IsQF` and `IsAtomic` are decidable by computable predicates.
+The coding of terms and formulas, its round-trip laws, the computability of the term and formula
+constructors and of case analysis on codes, and the computable validity test and decoding map are
+RandomGraphs §5.2 (`boundedCode`, `boundedDecode`, `computable_termCode`,
+`computable_boundedCode`), for every effectively presented language. The targets here are what
+this layer adds on top of that coding, for an effectively presented language:
+
+- negation `∼` and the substitution `inst` of SequentCalculusAndCutElimination are computable on
+  codes, and `IsQF` and `IsAtomic` are computable predicates of codes;
+- the set of codes of sentences (formulas over `Fin 0` with no bound positions) is computable, and
+  a theory is coded by the set of codes of its sentences, as in the conventions.
 
 ### 4.2 Consequences of an enumerable theory
 
-If `T` is recursively enumerable, then so is `{φ : L.Sentence | T ⊨ᵇ φ}`. The proof enumerates
-pairs of a finite `T₀ ⊆ T` and a cut-free derivation of the sequent `T₀ ⇒ φ`, using
-SequentCalculusAndCutElimination's completeness for theories
+If `T` is recursively enumerable, then so is the set of codes of the sentences `φ` with
+`T ⊨ᵇ φ`. The proof enumerates pairs of a finite `T₀ ⊆ T` and a cut-free derivation of the
+sequent `T₀ ⇒ φ`, using SequentCalculusAndCutElimination's completeness for theories
 (`models_iff_exists_cutRank_eq_zero`). The targets here are a `Primcodable` coding of
-`Σ Γ Δ, LKDerivation Γ Δ` and the computability of its end sequent and cut rank.
+`Σ Γ Δ, LKDerivation Γ Δ`, with sequents coded through `boundedCode`, and the computability of its
+end sequent and cut rank.
 
 ### 4.3 Complete enumerable theories are decidable
 
-If `T` is complete and recursively enumerable, then `ComputablePred (T ⊨ᵇ ·)`. For each `φ`
-exactly one of `T ⊨ᵇ φ` and `T ⊨ᵇ ∼φ` holds, both sets are recursively enumerable by 4.2, and
-Mathlib's `ComputablePred.computable_iff_re_compl_re` applies.
+If `T` is complete and recursively enumerable, then `T` is decidable. For each sentence `φ`
+exactly one of `T ⊨ᵇ φ` and `T ⊨ᵇ ∼φ` holds, both sets of codes are recursively enumerable by
+4.2, the set of sentence codes is computable by 4.1, and Mathlib's
+`ComputablePred.computable_iff_re_compl_re` applies.
 
 ### 4.4 Examples
 
@@ -385,8 +411,8 @@ Mathlib's `ComputablePred.computable_iff_re_compl_re` applies.
 
 **Checks.**
 
-- The `Primcodable` instance on `L.Term α` of 4.1 has the same `encode` as Mathlib's
-  `Encodable (L.Term α)`.
+- The code of `∼φ` is the code of `φ.imp ⊥`, as computed by `computable_boundedCode` from the
+  code of `φ` and that of `⊥`.
 - A complete theory that is not recursively enumerable need not be decidable: the theory of a
   structure with one unary predicate `Pₙ` for each `n`, true of one element exactly when `n` lies
   in a fixed non-computable set, is complete and undecidable.
@@ -394,9 +420,10 @@ Mathlib's `ComputablePred.computable_iff_re_compl_re` applies.
 ### Dependencies
 
 Mathlib `Primcodable`, `Computable`, `REPred`, `ComputablePred`,
-`ComputablePred.computable_iff_re_compl_re`, `Term.listEncode`, `BoundedFormula.listEncode`,
-`Theory.ACF`, `ACF_isComplete`; SequentCalculusAndCutElimination `LKDerivation`,
-`LKDerivation.cutRank`, `models_iff_exists_cutRank_eq_zero`, `inst`; Layers 2 and 3.
+`ComputablePred.computable_iff_re_compl_re`, `Theory.ACF`, `ACF_isComplete`; RandomGraphs §5.2
+`boundedCode`, `boundedDecode`, `computable_termCode`, `computable_boundedCode`;
+SequentCalculusAndCutElimination `LKDerivation`, `LKDerivation.cutRank`,
+`models_iff_exists_cutRank_eq_zero`, `inst`; Layers 2 and 3.
 
 ## Downstream consumers
 
@@ -404,18 +431,19 @@ Mathlib `Primcodable`, `Computable`, `REPred`, `ComputablePred`,
   Layer 1 (back-and-forth families give elementary equivalence and elementary embeddings), and
   Layer 3 (the theory of `ℤ`-groups, for the value group of `ℚ_p`), with Layer 4 for the
   decidability of `Th(ℚ_p)`.
-- **PadicallyClosedFields.** Layer 2 (the saturated extension test for Macintyre's elimination,
-  model completeness and Robinson's test) and Layer 4.
+- **PadicallyClosedFields** (a planned roadmap on Macintyre's theorem and p-adically closed
+  fields). Layer 2 (the saturated extension test for Macintyre's elimination, model completeness
+  and Robinson's test) and Layer 4.
 - **LogicAndDefinabilityInNumberTheory.** Its §4.31 takes `IsModelComplete` and Robinson's test
-  from 2.5. Layer 0.4 serves the ultraproduct arguments of its transfer theorems, if it adopts it.
+  from 2.5.
 
 ## Scope and ownership
 
 This roadmap owns, for arbitrary first-order languages: saturated structures, their existence and
 universality, Keisler's theorem on ultraproducts, back-and-forth families, the saturated extension
 test, model completeness with Robinson's test, model companions, the theories of ordered abelian
-groups in Layer 3, the effective coding of formulas and derivations, and decidability of complete
-recursively enumerable theories.
+groups in Layer 3, the effective coding of theories and derivations on top of RandomGraphs'
+coding of formulas, and decidability of complete recursively enumerable theories.
 
 Boundaries:
 
@@ -423,12 +451,16 @@ Boundaries:
   complete types, elementary embeddings and substructures, partial equivalences, Fraïssé theory,
   the completeness of `Theory.ACF`, and Presburger definability on `ℕ`
   (`presburger.definable_iff_isSemilinearSet`).
-- **mathlib4#41112–#41116** own the design of quantifier elimination and its criteria
-  (Layer 2.1–2.2) and the elimination for dense linear orders. Tau Ceti builds 2.1–2.2 in their
-  shape and adopts Mathlib's declarations when they land.
+- **The Mathlib quantifier elimination series** owns the design of quantifier elimination and its
+  criteria (Layer 2.1–2.2) and the elimination for dense linear orders. Tau Ceti builds 2.1–2.2 in
+  its shape.
 - **Tau Ceti's infinitary logic** (Completed/InfinitaryLogic, CountableModelCounting,
   InfinitaryModelExistence) owns `L∞ω`, Scott sentences, potential isomorphisms and Karp's
-  theorem. Layer 1 is the first-order form and is compared with them in 1.3.
+  theorem, and fragment-elementary embeddings with their directed unions and direct limits.
+  Layer 1 is the first-order form of back-and-forth and is compared with them in 1.3; the chain
+  lemma of 0.3 is the first-order instance of InfinitaryModelExistence §2.4.
+- **RandomGraphs** owns the effective coding of first-order formulas for a general language (its
+  §5.2). Layer 4 codes theories and derivations on top of it.
 - **SequentCalculusAndCutElimination** owns the sequent calculus, its soundness and completeness,
   and cut elimination. Layer 4 adds only codings and computability.
 - **RealAlgebraicGeometry** owns real semialgebraic geometry and its quantifier elimination over
@@ -450,8 +482,7 @@ Boundaries:
   `Ultraproduct.realize_formula_cast`, `CountableInterFilter`.
 - `PartialEquiv`, `PartialEquiv.toEquiv`, `PartialEquiv.toEmbeddingOfEqTop`, `FGEquiv`,
   `IsExtensionPair`, `Substructure.FG`, `Substructure.closure`.
-- `BoundedFormula.IsQF`, `IsAtomic`, `IsUniversal`, `IsExistential`, `Term.listEncode`,
-  `BoundedFormula.listEncode`.
+- `BoundedFormula.IsQF`, `IsAtomic`, `IsUniversal`, `IsExistential`.
 - `Language.order`, `orderStructure`, `linearOrderTheory`, `Language.sumStructure`, `dlo`.
 - `RootableBy`, `IsOrderedMonoid`, `Multiplicative`.
 - `Primcodable`, `REPred`, `ComputablePred`, `ComputablePred.computable_iff_re_compl_re`.
@@ -459,7 +490,9 @@ Boundaries:
 
 ### From the Mathlib quantifier elimination series
 
-mathlib4#41112–#41116 (shape only): `Theory.IsQFEquivalent`, `Theory.HasQuantifierElimination`,
+The series [mathlib4#41112](https://github.com/leanprover-community/mathlib4/pull/41112)–#41116,
+file `Mathlib/ModelTheory/QuantifierElimination.lean` (shape only): `Theory.IsQFEquivalent`,
+`Theory.HasQuantifierElimination`,
 `hasQuantifierElimination_iff_finite_isQFEquivalent`,
 `hasQuantifierElimination_iff_ex_isQFEquivalent_of_isQF`,
 `isQFEquivalent_iff_realize_iff_of_embeddings`,
@@ -475,6 +508,22 @@ mathlib4#41112–#41116 (shape only): `Theory.IsQFEquivalent`, `Theory.HasQuanti
   (`TauCeti/ModelTheory/BackAndForth/Karp.lean`).
 - `elementarilyEquivalent_int_sumLex_int`, `not_potentialIso_int_sumLex_int`
   (`TauCeti/ModelTheory/BackAndForth/DiscreteOrder.lean`), for the Checks of Layer 1.
+- `AElementary`, `aElementary_iSup` (`TauCeti/ModelTheory/ModelExistence/AElementary.lean`,
+  `DirectedUnion.lean`).
+
+### From InfinitaryModelExistence
+
+The first-order image fragment (§1.2); agreement of elementary embeddings with `AElementary` for
+it (§2.1); `aElementary_of_cocone` and `aElementary_directLimit_of`: for a directed system of
+`A`-elementary embeddings, the maps into Mathlib's `DirectLimit` are `A`-elementary (§2.4).
+
+### From RandomGraphs
+
+§5.2, for an effectively presented language (`Primcodable` symbol families, arity computable from
+the code): `boundedCode` and `boundedDecode` with `boundedDecode_boundedCode` and
+`boundedDecode_eq_some_iff`; `computable_termCode`; `computable_boundedCode` (the formula
+constructors and case analysis on the outermost constructor are computable on codes); the
+computable validity test and decoding map.
 
 ### From SequentCalculusAndCutElimination
 

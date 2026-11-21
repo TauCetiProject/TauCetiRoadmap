@@ -2,7 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.ModelTheory.Algebra.Group.Basic
-public import TauCeti.ModelTheory.BackAndForth.Karp
 public import TauCeti.ModelTheory.BackAndForth.PotentialIso
 
 /-!
@@ -15,13 +14,14 @@ The file pins the carriers of Layers 0–3: saturated structures `IsSaturated`, 
 families `IsBackAndForth`, quantifier elimination and model completeness, and the language
 `orderedGroup` of ordered abelian groups in multiplicative notation with its Presburger expansion
 `zGroupLang`. Quantifier elimination is stated with local copies of `IsQFEquivalent` and
-`HasQuantifierElimination` shaped as in mathlib4#41113; when that series lands they are replaced
-by Mathlib's `FirstOrder.Language.Theory.IsQFEquivalent` and
-`FirstOrder.Language.Theory.HasQuantifierElimination`.
+`HasQuantifierElimination` shaped as `FirstOrder.Language.Theory.IsQFEquivalent` and
+`FirstOrder.Language.Theory.HasQuantifierElimination` of the Mathlib quantifier elimination series
+(file `Mathlib/ModelTheory/QuantifierElimination.lean`), which they are replaced by once Mathlib has
+them. Models of a theory are nonempty, as in Mathlib's `Theory.ModelType`.
 
-Layer 4 (effective codings of formulas and decidability) is stated in `README.md` only: the pinned
-Mathlib has no `Primcodable` instance for formulas and no proof calculus, and the calculus is
-SequentCalculusAndCutElimination's, which is not on main.
+Layer 4 (effective codings of theories and derivations, and decidability) is stated in `README.md`
+only: it is stated on RandomGraphs' coding of formulas and SequentCalculusAndCutElimination's proof
+calculus, neither of which is in the pinned Tau Ceti.
 
 Suggested homes: `TauCeti/ModelTheory/Saturation.lean`, `TauCeti/ModelTheory/BackAndForth/Family.lean`,
 `TauCeti/ModelTheory/ModelComplete.lean` and `TauCeti/ModelTheory/Algebra/OrderedGroup/`.
@@ -52,10 +52,6 @@ def IsSaturated (κ : Cardinal.{w}) (M : Type w) [L.Structure M] [Nonempty M] : 
 
 variable {M : Type w} [L.Structure M] [Nonempty M]
 
-theorem IsSaturated.mono {κ κ' : Cardinal.{w}} (h : κ' ≤ κ) (hM : IsSaturated (L := L) κ M) :
-    IsSaturated (L := L) κ' M :=
-  sorry
-
 /-- **0.1** A `κ`-saturated structure realizes every complete `n`-type over fewer than `κ`
 parameters, for every finite `n`. -/
 theorem IsSaturated.exists_typeOf_eq {κ : Cardinal.{w}} (hκ : ℵ₀ ≤ κ)
@@ -81,13 +77,13 @@ theorem exists_elementaryEmbedding_isSaturated (M : Type w) [L.Structure M] [Non
 
 /-- **0.4** Keisler: over a countable language, an ultraproduct along an ultrafilter that is not
 countably complete is `ℵ₁`-saturated. -/
-theorem isSaturated_aleph_one_product [Countable L.Symbols] {ι : Type w} (U : Ultrafilter ι)
+theorem isSaturated_aleph_one_product [Countable L.Symbols] {ι : Type w'} (U : Ultrafilter ι)
     (hU : ¬ CountableInterFilter (U : Filter ι)) (M : ι → Type w) [∀ i, L.Structure (M i)]
     [∀ i, Nonempty (M i)] :
-    IsSaturated (L := L) (aleph 1) ((U : Filter ι).Product M) :=
+    IsSaturated (L := L) (aleph.{max w' w} 1) ((U : Filter ι).Product M) :=
   sorry
 
-/-- **0.5** Elementarily equivalent saturated structures of the same infinite cardinality are
+/-- **0.2** Elementarily equivalent saturated structures of the same infinite cardinality are
 isomorphic. -/
 theorem IsSaturated.nonempty_equiv [Infinite M] {N : Type w} [L.Structure N] [Nonempty N]
     (hM : IsSaturated (L := L) #M M) (hN : IsSaturated (L := L) #N N) (hcard : #M = #N)
@@ -142,16 +138,16 @@ section Layer2
 variable {L : FirstOrder.Language.{u, v}}
 
 /-- **2.1** A formula is equivalent over `T` to a quantifier-free formula. Local copy of the
-declaration of mathlib4#41113. -/
+declaration of the Mathlib quantifier elimination series. -/
 def IsQFEquivalent (T : L.Theory) {α : Type*} (φ : L.Formula α) : Prop :=
   ∃ ψ : L.Formula α, ψ.IsQF ∧ φ ⇔[T] ψ
 
-/-- **2.1** Quantifier elimination. Local copy of the declaration of mathlib4#41113. -/
+/-- **2.1** Quantifier elimination. Local copy of the declaration of the Mathlib series. -/
 def HasQuantifierElimination (T : L.Theory) : Prop :=
   ∀ {α : Type} (φ : L.Formula α), IsQFEquivalent T φ
 
 /-- **2.2** Elimination of one existential quantifier from quantifier-free formulas suffices
-(mathlib4#41115; Tent–Ziegler Lem. 3.2.4). -/
+(the Mathlib series; Tent–Ziegler Lem. 3.2.4). -/
 theorem hasQuantifierElimination_iff_ex_isQFEquivalent_of_isQF {T : L.Theory} :
     HasQuantifierElimination T ↔
       ∀ {α : Type} [Finite α] (θ : L.BoundedFormula α 1), θ.IsQF → IsQFEquivalent T θ.ex :=
@@ -178,10 +174,12 @@ theorem HasQuantifierElimination.isComplete {T : L.Theory} (hT : HasQuantifierEl
     T.IsComplete :=
   sorry
 
-/-- **2.5** A theory is model complete when every embedding between two of its models is
-elementary. -/
+/-- **2.5** A theory is model complete when every embedding between two of its nonempty models is
+elementary. Without `Nonempty`, the empty model of `Language.order.dlo` and its embedding into `ℚ`
+would make `dlo` fail to be model complete. -/
 def IsModelComplete (T : L.Theory) : Prop :=
-  ∀ (M N : Type (max u v)) [L.Structure M] [L.Structure N] [M ⊨ T] [N ⊨ T] (f : M ↪[L] N)
+  ∀ (M N : Type (max u v)) [L.Structure M] [L.Structure N] [M ⊨ T] [N ⊨ T] [Nonempty M]
+    [Nonempty N] (f : M ↪[L] N)
     {α : Type} (φ : L.Formula α) (x : α → M), φ.Realize (f ∘ x) ↔ φ.Realize x
 
 /-- **2.5** Robinson's test: `T` is model complete if and only if every formula is equivalent over
@@ -196,11 +194,12 @@ existential formula with parameters in a model `M` that holds in an extension `N
 in `M`. -/
 theorem isModelComplete_iff_forall_isExistential {T : L.Theory} :
     IsModelComplete T ↔
-      ∀ (M N : Type (max u v)) [L.Structure M] [L.Structure N] [M ⊨ T] [N ⊨ T] (f : M ↪[L] N)
-        {α : Type} (φ : L.Formula α), φ.IsExistential → ∀ x : α → M,
+      ∀ (M N : Type (max u v)) [L.Structure M] [L.Structure N] [M ⊨ T] [N ⊨ T] [Nonempty M]
+        [Nonempty N] (f : M ↪[L] N) {α : Type} (φ : L.Formula α), φ.IsExistential → ∀ x : α → M,
           φ.Realize (f ∘ x) → φ.Realize x :=
   sorry
 
+/-- **2.5** Quantifier elimination implies model completeness (Marker Prop. 3.1.14). -/
 theorem HasQuantifierElimination.isModelComplete {T : L.Theory}
     (hT : HasQuantifierElimination T) : IsModelComplete T :=
   sorry
@@ -233,7 +232,7 @@ attribute [local instance] orderedGroupStructure
 /-- **3.3** A `ℤ`-group: an ordered abelian group with a least element `ϖ > 1` such that, for every
 `n > 0`, every element is `ϖ^k · δ^n` for some `k < n`. Equivalently `[Γ : Γⁿ] = n` with
 representatives `1, ϖ, …, ϖ^(n-1)`. -/
-def IsZGroup (Γ : Type*) [CommGroup Γ] [LinearOrder Γ] : Prop :=
+def IsPresburgerGroup (Γ : Type*) [CommGroup Γ] [LinearOrder Γ] : Prop :=
   ∃ ϖ : Γ, 1 < ϖ ∧ (∀ γ : Γ, 1 < γ → ϖ ≤ γ) ∧
     ∀ n : ℕ, 0 < n → ∀ γ : Γ, ∃ k < n, ∃ δ : Γ, γ = ϖ ^ k * δ ^ n
 
@@ -254,7 +253,7 @@ theorem hasQuantifierElimination_completeTheory_multiplicative_rat :
 if it is a `ℤ`-group. -/
 theorem elementarilyEquivalent_multiplicative_int_iff (Γ : Type*) [CommGroup Γ] [LinearOrder Γ]
     [IsOrderedMonoid Γ] :
-    Γ ≅[orderedGroup] Multiplicative ℤ ↔ IsZGroup Γ :=
+    Γ ≅[orderedGroup] Multiplicative ℤ ↔ IsPresburgerGroup Γ :=
   sorry
 
 /-- The relation symbols of the Presburger expansion: a unary predicate `Dₙ` for every `n`. -/
@@ -276,9 +275,14 @@ abbrev zGroupLang : Language := orderedGroup.sum ⟨PiConst, DivRel⟩
     { funMap := fun {n} f _ => match n, f with | _, .pi => ϖ
       RelMap := fun {n} r x => match n, r with | _, .dvd k => ∃ y : Γ, y ^ k = x 0 }
 
+/-- **3.3** The `zGroupLang`-structure of `ℤ`, with `ϖ = 1`. -/
+@[instance_reducible] def intZGroupStructure : zGroupLang.Structure (Multiplicative ℤ) :=
+  zGroupStructure (Multiplicative ℤ) (Multiplicative.ofAdd 1)
+
+attribute [local instance] intZGroupStructure
+
 /-- **3.3** In the Presburger expansion, the complete theory of `ℤ` eliminates quantifiers. -/
 theorem hasQuantifierElimination_completeTheory_multiplicative_int :
-    letI := zGroupStructure (Multiplicative ℤ) (Multiplicative.ofAdd 1)
     HasQuantifierElimination (zGroupLang.completeTheory (Multiplicative ℤ)) :=
   sorry
 
