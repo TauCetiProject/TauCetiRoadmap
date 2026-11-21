@@ -1,58 +1,75 @@
 # Roadmap: prime products in short intervals
 
-**Summary.** A mean-square bound for primes in a moving interval can give a pointwise lower bound for the number of products of two primes near a prescribed real number. The starts of the two factor intervals are coupled: they are $t$ and $x/t$. This roadmap develops the measure estimates and the finite counting argument that turn information about the two factors into a bound for distinct products.
+**Summary.** How many distinct products of two primes lie just above a given real number x? The two factor intervals start at t and x/t. A mean-square estimate for primes shows that, for many t, both intervals contain enough primes. Bounding the length of time for which a given pair is counted turns this into a lower bound for the number of distinct products.
 
-Erdős and Graham ask about a short sum of least-prime-factor weights. The interval sum on page 92 includes primes. For the composite-only reading, Tao pointed to semiprimes with both factors of size $x^{1/2}(\log x)^{O(1)}$. Zhang records the observation in §1.1. The application here counts the subset whose factors lie within fixed multiples of $\sqrt{x}$. Assuming the explicit relative theta estimate of Chirre and Hagen, every real $x\ge9.6\cdot10^{37}$ has at least $(14/3)\sqrt{x}$ balanced semiprimes strictly between $x$ and $x+384\sqrt{x}(\log x)^2$. Their total least-prime-factor weight is at least $14/9$. Chirre and Hagen prove the input under classical RH. The formal target here takes the integral bound as a hypothesis.
+Assume the relative mean-square estimate of Chirre and Hagen stated in Layer 3. For every real x ≥ 9.6 · 10³⁷, the open interval from x to x + 384√x (log x)² contains at least (14/3)√x distinct products pq of primes with √x/2 < q < √x < p < 3√x. The sum of their least prime factors divided by the respective products is at least 14/9. Chirre and Hagen establish the input under the classical Riemann hypothesis.
 
-The ExplicitPrimeCounting roadmap develops bounds for prime-counting functions. This roadmap uses Mathlib's same Chebyshev function and measures its increments. The Selberg sieve in Tau Ceti gives upper bounds for primes in single intervals. The counting argument here needs lower bounds at two linked starts; an upper-bound sieve does not provide them. The first layer controls the starts where a prime interval is deficient, the second integrates over the starts of a fixed prime pair, and the third specializes both estimates.
+Erdős and Graham's printed interval sum includes all integers. For the composite-only reading, Tao pointed to semiprimes with both factors of size √x times a power of log x, allowing bounded positive or negative exponents. Zhang records the observation in §1.1. The bounds above count products with both factors within fixed multiples of √x.
+
+The [ExplicitPrimeCounting roadmap](../ExplicitPrimeCounting/README.md) studies bounds for prime-counting functions. Here the input concerns increments of Mathlib’s Chebyshev theta function. Layer 1 of [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md) develops Brun and Selberg sieves. An upper bound for a sifted set alone cannot supply the lower bounds at two linked starts needed here. Layer 1 controls the exceptional starts, Layer 2 measures the contribution of each pair and Layer 3 combines the estimates.
 
 ## Conventions
 
-All logarithms are natural and all start variables are real. Write $\theta(y)=\sum_{p\le y}\log p$ and $A_d(t)=\#\{p:t<p\le(1+d)t\}$. Use ordinary Lebesgue measure, written $|E|$. The relative Selberg integral is
-$$J(Y,d)=\int_1^Y\big(\theta((1+d)v)-\theta(v)-dv\big)^2\,dv,$$
-used with $Y\ge1$ and $d\ge0$. We order a pair as $(p,q)$ with the larger prime first. The final product interval is open at both ends.
+All logarithms are natural. The variables x, t, v, Y and d are real. Write θ(y) for the sum of log p over primes p ≤ y, and A_d(v) for the number of primes in (v,(1+d)v]. Use Lebesgue measure for lengths and write |E| for the measure of E. For Y ≥ 1 and d ≥ 0, set
+
+```text
+J(Y,d) = ∫₁^Y (θ((1+d)v) − θ(v) − d v)² dv.
+```
+
+Prime factors are natural numbers. In the final count the larger factor is p, and both ends of the product interval are open.
 
 ## Layer 1: prime windows and exceptional starts
 
-1. Express a theta increment on $(a,b]$ as a sum of prime logarithms, for $0\le a\le b$. If $b\le B$ and $B>1$, divide by $\log B$ to obtain a lower bound on the prime count. Establish measurability of the increment and integrability of its squared error on bounded intervals of positive starts.
-2. Given $1\le a\le b\le Y$, put $E=\{v\in(a,b]:\theta((1+d)v)-\theta(v)<dv/2\}$. Prove $(da/2)^2|E|\le J(Y,d)$ by restricting the integral to $E$. Keep this statement usable for arbitrary $a,b,Y,d$ in those ranges.
-3. If $N>0$ and $E$ is measurable with $v\ge N/2$ on $E$, prove $|\{N^2/v:v\in E\}|\le4|E|$. The map is injective there and its derivative has absolute value at most four. For positive $N$, its image of $[N/2,2N/3]$ is exactly $[3N/2,2N]$.
+1. For 0 ≤ a ≤ b, express θ(b) − θ(a) as a sum over primes in (a,b]. If b ≤ B and B > 1, dividing the increment by log B gives a lower bound for their number. Establish measurability of the increment as a function of the start and integrability of its squared error on bounded intervals of positive starts.
+2. For 1 ≤ a ≤ b ≤ Y and d ≥ 0, let E consist of the v in (a,b] for which θ((1+d)v) − θ(v) < d v/2. The absolute error on E is at least d a/2. By restricting the integral to E, prove (d a/2)² |E| ≤ J(Y,d). Henriksson uses this estimate for each of two bands in §2, between (2) and (3). [Manuscript, p. 2](https://doi.org/10.5281/zenodo.24416597)
+3. For N > 0 and measurable E contained in [N/2,∞), prove that the image of E under v ↦ N²/v has measure at most 4|E|. On that half-line the map is injective and its derivative has absolute value at most four. It takes [N/2,2N/3] onto [3N/2,2N]. This controls the loss in good starts in §2, immediately before (3). [Manuscript, p. 2](https://doi.org/10.5281/zenodo.24416597)
 
-## Layer 2: count distinct products by integrating over the starts
+## Layer 2: count distinct products by integrating over starts
 
-Fix $x>0$, $u=1+d>1$, and a positive band $[a,b]$. A pair $(p,q)$ is present when $t<p\le ut$ and $x/t<q\le ux/t$. Prove the identity
-$$\{t\in[a,b]: (p,q)\text{ is present}\}
-   =[a,b]\cap[p/u,p)\cap(x/q,ux/q]$$
-for positive factors and starts. Its length is at most $db$ when it is nonempty, since $p\le ub$ and $p-p/u\le db$. Sum the indicators over a finite family of pairs before integrating. This gives an upper bound on the integrated pair count in terms of the number of pairs and $db$. For disjoint larger- and smaller-factor bands, prove injectivity of $(p,q)\mapsto pq$ by unique prime factorization.
+Fix x > 0, d > 0, u = 1+d and 0 < a ≤ b. Positive factors p and q occupy their two windows when t < p ≤ ut and x/t < q ≤ ux/t. Clearing denominators gives their common set of starts:
 
-**Endpoint check.** At $x=35$, $u=2$, $p=7$, $q=5$ and $[a,b]=[3,8]$, the parameter set is empty: the larger factor requires $t<7$, while the smaller requires $t>7$. At the same $x,u,p$ with $q=11$, the parameter set is $[7/2,70/11]$. This second check concerns the geometric identity, which allows either factor order.
+```text
+{t ∈ [a,b] : t < p ≤ ut and x/t < q ≤ ux/t}
+    = [a,b] ∩ [p/u,p) ∩ (x/q,ux/q].
+```
 
-## Layer 3: two-scale lower bounds
+The length bound is the useful estimate. If the set is nonempty, then p/u ≤ b, so its length is at most p − p/u = d p/u ≤ d b. The empty set also satisfies the bound. Sum the indicators over any finite family of eligible prime pairs and integrate. Each pair contributes at most d b, so the integral is at most d b times the number of pairs. For disjoint larger- and smaller-factor bands, unique factorization makes (p,q) ↦ pq injective. In §2 this upper bound is combined with the incidence lower bound (4). [Manuscript, pp. 2–3](https://doi.org/10.5281/zenodo.24416597)
 
-Use $N=\sqrt{x}$, $L=\log N$, and $d=512L^2/N$. At a single $x$, assume $J(Y,d)\le3dY^2L^2$ for both $Y=2N$ and $2N/3$. Apply Layer 1 on the bands $[3N/2,2N]$ and $[N/2,2N/3]$. Each exceptional set has length at most $N/24$; pulling the smaller one back costs at most a factor four. At least $7N/24$ of the larger band supplies two good starts. At each one there are at least $d^2N^2/(16L^2)$ pairs. By Layer 2 a fixed pair contributes at most $2dN$ to the integral. Dividing gives the lower bound $(14/3)N$ for the number of distinct products.
+**Endpoint check.** With x = 35, u = 2, p = 7, q = 5 and [a,b] = [3,8], the common set is empty: the first window requires t < 7, the second t > 7. With q = 11 instead, the common set is [7/2,70/11]. The identity permits either order of the factors.
 
-Check the parameters for all real $x\ge96\cdot10^{36}$. Derive the two local estimates from the following global hypothesis: whenever $Y\ge10^{13}$ and $0<d\le10^{-13}$,
-$$J(Y,d)\le 2.5571\,dY^2\log^2(2.0001/d).$$
-State the two-scale theorem separately so a different mean-square estimate can supply its input. Prove $N/2<q<N<p<3N$ and $x<pq\le(1+d)^2x<x+3dx$. Since $3dx=384\sqrt{x}(\log x)^2$ and each product contributes $1/p\ge1/(3N)$, these same products give the weight lower bound $14/9$.
+## Layer 3: two-scale and global bounds
+
+**Two scales.** For real x ≥ 9.6 · 10³⁷, set N = √x, L = log N and d = 512 L²/N. The theorem `bounds_of_two_scales` assumes J(Y,d) ≤ 3 d Y² L² at Y = 2N and Y = 2N/3. This is the part of the proof of Henriksson’s Theorem 1.1 starting at (2). [Manuscript, §2, pp. 2–3](https://doi.org/10.5281/zenodo.24416597)
+
+Apply Layer 1 on [3N/2,2N] and [N/2,2N/3]. Each exceptional set has measure at most N/24. Pulling back the second through t ↦ x/t costs at most 4N/24. At least 7N/24 of the larger band therefore supplies two good starts, each contributing at least d²N²/(16L²) pairs. By Layer 2 a fixed pair contributes at most 2dN to the integral. Dividing gives at least (14/3)N distinct products. The bounds N/2 < q < N < p < 3N give a weight of 1/p ≥ 1/(3N) per product. Since x < pq ≤ (1+d)²x < x + 3dx and 3dx = 384√x (log x)², these products give the required weight of at least 14/9 inside the open interval.
+
+**Global estimate.** The theorem `bounds_of_global_moment` assumes the following inequality for all real Y and d in the stated range. Chirre and Hagen prove it under RH in §4, Theorem 3. [Published theorem](https://doi.org/10.1007/s40993-026-00767-6)
+
+```text
+Y ≥ 10¹³,   0 < d ≤ 10⁻¹³
+J(Y,d) ≤ 2.5571 d Y² (log(2.0001/d))².
+```
+
+Deduce the hypotheses at both scales for every real x ≥ 9.6 · 10³⁷. With B = 9797 · 10¹⁵ one has B² < 9.6 · 10³⁷ and log B < 656/15. The function (log N)²/N decreases for N > e². Thus d ≤ 512(656/15)²/B < 10⁻¹³ and 2N/3 ≥ 10¹³. Since 2.0001 < dN, one has 0 < log(2.0001/d) ≤ L, giving 2.5571 (log(2.0001/d))² ≤ 3L². Apply the two-scale theorem. This is Henriksson’s derivation of (2) from (1) in the proof of Theorem 1.1. [Manuscript, pp. 1–2](https://doi.org/10.5281/zenodo.24416597)
 
 ## Scope and ownership
 
-The new results concern exceptional starts for relative theta increments, reciprocal coupling, and the passage to distinct products. The two-scale theorem should be available without an RH hypothesis. The analytic implication from RH to the global input remains an external published result in this proposal. The scope is the explicit theorem for coefficient 384; the companion result for arbitrary fixed coefficients in the source paper uses an additional discrete moment estimate.
+The roadmap covers the relative theta increment, reciprocal coupling, the incidence argument and the explicit count and weight for coefficient 384. Both headline theorems take moment estimates as hypotheses. The passage from RH to the global estimate belongs to Chirre and Hagen. Henriksson’s Theorem 1.2, for every fixed positive coefficient, uses an additional discrete moment estimate and lies outside this roadmap. [Manuscript, Theorems 1.1–1.2](https://doi.org/10.5281/zenodo.24416597)
 
 ## Exact supplier contracts
 
-### From Mathlib: primes and Chebyshev functions
+### From Mathlib: prime counting
 
-Use `Chebyshev.theta`, `Chebyshev.theta_eq_sum_primesLE`, `Chebyshev.theta_mono`, `Nat.primesLE`, and `Nat.minFac`. Use prime divisibility of a product to identify the factors. The counted objects are a finite set of natural numbers, so bounding its cardinality counts each integer once.
+Use `Chebyshev.theta`, `Chebyshev.theta_eq_sum_primesLE`, `Chebyshev.theta_mono`, `Nat.primesLE` and `Nat.minFac`. Use prime divisibility of a product to identify the factors. The cardinality is taken over a finite set of natural numbers, counting each product once.
 
 ### From Mathlib: real integration
 
-Use `Set.Icc`, `Set.Ioc`, `Set.Ico`, `MeasureTheory.volume`, interval integration and the one-dimensional change-of-variables theorem `MeasureTheory.lintegral_image_eq_lintegral_abs_deriv_mul`. Use finite summation and the integral of a measurable indicator to pass from the support identity to the count. The shared prime-counting and sieve areas mentioned above provide context; these signatures need only Mathlib imports.
+Use `Set.Icc`, `Set.Ioc`, `Set.Ico`, `MeasureTheory.volume`, interval integration and `MeasureTheory.lintegral_image_eq_lintegral_abs_deriv_mul` for one-dimensional change of variables. Integrate a finite sum of measurable indicators to pass from the pair supports to the count. The two neighbouring roadmaps provide context. The target signatures import Mathlib alone.
 
 ## References
 
-- P. Erdős and R. L. Graham, *Old and New Problems and Results in Combinatorial Number Theory* (1980), p. 92, the weighted sum over all integers. [Original question](https://mathweb.ucsd.edu/~ronspubs/80_11_number_theory.pdf#page=88)
-- T. Tao, comment of 28 September 2025 on the prime convention and the semiprime interpretation. [Erdős Problems discussion](https://www.erdosproblems.com/forum/thread/462)
-- X. Zhang, *On the sum of least prime factors in short intervals*, §1.1. [arXiv:2608.24930v2](https://arxiv.org/abs/2608.24930v2)
-- A. Chirre and M. V. Hagen, *On Goldbach numbers in short intervals*, Theorem 3, for the global relative theta estimate under RH. [Published paper](https://doi.org/10.1007/s40993-026-00767-6)
-- A. Henriksson, *Balanced semiprimes in short intervals under the Riemann hypothesis*, Theorem 1.1 and Section 2. In the accompanying Lean 4.33.1 development, `Erdos462RH.theorem_1_1` gives the count and weight from the global theta estimate, and `Erdos462RH.composite_sum_384` gives the sum over all composites in the closed window. Its prime-power variant adapts S. Hubbard's LeanLab code; the theta-only route specified here does not need that variant. [LeanLab source for the variant](https://github.com/sthubbar/lean-lab-preprints/blob/74c2d1ab2c2716ff50d5ace219ce45eab05adb51/LeanLab/ChirreHagen2025/ThetaPsi.lean)
+- P. Erdős and R. L. Graham, *Old and New Problems and Results in Combinatorial Number Theory*, Monographie 28, L’Enseignement Mathématique, Geneva, 1980, p. 92. Only the preceding asymptotic sum carries a prime exclusion. [Graham’s UCSD bibliography](https://mathweb.ucsd.edu/~ronspubs/) · [Scan, printed p. 92](https://mathweb.ucsd.edu/~ronspubs/80_11_number_theory.pdf#page=88)
+- T. Tao, comment of 28 September 2025 on Erdős Problem 462. X. Zhang, *On the sum of least prime factors in short intervals*, §1.1, also attributes the semiprime interpretation to Tao. [Discussion](https://www.erdosproblems.com/forum/thread/462) · [arXiv:2608.24930v2](https://arxiv.org/abs/2608.24930v2)
+- A. Chirre and M. V. Hagen, *On Goldbach numbers in short intervals*, Research in Number Theory **12**, article 82 (2026), §4, Theorem 3. [DOI 10.1007/s40993-026-00767-6](https://doi.org/10.1007/s40993-026-00767-6) · [arXiv:2512.23534v1](https://arxiv.org/abs/2512.23534v1)
+- A. Henriksson, *Balanced semiprimes in short intervals under the Riemann hypothesis*, Theorem 1.1 and §2, equations (1)–(4). The page numbers above refer to the 21 November 2026 manuscript. The v2 Zenodo record contains the PDF as `Erdos-462/preprint.pdf` inside its source archive. [Revised manuscript and checks, DOI 10.5281/zenodo.24416597](https://doi.org/10.5281/zenodo.24416597)
+- A. Henriksson, *462 lean*, an earlier version of the companion Lean project. Its third-party notice identifies S. Hubbard’s Apache-2.0-licensed LeanLab code as the source of part of the alternative prime-power argument. The roadmap uses the theta estimate directly and imports no code from either project. [Earlier Lean source and notices, DOI 10.5281/zenodo.24414348](https://doi.org/10.5281/zenodo.24414348) · [Hubbard’s source](https://github.com/sthubbar/lean-lab-preprints/blob/74c2d1ab2c2716ff50d5ace219ce45eab05adb51/LeanLab/ChirreHagen2025/ThetaPsi.lean) · [LeanLab licence](https://github.com/sthubbar/lean-lab-preprints/blob/74c2d1ab2c2716ff50d5ace219ce45eab05adb51/LICENSE)
