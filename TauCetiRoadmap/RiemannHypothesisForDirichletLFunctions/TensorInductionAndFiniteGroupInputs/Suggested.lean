@@ -22,7 +22,7 @@ elements of `TauCeti.irreducibleCharacters`. Tensor induction is Tau Ceti's
   tensor induction of ArithmeticGaloisRepresentations §7.1, which (b) uses; and
   `tensorInducedClassFunction_mem_virtualCharacters` states the first sentence of (b), that the
   class function given by the same two formulas on a virtual character is a virtual character.
-* Virtual characters of norm one on a coset (6.2 (b), (c)):
+* Virtual characters of norm one on a coset (6.2 (b), (b′), (c)):
   `exists_rootOfUnity_mul_extension_eq_on_coset`.
 
 Two statable parts of these targets are not stated: the explicit expression in 6.1 (b) through
@@ -55,7 +55,8 @@ transversal `1, x, …, x^(l-1)`. For a finite-dimensional complex representatio
 character `ψ`, the representation of `G` tensor-induced along `s` has trace
 `∏_{i<l} ψ(x^i h x^(-i))` at `h ∈ H`, and trace `ψ(g^l)` at `g ∉ H`. It is the case of a normal
 subgroup of prime index of the trace formula for tensor induction of ArithmeticGaloisRepresentations
-§7.1, and the input of `tensorInducedClassFunction_mem_virtualCharacters`. -/
+§7.1, and the input of `tensorInducedClassFunction_mem_virtualCharacters`.
+The formal proof has the split case `x ^ l = 1`: a character with these values on `H` and `Hx`. -/
 theorem trace_tensorInducedRepresentation_of_index_prime {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) [H.Normal] {l : ℕ} (hl : l.Prime) (hH : H.index = l) {x : G} (hx : x ∉ H)
     (s : H.LeftTransversal) (hs : (s : Set G) = Set.range fun i : Fin l ↦ x ^ (i : ℕ))
@@ -70,7 +71,8 @@ theorem trace_tensorInducedRepresentation_of_index_prime {G : Type*} [Group G] [
 /-- **Tensor induction of virtual characters in prime index** (6.1 (b), first sentence). Let `H`
 be a normal subgroup of prime index `l` of a finite group `G` and `x ∉ H`. For a virtual
 character `ψ` of `H`, the function `ψ̂` on `G` with `ψ̂(h) = ∏_{i<l} ψ(x^i h x^(-i))` for `h ∈ H`
-and `ψ̂(g) = ψ(g^l)` for `g ∉ H` is a virtual character of `G`. -/
+and `ψ̂(g) = ψ(g^l)` for `g ∉ H` is a virtual character of `G`.
+The formal proof has the split case `x ^ l = 1`, with these values on `H` and on `Hx`. -/
 theorem tensorInducedClassFunction_mem_virtualCharacters {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) [H.Normal] {l : ℕ} (hl : l.Prime) (hH : H.index = l) {x : G} (hx : x ∉ H)
     {ψ : H → ℂ} (hψ : ψ ∈ TauCeti.virtualCharacters ℂ H) (ψhat : G → ℂ)
@@ -79,14 +81,15 @@ theorem tensorInducedClassFunction_mem_virtualCharacters {G : Type*} [Group G] [
     ψhat ∈ TauCeti.virtualCharacters ℂ G := by
   sorry
 
-/-- **Virtual characters of norm one on a coset** (6.2 (b), (c)). Let `H` be a normal subgroup
+/-- **Virtual characters of norm one on a coset** (6.2 (b), (b′), (c)). Let `H` be a normal subgroup
 of prime index `l` of a finite group `G`, let `x ∉ H`, and let `ζ` be a primitive `l`-th root of
 unity. If `X` is a virtual character of `G` of norm one on the coset `Hx`, that is
 `|H|⁻¹ Σ_{h∈H} X(hx)·conj(X(hx)) = 1`, then there are an irreducible character `τ₀` of `H` fixed
 by conjugation by `x`, an irreducible character `τ̃₀` of `G` extending it, and a root of unity
 `b ∈ ℚ(ζ)` with `X = b·τ̃₀` on `Hx`; moreover `τ₀` is a constituent of every character `Y` of `H`
 fixed by conjugation by `x` for which `l` does not divide `⟨X|_H, Y⟩_H`, that is
-`⟨Y, τ₀⟩_H ≠ 0`, where `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))`. -/
+`⟨Y, τ₀⟩_H ≠ 0`, where `⟨φ, φ′⟩_H = |H|⁻¹ Σ_{h∈H} φ(h)·conj(φ′(h))`.
+The formal proof has the split case `x ^ l = 1`, with `b` complex instead of a root of unity. -/
 theorem exists_rootOfUnity_mul_extension_eq_on_coset {G : Type*} [Group G] [Finite G]
     (H : Subgroup G) [H.Normal] [Fintype H] {l : ℕ} (hl : l.Prime) (hH : H.index = l)
     {x : G} (hx : x ∉ H) {ζ : ℂ} (hζ : IsPrimitiveRoot ζ l)

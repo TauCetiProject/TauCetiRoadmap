@@ -22,6 +22,19 @@ Layer 9 fixes its notation at the start of 9.1.
 
 Both targets add to the virtual-character ring of InductionRestriction Layer 6 for a finite group with a normal subgroup of prime index.
 
+*The form of the formal proof.* [FormalProof] states 6.1 and 6.2 for a semidirect product `Ĝ = H ⋊ ⟨x⟩` with a cyclic
+complement, `x^l = 1`, and 6.1 as the existence of a character: for a character `ψ` of `H` there is a character of `Ĝ` with
+the values `∏_{i<l} ψ(F^i(h))` at `h ∈ H` and `ψ((hx)^l) = ψ(h·F(h)⋯F^{l−1}(h))` at the elements `hx` of the one coset `Hx`,
+and for a virtual character `ψ` of `H` there is a virtual character of `Ĝ` with the same values on `H` and on `Hx`. Its
+statements give 6.2 (a) apart from the number of extensions and the induced form of the other irreducible characters,
+6.2 (b) with a complex number `b`, and 6.2 (c) in the form `Σ_{h∈H} conj(X(hx))·ρ(h) = 0` for every representation `ρ` of
+`H` with no constituent in common with `Y`, which is (c) by (a) and (b). The family applies both targets to such a
+semidirect product only (Shintani descent in FiniteReductiveGroups, with `H = GL_m(𝔽_{q^l})` and `x` the Frobenius), and
+6.1 only on `H` and on the coset `Hx`. The rest of Layer 6 is this roadmap's, proved by the Routes below: the statements
+for an extension that does not split, the values of 6.1 on the other cosets, the identification in 6.1 (a) with the
+character of Tau Ceti's tensor-induced representation (through ArithmeticGaloisRepresentations §7.1), the explicit
+expression in 6.1 (b), the number of extensions and the induced characters in 6.2 (a), and 6.2 (b′).
+
 ### 6.1 Tensor induction in prime index (character formula; virtual characters)
 
 Let `Ĝ` be a finite group, `H ⊲ Ĝ` a normal subgroup of prime index `l`, and
@@ -79,11 +92,14 @@ Let `Ĝ`, `H`, `x`, `F` and `l` be as in 6.1, `ζ = e^{2πi/l}`, and
 vanishes off `H`. If `χ̃`, `χ̃′` extend `x`-stable irreducible characters `χ′ ≠ χ″`, then `⟨χ̃, χ̃′⟩_{Hx} = 0`, and `⟨χ̃, χ̃⟩_{Hx} = 1`.
 
 (b) If `X` is a virtual character of `Ĝ` with `⟨X, X⟩_{Hx} = 1`, there are an `x`-stable irreducible character `τ₀` of `H`, an
-extension `τ̃₀` of it and a root of unity `b ∈ ℚ(ζ)` with `X = b·τ̃₀` on `Hx`.
+extension `τ̃₀` of it and a complex number `b` with `X = b·τ̃₀` on `Hx`; by (a), `|b| = 1`.
+
+(b′) The number `b` of (b) is a root of unity of `ℚ(ζ)`: `±1` for `l = 2`, `±ζ^j` for odd `l`. This clause is this roadmap's
+addition, proved by the route below.
 
 (c) If moreover `Y` is an `x`-stable character of `H` with `l ∤ ⟨X|_H, Y⟩_H`, then `τ₀` is a constituent of `Y`.
 
-In `Suggested.lean`, (b) and (c) are `exists_rootOfUnity_mul_extension_eq_on_coset`.
+In `Suggested.lean`, (b) and (c) are `exists_rootOfUnity_mul_extension_eq_on_coset`; (b′) is part of that declaration.
 
 *Route.* (a) Clifford theory (InductionRestriction Layer 5) with `H` normal and `Ĝ/H` cyclic of prime order: the inertia group of an irreducible
 `χ′` is `H` or `Ĝ`; in the first case `Ind_H^Ĝ χ′` is irreducible (InductionRestriction Layer 4's criterion) and vanishes off `H`. In the second, let
@@ -99,8 +115,9 @@ orthogonality relations of `Ĝ` give `l⁻¹ Σ_{i<l} ζ^{ij}c_i = ⟨χ̃ε^j, 
 `X = Σ_{χ′} b_{χ′}χ̃` over the `x`-stable `χ′` (one extension `χ̃` chosen for each), with `b_{χ′} = Σ_j a_{χ′,j}ε^j(x) ∈ ℤ[ζ]` for
 `X = Σ a_ψψ`; by (a), `Σ_{χ′}|b_{χ′}|² = 1`. The automorphisms of `ℚ(ζ)` commute with complex conjugation, so the same holds
 after applying any of them; hence each nonzero `|b_{χ′}|²` is a totally positive algebraic integer all of whose conjugates
-are at most `1`; its norm is a positive integer at most `1`, so all conjugates equal `1`, `b_{χ′}` is a root of unity
-(Kronecker; Mathlib `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`), and only one `b_{χ′}` is nonzero. (c)
+are at most `1`; its norm is a positive integer at most `1`, so all conjugates equal `1` and only one `b_{χ′}` is nonzero;
+this is (b). (b′) An algebraic integer all of whose conjugates have absolute value `1` is a root of unity (Kronecker;
+Mathlib `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`). (c)
 `⟨X|_H, Y⟩ = Σ_{χ′ x-stable} (Σ_j a_{χ′,j})·m_Y(χ′) + l·(…)`, the second term from the induced constituents, since `m_Y` is constant on
 `F`-orbits. Modulo `(1 − ζ)` in `ℤ[ζ]`, `Σ_j a_{χ′,j} ≡ b_{χ′}` and `l ≡ 0`; so `⟨X|_H, Y⟩ ≡ b_{τ₀}·m_Y(τ₀)`. If `m_Y(τ₀) = 0`, then
 `⟨X|_H, Y⟩ ∈ (1 − ζ) ∩ ℤ = lℤ`.
@@ -140,9 +157,11 @@ Let `n, m ≥ 1`, and let
 every `d ≥ 0` the homogeneous part of degree `d` decomposes as
 `ℂ[M_{n×m}]_d ≅ ⊕_{λ ⊢ d, ℓ(λ) ≤ min(n, m)} S^λ(ℂⁿ) ⊗ S^λ(ℂ^m)`,
 with `S^λ` the Schur functor (SchurWeyl §8.2, ClassicalGroups Layer 2): each summand is irreducible for
-`GL_n(ℂ) × GL_m(ℂ)`, the summands are pairwise non-isomorphic, and the decomposition, the irreducibility and
-the non-isomorphism hold also for the restriction to `U(n) × U(m)`. The joint highest weight line of
-the summand of `λ` (for the upper Borel subgroups) is spanned by
+`GL_n(ℂ) × GL_m(ℂ)`, the summands are pairwise non-isomorphic, more precisely, the representations `S^λ(ℂⁿ)`,
+`ℓ(λ) ≤ min(n, m)`, of `GL_n(ℂ)` are irreducible and pairwise non-isomorphic, and so are the `S^λ(ℂ^m)` for `GL_m(ℂ)`,
+so that `λ` sets up a bijection between the representations of the two groups that occur; and the decomposition, the
+irreducibility and the non-isomorphism hold also for the restriction to `U(n) × U(m)`, factor by factor. The joint
+highest weight line of the summand of `λ` (for the upper Borel subgroups) is spanned by
 `Δ_λ = ∏_{i=1}^{min(n,m)} Δ_i^{λ_i − λ_{i+1}}`, `Δ_i` the `i × i` leading principal minor. With the action
 `P(g⁻¹ X h)` the `GL_n(ℂ)`-factor is replaced by its contragredient.
 
@@ -266,7 +285,12 @@ Yang–Baxter equation give `f(Y + 1 − Y′)·[q(Y), t_{ab}(Y′)] = 0`, where
 `Π₁₂R₁₃(z)R₂₃(z − 1)Π₁₂` acts on `Λ²ℂ² ⊗ ℂ²` (the argument of MNO Theorem 2.10, Steps 1–5, for this normalisation of `R`);
 this settles `Y′ ∉ {Y − 1, Y + 1}`. The family `Y ↦ t(−Y)`, with values in the opposite algebra of `B`, satisfies the same
 relation (for it the relation at `(u, v)` follows from those of `t` at `(−u, −v)` and `(−v, −u)`), and its `q` at `−Y − 1` is
-`q(Y)`; the same argument applied to it settles `Y′ ∉ {Y, Y + 2}`. The two exceptional sets are disjoint. The last Check confirms the row form in (a), the four
+`q(Y)`; the same argument applied to it settles `Y′ ∉ {Y, Y + 2}`. The two exceptional sets are disjoint. A second route for
+the commutation, the route of the formal proof: directly, without fusion, for fixed `Y` and `Y′`, each commutator
+`[q(Y), t_{ab}(Y′)]` is a linear combination of instances of the exchange relation at the four pairs `(Y + 1, Y)`,
+`(Y, Y + 1)`, `(Y + 1, Y′)` and `(Y′, Y)`, multiplied on one side by entries of the three matrices `t(Y)`, `t(Y + 1)`,
+`t(Y′)`, with coefficients polynomial in `Y′ − Y`; the combination is the same for every `Y′`, so no value of `Y′` is
+exceptional. The last Check confirms the row form in (a), the four
 expansions in (b), the centrality in (c) and (d)–(h) by an exact computation for `n ≤ 3`; that computation does not
 cover the antisymmetry in (a), the eigenvalue on a highest weight vector in (c), the adjoints and the change of basis
 in (i), or (j).
@@ -297,7 +321,7 @@ ClassicalGroups §6.6 (the column-ordered determinant `A_n(u)` and its centralit
 
 ## Downstream consumers
 
-FiniteReductiveGroups §5.11 (d), (e), Shintani descent for `GL_n` in prime degree, uses 6.1 for the eigenvalue sums of `GL_m(𝔽_{q^l})` tensor-induced to `GL_m(𝔽_{q^l}) ⋊ Gal(𝔽_{q^l}/𝔽_q)`, and 6.2. ThetaKernelsForUnitaryDualPairs §3.46 (iii) uses 7.1 for the theta correspondence of the compact dual pairs `(U(n), U(m))`, and through it ThetaLiftsForDefiniteUnitaryGroups §2.1 for the weights of a lift between compact unitary groups. BesselPoincareSeriesAndGramBounds §5.13d uses 9.1 (b), (d) and (f); BesselPoincareSeriesAndGramBounds §5.18a uses 9.1 (b), (c) and (e)–(j); BesselPoincareSeriesAndGramBounds §5.18e uses 9.1 (f).
+FiniteReductiveGroups §5.11 (d), (e), Shintani descent for `GL_n` in prime degree, uses 6.1 for the eigenvalue sums of `GL_m(𝔽_{q^l})` tensor-induced to `GL_m(𝔽_{q^l}) ⋊ Gal(𝔽_{q^l}/𝔽_q)`, and 6.2. ThetaKernelsForUnitaryDualPairs §3.46 (iii) and §3.47b use 7.1 for the theta correspondence of the compact dual pairs `(U(n), U(m))`; ThetaLiftsForDefiniteUnitaryGroups §2.1 uses it for the weights and the extremal vectors of a lift between compact unitary groups; ThetaChainsOnDefiniteUnitaryGroups §3.2 uses it, in the contragredient form, for the Fock summand of a step of the chain. BesselPoincareSeriesAndGramBounds §5.13d uses 9.1 (b), (d) and (f); BesselPoincareSeriesAndGramBounds §5.18a uses 9.1 (b), (c) and (e)–(j); BesselPoincareSeriesAndGramBounds §5.18e uses 9.1 (f).
 
 ## Scope and ownership
 
@@ -338,3 +362,5 @@ Layer 2: the Schur functor `S^λ V`, the image of the Young symmetrizer of shape
 - Roger Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989): the `(GL_n, GL_m)`-duality (7.1).
 - Roger Howe, *Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1: the `(GL_n, GL_m)`-duality (7.1).
 - A. Molev, M. Nazarov, G. Olshanski, *Yangians and classical Lie algebras*, Russian Math. Surveys 51 (1996), arXiv:hep-th/9409025 (numbering of v2), cited as MNO: Propositions 2.4, 2.5 and 2.7 and Theorem 2.10 (the quantum determinant of the Yangian and its centrality), Remark 2.11 (its evaluation in `U(𝔤𝔩_N)`) (9.1 (c), (j)).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the identities of the quantum minors of 9.1, of Jordan's theorem on primitive groups containing a cycle of prime length named in Scope and ownership, and of 6.1 and 6.2 in the split case, in the form given in Layer 6 (*The form of the formal proof*).
+- **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
