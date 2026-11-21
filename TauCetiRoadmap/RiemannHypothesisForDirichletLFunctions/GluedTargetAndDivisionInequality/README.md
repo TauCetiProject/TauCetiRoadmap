@@ -2,7 +2,7 @@
 
 **Summary.** This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) builds the target lattice of a chain of theta lifts between definite unitary groups and bounds everything that enters the slope inequality of the chain on the side of the maps: their integrality, their heights, the slope and the maximal slope of the target. The chain lives over the coefficient fields `𝕂 ⊂ 𝕃` of ThetaChainsOnDefiniteUnitaryGroups, `𝕃` a number field, Galois over `ℚ` and stable under complex conjugation `c_𝕃`. To each word `u` of the chain belong a lattice `M_u` of algebraic automorphic forms with its gain sublattice `N_u`, and the period pairing `B_u`, linear in the form and `c_𝕃`-semilinear in the row, from `M_u` to functionals on the target rows `𝔼`. Slopes `μ`, `μ_max` and heights `ht` are twice Bost's.
 
-The headline theorems are these. (1) *Integrality after division.* Let `𝕃′` be a number field with an automorphism `c`, `B : V × W → 𝕃′` biadditive, `𝕃′`-linear in `V` and `c`-semilinear in `W`, and `N ⊂ V`, `R ⊂ W` `𝒪_{𝕃′}`-submodules. Suppose that at every finite place `𝔭` the module `R` lies in `𝒪_(c^{−1}(𝔭))·j_𝔭(M_𝔭)` for an `𝒪_{𝕃′}`-submodule `M_𝔭` of an `𝕃′`-space and a linear map `j_𝔭` from that space into `W`, and that each value `B(φ, j_𝔭Υ)`, `φ ∈ N`, `Υ ∈ M_𝔭`, is zero or has `𝔭`-adic valuation at least `σ_𝔭`. Then `B((∏_𝔭𝔭^{−τ_𝔭})·N, R) ⊂ 𝒪_{𝕃′}` for all integers `τ_𝔭 ≤ ⌈σ_𝔭⌉`, almost all zero. For the chain it gives, under the hypotheses listed at 7.14 (among them those of the seesaw identity, which ask that the Bessel–Poincaré series of `u` be nonzero on its new forms), that `B_u` maps the divided source `N′_u = I_u·N_u` into the lattice `R^∨` of `c_𝕃`-semilinear functionals integral on the glued target `R`, the lattice generated near each place by the integral forms of the tuple of twists used there. (2) *The height of the period pairing.* Under the size conditions of the chain, among them `SizeT_u` on the level prime, `|(L′/L)(1, χ_K)| ≤ x^ε` and, at a scale `x ≥ x₀`, the size predicate `Size_□` of the grid of the rows, and under the hypotheses of the seesaw identity, among them that the Bessel–Poincaré series of `u` is nonzero on its new forms (all listed at 8.9), if `B_u ≠ 0` then `ht(B_u) ≤ h_u`, an explicit number: the top term `t_u = −A_top·log T(u) + C₂·N_m²·(Σ_{τ∈Φ_top}a⁻_τ + f·(mϑ + Sc + 1))·La`, plus for each of the `m` steps the kernel terms `Σ_τ(Σ_i ph(ν_{j,τ,i}) − (Σ_iν_{j,τ,i})·log Ω)` (`ph(y) = y log y − y`, `Ω` the CM period of the host) and an error `C₁·f·m³·N_m²·La`, minus for each step the logarithms of the hook products `H⁺_{j,τ}` that bound the Rallis eigenvalues from below, up to an error, minus `log 𝔫` plus `log|P_1|`. (3) *The division inequality.* For a good twisting datum that satisfies the support condition (T3), a host with wild-kernel budget `1` and `[F:ℚ] ≥ 2`, under the size predicate `Size_□` of the grid at a scale `x ≥ x₀` and the size conditions of the chain (all listed at 8.22), for every word `u`,
+The headline theorems are these. (1) *Integrality after division.* Let `𝕃′` be a number field with an automorphism `c`, `B : V × W → 𝕃′` biadditive, `𝕃′`-linear in `V` and `c`-semilinear in `W`, and `N ⊂ V`, `R ⊂ W` `𝒪_{𝕃′}`-submodules. Suppose that at every finite place `𝔭` the module `R` lies in `𝒪_(c^{−1}(𝔭))·j_𝔭(M_𝔭)` for an `𝒪_{𝕃′}`-submodule `M_𝔭` of an `𝕃′`-space and a linear map `j_𝔭` from that space into `W`, and that each value `B(φ, j_𝔭Υ)`, `φ ∈ N`, `Υ ∈ M_𝔭`, is zero or has `𝔭`-adic valuation at least `σ_𝔭`. Then `B((∏_𝔭𝔭^{−τ_𝔭})·N, R) ⊂ 𝒪_{𝕃′}` for all integers `τ_𝔭 ≤ ⌈σ_𝔭⌉`, almost all zero. For the chain it gives, under the hypotheses listed at 7.14 (among them those of the seesaw identity, which ask that the Bessel–Poincaré series of `u` be nonzero on its new forms), that `B_u` maps the divided source `N′_u = I_u·N_u` into the lattice `R^∨` of `c_𝕃`-semilinear functionals integral on the glued target `R`, the lattice generated near each place by the integral forms of the tuple of twists used there. (2) *The height of the period pairing.* Under the size conditions of the chain, among them `SizeT_u` on the level prime, `|(L′/L)(1, χ_K)| ≤ x^ε` and, at a scale `x ≥ x₀`, the size predicate `Size_□` of the grid of the rows, and under the hypotheses of the seesaw identity, among them that the Bessel–Poincaré series of `u` is nonzero on its new forms (all listed at 8.9), if `B_u ≠ 0` then `ht(B_u) ≤ h_u`, an explicit number: the top term `t_u = −A_top·log T(u) + C₂·(|Φ_top|·b′·N_m + f·(mϑ + Sc)·N_m + f·N_m²)·La`, plus for each of the `m` steps the kernel terms `Σ_τ(Σ_i ph(ν_{j,τ,i}) − (Σ_iν_{j,τ,i})·log Ω)` (`ph(y) = y log y − y`, `Ω` the CM period of the host) and an error `C₁·f·m³·N_m²·La`, minus for each step the logarithms of the hook products `H⁺_{j,τ}` that bound the Rallis eigenvalues from below, up to an error, minus `log 𝔫` plus `log|P_1|`. (3) *The division inequality.* For a good twisting datum that satisfies the support condition (T3), a host with wild-kernel budget `1`, `[F:ℚ] ≥ 3`, `r + 1 < g₀, g₁`, `q_z ≤ ¼` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (e)) and the hypotheses (H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c), under the size predicate `Size_□` of the grid at a scale `x ≥ x₀` and the size conditions of the chain (all listed at 8.22), for every word `u`,
 `μ(R^∨) + h_u − F_tot ≤ Σ_{τ∈Φ_top}(m·(ph(a_τ) − a_τ·log Ω) − a_τ·log T(u)) + C·|Φ_top|·a·La + C·m·(B₀ + N_c)·x^ε`, where `F_tot` is the bulk divisibility of the steps at the twisted places, `Φ_top` the top places with top entries `a_τ`, `T(u)` the level prime of `u` and `B₀`, `N_c` the budgets of the chain. The large powers of `Ω` cancel between the kernels and the step lattices, the Stirling terms against the hooks, and one row of length `a_τ` per top place and per step survives.
 
 The roadmap sits on [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), which fixes the chain data; [LocalGainOfThetaChains](../LocalGainOfThetaChains/README.md), whose gain exponents divide the source; [RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md) and [SeesawForThetaChains](../SeesawForThetaChains/README.md), which supply the rows, the model lifts with their Rallis eigenvalues and the period pairing; [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md), which bound the congruence lengths and the slopes of the step lattices; and [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md), whose slope calculus and gluing lemma are used throughout. [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) applies the results to the slope inequality of the chain.
@@ -14,13 +14,14 @@ Layer 7 below proves integrality after division and forms the divided source and
 **Fields.** `E` is the host (FrobeniusRestrictedRieszSums §0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its
 maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `χ_K` the quadratic character of `K`; `f_E` the
 conductor of `E`; `h_E` the class number of `E` and `μ_E` its group of roots of unity. Under `SplitRamification d` (FrobeniusRestrictedRieszSums §0.3) `K` is
-ramified only at the prime `d`; on the cyclic hosts (FrobeniusRestrictedRieszSums §0.4) `d ≡ 7 (mod 8)`, `K = ℚ(√−d)`, and a second imaginary quadratic
+ramified only at the prime `d`; on the cyclic hosts (FrobeniusRestrictedRieszSums §0.4; layer `n ≥ 2`) `q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, `K = ℚ(√−d)`, and a second imaginary quadratic
 field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the *auxiliary pair*. `𝕂 ⊂ 𝕃` are the two fields of the chain (ThetaChainsOnDefiniteUnitaryGroups §2.6): the
 *coefficient field* `𝕂`, a number field containing `E`, over whose ring of integers the cusp forms on the Shimura varieties of the
 steps, their integral forms, theta rules and short theta series are taken, and the *field of places* `𝕃`, a finite Galois
 extension of `ℚ` inside `ℂ`, stable under complex conjugation and containing `𝕂`, with the embedding `σ₀` and the conjugation
 `c_𝕃 = σ₀^{−1}∘(complex conjugation)∘σ₀` of ThetaChainsOnDefiniteUnitaryGroups §2.6. The Hermitian lattices of the chain are over `𝒪_𝕃`; lattices over `𝒪_𝕂`
-enter them after extension of scalars to `𝒪_𝕃`, which changes neither the slope nor the maximal slope. The finite places of
+enter them after extension of scalars to `𝒪_𝕃`, which changes neither the slope nor the maximal slope (SlopesOfHermitianVectorBundles §3.5;
+for the degree, ArakelovGeometryAndAbelianHeights §1.6). The finite places of
 `𝕃` are written `𝔭`, with residue characteristic `p(𝔭)` (also `ℓ(𝔭)`), ramification index `e_𝔭` and weight `ϱ(𝔭) = log N𝔭/[𝕃:ℚ]`
 (so `Σ_{𝔭|p} ϱ(𝔭)e_𝔭 = log p`); `sz_𝔭(y) = 2ϱ(𝔭)e_𝔭·y`. Embeddings `𝕃 ↪ ℂ` are written `σ`.
 
@@ -49,7 +50,8 @@ degrees are taken for this measure.
 
 **Integral structures.** For a dominant weight `λ`, `∇_ℤ(λ)` is the dual Weyl lattice (the integral polynomials of the
 polynomial model of ThetaChainsOnDefiniteUnitaryGroups §3.1, spanned by products of minors) and `Δ_ℤ(λ) ⊂ ∇_ℤ(λ)` the Weyl lattice, its dual for the
-invariant form; the product of leading minors `v_λ` lies in both. The column side of the chain (the integral forms
+invariant form (the integral Weyl and induced lattices of ReductiveGroups §10B for `GL_N`, dual for its contravariant form); the
+product of leading minors `v_λ` lies in both. The column side of the chain (the integral forms
 `ℳ_j^{int}` of ThetaChainsOnDefiniteUnitaryGroups §3.1, the chain lift, the source lattices of ThetaChainsOnDefiniteUnitaryGroups §3.8 and their restriction to `U(X^h)`) takes values in `Δ_ℤ`,
 in the coordinates of a basis of the dual class lattice; the row forms `Υ` on `U(X^h)` paired with it take values in
 `∇_ℤ` (the forms `ℳ^∨`), so that every class term of the pairing is integral and the only loss is the stabiliser
@@ -58,7 +60,8 @@ orders (ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGr
 
 **Slopes and heights.** Hermitian lattices are finitely generated `𝒪_𝕃`-submodules of full rank in Hermitian
 `𝕃`-spaces with a metric at every complex embedding. This roadmap writes `μ(L̄) := 2μ̂(L̄)`, twice Bost's normalised
-slope (`μ̂ = deĝ/([𝕃:ℚ]·rk)`; Bost 1996, App. A.2, pp. 146–147), so `μ(𝒪_𝕃^n, standard) = 0`; `μ_max`, `μ_min` likewise. For a linear map `φ`,
+slope (`μ̂ = deĝ/([𝕃:ℚ]·rk)`; Bost 1996, App. A.2, pp. 146–147; ArakelovGeometryAndAbelianHeights §§1.1, 1.3), so `μ(𝒪_𝕃^n, standard) = 0`; `μ_max`, `μ_min`
+likewise. For a linear map `φ`,
 `ht(φ) := (2/[𝕃:ℚ]) Σ_σ log ‖φ‖_σ`, twice Bost's archimedean height, that is the mean over the embeddings of
 `log ‖φ‖²_σ` (equivalently over the infinite places, the metrics being compatible with conjugation); integrality at
 finite places is stated separately. For a lattice `L` and a basis `e` of `L ⊗ 𝕃`,
@@ -68,18 +71,23 @@ squared norms (`ph(y) = y log y − y`). `SlopesOfHermitianVectorBundles` uses `
 dictionary, and its statements are homogeneous in it.
 
 **Galois representations and wild kernels.** The Galois representations of CongruenceModulesOfThetaLifts, which enter here through the twist selection (8.19e), follow
-`AutomorphicGaloisRepresentationsPartII`: Artin reciprocity sends uniformizers to geometric Frobenius elements, and the
+AutomorphicGaloisRepresentationsPartII (Conventions, and Layer AG2.0, the ℓ-adic character `r_{l,ι}(χ)` of an algebraic Hecke
+character): Artin reciprocity sends uniformizers to geometric Frobenius elements, and the
 cyclotomic character `χ_cyc` has Hodge–Tate weight `−1`. A Hecke character `μ_j` of `E` (ThetaChainsOnDefiniteUnitaryGroups §2.4; the same for `η̃`, `δ`,
 `δ′`) has the value `μ_j(𝔓)` at a prime `𝔓` of `E` prime to its conductor, its value at a uniformizer of `E_𝔓`; its
 `ℓ`-adic Galois character takes the value `μ_j(𝔓)` at the geometric Frobenius of `𝔓`, and for a character of
 finite order it is the inverse of the character that the arithmetic normalisation (`Frob_p` acting as `x ↦ x^p` on residue fields) attaches to
 it. For a number field `M`, a prime `ℓ` and an integer `e ≥ 1`, `Ш¹(M, ℓ, e)` is the group of classes in
 `H¹(𝒪_M[1/ℓ], ℚ_ℓ/ℤ_ℓ(−e))` unramified outside `ℓ` and trivial at the places above `ℓ`, and
-`V(M, t) = Σ_ℓ log ℓ Σ_{1≤e<t} length Ш¹(M, ℓ, e)`, as in BernoulliBoundsForClassGroupEigenspaces §6.17; the roadmap uses them for `M = E`.
+`V(M, t) = Σ_ℓ log ℓ Σ_{1≤e<t} length Ш¹(M, ℓ, e)`, as in BernoulliBoundsForClassGroupEigenspaces §6.17 (by Poitou–Tate
+duality, a finite `Ш¹(M, ℓ, e)` has the length of the cohomological wild kernel `Sha²_{e,ℓ}(M)` of ArithmeticKTheory §6.9);
+the roadmap uses them for `M = E`.
 
 **The CM period.** `log Ω := γ + log(2π/rd_E) − (L′/L)(1, χ_K)`, `rd_E` the root discriminant of `E`. Equivalently
 `log Ω = log Ω_K − log(rd_E/√d)`, where `log Ω_K = γ + log(2π/√d) − (L′/L)(1, χ_K)` is the mean over the ideal
-classes of `K` of `log(area(Λ)/π) + (1/6) log|Δ(Λ)|` (Chowla–Selberg, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5). The same `Ω` enters the heights of the
+classes of `K` of `log(area(Λ)/π) + (1/6) log|Δ(Λ)|` (Chowla–Selberg for `d > 4`, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5; an
+equivalent form, for the Faltings height of one CM elliptic curve and the value at `s = 0`, is
+ComplexMultiplicationAndExplicitReciprocityPartII §4.6, through ArakelovGeometryAndAbelianHeights §2.9). The same `Ω` enters the heights of the
 lifts (8.6, through ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5) and the arithmetic degree of the flat line bundle (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.11).
 
 **Indices of the chain.** Step `j` is the column lift `U(X_{j−1}) → U(X_j)` with Hecke character `μ_j` and step weight
@@ -160,7 +168,7 @@ ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. The values of one co
 | `x, ε, b, a, X′, b′, w″, X″` | scale, exponent, `e^{x^ε}`, `x·b`, `e^{x^{ε/3}}`, `a/X′`, `b′/(x\|A\|)`, `x\|A\|X′` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `ϑ, B₀, N_c, Γ₀, H` | thick-weight width, the two budgets `B₀ = fmbx^ε`, `N_c = \|𝒯\|kbx^{2ε}/\|A\|²`, redundancy factor, slope range `x^{c_H}b` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `Size(x, ε)` | conjunction of the host predicates `SizeA, SizeN, SizeD, SizeRd, SizeQD, SizeInert, SizeDep` and the parameter predicates `SizeM, SizeK, SizeW, SizeMf, SizeT, SizeTheta` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
-| `S_small, vd, SizeDep` | the primes dividing `2f_E` other than `q`, `d`; the largest mean different exponent of `E` at a prime of `S_small`; the host predicate on them | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
+| `S_small, vd, SizeDep` | the primes dividing `2f_E` other than `q`, `d`; the number of `SizeDep`, at least `v_ℓ(f_E)`, `v_ℓ(Q)` (`Q` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a) and the mean different exponent of `E` at every `ℓ ∈ S_small`; the host predicate on them | ThetaChainsOnDefiniteUnitaryGroups §2.1, 8.20 |
 | `SizeSc, SizeGap, SizeSep, SizeG, SizeT_u` | size predicates of the words, the gaps, the separation, the type primes and the level primes | ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8 |
 | `C_t, C_W, C_Γ, A_max, C_dep` | constants fixed before `ε`: of `SizeT`, of `SizeW`, of `Γ₀`, the bound of the layer exponent, the constant of `SizeDep` | ThetaChainsOnDefiniteUnitaryGroups §2.1 |
 | `X_j, X^h` | column spaces, hyperplane of `X_m` | ThetaChainsOnDefiniteUnitaryGroups §2.2 |
@@ -223,6 +231,7 @@ ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. The values of one co
 | `A_g, A_R` | absolute constants of the hook bound | 8.8 |
 | `h_u` | explicit height of `B_u` | 8.9 |
 | `𝓕_τ, M^W_j, λ^W_j` | flat line; step lattice on the Shimura variety of `U(W_j)`; its weight | ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 |
+| `q_z` | the number of the jet bound on the deep cover of a step | ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c |
 | `SizeGen, SizePage` | size predicates: (N1)–(N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a; (P1)–(P5) of 8.20 | ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, 8.20 |
 | `B_all` | the finitely generated Hecke-stable module of forms of a step in the index target 8.19e (b) | 8.19e |
 | `L` (in 8.20) | the logarithmic size of the theta data (`L = x^ε` in the chain) | 8.20 |
@@ -349,7 +358,7 @@ Route: if `B_u = 0` there is nothing to prove. Otherwise apply 7.12 with `𝕃�
 forms of RowTowerAndRallisIdentities §5.4), `j_𝔭 = ι_{ξ_𝔭}`, `P_𝔭(φ, Υ) = P̃_{ξ_𝔭}(φ, Υ)` and `ζ_𝔭 = ζ(u, ξ_𝔭)`, a root of unity in `𝕃` (SeesawForThetaChains §6.14(c),
 SeesawForThetaChains §6.15(b)); `R ⊂ 𝒪_(c_𝕃(𝔭)) j_𝔭(M_𝔭)` by 7.13(i) at `c_𝕃(𝔭)`, since `ξ_{c_𝕃(𝔭)} = ξ_𝔭` (ThetaChainsOnDefiniteUnitaryGroups §2.5). The valuation bound is LocalGainOfThetaChains §4.16(ii)
 (with LocalGainOfThetaChains §4.16b at the places above `T(u)`) for the tuple `ξ_𝔭` and the forms `Υ ∈ M̃_{ξ_𝔭} ∩ ℋ^{rt}_{ξ_𝔭}`, whose values lie in the
-dual Weyl lattices (RowTowerAndRallisIdentities §5.4; ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.10(b): the column side is `Δ`-valued): the period is linear in the column, so the bound at `𝔭`
+dual Weyl lattices (RowTowerAndRallisIdentities §5.4; ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.9 (b): the column side is `Δ`-valued): the period is linear in the column, so the bound at `𝔭`
 uses the column at `𝔭`, `σ_𝔭 = ⌊e_𝔭 𝔊_u(𝔭)⌋`. Here the column chain and the lattice into which the point map sends the top
 column lattice are `Δ`-valued while `Υ` is `∇`-valued, so the period is `Σ_𝒸|Γ_𝒸|^{−1}y_𝒸` with every class term `y_𝒸`
 integral; the only loss is `v_ℓ(D_Γ)` (`D_Γ` the least common multiple of the stabiliser orders, ThetaChainsOnDefiniteUnitaryGroups §3.6), a summand of the error
@@ -373,7 +382,7 @@ the tuple for which the gain is proved there: no single tuple would give integra
 
 ThetaChainsOnDefiniteUnitaryGroups §§2.5, 3.1, 3.6, 3.8, 3.9, 3.10; LocalGainOfThetaChains §§4.9f, 4.10, 4.16, 4.16b;
 RowTowerAndRallisIdentities §§5.3, 5.4, 5.5, 5.6, 5.8, 5.8b, 5.8d, 5.8e, 5.12; SeesawForThetaChains §§6.14, 6.15;
-HermitianFormsAndLattices §4.0 (g); SlopesOfHermitianVectorBundles §2.2; Mathlib's Dedekind domains, valuations at maximal
+HermitianFormsAndLattices §4.0 (g); SlopesOfHermitianVectorBundles §2.2; ReductiveGroups §10B; Mathlib's Dedekind domains, valuations at maximal
 ideals and fractional ideals (7.12).
 
 ## Layer 8: Heights and the slope of the target
@@ -394,8 +403,9 @@ finite-place terms are valuations of ratios of Hecke `L`-values, controlled by t
 through toric sums (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.19b–8.19d; 8.24a, 8.24).
 
 In this layer, `La = log(a·rd_E)` (ThetaChainsOnDefiniteUnitaryGroups §2.1); `C` denotes positive constants that do not depend on `x` nor on anything
-chosen at the scale `x`; they may depend on `ε` and on the constants fixed before `ε`, except that a
-constant in an exponent of `x` (such as the `C` of `x^{C}·b`) depends only on the constants fixed before `ε`. The
+chosen at the scale `x`; they may depend on `ε` and on the constants fixed before `ε`; a constant in an exponent of `x`
+that multiplies `ε` is absolute; the exponent `C` of `x^{C}·b` (8.24) is chosen after `ε`, like the exponent `c_H` of the
+Conventions. The
 exponent of the division error is `e_D := 1` (8.20, 8.22, 8.24). Heights of maps are `ht = mean_σ log ‖·‖²_σ` over the
 embeddings `σ : 𝕃 → ℂ` (Conventions); since the metrics are compatible with complex conjugation, this is also the mean
 over the infinite places of `𝕃`. Operator norms are taken for the metrics named in each statement.
@@ -404,7 +414,8 @@ The congruence lengths are bounded by CongruenceModulesOfThetaLifts §7.11 under
 `ℓ^{−2}`-good twist at `𝔭` in the sense of CongruenceModulesOfThetaLifts §7.8 (2), here for a family of polynomial conditions, of the second kind of SelmerLengthBoundsAndLocalLifting §3.25b (2),
 containing those of 8.19e (a) and (b); the tuples at `𝔭` and `c_𝕃(𝔭)` agree by ThetaChainsOnDefiniteUnitaryGroups §2.5), and the host has wild-kernel budget `κ_W`
 (CongruenceModulesOfThetaLifts §7.11: every `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < t`) is finite and `V(E, t) ≤ κ_W·x^ε·B₀`; `κ_W = 1` when `V(E, t) ≤ b`), with the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a (for every prime `ℓ ≥ 11` some `j ≥ 0` has
-`(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`, `L_th` the length of the thick set); the
+`(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`, `L_th` the length of the thick set) and the length bound `L_th ≤ C_L·log x` of
+CongruenceModulesOfThetaLifts §7.10c (`C_L` fixed before `ε`; the constant of CongruenceModulesOfThetaLifts §7.11 depends only on `C_L`, `C_t`, `A_max`); the
 multiplicity identity `d^Z_j(𝔭) = d^Z_j` of CongruenceModulesOfThetaLifts §7.5b rests on CongruenceModulesOfThetaLifts §7.5a. They enter through 8.20 (v) and are hypotheses of every target
 of this layer whose bound uses the congruence lengths (8.20, 8.22, 8.24 (b)); the goodness of the twisting datum alone is used in
 8.20b and 8.24a (c), through the definition of a good twist. The Weyl exponents of CongruenceModulesOfThetaLifts §7.15
@@ -414,7 +425,7 @@ by reference (8.9, 8.20–8.22, 8.24a, 8.24). The targets that apply ArithmeticV
 through them) assume, as §8.19b does, that `d` is prime (`K = ℚ(√−d)`) and that `2` is ramified in `E`.
 
 Some clauses of this layer are statements whose routes are not given, or not given in full, here: the hypotheses of the
-index statement for the lattices of the chain (8.19e (c)); the generation inputs (8.20 (vii)) and the page conditions (P3),
+index statement for the lattices of the chain (8.19e (c)); the bound for the branching integer in 8.7 (b); the generation inputs (8.20 (vii)) and the page conditions (P3),
 (P5) for the weights of a run; the passage to geometrically irreducible components in 8.20 (o); step (3) of the depth table
 at the orbits of odd conjugate type that do not alternate between `Φ` and `cΦ` (8.20a); one point of the route of 8.24a, the
 proof of 8.24b (i) and two points of 8.24 (a). Through ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties the targets also rest on clauses of that roadmap whose routes are not given there,
@@ -455,7 +466,7 @@ coordinate lines, `ι` multiplying squared norms by `1` on `Q_1` and by `4` on `
 `‖B‖² = 1 = ‖Pt‖²·‖K_1‖²/1`. With `max_π` in place of `min_π` the bound would read
 `‖B‖² ≤ 1/4`, which is false.
 
-*KNOWN* in kind (submultiplicativity of operator norms), *NEW* as packaged. *Needs:* SlopesOfHermitianVectorBundles
+*KNOWN* in kind (submultiplicativity of operator norms; the archimedean operator-norm analogue of HeightsAndUnits §0.3), *NEW* as packaged. *Needs:* SlopesOfHermitianVectorBundles
 §1.3 (operator norms and heights of linear maps, quotient and dual metrics).
 
 ### 8.2 Taylor blocks in the Fock model
@@ -483,7 +494,8 @@ limit by dominated convergence, which the growth bound allows. (b) The maximum i
 `θ = 1/(n + 1)`, `∏_i s_i^{ν_i} e^{−(1−θ)|u|²/2} ≤ (1 − θ)^{−n/2} exp(Σ ph(ν_i)/2) ≤ e^{1/2} exp(Σ ph(ν_i)/2)`, and
 `π^{−N}∫ e^{−θ|u|²/2} = (2/θ)^N`. (c) By (a) the vector on the left is `π^{−N}∫ Th(u)e^{−|u|²}R(λ·ū) du`, where
 `λ·ū` multiplies the conjugate variables of the block `ι_τ` by `λ_τ`; homogeneity gives `R(λ·ū) = ∏_τ λ_τ^{n_τ}R(ū)`, the
-growth bound leaves the integral of (b), and squaring gives the claim.
+growth bound leaves the integral of (b), and squaring gives the claim. Applying (b) place by place gives instead the factor
+`∏_τ e·(2n_τ + 2)^{2|ι_τ|}` in place of `e·(2n + 2)^{2N}` (in 8.4, `|ι_τ| = N_{j−1}N_j` and `n_τ = n_{j,τ}`).
 
 *Check.* `N = 1`, `Th(u) = e^{u²/2}` (`S = 1`), `R(ū) = ū^{2n}` with `s_1(u) = |u|`, `ν_1 = 2n`: the left side is
 `((2n)!/(2^n n!))²·Ω^{−2n} ∼ 2(2n/e)^{2n}Ω^{−2n}`, the right side `e(4n + 2)²(2n/e)^{2n}Ω^{−2n}`: the exponential factor
@@ -543,7 +555,8 @@ defines the step by jets, which is the matrix-coefficient identification). For u
 vectors, `|⟨ρ(u)v, v′⟩| ≤ ‖ρ(u)‖ = ∏_i s_i(u_τ)^{ν_{j,τ,i}}` at each `τ` (the singular values `s_i` of the
 `N_j × N_{j−1}` matrix variable, by the singular value decomposition and unitarity of `ρ` on the unitary groups), which is
 the domination hypothesis of 8.2 (c). 8.2 (c) bounds `‖T(𝒸, 𝒸′)‖²` by
-`S_j(σ)²∏_τΩ_{τ,σ}^{−n_{j,τ}}e(2|ν_j| + 2)^{2g_j}exp(Σ ph)`. The Schur test for a kernel between class sets with weights
+`S_j(σ)²∏_τΩ_{τ,σ}^{−n_{j,τ}}e(2|ν_j| + 2)^{2g_j}exp(Σ ph)`. The Schur test of MathematicalStatisticsHighDimensional §1.4,
+applied with its entrywise domination to the matrix of block norms of the kernel between class sets with weights
 `|Γ_𝒸|^{−1} ≤ 1` gives `‖K_j‖² ≤ h_{j−1}h_j·max ‖T(𝒸, 𝒸′)‖²`.
 
 *Check.* `N_{j−1} = N_j = 1`, one place, `ν = (n)`, `n` even: the matrix coefficient is `R(ū) = ū^n`; for
@@ -551,14 +564,17 @@ the domination hypothesis of 8.2 (c). 8.2 (c) bounds `‖T(𝒸, 𝒸′)‖²` 
 `exp(ph(n))` of the bound. The identification that is isometric for the Fischer form (unit vector `u′^n/√(n!)`) would
 give a block of size `1`, and the hook products of 8.8 would then not be paid by the kernels.
 
-*NEW* (the statement and its uniformity), *KNOWN* ingredients. *Needs:* 8.2, 8.3, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.4.
+*NEW* (the statement and its uniformity), *KNOWN* ingredients. *Needs:* 8.2, 8.3, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.4; MathematicalStatisticsHighDimensional §1.4.
 
 ### 8.5c The mean period of the step kernels
 
-For the host `E ⊃ K`, the CM abelian varieties
+For the host `E ⊃ K`, `K` of discriminant `−D` with `D > 4` (on the hosts of the chain `D = d ≥ 7`), the CM abelian varieties
 of ThetaChainsOnDefiniteUnitaryGroups §3.1a and the coefficient field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6: for every `τ ∈ Φ`,
 `mean_σ log Ω_{τ,σ} = log Ω = log Ω_K − (1/[E:ℚ])·log N(𝔡_{E/K}) = log Ω_K − log(rd_E/√D)`, the mean over all
 embeddings `σ : 𝕃 → ℂ` of the numbers `Ω_{τ,σ}` of 8.4, `𝔡_{E/K}` the relative different (`|d_E| = N(𝔡_{E/K})·D^{[E:K]}`).
+ArakelovGeometryAndAbelianHeights §4.6 defines the `τ`-components of the height on the side of the differentials, and
+ComplexMultiplicationAndExplicitReciprocityPartII §0.2 relates the total heights of induced types; the statement here is the
+value per `τ`, on the tangent side, for a type induced from `K`.
 
 *Route.* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (c) for the curve `ℂ/Λ_K` of 8.4 (the lattice `Λ_K` of ThetaChainsOnDefiniteUnitaryGroups §3.1a) gives `log Ω_K` for the mean of `log(area(Λ_K^σ)/π)`. The transport term comes
 from the lattice of 8.4: the `τ`-eigen-submodule of `𝔞₀ ⊗_{𝒪_K} 𝒪_𝕃` (`𝔞₀` of ThetaChainsOnDefiniteUnitaryGroups §2.2(f), `𝔞₀𝔞̄₀ = 𝔡_{E/K}^{−1}`) is
@@ -588,7 +604,9 @@ groups at `g₀, g₁` and at the places above `T(u)` (HermitianFormsAndLattices
 the conjugates at most `C·f·N_{j−1}N_j·(La + |(L′/L)(1, χ_K)|) ≤ 2C·f·N_{j−1}N_j·La` (ThetaChainsOnDefiniteUnitaryGroups §3.1d (c), and `|(L′/L)(1, χ_K)| ≤ x^ε ≤ La`), the lattices of the CM abelian varieties have minimum at least `π/v`,
 `v = rd_E/2`, and the coefficients of the finite combinations of translates of ThetaChainsOnDefiniteUnitaryGroups §3.2 (the admissible finite data, fixed in
 SeesawForThetaChains §6.5, SeesawForThetaChains §6.8 and LocalGainOfThetaChains §4.16) at the type primes and the level prime have logarithmic size `≤ C·f·m²·N_m²·log(g₀g₁T(u))`; this gives
-`mean_σ 2 log S_j(σ) ≤ C·f·m²·N_m²·(La + log T(u))`; and `g_j log(2|ν_j| + 2) ≤ C·f·N_m²·La` since `|ν_j| ≤ C f N_m a`.
+`mean_σ 2 log S_j(σ) ≤ C·f·m²·N_m²·(La + log T(u))`; and `g_j log(2|ν_j| + 2) ≤ C·f·N_m²·La` since `|ν_j| ≤ C f N_m a`. For a
+system of data with index sets `A_{j−1}`, `A_j` the bound for the squared norm of the block operator of the step has the further
+factor `|A_{j−1}|·|A_j|`, whose logarithm is at most `C·f·m²·N_m²·log(g₀g₁T(u))`, within the error above.
 
 *NEW*. *Needs:* 8.4, 8.5c, 8.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2; HermitianFormsAndLattices §§5.5, 6.3.
 
@@ -623,9 +641,9 @@ entry of ThetaChainsOnDefiniteUnitaryGroups §2.3,
 
 `ht(res) ≤ −A_top·log T(u) + (Σ_{τ∈Φ_top}(Sc + mϑ + a⁻_τ + N_m) + Σ_{τ∈Φ∖Φ_top}(2Sc + mϑ + N_m))·log T(u) + C·N_m²·(Σ_{τ∈Φ_top} a⁻_τ + f·(mϑ + Sc + 1))·La`,
 
-and under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8) the middle term is absorbed:
+and under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), when moreover `a⁻_τ ≤ 2b′` for every `τ ∈ Φ_top`,
 
-`ht(res) ≤ t_u := −A_top·log T(u) + C₂·N_m²·(Σ_{τ∈Φ_top} a⁻_τ + f·(mϑ + Sc + 1))·La`,
+`ht(res) ≤ t_u := −A_top·log T(u) + C₂·(|Φ_top|·b′·N_m + f·(mϑ + Sc)·N_m + f·N_m²)·La`,
 
 which defines the *top term* `t_u` (`C₂` the constant of this bound). The factor `T(u)^{−n_τ}` is the archimedean side of the
 coordinate `⟨z_u, ·⟩` (ThetaChainsOnDefiniteUnitaryGroups §3.9 (c)): `res` is integral at every finite place, and the costs of the level prime are those of the
@@ -645,11 +663,11 @@ top place and `≥ −Sc − N_m` elsewhere, so `−n_τ ≤ 2Sc + mϑ + N_m` of
 (`N_m − 1` values of `j` for each of the at most `(N_m − 1)·D₀(τ)` pairs `(i, v)`, `|R_i| ≤ D₀(τ) + 1`), each of absolute value
 less than the *spread* `sp(τ) := Λ_{m,0}(τ) − Λ_{m,N_m−1}(τ) + N_m` (without the `+N_m` this fails: for `N = 6`, `λ = (1⁵, 0)`,
 `σ = (1⁵)` the integer is `−120`); the ratio `‖ξ_τ‖²/‖v_{σ(τ)}‖²` is `⟨ξ_τ, ξ_τ⟩ ≤ dim V_{Λ_m(τ)}` (ThetaChainsOnDefiniteUnitaryGroups §3.9: `br_τ∘io_τ = c_{Br,τ}²·⟨ξ_τ, ξ_τ⟩`
-exactly; IntegralWeylModulesOfGeneralLinearGroups §1.1), the Weyl product of `Λ_m(τ)`. So
-`log β_τ ≤ C·N_m²·(D₀(τ) + 1)·log sp(τ)`; when `Λ_{m,0}(τ) − Λ_{m,N_m−1}(τ) ≤ 2a`, `log sp(τ) ≤ log(2a + N_m) ≤ C·La` (ThetaChainsOnDefiniteUnitaryGroups §2.1:
-`N_m = k + m(t + 1)` and `t ≤ x^{C_t}`), and `Σ_τ(D₀(τ) + 1) ≤ Σ_{τ∈Φ_top} a⁻_τ + f·(Sc + mϑ + 1)`, which gives the last term.
-Under `SizeT_u`, `log T(u) ≤ C_T·m·x^ε ≤ C_T·m·La` (ThetaChainsOnDefiniteUnitaryGroups §2.1), and `m ≤ N_m`, so each `(Sc + mϑ + a⁻_τ + N_m)·log T(u)` and each
-`(2Sc + mϑ + N_m)·log T(u)` is at most a constant times `N_m²·(a⁻_τ + mϑ + Sc + 1)·La`.
+exactly; IntegralWeylModulesOfGeneralLinearGroups §1.1), the Weyl product of `Λ_m(τ)`. With
+`D₀(τ) ≤ Sc + mϑ + 2b′·[τ ∈ Φ_top]`, the logarithm of the branching integer at `τ` is at most `C·N_m·(D₀(τ) + Sc + ϑ)·La`
+(linear in `N_m`; the count above gives `N_m²` in place of `N_m`, and the passage to this bound is not given here) and that
+of `⟨ξ_τ, ξ_τ⟩` at most `C·N_m²·La`; summed over `τ` this is the last term. Under `SizeT_u`,
+`log T(u) ≤ C_T·m·x^ε ≤ C_T·m·La`, and the middle term is at most a constant times `(|Φ_top|·b′ + f·(mϑ + Sc + N_m))·N_m·La`.
 
 *Check.* `n = 0`, `λ = (a)`, `σ = ∅` (one place): `br` takes the coefficient of `z^a` and multiplies it by `t^{−a}`; since
 `‖z^a‖² = β^{−1}g^a`, the squared norm of `br` is `β·(|t|²g)^{−a} = β·T_br^{−a}`. With forms for which `‖z^a‖² ∝ g^{−a}` the
@@ -718,7 +736,7 @@ Petersson metric divided by `|H|`); for this metric `ι_1^*ι_1 = 𝔫·∏_jλ_
 `X_1^σ` of RowTowerAndRallisIdentities §5.12 (the class-sum product divided by `|H|`), at every `σ`, hence `(𝔫/|P_1|)·∏_jλ_j(1, 𝔥, σ)` for the class-sum
 product itself; `R^∨`, `R_0^∨` (the `c_𝕃`-semilinear functionals integral on `R`, `R_0`) carry the dual metrics (7.13): at `σ` the norm dual
 to the metric at `σ̃ = conj∘σ∘c_𝕃`, which is the norm of 8.1 for semilinear functionals at `σ` (the metrics being compatible with
-complex conjugation, `‖y‖_{σ̃} = ‖y‖_{σ∘c_𝕃}`). Under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), the hypotheses of 8.6 (the size conditions of
+complex conjugation, `‖y‖_{σ̃} = ‖y‖_{σ∘c_𝕃}`). Under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), `a⁻_τ ≤ 2b′` for `τ ∈ Φ_top` (8.7 (b)), the hypotheses of 8.6 (the size conditions of
 ThetaChainsOnDefiniteUnitaryGroups §2.1, `SizeG` of ThetaChainsOnDefiniteUnitaryGroups §2.7 and `|(L′/L)(1, χ_K)| ≤ x^ε`) and of 8.8 at every step and place,
 the hypotheses of SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of `u` is nonzero on the new forms
 `M_u`), and those of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
@@ -775,7 +793,8 @@ lengths); ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitary
 
 ### 8.19e The theta conditions of the twist selection are polynomial conditions
 
-Let `ℓ` be a prime under a twisted place, not a type prime, `δ_ℓ` its auxiliary character (ThetaChainsOnDefiniteUnitaryGroups §2.5), and use the twisting
+Let `ℓ` be a prime under a twisted place, not a type prime, `δ_ℓ` its auxiliary character (ThetaChainsOnDefiniteUnitaryGroups §2.5), assume `r ≥ 100` and
+`g₀, g₁ ≥ 2r` as CongruenceModulesOfThetaLifts §7.8 does (both hold under `Size(x, ε)` for `x ≥ 32` and the type primes of the chain), and use the twisting
 places and characters of CongruenceModulesOfThetaLifts §7.8: pairs `{𝔮, c𝔮}` of places of degree one over `ℚ` above places of `F` split in `E`, that split
 completely in the field `𝒢_M` of CongruenceModulesOfThetaLifts §7.8 (2), with characters `d_𝔮` of order `ℓ^M` ramified at the pair, and for roots of unity
 `u = (u_𝔮)_𝔮` of order dividing `ℓ^M` the twist `ψ_u := ∏_𝔮 u_𝔮^{d_𝔮}`. Polynomial conditions are those of CongruenceModulesOfThetaLifts §7.8 (2), of the second kind of SelmerLengthBoundsAndLocalLifting §3.25b (2) (a rule attaching to
@@ -854,8 +873,9 @@ size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e (on which the ra
 the lifted subspace `Z_j`, of dimension `d_Z = D_0` by RowTowerAndRallisIdentities §5.9), mapped into `M^W_j ⊗ 𝕃` by the rational model lift `θ_j(ξ_𝔭)` (RowTowerAndRallisIdentities §5.7,
 RowTowerAndRallisIdentities §5.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19), and `ℐ_j(𝔭)`, `𝔧_j(𝔭)`, `D_j` the dual index, the Weyl exponent `𝔧_j(𝔭)` (an exponent of the rational prime `ℓ(𝔭)`) and the
 duality defect of CongruenceModulesOfThetaLifts §7.15. Let `G₀` be the finite group of the types at `g₀, g₁`, `s₀` the least positive integer with
-`s₀·Δ_𝒸 ⊂ ∇_𝒸^∨` for the coefficient lattices `Δ_𝒸 ⊂ ∇_𝒸` of the forms on `U(X^h)` at every class `𝒸` (the Weyl lattices tensored
-with the integral models of the types), `F_j(𝔭)` the bulk of LocalGainOfThetaChains §4.9f (d) (one number, the flow programme summed over all
+`s₀·∇_𝒸^∨ ⊂ Δ_𝒸` and `s₀·Δ_𝒸 ⊂ ∇_𝒸^∨` for the coefficient lattices `Δ_𝒸 ⊂ ∇_𝒸` at every class `𝒸`, of the forms on `U(X^h)`
+and of the forms on the groups `U(V_j)` of the steps (the Weyl lattices tensored with the integral models of the types),
+`F_j(𝔭)` the bulk of LocalGainOfThetaChains §4.9f (d) (one number, the flow programme summed over all
 Frobenius orbits above `ℓ(𝔭)`; the same number enters the column side through LocalGainOfThetaChains §4.9f: at a prime inert in `K` and in
 `ℚ(√−q)` the column side claims `F_j(𝔭) − 𝔉^A_j(𝔭)` and returns the part `𝔉^A_j(𝔭) ≤ 2f·m·b/ℓ(𝔭)` at the places of `𝒜_p`, which
 contain every linked place, inside its cost LocalGainOfThetaChains §4.9f (e)), and `ℓ(𝔭)` the residue characteristic of `𝔭`.
@@ -884,14 +904,16 @@ LocalGainOfThetaChains §4.9f (d). For a place `v` of `𝕃` above the place `�
 `𝔩`: `E_j(v) := e₁(v)·⌈e_𝔩·T·(ν*(𝔩) + [ℓ ∈ {g₀, g₁, q, d} ∪ S_small])⌉` (an admissible exponent for ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b with ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, being at
 least `e₁(v)·T·ν_dep(𝔩)`) and `ϵ_j(v) := (E_j(v) − v_v(𝔰_j))/e_v`. Let `DF` be a number at least `DF(w_L)` for every step and
 run, `wt_j := 2f·b`, `θ_k(ℓ) := ℓ^{−i₀}` with `i₀` the least odd `i ≥ 3` with `k^{3/2} < ℓ^i`
-(so `Σ_ℓ θ_k(ℓ)·log ℓ ≤ C/k`), and `S_small`, `vd` those of ThetaChainsOnDefiniteUnitaryGroups §2.1.
+(so `Σ_ℓ θ_k(ℓ)·log ℓ ≤ C/k`), and `S_small` and `vd` those of `SizeDep` (ThetaChainsOnDefiniteUnitaryGroups §2.1): `vd` is at
+least `v_ℓ(f_E)`, hence at least `v_ℓ(Q)` (`Q` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a) and the
+mean different exponent of `E`, at every `ℓ ∈ S_small`.
 
 *The page conditions* (`SizePage`) for a run of step `j`, with constants `C₁, C_P ≥ 0` fixed before `ε`:
 (P1) `2·DF(λ^W_j) + 2 < g_i` (`i = 0, 1`), where `λ^W_j = w_F + T·w_L`;
 (P2) `DF(λ^W_j) ≤ k·(2f·b + f(Sc + η_w))` and `k ≤ min(q, d) − 1`;
 (P3) `m ≥ 2`, `k ≥ m + 3`, every prime inert in `K` is `≥ 5`; `w_j(τ) > 0`; with `W(τ)` the gap of `w_L` at the index `k − 1` at the big
 position of `τ` and `R_w` its remaining degree: `(1 − θ₀)·w_j(τ) ≤ T·W(τ) ≤ w_j(τ) + C₁(Sc + η_w)` for some `0 ≤ θ₀ ≤ 1` with
-`(k − 1)θ₀ ≤ 5m`; `T·R_w ≤ C₁·f·k·(Sc + η_w)`; `T·(w_L)_{τ,0} ≤ 3b` for every `τ`; `n(w_L) ≥ 10r(f + f²(k − 1)³L²/m)` for the logarithmic size `L`; `w_j(τ′) ≤ X″·w_j(τ)` for all `τ, τ′`;
+`(k − 1)θ₀ ≤ 5m`; `R_w ≥ 0` and `T·R_w ≤ C₁·f·k·(Sc + η_w)`; `T·(w_L)_{τ,0} ≤ 3b` for every `τ`; `n(w_L) ≥ 10r(f + f²(k − 1)³L²/m)` for the logarithmic size `L`; `w_j(τ′) ≤ X″·w_j(τ)` for all `τ, τ′`;
 (P4) with `A := (2b + Sc)/T`: `(w_L)_{τ,0} ≤ A` for `τ ∈ Φ`, and
 `T·(f·q_j·(1 + vd/2)·A + q_j·Σ_{τ∉Φ}(w_L)_{τ,0}) ≤ C_P·m·(2 + vd)·(2f·b + f(Sc + η_w))`, `C_P ≥ 1`;
 (P5) `0 ≤ min(w_j(τ), w_j(cσ_dτ)) ≤ 2b′` on every pair of places exchanged by the inertia at `d`.
@@ -917,7 +939,9 @@ satisfies `ℐ_j(𝔭) ≤ e_𝔭η_j(𝔭) + D_0·e_𝔭·(𝔧_j(𝔭) + v_{�
 
 (v) the *duality term* `E2_j := Σ_{𝔭∈Tw} ϱ(𝔭)·(e_𝔭η_j(𝔭)/D_0 + e_𝔭v_{ℓ(𝔭)}(D_j))` satisfies
 `E2_j ≤ Σ_{𝔭∈Tw} ϱ(𝔭)e_𝔭η_j(𝔭)/D_0 + log D_j`, with `D_j | D_V` (CongruenceModulesOfThetaLifts §7.15 (c)); and for a good twisting datum (CongruenceModulesOfThetaLifts §7.10a) and a host with wild-kernel budget `κ_W` (CongruenceModulesOfThetaLifts §7.11), under
-the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, `E2_j ≤ (C + κ_W)·x^ε·B₀ + log D_j`;
+the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a and the length bound `L_th ≤ C_L·log x` of
+CongruenceModulesOfThetaLifts §7.10c, for `x` at least the threshold of CongruenceModulesOfThetaLifts §7.11,
+`E2_j ≤ (C + κ_W)·x^ε·(B₀ + N_c) + log D_j`, `C` depending only on `C_L`, `C_t`, `A_max`;
 
 (vi) `Σ_{𝔭∈Tw} ϱ(𝔭)·e_𝔭·2/ℓ(𝔭)² ≤ Σ_ℓ 2·log ℓ/ℓ² < 1 =: E3`;
 
@@ -982,16 +1006,17 @@ weights and of (a)–(h) are not given here. (i) Off `Tw` the tuple is the base 
 then the Gram determinant of a local basis of a projection `P(M)` for the quotient form `(PH^{−1}P^*)^{−1}` has valuation at
 most `D·v(l)`: the dual of `P(M)` is `M^∨ ∩ (ker P)^⊥ ⊂ l^{−1}P(M)` (projection and intersection are dual,
 HermitianFormsAndLattices §4.0a (b), in its surjection form). Apply it to the integral forms on `U(X^h)` and the projection of
-RowTowerAndRallisIdentities §5.4 with `l = |G₀|·s₀`: the class-sum lattices with values in `Δ` and in `∇` are dual up to `s₀` (DiscreteSeriesCoefficientsAndAutomorphicMetrics
+RowTowerAndRallisIdentities §5.4 with `l = |G₀|·s₀`: `s₀·∇_𝒸^∨ ⊂ Δ_𝒸 ⊂ ∇_𝒸` at every class, so `s₀` times the dual of the
+`∇`-valued forms lies in the `∇`-valued forms (DiscreteSeriesCoefficientsAndAutomorphicMetrics
 §7.5a), and the good projector has denominators dividing `|G₀|`. (iii) The product formula for the integer `|G₀|·s₀`. (iv) is
-CongruenceModulesOfThetaLifts §7.15 (b). (v) The product formula bounds `Σ_𝔭 ϱ(𝔭)e_𝔭v_ℓ(D_j)` by `log D_j`; for a good twisting datum and wild-kernel budget `κ_W`, CongruenceModulesOfThetaLifts §7.11 (with `d^Z_j ≤ D_0`) bounds
-`Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭)` by `D_0·(C + κ_W)·x^ε·B₀`. (vi) `Σ_{𝔭|ℓ} ϱ(𝔭)e_𝔭 = log ℓ`, and `Σ_ℓ 2 log ℓ/ℓ² = 0.98618…`.
+CongruenceModulesOfThetaLifts §7.15 (b). (v) The product formula bounds `Σ_𝔭 ϱ(𝔭)e_𝔭v_ℓ(D_j)` by `log D_j`; for a good twisting datum and wild-kernel budget `κ_W`, CongruenceModulesOfThetaLifts §7.11 (with `d^Z_j ≤ D_0`, under the length bound of CongruenceModulesOfThetaLifts §7.10c) bounds
+`Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭)` by `D_0·(C + κ_W)·x^ε·B₀ ≤ D_0·(C + κ_W)·x^ε·(B₀ + N_c)`. (vi) `Σ_{𝔭|ℓ} ϱ(𝔭)e_𝔭 = log ℓ`, and `Σ_ℓ 2 log ℓ/ℓ² = 0.98618…`.
 
 *Check.* For the scalar: `v_v(𝔰_j)/e_v = T·c_ℓ(w_L) + c_ℓ(w_F)` above `q`, `d` and the small primes, `n_j(v) + f·r·n_P⁰` above the type
 primes, `0` elsewhere; with `vd` the mean different exponent alone (and not `v_ℓ(Q)`) the scalar part at a small prime would
 be wrong: it is `v_ℓ(Q)·DF`.
 
-*NEW* (this form), elementary given its inputs. *Needs:* FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, ThetaChainsOnDefiniteUnitaryGroups §2.4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b′, LocalGainOfThetaChains §4.9f, RowTowerAndRallisIdentities §5.4, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.11, CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.11, 7.13, CongruenceModulesOfThetaLifts §7.15, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5,
+*NEW* (this form), elementary given its inputs. *Needs:* FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, ThetaChainsOnDefiniteUnitaryGroups §2.4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b′, LocalGainOfThetaChains §4.9f, RowTowerAndRallisIdentities §5.4, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.11, CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, 7.13, CongruenceModulesOfThetaLifts §7.15, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5,
 ThetaChainsOnDefiniteUnitaryGroups §2.9; HermitianFormsAndLattices §4.0a (b); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
 
 ### 8.20a The depth table
@@ -1051,6 +1076,7 @@ ThetaChainsOnDefiniteUnitaryGroups §2.9a; HodgeTateLatticesAndLubinTateLogarith
 In the
 notation of 8.20, for a twisting datum that is good (CongruenceModulesOfThetaLifts §7.10a) for the polynomial conditions of 8.19e (a) and (b), and under the
 hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e,
+and the condition (N0) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a for the runs of 8.20,
 for every `𝔭 ∈ Tw`: `Σ_j` (the local indices of `θ_j(ξ_𝔭)(P_jM)` in `M^W_j` at `𝔭` and at `c_𝕃(𝔭)`)
 `≤ (Σ_j(2e_𝔭F_j(𝔭) + e_𝔭·err_j(𝔭)) + 2e_𝔭/ℓ(𝔭)²)·D_0`, where `err_j(𝔭)` is the sum of the remainders `r(𝔩)/(e_𝔩·[P : U]·D_0)` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a at `𝔭`,
 `𝔭′` and of the depth error `ϵ_j(𝔭) + ϵ_j(𝔭′) − 2F_j(𝔭)`, plus `4f·r²` at the type primes (the index of the unipotent level); by 8.20a
@@ -1058,12 +1084,13 @@ the depth error is at most `2(aE_j(ℓ) + 1)` at good primes `ℓ ≤ Y`, at mos
 `2C·m(2 + vd)(wt_j + f(Sc + η_w)) + 2T + 2` at the small primes and `2(wt_j + f(Sc + η_w) + T + 1) + 4[ℓ = d]·f·k·b′` at `q`, `d`. For every
 `j`, the *index term* `E1_j := Σ_{𝔭∈Tw} ϱ(𝔭)e_𝔭(err_j(𝔭) + 𝔧_j(𝔭))` satisfies `E1_j ≤ C·x^ε·(B₀ + N_c)` under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1,
 the bound CongruenceModulesOfThetaLifts §7.16a (3) for the Weyl exponents, `SizeDep` (ThetaChainsOnDefiniteUnitaryGroups §2.1) and the size conditions `k·b′ ≤ b`, `g₀, g₁ ≤ b^{e_g}`, `T ≤ b`, `P³T² ≤ b`,
-`(f·r·x^ε)^{e_P} ≤ b`, `Y ≤ m·b`, `log Y ≤ 2x^ε`, `k·(Sc + η_w)·x^ε ≤ m·b`, `k ≤ X″` and `log k ≤ x^ε` (`e_g`, `e_P` fixed before `ε`); the good
+`(f·r·x^ε)^{e_P} ≤ b`, `1 < Y ≤ m·b`, `log Y ≤ 2x^ε`, `k·(Sc + η_w)·x^ε ≤ m·b`, `k ≤ X″` and `log k ≤ x^ε` (`e_g`, `e_P` fixed before `ε`); the good
 primes then contribute at most `C·x^ε·B₀` and the bad primes at most `C·B₀` per step.
 
-Consequently, for a good twisting datum and a host with wild-kernel budget `κ_W`, under the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, (T3), the hypotheses of RowTowerAndRallisIdentities §5.8 and the size
+Consequently, for a good twisting datum and a host with wild-kernel budget `κ_W`, under the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length
+bound of CongruenceModulesOfThetaLifts §7.10c, (T3), the hypotheses of RowTowerAndRallisIdentities §5.8 and the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1,
-`SizeGen`, `SizePage` and those above, `LG + Σ_j(E1_j + E2_j) + E3 ≤ (C + κ_W)·m·(B₀ + N_c)·x^{e_D ε}` (`e_D = 1`).
+`SizeGen`, (N0), `SizePage` and those above, `LG + Σ_j(E1_j + E2_j) + E3 ≤ (C + κ_W)·m·(B₀ + N_c)·x^{e_D ε}` (`e_D = 1`).
 
 *Route.* At each `v ∈ {𝔭, c_𝕃(𝔭)}` the lifted lattice is compared with the integral forms through four inclusions (the lift
 commutes with the good projector and factors through the projection; the adelic theta series of the tuple are lifts of
@@ -1074,7 +1101,7 @@ levels and exponent bounds add) for the good twisting datum, the signed indices 
 kernels); the last index is bounded by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b with the uniform bound ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (with `E = E_j(v)` and `σ = 𝔰_j`: `Θ_{λ^W_j} ⊂ 𝔰_j·Th^{short}(λ^W_j)` by
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (c), `𝔰_j` dividing the three products of scalars, which are `𝔰_j` times `z(w_F)·(g₀g₁)^{f·r·(n_P − n_P⁰)}`,
 `z(w_F + n·w_L)·(g₀g₁)^{f·r·(n_P + n·n_W − n_P⁰)}` and `z(λ^W_j)·(g₀g₁)^{f·r·(r + t − n_P⁰)}`, with `N(λ^W_j) = N(w_L)^T·N(w_F)`), whose
-hypotheses (N3)–(N5), (I1)–(I8) hold at these parameters. (N3): by 8.20 (vii) (a), ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a) and the bounds for the scalars (with
+hypotheses (N3)–(N5), (I1)–(I8) hold at these parameters ((N0) being assumed). (N3): by 8.20 (vii) (a), ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a) and the bounds for the scalars (with
 `G = C·f·r·(L + log(g₀g₁qd) + log p_o) + 2·max(log[𝕂:ℚ] + log|d_𝕂|/[𝕂:ℚ], log[E:ℚ] + log|d_E|/[E:ℚ])`; a finite spanning subset with
 these bounds is extracted from the spanning set of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a)). (N4): the depth sum by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a′ (a); integrality by 8.20 (vii) (b):
 `s_W·Th^{all}(w) ⊂ M_w` because `v_𝔩(s_W) = v_𝔩(N(w)) + Σ_ℓ e_𝔩·c_ℓ(w)` covers the loss of 8.20 (vii) (b) (`c_ℓ(w) = v_ℓ(Q)·DF(w) ≥ vd(ℓ)·DF(w)` at the
@@ -1101,7 +1128,7 @@ needed by the argument. `e_g = 9`, `e_P = 12`, and `(4C² + 25C + 12)` for the c
 construction.
 
 *NEW* (this form), elementary given its inputs. *Needs:* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a′, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a‴, 8.19e, 8.20, 8.20a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18a, CongruenceModulesOfThetaLifts §7.8,
-CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.11, CongruenceModulesOfThetaLifts §7.15, CongruenceModulesOfThetaLifts §7.16a, FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b.
+CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, CongruenceModulesOfThetaLifts §7.15, CongruenceModulesOfThetaLifts §7.16a, FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b.
 
 ### 8.21 The slope of the target
 
@@ -1131,15 +1158,15 @@ the multiplicities `n_s` of the level `(P_1, χ_{P_1})` in the representations o
 contains the level `(P_0, χ_{P_0})` with multiplicity one. If `H₀ ≥ μ_max(R_0)`, then `μ_max(R) ≤ H₀ + C·log|G₀|` and
 `μ(R^∨) ≤ μ(R_0^∨) + 3δ_G·(μ(R_0^∨) + H₀ + C·log|G₀|) + C·log|G₀|`, `C` absolute.
 
-(c) *The multiplicities.* Suppose `12f·r ≤ min(g₀, g₁)` (`r` the rank of the general linear groups of `G₀` at the type places;
+(c) *The multiplicities.* Suppose `24f·r ≤ min(g₀, g₁)` (`r` the rank of the general linear groups of `G₀` at the type places;
 this gives `δ_G ≤ 1/3` below, and `2fr ≤ min(g₀, g₁)` is the hypothesis `sn ≤ g` of FiniteReductiveGroups §2.8 (c)); the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 give it (`g_i ≥ (kb)^{A_g}` while `f·r ≤ x^C`). By RowTowerAndRallisIdentities §5.3 (v), every representation of `G₀`
 occurring in `𝔼^♮` is, at each of the `2f` type places, the whole Harish-Chandra induced representation `R_L^G σ` of a cuspidal
 pair (not a constituent of it) and contains `(P_0, χ_{P_0})` exactly once, and at each type place the level `(P_1, χ_{P_1})` is the
 pair `(H_{r_S}, ϕ_{r_S})` of FiniteReductiveGroups §2.7 (b) with the same `k`. Then (b) holds with `n̄ = ∏_v N(v)^k`
-over the `2f` type places and `δ_G = 4f·r/min(g₀, g₁)` (FiniteReductiveGroups §2.8 (c) with `s = 2f` fields `𝔽_{N(v)}` of
+over the `2f` type places and `δ_G = 8f·r/min(g₀, g₁)` (FiniteReductiveGroups §2.8 (c) with `s = 2f` fields `𝔽_{N(v)}` of
 cardinality `q_v = N(v) ≥ g := min(g₀, g₁)`, `n = r`, at each place the pair `(H_{i_v}, ϕ_{i_v})` of FiniteReductiveGroups §2.7 (b) given by the level with
-one `k`, and the cuspidal pair of the induced representation; `δ = 2sn/g`). Under the size conditions, `log|G₀| ≤ C·f·r²·log g₁`.
+one `k`, and the cuspidal pair of the induced representation; `δ = 2sn/g ≤ δ_G`). Under the size conditions, `log|G₀| ≤ C·f·r²·log g₁`.
 
 *Route.* (a) For a lattice `L` with metric `X` and any basis `e` of `L ⊗ 𝕃`,
 `−rk L·μ(L) = mean_σ log det Gram_σ(e) − 2Σ_𝔭 ϱ(𝔭)·idx_𝔭(L : ⟨e⟩)`, the mean over the embeddings `σ : 𝕃 → ℂ` of the Gram
@@ -1167,7 +1194,8 @@ mean); the maximal slope moves by at most `C·log|G₀|` (SlopesOfHermitianVecto
 product over the places is the product of the multiplicities; at one place FiniteReductiveGroups §2.8 (a)–(b) give
 `g^k(1 − g^{−1}) ≤ m ≤ g^k(1 + g^{−1})^r` (from the exact multiplicity through FiniteReductiveGroups §2.7 (b) and the Mackey formula), and over `2f` places
 `∏(1 − g_v^{−1}) ≥ 1 − 2f/g`, `∏(1 + g_v^{−1})^r ≤ e^{2fr/g} ≤ 1 + 4fr/g`. The bound concerns the whole induced representation:
-for a constituent it fails when `r ≥ 3` (`α∘det ⊂ R_T^G(α ⊠ ⋯ ⊠ α)` has multiplicity `0`).
+for a constituent it fails when `r ≥ 3` (`α∘det ⊂ R_T^G(α ⊠ ⋯ ⊠ α)` has multiplicity `0`). The route of [FormalProof] for the
+multiplicities with this `δ_G` is not given here; the deviation `4fr/g ≤ δ_G` above is this roadmap's own.
 
 *Check.* With all tuples equal to the base tuple, no step (`m = 0`) and `𝔫 = 1`, (a) is the product formula for the
 Gram determinant of a local basis of `R_0`. For `(𝒪_𝕃, c·|·|)` and `e = 1` the Gram determinant is `c²` at every embedding
@@ -1176,7 +1204,7 @@ alone instead of at the pair `{𝔭, c_𝕃(𝔭)}` would make the Gram hypothes
 `e = (2 − i)^{−1}` is a local basis at `𝔭` (index `0` there) but not at `c_𝕃(𝔭)`, and its Gram determinant `e·c_𝕃(e) = 1/5` has
 valuation `−1` at `𝔭`; only over the pair does the sum of the Gram valuations (`−1` at each place) equal twice the sum of the
 indices (`0` at `𝔭`, `−1` at `c_𝕃(𝔭)`). In one construction the passage constants are
-`14` and `28`, and `δ_G ≤ 8fr/min(g₀, g₁)` (8.21 (c) gives `4fr/min(g₀, g₁)`).
+`14` and `28`.
 
 *NEW* (instance). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.4, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, 7.13, 8.9, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20; SlopesOfHermitianVectorBundles §§1.2, 1.2a (iii), 1.7,
 2.2, 2.4; FiniteReductiveGroups §§2.7 (b), 2.8.
@@ -1184,10 +1212,14 @@ indices (`0` at `𝔭`, `−1` at `c_𝕃(𝔭)`). In one construction the passa
 ### 8.22 The division inequality
 
 *Statement.* Assume that the twisting datum is good (CongruenceModulesOfThetaLifts §7.10a) and that the host has wild-kernel
-budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11; for instance `V(E, t) ≤ b`), the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the condition (T3) of 8.20, the hypotheses of RowTowerAndRallisIdentities §5.8b
+budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11; for instance `V(E, t) ≤ b`), the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length bound of
+CongruenceModulesOfThetaLifts §7.10c, the condition (T3) of 8.20, the hypotheses of RowTowerAndRallisIdentities §5.8b
 for the grid of the chain and a scale `x ≥ x₀` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e (through 7.13),
-`[F:ℚ] ≥ 2`, the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 and `SizeDep`), `SizeGen`, `SizePage` and
-those of 8.20b and those of 8.21, and
+`[F:ℚ] ≥ 3`, `r + 1 < g₀, g₁`, `q_z ≤ ¼` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (e)), the hypotheses (H1)–(H3) of
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c), the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 and `SizeDep`), `SizeGen`, `SizePage` and
+those of 8.20b and those of 8.21, the hypotheses of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 (b), (c), which supply the numbers
+`s^{st}_j` of 8.21 (a), the gap conditions of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (f) for every step `j < m` (with their
+witnesses `h₀`, `S_u`, `η_u`), and
 
 `N_m²·m³·x + (mϑ + Sc + k)·N_m ≤ b`, `k·Sc + m(t + 1)ϑ ≤ w″`, `N_m²·w″ ≤ b`, `(N_m² + m·k)·b′ ≤ a`,
 `a⁻_τ ≤ 2b′` for `τ ∈ Φ_top`, `|log Ω| ≤ La ≤ 2x^ε`, `log(g₀g₁) ≤ C·La`, `log T(u) ≤ x`,
@@ -1216,8 +1248,9 @@ the middle term against (T) leaves `Σ_{j,τ}(p_j − q_j − k)·w_j(τ)·log �
 thin) does not depend on `j`, so `|w_j(τ) − w_1(τ)| ≤ ϑ + 1` and the term is at most `f·m²·(ϑ + 1)·La`.
 (D5) *The top period.* The top term `t_u` of 8.7 (b) in `h_u` contributes `−(Σ_{τ∈Φ_top}a_τ)·log T(u)`.
 The remaining errors: `Σ eE_{j,τ} ≤ C(f m b La + m|Φ_top|b′La)`, `Σ|δ_{j,τ}|·La ≤ C(f m b La + |Φ_top|m k b′La)`,
-`m·C₁f m³N_m²·La`, `m·A_R f(r+t)²log(b·rd_E·g₀g₁(r+t))`, the `La`-term of `t_u` (its part `C₂N_m²Σ_{τ∈Φ_top}a⁻_τ·La` is at
-most `C|Φ_top|aLa` by `N_m²·b′ ≤ a`, its part `C₂N_m²f(mϑ + Sc + 1)La` at most `C·f·b·La` by `mϑ, Sc ≤ w″` and `N_m²·w″ ≤ b`), and
+`m·C₁f m³N_m²·La`, `m·A_R f(r+t)²log(b·rd_E·g₀g₁(r+t))`, the `La`-term of `t_u` (its part `C₂·|Φ_top|·b′·N_m·La` is at
+most `C·|Φ_top|·a·La` by `N_m·b′ ≤ a`, its part `C₂·f·((mϑ + Sc)·N_m + N_m²)·La` at most `C·f·b·La` by `(mϑ + Sc + k)·N_m ≤ b`
+and `N_m² ≤ b`), and
 `E_T`; by the size conditions each is at most `C|Φ_top|aLa` or `C m(B₀ + N_c)x^{e_D ε}` (note `f·m·b·La ≤ 2B₀`). Any fixed `e_D ≥ 1` would do;
 `e_D = 1` is what these bounds give.
 
@@ -1227,7 +1260,7 @@ almost nothing over the chain; a discrepancy `c·w_j(τ)·log Ω` per place and 
 `f·m·b·La`, and one of size `k` would make the inequality trivial. A mismatch between the bulk of the rows and that of
 the columns at the places of the inert class would be of size `f·m·k·b`, above the whole budget: (D2) needs one number.
 
-*NEW*. *Needs:* 8.9, 8.10, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20, 8.20b, 8.21; ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.9f.
+*NEW*. *Needs:* 8.9, 8.10, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20, 8.20b, 8.21; ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.9f.
 
 ### 8.23 The cost of the type primes
 
@@ -1235,7 +1268,8 @@ the columns at the places of the inert class would be of size `f·m·k·b`, abov
 the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 and the cost condition `𝔢_u·log T(u) ≤ C·B₀` at the level prime):
 (a) `|Σ_𝔭 sz_𝔭(E_{u,j}(𝔭)) − A_top·log(g₀g₁)| ≤ C·B₀` and `Σ_{𝔭 ∤ g₀g₁}|sz_𝔭(E_{u,j}(𝔭))| ≤ C·B₀`; hence
 `E_tot(u) := Σ_jΣ_𝔭 sz_𝔭(E_{u,j}(𝔭)) ≤ m·A_top·log(g₀g₁) + C·m·B₀`;
-(b) for all words `u, u′`, `|(h_u + A_top·log T(u)) − (h_{u′} + A_top·log T(u′))| ≤ C·B₀`, with `C` depending on `ε`.
+(b) for all words `u, u′`, `|(h_u + A_top·log T(u)) − (h_{u′} + A_top·log T(u′))| ≤ C·(|Φ_top|·a·La + m·B₀)`, with `C`
+depending on `ε`.
 
 *Route.* (a) `E_{u,j}` is defined by cases (LocalGainOfThetaChains §4.9f (e)); by the product formula `Σ_{𝔭|p} sz_𝔭(·)` of an entry that depends on `𝔭`
 only through `p` is `2 log p` times it. (i) Stabilisers: `Σ_𝔭 sz_𝔭(v_p(D_Γ)) = 2 log D_Γ ≤ C·f·N_m·log(f·N_m)` (ThetaChainsOnDefiniteUnitaryGroups §3.6). (ii) Primes
@@ -1254,7 +1288,7 @@ prime: the cost `𝔢_u` sits at the places above `π_u` and is `0` above `π̄_
 `−A_top·log T(u)` in `t_u` and through the kernel terms, so the left side is `|Σ_jΣ_τ(Kt_{j,τ}(u) − Kt_{j,τ}(u′))|`. Only the rows
 `1 ≤ i ≤ k − 2` of a place depend on the word (8.10 (b)), each changes by at most `Sc` and lies in `[1, M]`, `M := Sc + max w_j`,
 and `|ph(y) − ph(y′)| ≤ |y − y′|·log M` on `[1, M]`; so the difference is at most `m·f·k·Sc·(log M + |log Ω|)`, and `k·Sc ≤ b`,
-`log M + |log Ω| ≤ C·x^ε` give `≤ C·m·f·b·x^ε = C·B₀`.
+`log M + |log Ω| ≤ C·x^ε` give `≤ C·m·f·b·x^ε = C·B₀`, which is at most the stated bound.
 
 *Check.* Two words share `v, e′, e` (ThetaChainsOnDefiniteUnitaryGroups §2.3), so the hook products `H^+_{j,τ}`, `𝔫` and the top weights do not depend on the
 word; only the inner entries of `u(τ)` do, by at most `Δ_w` each, and `Sc = 4kΔ_w`. The factor `T(u)^{−n_τ}` of the restriction is
@@ -1267,18 +1301,21 @@ archimedean (ThetaChainsOnDefiniteUnitaryGroups §3.9 (c)), not a cost; the cost
 For a twisting datum with sign `s = +1` and a
 square `(i, j)` of the grid of RowTowerAndRallisIdentities §5.8a let `ν_ξ = μ_{j+1}(ξ)/χ_{m−i}` be its Hecke character for the tuple `ξ` (RowTowerAndRallisIdentities §5.8d), `h_sq` half
 the sum of the two ranks of the square, `ρ_ξ(s) := Λ(s, ν_ξ)/Λ(s, ν_1)` for integers `1 ≤ s ≤ h_sq` (all these values are nonzero
-toric sums, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (ii)), and `r_{ij}(ξ) := c(i, j, ξ)/c(i, j, 1)`. For a finite place `𝔭 | ℓ` of `𝕃` let `g_s(𝔭)` be the mean
-`𝔭`-adic valuation of the conjugates of the normalised value `Λ(s, ν_1)^♮` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b), truncated at `0`, and `n_s(ℓ)` the
-denominator exponent of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for `Λ(s, ·)`.
+toric sums, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (ii)), and `r_{ij}(ξ) := c(i, j, ξ)/c(i, j, 1)`. For a finite place `𝔭 | ℓ` of `𝕃` let `g_s(𝔭) ∈ ℤ` be the mean
+`𝔭`-adic valuation of the conjugates of the normalised value `Λ(s, ν_1)^♮` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b), rounded toward zero to an
+integer, and `n_s(ℓ)` the least integer `≥ 0` that is at least the denominator exponent of
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for `Λ(s, ·)`.
 
 (a) Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
 `Size_□` of RowTowerAndRallisIdentities §5.8e (the bottom norms below are then nonzero elements of `𝕃`, RowTowerAndRallisIdentities §5.8d): `r_{ij}(ξ)` is, up to a
-unit away from the twist places of `ξ` and up to `p_□ + q_□` step quotients `u_k` (RowTowerAndRallisIdentities §5.8d) with
-`v_𝔭(u_k) ≤ 2Σ_{𝔮}c(𝔮)·v_𝔭(N𝔮)` (the sum over the places of `S₀`, `c(𝔮)` the conductor exponents; `v_𝔭(u_k) = 0` at the places of (d)),
+factor that is a unit at every place dividing no norm of a twist place of `ξ` and up to `p_□ + q_□` step quotients `u_k`
+(RowTowerAndRallisIdentities §5.8d) with `v_𝔭(u_k) ≤ 2Σ_{𝔮}c(𝔮)·v_𝔭(N𝔮)` at the places `𝔭` that divide no norm of a twist place of
+`ξ` (the sum over the places of `S₀`, `c(𝔮)` the conductor exponents; `v_𝔭(u_k) = 0` at the places of (d)),
 the product of the ratio of the
 bottom constants `c⁰(ξ)/c⁰(1)` and of `∏_{k=1}^{p_□}ρ_ξ(e + q_□ − k + 1)·∏_{k=1}^{q_□}ρ_ξ(e + k)^{−1}` (`p_□ = ⌊(m − j − 1)/2⌋`,
 `q_□ = ⌊(m − j)/2⌋`, so `p_□ + q_□ = m − j − 1`; `e` half the difference of the ranks of the squares `(i + 1, j + 1)` and `(i, j)`);
-`v_𝔭(c⁰(ξ)/c⁰(1)) ≤ v_𝔭(A(ξ)) + v_𝔭(A′(1)) + 6d_l(𝔭)`, where the big bottom norm `A(ξ)` of `ξ` is a constant times
+at every place `𝔭` that divides no norm of a twist place of `ξ`, `v_𝔭(c⁰(ξ)/c⁰(1)) ≤ v_𝔭(A(ξ)) + v_𝔭(A′(1)) + 6d_l(𝔭)`,
+where the big bottom norm `A(ξ)` of `ξ` is a constant times
 `∏_{s=1−e_□}^{h_□}Λ(s, ν_ξ)` (`e_□`, `h_□ ≤ h_sq` the numbers of RowTowerAndRallisIdentities §5.8d, half the difference and half the sum of the two shifted
 ranks of the bottom pair of the square),
 `A′(1)` the small bottom norm of the base tuple and `d_l(𝔭) := d(ℓ)·v_𝔭(ℓ)` for `𝔭 | ℓ`, where `d(ℓ) ≥ 0` is the *integrality
@@ -1287,9 +1324,9 @@ defect at `ℓ`* of 8.24b (i): an exponent such that the masses of the classes o
 integral above `ℓ`, have `ℓ`-adic absolute value at most `ℓ^{d(ℓ)}` under every embedding of `ℚ̄` into `ℂ_ℓ`; then every bottom
 norm `x` of RowTowerAndRallisIdentities §5.8d (for `ξ` and for the base tuple) is nonzero with `v_𝔭(x) ≥ −3d_l(𝔭)` (two
 coordinates and one mass); and `ρ_ξ(s)` for `s ≤ 0` is a unit away from the twist places times `ρ_ξ(1 − s)` (the functional
-equation in ratio form).
+equation in ratio form, from AnalyticNumberTheoryPartI §2.3a for `ν_ξ` and `ν_1`).
 
-(b) For every finite place `𝔭 | ℓ` not above the twist places of `ξ`: `v_𝔭(ρ_ξ(s)) + g_s(𝔭) ≥ −n_s(ℓ)·v_𝔭(ℓ)`.
+(b) For every finite place `𝔭 | ℓ` that divides no norm of a twist place of `ξ`: `v_𝔭(ρ_ξ(s)) + g_s(𝔭) ≥ −n_s(ℓ)·v_𝔭(ℓ)`.
 
 (c) For a good twisting datum (CongruenceModulesOfThetaLifts §7.10a): if `ξ = ξ_𝔭` is the tuple twisted at `𝔭` (ThetaChainsOnDefiniteUnitaryGroups §2.5), so that `ν_ξ = ν_1δ_ℓψ_𝔭`
 (the twisting datum has the sign `s = +1`, ThetaChainsOnDefiniteUnitaryGroups §2.5), and `𝔭` does not divide the norms
@@ -1299,7 +1336,7 @@ of the twist places of `ξ_𝔭`: for every `1 ≤ s ≤ h_sq`, whenever `z ∈ 
 `v_𝔭(r_{ij}(ξ_𝔭)) ≤ |v_𝔭(A)| + |v_𝔭(A′)| + 4Σ_{s≤h_sq}(|g_s(𝔭)| + |v_𝔭(Λ(s, ν_1δ_ℓ)/Λ(s, ν_1)) + g_s(𝔭)|) + 5Σ_{s≤h_sq}n_s(ℓ)v_𝔭(ℓ) + 2h_sq·v_𝔭(ℓ)/ℓ² + 6d_l(𝔭) + (p_□ + q_□)·2Σ_𝔮c(𝔮)v_𝔭(N𝔮)`, with `A, A′` the bottom norms of the base tuple.
 
 *Route.* (a) The tower recursion of RowTowerAndRallisIdentities §5.8d (ThetaLiftsForDefiniteUnitaryGroups §6.12), the Rallis norms of the
-definite bottom pair, and the functional equation of `Λ(s, ν)` in ratio form. (b) ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for the numerator, the gauge `g_s`
+definite bottom pair, and the functional equation AnalyticNumberTheoryPartI §2.3a in ratio form. (b) ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for the numerator, the gauge `g_s`
 for the denominator. (c) Both values are toric sums (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (i), with no correction factor, `ψ_𝔭` being ramified at all of
 `Q(ξ_𝔭)`); the `𝔭`-adic valuation of `z` is read through an embedding of `ℂ` into an algebraic closure of the `ℓ`-adic
 coefficient field, which agrees with the `𝔭`-adic embedding only on a subfield, so `z` is moved by an automorphism of `ℂ`;
@@ -1318,7 +1355,7 @@ point of this route is not given here: in (b), the passage from the pointwise ga
 twist, summable over `ℓ` with the weights `ϱ(𝔭)`. For the hosts `E = ℚ_n·ℚ(ψ)·ℚ(√−q)·ℚ(√−d)` of FrobeniusRestrictedRieszSums §0.4, `d` is
 prime and `2` is ramified in `E` when `n ≥ 1`, so the two hypotheses of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b that this layer carries hold there.
 
-*NEW*. *Needs:* RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, 8.19e, 8.24b, ThetaChainsOnDefiniteUnitaryGroups §2.5; ThetaLiftsForDefiniteUnitaryGroups §6.12.
+*NEW*. *Needs:* RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, 8.19e, 8.24b, ThetaChainsOnDefiniteUnitaryGroups §2.5; ThetaLiftsForDefiniteUnitaryGroups §6.12; AnalyticNumberTheoryPartI §2.3a.
 
 ### 8.24b Integrality of the bottom norms
 
@@ -1343,9 +1380,10 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i), which co
 With the metric of 8.9 on `𝔼_0` and `𝔼`, under the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, the hypotheses of 8.8 at every step and place (for the Rallis
 eigenvalues in term (3) of the route), the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the
-size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, for a good twisting datum (CongruenceModulesOfThetaLifts §7.10a): (a) `μ_max(R_0) + log 𝔫 ≤ x^{C}·b`, with `C` depending only on the constants fixed before
-`ε`; (b) consequently `H₀ := x^C·b − log 𝔫` satisfies the hypothesis `H₀ ≥ μ_max(R_0)` of 8.21 (b), and, for a host with wild-kernel
-budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11), under the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the condition (T3) of 8.20 and `[F:ℚ] ≥ 2` (through ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19), with the size conditions of 8.22, the smallness condition of 8.21 (b) holds for `δ_G` of 8.21 (c)
+size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, for a good twisting datum (CongruenceModulesOfThetaLifts §7.10a): (a) `μ_max(R_0) + log 𝔫 ≤ x^{C}·b`, with an exponent `C` chosen after
+`ε` (it may depend on `ε` and on the constants fixed before `ε`, and not on `x` nor on anything chosen at the scale `x`); (b) consequently `H₀ := x^C·b − log 𝔫` satisfies the hypothesis `H₀ ≥ μ_max(R_0)` of 8.21 (b), and, for a host with wild-kernel
+budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11), under the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length bound of
+CongruenceModulesOfThetaLifts §7.10c, the condition (T3) of 8.20 and `[F:ℚ] ≥ 3`, `r + 1 < g₀, g₁`, `q_z ≤ ¼` and the hypotheses (H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c) (through ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19), with the size conditions of 8.22, the smallness condition of 8.21 (b) holds for `δ_G` of 8.21 (c)
 (under its hypotheses) and `μ(R^∨) ≤ log 𝔫 + Σ_j s^{st}_j + F_tot + C·m·(B₀ + N_c)·x^{e_D ε}` and `μ_max(R) + log 𝔫 ≤ x^{C}·b` for the
 lattice `R` of the rows.
 
@@ -1368,7 +1406,8 @@ number of coset data, `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)} ≤ exp(2m·N²·�
 index of `K⁺`), both at most `exp(m·a₁)`, `a₁ = C·f·N·b·log b + C·m·N²·σ_G`; with `d_□·log N(v_□)` of the size that RowTowerAndRallisIdentities §5.8a fixes, this
 is at most `x^C·b` (`log b = x^ε`); (3) `−mean_σ min_𝔥 Σ_j log λ_j(1, 𝔥, σ) ≤ C·f·m·N_m²·log b` by 8.8 (b), since `ι_1` multiplies
 squared norms by `𝔫∏_jλ_j` on each part and the parts are orthogonal; (4) `2Σϱ(𝔭)d_F(𝔭)`, the denominators of the test
-values (`d_F(𝔭) ≥ 0` the least integer with `v_{ξ_𝔭}(R_0) ⊂ 𝔭^{−d_F(𝔭)}M` at `𝔭`, `v_ξ` the vector of class sums of jets of CM theta
+values (integers `d_F(𝔭)` with `v_{ξ_𝔭}(M̃_{ξ_𝔭}) ⊂ 𝔭^{−d_F(𝔭)}M` at `𝔭`, `M̃_{ξ_𝔭}` the integral forms of the tuple used at `𝔭`,
+`v_ξ` the vector of class sums of jets of CM theta
 values; `d_F = 0` outside a finite set) (their sum `2Σ_𝔭ϱ(𝔭)d_F(𝔭)` is of polynomial size; this bound is a statement of
 [FormalProof] of its own, distinct from 8.24b, and its proof is not given here); (5)
 `2Σ_𝔭ϱ(𝔭)Σ_{i,j}v_𝔭(r_{ij}(ξ_𝔭))`, bounded by 8.24a (d) summed with the weights `ϱ(𝔭)`: the product formula bounds
@@ -1377,13 +1416,13 @@ values; `d_F = 0` outside a finite set) (their sum `2Σ_𝔭ϱ(𝔭)d_F(𝔭)` i
 exponents sum to polynomial size (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (ii) for the part `c_E(l)`: `Σ_l c_E(l)·log l ≤ fk·log(fk + 1)`, `k = 2s`,
 when `fk ≥ 16`, which holds under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, as they give `f = 2|A| ≥ 2x^{A_n}`; the other parts of the
 exponent vanish unless `l` divides `𝔣·d_E`, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i)), and `Σ_ℓ log ℓ/ℓ² < 1`. Each is polynomial in `b`, `x` and the ranks, with
-exponents fixed before `ε`. (b) Insert (a), `δ_G = 4fr/min(g₀, g₁)` of 8.21 (c) and `log|G₀| ≤ C·f·r²·log g₁` into 8.21 (a)–(b)
+exponents fixed before `ε`. (b) Insert (a), `δ_G = 8fr/min(g₀, g₁)` of 8.21 (c) and `log|G₀| ≤ C·f·r²·log g₁` into 8.21 (a)–(b)
 and 8.20b (last clause); every added term is at most `C·m·(B₀ + N_c)·x^{e_D ε}` (the passage term is `≤ 1 + C·log|G₀|` because
 `δ_G·x^C·b` is tiny when `min(g₀, g₁) ≥ (kb)^{A_g}`). In (a), the bound of term (4) and the
 bounds of the terms (4), (5) linear in `b` are not given here.
 
 *NEW* (this application); the principle (a lattice mapping injectively with small height into a lattice of small maximal
-slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). *Needs:* RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.11, 7.13, 8.8, 8.9, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, 8.20, 8.21,
+slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). *Needs:* RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, 7.13, 8.8, 8.9, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, 8.20, 8.21,
 8.24a, 8.24b, ThetaChainsOnDefiniteUnitaryGroups §2.1, RowTowerAndRallisIdentities §5.8a; SlopesOfHermitianVectorBundles §§1.3, 2.1, 2.4 (b); IntegralWeylModulesOfGeneralLinearGroups §3.3.
 
 ### Examples
@@ -1407,12 +1446,14 @@ Layer 7 (7.13, 7.14). FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4; ThetaChain
 2.5, 2.6, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.1, 3.1a, 3.1d, 3.2, 3.4, 3.6, 3.8, 3.9; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.8b,
 4.8b′, 4.8c, 4.18, 4.19d, 4.19e, 4.19f; LocalGainOfThetaChains §§4.9e, 4.9f, 4.16; RowTowerAndRallisIdentities §§5.1, 5.3, 5.4, 5.7,
 5.8, 5.8a, 5.8b, 5.8d, 5.8e, 5.9, 5.10, 5.11, 5.12; SeesawForThetaChains §§6.1, 6.5, 6.8, 6.14, 6.15; CongruenceModulesOfThetaLifts
-§§7.5a, 7.5b, 7.8, 7.10a, 7.11, 7.15, 7.16a; ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.5, 8.18a, 8.18b, 8.19,
+§§7.5a, 7.5b, 7.8, 7.10a, 7.10c, 7.11, 7.15, 7.16a; ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.5, 8.18a, 8.18b, 8.18c, 8.18f, 8.19,
 8.19a, 8.19a′, 8.19a″, 8.19a‴, 8.19b, 8.19c, 8.19d; HermitianFormsAndLattices §§4.0a, 5.5, 6.3; SlopesOfHermitianVectorBundles
-§§1.2, 1.2a, 1.3, 1.7, 2.1, 2.2, 2.4; HodgeTateLatticesAndLubinTateLogarithms §§0.5e, 0.5f; SelmerLengthBoundsAndLocalLifting
+§§1.2, 1.2a, 1.3, 1.7, 2.1, 2.2, 2.4, 3.5; HodgeTateLatticesAndLubinTateLogarithms §§0.5e, 0.5f; SelmerLengthBoundsAndLocalLifting
 §§3.25b, 3.26; IntegralWeylModulesOfGeneralLinearGroups §§1.1, 3.1, 3.3; FiniteReductiveGroups §§2.7, 2.8;
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b, 8.3; ThetaLiftsForDefiniteUnitaryGroups §6.12;
 AutomorphicFormsOnReductiveGroups §§7.4–7.6; ClassicalGroups §§5.1, 6.1; SchurWeyl Layer 5; SpecialFunctionsTheta Layer 7;
+AnalyticNumberTheoryPartI §2.3a; ArakelovGeometryAndAbelianHeights §§1.1, 1.3, 1.6; AutomorphicGaloisRepresentationsPartII
+(Conventions; Layer AG2.0); MathematicalStatisticsHighDimensional §1.4; ReductiveGroups §10B;
 Mathlib's Gaussian integrals, power series of entire functions and mean-value inequality for subharmonic functions (8.2, 8.3).
 
 ## Downstream consumers
@@ -1469,13 +1510,35 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 - Gaussian integrals on `ℂ^n`, power series of entire functions and dominated convergence. Used in 8.2.
 - The mean-value inequality for subharmonic functions and volumes of balls. Used in 8.3.
 
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §2.3a (the continuation and functional equation of Hecke `L`-functions, algebraic characters included). Used in 8.24a.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+- §§1.1, 1.3, 1.6 (Hermitian vector bundles over a ring of integers, the Arakelov degree and slope, the degree under finite
+  extension). Used in the Conventions.
+
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-- §§7.4–7.6: algebraic modular forms in Gross's models and composition and adjoints of class-set operators. Used in 8.7.
+- §§7.4–7.6: algebraic modular forms in Gross's models and composition of class-set operators. Used in 8.7.
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
+
+- Conventions and Layer AG2.0 (Artin reciprocity sending uniformisers to geometric Frobenius elements, the `ℓ`-adic character
+  `r_{l,ι}(χ)` of an algebraic Hecke character and its Hodge–Tate numbers). Used in the Conventions, through 8.19e.
 
 ### From TauCetiRoadmap.ClassicalGroups
 
 - §5.1 (the Weyl dimension formula) and §6.1 (branching `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin). Used in 8.7.
+
+### From TauCetiRoadmap.MathematicalStatisticsHighDimensional
+
+- §1.4 (the Schur test and entrywise domination for matrix norms). Used in 8.4.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+- §10B (the integral Weyl and induced lattices and the contravariant duality between them). Used in the Conventions, 7.14, 8.20.
 
 ### From TauCetiRoadmap.SchurWeyl
 
@@ -1528,7 +1591,7 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 ### From CongruenceModulesOfThetaLifts, a sub-roadmap of this family
 
 - 7.5a, 7.5b (lifted eigensystems and the lifted subspace), 7.8 (twist selection and good twists), 7.10a (the good twisting
-  datum), 7.11 (the wild-kernel budget and the congruence bound), 7.15 (the projected lattice, the dual index and the Weyl
+  datum), 7.10c (the length bound of the thick set), 7.11 (the wild-kernel budget and the congruence bound), 7.15 (the projected lattice, the dual index and the Weyl
   exponent), 7.16a (the bound for the Weyl exponents). Used in 8.19e, 8.20, 8.20b, 8.21, 8.22, 8.24a, 8.24.
 
 ### From ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties, a sub-roadmap of this family
@@ -1536,6 +1599,8 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 - 8.5 (the Chowla–Selberg statement for the mean period). Used in 8.5c.
 - 8.18a, 8.18b, 8.19, 8.19a, 8.19a′, 8.19a″, 8.19a‴ (the step lattices `M^W_j`, their slope bound, the generation of integral
   forms by theta series and the depth of the theta lattices). Used in 8.20–8.22, 8.24.
+- 8.18c (e), (f), 8.18f (c): the number `q_z` and the hypotheses (H1)–(H3) of 8.19 (b), and the gap conditions of the deep
+  covers of the steps with their witnesses. Used in 8.22, 8.24.
 - 8.19b, 8.19c, 8.19d (denominators of CM values, toric ratios and twisted theta values). Used in 8.19e, 8.24a, 8.24.
 
 ### From HermitianFormsAndLattices, a sub-roadmap of this family
@@ -1551,6 +1616,7 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
   `*`-stable subfield on which every embedding commutes with the involution, and bases local at the pairs `{𝔭, 𝔭*}`. Used in 8.21.
 - 2.1, 2.2: maximal and minimal slopes, their shift by a fractional ideal, duality, direct sums. Used in 7.13, 8.21, 8.24.
 - 2.4 (b): Bost's slope inequality with its finite-place bound. Used in 8.21, 8.24.
+- 3.5: base change changes neither the slopes nor the maximal slope. Used in the Conventions.
 
 ### From HodgeTateLatticesAndLubinTateLogarithms, a sub-roadmap of this family
 

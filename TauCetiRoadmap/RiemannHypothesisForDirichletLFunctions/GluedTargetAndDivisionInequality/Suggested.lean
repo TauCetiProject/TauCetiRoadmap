@@ -39,8 +39,9 @@ metrics, which do not give these lattices either.
   eigenvalues and the CM period of the host.
 * The division inequality (8.22), with the slope of the target (8.21) and its maximal slope (8.24):
   for a good twisting datum with the support condition, a host with wild-kernel budget `1`,
-  `[F:ℚ] ≥ 2` and the size conditions of the chain, `μ(R^∨) + h_u − F_tot` is at most the sum over
-  the top places of `m·(ph(a_τ) − a_τ·log Ω) − a_τ·log T(u)` plus the stated errors. It lacks, besides
+  `[F:ℚ] ≥ 3`, the hypotheses of the step lattices and the size conditions of the chain,
+  `μ(R^∨) + h_u − F_tot` is at most the sum over the top places of
+  `m·(ph(a_τ) − a_τ·log Ω) − a_τ·log T(u)` plus the stated errors. It lacks, besides
   these, the slope and maximal slope of a Hermitian lattice over a ring of integers, the glued
   target and its lattice of semilinear functionals, the bulk divisibility of the chain, the
   congruence lengths and the wild kernels `Ш¹(E, ℓ, e)` of the host.
