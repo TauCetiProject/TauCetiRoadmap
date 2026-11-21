@@ -322,19 +322,28 @@ and `d_u^{all} = dim ℳ_0(u)` (so `d_u = ((T(u) − 2)/(T(u) − 1))^f·d_u^{al
 `ψ_{E,v}(x/g) = ψ_g(x)` for `x ∈ 𝒪_{E_v}` at the places above `g₀g₁` (`ψ_g` of ThetaChainsOnDefiniteUnitaryGroups §2.9a), so that `ψ_u(n) = χ₂(x_u^{−1}nx_u)` on `N_S(𝔸_f) ∩ x_uK₂x_u^{−1}` (at the type primes
 `x_u = 1` and this is `χ_N`; elsewhere both sides are `1`); such `ψ_E` exist, since `a ↦ ψ_E(a·)`, `a` in the elements of `E^×` with
 `c(a) = −a`, runs through all the characters of `𝔸_E/E` trivial on `𝔸_F`, and `a` can be taken in the inverse different of a standard
-`ψ_E` with prescribed residues modulo a high power of the primes above `g₀g₁`. Assume the chain instance of 5.13. For `T ∈ ℳ_0(u)` put
-`Ph_T(y) = ψ_u(n)·χ₂(κ)·⟨T(h), W_u(y_∞)⟩` if `y_f = n·h·x_u·κ` with `n ∈ N_S(𝔸_f)`, `h ∈ U(X_0)(𝔸_f)`, `κ ∈ K₂`, and
-`Ph_T(y) = 0` otherwise, and
+`ψ_E` with prescribed residues modulo a high power of the primes above `g₀g₁`. The columns are read as forms with values in
+the dual of the weight space: an element `T ∈ ℳ_0(u)` is a `ℂ`-linear map from `V_{λ_u}` to the scalar functions on
+`U(X_0)(F_∞) × U(X_0)(𝔸_f)` such that every `T(ξ)` is left invariant under `U(X_0)(F)` and transforms on the right under `K_u` by
+the character induced by `χ₂`, and `T(h·ξ)(y) = T(ξ)(y·(h, 1))` for `h ∈ U(X_0)(F_∞)` (`h·ξ` its action on `V_{λ_u}`). Assume the
+chain instance of 5.13. For `T ∈ ℳ_0(u)` put
+`Ph_T(y) = ψ_u(n)·χ₂(κ)·T(W_u(y_∞))(1, h)` if `y_f = n·h·x_u·κ` with `n ∈ N_S(𝔸_f)`, `h ∈ U(X_0)(𝔸_f)`, `κ ∈ K₂`, and
+`Ph_T(y) = 0` otherwise. The value `T(W_u(y_∞))(1, h)` is the evaluation of the form at the vector `W_u(y_∞)`: it is linear in `T`
+and in `W_u(y_∞)`, and no Hermitian form of `V_{λ_u}` enters; so `Ph_{T+T′} = Ph_T + Ph_{T′}` and `Ph_{cT} = c·Ph_T` (`c ∈ ℂ`). Put
 
 `P_uT(y) = Σ_{δ ∈ S_u(F)\U(Y_0)(F)} Ph_T(δy)`.
 
 *Statement.* `Ph_T` is well defined; the series converges absolutely and locally uniformly; `P_uT` is independent of
-the choices, square-integrable, and lies in `ℋ` (RowTowerAndRallisIdentities §5.3, the rows of the row type level); `P_u : ℳ_0(u) → ℋ` is linear; and
-for `F ∈ ℋ`, `⟨P_uT, F⟩ = ∫_{S_u(F)\U(Y_0)(𝔸)} conj Ph_T(y)·F(y) dy`, so that `P_u^*F` is the column form obtained by pairing
+the choices, square-integrable, and lies in `ℋ` (RowTowerAndRallisIdentities §5.3, the rows of the row type level); `P_u : ℳ_0(u) → ℋ` is `ℂ`-linear; and
+for a row `F ∈ ℋ` represented by a function `f`, `⟨conj F, P_uT⟩ = ∫_{S_u(F)\U(Y_0)(𝔸)} f(y)·Ph_T(y) dy` (equivalently
+`⟨P_uT, F⟩ = ∫ conj Ph_T(y)·F(y) dy`), the integral over a fundamental domain of `S_u(F)` on which `Ph_T` is integrable,
+so that `P_u^*F` is the column form obtained by pairing
 the global Bessel period of `F` along `(S_u, ψ_u)` (GanGrossPrasadUnitaryGroups 4.1) with `W_u` and the level vector.
 
 *Route.* `Ph_T` is well defined: two factorisations `y_f = nhx_uκ = n′h′x_uκ′` differ by an element of `N_S(𝔸_f)U(X_0)(𝔸_f) ∩ x_uK₂x_u^{−1}`,
-on which `ψ_u·χ₂(x_u^{−1}·x_u)^{−1}` and the level law of `T` agree by the prescription above. The finite-adelic factor of `Ph_T`
+on which `ψ_u·χ₂(x_u^{−1}·x_u)^{−1}` and the level law of `T` agree by the prescription above. Linearity: `Ph_T` is linear in `T`
+pointwise, the series converges absolutely, and the sum of a series and the class in `L²` are linear. The finite-adelic factor
+of `Ph_T`
 is supported on `N_S(𝔸_f)U(X_0)(𝔸_f)x_uK₂`, which is a finite union of sets `S_u(F)·y·K₂` (strong approximation for the
 unipotent `N_S`, finiteness of the class set of `U(X_0)` at the level `K_u`; the set itself has infinitely many right
 `K₂`-cosets when `r_S > 0`); the archimedean factor
@@ -638,7 +647,11 @@ gives `N^{loc}(1; h, h′; c, c) = Σ_{Z,Z′}ψ(Z)conj ψ(Z′)Σ_{θ,α,β: α
 
 ### 5.17c Germ identity and periodic majorants of the local kernels
 
-In the setting of 5.17b: (b1) *Germ identity.* Assume every nonzero integer is invertible in `𝔎`, and let `ℓ ≥ 1`, `H_ℓ(a) = a^{−1}(1 + 𝟙𝟙^t)`. Call a
+In the setting of 5.17b: a local datum in which every nonzero integer is invertible is a finite product of finite extensions of
+fields `ℚ_p` with a compact open subring that is its own orthogonal for `ψ`: an Artinian reduced ring is a finite product of
+fields, each factor is here a nondiscrete locally compact field of characteristic zero containing a compact open subring, hence
+non-archimedean. So PositivityOfDirichletSeriesWithKernels §8.2 applies to every such datum, and (b1), (b-v) hold for all of them.
+(b1) *Germ identity.* Assume every nonzero integer is invertible in `𝔎`, and let `ℓ ≥ 1`, `H_ℓ(a) = a^{−1}(1 + 𝟙𝟙^t)`. Call a
 compact open subgroup `L ⊂ 𝔎` *admissible* for `a` if `ψ(½y^tH_ℓ(a)^{−1}y) = 1` for all `y ∈ (L^⊥)^ℓ`. There is a *Gauss factor*
 `γ : 𝔎^× → S¹` with `γ(ab²) = γ(a)` and `∫_{L^ℓ}ψ(½ξ^tH_ℓ(a)ξ)dξ = γ(a)|ℓ + 1|^{−1/2}|a|^{ℓ/2}` for every `L` admissible for `a` (`γ`
 depends on `ℓ`; the Haar measure gives `𝔒` mass `1`). For every point `h` and compact set `Q` of units there is a
@@ -683,7 +696,7 @@ different shifts modulo `𝔒` are orthogonal by 5.17b (b-ii)), and its sum over
 the units by sets `Ω` and a compactness argument (finitely many classes in the support module, bounded entries) conclude.
 
 *NEW*. *Needs:* 5.17b; PositivityOfDirichletSeriesWithKernels §8.2 (a) (the Gauss factor), (d) (stationary phase for
-`Σx_k + D/∏x_k`), for the local data that are finite products of finite extensions of fields `ℚ_p`.
+`Σx_k + D/∏x_k`); the classification of nondiscrete locally compact fields of characteristic zero.
 
 ### 5.17d The local model of the chain
 
@@ -969,7 +982,11 @@ critical points are `x = (z, …, z)`, `z^d = D`, with complex Gaussian integral
 coordinates on the cell with the phase `(Σx_k + D′/∏x_k)/t`, `D′ = (−1)^{d+1}ct^{d−1}`, in the superdiagonal variables
 `x ∈ ℂ^{d−1}`, and an amplitude in `(x, y)`; the tail beyond `‖Z‖ ≤ |t|^{−ε}` from the decay `A`; PositivityOfDirichletSeriesWithKernels
 §8.1 (b) with §8.1 (d) (ii), (iv) away from the critical points; §8.1 (c) with §8.1 (d) (i), (iii) at each critical point for
-fixed `y`, with `S = Cκ(1 + ‖y‖)^{E}max(1, ‖y‖)^{−A}`, integrated over `y`; the limit as `t → 0` of the integral of the
+fixed `y`, with `S = Cκ(1 + ‖y‖)^{E₀d²}max(1, ‖y‖)^{−A}`, where `E₀` is an absolute constant (a positive integer independent of
+`d`, `β`, `C_c`, the Banach space and `Φ`): near a critical point the derivatives of order `≤ 2d` in `x` of the cut-off amplitude
+are bounded by this `S`, uniformly in `t`; it is integrated over the `d(d − 1)/2` complex variables `y`, which converges as soon
+as `A > E₀d² + d(d − 1)`, and the constant `C₁` of the statement is taken so that `A ≥ C₁d²` gives this; the limit as `t → 0`
+of the integral of the
 amplitude over the critical fibre, which is `|z|^{−2(d−1)}·|z|^{d(d−1)}` times the long orbital integral; and the count of the
 constants (`|t|^{d−1}|z|^{d−1}/d` from the Hessian determinant `d·z^{−(d−1)}`, and `−d(d−1) + (d−1) = −(d−1)²`,
 `(d−1) − 2(d−1) + d(d−1) = (d−1)²` for the exponents of `|t|` and `|z|`). Then Poisson summation over a coset and the lift bound
@@ -1117,7 +1134,12 @@ the maps `A_±(x) = A^±(ω(x))`, `ω` an explicit vector with `⟨ω, ω⟩ = G
 (degree `n₀(r_S+1)`), which creates a cut of length `n₀ − 4`, at the cost `(3b)^{2n₀}(T′/Gr)^{n₀}`. (i₁)
 `det Ẑ(g) = ⟨Λ^{r_S+1}(g)a′, a⟩` for the Plücker vectors `a, a′` of the two frames, fixed by `S_{z′}`, `S_{z″}`. The tensor
 product of a gapped discrete series with `Λ^{r_S+1}` of the standard representation is the sum of the discrete series
-with parameters shifted by `e_I` (Zuckerman; all gaps `≥ 2` suffice); the product of `det Ẑ` with a coefficient
+with parameters shifted by `e_I` (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b) with `l = r_S + 1`, at each parameter
+`μ = λ + ν₀ + e_{I_1} + ⋯ + e_{I_j}`, `j < a`: all consecutive entries of `λ` are at least `100(q₀ + 1)` apart, the interlaced ones
+by `g_c`, the others by `h` because their signs alternate (RowTowerAndRallisIdentities §5.3), and the two groups by `7B/8`; since
+`‖μ − λ‖₁ ≤ q₀`, the consecutive entries of `μ` are at least `98q₀ + 100 ≥ r_S + 2` apart and its entries of different signs at
+least `h/2 ≥ 240r³` apart, which exceeds the threshold of DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4b (b)); the
+product of `det Ẑ` with a coefficient
 `⟨x, σ(·)y⟩` is the sum over `I` of `±⟨P_I(x ⊗ a), σ_I(·)P_I(y ⊗ a′)⟩`, an identity of functions; by the rank-one form of the
 Bessel forms of `σ` and of `σ_I` (5.13c (d); no uniqueness statement is needed) the Bessel map of `σ_I` on `P_I(v ⊗ a)` is a
 multiple `κ_I` of the Bessel map of `σ` on `v`; with 5.15a (equality for coefficients, under (G)) this gives
@@ -1491,6 +1513,8 @@ the Haar measure of `N_S(𝔸)` is the one with `vol([N_S]) = 1`; the measure of
 `vol([U(X_0)]) = vol([U(Y_0)])`, and the stabiliser of a pair of base frames with nondegenerate Gram matrix has the same covolume
 (HermitianFormsAndLattices §6.5 (d), for tuples of `2r_S + 1` and of `2r_S + 2` vectors; it uses `4r_S + 5 ≤ r`, which holds because
 `r = k + m − 1`, `m = 2r_S + 2` and `k ≥ m + 3`); the measure of `S_u(𝔸_f)` is the product of those of `N_S(𝔸_f)` and `U(X_0)(𝔸_f)`.
+The measure of `U(X_0)(𝔸)` used for the covolumes is this orbit-compatible one, not the one of the Conventions (total volume the
+mass); the three identities are ratios and hold for either.
 Combine by the triangle inequality; `η_off ≤ b^{−6}` because `ε_N ≤ b^{−13}`: with `k − 2r_S − 5 = k − m − 3` and `8C_nm⁵fL ≤ k` the
 exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, which is `≤ −13L` for `m ≥ C_m`.
 
@@ -1605,6 +1629,24 @@ nondegenerate character), `type = Hom_{π^{−1}P}(λ, ρ)` and `bad = type ∩ 
 of `ρ` to `π^{−1}(H_i)` (`H_i` the elements unitriangular at the places not above `g_i`) embeds in `n_i` copies of its
 regular representation with `n_i·|π^{−1}H_i| ≤ c·|π^{−1}P|·dim(type)`, then
 `dim(bad) ≤ c·(W_0^{GG} + W_1^{GG})·dim(type)`; under the hypotheses of (ii), `W_i^{GG} ≤ W^{bd}(f, m, r, g_i)`.
+(v) *Embedding in regular representations from a group determinant.* Let `k` be a field of characteristic zero with an
+embedding in `ℂ`, `B` a commutative `k`-algebra, and `Γ` a finite group acting on `B` by `k`-algebra automorphisms `f ↦ γ·f`.
+For a subgroup `H ⊂ Γ` and `u ∈ B`, the *group determinant* of `u` for `H` is `det(hg·u)_{h,g∈H} ∈ B`. Let `H₀, H ⊂ Γ` be
+subgroups and `u₀, u ∈ B` elements whose group determinants for `H₀`, respectively `H`, are not zero divisors of `B`. Let
+`V_m, V, V₁, V₂ ⊂ B` be `k`-subspaces with `V` and `V₂` finite-dimensional, `V` stable under `Γ`, `V₁` stable under `H`,
+`V_m·(h·u₀) ⊂ V` for `h ∈ H₀`, and `V·(h·u) ⊂ V₁`, `V₁·(h·u) ⊂ V₂` for `h ∈ H`. Then:
+(1) the representation of `H` on `V` embeds `H`-equivariantly in `n` copies of the regular representation of `H`, for some `n`
+with `n·|H| ≤ dim_k V₂`;
+(2) `dim_k V_m ≤ |H₀|·dim_ℂ(V ⊗_k ℂ)^{(H₀,λ)}` for every character `λ` of `H₀`, the exponent denoting the subspace on which `H₀`
+acts by `λ`;
+(3) if `dim V₂ ≤ c·dim V_m` for a real `c ≥ 0`, then for every character `χ` of `Γ`, the representation `ρ(γ) := χ(γ)·(γ ⊗ 1)` of
+`Γ` on `V ⊗_k ℂ` and every character `λ` of `H₀`: `ρ|_H` embeds in `n` copies of the regular representation of `H` with
+`n·|H| ≤ c·|H₀|·dim ρ^{(H₀,λ)}`. This is the hypothesis of (iv) for `π^{−1}H_i = H` and `π^{−1}P = H₀`, with the constant `c`.
+(vi) *Free permutation.* Let `ρ` be a representation of a finite group `Γ` on a finite-dimensional space `V` over a field of
+characteristic zero, `H ⊂ Γ` a subgroup acting freely on a finite set `X`, and `V = ⊕_{x∈X}A_x` a direct sum decomposition with
+`ρ(h)A_x ⊂ A_{hx}` for `h ∈ H`. Then `ρ|_H` embeds in `n` copies of the regular representation of `H` with `n·|H| = dim V`, and
+`|H₀|·dim ρ^{(H₀,λ)} = dim V` for every subgroup `H₀ ⊂ H` and every character `λ` of `H₀`. So the hypothesis of (iv) holds for
+`(H, H₀)` with `c = 1`, with equality.
 
 *Route.* (i) A bad row is bad at `g₀` or at `g₁`; count each with 5.22 (b) and divide by `D_all ≥ (1 − ε_C)D*` (5.16).
 (ii) The Gelfand–Graev weight is a probability measure on labels, equal on squarefree labels to the law of the
@@ -1620,7 +1662,15 @@ with `wt_v ≥ (1 − 1/g)wt_GG` differ by at most `1/g` in total variation, and
 the lower bound of 5.22 (a) is used. (iii) Insert the sizes. (iv) Inside `n_i` copies of the regular representation of
 `π^{−1}H_i`, the `(P, λ)`-part of the series of a tuple `t` has dimension `n_i|π^{−1}H_i|/|π^{−1}P|` times the Gelfand–Graev
 share of `t` (FiniteReductiveGroups §5.8 (a): representations contained in copies of the regular
-representation, and products over the places). A second route to `𝔼 ≠ 0` goes through good forms on the definite inner form `U(W_m)` and the multiplicity
+representation, and products over the places). (v) (3): by (1) and (2),
+`n·|H| ≤ dim V₂ ≤ c·dim V_m ≤ c·|H₀|·dim(V ⊗ ℂ)^{(H₀,λχ^{−1})}`; multiplying the action by the character `χ` changes neither the
+existence of an embedding in `n` copies of the regular representation (the regular representation is unchanged by a twist) nor
+the dimension count, the `λ`-part of `ρ` being the `λχ^{−1}`-part of the untwisted action. (2) is the injectivity of the twisted
+traces `f ↦ (Σ_{h∈H₀}λ(h)^{−1}·h·(f·(g·u₀)))_{g∈H₀}` from `V_m ⊗ ℂ` into `|H₀|` copies of the `λ`-part of `V ⊗ ℂ`: a vector killed
+by the matrix `(hg·u₀)` is killed by its determinant. The proof of (1), which is the new statement (for a non-abelian `H` it
+does not follow from the twisted traces of characters), is not given here. (vi) A free orbit of summands is a representation
+induced from the trivial subgroup; the proof is not given here.
+A second route to `𝔼 ≠ 0` goes through good forms on the definite inner form `U(W_m)` and the multiplicity
 comparison RowTowerAndRallisIdentities §5.9.
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.16, 5.22, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§5.7, 5.8. *NEW* (bookkeeping on *KNOWN*
@@ -1655,7 +1705,7 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8,
 
 ## Downstream consumers
 
-In the family [RiemannHypothesisForDirichletLFunctions](../README.md): [SeesawForThetaChains](../SeesawForThetaChains/README.md) consumes the Bessel–Poincaré series of 5.14 and the bounds of 5.21 in its seesaw identity; [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) consumes the dimension formula 5.20a, the Gram bounds 5.20 and 5.21 and the good rows 5.23 for the nearly tight frame of SlopesOfHermitianVectorBundles §5.5 that the Bessel–Poincaré series of the chain form; [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) consumes 5.22 and the bounds of 5.23 (ii)–(iv) for the bad part of a type space; [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and [GluedTargetAndDivisionInequality](../GluedTargetAndDivisionInequality/README.md) use the notation of 5.13–5.19.
+In the family [RiemannHypothesisForDirichletLFunctions](../README.md): [SeesawForThetaChains](../SeesawForThetaChains/README.md) consumes the Bessel–Poincaré series of 5.14 and the bounds of 5.21 in its seesaw identity; [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) consumes the dimension formula 5.20a, the Gram bounds 5.20 and 5.21 and the good rows 5.23 for the nearly tight frame of SlopesOfHermitianVectorBundles §5.5 that the Bessel–Poincaré series of the chain form; [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md) consumes 5.22, the bounds of 5.23 (ii)–(iv) for the bad part of a type space, and 5.23 (v), (vi), which give the multiplicity hypothesis of 5.23 (iv) in ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 (b); [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and [GluedTargetAndDivisionInequality](../GluedTargetAndDivisionInequality/README.md) use the notation of 5.13–5.19.
 
 ThetaChainsAndFrobeniusPrimeSums §10.6 fixes the order of the quantifiers that the Conventions above describe (the constants named before `ε`, the numbers that may depend on `ε`, then the scale `x`), and its §9.4 states `vol([U(Y_0)]) = mass(𝒪_E^r)` for the measures of the Conventions; [UniformWildKernelBounds](../UniformWildKernelBounds/README.md) §7.6 gives the window constant `J` at the parameters of the chain.
 
