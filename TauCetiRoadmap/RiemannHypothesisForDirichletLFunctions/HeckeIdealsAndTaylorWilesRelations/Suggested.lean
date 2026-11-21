@@ -17,8 +17,8 @@ topological representation, and the kernel `ContinuousCohomology.tateShafarevich
 from an absolute Galois group to the absolute Galois groups of a family of field extensions. Tau
 Ceti has the classes of `H¹(G_K, μ_n)` unramified outside a set of primes
 (`TauCeti.unramifiedOutsideKummerCohomology`). Neither has `G_{L,S}` as a topological quotient of
-the absolute Galois group together with its maps from the local Galois groups, nor its cohomology
-in degree two.
+the absolute Galois group together with its maps from the local Galois groups. Mathlib's
+`continuousCohomology` is defined in every degree; what is missing is the group `G_{L,S}` itself.
 
 * The Hecke ideal (3.13a): for a CM field `L` with `L/L⁺` unramified at every finite place, an odd
   prime `l` and pairwise distinct characters `χ̄_1, …, χ̄_n` of `G_{L,S}` with `⊕χ̄_i` conjugate
@@ -57,9 +57,9 @@ in degree two.
 
 The limit, structure and change-of-sets statements of 10.1 (a), (c)–(f) need the same carriers.
 Two steps of the routes are statable in Mathlib: the commutative algebra in the route of 9.9 (d′)
-(embedding dimension and going-down for a finite torsion-free extension of a normal domain) and the
-lemma in the route of 4.2a that a polynomial in commuting operators on a space of dimension `d`
-which vanishes at every joint eigencharacter has `d`-th power zero. They are steps of routes, not
+(embedding dimension and going-down for a finite torsion-free extension of a normal domain) and,
+in the route of 4.2a, the fact that a polynomial in commuting operators on a space of dimension
+`d` which vanishes at every joint eigencharacter has `d`-th power zero. They are steps of routes, not
 headlines, and they are not stated here.
 -/
 
