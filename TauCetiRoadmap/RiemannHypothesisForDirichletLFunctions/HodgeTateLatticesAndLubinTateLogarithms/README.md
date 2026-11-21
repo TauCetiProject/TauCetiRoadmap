@@ -64,7 +64,8 @@ which need not be locally free where the image is: 0.17a's Check); and for `1 �
 
 *Route.* *Characters are regular.* At a prime `P` of `B`, pass to the henselisation of `B_P`, a normal local domain flat over
 `B`; there `G[p^R]` is the disjoint union of its finite part, an open and closed subgroup finite flat over the base and
-containing the points over `P`, and a part with no point over the closed point. The restriction of a character to the finite
+containing the points over `P`, and a part with no point over the closed point (FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R07.1.3). The restriction of a character to the finite
 part is a point of its Cartier dual over the fraction field, hence integral (the Cartier dual is finite and the base is
 normal), so the character is regular at the points over `P`; regularity descends along the faithfully flat henselisation,
 and uniqueness holds because `G[p^R]` is flat, so its generic fibre is schematically dense. Coherence: on `Spec B` finitely
@@ -85,7 +86,8 @@ the finite parts, the differential of the regular function of a character is `α
 of the valuation of `p`; this fails for `κ = p^{R+1}`, which also qualifies, so the step is made with `κ₀`), that image,
 reduced modulo `p^R` and lifted, together with `p^R·ω`, is the image itself, which is the base change of `ω^{HT}_R(y)` (HodgeTateAndCanonicalSubgroups §0.4:
 `α_H` modulo `p^R` is the level-`R` map); descend. At a point `y` where `ω^{HT}_R` is locally free: a locally free submodule of
-`ω_{G,y} ⊗ Ω` over the noetherian normal domain `O_{X,y}` is the intersection of its localisations at the height-one primes;
+`ω_{G,y} ⊗ Ω` over the noetherian normal domain `O_{X,y}` is the intersection of its localisations at the height-one primes
+(SchemeAndStackFoundations §0.6);
 at those over `p` the codimension-one case applies, at the others `ω^{HT}_R = ω_G`; so `κ₀·ω_{G,y} ⊆ ω^{HT}_R(y)`. The Lie
 statement is the dual. (b) `σ(O_E)` consists of elements of `Ω` integral over `ℤ`, hence lies in every `O_{X,y}`. The lattice
 `ω^{HT}_R` is stable under the endomorphisms (above) and is an `O_X`-module, so at `y` it is an `O_E ⊗ O_{X,y}`-submodule of
@@ -103,8 +105,9 @@ boundary is flat over the base) the lattice at codimension-one points agrees wit
 HodgeTateAndCanonicalSubgroups §0.17, as both maps from the constant group to the free `O/p^n`-module `ω_G/p^n` agree at the associated primes of `O/p^n`,
 which lie in the abelian locus; this comparison is not needed for (a)–(c).
 
-*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.4, 0.5, 0.13, 0.17, 0.18; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.24a (points and Cartier
-duality of finite flat group schemes); ShimuraCompactifications §§7.3, 7.19 (the models of the comparison remark).
+*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.4, 0.5, 0.13, 0.17, 0.18; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.3 (the finite
+part over a henselian base), R07.1.24a (points of finite flat group schemes); SchemeAndStackFoundations §0.6 (reflexive sheaves);
+ShimuraCompactifications §§7.3, 7.19 (the models of the comparison remark).
 
 **Checks.**
 
@@ -139,7 +142,8 @@ follows from (a) by the route below.
 
 *Route.* (a) *One level.* Let `H` be a finite flat commutative group scheme over `O_C` killed by `q = p^n` (for the cokernel
 of `α_G`, `H = G^D[p^n]`), and `𝒜` its Hopf algebra: a finite free `O_C`-module, commutative and cocommutative, with counit
-`ε`, augmentation ideal `I` and cotangent module `I/I² = ω_H`, which `q` kills (for `H = G^D[p^n]`, `ω_H = ω_{G^D}/q`). The
+`ε`, augmentation ideal `I` and cotangent module `I/I² = ω_H`, which `q` kills (for `H = G^D[p^n]`, `ω_H = ω_{G^D}/q`,
+HodgeTateAndCanonicalSubgroups §0.25). The
 `O_C`-points of the Cartier dual `H^D` are the group-like elements `u` of `𝒜` (`Δu = u ⊗ u`, `ε(u) = 1`), and `α_{H^D}` sends `u`
 to the class of `u − 1` in `I/I²` (the value at the origin of `du/u`; HodgeTateAndCanonicalSubgroups §0.2). The claim is that `κ·(I/I²)` lies in the span of
 these classes. Let `N ⊆ 𝒜` be the submodule spanned by the group-like elements, `I²` and `q𝒜`. It is finitely generated
@@ -182,7 +186,7 @@ cokernel. (b) The route of 0.5a, which uses nothing about `p` except HodgeTateAn
 for `R ≥ 1`, so the image of `T_2(A^∨) ⊗ O_C`, reduced modulo `2^R` and lifted, together with `2^R·ω`, is the image itself, and it
 contains `2·ω`; the passage to points where `ω^{HT}_R` is locally free and (b), (c) are as there.
 
-*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.4; 0.5a.
+*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.4, 0.25; 0.5a.
 
 **Checks.**
 
@@ -191,7 +195,10 @@ contains `2·ω`; the passage to points where `ω^{HT}_R` is locally free and (b
 - `H = μ_{p^n}` (`𝒜 = O_C[T]/(T^{p^n} − 1)`, group-like elements `T^j`): the class of `T − 1` generates `ω_H = O_C/p^n`, so the
   finite-level statement holds with `κ = 1`; for `H = ℤ/p^n` the module `ω_H` is `0`.
 - `p = 2`: `κ = 2` satisfies `|κ|^{p−1} = |2|`, so (a) gives the factor `2`; a statement with the factor `4` would be weaker
-  and would cost a factor `2` more in the sandwich of 0.5a (a).
+  and would cost a factor `2` more in the sandwich of 0.5a (a). PerfectoidShimuraVarieties §3.9 states, at `p = 2`, that every
+  scalar of valuation at least `2` kills the cokernel of the Hodge–Tate map of a truncated Barsotti–Tate group `H` of level
+  `n > 2` with a full frame over a normal admissible `O_{C_p}`-algebra; over `O_{C_p}` itself this is the case `κ = 4` of the
+  finite-level form of (a), applied to `H^D`.
 
 ### 0.5c The model where the Hodge–Tate lattice is locally free
 
@@ -208,10 +215,13 @@ Prove:
 of the Nash modification (NashBlowups §1.3) and of normalisation, with (a).
 
 Any finite family of coherent lattices can be made locally free on a normal projective birational model; what is special to the eigen-quotients is that the model does not change the generic fibre, the eigen-quotient of `ω_G` being a direct summand in characteristic `0`.
+On normal admissible formal models of Siegel varieties over `O_C` at full level `p^n`, for `p ≥ 3`, the counterpart of (b) is the
+modified Hodge bundle of HodgeTateAndCanonicalSubgroups §5.5: the lattice generated by the Hodge–Tate images and `p^{1/(p−1)}·ω`
+becomes locally free on the normalised blow-up of the minor ideal of the Hodge–Tate matrix, with `p^{1/(p−1)}·ω ⊆ ω^mod ⊆ ω`.
 
-*Route.* (a) The image under a linear map of the module generated by a set is generated by the image of the set, and the eigen-projections commute with the extension `Ω → Ω″`; with 0.5a (c). (b) After a twist each lattice is generated by finitely many global sections; the Nash modification is the blow-up of the ideal generated by their Plücker coordinates (NashBlowups §§1.2, 1.4), on which the image of the pulled-back lattice is locally free; do this for the finitely many lattices in turn (a locally free image stays locally free under further pull-back) and normalise (finite). By (a) the locally free sheaves so obtained are the Hodge–Tate lattice of the pulled-back scheme and its eigen-quotients. Where all the lattices are already locally free the Plücker ideals are invertible and, `X` being normal, nothing changes; on the generic fibre `ω^{HT}_R = ω_G` and the eigen-quotients are direct summands; over a prime `ℓ′ ∉ Σ` at which the order is étale, `ω^{HT}_{R(ℓ)} = ω_G` for all `ℓ ∈ Σ` and the idempotents exist. (c) The universal property of the Nash modification (NashBlowups §1.3), (a), and the universal property of normalisation. The coherence and the pull-back of the lattice are used as 0.5a states them, and the local freeness of the image of a pulled-back lattice on the Nash modification and the isomorphism where the lattices are already locally free as NashBlowups §§1.2–1.4 state them; their proofs are not repeated here.
+*Route.* (a) The image under a linear map of the module generated by a set is generated by the image of the set, and the eigen-projections commute with the extension `Ω → Ω″`; with 0.5a (c). (b) After a twist each lattice is generated by finitely many global sections; the Nash modification is the blow-up of the ideal generated by their Plücker coordinates (NashBlowups §§1.2, 1.4), on which the image of the pulled-back lattice is locally free; do this for the finitely many lattices in turn (a locally free image stays locally free under further pull-back) and normalise (finite: AlgebraicModuliForArithmeticGeometry §5.4). By (a) the locally free sheaves so obtained are the Hodge–Tate lattice of the pulled-back scheme and its eigen-quotients. Where all the lattices are already locally free the Plücker ideals are invertible and, `X` being normal, nothing changes; on the generic fibre `ω^{HT}_R = ω_G` and the eigen-quotients are direct summands; over a prime `ℓ′ ∉ Σ` at which the order is étale, `ω^{HT}_{R(ℓ)} = ω_G` for all `ℓ ∈ Σ` and the idempotents exist. (c) The universal property of the Nash modification (NashBlowups §1.3), (a), and the universal property of normalisation (AlgebraicModuliForArithmeticGeometry §5.4). The coherence and the pull-back of the lattice are used as 0.5a states them, and the local freeness of the image of a pulled-back lattice on the Nash modification and the isomorphism where the lattices are already locally free as NashBlowups §§1.2–1.4 state them; their proofs are not repeated here.
 
-*Needs:* 0.5a, 0.5b; NashBlowups §§1.2–1.5; AlgebraicModuliForArithmeticGeometry §1.3.
+*Needs:* 0.5a, 0.5b; NashBlowups §§1.2–1.5; AlgebraicModuliForArithmeticGeometry §§1.3, 5.4.
 
 **Checks.**
 
@@ -236,9 +246,9 @@ The inequality `x(τ∘c) ≤ r(τ∘c)/(p − 1)` is Fargues' bound (HodgeTateA
 
 *Frobenius.* For an embedding `σ` at a place `v` above `p`, `p·ξ(σ) − ξ(Frob σ) ≥ r(Frob σ)`. The group `(𝒪/p)^× = ∏_v𝔽_v^×` acts on `G[p]`, hence on its Hopf algebra `𝒜`, a ring of functions on `N = T_pG/p`; for `σ` at `v` let `χ_σ` be the character `a ↦ σ([a_v])` (`[a_v]` the Teichmüller representative of the component at `v`); as `p` is odd, the `χ_σ` are nontrivial and pairwise distinct. Choose bases `(ε_{σ,l}b_{σ,l})_l` of the `𝔄_σ`, with `(b_{σ,l})_l` a basis of `Hom_σ` and `v(ε_{σ,l}) ≤ v(c_p) < 1` (0.5h (2)), and lifts `y_{σ,l} ∈ 𝒜` that are `χ_σ`-isotypic (project any lift; the order of `(𝒪/p)^×` is prime to `p`). The chain of 0.5h is a chain of equalities, so the monomials `y^m` with all exponents `< p` span `𝒜`, and those with `m ≠ 0` span the augmentation ideal `I` (each `y_{σ,l}` vanishes at `0`). The `z_{σ,l} = y_{σ,l}/ε_{σ,l}` reduce modulo `𝔪` to the `b̄_{σ,l}`, so the `z^m` form a basis of the functions `N → O` (the monomials of degree `< p` in a basis of `Hom_{𝔽_p}(N, k)`, `k` the residue field, span the functions `N → k`, because the `p`-th power of such a linear form is again one, and they are as many as its dimension). Modulo `𝔪`, `b̄_{σ,l}^p` is additive and `Frob σ`-semilinear, so `(b̄_{σ,l}^p)_l` is a basis of the `Frob σ`-semilinear forms and the matrix `M_σ` of the coefficients of the `z_{Frob σ,l′}` in the `z_{σ,l}^p` is invertible. Expanding `y_{σ,l}^p ∈ 𝒜` in the `y^m`, the coefficients of the `y_{Frob σ,l′}` are `(B_σ)_{l,l′} = ε_{σ,l}^p(M_σ)_{l,l′}/ε_{Frob σ,l′}` and every other monomial that occurs has degree `≥ 2`; as `y_{σ,l}^p ∈ I²`, the rows of `B_σ` are relations among the classes of the `y_{Frob σ,l′}` in `I/I² = ω/p`, whose `χ_{Frob σ}`-part, free of rank `r(Frob σ)` over `O/p`, these classes generate. So the cokernel of `B_σ` modulo `p`, of length at most `v(det B_σ)`, maps onto `(O/p)^{r(Frob σ)}`, and `p·ξ(σ) − ξ(Frob σ) = v(det B_σ) ≥ r(Frob σ)`. *Equality.* Summing over the embeddings at each place `v`, `(p − 1)·Σ_{σ at v}ξ(σ) ≥ Σ_{σ at v}r(σ)`; summed over all places both sides are `g` (`Σ_σξ(σ) = g·v(c_p)` by 0.5h (2), `Σ_σr(σ) = g`). So every inequality is an equality, `ξ(Frob σ) = p·ξ(σ) − r(Frob σ)`, and going round the cycle, `ξ(τ) = Σ_{i≥0}p^{−(i+1)}r(Frob^{i+1}τ)`; with (∗) this is the identity of (b). The cokernel of `𝔥` on `T_τ` is killed by `c_p` (0.5g (c)) and generated by `r(τ∘c)` elements, so `x(τ∘c) ≤ r(τ∘c)/(p − 1)`.
 
-(a) for an abelian scheme: `T_τ` is an extension of `𝔥(T_τ)`, of rank `r(τ∘c)`, by `K_τ`, of rank `r(τ)`, so `r(τ) + r(τ∘c)` is the rank of `T_w` over `𝒪_w` for every `τ` at `w`, and (b) gives `x(τ_s) ≤ (r(τ_s) + r(τ_s∘c))/(p − 1) − ξ(τ_s) = Σ_{i≥0}p^{−(i+1)}(r(τ_{s+i+1}) + r(τ_{s+i+1}∘c) − r(τ_{s+i+1})) = S(τ_s)`; the characters of a `ℤ_p`-basis of `T_p(G^∨)` have differentials spanning `L(τ_s)`. (a) in general: by 0.5f's route `Ĝ_O = Ĝ̃_O`, an `𝒪`-equivariant extension of `B̂_O` by `T̂_0`, and `Lie_τ(G)` is an extension of `Lie_τ(B)` by `Lie_τ(T_0)`. Over `O` the torus `T_0` is split, with character group `X`. Cartier duality turns `0 → T_0[p^∞] → G̃[p^∞] → B[p^∞] → 0` into an exact sequence `0 → T_p(B^∨) → T_p(G̃[p^∞]^D) → X ⊗ ℤ_p → 0` (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; exactness is checked on the generic fibre), so every `χ ∈ X` is the restriction to `T̂_0` of a character of `Ĝ_O`. The restrictions to `Lie_τ(G)` of the differentials of these characters and of the characters of `B̂_O` pulled back to `Ĝ_O` span a submodule containing `L_τ(B)` and mapping onto `Hom(Lie_τ(T_0), O)`; so `Hom(Lie_τ(G), O)/L_τ(G)` is a quotient of `Hom(Lie_τ(B), O)/L_τ(B)`, and (a) for `B`, with `r_B ≤ r_G`, gives (a) for `G`.
+(a) for an abelian scheme: `T_τ` is an extension of `𝔥(T_τ)`, of rank `r(τ∘c)`, by `K_τ`, of rank `r(τ)`, so `r(τ) + r(τ∘c)` is the rank of `T_w` over `𝒪_w` for every `τ` at `w`, and (b) gives `x(τ_s) ≤ (r(τ_s) + r(τ_s∘c))/(p − 1) − ξ(τ_s) = Σ_{i≥0}p^{−(i+1)}(r(τ_{s+i+1}) + r(τ_{s+i+1}∘c) − r(τ_{s+i+1})) = S(τ_s)`; the characters of a `ℤ_p`-basis of `T_p(G^∨)` have differentials spanning `L(τ_s)`. (a) in general: by 0.5f's route `Ĝ_O = Ĝ̃_O`, an `𝒪`-equivariant extension of `B̂_O` by `T̂_0`, and `Lie_τ(G)` is an extension of `Lie_τ(B)` by `Lie_τ(T_0)`. Over `O` the torus `T_0` is split, with character group `X`. Cartier duality turns `0 → T_0[p^∞] → G̃[p^∞] → B[p^∞] → 0` into an exact sequence `0 → T_p(B^∨) → T_p(G̃[p^∞]^D) → X ⊗ ℤ_p → 0` (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.7; exactness is checked on the generic fibre), so every `χ ∈ X` is the restriction to `T̂_0` of a character of `Ĝ_O`. The restrictions to `Lie_τ(G)` of the differentials of these characters and of the characters of `B̂_O` pulled back to `Ĝ_O` span a submodule containing `L_τ(B)` and mapping onto `Hom(Lie_τ(T_0), O)`; so `Hom(Lie_τ(G), O)/L_τ(G)` is a quotient of `Hom(Lie_τ(B), O)/L_τ(B)`, and (a) for `B`, with `r_B ≤ r_G`, gives (a) for `G`.
 
-*Needs:* HodgeTateAndCanonicalSubgroups §0.5; 0.5f, 0.5g, 0.5h, 2.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.
+*Needs:* HodgeTateAndCanonicalSubgroups §0.5; 0.5f, 0.5g, 0.5h, 2.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.7.
 
 **Checks.**
 
@@ -282,13 +292,13 @@ Let `p` be any prime, `C` complete algebraically closed of characteristic `0`, `
 
 (b) the same construction for `𝔾_m` sends a generator of `ℤ_p(1)` to `c` times a generator of `I`, with `|c| = |ζ_p − 1|`;
 
-(c) `⟨𝔟(x), 𝔥(y)⟩ − ⟨𝔥(x), 𝔟(y)⟩ = c·E(x, y)`, that is `𝔟^T𝔥 − 𝔥^T𝔟 = c·E` (`Π^TJΠ = c·E` for `Π = (𝔥; 𝔟)` and `J = [[0, −1], [1, 0]]`); hence `det Π` is `c^g` times a unit, the kernel of `𝔥` is Lagrangian (2.4 (b), `A[p^∞]` having height `2g` and dimension `g`), and `c` kills the cokernel of `𝔥` (the bound of HodgeTateAndCanonicalSubgroups §0.5, at every prime);
+(c) `⟨𝔟(x), 𝔥(y)⟩ − ⟨𝔥(x), 𝔟(y)⟩ = c·E(x, y)`, that is `𝔟^T𝔥 − 𝔥^T𝔟 = c·E` (`Π^TJΠ = c·E` for `Π = (𝔥; 𝔟)` and `J = [[0, −1], [1, 0]]`); hence `det Π` is `c^g` times a unit, the kernel of `𝔥` is Lagrangian (2.4 (b), `A[p^∞]` having height `2g` and dimension `g`), and `c` kills the cokernel of `𝔥` (0.5b (a), at every prime; for odd `p`, HodgeTateAndCanonicalSubgroups §0.5);
 
 (d) the functions `x ↦ 𝔥(x)` and `x ↦ 𝔟(x)` on `A[p](O_C) = T_pA/p`, with values in `O_C/p`, are restrictions of regular functions on `A[p]`.
 
 *Route.* Lift `A` with its polarisation to the thickening (deformation of a principally polarised abelian scheme along a square-zero extension). (c) *The tangent pairing formula*: for a square-zero thickening `R′ → R` with kernel `(ξ)` free of rank one over `R`, `N = 0` in `R′`, `N`-torsion points `s`, `t` with lifts `s̃`, `t̃`, `Ns̃ = ξV_s`, `Nt̃ = ξV_t`, and a lift `z̃` of `e_N(s, t)`: `z̃^N = 1 + ⟨𝔥(t), ξV_s⟩ − ⟨𝔥(s), ξV_t⟩`, `𝔥(t)` being the differential at the origin of `e_N(·, t)`. Applied at every level with the lifts `[ε^{1/p^n}]` of the roots of unity, for which `[ε] − 1 = ([ε^{1/p}] − 1)·ξ`, it gives (b) and (c). (d): `𝔥(t)(v)` is the coefficient of `η` in `e_p(t, ηv)` for the dual-number point `ηv` of `A[p]`, and `t ↦ p·t̃` is a morphism `A[p] → Lie ⊗ I/p`.
 
-*Needs:* HodgeTateAndCanonicalSubgroups §§0.4, 0.5; 2.4.
+*Needs:* HodgeTateAndCanonicalSubgroups §§0.4, 0.5; 0.5b, 2.4.
 
 **Checks.**
 
@@ -297,8 +307,9 @@ Let `p` be any prime, `C` complete algebraically closed of characteristic `0`, `
 ### 0.5h Functions additive modulo `p` on `A[p]`
 
 In the setting of 0.5g let `𝒜` be the Hopf algebra of `A[p]`, identified with functions on `N = T_pA/p`, and `𝔄(A) ⊆ Hom(T_pA, O_C)` the module of linear forms congruent modulo `p` to elements of `𝒜`.
-For a finitely presented torsion `O_C`-module `M ≅ ⊕_i O_C/(c_i)` put `deg M := Σ_i v(c_i)` (`v(p) = 1`); for a lattice
-`L′ ⊆ L` the *colength* of `L′` in `L` is `deg(L/L′)`. (The ordinary length of such a module is infinite.) Prove:
+For a finitely presented torsion `O_C`-module `M ≅ ⊕_i O_C/(c_i)` put `deg M := Σ_i v(c_i)` (`v(p) = 1`; the degree of
+HodgeTateAndCanonicalSubgroups §0.24); for a lattice `L′ ⊆ L` the *colength* of `L′` in `L` is `deg(L/L′)`. (The ordinary
+length of such a module is infinite.) Prove:
 
 (1) `𝔄(A)` is the row span of `Π`;
 
@@ -314,9 +325,9 @@ For a finitely presented torsion `O_C`-module `M ≅ ⊕_i O_C/(c_i)` put `deg M
 
 (6) (*semi-abelian reduction*) let `G` be a semi-abelian scheme over `O_C` with principally polarised abelian generic fibre `A`, obtained by base change along a local homomorphism `T → O_C` from a semi-abelian scheme with a uniformisation over a complete noetherian normal local domain `T` of characteristic `0` (the setting of 0.5d), `B` the abelian part of the uniformisation over `O_C`, `Y` the cocharacter module of its torus part, and `𝔊_1` the `p`-torsion of the group of 0.18a. Then `𝔊_1 ≅ (B × ℰ ⊗ Y)[p]` for an ordinary elliptic curve `ℰ` over `O_C`; the lattice `𝔄(𝔊_1)` of forms regular modulo `p` has colength `g·v(c)` and contains `c·Hom(T_pA, O_C)`; the Hopf algebra of `𝔊_1` is generated by its elements additive modulo `p`; and for the map `𝔥_G : T_pA ⊗ O_C → ω_G` of 0.18a (c) composed with the polarisation, `𝔥_G(𝔄(𝔊_1)^∨) = ω_G` and `𝔄(𝔊_1)^∨ ∩ ker 𝔥_G = c^{−1}E^{−T}𝔥_G^T(O_C^g)`.
 
-*Route.* (1)–(4) from 0.5g by the chain `p^{2g}(p−1)·deg(Hom/𝔄) ≥ 2·colength(𝒜) ≥ p^{2g}·deg(ω) = p^{2g}(p−1)·g·v(c) ≥ p^{2g}(p−1)·deg(Hom/𝔄)`. The first inequality: `𝔄 = ⊕ ε_jΛ_j` with `Λ` unimodular, and the `p^{2g}` monomials of degree `< p` in lifts of the `ε_jΛ_j` lie in `𝒜` and have discriminant of valuation `p^{2g}(p−1)·Σv(ε_j)`; the second is the discriminant formula for a finite flat group scheme (an equality); the last holds because the row span of `Π` lies in `𝔄`. (6) by the splitting of extensions by constant groups over `O_C`, the statement for `B × ℰ ⊗ Y`, the congruence of the two Hodge–Tate maps modulo `p` and 0.18a (d). (4′) Let `f : A → A′ = A/H` be the quotient (AbelianSchemesAndArithmeticModuli §A3.3) and `u : A′ → A` the homomorphism with `u∘f = p`, which exists because `p` kills `H ⊆ A[p]`; `u` is finite, `u∘f` being finite, so the pull-back by `u` of the relatively ample line bundle is relatively ample and its Mumford map is a polarisation of `A′` (AbelianSchemesAndArithmeticModuli §§A2.3, A2.5). By Zarhin's trick `B = (A′ × A′^∨)^4` carries a principal polarisation (PadicDifferentialEquationsAndRigidCohomology §RD.5.116). The kernel of `A[p] → A′` is `H`, so `A[p]/H` is a closed subgroup scheme of `A′[p]` (a monomorphism of finite schemes is a closed immersion), and `A′[p]` is one of `B[p]` (the first factor). Restriction of functions along these closed immersions is a surjective homomorphism of Hopf algebras that carries functions additive modulo `p` to functions additive modulo `p`; so (4) for `B` gives (4′).
+*Route.* (1)–(4) from 0.5g by the chain `p^{2g}(p−1)·deg(Hom/𝔄) ≥ 2·colength(𝒜) ≥ p^{2g}·deg(ω) = p^{2g}(p−1)·g·v(c) ≥ p^{2g}(p−1)·deg(Hom/𝔄)`. The first inequality: `𝔄 = ⊕ ε_jΛ_j` with `Λ` unimodular, and the `p^{2g}` monomials of degree `< p` in lifts of the `ε_jΛ_j` lie in `𝒜` and have discriminant of valuation `p^{2g}(p−1)·Σv(ε_j)`; the second is the discriminant formula of HodgeTateAndCanonicalSubgroups §0.20 (an equality), and `deg(ω) = g` is HodgeTateAndCanonicalSubgroups §§0.6, 0.7; the last holds because the row span of `Π` lies in `𝔄`. (6) by the splitting of extensions by constant groups over `O_C`, the statement for `B × ℰ ⊗ Y`, the congruence of the two Hodge–Tate maps modulo `p` and 0.18a (d). (4′) Let `f : A → A′ = A/H` be the quotient (AbelianSchemesAndArithmeticModuli §A3.3) and `u : A′ → A` the homomorphism with `u∘f = p`, which exists because `p` kills `H ⊆ A[p]`; `u` is finite, `u∘f` being finite, so the pull-back by `u` of the relatively ample line bundle is relatively ample and its Mumford map is a polarisation of `A′` (AbelianSchemesAndArithmeticModuli §§A2.3, A2.5). By Zarhin's trick `B = (A′ × A′^∨)^4` carries a principal polarisation (PadicDifferentialEquationsAndRigidCohomology §RD.5.116). The kernel of `A[p] → A′` is `H`, so `A[p]/H` is a closed subgroup scheme of `A′[p]` (a monomorphism of finite schemes is a closed immersion), and `A′[p]` is one of `B[p]` (the first factor). Restriction of functions along these closed immersions is a surjective homomorphism of Hopf algebras that carries functions additive modulo `p` to functions additive modulo `p`; so (4) for `B` gives (4′).
 
-*Needs:* 0.5g, 0.18a; AbelianSchemesAndArithmeticModuli §§A2.3, A2.5, A3.3; PadicDifferentialEquationsAndRigidCohomology §RD.5.116.
+*Needs:* 0.5g, 0.18a; HodgeTateAndCanonicalSubgroups §§0.6, 0.7, 0.20, 0.24; AbelianSchemesAndArithmeticModuli §§A2.3, A2.5, A3.3; PadicDifferentialEquationsAndRigidCohomology §RD.5.116.
 
 **Checks.**
 
@@ -325,7 +336,8 @@ For a finitely presented torsion `O_C`-module `M ≅ ⊕_i O_C/(c_i)` put `deg M
 ### 0.17a The Hodge–Tate sequence in the special fibre
 
 In the setting of 0.5a, at any prime `p` (0.5b (b) for `p = 2`), with a principal polarisation of `A`, let `T = A[p^R](Ω)` and assume `R ≥ 2` and that `ω^{HT}_R` is locally free on a neighbourhood of the fibre `X_{𝔽_p}`; `Lie^{HT}_R = (ω^{HT}_R)^∨`, `S = (X_{𝔽_p})_red`. (The hypothesis is restrictive. Let `G` have relative dimension `g ≥ 1`. At a point `y` over `p` at which `ω^{HT}_R` is locally
-free, `ω^{HT}_R(y)` is the intersection of its localisations at the height-one primes of `O_{X,y}`, and at those not containing
+free, `ω^{HT}_R(y)` is the intersection of its localisations at the height-one primes of `O_{X,y}` (SchemeAndStackFoundations
+§0.6), and at those not containing
 `p` it is `ω_G`. If every Hodge–Tate image vanishes in `ω_G ⊗ k(y)` (for instance if the fibre at `y` is an abelian variety of
 `p`-rank `0`, whose `p^R`-torsion has no nontrivial character), then `ω^{HT}_R(y) ⊆ 𝔪_y·ω_{G,y}` (`p ∈ 𝔪_y`), which is strictly
 smaller than `ω_{G,y}` by Nakayama's lemma because `ω_{G,y} ≠ 0`; so local freeness at `y` forces a height-one prime of
@@ -353,7 +365,7 @@ applies, they are trivial on the strict transforms of the components of the Katz
 
 *Route.* (a) is 0.17b (c) for `E = ℚ`, `c = 1`, `N = 2g`: there `T_σ = T ⊗ O_X`, `𝔡_σ = O_X`, the first map `β` is the transpose of `α` through `e_{p^R}`, so its image is the orthogonal of `ker α`, and exactness says `ker α = (ker α)^⊥`. (b) is 0.17b (c) at a prime unramified in `E`: `𝔡_σ = O_X` near the fibre and, by 0.5a (b), the eigen-quotients are the eigen-summands. (c) is 0.17b (d).
 
-*Needs:* 0.5a, 0.5b, 0.17b.
+*Needs:* 0.5a, 0.5b, 0.17b; SchemeAndStackFoundations §0.6.
 
 **Checks.**
 
@@ -377,7 +389,7 @@ applies, they are trivial on the strict transforms of the components of the Katz
   `𝔪_y`-primary and needs at least two generators. Every component of the special fibre maps finitely onto the `j`-line over
   `𝔽̄_p`, hence contains supersingular points: the hypothesis of 0.17a fails on every neighbourhood of `X_{𝔽_p}`, and 0.17a
   says nothing about `X`. (This is the remark after the hypothesis of 0.17a: a free module over a normal noetherian domain
-  is the intersection of its localisations at the height-one primes.) *Where the hypothesis holds.* Let `g : X′ → X` be the
+  is the intersection of its localisations at the height-one primes, SchemeAndStackFoundations §0.6.) *Where the hypothesis holds.* Let `g : X′ → X` be the
   normalised blow-up of the ideal sheaf `𝓘` with `ω^{HT}_R = 𝓘·ω` (`𝓘 = O` off the supersingular points). `X′` is in the
   setting of 0.5a (the same function field; normal, noetherian, flat), and by 0.5a (c) its lattice is the *image* of
   `g^*ω^{HT}_R` in `g^*ω`, that is `𝓘O_{X′}·g^*ω`, which is invertible: 0.17a applies to `X′`. The tensor pull-back `g^*ω^{HT}_R`
@@ -422,13 +434,13 @@ of ranks `rk Lie_σ`, `N`, `rk Lie_{σ̄}`; consequently the same sequence is an
 The prime `ℓ` may be `2` and may ramify in `E` and in the base. More generally (c) holds modulo `ℓ^m` for every `m` and every `κ` with `κ·ℓ^m ∣ ℓ^R` whose absolute value satisfies `|κ|^{ℓ−1} ≤ |ℓ|` at the height-one primes over `ℓ`; `m = R − 1` is the case `κ = κ₀`. [FormalProof] has the statement for `κ = ζ_ℓ − 1` at odd `ℓ`, where `m = R − 1` is allowed, and for `κ = 4` at `ℓ = 2`, where it gives the modulus `2^{R−2}`; the modulus `2^{R−1}` and the statement for other `κ` rest on the factor of 0.5b (b). For `E = ℚ` (c) is 0.17a (a), and at a prime unramified in `E` it is 0.17a (b).
 
 *Route.* Work on an affine open `Spec B`, `B` a noetherian normal domain in which `ℓ` is not a unit; by local freeness `ω^{HT}_R`, `ω^{HT}_{R,σ}`, `ω^{HT}_{R,σ̄}` are projective over `B`, and `𝔡_σ` is principal, generated by some `d`. *The maps.* `ℓ^R·ω_G ⊆ ℓ^{R−1}·κ₀·ω_G ⊆ ℓ^{R−1}·ω^{HT}_R` (0.5a (a), 0.5b (b)), so `α` is defined modulo `ℓ^{R−1}·ω^{HT}_R`, and its projection to the `σ̄`-eigen-quotient is `σ`-linear in `x` because `α(ax) = c(a)^*α(x)`. In a basis of `T` over `O_E/ℓ^R` the matrix of `d·⟨·,·⟩_σ` has entries in `B` and is invertible modulo `ℓ^R` (the pairing is perfect, and `d` clears the denominators of the trace-dual basis); `β_σ(w)` is the row `(w(α_{σ̄}(e_j)))_j` times the inverse matrix, unique modulo `ℓ^{R−1}`. Since `ω^{HT}_{R,σ̄}` is spanned by `α_σ(T_σ)` and the projection of `ℓ^R·ω_G`, `α_σ` is onto modulo `ℓ^{R−1}`; the same for `α_{σ̄}`, and projectivity of `ω^{HT}_{R,σ}` then gives `β_σ` a retraction modulo `ℓ^{R−1}`. *Reduction to points.* Identities of projective lattices over `B`, and divisibility by `ℓ^{R−1}` in them, are tested at the height-one primes `𝔮` of `B`; at `𝔮 ∌ ℓ` there is nothing to prove; at `𝔮 ∋ ℓ`, `B_𝔮` is a discrete valuation ring and for a complete algebraic closure `C` of its fraction field with a valuation above `𝔮`, `O_C` is faithfully flat over `B_𝔮`, so the tests are made after base change to `O_C`. There 0.18a applies to the pulled-back semi-abelian scheme (of good reduction or not; the hypothesis of 0.18a (d) holds by NeronModelsAndSemistableAbelianVarieties §3.6): the image of `T ⊗ O_C` is the base change of `ω^{HT}_R` up to `ℓ^R·ω_G`, and its kernel `W` is saturated, `O_E`-stable and equal to its own orthogonal for the Weil pairing (2.4 (b)). *The composite vanishes.* For a functional `f` on the image of `T ⊗ O_C` in the `σ̄`-eigen-quotient, the vector `w` with `e(w, y) = f(α(y)_{σ̄})` lies in `T ⊗ O_C` (perfectness), in the `σ`-eigenspace (adjointness) and in `W` (it is orthogonal to `W`, and `W^⊥ = W`). The `σ`-eigen-sublattice of `T ⊗ O_C` is `𝔡_σ` times its image in `T_σ`; so the transpose of `α_{σ̄}`, which is `β_σ` after division by `d`, has image in the kernel of `α_σ`: `α_σ∘β_σ ≡ 0` modulo `ℓ^{R−1}`. *Ranks.* Over `C` the eigenspaces of `T ⊗ C` have dimension `N`, the pairing puts those at `σ` and `σ̄` in duality, and `W^⊥ = W` makes `W_σ` and `W_{σ̄}` exact annihilators; so the ranks of the two images add up to `N`: (a). *Exactness.* A split injection `i : P₁ → B^N` and a surjection `q : B^N → P₂` modulo `a`, with `q∘i ≡ 0` and `rk P₁ + rk P₂ = N`, are exact in the middle modulo `a`: `(r, q) : B^N → P₁ × P₂` (`r` a retraction) is onto modulo `a` between projective modules of the same rank, hence injective modulo `a`. *Gluing.* On overlaps two liftings of `α` differ by `ℓ^R·ω_G ⊆ ℓ^{R−1}·ω^{HT}_R`, and `β_σ` is unique modulo `ℓ^{R−1}`. (c) on `X ⊗ ℤ/ℓ^{R−1}`, `X_{𝔽_ℓ}` and `S`: a split exact sequence of projective modules remains exact after base change. (d) The pair of flags is a full flag
-of the trivial bundle `T_σ` with graded pieces of first Chern classes `x_{σ,0}, …, x_{σ,N−1}`, so the Whitney formula gives
+of the trivial bundle `T_σ` with graded pieces of first Chern classes `x_{σ,0}, …, x_{σ,N−1}`, so the Whitney formula (SchemeAndStackFoundations §5.4) gives
 `∏_i(1 + x_{σ,i}) = c(T_σ) = 1` in the integral Chow ring: every elementary symmetric function `e_j` of the `x_{σ,i}`, `j ≥ 1`,
 vanishes. Newton's identities `p_k = Σ_{j=1}^{k−1}(−1)^{j−1}e_jp_{k−j} + (−1)^{k−1}k·e_k` (`e_k = 0` for `k > N`) have integer
 coefficients, so by induction `p_k(σ) = 0` for every `k ≥ 1`, also where the Chow ring has torsion (the Chern character
 would give the identity only with rational coefficients). *Nefness.* `L_λ ≅ ⊗_{k=1}^{N−1} (det F_k)^{⊗(λ_k − λ_{k−1})} ⊗ (det F_N)^{⊗(−λ_{N−1})}`; `det F_N` is trivial, and `(det F_k)^{−1} = ∧^k(F_k^∨)` is a quotient of the trivial bundle `∧^k((O^N)^∨)` (dualise the inclusion `F_k ⊂ O^N`), hence generated by global sections. For dominant `λ` the exponents `λ_{k−1} − λ_k` of the `(det F_k)^{−1}` are `≥ 0`, so `L_λ` is generated by global sections, hence nef. At `ℓ = 2` the same steps apply with `κ₀ = 2` and the modulus `2^{R−1}`, and for a general admissible `κ` with the modulus `ℓ^m`; they are not carried out separately here, and the steps at the points rest on 0.18a.
 
-*Needs:* 0.5a, 0.5b, 0.5c, 0.18a, 2.4; NeronModelsAndSemistableAbelianVarieties §3.6.
+*Needs:* 0.5a, 0.5b, 0.5c, 0.18a, 2.4; NeronModelsAndSemistableAbelianVarieties §3.6; SchemeAndStackFoundations §5.4.
 
 **Checks.**
 
@@ -449,9 +461,9 @@ Let `p` be a prime, `C` a complete algebraically closed nonarchimedean field of 
 
 (d) let `λ` be a principal polarisation of `A` whose Weil pairings, restricted to `H_n × H_n`, are restrictions of regular functions on `G[p^n]^f × G[p^n]^f` for all `n`; this holds when `G` and `λ` come by base change from a henselian discrete valuation ring (NeronModelsAndSemistableAbelianVarieties §§3.3, 3.5, 3.6). Then `e_n ∈ 𝒜_n ⊗ 𝒜_n`, the pairings define a homomorphism `𝔊 → 𝔊^D` inducing `λ` on Tate modules, and the kernel of `HT_G∘λ : T_pA ⊗ O_C → ω_G` is saturated of rank `g` and equal to its own orthogonal for the Weil pairing.
 
-*Route.* (a) `O_C` is a henselian local ring, and `G[p^n]` is quasi-finite, flat, separated and of finite presentation over it, hence quasi-affine (Zariski's main theorem: Mathlib `AlgebraicGeometry.Scheme.Hom.toNormalization` is then an open immersion into the relative normalisation, which is affine over `O_C`); on an affine open neighbourhood of its finite closed fibre SchemeAndStackFoundations §0.14 splits it into a part finite over `O_C` and a part with empty closed fibre. So `G[p^n]` is the disjoint union of an open and closed subscheme `G[p^n]^f`, finite over `O_C` and containing the closed fibre, and an open subscheme with empty closed fibre. Every connected component of a scheme finite over `O_C` meets the closed fibre, so the group law, the inverse and the unit section map into `G[p^n]^f`, which is a subgroup scheme, finite free over the local ring `O_C`; its closed fibre is `G_s[p^n]`, of order `p^{n(2(g−r)+r)}` for the extension `G_s` of an abelian variety of dimension `g − r` by a torus of rank `r`. A point of `T_n` that extends to a section of `G` extends to one of `G[p^n]` (`G` is separated), which lies in `G[p^n]^f` because `Spec O_C` is connected and its closed point maps to the closed fibre; conversely the `C`-points of the finite `G[p^n]^f` extend. Hence `H_n = H_{n+1} ∩ T_n`, `|H_n| = p^{n(2g−r)}` (the generic fibre is étale over the algebraically closed `C`), and `p : H_{n+1} → H_n` has kernel `H_{n+1} ∩ T_1 = H_1`, so it is onto by counting. Translation by a point of `H_n` is an automorphism of `G[p^n]^f`, so the condition defining `𝒜_n` depends only on the coset of `t`, and `𝒜_n ≅ ∏_{T_n/H_n} O(G[p^n]^f)` is free of rank `p^{nr}·p^{n(2g−r)}`; on each product of cosets `(s, t) ↦ f(s + t)` is the pull-back of a translate of `f` along the group law of `G[p^n]^f`, so `Δ` maps `𝒜_n` to `𝒜_n ⊗ 𝒜_n`. `𝒜_n ⊗ C` is the algebra of all functions on `T_n`, so `𝔊_n` has generic fibre `A[p^n]`, and `G[p^n]^f` is its open and closed subgroup scheme of the coset `H_n`; the quotient is the constant group `T_n/H_n`, of order `p^{nr}`, killed by `p^n`, with `p`-torsion `(T_1 + H_n)/H_n ≅ T_1/H_1` of order `p^r` (if `pt ∈ H_n` then `pt ∈ H_{n−1} = pH_n`), hence `≅ (ℤ/p^n)^r`. Uniqueness: in a finite flat `𝔊′` with generic fibre `A[p^n]`, an open subgroup scheme identified with `G[p^n]^f` is also closed (it is finite); its translates by the points of `T_n = 𝔊′(O_C)` are open and closed, and two of them are equal or disjoint (an open and closed subscheme of the flat `𝔊′` with empty generic fibre is empty), and their union contains the generic fibre, so it is `𝔊′`; hence `O(𝔊′)` and `𝒜_n` are the same algebra of functions on `T_n`. (b) The finite part of `G[p^n]` is `G[p^n] ∩ G[p^{n+1}]^f`, a closed subgroup scheme of `G[p^{n+1}]^f`, and the cosets of `H_{n+1}` meet `T_n` in cosets of `H_n`; so restriction maps `𝒜_{n+1}` onto `𝒜_n`, and `𝔊_n` is a closed subgroup scheme of `𝔊_{n+1}`. On the coset of `t ∈ T_{n+1}` the equation `p^n x = 0` has no solution unless `p^n t ∈ H_{n+1} ∩ T_1 = H_1 = p^nH_{n+1}`, and then the coset contains a point `t′ ∈ T_n` and the solutions are `t′ + G[p^n]^f`; so `𝔊_{n+1}[p^n] = 𝔊_n`. Multiplication by `p` maps `𝔊_{n+1}` into `𝔊_n` with kernel `𝔊_1`, and the induced closed immersion `𝔊_{n+1}/𝔊_1 → 𝔊_n` is an isomorphism, both being finite free of rank `p^{2gn}`: the `𝔊_n` form a `p`-divisible group of height `2g`. As `G[p^n]^f` is an open subgroup scheme of `𝔊_n` containing the unit section, `ω_{𝔊_n} = ω_{G[p^n]} = ω_G/p^n`, so `ω_𝔊 = ω_G` and `𝔊` has dimension `g`. Homomorphisms of semi-abelian schemes preserve the finite parts and the condition defining `𝒜_n`; for an abelian scheme `G[p^n]` is finite and `H_n = T_n`; the same steps for the finite parts give the `p`-divisible group `(G[p^n]^f)_n` of height `2g − r`, with quotient `(ℚ_p/ℤ_p)^r` by (a). Over a complete discrete valuation ring the finite part of `G[p^n]` is the `p^n`-torsion of the Raynaud extension (HodgeTateAndCanonicalSubgroups §§0.13, 0.18), and finite parts commute with the base change to `O_C`. (c) The restriction of a character `χ` of `T_n` to `H_n` is a `C`-point of the Cartier dual of `G[p^n]^f` (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1), which is finite over `O_C`, hence an `O_C`-point: a group-like element of `O(G[p^n]^f)`; on a coset `t + H_n`, `h ↦ χ(t + h)` is `χ(t)` times that element. So `𝔊_n^D(O_C)` is the group of all characters of `T_n`, which the Weil pairing identifies with `A^∨[p^n](C)`; the Hodge–Tate map of `𝔊^D` sends `χ` to the class of `χ − 1` (HodgeTateAndCanonicalSubgroups §§0.2, 0.4), which depends only on the restriction of `χ` to the open subgroup `G[p^n]^f`; and the inclusions are 0.5b (a) for `𝔊^D`, as `ω_{(𝔊^D)^D} = ω_G`. (d) On cosets `e_n(s + h, t + h′) = e_n(s, t)·e_n(s, h′)·e_n(h, t)·e_n(h, h′)`: the middle factors are characters of `H_n` in one variable, regular by (c), and the last is regular by hypothesis, so `e_n ∈ 𝒜_n ⊗ 𝒜_n`. Its bimultiplicativity holds on `C`-points, hence in the flat `𝒜_n ⊗ 𝒜_n ⊗ 𝒜_n`, so it is a pairing `𝔊_n × 𝔊_n → μ_{p^n}`, that is a homomorphism `𝔊_n → 𝔊_n^D`, compatible in `n` and inducing `λ` on Tate modules; the form `B_λ` on `T_pA` is the Weil pairing, perfect and alternating, and 2.4 (b) applied to `𝔊`, of height `2g` and dimension `g` by (b), gives the kernel.
+*Route.* (a) `O_C` is a henselian local ring, and `G[p^n]` is quasi-finite, flat, separated and of finite presentation over it, hence quasi-affine (Zariski's main theorem: Mathlib `AlgebraicGeometry.Scheme.Hom.toNormalization` is then an open immersion into the relative normalisation, which is affine over `O_C`); on an affine open neighbourhood of its finite closed fibre SchemeAndStackFoundations §0.14 splits it into a part finite over `O_C` and a part with empty closed fibre. So `G[p^n]` is the disjoint union of an open and closed subscheme `G[p^n]^f`, finite over `O_C` and containing the closed fibre, and an open subscheme with empty closed fibre. Every connected component of a scheme finite over `O_C` meets the closed fibre, so the group law, the inverse and the unit section map into `G[p^n]^f`, which is a subgroup scheme, finite free over the local ring `O_C`; its closed fibre is `G_s[p^n]`, of order `p^{n(2(g−r)+r)}` for the extension `G_s` of an abelian variety of dimension `g − r` by a torus of rank `r`. A point of `T_n` that extends to a section of `G` extends to one of `G[p^n]` (`G` is separated), which lies in `G[p^n]^f` because `Spec O_C` is connected and its closed point maps to the closed fibre; conversely the `C`-points of the finite `G[p^n]^f` extend. Hence `H_n = H_{n+1} ∩ T_n`, `|H_n| = p^{n(2g−r)}` (the generic fibre is étale over the algebraically closed `C`), and `p : H_{n+1} → H_n` has kernel `H_{n+1} ∩ T_1 = H_1`, so it is onto by counting. Translation by a point of `H_n` is an automorphism of `G[p^n]^f`, so the condition defining `𝒜_n` depends only on the coset of `t`, and `𝒜_n ≅ ∏_{T_n/H_n} O(G[p^n]^f)` is free of rank `p^{nr}·p^{n(2g−r)}`; on each product of cosets `(s, t) ↦ f(s + t)` is the pull-back of a translate of `f` along the group law of `G[p^n]^f`, so `Δ` maps `𝒜_n` to `𝒜_n ⊗ 𝒜_n`. `𝒜_n ⊗ C` is the algebra of all functions on `T_n`, so `𝔊_n` has generic fibre `A[p^n]`, and `G[p^n]^f` is its open and closed subgroup scheme of the coset `H_n`; the quotient is the constant group `T_n/H_n`, of order `p^{nr}`, killed by `p^n`, with `p`-torsion `(T_1 + H_n)/H_n ≅ T_1/H_1` of order `p^r` (if `pt ∈ H_n` then `pt ∈ H_{n−1} = pH_n`), hence `≅ (ℤ/p^n)^r`. Uniqueness: in a finite flat `𝔊′` with generic fibre `A[p^n]`, an open subgroup scheme identified with `G[p^n]^f` is also closed (it is finite); its translates by the points of `T_n = 𝔊′(O_C)` are open and closed, and two of them are equal or disjoint (an open and closed subscheme of the flat `𝔊′` with empty generic fibre is empty), and their union contains the generic fibre, so it is `𝔊′`; hence `O(𝔊′)` and `𝒜_n` are the same algebra of functions on `T_n`. (b) The finite part of `G[p^n]` is `G[p^n] ∩ G[p^{n+1}]^f`, a closed subgroup scheme of `G[p^{n+1}]^f`, and the cosets of `H_{n+1}` meet `T_n` in cosets of `H_n`; so restriction maps `𝒜_{n+1}` onto `𝒜_n`, and `𝔊_n` is a closed subgroup scheme of `𝔊_{n+1}`. On the coset of `t ∈ T_{n+1}` the equation `p^n x = 0` has no solution unless `p^n t ∈ H_{n+1} ∩ T_1 = H_1 = p^nH_{n+1}`, and then the coset contains a point `t′ ∈ T_n` and the solutions are `t′ + G[p^n]^f`; so `𝔊_{n+1}[p^n] = 𝔊_n`. Multiplication by `p` maps `𝔊_{n+1}` into `𝔊_n` with kernel `𝔊_1`, and the induced closed immersion `𝔊_{n+1}/𝔊_1 → 𝔊_n` is an isomorphism, both being finite free of rank `p^{2gn}`: the `𝔊_n` form a `p`-divisible group of height `2g`. As `G[p^n]^f` is an open subgroup scheme of `𝔊_n` containing the unit section, `ω_{𝔊_n} = ω_{G[p^n]} = ω_G/p^n`, so `ω_𝔊 = ω_G` and `𝔊` has dimension `g`. Homomorphisms of semi-abelian schemes preserve the finite parts and the condition defining `𝒜_n`; for an abelian scheme `G[p^n]` is finite and `H_n = T_n`; the same steps for the finite parts give the `p`-divisible group `(G[p^n]^f)_n` of height `2g − r`, with quotient `(ℚ_p/ℤ_p)^r` by (a). Over a complete discrete valuation ring the finite part of `G[p^n]` is the `p^n`-torsion of the Raynaud extension (HodgeTateAndCanonicalSubgroups §§0.13, 0.18), and finite parts commute with the base change to `O_C`. (c) The restriction of a character `χ` of `T_n` to `H_n` is a `C`-point of the Cartier dual of `G[p^n]^f` (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.7), which is finite over `O_C`, hence an `O_C`-point: a group-like element of `O(G[p^n]^f)`; on a coset `t + H_n`, `h ↦ χ(t + h)` is `χ(t)` times that element. So `𝔊_n^D(O_C)` is the group of all characters of `T_n`, which the Weil pairing identifies with `A^∨[p^n](C)`; the Hodge–Tate map of `𝔊^D` sends `χ` to the class of `χ − 1` (HodgeTateAndCanonicalSubgroups §§0.2, 0.4), which depends only on the restriction of `χ` to the open subgroup `G[p^n]^f`; and the inclusions are 0.5b (a) for `𝔊^D`, as `ω_{(𝔊^D)^D} = ω_G`. (d) On cosets `e_n(s + h, t + h′) = e_n(s, t)·e_n(s, h′)·e_n(h, t)·e_n(h, h′)`: the middle factors are characters of `H_n` in one variable, regular by (c), and the last is regular by hypothesis, so `e_n ∈ 𝒜_n ⊗ 𝒜_n`. Its bimultiplicativity holds on `C`-points, hence in the flat `𝒜_n ⊗ 𝒜_n ⊗ 𝒜_n`, so it is a pairing `𝔊_n × 𝔊_n → μ_{p^n}`, that is a homomorphism `𝔊_n → 𝔊_n^D`, compatible in `n` and inducing `λ` on Tate modules; the form `B_λ` on `T_pA` is the Weil pairing, perfect and alternating, and 2.4 (b) applied to `𝔊`, of height `2g` and dimension `g` by (b), gives the kernel.
 
-*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.4, 0.13, 0.18; 0.5b, 2.4; SchemeAndStackFoundations §0.14; NeronModelsAndSemistableAbelianVarieties §§3.3, 3.5, 3.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1 (Cartier duality).
+*Needs:* HodgeTateAndCanonicalSubgroups §§0.2, 0.4, 0.13, 0.18; 0.5b, 2.4; SchemeAndStackFoundations §0.14; NeronModelsAndSemistableAbelianVarieties §§3.3, 3.5, 3.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.7 (Cartier duality).
 
 **Checks.**
 
@@ -466,12 +478,15 @@ This target extends HodgeTateAndCanonicalSubgroups §2.4. For a `p`-divisible gr
 (a) for every `p`-divisible group `G` over `O_C`, the kernel of `α_G ⊗ 1 : T_pG ⊗ O_C → ω_{G^D}` is the annihilator of the kernel of `α_{G^D} ⊗ 1 : T_p(G^D) ⊗ O_C → ω_G` for the `O_C`-linear extension of the Cartier pairing `T_pG × T_p(G^D) → ℤ_p(1)`; it is a saturated submodule of rank `dim G`, and over `C` it is the image of the first map of the sequence. No polarisation is involved: the kernel and its annihilator lie in the Tate modules of `G` and of `G^D`;
 
 (b) (*the polarised case*) let moreover `ht G = 2·dim G`, and let `λ : G → G^D` be a homomorphism inducing an isomorphism on Tate modules for which the form `B_λ(x, y) = ⟨y, λ(x)⟩` on `T_pG` is alternating (for instance the homomorphism defined by a principal polarisation of an abelian scheme, or that of 0.18a (d); in both `ht G = 2g` and `dim G = g`). Then for `f = (α_{G^D} ⊗ 1)∘λ : T_pG ⊗ O_C → ω_G`: `κ·ω_G ⊆ im f` for every `κ` with `|κ|^{p−1} ≤ |p|`, and `ker f` is a saturated submodule of rank `dim G` equal to its own orthogonal for `B_λ` (a Lagrangian). The condition on the height does not follow from the others: over `O_C` a homomorphism that is bijective on Tate modules need not be an isomorphism. For `G = (ℚ_p/ℤ_p)²` and `λ : G → G^D = μ_{p^∞}²` with matrix `[[0, ε], [−ε, 0]]`, `ε` a generator of `ℤ_p(1)`, the form `B_λ` is alternating and perfect, `ω_G = 0`, and `ker f` is all of `T_pG ⊗ O_C`.
+For the principal polarisation of an abelian scheme `A` over `O_C`, `ker f ⊗ C` is the Hodge–Tate filtration
+`Lie A ⊗ C(1) ⊂ T_pA ⊗ C`, which HodgeTateAndCanonicalSubgroups §2.5 states to be Lagrangian for the Weil pairing; (b) is the
+integral form of that statement.
 
-*Route.* (a) *The composite is zero.* Integrally `α_G∘(α_{G^D})^∨ = 0`, and the sequence is exact over `C`: HodgeTateAndCanonicalSubgroups §2.4, which states both with no restriction on `p`. *Exactness over `C`* also follows from the vanishing of the composite: by 0.5b (a) applied to `G` and to `G^D`, `α_G ⊗ C` and `α_{G^D} ⊗ C` are onto; so the transpose of `α_{G^D}` has rank `dim G`, the kernel of `α_G ⊗ C` has dimension `ht G − dim G^D = dim G`, and a complex with these dimensions is exact. *The kernel.* Over `C` the kernel of `α_G` is the image of the transpose of `α_{G^D}`, which is the annihilator of the kernel of `α_{G^D}`; integrally, `ker(α_G ⊗ 1)` and the annihilator of `ker(α_{G^D} ⊗ 1)` are both saturated in `T_pG ⊗ O_C`, being kernels of maps to torsion-free modules, so they are equal.
+*Route.* (a) *The composite is zero.* Integrally `α_G∘(α_{G^D})^∨ = 0`, and the sequence is exact over `C`: HodgeTateAndCanonicalSubgroups §2.4, which states both with no restriction on `p`. *Exactness over `C`* also follows from the vanishing of the composite: by 0.5b (a) applied to `G` and to `G^D`, `α_G ⊗ C` and `α_{G^D} ⊗ C` are onto; so the transpose of `α_{G^D}` has rank `dim G`, the kernel of `α_G ⊗ C` has dimension `ht G − dim G^D = dim G` (HodgeTateAndCanonicalSubgroups §0.25), and a complex with these dimensions is exact. *The kernel.* Over `C` the kernel of `α_G` is the image of the transpose of `α_{G^D}`, which is the annihilator of the kernel of `α_{G^D}`; integrally, `ker(α_G ⊗ 1)` and the annihilator of `ker(α_{G^D} ⊗ 1)` are both saturated in `T_pG ⊗ O_C`, being kernels of maps to torsion-free modules, so they are equal.
 
 (b) The cokernel: 0.5b (a) for `G^D`, `λ` being bijective on Tate modules. By (a), `ker(α_G ⊗ 1) = (ker f)^⊥` for `B_λ`. Naturality of the Hodge–Tate map for `λ` and the antisymmetry of `B_λ` give `λ^*∘(α_G ⊗ 1) = −f`, so `ker(α_G ⊗ 1) ⊆ ker f`, that is `(ker f)^⊥ ⊆ ker f`. As `κ·ω_G ⊆ im f`, `rk ker f ≤ ht G − dim G = ht G/2`; and a submodule of rank at most half the rank that contains its orthogonal for a nondegenerate alternating form is equal to it.
 
-*Needs:* 0.5b; HodgeTateAndCanonicalSubgroups §§0.4, 2.4.
+*Needs:* 0.5b; HodgeTateAndCanonicalSubgroups §§0.4, 0.25, 2.4.
 
 ### Examples
 
@@ -490,7 +505,7 @@ This target extends HodgeTateAndCanonicalSubgroups §2.4. For a `p`-divisible gr
 
 ### Dependencies
 
-HodgeTateAndCanonicalSubgroups §§0.2–0.5, 0.13, 0.17, 0.18, 2.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.24a and R07.1 (Cartier duality); ShimuraCompactifications §§6.3–6.5, 7.3, 7.19; NeronModelsAndSemistableAbelianVarieties §§3.3, 3.5, 3.6; NashBlowups §§1.2–1.5; AlgebraicModuliForArithmeticGeometry §1.3; SchemeAndStackFoundations §0.14; AbelianSchemesAndArithmeticModuli §§A2.3, A2.5, A3.3; PadicDifferentialEquationsAndRigidCohomology §RD.5.116. The targets are numbered by their places after HodgeTateAndCanonicalSubgroups §§0.5, 0.17, 0.18 and 2.4, not in construction order; one construction order is 0.5a, 0.5b, 2.4, 0.18a, 0.5c, 0.5g, 0.5h, 0.5f, 0.5d, 0.5e, 0.17b, 0.17a.
+HodgeTateAndCanonicalSubgroups §§0.2–0.7, 0.13, 0.17, 0.18, 0.20, 0.24, 0.25, 2.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.3, R07.1.7 (Cartier duality) and R07.1.24a; ShimuraCompactifications §§6.3–6.5, 7.3, 7.19; NeronModelsAndSemistableAbelianVarieties §§3.3, 3.5, 3.6; NashBlowups §§1.2–1.5; AlgebraicModuliForArithmeticGeometry §§1.3, 5.4; SchemeAndStackFoundations §§0.6, 0.14, 5.4; AbelianSchemesAndArithmeticModuli §§A2.3, A2.5, A3.3; PadicDifferentialEquationsAndRigidCohomology §RD.5.116. The targets are numbered by their places after HodgeTateAndCanonicalSubgroups §§0.5, 0.17, 0.18 and 2.4, not in construction order; one construction order is 0.5a, 0.5b, 2.4, 0.18a, 0.5c, 0.5g, 0.5h, 0.5f, 0.5d, 0.5e, 0.17b, 0.17a.
 
 ## Layer 3: Logarithms of Lubin–Tate laws in several variables
 
@@ -516,7 +531,10 @@ and `(q^e − 1)/(q − 1) ≥ e` for every integer `q ≥ 2`. The pattern `ς` 
 - `S = {x}`, `ς = id`, `h = 2`: the inverse of `Σ_eT^{p^{2e}}/p^e` has coefficient `−1/p` at `T^{p²}`, of valuation
   `−1 = −(p² − 1)/(p² − 1)`: the bound is attained.
 - `h = 1`, `ς = id`: `λ = Σ_eT^{p^e}/p^e`, the logarithm of the Lubin–Tate group of `p` over `ℤ_p`; the bound
-  `−(n − 1)/(p − 1)` is the classical radius `|x| < p^{−1/(p−1)}` of the exponential.
+  `−(n − 1)/(p − 1)` is the classical radius `|x| < p^{−1/(p−1)}` of the exponential. For an integral commutative formal group of
+  dimension `g` over a finite extension of `ℚ_p` with ramification index `e`, HeightsRationalPointsAndObstructions §1.16 gives
+  that the logarithm and its inverse identify `(𝔪^r)^g` with its additive group for every integer `r > e/(p − 1)`; for twisted
+  systems the bound of 3.1 gives the convergence of the inverse on `|x| < p^{−1/(q−1)}`.
 
 *Needs:* LubinTateFormalModulesAndQuasiCanonicalLifts §4.1 (notation); Mathlib `MvPowerSeries` (substitution), `MvPowerSeries.gaussNorm`.
 
@@ -688,11 +706,16 @@ In this family the statements are used by [TaylorBoundsAndDepthsOnHeightTwoForma
 - §0.3: functoriality, endomorphisms and polarisations of `α`.
 - §0.4: the Hodge–Tate map `α_G` of a `p`-divisible group over `O_C`, with `α_G` modulo `p^n` equal to `α_{G[p^n]}`, and its linearisation `α_G ⊗ 1 : T_pG ⊗ O_C → ω_{G^D}`.
 - §0.5: for a `p`-divisible group over `O_C` the complex `Lie(G) ⊗ O_C(1) → T_pG ⊗ O_C → ω_{G^D}` has zero composite and is exact over `C`, at every prime; for odd `p` its cohomology is killed by every `a` with `v(a) ≥ 1/(p − 1)`, also for finite flat `H`.
+- §§0.6, 0.7: the degree `deg G = deg ω_G` of a finite flat group scheme over `O_C`, and `deg G[p^n] = n·dim G` (0.5h).
 - §0.13: the finite part of `G[p^n]` on degeneration charts.
 - §0.17: the finite-level Hodge–Tate map over the toroidal boundary of the Siegel models of ShimuraCompactifications §7.19.
 - §0.18: the Raynaud extension `G̃` of an abelian variety over a complete discretely valued field, the height `2g − r` of `G̃[p^∞]` and the exact sequence `0 → T_pG̃ → T_pA → Y ⊗ ℤ_p → 0`.
+- §0.20: the different of the Hopf algebra of a generically étale finite flat group scheme is the pull-back of `Fitt₀ ω_G`, and
+  its norm is the trace discriminant (0.5h).
+- §0.24: the degree of a finitely presented torsion module over a rank-one valuation ring (0.5h).
+- §0.25: for a `p`-divisible group `G` over `O_C`, `ω_{G[p^n]} ≅ ω_G/p^n` and `dim G + dim G^D = ht G` (0.5b, 2.4).
 - §2.4: the exact Hodge–Tate sequence of a `p`-divisible group over `O_C` after inverting `p`, and the vanishing of the integral composite, at every prime (the route of 2.4 (a)).
-- §§5.5–5.7: named in Scope only.
+- §§5.5–5.7: named in Scope; §5.5 also in the comparison of 0.5c.
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
@@ -703,8 +726,10 @@ In this family the statements are used by [TaylorBoundsAndDepthsOnHeightTwoForma
 
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
-- R07.1.24a: points and finite flat models of Galois modules, with the Cartier duality of finite flat group schemes (0.5a).
-- R07.1: Cartier duality of finite flat group schemes and `p`-divisible groups, exact on exact sequences (0.18a, 0.5d).
+- R07.1.3: the finite part of a separated, quasi-finite, flat, finitely presented commutative group scheme over a henselian
+  local ring, open and closed, finite flat and containing the unit section (0.5a).
+- R07.1.7: the Cartier dual of a `p`-divisible group, whose levels are the Cartier duals of the levels (0.18a, 0.5d).
+- R07.1.24a: points and finite flat models of Galois modules (0.5a).
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 
@@ -723,6 +748,8 @@ In this family the statements are used by [TaylorBoundsAndDepthsOnHeightTwoForma
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
 - §1.3: coherent quotients and their Plücker embeddings into Grassmannians, used for the projectivity of the Nash modifications (0.5c).
+- §5.4: normalisation, finite over a locally noetherian Nagata base, and the unique lifting to it of maps preserving the generic
+  points of components (0.5c).
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
@@ -735,7 +762,10 @@ In this family the statements are used by [TaylorBoundsAndDepthsOnHeightTwoForma
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
+- §0.6: reflexive sheaves on a normal locally noetherian scheme and their description at the points of codimension one, which
+  makes a locally free lattice the intersection of its localisations at the height-one primes (0.5a, 0.17a).
 - §0.14: henselian pairs, their characterisations and permanence, finite étale algebras over them, and the splitting of a quasi-finite algebra over a henselian local ring into a finite factor and a factor with empty closed fibre (0.18a).
+- §5.4: Chern classes of locally free sheaves acting on `CH_*`, with the Whitney formula and `c(O^n) = 1` (0.17b (d)).
 
 ### From Mathlib
 
