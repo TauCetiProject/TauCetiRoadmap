@@ -47,6 +47,13 @@ The headline theorems are these.
   product of the local fibre measures, which is the product of the local orbital integrals when the
   function is a product of local factors (the archimedean places taken together).
 
+These headline theorems are classical and are stated here in their published generality. The formal proof that the
+family follows uses Landherr's Hasse principle for CM fields (3.1), the mass formula for CM extensions unramified at
+every finite place, totally positive definite spaces and integral lattices, up to the mass of the lattices of rank one
+(6.3), and Siegel's main theorem in Weil's form for CM extensions and `2k < n` (6.5(a)); the targets concerned state
+these forms under the label *The form of the formal proof*. The value `1/(6^n n!)` over `ℚ(√−3)` is at a ramified
+extension, outside that setting.
+
 The roadmap builds on
 [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md), which owns the Hermitian spaces over
 a field with involution, the carrier of integral Hermitian lattices, the Hermitian counts over
@@ -198,6 +205,13 @@ quotient of Tamagawa measures on a homogeneous space are those of OrbitMeasuresO
 the leading coefficient is `L(1, η)`, the character module being `ℤ` with the nontrivial element of
 `Gal(E/F)` acting by `−1` (0.2). For `n = 0`, `U(V)` is the trivial group, its character module is
 `0`, no convergence factors enter, and its Tamagawa number is `1`.
+*Compact-dual measure.* For a CM extension `E/F` and `V` with the same signature `(p, q)` at every real place, `μ^c`
+on `U(V)(F_∞)` is the product over the real places of the Haar measure `μ^c_{p,q}` of `U(p, q)` determined by:
+`μ^c_{n,0}` is the probability measure of `U(n)`, and `μ^c_{p,q}` and `μ^c_{n,0}` have the same density at the identity
+with respect to the Haar measures `λ` of the Lie algebras `𝔲(p, q)`, `𝔲(n) ⊂ M_n(ℂ)` for which `(a, b) ↦ a + ib`
+carries `λ ⊗ λ` to Lebesgue measure of `M_n(ℂ)`. This is the archimedean normalisation of the formal proof (6.2(c)).
+`μ^c` and the archimedean fibre measure are Haar measures of `U(V)(F_∞)`, so they differ by a positive constant
+factor; that factor is not computed here.
 
 **L-values.** `ζ_K` is Mathlib's `NumberField.dedekindZeta K` and `κ_K` its residue at `s = 1`,
 Mathlib's `NumberField.dedekindZeta_residue K`. `L(s, η) = ζ_E(s)/ζ_F(s)` for `Re s > 1`, and
@@ -685,6 +699,13 @@ in `GL_n(E ⊗_F F_v)` for the involution `σ ⊗ 1`. The first statement is Lan
 [Landherr]; [Kirschmer], Theorem 2.4.1, p. 20, states it and refers to [Scharlau], Chapter 10, for a
 proof.
 
+*The form of the formal proof.* Let `E` be a CM field with maximal real subfield `F` and conjugation `σ`, and
+`H, H′ ∈ GL_n(E)` with `σ(H)^T = H`, `σ(H′)^T = H′`. If, for every embedding `τ : E → ℂ`, `τ(H)` and `τ(H′)` are
+congruent over `ℂ` (`τ(H′) = Q^*τ(H)Q` with `Q ∈ GL_n(ℂ)`), and `det H′/det H` is a norm from `E ⊗_F F_v` at every
+finite place `v` of `F` (equivalently, by the Hasse norm theorem, a norm from `E`), then `H′ = σ(P)^T H P` for some
+`P ∈ GL_n(E)`. This is the equivalent form above (dimension, determinant class and signatures) for CM extensions, and
+follows from the statement above; `hermitian_congr_iff_forall_place_of_cm` is the Gram-matrix form for CM extensions.
+
 Route: an isometry `V_v ≅ V'_v` of Hermitian spaces over `E_v` is in particular an `F_v`-linear isometry
 of the quadratic forms `q_{h,v}(x) = h(x, x)` and `q_{h',v}`, at every place, split places included
 (forgetting the `E_v`-structure; `q_{h,v}` is the base change of `q_h` by 1.7), so `q_{h,v} ≅ q_{h',v}`;
@@ -909,6 +930,11 @@ in particular, if `M′` is a lattice with `𝔡M′ ⊆ M^∨` for a nonzero id
 `𝔭^J(M ∩ Z) ⊆ M′` after localization at `𝔭` for an integer `J ≥ 0`, the bound holds with
 `dim_K Z·(J + v_𝔭(𝔡))`.
 
+*The form of the formal proof* of (c): for `R = O_K`, `K` a number field with an involution `c`, `ε = 1`, and
+`𝔡 = DR` for a positive integer `D`, it bounds the signed index `idx_𝔭(PM, (PM)^∨)` of 4.0b (over `R_(𝔭)`):
+`idx_𝔭(PM, (PM)^∨) ≤ length_𝔭(PM/(M ∩ Z)) + dim_K Z·(J + v_𝔭(D))`. The left side of (c) is the colength of
+`PM ∩ (PM)^∨` in `PM`; it is at least `idx_𝔭(PM, (PM)^∨)`, so (c) implies this form.
+
 For `R = O_E`, `E` a quadratic extension of number fields or of local fields with `c = σ` and
 `ε = ±1`, these are statements on the Hermitian and skew-Hermitian lattices of 4.0; for `c = id` they
 are the symmetric (`ε = 1`) and skew-symmetric (`ε = −1`) cases, the alternating forms being among the
@@ -998,6 +1024,12 @@ and `ρ(N_1) ⊆ A ⊆ A′`, `ρ(N′) ⊆ A′` for submodules `A, A′` of `W
 `ϖ` stays a uniformizer, `K′ = Frac O′`, then `A ↦ O′A` preserves intersections, intersections with
 subspaces and the lengths of the quotients above, and the supremum of (a) for `O′A, O′B` over all
 `K′`-subspaces of `V ⊗_K K′` equals that for `A, B`.
+
+*The form of the formal proof.* It uses only the inequality of (a): for every subspace `W` and every integer `d`,
+`idx(A ∩ W, B ∩ W) ≤ d·dim W + length((ϖ^dA + B)/B)`; and the corollary for `U` the subspace `K·(N_1 + Z)`, with all
+the lengths finite, through (a): for every subspace `W`,
+`idx(M ∩ W, Θ ∩ W) ≤ e·dim W + length(A′/A) + length(A/ρ(N_1)) + length(Z′/Z) + q`. The first is half of (a), and the
+second is the corollary combined with (a) for `d = e`, `A = M`, `B = Θ`.
 
 Route: *the index.* For lattices `D′ ⊆ D ⊆ A ∩ B`, `length(A/D′) = length(A/D) + length(D/D′)` and
 the same for `B`, so the difference does not change; two lattices in `A ∩ B` contain their
@@ -1613,6 +1645,11 @@ integral `L` with `L ∩ U = M`, `L ∩ U′ = M′`;
 `(#A_M·#A_{M′})^{dim U′}`.
 4.9(a), (b) are the case `A_L = 0`, where `W = A_M`, `W′ = A_{M′}`.
 
+*The form of the formal proof* of (c): for `E/F` a CM extension unramified at every finite place, `V` totally positive
+definite and integral `L` with cyclic discriminant module (`L^∨ = L + O_E x`), `#A_L = N_0` and `#A_M = n`, the number
+of such `L` with given `L ∩ U = M` and `L ∩ U′ = M′` is at most `(n·nN_0)^{2 dim U′ + 1}`. (c) implies this bound,
+as `#A_{M′} ≤ nN_0` by (b).
+
 Route: (a) as in the route of 4.9(a): `L ⊆ L^∨ ⊆ (M ⊕ M′)^∨ = M^∨ ⊕ M′^∨` (4.0a(a)), and if `P_Uλ ∈ M ⊆ L`
 then `λ − P_Uλ ∈ L ∩ U′ = M′`; integrality of `L` is the isotropy of the graph; conversely the preimage of
 a graph meeting `A_M ⊕ 0` and `0 ⊕ A_{M′}` trivially meets `U` in `M` and `U′` in `M′`, and it is integral
@@ -1971,6 +2008,10 @@ Hermitian space over `E`, and `j ≥ 1`, `n ≥ 1`. Prove that a
 the subspaces whose determinant has odd valuation exactly at the inert places where `v(𝔳(P))` is odd);
 hence these subspaces form at most `n^{(log₂[F : ℚ])/2}` orbits under `U(V)(F)`, and none when `n` is not
 the square of a norm of an ideal of `O_F`.
+
+*The form of the formal proof:* for `V` totally positive definite, these subspaces form at most
+`n^{1 + log₂[E : ℚ]}` orbits under `U(V)(F)`. The bound `n^{(log₂[F : ℚ])/2}` above implies it and is a sharpening
+proved by the route here.
 
 Route: at a real place `U_v` is definite with the sign of `V_v`; at a split place every local class is
 trivial; at an inert place, units being norms, the class of `det U_v` is the parity of its valuation,
@@ -2654,6 +2695,14 @@ For integral `L`, (a) is the mass formula of [Kirschmer], Theorem 4.2.3, p. 51, 
 the convergence factors `L_v(1, η_v)` and with `β_∞(L)` evaluated as in 6.3; its proof there refers to
 [GanYu], §10.
 
+(c) *The form of the formal proof: compact-dual normalisation.* Let `E/F` be a CM extension unramified at every finite
+place, `V` a Hermitian space of dimension `n ≥ 1` with the same signature `(p, q)` at every real place, and `L ⊂ V` a
+unimodular lattice. Then `Σ_{[M] ∈ cls(L)} μ^c(U(M)\U(V)(F_∞)) = mass(O_E^n)` for the compact-dual measure `μ^c` of the
+Conventions, `mass(O_E^n)` being the mass of the unimodular lattices of rank `n` of 6.3(c); in particular the left side
+does not depend on `(p, q)`. The formal proof has (c) in place of (b), and (a) in the form given in 6.3. The fibre
+measure of (b) and `μ^c` differ by a positive constant factor, which is not computed here; so (c) is not derived from
+(b) here.
+
 Route: (a) by 5.5, `τ(U(V)) = mass(L)·vol(U(V)(F_∞) × K_L)` for the Tamagawa measure. The lattice
 normalized measures on `End(V)_𝔸` and `Herm(V)_𝔸` are the Tamagawa measures of these vector groups
 (volume one modulo rational points), and the gauge form `dX/dS` of the fibration `X ↦ h(X·, X·)`
@@ -2667,7 +2716,7 @@ value on `U(V)(F_∞) × K_L` is `L(1, η)^{−1}β_∞(L)∏_v L_v(1, η_v)β_v
 `⊔_{[g]} Γ_g\U(V)(F_∞) ≅ U(V)(F)\U(V)(𝔸)/K_L` over the finite class set (AdelicAlgebraicGroups §3.4,
 with 5.1 and 5.2(a)), `Γ_g = U(V)(F) ∩ gK_Lg^{−1} = U(g·L)` acting freely on `U(V)(F_∞)`, gives
 `vol(U(V)(F)\U(V)(𝔸)) = Σ_{[g]} vol(Γ_g\U(V)(F_∞))·vol(K_L)` for every Haar measure; with the
-Tamagawa measure written as in (a) and `τ(U(V)) = 2` this is the formula.
+Tamagawa measure written as in (a) and `τ(U(V)) = 2` this is the formula. (c): not given here.
 
 *Needs:* 5.1, 5.2, 5.5, 5.6, 6.0b, 6.1, 6.1a, 6.1b; AdelicAlgebraicGroups §§2.2, 2.4 and OrbitMeasuresOnAdelicGroups §2.6
 (*homogeneous-gauge-measure*), 3.4.
@@ -2707,6 +2756,16 @@ mass `2·|d_F|^{n²/2}∏_{k=1}^{n}((k − 1)!/(2π)^k)^d∏_{k=1}^{n}L(k, η^k)
 positive definite case these lattices moreover form one genus (5.8(b)). The first formula is
 [Kirschmer], Proposition 4.2.7 (3), pp. 54–55, with the local factors arranged differently there
 (its `λ(L_v)`).
+
+*The form of the formal proof.* For `E/F` unramified at every finite place, `V` totally positive definite and `L`
+integral: there is a constant `c_1 > 0` depending only on `E` such that, for every `n ≥ 1`,
+`mass(L) = c_n·N(𝔳(L))^n·∏_{v<∞} β_v^⋆/β_v(L)` with `c_n = c_1·∏_{j=2}^{n}|d_F|^{(2j−1)/2}((j − 1)!/(2π)^j)^d L(j, η^j)`;
+`c_n` is the mass of the unimodular lattices of rank `n`. The formal proof does not determine `c_1`: it uses the ratios
+`c_n/c_{n−1}` (6.4(b)) and the masses of standard lattices as numbers. In the same setting it has (b) for the maximal
+integral lattices `M` in the form `mass(M) = c·∏_{v ∈ S_odd(V)}(q_v^n − (−1)^n)/(q_v + 1)` with a constant `c > 0` that
+it does not determine (the mass of the unimodular lattices of rank `n` when `V` contains one), and (c) in the form:
+every unimodular lattice of rank `n` has the mass of `O_E^n`. The first formula implies the first form, with
+`c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two.
 
 Route: substitute 6.1b into 6.2: `|d_F|^{−n/2}|d_E|^{n(n+1)/4} = |d_F|^{n²/2}N(𝔡_{E/F})^{n(n+1)/4}`;
 off `S(L)`, `(L_v(1, η_v)β_v)^{−1} = ∏_{k=2}^{n} L_v(k, η_v^k)`, so the Euler products assemble into
@@ -2817,6 +2876,10 @@ definite: if `V_v` contains a unimodular lattice and `t(M_v) ≤ n′` at every 
 the unimodular lattices of rank `n′` of 6.3(c); otherwise `𝒢l(M)` is empty and the sum is `0`. The sum
 depends on `M` only through `𝔳(M)`, the places `S(M)`, the numbers `t(M_v)` and the existence condition.
 
+*The form of the formal proof* of the existence criterion of (b), (c): for `E/F` a CM extension unramified at every
+finite place and `U′` totally positive definite, it uses only the sufficiency, in the form: if `V` contains a
+unimodular lattice and `t(M_v) < n′` at every finite `v`, then `𝒢l(M)` is nonempty. The criterion of (b) implies it.
+
 Route: (a) `Λ ↦ M′ = Λ ∩ U′` is `U(U′)(F)`-equivariant, and `Stab(Λ)` preserves `M′`, so it is the
 stabilizer of `Λ` in `U(M′)`. For a fixed `M′`, the set of `Λ ∈ 𝒢l(M)` with `Λ ∩ U′ = M′` has
 `∏_v #O(A_{M′_v}) = ∏_v #O(A_{M_v})` elements if the genus of `M′` is admissible and is empty otherwise
@@ -2891,6 +2954,9 @@ the sum over the classes (orbits of `U(U)(F)`) of the integral lattices `P ⊂ U
 particular the sum is `0` unless `n/n_U` is the square of an integer. No condition is put on the
 discriminant modules.
 
+*The form of the formal proof* is the outer inequality `Σ_{[P]} 1/|U(P)| ≤ m_j·n^{(j+l)/2}` for `U` totally positive
+definite, a case of the statement.
+
 Route: the scale-maximal lattices of `U` (equal to the norm-maximal ones, 4.4(b)) form one genus
 (4.4(e)), with `#A_M = n_U` (4.4(d): unimodular outside `S_odd(U)`, and `A_{M_v} = k_{E_v}` on it) and, by
 6.3(b), mass `m_j·∏_{v ∈ S_odd(U)}(q_v^j − (−1)^j)/(q_v + 1)`. Every integral `P` lies in a scale-maximal
@@ -2929,6 +2995,10 @@ with `j, s ≥ 1`, `𝒢` a `U(V)(F)`-stable set of integral lattices of `V` wit
 `Σ_{[L] ∈ U(V)(F)\𝒢} #{U ⊆ V : dim U = j, #A_{L∩U} = n}/|U(L)| ≤ m_j·m_s·n^{j/2}·(nN_0)^{(5s + 2 + 3l)/2}`,
 the left side in `[0, ∞]`. No hypothesis on the discriminant modules of the lattices of `𝒢` is needed.
 
+*The form of the formal proof:* for `V` totally positive definite and `𝒢` consisting of lattices with cyclic
+discriminant module (`L^∨ = L + O_E x`), the left side is at most `m_j·m_s·n^{j/2}·(nN_0)^{(9s + 8 + 4l)/2}`. The bound
+above implies it and is a sharpening proved by the route here.
+
 Route: the pairs `(L, U)` are counted by orbits of `U(V)(F)`: grouping by the orbit of `U`, of which there
 are at most `n^{(log₂[F:ℚ])/2} ≤ n^{l/2}` (5.9), the left side is the sum over these orbits of
 `Σ_{L ∈ 𝒢 mod Stab(U)} [#A_{L∩U} = n]/|Stab(U) ∩ U(L)|`, `Stab(U) = U(U) × U(U^⊥)`. The map
@@ -2938,6 +3008,8 @@ integral `Q ⊂ U^⊥` with `#A_Q ≤ nN_0` (4.11(b)). By 4.11(c) the fibres hav
 elements; by 6.4b the first sum is at most `m_j·n^{(j+l)/2}` and the second at most
 `Σ_{m ≤ nN_0} m_s·m^{(s+l)/2} ≤ m_s·(nN_0)^{(s+l+2)/2}`. Multiplying,
 `n^{l/2}·n^{(j+l)/2}·(nN_0)^{(s+l+2)/2}·(n²N_0)^s ≤ n^{j/2}·(nN_0)^{(5s+2+3l)/2}`.
+With `(n·nN_0)^{2s+1}` for the fibres and `n^{1+l}` for the orbits one obtains the exponent `(9s + 8 + 4l)/2` of the
+form of the formal proof.
 
 *Needs:* 4.9, 4.11, 5.5, 5.9, 6.4b.
 
@@ -3007,6 +3079,9 @@ of the tuple `(e_1, …, e_a, z, f_1, …, f_a)`, whose Gram matrix is nondegene
 Haar measures of `N(F_v)` at every place, so that the image of a product of Haar measures of `N` and `H` under
 `(n, h) ↦ nh` is a Haar measure of `S`, over `F_v`, over `𝔸_f` and over `𝔸`; and that `N(F)\N(𝔸)` is compact, so that `N(𝔸)`
 has exactly one Haar measure with `vol(N(F)\N(𝔸)) = 1`.
+
+*The form of the formal proof:* it uses (a), and (d), for a CM extension `E/F` and `2k < n` only, with `Φ_∞` smooth of
+compact support; these are cases of (a) and (d).
 
 Route: Weil's mean-value identity. If `X_T(F) = ∅`, then `X_T(F_v) = ∅` for some `v` (3.5(a)) and both
 sides vanish. Otherwise `X_T(F)` is one `U(V)(F)`-orbit and `X_T(F_v)` one `U(V)(F_v)`-orbit at every
@@ -3170,10 +3245,11 @@ Layers 4–6; ThetaSeries Layers 1, 3.
   complementary-space induction (4.2, 4.2(d), 4.7(b), 4.7(c)); lattices fixed by compact open
   subgroups (4.5, 4.5(c)); class sets, finiteness, Minkowski's bound and the mass (5.1, 5.2, 5.2(c),
   5.5); `τ(U(V)) = 2` (6.0b); theta series, their inversion and the coefficients of their genus averages
-  (7.1, 7.1(d), 7.2), through which Siegel's main theorem (6.5(b)) enters.
+  (7.1, 7.1(d), 7.2), through which Siegel's main theorem (6.5(b)) enters. It uses these statements in the generality
+  stated here.
 - SlopesOfHermitianVectorBundles: localization and gluing of lattices over a Dedekind domain
   (4.0(f), (g)), and the index of two lattices over a discrete valuation ring with its additivity
-  (4.0b), for the local indices in its Gram and comparison formulas (its 1.2, 1.2a).
+  (4.0b), for the local indices in its Gram and comparison formulas (its 1.2, 1.2a), in the generality stated here.
 - The roadmaps of this family on chains of theta lifts: local and global classification and existence with prescribed
   invariants (2.1, 2.3, 3.1, 3.2); gluing of lattices from local data in module form (4.0(g));
   unimodular lattices and compact open subgroups (4.2, 4.5); class sets, finiteness, stabilizers,
@@ -3196,7 +3272,13 @@ Layers 4–6; ThetaSeries Layers 1, 3.
   and the dual index of a projected lattice (4.0a(b), (c), in CongruenceModulesOfThetaLifts §7.15 and
   GluedTargetAndDivisionInequality §8.20) and the index of two lattices, its uniformity on subspaces, the
   descent lemma and flat base change (4.0b, in ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties
-  §8.19a).
+  §8.19a). These roadmaps use the forms of the formal proof where a target states one: CM extensions unramified at
+  every finite place, and for masses and counts totally positive definite spaces and integral lattices; Landherr's
+  theorem for CM fields (3.1); the signed index (4.0a(c)), the inequality of 4.0b(a) and the descent lemma through it;
+  the bound `n^{1 + log₂[E : ℚ]}` for the orbits (5.9) and `(n·nN_0)^{2s+1}` for the fibres (4.11); the mass formula
+  with an undetermined constant `c_1` and the masses of standard lattices as numbers (6.3); the compact-dual
+  normalisation (6.2(c)); the strict inequality `t(M_v) < n′` (6.4a); the exponent `(9s + 8 + 4l)/2` with cyclic
+  discriminant modules (6.4c); and `2k < n` (6.5(a), (d)).
 
 ## Scope and ownership
 
