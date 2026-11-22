@@ -827,6 +827,11 @@ In this family the statements are used by [TaylorBoundsAndDepthsOnHeightTwoForma
 ### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
 
 - §RD.5.116: Zarhin's trick: for an abelian scheme `A` with a polarisation, `(A × A^∨)^4` carries a principal polarisation (0.5h (4′)).
+  The form of [FormalProof], `Development/AutomorphicSpectrum/PublishedTheorems/Algebra₂/ZarhinStatement.lean`
+  (`GlobalTheory.CompanionTheory.Ar.GR.ZarhinStatement`): over the valuation ring `R` of an algebraically closed valued
+  field, an abelian scheme `A` with a relatively ample line bundle is a direct factor of an abelian scheme `B` over `R` that
+  carries a symmetric relatively ample line bundle with trivial Mumford kernel (there are homomorphisms `i : A → B`,
+  `r : B → A` with `r∘i = 1`). The deduction of this form from the statement of §RD.5.116 is not given here.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
