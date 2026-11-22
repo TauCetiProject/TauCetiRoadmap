@@ -16,8 +16,9 @@ including empty ones, and for all real parameters. The headline theorems are the
   alternating update of the pair is in general not reversible for the joint law. With
   `A_j = |b_j| + Σ_i |W_ij|` and `ε = Π_j 2σ(−A_j) ∈ (0, 1]`, `k` steps of the visible chain
   contract the total variation distance to the visible law by `(1 − ε)^k`. Consequently, for a
-  data law `q`, every coordinate of the `k`-step contrastive divergence approximation of the
-  gradient of the average log-likelihood differs from the true gradient by at most `(1 − ε)^k`
+  data law `q`, every coordinate of the expected `k`-step contrastive divergence approximation of
+  the gradient of the average log-likelihood differs from the true gradient by at most
+  `(1 − ε)^k`
   times the distance from `q` to the visible law.
 - *Representational power.* If a law `q` on `{0, 1}^m` is not the visible law of a machine, one
   more hidden unit gives a machine strictly closer to `q` in relative entropy. A law whose support
@@ -101,9 +102,10 @@ units are independent given `h` with `P(V_j = 1 | h) = σ(visibleField θ h j)` 
 eqs. (19), (21), (22), p. 11, with the derivation of (22) in (23)–(25), pp. 11–12; Le Roux–Bengio,
 §1.1.1, stated). Route: `exp(−E(v, h)) = exp(b · v) Π_i exp(h_i · hiddenField θ v i)`, so
 for fixed `v` the weight is a product over `i` of factors depending on `h_i` alone; normalising
-each factor over `h_i ∈ {0, 1}` gives `σ(±hiddenField θ v i)`, and the product of the normalisers
-is proportional to the visible mass `p(v)`. The visible side is the same computation with the
-roles of the layers exchanged. Both kernels are Markov: by `Finset.prod_univ_sum` the masses of a
+each factor over `h_i ∈ {0, 1}` gives `σ(±hiddenField θ v i)`, and `exp(b · v)` times the product of
+the normalisers is proportional to the visible mass `p(v)`. The visible side is the same
+computation with the roles of the layers exchanged. Both kernels are Markov: by
+`Finset.prod_univ_sum` the masses of a
 row multiply out to `Π_i (σ(x_i) + σ(−x_i)) = 1`.
 
 The qualitative statement, that the units of one layer are conditionally independent given the
@@ -304,7 +306,8 @@ Mathlib `Real.sigmoid_strictMono`, `Kernel.IsReversible.invariant`, `Measure.bin
 Define `cdGradient θ k q = ∫ condStat θ dq − ∫ condStat θ d(q.bind (visibleChain θ ^ k))`, the
 `k`-step contrastive divergence approximation (CD-k) of the gradient of 2.1: the model mean is
 replaced by the mean after `k` steps of the visible chain started from the data law (Fischer–Igel,
-eq. (32) and the update rules of their Algorithm 1, p. 14, averaged over the data). Prove
+eq. (32) and the update rules of their Algorithm 1, p. 14, in expectation over the chain and the
+data law; the source's CD-k uses one sampled state per data point and is random). Prove
 (`abs_sub_cdGradient_le`) that for every probability measure `q`, every `k` and every coordinate
 `a`,
 
