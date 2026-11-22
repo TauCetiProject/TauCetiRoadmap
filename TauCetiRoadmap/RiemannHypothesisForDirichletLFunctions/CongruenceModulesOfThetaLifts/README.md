@@ -345,7 +345,7 @@ that:
    (BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1); they are the same for all `x`. Equivalently they are
    `{κ_{ι∘τ,a} + (r + t) − a : 1 ≤ a ≤ r + t}`, `κ_σ = −w₀λ_σ` being the highest weight at `σ` of the representation in
    which the forms of `M_j(𝔭)` take values (its contragredient is the archimedean component of `Π` at `σ`): in the
-   notation of this layer, `𝒲_j` at `σ`. (RowTowerAndRallisIdentities §5.7 does not give the highest weight of `𝒲_j`;
+   notation of this layer, `𝒲_j` at `σ`. (RowTowerAndRallisIdentities §5.7 gives the highest weight of `𝒲_j` at each real place;
    the weights are made explicit in 7.6 (a).) At `w | ℓ` with `ℓ ∈ {g₀, g₁}`, where the parameter of `BC(Π)_w`
    is tame with `N = 0`: potentially crystalline, with `N = 0` and the inertial type of the parameter of `BC(Π)_w` on
    `WD(D_pst)`;
@@ -463,7 +463,13 @@ In the setting of 7.4 (`t > r`):
    of the parameter `(Σ ⊞ μ_j(ξ_𝔭)[t]) ⊗ η̃^{−1}` (`μ[t]` the Speh block of length `t`); it lies in `Z_good`; its Galois
    representation (7.4, assembled by BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1) is `ρ_Σ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` with
    `ρ_Σ := r_{ℓ,ι}(Σ ⊗ |det|^{−t/2})` and `χ_c` the `ℓ`-adic character of the algebraic Hecke character
-   `ν·|·|_{𝔸_E}^{−r/2−(c−1)}`, `ν := μ_j(ξ_𝔭)η̃^{−1}`; so `χ_c = χ_1·χ_cyc^{−(c−1)}`. The Hodge–Tate weights of the block are `t`
+   `ν·|·|_{𝔸_E}^{−r/2−(c−1)}`, `ν := μ_j(ξ_𝔭)η̃^{−1}`; so `χ_c = χ_1·χ_cyc^{−(c−1)}`. At a type place `v` the restriction of `χ_1`
+   to inertia at `w_v` is the tame character given by the residue `χ_{v,j}^{−1}` of `μ_j` at `w_v`, and at `w̄_v` by `χ_{v,j}`
+   (ThetaChainsOnDefiniteUnitaryGroups §2.4 (b); `η̃`, `ξ_𝔭` and the norm are unramified there). If `ℓ` is the type prime under
+   `v`, this is the inertial type of `χ_1` on `D_pst`: `χ_1` is de Rham at `w_v` and at `w̄_v`, and by the explicit formula of
+   AutomorphicGaloisRepresentationsPartII AG2.0 its composite with the reciprocity map is, on the units at such a place, the
+   restriction of the Hecke character times an algebraic character of the units, the restriction to inertia of a crystalline
+   character. The Hodge–Tate weights of the block are `t`
    consecutive integers, and those of `ρ_Σ ⊗ χ_1^{−1}` avoid the interval `[−1, t]`.
 2. *Assume that the localisation `X_𝔪` contains a point of `Z_good` and that the reduction of `ρ_Σ` is absolutely
    irreducible* for the rank-`r` parts `Σ` of the points of `Z_good` in `X_𝔪`. Then an eigensystem `x ∈ X_𝔪` whose Galois
@@ -484,7 +490,9 @@ characters, all `x` in one localisation being congruent) forces the part contain
 
 *KNOWN* ingredients (Kudla–Rallis; Howe). (1): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.Conclusion42`),
-`Formalism/SharpRestriction/LevelLetterCocycles/AdmissibleParameterJ.lean` (`Formalism.MainNotions.AdmissibleParameterJ.jcCondition`).
+`Formalism/SharpRestriction/LevelLetterCocycles/AdmissibleParameterJ.lean` (`Formalism.MainNotions.AdmissibleParameterJ.jcCondition`),
+and `Formalism/SharpRestriction/LevelLetterCocycles/PairedCharacterCondition.lean`
+(`Formalism.MainNotions.PairedCharacterCondition.tieChi`), which has the residue up to inversion, for `ℓ` a type prime.
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, 7.4; MetaplecticAutomorphicForms §3.14 and ThetaKernelsForUnitaryDualPairs §3.21a;
 AutomorphicLFunctionsAndLocalFactors AL.3.3.8; AutomorphicGaloisRepresentationsPartII AG2.0 (`ℓ`-adic characters of algebraic
 Hecke characters); BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; EndoscopicTransferAndUnitaryTraceComparison §6.29; ArithmeticGaloisRepresentations §5.1;
@@ -829,6 +837,18 @@ Then, with `L` the lattice of `W` cut by `e₁` (the lattice of the block `ρ`, 
    `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q(ψ_𝔭)} v(χ_1(ς_v) − 1)`
    `     + Σ_{w∈Col} ( (1 + j_w)e′_w + (j_w + 2)v_δ + length H⁰(E_w, L ⊗ K_O/O) ) + Σ_{w∈Row} ν_w`
    `     + t·c_B·Σ_{w∈Row}(n_w + 2) + 4(r + t)(#Col + 1)·v_δ + t·#Col·max_{w∈Col, 0<e<t} length H⁰(E_w, (K_O/O)(−e))`.
+
+*The form of the formal proof.* Its hypotheses at a place are asked for every finite extension of the coefficient field of
+the kind it admits, and all lengths are in units of `length(O/ℓ)`. (Lift) as stated. (Row) is asked for one lattice: the
+lattice `T` of `W^*(1)` dual to `L`, and the lattices isomorphic to it. (TB) is asked, at the rows, in three clauses: for
+every `G_{E_w}`-stable lattice `Ỹ` in a crystalline representation whose Hodge–Tate weights at each embedding are among
+those of `χ_1^{−1}r_π`, every invariant functional of `Ỹ` onto `O`, `ỹ` over `1`, `0 ≤ e < t` and every `O`-linear `ϕ`
+that is equivariant on the kernel `Y′` of the functional, `ℓ^{c_B}·[g ↦ ϕ((g − 1)ỹ)]` is finite; the finite classes of
+`H¹(E_w, (K_O/O)(−e))` are zero for `e > 0` and the unramified ones for `e = 0`; and the classes `c` with `ℓ^{c_B}c` finite
+have length at most `(n_w + 1)c_B` modulo the finite ones. (Col) is not a hypothesis there: its place is taken by local
+Tate duality, the dimension formula and the exact annihilators of Bloch and Kato at the places above `ℓ`, with the
+conditions of (L) on the weights. The conclusion is the inequality above, with `t·c_B·Σ_{w∈Row}(n_w + 2)`. The forms of
+(Row) for every `T`, and of (TB) for lattices in finite sums of the `χ_1^{−1}r_x` with `(n_w + 2)c_B`, are this roadmap's.
 
 (ii) *The bound with direct defects* (every `ℓ`, the type primes included). If for every `w | ℓ` the restrictions to
 `G_{E_w}` of the cut cocycles of the block `ρ` span, modulo the finite classes, a module of length at most `ν_ρ(w)`, and those
@@ -1952,8 +1972,9 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
 
-- AG2.0 (`ℓ`-adic characters of algebraic Hecke characters), AG2.5 *Unramifiedness and the good-prime polynomial*, AG2.6
-  *Polarized admissibility at the coefficient prime*. Used in 7.4, 7.5.
+- AG2.0 (`ℓ`-adic characters of algebraic Hecke characters: local components away from `ℓ`, de Rham above `ℓ` with the
+  Hodge–Tate numbers, and the explicit formula on the ideles, used at the places above `ℓ` in 7.5 (1)), AG2.5 *Unramifiedness
+  and the good-prime polynomial*, AG2.6 *Polarized admissibility at the coefficient prime*. Used in 7.4, 7.5.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
