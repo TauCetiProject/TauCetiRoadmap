@@ -14,7 +14,7 @@ targets of the same standing, stated there in prose with their locators or proof
 not stated here.
 
 The conventions of the README are used throughout. Laws are probability measures on `ℝ`
-(on `ℕ` in §2.6); the characteristic function is Mathlib's `charFun μ t = ∫ x, exp (i t x) ∂μ`.
+(on `ℕ` in §8.2); the characteristic function is Mathlib's `charFun μ t = ∫ x, exp (i t x) ∂μ`.
 The `n`-fold independent sum of a law is the push-forward of the product law `Measure.pi` under
 the sum map. A Lévy–Khintchine triplet uses the truncation `1{|x| ≤ 1}`. Weak convergence of laws
 is convergence in `ProbabilityMeasure ℝ`; convergence in distribution of row sums is Mathlib's
@@ -38,11 +38,10 @@ namespace TauCetiRoadmap.InfinitelyDivisibleLawsAndTriangularArrays
 
 attribute [local instance] Classical.propDecidable
 
-/-! ## Library suppliers named in the README -/
+-- Library suppliers named in the README.
 
 #check @charFun_conv
-#check @charFun_pi
-#check @ProbabilityTheory.IndepFun.charFun_map_add_eq_mul
+#check @ProbabilityTheory.charFun_map_sum_pi_eq_prod
 #check @ProbabilityTheory.charFun_gaussianReal
 #check @ProbabilityTheory.charFun_map_cast_poissonMeasure
 #check @MeasureTheory.ProbabilityMeasure.tendsto_iff_tendsto_charFun
@@ -129,12 +128,6 @@ def IsInfinitelyDivisible (μ : Measure α) : Prop :=
     ∀ n : ℕ, 0 < n → ∃ ν : Measure α, IsProbabilityMeasure ν ∧ iidSumLaw ν n = μ
 
 end InfinitelyDivisible
-
-/-- Sanity check of the definition: the characteristic function of the `n`-fold independent
-sum is the `n`-th power of the characteristic function. -/
-theorem charFun_iidSumLaw (μ : Measure ℝ) [IsProbabilityMeasure μ] (n : ℕ) (t : ℝ) :
-    charFun (iidSumLaw μ n) t = charFun μ t ^ n := by
-  sorry
 
 /-- 2.1 The characteristic function of an infinitely divisible law has no zeros. -/
 theorem IsInfinitelyDivisible.charFun_ne_zero {μ : Measure ℝ} (h : IsInfinitelyDivisible μ)

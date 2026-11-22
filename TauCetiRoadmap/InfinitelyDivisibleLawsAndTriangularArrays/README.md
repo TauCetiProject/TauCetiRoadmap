@@ -25,8 +25,8 @@ the Lindeberg–Feller theorem that this roadmap complements with Feller's conve
 StandardDistributions, whose stable laws in a fixed parametrisation serve here as the examples
 that the classification of Layer 7 identifies; and FreeProbability, whose free infinite
 divisibility is the free analogue of Layers 2–5 and shares no target with them. The roadmap is a
-multi-source synthesis of Kallenberg, Klenke, Petrov, Durrett, Billingsley, Loève and Resnick; the
-layers follow the proof dependencies of the subject, not the order of any one book.
+multi-source synthesis of Kallenberg, Klenke, Petrov, Durrett, Billingsley, Loève, Resnick and
+Applebaum; the layers follow the proof dependencies of the subject, not the order of any one book.
 
 [Suggested.lean](Suggested.lean) states, against the pinned Mathlib and Tau Ceti and each with
 `sorry`, the headlines below that carry a Lean name, each with every conclusion this README
@@ -45,8 +45,10 @@ uses: inversion identifies a law from its characteristic function on intervals, 
 types controls affine normalisations. Layer 2 defines infinite divisibility through independent
 sums and builds the distinguished logarithm, which every subsequent layer needs to take `n`-th roots
 and logarithms of characteristic functions. Layer 3 proves the Lévy–Khintchine formula; Layer 4
-turns weak convergence of infinitely divisible laws into convergence of triplets. Layer 5 applies
-Layer 4 to infinitesimal triangular arrays through the compound Poisson approximation. Layer 6 is
+turns weak convergence of infinitely divisible laws into convergence of triplets, and §§3.6–3.7
+use its theorem to identify the Lévy measure from the roots (§4.1 needs only §§2.2 and 3.2, so
+there is no cycle). Layer 5 applies Layer 4 to infinitesimal triangular arrays through the compound
+Poisson approximation. Layer 6 is
 independent real analysis (regular variation) and is used only by Layer 7, which treats i.i.d.
 sums: weak laws, stable laws and domains of attraction. Layer 8 is two independent applications of
 Layer 3.
@@ -138,12 +140,12 @@ nontrivial affine map with `|φ_{μ₀}(t)| = |φ_{μ₀}(c t)|`, `c ≠ 1`, for
 **Checks.**
 
 - Bernoulli `(δ₀ + δ₁) / 2`, `a = 0`, `b = 1`: the inversion integral tends to
-  `0 + (1/2 + 1/2) / 2 = 1/2` (python: `0.50006` at `T = 2000`).
+  `0 + (1/2 + 1/2) / 2 = 1/2` (`0.50006` at `T = 2000`).
 - Negative control for the half-weights: without `(μ {a} + μ {b}) / 2` the Bernoulli value would be
   `0`; with full weights it would be `1`.
 - `N(0, 1)` on `(-1, 1)`: the limit is `0.682689…`, the Gaussian probability, with no atom term.
-- The atom formula for the Poisson law of mean `1` at `0` gives `e^{-1} = 0.36788…` (python:
-  `0.36790` at `T = 3000`).
+- The atom formula for the Poisson law of mean `1` at `0` gives `e^{-1} = 0.36788…`
+  (`0.36790` at `T = 3000`).
 - Negative control for nondegeneracy in `convergence_of_types`: `μ n = μ₀ = δ₀` and `a n = n`
   give `ν₀ = δ₀` with `a n → ∞`.
 
@@ -175,8 +177,8 @@ Mathlib's `charFun`, `ProbabilityMeasure.tendsto_iff_tendsto_charFun`,
 - Target in prose: affine images `x ↦ a x + b` of infinitely divisible laws are infinitely
   divisible.
 
-*Proof route.* `charFun (iidSumLaw ν n) = (charFun ν)ⁿ` by Mathlib's `charFun_pi` and
-`IndepFun.charFun_map_add_eq_mul`. If `φ = ψₙⁿ`, then `|ψₙ|² = |φ|^{2/n} → 1{φ ≠ 0}`; the limit is
+*Proof route.* `charFun (iidSumLaw ν n) = (charFun ν)ⁿ` by Mathlib's
+`charFun_map_sum_pi_eq_prod`. If `φ = ψₙⁿ`, then `|ψₙ|² = |φ|^{2/n} → 1{φ ≠ 0}`; the limit is
 a characteristic function equal to `1` near `0` and continuous, hence `≡ 1`, so `φ` has no zero.
 For weak limits, the roots of `μ n` are tight by the doubling inequality and have a subsequential
 limit, which is an `n`-th root of the limit; this uses Tau Ceti's
@@ -246,14 +248,18 @@ their variances are at most `R²/n²` and `Var μ ≤ n · R² / n² → 0`.
 
 **Checks.**
 
-- `charFun (iidSumLaw μ n) = (charFun μ)ⁿ` (`charFun_iidSumLaw`).
+- `charFun (iidSumLaw μ n) = (charFun μ)ⁿ`, one simplification with Mathlib's
+  `charFun_map_sum_pi_eq_prod`.
 - Negative control for `charFun_ne_zero`: the Bernoulli law `(δ₀ + δ₁) / 2` has
   `φ(π) = (1 + e^{iπ}) / 2 = 0`, so it is not infinitely divisible.
 - The Gaussian `N(0, 1)` with `φ_n = e^{-t²/(2n)}`: `|exp (n (φ_n - 1)) - φ| = 1.5 · 10⁻⁵` at
   `t = 1.3`, `n = 10⁴`.
-- Poisson of mean `5`: `|φ(t)| = exp (-5 (1 - cos t)) ≥ e^{-γ t²} / 2` holds with `γ = 1.77` on
-  `[-50, 50]`, while `|φ(π)| = e^{-10} < 1/2`, so the factor `1/2` and the Gaussian factor are both
-  needed.
+- Poisson of mean `5`: `|φ(t)| = exp (-5 (1 - cos t)) ≥ e^{-γ t²} / 2` holds with `γ = 1.77`
+  (`max (5 (1 - cos t) - 1.77 t²) = 0.681 < log 2` on `[-50, 50]`), while `|φ(π)| = e^{-10} < 1/2`,
+  so the Gaussian factor is needed.
+- Negative control for the factor `1/2`: the Cauchy law has `|φ(t)| = e^{-|t|}`, which satisfies
+  the bound for every `γ ≥ 1/(4 log 2) = 0.3607`, but no bound `e^{-γ t²} ≤ e^{-|t|}` holds near
+  `t = 0`.
 
 ### Examples
 
@@ -262,7 +268,7 @@ their variances are at most `R²/n²` and `Var μ ≤ n · R² / n² → 0`.
 
 ### Dependencies
 
-§§1.1–1.2; Mathlib's `charFun_pi`, `IndepFun.charFun_map_add_eq_mul`, `charFun_conv`,
+§§1.1–1.2; Mathlib's `charFun_map_sum_pi_eq_prod`, `charFun_conv`,
 `IsCoveringMap.existsUnique_continuousMap_lifts` and `Complex.isCoveringMap_exp`; Tau Ceti's
 `TauCeti.exists_probabilityMeasure_of_tendsto_charFun`.
 
@@ -330,12 +336,19 @@ the finite measure `σ²/6 δ₀ + (1 - sin x / x) ν (dx)` (after the factor `-
   `(b, σ², ν)` has a finite second moment iff `∫_{|x| > 1} x² dν < ∞`; then its mean is
   `b + ∫_{|x| > 1} x dν` and its variance is `σ² + ∫ x² dν` (Petrov, Theorem II.6, p. 32; Durrett,
   Theorem 3.9.7, p. 170).
-- Target in prose: more generally, for a submultiplicative `g ≥ 0` (such as `|x|^p ∨ 1` or
-  `e^{c|x|}`), `∫ g dμ < ∞` iff `∫_{|x| > 1} g dν < ∞`.
+- Target in prose: more generally, let `g ≥ 0` be measurable, locally bounded and submultiplicative
+  in the sense `g(x + y) ≤ K g(x) g(y)` for some constant `K` (such as `|x|^p ∨ 1`, with
+  `K = 2^p`, or `e^{c|x|}`); then `∫ g dμ < ∞` iff `∫_{|x| > 1} g dν < ∞` (Applebaum, Theorem 2.5.2,
+  p. 132, for `g = |x|^n`, and the note after it, pp. 132–133, for submultiplicative `g`).
 
 *Proof route.* For the Gaussian and small-jump part all moments are finite; the big-jump part is
 compound Poisson with finite jump measure `ν|_{|x| > 1}`, whose second moment is finite iff the
-jump law has one. Mean and variance are `-i ψ'(0)` and `-ψ''(0)`.
+jump law has one. Mean and variance are `-i ψ'(0)` and `-ψ''(0)`. For submultiplicative `g` and
+the direction `⇐`, write the law as that of `X₁ + X₂` with independent Gaussian-and-small-jump part
+`X₁` and compound Poisson part `X₂ = Y₁ + … + Y_N`; then `E g(X₁ + X₂) ≤ K E g(X₁) E g(X₂)`, a
+locally bounded submultiplicative `g` grows at most exponentially while `X₁` has all exponential
+moments, and `E g(Y₁ + … + Y_k) ≤ K^{k-1} (E g(Y₁))^k` makes `E g(X₂)` a convergent exponential
+series.
 
 *Needs:* §3.2.
 
@@ -379,29 +392,34 @@ the triplet (§3.2), after analytic continuation to `s = -it`, gives `σ² = 0`,
   root of a law with triplet `(b, σ², ν)`, then `n • ν n → ν` away from the origin
   (`TendstoAwayFromZero`) (Klenke, (16.19), p. 381).
 
-*Proof route.* This is §4.1 applied to the compound Poisson laws with jump measures `n • ν n`,
-which converge to `μ` by §2.3.
+*Proof route.* Let `λ n` be `n • ν n` restricted to `x ≠ 0`. The compound Poisson laws with jump
+measures `λ n` have triplets `(∫_{|x| ≤ 1} x d(λ n), 0, λ n)` and converge to `μ` by §2.3. Since
+`ν` has at most countably many atoms, choose `a > 0` with `ν {|x| = 1/a} = 0`. By §3.3 the images
+of these laws and of `μ` under `x ↦ a x` have the image Lévy measures, and the limit's Lévy measure
+does not charge `{|x| = 1}`, so §4.1 applies to the images. Convergence away from the origin of
+the image measures is equivalent to that of `λ n`, or of `n • ν n`, to `ν`, because
+`f ↦ f (a ·)` preserves the test functions of `TendstoAwayFromZero`.
 
-*Needs:* §2.3, §4.1.
+*Needs:* §2.3, §3.3, §4.1.
 
 **Checks.**
 
 - A triplet forces a probability measure (`HasLevyTriplet.isProbabilityMeasure`): `charFun μ 0` is
   `μ (ℝ)` (as a real number), which must equal `exp 0 = 1`.
 - The Poisson law of mean `λ`, pushed to `ℝ`, has triplet `(λ, 0, λ δ₁)`
-  (`exists_hasLevyTriplet_poisson`); python confirms `exp ψ(t) = exp (λ (e^{it} - 1))` at
+  (`exists_hasLevyTriplet_poisson`): `exp ψ(t) = exp (λ (e^{it} - 1))`, checked at
   `t = 0.3, 1.7`.
 - Negative control for the truncation: with Klenke's `1{|x| < 1}` the jump at `1` is not
-  compensated and the drift of the Poisson law is `0`; the drift `λ` is wrong there (python: the
+  compensated and the drift of the Poisson law is `0`; the drift `λ` is wrong there (the
   characteristic functions differ by more than `0.1` at `t = 1.7`).
 - The Cauchy law `e^{-|t|}` has triplet `(0, 0, (π x²)⁻¹ dx)` (Klenke, Example 16.19, p. 381);
-  python gives `ψ(0.5) = -0.5000008`, `ψ(2) = -2.000003`.
+  numerically `ψ(0.5) = -0.5000008`, `ψ(2) = -2.000003`.
 - The exponential law of mean `1` has triplet `(1 - e^{-1}, 0, e^{-x} x⁻¹ dx on (0, ∞))`; its mean
   `b + ∫_{x > 1} x dν = 1` and its variance `∫ x² dν = 1` agree with `HasLevyTriplet.memLp_two_iff`,
   and its half-line drift `b - ∫_{(0,1]} x dν = 0` is nonnegative.
 - `HasLevyTriplet.map_affine` on the Poisson law: `a = 2`, `d = 0` gives drift `0` (the jump `2`
-  leaves the truncation); `a = 1/2`, `d = 0.3` gives drift `1.3` for `λ = 2`; python checks both
-  characteristic functions to `10⁻¹²`.
+  leaves the truncation); `a = 1/2`, `d = 0.3` gives drift `1.3` for `λ = 2`; both
+  characteristic functions agree to `10⁻¹²`.
 - Doeblin: the Poisson law has finite `ν` and atoms; the exponential law has infinite `ν` and no
   atoms.
 
@@ -413,7 +431,8 @@ which converge to `μ` by §2.3.
 
 ### Dependencies
 
-Layers 1–2; Tau Ceti's `TauCeti.exists_probabilityMeasure_of_tendsto_charFun`; Mathlib's
+Layers 1–2, and §4.1 for §§3.6–3.7; Tau Ceti's
+`TauCeti.exists_probabilityMeasure_of_tendsto_charFun`; Mathlib's
 `measureReal_abs_gt_le_integral_charFun`.
 
 ## Layer 4: convergence of infinitely divisible laws
@@ -442,7 +461,7 @@ three conditions.
 
 - Negative control for the hypothesis on `{|x| = 1}`: the compound Poisson laws with jump measure
   `δ_{1+1/n}` have triplets `(0, 0, δ_{1+1/n})` and converge weakly to the compound Poisson law
-  with triplet `(1, 0, δ₁)` (python: distance `6 · 10⁻⁴` at `n = 1000`), but the drifts are `0`,
+  with triplet `(1, 0, δ₁)` (distance `6 · 10⁻⁴` at `n = 1000`), but the drifts are `0`,
   not `1`, and `truncVar` is `0`, not `1`.
 - Gaussians `N(0, 1/n)` converge to `δ₀`: triplets `(0, 1/n, 0) → (0, 0, 0)`.
 
@@ -537,23 +556,29 @@ level `ε`, so the truncated second moments lose no mass:
   variables with `max_j P(X n j > 0) → 0` and `c ≥ 0`, the row sums converge to the Poisson law of
   mean `c` (Mathlib's `poissonMeasure`) iff `∑_j P(X n j > 1) → 0` and `∑_j P(X n j = 1) → c`
   (Kallenberg, Theorem 6.7, p. 130; Durrett, Theorem 3.7.1, p. 151, for sufficiency).
-- Target in prose: the degenerate case: the row sums of an infinitesimal array converge in
-  probability to a constant `b` iff `∑_j P(|X n j| > ε) → 0`, `∑_j E truncOne (X n j) → b` and
-  `∑_j Var(truncOne (X n j)) → 0` (§5.4 with `c = 0`).
+- Target in prose: the degenerate case: the row sums of an infinitesimal array of
+  row-independent variables converge in probability to a constant `b` iff
+  `∑_j P(|X n j| > ε) → 0`, `∑_j E truncOne (X n j) → b` and `∑_j Var(truncOne (X n j)) → 0`
+  (§5.4 with `c = 0`).
 
-*Proof route.* §5.3 with `T = (c, 0, c δ₁)` and the lattice: the conditions on `ℕ`-valued
-variables reduce to the two stated ones, because `law(X n j)` restricted away from `0` is
-`P(X n j = 1) δ₁ + (mass at least 2)`. Mathlib's `tendsto_choose_mul_pow_of_tendsto_mul_atTop`
+*Proof route.* The Lévy measure `c δ₁` of the Poisson law charges `{|x| = 1}`, so §5.3 is applied
+to the halved array `X n j / 2`, whose row sums converge to the image of the Poisson law under
+`x ↦ x / 2` iff the original row sums converge to the Poisson law. By §3.3 that image has triplet
+`(c/2, 0, c δ_{1/2})`, which §5.3 admits, with `truncVar` equal to `c/4`. The conditions reduce to
+the two stated ones, because `law(X n j / 2)` restricted away from `0` is
+`P(X n j = 1) δ_{1/2} + (mass at least 1)`, `E truncOne (X n j / 2)` is
+`P(X n j = 1) / 2 + P(X n j = 2)`, and the squared truncated means sum to at most
+`max_j P(X n j > 0) · ∑_j P(X n j > 0) → 0`. Mathlib's `tendsto_choose_mul_pow_of_tendsto_mul_atTop`
 is the binomial special case.
 
-*Needs:* §5.3.
+*Needs:* §3.3, §5.3.
 
 **Checks.**
 
 - Centred Bernoulli rows `X n j = (ξ_j - p) / √(n p q)`, `j < n`: the truncated means sum to `0`
   and the truncated variances to `1` once `√(n p q) ≥ 1`, so §5.4 gives the de Moivre–Laplace
   theorem.
-- Bernoulli rows of mean `c / n` satisfy §5.6 with `∑_j P(X = 1) = c`; python: the `ℓ¹` distance
+- Bernoulli rows of mean `c / n` satisfy §5.6 with `∑_j P(X = 1) = c`; the `ℓ¹` distance
   of `Binomial(n, c/n)` to Poisson of mean `1.5` is `1.6 · 10⁻⁴` at `n = 5000`.
 - Negative control for §5.6: rows with values in `{0, 2}` and `P(X = 2) = c / (2n)` have
   `∑_j P(X = 1) = 0` and `∑_j P(X > 1) = c/2`; the limit is twice a Poisson law of mean `c/2`,
@@ -668,16 +693,18 @@ reduce to the stated tail and truncated-mean conditions.
   triplet `(b, σ², ν)` is stable iff `ν = 0`, or `σ² = 0` and `ν` has a power-law density with some
   `α ∈ (0, 2)` (Petrov, Theorem IV.11, p. 89; Klenke, Theorem 16.22(iii), p. 383).
 - Target in prose: the stable characteristic functions
-  `exp (i b t - c |t|^α (1 - i β sgn t ω(t, α)))` (Petrov, Theorem IV.12, p. 90; Klenke,
-  Remark 16.23, p. 383); these are the laws of
-  [StandardDistributions](../StandardDistributions/README.md), Layer 15, after the change of
-  location between its parametrisation and this one.
+  `exp (i b t - c |t|^α (1 + i β sgn t ω(t, α)))` with `c ≥ 0`, `β ∈ [-1, 1]`,
+  `ω(t, α) = tan (π α / 2)` for `α ≠ 1` and `ω(t, 1) = (2/π) log |t|` (Petrov, Theorem IV.12,
+  p. 90, whose sign convention for `β` this is; Klenke, Remark 16.23, p. 383, in terms of `c₊` and
+  `c₋`); these are the laws of [StandardDistributions](../StandardDistributions/README.md),
+  Layer 15, after the change of location between its parametrisation and this one.
 
-*Proof route.* Infinite divisibility from the definition with `n` copies of the law of
-`(X - b) / a`. The index: `a_{mn} = a_m aₙ` from the uniqueness of the triplet under
-§3.3, and `aₙ` is increasing by a symmetrisation argument, so `aₙ = n^{1/α}`; `α ≤ 2` by the
-Gaussian lower bound of §2.4. The triplet: by §3.3, `n ν = ν ∘ (x ↦ a_n x)⁻¹`, which forces a power
-law on each half-line, and `n σ² = a_n² σ²` forces `σ² = 0` unless `α = 2`.
+*Proof route.* Infinite divisibility from the definition: if `X₁ + … + Xₙ` has the law of
+`a X + b`, then `n` independent copies of `(X - b/n) / a` sum to a variable with the law of `X`.
+The index: `a_{mn} = a_m aₙ` from the uniqueness of the triplet under §3.3, and `aₙ` is increasing
+by a symmetrisation argument, so `aₙ = n^{1/α}`; `α ≤ 2` by the Gaussian lower bound of §2.4. The
+triplet: by §3.3, `n ν = ν ∘ (x ↦ a_n x)⁻¹`, which forces a power law on each half-line, and
+`n σ² = a_n² σ²` forces `σ² = 0` unless `α = 2`.
 
 *Needs:* §§2.4, 3.2, 3.3.
 
@@ -734,18 +761,22 @@ independent copies of `S_n`, so the limit `ν` satisfies `ν^{∗k} = affineMap 
   divisible but not stable, since `a X + b` with `a ≠ 1` changes the lattice and `a = 1` gives
   variance `λ ≠ n λ`.
 - The Pareto law with `P(X > x) = x^{-3/2}`, `x ≥ 1`: the truncated second moment
-  `3 (x^{1/2} - 1)` is regularly varying with index `1/2 = 2 - α` (python ratio `1.41425` against
+  `3 (x^{1/2} - 1)` is regularly varying with index `1/2 = 2 - α` (ratio `1.41425` against
   `√2` at `x = 10⁸`), and `E X^β = 1.5 / (1.5 - β)` is finite exactly for `β < 3/2`.
 - The Cauchy law: `r P(|X| > r) → 2/π ≠ 0`, so Feller's weak law fails, as it must since `S_n / n`
   is Cauchy.
-- `P(|X| > x) = 1 / (x log x)` for `x ≥ e`: `r P(|X| > r) → 0` while `E|X| = ∞`, so Feller's weak
-  law applies to a non-integrable law.
+- The symmetric law with `P(|X| > x) = 1 / (x log x)` for `x ≥ e`: `r P(|X| > r) → 0` while
+  `E|X| = ∞`, so Feller's weak law applies to a non-integrable law, with `c = 0`.
+- Negative control for the truncated-mean condition: the positive law with the same tail has
+  `E(X; X ≤ r)` growing like `log log r` (`2.79`, `3.55`, `4.28` at `r = 10³, 10⁶, 10¹²`), so
+  `S_n / n` converges in probability to no constant.
 
 ### Examples
 
-- `S_n / (n log n)^{1/2}` for the Pareto law of index `2` tends to `N(0, 1)`: the Gaussian domain
-  with infinite variance.
-- St. Petersburg-type laws with `r P(|X| > r) ↛ 0` lie outside every weak law of §7.1.
+- `S_n / (n log n)^{1/2}` for the symmetric Pareto law `P(|ξ| > x) = x⁻²`, `x ≥ 1`, tends to
+  `N(0, 1)`: the Gaussian domain with infinite variance.
+- St. Petersburg-type laws with `r P(|X| > r) ↛ 0` lie outside Feller's weak law (`p = 1`) of §7.1;
+  they satisfy the weak laws with `p < 1`, since `P(X > r) ≤ 2/r`.
 
 ### Dependencies
 
@@ -766,9 +797,9 @@ Layers 1–6.
   `x L'(x)` nonincreasing).
 
 *Proof route.* Petrov's Lemma 12 shows the components `ρ_c` are limits of row sums of an
-infinitesimal array, so §5.2 makes them, and `μ`, infinitely divisible. The Lévy measure
-condition is `ν ≥ ν ∘ (x ↦ x / c)⁻¹` on each half-line for every `c`, which by §3.3 and uniqueness
-is equivalent to monotonicity of `k`.
+infinitesimal array, so §5.2 makes them, and `μ`, infinitely divisible. The component `ρ_c` has Lévy
+measure `ν - ν ∘ (x ↦ c x)⁻¹` (image measures), so by §3.3 and uniqueness the condition is
+`ν ≥ ν ∘ (x ↦ c x)⁻¹` for every `c ∈ (0, 1)`, which is equivalent to monotonicity of `k`.
 
 *Needs:* §§3.2, 3.3, 5.2.
 
@@ -788,7 +819,7 @@ a power series in `s`.
 
 **Checks.**
 
-- The geometric law `P(k) = (1 - p) p^k` has `ν_k = p^k / k` (python to `10⁻¹²` at `s = 0.2, 0.9`).
+- The geometric law `P(k) = (1 - p) p^k` has `ν_k = p^k / k` (to `10⁻¹²` at `s = 0.2, 0.9`).
 - Negative control for `ν ≥ 0`: the Bernoulli law `(δ₀ + δ₁) / 2` has
   `-log E s^ξ = ∑_k (-1)^{k+1} (1 - s^k) / k`, with `ν₂ = -1/2 < 0`, and it is not infinitely
   divisible.
@@ -832,8 +863,7 @@ Completion means:
 
 - The sufficiency half of the Lindeberg–Feller theorem is owned by
   [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) §1.2 (and the
-  scalar form is formalized in Tau Ceti after the pin, in
-  `TauCeti/Probability/CentralLimitTheorem/Lindeberg.lean`); this roadmap owns only the converse.
+  scalar form is formalized in Tau Ceti); this roadmap owns only the converse.
 - The scalar stable laws in a fixed parametrisation, their construction, densities, tails and
   moments are owned by [StandardDistributions](../StandardDistributions/README.md), Layer 15, which
   excludes the general Lévy–Khintchine classification and domains of attraction; this roadmap owns
@@ -858,13 +888,14 @@ Completion means:
 
 ### From Mathlib
 
-- `charFun` with `charFun_conv`, `charFun_pi`, `charFun_gaussianReal` and
-  `charFun_map_cast_poissonMeasure` (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/`,
-  `Mathlib/Probability/Distributions/`); `IndepFun.charFun_map_add_eq_mul`
+- `charFun` with `charFun_conv`, `charFun_gaussianReal` and `charFun_map_cast_poissonMeasure`
+  (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/`, `Mathlib/Probability/Distributions/`);
+  `charFun_map_sum_pi_eq_prod`, the characteristic function of a sum under a product law
   (`Mathlib/Probability/Independence/CharacteristicFunction.lean`).
-- Lévy's continuity theorem `ProbabilityMeasure.tendsto_iff_tendsto_charFun`, tightness
-  `isTightMeasureSet_of_tendsto_charFun` and the tail bound `measureReal_abs_gt_le_integral_charFun`
-  (`Mathlib/MeasureTheory/Measure/LevyConvergence.lean`).
+- Lévy's continuity theorem `ProbabilityMeasure.tendsto_iff_tendsto_charFun` and tightness
+  `isTightMeasureSet_of_tendsto_charFun` (`Mathlib/MeasureTheory/Measure/LevyConvergence.lean`);
+  the tail bound `measureReal_abs_gt_le_integral_charFun`
+  (`Mathlib/MeasureTheory/Measure/IntegralCharFun.lean`).
 - `TendstoInDistribution` (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`),
   `TendstoInMeasure`, `iIndepFun`, `IdentDistrib`, `variance`, `MemLp`, `Measure.pi`.
 - `gaussianReal` and `poissonMeasure`; the binomial-to-Poisson limit
@@ -917,13 +948,13 @@ Completion means:
 ## Prior formalization
 
 - CKMA, *Core knowledge in mathematical analysis*, a Lean project under the Apache 2.0 licence
-  (https://github.com/bjbraams/lean-CKMA). Its synopsis numbers the results of area 06; the
-  entries cited here are those numbers. `CKMA/Probability/InfinitelyDivisible/` proves the
-  Lévy–Khintchine representation with a unique triplet for the truncation `1{|x| ≤ 1}` (06.51),
-  the nonvanishing of infinitely divisible characteristic functions, their continuous logarithm,
-  and the compound Poisson law, with no `sorry`; it is the starting point for §§2.1–2.3 and 3.1–3.2.
-  `CKMA/Probability/LimitTheorems/LindebergFeller.lean` proves Feller's converse (06.34
-  necessity) and is the starting point for §5.5.
+  (https://github.com/bjbraams/lean-CKMA), at commit f4bd822. Its synopsis numbers the results of
+  area 06; the entries cited here are those numbers. `CKMA/Probability/InfinitelyDivisible/` proves
+  the Lévy–Khintchine representation with a unique triplet for the truncation `1{|x| ≤ 1}` (06.51),
+  the nonvanishing of infinitely divisible characteristic functions, their continuous logarithm, and
+  the compound Poisson law, with no `sorry`; it is the starting point for §§2.1–2.3 and 3.1–3.2.
+  `CKMA/Probability/LimitTheorems/LindebergFeller.lean` proves Feller's converse (06.34 necessity)
+  and is the starting point for §5.5.
 - CKMA coverage of this roadmap: 06.29 (§1.1), 06.34 necessity (§5.5), 06.35 and 06.38
   (Layers 5 and 7), 06.51 (Layer 3), 06.52 (§7.2).
 
@@ -942,3 +973,5 @@ Completion means:
   Section 14 and Chapter VI.
 - S. I. Resnick, *Heavy-Tail Phenomena: Probabilistic and Statistical Modeling*, Springer, 2007.
   Chapter 2.
+- D. Applebaum, *Lévy Processes and Stochastic Calculus*, 2nd ed., Cambridge Studies in Advanced
+  Mathematics 116, Cambridge University Press, 2009. Section 2.5.
