@@ -1684,8 +1684,16 @@ nondegenerate since `Gr ≠ 0`). Then (a): the bad primes off `g₀g₁` are the
 quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of this quantity times the archimedean sizes weighted by
 `w(γ)` is used; its proof is not given here.
 
-*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmBUse.lean`
-(`Formalism.L2.SG.ThmBUse.JointNormBoundUniform`, `Formalism.L2.SG.ThmBUse.jointNormBoundUnrotated`).
+*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmBUseR.lean`
+(`Formalism.L2.SG.ThmBUseR.JointNormBoundRotatedUniform`). It is stated in the coordinates of the local model of
+[FormalProof], which are those of the chain conjugated by a fixed diagonal matrix of powers of `i`: there `‖O_τ(γ)‖²`
+for a term is at most the square of the model's orbital integral at the point whose matrix has the entries
+`(−1)^{r_S}(−i)^{a+b}γ_{ab}` (`0 ≤ a, b ≤ r_S`), which is the direction the bound of (a) needs
+(`Formalism/SharpRestriction/CuspSpanNormBounds/FrobeniusCoefficientMemLp/FramesPt.lean`,
+`Formalism.MainNotions.S.Pv.Frames.turnPt`; the inequality:
+`Formalism/SharpRestriction/CuspSpanNormBounds/FrobeniusCoefficientMemLp/FramesSh.lean`,
+`Formalism.MainNotions.S.Pv.Frames.orbSqO_le_turn`). It holds for every `K`-finite coefficient at each place, not only for
+the `f_τ` of 5.15 (c).
 (b): follows from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
 (`Formalism.L2.SG.RowsPos.RowNGP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsConc.lean`
 (`Formalism.L2.SG.RowsConc.epsNG`).
