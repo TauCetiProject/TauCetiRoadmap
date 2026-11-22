@@ -1562,10 +1562,10 @@ Tau Ceti's InfinitaryLogic declarations.
 
 ## Scope and ownership
 
-Every layer below is required, and the order of the layers is the dependency order: no layer uses
+Every layer above is required, and the order of the layers is the dependency order: no layer uses
 a later one. The scope includes general classical Fraïssé existence with function symbols,
 graph-specific quantifier elimination and primeness, the fixed and varying-parameter binomial
-models specified below, uniformly nondegenerate graphons, and the two explicit Poisson examples
+models specified above, uniformly nondegenerate graphons, and the two explicit Poisson examples
 in Layer 11.
 
 This roadmap owns representative families and strong amalgamation, extension-rich chains, the
