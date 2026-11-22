@@ -172,6 +172,7 @@ body:
         - ExplicitZetaBounds
         - ExponentialCone
         - FactorRigidity
+        - FaltingsFinitenessAndIsogenyTheorems
         - FarguesFontaineDiamonds
         - FinancialMathematics
         - FiniteAffineBoundTightening
