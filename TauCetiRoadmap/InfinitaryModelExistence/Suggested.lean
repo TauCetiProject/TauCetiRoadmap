@@ -56,12 +56,14 @@ variable {L : FirstOrder.Language.{u, v}}
 
 /-- **Layer 4, the arity-`n` slice of a fragment**: the formulas with `n` bound positions whose
 tagged form `⟨n, φ⟩` belongs to `A`. A realized truth assignment is a map
-`Fragment.slice A n → Prop`. -/
+`Fragment.slice A n → Prop`. No statement of this file uses it; it is kept as the named interface
+that CountableModelCounting consumes. -/
 def Fragment.slice (A : L.Fragment) (n : ℕ) : Set (L.BoundedFormulaω Empty n) :=
   {φ | (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ A.toSet}
 
 /-- **Layer 4, the type of a tuple relative to a fragment**: the members of `A` at arity `n` that
-`a` satisfies (Marker's `A`-type, Definition 2.33 of his 2013 notes, p. 22). -/
+`a` satisfies (Marker's `A`-type, Definition 2.33 of his 2013 notes, p. 22). No statement of this
+file uses it; it is kept as the named interface that CountableModelCounting consumes. -/
 def fragmentType (A : L.Fragment) (M : Type w) [L.Structure M] {n : ℕ} (a : Fin n → M) :
     Set (L.BoundedFormulaω Empty n) :=
   {φ | (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ A.toSet ∧ φ.Realize Empty.elim a}
