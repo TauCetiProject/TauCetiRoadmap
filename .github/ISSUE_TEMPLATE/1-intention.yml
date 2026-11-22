@@ -214,6 +214,7 @@ body:
         - GL2AutomorphicRepresentationsAndTransfer
         - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
+        - GanGrossPrasadUnitaryGroups
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
         - GeneralAlgebraicKTheory
