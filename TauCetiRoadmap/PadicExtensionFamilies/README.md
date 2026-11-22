@@ -43,7 +43,7 @@ Tau Ceti's local-field library and the Local fields and ramification roadmap sup
 tower, and the ramification filtrations and Herbrand functions of Galois extensions.
 [Ramification of complete discretely valued fields](../RamificationOfCompleteDiscretelyValuedFields/README.md)
 supplies the Herbrand function of a separable extension that need not be Galois. The ramification
-polygon is one of Tau Ceti's Newton polygons. Layers 5 and 6 rest on Tau Ceti's formalization of
+polygon is one of Tau Ceti's Newton polygons. §4.3 and Layers 5 and 6 rest on Tau Ceti's formalization of
 Serre's mass formula, which realizes the [Mass formula](../MassFormula/README.md) roadmap; Layer 5
 is the count by discriminant that roadmap leaves outside its scope.
 
@@ -1143,6 +1143,12 @@ Tau Ceti's orbit count `ncard_isomorphic_mul_natCard_algEquiv` gives
 Serre's first mass formula `tsum_one_div_natCard_residueField_pow_wildExponent` gives
 `mass_K(σ_K(n))=1`. Summing over subfields avoids choosing representatives.
 
+Of the names this section introduces, `Suggested.lean` declares only
+`measure_eisensteinSet_setOf_exists_rootCount_pos`. The others (`jumpSet_mass_eq_haar`,
+`jumpSet_admissible`, `card_rootsOfUnity_pPow`, `top_mem_jumpSet_iff`, `haar_eq_shootingGame`,
+`wildExponent_tower`, `mem_jumpSet_top_iff`, `jumpSet_realizable`) are proposed names: the
+jump-set statements are not statable at the pins.
+
 An extended `ρ`-jump set `(I,β)` is **admissible** when `I≠∅` and `ρ^{β(min I)}(min I)=e*`.
 The main theorem, `jumpSet_mass_eq_haar`, says that for every admissible `(I,β)`
 
@@ -1153,8 +1159,7 @@ mass_K{L∈σ_K(n) : (I_L,β_L)=(I,β)} = μ_Haar(I,β) = μ*(I,β),
 where `μ_Haar` is the Haar measure of the filtered orbit of `v_(I,β)` and `μ*` is the law of
 Pagano's shooting game, both defined below. In words, a totally ramified degree-`n` extension of
 `K`, drawn with Serre's weights, has a given jump set with the same probability as a Haar-random
-relation vector of `M`. Pagano, Theorems 1.7–1.8, pp.7–8, and Theorem 9.1, p.51, pagano line 219
-onward.
+relation vector of `M`. Pagano, Theorems 1.7–1.8, pp.7–8, and Theorem 9.1, p.51, pagano lines 313 and 2267.
 
 **(a) Admissibility and the torsion.** Let `K'` be a finite extension of `ℚ_p` containing
 `ζ_p`, with `e'=v_{K'}(p)`. Prove `jumpSet_admissible`: `p−1∣e'`, and `(I_{K'},β_{K'})` is an
@@ -1170,7 +1175,8 @@ product of the Haar probability measures on the factors (Mathlib `PadicInt`, `Me
 `v∈pM`, let `filtOrd v` be the extended jump set whose `v_(I,β)` lies in the orbit of `v` under
 the filtered automorphisms of `M`. It is computed by the minimal-pair rule of §4.2 from the
 valuations of the coordinates of `v` (Pagano, Theorem 3.37, p.29). Prove the following:
-- each fibre `filtOrd⁻¹(I,β)` is open in `pM`;
+- each fibre `filtOrd⁻¹(I,β)` with `I≠∅` is open in `pM` (Pagano, p.8); the fibre over `∅` is
+  `{0}`, which is not;
 - the fibre is nonempty, since it contains `v_(I,β)`;
 - the union `Adm` of the fibres over admissible jump sets has positive finite measure.
 
@@ -1195,8 +1201,9 @@ the first kind on success (Pagano, §7, pp.45–49). The path measure is Mathlib
 `ProbabilityTheory.Kernel.trajMeasure` for the time-homogeneous kernel. For a path
 `(x_k,ℓ_k)_{k≥0}`, a **record** is an index `k` with `ℓ_k<ℓ_j` for all `j<k`. Its shooting point
 is `s_k=ρ^{−ℓ_k}(x_k)∈T` for the first kind and `s_k=e*` for the second, and
-`β(s_k)=ℓ_k+1`. Prove that the records of every path give an extended `ρ`-jump set
-(Proposition 7.1, p.46). Define `μ*` as the push-forward to jump sets of the path measure of the game started at `n`.
+`β(s_k)=ℓ_k+1`. Prove that the records of every path with strictly increasing positions give an extended
+`ρ`-jump set (Proposition 7.1, p.46). The other paths form a set of measure zero and are sent to
+the empty jump set (p.47), so the map to jump sets is defined on every path. Define `μ*` as the push-forward to jump sets of the path measure of the game started at `n`.
 Prove that `μ*(I,β)>0` exactly for the admissible `(I,β)` (p.49).
 
 **(d) Haar equals shooting.** Prove `haar_eq_shootingGame`: `μ_Haar(I,β)=μ*(I,β)` for every
@@ -1223,7 +1230,7 @@ separable closure of `K` serves as one of `F`. Prove `wildExponent_tower`:
 Prove that `L↦L` is a bijection from `{L∈σ_K(d) : F⊆L}` to `σ_F(d/m)`. Conclude that for every `S` inside
 that set, closed under `F`-isomorphism, `mass_K(S)=q^{−(d/m)c(F/K)}·mass_F(S)/m`. In particular,
 conditioned on `F⊆L`, the mass over `K` is the mass over `F`. When `F/K` is Galois,
-`{L : F⊆L}` is closed under `K`-isomorphism (Pagano, p.53, footnote).
+`{L : F⊆L}` is closed under `K`-isomorphism (Pagano, p.54).
 
 **(g) The cyclotomic fields.** For `j≥1`, put `K_j=K(ζ_{p^j})` inside the separable closure.
 The compositum of `K_{j+1}` and the unramified degree-`p` extension of `K_j` is Galois over
@@ -1237,25 +1244,25 @@ in any order. Prove the following:
 Prove `mem_jumpSet_top_iff` (Proposition 5.6, p.37): for `L∈σ_K(n)`, `e*∈I_L` and
 `β_L(e*)=j` if and only if `L` contains exactly one of `K_j^{(1)},…,K_j^{(p−1)}`. Also give the
 units `u_1,u_2` of `K_j^{(i)}` with `u_1^p u_2=ζ_{p^j}`, `v(u_1−1)=1`, `v(u_2−1)=p·v(p)/(p−1)`
-(valuations of `K_j^{(i)}`) and `u_2` not a `p`-th power (Corollary 5.7, p.38).
+(valuations of `K_j^{(i)}`) and `u_2` not a `p`-th power (Corollary 5.7, p.38, with Corollary 3.41, p.30; §9.2, p.55).
 
 **(h) Eisenstein polynomials as shooting games.** Put `e_j=e/(p^j(p−1))` for
 `0≤j≤v_p(n)`. Let `S_stop(r)` be the game started at `r`, in the quotient of its path space that
-remembers a path only while its position is below `e*`, with the quotient law (pp.49–50). Let `f∈Eis(e_j,K_{j+1})` have constant term
-`a_0`. Put `f̃=((1−ζ_{p^{j+1}})/a_0)f+ζ_{p^{j+1}}`, a polynomial with constant term `1`, of
-degree at most `e_j`, that represents `ζ_{p^{j+1}}` in `F_f=K_{j+1}[x]/(f)`. Define `f_0=f̃`.
-While the weight `w(f_m)=min_i(e_j v(b_i)+i)` of `f_m=1+Σb_ix^i` is below `e*`, choose the
-unique `i_m∈T`, `b_m≥0` and Teichmüller `ε_m` with `(1+ε_m x^{i_m})^{p^{b_m}}f_m` of larger
-weight. Let `f_{m+1}` be its reduction modulo `f` to degree at most `e_j`. Define
-`σ_j(f)=(w(f_m),b_m)_m∈S_stop(e_j)`. Define `σ_{j_1,j_2}` on `Eis(e_{j_1+1},K_{j_1+1}^{(j_2)})` in
+remembers a path only while its position is below `e*`, with the quotient law (pp.49–50). Let `g∈Eis(e_j,K_{j+1})` have constant term
+`a_0`. Put `g̃=((1−ζ_{p^{j+1}})/a_0)g+ζ_{p^{j+1}}`, a polynomial with constant term `1`, of
+degree at most `e_j`, that represents `ζ_{p^{j+1}}` in `F_g=K_{j+1}[x]/(g)`. Define `g_0=g̃`.
+While the weight `w(g_m)=min_i(e_j v(b_i)+i)` of `g_m=1+Σb_ix^i` is below `e*`, choose the
+unique `i_m∈T`, `b_m≥0` and Teichmüller `ε_m` with `(1+ε_m x^{i_m})^{p^{b_m}}g_m` of larger
+weight. Let `g_{m+1}` be its reduction modulo `g` to degree at most `e_j`. Define
+`σ_j(g)=(w(g_m),b_m)_m∈S_stop(e_j)`. Define `σ_{j_1,j_2}` on `Eis(e_{j_1+1},K_{j_1+1}^{(j_2)})` in
 the same way, with `u_1` in place of `ζ_{p^{j+1}}`, and with the cut-off and stopped game of §9.2,
 p.54. Prove
 the following (§9.3, pp.55–57):
-- **(P.1)** The record set of `σ_j(f)` is `{i∈I_{F_f} : ρ^{β_{F_f}(i)−(j+1)}(i)<e*}`, with
-  `β_{F_f}=β_{σ_j(f)}+j` on it; here `v_{F_f}(p)=e`. The analogous statement holds for `σ_{j_1,j_2}`, which in addition puts
+- **(P.1)** The record set of `σ_j(g)` is `{i∈I_{F_g} : ρ^{β_{F_g}(i)−(j+1)}(i)<e*}`, with
+  `β_{F_g}=β_{σ_j(g)}+j` on it; here `v_{F_g}(p)=e`. The analogous statement holds for `σ_{j_1,j_2}`, which in addition puts
   `e*` in `I` with `β(e*)=j_1+1`.
 - **(P.2)** `σ_j` and `σ_{j_1,j_2}` push the normalized Haar measure on Eisenstein polynomials
-  forward to the law of the corresponding stopped game. The coefficients of `f̃` expand in Teichmüller digits that are
+  forward to the law of the corresponding stopped game. The coefficients of `g̃` expand in Teichmüller digits that are
   independent and uniform.
 
 **(i) The theorem.** Prove `jumpSet_mass_eq_haar` by induction on `j`, as in §9.1.2,
@@ -2133,12 +2140,14 @@ Tau Ceti NewtonPolygon (pin) ───────┘        │          │   
                                            Layer 4    Layer 5      Layer 7
 Tau Ceti MassFormula (pin) ──────────────────────────► Layer 5 ──► Layer 6 ◄── Layers 1–3
 NumberFieldArithmetic L5–6 ───────────────────────────────────────► Layer 7
+Tau Ceti MassFormula (pin), Mathlib trajMeasure ──► Layer 4 (4.3)
 ```
 
 Layer 0 first. Layer 1 needs Layer 0 and Tau Ceti's Newton polygons. Layer 2 needs Layers 0–1,
 the Tau Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
-parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1) and only Local fields and ramification Layer 1
-(4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Tau Ceti's mass formula, not
+parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1), only Local fields and ramification Layer 1
+(4.2), and §4.2, Tau Ceti's mass formula and Mathlib's Ionescu-Tulcea trajectory measure (4.3);
+so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Tau Ceti's mass formula, not
 Layers 1–4. Layer 6 needs Layers 1–3 and 5. Layer 7 needs 3.3 and Number-field arithmetic and is
 otherwise independent of Layers 4–6.
 
