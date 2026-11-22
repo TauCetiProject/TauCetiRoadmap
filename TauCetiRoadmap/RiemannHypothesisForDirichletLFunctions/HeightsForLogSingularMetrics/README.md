@@ -20,7 +20,8 @@ Notation and conventions not restated here are those of ArakelovGeometryAndAbeli
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof]. A target that names neither [FormalProof], nor a source with a locator, nor a section of another roadmap as
-its statement (for instance 0.4 (a), (b), 14.1 (a), (b) and 14.2 (a)–(c), but not 4.3b (a), which is
+its statement (for instance 0.4 (a), 14.1 (a), (b) and 14.2 (a)–(c), and 0.4 (b) apart from its comparison of two models,
+but not 4.3b (a), which is
 ChowFormsAndHeightsOfSubvarieties §6.2 (a7) for the dual of `Ē`) is this roadmap's own statement, proved by the route written
 at it: no source is claimed for it, and a References entry that names its section without a theorem or page is background
 for it.
