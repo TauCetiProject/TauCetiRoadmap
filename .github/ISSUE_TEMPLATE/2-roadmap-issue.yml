@@ -60,6 +60,7 @@ body:
         - ArithmeticStatisticsPartIV
         - ArithmeticStatisticsPartV
         - ArithmeticStatisticsPartVI
+        - ArithmeticStatisticsPartVII
         - AsymptoticExpansions
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentations
@@ -104,8 +105,10 @@ body:
         - ComplexHessianEquations
         - ComplexKahlerGeometry
         - ComplexManifolds
+        - ComplexMultiplicationAndExplicitReciprocity
         - ComplexTori
         - ComputabilityTheory
+        - ComputationalNumberTheory
         - ConformalMappingPartII
         - CongruenceSpectralGap
         - ConvexLifting
@@ -286,6 +289,7 @@ body:
         - ModularForms
         - ModularFormsPartII
         - ModularSymbolsPadicLFunctions
+        - MordellLawrenceVenkatesh
         - MorseNovikov
         - MorseTheory
         - MotivesAndAlgebraicCycles
@@ -444,6 +448,7 @@ body:
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
+        - TropicalAndBerkovichArithmetic
         - TypeAHeckeAlgebras
         - VStackSheavesAndLisseCategories
         - VStackSheavesAndLisseCategoriesPartII
