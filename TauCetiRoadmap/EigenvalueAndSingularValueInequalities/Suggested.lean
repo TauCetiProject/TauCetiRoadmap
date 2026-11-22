@@ -31,6 +31,13 @@ decreasing and zero-padded. Complex eigenvalues of an arbitrary endomorphism are
 `LinearMap.charpoly`, with multiplicity. The unitarily invariant seminorms, Ky Fan sums, weak
 majorization and prefix sums are Tau Ceti's. The implementation namespace of the README is
 `TauCeti`; the prototypes live in this roadmap's namespace.
+
+Results consumed from other roadmaps are not restated: Lidskii's inequality, Lidskii's theorem
+for singular values and Mirsky's theorem (SpectralSteepestDescent, Section 2.1), and Dirac's
+theorem and perfect elimination orderings for chordal graphs (PerfectAndChordalGraphs,
+Sections 1.3 and 1.4). The definition of chordality is a verbatim copy from
+PerfectAndChordalGraphs, Section 1.1. The submultiplicativity of exterior powers in the README's
+2.4 is one line from `exteriorPower.map_comp` and is not stated.
 -/
 
 @[expose] public section
@@ -118,10 +125,9 @@ end RCLike
 
 section ExteriorPower
 
-variable {E F G : Type*}
+variable {E F : Type*}
   [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [NormedAddCommGroup F] [InnerProductSpace ℝ F] [FiniteDimensional ℝ F]
-  [NormedAddCommGroup G] [InnerProductSpace ℝ G] [FiniteDimensional ℝ G]
 
 /-- **Norm of an exterior power.** For a linear map `A` between finite-dimensional real inner
 product spaces, the operator norm of `⋀ᵏA` on Mathlib's inner product space `⋀[ℝ]^k` is the
@@ -130,12 +136,6 @@ the rank both sides are `0`. A real `d × d` matrix enters as `Matrix.toEuclidea
 theorem norm_exteriorPower_map_eq_prod_singularValues (A : E →ₗ[ℝ] F) (k : ℕ) :
     ‖LinearMap.toContinuousLinearMap (exteriorPower.map k A)‖ =
       ∏ i ∈ range k, A.singularValues i := sorry
-
-/-- **Submultiplicativity of exterior powers.** `‖⋀ᵏ(A B)‖ ≤ ‖⋀ᵏA‖ ‖⋀ᵏB‖`. -/
-theorem norm_exteriorPower_map_comp_le (A : F →ₗ[ℝ] G) (B : E →ₗ[ℝ] F) (k : ℕ) :
-    ‖LinearMap.toContinuousLinearMap (exteriorPower.map k (A ∘ₗ B))‖ ≤
-      ‖LinearMap.toContinuousLinearMap (exteriorPower.map k A)‖ *
-        ‖LinearMap.toContinuousLinearMap (exteriorPower.map k B)‖ := sorry
 
 end ExteriorPower
 
@@ -170,13 +170,6 @@ theorem wielandt_minimax {T : E →ₗ[𝕜] E} (hT : T.IsSymmetric) {n k : ℕ}
     ∀ M : Fin k → Submodule 𝕜 E, Monotone M → (∀ j, finrank 𝕜 (M j) = i j + 1) →
       ∃ x : Fin k → E, Orthonormal 𝕜 x ∧ (∀ j, x j ∈ M j) ∧
         ∑ j, RCLike.re ⟪T (x j), x j⟫_𝕜 ≤ ∑ j, hT.eigenvalues hn (i j) := sorry
-
-/-- **Lidskii–Wielandt inequalities.** For symmetric `T`, `S` and indices `i 0 < ⋯ < i (k-1)`,
-`∑ⱼ λ_{i j}(T + S) ≤ ∑ⱼ λ_{i j}(T) + ∑_{j < k} λⱼ(S)`. -/
-theorem sum_eigenvalues_add_le {T S : E →ₗ[𝕜] E} (hT : T.IsSymmetric) (hS : S.IsSymmetric)
-    {n k : ℕ} (hn : finrank 𝕜 E = n) {i : Fin k → Fin n} (hi : StrictMono i) :
-    ∑ j, (hT.add hS).eigenvalues hn (i j) ≤
-      ∑ j, hT.eigenvalues hn (i j) + TauCeti.prefixSum k (hS.eigenvalues hn) := sorry
 
 /-- **Lidskii's theorem.** `λ(T + S) - λ(T)` lies in the convex hull of the permutations of
 `λ(S)`, that is, it is majorized by `λ(S)`. -/
@@ -230,18 +223,6 @@ section Sums
 variable {𝕜 E F : Type*} [RCLike 𝕜]
   [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
   [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
-
-/-- **Lidskii's theorem for singular values.** `|s(A) - s(B)|` is weakly majorized by
-`s(A - B)`: for every finite set `I` of indices, `∑_{i ∈ I} |sᵢ(A) - sᵢ(B)|` is at most the Ky Fan
-sum of order `card I` of `A - B`. -/
-theorem sum_abs_singularValues_sub_le_kyFanSum (A B : E →ₗ[𝕜] F) (I : Finset ℕ) :
-    ∑ i ∈ I, |A.singularValues i - B.singularValues i| ≤ (A - B).kyFanSum I.card := sorry
-
-/-- **Mirsky's theorem.** For every unitarily invariant seminorm `N`,
-`N(diag(s(A) - s(B))) ≤ N(A - B)`. -/
-theorem gauge_singularValues_sub_le (N : TauCeti.UnitarilyInvariantSeminorm 𝕜 E F)
-    (A B : E →ₗ[𝕜] F) :
-    N.gauge (fun i ↦ A.singularValues i - B.singularValues i) ≤ N (A - B) := sorry
 
 /-- **Fan–Hoffman.** If `H = (T + T†)/2`, then `λⱼ(H) ≤ sⱼ(T)` for every `j`. -/
 theorem eigenvalues_le_singularValues_of_two_smul_eq {T H : E →ₗ[𝕜] E} (hH : H.IsSymmetric)
@@ -384,27 +365,16 @@ theorem sum_singularValues_hadamard_le {m n : Type*} [Fintype m] [Fintype n] [De
 
 section Completions
 
-variable {V : Type*} [Fintype V] [DecidableEq V]
+variable {V : Type*}
 
-/-- A graph is **chordal** if it has no induced cycle of length at least four: no injective
-`f : Fin k → V`, `k ≥ 4`, has `G.Adj (f i) (f j)` exactly for cyclically consecutive `i`, `j`. -/
+open SimpleGraph in
+/-- Verbatim copy of the definition owned by PerfectAndChordalGraphs, Section 1.1, used here to
+state the completion theorem of 7.2: a graph is chordal when no cycle on at least four vertices
+is an induced subgraph, that is, every cycle of length at least four has a chord. -/
 def IsChordal (G : SimpleGraph V) : Prop :=
-  ∀ k : ℕ, 4 ≤ k → ∀ f : Fin k → V, Function.Injective f →
-    ¬ ∀ i j : Fin k, G.Adj (f i) (f j) ↔ ((i.val + 1) % k = j.val ∨ (j.val + 1) % k = i.val)
+  ∀ n, 4 ≤ n → ¬(cycleGraph n).IsIndContained G
 
-/-- **Dirac's lemma.** A chordal graph on a nonempty vertex set has a simplicial vertex (one
-whose neighbours form a clique), and if it is not complete it has two nonadjacent ones. -/
-theorem IsChordal.exists_isClique_neighborSet {G : SimpleGraph V} (hG : IsChordal G)
-    [Nonempty V] :
-    (∃ v, G.IsClique (G.neighborSet v)) ∧
-      (G ≠ ⊤ → ∃ u v, u ≠ v ∧ ¬ G.Adj u v ∧ G.IsClique (G.neighborSet u) ∧
-        G.IsClique (G.neighborSet v)) := sorry
-
-/-- **Perfect elimination orderings.** A graph is chordal exactly when its vertices can be
-ordered so that the neighbours of each vertex that follow it form a clique. -/
-theorem isChordal_iff_exists_perfectEliminationOrder (G : SimpleGraph V) :
-    IsChordal G ↔ ∃ e : V ≃ Fin (Fintype.card V), ∀ v u w, e v < e u → e v < e w →
-      G.Adj v u → G.Adj v w → u ≠ w → G.Adj u w := sorry
+variable [Fintype V] [DecidableEq V]
 
 /-- A partial matrix with pattern `G` is **partially positive definite** when every principal
 submatrix on a clique of `G` (singletons included) is positive definite. Entries off the pattern
@@ -457,9 +427,6 @@ theorem eigenvalueModuli_diag_one_neg_two :
     eigenvalueModuli (Matrix.toEuclideanLin (Matrix.diagonal ![(1 : ℂ), -2])) 0 = 2 ∧
       eigenvalueModuli (Matrix.toEuclideanLin (Matrix.diagonal ![(1 : ℂ), -2])) 1 = 1 := sorry
 
-/-- Sanity check of the definition: the four-cycle is not chordal. -/
-theorem not_isChordal_cycleGraph_four : ¬ IsChordal (SimpleGraph.cycleGraph 4) := sorry
-
 /-- Sanity check of the definition: a partially positive definite matrix on the four-cycle with
 no positive definite completion: diagonal `1`, the value `9/10` on three edges and `-9/10` on the
 fourth. Negative control for the necessity half of the completion theorem. -/
@@ -482,12 +449,12 @@ theorem not_exists_posDef_completion_cycle :
 #check @OrthonormalBasis.exteriorPower
 #check @Matrix.PosDef
 #check @SimpleGraph.IsClique
-#check @SimpleGraph.neighborSet
 #check @spectrum.pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius
 #check @exteriorPower.map_comp
 #check @exteriorPower.inner_ιMulti_ιMulti
 #check @Matrix.toEuclideanLin
 #check @SimpleGraph.cycleGraph
+#check @SimpleGraph.IsIndContained
 #check @Matrix.BlockTriangular
 #check @LinearMap.IsPositive
 #check @IsStarNormal
@@ -501,6 +468,7 @@ theorem not_exists_posDef_completion_cycle :
 #check @LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues
 #check @LinearMap.kyFanSum
 #check @LinearMap.kyFanSum_add_le
+#check @LinearMap.kyFanSum_adjoint
 #check @LinearMap.singularValues_comp_le
 #check @LinearMap.operatorAbs
 #check @LinearMap.IsSymmetric.range_re_inner_apply_self_eq_convexHull_eigenvalues_comp_perm
