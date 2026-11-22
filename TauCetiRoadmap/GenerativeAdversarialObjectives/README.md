@@ -26,13 +26,13 @@ equality at `dP/dQ` almost everywhere.
 The third concerns the Wasserstein game, for a generator `g(z, θ)` into a Polish space, measurable
 in `z` and Lipschitz in `θ` on an open set of a finite-dimensional space with an integrable constant
 `L(z)`. If the `1`-Wasserstein loss is finite at one point of the set, it is Lipschitz there and
-differentiable almost everywhere. On a bounded space, for an optimal `1`-Lipschitz critic, wherever
-the loss and the critic along the generator are differentiable, the gradient of the loss is minus
-the average gradient of the critic. For laws on a Euclidean space with finite first moments and
-almost every pair of distinct points of an optimal coupling, an optimal critic has as gradient the
-unit vector of the pair at every point of the segment between them where it is differentiable.
+differentiable almost everywhere. On a bounded separable space, for an optimal `1`-Lipschitz critic,
+wherever the loss and the critic along the generator are differentiable, the gradient of the loss is
+minus the average gradient of the critic. For laws on a Euclidean space with finite first moments
+and almost every pair of distinct points of an optimal coupling, an optimal critic has as gradient
+the unit vector of the pair at every point of the segment between them where it is differentiable.
 
-The roadmap builds on the Tau Ceti optimal transport library, which realizes the roadmap
+The roadmap builds on the Tau Ceti optimal transport library, realizing the roadmap
 OptimalTransport (Kantorovich–Rubinstein duality, optimal couplings, internal energies, convex
 conjugates), and on MathematicalStatisticsNonparametric (the mutual information of a uniform
 mixture, whose two-law case is the Jensen–Shannon divergence). Layer 1 treats the original game and
@@ -78,9 +78,13 @@ the Wasserstein game.
   `(−∞, 0)`; `dom f*` is the set where it is finite. Polyanskiy–Wu normalise `f(1) = 0`; adding a
   constant `c` to `f` adds `c` to both sides of every identity of Layer 2, and the GAN generator of
   Nowozin et al. has `f(1) = −log 4`, so that normalisation is not imposed.
-- **Wasserstein distance.** `W₁(P, Q)` is Tau Ceti's `wassersteinEDist 1 P Q` in `[0, ∞]`. In
-  Layer 3, `X` is a pseudometric space: with any σ-algebra in 3.1, Polish with its Borel σ-algebra
-  in 3.2, with its Borel σ-algebra in 3.3; `(Z, μ)` is a probability space, a generator is
+- **Wasserstein distance.** `W₁(P, Q)` is Tau Ceti's `wassersteinEDist 1 P Q` in `[0, ∞]`, the
+  infimum over couplings `π` of `eLpNorm (edist) 1 π`, which is `+∞` for a coupling for which the
+  distance is not almost everywhere strongly measurable. In Layer 3 every space of laws carries its
+  Borel σ-algebra and is second countable: the plane `ℝ × ℝ` in 3.1, a pseudometric space `X`,
+  Polish in 3.2 and separable in 3.3, and a finite-dimensional inner product space in 3.4. So the
+  distance is measurable on the square of the space (Mathlib `measurable_edist`), which every
+  coupling bound below needs. `(Z, μ)` is a probability space, a generator is
   `g : Z → Θ → X`, and the model law is `P_θ = μ.map (g · θ)`. Parameters live in a pseudometric
   space `Θ` in 3.2(1) and in a finite-dimensional real normed space `E` otherwise, with an additive
   Haar measure `ν` for "almost every parameter". A critic is a `1`-Lipschitz `f : X → ℝ`; it is
@@ -353,52 +357,48 @@ integrable, both being `+∞`).
 
 ## Layer 3: the Wasserstein objective
 
-### 3.1 Wasserstein distance against total variation
+### 3.1 The parallel lines
 
-- `wassersteinEDist_one_le_ofReal_mul_tvDist`: on a pseudometric space with any σ-algebra, in
-  which every distance is at most `R`, `W₁(P, Q) ≤ R · δ(P, Q)`. Hence
-  convergence in total variation, or by 1.3 in Jensen–Shannon divergence, implies convergence in
-  `W₁` there.
-- Define `parallelLine θ`, the law of `(θ, Z)` on `ℝ × ℝ` for `Z` uniform on `[0, 1]`. Prove
-  `parallelLine_divergences`: `W₁(P_0, P_θ) = |θ|` for every `θ`, and for `θ ≠ 0`,
-  `JSD(P_0, P_θ) = log 2`, `KL(P_0 ‖ P_θ) = KL(P_θ ‖ P_0) = +∞` and `δ(P_0, P_θ) = 1`. So
-  `θ ↦ W₁(P_0, P_θ)` is continuous while the Jensen–Shannon divergence, both relative entropies
-  and the statistical distance jump at `θ = 0`, and the converse of the first item fails even on
-  a bounded space: the laws `P_θ` with `|θ| ≤ 1` all live in `[−1, 1] × [0, 1]`.
+Define `parallelLine θ`, the law of `(θ, Z)` on `ℝ × ℝ` (with its Borel σ-algebra) for `Z` uniform
+on `[0, 1]`. The statement `parallelLine_divergences` is a sanity check of the definitions of
+`jsDiv` and `wassersteinEDist 1` on one explicit family, not a headline: `W₁(P_0, P_θ) = |θ|` for
+every `θ`, and for `θ ≠ 0`, `JSD(P_0, P_θ) = log 2`, `KL(P_0 ‖ P_θ) = KL(P_θ ‖ P_0) = +∞` and
+`δ(P_0, P_θ) = 1`. So `θ ↦ W₁(P_0, P_θ)` is continuous while the Jensen–Shannon divergence, both
+relative entropies and the statistical distance jump at `θ = 0`. On a separable space whose
+distances are at most `D`, `W₁ ≤ D · δ`, so convergence in total variation, or by 1.3 in
+Jensen–Shannon divergence, implies convergence in `W₁`; that bound is stated in
+KernelsAndSpectralMethods 9.2 (`dudleyDist_le`) and is not restated here. The parallel lines show
+that its converse fails even on a bounded space: the laws `P_θ` with `|θ| ≤ 1` all live in
+`[−1, 1] × [0, 1]`.
 
 (Arjovsky–Chintala–Bottou Example 1, p. 4, and Theorem 2 (4), p. 6, whose proof in Appendix C, p.
-23, is one sentence on the strong and weak-star topologies; Theorem 1 (3), p. 5. The bound with the
-constant `R` is proved here. `ℝ × ℝ` carries Lean's maximum metric; every value above is the same
-for the Euclidean norm of the source, because the coupling below moves points horizontally and the
-first coordinate is `1`-Lipschitz for both norms. The source prints `JS = log 2`, which is the value
-in the normalisation of this roadmap, not in that of its own §2.)
+23, is one sentence on the strong and weak-star topologies; Theorem 1 (3), p. 5. `ℝ × ℝ` carries
+Lean's maximum metric; every value above is the same for the Euclidean norm of the source, because
+the coupling below moves points horizontally and the first coordinate is `1`-Lipschitz for both
+norms. The source prints `JS = log 2`, which is the value in the normalisation of this roadmap; with
+the definition of its own §2, which has no factor `½`, it should be `2 log 2`.)
 
-Route. First item: let `m = min(p, q) · (P + Q)` with `p`, `q` the densities, of mass `1 − δ` by
-MathematicalStatisticsNonparametric 1.4 (`one_sub_tvDist_eq_integral_min`). If `δ = 0` then `P = Q`
-and the diagonal coupling costs `0`. Otherwise couple `m` with itself on the diagonal and `P − m`
-with `Q − m` by the product coupling divided by `δ`; the marginals are `P` and `Q`, the diagonal
-part costs `0` and the rest at most `R δ`, and `wassersteinEDist_le` bounds `W₁` by this cost. Only
-upper bounds on lower integrals enter (`lintegral_add_measure`, `lintegral_map_le` along the
-measurable diagonal map, `lintegral_mono` against the constant `R`), so the distance need not be
-measurable on `X × X`. Parallel lines: `P_θ` is the image of `P_0` under `x ↦ x + (θ, 0)`, so
-`wassersteinEDist_map_le` gives `W₁ ≤ |θ|`; the `1`-Lipschitz function `x ↦ −sign(θ) x₁` and
-`ofReal_integral_sub_integral_le_wassersteinEDist_one` give `W₁ ≥ |θ|`. For `θ ≠ 0` the two laws
-live on the disjoint lines `{0} × ℝ` and `{θ} × ℝ`, so they are mutually singular: `klDiv_of_not_ac`
-in both orders, `tvDist_of_mutuallySingular` (`tvDist = 2`) and `jsDiv_eq_log_two_iff` of 1.3.
+Route. `ℝ × ℝ` is second countable, so the distance is measurable on its square
+(`measurable_edist`). `P_θ` is the image of `P_0` under `x ↦ x + (θ, 0)`, so
+`wassersteinEDist_map_le` gives `W₁ ≤ |θ|`; the `1`-Lipschitz function `x ↦ −sign(θ) x₁`, bounded on
+the supports and hence integrable, and `ofReal_integral_sub_integral_le_wassersteinEDist_one` give
+`W₁ ≥ |θ|`. For `θ ≠ 0` the two laws live on the disjoint lines `{0} × ℝ` and `{θ} × ℝ`, so they are
+mutually singular: `klDiv_of_not_ac` in both orders, `tvDist_of_mutuallySingular` (`tvDist = 2`)
+and `jsDiv_eq_log_two_iff` of 1.3.
 
 **Checks.**
 
-- The bound is sharp: if singletons are measurable, `P = δ_x` and `Q = δ_y` with
-  `dist x y = R > 0` have `W₁ = R` (Tau Ceti `TauCeti.wassersteinEDist_dirac_dirac`) and `δ = 1`.
-- Boundedness is needed: on `ℝ`, `P = δ_0` and `Q_n = (1 − 1/n) δ_0 + (1/n) δ_(n²)` have
-  `δ = 1/n → 0` while `W₁(P, Q_n) = n → ∞` (every coupling with a Dirac law is the product).
+- Measurability of the distance matters for every coupling bound of this layer: on `X = [0, 1]`
+  with its usual metric and the trivial σ-algebra `{∅, X}`, the one probability measure `P` has
+  `W₁(P, P) = +∞`, because the only coupling lives on the trivial σ-algebra of `X × X`, for which
+  the non-constant distance is not almost everywhere strongly measurable, so its `eLpNorm` is
+  `+∞`. KernelsAndSpectralMethods 9.2 notes the same: without separability `W₁` can be `+∞` even
+  for equal laws. This is why 3.2 and 3.3 assume a separable space.
+- At `θ = 1`: `W₁ = 1` while `δ = 1`; at `θ = 1/n`: `W₁ = 1/n → 0` while `δ = 1` for every `n`.
 
-*Needs:* 1.3 (`jsDiv_eq_log_two_iff`); MathematicalStatisticsNonparametric 1.4
-(`one_sub_tvDist_eq_integral_min`); Mathlib `MeasureTheory.lintegral_add_measure`,
-`MeasureTheory.lintegral_map_le`, `MeasureTheory.lintegral_mono`; Tau Ceti
-`TauCeti.wassersteinEDist_le`,
-`TauCeti.wassersteinEDist_map_le`, `TauCeti.ofReal_integral_sub_integral_le_wassersteinEDist_one`;
-Mathlib `InformationTheory.klDiv_of_not_ac`, `tvDist_of_mutuallySingular`.
+*Needs:* 1.3 (`jsDiv_eq_log_two_iff`); Mathlib `measurable_edist`,
+`InformationTheory.klDiv_of_not_ac`, `tvDist_of_mutuallySingular`; Tau Ceti
+`TauCeti.wassersteinEDist_map_le`, `TauCeti.ofReal_integral_sub_integral_le_wassersteinEDist_one`.
 
 ### 3.2 Continuity and almost-everywhere differentiability of the Wasserstein loss
 
@@ -422,11 +422,14 @@ the neighbourhood of a single pair `(θ, z)`, so it uses one neighbourhood for a
 uniform bound the printed proof is complete, and no bound on `X` is needed.)
 
 Route. For `θ, θ'` the law of `(g z θ, g z θ')` under `μ` couples `P_θ` and `P_θ'`, so
-`wassersteinEDist_le` gives `W₁(P_θ, P_θ') ≤ ∫ d(g z θ, g z θ') dμ(z)`. By
+`wassersteinEDist_le` gives `W₁(P_θ, P_θ') ≤ ∫ d(g z θ, g z θ') dμ(z)` (a Polish space is second
+countable, so the distance is measurable on `X × X` by `measurable_edist`, and the `eLpNorm` of the
+coupling is this integral by `eLpNorm_one_eq_lintegral_enorm` and `lintegral_map`). By
 `wassersteinEDist_triangle` and `wassersteinEDist_comm` (the distance is measurable on the standard
 Borel space `X × X`), `|W₁(Pr, P_θ) − W₁(Pr, P_θ')| ≤ W₁(P_θ, P_θ')` whenever the terms are finite.
-In the first item all of them are at most `R` (product coupling) and the integral tends to `0` as
-`θ' → θ` by dominated convergence with the constant bound `R`
+In the first item all of them are at most `R`: the product coupling (`isCoupling_prod`) bounds
+each by `∫⁻ edist ≤ R` (`wassersteinEDist_le`, `eLpNorm_one_eq_lintegral_enorm`, `lintegral_mono`),
+and the integral tends to `0` as `θ' → θ` by dominated convergence with the constant bound `R`
 (`tendsto_lintegral_filter_of_dominated_convergence` along sequences of `Θ`). In the second the
 integral is at most `(∫ L dμ) ‖θ − θ'‖`, which gives finiteness on `U` from `θ₀` and the Lipschitz
 bound; Rademacher's theorem `LipschitzOnWith.ae_differentiableWithinAt_of_mem` gives
@@ -440,16 +443,18 @@ open (`DifferentiableWithinAt.differentiableAt`).
 - The parallel lines of 3.1 satisfy the second item with `L = 1` on `U = ℝ`: `W₁(P_0, P_θ) = |θ|`
   is `1`-Lipschitz and differentiable except at `0`.
 
-*Needs:* Tau Ceti `TauCeti.wassersteinEDist_le`, `TauCeti.wassersteinEDist_triangle`,
-`TauCeti.wassersteinEDist_comm`; Mathlib `tendsto_lintegral_filter_of_dominated_convergence`,
+*Needs:* Tau Ceti `TauCeti.wassersteinEDist_le`, `TauCeti.isCoupling_prod`,
+`TauCeti.wassersteinEDist_triangle`, `TauCeti.wassersteinEDist_comm`; Mathlib `measurable_edist`,
+`eLpNorm_one_eq_lintegral_enorm`, `MeasureTheory.lintegral_map`, `MeasureTheory.lintegral_mono`,
+`tendsto_lintegral_filter_of_dominated_convergence`,
 `LipschitzOnWith.ae_differentiableWithinAt_of_mem`, `DifferentiableWithinAt.differentiableAt`.
 
 ### 3.3 Optimal critics and the gradient of the Wasserstein loss
 
-`hasFDerivAt_wassersteinEDist_one_map`: let every distance in `X` be at most `R`, let `U`, `g`
-and `L` be as in the second item of 3.2, with `θ₀ ∈ U`, and let `f` be a `1`-Lipschitz function
-with `∫ f dPr − ∫ f(g z θ₀) dμ(z) = W₁(Pr, P_θ₀)`. If `θ ↦ W₁(Pr, P_θ)` is differentiable at `θ₀`
-(for almost every `θ₀ ∈ U` by 3.2 when `X` is moreover Polish) and `θ ↦ f(g z θ)` is
+`hasFDerivAt_wassersteinEDist_one_map`: let `X` be separable with every distance at most `R`, let
+`U`, `g` and `L` be as in the second item of 3.2, with `θ₀ ∈ U`, and let `f` be a `1`-Lipschitz
+function with `∫ f dPr − ∫ f(g z θ₀) dμ(z) = W₁(Pr, P_θ₀)`. If `θ ↦ W₁(Pr, P_θ)` is differentiable
+at `θ₀` (for almost every `θ₀ ∈ U` by 3.2 when `X` is moreover Polish) and `θ ↦ f(g z θ)` is
 differentiable at `θ₀` for `μ`-almost every `z`, then the derivative of `θ ↦ W₁(Pr, P_θ)` at `θ₀`
 is `−∫ D_θ f(g z θ)|_(θ₀) dμ(z)`.
 
@@ -462,10 +467,10 @@ this `f` is optimal when `W₁(Pr, P_θ₀) > 0`, the function `0` is optimal wh
 `∫ f dP_θ₀ = ∫ f(g z θ₀) dμ` by `integral_map`.
 
 (Arjovsky–Chintala–Bottou Theorem 3, p. 7, proof in Appendix C, pp. 24–25, on the paper's compact
-`X`; here `X` is bounded. The existence of an optimal critic, the first assertion of the source's
-theorem, is the attainment just cited. The source cites an envelope theorem and requires that "both
-terms are well-defined"; that requirement is replaced by the two differentiability hypotheses, and
-the envelope step is proved here.)
+`X`; here `X` is bounded and separable. The existence of an optimal critic, the first assertion of
+the source's theorem, is the attainment just cited. The source cites an envelope theorem and
+requires that "both terms are well-defined"; that requirement is replaced by the two
+differentiability hypotheses, and the envelope step is proved here.)
 
 Route. `f` is bounded on `X` (`|f x − f y| ≤ R`) and continuous, hence integrable for `Pr` and for
 every `P_θ`, and `∫ f dP_θ = ∫ f(g z θ) dμ` for `θ ∈ U` (`integral_map`). `F(θ, z) = f(g z θ)` is
@@ -473,8 +478,11 @@ every `P_θ`, and `∫ f dP_θ = ∫ f(g z θ) dμ` for `θ ∈ U` (`integral_ma
 measurable: it is the linear map determined by its values on a basis `(e_i)`, each the almost
 everywhere limit of the measurable quotients `n (F(θ₀ + e_i/n, z) − F(θ₀, z))`
 (`aestronglyMeasurable_of_tendsto_ae`). So `hasFDerivAt_integral_of_dominated_loc_of_lip` makes
-`I(θ) = ∫ F(θ, z) dμ` differentiable at `θ₀` with derivative `∫ D_θ F(θ₀, z) dμ`. By weak duality
-(`ofReal_integral_sub_integral_le_wassersteinEDist_one`; `W₁(Pr, P_θ) ≤ R` is finite),
+`I(θ) = ∫ F(θ, z) dμ` differentiable at `θ₀` with derivative `∫ D_θ F(θ₀, z) dμ`. The loss is
+finite: as `X` is separable the distance is measurable on `X × X` (`measurable_edist`), so the
+product coupling `Pr ⊗ P_θ` (`isCoupling_prod`) bounds `W₁(Pr, P_θ)` by
+`∫⁻ edist d(Pr ⊗ P_θ) ≤ R` (`wassersteinEDist_le`, `eLpNorm_one_eq_lintegral_enorm`,
+`lintegral_mono`). So by weak duality (`ofReal_integral_sub_integral_le_wassersteinEDist_one`)
 `φ(θ) = W₁(Pr, P_θ) − (∫ f dPr − I(θ))` is `≥ 0` on `U` and `0` at `θ₀`, so it has a local minimum
 there; it is differentiable at `θ₀`, so its derivative vanishes (`IsLocalMin.hasFDerivAt_eq_zero`),
 which is the formula.
@@ -490,7 +498,8 @@ which is the formula.
   loss `|θ|` is not differentiable: the differentiability hypothesis on the loss cannot be dropped.
 
 *Needs:* Tau Ceti `TauCeti.ofReal_integral_sub_integral_le_wassersteinEDist_one`,
-`TauCeti.wassersteinEDist_le` (for `W₁ ≤ R`); Mathlib `integral_map`,
+`TauCeti.wassersteinEDist_le`, `TauCeti.isCoupling_prod` (for `W₁ ≤ R`); Mathlib `measurable_edist`,
+`eLpNorm_one_eq_lintegral_enorm`, `MeasureTheory.lintegral_mono`, `integral_map`,
 `aestronglyMeasurable_of_tendsto_ae`, `hasFDerivAt_integral_of_dominated_loc_of_lip`,
 `IsLocalMin.hasFDerivAt_eq_zero`. The existence remark uses Tau Ceti
 `TauCeti.exists_lipschitzWith_norm_le_integral_sub_integral_eq_transportCost_truncated_dist` and
@@ -515,8 +524,12 @@ as `t x + (1 − t) y`; here the orientation is fixed by `f(x) − f(y) = ‖x �
 `P`, and the gradient points from `y` to `x`. Corollary 1 rests on the hypothesis `π(x = y) = 0` of
 Proposition 1.)
 
-Route. The finite moments make `f` integrable (`HasFiniteMoment.integrable_of_lipschitzWith`) and
-`W₁` finite. As `π` is optimal (`IsOptimalCoupling`, `wassersteinEDist_one_eq_transportCost`),
+Route. `E` is finite-dimensional, hence second countable, so the distance is measurable on `E × E`
+(`measurable_edist`), as `wassersteinEDist_one_eq_transportCost` requires. The finite moments make
+`f` integrable (`HasFiniteMoment.integrable_of_lipschitzWith`) and `W₁` finite (the product
+coupling, `isCoupling_prod`, costs at most the sum of the first moments of `P` and `Q` about one
+point, finite about every point once finite about one).
+As `π` is optimal (`IsOptimalCoupling`, `wassersteinEDist_one_eq_transportCost`),
 `∫ ‖x − y‖ dπ = W₁(P, Q)`, and the marginals give `∫ (f x − f y) dπ = ∫ f dP − ∫ f dQ`, so the
 nonnegative function `‖x − y‖ − (f x − f y)` has integral `0` and vanishes `π`-almost everywhere
 (`integral_eq_zero_iff_of_nonneg_ae`). For such a pair with `x ≠ y`, `ψ(t) = f(y + t(x − y)) − f(y)`
@@ -539,9 +552,9 @@ differentiability where `‖∇f‖ ≠ 1` is Borel (`measurableSet_of_different
   `exists_isOptimalCoupling` for the continuous cost `‖x − y‖` on the Polish space `E`.
 
 *Needs:* Tau Ceti `TauCeti.IsOptimalCoupling`, `TauCeti.wassersteinEDist_one_eq_transportCost`,
-`TauCeti.HasFiniteMoment.integrable_of_lipschitzWith`; Mathlib `gradient`,
-`integral_eq_zero_iff_of_nonneg_ae`, `real_inner_le_norm`, `inner_eq_norm_mul_iff_real`,
-`measurableSet_of_differentiableAt`, `measurable_fderiv`.
+`TauCeti.HasFiniteMoment.integrable_of_lipschitzWith`, `TauCeti.isCoupling_prod`; Mathlib
+`measurable_edist`, `gradient`, `integral_eq_zero_iff_of_nonneg_ae`, `real_inner_le_norm`,
+`inner_eq_norm_mul_iff_real`, `measurableSet_of_differentiableAt`, `measurable_fderiv`.
 
 ### Examples
 
@@ -552,21 +565,26 @@ differentiability where `‖∇f‖ ≠ 1` is Borel (`measurableSet_of_different
 
 ### Dependencies
 
-3.1 uses 1.3, MathematicalStatisticsNonparametric 1.4, Tau Ceti and Mathlib. 3.2 uses Tau Ceti and
-Mathlib. 3.3 uses Tau Ceti and Mathlib, and 3.2 in a remark. 3.4 uses Tau Ceti and Mathlib.
+3.1 uses 1.3, Tau Ceti and Mathlib. 3.2 uses Tau Ceti and Mathlib. 3.3 uses Tau Ceti and Mathlib,
+and 3.2 in a remark. 3.4 uses Tau Ceti and Mathlib.
 
 ## Scope and ownership
 
 This roadmap owns: the measure form of the original GAN game (the gap identity, the value of the
 game, its attainment and Goodfellow et al.'s Theorem 1); the bounds between the Jensen–Shannon
 divergence and total variation with their consequences; the variational representation of
-f-divergences and its equality case; the comparison of `W₁` with total variation on bounded
-spaces and the parallel lines; continuity, Lipschitz continuity and almost-everywhere
-differentiability of the Wasserstein loss; the gradient of the loss through an optimal critic; and
-the unit-gradient property of optimal critics.
+f-divergences and its equality case; the parallel lines as a sanity check of the definitions;
+continuity, Lipschitz continuity and almost-everywhere differentiability of the Wasserstein loss;
+the gradient of the loss through an optimal critic; and the unit-gradient property of optimal
+critics.
 
 Stated elsewhere and not restated here:
 
+- KernelsAndSpectralMethods 9.2, a roadmap by another contributor on kernel and spectral methods:
+  the comparison of `W₁` with total variation on bounded spaces is stated there (`dudleyDist_le`:
+  on a separable space whose distances are at most `D`, `W₁ ≤ D · tvDist / 2`); not restated here.
+  Its README notes that without separability `W₁` can be `+∞` even for equal laws (the first Check
+  of 3.1). No route of this roadmap uses that bound.
 - OptimalTransport, Layer 3 (3.1 the Wasserstein distance, 3.4 Wasserstein convergence, 3.8
   Kantorovich–Rubinstein duality) and Layer 1 (optimal couplings), realised by the Tau Ceti optimal
   transport library: Kantorovich–Rubinstein duality `TauCeti.wassersteinEDist_one_eq_iSup`, its
@@ -578,7 +596,7 @@ Stated elsewhere and not restated here:
 - MathematicalStatisticsNonparametric 2.4 owns the uniform mixture and its mutual information
   (copied verbatim) and Fano's inequality; its 1.1–1.2 own the Hellinger and chi-square divergences,
   and its 1.4 the comparison inequalities between them, total variation and the relative entropy, of
-  which Scheffé's identity is used in 3.1. The Jensen–Shannon divergence here is the two-law case of
+  which Scheffé's identity is used in 1.3. The Jensen–Shannon divergence here is the two-law case of
   its mutual information.
 - Tau Ceti owns the variational formulas for the relative entropy
   (`TauCeti.klDiv_eq_iSup_integral_sub_integral_exp_sub_one` with its equality case, and the
@@ -644,8 +662,10 @@ noise law; and every training algorithm.
   (`Mathlib/Analysis/Calculus/ParametricIntegral.lean`: a neighbourhood `s` of `x₀`, a.e.-measurable
   sections near `x₀`, integrable `F x₀`, a.e.-measurable `F'`, Lipschitz bound on `s` with
   integrable constant, a.e. differentiability at `x₀`); `IsLocalMin.hasFDerivAt_eq_zero`.
-- `MeasureTheory.lintegral_add_measure`, `MeasureTheory.lintegral_map_le` (a.e.-measurable map, any
-  integrand), `MeasureTheory.lintegral_mono`; `aestronglyMeasurable_of_tendsto_ae`
+- `measurable_edist` (second countable pseudometric space;
+  `Mathlib/MeasureTheory/Constructions/BorelSpace/Metric.lean`); `eLpNorm_one_eq_lintegral_enorm`
+  (a.e. strongly measurable function); `MeasureTheory.lintegral_map` (measurable function and map),
+  `MeasureTheory.lintegral_mono`; `aestronglyMeasurable_of_tendsto_ae`
   (`Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean`); `innerₗ`;
   `InformationTheory.klFun` (`Mathlib/InformationTheory/KullbackLeibler/KLFun.lean`).
 - `gradient`, `real_inner_le_norm`, `inner_eq_norm_mul_iff_real`;
@@ -659,11 +679,11 @@ realisation of the roadmap OptimalTransport.
 
 - `TauCeti.wassersteinEDist` (the infimum over couplings of the `L^p` norm of `edist`),
   `TauCeti.HasFiniteMoment`, `TauCeti.wassersteinEDist_le` (any coupling bounds `W_p`),
-  `TauCeti.wassersteinEDist_dirac_dirac` (measurable singletons; in a Check of 3.1),
   `TauCeti.wassersteinEDist_map_le` (measurable distance, a.e.-measurable map),
   `TauCeti.wassersteinEDist_triangle` (standard Borel, measurable distance, finite middle measure),
   `TauCeti.wassersteinEDist_comm`, `TauCeti.wassersteinEDist_one_eq_transportCost` (measurable
-  distance) (`Wasserstein/Basic.lean`); `TauCeti.HasFiniteMoment.integrable_of_lipschitzWith`
+  distance) (`Wasserstein/Basic.lean`); `TauCeti.isCoupling_prod` (probability measures;
+  `Coupling.lean`); `TauCeti.HasFiniteMoment.integrable_of_lipschitzWith`
   (finite measure, first moment).
 - `TauCeti.ofReal_integral_sub_integral_le_wassersteinEDist_one` (a `1`-Lipschitz function
   integrable for both measures), `TauCeti.wassersteinEDist_one_eq_iSup`,
@@ -693,7 +713,7 @@ realisation of the roadmap OptimalTransport.
 - 2.4 `uniformMixture` and `mutualInfoUniform`, copied verbatim with their `variable` line
   (`{X Y : Type*} [MeasurableSpace X] [PseudoMetricSpace Y] [MeasurableSpace Y]`), in 1.1.
 - 1.4 `one_sub_tvDist_eq_integral_min` (Scheffé: for probability measures,
-  `1 − tvDist P Q / 2 = ∫ min(dP/dν, dQ/dν) dν` with `ν = P + Q`), in 1.3 and 3.1.
+  `1 − tvDist P Q / 2 = ∫ min(dP/dν, dQ/dν) dν` with `ν = P + Q`), in 1.3.
 
 ## References
 

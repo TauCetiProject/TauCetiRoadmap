@@ -181,22 +181,15 @@ end Layer2
 
 section Layer3
 
-/-- 3.1 On a space in which every distance is at most `R`, the `1`-Wasserstein distance is at
-most `R` times the statistical distance `tvDist P Q / 2`. -/
-theorem wassersteinEDist_one_le_ofReal_mul_tvDist {X : Type*} [PseudoMetricSpace X]
-    [MeasurableSpace X] (P Q : Measure X)
-    [IsProbabilityMeasure P] [IsProbabilityMeasure Q] {R : ℝ} (hR : ∀ x y : X, dist x y ≤ R) :
-    wassersteinEDist 1 P Q ≤ ENNReal.ofReal (R * (tvDist P Q / 2)) := by
-  sorry
-
 /-- 3.1 The parallel lines of Arjovsky–Chintala–Bottou, Example 1: the law of `(θ, Z)` in `ℝ × ℝ`
 for `Z` uniform on `[0, 1]`. -/
 def parallelLine (θ : ℝ) : Measure (ℝ × ℝ) :=
   (volume.restrict (Icc (0 : ℝ) 1)).map fun z ↦ (θ, z)
 
-/-- 3.1 Along the parallel lines the `1`-Wasserstein distance is `|θ|`, while for `θ ≠ 0` the
-Jensen–Shannon divergence is `log 2`, both relative entropies are infinite and the statistical
-distance is `1`. -/
+/-- 3.1 A sanity check of the definitions of `jsDiv` and `wassersteinEDist 1`, not a headline:
+along the parallel lines (with the Borel σ-algebra of `ℝ × ℝ`) the `1`-Wasserstein distance is
+`|θ|`, while for `θ ≠ 0` the Jensen–Shannon divergence is `log 2`, both relative entropies are
+infinite and the statistical distance is `1`. -/
 theorem parallelLine_divergences :
     (∀ θ : ℝ, wassersteinEDist 1 (parallelLine 0) (parallelLine θ) = ENNReal.ofReal |θ|) ∧
       ∀ θ : ℝ, θ ≠ 0 →
@@ -240,11 +233,13 @@ end Layer3
 
 section Layer3Critic
 
-variable {X Z : Type*} [PseudoMetricSpace X] [MeasurableSpace X] [BorelSpace X] [MeasurableSpace Z]
+variable {X Z : Type*} [PseudoMetricSpace X] [MeasurableSpace X] [BorelSpace X]
+  [SecondCountableTopology X] [MeasurableSpace Z]
 
-/-- 3.3 Arjovsky–Chintala–Bottou, Theorem 3, on a bounded space: for an optimal `1`-Lipschitz
-critic `f`, wherever the loss and the critic composed with the generator are differentiable, the
-gradient of the loss is minus the average gradient of the critic along the generator. -/
+/-- 3.3 Arjovsky–Chintala–Bottou, Theorem 3, on a bounded separable space: for an optimal
+`1`-Lipschitz critic `f`, wherever the loss and the critic composed with the generator are
+differentiable, the gradient of the loss is minus the average gradient of the critic along the
+generator. -/
 theorem hasFDerivAt_wassersteinEDist_one_map {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] [FiniteDimensional ℝ E] (μ : Measure Z) [IsProbabilityMeasure μ]
     (Pr : Measure X) [IsProbabilityMeasure Pr] {R : ℝ} (hR : ∀ x y : X, dist x y ≤ R)
