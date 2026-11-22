@@ -18,9 +18,9 @@ Miller's complex four-parameter group `G(0, 1)`. Its headline results are these.
   composing their kernels gives the Mellin–Barnes integrals of the Whittaker functions.
 - The matrix elements of the Schrödinger representation of the Heisenberg group in the Hermite
   basis are Laguerre functions `e^{−A/2} A^{(m−n)/2} L_n^{(m−n)}(A)` with `A = (x² + y²)/2`. They
-  satisfy an addition theorem, are orthogonal on `ℝ²` with norm `2π` and form a Hilbert basis of
-  `L²(ℝ²)`. On the translations they are the Charlier polynomials, whose duality, Laguerre form,
-  orthogonality and completeness follow.
+  satisfy an addition theorem, are orthogonal on `ℝ²` with squared norm `2π` and form a Hilbert
+  basis of `L²(ℝ²)`. On the translations they are the Charlier polynomials, whose duality, Laguerre
+  form, orthogonality and completeness follow.
 - The Bargmann transform carries the Schrödinger model isometrically onto the Fock space of entire
   functions. On that space the oscillator group, a covering of the matrix group with a real
   rotation angle, acts irreducibly, and its matrix elements are the Laguerre matrix elements
@@ -160,8 +160,8 @@ appear through the infinitesimal operators of 2.2. The bi-invariant Haar measure
 
 ### 0.2 The oscillator group
 
-Sources: Miller §4-11 (4.95)–(4.97), p. 113, and §4-14, p. 120; Klimyk–Vilenkin Chapter 1, §1.6
-(14)–(15), p. 160; SpecialFunctionsGroupModels §0.2.
+Sources: Miller §4-11 (4.95)–(4.97), p. 113, and §4-14, p. 120, and (4.120), p. 121;
+Klimyk–Vilenkin Chapter 1, §1.6 (14)–(15), p. 160; SpecialFunctionsGroupModels §0.2.
 
 `Oscillator` is the group of the Conventions, and `Oscillator.toMatrix g` is the oscillator matrix
 `s(w, α, δ)` of SpecialFunctionsGroupModels §0.2. The three statements are sanity checks of these
@@ -174,12 +174,20 @@ definitions. Prove:
 
 The Heisenberg embedding is fixed by the oscillator law: the commutator of `(x, 0, 0)` and
 `(0, y, 0)` in `Oscillator` is `(0, 0, −xy/2)`, so the centre `z` of Tau Ceti's group must go to
-`δ = −z/2`, and the shift by `xy/2` turns Tau Ceti's asymmetric law into the symmetric one. Miller's
-`S₄` is the same group in other coordinates, `w = 2re^{iθ}`; the change of coordinates is a target
-of the same standing, stated in prose: match Miller's matrix (4.95) with the oscillator matrix, and
-transport the law (4.96) and the coordinates of (4.120). Miller prints the `(3, 3)` entry of (4.95),
-p. 113, as `0`; the correct entry is `1`, since with `0` every matrix of (4.95) is singular and the
-law (4.96) fails.
+`δ = −z/2`, and the shift by `xy/2` turns Tau Ceti's asymmetric law into the symmetric one.
+
+The following is a target of the same standing, stated in prose:
+- **Miller's coordinates**: Miller's matrix `g{w, α, δ}` of (4.95), p. 113, with `(3, 3)` entry
+  `1`, is `Oscillator.toMatrix` of `(w, α, δ)` entry by entry, and Miller's law (4.96) is the law of
+  `Oscillator`, since `(i/8)(conj w · w′ e^{−iα} − w · conj w′ e^{iα}) = −Im(e^{−iα} conj w w′)/4`;
+  so `(w, α, δ) ↦ g{w, α mod 2π, δ}` is a homomorphism from `Oscillator` onto Miller's `S₄` with
+  kernel `{(0, 2πk, 0) : k ∈ ℤ}`. In Miller's polar coordinates `w = 2re^{iθ}` (§4-14, p. 121) the
+  law of `Oscillator` is (4.120): the product of `(2r₁e^{iθ₁}, α₁, δ₁)` and `(2r₂e^{iθ₂}, α₂, δ₂)`
+  is `(2re^{iθ}, α₁ + α₂, δ)` with `re^{iθ} = r₁e^{iθ₁} + r₂e^{i(θ₂ − α₁)}` and
+  `δ = δ₁ + δ₂ + r₁r₂ sin(α₁ + θ₁ − θ₂)`.
+
+Miller prints the `(3, 3)` entry of (4.95), p. 113, as `0`; the correct entry is `1`, since with `0`
+every matrix of (4.95) is singular and the law (4.96) fails.
 
 **Checks.**
 - `toMatrix` is multiplicative at `(0.4 − 0.9i, 0.7, 0.2)`, `(−1.1 + 0.3i, −1.9, 0.5)` to `10⁻³⁰`.
@@ -187,6 +195,10 @@ law (4.96) fails.
 - Negative control: the embedding with `+(z − xy/2)/2` in the last coordinate fails the
   homomorphism property at the same points, with defect `0.4` in `δ`.
 - Negative control: `(0, 2π, 0)` is not the identity of `Oscillator` but has matrix `1`.
+- The polar law (4.120) agrees with the law of `Oscillator` at
+  `(r₁, θ₁, α₁, δ₁) = (0.7, 0.4, 1.1, −0.3)`, `(r₂, θ₂, α₂, δ₂) = (0.5, −1.2, 0.6, 0.8)` to `10⁻²⁵`;
+  negative control: with
+  `−r₁r₂ sin(α₁ + θ₁ − θ₂)` the `δ`-coordinate is off by `0.29917`.
 
 *Needs:* SpecialFunctionsGroupModels §0.2.
 
@@ -252,9 +264,11 @@ Prove:
 The source proves the formula for `λ < 0`, `b > 0` and extends it by analytic continuation in `−λb`
 to the slit plane (§3.4.3, p. 132); the hypothesis `Re(−λb) > 0` is the half-plane where
 `∫_0^∞ e^{λbx/a} x^{w−z−1} dx` converges absolutely, and `c < Re w` keeps `Γ(w − z)` regular on the
-contour. Route: insert Mellin inversion for `f` (the contour may be moved to any `c` since
-`mellin f` is entire and decreases rapidly on vertical lines), exchange the integrals, and evaluate
-the inner integral, a Gamma integral with the complex rate `−λb/a`, by
+contour. Route: insert Mellin inversion for `f` (the contour may be moved to any `c`, since
+`mellin f` is entire, integrable on every vertical line and tends to `0` uniformly in vertical
+strips: one integration by parts gives `mellin f (c + is) = −mellin f′ (c + 1 + is)/(c + is)`, and
+by Plancherel `s ↦ mellin f′ (c + 1 + is)` is square-integrable), exchange the integrals, and
+evaluate the inner integral, a Gamma integral with the complex rate `−λb/a`, by
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) §4.1 (for `Re s > 0` and `Re z > 0`,
 `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}`). Mathlib's `Complex.integral_cpow_mul_exp_neg_mul_Ioi` is
 only the case of a real rate, which is the source's case `λ < 0`, `b > 0`; the continuation in the
@@ -485,8 +499,8 @@ integral representations (§5.1.4, pp. 212–213). Klimyk–Vilenkin's (19) misp
 
 ### 2.6 Composition of kernels and functional relations
 
-Sources: Vilenkin–Klimyk Vol. 1 §5.2.1 (1)–(5), pp. 213–214, §5.2.3 (1), p. 217, and §5.2.4 (1)–(7),
-pp. 219–220.
+Sources: Vilenkin–Klimyk Vol. 1 §5.2.1 (1)–(6), pp. 213–214, §5.2.2 (1)–(4), p. 215, §5.2.3 (1),
+p. 217, and §5.2.4 (1)–(7), pp. 219–220.
 
 The source states the composition law `K(λ, μ; g h) = Σ_η i ∫ K_{·η}(λ, ν; g) K_{η·}(ν, μ; h)`
 on a line `Re ν = c` without conditions (§5.2.4 (1), p. 219) and reads off the convergence
@@ -519,13 +533,27 @@ The following are targets of the same standing, stated in prose:
   gives the other form of `W_{κ,μ}` (§5.2.4 (6), p. 220), and (c) gives the integral of `M_{κ,μ}`
   (§5.2.4 (7), p. 220). The target is the group derivation and the identification of the results
   with DLMF 13.16.10–13.16.12, which SpecialFunctionsConfluent §2.4 proves analytically;
-- **Differential relations**: differentiating `T_χ(g_+(t) g_1(x))` at `t = 0` through the
-  factorization of 0.1 gives first-order relations between `K(g_1(x))`, its `x`-derivative and the
-  infinitesimal operators (§5.2.1 (3)–(5), p. 214); with 2.5 they become the contiguous relations
-  of `W_{κ,μ}` and `M_{κ,μ}`, and combining them gives Whittaker's equation
-  `y'' + (−1/4 + κ/x + (1/4 − μ²)/x²) y = 0` (§5.2.3 (1), p. 217). The target is the
-  identification with SpecialFunctionsConfluent's recurrences (§4.2, DLMF 13.15) and equation
-  (§1.6, DLMF 13.14.1); their analytic proofs are consumed.
+- **Differential relations**: for `σ = −1`, `x > 0`, `ε = ±1` and `K(λ, μ) = K_{ε+}(λ, μ; g_1(x))`,
+  with `Re λ > 1` (for `ε = +1`) or `Re λ > 1`, `Re μ < 1` (for `ε = −1`), so that 2.5 applies at
+  `λ − 1`, `λ` and `λ + 1`,
+  (5) `½ ∂_x K(λ, μ) + ((λ − μ)/(2x) − x/2) K(λ, μ) = −ε(λ − 1) K(λ − 1, μ)` and
+  (6) `½ ∂_x K(λ, μ) + ((μ − λ)/(2x) + x/2) K(λ, μ) = −ε K(λ + 1, μ)`
+  (§5.2.1 (5)–(6), p. 214, in kernel form). With the closed forms of 2.5 at `z = x²`,
+  `κ = (1 − λ − μ)/2`, `m = (λ − μ)/2`, the entries `ε = +1` of (5) and (6) are DLMF 13.15.25 and
+  13.15.21 at `n = 1` for `W_{κ,m}`, and the entries `ε = −1` are DLMF 13.15.18 and 13.15.16 at
+  `n = 1` for `M_{κ,m}` (§5.2.2 (1)–(4), p. 215). Eliminating `K(λ − 1, μ)` between (5) at `λ` and
+  (6) at `λ − 1` gives Whittaker's equation `y'' + (−1/4 + κ/z + (1/4 − m²)/z²) y = 0`
+  (DLMF 13.14.1) for `y = W_{κ,m}` and `y = M_{κ,m}` (§5.2.3 (1), p. 217). The target is the two
+  kernel relations and these identifications; the four DLMF formulas and the equation are
+  SpecialFunctionsConfluent §§1.6, 4.2 and are consumed.
+
+Route for the differential relations: differentiate
+`T_χ(g_+(t)) T_χ(g_1(x)) = T_χ(ε(τ)) T_χ(g_1(r)) T_χ(ε(−τ)) T_χ(z(tx/2))` (the factorization of 0.1)
+at `t = 0` in the signed Mellin realization, where `T_χ(g_+(t))` has derivative `F_ε(λ) ↦
+−ε(λ − 1) F_ε(λ − 1)` (2.3) and the right side has kernel `e^{(μ − λ)τ − tx/2} K(λ, μ; g_1(r))`
+with `dr/dt = 1/2`, `dτ/dt = −1/(2x)` at `t = 0`; for (6) use
+`g_−(t) g_1(x) = ε(τ) g_1(r) ε(−τ) z(−tx/2)` with `r = (x(x + t))^{1/2}`, `e^{2τ} = (x + t)/x`, and
+the derivative `F_ε(λ) ↦ −ε F_ε(λ + 1)` of `T_χ(g_−(t))` at `σ = −1` (2.3).
 
 **Checks.**
 - Composition at `λ = 0.7 + 0.2i`, `μ = 0.5 − 0.4i`, `t = 0.9`: `2πi K_{++}(g_1(t))` is
@@ -537,6 +565,11 @@ The following are targets of the same standing, stated in prose:
 - The derivatives of `r`, `τ`, `b` at `t = 0` in the factorization of 0.1 are `1/2`, `−1/(2x)` and
   `x/2`, as printed in §5.2.1 (3), p. 214.
 - Negative control: the orientation `e^{2τ} = (x + t)/x` would give `dτ/dt = +1/(2x)` at `t = 0`.
+- Differential relations at `λ = 1.7 + 0.2i`, `μ = 0.5 − 0.4i`, `x = 0.9`, both sides times `2πi`:
+  (5) for `ε = +1`, `−0.50039 84465 − 0.06688 53289 i`; (6) for `ε = +1`,
+  `−0.58216 74837 − 0.40928 58754 i`; (5) for `ε = −1`, `1.30153 19626 − 0.95864 27956 i`; (6) for
+  `ε = −1`, `0.30204 54139 − 0.85451 40955 i`. Negative control: `+x/2` in place of `−x/2` in (5)
+  gives `−0.12500 78892 + 0.06673 03331 i` for `ε = +1`.
 - Vilenkin–Klimyk's (4), p. 219, and (6), p. 220, at `κ = −0.3`, `μ = 0.2`, `z = 1.4`, on the lines
   `Re ν = −0.1` and `Re ν = 0.1`: both give `W_{κ,μ}(z) = 0.34544 79578`.
 
@@ -609,9 +642,10 @@ Laguerre addition formulas of Vilenkin–Klimyk §12.1.8, pp. 420–421, are thi
 them are misprinted; the corrected forms below pass numerical checks at sample arguments, the
 printed ones fail.
 - (1): the phase on the right is printed `exp[(iλ/2)(ab′ − ba′)]`; it is `exp[−(iλ/2)(ab′ − ba′)]`.
-- (2): the right side is printed `(−z − w)^{m−n} exp(−λw̄z) L_n^{m−n}(λ(z + w)(z̄ + w̄))`; it is
-  `(−z − w)^{m−n} exp(−λwz̄/2) L_n^{m−n}(λ(z + w)(z̄ + w̄)/2)`, with the left side as printed
-  (arguments `λzz̄/2`, `λww̄/2`).
+- (2): the left side, printed correctly, is
+  `(−z)^m (−w)^{−n} Σ_{p ≥ 0} (w/z)^p L_p^{m−p}(λzz̄/2) L_n^{p−n}(λww̄/2)`; the right side is
+  printed `(−z − w)^{m−n} exp(−λw̄z) L_n^{m−n}(λ(z + w)(z̄ + w̄))`, and it is
+  `(−z − w)^{m−n} exp(−λwz̄/2) L_n^{m−n}(λ(z + w)(z̄ + w̄)/2)`.
 - (4): `Σ_p (w/z)^p L_p^{m−p}(λzz̄)` is printed as `((z + w)/z)^m e^{−λw̄z}`; it is
   `((z + w)/z)^m e^{−λwz̄}`, which is the Laguerre generating function of 5.1 at `x = λzz̄`,
   `z ↦ w/z`.
@@ -676,17 +710,19 @@ and Lemma 12.1.1, pp. 425–427; Miller §4-13 (4.111)–(4.114), pp. 117–118.
 
 The Fock model and the Bargmann transform of a real symplectic space of dimension `2N` with a
 positive compatible complex structure are ThetaKernelsForUnitaryDualPairs §3.45(i)–(ii): the Fock
-space of holomorphic functions square-integrable for `e^{−πH(z,z)} dz`, with the holomorphic
-polynomials dense in it, and a unitary Bargmann transform from `L²` of a Lagrangian onto it,
-intertwining the Schrödinger action of MetaplecticAutomorphicForms §0.15 with
-`ψ(t) U_w`, `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`, `ψ(t) = e^{2πit}`. This roadmap consumes
-that statement at `N = 1` (`W = ℝe ⊕ ℝf`, `ω(e, f) = 1`, Lagrangian `ℝe`, `Je = f`, so
-`H(z, w) = z conj w`) and transports it by the following dictionary, which is the only content of
-the existence, unitarity and intertwining parts of the two targets above:
+space of holomorphic functions square-integrable for `e^{−πH(z,z)} dz` and a unitary Bargmann
+transform from `L²` of a Lagrangian onto it, intertwining the Schrödinger action of
+MetaplecticAutomorphicForms §0.15 with `ψ(t) U_w`, `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`,
+`ψ(t) = e^{2πit}`. This roadmap consumes that statement at `N = 1` (`W = ℝe ⊕ ℝf`, `ω(e, f) = 1`,
+Lagrangian `ℝe`, `Je = f`, so `H(z, w) = z conj w`) and transports it by the following dictionary,
+which is the only content of the existence, unitarity and intertwining parts of the two targets
+above:
 - the line: `u = √(2π) v`, with the unitary map `(S f)(v) = (2π)^{1/4} f(√(2π) v)` from
   `L²(ℝ, du)` to `L²(ℝ, dv)`; it sends `h_0` to the vacuum `2^{1/4} e^{−πv²}`;
 - the Fock variable: `ζ = √π z`, and `F ↦ F(√π ·)` carries `fockMeasure` to the probability measure
-  `e^{−π|z|²} dz`, so `fockSpace` goes onto the holomorphic Fock space there;
+  `e^{−π|z|²} dz`, so `fockSpace` goes onto the holomorphic Fock space there, by `fockSpace_spec`
+  (`fockSpace`, the closure of the polynomials, contains every entire square-integrable function;
+  this density of the polynomials is not taken from §3.45);
 - the kernel: `bargmannKernel (√π z) (√(2π) v)` times the Jacobian `(2π)^{1/2}` and the factor
   `(2π)^{−1/4}` of `S⁻¹` is `2^{1/4} e^{2πvz − πv² − πz²/2}`, the kernel of §3.45's Check;
 - the group: Tau Ceti's `(x, y, z)` acts as the Heisenberg element `ae + bf` with
@@ -738,7 +774,8 @@ MetaplecticAutomorphicForms §0.15.
 ### 4.1 The representations and their matrix elements
 
 Sources: Miller §4-14 (4.119)–(4.120) and Theorem 4.2, pp. 121–122, §4-15 (4.121)–(4.123),
-p. 122, and Lemma 4.5, p. 123; Klimyk–Vilenkin Chapter 6, §1.4, p. 239.
+p. 122, Lemma 4.5 and the Haar measure `d(g)`, p. 123, and Theorem 4.3, p. 124; Klimyk–Vilenkin
+Chapter 6, §1.4, p. 239.
 
 `Oscillator` acts on `ℂ` by `g⁻¹ • ζ = e^{iα}(ζ + w/√2)`, and for real `λ` `oscillatorFock λ` is the
 multiplier representation on `L²(fockMeasure)` with
@@ -755,6 +792,26 @@ Route: `oscillatorFock λ (w, α, δ) = e^{iλα − 2iδ} D(−conj w/√2) R(�
 `R(α) F(ζ) = F(e^{iα} ζ)`, which multiplies `fockMonomial n` by `e^{inα}`; irreducibility as in
 Miller's Lemma 4.5, from the rotation weights and the nonvanishing of the matrix elements.
 
+The following is a target of the same standing, stated in prose:
+- **Orthogonality modulo the centre**: write
+  `D^λ_{mn}(g) = ⟪fockMonomial m, oscillatorFock λ g (fockMonomial n)⟫`. For real `λ`, `λ'` with
+  `λ − λ' ∈ ℤ` and natural `m`, `n`, `m'`, `n'`, the product `D^λ_{mn}(g) conj D^{λ'}_{m'n'}(g)`
+  does not depend on `δ` and is `2π`-periodic in `α`, and for every real `δ`
+  `∫_ℂ ∫_0^{2π} D^λ_{mn}(w, α, δ) conj D^{λ'}_{m'n'}(w, α, δ) dα d²w = 4π² δ_{λλ'} δ_{mm'} δ_{nn'}`
+  with `d²w = dRe w dIm w` and Kronecker deltas on the right. In the coordinates `w = 2re^{iϑ}` of
+  the Haar measure `r dr dϑ dα dδ` of SpecialFunctionsGroupModels §0.2, integrating `r dr dϑ dα`
+  over `r > 0`, `ϑ, α ∈ [0, 2π)`, the constant is `π²`.
+
+Route: by the matrix elements above the product is
+`e^{i(λ + n − λ' − n')α} E_{mn}(x, y, 0) conj E_{m'n'}(x, y, 0)` with `w = x + iy`; the `w`-integral
+is the orthogonality of 3.2, and the `α`-integral is `2π` if `λ + n = λ' + n'` and `0` otherwise.
+Miller's Theorem 4.3 (p. 124) integrates also over the centre `δ ∈ ℝ`, against
+`d(g) = r dr dθ dα dδ/(16π³)` (p. 123), for his representations `(λ, l)` with a continuous central
+parameter `l > 0`; the `δ`-integral produces his `δ(l − l')`, which is
+`(1/2π) ∫ e^{ix(l−l')} dx` (Miller prints `1/(2πi)` on the line before Theorem 4.3, which would make
+the constant imaginary). The representations here have the fixed central character `e^{−2iδ}`, so
+the relation is stated on the quotient by the centre.
+
 **Checks.**
 - Representation law at `λ = 2.3`, `g = (0.4 − 0.9i, 0.7, 0.2)`, `h = (−1.1 + 0.3i, −1.9, 0.5)`,
   `ζ = 0.3 + 0.6i`, `F(ζ) = 1 + ζ + ζ³/3`: defect `10⁻²⁵`.
@@ -763,13 +820,15 @@ Miller's Lemma 4.5, from the rotation weights and the nonvanishing of the matrix
   `(m, n) = (0, 0), (2, 1), (1, 3)`; at `(0, 0)` both are `0.27700 15263 + 0.73414 39581 i`.
 - On the Heisenberg subgroup, at `p = (0.7, −1.1, 0.4)` and the same `ζ` and `F`, the multiplier
   action and `fockHeisenbergAction p F ζ` are both `1.75018 91273 + 0.18786 19536 i`.
+- Orthogonality at `λ = 2.3`, `δ = 0.37`, by quadrature in `(x, y, α)`: at
+  `(m, n) = (m', n') = (1, 0)` and `(2, 1)` the integral is `39.47841 76044 = 4π²`, the same at
+  `δ = 0` and `δ = 1.9`; it is `0` at `λ' = λ`, `(m, n, m', n') = (2, 1, 1, 2)`, and at
+  `λ' = 3.3`, `(m, n, m', n') = (1, 0, 0, 0)`, where `λ + n = λ' + n'` but the `w`-integral
+  vanishes.
+- Negative control: at `λ' = 2.8`, `(m, n) = (m', n') = (1, 1)`, the orthogonality integral is
+  `−25.13274 12287 i = −8πi`, not `0`; the hypothesis `λ − λ' ∈ ℤ` is needed.
 
-*Needs:* 0.2, 3.1, 3.4; SpecialFunctionsGroupModels §§1.2–1.3.
-
-The orthogonality relations of Miller's Theorem 4.3 (p. 124), with
-`δ(l − l') = (1/2π) ∫ e^{ix(l−l')} dx` (Miller prints `1/(2πi)` on the line before Theorem 4.3,
-which would make the constant imaginary), reduce to 3.2 after the `α`-integration, which gives
-`δ_{λλ'}` for integer weights; they are a target of the same standing, stated in prose.
+*Needs:* 0.2, 3.1, 3.4, and 3.2 for the orthogonality; SpecialFunctionsGroupModels §§0.2, 1.2–1.3.
 
 ### Dependencies
 
@@ -910,8 +969,9 @@ Boundaries:
 
 ### From SpecialFunctionsGroupModels
 
-- §0.2: the `ax + b` group and the oscillator matrices `s(w, α, δ)` with their law, and the
-  bi-invariant Haar measure of the triangular group. Used in 0.1, 0.2, 1.1.
+- §0.2: the `ax + b` group and the oscillator matrices `s(w, α, δ)` with their law, the
+  bi-invariant Haar measure of the triangular group, and the bi-invariant Haar measure
+  `r dr dϑ dα dδ` (`w = 2re^{iϑ}`) of the oscillator group. Used in 0.1, 0.2, 1.1, 4.1.
 - §§1.2–1.3: multiplier actions, the cocycle identity, and the multiplier representation on `L²`
   chosen by uniqueness. Used in 2.1, 4.1.
 - §2.4: the representations of the `ax + b` group on `L²(dx/x)` with their unitarity,
@@ -930,7 +990,8 @@ The definitions are copied verbatim into `Suggested.lean`.
   Used in 2.5, 2.6.
 - §2.4: the integral representations DLMF 13.16.1 and 13.16.5 and the Mellin–Barnes integrals
   DLMF 13.16.10–13.16.12. Used in 2.5, 2.6.
-- §4.2: the recurrences DLMF 13.15.1–13.15.26. Used in 2.6.
+- §4.2: the differentiation formulas DLMF 13.15.16, 13.15.18, 13.15.21 and 13.15.25 at `n = 1`,
+  among the recurrences DLMF 13.15.1–13.15.26 it states. Used in 2.6.
 
 ### From LaguerreJacobi
 
@@ -943,11 +1004,12 @@ The definitions are copied verbatim into `Suggested.lean`.
 
 - §3.45(i)–(ii), at `N = 1`: for a real symplectic plane with a positive compatible complex
   structure `J` and `H(x, y) = ω(x, Jy) − iω(x, y)`, the Fock space of holomorphic functions
-  square-integrable for the probability measure `e^{−πH(z,z)} dz`, in which the holomorphic
-  polynomials are dense; and a unitary Bargmann transform from `L²` of a Lagrangian onto it,
-  intertwining the Schrödinger action of MetaplecticAutomorphicForms §0.15 (with
-  `ψ(t) = e^{2πit}`) with `ψ(t) U_w`, `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`. Used in 3.4,
-  through the dictionary stated there, and so in 4.1.
+  square-integrable for the probability measure `e^{−πH(z,z)} dz`; and a unitary Bargmann
+  transform from `L²` of a Lagrangian onto it, intertwining the Schrödinger action of
+  MetaplecticAutomorphicForms §0.15 (with `ψ(t) = e^{2πit}`) with `ψ(t) U_w`,
+  `U_w G(z) = G(z + w) e^{−πH(z,w) − πH(w,w)/2}`. Used in 3.4, through the dictionary stated there,
+  and so in 4.1. That the polynomials are dense in the Fock space is not consumed: it is this
+  roadmap's `fockSpace_spec`.
 
 ### From [MetaplecticAutomorphicForms](../MetaplecticAutomorphicForms/README.md)
 

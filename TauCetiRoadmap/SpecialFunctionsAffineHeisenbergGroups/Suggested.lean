@@ -27,8 +27,9 @@ Two bold items of README 2.6 are not stated here, because as statements they bel
 roadmap and what this roadmap adds is a derivation: the Mellin–Barnes integrals of the Whittaker
 functions, which are SpecialFunctionsConfluent §2.4 (DLMF 13.16.10–13.16.12) and which README 2.6
 derives from `triangularKernel_equalTranslationModulation_eq_integral` with the kernels of
-README 2.4–2.5; and the differential relations, which are SpecialFunctionsConfluent §§1.6, 4.2
-(DLMF 13.14.1, 13.15) and which README 2.6 derives from the factorizations of README 0.1.
+README 2.4–2.5; and the differential relations, whose closed forms are SpecialFunctionsConfluent
+§§1.6, 4.2 (DLMF 13.14.1, 13.15.16, 13.15.18, 13.15.21, 13.15.25) and which README 2.6 derives
+by differentiating factorizations of `g_±(t) g_1(x)`.
 
 Definitions owned by other roadmaps are local verbatim copies, so that this file imports only
 Mathlib and Tau Ceti: the `ax + b` group, the oscillator matrix, the multiplier framework, the
