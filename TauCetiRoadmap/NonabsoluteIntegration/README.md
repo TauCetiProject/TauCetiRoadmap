@@ -38,8 +38,8 @@ inclusion of the Lebesgue integral. Tau Ceti's oriented one-dimensional Henstock
 supplies the interval form of that integral, restriction and subdivision, and the fundamental
 theorem of calculus for continuous functions differentiable off a countable set; this roadmap is
 written against it and restates none of it. The roadmap on real functions, derivatives and
-variation (an open pull request) supplies the Dini derivatives used for Perron major functions,
-Lusin's property (N), and the image estimates for sets on which a function is differentiable.
+variation supplies the Dini derivatives used for Perron major functions, Lusin's property (N),
+and the image estimates for sets on which a function is differentiable.
 [DifferentialGeometry](../DifferentialGeometry/README.md) consumes Tau Ceti's one-dimensional
 fundamental theorem for boundary integrals in its planar Green theorem; nothing passes between
 it and this roadmap.
@@ -94,6 +94,7 @@ route, and a *Needs:* line. Each layer ends with **Checks.**, *Examples* and *De
 - The Dini derivatives are those of the roadmap on real functions, derivatives and variation,
   §1.1: `EReal`-valued `limsup` and `liminf` of the difference quotient from the right and from
   the left. Property (N) is that roadmap's, §4.3.
+- "Monotone" means nondecreasing throughout, as Mathlib's `Monotone` and `MonotoneOn`.
 - The implementation namespace is TauCeti; the prototypes in `Suggested.lean` live in
   `TauCetiRoadmap.NonabsoluteIntegration`.
 
@@ -167,7 +168,8 @@ Saks–Henstock lemma on each piece. Monotonicity: `g - f` has integral `z - y` 
 nonnegative almost everywhere; change it on a null set to a nonnegative function, which keeps
 the integral, and its Riemann sums are nonnegative.
 
-*Needs:* §§1.1–1.2.
+*Needs:* Hake's theorem: §1.1 and the continuity headline of §1.2. Monotonicity: nothing from
+this roadmap.
 
 **Checks.**
 
@@ -326,10 +328,12 @@ two points of `[c, d]`, which span a subinterval, so a family's oscillation sum 
 increments over a family of no greater total length; conversely an increment is at most an
 oscillation. AC* gives VB*: with `δ` for `ε = 1`, a family splits into at most
 `(b - a)/δ` intervals of length `≥ δ`, each of oscillation at most that of `F` on `[a, b]`
-(finite by continuity), and at most `(b - a)/δ + 1` groups of total length `< δ`, each of
-oscillation sum `< 1`. Monotonicity in `E` is immediate, sums use the pieces `Sₙ ∩ S'ₘ` and the
-bound of the oscillation of a sum by the sum of the oscillations, and the closure follows by
-moving the endpoints of a family into `E` with continuity of `F`.
+(finite by continuity), and the intervals of length `< δ`, taken from left to right and grouped
+greedily so that each group has total length `< δ` and any two consecutive groups total `≥ δ`,
+form at most `2(b - a)/δ + 1` groups, each of oscillation sum `< 1`. Monotonicity in `E` is
+immediate, sums use the pieces `Sₙ ∩ S'ₘ` and the bound of the oscillation of a sum by the sum
+of the oscillations, and the closure follows by moving the endpoints of a family into `E` with
+continuity of `F`.
 
 *Needs:* nothing from this roadmap.
 
@@ -490,7 +494,7 @@ the Riemann sums over subordinate partitions of `[a, x]` are a major and a minor
   Henstock–Kurzweil value of Layer 1 as `hasPerronIntegral_iff` requires.
 - Two-sided lower conditions are needed in `monotoneOn_of_lowerDini_nonneg`: `-1` on `(0, 1]` and
   `0` on `[-1, 0]` has left Dini derivatives `0` everywhere but right quotients `-1/h` at `0`, and
-  it is not monotone.
+  it is not nondecreasing.
 
 ### Examples
 
@@ -585,7 +589,7 @@ Completion means:
   consumed and not restated.
 - The Dini derivatives, the monotonicity criteria for continuous functions, property (N), the
   Banach–Zarecki theorem and the image estimates are owned by the roadmap on real functions,
-  derivatives and variation (an open pull request), §§1–4 there; this roadmap consumes them.
+  derivatives and variation, §§1–4 there; this roadmap consumes them.
   The monotonicity lemma of §4.1, for two-sided lower Dini derivatives without continuity, is
   owned here; that roadmap's §2.2 assumes continuity and bounds the upper right derivative.
 - The planar Green theorem with Henstock–Kurzweil boundary integrals is owned by
@@ -615,8 +619,6 @@ Completion means:
   `LocallyBoundedVariationOn.ae_differentiableAt`; `Metric.ediam`
   (`Mathlib/Topology/EMetricSpace/Diam.lean`); `exists_polynomial_near_of_continuousOn`
   (`Mathlib/Topology/ContinuousMap/Weierstrass.lean`).
-- No open Mathlib pull request treats the Henstock–Kurzweil, McShane, Perron or Denjoy integral
-  on the line.
 
 ### From Tau Ceti
 
@@ -633,18 +635,18 @@ Completion means:
   integral `sin 1`, infinite variation, and the failure of Bochner integrability.
 - `TauCeti/Analysis/SpecialFunctions/CantorFunction.lean`: the Cantor function, its continuity,
   its almost everywhere vanishing derivative and its image of the Cantor set.
-- These files are at the Tau Ceti pin, but the shared build of the pin does not contain their
-  compiled modules, so `Suggested.lean` imports only Mathlib and carries verbatim local copies of
-  the three definitions, each with a docstring naming its file.
+- `Suggested.lean` imports `TauCeti/Analysis/BoxIntegral/Oriented/Basic.lean`, which imports
+  `TauCeti/Analysis/BoxIntegral/IntervalIntegral.lean`, so its statements are about these
+  definitions.
 
 ### From other roadmaps
 
-- The roadmap on real functions, derivatives and variation (an open pull request): the four
-  Dini derivatives of §1.1 there, with values in `EReal`, for the major and minor functions of
-  Layer 4; property (N) of §4.3 there for §3.2; and the image estimate of §3.1 there (if `F` has
-  a derivative bounded by `K` at every point of a set `A`, then the outer measure of `F(A)` is at
-  most `K` times that of `A`) for uniqueness in §3.2. `Suggested.lean` carries verbatim local
-  copies of the five definitions, each with a docstring naming that roadmap and section.
+- The roadmap on real functions, derivatives and variation: the four Dini derivatives of §1.1
+  there, with values in `EReal`, for the major and minor functions of Layer 4; property (N) of
+  §4.3 there for §3.2; and the image estimate of §3.1 there (if `F` has a derivative bounded by
+  `K` at every point of a set `A`, then the outer measure of `F(A)` is at most `K` times that of
+  `A`) for uniqueness in §3.2. `Suggested.lean` carries verbatim local copies of the five
+  definitions, each with a docstring naming that roadmap and section.
 
 ## Beyond this roadmap
 

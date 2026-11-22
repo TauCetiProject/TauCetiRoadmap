@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.BoxIntegral.Oriented.Basic
 
 /-!
 # Nonabsolute integration: target signatures
@@ -12,12 +13,11 @@ to it, together with the definitions their statements need. The README's other h
 targets of the same standing, stated there in prose with their locators or proof routes, and are
 not stated here.
 
-The definitions carry no `sorry`. Three kinds of definitions appear here.
+The definitions carry no `sorry`. The integral is Tau Ceti's oriented interval integral
+`TauCeti.BoxIntegral.HasHenstockIntervalIntegral`, imported from
+`TauCeti/Analysis/BoxIntegral/Oriented/Basic.lean`, so the statements are about the library
+object and its API applies to them. Two kinds of definitions appear here.
 
-* `intervalBox`, `HasHenstockIntervalIntegral` and `HenstockIntervalIntegrable` are verbatim
-  local copies of Tau Ceti's definitions in `TauCeti/Analysis/BoxIntegral/IntervalIntegral.lean`
-  and `TauCeti/Analysis/BoxIntegral/Oriented/Basic.lean`. Those files are at the Tau Ceti pin,
-  but the shared build of the pin has no compiled modules for them, so they are not imported.
 * `upperRightDini`, `lowerRightDini`, `upperLeftDini`, `lowerLeftDini` and `HasLusinN` are
   verbatim local copies of the definitions of the roadmap on real functions, derivatives and
   variation (§§1.1 and 4.3 there).
@@ -34,7 +34,7 @@ live in this roadmap's namespace.
 
 noncomputable section
 
-open MeasureTheory Filter Set Topology BoxIntegral
+open MeasureTheory Filter Set Topology BoxIntegral TauCeti.BoxIntegral
 open scoped ENNReal NNReal
 
 namespace TauCetiRoadmap.NonabsoluteIntegration
@@ -53,6 +53,9 @@ attribute [local instance] Classical.propDecidable
 #check @BoxIntegral.HasIntegral.unique
 #check @BoxIntegral.HasIntegral.congr_ae
 #check @MeasureTheory.IntegrableOn.hasBoxIntegral
+#check @TauCeti.BoxIntegral.intervalBox
+#check @TauCeti.BoxIntegral.HasHenstockIntervalIntegral
+#check @TauCeti.BoxIntegral.HenstockIntervalIntegrable
 #check @AbsolutelyContinuousOnInterval
 #check @BoundedVariationOn
 #check @LocallyBoundedVariationOn.exists_monotoneOn_sub_monotoneOn
@@ -61,38 +64,6 @@ attribute [local instance] Classical.propDecidable
 #check @exists_polynomial_near_of_continuousOn
 #check @Monotone.ae_hasDerivAt
 #check @deriv
-
-/-! ## Local copies of Tau Ceti's oriented Henstock–Kurzweil integral -/
-
-section TauCetiCopies
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-
-/-- Local copy of Tau Ceti's `TauCeti.BoxIntegral.intervalBox`
-(`TauCeti/Analysis/BoxIntegral/IntervalIntegral.lean`): the one-dimensional box corresponding to
-the half-open interval `(a, b]`. -/
-def intervalBox (a b : ℝ) (hab : a < b) : Box (Fin 1) :=
-  ⟨fun _ ↦ a, fun _ ↦ b, fun _ ↦ hab⟩
-
-/-- Local copy of Tau Ceti's `TauCeti.BoxIntegral.HasHenstockIntervalIntegral`
-(`TauCeti/Analysis/BoxIntegral/Oriented/Basic.lean`): the actual Henstock box integral with the
-orientation of a raw real parameter interval. -/
-def HasHenstockIntervalIntegral (f : ℝ → E) (a b : ℝ) (y : E) : Prop :=
-  if hab : a < b then
-    HasIntegral (intervalBox a b hab) IntegrationParams.Henstock (fun x ↦ f (x 0))
-      BoxAdditiveMap.volume y
-  else if hba : b < a then
-    HasIntegral (intervalBox b a hba) IntegrationParams.Henstock (fun x ↦ f (x 0))
-      BoxAdditiveMap.volume (-y)
-  else y = 0
-
-/-- Local copy of Tau Ceti's `TauCeti.BoxIntegral.HenstockIntervalIntegrable`
-(`TauCeti/Analysis/BoxIntegral/Oriented/Basic.lean`): genuine existence of an oriented Henstock
-interval integral. -/
-def HenstockIntervalIntegrable (f : ℝ → E) (a b : ℝ) : Prop := ∃ y, HasHenstockIntervalIntegral
-  f a b y
-
-end TauCetiCopies
 
 /-! ## Local copies from the roadmap on real functions, derivatives and variation -/
 
@@ -127,7 +98,7 @@ def HasLusinN (f : ℝ → ℝ) (s : Set ℝ) : Prop :=
 
 end Supplier
 
-/-! ## Layer 1: The Henstock–Kurzweil integral on an interval -/
+/-! ## Layer 1: The indefinite integral -/
 
 section Layer1
 
@@ -435,7 +406,7 @@ theorem hasPerronIntegral_iff (hab : a ≤ b) :
 
 end Layer4
 
-/-! ## Layer 5: Multipliers, integration by parts and the Alexiewicz norm -/
+/-! ## Layer 5: Multipliers and the Alexiewicz norm -/
 
 section Layer5
 
