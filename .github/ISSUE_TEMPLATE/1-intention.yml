@@ -98,6 +98,7 @@ body:
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
+        - CohomologyComparisons
         - ColemanIntegration
         - ColemanIntegrationPartII
         - ColemanPowerSeries
@@ -287,6 +288,7 @@ body:
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - MetaplecticAutomorphicForms
+        - MetaplecticAutomorphicFormsPartII
         - MixedHodgeModulesAndIrregularHodgeTheory
         - ModularCharactersAndBlocksPartII
         - ModularCurves
@@ -433,6 +435,7 @@ body:
         - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
+        - StableReductionPartII
         - StackPointsAndResidualGerbes
         - StandardDistributions
         - StochasticCalculus
