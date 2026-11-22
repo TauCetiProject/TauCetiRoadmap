@@ -351,8 +351,19 @@ there `μ_l ⊄ L` is a hypothesis of the bundle
 not of the statement that `J` has patching data,
 `Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean` (`UpperTheory.V.Pa.HasAut`). The patching
 data follow from (L) applied to the sets `Q_N`, with finiteness for parabolically induced representations, the geometric lemma
-and the structure of tame local Galois groups; (L) is a theorem of [FormalProof] whose route is not given here (outline below);
-the relations have the route below.
+and the structure of tame local Galois groups ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/THasAutOf.lean`
+(`UpperTheory.V.Pa.has_automorphy_of_statement`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PaLevel.lean`
+(`UpperTheory.V.Pa.HasAutOfAlt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PaLevel.lean`
+(`UpperTheory.V.Pa.LocPAlt`)); (L) is a theorem of [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/TLevelU.lean`
+(`UpperTheory.V.Hi.level_of_is_j_unitary_hecke_data`), with
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/PaLevel.lean`
+(`UpperTheory.V.Pa.LevelAlt`) and
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/Classical.lean` (`UpperTheory.V.Pa.LevMod`),
+whose route is not given here (outline below); the relations have the route below.
 
 *Outline of the mechanism.* For the finite set `Q_N = {w_{N,j}}`, the module `P_{Q_N}` of ordinary forms at Iwahori-type level at the
 places of `Q_N` (the pro-`l` part of the diagonal of the Iwahori subgroup) with its smooth action of `∏_j GL_n(L_{w_{N,j}})`: its
@@ -549,9 +560,18 @@ each derivation gives a Selmer cocycle modulo `ϖ^m` with the same trace functio
 and not the traces would give `|k|^{m(1 + n[L⁺:ℚ] + nq) − C}` trace functions, against the Selmer bound `|k|^{m(n[L⁺:ℚ] + nq) + C}`
 (the Greenberg–Wiles formula, the dual term killed by detection). So the ordinary determinant ring is unramified over the weight
 algebra at the point, which is the vanishing of the ordinary, hence of the Bloch–Kato, adjoint Selmer group. (d) follows
-from (d₀) and (d₀′); (d₀) is a theorem of [FormalProof] whose route is not given here beyond this outline (the derivations dual
-to the variables and detection in characteristic zero are not written here), and the local statement on Bloch–Kato classes behind
-(d₀′) is not written here. (d′) A point derivation of `B_det` at the point vanishing on `Λ` is a first-order deformation of `ρ` with constant inertial
+from (d₀) and (d₀′) ([FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AdLOf.lean`
+(`UpperTheory.V.Th.adjointLiftingTheorem_of_locPrints_of_core`), whose proof gives (d₀′), above `p` from
+`Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/GaloisRepresentationTypes/CornerStable.lean`
+(`UpperTheory.V.Th.bkOrd`)); (d₀) is a theorem of [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AutomorphicPointGalois.lean`
+(`UpperTheory.V.Th.DenseThresholdMainCase`), with
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/AutomorphicPointGalois.lean`
+(`UpperTheory.V.Th.AutomorphicPointLocallyGeneric`) and
+`Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/OrdZero.lean` (`UpperTheory.V.Th.OrdZero`), whose route
+is not given here beyond this outline (the derivations dual to the variables and detection in characteristic zero are not
+written here), and the local statement on Bloch–Kato classes behind (d₀′) is not written here. (d′) A point derivation of `B_det` at the point vanishing on `Λ` is a first-order deformation of `ρ` with constant inertial
 characters, trivial on the tame inertia killed residually and unramified at `v₀`; its cocycle is, at each place above `p`, an
 extension of crystalline characters whose cyclotomic exponents differ by at least `2` in the ordinary order, hence a
 Bloch–Kato cocycle (`H¹_f = H¹` for such a character; with a gap of `1` this can fail), so it is a coboundary by (d) and the
@@ -583,7 +603,7 @@ Chebotarev Layer 10.
   at a Frobenius lift in the kernel of `ε` has complex absolute value a nonzero power of the norm).
 - Ordinarity is not a hypothesis of (a)–(c): Newton–Thorne's theorem needs none, and the routes do not use it.
 - The hypothesis of (a) is polarization, not conjugate self-duality. Let `W : G_ℚ → GL₂(E)` have `det W|_{G_F} = 1` and
-  cyclotomic exponents `e, −e`, `e ≠ 0`, the shape of the rank-two blocks at the type II points of UniformWildKernelBounds §4.3,
+  cyclotomic exponents `e, −e`, `e ≠ 0`, the shape of the rank-two blocks that the consumer of 9.9 (c) uses (Downstream consumers),
   and put `ρ = W|_{G_F}`. Then `ρ^c ≅ ρ` (conjugation by `W(c)`) and `ρ^∨ ≅ ρ` (rank two, trivial determinant). Were `ρ` attached
   to a conjugate self-dual `Π`, it would satisfy `ρ^c ≅ ρ^∨ ⊗ ε^{−1}` ([NT23], Introduction), so `ρ ≅ ρ ⊗ ε^{−1}`, and
   determinants would give `ε^{−2} = 1`, which is false. So (c) reaches such a `W` only through the polarized form of (a).
