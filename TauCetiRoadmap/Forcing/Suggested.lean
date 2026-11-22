@@ -278,10 +278,12 @@ omit [Preorder P] in
 /-- **Layer 6, valuation along the completion map.** A poset name and its relabelling along
 `f` have the same value when the conditions are evaluated at the preimage of the Boolean values:
 a child labelled `p` is kept on the left exactly when the child labelled `f p` is kept on the
-right. For a completion map `e` and a Boolean filter `U`, the preimage `e ⁻¹' U` is the
-corresponding filter of conditions, so this fixes the name types, the universes, the translation
-and the two valuations in which the README's formula comparison
-(`p ⊩ φ(τ⃗) ↔ e p ≤ ⟦φ(τ̂⃗)⟧`, over matching name domains) is stated. -/
+right. For a completion map and a Boolean filter `U` satisfying the local range condition of
+README §6.3, this specializes to valuation at the corresponding filter of conditions. Without that
+condition the preimage need not be a filter: for the two atoms of the power set of `{0, 1}`,
+included in it, and `U = {⊤}`, the preimage is empty. The theorem fixes the name types, the
+universes, the translation and the two valuations in which the README's formula comparison
+(§6.2, over matching name domains) is stated. -/
 theorem PName.val_relabel {B : Type v} (f : P → B) (U : Set B) (τ : PName.{u, w} P) :
     (τ.relabel f).val U = τ.val (f ⁻¹' U) := by
   induction τ with
