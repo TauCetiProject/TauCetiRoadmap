@@ -90,7 +90,8 @@ theorems and the form in which they are consumed.
   `H¹(G_{F,S}, ℚ_ℓ/ℤ_ℓ(−e))`, `S` the places above `ℓ` and the infinite places, whose restrictions to the
   decomposition groups at the places above `ℓ` vanish; there is no condition at the real places. These
   are the classes unramified outside `ℓ` and trivial at every place above `ℓ` ([FormalProof],
-  `Formalism/GaloisCohomology/Statement.lean` (`Formalism.GaloisCohomology.Sha`)). Lengths are
+  `Formalism/GaloisCohomology/Statement.lean` (`Formalism.GaloisCohomology.Sha`)). The same definition gives `Ш¹(F, ℓ, e)` for
+  every integer `e`, and 1.1 uses it for every `e ≠ 0`. Lengths are
   `Module.length` over `ℤ_ℓ`, valued in `ℕ∞`. For a coefficient ring `O` (the ring of integers of a
   finite extension `Φ` of `ℚ_ℓ`, ramification index `e_O`) an `O`-length is divided by `e_O`.
 - `V(F, t)` is the total of BernoulliBoundsForClassGroupEigenspaces §6.17. For fixed `e` only finitely many `ℓ`
@@ -142,7 +143,7 @@ theorems and the form in which they are consumed.
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof]. [FormalProof] is cited by declaration and file at the commit the References name; `AV/` abbreviates its directory
-`src/Development/AutomorphicArithmetic/AutomorphicVarieties/` and `DTC/` the directory
+`Development/AutomorphicArithmetic/AutomorphicVarieties/` and `DTC/` the directory
 `AV/ModularityArgument/ThresholdArguments/DenseThresholdCases/`.
 
 ## Layer 0: host fields, characters and the case split
@@ -2325,26 +2326,36 @@ is `UpperTheory.V.Sd.IsSeedAlt` (`DTC/IsSeed.lean`), whose automorphy clause `Up
 continuous character of `𝔸_F^×/F^×`; `ω_v` is its component at a place, and `ω(w)` its value at a uniformiser of a finite place
 `w` at which it is unramified. For an integral ideal `𝔫`, `K₁(𝔫)` is the group of the elements of `GL₂(𝒪̂_F)` whose lower row is
 congruent to `(0, 1)` modulo `𝔫`. For integers `k_v ≥ 1` indexed by the real places and a Hecke character `ω` of finite order, a
-*holomorphic Hilbert modular form of weight `(k_v)`, level `𝔫` and character `ω`* is an automorphic form `φ` on `GL₂(𝔸_F)`, right
-invariant under `K₁(𝔫)`, with `φ(zg) = ω(z)φ(g)` for `z ∈ 𝔸_F^×`, which at every real place `v` satisfies `(E₁₂ − E₂₁)φ = ik_vφ`
+*holomorphic Hilbert modular form of weight `(k_v)`, level `𝔫` and character `ω`* is an automorphic form `φ` on `GL₂(𝔸_F)` of
+the space of GL2AutomorphicRepresentationsAndTransfer R16.1.6 with `K_f = K₁(𝔫)` and central character `ω` (so `φ` is right
+invariant under `K₁(𝔫)` and `φ(zg) = ω(z)φ(g)` for `z ∈ 𝔸_F^×`), which at every real place `v` satisfies `(E₁₂ − E₂₁)φ = ik_vφ`
 and `(E₁₁ − E₂₂)φ = i(E₁₂ + E₂₁)φ` for the derivatives along the elementary matrices at `v`; its weight is *parallel* `k` if every
 `k_v = k`; it is a *cusp form* if it is cuspidal. In parallel weight `k` its *constant terms* `c₀(y)`, `y` a finite idele, and its
 *Fourier coefficients* `c(𝔪)`, `𝔪` a nonzero integral ideal, are defined by
 `φ((y_∞ x; 0 1)(y 0; 0 1)) = (∏_v y_v·|y|)^{k/2}·(c₀(y) + Σ_{ξ∈F, ξ≫0} c(ξy𝔡)·e^{2πiΣ_v ξ_v(x_v + iy_v)})`
 for `x ∈ F ⊗ ℝ` and totally positive `y_∞ ∈ (F ⊗ ℝ)^×`, with `c(𝔞) = 0` when `𝔞` is not integral (for `F = ℚ`, `y = 1` these are
 the coefficients of the classical expansion). The *Hecke operator at a finite place `w` normalised for the weight `k`* is
-`(Nw)^{k/2−1}` times the operator of the double coset `K₁(𝔫)diag(ϖ_w, 1)K₁(𝔫)` at `w` (the sum of the right translates by
-representatives of its left cosets); in parallel weight `k` it acts on Fourier coefficients by
-`c(𝔪) ↦ c(w𝔪) + ω(w)(Nw)^{k−1}c(𝔪/w)`, the second term being omitted when `w | 𝔫`. An *eigenform* is a nonzero form that is an
-eigenvector of these operators at all finite places, and its *eigenvalue at `w`* is that of the operator normalised for the weight
-named. For `ι : ℚ̄_ℓ ≅ ℂ`, congruences between complex numbers are congruences of their images under `ι⁻¹` modulo the maximal ideal
+`(Nw)^{k/2−1}` times the operator of the double coset `K₁(𝔫)diag(ϖ_w, 1)K₁(𝔫)` at `w` in the finite Hecke action of R16.1.6 (the
+sum of the right translates by representatives of its left cosets); in parallel weight `k` it acts on Fourier coefficients by
+`c(𝔪) ↦ c(w𝔪) + ω(w)(Nw)^{k−1}c(𝔪/w)`, the second term being omitted when `w | 𝔫` (for `k ≥ 2` the coefficient formula of
+NoncommutativeAndEquivariantIwasawa §F.5, through the dictionary below, and for `F = ℚ` that of the Conventions of ModularForms; in
+weight one over other fields the same coset computation). An *eigenform* is a nonzero form that is an eigenvector of these
+operators at all finite places, and its *eigenvalue at `w`* is that of the operator normalised for the weight named. For `ι : ℚ̄_ℓ ≅ ℂ`, congruences between complex numbers are congruences of their images under `ι⁻¹` modulo the maximal ideal
 of the integers of `ℚ̄_ℓ` ([FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/IsCondAt.lean`
 (`UpperTheory.V.Sd.IsHol`),
 `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/IsCondAt.lean`
 (`UpperTheory.V.Sd.HasExp`),
 `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/IsCondAt.lean`
-(`UpperTheory.V.Sd.hk`)).
+(`UpperTheory.V.Sd.hk`)). *Dictionary.* In parallel weight `k ≥ 2` these forms are, through the classical–adelic comparison
+(R16.1.6 for `F = ℚ`; for `[F : ℚ] ≥ 2` the comparison of these adelic forms with the classical Hilbert modular forms of
+NoncommutativeAndEquivariantIwasawa §F.5 is the usual one and is not given here), the classical Hilbert modular forms of
+NoncommutativeAndEquivariantIwasawa §F.5 of weight `k`, level `𝔫` and central character `ω`, whose components `f_𝔟` satisfy
+`f_𝔟|γ = ω_𝔫(d)⁻¹f_𝔟` for every `γ = (a b; c d)` in the group `Γ₀(𝔫)_𝔟` of the component, `ω_𝔫 = ∏_{v|𝔫}ω_v`. `c(𝔪)` is their
+normalized ideal coefficient, and the Hecke operator at `w` normalised for the weight `k` is their `T_w` (`U_w` when `w | 𝔫`), the
+two acting on these coefficients by the same formula; so `ω(w)` is the value of the nebentypus in the formula for `T_w`. Over
+`ℚ`, a form `f` of level `N` with `f|γ = χ(d)f` for every `γ = (a b; c d)` in `Γ₀(N)` has character `ω` with `ω(p) = χ(p)` for the
+primes `p ∤ N`, and `ω` is `χ⁻¹` on the finite units, the central character that R16.1.6 gives it.
 (e) (*the Hilbert Eisenstein series of weight one*) Let `ω` be a Hecke character of `F` of finite order with `ω_v(−1) = −1` at
 every real place `v`, of conductor `𝔠 ≠ (1)`. There is a holomorphic Hilbert modular form of parallel weight `1`, level `𝔠` and
 character `ω` whose constant terms are all equal to one complex number and whose Fourier coefficients are
@@ -2471,12 +2482,23 @@ has such a form. (g): by (e), a combination of the Eisenstein series and of its 
 weight one, level `𝔠∏_{w|ℓ}w` and character `ω` with vanishing constant terms, first coefficient `1`, integral coefficients, and
 the eigenvalues listed in (g) (this uses a place above `ℓ` in `P`); its product with a form of (f), for `p = ℓ`, of parallel
 weight `k`, level one and trivial character whose constant terms are `≡ 1` and whose Fourier coefficients are `≡ 0` has weight
-`k + 1` and congruent coefficients; the Deligne–Serre lifting lemma (AlgebraicModularFormsAndSerreWeights §5.10) gives an
-eigenform with congruent eigenvalues; it is a cusp form: a non-cuspidal eigenform has eigenvalues `η₁(w) + η₂(w)(Nw)^k` at the
+`k + 1`, vanishing constant terms, and integral Fourier coefficients congruent to those of the form of weight one. Take for the
+form of (f) the Hasse lift of IntegralIwasawaTheory §9.3 from which (f) follows, whose Fourier coefficients lie in `ℤ_(ℓ)`; its
+constant terms take finitely many values, as `c₀(y)` depends only on the narrow ideal class of `y`. So the integers `O` of a finite
+extension of `ℚ_ℓ` can be chosen to contain the values of `ω` and, through `ι`, the Fourier coefficients of the product. Let `M` be
+the `O`-module of the forms of parallel weight `k + 1`, level `𝔠∏_{w|ℓ}w` and character `ω` whose constant terms and Fourier
+coefficients all lie in `O` through `ι`. It is finite free, as a form is determined by its constant terms and Fourier
+coefficients (NoncommutativeAndEquivariantIwasawa §F.5, through the dictionary above) and these forms make up a finite-dimensional
+space (ArithmeticLocallySymmetricSpaces ALS.F.6(i)); it is stable under the Hecke operators normalised for the weight `k + 1`, by
+the coefficient formula and, on constant terms, by `c₀(y) ↦ c₀(yϖ_w) + ω(w)(Nw)^kc₀(yϖ_w⁻¹)` (the second term omitted when `w`
+divides the level), which the same coset computation gives. The Deligne–Serre lifting lemma (AlgebraicModularFormsAndSerreWeights
+§5.10), applied to these operators on `M`, gives an eigenform with congruent eigenvalues; it is a cusp form: a non-cuspidal eigenform has eigenvalues `η₁(w) + η₂(w)(Nw)^k` at the
 places prime to the level, for two characters of finite order with `η₁η₂ = ω`; the congruences give `(η₁(w) − 1)(η₂(w) − 1) ≡ 0`
 there, so one of `η₁, η₂` is `≡ 1` at every idele (Artin reciprocity, ClassFieldTheory Layer 11, and Chebotarev Layer 10), and the
 eigenvalues at a place of `P` above `ℓ` and at a place above `ℓ` outside `P` then force `ω(w) ≡ 1` at one of them, against the
-hypothesis. *Needs:* 3.20(e₀), 3.23; ModularForms Layer 0; AlgebraicModularFormsAndSerreWeights §§1.2, 2.10, 2.15, Layer 2, §5.10;
+hypothesis. *Needs:* 3.20(e₀), 3.23; ModularForms Layer 0 and Conventions; AlgebraicModularFormsAndSerreWeights §§1.2, 2.10, 2.15,
+Layer 2, §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5;
+ArithmeticLocallySymmetricSpaces ALS.F.6;
 DirichletPadicLFunctions §§0.4, 2.3, 2.4; PadicFamilies §§1.7, 1.8, 1.8a, 1.9; PotentialAutomorphyInfrastructurePartII §§0.8, 0.9;
 HeckeIdealsAndTaylorWilesRelations §3.13a (with its contract for PotentialAutomorphyInfrastructurePartII §3.5 (1));
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§14.1, 16.1; IntegralIwasawaTheory §9.3; ClassFieldTheory Layer 11; Chebotarev
@@ -2549,7 +2571,7 @@ AG2.0.
 
 ### Dependencies
 
-Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
+Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, GL2AutomorphicRepresentationsAndTransfer, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
 
 ## Layer 4: residually reducible Eisenstein components
 
@@ -3975,7 +3997,7 @@ local–global compatibility (AutomorphicGaloisRepresentationsPartII), with the 
 (ModularityAndLanglandsExtensions §2.43); the Bloch–Kato local conditions, their dimension and their orthogonality
 (SelmerIwasawaCohomology §4.9); the Jacquet–Shalika bound (AutomorphicLFunctionsAndLocalFactors AL.3.3.8); the classification of generic
 representations by segments (SmoothRepresentationsOfLocalGroups SR.5.2); the minus part of abelian fields by Bernoulli
-numbers (BernoulliBoundsForClassGroupEigenspaces §10.1); the class-number bounds of number fields through divisor sums (ExplicitNumberFields §§0.3, 5.3). Washington's theorem on the prime-to-`p` part of class numbers in a
+numbers (BernoulliBoundsForClassGroupEigenspaces §10.1); the class-number bounds of number fields through divisor sums (ExplicitNumberFields §§0.3, 5.3); Hilbert modular forms: the adelic carrier with its finite Hecke action (GL2AutomorphicRepresentationsAndTransfer R16.1.6), the classical forms of parallel weight at least two with their coefficients, integral lattices and Hecke operators (NoncommutativeAndEquivariantIwasawa §F.5), and the level-one Hasse lift (IntegralIwasawaTheory §9.3). Washington's theorem on the prime-to-`p` part of class numbers in a
 cyclotomic `ℤ_p`-tower is not used. Towers at an odd tower prime are not treated. The routes use purity of Frobenius
 eigenvalues only through the temperedness of the local components above `ℓ` of regular algebraic conjugate self-dual cuspidal
 representations over CM fields (AutomorphicGaloisRepresentationsPartII AG2.5, *Temperedness of regular unitary-type cuspidal
@@ -4074,7 +4096,8 @@ SR.1.4 (Iwahori decompositions), SR.2.1 (smooth induction), SR.2.2 (Jacquet func
 
 ### From TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
 
-ALS.1.5 (Betti cohomology as group cohomology); ALS.2.4 (finite triangulation at a neat level, with free lifting to smaller normal levels); ALS.5b.5 (cuspidal cohomology injects into Betti cohomology); ALS.5b.6 (for `F` totally real or CM, regular algebraic cuspidal representations of `GL_n` contribute to cohomology).
+ALS.F.6(i) (finite dimensionality of the automorphic forms of a fixed level, `K_∞`-types and infinitesimal-character ideal), in
+the route of 3.22(g); ALS.1.5 (Betti cohomology as group cohomology); ALS.2.4 (finite triangulation at a neat level, with free lifting to smaller normal levels); ALS.5b.5 (cuspidal cohomology injects into Betti cohomology); ALS.5b.6 (for `F` totally real or CM, regular algebraic cuspidal representations of `GL_n` contribute to cohomology).
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -4094,7 +4117,10 @@ LieHighestWeight Layer 6 (the Weyl character and dimension formulas); ClassicalG
 
 ### From TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
 
-§F.6 (`deRham_iff_potentiallySemistable`), in 3.17(a).
+§F.5 (the classical Hilbert modular forms of parallel weight `k ≥ 2` over every totally real field, at every congruence level and
+finite-order character: their normalized ideal coefficients and standard constants, the injectivity of these expansions, the
+standard-component integral lattice, and the Hecke operators with their coefficient formulas), in the conventions of 3.22(e)–(h)
+and the route of 3.22(g). §F.6 (`deRham_iff_potentiallySemistable`), in 3.17(a).
 
 ### From TauCetiRoadmap.PadicFamilies
 
@@ -4102,7 +4128,10 @@ LieHighestWeight Layer 6 (the Weyl character and dimension formulas); ClassicalG
 
 ### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
 
-R17.4.13 (the Gelbart–Jacquet lift), for the seeds of 4.2. R17.6.4 (Frobenius-semisimple Weil–Deligne compatibility, with monodromy, away from `ℓ` for newforms), in 4.8(a).
+R16.1.6 (finite-level automorphic functions on `GL₂(𝔸_F)` with central character, `K_∞`-types, finite Hecke action and
+archimedean differentiation, for every number field; over `ℚ`, their identification with classical forms, a form of nebentypus `χ`
+having central character `χ⁻¹` on the finite units), the carrier of the Hilbert modular forms of 3.22(e)–(h). R17.4.13 (the
+Gelbart–Jacquet lift), for the seeds of 4.2. R17.6.4 (Frobenius-semisimple Weil–Deligne compatibility, with monodromy, away from `ℓ` for newforms), in 4.8(a).
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
@@ -4110,7 +4139,7 @@ R17.4.13 (the Gelbart–Jacquet lift), for the seeds of 4.2. R17.6.4 (Frobenius-
 
 ### From TauCetiRoadmap.ModularForms
 
-Layer 0 (character Eisenstein series, their coefficients `Σ_{d | n} χ(d)d^{k−1}`, the constant term at `∞` and the decomposition into Eisenstein and cusp spaces; in weight at least three through its Tau Ceti contract), in 3.22(a); the constant terms at the other cusps are 3.22(a).
+Layer 0 (character Eisenstein series, their coefficients `Σ_{d | n} χ(d)d^{k−1}`, the constant term at `∞` and the decomposition into Eisenstein and cusp spaces; in weight at least three through its Tau Ceti contract), in 3.22(a); the constant terms at the other cusps are 3.22(a). Its Conventions (the Hecke operators on forms with character, in every integer weight and in the arithmetic normalisation, with `T_p = U_p` at `p | N`), for the coefficient formula of the conventions of 3.22(e)–(h) over `ℚ`.
 
 ### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
 
@@ -4163,7 +4192,7 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given at the targets are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. Its window bound on twisted wild kernels and its case analysis are reconstructed in Layers 1–7.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given at the targets are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. Its window bound on twisted wild kernels and its case analysis are stated as targets in Layers 1–7.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>. It describes the bound as the "weakening of Vandiver" of its argument.
 - C. Soulé, *K-théorie des anneaux d'entiers de corps de nombres et cohomologie étale*, Invent. Math. 55 (1979): finiteness.
 - C. Soulé, *A bound for the torsion in the K-theory of algebraic integers*, Documenta Math., Extra Volume Kato (2003): the
