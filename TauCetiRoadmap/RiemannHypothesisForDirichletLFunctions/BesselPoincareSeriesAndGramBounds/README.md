@@ -71,6 +71,7 @@ Notation and conventions not restated here are those of HermitianFormsAndLattice
 | `thr(b, s), thr′(b)` | the scales of the archimedean Fourier majorant of a block | 5.18c |
 | `Th(i, s, t), Sg(b, s)` | the dominating kernels of the tower inequality and the finite sets of pivots | 5.19 |
 | `ε_L, ε_N, η_off` | the error constants of the pair counts and of the Hilbert–Schmidt bound | 5.20b, 5.20c, 5.20 |
+| `j(t), lab(t), Nm, Sz_H, w_ty, A(j)` | defect and minor label of a degenerate term; the norm and the size of a label; the weights of the type bound | 5.20d |
 | `c_Θ` | `½·min((C_Δ − 4)/2, (c_T·C_b − 1)/4)`, the exponent of the bound `Θ ≥ k^{c_Θ}` | 5.20 |
 | `wt_v, W^{bd}` | Gelfand–Graev share of a series; the bound of the discarded share | 5.22, 5.23 |
 
@@ -679,7 +680,9 @@ forms), *NEW* (the error term uniform in rank, field, level and weight). The sta
 `Development/AbelianVarietyTheory/BlockTheory/SiegelWeilLocal/LatticeCountingTheorem.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.LatticeCountingTheorem.CountingTheorem`), with its hypotheses in
 `Development/AbelianVarietyTheory/Definitions/SemilocalFrames/LayerProd.lean` (`GlobalTheory.Count.CountHyp`), and unbundled in
-`Development/AbelianVarietyTheory/Proofs/FlagMeasures/UnitaryAutomorphicCountingUnbundled.lean` (`GlobalTheory.CountBridge.count_unbundled`).
+`Development/AbelianVarietyTheory/Proofs/FlagMeasures/UnitaryAutomorphicCountingUnbundled.lean` (`GlobalTheory.CountBridge.count_unbundled`);
+the form at the points of the chain: [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/BridgeCountE.lean`
+(`Formalism.MainNotions.S.CountE.CountAllPointsClass`).
 
 *Checks.*
 - For a cocompact torsion-free lattice and an integrable discrete series the multiplicity equals `d(π)·covolume`
@@ -1114,8 +1117,12 @@ fixed nontrivial character of `ℂ` trivial on `ℝ`), `|cut|` the length of the
 `|P(Y)P(Y+1)/qdet(Y)|^{1/2}` over it (over its initial segment of length `N³` for `(b, s) = (1, 1)`), and `C_ρ` an absolute constant; and
 `thr′(b)² := C_ρ·κ^{−(2r_S+1)}·A·κ^{2b−1}·(T T′)^{−1/2}·(C_ρN/|cut|)^{2(b−1)}`. The wave bound at level `b` holds with `ρ = thr(b, 1)`; the
 lift bound for two last pivots of a block of size `s` starting at `b` with `ρ = thr(b, s + 1)` below the top level (`b + s ≤ r_S + 1`)
-and `ρ = 2·thr′(b)` at the top level (`b + s = r_S + 2`); the volume factor of the block bound (5.18d) is `(∏_τ thr(b, s))²` divided by
-the norm of the dual ideal of the block. Since `C_ρκN/|cut| ≤ 1` in the applications, a larger exponent is a smaller scale.
+and `ρ = 2·thr′(b)` at the top level (`b + s = r_S + 2`). At the top level what is proved at one place is the diagonal statement: for
+one last pivot `t` of a block of size `s ≥ 2`, the top-level diagonal at `t` is at most `(|t|·Λ′)^{2K_♯}` times a convex combination
+of top-level diagonals at `t` for strings with `K_♯` more letters, `Λ′ ≤ thr′(b)`; the bound for two pivots follows from it by the
+Cauchy–Schwarz inequality for the positive forms, because `min(|t|, |t′|) ≤ 2/|t^{−1} − t′^{−1}|`. The volume factor of the block
+bound (5.18d) is `(∏_τ thr(b, s))²` divided by the norm of the dual ideal of the block.
+Since `C_ρκN/|cut| ≤ 1` in the applications, a larger exponent is a smaller scale.
 (For the chain, 5.20: at the letter `l` where the two words differ, the nodes lie in the half-cut `{5/2 ≤ v_{l−1} + Y ≤ Δ_w/2}`, `K_♯ = 5`, `κ = 2π/(g₀g₁)` for the lattice of pivots of
 level `g = g₀g₁`; multiplied by the covolume of that lattice the scale is
 `C_ρ·g^{2r_S+2}κ_a^{−(2r_S+1)}A·(C_ρκ_aN/(g|cut|))^{2(b−1)+s−1}`, `κ_a` with `ψ_τ(x) = ψ_ℂ(κ_ax)`.)
@@ -1343,7 +1350,10 @@ between `b^{−2C_hr_S}` and `b^{C_h(4r_S+2)}` (only these two-sided bounds and 
 the Bessel functions and in `Gr`.
 
 *KNOWN* frameworks (stationary phase; tensor products of discrete series with finite-dimensional representations:
-Zuckerman), *NEW* (all the statements in this setting). (i₁): [FormalProof],
+Zuckerman), *NEW* (all the statements in this setting). (i₀), the case `u = u′`: [FormalProof],
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/CptCopy2.lean` (`Formalism.FourierDecayAlt.P.CutBPEq.thmBpAt_eq_NFRCpt`);
+the domination of the approximants in its Route: `Formalism/HermitianCurvature/HermitianCurvatureProofs/CutNFApxDom.lean`
+(`Formalism.FourierDecayAlt.P.CutBP.DominatedL2TruncationBound`); (i₁): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/JetHarmonics/DiscreteSeriesCoefficientExpansionBoundBall.lean`
 (`GlobalTheory.discreteSeries_coefficient_expansion_bound_ball`),
 `Development/AbelianVarietyTheory/Definitions/Jets/SumIoPrAlt.lean` (`BranchingSupport.Num`),
@@ -1481,7 +1491,8 @@ matrix comes from multiplying `q ≤ Ckm²` times by a leading minor and expandi
 the scalar generic pairs of equal words, it is applied to `𝒟_τ` itself; the loop rows and the rows of corank one of a pair `(u, u)`
 use the shifted parameters as for distinct words, with the type shift of 5.18 (i).
 No condition `T(w)κ_sc^{2r_S} ≥ 1` is needed: the bound of 5.18 (i) uses the norms only through two-sided bounds, and
-`T(w) ≥ 1`.
+`T(w) ≥ 1`. [FormalProof] carries this condition: `Formalism/SharpRestriction/CuspSpanNormBounds/PExtra.lean`
+(`Formalism.MainNotions.PX.TFrame`); it is a hypothesis of 5.20d.
 
 *Route.* (a) Telescoping the mass ratios from `k + 1` to `r = k + m − 1` (HermitianFormsAndLattices §§6.2–6.4) gives
 the exponents `(m−1)k + m(m−1)/2 = Σ_{M=k+1}^{r}M` of `π/v_E` and `(m−1)/2` of `rd_E`; the column count is the class number
@@ -1633,7 +1644,8 @@ over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f
 *NEW*. Follows from [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopsEv.lean`
 (`Formalism.L2.SG.LoopsEv.RowLoopsEv`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
-(`Formalism.MainNotions.S.Cnt.Hyp`).
+(`Formalism.MainNotions.S.Cnt.Hyp`); at the points of the chain:
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.LoopRowS`).
 *Needs:* 5.15, 5.17a, 5.17, 5.18, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§4.4, 4.10, 4.11, 5.5, 5.7, 5.9, 6.1a, 6.3,
 6.4, 6.4b, 6.4c.
 
@@ -1679,6 +1691,92 @@ quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of thi
 (`Formalism.L2.SG.RowsConc.epsNG`).
 *Needs:* 5.15, 5.15a, 5.17a, 5.17d, 5.18, 5.20a, 5.20b; HermitianFormsAndLattices §6.5.
 
+### 5.20d Degenerate terms of equal words: the type bound
+
+*Definitions.* Let `u` be a word and `t` a degenerate term of `K(u, u)` (5.15 (b): `Gr(γ) = 0`, `γ` not in the identity
+coset), with base frame `F = (e_1, …, e_{r_S}, z_u)`, `X = ⟨e_1, …, e_{r_S}⟩`, second frame `F′ = γF`, `X′ = γX`, and
+`D_l(t)` the leading principal minor of size `l` of the pairing matrix of the two frames (5.17), for the chosen
+representative `γ`. The *defect* of `t` is `j(t) := r_S − dim_E(X ∩ X′)` and its *minor label* is
+`lab(t) := (D_1(t), …, D_{j(t)}(t)) ∈ E^{j(t)}`. `t` is *relevant* if its two characters agree on
+`Lie N_S ∩ γ Lie N_S γ^{−1}`; the other terms vanish (5.15 (b)). For `1 ≤ j ≤ r_S`, `δ = (δ_1, …, δ_j) ∈ E^j` and a real
+`H ≥ 1` put `e_l := l(2r_S + 1 − l)/2`,
+`Nm(δ) := N(δ_j·𝔡_F^{−2e_j}𝒪_E)` (the absolute norm of a fractional ideal of `E`; `𝔡_F` the different of `F`; for `E/F`
+unramified at the finite places `Nm(δ) = |N_{E/ℚ}(δ_j)|·rd_E^{−4f·e_j}`), and
+`Sz_H(δ) := ∏_{τ∈Φ} max(1, max{|τ(δ_l)|·rd_E^{−2e_l}/(2H)^{2r_S} : 1 ≤ l ≤ j, δ_l ≠ 0})`.
+
+*Statement.* For all constants `C_g, C_u, C_T, C₀` and `c_b, c_T > 0` there are `C_H, C_h, C_p, C_c ≥ 0` such that for every
+`C_s ≥ C_p + 4` there is `C_⋆` such that for every `C ≥ C_⋆` there are thresholds for `C′` and `C_l` with the following
+property. Let the data of the chain satisfy, in the setting of 5.14 and 5.15 (neat levels `K_w`, the Bessel functions
+`W_w` with the decay of 5.13 (f), the measures and formal degrees of the Conventions): (St) of 5.20a with the constants
+`C′, C_l, C_g, c_b, C_u, c_T, C_T`; for every word `w`: `T(w)` split completely in `E`, `T(w) ≡ 1 (mod (g₀g₁)²)`,
+`T(w)` prime to `g₀g₁`, the window `C₀^{−1} ≤ d_w^{all}Γ₀²/D* ≤ C₀` with `C₀ ≥ 1`, and the scaling condition
+`T(w)κ_sc^{2r_S} ≥ 1` (5.20a); the types of two distinct words different at every `τ`; `g₀, g₁` split completely in `E`;
+`E/F` unramified at all finite places; `C_l m⁶·log b ≤ k·log k`; all pairwise differences of the row parameter
+`> C_l k m³`; `C_l·log rd_E ≤ log b`; `log f ≤ r_S²`. Put `H := b^{C_H m}`. Then for every word `u`:
+
+(a) *Type bound.* For all `1 ≤ j′, j″ ≤ r_S`, all `δ′ ∈ E^{j′}`, `δ″ ∈ E^{j″}` and every finite set `S` of ordered pairs
+`(t, t′)` of relevant degenerate terms of `K(u, u)` of one row (5.15 (e)) with `j(t) = j′`, `lab(t) = δ′`, `j(t′) = j″`,
+`lab(t′) = δ″`:
+
+`Σ_{(t,t′)∈S} ‖𝐯_t‖·‖𝐯_{t′}‖ ≤ dim V_{λ_u}·W_rows·w_ty(δ′)·w_ty(δ″)`,
+`w_ty(δ) := (C/k)^{j(k−1−j)f}·Nm(δ)^{(j+1)/2}·b^{(C² + C_h²)·m²·f·r_S⁴}·Sz_H(δ)^{−(C_s − C_p)·k}` for `δ ∈ E^j`,
+
+with `𝐯_t` the amplitudes of 5.17a and `W_rows` the total weight of the rows of `u` (5.17).
+(b) *Norms.* Every relevant degenerate term `t` has `j(t) ≥ 1` and `0 < Nm(lab t) ≤ b^{C·m²·f}·Sz_H(lab t)²`.
+(c) *Labels.* For `1 ≤ j ≤ r_S` and every finite set `T` of minor labels of relevant degenerate terms of `K(u, u)` of
+defect `j`: `Σ_{δ∈T} Sz_H(δ)^{−3r_S} ≤ b^{C_c²·m²·f·r_S}`.
+(d) *Consequently*, for every finite set `S` of ordered pairs of degenerate terms of `K(u, u)` of one row,
+`Σ_{(t,t′)∈S} ‖𝐯_t‖·‖𝐯_{t′}‖ ≤ dim V_{λ_u}·W_rows·(Σ_{j=1}^{r_S} A(j))²`,
+`A(j) := (C/k)^{j(k−1−j)f}·b^{(C² + C_h²)·m²·f·r_S⁴ + C·m²·f·(j+1)/2 + C_c²·m²·f·r_S}`.
+
+The scaling condition is a hypothesis of the form of [FormalProof]; 5.20a (c) records that it holds under the window.
+
+*Route.* (a) is the product of two inequalities. *Amplitudes:* for every relevant degenerate term `t`, with `j = j(t)`
+and `δ = lab(t)`,
+`‖𝐯_t‖ ≤ w_row(t)·(dim V_{λ_u})^{1/2}·ω(t)·(C/k)^{j(k−1−j)f}·Nm(δ)^{−(k−1−j)/2}·b^{C²·m²·f·r_S⁴}·Sz_H(δ)^{−C_s·k}`,
+where `w_row(t)` is the square root of the product of the weights of the two row lattices of `t` (5.17) and `ω(t) > 0`
+is an index weight of the pair of flags of `t`. It rests on the uniqueness of the Bessel functional (5.13c (d)), which
+identifies the Bessel function of the word with a coefficient of `𝒟_τ` (5.13 (f)), and on a tail bound for parameters
+with gaps `> C_l k m³`: for every `λ > 0` the part of the `L²`-mass of that function on which a Gram–Schmidt length of
+the frame or its inverse exceeds `λH` is at most `2(2r_S + 2)·λ^{−2q}` of the whole, `q` a fixed multiple of `k·r_S`
+(this is where the scaling condition is used). The orbital operator of `t` is bounded by the covolume of the integral
+stabiliser of the pair of flags, at most `ω(t)` times a power of `v_E`, times the product over the real places of local
+amplitudes; at a place the tail bound gives a factor `(C/(k − 1 − j))^{j(k−1−j)}·|D_j(t)|_τ^{−(k−1−j)}` and a negative
+power of the factor of `Sz_H` at `τ`. The proofs of the tail bound, of the covolume bound and of the local bound are not
+given here. *Count:* for `S` as in (a),
+`Σ_{(t,t′)∈S} w_row(t)w_row(t′)·ω(t)ω(t′) ≤ W_rows·e(δ′)·e(δ″)`,
+`e(δ) := Nm(δ)^{k/2}·b^{C_h²·m²·f·r_S⁴}·Sz_H(δ)^{C_p·k}`, with `C_p = 16`: the pairs of terms of a row with given defects and
+labels are counted through data embedded in the positive definite lattice that the row induces on `X^⊥/X`, indexed by
+two integers at most `Nm(δ′)` and `Nm(δ″)`; the mean over the rows is a mean over a genus (5.17), which the mass formula
+for maximal lattices (HermitianFormsAndLattices §§4.4, 6.3) and the ratio of the masses of the unimodular lattices of
+consecutive ranks (HermitianFormsAndLattices §6.4 (b)) bound. The proof of the count is not given here. The two
+inequalities multiply to (a), `ω` cancelling. The proofs of (b) and (c) are not given here. (d) By 5.15 (b) only the
+relevant terms contribute, and by (b) they have defect `≥ 1`. For fixed defects sum (a) over the labels: by (b),
+`Nm(δ)^{(j+1)/2} ≤ b^{C·m²·f·(j+1)/2}·Sz_H(δ)^{j+1}`, and `j + 1 − (C_s − C_p)k ≤ −3r_S` because `C_s − C_p ≥ 4` and
+`k ≥ r_S + 1`, so `Σ_δ w_ty(δ) ≤ A(j)` by (c) (`Sz_H ≥ 1`); then sum over `1 ≤ j′, j″ ≤ r_S`.
+
+*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+(`Formalism.L2.SG.RowsPos.TypeP`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DimFormC.lean`
+(`Formalism.L2.SG.KappaOffDiagonal.TypeAt`, `Formalism.L2.SG.KappaOffDiagonal.jT`,
+`Formalism.L2.SG.KappaOffDiagonal.labT`), `Formalism/SharpRestriction/CuspSpanNormBounds/KappaEndpoints.lean`
+(`Formalism.MainNotions.KappaEndpoints.k2a`, `Formalism.MainNotions.KappaEndpoints.k2e`,
+`Formalism.MainNotions.KappaEndpoints.k2Del`, `Formalism.MainNotions.KappaEndpoints.k2S`), proved as
+`Development/AbelianVarietyTheory/Proofs/FlagMeasures/RowsPosTypeP.lean` (`GlobalTheory.rowsPos_typeP`); the two
+inequalities of the route: `Development/AbelianVarietyTheory/Definitions/SemilocalFrames/PerRowC.lean`
+(`GlobalTheory.TypeAsm.AmpP`, `GlobalTheory.TypeAsm.PairsP`), the tail bound
+`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/MomAllP.lean` (`GlobalTheory.TypeAsm.TailP`); (b), (c):
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DimFormC.lean`
+(`Formalism.L2.SG.KappaOffDiagonal.JPosC`, `Formalism.L2.SG.KappaOffDiagonal.DelC`,
+`Formalism.L2.SG.KappaOffDiagonal.CosetsC`); (d):
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/KloostermanTermANonneg.lean`
+(`Formalism.L2.SG.KappaOffDiagonal.fin_bound`); the hypotheses:
+`Formalism/SharpRestriction/CuspSpanNormBounds/NonGenericAndKTwoTheorems.lean`
+(`Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoHypotheses`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsConc.lean` (`Formalism.L2.SG.RowsConc.ConcTie`).
+*Needs:* 5.13c, 5.13, 5.14, 5.15, 5.17a, 5.17, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.3,
+ThetaChainsOnDefiniteUnitaryGroups §2.8; HermitianFormsAndLattices §§4.4, 6.3, 6.4.
+
 ### 5.20 The Gram bound for distinct words
 
 For all constants `C_Δ > 4`, `C_b > 0`, `c_T > 0` with `c_T·C_b > 1` there is `C_n`, depending on the constant `C₄` of
@@ -1719,7 +1817,48 @@ kernels `Kr_i`, their support and, for every finite tower, periodic majorants (5
 factor `d_sup` being moved into the top kernel) and by the archimedean inputs 5.18b (e) (positivity of the level forms), 5.18c
 (wave and lift bounds with their scales), 5.18d (block bound) and 5.18e (h′) (level zero); the Poisson step of 5.19 by Poisson
 summation over each coset of the lattice of pivots; strings chosen in the half-cut at the letter's entry, the nodes pairwise
-at least `5` apart (so the strings used lie in the cut by construction). *The size of `Θ`.* On the half-cut the factor of `A` coming
+at least `5` apart (so the strings used lie in the cut by construction).
+*From one real place to the tower.* For the chain the data of 5.19 are these. A string of the tower is a family
+`𝐬 = (𝐬_τ)_τ` of strings of 5.18a, one at each real place, its letter count the largest of the letter counts and its
+weight the product of the weights of the `𝐬_τ`; a point is read at `τ` through the embedding `τ` of its pivots; and
+`gram(ε_c, i, 𝐬)(p, q) = ∏_τ gram_τ(ε_c, i, 𝐬_τ)(p_τ, q_τ)`, `gram_τ` the kernel of the level-`i` form of 5.18b at `τ` with the
+normalising factors of the two points. `N̂(i, 𝐬, Y, κ; l)` is the Fourier transform, in the last pivot `c = (c_τ)_τ ∈ ∏_τ ℂ`
+of a block of size one, of `Σ_{h,h′∈Y}κ(h, h′)·gram(ε_c, i, 𝐬)(h ⊕ (1, c), h′ ⊕ (1, c))/wt(𝐬)` against
+`c ↦ exp(2πi·Σ_τ 2Re(τ(l)c_τ)/(g₀g₁))`, divided by the covolume of the lattice of pivots. The scales are
+`ρ^w_{i,τ} = thr(i, 1)`, `ρ^l_{b,s,τ} = thr(b, s + 1)` for `b + s ≤ r_S + 1` and `2·thr′(b)` for `b + s = r_S + 2` (5.18c, at `τ`).
+The statements of 5.18b–5.18d hold at one place as positivity of block kernels (kernels `a`, `b` on two finite sets and
+a kernel `w` between them are *block-positive* when `[[a, w], [w^*, b]]` is positive semidefinite), and pass to the
+product by the Schur product theorem in the form: if `(a_τ, w_τ, b_τ)` is block-positive for every `τ` and `(κ_a, κ_w, κ_b)`
+is block-positive, then `|Σκ_w·∏_τ w_τ| ≤ ½·(Σκ_a·∏_τ a_τ + Σκ_b·∏_τ b_τ)`.
+(1) *Positivity.* 5.18b (e) at each `τ`; products are positive semidefinite.
+(2) *Zero frequency.* At each `τ` the kernel with one more pivot `c` of a block of size one extends continuously in
+`c`, is `O((1 + |c|)^{−3})`, and its integral over `ℂ` is a constant times the kernel of level `i − 1` (5.18b (e), last
+clause), the product of the constants being the covolume of the lattice of pivots; hence
+`N̂(i, 𝐬, Y, κ; 0) = N0(i − 1, 𝐬, Y, κ)`.
+(3) *Wave bound.* At each `τ` there are two probability vectors `ϑ^±_τ` on the strings with at most `K_♯` more letters such
+that, for every `l ∈ ℂ`: the level-`(i − 1)` kernel of the string, twice, with the Fourier transform at `l` of the
+level-`i` kernel between them, is block-positive; and so are, for some `u` of modulus `1`, `ρ^{K_♯}` times the `ϑ^+_τ`-mean
+and the `ϑ^−_τ`-mean of the level-`(i − 1)` kernels with `u·l^{K_♯}` times that Fourier transform between them, `ρ ≤ thr(i, 1)`.
+Taking the second triple at the places of a set `A` and the first at the others gives, for every set `A` of real places,
+a probability vector `ϑ_A` on the strings of the tower with at most `K_♯` more letters with
+`∏_{τ∈A}|l|_τ^{K_♯}·|N̂(i, 𝐬, Y, κ; l)| ≤ ∏_{τ∈A}ρ_{i,τ}^{K_♯}·Σ_{𝐬′}ϑ_A(𝐬′)·N0(i − 1, 𝐬′, Y, κ)`, `0 ≤ ρ_{i,τ} ≤ thr(i, 1)`,
+for every positive semidefinite `κ` and every `l ≠ 0` of the dual lattice; `A = {τ : |l|_τ > thr(i, 1)}` gives the wave
+bound of 5.19, with `2^f` vectors.
+(4) *Lift bound below the top* (`i ≤ r_S`). The same with `t^{−1} − t′^{−1}` in place of `l` and `thr(b, s + 1)`:
+`∏_{τ∈A}|t^{−1} − t′^{−1}|_τ^{K_♯}·|N(i, s, 𝐬; t, t′)| ≤ ∏_{τ∈A}ρ_τ^{K_♯}·Σϑ_A(𝐬′, 𝐬″)·½(Re N(i, s, 𝐬′; t, t) + Re N(i, s, 𝐬″; t′, t′))`
+for every `A`; the vector of 5.19 for a choice `π` is `ϑ_A` with `A = {τ : π(τ) ≠ 0}`, so only `2^f` of the `3^f` occur.
+(5) *Lift bound at the top* (`i = r_S + 1`, `s ≥ 2`). At one place the statement is diagonal: for a pivot `t ≠ 0`,
+`(|t|_τ·Λ′_τ)^{2K_♯}` times a mean of the top kernels at `t` minus the top kernel at `t` is positive semidefinite, with
+`Λ′_τ ≤ thr′(b)`. Hence, for every set `B` of real places,
+`Re N(r_S + 1, s, 𝐬; t, t) ≤ ∏_{τ∈B}(|t|_τΛ′_τ)^{2K_♯}·Σ_{𝐬′}ϑ_B(𝐬′)·Re N(r_S + 1, s, 𝐬′; t, t)`. For two pivots put `π(τ) = 0` if
+`|t^{−1} − t′^{−1}|_τ ≤ 2Λ′_τ`, `π(τ) = 1` if not and `|t|_τ ≤ |t′|_τ`, `π(τ) = 2` otherwise, `B_1 = π^{−1}(1)`, `B_2 = π^{−1}(2)`.
+Then `|N(t, t′)|² ≤ Re N(t, t)·Re N(t′, t′)` (positivity), the diagonal bound with `B_1` at `t` and with `B_2` at `t′`,
+`min(|t|_τ, |t′|_τ) ≤ 2/|t^{−1} − t′^{−1}|_τ` and `√(xy) ≤ (x + y)/2` give the lift bound of 5.19 with
+`ϑ_π(𝐬′, 𝐬″) = ϑ_{B_1}(𝐬′)·ϑ_{B_2}(𝐬″)` and the scale `2Λ′_τ ≤ 2·thr′(b)`: these are the `3^f` vectors.
+(6) *Block bound.* 5.18d at each place with (3) and (4); the constant becomes `C₄^{f·s}·∏_{s′<s}vol(b, s′)`,
+`vol(b, s) = (∏_τ thr(b, s))²` divided by the norm of the dual ideal of the block.
+(7) *Level zero.* 5.18e (h′) at each place; the limit is the product over `τ`.
+*The size of `Θ`.* On the half-cut the factor of `A` coming
 from the letter is `√((v_{l−1} + Y + 1)/(Δ_w − v_{l−1} − Y))`, bounded there (at the upper end `Y + v_{l−1} = Δ_w/2` it is `≤ 2`; on the whole cut up to
 `Δ_w − 3/2` it would grow like `√Δ_w`), and for `(b, s) = (1, 1)` the supremum is over the initial segment of length `N³` (5.18c), where
 the factor `(C_ρκN/|cut|)^{2(b−1)+s−1}` has exponent `0`. With `N = 4K_♯(r_S + 1)`, `|cut| = (Δ_w − 5)/2`: the first threshold is
@@ -1741,13 +1880,27 @@ Combine by the triangle inequality; `η_off ≤ b^{−6}` because `ε_L, ε_N �
 `(1 + δ_tw)e₁ ≤ (1 + b^{−7})exp(b^{−14})`: with `k − 2r_S − 5 = k − m − 3` and `8C_nm⁵fL ≤ k` the
 exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, which is `≤ −14L` for `m ≥ C_m`.
 
-*Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
+*Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18a, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
 ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); AnalyticNumberTheoryPartII §5.3k
 (quotient measures, integration in stages); Mathlib (Poisson summation). *NEW*. The size hypotheses: [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/TheoremSRecursion.lean`
 (`Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt`), `Formalism/HermitianCurvature/StatementPB.lean`
 (`Formalism.FourierDecayAlt.PB.SizeNumbers`); the assembly of the bound with `η_off ≤ b^{−6}`: [FormalProof],
-`Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.PairBound`).
+`Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.PairBound`); at the points of the chain:
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.TheoremSSelected`);
+from one real place to the tower: [FormalProof], `Formalism/HermitianCurvature/ArchimedeanUniformConstantsCompactSupport.lean`
+(`Formalism.FourierDecayAlt.KB.BuiltBounds2Cpt`), proved in
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/BuiltBoundsCompact.lean` (`Formalism.FourierDecayAlt.P.built_bounds_compact`);
+`Formalism/HermitianCurvature/StatementC.lean` (`Formalism.FourierDecayAlt.C.HidaSetting`, the kernels and scales of the chain);
+`Formalism/HermitianCurvature/StatementKB.lean` (`Formalism.FourierDecayAlt.KB.WaveLoc`, `Formalism.FourierDecayAlt.KB.LiftLoc`,
+`Formalism.FourierDecayAlt.KB.TopLoc`, `Formalism.FourierDecayAlt.KB.BlockSchur`, `Formalism.FourierDecayAlt.KB.IntAll`);
+`Formalism/HermitianCurvature/StatementJC.lean` (`Formalism.FourierDecayAlt.JC.WaveByPlaces`,
+`Formalism.FourierDecayAlt.JC.LiftBelowTop`, `Formalism.FourierDecayAlt.JC.LiftTopDiag`, `Formalism.FourierDecayAlt.JC.ThresholdsLift`,
+`Formalism.FourierDecayAlt.JC.SumFormConcrete`, `Formalism.FourierDecayAlt.JC.OffDiagonalLiftBoundOfPlaces`);
+`Formalism/HermitianCurvature/LowerBlockNormalisedBoundFromComponents.lean`
+(`Formalism.FourierDecayAlt.PairingProductCorollary.LeadingBlockSeveralPlacesBound`);
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/TheoremPIntegralOfPlaces.lean`
+(`Formalism.FourierDecayAlt.P.off_diagonal_lift_bound_of_places`, `Formalism.FourierDecayAlt.P.plane_exponential_bound_of_places`).
 
 ### 5.21 The Gram bound for equal words
 
@@ -1772,22 +1925,43 @@ types, 5.20a (c)); the non-generic pairs as in 5.20c; the scalar generic pairs, 
 class bounds it by `Σ_t n_sc(t)·‖𝐯_t‖²`, `n_sc(t)` the number of scalar partners of `t` in its row; the pointwise bound 5.18 (i) for equal
 types (the type shift; its hypotheses by 5.20a (c)) bounds `‖𝐯_t‖`, the mean value theorem for one nondegenerate Gram matrix
 (HermitianFormsAndLattices §6.5 (a)) counts the terms, and the partner count of 5.20b (at most `C^f(H(x)H(y))^{Cr_S²}` classes of generic
-partners of corank one with Gram class `y`) bounds `n_sc(t)`; that the decay of the amplitudes in the heights absorbs this growth of
-`n_sc(t)`, which gives the crude bound, is used and its proof is not given here. (Counting the terms and bounding the amplitudes one
+partners of corank one with Gram class `y`) bounds `n_sc(t)`; the growth of `n_sc(t)` is absorbed as in 5.20c (b): in each class
+the terms are grouped by their Bruhat point and the weighted Cauchy–Schwarz inequality is applied over the points with the
+weights `w(γ)` of 5.20c (a), the number of groups of a class at a point being at most `rd_E^{12r_S(r_S+1)f}·T(u)^{12f}` times the
+sixth power of the norm of `Gr(γ)` scaled by `rd_E^{−2r_S(r_S+1)}` at each infinite place; the mass of the terms at a point is at
+most a power of `(g₀g₁)^f·N(γ)` times the mean number `n(γ)` of 5.17 (the scaled norms are `≥ 1` at the points that occur); and
+what remains is the global sum of 5.20c (a) with a fixed exponent `A`, which gives `exp(C_Bm⁵f log b)·(d_u^{all})²/D*` through
+the volume identities of 5.20. The count at a point and the constants at the real places use the Siegel–Weil formula
+(HermitianFormsAndLattices §6.5); their proofs are not given here. (Counting the terms and bounding the amplitudes one
 by one does not suffice: for `M` equal amplitudes `a` in one class the class sum is `M²‖a‖²`, the count gives `M‖a‖²`.) (ii) Degenerate
-terms are scalars on each block (5.15 (b)); sums of products of their amplitudes are bounded through the uniqueness of the
-Bessel functional (5.13c (d)), a tail bound for large gaps, and a count of pairs of terms by mass ratios
-(HermitianFormsAndLattices §6.4). (iii) `‖K − 1‖² ≤ 2‖K − 1 − K″‖² + 2‖K″‖²` and `Γ₀d_u^{all}/D* ≤ C₀/Γ₀`. (iv) 5.16. (v) On `ker P_u`,
+terms are scalars on each block (5.15 (b)). The expansion of 5.17a, which [FormalProof] has for the family of the degenerate terms
+as well, and the orthogonality of the terms of different rows bound `‖K″(u, u)‖²_HS` by `P_g·γ_GG(1)` times the sum of
+`‖𝐯_t‖·‖𝐯_{t′}‖` over the ordered pairs of degenerate terms of one row. By 5.20d (d) that sum is at most
+`dim V_{λ_u}·W_rows·(Σ_{j=1}^{r_S}A(j))²`; `γ_GG(1)·W_rows·dim V_{λ_u} ≤ d_u^{all}` (5.20b) and `P_g ≤ 2` (`g₀, g₁ ≥ (kb)^8`); and
+`2(Σ_jA(j))² ≤ e^{−kf log k}`, because `A(j) ≤ e^{C̃·m⁶·f·log b}(C̃/k)^{j(k−1−j)f}` with `C̃ := 1 + C + C² + C_h² + C_c²` and
+`C_l m⁶·log b ≤ k·log k` with `C_l` above a threshold depending on `C̃`.
+(iii) `‖K − 1‖² ≤ 2‖K − 1 − K″‖² + 2‖K″‖²` and `Γ₀d_u^{all}/D* ≤ C₀/Γ₀`. (iv) 5.16. (v) On `ker P_u`,
 `K(u, u) − 1 = −1`; the new forms have dimension `(1 − δ_old(u))d_u^{all}` (ThetaChainsOnDefiniteUnitaryGroups §3.8). These bounds use neither the seesaw nor any
 rational structure.
 
-*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, 5.13c, 5.13, 5.15, 5.16, 5.17, 5.18, 5.20a, 5.20b, 5.20c; HermitianFormsAndLattices §§6.4, 6.5. *NEW*.
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, 5.13c, 5.13, 5.15, 5.16, 5.17a, 5.17, 5.18, 5.20a, 5.20b, 5.20c, 5.20d, 5.20; HermitianFormsAndLattices §§6.4, 6.5. *NEW*.
 (i): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
 (`Formalism.L2.SG.RowsPos.DiagLP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean`
 (`Formalism.L2.SG.RowsOther.DiagRow`), `Formalism/SharpRestriction/CuspSpanNormBounds/NonGenericAndKTwoTheorems.lean`
-(`Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoParameterConditions`); (ii): [FormalProof],
+(`Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoParameterConditions`); the crude bound for the scalar generic pairs:
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean` (`Formalism.L2.SG.RowsPos.RowMainEqP`),
+`Development/AbelianVarietyTheory/Proofs/FlagMeasures/RowMainEqPOfSiegelWeil.lean` (`GlobalTheory.rowMainEqP_of_siegelWeil`),
+`Formalism/HermitianCurvature/StatementPN.lean` (`Formalism.FourierDecayAlt.PN.NGChain`),
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/BDataOf.lean`
+(`Formalism.L2.SG.Pf.BDat.StepThmBG`); (ii): [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean` (`Formalism.L2.SG.RowsPos.KppDiagP`),
-`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean` (`Formalism.L2.SG.RowsOther.KppDiag`).
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean` (`Formalism.L2.SG.RowsOther.KppDiag`); the passage
+from 5.20d: `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+(`Formalism.L2.SG.RowsPos.kernel_diagonal_positive`), the expansion for the degenerate terms:
+`Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsConc.lean` (`Formalism.L2.SG.RowsConc.NormExpDegC`); 5.20 with
+(iii) and (iv), in the form in which [FormalProof] assembles them (under the window, with `η_off`, `η_dim` and `√e_diag` at most
+`exp(−x^{ε/8})` at every large scale `x`): `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
+(`Formalism.MainNotions.LinkS_at`, `Formalism.MainNotions.LinkS`).
 
 ### 5.22 Equidistribution of the row labels
 
@@ -1982,8 +2156,8 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
 
-- §§2.1, 2.3, 2.3b, 2.3c: the size conditions, the words with their types, the parameters `v(τ)`, `e′(τ)`, the conditions (W1)–(W6), `h_gap`, `SizeGap` and the tops. Used in 5.13, 5.16, 5.20a, 5.20, 5.21.
-- §§2.2, 2.4, 2.7, 2.8: the spaces `X_0`, `Y_0` with a unimodular lattice, the type characters, the type primes, the level primes `T(u)` with their congruence modulo `(g₀g₁)²` and the rank window. Used in 5.17d, 5.17, 5.20a, 5.20b, 5.20, 5.21, 5.23.
+- §§2.1, 2.3, 2.3b, 2.3c: the size conditions, the words with their types, the parameters `v(τ)`, `e′(τ)`, the conditions (W1)–(W6), `h_gap`, `SizeGap` and the tops. Used in 5.13, 5.16, 5.20a, 5.20d, 5.20, 5.21.
+- §§2.2, 2.4, 2.7, 2.8: the spaces `X_0`, `Y_0` with a unimodular lattice, the type characters, the type primes, the level primes `T(u)` with their congruence modulo `(g₀g₁)²` and the rank window. Used in 5.17d, 5.17, 5.20a, 5.20b, 5.20d, 5.20, 5.21, 5.23.
 - §§2.9, 2.9a, 2.9b: the levels at the bad places, the finite group `G₀`, the row type level `(K₂, χ₂)` with `ψ_g`, `χ_N`, `χ_L`, the elements `x_u` and the column levels `K_u`. Used in 5.14, 5.16, 5.17a, 5.17d, 5.17, 5.20a, 5.20b, 5.22, 5.23.
 - §3.8: the spaces `ℳ_0(u)`, their dimensions `d_u^{all}`, `d_u` and the forms new at `T(u)`. Used in 5.14, 5.20a, 5.20b, 5.20, 5.21.
 
@@ -1999,10 +2173,10 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 ### From HermitianFormsAndLattices, a sub-roadmap of this family
 
 - §4.1 (Jordan splittings), §4.8 (discriminant forms `A_L`, the invariant `t(L)` of (b)), §4.9 (gluing along discriminant forms). Used in 5.17d, 5.17.
-- §4.4 (maximal lattices), §4.10 (sublattices of given index), §4.11 (integral lattices meeting two orthogonal subspaces), §5.9 (subspaces carrying an integral lattice of given discriminant). Used in 5.20b.
+- §4.4 (maximal lattices), §4.10 (sublattices of given index), §4.11 (integral lattices meeting two orthogonal subspaces), §5.9 (subspaces carrying an integral lattice of given discriminant). Used in 5.20b; §4.4 also in 5.20d.
 - §§5.1, 5.2 (finiteness, stabilisers, Minkowski's bound, sufficiently small levels). Used in 5.15.
 - §5.5, §5.6 (c), §5.7 (c) (mass, index formula, dimension of spaces of algebraic modular forms). Used in 5.16, 5.17, 5.20a, 5.20b, 5.20.
-- §6.0b (`τ(U(V)) = 2`), §6.1 (local densities), §6.1a, §6.1d (local densities by discriminant forms), §6.2 ((a) the mass formula; (b) the volume formula for every Hermitian space with the fibre measure; (c) the compact-dual normalisation: for a unimodular lattice, `E/F` unramified at the finite places and one signature at every real place, the sum over the classes of the covolumes for the compact-dual measure is `mass(𝒪_E^n)`, that is `vol([U(V)]) = mass(𝒪_E^n)` for the measures of the Conventions), §6.3 (closed mass formula; (c) the mass of `𝒪_E^n`), §6.4 (ratios of masses), §6.4a (unimodular lattices meeting a subspace in a given lattice), §6.4b (total mass of the integral lattices of given discriminant), §6.4c (subspaces meeting a lattice in a given discriminant), §6.5 (a) (Weil's mean value theorem for one nondegenerate Gram matrix). Used in 5.16, 5.17, 5.20a, 5.20b, 5.20c, 5.20, 5.21.
+- §6.0b (`τ(U(V)) = 2`), §6.1 (local densities), §6.1a, §6.1d (local densities by discriminant forms), §6.2 ((a) the mass formula; (b) the volume formula for every Hermitian space with the fibre measure; (c) the compact-dual normalisation: for a unimodular lattice, `E/F` unramified at the finite places and one signature at every real place, the sum over the classes of the covolumes for the compact-dual measure is `mass(𝒪_E^n)`, that is `vol([U(V)]) = mass(𝒪_E^n)` for the measures of the Conventions), §6.3 (closed mass formula; (c) the mass of `𝒪_E^n`), §6.4 (ratios of masses), §6.4a (unimodular lattices meeting a subspace in a given lattice), §6.4b (total mass of the integral lattices of given discriminant), §6.4c (subspaces meeting a lattice in a given discriminant), §6.5 (a) (Weil's mean value theorem for one nondegenerate Gram matrix). Used in 5.16, 5.17, 5.20a, 5.20b, 5.20c, 5.20d, 5.20, 5.21.
 - §6.5 (d) (volumes of stabilisers: the stabilisers of two tuples with nondegenerate Gram matrices have the same covolume; the stabiliser of a flag and an anisotropic vector is the semidirect product of its unipotent radical and the pointwise stabiliser, with `vol(N(F)\N(𝔸)) = 1` for one Haar measure). Used in 5.20.
 
 ### From SlopesOfHermitianVectorBundles, a sub-roadmap of this family
