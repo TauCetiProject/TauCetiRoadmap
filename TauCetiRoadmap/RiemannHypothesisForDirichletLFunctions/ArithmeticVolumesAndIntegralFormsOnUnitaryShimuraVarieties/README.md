@@ -1721,8 +1721,10 @@ GluedTargetAndDivisionInequality uses it). There `C₀` is chosen after `ε`, th
 hypotheses of BesselPoincareSeriesAndGramBounds §5.23 (ii), (iii), `r + 1 < g₀, g₁`, `[F:ℚ] ≥ 3`, the bound on `q_z` and
 the hypotheses of 8.18f (c), (d) are not assumed: they hold for the families of the class at every large scale.
 
-(c) *The classical lift.* The classical lift at the extremal vector of the lowest `K`-type identifies `M^W_j ⊗ 𝕃` with the
-`𝕃`-rational forms of RowTowerAndRallisIdentities §5.11 at the base level (the forms of the model lift of step `j` have the weight `λ^W_j`: the lowest `K`-type
+(c) *The classical lift.* The classical lift at the extremal vector of the lowest `K`-type (the identification of
+RowTowerAndRallisIdentities §5.10a, with the extremal vector of the normalisation of RowTowerAndRallisIdentities §5.11)
+identifies `M^W_j ⊗ 𝕃` with the `𝕃`-rational forms of RowTowerAndRallisIdentities §5.11 at the base level (the forms of
+the model lift of step `j` have the weight `λ^W_j`: the lowest `K`-type
 of the lift at `τ` is `(a⁺_{j,τ} + ((r + t)/2 − w_j(τ))·1; −a⁻_{j,τ} − ((r + t)/2 + w_j(τ))·1)`). (i) The Petersson norm and the norm of
 the model lift are proportional at every embedding, `‖·‖_{5.11} = c_σ·‖·‖_{Pet}` with `|log c_σ| ≤ C·B₀·log log x` under the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1. (ii) The type part of the lattice of integral forms is spanned by its integral vectors of the type. The
@@ -1802,7 +1804,7 @@ of the route the hypothesis of BesselPoincareSeriesAndGramBounds §5.23 (iv) hol
 for `j = m` and for `j < m`, in place of `1` and `3/2`:
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/BadWStOfRegular.lean` (`GlobalTheory.BadWOn.model_bound`),
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsRunModel.lean` (`GlobalTheory.ShareOn.exists_runModel`).
-*Needs:* LocalGainOfThetaChains §4.9f, 8.12, 8.13, 8.14, 8.18, 8.18c, 8.18e, 8.18f, RowTowerAndRallisIdentities §5.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.11, BesselPoincareSeriesAndGramBounds §5.23, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9; SlopesOfHermitianVectorBundles
+*Needs:* LocalGainOfThetaChains §4.9f, 8.12, 8.13, 8.14, 8.18, 8.18c, 8.18e, 8.18f, RowTowerAndRallisIdentities §5.1, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.9, RowTowerAndRallisIdentities §5.10a, RowTowerAndRallisIdentities §5.11, BesselPoincareSeriesAndGramBounds §5.23, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.9; SlopesOfHermitianVectorBundles
 §§1.2, 2.1, 2.2, 2.6; ShimuraCompactifications §7.22; AutomorphicBundles §5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.19a Theta series generate the integral forms, uniformly on subspaces
