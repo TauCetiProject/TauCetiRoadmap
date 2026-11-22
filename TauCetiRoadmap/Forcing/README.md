@@ -352,10 +352,10 @@ assuming a countable ground.
    an ultrafilter on the image `j(RO(P)^M)` of the ground-internal completion of item 4, from
    meeting the ground-coded Boolean decision dense sets; on the external completion it need not be
    an ultrafilter (Hamkins–Seabold, Theorem 41, and the Checks). Conversely, prove the filter
-   correspondence for suitable generic filters on the Boolean side: for separative `P`, where `e` is
-   an order embedding (Layer 2 item 3), with the local range condition of Layer 0 item 4; in
-   general, through the separative quotient. State which Boolean elements and tests are quantified
-   over.
+   correspondence for suitable generic filters on the Boolean side: for a separative partial order
+   `P`, where `e` is an order embedding (Layer 2 item 3), with the local range condition of Layer 0
+   item 4; in general, through the separative quotient. State which Boolean elements and tests are
+   quantified over.
 4. Construct the **ground-internal** regular completion by coding the regular lower sets and
    operations inside a ZFC ground. Prove that each ground-coded family has its required join and
    meet. Decode the finite Boolean operations externally, but do not assert external completeness.
