@@ -185,13 +185,9 @@ def SepLE (p q : P) : Prop :=
 def IsSeparative (P : Type u) [Preorder P] : Prop :=
   ∀ p q : P, SepLE p q → p ≤ q
 
-/-- A principal lower set in the forcing orientation. -/
-def principalLower (p : P) : LowerSet P :=
-  ⟨Set.Iic p, fun _ _ hxy hy ↦ hxy.trans hy⟩
-
 /-- The canonical map, with no separativity hypothesis. -/
 def regularCondition (p : P) : Heyting.Regular (LowerSet P) :=
-  Heyting.Regular.toRegular (principalLower p)
+  Heyting.Regular.toRegular (LowerSet.Iic p)
 
 /-- Completeness for the existing order; implementing this supplies the compatible
 complete Boolean algebra instance, rather than choosing an unrelated order structure. -/
