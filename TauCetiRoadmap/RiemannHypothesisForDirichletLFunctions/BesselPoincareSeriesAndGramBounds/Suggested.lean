@@ -31,9 +31,7 @@ adelic points.
   absolutely and the three integrability conditions of 5.15a hold, for a measurable
   parametrisation of the double cosets that disintegrates Haar measure, `dγ` being the image of
   its measure. It lacks square integrability and the formal degree of a unitary representation,
-  the integrated action `R(f)` of `L¹(G)` for a non-commutative `G` (Tau Ceti integrates strongly
-  continuous representations of additive monoids only), and the quotient measures on `S\G` and
-  `S′\G`.
+  and the quotient measures on `S\G` and `S′\G`.
 * Limit multiplicity with a uniform error (5.16): for a Hermitian space `V` of dimension `n ≥ n₀`
   over a CM extension `E/F` with a self-dual lattice and one signature `(p_V, q_V)` at every real
   place, `q_V² ≤ n`, `log rd_E ≤ e^n`, `log f ≤ √n`, a discrete series `π_∞` of `U(V)(F_∞)` with
