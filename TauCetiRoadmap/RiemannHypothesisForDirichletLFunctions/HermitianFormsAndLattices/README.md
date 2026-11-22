@@ -230,7 +230,9 @@ and `β_v^⋆ = β_v^⋆(n)`.
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof].
+[FormalProof]. A declaration named may be the proposition stating the form (a definition of type `Prop`), not its proof;
+one quantified over the proof's own datum, a CM field with auxiliary choices (6.2–6.4), states the form only for the CM
+extensions such a datum carries, all unramified at every finite place.
 
 ## Layer 0: unitary groups
 
@@ -2385,9 +2387,10 @@ nonzero reduction, that is `(1 − q_v^{2−2n′})·2/(q_v^{n′−1} + 1)` of 
 Every other point `y` has `y_v` in `G(F_v)·x` at every place (`x` lies in the open orbit at the split
 places) and in `U(L_v)x` at almost all, so it lies in `G(𝔸)·x`.
 
-For the quotient of `τ_G` by `τ_H` in the route of (a), `t ≠ 0`: [FormalProof],
+For a CM extension unramified at every finite place, the quotient of `τ_G` by `τ_H` in the route of (a), `t ≠ 0`: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsIsGaugeOfIsCMExt.lean` (`GlobalTheory.GaugeEx.exists_isGauge`).
-The formal proof builds a compatible family of Haar measures rank by rank, independent of the chain of vectors chosen
+For a CM extension the formal proof builds a compatible family of Haar measures rank by rank, independent of the chain of
+vectors chosen (two chains of two vectors of nonzero norm with the same orthogonal complement, `n′ ≥ 4`)
 ([FormalProof], `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/UnitaryStabilizerMeasureIndependentOfPathStatement.lean`
 (`GlobalTheory.T.unitaryStabilizer_measure_independent_of_path`)), where this roadmap takes the Tamagawa measures.
 
