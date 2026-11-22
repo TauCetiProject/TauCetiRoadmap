@@ -321,19 +321,21 @@ assuming a countable ground.
    the poset side compare after translation to Boolean names. Expose an adequacy theorem for the
    selected quantifier domains.
 2. Prove atomic and formula comparison for matching name domains:
-   `p ⊩_N φ(τ⃗) ↔ i(p) ≤ ⟦φ(τ̂⃗)⟧`. First state the right-hand quantifier domain as the translated
-   domain. Replacing it by all Boolean names requires a proved density/equivalence theorem for names
-   and formula semantics. Do not substitute the full host name universe for a ground's names. With
+   `p ⊩_N φ(τ⃗) ↔ i(p) ≤ ⟦φ(τ̂⃗)⟧`.
+   First state the right-hand quantifier domain as the translated domain. Replacing it by all
+   Boolean names requires a proved density/equivalence theorem for names and formula semantics. Do
+   not substitute the full host name universe for a ground's names. With
    `e : CompletionMap P B` into a complete Boolean algebra `B`, `N` the stated family of poset
    names, `D = PName.relabel e.toFun '' N`, and `r : N → D` the map sending each name to its
    relabelling (with the proof that it lies in the image), the statement reads, for a formula with
-   free-variable assignment `v : α → N` and bound-variable assignment
-   `xs : Fin n → N`,
+   free-variable assignment `v : α → N` and bound-variable assignment `xs : Fin n → N`,
 
    `p ⊩_N φ(v, xs) ↔ e.toFun p ≤ BName.truth D φ (r ∘ v) (r ∘ xs)`,
 
-   so the quantifiers range over `N` on the left and over `D` on the right, and the
-   universal-quantifier case of the induction extends both assignments along `r`.
+   so the quantifiers range over `N` on the left and over `D` on the right. For `∀`, choosing
+   `τ ∈ N` appends `τ` to `xs` on the left and `r τ` to `r ∘ xs` on the right, while `v` stays
+   fixed; every member of `D` arises this way because `D` is the image of `N`, so the induction
+   needs no injectivity of `r`.
    `PName.val_relabel` in `Suggested.lean` fixes the name types, universes, translation and
    valuations in which it is stated: valuing a relabelled name at a set `U` of Boolean values is
    valuing the name at `e⁻¹' U`, because a child labelled `p` is kept on the left exactly when the
@@ -345,7 +347,8 @@ assuming a countable ground.
    `(τ.relabel e.toFun).val U_G = τ.val G`. The local range condition alone does not suffice for a
    non-separative `P`, because `e r ≤ e p` gives only `r ≤* p` (see the Checks).
 3. For a filter `G`, define the generated Boolean filter by
-   `U_G = {b | ∃ p ∈ G, i(p) ≤ b}`. Prove properness. For a ground-generic `G`, prove that `U_G` is
+   `U_G = {b | ∃ p ∈ G, i(p) ≤ b}`.
+   Prove properness. For a ground-generic `G`, prove that `U_G` is
    an ultrafilter on the image `j(RO(P)^M)` of the ground-internal completion of item 4, from
    meeting the ground-coded Boolean decision dense sets; on the external completion it need not be
    an ultrafilter (Hamkins–Seabold, Theorem 41, and the Checks). Conversely, prove the filter
