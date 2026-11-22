@@ -3662,7 +3662,7 @@ window is `≥ Y₀ ≥ X₀^{1/J}`). The route uses, through 7.4, the following
 (`UpperTheory.V.JointWin`, `AV/PrimeSetBoundDataOfPrimitiveChar.lean`, with the minus part `UpperTheory.V.ThmBc` there), which is
 stated for `0 < ε < 1/52`, with the term `exp(x^{4ε/5})` in place of the `exp(x^δ)` of 7.4, and allows every `κ ≥ 1` and every layer
 `n ≥ 2` with `2^n ≤ x^α` at each scale of the window; the headline of [FormalProof] (`UpperTheory.Top.VWin`,
-`src/Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`, deduced from the joint window statement in
+`Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`, deduced from the joint window statement in
 `AV/CMFieldExponentialBounds/AdmissibleOfPageN.lean`) is the narrower case `0 < ε < 1/52`, `t = ⌊x^{401}⌋` and one layer per
 scale, with the bound `exp(x^ε/2)`. [FormalProof] obtains this form from two statements that it also proves: the Galois
 representations of regular algebraic polarized cuspidal representations over CM fields in the form of
