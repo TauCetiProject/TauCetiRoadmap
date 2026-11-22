@@ -1,15 +1,23 @@
 # Riemann hypothesis for Dirichlet L-functions
 
-A family of roadmaps whose end theorem is the Riemann hypothesis for Dirichlet L-functions: for
+A family of roadmaps whose end theorem is the generalized Riemann hypothesis (GRH), that is, the
+Riemann hypothesis for Dirichlet L-functions: for
 every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s` with `Re s > 1/2`,
 `L(s, χ) ≠ 0` unless `χ` is principal and `s = 1`. For the trivial character this is the Riemann
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
-Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
-on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf); [source with a public verification
-setup](https://github.com/leanprover-community/riemann-hypothesis)). The theorems of that proof are
+roadmap of the family states these theorems. The results that the family states are those of the
+formal Lean proof, by Levent Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for
+Dirichlet L-functions, announced on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf);
+[the Lean source as published](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005),
+which is the first commit of a
+[repository with a public verification setup](https://github.com/leanprover-community/riemann-hypothesis)).
+That repository says of the proof that it belongs to its author and was published without a license,
+and that it is mirrored there for verification only: unmodified at that first commit, and with the
+changes listed in its notes since. The files the roadmaps of this family name are files of the
+source as published, so they are to be looked up at that first commit, under its directory `src/`;
+the reference to the formal proof in each roadmap names that commit. The theorems of that proof are
 the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
 Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
 them by published theorems and are not statements of the formal proof. Each roadmap states as
@@ -35,6 +43,38 @@ within the family, each roadmap cites only roadmaps listed above it. Citations b
 are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
 section keeps its number.
 
+## When a roadmap is wrong
+
+The purpose of this family is to bring the mathematics of the formal Lean proof into Tau Ceti as
+library mathematics. That does not mean copying the formal proof. The roadmaps are the plan and they
+are followed, as in any other area. A contribution is free, as everywhere in Tau Ceti, to state a
+result in greater generality, to arrange it differently and to prove it by another route.
+
+The roadmaps were written from the formal proof, and they may contain mistakes. This section is
+about one situation only: a roadmap of this family is demonstrably wrong at some point, in its
+`README.md` or its `Suggested.lean` (a statement is false or inconsistent as written, a hypothesis
+or a convention does not fit, or a step that the argument needs is missing), and the formal proof
+shows what is right.
+
+For those who write and those who review pull requests that carry out these roadmaps:
+
+- In that situation a contribution may correct the statement, or supply the missing step, in a
+  form consistent with the formal proof. Its description says what is wrong with the roadmap (the
+  reason, or a counterexample) and names the file and declaration of the formal proof that settles
+  it. The corrected statement may still be more general than the one in the formal proof.
+- A review does not block or delay such a contribution on the ground that it departs from the
+  roadmap, or that it proves something the roadmap does not list. What it checks is that the roadmap
+  is indeed wrong or incomplete at that point, that the correction agrees with the formal proof
+  there (the declaration named exists in the source as published and supports it), and the usual
+  standards of the library.
+- The roadmap is then corrected. The correction may follow the contribution; it need not come
+  first.
+
+This is not a licence to replace a roadmap's statement by the formal proof's wherever the two
+differ in form: where the roadmap is right, it is followed. It does not cover a departure that
+agrees with neither the roadmap nor the formal proof, and it does not change the roadmaps of other
+areas that this family cites.
+
 ## The roadmaps
 
 - [**Tensor induction and finite-group inputs**](TensorInductionAndFiniteGroupInputs/README.md):
@@ -56,8 +96,8 @@ section keeps its number.
 - [**Frobenius-restricted Riesz sums**](FrobeniusRestrictedRieszSums/README.md):
   abelian CM hosts and their Frobenius data, cyclic hosts and the cyclic family of a primitive
   Dirichlet character, tops, thick sets and admissible pairs; Riesz sums restricted by Frobenius,
-  and the implication from the averaged inequality at every translate on a host to the
-  square-root bound for the cyclic family.
+  and the equivalence of the averaged inequality on a host with the window bound for the cyclic
+  family.
 - [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
   adelic heights of vectors and subspaces for an adelic presentation, with their duality and
   behaviour under extension, and successive minima over number fields for balanced bodies.
@@ -108,8 +148,9 @@ section keeps its number.
   Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
   lattice coefficients.
 - [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
-  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
-  annihilation, and the vanishing of Bloch–Kato groups.
+  twisted Tate–Shafarevich groups and their bounds by generalized Bernoulli numbers and by explicit
+  torsion bounds for the homology of general linear groups over rings of integers, for étale
+  cohomology and for K-groups, and the vanishing of Bloch–Kato groups.
 - [**Theta kernels for unitary dual pairs**](ThetaKernelsForUnitaryDualPairs/README.md):
   the Weil representation, splittings and theta kernels for unitary dual pairs, the local theta
   correspondence, convergence and unfolding.
