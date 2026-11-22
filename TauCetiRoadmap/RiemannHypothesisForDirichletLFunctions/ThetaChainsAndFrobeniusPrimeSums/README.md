@@ -250,7 +250,7 @@ only in Checks.
 | `ℋ^♮, 𝔼^♮, ℋ, 𝔼, 𝔼_0, Π_good` | rows at principal level, good rows; their parts of the row type level (`𝔼` the target rows); the part of the base level; the good idempotent | RowTowerAndRallisIdentities §5.3 |
 | `D_all, D_rows, δ_bad` | the dimensions of `ℋ` and `𝔼`, the discarded share | RowTowerAndRallisIdentities §5.3 |
 | `λ_j(ξ, 𝔥)` | the Rallis eigenvalue of step `j` | RowTowerAndRallisIdentities §5.7 |
-| `v_□, p_□, d_□, 𝔪_□, N_E, C_F` | the auxiliary place of the grid, the auxiliary prime, the depth (defined with the grid), the modulus of the grid, the modulus of the host, the depth constant `C_F ≥ 6510` | RowTowerAndRallisIdentities §5.8a |
+| `v_□, p_□, d_□, 𝔪_□, N_E, C_F` | the auxiliary place of the grid, the auxiliary prime, the depth (defined with the grid), the modulus of the grid, the modulus of the host, the depth constant `C_F ≥ C_F⁰` (`C_F⁰ ≥ 6510`, 10.6) | RowTowerAndRallisIdentities §5.8a |
 | `Size_□`; (L1)–(L7) | the size predicate of the grid; the condition on `𝕃` | RowTowerAndRallisIdentities §5.8e; RowTowerAndRallisIdentities §5.8 |
 | `𝔫` | the descent constant | RowTowerAndRallisIdentities §5.10 |
 | `P_u, K(u, u′)` | Bessel–Poincaré series, Gram operators | BesselPoincareSeriesAndGramBounds §5.14, BesselPoincareSeriesAndGramBounds §5.15 |
@@ -505,7 +505,7 @@ quotient for two words is at most `1 + Δ_w/Sc = 1 + 1/(4k)` for each `l`, in al
 has order `g^{r(r−1)/2 − k}` on the row side and `U_k(𝔽_g)` order `g^{k(k−1)/2}` on the column side, and
 `r(r+1)/2 + k − k(k+1)/2 = m(2k + m − 1)/2`, which is `2k + 1` at `m = 2`.
 
-*NEW* design, *KNOWN* formulas (Siegel; Shimura; Gan–Hanke–Yu; Harish-Chandra; Weyl). (c), the two words: follows from [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/ThresholdCubicInequalitySignPattern.lean` (`Formalism.MainNotions.Sizes3b`), `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/SzHypFam.lean` (`Formalism.L2.SG.Pf.SzHypFam.aSz`); (d), the lower bounds: follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Count_at`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8,
+*NEW* design, *KNOWN* formulas (Siegel; Shimura; Gan–Hanke–Yu; Harish-Chandra; Weyl). (c), the two words: follows from [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/ThresholdCubicInequalitySignPattern.lean` (`Formalism.MainNotions.Sizes3b`), `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/SzHypFam.lean` (`Formalism.L2.SG.Pf.SzHypFam.aSz`); (d), the lower bounds: follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Count_at`); (d), the upper bound with `C_T = 25`: [FormalProof], `Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/TraceUpperBoundAllMembers.lean` (`GlobalTheory.LevelPrimeUpper.tr_le_of`, `GlobalTheory.LevelPrimeUpper.eventually_trace_le`); (c), the upper bound with the constant `max(11, 16 + 3C₁)`, under the hypotheses of (c) with `log g₀, log g₁ ≤ C₁·x^ε`, `44 ≤ m ≤ k` and `m²x^ε ≤ k`: [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeOfExplicitAndCompact.lean` (`Formalism.MainNotions.StandardLattice.part_five_all_of_explicit`), `Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeFamilyOfFormalDegreeInput.lean` (`Formalism.MainNotions.StandardLattice.HarishChandraReduction.tuSize_min`, `Formalism.MainNotions.StandardLattice.HarishChandraReduction.cTmin`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8,
 ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 9.3; HermitianFormsAndLattices §§6.0b, 6.1, 6.2, 6.3, 6.4; AdelicAlgebraicGroups §2.4.
 
 ### 9.5 The word code
@@ -534,8 +534,9 @@ at every `τ`; consecutive inner entries of every word differ by at least `3Δ_w
 `M = ⌈C₀Γ₀²x^{c_H}⌉`) and the family `(B_u : N′_u → R^∨)_{u∈W}` of GluedTargetAndDivisionInequality §7.14. Assume: `d_u > 0` for every `u ∈ W` and
 `𝔼 ≠ 0`; the hypotheses of BesselPoincareSeriesAndGramBounds §5.20 for every pair of distinct words of `W` and those of BesselPoincareSeriesAndGramBounds §5.21 for every word, with `e_diag < 1 − δ_old(u)` (so that `P_u` is nonzero on the `T(u)`-new forms, BesselPoincareSeriesAndGramBounds §5.21 (v)); the hypotheses of BesselPoincareSeriesAndGramBounds §5.23;
 the hypotheses of GluedTargetAndDivisionInequality §7.14 (among them those of LocalGainOfThetaChains §4.16 (ii), of LocalGainOfThetaChains §4.16b at the places above `T(u)`, and of RowTowerAndRallisIdentities §5.8b), those of SeesawForThetaChains §6.14 and
-of SeesawForThetaChains §6.15 (among them `Size_□` of RowTowerAndRallisIdentities §5.8e and the condition (L1)–(L7) of
-RowTowerAndRallisIdentities §5.8 on `𝕃`), and
+of SeesawForThetaChains §6.15 (among them the hypotheses of RowTowerAndRallisIdentities §5.8: `Size_□` of
+RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰`, the scale `x ≥ x_F`, the gap hypotheses on the
+weight datum and the condition (L1)–(L7) on `𝕃`), and
 those of GluedTargetAndDivisionInequality §8.9 (`SizeT_u`, the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1,
 `SizeG` of ThetaChainsOnDefiniteUnitaryGroups §2.7, `|(L′/L)(1, χ_K)| ≤ x^ε`, `a⁻_τ ≤ 2b′` at the tops and the
 hypotheses of GluedTargetAndDivisionInequality §8.8 at every step and place). Put
@@ -676,7 +677,13 @@ hypotheses* of chain data are:
   ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c) of GluedTargetAndDivisionInequality §8.22,
   and the cost condition `𝔢_u·log T(u) ≤ C·B₀` of GluedTargetAndDivisionInequality §8.23; `T(u) ≥ b³`, `b ≥ 4f` and `Σ_𝔭 sz_𝔭(τ_N(𝔭)) ≤ b²` (9.2); the
   hypotheses of BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.21 and BesselPoincareSeriesAndGramBounds §5.23 as 9.6 asks them;
-  `Size_□` (RowTowerAndRallisIdentities §5.8e), and `x ≥ x₀` for the `x₀` of its Statement;
+  `Size_□` (RowTowerAndRallisIdentities §5.8e), for the grid of the depth constant `C_F ≥ C_F⁰` of 10.6; `x ≥ x_F`, the
+  scale of RowTowerAndRallisIdentities §5.8 for `ε` and this `C_F` (so `x ≥ x₀` for the `x₀` of the Statement of
+  RowTowerAndRallisIdentities §5.8e), and `x` at least the thresholds of GluedTargetAndDivisionInequality §§8.24a, 8.24c,
+  8.24 for `ε` and `C_F`; the gap hypotheses of RowTowerAndRallisIdentities §5.8 on the weight datum:
+  `e_l(τ) − e′_l(τ) ≥ (t + 3)/2` and `e′_{l+1}(τ) − e_l(τ) ≥ (t + 3)/2` ((W1), part of (D3)), consecutive entries of the row
+  parameter `(v(τ); −e′(τ))` at least `100r⁴` apart, and `e′_{l+1}(τ) − e′_l(τ) ≥ max(256r⁴, 4N_m³ + 2t + 6)`, for all `τ`
+  and `l` (verified at the parameters of the chain in 10.6b);
 - (H2) *the host:* the host is inert-free up to `B_s` (FrobeniusRestrictedRieszSums §0.3), with `B_s ≥ max(12, x^{c_s})` as LocalGainOfThetaChains §4.17 asks (so every prime
   inert in `K` is at least `13`; in particular `3` splits in `K`; `SizeInert` of ThetaChainsOnDefiniteUnitaryGroups §2.1 is this with `c_s = ε/(5J)`), and it
   satisfies `HostSplitting E` (`4 | f`, and every place of `F` above a prime dividing `f_E` splits in `E`, FrobeniusRestrictedRieszSums §0.3; ThetaChainsOnDefiniteUnitaryGroups Layer 3
@@ -710,7 +717,7 @@ of the headline are those of 10.7 (b).
 
 *NEW* (definition). (H1) follows from [FormalProof], `Formalism/SharpRestriction/ElevenLe.lean` (`Formalism.MainNotions.SizesAt`), `Formalism/LocalRingCardinality/DataParams.lean` (`Formalism.BasicNotions.ParameterChoice'`), `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Win_at`); (H5), its clauses `d_u > 0`, `𝔼 ≠ 0` and `𝔼_0 ≠ 0`, follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Lat_at`), `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean` (`Formalism.L2.Indef.Tree.RankRows`). *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8a, ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §3.8, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.10a, LocalGainOfThetaChains §4.15d, LocalGainOfThetaChains §4.15e, LocalGainOfThetaChains §4.15f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.16a, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a,
 LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.5, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, SeesawForThetaChains §6.14, CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.6, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.11,
-ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.14b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.19e, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, 9.1, 9.2, 9.6.
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.14b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18e, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.19e, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.23, GluedTargetAndDivisionInequality §8.24, GluedTargetAndDivisionInequality §8.24a, GluedTargetAndDivisionInequality §8.24c, 9.1, 9.2, 9.6.
 
 ### 10.1 Frobenius-restricted sums of the gains
 
@@ -953,7 +960,14 @@ constant of the length bound `L_th ≤ C_L·log x` of CongruenceModulesOfThetaLi
 (`R_E := rd_E^{C_R}` in (N2) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a; the value that its (N0) asks);
 the width `c_box ∈ [ε₀/8, 1/12)` of the zero-free boxes of QuadraticTwistSelectionOverPrimes
 §2.7c (`c_box = 1/400` in QuadraticTwistSelectionOverPrimes §2.7c (a′)–(c′) and
-QuadraticTwistSelectionOverPrimes §2.7d (ii′)); the depth constant `C_F ≥ 6510` of RowTowerAndRallisIdentities §5.8a;
+QuadraticTwistSelectionOverPrimes §2.7d (ii′)); the depth constant `C_F` of RowTowerAndRallisIdentities §5.8a, taken with
+`C_F ≥ C_F⁰`, where `C_F⁰ ≥ 6510` is an absolute constant, fixed before `ε` and not made explicit: at least the threshold of
+RowTowerAndRallisIdentities §5.8 (the rational structure of the rows) and the thresholds of
+GluedTargetAndDivisionInequality §§8.24a, 8.24c and 8.24 (the slope test at the grid of the chain); [FormalProof]
+takes for `C_F` the larger of two thresholds, that of its bound for the maximal slope of the target at the grids and
+that of the existence of grids with test data over the field of places, and gives a value for neither
+(`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean`
+(`UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound`));
 and the absolute constants of FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, LocalGainOfThetaChains §4.15 and RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i.
 
 *After `ε`, before the scale.* For `ε ∈ (0, ε₀)` put `A_n := 2 + 8ε ∈ (2, A_max)` (the layer exponent of ThetaChainsOnDefiniteUnitaryGroups §2.1, which depends
@@ -1001,13 +1015,16 @@ and the constant of `Λ_log`, and before the thresholds of `c_Δ` and `c_h`.
 - *Primes.* Type primes `g₀, g₁ ∈ (Y_g, 2Y_g]` of ThetaChainsOnDefiniteUnitaryGroups §2.7 (a) for `Y_g := (kb)^8`, with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅`; auxiliary primes
   `p_δ, p′_δ` of ThetaChainsOnDefiniteUnitaryGroups §2.7 (b); for each translate and word, the level prime `T(u)` of ThetaChainsOnDefiniteUnitaryGroups §2.8.
 
-*The order of the choices.* (1) The constants above. (2) `ε`, and with it `A_n = 2 + 8ε`. (3) The window constant `J` (which
+*The order of the choices.* (1) The constants above, among them `C_F ≥ C_F⁰`: the depth constant is chosen before `ε`.
+(2) `ε`, and with it `A_n = 2 + 8ε`. (3) The window constant `J` (which
 depends on `ψ`, `ε` and the constants of (1) only), the threshold `x₁(ψ, 3, 4, ε)` of FrobeniusRestrictedRieszSums §1.9, the exponent `c_H ≥ c_H⁰` (9.6 (b): `c_H⁰`
 may depend on `ε` and on these constants); then the band constant `C_ρ` (it depends on `ε`); then the exponent `c_Δ ≥ c_Δ⁰`
 of the letter step (`c_Δ⁰` depends on `ε`, on
 the constants of (1) and on `c_H`), and with it the exponent `C_S` of `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b);
 then the exponent `c_h ≥ c_h⁰` of the node gap (`c_h⁰` depends on `c_Δ`, hence on `c_H`);
-then the threshold `x₀`. (4) The scale `x`. (5) At `x`, shared by all translates: the host and its
+then the threshold `x₀`, at least the scale `x_F = x_F(ε, C_F)` of RowTowerAndRallisIdentities §5.8, the thresholds of
+GluedTargetAndDivisionInequality §§8.24a, 8.24c, 8.24 for `ε` and `C_F`, and those of 10.6a–10.6d.
+(4) The scale `x`. (5) At `x`, shared by all translates: the host and its
 tops, `k, m, t`, `T_O`, the thick set, the top weights (one vector, LocalGainOfThetaChains §4.17c), the word code (9.5), the type and auxiliary
 primes, and the numerical data of the grid that depend on these (RowTowerAndRallisIdentities §5.8a: `s`, `p_□`, `d_□`). (6) For
 each translate `u₀ ∈ A₀` independently: (6a) the step weights `w_{u₀,j}` (the thick places depend on `u₀`), the
@@ -1034,7 +1051,7 @@ asks of `T_O` are `(D_Y + 2)n_W + 2r`, `40(D_Y + 2)`, `11D_Y²`, `r + 2500r(D_Y 
 `SizeK`. A choice `t ≤ 2(k + m + 4)` violates (R5) as soon as `f ≥ 1`.
 
 *NEW* (definition). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §0.8, FrobeniusRestrictedRieszSums §0.8a, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.10a, LocalGainOfThetaChains §4.14b, LocalGainOfThetaChains §4.15, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17c, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.21,
-CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.22, 9.4, 9.5, 9.6; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i; UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes
+CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.22, GluedTargetAndDivisionInequality §8.24, GluedTargetAndDivisionInequality §8.24a, GluedTargetAndDivisionInequality §8.24c, 9.4, 9.5, 9.6; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i; UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes
 §§2.7c, 2.7d.
 
 ### 10.6a The size predicates
@@ -1044,7 +1061,14 @@ CongruenceModulesOfThetaLifts §7.10c, ArithmeticVolumesAndIntegralFormsOnUnitar
 Gram bounds, `C_Δ = 5`, `c_T = 1/2`, `C_b = 3` (so `c_T·C_b = 3/2` and `c_Θ = 1/16`; the instance that
 BesselPoincareSeriesAndGramBounds §5.20 names), `c_b = 1/4`, `C_u = 3`, with `C_l` at least `256` and at least the thresholds of
 BesselPoincareSeriesAndGramBounds §§5.20–5.21) and for the values of `u_0(τ)`, `Δ_w`, `L_th` and `b₁(τ)` stated in 10.6; for the
-other admissible constants they are this roadmap's arithmetic. The Check of 10.6 takes other admissible values of `c_T` and
+other admissible constants they are this roadmap's arithmetic. For `C_T` [FormalProof] has two values. The bound
+`T(u) ≤ b^{25m}` is proved at the points of the construction (9.4 (d)), and the standing conditions of
+BesselPoincareSeriesAndGramBounds §5.20a are established there with `C_T = 25`. In the statements along the families of
+chain data, among them the Gram bounds, the constant `C_T` is the one that the family carries, required to be at least
+`max(11, 16 + 3·max(5, C_g + 1))`, the constant of 9.4 (c) for `log g_i ≤ max(5, C_g + 1)·x^ε`; the families that
+[FormalProof] exhibits carry `46`, the value at `C_g = 9`, and the thresholds that depend on `C_T` are taken for it. In both
+places the standing conditions are used with `b^{C_g + 1}` as the upper bound of the type primes.
+The Check of 10.6 takes other admissible values of `c_T` and
 `C_b`. The clauses of these size conditions with no counterpart among the size conditions
 of [FormalProof] are this roadmap's own: `SizeSc`, the second clause of `SizeDep`, `SizeThin` and the row sizes `b ≥ 100`,
 `2(η_s + t + 1) + Sc ≤ b/10`, `20·max(w_max, η_s + t + 1, Sc) ≤ b`, `r/ℓ_A ≤ 2m/x^ε`, `(3 + log ℓ_A)² ≤ x^ε`,
@@ -1110,7 +1134,9 @@ disjointness `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` is possible because at most
 constants fixed before `ε` and on `c_H`, for every `c_Δ ≥ c_Δ⁰` there is `c_h⁰`, depending on `c_Δ`, `c_TO` and the constants
 fixed before `ε`, and for every `c_h ≥ c_h⁰` a threshold `x₀(ψ, ε, J, c_H, c_Δ, c_h)`,
 such that for `x ≥ x₀`, every host with (h1)–(h5) and the choices of 10.6 at `x`: the hypotheses of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeGap`, `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3c); the lower
-bounds that ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9 (consecutive entries of the row parameter at least `100r⁴`), BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, CongruenceModulesOfThetaLifts §7.10a and
+bounds that ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9 (consecutive entries of the row parameter at least `100r⁴`), RowTowerAndRallisIdentities §5.8 (its gap hypotheses: besides (W1)
+and the `100r⁴` of RowTowerAndRallisIdentities §5.9, `e′_{l+1}(τ) − e′_l(τ) = h₀ ≥ max(256r⁴, 4N_m³ + 2t + 6)`),
+BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, CongruenceModulesOfThetaLifts §7.10a and
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N1) ask of `Δ_w`, `h₀` and `h_gap`, among them `Δ_w ≥ (T_O + D_Y + 2)(T_O + D_Y + 2 + 2N_m)` and
 `h₀ ≥ 4T_O² + t + 1`; the further lower bounds `Δ_w ≥ k^{C}(C·m)³·(x^{c_H}/6)^{C}` (the bound for `Δ_w` in
 `c_H`, with a constant `C` fixed before `ε`), `Δ_w ≥ x^{ε/100}·m·N_m`, `h₀ ≥ k·t·x^ε`, `h₀ ≥ x^{ε/100}·k·m^{9/2}` and
@@ -1138,9 +1164,20 @@ power of `x`, so the order `c_H`, then `c_Δ`, then `c_h`, then `x₀` is consis
 one residue at one thick place, which exists because `μ_E` is cyclic and `τ₁` maps a generator of it to a generator); off
 the tops `u_0(τ) − v_0(τ) = Sc + ½` and `u_{k−1}(τ) = −½ = v_{k−2}(τ) − ½`, and at a top `u_0(τ) − v_0(τ) ≥ a − Sc ≥ Sc`; the
 lower bounds that ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3 (`SizeGap`), RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, CongruenceModulesOfThetaLifts §7.10a and ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (N1) ask of `h₀` and `h_gap` are polynomials in `x`
-(among them `t + 2N_m³ + 1`, `4b/ℓ* + t + 6`, `120r³`, `C r^{19}f^5 x^ε`, `100r⁴`, `4T_O² + t + 1`), so they hold for
-`c_h ≥ c_h⁰`. The nodes are at least `w″`, which exceeds every polynomial in `x`, so `e′_j(τ) ≥ k^{C_b}` and
-`C_l·m·k·Δ_w ≤ e′_j(τ)`. *Loops (BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b).* `C_u·log b = C_u·x^ε ≤ m − 1` and `m ≥ C_m` because `m ≥ x^{1/2−ε/16}` and `ε < 1/52`.
+(among them `t + 2N_m³ + 1`, `4b/ℓ* + t + 6`, `120r³`, `C r^{19}f^5 x^ε`, `100r⁴`, `256r⁴`, `4N_m³ + 2t + 6`,
+`4T_O² + t + 1`), so they hold for `c_h ≥ c_h⁰`. The nodes are at least `w″`, which exceeds every polynomial in `x`, so
+`e′_j(τ) ≥ k^{C_b}` and `C_l·m·k·Δ_w ≤ e′_j(τ)`. *The gap hypotheses of RowTowerAndRallisIdentities §5.8.* The datum of
+ThetaChainsOnDefiniteUnitaryGroups §2.3a is interlaced, with `e_l − e′_l = e′_{l+1} − e_l = h₀/2 = h_gap ≥ (t + 3)/2`.
+Consecutive entries of its row parameter `(v(τ); −e′(τ))` differ by `4Δ_w` (inside `v(τ)`), by
+`v_{k−2}(τ) + e′_0(τ) = b₁(τ)` (as `v_{k−2}(τ) = 0`) and by `h₀` (between nodes). For `x ≥ x₀`: `4Δ_w ≥ 100r⁴` and
+`h₀ ≥ max(256r⁴, 4N_m³ + 2t + 6)`, polynomial bounds that follow from `Δ_w ≥ 256N_m⁴` and `h_gap ≥ 256N_m⁴`
+(`r ≤ N_m`, `t ≤ N_m`), the form in which [FormalProof] has them, for exponents `c_Δ, c_h ≥ 1610`; and
+`b₁(τ) ≥ w″ ≥ 100r⁴` at every kind of place (`a⁻_τ ≥ b′ ≥ w″` at a top; `⌈w″⌉` at a thin place; `⌈b⌉ ≥ w″` at a thick
+one; `w″` exceeds every polynomial in `x`). [FormalProof] establishes the gap hypotheses in this way, once, from the
+explicit datum of the chain; it does not derive them from its size predicates
+(`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/StandardLatticesDiagonal.lean`
+(`GlobalTheory.Mem.HostFrames.hostHyp_of_gaps`, `GlobalTheory.Mem.HostFrames.hostHyp_frames_ev`)).
+*Loops (BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b).* `C_u·log b = C_u·x^ε ≤ m − 1` and `m ≥ C_m` because `m ≥ x^{1/2−ε/16}` and `ε < 1/52`.
 *The two words of BesselPoincareSeriesAndGramBounds §5.20.* 9.4 (c) gives `T(u)/T(u′) ≤ A_V` and the Vandermonde products within `A_V^k` for the absolute `A_V`; 9.4 (d)
 gives `T(u) ≥ b^{16m} ≥ b^{c_T m}`; 9.5 (a) gives the half-cut; `C_l·log b = C_l·x^ε ≤ f·log k` because `f ≥ 2x^{A_n}`. *BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23.* `e_diag = 2C₀/Γ₀ + 2e^{−kf log k}` and
 `δ_old(u) ≤ 2f/X′` are smaller than any negative power of `x`; `min(q, d) ≥ exp(x^{ε/(6J)})` by (h4); `g₁ > (kb)^8 > 4r`.
@@ -1148,7 +1185,7 @@ gives `T(u) ≥ b^{16m} ≥ b^{c_T m}`; 9.5 (a) gives the half-cut; `C_l·log b 
 `b + ϑ + 1 ≤ 2b`, at a thin place `w″ + ϑ + 1 ≤ 2b`) and at least `w″` (`a⁻_τ ≥ b′ ≥ w″`, `b ≥ w″`), and `X″·w″ = a = x·b` by the
 definition of `X″` (ThetaChainsOnDefiniteUnitaryGroups §2.1); so `w_j(τ) ≤ 2b ≤ x·b = X″·w″ ≤ X″·w_{j′}(τ′)` for `x ≥ 2`.
 
-*NEW* (elementary). With the constants of the head of 10.6a: the unit condition of the datum, [FormalProof], `Development/AutomorphicArithmetic/WeightCongruences/ProdNegOneZpow.lean` (`UpperTheory.MUQ`); `SizeSep` with `ℓ*`, `D_*`, `ℓ_A`, [FormalProof], `Formalism/LocalRingCardinality/DataParams.lean` (`Formalism.BasicNotions.LevelStarExponents.lStar`); `e_diag`, `δ_old(u)` and `δ_bad`, [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean` (`Formalism.MainNotions.LinkIRR`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, CongruenceModulesOfThetaLifts §7.10a,
+*NEW* (elementary). With the constants of the head of 10.6a: the unit condition of the datum, [FormalProof], `Development/AutomorphicArithmetic/WeightCongruences/ProdNegOneZpow.lean` (`UpperTheory.MUQ`); `SizeSep` with `ℓ*`, `D_*`, `ℓ_A`, [FormalProof], `Formalism/LocalRingCardinality/DataParams.lean` (`Formalism.BasicNotions.LevelStarExponents.lStar`); `e_diag`, `δ_old(u)` and `δ_bad`, [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean` (`Formalism.MainNotions.LinkIRR`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.9, BesselPoincareSeriesAndGramBounds §5.13, BesselPoincareSeriesAndGramBounds §5.16, BesselPoincareSeriesAndGramBounds §5.18, BesselPoincareSeriesAndGramBounds §5.20, BesselPoincareSeriesAndGramBounds §5.20a, BesselPoincareSeriesAndGramBounds §5.20b, BesselPoincareSeriesAndGramBounds §5.21, BesselPoincareSeriesAndGramBounds §5.23, CongruenceModulesOfThetaLifts §7.10a,
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, 9.4, 9.5, 10.6.
 
 ### 10.6c The gain parameters
@@ -1431,7 +1468,10 @@ conditions of 10.6a–10.6d hold.
 (c) *Twisting.* Let `Tw₀` be the set of places `𝔭` of `𝕃` such that, for some step `j`, at `𝔭` or at `c_𝕃(𝔭)` the base tuple
 has a nonzero *signed* index (the difference of the two relative lengths) of its lattice of theta lifts against the integral
 lattice of the step (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a), or of its projected lattice against the dual (CongruenceModulesOfThetaLifts §7.15), or the bulk `F_j` of LocalGainOfThetaChains §4.9f (d) is nonzero.
-Then `Tw₀` is finite and `c_𝕃`-stable; it contains the places above `g₀`, `g₁`, `d` and above the primes `≤ X″` inert in `K`
+Then `Tw₀` is finite and `c_𝕃`-stable; it is the set of all places of `𝕃` above a finite set of places of a field of
+definition `𝕃₀` (for one `𝕃₀`-structure) of the lattices of the base tuple that enter its definition
+(ThetaChainsOnDefiniteUnitaryGroups §2.6a (c)), and over a larger field of places it is the set of the places above it
+(ThetaChainsOnDefiniteUnitaryGroups §2.6a (b)); it contains the places above `g₀`, `g₁`, `d` and above the primes `≤ X″` inert in `K`
 (the bulk is nonzero there), so every such twisting datum, in particular the one with `Tw = Tw₀` and the one with all the
 places above the admissible twisting characteristics, satisfies (T2) of ThetaChainsOnDefiniteUnitaryGroups §2.5 and (T3) of
 GluedTargetAndDivisionInequality §8.20: outside `Tw` the base tuple has signed index `0` at every step and `F_j = 0`.
@@ -1485,20 +1525,48 @@ defined symmetrically), contains the places of (T2), and outside `Tw₀` the bas
 which is (T3), by definition. The admissible twisting characteristics are those of (T1)
 together with the residue characteristics of `Tw₀`, and the prescribed set `Z₀` of ThetaChainsOnDefiniteUnitaryGroups §2.5 (b) is the set of places above the level
 primes and above `p_□` (both chosen in (6a), neither above `p_δ`, `p′_δ`, as ThetaChainsOnDefiniteUnitaryGroups §2.5 asks of `Z₀`); choose `ψ_𝔭` for the twisted places by CongruenceModulesOfThetaLifts §7.8 (2) after the data of (6a),
-equal at places with the same restriction to the field of definition of the base data,
-over a field of places `𝕃` that contains the roots of unity `u_q` of CongruenceModulesOfThetaLifts §7.8 (2) and the Hecke eigenvalues that
-RowTowerAndRallisIdentities §5.12 asks to separate (ThetaChainsOnDefiniteUnitaryGroups §2.6: `𝕃` contains the finitely many algebraic numbers that later
-targets name; it may be enlarged after the twisting datum is fixed, ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). (d) is 10.7 (b) with CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c and CongruenceModulesOfThetaLifts §7.11, and CongruenceModulesOfThetaLifts §7.16a (3) (b) with GluedTargetAndDivisionInequality §8.20b. (e) is 10.7 (a) (iii), (v) and LocalGainOfThetaChains §§4.17a (ii), 4.17c, 4.17d with
+one character for each place of `𝕃₀` below `Tw₀`, used at all the places of `𝕃` above it: a twist good at `𝔭` is good at `g𝔭`
+for `g ∈ Gal(𝕃/𝕃₀)`, because the data of the base tuple at `g𝔭` are the transport by `g` of those at `𝔭` and the character
+defined at `g𝔭` is a power, prime to `ℓ`, of the one defined at `𝔭` (ThetaChainsOnDefiniteUnitaryGroups §2.6a (c), (d);
+CongruenceModulesOfThetaLifts §7.8 (2), (3)). The field of places is then enlarged to contain the roots of unity `u_q` of
+CongruenceModulesOfThetaLifts §7.8 (2) and the Hecke eigenvalues that RowTowerAndRallisIdentities §5.12 asks to separate, with the
+twisting datum of ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv): the lattices of the base tuple over the larger field are the
+extensions of scalars of those over `𝕃` (they are formed over `𝒪_𝕂` and extended, ThetaChainsOnDefiniteUnitaryGroups §2.6,
+Convention, and ThetaChainsOnDefiniteUnitaryGroups §2.6a (a)), so the set `Tw₀`, (T1)–(T3) and the goodness of the twists are
+those of the smaller field (ThetaChainsOnDefiniteUnitaryGroups §2.6a (a), (b), (d); CongruenceModulesOfThetaLifts §7.8 (3)), the
+bulk `F_j` depending on the residue characteristic only. (d) is 10.7 (b) with CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c and CongruenceModulesOfThetaLifts §7.11, and CongruenceModulesOfThetaLifts §7.16a (3) (b) with GluedTargetAndDivisionInequality §8.20b. (e) is 10.7 (a) (iii), (v) and LocalGainOfThetaChains §§4.17a (ii), 4.17c, 4.17d with
 10.6c: one vector serves every translate because the shares of the inert primes depend on the vector and not on `u₀`.
 (f) is 10.8. The grid is the grid of the chain of RowTowerAndRallisIdentities §5.8a: its string length, the spacing of its
 centres, its auxiliary prime and its depth are fixed there as functions of the data of steps (5), (6a), so nothing is chosen
 here beyond the place `v_□` above `p_□` and the places `w(v)`; it exists by RowTowerAndRallisIdentities §5.8a (e), because
 `g₀, g₁, p_δ, p′_δ ≡ 1 (mod N_E)`, `p_□ < g₀` and `p_□ ≠ g₁` (under `Size_□`), and `Z₀` contains the places above `p_□`. The
 separation of RowTowerAndRallisIdentities §5.8e holds for `x ≥ x₀` under `Size_□`, which is among the size conditions of
-10.6a–10.6d, and its lemmas give the depth condition and the size condition into which `N(𝔪_□)` enters.
+10.6a–10.6d, and its lemmas give the depth condition and the size condition into which `N(𝔪_□)` enters. The rational
+structure of RowTowerAndRallisIdentities §5.8 holds for `x ≥ x_F` under, in addition, `C_F ≥ C_F⁰` (10.6) and its gap
+hypotheses (10.6b).
 
-*NEW*. (a): [FormalProof], `Formalism/SharpRestriction/FamCore.lean` (`Formalism.MainNotions.FamCore`); (b), the level primes: [FormalProof], `Formalism/SharpRestriction/FamCore.lean` (`Formalism.MainNotions.FamCore.level_primes_admissible`), `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean` (`Formalism.MainNotions.S.StandingNumericalData`); (b), the window of the step weights at the thick places: [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Nodes_at`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §§2.2–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §§3.1–3.10, ThetaChainsOnDefiniteUnitaryGroups §3.1a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, CongruenceModulesOfThetaLifts §7.1, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, CongruenceModulesOfThetaLifts §7.15,
+*NEW*. (a): [FormalProof], `Formalism/SharpRestriction/FamCore.lean` (`Formalism.MainNotions.FamCore`); (b), the level primes: [FormalProof], `Formalism/SharpRestriction/FamCore.lean` (`Formalism.MainNotions.FamCore.level_primes_admissible`), `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean` (`Formalism.MainNotions.S.StandingNumericalData`); (b), the window of the step weights at the thick places: [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Nodes_at`); (b), the page constants, the windows of `n, m, k` and the tame parameters: [FormalProof], `Formalism/SharpRestriction/PageFix.lean` (`Formalism.MainNotions.PageFix`, `Formalism.MainNotions.PageWin`), `Formalism/SharpRestriction/LevelLetterCocycles/AlignN.lean` (`Formalism.MainNotions.TameDistinctF`), collected in `Formalism/LocalToGlobal/ClassOfRecordOfChoice.lean` (`Formalism.L2.Top3.Duty`); the existence of the families with all choices made: `Development/AutomorphicArithmetic/CharacterBoxes/ExS.lean` (`UpperTheory.Top.ExS`), `Formalism/SharpRestriction/DesignExistsOfChoices.lean` (`Formalism.MainNotions.DesignChoices`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §§2.2–2.9, ThetaChainsOnDefiniteUnitaryGroups §2.3a, ThetaChainsOnDefiniteUnitaryGroups §2.6a, ThetaChainsOnDefiniteUnitaryGroups §§3.1–3.10, ThetaChainsOnDefiniteUnitaryGroups §3.1a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.17, LocalGainOfThetaChains §4.17a, LocalGainOfThetaChains §4.17c, LocalGainOfThetaChains §4.17d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, CongruenceModulesOfThetaLifts §7.1, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, GluedTargetAndDivisionInequality §7.13, GluedTargetAndDivisionInequality §7.14, CongruenceModulesOfThetaLifts §7.15,
 CongruenceModulesOfThetaLifts §7.16a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, GluedTargetAndDivisionInequality §8.19e, GluedTargetAndDivisionInequality §8.20, GluedTargetAndDivisionInequality §8.20b, GluedTargetAndDivisionInequality §8.21, GluedTargetAndDivisionInequality §8.24, SelmerLengthBoundsAndLocalLifting §3.25b (2), 9.4, 9.6, 10.0, 10.2, 10.4, 10.5, 10.6, 10.6a, 10.6b, 10.6c, 10.6d, 10.7, 10.8.
+
+*The form of the formal proof.* [FormalProof] has no object "chain data". It states the conclusion of this target for
+classes of families of points indexed by the scale: for every window exponent and every requirement on the hosts, if hosts
+with the requirement exist on windows and the wild-kernel sums are bounded at every point, then for every small `ε` some
+family of the class satisfies the inequalities of the chain at every large scale of its window set
+(`Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean` (`UpperTheory.Top.TopG`), with
+`Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean` (`Formalism.MainNotions.ChainTied`)). It proves this in
+`Development/AutomorphicArithmetic/CharacterBoxes/DesWin.lean` (`UpperTheory.Top.topDesWin`) from ten statements on the
+class: the existence of families with the choices of 10.6 and the sizes of the level primes; the congruence bound
+(CongruenceModulesOfThetaLifts §7.11); the decomposition of the forms at the twisted places into Hecke localisations; the
+bound for the discarded share (10.6b); the equality of the ranks at the base level; the division inequality with its
+integrality and height clauses (GluedTargetAndDivisionInequality §§7.14, 8.22); fullness and the rank identity of the
+divided sources; the gain inequality (LocalGainOfThetaChains §4.17a); the Gram bounds (BesselPoincareSeriesAndGramBounds
+§§5.20, 5.21); and the passage from these to the inequalities of the chain (Layer 9 and 10.1–10.5). The ten statements
+are derived, in `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopShape.lean`
+(`UpperTheory.Top.shape_closed_link_n_of_green`), from a record with forty-six fields on the constructed families
+(`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Hyps.lean`
+(`GlobalTheory.Fc.HypsAlt`)), which is shown to be inhabited in
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean`
+(`UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound`).
 
 ### 10.10 The windowed bound for the cyclic family, uniform form
 
@@ -1535,7 +1603,7 @@ if it were allowed to depend on `ε` (say `e_W = 1/ε`), the statement would bou
 information. The weights at `ω₀ = 1` (the uniform selection) vanish off `χ = 1`, and for `o > 1` the value `ω₀ = 0` is not
 admissible: the selection must charge every coset (FrobeniusRestrictedRieszSums §0.7).
 
-*NEW*. [FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean` (`Formalism.HC.ChebyshevInequalityOnWindows`), proved in `Development/AutomorphicArithmetic/PrimitiveCosets/LevelGmLeOnFamilyScales.lean` (`UpperTheory.Comparison₂.level_gm_le_on_family_scales`), for `Formalism.HC.Level.cyc ψ`, whose characters are the members of `𝒦(ψ)` and whose sum `Formalism.HC.Level.Gm` carries the weights `w_ψ`: it bounds that sum by `x^{1/2+(e_D+e_L+7)ε}` at the large scales of the window set of a family of chain data that satisfies the inequalities of the chain on its windows, `e_D` and `e_L` the exponents of `x^ε` in its division and loss bounds, with the window exponent a parameter, which the proof takes to be `3/2` in `Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean` (`UpperTheory.Top.plugWin`); the exponent `e_W = 9` is this roadmap's. *Needs:* FrobeniusRestrictedRieszSums §0.5, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §1.9, 10.0, 10.4, 10.5, 10.6, 10.6a, 10.7, 10.9; RiemannHypothesisStatementsAndConsequences §8.4a (b);
+*NEW*. [FormalProof], `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean` (`Formalism.HC.ChebyshevInequalityOnWindows`), proved in `Development/AutomorphicArithmetic/PrimitiveCosets/LevelGmLeOnFamilyScales.lean` (`UpperTheory.Comparison₂.level_gm_le_on_family_scales`), for `Formalism.HC.Level.cyc ψ`, whose characters are the members of `𝒦(ψ)` and whose sum `Formalism.HC.Level.Gm` carries the weights `w_ψ`: it bounds that sum by `x^{1/2+(e_D+e_L+7)ε}` at the large scales of the window set of a family of chain data that satisfies the inequalities of the chain on its windows, `e_D` and `e_L` the exponents of `x^ε` in its division and loss bounds, with the window exponent a parameter, which the proof takes to be `3/2` in `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean` (`UpperTheory.Top.zero_free_all_of_green_v_win`); there the two exponents are `e_D = 2` and `e_L = 0`, so the exponent of the proof is `9` as well. *Needs:* FrobeniusRestrictedRieszSums §0.5, FrobeniusRestrictedRieszSums §0.7, FrobeniusRestrictedRieszSums §1.9, 10.0, 10.4, 10.5, 10.6, 10.6a, 10.7, 10.9; RiemannHypothesisStatementsAndConsequences §8.4a (b);
 PositivityOfDirichletSeriesWithKernels §6.9 (a).
 
 ### 10.11 The windowed bound for the cyclic family, consumer form
@@ -1570,13 +1638,13 @@ At `ω₀ = 3/4` the weights of 10.10 are `w_ψ(1) = 1` and `w_ψ(χ) = 1/(3o + 
 ### Dependencies
 
 Layer 9; FrobeniusRestrictedRieszSums §§0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.8a, 0.9, 1.1, 1.4, 1.7, 1.8, 1.9;
-ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3a, 2.3b, 2.3c, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.9a, 3.1, 3.1a, 3.8,
+ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3a, 2.3b, 2.3c, 2.4, 2.5, 2.6, 2.6a, 2.7, 2.8, 2.9, 2.9a, 3.1, 3.1a, 3.8,
 3.10; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6; LocalGainOfThetaChains §§4.9, 4.9e, 4.9f, 4.10, 4.10a, 4.14b, 4.15, 4.15d, 4.15e,
 4.15f, 4.16, 4.16a, 4.17, 4.17a, 4.17b, 4.17c, 4.17d; RowTowerAndRallisIdentities §§5.3, 5.5, 5.6, 5.8, 5.8a, 5.8b, 5.8d,
 5.8e, 5.9, 5.11, 5.12; BesselPoincareSeriesAndGramBounds §§5.13, 5.16, 5.18, 5.18a, 5.20, 5.20a, 5.20b, 5.21, 5.23;
 SeesawForThetaChains §§6.14, 6.15; CongruenceModulesOfThetaLifts §§7.1, 7.5a, 7.6, 7.8, 7.10a, 7.10c, 7.11, 7.15, 7.16a;
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.5, 8.11, 8.14b, 8.17, 8.18, 8.18c, 8.18e, 8.18f, 8.19, 8.19a;
-GluedTargetAndDivisionInequality §§7.13, 7.14, 8.10, 8.19e, 8.20, 8.20b, 8.21, 8.22, 8.23, 8.24;
+GluedTargetAndDivisionInequality §§7.13, 7.14, 8.10, 8.19e, 8.20, 8.20b, 8.21, 8.22, 8.23, 8.24, 8.24a, 8.24c;
 SelmerLengthBoundsAndLocalLifting §3.25b (2); UniformWildKernelBounds §7.6; QuadraticTwistSelectionOverPrimes §§2.7c, 2.7d; RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i, 1.7b, 2.9b;
 RiemannHypothesisStatementsAndConsequences §8.4a; PositivityOfDirichletSeriesWithKernels §6.9;
 BernoulliBoundsForClassGroupEigenspaces §6.17; FiniteReductiveGroups §§2.2, 5.7; AnalyticNumberTheoryPartI §0.11;
@@ -1802,6 +1870,7 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 - §2.5: twisting data and the conditions (T1), (T2). Used in 9.2, 10.0, 10.6, 10.9.
 - §2.6: the coefficient field `𝕂` and the field of places `𝕃`, with their size conditions. Used in 9.6, 10.0, 10.6, 10.6d,
   10.9.
+- §2.6a: enlarging the field of places (lattices, indices, fibres over a field of definition, twisting data). Used in 10.9.
 - §2.7: type and auxiliary primes, `SizeG`. Used in 9.2, 9.4, 9.6, 10.0, 10.6, 10.6a, 10.6d, 10.7, 10.9.
 - §2.8: level primes and the dimension data, `SizeT_u`. Used in 9.2, 9.3, 9.4, 9.5, 9.6, 10.0, 10.6, 10.6a, 10.6b, 10.9.
 - §2.9, §2.9a: level structures and the type primes. Used in 9.1, 9.4, 10.0, 10.6a, 10.9.
@@ -1833,8 +1902,9 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 - §5.5, §5.6: the row step and its descent. Used in 10.0, 10.8, 10.9.
 - §5.8, §5.8a, §5.8b, §5.8d, §5.8e: the grid of the chain with its auxiliary prime, its depth and its chosen places, its
   hypotheses, the step quotients, the separation and its lemmas, and the rational structure `𝔼_{1,𝕃}` of `𝔼` and its
-  hypotheses (the grid of the chain, the size predicate `Size_□`, the condition (L1)–(L7) on `𝕃`). Used in 9.6, 10.0, 10.6,
-  10.6d, 10.8, 10.9.
+  hypotheses (the grid of the chain, the size predicate `Size_□`, the depth constant `C_F ≥ C_F⁰`, the scale `x ≥ x_F`, the
+  gap hypotheses on the weight datum, the condition (L1)–(L7) on `𝕃`). Used in 9.6, 10.0, 10.6,
+  10.6b, 10.6d, 10.8, 10.9.
 - §5.9, §5.11, §5.12: the row parameter, the Rallis eigenvalues and the descent onto the target rows. Used in 9.6, 10.6b,
   10.8, 10.9.
 
@@ -1893,7 +1963,8 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 - §8.19e, §8.20, §8.20b, §8.21: the theta conditions, the theta data of a step with (T3), the depth errors and the target
   bound with the bulk divisibility `F_tot`. Used in 9.2, 10.0, 10.4, 10.5, 10.6d, 10.9.
 - §8.22, §8.23, §8.24: the division inequality, the cost of the type primes `E_tot(u)` and the bound for `μ_max(R)`. Used in
-  9.6, 10.0, 10.4, 10.5, 10.6, 10.6a, 10.6d, 10.10.
+  9.6, 10.0, 10.4, 10.5, 10.6, 10.6a, 10.6d, 10.10. §8.24a, §8.24c: the slope test at the grid of the chain, whose
+  thresholds for `C_F` and `x` 10.6 and (H1) take. Used in 10.0, 10.6.
 
 ## References
 
