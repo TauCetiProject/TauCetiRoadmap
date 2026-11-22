@@ -158,6 +158,7 @@ body:
         - EffectiveDiophantineMethods
         - EisensteinIdealAndRationalTorsion
         - EllipticCohomology
+        - EllipticCurveModularityImaginaryQuadratic
         - EllipticCurves
         - EllipticIntegrals
         - EllipticKTheory
@@ -176,6 +177,7 @@ body:
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
+        - ExcursionOperatorsAndSpectralActionPartII
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
         - ExplicitNumberFields
