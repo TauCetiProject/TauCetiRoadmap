@@ -1863,7 +1863,10 @@ Hermitian space unchanged, and the conjugate datum is that of `W_j` with the pla
 §§2.7, 4.3, and §6.4 for the subcanonical section spaces), so `j_σ` takes values in the row space of `U(W_j)`
 for the holomorphic discrete series of the relabelled
 parameter; if `σ|_K ≠ ι₀|_K`, then `σ̄ := c∘σ` restricts to `ι₀|_K` and `j_σ(y) := conj j_{σ̄}(y)`, with values in the
-complex conjugates of those forms (antiholomorphic discrete series). `j_{σ₀}` is the inclusion. For `j = m` (`W_m`
+complex conjugates of those forms (antiholomorphic discrete series). `j_{σ₀}` is the inclusion. The identification, hence
+`𝒞(W_j)_𝕃` as a subspace of `𝒞(W_j)`, depends on the extremal vector, which 5.7 determines only up to a phase at each
+`τ`: multiplying it by `b`, `|b| = 1`, multiplies `𝒞(W_j)_𝕃` by `b^{−1}`. The extremal vector is that of the
+normalisation of 5.11 (phase one). For `j = m` (`W_m`
 definite), `𝒞(W_m)_𝕃` is the space of `𝕃`-valued algebraic forms (ThetaChainsOnDefiniteUnitaryGroups §3.1) and `j_σ` applies `σ` to the values.
 ([FormalProof] does not use canonical models: it has the rational forms as the cusp forms of an algebraic tower with,
 at every embedding over `K`, a semilinear realisation fixed by its value at the extremal vector, and the API below.)
@@ -1905,6 +1908,53 @@ sum, over the classes of `V_j`, of algebraic theta values of the lattices of the
 the form; write `κ_rat` for that phase. ([FormalProof] uses the rank condition (R5) of ThetaChainsOnDefiniteUnitaryGroups §2.1,
 `8fr + 4 ≤ r + t`, through the spanning of the cusp forms by class sums, and, for the tuples other than the base tuple,
 that every twist set lies over one prime of `K` above each rational prime and avoids the small primes.)
+
+*Normalisation (phase one).* The phase `κ_rat` belongs to choices that 5.7 leaves open. The requirements of 5.7 are
+unchanged when `I_j` is multiplied by a scalar `a` of absolute value `1`, and they determine the extremal vector only up
+to a phase at each `τ`; multiplying `I_j` by `a` and the extremal vector by `b`, `|a| = |b| = 1` (the unit vector of
+`𝒲_j` in the tensor sent to `Δ_j` being multiplied by `(ab)^{−1}`), multiplies the lift read at the extremal vector by
+`ab`, multiplies `𝒞(W_j)_𝕃 ⊂ 𝒞(W_j)` by `b^{−1}` (5.10a) and `κ_rat` by `(ab)^{−1}`, and changes neither
+`θ_j(ξ)θ_j(ξ)^*` nor any Petersson product. For `1 ≤ j < m` the pair of `I_j` and of the extremal vector is fixed, once
+for all tuples and all levels, so that `κ_rat = 1`: for every `𝕃`-rational algebraic form `x` on `U(V_j)` for the base
+tuple there is `y ∈ 𝒞(W_j)_𝕃` with `j_{σ₀}(y) = θ_j(1)x`, with no phase. By the Lemma such a pair exists (multiply the
+extremal vector of any pair, at one `τ`, by its phase `κ_rat`), and for it the Lemma holds with phase `1` for every
+tuple of its statement. The subspace `𝒞(W_j)_𝕃`, the realisations `j_σ` of 5.10a, the model lifts and the theta series
+of the pair `(V_j, W_j)` are taken in this normalisation in every statement over `𝕃` or over `𝒪_𝕃`. It matters exactly
+there: where theta series are compared, as rational forms, with other rational forms over `𝒪_𝕃` (lattices spanned by
+them, indices, local inclusions), a scalar of absolute value `1` is not harmless, since it need not lie in `σ₀(𝕃)`,
+and one that does need not be a unit at a finite place.
+
+[FormalProof] has the normalisation in this form. Its realisation of an algebraic cusp form, read at the extremal
+vector, is the adelic function of the form for the complex uniformisations of the connected components, multiplied on
+each component by a constant of absolute value `1`, `Formalism/LocalToGlobal/IndefiniteReal/FWTie.lean`
+(`Formalism.IndefR.FWT.FWTie`); its extremal vector is one that the intertwiner pairs with a unit vector to `Δ_j`,
+`Formalism/LocalToGlobal/IndefiniteReal/ExistsChosenExtremalVector.lean` (`Formalism.IndefR.FWT.IsChosenExtremalVector`).
+It proves, as
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsGeometricHalfPhaseOneOverLawfulCoreStatement.lean`
+(`GlobalTheory.T.exists_geometricHalf_phase_one_over_lawful_core`),
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/GeometricExistenceCoreFormsAnalyticPhaseOneStatement.lean`
+(`GlobalTheory.T.geometricExistence_core_forms_analytic_phaseOne`),
+`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GeoExV.lean` (`GlobalTheory.Mem.R3.GeoExV`), that
+the constants, and the rational structure they define, can be chosen so that the lift of every rational form of the
+base tuple is, with no phase, a combination with coefficients in `𝕃` of realisations of algebraic cusp forms: under
+(R5), for `V_j` with an orthonormal frame spanning its lattice, finitely many tuples and the condition on the twist sets
+above; the same constants and the phase `1` then serve every tuple. (The class-sum identity holds with phase `1` for
+the constants of the charts multiplied by one scalar of absolute value `1`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ShortSeriesBaseDatumAdelicFormMultiple.lean`
+(`GlobalTheory.ExactBase.consts_core`); the proof is not given here.) Its model record carries the phase of each step
+as a datum, `Formalism/LocalToGlobal/IndefiniteReal/ZeroPartEigenvalueConvention.lean`
+(`Formalism.IndefR.Links.RealDat3`), equal to `1` for the data of the chain,
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/EqCjOneSmul.lean`
+(`GlobalTheory.Mem.R3.Rw.WeilExt.charW_keep`),
+`Development/AbelianVarietyTheory/Definitions/Divisors/TupleReadBaseTupleEqFamily.lean`
+(`GlobalTheory.BigTop.PtAt.phEff_one`), and its statements that compare theta series with rational forms over `𝒪_𝕃`
+assume the *phase-one compatibility*, `Formalism/LocalToGlobal/IndefiniteReal/OneMapT.lean`
+(`Formalism.IndefR.FWT.PhaseTie`), supplied for the data of the chain in
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/SplitRowsBarPhaseCompatibility.lean`
+(`GlobalTheory.BigOn.phaseCompatible_splitPart_of_liftUniformisation`): if the lift of the base tuple is a class sum of
+algebraic theta values for some constants of the components and some phase, then it is one for the constants of the
+realisation and the phase `1`.
+
 [FormalProof] states the Lemma also term by term, on covers and for twists, as
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`): for each step there is one phase of absolute value
@@ -1924,7 +1974,8 @@ with `|𝔲_σ| = 1`, left invariant under `U(W_j)(F)` and right invariant under
 the finite set of connected components), equal to `1` for `σ = σ₀`; a central element `ζ` of `U(W_j)(𝔸_f)` supported at
 the type primes, lifting a central element of `G₀`; and `κ_σ ∈ ℂ` with `|κ_σ| = 1`; such that
 `𝔲_σ·j_σ(y) = κ_σ·R(ζ)θ_j^σ(x^σ)` for every rational form `x` and the rational vector `y ∈ 𝒞(W_j)_𝕃` with `j_{σ₀}(y) = κ_rat·θ_j(x)`
-(`κ_rat` the phase of the Lemma), where `θ_j^σ` is the model lift for the conjugated characters `μ_j^σ`, `η̃^σ` and the
+(`κ_rat` the phase of the Lemma, equal to `1` in the normalisation above), where `θ_j^σ` is the model lift for the
+conjugated characters `μ_j^σ`, `η̃^σ` and the
 minor-product vector at the places relabelled by `σ`.
 (b) If `σ|_K ≠ ι₀|_K`, then `σ̄ = c∘σ` is as in (a), the discrete series at `σ` is the antiholomorphic one, `j_σ` is the
 complex conjugate of `j_{σ̄}`, and `⟨j_σ y, j_σ y′⟩ = conj⟨j_{σ̄} y, j_{σ̄} y′⟩`; hence `λ_j(1, 𝔥, σ) = λ_j(1, 𝔥, σ̄)`. So each infinite place of `𝕃` (a pair
@@ -2067,7 +2118,9 @@ good labels (5.3)
 and the model lifts with their level vectors (5.7). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses the
 row spaces (5.1), the model lifts and their multiplicities (5.7, 5.9) and the rational lifts (5.11).
 GluedTargetAndDivisionInequality uses the determinant identity of the descent at every embedding for the base tuple
-(5.10, 5.12) and the grid (5.8a, 5.8e). ThetaChainsAndFrobeniusPrimeSums uses the rows and the step identities (5.3, 5.5,
+(5.10, 5.12), the grid (5.8a, 5.8e) and, for its lattices of theta series on the `U(W_j)`
+(GluedTargetAndDivisionInequality §§8.19e, 8.20, 8.20b), the rational lift in the normalisation of 5.11.
+ThetaChainsAndFrobeniusPrimeSums uses the rows and the step identities (5.3, 5.5,
 5.12) and the grid with its hypotheses (5.8a, 5.8b, 5.8e), and computes, for the measures of the Conventions,
 `vol([U(Y_0)]) = mass(𝒪_E^r)` (ThetaChainsAndFrobeniusPrimeSums §9.4). The chain takes `C_F ≥ C_F⁰` and `x ≥ x_F` of 5.8 in
 ThetaChainsAndFrobeniusPrimeSums §10.6 and ThetaChainsAndFrobeniusPrimeSums §10.0 (H1), and verifies the gap hypotheses of
