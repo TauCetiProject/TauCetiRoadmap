@@ -2337,9 +2337,10 @@ for `x ∈ F ⊗ ℝ` and totally positive `y_∞ ∈ (F ⊗ ℝ)^×`, with `c(�
 the coefficients of the classical expansion). The *Hecke operator at a finite place `w` normalised for the weight `k`* is
 `(Nw)^{k/2−1}` times the operator of the double coset `K₁(𝔫)diag(ϖ_w, 1)K₁(𝔫)` at `w` in the finite Hecke action of R16.1.6 (the
 sum of the right translates by representatives of its left cosets); in parallel weight `k` it acts on Fourier coefficients by
-`c(𝔪) ↦ c(w𝔪) + ω(w)(Nw)^{k−1}c(𝔪/w)`, the second term being omitted when `w | 𝔫` (for `k ≥ 2` the coefficient formula of
-NoncommutativeAndEquivariantIwasawa §F.5, through the dictionary below, and for `F = ℚ` that of the Conventions of ModularForms; in
-weight one over other fields the same coset computation). An *eigenform* is a nonzero form that is an eigenvector of these
+`c(𝔪) ↦ c(w𝔪) + ω(w)(Nw)^{k−1}c(𝔪/w)`, the second term being omitted when `w | 𝔫` (in every weight, by translating the
+expansion on the right by the representatives `(ϖ_w b; 0 1)`, `b ∈ 𝒪_w/ϖ_w`, of the left cosets and, when `w ∤ 𝔫`,
+`diag(1, ϖ_w) = ϖ_w·diag(ϖ_w⁻¹, 1)`, the central `ϖ_w` acting by `ω(w)`; for `F = ℚ` and `k ≥ 2` this is the coefficient formula
+of the Conventions of ModularForms, through the dictionary below). An *eigenform* is a nonzero form that is an eigenvector of these
 operators at all finite places, and its *eigenvalue at `w`* is that of the operator normalised for the weight named. For `ι : ℚ̄_ℓ ≅ ℂ`, congruences between complex numbers are congruences of their images under `ι⁻¹` modulo the maximal ideal
 of the integers of `ℚ̄_ℓ` ([FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/IsCondAt.lean`
@@ -2488,8 +2489,11 @@ constant terms take finitely many values, as `c₀(y)` depends only on the narro
 extension of `ℚ_ℓ` can be chosen to contain the values of `ω` and, through `ι`, the Fourier coefficients of the product. Let `M` be
 the `O`-module of the forms of parallel weight `k + 1`, level `𝔠∏_{w|ℓ}w` and character `ω` whose constant terms and Fourier
 coefficients all lie in `O` through `ι`. It is finite free, as a form is determined by its constant terms and Fourier
-coefficients (NoncommutativeAndEquivariantIwasawa §F.5, through the dictionary above) and these forms make up a finite-dimensional
-space (ArithmeticLocallySymmetricSpaces ALS.F.6(i)); it is stable under the Hecke operators normalised for the weight `k + 1`, by
+coefficients (by the Iwasawa decomposition at the real places, the weight and the central character, the expansion at `diag(y, 1)`
+determines `φ` on `GL₂(F_∞)⁺·diag(y, 1)`; and for every level `𝔫`, `GL₂(𝔸_F) = ⊔ᵢ GL₂(F)·GL₂(F_∞)⁺·diag(yᵢ, 1)·K₁(𝔫)`, the
+ideals of the finite ideles `yᵢ` representing the narrow ideal classes, by strong approximation for `SL₂` (AdelicAlgebraicGroups
+§4.2), as `det K₁(𝔫) = 𝒪̂_F^×`) and these forms make up a finite-dimensional space (ArithmeticLocallySymmetricSpaces
+ALS.F.6(i)); it is stable under the Hecke operators normalised for the weight `k + 1`, by
 the coefficient formula and, on constant terms, by `c₀(y) ↦ c₀(yϖ_w) + ω(w)(Nw)^kc₀(yϖ_w⁻¹)` (the second term omitted when `w`
 divides the level), which the same coset computation gives. The Deligne–Serre lifting lemma (AlgebraicModularFormsAndSerreWeights
 §5.10), applied to these operators on `M`, gives an eigenform with congruent eigenvalues; it is a cusp form: a non-cuspidal eigenform has eigenvalues `η₁(w) + η₂(w)(Nw)^k` at the
@@ -2498,7 +2502,7 @@ there, so one of `η₁, η₂` is `≡ 1` at every idele (Artin reciprocity, Cl
 eigenvalues at a place of `P` above `ℓ` and at a place above `ℓ` outside `P` then force `ω(w) ≡ 1` at one of them, against the
 hypothesis. *Needs:* 3.20(e₀), 3.23; ModularForms Layer 0 and Conventions; AlgebraicModularFormsAndSerreWeights §§1.2, 2.10, 2.15,
 Layer 2, §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5;
-ArithmeticLocallySymmetricSpaces ALS.F.6;
+ArithmeticLocallySymmetricSpaces ALS.F.6; AdelicAlgebraicGroups §4.2;
 DirichletPadicLFunctions §§0.4, 2.3, 2.4; PadicFamilies §§1.7, 1.8, 1.8a, 1.9; PotentialAutomorphyInfrastructurePartII §§0.8, 0.9;
 HeckeIdealsAndTaylorWilesRelations §3.13a (with its contract for PotentialAutomorphyInfrastructurePartII §3.5 (1));
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§14.1, 16.1; IntegralIwasawaTheory §9.3; ClassFieldTheory Layer 11; Chebotarev
@@ -2571,7 +2575,7 @@ AG2.0.
 
 ### Dependencies
 
-Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, GL2AutomorphicRepresentationsAndTransfer, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
+Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AdelicAlgebraicGroups, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, GL2AutomorphicRepresentationsAndTransfer, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
 
 ## Layer 4: residually reducible Eisenstein components
 
@@ -4118,9 +4122,8 @@ LieHighestWeight Layer 6 (the Weyl character and dimension formulas); ClassicalG
 ### From TauCetiRoadmap.NoncommutativeAndEquivariantIwasawa
 
 §F.5 (the classical Hilbert modular forms of parallel weight `k ≥ 2` over every totally real field, at every congruence level and
-finite-order character: their normalized ideal coefficients and standard constants, the injectivity of these expansions, the
-standard-component integral lattice, and the Hecke operators with their coefficient formulas), in the conventions of 3.22(e)–(h)
-and the route of 3.22(g). §F.6 (`deRham_iff_potentiallySemistable`), in 3.17(a).
+finite-order character: their normalized ideal coefficients, and the Hecke operators with their coefficient formulas), in the
+dictionary of the conventions of 3.22(e)–(h). §F.6 (`deRham_iff_potentiallySemistable`), in 3.17(a).
 
 ### From TauCetiRoadmap.PadicFamilies
 
@@ -4132,6 +4135,11 @@ R16.1.6 (finite-level automorphic functions on `GL₂(𝔸_F)` with central char
 archimedean differentiation, for every number field; over `ℚ`, their identification with classical forms, a form of nebentypus `χ`
 having central character `χ⁻¹` on the finite units), the carrier of the Hilbert modular forms of 3.22(e)–(h). R17.4.13 (the
 Gelbart–Jacquet lift), for the seeds of 4.2. R17.6.4 (Frobenius-semisimple Weil–Deligne compatibility, with monodromy, away from `ℓ` for newforms), in 4.8(a).
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§4.2 (strong approximation and its sufficient condition, which give, for `SL₂` over a number field and the archimedean places,
+`SL₂(𝔸_{F,f}) = SL₂(F)·U` for every open subgroup `U`), in the route of 3.22(g).
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
