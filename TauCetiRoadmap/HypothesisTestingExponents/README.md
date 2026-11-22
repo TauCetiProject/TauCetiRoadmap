@@ -58,8 +58,10 @@ bound and Chernoff's theorem. The two layers are independent.
 - **Hellinger integrals.** `H_s(P, Q)` is `hellingerIntegral s P Q` of RenyiDivergenceAndPrivacy
   1.1: `∫⁻ p^s q^(1−s) d(P + Q)` in `ℝ≥0∞` with `p`, `q` the densities with respect to `P + Q`.
   Only the orders `0 < s < 1` enter a statement; there `0^s = 0`, so the integrand vanishes where
-  `p` or `q` does. At `s = 0` the definition gives `∫ 0^0 q = 1` because `0^0 = 1` in `ℝ≥0∞`, not
-  `Q(p > 0)`, which is why every infimum below runs over the open interval.
+  `p` or `q` does. At `s = 0` the definition gives `∫ p^0 q d(P + Q) = Q(X) = 1`, because
+  `0^0 = 1` in `ℝ≥0∞`, and not `Q(p > 0)`; likewise it gives `P(X) = 1` at `s = 1`. The infima
+  below run over the open interval, where no `0^0` occurs; for probability measures the
+  endpoints, of value `1`, would not change them, since `H_s ≤ 1` on `(0, 1)` (2.1, range).
 - **Junk values.** `Real.log 0 = 0`, and an infimum over an empty set of reals is `0`. Layer 1
   uses a logarithm of the least type II error only where it is positive (finite divergence,
   `0 ≤ ε < 1`) or where the statement holds whatever the logarithm is: in 1.2 with infinite
@@ -135,8 +137,8 @@ reads `(1 − ε) log(1/(1 − ε)) ≤ log 2`, true since `x log(1/x) ≤ 1/e <
   `1/steinBeta ≤ 4 (4/3)ⁿ`; with the values of 1.1 it holds for `n = 0, …, 6` (for example
   `512/53 ≤ 4 · 4096/729` at `n = 6`). For `ε = 1/4` it reads `(1/steinBeta)³ ≤ 16 (4/3)^(2n)`
   and holds for the values of 1.1.
-- The bound alone gives `liminf −(1/n) log β_n ≤ D(P ‖ Q)/(1 − ε)`, which exceeds
-  `D(P ‖ Q)` for every `ε > 0`; the sharp form is 1.4.
+- The bound alone gives `limsup −(1/n) log β_n ≤ D(P ‖ Q)/(1 − ε)`, which for
+  `0 < D(P ‖ Q) < ∞` exceeds `D(P ‖ Q)` for every `0 < ε < 1`; the sharp form is 1.4.
 
 ### 1.3 Achievability
 
@@ -280,18 +282,29 @@ Facts used below, with their short proofs (no Lean statement):
   `t q`). Upper bound: the deterministic kernel of the indicator of
   `{π{true} q > π{false} p}` attains it. For equal unit weights this is the testing affinity of
   MathematicalStatisticsNonparametric 1.4.
-- *Range.* For `0 < s < 1`, `p^s q^(1−s) ≤ s p + (1 − s) q`
-  (`Real.geom_mean_le_arith_mean2_weighted`), so `hellingerIntegral s P Q ≤ 1`; it is `0` exactly
-  when `p q = 0` almost everywhere, that is, when `P` and `Q` are mutually singular.
-- *Products.* `hellingerIntegral s Pⁿ Qⁿ = (hellingerIntegral s P Q)ⁿ` for `0 < s < 1`. By
-  RenyiDivergenceAndPrivacy 1.2 the Rényi divergence `renyiDiv s P Q` is
-  `log H / (s − 1)` when `H = hellingerIntegral s P Q` is positive (it is at most `1`) and `∞`
-  when `H = 0`. RenyiDivergenceAndPrivacy 3.2 (`renyiDiv_prod`) and 3.1 (`renyiDiv_comp_le`,
-  applied to the deterministic kernels of `MeasurableEquiv.piFinSuccAbove` and its inverse, which
-  carry `Pⁿ⁺¹` to `P.prod Pⁿ` by `measurePreserving_piFinSuccAbove`) give
-  `renyiDiv s Pⁿ Qⁿ = n · renyiDiv s P Q` by induction; for `n = 0` both laws are the Dirac mass
-  and the integral is `1`. Translating back gives the power, with `0ⁿ = 0` for `n ≥ 1` when the
-  divergence is infinite.
+- *Range.* For probability measures and `0 < s < 1`, `hellingerIntegral s P Q` lies in `[0, 1]`
+  and is `0` exactly when `P` and `Q` are mutually singular: this is the *Range* item of
+  RenyiDivergenceAndPrivacy 1.1, an item of its README with no Lean declaration, so its short
+  proof is kept here (2.3 uses the pointwise bound): `p^s q^(1−s) ≤ s p + (1 − s) q`
+  (`Real.geom_mean_le_arith_mean2_weighted`) integrates to at most `1`, and the integral is `0`
+  exactly when `p q = 0` `(P + Q)`-almost everywhere, that is, when `P` and `Q` are mutually
+  singular.
+- *Products.* `hellingerIntegral s Pⁿ Qⁿ = (hellingerIntegral s P Q)ⁿ` for `0 < s < 1` and
+  every `n`. RenyiDivergenceAndPrivacy 3.2 states, besides its two-factor theorem `renyiDiv_prod`
+  (probability measures, `0 < α`, `α ≠ 1`), the finite form
+  `renyiDiv α (Measure.pi P) (Measure.pi Q) = ∑ i, renyiDiv α (P i) (Q i)` for families of
+  probability measures indexed by `Fin n`. That form is an item of its README with no Lean
+  declaration, so its short proof is kept here: induction on `n` from `renyiDiv_prod`, moving
+  between `Pⁿ⁺¹` and `P.prod Pⁿ` by `MeasurableEquiv.piFinSuccAbove`
+  (`measurePreserving_piFinSuccAbove`), across which the divergence does not change by 3.1
+  (`renyiDiv_comp_le`) applied to the deterministic kernels of the equivalence and of its
+  inverse. For constant families it gives `renyiDiv s Pⁿ Qⁿ = n · renyiDiv s P Q`. New here is
+  the translation back to the power. Write `H` and `Hₙ` for the Hellinger integrals of `(P, Q)`
+  and `(Pⁿ, Qⁿ)`; both lie in `[0, 1]` (range), so by the definition in RenyiDivergenceAndPrivacy
+  1.2 each divergence is `∞` when its integral is `0` and the finite nonnegative
+  `ENNReal.ofReal (log H / (s − 1))` otherwise. For `n = 0` both laws are the Dirac mass and
+  `H₀ = 1`. For `n ≥ 1`: if `H = 0` the right side is `∞`, so `Hₙ = 0 = Hⁿ`; if `H > 0` it is
+  finite, so `Hₙ > 0` and `log Hₙ = n log H`, that is, `Hₙ = Hⁿ`.
 
 **Checks.**
 
@@ -304,22 +317,24 @@ Facts used below, with their short proofs (no Lean statement):
   `C = log(2/√3) = ½ log(4/3)`.
 - The infimum need not be attained in `(0, 1)`: for `P = (1/2, 1/2, 0)` and
   `Q = (1/4, 1/4, 1/2)`, `H_s = 2 · (1/2)^s (1/4)^(1−s) = 2^(s−1)` decreases to `1/2 = Q(p > 0)`
-  as `s → 0`, so the coefficient is `1/2`. The closed interval with the copied definition would
-  give the wrong value: at `s = 0` it returns `1`, because `0^0 = 1` in `ℝ≥0∞`.
+  as `s → 0`, so the coefficient is `1/2`. At `s = 0` the copied definition returns `1`, not
+  `Q(p > 0) = 1/2`, because `0^0 = 1` in `ℝ≥0∞` (and `1` at `s = 1`); since `H_s ≤ 1`, the
+  infimum over the closed interval is the same `1/2`, and it is attained at no order.
 - The Chernoff information is at most `min(D(P ‖ Q), D(Q ‖ P))`. For `0 < s < 1`,
   `H_s(P, Q) = exp(−(1 − s) renyiDiv s P Q) ≥ exp(−(1 − s) D(P ‖ Q))`, because the Rényi
   divergence of order `s < 1` is at most `D(P ‖ Q)` (RenyiDivergenceAndPrivacy 2.2
   `renyiDiv_le_renyiDiv_of_le` and 2.1 `tendsto_renyiDiv_nhdsLT_one`: a nondecreasing function
   tending to `D(P ‖ Q)` from below); letting `s → 0` gives `C(P, Q) ≤ D(P ‖ Q)`, and
-  `H_s(P, Q) = H_(1−s)(Q, P)` (the integrand is symmetric and `P + Q = Q + P`) gives the other
-  bound. For the swapped pair above, `D(P ‖ Q) = D(Q ‖ P) = ½ log 3`, and `½ log(4/3) ≤ ½ log 3`.
+  `H_s(P, Q) = H_(1−s)(Q, P)` (the *Skew symmetry* item of RenyiDivergenceAndPrivacy 1.1, with no
+  Lean declaration: the integrand is symmetric and `P + Q = Q + P`) gives the other bound. For
+  the swapped pair above, `D(P ‖ Q) = D(Q ‖ P) = ½ log 3`, and `½ log(4/3) ≤ ½ log 3`.
 
 *Needs:* Mathlib `bayesRisk`, `avgRisk`, `Kernel.boolKernel`, `Kernel.deterministic`,
 `Measure.rnDeriv_mul_rnDeriv`,
 `Real.geom_mean_le_arith_mean2_weighted`, `MeasurableEquiv.piFinSuccAbove`,
 `measurePreserving_piFinSuccAbove`; MathematicalStatisticsFoundations 6.2 (`neyman_pearson`,
-`npSumError`, `npTest`); RenyiDivergenceAndPrivacy 1.1 (definition), 1.2 (`renyiDiv`), 2.1, 2.2,
-3.1, 3.2.
+`npSumError`, `npTest`); RenyiDivergenceAndPrivacy 1.1 (definition; range and skew symmetry),
+1.2 (`renyiDiv`), 2.1, 2.2, 3.1, 3.2 (`renyiDiv_prod` and its finite form).
 
 ### 2.2 The Hellinger bound
 
@@ -405,7 +420,7 @@ laws.
 - Coefficient not attained: for `P = (1/2, 1/2, 0)`, `Q = (1/4, 1/4, 1/2)` and priors
   `(π₀, π₁)` the least Bayes error is exactly `π₁ 2^(−n)` once `2ⁿ ≥ π₁/π₀` (for equal priors
   from `n = 0`; for `(1/10, 9/10)` from `n = 4`, the values for `n < 4` being `1/10`), so the
-  root tends to `1/2`, the infimum over the open interval.
+  root tends to `1/2`, the coefficient, which no order attains.
 - Mutually singular laws: the least Bayes error is `0` for every `n ≥ 1`, the coefficient `0`.
 - The prior must charge both hypotheses: with `π{false} = 0` the Bayes error is `0` for every
   `n`, while the coefficient of the swapped pair is `√3/2`.
@@ -433,9 +448,11 @@ bound on the Bayes error of product laws and Chernoff's theorem on the Bayes exp
 Stated by other roadmaps and cited above, not restated: the randomized tests and the
 Neyman–Pearson lemma (MathematicalStatisticsFoundations 1.3 and 6.2); the tensorization of the
 Kullback–Leibler divergence and its data-processing bound for an event
-(MathematicalStatisticsNonparametric 1.3); the Hellinger integral, the Rényi divergence, its
-order, its limit at order `1`, data processing and additivity
-(RenyiDivergenceAndPrivacy 1.1–3.2). MathematicalStatisticsNonparametric 1.4 owns the least sum
+(MathematicalStatisticsNonparametric 1.3); the Hellinger integral with its range and skew
+symmetry, the Rényi divergence, its order, its limit at order `1`, data processing and
+additivity over finite products (RenyiDivergenceAndPrivacy 1.1–3.2; the range, the skew symmetry
+and the finite-product form are items of its README without Lean declarations, whose short
+proofs 2.1 keeps). MathematicalStatisticsNonparametric 1.4 owns the least sum
 of the two error probabilities of a single pair, `1 − tvDist/2`, and Le Cam's two-sided
 comparison with the Hellinger affinity; 2.1 above is the weighted form for products, and 2.2–2.3
 concern its rate in `n`, which that roadmap does not state. Its 1.1 and 1.4 together do give
@@ -515,7 +532,10 @@ the law of large numbers and a change of measure only, never a large-deviation p
 ### From TauCetiRoadmap.RenyiDivergenceAndPrivacy
 
 - 1.1, `hellingerIntegral` (copied verbatim): `∫⁻ (dP/d(P+Q))^α (dQ/d(P+Q))^(1−α) d(P + Q)` in
-  `ℝ≥0∞`.
+  `ℝ≥0∞`. Items of its README without Lean declarations, used in 2.1 with their short proofs:
+  *Range*, for probability measures and `0 < α < 1` the integral lies in `[0, 1]` and is `0`
+  exactly for mutually singular laws; *Skew symmetry*, for `0 < α < 1`,
+  `hellingerIntegral α P Q = hellingerIntegral (1 − α) Q P`.
 - 1.2, `renyiDiv`: `∞` when the Hellinger integral is `0` or `∞`, otherwise
   `ENNReal.ofReal (log H / (α − 1))`.
 - 2.1, `tendsto_renyiDiv_nhdsLT_one`: for probability measures, `renyiDiv α P Q → klDiv P Q` as
@@ -525,13 +545,18 @@ the law of large numbers and a change of measure only, never a large-deviation p
 - 3.1, `renyiDiv_comp_le`: for probability measures, a Markov kernel `κ` and an order `α` with
   `0 < α` and `α ≠ 1`, `renyiDiv α (κ ∘ₘ P) (κ ∘ₘ Q) ≤ renyiDiv α P Q`.
 - 3.2, `renyiDiv_prod`: for probability measures and an order `α` with `0 < α` and `α ≠ 1`,
-  `renyiDiv α (P.prod P') (Q.prod Q') = renyiDiv α P Q + renyiDiv α P' Q'`.
+  `renyiDiv α (P.prod P') (Q.prod Q') = renyiDiv α P Q + renyiDiv α P' Q'`. Its README also
+  states, without a Lean declaration, the finite form
+  `renyiDiv α (Measure.pi P) (Measure.pi Q) = ∑ i, renyiDiv α (P i) (Q i)` for families
+  `P Q : Fin n → Measure X` of probability measures (used in 2.1, with its short proof).
 
 ## References
 
 - Y. Polyanskiy and Y. Wu, *Information Theory: From Coding to Learning*, Cambridge University
   Press, 2025, doi:10.1017/9781108966351; cited by the theorem, equation and page numbers of the
-  authors' prepublication version of 16 August 2024 at
+  authors' prepublication version of 16 August 2024, free to view and download for personal use,
+  which the first author links from his publications page at MIT
+  (<https://people.lids.mit.edu/yp/homepage/papers.shtml>, "Books, notes, code") as
   <https://people.lids.mit.edu/yp/homepage/data/itbook-export.pdf>: §14.1–14.5 (Definition 14.1,
   Theorems 14.3, 14.8, 14.10, 14.11, 14.14, Lemma 14.9, Corollary 14.12, Definition 14.13),
   §16.1 (Theorem 16.1, Remark 16.1, Corollary 16.2).
