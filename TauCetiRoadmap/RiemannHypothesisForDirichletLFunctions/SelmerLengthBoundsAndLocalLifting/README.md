@@ -564,7 +564,7 @@ below degree `2r` and the form `±ℓ_𝔮^{2r}` in degree `2r`. The polynomials
 in `λO` form an ideal, which contains the lifts of `0` because `n + 2r ≤ p^M`; and if `d₀ < n` is the least degree in which
 the lift of `det Φ` has a unit coefficient, the product has in degree `d₀ + 2r` the form `f_{d₀}·P_{𝔮,2r}`, nonzero modulo `λ`.
 Neither `ν` nor `tr` enters.
-*Needs:* 3.22, 3.24, 3.25; SelmerIwasawaCohomology §§2.21–2.22; ArithmeticGaloisDuality §§R02.4.3, R02.5.1; Chebotarev (Completed) Layers 10, 14;
+*Needs:* 3.22, 3.24, 3.25; SelmerIwasawaCohomology §§2.21–2.22; ArithmeticGaloisDuality §§R02.4.3, R02.5.1; EulerSystemsAndKolyvaginSystems §0.2; Chebotarev (Completed) Layers 10, 14;
 PadicMeasuresIwasawaAlgebras §§6.5, 6.6; Mathlib `Matrix.adjugate`; Tau Ceti `TauCeti.fittingIdeal` and
 `TauCeti.fittingIdeal_eq_minorsIdeal_ker`.
 
@@ -727,7 +727,7 @@ For `J = ∅`, `Λ = O` and 3.22 (2) presents the relaxed Selmer group of `T ⊗
 
 ### Dependencies
 
-SelmerIwasawaCohomology §§2.6, 2.13, 2.19, 2.21, 2.22 and 3.0; ArithmeticGaloisDuality §§R02.4.2–R02.4.4, R02.5.1 and D7.7.4; ClassFieldTheory Layers 5 and 13; ProfiniteCohomology §§2.4 and 5.4; Chebotarev (Completed) Layers 10 and 14; ArithmeticDirichletSeries (Completed) §5.3; NewtonPolygons §§2.1–2.3; PadicMeasuresIwasawaAlgebras §§6.3, 6.5 and 6.6; Mathlib's determinants, adjugates, lengths, polynomials and primitive roots of unity, and the Smith normal form; Tau Ceti's Fitting ideals. The local condition above `p` is abstract in this layer, which uses nothing from Layer 4.
+SelmerIwasawaCohomology §§2.6, 2.13, 2.19, 2.21, 2.22 and 3.0; ArithmeticGaloisDuality §§R02.4.2–R02.4.4, R02.5.1 and D7.7.4; EulerSystemsAndKolyvaginSystems §0.2; ClassFieldTheory Layers 5 and 13; ProfiniteCohomology §§2.4 and 5.4; Chebotarev (Completed) Layers 10 and 14; ArithmeticDirichletSeries (Completed) §5.3; NewtonPolygons §§2.1–2.3; PadicMeasuresIwasawaAlgebras §§6.3, 6.5 and 6.6; Mathlib's determinants, adjugates, lengths, polynomials and primitive roots of unity, and the Smith normal form; Tau Ceti's Fitting ideals. The local condition above `p` is abstract in this layer, which uses nothing from Layer 4.
 
 ## Layer 4: Bloch–Kato finite classes and lifting with loss
 
@@ -924,8 +924,10 @@ traces and Tate's decomposition, Tate's cohomology of `ℂ_p(j)`, `B_dR^+`).
 Prove (statements of [FormalProof]: (1) is [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/LocalSituation.lean` (`Formalism.MainNotions.LocalSituation.H0at`),
 with `Formalism/SharpRestriction/LevelLetterCocycles/DataNLoc.lean` (`Formalism.BasicNotions.Loc.Good`);
-(2) follows from [FormalProof],
-`Development/AutomorphicArithmetic/ResidueCharacters/InvariantsKilledOverCyclotomicAlt.lean` (`UpperTheory.N.InvariantsKilledOverCyclotomic`);
+[FormalProof],
+`Development/AutomorphicArithmetic/ResidueCharacters/InvariantsKilledOverCyclotomicAlt.lean` (`UpperTheory.N.InvariantsKilledOverCyclotomic`),
+states (2) when `0` is a weight at no embedding of `K`, with the exponent `20(n + 1)λ_N`; the form for one `τ`, with the
+exponent `c` of (1), is this roadmap's, by step (0) of the route;
 the route gives every step except the classical inputs and the frame, named there):
 
 1. let `K₀/ℚ_p` be finite unramified, `s ≥ 1` (`s ≥ 2` if `p = 2`), `K₀ ⊆ K ⊆ K_s := K₀(μ_{p^s})`, `E` containing the images of the
@@ -1923,6 +1925,10 @@ In this family, CongruenceModulesOfThetaLifts uses twist selection, the balance 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
 §R02.1.3: for a free lattice `T` with `W = T ⊗ ℚ_p/ℤ_p`, the exact sequence `V^G → W^G → H¹(G, T)_tors → 0` (4.10c (1), 4.10g (2)). §R02.2.3: restriction and corestriction for finite index, `cor∘res = [K′ : K]` (4.9c, 4.10e (2)). §R02.4.2: the local Tate pairing, and unramified classes as exact annihilators (3.24, 4.10a, 4.10b). §R02.4.3: Poitou–Tate duality (3.22, 3.24, 3.25a). §R02.4.4: finiteness, cohomological dimension and Tate's global Euler characteristic formula (3.22). §R02.5.1: the Greenberg–Wiles formula (3.22, 3.24, 3.25a). §D7.7.1: for a perfect pairing of a finitely generated compact module with a discrete one, the induced pairing `(X/F) × F^⊥` is perfect (4.10b). §D7.7.4: duality for the Selmer complexes (3.22).
+
+### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+§0.2: the lattice Tate dual `T^† = Hom_O(T, O)(1)` (Conventions); for a finite self-injective local ring `A`, the trace comparison `Hom_{ℤ_p}(A, ℚ_p/ℤ_p) ≅ A`, the `A`-linear dual local conditions it gives, and, for finite `A`-modules `B`, the exactness of `Hom_A(−, A)` and the biduality `B ≅ Hom_A(Hom_A(B, A), A)` (3.25a: the dual Selmer groups of test data, and step (iv) of the route of (4′)). §1.1: for a prime `𝔭 ∤ p`, the field `F(𝔭)`, the maximal `p`-extension of `F` in the ray class field modulo `𝔭`, totally ramified at `𝔭` over `F(1)`; the character `χ′` of the route of 3.22 (1) factors through it.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
