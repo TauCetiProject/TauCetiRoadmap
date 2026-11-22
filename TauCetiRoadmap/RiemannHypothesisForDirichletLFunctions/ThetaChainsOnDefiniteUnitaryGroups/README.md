@@ -492,7 +492,11 @@ ThetaLiftsForDefiniteUnitaryGroups §2.5 become holomorphic for `cΦ` instead of
 integrates the form on the source group against `θ_{S,T}`, linearly; a *descent* along the pair (the row descents) with a
 finite vector `Φ`, which is a vector of the conjugate datum (b), integrates the form on the target group `U(T)` against
 `θ̄_{S,T}(·; Φ) = conj θ_{S,T}(·; conj Φ)`: it is the linear theta integral of the conjugate datum at `Φ`, and the vector put
-into the kernel `θ_{S,T}` of `ω` itself is `conj Φ`. Equivalently, a descent can be written with `ω` and the vectors `conj Φ`, whose
+into the kernel `θ_{S,T}` of `ω` itself is `conj Φ`. The up-lift along the same row step, the adjoint of that descent,
+integrates the form on `U(S)` against `θ_{S,T}(·; conj Φ)`, the kernel of `ω` at the same vector `conj Φ`: its character
+under the level group of `U(S)` is the inverse of that of the forms, so the integrand is invariant (with `Φ` itself in
+`θ_{S,T}` it is not: at a twist place of the first step `ω(g, 1)Φ^Q = c_v(det g)^{−2}Φ^Q`, 2.9c). Equivalently, a descent
+can be written with `ω` and the vectors `conj Φ`, whose
 equivariance characters on lattice stabilisers are the inverses of those of `Φ` under `ω̄`; the levels and test vectors of the
 row steps (2.9–2.9c) are stated for the conjugate datum.
 (d) *Compact steps.* If `S`, `T` are totally positive definite of ranks `n`, `n + t` (`t ≥ 0`) and `χ_S`, `χ_T` have exponents
