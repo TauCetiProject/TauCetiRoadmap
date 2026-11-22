@@ -900,7 +900,13 @@ Lagrangians `Hom(W_{j,w_v}, V_{j,w_v})` of the split places `v | g₀g₁` (a fu
 `t` rows of every `y_v` vanish and the first `r` rows of the `y_v` form an element `g = (g_v)_v ∈ H`, and `0` otherwise (`χ_{v,j}`
 the type character of step `j` at `v`, ThetaChainsOnDefiniteUnitaryGroups §2.4(b), whose inverse is the restriction of `μ_j` to the units at `w_v`: the level vector
 carries the level character itself; for `H = {1}` it is the *principal level vector* `f_1`); the algebraic forms on `U(V_j)`
-transform on their block at `v` by `χ_{v,j}^{−1}` (ThetaChainsOnDefiniteUnitaryGroups §2.9). The
+transform on their block at `v` by `χ_{v,j}^{−1}` (ThetaChainsOnDefiniteUnitaryGroups §2.9). Here
+`Hom_E(V_j, W_j) ⊗_F F_v = Hom(V_{j,w_v}, W_{j,w_v}) ⊕ Hom(V_{j,w̄_v}, W_{j,w̄_v})` is a sum of two Lagrangians, the vectors
+of the row steps are functions of the first component (ThetaChainsOnDefiniteUnitaryGroups §2.2a (a)), and the level vectors
+of the model lift are functions of the second, whose element `x` is written through its adjoint
+`y := x^† ∈ Hom(W_{j,w_v}, V_{j,w_v})` for the Hermitian forms of `V_j` and `W_j` (`⟨xs, t⟩_{W_j} = ⟨s, x^†t⟩_{V_j}`; no
+scalar, the skew element enters `B_δ` only), so that `(g, h)` acts by `y ↦ g∘y∘h^{−1}`; the Fock variables `Z_τ` below are
+coordinates of `x` itself. The
 *model lift* `θ_j(ξ)` is the theta integral over the compact quotient `[U(V_j)]`, linear against the kernel
 `θ_{V_j,W_j}` of this pair (ThetaChainsOnDefiniteUnitaryGroups §2.2a (c)), with the principal level vector (`H = {1}`).
 Its source is the space of the algebraic forms on `U(V_j)` with values in the coefficient representation `𝒲_j` below,
@@ -1488,7 +1494,10 @@ verification is not given here. [FormalProof] proves the bound at `V(m, 0)` unde
 
 *Route* (an outline; the steps (B), (C), (D), (E) are the targets 5.8f, 5.8g, 5.8h, 5.8i, whose proofs are not given
 here except as indicated):
-(A) *Column `0` is a tower:* each right step is an up-lift, so by the pair statement of 5.2 (ThetaKernelsForUnitaryDualPairs
+(A) *Column `0` is a tower:* each right step is an up-lift (from the smaller space `V(i, 0)` to the larger `V(i+1, 0)`: the
+integral over the second member of its pair `(V(i+1, 0)(−1), V(i, 0))`, linear against the kernel of that pair, as in the
+Definitions; the up-lift `Θ_j` of 5.2 integrates over the first member of `(Y_{j−1}, Y_j)`), so by the pair statement
+of 5.2 (ThetaKernelsForUnitaryDualPairs
 §5.6a) the `n`-fold lift of `ē(w)` is `F′_n(vec_n(𝐩, w))` for a map `F′_n` from one discrete series of `U(V(n, 0))(F_∞)` to cusp
 forms, depending on `(e, 𝐜)` only, and all partial lifts are rapidly decreasing. (B) *A period at the bottom:* for `e ≠ 0`,
 `w ≠ 0` there is a `K`-finite value `y` of a cusp form on `U(X^c_0)` of level `𝔪_□` and discrete-series type with
@@ -1693,9 +1702,11 @@ conjugate-linear, 5.8e, and `ι_ξ` is linear): `v(ξ, λx, a) = c_𝕃(λ)·v(�
 ([FormalProof] states the identity, `v(ξ, x, a) ∈ 𝕃`, the ratios in `𝕃` and `c(i, j, ξ) ≠ 0` as
 `GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
 `Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
-`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_F⁰`, not made
-explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is `x_F` for which they hold under its standing record
-`GlobalTheory.RowClaim.HidaSetting` of that file, which adds to `Size_□` the record `Formalism.IndefR.Links.HostHyp` of 5.9
+`GlobalTheory.RowTest.NumbersIn`, `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/MemHalfCosetSelf.lean`,
+in this form: there is a threshold `C_F⁰`, not made explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is
+`x_F` for which they hold under its standing record `GlobalTheory.RowClaim.HidaSetting` of
+`Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, which adds to `Size_□` the record
+`Formalism.IndefR.Links.HostHyp` of 5.9
 (the gaps `100r⁴` of 5.9, the interlacing and further gaps of the row parameter) and further clauses, among them on the
 labels, the characters of the tuples, the Weil representations of the steps, the additive character and the frame of `X^h`. It
 applies the functionals to its own descent of a rational form, a row of the proof, the complex conjugate of the
@@ -1844,7 +1855,9 @@ vector bundle on the Shimura variety of `U(W_j)` of the level of 5.7 (Automorphi
 11.9, 11.18: the bundle, cusp forms as sections of its subcanonical extension, their comparison with analytic forms and
 their rational structure), and the canonical models over `K` give `𝒞(W_j)` an `𝕃`-structure `𝒞(W_j)_𝕃` (sections over `𝕃`, read
 through `σ₀`), stable under `G₀` and
-the Hecke operators away from `S(1)`. For an embedding `σ : 𝕃 → ℂ` the *realisation* `j_σ` of `𝒞(W_j)_𝕃` is the base
+the Hecke operators away from `S(1)` (the action of `U(W_j)(𝔸_f)` on the tower of canonical models is defined over the reflex
+field, ShimuraVarieties §4.11, and so is its action on the automorphic vector bundles and their subcanonical extensions). For
+an embedding `σ : 𝕃 → ℂ` the *realisation* `j_σ` of `𝒞(W_j)_𝕃` is the base
 change along `σ`: if `σ|_K = ι₀|_K`, an automorphism of `ℂ` extending `σ∘σ₀^{−1}` fixes `K`, permutes `Φ`, leaves the
 Hermitian space unchanged, and the conjugate datum is that of `W_j` with the places of `Φ` relabelled (AutomorphicBundles
 §§2.7, 4.3, and §6.4 for the subcanonical section spaces), so `j_σ` takes values in the row space of `U(W_j)`
@@ -1859,10 +1872,22 @@ API: `j_σ` is injective, `σ`-semilinear, `G₀`-equivariant and Hecke-equivari
 Petersson products of the realisations define Hermitian forms `⟨j_σ y, j_σ y′⟩` on `𝒞(W_j)_𝕃`, and
 `⟨j_σ y, j_σ y′⟩ = conj⟨j_{σ̄} y, j_{σ̄} y′⟩` when `σ|_K ≠ ι₀|_K`. ([FormalProof] has the realisations as
 `Formalism.IndefR.FWT.JEvExists`, `Formalism/LocalToGlobal/IndefiniteReal/FWExist.lean`.)
+[FormalProof] has the Hecke stability and the Hecke-equivariance of the realisation in a narrower form: for the operators
+`T_{n,P}`, `1 ≤ n ≤ r`, at the places `P` of `E` with `P ≠ P̄`, prime to the level and outside `S(1)`, the Hecke transform of
+a rational section is rational and preserves the cusp forms
+(`Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/SplitOffDetection.lean`,
+`GlobalTheory.IndefiniteRowSideFullHecke.SplitOffDetection.HeckeTransform`), and at the base embedding `σ₀` it is the
+adelic operator `μ_j(ϖ_P)^{−n}·Σ R(ρ)` over the representatives of the double coset
+(`Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/HkSupSizedOfHkSup.lean`,
+`GlobalTheory.HeckeSupSt.HeckeReadTie`). Its eigensystems and parts are read at these places only
+(`Formalism/LocalToGlobal/IndefiniteReal/BridgeTie.lean`, `Formalism.IndefR.Bridge.SplitOff`). The stability under the
+operators at the places of `F` that do not split in `E`, and the Hecke-equivariance of `j_σ` for `σ ≠ σ₀`, are this
+roadmap's, by the route below.
 
 *Route.* Canonical models of unitary Shimura varieties and of their automorphic vector bundles, and the conjugation of
 these models by automorphisms of `ℂ` (AutomorphicBundles §§2.7, 3.1, 3.2, 4.3, 6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties
-§§4.4, 4.12, 6.7: canonical models over the reflex field, their uniqueness, their existence in abelian type); the reflex field
+§§4.4, 4.11, 4.12, 6.7: canonical models over the reflex field, the Hecke translations over the reflex field, their
+uniqueness, their existence in abelian type); the reflex field
 from the equal signatures along a CM type induced from `K`; the antiholomorphic case is the complex conjugate manifold.
 
 *KNOWN* (Shimura; Deligne; Milne; M. Harris). The API: [FormalProof],
@@ -1870,7 +1895,7 @@ from the equal signatures along a CM type induced from `K`; the antiholomorphic 
 `Formalism/LocalToGlobal/IndefiniteReal/LinksDefs.lean` (`Formalism.IndefR.Links.parAt`),
 `Development/AbelianVarietyTheory/Definitions/Divisors/FormalDegreeUpperC.lean` (`GlobalTheory.LowRow.GalOut`).
 *Needs:* 5.7, 5.8, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1; AutomorphicBundles §§2.7, 3.1, 3.2, 4.3,
-6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties §§4.4, 4.12, 6.7.
+6.1, 6.4, 11.2, 11.9, 11.18; ShimuraVarieties §§4.4, 4.11, 4.12, 6.7.
 
 ### 5.11 Positivity of the model eigenvalues at every embedding
 
@@ -1886,7 +1911,7 @@ that every twist set lies over one prime of `K` above each rational prime and av
 `1` such that, on every cover of its algebraic tower (5.10a), uniform and pinned in its sense, of auxiliary level `p_d` (odd,
 squarefree, a product of primes split in `K`, prime to the level `M` of the tower and to the primes of the host) whose
 field `𝕂 ⊂ ℂ` contains the values of `μ_j`, of `η̃·‖·‖_{𝔸_E}^{1/2}` and the ray class field of `K` of conductor `M·p_d`, for
-every class `s` of `V_j`, every finite test function supported on the lattice, periodic modulo `M·p_d` and with values in
+every `s ∈ U(V_j)(𝔸_f)`, every finite test function supported on the lattice, periodic modulo `M·p_d` and with values in
 `𝕂`, and every harmonic polynomial with coefficients in `𝕂`, the phase times the theta function `g ↦ θ(s, g)` is a
 `𝕂`-rational form on the cover; and so are its product with `α(det g)` and the theta function of the tuple twisted by `α`,
 for every character `α` of `E` of finite order, trivial on `𝔸_F^×`, tamely ramified, unramified outside `p_d`, with values
@@ -2021,7 +2046,7 @@ MetaplecticAutomorphicForms §§3.3, 3.44, 5.6, 5.7, 5.8, 6.4, 6.10a, 6.11, 6.12
 SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.4.1, SR.4.3, SR.4.4, SR.5.2; SmoothRepresentationsOfLocalGroupsPartII §§0.4, 0.5, 2.6;
 EndoscopicTransferAndUnitaryTraceComparison §6.3; VonNeumannAlgebras Layer 9; AnalyticNumberTheoryPartI §2.3a;
 ArithmeticGaloisRepresentations §2.7; AutomorphicLFunctionsAndLocalFactors §AL.1.3.4; LFunctions
-Layers 6 and 7; ShimuraVarieties §§4.4, 4.12, 6.7; AbelianSchemesAndArithmeticModuli A5.3–A5.4; AutomorphicBundles §§2.7, 3.1, 3.2,
+Layers 6 and 7; ShimuraVarieties §§4.4, 4.11, 4.12, 6.7; AbelianSchemesAndArithmeticModuli A5.3–A5.4; AutomorphicBundles §§2.7, 3.1, 3.2,
 4.3, 6.1, 6.4, 11.2, 11.9, 11.18; GanGrossPrasadUnitaryGroups §§2.6, 4.1; AutomorphicPadicLFunctionsPartII §§5.7–5.9;
 ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2.
 
@@ -2276,8 +2301,8 @@ theta functions (5.4, 5.8, 5.10a).
 
 ### From TauCetiRoadmap.ShimuraVarieties
 
-- §§4.4, 4.12, 6.7: canonical models over the reflex field, their uniqueness and their existence for data of abelian
-  type. Used in 5.10a.
+- §§4.4, 4.11, 4.12, 6.7: canonical models over the reflex field, the Hecke translations over the reflex field, their
+  uniqueness and their existence for data of abelian type. Used in 5.10a.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
