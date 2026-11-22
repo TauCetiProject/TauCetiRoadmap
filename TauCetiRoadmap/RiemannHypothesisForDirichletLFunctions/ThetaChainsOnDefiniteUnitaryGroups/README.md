@@ -11,7 +11,7 @@ The headline theorems are these.
 
 The hosts and their predicates come from [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md); the classification of Hermitian spaces, class sets and masses from [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md); the dictionary of the theta lift of a definite pair from [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md), and the global Weil representation of a unitary pair from [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md); integral branching from [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md); slopes from [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md). The later roadmaps of the chain in the family [RiemannHypothesisForDirichletLFunctions](../README.md), from [LocalGainOfThetaChains](../LocalGainOfThetaChains/README.md) to [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md), work with these data, the chain lift, its source lattices and its top period.
 
-Layer 2 constructs the setting: the ranks, scales and named size predicates (2.1); the column, row and model spaces (2.2) and the normal form of the pairs they form, with its conjugate datum and the conventions for lifts and descents (2.2a); weight data and words, adapted and separated data and their existence (2.3–2.3c); the Hecke characters of the chain and the twisting characters (2.4, 2.5); the coefficient field `𝕂`, explicit and of polynomial size, and the field of places `𝕃` (2.6); the type and auxiliary primes and the level prime of each word, chosen so that the sources nearly have the dimension of the target (2.7, 2.8); and the level structures at the unramified places, the type primes, the level primes and the twist places (2.9–2.9c). Layer 3 builds the column chain: chain forms with their integral structures (3.1), a family of theta functions of CM abelian varieties with its integrality at every prime (3.1a–3.1d), the step operator and its identification with a class-set theta lift (3.2–3.4), the chain lift and its integrality (3.5, 3.6), the operators at the level prime (3.7), the source lattices (3.8), and the top period with its integrality (3.9, 3.10).
+Layer 2 constructs the setting: the ranks, scales and named size predicates (2.1); the column, row and model spaces (2.2) and the normal form of the pairs they form, with its conjugate datum and the conventions for lifts and descents (2.2a); weight data and words, adapted and separated data and their existence (2.3–2.3c); the Hecke characters of the chain and the twisting characters (2.4, 2.5); the coefficient field `𝕂`, explicit and of polynomial size, and the field of places `𝕃` (2.6), with the behaviour of lattices, their indices and twisting data when `𝕃` is enlarged (2.6a); the type and auxiliary primes and the level prime of each word, chosen so that the sources nearly have the dimension of the target (2.7, 2.8); and the level structures at the unramified places, the type primes, the level primes and the twist places (2.9–2.9c). Layer 3 builds the column chain: chain forms with their integral structures (3.1), a family of theta functions of CM abelian varieties with its integrality at every prime (3.1a–3.1d), the step operator and its identification with a class-set theta lift (3.2–3.4), the chain lift and its integrality (3.5, 3.6), the operators at the level prime (3.7), the source lattices (3.8), and the top period with its integrality (3.9, 3.10).
 
 ## Conventions
 
@@ -216,6 +216,7 @@ are fixed choices. The values of one construction (such as `C_t = 401`) appear o
 | `𝒮_tw, Tw` | admissible twisting characteristics; twisted places | 2.5 |
 | `Z₀; (T1), (T2)` | the prescribed set of places of a twisting datum; conditions on the twisting datum | 2.5 |
 | `𝕂, 𝕃, σ₀, c_𝕃` | coefficient field, field of places, the inclusion of `𝕃` in `ℂ`, the restriction of complex conjugation | 2.6 |
+| `𝕃′, e(𝔭′\|𝔭), f(𝔭′\|𝔭), L_{𝕃′}, 𝕃₀` | a larger field of places; ramification index and residue degree of `𝔭′` over `𝔭`; the extension of scalars of a lattice to `𝒪_{𝕃′}`; a field of definition | 2.6a |
 | `Ω, E(N), h*, H₁₂, V, n_c, sz(·)` | the compositum of 2.6 containing `𝕂` (not the CM period `log Ω`), the ray class field of `E` of modulus `N𝒪_E`, its degree over `E`, the `12`-torsion field of the CM curve, the Kummer field, the order of the roots of unity, the pair (log of the degree, log of the root discriminant) | 2.6 |
 | `g₀, g₁; p_δ, p′_δ; 𝔅(N, g)` | type primes; auxiliary primes; the exceptional set of a type prime | 2.7 |
 | `T(u), T*(u), π_u` | level prime of the word `u`, its target value, `T(u) = N(π_u)` | 2.8 |
@@ -964,8 +965,10 @@ anticyclotomic character of finite order, tame, with `Q(ξ_𝔭) = A(ℓ) ⊔ Q(
 above places of `F` split in `E`, containing no place above `ℓ`, above `g₀g₁`, above a prime dividing `30·f_E` or in `Z₀`;
 so `ξ_𝔭` is unramified at every place above `ℓ`. (ii) `ψ_𝔭` is trivial on the decomposition groups above `ℓ`; `δ_ℓ` is unramified above
 `ℓ` and need not be trivial on those decomposition groups. (iii) `ξ_{c_𝕃(𝔭)} = ξ_𝔭`. (iv) Replacing `𝕃` by a larger field of places `𝕃′`
-(2.6: a finite Galois extension of `ℚ` inside `ℂ`, stable under complex conjugation, containing `𝕃`) and assigning to a place of `𝕃′` the data of the place of `𝕃` below it gives a twisting datum for `𝕃′`; so
-`𝕃` may be enlarged after a twisting datum is fixed.
+(2.6: a finite Galois extension of `ℚ` inside `ℂ`, stable under complex conjugation, containing `𝕃`) and assigning to a place of `𝕃′` the data of the place of `𝕃` below it gives a twisting datum for `𝕃′` (2.6a (d)); so
+`𝕃` may be enlarged after a twisting datum is fixed. [FormalProof] carries the data already built over to the larger field, for
+instance in `Development/AutomorphicArithmetic/UnitTensorPairings/ThetaLiftDataOverCoefficientExtension.lean`
+(`UpperTheory.theta_lift_data_over_coefficient_extension`).
 
 *Which statements quantify over which set.* Statements about the kernels of the chain hold for every tuple of `Ξ` at
 every place where that tuple is unramified, and are applied at `𝔭` to `ξ_𝔭` (legitimate at every `𝔭`, by (i)); they involve
@@ -1093,6 +1096,72 @@ Layer 2 (the ray-class exact sequence and the class-number formula); NumberField
 `v_P(𝔡) ≤ e_P − 1 + v_P(e_P)`) and NumberFieldArithmetic §4.2 (the tower formula); Mathlib `NumberField.exists_ideal_in_class_of_norm_le`;
 ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1;
 EllipticCurves Layer 4; SlopesOfHermitianVectorBundles §3.5.
+
+### 2.6a Enlarging the field of places
+
+*Setting.* Let `𝕃 ⊂ 𝕃′` be two fields of places (2.6: finite Galois extensions of `ℚ` inside `ℂ`, stable under complex
+conjugation, containing `𝕂`). For a finite place `𝔭′` of `𝕃′` above the place `𝔭` of `𝕃` write `e(𝔭′|𝔭)` and `f(𝔭′|𝔭)`
+for the ramification index and the residue degree; so `e_{𝔭′} = e(𝔭′|𝔭)·e_𝔭` and `ϱ(𝔭′) = f(𝔭′|𝔭)·ϱ(𝔭)/[𝕃′:𝕃]`. For a
+Hermitian lattice `L` over `𝒪_𝕃` (Conventions) let `L_{𝕃′} := 𝒪_{𝕃′} ⊗_{𝒪_𝕃} L`, with the metric of `L` at `σ′|_𝕃` at
+every embedding `σ′` of `𝕃′`. A subfield `𝕃₀` of `𝕃` containing `𝕂`, Galois over `ℚ` and stable under complex
+conjugation, is a *field of definition* of `L`, for an `𝕃₀`-structure `V₀` of its space (`V = 𝕃 ⊗_{𝕃₀} V₀`), if
+`L = 𝒪_𝕃 ⊗_{𝒪_{𝕃₀}} L₀` for an `𝒪_{𝕃₀}`-lattice `L₀ ⊂ V₀`.
+
+*Statement.*
+(a) *Lattices.* `L ↦ L_{𝕃′}` is exact and commutes with finite sums and intersections of lattices in one space, with
+duals, and with kernels and images of `𝒪_𝕃`-linear maps of lattices (extended `𝒪_{𝕃′}`-linearly); `μ(L_{𝕃′}) = μ(L)`,
+`μ_max(L_{𝕃′}) = μ_max(L)` and `μ_min(L_{𝕃′}) = μ_min(L)`.
+(b) *Indices.* For lattices `L₁, L₂` of full rank in one `𝕃`-space and `𝔭′ | 𝔭`:
+`idx_{𝔭′}(L_{1,𝕃′} : L_{2,𝕃′}) = e(𝔭′|𝔭)·idx_𝔭(L₁ : L₂)`, and likewise for every relative length. Hence
+`Σ_{𝔭′|𝔭} ϱ(𝔭′)·idx_{𝔭′}(L_{1,𝕃′} : L_{2,𝕃′}) = ϱ(𝔭)·idx_𝔭(L₁ : L₂)`; the index at `𝔭′` is nonzero exactly when the index
+at `𝔭` is; and `idx_{𝔭′}/e_{𝔭′} = idx_𝔭/e_𝔭`.
+(c) *Fibres over a field of definition.* If `𝕃₀` is a field of definition of `L₁` and of `L₂` for one `𝕃₀`-structure, the
+set of places `𝔭` of `𝕃` with `idx_𝔭(L₁ : L₂) ≠ 0` is the set of all places above a finite set `P₀` of places of `𝕃₀`, the
+same `P₀` for every field of places containing `𝕃₀`, and `idx_{g𝔭}(L₁ : L₂) = idx_𝔭(L₁ : L₂)` for `g ∈ Gal(𝕃/𝕃₀)`.
+(d) *Twisting data and local characters.* Give `𝕃′` the twisting datum that 2.5, Lemma (iv) derives from a twisting
+datum for `𝕃` (`ψ_{𝔭′} := ψ_𝔭`, and `𝔭′ ∈ Tw′` exactly when `𝔭 ∈ Tw`). Then `𝒮_tw`, `Ξ`, the sets `Q(ξ)` and `Z₀` are
+unchanged, `ξ_{𝔭′} = ξ_𝔭`, and (T1), (T2) hold for `𝕃′` if they hold for `𝕃`. The completion of `𝒪_{𝕃′}` at `𝔭′` is a
+finite extension, of ramification index `e(𝔭′|𝔭)`, of the completion `O` of `𝒪_𝕃` at `𝔭`, and a character of `G_E` with
+values in the roots of unity of `𝕃` defines at `𝔭′` the character it defines at `𝔭`, composed with this inclusion. For
+`g ∈ Gal(𝕃/ℚ)`, `g` identifies the completion at `𝔭` with the completion at `g𝔭`, and under this identification the
+character that `ψ` defines at `g𝔭` is the one that `g^{−1}∘ψ` defines at `𝔭`; if `ψ` has `ℓ`-power order, `g^{−1}∘ψ = ψ^a`
+for an integer `a` prime to `ℓ`.
+
+*Route.* (a) `𝒪_{𝕃′}` is a finitely generated projective `𝒪_𝕃`-module, so base change to it is exact and commutes
+with kernels, images, finite intersections and duals of finitely generated projective modules; the slopes are
+SlopesOfHermitianVectorBundles §3.5, through the dictionary `μ = 2μ̂` of the Conventions. (b) Over the discrete valuation
+ring `𝒪_{𝕃,𝔭}` the two lattices have bases `(e_i)` and `(π^{a_i}e_i)`, `π` a uniformiser, and `idx_𝔭 = Σ a_i`;
+`𝔭𝒪_{𝕃′,𝔭′} = 𝔭′^{e(𝔭′|𝔭)}`; the sum is `Σ_{𝔭′|𝔭} e(𝔭′|𝔭)f(𝔭′|𝔭) = [𝕃′:𝕃]`. (c) Apply (b) to `𝕃₀ ⊂ 𝕃`: `P₀` is the
+set of places of `𝕃₀` at which the index of `L_{1,0}` and `L_{2,0}` is nonzero, finite because two lattices of full rank
+agree at almost all places; `g` fixes `L₁ = 𝒪_𝕃 ⊗ L_{1,0}` and `L₂` and carries the localisation at `𝔭` to that at `g𝔭`.
+(d) The first two sentences are 2.5, Lemma (iv) with the definitions; the others are the functoriality of completion for
+`𝕃_𝔭 ⊂ 𝕃′_{𝔭′}` and for `g : 𝕃_𝔭 ≅ 𝕃_{g𝔭}`, and `Gal(𝕃/ℚ)` acts on the roots of unity of `ℓ`-power order through units
+modulo their order.
+
+*Checks.* (i) (b) uses only that `𝕃 ⊂ 𝕃′` are number fields; for `ℚ(i) ⊂ ℚ(ζ₈)`, `L₁ = ℤ[i]`, `L₂ = (1 + i)ℤ[i]`: the
+index is `1` at the place above `2`, and `2` at the place of `ℚ(ζ₈)` above it, which has `e = 2`; `ϱ` is `log 2/2` below
+and `log 2/4` above, and both weighted indices are `log 2/2`. (ii) The set of (c) need not be a union of fibres without a
+field of definition: for `L₁ = 𝒪_𝕃`, `L₂ = 𝔭` and a prime `𝔭` of `𝕃` with a conjugate `g𝔭 ≠ 𝔭` over `𝕃₀`, the index is
+`1` at `𝔭` and `0` at `g𝔭`.
+
+*NEW* (bookkeeping; 2.5, Lemma (iv) and the Convention of 2.6 are the cases of the twisting datum and of the slopes).
+The instances for the chain: [FormalProof], for the data of the chain on the row side
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/AdelicDataExtendLargerFieldsOfPublishedStatement.lean`
+(`GlobalTheory.T.adelicData_extend_largerFields_of_hypotheses`), the two fields being related by
+`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/CmQuadraticFormEqAlternatingForm.lean`
+(`GlobalTheory.Mem.Top.Enl`) and the two data by
+`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/CoefAEqOfHeq.lean` (`GlobalTheory.Mem.R3.Rw.Ext`);
+for (b) `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExtendedDataNonzeroIndexPlacesCorrespondStatement.lean`
+(`GlobalTheory.T.extendedData_nonzero_index_places_correspond_alt`) and
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsExtTwistedPlaces.lean`
+(`GlobalTheory.Mem.R3.Rw.Second.exists_ext_twisted_places`); for (c)
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/UntwistedAdelicDataSaturatedOverFixedFieldStatement.lean`
+(`GlobalTheory.T.untwisted_adelic_data_saturated_over_fixed_field`); for (d)
+`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NonzeroPlacesOverPrimes.lean`
+(`GlobalTheory.Mem.Top.Bl.Coh`) and
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsUnlocalizedSaturatedState.lean`
+(`GlobalTheory.HeightCounting.Up.TwFrom`).
+*Needs:* 2.5, 2.6; SlopesOfHermitianVectorBundles §3.5; Mathlib `Ideal.sum_ramification_inertia_eq_finrank`.
 
 ### 2.7 Type primes and auxiliary primes
 
@@ -1480,7 +1549,7 @@ satisfies `(κ − 1)z ∈ p^aL_{j,w_v}`, so level `p` fails for a chart with `z
 
 ### Dependencies
 
-FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ClassFieldTheory Layers 11–13; GlobalNumberFields (Completed) Layers 2, 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); Mathlib `NumberField.exists_ideal_in_class_of_norm_le`; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1; EllipticCurves Layer 4.
+FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ClassFieldTheory Layers 11–13; GlobalNumberFields (Completed) Layers 2, 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); Mathlib `NumberField.exists_ideal_in_class_of_norm_le`, `Ideal.sum_ramification_inertia_eq_finrank`; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1; EllipticCurves Layer 4.
 
 ## Layer 3: The column chain on definite unitary groups
 
@@ -2283,7 +2352,9 @@ so `c_{Br}` exceeds the least admissible constant `1` by the factor `D₀!`. (ii
 *NEW* (object). [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/ProductFirstZerothParts.lean`
 (`Formalism.MainNotions.product_first_zeroth_parts.Conclusion6`),
 `Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean` (`Formalism.L2.Col.Br.cBr`),
-`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/GelfandTsetlinTopCoefficient/NumMore.lean` (`PI.GTNum.abs_cBr_le_cBd`).
+`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/GelfandTsetlinTopCoefficient/NumMore.lean` (`PI.GTNum.abs_cBr_le_cBd`);
+for the tuples of API (b), `Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean`
+(`Formalism.L2.G.Adm2InU.TwistedPointIntegral`).
 *Needs:* 2.3, 2.8, 2.9, 2.9a, 2.9b, 2.9c, 3.1, 3.5; ClassicalGroups §6.1 (branching
 `GL_N ↓ GL_{N−1}`); IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching).
 
@@ -2304,7 +2375,10 @@ moves the integrality of `Υ` from `c_𝕃(𝔭)` to `𝔭`, while `φ′` enter
 *Check.* The roles of the two lattices cannot be exchanged: for `GL_2` and `σ = (2, 0)` (3.1 Check (iv)) two `∇_ℤ`-valued values
 `xy`, `xy` pair to `1/2`, while `Δ_ℤ` pairs integrally with `∇_ℤ`.
 
-*KNOWN* (stabiliser denominators). *Needs:* 3.1, 3.6, 3.9; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
+*KNOWN* (stabiliser denominators). [FormalProof], `Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean`
+(`Formalism.MainNotions.WeightDegreeSizes.PeriodClassSumWeyl`) and, for the tuples,
+`Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.TwistedPeriodAdmissible`).
+*Needs:* 3.1, 3.6, 3.9; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
 
 ### Examples
 
@@ -2345,6 +2419,7 @@ The roadmaps of the family named under Downstream consumers above use these stat
 ### From Mathlib
 
 - `NumberField.exists_ideal_in_class_of_norm_le` (Minkowski's bound: every ideal class contains an integral ideal of norm at most `(4/π)^{r₂}·(n!/n^n)·√|d|`). Used in 2.6.
+- `Ideal.sum_ramification_inertia_eq_finrank` (for a domain `R`, a finite flat `R`-algebra `S` and a prime `p` of `R`, `Σ_{q|p} e(q|p)·f(q|p)` is the rank of `S` over `R`). Used in 2.6a.
 
 ### From FrobeniusRestrictedRieszSums, a sub-roadmap of this family
 
@@ -2378,7 +2453,7 @@ The roadmaps of the family named under Downstream consumers above use these stat
 
 - §§1.2, 1.7: slopes of sub-bundles and of the standard constructions (tensor products). Used in 3.8.
 - §2.1: maximal and minimal slopes. Used in 3.8.
-- §3.5: base change. Used in 2.6.
+- §3.5: base change. Used in 2.6, 2.6a.
 
 ### From IntegralWeylModulesOfGeneralLinearGroups, a sub-roadmap of this family
 
