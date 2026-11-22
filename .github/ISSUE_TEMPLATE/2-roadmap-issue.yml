@@ -104,6 +104,7 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - CompactQuantumMetricSpaces
+        - CompletedCohomologyAndLocalGlobalCompatibility
         - CompletedCohomologyPartII
         - ComplexComparisonPartII
         - ComplexCurveModuli
