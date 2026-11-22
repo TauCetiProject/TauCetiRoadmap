@@ -931,7 +931,10 @@ rows and columns in increasing order).
 `U(V_j)(F_∞)`, through the Weil representation of the pair, on the span of the translates of `Δ_j` in the polynomial
 Fock space; prove that it is irreducible, and that there is an intertwiner `I_j` from (lowest `K`-type of `D_{W_j}`) ⊗
 `𝒲_j` to Fock polynomials, linear in both variables, equivariant for `U(V_j)(F_∞)` and for the maximal compact subgroup
-of `U(W_j)(F_∞)`, sending a tensor of unit vectors to `Δ_j`. *The Fock model and the weights.* At `τ`, in the orthonormal
+of `U(W_j)(F_∞)`, sending a tensor of unit vectors to `Δ_j`. The unit vector of the lowest `K`-type in such a tensor is an
+*extremal vector*: at every `τ` it is a weight vector of the diagonal torus of the maximal compact subgroup of `U(W_j)(F_τ)`,
+of the weight of `Δ_j` under that torus (an extremal weight of the lowest `K`-type); it is unique up to a phase at each `τ`.
+*The Fock model and the weights.* At `τ`, in the orthonormal
 frame of `V_j` and the frame of `W_j` adapted to its positive and negative directions, an element `u ∈ U(V_j)(F_τ)` (a
 unitary matrix in that frame) acts on the Fock polynomials by the linear substitution `Z₊ ↦ Z₊·ū`, `Z₋ ↦ Z₋·u` of the
 blocks of `Z_τ` (`ū = (u^{−1})^T`), multiplied by `det(u)^{x₃}`, `x₃ = x₃(τ) := w_j(τ) + ½ − (p − q)/2 ∈ ℤ`, and
@@ -1015,6 +1018,12 @@ onto the span of the translates of `Δ_j`: this identifies the record with the `
 not name that span and has no separate statement of its irreducibility; its Rallis identity (ii) is stated for any
 such pair of a representation and an intertwiner (`GlobalTheory.LiftRows.IsLiftDataC`,
 `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/RealLowestKTypeCoeffSquareIntegrable.lean`).
+*The extremal vector.* Let `e ⊗ w` be a tensor of unit vectors with `I_j(e ⊗ w) = Δ_j`. Since `Δ_j ≠ 0`, the map
+`x ↦ I_j(x ⊗ w)` on the lowest `K`-type, which is equivariant for the maximal compact subgroup, is not zero at `e`.
+`Δ_j` is a weight vector of the diagonal torus, of the extremal weight `χ`. For a torus element `a` the vector
+`a·e − χ(a)e` is therefore sent to `0`; the map is injective at each `τ`, because it is equivariant and the lowest
+`K`-type is irreducible; so `e` has weight `χ`. [FormalProof] proves the statement `Formalism.IndefR.FWT.IoExt` cited above
+as `Development/AbelianVarietyTheory/Proofs/DivisorProofs/IoExtCore.lean` (`GlobalTheory.AdTh.IoExtCore.ioExt_core`).
 *Lemma.* In the mixed model adapted to `W = ⟨ξ′⟩ ⊕ W₀ ⊕ ⟨ξ′^∨⟩` the transvections act on
 `φ(x, y)`, `x ∈ V ⊗ ξ′^∨`, by `ψ(s⟨x, x⟩)`, so the constant term along `Z_{ξ′}` keeps the rational `x` with `⟨x, x⟩ = 0`, that is
 `x = 0` (`V` anisotropic); at the split place this term is an integral of `φ_v` over the maps killing `ξ′`, which are not
@@ -1366,7 +1375,10 @@ integrality of coordinates and norms.
 (`GlobalTheory.T.tower_stage_successor_coefficients_alt`),
 `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepBeta`,
-`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepAlpha`).
+`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepAlpha`). *(norms)*: [FormalProof],
+`Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/NormSmall.lean` (`GlobalTheory.SqTop.NormBig`), with the
+finite-place input `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HeckeLFunctionBottomPair.lean`
+(`GlobalTheory.NormRatio.finite_data`).
 *Needs:* 5.8a, 5.8c, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6; ThetaLiftsForDefiniteUnitaryGroups §§3.1, 3.2, 6.2, 6.3, 6.5, 6.12; 
 AutomorphicPadicLFunctionsPartII §§5.7–5.9 (integrality away from explicit primes; Katz–Shimura algebraicity; Deligne's period comparison) and
 ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2 (the Serre tensor construction; the explicit reciprocity law), for the
@@ -1645,10 +1657,14 @@ above `S_□`.
   adelic point `h` of the unitary group of the third space of the triple and every monomial `P` in the Fock
   variables for which the kernel is integrable, `I(ξ; P; h)/Ω ∈ 𝕃` and `I′(ξ; P; h)/Ω′ ∈ 𝕃`, where `I`, `I′` are the
   theta integrals over the two definite groups of the bottom triple (the two sides of the bottom triangle identity).
+  ([FormalProof] has the bottom triples of (L7), for every tuple with one pair of periods, as
+  `Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/NormSmall.lean` (`GlobalTheory.SqTop.BotExT`).)
 
 Let `𝕃` also contain the values of the irreducible characters of `G₀`
 and those of the characters of the levels of ThetaChainsOnDefiniteUnitaryGroups §2.9a at the type primes (so that `Π_good` and every `e_{P,χ_P}` lie in `𝕃[G₀]`).
-Every number in (L1)–(L6) is algebraic ((L6) by AutomorphicPadicLFunctionsPartII §5.8: `ν_ξ` and `ν_1` differ by a character
+Every number in (L1)–(L6) is algebraic ((L5): [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsPowEqOneOfLe.lean` (`GlobalTheory.PhaseField.phases_core`);
+(L6) by AutomorphicPadicLFunctionsPartII §5.8: `ν_ξ` and `ν_1` differ by a character
 of finite order, so they have the same infinity type, critical at these `s`, and their periods cancel in the ratio),
 and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite once the
 tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). The
@@ -1731,7 +1747,12 @@ AutomorphicPadicLFunctionsPartII §5.8.
 Let `E` be a cyclic host (FrobeniusRestrictedRieszSums §0.4), and assume that consecutive entries of the row
 parameter `(v(τ); −e′(τ))` differ by at least `100r⁴` at every `τ ∈ Φ` (a size condition on the parameters, not an open
 statement: for the words of ThetaChainsOnDefiniteUnitaryGroups §2.3 it means
-`4Δ_w ≥ 100r⁴`, `h_gap ≥ 100r⁴` in (W5) and `v_{k−2}(τ) + e′_0(τ) ≥ 100r⁴`, which `SizeGap` (ThetaChainsOnDefiniteUnitaryGroups §2.3c) and the range of `Δ_w` (ThetaChainsOnDefiniteUnitaryGroups §2.3b) give).
+`4Δ_w ≥ 100r⁴`, `e′_{l+1}(τ) − e′_l(τ) ≥ 100r⁴` and `v_{k−2}(τ) + e′_0(τ) ≥ 100r⁴`. For an adapted datum with (W5) for an
+`h_gap` with `SizeGap`, under `SizeMf` and with the letter step `Δ_w > k⁴f⁴` of ThetaChainsOnDefiniteUnitaryGroups §2.3,
+these hold by ThetaChainsOnDefiniteUnitaryGroups §2.3c (*Gaps of the row parameter*); that implication is this family's.
+[FormalProof] does not derive the gaps from its size predicates: it carries them in a record of their own and proves them
+once, for the weight datum of the chain (ThetaChainsOnDefiniteUnitaryGroups §2.3a), from `Δ_w ≥ 256N_m⁴`,
+`h_gap ≥ 256N_m⁴` and `e′_0(τ) ≥ 100r⁴` at a large scale).
 Then for every step `j`, every tuple `ξ` and every Hecke eigensystem `𝔥` away from `S(ξ)`:
 `dim 𝔼^♮[𝔥] = dim 𝒞(W_j)^{good}[𝔥]`, where `𝒞(W_j)^{good} := Π_good·𝒞(W_j)` is the image of the good idempotent of 5.3
 read on `U(W_j)` through `G₀` (the type primes split completely, so `U(W_j)(F_v) ≅ GL_r(F_v) ≅ U(Y_0)(F_v)` at `v | g₀g₁`
@@ -1856,7 +1877,20 @@ from the equal signatures along a CM type induced from `K`; the antiholomorphic 
 *Lemma (rational lift).* The theta lift of an `𝕃`-rational algebraic form on
 `U(V_j)`, read at the extremal vector of 5.7, lies in `𝒞(W_j)_𝕃` up to one phase independent of the form: it is the class
 sum, over the classes of `V_j`, of algebraic theta values of the lattices of the classes with the harmonic polynomials of
-the form; write `κ_rat` for that phase. Write `λ_j(ξ, 𝔥, σ)` for the scalar of the `σ`-realisation of `θ_jθ_j^*` on a nonzero part
+the form; write `κ_rat` for that phase. ([FormalProof] uses the rank condition (R5) of ThetaChainsOnDefiniteUnitaryGroups §2.1,
+`8fr + 4 ≤ r + t`, through the spanning of the cusp forms by class sums, and, for the tuples other than the base tuple,
+that every twist set lies over one prime of `K` above each rational prime and avoids the small primes.)
+[FormalProof] states the Lemma also term by term, on covers and for twists, as
+`Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`): for each step there is one phase of absolute value
+`1` such that, on every cover of its algebraic tower (5.10a), uniform and pinned in its sense, of auxiliary level `p_d` (odd,
+squarefree, a product of primes split in `K`, prime to the level `M` of the tower and to the primes of the host) whose
+field `𝕂 ⊂ ℂ` contains the values of `μ_j`, of `η̃·‖·‖_{𝔸_E}^{1/2}` and the ray class field of `K` of conductor `M·p_d`, for
+every class `s` of `V_j`, every finite test function supported on the lattice, periodic modulo `M·p_d` and with values in
+`𝕂`, and every harmonic polynomial with coefficients in `𝕂`, the phase times the theta function `g ↦ θ(s, g)` is a
+`𝕂`-rational form on the cover; and so are its product with `α(det g)` and the theta function of the tuple twisted by `α`,
+for every character `α` of `E` of finite order, trivial on `𝔸_F^×`, tamely ramified, unramified outside `p_d`, with values
+in `𝕂`. Write `λ_j(ξ, 𝔥, σ)` for the scalar of the `σ`-realisation of `θ_jθ_j^*` on a nonzero part
 (`λ_j(ξ, 𝔥, σ₀) = λ_j(ξ, 𝔥)`).
 
 *Theorem* (base tuple). Let `σ` be an embedding of `𝕃`.
@@ -1875,10 +1909,21 @@ Consequently `λ_j(1, 𝔥, σ) > 0` for every `σ`, its main term (the hook pro
 embedding, and, under the hypotheses of 5.6, `𝔫 > 0` as soon as `𝔼^♮ ≠ 0`.
 
 *Route.* (Rational lift.) The lift from a definite group is a finite class sum of theta functions of the lattices of the
-classes, and on the moduli space of abelian varieties with `𝒪_E`-multiplication these are algebraic theta values (their
-algebraicity is not proved here; [FormalProof] has the Lemma as `Formalism.IndefR.FWT.phase_of_oneMap`,
-`Formalism/LocalToGlobal/IndefiniteReal/FWCentral.lean`: a phase of absolute value `1` with which the lift of every
-rational form lies in the rational structure); this gives the class-sum description over a number field.
+classes, and on the moduli space of abelian varieties with `𝒪_E`-multiplication these are algebraic theta values; this
+gives the class-sum description over a number field. [FormalProof] has the Lemma in this form: there are a phase and, for
+each connected component, a constant, all of absolute value `1`, such that for every rational element `x` of the source
+the lift of `x`, read at the extremal vector of 5.7 and multiplied by the phase, is a finite combination with coefficients
+in `𝕃` of realisations of algebraic cusp forms. The order of its steps: at the base tuple the lift read at the extremal
+vector is written as a class sum of theta values with the harmonic polynomial of the form; the independence of the chart
+of the moduli description gives the constants of the components and the equivariance of the dictionary between adelic
+points and points of the components; the phase is then rational; under `8fr + 4 ≤ r + t` (the rank of `V_j`) the class
+sums span the cusp forms over the field, which determines the map; and the twisted tuples follow under a condition on the
+twist places. The proofs of these steps, among them the algebraicity of the theta values, are not given here.
+[FormalProof]: `Formalism/LocalToGlobal/IndefiniteReal/OneMapT.lean` (`Formalism.IndefR.FWT.OneMapRowR`,
+`Formalism.IndefR.FWT.OMDat.PhRat`), proved as
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/OneMapAllTuplesOverCoreOfRankBound.lean`
+(`GlobalTheory.OneMapCore.oneMapRowR_of_core_of_size`); the phase:
+`Formalism/LocalToGlobal/IndefiniteReal/FWCentral.lean` (`Formalism.IndefR.FWT.phase_of_oneMap`).
 (Conjugation.) Both sides are the same classical class sum of theta
 values with characteristics, evaluated at the complex fibre of the moduli space over the embedding; no reciprocity law
 is used. An automorphism fixing `K` permutes `Φ` and leaves the Hermitian space unchanged (5.10a); `σ` acts on the
@@ -1902,7 +1947,7 @@ complex conjugates of the forms at `σ̄` (5.10a). The hook sum is unchanged bec
 Theorem: [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/FormalDegreeUpperC.lean`
 (`GlobalTheory.LowRow.GalOut`), `Formalism/LocalToGlobal/IndefiniteReal/PartsOrth.lean` (`Formalism.IndefR.Cx.CxData.GalD`),
 `Formalism/LocalToGlobal/IndefiniteReal/BaseLiftsPackageOfPrimitiveLinks.lean` (`Formalism.IndefR.Links.RealDat3.PPos`).
-*Needs:* 5.6, 5.7, 5.10, 5.10a,
+*Needs:* 5.6, 5.7, 5.10, 5.10a, ThetaChainsOnDefiniteUnitaryGroups §2.1 (R5),
 ThetaChainsOnDefiniteUnitaryGroups §2.6; MetaplecticAutomorphicForms §§3.44, 5.6; ThetaLiftsForDefiniteUnitaryGroups §§1.2, 1.6, 1.7–1.9;
 AbelianSchemesAndArithmeticModuli A5.3–A5.4 (algebraizability of complex tori with a positive Riemann form; the line of
 theta functions of a principal polarisation).
@@ -1999,7 +2044,9 @@ row spaces (5.1), the model lifts and their multiplicities (5.7, 5.9) and the ra
 GluedTargetAndDivisionInequality uses the determinant identity of the descent at every embedding for the base tuple
 (5.10, 5.12) and the grid (5.8a, 5.8e). ThetaChainsAndFrobeniusPrimeSums uses the rows and the step identities (5.3, 5.5,
 5.12) and the grid with its hypotheses (5.8a, 5.8b, 5.8e), and computes, for the measures of the Conventions,
-`vol([U(Y_0)]) = mass(𝒪_E^r)` (ThetaChainsAndFrobeniusPrimeSums §9.4).
+`vol([U(Y_0)]) = mass(𝒪_E^r)` (ThetaChainsAndFrobeniusPrimeSums §9.4). The chain takes `C_F ≥ C_F⁰` and `x ≥ x_F` of 5.8 in
+ThetaChainsAndFrobeniusPrimeSums §10.6 and ThetaChainsAndFrobeniusPrimeSums §10.0 (H1), and verifies the gap hypotheses of
+5.8 in ThetaChainsAndFrobeniusPrimeSums §10.6b.
 
 ## Scope and ownership
 
@@ -2061,7 +2108,7 @@ and the modulus of the host, which the conductor `f_E` divides (5.8a).
 
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
 
-§2.1: the ranks, the scale and the size conditions, among them (R1), (R2) and `SizeInert` (5.5, 5.8b). §§2.2, 2.2a: the
+§2.1: the ranks, the scale and the size conditions, among them (R1), (R2), `SizeInert` (5.5, 5.8b) and (R5) (5.11). §§2.2, 2.2a: the
 spaces of the chain and the normal form of a step, with the conjugate datum, and the split places of §2.2 (g) (5.1, 5.2, 5.7,
 5.8a, 5.8). §§2.3, 2.3a, 2.3b, 2.3c: the weights and words, the conditions (W1), (W3), (W5), the separation of entries of
 different signs (§2.3, Lemma (h)), the adapted, separated data, and the gap size `SizeGap` with the gaps of the row
