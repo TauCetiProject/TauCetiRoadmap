@@ -2886,7 +2886,10 @@ Boundaries:
 
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the routes of 1.2 (class-set form
+  <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given above are relative to the
+  directory `src/` of the first commit of that repository, the source as published:
+  <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
+  It is the source of the routes of 1.2 (class-set form
   of the lift), 4.2–4.3 (the inner-product route to nonvanishing, in dimension `d ≥ d₀`), 5.2–5.3, 6.1–6.6 and 6.10–6.12
   (the back-lift argument, cuspidality from one line parabolic, the purity lemma, the compact case, the
   constant-term induction, the global descent of matching through factorisation, constant terms and injectivity, the
