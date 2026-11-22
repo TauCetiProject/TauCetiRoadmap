@@ -1554,8 +1554,8 @@ and `T(u′)/T(u)` at most `A`; the Vandermonde products of the two types within
 for the sum over the ordered pairs of terms of one row with `Gr ≠ 0` and corank `≥ 2` (the loops), and for the sum over the
 non-scalar pairs of generic terms of one row of corank one. For `u = u′` the hypotheses on the pair hold with `A = 1`.
 
-*Route.* Three bounds of the form `Σ w_row·a(t)a(t′) ≤ M_rows·dim V_{λ_u}·B` over a class of pairs, `a(t)` the Hilbert–Schmidt norm of the
-amplitude, with `γ_GG(1)·M_rows·dim V_{λ_u} = d_u^{all}`: for nondegenerate pairs of corank `s`,
+*Route.* Three bounds of the form `Σ w_row·a(t)a(t′) ≤ W_rows·dim V_{λ_u}·B` over a class of pairs, `a(t)` the Hilbert–Schmidt norm of the
+amplitude, with `γ_GG(1)·W_rows·dim V_{λ_u} ≤ d_u^{all}`: for nondegenerate pairs of corank `s`,
 `B = (2/g)^{(s−1)kf}(kv_E)^{kf}Ξ(s)C^{kf}b^{Cm⁴f(s+m)}(Csf)^{6sf}Γ₀·d_{u′}^{all}/D*`; for degenerate pairs of corank `s`, the same with
 `(s − 2)` in place of `(s − 1)`, the factor `e^{Cm⁶f log b}(C/k)^{kf}` and no factor `d_{u′}^{all}/D*` (the window supplies it at the cost
 `C₀Γ₀²`); for non-scalar generic pairs of corank one, `B = C^fb^{Cm⁵f}Γ₀e^{Cm⁶f log b}(C·g^{−(2r_S+1)}k^{−r_S})^{kf/2}·d_{u′}^{all}/D*`. Here
