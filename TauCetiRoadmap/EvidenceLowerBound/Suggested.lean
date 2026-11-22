@@ -53,7 +53,7 @@ def snisEstimator (p q : Measure α) (f : α → ℝ) (X : ℕ → Ω → α) (n
 
 end CopiedImportanceSampling
 
-/-! ## Layer 1: the evidence, the posterior and the two bounds -/
+/-! ## Layer 1: importance weights, the posterior and the two bounds -/
 
 section Bayes
 
@@ -107,16 +107,17 @@ theorem tendsto_iwElbo (p q : Measure Z) [IsFiniteMeasure p] [IsProbabilityMeasu
     Tendsto (iwElbo p q) atTop (𝓝 (Real.log (p.real Set.univ))) :=
   sorry
 
-/-- 2.3 Equality and strictness: for `k ≥ 1`, `L_k` equals the log-evidence exactly when `q` is
-the posterior, and otherwise the bounds increase strictly in `k ≥ 1`. -/
+/-- 2.3 Equality and strictness: under the hypotheses of 2.1 (no `p ≪ q`), for `k ≥ 1`, `L_k`
+equals the log-evidence exactly when `q` is the posterior; if moreover `p ≪ q` and `q` is not the
+posterior, the bounds increase strictly in `k ≥ 1`. -/
 theorem iwElbo_eq_log_iff_and_strictMonoOn (p q : Measure Z) [IsFiniteMeasure p]
-    [IsProbabilityMeasure q] (hpq : p ≪ q) (hqp : q ≪ p)
+    [IsProbabilityMeasure q] (hqp : q ≪ p)
     (hlog : Integrable (fun z ↦ Real.log (isWeight p q z)) q) :
     (∀ k, 1 ≤ k → (iwElbo p q k = Real.log (p.real Set.univ) ↔ q = (p Set.univ)⁻¹ • p)) ∧
-      (q ≠ (p Set.univ)⁻¹ • p → StrictMonoOn (iwElbo p q) (Set.Ici 1)) :=
+      (p ≪ q → q ≠ (p Set.univ)⁻¹ • p → StrictMonoOn (iwElbo p q) (Set.Ici 1)) :=
   sorry
 
-/-! ## Layer 3: the augmented view of the importance-weighted bound -/
+/-! ## Layer 3: the augmented proposal -/
 
 /-- 3.1 The augmented proposal `q_{n+1}` on `Z × Zⁿ` (the selected sample and the `n` others):
 the product `q ⊗ qⁿ` with density `w(z) / ((n + 1)⁻¹ (w(z) + ∑ᵢ w(zᵢ')))`. -/

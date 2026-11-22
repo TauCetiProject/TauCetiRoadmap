@@ -13,8 +13,8 @@ Its headline theorems:
 
 - *Importance-weighted bounds.* Let `L_k` be the expected logarithm of the average of `w` over `k`
   independent samples of `q`. For `k ≥ 1` the bounds increase with `k` and stay below
-  `log p(Z)`. If also `p ≪ q`, they converge to `log p(Z)`; one of them equals `log p(Z)` exactly
-  when `q` is the posterior, and otherwise they increase strictly.
+  `log p(Z)`, and one of them equals `log p(Z)` exactly when `q` is the posterior. If also
+  `p ≪ q`, they converge to `log p(Z)`, and they increase strictly unless `q` is the posterior.
 - *The augmented view.* Draw `n + 1` samples of `q`, select one with probability proportional to
   its weight, and put it first. When `p ≪ q`, the relative entropy of the law of the result from
   the posterior times `n` copies of `q` is exactly `log p(Z) − L_(n+1)`. Hence the selected sample
@@ -134,11 +134,22 @@ the importance-weighted bound `L_k = E log ((1/k) Σ_{i<k} w(z_i))` with `z_i` i
 `q` (Burda–Grosse–Salakhutdinov, eq. (8), p. 3). Then `iwElbo p q 1 = elbo p q`, since the first
 coordinate has law `q`.
 
-- *The evidence lower bound identity.* If `p ≪ q` and `q ≪ p`, the posterior is the tilt
-  `q.tilted (log w)`, and for a probability measure `r ≪ q` with `log w` and `llr r q`
-  `r`-integrable, Mathlib's `integral_llr_tilted_right` (with `f = log w`, `∫ exp f dq = p(Z)`)
-  gives `elbo p r = log p(Z) − KL(r ‖ posterior)`. This identity is the library's and is not a
-  target here; it is the step that every route below calls "the identity of 1.3".
+- *The evidence lower bound identity.* Let `p ≪ q`, `q ≪ p`, and `r ≪ q` a probability measure
+  with `log w` and `llr r q` `r`-integrable. Then `elbo p r = log p(Z) − KL(r ‖ posterior)`. It is
+  not a target here, but it is not a single library lemma either: Mathlib's
+  `integral_llr_tilted_right` (with `μ = r`, `ν = q`, `f = log w`) gives
+  `∫ llr r (q.tilted f) dr = ∫ llr r q dr − ∫ f dr + log ∫ exp f dq`, and two almost-everywhere
+  identities connect it to `elbo`:
+  (i) the posterior is `q.tilted (log w)`, because `exp (log w) = w` `q`-almost everywhere
+  (`w > 0` by `q ≪ p`, `Measure.rnDeriv_pos'`) and `q.withDensity w = p` (`p ≪ q`,
+  `Measure.withDensity_rnDeriv_eq`), so `∫ exp f dq = p(Z)`;
+  (ii) `log (dp/dr) = log w − llr r q` `r`-almost everywhere, because
+  `dp/dr = (dp/dq) (dq/dr)` (`Measure.rnDeriv_mul_rnDeriv`, `p ≪ q`) and
+  `dq/dr = (dr/dq)⁻¹` (`Measure.inv_rnDeriv`, `r ≪ q`), with `0 < dr/dq < ∞` and `w > 0`
+  `r`-almost everywhere (`Measure.rnDeriv_pos`, `Measure.rnDeriv_lt_top`).
+  Integrating (ii) gives `elbo p r = ∫ log w dr − ∫ llr r q dr`, and with (i), the lemma and
+  `toReal_klDiv_of_measure_eq` this is `log p(Z) − KL(r ‖ posterior)`. "The identity of 1.3" in
+  the routes below means this lemma together with steps (i) and (ii).
 
 **Checks.**
 
@@ -150,7 +161,10 @@ coordinate has law `q`.
   (`p = q/2`) this exceeds `L_1 = log(1/2)`.
 - `q = p` with `p` a probability measure: `w = 1`, and `L_k = 0 = log p(Z)` for every `k ≥ 1`.
 
-*Needs:* 1.1; Mathlib `Measure.infinitePi`, `measurePreserving_eval_infinitePi`.
+*Needs:* 1.1; Mathlib `Measure.infinitePi`, `measurePreserving_eval_infinitePi`; for the
+identity, `integral_llr_tilted_right`, `Measure.tilted`, `toReal_klDiv_of_measure_eq`,
+`Measure.rnDeriv_pos'`, `Measure.withDensity_rnDeriv_eq`, `Measure.rnDeriv_mul_rnDeriv`,
+`Measure.inv_rnDeriv`, `Measure.rnDeriv_pos`, `Measure.rnDeriv_lt_top`.
 
 ### Examples
 
@@ -180,8 +194,12 @@ Route:
    and `L_k` is not a junk value.
 2. *Upper bound.* By the identity `∫ f w dq = ∫ f dp − ∫ f d(p.singularPart q)` of
    ImportanceSamplingAndVarianceReduction 1.1 (`integral_mul_isWeight`) with `f = 1`, and by
-   linearity, `E M_k = ∫ w dq ≤ p(Z)`; Jensen's inequality for the concave `log`
-   (`ConcaveOn.le_map_integral`) gives `L_k ≤ log E M_k ≤ log p(Z)`.
+   linearity, `c = E M_k = ∫ w dq ≤ p(Z)`, and `c > 0` as `w > 0` `q`-almost everywhere. The
+   tangent line of `log` at `c` (`Real.log_le_sub_one_of_pos` at `M_k / c`) gives
+   `log M_k ≤ log c + M_k / c − 1` almost surely, and integrating gives
+   `L_k ≤ log c ≤ log p(Z)`. (Mathlib's integral Jensen inequality `ConcaveOn.le_map_integral`
+   needs a closed convex set on which the function is concave and continuous; `log` is concave
+   only on the open half-line, so it does not apply directly.)
 3. *Monotonicity.* For `1 ≤ m ≤ k`, `M_k` is the average over the `m`-element subsets `I` of the
    first `k` indices of the averages `M_I` over `I`; by concavity `log M_k ≥` the average of
    `log M_I`, and each `M_I` has the law of `M_m` because the coordinates are independent with
@@ -201,8 +219,9 @@ Route:
   `k ≥ 1` and `log p(Z) = log 2`.
 
 *Needs:* 1.1, 1.3; ImportanceSamplingAndVarianceReduction 1.1 (`integral_mul_isWeight`); Mathlib
-`ConcaveOn.le_map_integral`, `strictConcaveOn_log_Ioi`, `Real.log_le_sub_one_of_pos`,
-`iIndepFun_infinitePi`, `measurePreserving_eval_infinitePi`, `Measure.rnDeriv_pos'`.
+`ConcaveOn.le_map_sum` (finite Jensen) with `strictConcaveOn_log_Ioi`,
+`Real.log_le_sub_one_of_pos`, `iIndepFun_infinitePi`, `measurePreserving_eval_infinitePi`,
+`Measure.rnDeriv_pos'`.
 
 ### 2.2 Convergence to the log-evidence
 
@@ -212,7 +231,12 @@ Prove (`tendsto_iwElbo`) that `L_k → log p(Z)` as `k → ∞`.
 Burda–Grosse–Salakhutdinov, Theorem 1, p. 4 (part 3 of Appendix A, p. 10), assume instead that
 `w` is bounded. As printed that is false: for `q` uniform on `{0, 1}` and `w = (0, 2)` (bounded),
 every `M_k` vanishes with probability `2^(−k) > 0`, so `L_k = −∞` for every `k` while
-`log p(Z) = 0`; positivity of the weight must be added. Boundedness neither implies nor follows
+`log p(Z) = 0`. So positivity of the weight is necessary, but positivity and boundedness together
+are still not sufficient: let `T ≥ e` have `P(T > t) = 1/log t` for `t ≥ e` under `q` and
+`w = exp(−T)`, so that `0 < w ≤ 1`, `p ≪ q` and `q ≪ p`; then `log M_k ≤ −min_{i<k} T_i` and
+`E min_{i<k} T_i = e + ∫_e^∞ (log t)^(−k) dt = ∞`, so `L_k = −∞` for every `k` while
+`0 < p(Z) ≤ 1`. Some integrability of `log w` is needed, and the hypotheses stated above are what
+is proved sufficient. Boundedness neither implies nor follows
 from the integrability of `log w` (a bounded weight can have `∫ log w dq = −∞`, and
 `q{n} = 2^(−(n+1))`, `w(n) = (3/2)^n / 2` on `ℕ` is unbounded with `log w` integrable), so the
 statement here is not a special case of theirs. Their printed argument also passes from almost
@@ -241,35 +265,59 @@ Route (proved here):
 
 ### 2.3 Equality and strict increase
 
-Under the hypotheses of 2.2 prove (`iwElbo_eq_log_iff_and_strictMonoOn`):
+Let `p` be finite and `q` a probability measure with `q ≪ p` and `log w` `q`-integrable (the
+hypotheses of 2.1). Prove (`iwElbo_eq_log_iff_and_strictMonoOn`):
 
 - for every `k ≥ 1`, `L_k = log p(Z)` if and only if `q` is the posterior `(p Set.univ)⁻¹ • p`;
-- if `q` is not the posterior, `k ↦ L_k` is strictly increasing on `k ≥ 1`.
+- if moreover `p ≪ q` and `q` is not the posterior, `k ↦ L_k` is strictly increasing on `k ≥ 1`.
+
+The equivalence does not assume `p ≪ q`: it is implied by either side.
 
 Route (proved here):
 
-1. `q` is the posterior exactly when `w` is `q`-almost everywhere constant: as `p ≪ q`,
-   `p = q.withDensity (dp/dq)`, so a constant weight `c` gives `p = c q` and `c = p(Z)`;
-   conversely the weight of `q = p / p(Z)` is `p(Z)`.
-2. *Equality.* If `w = p(Z)` almost everywhere then `M_k = p(Z)` almost surely. Conversely, if
-   `L_k = log p(Z) = log E M_k`, strict concavity
-   (`StrictConcaveOn.ae_eq_const_or_lt_map_average` with `strictConcaveOn_log_Ioi`) makes `M_k`
-   almost surely constant; since `k M_k = w(ω 0) + S` with `S` independent of `w(ω 0)`,
-   `w(ω 0)` is almost surely a function of `S`, hence independent of itself and constant.
+1. *Weight and posterior.* If `q = p / p(Z)` then `p(Z) > 0` (as `q ≪ p` and `q ≠ 0`),
+   `p = p(Z) q`, so `p ≪ q` and `w = p(Z)` `q`-almost everywhere. If `p ≪ q` and `w = c`
+   `q`-almost everywhere, then `p = q.withDensity (dp/dq) = c q`
+   (`Measure.withDensity_rnDeriv_eq`) and `c = p(Z)`, so `q` is the posterior. Without `p ≪ q` a
+   constant weight does not make `q` the posterior (a Check below).
+2. *Equality.* If `q` is the posterior, `M_k = p(Z)` almost surely by step 1, so
+   `L_k = log p(Z)`. Conversely let `L_k = log p(Z)` and `c = E M_k`. Step 2 of 2.1 gives
+   `L_k ≤ log c ≤ log p(Z)`, so both are equalities. From `c = p(Z)` and
+   `c = ∫ w dq = p(Z) − (p.singularPart q)(Z)` (`integral_mul_isWeight` with `f = 1`), the
+   singular part vanishes, so `p ≪ q` (`Measure.singularPart_eq_zero`). From `L_k = log c`, the
+   function `g = log c + M_k / c − 1 − log M_k`, which is nonnegative almost surely by the tangent
+   line of 2.1, has integral `0`, so `g = 0` almost surely
+   (`integral_eq_zero_iff_of_nonneg_ae`); as `Real.log_lt_sub_one_of_pos` makes `g > 0` where
+   `M_k ≠ c`, `M_k = c` almost surely. Since `k M_k = w(ω 0) + S` with `S` independent of
+   `w(ω 0)` (`iIndepFun_infinitePi`), `w(ω 0)` is almost surely a function of `S`, hence
+   independent of itself and almost surely constant. With `p ≪ q`, step 1 makes `q` the posterior.
 3. *Strict increase.* For `1 ≤ m < k`, the inequality of step 3 of 2.1 is strict at every `ω`
    where the first `k` weights are not all equal: if `w_a ≠ w_b`, an `m`-subset containing `a`
    but not `b` and the subset obtained by exchanging them have different averages. If `w` is not
-   almost everywhere constant this event has positive probability, so `L_m < L_k`.
+   almost everywhere constant this event has positive probability, so `L_m < L_k`. When `p ≪ q`
+   and `q` is not the posterior, `w` is not almost everywhere constant by step 1.
 
 **Checks.**
 
 - Running example: `q` is not the posterior and `L_1 < L_2 < L_3 < L_4`.
 - `p = 3q`: the weight is constant `3`, `q` is the posterior and `L_k = log 3` for every `k ≥ 1`.
-- `p ≪ q` is needed for the equivalence: with `q = δ₀` and `p = δ₀ + δ₁` the weight is constant,
-  `L_k = 0 < log 2` and `q` is not the posterior.
+- Evidence other than `1`: `q = (1/4, 3/4)`, `p = (1/8, 3/8)`; `q` is the posterior, `w = 1/2`
+  and `L_k = log(1/2) = log p(Z)` for every `k ≥ 1`.
+- `p ≪ q` is needed for the strict increase, and for step 1, but not for the equivalence: with
+  `q = δ₀` and `p = δ₀ + δ₁` on `{0, 1}` the weight is constant `1`, `q` is not the posterior
+  `(1/2, 1/2)`, and `L_k = 0` for every `k ≥ 1`, so the bounds are constant; the equivalence
+  holds, both of its sides being false (`0 < log 2`).
+- Without `p ≪ q` the bounds can still increase strictly: on `{0, 1, 2}`, `q = (1/2, 1/2, 0)` and
+  `p = (1/4, 3/4, 1)` give the bounds of the running example, `L_1 < L_2 < L_3 < L_4 < 0`, below
+  `log p(Z) = log 2`.
+- `q ≪ p` is needed for the equivalence: `q` uniform on `{0, 1}` and `p = 2 δ₁` give `w = (0, 4)`;
+  in Lean `L_1 = (1/2) Real.log 0 + (1/2) log 4 = log 2` and
+  `L_2 = (1/4) Real.log 0 + (1/2) log 2 + (1/4) log 4 = log 2`, both equal to `log p(Z)`, although
+  `q` is not the posterior.
 
-*Needs:* 2.1, 2.2 (its hypotheses only); Mathlib `StrictConcaveOn.ae_eq_const_or_lt_map_average`,
-`strictConcaveOn_log_Ioi`, `iIndepFun_infinitePi`, `Measure.withDensity_rnDeriv_eq`.
+*Needs:* 2.1; ImportanceSamplingAndVarianceReduction 1.1 (`integral_mul_isWeight`); Mathlib
+`Real.log_lt_sub_one_of_pos`, `integral_eq_zero_iff_of_nonneg_ae`, `Measure.singularPart_eq_zero`,
+`iIndepFun_infinitePi`, `Measure.withDensity_rnDeriv_eq`.
 
 ### Examples
 
@@ -279,7 +327,7 @@ Route (proved here):
 ### Dependencies
 
 - Layer 1; ImportanceSamplingAndVarianceReduction 1.1 (`integral_mul_isWeight`); Mathlib's strong
-  law, Jensen inequality and Fatou lemma.
+  law, finite Jensen inequality, tangent-line bounds for `log` and Fatou lemma.
 
 ## Layer 3: the augmented proposal
 
@@ -560,13 +608,17 @@ lower bound `elbo (ρ.withDensity (ofReal ∘ f θ)) q` for probability measures
 (Neal–Hinton, eq. (2), p. 4, for a finite range of the missing variable and a joint probability
 that never vanishes).
 
-The E-step is the identity of 1.3 for this joint measure: for `θ ∈ Θ` and a probability measure
-`q ≪ ρ`, `integral_llr_tilted_right` with `ν = ρ` and the tilt `log (f θ)`, whose tilted measure
-is `missingLaw ρ f θ`, gives `F(q, θ) = obsLogLikelihood ρ f θ − KL(q ‖ missingLaw ρ f θ)` (the
-density of the joint measure with respect to `ρ` is `f θ`, `Measure.rnDeriv_withDensity`), so
+The E-step is the identity of 1.3 for this joint measure, with `ρ` in place of `q` (the lemma
+needs only a σ-finite base measure, and steps (i)–(ii) of 1.3 hold with `ρ` in place of `q`
+because the density `f θ` of the joint measure with respect to `ρ` is positive and
+`ρ`-integrable, the space being finite): for `θ ∈ Θ` and a probability
+measure `q ≪ ρ`, `integral_llr_tilted_right` with `ν = ρ` and the tilt `log (f θ)`, whose tilted
+measure is `missingLaw ρ f θ` (step (i)), and step (ii) with `log (f θ)` in place of `log w` give
+`F(q, θ) = obsLogLikelihood ρ f θ − KL(q ‖ missingLaw ρ f θ)` (the density of the joint measure
+with respect to `ρ` is `f θ`, `Measure.rnDeriv_withDensity`), so
 `F(q, θ) ≤ obsLogLikelihood ρ f θ` with equality exactly when `q = missingLaw ρ f θ`
-(`klDiv_eq_zero_iff`; Neal–Hinton, eq. (3) and Lemma 1, p. 4). This is the library's and is not
-a target here.
+(`klDiv_eq_zero_iff`; Neal–Hinton, eq. (3) and Lemma 1, p. 4). This is Mathlib's lemma with
+those two steps, part of the route below, and is not a separate target here.
 
 The M-step is not a target either. For `θ, θ' ∈ Θ`, the E-step identity at `θ` with
 `q = missingLaw ρ f θ'`, together with the identity of MathematicalStatisticsSemiparametric 7.2
@@ -633,9 +685,10 @@ of the missing values and parameters jointly.
 
 Already in the libraries or stated by other roadmaps, and used above:
 
-- The evidence lower bound identity `elbo p r = log p(Z) − KL(r ‖ posterior)` is Mathlib's
-  `integral_llr_tilted_right` for the tilt of `q` by `log w`, and "the bound is attained exactly at
-  the posterior" is `klDiv_eq_zero_iff`; neither is a target. For the joint measure of an EM
+- The evidence lower bound identity `elbo p r = log p(Z) − KL(r ‖ posterior)` follows from
+  Mathlib's `integral_llr_tilted_right` for the tilt of `q` by `log w` by the two
+  almost-everywhere identities (i)–(ii) of 1.3, and "the bound is attained exactly at the
+  posterior" is `klDiv_eq_zero_iff`; neither is a target. For the joint measure of an EM
   model they are the E-step (Neal–Hinton, Lemma 1), recalled and used in 5.1.
 - ImportanceSamplingAndVarianceReduction 1.1 and 2.1 own the weight, the two estimates, the mean
   of the importance sampling estimate and the consistency of the self-normalized one; they are
@@ -682,15 +735,26 @@ time.
   independent, identically distributed). Used in 2.2.
 - `Mathlib/MeasureTheory/Integral/Lebesgue/Add.lean`: `MeasureTheory.lintegral_liminf_le` (Fatou).
   Used in 2.2.
-- `Mathlib/Analysis/Convex/Integral.lean`: `ConcaveOn.le_map_integral` (Jensen for a probability
-  measure), `StrictConcaveOn.ae_eq_const_or_lt_map_average`.
+- `Mathlib/Analysis/Convex/Jensen.lean`: `ConcaveOn.le_map_sum` (finite Jensen, for a convex set
+  `s` containing the points; used with `s = Set.Ioi 0`).
   `Mathlib/Analysis/Convex/SpecificFunctions/Basic.lean`: `strictConcaveOn_log_Ioi`;
-  `Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`: `Real.log_le_sub_one_of_pos`. Used in 2.1,
-  2.3, 4.1.
+  `Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`: `Real.log_le_sub_one_of_pos`
+  (`0 < x → log x ≤ x − 1`), `Real.log_lt_sub_one_of_pos` (`0 < x → x ≠ 1 → log x < x − 1`).
+  Used in 2.1, 2.3, 4.1. The integral Jensen inequalities of
+  `Mathlib/Analysis/Convex/Integral.lean` (`ConcaveOn.le_map_integral`,
+  `StrictConcaveOn.ae_eq_const_or_lt_map_average`) require a closed convex set on which the
+  function is continuous and are not used: `log` is concave only on the open half-line.
+- `Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`:
+  `MeasureTheory.integral_eq_zero_iff_of_nonneg_ae` (an a.e. nonnegative integrable function has
+  integral `0` iff it vanishes a.e.). Used in 2.3.
 - `Mathlib/MeasureTheory/Measure/Decomposition/RadonNikodym.lean`: `Measure.rnDeriv_pos'`
   (`μ ≪ ν` gives `0 < dν/dμ` `μ`-a.e.; with `μ = q`, `ν = p` it is the positivity of the weight),
-  `Measure.withDensity_rnDeriv_eq`; `Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`:
-  `Measure.rnDeriv_withDensity`. Used in 2.1, 2.3, 5.1.
+  `Measure.rnDeriv_pos` (`μ ≪ ν` gives `0 < dμ/dν` `μ`-a.e.), `Measure.withDensity_rnDeriv_eq`,
+  `Measure.inv_rnDeriv` (`μ ≪ ν` gives `(dμ/dν)⁻¹ = dν/dμ` `μ`-a.e.),
+  `Measure.rnDeriv_mul_rnDeriv` (`μ ≪ ν` gives `(dμ/dν)(dν/dκ) = dμ/dκ` `κ`-a.e.);
+  `Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`: `Measure.rnDeriv_withDensity`,
+  `Measure.rnDeriv_lt_top` (`dμ/dν < ∞` `ν`-a.e.), `Measure.singularPart_eq_zero`
+  (`μ.singularPart ν = 0 ↔ μ ≪ ν`). Used in 1.3, 2.1, 2.3, 5.1.
 - `Mathlib/MeasureTheory/Measure/GiryMonad.lean`: `Measure.bind`, `Measure.bind_apply`. Used in
   3.1, 4.1. `Mathlib/MeasureTheory/Constructions/Pi.lean`: `Measure.pi`.
   `Mathlib/Data/Fin/Tuple/Basic.lean`: `Fin.removeNth`. Used in 3.1.
@@ -724,8 +788,8 @@ time.
 - 1.1: `isWeight p q = (p.rnDeriv q ·).toReal` and `isEstimator p q f X n`, copied verbatim;
   `TauCetiRoadmap.ImportanceSamplingAndVarianceReduction.integral_mul_isWeight` (for finite `p`,
   σ-finite `q` and `f ∈ L¹(p)`,
-  `∫ f w dq = ∫ f dp − ∫ f d(p.singularPart q)`). Used in 1.1, 1.3, 2.1, and through 2.1 in
-  every later statement on the bounds.
+  `∫ f w dq = ∫ f dp − ∫ f d(p.singularPart q)`). Used in 1.1, 1.3, 2.1, 2.3, and through 2.1
+  in every later statement on the bounds.
 - 2.1: `snisEstimator p q f X n`, copied verbatim. Used in 3.4.
 
 ### From TauCetiRoadmap.RestrictedBoltzmannMachines
