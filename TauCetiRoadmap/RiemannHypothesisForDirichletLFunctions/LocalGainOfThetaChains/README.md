@@ -6,7 +6,7 @@ The headline theorems are these. (1) *The gain of a step and of the chain lift* 
 
 The roadmap builds on [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), which supplies the chain, its integral forms, step operators and periods; on [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md), the first part of the same layer, which supplies the Taylor bounds on height-two formal groups and the depth of a weight; on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) for the hosts, their Frobenius data and the tops; on [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) for the sandwich exponent between Weyl and dual Weyl lattices and the integral invariant projectors; and on [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) and [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) for Gross's models of algebraic modular forms and the Satake transform. Within the family [RiemannHypothesisForDirichletLFunctions](../README.md), the gain sublattice and the gain inequality feed the division inequality and the Frobenius-restricted inequality of the later theta-chain roadmaps.
 
-Layer 4 here is the second part of the layer of that number (its first part is TaylorBoundsAndDepthsOnHeightTwoFormalGroups). It defines the positions, types and sides of the places above an inert prime (4.9), proves four statements on the normalised CM theta functions (4.9a–4.9d), and defines the ledger of gains, bulks and costs (4.9e, 4.9f); it then bounds a step at the inert primes, at `d` and elsewhere (4.10), the chain at the type primes (4.10a), and the chain lift (4.11). At a prime of split type it builds the local model of the Hecke operators (4.12), the commutation of Hecke operators with the chain (4.13) and the refined gain on the Hecke image (4.14), and controls the colength of that image by depth theorems: elementary divisors along a progression (4.14a), the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares (4.14b–4.14h), the depth property (4.15), the walk lemma (4.15b), the colength of the Hecke image (4.15c), good orbits (4.15d), Theorems II and I for small and medium primes (4.15e, 4.15f), and an exchange lemma for colengths (4.15a). It ends with the gain sublattice (4.16), the kernels, the column bound and the colength at the level prime (4.16a–4.16c), and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
+Layer 4 here is the second part of the layer of that number (its first part is TaylorBoundsAndDepthsOnHeightTwoFormalGroups). It defines the positions, types and sides of the places above an inert prime (4.9), proves four statements on the normalised CM theta functions (4.9a–4.9d), and defines the ledger of gains, bulks and costs (4.9e, 4.9f); it then bounds a step at the inert primes, at `d` and elsewhere (4.10), the chain at the type primes (4.10a), and the chain lift (4.11). At a prime of split type it builds the local model of the Hecke operators (4.12), the commutation of Hecke operators with the chain (4.13) and the refined gain on the Hecke image (4.14), and controls the colength of that image by depth theorems: elementary divisors along a progression (4.14a), the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares (4.14b–4.14h), the depth property (4.15), the walk lemma (4.15b), the colength of the Hecke image (4.15c), good orbits (4.15d), Theorems II and I for small and medium primes (4.15e, 4.15f) with the plane count of Theorem II (4.15e′), and an exchange lemma for colengths (4.15a). It ends with the gain sublattice (4.16), the kernels, the column bound and the colength at the level prime (4.16a–4.16c), and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
 
 ## Conventions
 
@@ -247,7 +247,9 @@ to `φ`, whose coboundary is biadditive up to `≃` (the cube, 4.9a) and which s
 
 *NEW*. [FormalProof] states it for a given hyperbolic pair, with the integrality of 4.9a as a hypothesis, as
 `Formalism.L2.Th1.Top.HypShape` (`src/Formalism/LocalToGlobal/TorsionIntegrality/UniformGaussModels/UniformGaussModelCondition.lean`),
-proved as `Formalism.L2.Th1.Top.hypShape`. *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §3.6.
+proved as `Formalism.L2.Th1.Top.hypShape`. The form at the points of the chain that the assembly of [FormalProof] uses:
+`Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.EvenConditionsInert`).
+*Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §3.6.
 
 ### 4.9c The kernel at `d`
 
@@ -278,7 +280,9 @@ adapted kernel data at the places above `d` not above `T(u)`, `g₀`, `g₁` or 
 `Formalism.MainNotions.OrbitPlaces.ShapeD`, as `GlobalTheory.T.kernelDatum_thetaSeries_shape_at_d_adaptedBases`
 (`src/Development/AbelianVarietyTheory/Proofs/SatakeParameters/KernelDatumThetaSeriesShapeAtDAdaptedBasesStatement.lean`), proved as
 `GlobalTheory.Ggeo.KerShapeD.thetaKernelShapeAtD_ofKer_of_hyp_adapted` from the theorems on the normalised CM theta functions
-that it collects as `GlobalTheory.ThLoc.Inputs`. *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3.
+that it collects as `GlobalTheory.ThLoc.Inputs`. The form at the points of the chain that the assembly of [FormalProof] uses:
+`Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.ThetaKernelShapeAtD`).
+*Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3.
 
 ### 4.9d The folded shape at a prime of odd conjugate type
 
@@ -308,7 +312,9 @@ relation at `α = 2`), and `2A ≃ 0` implies `A ≃ 0` for `p` odd; hence `Σ_r
 *NEW*. [FormalProof] states it under the host property of 4.9a at `p` (`GlobalTheory.KerStd.HostAt`), for the combinations read
 in its standard bases at `p`, with the shape `UpperTheory.G2.HasThetaProductForm`
 (`src/Development/AutomorphicArithmetic/OrbitLabellings/ColDefs.lean`), as `UpperTheory.lattice_pairs_odd_degree_isometric`
-(`src/Development/AutomorphicArithmetic/OrbitLabellings/LatticePairsOddDegreeIsometric.lean`). *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6;
+(`src/Development/AutomorphicArithmetic/OrbitLabellings/LatticePairsOddDegreeIsometric.lean`). The form at the points of the
+chain that the assembly of [FormalProof] uses: `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean`
+(`Formalism.MainNotions.OrbitPlaces.EvenConditionsAtC`, its clause at the primes of odd conjugate type). *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.3, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §§3.4–3.6;
 PotentialAutomorphyDworkMotivesPartII §0.7.
 
 ### 4.9e Definitions: the local exponents of a place, the gain and the colength data
@@ -552,6 +558,13 @@ and the reading of the step as a class sum of kernels, as part of `Formalism.Mai
 construction); for a tuple that is not used the bound is not a statement of [FormalProof].
 (iii): [FormalProof], `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.OneLiftAtDiscriminant`).
 (iv) follows from [FormalProof], `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.LiftIntegrality`).
+The integral jets of the kernels at the places not above `d`, `T(u)`, `g₀`, `g₁` or `Q(ξ)`, in the form that the assembly of
+[FormalProof] uses: `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean`
+(`Formalism.MainNotions.OrbitPlaces.JetIntegralityBis`). The hypotheses of the gain at the selected points of a family, as one
+statement: `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/CountsIrreducibilityConstants.lean`
+(`GlobalTheory.Cp.SelectionServed`), established in
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/RowHServOfLinkStatement.lean`
+(`GlobalTheory.T.hServ_of_linkR`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, ThetaChainsOnDefiniteUnitaryGroups §3.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a, 4.9, 4.9a, 4.9b, 4.9c, 4.9d, 4.9e, 4.9f.
 
 ### 4.10a The chain at the type primes
@@ -559,7 +572,8 @@ construction); for a tuple that is not used the bound is not a statement of [For
 *The form of the formal proof.* [FormalProof],
 `Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.UsedTuplesBoundByConstant`);
 `Formalism/SharpRestriction/Divisibility/LiftErrorLocal.lean` (`Formalism.MainNotions.LiftErrorLocal.errC`);
-`Formalism/SharpRestriction/AdmissibleParameterJoins/GandSx.lean` (`Formalism.MainNotions.J.sumFE_atG_le`).
+`Formalism/SharpRestriction/AdmissibleParameterJoins/GandSx.lean` (`Formalism.MainNotions.J.sumFE_atG_le`); for the consequence,
+`Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean` (`Formalism.MainNotions.WeightDegreeSizes.SgAtG`).
 Let `g ∈ {g₀, g₁}`, `ϖ_g = π_g` as in 4.9f (e) (the prime of `K` above `g` modulo which the
 finite datum of the step at `g` is taken, ThetaChainsOnDefiniteUnitaryGroups §3.2 Lemma (ii)), and `C₁` a constant fixed before `ε` with
 `2C₁ ≤ C_cost` (`C₁ = 1` serves). Assume, for `g ∈ {g₀, g₁}`, every word `u` and every step `j`:
@@ -1350,16 +1364,7 @@ operators:* for dominant `ν_t` with first row `≤ c` at the tops and `s, β �
 operators, at most `c` at each top, and scalars `a_l` with `Fock(Θ(G)·s, Θ(H)·β) = Fock(Θ(Σ_la_l·word_l(G)), Θ(H))` for all flat `G, H`;
 so the pairing on the weight `(λ_0 − λ_1) ⊗ (the rest, first row ≤ c₀)` is the pairing on the flat one-letter model after words of
 length `≤ c₀` per top, and the depth pays `c₀` per top: the term `C·r|𝔗_v|c₀` of the threshold, without a minimum against `a/p^d`.
-*(P) Plane count:* the span of the generators `∏_jφ_j(x_j)·`(monomial of digits), `x_j` in the space of products (polynomial in plane
-variables)·(polynomial in normal variables) whose `GL_r`- and `GL_{k−r}`-types are interlaced with a margin and whose order degrees
-are bounded, `φ_j` the substitution of `p^{dist}`-th powers, contains a direct summand, with a basis among the generators, of rank
-`≥ (1 − C|𝔗_v|r²k/Y)·dim/#{r-planes of 𝔽_{N𝔓}^k}`, all of whose elements have order `≤ t₀`; it rests on an order-degree bound, on
-Nakayama's lemma (a direct summand of rank the dimension of the span of the reductions modulo `w`), and on the rank of the
-reductions: multiplication by a product of `r × r` minors in the plane variables of the `r` most recent even tops before each late
-letter (nonzero modulo `w`) embeds the span of coarser generators, which has an explicit independent family per segment over the
-good paths of `GL_k` (a tail estimate: with their fillings they carry all of the product of the symmetric dimensions but a
-negligible share); the factor `Q^{−r(k−r)}` comes
-from the `r` letters of a frame, which enter at the fine level through plane variables only. *(M) Membership:* for every datum of
+*(P) Plane count:* 4.15e′. *(M) Membership:* for every datum of
 chains tied to the frames and every joint isotypic projector, the plane coefficients of the projected level image lie in the class
 on which (L2) is non-degenerate. *(Nd) Non-degeneracy:* every primitive vector in the span of the realised images pairs with a
 realisable vector to a value of valuation `≤ D`.
@@ -1367,7 +1372,76 @@ realisable vector to a value of valuation `≤ D`.
 *NEW*. [FormalProof] states it, with `sh = C|𝔗_v|r²k/Y` (no minimum with `1`), as
 `Formalism.MainNotions.tableLineDegreeFive.aux₃` (`src/Formalism/SharpRestriction/GrowthBounds/TableLineDegreeFive.lean`), proved for an absolute constant as
 `Formalism.MainNotions.G.second_theorem_absolute_constant` (`src/Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`).
-*Needs:* 4.12, 4.14, 4.14b, 4.15, 4.15d; ArithmeticStatisticsPartIV §3.2.
+*Needs:* 4.12, 4.14, 4.14b, 4.15, 4.15d, 4.15e′; ArithmeticStatisticsPartIV §3.2.
+
+### 4.15e′ The plane count
+
+*Letters and frames.* Let `p ≥ 13`, `n′ ≥ 1`, `𝔗 ⊂ ℤ/n′` the tops, `k = r + K` with `r ≥ 2` and `K ≥ 1`. A *letter* is an
+integer; it is a vector letter if even and a covector letter if odd, and its *position* is its class modulo `n′`. Every
+letter and every position carries `k` variables, the first `r` the *plane* variables and the last `K` the *normal* ones. A
+*system of frames* consists of an integer `J ≥ 1` and integers `fr(j, i)`, `j ∈ ℤ`, `0 ≤ i < r`. The *segment* `j` is the
+set of the integers `x ∈ [fr(j − 1, 0), fr(j, r − 1)]` whose class is a top; its *late letters* are those with
+`x > fr(j − 1, r − 1)`; `dist_j(x) := fr(j, r − 1) − x`; and `old_j(x)` is the `r`-th most recent even letter of the
+segment before `x` (the first even letter of the segment if there are fewer than `r`). The system is *valid* for integers
+`L₁`, `N₁` if: `fr(j + J, i) = fr(j, i) + n′`; `fr(j, i) < fr(j, i + 1)` and `fr(j, r − 1) < fr(j + 1, 0)`; every `fr(j, i)` is
+even and its class is a top; no integer strictly between `fr(j, i)` and `fr(j, i + 1)` has its class in `𝔗`; the set of
+the integers strictly between `fr(j − 1, r − 1)` and `fr(j, 0)` with class in `𝔗` has at least `r` elements, each of its
+first `r` and of its last `r` elements is even and lies more than `L₁` after the previous letter of the segment, and
+`fr(j, 0)` lies more than `L₁` after the previous letter of the segment; every segment has at most `N₁` letters; and every
+late letter `x` satisfies `x − old_j(x) > L₁`.
+
+*Type bounds.* Let `n ≥ 1`, `S` a set of letters and `P` a polynomial, over a ring `𝒪`, in variables `x_{y,c}` (`y` a
+letter, `0 ≤ c < n`). Let `g` be an `n × n` matrix of indeterminates, `T` an indeterminate and
+`h := g·diag(T, 1, …, 1)·g^{−1}`. Substitute, for every vector letter `y ∈ S`, the row `(x_{y,c})_c` by `(x_{y,c})_c·h`, for
+every covector letter `y ∈ S` the column `(x_{y,c})_c` by `h^{−1}·(x_{y,c})_c`, and leave the other letters unchanged; the
+result has coefficients that are Laurent polynomials in `T`. `ub_S(P)` is the largest exponent of `T` that occurs, and
+`lb_S(P)` the smallest exponent of `T` that occurs when `diag(T, 1, …, 1)` is replaced by `diag(1, …, 1, T)`.
+
+*Data.* Let a system of frames valid for `L₁`, `N₁` be given, with degrees `deg(t)`, `a ≤ deg(t) ≤ 2a`, and integers
+`0 ≤ E′(t) ≤ E₀` at the tops, an integer `m* ≥ 0`, reals `Y ≥ 1` and `Q`, and an integer `N_s`, such that: every segment
+has at most `N_s` letters; `N_s ≤ N₁`, `N_s ≤ 2|𝔗|`, `N_s + r ≤ K`; `p^{dist_j(x)} ≤ Q` for every letter `x` of every
+segment `j`; `C_k·N_s²·log a ≤ k`; `128·k²·N_s·Y² ≤ p^{L₁−1}`; and `32·p·Y·k²·N_s·Q²·(E₀ + m* + 1) ≤ a`. Put
+`Λ := C_Λ·N_s²·log a` and, for a late letter `x` of the segment `j`, `B(x) := deg(old_j(x))/p^{dist_j(old_j(x))}` (the degree
+at the position of `old_j(x)`), `mg(x) := m* + ⌊B(x)/(k²Y)⌋`, `th(x) := B(x)/2` and
+`o(x) := Λ·a/(p·k·p^{dist_j(x)}) + c_x·a·p^{−(L₁ + dist_j(x))}`, `c_x = 10` for `x` even and `c_x = 1` for `x` odd. The *order
+degree* of a monomial at a letter or at a position is its degree in the normal variables there if it is even, and in
+the plane variables if it is odd. Let `𝒪` be the discrete valuation ring of an unramified quadratic setting (4.15).
+
+*Segment spaces and generators.* Consider the products `A·G`, `A` a polynomial over `𝒪` in the plane variables of the
+letters of the segment `j` and `G` a polynomial in the normal variables of its late letters, for which there are
+integers `M(x)` such that at every late letter `x` of the segment: if `x` is even, `ub_{y ≤ x}(G) ≤ M(x)` and
+`lb_{y < x}(A) ≥ M(x) + mg(x)`; if `x` is odd, `ub_{y < x}(G) ≤ M(x)` and `lb_{y ≤ x}(A) ≥ M(x) + mg(x)`; and in both
+cases `lb_{y < x}(A) ≥ th(x)` (the bounds for `G` with `n = K`, those for `A` with `n = r`; a bound on the zero polynomial
+holds). The *segment space* `X_j` consists of the elements of the `𝒪`-span of these products all of whose monomials have
+order degree at most `o(x)` at every late letter `x` of the segment. A *generator* is a product `∏_{0≤j<J} φ_j(x_j)·l`
+with `x_j ∈ X_j`, `φ_j` the substitution that replaces each variable of the letter `x` by the `p^{dist_j(x)}`-th power of
+the corresponding variable at the position of `x`, and `l` a monomial in the variables of the positions whose exponents
+at the position of a late letter `x` of a segment `j` are `< p^{dist_j(x)}`, the product being homogeneous of degree
+`deg(t) − E′(t)` in the variables of each top `t` and of degree `0` at the other positions. Let `𝒩` be the `𝒪`-span of the
+generators and `bound := (1 − C_rk·|𝔗|·r²·k/Y)·∏_{t∈𝔗} binom(deg(t) + k − 1, k − 1)`.
+
+*Statement.* There is `C₀ > 0` such that for all `C_Λ, C_k ≥ C₀` there are `C_rk, C_deg > 0` with, for all data as above:
+(a) `𝒩` contains a submodule `S` that is a direct summand of the polynomial ring in the variables of the positions, has
+a basis consisting of generators, and has rank at least `p^{−n′·r·K}·bound` and at least
+`bound/#{r-dimensional subspaces of 𝔽^k}` for a field `𝔽` of `p^{n′}` elements;
+(b) every monomial of every element of `𝒩` has order degree, summed over the positions, at most
+`C_deg·|𝔗|·(Λ·a/(p·k) + a·p^{−L₁} + k·Q)`.
+[FormalProof] proves this with `C₀ = 1088`, `C_rk = 1` and `C_deg = 10`.
+
+*Route.* Not given here; the proof of [FormalProof] has four parts: the discriminant of the frame minors is nonzero
+modulo the uniformiser; the reductions of the generators span a space of the stated dimension, by an independent family
+for each segment over the good paths of `GL_k` with a tail estimate for the remaining share; a submodule of a free module
+spanned by elements with independent reductions is a direct summand of rank the dimension of the span of the
+reductions; and the order-degree bound, by summing the bounds `o(x)` and the thresholds along a segment. In 4.15e it is
+applied with `Q = p^{G′}`.
+
+*NEW*. [FormalProof], `Formalism/SharpRestriction/GrowthBounds/ValuationLowestDegreeRename.lean`
+(`Formalism.MainNotions.SelectionLemmas.Conclusion2`), with the frames, segment spaces and generators of
+`Formalism/SharpRestriction/GrowthBounds/SegRing.lean` (`Formalism.MainNotions.G.Frames.Valid`,
+`Formalism.MainNotions.G.XX'`, `Formalism.MainNotions.G.Gen`) and the type bounds of
+`Formalism/SharpRestriction/GrowthBounds/ObjPol.lean` (`Formalism.MainNotions.G.lam1S`, `Formalism.MainNotions.G.valS`), proved in
+`Formalism/SharpRestriction/GrowthBounds/SegmentDegree.lean` (`Formalism.MainNotions.SelectionLemmas.Pf.secondPartClosed`)
+under the admitted inputs of 4.14 (`Formalism.MainNotions.SelectionLemmas.AdmB`). *Needs:* 4.14c, 4.15, 4.15d.
 
 ### 4.15f Theorem I (medium primes)
 
@@ -1389,8 +1463,12 @@ every other top; consecutive even tops are at distance `≤ G′` with at most `
 `3r` even tops (consequences of the good-orbit predicate, whose proofs are not given here).
 
 *NEW*. [FormalProof] states the depth statement, with its own form of the threshold, as
-`Formalism.MainNotions.flipOneThree.Conclusion2` (`src/Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean`), proved as
-`Formalism.MainNotions.G.first_theorem_with_constants`. *Needs:* 4.14b, 4.14h, 4.15, 4.15d.
+`Formalism.MainNotions.flipOneThree.Conclusion2` (`src/Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean`), derived in
+`Formalism.MainNotions.G.first_theorem_with_constants` (`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`)
+from the implication "the inputs of 4.14 give the depth statement", which is
+`Formalism.MainNotions.flipOneThree.Pf.theorem_I_closed_form_holds` (`Formalism/SharpRestriction/GrowthBounds/HermitianTensor.lean`)
+and contains the reduction from the two-letter model to all weights that 4.14h (1) leaves unproved.
+*Needs:* 4.14b, 4.14h, 4.15, 4.15d.
 
 ### 4.15a Colengths of lattices exchanged by two operators
 
@@ -1524,6 +1602,8 @@ prime, on three different maps (the column, the inclusion `N_u ⊂ M_u`, the res
 (`src/Formalism/SharpRestriction/GlobalSchurBounds/ProductFirstZerothParts.lean`) and derives it, with a lower bound on `T(u)` among its hypotheses, from the kernel laws of 4.16a as
 `GlobalTheory.LvT.Built.Assemble.sharpBound_stability_latticeColumnChain`
 (`src/Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/SharpBoundStabilityLatticeColumnChain.lean`).
+For the used tuples other than the base tuple it states the column bound as `Formalism.L2.G.Adm2InU.TwistedColumnBoundAtT`
+(`Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9f, 4.11, 4.16, 4.16a.
 
 ### 4.16c The colength at the level prime
@@ -1843,7 +1923,7 @@ ThetaChainsOnDefiniteUnitaryGroups §§2.1–2.9b and §§3.1–3.10 (the data o
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the second part of Layer 4 of the theta-chain roadmaps, the targets 4.9–4.17d above: the positions, types and sides of the places above a prime inert in `K` (4.9); the host property, the hyperbolic shape, the kernel at `d` and the folded shape of the normalised CM theta functions (4.9a–4.9d); the ledger of local exponents, gains, bulks, costs and colength data (4.9e, 4.9f); the gain of a step at the inert primes, at `d` and elsewhere, the loss of the chain at the type primes, and the gain of the chain lift (4.10, 4.10a, 4.11); the local model of the Hecke operators at a prime of split type with Hida's normalisation and the frame lemma, Hecke commutation along the chain and the refined gain on the Hecke image (4.12–4.14); the elementary divisors along a progression, the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares, and Theorem I at one edge (4.14a–4.14h); the depth property, the walk lemma, the colength of the Hecke image, good orbits, Theorems II and I and the exchange lemma for colengths (4.15–4.15f, 4.15a); the gain sublattice and the kernels, column bound and colength at the level prime (4.16–4.16c); and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
+This roadmap owns the second part of Layer 4 of the theta-chain roadmaps, the targets 4.9–4.17d above: the positions, types and sides of the places above a prime inert in `K` (4.9); the host property, the hyperbolic shape, the kernel at `d` and the folded shape of the normalised CM theta functions (4.9a–4.9d); the ledger of local exponents, gains, bulks, costs and colength data (4.9e, 4.9f); the gain of a step at the inert primes, at `d` and elsewhere, the loss of the chain at the type primes, and the gain of the chain lift (4.10, 4.10a, 4.11); the local model of the Hecke operators at a prime of split type with Hida's normalisation and the frame lemma, Hecke commutation along the chain and the refined gain on the Hecke image (4.12–4.14); the elementary divisors along a progression, the two-letter model at an edge with its key lemma, pairing, rank count, integral isotypic projectors and bad shares, and Theorem I at one edge (4.14a–4.14h); the depth property, the walk lemma, the colength of the Hecke image, good orbits, Theorems II and I, the plane count of Theorem II and the exchange lemma for colengths (4.15–4.15f, 4.15a); the gain sublattice and the kernels, column bound and colength at the level prime (4.16–4.16c); and the data of the gain inequality, the inequality, the size of the loss, the selection of the tops and the choice of the top weights (4.17–4.17d).
 
 Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c and 4.18–4.19f (formal groups of height two, the Taylor bounds and their engines, the jets of a Gaussian, the depth of a weight at a framed point and the row datum), is owned by [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md). The hosts, their predicates, the places, the tops and their selection are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0; the data of the chain, its integral forms, CM theta functions, step operators, chain lift, operators at the level prime, source lattices and periods are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3. The bideterminant basis, the agreement of the Weyl and dual Weyl lattices below the upper wall of the lowest alcove, the sandwich exponent and the integral invariant projection are [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) Layer 0; the Hecke equivariance of a theta lift at split places and the dictionary of the homomorphism pair are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) §§0.1, 2.2, 2.5; the quasi-logarithms, the letter group and the sums of quasi-quadratic series under unitary substitutions are [HodgeTateLatticesAndLubinTateLogarithms](../HodgeTateLatticesAndLubinTateLogarithms/README.md) §§3.4–3.6. On roadmaps outside this family: the Lubin–Tate laws `ℓ_s` and the supersingular elliptic comparison are LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4; Mertens' theorem is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §0.11; Gross's models of algebraic modular forms are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §7.4, with the class-set integration and the kernel operators between class sets of DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; the Satake transform is [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3; induced and Weyl modules are [ReductiveGroups](../../ReductiveGroups/README.md) §10B; the branching `GL_n ↓ GL_{n−1}` is [ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §6.1; integral dual Weyl modules as coefficient lattices are [ArithmeticLocallySymmetricSpaces](../../ArithmeticLocallySymmetricSpaces/README.md) ALS.F.7; and the count of subspaces over `𝔽_q` is [ArithmeticStatisticsPartIV](../../ArithmeticStatisticsPartIV/README.md) §3.2. The consumers of this roadmap in the family are listed under Downstream consumers above.
 
@@ -1969,7 +2049,7 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*; the file paths and declaration names given at a target refer to that source at commit `ab0b7522a5ccc9b8530edf475af5088f8f6464aa`.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*; the file paths given at a target are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999): 4.12. D. Mumford, *Abelian Varieties* (the theorem of the cube); K. Weierstrass (the sigma function): 4.9a.
 - J. Lubin and J. Tate (1965); T. Honda (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.9–4.10 here, and the first part of Layer 4 (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c). B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974). P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967). R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962): 4.9d. F. G. Frobenius and L. Stickelberger (the sigma function and the theorem of the cube): 4.9a. K. Mahler; Y. Amice (binomial polynomials on discs): 4.14a. P. Pieri; D. P. Zhelobenko (branching): 4.14f. J. C. Jantzen, *Representations of algebraic groups*, II.5–II.6: 4.16a. H. Chernoff (tail bounds): 4.17d. K. Bannai and S. Kobayashi (2010): 4.10. P. Doubilet, G.-C. Rota and J. Stein (1974); C. De Concini, D. Eisenbud and C. Procesi (1980): 4.12. H. Hida: 4.12. S. Rallis (1982); S. Kudla (1986, 1994): 4.12.
