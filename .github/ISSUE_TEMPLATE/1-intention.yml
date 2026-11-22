@@ -155,11 +155,14 @@ body:
         - DysonBrownianMotion
         - ECM
         - EffectiveBoundsPartII
+        - EffectiveClassNumbers
         - EffectiveDiophantineMethods
         - EisensteinIdealAndRationalTorsion
         - EllipticCohomology
+        - EllipticCurveModularity
         - EllipticCurveModularityImaginaryQuadratic
         - EllipticCurveModularityImaginaryQuadraticPartII
+        - EllipticCurveModularityPartII
         - EllipticCurveModularityTotallyReal
         - EllipticCurves
         - EllipticIntegrals
@@ -172,6 +175,7 @@ body:
         - EnriquesSurfacesAndIntegralNonexistence
         - Equidistribution
         - EquivariantIntersectionTheory
+        - ErdosProgressionPowers
         - EtaleCohomologyFoundations
         - EtaleDualityAndPerverseSheaves
         - EtaleDualityAndPerverseSheavesPartII
@@ -309,6 +313,7 @@ body:
         - ModularForms
         - ModularFormsPartII
         - ModularSymbolsPadicLFunctions
+        - ModularityAndLanglandsExtensions
         - MordellLawrenceVenkatesh
         - MorseNovikov
         - MorseTheory
