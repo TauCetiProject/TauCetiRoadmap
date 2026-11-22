@@ -23,8 +23,10 @@ stated in the integrated form `∫⁻ ω, κ Λ ω A ∂μ = μ A`, so that the 
 written down before their measurability is proved; 2.2 identifies it with
 `Specification.IsGibbs` for the specification of a potential.
 
-The Ising model lives on `Site d = Fin d → ℤ` with spins in `Bool`; `true` is the spin `+1`, so
-that the pointwise order on configurations has the all-plus configuration on top. The
+The Ising model lives on `Site d = Fin d → ℤ` with spins in `Bool`; `true` is the spin `−1`, as
+in the Ising energies of QuantumOptimization §1.1 and HopfieldNetworks. The pointwise order on
+configurations therefore has the all-minus configuration on top, and a function that is
+nondecreasing in the spins is `Antitone`. The
 implementation namespace of the README is `TauCeti`; the prototypes live in this roadmap's
 namespace.
 -/
@@ -372,8 +374,8 @@ abbrev Site (d : ℕ) := Fin d → ℤ
 translation. -/
 abbrev IsingConfig (d : ℕ) : Type := FullShift (Multiplicative (Site d)) (Site d) Bool
 
-/-- The value `±1` of an Ising spin; `true` is `+1`. -/
-def spin (b : Bool) : ℝ := if b then 1 else -1
+/-- The value `±1` of an Ising spin; `true` is `−1`. -/
+def spin (b : Bool) : ℝ := if b then -1 else 1
 
 /-- The nearest-neighbour Ising potential at inverse temperature `β` and field `h`:
 `−β σ_i σ_j` on nearest-neighbour pairs, `−h σ_i` on singletons. -/
@@ -395,10 +397,10 @@ def IsIsingGibbs (d : ℕ) (β h : ℝ) (μ : Measure (IsingConfig d)) : Prop :=
   IsProbabilityMeasure μ ∧ IsGibbsFamily (isingKernel d β h) μ
 
 /-- The all-plus configuration. -/
-def plusConfig (d : ℕ) : IsingConfig d := toFullShift fun _ ↦ true
+def plusConfig (d : ℕ) : IsingConfig d := toFullShift fun _ ↦ false
 
 /-- The all-minus configuration. -/
-def minusConfig (d : ℕ) : IsingConfig d := toFullShift fun _ ↦ false
+def minusConfig (d : ℕ) : IsingConfig d := toFullShift fun _ ↦ true
 
 /-- Translation of configurations by `a`. -/
 def translate {d : ℕ} (a : Site d) (ω : IsingConfig d) : IsingConfig d :=
@@ -425,28 +427,30 @@ def IsMinusState (d : ℕ) (β h : ℝ) (μ : Measure (IsingConfig d)) : Prop :=
       Tendsto (fun n ↦ isingKernel d β h (Λ n) (minusConfig d) C) atTop (𝓝 (μ C))
 
 /-- The event that the spin at the origin is `+1`. -/
-def plusAtOrigin (d : ℕ) : Set (IsingConfig d) := {ω | ω.1 0 = true}
+def plusAtOrigin (d : ℕ) : Set (IsingConfig d) := {ω | ω.1 0 = false}
 
 variable {d : ℕ}
 
 /-- 4.1: the FKG inequality for the finite-volume Ising kernels with an arbitrary boundary
-condition and field, for `β ≥ 0`. -/
+condition and field, for `β ≥ 0`, and functions nondecreasing in the spins. -/
 theorem isingKernel_fkg {β : ℝ} (hβ : 0 ≤ β) (h : ℝ) (Λ : Finset (Site d)) (ω : IsingConfig d)
-    {f g : IsingConfig d → ℝ} (hf : Monotone f) (hg : Monotone g) :
+    {f g : IsingConfig d → ℝ} (hf : Antitone f) (hg : Antitone g) :
     (∫ x, f x ∂isingKernel d β h Λ ω) * (∫ x, g x ∂isingKernel d β h Λ ω) ≤
       ∫ x, f x * g x ∂isingKernel d β h Λ ω := by
   sorry
 
-/-- 4.1: the kernels are monotone in the boundary condition, for `β ≥ 0`. -/
+/-- 4.1: the kernels are monotone in the boundary condition, for `β ≥ 0`: a boundary condition
+with more plus spins (`η ≤ ω` in the order of `Bool`, where `false` is `+1`) gives larger
+expectations of functions nondecreasing in the spins. -/
 theorem isingKernel_mono_boundary {β : ℝ} (hβ : 0 ≤ β) (h : ℝ) (Λ : Finset (Site d))
-    {η ω : IsingConfig d} (hηω : η ≤ ω) {f : IsingConfig d → ℝ} (hf : Monotone f) :
-    ∫ x, f x ∂isingKernel d β h Λ η ≤ ∫ x, f x ∂isingKernel d β h Λ ω := by
+    {η ω : IsingConfig d} (hηω : η ≤ ω) {f : IsingConfig d → ℝ} (hf : Antitone f) :
+    ∫ x, f x ∂isingKernel d β h Λ ω ≤ ∫ x, f x ∂isingKernel d β h Λ η := by
   sorry
 
 /-- 4.1: with the plus boundary condition, expectations of nondecreasing functions decrease as
 the volume grows. -/
 theorem isingKernel_plus_antitone {β : ℝ} (hβ : 0 ≤ β) (h : ℝ) {Λ₁ Λ₂ : Finset (Site d)}
-    (hΛ : Λ₁ ⊆ Λ₂) {f : IsingConfig d → ℝ} (hf : Monotone f) :
+    (hΛ : Λ₁ ⊆ Λ₂) {f : IsingConfig d → ℝ} (hf : Antitone f) :
     ∫ x, f x ∂isingKernel d β h Λ₂ (plusConfig d) ≤
       ∫ x, f x ∂isingKernel d β h Λ₁ (plusConfig d) := by
   sorry
@@ -465,7 +469,7 @@ theorem IsPlusState.isMinusState_map_flip {β h : ℝ} {μ : Measure (IsingConfi
 local functions. -/
 theorem IsIsingGibbs.integral_between {β : ℝ} (hβ : 0 ≤ β) (h : ℝ)
     {μp μm ν : Measure (IsingConfig d)} (hp : IsPlusState d β h μp) (hm : IsMinusState d β h μm)
-    (hν : IsIsingGibbs d β h ν) {f : IsingConfig d → ℝ} (hf : Monotone f) (hloc : IsLocal f) :
+    (hν : IsIsingGibbs d β h ν) {f : IsingConfig d → ℝ} (hf : Antitone f) (hloc : IsLocal f) :
     ∫ x, f x ∂μm ≤ ∫ x, f x ∂ν ∧ ∫ x, f x ∂ν ≤ ∫ x, f x ∂μp := by
   sorry
 

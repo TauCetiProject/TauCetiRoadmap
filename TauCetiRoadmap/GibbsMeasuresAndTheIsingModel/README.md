@@ -84,10 +84,12 @@ adaptation, and a *Needs:* line. Each layer ends with **Checks.**
   σ-algebra of DimerModelsAndLozengeTilings 4.1.
 - Total variation is `sup_A |p(A) − q(A)|`, half the `ℓ¹` distance. Friedli–Velenik use the
   `ℓ¹` distance (p. 287), so their Dobrushin coefficient is twice the one here.
-- Ising spins are `Bool`, with `true` the spin `+1` (`spin true = 1`), so that the pointwise
-  order on configurations has the all-plus configuration `plusConfig d` on top. Two open roadmaps
-  (QuantumOptimization §1.1 and HopfieldNetworks) map `true` to `−1` in their finite Ising
-  energies. Nothing passes between those energies and the infinite-volume model here.
+- Ising spins are `Bool`, with `true` the spin `−1` (`spin true = −1`), the convention of the
+  finite Ising energies of QuantumOptimization §1.1 and HopfieldNetworks; nothing else passes
+  between those energies and the infinite-volume model here. The all-plus configuration
+  `plusConfig d` is the constant `false`. In the pointwise order of `Bool` the all-minus
+  configuration is on top, so "nondecreasing" below means nondecreasing in the spins, which in
+  Lean is `Antitone`, and "more plus spins" is the order `≤` of `Bool`.
 - `Site d = Fin d → ℤ`. Translation is `translate a ω = (i ↦ ω(i + a))`. In
   DimerModelsAndLozengeTilings's action of `Multiplicative (Site d)`, `(g • ω)(i) = ω(g⁻¹ • i)`,
   this is the action of `Multiplicative.ofAdd (−a)`.
@@ -337,9 +339,9 @@ Throughout, `β ≥ 0` unless stated otherwise and `h ∈ ℝ`.
 - **FKG inequality** (`isingKernel_fkg`): for nondecreasing `f, g` and any boundary condition
   `ω`, `E[f] E[g] ≤ E[fg]` under `isingKernel d β h Λ ω` (Friedli–Velenik, Theorem 3.21,
   p. 104).
-- **Monotone in the boundary condition** (`isingKernel_mono_boundary`): for `η ≤ ω` and
-  nondecreasing `f`, the expectation of `f` under the kernel with boundary condition `η` is at
-  most that under `ω` (Friedli–Velenik, Exercise 3.13, p. 107).
+- **Monotone in the boundary condition** (`isingKernel_mono_boundary`): if `η` has more plus
+  spins than `ω` (`η ≤ ω`) and `f` is nondecreasing, the expectation of `f` under the kernel with
+  boundary condition `ω` is at most that under `η` (Friedli–Velenik, Exercise 3.13, p. 107).
 - **Plus boundary is antitone in the volume** (`isingKernel_plus_antitone`): for `Λ₁ ⊆ Λ₂` and
   nondecreasing `f`, the expectation under the plus kernel of `Λ₂` is at most that of `Λ₁`
   (Friedli–Velenik, Lemma 3.22, p. 105).
