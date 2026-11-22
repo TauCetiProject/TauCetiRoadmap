@@ -240,7 +240,7 @@ ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. The values of one co
 | `𝔰_j, n_j(v), E_j(v), ϵ_j(v)` | the scalar of step `j` and its exponents; an admissible exponent at `v` and its normalised excess over the valuation of `𝔰_j` | 8.20 |
 | `𝒜_j^0, M_0, M′_0, Z_j^0, P_jM, ℐ_j(𝔭), D_V^{all}` | at a twisted place: the base-level part of the forms on `U(V_j)`, its `∇`- and `Δ`-valued lattices, its lifted subspace, the projected lattice, its signed dual index; a common multiple of the stabiliser orders; in 8.20–8.21 `η_j(𝔭)`, `𝔧_j(𝔭)` are taken at the base level | 8.20 |
 | `ig_j(v)` | the index growth of the twist | 8.20b |
-| `Tr_j(U, ψ), Th_j(δ_ℓ; U, ψ); 𝒞(W_j)_𝕃, j_σ` | the traced short theta series of a run; the traced adelic theta series of the tuple `δ_ℓ`; the rational forms on `U(W_j)` and their realisation at an embedding `σ` | 8.20b; RowTowerAndRallisIdentities §5.10a |
+| `Tr_j(U, ψ), Th_j(δ_ℓ; U, ψ); 𝒞(W_j)_𝕃, j_σ` | the traced short theta series of a run; the traced adelic theta series of the tuple `δ_ℓ`; the rational forms on `U(W_j)` and their realisation at an embedding `σ`, in the phase-one normalisation | 8.20b; RowTowerAndRallisIdentities §§5.10a, 5.11 |
 | `F_tot, s^{st}_j, δ_G` | bulk divisibility; slope bound of the step lattice; multiplicity deviation | 8.21 |
 | `E_tot(u)` | total cost of the steps | 8.23 |
 | `d(ℓ), d_l(𝔭)` | the integrality defect of the bottom norms at `ℓ`; `d(ℓ)·v_𝔭(ℓ)` for `𝔭 \| ℓ` | 8.24b, 8.24a |
@@ -918,7 +918,8 @@ subgroup of `H` (a family in position for a subgroup is in position for every la
 (c) *The lattices of the chain.* For every prime `ℓ` under a twisted
 place (the type primes included), every step `j` and each of the two conjugate places, the hypotheses of (b) hold for `B_all` the
 integral forms of the type of step `j`, `A := |G₀|·`(the good projector of RowTowerAndRallisIdentities §5.3), `B := B_all ∩` (the good part), and theta series
-`θ_a` of the class-sum lifts of step `j` (RowTowerAndRallisIdentities §5.11) whose `A`-images form a basis of the good part, with the twisting places and
+`θ_a` of the class-sum lifts of step `j` (RowTowerAndRallisIdentities §5.11, in its normalisation, in which they are rational
+forms with no phase) whose `A`-images form a basis of the good part, with the twisting places and
 characters above: Hecke stability, the integrality with one `c` for all `Q`, `M`, the Euler-factor relation in the Hecke
 operators, and the eigensystem condition. (That `z` is central modulo `H`, which the definition of a polynomial condition in
 SelmerLengthBoundsAndLocalLifting §3.25b (2) asks, is not asserted by [FormalProof]; with position read by conjugacy as in
@@ -986,8 +987,14 @@ relation are not given here. [FormalProof] states (b) as `Development/AbelianVar
 (`GlobalTheory.ExportFromInputs.abHyp_fam`), with the Euler-factor relation
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalTwistedSeriesDistributionOfCompatibilitStatement.lean`
 (`GlobalTheory.T.universalTwistedSeriesDistribution_of_compatibility`). The Hecke stability and the integrality of (L1) rest
-on (c1)–(c3); the proofs of (c2) and (c3) are not given here, and the phase of (c2) is not asserted to be the phase `κ_rat`
-of RowTowerAndRallisIdentities §5.11. [FormalProof] states (c1) as
+on (c1)–(c3); the proofs of (c2) and (c3) are not given here. The phases of (c1) and of (c2) belong to an arbitrary choice
+of the constants of the realisation and are not asserted to be `1`, also in the normalisation of
+RowTowerAndRallisIdentities §5.11; [FormalProof] proves, in
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/UnitModulusRationalPhaseMemCoefficientFieldStatement.lean`
+(`GlobalTheory.T.unit_modulus_rational_phase_mem_coefficient_field`), that in that normalisation, when the space of cusp
+forms of the step is not zero, a phase of absolute value `1` for which the rationality of (c1) holds on every cover whose
+field contains a subfield of `𝕃` fixed with the chain lies in `σ₀(𝕃)`. How the phase of (c2) is removed in the proof of
+(L1) is not given here. [FormalProof] states (c1) as
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`), (c2) as
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/TwistSeries.lean`
@@ -1034,7 +1041,11 @@ which the model lift `θ_j` carries `𝒜_j^0` into the level-`(P_0, χ_{P_0})` 
 CongruenceModulesOfThetaLifts §7.15 divided by `n := |P_0|` (the form of 8.21 (a)); duals of lattices in `Z_j^0` are taken in
 `Z_j^0` for this form, and lengths at `𝔭` over the localisation of `𝒪_𝕃`. The *projected lattice* `P_jM` is the orthogonal
 projection of `M_0` onto `Z_j^0`, mapped into `M^W_j ⊗ 𝕃` by the rational model lift `θ_j(ξ_𝔭)` (RowTowerAndRallisIdentities §5.7,
-RowTowerAndRallisIdentities §5.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19). Put
+RowTowerAndRallisIdentities §5.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19): the lift itself, read at the
+extremal vector, in the normalisation of RowTowerAndRallisIdentities §5.11 (phase `κ_rat = 1`; [FormalProof],
+`Formalism/LocalToGlobal/IndefiniteReal/ZeroPartEigenvalueConvention.lean` (`Formalism.IndefR.Links.RealDat3.toCx3`)). That
+normalisation of the rational forms on the `U(W_j)`, of their realisation `j_{σ₀}` and of the theta series of the pairs
+`(V_j, W_j)` is assumed throughout 8.19e–8.24. Put
 `e_𝔭η_j(𝔭) := length_𝔭(P_jM/(M ∩ Z_j^0))`, the congruence length at the base level (the length `e_𝔭η^{P_0}_j(𝔭)` of
 CongruenceModulesOfThetaLifts §7.1 (4)); `𝔧_j(𝔭)` the least `𝔧 ≥ 0` with
 `ℓ(𝔭)^𝔧·(M ∩ Z_j^0) ⊂ M′` after localisation at `𝔭` (an exponent of the rational prime `ℓ(𝔭)`, at most the Weyl exponent of
@@ -1401,19 +1412,24 @@ characteristic `ℓ`, `v ∈ {𝔭, c_𝕃(𝔭)}`, `δ_ℓ` the auxiliary chara
   the type places, the vector of the residue characters of `δ_ℓ` at `A(ℓ)`) and the archimedean vector attached to `w`
   and to the lowest `K`-type by the intertwiner of RowTowerAndRallisIdentities §5.7.
 Assume the hypotheses of RowTowerAndRallisIdentities §5.8 on `𝕃` ((L1) for `μ_j`, `η̃`, `δ`, `δ′`), the rank condition (R5)
-of ThetaChainsOnDefiniteUnitaryGroups §2.1, and clause (o) of 8.20 for `p_o`. Then for every finite place `λ` of `𝕃` whose
+of ThetaChainsOnDefiniteUnitaryGroups §2.1, clause (o) of 8.20 for `p_o`, and that `𝒞(W_j)_𝕃`, `j_{σ₀}`, the intertwiner and the
+extremal vector are those of the normalisation of RowTowerAndRallisIdentities §5.11, in which the phase `κ_rat` is `1` (the
+theta series `ϑ_{δ_ℓ}(h, w)` and the realisation `j_{σ₀}`, hence `Th_j(δ_ℓ; U, ψ)`, depend on it; `Tr_j(U, ψ)` does not).
+Then for every finite place `λ` of `𝕃` whose
 residue characteristic is not `p_o`, `Tr_j(U, ψ) ⊗ 𝒪_{𝕃,(λ)} ⊂ Th_j(δ_ℓ; U, ψ) ⊗ 𝒪_{𝕃,(λ)}`; in particular at `λ = v`. At the
 places above `p_o` nothing is claimed here: there the other run is used (8.20, "The theta data of a step").
-*Route.* By the rational lift (RowTowerAndRallisIdentities §5.11, Lemma, with the realisations of
-RowTowerAndRallisIdentities §5.10a and the extremal vector of RowTowerAndRallisIdentities §5.7; the spanning by class sums,
-ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.17a, is where (R5) enters) a short theta series of a
-lattice `Λ` at a base point is the adelic theta series at the class `h` of `Λ` for the test vector of the base point.
+*Route.* By the rational lift in its normalisation (RowTowerAndRallisIdentities §5.11, Lemma, with phase `κ_rat = 1`, the
+realisations of RowTowerAndRallisIdentities §5.10a and the extremal vector of RowTowerAndRallisIdentities §5.7; the spanning
+by class sums, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.17a, is where (R5) enters) the realisation
+`j_{σ₀}` of a short theta series of a lattice `Λ` at a base point is `σ₀(c)` times the adelic theta series at the class `h`
+of `Λ` for the test vector of the base point, with a scalar `c ∈ 𝕃`: in another normalisation the scalar would be
+multiplied by a number of absolute value `1`, which need not lie in `σ₀(𝕃)`.
 Up to an integer prime to `λ` the family may be taken with `Λ` the lattice of an adelic point supported off the
 primes at which the lattices of `Tr_j(U, ψ)` are standard, and its harmonic polynomial then lies in the dual Weyl
 lattice of that class. Summing over `U` against `ψ`
 turns the base points into the `(U, ψ)`-trace; the elements of `U` have determinant `1` at the type places, so no
 type character appears, and the nebentype of the level `g₀g₁p_o` is `δ_ℓ` composed with the determinant. The scalar
-relating the two sides is integral at `λ`; and at the places of `A(ℓ)` the vector of the short theta series is a
+`c` is integral at `λ`; and at the places of `A(ℓ)` the vector of the short theta series is a
 translate of the vector of the residue characters of `δ_ℓ` up to a power of `p_o`, a unit at `λ`. [FormalProof] states
 this clause as `Development/AbelianVarietyTheory/Proofs/DivisorProofs/TraceLatticeLeSpanThetaSeriesAwayFromOwnPrimeStatement.lean`
 (`GlobalTheory.T.traceLattice_le_span_thetaSeries_awayFromOwnPrime`) and
@@ -1422,7 +1438,13 @@ this clause as `Development/AbelianVarietyTheory/Proofs/DivisorProofs/TraceLatti
 `Development/AbelianVarietyTheory/Definitions/Foundations/ThetaSeriesTies.lean` (`GlobalTheory.OnTies.IsOrbitFamily`,
 `GlobalTheory.OnTies.thetaBase`), and applies it at the base level in
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/CompareOffOwnAtRuns.lean`
-(`GlobalTheory.BigOn.compareOffOwn_atRuns_alt`).
+(`GlobalTheory.BigOn.compareOffOwn_atRuns_alt`). [FormalProof] defines the theta lattice with a phase as a parameter in
+`Development/AbelianVarietyTheory/Definitions/Foundations/ThetaSeriesTies.lean` (`GlobalTheory.OnTies.seriesSet`), states the
+clause at the phase `1` with the phase-one compatibility of RowTowerAndRallisIdentities §5.11,
+`Formalism/LocalToGlobal/IndefiniteReal/OneMapT.lean` (`Formalism.IndefR.FWT.PhaseTie`), among its hypotheses, and supplies
+that hypothesis for the data of the chain, for both runs, from the normalisation that its record carries, in
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/OmpinsOntoStatement.lean`
+(`GlobalTheory.T.bar_tie_om_pins_phase_tie_of_pt_split`).
 *Needs:* 8.20; RowTowerAndRallisIdentities §§5.7, 5.8, 5.10a, 5.11;
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.17a, 8.19a;
 ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.4 (b), 2.5, 2.6 (a) (ii), 2.9a; CongruenceModulesOfThetaLifts §7.15.
@@ -1433,7 +1455,8 @@ integral forms; the twisted lattice against the untwisted one by 8.19e (b), whos
 the twist selection CongruenceModulesOfThetaLifts §7.8 (2) with `ε′ = 1/ℓ²` for the product of the `2m` conditions of 8.19e (b) (the steps and the two places;
 levels and exponent bounds add) for the good twisting datum, the signed indices growing by `e_𝔭·ig_j(v)` with
 `Σ_j(ig_j(𝔭) + ig_j(c_𝕃𝔭)) ≤ 2/ℓ²` (or CongruenceModulesOfThetaLifts §7.8 (2) for the `2m` conditions each with `ε′/(2m)`); the traced short theta series are adelic theta series of the
-tuple `δ_ℓ`, by the clause above at `λ = v`, `(U, ψ) = (P_0, χ_{P_0}^{−1})`); the last index is bounded by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b with the uniform bound ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (with `E = E_j(v)` and `σ = 𝔰_j`: `Θ_{λ^W_j} ⊂ 𝔰_j·Th^{short}(λ^W_j)` by
+tuple `δ_ℓ`, by the clause above at `λ = v`, `(U, ψ) = (P_0, χ_{P_0}^{−1})`, in the normalisation of
+RowTowerAndRallisIdentities §5.11); the last index is bounded by ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b with the uniform bound ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a (with `E = E_j(v)` and `σ = 𝔰_j`: `Θ_{λ^W_j} ⊂ 𝔰_j·Th^{short}(λ^W_j)` by
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (c), `𝔰_j` dividing the three products of scalars, which are `𝔰_j` times `z(w_F)·(g₀g₁)^{f·r·(n_P − n_P⁰)}`,
 `z(w_F + n·w_L)·(g₀g₁)^{f·r·(n_P + n·n_W − n_P⁰)}` and `z(λ^W_j)·(g₀g₁)^{f·r·(r + t − n_P⁰)}`, with `N(λ^W_j) = N(w_L)^T·N(w_F)`), whose
 hypotheses (N3)–(N5), (I1)–(I8) hold at these parameters ((N0) being assumed). (N3): by 8.20 (vii) (a), ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″ (a) and the bounds for the scalars (with
