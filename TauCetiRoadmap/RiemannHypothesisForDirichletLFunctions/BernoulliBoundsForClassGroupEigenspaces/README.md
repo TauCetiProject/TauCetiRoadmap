@@ -481,7 +481,7 @@ Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1; Lat
 
 ## Layer 10: Minus parts of twisted Sha groups and Bernoulli numbers
 
-This layer bounds the components of 6.18 for the characters `ψ` of an abelian CM field with `ψ(−1) = (−1)^{e+1}` by generalized Bernoulli numbers, and sums the bound over these characters and over the odd primes prime to the degree.
+This layer bounds the components of 6.18 for the characters `ψ` of an abelian CM field with `ψ(−1) = (−1)^{e+1}` by generalized Bernoulli numbers, through the Euler system of Jacobi sums and its derivative classes, and sums the bound over these characters and over the odd primes prime to the degree.
 
 ### 10.1 The minus part of twisted Sha groups and Bernoulli numbers
 
@@ -496,26 +496,196 @@ Prove:
 
 (b) `Σ_{ℓ odd, ℓ∤n} log ℓ · length Ш⁻(E, ℓ, e) ≤ n log(16 N^{e+2} (e + 1)!)`.
 
+(c) *The Euler system of Jacobi sums and its derivative classes.* For an integer `M′ ≥ 1` and `t ∈ (ℤ/M′)^×` let `σ_t`
+be the automorphism `ζ ↦ ζ^t` of `ℚ(μ_{M′})`, `⟨t⟩ ∈ [0, M′)` the representative of `t`, and
+`θ_{M′,b}(t) = ⌊⟨t⟩b/M′⌋ − ⌊⟨−t⟩b/M′⌋` for an integer `b ≥ 0`. Let `ℓ` be an odd prime, `T = T₀·ℓ^h` with `ℓ ∤ T₀` and
+`h ≥ 1`, `M = ℓ^h`, `r` a prime with `r ≡ 1 mod T`, `𝔯` a place of `ℚ̄` above `r`, and `0 ≤ b < T`. A prime `q` is
+*admissible* if `q ≡ 1 mod T`, `q ≠ r` and `ℓ` does not divide the order of `r` modulo `q`; an *admissible modulus* is a
+squarefree product `d` of admissible primes, `d = 1` included; for a finite set `Q` of admissible primes,
+`d_Q = ∏_{q∈Q} q`. Prove:
+
+(c1) *Stickelberger elements of ideals.* For every `M′ ≥ 1`, every `0 ≤ b < M′` and every nonzero ideal `𝔞` of
+`ℤ[μ_{M′}]` there is `X ∈ ℚ(μ_{M′})^×` with `X·X̄ = 1` and `(X) = ∏_{t∈(ℤ/M′)^×} (σ_t^{−1}𝔞)^{θ_{M′,b}(t)}`. Two such `X`
+differ by a root of unity `ζ` with `ζ^{2M′} = 1`; products and quotients of such elements belong to the products and
+quotients of the ideals; for `𝔞 = (y)` one may take `X = ∏_t (σ_t^{−1}y)^{θ_{M′,b}(t)}`; and for a prime `𝔭` with residue
+field `𝔽_p`, `p ∤ M′`, one may take `X = J̄/J` with `J = ∏_{1≤j<b} J(χ, χ^j)`, where `χ : 𝔽_p^× → μ_{M′}` is the
+character with `χ(x) ≡ x^{(p−1)/M′} mod 𝔭` and `J(χ, χ′) = Σ_x χ(x)χ′(1 − x)` is the Jacobi sum. For a prime `q ∤ M′`,
+`b < q` and `t ∈ (ℤ/M′)^×`: `Σ_{t′ ↦ t} θ_{qM′,b}(t′) = θ_{M′,b}(t) − θ_{M′,b}(q^{−1}t)`, the sum over the
+`t′ ∈ (ℤ/qM′)^×` with image `t`.
+
+(c2) *The system.* There are elements `X_d ∈ ℚ(μ_{Td})^×`, one for every admissible modulus `d`, and natural numbers
+`s(d, q)` prime to `ℓ`, one for every admissible modulus `d` and every admissible prime `q ∤ d`, such that: `X_d` is a
+unit at every place of `ℚ̄` not above `r`; the order of `σ_tX_1` at `𝔯` is `θ_{T,b}(t)` for every `t ∈ (ℤ/T)^×`; and, with
+`Frob_q` the automorphism `ζ ↦ ζ^q` of `ℚ(μ_{Td})`, (i) `N_{ℚ(μ_{Tqd})/ℚ(μ_{Td})}(X_{qd}) = ζ·(X_d/Frob_q^{−1}X_d)^{s(d,q)}`
+for a root of unity `ζ` with `ζ^{2Tqd} = 1`, and (ii) there is a root of unity `ζ′` with `ζ′^{2Tqd} = 1` such that
+`X_{qd} ≡ ζ′·(Frob_q^{−1}X_d)^{s(d,q)}` modulo every place of `ℚ̄` above `q`. For `δ ∈ G_ℚ`, acting on `μ_M` by
+`ζ ↦ ζ^u`, write `P(v) = δ(v)/v^u`. The elements `x_d = P(X_d)^{2T₀d}` lie in `ℚ(μ_{Td})^×`, are units at every place not
+above `r`, and satisfy (i) and (ii) with `ζ = ζ′ = 1` and with the exponents `q·s(d, q)` in place of `s(d, q)`; these
+exponents are prime to `ℓ`.
+
+(c3) *Derivative classes.* For every admissible prime `q` fix `τ_q ∈ G_ℚ` that fixes every root of unity of order prime
+to `q` and acts on `μ_q` through a generator of `(ℤ/q)^×`. Let `D_q = Σ_{0≤i≤q−2} i·τ_q^i` and `N_q = Σ_{0≤i≤q−2} τ_q^i`,
+acting on the groups `ℚ(μ_{Td})^×`, written multiplicatively, for the admissible moduli `d` divisible by `q`; let
+`D_Q = ∏_{q∈Q} D_q` and `y_Q = D_Q x_{d_Q}`. Then `(τ_q − 1)D_q = (q − 1) − N_q`; for every `g ∈ Gal(ℚ̄/ℚ(μ_T))` there is
+`z ∈ ℚ(μ_{T·d_Q})^×` with `z^M = g(y_Q)/y_Q`; and, for a fixed primitive `M`-th root of unity `ζ_M`, there is exactly one
+map `κ_Q : Gal(ℚ̄/ℚ(μ_T)) → ℤ/M` such that `ζ_M^{κ_Q(g)} = g(P(Y))/(P(Y)·P(z))` for every `Y ∈ ℚ̄` with `Y^M = y_Q` and
+every `z ∈ ℚ̄` with `z^M = g(y_Q)/y_Q`. It is a continuous homomorphism, and it is zero on the inertia group of every
+place of `ℚ̄` not above `T·r·d_Q`.
+
+(c4) *Values on inertia.* Let `q ∉ Q` be an admissible prime, `𝔔` a place of `ℚ̄` above `q`, `τ` an element of the
+inertia group of `𝔔` that acts on `μ_q` as `τ_q`, and `φ` a Frobenius element at `𝔔`. Then
+`κ_{Q∪{q}}(τ) = −q·s(d_Q, q)·κ_Q(φ)`. Let `ρ ∈ ℚ̄` with `ρ^M = r`, `τ₀` an element of the inertia group of `𝔯` with
+`τ₀(ρ) = ζ_M·ρ`, `t ∈ (ℤ/T)^×` and `σ ∈ G_ℚ` acting on `μ_T` by `ζ ↦ ζ^t`. Then `t·κ_∅(σ^{−1}τ₀σ)` is the class modulo `M`
+of the order of `σ(P(x_1))` at `𝔯`; by (c2) this order is `2T₀·(θ_{T,b}(tv²) − 2u·θ_{T,b}(tv) + u²·θ_{T,b}(t))`, where `δ`
+acts on `μ_T` by `ζ ↦ ζ^v`.
+
+(c5) *The classes of a character.* Let `O` be the ring of integers of a finite extension `Φ` of `ℚ_ℓ` and
+`α : G_ℚ → O^×` a character with `α(g) ≡ 1 mod ℓ^h` for `g ∈ Gal(ℚ̄/ℚ(μ_T))`, with `α(g) ≡ −1 mod ℓ^h` for every `g`
+acting on `μ_T` by inversion, and with `α(δ) − χ_ℓ(δ) ∈ O^×` for some `δ ∈ G_ℚ`; this `δ` is used in (c2) to (c4). Put
+`β = χ_ℓα^{−1}`, choose for each `t ∈ (ℤ/T)^×` an element `σ_t ∈ G_ℚ` acting on `μ_T` by `ζ ↦ ζ^t`, and `w ∈ Φ/O` with
+`ℓ^h·w = 0`, and let `ν_Q(g) = Σ_{t∈(ℤ/T)^×} κ_Q(σ_t^{−1}gσ_t)·β(σ_t)·w` for `g ∈ Gal(ℚ̄/ℚ(μ_T))`. Then: (i) `ν_Q` is a
+continuous homomorphism to `Φ/O`, killed by `ℓ^h`, with `ν_Q(g′gg′^{−1}) = β(g′)·ν_Q(g)` for `g′ ∈ G_ℚ`, and zero on the
+inertia group of every place of `ℚ̄` not above `T·r·d_Q`; (ii) for every admissible prime `q ∉ Q`, every place `𝔔` of
+`ℚ̄` above `q` and every Frobenius element `φ` at `𝔔` there are `τ` in the inertia group of `𝔔` and `ε ∈ O^×` with
+`ν_{Q∪{q}}(τ) = ε·ν_Q(φ)`; (iii) there are `τ₀` in the inertia group of `𝔯` and `ε₀ ∈ O^×` with `ν_∅(τ₀) = ε₀·z·w`, where
+`z = Σ_{t∈(ℤ/T)^×} θ_{T,b}(t)·α(σ_t)^{−1}`.
+
 [FormalProof] states (a) with `S = {ℓ}`, which implies (a) by 6.18 (a), for every modulus `N` of `ψ`, as
 `UpperTheory.V.ML.vChar` (`AV/PrimitiveFrobeniusFixed/PrimCase.lean`), from the reciprocity law `UpperTheory.V.ML.Rec`
 taken as a hypothesis; and (b), with the finiteness of each `Ш⁻(E, ℓ, e)` and for every `N` with `E ⊂ ℚ(μ_N)`, as
 `UpperTheory.V.Odd.PrimeBound` (`AV/OddResidueBounds/ZeroMemUnrHom.lean`), proved from the form `UpperTheory.V.Odd.PsiBound`
 of (a) for the components of `Ш(E)` (same file) as `UpperTheory.V.Odd.primeBound_of`
 (`AV/OddResidueBounds/ThmBcOfPsiBound.lean`).
+It states (c) for lists of distinct admissible primes in place of the sets `Q`, with `D_Q` independent of the order, and
+(c5) as the existence of maps with (i) to (iii), its proof taking the `ν_Q` displayed. (c1): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/XEx.lean` (`UpperTheory.V.ML.xEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/XUniqConj.lean` (`UpperTheory.V.ML.xUniq`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/XMulConjIMul.lean` (`UpperTheory.V.ML.xMul`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/XJacPowNe.lean` (`UpperTheory.V.ML.xJac`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ThDist.lean` (`UpperTheory.V.ML.thDist`),
+with the definitions in
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/IsAdmissiblePrimeListNil.lean`
+(`UpperTheory.V.ML.th`, `UpperTheory.V.ML.IsX`). (c2): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/PlaceEmb.lean` (`UpperTheory.V.ML.laxEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/SysOfLax.lean` (`UpperTheory.V.ML.sysOfLax`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/XNormDiv.lean` (`UpperTheory.V.ML.xNormDiv`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/AlgStep.lean` (`UpperTheory.V.ML.xCong`),
+with the definitions in
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/IsAdmissiblePrimeListNil.lean`
+(`UpperTheory.V.ML.AdmP`, `UpperTheory.V.ML.admitted`, `UpperTheory.V.ML.AdmL`, `UpperTheory.V.ML.Lax`,
+`UpperTheory.V.ML.Sys`, `UpperTheory.V.ML.HasOrd`). (c3): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/DerBasic.lean` (`UpperTheory.V.ML.derBasic`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/DerInv.lean` (`UpperTheory.V.ML.derInv`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/KolEx.lean` (`UpperTheory.V.ML.kolEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/KolHom.lean` (`UpperTheory.V.ML.kolHom`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/KolUnr.lean` (`UpperTheory.V.ML.kolUnr`),
+with the definitions in
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/IsAdmissiblePrimeListNil.lean`
+(`UpperTheory.V.ML.IsTau`, `UpperTheory.V.ML.der1`, `UpperTheory.V.ML.der`, `UpperTheory.V.ML.opP`,
+`UpperTheory.V.ML.IsKol`). (c4): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/KolStep.lean` (`UpperTheory.V.ML.kolStep`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/KolInit.lean` (`UpperTheory.V.ML.kolInit`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/HasOrdP.lean` (`UpperTheory.V.ML.hasOrdP`).
+(c5): [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/NuSysEx.lean` (`UpperTheory.V.ML.nuSysEx`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ValAddSmul.lean` (`UpperTheory.V.ML.nuIs`),
+with the definitions in
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/IsAdmissiblePrimeListNil.lean`
+(`UpperTheory.V.ML.Dat`, `UpperTheory.V.ML.nu`, `UpperTheory.V.ML.IsNu`, `UpperTheory.V.ML.NuSys`, `UpperTheory.V.ML.zVal`).
+The classes `κ_Q` are the derivative classes of Kolyvagin's method for Euler systems, here for the system of Jacobi
+sums. The steps of the Route of (a) are [FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/RatPlace.lean` (`UpperTheory.V.ML.exc`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ShaToShT.lean` (`UpperTheory.V.ML.shaToShT`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ZeNorm.lean` (`UpperTheory.V.ML.zEval`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/GenBUnits.lean` (`UpperTheory.V.ML.zCong`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ChiDvd.lean` (`UpperTheory.V.ML.step`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ShtNu.lean` (`UpperTheory.V.ML.shtNu`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/AddPowNsmul.lean` (`UpperTheory.V.ML.pick`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/ChebQ.lean` (`UpperTheory.V.ML.chebQ`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PrimitiveFrobeniusFixed/FrobFix.lean` (`UpperTheory.V.ML.count`).
 
 *Route.* (a) A reciprocity law at auxiliary primes `q`, from Poitou–Tate duality and the orthogonality of unramified classes
 (ArithmeticGaloisDuality §R02.4.3): for a cocycle `c` of a character `α` and a cocycle `m` of the dual character, both killed by `a`,
-unramified outside `Nq`, with `c` locally trivial at the primes of `N` and unramified at `q`, if `m(τ) = y·w₀` at an inertia element
+unramified outside `Nq`, with `c` locally trivial at the primes of `N` and unramified at `q`, `ℓ | N`, `q ≠ ℓ`, `α ≡ 1 mod a` on
+inertia outside `Nq`, and both characters `≡ 1 mod a` on the decomposition group at `q`, if `m(τ) = y·w₀` at an inertia element
 `τ` at `q`, `w₀` a generator of the coefficients of `m`, then `y·c(g) = 0` on the decomposition group at `q`: a class of the dual character ramified at `q` annihilates, through
-its value on inertia at `q`, the localisation at `q` of a class unramified at `q`. Applied to the classes of the Euler system of
-Jacobi sums, it bounds the `ψ`-component by the valuation of `N·P_{e+2}·B_{e+1,ψ}`, an algebraic integer
-(von Staudt and `f^{k−1}B_k(a/f) = Σ_j binom(k,j) B_j a^{k−j} f^{j−1}`). The pairing is that of the `ψ`-component with `B_{e+1,ψ}`, the
+its value on inertia at `q`, the localisation at `q` of a class unramified at `q`.
+It is applied to the classes of (c5), as follows; lengths are `O`-lengths and `v` is the valuation of `O` with value
+group `ℤ`, so that dividing by `e_O` gives (a). Let `ψ` be primitive of conductor `f`; this suffices, since `B_{e+1,ψ}`
+is the number of the primitive character and its conductor divides `N`. Let `α = ψ^{−1}χ_ℓ^{−e}`, the character of the
+component, and `β = χ_ℓα^{−1}`. If `α(g) − χ_ℓ(g)` is a non-unit for every `g ∈ G_ℚ`, then `ψ` is unramified outside `ℓ`
+and the component is zero: a cocycle of `α` killed by a uniformizer, unramified outside `ℓ` and trivial at `ℓ`, is the
+Kummer cocycle of a rational number whose valuations are all divisible by the odd prime `ℓ`, an `ℓ`-th power.
+Otherwise fix `δ` with `α(δ) − χ_ℓ(δ) ∈ O^×` and `γ ∈ G_ℚ` with `α(γ) − 1 ∈ O^×`, which exists because `α(g) ≡ −1 mod ℓ`
+for `g` acting by inversion on `μ_{fℓ}`. Every class of the component has exactly one cocycle `c` with `c(γ) = 0`; it
+has finite image and is a coboundary on the decomposition groups above `fℓ` (above `p | f`, `p ≠ ℓ`, because it is one
+on inertia, where `α − 1` takes a unit value, `ψ` being primitive of order prime to `ℓ`). So it suffices to prove
+`length C(a₀) ≤ v(N·P_{e+2}·B_{e+1,ψ})` for every `a₀ ≠ 0` in `O`, where `C(a₀)` is the `O`-module of the cocycles `c` of
+`α` with values in `Φ/O`, with `c(γ) = 0` and `a₀c = 0`, unramified outside `fℓ`, that are coboundaries of elements
+killed by `a₀` on the decomposition groups above `fℓ`. Fix `a₀`; in (c) take `T = f₀·ℓ^h`, with `f₀` the part of `f` prime
+to `ℓ` and `h ≥ max(1, v_ℓ(f))`, `b` the exponent of `δ` on `μ_T`, and `w` of annihilator `ℓ^hO`. For a Dirichlet
+character `χ` modulo `T` with `χ(−1) = (−1)^{e+1}` and `b` prime to `T`,
+`2(e + 1)P_{e+2}·(b^eχ(b)·Σ_t θ_{T,b}(t)⟨t⟩^eχ(t) − 2(χ(b)b^{e+1} − 1)·B_{e+1,χ}/(e + 1)) ≡ 0 mod ℓ^h`, the sum over
+`t ∈ (ℤ/T)^×` and `B_{e+1,χ}` taken at the modulus `T`. For `χ = ψ` at the modulus `T` this number is
+`(1 − ψ(ℓ)ℓ^e)·B_{e+1,ψ}`, `χ(b)b^{e+1} − 1` is a unit by the choice of `δ`, and `α(σ_t)^{−1} ≡ ⟨t⟩^eψ(t) mod ℓ^h`; since
+`B_{e+1,ψ} ≠ 0`, for `h` large `v(z) = v(B_{e+1,ψ}/(e + 1))`, so that `a₀z | ℓ^h` and `z | N·P_{e+2}·B_{e+1,ψ}`, an
+algebraic integer (von Staudt and `f^{k−1}B_k(a/f) = Σ_j binom(k,j) B_j a^{k−j} f^{j−1}`). For `n ≥ 1` let
+`C_n(a₀) ⊂ C(a₀)` be the cocycles that vanish on the decomposition groups above `n`. *Step.* Let `q ≡ 1 mod T` be a
+prime, `φ` a Frobenius element and `τ` an inertia element at a place above `q`, and `ν` a map with the properties
+(c5) (i), unramified outside `T·n·q`; let `(a′)` be the annihilator of its image and `(a)` that of `ν(τ)`, and suppose
+`a₀ | a`. Then `a′ = a·ε′` with `ε′·c(φ) = 0` for every `c ∈ C_n(a₀)`: `ν` extends to a cocycle of `β` on `G_ℚ`, because
+`β(δ) − 1` is a unit, and the reciprocity law applies to it with `a′`, `N = T·n` and a generator `w₀` of the
+`a′`-torsion of `Φ/O`, the decomposition group at `q` lying in `Gal(ℚ̄/ℚ(μ_T))`, on which `α ≡ β ≡ 1 mod ℓ^h`. A cocycle
+of `C_n(a₀)` with `c(φ) = 0` vanishes on the decomposition groups above `q`; hence
+`length C_n(a₀) ≤ length C_{nq}(a₀) + v(ε′)`. *Start.* Let `(a_Q)` be the annihilator of the image of `ν_Q`; it contains
+`ℓ^h`. By (c5) (iii) the annihilator of `ν_∅(τ₀)` is generated by `ℓ^h/z`, a multiple of `a₀`, and the step with `q = r`,
+`n = 1` gives `a_∅ = (ℓ^h/z)·ε₀′` and `length C(a₀) ≤ length C_r(a₀) + v(ε₀′)`. *Induction.* Let `a₀ | a_Q` and `c ≠ 0` in
+`C_{r·d_Q}(a₀)`; `c` is a nonzero homomorphism on `Gal(ℚ̄/ℚ(μ_T))`. Chebotarev's theorem for `ℚ` gives a prime
+`q ∤ T·ℓ·r·d_Q` and a Frobenius element `φ` at a place above `q` in the set of the `g ∈ Gal(ℚ̄/ℚ(μ_T, r^{1/M}))` with
+`c(g) ≠ 0`, with `ν_Q(g)` a generator of the image of `ν_Q`, and with `g` not the identity on `μ_{Tℓ}`. This set is open,
+and nonempty: a homomorphism on `Gal(ℚ̄/ℚ(μ_T))` killed by `ℓ^h`, equivariant for a character `λ` of `G_ℚ` and zero on
+`Gal(ℚ̄/ℚ(μ_T, r^{1/M}))`, is killed by `λ(g) − χ_ℓ(g)` for every `g`, which is a unit for `λ = α` at `g = δ` and for
+`λ = β` at an element inverting `μ_T`; so each condition excludes a proper subgroup of `Gal(ℚ̄/ℚ(μ_T, r^{1/M}))`, the
+first of odd index, and three such subgroups do not cover the group. Such a `q` is admissible: `q ≡ 1 mod T`,
+`q ≢ 1 mod Tℓ`, and `r^{(q−1)/M} ≡ 1 mod q`. By (c5) (ii) the annihilator of `ν_{Q∪{q}}(τ)` is `(a_Q)`, so the step gives
+`a_{Q∪{q}} = a_Q·ε′` with `ε′·c(φ) = 0`, hence `ε′` is not a unit, and
+`length C_{r·d_Q}(a₀) + v(a_Q) ≤ length C_{r·q·d_Q}(a₀) + v(a_{Q∪{q}})`. As `v(a_Q) ≤ v(ℓ^h)`, after finitely many primes
+`C_{r·d_Q}(a₀) = 0`; therefore `length C_r(a₀) + v(a_∅) ≤ v(ℓ^h)`, and
+`length C(a₀) ≤ v(ℓ^h) − v(ℓ^h/z) = v(z) ≤ v(N·P_{e+2}·B_{e+1,ψ})`.
+The pairing is that of the `ψ`-component with `B_{e+1,ψ}`, the
 same character: the `ψ`-eigenspace of the classes of `H¹(G_ℚ, (Φ/O)(λ))` restricted to `G_E` is `λ = ψ⁻¹χ_ℓ^{−e}`. (b) From (a) and 6.18(b): `N·P_{e+2}·B_{e+1,ψ}`
 is an algebraic integer, nonzero because `L(e + 1, ψ̄) ≠ 0` and the functional equation, and of absolute value at most `N·4^{e+2}·N^{e+1}·4(e + 1)!/(2π)^{e+1} = 16(2/π)^{e+1}N^{e+2}(e + 1)! ≤ 16N^{e+2}(e + 1)!`,
 by `|B_k(x)| ≤ 4k!/(2π)^k` on `[0, 1]` and `∏_{p≤m} p ≤ 4^m`; the product over the `ψ` of minus type is a rational integer, and the sum
-of `log ℓ · v_ℓ` over odd `ℓ` is at most the logarithm of its absolute value, at most `(n/2)·log(16N^{e+2}(e + 1)!)`. *Needs:*
-6.17, 6.18; ArithmeticGaloisDuality §R02.4.3; CyclotomicClassGroupsAndStickelberger §3.1;
-DirichletPadicLFunctions §0.4; LFunctions Layer 4.
+of `log ℓ · v_ℓ` over odd `ℓ` is at most the logarithm of its absolute value, at most `(n/2)·log(16N^{e+2}(e + 1)!)`.
+(c) (c1) For a prime of degree one this is Stickelberger's relation for Jacobi sums: `J(χ, χ^j)` divides `p` and lies in
+`σ_t^{−1}𝔭` exactly when `⟨t⟩ + ⟨jt⟩ < M′`, so the exponent of `σ_t^{−1}𝔭` in `(J)` is `(b − 1) − ⌊⟨t⟩b/M′⌋`. The principal
+case is immediate, and every ideal class contains a prime of degree one prime to `M′` (Chebotarev's theorem for the
+Hilbert class field), which gives the general case by multiplicativity; uniqueness holds because a unit `ε` of
+`ℤ[μ_{M′}]` with `ε·ε̄ = 1` is a root of unity. The distribution relation is a count of integer parts over the `q − 1`
+units above `t`. (c2) `X_d` is the element of (c1) for `M′ = Td`, the prime `𝔭_d` of `ℚ(μ_{Td})` below `𝔯` and the same
+`b`, and `s(d, q)` is the residue degree of `𝔭_{qd}` over `𝔭_d`, a divisor of the order of `r` modulo `Tqd`, which is
+prime to `ℓ`. By the distribution relation both sides of (i) generate the same ideal, and uniqueness gives (i). The
+congruence (ii) is multiplicative in the ideal: for a principal ideal prime to `q` it follows from the distribution
+relation, because `Gal(ℚ(μ_{Tqd})/ℚ(μ_{Td}))` acts trivially on the residue fields above `q`; for a prime of degree one
+it is the congruence between the Jacobi sums of a character `χ′` of order `Tqd` and those of `χ′^q`, since
+`χ′ ≡ Frob_q^{−1}(χ′^q)` modulo the primes above `q`. `P` kills the roots of unity of order dividing `M`, and `ζ^{2T₀qd}`
+is one of them when `ζ^{2Tqd} = 1`. (c3) The identity is EulerSystemsAndKolyvaginSystems §3.1. With (c2) (i) it gives
+`(τ_q − 1)y_Q = (D_{Q∖{q}}x_{d_Q})^{q−1}·((Frob_q^{−1} − 1)y_{Q∖{q}})^{q·s(d_{Q∖{q}}, q)}`, an `M`-th power by induction on
+the number of primes, since `M | q − 1` and `Frob_q` fixes `μ_T`; the `τ_q`, `q ∈ Q`, generate
+`Gal(ℚ(μ_{T·d_Q})/ℚ(μ_T))`. The quotient defining `κ_Q` is an `M`-th root of unity that does not depend on `Y` and `z`,
+because `P` kills `μ_M`; additivity uses that `Gal(ℚ̄/ℚ(μ_T))` fixes `μ_M`; at a place not above `T·r·d_Q` the element
+`P(Y)` is a unit and inertia fixes `y_Q`, and an `M`-th root of unity congruent to `1` there is `1`. (c4) For the first
+formula take `z = (D_Qx_{q·d_Q})^{(q−1)/M}·z′^{q·s(d_Q, q)}` with `z′^M = φ^{−1}(y_Q)/y_Q`, and reduce modulo `𝔔`, where
+`τ` acts trivially, `φ^{−1}(v)^q ≡ v` and (c2) (ii) holds: this gives `κ_{Q∪{q}}(τ) = q·s(d_Q, q)·κ_Q(φ^{−1})`. For the
+second, with `k` the order of `σ(P(x_1))` at `𝔯`, the element `σ(P(Y))·ρ^{−k}` is a unit at `𝔯` whose `M`-th power is
+fixed by `τ₀`, so `τ₀` fixes it and multiplies `σ(P(Y))` by `ζ_M^k`. (c5) (i) is formal; (ii) and (iii) follow from (c4)
+with `ε = −q·s(d_Q, q)` and `ε₀ = 2T₀·(α(δ) − u)²`, because `β(σ_t) ≡ t·α(σ_t)^{−1} mod ℓ^h` and
+`Σ_t θ_{T,b}(tv)·α(σ_t)^{−1} ≡ α(δ)·z mod ℓ^h`.
+*Needs:* 6.17, 6.18; ArithmeticGaloisDuality §R02.4.3; for (c): ClassicalArithmeticCompletion §1.55 (Stickelberger's relation, for
+(c1) at a prime of degree one), CyclotomicClassGroupsAndStickelberger §2.5 (a prime of degree one in every ideal class),
+EulerSystemsAndKolyvaginSystems §3.1 (the derivative operator and its identity), Mathlib `jacobiSum`; for the Route of (a): (c),
+ProfiniteCohomology §9.6 (the Kummer sequence, in the exceptional case), Mathlib `Nat.exists_prime_gt_modEq_one` (the prime `r`);
+CyclotomicClassGroupsAndStickelberger §3.1; DirichletPadicLFunctions §0.4; LFunctions Layer 4.
 
 **Checks.**
 
@@ -541,7 +711,7 @@ For `E = ℚ(i)`, `ψ = 1`, `e = 11` and `ℓ = 691`: `N = 4`, `P₁₃ = 30030`
 
 ### Dependencies
 
-Layer 6 (6.17, 6.18); ArithmeticGaloisDuality §R02.4.3; CyclotomicClassGroupsAndStickelberger §3.1; DirichletPadicLFunctions §0.4; LFunctions Layer 4; ArithmeticKTheory §7.5 (in a Check); Tau Ceti `DirichletCharacter.generalizedBernoulli`.
+Layer 6 (6.17, 6.18); ArithmeticGaloisDuality §R02.4.3; ClassicalArithmeticCompletion §1.55; CyclotomicClassGroupsAndStickelberger §§2.5, 3.1; EulerSystemsAndKolyvaginSystems §3.1; ProfiniteCohomology §9.6; DirichletPadicLFunctions §0.4; LFunctions Layer 4; ArithmeticKTheory §7.5 (in a Check); Mathlib `jacobiSum`, `Nat.exists_prime_gt_modEq_one`; Tau Ceti `DirichletCharacter.generalizedBernoulli`.
 
 ## Layer 11: Ranks in cyclic extensions of degree p
 
@@ -763,7 +933,7 @@ In the family RiemannHypothesisForDirichletLFunctions, UniformWildKernelBounds u
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the statements above: the twisted Tate–Shafarevich groups `Ш¹(F, ℓ, e)` with `ℚ_ℓ/ℤ_ℓ(−e)` coefficients, their duality with the cohomological wild kernels, their comparison with `H²`, their behaviour under restriction, their total over all primes and twists, and their plus/minus and character decompositions (Layer 6); explicit torsion bounds for cokernels with short relations, for the homology of groups acting on acyclic complexes and of `GL_N(𝒪_L)`, for `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` and for K-groups, with the perfect forms over rings of integers and their nerve, the values of primitive classes and the additive classes of finite fields that these bounds use (Layer 9); the per-character bound for the minus parts of abelian CM fields by generalized Bernoulli numbers (Layer 10); the rank bound for unramified Iwasawa modules in cyclic extensions of degree `p` (Layer 11); the special-value formula for finite-order characters of an abelian extension of a totally real field (Layer 12); the splitting of Momose's quaternion algebra at reducible places (Layer 13); and the vanishing of rational Bloch–Kato groups at non-central twists (Layer 14). The perfect forms over a ring of integers (9.3 (a)–(d)) generalize LatticePackingsAndPerfectForms §4.9, which is the case `L = ℚ`.
+This roadmap owns the statements above: the twisted Tate–Shafarevich groups `Ш¹(F, ℓ, e)` with `ℚ_ℓ/ℤ_ℓ(−e)` coefficients, their duality with the cohomological wild kernels, their comparison with `H²`, their behaviour under restriction, their total over all primes and twists, and their plus/minus and character decompositions (Layer 6); explicit torsion bounds for cokernels with short relations, for the homology of groups acting on acyclic complexes and of `GL_N(𝒪_L)`, for `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` and for K-groups, with the perfect forms over rings of integers and their nerve, the values of primitive classes and the additive classes of finite fields that these bounds use (Layer 9); the per-character bound for the minus parts of abelian CM fields by generalized Bernoulli numbers, with the Euler system of Jacobi sums and its derivative classes (Layer 10); the rank bound for unramified Iwasawa modules in cyclic extensions of degree `p` (Layer 11); the special-value formula for finite-order characters of an abelian extension of a totally real field (Layer 12); the splitting of Momose's quaternion algebra at reducible places (Layer 13); and the vanishing of rational Bloch–Kato groups at non-central twists (Layer 14). The perfect forms over a ring of integers (9.3 (a)–(d)) generalize LatticePackingsAndPerfectForms §4.9, which is the case `L = ℚ`.
 
 Not owned here. The theory these statements extend belongs to four roadmaps. [ArithmeticKTheory](../../ArithmeticKTheory/README.md) owns the K-groups of rings of integers and S-integers, their finite generation and Borel's ranks, the even groups in cohomological dimension two, the wild kernels, the cohomological kernels `Sha²_{i,ℓ}(F)` and the Moore sequence, the Bernoulli conventions with the character projectors and Herbrand–Ribet (ArithmeticKTheory §7.3), and the tame kernels of cyclotomic integers. [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md) owns the Euler systems of cyclotomic units, Stickelberger annihilation and the Stickelberger cohomology family (EulerSystemsCyclotomicMainConjecture §§0.29–0.31), and the main conjecture with its finite consequences. [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) owns cyclotomic towers, unramified Iwasawa modules with their rank criteria, Ferrero–Washington, and the main conjecture in its character-quotient form with the specialization at arithmetic weights for `E = F(μ_p)` (IntegralIwasawaTheory §12.3). KatoEulerSystems owns Kato's Euler systems for modular forms, admissible pairs with the open-image theorem of Ribet and Momose (KatoEulerSystems §4.1), and the finiteness of Selmer groups over abelian fields (KatoEulerSystems §7.9). The class groups of cyclotomic fields as Galois modules, with their character components, Stickelberger's theorem and the Herbrand–Ribet theorem, are [CyclotomicClassGroupsAndStickelberger](../../CyclotomicClassGroupsAndStickelberger/README.md). Sha kernels with lattice and divisible coefficients and their duality are HeckeIdealsAndTaylorWilesRelations §10.1. Uniform bounds for the plus part in towers of abelian fields, and the bound for the minus part at the odd primes dividing the degree, belong to UniformWildKernelBounds.
 
@@ -791,7 +961,7 @@ Layer 3: finite generation of the K-groups of rings of integers and finiteness o
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
-§5.4: inflation–restriction (6.17, 6.18); §5.5: the five-term sequence (11.1); §§6.2–6.3: corestriction and `cor ∘ res` (6.17); §7.2: Shapiro's lemma (6.18); §9.6: the Kummer sequence (11.1).
+§5.4: inflation–restriction (6.17, 6.18); §5.5: the five-term sequence (11.1); §§6.2–6.3: corestriction and `cor ∘ res` (6.17); §7.2: Shapiro's lemma (6.18); §9.6: the Kummer sequence (10.1, 11.1).
 
 ### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
@@ -847,11 +1017,19 @@ Layer 4: Dirichlet L-functions with their completed functions and functional equ
 
 ### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
-§3.1: generalized Bernoulli numbers, Bernoulli evaluation and `p`-adic congruences (10.1).
+§2.5: every ideal class of `ℤ[μ_m]` contains a prime of degree one outside a given finite set (10.1 (c)). §3.1: generalized Bernoulli numbers, Bernoulli evaluation and `p`-adic congruences (10.1).
 
 ### From TauCetiRoadmap.DirichletPadicLFunctions
 
 §0.4: the comparison of generalized Bernoulli numbers and conductors (10.1).
+
+### From TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
+
+§3.1: for a finite cyclic group `Γ` of order `n` with generator `σ`, the operator `D_σ = Σ_{i<n} i·σ^i` and the identity `(σ − 1)D_σ = n − N_Γ` (10.1 (c3)).
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.55: Stickelberger's relation, the prime factorisation of the `m`-th power of the Gauss sum of a prime of `ℤ[μ_m]` not dividing `m` (10.1 (c1)).
 
 ### From TauCetiRoadmap.PadicHodgeTheory
 
@@ -863,7 +1041,7 @@ Layer 4: Dirichlet L-functions with their completed functions and functional equ
 
 ### From Mathlib
 
-`Matrix.det` and `LinearIndependent` (9.1); `groupHomology` with its long exact sequence and Shapiro's lemma, and `Rep.trivial` (9.2, 9.4, 9.6); `Matrix.GeneralLinearGroup`, `NumberField.RingOfIntegers`, `NumberField.discr` and `AddCommGroup.torsion` (9.3, 9.4).
+`Matrix.det` and `LinearIndependent` (9.1); `groupHomology` with its long exact sequence and Shapiro's lemma, and `Rep.trivial` (9.2, 9.4, 9.6); `Matrix.GeneralLinearGroup`, `NumberField.RingOfIntegers`, `NumberField.discr` and `AddCommGroup.torsion` (9.3, 9.4); `jacobiSum` and `Nat.exists_prime_gt_modEq_one` (10.1).
 
 ### From Tau Ceti
 
