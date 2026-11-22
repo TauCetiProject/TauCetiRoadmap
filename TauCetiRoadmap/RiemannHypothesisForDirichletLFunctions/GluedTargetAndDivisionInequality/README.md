@@ -991,9 +991,11 @@ on (c1)–(c3); the proofs of (c2) and (c3) are not given here. The phases of (c
 of the constants of the realisation and are not asserted to be `1`, also in the normalisation of
 RowTowerAndRallisIdentities §5.11; [FormalProof] proves, in
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/UnitModulusRationalPhaseMemCoefficientFieldStatement.lean`
-(`GlobalTheory.T.unit_modulus_rational_phase_mem_coefficient_field`), that in that normalisation, when the space of cusp
-forms of the step is not zero, a phase of absolute value `1` for which the rationality of (c1) holds on every cover whose
-field contains a subfield of `𝕃` fixed with the chain lies in `σ₀(𝕃)`. How the phase of (c2) is removed in the proof of
+(`GlobalTheory.T.unit_modulus_rational_phase_mem_coefficient_field`), that in that normalisation, under the hypotheses of
+the chain that it collects (among them the rank condition (R5) of ThetaChainsOnDefiniteUnitaryGroups §2.1, the
+phase-one compatibility of RowTowerAndRallisIdentities §5.11, and that a subfield of `𝕃` fixed with the chain is Galois
+over `ℚ`), when the space of cusp forms of the step is not zero, a phase of absolute value `1` for which the rationality
+of (c1) holds on every cover that (c1) quantifies over whose field contains that subfield lies in `σ₀(𝕃)`. How the phase of (c2) is removed in the proof of
 (L1) is not given here. [FormalProof] states (c1) as
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`), (c2) as
