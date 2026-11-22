@@ -4,7 +4,7 @@
 # sections: what the family cites there. A member that is not on main yet is skipped until it lands.
 # Generated from the family's READMEs; regenerate it rather than editing by hand.
 
-description = "The generalized Riemann hypothesis (GRH), the Riemann hypothesis for Dirichlet L-functions: the family RiemannHypothesisForDirichletLFunctions and the roadmaps it cites. In that family the formal Lean proof is the authority: where one of its roadmaps differs from the formal proof, follow the formal proof and say so in the pull request."
+description = "The generalized Riemann hypothesis (GRH), the Riemann hypothesis for Dirichlet L-functions: the family RiemannHypothesisForDirichletLFunctions and the roadmaps it cites. Follow the roadmaps; results may be generalised and proved by other routes, and the formal Lean proof is not to be copied. Only where a roadmap of that family is demonstrably wrong or misses a step, and the formal proof shows what is right, correct it in a form consistent with the formal proof and say so in the pull request."
 
 [[area]]
 name = "RiemannHypothesisForDirichletLFunctions"
