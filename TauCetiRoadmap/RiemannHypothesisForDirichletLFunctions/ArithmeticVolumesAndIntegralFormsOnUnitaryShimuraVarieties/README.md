@@ -499,7 +499,8 @@ in characteristic zero only.
 
 *NEW* (statement; follows from [FormalProof],
 `Development/AutomorphicSpectrum/Statements/GeometryStatements/CurveSemiAbelianConjecture.lean`
-(`GlobalTheory.CompanionTheory.Ar.Conj.CurveSemiAbelianConjecture`)). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 (relative Frobenius and
+(`GlobalTheory.CompanionTheory.Ar.Conj.CurveSemiAbelianConjecture`), proved there without hypotheses as
+`GlobalTheory.T.curveSemiAbelianConjecture`, `Development/AutomorphicSpectrum/Proofs/GeometryProofs/M2CurveEstablishedStatement.lean`). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 (relative Frobenius and
 Verschiebung); ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.9a (conjugate data), assumed in the statement.
 
 ### 8.14b Local facts for the `𝔩`-torsion at a good prime
@@ -557,7 +558,9 @@ characters; (L5) [FormalProof], the period relation known in kind, Fontaine). (L
 `Development/AutomorphicSpectrum/Definitions/CommutativeAlgebra/LieLatticeData.lean`
 (`GlobalTheory.CompanionTheory.Ar.Num.LieLatticeData.Facts`, `GlobalTheory.CompanionTheory.Ar.Num.IsTestPt`),
 `Development/AutomorphicSpectrum/Proofs/GeometryProofs/FamilyExistsPosOfFamilyExists.lean`
-(`GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos`).
+(`GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos`), derived there, from five named statements that it takes as
+hypotheses, by `GlobalTheory.T.family_pos_of_hodge_tate_inputs`
+(`Development/AutomorphicSpectrum/Proofs/GeometryProofs/FamilyPosOfHodgeTateInputsStatement.lean`).
 *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1.17, R07.1.27, R07.1.28; HodgeTateAndCanonicalSubgroups §0.4 and HodgeTateLatticesAndLubinTateLogarithms §§0.5g, 0.5h, 0.18a.
 
@@ -814,9 +817,11 @@ generically finite maps from one log-smooth model). Summing over the components 
 `Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/GoodTowerGlobalExtraStatement.lean`
 (`GlobalTheory.T.good_tower_propA_of_global_extra`),
 `Development/AutomorphicSpectrum/Statements/GeometryStatements/HodgeComparisonCompatibility.lean`
-(`GlobalTheory.CompanionTheory.Ar.HodgeComparisonCompatibility`),
+(`GlobalTheory.CompanionTheory.Ar.HodgeComparisonCompatibility`, proved there without hypotheses as `GlobalTheory.T.CmpHodgeTied_holds`,
+`Development/AutomorphicSpectrum/Proofs/GeometryProofs/CmpHodgeTiedHoldsStatement.lean`),
 `Development/AutomorphicSpectrum/Statements/GeometryStatements/PadicIntegersHenselianFiniteResidue.lean`
-(`GlobalTheory.CompanionTheory.Ar.TwistAut`).
+(`GlobalTheory.CompanionTheory.Ar.TwistAut`, proved there without hypotheses as `GlobalTheory.T.TwistAut_holds`,
+`Development/AutomorphicSpectrum/Proofs/GeometryProofs/TwistAutHoldsStatement.lean`).
 *Needs:* 8.14c, 8.15b, 8.15c; HeightsForLogSingularMetrics §§0.4 (b), (c), 14.2; PELModuli M1.7;
 HermitianFormsAndLattices §4.2 (a).
 
@@ -846,7 +851,9 @@ dominating both (8.15 (a)).
 `q` of the labels that Frobenius exchanges.
 
 *NEW*. [FormalProof], `Development/AutomorphicSpectrum/Statements/GeometryStatements/HodgeLatticeFlagBound.lean`
-(`GlobalTheory.CompanionTheory.Ar.HodgeLatticeFlagBound`).
+(`GlobalTheory.CompanionTheory.Ar.HodgeLatticeFlagBound`), derived there from the statement of 8.14b
+(`GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos`) by `GlobalTheory.T.model_on_hodge_from_family`,
+`Development/AutomorphicSpectrum/Proofs/GeometryProofs/ModelOnHodgeFromFamilyStatement.lean`.
 *Needs:* 8.14b, 8.15; DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.16 The two constants
@@ -1908,7 +1915,8 @@ number `f_E`: [FormalProof],
 `Formalism/SharpRestriction/Divisibility/WeightFamilies.lean` (`Formalism.MainNotions.WeightFamilies.Wt.size`).
 *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18, RowTowerAndRallisIdentities §5.11, 8.19, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.4 (b), ThetaChainsOnDefiniteUnitaryGroups §2.9a; HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a), (b) the colength
 identity and the colength inequality with their corollary the descent lemma, (c)); PELModuli M1.7, M2.8;
-AbelianSchemesAndArithmeticModuli A5.3–A5.4; ShimuraCompactifications §7.22 and Layer 7 (Fourier–Jacobi expansions);
+AbelianSchemesAndArithmeticModuli A2.4 (for a principal polarisation `π_*L` is invertible: the theta section) and A5.3–A5.4
+(over `ℂ`, the same line through factors of automorphy); ShimuraCompactifications §7.22 and Layer 7 (Fourier–Jacobi expansions);
 SlopesOfHermitianVectorBundles §§1.2, 1.7, 4.1–4.2; GeometryOfNumbersAndQuadraticArithmetic §4.4 (transference).
 
 ### 8.19a′ The depth of the theta lattices
@@ -1946,6 +1954,18 @@ and at every point `y` with a uniformisation `v(η)(y) ≥ 2i_η·φ′_C(y)`, `
 `dep_𝔩(y) ≤ ν_dep(𝔩) + (c/2i_η)·v(η)(y)`. The boundary form of 8.19a (I8) is the case `R = 5`, `n = r`: its scalar weight is
 `2·5⁴·r·i_η = γ₀·i_η`. (In (c), `n` is the number of null values in each monomial, not the dimension `n` of 8.19a.)
 
+(d) *The theta basis by translates* (for every abelian scheme, not only in the setting of 8.19a). Let `R` be a ring, `A/R` an
+abelian scheme of relative dimension `g`, `L` a relatively ample line bundle on `A`, rigidified along zero, whose polarisation
+`φ_L` is principal, and `N ≥ 1` an integer invertible in `R`. Let `f : A → A′` be an isogeny to an abelian scheme with a
+relatively ample line bundle `L′`, rigidified along zero, with `φ_{L′}` principal, together with an isomorphism `f^*L′ ≅ L^N`, and
+let `θ′` generate the invertible `R`-module `H⁰(A′, L′)` (such a generator exists locally on `R`); read `f^*θ′` as a section of
+`L^N` through the isomorphism. Then `ker f ⊂ A[N]`, `f` has degree `N^g`, `H⁰(A, L^N)` is locally free of rank `N^g`, and,
+étale locally on `R`, for representatives `x` of the cosets of `ker f` in `A[N]` and lifts `(x, ψ_x)` of them to the theta group
+`G(L^N)` (AbelianSchemesAndArithmeticModuli A3.6; `ψ_x : t_x^*L^N ≅ L^N`), the translates `ψ_x(t_x^*f^*θ′)` form an `R`-basis of
+`H⁰(A, L^N)`. In particular every section of `L^N` is an `R`-combination of translates of `f^*θ′` by points of `A[N]`. For
+`f = [r]`, `L′ = L` symmetric and `N = r²` over `ℚ̄` (with `r` even) this is the good translated basis of
+ArakelovGeometryAndAbelianHeights §5.7.
+
 *Route.* (The comparisons of `φ_C` and `φ′_C`: for a family `(x_b)` spanning a finite-index submodule, `β ↦ Σ_b β(x_b, x_b)` is an
 admissible functional (positive on a nonzero positive semidefinite `β`, whose radical is an `𝒪_E`-submodule), with value
 `2·Σ_b Q_y(x_b)`; with `w₀`, `β ↦ Σ_b β(w₀x_b, x_b)` is admissible with value `Σ_b Q_y(x_b)`, since `β(w₀x, x) = β(x, w̄₀x)` and
@@ -1954,7 +1974,7 @@ admissible functional (positive on a nonzero positive semidefinite `β`, whose r
 cut-off in the definition of the depth at a place); `Σ_{𝔩|ℓ} ϱ(𝔩)e_𝔩 = log ℓ`; above the type primes
 `Σ_i log g_i/(g_i − 1) ≤ 1`; and
 `Σ_ℓ c_ℓ(w_L)·log ℓ ≤ DF(w_L)·log Q + ⌈DF(w_L)/2⌉·log(qd)`. (b) (i): jets by integral sections of the `M`-th power on the product
-of the copies, the theta basis by translates at a level prime to the residue characteristic, and an ultrametric
+of the copies, the theta basis by translates (d) with `N = M`, a unit at the point, and an ultrametric
 pigeonhole. (ii): write `π = a·a′` with `a·ā = g`, `a′·ā′ = g′` in `𝒪_K`, `(a, ā) = 1` (so `ā·ā′` generates the half-level ideal). The
 embeddings split into those at which `a` vanishes at the place and those at which it is a unit, exchanged by complex
 conjugation; write the highest weight vector as a product of leading minors of the first group in `r` copies of the
@@ -1971,7 +1991,8 @@ all leading `s × s` minors of valuation `≤ s·v(g)/(g − 1)`; take in each o
 Fourier term on the uniformisation, so that its germ has unit constant term after a scalar of valuation `≤ rk(X)·Φ_y/(4g′)`
 (a coset of the character lattice has a representative with `Q_y ≤ ¼·Σ_i Q_y(b_i)`). Since `DF·v(g)/(g − 1) < v(g)` (the one
 place where `DF < g − 1` is used), the congruence determines the valuation of the jet: `≤ DF·v(g)/(g − 1)`. The sections of
-the `g′`-th power are integral combinations of translates of the pulled-back theta function (theta basis, `g′` a unit), and
+the `g′`-th power are integral combinations of translates of the pulled-back theta function ((d) with `N = g′`, a unit at the
+point, `f = a′` and `L′` a suitable translate of `L`), and
 the composite of the two pull-backs and translations is again a translate of the theta function pulled back by `π = a·a′`;
 its value at the frame is a theta rule times `N(w)` times an integral factor. The scalar: `v_𝔩(s_W) = v_𝔩(N(w))` above a type
 prime, `= e_𝔩·c_ℓ(w)` elsewhere; the short basis is a reduced basis of the monodromy form over `𝒪_E`, and `c` is chosen for it.
@@ -1982,14 +2003,26 @@ on its class, and the lifts of a spanning family span `X` modulo `R⁴X` over `�
 with component `y_a` has valuation `≥ min_{χ∈X} Q_y(R²χ + y_a)/R⁴`; and `Σ_b min_χ Q_y(R²χ + y_b) ≥ φ_C(y)` by the definition of
 `φ_C` (for representatives `z_b = R²χ_b + y_b` the `z_b` span `X ⊗ ℚ` over `E`). So every term of the polynomial, hence every
 factor of the norm, has valuation `≥ φ_C(y)/R⁴`, which is `≥ φ′_C(y)/R⁴` by (b), `w₀` being that of the setting. That `η`
-has scalar weight `n·|LevGrp(R⁴)|` is not derived here.
+has scalar weight `n·|LevGrp(R⁴)|` is not derived here. (d) Over an algebraically closed field in which `N` is invertible,
+`H⁰(A, L^N)` is an irreducible representation of `G(L^N)` on which the scalars act by their natural character (Mumford 1966,
+§1, Theorem 2, p. 297); the isomorphism `f^*L′ ≅ L^N` determines a level subgroup of `G(L^N)` over `ker f` (Mumford 1966, §1,
+Proposition 1, p. 291; AbelianSchemesAndArithmeticModuli A3.6 (5)), whose invariants are the line spanned by `f^*θ′`; and the
+translates of a nonzero invariant vector by lifts of representatives of the cosets of `ker f` are eigenvectors of the level
+subgroup for pairwise distinct characters, hence a basis (Mumford 1966, §1, proof of Proposition 3, pp. 295–296). Over `R`,
+`H⁰(A, L^N)` and `H⁰(A′, L′)` are locally free and of formation compatible with base change, and
+`h⁰(L^N) = h⁰(f^*L′) = deg(f)·h⁰(L′)` and `h⁰(L^N) = χ(L^N) = N^g` (AbelianSchemesAndArithmeticModuli A2.4); `ker f` acts on
+`f^*L′` by translations, so it lies in `K(L^N) = A[N]`. The map to `H⁰(A, L^N)` from the free module on the representatives is
+therefore an isomorphism on every fibre, hence over `R` (Nakayama's lemma, the ranks being equal).
 
 *Check.* With the route of (c) one has also `v(η)(y) ≥ 2i_η·φ_C(y)` when the classes of the torsion points of every
-monomial span the character lattice modulo `R⁴`; this form is this roadmap's own and is not used.
+monomial span the character lattice modulo `R⁴`; this form is this roadmap's own and is not used. (d) needs `N` invertible: for
+a supersingular elliptic curve over `𝔽̄_p`, `L = O(0)`, `N = p` and `f` the Frobenius isogeny (`f^*O(0) ≅ O(p·0)`), `A[p]` has a
+single point, so there is one translate in a space of sections of dimension `p`.
 
-*NEW* (this quantitative form); *KNOWN* ingredients (the theta basis by translates, Mumford; the Weil pairing as a
-commutator; the cokernel bound of the Hodge–Tate map, Fargues). *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b′, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18 (a), (b), 8.19a; HodgeTateLatticesAndLubinTateLogarithms
-§§0.5b, 0.5f; AbelianSchemesAndArithmeticModuli A5.3–A5.4 (theta structures and theta bases); ShimuraCompactifications
+*NEW* (this quantitative form); *KNOWN* ingredients (the theta basis by translates (d), Mumford 1966, §1, over an
+algebraically closed field; the Weil pairing as a commutator; the cokernel bound of the Hodge–Tate map, Fargues). *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b′, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18 (a), (b), 8.19a; HodgeTateLatticesAndLubinTateLogarithms
+§§0.5b, 0.5f; AbelianSchemesAndArithmeticModuli A2.4, A2.5 (cohomology of ample line bundles, polarisations) and A3.6 (the
+theta group, level subgroups and descent) for (d); ShimuraCompactifications
 §§6.4–6.7 (degeneration data and Mumford's uniformisation); PELModuli M1.7.
 
 ### 8.19a″ Spanning by short theta series and base-point freeness
@@ -2016,11 +2049,11 @@ the product of the two up to a root of unity; orthogonality of the characters of
 weight as a combination with roots of unity. For the consequence multiply one rule at a time: before the last factor the
 scalar weight is `< r + t`, and it is `≥ n(w_F) ≥ r`. (b) At a frame, the theta rules of weight `w` are the jets of the
 theta sections at the torsion points of level `g₀g₁` against harmonic polynomials; for `4·DF(w) + 4 ≤ g₀g₁` the jets of
-order `DF(w)` of these sections at a point span all jets of that order (the theta basis at a level prime to the residue
-characteristic), so some rule is nonzero; a semilinear functional vanishing on the generators vanishes on `Th^{all}(w)`.
+order `DF(w)` of these sections at a point span all jets of that order (the theta basis 8.19a′ (d) with `N = g₀g₁`, prime to
+the residue characteristic), so some rule is nonzero; a semilinear functional vanishing on the generators vanishes on `Th^{all}(w)`.
 
 *NEW* (this form); *KNOWN* in kind (the basis problem through the doubling method; theta bases). *Needs:* RowTowerAndRallisIdentities §5.11, 8.17a, 8.19a;
-AbelianSchemesAndArithmeticModuli A5.3–A5.4.
+8.19a′ (d).
 
 ### 8.19a‴ Lengths of a quotient through functionals with controlled heights
 
@@ -2080,7 +2113,9 @@ in particular the bound does not depend on `Q`, and at `l ∤ 𝔣·d_E` not on 
 *The form of the formal proof.* [FormalProof] states (i) with
 `n(l) = 2sf·c(l) + |κ|·(2c(l) + 1 + [l = 2] + ½[l = D])` at the primes with `c(l) ≠ 0`:
 `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/VpBounds.lean`
-(`GlobalTheory.IndefiniteRowSideFullHecke.ClassZetaValuationBounds.ToricDenominator`); the smaller exponent above is this
+(`GlobalTheory.IndefiniteRowSideFullHecke.ClassZetaValuationBounds.ToricDenominator`), derived there, from three named
+statements that it takes as hypotheses, by `GlobalTheory.T.toric_denominator_of_zeta_denominators`
+(`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricDenominatorOfZetaDenominatorsStatement.lean`); the smaller exponent above is this
 roadmap's, by the route. The uses (8.19d (iii)) need only that the exponent does not depend on `Q`.
 
 *Route.* (i): (0) *Reduction to one lattice.* Fix `l` and `Q` prime to `l`. Every class of `Pic(𝒪_𝔠)` contains an idele `y` with
@@ -2213,7 +2248,12 @@ the ratio the periods `ϖ_K, ϖ₁`, the factor `|t|^{−|κ|}` and `χ_f(t)|t|^
 in general: `1/2` for one place with `Y = 1`, `N𝔮 = 2`, `s = 1`), whose entries are values of `χ`. `g` trivial on `K^{ab}` (`[t] = 1`): the ratio is fixed by every `g` fixing `ψ`'s values.
 
 *KNOWN* (Shimura's reciprocity law, here through the main theorem of complex multiplication of ComplexMultiplicationAndExplicitReciprocity §2.2; the algebraicity of the normalised lattice sums of an order of an imaginary quadratic field is Damerell 1970, §2, Theorem 1, p. 290). [FormalProof],
-`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsValueTiedOfIsToricElt.lean` (`GlobalTheory.ToricRational.RatioConj`).
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsValueTiedOfIsToricElt.lean` (`GlobalTheory.ToricRational.RatioConj`), derived
+there from `GlobalTheory.IndefiniteRowSideFullHecke.ToricSymbols.ToricRatioConjugates` by
+`GlobalTheory.ToricRatioBridge.ratioConj_of_toricRatioConjugates`,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RatioConjOfToricRatioConjugates.lean`. [FormalProof] states it for the
+fields of its hosts only (`Formalism.BasicNotions.Host`, `Formalism/LocalRingCardinality/DataHost.lean`: `K = ℚ(√−d)` with `d` a
+prime `≡ 7 (mod 16)`, `E` abelian over `ℚ`); the form for every `E ⊃ K` above is this roadmap's own.
 *Needs:* 8.19b (its steps (0)–(4)); ComplexMultiplicationAndExplicitReciprocity §2.2 (the normalized idele and torsion
 dictionary, the main theorem of complex multiplication in adelic form with the arithmetic Artin map, applied to the
 Weierstrass model `y² = 4x³ − g₂x − g₃` of `ℂ/𝒪_K`); the conjugation form of the `q`-expansion principle for families of
@@ -2308,7 +2348,7 @@ This roadmap holds one layer. It uses the earlier roadmaps of this family Froben
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-It owns the targets above: the class-mean Chowla–Selberg statement (8.5); the flat line, twisting by it, the definite step and the change of weight on unitary Shimura varieties (8.11–8.14); the degree inequality on curves in characteristic `ℓ`, the local facts on the `𝔩`-torsion and the antisymmetric polynomials vanishing on the walls (8.14a–8.14c); the models of the flag bundles with mixed integral structure, arithmetic proportionality for flag bundles and the average arithmetic volume theorem (8.15–8.17); the basis problem in the stable range, heights of images on deep covers, Poincaré series on the flag domain, Mackey averages of lattice indices, cusp forms on deep covers with their slopes, and the slope of the step lattices (8.17a–8.19); the theta lattices, their depth and their spanning (8.19a–8.19a‴); and the denominators of CM values, toric ratios and toric sums (8.19b–8.19d). The rest of Layer 8 of the chain, from the pairing integral to the division inequality, is owned by [GluedTargetAndDivisionInequality](../GluedTargetAndDivisionInequality/README.md).
+It owns the targets above: the class-mean Chowla–Selberg statement (8.5); the flat line, twisting by it, the definite step and the change of weight on unitary Shimura varieties (8.11–8.14); the degree inequality on curves in characteristic `ℓ`, the local facts on the `𝔩`-torsion and the antisymmetric polynomials vanishing on the walls (8.14a–8.14c); the models of the flag bundles with mixed integral structure, arithmetic proportionality for flag bundles and the average arithmetic volume theorem (8.15–8.17); the basis problem in the stable range, heights of images on deep covers, Poincaré series on the flag domain, Mackey averages of lattice indices, cusp forms on deep covers with their slopes, and the slope of the step lattices (8.17a–8.19); the theta lattices, their depth and their spanning (8.19a–8.19a‴), with the theta basis by translates over a base on which the level is invertible (8.19a′ (d)); and the denominators of CM values, toric ratios and toric sums (8.19b–8.19d). The rest of Layer 8 of the chain, from the pairing integral to the division inequality, is owned by [GluedTargetAndDivisionInequality](../GluedTargetAndDivisionInequality/README.md).
 
 It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the arithmetic Hilbert–Samuel inequality over a coordinate bundle to [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); Hodge–Tate lattices at every prime, the model on which they are locally free and the Hodge–Tate sequence modulo `ℓ^{R−1}` to [HodgeTateLatticesAndLubinTateLogarithms](../HodgeTateLatticesAndLubinTateLogarithms/README.md) (§§0.5a–0.18a, 2.4), over HodgeTateAndCanonicalSubgroups; Nadel vanishing for pairs, isolated non-klt centres, Kollár's two-point separation, Bertini for birational linear systems, division by sections with simple common zeros and the bound for sections to [MultiplierIdealsOfPairsAndPointSeparation](../MultiplierIdealsOfPairsAndPointSeparation/README.md) (§§9.10c–9.13b); growth bounds for the Hodge metric, logarithmic periods, conjugate data, the global normal projective models with their cubical line bundle and Kempf's descent to [ProjectiveModelsAndPeriodBoundsOnShimuraVarieties](../ProjectiveModelsAndPeriodBoundsOnShimuraVarieties/README.md) (§§6.2a–9.1), over [ShimuraCompactifications](../../ShimuraCompactifications/README.md) and [PELModuli](../../PELModuli/README.md); log-log singular metrics, arithmetic volumes, the reflection formula, the heights of flag varieties and the logarithmic bound for the maximal slope of a Lie algebra to [HeightsForLogSingularMetrics](../HeightsForLogSingularMetrics/README.md) (§§0.4, 4.3a, 4.3b, 14.1, 14.2, 16.1); the heights of cycles relative to a Hermitian vector bundle to [ChowFormsAndHeightsOfSubvarieties](../ChowFormsAndHeightsOfSubvarieties/README.md) (§§6.1, 6.2); good invariant metrics, Hirzebruch–Mumford proportionality and Poincaré series on products of the domains of `U(p, q)` to [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) (§§6.8a, 10.1, 10.2); singular Hermitian metrics and `L²` methods to [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md); the index of two lattices, unimodular lattices and short generators to [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) (§§4.0b, 4.2, 4.13); polynomial conditions and twist selection to [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) (§§3.22–3.26); and the data of the chain to [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), [RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md), [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md), [LocalGainOfThetaChains](../LocalGainOfThetaChains/README.md), [BesselPoincareSeriesAndGramBounds](../BesselPoincareSeriesAndGramBounds/README.md) and [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md), by the sections named at each use.
 
@@ -2345,7 +2385,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
 
-- §2.8 (the Faltings metric; 8.16); §2.9 (the Faltings height of an elliptic curve from its minimal discriminant and its periods; 8.5); §§4.6–4.8 (the `τ`-components of the Hodge line under an `𝒪_E`-action, their heights along `𝒪_E`-isogenies, the Hodge filtration of a CM abelian scheme over a `p`-adic ring; 8.15c).
+- §2.8 (the Faltings metric; 8.16); §2.9 (the Faltings height of an elliptic curve from its minimal discriminant and its periods; 8.5); §§4.6–4.8 (the `τ`-components of the Hodge line under an `𝒪_E`-action, their heights along `𝒪_E`-isogenies, the Hodge filtration of a CM abelian scheme over a `p`-adic ring; 8.15c); §5.7 (the good translated basis of `H⁰(A, L^{⊗r²})` over `ℚ̄`, `r` even: the case `f = [r]` of 8.19a′ (d), named there).
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeightsPartII
 
@@ -2403,7 +2443,15 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
-- A5.3–A5.4 (the line of theta functions of a principal polarisation; algebraic theta functions). Used in 8.19a, 8.19a′, 8.19a″.
+- A2.4 (for a relatively ample `L` on an abelian scheme, `π_*L` is locally free, of formation compatible with base change, of
+  fibre rank `h⁰(L_s) = χ(L_s)`, with vanishing higher direct images; `h⁰(B, f^*L) = deg(f)·h⁰(A, L)` for an isogeny `f`), A2.5
+  (polarisations; a principal one is an isomorphism). Used in 8.19a, 8.19a′ (d).
+- A3.6 (the theta group `G(L)` of a line bundle rigidified along zero, over any base: a central extension of `K(L)` by `𝔾_m`,
+  its commutator pairing, and the level subgroups over a finite locally free `H ⊂ K(L)` as the descents of `L` along
+  `A → A/H`; its action on sections is not stated there and is 8.19a′ (d)). Used in 8.19a′ (d).
+- A5.3–A5.4 (over `ℂ`: line bundles on `V/Λ` through factors of automorphy (Appell–Humbert), algebraicity of a complex torus
+  with a positive Riemann form, and `h⁰(L) = d₁⋯d_g` for a polarisation of type `(d₁, …, d_g)`, so that a principal
+  polarisation has a single theta function up to scalars). Used in 8.19a.
 - A3.2 (an abelian variety of dimension `g` over an algebraically closed field `k` has `n^{2g}` points of order dividing
   `n`, for `n` invertible in `k`). Used by [FormalProof] for 8.19 (b), (c).
 - A4.3 (the first de Rham cohomology of an abelian scheme: locally free of rank `2g`, compatible with base change, with
@@ -2569,7 +2617,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The targets marked *NEW* specify its mathematics.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths cited from it are relative to its directory `src/` (`src/Development/…`, `src/Formalism/…`). The targets marked *NEW* specify its mathematics.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - G. Shimura; P. Deligne; J. Milne, *Canonical models of (mixed) Shimura varieties and automorphic vector bundles* (1990); M. Harris, *Arithmetic vector bundles and automorphic forms on Shimura varieties I*, Invent. Math. 82 (1985). N. Katz, *p-adic interpolation of real analytic Eisenstein series*, Ann. of Math. 104 (1976); D. Blasius: 8.19b.
 - J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. Graev; I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975); I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977); A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981); D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups* (2011): 8.19.
@@ -2577,5 +2625,6 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 - J.-B. Bost, *Périodes et isogénies des variétés abéliennes sur les corps de nombres*, Séminaire Bourbaki 795 (1996); É. Gaudron and G. Rémond (2014): 8.15, 8.16. D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977): 8.15, 8.18. G. Faltings and C.-L. Chai, *Degeneration of abelian varieties* (1990) (the minimal compactification, 8.14); K.-W. Lan, *Arithmetic compactifications of PEL-type Shimura varieties* (2013): 8.11, 8.14, 8.15, the setting of 8.11–8.19.
 - H. Gillet and C. Soulé, *An arithmetic Riemann–Roch theorem*, Invent. Math. 110 (1992); A. Abbes and T. Bouche, *Théorème de Hilbert–Samuel arithmétique*, Ann. Inst. Fourier 45 (1995); S. Zhang, *Positive line bundles on arithmetic varieties*, J. Amer. Math. Soc. 8 (1995): 8.15–8.18. J.-B. Bost, H. Gillet and C. Soulé, *Heights of projective varieties and positive Green forms*, J. Amer. Math. Soc. 7 (1994): 8.18. A. Moriwaki, *Continuity of volumes on arithmetic varieties*, J. Algebraic Geom. 18 (2009); X. Yuan, *Big line bundles over arithmetic varieties*, Invent. Math. 173 (2008): 8.15, 8.17.
 - L. Fargues (2011), the Hodge–Tate map of `p`-divisible groups over `𝒪_C`: 8.15. M. Raynaud, *Schémas en groupes de type (p, …, p)* (1974): 8.15. W. Schmid, *Variation of Hodge structure: the singularities of the period mapping* (1973), the nilpotent orbit theorem: 8.15. P. Scholze and J. Weinstein (moduli of `p`-divisible groups); J. Anschütz and A.-C. Le Bras, *Prismatic Dieudonné theory*.
+- D. Mumford, *On the equations defining abelian varieties. I*, Invent. Math. 1 (1966), pp. 287–354 (§1: Proposition 1, p. 291; Proposition 3 and its proof, pp. 295–296; Theorem 2, p. 297): 8.19a′ (d).
 - U. Angehrn and Y.-T. Siu (1995): 8.14, 8.18c; J. Kollár, *Singularities of pairs* (1997) (the two-point separation for klt pairs): 8.14, 8.18c; A. M. Nadel (1990); G. Kempf (descent of linearised bundles); R. Dedekind and G. Frobenius (group determinant): 8.14. M. Koecher, *Zur Theorie der Modulformen n-ten Grades* I, II (1954–1955): Koecher's principle, 8.11–8.19, 8.19a. Y. Kawamata; E. Viehweg: 8.18. L. Hörmander (1965); H. Skoda (1972); G. Tian (1990): 8.18, 8.19a. H. Donnelly and C. Fefferman (1983): 8.18a. L. Moret-Bailly (key formula); M. Kneser (strong approximation): 8.16.
 - G. Shimura; R. Damerell, *L-functions of elliptic curves with complex multiplication I*, Acta Arith. 17 (1970), pp. 287–301 (§2, Theorem 1, p. 290; §6, p. 300); E. Hecke: 8.19b–8.19d. C. L. Siegel; H. Klingen: 8.19b. R. Weissauer; S. Böcherer (the basis problem by the doubling method): 8.17a, 8.19a. Published relatives of 8.15–8.17: K. Köhler; J. Burgos Gil, J. Kramer and U. Kühn; P. Hörmann; J. Bruinier, B. Howard, S. Kudla, M. Rapoport and T. Yang.
