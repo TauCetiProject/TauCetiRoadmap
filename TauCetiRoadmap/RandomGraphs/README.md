@@ -630,7 +630,8 @@ diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
 The two endpoints are explicit computable maps on codes of formulas, the construction targets
-`radoQE` and `decideRado`:
+`radoQE` and `decideRado` (proposed names; `Suggested.lean` states their existence consequences,
+not these declarations):
 
 - **Computable quantifier elimination**, `radoQE : ℕ → ℕ → ℕ`: `Computable₂ radoQE`, and for every
   `m` and every formula `φ` over `Fin m`, `radoQE m (boundedCode φ)` is the code of a
@@ -640,7 +641,8 @@ The two endpoints are explicit computable maps on codes of formulas, the constru
   `decideRado (boundedCode φ) = true` exactly when the Rado graph satisfies `φ`.
 
 ```lean
--- Construction targets: explicit executable definitions, by pattern elimination (below).
+-- Proposed signatures, not declared in Suggested.lean: the construction targets, explicit
+-- executable definitions by pattern elimination (below), and their contracts.
 def radoQE : ℕ → ℕ → ℕ := …
 def decideRado : ℕ → Bool := …
 
