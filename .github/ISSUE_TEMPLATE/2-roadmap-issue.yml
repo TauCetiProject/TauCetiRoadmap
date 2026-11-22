@@ -76,6 +76,7 @@ body:
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
+        - BianchiModularForms
         - BordismFormalGroups
         - BorelEquivalenceRelations
         - BorelRegulators
@@ -114,6 +115,7 @@ body:
         - ComplexKahlerGeometry
         - ComplexManifolds
         - ComplexMultiplicationAndExplicitReciprocity
+        - ComplexMultiplicationAndExplicitReciprocityPartII
         - ComplexTori
         - ComputabilityTheory
         - ComputationalNumberTheory
@@ -149,6 +151,7 @@ body:
         - DiracScatteringAndNonlinearFourierTransform
         - DirectSummandsAndBigCohenMacaulay
         - DirichletPadicLFunctions
+        - DynamicalDegreesOfRationalMaps
         - DysonBrownianMotion
         - ECM
         - EffectiveBoundsPartII
@@ -209,6 +212,7 @@ body:
         - FuchsianOrbifolds
         - FuchsianOrbifoldsPartII
         - FukayaTheory
+        - FunctionFieldArithmetic
         - GL2AutomorphicRepresentationsAndTransfer
         - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
@@ -332,6 +336,7 @@ body:
         - NoncommutativeIntegration
         - NoncompactQuantumSymmetry
         - NoncongruenceModularForms
+        - NonordinaryCMSpecialValues
         - NumberFieldEnumeration
         - OcneanuRigidity
         - OddOrderTheorem
