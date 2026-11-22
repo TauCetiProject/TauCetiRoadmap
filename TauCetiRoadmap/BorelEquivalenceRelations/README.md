@@ -60,8 +60,9 @@ Each target of Layers 0–5 and each worked example is of one of three kinds.
    applies verbatim (any discrete alphabet in `PiNat.isOpenEmbedding_prependWord`, countable
    separation in `TauCeti.mk_le_continuum_of_countablySeparated`, complete metrizability in
    `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn`, Hausdorff Borel spaces in
-   `SetRel.exists_measurableSet_isIndependent_superset`). This is every declaration of the table
-   above that is not listed under 2.
+   `SetRel.exists_measurableSet_isIndependent_superset`). This is every declaration of the Tau
+   Ceti table under [Exact supplier contracts](#exact-supplier-contracts) that is not listed
+   under 2.
 2. *Adapters.* The Tau Ceti formulation differs from the layer's, and a consumer of the layer's
    form needs the short bridge given here.
 
@@ -816,7 +817,7 @@ is the proof map of the Silver and G₀ formalization.
 
 ## Scope and ownership
 
-Every layer below is required.
+Every layer above is required.
 
 | Layer | Covers | Consumes | Example (compiles without later layers) |
 | --- | --- | --- | --- |
@@ -862,7 +863,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib graphs, germs and cardinals | `SimpleGraph`, `SimpleGraph.fromRel`, `SimpleGraph.Coloring`, `SimpleGraph.Hom`, `SimpleGraph.IsIndepSet`; `Filter.germSetoid`, `Filter.Germ`; `Cardinal.continuum`, `Cardinal.mk_le_aleph0_iff`, `Cardinal.mk_real` |
 
 **From Tau Ceti**, at the pinned revision `2fd255d9`. These cover every layer of the build order
-below except the items of kind 3 under [How to read the build](#how-to-read-the-build); this
+above except the items of kind 3 under [How to read the build](#how-to-read-the-build); this
 roadmap consumes them and does not restate them. Where a Tau Ceti statement is more general than
 the layer's description, the row says how.
 
@@ -910,7 +911,7 @@ infinite products; meagreness of countable sets; standard Borel Gδ subspaces; A
 theorem; analytic sets under binary intersection, products, off-diagonals and saturation; the
 Borel graph theorem; the perfect set theorem beyond closed sets; Kuratowski–Ulam; Mycielski; and
 the remaining objects of every layer. Tau Ceti has all of this at the pin except the items of
-kind 3 below.
+kind 3 under [How to read the build](#how-to-read-the-build).
 
 ## References
 
