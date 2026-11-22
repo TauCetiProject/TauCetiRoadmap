@@ -1546,6 +1546,19 @@ Prove:
      of `Q`, over `τ = τ(i, ζ)`, the expansion of an element of `N_s(T)` is a Laurent series `Σ_kt^kd_k` (bounded below) with
      `d_k ∈ Fil_τ^{−k}`, and these expansions span `Fil⁰_τ` over `E[[t]]`. Consequently an element of `N_s(T)[1/Q]` whose expansion at
      every zero of `Q` lies in `Fil⁰_s(V)` lies in `N_s(T)`;
+   - (E)_s (*expansions at the `p`-power roots of unity*) Let `i` be an embedding of `K₀` into `E`, `σ` the Frobenius of `K₀`,
+     and `ζ ∈ E` a root of unity of `p`-power order (every order, `ζ = 1` included). *Expansion at `(i, ζ)`* is the `O`-algebra
+     homomorphism `A → E[[u]]` that is zero on the factors other than `e_iA` and sends `π` to `ζ·exp(u) − 1` on `e_iA`; so `φ(a)`
+     has at `(i, ζ)` the expansion of `a` at `(i∘σ, ζ^p)` with `u` replaced by `p·u`, and `g(a)`, `g ∈ Γ_K`, the expansion of `a`
+     at `(i, ζ^{χ(g)})` with `u` replaced by `χ(g)·u`. Every `x ∈ N_s(T)` has at every `(i, ζ)` an expansion `Σ_{k≥k₀} u^k d_k(x)`,
+     with `d_k(x)` in the factor of `D_cris(V)` at `i`, additive in `x` and functorial in `T`, such that: (E1) the expansion of
+     `a·x`, `a ∈ A`, is the product of the expansions of `a` and of `x`; (E2) at `ζ = 1` the constant term `d_0(x)` is the image
+     of `e_ix` under `N_s(T) → N_s(T)/πN_s(T) = 𝔐(T)(W(k), (p)) → D_cris(V)` (PrismaticCohomologyPartIII §§7.10, 7.14 (1)); (E3)
+     if `Q^mφ(x) ∈ N_s(T)`, its expansion at `(i, ζ)` is the expansion of `Q^m` at `(i, ζ)` times `Σ_k (p·u)^k φ(d′_k)`, where
+     `Σ_k u^k d′_k` is the expansion of `x` at `(i∘σ, ζ^p)` and `φ` is the Frobenius of `D_cris(V)`, which carries the factor at
+     `i∘σ` to the factor at `i`; (E4) for `g ∈ Γ_K` the expansion of `g(x)` at `(i, ζ)` is `Σ_k χ(g)^k u^k d″_k`, where
+     `Σ_k u^k d″_k` is the expansion of `x` at `(i, ζ^{χ(g)})`; (E5) at a zero `(i, ζ)` of `Q`, with `u = t/p^{s−1}`, it is the
+     expansion of the bullet *expansions*;
    - (S)_s `N_s(T)` is `p`-saturated in `D_s(T)`; for an exact sequence `0 → T₀ → T₁ → T₂ → 0`, `N_s(T₀) = N_s(T₁) ∩ D_s(T₀)` and the
      cokernel of `N_s(T₁) → N_s(T₂)` has finite length;
    - (Sen)_s for `y ≥ 1`, `Q^{−y}N_s(T)/N_s(T)` is `O`-free, and `γ` acts on `(Q^{−y}N_s(T)/N_s(T))[1/p]` semisimply, with eigenvalues the
@@ -1562,13 +1575,23 @@ Prove:
 
    The prism, the map, (a), `p`-saturation in (S)_s, (Sen)_s given (H)_s, the first half of (Herr)_s, (R) and the identification
    at `s = 1` have their proofs in the route; the clause on poles of (Herr)_s has the route of 4.10c(2), with the same two
-   steps not given ([FormalProof] `GlobalTheory.T.herrCocycle_poles_frobeniusQ_crystalline`). (U)_s, (H)_s, the exactness
+   steps not given ([FormalProof] `GlobalTheory.T.herrCocycle_poles_frobeniusQ_crystalline`). (E)_s is a statement of
+   [FormalProof], with proof not given here. (U)_s, (H)_s, the exactness
    clauses of (S)_s and the converse half of (Herr)_s are statements of [FormalProof], with proofs not given here:
    `GlobalTheory.T.wachModule_uniqueness_characterisation`; `GlobalTheory.T.wachLattice_heights_from_hodgeJumps` with
    `GlobalTheory.T.wach_lattice_expansion_at_low_level_points`; `GlobalTheory.T.wachModule_saturated_exactness_crystalline`;
    `GlobalTheory.T.wachIntegralComplex_cocycle_class_finite` (the clauses `p10`, `p5` with `p4`, `wachShortExact` and `p2c`
    of `Formalism.MainNotions.DeltaInvariantLattices`); [FormalProof] states and proves them for every prime and every
-   `(K, s)`, for every assignment `T ↦ N′(T)` with the properties (a) and the comparison of (H)_s;
+   `(K, s)`, for every assignment `T ↦ N′(T)` given with: the properties (a), with "finitely generated, and projective over
+   `ℤ_p[[π]]`" in place of "free of rank `rk_O T` over `A`" and without the clause on `X`; an étale realisation as in the bullet
+   *the lattice* (an injective `φ`- and `G_K`-equivariant functorial map of its étale module into `W(C^♭) ⊗_{ℤ_p} T` whose image
+   spans, with the cocycle formulas for the classes of Herr cocycles); and expansions with (E1)–(E5), where in (E2) any additive
+   `O`-linear functorial map `N′(T) → D_cris(V)` that vanishes on `πN′(T)` and carries `e_iN′(T)` into the factor at `i` takes
+   the place of the reduction map. (E)_s and the hypotheses on the assignment:
+   `Formalism/SharpRestriction/LevelLetterCocycles/DataNLoc.lean` (`Formalism.BasicNotions.LocWach`,
+   `Formalism.BasicNotions.CmpTie`, `Formalism.BasicNotions.LocCmpT`); the existence of such an assignment from the supplier's
+   statement: `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsWachFunctorComparisonOfBhattScholzeStatement.lean`
+   (`GlobalTheory.T.exists_wachFunctor_comparison_of_bhattScholze`);
 1. (*cyclotomic bases*) if `K = K₀(μ_{p^s})` (`s ≥ 1`, and `s ≥ 2` if `p = 2`), then `p^{e_s}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with
    `e_s := 2(2Hs + v_p((2H)!)) + Σ_{j∈J}(s + v_p(j)) + Ms + v_p(M!)`, `J` the set of WachLatticesOverTheCyclotomicTower §6.10(4) for
    the weights of `T₁` (`J := ({w + k : w a weight of T₁ at some embedding, 1 ≤ k ≤ M} ∖ {0}) ∪ {1, …, M}`); as round bounds,
@@ -1687,7 +1710,7 @@ from twenty-nine statements (twenty-seven of them for the third) in
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalLiftingTheoremAOfBlochKatoTateDualityEulerCStatement.lean`
 (`GlobalTheory.T.localLifting_of_blochKato_tateDuality_eulerChar`). *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; 4.9a,
 4.10c, 4.10d; PhiGammaModulesAndIwasawaCohomology §§1.0, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4(8), 6.10; PrismaticCohomology §§0.61, 0.77;
-PrismaticCohomologyPartIII §§7.12, 7.13, 7.22; PadicPeriodRings §§4.1–4.3 (`B_cris`); ArithmeticGaloisDuality §R02.2.3;
+PrismaticCohomologyPartIII §§7.10, 7.12, 7.13, 7.14, 7.22; PadicPeriodRings §§4.1–4.3 (`B_cris`); ArithmeticGaloisDuality §R02.2.3;
 ClassFieldTheory Layer 5; PadicHodgeRegulators §1.1.
 
 **Checks.**
@@ -1840,7 +1863,7 @@ Over `ℚ_p`, a crystalline extension of `E(χ_cyc)` by `E` splits: its class li
 
 ### Dependencies
 
-Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §§1.1, 1.4, 1.8 (4.9c, 4.10e) and §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10e, 4.10f); PrismaticCohomologyPartIII §§7.12, 7.13 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.1.3, R02.2.3, R02.4.2 and D7.7.1; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
+Layer 3 (the Selmer data of 3.22, in 4.9b); AnabelianGeometryAndNonabelianChabauty §4.6 and PadicHodgeTheory §3.1 (4.9a); PadicHodgeRegulators §§1.1, 1.4, 1.8 (4.9c, 4.10e) and §1.5 (4.9b, 4.10g); SelmerIwasawaCohomology §§2.6, 2.17, 4.8 (in a Check of 4.10a), 4.9 and 4.10; PhiGammaModulesAndIwasawaCohomology §§1.0, 3.4, 3.6 and 6.0; WachLatticesOverTheCyclotomicTower §§6.4–6.10; PadicPeriodRings §§1.3–1.5 (4.9c, 4.9d) and PadicPeriodRings §§4.1–4.3 (4.10c, 4.10e, 4.10f); PrismaticCohomologyPartIII §§7.10, 7.12, 7.13, 7.14 and 7.22 and PrismaticCohomology §§0.61, 0.76 and 0.77 (4.10e (0), 4.10f); ArithmeticGaloisDuality §§R02.1.3, R02.2.3, R02.4.2 and D7.7.1; ClassFieldTheory Layer 5; ProfiniteCohomology §5.4. Construction order: 4.9c and 4.9d use, in their routes, the lattices at level `s` of 4.10e (0), a later section of this layer; 4.10e (0) and what it rests on (4.9a and 4.10c (2)) use neither 4.9c nor 4.9d, so 4.10e (0) is built before them and there is no cycle.
 
 ## Downstream consumers
 
@@ -1891,7 +1914,7 @@ In this family, CongruenceModulesOfThetaLifts uses twist selection, the balance 
 
 ### From TauCetiRoadmap.PrismaticCohomologyPartIII
 
-§7.12: the Breuil–Kisin prism and the prism `(A_inf, ker θ̃)` are objects of the prismatic site of `O_K`, with the `W(k)`-algebra structure of `A_inf` compatible with `θ̃` (the Witt-functorial inclusion followed by the Frobenius). §7.13 (2): for the value `M` of a prismatic `F`-crystal on `A_inf`, with étale realisation `T`, `M[1/μ] ≅ T ⊗_{ℤ_p} A_inf[1/μ]` and `M ⊗ B_dR^+ ≅ T ⊗ B_dR^+`. §7.22: the étale realisation is an equivalence from prismatic `F`-crystals on `O_K` (in vector bundles) to `ℤ_p`-lattices in crystalline representations of `G_K`, with quasi-inverse `T ↦ 𝔐(T)`, for every prime `p`. Used in 4.10e (0) (the value of `𝔐(T)` on the cyclotomic prism `(W(k)[[π]], (φ^{s−1}(q)))` over `O_K`, transported to `A_inf` along `ι_s`) and 4.10f (its value on the Breuil–Kisin prism of a tame extension).
+§7.12: the Breuil–Kisin prism and the prism `(A_inf, ker θ̃)` are objects of the prismatic site of `O_K`, with the `W(k)`-algebra structure of `A_inf` compatible with `θ̃` (the Witt-functorial inclusion followed by the Frobenius). §7.13 (2): for the value `M` of a prismatic `F`-crystal on `A_inf`, with étale realisation `T`, `M[1/μ] ≅ T ⊗_{ℤ_p} A_inf[1/μ]` and `M ⊗ B_dR^+ ≅ T ⊗ B_dR^+`. §§7.10, 7.14 (1): the value of the crystal on the crystalline prism `(W(k), (p))` is a lattice in `D_cris(V)`, compatibly with Frobenius (4.10e (0), (E2)). §7.22: the étale realisation is an equivalence from prismatic `F`-crystals on `O_K` (in vector bundles) to `ℤ_p`-lattices in crystalline representations of `G_K`, with quasi-inverse `T ↦ 𝔐(T)`, for every prime `p`. Used in 4.10e (0) (the value of `𝔐(T)` on the cyclotomic prism `(W(k)[[π]], (φ^{s−1}(q)))` over `O_K`, transported to `A_inf` along `ι_s`) and 4.10f (its value on the Breuil–Kisin prism of a tame extension).
 
 ### From TauCetiRoadmap.PrismaticCohomology
 
@@ -1956,5 +1979,5 @@ Layers 10 and 14: every conjugacy class of a finite Galois quotient of `G_F` is 
 - **Berger 2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Wach lattices (4.10c).
 - **Herr 1998** — Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: the Herr complex (4.10c).
 - **BS23-FCRYS** — Bhargav Bhatt and Peter Scholze, [Prismatic F-crystals and crystalline Galois representations](https://arxiv.org/abs/2106.14735v2), arXiv:2106.14735v2: Theorem 1.2 (Theorem 5.6 in the body; the equivalence, for every prime `p`), through PrismaticCohomologyPartIII §7.22, in 4.10e (0) (evaluation on the cyclotomic prism; no statement on Breuil–Kisin prisms is used there) and 4.10f (evaluation on a Breuil–Kisin prism).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, which carries the submitted Lean source unmodified, with a Comparator setup (the code is also distributed as an archive in fourteen parts, footnote 1 of [Announcement]). The declarations of [FormalProof] named in this README are those of the `src/` tree of that repository at commit `8c90877ceaa694974526e0aab9aaaf6ea0f5099e`. It is the source of the presentation of Selmer functors over group rings with a universal cocycle, the residual determinant bounds, the determinant bound under a congruence `T ≡ T ⊗ χ_cyc^t` (a dual class by counting and the determinant after adding a place), and twist selection (3.22–3.26); of the bound for the classes cut out by a character and the killing exponent for invariants modulo a lattice, with their forms over abelian bases (4.9c, 4.9d); of the local theorem beyond the Fontaine–Laffaille range (4.10a); of the lifting theorems with loss along surjections of crystalline lattices and the lattices at a finite level of the cyclotomic tower (4.10c–4.10f); and of the pushouts of finite classes under a lifting exponent (4.10g).
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, which carries the submitted Lean source unmodified, with a Comparator setup (the code is also distributed as an archive in fourteen parts, footnote 1 of [Announcement]). The files and declarations of [FormalProof] named in this README are those of the first commit of that repository, the source as published, with the file paths relative to its directory `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. It is the source of the presentation of Selmer functors over group rings with a universal cocycle, the residual determinant bounds, the determinant bound under a congruence `T ≡ T ⊗ χ_cyc^t` (a dual class by counting and the determinant after adding a place), and twist selection (3.22–3.26); of the bound for the classes cut out by a character and the killing exponent for invariants modulo a lattice, with their forms over abelian bases (4.9c, 4.9d); of the local theorem beyond the Fontaine–Laffaille range (4.10a); of the lifting theorems with loss along surjections of crystalline lattices and the lattices at a finite level of the cyclotomic tower (4.10c–4.10f); and of the pushouts of finite classes under a lifting exponent (4.10g).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
