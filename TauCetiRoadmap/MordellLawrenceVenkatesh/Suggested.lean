@@ -1,0 +1,68 @@
+import Mathlib
+
+/-!
+# p-adic period maps after Lawrence and Venkatesh: target signatures
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap.
+
+The statement is the semilinear centralizer dimension bound (§0.4, LV20 Lemma 2.1).
+
+The other headline statements need interfaces absent from Mathlib `1b1ccf4` and Tau Ceti
+`2fd255d`. Faltings's representation finiteness and friendly-place Hodge-weight identities
+(§§1.2, 1.11, 1.13, 1.15) need continuous arithmetic representations with ramification,
+purity, integral Frobenius polynomials and de Rham realizations. Frobenius-compatible
+Gauss–Manin transport (§2.11), period-image density and finite preimages (§§3.18–3.19),
+and the residue-disk and abelian-by-finite finiteness theorems (§§4.4–4.5, 7.9) need
+polarized abelian schemes, their de Rham bundles, crystalline comparison and period maps.
+The Hurwitz and Kodaira–Parshin constructions (§§8.7, 8.13), cover normal form (§9.11),
+and point-pushing and Kodaira–Parshin monodromy theorems (§§10.9–10.10) need geometric
+étale fundamental groups with peripheral inertia, relative Pryms, oriented surfaces,
+mapping class groups and their lifted actions on primitive homology. The native fundamental
+group and singular homology do not supply those actions. The symplectic generation and
+Goursat results (§§0.21, 0.26) also need the algebraic subgroup and Zariski-closure interface
+on arbitrary symplectic spaces. These results remain specified in the README.
+-/
+
+namespace TauCetiRoadmap.MordellLawrenceVenkatesh
+
+/-! ## Layer 0: Semilinear centralizers, the affine group and symplectic generation -/
+
+section SemilinearCentralizer
+
+variable (F : Type*) {E V : Type*} [Field F] [Field E] [Algebra F E]
+  [AddCommGroup V] [Module E V] [Module F V] [IsScalarTower F E V]
+
+/-- The centralizer `Z(φ)` of a `σ`-semilinear map `φ : V → V`: the `E`-linear endomorphisms of `V`
+commuting with `φ`, as an `F`-subalgebra of `End_E(V)` for a subfield `F` of `E` fixed by `σ`.
+README 0.3. -/
+def semilinearCentralizer (σ : E →+* E) (hσ : ∀ a : F, σ (algebraMap F E a) = algebraMap F E a)
+    (φ : V →ₛₗ[σ] V) : Subalgebra F (Module.End E V) where
+  carrier := {f | ∀ v, f (φ v) = φ (f v)}
+  mul_mem' := by
+    intro f g hf hg v
+    change f (g (φ v)) = φ (f (g v))
+    rw [hg v, hf]
+  add_mem' := by
+    intro f g hf hg v
+    change f (φ v) + g (φ v) = φ (f v + g v)
+    rw [hf v, hg v, map_add]
+  algebraMap_mem' := by
+    intro a v
+    simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, one_apply_eq_self]
+    rw [← IsScalarTower.algebraMap_smul E a v, φ.map_smulₛₗ, hσ,
+      IsScalarTower.algebraMap_smul]
+
+/-- Dimension of the centralizer (Lawrence–Venkatesh, Lemma 2.1): if `σ` has finite order with
+fixed field exactly `F` and `φ` is bijective, then `dim_F Z(φ) ≤ (dim_E V)²`. README 0.4. -/
+theorem finrank_semilinearCentralizer_le [FiniteDimensional E V] (σ : E →+* E)
+    (hσ : ∀ a : F, σ (algebraMap F E a) = algebraMap F E a)
+    (hfix : ∀ x : E, σ x = x → x ∈ (algebraMap F E).range) (e : ℕ) (he : 0 < e)
+    (hord : ∀ x : E, (σ ^ e) x = x) (φ : V →ₛₗ[σ] V) (hφ : Function.Bijective φ) :
+    Module.finrank F (semilinearCentralizer F σ hσ φ) ≤ Module.finrank E V ^ 2 := by
+  sorry
+
+end SemilinearCentralizer
+
+end TauCetiRoadmap.MordellLawrenceVenkatesh
