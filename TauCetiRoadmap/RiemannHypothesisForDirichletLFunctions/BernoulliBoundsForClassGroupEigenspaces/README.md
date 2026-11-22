@@ -444,7 +444,7 @@ IntegralIwasawaTheory §§0.1–0.3, 10.5; SchemeKTheoryOperations §6.7; Chebot
 
 (a) For every `m ≥ 1` there is a positive integer `R_m`, depending only on `m`, such that for every ring `R` the kernel of the
 Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is killed by `R_m` (Arlettaz 1991, Theorem 1.5). For a ring whose K-groups are
-finitely generated, ArithmeticKTheoryPartII §8.3 shows that no odd prime `ℓ ≥ (m + 3)/2` divides the order of this kernel; (a)
+finitely generated, ArithmeticKTheoryPartII §8.3 shows that no odd prime `ℓ ≥ (m + 3)/2` divides the order of this kernel (a comparison, not an input); (a)
 also covers the small primes, for every ring. (b) There is an absolute `C` such that for every number
 field `L` and `m ≥ 2`, the part of `K_m(𝒪_L)_tors` prime to `R_m` has order `≤ exp((2|d_L|)^{(mn)^C})`; for even `m` the same holds for the
 `ℓ`-part for every odd `ℓ`, and for `ℓ = 2` when `L` is totally imaginary, with `#K_m(𝒪_L){ℓ} ≤ #(K_m(𝒪_L)/ℓ)^{v_ℓ(R_m)}·#H_m(GL(𝒪_L); ℤ)_tors{ℓ}`
@@ -711,8 +711,9 @@ continuous integral two-dimensional representation of `G_ℚ`, unramified outsid
 `(det W)² = 1` and `det W = −1` at complex conjugations, irreducible on the common kernel of the cyclotomic character and of
 `det W`, upper triangular on a decomposition group at `p` with first diagonal character equal to `χ_p^e` up to finite order on
 inertia and different from `χ_p` on the decomposition group; assume that for some character `χ` of conductor dividing `p` the
-twist `W ⊗ χ_p^{−e}(det W)⁻¹χ` is attached to a newform of weight `2e + 1`, of level prime to `p` and ordinary at `p`, and has
-quotient character trivial on inertia at `p`. Then there are a continuous integral cocycle `y` of `G_ℚ` in `W`, a coboundary on
+twist `W ⊗ χ_p^{−e}(det W)⁻¹χ` is attached to a newform of weight `2e + 1` (at almost every prime `q`, the inverse of an arithmetic
+Frobenius at `q` has characteristic polynomial `X² − a_q X + ε(q)q^{2e}`, `ε` the nebentypus), of level prime to `p` and ordinary at `p`, and has quotient character
+`χ_p^{−2e}` on inertia at `p`. Then there are a continuous integral cocycle `y` of `G_ℚ` in `W`, a coboundary on
 an inertia group at every prime other than `p` and not a coboundary in the quotient line on the decomposition group at `p`, and
 a finite set of primes outside which, for every `n ≥ 1`, every prime `w` with `p^n ∣ w − 1` and every character of `G_ℚ` of order
 `p^n` trivial on `G_{ℚ(μ_w)}`, there is a continuous integral cocycle over the field of that character, a coboundary on inertia
@@ -724,8 +725,11 @@ with `P ≡ u·det(W(Frob_w) − 1)` modulo `p^n`, `u` a unit
 a tower of modular curves (`AV/ModularityArgument/KatoQuadraticCharacters/UnramifiedZeta/ZetaUr.lean`
 (`UpperTheory.V.Z.Kato.Final.zetaUr`),
 `Development/AutomorphicArithmetic/Foundations/IwahoriReduction/NormProducts/AdmissibleWeightedDataMonoCoef.lean`
-(`UpperTheory.Kd.K4.kato_eulerSystem_integrality`)), and deduces the vanishing from it and from its statements of Galois
-cohomology (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`
+(`UpperTheory.Kd.K4.kato_eulerSystem_integrality`)), and deduces the vanishing from it and from statements of published
+theorems of Galois cohomology (Poitou–Tate and local Tate duality, the unramified classes of an unramified module and of its
+dual being each other's annihilators at primes not above `p`, finiteness and the Euler characteristic formulas, the Greenberg–Wiles formula, the
+dimension and duality of the Bloch–Kato local conditions), which that deduction takes as a
+hypothesis (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`
 (`GlobalTheory.Ord2.vanishOrdL_of_zetaUr`), with
 `Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Brauer.lean` (`GlobalTheory.Mem.LiteralAutomorphy.LitCoh`)).
 The statement for every abelian `K`, every `k` and `r`
@@ -871,4 +875,4 @@ Layer 4: Dirichlet L-functions with their completed functions and functional equ
 - C. Soulé, A bound for the torsion in the K-theory of algebraic integers, Documenta Math. Extra Volume Kato, 2003, 761–788: bounds for the torsion of `K_m(𝒪_L)` up to small torsion, through the homology of `GL_N(𝒪_L)` and Ash's well-rounded retract, whose bound for `log card` is of size at least `exp(α|d_L|^{1/2})` (Proposition 4, as BFEH 2014, pp. 1–2, describe it; 9.4, 9.8).
 - BFEH 2014: E. Bayer-Fluckiger, V. Emery, J. Houriet, Hermitian lattices and bounds in K-theory of algebraic integers, arXiv:1406.5953, 2014 (numbering and pages of its third version, 2015): the bound for `K_m(𝒪_L)_tors`, `L ≠ ℚ`, up to the elements of order at most `max(n + 1, 2m + 2)`, with `log card` at most `(mn)^α|d_L|^β` (Theorem 1.1 and Corollary 1.2, pp. 1–2), through the homology of `GL_{2m+1}(𝒪_L)` (Corollary 2.3 and §3, pp. 4–6) and Ash's well-rounded retract (Theorem 2.2, p. 4), the alternative to the nerve of 9.3 (9.3, 9.4, 9.8).
 - D. Arlettaz, The Hurewicz homomorphism in algebraic K-theory, J. Pure Appl. Algebra 71, 1991, 1–12: the kernel of the Hurewicz map is killed by an integer depending only on the degree (Theorem 1.5; 9.8 (a)).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions that the family index ([RiemannHypothesisForDirichletLFunctions](../README.md)) names, with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, cited at commit `ab0b7522a5ccc9b8530edf475af5088f8f6464aa`; the file paths and declaration names given at the targets refer to that commit. It is the source of the statements of this roadmap that no work in this list states: Layer 6 for `ℓ` odd or `F` totally imaginary (in the form of lengths), 9.3–9.5 for totally complex number fields, 9.6, 9.7, the forms of 9.2 and 9.4 that discard no prime, Layer 10, and the case `p = 2` of 11.1; it also proves the instance of 14.1 that UniformWildKernelBounds uses. The statements at `ℓ = 2` with real places and the K-theoretic clauses of Layer 6, the extension of 9.3–9.5 to fields with a real place, the corestriction form of 9.7, 9.8 (b), 11.1 for odd `p`, 12.1, 13.1 and the general form of 14.1 are this roadmap's, by the routes given. What a target states beyond the form recorded there is this roadmap's.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions that the family index ([RiemannHypothesisForDirichletLFunctions](../README.md)) names, with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, cited at its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, which the family index names; the file paths and declaration names given at the targets refer to that commit. It is the source of the statements of this roadmap that no work in this list states: Layer 6 for `ℓ` odd or `F` totally imaginary (in the form of lengths), 9.3–9.5 for totally complex number fields, 9.6, 9.7, the forms of 9.2 and 9.4 that discard no prime, Layer 10, and the case `p = 2` of 11.1; it also proves the instance of 14.1 that UniformWildKernelBounds uses. The statements at `ℓ = 2` with real places and the K-theoretic clauses of Layer 6, the extension of 9.3–9.5 to fields with a real place, the corestriction form of 9.7, 9.8 (b), 11.1 for odd `p`, 12.1, 13.1 and the general form of 14.1 are this roadmap's, by the routes given. What a target states beyond the form recorded there is this roadmap's.
