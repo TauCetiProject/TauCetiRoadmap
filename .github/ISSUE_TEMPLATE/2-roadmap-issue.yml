@@ -427,6 +427,7 @@ body:
         - SmallRamificationAndAbelianVarietyBaseCasesPartII
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
+        - SmoothRepresentationsOfLocalGroupsPartII
         - SobolevDifferentialForms
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
