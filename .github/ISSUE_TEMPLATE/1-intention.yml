@@ -49,6 +49,7 @@ body:
         - AnalyticStableMaps
         - AnalyticToricGeometryPartII
         - ArakelovGeometryAndAbelianHeights
+        - ArakelovGeometryAndAbelianHeightsPartII
         - ArcTopologyAndDescent
         - ArithmeticDirichletSeriesPartII
         - ArithmeticDynamics
@@ -192,6 +193,7 @@ body:
         - ExponentialCone
         - FactorRigidity
         - FaltingsFinitenessAndIsogenyTheorems
+        - FaltingsFinitenessAndIsogenyTheoremsPartII
         - FarguesFontaineDiamonds
         - FinancialMathematics
         - FiniteAffineBoundTightening
@@ -236,6 +238,7 @@ body:
         - GraphConnectivityAndFlows
         - GroebnerGeometry
         - GromovWittenTheory
+        - GrossZagierAndArithmeticHeights
         - GrothendieckEulerForms
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
@@ -372,7 +375,9 @@ body:
         - PolynomialGaloisGroupsPartIII
         - PositiveMass
         - PositiveScalarCurvature
+        - PotentialAutomorphyDworkMotivesPartII
         - PotentialAutomorphyInfrastructure
+        - PotentialAutomorphyInfrastructurePartII
         - PotentialModularityAndCompatibleSystems
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
