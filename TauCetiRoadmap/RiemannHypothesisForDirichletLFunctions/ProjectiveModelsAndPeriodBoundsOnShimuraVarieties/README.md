@@ -460,7 +460,16 @@ line bundle itself is the obstacle: over a regular base `G` is regular and the c
 [FormalProof] constructs the extension, with its isomorphisms, on its model of (b′)
 (`GlobalTheory.T.exists_rigidified_symmetric_cubicalBundle_extension`); this is (b′) (ii).
 
-(b′) The statement of [FormalProof] in this form; its proof is not given here. There it is the proposition
+(b′) The statement of [FormalProof] in this form; its proof is not given here. Its proof there uses the semistable reduction
+theorem for polarised abelian varieties over the finite extensions of `ℚ_p` (after a finite extension there is a semi-abelian
+group scheme over the ring of integers with the given generic fibre: NeronModelsAndSemistableAbelianVarieties §3.10, with
+§§3.1 and 3.3), which [FormalProof] states as
+`Development/AbelianVarietyTheory/PublishedTheorems/SemistableReduction₂/SemistableReductionSt.lean`
+(`GlobalTheory.Published.SemistableReductionSt`), proves as
+`Development/AbelianVarietyTheory/Proofs/DegenerationProofs/SemistableReductionPpavPadicFieldStatement.lean`
+(`GlobalTheory.T.semistableReduction_ppav_padicField`) and applies in
+`Development/AbelianVarietyTheory/Proofs/ModuliProofs/PartOneOfSemistableReductionPadicPolarized.lean`
+(`GlobalTheory.partI_of_semistableReduction`). There it is the proposition
 `ReciprocityTheory.ChartRestriction.G.Geo.Tor.PartI` (in `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/BirationalGeometry/ToroidalCompactification/UniformisationConclusion.lean`,
 proved as `GlobalTheory.CompanionTheory.Ar.Top.partI_holds`), at similitude level `A = 1` of its structure `Level`: the
 moduli scheme of (i) is the structure `Moduli` and the model of (ii) the structure `Model` (in `PushInvertible.lean` of the
@@ -529,7 +538,7 @@ From the Check of 7.17a: on the fine modular curve the boundary twist is `O(−d
 
 ### Dependencies
 
-Layer 6 (6.9a, for 7.12a); ShimuraCompactifications §§0.15, 6.1, 6.4–6.6, 6.8, 6.9, 7.3, 7.16, 7.17, 7.19, 7.20, 7.31; PELModuli §§M0.5, M0.7, M1.3, M2.10, M4.5, M4.6; AbelianSchemesAndArithmeticModuli §§A1.5, A2.2, A2.3; SchemeAndStackFoundations §§0.8, 0.9, 0.20, 4.11, 4.12; StableReduction Layer 2.
+Layer 6 (6.9a, for 7.12a); ShimuraCompactifications §§0.15, 6.1, 6.4–6.6, 6.8, 6.9, 7.3, 7.16, 7.17, 7.19, 7.20, 7.31; PELModuli §§M0.5, M0.7, M1.3, M2.10, M4.5, M4.6; AbelianSchemesAndArithmeticModuli §§A1.5, A2.2, A2.3; SchemeAndStackFoundations §§0.8, 0.9, 0.20, 4.11, 4.12; StableReduction Layer 2; NeronModelsAndSemistableAbelianVarieties §§3.1, 3.3, 3.10.
 
 ## Layer 9: Descent of linearised line bundles
 
@@ -595,6 +604,10 @@ Layer 2: projective morphisms and relative ampleness of an invertible sheaf, the
 ### From TauCetiRoadmap.EquivariantIntersectionTheory
 
 §1.1: linearisations of invertible sheaves; for a finite constant group `Γ`, isomorphisms `φ_γ : γ^*L ≅ L` with the cocycle condition.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+§3.1: the semistable reduction predicate. §3.3: a semi-abelian model is the identity component of the Néron model. §3.10: semistable reduction after a finite separable extension. Used in 7.31a (b′), as an input of the proof of [FormalProof], which is not given here.
 
 ### From SingularHermitianMetricsAndL2Methods, a sub-roadmap of this family
 
