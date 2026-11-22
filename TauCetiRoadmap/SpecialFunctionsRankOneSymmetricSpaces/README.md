@@ -61,8 +61,9 @@ Layer 4 the spherical, Abel and Helgason–Fourier transforms on `ℍⁿ`.
 Layers 0 and 1 are one-variable analysis. Apart from 0.5 (the `SU(1,1)` matrix elements) and the
 polynomial case of 0.1 (the Jacobi polynomials), they depend only on the hypergeometric and Gamma
 functions, Carlson's theorem, the Euclidean Paley–Wiener theorem on `ℝ` and, for the unitary
-extension of 1.2 at parameters the Paley–Wiener theorem of 1.3 does not reach, the
-Weyl–Titchmarsh–Kodaira theory of Sturm–Liouville operators; their theorems hold
+spectral representation of 1.2, the endpoint theory of Sturm–Liouville operators and the
+self-adjoint multiplication operators of OperatorTheory/UnboundedOperators (§4.8 and Layer 1,
+§1.7); their theorems hold
 for general complex or real `(α, β)`, so that they serve every rank-one space. Layer 2 is the
 geometry of `ℍⁿ` and depends on nothing in Layers 0–1. Layer 3 joins
 them: the spherical functions of Layer 2's Gel'fand pair are the Jacobi functions of Layer 0, by the
@@ -412,7 +413,13 @@ Prove, for real `α > −1` and `|β| ≤ α + 1`:
   `∫₀^∞ |f|² Δ dt = (2π)⁻¹ ∫₀^∞ |f̃(λ)|² |c(λ)|⁻² dλ`;
 - **The unitary Jacobi transform** (`exists_jacobiTransform_linearIsometryEquiv`): a unitary
   `L²((0, ∞), Δ dt) ≅ L²((0, ∞), (2π)⁻¹ |c|⁻² dλ)` that agrees with the transform on smooth even
-  compactly supported functions.
+  compactly supported functions;
+- **The Jacobi transform as a spectral representation of `L`**: the closure `L̄` in
+  `L²((0, ∞), Δ dt)` of `L` on the smooth even compactly supported functions is self-adjoint; it
+  is the self-adjoint realization of `L` with the boundary condition
+  `lim_{t→0} Δ(t) u′(t) = 0` when `−1 < α < 1`, and needs none when `α ≥ 1`; and the unitary of
+  the previous bullet carries `L̄` onto the maximal multiplication operator by `−(λ² + ρ²)` on
+  `L²((0, ∞), (2π)⁻¹ |c|⁻² dλ)`.
 
 Proof route (Koornwinder): write `f̃(λ) c(−λ)⁻¹ Φ_λ` with the connection formula, shift the contour
 of the resulting integral over `ℝ` into `Im λ > 0`, where `|Φ_λ(t)| ~ e^{−(Im λ + ρ)t}` decays,
@@ -427,12 +434,28 @@ Euler's transformation (SpecialFunctionsHypergeometric §5.1, DLMF 15.8.1) gives
 `c^{(α,β)} = 2^{2β} c^{(α,−β)}` the transform at `(α, β)` is `2^{2β}` times the transform at
 `(α, −β)` of `(2 cosh t)^{2β} f`, a unitary change of function that preserves the smooth even
 compactly supported functions; this carries surjectivity to `α ≥ −β ≥ −1/2`. For the remaining
-parameters the range is dense by the completeness of the eigenfunction expansion of the
-Sturm–Liouville operator `L` on `(0, ∞)` (Weyl–Titchmarsh–Kodaira theory: `L` is in the
-limit-point case at `∞`, and for `α < 0` the even solutions fix the boundary condition at `0`),
-whose spectral measure the inversion formula identifies with `(2π)⁻¹ |c(λ)|⁻² dλ`;
-Klimyk–Vilenkin, pp. 233–234, present (14) in this form, as the expansion in the eigenfunctions of
-`Δ(t)⁻¹ (d/dt) Δ(t) (d/dt)`.
+parameters surjectivity comes with the spectral representation, whose route works for all
+parameters of 1.2; Klimyk–Vilenkin, pp. 233–234, present (14) in this form, as the expansion in
+the eigenfunctions of `Δ(t)⁻¹ (d/dt) Δ(t) (d/dt)`.
+
+The spectral representation: `−L` is the Sturm–Liouville expression `w⁻¹(−(pu′)′ + qu)` of
+OperatorTheory/UnboundedOperators §4.8 with `p = w = Δ` and `q = 0` on `(0, ∞)`. At `∞` it is
+limit point: for nonreal `z = −(λ² + ρ²)` one has `Im λ ≠ 0`, and of the two solutions
+`~ e^{(±iλ − ρ)t}` of `Lu = zu` exactly one is square-integrable for `Δ(t) ~ e^{2ρt}`. At `0`
+the solutions of `Lu = 0` behave like `1` and `t^{−2α}` (`log t` at `α = 0`), and
+`Δ(t) ~ 2^{2ρ} t^{2α+1}`, so `0` is limit circle exactly for `−1 < α < 1`, and limit point for
+`α ≥ 1`. For `α ≥ 1` the minimal operator has deficiency indices `(0, 0)` and is self-adjoint, and
+`L̄` lies between it and the maximal operator, so equals it. For `−1 < α < 1` the indices are
+`(1, 1)`; `L̄` contains the minimal operator and the functions equal to `1` near `0`, on which the
+Wronskian with `1` vanishes and that with the other solution does not, so it is a symmetric
+extension by one dimension, hence self-adjoint, with the boundary condition stated (the even
+functions satisfy it since `f′(t) = O(t)`). Let `U` be the isometry and `M` the multiplication by
+`h(λ) = −(λ² + ρ²)` on its maximal domain, self-adjoint by Layer 1, §1.7 of that roadmap. By 1.1,
+`U L f = M U f` on the core, so `U L̄ ⊆ M U`. If `g ⊥ ran U`, then for nonreal `z` and every `f` of
+the core, `U (L̄ − z)⁻¹ f = (M − z)⁻¹ U f`, so `∫ f̃ ḡ (h − z)⁻¹ dμ = 0` with
+`μ = (2π)⁻¹ |c|⁻² dλ`; the finite complex measure `f̃ ḡ dμ` has vanishing Stieltjes transform after
+the injective map `h`, so it is zero, and as `f̃` is a nonzero entire function for `f ≠ 0`, `g = 0`.
+So `U` is onto, and `U L̄ U⁻¹ ⊆ M` with both sides self-adjoint gives equality.
 
 **Checks.**
 - `(α, β) = (−1/2, −1/2)`: `(2π)⁻¹ |c|⁻² = 2/π`, the Fourier cosine inversion
@@ -451,7 +474,10 @@ Klimyk–Vilenkin, pp. 233–234, present (14) in this form, as the expansion in
 
 *Needs:* inversion and Plancherel: 0.3, 0.4, 1.1. The unitary extension: these, and the
 Paley–Wiener theorem of 1.3 (which does not use 1.2); SpecialFunctionsHypergeometric §5.1; Mathlib
-`MeasureTheory.Lp` and `LinearIsometryEquiv`.
+`MeasureTheory.Lp` and `LinearIsometryEquiv`. The spectral representation, and through it the unitary extension at the
+parameters the Paley–Wiener theorem and Euler's transformation do not reach: 1.1, the isometry
+of the unitary extension, OperatorTheory/UnboundedOperators §4.8 (with the boundary conditions of
+its §4.5) and Layer 1, §1.7.
 
 ### 1.3 Discrete terms, the Abel transform and the Paley–Wiener theorem
 
@@ -465,8 +491,9 @@ transforms of type `χ_l` on Hermitian symmetric spaces, whose radial parts are 
 transforms at group parameters); Wawrzyńczyk Theorem 18.8.1 (2), p. 645 (Helgason's theorem, the
 spherical case on a symmetric space). None of these states the Paley–Wiener theorem at general
 `α ≥ β ≥ −1/2`; Klimyk–Vilenkin, p. 234, refer for the general Jacobi transform to
-Flensted-Jensen (1972) and Koornwinder (1975) (see [References](#references)), whose theorem
-numbers are not read here. The statement is carried by the proof route below.
+Flensted-Jensen (1972) and Koornwinder (1975) (see [References](#references)), cited after
+Klimyk–Vilenkin, p. 234, without theorem numbers. The statement is carried by the proof route
+below.
 
 Prove:
 - **Discrete terms** (`jacobiTransform_inversion_discrete`): for real `α > −1` and
@@ -502,13 +529,14 @@ and `e^s = cosh t + r sinh t` turns this into the kernel above. Write `g(u) = f(
 `W^a g(c) = Γ(a)⁻¹ ∫_c^∞ g(w) (w − c)^{a−1} dw`. Then
 `𝒜_{α,−1/2} f(s) = K_α W^{α+1/2} g(cosh s)` with `K_α = 2^{3α+1/2} Γ(α + 1)/√π`; the Beta
 integral gives `W^a W^b = W^{a+b}`, and `−(d/du) W^{a+1} = W^a`, so with `k = ⌈α + 1/2⌉`,
-`g = K_α⁻¹ (−d/du)^k W^{k−α−1/2} (𝒜_{α,−1/2} f ∘ arcosh)`. Both `W^a` and `d/du` keep the support
+`g = K_α⁻¹ (−d/du)^k W^{k−α−1/2} (𝒜_{α,−1/2} f ∘ arcosh)`, where `W⁰` is the identity (the case
+of half-integer `α`, with `k = α + 1/2`). Both `W^a` and `d/du` keep the support
 in `u ≤ cosh R`, and an even `f` is smooth exactly when `g` is smooth on `[1, ∞)`, since `t²` is an
 analytic function of `u − 1` near `u = 1`; so `𝒜_{α,−1/2}` is the stated bijection. The case
 `α = β` is the quadratic transformation of 0.2 read on the transform: `Δ_{α,α}(t) = Δ_{α,−1/2}(2t)`
 gives `f̃^{(α,α)}(λ) = (1/2) (f(·/2))~^{(α,−1/2)}(λ/2)`. For `α > β > −1/2` the bijectivity is
 Koornwinder's factorization of `𝒜_{α,β}` into fractional integrals with elementary kernels
-(Koornwinder (1975); not read here).
+(Koornwinder (1975), cited after Klimyk–Vilenkin, p. 234).
 
 The Paley–Wiener theorem: the transform is the Euclidean Fourier transform after `𝒜_{α,β}`, the
 Euclidean Paley–Wiener theorem of AutomorphicSpectralTheory §1.6 on `𝔞 = ℝ` (its transform
@@ -546,7 +574,8 @@ discrete terms: 0.3 and the contour shift of 1.2.
 ### Dependencies
 
 Layer 0; Mathlib `Lp`, Fourier analysis; AutomorphicSpectralTheory §1.6;
-SpecialFunctionsHypergeometric §5.1;
+SpecialFunctionsHypergeometric §5.1; OperatorTheory/UnboundedOperators §§4.5, 4.8 and Layer 1,
+§1.7;
 SpecialFunctionsSU11MatrixElements §5.2 for a Check.
 
 ## Layer 2: real hyperbolic space
@@ -706,8 +735,8 @@ Proof route: `θ(g) = (gᵀ)⁻¹ = J g J` on `G` since `gᵀ J g = J`; `θ` fix
 - `θ(a_t) = a_{−t}` and `θ(k) = k` for `k ∈ K`.
 - `θ(gh) = θ(g) θ(h)` and `θ² = id`.
 - Negative control (the involution): `g ↦ J (gᵀ)⁻¹ J` is the identity on `G`, since
-  `(gᵀ)⁻¹ = J g J`; its `P = {p | θ p = p⁻¹}` is the set of elements of order at most two, and
-  `G ≠ K P`.
+  `(gᵀ)⁻¹ = J g J`; so it sends `a_t` to `a_t`, not to `a_{−t}`, and is not the Cartan involution
+  (for `n ≥ 2` it still satisfies the criterion, because `a_{−t} ∈ K a_t K`).
 - Negative control: for `n ≥ 2`, `(SO₀(n, 1), {1})` is not a Gel'fand pair, since `G` is not
   abelian (for `n = 1`, `SO₀(1, 1) ≅ ℝ` is abelian and the pair is one).
 
@@ -1144,6 +1173,22 @@ second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
   inversion formula on every vertical line. Read at `μ = −iλ` in 1.3, and through 1.3 in the
   surjectivity of 1.2 and in 4.2 and 4.3.
 
+### From [OperatorTheory/UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md)
+
+- §4.8: for the Sturm–Liouville expression `τu = w⁻¹(−(pu′)′ + qu)` on an open interval, with
+  real measurable `p, q, w`, `p, w > 0` almost everywhere and `p⁻¹, q, w` locally integrable: the
+  maximal operator on `L²(w dx)`, the minimal operator (the closure on the compactly supported
+  functions of the maximal domain), closed, densely defined and symmetric with the maximal
+  operator as adjoint; Green's formula with the Wronskian `W_x(u, v) = p(uv′ − u′v)(x)`; Weyl's
+  alternative at each endpoint (limit circle when every solution of `(τ − z)u = 0` is
+  square-integrable near it, for every `z`; limit point when for every nonreal `z` those solutions
+  form a line), independent of `z`; equal deficiency indices, equal to the number of limit-circle
+  endpoints; and the self-adjoint boundary conditions by Wronskian boundary functionals, through
+  §4.5. In the spectral representation of 1.2, with `p = w = Δ`, `q = 0` and `τ = −L`.
+- Layer 1, §1.7: for a measure `μ` and a measurable `h`, the multiplication by `h` on `L²(μ)` with
+  the maximal domain `{u : h u ∈ L²(μ)}` is closed and densely defined, and self-adjoint for `h`
+  real almost everywhere. In the spectral representation of 1.2, with `h(λ) = −(λ² + ρ²)`.
+
 ### From SpecialFunctionsGroupModels
 
 - §5.1: bi-invariance, convolution, Gel'fand pairs, and the symmetric-pair criterion
@@ -1237,8 +1282,8 @@ source, not the specification.
 ## References
 
 - M. Flensted-Jensen, Paley–Wiener type theorems for a differential operator connected with
-  symmetric spaces, *Ark. Mat.* 10 (1972), 143–162, doi:10.1007/BF02384806 (named by
-  Klimyk–Vilenkin, p. 234; not read here).
+  symmetric spaces, *Ark. Mat.* 10 (1972), 143–162, doi:10.1007/BF02384806 (cited after
+  Klimyk–Vilenkin, p. 234).
 - G. Heckman and H. Schlichtkrull, *Harmonic Analysis and Special Functions on Symmetric Spaces*,
   Perspectives in Mathematics 16, Academic Press, 1994: Part I §5.4, pp. 83–84, Lemma 5.5.2, p. 85;
   Part II, Lecture 8, Examples 8.1 and 8.3, pp. 171–172 and 181–182.
@@ -1247,12 +1292,11 @@ source, not the specification.
   Encyclopaedia of Mathematical Sciences 59, Springer, 1995, Part II, Ch. 5, §§2.3–2.4,
   pp. 232–234.
 - T. H. Koornwinder, A new proof of a Paley–Wiener type theorem for the Jacobi transform,
-  *Ark. Mat.* 13 (1975), 145–159, doi:10.1007/BF02386203 (named by Klimyk–Vilenkin, p. 234; not
-  read here).
+  *Ark. Mat.* 13 (1975), 145–159, doi:10.1007/BF02386203 (cited after Klimyk–Vilenkin, p. 234).
 - T. H. Koornwinder, Jacobi functions and analysis on noncompact semisimple Lie groups, in
   R. A. Askey, T. H. Koornwinder and W. Schempp (eds.), *Special Functions: Group Theoretical
   Aspects and Applications*, Reidel, 1984, pp. 1–85 (the source to which DLMF 15.9(ii) and the
-  books above refer; read here through them).
+  books above refer; cited after them).
 - NIST Digital Library of Mathematical Functions, §§15.4, 15.8, 15.9(ii),
   https://dlmf.nist.gov/15.9#ii.
 - N. Ja. Vilenkin and A. U. Klimyk, *Representation of Lie Groups and Special Functions*, Vol. 2,
