@@ -42,29 +42,37 @@ within the family, each roadmap cites only roadmaps listed above it. Citations b
 are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
 section keeps its number.
 
-## The formal proof is the authority
+## When a roadmap is wrong
 
-The purpose of this family is to bring the formal Lean proof into Tau Ceti. The roadmaps describe
-that proof. They were written from it, and they may contain mistakes. Where a statement, a
-hypothesis, a constant, a definition, a convention or a route in a roadmap of this family, in its
-`README.md` or its `Suggested.lean`, differs from what the formal proof does, the formal proof is
-right and the roadmap is wrong.
+The purpose of this family is to bring the mathematics of the formal Lean proof into Tau Ceti as
+library mathematics. That does not mean copying the formal proof. The roadmaps are the plan and they
+are followed, as in any other area. A contribution is free, as everywhere in Tau Ceti, to state a
+result in greater generality, to arrange it differently and to prove it by another route.
+
+The roadmaps were written from the formal proof, and they may contain mistakes. This section is
+about one situation only: a roadmap of this family is demonstrably wrong at some point, in its
+`README.md` or its `Suggested.lean` (a statement is false or inconsistent as written, a hypothesis
+or a convention does not fit, or a step that the argument needs is missing), and the formal proof
+shows what is right.
 
 For those who write and those who review pull requests that carry out these roadmaps:
 
-- A contribution may depart from a roadmap of this family wherever it follows the formal proof
-  instead. Its description says so: the target concerned, the file and declaration of the formal
-  proof that it follows, and how the roadmap differs.
-- A review does not block or delay such a contribution for departing from the roadmap. What it
-  checks there is that the contribution does follow the formal proof at that point (the declaration
-  named exists in the source as published and says what the contribution says), together with the
-  usual standards of the library.
-- The roadmap is then corrected to the form of the formal proof. The correction may follow the
-  contribution; it need not come first.
+- In that situation a contribution may correct the statement, or supply the missing step, in a
+  form consistent with the formal proof. Its description says what is wrong with the roadmap (the
+  reason, or a counterexample) and names the file and declaration of the formal proof that settles
+  it. The corrected statement may still be more general than the one in the formal proof.
+- A review does not block or delay such a contribution on the ground that it departs from the
+  roadmap, or that it proves something the roadmap does not list. What it checks is that the roadmap
+  is indeed wrong or incomplete at that point, that the correction agrees with the formal proof
+  there (the declaration named exists in the source as published and supports it), and the usual
+  standards of the library.
+- The roadmap is then corrected. The correction may follow the contribution; it need not come
+  first.
 
-This holds for the sub-roadmaps of this family, for what they take from the formal proof. It does
-not cover a departure that follows neither the roadmap nor the formal proof, and it does not change
-the roadmaps of other areas that this family cites: those are followed as they stand.
+This is not a licence to replace a roadmap's statement by the formal proof's wherever the two
+differ in form: where the roadmap is right, it is followed. It does not cover a departure that
+agrees with neither the roadmap nor the formal proof, and it does not change the roadmaps of other
+areas that this family cites.
 
 ## The roadmaps
 
