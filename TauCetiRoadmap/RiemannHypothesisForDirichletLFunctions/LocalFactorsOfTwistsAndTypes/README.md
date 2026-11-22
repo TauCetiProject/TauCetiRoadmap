@@ -28,7 +28,10 @@ This layer extends SmoothRepresentationsOfLocalGroups §SR.3.3: for `GL_n` the t
 For `GL_n` over any nonarchimedean `F` (the family uses it for `F` of characteristic zero): an irreducible `π` is
 tempered iff `π ≅ δ₁ × ⋯ × δ_h` with `δ_i` unitary
 square-integrable, and every such product is irreducible; hence SmoothRepresentationsOfLocalGroups §SR.3.3 *harish-chandra-tempered-support* holds for `GL_n`
-and SmoothRepresentationsOfLocalGroups §SR.3.3 *langlands-classification* is unconditional for `GL_n`. *Route:* the irreducibility of the products is 4.1 (ii)
+and SmoothRepresentationsOfLocalGroups §SR.3.3 *langlands-classification* is unconditional for `GL_n`. For `F` of
+characteristic zero the characterisation of tempered representations is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/TemperedProductOfSquareIntegrable.lean`
+(`GlobalTheory.Published.TemperedProductOfSquareIntegrable`). *Route:* the irreducibility of the products is 4.1 (ii)
 (Zelevinsky 1980, Theorem 9.7 (a)): by 4.1 (v) a unitary square-integrable representation is `L([ρν^{−x}, …, ρν^{x}])` with `ρ`
 unitary supercuspidal (its central character being unitary), two such segments on one line `{ρν^y}` have the same centre, so
 one contains the other, and no two are linked; the characterisation of tempered representations then follows from 4.1 (v).
@@ -76,7 +79,9 @@ admissible `π`, and an irreducible `π` has `π^{K₁} ≠ 0` if and only if ev
 has nonzero invariants under the corresponding subgroup of its own group ("if" being used for `F` of
 characteristic zero). For "only if" the form that the family uses is
 [FormalProof], `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroSupport.lean`
-(`GlobalTheory.Published.DepthZeroSupport`).
+(`GlobalTheory.Published.DepthZeroSupport`). The bijectivity for every admissible `π` is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/MoyPrasadJacquetIsoTrivial.lean`
+(`GlobalTheory.Published.MoyPrasadJacquetIso`).
 The statements (a)–(d) for a general `G`, a general point `x` and every smooth `π` go beyond
 that case; (c) and the injectivity in (d) are then this roadmap's, by the route below.
 
@@ -391,7 +396,8 @@ This layer extends SmoothRepresentationsOfLocalGroups Layer SR.5: it states the 
 ### 4.1 The Zelevinsky classification
 
 For `F` any nonarchimedean local field: (i) every irreducible `π` of `GL_n(F)` is `Z(𝔪)` for a unique multisegment
-`𝔪`, and `L(𝔪')` for a unique `𝔪'`; (ii) `Z(Δ₁) × ⋯ × Z(Δ_r)` and `L(Δ₁) × ⋯ × L(Δ_r)` are irreducible iff the
+`𝔪`, and `L(𝔪')` for a unique `𝔪'`, and, for `F` of characteristic zero, `L(𝔪 + 𝔫)` is a subquotient of
+`L(𝔪) × L(𝔫)` for any multisegments `𝔪`, `𝔫`; (ii) `Z(Δ₁) × ⋯ × Z(Δ_r)` and `L(Δ₁) × ⋯ × L(Δ_r)` are irreducible iff the
 `Δ_i` are pairwise unlinked; (iii) the Jacquet module of `Z(Δ)` along the partition `(d, …, d)` is
 `ρν^a ⊗ ⋯ ⊗ ρν^b` for `Δ = [ρν^a, …, ρν^b]`; (iv) `R = ⊕_n K₀(GL_n(F))` with the parabolic product is the
 polynomial ring `ℤ[X_Δ]` on segments, `X_Δ = [Z(Δ)]`; (v) an irreducible `π` is essentially square-integrable iff
@@ -416,11 +422,25 @@ support of `π₁` is an unramified twist of a member of that of `π₂`,
 (`GlobalTheory.Published.UnlinkedProductIrreducible`). The form of Bernstein's theorem, stated over every nonarchimedean
 local field, is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/BernsteinUnitaryProductIrreducible.lean`
-(`GlobalTheory.Published.BernsteinUnitaryProductIrreducible`).
+(`GlobalTheory.Published.BernsteinUnitaryProductIrreducible`). (iv) is also [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/GrothendieckRingPolynomial.lean`
+(`GlobalTheory.Published.GrothendieckRingPolynomial`). For `F` of characteristic zero: (i) in the form `L(𝔪′)`, with its
+subquotient clause, is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/LanglandsExhaustionGL.lean`
+(`GlobalTheory.Published.LanglandsExhaustionGL`) for the existence and [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/LanglandsMultisegments.lean`
+(`GlobalTheory.Published.LanglandsMultisegments`) for the uniqueness and the subquotient clause; (v) is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/EssSquareIntegrableSegments.lean`
+(`GlobalTheory.Published.EssSquareIntegrableSegments`), with its case of square-integrable `π`,
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/SquareIntegrableSegment.lean`
+(`GlobalTheory.Published.SquareIntegrableSegment`); and "generic ⇒ product" of (vii) is [FormalProof],
+`Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/GenericUnlinkedGL.lean`
+(`GlobalTheory.Published.GenericUnlinkedGL`).
 *Route:* Zelevinsky (Ann. Sci. ÉNS 1980) with Bernstein–Zelevinsky derivatives
 (SmoothRepresentationsOfLocalGroups §SR.5.1 *mirabolic-derivatives*) and the geometric lemma: (i), in the form `Z(𝔪)`, is
 Theorem 6.1, and in the form `L(𝔪′)` it is the classification recalled in Henniart 2002, §2.8, p. 596, with §2.6, p. 595,
-for the essentially square-integrable representations `L(Δ)`; (ii) is Theorems 4.2 and 9.7 (a); (iii) is Proposition 3.4; (iv) is Corollary 7.5; (v) is Bernstein's
+for the essentially square-integrable representations `L(Δ)`, and a route for its subquotient clause is not given here;
+(ii) is Theorems 4.2 and 9.7 (a); (iii) is Proposition 3.4; (iv) is Corollary 7.5; (v) is Bernstein's
 Theorem 9.3, of which Zelevinsky derives "`L(Δ)` is essentially square-integrable" from Casselman's criterion and states the
 converse without proof; (vi) is Proposition 8.5 with Theorem 6.1; (vii) is Theorem 9.7 (b). *Needs:* SmoothRepresentationsOfLocalGroups §SR.5.2
 *segment-representations*, §SR.2.2 *geometric-lemma*, §SR.3.3 *casselman-criterion*, §SR.5.1 *mirabolic-derivatives*.
