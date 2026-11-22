@@ -7,9 +7,9 @@ every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s`
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states these theorems. The family follows the formal Lean proof, by Levent
-Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions, announced
-on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf);
+roadmap of the family states these theorems. The results that the family states are those of the
+formal Lean proof, by Levent Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for
+Dirichlet L-functions, announced on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf);
 [the Lean source as published](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005),
 which is the first commit of a
 [repository with a public verification setup](https://github.com/leanprover-community/riemann-hypothesis)).
