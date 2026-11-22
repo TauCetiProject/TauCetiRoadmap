@@ -1236,7 +1236,10 @@ roadmaps named under Downstream consumers.
 
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for
   Dirichlet L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every *NEW* target.
+  <https://github.com/leanprover-community/riemann-hypothesis>. The files cited are those of the source as published,
+  the repository's first commit
+  <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005>, and
+  their paths are relative to its directory `src/`. It is the reference of every *NEW* target.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - F. A. Behrend, *On sets of integers which contain no three terms in arithmetical progression*, Proc. Nat. Acad. Sci.
   USA 32 (1946), 331–332; I. Z. Ruzsa, *Solving a linear equation in a set of integers I*, Acta Arith. 65 (1993),
