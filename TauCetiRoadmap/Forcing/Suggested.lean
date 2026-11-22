@@ -1,15 +1,6 @@
 module
 
-public import Mathlib.Data.Finset.Basic
-public import Mathlib.Data.Set.Countable
-public import Mathlib.Order.Antichain
-public import Mathlib.Order.Bounds.Defs
-public import Mathlib.Order.CompleteBooleanAlgebra
-public import Mathlib.Order.Heyting.Regular
-public import Mathlib.Order.PFilter
-public import Mathlib.Order.UpperLower.CompleteLattice
-public import Mathlib.ModelTheory.Syntax
-public import Mathlib.SetTheory.ZFC.Basic
+public import Mathlib
 
 /-!
 # Forcing, generic extensions, and Boolean-valued semantics: target signatures
