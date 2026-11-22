@@ -63,6 +63,7 @@ body:
         - ArithmeticStatisticsPartVI
         - ArithmeticStatisticsPartVII
         - AsymptoticExpansions
+        - AutomorphicBundles
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentations
         - AutomorphicGaloisRepresentationsPartII
@@ -95,6 +96,7 @@ body:
         - ClusterAlgebras
         - CoboundaryExpansion
         - CohomologyComparisons
+        - CohomologyComparisonsPartII
         - ColemanIntegration
         - ColemanIntegrationPartII
         - ColemanPowerSeries
@@ -345,6 +347,7 @@ body:
         - PolynomialGaloisGroupsPartIII
         - PositiveMass
         - PositiveScalarCurvature
+        - PotentialModularityAndCompatibleSystems
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
         - PrismaticCohomology
