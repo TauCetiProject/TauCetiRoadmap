@@ -895,7 +895,11 @@ real zeros in `(1 − c_ex, 1)` that (a) states.
 *KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
 `Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`),
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
-(`Formalism.HC.HostRaw.ChebyshevCharacterBound`)). *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
+(`Formalism.HC.HostRaw.ChebyshevCharacterBound`); the form at the thin scales:
+`Formalism/SharpRestriction/GlobalSchurBounds/ShortIntervalPrimes.lean`
+(`Formalism.MainNotions.ShortIntervalPrimes.Conclusion6`), from the three statements on zeros
+`Formalism/SharpRestriction/GlobalSchurBounds/MainSup.lean` (`Formalism.MainNotions.LitThin`)).
+*Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
 §1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a; AnalyticNumberTheoryPartI §0.34a.
 
 ### 1.5 Averaging characters over a subgroup
