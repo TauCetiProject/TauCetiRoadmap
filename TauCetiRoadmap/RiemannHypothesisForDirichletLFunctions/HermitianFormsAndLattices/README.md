@@ -2380,6 +2380,12 @@ nonzero reduction, that is `(1 − q_v^{2−2n′})·2/(q_v^{n′−1} + 1)` of 
 Every other point `y` has `y_v` in `G(F_v)·x` at every place (`x` lies in the open orbit at the split
 places) and in `U(L_v)x` at almost all, so it lies in `G(𝔸)·x`.
 
+For the quotient of `τ_G` by `τ_H` in the route of (a), `t ≠ 0`: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsIsGaugeOfIsCMExt.lean` (`GlobalTheory.GaugeEx.exists_isGauge`).
+The formal proof builds a compatible family of Haar measures rank by rank, independent of the chain of vectors chosen
+([FormalProof], `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/UnitaryStabilizerMeasureIndependentOfPathStatement.lean`
+(`GlobalTheory.T.unitaryStabilizer_measure_independent_of_path`)), where this roadmap takes the Tamagawa measures.
+
 *Needs:* 0.1, 0.2, 1.1, 1.2, 4.2, 6.0, 6.0a; AdelicAlgebraicGroups §§2.2, 2.4; OrbitMeasuresOnAdelicGroups
 §§2.6 (*homogeneous-gauge-measure*), 3.4a (*tamagawa-number-unipotent-radical*).
 
@@ -2776,6 +2782,12 @@ unimodular lattice. Then `Σ_{[M] ∈ cls(L)} μ^c(U(M)\U(V)(F_∞)) = mass(O_E^
 Conventions, `mass(O_E^n)` being the mass of the unimodular lattices of rank `n` of 6.3(c); in particular the left side
 does not depend on `(p, q)`. The formal proof has (c) in place of (b), and (a) in the form given in 6.3. The fibre
 measure of (b) is `β_∞(L)·μ^c`, with `β_∞(L)` the value of the formula of 6.1b, so (c) follows from (b) and (a).
+The independence of `(p, q)` is [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/GL5/PNamed.lean`
+(`Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.VolSigIndep`); for the ratio of the covolumes of a space and of the
+orthogonal complement of a vector of norm `±1` (6.2 (c) with 6.4 (b)),
+[FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/ThickPlacesCorollaryOfAnyTranslate.lean`
+(`Formalism.MainNotions.StandardLattice.VolumeRatio₂`),
+`Formalism/SharpRestriction/GlobalSchurBounds/MassRatioUnfoldedOfTheoremTwo.lean` (`Formalism.MainNotions.RT.MassRatioUnderVolume`).
 
 Route: (a) by 5.5, `τ(U(V)) = mass(L)·vol(U(V)(F_∞) × K_L)` for the Tamagawa measure. The lattice
 normalized measures on `End(V)_𝔸` and `Herm(V)_𝔸` are the Tamagawa measures of these vector groups
@@ -2847,7 +2859,9 @@ integral: there is a constant `c_1 > 0` depending only on `E` such that, for eve
 integral lattices `M` in the form `mass(M) = c·∏_{v ∈ S_odd(V)}(q_v^n − (−1)^n)/(q_v + 1)` with a constant `c > 0` that
 it does not determine (the mass of the unimodular lattices of rank `n` when `V` contains one), and (c) in the form:
 every unimodular lattice of rank `n` has the mass of `O_E^n`. The first formula implies the first form, with
-`c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two.
+`c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two. The form of (c) is [FormalProof],
+`Formalism/LocalToGlobal/GlobalTheory/GL5/DiscreteSeriesOfFormalDegree.lean`
+(`Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.GenusMassAt`, `Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt`).
 
 Route: substitute 6.1b into 6.2: `|d_F|^{−n/2}|d_E|^{n(n+1)/4} = |d_F|^{n²/2}N(𝔡_{E/F})^{n(n+1)/4}`;
 off `S(L)`, `(L_v(1, η_v)β_v)^{−1} = ∏_{k=2}^{n} L_v(k, η_v^k)`, so the Euler products assemble into
@@ -2911,6 +2925,8 @@ unit of `O_F` whose sign at every real place is that of `U` (so that `U ⊥ Ee` 
 with `β_v^⋆(m)` as in the Conventions. In particular, if `E/F` is unramified at every finite place and
 `L, L'` are unimodular, `mass(L')/mass(L) = |d_F|^{(2n−1)/2}((n − 1)!/(2π)^n)^d L(n, η^n)`. For `n = 1`
 (`L = 0`, of mass `1`) the ratio is twice the displayed expression: it is `mass(L')`, given by 6.3.
+[FormalProof] states the unramified unimodular case for covolumes, for a space of rank `n ≥ 3` with the same signature at
+every real place and the orthogonal complement of a vector of norm `±1`.
 
 Route: 6.3 for `L` and `L'`, both of positive rank; `𝔳(L') = 𝔳(L)` and `S(L') = S(L)`. The constant `2`
 of 6.3 is `τ(U(V))` (6.0b, for positive dimension) and cancels in the ratio; for `n = 1` the lattice `L`
@@ -3717,3 +3733,9 @@ and 6.5.
   forms*, Pacific J. Math. 76 (1978). 7.1.
 - [OMeara] O. T. O'Meara, *Introduction to Quadratic Forms*, Grundlehren 117, Springer (1963). The
   quadratic analogues of 4.1 and 5.4.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for
+  Dirichlet L-functions announced in [Announcement]; source with a public verification setup:
+  <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given above are relative to the
+  directory `src/` of the first commit of that repository, the source as published:
+  <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
+- [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
