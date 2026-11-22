@@ -220,6 +220,10 @@ once, generic in the carrier `ι` wherever the statement allows.
   *Needs* (for the form of `toFormula`, which Tau Ceti lacks at the pin): the constructors,
   `TauCeti.BoundedFormulaInf.relabel` and `BoundedFormulaInf.Realize` with their realization laws
   (InfinitaryLogic), by the recursion of Mathlib's `BoundedFormula.toFormula`.
+
+  *Check* (for `toFormula`): `∀ y, x₀ = y`, with `x₀` its one bound position, becomes
+  `∀ y, inr 0 = y`, with `y` still bound. On `{0, 1}` at `inr 0 ↦ 0` both are false, while the
+  variant that captures the opened position, `∀ y, y = y`, is true.
 * `onBoundedFormulaInf_substBounds`: language maps commute with bound substitution,
   `onBoundedFormulaInf g (substBounds σ φ) = substBounds (g.onTerm ∘ σ) (onBoundedFormulaInf g φ)`.
 * `IsAtomic`, the predicate picking out equalities and relation instances.
