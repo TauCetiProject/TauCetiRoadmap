@@ -90,10 +90,16 @@ theorem exists_mapFilter (G : Order.PFilter P) :
     ∃ H : Order.PFilter Q, (H : Set Q) = e.mapSet G := by
   sorry
 
-/-- Transport is specified for any filter with the stated carrier. -/
+/-- Sanity check that `pullTest` is the right pullback, not a headline target: it holds by
+unfolding the definitions, for any filter with the stated carrier and any tests. -/
 theorem genericFor_map_iff (𝒟 : Set (Set Q))
     (G : Order.PFilter P) (H : Order.PFilter Q) (hH : (H : Set Q) = e.mapSet G) :
     GenericFor 𝒟 H ↔ GenericFor (e.pullTest '' 𝒟) G := by
+  sorry
+
+/-- **Transport of dense tests** (README Layer 0 item 4): the pullback of a dense test along a dense
+embedding is dense. This uses the density of the range. -/
+theorem pullTest_isCoinitial {D : Set Q} (hD : IsCoinitial D) : IsCoinitial (e.pullTest D) := by
   sorry
 
 /-- Every member must have a strengthening inside the filter and inside the range.
