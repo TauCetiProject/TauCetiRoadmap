@@ -756,12 +756,12 @@ Paths are relative to `TauCeti/`.
   traces, with the support cases (used in 3.2); strong subadditivity is not used.
 - **PolarDecomposition.** Eigenvalue monotonicity under the Loewner order (PD-A52), used in 1.1, and
   the polar decomposition, used in 4.1.
-- **The roadmap on operator monotone functions and matrix means (open pull request).** Section 1.1
+- **The roadmap on operator monotone functions and matrix means.** Section 1.1
   (`IsMatrixConvexOn`, `IsOperatorConvexOn`, local copies), Section 2.2 (the Jensen operator
   inequality, for 2.1), Section 2.3 (Choi–Davis–Jensen, for 2.1), Section 2.6 (the operator convex
   powers, `t log t` and the operator monotone powers, for 2.2 and 5.2) and Section 5.1 (`msqrt`,
   `misqrt`, `opMean`, local copies).
-- **The roadmap on eigenvalue and singular value inequalities (open pull request).** Section 1.1
+- **The roadmap on eigenvalue and singular value inequalities.** Section 1.1
   (weak log-majorization and its transfer to `φ`-sums, for 5.3) and Section 3.3 (the Lidskii–Mirsky
   bounds, for 4.2).
 
