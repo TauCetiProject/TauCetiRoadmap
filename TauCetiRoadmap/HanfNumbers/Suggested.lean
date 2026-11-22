@@ -66,7 +66,8 @@ noncomputable def iteratedTwoPow (κ : Cardinal.{u}) : ℕ → Cardinal.{u}
   | n + 1 => 2 ^ iteratedTwoPow κ n
 
 /-- **Layer 0, the pigeonhole principle** `κ⁺ → (κ⁺)¹_κ`, from the regularity of successor
-cardinals. -/
+cardinals. It is the `n = 0` case of `erdos_rado`, kept as the base of the README's Erdős–Rado
+induction. -/
 theorem partitionRel_succ_one {κ : Cardinal.{u}} (hκ : ℵ₀ ≤ κ) :
     PartitionRel (Order.succ κ) (Order.succ κ) 1 κ := by
   sorry
@@ -339,7 +340,8 @@ theorem morley_omitting_types (T : L.Theory) (S : Set (Σ n, Set (L.BoundedFormu
   sorry
 
 /-- **Layer 3.** Over a language with countably many symbols, only the family of types needs to be
-countable. -/
+countable. It is the countable-language specialization of `morley_omitting_types`, kept as the
+README's corollary of 3.4. -/
 theorem morley_omitting_types_of_countable [Countable (Σ n, L.Functions n)]
     [Countable (Σ n, L.Relations n)] (T : L.Theory)
     (S : Set (Σ n, Set (L.BoundedFormula Empty n))) (hS : S.Countable)
