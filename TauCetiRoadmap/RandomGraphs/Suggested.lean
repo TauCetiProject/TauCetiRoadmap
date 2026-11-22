@@ -501,8 +501,9 @@ theorem exists_computable_quantifierElimination :
   sorry
 
 /-- **Theory-level quantifier elimination** for `T_R`, in the quantifier-elimination proposal's
-vocabulary, for formulas in any type of free variables. It follows from the computable map by the
-proposal's reduction to finite variable types, and does not replace that map. -/
+vocabulary, for formulas whose free variables form any type in `Type`. It follows from the
+computable map by the proposal's reduction to finite variable types, and does not replace that
+map. -/
 theorem radoAxioms_hasQuantifierElimination :
     Language.Theory.HasQuantifierElimination radoAxioms := by
   sorry
