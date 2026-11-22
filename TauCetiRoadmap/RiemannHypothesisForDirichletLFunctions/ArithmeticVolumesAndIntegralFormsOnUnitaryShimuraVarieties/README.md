@@ -590,7 +590,8 @@ of the antisymmetric polynomials by `Δ·(invariant linear forms)`.
 *Check.* `|Φ| = 1`, `N = 2`, `p = q = 1`: `𝔚` is trivial, `D = 1`, a quadratic form vanishing on `x₀ = x₁` is
 `(x₀ − x₁)(αx₀ + βx₁)`, and the non-homogeneous `(x₀ − x₁)(αx₀ + βx₁ + c)`, `c ≠ 0`, shows that homogeneity is needed.
 
-*NEW* (elementary). *Needs:* Mathlib (`MvPolynomial`, symmetric and antisymmetric polynomials).
+*NEW* (elementary). *Needs:* Mathlib (`MvPolynomial`, `MvPolynomial.rename`, `Equiv.Perm.sign`; invariance and antisymmetry
+under `𝔚` are stated through `rename` and the sign, and are not Mathlib notions).
 
 ### 8.15 Models of the flag bundles with mixed integral structure
 
@@ -1017,7 +1018,7 @@ place of `log B(u, g)` would be wrong: it can be negative, and `log(|Φ|N²)` is
 *NEW*; the mean of the volume slopes in the form stated (no lower bound for `B(u, g)`, `C` independent of `E` and of the
 datum) is the form of [FormalProof],
 `Development/AutomorphicSpectrum/Proofs/GeometryProofs/AbelianCmCompLawsBoundStatement.lean`
-(`GlobalTheory.T.abelian_cm_comp_laws_bound`); on the deep covers of the chain,
+(`GlobalTheory.T.abelian_cm_comp_laws_bound`, which takes six named statements as hypotheses); on the deep covers of the chain,
 `Development/WeilBound/CoreStatements/AutomorphicKernels/MoriwakiBigness/HilbertSamuelApplications/AhSlimU.lean`
 (`PositivityTheory.HtPt.Ah.deep_slim_use`); and the route written here covers `B(u, g) ≥ B₁` only. The first form follows from [FormalProof],
 `Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/TowerT2Statement.lean` (`GlobalTheory.T.tower_T2`),
@@ -2176,7 +2177,7 @@ In the setting of
 cusp forms of weight `w` are spanned over `𝕂` by the short theta series of weight `w`, and a finite spanning set of them has
 logarithmic sup norm at most `(140r + 10)·L·DF(w) + 200·f·r·n(w)·L` at every embedding, `L` as in 8.17a;
 
-(b) if `n(w) ≥ r` and `4·DF(w) + 4 ≤ g₀g₁`, some theta rule of weight `w` is nonzero at every frame of the open variety;
+(b) if `n(w) ≥ r` and `3·DF(w) + 2 ≤ g₀g₁`, some theta rule of weight `w` is nonzero at every frame of the open variety;
 hence the generators of `Th^{all}(w)` have no common zero on the open variety;
 
 (b₀) (*the input of (b), over `ℂ`*) At a frame of the open variety in normalised form, for `n` even, the odd level `M` with its
@@ -2196,7 +2197,7 @@ of the values of two lattices is the value of their orthogonal sum for the block
 the product of the two up to a root of unity; orthogonality of the characters of the level quotient writes the delta
 weight as a combination with roots of unity. For the consequence multiply one rule at a time: before the last factor the
 scalar weight is `< r + t`, and it is `≥ n(w_F) ≥ r`. (b) At a frame, the theta rules of weight `w` are the jets of the
-theta sections at the torsion points of level `g₀g₁` against harmonic polynomials; for `4·DF(w) + 4 ≤ g₀g₁` the jets of
+theta sections at the torsion points of level `g₀g₁` against harmonic polynomials; for `3·DF(w) + 2 ≤ g₀g₁` the jets of
 order `DF(w)` of these sections at a point are not all annihilated by a nonzero harmonic polynomial of that degree, by
 (b₀), so some rule is nonzero; a semilinear functional vanishing on the generators vanishes on `Th^{all}(w)`.
 
@@ -2508,7 +2509,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From Mathlib
 
-- `MvPolynomial` (symmetric and antisymmetric polynomials; 8.14c); `Matrix.det` and the product formula `NumberField.prod_abs_eq_one` (8.19a‴).
+- `MvPolynomial`, `MvPolynomial.rename` and `Equiv.Perm.sign` (8.14c: invariance and antisymmetry under `𝔚` are stated through them and are not Mathlib notions); `Matrix.det` and the product formula `NumberField.prod_abs_eq_one` (8.19a‴).
 - For the statement of 8.5 in `Suggested.lean`: `UpperHalfPlane`, `ModularForm.eta`, `ClassGroup`, `ClassGroup.mk`, `FractionalIdeal`, `NumberField.classNumber`, `NumberField.discr`, `NumberField.dedekindZeta`, `riemannZeta`, `DirichletCharacter.LFunction`, `Real.eulerMascheroniConstant`.
 
 ### From Tau Ceti
