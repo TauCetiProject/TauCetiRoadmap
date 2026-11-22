@@ -34,7 +34,8 @@ eigensystem and their base change.
   is `𝔫 · ∏_j λ_j(ξ, 𝔥)` with the eigenvalues `λ_j` of the model lifts. It lacks the
   carriers above, and the formal degrees of discrete series of real unitary groups.
 * The rational structure of the row space (5.8): for the grid of the chain under the conditions of
-  5.8b and the size predicate of 5.8e, and a number field `𝕃` containing the numbers (L1)–(L7) that
+  5.8b, the size predicate of 5.8e and the gap hypotheses of 5.8, with its depth constant and the
+  scale beyond their thresholds, and a number field `𝕃` containing the numbers (L1)–(L7) that
   5.8 names, the Bessel periods of 5.8e
   define an `𝕃`-structure of the good rows containing the descent of every rational form for every
   tuple, stable under `G₀` and the Hecke operators, and the constants of the squares of the grid
