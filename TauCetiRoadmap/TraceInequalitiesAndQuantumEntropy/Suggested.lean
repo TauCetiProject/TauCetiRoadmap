@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.Matrix.Entropy
 public import TauCeti.Analysis.Matrix.FunctionalCalculus
 public import TauCeti.InformationTheory.KullbackLeibler.Pinsker
 
@@ -20,15 +21,15 @@ means `(B - A).PosSemidef`. A real function acts on a Hermitian matrix through M
 continuous functional calculus `cfc`; since the spectrum of a matrix is finite, `cfc f A` is the
 spectral value for every `f`. Powers are `cfc (fun x : ℝ ↦ x ^ p) A` with Lean's `rpow`, so that
 `A ^ 0 = 1` also for singular `A`; logarithms are natural, with `Real.log 0 = 0`. Entropies and
-relative entropies are those of Tau Ceti's `TauCeti/Analysis/Matrix/Entropy.lean`, with the
-relative entropy in `EReal`.
+relative entropies are Tau Ceti's `Matrix.vonNeumannEntropy` and `Matrix.relativeEntropy`, with
+the relative entropy in `EReal`, and the partial traces are Tau Ceti's `Matrix.partialTraceRight`
+and `Matrix.partialTraceLeft`, all imported.
 
 Every definition below is a verbatim local copy of a definition owned elsewhere, with a docstring
 naming the owner: the matrix-convexity notions and the operator mean of the roadmap
-`OperatorMonotoneFunctionsAndMatrixMeans` (its Sections 1.1 and 5.1), and Tau Ceti's von Neumann
-entropy, relative entropy and partial traces, whose source is in the pinned Tau Ceti but whose
-modules are not built there. The implementation namespace of the README is `TauCeti`; the
-prototypes live in this roadmap's namespace.
+OperatorMonotoneFunctionsAndMatrixMeans (its Sections 1.1 and 5.1); a roadmap cannot be imported.
+The implementation namespace of the README is `TauCeti`; the prototypes live in this roadmap's
+namespace.
 -/
 
 @[expose] public section
@@ -73,45 +74,6 @@ definite; for operator convex `f` it is the operator perspective of `f` at `(B, 
 of `opMean` from the roadmap `OperatorMonotoneFunctionsAndMatrixMeans` (Section 5.1). -/
 def opMean {n : ℕ} (f : ℝ → ℝ) (A B : Mat n) : Mat n :=
   msqrt A * cfc f (misqrt A * B * misqrt A) * msqrt A
-
-section Entropy
-
-variable {𝕜 : Type*} [RCLike 𝕜] {n : Type*} [Fintype n] [DecidableEq n]
-
-/-- The von Neumann entropy `S(ρ) = Tr (-ρ log ρ)`, through the functional calculus of
-`Real.negMulLog`, so that `0 log 0 = 0`. Local copy of `Matrix.vonNeumannEntropy` from Tau Ceti
-(`TauCeti/Analysis/Matrix/Entropy.lean`; source at the pin, module not built there). -/
-def vonNeumannEntropy (ρ : Matrix n n 𝕜) : ℝ :=
-  RCLike.re (cfc Real.negMulLog ρ).trace
-
-open Classical in
-/-- The relative entropy `D(ρ ‖ σ) = Tr ρ (log ρ - log σ)` in `EReal`, equal to `⊤` unless the
-kernel of `σ` is contained in the kernel of `ρ`. Local copy of `Matrix.relativeEntropy` from Tau
-Ceti (`TauCeti/Analysis/Matrix/Entropy.lean`; source at the pin, module not built there). -/
-def relativeEntropy (ρ σ : Matrix n n 𝕜) : EReal :=
-  if LinearMap.ker σ.mulVecLin ≤ LinearMap.ker ρ.mulVecLin then
-    (RCLike.re (ρ * (cfc Real.log ρ - cfc Real.log σ)).trace : EReal)
-  else ⊤
-
-end Entropy
-
-section PartialTrace
-
-variable {R m n : Type*} [AddCommMonoid R]
-
-/-- The partial trace over the second factor. Local copy of `Matrix.partialTraceRight` from Tau
-Ceti (`TauCeti/LinearAlgebra/Matrix/Trace/Partial.lean`; source at the pin, module not built
-there). -/
-def partialTraceRight [Fintype n] (Y : Matrix (m × n) (m × n) R) : Matrix m m R :=
-  ∑ k, blockDiag Y k
-
-/-- The partial trace over the first factor. Local copy of `Matrix.partialTraceLeft` from Tau
-Ceti (`TauCeti/LinearAlgebra/Matrix/Trace/Partial.lean`; source at the pin, module not built
-there). -/
-def partialTraceLeft [Fintype m] (Y : Matrix (m × n) (m × n) R) : Matrix n n R :=
-  ∑ k, Y.submatrix (k, ·) (k, ·)
-
-end PartialTrace
 
 variable {ι κ : Type*} [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
 
@@ -320,10 +282,10 @@ theorem sq_traceNorm_le_two_mul_relativeEntropy {ρ σ : Matrix ι ι ℂ} (hρ 
     (((cfc (fun x : ℝ ↦ |x|) (ρ - σ)).trace.re ^ 2 / 2 : ℝ) : EReal) ≤ relativeEntropy ρ σ :=
   sorry
 
-/-- **Mutual information as a relative entropy**: for a density matrix `ρ` on a bipartite
-system, `D(ρ ‖ ρ_A ⊗ ρ_B) = S(ρ_A) + S(ρ_B) - S(ρ)`. -/
+/-- **Mutual information as a relative entropy**: for a positive semidefinite `ρ` on a bipartite
+system, `D(ρ ‖ ρ_A ⊗ ρ_B) = S(ρ_A) + S(ρ_B) - S(ρ)`; the trace is not used. -/
 theorem relativeEntropy_kronecker_partialTrace {ρ : Matrix (ι × κ) (ι × κ) ℂ}
-    (hρ : ρ.PosSemidef) (htr : ρ.trace = 1) :
+    (hρ : ρ.PosSemidef) :
     relativeEntropy ρ (partialTraceRight ρ ⊗ₖ partialTraceLeft ρ) =
       ((vonNeumannEntropy (partialTraceRight ρ) + vonNeumannEntropy (partialTraceLeft ρ) -
         vonNeumannEntropy ρ : ℝ) : EReal) := sorry
@@ -341,7 +303,7 @@ theorem mutualInformation_kraus_le {μ : Type*} [Fintype μ] [DecidableEq μ] {r
         vonNeumannEntropy ρ := sorry
 
 /-- **Holevo's bound**: the classical mutual information between the label of an ensemble
-`(pₐ, ρₐ)` and the outcome of a measurement `(μ_b)` is at most the Holevo quantity
+`(pₐ, ρₐ)` and the outcome of a measurement `(M_b)` is at most the Holevo quantity
 `χ = S(∑ₐ pₐ ρₐ) - ∑ₐ pₐ S(ρₐ)`. -/
 theorem holevo_bound {k l : ℕ} {p : Fin k → ℝ} (hp : ∀ a, 0 ≤ p a) (hp1 : ∑ a, p a = 1)
     {ρ : Fin k → Matrix ι ι ℂ} (hρ : ∀ a, (ρ a).PosSemidef) (hρ1 : ∀ a, (ρ a).trace = 1)
@@ -409,7 +371,8 @@ theorem araki_lieb_thirring {A B : Matrix ι ι ℂ} (hA : A.PosSemidef) (hB : B
         (cfc (fun x : ℝ ↦ x ^ (t / 2)) B * cfc (fun x : ℝ ↦ x ^ t) A *
           cfc (fun x : ℝ ↦ x ^ (t / 2)) B)).trace.re := sorry
 
-/-- **The Lieb–Thirring inequality** `Tr (A B)^m ≤ Tr A^m B^m` for positive semidefinite `A`, `B`. -/
+/-- **The Lieb–Thirring inequality** `Tr (A B)^m ≤ Tr A^m B^m` for positive semidefinite `A`,
+`B`. -/
 theorem re_trace_mul_pow_le {A B : Matrix ι ι ℂ} (hA : A.PosSemidef) (hB : B.PosSemidef)
     (m : ℕ) :
     ((A * B) ^ m).trace.re ≤ (A ^ m * B ^ m).trace.re := sorry
@@ -427,5 +390,14 @@ theorem re_trace_mul_pow_le {A B : Matrix ι ι ℂ} (hA : A.PosSemidef) (hB : B
 #check @Real.binEntropy
 #check @CompletelyPositiveMap
 #check @TauCeti.etvDist_sq_le_two_mul_klDiv
+#check @Matrix.vonNeumannEntropy
+#check @Matrix.relativeEntropy
+#check @Matrix.partialTraceRight
+#check @Matrix.partialTraceLeft
+#check @Matrix.PosSemidef.re_trace_sub_trace_le_relativeEntropy
+#check @Matrix.PosSemidef.relativeEntropy_nonneg
+#check @Matrix.PosSemidef.vonNeumannEntropy_nonneg
+#check @Matrix.PosSemidef.vonNeumannEntropy_le_log_card
+#check @Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft
 
 end TauCetiRoadmap.TraceInequalitiesAndQuantumEntropy

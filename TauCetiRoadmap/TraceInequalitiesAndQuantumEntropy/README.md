@@ -3,9 +3,9 @@
 **Summary.** This roadmap builds the trace inequalities of matrix analysis and the convexity and
 monotonicity theory of quantum relative entropy that rests on them, on Mathlib's functional
 calculus of Hermitian matrices, on Tau Ceti's von Neumann entropy, relative entropy and partial
-traces, on the operator convex functions and operator means of the roadmap on operator monotone
-functions and matrix means, and on the log-majorization calculus of the roadmap on eigenvalue and
-singular value inequalities:
+traces, on the operator convex functions and operator means of the roadmap
+OperatorMonotoneFunctionsAndMatrixMeans, and on the log-majorization calculus of the roadmap
+EigenvalueAndSingularValueInequalities:
 - trace functions: monotonicity and convexity of the trace of a matrix function, Peierls's
   inequality on orthonormal bases, the generalized Klein inequality and its derivative form, the
   equality case of Klein's inequality, the Gibbs variational principle and the
@@ -21,7 +21,7 @@ singular value inequalities:
 - purification and continuity: unitary equivalence of purifications, equal entropies of the
   two halves of a pure state, the Araki–Lieb triangle inequality, and the continuity bounds of
   Audenaert for the Shannon entropy and of Fannes and Audenaert for the von Neumann entropy;
-- products of positive matrices: compound matrices over the complex numbers, the Cordes
+- products of positive matrices: the complex calculus of compound matrices, the Cordes
   inequality, the Araki–Lieb–Thirring inequality and the Lieb–Thirring inequality.
 
 The material is a multi-source synthesis: the quantum entropy theory of Watrous (2018,
@@ -36,8 +36,9 @@ in the proof routes. The nearest roadmaps are
 [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) (strong subadditivity and the
 quantum spin entropy calculus), [RandomMatrices](../RandomMatrices/README.md) (Golden–Thompson and
 the exponential form of Lieb's concavity), [CStarAlgebras](../CStarAlgebras/README.md)
-(completely positive maps and their dilations), and the roadmaps on operator monotone functions and
-on eigenvalue inequalities named above.
+(completely positive maps and their dilations),
+[PadicMeasuresIwasawaAlgebras](../PadicMeasuresIwasawaAlgebras/README.md) (compound matrices over
+a commutative ring), and the two roadmaps named above.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
@@ -62,11 +63,12 @@ entropy, which is therefore jointly convex.
 
 Layer 3 is data processing. A channel in Kraus form is a partial trace after an isometry, so its
 monotonicity is isometric invariance plus the partial-trace monotonicity proved in
-OperatorAlgebraDynamics, Section D9. Pinsker, mutual information and Holevo's bound are
-consequences of monotonicity for well-chosen channels. Layer 4 needs purifications and the
-eigenvalue perturbation bound of the eigenvalue roadmap. Layer 5 is independent of Layers 2–4:
+OperatorAlgebraDynamics, Section D9. Pinsker, mutual information and Holevo's bound are consequences
+of monotonicity for well-chosen channels. Layer 4 needs purifications and the eigenvalue
+perturbation bound of EigenvalueAndSingularValueInequalities. Layer 5 is independent of Layers 2–4:
 the Cordes inequality, carried to compound matrices, gives a log-majorization of eigenvalues, and
-the log-majorization transfer of the eigenvalue roadmap turns it into trace inequalities.
+the log-majorization transfer of EigenvalueAndSingularValueInequalities turns it into trace
+inequalities.
 
 The layers are in build order. Layer 5 may be built right after Layer 1, and Section 4.2 needs
 only Layer 1 and Section 3.2.
@@ -74,9 +76,9 @@ only Layer 1 and Section 3.2.
 ## Conventions
 
 - **Matrices.** Square matrices are `Matrix ι ι ℂ` over a finite index type with decidable
-  equality; `Mat n` is `Matrix (Fin n) (Fin n) ℂ`, used where the statements of the roadmap on
-  operator monotone functions quantify over every size. Bipartite matrices are indexed by
-  `ι × κ`, and `⊗ₖ` is the Kronecker product. Empty index types are allowed; every trace over
+  equality; `Mat n` is `Matrix (Fin n) (Fin n) ℂ`, used where the statements of
+  OperatorMonotoneFunctionsAndMatrixMeans quantify over every size. Bipartite matrices are indexed
+  by `ι × κ`, and `⊗ₖ` is the Kronecker product. Empty index types are allowed; every trace over
   them is `0`.
 - **Order.** The Loewner order of `open scoped MatrixOrder`: `A ≤ B` iff `(B - A).PosSemidef`.
 - **Functional calculus.** A real function acts on a Hermitian matrix through `cfc f A`, with
@@ -89,24 +91,25 @@ only Layer 1 and Section 3.2.
   and the Checks say where the values differ.
 - **Logarithms and entropies.** Logarithms are natural, with `Real.log 0 = 0`. Watrous uses base
   `2`; his inequalities are converted (Pinsker's constant `1/(2 ln 2)` becomes `1/2`). The von
-  Neumann entropy is `vonNeumannEntropy ρ = Tr (Real.negMulLog ρ)`, so `0 log 0 = 0`. The
-  binary entropy is `Real.binEntropy`, in nats.
-- **Relative entropy.** `relativeEntropy ρ σ` is `Tr ρ (log ρ - log σ)` in `EReal` when the
-  kernel of `σ` lies in the kernel of `ρ`, and `⊤` otherwise. It is never `⊥`. Convex combinations
-  are written with real coefficients cast to `EReal`, where `0 * ⊤ = 0`; this is why the
-  additivity and convexity headlines need no nonvanishing hypothesis.
+  Neumann entropy `Matrix.vonNeumannEntropy`, written `S(ρ)`, is `Tr (Real.negMulLog ρ)`, so
+  `0 log 0 = 0`. The binary entropy is `Real.binEntropy`, in nats.
+- **Relative entropy.** `Matrix.relativeEntropy`, written `D(ρ ‖ σ)`, is `Tr ρ (log ρ - log σ)`
+  in `EReal` when the kernel of `σ` lies in the kernel of `ρ`, and `⊤` otherwise. It is never `⊥`.
+  Convex combinations are written with real coefficients cast to `EReal`, where `0 * ⊤ = 0`; this
+  is why the additivity and convexity headlines need no nonvanishing hypothesis.
 - **States and channels.** A density matrix is positive semidefinite with trace `1`. A channel
   is given in Kraus form `X ↦ ∑ⱼ Kⱼ X Kⱼᴴ` with `∑ⱼ Kⱼᴴ Kⱼ = 1`; Choi's theorem that every
   completely positive trace-preserving map has this form is CStarAlgebras, Section 4.3, and is not
   needed for the statements here. The trace norm of a Hermitian `X` is `‖X‖₁ = Tr |X|`, written
   `(cfc (fun x : ℝ ↦ |x|) X).trace.re`.
-- **Partial traces.** `partialTraceRight` traces out the second factor and `partialTraceLeft` the
-  first; for `ρ` on `ι × κ`, `ρ_A = partialTraceRight ρ` and `ρ_B = partialTraceLeft ρ`.
-- **Local copies.** `vonNeumannEntropy`, `relativeEntropy`, `partialTraceRight` and
-  `partialTraceLeft` are Tau Ceti's definitions, whose source is in the pinned Tau Ceti but whose
-  modules are not built there; `IsMatrixConvexOn`, `IsOperatorConvexOn`, `msqrt`, `misqrt` and
-  `opMean` are those of the roadmap on operator monotone functions. `Suggested.lean` keeps verbatim
-  local copies, each naming its owner.
+- **Partial traces.** `Matrix.partialTraceRight` traces out the second factor and
+  `Matrix.partialTraceLeft` the first; for `ρ` on `ι × κ`, `ρ_A = partialTraceRight ρ` and
+  `ρ_B = partialTraceLeft ρ`.
+- **Library and local definitions.** The entropy, the relative entropy and the partial traces are
+  Tau Ceti's, imported from `TauCeti.Analysis.Matrix.Entropy`. `IsMatrixConvexOn`,
+  `IsOperatorConvexOn`, `msqrt`, `misqrt` and `opMean` are those of
+  OperatorMonotoneFunctionsAndMatrixMeans; `Suggested.lean` keeps verbatim local copies of them,
+  each naming its owner.
 - **Implementation namespace.** The Tau Ceti root namespace. The prototypes in `Suggested.lean` live
   in the roadmap's namespace.
 
@@ -228,10 +231,11 @@ PD-A52.
   trace form is the next bullet.
 - **Monotonicity of the maximal `f`-divergence.** If moreover `Φ` preserves the trace,
   `Tr opMean f (Φ A) (Φ B) ≤ Tr opMean f A B` (Hiai, Thm 4.4 (i), p. 42, for the dual unital map;
-  Hiai, p. 42, identifies the maximal `f`-divergence with the trace of the operator perspective).
+  Hiai, (4.2), p. 41, and p. 42, identifies the maximal `f`-divergence with the trace of the
+  operator perspective).
 
-*Proof route.* EENG: Simon's proof, which is the Jensen operator inequality of the roadmap on
-operator monotone functions (its Section 2.2) for the two matrices
+*Proof route.* EENG: Simon's proof, which is the Jensen operator inequality of
+OperatorMonotoneFunctionsAndMatrixMeans (its Section 2.2) for the two matrices
 `Kᵢ = (θᵢ Dᵢ)^(1/2) D^(-1/2)` with `θ₀ = 1 - t`, `θ₁ = t` and `D = θ₀ D₀ + θ₁ D₁`, which satisfy
 `K₀ᴴ K₀ + K₁ᴴ K₁ = 1`; the converse is `D₀ = D₁ = 1`. Positive maps: with
 `X = A^(-1/2) B A^(-1/2)` and
@@ -241,7 +245,7 @@ Section 2.3) on `I = (0, ∞)` gives `f(Ψ X) ≤ Ψ(f X)`; conjugate by `Φ(A)^
 substitution proves Ando's inequality for means there (its Section 5.4), with the opposite
 direction for operator concave `f`. The trace form takes traces.
 
-*Needs:* the roadmap on operator monotone functions and matrix means, Sections 2.2, 2.3 and 5.1.
+*Needs:* OperatorMonotoneFunctionsAndMatrixMeans, Sections 2.2, 2.3 and 5.1.
 
 **Checks.**
 
@@ -271,7 +275,7 @@ direction for operator concave `f`. The trace form takes traces.
   matrices (Simon, Notes, p. 396).
 
 *Proof route.* Ando: the operator perspective of `t^α`, operator convex on `(0, ∞)` for these `α`
-(the roadmap on operator monotone functions, Section 2.6), at the commuting pair `C = A ⊗ 1`,
+(OperatorMonotoneFunctionsAndMatrixMeans, Section 2.6), at the commuting pair `C = A ⊗ 1`,
 `D = 1 ⊗ B` is `A^α ⊗ B^(1 - α)` by 2.1; joint convexity is the EENG theorem. Lieb with
 `q = 1 - p`: the same with the operator convex `-t^p`, extended from positive definite to positive
 semidefinite arguments by continuity of `rpow` for `p > 0` (`p = 0` is the concavity of `B^q`).
@@ -282,7 +286,7 @@ jointly concave (Bhatia's hint to Ex IX.6.4). Trace forms: `Tr (Kᴴ X K Y) = �
 the Loewner order. Hasegawa: for `α ∈ (0, 1)` divide Lieb's trace form at `K = 1` by
 `α(α - 1) < 0`; for the other `α` divide Ando's by `α(α - 1) > 0`; `-Tr A` is linear.
 
-*Needs:* 2.1; the roadmap on operator monotone functions, Section 2.6.
+*Needs:* 2.1; OperatorMonotoneFunctionsAndMatrixMeans, Section 2.6.
 
 **Checks.**
 
@@ -325,9 +329,12 @@ arithmetic–geometric mean inequality with `|Kᵢⱼ| = |Kⱼᵢ|` bounds it by
 - **Joint subadditivity** (`relativeEntropy_sum_le`):
   `D(∑ⱼ ρⱼ ‖ ∑ⱼ σⱼ) ≤ ∑ⱼ D(ρⱼ ‖ σⱼ)` for positive semidefinite `ρⱼ`, `σⱼ` (Watrous, Thm 5.32,
   p. 279).
-- **Joint convexity of standard `f`-divergences.** For `f` operator convex on `(0, ∞)`, the trace
-  of the operator perspective is jointly convex and jointly subadditive on positive definite pairs
-  (Hiai, Thm 2.7 (ii), p. 14, in von Neumann algebras); on matrices this is 2.1 after taking traces.
+- **Joint convexity of maximal `f`-divergences.** For `f` operator convex on `(0, ∞)`, the maximal
+  `f`-divergence, the trace of the operator perspective of 2.1, is jointly convex and jointly
+  subadditive on positive definite pairs (Hiai, Thm 4.4 (ii), p. 42, in von Neumann algebras); on
+  matrices this is 2.1 after taking traces, with positive homogeneity of the perspective for
+  subadditivity. The standard `f`-divergence of Hiai, Chapter 2, whose case `f(t) = t log t` is
+  `D`, is a different quantity off the commuting case; its joint convexity is beyond this roadmap.
 
 *Proof route.* Derivative: in eigenbases, `Tr ρ^(1 - ε) σ^ε = ∑ⱼ,ₖ |⟨uⱼ, vₖ⟩|² λⱼ^(1 - ε) μₖ^ε`;
 the terms with `λⱼ μₖ > 0` have derivative `-λⱼ (log μₖ - log λⱼ)` at `ε = 0`, while terms with
@@ -346,11 +353,14 @@ functions into `EReal` are convex. Subadditivity: joint convexity at `t = 1/2` w
   quotient is `(1 - 2^(ε - 1)) / ε → ∞`, and `D = ⊤`.
 - `relativeEntropy_jointly_convex` at `t = 1`: the right side is `0 * D(ρ₀ ‖ σ₀) + D(ρ₁ ‖ σ₁)`,
   which is `D(ρ₁ ‖ σ₁)` also when `D(ρ₀ ‖ σ₀) = ⊤`, by `0 * ⊤ = 0` in `EReal`.
+- The maximal and the standard divergence differ: for `ρ = [[2, 1], [1, 1]]/3`,
+  `σ = diag(1/4, 3/4)` and `f(t) = t log t`, the trace of the operator perspective is `0.6850`
+  while `D(ρ ‖ σ) = 0.6388`; for `f(t) = t^(3/2)` they are `1.5248` and
+  `Tr ρ^(3/2) σ^(-1/2) = 1.5031`.
 
 ### Dependencies
 
-Layer 1; the roadmap on operator monotone functions and matrix means, Sections 2.2, 2.3, 2.6
-and 5.1.
+Layer 1; OperatorMonotoneFunctionsAndMatrixMeans, Sections 2.2, 2.3, 2.6 and 5.1.
 
 ## Layer 3: data processing
 
@@ -390,8 +400,10 @@ condition for the product holds iff it holds for both factors, and a `⊤` on ei
   `Tr ρ^α σ^(1 - α)` does not increase under a channel, for positive definite `σ` with positive
   definite image (Hiai, Thm 3.2 (8), p. 21).
 - **Petz–Rényi divergences.** Hence `(α - 1)⁻¹ log Tr ρ^α σ^(1 - α)` does not increase under a
-  channel for `α ∈ [0, 2] \ {1}`, for density matrices and, when `α > 1`, positive definite `σ`
-  with positive definite image (Hiai, Thm 3.2 (8), p. 21).
+  channel for `α ∈ [0, 2] \ {1}`, for density matrices with `Tr ρ^α σ^(1 - α) > 0` when `α < 1`
+  and, when `α > 1`, positive definite `σ` with positive definite image (Hiai, Def 3.1, (3.3),
+  p. 19, and Thm 3.2 (8), p. 21). For `α ∈ (0, 1)` the positivity says `ρ σ ≠ 0`; without it the
+  divergence is `+∞` in Hiai's definition, a value the real logarithm with `log 0 = 0` loses.
 - **Contraction of the trace norm** (`re_trace_cfc_abs_map_le`): `‖Φ X‖₁ ≤ ‖X‖₁` for Hermitian `X`
   and every positive trace-preserving linear map `Φ` (Watrous, Cor 3.40 and the Remark after it,
   p. 168).
@@ -418,6 +430,10 @@ matrices is at most the sum of their traces.
   equality because the channel preserves the trace.
 - The range of `α` is sharp: at `α = 3` random channels on `2 × 2` matrices increase
   `Tr ρ^3 σ^(-2)`.
+- The Petz–Rényi divergences need `Tr ρ^α σ^(1 - α) > 0` for `α < 1`: at `α = 1/2`,
+  `ρ = diag(1, 0)`, `σ = diag(0, 1)` and the channel with Kraus operators `e₁e₁ᴴ/√2`, `e₂e₁ᴴ/√2`,
+  `e₂e₂ᴴ`, the trace is `0` before the channel, so the real formula gives `-2 log 0 = 0`, and
+  `2^(-1/2)` after it, where the divergence is `log 2 > 0`.
 - `re_trace_cfc_abs_map_le` needs only positivity, not complete positivity: the transpose is
   positive and trace-preserving and preserves the trace norm.
 
@@ -446,8 +462,9 @@ divergence of their diagonals, through Tau Ceti's finite formulas for that diver
 ### 3.4 Mutual information and Holevo's bound
 
 - **Mutual information as a relative entropy** (`relativeEntropy_kronecker_partialTrace`): for a
-  density matrix `ρ` on `ι × κ`, `D(ρ ‖ ρ_A ⊗ ρ_B) = S(ρ_A) + S(ρ_B) - S(ρ)` (Watrous, (5.110),
-  p. 270).
+  positive semidefinite `ρ` on `ι × κ`, `D(ρ ‖ ρ_A ⊗ ρ_B) = S(ρ_A) + S(ρ_B) - S(ρ)` (Watrous,
+  (5.110), p. 270, for density matrices; the support inclusion and the partial-trace identities
+  of the route do not use the trace).
 - **Monotonicity of mutual information** (`mutualInformation_kraus_le`): the mutual information
   `I(A : B) = S(ρ_A) + S(ρ_B) - S(ρ)` does not increase under a channel `1 ⊗ Φ` on the second
   factor. This is an adaptation of Watrous, Cor 5.37, p. 282, which is the case of a partial
@@ -472,6 +489,8 @@ it to the diagonal of `q`; 3.2 and the commuting case of the identity finish (Wa
 
 **Checks.**
 
+- `relativeEntropy_kronecker_partialTrace` at `ρ = 1/2` on `ℂ² ⊗ ℂ²`, of trace `2`: both sides are
+  `-2 log 2`.
 - `holevo_bound` for a single state (`k = 1`): the left side is `0` and `χ = 0`.
 - For the two orthogonal pure states `diag(1, 0)`, `diag(0, 1)` with `p = (1/2, 1/2)` measured in
   the standard basis, both sides are `log 2`.
@@ -527,15 +546,18 @@ the other inequality exchanges the factors.
 
 *Proof route.* Audenaert: Watrous's coupling proof, which splits `p - q` into disjointly supported
 parts of mass `λ`. For `n = 1` both sides vanish in Lean (`log 0 = 0`, `λ = 0`), and for `n = 0`
-there is no probability vector, so no size hypothesis is needed. Fannes–Audenaert: apply the
-classical bound to the decreasing eigenvalue vectors; by the eigenvalue perturbation bound
-`∑ₖ |λ↓ₖ(ρ) - λ↓ₖ(σ)| ≤ ‖ρ - σ‖₁` (Watrous, Lemma 5.27, p. 272, the trace-norm case of the
-Lidskii–Mirsky bound of the roadmap on eigenvalue inequalities, its Section 3.3) the classical
-distance `δ'` is at most `δ`. The right side is increasing in `δ` on `[0, 1 - 1/d]`, and for
-`δ ≥ 1 - 1/d` it is at least `log d ≥ |S(ρ) - S(σ)|` (Tau Ceti's bounds `0 ≤ S ≤ log d`).
+there is no probability vector, so no size hypothesis is needed. Fannes–Audenaert (Watrous's proof,
+pp. 273–274): the two-sided bound
+`∑ₖ |λ↓ₖ(ρ) - λ↓ₖ(σ)| ≤ ‖ρ - σ‖₁ ≤ ∑ₖ |λ↓ₖ(ρ) - λ↑ₖ(σ)|` (Watrous, Lemma 5.27, p. 272, the
+trace-norm case of the two-sided gauge bound of EigenvalueAndSingularValueInequalities, its
+Section 3.3) gives `δ₀ ≤ δ ≤ δ₁` for the halved classical distances `δ₀` of the decreasing
+eigenvalue vectors and `δ₁` of the decreasing against the increasing one. The classical bound holds
+at `δ₀` and at `δ₁`, since the Shannon entropy does not see the order of the entries, and
+`g(x) = x log(d - 1) + h(x)` is concave, so with `δ = (1 - a) δ₀ + a δ₁`,
+`|S(ρ) - S(σ)| ≤ min(g(δ₀), g(δ₁)) ≤ g(δ)`. Monotonicity of `g` alone does not suffice: `g`
+decreases on `[1 - 1/d, 1]`, with `g(1) = log(d - 1) < log d`.
 
-*Needs:* the roadmap on eigenvalue and singular value inequalities, Section 3.3; Tau Ceti's entropy
-bounds.
+*Needs:* EigenvalueAndSingularValueInequalities, Section 3.3.
 
 **Checks.**
 
@@ -546,27 +568,31 @@ bounds.
 
 ### Dependencies
 
-Layer 3 for the trace norm; PolarDecomposition; the roadmap on eigenvalue and singular value
-inequalities, Section 3.3.
+Layer 3 for the trace norm; PolarDecomposition; EigenvalueAndSingularValueInequalities,
+Section 3.3.
 
 ## Layer 5: products of positive matrices
 
 ### 5.1 Compound matrices over the complex numbers
 
-- **Compound matrices.** For `k ≤ n` the `k`-th compound `∧ᵏ A` of a complex `n × n` matrix, indexed
-  by the `k`-subsets of `Fin n` with the `k × k` minors of `A` as entries, satisfies
-  `∧ᵏ(AB) = ∧ᵏA ∧ᵏB`, `∧ᵏ(Aᴴ) = (∧ᵏA)ᴴ` and `∧ᵏ 1 = 1`; it maps Hermitian, positive semidefinite and
-  unitary matrices to matrices of the same kind; and the eigenvalues of `∧ᵏA` are the products of
-  `k` eigenvalues of `A` over `k`-subsets of indices (Bhatia, Section I.5, properties 1–5, p. 18,
-  and the minor formula, p. 19). For positive semidefinite `A`, `∧ᵏ(A^s) = (∧ᵏA)^s`.
+The `k`-th compound `∧ᵏA` of a matrix, indexed by `k`-subsets with the `k × k` minors of `A` as
+entries, its multiplicativity `∧ᵏ(AB) = ∧ᵏA ∧ᵏB` (Cauchy–Binet) and the unit rule `∧ᵏ 1 = 1` are
+those of [PadicMeasuresIwasawaAlgebras](../PadicMeasuresIwasawaAlgebras/README.md), Section 6.4,
+over every commutative ring, consumed here over `ℂ`. What is special to `ℂ` is owned here.
 
-*Proof route.* The multiplicativity is the Cauchy–Binet formula for minors; on the coordinate side
-Tau Ceti's exterior-power coordinates (beyond the pin) give functoriality with minors as entries.
-The spectral statements follow from multiplicativity and the unitary case applied to the spectral
-decomposition `A = U diag(λ) Uᴴ`: `∧ᵏA = ∧ᵏU diag(∏_{i∈S} λᵢ) (∧ᵏU)ᴴ`. Powers: both sides are
-positive semidefinite with the same spectral decomposition.
+- **The complex compound calculus.** For a complex `n × n` matrix `A` and `k ≤ n`,
+  `∧ᵏ(Aᴴ) = (∧ᵏA)ᴴ`; `∧ᵏ` maps Hermitian, positive semidefinite and unitary matrices to matrices
+  of the same kind; the eigenvalues of `∧ᵏA` are the products of `k` eigenvalues of `A` over
+  `k`-subsets of indices (Bhatia, Section I.5, properties 1–5, p. 18, and the minor formula,
+  p. 19); and `∧ᵏ(A^s) = (∧ᵏA)^s` for positive semidefinite `A`.
 
-*Needs:* Mathlib's determinants and the spectral theorem.
+*Proof route.* Adjoints: the minor of `Aᴴ` on rows `S` and columns `T` is the conjugate of the
+minor of `A` on rows `T` and columns `S`. The spectral statements follow from the multiplicativity
+of Section 6.4 there and the unitary case applied to the spectral decomposition
+`A = U diag(λ) Uᴴ`: `∧ᵏA = ∧ᵏU diag(∏_{i∈S} λᵢ) (∧ᵏU)ᴴ`. Powers: both sides are positive
+semidefinite with the same spectral decomposition.
+
+*Needs:* PadicMeasuresIwasawaAlgebras, Section 6.4; Mathlib's spectral theorem.
 
 ### 5.2 The Cordes inequality
 
@@ -576,14 +602,14 @@ positive semidefinite with the same spectral decomposition.
   eigenvalue, and `λ₁(A B)^t ≤ λ₁(A^t B^t)` for `t ≥ 1` (Bhatia, Thm IX.2.6, (IX.7), and Ex IX.2.7,
   (IX.8), p. 257).
 
-*Proof route.* Cordes: the set of `s ∈ [0, 1]` where the inequality holds is closed and contains
-`0` and `1`; if it contains `s` and `t` it contains `(s + t)/2`, by `‖X‖² = ‖Xᴴ X‖`, the equality
-of the spectral radii of `XY` and `YX`, and the bound of the spectral radius by the norm (Bhatia's
-proof). Spectral radius: `A B` has the eigenvalues of `B^(1/2) A B^(1/2)`, and Bhatia's chain of
-implications from `λ₁(AB) ≤ 1` through `B ≤ A⁻¹` and the operator monotonicity of `t^s` (the
-roadmap on operator monotone functions, Section 2.6), scaled.
+*Proof route.* Cordes: the set of `s ∈ [0, 1]` where the inequality holds is closed and contains `0`
+and `1`; if it contains `s` and `t` it contains `(s + t)/2`, by `‖X‖² = ‖Xᴴ X‖`, the equality of the
+spectral radii of `XY` and `YX`, and the bound of the spectral radius by the norm (Bhatia's proof).
+Spectral radius: `A B` has the eigenvalues of `B^(1/2) A B^(1/2)`, and Bhatia's chain of
+implications from `λ₁(AB) ≤ 1` through `B ≤ A⁻¹` and the operator monotonicity of `t^s`
+(OperatorMonotoneFunctionsAndMatrixMeans, Section 2.6), scaled.
 
-*Needs:* Layer 1; the roadmap on operator monotone functions, Section 2.6.
+*Needs:* Layer 1; OperatorMonotoneFunctionsAndMatrixMeans, Section 2.6.
 
 **Checks.**
 
@@ -596,7 +622,7 @@ roadmap on operator monotone functions, Section 2.6), scaled.
 
 - **Araki's log-majorization.** For positive semidefinite `A`, `B` and `t ≥ 1`, the decreasing
   eigenvalues of `(B^(1/2) A B^(1/2))^t` are weakly log-majorized by those of `B^(t/2) A^t B^(t/2)`,
-  in the sense of the roadmap on eigenvalue inequalities, Section 1.1, with equal full products;
+  in the sense of EigenvalueAndSingularValueInequalities, Section 1.1, with equal full products;
   for `t ∈ [0, 1]` the order is reversed (Bhatia, Thm IX.2.9, (IX.9)–(IX.10), p. 257, and the proof
   of Thm IX.2.10, p. 258).
 - **Araki–Lieb–Thirring** (`araki_lieb_thirring`): for positive semidefinite `A`, `B`, `s ≥ 0` and
@@ -611,15 +637,15 @@ roadmap on operator monotone functions, Section 2.6), scaled.
 *Proof route.* Log-majorization: the spectral radius form of 5.2 at `t ≥ 1` bounds the largest
 eigenvalue; applied to the compounds `∧ᵏA`, `∧ᵏB` of 5.1, whose largest eigenvalue is the product of
 the `k` largest, it bounds every prefix product (Bhatia's proof of Thm IX.2.9); at `k = n` both
-sides are `det(A)^t det(B)^t`. Araki–Lieb–Thirring: the transfer to `φ`-sums of the roadmap on
-eigenvalue inequalities, Section 1.1, with `φ(x) = x^s`, which is monotone on `[0, ∞)` with
-`φ ∘ exp` convex for `s ≥ 0`, at the full prefix; the reversal substitutes `A^t`, `B^t` and `1/t`
-for `A`, `B` and `t`, with `s t` in place of `s`. The power family: (IX.13) for `A^k`, `B^k` with
-`t = m/k` and `s = k`, and cyclicity. Lieb–Thirring: `Tr (AB)^m = Tr (B^(1/2) A B^(1/2))^m` by
-cyclicity `Tr (XY)^m = Tr (YX)^m` with `X = B^(1/2)`, `Y = A B^(1/2)`, and Araki–Lieb–Thirring at
-`s = 1`, `t = m` (`m = 0` is `Tr 1 ≤ Tr 1`).
+sides are `det(A)^t det(B)^t`. Araki–Lieb–Thirring: the transfer to `φ`-sums of
+EigenvalueAndSingularValueInequalities, Section 1.1, with `φ(x) = x^s`, which is monotone on
+`[0, ∞)` with `φ ∘ exp` convex for `s ≥ 0`, at the full prefix; the reversal substitutes `A^t`,
+`B^t` and `1/t` for `A`, `B` and `t`, with `s t` in place of `s`. The power family: (IX.13) for
+`A^k`, `B^k` with `t = m/k` and `s = k`, and cyclicity. Lieb–Thirring:
+`Tr (AB)^m = Tr (B^(1/2) A B^(1/2))^m` by cyclicity `Tr (XY)^m = Tr (YX)^m` with `X = B^(1/2)`,
+`Y = A B^(1/2)`, and Araki–Lieb–Thirring at `s = 1`, `t = m` (`m = 0` is `Tr 1 ≤ Tr 1`).
 
-*Needs:* 5.1, 5.2; the roadmap on eigenvalue and singular value inequalities, Section 1.1.
+*Needs:* 5.1, 5.2; EigenvalueAndSingularValueInequalities, Section 1.1.
 
 **Checks.**
 
@@ -630,8 +656,8 @@ cyclicity `Tr (XY)^m = Tr (YX)^m` with `X = B^(1/2)`, `Y = A B^(1/2)`, and Araki
 
 ### Dependencies
 
-Layer 1; the roadmaps on operator monotone functions (Section 2.6) and on eigenvalue and singular
-value inequalities (Section 1.1).
+Layer 1; PadicMeasuresIwasawaAlgebras, Section 6.4; OperatorMonotoneFunctionsAndMatrixMeans
+(Section 2.6) and EigenvalueAndSingularValueInequalities (Section 1.1).
 
 ## Worked examples
 
@@ -667,7 +693,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
    for positive maps and the monotonicity of maximal `f`-divergences, Lieb's concavity and Ando's
    convexity in tensor and trace form with rectangular `K`, Hasegawa's divergences, the
    Wigner–Yanase–Dyson skew information, the derivative formula for `D`, and joint convexity and
-   joint subadditivity of the relative entropy and of standard `f`-divergences on matrices.
+   joint subadditivity of the relative entropy and of maximal `f`-divergences on matrices.
 3. **Data processing.** Isometric invariance, additivity on Kronecker products, monotonicity of the
    relative entropy and of the Petz–Rényi quasi-entropies under channels in Kraus form,
    contraction of the trace norm under positive trace-preserving maps, the quantum Pinsker
@@ -676,16 +702,15 @@ The roadmap is complete when Tau Ceti proves all of the following.
 4. **Purification and continuity.** Existence and unitary equivalence of purifications, equal
    entropies of the halves of a pure state, the Araki–Lieb inequality, Audenaert's bound and the
    Fannes–Audenaert inequality.
-5. **Products of positive matrices.** Compound matrices over `ℂ` and their spectral calculus, the
-   Cordes inequality and its spectral radius form, Araki's log-majorization, the
-   Araki–Lieb–Thirring inequality and the Lieb–Thirring inequalities.
+5. **Products of positive matrices.** The adjoint, positivity and spectral calculus of compound
+   matrices over `ℂ`, the Cordes inequality and its spectral radius form, Araki's
+   log-majorization, the Araki–Lieb–Thirring inequality and the Lieb–Thirring inequalities.
 
 **Not owned here.**
 - The von Neumann entropy, the relative entropy, partial traces, Klein's inequality, positivity of
-  the relative entropy for equal traces, `0 ≤ S ≤ log d`, and subadditivity: Tau Ceti, in the pinned
-  source of `TauCeti/Analysis/Matrix/Entropy.lean` and
-  `TauCeti/LinearAlgebra/Matrix/Trace/Partial.lean`
-  (modules not built at the pin; `Suggested.lean` keeps local copies of the definitions).
+  the relative entropy for equal traces, `0 ≤ S ≤ log d`, and subadditivity: Tau Ceti,
+  `TauCeti/Analysis/Matrix/Entropy.lean` and `TauCeti/LinearAlgebra/Matrix/Trace/Partial.lean`,
+  imported.
 - Strong subadditivity, monotonicity of the relative entropy under partial traces including the
   support cases, the relative-entropy calculus for an arbitrary reference, entropy concavity and
   the mixture bounds, mean entropy and the infinite-volume variational principle:
@@ -704,11 +729,15 @@ The roadmap is complete when Tau Ceti proves all of the following.
 - The relative entropy of finite tracial inclusions: [Subfactors](../Subfactors/README.md),
   Section 2.6.
 - Operator monotone and operator convex functions, the Jensen and Choi–Davis–Jensen inequalities,
-  the operator convex powers and `t log t`, and Kubo–Ando means with Ando's inequality: the roadmap
-  on operator monotone functions and matrix means, Layers 1, 2 and 5, consumed here.
-- Weak log-majorization and its transfer to `φ`-sums, and the Lidskii–Mirsky bounds: the roadmap on
-  eigenvalue and singular value inequalities, Sections 1.1 and 3.3, consumed here. The compound
-  matrices of 5.1 are over `ℂ`, which that roadmap leaves beyond its scope.
+  the operator convex powers and `t log t`, and Kubo–Ando means with Ando's inequality:
+  OperatorMonotoneFunctionsAndMatrixMeans, Layers 1, 2 and 5, consumed here.
+- Weak log-majorization and its transfer to `φ`-sums, and the two-sided gauge bound of
+  Lidskii–Mirsky type: EigenvalueAndSingularValueInequalities, Sections 1.1 and 3.3, consumed here.
+  Its exterior powers (Section 2.4) are real, and it leaves exterior powers over `ℂ` beyond its
+  scope.
+- Compound matrices over a commutative ring, their multiplicativity and the unit rule:
+  [PadicMeasuresIwasawaAlgebras](../PadicMeasuresIwasawaAlgebras/README.md), Section 6.4, consumed
+  in 5.1.
 - Hölder's inequality for Schatten norms:
   [NoncommutativeIntegration](../NoncommutativeIntegration/README.md), Section 3.3.
 - Eigenvalue monotonicity and the polar decomposition:
@@ -744,11 +773,16 @@ Paths are relative to `TauCeti/`.
 - Classical Pinsker: `TauCeti.etvDist_sq_le_two_mul_klDiv`
   (`InformationTheory/KullbackLeibler/Pinsker.lean`), with the finite formulas for the
   Kullback–Leibler divergence in `InformationTheory/KullbackLeibler/Finite.lean`.
-- Entropy and partial traces, in the pinned source but not built there: the von Neumann entropy,
-  the relative entropy, Klein's inequality, positivity for equal traces, `0 ≤ S ≤ log d` and
-  subadditivity (`Analysis/Matrix/Entropy.lean`), and the partial traces with their trace, Kronecker
-  and positivity lemmas (`LinearAlgebra/Matrix/Trace/Partial.lean`). `Suggested.lean` keeps verbatim
-  local copies of the four definitions.
+- Entropy and partial traces, imported from `TauCeti.Analysis.Matrix.Entropy`: the von Neumann
+  entropy `Matrix.vonNeumannEntropy`, the relative entropy `Matrix.relativeEntropy`, Klein's
+  inequality `Matrix.PosSemidef.re_trace_sub_trace_le_relativeEntropy`, positivity for equal
+  traces `Matrix.PosSemidef.relativeEntropy_nonneg`, the bounds
+  `Matrix.PosSemidef.vonNeumannEntropy_nonneg` and `Matrix.PosSemidef.vonNeumannEntropy_le_log_card`
+  and subadditivity
+  `Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft`
+  (`Analysis/Matrix/Entropy.lean`), and the partial traces `Matrix.partialTraceRight`,
+  `Matrix.partialTraceLeft` with their trace, Kronecker and positivity lemmas
+  (`LinearAlgebra/Matrix/Trace/Partial.lean`).
 
 ### From other roadmaps
 
@@ -756,14 +790,16 @@ Paths are relative to `TauCeti/`.
   traces, with the support cases (used in 3.2); strong subadditivity is not used.
 - **PolarDecomposition.** Eigenvalue monotonicity under the Loewner order (PD-A52), used in 1.1, and
   the polar decomposition, used in 4.1.
-- **The roadmap on operator monotone functions and matrix means.** Section 1.1
+- **PadicMeasuresIwasawaAlgebras, Section 6.4.** The compound matrix, its multiplicativity and the
+  unit rule, used over `ℂ` in 5.1 and 5.3.
+- **OperatorMonotoneFunctionsAndMatrixMeans.** Section 1.1
   (`IsMatrixConvexOn`, `IsOperatorConvexOn`, local copies), Section 2.2 (the Jensen operator
   inequality, for 2.1), Section 2.3 (Choi–Davis–Jensen, for 2.1), Section 2.6 (the operator convex
   powers, `t log t` and the operator monotone powers, for 2.2 and 5.2) and Section 5.1 (`msqrt`,
   `misqrt`, `opMean`, local copies).
-- **The roadmap on eigenvalue and singular value inequalities.** Section 1.1
-  (weak log-majorization and its transfer to `φ`-sums, for 5.3) and Section 3.3 (the Lidskii–Mirsky
-  bounds, for 4.2).
+- **EigenvalueAndSingularValueInequalities.** Section 1.1 (weak log-majorization and its transfer
+  to `φ`-sums, for 5.3) and Section 3.3 (the two-sided gauge bound, whose trace-norm case is used in
+  4.2).
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -807,11 +843,13 @@ The locators refer to these editions; page numbers are printed page numbers.
   Springer, 1997. Section 6.2 (Lemma 6.2.21, Prop 6.2.22, and the Peierls–Bogoliubov inequality
   on p. 278).
 - F. Hiai, *Quantum f-Divergences in von Neumann Algebras*, Mathematical Physics Studies, Springer,
-  2021. Theorem 2.7, Theorem 3.2 and Theorem 4.4.
+  2021. Definition 3.1, Theorem 3.2, Definition 4.1 and Theorem 4.4.
 - B. Simon, *Loewner's Theorem on Monotone Matrix Functions*, Grundlehren der mathematischen
   Wissenschaften 354, Springer, 2019. Chapters 38–40 (Lieb concavity, the EENG theorem, Ando
   convexity).
 - J. A. Tropp, *An Introduction to Matrix Concentration Inequalities*, Foundations and Trends in
-  Machine Learning 8, 2015. Chapter 8 (trace functions and the matrix perspective).
+  Machine Learning 8, 2015. Chapter 8 (trace functions and the matrix perspective). The locators
+  use the numbering and printed pages of this journal edition, in which Proposition 8.3.4 on
+  p. 182 is the generalized Klein inequality.
 - J. Watrous, *The Theory of Quantum Information*, Cambridge University Press, 2018. Sections 2.1
   and 3.3 (purifications, the trace norm under channels) and Chapter 5 (quantum entropy).
