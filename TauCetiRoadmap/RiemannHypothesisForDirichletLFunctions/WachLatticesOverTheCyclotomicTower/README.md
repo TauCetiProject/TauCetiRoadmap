@@ -46,14 +46,19 @@ first order, at `π = ζ − 1` for every primitive `p`-th root of unity `ζ`.
 and with `ν₀ − p` in place of `π₀ + p` (`Formalism/PieriBlockIdeals/CapelliCentralEnveloping.lean`
 (`Formalism.CohomologicalDescent.HeightDescentMinors.pi0`, `Formalism.CohomologicalDescent.HeightDescentMinors.q0`));
 `ν₀ − p` vanishes to first order at the same points, as `∏_{a=1}^{p−1}(ζ^a − 1) = p`. The reduction `X′` of `ν₀` satisfies
-`X′ ≡ −X` modulo `X²`, so `k[[X′]] = k[[X]]` and nothing below depends on the choice. For `ν₀` it states, for `p` odd, in
+`X′ ≡ −X` modulo `X²`, so `k[[X′]] = k[[X]]`. For `ν₀` it states, for `p` odd, in
 `Formalism/PieriBlockIdeals/PieriColumnMinors/HeckeLFunctionIdealEulerProduct.lean`: substitution of `ν₀` is an injective
 homomorphism `O_E[[Y]] → O_E[[π]]` (`Formalism.CohomologicalDescent.FrobeniusPeriodChange.pi0Subst_laws_hold`), compatible
 with reduction; `φ` maps `O_E[[ν₀]]` to itself and induces `X′ ↦ X′^p` (`frobenius_on_pi0Subst_holds`); and for
 `u = 1 + pc ∈ ℤ_p^×` and `γ_u` with `χ(γ_u) = u` there is exactly one power series `η_u` with
 `γ_u(ν₀) = ν₀·(1 + η_u(ν₀)·(ν₀ − p))`, its constant term is `≡ c` modulo `p` (`unit_series_constant_holds`), and `γ_u` acts
-on `O_E[[ν₀]]` by `Y ↦ Y·(1 + η_u(Y)·(Y − p))` (`gamma_on_pi0Subst_holds`); so `γ(X′) ∈ X′ + X′² + X′³k[[X′]]`, which is
-`γ(X) ∈ X − X² + X³k[[X]]`.
+on `O_E[[ν₀]]` by `Y ↦ Y·(1 + η_u(Y)·(Y − p))` (`gamma_on_pi0Subst_holds`); so `γ(X′) ∈ X′ + X′² + X′³k[[X′]]`, which, as
+`X′ ≡ −X` modulo `X²`, is equivalent to `γ(X) ∈ X − X² + X³k[[X]]`. The ring `k[[X]]` with its `φ` and `γ`, the ideals
+`(ν₀) = (π₀)` and `(ν₀ − p) = (π₀ + p)` of `O_E[[π]]^{Γ_F^{tor}}` (both quotients are units), the lattices and every `X`-adic
+order below are the same for both choices, but a formula written in the coordinate may change sign. The unit `π₀/ν₀` takes
+the value `−1` at the zeros of `π₀ + p`, and `X′^{−1}(γ − 1)` acts as `−∇` on `N̄_i/XN̄_i` (`∇ = X^{−1}(γ − 1)`, 6.5 (2));
+so with `ν₀`, `X′` in place of `π₀`, `X` the eigenvalues of 6.5 (1) are the `−c(−u)` and the Sen weights of 6.5 (2) are the
+`−ū`. The statements below are written with `π₀` and `X`.
 
 For a finite `k[G_F]`-module `A` put `D̄_i(A) := e_iD(A)^{Γ_F^{tor}}` (PhiGammaModulesAndIwasawaCohomology §1.0), a finite-dimensional `k((X))`-space with the
 `φ`-semilinear maps `φ_i : D̄_{i−1}(A) → D̄_i(A)` and the `γ`-semilinear `γ_i`; `A ↦ D̄(A) = (D̄_i(A))_i` is exact. For a
@@ -151,7 +156,8 @@ Berger-Wach-2004, Proposition II.1.1, and, as the inputs of (6)–(7), Propositi
 `B^+_{rig,F} ⊗ N(V)`), Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
 of powers of `φ^{s−1}(q)/p` with the weights as exponents), Proposition III.2.2 (the action of the subgroup of `Γ_F` fixing
 `F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration); Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2) (the
-`Fil⁰` form of the localisations); Wach 1996 (the criterion of (8)); the facts on `π₀` and `X` follow from [FormalProof],
+`Fil⁰` form of the localisations); Wach 1996, Théorème, p. 380, with Remarque a), p. 381 (the criterion of (8)); the facts
+on `π₀` and `X` follow from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p9`),
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/PowerSeriesOneAddConstMulXMulInv.lean`
 (`GlobalTheory.PhiGam.RingPG`); for the `Γ_F^{tor}`-invariant basis of (1), [FormalProof],
@@ -395,8 +401,9 @@ so `x = X^{−1}φ(n₀) + ∇f` with `n₀ ∈ N₀`, `f ∈ F`. Writing `n₀`
 `v + 2 ≤ p(σ_{i−1} + 3) − w_i`. Hence `F ⊂ S + ∇F + L`. Since `∇` preserves `F` and `L` (the `Γ` condition), the cokernel of
 `∇` on the finite-dimensional `F/L` has dimension `≤ r`, and so has its kernel. It contains the image of `Z` and the generalized
 `0`-eigenspace of `∇` on `N/L` (semisimplicity makes it a kernel), of dimension `Σ_{0≤y≤v} sen(N)(y)` by 6.6 (1), and the
-first meets the second trivially modulo `N`. Sources: Herr 1998, §§2–4; Cherbonnier–Colmez 1999 (`ψ` and `γ − 1` on
-`ψ`-zero parts); [FormalProof]; for the Herr complex and Herr pairs, [FormalProof],
+first meets the second trivially modulo `N`. Sources: Herr 1998, Théorème 2.1, p. 572 (the complex), Proposition 3.1,
+p. 578 (`ψ`), and Théorème 3.8 (1), p. 584 (`γ − 1` bijective on the `ψ`-zero part of a torsion module); Cherbonnier–Colmez
+1999, Proposition I.5.1 (the same for `ℤ_p`- and `ℚ_p`-representations); [FormalProof]; for the Herr complex and Herr pairs, [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean` (`GlobalTheory.Models.herrB`),
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/TwistedModelAdmissibleCocycles.lean` (`GlobalTheory.Models.InZZ`);
 (1) follows from [FormalProof], `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/CoeSmulMem.lean`
@@ -568,8 +575,8 @@ high type, both by (P2), and `η_i < p` by (P3). So `b ∈ ∏N_i` and `g ∈ �
 by the lattice `{(a, b) : a ≡ b (mod λ)}` in `χ_1 ⊕ χ_1μ` (`μ` unramified, `μ ≡ 1 (mod λ)`) inside the sum of the two full
 representations `ρ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` and `ρ ⊕ χ_1μ ⊕ χ_2 ⊕ ⋯ ⊕ χ_t`.
 
-Sources: [FormalProof]; Herr 1998 (the comparison of PhiGammaModulesAndIwasawaCohomology §3.6); for the position data,
-[FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MkMemAdmissibleAtIffCocycle.lean`
+Sources: [FormalProof]; Herr 1998, Théorème 2.1, p. 572 (the comparison of PhiGammaModulesAndIwasawaCohomology §3.6);
+for the position data, [FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/MkMemAdmissibleAtIffCocycle.lean`
 (`GlobalTheory.AdmLoc.TopData`), `Formalism/SharpRestriction/LevelLetterCocycles/TableLineDegreeTwo.lean`
 (`Formalism.MainNotions.tableLineDegreeTwo.PositionHyps`); for the arithmetic consequences of being in position, [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AdmissibleLetterDataWindowArithmetic.lean`
@@ -866,9 +873,9 @@ Not owned here. The theory these statements extend is owned by [PhiGammaModulesA
 
 - **Berger-Wach-2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Propositions II.1.1, II.2.1, II.3.1, III.2.1 and III.2.2 and Theorem III.4.4 (6.4, 6.5); Proposition IV.1.3 and the constant `α(r)` of §IV.1 (6.10).
 - **Berger-2008** — Laurent Berger, *Équations différentielles p-adiques et (φ,N)-modules filtrés*, Astérisque 319 (2008), 13–38: Proposition II.2.5 and Théorème V.2.3 (the `Fil⁰` form of the localisations in 6.4 (6)–(7)).
-- Nathalie Wach, *Représentations p-adiques potentiellement cristallines*, Bulletin de la Société Mathématique de France 124 (1996), 375–400: Wach modules and the crystallinity criterion (6.4, 6.5).
-- Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: Herr complexes with torsion coefficients, and `γ − 1` on `ψ`-zero parts modulo `p` (6.7, 6.9, 6.10).
-- Frédéric Cherbonnier and Pierre Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the American Mathematical Society 12 (1999), 241–268: `ψ` and `γ − 1` on `ψ`-zero parts (6.7).
+- Nathalie Wach, *Représentations p-adiques potentiellement cristallines*, Bulletin de la Société Mathématique de France 124 (1996), 375–400: Wach modules and the crystallinity criterion, Théorème, p. 380, with Remarque a), p. 381 (6.4, 6.5).
+- Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: Herr complexes with torsion coefficients (Théorème 2.1, p. 572), the operator `ψ` on torsion modules (Proposition 3.1, p. 578) and the bijectivity of `γ − 1` on their `ψ`-zero parts (Théorème 3.8 (1), p. 584) (6.7, 6.9, 6.10).
+- Frédéric Cherbonnier and Pierre Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the American Mathematical Society 12 (1999), 241–268: `γ − 1` invertible on `ψ`-zero parts, Proposition I.5.1 (6.7).
 - Jean-Marc Fontaine, *Représentations p-adiques des corps locaux I*, The Grothendieck Festschrift II (1990), 249–309: étale `(φ,Γ)`-modules (6.4).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the reduction of Wach lattices modulo `λ`, the comparison and gauge lemmas, the operator `ψ` modulo `p`, the polar counts, the counting theorem, the models and the residual bound (6.4–6.9), of the annihilators of the cokernel of Wach lattices and the truncated Herr complex (6.10), and of the carries of rank-one subquotients (6.11).
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The files and declarations named here are those of the source as published, at the first commit of that repository (<https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005>), with paths relative to its directory `src/` (see the [family index](../README.md)). It is the source of the reduction of Wach lattices modulo `λ`, the comparison and gauge lemmas, the operator `ψ` modulo `p`, the polar counts, the counting theorem, the models and the residual bound (6.4–6.9), of the annihilators of the cokernel of Wach lattices and the truncated Herr complex (6.10), and of the carries of rank-one subquotients (6.11).
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
