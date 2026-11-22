@@ -270,8 +270,8 @@ def foRank {L : FirstOrder.Language.{u, v}} {α : Type w} :
   | _, .imp φ ψ => max (foRank φ) (foRank ψ)
   | _, .all φ => foRank φ + 1
 
-/-- A formula has quantifier rank `0` exactly when it is quantifier-free in the sense of Mathlib's
-`IsQF`. -/
+/-- Sanity check of `foRank` against Mathlib's `IsQF`, not a headline target: a formula has
+quantifier rank `0` exactly when it is quantifier-free. -/
 theorem foRank_eq_zero_iff_isQF
     {L : FirstOrder.Language.{u, v}} {α : Type w} {n : ℕ}
     (φ : L.BoundedFormula α n) :
@@ -957,13 +957,14 @@ noncomputable def isolatedCount [Fintype V] (G : SimpleGraph V) : ℕ := by
   classical
   exact (Finset.univ.filter (fun x => ∀ y, ¬ G.Adj x y)).card
 
-/-- A finite graph satisfies the triangle sentence exactly when its triangle count is positive. -/
+/-- Sanity check of `triangleSentence` against `triangleCount`, not a headline target: a finite
+graph satisfies the triangle sentence exactly when its triangle count is positive. -/
 theorem satisfies_triangleSentence [Fintype V] (G : SimpleGraph V) :
     Satisfies G triangleSentence ↔ 0 < triangleCount G := by
   sorry
 
-/-- A finite graph has no isolated vertex in the sense of the sentence exactly when its
-isolated-vertex count is `0`. -/
+/-- Sanity check of `noIsolatedSentence` against `isolatedCount`, not a headline target: a finite
+graph satisfies the sentence exactly when its isolated-vertex count is `0`. -/
 theorem satisfies_noIsolatedSentence [Fintype V] (G : SimpleGraph V) :
     Satisfies G noIsolatedSentence ↔ isolatedCount G = 0 := by
   sorry
