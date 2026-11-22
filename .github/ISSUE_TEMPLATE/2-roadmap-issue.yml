@@ -155,6 +155,7 @@ body:
         - EisensteinIdealAndRationalTorsion
         - EllipticCohomology
         - EllipticCurveModularityImaginaryQuadratic
+        - EllipticCurveModularityImaginaryQuadraticPartII
         - EllipticCurveModularityTotallyReal
         - EllipticCurves
         - EllipticIntegrals
