@@ -1206,8 +1206,8 @@ be wrong: it is `v_ℓ(Q)·DF`.
 `Formalism/LocalToGlobal/Divisibility/LiftLat.lean` (`Formalism.L2.DIV.BoundsIVAt`),
 `Formalism/LocalToGlobal/Divisibility/LiftLat.lean` (`Formalism.L2.DIV.BlockDat.DG`),
 `Formalism/LocalToGlobal/Divisibility/ClassSum.lean` (`Formalism.L2.DIV.CSD.DGam`); (vi): [FormalProof],
-`Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
-(`Formalism.L2.Indef.Tree.LeafTW1`); (vii), the opening sentence and (a)–(c): [FormalProof],
+`Formalism/DivisorInequality/DivisorInequalityProofs/BaseLevelBoundsWithCovolumeHolds.lean`
+(`Formalism.DivisorInequality.ramified_places_weighted_sum_le_one`); (vii), the opening sentence and (a)–(c): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/ExistsShortFiniteGeneratorsThetaLattice.lean`
 (`GlobalTheory.ThetaFamily.theta_family`),
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/LogSupNormThetaGeneratorLe.lean`
@@ -1430,7 +1430,9 @@ construction.
 [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
 (`Formalism.L2.Indef.Tree.ONwith`),
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
-(`Formalism.L2.Indef.Tree.OnObj.EJ`), `Formalism/LocalToGlobal/IndefiniteForms/IndefSide.lean` (`Formalism.L2.Indef.IndefData.ON`).
+(`Formalism.L2.Indef.Tree.OnObj.EJ`), `Formalism/LocalToGlobal/IndefiniteForms/IndefSide.lean` (`Formalism.L2.Indef.IndefData.ON`);
+the twist term `2e_𝔭/ℓ(𝔭)²`: [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
+(`Formalism.L2.Indef.Tree.LeafTW1`).
 *Needs:* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a′, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a″, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a‴, 8.19e, 8.20, 8.20a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18a, CongruenceModulesOfThetaLifts §7.8,
 CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, CongruenceModulesOfThetaLifts §7.15, CongruenceModulesOfThetaLifts §7.16a, FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b.
 
@@ -1593,7 +1595,8 @@ almost nothing over the chain; a discrepancy `c·w_j(τ)·log Ω` per place and 
 `f·m·b·La`, and one of size `k` would make the inequality trivial. A mismatch between the bulk of the rows and that of
 the columns at the places of the inert class would be of size `f·m·k·b`, above the whole budget: (D2) needs one number.
 
-*NEW*. It follows from [FormalProof], `Formalism/LocalRingCardinality/DataParams₂.lean`
+*NEW*. The inequality is the seventh clause of [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
+(`Formalism.MainNotions.LinkDIV_at`), whose main term is `Formalism/LocalRingCardinality/DataParams₂.lean`
 (`Formalism.BasicNotions.SizeData₂.MAIN`).
 *Needs:* 8.9, 8.10, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20, 8.20b, 8.21; ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.9f.
 
@@ -1643,7 +1646,8 @@ archimedean (ThetaChainsOnDefiniteUnitaryGroups §3.9 (c)), not a cost; the cost
 *NEW*. (a): [FormalProof], `Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean`
 (`Formalism.MainNotions.LocalQuadraticParts.adm11`); its inputs: [FormalProof],
 `Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean` (`Formalism.MainNotions.WeightDegreeSizes.SecondComplementInputs`,
-and `Formalism.MainNotions.WeightDegreeSizes.secondComplement_of_inputs` for the derivation of (a)).
+and `Formalism.MainNotions.WeightDegreeSizes.secondComplement_of_inputs` for the derivation of (a)); (b): the last clause of
+[FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean` (`Formalism.MainNotions.LinkDIV_at`).
 *Needs:* FrobeniusRestrictedRieszSums §0.4 (g), (v), ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, 8.7, 8.8, 8.9, 8.10, 8.20.
 
 ### 8.24a Valuations of the ratios of square constants at the twisted places
