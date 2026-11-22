@@ -16,6 +16,7 @@ body:
       options:
         - AInfCohomology
         - AbelianSchemesAndArithmeticModuli
+        - AbelianSchemesAndArithmeticModuliPartII
         - AbhyankarLemma
         - AdelicAlgebraicGroups
         - AdicCoefficientsAndComparisons
