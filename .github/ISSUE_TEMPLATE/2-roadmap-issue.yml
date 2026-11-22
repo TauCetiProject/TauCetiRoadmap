@@ -78,6 +78,7 @@ body:
         - BordismFormalGroups
         - BorelEquivalenceRelations
         - BorelRegulators
+        - BunGAndNewtonStrata
         - CFSGBasicProperties
         - CFSGStatement
         - CStarAlgebras
@@ -123,6 +124,7 @@ body:
         - CountableStructureSpacesPartII
         - CrystallineCohomology
         - CrystallineCohomologyPartII
+        - CrystallineLocalGlobalCompatibilityCM
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
@@ -225,6 +227,7 @@ body:
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
+        - HeckeStacksAndLocalShtukas
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
         - HermitianKTheoryOfPoincareCategories
@@ -355,6 +358,7 @@ body:
         - PolynomialGaloisGroupsPartIII
         - PositiveMass
         - PositiveScalarCurvature
+        - PotentialAutomorphyInfrastructure
         - PotentialModularityAndCompatibleSystems
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
@@ -411,6 +415,7 @@ body:
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
         - SequentCalculusAndCutElimination
+        - SerreModularityByCompatibleSystems
         - SerreWeightAndLevelOptimisation
         - ShimuraCompactifications
         - ShimuraData
