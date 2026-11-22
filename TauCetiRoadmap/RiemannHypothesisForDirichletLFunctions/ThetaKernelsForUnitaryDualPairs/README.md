@@ -1189,8 +1189,12 @@ of `Φ₁` at `v₁` is supported in a small enough neighbourhood of a matrix of
 
 *The form of the formal proof.* The formal proof has the criterion with `min(r_v, s_v)` in place of `r`, for `V` of one
 signature `(r_v, s_v)` at all real places (the form with the Witt index is Weil's, Weil65), and the three clauses of the
-matrix-coefficient majorant. It has no statement on the absolute sum in the model adapted to `Y` or on the majorant at
-`h = 1`: these two clauses belong to the route below. In their place it bounds the theta kernel itself,
+matrix-coefficient majorant. Of the absolute sum in the model adapted to `Y` it has only the case of split `W = Y ⊕ Y^*`,
+`dim Y = n ≥ 1` (so `𝕏₀ = 0` and the sum is invariant under `U(V)(F)`), at `h = 1`, with `r` the Witt index of `V`: if `r = 0`
+or `m − r > n`, then `∫_{[U(V)]} Σ_{ξ ∈ (V ⊗ Y)(F)} |φ(g⁻¹ξ)| dg` is finite for every Schwartz `φ` on `(V ⊗ Y)(𝔸)`, with no
+bound (FormalProof, `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/WeilThetaConvergence.lean`
+(`GlobalTheory.Published.WeilThetaConvergence`)). That clause for arbitrary `W` and `h`, with its bound, and the majorant at
+`h = 1` are this roadmap's own, proved by the route below. In their place it bounds the theta kernel itself,
 `|θ(g, h; f ⊗ φ)| ≤ p(f)·ht(h)^k·G(g)` for a fixed finite component `φ`, with `p` a continuous seminorm of the
 archimedean component `f`, `ht` the height and `G` integrable over a fundamental domain for `U(V)(F)` in `U(V)(𝔸)`.
 In FormalProof the criterion is `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
