@@ -1748,7 +1748,9 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   (9.7(ii)(d), its case `σ₀ = 1/2`).
 - **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann
   hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification
-  setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths cited are relative to its
-  directory `src/`, at commit `e50d09817ad81469f737e8f637561e6ccf86c670`. The form it has of each statement of
+  setup: <https://github.com/leanprover-community/riemann-hypothesis>. The files and declarations cited are those
+  of the first commit of that repository, the source as published, with the file paths relative to its directory
+  `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
+  The form it has of each statement of
   8.4a, 9.3, 9.4, 10.2 and 10.3 that cites it is recorded at that statement.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
