@@ -234,23 +234,28 @@ The following locators identify the mathematical sources for the substantial tar
 | Targets | Source and locator |
 | --- | --- |
 | Layer 4 forcing theorem; Layer 5 ZFC preservation, including Power Set and Replacement | Karagila, §2.2, Theorems 2.20 and 2.22, especially the Power Set and Replacement arguments in the proof of 2.22 |
-| Layer 7 general chain-condition preservation | Karagila, §3.3, Definition 3.20 and Theorem 3.22 |
-| Layer 7 distributivity, closure, and no-new-sequences | Karagila, §4.2, Definition 4.14, Theorem 4.16, and Corollary 4.17; adapt his indexing convention to the explicit `<κ` convention here |
-| Layer 9 two-step construction and factorization | Karagila, §6.1, Definition 6.1 and its set-sized-name discussion, Theorems 6.4, 6.6, and 6.9 |
+| Layer 5 Separation | Hamkins–Seabold, §1, the separation name in the proof sketch of Theorem 3 (p. 3); Karagila's proof of 2.22 does not treat Separation, Pairing or Empty Set |
+| Layer 7 general chain-condition preservation | Karagila, §3.1, Definition 3.5 and Theorem 3.7 (the deciding-antichain argument), and §3.3, Definition 3.20 and Theorem 3.22, whose proof is that of 3.7 |
+| Layer 7 closure, distributivity, and no-new-sequences | Karagila, §4.1, Definition 4.1, Theorem 4.2 and Exercise 4.3; §4.2, Definition 4.14, Theorem 4.16 and Corollary 4.17 (stated without proof). Karagila's κ-closed and κ-distributive are the `<κ` notions here, with no index shift. The Boolean-algebra characterization of distributivity is not from this source |
+| Layer 9 products and mutual genericity | Karagila, §5.1, Theorems 5.3 and 5.6, Definition 5.5 and Corollary 5.4 |
+| Layer 9 two-step construction, factorization, quotients and ccc | Karagila, §6.1, Definition 6.1 and the Remark on set-sized names after it, Theorem 6.4 (generic factorization), Theorem 6.6 (quotient forcing) and Theorem 6.9 (κ-cc of the iteration); the extension identity `M[G * H] = M[G][H]` is not stated there as a theorem |
 | Layer 3 mixing, maximum/fullness, and ordinary quotient truth | Hamkins–Seabold, §1, Lemmas 1–2; §2, Lemma 10 |
-| Layers 4 and 6 formula-indexed definability and generic/completion comparison | Hamkins–Seabold, §1 following Theorem 3, and §8, including Theorems 40–41 |
-| Layer 8 measure algebra, completeness, and ccc | Fremlin, *Measure Theory*, 321H, 322A(e), 322C(a–c), and 322G |
-| Layer 8 tree codes and their operations | Fremlin, 562A–C; specialize the basic-set codes to Cantor cylinders |
-| Layer 8 random-real names and reinterpretation of codes | Fremlin, 551C–E and 551K(a–d); on Cantor space the Baire sets in this presentation are Borel |
+| Layer 4 formula-indexed definability | Hamkins–Seabold, §1, the passage following Theorem 3 |
+| Layer 6 generated ultrafilters | Hamkins–Seabold, §8, Theorems 40–41: when an ultrafilter on `P` generates one on its completion |
+| Layer 6 poset/Boolean formula comparison | Asserted as well known at the start of Hamkins–Seabold §8; here a derived target, proved by the induction of §6.2 over matching name domains |
+| Layer 8 measure algebra, completeness, and ccc | Fremlin, *Measure Theory* Volume 3, 321H, 322A(e), 322B(e) (essential suprema and suprema), 322C(a–c) and 322G; the essential-supremum construction itself is in Volume 2 (211L, 215B) or 316Fa, to which 322C(c) points; 322D(a) for comparing the Borel and completed quotients |
+| Layer 8 random forcing | Fremlin, Volume 5, 552A |
+| Layer 8 tree codes and their operations | Fremlin, Volume 5, 562A–C; specialize the basic-set codes to Cantor cylinders |
+| Layer 8 random-real names and the reinterpretation of Baire sets | Fremlin, Volume 5, 551C–E and 551K(a–d), for a measurable space with negligibles whose quotient algebra is Dedekind complete. Fremlin reinterprets Baire sets (`H ↦ H̃`), not codes; the code-level adapter of Layer 8 is derived by combining 551K with 562. On Cantor space the Baire sets in this presentation are Borel |
 | Layer 6 internal regular-cut adapter | A derived interface built from Layer 4's per-formula definability and density regularity, Layer 2's completion, and Layer 3's formula induction; its preservation of ground-coded joins and matching-domain theorem are new proof obligations |
 | Layer 7 specified-test and ground-value-cover interfaces | The deciding-antichain and coordinate-decision arguments of the preceding preservation targets, localized to their actual name/domain/test inputs |
 
 - Kenneth Kunen, *Set Theory*, 2011: set forcing, names, the forcing theorem, preservation, and iterations.
 - Thomas Jech, *Set Theory*, third millennium edition, 2003: Boolean-valued models, forcing, chain conditions, and distributivity.
 - John L. Bell, *Set Theory: Boolean-Valued Models and Independence Proofs*, third edition, 2005: Boolean-valued semantics, mixing, and quotient interpretations.
-- [Asaf Karagila, *Forcing and Symmetric Extensions*](https://karagila.org/files/Forcing-2023.pdf), Part I, especially Chapters 2–6: generic extensions, examples, closure/distributivity, products, and iterations.
+- [Asaf Karagila, *Forcing and Symmetric Extensions*](https://karagila.org/files/Forcing-2023.pdf), version of 24 August 2026 (the numbering above refers to it), Part I, especially Chapters 2–6: generic extensions, examples, closure/distributivity, products, and iterations.
 - [Joel David Hamkins and Daniel E. Seabold, *Well-founded Boolean ultrapowers as large cardinal embeddings*](https://arxiv.org/abs/1206.6075v1), 2012 manuscript: fullness, ultrafilter quotients, and the relation to generic extensions.
-- D. H. Fremlin, *Measure Theory*: [Chapter 32, Measure algebras](https://www1.essex.ac.uk/maths/people/fremlin/chap32.pdf), [Chapter 55, Possible worlds](https://www1.essex.ac.uk/maths/people/fremlin/chap55.pdf), and [Chapter 56, Choice and determinacy](https://www1.essex.ac.uk/maths/people/fremlin/chap56.pdf). Use the numbered items above as the locators; the relevant code/evaluation interfaces must still be constructed in Lean.
+- D. H. Fremlin, *Measure Theory*: Volume 3, [Chapter 32, Measure algebras](https://www1.essex.ac.uk/maths/people/fremlin/chap32.pdf) (version of 21.7.11), and Volume 5, [Chapter 55, Possible worlds](https://www1.essex.ac.uk/maths/people/fremlin/chap55.pdf) (7.1.15) and [Chapter 56, Choice and determinacy](https://www1.essex.ac.uk/maths/people/fremlin/chap56.pdf) (3.1.15). Use the numbered items above as the locators; the relevant code/evaluation interfaces must still be constructed in Lean.
 - [Jesse Michael Han and Floris van Doorn, *A Formalization of Forcing and the Unprovability of the Continuum Hypothesis*](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2019.19), ITP 2019: formal Boolean-valued forcing and the distinction between semantic constructions and proof-theoretic independence.
 - [Cameron Freer, `forcing`](https://github.com/cameronfreer/forcing): poset-first order/genericity, names, and material forcing; Apache-2.0 implementation source.
 - [Flypitch](https://github.com/flypitch/flypitch) and [its Lean 4 port](https://github.com/zhangjunphy/flypitch-lean4): Boolean-valued models and independence constructions. Reuse mathematical constructions while respecting Mathlib's syntax and current APIs.
