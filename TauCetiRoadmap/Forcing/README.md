@@ -699,7 +699,7 @@ not claims that a source already supplies their exact Lean packaging.
 | Layer 3 mixing, maximum/fullness, and ordinary quotient truth | Hamkins–Seabold, §1, Lemmas 1–2; §2, Lemma 10 |
 | Layer 4 formula-indexed definability | Hamkins–Seabold, §1, the passage following Theorem 3 |
 | Layer 6 generated ultrafilters | Hamkins–Seabold, §8, Theorems 40–41: when an ultrafilter on `P` generates one on its completion |
-| Layer 6 poset/Boolean formula comparison | Asserted as well known at the start of Hamkins–Seabold §8; here a derived target, proved by the induction of §6.2 over matching name domains |
+| Layer 6 poset/Boolean formula comparison | A derived target here, proved by the induction of Layer 6 item 2 over matching name domains. The start of Hamkins–Seabold §8 (p. 19) asserts the correspondence of generic filters on `P` and on its completion, not the formula comparison |
 | Layer 8 measure algebra, completeness, and ccc | Fremlin, *Measure Theory* Volume 3, 321H, 322A(e), 322B(e) (essential suprema and suprema), 322C(a–c) and 322G; the essential-supremum construction itself is in Volume 2 (211L, 215B) or 316Fa, to which 322C(c) points; 322D(a) for comparing the Borel and completed quotients |
 | Layer 8 random forcing | Fremlin, Volume 5, 552A |
 | Layer 8 tree codes and their operations | Fremlin, Volume 5, 562A–C; specialize the basic-set codes to Cantor cylinders |
