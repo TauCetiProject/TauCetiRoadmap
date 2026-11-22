@@ -1482,8 +1482,9 @@ The following chains must be visible in the exported results:
 
 - Representative HP/JEP/AP → served extension requests → direct-limit extension →
   native Fraïssé limit → rooted comparison.
-- Native binomial law → finite edge independence → witness-count law → explicit
-  extension bound → bounded-rank truth agreement → FO limit and joint eventual truth.
+- Finite edge independence gives the witness-count law and the extension-failure bound.
+  Combining that bound with Layer 5's deterministic rank agreement gives the finite-law estimate
+  and the FO limit. Summability gives joint eventual truth.
 - Native first-order syntax → measurable realization → graph relabeling invariance →
   existing ergodicity/mixture law → graph-specific zero–one and mixture evaluations.
 - Native clique/isolated-vertex counts → factorial-moment formulas → proved Poisson
