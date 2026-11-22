@@ -2348,11 +2348,10 @@ of the integers of `ℚ̄_ℓ` ([FormalProof],
 (`UpperTheory.V.Sd.HasExp`),
 `Development/AutomorphicArithmetic/AutomorphicVarieties/IdeleGenerators/IsCondAt.lean`
 (`UpperTheory.V.Sd.hk`)). *Dictionary.* In parallel weight `k ≥ 2` these forms are, through the classical–adelic comparison
-(R16.1.6 for `F = ℚ`, HilbertModularForms §6.2 for `[F : ℚ] ≥ 2`), the classical Hilbert modular forms of
+(R16.1.6 for `F = ℚ`; for `[F : ℚ] ≥ 2` the comparison of these adelic forms with the classical Hilbert modular forms of
+NoncommutativeAndEquivariantIwasawa §F.5 is the usual one and is not given here), the classical Hilbert modular forms of
 NoncommutativeAndEquivariantIwasawa §F.5 of weight `k`, level `𝔫` and central character `ω`, whose components `f_𝔟` satisfy
-`f_𝔟|γ = ω_𝔫(d)⁻¹f_𝔟` for every `γ = (a b; c d)` in the group `Γ₀(𝔫)_𝔟` of the component, `ω_𝔫 = ∏_{v|𝔫}ω_v`; in HilbertModularForms
-§2.7, which imposes these two laws, they make up the space of the character `η = ω⁻¹`, whose central law `η(z)⁻¹|z|^{k₀−2}` is
-that of `ω` twisted by a power of the norm. `c(𝔪)` is their
+`f_𝔟|γ = ω_𝔫(d)⁻¹f_𝔟` for every `γ = (a b; c d)` in the group `Γ₀(𝔫)_𝔟` of the component, `ω_𝔫 = ∏_{v|𝔫}ω_v`. `c(𝔪)` is their
 normalized ideal coefficient, and the Hecke operator at `w` normalised for the weight `k` is their `T_w` (`U_w` when `w | 𝔫`), the
 two acting on these coefficients by the same formula; so `ω(w)` is the value of the nebentypus in the formula for `T_w`. Over
 `ℚ`, a form `f` of level `N` with `f|γ = χ(d)f` for every `γ = (a b; c d)` in `Γ₀(N)` has character `ω` with `ω(p) = χ(p)` for the
@@ -2498,8 +2497,8 @@ places prime to the level, for two characters of finite order with `η₁η₂ =
 there, so one of `η₁, η₂` is `≡ 1` at every idele (Artin reciprocity, ClassFieldTheory Layer 11, and Chebotarev Layer 10), and the
 eigenvalues at a place of `P` above `ℓ` and at a place above `ℓ` outside `P` then force `ω(w) ≡ 1` at one of them, against the
 hypothesis. *Needs:* 3.20(e₀), 3.23; ModularForms Layer 0 and Conventions; AlgebraicModularFormsAndSerreWeights §§1.2, 2.10, 2.15,
-Layer 2, §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5; HilbertModularForms
-§§2.7, 6.2; ArithmeticLocallySymmetricSpaces ALS.F.6;
+Layer 2, §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5;
+ArithmeticLocallySymmetricSpaces ALS.F.6;
 DirichletPadicLFunctions §§0.4, 2.3, 2.4; PadicFamilies §§1.7, 1.8, 1.8a, 1.9; PotentialAutomorphyInfrastructurePartII §§0.8, 0.9;
 HeckeIdealsAndTaylorWilesRelations §3.13a (with its contract for PotentialAutomorphyInfrastructurePartII §3.5 (1));
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§14.1, 16.1; IntegralIwasawaTheory §9.3; ClassFieldTheory Layer 11; Chebotarev
@@ -2572,7 +2571,7 @@ AG2.0.
 
 ### Dependencies
 
-Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, GL2AutomorphicRepresentationsAndTransfer, HilbertModularForms, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
+Layer 0 above, and the settings of 4.4 and 4.5 below (definitions only, using only Layer 0) in 3.20 and 3.21, and the cyclotomic exponents of 4.8 (a definition) in a remark of 3.1. From this family: ReducibilityIdealsAndUltrafilterPatching, HeckeIdealsAndTaylorWilesRelations, BaseChangeAndGaloisRepresentationsForUnitaryGroups. Other roadmaps: ArithmeticLocallySymmetricSpaces, AutomorphicFormsOnReductiveGroups, RepresentationTheory/LieHighestWeight, ArithmeticGaloisDuality, CyclotomicClassGroupsAndStickelberger, DirichletPadicLFunctions, ClassFieldTheory, GlobalGaloisDeformations, LocalGaloisDeformationRings, ArithmeticGaloisRepresentations, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, Chebotarev, PadicHodgeTheory, NoncommutativeAndEquivariantIwasawa, DeformationAndDerivedPatchingAlgebra, EndoscopicTransferAndUnitaryTraceComparison, PotentialAutomorphyInfrastructurePartII, ModularForms, AlgebraicModularFormsAndSerreWeights, GL2AutomorphicRepresentationsAndTransfer, PadicFamilies, AutomorphicGaloisRepresentationsPartII, ModularityAndLanglandsExtensions, AutomorphicLFunctionsAndLocalFactors. Mathlib.
 
 ## Layer 4: residually reducible Eisenstein components
 
@@ -3998,7 +3997,7 @@ local–global compatibility (AutomorphicGaloisRepresentationsPartII), with the 
 (ModularityAndLanglandsExtensions §2.43); the Bloch–Kato local conditions, their dimension and their orthogonality
 (SelmerIwasawaCohomology §4.9); the Jacquet–Shalika bound (AutomorphicLFunctionsAndLocalFactors AL.3.3.8); the classification of generic
 representations by segments (SmoothRepresentationsOfLocalGroups SR.5.2); the minus part of abelian fields by Bernoulli
-numbers (BernoulliBoundsForClassGroupEigenspaces §10.1); the class-number bounds of number fields through divisor sums (ExplicitNumberFields §§0.3, 5.3); Hilbert modular forms: the adelic carrier with its finite Hecke action (GL2AutomorphicRepresentationsAndTransfer R16.1.6), the classical forms of parallel weight at least two with their coefficients, integral lattices and Hecke operators (NoncommutativeAndEquivariantIwasawa §F.5), the classical–adelic comparison for `[F : ℚ] ≥ 2` (HilbertModularForms §§2.7, 6.2), and the level-one Hasse lift (IntegralIwasawaTheory §9.3). Washington's theorem on the prime-to-`p` part of class numbers in a
+numbers (BernoulliBoundsForClassGroupEigenspaces §10.1); the class-number bounds of number fields through divisor sums (ExplicitNumberFields §§0.3, 5.3); Hilbert modular forms: the adelic carrier with its finite Hecke action (GL2AutomorphicRepresentationsAndTransfer R16.1.6), the classical forms of parallel weight at least two with their coefficients, integral lattices and Hecke operators (NoncommutativeAndEquivariantIwasawa §F.5), and the level-one Hasse lift (IntegralIwasawaTheory §9.3). Washington's theorem on the prime-to-`p` part of class numbers in a
 cyclotomic `ℤ_p`-tower is not used. Towers at an odd tower prime are not treated. The routes use purity of Frobenius
 eigenvalues only through the temperedness of the local components above `ℓ` of regular algebraic conjugate self-dual cuspidal
 representations over CM fields (AutomorphicGaloisRepresentationsPartII AG2.5, *Temperedness of regular unitary-type cuspidal
@@ -4133,11 +4132,6 @@ R16.1.6 (finite-level automorphic functions on `GL₂(𝔸_F)` with central char
 archimedean differentiation, for every number field; over `ℚ`, their identification with classical forms, a form of nebentypus `χ`
 having central character `χ⁻¹` on the finite units), the carrier of the Hilbert modular forms of 3.22(e)–(h). R17.4.13 (the
 Gelbart–Jacquet lift), for the seeds of 4.2. R17.6.4 (Frobenius-semisimple Weil–Deligne compatibility, with monodromy, away from `ℓ` for newforms), in 4.8(a).
-
-### From TauCetiRoadmap.HilbertModularForms
-
-§2.7 (the spaces with finite nebentypus, with their central and component laws) and §6.2 (the classical–adelic comparison), both
-for `[F : ℚ] ≥ 2`, in the dictionary of the conventions of 3.22(e)–(h).
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
