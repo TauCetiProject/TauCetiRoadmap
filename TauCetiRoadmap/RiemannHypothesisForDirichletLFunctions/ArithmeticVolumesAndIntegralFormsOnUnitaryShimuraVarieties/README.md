@@ -867,7 +867,9 @@ In the setting of 8.15 with the transitive symmetry
 of 8.15d, put `Λ_E(B) = log(B·rd_E) + |(L′/L)(1, χ_K)|` and `j′ = min(p, q)`. Prove:
 
 (a) *Heights on the base.* Let `ω_{j′}` be the determinant of the Hodge piece of rank `j′` on a component (for `q ≤ p`,
-`ω_{j′} = ⊗_τ det(ω_{cτ}) = ω_q` of 8.14; for `p < q`, `⊗_τ det(ω_τ)`), with the Hodge metric multiplied by `exp(U/2)`, where the
+`ω_{j′} = ⊗_τ det(ω_{cτ}) = ω_q` of 8.14; for `p < q`, `⊗_τ det(ω_τ)`), with the Hodge norm multiplied by `exp(−U/2)` (for
+a local frame `e` the potential `−log‖e‖` is increased by `U/2`, so the heights of points increase by the mean of `U/2`
+over the embeddings), where the
 *cusp weight* `U` at a point is `max(0, sup_I −log nz(I))` over the nonzero saturated isotropic `𝒪_E`-submodules `I` of its
 period lattice (`nz(I)` the product over `τ` of the Gram determinants of the `τ`-components of a basis of `I`, divided by
 the index), regularised, and with the integral structure of the cut-off `B` (the vertical factors at the primes of
