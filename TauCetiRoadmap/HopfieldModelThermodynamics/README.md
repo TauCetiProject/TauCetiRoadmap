@@ -289,11 +289,12 @@ Route.
 
 ### Examples
 
-- Random patterns: if the columns `c_0, c_1, …` are independent and uniform on `{±1}^P` and the
-  `N`-th system uses `c_0, …, c_{N−1}`, then almost surely `columnFreq → 2^{−P}` for every type
-  (the strong law, `ProbabilityTheory.strong_law_ae`, for the indicators of each type), and 2.1
-  and 2.2 give `(1/N) log Z_N → pressure β 0` for every `β ≥ 0`: the free energy of the
-  Curie–Weiss model.
+- Random patterns: if `P ≥ 1`, the columns `c_0, c_1, …` are independent and uniform on
+  `{±1}^P` and the `N`-th system uses `c_0, …, c_{N−1}`, then almost surely
+  `columnFreq → 2^{−P}` for every type (the strong law, `ProbabilityTheory.strong_law_ae`, for
+  the indicators of each type), and 2.1 and 2.2 give `(1/N) log Z_N → pressure β 0` for every
+  `β ≥ 0`: the free energy of the Curie–Weiss model. For `P = 0` the partition function is
+  `2^N`, so the limit is `log 2`, which is smaller than `pressure β 0` when `β > 1`.
 - Mean-field equations: the maximisers of `Φ_ν` solve
   `m = Σ_η ν(η) spinVec η tanh(β⟪m, spinVec η⟫)`, for `P = 1` the Curie–Weiss equation
   `m = tanh(βm)`.
@@ -486,8 +487,8 @@ Route.
 - `TauCetiRoadmap.MarkovChainMixing.tvToStationary_le_of_isMarkovCoupling` (MarkovChainMixing
   4.1) with `P(X_t ≠ Y_t) ≤ E dist(X_t, Y_t) ≤ N(1 − c/N)^t` gives the first bound. (Path coupling
   through `TauCetiRoadmap.MarkovChainMixing.tvToStationary_le_pow_mul_diam`, MarkovChainMixing
-  4.2, also applies, with the Hamming metric on Mathlib's type synonym `Hamming`: on plain
-  functions `ι → Bool` Mathlib's metric is the supremum metric, not the Hamming distance.)
+  4.2, also applies, with the Hamming metric on Mathlib's type synonym `Hamming`: plain
+  functions `ι → Bool` carry no metric in Mathlib.)
 - `N(1 − c/N)^t ≤ N e^{−ct/N} ≤ ε` once `t ≥ N(log N + log(1/ε))/c`.
 - Hebbian case, from the first clause: `hopfieldLaw ξ β` is
   `gibbs (ising (−½ hebb ξ) 0) (β/N)` (as `−0 = 0`), `hebb ξ` is symmetric and its off-diagonal
@@ -522,8 +523,9 @@ Route.
 
 ### Examples
 
-- The gap between 4.1 and 4.2: for uniform patterns mixing is exponentially slow for `β > 1`
-  and fast for `|β| P < 1`; the regime `1/P ≤ β ≤ 1` is not settled by these two theorems.
+- The gap between 4.1 and 4.2: for `P ≥ 1` and uniform patterns mixing is exponentially slow
+  for `β > 1` and fast for `|β| P < 1`; the regime `1/P ≤ β ≤ 1` is not settled by these two
+  theorems.
 
 ### Dependencies
 
