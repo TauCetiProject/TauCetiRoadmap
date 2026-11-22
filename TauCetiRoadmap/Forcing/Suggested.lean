@@ -20,8 +20,7 @@ here finishes neither a layer nor the roadmap. The `sorry`s are proposed targets
 proofs. Every definition below has an actual body.
 
 The order and genericity prototypes draw on Cameron Freer's Apache-2.0 library
-`cameronfreer/forcing`, and the Boolean-valued kernel on Steven Sabean's Apache-2.0
-`boolean-valued-analysis`. Neither is a dependency.
+`cameronfreer/forcing`. It is not a dependency.
 -/
 
 @[expose] public section
