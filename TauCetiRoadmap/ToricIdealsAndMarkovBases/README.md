@@ -24,10 +24,11 @@ The main results are these.
 - *Graver bases.* The conformally minimal moves form a finite set, the Graver basis. Over a field,
   every element of every reduced Gröbner basis of `I_A` is the binomial of a Graver element, and
   every circuit (primitive move of minimal support) occurs, up to sign, in the reduced Gröbner
-  basis for some monomial order. If `A` has rank `r` and all its `r × r` minors lie in
-  `{0, 1, −1}`, the Graver basis is the set of circuits. The Graver basis is the least set of moves
-  that improves every non-optimal point of every bounded integer program `min c·v`, `A v = A u`,
-  `0 ≤ v ≤ a`.
+  basis for some monomial order. If, for `d` the rank of `A`, some `d` rows of `A` have a nonzero
+  `d × d` minor and all their nonzero `d × d` minors share one absolute value (as when `A` is
+  totally unimodular), the Graver basis is the set of circuits. The Graver basis is the least set
+  of moves that improves every non-optimal point of every bounded integer program `min c·v`,
+  `A v = A u`, `0 ≤ v ≤ a`.
 
 The roadmap rests on the Tau Ceti library's toric ideals, Gröbner bases, standard monomials and
 normal forms (realising GroebnerGeometry's first two layers); on TensorProductCombinatorics for
@@ -415,15 +416,34 @@ although `h = 1 − X^(c⁺)` has degree `c⁺ ≠ 0`. So `w = c` and `h = moveB
 
 ### 3.4 The unimodular case
 
-Prove `graverBasis_eq_circuits`: if `A` has real rank `r` (`(A.map ((↑) : ℤ → ℝ)).rank = r`) and
-every `r × r` column minor `(A.submatrix id e).det`, `e` injective, lies in `{0, 1, −1}`, then
-`graverBasis A = circuits A`. This is Sturmfels' theorem for unimodular matrices (*Gröbner Bases
-and Convex Polytopes*, not consulted; stated by Conca, (8), p. 6, and by Almendra-Hernández, De
-Loera and Petrović, p. 13, for totally unimodular matrices, without proof), stated here in the
-normalised form whose hypotheses are those of IntegerPolyhedraAndTotalUnimodularity 2.1; a matrix
-whose nonzero maximal minors share an absolute value other than `1` is not covered. (Proved here.)
+Prove `graverBasis_eq_circuits`: let `d` be the real rank of `A`
+(`(A.map ((↑) : ℤ → ℝ)).rank = d`), `ρ : Fin d → Fin r` a choice of `d` rows and `δ` an integer.
+If every `d × d` minor `(A.submatrix ρ e).det`, `e : Fin d → ι`, of the chosen rows lies in
+`{0, δ, −δ}`, and one of them is nonzero, then `graverBasis A = circuits A`. A nonzero minor forces
+`ρ` to be injective and `δ ≠ 0`. The theorem applies to every totally unimodular `A`, of any rank
+(`δ = 1` and `ρ` any `d` linearly independent rows), and to every `A` of rank `r` whose `r × r`
+minors lie in `{0, 1, −1}` (`ρ = id`, `δ = 1`). This is Sturmfels' theorem for unimodular matrices
+(*Gröbner Bases and Convex Polytopes*, not consulted; stated by Conca, (8), p. 6, and by
+Almendra-Hernández, De Loera and Petrović, p. 13, for totally unimodular matrices, without
+proof). (Proved here.)
 
-Route. *Circuits are Graver elements* (for every `A`): if `h ⊑ c` is a nonzero move, its support
+Route. *Reduction to independent rows with minors in `{0, ±1}`.* Write `A_ρ = A.submatrix ρ id`,
+choose columns `e₀` with `det (A.submatrix ρ e₀) ≠ 0` and put `Q = A.submatrix ρ e₀`, so
+`det Q = ±δ ≠ 0`. The `d` rows `ρ` are linearly independent (`Q` is invertible), so they are a
+basis of the row space of `A`, which has dimension `d` (`Matrix.rank_eq_finrank_span_row`); every
+row of `A` is a rational combination of them, so `A` and `A_ρ` have the same integer kernel, hence
+the same moves, Graver basis and circuits (both sets are defined through the moves alone). Put
+`A' = Q⁻¹ A_ρ = (det Q)⁻¹ • (adjugate Q * A_ρ)`. By Cramer's rule
+(`Matrix.cramer_eq_adjugate_mulVec`, `Matrix.cramer_apply`), its entry `(i, j)` is the minor
+`det (A.submatrix ρ (Function.update e₀ i j))` divided by `det Q`; that minor lies in
+`{0, δ, −δ}`, so the entry lies in `{0, 1, −1}` and `A'` is an integer matrix, `A' : Matrix (Fin d)
+ι ℤ`. As `Q` is invertible, `A'` has the kernel of `A_ρ`, hence that of `A`, and real rank `d`, and
+its `d × d` minors are `det (A.submatrix ρ e) / det Q ∈ {0, 1, −1}` (`Matrix.det_mul`). So
+`graverBasis A = graverBasis A'` and `circuits A = circuits A'`, and it suffices to prove the
+theorem for `A'`, which has real rank equal to its number of rows and all maximal minors in
+`{0, 1, −1}`. For the rest of the route, write `A` for `A'` and `r` for `d`.
+
+*Circuits are Graver elements* (for every `A`): if `h ⊑ c` is a nonzero move, its support
 lies in that of `c`, so it equals it, and `c j • h − h j • c` has smaller support for `j` in the
 support, hence is `0`; so `h = t c` with `t` rational, `0 < t ≤ 1`, and integral as `c` is
 primitive, so `h = c`. *Graver elements are circuits:* let `g` be Graver, `σ` its sign vector
@@ -449,26 +469,38 @@ for small `t > 0` the point `(D t y, |g| − D t y)` would lie in `P` but not on
 `g / d ⊑ g`, a nonzero move different from `g`, for every common divisor `d > 1`.
 
 **Checks.**
-- *2 × 3 tables.* The margin matrix of `2 × 3` tables has five rows of rank `4`; keeping the two
-  row sums and the first two column sums gives a `4 × 6` matrix of rank `4` with the same kernel and
-  maximal minors in `{0, 1, −1}`. Its Graver basis and its circuits are the six vectors
-  `±(e_(1k) − e_(1l) − e_(2k) + e_(2l))`. For each of the `64` sign vectors, the matrix `B` of the
-  route has rank `10` and maximal minors in `{0, 1, −1}`.
-- *Unimodularity is needed.* The twisted cubic has rank `2` and maximal minors `1, 2, 3`; its
-  Graver basis is larger than its circuits (3.1). For it, the matrices `B` have maximal minors in
-  `{0, ±1, ±2, ±3}`.
-- *The rank hypothesis is needed.* Repeating the second row of the twisted cubic gives a `3 × 4`
-  matrix of rank `2`; all its `3 × 3` minors are `0`, so the minor condition holds, but the Graver
-  basis is still not the set of circuits.
-- *The converse fails.* `A = (1 2)` has the minor `2`, yet its Graver basis and circuits are both
-  `±(2, −1)`.
-- `r = 0`: the only minor is the empty one, of determinant `1`, every vector is a move, and the
-  Graver basis and the circuits are the `±e_j`.
+- *2 × 3 tables, no row deleted.* The margin matrix of `2 × 3` tables (two row sums, three column
+  sums) has five rows of rank `4` and is totally unimodular. For each of the `120` injective
+  choices `ρ` of four of its rows, every `4 × 4` minor of the chosen rows lies in `{0, 1, −1}` and
+  some is nonzero, so 3.4 applies with `δ = 1`. Its Graver basis and its circuits are the six
+  vectors `±(e_(1k) − e_(1l) − e_(2k) + e_(2l))`. For `ρ` the two row sums and the first two column
+  sums, and `e₀` the columns `11, 12, 13, 21`, the matrix `A'` of the route is
+  `(1 0 0 0 −1 −1; 0 1 0 0 1 0; 0 0 1 0 0 1; 0 0 0 1 1 1)`, and for each of the `64` sign vectors
+  the matrix `B` built from `A'` has rank `10` and maximal minors in `{0, 1, −1}`.
+- *A common value `δ > 1`.* `A = (2 2)` has rank `1` and minors `2, 2`; its Graver basis and
+  circuits are both `±(1, −1)`. `A = (1 1 0; 1 −1 2)` has rank `2` and minors `−2, 2, 2`; with
+  `e₀` the first two columns, `A' = (1 0 1; 0 1 −1)`, and the Graver basis and the circuits are
+  both `±(1, −1, −1)`.
+- *Unimodularity is needed.* The twisted cubic has rank `2`, and the nonzero `2 × 2` minors of its
+  two rows (in either order) have the absolute values `1, 2, 3`; its Graver basis is larger than
+  its circuits (3.1).
+- *Some chosen minor must be nonzero.* Repeating the second row of the twisted cubic gives a
+  `3 × 4` matrix of rank `2`. For `ρ` the two equal rows every `2 × 2` minor is `0`, so the minor
+  condition holds for every `δ`, but the Graver basis is still not the set of circuits.
+- *`d` must be the rank of `A`.* The first row `(1 1 1 1)` of the twisted cubic has all its
+  `1 × 1` minors equal to `1`, but the rank of the twisted cubic is `2`, not `1`, and its Graver
+  basis is not the set of circuits.
+- *The converse fails.* `A = (1 2)` has the minors `1` and `2`, yet its Graver basis and circuits
+  are both `±(2, −1)`.
+- `A = 0` (any `r`): `d = 0`, `ρ` is the empty choice, the only minor is the empty one, of
+  determinant `1`, so `δ = ±1`; every vector is a move, and the Graver basis and the circuits are
+  the `±e_j`.
 
 *Needs:* 3.1; IntegerPolyhedraAndTotalUnimodularity 2.1
 `forall_det_mem_iff_forall_extremePoints_realFibre` and its copy of `realFibre`; Mathlib
-`Set.extremePoints`, `closure_convexHull_extremePoints`, `Matrix.rank`, `Matrix.det`,
-`Matrix.submatrix`, `Matrix.reindex`.
+`Set.extremePoints`, `closure_convexHull_extremePoints`, `Matrix.rank`,
+`Matrix.rank_eq_finrank_span_row`, `Matrix.det`, `Matrix.det_mul`, `Matrix.adjugate`,
+`Matrix.cramer_eq_adjugate_mulVec`, `Matrix.cramer_apply`, `Matrix.submatrix`, `Matrix.reindex`.
 
 ### 3.5 Graver bases are the least test sets
 
@@ -510,9 +542,10 @@ a move `t` with `g⁺ − t` feasible and `c·t > 0`, so `g⁺ − t = g⁻` and
 - *Unimodular matrices.* If `A` satisfies the hypotheses of 3.4, then by 3.2 every reduced
   Gröbner basis of the toric ideal consists of circuit binomials, and these generate the ideal
   (Tau Ceti `MonomialOrder.IsGroebnerBasis.ideal_eq_span`); by 1.1 over `k = ℚ` the circuits form
-  a Markov basis. For `m × n` tables with fixed margins, after one redundant margin row is deleted,
-  the hypotheses hold, and the circuits are the alternating moves along the cycles of the complete
-  bipartite graph (Conca, p. 6).
+  a Markov basis. For `m × n` tables with fixed margins, the margin matrix, with no row deleted, is
+  the incidence matrix of the complete bipartite graph `K_(m,n)`; it has rank `m + n − 1` and is
+  totally unimodular, so the hypotheses hold with `δ = 1` and any `m + n − 1` of its `m + n` rows,
+  and the circuits are the alternating moves along the cycles of `K_(m,n)` (Conca, p. 6).
 - *The general chain of inclusions.* For any `A`, 3.3 and 3.2 give circuits ⊆ (reduced Gröbner
   basis vectors, up to sign) ⊆ Graver basis, and by 1.1 the Graver basis is a Markov basis. For the
   twisted cubic the first inclusion is strict and the second an equality.

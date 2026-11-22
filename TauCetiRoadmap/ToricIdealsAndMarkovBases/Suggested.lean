@@ -14,9 +14,10 @@ pins and is stated here.
 The toric ideal of an integer matrix `A` is Tau Ceti's `TauCeti.toricIdeal` of the family of
 columns of `A`, the kernel of `X j ↦ χ^(A e_j)`; its binomial generation
 (`TauCeti.toricIdeal_eq_span`), Gröbner bases, standard monomials, normal forms and reduced
-bases are Tau Ceti library and are not restated. Three definitions are copied verbatim, each marked: the fibre `Fibre` from
-TensorProductCombinatorics §1.5, and the Metropolis–Hastings kernel `mhKernel` with its
-acceptance probability `mhAcceptance` from LangevinAndHamiltonianMonteCarlo 1.1–1.2.
+bases are Tau Ceti library and are not restated. Three definitions are copied verbatim, each
+marked: the fibre `Fibre` from TensorProductCombinatorics §1.5, and the Metropolis–Hastings kernel
+`mhKernel` with its acceptance probability `mhAcceptance` from LangevinAndHamiltonianMonteCarlo
+1.1–1.2.
 Irreducibility is Mathlib's `ProbabilityTheory.Kernel.IsIrreducible` for the counting measure.
 -/
 
@@ -197,12 +198,13 @@ theorem exists_isReducedGroebnerBasis_of_mem_circuits (k : Type*) [Field k]
         (moveBinomial k c ∈ G ∨ moveBinomial k (-c) ∈ G) := by
   sorry
 
-/-- 3.4 For an integer matrix of real rank `r` whose `r × r` minors lie in `{0, 1, −1}`, the
+/-- 3.4 Let `d` be the real rank of `A` and `ρ` a choice of `d` rows. If every `d × d` minor of
+these rows lies in `{0, δ, −δ}` for one integer `δ`, and some such minor is nonzero, then the
 Graver basis is the set of circuits. -/
-theorem graverBasis_eq_circuits (A : Matrix (Fin r) ι ℤ)
-    (hrank : (A.map ((↑) : ℤ → ℝ)).rank = r)
-    (hdet : ∀ e : Fin r → ι, Function.Injective e →
-      (A.submatrix id e).det ∈ Set.range SignType.cast) :
+theorem graverBasis_eq_circuits (A : Matrix (Fin r) ι ℤ) {d : ℕ}
+    (hrank : (A.map ((↑) : ℤ → ℝ)).rank = d) (ρ : Fin d → Fin r) (δ : ℤ)
+    (hdet : ∀ e : Fin d → ι, (A.submatrix ρ e).det ∈ ({0, δ, -δ} : Set ℤ))
+    (hne : ∃ e : Fin d → ι, (A.submatrix ρ e).det ≠ 0) :
     graverBasis A = circuits A := by
   sorry
 
