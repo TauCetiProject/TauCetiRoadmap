@@ -16,7 +16,8 @@ which is the first commit of a
 That repository says of the proof that it belongs to its author and was published without a license,
 and that it is mirrored there for verification only: unmodified at that first commit, and with the
 changes listed in its notes since. The files the roadmaps of this family name are files of the
-source as published, so they are to be looked up at that first commit, under its directory `src/`. The theorems of that proof are
+source as published, so they are to be looked up at that first commit, under its directory `src/`;
+the reference to the formal proof in each roadmap names that commit. The theorems of that proof are
 the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
 Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
 them by published theorems and are not statements of the formal proof. Each roadmap states as
