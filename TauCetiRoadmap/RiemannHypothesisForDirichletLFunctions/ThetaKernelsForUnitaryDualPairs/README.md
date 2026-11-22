@@ -1783,8 +1783,11 @@ The formal proof states the theorem, in the case used, in
 `Development/AbelianVarietyTheory/Definitions/LatticeFrames/SiegelWeilFock.lean`
 (`GlobalTheory.Core.Rk.IP.SiegelWeilFock`),
 `Development/AbelianVarietyTheory/PublishedTheorems/SiegelWeil₂/SiegelWeilUnitarySchrodinger.lean`
-(`GlobalTheory.Published.SiegelWeilUnitarySchrodinger`), `Development/WeilBound/ThetaLifts/LatticeBasics/HypothesesS.lean`
-(`GlobalTheory.ThK.Dbl.SiegelWeilStd`).
+(`GlobalTheory.Published.SiegelWeilUnitarySchrodinger`) and, in Weil's range, in
+`Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/WeilSiegelFormulaUnitary.lean`
+(`GlobalTheory.Published.WeilSiegelFormulaUnitary`). The formal proof has the case `r = 0` of
+MetaplecticAutomorphicForms §6.4, for `V` definite and all `m, n ≥ 1`, with the constant `1` for `n < m` and `2` for `n ≥ m`, in
+`Development/WeilBound/ThetaLifts/LatticeBasics/HypothesesS.lean` (`GlobalTheory.ThK.Dbl.SiegelWeilStd`).
 *Needs:* 5.7a; MetaplecticAutomorphicForms §§5.7, 6.1, 6.2, 6.4;
 AutomorphicLFunctionsAndLocalFactorsPartII §§1.1, 1.3 (for unitary pairs over a CM extension, the Siegel family of the
 sections of MetaplecticAutomorphicForms §6.2); AutomorphicSpectralTheory §§1.1–1.4, 2.4, 2.4a.
