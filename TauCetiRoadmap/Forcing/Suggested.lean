@@ -1,15 +1,3 @@
-/-
-# Suggested interfaces for forcing
-
-The roadmap's README.md is the definitive specification. This file contains
-non-exhaustive suggested interfaces, not an exhaustive list of required declarations.
-The theorem bodies below are admitted targets, not implementations.
-
-The order and genericity prototypes draw on Cameron Freer's Apache-2.0 library:
-https://github.com/cameronfreer/forcing
-They describe mathematical interfaces rather than requiring that library as a dependency.
--/
-
 module
 
 public import Mathlib.Data.Finset.Basic
@@ -20,6 +8,21 @@ public import Mathlib.Order.CompleteBooleanAlgebra
 public import Mathlib.Order.Heyting.Regular
 public import Mathlib.Order.PFilter
 public import Mathlib.Order.UpperLower.CompleteLattice
+public import Mathlib.ModelTheory.Syntax
+public import Mathlib.SetTheory.ZFC.Basic
+
+/-!
+# Forcing, generic extensions, and Boolean-valued semantics: target signatures
+
+`README.md` is the definitive specification. This file states suggested signatures for some of
+its definitions and targets; it is not an exhaustive checklist, and discharging every declaration
+here finishes neither a layer nor the roadmap. The `sorry`s are proposed targets, not established
+proofs. Every definition below has an actual body.
+
+The order and genericity prototypes draw on Cameron Freer's Apache-2.0 library
+`cameronfreer/forcing`, and the Boolean-valued kernel on Steven Sabean's Apache-2.0
+`boolean-valued-analysis`. Neither is a dependency.
+-/
 
 @[expose] public section
 
@@ -235,16 +238,123 @@ theorem injective_of_separative {R : Type w} [PartialOrder R]
 end CompletionMap
 
 /-- The completion map is required to be the displayed regularization of principal lower sets.
-Its carrier has the completeness property `regular_has_lubs`.
-Nonemptiness of P and nonzero map values rule out the trivial Boolean algebra. -/
-theorem exists_regular_completionMap [Nonempty P] :
+Its carrier has the completeness property `regular_has_lubs`. -/
+theorem exists_regular_completionMap :
     ∃ e : CompletionMap P (Heyting.Regular (LowerSet P)),
       ∀ p, e.toFun p = regularCondition p := by
   sorry
 
-/-! The README specifies the full material forcing theorem, ZFC preservation, Boolean
-name semantics, comparison, worked forcing notions, and two-step factorization.
-No unnamed `Prop` fields stand in for those mathematical obligations here. -/
+/-! ## Names and valuation
+
+Poset names carry a condition on each child; Boolean names carry a Boolean weight. Child indices
+live in the universe `w`, separate from the universes of the conditions and of the coefficients.
+Valuation at a set of conditions (respectively of Boolean values) keeps exactly the children whose
+label lies in that set. -/
+
+/-- Well-founded names over a forcing preorder: a child index type, the children, and the
+condition attached to each child. -/
+inductive PName (P : Type u) : Type (max u (w + 1))
+  | mk (ι : Type w) (child : ι → PName P) (cond : ι → P)
+
+/-- Well-founded Boolean-weighted names: a child index type, the children, and the Boolean
+weight of each child. -/
+inductive BName (B : Type v) : Type (max v (w + 1))
+  | mk (ι : Type w) (child : ι → BName B) (wt : ι → B)
+
+/-- Valuation of a poset name at a set of conditions `G` (in practice a filter): the pre-set of
+the valuations of the children whose condition lies in `G`. -/
+def PName.val (G : Set P) : PName.{u, w} P → PSet.{w}
+  | .mk ι child cond => ⟨{i : ι // cond i ∈ G}, fun i ↦ PName.val G (child i.1)⟩
+
+/-- Valuation of a Boolean name at a set of Boolean values `U` (in practice a filter). -/
+def BName.val {B : Type v} (U : Set B) : BName.{v, w} B → PSet.{w}
+  | .mk ι child wt => ⟨{i : ι // wt i ∈ U}, fun i ↦ BName.val U (child i.1)⟩
+
+/-- Relabel a poset name along a map of conditions into a Boolean algebra, in practice a
+completion map. -/
+def PName.relabel {B : Type v} (f : P → B) : PName.{u, w} P → BName.{v, w} B
+  | .mk ι child cond => .mk ι (fun i ↦ PName.relabel f (child i)) (fun i ↦ f (cond i))
+
+omit [Preorder P] in
+/-- **Layer 6, valuation along the completion map.** A poset name and its relabelling along
+`f` have the same value when the conditions are evaluated at the preimage of the Boolean values:
+a child labelled `p` is kept on the left exactly when the child labelled `f p` is kept on the
+right. For a completion map `e` and a Boolean filter `U`, the preimage `e ⁻¹' U` is the
+corresponding filter of conditions, so this fixes the name types, the universes, the translation
+and the two valuations in which the README's formula comparison
+(`p ⊩ φ(τ⃗) ↔ e p ≤ ⟦φ(τ̂⃗)⟧`, over matching name domains) is stated. -/
+theorem PName.val_relabel {B : Type v} (f : P → B) (U : Set B) (τ : PName.{u, w} P) :
+    (τ.relabel f).val U = τ.val (f ⁻¹' U) := by
+  induction τ with
+  | mk ι child cond ih =>
+    simp only [PName.relabel, BName.val, PName.val]
+    congr 1
+    funext i
+    exact ih i.1
+
+/-! ## The Boolean-valued universe for the language of set theory
+
+The README's Layer 3 is the Boolean-valued universe of set theory: Boolean equality and membership
+of Boolean names, and Boolean values of formulas of the language of set theory, with the
+quantifiers ranging over a stated domain of names. -/
+
+/-- The relation symbols of set theory: one binary symbol, membership. -/
+inductive SetRel : ℕ → Type
+  | mem : SetRel 2
+
+/-- The language of set theory: no function symbols and one binary relation symbol. -/
+def setLang : FirstOrder.Language.{0, 0} where
+  Functions := fun _ ↦ Empty
+  Relations := SetRel
+
+/-- A term of the language of set theory is a variable. -/
+def setLang.termVar {α : Type*} : setLang.Term α → α
+  | .var a => a
+  | .func f _ => (f : Empty).elim
+
+namespace BName
+
+variable {B : Type v} [CompleteBooleanAlgebra B]
+
+/-- Boolean equality, by mutual inclusion:
+`⟦x = y⟧ = (⨅ i, wₓ i ⇨ ⨆ j, w_y j ⊓ ⟦xᵢ = y_j⟧) ⊓ (⨅ j, w_y j ⇨ ⨆ i, wₓ i ⊓ ⟦xᵢ = y_j⟧)`. -/
+def eqVal : BName.{v, w} B → BName.{v, w} B → B
+  | mk _ cx wx, mk _ cy wy =>
+      (⨅ i, wx i ⇨ ⨆ j, wy j ⊓ eqVal (cx i) (cy j)) ⊓
+        (⨅ j, wy j ⇨ ⨆ i, wx i ⊓ eqVal (cx i) (cy j))
+
+/-- Boolean membership: `⟦x ∈ y⟧ = ⨆ j, w_y j ⊓ ⟦x = y_j⟧`. -/
+def memVal (x : BName.{v, w} B) : BName.{v, w} B → B
+  | mk _ cy wy => ⨆ j, wy j ⊓ eqVal x (cy j)
+
+/-- The Boolean value of a formula of set theory, with the quantifiers ranging over the stated
+domain `D` of names: the README's comparison takes `D` to be the relabelled ground names, not all
+Boolean names. -/
+def truth (D : Set (BName.{v, w} B)) :
+    ∀ {α : Type*} {n : ℕ}, setLang.BoundedFormula α n → (α → D) → (Fin n → D) → B
+  | _, _, .falsum, _, _ => ⊥
+  | _, _, .equal t₁ t₂, v, xs =>
+      eqVal (Sum.elim v xs (setLang.termVar t₁)).1 (Sum.elim v xs (setLang.termVar t₂)).1
+  | _, _, .rel R ts, v, xs =>
+      match (R : SetRel _), ts with
+      | .mem, ts => memVal (Sum.elim v xs (setLang.termVar (ts 0))).1
+          (Sum.elim v xs (setLang.termVar (ts 1))).1
+  | _, _, .imp φ ψ, v, xs => truth D φ v xs ⇨ truth D ψ v xs
+  | _, _, .all φ, v, xs => ⨅ d : D, truth D φ v (Fin.snoc xs d)
+
+/-- Boolean equality is reflexive. -/
+theorem eqVal_self (x : BName.{v, w} B) : eqVal x x = ⊤ := by
+  sorry
+
+/-- Boolean equality is transitive. -/
+theorem eqVal_trans (x y z : BName.{v, w} B) : eqVal x y ⊓ eqVal y z ≤ eqVal x z := by
+  sorry
+
+end BName
+
+/-! The README specifies the material forcing theorem, ZFC preservation, the formula comparison
+over matching name domains, the worked forcing notions and two-step factorization. No unnamed
+`Prop` field stands in for those obligations here. -/
 
 end TauCetiRoadmap.Forcing
 
