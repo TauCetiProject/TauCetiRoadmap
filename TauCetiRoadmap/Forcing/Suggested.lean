@@ -10,6 +10,13 @@ its definitions and targets; it is not an exhaustive checklist, and discharging 
 here finishes neither a layer nor the roadmap. The `sorry`s are proposed targets, not established
 proofs. Every definition below has an actual body.
 
+The file states the order kernel, the external chain-condition and closure properties, the
+regular completion, names and their valuations, and the Boolean-valued universe of set theory. It
+does not state the material forcing theorem, ZFC preservation, the formula comparison of Layer 6,
+the worked forcing notions or two-step factorization: these need carriers the file does not build,
+namely a transitive ground with its internal codes, the canonical ground-name domain and the
+forcing relation over it. The README specifies them.
+
 The order and genericity prototypes draw on Cameron Freer's Apache-2.0 library
 `cameronfreer/forcing`. It is not a dependency.
 -/
@@ -350,9 +357,8 @@ theorem eqVal_trans (x y z : BName.{v, w} B) : eqVal x y ⊓ eqVal y z ≤ eqVal
 
 end BName
 
-/-! The README specifies the material forcing theorem, ZFC preservation, the formula comparison
-over matching name domains, the worked forcing notions and two-step factorization. No unnamed
-`Prop` field stands in for those obligations here. -/
+/-! No unnamed `Prop` field stands in for the obligations the module docstring lists as unstated
+here. -/
 
 end TauCetiRoadmap.Forcing
 
