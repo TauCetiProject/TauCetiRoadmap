@@ -70,7 +70,8 @@ Proposition 14]. A copy of ClassFieldTheory's `localAbsoluteUpperRamificationGro
 README's `F_K` of FilteredLocalGaloisGroups 2.1 is this filtration. -/
 noncomputable def localAbsoluteUpperRamificationGroup
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (v : LocalFieldsRamification.RamificationIndexDomain) : Subgroup (Field.absoluteGaloisGroup K) :=
+    (v : LocalFieldsRamification.RamificationIndexDomain) :
+    Subgroup (Field.absoluteGaloisGroup K) :=
   ⨅ M : FiniteGaloisIntermediateField K (AlgebraicClosure K),
     letI := finiteIntermediateFieldValuativeRel K (AlgebraicClosure K) M.toIntermediateField
     letI := finiteIntermediateFieldTopology K (AlgebraicClosure K) M.toIntermediateField
@@ -119,7 +120,10 @@ and local fields `K`, `K'` of residue characteristic `p`, every isomorphism
 `G : G_K ≃ₜ* G_{K'}` carrying `G_K(v)` onto `G_{K'}(v)` for every `v ≥ 0` is `τ ↦ e ∘ τ ∘ e⁻¹`
 for a ring isomorphism `e : K̄ ≃ K̄'` that restricts to a continuous isomorphism `K ≃ K'`.
 [Abrashkin 2000, Thm. A′, p. 139] proves it for `p ≠ 2`; the README deduces it from Theorem A
-and the uniqueness of README 5.5. -/
+and the uniqueness of README 5.5. The signature carries no hypothesis on the residue
+characteristics: a filtered isomorphism forces them to be equal, since for `v > 0` the group
+`G_K(v)` is a nontrivial closed subgroup of wild inertia, hence a nontrivial pro-`p` group, so the
+wider statement adds only vacuous cases. -/
 theorem exists_ringEquiv_conj_of_filtered_absoluteGaloisGroup
     (G : Field.absoluteGaloisGroup K ≃ₜ* Field.absoluteGaloisGroup K')
     (hG : ∀ v : LocalFieldsRamification.RamificationIndexDomain, 0 ≤ (v : ℝ) →

@@ -486,10 +486,15 @@ Setting of Layer 1.
 - Prop. 2.2 and Cor. 2.3 (one proof, printed under Cor. 2.3): `f ↦ f_an` is multiplicative
   modulo `ℳ^{(v)}` for `v < p^{N₀}`;
 - Prop. 2.4: `η^* ∈ Aut_adm ℳ` for `η ∈ Aut⁰K`;
-- Props. 2.5 (`p ≠ 2`) and 2.6 (`p = 2`): one normalization step of `f_an` by an `η^*` with
-  `η(t) ≡ t mod t^{w₀}`;
-- Prop. 2.7: equality of the `α_{cb0}(η^*)` for `a ≤ c ≤ b < w₀` determines `η(t)` modulo
-  `t^{v₀}`, with `v₀ = w₀ − a + 1` for `p ≠ 2` and `(w₀ − a + 1)/2` for `p = 2`.
+- Prop. 2.5 (`p ≠ 2`, `w₀ ∈ ℕ`, `w₀ + 1 ≤ p^{N₀}`): if `f ∈ Aut_adm ℳ` has `α_{1a0}(f) = δ_{1a}` for
+  `1 ≤ a < w₀` and `α_{2a0}(f) = 0` for `a ≡ 1 mod p`, `a ≤ w₀`, there is `η ∈ Aut⁰K` with
+  `η(t) ≡ t mod t^{w₀}` for which `η^* ∘ f` satisfies the same with `w₀ + 1` in place of `w₀`;
+- Prop. 2.6 (`p = 2`, `w₀ = 4M`, `M ∈ ℕ`, `w₀ + 1 < 2^{N₀}`): if `f ∈ Aut_adm ℳ` has
+  `α_{1a0}(f) = δ_{1a}` for `1 ≤ a ≤ w₀ − 3` and `α_{3a0}(f) = δ_{3a}` for `3 ≤ a ≤ w₀ − 1`, there
+  is `η ∈ Aut⁰K` for which `η^* ∘ f` satisfies both for `a ≤ w₀ + 1`;
+- Prop. 2.7: let `a ∈ ℤ(p)` and `w₀ ≤ ap^{N₀}`, with `w₀ ∈ pℕ`, `w₀ > a + 1` for `p ≠ 2` and
+  `w₀ ∈ 4ℕ`, `w₀ > a + 2` for `p = 2`. For `η, η₁ ∈ Aut⁰K`, equality of `α_{cb0}(η^*)` and
+  `α_{cb0}(η₁^*)` for all `b, c ∈ ℤ(p)` with `a ≤ c ≤ b < w₀` gives `η(t) ≡ η₁(t) mod t^{v₀}`, with `v₀ = w₀ − a + 1` for `p ≠ 2` and `(w₀ − a + 1)/2` for `p = 2`.
 
 **Source corrections** (Prop. 2.7's proof, pp. 13–14): read "`a + 2M ≥ w₀`" for
 "`2M ≥ w₀`"; for `M = 1` and `p = 2` run its two steps in the other order; when `a ≡ −1` and
@@ -508,13 +513,18 @@ continuous `ℤ_p`-algebra automorphism of `A` with `f(A^{(v)}) = A^{(v)}` for a
   `ℱ_γ(v)`, `γ ≥ v` (Theorem B and 2.3);
 - Prop. 5.2: `A^{(v)}_adm ⊇ A^{(v)}_k ⊇ A^{(v)}_tr ⊇ pA^{(v)}_adm`, the stated `k`-basis of
   `A^{(v)}_adm/A^{(v)}_tr`, and `f(A^{(v)}_tr) = A^{(v)}_tr`;
-- Prop. 5.3: each `adm₂` element occurs in exactly one `σ^mℱ_γ(v)`;
+- Prop. 5.3: let `v ≥ 0`, let `p^sΔ_{a₁n₁}Δ_{a₂n₂}` be an `adm₂` element, and `n = min(n₁₂, n₂₁)`. If
+  `v/p^{N₀−n} ≤ d(v) = min{v − a : a ∈ ℤ, a < v}`, then `p^sa₁Δ_{a₁n₁}Δ_{a₂n₂}` occurs in
+  `σ^mℱ_γ(v)` for exactly one `m ∈ ℤ/N₀` and `γ ≥ v`. It is applied only for `v ∈ ℕ`, `v < p^{N₀}`,
+  `n₁ = n₂ = 0`, and for `v = c + 1/p`, `n₁ = 0`, `n₂ = −1`, `c ∈ ℕ`, `c < p^{N₀−2}` (Remark, pp. 37–38);
 - Prop. 5.4 and Cor. 5.5: `α_{110}(f) = α` forces `α_{aa0}(f) = α^a`, for `a < p^{N₀−1}` when
   `p ≠ 2` and `N₀ ≥ 2`, and for `a < 2^{N₀}` when `p = 2` and `N₀ ≥ 3`;
 - **Prop. 5.6**: for `N₀ ≥ 3`, `α_{110}(f) ≠ 0` and `a, b < p^{N₀−2}`, `α_{a, b, −m}(f) = 0`
   whenever `b/p^m < a`. So `f` is admissible below `p^{N₀−2}`;
-- Prop. 5.7 and Lemma 5.8: periodicity of `α_{b, b+r, 0}(f)` in `b` with period `δ(p)`
-  (`p` for `p ≠ 2`, `4` for `p = 2`). The proof proves the shift by `+δ(p)`, and that is the
+- Prop. 5.7 and Lemma 5.8: let `r ∈ ℕ` with `α_{aa'0}(f) = 0` whenever `a, a' ∈ ℤ(p)`,
+  `a < a' < a + r < p^{N₀−2}` (§5.4), and let `α_{110}(f) = 1`. For `b, b + r ∈ ℤ(p)` with
+  `b + r + δ(p) < p^{N₀−2}`, `α_{b, b+r, 0}(f) = α_{b−δ(p), b+r−δ(p), 0}(f)`: periodicity in `b` with
+  period `δ(p)` (`p` for `p ≠ 2`, `4` for `p = 2`). The proof proves the shift by `+δ(p)`, and that is the
   statement;
 - **Prop. 5.9**: for `α_{110}(f) ≠ 0` and `N₀ ≥ 3` there is `η ∈ Aut⁰K` with
   `α_{ab0}(η^* ∘ f) = δ_{ab}` for `a ≤ b < p^{N₀−3}`; here `η(t) = α_{110}(f)⁻¹t` at the
@@ -549,7 +559,11 @@ unramified extension of degree `p^s` in `K(p)`, with residue field `k_s`, `N_s =
 - `Ω̂¹ = Ω̂¹_{𝒪_{K_ur}}`, the `t`-adically completed differentials, with the Cartier operator
   `C`. It is `σ⁻¹`-linear, its kernel is the exact forms, and
   `C(g^p dt/t) = g dt/t`;
-- `π_{Ks}(u ⊗ α) = α du/u` and `π_{K∞}(D^∞_{an}) = t^{ap^n − 1}dt` for `n ≥ 0`, `0` for `n < 0`;
+- `π_{Ks}(u ⊗ α) = α du/u` and `π_{K∞}(D^∞_{an}) = −t^{ap^n − 1}dt` for `n ≥ 0`, `0` for `n < 0`.
+  The sign is that of the generators of the conventions, which correspond to the inverses of the
+  source's units; [Abrashkin 2010, p. 16] has `+t^{ap^n − 1}dt` for its own generators. Nothing
+  in Layers 4–6 depends on it: (A1) and Props. 3.1–3.4 are unchanged when `π` and `π'` both
+  change sign;
 - Prop. 3.1: `ℳ_{K∞}` does not depend on `t`;
 - Prop. 3.2: `π_{K∞}` maps onto `Ω̂¹`, with kernel spanned by the `D^∞_{an}`, `n < 0`.
 
@@ -589,7 +603,9 @@ Galois, the targets are:
 - **comparability** of systems `g_{LL'}`, `f_{KK'}` of module maps, through the squares with
   `ℳ_{Ls} → ℳ_{Ks}`, and the limit square (3.2);
 - **condition C**: an isomorphism `κ : I_{L/K} ≅ I_{L'/K'}` intertwining the inertia actions;
-- **Prop. 3.5**: admissibility passes from `g_{LL'}` to `f_{KK'}`;
+- **Prop. 3.5**: if `g_{LL'}` and `f_{KK'}` are comparable and `g_{LL'}` satisfies condition C,
+  admissibility passes from `g_{LL'}` to `f_{KK'}`. Condition C gives (3.8) and the equality of
+  ramification indices in (A3);
 - **Prop. 3.6**: if both systems are special admissible and locally analytic and condition C
   holds, then `η_{LL'}|_K = η_{KK'}`.
 
@@ -603,6 +619,10 @@ Galois, the targets are:
 - `C(c·t^{ap^n}dt/t) = σ⁻¹(c)·t^{ap^{n−1}}dt/t` for `n ≥ 1` and `C(c·t^a dt/t) = 0`, since
   `t^a dt/t = d(t^a)/a` is exact. So `C^{n+1}` kills `t^{ap^n}dt/t`, and (A2) forces `C'^{n+1}`
   to kill its image. That is the vanishing pattern of (3.1).
+- The sign of `π`, for `k = 𝔽_p` (`N₀ = 1`, `α₀ = β₁ = 1`): `D_{a0}` corresponds to
+  `E(1, t^a)^{−1/a}`, whose `dlog` is `−(t^a + t^{ap} + ⋯)dt/t`, so `π_{K0}(D_{a0}) = −Σ_{i ≥ 0}
+  t^{ap^i}dt/t` and `π_{K∞}(D^∞_{a0}) = −t^{a−1}dt`. With the source's generators
+  `E(1, t^a)^{1/a}` the sign is `+`; this tells the two normalizations apart.
 
 ## Layer 5: Theorem A in characteristic `p`
 
@@ -921,7 +941,7 @@ Every `p`.
   `i : G_1 → G_2` with `i(G_1^{(ψ_{G_2, i(G_1)}(v))}) = i(G_1) ∩ G_2^{(v)}`. This is
   FilteredLocalGaloisGroups' `GroupFiltration` with restriction 1.5 and its Herbrand function
   1.4, and Prop. of §1.2 (composition) is FilteredLocalGaloisGroups 1.4's tower law;
-- the functor `RF(K, K̃) = G_K` with its upper filtration, and `RF(i)(τ) = i⁻¹ ∘ τ ∘ i`. That
+- the contravariant functor `RF(K, K̃) = G_K` with its upper filtration, and `RF(i)(τ) = i⁻¹ ∘ τ ∘ i`. That
   it is a functor is FilteredLocalGaloisGroups 2.2;
 - **Prop. of §1.3**: `RF` is faithful. An automorphism of `K̃` commuting with an open subgroup of
   `G_K` is the identity, by reciprocity.
@@ -1046,8 +1066,8 @@ absolute ramification index `e_K`. Put `v_K = p^{M+1}e_K/(p − 1)`, `a_K = e_K(
 
 [Abrashkin 2000, §§6.1–6.2, pp. 164–166]. The targets:
 - the tower `K_s = K(π_s)`, `π_s^p = π_{s−1}`, `π₀ = π_K`, and `K̃ = ⋃K_s`;
-- `𝒦 = X_K(K̃)` with the uniformizer `t = (π_s)`. This is FieldOfNorms' Kummer worked example
-  and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.3;
+- `𝒦 = X_K(K̃)` with the uniformizer `t = (π_s)`. This is FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.3; FieldOfNorms'
+  Kummer worked example is its case `K = ℚ_p`, `π = p`;
 - the embedding `ι : 𝒢_𝒦 → G_K` with `ι(𝒢_𝒦^{(x)}) = ι(𝒢_𝒦) ∩ G_K(φ_{K̃/K}(x))`
   (FieldOfNorms 2.2, 3.3);
 - `Gal(K_M/K) = ℤ/p^M·τ₀`, `τ₀(π_M) = ζ_Mπ_M`;
@@ -1110,7 +1130,8 @@ Krasner's lemma in Deligne's form [Deligne 1984, Remark A.6.3]: `K/L` is determi
 `𝒪_L`-algebra `𝒪_K mod π_L^{v(K/L) + 1 + ε}`, here with `L = ℚ_p(ζ_M)` and
 `π_L^{p^{M−1}} ~ p^{1/(p−1)}`.
 
-*Layer 11 needs:* Layers 7, 8 and 10; FieldOfNorms 1.4, 2.2, 3.3 and its Kummer worked example;
+*Layer 11 needs:* Layers 7, 8 and 10; FieldOfNorms 1.4, 2.2, 3.3;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.3;
 Lemma 1 of §6.2 needs RamificationOfCompleteDiscretelyValuedFields §4a.2.
 
 **Checks.**
@@ -1255,7 +1276,14 @@ needs Layers 7, 8 and 10 and FieldOfNorms 1.4, 2.2, 3.3.
 - **4.4**: the cofinal systems `E_F = F·E_∞` inside `E(p)`, and the argument showing that they
   satisfy 4.3's hypothesis.
 - **Worked examples**: the Kummer tower `ℚ_p(p^{1/p^∞})`, its elementary tower and its field of
-  norms `𝔽_p((t))`, `t = (p^{1/p^n})`, in the general form `K(π_K^{1/p^∞})`.
+  norms `𝔽_p((t))`, `t = (p^{1/p^n})`, for `K = ℚ_p` and `p` odd.
+
+### From FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+- **§R07.4.3**, `kummerFieldOfNorms`: for `K/ℚ_p` finite and `K_∞ = K(π_n)`, `π_n^p = π_{n−1}`,
+  `π₀ = π_K`, the extension `K_∞/K` is strictly APF, `X_K(K_∞) ≅ k((u))` with `u ↦ (π_n)` for `p`
+  odd (`(−π_n)` for `p = 2`, which Layer 11 excludes), and `L ↦ X_K(L)` gives
+  `G_{K_∞} ≅ Gal(k((u))^sep/k((u)))`. Layer 11 uses it for `K ∋ ζ_M`.
 
 ### From FunctionFieldArithmetic
 
@@ -1350,8 +1378,9 @@ needs Layers 7, 8 and 10 and FieldOfNorms 1.4, 2.2, 3.3.
 - J.-P. Serre, *Galois Cohomology*, Springer — II §2.2 (`cd_p ≤ 1` in characteristic `p`).
 - P. Berthelot and W. Messing, *Théorie de Dieudonné cristalline III*, in *The Grothendieck
   Festschrift* I, Birkhäuser, 1990 — the liftings `O_M(L)`.
-- I. R. Shafarevich, *On p-extensions*, Mat. Sb. **20** (1947) — the exponential `E(β, X)` and
-  the basis of principal units.
+- I. R. Shafarevich, *A general reciprocity law*, Mat. Sb. **26** (1950), 113–146; English
+  translation in Amer. Math. Soc. Transl. Ser. 2 **2** (1956), 59–72 — the exponential `E(β, X)`
+  and the basis of principal units, as cited in [Abrashkin 2010, ref. 9].
 - J.-P. Wintenberger, *Le corps des normes de certaines extensions infinies de corps locaux;
   applications*, Ann. Sci. ÉNS **16** (1983), 59–89; *Extensions abéliennes et groupes
   d'automorphismes de corps locaux*, C. R. Acad. Sci. Paris **290** (1980), 201–203; through
