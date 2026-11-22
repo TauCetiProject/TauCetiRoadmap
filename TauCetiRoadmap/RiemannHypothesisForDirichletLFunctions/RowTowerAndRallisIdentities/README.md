@@ -1911,7 +1911,7 @@ that every twist set lies over one prime of `K` above each rational prime and av
 `1` such that, on every cover of its algebraic tower (5.10a), uniform and pinned in its sense, of auxiliary level `p_d` (odd,
 squarefree, a product of primes split in `K`, prime to the level `M` of the tower and to the primes of the host) whose
 field `𝕂 ⊂ ℂ` contains the values of `μ_j`, of `η̃·‖·‖_{𝔸_E}^{1/2}` and the ray class field of `K` of conductor `M·p_d`, for
-every class `s` of `V_j`, every finite test function supported on the lattice, periodic modulo `M·p_d` and with values in
+every `s ∈ U(V_j)(𝔸_f)`, every finite test function supported on the lattice, periodic modulo `M·p_d` and with values in
 `𝕂`, and every harmonic polynomial with coefficients in `𝕂`, the phase times the theta function `g ↦ θ(s, g)` is a
 `𝕂`-rational form on the cover; and so are its product with `α(det g)` and the theta function of the tuple twisted by `α`,
 for every character `α` of `E` of finite order, trivial on `𝔸_F^×`, tamely ramified, unramified outside `p_d`, with values
