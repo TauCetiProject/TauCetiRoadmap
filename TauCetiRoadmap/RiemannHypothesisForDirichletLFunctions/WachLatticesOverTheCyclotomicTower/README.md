@@ -42,6 +42,19 @@ Since `F` is unramified, `Γ_F ≅ ℤ_p^×`; write `Γ_F^{tor}` for its torsion
 `(p, π^p)`; `k[[π]]^{Γ_F^{tor}} = k[[X]]`; `φ(X) ∈ X^p·k[[X]]^×`; `γ(X) ∈ X − X² + X³k[[X]]`; and `π₀ + p` vanishes, to
 first order, at `π = ζ − 1` for every primitive `p`-th root of unity `ζ`.
 
+*The form of [FormalProof].* [FormalProof] works with the norm `ν₀ := ∏_{δ∈Γ_F^{tor}} δ(π)` in place of the trace `π₀`,
+and with `ν₀ − p` in place of `π₀ + p` (`Formalism/PieriBlockIdeals/CapelliCentralEnveloping.lean`
+(`Formalism.CohomologicalDescent.HeightDescentMinors.pi0`, `Formalism.CohomologicalDescent.HeightDescentMinors.q0`));
+`ν₀ − p` vanishes to first order at the same points, as `∏_{a=1}^{p−1}(ζ^a − 1) = p`. The reduction `X′` of `ν₀` satisfies
+`X′ ≡ −X` modulo `X²`, so `k[[X′]] = k[[X]]` and nothing below depends on the choice. For `ν₀` it states, for `p` odd, in
+`Formalism/PieriBlockIdeals/PieriColumnMinors/HeckeLFunctionIdealEulerProduct.lean`: substitution of `ν₀` is an injective
+homomorphism `O_E[[Y]] → O_E[[π]]` (`Formalism.CohomologicalDescent.FrobeniusPeriodChange.pi0Subst_laws_hold`), compatible
+with reduction; `φ` maps `O_E[[ν₀]]` to itself and induces `X′ ↦ X′^p` (`frobenius_on_pi0Subst_holds`); and for
+`u = 1 + pc ∈ ℤ_p^×` and `γ_u` with `χ(γ_u) = u` there is exactly one power series `η_u` with
+`γ_u(ν₀) = ν₀·(1 + η_u(ν₀)·(ν₀ − p))`, its constant term is `≡ c` modulo `p` (`unit_series_constant_holds`), and `γ_u` acts
+on `O_E[[ν₀]]` by `Y ↦ Y·(1 + η_u(Y)·(Y − p))` (`gamma_on_pi0Subst_holds`); so `γ(X′) ∈ X′ + X′² + X′³k[[X′]]`, which is
+`γ(X) ∈ X − X² + X³k[[X]]`.
+
 For a finite `k[G_F]`-module `A` put `D̄_i(A) := e_iD(A)^{Γ_F^{tor}}` (PhiGammaModulesAndIwasawaCohomology §1.0), a finite-dimensional `k((X))`-space with the
 `φ`-semilinear maps `φ_i : D̄_{i−1}(A) → D̄_i(A)` and the `γ`-semilinear `γ_i`; `A ↦ D̄(A) = (D̄_i(A))_i` is exact. For a
 crystalline `E`-representation `V` of `G_F` with `G_F`-stable `O_E`-lattice `T`, let `N(T) ⊂ D(T)` be its Wach lattice
