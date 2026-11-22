@@ -245,6 +245,8 @@ theorem Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs {M : Type 
     (h : Language.graph.ExtensionProperty M) : IsFraisseLimit finiteGraphs.{w} M := by
   sorry
 
+/-! ## Finite-rank agreement and genuine QE targets (Layer 5) -/
+
 /-- A formula is quantifier-free equivalent modulo `T` when some quantifier-free formula in the same
 free variables has the same realizations in every model of `T`. -/
 def Language.Theory.IsQFEquivalent {L : FirstOrder.Language.{u, v}} (T : L.Theory) {α : Type w}
@@ -256,8 +258,6 @@ it. -/
 def Language.Theory.HasQuantifierElimination {L : FirstOrder.Language.{u, v}} (T : L.Theory) :
     Prop :=
   ∀ {α : Type} (φ : L.Formula α), Language.Theory.IsQFEquivalent T φ
-
-/-! ## Finite-rank agreement and genuine QE targets (Layer 5) -/
 
 /-- The natural-valued quantifier rank of a first-order formula: `0` on `⊥`, equalities and relation
 atoms, the maximum of the two ranks on an implication, and one more than the body's rank on a
