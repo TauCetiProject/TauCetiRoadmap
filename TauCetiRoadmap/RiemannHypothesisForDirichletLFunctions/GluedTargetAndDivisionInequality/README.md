@@ -220,7 +220,7 @@ ThetaChainsOnDefiniteUnitaryGroups §2.1 are fixed choices. The values of one co
 | `v_□, p_□, S_□` | the auxiliary place of the grid, its rational prime, `S₀ ∪ {v_□}` | RowTowerAndRallisIdentities §5.8a |
 | `𝔪_□, d_□, C_F, K⁺; X^c_i, X⁺ = X^c_m; C⁺, e⁺_i, z⁺, N⁺, ψ⁺, n⁺` | the modulus of the grid, its depth, the depth constant, the principal congruence subgroup of level `𝔪_□` in `U(X⁺)(𝔸_f)`; the core column; the Bessel datum (the measure constants `𝔪_j` of RowTowerAndRallisIdentities §5.2 are other symbols) | RowTowerAndRallisIdentities §5.8a |
 | `B⁺, 𝐩, 𝐜, ℓ⁺, Cl⁺, y_{κ,i}, Θ^{(0)}_{𝐩,𝐜}; ℬ_a, a = (𝐜, κ, i)` | the Bessel form; Fock data of column `0`; coset data; a linear form on `V_{Λ⁺}`; the classes `U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`; the form on the class `κ` with value the `i`-th basis vector; the theta series of column `0`; the Bessel periods of the grid (conjugate-linear in the row) and their index | RowTowerAndRallisIdentities §5.8e |
-| `Size_□, x₀` | the size predicate of the grid; the scale from which its separation statement holds | RowTowerAndRallisIdentities §5.8e |
+| `Size_□, x₀; C_F⁰, x_F` | the size predicate of the grid; the scale from which its separation statement holds; the threshold of the depth constant and the scale from which the rational structure and the bounds of 8.24a–8.24 hold | RowTowerAndRallisIdentities §5.8e; RowTowerAndRallisIdentities §5.8, Layer 8 |
 | `𝔫` | the descent constant | RowTowerAndRallisIdentities §5.10 |
 | `B_u` | the period pairing (linear in the column, conjugate-linear in the row) | SeesawForThetaChains §6.1, SeesawForThetaChains §6.14 |
 | `η_j(𝔭), Z_good, V_good, d^{Z,P_0}_j` | congruence length at the base level (8.20; `η^{P_0}_j(𝔭)` of CongruenceModulesOfThetaLifts §7.1 (4)), lifted good eigensystems, the lifted subspace, the dimension `D_0` of its base-level part | CongruenceModulesOfThetaLifts §7.1, CongruenceModulesOfThetaLifts §7.5b, CongruenceModulesOfThetaLifts §7.8a |
@@ -298,10 +298,10 @@ such `aφ`.
 ### 7.13 The divided source and the glued target
 
 *Definitions.* Assume the hypotheses of RowTowerAndRallisIdentities §5.8, on which the rational structure
-`𝔼_{1,𝕃}` rests (those of RowTowerAndRallisIdentities §5.8b for the grid of the chain, a depth constant `C_F` and a scale `x`
-beyond the thresholds there, with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the interlacing and the gap
-conditions on the weight datum there (among them the gap hypothesis of RowTowerAndRallisIdentities §5.9), the condition on `𝕃`
-there and the hypotheses of RowTowerAndRallisIdentities §5.6), and those of RowTowerAndRallisIdentities §5.12. For a word `u` let
+`𝔼_{1,𝕃}` rests (those of RowTowerAndRallisIdentities §5.8b for the grid of the chain, the size predicate `Size_□` of
+RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the scale `x ≥ x_F` of
+RowTowerAndRallisIdentities §5.8, its gap hypotheses on the weight datum, the condition on `𝕃` there and the
+hypotheses of RowTowerAndRallisIdentities §5.6), and those of RowTowerAndRallisIdentities §5.12. For a word `u` let
 
 `I_u := ∏_𝔭 𝔭^{−⌊e_𝔭 𝔊_u(𝔭)⌋}` and `N′_u := I_u · N_u ⊂ M_u ⊗ 𝕃`,
 
@@ -440,9 +440,19 @@ multiplicity identity at the base level, `d^{Z,P_0}_j(𝔭) = d^{Z,P_0}_j = D_0`
 CongruenceModulesOfThetaLifts §7.5a. They enter through 8.20 (v) and are hypotheses of every target
 of this layer whose bound uses the congruence lengths (8.20, 8.22, 8.24 (b)); the goodness of the twisting datum alone is used in
 8.20b and 8.24a (c), through the definition of a good twist. The Weyl exponents of CongruenceModulesOfThetaLifts §7.15
-are bounded per step by CongruenceModulesOfThetaLifts §7.16a (3); they enter through 8.20b. The structures `𝔼_{1,𝕃}`, `R_0`, `R` of RowTowerAndRallisIdentities §5.8 and 7.13 rest on the
-hypotheses of RowTowerAndRallisIdentities §5.8 (among them `x ≥ x₀` and the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e), which every target of this layer that uses them carries
-by reference (8.9, 8.20–8.22, 8.24a, 8.24). The targets that apply ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (8.19e (a), 8.24a, 8.24, and 8.20
+are bounded per step by CongruenceModulesOfThetaLifts §7.16a (3); they enter through 8.20b. The structures `𝔼_{1,𝕃}`, `R_0`, `R` of RowTowerAndRallisIdentities §5.8 and 7.13 rest
+on the hypotheses of RowTowerAndRallisIdentities §5.8: those of RowTowerAndRallisIdentities §5.8b for the grid of the
+chain; the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e; a depth constant `C_F ≥ C_F⁰` of the grid,
+`C_F⁰ ≥ 6510` an absolute constant fixed before `ε` and not made explicit; a scale `x ≥ x_F`, `x_F ≥ x₀` depending on `ε`
+and `C_F`; the gap hypotheses of its statement (an interlaced weight datum with `e_l(τ) − e′_l(τ) ≥ (t + 3)/2` and
+`e′_{l+1}(τ) − e_l(τ) ≥ (t + 3)/2`, consecutive entries of the row parameter `(v(τ); −e′(τ))` at least `100r⁴` apart, and
+`e′_{l+1}(τ) − e′_l(τ) ≥ max(256r⁴, 4N_m³ + 2t + 6)`); the condition (L1)–(L7) on `𝕃`; and the hypotheses of
+RowTowerAndRallisIdentities §5.6. Every target of this layer that uses these structures carries all of them by
+reference (8.9, 8.20–8.22, 8.24a, 8.24c, 8.24): where such a target writes 'a scale `x ≥ x₀` with the size predicate
+`Size_□`', the constant `C_F ≥ C_F⁰`, the scale `x ≥ x_F` and the gap hypotheses are included. The statements of
+8.24a, 8.24c and 8.24 have thresholds of their own for `C_F` and for `x` (absolute, resp. depending on `ε` and `C_F`;
+none is made explicit in [FormalProof]); `C_F⁰` and `x_F` denote thresholds above all of them, and the chain takes one
+`C_F ≥ C_F⁰` before `ε`. The targets that apply ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (8.19e (a), 8.24a, 8.24, and 8.20
 through them) assume, as §8.19b does, that `d` is prime (`K = ℚ(√−d)`) and that `2` is ramified in `E`. Those that apply
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19d (8.19e, 8.20–8.22, 8.24a, 8.24) are stated in the setting of those targets:
 `K = ℚ(√−d)` for a prime `d ≡ 7 (mod 16)` and `E` unramified over `F` at every finite place (the hosts of the chain are of this kind).
@@ -793,8 +803,9 @@ to the metric at `σ̃ = conj∘σ∘c_𝕃`, which is the norm of 8.1 for semil
 complex conjugation, `‖y‖_{σ̃} = ‖y‖_{σ∘c_𝕃}`). Under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), the hypotheses of 8.7 (b) (a weight datum adapted in the sense of ThetaChainsOnDefiniteUnitaryGroups §2.3b, `SizeSc`, and `a⁻_τ ≤ 2b′` for `τ ∈ Φ_top`), the hypotheses of 8.6 (the size conditions of
 ThetaChainsOnDefiniteUnitaryGroups §2.1, `SizeG` of ThetaChainsOnDefiniteUnitaryGroups §2.7 and `|(L′/L)(1, χ_K)| ≤ x^ε`) and of 8.8 at every step and place,
 the hypotheses of SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of every word `u` is nonzero on its new forms
-`M_u`), and those of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
-`Size_□` of RowTowerAndRallisIdentities §5.8e (on which, with the other hypotheses of RowTowerAndRallisIdentities §5.8 that
+`M_u`), and those of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the size predicate
+`Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
+RowTowerAndRallisIdentities §5.8 (on which, with the other hypotheses of RowTowerAndRallisIdentities §5.8 that
 this layer carries by reference, SeesawForThetaChains §6.15 and 7.13 rest), if `B_u ≠ 0` then `ht(B_u) ≤ h_u` for
 the Petersson metric of ThetaChainsOnDefiniteUnitaryGroups §3.8 on `M_u` and this metric on `R^∨`.
 
@@ -969,8 +980,9 @@ The exponent bound `r·k` depends on the rank `k` of the lattice and on `r`, not
 
 ### 8.20 The local terms of the glued target
 
-Assume the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the
-size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e (on which the rational structures of RowTowerAndRallisIdentities §5.8 and 7.13 rest). Let `R_0 ⊂ 𝔼_0` be the glued lattice of 7.13 formed in the base-level part `𝔼_0`
+Assume the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the
+size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
+RowTowerAndRallisIdentities §5.8 (on which the rational structures of RowTowerAndRallisIdentities §5.8 and 7.13 rest). Let `R_0 ⊂ 𝔼_0` be the glued lattice of 7.13 formed in the base-level part `𝔼_0`
 (RowTowerAndRallisIdentities §5.4), `D_0 = dim 𝔼_0`, `Tw` the set of twisted places of a twisting datum with sign `s = +1`
 (ThetaChainsOnDefiniteUnitaryGroups §2.5) and `ξ_𝔭` the tuple used at `𝔭`. For a step `j` and `𝔭 ∈ Tw` write `𝒜_j`, `M′ ⊂ M`
 and `Z_j` for the space of forms on `U(V_j)`, its lattices of `Δ`-valued and of `∇`-valued forms and the lifted subspace of
@@ -1313,7 +1325,8 @@ ThetaChainsOnDefiniteUnitaryGroups §2.9a; HodgeTateLatticesAndLubinTateLogarith
 
 In the
 notation of 8.20, for a twisting datum that is good (CongruenceModulesOfThetaLifts §7.10a) for the polynomial conditions of 8.19e (a) and (b), and under the
-hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e,
+hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e,
+the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of RowTowerAndRallisIdentities §5.8,
 and the condition (N0) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a for the runs of 8.20,
 for every `𝔭 ∈ Tw`: `Σ_j` (the local indices of `θ_j(ξ_𝔭)(P_jM)` in `M^W_j` at `𝔭` and at `c_𝕃(𝔭)`)
 `≤ (Σ_j(2e_𝔭F_j(𝔭) + e_𝔭·err_j(𝔭)) + 2e_𝔭/ℓ(𝔭)²)·D_0`, where `err_j(𝔭)` is the sum of the remainders `r(𝔩)/(e_𝔩·[P : U]·D_0)` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a at `𝔭`,
@@ -1423,8 +1436,9 @@ CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.10c, Con
 
 ### 8.21 The slope of the target
 
-Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
-`Size_□` of RowTowerAndRallisIdentities §5.8e (as in 8.20). (a) *Base level.* With the
+Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the size predicate
+`Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
+RowTowerAndRallisIdentities §5.8 (as in 8.20). (a) *Base level.* With the
 notation of 8.20, let `𝔫 > 0` be the descent
 constant of RowTowerAndRallisIdentities §5.10 (one number for every embedding; RowTowerAndRallisIdentities §5.11 makes it positive). Let `𝔼_0` carry at EVERY embedding the metric of
 8.9: the metric of RowTowerAndRallisIdentities §5.12 divided by its factor `n := |P_0|` (at `σ₀` the Petersson form divided by `n`; at `σ ≠ σ₀` the form
@@ -1532,7 +1546,8 @@ indices (`0` at `𝔭`, `−1` at `c_𝕃(𝔭)`). In one construction the passa
 *Statement.* Assume that the twisting datum is good (CongruenceModulesOfThetaLifts §7.10a) and that the host has wild-kernel
 budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11; for instance `V(E, t) ≤ b`), the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length bound of
 CongruenceModulesOfThetaLifts §7.10c, the condition (T3) of 8.20, the hypotheses of RowTowerAndRallisIdentities §5.8b
-for the grid of the chain and a scale `x ≥ x₀` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e (through 7.13),
+for the grid of the chain and a scale `x ≥ x_F` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth
+constant `C_F ≥ C_F⁰` and the gap hypotheses of RowTowerAndRallisIdentities §5.8 (through 7.13),
 `[F:ℚ] ≥ 3`, `r + 1 < g₀, g₁`, `q_z ≤ ¼` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c (e)), the hypotheses (H1)–(H3) of
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c), the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 and `SizeDep`), `SizeGen`, `SizePage` and
 those of 8.20b and those of 8.21, the hypotheses of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19 (b), (c), which supply the numbers
@@ -1641,8 +1656,9 @@ toric sums, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (
 integer, and `n_s(ℓ)` the least integer `≥ 0` that is at least the denominator exponent of
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i) for `Λ(s, ·)`.
 
-(a) Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
-`Size_□` of RowTowerAndRallisIdentities §5.8e (the bottom norms below are then nonzero elements of `𝕃`, RowTowerAndRallisIdentities §5.8d): `r_{ij}(ξ)` is, up to a
+(a) Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the size predicate
+`Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
+RowTowerAndRallisIdentities §5.8 (the bottom norms below are then nonzero elements of `𝕃`, RowTowerAndRallisIdentities §5.8d): `r_{ij}(ξ)` is, up to a
 factor that is a unit at every place dividing no norm of a twist place of `ξ` and up to `p_□ + q_□` step quotients `u_k`
 (RowTowerAndRallisIdentities §5.8d) with `v_𝔭(u_k) ≤ 2Σ_{𝔮}c(𝔮)·v_𝔭(N𝔮)` at the places `𝔭` that divide no norm of a twist place of
 `ξ` (the sum over the places of `S₀`, `c(𝔮)` the conductor exponents; `v_𝔭(u_k) = 0` at the places of (d)),
@@ -1769,8 +1785,8 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i), which co
 ### 8.24c The denominators of the test values and the sizes of the square values
 
 In the setting of 8.24 (the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 and the hypotheses of
-RowTowerAndRallisIdentities §5.8b for the grid of the chain at a scale `x ≥ x₀` with the size predicate `Size_□` of
-RowTowerAndRallisIdentities §5.8e), for the grid of a constant `C_F` at least a constant `C_F⁰ ≥ 6510` fixed before `ε`,
+RowTowerAndRallisIdentities §5.8b for the grid of the chain at a scale `x ≥ x_F` with the size predicate `Size_□` of
+RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of RowTowerAndRallisIdentities §5.8),
 let `M` be the lattice of test values and `v_ξ` the vectors of class sums of jets of CM
 theta values of the route of 8.24 (a), `N = k + m(t + s + 1)` (`s = r + 6` the integer of the grid, RowTowerAndRallisIdentities
 §5.8a) and `σ_G = Σ_{v∈S_□} d(v)·log N v` as in its term (2), and
@@ -1779,7 +1795,9 @@ theta values of the route of 8.24 (a), `N = k + m(t + s + 1)` (`s = r + 6` the i
 (i) *Denominators of the test values.* There is a constant `C` fixed before `ε` such that, for `x` at least a threshold
 depending on `ε` and `C`, there are integers `d_F(𝔭) ≥ 0`, zero outside a finite set of finite places of `𝕃`, with: at every
 finite place `𝔭` and for every integral form `φ` at the base level of the tuple `ξ_𝔭` used at `𝔭`, some `y ∈ 𝕃^×` with
-`v_𝔭(y) ≤ d_F(𝔭)` has `y·v_{ξ_𝔭}(φ) ∈ M`, so that `v_{ξ_𝔭}(M̃_{ξ_𝔭}) ⊂ 𝔭^{−d_F(𝔭)}M` after localisation at `𝔭`; and
+`v_𝔭(y) ≤ d_F(𝔭)` has `y·v_{ξ_𝔭}(φ) ∈ M`, so that `v_{ξ_𝔭}(M̃_{ξ_𝔭})·𝒪_(𝔭) ⊂ 𝔭^{−d_F(𝔭)}M_(𝔭)` (the module of values,
+localised at `𝔭`; `v_ξ` being `c_𝕃`-semilinear in the form, RowTowerAndRallisIdentities §5.8, this is the image of the forms
+integral at `c_𝕃(𝔭)`); and
 `2Σ_𝔭 ϱ(𝔭)·d_F(𝔭) ≤ C·f·m²·N²·(log b + σ_G)·b`.
 
 (ii) *Gauges and denominator exponents.* There is a constant `C`, depending on `ε` and on the constants fixed before `ε`, such
@@ -1895,37 +1913,64 @@ logarithms of their areas is governed by `log rd_E` and `(L′/L)(1, χ_K)` (the
 
 With the metric of 8.9 on `𝔼_0` and `𝔼`, under the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, the hypotheses of 8.8 at every step and place (for the Rallis
-eigenvalues in term (3) of the route), the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the
-size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, for a good twisting datum (CongruenceModulesOfThetaLifts §7.10a): (a) `μ_max(R_0) + log 𝔫 ≤ x^{C}·b`, with an exponent `C` chosen after
+eigenvalues in term (3) of the route), the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the
+size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
+RowTowerAndRallisIdentities §5.8, for a good twisting datum (CongruenceModulesOfThetaLifts §7.10a): (a) `μ_max(R_0) + log 𝔫 ≤ x^{C}·b`, with an exponent `C` chosen after
 `ε` (it may depend on `ε` and on the constants fixed before `ε`, and not on `x` nor on anything chosen at the scale `x`); (b) consequently `H₀ := x^C·b − log 𝔫` satisfies the hypothesis `H₀ ≥ μ_max(R_0)` of 8.21 (b), and, for a host with wild-kernel
 budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11), under the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length bound of
 CongruenceModulesOfThetaLifts §7.10c, the condition (T3) of 8.20 and `[F:ℚ] ≥ 3`, `r + 1 < g₀, g₁`, `q_z ≤ ¼` and the hypotheses (H1)–(H3) of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f (c) (through ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19), with the size conditions of 8.22, the smallness condition of 8.21 (b) holds for `δ_G` of 8.21 (c)
 (under its hypotheses) and `μ(R^∨) ≤ log 𝔫 + Σ_j s^{st}_j + F_tot + C·m·(B₀ + N_c)·x^{e_D ε}` and `μ_max(R) + log 𝔫 ≤ x^{C}·b` for the
 lattice `R` of the rows.
 
-*Route.* (a) *Slope test.* For an injective map `Ψ` of Hermitian lattices that is `𝕃`-linear, or `c_𝕃`-semilinear (it then
-carries the localisation of `L` at `𝔭` into the localisation of `M` at `c_𝕃(𝔭)`, and the test is the linear one for `M` with
-its `𝕃`-structure twisted by `c_𝕃`, which has the slopes of `M`), with `Ψ(L)·𝒪_{𝕃,𝔭} ⊂ 𝔭^{−a(𝔭)}M_𝔭` for all
-`𝔭`: `μ_max(L) ≤ μ_max(M) + ht(Ψ) + 2Σ_𝔭ϱ(𝔭)a(𝔭)` (SlopesOfHermitianVectorBundles §2.4 (b) with its finite-place bound, in the
-normalisation `μ = 2μ̂`, and SlopesOfHermitianVectorBundles §2.1 for the lattice `𝔞M`, `𝔞 = ∏_𝔭𝔭^{−a(𝔭)}`). The integers `a(𝔭)` may be negative here; the bound
-`‖Ψ‖_𝔭 ≤ N𝔭^{a(𝔭)}` holds for `a(𝔭)` of either sign, and applying SlopesOfHermitianVectorBundles §2.4 (b) with `max(a(𝔭), 0)` in place of `a(𝔭)` gives the same
-inequality with a right side that is not smaller, which is all that is used. Apply it to `L = R_0` with the metric of 8.9 divided by `𝔫` (which adds `log 𝔫` to its slopes), `M`
-the lattice of test values and `Ψ = (c_tot(1)κ_G^{−1}ℬ_a)_a` (RowTowerAndRallisIdentities §5.8) (conjugate-linear, hence
-`c_𝕃`-semilinear on `𝔼_𝕃`: RowTowerAndRallisIdentities §5.8e): `Ψ` is injective because the test map of the base tuple has
-the kernel of the descent and `ι_1` is bijective onto `𝔼_0`; `Ψ∘ι_ξ∘proj = ζ_ξ·(c_tot(1)/c_tot(ξ))·v_ξ` with `ζ_ξ` a root of
-unity and `v_ξ` the vector of class sums of jets of CM theta values, so `a(𝔭) = d_F(𝔭) + Σ_{i,j}v_𝔭(r_{ij}(ξ_𝔭))` (zero outside the
-twisted places and the support of `d_F`). Five terms: (1) `μ_max(M)`, where `M` is the dual, for the invariant Hermitian metric, of the orthogonal sum over the pairs
+*Route.* (a) *Slope test.* Let `L`, `M` be Hermitian lattices, `c` an automorphism of `𝕃`, and
+`Ψ : L ⊗ 𝕃 → M ⊗ 𝕃` an injective additive map with `Ψ(ay) = c(a)·Ψ(y)` for `a ∈ 𝕃` (a `c`-semilinear map; `𝕃`-linear
+for `c = id`). Then `Ψ(L)` is an `𝒪_𝕃`-submodule of `M ⊗ 𝕃`, and if `Ψ(L)·𝒪_(𝔭) ⊂ 𝔭^{−a(𝔭)}M_(𝔭)` for all `𝔭`, with
+integers `a(𝔭)` almost all zero, then `μ_max(L) ≤ μ_max(M) + ht(Ψ) + 2Σ_𝔭ϱ(𝔭)a(𝔭)`, where `ht(Ψ) := mean_σ log ‖Ψ‖²_σ`
+and `‖Ψ‖_σ := sup_{y ≠ 0} ‖Ψ(y)‖_σ/‖y‖_{σ∘c}` (the norm of `y` at `σ∘c`, that of `Ψ(y)` at `σ`, as in 8.1 for semilinear
+functionals). For `c = id` this is SlopesOfHermitianVectorBundles §2.4 (b) with its finite-place bound, in the
+normalisation `μ = 2μ̂`, and SlopesOfHermitianVectorBundles §2.1 for the lattice `𝔞M`, `𝔞 = ∏_𝔭𝔭^{−a(𝔭)}`. The integers
+`a(𝔭)` may be negative here; the bound `‖Ψ‖_𝔭 ≤ N𝔭^{a(𝔭)}` holds for `a(𝔭)` of either sign, and applying
+SlopesOfHermitianVectorBundles §2.4 (b) with `max(a(𝔭), 0)` in place of `a(𝔭)` gives the same inequality with a right
+side that is not smaller, which is all that is used. For general `c` apply the case `c = id` to the *conjugate
+lattice* `L^c`: the abelian group `L` with the scalar multiplication `a ⋆ y := c^{−1}(a)·y` of `𝒪_𝕃`, carrying at each
+embedding `σ` the metric of `L` at `σ∘c` (the identity of `L` induces `L^c ⊗_{𝕃,σ} ℂ = L ⊗_{𝕃,σ∘c} ℂ`, because
+`(a ⋆ y) ⊗ 1 = y ⊗ σ(a)` on both sides). Three verifications. (i) `Ψ` is an injective `𝕃`-linear map
+`L^c ⊗ 𝕃 → M ⊗ 𝕃` (`Ψ(a ⋆ y) = a·Ψ(y)`), and its operator norm at `σ` is `‖Ψ‖_σ`. (ii) The localisation of `L^c` at `𝔭`
+is the localisation of `L` at `c^{−1}(𝔭)` (its elements are the `s^{−1} ⋆ y = c^{−1}(s)^{−1}·y`, `s ∉ 𝔭`), and its image
+under `Ψ` is `Ψ(L)·𝒪_(𝔭)`; so the hypothesis above is the finite-place hypothesis of the linear case for `L^c`, every
+exponent being indexed by the place of `M`. (iii) `L^c` and `L` have the same `𝒪_𝕃`-submodules, with the same ranks
+and the same slopes: in the formula for `−rk·μ` of the Conventions, with one basis `e` for both, the Gram determinants
+at the embeddings are permuted by `σ ↦ σ∘c`, and `idx_𝔭(L^c : ⟨e⟩) = idx_{c^{−1}(𝔭)}(L : ⟨e⟩)` with
+`ϱ(c^{−1}(𝔭)) = ϱ(𝔭)`; hence `μ_max(L^c) = μ_max(L)`. Apply this with `c = c_𝕃` to `L = R_0` with the metric of 8.9
+divided by `𝔫` (which adds `log 𝔫` to its slopes), `M` the lattice of test values and `Ψ = (c_tot(1)κ_G^{−1}ℬ_a)_a`
+(RowTowerAndRallisIdentities §5.8), which maps `𝔼_{0,𝕃}` into `𝕃^A` and is `c_𝕃`-semilinear there, the `ℬ_a` being
+conjugate-linear in the row (RowTowerAndRallisIdentities §5.8e) and complex conjugation inducing `c_𝕃` on `σ₀(𝕃)`: `Ψ`
+is injective because the test map of the base tuple has the kernel of the descent and `ι_1` is bijective onto `𝔼_0`;
+`Ψ∘ι_ξ∘proj = ζ_ξ·(c_tot(1)/c_tot(ξ))·v_ξ` with `ζ_ξ` a root of unity and `v_ξ` the vector of class sums of jets of CM
+theta values (both sides are `c_𝕃`-semilinear in the form, `ι_ξ` and `proj` being `𝕃`-linear). *The finite places.* By
+(ii), `Ψ(R_0)·𝒪_(𝔭) = Ψ((R_0)_(c_𝕃(𝔭)))`, and `(R_0)_(c_𝕃(𝔭)) = (Λ^{(0)}_{ξ_𝔭})_(c_𝕃(𝔭))` by 7.13 (i) at `c_𝕃(𝔭)`, since
+`ξ_{c_𝕃(𝔭)} = ξ_𝔭` (ThetaChainsOnDefiniteUnitaryGroups §2.5); so
+`Ψ(R_0)·𝒪_(𝔭) = (c_tot(1)/c_tot(ξ_𝔭))·v_{ξ_𝔭}(M̃_{ξ_𝔭})·𝒪_(𝔭)`, and `a(𝔭) = d_F(𝔭) + Σ_{i,j}v_𝔭(r_{ij}(ξ_𝔭))` (zero outside
+the twisted places and the support of `d_F`). Thus the row lattice enters through its localisation at `c_𝕃(𝔭)`, where
+it is generated by the forms of the tuple `ξ_𝔭`, while `d_F(𝔭)`, the ratios `r_{ij}(ξ_𝔭)` and every local term of
+8.24a–8.24c are read at the place `𝔭` of the lattice of test values: they are valuations at `𝔭` of elements of `𝕃` and
+inclusions of `𝒪_𝕃`-submodules of `𝕃^A`, on which the conjugation of the rows does not act. *The embeddings.* `‖Ψ‖_σ`
+compares the metric of `R_0` at `σ∘c_𝕃` with that of `M` at `σ`; the terms (2), (3) below bound it embedding by
+embedding, with the quotient metric and the eigenvalues `λ_j(1, 𝔥, ·)` at `σ∘c_𝕃`, and `σ ↦ σ∘c_𝕃` permutes the
+embeddings, so their means are the means over all embeddings. Five terms: (1) `μ_max(M)`, where `M` is the dual, for the invariant Hermitian metric, of the orthogonal sum over the pairs
 (coset datum `𝐜`, class `κ ∈ Cl⁺ = U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`) of the Weyl lattices of highest weight `Λ⁺` of the class lattices of `X⁺`
 (RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8e): `μ_max(M) ≤ 4·f·ν·R·log(νR)`, `ν = rank X⁺ = r + 1 + m(s − 1)`, `R ≥ 1` a bound for the spread of `Λ⁺` at every real
 place, independently of the number of pairs (IntegralWeylModulesOfGeneralLinearGroups §3.3); (2) the archimedean height of the
-test map of the base tuple for the quotient metric, at most `C·m·(f·N·b·log b + m·N²·σ_G)` with `N = k + m(t + s + 1)` and
+test map `v_1` of the base tuple (`c_𝕃`-semilinear in the form; from the quotient metric at `σ∘c_𝕃` to the metric of `M` at
+`σ`), at most `C·m·(f·N·b·log b + m·N²·σ_G)` with `N = k + m(t + s + 1)` and
 `σ_G = Σ_{v∈S_□} d(v)·log N v` (`𝔪_□ = ∏_{v∈S_□} w(v)^{d(v)}`, `d(v_□) = d_□` the depth of RowTowerAndRallisIdentities §5.8a): a sum of size terms among which the
 number of coset data, `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)} ≤ exp(2m·N²·σ_G)` (each factor is `#(Hom(Λ_{i+1,0}, Λ_{i,0})/𝔪_□·Hom) ≤ N(𝔪_□)^{N²}` and
 `N(𝔪_□) ≤ e^{2σ_G}`), and the number of classes, `#Cl⁺ ≤ h(ν)·N(𝔪_□)^{ν²}` (`h(ν)` a class-number bound at full level times the
 index of `K⁺`), both at most `exp(m·a₁)`, `a₁ = C·f·N·b·log b + C·m·N²·σ_G`; with `d_□·log N(v_□)` of the size that RowTowerAndRallisIdentities §5.8a fixes, this
 is at most `x^C·b` (`log b = x^ε`); (3) `−mean_σ min_𝔥 Σ_j log λ_j(1, 𝔥, σ) ≤ C·f·m·N_m²·log b` by 8.8 (b), since `ι_1` multiplies
-squared norms by `𝔫∏_jλ_j` on each part and the parts are orthogonal; (4) `2Σϱ(𝔭)d_F(𝔭)`, the denominators of the test
-values (integers `d_F(𝔭)` with `v_{ξ_𝔭}(M̃_{ξ_𝔭}) ⊂ 𝔭^{−d_F(𝔭)}M` at `𝔭`, `M̃_{ξ_𝔭}` the integral forms of the tuple used at `𝔭`,
+squared norms by `𝔫∏_jλ_j` on each part and the parts are orthogonal, at every embedding (the bound is used at `σ∘c_𝕃`,
+and its mean over `σ` is the mean over all embeddings); (4) `2Σϱ(𝔭)d_F(𝔭)`, the denominators of the test
+values (integers `d_F(𝔭)` with `v_{ξ_𝔭}(M̃_{ξ_𝔭})·𝒪_(𝔭) ⊂ 𝔭^{−d_F(𝔭)}M_(𝔭)`, `M̃_{ξ_𝔭}` the integral forms of the tuple used at `𝔭`,
 `v_ξ` the vector of class sums of jets of CM theta
 values; `d_F = 0` outside a finite set), chosen by 8.24c (i) with `2Σ_𝔭ϱ(𝔭)d_F(𝔭) ≤ C·f·m²·N²·(log b + σ_G)·b`, at most `x^C·b`
 as in (2); (5) `2Σ_𝔭ϱ(𝔭)Σ_{i,j}v_𝔭(r_{ij}(ξ_𝔭))`, bounded by 8.24a (d) summed with the weights `ϱ(𝔭)` over the at most `m²`
@@ -1939,7 +1984,12 @@ and 8.20b (last clause); every added term is at most `C·m·(B₀ + N_c)·x^{e_D
 `δ_G·x^C·b` is tiny when `min(g₀, g₁) ≥ (kb)^{A_g}`).
 
 *NEW* (this application); the principle (a lattice mapping injectively with small height into a lattice of small maximal
-slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). The terms of the route of (a): (1) [FormalProof],
+slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). The form for a semilinear map is reduced to it
+through the conjugate lattice, as in the route; [FormalProof] works with the complex conjugates of the rows
+(RowTowerAndRallisIdentities §5.8e), on which the test map is `𝕃`-linear, and applies the linear slope test to their
+lattice, with one place for source and target
+(`Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`,
+`Formalism.L2.Indef.Tree.functional_lower_bound_of_conditions`). The terms of the route of (a): (1) [FormalProof],
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`
 (`Formalism.L2.Indef.Tree.LeafMM`),
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`
@@ -1959,7 +2009,7 @@ slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). The
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`
 (`Formalism.L2.Indef.Tree.LeafINT`).
 *Needs:* RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, 7.13, 8.8, 8.9, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, 8.20, 8.21,
-8.24a, 8.24b, 8.24c, ThetaChainsOnDefiniteUnitaryGroups §2.1, RowTowerAndRallisIdentities §5.8a; SlopesOfHermitianVectorBundles §§1.3, 2.1, 2.4 (b); IntegralWeylModulesOfGeneralLinearGroups §3.3.
+8.24a, 8.24b, 8.24c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.5, RowTowerAndRallisIdentities §5.8a; SlopesOfHermitianVectorBundles §§1.3, 2.1, 2.4 (b); IntegralWeylModulesOfGeneralLinearGroups §3.3.
 
 ### Examples
 
@@ -2125,9 +2175,9 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 - 5.1, 5.3, 5.4 (Petersson forms, the rows and their parts, the good descent `ι_ξ`), 5.5, 5.6, 5.7 (the model lifts and their
   Rallis eigenvalues), 5.8, 5.8a, 5.8b, 5.8d, 5.8e (the rational structure `𝔼_{1,𝕃}`, the grid, its square constants and the size
-  predicate `Size_□` with its scale `x₀`), 5.9 (multiplicity comparison), 5.10, 5.10a, 5.11, 5.12 (the descent constant `𝔫`,
-  the rational structure of the model forms, the rational model lifts and the determinant identities). Used in 7.13, 7.14,
-  8.8, 8.9, 8.19e, 8.20–8.24a.
+  predicate `Size_□` with its scale `x₀`, and the thresholds `C_F⁰`, `x_F` and the gap hypotheses of 5.8), 5.9 (multiplicity
+  comparison), 5.10, 5.10a, 5.11, 5.12 (the descent constant `𝔫`, the rational structure of the model forms, the rational
+  model lifts and the determinant identities). Used in 7.13, 7.14, 8.8, 8.9, 8.19e, 8.20–8.24a.
 - 5.8d (the bottom pairs of the squares: their classes with representatives and stabiliser orders, their coordinates (class sums of
   jets of CM theta values) and their bottom norms). Used in 8.24a, 8.24b, 8.24e.
 
