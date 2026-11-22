@@ -227,6 +227,11 @@ and `β_v^⋆ = β_v^⋆(n)`.
 `ℋ_k = {Z ∈ M_k(ℂ) : (Z − Z^*)/2i positive definite}` is the Hermitian half-space,
 `ℋ_k^Φ = ∏_{τ ∈ Φ} ℋ_k`, and `τ(T)` applies `τ` entrywise.
 
+**Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
+hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
+visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
+[FormalProof].
+
 ## Layer 0: unitary groups
 
 ### 0.1 The group schemes `U(V)`, `SU(V)` and `U(1)`
