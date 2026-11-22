@@ -2203,7 +2203,7 @@ order `DF(w)` of these sections at a point are not all annihilated by a nonzero 
 
 *NEW* (this form); *KNOWN* in kind (the basis problem through the doubling method; theta bases). (b): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/ExistsThetaGeneratorReadingNeZeroAllFramesStatement.lean`
-(`GlobalTheory.T.exists_thetaGenerator_reading_ne_zero_all_frames`); (b₀): [FormalProof],
+(`GlobalTheory.T.exists_thetaGenerator_reading_ne_zero_all_frames`, which takes one named statement as a hypothesis); (b₀): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/ExistsLevelTranslateJetNeZeroStatement.lean`
 (`GlobalTheory.T.exists_level_translate_jet_ne_zero_alt`). *Needs:* RowTowerAndRallisIdentities §5.11, 8.17a, 8.19a;
 AbelianSchemesAndArithmeticModuli A5.3–A5.4 (the theta function of a principal polarisation at a complex point).
