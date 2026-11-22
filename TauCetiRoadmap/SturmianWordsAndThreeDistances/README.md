@@ -61,8 +61,10 @@ with Equidistribution's point set and gaps.
   is the empty list. A word `w` occurs at `i` when the factor of length `|w|` at `i` is `w`.
 - **Points of the circle.** Points of the circle are fractional parts in `[0, 1)`, `Int.fract`, and
   `{x}` denotes `Int.fract x`. The `n + 1` points `{−kα}`, `0 ≤ k ≤ n`, are Equidistribution's
-  `orbitFract (-α) (n + 1)`; for irrational `α` they are distinct. Since `{−kα} = 1 − {kα}` for
-  `k ≥ 1`, they are the points `{k(1 − α)}` of Alessandri–Berthé §2.1.
+  `orbitFract (-α) (n + 1)`; for irrational `α` they are distinct. Since `k(1 − α) − (−kα) = k` is
+  an integer, `{−kα} = {k(1 − α)}` for every real `α`: they are the points `{k(1 − α)}` of
+  Alessandri–Berthé §2.1. If `kα` is not an integer, `{−kα} = 1 − {kα}` (`Int.fract_neg`); if it
+  is, `{−kα} = 0` (`Int.fract_neg_eq_zero`).
 - **Frequencies.** The frequency of `w` in `u` is the limit of the number of occurrences at the
   positions `0, …, N` divided by `N + 1`, the normalisation of ProbabilisticAndMetricNumberTheory
   §2.5. Every frequency theorem below asserts that the limit exists.
@@ -75,7 +77,8 @@ with Equidistribution's point set and gaps.
 
 Define `lowerMechanical α ρ n = ⌊(n + 1)α + ρ⌋ − ⌊nα + ρ⌋` and
 `upperMechanical α ρ n = ⌈(n + 1)α + ρ⌉ − ⌈nα + ρ⌉`, for real `α`, `ρ` (Lothaire's lower and upper
-mechanical words, as Alessandri–Berthé §2.1 recall them through rotations).
+mechanical words; for irrational `0 < α < 1` they are the Sturmian sequences that Alessandri–Berthé
+§2, p. 6, define as codings of rotations, see the last bullet).
 
 - *Letters.* Both take only the values `⌊α⌋` and `⌊α⌋ + 1`, because `⌊x + α⌋ − ⌊x⌋` and
   `⌈x + α⌉ − ⌈x⌉` lie in `{⌊α⌋, ⌊α⌋ + 1}` for every real `x`.
@@ -87,19 +90,20 @@ mechanical words, as Alessandri–Berthé §2.1 recall them through rotations).
   prefix of the lower word with intercept `{iα + ρ}`.
 - *Upper through lower.* `upperMechanical α ρ = −lowerMechanical (−α) (−ρ)`, by `Int.ceil_neg`.
 - *Where they differ.* `⌈x⌉ − ⌊x⌋` is `0` for integer `x` and `1` otherwise, so the two words
-  differ exactly at the positions `n` for which one of `nα + ρ`, `(n + 1)α + ρ` is an integer. For
-  irrational `α` at most one `m` has `mα + ρ` an integer, so they differ at most at `m − 1` and
-  `m`.
+  differ exactly at the positions `n` for which exactly one of `nα + ρ`, `(n + 1)α + ρ` is an
+  integer. Both are integers only when `α` and `ρ` are, and then the two words are the constant
+  word `α`, as they are for every `ρ` when `α` is an integer. For irrational `α` at most one `m`
+  has `mα + ρ` an integer, so they differ at most at `m − 1` and `m`.
 - *Rotation coding.* For `0 < α < 1`, `lowerMechanical α ρ n = 1` exactly when
   `{nα + ρ} ∈ [1 − α, 1)`: the lower word is the coding of the orbit of `{ρ}` under the rotation by
   `α` for the partition `[0, 1 − α)`, `[1 − α, 1)`, and the upper word is the coding for
-  `(0, 1 − α]`, `(1 − α, 1]` (Alessandri–Berthé §2.1, p. 6).
+  `(0, 1 − α]`, `(1 − α, 1]` (Alessandri–Berthé §2, p. 6, before §2.1).
 
 **Checks.**
 
 - `α = (3 − √5)/2 = 2 − φ` and `ρ = α`: the lower word is the Fibonacci word
   `0100101001001010010100100101…`; exchanging the letters `0` and `1` gives the Fibonacci
-  sequence of Alessandri–Berthé §2.1 (p. 6), their coding of the orbit of `τ − 1 = 1 − α` under
+  sequence of Alessandri–Berthé §2 (p. 6), their coding of the orbit of `τ − 1 = 1 − α` under
   the rotation by `τ − 1`.
 - `α = √2 − 1`, `ρ = 0`: the lower word begins `0`, since `⌊α⌋ − ⌊0⌋ = 0`, and the upper word
   begins `1`, since `⌈α⌉ − ⌈0⌉ = 1`; from position `1` on they agree, as `nα` is an integer only for
@@ -151,11 +155,14 @@ is irrational; sort them as `0 = t₀ < t₁ < ⋯ < tₙ` and put `tₙ₊₁ =
 distinct. *Lower words.* By 1.1 the factor of `lowerMechanical α ρ` at `i` is `w_({iα + ρ})`,
 so every factor is one of the `w_(tⱼ)`. Conversely, uniform distribution modulo one of `iα + ρ`
 makes the proportion of `i ≤ N` with `{iα + ρ} ∈ [tⱼ, tⱼ₊₁)` tend to `tⱼ₊₁ − tⱼ > 0`, so some `i`
-has it, and `w_(tⱼ)` is a factor. Uniform distribution holds because
-ProbabilisticAndMetricNumberTheory §2.5, `uniformDistribution_mod_one_tfae`, turns the Weyl sums
-into interval frequencies, and for every integer `k ≠ 0` the Weyl sum
-`(N + 1)⁻¹ ∑_(i ≤ N) e(k(iα + ρ))` is `e(kρ)` times a geometric sum with ratio `e(kα) ≠ 1`, of
-modulus at most `2 / ((N + 1) |1 − e(kα)|)`. *Upper words.* `upperMechanical α ρ` is
+has it, and `w_(tⱼ)` is a factor. Uniform distribution is ProbabilisticAndMetricNumberTheory
+§2.5 at `d = Unit`: `linear_equidistribution_tfae`, applied to the constant points `α` and `ρ` of
+`UnitAddTorus Unit`, gives from (iii) to (i) the equidistribution of `n • α + ρ` for
+`torusHaar Unit`, condition (iii) holding because `kα` is not an integer for `k ≠ 0`; the forward
+direction of `weyl_criterion` at `d = Unit` gives the vanishing of the averages of
+`mFourier k (n • α + ρ) = fourier (k ()) (nα + ρ)` (`Fintype.prod_unique`), which is the third
+condition of `uniformDistribution_mod_one_tfae` for `u i = iα + ρ`; that theorem turns it into the
+interval frequencies of its second condition. *Upper words.* `upperMechanical α ρ` is
 `−lowerMechanical (−α) (−ρ)` (1.1), `−α` is irrational, and negating every letter is injective on
 factors, so the count is the same.
 
@@ -168,8 +175,9 @@ factors, so the count is the same.
 - `α = 3/2 + √2` (letters `2` and `3`): the step lemma uses no bound on `α`, and the factors of
   length `2` of the lower word with `ρ = 0` are the three words `23`, `32`, `33`.
 
-*Needs:* 1.1, 1.2; ProbabilisticAndMetricNumberTheory §2.5 `uniformDistribution_mod_one_tfae`;
-Mathlib `Int.fract_neg`, `Int.floor_add_intCast`, `Int.ceil_neg`, `fourier_coe_apply`.
+*Needs:* 1.1, 1.2; ProbabilisticAndMetricNumberTheory §2.5 `linear_equidistribution_tfae`,
+`weyl_criterion`, `uniformDistribution_mod_one_tfae`; Mathlib `Int.fract_neg`,
+`Int.floor_add_intCast`, `Int.ceil_neg`, `UnitAddTorus.mFourier`, `Fintype.prod_unique`.
 
 ### Examples
 
@@ -249,10 +257,10 @@ exists; and `tⱼ₊₁ − tⱼ` is the `j`-th entry of the list that `gaps (-�
 `zipWith` from the sorted points `t₀, …, t_r`, a list whose multiset is
 `(orbitFract (-α) (n + 1)).val`.
 
-*Irrational slopes.* For the lower word this is ProbabilisticAndMetricNumberTheory §2.5 applied to
-`iα + ρ` exactly as in 2.1. For the upper word, `yᵢ ∈ (a, b]` exactly when
-`{−iα − ρ} ∈ [1 − b, 1 − a)`, and the same theorem applies to `−iα − ρ`, the slope `−α` being
-irrational.
+*Irrational slopes.* For the lower word this is the uniform distribution of `iα + ρ` from
+ProbabilisticAndMetricNumberTheory §2.5, obtained exactly as in 2.1. For the upper word,
+`yᵢ ∈ (a, b]` exactly when `{−iα − ρ} ∈ [1 − b, 1 − a)`, and the same argument applies to
+`−iα − ρ`, the slope `−α` being irrational.
 
 *Rational slopes.* Let `α = p/q` in lowest terms, `q ≥ 1`. Every `cₖ`, hence every `tⱼ`, lies in
 `(1/q)ℤ`. The points `xᵢ` and `yᵢ` depend only on `i` modulo `q`, and since `i ↦ ip` is a bijection
@@ -267,9 +275,11 @@ of `ℤ/qℤ`, as `i` runs over `q` consecutive integers `xᵢ` runs exactly onc
 `Rotation.gaps_toFinset_subset`, applied to `-α` and `N = n + 1`, then says that the frequencies of
 the factors of length `n` take at most three values, and that, when there are at least two points
 (for instance for irrational `α` and `n ≥ 1`), each is `η⁺`, `η⁻` or
-`η⁺ + η⁻`, where `η⁺` is the least positive point `{−kα}` and `η⁻` is one minus the largest. This is
-the three-distance form of the frequencies, Alessandri–Berthé §2.3, Theorem 8 and the paragraph
-after it (p. 11).
+`η⁺ + η⁻`, where `η⁺` is the least positive point `{−kα}` and `η⁻` is one minus the largest.
+Alessandri–Berthé §2.3, Theorem 8 (p. 11), states only the first part, that the frequencies of the
+factors of given length of a Sturmian sequence take at most three values; the second part comes
+here from Equidistribution 4.2 (in the source, the sum relation is in the statement of the three
+distance theorem, §3, p. 11).
 
 **Checks.**
 
@@ -288,8 +298,9 @@ after it (p. 11).
   position, and both have exactly the factors `w₀ = 01` and `w_(1/2) = 10`, each of frequency
   `1/2`, the two gaps of the points `0`, `1/2`.
 
-*Needs:* 1.1, the Weyl-sum computation of 2.1; Equidistribution 4.1 `orbitFract`, `gaps`;
-ProbabilisticAndMetricNumberTheory §2.5 `uniformDistribution_mod_one_tfae`; Mathlib `limUnder`,
+*Needs:* 1.1, the uniform-distribution step of 2.1; Equidistribution 4.1 `orbitFract`, `gaps`;
+ProbabilisticAndMetricNumberTheory §2.5 `linear_equidistribution_tfae`, `weyl_criterion`,
+`uniformDistribution_mod_one_tfae`; Mathlib `limUnder`,
 `Finset.sort`, `Int.ceil_add_intCast`, `Int.fract_neg`. The consequence uses Equidistribution 4.2.
 
 ### Examples
@@ -302,8 +313,8 @@ ProbabilisticAndMetricNumberTheory §2.5 `uniformDistribution_mod_one_tfae`; Mat
 
 ### Dependencies
 
-Layer 1 and the Weyl-sum computation of 2.1; Equidistribution 4.1 and, for the consequence and the
-example, 4.2 and 4.5; ProbabilisticAndMetricNumberTheory §2.5.
+Layer 1 and the uniform-distribution step of 2.1; Equidistribution 4.1 and, for the consequence
+and the example, 4.2 and 4.5; ProbabilisticAndMetricNumberTheory §2.5.
 
 ## Layer 4: balanced words
 
@@ -325,7 +336,7 @@ its number of letters `1`, and this is the balance of Alessandri–Berthé §2.1
 Prove `balanced_aperiodic_iff`: a word `u : ℕ → ℤ` takes only the values `0` and `1`, is balanced
 and is not eventually periodic if and only if `u` is `lowerMechanical α ρ` or `upperMechanical α ρ`
 for some irrational `α` with `0 < α < 1` and some real `ρ`. Alessandri–Berthé state the
-characterisation without proof (§2.1, p. 8); the proof is written here in full. (Proved here.)
+characterisation without proof (§2.1, p. 8); the proof is written here in full.
 
 Route, from the mechanical side. The letters are `0` and `1` by 1.1. The sum of the factor of
 length `n` at `i` is `⌊(i + n)α + ρ⌋ − ⌊iα + ρ⌋` (1.1), which lies in `{⌊nα⌋, ⌊nα⌋ + 1}`, so two
@@ -408,8 +419,9 @@ Stated by other roadmaps and used here, not restated:
   Morse–Hedlund theorem relating bounded complexity to eventual periodicity, which its 7.3 lists.
   The roadmap does not use that theorem: Sturmian words are defined here as mechanical words, and
   4.2 is proved without it.
-- ProbabilisticAndMetricNumberTheory owns uniform distribution modulo one and Weyl's criterion
-  (its §2.5, `uniformDistribution_mod_one_tfae`), which 2.1 and 3.2 apply.
+- ProbabilisticAndMetricNumberTheory owns the equidistribution of linear torus orbits, Weyl's
+  criterion and uniform distribution modulo one (its §2.5, `linear_equidistribution_tfae`,
+  `weyl_criterion`, `uniformDistribution_mod_one_tfae`), which 2.1 and 3.2 apply.
 - Mathlib has Fine and Wilf's theorem on periods of finite words (`List.HasPeriod.gcd`) and Beatty
   sequences with Rayleigh's theorem (`beattySeq`, `compl_beattySeq`), to which mechanical words are
   related through the positions of their letters `1` (Alessandri–Berthé §4.3, pp. 16–17); neither
@@ -429,14 +441,17 @@ Arnoux–Rauzy words; and Sturmian subshifts as dynamical systems.
 - `Mathlib/Algebra/Order/Floor/Ring.lean`: `Int.floor`, `Int.ceil`, `Int.fract`;
   `Int.floor_add_intCast` (`⌊a + z⌋ = ⌊a⌋ + z`), `Int.ceil_add_intCast` (`⌈a + z⌉ = ⌈a⌉ + z`),
   `Int.ceil_neg` (`⌈−a⌉ = −⌊a⌋`), `Int.fract_neg` (`fract x ≠ 0 → fract (−x) = 1 − fract x`),
+  `Int.fract_neg_eq_zero` (`fract (−x) = 0 ↔ fract x = 0`),
   `Int.floor_eq_iff` (`⌊a⌋ = z ↔ z ≤ a ∧ a < z + 1`), `Int.ceil_eq_iff`
   (`⌈a⌉ = z ↔ z − 1 < a ∧ a ≤ z`).
 - `Mathlib/Analysis/Subadditive.lean`: `Subadditive` (`u (m + n) ≤ u m + u n`) and
   `Subadditive.tendsto_lim` (for subadditive `u` with `u n / n` bounded below, `u n / n` tends to
   `Subadditive.lim`, the infimum of `u n / n` over `n ≥ 1`).
 - `Mathlib/NumberTheory/Real/Irrational.lean`: `Irrational`, `Irrational.neg`,
-  `Irrational.ne_int`. `Mathlib/Analysis/Fourier/AddCircle.lean`: `fourier_coe_apply`
-  (`fourier n (x : AddCircle T) = exp (2π i n x / T)`).
+  `Irrational.ne_int`. `Mathlib/Analysis/Fourier/AddCircleMulti.lean`: `UnitAddTorus.mFourier`
+  (`mFourier n x = ∏ i, fourier (n i) (x i)`).
+  `Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean`: `Fintype.prod_unique`
+  (`∏ x, f x = f default` over a type with one element).
 - `Mathlib/Data/Set/Card.lean`: `Set.ncard` (`0` on infinite sets). `Mathlib/Data/Finset/Sort.lean`:
   `Finset.sort`. `Mathlib/Topology/Defs/Filter.lean`: `limUnder`. Core: `List.range`, `List.map`.
 - Related, not consumed: `Mathlib/Data/List/PeriodicityLemma.lean` `List.HasPeriod.gcd`;
@@ -461,6 +476,12 @@ Arnoux–Rauzy words; and Sturmian subshifts as dynamical systems.
 
 ### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory
 
+- §2.5: `linear_equidistribution_tfae` (for `α β : UnitAddTorus d`, equidistribution of
+  `n • α + β` for `torusHaar d`, its total equidistribution, and `TorusIrrational α` are
+  equivalent), used at `d = Unit` from the third condition to the first.
+- §2.5: `weyl_criterion` (for `x : ℕ → UnitAddTorus d`, equidistribution for `torusHaar d` if and
+  only if the averages of `mFourier k (x i)`, `i ≤ n`, tend to `0` for every `k ≠ 0`), used at
+  `d = Unit` from left to right.
 - §2.5: `uniformDistribution_mod_one_tfae` (for `u : ℕ → ℝ`, equidistribution of the classes of
   `u n` for the circle's Haar measure, convergence of the proportion of `i ≤ n` with
   `Int.fract (u i) ∈ [a, b)` to `b − a` for all `0 ≤ a ≤ b ≤ 1`, and the vanishing of the Weyl
@@ -471,10 +492,11 @@ Arnoux–Rauzy words; and Sturmian subshifts as dynamical systems.
 
 - P. Alessandri and V. Berthé, *Three distance theorems and combinatorics on words*,
   Enseign. Math. 44 (1998) 103–132, read in the authors' copy on V. Berthé's page
-  (`irif.fr/~berthe/Articles/3d.pdf`), with its page numbers: §2 and §2.1 (codings of rotations,
-  Sturmian sequences as the codings for two arcs, Lemma 1, complexity `n + 1`, frequencies as arc
-  lengths, the balanced characterisation stated without proof; pp. 5–8), §2.3 (Theorem 8 and the
-  paragraph after it, frequencies and the three distance theorem; p. 11), §3 (the three distance
+  (`irif.fr/~berthe/Articles/3d.pdf`), with its page numbers: §2 (codings of rotations, Sturmian
+  sequences as the codings for the partitions `[0, 1 − α)`, `[1 − α, 1)` and `(0, 1 − α]`,
+  `(1 − α, 1]`, the Fibonacci sequence; pp. 5–6), §2.1 (Lemma 1, complexity `n + 1`, frequencies
+  as arc lengths, the balanced characterisation stated without proof; pp. 6–8), §2.3 (Theorem 8,
+  at most three frequencies, and the paragraph after it; p. 11), §3 (the three distance
   theorem; pp. 11–12), §4.3 (Beatty sequences; pp. 16–17), §5 (Theorem 11, the recurrence function;
   pp. 17–18).
 - M. Lothaire, *Algebraic Combinatorics on Words*, Cambridge University Press, 2002, Chapter 2
