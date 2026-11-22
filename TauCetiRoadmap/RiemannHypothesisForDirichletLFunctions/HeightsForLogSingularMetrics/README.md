@@ -19,9 +19,11 @@ Notation and conventions not restated here are those of ArakelovGeometryAndAbeli
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof]. A target that names neither [FormalProof] nor a source with a locator (for instance 0.4 (a), (b), 14.1 (a),
-(b) and 14.2 (a)–(c)) is this roadmap's own statement, proved by the route written at it: no source is claimed for it, and a
-References entry that names its section without a theorem or page is background for it.
+[FormalProof]. A target that names neither [FormalProof], nor a source with a locator, nor a section of another roadmap as
+its statement (for instance 0.4 (a), (b), 14.1 (a), (b) and 14.2 (a)–(c), but not 4.3b (a), which is
+ChowFormsAndHeightsOfSubvarieties §6.2 (a7) for the dual of `Ē`) is this roadmap's own statement, proved by the route written
+at it: no source is claimed for it, and a References entry that names its section without a theorem or page is background
+for it.
 
 ## Layer 0: Hermitian line bundles with log-log singular metrics
 
