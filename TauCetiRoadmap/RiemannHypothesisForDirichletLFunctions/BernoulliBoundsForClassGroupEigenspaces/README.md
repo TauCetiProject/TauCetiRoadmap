@@ -705,11 +705,30 @@ statement and the criterion 13.1 for admissibility are this roadmap's route to t
 [FormalProof] states it only over `ℚ`, with `ℚ̄_p`-coefficients, for `p` odd, `k = 2e + 1` and `r = e`, and with, in place of
 admissibility, the conditions `GlobalTheory.Ord2.admitted` (`Development/AbelianVarietyTheory/Definitions/Foundations/FinalTheorems.lean`)
 and `GlobalTheory.Ord2.SrcL` (an ordinary newform of level prime to `p`), as `GlobalTheory.Ord2.VanishOrdL`
-(`Development/AbelianVarietyTheory/Definitions/Foundations/VanishOrdL.lean`); it proves this as
-`GlobalTheory.Ord2.vanishOrdL_of_zetaUr` (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`),
-from `GlobalTheory.Mem.LiteralAutomorphy.LitCoh` (`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Brauer.lean`)
-and `GlobalTheory.Ord2.ZetaUr` (`Development/AbelianVarietyTheory/Statements/CuspidalUnitaryTwists/ZetaUr.lean`) taken as hypotheses,
-through an Euler system, not through the finiteness of Selmer groups. The statement for every abelian `K`, every `k` and `r`
+(`Development/AbelianVarietyTheory/Definitions/Foundations/VanishOrdL.lean`); it proves this through an Euler system,
+not through the finiteness of Selmer groups. The Euler system is a theorem of [FormalProof]: let `p` be odd, `e ≥ 1`, and `W` a
+continuous integral two-dimensional representation of `G_ℚ`, unramified outside a finite set of primes containing `p`, with
+`(det W)² = 1` and `det W = −1` at complex conjugations, irreducible on the common kernel of the cyclotomic character and of
+`det W`, upper triangular on a decomposition group at `p` with first diagonal character equal to `χ_p^e` up to finite order on
+inertia and different from `χ_p` on the decomposition group; assume that for some character `χ` of conductor dividing `p` the
+twist `W ⊗ χ_p^{−e}(det W)⁻¹χ` is attached to a newform of weight `2e + 1`, of level prime to `p` and ordinary at `p`, and has
+quotient character trivial on inertia at `p`. Then there are a continuous integral cocycle `y` of `G_ℚ` in `W`, a coboundary on
+an inertia group at every prime other than `p` and not a coboundary in the quotient line on the decomposition group at `p`, and
+a finite set of primes outside which, for every `n ≥ 1`, every prime `w` with `p^n ∣ w − 1` and every character of `G_ℚ` of order
+`p^n` trivial on `G_{ℚ(μ_w)}`, there is a continuous integral cocycle over the field of that character, a coboundary on inertia
+with integral primitive at the primes other than `p` and `w`, whose norm is `P·y` up to the coboundary of an integral vector,
+with `P ≡ u·det(W(Frob_w) − 1)` modulo `p^n`, `u` a unit
+(`Development/AbelianVarietyTheory/Statements/CuspidalUnitaryTwists/ZetaUr.lean` (`GlobalTheory.Ord2.ZetaUr`,
+`GlobalTheory.Ord2.SrcUr`), `Development/AbelianVarietyTheory/Definitions/Foundations/FinalTheorems.lean`
+(`GlobalTheory.Ord2.Nf`, `GlobalTheory.Ord2.ES`, `GlobalTheory.Ord2.Tame`)). [FormalProof] proves it from the zeta elements of
+a tower of modular curves (`AV/ModularityArgument/KatoQuadraticCharacters/UnramifiedZeta/ZetaUr.lean`
+(`UpperTheory.V.Z.Kato.Final.zetaUr`),
+`Development/AutomorphicArithmetic/Foundations/IwahoriReduction/NormProducts/AdmissibleWeightedDataMonoCoef.lean`
+(`UpperTheory.Kd.K4.kato_eulerSystem_integrality`)), and deduces the vanishing from it and from its statements of Galois
+cohomology (`Development/AbelianVarietyTheory/Proofs/FoundationProofs/VanishOrdLOfZetaUr.lean`
+(`GlobalTheory.Ord2.vanishOrdL_of_zetaUr`), with
+`Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Brauer.lean` (`GlobalTheory.Mem.LiteralAutomorphy.LitCoh`)).
+The statement for every abelian `K`, every `k` and `r`
 and every admissible pair is this roadmap's.
 
 *Route.* For a stable lattice `T`, the image of `H¹_f(K, V_λ(f)(r))` in `H¹(K, T ⊗ ℚ/ℤ)` lies in `Sel(K, T)` and is divisible, with
