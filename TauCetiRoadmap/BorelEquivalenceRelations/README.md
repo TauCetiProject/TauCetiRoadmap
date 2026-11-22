@@ -147,7 +147,9 @@ Each target of Layers 0–5 and each worked example is of one of three kinds.
   `PolishSpace (ℕ → ℕ)`, `StandardBorelSpace (ℕ → Bool)` and `BorelSpace (ℕ → Bool)`. Tau Ceti's
   `Set.Countable.isMeagre` makes every countable set of a perfect `T₁` space meagre, so in a
   nonempty perfect `T₁` Baire space every comeagre set is uncountable
-  (`TauCeti.not_countable_of_mem_residual`).
+  (`TauCeti.not_countable_of_mem_residual`), and a nonempty perfect Polish space contains a Cantor
+  copy and has cardinality 𝔠 (0.4, `Perfect.mk_eq_continuum` applied to the whole space, with
+  Mathlib's `Perfect.exists_nat_bool_injection`).
 - Consumed from Tau Ceti (`TauCeti/Topology/Instances/CantorSpace.lean`): word cylinders
   `PiNat.prependWord` and `PiNat.wordCylinder`, the prefix order on words against inclusion of
   cylinders (`PiNat.wordCylinder_subset_wordCylinder_iff`), `PiNat.isOpenEmbedding_prependWord`
