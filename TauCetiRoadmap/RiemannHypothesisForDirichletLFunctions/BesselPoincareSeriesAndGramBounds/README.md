@@ -1450,7 +1450,7 @@ Follows from [FormalProof], `Formalism/HermitianCurvature/StatementTC.lean` (`Fo
 
 *Standing conditions.* *(St)* with `L = log b` and absolute constants
 `C′, C_l, C_g, C_u, c_b, C_T` (`C′`, `C_l` larger than bounds that depend on the other constants of (St), on `C₀` and, in
-5.20b, on `A`; `C_l ≥ 40`): `8C_Γ ≤ C′`, `C′m⁵fL ≤ k`, `m⁴ ≤ f ≤ k` (`SizeMf`),
+5.20b, on `A`; `C_l ≥ 40`): `8C_Γ ≤ C′`, `C′m⁵fL ≤ k`, `m⁴ ≤ f` (`SizeMf`), `f ≤ k`,
 `log f ≤ √r_S`, `C_l L ≤ f·log k`, `C_l m²L ≤ k`, `C_l m k Δ_w ≤ e′_j(τ)` (ThetaChainsOnDefiniteUnitaryGroups §2.3b gives it for `x ≥ x₀`:
 `e′_j(τ) ≥ w_1(τ) − ϑ ≥ w″/2` by `SizeTheta`, `4kΔ_w = Sc ≤ w″/x` by its Lemma (f), and `m ≤ x^{1/2}` by `SizeM`),
 `C_l m·log(rd_E/2) ≤ k`, `C_l m³L·log rd_E ≤ k·log²k`, `log rd_E ≤ L/C_l` (`SizeRd` with its lemma, ThetaChainsOnDefiniteUnitaryGroups §2.1), `(kb)^8 ≤ g₀, g₁ ≤ b^{C_g}`
@@ -1525,7 +1525,7 @@ contradiction) is not used.
 
 *Check.* The cloud gap is assumed at every real place; off the top places it is what makes (b) hold: with `u_1 = v_0 + ½` instead, `∏_{j>1}(u_1 − u_j) ≥ (4Δ_w)^{k−2}(k − 2)!`, so
 `T_crit` falls below the bound of (b) by a factor of order `kΔ_w`. Evaluating the definition of `T_crit` in (a) at `k = 200`, `m = 4`,
-`Δ_w = 10⁶`, `rd_E = 2`, nodes near `10¹⁵` and `g₀g₁ = 10¹²`, the logarithm of `T_crit` over the bound is about `−18` for
+`Δ_w = 10⁶`, `rd_E = 2`, nodes `e′_j = 10¹⁵ + j·10³` (`0 ≤ j < m`) and `g₀g₁ = 10¹²`, the logarithm of `T_crit` over the bound is about `−18` for
 `u_1 = v_0 + ½` and from `+1.5` to `+1.9`, depending on the bits of the word, for `u_1 = v_0 + Sc + ½`.
 
 *NEW*. (St): [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean`
@@ -1749,8 +1749,11 @@ given here. *Count:* for `S` as in (a),
 labels are counted through data embedded in the positive definite lattice that the row induces on `X^⊥/X`, indexed by
 two integers at most `Nm(δ′)` and `Nm(δ″)`; the mean over the rows is a mean over a genus (5.17), which the mass formula
 for maximal lattices (HermitianFormsAndLattices §§4.4, 6.3) and the ratio of the masses of the unimodular lattices of
-consecutive ranks (HermitianFormsAndLattices §6.4 (b)) bound. The proof of the count is not given here. The two
-inequalities multiply to (a), `ω` cancelling. The proofs of (b) and (c) are not given here. (d) By 5.15 (b) only the
+consecutive ranks (HermitianFormsAndLattices §6.4 (b)) bound. The proof of the count is not given here. On `S` the
+defects and labels are fixed, so the product of the amplitude bounds of `t` and `t′`, summed over `S`, is
+`dim V_{λ_u}·Σ_{(t,t′)∈S} w_row(t)w_row(t′)·ω(t)ω(t′)` times factors that depend only on `δ′` and `δ″`. The count bounds
+this sum, so `ω` is bounded together with `w_row` and is not divided out; with `−(k − 1 − j)/2 + k/2 = (j + 1)/2` for the
+powers of `Nm` this gives (a). The proofs of (b) and (c) are not given here. (d) By 5.15 (b) only the
 relevant terms contribute, and by (b) they have defect `≥ 1`. For fixed defects sum (a) over the labels: by (b),
 `Nm(δ)^{(j+1)/2} ≤ b^{C·m²·f·(j+1)/2}·Sz_H(δ)^{j+1}`, and `j + 1 − (C_s − C_p)k ≤ −3r_S` because `C_s − C_p ≥ 4` and
 `k ≥ r_S + 1`, so `Σ_δ w_ty(δ) ≤ A(j)` by (c) (`Sz_H ≥ 1`); then sum over `1 ≤ j′, j″ ≤ r_S`.
