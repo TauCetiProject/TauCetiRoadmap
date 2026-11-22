@@ -158,8 +158,8 @@ are defined: `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `SizeGap`, `S
 size predicate `Size_□` of the grid (5.8e). "The size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1" means `Size(x, ε)`; a target that uses a single predicate names it.
 
-**Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target states what
-that proof establishes. Where a route is not given, or not given in full, the target says so in its route.
+**Routes.** The results stated here are those of a complete formal proof ([FormalProof]), except where a target says
+otherwise. Where a route is not given, or not given in full, the target says so in its route.
 
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
@@ -219,7 +219,7 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 | `N_E, r′, c_i(τ), h_c, N_□, ℓ_cl, C_F` | the modulus of the host (FrobeniusRestrictedRieszSums §0.4); the least prime not dividing `N_E(p_δ − 1)(p′_δ − 1)`; the centres of the grid, their spacing, `k + m(t + s + 1)`, the length of the cloud of `v`; the depth constant | 5.8a |
 | `𝔪_□, d_□, K⁺; X^c_i, X⁺ = X^c_m; C⁺, e⁺_i, z⁺, N⁺, ψ⁺, n⁺` | the modulus of the grid, its depth, the principal congruence subgroup of level `𝔪_□` in `U(X⁺)(𝔸_f)`; the core column; the Bessel datum (the measure constants `𝔪_j` of 5.2 are other symbols) | 5.8a |
 | `u_l` | the step quotient `u_l(ξ)/u_l(1)` | 5.8d |
-| `B⁺, 𝐩, 𝐜, ℓ⁺, Cl⁺, y_{κ,i}, Θ^{(0)}_{𝐩,𝐜}; ℬ_a, a = (𝐜, κ, i)` | the Bessel form; Fock data of column `0`; coset data; a linear form on `V_{Λ⁺}`; the classes `U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`; the form on the class `κ` with value the `i`-th basis vector; the theta series of column `0`; the Bessel periods of the grid and their index | 5.8e |
+| `B⁺, 𝐩, 𝐜, ℓ⁺, Cl⁺, y_{κ,i}, Θ^{(0)}_{𝐩,𝐜}; ē(w); ℬ_a, a = (𝐜, κ, i)` | the Bessel form; Fock data of column `0`; coset data; a linear form on `V_{Λ⁺}`; the classes `U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`; the form on the class `κ` with value the `i`-th basis vector; the theta series of column `0`; the complex conjugate `conj(e(w))` of the value of a row; the Bessel periods of the grid (conjugate-linear in the row) and their index | 5.8e |
 | `Size_□` | the size predicate of the grid | 5.8e |
 | `𝒟^c_0, a_l(τ), K_i(·; f)` | the discrete series of `U(X^c_0)` of the bottom forms and the entries of its parameter; the kernel of the theta descent of the core column | 5.8f |
 | `𝔼_𝕃` | the `𝕃`-structure of `𝔼^♮` the Bessel periods define | 5.8 |
@@ -1353,9 +1353,11 @@ of a function `u` on `U(Y_0)`, the Schwartz datum of step `i` being `𝐩_i` at 
 of `Cl⁺ := U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺` with value the `i`-th vector of a basis of `V_{Λ⁺}(𝕃)`. The *separating family* attached to a
 smooth vector `w` of `𝒟^{(0)}` and to `(𝐩, ℓ⁺)` consists of the functionals on the row space `𝒞_0 ≅ ℋ^♮` (5.4)
 
-`ℬ_a(e) := B⁺(⟨ℓ⁺, y_{κ,i}⟩, Θ^{(0)}_{𝐩,𝐜}(e(w)))`,  `a = (𝐜, κ, i)`,
+`ℬ_a(e) := B⁺(⟨ℓ⁺, y_{κ,i}⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w)))`,  `ē(w) := conj(e(w))`,  `a = (𝐜, κ, i)`,
 
-indexed by (coset data) × `Cl⁺` × (basis of `V_{Λ⁺}(𝕃)`); their number is
+conjugate-linear in `e` (the lift along column `0` is applied to the complex conjugate of the row, as in [FormalProof],
+whose rows are the complex conjugates of the rows of 5.1, 5.8f), indexed by (coset data) × `Cl⁺` × (basis of
+`V_{Λ⁺}(𝕃)`); their number is
 `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)}·#Cl⁺·dim V_{Λ⁺}` (the first factor is the number of coset data, `∏_i#(Hom(Λ_{i+1,0}, Λ_{i,0})/𝔪_□)`).
 
 *The size predicate `Size_□`.* (o) The weight datum is that of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and the
@@ -1430,11 +1432,11 @@ verification is not given here. [FormalProof] proves the bound at `V(m, 0)` unde
 *Route* (an outline; the steps (B), (C), (D), (E) are the targets 5.8f, 5.8g, 5.8h, 5.8i, whose proofs are not given
 here except as indicated):
 (A) *Column `0` is a tower:* each right step is an up-lift, so by the pair statement of 5.2 (ThetaKernelsForUnitaryDualPairs
-§5.6a) the `n`-fold lift of `e(w)` is `F′_n(vec_n(𝐩, w))` for a map `F′_n` from one discrete series of `U(V(n, 0))(F_∞)` to cusp
+§5.6a) the `n`-fold lift of `ē(w)` is `F′_n(vec_n(𝐩, w))` for a map `F′_n` from one discrete series of `U(V(n, 0))(F_∞)` to cusp
 forms, depending on `(e, 𝐜)` only, and all partial lifts are rapidly decreasing. (B) *A period at the bottom:* for `e ≠ 0`,
 `w ≠ 0` there is a `K`-finite value `y` of a cusp form on `U(X^c_0)` of level `𝔪_□` and discrete-series type with
-`∫_{[U(Y_0)]}y(h)e(w)(h)dh ≠ 0`: a Poincaré series of a translate of a lowest-`K`-type coefficient, unfolded along the orbit of
-the added vector `z₀` (`X^c_0 = Y_0 ⊥ ⟨z₀⟩`); its main term is a positive multiple of a value of `e(w′)`, by the eigen-identity
+`∫_{[U(Y_0)]}y(h)ē(w)(h)dh ≠ 0`: a Poincaré series of a translate of a lowest-`K`-type coefficient, unfolded along the orbit of
+the added vector `z₀` (`X^c_0 = Y_0 ⊥ ⟨z₀⟩`); its main term is a positive multiple of a value of `ē(w′)`, by the eigen-identity
 `∫_{U(Y_0)(F_τ)}conj⟨v, π(h)v⟩⟨b, σ(h)w′⟩dh = c⟨b, w′⟩` for discrete series in the branching pattern, taken at a point `x` where
 `|e(w′)|` is at least half its supremum (there the lattice has no short vector: a cusp form is small where the lattice has
 one); the other terms, indexed by lattice points `z ≠ z₀` with `z − z₀ ∈ 𝔪_□Λ_x`, are each at most
@@ -1451,9 +1453,9 @@ lifted pair to vanish: unfolding along the unipotent radical, irreducibility of 
 vacua, seesaw; and conversely) a Fourier–Jacobi period at the odd stages and a Bessel period at the even stages is nonzero
 for suitable data, up to `B⁺(⟨ℓ⁺, y′⟩, Θ^{(0)}_{𝐩,𝐜}u) ≠ 0` at stage `m`; the data of the steps passed are replaced by data of the
 family because Fock polynomials times coset indicators span the data of depth `𝔪_□` and the periods are continuous in them.
-(E) Hence for every `e ≠ 0` and `w ≠ 0` some `(𝐩, ℓ⁺, y, 𝐜)` gives `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(e(w))) ≠ 0`. (F) *The archimedean data can
+(E) Hence for every `e ≠ 0` and `w ≠ 0` some `(𝐩, ℓ⁺, y, 𝐜)` gives `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) ≠ 0`. (F) *The archimedean data can
 be fixed:* by (A), the tensor structure of `V_{Λ⁺}^∨` over the real places and the uniqueness of Bessel functionals of gapped
-discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(e(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`; one
+discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`; one
 `(𝐩, ℓ⁺)` with `a_w(𝐩, ℓ⁺) ≠ 0` serves every `e`. (G) Linearity in `y` and the basis `y_{κ,i}` (the level `K⁺` is neat) give the
 finite family. The remaining steps of the route are not given here: (B)–(E) are 5.8f–5.8i, and [FormalProof] proves (F)
 and (G) as two theorems, `UpperTheory.Lit.Bur.factor_gap` and `UpperTheory.Lit.Bur.separate_of_burGapPos`
@@ -1546,8 +1548,8 @@ column `0` and of the core column are fixed by the principal congruence subgroup
 
 *Statement.* Under the hypotheses of 5.8f: for every nonzero row `e ∈ 𝒞_0 ≅ ℋ^♮` and every nonzero smooth vector `w` of
 `𝒟^{(0)}` there are Fock data `𝐩`, a linear form `ℓ⁺` on `V_{Λ⁺}`, an algebraic form `y′` on `U(X⁺)` of level `K⁺` and coset
-data `𝐜` with `B⁺(⟨ℓ⁺, y′⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) ≠ 0`, `ē(w) := conj(e(w))` (the function to which [FormalProof] applies the
-functionals of 5.8e).
+data `𝐜` with `B⁺(⟨ℓ⁺, y′⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) ≠ 0`, `ē(w) = conj(e(w))` as in 5.8e (the function to which 5.8e and
+[FormalProof] apply the functionals).
 
 *Route.* 5.8f gives a bottom form and `v` with nonzero period against `ē(w)`; by 5.8g, `y(v)` is a combination of bottoms
 `Ψ_0` of column chains, and the period is linear, so one `Ψ_0` has nonzero period; `ē(w)` is rapid along column `0` (step
@@ -1621,7 +1623,13 @@ such that for every `𝕃`-rational form `x ∈ Π_good·𝒰^♮_ξ`:
 ([FormalProof] states the identity, `v(ξ, x, a) ∈ 𝕃`, the ratios in `𝕃` and `c(i, j, ξ) ≠ 0` as
 `GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
 `Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
-`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5).) Hence
+`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_{F,0}`, not made
+explicit, such that for every `C_F ≥ C_{F,0}` and every `ε` there is `x₀` for which they hold under its standing record
+`GlobalTheory.RowClaim.HidaSetting` of that file, which adds to `Size_□` the record `Formalism.IndefR.Links.HostHyp` of 5.9
+(the gaps `100r⁴` of 5.9, the interlacing and further gaps of the row parameter) and further clauses, among them on the
+labels, the characters of the tuples, the Weil representations of the steps, the additive character and the frame of `X^h`. It
+applies the functionals to its own descent of a rational form, a row of the proof, the complex conjugate of the
+corresponding row here (5.8e). The form above, for every `C_F ≥ 6510` and without `HostHyp`, is this roadmap's own.) Hence
 `𝔼_𝕃 := {e ∈ 𝔼^♮ : c_tot(1)κ_G^{−1}ℬ_a(e) ∈ σ₀(𝕃) for all a}` (`c_tot = ∏ c`) is an `𝕃`-structure of `𝔼^♮` containing `ι_ξ(x)` for every
 tuple `ξ` and every rational `x`, stable under the Hecke operators away from `S(1)` and under `G₀`, so that every level part
 `𝔼_{b,𝕃} := e_{P_b,χ_{P_b}}𝔼_𝕃` is an `𝕃`-structure of `𝔼_b`; the kernels of the `ι_ξ` are defined over `𝕃`, hence so is every
@@ -1643,10 +1651,11 @@ in `𝕃`: the ratios by (L6); the step quotients because the constants `c_v(ξ)
 twisted critical values is used. *Values of `η̃`.* The class sums contain `η̃` through `η̃(ϖ_v)N v^{−1/2}` at unramified
 places and through `√N(w)` at the places of (L4), all in `𝕃` by (L1), (L4), and the Weil constants are eighth roots of
 unity (L2). Then `ℬ_a(ι_ξ x)` is a
-`(ϱ_ξ c_tot(ξ)/c_tot(1))^{−1}`-multiple of an element of `𝕃`. *The `𝕃`-structure.* `𝔼_𝕃` is an `𝕃`-subspace containing `ι_1(x)` for every
+`(ϱ_ξ c_tot(ξ)/c_tot(1))^{−1}`-multiple of an element of `𝕃`. *The `𝕃`-structure.* `𝔼_𝕃` is an `𝕃`-subspace (the `ℬ_a` are
+conjugate-linear, and complex conjugation preserves `σ₀(𝕃)` because `𝕃` is Galois over `ℚ`) containing `ι_1(x)` for every
 rational `x`; these span `𝔼^♮` over `ℂ` because `ι_1` maps `Π_good·𝒰^♮_1 ⊗ ℂ` onto `𝔼^♮` (5.6) and `𝒰^♮_1` has the `𝕃`-structure of its
-rational forms; and `𝕃`-independent elements of `𝔼_𝕃` are `ℂ`-independent, because `e ↦ (ℬ_a(e))_a` is injective by 5.8e with
-values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`. For every `ξ`, `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼 = 𝔼_1` (5.6), so the lattice
+rational forms; and `𝕃`-independent elements of `𝔼_𝕃` are `ℂ`-independent, because `e ↦ (ℬ_a(e))_a` is injective and
+conjugate-linear by 5.8e with values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`. For every `ξ`, `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼 = 𝔼_1` (5.6), so the lattice
 `ι_ξ(proj_{Q_ξ}(M̃_ξ ∩ ℋ^{rt}_ξ))` spans `𝔼_{1,𝕃}` and is finitely generated over the integers of `𝕃`: any two are commensurable. The
 Hecke and `G₀`-stability because these operators act on the rational forms of `𝒰^♮_ξ` by `𝕃`-rational matrices and commute
 with `ι_ξ`.
@@ -2184,34 +2193,40 @@ theta functions (5.4, 5.8, 5.10a).
 
 ## References
 
-- S. Rallis (1982); S. Kudla (1986, 1994): 5.5–5.7.
+- S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982); S. Kudla (1986, below)
+  and *Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994): 5.5–5.7.
 - S. Kudla, *On the local theta-correspondence*, Invent. Math. 83 (1986); S. Rallis, *Injectivity properties of liftings
   associated to Weil representations*, Compositio Math. 52 (1984), §1, Proposition 1.1, pp. 149–150 (the inner product
   formula, for orthogonal–symplectic pairs in Weil's convergent range); I. Piatetski-Shapiro and S. Rallis, *L-functions for the
   classical groups*, LNM 1254 (1987); J.-S. Li, *Nonvanishing theorems for the cohomology of certain arithmetic quotients*,
   J. reine angew. Math. 428 (1992); A. Ichino, *A regularized Siegel–Weil formula for unitary groups*, Math. Z. 247 (2004):
   5.5–5.7. J. Arthur and L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula* (1989);
-  J.-P. Labesse, *Cohomologie, stabilisation et changement de base*, Astérisque 257 (1999): 5.9. G. Shimura; P. Deligne;
-  J. Milne, *Canonical models of (mixed) Shimura varieties and automorphic vector bundles* (1990); M. Harris, *Arithmetic
+  J.-P. Labesse, *Cohomologie, stabilisation et changement de base*, Astérisque 257 (1999): 5.9. G. Shimura, *On canonical models of arithmetic
+  quotients of bounded symmetric domains*, Ann. of Math. 91 (1970); P. Deligne, *Variétés de Shimura: interprétation
+  modulaire, et techniques de construction de modèles canoniques*, Proc. Sympos. Pure Math. 33, part 2 (1979); J. Milne, *Canonical models of (mixed) Shimura varieties and automorphic vector bundles* (1990); M. Harris, *Arithmetic
   vector bundles and automorphic forms on Shimura varieties I*, Invent. Math. 82 (1985): 5.10a, 5.11. N. Katz, *p-adic
-  interpolation of real analytic Eisenstein series*, Ann. of Math. 104 (1976); D. Blasius: 5.8.
+  interpolation of real analytic Eisenstein series*, Ann. of Math. 104 (1976); D. Blasius, *On the critical values of Hecke
+  L-series*, Ann. of Math. 124 (1986): 5.8.
 - Harish-Chandra, *Discrete series for semisimple Lie groups II*, Acta Math. 116 (1966): 5.3. J. A. Green, *The characters
-  of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. Graev; I. N. Bernstein and
+  of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. I. Graev, *Construction of irreducible
+  representations of simple algebraic groups over a finite field*, Dokl. Akad. Nauk SSSR 147 (1962); I. N. Bernstein and
   A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977), 2.12 (the
   geometrical lemma), p. 448: 5.9.
-- R. Godement (square-integrable representations): 5.1, 5.2a, 5.3. A. Paul (theta correspondence for unitary dual
-  pairs over `ℝ`); S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), §1.1, Theorem 1.1.1, p. 345,
+- R. Godement (square-integrable representations): 5.1, 5.2a, 5.3. A. Paul, *Howe correspondence for real unitary groups*, J. Funct. Anal. 159 (1998); S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), §1.1, Theorem 1.1.1, p. 345,
   and its Corollary, p. 351 (the constant term of a theta lift along a maximal parabolic subgroup is a lift in fewer
-  variables, and the cuspidality criterion it gives, for orthogonal–symplectic pairs): 5.2. H. Petersson (Poincaré series).
+  variables, and the cuspidality criterion it gives, for orthogonal–symplectic pairs): 5.2. H. Petersson, *Theorie der automorphen Formen beliebiger
+  reeller Dimension und ihre Darstellung durch eine neue Art Poincaréscher Reihen*, Math. Ann. 103 (1930) (Poincaré
+  series): 5.8f.
 - W. T. Gan, B. Gross and D. Prasad, *Symplectic local root numbers, central critical L-values, and restriction problems
   in the representation theory of classical groups*, Astérisque 346 (2012), cited in the numbering of arXiv:0909.2999v1:
   §12, p. 43 (the data of Bessel models), Corollary 15.2, p. 63 (their multiplicity one over a non-archimedean field) and
-  §23, p. 86 (global Bessel periods): 5.8e. S. Kudla, *Seesaw dual reductive pairs* (1984). W. Casselman; N. Wallach: 5.1,
-  5.2.
+  §23, p. 86 (global Bessel periods): 5.8e. S. Kudla, *Seesaw dual reductive pairs* (1984). W. Casselman, *Canonical
+  extensions of Harish-Chandra modules to representations of G*, Canad. J. Math. 41 (1989); N. Wallach, *Real reductive
+  groups II*, Academic Press (1992): 5.1, 5.2.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of 5.1, 5.3–5.6, 5.8b–5.8i, the identity
-  of 5.8 with the rationality of its terms, 5.9 (over the cyclic hosts), 5.10, the API of 5.10a, 5.11 and 5.12, except
+  <https://github.com/leanprover-community/riemann-hypothesis>, whose files are cited here by their paths under its
+  `src/` directory. It is the source of 5.1, 5.3–5.7, 5.8a–5.8i, the identity of 5.8 with the rationality of its terms, 5.9 (over the cyclic hosts), 5.10, the API of 5.10a, 5.11 and 5.12, except
   for the clauses these targets mark as this roadmap's own; the definition of 5.10a through canonical models and the remark of 5.12 on the algebraicity of the
   separating eigenvalues are this roadmap's own. A target whose route is not given in full names the declarations of
   it, with their files, that state the missing steps.
