@@ -7,7 +7,8 @@ hyperbolic space `ℍⁿ`. On the analytic side it develops the Jacobi function 
 its elementary and polynomial cases and its identification with the matrix elements of `SU(1,1)`;
 the second solution `Φ_λ` that behaves like `e^{(iλ−ρ)t}` at infinity, the Harish-Chandra
 `c`-function and the connection formula `φ_λ = c(λ) Φ_λ + c(−λ) Φ_{−λ}`; the bounds
-`|φ_λ| ≤ 1` for real `λ` and `|φ_λ(t)| ≤ e^{|Im λ| |t|}`; Koornwinder's Laplace-type integral and
+`|φ_λ| ≤ 1` for real `λ` and `|φ_λ(t)| ≤ e^{|Im λ| |t|}`, for real `α ≥ −1/2` and
+`α + β + 1 ≥ 0`; Koornwinder's Laplace-type integral and
 product formula; and the Jacobi transform `f ↦ ∫₀^∞ f φ_λ Δ dt` with its Paley–Wiener estimate,
 its inversion formula `f = (2π)⁻¹ ∫₀^∞ f̃(λ) φ_λ |c(λ)|⁻² dλ` and Plancherel formula for real
 `α > −1`, `|β| ≤ α + 1`, its unitary extension, and the discrete terms that appear when
@@ -59,7 +60,9 @@ Layer 4 the spherical, Abel and Helgason–Fourier transforms on `ℍⁿ`.
 
 Layers 0 and 1 are one-variable analysis. Apart from 0.5 (the `SU(1,1)` matrix elements) and the
 polynomial case of 0.1 (the Jacobi polynomials), they depend only on the hypergeometric and Gamma
-functions, Carlson's theorem and the Euclidean Paley–Wiener theorem on `ℝ`; their theorems hold
+functions, Carlson's theorem, the Euclidean Paley–Wiener theorem on `ℝ` and, for the unitary
+extension of 1.2 at parameters the Paley–Wiener theorem of 1.3 does not reach, the
+Weyl–Titchmarsh–Kodaira theory of Sturm–Liouville operators; their theorems hold
 for general complex or real `(α, β)`, so that they serve every rank-one space. Layer 2 is the
 geometry of `ℍⁿ` and depends on nothing in Layers 0–1. Layer 3 joins
 them: the spherical functions of Layer 2's Gel'fand pair are the Jacobi functions of Layer 0, by the
@@ -417,8 +420,19 @@ using the Paley–Wiener estimate and the asymptotics of `Φ_λ` (whose poles `�
 `Im λ < 0`); when `|β| ≤ α + 1` the function `c(−λ)⁻¹` has no poles in `Im λ > 0`
 (Klimyk–Vilenkin, p. 233, state this for `|β| < α + 1`; at `|β| = α + 1` the pole of the Gamma
 factor at `λ = 0` cancels against `Γ(−iλ)`), so no residues appear. Plancherel follows from
-inversion and the symmetry of `L` (1.1); surjectivity of the unitary extension follows from the
-Paley–Wiener theorem of 1.3, whose range is dense.
+inversion and the symmetry of `L` (1.1), and gives the isometry. Surjectivity of the unitary
+extension: for `α ≥ β ≥ −1/2` the range contains the Paley–Wiener space of 1.3, which is dense.
+Euler's transformation (SpecialFunctionsHypergeometric §5.1, DLMF 15.8.1) gives
+`φ_λ^{(α,β)} = (cosh t)^{−2β} φ_λ^{(α,−β)}`, and with `Δ_{α,β} = (2 cosh t)^{4β} Δ_{α,−β}` and
+`c^{(α,β)} = 2^{2β} c^{(α,−β)}` the transform at `(α, β)` is `2^{2β}` times the transform at
+`(α, −β)` of `(2 cosh t)^{2β} f`, a unitary change of function that preserves the smooth even
+compactly supported functions; this carries surjectivity to `α ≥ −β ≥ −1/2`. For the remaining
+parameters the range is dense by the completeness of the eigenfunction expansion of the
+Sturm–Liouville operator `L` on `(0, ∞)` (Weyl–Titchmarsh–Kodaira theory: `L` is in the
+limit-point case at `∞`, and for `α < 0` the even solutions fix the boundary condition at `0`),
+whose spectral measure the inversion formula identifies with `(2π)⁻¹ |c(λ)|⁻² dλ`;
+Klimyk–Vilenkin, pp. 233–234, present (14) in this form, as the expansion in the eigenfunctions of
+`Δ(t)⁻¹ (d/dt) Δ(t) (d/dt)`.
 
 **Checks.**
 - `(α, β) = (−1/2, −1/2)`: `(2π)⁻¹ |c|⁻² = 2/π`, the Fourier cosine inversion
@@ -435,7 +449,9 @@ Paley–Wiener theorem of 1.3, whose range is dense.
   orthogonal to every `φ_λ`, `λ ∈ ℝ`, being an eigenfunction of the symmetric `L` with eigenvalue
   `−(ρ² − 1/4)` outside `(−∞, −ρ²]`, so the continuous Plancherel formula fails there.
 
-*Needs:* 0.3, 0.4, 1.1, 1.3; Mathlib `MeasureTheory.Lp` and `LinearIsometryEquiv`.
+*Needs:* inversion and Plancherel: 0.3, 0.4, 1.1. The unitary extension: these, and the
+Paley–Wiener theorem of 1.3 (which does not use 1.2); SpecialFunctionsHypergeometric §5.1; Mathlib
+`MeasureTheory.Lp` and `LinearIsometryEquiv`.
 
 ### 1.3 Discrete terms, the Abel transform and the Paley–Wiener theorem
 
@@ -449,8 +465,8 @@ transforms of type `χ_l` on Hermitian symmetric spaces, whose radial parts are 
 transforms at group parameters); Wawrzyńczyk Theorem 18.8.1 (2), p. 645 (Helgason's theorem, the
 spherical case on a symmetric space). None of these states the Paley–Wiener theorem at general
 `α ≥ β ≥ −1/2`; Klimyk–Vilenkin, p. 234, refer for the general Jacobi transform to
-Flensted-Jensen (1972) and Koornwinder (1975). The general statement is carried by the proof
-route below.
+Flensted-Jensen (1972) and Koornwinder (1975) (see [References](#references)), whose theorem
+numbers are not read here. The statement is carried by the proof route below.
 
 Prove:
 - **Discrete terms** (`jacobiTransform_inversion_discrete`): for real `α > −1` and
@@ -459,26 +475,48 @@ Prove:
   `f(t) = (2π)⁻¹ ∫₀^∞ f̃(λ) φ_λ(t) |c(λ)|⁻² dλ + Σ_j d(λ_j) f̃(λ_j) φ_{λ_j}(t)` for real `t`;
 - the `λ_j` are the poles of `c(−λ)⁻¹` in `Im λ > 0`, they are simple, `φ_{λ_j} ∈ L²(Δ dt)`,
   `d(λ_j) = −i Res_{μ=λ_j} (c(μ) c(−μ))⁻¹ > 0`, and the matching Plancherel formula holds;
-- **The Abel transform of the Jacobi analysis**: for real `α > β > −1/2`, the Laplace
+- **The Abel transform of the Jacobi analysis**: for real `α ≥ β ≥ −1/2` there is a linear map
+  `𝒜_{α,β}` with `f̃(λ) = ∫_ℝ (𝒜_{α,β} f)(s) e^{iλs} ds`, which maps the smooth even functions
+  supported in `[−R, R]` bijectively onto themselves. For `α > β > −1/2` the Laplace
   representation of 0.4 written in the variable `s = log |cosh t + r e^{iψ} sinh t|` gives
-  `φ_λ(t) = ∫_{−t}^{t} e^{iλs} k_t(s) ds` with a nonnegative kernel `k_t`, even in `s`, so that
-  `f̃(λ) = ∫_ℝ (𝒜_{α,β} f)(s) e^{iλs} ds` with `𝒜_{α,β} f(s) = ∫_{|s|}^∞ f(t) k_t(s) Δ(t) dt`, and
-  `𝒜_{α,β} f` is supported in `[−R, R]` when `f` is;
+  `φ_λ(t) = ∫_{−t}^{t} e^{iλs} k_t(s) ds` with a nonnegative kernel `k_t`, even in `s`, and
+  `𝒜_{α,β} f(s) = ∫_{|s|}^∞ f(t) k_t(s) Δ(t) dt`. At `β = −1/2`, `α > −1/2` the kernel is
+  `k_t(s) = (C/2) (sinh t)^{−2α} (cosh t − cosh s)^{α−1/2}` with
+  `C = 2^{α+1/2} Γ(α + 1)/(√π Γ(α + 1/2))`, so
+  `𝒜_{α,−1/2} f(s) = C 2^{2α} ∫_{|s|}^∞ f(t) (cosh t − cosh s)^{α−1/2} sinh t dt`, a Weyl
+  fractional integral of order `α + 1/2` in `u = cosh s`. At `α = β` the map is
+  `𝒜_{α,α} f(s) = 𝒜_{α,−1/2}(f(·/2))(2s)`, and at `α = β = −1/2` it is `f/2`;
 - **The Paley–Wiener theorem** (`jacobiTransform_paley_wiener`): for real `α ≥ β ≥ −1/2` and
   real `R`, the Jacobi transform maps the smooth even functions supported in `[−R, R]` onto the
   even entire functions `g` with `(1 + |λ|)^N |g(λ)| ≤ C_N e^{R |Im λ|}` for every `N`.
 
 Proof route: in the contour shift of 1.2 the poles `λ_j` are crossed and contribute their residues
 `d(λ_j) = −i Res (c(μ) c(−μ))⁻¹`; the identification of `d(λ_j)` with the reciprocal norm follows
-from the projection onto the eigenfunction `φ_{λ_j}`. The Paley–Wiener theorem: the transform
-factors as the Euclidean Fourier transform after `𝒜_{α,β}`, the Euclidean Paley–Wiener theorem of
-AutomorphicSpectralTheory §1.6 on `𝔞 = ℝ` (its transform `ĥ(μ) = ∫ h(s) e^{−μs} ds` read at
-`μ = −iλ`, so that its bound `e^{R |Re μ|}` is `e^{R |Im λ|}`) applies to `𝒜_{α,β} f`, and
-`𝒜_{α,β}` is a bijection of the smooth even functions supported in `[−R, R]` (Koornwinder's
-inversion of `𝒜_{α,β}` by fractional integrals); the boundary cases `α = β` and `β = −1/2` follow
-by the quadratic transformation of 0.2 and directly from the Fourier case. For `R < 0` both sides
-contain only `0` (an entire `g` with `(1 + |λ|) |g(λ)| ≤ C e^{R |Im λ|}` is bounded and tends to
-`0`). For `ℍⁿ` the factorization is 4.2.
+from the projection onto the eigenfunction `φ_{λ_j}`.
+
+The Abel transform at `β = −1/2` is the limit `β → −1/2` of the Laplace representation of 0.4:
+`Γ(β + 1/2)⁻¹ sin^{2β} ψ dψ` on `[0, π]` tends to half the sum of the point masses at `ψ = 0` and
+`ψ = π`, which gives
+`φ_λ^{(α,−1/2)}(t) = Γ(α + 1)/(√π Γ(α + 1/2)) ∫_{−1}^{1} (cosh t + r sinh t)^{iλ−ρ} (1 − r²)^{α−1/2} dr`,
+and `e^s = cosh t + r sinh t` turns this into the kernel above. Write `g(u) = f(arcosh u)` and
+`W^a g(c) = Γ(a)⁻¹ ∫_c^∞ g(w) (w − c)^{a−1} dw`. Then
+`𝒜_{α,−1/2} f(s) = K_α W^{α+1/2} g(cosh s)` with `K_α = 2^{3α+1/2} Γ(α + 1)/√π`; the Beta
+integral gives `W^a W^b = W^{a+b}`, and `−(d/du) W^{a+1} = W^a`, so with `k = ⌈α + 1/2⌉`,
+`g = K_α⁻¹ (−d/du)^k W^{k−α−1/2} (𝒜_{α,−1/2} f ∘ arcosh)`. Both `W^a` and `d/du` keep the support
+in `u ≤ cosh R`, and an even `f` is smooth exactly when `g` is smooth on `[1, ∞)`, since `t²` is an
+analytic function of `u − 1` near `u = 1`; so `𝒜_{α,−1/2}` is the stated bijection. The case
+`α = β` is the quadratic transformation of 0.2 read on the transform: `Δ_{α,α}(t) = Δ_{α,−1/2}(2t)`
+gives `f̃^{(α,α)}(λ) = (1/2) (f(·/2))~^{(α,−1/2)}(λ/2)`. For `α > β > −1/2` the bijectivity is
+Koornwinder's factorization of `𝒜_{α,β}` into fractional integrals with elementary kernels
+(Koornwinder (1975); not read here).
+
+The Paley–Wiener theorem: the transform is the Euclidean Fourier transform after `𝒜_{α,β}`, the
+Euclidean Paley–Wiener theorem of AutomorphicSpectralTheory §1.6 on `𝔞 = ℝ` (its transform
+`ĥ(μ) = ∫ h(s) e^{−μs} ds` read at `μ = −iλ`, so that its bound `e^{R |Re μ|}` is `e^{R |Im λ|}`)
+applies to `𝒜_{α,β} f`, and `𝒜_{α,β}` is a bijection of the smooth even functions supported in
+`[−R, R]`. For `R < 0` both sides contain only `0` (an entire `g` with
+`(1 + |λ|) |g(λ)| ≤ C e^{R |Im λ|}` is bounded and tends to `0`). On `ℍⁿ` the same factorization
+is 4.2, with `𝒜 = ω_{n−1} 2^{1−n} 𝒜_{n/2−1,−1/2}`; neither of 1.3 and 4.2 uses the other.
 
 **Checks.**
 - At `(α, β) = (0, 3/2)` there is one discrete term, at `λ₀ = i/2`, with
@@ -487,13 +525,18 @@ contain only `0` (an entire `g` with `(1 + |λ|) |g(λ)| ≤ C e^{R |Im λ|}` is
   `0.07087 51680` and the discrete term `0.70792 56150`; their sum is `e^{−1/4} = 0.77880 07831`
   (negative control: the continuous part alone misses `f(t)`).
 - At `(α, β) = (0, 7/2)` there are two, at `5i/2` and `i/2`.
+- At `β = −1/2`, `α = 1.3`, `λ = 0.7 − 0.4i`, `t = 0.9` the kernel form and the definition of
+  `φ_λ^{(α,−1/2)}(t)` are both `0.73532 20887 + 0.03706 47013 i`; for `f(t) = e^{−t²}` and
+  `λ = 0.6 + 0.2i`, `f̃(λ)` and `∫_ℝ 𝒜_{1.3,−1/2} f(s) e^{iλs} ds` are both
+  `11.41478 4349 − 0.91439 99970 i`.
 - For `α ≥ β ≥ −1/2` there are no discrete terms, since then `|β| ≤ α + 1`.
 - Negative control: `e^{−t²}` does not have compact support, and its transform
   `(√π/2) e^{−λ²/4}` in the Fourier case grows like `e^{(Im λ)²/4}` on the imaginary axis, faster
   than every `e^{R |Im λ|}`.
 
-*Needs:* 0.4, 1.1, 1.2; Mathlib Fourier transform; AutomorphicSpectralTheory §1.6 (the Euclidean
-Paley–Wiener theorem).
+*Needs:* the Abel transform and the Paley–Wiener theorem: 0.2, 0.4, 1.1; Mathlib Fourier
+transform; AutomorphicSpectralTheory §1.6 (the Euclidean Paley–Wiener theorem); not 1.2. The
+discrete terms: 0.3 and the contour shift of 1.2.
 
 ### Examples
 
@@ -503,6 +546,7 @@ Paley–Wiener theorem).
 ### Dependencies
 
 Layer 0; Mathlib `Lp`, Fourier analysis; AutomorphicSpectralTheory §1.6;
+SpecialFunctionsHypergeometric §5.1;
 SpecialFunctionsSU11MatrixElements §5.2 for a Check.
 
 ## Layer 2: real hyperbolic space
@@ -650,17 +694,20 @@ Wawrzyńczyk §11.2, p. 395 (`SO₀(3, 1)` as the image of `SL(2, ℂ)`, with th
 Prove:
 - **`(SO₀(n, 1), SO(n))` is a Gel'fand pair** (`isGelfandPair_lorentzGroup`) for every Haar
   measure of `G`, in the sense of SpecialFunctionsGroupModels §5.1, by its symmetric-pair criterion
-  with the involution `θ(g) = J (gᵀ)⁻¹ J`, `J = diag(1, −1, …, −1)`;
+  with the involution `θ(g) = (gᵀ)⁻¹`, which equals `J g J` on `G`, `J = diag(1, −1, …, −1)`;
 - `G` is a unimodular locally compact group, `K` is compact, `θ` is a continuous involutive
   automorphism fixing `K` pointwise, and `G = K P` with `P = {p | θ p = p⁻¹}`.
 
-Proof route: `θ(g) = J g J` on `G` since `gᵀ J g = J`; `θ` fixes `K` (block-diagonal with
+Proof route: `θ(g) = (gᵀ)⁻¹ = J g J` on `G` since `gᵀ J g = J`; `θ` fixes `K` (block-diagonal with
 `(1, k)`, `k ∈ SO(n)`) and inverts the boosts; `G = K P` is the Cartan decomposition
 `k₁ a_t k₂ = (k₁ k₂)(k₂⁻¹ a_t k₂)` with `k₂⁻¹ a_t k₂ ∈ P`.
 
 **Checks.**
 - `θ(a_t) = a_{−t}` and `θ(k) = k` for `k ∈ K`.
 - `θ(gh) = θ(g) θ(h)` and `θ² = id`.
+- Negative control (the involution): `g ↦ J (gᵀ)⁻¹ J` is the identity on `G`, since
+  `(gᵀ)⁻¹ = J g J`; its `P = {p | θ p = p⁻¹}` is the set of elements of order at most two, and
+  `G ≠ K P`.
 - Negative control: for `n ≥ 2`, `(SO₀(n, 1), {1})` is not a Gel'fand pair, since `G` is not
   abelian (for `n = 1`, `SO₀(1, 1) ≅ ℝ` is abelian and the pair is one).
 
@@ -873,8 +920,16 @@ Proof route: in the horospherical coordinates of 2.2, `[x(s, v), b̃₀] = e^{�
 `b̃₀ = (1, 0, …, 0, −1)`, so for radial `f` the Helgason–Fourier transform `f̂(λ, b₀)` of 4.3 is
 `∫ 𝒜F(s) e^{−iλs} ds` and equals `Sf(λ)` by Harish-Chandra's integral; evenness is the substitution
 `v ↦ e^{−s} v`, which also turns `e^{−iλs}` into `e^{iλs}`. The closed form is polar coordinates
-in `v` with `u = cosh s + r² e^{−s}/2`. The bijection follows from the inverse for odd `n` and, for
-even `n`, from the Paley–Wiener theorems of 1.3 and of the Fourier transform.
+in `v` with `u = cosh s + r² e^{−s}/2`. The bijection is the inversion of a Weyl fractional
+integral, without the Paley–Wiener theorem: with `G(u) = F(arcosh u)` and
+`W^a G(c) = Γ(a)⁻¹ ∫_c^∞ G(w) (w − c)^{a−1} dw`, the closed form reads
+`𝒜F(s) = (2π)^{m/2} W^{m/2} G(cosh s)` (as `ω_{m−1} Γ(m/2) = 2π^{m/2}`). The Beta integral
+`∫_c^∞ (u − c)^{a−1} ∫_u^∞ G(w) (w − u)^{b−1} dw du = B(a, b) ∫_c^∞ G(w) (w − c)^{a+b−1} dw` gives
+`W^a W^b = W^{a+b}`, so for odd `m` (even `n`) one further integral of order `1/2` and
+`(m + 1)/2` derivatives invert it, `G = (2π)^{−m/2} (−d/du)^{(m+1)/2} W^{1/2} (𝒜F ∘ arcosh)` (for
+`m = 1`, Abel's inversion), and for even `m` the inverse above is the case without the extra
+integral. `W^a` keeps the support in `u ≤ cosh R`, and an even `F` is smooth exactly when `G` is
+smooth on `[1, ∞)`.
 
 **Checks.**
 - `[x(s, v), (1, 0, …, 0, −1)] = e^{−s}` on the horospherical chart.
@@ -883,10 +938,14 @@ even `n`, from the Paley–Wiener theorems of 1.3 and of the Fourier transform.
 - For `F(t) = e^{−cosh t}(1 + t²)` and `s = 0.7` the definition and the closed form agree for
   `m = 1, 2, 3, 4` (at `m = 2` both are `5.34822 74281`), and the inverse for `m = 4` returns
   `F(0.9)`.
+- For `F(t) = e^{−1/(R² − t²)} (1 + t²)` on `[0, R)`, `R = 3/2`, the inversion through `W^{1/2}`
+  returns `F(0.9) = 0.90382 67374` on `ℍ²` and `ℍ⁴` (`m = 1, 3`), as the direct inverse does on
+  `ℍ³`, and `𝒜F` vanishes for `cosh s > cosh R`.
 - Negative control: without the factor `e^{−ms/2}`, `𝒜F` is not even.
 - `n = 2`: `𝒜F(s) = √2 ∫_{|s|}^∞ F(t) sinh t (cosh t − cosh s)^{−1/2} dt`.
 
-*Needs:* 2.2, 3.1, 4.1, 4.3 (the radial case); Mathlib Fourier transform.
+*Needs:* 2.2, 3.1, 4.1, and the definition of `helgasonFourier` (4.3) with its value on radial
+functions, which uses only 3.1; Mathlib Fourier transform. Not 1.3 and no theorem of 4.3.
 
 ### 4.3 The Helgason–Fourier transform
 
@@ -921,7 +980,9 @@ Paley–Wiener theorem reduces to 1.3 and 4.2 through the equivariance (Wawrzyń
 - Negative control: dropping `|c(λ)|⁻²` from the inversion fails already for radial `f` on `ℍ³`,
   where `|c(λ)|⁻² = λ²`.
 
-*Needs:* 2.3, 2.4, 3.1, 3.4, 4.1; 1.3 and 4.2 for the Paley–Wiener theorem.
+*Needs:* 2.3, 2.4, 3.1, 3.4, 4.1; 1.3 and 4.2 for the Paley–Wiener theorem. The order is
+0.4 → 1.1 → 1.3 (Abel transform, Paley–Wiener) → 1.2 → 1.3 (discrete terms), and
+2.2, 3.1, 4.1 → 4.2 → 4.3 (Paley–Wiener), with no cycle.
 
 ### 4.4 The hyperbolic plane and three-space
 
@@ -1056,7 +1117,8 @@ second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
   `𝐅` and `F`. Layer 3 (the hypergeometric equation) and §1.3 (terminating series) in 0.1.
 - §4.1 (DLMF 15.4.11 and 15.4.15 with argument `−z²`, on `1 + z² ∈ slitPlane`) in 0.2; §7.1 (the
   quadratic transformation with `c = (a + b + 1)/2`) in 0.2; §5.1 (DLMF 15.8.2 on
-  `−z ∈ slitPlane`, and Pfaff's transformation 15.8.1) in 0.3.
+  `−z ∈ slitPlane`, and Pfaff's transformation 15.8.1) in 0.3; §5.1 (Euler's transformation
+  15.8.1) in 1.2.
 
 ### From [LaguerreJacobi](../LaguerreJacobi/README.md)
 
@@ -1174,13 +1236,19 @@ source, not the specification.
 
 ## References
 
+- M. Flensted-Jensen, Paley–Wiener type theorems for a differential operator connected with
+  symmetric spaces, *Ark. Mat.* 10 (1972), 143–162, doi:10.1007/BF02384806 (named by
+  Klimyk–Vilenkin, p. 234; not read here).
 - G. Heckman and H. Schlichtkrull, *Harmonic Analysis and Special Functions on Symmetric Spaces*,
   Perspectives in Mathematics 16, Academic Press, 1994: Part I §5.4, pp. 83–84, Lemma 5.5.2, p. 85;
   Part II, Lecture 8, Examples 8.1 and 8.3, pp. 171–172 and 181–182.
 - A. U. Klimyk and N. Ja. Vilenkin, *Representations of Lie Groups and Special Functions*, in
   A. A. Kirillov (ed.), *Representation Theory and Noncommutative Harmonic Analysis II*,
   Encyclopaedia of Mathematical Sciences 59, Springer, 1995, Part II, Ch. 5, §§2.3–2.4,
-  pp. 232–233.
+  pp. 232–234.
+- T. H. Koornwinder, A new proof of a Paley–Wiener type theorem for the Jacobi transform,
+  *Ark. Mat.* 13 (1975), 145–159, doi:10.1007/BF02386203 (named by Klimyk–Vilenkin, p. 234; not
+  read here).
 - T. H. Koornwinder, Jacobi functions and analysis on noncompact semisimple Lie groups, in
   R. A. Askey, T. H. Koornwinder and W. Schempp (eds.), *Special Functions: Group Theoretical
   Aspects and Applications*, Reidel, 1984, pp. 1–85 (the source to which DLMF 15.9(ii) and the

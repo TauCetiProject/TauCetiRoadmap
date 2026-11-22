@@ -612,7 +612,8 @@ section Gelfand
 attribute [local instance] borel
 
 /-- README 2.5. **`(SO₀(n, 1), SO(n))` is a Gel'fand pair**, through the involution
-`g ↦ J g⁻ᵀ J` of SpecialFunctionsGroupModels §5.1. -/
+`g ↦ g⁻ᵀ` (equal to `g ↦ J g J` on the group) of the symmetric-pair criterion of
+SpecialFunctionsGroupModels §5.1. -/
 theorem isGelfandPair_lorentzGroup (n : ℕ) (μ : Measure (lorentzGroup n)) [μ.IsHaarMeasure] :
     IsGelfandPair μ (rotationSubgroup n) := by
   sorry
