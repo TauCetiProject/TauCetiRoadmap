@@ -159,6 +159,7 @@ body:
         - EisensteinIdealAndRationalTorsion
         - EllipticCohomology
         - EllipticCurveModularityImaginaryQuadratic
+        - EllipticCurveModularityTotallyReal
         - EllipticCurves
         - EllipticIntegrals
         - EllipticKTheory
