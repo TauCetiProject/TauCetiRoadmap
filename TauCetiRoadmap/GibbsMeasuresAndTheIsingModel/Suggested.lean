@@ -29,6 +29,13 @@ configurations therefore has the all-minus configuration on top, and a function 
 nondecreasing in the spins is `Antitone`. The
 implementation namespace of the README is `TauCeti`; the prototypes live in this roadmap's
 namespace.
+
+The README's prose targets not stated here, with their carriers: the equivalence of extremality
+with tail-measurable functions being almost surely constant (1.2; statable with `tailSigma`);
+the uniqueness of the decomposing measure (1.3; it needs a σ-algebra on the set of extremal Gibbs
+measures, which is not built here); the weak limit points of the kernels (2.1; statable with
+Mathlib's `MeasureTheory.ProbabilityMeasure`); and the contour estimate and contour count of 5.2
+(their carrier, the dual cycles of BernoulliPercolation 6.1, is not copied here).
 -/
 
 @[expose] public section
@@ -139,15 +146,16 @@ def IsExtremalGibbs (γ : Specification (Subshift.univ Γ I S)) (μ : Measure (F
 /-- 1.1: the converse of DimerModelsAndLozengeTilings 4.6(a). If a probability measure with a
 density with respect to a Gibbs probability measure is Gibbs, the density agrees almost
 everywhere with a tail-measurable function. -/
-theorem exists_tail_ae_eq_of_isGibbs_withDensity (γ : Specification (Subshift.univ Γ I S))
-    {μ : Measure (FullShift Γ I S)} [IsProbabilityMeasure μ] (hμ : γ.IsGibbs μ)
+theorem exists_tail_ae_eq_of_isGibbs_withDensity [Countable I]
+    (γ : Specification (Subshift.univ Γ I S)) {μ : Measure (FullShift Γ I S)}
+    [IsProbabilityMeasure μ] (hμ : γ.IsGibbs μ)
     {f : FullShift Γ I S → ℝ≥0∞} (hf : Measurable f) (hf1 : ∫⁻ ω, f ω ∂μ = 1)
     (hfμ : γ.IsGibbs (μ.withDensity f)) :
     ∃ g : FullShift Γ I S → ℝ≥0∞, Measurable[tailSigma Γ I S] g ∧ f =ᵐ[μ] g := by
   sorry
 
 /-- 1.1: two Gibbs probability measures that agree on the tail σ-algebra are equal. -/
-theorem eq_of_forall_tail_eq (γ : Specification (Subshift.univ Γ I S))
+theorem eq_of_forall_tail_eq [Countable I] (γ : Specification (Subshift.univ Γ I S))
     {μ ν : Measure (FullShift Γ I S)} [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
     (hμ : γ.IsGibbs μ) (hν : γ.IsGibbs ν)
     (h : ∀ A, MeasurableSet[tailSigma Γ I S] A → μ A = ν A) : μ = ν := by
@@ -155,22 +163,32 @@ theorem eq_of_forall_tail_eq (γ : Specification (Subshift.univ Γ I S))
 
 /-- 1.2: a Gibbs probability measure is extremal if and only if it is trivial on the tail
 σ-algebra. -/
-theorem isExtremalGibbs_iff_tail_trivial (γ : Specification (Subshift.univ Γ I S))
+theorem isExtremalGibbs_iff_tail_trivial [Countable I] (γ : Specification (Subshift.univ Γ I S))
     (μ : Measure (FullShift Γ I S)) [IsProbabilityMeasure μ] (hμ : γ.IsGibbs μ) :
     IsExtremalGibbs γ μ ↔ ∀ A, MeasurableSet[tailSigma Γ I S] A → μ A = 0 ∨ μ A = 1 := by
   sorry
 
 /-- 1.2: an extremal Gibbs measure has short-range correlations: every event is asymptotically
 independent of the events outside large finite sets. -/
-theorem IsExtremalGibbs.decorrelation {γ : Specification (Subshift.univ Γ I S)}
+theorem IsExtremalGibbs.decorrelation [Countable I] {γ : Specification (Subshift.univ Γ I S)}
     {μ : Measure (FullShift Γ I S)} (hμ : IsExtremalGibbs γ μ) {A : Set (FullShift Γ I S)}
     (hA : MeasurableSet A) {ε : ℝ} (hε : 0 < ε) :
     ∃ Λ : Finset I, ∀ B, MeasurableSet[(Subshift.univ Γ I S).exterior Λ] B →
       |(μ (A ∩ B)).toReal - (μ A).toReal * (μ B).toReal| ≤ ε := by
   sorry
 
+/-- 1.2: conversely, a Gibbs probability measure with short-range correlations is extremal. -/
+theorem isExtremalGibbs_of_decorrelation [Countable I] (γ : Specification (Subshift.univ Γ I S))
+    (μ : Measure (FullShift Γ I S)) [IsProbabilityMeasure μ] (hμ : γ.IsGibbs μ)
+    (hdec : ∀ A : Set (FullShift Γ I S), MeasurableSet A → ∀ ε : ℝ, 0 < ε →
+      ∃ Λ : Finset I, ∀ B, MeasurableSet[(Subshift.univ Γ I S).exterior Λ] B →
+        |(μ (A ∩ B)).toReal - (μ A).toReal * (μ B).toReal| ≤ ε) :
+    IsExtremalGibbs γ μ := by
+  sorry
+
 /-- 1.2: distinct extremal Gibbs measures are carried by disjoint tail events. -/
-theorem IsExtremalGibbs.exists_tail_separating {γ : Specification (Subshift.univ Γ I S)}
+theorem IsExtremalGibbs.exists_tail_separating [Countable I]
+    {γ : Specification (Subshift.univ Γ I S)}
     {μ ν : Measure (FullShift Γ I S)} (hμ : IsExtremalGibbs γ μ) (hν : IsExtremalGibbs γ ν)
     (hne : μ ≠ ν) :
     ∃ A, MeasurableSet[tailSigma Γ I S] A ∧ μ A = 0 ∧ ν A = 1 := by
@@ -304,13 +322,13 @@ section Uniqueness
 variable {Γ I S : Type*} [Group Γ] [MulAction Γ I] [TopologicalSpace S] [MeasurableSpace S]
 
 /-- Dobrushin's interdependence coefficient: the largest total variation distance, measured as
-`sup_A |p A − q A|`, between the single-site kernels at `i` for two boundary conditions that
-differ only at `j`. -/
+`sup_A |p A − q A|` over measurable `A ⊆ S`, between the laws of the spin at `i` under the
+single-site kernels at `i` for two boundary conditions that differ only at `j`. -/
 def dobrushinCoeff (κ : Finset I → FullShift Γ I S → Measure (FullShift Γ I S)) (i j : I) :
     ℝ≥0∞ :=
   ⨆ (ω : FullShift Γ I S) (ω' : FullShift Γ I S) (_ : ∀ k, k ≠ j → ω.1 k = ω'.1 k)
-    (A : Set (FullShift Γ I S)) (_ : MeasurableSet A),
-      ENNReal.ofReal |(κ {i} ω A).toReal - (κ {i} ω' A).toReal|
+    (A : Set S) (_ : MeasurableSet A),
+      ENNReal.ofReal |(κ {i} ω {x | x.1 i ∈ A}).toReal - (κ {i} ω' {x | x.1 i ∈ A}).toReal|
 
 variable [Countable I] [Fintype S] [Nonempty S] [DiscreteMeasurableSpace S] [DiscreteTopology S]
 
@@ -479,8 +497,8 @@ theorem IsPlusState.isExtremalGibbs {β : ℝ} (hβ : 0 ≤ β) (h : ℝ) {μ : 
     (hγ : ∀ Λ, ⇑(γ.kernel Λ) = isingKernel d β h Λ) : IsExtremalGibbs γ μ := by
   sorry
 
-/-- 4.2: the plus state is trivial on translation-invariant events. -/
-theorem IsPlusState.measure_eq_zero_or_one {β : ℝ} (hβ : 0 ≤ β) (h : ℝ)
+/-- 4.2: in dimension `d ≥ 1` the plus state is trivial on translation-invariant events. -/
+theorem IsPlusState.measure_eq_zero_or_one [NeZero d] {β : ℝ} (hβ : 0 ≤ β) (h : ℝ)
     {μ : Measure (IsingConfig d)} (hμ : IsPlusState d β h μ) {A : Set (IsingConfig d)}
     (hA : MeasurableSet A) (hinv : ∀ a : Site d, translate a ⁻¹' A = A) : μ A = 0 ∨ μ A = 1 := by
   sorry
@@ -554,7 +572,7 @@ theorem isingCriticalBeta_one : isingCriticalBeta 1 = ⊤ := by
 
 end Ising
 
-/-! ## Names cited by the README -/
+-- Library names cited by the README.
 
 #check @MeasureTheory.cylinderEvents
 #check @MeasureTheory.cylinderEvents_le_pi

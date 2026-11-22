@@ -26,13 +26,15 @@ The nearest roadmaps are these:
 - [DimerModelsAndLozengeTilings](../DimerModelsAndLozengeTilings/README.md) supplies the
   vocabulary: Layer 4 builds specifications, Gibbs measures, the tail σ-algebra, the face property
   of invariant Gibbs measures and weak closedness, and names Ising-type models as its consumer.
-- ConstructiveFieldTheoryPhi4 (an open pull request) owns the Griffiths (GKS) inequalities, the
+- ConstructiveFieldTheoryPhi4 owns the Griffiths (GKS) inequalities, the
   Lee–Yang theorem and the free-boundary infinite-volume state of ferromagnetic pair
   interactions. This roadmap builds on none of them; the results that need them are listed under
   *Beyond this roadmap*.
-- BernoulliPercolation (an open pull request) owns the percolation form of Peierls' argument on
-  the dual of `ℤ²` and Harris's inequality. The Ising contours of 5.2 are a separate object.
-- MarkovChainMixing (an open pull request) owns Glauber dynamics on finite graphs, which samples
+- BernoulliPercolation owns the dual graph of `ℤ²`, the dual cycle that
+  surrounds a finite cluster, the count of self-avoiding paths, the percolation form of Peierls'
+  argument and Harris's inequality. Peierls' argument for the Ising model in 5.2 takes the
+  surrounding cycle and the path count from it.
+- MarkovChainMixing owns Glauber dynamics on finite graphs, which samples
   the finite-volume kernels of 4.1.
 
 The roadmap is a synthesis of several texts. The main sources are Friedli–Velenik, *Statistical
@@ -70,7 +72,8 @@ adaptation, and a *Needs:* line. Each layer ends with **Checks.**
   subshift `Subshift.univ Γ I S` of all functions `I → S` in the sense of
   DimerModelsAndLozengeTilings 4.4, so that the specifications of that roadmap's 4.5 apply
   verbatim. The group `Γ` acting on `I` matters only for translation invariance; outside 4.2 any
-  `Γ` may be used.
+  `Γ` may be used. The statements of 1.1–1.2 use the countability of `I` (through an
+  exhaustion) but not the finiteness of `S`.
 - A specification is DimerModelsAndLozengeTilings's `Specification`: proper Markov kernels
   `γ_Λ`, indexed by finite `Λ ⊆ I`, measurable for the σ-algebra `𝓕_{Λᶜ}` of the spins outside
   `Λ`, and consistent. A Gibbs measure is a probability measure `μ` with `μ.bind γ_Λ = μ` for
@@ -140,9 +143,11 @@ martingale convergence theorem (*Exact supplier contracts*).
 - **Distinct extremal measures are singular** (`IsExtremalGibbs.exists_tail_separating`): two
   distinct extremal Gibbs measures `μ ≠ ν` admit a tail event `A` with `μ(A) = 0` and
   `ν(A) = 1` (Friedli–Velenik, Lemma 6.62, p. 307; Ruelle, Exercise 3 of Chapter 1, p. 23).
-- Target in prose: the converse of short-range correlations, that a Gibbs measure with the
-  property of the third item is extremal, and the equivalence with every tail-measurable
-  function being almost surely constant (Friedli–Velenik, Theorem 6.58, items 3–4, p. 303).
+- **Short-range correlations imply extremality** (`isExtremalGibbs_of_decorrelation`): a Gibbs
+  probability measure with the property of the third item is extremal (Friedli–Velenik,
+  Theorem 6.58, item 4, p. 303).
+- Target in prose: extremality is equivalent to every tail-measurable function being almost
+  surely constant (Friedli–Velenik, Theorem 6.58, item 3, p. 303).
 
 *Proof route.* Non-extremality of `μ = t ν₁ + (1 − t) ν₂` gives the density `dν₁/dμ ≤ 1/t`,
 tail-measurable by 1.1 and not constant, so a level set is a nontrivial tail event. Conversely,
@@ -150,7 +155,8 @@ a tail event `T` with `0 < μ(T) < 1` gives `μ = μ(T) μ(·|T) + μ(Tᶜ) μ(�
 conditionals are Gibbs by DimerModelsAndLozengeTilings 4.6(a). Decorrelation follows from tail
 triviality and backward martingale convergence of `μ[1_A | 𝓕_{Λᶜ}]` to `μ(A)`. For singularity,
 1.1 gives a tail event on which the measures differ, and tail triviality makes its masses `0`
-and `1`.
+and `1`. For the converse of decorrelation, a tail event `T` lies in every `𝓕_{Λᶜ}`, so taking
+`A = B = T` gives `|μ(T) − μ(T)²| ≤ ε` for every `ε > 0`, and 1.2 applies.
 
 *Needs:* 1.1; DimerModelsAndLozengeTilings 4.5 (convexity of the Gibbs measures) and 4.6(a).
 
@@ -192,8 +198,9 @@ version of `μ[· | 𝓣]` for every Gibbs `μ`, and its values are tail-trivial
   bounded away from `0` as `i → ∞` (Friedli–Velenik, Exercise 6.25, pp. 306–307). With
   `m = μ⁺(σ_0) ≥ 1 − 2δ(β)` it tends to `m²/4 > 0`.
 - Extremality is relative to the specification: `ν^{⊗I}` and `ν'^{⊗I}` with `ν ≠ ν'` are both
-  tail-trivial, but they are Gibbs for different specifications, and their midpoint is
-  tail-trivial for neither.
+  tail-trivial, but they are Gibbs for different specifications. Their midpoint is Gibbs for
+  neither specification and is not tail-trivial: the tail event that the empirical frequencies of
+  the spins converge to those of `ν` has measure `1/2`.
 
 ## Layer 2: existence and Gibbsian specifications
 
@@ -266,8 +273,9 @@ kernel.
 ### 3.1 Dobrushin's criterion
 
 - **Dobrushin's coefficient** (`dobrushinCoeff`): `c_{ij} = sup` over pairs `ω, ω'` that agree
-  off `j` of the total variation distance `sup_A |γ_{{i}}(A|ω) − γ_{{i}}(A|ω')|`, in `ℝ≥0∞`
-  (Friedli–Velenik, p. 288, with half their `ℓ¹` distance).
+  off `j` of the total variation distance of the laws of the spin at `i`,
+  `sup_{A ⊆ S} |γ_{{i}}(σ_i ∈ A|ω) − γ_{{i}}(σ_i ∈ A|ω')|`, in `ℝ≥0∞` (Friedli–Velenik, p. 288,
+  with half their `ℓ¹` distance).
 - **Dobrushin's uniqueness theorem** (`existsUnique_isGibbs_of_dobrushin`): a quasilocal
   specification with `sup_i ∑_j c_{ij} < 1` has exactly one Gibbs probability measure. This
   adapts Friedli–Velenik, Theorem 6.31, p. 288, whose `ℓ¹` coefficient makes their hypothesis
@@ -313,8 +321,12 @@ extremal Gibbs measure, and by 1.3 one Gibbs measure.
 **Checks.**
 
 - Ising at `h = 0`: the coefficient is `c_{ij} = tanh(2β)/2` for nearest neighbours, attained
-  where the other neighbours of `i` sum to `0` or `±1`. At `d = 2`, `β = 0.2` this is
-  `0.18997`, below the oscillation bound `½ · 2β = 0.2`.
+  where the other `2d − 1` neighbours of `i` sum to `±1` (their sum is odd). At `d = 2`,
+  `β = 0.2` this is `0.18997`, below the oscillation bound `½ · 2β = 0.2`.
+- Negative control for the laws of the spin at `i`: for the zero potential, `c_{ij} = 0` for all
+  `i, j`. A coefficient taken over events of the whole configuration would be `1` for every
+  `i ≠ j` (the event `σ_j = ω(j)` has kernel probability `1` at `ω` and `0` at `ω'`), and
+  Dobrushin's hypothesis would fail on every lattice with two sites.
 - Ising at any field: `c_{ij} ≤ tanh|β|`, the largest increment of `x ↦ tanh(x)/2` over an
   interval of length `2|β|`. At `d = 2`, `β = 0.2`, `h = 0.3` the exact value is `0.19549`, and
   `tanh 0.2 = 0.19738`.
@@ -371,8 +383,9 @@ Exercise 3.11, p. 105) followed by monotonicity in the boundary condition.
   Lemma 3.23, p. 106).
 - **Extremality** (`IsPlusState.isExtremalGibbs`): the plus state is extremal for the Ising
   specification of 2.2 (Friedli–Velenik, Lemma 6.65, p. 308).
-- **Ergodicity** (`IsPlusState.measure_eq_zero_or_one`): every translation-invariant measurable
-  event has plus-state measure `0` or `1` (Friedli–Velenik, Lemma 6.66, p. 310).
+- **Ergodicity** (`IsPlusState.measure_eq_zero_or_one`): for `d ≥ 1`, every
+  translation-invariant measurable event has plus-state measure `0` or `1` (Friedli–Velenik,
+  Lemma 6.66, p. 310).
 
 *Proof route.* Existence: by 4.1 the plus expectations of nondecreasing local functions decrease
 along any exhaustion, and these functions span the local functions (Friedli–Velenik, Lemma 3.19,
@@ -380,10 +393,10 @@ p. 101), so the limit exists and does not depend on the exhaustion. Comparing tw
 gives translation invariance. The limit is Gibbs because the kernels at a fixed `Λ` are
 continuous (2.2) and consistent. Bracketing integrates 4.1 against `ν` through the DLR
 equation. Extremality follows from bracketing: if `μ⁺ = tν₁ + (1−t)ν₂`, both `ν_k ≤ μ⁺` on
-nondecreasing local functions forces equality. Ergodicity: an invariant event is almost surely
-a tail event (DimerModelsAndLozengeTilings 4.2), and the plus state is tail-trivial by 1.2.
-Equivalently, it is an extreme invariant Gibbs measure, hence ergodic by
-DimerModelsAndLozengeTilings 4.6(b).
+nondecreasing local functions forces equality. Ergodicity: for `d ≥ 1` the translations form an
+infinite group acting properly, so an invariant event is almost surely a tail event
+(DimerModelsAndLozengeTilings 4.2), and the plus state is tail-trivial by 1.2. Equivalently, it
+is an extreme invariant Gibbs measure, hence ergodic by DimerModelsAndLozengeTilings 4.6(b).
 
 *Needs:* 1.2, 2.2, 4.1; DimerModelsAndLozengeTilings 4.2 and 4.6(b).
 
@@ -420,6 +433,10 @@ is the infimum of the continuous nondecreasing finite-volume functions.
 - The spin flip exchanges the plus and minus states only together with `h ↦ −h`: at `d = 1`,
   `n = 0`, `β = 0`, `h = 1`, the plus and minus kernels both give `σ_0 = +1` probability `0.8808`,
   and its flip at `h = 1` would give `0.1192`.
+- Negative control for `d ≥ 1` in the ergodicity of 4.2: at `d = 0` the lattice is one point,
+  every translation is the identity, and the plus state is the law with `σ_0 = +1` with
+  probability `e^h / (e^h + e^{−h})`. The invariant event `σ_0 = +1` has measure `0.8808` at
+  `h = 1`, neither `0` nor `1`.
 
 ## Layer 5: the phase diagram
 
@@ -452,24 +469,35 @@ nearest neighbours, `c_{ij} = 0` otherwise, and `∑_j c_{ij} ≤ 2d tanh|β|`.
   measure is not unique (Friedli–Velenik, (3.29), p. 115, proved on p. 120; Koralov–Sinai,
   Theorem 22.4, p. 345).
 - Target in prose: the contour estimate, that the plus kernel gives probability at most
-  `e^{−2β|γ|}` to the presence of a given contour `γ` (Friedli–Velenik, Lemma 3.37, p. 119), and
-  the count of at most `(k/2)·4·3^{k−1}` contours of length `k` surrounding the origin
-  (Friedli–Velenik, (3.39), p. 120).
+  `e^{−2β|γ|}` to the event that every primal edge crossed by a given dual cycle `γ` joins
+  unequal spins (the cycle form of Friedli–Velenik, Lemma 3.37, p. 119, which is stated for
+  contours), and the count of at most `(k/2)·4·3^{k−1}` dual cycles of length `k` surrounding the
+  origin (Friedli–Velenik, (3.39), p. 120).
 
-*Proof route.* Contours are the connected components of the dual edges separating unequal
-spins, decomposed into closed simple dual curves. A minus spin at the origin forces a contour
-surrounding it. Flipping the spins inside a contour is injective on the configurations
-containing it and gains `e^{−2β|γ|}` in the Boltzmann weight (Lemma 3.37). A contour of length
-`k` surrounding the origin meets the horizontal ray `{(u − ½, ½)}` at one of `k/2` dual vertices,
-and from there there are at most `4·3^{k−1}` self-avoiding dual paths. Summing over `k ≥ 4`
-gives `δ(β)`. Since the estimate is uniform in `n`, it passes to the plus state on the cylinder
-event `{σ_0 = −1}`. By symmetry `μ⁻(σ_0 = +1) = 1 − μ⁺(σ_0 = +1) ≤ δ(β) < 1/2`, and 4.3 gives
-non-uniqueness. The geometric input is the Jordan curve theorem for closed simple curves in the
-dual lattice, used in Ellis's proof of Lemma V.5.2(b), p. 156. On the lattice it has a
-combinatorial proof: a site is inside exactly when a horizontal ray from it crosses the curve an
-odd number of times.
+*Proof route.* The surrounding cycle comes from BernoulliPercolation. Let `G` be the graph on
+`ℤ²` whose edges join nearest neighbours with equal spins. Under the plus kernel of the box with
+`σ_0 = −1`, the component of the origin in `G` is finite, so BernoulliPercolation 6.2 gives a
+cycle `γ` of the closed dual graph of `G` (its 6.1) that surrounds the origin: every primal edge
+crossed by `γ` joins unequal spins. What is specific to the Ising model is built here. The
+interior of `γ` is the set of sites that `γ` surrounds, in the ray-parity sense of
+BernoulliPercolation 6.1 with the ray moved to start at the site. The parities at the two
+endpoints of a primal edge differ by the number of times `γ` crosses that edge, since a closed
+walk crosses the boundary of a half-strip an even number of times, and a cycle crosses each edge
+at most once. So the primal edges with exactly one endpoint in the interior are the `|γ|` edges
+crossed by `γ`. The interior lies in the box, because the spins off the box are plus. Flipping
+the spins in the interior is an involution; it maps the configurations in which every edge
+crossed by `γ` joins unequal spins to configurations in which these `|γ|` edges join equal spins,
+changes no other edge, and gains `e^{−2β|γ|}` in the Boltzmann weight (Friedli–Velenik, Lemma
+3.37, p. 119). A cycle of length `k` surrounding the origin uses an edge of the ray at one of at
+most `k/2` dual vertices, and from there BernoulliPercolation 5.1 at `d = 2` bounds the paths of
+length `k` in the lattice, which contains the closed dual graph, by `4·3^{k−1}`. Summing over
+`k ≥ 4` gives `δ(β)`. Since the estimate is uniform in `n`, it passes to the plus state on the
+cylinder event `{σ_0 = −1}`. By symmetry `μ⁻(σ_0 = +1) = 1 − μ⁺(σ_0 = +1) ≤ δ(β) < 1/2`, and 4.3
+gives non-uniqueness. The parity argument replaces the Jordan curve theorem used in Ellis's proof
+of Lemma V.5.2(b), p. 156.
 
-*Needs:* 4.2, 4.3; Mathlib `Real.exp`, `tsum`.
+*Needs:* 4.2, 4.3; BernoulliPercolation 5.1, 6.1 and 6.2; Mathlib
+`Real.exp`, `tsum`.
 
 ### 5.3 The critical inverse temperature
 
@@ -507,7 +535,7 @@ the phase in `β` is needed. One dimension is 5.1.
 
 - No roadmap on main consumes this one. The targets listed under *Beyond this roadmap* (Ising in
   `d ≥ 3`, Lee–Yang uniqueness for `h ≠ 0`, the pressure, the variational principle) are its
-  intended consumers. Glauber dynamics (MarkovChainMixing, an open pull request) has the Ising
+  intended consumers. Glauber dynamics (MarkovChainMixing) has the Ising
   kernels of 4.1 as stationary laws of its finite-volume chains.
 
 ## Scope and ownership
@@ -542,19 +570,22 @@ Completion means:
   request, §§2.1, 3.1, 3.3, Layers 4–5). That roadmap leaves Peierls' argument, the DLR formalism
   and uniqueness of Gibbs measures to others, and this roadmap owns them. No result of it is
   used here.
-- Peierls' argument for Bernoulli percolation on `ℤ²` and Harris's inequality are owned by
-  BernoulliPercolation (an open pull request, Layer 6). The Ising contours of 5.2 are spin
-  boundaries with an energy cost, not closed dual paths of a product measure, and share only the
-  path count `4·3^{k−1}` with it.
-- Glauber dynamics on finite graphs (MarkovChainMixing, an open pull request, §6.1), the
+- The dual graph of `ℤ²` and surrounding cycles, the enclosure of a finite cluster by a dual
+  cycle, the count of self-avoiding paths, Peierls' argument for Bernoulli percolation on `ℤ²`
+  and Harris's inequality are owned by BernoulliPercolation (5.1 and
+  Layer 6). This roadmap imports its 5.1, 6.1 and 6.2 into 5.2 and owns only what is specific to
+  the Ising model: the interior of a dual cycle and its boundary edges, the spin flip and its
+  energy gain `e^{−2β|γ|}`, and the resulting bound under the plus kernel.
+- Glauber dynamics on finite graphs (MarkovChainMixing, §6.1), the
   ergodicity coefficient of a Markov kernel and Gibbs laws `∝ e^{−βU}` on finite sets
-  (SimulatedAnnealing, an open pull request, §§1.2, 3.1), and the finite Ising and spin energies
-  of QuantumOptimization (an open pull request, §1.1) are different objects. Dobrushin's
+  (SimulatedAnnealing, §§1.2, 3.1), and the finite Ising and spin energies
+  of QuantumOptimization (§1.1) are different objects. Dobrushin's
   interdependence coefficient here compares conditional laws under a change of boundary
   condition, not the rows of one transition matrix.
 - Gibbs measures and equilibrium states of a single map in Bowen's sense (ClassicalErgodicTheory
-  and the open HyperbolicDynamics roadmap), hard-core Gibbs point processes (PointProcesses, an
-  open pull request) and log-concave Gibbs laws on `ℝⁿ` are different notions and are not used.
+  and HyperbolicDynamicsAndThermodynamicFormalism; the second takes its Gibbs measures from the
+  first), hard-core Gibbs point processes (PointProcesses) and log-concave Gibbs laws on `ℝⁿ` are
+  different notions and are not used.
 - The four-functions theorem with its corollaries `fkg` and `holley` is in Mathlib.
 
 ## Exact supplier contracts
@@ -583,8 +614,7 @@ Completion means:
   `TauCeti/Probability/Martingale/Convergence.lean`: `μ[f | 𝔽 n] → μ[f | ⨅ n, 𝔽 n]` almost
   surely for a decreasing sequence of σ-algebras. It is applied in 1.1–1.3 along
   `𝔽 n = 𝓕_{Λ_nᶜ}` for an exhaustion `Λ_n`, whose infimum is the tail σ-algebra.
-- Tau Ceti has no specification, Gibbs measure or Ising model. Its hard-core distribution on
-  finite graphs (after the pin) is a finite-volume model and is not used.
+- Tau Ceti has no specification, Gibbs measure or Ising model.
 
 ### From other roadmaps
 
@@ -602,6 +632,14 @@ Completion means:
     face property and the extreme-iff-ergodic statement, used in 4.2; (c) weak closedness of the
     Gibbs measures of a quasilocal specification, used in 2.1.
   - No other layer of DimerModelsAndLozengeTilings is consumed.
+- BernoulliPercolation, used in the route of 5.2 only, with no Lean
+  declaration copied:
+  - §5.1: at most `2d (2d − 1)^{n−1}` self-avoiding paths of length `n ≥ 1` from a vertex of the
+    lattice, which is `4·3^{n−1}` at `d = 2`.
+  - §6.1: the closed dual graph of a graph `G` on `ℤ²`, the ray edges, and a closed walk
+    surrounding the origin when it uses an odd number of ray edges.
+  - §6.2: for every graph `G` on `ℤ²` whose component of the origin is finite, a cycle of the
+    closed dual graph of `G` that surrounds the origin.
 
 ## Beyond this roadmap
 
