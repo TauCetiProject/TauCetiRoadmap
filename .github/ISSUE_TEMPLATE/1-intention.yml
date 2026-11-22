@@ -232,6 +232,7 @@ body:
         - HermitianKTheoryOfPoincareCategories
         - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
+        - HodgeTateAndCanonicalSubgroups
         - HomologicalStabilityOfGeneralLinearGroups
         - HomotopySpheres
         - HopfologicalAlgebra
@@ -343,6 +344,7 @@ body:
         - PerfectoidSpaces
         - PerfectoidSpacesPartII
         - PerfectoidTowers
+        - PeriodsAndSpecialValues
         - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
         - Poincare3D
