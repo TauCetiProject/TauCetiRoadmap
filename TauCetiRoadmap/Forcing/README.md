@@ -453,8 +453,9 @@ moving name parameters. Raw closure is not asserted to be invariant under every 
 
 ## Layer 8: Cohen, collapse, and random forcing
 
-**Dependencies:** Layers 1 and 7 for the finite-condition examples; Layers 2–7 and the
-measure-algebra construction below for random forcing.
+**Dependencies:** Layers 1 and 7 for the finite-condition examples; for random forcing, Layers
+2–7, VonNeumannAlgebras Layer 2 (the measure algebra of a finite measure) and the constructions
+below.
 
 ### Cohen forcing
 
@@ -491,11 +492,13 @@ measure-algebra construction below for random forcing.
 
 ### Measure algebra and random forcing
 
-1. For a finite measure space, construct the Boolean algebra of measurable sets modulo
-   almost-everywhere equality. Prove well-defined finite operations, order, and the descended
-   strictly positive measure on nonzero classes. Establish arbitrary completeness by constructing
-   essential suprema, including the countable-subfamily reduction used for finite measures. Prove
-   ccc using finite measure, not an assumption that the algebra is atomic.
+1. For a finite measure space, consume the measure algebra of VonNeumannAlgebras Layer 2: the
+   measurable sets modulo null sets, with metric `d(A, B) = μ(A △ B)`, and its finite Boolean
+   operations. On that quotient, define `μ̄(a) = d(a, 0)` and prove that it is strictly positive on
+   nonzero classes. Construct arbitrary joins by essential suprema, including the
+   countable-subfamily reduction used for finite measures, so that the quotient is a complete
+   Boolean algebra. Prove ccc from the finiteness of the measure, not from an assumption that the
+   algebra is atomic.
 2. Instantiate the construction with fair-coin product measure on Cantor space, using Mathlib's
    probability-product measure and proving its cylinder probabilities. Use the nonzero measure
    classes as conditions. Prove that the separative quotient of positive Borel sets ordered by
@@ -657,9 +660,18 @@ Cohen chain-condition proof.
 Consume measurable spaces, measures, almost-everywhere equality, null sets, finite/probability
 measure classes, Borel spaces, and `MeasureTheory.Measure.infinitePi` from
 `Mathlib.Probability.ProductMeasure`, including the cylinder/product characterization of that
-measure. Layer 8 owns the measure algebra, its complete Boolean structure, the fair-coin/cylinder
+measure. The measure algebra itself comes from VonNeumannAlgebras (below); on it Layer 8 owns the
+descended measure, the complete Boolean structure by essential suprema, ccc, the fair-coin/cylinder
 specialization, and the ground-coded random-forcing interpretation. The existence of a probability
 measure is not treated as the existence of a complete measure algebra.
+
+### From VonNeumannAlgebras
+
+[VonNeumannAlgebras](../VonNeumannAlgebras/README.md), Layer 2 (the paragraph after
+V2.RectangularL2), on `main`: for a finite measure, the measure algebra of measurable sets modulo
+null sets, with metric `μ(A △ B)`. Layer 8 consumes this quotient and its finite Boolean operations
+and builds on it the strictly positive measure `μ̄(a) = d(a, 0)`, arbitrary joins by essential
+suprema, and ccc.
 
 ### Relations with other Tau Ceti areas
 
