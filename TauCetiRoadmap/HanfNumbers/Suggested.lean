@@ -225,12 +225,16 @@ def IsCofinallyApproximated (σ : L'.Sentenceω) (pos neg : Set (Σ n, L'.Bounde
     Prop :=
   ∀ α : Ordinal.{w}, α < Ordinal.omega.{w} 1 → IsApproximatedAt σ pos neg (ℶ_ α)
 
-/-- **Layer 3 milestone, the start condition.** Under the cofinal hypothesis, the sentence and
-`x₀ ≠ x₁` are cofinally approximated. -/
-theorem isCofinallyApproximated_start {σ : L'.Sentenceω}
+/-- **Layer 3 milestone, the start condition.** If, for every `α < ω₁`, some model of the ambient
+sentence `σ` that also satisfies `ψ` has size at least `ℶ_α`, then `ψ` and `x₀ ≠ x₁` are cofinally
+approximated in models of `σ`. README 3.3 applies it with `σ := σ*` and `ψ := φ'`: the models of
+`σ*` are the approximating structures, and `φ'` is the member of `Γ*` that the construction of 3.4
+needs in `pos`. -/
+theorem isCofinallyApproximated_start {σ ψ : L'.Sentenceω}
     (h : ∀ α : Ordinal.{w}, α < Ordinal.omega.{w} 1 →
-      ∃ (N : Type w) (_ : L'.Structure N), SentenceInf.Realize σ N ∧ ℶ_ α ≤ #N) :
-    IsCofinallyApproximated.{w} σ {⟨0, σ⟩, ⟨2, disEq⟩} ∅ := by
+      ∃ (N : Type w) (_ : L'.Structure N), SentenceInf.Realize σ N ∧ SentenceInf.Realize ψ N ∧
+        ℶ_ α ≤ #N) :
+    IsCofinallyApproximated.{w} σ {⟨0, ψ⟩, ⟨2, disEq⟩} ∅ := by
   sorry
 
 /-- **Layer 3 milestone, decision.** A cofinally approximated condition can be extended by either

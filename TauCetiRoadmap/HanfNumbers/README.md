@@ -705,8 +705,10 @@ The decision and witness lemmas are the two claims of the proof of Theorem 5.2 i
 (pp. 57–58), stated there for a consistency property of finite sets of sentences in which the
 indiscernibles are new constants. Targets:
 
-- **`isCofinallyApproximated_start`.** `{φ ↦ true, disEq ↦ true}` is cofinally approximated: take
-  `H = M` for a model of size at least `ℶ_α`.
+- **`isCofinallyApproximated_start`.** `{φ ↦ true, disEq ↦ true}` is cofinally approximated in
+  models of `σ*`: take `H = M` for a model of size at least `ℶ_α`. The lemma takes the ambient
+  sentence and the sentence put into `pos` separately; here they are `σ*` and `φ'`, and the
+  hypothesis holds because every model of `σ*` satisfies `φ'`.
 - **`IsCofinallyApproximated.decide`.** If `p` is cofinally approximated and `ψ ∈ Γ*` has arity `n`, then `p ∪ {ψ ↦ true}`
   or `p ∪ {ψ ↦ false}` is cofinally approximated. For `n = 0` the truth value is constant on each
   approximating structure. For `n ≥ 1` and each `α`, approximate `p` at `α + n`, colour the
