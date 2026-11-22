@@ -47,9 +47,11 @@ These choices fix the objects of every layer; each has a Check below.
   amenability is mentioned) is a real function `μ : G → ℝ` with arbitrary support. Each statement
   carries the hypotheses it uses: `∀ g, 0 ≤ μ g`, `Summable μ` and `∀ g, μ g⁻¹ = μ g` in 1.2 and
   1.3, the first two in 2.3; a *symmetric step measure* (`IsSymmetricStep`) is nonnegative,
-  symmetric and has `HasSum μ 1`, which contains summability. Mathlib's `PMF G` was not used: its
-  values lie in `ℝ≥0∞` and its mass is `1`, while 1.2 and 1.3 hold for every total mass and 1.3 is a
-  statement about signed `f`. Mathlib's `MeasureTheory.mlconvolution` convolves `ℝ≥0∞`-valued
+  symmetric and has `HasSum μ 1`, which contains summability. Nonnegativity in 1.2 and 1.3 is the
+  source's setting (transition probabilities) and the routes use it (`p_(2n) > 0` for `μ ≠ 0`,
+  `|μ * f| ≤ μ * |f|`); no statement is made here for signed `μ`. Mathlib's `PMF G` was not used:
+  its values lie in `ℝ≥0∞` and its mass is `1`, while 1.2 and 1.3 hold for every total mass and 1.3
+  is a statement about signed `f`. Mathlib's `MeasureTheory.mlconvolution` convolves `ℝ≥0∞`-valued
   functions against a measure, so it has no signed `f` either; `MeasureTheory.Measure.mconv`
   convolves measures; Mathlib's `lp` spaces carry no convolution product. So the convolution `conv`
   and its powers `convPow` are defined here with a `tsum`. Their junk value: the `tsum` of a family
@@ -115,6 +117,9 @@ These choices fix the objects of every layer; each has a Check below.
   and 2.4.
 - Symmetry: `μ = δ₁` on `ℤ` generates, has mass one and `ρ = 0`, while convolution by it is a
   translation with `‖μ * f‖₂ = ‖f‖₂`; `ℤ` is amenable. So 1.3 and 2.4 fail without symmetry.
+  For 1.2, `(δ₂ + δ₋₃)/2` on `ℤ` is nonnegative and summable, and `p_n > 0` exactly when `5 ∣ n`
+  (`a` steps `+2` and `b` steps `−3` return when `2a = 3b`, `a + b = n`), with `p_n ≥ 2^(−n)`
+  then; so `p_(2n)^(1/(2n))` is `0` for `5 ∤ n` and at least `1/2` for `5 ∣ n`, and has no limit.
 - Mass: `δ₁ + δ₋₁` on `ℤ` is symmetric and generating with `ρ = 2`; 2.4 needs total mass one.
 
 ## Layer 1: The spectral radius as an operator norm
@@ -670,8 +675,8 @@ of the free walk, the cogrowth formula and Grigorchuk's criterion, all stated ab
   consulted.
 - Harry Kesten, Full Banach mean values on countable groups, *Math. Scand.* 7 (1959), 146–156,
   https://doi.org/10.7146/math.scand.a-10568. Named for attribution, not consulted.
-- R. I. Grigorchuk, Symmetrical random walks on discrete groups (1980). No DOI is registered for
-  it; Lyons–Peres list it in *Multicomponent Random Systems*, Adv. Probab. Related Topics 6,
+- R. I. Grigorchuk, Symmetrical random walks on discrete groups (1980). No DOI was found for it;
+  Lyons–Peres list it in *Multicomponent Random Systems*, Adv. Probab. Related Topics 6,
   Dekker, New York, pp. 285–325. Named for attribution, not consulted.
 - S. Northshield, Cogrowth of regular graphs, *Proc. Amer. Math. Soc.* 116 (1992), no. 1,
   203–205, https://doi.org/10.1090/S0002-9939-1992-1120509-0. Named for attribution, not
