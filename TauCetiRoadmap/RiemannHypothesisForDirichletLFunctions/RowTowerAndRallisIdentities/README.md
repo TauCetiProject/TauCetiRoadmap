@@ -2370,8 +2370,9 @@ theta functions (5.4, 5.8, 5.10a).
   groups II*, Academic Press (1992): 5.1, 5.2.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions announced in [Announcement]; source with a public verification setup:
-  <https://github.com/leanprover-community/riemann-hypothesis>, whose files are cited here by their paths under its
-  `src/` directory. It is the source of 5.1, 5.3–5.7, 5.8a–5.8i, the identity of 5.8 with the rationality of its terms, 5.9 (over the cyclic hosts), 5.10, the API of 5.10a, 5.11 and 5.12, except
+  <https://github.com/leanprover-community/riemann-hypothesis>. Its files are cited here by their paths under the
+  directory `src/` of the first commit of that repository, the source as published:
+  <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. It is the source of 5.1, 5.3–5.7, 5.8a–5.8i, the identity of 5.8 with the rationality of its terms, 5.9 (over the cyclic hosts), 5.10, the API of 5.10a, 5.11 and 5.12, except
   for the clauses these targets mark as this roadmap's own; the definition of 5.10a through canonical models and the remark of 5.12 on the algebraicity of the
   separating eigenvalues are this roadmap's own. A target whose route is not given in full names the declarations of
   it, with their files, that state the missing steps.
