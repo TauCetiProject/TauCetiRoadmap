@@ -103,9 +103,15 @@ For a finite group `G` and a finite-dimensional complex representation `ρ` of `
 of degree zero, is an integral combination of differences `Ind_H^G χ − Ind_H^G 1`, with `H` a subgroup of `G` and `χ` a
 linear character of `H`.
 
-*KNOWN* (Brauer; [FormalProof],
+*KNOWN* (Brauer; Deligne 1973, Proposition 1.5, which moreover takes `H` elementary; [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/BrauerDegreeZero.lean`
-(`GlobalTheory.Published.BrauerDegreeZero`)). *Route.* Not given here.
+(`GlobalTheory.Published.BrauerDegreeZero`)). *Route.* Deligne's: Brauer's induction theorem for the trivial
+representation reduces the statement to elementary groups; an irreducible representation of an elementary group is
+induced from a linear character of a subgroup, which then contains the centre; and an induction on the order, through
+the quotient by the centre, concludes.
+
+*Needs:* InductionRestriction Layer 6 (Brauer's induction theorem); Tau Ceti
+`FDRep.exists_character_eq_indClassFun_of_isNilpotent` and `TauCeti.IsElementary.isNilpotent`.
 
 ### 10.27 The explicit threshold on the Weil side
 
@@ -540,7 +546,7 @@ For `n = 1`: `A(ξ) = ξ` (10.33a); `π_θ̃ = θ̃` with `Δ_1 = 1`, of conduct
 
 ### Dependencies
 
-EndoscopicTransferAndUnitaryTraceComparison §§2.16, 6.12, 6.24, 10.1, 10.20–10.30; FiniteReductiveGroups §§1.1, 5.2, 5.4, 5.10, 5.11, 6.1–6.4; AutomorphicLFunctionsAndLocalFactors AL.2.1.2–AL.2.1.5, AL.3.2–AL.3.3 and LocalFactorsOfTwistsAndTypes §§6.4, 6.5; AutomorphicSpectralTheory §§7.0a–7.0b; SmoothRepresentationsOfLocalGroups SR.2.1, SR.3.1, SR.3.3, SR.4.3, SR.5.2; ClassicalArithmeticCompletion §7.12b; ArithmeticGaloisRepresentations §2.7; InductionRestriction Layers 4 and 5; ReductiveGroups Layer 7a; ClassFieldTheory Layer 9; GL2AutomorphicRepresentationsAndTransfer §R16.1.7.
+EndoscopicTransferAndUnitaryTraceComparison §§2.16, 6.12, 6.24, 10.1, 10.20–10.30; FiniteReductiveGroups §§1.1, 5.2, 5.4, 5.10, 5.11, 6.1–6.4; AutomorphicLFunctionsAndLocalFactors AL.2.1.2–AL.2.1.5, AL.3.2–AL.3.3 and LocalFactorsOfTwistsAndTypes §§6.4, 6.5; AutomorphicSpectralTheory §§7.0a–7.0b; SmoothRepresentationsOfLocalGroups SR.2.1, SR.3.1, SR.3.3, SR.4.3, SR.5.2; ClassicalArithmeticCompletion §7.12b; ArithmeticGaloisRepresentations §2.7; InductionRestriction Layers 4–6; ReductiveGroups Layer 7a; ClassFieldTheory Layer 9; GL2AutomorphicRepresentationsAndTransfer §R16.1.7.
 
 ## Layer 13: Cuspidal multiplicities of inner forms of unitary groups
 
@@ -551,7 +557,8 @@ Two unitary groups in an odd number of variables that are isomorphic at every fi
 Over a field of characteristic zero and for a linearly ordered alphabet, the shuffle algebra is the polynomial algebra on
 the Lyndon words.
 
-*KNOWN* (Radford; [FormalProof],
+*KNOWN* (Radford; Hoffman, Theorem 2.2, for a subfield of `ℂ` and a locally finite graded alphabet, from which the
+statement follows by extension of scalars from `ℚ` and by passing to finite subalphabets; [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/RadfordShufflePolynomialHolds.lean`
 (`GlobalTheory.Published.RadfordShufflePolynomial`)). *Route.* Not given here.
 
@@ -695,12 +702,20 @@ patching, and the ramified places of 14.2 and 15.1 by the base changes written i
 
 ### 14.0a The contragredient of a cuspidal representation by transpose-inverse
 
-For a totally complex number field `E` and a cuspidal automorphic representation `π` of `GL_n(𝔸_E)`, the functions
-`g ↦ φ(ᵗg⁻¹)`, `φ ∈ π`, form the contragredient `π^∨`.
+For a number field `E` and a cuspidal automorphic representation `π` of `GL_n(𝔸_E)`, the functions
+`g ↦ φ(ᵗg⁻¹)`, `φ ∈ π`, form the contragredient `π^∨`. The form of [FormalProof] is the case of a totally complex `E`.
 
-*KNOWN* (Gelfand–Kazhdan; [FormalProof],
+*KNOWN* (Gelfand–Kazhdan; Cogdell, Lecture 5, Proposition 5.3 (iii) with the remark after Proposition 5.1, for unitary
+`π`; [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/GelfandKazhdanDual.lean`
-(`GlobalTheory.Published.GelfandKazhdanDual`)). *Route.* Not given here.
+(`GlobalTheory.Published.GelfandKazhdanDual`)). *Route.* With `θ(g) = ᵗg⁻¹`, the functions `φ∘θ` form a cuspidal
+automorphic representation (`θ` is an automorphism of `GL_n` over `E`, preserves the standard maximal compact subgroups
+and permutes the parabolic subgroups defined over `E`); at a finite place where `π_v` is unramified with Satake
+parameters `α_1, …, α_n` it is unramified with parameters `α_1⁻¹, …, α_n⁻¹` (`θ` inverts the diagonal torus), as is
+`π_v^∨`; `π^∨` is cuspidal automorphic (complex conjugates of cusp forms, after a twist by a power of `|det|` that makes
+the central character unitary); and strong multiplicity one makes the two cusp realizations equal.
+
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3.4.3 and AL.3.7.1 (multiplicity one and strong multiplicity one).
 
 ### 14.1 Polarized away-prime comparison
 
@@ -823,7 +838,7 @@ For `n = 1` the comparison is the rank-one dictionary at `w ∤ ℓ` (14.1). For
 
 ### Dependencies
 
-Layer 10 (10.33a, 10.33d, 10.34, 10.35); for the second route of 14.2, the construction of steps (3)–(4) of the route of 15.1; AutomorphicGaloisRepresentationsPartII AG2.0, AG2.2, AG2.3, AG2.5, AG2.7; ModularityAndLanglandsExtensions §2.43; EndoscopicTransferAndUnitaryTraceComparison §§6.24, 10.30; FiniteReductiveGroups §§6.2–6.4; LocalFactorsOfTwistsAndTypes §6.3; ArithmeticGaloisDuality §R02.4.6; ClassFieldTheory Layer 9.
+Layer 10 (10.33a, 10.33d, 10.34, 10.35); for the second route of 14.2, the construction of steps (3)–(4) of the route of 15.1; AutomorphicGaloisRepresentationsPartII AG2.0, AG2.2, AG2.3, AG2.5, AG2.7; ModularityAndLanglandsExtensions §2.43; AutomorphicLFunctionsAndLocalFactors AL.3.4.3, AL.3.7.1; EndoscopicTransferAndUnitaryTraceComparison §§6.24, 10.30; FiniteReductiveGroups §§6.2–6.4; LocalFactorsOfTwistsAndTypes §6.3; ArithmeticGaloisDuality §R02.4.6; ClassFieldTheory Layer 9.
 
 ## Layer 15: Coefficient-prime comparison and weight symmetry
 
@@ -1069,6 +1084,10 @@ In this family, ThetaLiftsForDefiniteUnitaryGroups uses 6.3a for the splitting d
 
 `groupCohomology.exists_div_of_norm_eq_one` (Hilbert's theorem 90 for a finite cyclic Galois extension) and `MonoidHom.isOpenMap_of_sigmaCompact` (a continuous surjective homomorphism from a σ-compact group onto a Hausdorff Baire group is open) (6.3a).
 
+### From Tau Ceti
+
+`FDRep.exists_character_eq_indClassFun_of_isNilpotent` (over an algebraically closed field of characteristic zero, the character of an irreducible representation of a finite nilpotent group is induced from a linear character of a subgroup) and `TauCeti.IsElementary.isNilpotent` (a finite elementary group is nilpotent) (10.0a).
+
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 §2.3(c): Harish-Chandra's formula for the characters of discrete series on the compact Cartan (13.8a). §2.16: local constancy of the Harish-Chandra character near regular semisimple elements. §6.3: a Hecke character of an imaginary quadratic field extending the quadratic character of that field over `ℚ`, the case of the first Check of 6.3a. §6.12: local cyclic base change of prime degree, with the lift of a supercuspidal representation supercuspidal or the induction of the orbit of its distinct conjugates of lower rank, and its Checks for unramified principal series. §6.24: all-place compatibility of global cyclic base change of prime degree, with its self-twist alternative. §6.29: weak base change from unitary groups to isobaric sums of Speh blocks, for `[E⁺:ℚ] ≥ 2`. §10.1: the normalisation. §10.20: functoriality of `σ_ss` (restriction under base change, additivity over normalised induction, rank one). §10.21: a unique supercuspidal representation with given irreducible semisimple parameter of finite inertia image. §10.23: the segment rule. §10.25: special-block factors and conductors. §10.26: `LLC_WD`, a bijection onto Frobenius-semisimple Weil–Deligne classes, equal to `σ_ss` with `N = 0` on supercuspidal representations. §10.27: the Deligne–Henniart twist formula on the Weil side. §10.28: central characters, duals and pair factors on supercuspidal representations. §10.29: factors through Langlands data. §10.30: the identification `LLC_WD = C_geo` (10.30), with the dual, twist and determinant properties it gives `LLC_WD` (10.29a), the identities of standard and pair factors and conductors, and the compatibility of `rec` with twists.
@@ -1099,7 +1118,7 @@ AG2.0: *The `l`-adic character `r_{l,ι}(χ)`* (with its local compatibility at 
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
-AL.2.1.2–AL.2.1.5: the Godement–Jacquet zeta integrals, standard factors and functional equation. AL.3.2–AL.3.3: Rankin–Selberg factors of pairs.
+AL.2.1.2–AL.2.1.5: the Godement–Jacquet zeta integrals, standard factors and functional equation. AL.3.2–AL.3.3: Rankin–Selberg factors of pairs. AL.3.4.3 and AL.3.7.1: multiplicity one and strong multiplicity one for cuspidal representations of `GL_n` over a number field (14.0a).
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -1151,7 +1170,7 @@ Layer 9: local reciprocity and the Weil group, norm compatibility of the local A
 
 ### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
-Layer 3: the Mackey decomposition (15.1). Layer 4: Mackey's irreducibility criterion (10.33a). Layer 5: Clifford theory.
+Layer 3: the Mackey decomposition (15.1). Layer 4: Mackey's irreducibility criterion (10.33a). Layer 5: Clifford theory. Layer 6: Brauer's induction theorem (10.0a).
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -1168,6 +1187,7 @@ for the unit group and the places above the primes dividing `b` it gives the the
 - Erich Hecke, Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen, Math. Z. 1 (1918) and 6 (1920): Hecke characters with infinity type (6.3a).
 - Stephen S. Kudla, Splitting metaplectic covers of dual reductive pairs, Israel J. Math. 87 (1994), §1: the splitting conditions (6.3a).
 - Michael Harris, Stephen S. Kudla and William J. Sweet, Theta dichotomy for unitary groups, J. Amer. Math. Soc. 9 (1996), §1 (6.3a).
+- Pierre Deligne, Les constantes des équations fonctionnelles des fonctions L, in Modular Functions of One Variable II, Lecture Notes in Mathematics 349 (1973), Proposition 1.5, p. 510: Brauer's theorem in degree zero, with `H` elementary (10.0a).
 - Pierre Deligne and Guy Henniart, Sur la variation, par torsion, des constantes locales d'équations fonctionnelles de fonctions L, Invent. Math. 64 (1981), Theorem 4.6 and Lemma 4.7 (10.27, 10.34).
 - Michael Harris and Richard Taylor, The geometry and cohomology of some simple Shimura varieties, Annals of Mathematics Studies 151, 2001, and Guy Henniart, Une preuve simple des conjectures de Langlands pour GL(n) sur un corps p-adique, Invent. Math. 139 (2000): the classical correspondence (10.30).
 - Robert E. Kottwitz, Base change for unit elements of Hecke algebras, Compositio Math. 60 (1986): the case `f = 1` of 10.33c.
@@ -1175,6 +1195,8 @@ for the unit group and the places above the primes dividing `b` it gives the the
 - Guy Henniart, Correspondance de Langlands–Kazhdan explicite dans le cas non ramifié, Math. Nachr. 158 (1992): the explicit correspondence in the unramified case (10.34).
 - Colin J. Bushnell and Guy Henniart, The essentially tame local Langlands correspondence, I, J. Amer. Math. Soc. 18 (2005): essentially tame representations (10.34).
 - Gérard Laumon, Michael Rapoport and Ulrich Stuhler, `D`-elliptic sheaves and the Langlands correspondence, Invent. Math. 113 (1993): positive characteristic (Scope).
+- David E. Radford, A natural ring basis for the shuffle algebra and an application to group schemes, J. Algebra 58 (1979), and Michael E. Hoffman, Quasi-shuffle products, arXiv:math/9907173v1 (1999), Theorem 2.2, which states Radford's theorem for a subfield of `ℂ` (13.0a).
+- James W. Cogdell, Lectures on L-functions, converse theorems, and functoriality for GL(n), the author's notes of his Fields Institute lectures, Lecture 5, Proposition 5.3 (iii) with the remark after Proposition 5.1, pp. 38–39 of those notes, for unitary cuspidal representations (14.0a).
 - Jean-Pierre Labesse, Changement de base CM et séries discrètes, in On the stabilization of the trace formula, International Press, 2011: the hypothesis `[E⁺:ℚ] ≥ 2` (16.1).
 - [CS] Ana Caraiani and Peter Scholze, On the generic part of the cohomology of compact unitary Shimura varieties, Ann. of Math. 186 (2017), Corollary 5.5.5 in the published numbering, the locator of AutomorphicGaloisRepresentationsPartII AG2.7 (16.1).
 - [HLTT] Michael Harris, Kai-Wen Lan, Richard Taylor and Jack Thorne, On the rigid cohomology of certain Shimura varieties, Res. Math. Sci. 3 (2016) (16.1).
