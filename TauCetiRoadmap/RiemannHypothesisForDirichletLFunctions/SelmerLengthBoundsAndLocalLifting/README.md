@@ -1591,7 +1591,7 @@ Prove:
    only on `τ|_{K₀}`. Then there are at
    most `n·e_K(e_K + 1)·m` finite classes of `T₂` modulo which `p^Y·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))`,
    `Y ≤ 80(e_Kh/p + e_KS + e_K·log_p h + 1 + η)`; and `p^{E′}·H¹_f(K, T₂) ⊆ f(H¹_f(K, T₁))` with `E′ := e_1` of (1) for `H = 2h`,
-   `M = h` (so `E′ ≤ 18h` for `p ≥ 3`); hence, for an absolute constant `C`,
+   `M = h` (so `E′ ≤ 18h` for `p ≥ 3`); hence, for an absolute constant `C` (every `C ≥ 160` in [FormalProof]),
    `length_O coker(H¹_f(K, T₁) → H¹_f(K, T₂)) ≤ (C(ne_K + 1)·rk T₂·(e_Kh/p + e_KS + e_Klog_p h + 1 + η) + ne_K(e_K + 1)m·C(h + 1))·length_O(O/p)`.
    For an `E` containing only the images of the embeddings of `K`, (3) follows by enlarging `E` (`H¹_f` commutes with the
    flat base change `O → O′`, lengths over `O′` are the ramification index of `O′` over `O` times lengths over `O`, on both
@@ -1676,7 +1676,16 @@ which is that roadmap's own, for `π′` at the cuts), and each piece lifts modu
 is `Formalism.MainNotions.N.Ln34.killA` of [FormalProof]). Then the length of
 the cokernel is at most ((generators)`·Y + n·e_K(e_K + 1)m·E′`)`·length_O(O/p)` (each generator of the quotient by the span of the
 exceptional classes is killed by `p^Y`, and each exceptional class by `p^{E′}`); the term `ne_K(e_K + 1)m·C(h + 1)` is the number
-of exceptional classes times the exponent, linear in `h`, of the basic theorem over the tame base. *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; 4.9a,
+of exceptional classes times the exponent, linear in `h`, of the basic theorem over the tame base. The assembly from the
+three inputs is [FormalProof], `Formalism/SharpRestriction/LevelLetterCocycles/LocalFormOfThreeInputs.lean`
+(`Formalism.MainNotions.N.Ln34.local_form_of_three_inputs`, with `genA`, `liftA`, `killA`); the three inputs are proved
+from twenty-nine statements (twenty-seven of them for the third) in
+`Formalism/SharpRestriction/LevelLetterCocycles/LocalTheoremOfLeafLemmas.lean`
+(`Formalism.MainNotions.N.Ln34.local_theorem_of_leaf_lemmas`), which
+`Formalism/SharpRestriction/LevelLetterCocycles/DvrLatticeRank/MainFinal.lean`
+(`Formalism.MainNotions.N.Ln34.integrality_from_metric_of_large_constant`) supplies; the statement for all primes `p ≠ 2` is
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalLiftingTheoremAOfBlochKatoTateDualityEulerCStatement.lean`
+(`GlobalTheory.T.localLifting_of_blochKato_tateDuality_eulerChar`). *Needs:* SelmerIwasawaCohomology §§2.17, 4.9; 4.9a,
 4.10c, 4.10d; PhiGammaModulesAndIwasawaCohomology §§1.0, 6.0 and WachLatticesOverTheCyclotomicTower §§6.4(8), 6.10; PrismaticCohomology §§0.61, 0.77;
 PrismaticCohomologyPartIII §§7.12, 7.13, 7.22; PadicPeriodRings §§4.1–4.3 (`B_cris`); ArithmeticGaloisDuality §R02.2.3;
 ClassFieldTheory Layer 5; PadicHodgeRegulators §1.1.
