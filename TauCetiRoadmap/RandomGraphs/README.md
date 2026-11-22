@@ -1124,8 +1124,8 @@ Cameron's Fact 1 (p. 1), with its proof and the remark following it (p. 2), is t
 `p = 1/2` and its extension to every fixed `0 < p < 1`. His property (∗) leaves implicit that the
 witness differs from the negative vertices; the requests here make it explicit.
 
-Prove measurability of this particular isomorphism class by its extension-axiom
-description. Export avoidance of every finite set and infinitely many witnesses,
+The isomorphism class of `R` is measurable (CountableStructureSpaces, Worked examples, item 4,
+through its extension-axiom description). Export avoidance of every finite set and infinitely many witnesses,
 the finite-window law, and the joint eventual statements from Layer 7.
 
 ### 9.2 Graphon sampling
