@@ -292,6 +292,7 @@ body:
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
         - LocallyAnalyticDistributionsPartII
+        - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
