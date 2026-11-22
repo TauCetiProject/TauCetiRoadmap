@@ -47,7 +47,7 @@ continuous unitary character `χ` of `𝔸_E^×/E^×` with:
 
 Moreover two such characters with the same `κ` differ by a unitary Hecke character trivial on
 `𝔸_F^×`, and the parity condition is necessary: on `ℝ^× ⊂ ℂ^×` the character `(z/|z|)^{m_v}` is
-`sgn^{m_v}`, which must equal `η_v^κ = sgn^κ`; for `κ` even the trivial character is one of them.
+`sgn^{m_v}`, which must equal `η_v^κ = sgn^κ`; for `κ` even and every `m_v = 0` the trivial character is one of them.
 
 *Route.* The map `F^×\𝔸_F^× → E^×\𝔸_E^×` is injective (`E^× ∩ 𝔸_F^× = F^×`), its image is closed,
 being the kernel of the continuous endomorphism `x ↦ x/x^c` of `E^×\𝔸_E^×` (`c` the nontrivial
