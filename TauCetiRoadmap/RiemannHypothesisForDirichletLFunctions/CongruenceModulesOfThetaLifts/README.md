@@ -1777,8 +1777,7 @@ the dual index of the projected lattice at the base level (7.15 (c′)) and the 
 the accumulated gain for the tuple `ξ_𝔭` used there, the target lattice is glued place by place from the images of the
 integral forms of those tuples, and the divided source lattice pairs integrally with its dual (GluedTargetAndDivisionInequality §§7.12–7.14, through
 which the hypotheses of RowTowerAndRallisIdentities §5.8 enter); its theta conditions are polynomial conditions in the
-sense of 7.8 (2). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties consumes 7.5a, 7.5b, 7.8 and 7.15 in its
-Layer 8.
+sense of 7.8 (2). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties consumes 7.8 (2) in its §8.19d.
 
 ThetaChainsAndFrobeniusPrimeSums consumes 7.6, 7.8 (3), 7.10a, 7.10c, 7.11, 7.15 and 7.16a (3). ThetaChainsAndFrobeniusPrimeSums §10.0 states the conditions on
 chain data (among them `HostSplitting E` and the inert-free bound of (H2), and the conditions (T1), (T2) of
@@ -2041,7 +2040,7 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. This roadmap specifies its mathematics; it is the reference of every *NEW* target.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>; the file paths and declaration names cited here are those of its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, under its directory `src/`. This roadmap specifies its mathematics; it is the reference of every *NEW* target.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - K. Ribet, *A modular construction of unramified p-extensions of Q(μ_p)*, Invent. Math. 34 (1976); H. Hida, *Congruences of
   cusp forms and special values of their zeta functions*, Invent. Math. 63 (1981): 7.1, 7.7a–7.7d.
