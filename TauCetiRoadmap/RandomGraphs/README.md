@@ -1558,10 +1558,11 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
 No roadmap on main, and none of the sibling roadmaps InfinitaryModelExistence,
 CountableStructureSpaces, BorelEquivalenceRelations, CountableModelCounting and HanfNumbers,
 consumes a target of this roadmap. The open roadmap SaturationAndQuantifierElimination consumes the
-effective coding of first-order formulas of 5.2, and its quantifier-elimination definitions are
-those owned here. AxKochenErshov uses the same §5.2 coding to state that its language
-translations are computable on formula codes. CountableStructureSpaces mentions the Rado graph only
-through Tau Ceti's InfinitaryLogic declarations.
+effective coding of first-order formulas of 5.2; it also states the two theory-level
+quantifier-elimination definitions (its Layer 2.1), which are owned here. AxKochenErshov uses the
+same §5.2 coding to state that its language translations are computable on formula codes.
+CountableStructureSpaces mentions the Rado graph only through Tau Ceti's InfinitaryLogic
+declarations.
 
 ## Scope and ownership
 
