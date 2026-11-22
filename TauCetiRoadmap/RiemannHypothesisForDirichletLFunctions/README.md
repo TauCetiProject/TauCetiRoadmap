@@ -16,7 +16,7 @@ which is the first commit of a
 That repository says of the proof that it belongs to its author and was published without a license,
 and that it is mirrored there for verification only: unmodified at that first commit, and with the
 changes listed in its notes since. The files the roadmaps of this family name are files of the
-source as published, so they are to be looked up at that first commit. The theorems of that proof are
+source as published, so they are to be looked up at that first commit, under its directory `src/`. The theorems of that proof are
 the two statements for Dirichlet L-functions and for the Riemann zeta function; the statement for
 Dedekind zeta functions, and the further consequences listed in the last roadmap, are drawn from
 them by published theorems and are not statements of the formal proof. Each roadmap states as
@@ -147,8 +147,9 @@ areas that this family cites.
   Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
   lattice coefficients.
 - [**Bernoulli bounds for class group eigenspaces**](BernoulliBoundsForClassGroupEigenspaces/README.md):
-  bounds for eigenspaces of class groups and K-groups by Bernoulli numbers, Stickelberger-type
-  annihilation, and the vanishing of Bloch–Kato groups.
+  twisted Tate–Shafarevich groups and their bounds by generalized Bernoulli numbers and by explicit
+  torsion bounds for the homology of general linear groups over rings of integers, for étale
+  cohomology and for K-groups, and the vanishing of Bloch–Kato groups.
 - [**Theta kernels for unitary dual pairs**](ThetaKernelsForUnitaryDualPairs/README.md):
   the Weil representation, splittings and theta kernels for unitary dual pairs, the local theta
   correspondence, convergence and unfolding.
