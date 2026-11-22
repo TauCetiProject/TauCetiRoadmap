@@ -1001,6 +1001,20 @@ every finite place: crystalline with these weights when `Π` is unramified at ev
 (`GlobalTheory.GalAut.galoisRep_definiteUnitary_tyz`), with
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasString.lean` (`GlobalTheory.GalDef.FrobSat`) and
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HasString.lean` (`GlobalTheory.GalDef.jumpsOf`).
+The weak base change that [FormalProof] uses, and proves, is for the standard Hermitian form over a CM field `E` unramified
+over `E⁺` at every finite place, every `n ≥ 1` and every automorphic representation `Π` of its unitary group: there are `m`
+and integers `N_i = n_id_i ≥ 1` (`1 ≤ i ≤ m`) with `Σ_i N_i = n`, discrete automorphic representations `Π_1, …, Π_m` of
+`GL_{N_i}(𝔸_E)`, each embedded in the forms induced from the Speh segment of `(π_i, d_i)` for a unitary, normalised,
+conjugate self-dual cuspidal `π_i` of `GL_{n_i}`, and for every finite place `w` an irreducible smooth representation `P_w`
+of `GL_n(E_w)`, a subquotient of the normalised induction of `Π_{1,w} ⊗ ⋯ ⊗ Π_{m,w}`, such that: `P_w` is spherical when `Π`
+is unramified at `w`; at a place `w` fixed by `c` at which `Π` has Satake parameter `α`, `P_w` has the base change of `α` as
+Satake parameter; at every `w` split over `E⁺`, ramified or not, `P_w` is the component of `Π` at the place `v` below, through
+`U(E⁺_v) ≅ GL_n(E_w)`; and for every `τ` and every weight `λ` of `Π` at `τ` the infinitesimal characters of the `Π_i` at `τ`
+add up to `λ + ρ` ([FormalProof],
+`Development/WeilBound/RepresentationTheoryGL/ArchimedeanBaseChange/ArchimedeanBaseChangeProof/BaseChangeIsobaricNOf.lean`
+(`PositivityTheory.Rg.BcN.BaseChangeIsobaricN`, `PositivityTheory.Rg.BcN.IsBaseChangeN`, `PositivityTheory.Rg.BcN.CsdAsc`),
+proved in `Development/AutomorphicArithmetic/Foundations/BaseChangeIdentities/DefiniteNHolds.lean`
+(`UpperTheory.BaseChangeIdentities.baseChangeN`)). It is EndoscopicTransferAndUnitaryTraceComparison §6.29 for this group.
 
 *Route.* Each block by AutomorphicGaloisRepresentationsPartII AG2.3 *Arbitrary regular conjugate-self-dual existence* with AutomorphicGaloisRepresentationsPartII AG2.2 *Twisting an essentially self-dual form into unitary type* and the uniqueness of a semisimple attached representation in AutomorphicGaloisRepresentationsPartII AG2.0 *A Galois representation attached to `π` at the good places* (existence, continuity, semisimplicity, uniqueness), 14.1 at every unramified `w ∤ ℓ` (with AutomorphicGaloisRepresentationsPartII AG2.5 *Comparison of the early polynomial with normalized local Langlands*), and AutomorphicGaloisRepresentationsPartII AG2.6 *Polarized admissibility at the coefficient prime*; the Frobenius eigenvalues of the block
 `(i, j)` are `q_w^{(n_i−1)/2}·α·q_w^{−s_{ij}} = q_w^{(n−1)/2}·α·q_w^{−(d_i−1)/2+j}` for the Satake parameters `α` of `π_{i,w}`,
