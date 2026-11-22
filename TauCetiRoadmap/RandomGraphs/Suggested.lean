@@ -53,6 +53,50 @@ open scoped unitInterval BigOperators Topology NNReal
 
 namespace TauCetiRoadmap.RandomGraphs
 
+/-! ## Native realization and graph events (Layer 0) -/
+
+variable {V : Type u} {W : Type v}
+
+/-- A simple graph satisfies a graph sentence when its graph-language structure `G.structure`
+realizes it. -/
+def Satisfies (G : SimpleGraph V) (φ : Language.graph.Sentence) : Prop :=
+  letI : Language.graph.Structure V := G.structure
+  φ.Realize V
+
+/-- A simple graph satisfies a graph formula with free variables in `Fin m` at the tuple `a` when
+`G.structure` realizes it at `a`. -/
+def SatisfiesFormula {m : ℕ} (G : SimpleGraph V)
+    (φ : Language.graph.Formula (Fin m)) (a : Fin m → V) : Prop :=
+  letI : Language.graph.Structure V := G.structure
+  φ.Realize a
+
+/-- **Joint measurability of realization.** For a fixed graph formula with finitely many free
+variables on a countable discrete carrier, realization is measurable jointly in the graph, the
+free-variable assignment and the bound-variable tuple: a countable union over the assignments of
+the rectangles formed by singletons and the fixed-assignment graph events. Those events are
+CountableStructureSpaces' (Layer 2), the pullback along the graph coding of
+`TauCeti.RelationalConfiguration.measurableSet_setOf_realize` at `BoundedFormula.toInf φ`; this
+file does not restate them. -/
+theorem measurableSet_realize_jointly [Countable V] [MeasurableSpace V] [DiscreteMeasurableSpace V]
+    {α : Type w} [Finite α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) :
+    MeasurableSet {x : SimpleGraph V × (α → V) × (Fin n → V) |
+      @BoundedFormula.Realize _ V x.1.structure _ _ φ x.2.1 x.2.2} := by
+  sorry
+
+/-- The probability that the binomial random graph `G(n, p)` on `Fin n` satisfies the sentence `φ`,
+as a real number. -/
+noncomputable def sentenceProbability (p : I) (n : ℕ)
+    (φ : Language.graph.Sentence) : ℝ :=
+  (SimpleGraph.binomialRandom (Fin n) p {G | Satisfies G φ}).toReal
+
+/-- Restricting the binomial random graph on a countable `W` along an injection `f : V ↪ W` gives
+the binomial random graph on `V` with the same edge probability. -/
+theorem binomialRandom_map_comap [Countable V] [Countable W] (p : I)
+    (f : V ↪ W) :
+    (SimpleGraph.binomialRandom W p).map (fun G => G.comap f) =
+      SimpleGraph.binomialRandom V p := by
+  sorry
+
 /-! ## General Fraïssé and rooted interfaces (Layers 1–3) -/
 
 section Fraisse
@@ -92,69 +136,6 @@ theorem exists_equiv_comp_eq_of_isExtensionPair
   sorry
 
 end Fraisse
-
-/-! ## Native realization and finite rank (Layers 0, 5) -/
-
-variable {V : Type u} {W : Type v}
-
-/-- A simple graph satisfies a graph sentence when its graph-language structure `G.structure`
-realizes it. -/
-def Satisfies (G : SimpleGraph V) (φ : Language.graph.Sentence) : Prop :=
-  letI : Language.graph.Structure V := G.structure
-  φ.Realize V
-
-/-- A simple graph satisfies a graph formula with free variables in `Fin m` at the tuple `a` when
-`G.structure` realizes it at `a`. -/
-def SatisfiesFormula {m : ℕ} (G : SimpleGraph V)
-    (φ : Language.graph.Formula (Fin m)) (a : Fin m → V) : Prop :=
-  letI : Language.graph.Structure V := G.structure
-  φ.Realize a
-
-/-- The natural-valued quantifier rank of a first-order formula: `0` on `⊥`, equalities and relation
-atoms, the maximum of the two ranks on an implication, and one more than the body's rank on a
-universal quantification. -/
-def foRank {L : FirstOrder.Language.{u, v}} {α : Type w} :
-    {n : ℕ} → L.BoundedFormula α n → ℕ
-  | _, .falsum => 0
-  | _, .equal _ _ => 0
-  | _, .rel _ _ => 0
-  | _, .imp φ ψ => max (foRank φ) (foRank ψ)
-  | _, .all φ => foRank φ + 1
-
-/-- A formula has quantifier rank `0` exactly when it is quantifier-free in the sense of Mathlib's
-`IsQF`. -/
-theorem foRank_eq_zero_iff_isQF
-    {L : FirstOrder.Language.{u, v}} {α : Type w} {n : ℕ}
-    (φ : L.BoundedFormula α n) :
-    foRank φ = 0 ↔ φ.IsQF := by
-  sorry
-
-/-- **Joint measurability of realization.** For a fixed graph formula with finitely many free
-variables on a countable discrete carrier, realization is measurable jointly in the graph, the
-free-variable assignment and the bound-variable tuple: a countable union over the assignments of
-the rectangles formed by singletons and the fixed-assignment graph events. Those events are
-CountableStructureSpaces' (Layer 2), the pullback along the graph coding of
-`TauCeti.RelationalConfiguration.measurableSet_setOf_realize` at `BoundedFormula.toInf φ`; this
-file does not restate them. -/
-theorem measurableSet_realize_jointly [Countable V] [MeasurableSpace V] [DiscreteMeasurableSpace V]
-    {α : Type w} [Finite α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) :
-    MeasurableSet {x : SimpleGraph V × (α → V) × (Fin n → V) |
-      @BoundedFormula.Realize _ V x.1.structure _ _ φ x.2.1 x.2.2} := by
-  sorry
-
-/-- The probability that the binomial random graph `G(n, p)` on `Fin n` satisfies the sentence `φ`,
-as a real number. -/
-noncomputable def sentenceProbability (p : I) (n : ℕ)
-    (φ : Language.graph.Sentence) : ℝ :=
-  (SimpleGraph.binomialRandom (Fin n) p {G | Satisfies G φ}).toReal
-
-/-- Restricting the binomial random graph on a countable `W` along an injection `f : V ↪ W` gives
-the binomial random graph on `V` with the same edge probability. -/
-theorem binomialRandom_map_comap [Countable V] [Countable W] (p : I)
-    (f : V ↪ W) :
-    (SimpleGraph.binomialRandom W p).map (fun G => G.comap f) =
-      SimpleGraph.binomialRandom V p := by
-  sorry
 
 /-! ## Actual requests, extension syntax and the Rado graph (Layer 4) -/
 
@@ -277,6 +258,25 @@ def Language.Theory.HasQuantifierElimination {L : FirstOrder.Language.{u, v}} (T
   ∀ {α : Type} (φ : L.Formula α), Language.Theory.IsQFEquivalent T φ
 
 /-! ## Finite-rank agreement and genuine QE targets (Layer 5) -/
+
+/-- The natural-valued quantifier rank of a first-order formula: `0` on `⊥`, equalities and relation
+atoms, the maximum of the two ranks on an implication, and one more than the body's rank on a
+universal quantification. -/
+def foRank {L : FirstOrder.Language.{u, v}} {α : Type w} :
+    {n : ℕ} → L.BoundedFormula α n → ℕ
+  | _, .falsum => 0
+  | _, .equal _ _ => 0
+  | _, .rel _ _ => 0
+  | _, .imp φ ψ => max (foRank φ) (foRank ψ)
+  | _, .all φ => foRank φ + 1
+
+/-- A formula has quantifier rank `0` exactly when it is quantifier-free in the sense of Mathlib's
+`IsQF`. -/
+theorem foRank_eq_zero_iff_isQF
+    {L : FirstOrder.Language.{u, v}} {α : Type w} {n : ℕ}
+    (φ : L.BoundedFormula α n) :
+    foRank φ = 0 ↔ φ.IsQF := by
+  sorry
 
 /-- `T_R` is complete. -/
 theorem radoAxioms_isComplete : radoAxioms.IsComplete := by
@@ -929,7 +929,7 @@ theorem not_tendsto_binomialRandom_evenSentenceInf (p : I) (l : ℝ) :
       atTop (𝓝 l) := by
   sorry
 
-/-! ## Concrete FO formulas and Poisson endpoints (Layers 8, 11) -/
+/-! ## Concrete FO formulas and Poisson endpoints (Layer 11) -/
 
 /-- The sentence `∃ x y z, Adj(x, y) ∧ Adj(x, z) ∧ Adj(y, z)`: the graph contains a triangle. -/
 def triangleSentence : Language.graph.Sentence :=
