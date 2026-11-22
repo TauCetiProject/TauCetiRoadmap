@@ -537,7 +537,11 @@ theorem lcs_constant_bounds (ν : Measure α) [IsProbabilityMeasure ν] (a : α)
 
 end LCS
 
-/-! ## Library declarations named in the README -/
+/-! ## Library names pinned for the README
+
+Every Mathlib or Tau Ceti name that the README writes in code font and that is not declared above
+is pinned here: the supplier contracts and the names its proof routes and prose targets mention.
+-/
 
 #check @Subadditive.lim
 #check @Subadditive.tendsto_lim
@@ -556,5 +560,8 @@ end LCS
 #check @MeasureTheory.Measure.map_infinitePi_infinitePi_of_inj
 #check @ProbabilityTheory.measure_zero_or_one_of_measurableSet_limsup_atTop
 #check @TauCeti.Probability.shift
+#check @Projectivization.instTopologicalSpace
+#check @Projectivization.map
+#check @borel
 
 end TauCetiRoadmap.SubadditiveAndMultiplicativeErgodicTheorems

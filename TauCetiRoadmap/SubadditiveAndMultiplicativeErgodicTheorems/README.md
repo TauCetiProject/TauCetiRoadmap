@@ -47,11 +47,11 @@ conditional-expectation form; it enters the sum of the exponents and the range t
 the norm of an exterior power as a product of singular values, with its submultiplicativity, from
 EigenvalueAndSingularValueInequalities, and Mathlib's Fekete lemma, exterior powers and singular
 values and Tau Ceti's singular systems and one-sided path shift. The classical-ergodic-theory
-roadmap of the open pull request ClassicalErgodicTheory (factors, mixing, entropy, natural
+roadmap ClassicalErgodicTheory (factors, mixing, entropy, natural
 extensions) and the hyperbolic-dynamics roadmap HyperbolicDynamicsAndThermodynamicFormalism are
 neighbours: neither treats Kingman's theorem or Lyapunov exponents, and the second excludes
 nonuniform hyperbolicity, for which the exponents of Layers 4 and 5 are the input. The roadmap
-BernoulliPercolation of an open pull request supplies the percolation threshold that Kesten's
+BernoulliPercolation supplies the percolation threshold that Kesten's
 characterisation of a zero time constant needs; that characterisation lies in Beyond.
 
 ## How to read the build
@@ -155,7 +155,7 @@ all `m, n ≥ 1`. The growth constant `subadditiveRate μ f` is
 **Checks.**
 
 - `f n = −n²` (constant in `x`) is a subadditive process with `γ = ⊥`, the case the `EReal`
-  statements of 2.4–2.5 are written for.
+  statements of 2.2, 2.3 and 2.5 are written for.
 - The norms `log ‖A_n‖` of a cocycle form a subadditive process (Layer 4), but the entries
   `log (A_n)₀₀` of products of positive matrices are superadditive, not subadditive
   (Durrett, Example 6.5.1, p. 300); the sign convention matters.
@@ -380,8 +380,8 @@ from the invariance of `lyapunovSum` in 4.2.
 
 - On a one-point space with `A = diag(2, 1/2)`: `V_t = 0` for `t < −log 2`, `V_t = ℝ e₂` for
   `−log 2 ≤ t < log 2`, and `V_t = ℝ²` for `t ≥ log 2`. The slow subspace contains the contracted
-  direction, not the expanded one: a definition by `liminf` or by the expanded direction gets the
-  middle range wrong.
+  direction, not the expanded one: a definition by the expanded direction gets the middle range
+  wrong.
 
 *Needs:* 4.1.
 
@@ -522,9 +522,10 @@ under the closed semigroup it generates in the invertible group).
   Cor 4.32, p. 71.
 - **Furstenberg's formula** (prose target): for strongly irreducible `ν`,
   `λ_0 = ∫∫ log (‖g v‖ / ‖v‖) dν(g) dη([v])` for every `ν`-stationary probability `η` on the
-  projective space of `E`. Viana, Thm 6.8, p. 102. Its statement needs measures on the projective
-  space, which Mathlib does not topologise; it is stated on the unit sphere with the antipodal
-  identification.
+  projective space `ℙ ℝ E`, on which an invertible `g` acts by `Projectivization.map`. Viana,
+  Thm 6.8, p. 102. Mathlib gives `ℙ ℝ E` the quotient topology
+  (`Projectivization.instTopologicalSpace`) but no σ-algebra; the measures are taken for its
+  Borel σ-algebra `borel (ℙ ℝ E)`.
 
 **Proof route.** Benoist and Quint, §4.7 (from p. 70), the Guivarc'h–Raugi argument: the ratio of
 the norm cocycle to the determinant cocycle has Birkhoff sums that diverge linearly unless a
@@ -539,10 +540,11 @@ proof through convergence of `A_n^* η` to Dirac masses.
   weakened to irreducibility. Benoist and Quint, Remark 4.34, p. 71.
 - Replacing the quarter turn by the rotation by `π/4` gives a strongly irreducible unbounded law,
   and simulation gives `λ_0 ≈ 0.17 > 0`.
-- Rotations alone: strongly irreducible but bounded, and `λ_0 = 0`.
+- A law carried by rotations, one of them by an irrational multiple of `π`: strongly irreducible
+  but bounded, and `λ_0 = 0`.
 
 *Needs:* 2.3, 4.2, 6.1, 6.2; ProbabilisticAndMetricNumberTheory §4.1; `Measure.support`,
-`Subsemigroup.closure`.
+`Subsemigroup.closure`; for the formula, `Projectivization.map` and `borel`.
 
 ## Layer 7: Subadditive limits in probability and combinatorics
 
@@ -598,12 +600,16 @@ The edges of `ℤ^d`, `d ≥ 1`, are the pairs `(i, z)` joining `z` and `z + e_i
   the passage times by `z`.
 - **Time constant** (`tendsto_passageTime_div`): if `E T(0, e₀) < ∞`, the time constant is finite
   and `T(0, n e₀) / n` converges to it almost surely. Durrett, Example 6.5.4, p. 302.
-- **Moment condition** (prose target): `E T(0, e₀) < ∞` holds when `E τ < ∞`, and more generally
-  when the minimum of `2d` independent copies of `τ` has finite mean; without it
-  `limsup T(0, n e₀)/n = ∞` almost surely. Durrett, p. 302 and p. 303.
-- **Other directions** (prose target): for every `x ∈ ℤ^d` the limit `μ(x) = lim T(0, n x) / n`
-  exists almost surely and is constant; `μ(k x) = k μ(x)`, `μ(x + y) ≤ μ(x) + μ(y)`, `μ` is
-  invariant under coordinate permutations and sign changes, and `μ(x) ≤ ‖x‖₁ E τ`.
+- **Moment condition** (prose target): `E T(0, e₀) < ∞` holds when `E τ < ∞`, and, for `d ≥ 2`,
+  more generally when the minimum of `2d` independent copies of `τ` has finite mean (through `2d`
+  edge-disjoint paths from `0` to `e₀`, which exist exactly when `d ≥ 2`); in every dimension, if
+  that minimum has infinite mean then `limsup T(0, n e₀)/n = ∞` almost surely. Durrett, p. 302
+  and p. 303.
+- **Other directions** (prose target): if `E T(0, e₀) < ∞` (by the symmetry of the lattice, the
+  same as `E T(0, e_i) < ∞` for every `i`), then for every `x ∈ ℤ^d` the limit
+  `μ(x) = lim T(0, n x) / n` exists almost surely and is constant; `μ(k x) = k μ(x)`,
+  `μ(x + y) ≤ μ(x) + μ(y)`, `μ` is invariant under coordinate permutations and sign changes, and
+  `μ(x) ≤ ‖x‖₁ E τ`.
 - **Convergence in `L¹`** (prose target): under `E T(0, e₀) < ∞`, `T(0, n e₀)/n → μ(e₀)` in `L¹`.
 
 **Proof route.** `f n τ = T(0, n e₀)` is a subadditive process over translation by `e₀`, by the
@@ -618,6 +624,9 @@ applies.
 
 - `d = 1`: the only path from `0` to `n e₀` without backtracking crosses the edges `0, …, n − 1`,
   so `T(0, n e₀) = τ_0 + ⋯ + τ_{n−1}` and the time constant is `E τ` (the strong law).
+- `d = 1` and `P(τ > t) = t^{−2/3}` for `t ≥ 1`: the minimum of two copies has tail `t^{−4/3}` and
+  mean `1 + 3 = 4`, while `E T(0, e₀) = E τ = ∞`. For `d = 1` the moment condition is `E τ < ∞`,
+  and the clause on `2d` copies is false there.
 - Constant weights `τ ≡ c`: `T(0, n e₀) = n c` in every dimension, and the time constant is `c`.
 
 *Needs:* 2.3, 2.4; `Measure.infinitePi`, `Measure.map_infinitePi_infinitePi_of_inj`.
@@ -692,19 +701,18 @@ Owned here:
   not a target.
 - Mixing, spectral theory, entropy, natural extensions, the Ornstein–Weiss limit lemma for
   subadditive functions on finite subsets of amenable groups, and Rokhlin towers are the subject of
-  the classical-ergodic-theory roadmap of the open pull request ClassicalErgodicTheory. The
+  the classical-ergodic-theory roadmap ClassicalErgodicTheory. The
   subadditive limits here are along `ℕ`, and the two-sided theorem works with an invertible base
   directly rather than through natural extensions.
-- Uniform hyperbolicity, thermodynamic formalism and equilibrium states are the subject of the
-  open pull request HyperbolicDynamicsAndThermodynamicFormalism, which excludes Lyapunov exponents
+- Uniform hyperbolicity, thermodynamic formalism and equilibrium states are the subject of
+  HyperbolicDynamicsAndThermodynamicFormalism, which excludes Lyapunov exponents
   and Pesin theory.
 - The norm of an exterior power as a product of singular values, its submultiplicativity, and the
   singular-value inequalities for products of matrices (the log-majorisation of Gelfand–Naimark and
   Horn, Weyl's majorant theorem) belong to EigenvalueAndSingularValueInequalities; its §2.4 is
   consumed in 3.1.
-- Bernoulli percolation, its critical probability and Kesten's theorem `p_c(ℤ²) = ½` belong to the
-  open pull request BernoulliPercolation; random walks on `ℤ^d` beyond the range theorem (Pólya,
-  fluctuation theory) to MarkovChainsAndRenewal and the open pull request
+- Bernoulli percolation and its critical probability belong to BernoulliPercolation (§1.3); random
+  walks on `ℤ^d` beyond the range theorem (Pólya, fluctuation theory) to MarkovChainsAndRenewal and
   RandomWalkFluctuationTheory.
 
 ## Exact supplier contracts
@@ -729,6 +737,10 @@ Owned here:
   (`Mathlib/Probability/Independence/ZeroOne.lean`): product laws, their invariance under
   injective reindexing, and Kolmogorov's zero–one law.
 - `Measure.support`, `Subsemigroup.closure`, `DirectSum.IsInternal`, `limUnder`.
+- `Projectivization.instTopologicalSpace`, `Projectivization.map`
+  (`Mathlib/Topology/Algebra/Projectivization.lean`, `Mathlib/LinearAlgebra/Projectivization/`)
+  and `borel`: the quotient topology on `ℙ ℝ E`, the action of injective linear maps, and the Borel
+  σ-algebra, for Furstenberg's formula in 6.3.
 
 ### From Tau Ceti
 
@@ -760,10 +772,10 @@ Owned here:
 
 ### Mathlib pull requests followed
 
-- #42078 (pointwise ergodic theorem for normed spaces, open, on top of the maximal ergodic theorem
-  of #34031, merged after the pinned Mathlib): when it lands, its pointwise theorem replaces the
-  supplier of ProbabilisticAndMetricNumberTheory §4.1 in the proof routes here; no statement of
-  this roadmap changes.
+- #42078 (pointwise ergodic theorem for normed spaces, built on the maximal ergodic theorem of
+  #34031): where its pointwise theorem is at the pin, it replaces the supplier of
+  ProbabilisticAndMetricNumberTheory §4.1 in the proof routes here; no statement of this roadmap
+  changes.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -788,14 +800,15 @@ Owned here:
 ## Prior formalization
 
 - **[lean-CKMA](https://github.com/bjbraams/lean-CKMA)** (the author's project, Apache 2.0; design
-  ideas and provenance): `CKMA/Dynamics/Ergodic/Pointwise.lean` proves, without `sorry`, Birkhoff's
-  pointwise theorem and Kingman's theorem in the `L¹` form of 2.4, with
+  ideas and provenance), at commit `f4bd822`: `CKMA/Dynamics/Ergodic/Pointwise.lean` proves,
+  without `sorry`, Birkhoff's pointwise theorem and Kingman's theorem in the `L¹` form of 2.4, with
   supporting files `CKMA/Dynamics/Ergodic/Pointwise/Kingman*.lean` following the Avila–Bochi
   truncation. Its synopsis entries 10.7 (Kingman), 10.40 (Furstenberg–Kesten) and
   10.41 (Oseledets) are targets here; the `EReal` forms of 2.3 and 2.5 and all of Layers 3–7 are
   not formalized there.
-- **Mathlib.** The maximal ergodic theorem (#34031) and the open pointwise ergodic theorem
-  (#42078); no Mathlib pull request treats subadditive processes or Lyapunov exponents.
+- **Mathlib.** The pull requests #34031 (the maximal ergodic theorem) and #42078 (the pointwise
+  ergodic theorem for normed spaces); no Mathlib pull request treats subadditive processes or
+  Lyapunov exponents.
 
 ## References
 
