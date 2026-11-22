@@ -474,7 +474,7 @@ theorem fourier_mul_eval_div_norm {n : ℕ} (hn : 2 ≤ n) {l : ℕ} (hl : 1 ≤
           ((r ^ ((n : ℝ) / 2) : ℝ) : ℂ) := by
   sorry
 
-/-! ## Layer 5: branching `SO(n + 1) ↓ SO(n)` -/
+/-! ## Layer 5: branching `SO(m + 1) ↓ SO(m)` -/
 
 /-- README 5.1. The polynomial `|x|^{l-k} ω_{m+1+2k, l-k}(x_{m+1}/|x|)` on `ℝ^{m+1}`, the
 homogenization of `ω_{m+1+2k,l-k}` in the last coordinate and `|x|²`. -/

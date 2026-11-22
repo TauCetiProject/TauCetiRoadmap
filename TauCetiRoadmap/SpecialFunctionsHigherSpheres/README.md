@@ -231,8 +231,10 @@ orthogonal group acts on `H_l`, and by 1.2 it is unitary for the `L²(sphereMeas
 product of the restrictions. Prove:
 - **Inequivalence** (`not_exists_linearEquiv_harmonicRep`): for `n ≥ 2` and `l ≠ l'`, no linear
   isomorphism `H_l ≃ H_{l'}` intertwines the actions of `SO(n)`;
-- `L²(S^{n-1})` is the orthogonal Hilbert sum of the restrictions of the `H_l` (R8.2), and every
-  irreducible subrepresentation of the quasi-regular representation is one of them.
+- for `n ≥ 2`, `L²(S^{n-1})` is the orthogonal Hilbert sum of the restrictions of the `H_l`
+  (R8.2);
+- for `n ≥ 3` (and for `n = 2` over `ℝ`), every irreducible subrepresentation of the
+  quasi-regular representation is one of them.
 
 Route: for `n ≥ 3`, `dim H_l` is strictly increasing in `l` (2.1), so `H_l` and `H_{l'}` are not
 even isomorphic as vector spaces. For `n = 2`, `dim H_0 = 1` and `dim H_l = 2` for `l ≥ 1`, and
@@ -241,7 +243,9 @@ and `H_{l'}` are opposite and nonzero. Alternatively, for `n ≥ 3`, the spheric
 `ω_{n,l}` and `ω_{n,l'}` of the zonal harmonics (2.3, 3.1), or the eigenvalues `l(l + n - 2)` of
 R8.1, differ. An
 irreducible subrepresentation `V` of `L²(S^{n-1})` has a nonzero orthogonal projection to some
-`H_l`, which intertwines and is an isomorphism by Schur's lemma (CompactGroups §2.3).
+`H_l`, which intertwines and is an isomorphism by Schur's lemma (CompactGroups §2.3), since `H_l`
+is irreducible (R8.3 for `n ≥ 3`; for `n = 2` over `ℝ`, the second Check); by inequivalence the
+projections to the other `H_{l'}` vanish, so `V = H_l`.
 
 **Checks.**
 - For `n = 3` the representation on `H_1` is the defining representation of `SO(3)` and that on
@@ -250,6 +254,12 @@ irreducible subrepresentation `V` of `L²(S^{n-1})` has a nonzero orthogonal pro
   which has no invariant line, so `H_l` is irreducible over `ℝ`; its complexification
   `H_l ⊗ ℂ` is the sum of the characters `e^{± ilθ}`, so the irreducibility of R8.3 over `ℂ` is
   for `n ≥ 3`.
+- Negative control: for `n = 2`, `l ≥ 1`, over `ℂ` the line spanned by `(x₁ + i x₂)^l`, the
+  character `e^{ilθ}`, is an irreducible subrepresentation of `L²(S¹; ℂ)` and is not `H_l ⊗ ℂ`;
+  the classification over `ℂ` needs `n ≥ 3`.
+- Negative control: for `n = 1`, `L²(S⁰) = H_0 ⊕ H_1` is two-dimensional and the line spanned by
+  `1 + x₁` is invariant and irreducible but is neither `H_0` nor `H_1`; the classification
+  needs `n ≥ 2`.
 - Negative control: for `n = 1`, `SO(1)` is trivial and `H_0`, `H_1` are both one-dimensional
   (spanned by `1` and `x₁`), hence equivalent; inequivalence needs `n ≥ 2`.
 - For `n = 3`, `H_1` and `H_2` are inequivalent although both are irreducible: their dimensions
@@ -307,10 +317,13 @@ value is junk; every theorem except the value at one assumes `n ≥ 2` or fixes 
 - **Legendre** (`zonalPolynomial_three`): `ω_{3,l} = P_l = P_l^{(0,0)}`;
 - **Chebyshev of the second kind** (`zonalPolynomial_four`): `(l + 1) ω_{4,l} = U_l`.
 
-Route: the Gegenbauer form by comparison with DLMF 18.5.10 through Pfaff's transformation, or by
-the Jacobi relation of LaguerreJacobi §6.2 and the hypergeometric form of the Jacobi polynomials;
-the parity from the symmetry `t ↦ -t` of the differential equation of 3.2; the special cases by
-the same differential equation and the value at one.
+Route: the Gegenbauer form by the multiplied-out Jacobi relation of LaguerreJacobi §6.2,
+`(λ + 1/2)_l C_l^{(λ)} = (2λ)_l P_l^{(λ-1/2, λ-1/2)}`, and the hypergeometric form DLMF 18.5.7
+of the Jacobi polynomial, which at `α = β = λ - 1/2` is `((n - 1)/2)_l/l!` times the sum
+defining `ω_{n,l}`, and `((n - 1)/2)_l ≠ 0` for `n ≥ 2` (a direct comparison with the power
+sum DLMF 18.5.10 goes through a quadratic transformation of the Gauss series); the parity from
+the symmetry `t ↦ -t` of the differential equation of 3.2; the special cases by the same
+differential equation and the value at one.
 
 **Checks.**
 - `ω_{n,0} = 1` and `ω_{n,1}(t) = t` for every `n ≥ 2`.
@@ -616,8 +629,10 @@ imaginary parts of `t ↦ e^{-2πi r|ξ| t}`) and the multiplier at `-2πr|ξ|`,
   (`Y_i = √n xᵢ`).
 - Negative control: without the factor `iˡ` the series sums to the conjugate
   `0.60582 01566 - 0.79560 16200 i`.
-- Bochner at `ξ = (0.42, 0.56, 0, …)`, `|ξ| = 0.7`, for `n = 2, 3, 4, 5`: `F(x) = x₁ e^{-π|x|²}`
-  (`l = 1`, `φ(r) = r e^{-πr²}`) gives `-i ξ₁ e^{-0.49π} = -0.09009 58687 i` on both sides, and
+- Bochner at `ξ = (0.42, 0.56, 0, …)`, `|ξ| = 0.7`, for `n = 2, 3, 4, 5`, in the Gaussian case
+  of Hecke's identity (GeometryOfNumbersAndQuadraticArithmetic §4.3, `t = 1`):
+  `F(x) = x₁ e^{-π|x|²}` (`l = 1`, `φ(r) = r e^{-πr²}`) gives
+  `-i ξ₁ e^{-0.49π} = -0.09009 58687 i` on both sides, and
   `F(x) = x₁x₂ e^{-π|x|²}` (`l = 2`) gives `-ξ₁ξ₂ e^{-0.49π} = -0.05045 36865`; at `l = 0`,
   outside the target's range, `F(x) = e^{-π|x|²}` gives `e^{-0.49π} = 0.21451 39731` on both sides.
 - Negative control: the factor `iˡ` in place of `(-i)ˡ` gives `+0.09009 58687 i` at `l = 1`, the
@@ -754,8 +769,8 @@ is `∑ⱼ ∂²/∂zⱼ∂z̄ⱼ` (through `MvPolynomial.pderiv`), `bidegreeHar
 - **Irreducibility and inequivalence**: for `n ≥ 2`, `U(n)` acts irreducibly on `H^{p,q}` by
   `(g · f)(z) = f(g⁻¹ z)`, with highest weight `(q, 0, …, 0, -p)` and highest-weight vector
   `z̄₁^q zₙ^p`, and the `H^{p,q}` are pairwise inequivalent;
-- the restriction of `H^{p,q}(ℂ^{n+1})` to `U(n)` is the sum of the `H^{a,b}(ℂⁿ)` with `a ≤ p`,
-  `b ≤ q`, each once.
+- for `n ≥ 1`, the restriction of `H^{p,q}(ℂ^{n+1})` to `U(n)` is the sum of the `H^{a,b}(ℂⁿ)`
+  with `a ≤ p`, `b ≤ q`, each once.
 
 Route: the complex Fischer decomposition (multiplication by `|z|²` is injective and adjoint to the
 complex Laplacian for the Fischer inner product), giving
@@ -785,6 +800,9 @@ the raising operators; inequivalence because the highest weights differ.
 - Negative control: for `n = 1`, `H^{p,q}(ℂ)` is `0` for `p, q ≥ 1` (`∂_z ∂_{z̄} z^p z̄^q ≠ 0`),
   whereas the right side of the dimension formula needs `(n - 2)!` with `n - 2 < 0`; the
   hypothesis `n ≥ 2` is needed there.
+- Negative control: at `n = 0`, `(p, q) = (1, 1)`, the branching rule would give
+  `dim H^{1,1}(ℂ) = 0` on the left and `dim H^{0,0}(ℂ⁰) = 1` on the right; the branching dimension
+  and the restriction need `n ≥ 1`.
 
 ### 6.3 Disk polynomials
 
@@ -927,8 +945,11 @@ on the disc extends to all of `ℂ` because both sides are polynomials in `w, w�
 
 ## Downstream consumers
 
-- The roadmap on rank-one symmetric spaces of the same project consumes the compact duals
-  `S^{n-1}` and `S^{2n-1}` with their spherical functions (4.4, 6.5).
+- The roadmap on rank-one symmetric spaces of the same project does not consume this roadmap.
+  It treats the noncompact spaces; their compact duals `S^{n-1}` and `S^{2n-1}`, with their
+  spherical functions (4.4, 6.5), are outside its scope and are treated here. It uses the boundary
+  sphere `S^{n-1}` with the unnormalized surface measure, averaged, where 1.2 uses the
+  normalized measure.
 - The roadmap on Euclidean motion groups and Bessel functions of the same project does not
   consume this roadmap: it states its own case `n = 3` and the zonal forms independently (see
   Scope and ownership).
@@ -979,6 +1000,11 @@ function to the disc, the derivative and the differential equation (3.2), and wo
 normalized zonal polynomial `ω_{n,l}`, which has no degeneracy at `n = 2`. The orthogonality of
 4.2 is stated for `ω_{n,l}`, with its constant in terms of `dim H_l`, and agrees with that of
 LaguerreJacobi on their common range (4.2 Checks).
+[SpecialFunctionsHypergeometric §9.1](../SpecialFunctionsHypergeometric/README.md) states
+DLMF 15.9.5–15.9.7, `T_l`, `U_l/(l + 1)` and the Legendre polynomial as terminating Gauss series
+in `(1 - x)/2`, as identities of functions for Mathlib's hypergeometric function; these are the
+special cases `n = 2, 4, 3` of the sum defining `ω_{n,l}`, and 3.1 states them, with the general
+case, as identities in `ℝ[X]` for that sum.
 
 **Boundary with the RepresentationTheory family.**
 [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Schur's lemma (§2.3) and
@@ -997,7 +1023,10 @@ and `SO(n)` with its rotation map on `ℝⁿ` (its §0.3); this roadmap instanti
 and of `U(n)` on `ℂⁿ` are Mathlib's, and agree with the rotation map of its §0.3.
 SpecialFunctionsLegendre owns the spherical harmonics `Y_{l,m}` of `S²` and their addition theorem
 (its §3.2), and SpecialFunctionsSU2MatrixElements owns their group proof (its §6.3) and the Gel'fand
-pair `(SU(2), T)` (its §6.4); the case `n = 3` here agrees with them (1.3 and 4.1 Checks). The
+pair `(SU(2), T)` (its §6.4); the case `n = 3` here agrees with them (1.3 and 4.1 Checks).
+SpecialFunctionsLegendre also states the Funk–Hecke formula on `S²` in the `Y_{l,m}` (its §3.4);
+it is the case `n = 3` of 4.3, with the surface measure of total mass `4π` in place of the
+probability measure. The
 roadmap on Euclidean motion groups and Bessel functions of the same project owns the plane-wave
 expansion in `ℝ³` in the spherical harmonics `Y_{l,m}`, the statement of the zonal form DLMF 10.23.9
 for general `n` (owned by SpecialFunctionsBessel §4.3), the Hankel transform and the Fourier
@@ -1007,6 +1036,10 @@ Funk–Hecke multiplier of a plane wave, and Bochner's theorem for degree `l ≥
 not overlap. These bounds are ownership boundaries: the excluded cases are true and are stated there
 (`ℝ³` in its §6.3, the radial case `l = 0` in its §5.3), and the case `n = 2` of the expansion is
 the Jacobi–Anger expansion of [SpecialFunctionsBessel §4.1](../SpecialFunctionsBessel/README.md).
+[GeometryOfNumbersAndQuadraticArithmetic §4.3](../GeometryOfNumbersAndQuadraticArithmetic/README.md)
+states Hecke's identity, the Fourier transform of `P(x) e^{-πt|x|²}` for `P` harmonic
+homogeneous of degree `l`; it is the case of a Gaussian radial factor of Bochner's theorem of 4.6,
+which is stated here for a general radial factor.
 The roadmap on rank-one symmetric spaces of the same project owns the hyperboloids, the groups
 `SO₀(n, 1)` and `U(n, 1)`, and the Jacobi functions.
 
