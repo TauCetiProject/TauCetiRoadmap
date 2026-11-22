@@ -22,13 +22,15 @@ where each factor is an absolutely convergent Euler product with a positive valu
 on `ξ`; so `ι_ξ` is onto `𝔼^♮`. This scalar is `𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
 `λ_j(ξ, 𝔥) = a_j · L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` is the scalar by which `θ_jθ_j^*` acts for the model lift `θ_j` from a
 definite group `U(V_j)` to an inner form `U(W_j)` of `U(Y_0)`, positive wherever that part is nonzero.
-(2) *A rational structure.* For the grid of complementary spaces of the chain (5.8a), satisfying the rank, spacing and
-place conditions of 5.8b, under the size predicate `Size_□` of 5.8e, if the field `𝕃` of the chain contains the finitely many
+(2) *A rational structure.* For the grid of complementary spaces of the chain (5.8a) with a depth constant `C_F` beyond a
+threshold fixed before `ε`, satisfying the rank, spacing and place conditions of 5.8b, at a scale beyond a threshold
+depending on `ε` and `C_F` and under the size predicate `Size_□` of 5.8e, if consecutive entries of the row parameter are
+at least `100r⁴` apart and the node gaps of 5.8 hold, the field `𝕃` of the chain contains the finitely many
 algebraic numbers that 5.8 names and the hypotheses of (1) hold for every tuple considered, then Bessel periods define an
 `𝕃`-structure `𝔼_𝕃` of `𝔼^♮` that contains `ι_ξ(x)` for every tuple `ξ` and every `𝕃`-rational form `x` and is stable under
 `G₀` and the Hecke operators away from `S(1)`; the constants of the squares of the grid satisfy
 `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`. (3) *The descent on rational coordinates.* If moreover `E` is a cyclic host
-(FrobeniusRestrictedRieszSums §0.4), consecutive entries of the row parameter are at least `100r⁴` apart and `𝕃` contains
+(FrobeniusRestrictedRieszSums §0.4) and `𝕃` contains
 the eigenvalues of finitely many Hecke operators separating the
 eigensystems of `𝔼^♮`, then for every tuple `ξ` and every level `(H, χ_H)` at the type primes whose character has values in `𝕃`,
 `ι_ξ` maps the `𝕃`-rational points of `ι_ξ^*(𝔼_{(H,χ_H)})` injectively onto `e_{(H,χ_H)}𝔼_𝕃`, and on the part of each eigensystem
@@ -221,7 +223,7 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 | `u_l` | the step quotient `u_l(ξ)/u_l(1)` | 5.8d |
 | `B⁺, 𝐩, 𝐜, ℓ⁺, Cl⁺, y_{κ,i}, Θ^{(0)}_{𝐩,𝐜}; ē(w); ℬ_a, a = (𝐜, κ, i)` | the Bessel form; Fock data of column `0`; coset data; a linear form on `V_{Λ⁺}`; the classes `U(X⁺)(F)\U(X⁺)(𝔸_f)/K⁺`; the form on the class `κ` with value the `i`-th basis vector; the theta series of column `0`; the complex conjugate `conj(e(w))` of the value of a row; the Bessel periods of the grid (conjugate-linear in the row) and their index | 5.8e |
 | `Size_□` | the size predicate of the grid | 5.8e |
-| `𝒟^c_0, a_l(τ), K_i(·; f)` | the discrete series of `U(X^c_0)` of the bottom forms and the entries of its parameter; the kernel of the theta descent of the core column | 5.8f |
+| `𝒟^c_0, a_l(τ), K_i(·; f)` | the discrete series of `U(X^c_0)` of the bottom forms and the entries of its parameter; the kernel of the pair of the core column | 5.8f |
 | `𝔼_𝕃` | the `𝕃`-structure of `𝔼^♮` the Bessel periods define | 5.8 |
 | `(L1)–(L7), T_w(ξ), d(w)` | the condition on `𝕃`; the places of `E` it concerns for a tuple `ξ`; the exponent of `𝔪_□` at `w` | 5.8 |
 | `𝔫` | the descent constant | 5.10 |
@@ -329,7 +331,9 @@ by every Euler product of this layer.
   `μ_jη̃^{−1}` (odd rank) and `μ_j` (even rank) is `(P + ½) ∪ S(−w_j, t)` for `j` even and `(P ∪ S(−w_j, t)) − ½` for `j` odd.
 
 *KNOWN* (Harish-Chandra; Godement; Casselman–Wallach). The definition of `𝒟^{(j)}`: [FormalProof],
-`Formalism/LocalRingCardinality/DataTheta.lean` (`Formalism.BasicNotions.TH.TPar.Dpar`); the bound of (3): [FormalProof],
+`Formalism/LocalRingCardinality/DataTheta.lean` (`Formalism.BasicNotions.TH.TPar.Dpar`); the finite dimension in (1)
+follows from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/RowsDef.lean`
+(`Formalism.L2.SG.RowsDef.RowsFinDim`); the bound of (3): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/ExistsSatakeParametersBoundedEigenfunction.lean`
 (`GlobalTheory.FinZeta.ParamBound.exists_param_bounded`),
 `Development/AbelianVarietyTheory/Definitions/LatticeFrames/ChainParSucc.lean` (`GlobalTheory.ChainOnto.ParBound`),
@@ -911,20 +915,28 @@ space occurs. (The integrand is right invariant under `U(V_j)(F_∞)` because `�
 
 *The joint vector.* With `(p, q) = (k + j − 1, m − j)` and `λ(τ) = (v(τ); −e′(τ))` the row parameter of `Y_0`, put
 `a⁺_n(τ) := λ_n(τ) + w_j(τ) − (p − n − 1) − (t+1)/2` for `0 ≤ n < p` and
-`a⁻_n(τ) := −(w_j(τ) + λ_{p+q−n−1}(τ)) − (q − n) − (t−1)/2` for `0 ≤ n < q` (positive integers, decreasing in `n`, by
+`a⁻_n(τ) := −(w_j(τ) + λ_{p+q−n−1}(τ)) − (q − n) − (t−1)/2` for `0 ≤ n < q` (positive integers, non-increasing in `n`, by
 (W1)), `a⁺_p = a⁻_q = 0`, and
 `Δ_j := ∏_τ ∏_{n<p} (Δ⁺_{n+1,τ})^{a⁺_n − a⁺_{n+1}} · ∏_{n<q} (Δ⁻_{n+1,τ})^{a⁻_n − a⁻_{n+1}}`,
-`Δ^±_{i,τ}` the leading minor of size `i` of the block of the matrix of `Hom(W_j, V_j)` at `τ` attached to the
-positive, resp. negative, directions of `W_j`. *The coefficient representation* `𝒲_j` is the representation of
+where `Z_τ = (z_{a,b})`, `1 ≤ a ≤ r`, `1 ≤ b ≤ N := r + t`, is the matrix of the Fock variables at `τ`: `z_{a,b}` is the
+variable of the elementary homomorphism `V_j → W_j` that sends the `b`-th vector of the orthonormal frame of `V_j` to the
+`a`-th vector of the frame of `W_j`, whose first `p` vectors are positive and whose last `q` are negative (`Z₊` the first
+`p` rows, `Z₋` the last `q` rows), and
+
+`Δ⁺_{i,τ} := det(z_{a,b})_{1≤a≤i, 1≤b≤i}` (`1 ≤ i ≤ p`: the first `i` rows of `Z₊` and the first `i` columns),
+`Δ⁻_{i,τ} := det(z_{p+a, N−i+b})_{1≤a≤i, 1≤b≤i}` (`1 ≤ i ≤ q`: the first `i` rows of `Z₋` and the LAST `i` columns,
+rows and columns in increasing order).
+
+*The coefficient representation* `𝒲_j` is the representation of
 `U(V_j)(F_∞)`, through the Weil representation of the pair, on the span of the translates of `Δ_j` in the polynomial
 Fock space; prove that it is irreducible, and that there is an intertwiner `I_j` from (lowest `K`-type of `D_{W_j}`) ⊗
 `𝒲_j` to Fock polynomials, linear in both variables, equivariant for `U(V_j)(F_∞)` and for the maximal compact subgroup
 of `U(W_j)(F_∞)`, sending a tensor of unit vectors to `Δ_j`. *The Fock model and the weights.* At `τ`, in the orthonormal
 frame of `V_j` and the frame of `W_j` adapted to its positive and negative directions, an element `u ∈ U(V_j)(F_τ)` (a
 unitary matrix in that frame) acts on the Fock polynomials by the linear substitution `Z₊ ↦ Z₊·ū`, `Z₋ ↦ Z₋·u` of the
-blocks of variables of the positive and of the negative directions of `W_j` (rows: directions of `W_j`; columns: the
-frame of `V_j`; `ū = (u^{−1})^T`), multiplied by `det(u)^{x₃}`, `x₃ = x₃(τ) := w_j(τ) + ½ − (p − q)/2 ∈ ℤ`, and
-`k = (k₊, k₋)` in the maximal compact subgroup of `U(W_j)(F_τ)` by the corresponding substitution multiplied by
+blocks of `Z_τ` (`ū = (u^{−1})^T`), multiplied by `det(u)^{x₃}`, `x₃ = x₃(τ) := w_j(τ) + ½ − (p − q)/2 ∈ ℤ`, and
+`k = (k₊, k₋)` in the maximal compact subgroup of `U(W_j)(F_τ)` (`k₊ ∈ U(p)`, `k₋ ∈ U(q)` its blocks in the frame of
+`W_j`) by the substitution `Z₊ ↦ k₊^T·Z₊`, `Z₋ ↦ k₋^{−1}·Z₋`, multiplied by
 `det(k₊)^{x₁}·det(k₋)^{x₂}`, `x₁ = −w_j(τ) + (r + t)/2`, `x₂ = −w_j(τ) − (r + t)/2` (the numbers `−w_j(τ)` and
 `−w_j(τ) − ½` are the exponents at `τ` of the splitting characters `μ_j(ξ)` and `μ_j(ξ)η̃^{−1}`,
 `χ_τ(z) = (z/z̄)^{exponent}`). For the diagonal torus of `U(V_j)(F_τ) ≅ U(r + t)`, `Δ_j` is a lowest weight vector (fixed
@@ -933,7 +945,18 @@ by the lower triangular unipotent matrices) of weight `−Λ_j(τ)`, where
 `Λ_j(τ) := (a⁺_0 + d_j, …, a⁺_{p−1} + d_j, d_j, …, d_j, d_j − a⁻_{q−1}, …, d_j − a⁻_0)`,
 `d_j = d_j(τ) := (p − q)/2 − w_j(τ) − ½` (`t` entries `d_j`),
 
-is dominant. Not given here: the highest weight of `𝒲_j` at `τ`, hence its Harish-Chandra parameter.
+is dominant. For the diagonal torus of the maximal compact subgroup of `U(W_j)(F_τ)`, `Δ_j` has the weight
+`(a⁺_0 + x₁, …, a⁺_{p−1} + x₁; x₂ − a⁻_0, …, x₂ − a⁻_{q−1})` and is fixed by the upper triangular unipotent matrices of
+the positive block and the lower triangular ones of the negative block: it is the vector of the lowest `K`-type of
+`D_{W_j,τ}` that is highest on the positive block and lowest on the negative block, the highest weight of that `K`-type
+being `λ(τ) + ρ_n − ρ_c = (a⁺_0 + x₁, …, a⁺_{p−1} + x₁; x₂ − a⁻_{q−1}, …, x₂ − a⁻_0)` (`ρ_n`, `ρ_c` the half sums of the
+noncompact and of the compact positive roots, for the positive system in which `λ(τ)` is dominant). Since `𝒲_j` is
+irreducible and `Δ_j` is a lowest weight vector of weight `−Λ_j(τ)` at every `τ`, `𝒲_j = ⊗_τ 𝒲_{j,τ}` with `𝒲_{j,τ}` the
+irreducible representation of `U(V_j)(F_τ) ≅ U(r + t)` of lowest weight `−Λ_j(τ)`: the contragredient of the
+representation of highest weight `Λ_j(τ)`. Its highest weight is
+`(a⁻_0 − d_j, …, a⁻_{q−1} − d_j, −d_j, …, −d_j, −d_j − a⁺_{p−1}, …, −d_j − a⁺_0)` (`t` entries `−d_j`), and its
+Harish-Chandra parameter is the negative of `(λ(τ) ∪ S(−w_j(τ), t)) − ½`, the Harish-Chandra parameter of the
+representation of highest weight `Λ_j(τ)`.
 
 *Lemma (cuspidality from the support).* Let `V` be anisotropic Hermitian and `W` skew-Hermitian over `E`, `v` a finite place
 of `F` split in `E`, and `φ_v`, in the model on `Hom(W′_v, V′_v)` of the split place (on which `GL(V′_v) × GL(W′_v)` acts by
@@ -960,7 +983,10 @@ holds on the level-`(H, χ_H)` part of `𝒞(W_j)[𝔥]` with `a_j` multiplied b
 `𝒞(W_j)[𝔥] ≠ 0`.
 
 *Route.* The irreducibility of `𝒲_j`, the intertwiner, the action on the Fock polynomials and the weight of `Δ_j`
-are not proved here. [FormalProof] has them in the following form. Its model record carries, for each step, an
+are not proved here. [FormalProof] has them in the following form; the statement that an extremal unit vector of the
+lowest `K`-type and a unit vector of the coefficient representation are sent to `Δ_j` is
+`Formalism/LocalToGlobal/IndefiniteReal/ExistsChosenExtremalVector.lean` (`Formalism.IndefR.FWT.IoExt`). Its model
+record carries, for each step, an
 irreducible unitary representation `𝒲` of `U(V_j)(F_∞)` as data (`Formalism.IndefR.Links.CoefA.Is`,
 `Formalism/LocalToGlobal/IndefiniteReal/LinksDefs.lean`, a field of `Formalism.IndefR.Links.RealDat.IsModels`,
 `Formalism/LocalToGlobal/IndefiniteReal/LinksChar.lean`), together with an identification of its restriction to
@@ -970,8 +996,10 @@ basis (`Formalism.IndefR.Bridge.FamTie`, `Formalism.IndefR.Bridge.CoefMapTie`,
 `Formalism/LocalToGlobal/IndefiniteReal/BridgeTie.lean`). From the record it proves: the formula above for the action
 of the two compact groups on the Fock polynomials (`GlobalTheory.T.weil_maximalCompact_fock_substitution_character`,
 `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/WeilMaximalCompactFockSubstitutionCharacterStatement.lean`);
-that the weight of the lowest `K`-type of `D_{W_j,τ}` and the weight `−Λ_j(τ)` are those of a joint lowest weight vector
-of which `Δ_j` is a translate under the maximal compact subgroup of `U(W_j)(F_∞)`
+that the highest weight `λ(τ) + ρ_n − ρ_c` of the lowest `K`-type of `D_{W_j,τ}` and the weight `−Λ_j(τ)` are the
+weights of one vector, fixed by the upper triangular unipotent matrices of both blocks of the maximal compact subgroup
+of `U(W_j)(F_τ)` (in the action above) and by the lower triangular unipotent matrices of `GL_{r+t}`, of which `Δ_j` is a
+translate under the maximal compact subgroup of `U(W_j)(F_∞)`
 (`GlobalTheory.T.lowestKType_coefficientWeight_eq_minorWeights`,
 `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/LowestKTypeCoefficientWeightEqMinorWeightsStatement.lean`;
 `GlobalTheory.T.exists_minorProduct_translate_jointLowestWeight`,
@@ -1063,8 +1091,14 @@ unramified, and at the places of `S₀` the `μ_j` are at most tamely ramified);
 normal form of ThetaChainsOnDefiniteUnitaryGroups §2.2a (skew element `δ_T`; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5 with `δ′ = δ_T`), the down pair on
 `Hom_E(V(i, j), V(i, j+1))`, the right pair on `Hom_E(V(i+1, j)(−1), V(i, j))` (`(−1)`: the form negated), with the form
 `Tr_{E/F}(δ_T·tr(x^†y))`, `(g, h)x = hxg^{−1}`, the standard additive character, and the splitting characters `μ_{j+1}(ξ)`, resp.
-`χ_{m−i}`, times `η̃^{−1}` on the member of odd rank; the down pairs of row `0` are the row steps of 5.2, and the descents
-along the down pairs integrate against the complex conjugate kernels (ThetaChainsOnDefiniteUnitaryGroups §2.2a (c)). Further data of a grid:
+`χ_{m−i}`, times `η̃^{−1}` on the member of odd rank; the down pairs of row `0` are the row steps of 5.2. In 5.8c–5.8i and
+5.8 the functions carried by the nodes `V(i, j)` of the grid are complex conjugates of forms of the types of the row tower
+(on `V(0, j)`: the conjugate rows `ē` of 5.8e), and every arrow of the grid, down or right, integrates them linearly
+against the theta kernel of its own pair; for a down pair of row `0` this is the descent of 5.2 read on conjugate rows,
+`∫ θ_j(g, h; P ⊗ conj φ_j)·conj F(v)(h) dh`, which on the rows of 5.1 themselves is the integral against the complex
+conjugate kernel (ThetaChainsOnDefiniteUnitaryGroups §2.2a (c)). The composite kernels of 5.8c are products of the
+kernels of the pairs themselves. The functions on the core column and on `U(X⁺)` are not conjugated (5.8f).
+Further data of a grid:
 - the *core column*: Hermitian spaces `X^c_0, …, X^c_m` with self-dual lattices `Λ^c_i`, `X^c_i` of rank `(r + 1) + i(s − 1)` with
   `⌊(m − i + 1)/2⌋` negative directions at every `τ ∈ Φ`, `X^c_0 = Y_0 ⊥ ⟨1⟩`, `X^c_i ⊂ V(i, 0)` for `i ≥ 1` with orthogonal complement
   of rank `i − 1` and antidiagonal Gram matrix, with centre `−1` when `i − 1` is odd; `X⁺ := X^c_m`, positive definite of rank
@@ -1344,8 +1378,11 @@ AutomorphicLFunctionsAndLocalFactors §AL.1.3.4 (Tate's local constants and Gaus
 *Definitions.* Let a grid (5.8a) satisfying the hypotheses of 5.8b be given, with its core
 column, its modulus `𝔪_□`, the group `K⁺` and the Bessel datum `(N⁺, ψ⁺)` at the top of column `0`. Let `Λ_{i,0}` be the self-dual
 lattice of `V(i, 0)`. For Fock polynomials `𝐩 = (𝐩_i)_{i<m}` of the `m` right pairs of column `0` and *coset data* `𝐜 = (𝐜_i)_{i<m}`,
-`𝐜_i` a coset of `𝔪_□·Hom(Λ_{i+1,0}, Λ_{i,0})` in `Hom(Λ_{i+1,0}, Λ_{i,0})`, let `Θ^{(0)}_{𝐩,𝐜}u` be the `m`-fold theta lift along column `0`
-of a function `u` on `U(Y_0)`, the Schwartz datum of step `i` being `𝐩_i` at the real places, the indicator of `𝐜_i` at the places
+`𝐜_i` a coset of `𝔪_□·Hom(Λ_{i+1,0}, Λ_{i,0})` in `Hom(Λ_{i+1,0}, Λ_{i,0})`, let `Θ^{(0)}_{𝐩,𝐜}u := u_m` be the `m`-fold theta
+lift along column `0` of a function `u = u_0` on `U(Y_0)`: for `0 ≤ i < m`,
+`u_{i+1}(h) := ∫_{[U(V(i, 0))]} θ_i(h, g; f_i)·u_i(g) dg`, where `θ_i` is the theta kernel of the right pair
+`(V(i+1, 0)(−1), V(i, 0))` of 5.8a itself (`h` in the first member, `g` in the second; the integral is linear in `u_i` and
+no kernel is conjugated) and the Schwartz datum `f_i` is `𝐩_i` at the real places, the indicator of `𝐜_i` at the places
 `w(v)` of `𝔪_□` and the lattice vector elsewhere. For functions `φ` on `[U(X⁺)]` and `F` on `[U(V(m, 0))]` put
 `B⁺(φ, F) := ∫_{[U(X⁺)]}∫_{[N⁺]}φ(h)·F(nh)·conj ψ⁺(n) dn dh`. Let `V_{Λ⁺}` be the coefficient representation of the algebraic forms on
 `U(X⁺)` of the weight fixed by the grid, with its `𝕃`-structure; for an algebraic form `y` on `U(X⁺)` of level `K⁺` with values in
@@ -1355,9 +1392,17 @@ smooth vector `w` of `𝒟^{(0)}` and to `(𝐩, ℓ⁺)` consists of the functi
 
 `ℬ_a(e) := B⁺(⟨ℓ⁺, y_{κ,i}⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w)))`,  `ē(w) := conj(e(w))`,  `a = (𝐜, κ, i)`,
 
-conjugate-linear in `e` (the lift along column `0` is applied to the complex conjugate of the row, as in [FormalProof],
-whose rows are the complex conjugates of the rows of 5.1, 5.8f), indexed by (coset data) × `Cl⁺` × (basis of
-`V_{Λ⁺}(𝕃)`); their number is
+conjugate-linear in `e` and in `w`, linear in `𝐩`, in `ℓ⁺` and in the form on `U(X⁺)`. Here `ē(w)` is a cusp form of the
+same level `K^♮` (at principal level the level carries no character), and its type at the real places is the complex
+conjugate of `𝒟^{(0)}`: `w̄ ↦ ē(w)` is a `(𝔤, K_∞)`-map into the cusp forms from the complex conjugate representation
+`conj 𝒟^{(0)}`, the contragredient of `𝒟^{(0)}`, which is the discrete series whose Harish-Chandra parameter at `τ` is
+`−hc(τ) = (−v(τ); e′(τ))`, every entry keeping its sign; `e ↦ ē` is a conjugate-linear bijection of `𝒞_0` onto the space
+of these maps, the *conjugate rows*, which are the rows of [FormalProof] (5.8f). The Weil data of the grid are not
+conjugated: `Θ^{(0)}_{𝐩,𝐜}` is applied to `ē(w)` with the kernels of the right pairs themselves. (Equivalently,
+`conj Θ^{(0)}_{𝐩,𝐜}(ē(w))` is the lift of `e(w)` against the complex conjugate kernels, those of the conjugate data of
+ThetaChainsOnDefiniteUnitaryGroups §2.2a (b), with skew element `−δ_T` and the inverse splitting characters, at the
+complex conjugate vectors; the form with `ē` is the one used here.) The functionals are indexed by (coset data) × `Cl⁺` ×
+(basis of `V_{Λ⁺}(𝕃)`); their number is
 `N(𝔪_□)^{Σ_{i<m}(r+is)(r+(i+1)s)}·#Cl⁺·dim V_{Λ⁺}` (the first factor is the number of coset data, `∏_i#(Hom(Λ_{i+1,0}, Λ_{i,0})/𝔪_□)`).
 
 *The size predicate `Size_□`.* (o) The weight datum is that of ThetaChainsOnDefiniteUnitaryGroups §2.3a, and the
@@ -1455,7 +1500,8 @@ for suitable data, up to `B⁺(⟨ℓ⁺, y′⟩, Θ^{(0)}_{𝐩,𝐜}u) ≠ 0`
 family because Fock polynomials times coset indicators span the data of depth `𝔪_□` and the periods are continuous in them.
 (E) Hence for every `e ≠ 0` and `w ≠ 0` some `(𝐩, ℓ⁺, y, 𝐜)` gives `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) ≠ 0`. (F) *The archimedean data can
 be fixed:* by (A), the tensor structure of `V_{Λ⁺}^∨` over the real places and the uniqueness of Bessel functionals of gapped
-discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`; one
+discrete series at each real place (GanGrossPrasadUnitaryGroups 2.6), `B⁺(⟨ℓ⁺, y⟩, Θ^{(0)}_{𝐩,𝐜}(ē(w))) = a_w(𝐩, ℓ⁺)·l(e, y, 𝐜)`
+(`l` conjugate-linear in `e`); one
 `(𝐩, ℓ⁺)` with `a_w(𝐩, ℓ⁺) ≠ 0` serves every `e`. (G) Linearity in `y` and the basis `y_{κ,i}` (the level `K⁺` is neat) give the
 finite family. The remaining steps of the route are not given here: (B)–(E) are 5.8f–5.8i, and [FormalProof] proves (F)
 and (G) as two theorems, `UpperTheory.Lit.Bur.factor_gap` and `UpperTheory.Lit.Bur.separate_of_burGapPos`
@@ -1487,8 +1533,9 @@ the elements of `𝔏` supported at one of the two places of `E` above a split p
 the data of 5.8e (a Fock polynomial, the indicator of a coset, the lattice vector elsewhere) are such data. (3) A
 *column chain* is a family `(Ψ_i)_{0≤i≤m}` of continuous rapidly decreasing functions `Ψ_i` on `U(X^c_i)(F)\U(X^c_i)(𝔸)` such
 that for every `i < m` there is a datum `f_i` of depth `𝔪_□` of the pair of the core column between `X^c_{i+1}` and `X^c_i`
-with `Ψ_i(g) = ∫_{[U(X^c_{i+1})]} K_i(g, h; f_i)·Ψ_{i+1}(h) dh`, `K_i(·; f)` the kernel of the theta descent
-`U(X^c_{i+1}) → U(X^c_i)` of the core column (5.8a; the descents of step (C) of 5.8e);
+with `Ψ_i(g) = ∫_{[U(X^c_{i+1})]} K_i(g, h; f_i)·Ψ_{i+1}(h) dh`, `K_i(g, h; f) := θ^c_i(h, g; f)` for the theta kernel
+`θ^c_i` of the pair `(X^c_{i+1}(−1), X^c_i)` of the core column itself (5.8a; `h` in the first member, `g` in the second;
+linear, no kernel conjugated: the descents of step (C) of 5.8e);
 it *starts from* an algebraic form `y′` on `U(X⁺)` of level `K⁺` and a linear form `ℓ⁺` on `V_{Λ⁺}` if `Ψ_m = ⟨ℓ⁺, y′⟩`. (4) A
 function `u` on `U(Y_0)(F)\U(Y_0)(𝔸)` is *rapid along column `0`* if for all Fock data, all coset data and all `n ≤ m`
 its `n`-fold theta lift along column `0` (5.8e) is a continuous rapidly decreasing function on `[U(V(n, 0))]`.
@@ -1611,25 +1658,34 @@ algebraicity of the periods of the bottom triangle (`GlobalTheory.RowEx.BotField
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/NormalFormBottom.lean`;
 `GlobalTheory.T.bottom_triangle_period_algebraic`,
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/BottomTrianglePeriodAlgebraicStatement.lean`).
-Let `x ≥ x₀` and `Size_□` hold, for the grid of the chain (5.8e), take the functionals `ℬ_a` of 5.8e for a vector `w` and data `(𝐩, ℓ⁺)`
-chosen once (jointly injective by 5.8e), and assume the hypotheses of 5.6 for the base tuple and for every tuple `ξ`
-considered. There are a constant `κ_G ≠ 0` and, for every tuple `ξ`, a
+There is a constant `C_F⁰ ≥ 6510`, fixed before `ε`, such that for every `ε` and every `C_F ≥ C_F⁰` there is
+`x_F ≥ x₀` (`x₀` that of 5.8e) for which the following holds. Let `x ≥ x_F` and `Size_□` hold, for the grid of the chain
+with this `C_F` (5.8e); let the weight datum be interlaced (ThetaChainsOnDefiniteUnitaryGroups §2.3) with
+`e_l(τ) − e′_l(τ) ≥ (t+3)/2` and `e′_{l+1}(τ) − e_l(τ) ≥ (t+3)/2`, let consecutive entries of the row parameter
+`(v(τ); −e′(τ))` be at least `100r⁴` apart (the gap hypothesis of 5.9), and let
+`e′_{l+1}(τ) − e′_l(τ) ≥ max(256r⁴, 4N_m³ + 2t + 6)`, for all `τ ∈ Φ` and all `l`; take the functionals `ℬ_a` of 5.8e for
+a vector `w` and data `(𝐩, ℓ⁺)` chosen once (jointly injective by 5.8e), and assume the hypotheses of 5.6 for the base
+tuple and for every tuple `ξ` considered. There are a constant `κ_G ≠ 0` and, for every tuple `ξ`, a
 root of unity `ϱ_ξ ∈ 𝕃`
 such that for every `𝕃`-rational form `x ∈ Π_good·𝒰^♮_ξ`:
 
 `ϱ_ξ · ∏_{i,j<m} c(i, j, ξ) · ℬ_a(ι_ξ x) = κ_G · v(ξ, x, a)`,  `v(ξ, x, a) ∈ 𝕃`,
 
-`v` a finite class sum of jets of theta functions on definite groups. Moreover `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`.
+`v` a finite class sum of jets of theta functions on definite groups. Both sides are conjugate-linear in `x` (`ℬ_a` is
+conjugate-linear, 5.8e, and `ι_ξ` is linear): `v(ξ, λx, a) = c_𝕃(λ)·v(ξ, x, a)` for `λ ∈ 𝕃` (`c_𝕃` the conjugation of
+`𝕃`, Conventions). Moreover `c(i, j, ξ)/c(i, j, 1) ∈ 𝕃^×`.
 ([FormalProof] states the identity, `v(ξ, x, a) ∈ 𝕃`, the ratios in `𝕃` and `c(i, j, ξ) ≠ 0` as
 `GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
 `Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
-`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_{F,0}`, not made
-explicit, such that for every `C_F ≥ C_{F,0}` and every `ε` there is `x₀` for which they hold under its standing record
+`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_F⁰`, not made
+explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is `x_F` for which they hold under its standing record
 `GlobalTheory.RowClaim.HidaSetting` of that file, which adds to `Size_□` the record `Formalism.IndefR.Links.HostHyp` of 5.9
 (the gaps `100r⁴` of 5.9, the interlacing and further gaps of the row parameter) and further clauses, among them on the
 labels, the characters of the tuples, the Weil representations of the steps, the additive character and the frame of `X^h`. It
 applies the functionals to its own descent of a rational form, a row of the proof, the complex conjugate of the
-corresponding row here (5.8e). The form above, for every `C_F ≥ 6510` and without `HostHyp`, is this roadmap's own.) Hence
+corresponding row here (5.8e). The threshold `C_F⁰`, the scale `x_F` and the gap hypotheses of the statement above are
+those of that record; [FormalProof] gives no value for `C_F⁰` and `x_F`, and the route below, an outline, does not replace
+them.) Hence
 `𝔼_𝕃 := {e ∈ 𝔼^♮ : c_tot(1)κ_G^{−1}ℬ_a(e) ∈ σ₀(𝕃) for all a}` (`c_tot = ∏ c`) is an `𝕃`-structure of `𝔼^♮` containing `ι_ξ(x)` for every
 tuple `ξ` and every rational `x`, stable under the Hecke operators away from `S(1)` and under `G₀`, so that every level part
 `𝔼_{b,𝕃} := e_{P_b,χ_{P_b}}𝔼_𝕃` is an `𝕃`-structure of `𝔼_b`; the kernels of the `ι_ξ` are defined over `𝕃`, hence so is every
@@ -1655,7 +1711,10 @@ unity (L2). Then `ℬ_a(ι_ξ x)` is a
 conjugate-linear, and complex conjugation preserves `σ₀(𝕃)` because `𝕃` is Galois over `ℚ`) containing `ι_1(x)` for every
 rational `x`; these span `𝔼^♮` over `ℂ` because `ι_1` maps `Π_good·𝒰^♮_1 ⊗ ℂ` onto `𝔼^♮` (5.6) and `𝒰^♮_1` has the `𝕃`-structure of its
 rational forms; and `𝕃`-independent elements of `𝔼_𝕃` are `ℂ`-independent, because `e ↦ (ℬ_a(e))_a` is injective and
-conjugate-linear by 5.8e with values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`. For every `ξ`, `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼 = 𝔼_1` (5.6), so the lattice
+conjugate-linear by 5.8e with values in `σ₀(𝕃)^A` on `𝔼_𝕃` up to the common factor. (It is `c_𝕃`-semilinear on `𝔼_𝕃`,
+so it exchanges conjugate places: for an `𝒪_𝕃`-lattice `R ⊂ 𝔼_𝕃` and a finite place `𝔭` of `𝕃` it carries the
+localisation of `R` at `𝔭` onto the localisation of its image at `c_𝕃(𝔭)`.) So `𝔼_𝕃 ⊗_𝕃 ℂ = 𝔼^♮`.
+For every `ξ`, `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼 = 𝔼_1` (5.6), so the lattice
 `ι_ξ(proj_{Q_ξ}(M̃_ξ ∩ ℋ^{rt}_ξ))` spans `𝔼_{1,𝕃}` and is finitely generated over the integers of `𝕃`: any two are commensurable. The
 Hecke and `G₀`-stability because these operators act on the rational forms of `𝒰^♮_ξ` by `𝕃`-rational matrices and commute
 with `ι_ξ`.
@@ -1664,7 +1723,7 @@ with `ι_ξ`.
 transcendental `α` no nonzero point has both coordinates in `𝕃`; the spanning by the rational images `ι_1(x)` is what 5.6
 supplies.
 
-*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15;
+*NEW*. *Needs:* 5.2, 5.3, 5.4, 5.6, 5.8a, 5.8b, 5.8c, 5.8d, 5.8e, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, FrobeniusRestrictedRieszSums §0.9; MetaplecticAutomorphicForms §§5.8, 6.4, 6.15;
 AutomorphicPadicLFunctionsPartII §5.8.
 
 ### 5.9 Multiplicities on the row group and on the model groups
@@ -1720,7 +1779,9 @@ variables over a CM extension unramified at every finite place, isometric at eve
 AutomorphicFormsOnReductiveGroups §§2.4, 2.7, 4.2,
 AutomorphicSpectralTheory §4.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §9.1, SmoothRepresentationsOfLocalGroups §§SR.2.2
 (the geometric lemma), SR.5.2 (segment representations);
-FiniteReductiveGroups §§1.2, 5.2, 5.5, 5.7 (for 5.3 (iv)).
+FiniteReductiveGroups §§1.2, 5.2, 5.5, 5.7 (for 5.3 (iv)); AutomorphicFormsOnReductiveGroups §§2.2, 3.5 and
+SmoothRepresentationsOfLocalGroupsPartII §2.6 (the admissibility of irreducible unitary representations of the local
+groups and the tensor product theorem, for the decomposition of the cusp forms).
 
 ### 5.10 The descent constant through the model eigenvalues
 
@@ -1834,7 +1895,10 @@ complex conjugates of the forms at `σ̄` (5.10a). The hook sum is unchanged bec
 *Check.* `σ = σ₀`: `𝔲_σ = 1`, `ζ = 1`, and the statement is 5.7(iii).
 
 *NEW* (conjugation statement), *KNOWN* ingredients (Shimura; Deligne; Milne–Shih; M. Harris). The Lemma: [FormalProof],
-`Formalism/LocalToGlobal/IndefiniteReal/ZeroPartEigenvalueConvention.lean` (`Formalism.IndefR.Links.RealDat3.phase`); the
+`Formalism/LocalToGlobal/IndefiniteReal/ZeroPartEigenvalueConvention.lean` (`Formalism.IndefR.Links.RealDat3.phase`),
+`Formalism/LocalToGlobal/IndefiniteReal/OneMapT.lean` (`Formalism.IndefR.FWT.OneMapRowR`),
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/IndefRRealTB.lean`
+(`Formalism.IndefR.IndefiniteRealisationBoundedRows`); the
 Theorem: [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/FormalDegreeUpperC.lean`
 (`GlobalTheory.LowRow.GalOut`), `Formalism/LocalToGlobal/IndefiniteReal/PartsOrth.lean` (`Formalism.IndefR.Cx.CxData.GalD`),
 `Formalism/LocalToGlobal/IndefiniteReal/BaseLiftsPackageOfPrimitiveLinks.lean` (`Formalism.IndefR.Links.RealDat3.PPos`).
@@ -1880,7 +1944,10 @@ the metric at `σ` is 5.11.
 *NEW*. Apart from the remark on the algebraicity of the separating eigenvalues, it follows from [FormalProof],
 `Formalism/LocalToGlobal/IndefiniteReal/PartsOrth.lean` (`Formalism.IndefR.Cx.CxData.H2`),
 `Formalism/LocalToGlobal/IndefiniteReal/LinksDefs.lean` (`Formalism.IndefR.Links.RealDat.nP`),
-`Formalism/LocalToGlobal/Divisibility/InertRationalAdjoint.lean` (`Formalism.L2.DIV.DefFam3.TypesSep3`).
+`Formalism/LocalToGlobal/Divisibility/InertRationalAdjoint.lean` (`Formalism.L2.DIV.DefFam3.TypesSep3`),
+`Formalism/LocalToGlobal/IndefiniteReal/BaseLiftsPackageOfPrimitiveLinks.lean` (`Formalism.IndefR.Links.PrimRows3`, a
+record of statements of 5.5–5.12),
+`Formalism/LocalToGlobal/IndefiniteReal/IsometricPeriodsOfHypotheses.lean` (`Formalism.IndefR.Cx.CxData.SEEIso`).
 *Needs:* 5.4, 5.6, 5.8, 5.9, 5.10, 5.11.
 
 ### Examples
@@ -1905,8 +1972,8 @@ and column steps of the chain); ThetaLiftsForDefiniteUnitaryGroups §§0.1, 1.2,
 §§1.2, 1.3, 1.4, 2.2, 2.7, 2.8, 5.2, 5.5, 5.7, 6.3; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 6.8, 8.3, 9.1;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §§6.3a, 13.8a; LocalFactorsOfTwistsAndTypes §7.2;
 MetaplecticAutomorphicForms §§3.3, 3.44, 5.6, 5.7, 5.8, 6.4, 6.10a, 6.11, 6.12, 6.14, 6.15; AutomorphicFormsOnReductiveGroups
-§§2.1, 2.2, 2.4, 2.7, 4.2, 7.4, 7.5; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§4.5, 4.10;
-SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.4.1, SR.4.3, SR.4.4, SR.5.2; SmoothRepresentationsOfLocalGroupsPartII §§0.4, 0.5;
+§§2.1, 2.2, 2.4, 2.7, 3.5, 4.2, 7.4, 7.5; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§4.5, 4.10;
+SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.4.1, SR.4.3, SR.4.4, SR.5.2; SmoothRepresentationsOfLocalGroupsPartII §§0.4, 0.5, 2.6;
 EndoscopicTransferAndUnitaryTraceComparison §6.3; VonNeumannAlgebras Layer 9; AnalyticNumberTheoryPartI §2.3a;
 ArithmeticGaloisRepresentations §2.7; AutomorphicLFunctionsAndLocalFactors §AL.1.3.4; LFunctions
 Layers 6 and 7; ShimuraVarieties §§4.4, 4.12, 6.7; AbelianSchemesAndArithmeticModuli A5.3–A5.4; AutomorphicBundles §§2.7, 3.1, 3.2,
@@ -1998,7 +2065,7 @@ and the modulus of the host, which the conductor `f_E` divides (5.8a).
 spaces of the chain and the normal form of a step, with the conjugate datum, and the split places of §2.2 (g) (5.1, 5.2, 5.7,
 5.8a, 5.8). §§2.3, 2.3a, 2.3b, 2.3c: the weights and words, the conditions (W1), (W3), (W5), the separation of entries of
 different signs (§2.3, Lemma (h)), the adapted, separated data, and the gap size `SizeGap` with the gaps of the row
-parameter (5.1, 5.2, 5.3, 5.5, 5.8e, 5.9). §2.4: the Hecke
+parameter (5.1, 5.2, 5.3, 5.5, 5.8e, 5.8, 5.9). §2.4: the Hecke
 characters `μ_j`, the splitting character `η̃`, the characters `δ`, `δ′` and the type characters (5.1, 5.2, 5.8a, 5.8). §2.5:
 the twisting tuples and their twist places, and the field of places chosen after the twisting datum (Lemma (iv)) (5.8a,
 5.8b, 5.8). §2.6: the field `𝕃`, its embedding `σ₀` and conjugation `c_𝕃`
@@ -2104,6 +2171,10 @@ theta functions (5.4, 5.8, 5.10a).
 - §§2.1, 2.2, 2.7, 4.2: `K`-finite vectors, infinitesimal characters and the local Harish-Chandra finiteness,
   Casselman–Wallach globalisation, cuspidal globalisation. Used in 5.1, 5.2, 5.9.
 - §2.4: discrete series and their parameters. Used in 5.1, 5.3, 5.7, 5.9.
+- §2.2: the admissibility of irreducible unitary representations of a real reductive group (their compact-finite smooth
+  vectors form an irreducible Harish-Chandra module). §3.5: the tensor product theorem: an irreducible admissible global
+  `(𝔤, K)×G_f`-module is the restricted tensor product of irreducible admissible local modules, spherical at almost all
+  finite places. Used in 5.9.
 - §7.4: algebraic modular forms in Gross's models. Used in 5.4.
 - §7.5: algebraic forms as class sums and as `(𝔤, K_∞)`-maps into automorphic forms. Used in 5.1, 5.2, 5.7.
 
@@ -2127,6 +2198,8 @@ theta functions (5.4, 5.8, 5.10a).
 
 - §§0.4 (positive-type coefficients of unitary representations), 0.5 (the GNS construction, and the GNS representation
   of a coefficient as the cyclic subrepresentation it generates). Used in 5.2a.
+- §2.6: an irreducible unitary representation of the points of a connected reductive group over a nonarchimedean local
+  field is admissible, and its smooth vectors form an irreducible smooth representation. Used in 5.9.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
