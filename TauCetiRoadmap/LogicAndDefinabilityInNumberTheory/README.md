@@ -1268,11 +1268,15 @@ Prove the converse direction of the criterion by the native compactness/diagram 
 
 ### 4.32 Rational-model preservation criteria
 
-For K⊂L both models of Th(ℚ), let Z_K,Z_L be defined by a fixed universal integer formula. Then (a) Z_L∩K⊂Z_K; (b) Z_L∩K is integrally closed in K; (c) for every positive n, L^n∩K=K^n, so K is radically closed in L. Conditionally, if ℤ is Diophantine in ℚ, then (d) Z_L∩K=Z_K and K is relatively algebraically closed in L. More generally, ℤ has an existential definition in ℚ iff Z_K⊂Z_L for every such embedding. No unconditional existential integer definition follows.
+For K⊂L both models of Th(ℚ), let Z_K,Z_L be defined by a fixed universal integer formula. Then (a) Z_L∩K⊂Z_K; (b) Z_L∩K is integrally closed in K; (c) for every positive n, L^n∩K=K^n, so K is radically closed in L. Conditionally, if ℤ is Diophantine in ℚ, then (d) Z_L∩K=Z_K and K is relatively algebraically closed in L. More generally, ℤ has an existential definition in ℚ iff Z_K⊂Z_L for every such embedding. Finally, not every embedding between models of Th(ℚ) is elementary; in the usual terminology Th(ℚ) is not model complete, a theory being model complete when every embedding between its models is elementary. Indeed, if every such embedding were elementary, every formula would be preserved by every embedding between models of Th(ℚ), so by the criterion of §4.31 every formula would be equivalent modulo Th(ℚ) to an existential formula and every definable subset of ℚ would be existentially definable, contradicting the non-RE complement of an RE undecidable subset of the defined integer ring. No unconditional existential integer definition follows.
 
-Koenigsmann’s published Proposition 23(c) states all positive n; its proof uses the nonpower theorem of §4.30 for n>2. Use downward preservation of universal formulas for the first containment. Use monic-equation witnesses for integral closure and Diophantine nonpowers for radical closure. Apply the model-theoretic existential preservation theorem to the fixed universal formula, using the complete theory Th(ℚ).
+Koenigsmann’s published Proposition 23(c) states all positive n; its proof uses the nonpower theorem of §4.30 for n>2. Use downward preservation of universal formulas for the first containment. Use monic-equation witnesses for integral closure and Diophantine nonpowers for radical closure. Apply the model-theoretic existential preservation theorem to the fixed universal formula, using the complete theory Th(ℚ). For the embedding that is not elementary, argue by contradiction with the criterion of §4.31 as above: take an RE nonrecursive set represented in interpreted arithmetic and use the existential normal forms to derive the impossible RE complement.
 
 For the conditional relative-algebraic-closure conclusion, formalize the monic-root decision predicate and its uniform MRDP translation from Koenigsmann Proposition 23(d). The diagram/preservation theorem is §4.31. Neither conclusion supplies an unconditional existential integer definition.
+
+**Checks.**
+
+- Model completeness is not completeness: Th(ℚ) is complete, being the full theory of one structure, and by the statement above it is not model complete.
 
 ([Jochen Koenigsmann, *Defining Z in Q*](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p02-p.pdf), §4, Proposition 23(a)–(d), pp.91–92; Remark 24, p.92.)
 
