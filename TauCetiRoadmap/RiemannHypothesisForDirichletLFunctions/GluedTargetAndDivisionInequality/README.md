@@ -672,8 +672,8 @@ the integer `c_{Br,τ}`), and `β(λ_τ, σ_τ)` is the number `β_τ` of ThetaC
 
 (b) *The top period.* For the word `u` let `res` be the restriction of ThetaChainsOnDefiniteUnitaryGroups §3.9 (the value at the class `𝒸̃` of level `m`,
 followed by `⊗_τ br_τ`), and `Pt(φ′) := P̃(φ′, ·) = ⟨·, res φ′⟩_{X^h}`, a conjugate-linear functional on the forms on `U(X^h)`
-(ThetaChainsOnDefiniteUnitaryGroups §3.9) of norm `‖Pt(φ′)‖_σ = ‖res φ′‖_σ` at every embedding; put `A_top := Σ_{τ∈Φ_top} a_τ`. Then, with `a⁻_τ` the negative bottom
-entry of ThetaChainsOnDefiniteUnitaryGroups §2.3,
+(ThetaChainsOnDefiniteUnitaryGroups §3.9) of norm `‖Pt(φ′)‖_σ = ‖res φ′‖_σ` at every embedding; put `A_top := Σ_{τ∈Φ_top} a_τ`. Then, for a weight datum adapted in the sense of
+ThetaChainsOnDefiniteUnitaryGroups §2.3b, with `a⁻_τ` its negative bottom entry there, and under `Size(x, ε)` and `SizeSc`,
 
 `ht(res) ≤ −A_top·log T(u) + (Σ_{τ∈Φ_top}(Sc + mϑ + a⁻_τ + N_m) + Σ_{τ∈Φ∖Φ_top}(2Sc + mϑ + N_m))·log T(u) + C·N_m²·(Σ_{τ∈Φ_top} a⁻_τ + f·(mϑ + Sc + 1))·La`,
 
@@ -784,7 +784,7 @@ Petersson metric divided by `|H|`); for this metric `ι_1^*ι_1 = 𝔫·∏_jλ_
 `X_1^σ` of RowTowerAndRallisIdentities §5.12 (the class-sum product divided by `|H|`), at every `σ`, hence `(𝔫/|P_1|)·∏_jλ_j(1, 𝔥, σ)` for the class-sum
 product itself; `R^∨`, `R_0^∨` (the `c_𝕃`-semilinear functionals integral on `R`, `R_0`) carry the dual metrics (7.13): at `σ` the norm dual
 to the metric at `σ̃ = conj∘σ∘c_𝕃`, which is the norm of 8.1 for semilinear functionals at `σ` (the metrics being compatible with
-complex conjugation, `‖y‖_{σ̃} = ‖y‖_{σ∘c_𝕃}`). Under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), `a⁻_τ ≤ 2b′` for `τ ∈ Φ_top` (8.7 (b)), the hypotheses of 8.6 (the size conditions of
+complex conjugation, `‖y‖_{σ̃} = ‖y‖_{σ∘c_𝕃}`). Under `SizeT_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), the hypotheses of 8.7 (b) (a weight datum adapted in the sense of ThetaChainsOnDefiniteUnitaryGroups §2.3b, `SizeSc`, and `a⁻_τ ≤ 2b′` for `τ ∈ Φ_top`), the hypotheses of 8.6 (the size conditions of
 ThetaChainsOnDefiniteUnitaryGroups §2.1, `SizeG` of ThetaChainsOnDefiniteUnitaryGroups §2.7 and `|(L′/L)(1, χ_K)| ≤ x^ε`) and of 8.8 at every step and place,
 the hypotheses of SeesawForThetaChains §6.14 (among them that the Bessel–Poincaré series of every word `u` is nonzero on its new forms
 `M_u`), and those of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x₀` with the size predicate
@@ -800,7 +800,7 @@ values in the `c_𝕃`-semilinear functionals. Apply 8.1 in its form for semilin
 `min_𝔥 Σ_j log λ_j(1, 𝔥, σ)` at every embedding (the base tuple). The size of the seesaw scalar `a_u` of SeesawForThetaChains §6.14 does not
 enter.
 
-*NEW*. *Needs:* 8.1, 8.6, 8.7, 8.8, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.1, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, 7.13.
+*NEW*. *Needs:* 8.1, 8.6, 8.7, 8.8, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.1, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, 7.13.
 
 ### 8.10 Stirling terms against hook products
 
