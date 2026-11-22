@@ -280,6 +280,7 @@ body:
         - KTheoryFiniteLocalFields
         - KTheoryLowDegrees
         - KacMoody
+        - KatoEulerSystems
         - KhovanovHomology
         - KleinianGroups
         - LFunctions
@@ -298,6 +299,7 @@ body:
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
         - LocallyAnalyticDistributionsPartII
+        - LogicAndDefinabilityInNumberTheory
         - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
         - MarkovChainsAndRenewal
@@ -403,6 +405,7 @@ body:
         - QuadraticFormInvariantsPartII
         - QuantumEnvelopingAlgebras
         - QuantumGroups
+        - QuasiRiemannHypothesis
         - QuasiregularMaps
         - QuaternionArithmetic
         - QuaternionicAnalysis
