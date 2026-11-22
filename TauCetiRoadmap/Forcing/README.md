@@ -128,8 +128,11 @@ have empty preimage on an arbitrary filter.
    meeting all these requirements makes the union surjective.
 4. For binary values, define the requirement to disagree with a specified total function at some
    coordinate. On an infinite coordinate set it is dense. Obtain a total function avoiding a
-   prescribed countable family by Rasiowa–Sikorski. Keep this theorem independent of set-model
-   semantics.
+   prescribed countable family by Rasiowa–Sikorski. For uncountable `I` the coordinate-totality
+   tests are indexed by all of `I`, too many for Rasiowa–Sikorski: meet the countably many
+   disagreement tests, take the partial union, and fill the undefined coordinates with `0`; each
+   witnessed disagreement survives, so the result is a total function on `I` avoiding the family.
+   Keep this theorem independent of set-model semantics.
 5. Relate finite binary partial functions on `ℕ` to finite binary sequences through dense
    embeddings. Prove the corresponding generic unions agree. Develop reindexing and coordinate
    projections for `Fn(I, 2)`; use these in the Cohen applications and product comparison.
@@ -418,9 +421,15 @@ consequences.
    intersections of fewer than that many dense-open sets. Include the countable-closure case
    explicitly. Prove closure implies distributivity by transfinite construction, with the choice and
    regularity assumptions actually used. Prove the Boolean-algebra characterization of
-   distributivity.
+   distributivity for a separative `P` (or for the separative quotient of an arbitrary preorder):
+   the completion cannot see dense-open distributivity of a non-separative preorder (see the
+   Checks).
 4. Over a ZFC ground, prove that internal distributivity prevents new ordinal-valued sequences of
-   the stated lengths; prove the converse with the precise name/antichain argument. Derive the
+   the stated lengths, for an arbitrary preorder. Prove the converse, from no new sequences to
+   distributivity, for a separative `P` (`SepLE p q → p ≤ q`; antisymmetry is not needed) or for
+   the separative quotient of an arbitrary preorder, by the precise name/antichain argument:
+   separativity is where a condition deciding the selected antichain members lies below each of
+   them. Derive the
    no-new-reals consequence for countable distributivity. Localize the proof to a specified family
    of coordinate-decision tests, so consumers can use the weaker theorem without assuming universal
    distributivity.
@@ -434,7 +443,10 @@ consequences.
    dense deciders. Each has a concrete consumer above; no universal structure called a certificate
    or shadow is required.
 
-**Checks.** External countability gives external countable-centeredness, so it is not the
+**Checks.** On `ℕ` with larger numbers stronger, the tails `{m | m ≥ n}` are dense open with empty
+intersection, yet any two conditions are compatible, the separative quotient has one condition, and
+the forcing adds no sets: without separativity, no new sequences does not give distributivity.
+External countability gives external countable-centeredness, so it is not the
 cardinal-preservation hypothesis for a countable ground. The generic Cohen real is not covered by
 any countable set of checked ground reals. Homogeneity does not decide a formula with arbitrary
 moving name parameters. Raw closure is not asserted to be invariant under every dense presentation.
@@ -669,6 +681,7 @@ not claims that a source already supplies their exact Lean packaging.
 | Layer 5 Separation | Hamkins–Seabold, §1, the separation name in the proof sketch of Theorem 3 (p. 3); Karagila's proof of 2.22 does not treat Separation, Pairing or Empty Set |
 | Layer 7 general chain-condition preservation | Karagila, §3.1, Definition 3.5 and Theorem 3.7 (the deciding-antichain argument), and §3.3, Definition 3.20 and Theorem 3.22, whose proof is that of 3.7 |
 | Layer 7 closure, distributivity, and no-new-sequences | Karagila, §4.1, Definition 4.1, Theorem 4.2 and Exercise 4.3; §4.2, Definition 4.14, Theorem 4.16 and Corollary 4.17 (stated without proof). Karagila's κ-closed and κ-distributive are the `<κ` notions here, with no index shift. The Boolean-algebra characterization of distributivity is not from this source |
+| Layer 7 the converse, from no new sequences to distributivity, for separative orders | Eskew, *Forcing and Large Cardinals*, Lemma 2.7, whose proof uses separativity to place the deciding condition below the selected antichain members |
 | Layer 9 products and mutual genericity | Karagila, §5.1, Theorems 5.3 and 5.6, Definition 5.5 and Corollary 5.4 |
 | Layer 9 two-step construction, factorization, quotients and ccc | Karagila, §6.1, Definition 6.1 and the Remark on set-sized names after it, Theorem 6.4 (generic factorization), Theorem 6.6 (quotient forcing) and Theorem 6.9 (κ-cc of the iteration); the extension identity `M[G * H] = M[G][H]` is not stated there as a theorem |
 | Layer 3 mixing, maximum/fullness, and ordinary quotient truth | Hamkins–Seabold, §1, Lemmas 1–2; §2, Lemma 10 |
@@ -691,6 +704,8 @@ not claims that a source already supplies their exact Lean packaging.
 - [Asaf Karagila, *Forcing and Symmetric Extensions*](https://karagila.org/files/Forcing-2023.pdf),
   version of 24 August 2026 (the numbering above refers to it), Part I, especially Chapters 2–6:
   generic extensions, examples, closure/distributivity, products, and iterations.
+- [Monroe Eskew, *Forcing and Large Cardinals*](https://www.logic.univie.ac.at/~meskew/forcing%20notes.pdf),
+  lecture notes: Lemma 2.7, distributivity and new sequences for separative orders.
 - [Joel David Hamkins and Daniel E. Seabold, *Well-founded Boolean ultrapowers as large cardinal
   embeddings*](https://arxiv.org/abs/1206.6075v1), 2012 manuscript: fullness, ultrafilter quotients,
   and the relation to generic extensions.
