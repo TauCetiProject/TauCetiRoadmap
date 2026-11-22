@@ -345,7 +345,7 @@ that:
    (BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1); they are the same for all `x`. Equivalently they are
    `{κ_{ι∘τ,a} + (r + t) − a : 1 ≤ a ≤ r + t}`, `κ_σ = −w₀λ_σ` being the highest weight at `σ` of the representation in
    which the forms of `M_j(𝔭)` take values (its contragredient is the archimedean component of `Π` at `σ`): in the
-   notation of this layer, `𝒲_j` at `σ`. (RowTowerAndRallisIdentities §5.7 does not give the highest weight of `𝒲_j`;
+   notation of this layer, `𝒲_j` at `σ`. (RowTowerAndRallisIdentities §5.7 gives the highest weight of `𝒲_j` at each real place;
    the weights are made explicit in 7.6 (a).) At `w | ℓ` with `ℓ ∈ {g₀, g₁}`, where the parameter of `BC(Π)_w`
    is tame with `N = 0`: potentially crystalline, with `N = 0` and the inertial type of the parameter of `BC(Π)_w` on
    `WD(D_pst)`;
