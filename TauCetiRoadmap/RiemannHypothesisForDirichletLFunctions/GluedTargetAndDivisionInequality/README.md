@@ -948,10 +948,11 @@ in `𝕂′` integral at `S`, of forms of the level of the chain integral at the
 
 (c3) *Hecke correspondences and integral points.* Let `P` be a prime of `E` with `P ≠ P̄`, above a rational prime `p` prime
 to the level, and `𝔩` a place of the coefficient field not above `p`. If a framed point `z` over an algebraically closed
-field is related by a Hecke correspondence at `P`, of any type, to the base change of an integral framed point over a
-complete discrete valuation ring `T` above `𝔩` with finite residue field, then after a finite extension `T′` of `T` there is
-an integral framed point over `T′` whose base change differs from `z` by a triangular change of frame with diagonal entries
-units of `T′`; and every form, of any weight, that is integral at `𝔩` has at `z` a value integral over `T`. Consequently,
+field `Ω` is related by a Hecke correspondence at `P`, of any type, to the base change to `Ω` of an integral framed point over a
+complete discrete valuation ring `T` above `𝔩` with finite residue field, `Ω` being algebraic over the fraction field of `T`,
+then after a finite extension `T′` of `T` in `Ω` there is an integral framed point over `T′` whose base change differs from
+`z` by a triangular change of frame with diagonal entries units of `T′` and a rescaling of its trivialising section by a
+unit of `T′`; and every form, of any weight, that is integral at `𝔩` has at `z` a value integral over `T`. Consequently,
 with the algebraicity of the Hecke transform and its identification with the adelic operator at the base embedding
 (RowTowerAndRallisIdentities §5.10a), the operators `(μ_j(ϖ_P)·N(P)^{(r+t)/2})^{−n}·T_{n,P}` (`1 ≤ n ≤ r`; `P ≠ P̄` outside
 `S(1)` and not above `g₀g₁`) preserve the forms integral at every place of the coefficient field not above the residue
@@ -2297,7 +2298,7 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. Its file paths given above are relative to the directory `src/` of the first commit of that repository, `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - V. Bargmann, *On a Hilbert space of analytic functions and an associated integral transform*, Comm. Pure Appl. Math. 14
   (1961): 8.2.
