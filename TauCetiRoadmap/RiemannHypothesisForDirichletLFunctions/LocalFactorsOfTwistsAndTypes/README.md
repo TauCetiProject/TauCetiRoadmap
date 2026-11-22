@@ -81,7 +81,12 @@ characteristic zero). For "only if" the form that the family uses is
 [FormalProof], `Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/DepthZeroSupport.lean`
 (`GlobalTheory.Published.DepthZeroSupport`). The bijectivity for every admissible `π` is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/MoyPrasadJacquetIsoTrivial.lean`
-(`GlobalTheory.Published.MoyPrasadJacquetIso`).
+(`GlobalTheory.Published.MoyPrasadJacquetIso`). The injectivity for every smooth `π` is [FormalProof],
+`Development/AutomorphicSpectrum/Proofs/BlockDecomposition/FixedInjSmooth.lean`
+(`GlobalTheory.CompanionTheory.DepthZeroJac.fixed_inj_smooth`); the form that its uses take is the one for irreducible
+`π`, `Development/AbelianVarietyTheory/PublishedTheorems/GaloisGeometry₂/DepthZeroJacquetInjective.lean`
+(`GlobalTheory.Published.DepthZeroJacquetInjective`), derived from the bijectivity and the admissibility of irreducible
+representations.
 The statements (a)–(d) for a general `G`, a general point `x` and every smooth `π` go beyond
 that case; (c) and the injectivity in (d) are then this roadmap's, by the route below.
 
