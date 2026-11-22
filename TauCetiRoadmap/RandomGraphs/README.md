@@ -1555,7 +1555,9 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
 
 No roadmap on main, and none of the sibling roadmaps InfinitaryModelExistence,
 CountableStructureSpaces, BorelEquivalenceRelations, CountableModelCounting and HanfNumbers,
-consumes a target of this roadmap. CountableStructureSpaces mentions the Rado graph only through
+consumes a target of this roadmap. The open roadmap SaturationAndQuantifierElimination consumes the
+effective coding of first-order formulas of 5.2, and its quantifier-elimination definitions are
+those owned here. CountableStructureSpaces mentions the Rado graph only through
 Tau Ceti's InfinitaryLogic declarations.
 
 ## Scope and ownership
@@ -1570,7 +1572,10 @@ This roadmap owns representative families and strong amalgamation, extension-ric
 general Fraïssé existence theorem and its rooted consequences; bounded extension `EP_{≤d}`,
 witness counts and the first-order extension sentences; the natural-valued quantifier rank and
 its bridge to Tau Ceti's ordinal rank; the effective coding of first-order formulas for a general
-language, and computable quantifier elimination and decidability for the Rado theory; and the
+language; the theory-level definitions `Language.Theory.IsQFEquivalent` and
+`Language.Theory.HasQuantifierElimination` with the reduction to finite variable types (Layer 5,
+in the quantifier-elimination proposal's form); computable quantifier elimination and
+decidability for the Rado theory; and the
 probabilistic theory of Layers 6–11, including the factorial-moment Poisson criterion. Its
 suppliers are listed under [Exact supplier contracts](#exact-supplier-contracts), and what it
 leaves to other roadmaps under [Out of scope](#out-of-scope).
