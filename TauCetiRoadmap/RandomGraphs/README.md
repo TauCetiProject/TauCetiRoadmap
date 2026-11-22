@@ -1099,8 +1099,8 @@ condition. Include a worked calculation at `p = 1/2` and the low extension budge
 
 - For `ψ = Adj(x₀, x₁)` the conditioned limits are `1` on `H = K₂` and `0` on the edgeless `H`,
   and their mixture with weights `p` and `1 - p` is the unconditioned limit `p`.
-- `EP_{≤2}` gives diameter at most `2`; a finite complete graph has diameter `1` and fails
-  `EP_{≤1}`, so the nonedge half of "diameter exactly `2`" is needed.
+- `EP_{≤2}` gives diameter at most `2`; a complete graph on at least two vertices has diameter `1` and
+  fails `EP_{≤1}`, so the nonedge half of "diameter exactly `2`" is needed.
 - For `k = 0` the clique event always holds, and for `k = 2` it asks for an edge and a nonedge.
 
 ### Dependencies
