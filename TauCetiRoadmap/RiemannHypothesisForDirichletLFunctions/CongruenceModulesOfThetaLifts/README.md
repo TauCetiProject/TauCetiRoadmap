@@ -524,7 +524,8 @@ formed with the definite halves of `ℍ^t ⊗ F_v`, of signatures `(t, 0)` and `
 `det^{−t/2}` and `det^{t/2}` times the splitting characters of the halves (ThetaKernelsForUnitaryDualPairs §3.46 (iii)), whose
 product is the trivial character of `ℍ^t`. For `φ₁ = φ₂ = Δ_j ⊗ φ_vac`, with `Δ_j` the joint vector of
 RowTowerAndRallisIdentities §5.7, the integrand is `⟨ω₀(g)Δ_j, Δ_j⟩⟨π_v(g)f₁, f₂⟩`; the first factor is a matrix coefficient of
-the irreducible `U(V_j)(F_v)`-span `𝒲_{j,v}` of `Δ_j`, and `π_v` is the type that the model lift pairs with `𝒲_{j,v}`
+the irreducible `U(V_j)(F_v)`-span `𝒲_{j,v}` of `Δ_j`, and `π_v` is the contragredient of `𝒲_{j,v}`, the type of the forms that
+take values in `𝒲_{j,v}`
 (RowTowerAndRallisIdentities §5.7). For `f₁ = f₂` the vector of `π_v` paired with `Δ_j`, Schur orthogonality (Tau Ceti
 `ContRepresentation.schur_orthogonality_self`) gives `vol(U(V_j)(F_v))·‖Δ_j‖⁴/dim 𝒲_{j,v} ≠ 0`; the product of these data over
 the real places is the archimedean Schwartz function of (a) (ii). (b): The string gives the partial `L`-function of `y` twisted by the splitting character of the pair a simple pole at
