@@ -1659,7 +1659,7 @@ algebraicity of the periods of the bottom triangle (`GlobalTheory.RowEx.BotField
 `GlobalTheory.T.bottom_triangle_period_algebraic`,
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/BottomTrianglePeriodAlgebraicStatement.lean`).
 There is a constant `C_F⁰ ≥ 6510`, fixed before `ε`, such that for every `ε` and every `C_F ≥ C_F⁰` there is
-`x₁ ≥ x₀` (`x₀` that of 5.8e) for which the following holds. Let `x ≥ x₁` and `Size_□` hold, for the grid of the chain
+`x_F ≥ x₀` (`x₀` that of 5.8e) for which the following holds. Let `x ≥ x_F` and `Size_□` hold, for the grid of the chain
 with this `C_F` (5.8e); let the weight datum be interlaced (ThetaChainsOnDefiniteUnitaryGroups §2.3) with
 `e_l(τ) − e′_l(τ) ≥ (t+3)/2` and `e′_{l+1}(τ) − e_l(τ) ≥ (t+3)/2`, let consecutive entries of the row parameter
 `(v(τ); −e′(τ))` be at least `100r⁴` apart (the gap hypothesis of 5.9), and let
@@ -1678,13 +1678,13 @@ conjugate-linear, 5.8e, and `ι_ξ` is linear): `v(ξ, λx, a) = c_𝕃(λ)·v(�
 `GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
 `Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
 `GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_F⁰`, not made
-explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is `x₁` for which they hold under its standing record
+explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is `x_F` for which they hold under its standing record
 `GlobalTheory.RowClaim.HidaSetting` of that file, which adds to `Size_□` the record `Formalism.IndefR.Links.HostHyp` of 5.9
 (the gaps `100r⁴` of 5.9, the interlacing and further gaps of the row parameter) and further clauses, among them on the
 labels, the characters of the tuples, the Weil representations of the steps, the additive character and the frame of `X^h`. It
 applies the functionals to its own descent of a rational form, a row of the proof, the complex conjugate of the
-corresponding row here (5.8e). The threshold `C_F⁰`, the scale `x₁` and the gap hypotheses of the statement above are
-those of that record; [FormalProof] gives no value for `C_F⁰` and `x₁`, and the route below, an outline, does not replace
+corresponding row here (5.8e). The threshold `C_F⁰`, the scale `x_F` and the gap hypotheses of the statement above are
+those of that record; [FormalProof] gives no value for `C_F⁰` and `x_F`, and the route below, an outline, does not replace
 them.) Hence
 `𝔼_𝕃 := {e ∈ 𝔼^♮ : c_tot(1)κ_G^{−1}ℬ_a(e) ∈ σ₀(𝕃) for all a}` (`c_tot = ∏ c`) is an `𝕃`-structure of `𝔼^♮` containing `ι_ξ(x)` for every
 tuple `ξ` and every rational `x`, stable under the Hecke operators away from `S(1)` and under `G₀`, so that every level part
