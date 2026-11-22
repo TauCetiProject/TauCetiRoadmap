@@ -1647,6 +1647,8 @@ compatible with the action of the group of `W`, normalised as above: outside `T`
 nonzero image, and at the places of `T` two vectors have the same image exactly when their two zeta integrals are equal.
 That the kernels are the unique maximal proper submodules, and the uniqueness of the data up to rescaling, are not
 statements of the formal proof at the real places; they rest on ThetaKernelsForUnitaryDualPairs §3.47b.
+The first sentence is [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.LocalMatching`, with `IsMatched`, `IsRealMaps`, `IsFinMaps`).
 
 Route: existence place by place: at split places ThetaKernelsForUnitaryDualPairs §3.47 (with `α`, `β` unramified, `ψ` arbitrary,
 any residue characteristic; or `ν` ramified and `ψ` unramified, at the places of `T`), at the inert places §3.47a, at the
