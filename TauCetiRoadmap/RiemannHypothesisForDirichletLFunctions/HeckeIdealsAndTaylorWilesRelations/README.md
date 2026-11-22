@@ -506,7 +506,7 @@ that vanishes on the inertia elements at the places of `S` prime to `p` at which
 that at each `v` above `p` there are a basis of the flag and a matrix `X` for which the cocycle minus the coboundary of `X` is upper
 triangular on the decomposition group and has zero diagonal on the inertia group, is a coboundary.
 
-(d₀′) (*Bloch–Kato classes are ordinary*) Let `ρ` be as in (d₀), with the flags and hypothesis (i), and assume that at each place
+(d₀′) (*Bloch–Kato classes are ordinary*) Let `ρ` be as in (d₀), with the flags and hypotheses (i) and (ii), and assume that at each place
 `w` above `p` the ratios of its ordinary characters are `ε^{m_{w,i} − m_{w,j}}` up to finite order on inertia, with
 `m_{w,1} > ⋯ > m_{w,n}`. Then every continuous cocycle of `G_{L⁺,S}` in `ad r` whose class is in `H¹_f` satisfies the two conditions
 of (d₀).
@@ -791,7 +791,10 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
   has it for a CM field `L` with `L/L⁺` unramified at every finite place, `2 ≤ n ≤ 4`, a prime `l`, and a regular algebraic
   cuspidal `π` with `π^∨ ≅ π^c`, unramified outside the places above a finite set of places of `L⁺` split in `L` that contains those
   above `l`: an automorphic representation of the definite unitary group, unramified at every place that does not split, whose
-  components at almost all split places are unramified with the Satake parameters of `π`.
+  components at almost all split places are unramified with the Satake parameters of `π`
+  (`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/CuspidalDescent/DescWeak.lean`
+  (`UpperTheory.V.Z.Desc.DescWeak`), proved as `UpperTheory.V.Z.Tf.SR.descWeak` in
+  `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/TraceFormula/SplitRigidity/HasOfSplit.lean`).
 - §3.6: the Galois representations `r_l(π)` attached to constituents of algebraic modular forms on `G`, with (i) semisimplified local–global compatibility at split places and (v) de Rham with the weights at `S_l`, used in the routes of 3.13a (c), (d) and in the relations of 4.2a.
 - §3.7: the Hecke polynomials of the spherical operators `T_w^j`.
 - §§3.8–3.9: Iwahori levels at `l`, the `U`-operators, ordinary parts, and the big ordinary Hecke algebra over `Λ` of universal weight.
@@ -886,7 +889,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>; the file paths and declaration names cited here are those of commit e50d09817ad81469f737e8f637561e6ccf86c670. It states 3.13a (1) and (a)–(e), (g) or statements from which they follow, 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 4.2a, 9.9 (d), the second conclusion of 9.9 (d′) in rank four under other hypotheses, and an instance of 10.1, each recorded at its target.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>; the file paths and declaration names cited here are those of its first commit 40e56bab026552e089d7afcfeff08d2defb9c005, the source as published, under its directory `src/`. It states 3.13a (1) and (a)–(e), (g) or statements from which they follow, 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 4.2a, 9.9 (d), the second conclusion of 9.9 (d′) in rank four under other hypotheses, and an instance of 10.1, each recorded at its target.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [BZ77] I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Annales scientifiques de l'École Normale Supérieure 10 (1977), 441–472, [Numdam](http://archive.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf). The bound `n!` in the route of 4.2a.
 - [Che14] G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group and pseudorepresentations over arbitrary rings*, in Automorphic Forms and Galois Representations, vol. 1, LMS Lecture Note Series 414 (2014), 221–285; arXiv:0809.0415v2. [Open preprint](https://arxiv.org/abs/0809.0415v2). Noetherianity of the universal ring of determinants under Mazur's finiteness condition, in the route of 3.13a.
