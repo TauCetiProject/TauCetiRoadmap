@@ -166,7 +166,9 @@ Klimyk–Vilenkin Chapter 1, §1.6 (14)–(15), p. 160; SpecialFunctionsGroupMod
 `Oscillator` is the group of the Conventions, and `Oscillator.toMatrix g` is the oscillator matrix
 `s(w, α, δ)` of SpecialFunctionsGroupModels §0.2. The three statements are sanity checks of these
 definitions. Prove:
-- **Matrix realization** (`Oscillator.toMatrix_mul`): `toMatrix` is multiplicative;
+- **Matrix realization** (`Oscillator.toMatrix_mul`): `toMatrix` is multiplicative; after
+  unfolding, this is the oscillator group law of SpecialFunctionsGroupModels §0.2 transported to
+  `Oscillator`;
 - **Kernel of the matrix realization** (`Oscillator.toMatrix_eq_one_iff`): `toMatrix g = 1` exactly
   when `w = 0`, `δ = 0` and `α ∈ 2πℤ`;
 - **Heisenberg subgroup** (`heisenbergToOscillator_injective`): `heisenbergToOscillator`,
@@ -823,8 +825,8 @@ the relation is stated on the quotient by the centre.
 - Orthogonality at `λ = 2.3`, `δ = 0.37`, by quadrature in `(x, y, α)`: at
   `(m, n) = (m', n') = (1, 0)` and `(2, 1)` the integral is `39.47841 76044 = 4π²`, the same at
   `δ = 0` and `δ = 1.9`; it is `0` at `λ' = λ`, `(m, n, m', n') = (2, 1, 1, 2)`, and at
-  `λ' = 3.3`, `(m, n, m', n') = (1, 0, 0, 0)`, where `λ + n = λ' + n'` but the `w`-integral
-  vanishes.
+  `λ' = 3.3`, `(m, n, m', n') = (0, 1, 0, 0)` and `(1, 1, 1, 0)`, where `λ + n = λ' + n' = 3.3`,
+  so the `α`-integral is `2π`, and the `w`-integral vanishes by the orthogonality of 3.2.
 - Negative control: at `λ' = 2.8`, `(m, n) = (m', n') = (1, 1)`, the orthogonality integral is
   `−25.13274 12287 i = −8πi`, not `0`; the hypothesis `λ − λ' ∈ ℤ` is needed.
 

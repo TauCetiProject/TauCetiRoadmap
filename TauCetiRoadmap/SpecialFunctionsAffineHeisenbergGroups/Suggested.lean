@@ -433,7 +433,8 @@ instance : Group Oscillator where
 /-- README 0.2. The matrix realization `oscillatorMatrix w α δ`. -/
 def toMatrix (g : Oscillator) : Matrix (Fin 3) (Fin 3) ℂ := oscillatorMatrix g.w g.α g.δ
 
-/-- Sanity check of the definition: README 0.2, **Matrix realization.** -/
+/-- Sanity check of the definition: README 0.2, **Matrix realization.** After unfolding, the
+oscillator group law of SpecialFunctionsGroupModels §0.2 transported to `Oscillator`. -/
 theorem toMatrix_mul (g h : Oscillator) : toMatrix (g * h) = toMatrix g * toMatrix h := by
   sorry
 
