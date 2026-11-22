@@ -16,12 +16,14 @@ partial `L`-functions of their Hecke eigensystems twisted by Hecke characters of
 number fields and CM fields (`NumberField.IsCMField`), the adele ring `NumberField.AdeleRing`,
 unitary matrices (`Matrix.unitaryGroup`), Haar measure (`MeasureTheory.Measure.haar`), abstract
 Hecke rings (`HeckeRing`) and the `L`-functions of Dirichlet characters
-(`DirichletCharacter.LFunction`). Neither Mathlib nor Tau Ceti has the unitary group of a Hermitian
-space over a CM field as a group over the adeles of its totally real subfield, automorphic or cusp
-forms on it with their Petersson product and Hecke operators, the discrete series of `U(p, q)`, the
-Weil representation and the theta kernel of a unitary dual pair, Hecke characters of a number field
-with their partial `L`-functions, or the Satake parameters of a Hecke eigensystem and their base
-change.
+(`DirichletCharacter.LFunction`); Tau Ceti has Hecke characters of a number field
+(`TauCeti.GlobalNumberFields.HeckeCharacter`) with their infinity types, and the conductors of
+those of finite order. Neither
+Mathlib nor Tau Ceti has the unitary group of a Hermitian space over a CM field as a group over the
+adeles of its totally real subfield, automorphic or cusp forms on it with their Petersson product and
+Hecke operators, the discrete series of `U(p, q)`, the Weil representation and the theta kernel of a
+unitary dual pair, the partial `L`-functions of Hecke characters, or the Satake parameters of a Hecke
+eigensystem and their base change.
 
 * The Rallis identities of the descent (5.5, 5.6, 5.10): for a twisting tuple `ξ` and a Hecke
   eigensystem `𝔥` away from `S(ξ)`, under Weil's condition, the ramification conditions and the gap
