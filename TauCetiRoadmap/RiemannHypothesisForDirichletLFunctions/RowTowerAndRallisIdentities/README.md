@@ -18,8 +18,9 @@ the chain, then on the `𝔥`-part of the good rows `𝔼^♮`
 
 `ι_ξ ι_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,
 
-where each factor is an absolutely convergent Euler product with a positive value and `𝔫₀ ≠ 0` depends neither on `𝔥` nor
-on `ξ`; so `ι_ξ` is onto `𝔼^♮`. This scalar is `𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
+where each factor is an absolutely convergent Euler product with a positive value and `𝔫₀` depends neither on `𝔥` nor
+on `ξ` and is positive when `𝔼^♮ ≠ 0` (`ι_ξι_ξ^*` is positive semidefinite and the `L`-values are positive); so `ι_ξ`
+is onto `𝔼^♮`. This scalar is `𝔫 · ∏_j λ_j(ξ, 𝔥)`, where, for `t > r`,
 `λ_j(ξ, 𝔥) = a_j · L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})` is the scalar by which `θ_jθ_j^*` acts for the model lift `θ_j` from a
 definite group `U(V_j)` to an inner form `U(W_j)` of `U(Y_0)`, positive wherever that part is nonzero.
 (2) *A rational structure.* For the grid of complementary spaces of the chain (5.8a) with a depth constant `C_F` beyond a
@@ -806,7 +807,8 @@ hypotheses of 5.5 for every `i`. Then on `𝔼^♮[𝔥]`
 
 `ι_ξ ι_ξ^* = 𝔫₀ · ∏_{j=1}^m L^{S(ξ)}((t+1)/2, B_𝔥 × μ_j(ξ)^{−1})`,  `𝔫₀ = ∏_j 𝔫_j`,
 
-and every factor is an absolutely convergent Euler product with a positive value. Consequently `ι_ξ^*` is injective
+and every factor is an absolutely convergent Euler product with a positive value. In the form of [FormalProof] the identity
+holds with one positive constant for all tuples and all eigensystems. Consequently `ι_ξ^*` is injective
 on `𝔼^♮`; `ι_ξ` maps `𝒰^♮_ξ ⊗ ℂ` onto `𝔼^♮` and `𝒰^{(P,χ_P)}_ξ` onto `𝔼_{(P,χ_P)}` for every level `(P, χ_P)`, in particular
 `ℋ^{rt}_ξ` onto `𝔼`; and for every `i ≤ m` the composite `Π_good ∘ io_1 ∘ ⋯ ∘ io_i` maps its source onto `𝔼^♮`.
 
