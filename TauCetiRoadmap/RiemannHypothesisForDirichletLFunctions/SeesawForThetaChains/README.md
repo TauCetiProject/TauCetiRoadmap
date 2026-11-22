@@ -329,7 +329,7 @@ Route: (a) take `φ₁ ∈ M_u` with `P_uφ₁ ≠ 0` (BesselPoincareSeriesAndGr
 
 ### 6.15 Rationality of the period pairing
 
-Assume the hypotheses of RowTowerAndRallisIdentities §5.8, on which its rational structure rests (those of RowTowerAndRallisIdentities §5.8b for the grid of the chain, a scale `x ≥ x₀` with the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the condition (L1)–(L7) on `𝕃` of RowTowerAndRallisIdentities §5.8 and the hypotheses of RowTowerAndRallisIdentities §5.6), and those of 6.14. (a) For `φ ∈ M_u ⊗ 𝕃` and `x` in the `𝕃`-rational structure `𝔼_{1,𝕃}` of `𝔼` (RowTowerAndRallisIdentities §5.8), `B_u(φ)(x) ∈ σ₀(𝕃)`; so `σ₀^{−1}B_u` is `𝕃`-linear in `φ` and `c_𝕃`-semilinear in `x`: an `𝕃`-linear map from `M_u ⊗ 𝕃` to the `c_𝕃`-semilinear functionals on `𝔼_{1,𝕃}`. (b) Either `B_u = 0`, or for every tuple `ξ` the root of unity `ζ_ℂ(u, ξ)` of 6.14 lies in `σ₀(𝕃)` and equals `σ₀(ζ(u, ξ))`; in particular every `ζ(u, ξ)` is a root of unity in `𝕃`, a unit at every finite place.
+Assume the hypotheses of RowTowerAndRallisIdentities §5.8, on which its rational structure rests (those of RowTowerAndRallisIdentities §5.8b for the grid of the chain, the size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the scale `x ≥ x_F` of RowTowerAndRallisIdentities §5.8, its gap hypotheses on the weight datum, the condition (L1)–(L7) on `𝕃` and the hypotheses of RowTowerAndRallisIdentities §5.6), and those of 6.14. (a) For `φ ∈ M_u ⊗ 𝕃` and `x` in the `𝕃`-rational structure `𝔼_{1,𝕃}` of `𝔼` (RowTowerAndRallisIdentities §5.8), `B_u(φ)(x) ∈ σ₀(𝕃)`; so `σ₀^{−1}B_u` is `𝕃`-linear in `φ` and `c_𝕃`-semilinear in `x`: an `𝕃`-linear map from `M_u ⊗ 𝕃` to the `c_𝕃`-semilinear functionals on `𝔼_{1,𝕃}`. (b) Either `B_u = 0`, or for every tuple `ξ` the root of unity `ζ_ℂ(u, ξ)` of 6.14 lies in `σ₀(𝕃)` and equals `σ₀(ζ(u, ξ))`; in particular every `ζ(u, ξ)` is a root of unity in `𝕃`, a unit at every finite place.
 
 *The form of the formal proof.* (b) with its last clause read as: `ζ(u, ξ) ∈ 𝕃^×`, `ζ(u, 1) = 1`, and `ζ(u, ξ_𝔭)` is a unit at
 `𝔭` for every finite place `𝔭` of `𝕃`. (More generally `ζ(u, ξ)` is a unit at every finite place of `𝕃` whose residue
@@ -458,7 +458,7 @@ Not owned here. The Weil representations of unitary pairs, their splittings, the
 - §5.3: the rows `ℋ^♮`, the good projector `Π_good`, the rows `ℋ ⊃ 𝔼` of the row type level, which are cusp forms ((i)). Used in the introduction, 6.13, 6.14.
 - §5.4: the descent `D_ξ`, the good descent `ι_ξ`, the relevant part `ℋ^{rt}_ξ`, the section `sec` of `ι_1` on `𝔼` ((ii), (iii)), the constants `c_I(j)` and the normalisation of the products. Used in the introduction, 6.1, 6.5, 6.11–6.15.
 - §5.5: the hypotheses of the row steps; §5.6: `D_1` maps the forms of row type level onto `ℋ`, and `ι_ξ` maps `ℋ^{rt}_ξ` onto `𝔼`. Used in 6.14, 6.15.
-- §§5.8, 5.8b, 5.8d, 5.8e: the rational structure `𝔼_{1,𝕃}` of `𝔼` and its hypotheses (the grid of the chain, the size predicate `Size_□`, the condition (L1)–(L7) on `𝕃`). Used in 6.15.
+- §§5.8, 5.8b, 5.8d, 5.8e: the rational structure `𝔼_{1,𝕃}` of `𝔼` and its hypotheses (the grid of the chain, the size predicate `Size_□`, the depth constant `C_F ≥ C_F⁰`, the scale `x ≥ x_F`, the gap hypotheses on the weight datum, the condition (L1)–(L7) on `𝕃`). Used in 6.15.
 
 ### From BesselPoincareSeriesAndGramBounds, a sub-roadmap of this family
 
