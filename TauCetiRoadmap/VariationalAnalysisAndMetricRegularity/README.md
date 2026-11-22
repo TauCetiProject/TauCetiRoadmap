@@ -40,16 +40,16 @@ restate a source result carry a theorem, definition or section locator with its 
 corollaries and adaptations carry a proof route.
 
 The roadmap sits between convex analysis and its nonsmooth extensions. ConvexAnalysisAndDuality
-(an open roadmap, not on main) supplies the convex calculus that every nonconvex notion here
-reduces to on convex functions, through its directional derivative and max formula (its 3.1–3.2)
-and maximal monotonicity of subdifferentials (its 4.4). Tau Ceti supplies the convex conjugate and
-subdifferential, Ekeland's variational principle, on which the regularity theorems rest, and a
-theory of Γ-convergence, of which epi-convergence is the epigraphical form.
+supplies the convex calculus that every nonconvex notion here reduces to on convex functions,
+through its directional derivative and max formula (its 3.1–3.2). FirstOrderOptimization supplies
+the proximal map of a convex function (its 3.2), through which Attouch's theorem is proved. Tau
+Ceti supplies the convex conjugate and subdifferential, Ekeland's variational principle, on which
+the regularity theorems rest, and a theory of Γ-convergence, of which epi-convergence is the
+epigraphical form, with the stability of Moreau–Yosida resolvents under it.
 [VariationalMethods](../VariationalMethods/README.md) §2.1 supplies the normal cone of convex
 analysis. The roadmap owns no multiplier rule: the optimality conditions of smooth nonlinear
-programs under constraint qualifications are NonlinearProgrammingOptimality's (an open roadmap,
-not on main), and the continuity of set-valued maps with Berge's maximum theorem is
-KakutaniFixedPointAndContinuousGames' (an open roadmap, not on main).
+programs under constraint qualifications are NonlinearProgrammingOptimality's, and the continuity
+of set-valued maps with Berge's maximum theorem is KakutaniFixedPointAndContinuousGames'.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
@@ -70,11 +70,11 @@ uses. **Checks.** are small cases computed by hand and recomputed numerically, o
 bullet; a key definition with an evident wrong variant has a negative control that tells the two
 apart. Each layer closes with Examples and Dependencies.
 
-Layer 1 needs only Mathlib's topology. Layer 2 needs Layer 1, and for 2.4 the Tau Ceti conjugate
-and subdifferential with ConvexAnalysisAndDuality 4.4. Layer 3 needs Mathlib's calculus and, for
-3.2, ConvexAnalysisAndDuality 3.1–3.2; it can be built in parallel with Layers 1–2. Layer 4 needs
-Tau Ceti's Ekeland principle and Mathlib's Graves theorem, and can also be built in parallel.
-Layer 5 needs Layers 1, 3 and 4.
+Layer 1 needs only Mathlib's topology. Layer 2 needs Layer 1, and for 2.4 the Tau Ceti conjugate,
+subdifferential and Moreau–Yosida resolvents with FirstOrderOptimization 3.2. Layer 3 needs
+Mathlib's calculus and, for 3.2, ConvexAnalysisAndDuality 3.1–3.2; it can be built in parallel
+with Layers 1–2. Layer 4 needs Tau Ceti's Ekeland principle and Mathlib's Graves theorem, and can
+also be built in parallel. Layer 5 needs Layers 1, 3 and 4.
 
 ## Conventions
 
@@ -108,8 +108,7 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Set-valued maps.** A set-valued map is `F : X → Set Y`, its graph is
   `{p : X × Y | p.2 ∈ F p.1}` and its inverse is `fun y => {x | y ∈ F x}`. Its graph is *locally
   closed* at a point of the graph when its intersection with some closed ball about that point is
-  closed. Upper and lower hemicontinuity are Mathlib's `UpperHemicontinuous` and
-  `LowerHemicontinuous` and are not used here.
+  closed. Upper and lower hemicontinuity of set-valued maps are not used here.
 - **Moduli.** Moduli of metric regularity and of the Aubin property are `κ : ℝ≥0`, and the
   inequalities are in `ℝ≥0∞`. There `0 * ⊤ = 0`, so modulus `0` is degenerate (a Check of 4.1);
   a theorem whose conclusion depends on a positive modulus says `0 < κ`.
@@ -165,7 +164,7 @@ hence eventually, so it is in the inner limit.
 
 ### 1.3 Distance functions and nearest points
 
-- **Distance functions** (`tendstoPK_iff_tendsto_infEdist`). In a proper metric space, a sequence
+- **Distance functions** (`tendstoPK_iff_tendsto_infEDist`). In a proper metric space, a sequence
   of sets converges to a closed set `D` exactly when `Metric.infEDist x (C n)` tends to
   `Metric.infEDist x D` for every `x` (Rockafellar–Wets, Cor 4.7, p. 113, in `ℝⁿ`).
 - **Nearest points** (`tendstoPK_iff_tendsto_nearestPoint`). In a finite-dimensional inner
@@ -236,9 +235,8 @@ layer builds the epigraphical side and the convex theory that Γ-convergence doe
 - **Characterization** (`epiTendsto_iff`). In a first-countable space, `EpiTendsto f g` holds
   exactly when `g x ≤ liminf f n (u n)` along every sequence `u n → x` and every `x` has a
   sequence `u n → x` with `limsup f n (u n) ≤ g x` (Rockafellar–Wets, Prop 7.2, p. 241). These two
-  conditions are the fields of Tau Ceti's sequential Γ-convergence in
-  `TauCeti/Topology/Semicontinuity/GammaConvergence.lean`, and the identification of the two
-  notions is part of this target.
+  conditions are the fields of Tau Ceti's sequential Γ-convergence `TauCeti.TendstoGamma`, and the
+  Lean statement is the identification `EpiTendsto f g ↔ TauCeti.TendstoGamma f g`.
 - **Compactness** (`exists_strictMono_epiTendsto`). In a second-countable space every sequence
   of functions has an epi-convergent subsequence; the limit may take the values `⊥` and `⊤`
   (Rockafellar–Wets, Thm 7.6, p. 245, in `ℝⁿ`, where escape to the horizon is the case of the
@@ -301,23 +299,54 @@ convergence on a dense set becomes uniform; outside the closure of the domain, c
   to that of `g` and some convergent sequence of graph points `(u n, w n) → (x, v)`, with
   `v ∈ subdifferential (innerₗ H) g x`, has `f n (u n) → g x` (Rockafellar–Wets, Thm 12.35,
   p. 552, items (a) and (b)).
-- Under the same hypotheses epi-convergence is also equivalent to pointwise convergence of the
-  proximal maps with convergence of the Moreau envelopes at one convergent sequence of points
-  (Rockafellar–Wets, Thm 12.35(c), p. 552). The proximal map is the first-order-methods roadmap's
-  (FirstOrderOptimization, an open roadmap, not on main), so this equivalence is not a target
-  here.
+- **Envelopes and proximal points.** For a proper closed convex `f` on a finite-dimensional inner
+  product space and `λ > 0`, the Moreau envelope `e_λ f z = inf_y (f y + ‖y - z‖² / (2λ))` is
+  real-valued, convex and differentiable with gradient `(z - P_λ f z) / λ`, where `P_λ f` is the
+  proximal map of FirstOrderOptimization 3.2; hence two proper closed convex functions with the
+  same proximal map for some `λ` differ by a constant (Rockafellar–Wets, Thm 2.26(b), p. 52, and
+  Cor 3.37, p. 95). This is a target in prose.
+- **Epi-convergence through proximal maps.** For proper closed convex `f n`, `g` on a
+  finite-dimensional inner product space and `λ > 0`, `f n` epi-converges to `g` exactly when
+  `P_λ (f n) z → P_λ g z` for every `z` and `e_λ (f n) (z n) → e_λ g z` for some convergent
+  sequence `z n → z`; then `e_λ (f n)` converges to `e_λ g` at every point (Rockafellar–Wets,
+  Thm 12.35(c), p. 552, and Thm 7.37, pp. 267–268). This is a target in prose.
 
 *Proof route.* Wijsman: Rockafellar–Wets' proof through the inequalities
 `e-liminf f n ≥ g ⟺ e-limsup (f n)* ≤ g*` under a boundedness condition that proper closed convex
-limits supply, with Tau Ceti's Fenchel–Moreau theorem `f** = f` closing the argument. Attouch:
-`(a) ⇒ (b)` by convergence of Moreau envelopes and the identity between proximal maps and
-resolvents of subdifferentials; `(b) ⇒ (a)` by Rockafellar–Wets' Thm 12.32, p. 551, that a
-graphical limit of maximal monotone maps is maximal monotone, with ConvexAnalysisAndDuality 4.4
-(the subdifferential of a proper closed convex function is maximal monotone) and the
-normalization fixing the additive constant.
+limits supply, with Tau Ceti's Fenchel–Moreau theorem `f** = f` closing the argument.
 
-*Needs:* 2.1, 2.3; Tau Ceti `TauCeti.fenchelConjugate`, `TauCeti.subdifferential`;
-ConvexAnalysisAndDuality 4.4.
+Write (a) for epi-convergence, (b) for the condition of Attouch's theorem and (c) for that of the
+proximal headline, as in Rockafellar–Wets' Thm 12.35. Proximal maps: for `(a) ⇒ (c)`, 2.1 makes
+`f n` Γ-converge to `g` in Tau Ceti's sense, and the theorems of
+`TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean` on the convergence of
+Moreau–Yosida approximations and of resolvent steps under Γ-convergence, with moving base points
+`z n → z`, give the convergence of envelopes and of proximal points (the resolvent steps, which
+are unique by FirstOrderOptimization 3.2, so that convergence of subsequences is convergence).
+Their equicoercivity hypothesis holds for all large `n` by Rockafellar–Wets, Ex 7.32(c), p. 265,
+since the penalized functions are convex and epi-converge to a level-bounded limit, and the
+finitely many remaining terms are each coercive. For `(c) ⇒ (a)`, Rockafellar–Wets' argument
+(Thm 7.37, pp. 268–269): by the compactness of 2.1 every subsequence has an epi-convergent
+subsequence, whose limit `h` is closed and convex by 2.1 and proper because its envelopes are the
+finite limits of those of `f n`; `(a) ⇒ (c)` along it gives `P_λ h = P_λ g`, so `h - g` is a
+constant by the envelope target, and the convergence of envelopes along `z n` makes it `0`. Since
+every subsequence has a further subsequence epi-converging to `g`, so does the sequence.
+
+Attouch: Rockafellar–Wets' reduction of (b) to (c) (p. 552), with `λ = 1`. By
+FirstOrderOptimization 3.2, `p = P_1 f z` exactly when `z - p` is a subgradient of `f` at `p`, and
+`P_1 f` is `1`-Lipschitz and defined everywhere; so the linear homeomorphism
+`(z, p) ↦ (p, z - p)` of `H × H` maps the graph of `P_1 (f n)` onto that of the subdifferential of
+`f n`, and likewise for `g`. For `1`-Lipschitz maps defined everywhere, graphical convergence is
+pointwise convergence: if `(z n, P_1 (f n) (z n)) → (z, P_1 g z)`, then `P_1 (f n) z` is within
+`‖z - z n‖` of `P_1 (f n) (z n)`, and conversely a graph point `(z k, P_1 (f (φ k)) (z k))`
+tending to `(z, q)` forces `q = P_1 g z`. The value condition of (b) at graph points
+`(u n, w n) → (x, v)` is the envelope condition of (c) at `z n = u n + w n`, since
+`e_1 (f n) (z n) = f n (u n) + ‖w n‖² / 2`. The maximal monotonicity of limits of maximal monotone
+maps (Rockafellar–Wets, Thm 12.32, p. 551) is not needed, since the limit is the given `g`.
+
+*Needs:* 2.1, 2.3; Tau Ceti `TauCeti.fenchelConjugate`, `TauCeti.subdifferential`, and the
+stability of Moreau–Yosida resolvents under Γ-convergence
+(`TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`); FirstOrderOptimization 3.2
+(the proximal map: existence, uniqueness, nonexpansiveness and its subgradient description).
 
 **Checks.**
 
@@ -356,7 +385,8 @@ ConvexAnalysisAndDuality 4.4.
 
 ### Dependencies
 
-Layer 1; Tau Ceti conjugate, subdifferential and Fenchel–Moreau; ConvexAnalysisAndDuality 4.4.
+Layer 1; Tau Ceti conjugate, subdifferential, Fenchel–Moreau and Moreau–Yosida resolvents;
+FirstOrderOptimization 3.2.
 
 ## Layer 3: Clarke's generalized gradient
 
@@ -394,11 +424,12 @@ the closed subset of the ball.
 
 ### 3.2 Smooth and convex functions
 
-- **Derivatives** (`mem_clarkeSubdiff_of_hasFDerivAt_and_eq_of_hasStrictFDerivAt`). If `f` is
-  Lipschitz near `x` and has Fréchet derivative `f'` at `x`, then `f' ∈ clarkeSubdiff f x`; and
-  if `f` is strictly differentiable at `x`, then `clarkeSubdiff f x = {f'}` (Clarke, Ex 10.4,
-  p. 196, for Gâteaux derivatives, and Thm 10.8, p. 197, for continuously differentiable `f`;
-  Rockafellar–Wets, Thm 9.18, p. 362, for strict differentiability in `ℝⁿ`).
+- **Derivatives** (`mem_clarkeSubdiff_of_hasFDerivAt_and_eq_of_hasStrictFDerivAt`). If `f` has
+  Fréchet derivative `f'` at `x`, then `f' ∈ clarkeSubdiff f x`; no Lipschitz hypothesis is
+  needed, as for Fermat's rule in 3.3. If `f` is strictly differentiable at `x`, then
+  `clarkeSubdiff f x = {f'}` (Clarke, Ex 10.4, p. 196, for Gâteaux derivatives of `f` Lipschitz
+  near `x`, and Thm 10.8, p. 197, for continuously differentiable `f`; Rockafellar–Wets,
+  Thm 9.18, p. 362, for strict differentiability in `ℝⁿ`).
 - **Convex functions** (`clarkeSubdiff_eq_subdifferential_of_convexOn`). For a real convex `f`
   on a normed space continuous at `x`, `clarkeSubdiff f x` is the convex subdifferential
   `subdifferential (topDualPairing ℝ E).flip (fun y => (f y : EReal)) x`, and `f°(x; v)` is the
@@ -408,12 +439,13 @@ the closed subset of the ball.
   functions continuous at `x` are regular, and `-|·|` is not regular at `0` (Clarke, Def 10.12,
   p. 199). The definition and these facts are targets in prose.
 
-*Proof route.* For the derivative: along `y = x` the quotient tends to `f' v`, so
-`f' v ≤ f°(x; v)`; under strict differentiability
-`(f (y + t • v) - f y) / t → f' v` as `(y, t) → (x, 0⁺)`, so `f°(x; v) = f' v` and 3.1 leaves only
-`f'`. For the convex case, Clarke's proof: by monotonicity of the convex quotient in `t`, the
-upper limit is attained along `y = x`, so `f°(x; v)` is the directional derivative; then the max
-formula of ConvexAnalysisAndDuality 3.2 shows that the two sets have the same support function.
+*Proof route.* For the derivative: along `y = x` the quotient tends to `f' v`, and the filter
+`pure x ×ˢ 𝓝[>] 0` of these quotients is finer than `𝓝 x ×ˢ 𝓝[>] 0`, so `f' v ≤ f°(x; v)`;
+under strict differentiability `(f (y + t • v) - f y) / t → f' v` as `(y, t) → (x, 0⁺)`, so
+`f°(x; v) = f' v` and 3.1 leaves only `f'`. For the convex case, Clarke's proof: by monotonicity
+of the convex quotient in `t`, the upper limit is attained along `y = x`, so `f°(x; v)` is the
+directional derivative; then the max formula of ConvexAnalysisAndDuality 3.2 shows that the two
+sets have the same support function.
 
 *Needs:* 3.1; Mathlib `HasStrictFDerivAt`, `HasStrictFDerivAt.exists_lipschitzOnWith`; Tau Ceti
 `TauCeti.subdifferential`; ConvexAnalysisAndDuality 3.1 (the directional derivative, of which
@@ -632,8 +664,8 @@ by 4.1. The converse: metric regularity makes `T⁻¹ y` nonempty for `y` near `
   `F⁻¹ y = {0}` has the Aubin property with modulus `0`, but `F` is not metrically regular with
   modulus `0`, since at `x ≠ 0` the inequality reads `|x| ≤ 0 * ⊤ = 0`; with every `κ > 0` it is.
 - Lyusternik–Graves: `f x = x + x²/2` at `0` with `A = id`, `c = 1`: the ratio
-  `d(x, f⁻¹ y) / |y - f x|` over `|x|, |y| ≤ 10⁻³` is at most `1.001`, so every `κ > 1` works, and
-  no `κ < 1` does.
+  `d(x, f⁻¹ y) / |y - f x|` over `|x|, |y| ≤ 10⁻³` is at most `1.0011` (its largest value,
+  `1.0010013`, is at `x = y = -10⁻³`), so every `κ > 1` works, and no `κ < 1` does.
 - Robinson–Ursescu: `T x = [x, ∞)` on `ℝ` has closed convex graph and range `ℝ`, so it is
   metrically regular at every graph point.
 - Negative control for interiority: `T x = [|x|, ∞)` has closed convex graph and range
@@ -680,10 +712,6 @@ coderivative criterion for metric regularity.
 - **Convex sets** (`regularNormalCone_and_limitingNormalCone_eq_normalCone`). For a convex set,
   both cones are the normal cone of convex analysis, `normalCone C x` (Rockafellar–Wets, Thm 6.9,
   p. 203).
-- **Intersections** (`limitingNormalCone_inter_subset`). For closed `C`, `D` with
-  `x ∈ C ∩ D`, if `v ∈ N_C(x)` and `-v ∈ N_D(x)` force `v = 0`, then
-  `N_{C ∩ D}(x) ⊆ N_C(x) + N_D(x)` for the limiting normal cones (Rockafellar–Wets, Thm 6.42,
-  p. 228).
 
 *Proof route.* Polarity: a direction `w = lim tₙ (yₙ - x)` with `yₙ ∈ C` pairs with a regular
 normal to at most `ε ‖w‖` for every `ε`; conversely, if `v` is not a regular normal, a sequence
@@ -691,8 +719,6 @@ normal to at most `ε ‖w‖` for every `ε`; conversely, if `v` is not a regul
 dimension, to a tangent direction `w` with `v w ≥ ε`. Closedness of the limiting cone is a
 diagonal argument. Convex sets: on a convex set the regular normal inequality at `x` scales from
 `y` near `x` to every `y ∈ C`, and normals at nearby points converge to normals at `x`.
-Intersection:
-Rockafellar–Wets' proof through the sum rule 5.3 applied to the indicators.
 
 *Needs:* 1.1; Mathlib `posTangentConeAt`; `normalCone`, the local copy of
 [VariationalMethods](../VariationalMethods/README.md) §2.1.
@@ -715,23 +741,26 @@ Rockafellar–Wets' proof through the sum rule 5.3 applied to the indicators.
   `subdifferential (topDualPairing ℝ E).flip f x` (Rockafellar–Wets, Prop 8.12, p. 308).
 - **Fermat's rule** (`zero_mem_regularSubdiff_and_limitingSubdiff`). At a local minimum where `f`
   is finite, `0` is a regular, hence a limiting, subgradient (Rockafellar–Wets, Thm 10.1, p. 422).
-- **Lipschitz continuity** (`lipschitz_near_iff_horizonSubdiff_eq_zero`). If `f` is lower
-  semicontinuous at the points near `x` and finite at `x`, then `f` is Lipschitz near `x` exactly
-  when its horizon subdifferential at `x` is `{0}`, and then its limiting subdifferential at `x`
-  is nonempty and compact (Rockafellar–Wets, Thm 9.13, pp. 358–359, where local lower
-  semicontinuity is the weaker local closedness of the epigraph).
 - **Clarke's gradient** (`clarkeSubdiff_eq_convexHull_limitingSubdiff`). For `f` Lipschitz near
   `x`, `clarkeSubdiff f x` is the convex hull of the limiting subdifferential of `f` at `x`
   (Rockafellar–Wets, Thm 9.61, pp. 403–404; Clarke, Prop 11.23, p. 238).
+- **Epigraphical normals.** If `f` is finite at `x`, then `v` is a limiting subgradient of `f` at
+  `x` exactly when `(v, -1)` is a limiting normal to the real epigraph of `f` at `(x, f x)`, and
+  every horizon subgradient `v` gives a limiting normal `(v, 0)` there; if `f` is moreover lower
+  semicontinuous at the points near `x`, the horizon subgradients are exactly the `v` with
+  `(v, 0)` a limiting normal (Rockafellar–Wets, Thm 8.9, pp. 304–305). This is a target in prose.
+- **Indicators.** For `x ∈ C`, the regular subdifferential of the indicator of `C` (`0` on `C`,
+  `⊤` elsewhere) at `x` is the regular normal cone, and its limiting and its horizon
+  subdifferential are both the limiting normal cone (Rockafellar–Wets, Ex 8.14, p. 310). This is a
+  target in prose; it follows from the definitions, the horizon case because the regular normal
+  cones are cones, so that `c n • w n` runs through the regular normals as `w n` does.
 
 *Proof route.* Smooth functions: differentiability gives the regular subgradient inequality with
 `f'`, and two regular subgradients at a point of differentiability coincide; under strict
 differentiability, regular subgradients at nearby points are within any `ε` of `f'`. Convex
 functions: the regular inequality at `x` scales to the global subgradient inequality by
 convexity along segments, and limits of subgradients at nearby points with converging values are
-subgradients. Lipschitz: Rockafellar–Wets' proof; a Lipschitz constant `K` bounds every regular
-subgradient near `x` by `K`, so horizon limits vanish; conversely, Rockafellar–Wets use a
-variational argument with the mean value inequality. Clarke's gradient: the limits of derivatives
+subgradients. Clarke's gradient: the limits of derivatives
 in 3.5 are limiting subgradients, which gives `⊆` from 3.5; limiting subgradients are Clarke
 gradients by the closedness of 3.1 and `regularSubdiff ⊆ clarkeSubdiff`, which gives `⊇`.
 
@@ -753,17 +782,27 @@ gradients by the closedness of 3.1 and `regularSubdiff ⊆ clarkeSubdiff`, which
   subdifferentials of `g ∘ F` at `x` are contained in the images of those of `g` at `F x` under
   `y ↦ y.comp (fderiv ℝ F x)` (Rockafellar–Wets, Thm 10.6, p. 427, for `F` smooth on the whole
   space).
+- **Intersections** (`limitingNormalCone_inter_subset`). For closed `C`, `D` with
+  `x ∈ C ∩ D`, if `v ∈ N_C(x)` and `-v ∈ N_D(x)` force `v = 0`, then
+  `N_{C ∩ D}(x) ⊆ N_C(x) + N_D(x)` for the limiting normal cones (Rockafellar–Wets, Thm 6.42,
+  p. 228; Mordukhovich, Thm 3.4, pp. 266–267, in Asplund spaces).
 
 *Proof route.* Rockafellar–Wets derive the sum rule from the chain rule with
 `F x = (x, x)` and `g (y₁, y₂) = f₁ y₁ + f₂ y₂`. The chain rule: a regular subgradient of `g ∘ F`
 at `u` is, by a penalization argument and Fermat's rule 5.2, approximately
 `y.comp (fderiv ℝ F u)` for a regular subgradient `y` of `g` near `F u`; the qualification keeps
 these `y` bounded as `u → x`, and the limit gives the inclusion. Only the behaviour of `F` near
-`x` enters, which is why `ContDiffAt ℝ 1 F x` suffices.
+`x` enters, which is why `ContDiffAt ℝ 1 F x` suffices. Intersections: the indicator of `C ∩ D`
+is the sum of the indicators of `C` and `D`, which are lower semicontinuous, never `⊥` and `0` at
+`x`; by the indicator target of 5.2 the qualification of the sum rule is the hypothesis on
+normals, and its conclusion is the inclusion. This is an adaptation: Rockafellar–Wets derive the
+rule from their normal cone formula for inverse images under smooth maps (Thm 6.14, pp. 208–210)
+applied to `x ↦ (x, x)` and `C × D` (Prop 6.41, p. 227), and Mordukhovich from the extremal
+principle (Lemma 3.1, p. 262).
 
-*Needs:* 5.2; Mathlib `ContDiffAt`, `fderiv`.
+*Needs:* 5.1, 5.2; Mathlib `ContDiffAt`, `fderiv`.
 
-### 5.4 The extremal principle and the Mordukhovich criterion
+### 5.4 The extremal principle, the Mordukhovich criterion and Lipschitz continuity
 
 - **Definition** (`coderivative`). For a set-valued map `F` between finite-dimensional spaces and
   `(x, y)` in its graph, `v ∈ coderivative F x y w` when `v.coprod (-w)` is a limiting normal to
@@ -782,6 +821,11 @@ these `y` bounded as `u → x`, and the limit gives the inclusion. Only the beha
   `S` at `y₀` for `x₀` holds exactly when `coderivative S y₀ x₀ 0 = {0}` (Rockafellar–Wets,
   Thm 9.40, pp. 379–380, and Thm 9.43, p. 387; Dontchev–Rockafellar, Thm 4H.1, p. 246). These are
   targets in prose; the second is the criterion applied to `S⁻¹` through 4.1.
+- **Lipschitz continuity** (`lipschitz_near_iff_horizonSubdiff_eq_zero`). If `f` is lower
+  semicontinuous at the points near `x` and finite at `x`, then `f` is Lipschitz near `x` exactly
+  when its horizon subdifferential at `x` is `{0}`, and then its limiting subdifferential at `x`
+  is nonempty and compact (Rockafellar–Wets, Thm 9.13, pp. 358–359, where local lower
+  semicontinuity is the weaker local closedness of the epigraph).
 
 *Proof route.* Extremal principle: Mordukhovich's proof minimizes
 `z ↦ (d(z + a k, C)² + d(z, D)²)^(1/2) + ‖z - x‖²` (Mordukhovich, display (2.10), p. 178), whose
@@ -791,7 +835,23 @@ for necessity, a nonzero `w` with `(0, -w)` a limiting normal to the graph contr
 linear openness of 4.1 through the extremal principle; for sufficiency, Rockafellar–Wets argue
 through Ekeland's principle and the variational description of normals.
 
-*Needs:* 4.1, 5.1, 5.2; Tau Ceti `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`.
+Lipschitz continuity: an adaptation; Rockafellar–Wets argue through regular subderivatives
+(p. 359). A Lipschitz constant `K` of `f` near `x` bounds every regular subgradient near `x`
+by `K`, so horizon limits vanish. Conversely, apply the Aubin form of the criterion to the
+epigraphical map `S y = {α : ℝ | f y ≤ α}` at `x` for `f x`: its graph is the real epigraph,
+locally closed at `(x, f x)` by the lower semicontinuity, and by the epigraphical-normal target
+of 5.2 the coderivative `coderivative S x (f x) 0` is the horizon subdifferential, so `S` has the
+Aubin property. With `y' = x` and `α = f x` the Aubin inequality bounds `f y` above by
+`f x + κ ‖y - x‖` near `x`, which with lower semicontinuity at `x` makes `f` continuous at `x`;
+then `α = f y'` gives `f y ≤ f y' + κ ‖y - y'‖` for `y, y'` near `x`. The limiting subdifferential
+is closed and bounded by `K`, and nonempty because its convex hull is, by 5.2, the generalized
+gradient of a Lipschitz extension of `f` from a ball about `x` (Mathlib
+`LipschitzOnWith.extend_real`; both subdifferentials depend only on `f` near `x`), which is
+nonempty by 3.1.
+
+*Needs:* 3.1, 4.1, 5.1, 5.2; Tau Ceti
+`LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`; Mathlib
+`LipschitzOnWith.extend_real`.
 
 **Checks.**
 
@@ -826,9 +886,12 @@ through Ekeland's principle and the variational description of normals.
 - For `F x = {y | g x + y ∈ K}`-type constraint maps the Mordukhovich criterion becomes a dual
   constraint qualification; for smooth equality constraints `F x = {f x}` it is surjectivity of
   the derivative, and the criterion recovers 4.2 in finite dimension.
-- The normal cone to the set of `n × n` matrices of rank at most `r` at a point of rank `r` is
-  the set of matrices orthogonal to its row and column spaces, by the chain rule 5.3 applied to
-  the factorization map.
+- Near a matrix `X` of rank exactly `r`, the set of `n × n` matrices of rank at most `r` is the
+  zero set of a submersion, the Schur complement `D - C A⁻¹ B` of an invertible `r × r` block `A`
+  of `X`; it is a smooth manifold of dimension `2 n r - r²` there, and its regular and limiting
+  normal cones at `X` are the orthogonal complement of the tangent space, the matrices `Y` with
+  `Uᵀ Y = 0` and `Y V = 0` for `U`, `V` bases of the column and row spaces of `X`, of dimension
+  `(n - r)²` (Rockafellar–Wets, Ex 6.8, p. 203, for zero sets of submersions).
 
 ### Dependencies
 
@@ -859,7 +922,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
 2. **Epi-convergence.** Epi-convergence and its characterization by the liminf inequality and
    recovery sequences, with the identification with Tau Ceti's Γ-convergence; compactness; lower
    semicontinuity and convexity of epi-limits; monotone sequences; dense pointwise convergence and
-   uniform convergence for convex functions; Wijsman's theorem; Attouch's theorem.
+   uniform convergence for convex functions; Wijsman's theorem; the gradient of the Moreau
+   envelope, epi-convergence through proximal maps, and Attouch's theorem.
 3. **Clarke's generalized gradient.** The generalized directional derivative and gradient with
    their basic properties and closed graph; agreement with strict derivatives and with convex
    subdifferentials; regularity; Fermat's rule; the sum rule with equality for regular functions
@@ -869,12 +933,12 @@ The roadmap is complete when Tau Ceti proves all of the following.
    openness; the Lyusternik–Graves perturbation theorem and its form for strictly differentiable
    maps with the equality of moduli; the Robinson–Ursescu theorem; Hoffman's error bound.
 5. **Limiting calculus.** Regular and limiting normal cones, their polarity, closedness and convex
-   case, and the intersection rule; regular, limiting and horizon subgradients, their smooth and
-   convex cases, Fermat's rule, the horizon characterization of Lipschitz continuity, Clarke's
-   gradient as the convex hull of limiting subgradients; the sum rule and the chain rule under
-   qualification conditions, with the unconditional regular inclusion; coderivatives, the
-   extremal principle and the Mordukhovich criterion, with the modulus formula and the Aubin
-   property form.
+   case; regular, limiting and horizon subgradients, their smooth and convex cases, Fermat's
+   rule, Clarke's gradient as the convex hull of limiting subgradients, epigraphical normals and
+   indicators; the sum rule, the chain rule and the intersection rule under qualification
+   conditions, with the unconditional regular inclusion; coderivatives, the extremal principle
+   and the Mordukhovich criterion, with the modulus formula and the Aubin property form, and the
+   horizon characterization of Lipschitz continuity.
 
 The numbers are those of the layers, and `k.n` names subsection `n` of Layer `k`.
 
@@ -890,25 +954,26 @@ The numbers are those of the layers, and `k.n` names subsection `n` of Layer `k`
   theorem of Γ-convergence (convergence of infima and of minimizers under equicoercivity): Tau
   Ceti `TauCeti/Topology/Semicontinuity/GammaConvergence.lean`, the implementation of
   OptimalTransport §10.6; stability of Moreau–Yosida resolvents under Γ-convergence: Tau Ceti
-  `TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`. 2.1 builds the bridge, not
-  these theorems;
+  `TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`, used in 2.4. 2.1 builds the
+  bridge, not these theorems;
 - the homogeneous Hoffman bound: Tau Ceti `TauCeti/Geometry/Convex/Cone/ErrorBound.lean`; 4.4 is
   the inhomogeneous bound with a constant independent of the right-hand side;
 - the normal cone of convex analysis: [VariationalMethods](../VariationalMethods/README.md) §2.1;
 - convex calculus: the directional derivative and the max formula (ConvexAnalysisAndDuality
-  3.1–3.2),
-  the convex sum rules (its 3.5–3.6), Danskin's theorem (its 3.4), tangent and normal cones of
-  convex sets with their polarity (its 3.7) and maximal monotonicity of subdifferentials (its 4.4).
-  5.1 and 5.2 prove that the nonconvex objects reduce to the convex ones, and do not re-derive
-  convex calculus;
+  3.1–3.2), the convex sum rules (its 3.5–3.6), Danskin's theorem (its 3.4), tangent and normal
+  cones of convex sets with their polarity (its 3.7) and maximal monotonicity of subdifferentials
+  (its 4.4). 5.1 and 5.2 prove that the nonconvex objects reduce to the convex ones, and do not
+  re-derive convex calculus;
 - the optimality conditions of smooth nonlinear programs (the Fritz John and Karush–Kuhn–Tucker
   theorems under constraint qualifications, Gauvin's theorem, second-order conditions):
-  NonlinearProgrammingOptimality (an open roadmap, not on main), which works with Mathlib's
-  tangent cone and has no subdifferentials;
+  NonlinearProgrammingOptimality, which works with Mathlib's tangent cone and has no
+  subdifferentials;
 - the closed graph theorem for correspondences, Berge's maximum theorem and Kakutani's theorem:
-  KakutaniFixedPointAndContinuousGames (an open roadmap, not on main);
-- proximal maps and Moreau envelopes of convex functions and the convergence of first-order
-  methods: FirstOrderOptimization (an open roadmap, not on main).
+  KakutaniFixedPointAndContinuousGames;
+- the proximal map of a convex function (its existence, uniqueness, nonexpansiveness and
+  subgradient description) and the convergence of first-order methods: FirstOrderOptimization,
+  whose 3.2 is used in 2.4; 2.4 adds the envelope gradient and the behaviour of proximal maps
+  under epi-convergence.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -922,9 +987,7 @@ Every result that is not listed in a layer belongs to the
   `TopologicalSpace.exists_countable_basis`, `LowerSemicontinuous`, `UpperSemicontinuousAt`.
 - **Metric spaces:** `Metric.infEDist`, `Metric.infDist`, `Metric.hausdorffEDist`
   (`Mathlib/Topology/MetricSpace/HausdorffDistance.lean`), `ProperSpace`, `LipschitzOnWith`,
-  `LipschitzWith`.
-- **Set-valued maps:** `UpperHemicontinuous`, `LowerHemicontinuous`
-  (`Mathlib/Topology/Semicontinuity/Hemicontinuity.lean`), for the boundary only.
+  `LipschitzWith`, `LipschitzOnWith.extend_real`.
 - **Calculus:** `HasFDerivAt`, `HasStrictFDerivAt`, `HasStrictFDerivAt.exists_lipschitzOnWith`,
   `HasStrictFDerivAt.approximates_deriv_on_nhds`, `ContDiffAt`, `fderiv`,
   `posTangentConeAt` (`Mathlib/Analysis/Calculus/TangentCone/Defs.lean`),
@@ -950,23 +1013,31 @@ Every result that is not listed in a layer belongs to the
 - **Ekeland** (`TauCeti/Topology/MetricSpace/Ekeland.lean`):
   `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`.
 - **Γ-convergence** (`TauCeti/Topology/Semicontinuity/GammaConvergence.lean`): the sequential
-  Γ-convergence structure and the fundamental theorem, named in 2.1 and under Scope. The module is
-  at the pin but not built in this repository's dependency, so `Suggested.lean` does not import it
-  and its declarations are named here in prose.
-- **Homogeneous Hoffman bound** (`TauCeti/Geometry/Convex/Cone/ErrorBound.lean`), named in 4.4,
-  likewise not imported.
+  Γ-convergence structure `TauCeti.TendstoGamma`, in the statement of 2.1, and the fundamental
+  theorem, named under Scope.
+- **Moreau–Yosida resolvents under Γ-convergence**
+  (`TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`): convergence of the
+  Moreau–Yosida approximations and compactness of resolvent steps for Γ-convergent, equicoercive
+  energies with convergent base points, and equicoercivity on a proper space from a uniform lower
+  bound on the approximations, used in the proof route of 2.4; named by file path, since no
+  statement uses it.
+- **Homogeneous Hoffman bound** (`TauCeti/Geometry/Convex/Cone/ErrorBound.lean`), named in 4.4 by
+  file path, since no statement uses it.
 
 ### From other roadmaps
 
 - **[VariationalMethods](../VariationalMethods/README.md) §2.1:** the normal cone of convex
   analysis `N_C(u) = {f : StrongDual ℝ V | ∀ v ∈ C, f (v − u) ≤ 0}`, of which `normalCone` is a
   local copy, used in 5.1.
-- **ConvexAnalysisAndDuality** (an open roadmap, not on main): its 3.1, the one-sided directional
-  derivative `f'(x; d) = ⨅ t > 0, t⁻¹ (f (x + t d) - f x)` in `EReal`, of which `Suggested.lean`
-  has a local copy, used in the statement of 3.2; its 3.2, the max formula for convex `f` that
-  never takes `⊥`, finite and continuous at `x`, used in the proof route of 3.2; its 4.4,
-  maximal monotonicity of the subdifferential of a proper closed convex function on a real
-  Hilbert space, used in the proof route of Attouch's theorem in 2.4.
+- **ConvexAnalysisAndDuality**: its 3.1, the one-sided directional derivative
+  `f'(x; d) = ⨅ t > 0, t⁻¹ (f (x + t d) - f x)` in `EReal`, of which `Suggested.lean` has a local
+  copy, used in the statement of 3.2; its 3.2, the max formula for convex `f` that never takes
+  `⊥`, finite and continuous at `x`, used in the proof route of 3.2.
+- **FirstOrderOptimization** 3.2: for a closed proper convex `g` (real epigraph convex, lower
+  semicontinuous, never `⊥`, somewhere finite) on a real Hilbert space and a step `η > 0`, the
+  proximal map, the unique minimizer of `u ↦ g u + ‖u - x‖² / (2η)`, equal to Tau Ceti's
+  Moreau–Yosida resolvent step, `1`-Lipschitz, and characterized by `η⁻¹ • (x - p)` being a
+  subgradient of `g` at `p`; used in the proof routes of 2.4 and named there `P_η g`.
 
 This roadmap consumes nothing else from other roadmaps.
 
@@ -992,8 +1063,10 @@ under this roadmap.
 - **Variational convergence in infinite dimension**: Mosco convergence, Attouch's theorem in
   Hilbert space, Kuratowski convergence in hyperspaces and the Fell topology. They need weak
   topologies on epigraphs.
-- **Moreau envelopes and proximal maps under epi-convergence** (Rockafellar–Wets, Thm 7.37,
-  p. 267, and Thm 12.35(c), p. 552), with the proximal map of FirstOrderOptimization.
+- **Moreau envelopes and proximal maps of nonconvex functions under epi-convergence**: thresholds
+  of prox-boundedness and graphical convergence of set-valued proximal maps (Rockafellar–Wets,
+  Thm 7.37, pp. 267–268, for prox-bounded functions, and Ex 7.38, p. 269). 2.4 treats the convex
+  case only.
 - **Generalized equations and implicit mapping theorems**: strong metric regularity, Robinson's
   implicit function theorem for variational inequalities, metric subregularity and calmness
   (Dontchev–Rockafellar, Chs. 2–4), and the theory of second-order epi-derivatives

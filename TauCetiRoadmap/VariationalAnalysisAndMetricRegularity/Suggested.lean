@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Topology.Semicontinuity.GammaConvergence
 public import TauCeti.Analysis.Convex.Conjugate
 public import TauCeti.Analysis.Convex.Subdifferential
 public import TauCeti.Topology.MetricSpace.Ekeland
@@ -108,13 +109,13 @@ theorem exists_strictMono_tendstoPK [SecondCountableTopology X] (C : ℕ → Set
 
 /-- 1.3: in a proper metric space, a sequence of sets converges to a closed set exactly when the
 extended distance functions converge pointwise; the distance to the empty set is `⊤`. -/
-theorem tendstoPK_iff_tendsto_infEdist {M : Type*} [MetricSpace M] [ProperSpace M]
+theorem tendstoPK_iff_tendsto_infEDist {M : Type*} [MetricSpace M] [ProperSpace M]
     {C : ℕ → Set M} {D : Set M} (hD : IsClosed D) :
     TendstoPK C D ↔ ∀ x : M,
       Tendsto (fun n => Metric.infEDist x (C n)) atTop (𝓝 (Metric.infEDist x D)) := by
   sorry
 
-/-- 1.4: in a finite-dimensional inner product space, nonempty closed convex sets converge to a
+/-- 1.3: in a finite-dimensional inner product space, nonempty closed convex sets converge to a
 nonempty closed convex set exactly when the nearest points to every `x` converge. -/
 theorem tendstoPK_iff_tendsto_nearestPoint {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] {C : ℕ → Set E} {D : Set E}
@@ -138,14 +139,10 @@ sense to the real epigraph of `g`. -/
 def EpiTendsto (f : ℕ → X → EReal) (g : X → EReal) : Prop :=
   TendstoPK (fun n => {p : X × ℝ | f n p.1 ≤ p.2}) {p : X × ℝ | g p.1 ≤ p.2}
 
-/-- 2.1: in a first-countable space, epi-convergence is the conjunction of the liminf inequality
-along every convergent sequence and the existence of recovery sequences. -/
+/-- 2.1: in a first-countable space, epi-convergence is Tau Ceti's sequential Γ-convergence: the
+liminf inequality along every convergent sequence and the existence of recovery sequences. -/
 theorem epiTendsto_iff [FirstCountableTopology X] {f : ℕ → X → EReal} {g : X → EReal} :
-    EpiTendsto f g ↔
-      (∀ (x : X) (u : ℕ → X), Tendsto u atTop (𝓝 x) →
-          g x ≤ liminf (fun n => f n (u n)) atTop) ∧
-        ∀ x : X, ∃ u : ℕ → X, Tendsto u atTop (𝓝 x) ∧
-          limsup (fun n => f n (u n)) atTop ≤ g x := by
+    EpiTendsto f g ↔ TauCeti.TendstoGamma f g := by
   sorry
 
 /-- 2.1: in a second-countable space every sequence of functions has an epi-convergent
@@ -245,12 +242,11 @@ theorem clarkeSubdiff_spec {f : E → ℝ} {x : E} {K : ℝ≥0} {U : Set E} (hU
         (clarkeDirDeriv f x v) := by
   sorry
 
-/-- 3.2: a Fréchet derivative of a function Lipschitz near `x` is a generalized gradient, and a
+/-- 3.2: a Fréchet derivative is a generalized gradient, with no Lipschitz hypothesis, and a
 strict derivative is the only one. -/
 theorem mem_clarkeSubdiff_of_hasFDerivAt_and_eq_of_hasStrictFDerivAt {f : E → ℝ} {x : E}
     {f' : StrongDual ℝ E} :
-    ((∃ K : ℝ≥0, ∃ U ∈ 𝓝 x, LipschitzOnWith K f U) → HasFDerivAt f f' x →
-        f' ∈ clarkeSubdiff f x) ∧
+    (HasFDerivAt f f' x → f' ∈ clarkeSubdiff f x) ∧
       (HasStrictFDerivAt f f' x → clarkeSubdiff f x = {f'}) := by
   sorry
 
@@ -291,7 +287,8 @@ theorem clarkeSubdiff_comp_subset_and_eq [CompleteSpace E] {Y : Type*} [NormedAd
     (hF : HasStrictFDerivAt F A x) (hg : ∃ K : ℝ≥0, ∃ U ∈ 𝓝 (F x), LipschitzOnWith K g U) :
     clarkeSubdiff (g ∘ F) x ⊆ (fun ζ : StrongDual ℝ Y => ζ.comp A) '' clarkeSubdiff g (F x) ∧
       (Function.Surjective A →
-        clarkeSubdiff (g ∘ F) x = (fun ζ : StrongDual ℝ Y => ζ.comp A) '' clarkeSubdiff g (F x)) := by
+        clarkeSubdiff (g ∘ F) x =
+          (fun ζ : StrongDual ℝ Y => ζ.comp A) '' clarkeSubdiff g (F x)) := by
   sorry
 
 /-- 3.4, the max rule: the generalized gradient of a finite maximum of functions strictly
@@ -441,14 +438,6 @@ theorem regularNormalCone_and_limitingNormalCone_eq_normalCone {C : Set E} (hC :
     regularNormalCone C x = normalCone C x ∧ limitingNormalCone C x = normalCone C x := by
   sorry
 
-/-- 5.1, the intersection rule: for closed sets whose limiting normals at `x` admit no nonzero
-opposite pair, the limiting normals to the intersection are sums of limiting normals. -/
-theorem limitingNormalCone_inter_subset {C D : Set E} (hC : IsClosed C) (hD : IsClosed D) {x : E}
-    (hx : x ∈ C ∩ D)
-    (hq : ∀ v ∈ limitingNormalCone C x, -v ∈ limitingNormalCone D x → v = 0) :
-    limitingNormalCone (C ∩ D) x ⊆ limitingNormalCone C x + limitingNormalCone D x := by
-  sorry
-
 /-- 5.2: the regular subdifferential of a function differentiable at `x` is its derivative, and
 the limiting subdifferential of a function strictly differentiable at `x` is its derivative. -/
 theorem regularSubdiff_eq_of_hasFDerivAt_and_limitingSubdiff_eq_of_hasStrictFDerivAt
@@ -470,17 +459,6 @@ limiting, subgradient. -/
 theorem zero_mem_regularSubdiff_and_limitingSubdiff {f : E → EReal} {x : E} (hb : f x ≠ ⊥)
     (ht : f x ≠ ⊤) (h : IsLocalMin f x) :
     0 ∈ regularSubdiff f x ∧ 0 ∈ limitingSubdiff f x := by
-  sorry
-
-/-- 5.2: a function lower semicontinuous near `x` and finite at `x` is Lipschitz near `x` exactly
-when its horizon subdifferential at `x` is `{0}`, and then its limiting subdifferential at `x` is
-nonempty and compact. -/
-theorem lipschitz_near_iff_horizonSubdiff_eq_zero {f : E → EReal} {x : E} (hb : f x ≠ ⊥)
-    (ht : f x ≠ ⊤) (hl : ∀ᶠ y in 𝓝 x, LowerSemicontinuousAt f y) :
-    ((∃ K : ℝ≥0, ∃ U ∈ 𝓝 x, ∃ g : E → ℝ, (∀ y ∈ U, f y = g y) ∧ LipschitzOnWith K g U) ↔
-        horizonSubdiff f x = {0}) ∧
-      (horizonSubdiff f x = {0} →
-        (limitingSubdiff f x).Nonempty ∧ IsCompact (limitingSubdiff f x)) := by
   sorry
 
 /-- 5.2: for `f` Lipschitz near `x`, Clarke's generalized gradient is the convex hull of the
@@ -515,6 +493,14 @@ theorem limitingSubdiff_comp_subset {E' : Type*} [NormedAddCommGroup E'] [Normed
         (fun y : StrongDual ℝ E' => y.comp (fderiv ℝ F x)) '' horizonSubdiff g (F x) := by
   sorry
 
+/-- 5.3, the intersection rule: for closed sets whose limiting normals at `x` admit no nonzero
+opposite pair, the limiting normals to the intersection are sums of limiting normals. -/
+theorem limitingNormalCone_inter_subset {C D : Set E} (hC : IsClosed C) (hD : IsClosed D) {x : E}
+    (hx : x ∈ C ∩ D)
+    (hq : ∀ v ∈ limitingNormalCone C x, -v ∈ limitingNormalCone D x → v = 0) :
+    limitingNormalCone (C ∩ D) x ⊆ limitingNormalCone C x + limitingNormalCone D x := by
+  sorry
+
 /-- 5.4, the extremal principle: if two closed sets meeting at `x` can be pulled apart near `x`
 by arbitrarily small translations of one of them, they have a nonzero common limiting normal of
 opposite signs at `x`. -/
@@ -535,14 +521,26 @@ theorem exists_metricallyRegularAt_iff_coderivative {E' : Type*} [NormedAddCommG
       ∀ w : StrongDual ℝ E', (0 : StrongDual ℝ E) ∈ coderivative F x₀ y₀ w → w = 0 := by
   sorry
 
+/-- 5.4: a function lower semicontinuous near `x` and finite at `x` is Lipschitz near `x` exactly
+when its horizon subdifferential at `x` is `{0}`, and then its limiting subdifferential at `x` is
+nonempty and compact. -/
+theorem lipschitz_near_iff_horizonSubdiff_eq_zero {f : E → EReal} {x : E} (hb : f x ≠ ⊥)
+    (ht : f x ≠ ⊤) (hl : ∀ᶠ y in 𝓝 x, LowerSemicontinuousAt f y) :
+    ((∃ K : ℝ≥0, ∃ U ∈ 𝓝 x, ∃ g : E → ℝ, (∀ y ∈ U, f y = g y) ∧ LipschitzOnWith K g U) ↔
+        horizonSubdiff f x = {0}) ∧
+      (horizonSubdiff f x = {0} →
+        (limitingSubdiff f x).Nonempty ∧ IsCompact (limitingSubdiff f x)) := by
+  sorry
+
 end Limiting
 
 end TauCetiRoadmap.VariationalAnalysisAndMetricRegularity
 
-/-! ## Suppliers named in the README -/
+-- Library declarations named in the README's routes and supplier contracts.
 
 #check @TauCeti.subdifferential
 #check @TauCeti.fenchelConjugate
+#check @TauCeti.TendstoGamma
 #check @LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist
 #check @topDualPairing
 #check @posTangentConeAt
@@ -556,8 +554,7 @@ end TauCetiRoadmap.VariationalAnalysisAndMetricRegularity
 #check @LipschitzWith.ae_differentiableAt
 #check @LipschitzOnWith.ae_differentiableWithinAt
 #check @ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective
-#check @UpperHemicontinuous
-#check @LowerHemicontinuous
+#check @LipschitzOnWith.extend_real
 #check @ConvexOn.locallyLipschitzOn_interior
 #check @HasStrictFDerivAt.exists_lipschitzOnWith
 #check @UpperSemicontinuousAt
