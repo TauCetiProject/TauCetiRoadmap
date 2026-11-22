@@ -330,6 +330,7 @@ body:
         - PadicExtensionFamilies
         - PadicFamilies
         - PadicFunctionalAnalysis
+        - PadicHodgeRegulators
         - PadicHodgeTheory
         - PadicLocalLanglandsForGL2Qp
         - PadicMeasuresIwasawaAlgebras
