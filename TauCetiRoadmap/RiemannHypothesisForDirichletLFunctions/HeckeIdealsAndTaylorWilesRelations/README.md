@@ -365,14 +365,38 @@ and the structure of tame local Galois groups ([FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/Classical.lean` (`UpperTheory.V.Pa.LevMod`),
 whose route is not given here (outline below); the relations have the route below.
 
+*From (L) to the patching data.* The base module is the module `M` of (L); the `u_{j,i}` are arbitrary lifts of the `χ̄_i(σ_j)`;
+`e = n!`. Fix `N`, put `Q = {w_{N,1}, …, w_{N,q}}`, and let `R_Q`, `P_Q` be as in (L). Then `Iw/Iw′ ≅ ∏_{j,i} ℤ/l^{a_{N,j}}`,
+`a_{N,j} = v_l(Nw_{N,j} − 1) ≥ N`. The invariants `P_Q^{Iw′}` and `P_Q^{Iw}` carry, for each `j`, `n` commuting invertible
+operators `U_{j,1}, …, U_{j,n}` that commute with `R_Q`, defined through the double coset operators of diagonal matrices at
+`w_{N,j}` (for a uniformiser); and `P_Q^{Iw′}` carries the action of `Iw/Iw′`; write `1 + y_{j,i}` for the action of a generator
+of its `(j, i)`-th factor. The trace `P_Q^{Iw′} → P_Q^{Iw}` is onto, has kernel `Σ_{j,i} y_{j,i}P_Q^{Iw′}`, and commutes with the
+`U_{j,i}`. Then: `R_N = R_Q[[X_{j,i}, x_{j,i}]]` (`2qn` variables), with the ordinary determinant of `R_Q`,
+`U_{j,i} := u_{j,i} + X_{j,i}`, and `Λ[[x_{j,i}]] → R_N` extending `Λ → R_Q`; `M_N` is the direct summand of `P_Q^{Iw′}` on which
+every `U_{j,i} − u_{j,i}` and every `y_{j,i}` is topologically nilpotent, `X_{j,i}` acting as `U_{j,i} − u_{j,i}` and `x_{j,i}` as
+`y_{j,i}`; it is free over `Λ[[x_{j,i}]]/((1 + x_{j,i})^{l^{a_{N,j}}} − 1)` by (i) and (ii); the homomorphism `R_N → Sp_N` is
+`R_Q → B` on coefficients, with `X_{j,i} ↦ X_{j,i}` and `x_{j,i} ↦ 0`; by the trace, `M_N/(x)M_N` is the corresponding summand of
+`P_Q^{Iw}`; and the two comparison maps come from two additive maps between
+`B[U_{j,i}]/(∏_i (X − U_{j,i}) = charpoly D(φ_{N,j}), 1 ≤ j ≤ q) ⊗_B M` and `P_Q^{Iw}`, compatible with the `U_{j,i}` and with
+`R_Q → B`, whose two composites are multiplication by `f`, `M` being the invariants of `∏_j GL_n(𝒪_{w_{N,j}})` by (iii). The
+relations hold on `P_Q^{Iw′}` by (iv) and the local statements (*The relations* below), and pass to `M_N`. Everything is
+transported to the groups of the Taylor–Wiles datum along their isomorphisms with the Galois groups `G_{L⁺,S_N}`. The existence of
+the summand with its freeness, of the operators `U_{j,i}`, and of the two maps on `P_Q^{Iw}` with composites `f` are theorems of
+[FormalProof],
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/NilpotentLevelLowering/OpToTW.lean` (`UpperTheory.V.Pa.Lev.opToTW`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevOpOf.lean`
+(`UpperTheory.V.Pa.Lev.opOf_alt`),
+`Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/LevTwoOf.lean`
+(`UpperTheory.V.Pa.Lev.twoOf_alt`), whose routes are not given here.
+
 *Outline of the mechanism.* For the finite set `Q_N = {w_{N,j}}`, the module `P_{Q_N}` of ordinary forms at Iwahori-type level at the
-places of `Q_N` (the pro-`l` part of the diagonal of the Iwahori subgroup) with its smooth action of `∏_j GL_n(L_{w_{N,j}})`: its
-invariants under the pro-`l` Iwahori subgroup are finite over `Λ` and projective over the group ring of the diamond group (PotentialAutomorphyInfrastructurePartII §3.4, the
+places of `Q_N` (the subgroup `Iw′` of (L), whose diagonal entries reduce to elements of order prime to `l`) with its smooth action of
+`∏_j GL_n(L_{w_{N,j}})`: its invariants under `Iw′` are finite over `Λ` and projective over the group ring of the diamond group (PotentialAutomorphyInfrastructurePartII §3.4, the
 level at `v₀` making the action free), its invariants under the maximal compact subgroup are `M`, and it is detected by its
-classical specializations. The ring `R_N` acts through its image in the Hecke algebra; the `U_{j,i}` are the eigenvalues of the
-`U`-operators at `w_{N,j}` on the ordinary projection, ordered (PotentialAutomorphyInfrastructurePartII §4.2 for the parahoric projection); the comparison maps are the
-parahoric projection and its adjoint, whose composite is the product of the differences of the ordered eigenvalues because the
-residual eigenvalues need not be distinct. The construction of the level modules and of the two maps at Iwahori level is not written here. *The relations.* At a Taylor–Wiles place `w`, for an irreducible smooth `π` of
+classical specializations. The `U_{j,i}` are the ordered `U`-operators at `w_{N,j}` (PotentialAutomorphyInfrastructurePartII §4.2);
+in the classical setting the two comparison maps are the parahoric projection and its adjoint, whose composite is the product of
+the differences of the ordered eigenvalues because the residual eigenvalues need not be distinct; that the maps of [FormalProof] are
+these is not shown here. The construction of the level modules and of the two maps at Iwahori level is not written here. *The relations.* At a Taylor–Wiles place `w`, for an irreducible smooth `π` of
 `GL_n(L_w)` with a vector fixed by the pro-`l` Iwahori subgroup and matching `ρ|_{W_{L_w}}`, and a generalized eigencharacter of the
 `U`-operators with normalized eigenvalues `α_i`, pairwise distinct and with no ratio `Nw`: the characteristic polynomial of
 `ρ(Frob_w)` is `∏(X − α_i)`, and `∏_{k≠i}(ρ(Frob_w) − α_k)(ρ(τ_w) − χ(δ_i)) = 0` (local–global compatibility
