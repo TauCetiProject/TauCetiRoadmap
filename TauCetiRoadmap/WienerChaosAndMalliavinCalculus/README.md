@@ -15,7 +15,7 @@ space.
   differentiable functionals, the chain rule, its description through the chaos, the Gaussian
   Poincaré inequality, and the characterization of constants and of indicators.
 - The divergence operator, the adjoint of the derivative: its domain, the product rules, its
-  value on elementary processes and the Skorokhod isometry.
+  value on elementary processes and the Skorokhod isometry for them.
 - The Ornstein–Uhlenbeck semigroup on Wiener space: semigroup properties, Mehler's formula,
   positivity and the contraction of every Lᵖ norm, the generator and the identity relating it
   to the derivative and the divergence, the pseudo-inverse, the commutation with the
@@ -39,11 +39,11 @@ The nearest roadmaps, and what passes between them:
   integrands as an isonormal process, the Itô integral and the martingale representation
   theorem; this roadmap consumes them only in its Brownian layer. It owns the Cameron–Martin
   theory, which this roadmap does not use.
-- An open roadmap on the Ornstein–Uhlenbeck semigroup in finite dimension owns the
-  finite-dimensional Mehler kernel, its generator, entropy decay and hypercontractivity, and
-  excludes the infinite-dimensional case and Malliavin calculus. Nothing passes between the two:
-  the infinite-dimensional semigroup here is defined through the chaos, and its
-  hypercontractivity is proved from the logarithmic Sobolev inequality on Wiener space.
+- OrnsteinUhlenbeckSemigroup owns the Ornstein–Uhlenbeck semigroup in finite dimension: the
+  Mehler kernel, the generator, the Hermite eigenfunctions, entropy decay and
+  hypercontractivity; it excludes the infinite-dimensional case and Malliavin calculus. Nothing
+  passes between the two: the infinite-dimensional semigroup here is defined through the chaos,
+  and its hypercontractivity is proved from the logarithmic Sobolev inequality on Wiener space.
 - RandomMatrices (on main) owns the Gaussian Poincaré and logarithmic Sobolev inequalities in
   finite dimension. Nothing passes between the two: the inequalities on Wiener space here are
   proved from the chaos and the semigroup.
@@ -88,10 +88,11 @@ for statements that adapt a source, and a *Needs:* line. Each layer ends with **
   He₀ = 1, He₁ = x, He₂ = x² − 1, He₃ = x³ − 3x. Nualart's Hₙ is Heₙ/n!, and Nourdin–Peccati use
   Heₙ. The Wick power `wickPower` is the homogeneous form ‖h‖ⁿ Heₙ(W(h)/‖h‖), which is 1 at
   n = 0 and 0 at h = 0, n ≥ 1, so the chaos of order 0 is the constants also when `H = 0`.
-- Statements about the divergence assume that `W` generates the σ-algebra up to null sets, in
-  the form `gaussianL2 W P = ⊤`; without it the divergence of a process is unique only up to a
-  functional orthogonal to every functional of `W`. The other layers make no such assumption,
-  and their statements about all of `Lp ℝ 2 P` restrict to `gaussianL2` explicitly.
+- Statements that need the value of the divergence to be unique assume that `W` generates the
+  σ-algebra up to null sets, in the form `gaussianL2 W P = ⊤`; without it the divergence of a
+  process is unique only up to a functional orthogonal to every functional of `W`. The other
+  statements make no such assumption, and those about all of `Lp ℝ 2 P` restrict to
+  `gaussianL2` explicitly.
 - The derivative and the divergence are total functions, `malliavinDeriv` and `divergence`, with
   value `0` outside their domains `sobolev12` and `divergenceDom`. Likewise the semigroup,
   generator and pseudo-inverse are total; the semigroup is only used at `t ≥ 0`.
@@ -224,8 +225,8 @@ degree |a| orthogonal to every polynomial of lower degree.
 
 **Checks.**
 
-- `IsIsonormal.chaosProj_zero`: the chaos of order 0 is the constants, so J₀F = E F, also when
-  `H = 0`.
+- `chaosProj_zero`: the chaos of order 0 is the constants, so J₀F = E F for every `W`, also
+  when `H = 0`, since every Wick power of order 0 is the constant 1.
 - He₂(W(h))² = He₄ + 4 He₂ + 2 for ‖h‖ = 1, so the square of an element of the second chaos has
   components in the chaoses of orders 4, 2 and 0 only, with E[He₂²] = 2 (computed symbolically).
 - Negative control for orthogonality across orders: W(h)² is not in the second chaos for
@@ -254,9 +255,9 @@ elements of `Lp ℝ 2` for the product measure μ^q on `Fin q → T`, built with
 ### 3.1 Definition and isometry
 
 - **Kernels** (`kernelMeasure`, `tensorPow`, `symmetricKernels`): the product measure μ^q, the
-  tensor power h^{⊗q}(t) = ∏ᵢ h(tᵢ), and the closed span of the tensor powers (Nualart, p. 8).
+  tensor power h^⊗q(t) = ∏ᵢ h(tᵢ), and the closed span of the tensor powers (Nualart, p. 8).
 - **Multiple integrals** (`IsMultipleWienerIntegral`): continuous linear maps I_q sending
-  h^{⊗q} to :W(h)^q: and vanishing on the kernels orthogonal to the symmetric ones (Nualart,
+  h^⊗q to :W(h)^q: and vanishing on the kernels orthogonal to the symmetric ones (Nualart,
   Proposition 1.1.4, (1.15), p. 13, as the defining property; Nourdin–Peccati, Definition 2.7.1,
   p. 36, and Theorem 2.7.7, p. 39).
 - **Existence and uniqueness** (`IsIsonormal.existsUnique_isMultipleWienerIntegral`).
@@ -272,8 +273,8 @@ elements of `Lp ℝ 2` for the product measure μ^q on `Fin q → T`, built with
   simple functions (Nualart, pp. 8–10).
 
 *Proof route.* The adaptation defines I_q by its values on tensor powers instead of by
-off-diagonal simple functions, so that no atomlessness is needed. ⟪h^{⊗q}, g^{⊗q}⟫ = ⟪h, g⟫^q
-and §1.2 show that h^{⊗q} ↦ :W(h)^q:/√q! preserves inner products, so it extends linearly and
+off-diagonal simple functions, so that no atomlessness is needed. ⟪h^⊗q, g^⊗q⟫ = ⟪h, g⟫^q
+and §1.2 show that h^⊗q ↦ :W(h)^q:/√q! preserves inner products, so it extends linearly and
 isometrically to the symmetric kernels; extend by 0 on the orthogonal complement. Uniqueness
 follows from density and continuity. The range is closed and contains the generators of the
 chaos.
@@ -286,8 +287,6 @@ chaos.
   functional of `W` is ∑_q I_q(f_q) for a unique family of symmetric kernels (Nualart, Theorem
   1.1.2, p. 13; Nourdin–Peccati, Corollary 2.7.8, p. 40; Nualart–Nualart, Theorem 4.1.3,
   p. 65).
-- Target in prose: Stroock's formula f_q = E[D^q F]/q! for F in the Sobolev space of order q
-  (Nourdin–Peccati, Corollary 2.7.8, p. 40).
 
 *Proof route.* §2.1 and §3.1; uniqueness from injectivity of I_q on symmetric kernels.
 
@@ -296,20 +295,22 @@ chaos.
 ### 3.3 Contractions and the product formula
 
 - **Contraction** (`contraction`, with the index maps `contractionArgLeft` and
-  `contractionArgRight`): (f ⊗ᵣ g)(s, t) = ∫ f(s, u) g(t, u) dμ^r(u) for s ∈ T^{p−r},
-  t ∈ T^{q−r} (Nualart, p. 10; Nourdin–Peccati, p. 41 and Appendix B.4).
+  `contractionArgRight`): (f ⊗ᵣ g)(s, t) = ∫ f(s, u) g(t, u) dμ^r(u) for s ∈ Tᵖ⁻ʳ,
+  t ∈ T^(q−r) (Nualart, p. 10; Nourdin–Peccati, p. 41 and Appendix B.4).
 - **Product formula** (`IsMultipleWienerIntegral.mul_ae_eq`): for symmetric f and g,
-  I_p(f) I_q(g) = ∑_{r ≤ min(p, q)} r! C(p, r) C(q, r) I_{p+q−2r}(f ⊗ᵣ g) almost surely
-  (Nualart, Proposition 1.1.3, (1.13), p. 12; Nourdin–Peccati, Theorem 2.7.10, p. 41).
-- Target in prose: the case q = 1, I_p(f) I₁(g) = I_{p+1}(f ⊗ g) + p I_{p−1}(f ⊗₁ g)
+  I_p(f) I_q(g) = ∑ᵣ r! C(p, r) C(q, r) I_(p+q−2r)(f ⊗ᵣ g), summed over
+  r ≤ min(p, q), almost surely (Nualart, Proposition 1.1.3, (1.13), p. 12; Nourdin–Peccati,
+  Theorem 2.7.10, p. 41).
+- Target in prose: the case q = 1, I_p(f) I₁(g) = Iₚ₊₁(f ⊗ g) + p Iₚ₋₁(f ⊗₁ g)
   (Nualart, Proposition 1.1.2, p. 11).
 
-*Proof route.* Both sides are continuous bilinear in (f, g) on symmetric kernels, by the
-Cauchy–Schwarz bound ‖f ⊗ᵣ g‖ ≤ ‖f‖ ‖g‖ and the hypercontractive bound of §6.4 on the product
-of two chaos elements (or by Nualart's direct estimate, p. 12). On tensor powers f = h^{⊗p},
-g = k^{⊗q} with ‖h‖ = ‖k‖ = 1 the formula is the Hermite linearization
-Heₚ(x) He_q(y) expanded through the generating function. The q = 1 case by induction gives an
-alternative route (Nualart, proof of Proposition 1.1.3).
+*Proof route.* Both sides are continuous bilinear maps from pairs of symmetric kernels into
+L¹(P): the left side by Cauchy–Schwarz and the isometry of §3.1, the right side by
+‖f ⊗ᵣ g‖ ≤ ‖f‖ ‖g‖ and the same isometry; almost sure equality passes to L¹ limits. On tensor
+powers f = h^⊗p, g = k^⊗q with ‖h‖ = ‖k‖ = 1 the formula is the Hermite linearization
+Heₚ(x) He_q(y) expanded through the generating function. The q = 1 case by induction, with the
+same L¹ density argument at each step, gives an alternative route (Nualart, proof of
+Proposition 1.1.3, p. 12).
 
 *Needs:* §§3.1–3.2.
 
@@ -359,15 +360,15 @@ density.
 
 - **Graph, domain and derivative** (`smoothGraph`, `malliavinGraph`, `sobolev12`,
   `malliavinDeriv`): the closure in `Lp ℝ 2 P × Lp H 2 P` of the span of the pairs (F, DF) for
-  smooth cylinder F, its first projection 𝔻^{1,2}, and the derivative read off the graph
+  smooth cylinder F, its first projection 𝔻¹,², and the derivative read off the graph
   (Nualart, p. 27; Nourdin–Peccati, Remark 2.3.6, p. 30).
 - **Closability** (`IsIsonormal.malliavinGraph_closable`): (0, G) in the closed graph forces
   G = 0 (Nualart, Proposition 1.2.1, p. 26; Nourdin–Peccati, Proposition 2.3.4, p. 29;
   Nualart–Nualart, Proposition 3.3.1, p. 53; Da Prato, Proposition 3.10, p. 32).
 - **Derivative of a cylinder functional** (`IsIsonormal.malliavinDeriv_cylinder`): a smooth
-  cylinder functional lies in 𝔻^{1,2} and its derivative is the gradient formula, whatever
+  cylinder functional lies in 𝔻¹,² and its derivative is the gradient formula, whatever
   representation is chosen (Nualart, p. 25, well-definedness after Definition 1.2.1).
-- **Integration by parts on 𝔻^{1,2}** (`IsIsonormal.integral_inner_malliavinDeriv`)
+- **Integration by parts on 𝔻¹,²** (`IsIsonormal.integral_inner_malliavinDeriv`)
   (Nualart, Lemma 1.2.1, p. 25, extended by closure).
 
 *Proof route.* Closability from the product integration-by-parts formula of §4.1: if Fₖ → 0 and
@@ -379,14 +380,14 @@ h, and such G' ⊗ h are dense in `Lp H 2 P` restricted to functionals of `W`; G
 
 ### 4.3 The chain rule
 
-- **Chain rule** (`IsIsonormal.malliavinDeriv_comp`): for F₁, …, Fₘ in 𝔻^{1,2} and φ of class
-  C¹ on ℝᵐ with bounded derivative, φ(F) ∈ 𝔻^{1,2} and D φ(F) = ∑ᵢ ∂ᵢφ(F) DFᵢ (Nualart,
+- **Chain rule** (`IsIsonormal.malliavinDeriv_comp`): for F₁, …, Fₘ in 𝔻¹,² and φ of class
+  C¹ on ℝᵐ with bounded derivative, φ(F) ∈ 𝔻¹,² and D φ(F) = ∑ᵢ ∂ᵢφ(F) DFᵢ (Nualart,
   Proposition 1.2.3, p. 28; Nourdin–Peccati, Proposition 2.3.7, p. 31; Nualart–Nualart,
   Proposition 3.3.2, p. 54).
-- Target in prose: the Lipschitz chain rule, φ(F) ∈ 𝔻^{1,2} for Lipschitz φ with
+- Target in prose: the Lipschitz chain rule, φ(F) ∈ 𝔻¹,² for Lipschitz φ with
   D φ(F) = ∑ᵢ Gᵢ DFᵢ for some bounded random vector G (Nualart, Proposition 1.2.4, p. 29;
   Nourdin–Peccati, Proposition 2.3.8, p. 31; Da Prato, Proposition 3.18, p. 36).
-- Target in prose: the product rule D(FG) = F DG + G DF for F, G ∈ 𝔻^{1,2} with FG,
+- Target in prose: the product rule D(FG) = F DG + G DF for F, G ∈ 𝔻¹,² with FG,
   F DG + G DF square integrable (Nualart, Exercise 1.2.12, p. 36; Nourdin–Peccati, Exercise
   2.3.10, p. 32).
 
@@ -398,29 +399,29 @@ limit (Nualart, proof of Proposition 1.2.3).
 
 ### 4.4 The chaos description and the Poincaré inequality
 
-- **Chaos description** (`IsIsonormal.mem_sobolev12_iff`): F ∈ 𝔻^{1,2} exactly when F is a
+- **Chaos description** (`IsIsonormal.mem_sobolev12_iff`): F ∈ 𝔻¹,² exactly when F is a
   functional of `W` with ∑ₙ n ‖JₙF‖² < ∞, and then E‖DF‖² = ∑ₙ n ‖JₙF‖² (Nualart, Proposition
   1.2.2, p. 28; Nualart–Nualart, Proposition 4.2.2, p. 66).
 - **Gaussian Poincaré inequality** (`IsIsonormal.variance_le`): Var F ≤ E‖DF‖² for F in
-  𝔻^{1,2} (Bogachev, Theorem 5.5.1, (5.5.2), p. 226; Nourdin–Peccati, Proposition 1.3.7, p. 12,
+  𝔻¹,² (Bogachev, Theorem 5.5.1, (5.5.2), p. 226; Nourdin–Peccati, Proposition 1.3.7, p. 12,
   in one dimension).
-- Target in prose: D Jₙ F = J_{n−1} DF chaos by chaos, and D I_q(f) = q I_{q−1}(f(·, t)) in the
+- Target in prose: D Jₙ F = Jₙ₋₁ DF chaos by chaos, and D I_q(f) = q I_(q−1)(f(·, t)) in the
   white-noise realization (Nualart, Proposition 1.2.2, p. 28; Nourdin–Peccati, Proposition
   2.7.4, p. 37; Nualart–Nualart, Proposition 4.2.1, p. 65).
 
 *Proof route.* On the chaos of order n, D maps :W(h)ⁿ: to n :W(h)ⁿ⁻¹: h, so
 E‖D:W(h)ⁿ:‖² = n · n! ‖h‖²ⁿ = n E[:W(h)ⁿ:²]; orthogonality across orders and closedness give
-the description. Poincaré: Var F = ∑_{n ≥ 1} ‖JₙF‖² ≤ ∑ₙ n ‖JₙF‖² = E‖DF‖².
+the description. Poincaré: Var F = ∑ₙ₌₁ ‖JₙF‖² ≤ ∑ₙ n ‖JₙF‖² = E‖DF‖².
 
 *Needs:* §§2.1, 4.2, 4.3.
 
 ### 4.5 Constants and indicators
 
-- **Zero derivative** (`IsIsonormal.malliavinDeriv_eq_zero_iff`): for F ∈ 𝔻^{1,2}, DF = 0
+- **Zero derivative** (`IsIsonormal.malliavinDeriv_eq_zero_iff`): for F ∈ 𝔻¹,², DF = 0
   exactly when F is the constant E F (Nualart, Proposition 1.2.5, p. 30; Bogachev, Example
   5.4.16, p. 225).
 - **Indicators** (`IsIsonormal.indicator_mem_sobolev12_iff`): the indicator of a measurable set
-  A lies in 𝔻^{1,2} exactly when P(A) ∈ {0, 1} (Nualart, Proposition 1.2.6, p. 30;
+  A lies in 𝔻¹,² exactly when P(A) ∈ {0, 1} (Nualart, Proposition 1.2.6, p. 30;
   Nualart–Nualart, Proposition 4.2.6, p. 68; Bogachev, Example 5.4.17, p. 225).
 
 *Proof route.* Zero derivative: by §4.4 every chaos of positive order vanishes. Indicators: for
@@ -437,7 +438,7 @@ indicator outside `gaussianL2` unless P(A) ∈ {0, 1}.
   Poincaré inequality reads 2 ≤ 4.
 - Equality in Poincaré: F = W(h) has Var F = ‖h‖² = E‖DF‖².
 - Negative control for the factor n: with ∑ₙ ‖JₙF‖² in place of ∑ₙ n ‖JₙF‖², the chaos
-  description would put every functional of `W` in 𝔻^{1,2}, including 1{W(h) > 0}, which
+  description would put every functional of `W` in 𝔻¹,², including 1{W(h) > 0}, which
   `IsIsonormal.indicator_mem_sobolev12_iff` excludes; numerically the partial sums of
   n ‖JₙF‖² for that indicator grow like √n (0.298, 0.392, 0.561, 0.798 at n ≤ 5, 9, 19, 39).
 
@@ -456,35 +457,36 @@ Mathlib's `iteratedFDeriv`, `fderiv` and `EuclideanSpace`.
 ### 5.1 Definition and domain
 
 - **Divergence** (`IsDivergence`, `divergenceDom`, `divergence`): G is a divergence of
-  u ∈ `Lp H 2 P` when E[FG] = E⟪DF, u⟫ for every F ∈ 𝔻^{1,2} (Nualart, Definition 1.3.1,
+  u ∈ `Lp H 2 P` when E[FG] = E⟪DF, u⟫ for every F ∈ 𝔻¹,² (Nualart, Definition 1.3.1,
   (1.41)–(1.42), pp. 36–37; Nourdin–Peccati, Definitions 2.5.1–2.5.2, p. 33).
 - **Domain and uniqueness** (`IsIsonormal.mem_divergenceDom_iff`): when `W` generates the
-  σ-algebra, u is in the domain exactly when |E⟪DF, u⟫| ≤ c‖F‖₂ on 𝔻^{1,2}, and the divergence
+  σ-algebra, u is in the domain exactly when |E⟪DF, u⟫| ≤ c‖F‖₂ on 𝔻¹,², and the divergence
   is then unique (Nualart, Definition 1.3.1, p. 37).
-- **Mean zero** (`IsIsonormal.integral_divergence`) (Nualart, p. 37; Nourdin–Peccati, Remark
-  2.5.3, p. 34).
-- Target in prose: δ on the chaos, δ(u) = ∑ₙ I_{n+1}(f̃ₙ) for u with kernels fₙ, with the domain
+- **Mean zero** (`IsIsonormal.integral_divergence`): E δ(u) = 0 for u in the domain, without
+  the generation hypothesis (Nualart, p. 37; Nourdin–Peccati, Remark 2.5.3, p. 34).
+- Target in prose: δ on the chaos, δ(u) = ∑ₙ Iₙ₊₁(f̃ₙ) for u with kernels fₙ, with the domain
   described by convergence of the series (Nualart, Proposition 1.3.7, p. 41;
   Nualart–Nualart, Proposition 4.3.1, p. 68).
 
-*Proof route.* Riesz representation on the closure of 𝔻^{1,2}, which is the whole of `Lp ℝ 2 P`
-by §2.1 and the generation hypothesis.
+*Proof route.* Riesz representation on the closure of 𝔻¹,², which is the whole of `Lp ℝ 2 P`
+by §2.1 and the generation hypothesis. Mean zero: the constant 1 is a smooth cylinder
+functional with derivative 0 (§4.2), and testing any divergence against it gives E δ(u) = 0.
 
-*Needs:* §4.2.
+*Needs:* §4.2; §§2.1 and 3.2 for the chaos form.
 
 ### 5.2 Product rules
 
-- **Deterministic direction** (`IsIsonormal.divergence_smul_const`): for F ∈ 𝔻^{1,2} and
+- **Deterministic direction** (`IsIsonormal.divergence_smul_const`): for F ∈ 𝔻¹,² and
   h ∈ `H`, F W(h) − ⟪DF, h⟫ is square integrable, F h is in the domain, and
   δ(F h) = F W(h) − ⟪DF, h⟫ (Nualart, Proposition 1.3.4, p. 39; Da Prato, Proposition 3.15,
   p. 34, for the integrability).
-- **Scalar factor** (`IsIsonormal.divergence_smul`): for F ∈ 𝔻^{1,2} and u in the domain with
+- **Scalar factor** (`IsIsonormal.divergence_smul`): for F ∈ 𝔻¹,² and u in the domain with
   F u and F δ(u) − ⟪DF, u⟫ square integrable, F u is in the domain and
   δ(F u) = F δ(u) − ⟪DF, u⟫ (Nualart, Proposition 1.3.3, (1.48), p. 39; Nourdin–Peccati,
   Proposition 2.5.4, p. 34).
 
 *Proof route.* Test against a smooth cylinder G and use the product rule of §4.3:
-E⟪DG, F u⟫ = E⟪D(FG), u⟫ − E[G⟪DF, u⟫]; density of smooth cylinders in 𝔻^{1,2} extends it.
+E⟪DG, F u⟫ = E⟪D(FG), u⟫ − E[G⟪DF, u⟫]; density of smooth cylinders in 𝔻¹,² extends it.
 
 *Needs:* §§4.3, 5.1.
 
@@ -494,10 +496,6 @@ E⟪DG, F u⟫ = E⟪D(FG), u⟫ − E[G⟪DF, u⟫]; density of smooth cylinder
   cylinder Fⱼ, u is in the domain, δ(u) = ∑ⱼ (Fⱼ W(gⱼ) − ⟪DFⱼ, gⱼ⟫), and
   E δ(u)² = E‖u‖² + ∑ᵢⱼ E[⟪DFᵢ, gⱼ⟫ ⟪DFⱼ, gᵢ⟫] (Nualart, (1.44) and Proposition 1.3.1, (1.45),
   p. 37; Nualart–Nualart, Proposition 3.2.3, p. 52).
-- Target in prose: 𝔻^{1,2}(H) ⊂ Dom δ with the Skorokhod isometry
-  E δ(u)² = E‖u‖² + E⟨Du, (Du)*⟩ in H ⊗ H, and the commutation D_h δ(u) = ⟪u, h⟫ + δ(D_h u)
-  (Nualart, Proposition 1.3.1, (1.45)–(1.46), p. 37, and Proposition 1.3.2, p. 39, for the
-  commutation when D_h u is in the domain of δ).
 
 *Proof route.* §5.2 with F = Fⱼ, h = gⱼ, summed. The isometry: compute E[δ(u)²] = E⟪D δ(u), u⟫
 with the commutation D δ(Fⱼ gⱼ) = Fⱼ gⱼ + W(gⱼ) DFⱼ − D⟪DFⱼ, gⱼ⟫ on smooth cylinders.
@@ -523,25 +521,28 @@ Layer 4 only.
 
 ### 6.1 The semigroup and Mehler's formula
 
-- **Semigroup** (`ouSemigroup`): P_t F = ∑ₙ e^{−nt} JₙF (Nualart, Definition 1.4.1, (1.66),
+- **Semigroup** (`ouSemigroup`): P_t F = ∑ₙ e⁻ⁿᵗ JₙF (Nualart, Definition 1.4.1, (1.66),
   p. 54; Nourdin–Peccati, Definition 2.8.1, p. 45; Bogachev, Theorem 2.9.2, p. 79).
 - **Semigroup properties** (`IsIsonormal.ouSemigroup_semigroup`): P₀ = id on functionals of `W`,
-  P_{s+t} = P_s P_t, contraction, symmetry and strong continuity at 0 (Nualart, p. 55 and
+  Pₛ₊ₜ = P_s P_t, contraction, symmetry and strong continuity at 0 (Nualart, p. 55 and
   Proposition 1.4.1, p. 57; Bogachev, Theorem 2.9.1, p. 78).
 - **Mehler's formula** (`IsIsonormal.ouSemigroup_cylinder`): for an orthonormal family k₁, …, kₙ
   and f ∈ L² of the standard Gaussian on ℝⁿ,
-  P_t f(W(k)) = ∫ f(e^{−t} W(k) + √(1 − e^{−2t}) y) dγₙ(y) (Nualart, (1.67), p. 55;
+  P_t f(W(k)) = ∫ f(e⁻ᵗ W(k) + √(1 − e⁻²ᵗ) y) dγₙ(y) (Nualart, (1.67), p. 55;
   Nourdin–Peccati, Theorem 2.8.2, p. 46; Nualart–Nualart, Proposition 5.1.2, p. 74).
 - **Positivity** (`IsIsonormal.ae_nonneg_ouSemigroup`) (Nualart, p. 55).
 - **Lᵖ contraction** (`IsIsonormal.eLpNorm_ouSemigroup_le`): ‖P_t F‖_p ≤ ‖F‖_p for 1 ≤ p ≤ ∞
   (Nourdin–Peccati, Proposition 2.8.6, p. 47; Bogachev, Theorem 2.9.1, p. 78).
-- Target in prose: Mehler's formula for every functional of `W`, P_t F = E'[F(e^{−t}W +
-  √(1 − e^{−2t}) W')] with W' an independent copy (Nualart, (1.67), p. 55).
+- Target in prose: Mehler's formula for every functional of `W`, P_t F = E'[F(e⁻ᵗW +
+  √(1 − e⁻²ᵗ) W')] with W' an independent copy (Nualart, (1.67), p. 55).
 
 *Proof route.* The semigroup identities are chaos-wise. Mehler on cylinders: both sides are
 continuous in f on L²(γₙ), and on products of Hermite polynomials in independent coordinates the
-right side multiplies Heₐ by e^{−|a|t} (the one-dimensional Mehler identity); conclude with
-§2.2. Positivity and the Lᵖ contraction follow from Mehler and Jensen on cylinders and density.
+right side multiplies Heₐ by exp(−|a|t). That reduces to the one-dimensional identity
+∫ Heₙ(e⁻ᵗx + √(1 − e⁻²ᵗ) y) dγ(y) = e⁻ⁿᵗ Heₙ(x), proved within the route by comparing
+coefficients of sⁿ in ∫ exp(s(e⁻ᵗx + √(1 − e⁻²ᵗ) y) − s²/2) dγ(y) = exp(se⁻ᵗx − s²e⁻²ᵗ/2)
+(Nourdin–Peccati, (1.3.1), p. 9, and Proposition 1.4.2(i), p. 13); conclude with §2.2.
+Positivity and the Lᵖ contraction follow from Mehler and Jensen on cylinders and density.
 
 *Needs:* §§2.1, 2.2.
 
@@ -553,18 +554,18 @@ right side multiplies Heₐ by e^{−|a|t} (the one-dimensional Mehler identity)
   quotients (P_t F − F)/t converge as t ↓ 0 exactly on the domain of L, with limit L F
   (Nualart, Proposition 1.4.2, p. 59).
 - **L = −δD** (`IsIsonormal.mem_ouGeneratorDom_iff`): F is in the domain of L exactly when
-  F ∈ 𝔻^{1,2} and DF is in the domain of δ, and then δ(DF) = −L F (Nualart, Proposition 1.4.3,
+  F ∈ 𝔻¹,² and DF is in the domain of δ, and then δ(DF) = −L F (Nualart, Proposition 1.4.3,
   p. 59; Nourdin–Peccati, Proposition 2.8.8, p. 48; Nualart–Nualart, Proposition 5.2.1, p. 79).
 - **L on cylinders** (`IsIsonormal.ouGenerator_cylinder`):
   L F = ∑ᵢⱼ ∂ᵢ∂ⱼf ⟪kᵢ, kⱼ⟫ − ∑ᵢ ∂ᵢf W(kᵢ) for smooth cylinder F (Nualart, Proposition 1.4.4,
   (1.70), p. 60; Nourdin–Peccati, Theorem 2.8.9, p. 48).
 - **Pseudo-inverse** (`ouPseudoInverse`, `IsIsonormal.ouPseudoInverse_spec`):
-  L⁻¹F = −∑_{n ≥ 1} JₙF/n lies in the domain of L, and L L⁻¹ F = F − E F; for F in the domain,
-  L⁻¹ L F = F − E F (Nourdin–Peccati, Definition 2.8.10 and Proposition 2.8.11, p. 49).
-- Target in prose: the domain of L is the Sobolev space 𝔻^{2,2} (Nualart, p. 60).
+  L⁻¹F = −∑ₙ JₙF/n, summed over n ≥ 1, lies in the domain of L, and L L⁻¹ F = F − E F; for F
+  in the domain, L⁻¹ L F = F − E F (Nourdin–Peccati, Definition 2.8.10 and Proposition 2.8.11,
+  p. 49).
 
-*Proof route.* The generator statements are chaos-wise: (e^{−nt} − 1)/t → −n with
-|(e^{−nt} − 1)/t| ≤ n. L = −δD from §4.4 and §5.1 by testing against single chaoses. L on
+*Proof route.* The generator statements are chaos-wise: (e⁻ⁿᵗ − 1)/t → −n with
+|(e⁻ⁿᵗ − 1)/t| ≤ n. L = −δD from §4.4 and §5.1 by testing against single chaoses. L on
 cylinders from §5.3 with uⱼ the gradient. For the pseudo-inverse, Lean's 0⁻¹ = 0 removes the
 order-0 term.
 
@@ -572,71 +573,70 @@ order-0 term.
 
 ### 6.3 Commutation and integration by parts
 
-- **Commutation** (`IsIsonormal.malliavinDeriv_ouSemigroup`): for F ∈ 𝔻^{1,2} and t ≥ 0,
-  P_t F ∈ 𝔻^{1,2} and ⟪D P_t F, h⟫ = e^{−t} P_t ⟪DF, h⟫ for every h (Nualart–Nualart, proof of
+- **Commutation** (`IsIsonormal.malliavinDeriv_ouSemigroup`): for F ∈ 𝔻¹,² and t ≥ 0,
+  P_t F ∈ 𝔻¹,² and ⟪D P_t F, h⟫ = e⁻ᵗ P_t ⟪DF, h⟫ for every h (Nualart–Nualart, proof of
   Proposition 5.1.6, p. 78; Nourdin–Peccati, Proposition 1.3.4, p. 10, in one dimension).
 - **Integration-by-parts formula** (`IsIsonormal.integral_mul_comp`): for F a functional of `W`,
-  G ∈ 𝔻^{1,2} and g of class C¹ with bounded derivative,
+  G ∈ 𝔻¹,² and g of class C¹ with bounded derivative,
   E[F g(G)] = E F · E g(G) + E[g'(G) ⟪DG, −DL⁻¹F⟫] (Nourdin–Peccati, Theorem 2.9.1, p. 53, for
-  F ∈ 𝔻^{1,2}; Nualart–Nualart, Proposition 5.4.1, (5.8), p. 83, for F = G centred).
+  F ∈ 𝔻¹,²; Nualart–Nualart, Proposition 5.4.1, (5.8), p. 83, for F = G centred).
 
-*Proof route.* Commutation from D Jₙ = J_{n−1} D (§4.4): D P_t F = ∑ₙ e^{−nt} J_{n−1} DF =
-e^{−t} P_t DF. The formula: F − E F = L L⁻¹ F = −δ(DL⁻¹F) by §6.2, then duality (§5.1) and
-the chain rule (§4.3) for g(G). The adaptation to F ∈ `gaussianL2` uses that L⁻¹F ∈ 𝔻^{1,2}
+*Proof route.* Commutation from D Jₙ = Jₙ₋₁ D (§4.4): D P_t F = ∑ₙ e⁻ⁿᵗ Jₙ₋₁ DF =
+e⁻ᵗ P_t DF. The formula: F − E F = L L⁻¹ F = −δ(DL⁻¹F) by §6.2, then duality (§5.1) and
+the chain rule (§4.3) for g(G). The adaptation to F ∈ `gaussianL2` uses that L⁻¹F ∈ 𝔻¹,²
 for every functional F of `W`; the generation hypothesis of Layer 5 is not needed, because
-the chaos computation E[(F − E F) H] = E⟪DH, −DL⁻¹F⟫ holds directly for H ∈ 𝔻^{1,2}.
+the chaos computation E[(F − E F) H] = E⟪DH, −DL⁻¹F⟫ holds directly for H ∈ 𝔻¹,².
 
 *Needs:* §§4.3, 4.4, 6.2.
 
 ### 6.4 Functional inequalities
 
-- **Logarithmic Sobolev inequality** (`IsIsonormal.integral_sq_mul_log_le`): for F ∈ 𝔻^{1,2},
+- **Logarithmic Sobolev inequality** (`IsIsonormal.integral_sq_mul_log_le`): for F ∈ 𝔻¹,²,
   F² log F² is integrable and E[F² log F²] − E F² log E F² ≤ 2 E‖DF‖² (Nourdin–Peccati, (2.8.5)
   in the proof of Theorem 2.8.12, p. 51; Bogachev, Theorem 5.5.1, (5.5.1), p. 226).
 - **Nelson's hypercontractivity** (`IsIsonormal.eLpNorm_ouSemigroup_le_of_le`): for 1 ≤ p,
-  t ≥ 0 and q ≤ 1 + e^{2t}(p − 1), ‖P_t F‖_q ≤ ‖F‖_p for every functional F of `W` (Nualart,
+  t ≥ 0 and q ≤ 1 + e²ᵗ(p − 1), ‖P_t F‖_q ≤ ‖F‖_p for every functional F of `W` (Nualart,
   Theorem 1.4.1, p. 61; Nourdin–Peccati, Theorem 2.8.12, p. 49; Nualart–Nualart, Theorem 5.1.3,
   p. 75; Bogachev, Theorem 5.5.3, p. 227).
 - **Equivalence of moments on a chaos** (`IsIsonormal.eLpNorm_le_of_mem_wienerChaos`): for F in
-  the chaos of order n and 1 < q ≤ r, ‖F‖_r ≤ ((r − 1)/(q − 1))^{n/2} ‖F‖_q
+  the chaos of order n and 1 < q ≤ r, ‖F‖_r ≤ ((r − 1)/(q − 1))ⁿᐟ² ‖F‖_q
   (Nourdin–Peccati, Corollary 2.8.14, p. 52; Bogachev, Corollary 5.5.4, p. 227, for q = 2;
   Nualart, p. 62).
 - Target in prose: Nelson's theorem for F ∈ Lᵖ outside L², by density, and its sharpness: for
-  q > 1 + e^{2t}(p − 1), P_t is unbounded from Lᵖ to L^q (Nourdin–Peccati, Remark 2.8.15 and
+  q > 1 + e²ᵗ(p − 1), P_t is unbounded from Lᵖ to L^q (Nourdin–Peccati, Remark 2.8.15 and
   Exercise 2.8.16, p. 52).
-- Target in prose: ‖JₙF‖_r ≤ (r − 1)^{n/2} ‖F‖₂ for r ≥ 2, the hypercontractive bound on chaos
+- Target in prose: ‖JₙF‖_r ≤ (r − 1)ⁿᐟ² ‖F‖₂ for r ≥ 2, the hypercontractive bound on chaos
   projections (Nualart, (1.71), p. 63; Bogachev, Corollary 5.5.4, p. 227).
 
 *Proof route.* The logarithmic Sobolev inequality by semigroup interpolation: for smooth
 cylinder F bounded below by a positive constant, d/dt E[P_t(F²) log P_t(F²)] is expressed through
 E‖D P_t F²‖²/P_t F², and the commutation of §6.3 with Cauchy–Schwarz gives the bound with
-constant 2 (Nourdin–Peccati, proof of Theorem 2.8.12, pp. 50–51); approximate in 𝔻^{1,2}.
+constant 2 (Nourdin–Peccati, proof of Theorem 2.8.12, pp. 50–51); approximate in 𝔻¹,².
 Nelson's theorem follows from the logarithmic Sobolev inequality by Gross's differentiation of
-t ↦ ‖P_t F‖_{q(t)} (Nourdin–Peccati, pp. 50–51), or chaos-wise by cylinder approximation and the
-finite-dimensional theorem. Equivalence of moments: on the chaos of order n, P_t F = e^{−nt} F;
-choose t with e^{2t} = (r − 1)/(q − 1).
+t ↦ ‖P_t F‖ in L^q(t) (Nourdin–Peccati, pp. 50–51). Equivalence of moments: on the chaos of
+order n, P_t F = e⁻ⁿᵗ F; choose t with e²ᵗ = (r − 1)/(q − 1).
 
 *Needs:* §§6.1–6.3.
 
 **Checks.**
 
-- `IsIsonormal.ouSemigroup_of_mem_wienerChaos`: P_t multiplies the chaos of order n by e^{−nt}.
-- Mehler at f(x) = x² in one dimension: ∫ (e^{−t}x + √(1 − e^{−2t}) y)² dγ(y) =
-  e^{−2t}(x² − 1) + 1, matching P_t on 1 + He₂ (computed symbolically).
+- `IsIsonormal.ouSemigroup_of_mem_wienerChaos`: P_t multiplies the chaos of order n by e⁻ⁿᵗ.
+- Mehler at f(x) = x² in one dimension: ∫ (e⁻ᵗx + √(1 − e⁻²ᵗ) y)² dγ(y) =
+  e⁻²ᵗ(x² − 1) + 1, matching P_t on 1 + He₂ (computed symbolically).
 - L on F = W(h)², ‖h‖ = 1: the cylinder formula gives 2 − 2W(h)² = −2 He₂(W h), matching
   −2 J₂F.
 - Nelson is attained by exponentials: for F = exp(W(h)), ‖h‖ = 1, p = 2, q = 4 and
   t = (log 3)/2, ‖P_t F‖₄ = ‖F‖₂ = e (computed symbolically).
 - Equality in the logarithmic Sobolev inequality at F = exp(λ W(h)), ‖h‖ = 1: both sides equal
-  2λ² e^{2λ²} (computed symbolically).
-- Integration by parts at F = G = W(h), ‖h‖ = 1, g = sin: E[W sin W] = E[cos W] = e^{−1/2}, and
+  2λ² exp(2λ²) (computed symbolically).
+- Integration by parts at F = G = W(h), ‖h‖ = 1, g = sin: E[W sin W] = E[cos W] = 1/√e, and
   ⟪DG, −DL⁻¹F⟫ = 1.
-- Moment equivalence at F = He₂(W h), ‖h‖ = 1, q = 2, r = 4: ‖F‖₄ = 60^{1/4} ≈ 2.783 ≤
+- Moment equivalence at F = He₂(W h), ‖h‖ = 1, q = 2, r = 4: ‖F‖₄ = 60¹ᐟ⁴ ≈ 2.783 ≤
   3 · √2 ≈ 4.243. Negative control for the exponent n/2: the exponent 1/2 independent of n
-  would give 3^{1/2} √2 ≈ 2.449 < 2.783, so it is false on the second chaos.
-- Negative control for the time scale: with q ≤ 1 + e^{4t}(p − 1) in place of e^{2t}, the
-  exponential example at p = 2 and e^{2t} = 3 would allow q = 10, but
-  ‖P_t F‖₁₀ = e^{1/3 + 10/6} = e² > e = ‖F‖₂.
+  would give √3 √2 ≈ 2.449 < 2.783, so it is false on the second chaos.
+- Negative control for the time scale: with q ≤ 1 + e⁴ᵗ(p − 1) in place of e²ᵗ, the
+  exponential example at p = 2 and e²ᵗ = 3 would allow q = 10, but
+  ‖P_t F‖₁₀ = exp(1/3 + 10/6) = e² > e = ‖F‖₂.
 
 ### Dependencies
 
@@ -650,9 +650,9 @@ layer that consumes the Itô calculus.
 
 ### 7.1 Iterated Itô integrals
 
-- Target in prose: for symmetric f ∈ L²([0, T]^q), I_q(f) = q! ∫_{0 < t₁ < ⋯ < t_q < T}
-  f(t₁, …, t_q) dB_{t₁} ⋯ dB_{t_q}, an iterated Itô integral (Nualart, (1.27), p. 23;
-  Nualart–Nualart, Proposition 4.1.2, p. 64, for tensor powers).
+- Target in prose: for symmetric f ∈ L²([0, T]^q), I_q(f) is q! times the iterated Itô
+  integral of f(t₁, …, t_q) dB(t₁) ⋯ dB(t_q) over 0 < t₁ < ⋯ < t_q < T (Nualart, (1.27),
+  p. 23; Nualart–Nualart, Proposition 4.1.2, p. 64, for tensor powers).
 
 *Needs:* §3.1; StochasticCalculus Layer 3.
 
@@ -661,14 +661,12 @@ layer that consumes the Itô calculus.
 - Target in prose: every square-integrable process adapted to the Brownian filtration is in the
   domain of δ, and δ(u) is its Itô integral (Nualart, Proposition 1.3.11, p. 44;
   Nualart–Nualart, Theorem 3.4.2, p. 56).
-- Target in prose: for u adapted and in 𝔻^{1,2}(L²[0, T]), the derivative of the Itô integral,
-  D_t ∫ u dB = u_t + ∫_t^T D_t u_s dB_s (Nualart, Proposition 1.3.8, p. 43).
 
 *Needs:* §§5.1–5.3; StochasticCalculus Layer 3.
 
 ### 7.3 The Clark–Ocone formula
 
-- Target in prose: for F ∈ 𝔻^{1,2} measurable for the Brownian σ-algebra,
+- Target in prose: for F ∈ 𝔻¹,² measurable for the Brownian σ-algebra,
   F = E F + ∫₀^T E[D_t F | 𝓕_t] dB_t (Nualart, Proposition 1.3.14, (1.63), p. 46;
   Nualart–Nualart, Theorem 6.1.1, p. 87; Da Prato, Proposition 11.12, (11.18), p. 200).
 
@@ -684,8 +682,8 @@ layer that consumes the Itô calculus.
 
 ## Downstream consumers
 
-- No roadmap on main consumes this one. A planned roadmap on the Malliavin–Stein method and the
-  fourth moment theorem consumes §§4.2–4.4, 5.1, 6.2 and 6.3: the Bouleau–Hirsch criterion
+- A roadmap on the Malliavin–Stein method and the fourth moment theorem is the intended
+  consumer, of §§4.2–4.4, 5.1, 6.2 and 6.3: the Bouleau–Hirsch criterion
   for absolute continuity, the total-variation bound through ⟪DF, −DL⁻¹F⟫, the fourth moment
   theorem on a fixed chaos and the Peccati–Tudor theorem.
 
@@ -697,10 +695,10 @@ Completion means:
 2. The Wiener–Itô chaos decomposition and the Hermite basis (Layer 2).
 3. Multiple Wiener–Itô integrals with their isometry, range, the chaos expansion and the product
    formula (Layer 3).
-4. The closed Malliavin derivative on 𝔻^{1,2}, its chain rule, chaos description, the
+4. The closed Malliavin derivative on 𝔻¹,², its chain rule, chaos description, the
    Poincaré inequality, and the characterization of constants and indicators (Layer 4).
-5. The divergence with its domain, product rules and the Skorokhod isometry on elementary
-   processes (Layer 5).
+5. The divergence of `H`-valued functionals with its domain, mean zero, product rules, and its
+   value and the Skorokhod isometry on elementary processes (Layer 5).
 6. The Ornstein–Uhlenbeck semigroup on Wiener space with Mehler's formula, the generator,
    L = −δD, the pseudo-inverse, the commutation and integration-by-parts formulas, the
    logarithmic Sobolev inequality, Nelson's hypercontractivity and the equivalence of moments
@@ -716,22 +714,25 @@ Completion means:
   Layer 8. This roadmap consumes §1.3, Layer 3 and §6.1, and only in Layer 7.
 - The finite-dimensional Ornstein–Uhlenbeck semigroup on ℝᵈ with its Mehler kernel,
   generator, Hermite eigenfunctions, entropy decay and finite-dimensional hypercontractivity
-  belong to an open roadmap on the Ornstein–Uhlenbeck semigroup, which excludes the
-  infinite-dimensional case, moment bounds on Wiener chaos and Malliavin calculus. This roadmap
-  does not consume it: Layer 6 defines the semigroup through the chaos and proves Nelson's
-  theorem from the logarithmic Sobolev inequality on Wiener space.
+  belong to OrnsteinUhlenbeckSemigroup, which excludes the infinite-dimensional case, moment
+  bounds on Wiener chaos and Malliavin calculus. This roadmap does not consume it: Layer 6
+  defines the semigroup through the chaos, proves the one-dimensional Hermite identity it needs
+  inside the route of §6.1, and proves Nelson's theorem from the logarithmic Sobolev inequality
+  on Wiener space.
 - The finite-dimensional Gaussian Poincaré and logarithmic Sobolev inequalities are owned by
   RandomMatrices §2.2; the infinite-dimensional ones here are proved from the chaos and the
   semigroup, without passing through them.
-- Discrete analogues on the Boolean cube and Stein's method for one-dimensional normal
-  approximation belong to separate open roadmaps.
-- The one-dimensional Mehler formula, the finite-dimensional Poincaré inequality, Gaussian
+- Discrete analogues on the Boolean cube belong to BooleanFunctionAnalysis, and Stein's method
+  for one-dimensional normal approximation to SteinsMethodForNormalApproximation.
+- The density of exponential and cylinder functionals of Brownian motion and the orthonormal
+  basis of Hermite products of Brownian increments on a finite grid belong to
+  StochasticCalculus §6.1, as the engine of its martingale representation theorem. The
+  statements of §§1.2 and 2.2 are the same facts for an arbitrary isonormal process on an
+  arbitrary `H`; they are not consumed there, and the Brownian grid forms are not consumed here.
+- Mehler averaging in one dimension, the finite-dimensional Poincaré inequality, Gaussian
   concentration in Banach spaces, the Wick–Isserlis formula, the Wiener integral and the dyadic
-  Hermite basis of Brownian motion are formalized in Tau Ceti beyond the pinned version; at the
-  pin this roadmap uses only the Gaussian Hermite bases.
-- The CKMA synopsis of area 09 numbers these results: 09.1–09.9 (Layers 2–5 and 7), 09.11 and
-  09.13 (Layer 6), 09.14 (§7.3); 09.12 (Meyer inequalities) and 09.15–09.16 (density criteria)
-  are under *Beyond this roadmap* and *Downstream consumers*.
+  Hermite basis of Brownian motion are formalized in Tau Ceti and are not targets here; this
+  roadmap consumes from Tau Ceti only the Gaussian Hermite bases.
 
 ## Exact supplier contracts
 
@@ -745,8 +746,7 @@ Completion means:
 - `Submodule.starProjection`, `OrthogonalFamily` and `HilbertBasis`.
 - `Polynomial.hermite`, the monic probabilists' Hermite polynomials.
 - Mathlib has no isonormal process, Wiener chaos, multiple integral, Malliavin derivative,
-  divergence or infinite-dimensional Ornstein–Uhlenbeck semigroup, and no open Mathlib pull
-  request on them.
+  divergence or infinite-dimensional Ornstein–Uhlenbeck semigroup.
 
 ### From Tau Ceti
 
@@ -772,20 +772,30 @@ Completion means:
 
 ## Beyond this roadmap
 
-- **Meyer inequalities** (CKMA 09.12): equivalence of ‖DF‖_{Lᵖ(H)} and ‖(−L)^{1/2}F‖_p for
+- **Meyer inequalities**: equivalence of ‖DF‖ in Lᵖ(Ω; H) and ‖(−L)¹ᐟ²F‖ₚ for
   1 < p < ∞, through the Riesz transform and Pisier's method (Nualart, §1.5, p. 67;
   Nualart–Nualart, §5.3, p. 80), the continuity of the iterated divergence between Sobolev
-  spaces (Nourdin–Peccati, Theorem 2.5.5, p. 35), and the Sobolev spaces 𝔻^{k,p} with their
+  spaces (Nourdin–Peccati, Theorem 2.5.5, p. 35), and the Sobolev spaces 𝔻ᵏ,ᵖ with their
   duality.
-- **Higher derivatives and 𝔻^∞**: iterated derivatives, Stroock's formula in full, and the
-  algebra 𝔻^∞ (Nualart, Remark 2, p. 31, and §1.5, p. 67).
+- **Hilbert-valued and higher derivatives**: the derivative of functionals with values in a
+  real Hilbert space K, with values in L²(Ω; H ⊗ K) for the Hilbert tensor product, and its
+  domain 𝔻¹,²(K); the iterated derivatives D^q and the spaces 𝔻ᵏ,²; and the algebra 𝔻^∞
+  (Nualart, Remark 2, p. 31, and §1.5, p. 67). Their first targets are Stroock's formula
+  f_q = E[D^q F]/q! for the kernels of §3.2 (Nourdin–Peccati, Corollary 2.7.8, p. 40); the
+  inclusion 𝔻¹,²(H) ⊂ Dom δ with the Skorokhod isometry E δ(u)² = E‖u‖² + E⟨Du, (Du)*⟩ in
+  H ⊗ H and the commutation D_h δ(u) = ⟪u, h⟫ + δ(D_h u) (Nualart, Proposition 1.3.1,
+  (1.45)–(1.46), p. 37, and Proposition 1.3.2, p. 39); the identification of the domain of L
+  with 𝔻²,² (Nualart, p. 60); and, for u adapted and in 𝔻¹,²(L²[0, T]), the derivative
+  of the Itô integral, D_t ∫ u dB = u_t + ∫ from t to T of D_t u_s dB_s (Nualart, Proposition
+  1.3.8, p. 43).
 - **Densities of Wiener functionals**: the Bouleau–Hirsch criterion, smoothness of densities
-  under the nondegeneracy of the Malliavin matrix (CKMA 09.15–09.16; Nualart, §2.1, p. 85;
+  under the nondegeneracy of the Malliavin matrix (Nualart, §2.1, p. 85;
   Nourdin–Peccati, Theorem 2.10.1, p. 54), and Hörmander's theorem for SDEs (Nualart, §2.3,
   p. 125),
   which needs the SDE theory of StochasticCalculus Layer 9.
 - **Malliavin–Stein method**: the fourth moment theorem, Peccati–Tudor, Breuer–Major and
-  second-order Poincaré inequalities, owned by a planned roadmap that consumes this one.
+  second-order Poincaré inequalities, the subject of the consumer named under *Downstream
+  consumers*.
 - **Anticipating calculus**: the Skorokhod integral of non-adapted integrands with the
   anticipating Itô formula and Stratonovich integrals (Nualart, Chapter 3, p. 169).
 
