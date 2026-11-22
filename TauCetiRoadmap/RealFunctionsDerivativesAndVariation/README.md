@@ -51,20 +51,22 @@ for Layer 7.
 
 ## How to read the build
 
-Layer 1 defines the Dini derivatives and proves their elementary theory. Layers 2 and 3 use only
-Layer 1, Mathlib's mean-value and Vitali covering machinery, and Lebesgue outer measure. Layer 4
-is the variation theory; it uses Layer 3 for the Banach–Zarecki theorem and is otherwise
-independent of Layers 1–3. Layer 5 is topological and uses only Mathlib's Baire category theory;
-Layer 6 uses Layers 1 and 5. Layer 7 uses Lebesgue's density theorem from Mathlib and Layer 5 for
-the Baire-class statement. Each subsection has bold headlines with a Lean name, a locator with
-its printed page or a proof route, and a *Needs:* line. Each layer ends with **Checks.**,
+Layer 1 defines the Dini derivatives and proves their elementary theory. Layers 2 and 3 use
+Layer 1, Mathlib's mean-value and Vitali covering machinery, and Lebesgue outer measure; in
+addition, the Goldowski–Tonelli theorem of §2.3 uses the image estimates of §3.1, which need
+nothing from this roadmap. Layer 4 is the variation theory; it uses Layer 3 for the
+Banach–Zarecki theorem and is otherwise independent of Layers 1–3. Layer 5 is topological and
+uses only Mathlib's Baire category theory; Layer 6 uses Layers 1 and 5. Layer 7 uses the density
+predicate, Lebesgue's density theorem and Lusin's theorem from Tau Ceti, and Layer 5 for the
+Baire-class statement. Each subsection has bold headlines with a Lean name, a locator with its
+printed page or a proof route, and a *Needs:* line. Each layer ends with **Checks.**,
 *Examples* and *Dependencies*.
 
 ## Conventions
 
 - Functions are `f : ℝ → ℝ`, used on an interval; hypotheses are stated "on" a set. Intervals are
   either `Icc a b`, Mathlib's `uIcc a b` where Mathlib's `AbsolutelyContinuousOnInterval` uses it,
-  or an order-connected set `D` with its `interior`, in the shape of the Mathlib pull request
+  or an order-connected set `D` with its `interior`, in the shape of the proposed Mathlib file
   cited under *Exact supplier contracts*.
 - The Dini derivatives take values in `EReal` and are the `limsup` and `liminf` of
   `slope f x y` as `y` tends to `x` from the right (`𝓝[>] x`) or from the left (`𝓝[<] x`).
@@ -85,7 +87,9 @@ its printed page or a proof route, and a *Needs:* line. Each layer ends with **C
 - Density is taken with centred closed balls `Metric.closedBall x r` and Lebesgue outer measure.
   For density `0` and density `1` this is equivalent to the sources' convention with arbitrary
   intervals containing `x`, since an interval of length `h` containing `x` lies in the ball of
-  radius `h`.
+  radius `h`. It is Tau Ceti's density predicate `TauCeti.HasDensityAt` (see *Exact supplier
+  contracts*) for `volume`: density `0` of `s` at `x` is `TauCeti.HasDensityAt volume s x 0`,
+  and `x` is a density point of `s` iff it lies in `TauCeti.essentialExterior volume sᶜ`.
 - The density topology is a plain definition `densityTopology`, not an instance, since it
   competes with the order topology of `ℝ`; statements about it use `IsOpen[densityTopology]` and
   explicit instance arguments.
@@ -222,14 +226,21 @@ derivative is at most `0 < ε`. Let `ε → 0`. Mathlib's comparison lemma
   nonnegative almost everywhere, then `f` is monotone on `D` (Bruckner, Chapter XI, p. 174;
   Thomson, §56, p. 137).
 
-*Proof route.* For the almost-everywhere criterion: Bruckner, p. 189, observes that `f` has
-property (N) on the set where `D⁺f` is finite and `≤ 0`; so for `ε > 0` the points of
-`interior D` where `D⁺(f t + ε t) ≤ 0` lie in a null set of that kind together with a countable
-set, their image under `f t + ε t` has empty interior, and Bruckner's Theorem 4.1, p. 189,
-applies. For Goldowski–Tonelli: the same argument, where the exceptional null set also contains
-points with derivative `-∞`, whose image must also be shown null; Thomson, §56, p. 137,
-attributes the theorem and its proof to Saks. Both property (N) steps are cited, not derived
-here, and are the parts of Layer 2 that need care.
+*Proof route.* For the almost-everywhere criterion, follow the proof of Bruckner's Theorem 4.1,
+p. 189, for `g t = f t + ε t`, `ε > 0`: if `g x₁ > g x₂` with `x₁ < x₂`, the last point
+`z = sup {t ∈ [x₁, x₂] | g t ≥ y₀}` at a level `y₀` strictly between has `D⁺g(z) ≤ 0`, and it
+suffices that the set `L` of such last points with `D⁺g ≤ 0` has an image of measure `0`, so that
+a level `y₀` outside `g(L)` exists. Off a countable set, the points of `L` have `D⁺f ≤ -ε`, so
+they form a null set (by the almost-everywhere hypothesis) on which `D⁺g > -∞`. On `L`, `g`
+agrees with the nonincreasing function `m t = sup {g u | u ∈ [t, x₂]}`, and `m y - m z` lies
+between `g y - g z` and `0` for `y > z`, so `D⁺m(z)` is finite; a monotone function maps a null
+set on which one of its Dini derivatives is finite to a null set (Vitali covering of the image).
+Bruckner, p. 189, states more, without proof: `f` has property (N) on the whole set
+`{0 ≥ D⁺f > -∞}`; the argument above uses only the set `L`. For Goldowski–Tonelli: the same
+argument, where the exceptional null set consists of points with a finite derivative, whose image
+is null by §3.1, and points with derivative `-∞`, whose image must also be shown null; Thomson,
+§56, p. 137, attributes the theorem and its proof to Saks. That last property (N) step is cited,
+not derived here, and is the part of Layer 2 that needs care.
 
 *Needs:* §2.2; §3.1.
 
@@ -243,8 +254,9 @@ here, and are the parts of Layer 2 that need care.
   `D⁺(-C) < 0` on an uncountable set, `D⁺(-C) = -∞` on an uncountable set, and the failure of a
   finite or infinite derivative of `-C` on an uncountable set; replacing "off a countable set"
   by "almost everywhere" in any of them makes it false.
-- `x ↦ -x` violates every hypothesis and is not monotone; `x ↦ |x|` on `[0, 1]` satisfies them
-  with `s = ∅`.
+- `x ↦ -x` has `D⁺ = -1` everywhere, so it satisfies continuity, `D⁺ > -∞` and the existence
+  of a derivative, and violates only the sign hypothesis of each of the three theorems; it is not
+  monotone. `x ↦ |x|` on `[0, 1]` satisfies all the hypotheses with `s = ∅`.
 
 ### Examples
 
@@ -261,7 +273,10 @@ Layer 1; Mathlib's `image_le_of_liminf_slope_right_lt_deriv_boundary`; §3.1 for
 
 - **Image estimate** (`volume_image_le_of_abs_deriv_le`): if `f` has a derivative at every point
   of an arbitrary set `A`, bounded in modulus by `K`, then `λ(f(A)) ≤ K λ(A)` for Lebesgue
-  outer measure (Benedetto–Czaja, Lemma 4.6.1, p. 195; Leoni, Theorem 3.36, p. 85).
+  outer measure (Benedetto–Czaja, Lemma 4.6.1, p. 195; Leoni, Theorem 3.36, p. 85). For
+  measurable `A` it follows from Mathlib's
+  `MeasureTheory.addHaar_image_le_lintegral_abs_det_fderiv`; the target is the extension to
+  arbitrary `A` and outer measure.
 - **Null images** (`volume_image_eq_zero_iff`): if `f` has a derivative `f'` at every point of an
   arbitrary set `A`, then `λ(f(A)) = 0` iff `f' = 0` almost everywhere on `A`
   (Benedetto–Czaja, Theorem 4.6.4, p. 198).
@@ -269,9 +284,11 @@ Layer 1; Mathlib's `image_le_of_liminf_slope_right_lt_deriv_boundary`; §3.1 for
 *Proof route.* For the estimate: for `ε > 0` split `A` into the pieces `Aₙ` on which
 `|f y - f x| ≤ (K + ε) |y - x|` for `|y - x| < 1/n`; cover `Aₙ` by intervals of length
 `< 1/n` with total length `< λ(Aₙ) + ε`; each piece of `Aₙ` in such an interval has image of
-diameter at most `(K + ε)` times the length. For null images, the forward direction: apply the
-estimate with `K = ε` on `{f' = 0}` and Mathlib's null-image lemma on the null rest. The
-converse is Benedetto–Czaja's proof, p. 198.
+diameter at most `(K + ε)` times the length. For null images, the backward direction (`f' = 0`
+almost everywhere on `A` gives a null image): apply the estimate with `K = 0` on `{f' = 0}` (with
+`0 · ∞ = 0`; Mathlib's `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero` gives
+the same), and Mathlib's null-image lemma on the null rest. The forward direction is
+Benedetto–Czaja's proof, p. 198.
 
 *Needs:* nothing from this roadmap.
 
@@ -414,7 +431,7 @@ Banach space of bounded derivatives on `[0, 1]`; Bruckner's construction uses Za
   theorem that `C` is not absolutely continuous on `[0, 1]`.
 - Negative control for the bounded-variation hypothesis in Tonelli's characterization:
   `x sin(1/x)` on `[0, 1]` is continuous with infinite variation and
-  `∫ |f'| = ∞` (both grow like `(2/π) log(1/δ)` on `[δ, 1]`: numerically `≈ 3.0, 4.6, 5.9` for
+  `∫ |f'| = ∞` (both grow like `(2/π) log(1/δ)` on `[δ, 1]`: numerically `≈ 3.0, 4.5, 6.0` for
   `δ = 10⁻², 10⁻³, 10⁻⁴`), so both sides of the equation are `⊤`, while `f` is not
   absolutely continuous.
 - Negative control for the variation bound in Helly's theorem: `sin(n x)` on `[0, π]` is bounded
@@ -554,13 +571,16 @@ spaces.
 ### 7.1 Density and approximate continuity
 
 - **Density zero** (`HasDensityZeroAt`): `λ(s ∩ B(x, r)) / λ(B(x, r)) → 0` as `r → 0⁺`, for
-  Lebesgue outer measure and closed balls (Bruckner, Chapter II, §5, p. 18).
+  Lebesgue outer measure and closed balls (Bruckner, Chapter II, §5, p. 18). It is Tau Ceti's
+  `TauCeti.HasDensityAt volume s x 0`; the name is an abbreviation.
 - **Density point** (`IsDensityPoint`): `x` is a density point of `s` if `sᶜ` has density `0` at
-  `x`.
+  `x`, that is, if `x` lies in `TauCeti.essentialExterior volume sᶜ`.
 - **Approximate continuity** (`ApproximatelyContinuousAt`): for every `ε > 0` the set
   `{y | ε ≤ |f y - f x|}` has density `0` at `x` (Bruckner, Chapter II, §5, p. 19).
-- **Lebesgue's density theorem** (`ae_isDensityPoint`): almost every point of a Lebesgue
-  measurable set is a density point of it (Bruckner, Chapter II, Theorem 5.1, p. 18).
+- Not a target: Lebesgue's density theorem, that almost every point of a Lebesgue measurable set
+  is a density point of it (Bruckner, Chapter II, Theorem 5.1, p. 18), is Tau Ceti's
+  `TauCeti.ae_hasDensityAt_indicator`, for null-measurable sets (see *Exact supplier
+  contracts*); applied to `sᶜ` it gives the statement for density points.
 - **Denjoy's measurability criterion** (`aemeasurable_iff_ae_approximatelyContinuousAt`): `f` is
   Lebesgue measurable iff it is approximately continuous almost everywhere (Bruckner, Chapter
   II, Theorem 5.2, p. 19; Kharazishvili, Exercise 4, p. 407).
@@ -573,16 +593,15 @@ spaces.
   (`isBaireOne_of_approximatelyContinuousAt`): a function approximately continuous at every
   point is of the first Baire class (Bruckner, Chapter II, Theorem 5.5(b), p. 21).
 
-*Proof route.* Lebesgue's density theorem: Mathlib's
-`Besicovitch.ae_tendsto_measure_inter_div` gives density `1` of `s` almost everywhere on `s`;
-for measurable `s` the measure of `sᶜ ∩ B` is that of `B` minus that of `s ∩ B`. Denjoy:
-forward from Lusin's theorem and the density theorem applied to the closed sets of continuity;
-backward, the sets `{f > c}` differ from measurable sets by null sets. Derivatives: with
+*Proof route.* Denjoy: forward from Tau Ceti's Lusin theorem for almost-everywhere measurable
+functions and the density theorem applied to the closed sets of continuity; backward, the sets
+`{f > c}` differ from measurable sets by null sets. Derivatives: with
 `|f| ≤ C` and `A_ε = {|f - f x| ≥ ε}`,
 `|∫ₓ^{x+h} f - h f x| ≤ ε |h| + 2C λ(A_ε ∩ B(x, |h|)) = o(h)`. Baire class one: Bruckner's
 proof, p. 21.
 
-*Needs:* §5.1 for the last headline.
+*Needs:* §5.1 for the last headline; Tau Ceti's density theorem and Lusin's theorem (*Exact
+supplier contracts*).
 
 ### 7.2 The Lusin–Menchoff theorem and Zahorski's lemma
 
@@ -678,7 +697,8 @@ At `q`, `U` has density `1` and `V` relative density at least `3/4` in small int
 
 ### Dependencies
 
-Mathlib's Lebesgue and Besicovitch density theorems, `Real.volume_closedBall`, `Perfect`,
+Tau Ceti's density predicate, Lebesgue's density theorem and Lusin's theorem;
+`Real.volume_closedBall`, `Perfect`,
 `TopologicalSpace.generateFrom`, `CompletelyRegularSpace`, `NormalSpace` and `BaireSpace`;
 Layer 5.
 
@@ -720,12 +740,15 @@ Completion means:
 - The identification of `W^{1,p}(a, b)` with absolutely continuous functions with derivative in
   `Lᵖ` is owned by [PDE](../PDE/README.md), §1.1.
 - The `p`-variation for `p ≠ 1`, controls and Hölder paths are owned by the roadmap on Young
-  integration and rough paths (an open pull request); this roadmap uses only the `1`-variation
-  `eVariationOn`.
+  integration and rough paths; this roadmap uses only the `1`-variation `eVariationOn`.
+- Measure-theoretic density and Lebesgue's density theorem are owned by
+  [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G5, and are in Tau Ceti; Layer 7
+  consumes them and owns approximate continuity, the Lusin–Menchoff theorem, Zahorski's lemma and
+  the density topology. Lusin's theorem is in Tau Ceti and is consumed.
 - The Banach indicatrix theorem for continuous curves, the variation formula for absolutely
-  continuous curves, and the Cantor function are in Tau Ceti at the pin and are consumed, not
-  restated. The continuous Jordan decomposition of a continuous function of locally bounded
-  variation is in Tau Ceti after the pin and is not a target here.
+  continuous curves, and the Cantor function are in Tau Ceti and are consumed, not restated. The
+  continuous Jordan decomposition of a continuous function of locally bounded variation is
+  formalized in Tau Ceti and is not a target here.
 - The Weierstrass nowhere differentiable function is in Mathlib's Counterexamples directory
   and is used only as an example.
 - [Poincare3D](../Poincare3D/README.md), §11.1, uses an upper right Dini derivative inequality
@@ -749,22 +772,24 @@ Completion means:
   `Mathlib/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`).
 - `image_le_of_liminf_slope_right_lt_deriv_boundary` (`Mathlib/Analysis/Calculus/MeanValue.lean`)
   and `exists_hasDerivWithinAt_eq_of_gt_of_lt` (`Mathlib/Analysis/Calculus/Darboux.lean`).
-- `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero` and
-  `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero`
-  (`Mathlib/MeasureTheory/Function/Jacobian.lean`): the null-image lemmas used in §3.1.
-- `Besicovitch.ae_tendsto_measure_inter_div` (`Mathlib/MeasureTheory/Covering/Besicovitch.lean`)
-  and Mathlib's Vitali covering families: the density theorems of Layers 3 and 7.
+- `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero`,
+  `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero` and
+  `MeasureTheory.addHaar_image_le_lintegral_abs_det_fderiv`
+  (`Mathlib/MeasureTheory/Function/Jacobian.lean`): the null-image lemmas used in §3.1 and the
+  image estimate for measurable sets, `μ (f '' s) ≤ ∫⁻ x in s, |det f' x|` for measurable `s`
+  with a derivative within `s` at each of its points.
+- Mathlib's Vitali covering families: the covering arguments of Layer 3.
 - `IsGδ.setOfPred_continuousAt`, `residual`, `IsMeagre`, `BaireSpace` and `Perfect`
   (`Mathlib/Topology/GDelta/`, `Mathlib/Topology/Baire/`, `Mathlib/Topology/Perfect.lean`);
   `Set.IccExtend`; `TopologicalSpace.generateFrom`, `CompletelyRegularSpace` and `NormalSpace`.
 - Mathlib has no Dini derivative, property (N), Baire class, approximate continuity, density
-  topology or Helly selection theorem. The open Mathlib pull request #41552
-  (`Mathlib/Analysis/Calculus/MeanValueCountableExceptions.lean`) proves monotonicity of a
+  topology or Helly selection theorem. A proposed Mathlib file,
+  `Mathlib/Analysis/Calculus/MeanValueCountableExceptions.lean`, proves monotonicity of a
   continuous function on an order-connected set whose lower right difference quotients are
   eventually `> -r` for every `r > 0`, off a countable set, following Bourbaki, *FRV*, Chapter I,
   §2, Proposition 2, p. 13. §2.2 uses its hypothesis shape (`OrdConnected D`, countable `s`,
   `interior D`) and weakens its derivative hypothesis to the upper right Dini derivative; the
-  pull request's theorem is the special case.
+  theorem of that file is the special case.
 
 ### From Tau Ceti
 
@@ -782,8 +807,19 @@ Completion means:
   continuity, monotonicity, values, image of the Cantor set, almost-everywhere vanishing
   derivative, variation `1` and failure of absolute continuity. It is the negative control of
   Layers 2–4 and the building block of §4.4.
-- These four files are at the Tau Ceti pin, but the shared build of the pin does not contain
-  their compiled modules, so `Suggested.lean` imports only Mathlib and names them here only.
+- `TauCeti/MeasureTheory/Covering/EssentialBoundary.lean`, imported by `Suggested.lean`: the
+  density `TauCeti.HasDensityAt μ s x d` of `s` at `x`, the convergence of
+  `μ (s ∩ closedBall x r) / μ (closedBall x r)` to `d` as `r → 0⁺`; the essential interior and
+  exterior (`TauCeti.essentialExterior`); and Lebesgue's density theorem
+  `TauCeti.ae_hasDensityAt_indicator`: for a null-measurable `s` and a locally finite measure on
+  a metric space with the Besicovitch covering property, almost every `x` has density `1` or `0`
+  according to whether `x ∈ s`. The definitions of §7.1 are this predicate for `volume`, and the
+  theorem is the density theorem used in Layer 7.
+- `TauCeti/MeasureTheory/Function/Lusin.lean`: Lusin's theorem for an almost-everywhere
+  measurable map, continuity on a closed `F ⊆ s` with `μ (s \ F) < ε` for a measurable `s` of
+  finite measure and `ε > 0`. It is the forward direction of Denjoy's criterion (§7.1).
+- `Suggested.lean` imports Mathlib and the density file above; the other files are named here
+  only, since no statement of `Suggested.lean` uses them.
 
 ### From other roadmaps
 
@@ -807,7 +843,8 @@ Completion means:
 ## Prior formalization
 
 - CKMA, *Core knowledge in mathematical analysis*, a Lean project under the Apache 2.0 licence
-  (https://github.com/bjbraams/lean-CKMA). Fully proved there, in `CKMA/Analysis/Real/`:
+  (https://github.com/bjbraams/lean-CKMA, commit f4bd822). Fully proved there, in
+  `CKMA/Analysis/Real/`:
   `Dini/Basic.lean` defines the four Dini derivatives through the extended difference quotient
   at `0⁺` and the four Dini types; `Dini.lean` proves the Denjoy–Young–Saks theorem for an
   arbitrary function; `Dini/RisingSun.lean` proves a local rising sun lemma; `Baire.lean`
@@ -820,8 +857,8 @@ Completion means:
   entries 05.7 (Baire classification of derivatives, §5.1), 05.10 (Denjoy–Young–Saks, §3.2) and
   05.30 (approximate continuity, §7.1); the variation entries of that area that CKMA records as
   gaps are the subject of Layer 4.
-- The Mathlib pull request #41552 on monotonicity with countable exceptional sets, see *Exact
-  supplier contracts*.
+- The proposed Mathlib file on monotonicity with countable exceptional sets, see *Exact supplier
+  contracts*.
 
 ## References
 

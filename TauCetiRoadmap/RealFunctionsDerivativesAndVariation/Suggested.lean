@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.MeasureTheory.Covering.EssentialBoundary
 
 /-!
 # Real functions, derivatives and variation: target signatures
@@ -291,7 +292,7 @@ theorem not_isBaireOne_indicator_rat :
   sorry
 
 /-- The derivative of a differentiable function is of the first Baire class. -/
-theorem _root_.Differentiable.isBaireOne_deriv {f : ℝ → ℝ} (hf : Differentiable ℝ f) :
+theorem Differentiable.isBaireOne_deriv {f : ℝ → ℝ} (hf : Differentiable ℝ f) :
     IsBaireOne (deriv f) := by
   sorry
 
@@ -352,12 +353,13 @@ end Typical
 
 section Density
 
-/-- `s` has Lebesgue density `0` at `x`, for Lebesgue outer measure and centred closed balls. -/
-def HasDensityZeroAt (s : Set ℝ) (x : ℝ) : Prop :=
-  Tendsto (fun r ↦ volume (s ∩ Metric.closedBall x r) / volume (Metric.closedBall x r))
-    (𝓝[>] 0) (𝓝 0)
+/-- `s` has Lebesgue density `0` at `x`, for Lebesgue outer measure and centred closed balls: Tau
+Ceti's density predicate for `volume` with `d = 0`. -/
+abbrev HasDensityZeroAt (s : Set ℝ) (x : ℝ) : Prop :=
+  TauCeti.HasDensityAt volume s x 0
 
-/-- `x` is a density point of `s`: the complement of `s` has density `0` at `x`. -/
+/-- `x` is a density point of `s`: the complement of `s` has density `0` at `x`, that is, `x`
+lies in Tau Ceti's essential exterior of `sᶜ`. -/
 def IsDensityPoint (s : Set ℝ) (x : ℝ) : Prop :=
   HasDensityZeroAt sᶜ x
 
@@ -393,12 +395,6 @@ exactly at the irrational points. -/
 theorem approximatelyContinuousAt_indicator_rat_iff {x : ℝ} :
     ApproximatelyContinuousAt (Set.indicator (Set.range ((↑) : ℚ → ℝ)) fun _ ↦ 1) x ↔
       x ∉ Set.range ((↑) : ℚ → ℝ) := by
-  sorry
-
-/-- Lebesgue's density theorem: almost every point of a Lebesgue measurable set is a density point
-of it. -/
-theorem ae_isDensityPoint {s : Set ℝ} (hs : NullMeasurableSet s) :
-    ∀ᵐ x, x ∈ s → IsDensityPoint s x := by
   sorry
 
 /-- Denjoy's theorem: a function is Lebesgue measurable iff it is approximately continuous almost
@@ -481,7 +477,7 @@ theorem not_normalSpace_densityTopology : ¬ @NormalSpace ℝ densityTopology :=
 
 end Density
 
-/-! ## Mathlib vocabulary used by the README -/
+/-! ## Mathlib and Tau Ceti vocabulary used by the README -/
 
 #check @slope
 #check @eVariationOn
@@ -495,8 +491,8 @@ end Density
 #check @image_le_of_liminf_slope_right_lt_deriv_boundary
 #check @MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero
 #check @MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero
+#check @MeasureTheory.addHaar_image_le_lintegral_abs_det_fderiv
 #check @exists_hasDerivWithinAt_eq_of_gt_of_lt
-#check @Besicovitch.ae_tendsto_measure_inter_div
 #check @IsGδ.setOfPred_continuousAt
 #check @residual
 #check @IsMeagre
@@ -507,6 +503,9 @@ end Density
 #check @CompletelyRegularSpace
 #check @NormalSpace
 #check @Real.volume_closedBall
+#check @TauCeti.HasDensityAt
+#check @TauCeti.essentialExterior
+#check @TauCeti.ae_hasDensityAt_indicator
 #check @hasDerivAt_iff_tendsto_slope
 #check @Filter.liminf_le_limsup
 
