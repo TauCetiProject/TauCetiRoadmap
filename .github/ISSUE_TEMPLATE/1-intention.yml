@@ -73,6 +73,7 @@ body:
         - AutomorphicGaloisRepresentationsPartII
         - AutomorphicLFunctionsAndLocalFactors
         - AutomorphicLFunctionsAndLocalFactorsPartII
+        - AutomorphicPadicLFunctionsPartII
         - AutomorphicSpectralTheory
         - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
@@ -238,6 +239,7 @@ body:
         - HopfologicalAlgebra
         - Hyperfunctions
         - HypergeometricMotives
+        - IgusaVarietiesAndTorsionConcentration
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
         - IndexTheory
@@ -326,6 +328,7 @@ body:
         - Orbifolds
         - OrdinaryAutomorphicFormsAndModularityLifting
         - OrthogonalTamagawaAndLatticeMass
+        - OverconvergentAutomorphicForms
         - PCurvature
         - PDE
         - PELModuli
@@ -342,6 +345,7 @@ body:
         - PainleveEquations
         - PerfectoidQuotients
         - PerfectoidQuotientsPartII
+        - PerfectoidShimuraVarieties
         - PerfectoidSpaces
         - PerfectoidSpacesPartII
         - PerfectoidTowers
@@ -462,6 +466,7 @@ body:
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
+        - TorsionCohomologyInfrastructure
         - TropicalAndBerkovichArithmetic
         - TypeAHeckeAlgebras
         - VStackSheavesAndLisseCategories
