@@ -247,9 +247,9 @@ syntax/semantics. Layers 2–3 are not prerequisites.
    ambient names nor a chosen incomplete family may stand in for all ground names.
 4. Define atomic forcing by a well-founded recursion with the standard density clauses. Define
    formula forcing on Mathlib syntax relative to an arbitrary stated family `N` of poset names, with
-   the quantifiers ranging over `N` (as `ForcesFormula` of `cameronfreer/forcing` does), and specialize it to the
-   canonical ground-name domain. Prove persistence,
-   equality substitution, density regularity, the Boolean connective rules, and density of deciding
+   the quantifiers ranging over `N` (as `ForcesFormula` of `cameronfreer/forcing` does), and
+   specialize it to the canonical ground-name domain. Prove persistence, equality substitution,
+   density regularity, the Boolean connective rules, and density of deciding
    conditions. The existential rule is formulated using densely available witnesses, so it does not
    erroneously require a single witness before the maximum principle is established.
 5. Construct an effective syntactic translation sending each fixed formula `φ` to a formula
