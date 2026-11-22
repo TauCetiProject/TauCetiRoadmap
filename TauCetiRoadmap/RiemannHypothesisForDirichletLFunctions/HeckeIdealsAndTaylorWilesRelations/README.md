@@ -16,7 +16,7 @@ Layers 3, 4 and 9 below carry the numbers of the layers of PotentialAutomorphyIn
 Notation and conventions not restated here are those of PotentialAutomorphyInfrastructurePartII §§2.1, 3.1–3.13, 4.1–4.2, 9.3, and of its Conventions, in Layers 3, 4 and 9, and those of ArithmeticGaloisDuality §§R02.4.2, D7.6, and of its Conventions, in Layer 10.
 
 - `L` (in 9.9 (a)–(c), `F`) is a CM field with maximal totally real subfield `L⁺` and complex conjugation `c`. For a place `v` of `L⁺` split in `L`, `ṽ` is the chosen place of `L` above it; `G_{L,S}`, the decomposition groups `G_{L_ṽ}` and the inertia groups `I_ṽ` are those of PotentialAutomorphyInfrastructurePartII.
-- `O` is the ring of integers of a finite extension `E` of `ℚ_l`, with uniformizer `ϖ`, maximal ideal `𝔪_O` and residue field `k`. In 9.9 (d) and (d′) the coefficient prime is written `p`; it plays the role of `l` in 3.13a and 4.2a.
+- `O` is the ring of integers of a finite extension `E` of `ℚ_l`, with uniformizer `ϖ`, maximal ideal `𝔪_O` and residue field `k`. In 9.9 (d), (d₀), (d₀′) and (d′) the coefficient prime is written `p`; it plays the role of `l` in 3.13a and 4.2a.
 - `ε` is the cyclotomic character, of Hodge–Tate weight `−1`, and `ε̄` its reduction; local class field theory `Art` sends uniformizers to geometric Frobenius elements (as in [FormalProof],
   `Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/HasExponentZeroIff.lean` (`GlobalTheory.LocLanglands.IsLocalArtin`),
   `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/IsSubquotientDetRepParInd.lean` (`GlobalTheory.SmGL.ord`),
@@ -169,7 +169,8 @@ free over `Λ` because the level at `v₀` makes the arithmetic subgroups act fr
 identifies its specializations with classical ordinary forms; at a point with distinct inertial characters the classical space
 is a sum of Hecke eigenspaces, so `𝕋` is reduced and such points are dense (c). Every automorphic representation of `G` has a
 semisimple Galois representation with the Speh shape of (d): its weak base change to `GL_n` is an isobaric sum of Speh blocks
-(EndoscopicTransferAndUnitaryTraceComparison §6.29), with the Galois representations `r_l(π)` of
+(EndoscopicTransferAndUnitaryTraceComparison §6.29) (in the form of [FormalProof] recorded at
+BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1), with the Galois representations `r_l(π)` of
 PotentialAutomorphyInfrastructurePartII §3.6, whose Speh shape with explicit twists is
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1 (which agrees with PotentialAutomorphyInfrastructurePartII §3.6 in
 this setting; its hypothesis `[L⁺ : ℚ] ≥ 2` holds, since `L/L⁺` unramified at
@@ -320,6 +321,24 @@ these elements are inertial and the ring is `Λ`), with
 - with the exponent `e` above, independent of `N` (one may take `e = n!`): `(f·tr_{D_N}(h·r))^e` kills `M_N` for every `h ∈ G_{L,S_N}` and
   each of the two kinds of elements `r = ∏_i(φ_{N,j} − U_{j,i})` and `r = ∏_{k≠i}(φ_{N,j} − U_{j,k})(τ_{N,j} − 1 − x_{j,i})`.
 
+(L) (*level modules*) There is a base module `M` as above (a `B`-module, finite free over `Λ`, with `Supp_B M = V(J)`) such that
+for every finite set `Q = {w_1, …, w_q}` of places of `L` above pairwise distinct places `v_1, …, v_q` of `L⁺` that split in `L` and
+lie outside `S`, with `S_Q = S ∪ {v_1, …, v_q}`, there are: a complete local noetherian `O`-algebra `R_Q` with residue field `k`,
+carrying an ordinary determinant in the sense of 3.13a(1) for the same residual data and the ramification set `S_Q`, with the
+`Λ`-algebra structure given by its inertial characters; a homomorphism `R_Q → B` carrying this determinant to the pullback of
+the universal ordinary determinant along `G_{L,S_Q} → G_{L,S}`; and an `R_Q`-module `P_Q` with an `R_Q`-linear action of
+`∏_j GL_n(L_{w_j})`, such that, `Iw` being the product of the Iwahori subgroups and `Iw′ ⊆ Iw` the subgroup of the elements whose
+diagonal entries reduce to elements of order prime to `l`: (i) the `Iw′`-invariants of `P_Q` are finite over `Λ`; (ii) `Iw′` is normal
+in `Iw` and these invariants are projective over `Λ[Iw/Iw′]`; (iii) the invariants of `∏_j GL_n(𝒪_{w_j})` are identified with `M`, `R_Q`
+acting through `B`; (iv) there is `ι : ℚ̄_l ≅ ℂ` such that an element of `P_Q` is zero if it is killed by every *classical
+specialization*: an additive map from `P_Q` to a complex representation `Y` of `∏_j GL_n(L_{w_j})`, equivariant, semilinear for a
+ring homomorphism `θ : R_Q → ℚ̄_l` through `ι`, where the restriction of `Y` to the `j`-th factor is a sum of copies of one
+irreducible smooth representation `π_j`, and `θ` composed with the determinant of `R_Q` is the determinant of a continuous
+representation of `G_{L,S_Q}` which has a Weil–Deligne representation at each `w_j`, equal to `rec^T` of `π_j` in the algebraic
+normalisation whenever the latter is a sum of characters with zero monodromy. In (iv) the algebraic normalisation and the
+condition of having a Weil–Deligne representation at `w_j` are those of [FormalProof], whose definitions of them are not written
+out here.
+
 Prove that the ideal `J` of 3.13a has automorphic patching data. This is a theorem of [FormalProof], with the residual data
 and the map of Galois groups of
 `Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/PairedDualFirstOrderDualMatrixSpace.lean`
@@ -330,8 +349,10 @@ there `μ_l ⊄ L` is a hypothesis of the bundle
 `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/HidaU.lean`
 (`UpperTheory.V.W.HidaUAlt`),
 not of the statement that `J` has patching data,
-`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean` (`UpperTheory.V.Pa.HasAut`). The route of the
-existence of the level modules `M_N` and of the two comparison maps is not given here; the relations have the route below.
+`Development/AutomorphicArithmetic/AutomorphicVarieties/PatchingModules/TaylorWilesObstructionBound.lean` (`UpperTheory.V.Pa.HasAut`). The patching
+data follow from (L) applied to the sets `Q_N`, with finiteness for parabolically induced representations, the geometric lemma
+and the structure of tame local Galois groups; (L) is a theorem of [FormalProof] whose route is not given here (outline below);
+the relations have the route below.
 
 *Outline of the mechanism.* For the finite set `Q_N = {w_{N,j}}`, the module `P_{Q_N}` of ordinary forms at Iwahori-type level at the
 places of `Q_N` (the pro-`l` part of the diagonal of the Iwahori subgroup) with its smooth action of `∏_j GL_n(L_{w_{N,j}})`: its
@@ -442,6 +463,23 @@ its hypothesis on the exponents,
 `Development/AutomorphicArithmetic/AutomorphicVarieties/TheoremsMuLinked/OrdZero.lean` (`UpperTheory.V.Th.Par`), is on the ratios
 of the ordinary characters only (`ε^{m_{w,i} − m_{w,j}}` up to finite order on inertia), which the hypothesis here implies.
 
+(d₀) (*ordinary cocycles at locally generic points*) In the setting of 3.13a with `μ_p ⊄ L`, `2 ≤ n ≤ 4` and coefficients large
+as there, let `x` be an arithmetic point of the universal ordinary determinant ring whose determinant is that of a continuous
+`ρ`, automorphic in the sense of 3.13a (f) (with (w1), (w2)), trivial on inertia at `v₀`, with at each place `v` above `p` a full
+flag whose characters are those of `x`; assume (i), (ii), (iii) of (d). Then every continuous cocycle of `G_{L⁺,S}` in `ad r`
+that vanishes on the inertia elements at the places of `S` prime to `p` at which the residual characters are trivial, and such
+that at each `v` above `p` there are a basis of the flag and a matrix `X` for which the cocycle minus the coboundary of `X` is upper
+triangular on the decomposition group and has zero diagonal on the inertia group, is a coboundary.
+
+(d₀′) (*Bloch–Kato classes are ordinary*) Let `ρ` be as in (d₀), with the flags and hypothesis (i), and assume that at each place
+`w` above `p` the ratios of its ordinary characters are `ε^{m_{w,i} − m_{w,j}}` up to finite order on inertia, with
+`m_{w,1} > ⋯ > m_{w,n}`. Then every continuous cocycle of `G_{L⁺,S}` in `ad r` whose class is in `H¹_f` satisfies the two conditions
+of (d₀).
+
+In (d₀) and (d₀′) the largeness of the coefficients, the conditions at `v₀`, the action on `ad r` and hypothesis (ii) are those of
+the statement of [FormalProof], taken here in the forms of 3.13a, of the Conventions and of (d); the definitions of [FormalProof]
+for them are not written out here.
+
 (d′) Under the hypotheses of (d), let `Λ → B_det` be the weight algebra of the universal ordinary determinant ring of 3.13a(1)
 (a power series ring over `O`) and `J₀` the Hecke ideal, with `B_det/J₀` finite and torsion-free over `Λ`. If moreover the cyclotomic
 exponents of `ρ` at each place above `p` differ by at least `2`, then every point derivation of `B_det` at the point of `ρ` (a point
@@ -510,9 +548,10 @@ derivations modulo `ϖ^m` dual to the `n[L⁺:ℚ]` weight variables and to the 
 each derivation gives a Selmer cocycle modulo `ϖ^m` with the same trace function; a further derivation at `x` killing the weights
 and not the traces would give `|k|^{m(1 + n[L⁺:ℚ] + nq) − C}` trace functions, against the Selmer bound `|k|^{m(n[L⁺:ℚ] + nq) + C}`
 (the Greenberg–Wiles formula, the dual term killed by detection). So the ordinary determinant ring is unramified over the weight
-algebra at the point, which is the vanishing of the ordinary, hence of the Bloch–Kato, adjoint Selmer group. The derivations
-dual to the variables, detection in characteristic zero, and the local statement on Bloch–Kato classes are not written here;
-the remaining steps of the route of (d) are not given here. (d′) A point derivation of `B_det` at the point vanishing on `Λ` is a first-order deformation of `ρ` with constant inertial
+algebra at the point, which is the vanishing of the ordinary, hence of the Bloch–Kato, adjoint Selmer group. (d) follows
+from (d₀) and (d₀′); (d₀) is a theorem of [FormalProof] whose route is not given here beyond this outline (the derivations dual
+to the variables and detection in characteristic zero are not written here), and the local statement on Bloch–Kato classes behind
+(d₀′) is not written here. (d′) A point derivation of `B_det` at the point vanishing on `Λ` is a first-order deformation of `ρ` with constant inertial
 characters, trivial on the tame inertia killed residually and unramified at `v₀`; its cocycle is, at each place above `p`, an
 extension of crystalline characters whose cyclotomic exponents differ by at least `2` in the ordinary order, hence a
 Bloch–Kato cocycle (`H¹_f = H¹` for such a character; with a gap of `1` this can fail), so it is a coboundary by (d) and the
@@ -704,7 +743,11 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 - §0.5: an automorphic representation of level potentially prime to `l` whose Galois representation is ordinary at every place above `l` is `ι`-ordinary, for every `n`, used in the route of 3.13a (f).
 - §3.1: the definite unitary group `G` in `n` variables for `L/L⁺`.
 - §3.4: exactness and freeness over the group ring of the diamond group at level without `l`-torsion, used in the outline of 4.2a.
-- §3.5 (1): descent of automorphic representations from `GL_n` to `G`, for every `n`, used in the route of 3.13a (f).
+- §3.5 (1): descent of automorphic representations from `GL_n` to `G`, for every `n`, used in the route of 3.13a (f); [FormalProof]
+  has it for a CM field `L` with `L/L⁺` unramified at every finite place, `2 ≤ n ≤ 4`, a prime `l`, and a regular algebraic
+  cuspidal `π` with `π^∨ ≅ π^c`, unramified outside the places above a finite set of places of `L⁺` split in `L` that contains those
+  above `l`: an automorphic representation of the definite unitary group, unramified at every place that does not split, whose
+  components at almost all split places are unramified with the Satake parameters of `π`.
 - §3.6: the Galois representations `r_l(π)` attached to constituents of algebraic modular forms on `G`, with (i) semisimplified local–global compatibility at split places and (v) de Rham with the weights at `S_l`, used in the routes of 3.13a (c), (d) and in the relations of 4.2a.
 - §3.7: the Hecke polynomials of the spherical operators `T_w^j`.
 - §§3.8–3.9: Iwahori levels at `l`, the `U`-operators, ordinary parts, and the big ordinary Hecke algebra over `Λ` of universal weight.
