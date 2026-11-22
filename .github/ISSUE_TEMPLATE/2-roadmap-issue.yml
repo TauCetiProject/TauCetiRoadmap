@@ -428,6 +428,7 @@ body:
         - RigidAnalyticGeometry
         - RootSystemsPartII
         - SNumbers
+        - SatoTateGroups
         - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchemeKTheoryOperations
