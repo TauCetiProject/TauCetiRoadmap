@@ -11,7 +11,8 @@ public import TauCeti.ModelTheory.Scott.Sentence
 
 **This file is not the roadmap.** The roadmap is README.md. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with sorry, with the definitions
-they need.
+they need. Three interface definitions occur in no statement here: `IsIndiscernibleOn`,
+`morleySeed` and `hanfNumber`, which the README uses in 1.1, 1.3 and 3.1 and in their Checks.
 
 Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction of
 the InfinitaryLogic roadmap (`FirstOrder.Language.BoundedFormulaω`, `Sentenceω`,
