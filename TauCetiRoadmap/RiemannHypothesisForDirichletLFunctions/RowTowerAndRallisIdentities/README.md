@@ -1693,9 +1693,11 @@ conjugate-linear, 5.8e, and `ι_ξ` is linear): `v(ξ, λx, a) = c_𝕃(λ)·v(�
 ([FormalProof] states the identity, `v(ξ, x, a) ∈ 𝕃`, the ratios in `𝕃` and `c(i, j, ξ) ≠ 0` as
 `GlobalTheory.RowClaim.Formula2K`, `SumRatK`, `RatioK` and `ConstK`,
 `Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, for an `𝕃` containing (L1)–(L7), its
-`GlobalTheory.RowTest.NumbersIn` of the file cited for (L5), in this form: there is a threshold `C_F⁰`, not made
-explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is `x_F` for which they hold under its standing record
-`GlobalTheory.RowClaim.HidaSetting` of that file, which adds to `Size_□` the record `Formalism.IndefR.Links.HostHyp` of 5.9
+`GlobalTheory.RowTest.NumbersIn`, `Development/AbelianVarietyTheory/Definitions/TwistedInnerProducts/MemHalfCosetSelf.lean`,
+in this form: there is a threshold `C_F⁰`, not made explicit, such that for every `C_F ≥ C_F⁰` and every `ε` there is
+`x_F` for which they hold under its standing record `GlobalTheory.RowClaim.HidaSetting` of
+`Development/AbelianVarietyTheory/Statements/HeckeThetaIntegrals/FormulaAt.lean`, which adds to `Size_□` the record
+`Formalism.IndefR.Links.HostHyp` of 5.9
 (the gaps `100r⁴` of 5.9, the interlacing and further gaps of the row parameter) and further clauses, among them on the
 labels, the characters of the tuples, the Weil representations of the steps, the additive character and the frame of `X^h`. It
 applies the functionals to its own descent of a rational form, a row of the proof, the complex conjugate of the
