@@ -458,7 +458,8 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.11–8.19d (8.1
 `K = ℚ(√−d)` for a prime `d ≡ 7 (mod 16)` and `E` unramified over `F` at every finite place (the hosts of the chain are of this kind).
 
 Some clauses of this layer are statements whose routes are not given, or not given in full, here: the three
-statements on the lattices of the chain and the distribution relation behind 8.19e (c); the generation inputs 8.20 (vii)
+statements on the lattices of the chain, the statements (c2), (c3) on covers, and the distribution relation behind 8.19e
+(c); the generation inputs 8.20 (vii)
 (a)–(g); three inequalities of (P3) for the weights of a run (8.20); the passage to geometrically irreducible
 components in 8.20 (o); in 8.24b the class representatives, the presentation of the kernel at a prime and the count of
 classes; the proofs of 8.24d (a) beyond ThetaChainsOnDefiniteUnitaryGroups §3.1c and of 8.24e; and in 8.24c the bounds
@@ -922,6 +923,39 @@ characters above: Hecke stability, the integrality with one `c` for all `Q`, `M`
 operators, and the eigensystem condition. (That `z` is central modulo `H`, which the definition of a polynomial condition in
 SelmerLengthBoundsAndLocalLifting §3.25b (2) asks, is not asserted by [FormalProof]; with position read by conjugacy as in
 (b) it is not needed.)
+The first two rest on three statements about the forms on the algebraic tower of `U(W_j)` (RowTowerAndRallisIdentities
+§5.10a) and its covers of auxiliary level `p_d` (in (c1)–(c3) `M` is the level of the tower, RowTowerAndRallisIdentities
+§5.11, not the exponent in `ℓ^M`). A *cover* is the member of the tower of level `M·p_d` over a coefficient field `𝕂′`
+containing that of the chain, with its complex uniformisation and its reading of sections as adelic functions normalised
+compatibly with those of the level `M`; a form on it is *integral at* a set `S` of finite places of `𝕂′` if it is a cusp
+form over `𝕂′` with integral values at every integral framed point over a complete discrete valuation ring with finite
+residue field above a place of `S` (the integral structure of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties
+§8.19a, at the places of `S`).
+
+(c1) *Rationality on covers and for twists:* RowTowerAndRallisIdentities §5.11, Lemma, in its form on covers.
+
+(c2) *Integrality with an exponent uniform in the cover.* There is a phase of absolute value `1` such that for every prime
+`ℓ`, every `s ∈ U(V_j)(𝔸_f)` and every finitely generated `ℤ`-lattice `Λ` of harmonic polynomials there is `c ≥ 0` with:
+for every cover with `p_d` squarefree, prime to `ℓ` and to the primes of the host, whose field `𝕂′` contains the values at
+the unramified places of `μ_j·(η̃·‖·‖_{𝔸_E}^{1/2})^{−1}`, the coefficients of the elements of `Λ` and the ray class field of
+`K` of conductor `M·p_d`; every set `S` of places of `𝕂′` above `ℓ`; every character `α` of the finite ideles of `E` whose
+restriction to the ideles of norm one to `F` is trivial on the elements of `E^×` of norm one and on the ideles
+`≡ 1 (mod p_d)` and has values in `𝕂′`; every test function of level `M·p_d` with values in `𝕂′` integral at `S`; and every
+`v ∈ Λ`: `ℓ^c·(phase)·α(det g_f)·θ(s, g)`, the theta function of the test function and of `v`, is a form on the cover
+integral at `S`. *Descent:* if moreover `𝕂′` is unramified over the field of the chain at the places of `S`, a form on the
+cover that is integral at `S` and right invariant under the level of the chain is a finite combination, with coefficients
+in `𝕂′` integral at `S`, of forms of the level of the chain integral at the places below `S`.
+
+(c3) *Hecke correspondences and integral points.* Let `P` be a prime of `E` with `P ≠ P̄`, above a rational prime `p` prime
+to the level, and `𝔩` a place of the coefficient field not above `p`. If a framed point `z` over an algebraically closed
+field is related by a Hecke correspondence at `P`, of any type, to the base change of an integral framed point over a
+complete discrete valuation ring `T` above `𝔩` with finite residue field, then after a finite extension `T′` of `T` there is
+an integral framed point over `T′` whose base change differs from `z` by a triangular change of frame with diagonal entries
+units of `T′`; and every form, of any weight, that is integral at `𝔩` has at `z` a value integral over `T`. Consequently,
+with the algebraicity of the Hecke transform and its identification with the adelic operator at the base embedding
+(RowTowerAndRallisIdentities §5.10a), the operators `(μ_j(ϖ_P)·N(P)^{(r+t)/2})^{−n}·T_{n,P}` (`1 ≤ n ≤ r`; `P ≠ P̄` outside
+`S(1)` and not above `g₀g₁`) preserve the forms integral at every place of the coefficient field not above the residue
+characteristic of `P`.
 
 *Route.* (a) is ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d (iii): integrality uniform in `Q`, the Euler-factor relation when a conjugate pair leaves `Q`, and the
 reduction modulo the maximal ideal with exponents `e_a ∈ {0, 2}`; these are the data of the second kind. A product of two conditions of
@@ -950,15 +984,19 @@ relation are not given here. [FormalProof] states (b) as `Development/AbelianVar
 (`GlobalTheory.TwistDet.propABCD_of_rel`), and (c) as `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsLatInOfIndexLe.lean`
 (`GlobalTheory.ExportFromInputs.abHyp_fam`), with the Euler-factor relation
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/UniversalTwistedSeriesDistributionOfCompatibilitStatement.lean`
-(`GlobalTheory.T.universalTwistedSeriesDistribution_of_compatibility`). For the Hecke stability and the integrality in (c)
-[FormalProof] has statements on the forms on covers of the step varieties: the rationality of theta series on covers and
-for twists, `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
-(`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`); the integrality of theta series on covers with an
-exponent uniform in the cover and the descent of integral forms along a cover unramified at `ℓ`,
+(`GlobalTheory.T.universalTwistedSeriesDistribution_of_compatibility`). The Hecke stability and the integrality of (L1) rest
+on (c1)–(c3); the proofs of (c2) and (c3) are not given here, and the phase of (c2) is not asserted to be the phase `κ_rat`
+of RowTowerAndRallisIdentities §5.11. [FormalProof] states (c1) as
+`Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/RationalRayLevels.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.RationalRayLevels.SeriesRat`), (c2) as
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/TwistSeries.lean`
-(`GlobalTheory.IndefiniteRowSideFullHecke.TwistSeries.SerInt`); the integrality of the points related by the Hecke
-correspondences to integral points, `Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/HeckeValueIntegrality.lean`
-(`GlobalTheory.IndefiniteRowSideFullHecke.UnusedSlot39.HeckeInt`); and it identifies the lattices of (b) with the lattices of
+(`GlobalTheory.IndefiniteRowSideFullHecke.TwistSeries.SerInt`) and (c3) as
+`Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/HeckeValueIntegrality.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.UnusedSlot39.HeckeInt`), with the consequence of (c3)
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/HeckeOperatorPreservesSupLatticeRealSideStatement.lean`
+(`GlobalTheory.T.heckeOperator_preserves_supLattice_realSide`) and its conclusion
+`Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/HeckeSupportLattices.lean`
+(`GlobalTheory.IndefiniteRowSideFullHecke.LatticesOverBalls.HkSupAt`); and it identifies the lattices of (b) with the lattices of
 theta series of the tuples twisted by `δ_ℓ` and by `δ_ℓψ_𝔭` in
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExportSt.lean`
 (`GlobalTheory.BigOn.ExportedStatement`).
@@ -976,7 +1014,7 @@ The exponent bound `r·k` depends on the rank `k` of the lattice and on `r`, not
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean`
 (`GlobalTheory.TwSys.ThURel`), `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean`
 (`Formalism.BasicNotions.NTw.NonzeroIndexPlace`).
-*Needs:* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.11, ThetaChainsOnDefiniteUnitaryGroups §2.5, CongruenceModulesOfThetaLifts §7.8; SelmerLengthBoundsAndLocalLifting §3.24, SelmerLengthBoundsAndLocalLifting §3.25b, SelmerLengthBoundsAndLocalLifting §3.26.
+*Needs:* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.10a, RowTowerAndRallisIdentities §5.11, ThetaChainsOnDefiniteUnitaryGroups §2.5, CongruenceModulesOfThetaLifts §7.8; SelmerLengthBoundsAndLocalLifting §3.24, SelmerLengthBoundsAndLocalLifting §3.25b, SelmerLengthBoundsAndLocalLifting §3.26.
 
 ### 8.20 The local terms of the glued target
 
@@ -2204,7 +2242,8 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 - 8.5 (the Chowla–Selberg statement for the mean period). Used in 8.5c.
 - 8.17a (the cusp forms of a weight in the stable range are spanned by theta series). Used in 8.20b.
 - 8.18a, 8.18b, 8.19, 8.19a, 8.19a′, 8.19a″, 8.19a‴ (the step lattices `M^W_j`, their slope bound, the generation of integral
-  forms by theta series and the depth of the theta lattices). Used in 8.20–8.22, 8.24.
+  forms by theta series and the depth of the theta lattices). Used in 8.20–8.22, 8.24; 8.19a (its integral structure) also
+  in 8.19e (c).
 - 8.18c (e), (f), 8.18f (c): the number `q_z` and the hypotheses (H1)–(H3) of 8.19 (b), and the gap conditions of the deep
   covers of the steps with their witnesses. Used in 8.22, 8.24.
 - 8.19b, 8.19c, 8.19d (denominators of CM values, toric ratios and twisted theta values). Used in 8.19e, 8.24a, 8.24.
