@@ -2152,15 +2152,13 @@ Layers 1, 2 (§2.2), 3, 6 and 7; LorentzianGeometry §12.6 (concatenation, for �
 
 ## Downstream consumers
 
-- **Compressible Euler equations, Part II** (characteristic data, acoustical geometry and real
-  Sobolev orders):
+- **Compressible Euler equations, Part II** (characteristic data and acoustical geometry):
   characteristic initial data on `S₀ ∪ C` with the constraint and compatibility conditions on
   `C`, acoustical eikonal functions and null foliations (ChristodoulouMiao2014 lines 880–910;
-  LuoYu2023b line 910, Definition 2.13), and the ruling of the regular boundary of §8.4 by null
-  geodesics issuing from the edge of the data when the boundary is `C²` and the metric `C^{1,1}`;
-  and well-posedness at real Sobolev orders `s > n/2 + 1`, through the Kato–Ponce commutator
-  estimates on the PDE roadmap's Layer 7 paraproducts. It consumes §§3.1, 3.3, 4.1–4.4, 6.2,
-  7.1–7.2 and 8.1–8.4 here and LorentzianGeometry for geodesics and null hypersurfaces.
+  LuoYu2023b line 910, Definition 2.13), and the ruling of the characteristic boundary of a
+  development by null geodesics issuing from the edge of the data. It consumes §§1.1–1.3,
+  2.1–2.2, 3.1–3.3, 6.1–6.2, 7.1–7.3 and 8.1–8.4 here and LorentzianGeometry for geodesics and
+  null hypersurfaces.
 - **Shock formation and shock development** (Christodoulou2007; Speck2016, §1.11; LukSpeck2018;
   AbbresciaSpeck2022; Christodoulou2019): their theorems describe portions of maximal
   developments of `Hᵏ` data through the acoustical metric and are stated against §7.2, §8.2–§8.4.
@@ -2274,17 +2272,17 @@ Boundaries:
   existence in `Hᵏ_Λ` (§5.4). Quasilinear systems and the `Hᵏ` theory are outside its scope and
   are owned here.
 - **Characteristic initial data** (data on `S₀ ∪ C` with `C` a null hypersurface, its
-  constraint and compatibility conditions), acoustical eikonal functions, the ruling of the
-  characteristic boundary by null geodesics issuing from the edge of the data, and shock
-  formation are not part of this roadmap; they are the subject of "Compressible Euler
-  equations, Part II", which consumes this roadmap together with LorentzianGeometry for
-  `C^{1,1}` geodesics and null generators. This roadmap stops at the nullity of the regular
-  boundary.
+  constraint and compatibility conditions), acoustical eikonal functions and the ruling of the
+  characteristic boundary by null geodesics issuing from the edge of the data are not part of
+  this roadmap; they are the subject of "Compressible Euler equations, Part II", which consumes
+  this roadmap together with LorentzianGeometry for geodesics and null generators. Shock
+  formation is part of neither roadmap; its theorems are consumers of both (Downstream
+  consumers, above). This roadmap stops at the nullity of the regular boundary.
 - **Fractional orders.** Well-posedness is stated for integer Sobolev orders `k > n/2 + 1`,
   which is the generality of the cited theorems. Real orders `s > n/2 + 1` need the
   Kato–Ponce commutator estimates in Besov form, built on the paraproducts of the PDE roadmap's
-  Layer 7; they are not part of this roadmap and belong to "Compressible Euler equations,
-  Part II".
+  Layer 7; well-posedness at real orders is not part of this roadmap or of "Compressible Euler
+  equations, Part II".
 - **Incompressible flows** (the Leray projection, the incompressible Euler and Navier–Stokes
   equations) are not part of this roadmap. The spaces `Hᵏ_Λ` here are for discrete period
   groups of any rank; when `Λ` has full rank, a linear change of variable taking `Λ` to `ℤⁿ`
