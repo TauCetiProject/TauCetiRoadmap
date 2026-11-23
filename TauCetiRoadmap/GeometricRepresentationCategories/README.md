@@ -270,7 +270,7 @@ library. For a topological algebra `A`, `TauCeti.discreteModules A` is the prope
 `a ↦ a · v` is continuous into the discrete module, equivalently that annihilators of vectors are open
 (`TauCeti.discreteModules_iff_isOpen`); for a decreasing family of left ideals `J_N`,
 `TauCeti.smoothModules J` asks each vector to be killed by some `J_N`, and the two agree when the `J_N`
-form a basis of neighbourhoods of zero (`TauCeti.discreteModules_eq_smoothModules`). Both are closed
+form a basis of neighbourhoods of zero (`TauCeti.smoothModules_eq_discreteModules`). Both are closed
 under subobjects, quotients, colimits (in particular arbitrary direct sums,
 `TauCeti.smoothModules_directSum`) and finite limits; products are the smooth part of the ordinary
 product (`TauCeti.smoothPartFunctor`). For a character `χ` of the centre,
@@ -1018,7 +1018,7 @@ in those items, on their *In Tau Ceti:* lines, and are not repeated here.
 
 - Discrete and smooth modules (`Algebra/Category/ModuleCat/Smooth/`), the generic forms of
   AffineLieAlgebras A5.1–A5.2: `TauCeti.smoothModules`, `TauCeti.discreteModules`,
-  `TauCeti.discreteModules_iff_isOpen`, `TauCeti.discreteModules_eq_smoothModules`,
+  `TauCeti.discreteModules_iff_isOpen`, `TauCeti.smoothModules_eq_discreteModules`,
   `TauCeti.smoothModules_directSum`, `TauCeti.smoothPartFunctor`, `TauCeti.coinduction`,
   `TauCeti.enoughInjectives_smoothModules`, `TauCeti.hasExt_discreteModules` (`Ext` in the module
   universe `max u w` over `A : Type u`), `Ideal.discreteQuotientEquivalence`.
