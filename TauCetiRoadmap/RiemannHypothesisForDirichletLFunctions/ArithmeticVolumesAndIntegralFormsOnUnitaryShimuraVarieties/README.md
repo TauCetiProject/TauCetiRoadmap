@@ -937,8 +937,8 @@ polynomials in `ε`), then removing the correction `U/2` at the cost of `½·mea
 (`GlobalTheory.T.good_tower_real_extra`)) up to the change of
 cut-off with `k = 1` (a correction of at most `N·log ℓ/(ℓ − 1)` per good prime, and `Σ_{ℓ≤B} log ℓ/(ℓ − 1) ≤ log B + O(1)`),
 and `ĥ_Fl(p₁Q) = 0` (HeightsForLogSingularMetrics §14.2): this gives `|p·α_∞ + N·β_∞|`; and `c₁(ω_{j′})^{dim Sh+1}·fib`, against (c) and the upper bound
-`|Φ|·(q/2)·log(N + 1)` per unit of `(dim Sh + 1)·deg` for the height of the product over `τ ∈ Φ` of the Grassmannians over `ℤ`
-(each factor contributes at most `(q/2)·log N`, HeightsForLogSingularMetrics §14.2 (d)): this gives `α_∞ ≥ −C·Λ_E`. (e) The
+`|Φ|·(q/2)·log(N − q + 1)` per unit of `(dim Sh + 1)·deg` for the height of the product over `τ ∈ Φ` of the Grassmannians over `ℤ`
+(each factor contributes at most `(q/2)·log(N − q + 1)`, HeightsForLogSingularMetrics §14.2 (d)): this gives `α_∞ ≥ −C·Λ_E`. (e) The
 degree of `ω_{j′}` on a component is a fixed multiple of the invariant volume of a fundamental set, and the level
 stabilisers of two self-dual Hermitian lattices of the same rank and signature have equal covolumes (strong
 approximation for `SU`, Kneser). Two steps of this route are not given here: in (a), a lower bound for the heights of the
