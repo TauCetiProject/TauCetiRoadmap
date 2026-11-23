@@ -15,11 +15,12 @@ The headline theorems are these. An outgoing acoustical function with prescribed
 `u₀`, `∇u₀ ≠ 0`, exists and is unique, of the regularity of the solution, as long as its null
 generators do not cross, and `κ` satisfies a transport equation along the generators. For a `C¹`
 solution on a time slab with bounded sound speed and velocity and an open set `S` of the initial
-slice equal to the interior of its closure, the boundary after the initial time of the domain of
-dependence of `S` is a Cauchy horizon of the acoustical metric, and each of its points lies on a
-null geodesic contained in it and issuing from the edge of `S`; when the outgoing acoustical
-function of a defining function of `S` has no caustic on the slab, the domain of dependence is
-`{u < 0}` and its characteristic boundary is `{u = 0}`. Two developments of the same characteristic
+slice equal to the interior of its closure, the boundary of the domain of dependence of `S`
+strictly between the initial time and the top of the slab coincides there with a Cauchy horizon of
+the acoustical metric, and each of its points lies on a null geodesic contained in the boundary
+and issuing from the edge of `S`; when the outgoing acoustical function of a defining function of
+`S` has no caustic on the slab, the domain of dependence is `{u < 0}` and its characteristic
+boundary below the top of the slab is `{u = 0}`. Two developments of the same characteristic
 data agree on a largest common development, and every development lies below a maximal one.
 Smooth characteristic data compatible to all orders at the edge, with compact edge modulo the
 period group, have a smooth development for a short time, and the same holds for data on two
@@ -128,9 +129,15 @@ Prove:
   `g(T, T) = κ²`, `g(B, T) = 0`; and `Ψ(t₀, ·) = id`, so that for every compact `K ⊆ S′` some
   `τ > 0` has `[t₀, t₀ + τ) × K ⊆ Ω′` admissible.
 - *Slabs.* If D contains a slab `O₁ = [t₀, t₁) × E`, `S′ = E`, and the maps `Ψ_t = Ψ(t, ·)` are `C^{k−1}`
-  diffeomorphisms of E for `t ∈ [t₀, t₁)`, then u is defined on all of `O₁`. If the `C²` norms of
-  `c`, `v` and `u₀` and `1/|∇u₀|` are bounded on `[t₀, t₂] × E` for every `t₂ < t₁`, then this holds
-  for `t₁` replaced by some `t₀ + τ`, `τ > 0`.
+  diffeomorphisms of E for `t ∈ [t₀, t₁)`, then u is defined on all of `O₁`. If `c`, `v` and their
+  first and second derivatives are bounded on `[t₀, t₂] × E` for every `t₂ < t₁`, and the first and
+  second derivatives of `u₀` and `1/|∇u₀|` are bounded on E, then this holds for `t₁` replaced by
+  some `t₀ + τ`, `τ > 0` (`exists_isAcousticalFunction_slab`). If `c` and `|v|` are bounded on
+  `[t₀, t₂] × E` for every `t₂ < t₁`, two `C²` acoustical functions on `O₁` with the same values on
+  `Σ_{t₀}` agree there (`IsAcousticalFunction.eqOn_slab`): the integral curves of `L` of the first,
+  run back from any point of `O₁`, reach `Σ_{t₀}`, so its generators sweep `O₁` and the uniqueness
+  statement applies. Both statements use only that `(c, v)` is a `C²` field with `c > 0` on `O₁`,
+  and are proved for such fields.
 
 **Checks.**
 
@@ -166,7 +173,8 @@ general propagation identity
 
 `Lκ = T̂^j·T(v^j) − T(c)`
 
-for any `C²` field `(c, v)` and any `C²` acoustical function (differentiate `κ = |∇u|⁻¹` along L,
+for any `C²` field `(c, v)` and any `C²` acoustical function on an open set
+(`IsAcousticalFunction.transport_kappa`; differentiate `κ = |∇u|⁻¹` along L,
 using `Lu = 0` and `[∂ᵢ, L] = ∂ᵢ(v^j − cT̂^j)∂_j`); and, for a classical barotropic solution with the
 polytropic law `p = k₀ρ^γ`, `γ > 1` (enthalpy `h = c²/(γ − 1)` and `Bv = −∇h`),
 `Lκ = m′ + e′κ` with `m′ = −((γ + 1)/(γ − 1))·Tc` and `e′ = −c⁻¹T̂^i·L(v^i)` (Luo–Yu 2025a, §2.2,
@@ -197,10 +205,13 @@ CompressibleEulerEquations §§1.2–1.3, §§3.1–3.2; LorentzianGeometry §§
 ### 2.1 Comparison with horizons
 
 Let U be a classical solution, of either Euler system, on a slab `O = [t₀, t₀ + T) × E` with `c`,
-`|v|` bounded on `[t₀, t₂] × E` for every `t₂ < t₀ + T`, `Ô ⊇ O` the open set of §1.1, and
+`|v|` bounded on `[t₀, t₂] × E` for every `t₂ < t₀ + T`, `Ô` an open set with `Ô ∩ H_{t₀} = O`
+carrying a `C¹` extension `(c̃, ṽ)`, `c̃ > 0`, of the acoustical field (as §1.1 provides), and
 `S ⊆ E` open and *regular* (`interior (closure S) = S`). Write `D = D⁺_O({t₀} × S)`, the largest
 development in O (CompressibleEulerEquations §8.3), and `Ď = D⁺_Ô({t₀} × closure S)` in the sense
-of LorentzianGeometry §12.6. Prove, in `{t > t₀}`
+of LorentzianGeometry §12.6 for `(c̃, ṽ)`; by its statement on time functions, `Ď` is the domain of
+dependence in `Ô` defined by `t`-parametrized causal curves, which is the form stated. Prove, in
+`{t > t₀}`
 (`futureDomainOfDependence_inter_eq_interior`):
 
 - `D = interior Ď`, and `D ⊆ Ď ⊆ closure D`; hence `frontier D = frontier Ď` there.
@@ -212,17 +223,22 @@ of LorentzianGeometry §12.6. Prove, in `{t > t₀}`
   `(t₀, y) ∈ I⁻(p)` by push-up (LorentzianGeometry §12.7), `I⁻(p)` is open, and a timelike curve from
   p to `(t₀, y′)` with `y′ ∉ closure S`, extended past-inextendibly below `t₀`, contradicts `p ∈ Ď`.
   So `I⁻(p) ∩ {t > t₀} ⊆ D`, which gives `Ď ⊆ closure D` and `interior Ď ⊆ D`.
-- Consequently, by LorentzianGeometry §12.7 applied on `Ô` with the temporal function t,
-  `frontier D ∩ {t > t₀} = H⁺_Ô({t₀} × closure S) ∩ {t > t₀}`.
+- Consequently, by LorentzianGeometry §12.7 applied on `Ô` with the temporal function t, below
+  the top of the slab, where the frontier in `𝔐` is the frontier in `Ô`,
+  `frontier D ∩ {t₀ < t < t₀ + T} = H⁺_Ô({t₀} × closure S) ∩ {t₀ < t < t₀ + T}`.
 
 **Checks.**
 
-- Regularity is needed: `n = 1`, `c = 1`, `v = 0`, `S = (−1, 0) ∪ (0, 1)`. Then
+- Regularity is needed: `n = 1`, `c = 1`, `v = 0`, `T > 1`, `S = (−1, 0) ∪ (0, 1)`. Then
   `Ď = {0 ≤ t ≤ 1 − |x|}` for `closure S = [−1, 1]`, while
   `D = {|x| < 1 − t} ∖ {|x| ≤ t}`: the cone over the removed point is missing, and
   `interior Ď ∩ {t > 0} ≠ D`.
-- Constant state on `S = B(0, R)`: `D = {|x − v₀(t − t₀)| < R − c₀(t − t₀)}` and `Ď` is its closure in
-  `H_{t₀}`; both frontiers in `{t > t₀}` are the null cone `|x − v₀(t − t₀)| = R − c₀(t − t₀)`.
+- Constant state on `S = B(0, R)`, `c₀T > R`: `D = {|x − v₀(t − t₀)| < R − c₀(t − t₀)}` and `Ď`
+  is its closure in `H_{t₀}`; both frontiers in `{t > t₀}` are the null cone
+  `|x − v₀(t − t₀)| = R − c₀(t − t₀)`.
+- The top of the slab is excluded from the horizon statement: for `S = E`, `D = Ď = O`, whose
+  frontier after `t₀` is `{t₀ + T} × E`, while `H⁺_Ô({t₀} × E)` is empty, every point of `O` lying
+  in `I⁻_Ô(O)`.
 
 *Needs:* §1.1; CompressibleEulerEquations §3.3, §8.3; LorentzianGeometry §12.6, §12.7.
 
@@ -231,13 +247,14 @@ of LorentzianGeometry §12.6. Prove, in `{t > t₀}`
 For a development `(D, U)` of data on an open `S` (CompressibleEulerEquations §8.1), define its
 *characteristic boundary* `𝒞(D) = frontier D ∩ {t > t₀}`, the frontier taken in `𝔐`
 (`characteristicBoundary`; compare Hawking–Ellis, Ch. 6). In the setting of §2.1 prove that every
-point of `𝒞(D)` lies on a curve contained in `𝒞(D)` that, after an admissible change of parameter
-(LorentzianGeometry §3.1), is a null geodesic of the acoustical metric of the reflected field, with
-past endpoint on `{t₀} × frontier S`, and no two of whose points are chronologically related. Route:
-§2.1 and LorentzianGeometry §12.7's generators of `H⁺_Ô`, which are past-inextendible in `Ô` or end
-on `edge_Ô(closure S) = {t₀} × frontier S`; the first alternative is excluded because the generator
-lies in `closure D ⊆ {t ≥ t₀}` and, the field being bounded on slabs, would reach `Σ_{t₀}` in finite
-parameter. Prove that where `𝒞(D)` is a `C¹` hypersurface it is null, in agreement with
+point of `𝒞(D)` below the top of the slab (`t < t₀ + T`) lies on a curve contained in `𝒞(D)` that,
+after an admissible change of parameter (LorentzianGeometry §3.1), is a null geodesic of the
+acoustical metric of the reflected field, with past endpoint on `{t₀} × frontier S`, and no two of
+whose points are chronologically related. Route: §2.1 and LorentzianGeometry §12.7's generators of
+`H⁺_Ô`, which are past-inextendible in `Ô` or end on `edge_Ô(closure S) = {t₀} × frontier S`; the
+first alternative is excluded because the generator lies in `closure D ⊆ {t ≥ t₀}` and, the field
+being bounded on slabs, would reach `Σ_{t₀}` in finite parameter. Prove that where
+`𝒞(D) ∩ {t < t₀ + T}` is a `C¹` hypersurface it is null, in agreement with
 CompressibleEulerEquations §8.4's statement on developments inside a slab, and that the generator
 through such a point is tangent to it. For `C¹` solutions the generators through a point need not be
 unique.
@@ -248,14 +265,14 @@ slabs.
 
 **Checks.**
 
-- Constant state, `S = {x¹ > 0}`: `𝒞(D) = {x¹ = (v₀¹ + c₀)(t − t₀), t > t₀}`, ruled by the lines
-  `t ↦ (t, x₀ + (t − t₀)(v₀ + c₀e₁))` from `edge = {t₀} × {x¹ = 0}` (LorentzianGeometry §12.7's first
-  Check).
-- Constant state, `S = B(0, R)`: the generators are the segments from `|x| = R` toward the centre,
-  moving with the fluid at sound speed; they meet at the apex `t − t₀ = R/c₀`, after which
-  `𝒞(D)` is empty.
-- Expanding flow on `S = (−1, 1)`: the generators are the two curves `x = ±(2√(1 + t) − (1 + t))`,
-  meeting at `t = 3`.
+- Constant state, maximal development, `S = {x¹ > 0}`: `𝒞(D) = {x¹ = (v₀¹ + c₀)(t − t₀), t > t₀}`,
+  ruled by the lines `t ↦ (t, x₀ + (t − t₀)(v₀ + c₀e₁))` from `edge = {t₀} × {x¹ = 0}`
+  (LorentzianGeometry §12.7's first Check).
+- Constant state, maximal development, `S = B(0, R)`: the generators are the segments from
+  `|x| = R` toward the centre, moving with the fluid at sound speed; they meet at the apex
+  `t − t₀ = R/c₀`, after which `𝒞(D)` is empty.
+- Expanding flow, maximal development, `S = (−1, 1)`: the generators are the two curves
+  `x = ±(2√(1 + t) − (1 + t))`, meeting at `t = 3`.
 
 *Needs:* §2.1; CompressibleEulerEquations §8.1, §8.4; LorentzianGeometry §3.1, §12.7.
 
@@ -315,8 +332,8 @@ side of C and `C¹` up to it, satisfies the inner equation on C. For the barotro
 entropy component: `ℓ = (1, −(ρ/c)n̂)`, `r = (1, −(c/ρ)n̂)`. Prove that on C the remaining equations
 determine the transverse derivative `∂_φU` modulo `r`, and that the `r`-component satisfies a
 Riccati equation along the null generators of C, and the higher transverse derivatives linear
-transport equations (Rendall 1990, by locator; Luo–Yu 2025b, §2, the diagonalization in the
-`L`-direction).
+transport equations (Rendall 1990, by locator; Luo–Yu 2025b, §1.4.3, the diagonal system (1.25) in
+the `L`-direction).
 
 **Checks.**
 
@@ -332,7 +349,7 @@ transport equations (Rendall 1990, by locator; Luo–Yu 2025b, §2, the diagonal
 
 ### 3.2 Characteristic data sets and compatibility
 
-Define a *characteristic data set* (`CharacteristicData`) for an equation of state as: a time `t₀`;
+Define a *characteristic data set* for an equation of state as: a time `t₀`;
 a period group Λ; a Λ-invariant open `W ⊆ 𝔐` and a Λ-invariant `C¹` function `φ` on W with
 `dφ ≠ 0`, whose *edge* `𝓔 = {x : (t₀, x) ∈ W, φ(t₀, x) = 0}` is a `C¹` hypersurface of E (the
 spatial part of `dφ` is nonzero there); the hypersurface `C = {p ∈ W ∩ H_{t₀} : φ(p) = 0}` and the
@@ -354,10 +371,12 @@ m-jet at an edge point computed from `Ū₀` by the equations restricts on C to 
 `a + b ≤ m`). Smooth data compatible to all orders are *smoothly compatible*.
 
 - Restricting C to `C ∩ {t < T}`, `T > t₀`, gives a characteristic data set.
-- If `(D_R, U_R)` is a development of data on an open set and `C ⊆ 𝒞(D_R)` is a `C¹` piece of its
-  characteristic boundary with `C ∩ D_R = ∅`, then the trace of `U_R` on C satisfies 2 and 3
-  (Layer 2, §3.1): the data of Luo–Yu 2025a are of this kind, with `Ū_C` the trace on `C₀` of the
-  solution in `𝒟₀` and `S₀` the part of `Σ_δ` beyond `C₀`.
+- If `(D_R, U_R)` is one of the developments of data on an open set treated in §2.2 (the largest
+  development in a slab, or the maximal development) and `C ⊆ 𝒞(D_R)` is a `C¹` piece of its
+  characteristic boundary with `C ∩ D_R = ∅`, below the top of the slab in the first case, then the
+  trace of `U_R` on C satisfies 2 and 3 (Layer 2, §3.1). The data of Luo–Yu 2025a are of this
+  kind, with `Ū_C` the trace on `C₀` of the solution in `𝒟₀` and `S₀` the part of `Σ_δ` beyond
+  `C₀`.
 
 **Checks.**
 
@@ -367,12 +386,16 @@ m-jet at an edge point computed from `Ū₀` by the equations restricts on C to 
   `Ū₀ = (1, a x)` on `x < 0`: 1–3 hold, and the formal derivative at the edge from `Ū₀` has
   `∂_tv = −v∂_xv − ∂_xρ = 0`, `∂_tρ = −ρ∂_xv = −a`, so its derivative along `L = ∂_t + ∂_x` is
   `(−a, a)`; compatibility of order 1 holds exactly when `a = 0`.
+- The top of the slab is excluded in the statement on traces: for `n = 1`, `c₀ = 1`, `v₀ = 0` and
+  constant data on `(−1, 1)`, the largest development in `[0, 1/2) × ℝ` is
+  `{|x| < 1 − t, 0 ≤ t < 1/2}`, whose characteristic boundary contains the spacelike segment
+  `{t = 1/2, |x| < 1/2}`, where nullity fails.
 
 *Needs:* §3.1; CompressibleEulerEquations §7.1, §8.1; Layer 2.
 
 ### 3.3 Developments of characteristic data
 
-Define a *development* of a characteristic data set (`IsCharacteristicDevelopment`) as a pair
+Define a *development* of a characteristic data set as a pair
 `(D, U)` with D a Λ-invariant wedge domain of `K_φ` containing `({t₀} × S₀) ∪ C`, with
 `D ∩ Σ_{t₀} = {t₀} × (S₀ ∪ 𝓔)`, U a Λ-periodic classical solution on D (derivatives within D, which
 is uniquely differentiable: near C and near the corner `{t₀} × 𝓔` it is `C¹`-diffeomorphic to a
@@ -399,8 +422,9 @@ vanishes on C.
   `K_φ = {x¹ ≤ (v₀¹ + c₀)(t − t₀)}` with the constant state is the unique maximal development; it is
   the complement in `H_{t₀}` of the development `{x¹ > (v₀¹ + c₀)(t − t₀)}` of the half-space
   `{x¹ > 0}`, and it contains C.
-- `H_{t₀}` with the constant state is a development of the type (i) data on all of E, but not of the
-  characteristic data: it contains points with `φ < 0` and is not a wedge domain of `K_φ`.
+- `H_{t₀}` with the constant state is a development of the initial data set on all of E
+  (CompressibleEulerEquations §8.1), but not of the characteristic data: it contains points with
+  `φ < 0` and is not a wedge domain of `K_φ`.
 
 *Needs:* §3.2; CompressibleEulerEquations §3.2, §3.3, §6.1, §§8.1–8.2; Mathlib `zorn_le_nonempty₀`.
 
@@ -418,11 +442,14 @@ gives Φ on the side `{φ < 0}` with these jets; the Cauchy problem with data `�
 cutoff, CompressibleEulerEquations §7.3) and the source equal to `ℰ(Φ)` on `{φ < 0}` and 0 on
 `{φ ≥ 0}` (smooth, since `ℰ(Φ)` vanishes to infinite order on C) has a smooth solution U by
 CompressibleEulerEquations §7.1 extended to sources depending smoothly on `(t, x)` with bounded
-derivatives (constructed here, by the same energy method). Uniqueness for the equation with this
-source (CompressibleEulerEquations §6.2) on the development of the data on `{φ(t₀, ·) < 0}`, whose
-characteristic boundary near `𝓔` is C for short times (§§2.2–2.3, the generators of C issuing from
-`𝓔` into that side), gives `U = Φ` there, hence `U = Ū_C` on C by continuity; the restriction of U
-to the domain of dependence of `({t₀} × S₀) ∪ C` in `K_φ` is the development.
+derivatives (constructed here, by the same energy method). On the development of the data on
+`{φ(t₀, ·) < 0}`, whose characteristic boundary near `𝓔` is C for short times (§§2.2–2.3, the
+generators of C issuing from `𝓔` into that side), uniqueness for the equation with this source gives
+`U = Φ`, hence `U = Ū_C` on C by continuity. That uniqueness is constructed here as well:
+CompressibleEulerEquations §6.2 is stated for sources depending on the state alone, and the lens
+argument of its §6.1 carries over unchanged, a source depending only on `(t, x)` cancelling in the
+difference of two solutions. The restriction of U to the domain of dependence of
+`({t₀} × S₀) ∪ C` in `K_φ` is the development.
 
 **Checks.**
 
@@ -431,8 +458,9 @@ to the domain of dependence of `({t₀} × S₀) ∪ C` in `K_φ` is the develop
   derivative at the edge is `α₀ < 0` (compressive) the Riccati equation of §3.1 blows up in finite
   time along the generator, so τ is in general finite even for small smooth data.
 
-*Needs:* §§3.1–3.3, §2.3; CompressibleEulerEquations §6.2, §7.1, §7.3; Hörmander, *The Analysis of
-Linear Partial Differential Operators I*, Theorem 1.2.6; Rendall 1990 (sources, by locator).
+*Needs:* §§3.1–3.3, §2.3; CompressibleEulerEquations §6.1, §6.2, §7.1, §7.3; Hörmander, *The
+Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6; Rendall 1990 (sources, by
+locator).
 
 ### 3.5 The Goursat problem
 
@@ -444,8 +472,8 @@ Z (the m-jets determined at Z by the two sets of transport equations agree). A d
 classical solution on a relatively open subset D of `{φ ≥ 0, φ̲ ≥ 0}` containing `C ∪ C̲` near Z with
 `D = D⁺_D(C ∪ C̲)`. Prove uniqueness (§3.3 with two null faces) and local existence near compact
 pieces of Z for smoothly compatible data, by the reduction of §3.4 with jets on both hypersurfaces
-(Rendall 1990, the case treated there). Luo–Yu 2025b, §3, solves this problem between the
-rarefaction fronts `H` and `H̲`.
+(Rendall 1990, the case treated there). Luo–Yu 2025b, §5.4 (p. 77; Step 3 of the plan in §2.3.2,
+p. 26), solves this problem between the rarefaction fronts `H` and `H̲`.
 
 **Checks.**
 
@@ -473,12 +501,12 @@ LorentzianGeometry §9.2.
 Work with a barotropic equation of state, `n ≥ 1`, `Λ = Λ_cyl` (the cylinder of Luo–Yu, `n = 2`),
 `t₀ = 0` and the codimension-two set `𝐒_* = {0} × {x¹ = 0}`. Let `U_r` be smooth data on
 `{x¹ > 0}` that extend to a smooth solution on a slab `O = [0, t*) × E` (CompressibleEulerEquations
-§8.3), `𝒟₀ = D⁺_O({0} × {x¹ > 0})` and `C₀ = 𝒞(𝒟₀)`. Define a *family of centered rarefaction waves
-connected to* `U_r` (`IsCenteredRarefaction`; Luo–Yu 2025b, Definition 2.13) as a classical solution
-`U′` on a set `𝒲′ ⊆ (0, t*) × E ∖ 𝒟₀` with `C₀ ⊆ 𝒲′`, together with a map
-`X : [0, t*) × [0, u*] × (ℝ/2πℤ)^{n−1} → 𝔐`, `u* > 0`, such that:
+§8.3), `𝒟₀ = D⁺_O({0} × {x¹ > 0})` and `C₀ = 𝒞(𝒟₀) ∩ {t < t*}`. Define a *family of centered
+rarefaction waves connected to* `U_r` (Luo–Yu 2025b, Definition 2.13) as a Λ-periodic classical
+solution `U′` on a Λ-invariant set `𝒲′ ⊆ (0, t*) × E ∖ 𝒟₀` with `C₀ ⊆ 𝒲′`, together with a map
+`X : [0, t*) × [0, u*] × (ℝ/2πℤ)^{n−1} → 𝔐/Λ`, `u* > 0`, into the cylinder, such that:
 
-1. *(foliation)* X restricted to `t > 0` is a `C^N` diffeomorphism onto `𝒲′`, `t(X(t, u, ϑ)) = t`,
+1. *(foliation)* X restricted to `t > 0` is a `C^N` diffeomorphism onto `𝒲′/Λ`, `t(X(t, u, ϑ)) = t`,
    and `u′ = u ∘ X⁻¹` is an acoustical function of the acoustical field of `U′` (§1.2's
    conventions), with level sets `C′_u`, `C′_0 = C₀`, and `L = ∂_t` in the coordinates `(t, u, ϑ)`;
 2. *(emanating from `𝐒_*`)* X is continuous on `t = 0` with `X(0, u, ϑ) = (0, 0, ϑ)` for every u;
@@ -488,9 +516,10 @@ connected to* `U_r` (`IsCenteredRarefaction`; Luo–Yu 2025b, Definition 2.13) a
 
 Prove that for `u₁ > u₂` the hypersurface `C′_{u₁}` lies to the future of `C′_{u₂}` (u′ is
 nondecreasing along future causal curves), that conditions 1–4 are invariant under translations
-in `x²,…,xⁿ` and under rescaling `(t, x) ↦ (λt, λx)` of solutions, and that the condition "`κ′/t`
-bounded above and below by positive constants" becomes 4 after replacing u by a function of u alone
-(Luo–Yu 2025b, the Remark after Definition 2.13).
+in `x²,…,xⁿ` and under rescaling `(t, x) ↦ (λt, λx)` of solutions, and that if `κ′/t` converges as
+`t → 0` to a function `a(u)` of `u` alone, of class `C^N` and bounded above and below by positive
+constants, then replacing `u` by `∫₀^u a` gives a family satisfying 1–4 (compare Luo–Yu 2025b,
+Remark 2.14).
 
 **Checks.**
 
@@ -498,6 +527,12 @@ bounded above and below by positive constants" becomes 4 after replacing u by a 
   null hyperplane is not centered, as 4 detects.
 - Condition 2 is what distinguishes a centered foliation from the foliation of §1.2 issuing from
   `Σ_0`: there, `X(0, u, ϑ) = (0, −u, ϑ)` depends on u.
+- The limit must be a function of u alone. For `n = 2`, small `t*` and `u*`, the plane wave of §4.2
+  also carries the acoustical function `u′ = F(t, x¹/t, x²)` with
+  `F(0, ξ, x²) = (λ_r − ξ)/(1 + ε sin x²)`, `0 < ε < 1`: in the variables `(t, ξ = x¹/t, x²)` the
+  eikonal equation reads `∂_tF = c t (∂₂F)²/(|∂_ξF| + √((∂_ξF)² + t²(∂₂F)²))`, regular at `t = 0`.
+  Its foliation satisfies 1–3 with `C′_0 = C₀`, and `κ′ = t/√((∂_ξF)² + t²(∂₂F)²)` gives
+  `κ′/t → 1 + ε sin ϑ`, between `1 − ε` and `1 + ε`; no function of u alone makes the limit 1.
 
 *Needs:* §§1.2–1.3, §2.3; CompressibleEulerEquations §8.3.
 
@@ -590,10 +625,11 @@ Boundaries:
 
 ### From Mathlib
 
-- `ContDiffOn`, `fderivWithin`, `UniqueDiffOn` and `uniqueDiffOn_convex`: regularity on
-  domains and wedges; `IsPicardLindelof`, `ODE_solution_unique_of_mem_Icc`: integral curves of
-  `L`; `LipschitzOnWith.ae_differentiableWithinAt_of_mem` and the chain rule almost everywhere for
-  the monotonicity of acoustical functions along Lipschitz causal curves; `zorn_le_nonempty₀` for
+- `ContDiffOn`, `fderivWithin`, `iteratedFDerivWithin`, `UniqueDiffOn` and `uniqueDiffOn_convex`:
+  regularity on domains and wedges; `gradient`: the spatial gradient `∇u`; `IsPicardLindelof`,
+  `ODE_solution_unique_of_mem_Icc`: integral curves of `L`;
+  `LipschitzOnWith.ae_differentiableWithinAt_of_mem` and the chain rule almost everywhere for the
+  monotonicity of acoustical functions along Lipschitz causal curves; `zorn_le_nonempty₀` for
   maximal developments; `ContinuousLinearMap` and `Matrix` for symbols and their left kernels.
 
 ### From Tau Ceti
@@ -628,10 +664,12 @@ Boundaries:
   null foliations; §9.3: `∇_L L = κL` on a `C²` null hypersurface and `∇_L L = 0` for
   `L = −grad_g u` of a `C²` optical function.
 - §12.6: `TimeOrientedLorentzianFieldOn`, `IsFutureCausalCurveIn`, `IsPastInextendibleIn`,
-  `futureDomainOfDependenceIn`; §12.7: push-up and `I⁺(p) = int J⁺(p)` for locally Lipschitz
-  metrics, the relative horizon `H⁺_U(S)`, its achronal generators (null geodesics after
-  reparametrization for `C¹` metrics), and, for `S` closed in a slice of a temporal function,
-  `edge_U(S) = ∂_{Σ_{t₀}}S` and `∂_U D⁺_U(S) ∩ {t > t₀} = H⁺_U(S) ∩ {t > t₀}`.
+  `futureDomainOfDependenceIn`, and its statement on time functions: for the acoustical form of a
+  continuous field with `c > 0`, `D⁺_D(S)` is the set defined by `t`-parametrized curves in the
+  extension form; §12.7: push-up and `I⁺(p) = int J⁺(p)` for locally Lipschitz metrics, the relative
+  horizon `H⁺_U(S)`, its achronal generators (null geodesics after reparametrization for `C¹`
+  metrics), and, for `S` closed in a slice of a temporal function, `edge_U(S) = ∂_{Σ_{t₀}}S` and
+  `∂_U D⁺_U(S) ∩ {t > t₀} = H⁺_U(S) ∩ {t > t₀}`.
 
 ## References
 
@@ -644,9 +682,11 @@ Boundaries:
 - Christodoulou2019: D. Christodoulou, *The Shock Development Problem*, EMS Monographs, 2019.
 - LuoYu2025a, LuoYu2025b: T.-W. Luo, P. Yu, *On the stability of multi-dimensional rarefaction
   waves I: the energy estimates* and *II: existence of solutions and applications to the Riemann
-  problem*, Ann. of Math. 202 (2025); arXiv:2302.09714, arXiv:2305.06308. I, §2.1–§2.2 (acoustical
-  coordinates, the propagation equation for `κ`); II, §2.1 (compatibility conditions C1)–C3)),
-  Definition 2.13 (centered rarefaction waves), §3 (Goursat problem).
+  problem*, Ann. of Math. 202 (2025); arXiv:2302.09714, arXiv:2305.06308. The section, definition,
+  remark, equation and page numbers cited are those of the arXiv versions v2. I, §2.1–§2.2
+  (acoustical coordinates, the propagation equation for `κ`); II, §1.4.3 (the diagonal system
+  (1.25)), §2.1 (compatibility conditions C1)–C3)), Definition 2.13 (centered rarefaction waves) and
+  Remark 2.14, §5.4 (Goursat problem).
 - Rendall1990: A. D. Rendall, *Reduction of the characteristic initial value problem to the Cauchy
   problem and its applications to the Einstein equations*, Proc. R. Soc. Lond. A 427 (1990), 221–239.
 - Hörmander: L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6
