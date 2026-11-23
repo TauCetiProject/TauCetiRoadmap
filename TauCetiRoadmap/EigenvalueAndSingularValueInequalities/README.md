@@ -40,8 +40,9 @@ and ConditioningAndPerturbation, with which it shares no target (see
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. It is not an exhaustive acceptance test: the other headlines are targets of the
-same standing, stated in prose with their locators or proof routes.
+statements need. It is not an exhaustive acceptance test: the bold items without a Lean name are
+targets too (equivalent or more general forms of a headline, lemmas on its route and
+corollaries), stated in prose with their locators or proof routes.
 
 Suggested home: `TauCeti/Analysis/InnerProductSpace/EigenvalueInequalities/` for Layers 1–5,
 `TauCeti/Analysis/Matrix/Hadamard/` for Layer 6 and `TauCeti/Analysis/Matrix/Completion/` with
@@ -63,13 +64,14 @@ Gelfand–Naimark inequalities of Layer 5. Layer 4 treats sums of singular value
 Thompson's matrix triangle inequality, and real parts through Courant–Fischer.
 
 Layers 5 and 6 are multiplicative. Layer 5 applies Layer 1 to the products bounded in Layer 2;
-Layer 6 uses Mathlib's Schur product theorem and Layer 2 only. Layer 7 is independent of
+Layer 6 uses Mathlib's Schur product theorem and Schur complements and Tau Ceti's Hadamard
+inequality and Schur–Horn theorem, and nothing from this roadmap. Layer 7 is independent of
 Layers 1–6: it uses Mathlib's positive definite matrices, Schur complements and simple graphs,
 and the chordal graphs of PerfectAndChordalGraphs.
 
-Layers 1, 2, 3 and 7 need nothing from this roadmap; Layer 4 needs Layers 2.2 and 3; Layer 5
-needs Layers 1, 2, 3.1 and 3.4; Layer 6 needs Layer 2.3. Within a layer the sections are in build
-order.
+Layers 1, 2, 3, 6 and 7 need nothing from this roadmap; Layer 4 needs Layer 2.2 (for Ky Fan's
+real-part majorization); Layer 5 needs Layers 1, 2, 3.1 and 3.4. Within a layer the sections are
+in build order, except that Rotfel'd's inequality (4.1) uses Thompson's triangle inequality (4.2).
 
 ## Conventions
 
@@ -191,11 +193,14 @@ Thm 2.3.1, p. 79).
 - **Compression bound** (`norm_det_compression_le`): for orthonormal `v : Fin k → F`,
   `w : Fin k → E`, `|det (⟪vᵢ, A wⱼ⟫)| ≤ ∏_{i<k} sᵢ(A)` (Horn–Johnson 1991, Lemma 3.3.1(b),
   p. 170).
-- **Determinant** (`norm_det_eq_prod_singularValues`): `|det T| = ∏_{i<n} sᵢ(T)`.
+
+The determinant identity `|det T| = ∏_{i<n} sᵢ(T)` for an endomorphism is Mathlib's: it is
+`LinearMap.normDet_eq_norm_det` combined with `LinearMap.normDet_eq_prod_singularValues`. It is
+not a target; 5.1 uses it for the equality at `k = n`.
 
 *Proof route.* The compression `V*AW` has singular values `sᵢ(V*AW) ≤ sᵢ(A)` by Tau Ceti's
 `LinearMap.singularValues_comp_le` applied on both sides (Horn–Johnson 1991, Lemma 3.3.1(a),
-p. 170), and `|det| = ∏ s` for square matrices by the polar decomposition.
+p. 170), and its determinant has modulus `∏ sᵢ(V*AW)` by the Mathlib identity above.
 
 ### 2.4 Exterior powers
 
@@ -361,9 +366,13 @@ seminorm `N` (Bhatia, Thm IV.3.4, p. 100, Ex IV.3.5, p. 101, and Problem III.6.1
 - **Rotfel'd–Thompson majorization.** For positive semidefinite `G`, `H`, the concatenation
   `(λ(G), λ(H))` is majorized by `(λ(G + H), 0)` (Marshall–Olkin–Arnold, 9.G.1.b, p. 330).
 
-*Proof route.* Rotfel'd: by Thompson's inequality (4.2), the
-singular values of `A + B` are dominated by the eigenvalues of `U|A|U* + V|B|V*`; apply the
-concave majorization inequality for sums of positive matrices (Bhatia, Thm IV.2.13, p. 97). The
+*Proof route.* Rotfel'd: by Thompson's inequality (4.2) and eigenvalue monotonicity, the
+singular values of `A + B` are dominated entrywise by the eigenvalues of `G + H` with
+`G = U|A|U*`, `H = V|B|V*`, whose eigenvalues are `s(A)` and `s(B)`. A nonnegative concave `f` on
+`[0, ∞)` is nondecreasing, so `∑ f(sⱼ(A + B)) ≤ ∑ f(λⱼ(G + H))`. By the Rotfel'd–Thompson
+majorization below, `(λ(G), λ(H))` lies in the convex hull of the permutations of
+`(λ(G + H), 0)`, and Jensen's inequality for the concave `f` on that hull gives
+`∑ f(λ(G)) + ∑ f(λ(H)) ≥ ∑ f(λ(G + H)) + n f(0)`, with `f(0) = 0`. The
 Rotfel'd–Thompson majorization comes from writing `G + H = CC*` with `C = (X, Y)` and comparing
 with `C*C`, whose diagonal blocks are `X*X`, `Y*Y` (Marshall–Olkin–Arnold, proof of 9.G.1.b,
 p. 330).
@@ -387,8 +396,9 @@ Here `H` is the Hermitian part of `T`, given by `H.IsSymmetric` and
   complex square matrix `A` is positive semidefinite, `det H ≤ |det A|` (Horn–Johnson 1985,
   Thm 7.8.7, p. 481, for positive definite `H`; the semidefinite case is the limit `A + εI`).
 
-*Proof route.* Fan–Hoffman: intersect the span of the first `j` eigenvectors of `H` with the
-span of the singular vectors of `T` from `j` on, and use `re⟪Tx, x⟫ ≤ ‖Tx‖` (Bhatia, proof of
+*Proof route.* Fan–Hoffman: intersect the span of the eigenvectors `0, …, j` of `H` (dimension
+`j + 1`) with the span of the right singular vectors of `T` from index `j` on (dimension `n - j`),
+which meet in a unit vector `x`, and use `re⟪Tx, x⟫ ≤ ‖Tx‖` (Bhatia, proof of
 Prop III.5.1, p. 73). Ky Fan: by Schur triangularization (2.2) in an orthonormal basis the
 diagonal of `H` is `re αⱼ`, so the forward Schur–Horn theorem of Tau Ceti applies. Unitary
 comparison: map the eigenbasis of `Y` to that of `X`. Thompson: with the polar form
@@ -407,8 +417,9 @@ and the second factor has eigenvalues `1 + i μ` with `|1 + iμ| ≥ 1`.
 
 ### Dependencies
 
-Layer 3; Layer 2.2 for Ky Fan's real-part majorization; Tau Ceti's polar decomposition and
-modulus.
+Layer 2.2 for Ky Fan's real-part majorization; Tau Ceti's Courant–Fischer, eigenvalue
+monotonicity, forward Schur–Horn theorem, polar decomposition and modulus;
+SpectralSteepestDescent, Section 2.1, for the results recalled in 4.1.
 
 ## Layer 5: products and multiplicative majorization
 
@@ -425,7 +436,8 @@ modulus.
 
 *Proof route.* Restrict `T` to an invariant subspace carrying the `k` eigenvalues of largest
 modulus (2.2); the determinant of the restriction is a `k × k` compression of `T` in an
-orthonormal basis of that subspace, so (2.3) bounds its modulus. Equality at `k = n` is (2.3).
+orthonormal basis of that subspace, so (2.3) bounds its modulus. Equality at `k = n` is
+Mathlib's `|det T| = ∏ sᵢ(T)` (2.3).
 The sum form is Layer 1.
 
 ### 5.2 Horn's product inequality and Gelfand–Naimark
@@ -434,9 +446,10 @@ The sum form is Layer 1.
   `B : E →ₗ[𝕜] F`, `∏_{i<k} sᵢ(AB) ≤ ∏_{i<k} sᵢ(A) sᵢ(B)` for every `k` (Horn–Johnson 1991,
   Thm 3.3.4, pp. 171–172, rectangular; Marshall–Olkin–Arnold, 9.H.1, p. 338). With Layer 1 it
   gives the `φ`-sum forms (Horn–Johnson 1991, Thm 3.3.14, p. 176).
-- **Thompson's product majorization.** For `A B : E →ₗ[𝕜] E`, the absolute eigenvalues of the
-  Hermitian part of `AB`, in decreasing order, are weakly majorized by `sⱼ(A) sⱼ(B)`
-  (Marshall–Olkin–Arnold, 9.F.4.b, p. 327).
+- **Thompson's product majorization** (`sum_singularValues_le_of_two_smul_eq_comp`): for
+  `A B : E →ₗ[𝕜] E` and `H` with `(2 : 𝕜) • H = AB + (AB)†`, the absolute eigenvalues of `H` in
+  decreasing order, which are its singular values, are weakly majorized by `sⱼ(A) sⱼ(B)`:
+  `∑_{j<k} sⱼ(H) ≤ ∑_{j<k} sⱼ(A) sⱼ(B)` for every `k` (Marshall–Olkin–Arnold, 9.F.4.b, p. 327).
 - **Gelfand–Naimark** (`prod_singularValues_comp_le_of_strictMono`): for `A B : E →ₗ[𝕜] E` and
   indices `i₀ < ⋯ < i_{k-1}` in `ℕ`, `∏ⱼ s_{iⱼ}(AB) ≤ ∏ⱼ s_{iⱼ}(B) · ∏_{j<k} sⱼ(A)` (Bhatia,
   Thm III.4.5, (III.17)–(III.18), pp. 71–72; Marshall–Olkin–Arnold, 9.H.1.c, p. 340). Indices
@@ -490,9 +503,9 @@ proof of Thm 3.3.21, p. 180, argues through compounds instead).
 ### 5.5 Horn's converse
 
 - **Horn's converse of Weyl's theorem** (`exists_upperTriangular_singularValues_eq`): decreasing
-  nonnegative `σ` and complex `λ` with decreasing moduli, `|λ₁⋯λ_k| ≤ σ₁⋯σ_k` for all `k` and
-  equality at `k = n`, are the diagonal and the singular values of an upper triangular complex
-  matrix (Horn–Johnson 1991, Thm 3.6.6, p. 220, with its proof on pp. 220–222;
+  nonnegative `σ` and complex `λ` with decreasing moduli, `∏_{i<k} |λᵢ| ≤ ∏_{i<k} σᵢ` for all
+  `k` and equality at `k = n`, are the diagonal and the singular values of an upper triangular
+  complex matrix (Horn–Johnson 1991, Thm 3.6.6, p. 220, with its proof on pp. 220–222;
   Marshall–Olkin–Arnold, 9.E.5, p. 322). Zero values are allowed.
 - **Mirsky's lemma.** For a positive definite `A` the ratios `det A_k / det A_{k-1}` of leading
   principal minors are log-majorized by the eigenvalues; conversely, any such data are realized
@@ -500,7 +513,7 @@ proof of Thm 3.3.21, p. 180, argues through compounds instead).
 
 *Proof route.* Horn–Johnson 1991, proof of Thm 3.6.6, pp. 220–222. If all `λᵢ` are nonzero,
 then all `σᵢ` are, by the equality of full products, and Mirsky's lemma realizes the squares `σᵢ²`
-and the prescribed leading minors `|λ₁⋯λ_k|²` in a positive definite matrix `P`; its Cholesky
+and the prescribed leading minors `|λ₀⋯λ_{k-1}|²` in a positive definite matrix `P`; its Cholesky
 factor `P = R*R` is upper triangular with `rᵢᵢ = |λᵢ|`. If exactly `m < n` of the `λᵢ` are
 nonzero (indices from `0`), then `σ_{n-1} = 0`. For `m ≥ 2`, realize `|λ₀|, …, |λ_{m-1}|` at size
 `m` with singular values `σ₀, …, σ_{m-2}` and `a = |λ₀⋯λ_{m-1}|/(σ₀⋯σ_{m-2})`, which satisfy the
@@ -515,6 +528,9 @@ converse interlacing of 3.4 inductively (p. 220).
 
 - `T = [[0, 1], [0, 0]]`: eigenvalue moduli `0, 0`, singular values `1, 0`; Weyl's products are
   `0 ≤ 1` and `0 = 0`.
+- Thompson's product majorization is a statement about sums only: for `A = I` and
+  `B = [[0, 1], [0, 0]]`, `H = [[0, 1/2], [1/2, 0]]` has `s(H) = (1/2, 1/2)` and
+  `s(A) s(B) = (1, 0)`; the sums are `1/2 ≤ 1` and `1 ≤ 1`, while `s₁(H) = 1/2 > 0`.
 - Horn's converse at `n = 2`: `λ = (2, 1/2)`, `σ = (3, 1/3)` are realized by
   `[[2, t], [0, 1/2]]` with `t² = 9 + 1/9 - 4 - 1/4`.
 
@@ -567,7 +583,8 @@ too weak: its top `k` singular values include cross products `sᵢ(A) sⱼ(B)` w
 
 ### Dependencies
 
-Layer 2.3 and Mathlib's Schur product theorem; Tau Ceti's Ky Fan bounds for 6.2.
+Mathlib's Schur product theorem and Schur complements; Tau Ceti's Hadamard inequality for Gram
+determinants (6.1) and forward Schur–Horn theorem (6.2). Nothing from Layers 1–5.
 
 ## Layer 7: positive definite completions
 
@@ -669,7 +686,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 
 1. **Weak log-majorization** with its transfer to weak majorization, to `φ`-sums and to products.
 2. **Triangularization and compressions.** Eigenvalue moduli, Schur triangularization in
-   invariant and unitary form, the compression determinant bound, `|det| = ∏ s`, and the norm and
+   invariant and unitary form, the compression determinant bound, and the norm and
    submultiplicativity of real exterior powers.
 3. **Variational theory.** The complementary-flag lemma, Wielandt's minimax principle and its
    form for compressions, Lidskii's majorization, the two-sided Lidskii–Mirsky bounds, the
@@ -703,9 +720,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
   (`TauCeti/Analysis/InnerProductSpace/Gram/Fischer.lean`,
   `TauCeti/Analysis/Matrix/PosSemidef/Determinant.lean`).
 - Cauchy interlacing for Hermitian matrices: [RandomMatrices](../RandomMatrices/README.md),
-  Section 1.2; it is formalized in Tau Ceti
-  (`TauCeti/Analysis/Matrix/Eigenvalues/Interlacing.lean`).
-  Only its converse (3.4) is a target here.
+  Section 1.2. Only its converse (3.4) is a target here.
 - Lidskii's inequality for Hermitian eigenvalues, Lidskii's theorem for singular values (any `k`
   of the differences `|sᵢ(A) - sᵢ(B)|` against the Ky Fan `k`-sum of `A - B`) and Mirsky's
   theorem in every unitarily invariant seminorm: SpectralSteepestDescent, Section 2.1, consumed
@@ -725,6 +740,14 @@ The roadmap is complete when Tau Ceti proves all of the following.
 - The Schur product theorem equivalences and the norm of Schur multipliers:
   SchattenClassesAndSchurMultipliers. Hölder's inequality for Schatten norms:
   [NoncommutativeIntegration](../NoncommutativeIntegration/README.md), Section 3.3.
+- The forms for τ-measurable operators of a semifinite von Neumann algebra of Thompson's
+  inequality (with partial isometries), of Rotfel'd's inequality (integrated, for continuous
+  increasing concave `g` with `g(0) = 0`) and of the `φ`-sum form of Horn's product inequality:
+  [NoncommutativeIntegration](../NoncommutativeIntegration/README.md), Section 1.4, whose
+  Section 1.1 identifies its `μ_t` on `d × d` matrices with `LinearMap.singularValues`. The
+  statements here (4.1, 4.2, 5.2) are for finite-dimensional inner product spaces over `ℝ` or
+  `ℂ`, between different spaces where the maps allow it, with unitaries in Thompson's inequality
+  and with no continuity of `f` or `φ` at `0`.
 
 ## Exact supplier contracts
 
@@ -742,6 +765,8 @@ Paths are relative to `Mathlib/`.
 - Exterior powers: `exteriorPower.map`, `exteriorPower.map_comp`
   (`LinearAlgebra/ExteriorPower/Basic.lean`); the inner product, `exteriorPower.inner_ιMulti_ιMulti`
   and `OrthonormalBasis.exteriorPower` (`Analysis/InnerProductSpace/ExteriorPower.lean`).
+- Determinants and singular values: `LinearMap.normDet_eq_norm_det`,
+  `LinearMap.normDet_eq_prod_singularValues` (`Analysis/InnerProductSpace/NormDet.lean`).
 - Birkhoff's theorem: `doublyStochastic_eq_convexHull_permMatrix` (`Analysis/Convex/Birkhoff.lean`).
 - Schur products and positivity: `Matrix.PosSemidef.hadamard` (`Analysis/Matrix/Order.lean`),
   `Matrix.PosDef`, `Matrix.PosSemidef`, `Matrix.BlockTriangular`, `Matrix.toEuclideanLin`.
@@ -814,9 +839,8 @@ Tau Ceti at the pin has Courant–Fischer, Weyl's perturbation inequalities, Ky 
 subadditivity and weak majorization, the forward and converse Schur–Horn theorem, the symmetric
 Hoffman–Wielandt inequality, unitarily invariant seminorms with gauges and Fan dominance, and
 the singular value perturbation bound, and the Hadamard, Fischer and Koteljanskii determinant
-inequalities; Cauchy interlacing for Hermitian matrices is also formalized in Tau Ceti
-(`TauCeti/Analysis/Matrix/Eigenvalues/Interlacing.lean`). Mathlib has the inner product space on
-real exterior powers, Birkhoff's theorem, the Schur product theorem and simple graphs. Neither
+inequalities. Mathlib has the inner product space on real exterior powers, the identity
+`|det T| = ∏ sᵢ(T)`, Birkhoff's theorem, the Schur product theorem and simple graphs. Neither
 has Wielandt's principle, Lidskii's majorization, Weyl's majorant theorem, Horn's or
 Gelfand–Naimark's product inequalities, Oppenheim's inequality, Thompson's inequality, or matrix
 completions.

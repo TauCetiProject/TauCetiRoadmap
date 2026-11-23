@@ -19,9 +19,9 @@ public import TauCeti.Analysis.OperatorIdeal.ApproximationNumber.EckartYoung
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
-to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+to it, together with the definitions their statements need. The README's other targets (forms
+of a headline, lemmas on its route and corollaries) are stated there in prose with their locators
+or proof routes, and are not stated here.
 
 The conventions of the README are used throughout. `E` and `F` are finite-dimensional inner
 product spaces over `𝕜` (`ℝ` or `ℂ`), and `n = finrank 𝕜 E` is carried by a hypothesis
@@ -114,10 +114,6 @@ largest singular values of `A`. -/
 theorem norm_det_compression_le {k : ℕ} (A : E →ₗ[𝕜] F) {v : Fin k → F} {w : Fin k → E}
     (hv : Orthonormal 𝕜 v) (hw : Orthonormal 𝕜 w) :
     ‖(Matrix.of fun i j ↦ ⟪v i, A (w j)⟫_𝕜).det‖ ≤ ∏ i ∈ range k, A.singularValues i := sorry
-
-/-- The determinant of an endomorphism has norm equal to the product of its singular values. -/
-theorem norm_det_eq_prod_singularValues (T : E →ₗ[𝕜] E) :
-    ‖LinearMap.det T‖ = ∏ i ∈ range (finrank 𝕜 E), T.singularValues i := sorry
 
 end RCLike
 
@@ -325,6 +321,14 @@ theorem prod_singularValues_comp_le (A : F →ₗ[𝕜] G) (B : E →ₗ[𝕜] F
     ∏ i ∈ range k, (A ∘ₗ B).singularValues i ≤
       ∏ i ∈ range k, A.singularValues i * B.singularValues i := sorry
 
+/-- **Thompson's product majorization.** If `H = (A B + (A B)†)/2`, the singular values of `H`
+(its absolute eigenvalues in decreasing order) are weakly majorized by `sⱼ(A) sⱼ(B)`:
+`∑_{j < k} sⱼ(H) ≤ ∑_{j < k} sⱼ(A) sⱼ(B)` for every `k`. -/
+theorem sum_singularValues_le_of_two_smul_eq_comp {A B H : E →ₗ[𝕜] E}
+    (hHAB : (2 : 𝕜) • H = A ∘ₗ B + LinearMap.adjoint (A ∘ₗ B)) (k : ℕ) :
+    ∑ j ∈ range k, H.singularValues j ≤
+      ∑ j ∈ range k, A.singularValues j * B.singularValues j := sorry
+
 /-- **Gelfand–Naimark.** For indices `i 0 < ⋯ < i (k-1)`,
 `∏ⱼ s_{i j}(A B) ≤ ∏ⱼ s_{i j}(B) · ∏_{j < k} sⱼ(A)`. -/
 theorem prod_singularValues_comp_le_of_strictMono (A B : E →ₗ[𝕜] E) {k : ℕ} {i : Fin k → ℕ}
@@ -451,6 +455,8 @@ theorem not_exists_posDef_completion_cycle :
 #check @SimpleGraph.IsClique
 #check @spectrum.pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius
 #check @exteriorPower.map_comp
+#check @LinearMap.normDet_eq_norm_det
+#check @LinearMap.normDet_eq_prod_singularValues
 #check @exteriorPower.inner_ιMulti_ιMulti
 #check @Matrix.toEuclideanLin
 #check @SimpleGraph.cycleGraph
