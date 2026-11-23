@@ -3,8 +3,6 @@ module
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
-import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
-import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
@@ -12,8 +10,8 @@ import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs. The native statements
-below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms, sphere triple
-normalization, nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
+below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms,
+nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
 
 The following headlines require constructions specified in the README before their
 full statements can be expressed at the pins:

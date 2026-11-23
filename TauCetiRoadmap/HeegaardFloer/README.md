@@ -53,7 +53,7 @@ submanifolds belong to CalibratedGeometry; smooth good covers with their
 input to a target here.
 DGFloer, MorseNovikov, AnalyticStableMaps, ComplexCurveModuli,
 ConvexityToric, CotangentLagrangian, HamiltonianReduction,
-HamiltonianSystems (proposed in TauCetiRoadmap#480), HamiltonianFloerOperations, FukayaTheory and the
+HamiltonianSystems, HamiltonianFloerOperations, FukayaTheory and the
 gauge-theoretic roadmaps consume this roadmap and supply nothing to it; the
 finite-filtration adapter of M.8 and the local return germ of F0.6 are
 constructed here to precede the trajectory applications. DGFloer Layer 1
@@ -2557,7 +2557,7 @@ Build the shared strongly nondegenerate contraction inverse and smooth base
 dependence required here: this prerequisite is an explicit F2.1 target in
 Tau Ceti's shared symplectic API, and the Hamiltonian df case and the
 generic-form migration consume that same construction. HamiltonianSystems
-(proposed in TauCetiRoadmap#480) Layer 1 specializes this inverse to differentials of Hamiltonians (see
+Layer 1 specializes this inverse to differentials of Hamiltonians (see
 Downstream consumers). The inverse prototypes pin
 the transport interface. Prove their comparison
 through the generic-form migration. Its linear-equivalence
@@ -4961,7 +4961,7 @@ None is an input to this roadmap.
   invariant regular-current hypotheses there. **CotangentLagrangian C4**
   and **HamiltonianReduction** use relative Moser constructions;
   their specialization of F2.1 must retain the primitive and domain data.
-  **HamiltonianSystems Layer 1** (proposed in TauCetiRoadmap#480) specializes
+  **HamiltonianSystems Layer 1** specializes
   contraction inversion to df.
 - **HamiltonianFloerOperations H7** constructs its Morse-incidence quantum
   comparison. The ordinary constant-class endpoint is to be compared with
