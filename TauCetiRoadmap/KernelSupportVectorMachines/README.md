@@ -53,11 +53,31 @@ the margin bound uniform in the margin.
   orientation `Φ`, so that `hingeLoss (−(y h(x))) = max(0, 1 − y h(x))`, and the hinge risk is
   `surrogateRisk P hingeLoss h`. Misclassification risks are `classificationError` (an outer
   probability for a non-measurable classifier) and `marginError` (ties counted as errors).
+- SupportVectorMachines uses real labels instead: its leave-one-out bound for the hard-margin
+  classifier (4.2) is stated for `TauCetiRoadmap.SupportVectorMachines.misclassRisk D (w, b)`, the
+  `D`-mass of the `(x, y)` with `y (⟪w, x⟫ + b) ≤ 0`, for a measure `D` on `E × ℝ`. To use that
+  bound together with the risks here, take `E = H` with its Borel σ-algebra and `D` the image of
+  `P` under `φ(x, t) = (K(·, x), labelSign t)`. If `X` is a topological space whose open sets are
+  measurable and `K` is continuous, then `φ` is measurable (`x ↦ K(·, x)` is continuous into `H`),
+  and for every `h : H` and `b ∈ ℝ` the value of `misclassRisk D (h, b)` is `P` of the set
+  `{y (h(x) + b) ≤ 0}`, because `⟪h, K(·, x)⟫ = h(x)`; for a probability law `P` its real value is
+  therefore `marginError P (fun x ↦ h x + b)`, ties counted as errors on both sides. The score
+  `fun x ↦ h x + b` is a function on `X`, an element of `H` only when `b = 0` or the constants lie
+  in `H`. The measurability of `φ` is needed: Mathlib's image of a measure under a map that is not
+  almost everywhere measurable is `0`. The sign classifier differs at ties:
+  `classificationError P (signClassifier (fun x ↦ h x + b))` does not count a score `0` with label
+  `false` as an error.
 - One normalization throughout: the averaged objective `n⁻¹ Σ max(0, 1 − y_i h(x_i)) + λ‖h‖²`
-  with `λ > 0`, and the dual box `[0, C]ⁿ` with `C = (2λn)⁻¹`. Dividing the objective by `2λ`
-  gives Mohri–Rostamizadeh–Talwalkar's `‖w‖²/2 + C Σ ξ_i` (their (5.24) and (6.13), pp. 88 and
-  116) and Shalev-Shwartz–Ben-David's (15.6), p. 207, with the same `λ`. The only exception is
-  1.3, where the weight `C` per point is held fixed when a point is deleted.
+  with `λ > 0`, and the dual box `[0, C]ⁿ` with `C = (2λn)⁻¹`. This objective is
+  Shalev-Shwartz–Ben-David's (15.6), p. 207, with the same `λ` (their (15.5) adds an offset);
+  divided by `2λ` it is Mohri–Rostamizadeh–Talwalkar's `‖w‖²/2 + C Σ ξ_i` (their (5.24) and (6.13),
+  pp. 88 and 116). The only exception is 1.3, where the weight `C` per point is held fixed when a
+  point is deleted.
+- "Proved here" below means that the proof route is written out in full in this README; it claims
+  no novelty. The machine and its statistical theory are classical, and the monograph of Steinwart
+  and Christmann (2008), whose chapters include kernels and their Hilbert spaces, the statistical
+  analysis of support vector machines and their use for classification, is a standard reference;
+  it was not consulted, and no statement here is attributed to a place in it.
 - The classifier of a score `h` is `signClassifier h = (x ↦ decide (0 < h x))`, so that a score
   `0` predicts `false`; this is Bartlett–Jordan–McAuliffe's `sign(0) = −1` (p. 7).
 - The machine without offset is the only one in Layers 2–4. Uniform stability with an offset is
@@ -129,8 +149,10 @@ value at `(h, b)` is `λ‖h‖² + n⁻¹ Σ max(0, 1 − y_i (h(x_i) + b))`.
 
 The dual with offset and the formula for `b` at a free index are Mohri–Rostamizadeh–Talwalkar
 (6.13)–(6.15), p. 116, derived from the Karush–Kuhn–Tucker conditions (5.26)–(5.30), p. 90, with
-the dual (5.33), p. 91, where the dual is said to be equivalent to the primal; the dual without
-offset, in the normalization `C = 1`, is Jaakkola–Haussler, Def. 1, eqs. (1)–(2), p. 2. The
+the dual (5.33), p. 91, where the dual is said to be equivalent to the primal. Jaakkola–Haussler,
+Def. 1, eqs. (1)–(2), p. 2, define a family of kernel classifiers whose coefficients maximize
+`−(1/2) Σ a_i a_j y_i y_j K(x_i, x_j) + Σ F(a_i)` on `[0, 1]ⁿ` for a continuous concave potential
+`F`; the dual without offset, in the normalization `C = 1`, is their case `F(a) = a`. The
 attainment of the dual, the characterization of all its maximizers and the interval of offsets
 are proved here.
 
@@ -190,8 +212,11 @@ occurs, `F = {0}` and the objective is `0` exactly at `(0, b)` with `y b ≥ 1`.
   optimal offsets are all `b ≥ 1`, an unbounded interval.
 - The zero kernel: `h_α = 0`, every `m_i = 0 < 1`, so the unique maximizer is `α = (C, …, C)`,
   with dual value `nC = (2λ)⁻¹` and primal value `1`.
-- The identity of the route holds exactly for 200 random rational choices of `h`, `b`, slacks
-  above the hinge and box points (polynomial kernel on three points).
+- One instance of the identity of the route: the kernel `(1 + xy)²` on `−1, 0, 1` labelled
+  `true, false, true`, `λ = 1/4` (`C = 2/3`), `h = K(·, −1)/2` (`‖h‖² = 1`), `b = 1/2`,
+  `α = (1/3, 2/3, 0)` (`D(α) = 7/9`, `Σ α_i y_i = −1/3`) and `ξ_i = max(0, 1 − M_i)`, which is
+  `(0, 2, 1/2)`: `P = 13/12`, and both sides equal `25/36`, the right side as
+  `7/36 + 1/4 + 1/6 + 1/12`.
 
 ### 1.3 The leave-one-out inequality
 
@@ -207,9 +232,10 @@ Consequently the number of points `t` that the machine trained without `t` miscl
 ties as errors, `y_t h'(x_t) ≤ 0`) is at most the number of `t` with
 `y_t Σ_{i ≠ t} α_i y_i K(x_t, x_i) ≤ 0`, a count read off one dual maximizer.
 
-Jaakkola–Haussler, Lemma 1, eq. (5), p. 3, state the count bound, and its proof in App. A,
-eq. (30), pp. 6–7, gives the inequality, for the machine without offset in the normalization
-`C = 1`, with the dual maximizers unique by the assumptions of their Def. 1. The statement here
+Jaakkola–Haussler, Lemma 1, eq. (5), p. 3, state the count bound for every classifier of their
+Def. 1, and its proof in App. A, eq. (30), pp. 6–7, gives the inequality; the machine without
+offset in the normalization `C = 1` is their case `F(a) = a` (1.2), and the assumptions of their
+Def. 1 make the maximizer unique. The statement here
 holds for every maximizer and every `C`, and is proved here.
 
 *Proof route.* Write `J` for `kernelDual H S` and `J₋` for the dual of the reduced sample, a
@@ -269,7 +295,7 @@ ConvexAnalysisAndDuality 4.1 and 5.2; MathematicalStatisticsNonparametric 5.8 (f
 
 No source opened states either fact. Steinwart works with outer probabilities to avoid the
 question of measurability (*On the influence of the kernel*, Thm 12 and the remark after it,
-pp. 77–78). Proved here.
+pp. 77–78). Proved here; Steinwart–Christmann (2008) was not consulted on this point.
 
 *Consequence, not a separate target.* With the measurability above, the bound `|h_S(x)| ≤ r/√λ`
 of 1.1 for `r ≥ 0` (`M = 1 + r/√λ`) and `β = r²/(nλ)` from StatisticalLearningTheory 4.2
@@ -348,10 +374,11 @@ means a margin `≤ 0`), so `classificationError P (signClassifier (A S)) ≤ R(
 
 **Checks.**
 
-- Linear kernel on `ℝ` and the law with atoms `(1, true)`, `(−1, false)`, `(1/2, false)`,
-  `(−1/2, true)` of masses `1/2, 1/4, 1/8, 1/8` (`r = 1`): the exact expectation over all samples
-  of size `n ∈ {1, 2, 3}` of the hinge risk of the machine is `39/64` for each `n` at `λ = 1/2`
-  and `27/32`, `63/128`, `63/128` at `λ = 1/8`, below the exact right sides at the best `h`,
+- Linear kernel on `X = [−1, 1]` and the law with atoms `(1, true)`, `(−1, false)`,
+  `(1/2, false)`, `(−1/2, true)` of masses `1/2, 1/4, 1/8, 1/8` (`r = 1`, as `K(x, x) = x² ≤ 1`):
+  the exact expectation over all samples of size `n ∈ {1, 2, 3}` of the hinge risk of the machine
+  is `39/64` for each `n` at `λ = 1/2` and `27/32`, `63/128`, `63/128` at `λ = 1/8`, below the
+  exact right sides at the best `h`,
   `359/128`, `231/128`, `565/384` and `17/2`, `9/2`, `19/6`; the expected misclassification risks,
   `3/8`, `9/32`, `159/512` at both values of `λ`, are below them too.
 - `n ≥ 1` is needed: for `n = 0` the machine is `0`, of hinge risk `1`, while for `X` one point
@@ -445,10 +472,13 @@ subspace of `C(X, ℝ)`), `P` a probability law on `X × Bool` with regression f
   nonnegative and measurable in `S` (2.1), the misclassification risk of the machine also tends to
   `R*` in probability.
 
-Steinwart, Def 4, p. 72, defines universal kernels; his results for this machine with an offset
-(Thm 22 and Cor 23, p. 89) assume a bound on covering numbers and give consistency, in outer
-probability, for laws whose noise level is constant. The statement here holds for every law; it is
-proved here, by the oracle inequality of 2.2 and the comparison of 3.1.
+Steinwart (2001), Def 4, p. 72, defines universal kernels; his results there for this machine with
+an offset (Thm 22 and Cor 23, p. 89) assume a bound on covering numbers and give consistency, in
+outer probability, for laws whose noise level is constant. The statement here holds for every law;
+it is proved here, by the oracle inequality of 2.2 and the comparison of 3.1. Universal
+consistency of support vector machines is the subject of Steinwart (2002), as its title states;
+neither that paper nor Steinwart–Christmann (2008) was consulted, so their hypotheses were not
+compared with those of 3.2.
 
 *Proof route.* Approximation, `≥`: every `h : H` is continuous (Mathlib
 `RKHS.continuous_of_continuous_kernel`), hence measurable, so 3.1 applies. Approximation, `≤`:
@@ -492,9 +522,10 @@ Mathlib `RKHS.continuous_of_continuous_kernel`, `RKHS.kerFun_apply`, `RKHS.isHer
   8.2, `exp(−‖x − y‖²/(2σ²))`) is universal.
 
 The kernel depends on `σ` only through `σ²`, so the statement is made for `σ ≠ 0`; at `σ = 0`
-the formula gives the constant kernel `1`. Steinwart, Example 1, p. 76, states it for
+the formula gives the constant kernel `1`. Steinwart (2001), Example 1, p. 76, states it for
 `exp(−σ²‖x − y‖²)`, which is the same family, and derives it from his Cor 10 and Prop 8, p. 74;
-the route below is a different, complete argument from the Stone–Weierstrass theorem. By
+the route below is a different, complete argument from the Stone–Weierstrass theorem. The chapter
+on kernels of Steinwart–Christmann (2008) was not consulted. By
 KernelsAndSpectralMethods 8.2 `posSemidef_gaussianKernel` the kernel is positive semidefinite
 (for `σ > 0`, hence for every `σ ≠ 0`), so its restriction to `K` has a reproducing-kernel
 Hilbert space (Mathlib `RKHS.OfKernel`) with a continuous kernel, and 3.2 applies: Gaussian
@@ -789,3 +820,8 @@ machine.
 - I. Steinwart, *On the influence of the kernel on the consistency of support vector machines*,
   J. Mach. Learn. Res. 2 (2001), 67–93: Def 4 p. 72, Prop 8 and Cor 10 p. 74, Example 1 p. 76,
   Thm 12 and the remark on outer probabilities pp. 77–78, Thm 22 and Cor 23 p. 89.
+- I. Steinwart, *Support vector machines are universally consistent*, J. Complexity 18 (2002),
+  no. 3, 768–791, doi:10.1006/jcom.2002.0642: attributed in prose, not consulted.
+- I. Steinwart and A. Christmann, *Support Vector Machines*, Information Science and Statistics,
+  Springer, New York, 2008, doi:10.1007/978-0-387-77242-4 (chapter titles from the publisher's
+  metadata): attributed in prose, not consulted.
