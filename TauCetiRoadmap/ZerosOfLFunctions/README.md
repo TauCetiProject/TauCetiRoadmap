@@ -662,8 +662,8 @@ edge bounds in convexity, not from this estimate.
 *Needs:* Layer 0 *entireCompletion* and `OrderLE`; 1.2 on the positive real axis;
 Mathlib `WeakFEPair.Λ₀`, `WeakFEPair.Λ` in `NumberTheory/LSeries/AbstractFuncEq.lean`; L-functions
 Layer 3 `completedPartialZeta_eq_mellin`, `completedDedekindZeta_eq_sum_completedPartialZeta`,
-`continuousOn_mellinKernel`, `mellinKernel_inv`, `mellinKernel_sub_const_isBigO`; Layer 6
-`completedHeckeLFunction_eq_mellin`, `Grossencharacter.continuousOn_heckeMellinTotal`,
+`continuousOn_mellinKernel`, `mellinKernel_inv`, `mellinKernel_sub_const_isBigO`; L-functions
+Layer 6 `completedHeckeLFunction_eq_mellin`, `Grossencharacter.continuousOn_heckeMellinTotal`,
 `Grossencharacter.heckeMellinTotal_inv`, `Grossencharacter.heckeMellinTotal_sub_const_isBigO`.
 
 **Checks.**
@@ -1636,8 +1636,9 @@ transport to `Re s = 0` uses the germ functional equation, including the trivial
 At `K = ℚ`, `riemannZeta_ne_zero_of_one_le_re` supplies the off-pole case.
 
 *Needs:* L-functions Layer 7 `heckeLFunction_ne_zero_of_one_le_re`,
-`meromorphicOrderAt_dedekindZetaC_one_add`; Layer 3 `meromorphicOrderAt_dedekindZetaC_one`;
-Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
+`meromorphicOrderAt_dedekindZetaC_one_add`; L-functions Layer 3
+`meromorphicOrderAt_dedekindZetaC_one`; L-functions Layer 5
+`completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 
 **Checks.**
 
