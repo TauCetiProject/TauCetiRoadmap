@@ -169,7 +169,8 @@ and `1`. For the converse of decorrelation, a tail event `T` lies in every `𝓕
   kernel `Q` such that for every Gibbs probability measure `μ`, `Q ω` is extremal for `μ`-almost
   every `ω` and `μ(B) = ∫ Q ω (B) dμ(ω)` for all measurable `B` (Friedli–Velenik, Theorem 6.72,
   p. 318, which states the decomposition as a measure on the extremal set; the kernel form is
-  its construction, Proposition 6.69, p. 315, and Corollary 6.71, p. 317).
+  its construction, Proposition 6.69, p. 315, with the almost-sure extremality of `Q ω` from
+  Proposition 6.70, p. 317).
 - Target in prose: uniqueness of the decomposing measure on the extremal Gibbs measures
   (Friedli–Velenik, Theorem 6.72, p. 318), and the Choquet-simplex statement of Ruelle,
   Theorem 1.9(d), p. 18.
@@ -178,7 +179,8 @@ and `1`. For the converse of decorrelation, a tail event `T` lies in every `𝓕
 `γ_{Λ_n}(C|·) = μ[1_C | 𝓕_{Λ_nᶜ}] → μ[1_C | 𝓣] = μ(C)` almost surely, by tail triviality;
 countably many cylinder events suffice because `I` is countable and `S` finite. For the
 decomposition, take `Q ω` to be the limit along an exhaustion of `γ_{Λ_n}(·|ω)` where it exists
-on all cylinders and is extremal, and a fixed extremal measure elsewhere. The limit is a regular
+on all cylinders and is extremal, and a fixed extremal measure elsewhere (one exists when a Gibbs
+measure does, Friedli–Velenik, Corollary 6.71, p. 317). The limit is a regular
 version of `μ[· | 𝓣]` for every Gibbs `μ`, and its values are tail-trivial, hence extremal by 1.2.
 
 *Needs:* 1.1, 1.2; Mathlib's regular conditional probabilities on standard Borel spaces
@@ -197,10 +199,10 @@ version of `μ[· | 𝓣]` for every Gibbs `μ`, and its values are tail-trivial
   and with `A = {σ_0 = +1}`, `B_i = {σ_i = +1}` the covariance `μ(A ∩ B_i) − μ(A)μ(B_i)` stays
   bounded away from `0` as `i → ∞` (Friedli–Velenik, Exercise 6.25, pp. 306–307). With
   `m = μ⁺(σ_0) ≥ 1 − 2δ(β)` it tends to `m²/4 > 0`.
-- Extremality is relative to the specification: `ν^{⊗I}` and `ν'^{⊗I}` with `ν ≠ ν'` are both
-  tail-trivial, but they are Gibbs for different specifications. Their midpoint is Gibbs for
-  neither specification and is not tail-trivial: the tail event that the empirical frequencies of
-  the spins converge to those of `ν` has measure `1/2`.
+- Extremality is relative to the specification: for infinite `I`, `ν^{⊗I}` and `ν'^{⊗I}` with
+  `ν ≠ ν'` are both tail-trivial, but they are Gibbs for different specifications. Their
+  midpoint is Gibbs for neither specification and is not tail-trivial: the tail event that the
+  empirical frequencies of the spins converge to those of `ν` has measure `1/2`.
 
 ## Layer 2: existence and Gibbsian specifications
 
@@ -308,13 +310,18 @@ counting, for each `B ∋ i`, the `|B| − 1` sites `j ≠ i` in `B`.
 - **Finite range** (`existsUnique_isGibbsFamily_of_finiteRange_int`): a potential on `ℤ` of
   finite range `R` with `|Φ_B| ≤ M` for all `B` has exactly one Gibbs measure. This adapts
   Friedli–Velenik, Corollary 6.41, p. 295, which omits the uniform bound `M`; the bound and the
-  range make the right side of (6.55) at most `2M` times the number of sets of diameter at most
-  `R` that cross a given boundary point.
+  range make the right side of (6.55) at most `4M` times the number of sets of diameter at most
+  `R` that cross a given boundary point, since `[−n, n]` has two.
 
-*Proof route.* The bound `D` makes `γ_{[−n,n]}(·|ω)` and `γ_{[−n,n]}(·|ω')` mutually absolutely
-continuous with densities in `[e^{−2D}, e^{2D}]` (Friedli–Velenik, Lemma 6.43, p. 296). Two
-distinct extremal Gibbs measures are then not singular, which contradicts 1.2. So there is one
-extremal Gibbs measure, and by 1.3 one Gibbs measure.
+*Proof route.* The bound `D` gives, for every cylinder event `C` and every `n` such that
+`[−n, n]` contains the base of `C`,
+`e^{−2D} γ_{[−n,n]}(C|ω') ≤ γ_{[−n,n]}(C|ω) ≤ e^{2D} γ_{[−n,n]}(C|ω')` (Friedli–Velenik,
+Lemma 6.43, p. 296); the two kernels themselves are mutually singular when `ω ≠ ω'` off the
+interval. For extremal `μ, ν`, 1.3 gives `ω, ω'` along which the two sides converge to `μ(C)` and
+`ν(C)`, so `μ ≤ e^{2D} ν` on cylinder events and, by a monotone class argument, on all events
+(Friedli–Velenik, proof of Theorem 6.40, p. 319). Two distinct extremal Gibbs measures are then
+not singular, which contradicts 1.2. So there is one extremal Gibbs measure, and by 1.3 one Gibbs
+measure.
 
 *Needs:* 1.2, 1.3, 2.1, 2.2.
 
@@ -410,7 +417,7 @@ is an extreme invariant Gibbs measure, hence ergodic by DimerModelsAndLozengeTil
   +1)` is nondecreasing and right-continuous (Friedli–Velenik, Lemma 3.31, item 1, p. 113).
 
 *Proof route.* By bracketing, `μ⁺ = μ⁻` pins every Gibbs measure on nondecreasing local
-functions, which determine the measure. For the magnetization, `μ⁺(σ_A) ≥ μ⁻(σ_A)` for every
+functions, which determine the measure. For the magnetization, `μ⁺(n_A) ≥ μ⁻(n_A)` for every
 nondecreasing `n_A = ∏_{i∈A} 1_{σ_i=+1}`, and `∑_{i∈A} n_i − n_A` is nondecreasing
 (Friedli–Velenik, Exercise 3.10, p. 104). Equal one-point functions with translation invariance
 therefore force equal `n_A` for all `A` (Friedli–Velenik, proof of Theorem 3.28, p. 111).
@@ -566,10 +573,9 @@ Completion means:
   of their 4.6(a), and its full shift `Subshift.univ` is the trivial instance of their subshifts.
 - The Griffiths inequalities (GKS), the Lee–Yang theorem, the FKG inequality for real-valued
   spins with a single-site measure, the free-boundary infinite-volume state, reflection
-  positivity and the infrared bound are owned by ConstructiveFieldTheoryPhi4 (an open pull
-  request, §§2.1, 3.1, 3.3, Layers 4–5). That roadmap leaves Peierls' argument, the DLR formalism
-  and uniqueness of Gibbs measures to others, and this roadmap owns them. No result of it is
-  used here.
+  positivity and the infrared bound are owned by ConstructiveFieldTheoryPhi4 (§§2.1, 3.1, 3.3,
+  Layers 4–5). That roadmap leaves Peierls' argument, the DLR formalism and uniqueness of Gibbs
+  measures to others, and this roadmap owns them. No result of it is used here.
 - The dual graph of `ℤ²` and surrounding cycles, the enclosure of a finite cluster by a dual
   cycle, the count of self-avoiding paths, Peierls' argument for Bernoulli percolation on `ℤ²`
   and Harris's inequality are owned by BernoulliPercolation (5.1 and
@@ -631,6 +637,10 @@ Completion means:
   - §4.6: (a) tail-measurable densities preserve the Gibbs property, used in 1.1–1.2; (b) the
     face property and the extreme-iff-ergodic statement, used in 4.2; (c) weak closedness of the
     Gibbs measures of a quasilocal specification, used in 2.1.
+  - That roadmap's Layer 4 stands under a countable infinite group acting properly. §§4.1,
+    4.3–4.5 and 4.6(a), (c) are consumed for an arbitrary action, which their proofs allow since
+    `Γ` does not enter them; only §4.2 and §4.6(b) are consumed under those standing hypotheses,
+    which `ℤ^d` acting on itself by translation meets for `d ≥ 1`.
   - No other layer of DimerModelsAndLozengeTilings is consumed.
 - BernoulliPercolation, used in the route of 5.2 only, with no Lean
   declaration copied:
