@@ -364,10 +364,13 @@ derivation. Then:
 
 **Checks.**
 - `d(t⁻¹) = −t⁻² dt`; under the equivalence with `F` it is `−t⁻²`.
-- In characteristic zero the quotient map `Ω[F⁄K] → Ω¹_cont(F/K)` is not injective: for the
-  derivation `δ` of the Checks of §2.2 and `g = exp t`, the class `dg − Dg · dt` is nonzero in
-  `Ω[F⁄K]`, since `δ` sends it to `δ(g) ≠ 0`, and it lies in `ker λ`. Defining the one-forms as
-  all of `Ω[F⁄K]` would lose the rank-one statement.
+- In characteristic zero the quotient map `Ω[F⁄K] → Ω¹_cont(F/K)` is not injective. Take
+  `g = exp t`, transcendental over `K(t)`, and a `K`-derivation `δ` of `F` vanishing on `K(t)` with
+  `δ(g) = 1`: it exists because, for a transcendence basis `B` of `F` over `K(t)` containing `g`,
+  the derivation `∂/∂g` of `K(t)(B)` extends to `F`, which is algebraic, hence separable, over
+  `K(t)(B)` in characteristic zero. The class `dg − Dg · dt` is nonzero in `Ω[F⁄K]`, since `δ`
+  sends it to `δ(g) = 1`, and it lies in `ker λ`. Defining the one-forms as all of `Ω[F⁄K]` would
+  lose the rank-one statement.
 
 ### Examples
 
@@ -719,8 +722,9 @@ modulo `t` is `g h` with `g, h ∈ R[Y]` monic and coprime, then `P = G H` with 
 they have the degrees of `g` and `h` (`Polynomial.Monic.natDegree_map`). The factors are built one
 power of `t` at a time: the correction in degree `k` solves
 `g Hₖ + h Gₖ = Pₖ − ∑_(0 < i < k) Gᵢ H_(k−i)` with `deg Gₖ < deg g` and `deg Hₖ < deg h`, uniquely
-by Bézout and polynomial division, and the solutions are compatible and converge (Mannaa–Coquand,
-Lemma 1.7, pp. 4–5). The degree-one case is the simple-root form of Hensel's lemma: over a field,
+by Bézout and polynomial division, and the solutions are compatible and converge (existence:
+Mannaa–Coquand, Lemma 1.7, pp. 4–5; the uniqueness of the factors follows from that of each
+correction). The degree-one case is the simple-root form of Hensel's lemma: over a field,
 `K[[t]]` is a henselian local ring, as Mathlib's `IsAdicComplete.henselianRing` also gives. Over a
 field `K`, a monic polynomial over `K[[t]]` whose reduction splits, has degree invertible in `K`,
 has zero coefficient in degree one below the top and is not a power of `Y` factors into two monic
