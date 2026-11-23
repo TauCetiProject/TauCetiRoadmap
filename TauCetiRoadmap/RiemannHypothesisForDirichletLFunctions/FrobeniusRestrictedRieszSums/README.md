@@ -572,6 +572,8 @@ there are no pairwise distinct `s₁, s₂, s₃ ∈ T` and integers `i ≠ j` w
 *Theorem.* There is an absolute constant `C` such that for all integers `M ≥ 2` and `L ≥ 2` there is a nonempty
 `T ⊂ ℤ ∩ [0, M/(4L))` with no relation of length `L` and `|T| ≥ M·exp(−C·(log M · log L)^{1/2})/L`; when `M ≥ 4L`,
 moreover `|T| ≤ M/(4L)`.
+[FormalProof] states the theorem with `C > 0` for every `M ≥ 1`, where the lower bound for `|T|` makes `T` nonempty,
+and without the clause `|T| ≤ M/(4L)`.
 
 In `Suggested.lean` the predicate is `NoRelation` and the theorem is `exists_noRelation`.
 
@@ -596,7 +598,9 @@ cost of a factor `2`.
 
 *KNOWN* in kind (Behrend 1946 for progressions; Ruzsa 1993 for invariant linear equations; the bound uniform in `L`
 is not a quotation of either; the predicate: [FormalProof], `Formalism/FrobeniusOrbits/HostThickExists.lean`
-(`Formalism.FrobeniusOrbits.NoRel`)). *Needs:* Mathlib `Behrend.sphere`, `Behrend.map`, `Behrend.map_injOn`,
+(`Formalism.FrobeniusOrbits.NoRel`); the theorem: [FormalProof], `Formalism/FrobeniusOrbits/HostThickExists.lean`
+(`Formalism.FrobeniusOrbits.HostThickExists`), proved in `Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean`
+(`Formalism.FrobeniusOrbits.hostThickExists`)). *Needs:* Mathlib `Behrend.sphere`, `Behrend.map`, `Behrend.map_injOn`,
 `Behrend.exists_large_sphere`, `Behrend.threeAPFree_sphere`, `ThreeAPFree`, `norm_combo_lt_of_ne`.
 
 ### 0.8a Thick sets
@@ -621,7 +625,9 @@ sides of absolute value `< L·M/(4L) = M/4`, hence equality in `ℤ`; the `s_k` 
 - (b) uses the diameter bound `M/(4L)`: for `T` spread over all of `[0, M)`, two of its points may lie in one coset
   of a subgroup of order `≤ 4L`.
 
-*KNOWN* in kind (consequences of 0.8). *Needs:* 0.4, 0.8.
+*KNOWN* in kind (consequences of 0.8; (a) and (b) on the cyclic hosts: [FormalProof],
+`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean` (`Formalism.HC.Frame.hostThickOrbit`)).
+*Needs:* 0.4, 0.8.
 
 ### 0.8b Marks along Frobenius orbits and the cluster property
 
@@ -666,7 +672,10 @@ unmarked; for `ε(φ) = c` and `φ ≠ c` (so `h ≠ 1`), (c) applies with `ord 
 - For `φ = c` (a prime `ℓ` with `Frob_ℓ = c`) and a thick place `τ`, the orbit `{τ, cτ}` consists of two thick
   letters: the case "every letter thick" occurs, and only there.
 
-*KNOWN* in kind (consequences of 0.6 and 0.8a). *Needs:* 0.4, 0.6, 0.8a.
+*KNOWN* in kind (consequences of 0.6 and 0.8a; the bound of (c) for `ord h > 4L`, at most two marks among `L`
+consecutive positions, for the marks of (d) at every `φ ∈ G`: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean`
+(`GlobalTheory.HTW.LongWindow.main`)). *Needs:* 0.4, 0.6, 0.8a.
 
 ### 0.9 Admissible auxiliary pairs
 
