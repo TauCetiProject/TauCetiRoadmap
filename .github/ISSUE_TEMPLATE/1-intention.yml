@@ -433,6 +433,7 @@ body:
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RicciFlow
+        - RiemannHypothesisForDirichletLFunctions
         - RiemannianGeometry
         - RiemannianManifoldsWithConvexBoundary
         - RigidAnalyticGeometry
