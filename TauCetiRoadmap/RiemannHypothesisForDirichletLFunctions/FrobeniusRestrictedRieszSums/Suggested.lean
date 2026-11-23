@@ -105,7 +105,11 @@ def NoRelation (L : ℕ) (T : Set ℤ) : Prop :=
 
 /-- Sets without short relations (0.8): there is an absolute constant `C` such that for all
 integers `M, L ≥ 2` there is a nonempty `T ⊂ ℤ ∩ [0, M/(4L))` with no relation of length `L` and
-`|T| ≥ M·exp(−C·(log M · log L)^{1/2})/L`; when `M ≥ 4L`, moreover `|T| ≤ M/(4L)`. -/
+`|T| ≥ M·exp(−C·(log M · log L)^{1/2})/L`; when `M ≥ 4L`, moreover `|T| ≤ M/(4L)`.
+[FormalProof] states it with `C > 0` for every `M ≥ 1` and without the last clause:
+`Formalism/FrobeniusOrbits/HostThickExists.lean` (`Formalism.FrobeniusOrbits.HostThickExists`),
+proved in `Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean`
+(`Formalism.FrobeniusOrbits.hostThickExists`). -/
 theorem exists_noRelation : ∃ C : ℝ, ∀ M L : ℕ, 2 ≤ M → 2 ≤ L → ∃ T : Finset ℤ, T.Nonempty ∧
     (∀ s ∈ T, 0 ≤ s ∧ (s : ℝ) < M / (4 * L)) ∧ NoRelation L T ∧
     (M : ℝ) * Real.exp (-C * Real.sqrt (Real.log M * Real.log L)) / L ≤ T.card ∧
