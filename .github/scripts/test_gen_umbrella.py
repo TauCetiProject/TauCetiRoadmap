@@ -831,6 +831,80 @@ uses 1.2. Mathlib also gives §1.4.
         # one is not; `Mathlib` is an outside name and stops the reading
         assert self.items_of(root)["Fam.1.1"]["needs"] == ["Fam.1.2", "Fam.1.3"]
 
+    def test_a_roadmap_named_in_words_before_a_sign_is_a_citation(self) -> None:
+        words = """# Roadmap: words
+
+## Layer 1: roadmaps named in words
+
+### 1.1 A hyphen
+
+*Needs:* Zeta-functions Layer 2.
+
+### 1.2 Several words, lower case after the first, a line break inside the run and before the sign
+
+*Needs:* Mathlib groups; Gamma delta
+epsilon §2.1; Gamma Delta Epsilon
+§2.2.
+
+### 1.3 The longest run, and a suffix of a run that names no roadmap
+
+*Needs:* Hyper zeta-functions Layer 1; Modular zeta-functions Layer 3.
+
+### 1.4 No sign after the words
+
+*Needs:* Gamma delta epsilon 2.3.
+
+### 1.5 The README's own roadmap named in words
+
+*Needs:* Fam words §1.1.
+
+### 1.6 A section sign after a semicolon is the README's own
+
+*Needs:* Alpha Beta Layer 3; §2.1.
+
+### 1.7 A layer after a semicolon is the README's own
+
+*Needs:* Alpha Beta §1.2; Layer 6.
+
+### 1.8 An id that does not resolve, after a line break inside the run
+
+*Needs:* Gamma delta
+epsilon §9.9.
+
+### 2.1 Local
+
+## Layer 6: local, without sections
+
+Text.
+"""
+        root = self.other_tree("words", {
+            "Fam": "# Roadmap: f\n\n- [Words](FamWords/README.md)\n",
+            "Fam/FamWords": words,
+            "AlphaBeta": "# Roadmap: alpha beta\n\n### 1.2 A\n\n### 2.1 B\n\n## Layer 3: three\n\nText.\n\n"
+                         "## Layer 6: six\n\nText.\n",
+            "GammaDeltaEpsilon": "# Roadmap: gamma\n\n### 2.1 A\n\n### 2.2 B\n\n### 2.3 C\n",
+            "ZetaFunctions": "# Roadmap: zeta\n\n## Layer 1: one\n\nText.\n\n## Layer 2: two\n\nText.\n\n"
+                             "## Layer 3: three\n\nText.\n",
+            "HyperZetaFunctions": "# Roadmap: hyper\n\n## Layer 1: one\n\nText.\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+
+        def needs(slug):
+            return items[f"FamWords.{slug}"]["needs"]
+        assert needs("1.1") == ["ZetaFunctions.Layer2"], needs("1.1")
+        assert needs("1.2") == ["GammaDeltaEpsilon.2.1", "GammaDeltaEpsilon.2.2"], needs("1.2")
+        # `Hyper zeta-functions` names a roadmap; `Modular zeta-functions` does not, its suffix does
+        assert needs("1.3") == ["HyperZetaFunctions.Layer1", "ZetaFunctions.Layer3"], needs("1.3")
+        assert needs("1.4") == [] and "GammaDeltaEpsilon.2.3" not in items, needs("1.4")
+        assert needs("1.5") == ["FamWords.1.1"], needs("1.5")
+        assert needs("1.6") == ["AlphaBeta.Layer3", "FamWords.2.1"], needs("1.6")
+        assert needs("1.7") == ["AlphaBeta.1.2", "FamWords.Layer6"], needs("1.7")
+        assert needs("1.8") == [], needs("1.8")
+        code, output = self.run_script("--stats", root=root)
+        line = words.split("\n").index("epsilon §9.9.") + 1         # the line of the id, as written
+        assert f"FamWords:{line}: GammaDeltaEpsilon §9.9: not in the README" in output, output
+
     def test_a_stated_need_outranks_an_inferred_one(self) -> None:
         root = self.other_tree("ranks", {"Fam": """# Roadmap: f
 

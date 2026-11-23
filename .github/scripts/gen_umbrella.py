@@ -39,6 +39,11 @@ everything that this needs, read from the READMEs:
   too) and what its own `Dependencies` subsection cites or names of its own roadmap.
 - A roadmap's name in code font or with the package prefix (`` `Name` ``,
   `` `TauCetiRoadmap.Name` ``, `TauCetiRoadmap.Name`) is read as the plain name.
+- A roadmap named in words right before a sign (`§`, `Section`, `Layer`) is read as its name:
+  the longest run of words that, without the spaces, hyphens and line break between them and
+  with case ignored, is the name (`L-functions Layer 3` is `LFunctions Layer 3`, `Zeros of
+  L-functions §2.1` is `ZerosOfLFunctions §2.1`); the README's own roadmap so named gives its
+  own ids.
 - The goal is every item of the root's roadmaps, with everything they need,
   transitively. The members of the umbrella are the areas that contain a unit the goal
   needs; its items are those units. Roadmaps under `Completed/` are known to the reader,
@@ -410,6 +415,77 @@ def plain_names(text: str, names: set[str]) -> str:
         name = m.group(1)
         return " " * (len(m.group(0)) - len(name)) + name if name in names else m.group(0)
     return PREFIXED_NAME.sub(plain, CODE_NAME.sub(plain, text))
+
+
+# A roadmap named in words: a run of words that, joined without the spaces, hyphens and line break
+# between them and with case ignored, is a roadmap's directory name, right before a sign
+# (`L-functions Layer 3`, `Class field theory §2.1`, `Global Number Fields Sections 9.2`).
+WORD_SIGN = re.compile(r"§|\b(?:Sections?|Layers?)\b")
+
+
+def words_table(names) -> dict[str, str]:
+    """Each roadmap's directory name by its key in words, its lower case (`lfunctions`); a key that
+    two names share names neither."""
+    table: dict[str, str | None] = {}
+    for n in sorted(names):
+        table[n.lower()] = None if n.lower() in table else n
+    return {k: n for k, n in table.items() if n is not None}
+
+
+def named_in_words(text: str, table: dict[str, str], own: str) -> str:
+    """`text` with each roadmap named in words before a sign written as its directory name, so that
+    every reader takes it as that name: `L-functions Layer 3` reads as `LFunctions Layer 3`. The run
+    is the longest one before the sign that names a roadmap (`Zeros of L-functions` before
+    `L-functions`); words join by spaces and hyphens, and white space follows the run, with at most
+    one line break in all. The name ends where the run ended, the rest of the run becomes spaces and
+    its line break stays before the name, so that offsets and the number of line breaks before each
+    offset are kept. The README's own roadmap named in words is blanked out instead, so that the sign
+    and the ids after it read as its own; a run written as the directory name is left as it is."""
+    if not table:
+        return text
+    longest = max(map(len, table))
+    pieces, done, floor = [], 0, 0
+    for m in WORD_SIGN.finditer(text):
+        i, breaks = m.start(), 0
+        while i > floor and text[i - 1] in " \t\n":
+            i -= 1
+            breaks += text[i] == "\n"
+        found, key, letters, end = None, "", 0, i
+        while breaks <= 1:
+            k = i
+            while k > floor and text[k - 1].isalnum():
+                k -= 1
+            if k == i or letters + i - k > longest or not text[k:i].isascii() or (k > 0 and text[k - 1] in "_."):
+                break
+            key, letters = text[k:i].lower() + key, letters + i - k
+            if key in table:
+                found = (k, table[key])
+            # the joiner before the word: spaces and hyphens, then at most a line break and spaces
+            j = k
+            while j > floor and text[j - 1] in " \t":
+                j -= 1
+            if j > floor and text[j - 1] == "\n":
+                j -= 1
+                breaks += 1
+            while j > floor and text[j - 1] in " \t-":
+                j -= 1
+            if j == k:
+                break
+            i = j
+        floor = m.end()
+        if found is None or text[found[0]:end] == found[1]:
+            continue
+        start, name = found
+        run = text[start:end]
+        if name == own:
+            new = re.sub(r"[^\n]", " ", run)
+        else:
+            gap = len(run) - len(name)
+            line = min(run.find("\n"), gap - 1) if "\n" in run else -1
+            new = (" " * gap if line < 0 else " " * line + "\n" + " " * (gap - line - 1)) + name
+        pieces += [text[done:start], new]
+        done = end
+    return "".join(pieces) + text[done:] if pieces else text
 
 
 def drop_ambiguous(cites: list[Cite], own_ids: set[str]) -> list[Cite]:
@@ -1480,6 +1556,7 @@ class Tree:
         self.roadmaps, self.shadowed, self.problems = read_tree(root)
         self.active = {n for n, r in self.roadmaps.items() if not r.completed}
         self.names = set(self.roadmaps)
+        self.words = words_table(self.names)
         self.area_size = collections.Counter(r.area for r in self.roadmaps.values() if not r.completed)
         self.ranges_kept: list[str] = []
         self._why: dict[tuple, str] = {}
@@ -1516,7 +1593,7 @@ class Tree:
         rd = rm.readme
         out: list[Ref] = []
         own_ids = {i for _, i in rd.ordered_ids()}
-        text = plain_names(rd.text, self.names)
+        text = named_in_words(plain_names(rd.text, self.names), self.words, rm.name)
         cites = drop_ambiguous(read_citations(text, self.names, rm.name), own_ids)
         expanded = []
         for c in cites:

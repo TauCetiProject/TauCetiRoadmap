@@ -92,7 +92,9 @@ are generated from the roadmaps' READMEs:
   `*Prerequisites:*` lines name: bare ids and `Layer k` of its own roadmap, and
   citations of other roadmaps (`Name §1.2`, `Name §§1.1–1.3 and 2.4`,
   `Name Layers 3 and 5`, `Name A5.3`; a name may also be written
-  `` `Name` `` or `TauCetiRoadmap.Name`). A section without such a line needs
+  `` `Name` `` or `TauCetiRoadmap.Name`, or in words right before a sign,
+  `L-functions Layer 3` for `LFunctions Layer 3`, case, spaces and hyphens
+  ignored). A section without such a line needs
   what the `### Dependencies` subsection of its layer cites. Nothing else in a
   README (statements, checks, examples, remarks) creates a dependency. Within
   those statements a reference creates no need when a negation governs it
