@@ -8,8 +8,9 @@ This file prototypes the diffusion triple of Layer 1, the fundamental identity o
 iterated carré du champ and its integrated identity on the test algebra (Layer 4), and the
 Poincaré inequality of a triple (Layer 7), the Bobkov inequality of a triple and the
 Gaussian isoperimetric inequalities of Gibbs measures (Layer 10), each with `sorry`. Full
-triples, the extended algebra and the curvature-dimension condition, which is quantified over
-the extended algebra, are specified in `README.md`, Layer 4; the local Bobkov inequalities,
+triples, the extended algebra and the curvature-dimension condition, which is defined on
+`A₀` and extended to the extended algebra on full triples, are specified in `README.md`,
+Layer 4; the local Bobkov inequalities,
 which need the semigroup, are specified in `README.md`, Layer 10.
 -/
 open MeasureTheory Filter
@@ -85,6 +86,8 @@ structure DiffusionTriple (E : Type*) [MeasurableSpace E] where
 
 namespace DiffusionTriple
 
+attribute [instance] DiffusionTriple.sigmaFinite
+
 /-- The fundamental identity (BGL (3.1.1)/(3.1.6)), polarized, on the test algebra.
 Proof: integrate against `h ∈ A₀`, use `ibp` and the diffusion property, conclude by density. -/
 theorem fundamentalIdentity (T : DiffusionTriple E) {f g : E → ℝ}
@@ -113,11 +116,13 @@ def PI (T : DiffusionTriple E) (C : ℝ) : Prop :=
   IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, ProbabilityTheory.variance f T.μ ≤ C * ∫ x, T.Γ f f x ∂T.μ
 
-/-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ`:
+/-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ > 0`:
 `√ρ I(∫ f dμ) ≤ ∫ √(ρ I(f)² + Γ(f)) dμ` for `f ∈ A₀` with values in `[0, 1]`. Under `CD(ρ, ∞)`
-with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4). -/
+with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4). The
+condition `0 < ρ` is part of the predicate: for `ρ ≤ 0`, `Real.sqrt ρ = 0` would make it
+trivially true. -/
 def Bobkov (T : DiffusionTriple E) (ρ : ℝ) (I : ℝ → ℝ) : Prop :=
-  IsProbabilityMeasure T.μ ∧
+  0 < ρ ∧ IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, (∀ x, f x ∈ Set.Icc (0 : ℝ) 1) →
       Real.sqrt ρ * I (∫ x, f x ∂T.μ) ≤
         ∫ x, Real.sqrt (ρ * I (f x) ^ 2 +
@@ -139,20 +144,23 @@ def IsGaussianProfile (I : ℝ → ℝ) : Prop :=
     ∀ x, I (ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) x) =
       ProbabilityTheory.gaussianPDFReal 0 1 x
 
-/-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9). -/
+/-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9). It is a probability
+measure when `e^{−V}` is integrable; otherwise the Bochner integral is `0`, its inverse is `∞`,
+and the value is meaningless, so every statement about it assumes integrability. -/
 noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
     Measure (EuclideanSpace ℝ (Fin d)) :=
   (ENNReal.ofReal (∫ x, Real.exp (-V x)))⁻¹ •
     volume.withDensity (fun x => ENNReal.ofReal (Real.exp (-V x)))
 
 /-- Functional Bobkov inequality for a uniformly convex Gibbs measure (BGL Cor. 8.5.4 on the
-Gibbs triple, extended from `C_c^∞` to `C¹` functions). -/
+Gibbs triple, extended from `C_c^∞` to `C¹` functions with gradient in `L²(μ_V)`, which lie in
+the Dirichlet domain `𝒟(ℰ)`). -/
 theorem gibbs_bobkov {I : ℝ → ℝ} (hI : IsGaussianProfile I)
     (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
     (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ 1 f) (hf01 : ∀ x, f x ∈ Set.Icc (0 : ℝ) 1)
-    (hgrad : Integrable (fun x => ‖fderiv ℝ f x‖) (gibbsMeasure V)) :
+    (hgrad : MemLp (fun x => ‖fderiv ℝ f x‖) 2 (gibbsMeasure V)) :
     Real.sqrt ρ * I (∫ x, f x ∂gibbsMeasure V) ≤
       ∫ x, Real.sqrt (ρ * I (f x) ^ 2 +
         ‖fderiv ℝ f x‖ ^ 2) ∂gibbsMeasure V := by
