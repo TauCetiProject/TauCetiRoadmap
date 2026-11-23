@@ -1814,8 +1814,8 @@ stronger quantifier order.
   `M × Icc 0 1` for boundaryless `M`, which 10.5's homotopy invariance of the degree consumes.
   *Needs:* 0.3–0.4; 1.1–1.3; Mathlib's interval integral and differentiation under it
   (`Analysis/Calculus/ParametricIntervalIntegral.lean`); 1.5's adapters for the planar formulas;
-  not 5.3. For the separate Stokes on `M × Icc 0 1`, 5.2's integral and the interval fundamental
-  theorem of calculus.
+  5.2's integral and the interval fundamental theorem of calculus, for the separate Stokes on
+  `M × Icc 0 1`; not 5.3.
 - **5.4a Contraction along a map and differentiation of pullback.** This
   extends layers 0–1 on their existing arbitrary `ModelWithCorners` and
   fixed-coefficient form carriers, retaining the stated smoothness and
