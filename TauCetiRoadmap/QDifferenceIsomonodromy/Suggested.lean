@@ -1,43 +1,44 @@
-import Mathlib.Algebra.Module.Projective
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
-import Mathlib.RingTheory.Finiteness.Defs
+import Mathlib.CategoryTheory.Core
+import Mathlib.CategoryTheory.Discrete.Basic
+import Mathlib.CategoryTheory.Functor.Const
+import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
 
 /-!
 # Suggested interfaces for q-difference equations and isomonodromy
 
 The definitive specification is `README.md`. This file gives suggested forms for selected
-algebraic targets. The two theorem declarations state targets with `sorry`.
+algebraic targets. It uses the native scalar extension, categorical pullback and core.
+The two theorem declarations state targets with `sorry`.
 -/
 
 namespace TauCetiRoadmap.QDifferenceIsomonodromy
 
-universe u v
 
-/-- §0.1. A finite projective module with an invertible semilinear operator. -/
-structure DifferenceModule {R : Type u} [CommRing R] (σ : R ≃+* R) where
-  carrier : Type v
-  [isAddCommGroup : AddCommGroup carrier]
-  [isModule : Module R carrier]
-  [isFinite : Module.Finite R carrier]
-  [isProjective : Module.Projective R carrier]
-  operator :
-    letI : RingHomInvPair σ.toRingHom σ.symm.toRingHom := RingHomInvPair.of_ringEquiv σ
-    letI : RingHomInvPair σ.symm.toRingHom σ.toRingHom := RingHomInvPair.of_ringEquiv_symm σ
-    LinearEquiv σ.toRingHom (σ' := σ.symm.toRingHom) carrier carrier
+open CategoryTheory CategoryTheory.Limits
 
-attribute [instance] DifferenceModule.isAddCommGroup DifferenceModule.isModule
+/-- §0.1. The datum of a linearization uses Mathlib's scalar extension functor.
+The category of modules with this datum is supplied by
+PhiGammaModulesAndIwasawaCohomology §0.1. -/
+abbrev Linearization {R : Type*} [CommRing R] (σ : R →+* R) (M : ModuleCat R) :=
+  (ModuleCat.extendScalars σ).obj M ≅ M
 
-/-- §0.1. Morphisms commute with the semilinear operators. -/
-structure DifferenceModule.Hom {R : Type u} [CommRing R] {σ : R ≃+* R}
-    (M N : DifferenceModule.{u, v} σ) where
-  toLinearMap : M.carrier →ₗ[R] N.carrier
-  commutes :
-    letI : RingHomInvPair σ.toRingHom σ.symm.toRingHom := RingHomInvPair.of_ringEquiv σ
-    letI : RingHomInvPair σ.symm.toRingHom σ.toRingHom := RingHomInvPair.of_ringEquiv_symm σ
-    ∀ x : M.carrier,
-      toLinearMap (M.operator.toLinearMap.toFun x) =
-        N.operator.toLinearMap.toFun (toLinearMap x)
+section Models
+
+variable {C D : Type*} [Category* C] [Category* D]
+
+/-- §0.2. A model and its target, for the scalar extension functor `F`.
+The categorical pullback uses all maps in both categories. -/
+abbrev ScalarExtensionModels (F : C ⥤ D) :=
+  CategoricalPullback F (𝟭 D)
+
+/-- §0.2. Models of a fixed `M` use only isomorphisms and keep the comparison with `M`. -/
+abbrev FixedObjectModels (F : C ⥤ D) (M : D) :=
+  CategoricalPullback F.core ((Functor.const (Discrete PUnit.{1})).obj (show Core D from ⟨M⟩))
+
+end Models
 
 section Matrices
 

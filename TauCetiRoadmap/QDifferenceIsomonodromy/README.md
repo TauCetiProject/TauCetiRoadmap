@@ -1,8 +1,9 @@
 # Roadmap: q-difference equations and isomonodromic deformations
 
 **Summary.** This roadmap develops rational `q`-connections of arbitrary finite rank, their local
-analytic classification, and deformations that preserve their connection data. The algebra starts
-with a finite projective module and an invertible semilinear operator. On the projective line a
+analytic classification, and deformations that preserve their connection data. The algebra uses the
+shared category of linearized modules and compares it with invertible semilinear operators for an
+automorphic shift. On the projective line a
 rational `q`-connection is a vector bundle `E` with a rational isomorphism
 `A: E ⇢ σ_q^*E`, where `σ_q(z) = qz`. Choosing a rational frame gives the system
 `Y(qz) = A(z)Y(z)`.
@@ -19,8 +20,9 @@ The global comparison is an equivalence of categories over `ℂ`. Its data are t
 analytic modules at `0` and `∞` and a meromorphic isomorphism between their associated elliptic
 bundles. It is constructed by extending local maps, factoring a meromorphic transition matrix, and
 gluing objects and morphisms. In the regular singular case it gives the classification by local
-constant systems and the Birkhoff connection matrix. Relative connections over schemes and complex
-analytic spaces, including nonreduced bases, are defined with finite pole bounds. The relative
+constant systems and the Birkhoff connection matrix. Relative connections on schemes and complex
+analytic spaces with an automorphism use finite locally free sheaves and divisors that control the
+support of poles. The relative
 targets include endpoint localization and completed base change, as well as specific analytic family
 theorems under stated bounds.
 
@@ -44,9 +46,14 @@ connection-preserving transport. Each *Needs* line gives the suppliers for the c
 Write `ℂˣ` for the nonzero complex numbers. Composite indices and exponents use parentheses,
 as in `x_(i,j)` and `q^(−kᵢ)`.
 
-- **Base rings and ranks.** Difference algebra uses a commutative ring `R` and a ring automorphism
-  `σ`. The finite projective category includes rank zero. Cyclic-vector and
-  polynomial-factorization theorems use positive rank. Geometric ranks may be locally constant.
+- **Base rings and ranks.** For a commutative ring `R` and a unital endomorphism `σ`, a
+  linearized module has an isomorphism `L: R ⊗_(R,σ) M ≃ M`. The shared category is
+  [PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear]. Here a *difference module* means the
+  automorphism case, with the equivalent invertible semilinear presentation of §0.1.
+  The scalar extension and model constructions of §0.2 also apply to endomorphisms. The finite
+  projective category includes rank zero, and over a field this means finite dimension.
+  Spectral, cyclic-vector and polynomial-factorization statements use positive rank. Geometric
+  ranks may be locally constant and may be fixed on the components used in a given statement.
 - **The shift.** Write `σ_q f(z) = f(qz)`. Use a fixed complex `q` with `|q| > 1` for the analytic
   classification and comparison. For `0 < |r| < 1`, show that `Y(rz) = Aᵣ(z)Y(z)` becomes
   `Y(qz) = Aᵣ(qz)⁻¹Y(z)` for `q = r⁻¹`. Algebraic targets state their own hypotheses, including
@@ -70,47 +77,86 @@ as in `x_(i,j)` and `q^(−kᵢ)`.
 
 ## Layer 0: Difference modules and coefficient fields
 
-### 0.1 Semilinear difference modules and horizontal maps
+### 0.1 Linearized modules, semilinear presentations, and horizontal maps
 
-Construct the category of `R`-modules `M` with an invertible `σ`-semilinear map `Φ_M`. A
-morphism `f: M → N` is `R`-linear and satisfies `f ∘ Φ_M = Φ_N ∘ f`. Give its zero, direct sums,
-kernels and cokernels, and prove that forgetting `Φ` is faithful and reflects isomorphisms. The
-whole category is abelian. The finite projective subcategory has the exact structure induced by the
-underlying short exact sequences, and over a field the finite-dimensional subcategory is abelian.
-For `σ = id` recover modules with a linear automorphism. [RSZ13, §2.1.1][RSZ13]
+Let `R` be a commutative ring and `σ` an automorphism. Use the objects, horizontal maps and
+finite projective subcategory of [PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear]. Compare
+the isomorphism `L: R ⊗_(R,σ) M ≃ M` with an invertible `σ`-semilinear operator
+`Φ_M: M → M` by `Φ_M(m) = L(1 ⊗ m)` and `L(a ⊗ m) = a Φ_M(m)`. Prove that the two
+invertibility conditions are equivalent under the automorphism hypothesis. Give the comparison on
+all modules, on finite projective modules and on finite-dimensional modules over fields.
+[KL15, Convention 1.5.1][KL15], [RSZ13, §2.1.1][RSZ13].
 
-*Needs:* Mathlib's semilinear [`LinearMap`][ml-semilinear-map] and [`LinearEquiv`][ml-linear],
-module categories, and short exact sequences.
+A morphism is an `R`-linear map `f: M → N` with `f ∘ Φ_M = Φ_N ∘ f`. Identify this
+condition with the square for `L`. Compare identities, composition, isomorphisms and the
+forgetful functor. In the automorphism case construct zero, direct sums, kernels and cokernels.
+Prove that forgetting the action is faithful and reflects isomorphisms and that the category on
+all modules is abelian. Use the underlying short exact sequences for the exact structure on finite
+projectives. Over a field the finite-dimensional subcategory is abelian. For `σ = id` recover
+modules with a linear automorphism.
 
-### 0.2 Tensor products, duals, internal Homs, and scalar change
+*Needs:* [PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear], Mathlib's semilinear
+[`LinearMap`][ml-semilinear-map] and [`LinearEquiv`][ml-linear], module categories and short
+exact sequences. Use the two inverse identities for `σ` and `σ⁻¹` in the semilinear API.
 
-Give finite projective difference modules a rigid symmetric monoidal structure. The unit is
-`(R,σ)`, the tensor operator sends `m ⊗ n` to `Φ_Mm ⊗ Φ_Nn`, and the internal
-Hom operator sends `f` to `Φ_N fΦ_M⁻¹`. The latter restricts to
-`σ ∘ f ∘ Φ_M⁻¹` on the dual. Construct horizontal evaluation and coevaluation, the
-exterior powers and determinant, and the determinant comparison for short exact sequences. Identify
-horizontal elements of the internal Hom with morphisms.
+### 0.2 Tensor products, duals, scalar change, and models
 
-For `R → S` commuting with automorphisms `σ,τ`, use `S ⊗ _R M` with operator
-`s ⊗ m ↦ τ(s) ⊗ Φ_Mm`. Give the unit, composition and tensor comparisons and
-their coherence. This preserves finite projectivity and admissible short exact sequences for every
-such map because the underlying sequences split. Preservation of arbitrary kernels and short exact
-sequences uses flatness. Give restriction of scalars, preservation of finite projectivity for `S`
-finite projective over `R`, and the rank formula for finite field extensions.
+Use tensor, unit and dual on finite projective linearized modules from
+[PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear]. Compare their rigid symmetric monoidal
+structure with the invertible semilinear presentation. Its unit is `(R,σ)`, its tensor operator
+sends `m ⊗ n` to `Φ_M(m) ⊗ Φ_N(n)`, and its internal Hom operator sends `f` to
+`Φ_N ∘ f ∘ Φ_M⁻¹`. On the dual this is `σ ∘ f ∘ Φ_M⁻¹`. Compare evaluation and
+coevaluation, exterior powers, determinant and the determinant of a short exact sequence.
+Identify horizontal elements in internal Hom with morphisms.
 
-*Needs:* §0.1 and Mathlib's tensor product, exterior powers, and module change of rings.
+For a ring map `f: R → S` with `τ ∘ f = f ∘ σ`, use the supplied scalar extension
+`f*` for unital endomorphisms. For automorphisms compare it with the operator
+`s ⊗ m ↦ τ(s) ⊗ Φ_M(m)` on `S ⊗_R M`. Give the unit, composition and tensor comparisons
+and their coherence, including the comparison with duals and exterior powers. Scalar extension
+preserves finite projectivity and admissible short exact sequences, whose underlying module
+sequences split. Preservation of arbitrary kernels and short exact sequences uses flatness.
+With automorphisms, give restriction of scalars, preservation of finite projectivity when
+`S` is finite projective over `R`, and the rank formula for finite field extensions.
+[RSZ13, §2.1.1][RSZ13].
+
+**Models along scalar extension.** For unital endomorphisms and a commuting map `f` as above,
+apply the native [categorical pullback][ml-cat-pullback] to `f*` on finite projective linearized
+modules and the identity functor of the target category. An object is `(N,M,α)` with
+`α: f*N ≃ M`. A map to `(N′,M′,α′)` is a pair of horizontal maps `(u,v)` with
+`v ∘ α = α′ ∘ f*u`. For models of a fixed `M`, use the pullback of the induced functor on
+[cores][ml-core] along the functor selecting `M` from the terminal groupoid. Its maps are
+isomorphisms `u` with `α′ ∘ f*u = α`.
+
+Compose comparisons along `R → S → T` using the identity and composition isomorphisms for
+scalar extension. For a commutative square of maps compatible with the endomorphisms, base change
+the model and both maps and compare direct sums, tensor and dual. Compare determinant on the
+fixed-rank core. Apply the construction to generic-fibre and localization functors in
+§§1.1 and 1.6–1.8. Section 3.6 supplies realization by a submodule and freeness for the
+pure Laurent case. Section 5.1 supplies existence and uniqueness for filtered Laurent models.
+
+**Check.** Take `R = (ℂ[ε]/(ε²))[z,z⁻¹]`, `S = ℂ({z})`, and the map sending `ε`
+to zero and `z` to `z`. Let the shift fix `ε` and send `z` to `qz`, with `q ≠ 0`.
+The standard rank-one modules `N = R` and `M = S` have the usual scalar extension
+comparison. The map `N → M` kills `εR`. Multiplication by `1 + ε` is a nonidentity
+automorphism of the model whose extension is the identity on `M`.
+
+*Needs:* §0.1, [PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear], Mathlib's module tensor
+structure and scalar extension pseudofunctor, Tau Ceti's finite projective duality, and Mathlib's
+[categorical pullback][ml-cat-pullback] and [core][ml-core].
 
 ### 0.3 Matrix presentations, gauge, and reversal
 
 Over a field `K`, identify the category of matrix systems with arbitrary rectangular horizontal
 matrices with the category of finite-dimensional difference modules. Use a basis to write
-`Φ = A⁻¹σ`. Show that horizontal maps compose by matrix multiplication and that the core is
+`Φ = A⁻¹σ`. In the basis and its scalar extension, the matrix of the linearization `L` is
+`A⁻¹`. Show that horizontal maps compose by matrix multiplication and that the core is
 the gauge groupoid. Give the matrix rules for direct sum, tensor, dual (inverse transpose),
 determinant and scalar change. In particular, `det A′ = σ(det G)det A/det G`. Over a general
 ring use local frames of the module and its twist. A localization used as a difference ring must be
 `σ`-stable. [S03, §1.1.2][S03], [K16, Remark 1.8][K16].
 
-Reversal sends `(M,Φ)` to `(M,Φ⁻¹)`, replaces `σ` by `σ⁻¹`, and acts
+For a ring automorphism `σ`, reversal sends `(M,Φ)` to `(M,Φ⁻¹)`, replaces
+`σ` by `σ⁻¹`, and acts
 identically on horizontal maps. In matrices it sends `A` to `σ⁻¹(A)⁻¹`. Construct the
 involutive exact symmetric monoidal equivalence and its compatibility with scalar change. For the
 `r`-shift, reversal sends `cz^m` to `c⁻¹r^mz^(−m)` and transports the singular support by
@@ -234,35 +280,75 @@ track regularity and disjointness hypotheses at every step of a finite compositi
 
 *Needs:* §§1.2–1.4 and the finite-length quotient description of degree.
 
-### 1.6 Relative connections, base change, and descent
+### 1.6 Relative difference connections, base change, and descent
 
-Over a base with unit `q`, put `X_S = ℙ¹_S` and let `D` be an effective Cartier divisor that
-stays effective Cartier under the allowed base changes. On either schemes or complex analytic
-spaces, use
+Fix a scheme `X → B` with a `B`-automorphism `σ_X`. Use the same data in complex analytic
+spaces for the analytic construction, allowing nonreduced bases. For each test base `S → B` put
+`X_S = X ×_B S` and write `σ_S` for the induced automorphism. Let `D ⊂ X_S` be an
+effective Cartier divisor that stays effective Cartier under the allowed base changes.
+Write `𝒪_X` for the structure sheaf on `X_S` in the following localization formulas. A
+relative difference connection consists of a finite locally free sheaf `E` and an
+`𝒪_X(*D)`-linear isomorphism `A` in
 
 ```
 𝒪_X(*D) = colimₘ 𝒪_X(mD),
-E(*D) = E ⊗ 𝒪_X(*D),
-A: E(*D) ≃ (σ_q^*E)(*D).
+E(*D) = E ⊗_(𝒪_X) 𝒪_X(*D),
+A: E(*D) ≃ (σ_S^*E)(*D).
 ```
 
-The two directions of `A` have locally finite pole bounds. Compare bounds via enlargements and
-compare the algebraic construction with restriction to the Cartier complement. Over an analytic base
-use the finite bound as part of the meromorphic data, including for nonreduced spaces. Both settings
-use finite locally free sheaves and all regular horizontal maps. The core gives the moduli groupoid.
-Use locally split short exact sequences for its underlying exact category.
+The allowed divisor gives the support of the poles of `A` and `A⁻¹`, with locally finite
+orders. The same localization is obtained from `2D`. To prescribe fixed pole orders, keep
+separate regular extensions `A: E → (σ_S^*E)(mD)` and `A⁻¹: σ_S^*E → E(nD)`.
+A global order bound or finiteness of `D → S` is an additional hypothesis when used.
+Write `Q_D(S)` for the category whose maps are all regular sheaf maps satisfying
+`(σ_S^*f)A_E = A_F f` after localization. Its core is the moduli groupoid.
+Use locally split underlying short exact sequences for the exact structure. Show that enlarging
+`D` to `D′ ≥ D` gives a fully faithful functor on regular horizontal maps and use a common
+divisor to compare two presentations. On schemes compare the localization definition with an
+isomorphism `E|_U ≃ (σ_S^*E)|_U` for `U = X_S ∖ D`, regardless of whether `U`
+is invariant. On analytic spaces use the finite-order meromorphic condition along `D`.
+[K16, Definition 1.5][K16], [SPD, Lemmas 31.19.1 and 31.19.3][SPD].
 
-Construct pullback, identity and composition comparisons, and compatibility with the exact
-structure, tensor, dual and determinant. For equations involving shifted bounds use
-`σ_q^*𝒪_X(*D) = 𝒪_X(*σ_q⁻¹D)` and the finite sum of the required
-divisors. For bounds pulled back from the base, prove fpqc descent on the algebraic side and
-open-cover descent on the analytic side. For `τ = σ_q⁻¹`, reversal is `τ^*(A⁻¹)` with
-bound `τ^*D`. Compare reversal with pullback and enlargement. Define analytification over locally
-finite type complex schemes by applying coherent analytification at finite pole bounds. Use locally
-free kernels and quotients on the loci where relative modifications are made.
+On `ℙ¹_B` with `σ_X(z) = qz` for a unit `q ∈ Γ(B,𝒪_B)ˣ` this is the relative
+rational `q`-connection. On `𝔾_(m,B)` with `D = 0` it is the Laurent system
+`A: E ≃ σ_S^*E` on the multiplicative group. For an algebraic test base `S = Spec C`
+with `C` any commutative coefficient ring, use the affine bundle equivalence to identify
+such systems with finite projective linearized modules over `C[z,z⁻¹]`. The correspondence
+sends `A` to the inverse of the linearization `L`. Compare all horizontal maps, base
+change, tensor and dual. The geometric Laurent system is defined on `𝔾_m` itself.
 
-*Needs:* §§1.1–1.4, AlgebraicVectorBundles §§1.1–1.2 and 2.1–2.2, SchemeAndStackFoundations §§1.1
-and 1.18, ComplexComparisonPartII §§C-1.1 and C0.1–C0.4, and [SPD, Lemmas 31.19.1 and 31.19.3][SPD].
+Construct pullback along `S′ → S` by pulling back both the sheaf and the divisor. The same
+construction works for an equivariant map `h: X′ → X_S` when `h^*D` is effective
+Cartier. Include restriction to invariant open sets and equivariant ramification, and give
+the identity and composition comparisons and their coherence with the exact structure,
+tensor, dual and determinant.
+
+The sheaf `σ_S^*(E(*D))` is `(σ_S^*E)(*σ_S^*D)`, whereas the target of `A` uses
+`D`. The support of `σ_S^*D` is `σ_S⁻¹(Supp D)`. For example, compose
+`(σ_S^*A)A` after localization at `D + σ_S^*D`. Use the corresponding finite sum of
+pullback divisors for longer composites. An action on a single localized coefficient ring
+requires an invariant localization. If `τ = σ_S⁻¹`, reversal is `τ^*(A⁻¹)` with allowed
+divisor `τ^*D`, whose support is `σ_S(Supp D)`. Compare reversal with horizontal
+maps, base change, markings and enlargement.
+
+For fixed data `(X,σ_X,D_B)` over `B`, prove fpqc descent for the category and its core
+on the algebraic side and open-cover descent on the analytic side. Descend the sheaf, the
+isomorphism after localization and the horizontal commuting square. When both `S` and
+`X_S` are locally of finite type over `ℂ`, apply coherent analytification at each finite
+pole order and compare horizontal maps, composition, tensor and base change. Construct the
+restriction, determinant, framing and flag functors used by §1.7, including restriction to
+the endpoint sections on `ℙ¹` when the connection is regular there. Use locally free kernels
+and quotients on the loci where modifications are made.
+
+**Check.** Take `B = ℙ¹_ℂ`, `X = 𝔾_m × B`, `σ_X(z,b) = (qz,b)` and `D = 0`.
+For the projection `π: X → B` the bundle `π^*𝒪_B(1)` has its natural shift
+isomorphism. Its restriction along the section `z = 1` is `𝒪_B(1)`, so the Laurent
+system has a nontrivial underlying bundle.
+
+*Needs:* §§0.1–0.2, [Tau Ceti's affine bundle equivalence][tc-bundle-affine],
+AlgebraicVectorBundles §§1.1–1.2 and 2.1–2.2, SchemeAndStackFoundations §§1.1 and 1.18,
+ComplexComparisonPartII §§C-1.1, C0.1–C0.2 and C0.4. Use §§1.1–1.4 for the comparison
+with rational connections, lattices and modifications.
 
 ### 1.7 Local conditions, markings, and modification groupoids
 
@@ -487,8 +573,11 @@ Changing `p` to `ζ p` on a module with descent maps `D_ζ` changes the semiline
 
 ### 3.5 Difference cohomology and extensions
 
-Define `Γ⁰(M)` and `Γ¹(M)` as the kernel and cokernel of `Φ_M − 1` over `ℂ`.
-Use native `Ext¹_D` in the category of all left `D`-modules. For finite-dimensional
+Specialize the two-term complex of [PhiGammaModulesAndIwasawaCohomology §0.2][pg-complex]
+to the local field `K` with automorphism `σ_q` and fixed field `ℂ`. Write `Γ⁰(M)`
+and `Γ¹(M)` for its kernel and cokernel of `Φ_M − 1`. The supplier's Ext comparison
+uses the skew polynomial ring. For the invertible action write `D = K[Φ,Φ⁻¹;σ_q]` and
+use native `Ext¹_D` in the category of all left `D`-modules. For finite-dimensional
 `N`, put `P_N = D ⊗ _K N`, using the right `K`-action on `D`, and prove exactness of
 
 ```
@@ -518,21 +607,28 @@ dim_ℂ Ext¹(Pⱼ,Pᵢ) = rᵢ rⱼ(μⱼ − μᵢ).
 The reverse extensions split by the slope filtration.
 [RSZ13, Proposition 2.1.3, Theorem 3.1.1, §§3.1–3.2 and Appendix A.7][RSZ13].
 
-*Needs:* §§0.1–0.5 and 3.1–3.4, Layer 2, Mathlib's derived-category Ext and Tau Ceti's projective
-presentation and Baer sum comparisons.
+*Needs:* [PhiGammaModulesAndIwasawaCohomology §0.2][pg-complex] for the complex over fixed
+scalars, §§0.1–0.5 and 3.1–3.4, Layer 2, Mathlib's derived-category Ext and Tau Ceti's
+projective presentation and Baer sum comparisons.
 
 ### 3.6 Laurent-polynomial models of pure modules
 
-Let `R = ℂ[z,z⁻¹]`. For pure `P` of slope `a/r` define its Laurent model inside `P` by the
-elements with finite-dimensional complex orbit span under `z^aΦ^r`. Use the pure normal forms and
-generalized eigenspaces to prove that it is finite free over `R`, preserved by `Φ` and
-`Φ⁻¹`, and recovers `P` after extending to `K`. Give the comparison of all maps of pure
-modules with the Laurent models, the tensor, dual and split direct-sum comparisons, and
-compatibility with ramification and descent. A matrix for the model lies in `GLₙ(R)` and
-has determinant `cz^d`. In the convention of [VPR07, Definition 1.8][VPR07], the orbit operator is
-`z^(−a)(Φ⁻¹)^r`, whose inverse differs from `z^aΦ^r` by a constant factor.
+For `R = ℂ[z,z⁻¹]` and `K = ℂ({z})`, use the model category of §0.2 along `R → K`.
+For pure `P` of slope `a/r` in lowest terms, construct a model `(P_global,P,α)`.
+Finite projective modules over the Laurent PID `R` are free, and
+`P_global → K ⊗_R P_global` is injective. Use `α` to realize the model in `P` as the
+submodule of elements whose orbits under `z^a Φ^r` span finite-dimensional complex vector
+spaces. Prove this characterization using pure normal forms and generalized eigenspaces,
+and show stability under `Φ` and `Φ⁻¹`. A nonzero constant multiple of the orbit
+operator gives the same condition. In [VPR07, Definition 1.8][VPR07] the operator is
+`z^(−a)(Φ⁻¹)^r`, whose inverse differs from `z^a Φ^r` by a constant factor.
 
-*Needs:* §§3.1–3.4 and Laurent polynomial and generalized eigenspace theory.
+Compare all maps of pure modules with the Laurent models, and give the tensor, dual,
+split direct-sum, ramification and descent comparisons. A matrix of the model belongs to
+`GLₙ(R)` and has determinant `cz^d` with `c ≠ 0`.
+
+*Needs:* §§0.2 and 3.1–3.4, the PID property of the Laurent polynomial ring over a field, and
+generalized eigenspaces.
 
 ### 3.7 Pure elliptic bundles and their cohomology
 
@@ -753,13 +849,19 @@ comparison is over `ℂ`. The quotient stack uses the coefficient functor over
 
 ### 5.1 Laurent models for mixed local modules and extension of maps
 
-Let `R = ℂ[z,z⁻¹]`. Call a finite free difference module over `R` globally pure of slope
-`μ` if its localizations are pure of slope `μ` at zero and raw slope `−μ` at infinity. Form
+Use the models of §0.2 for `R = ℂ[z,z⁻¹]` and `K = ℂ({z})`. Over the PID `R`
+a finite projective module is free. Call such a difference module globally pure of slope
+`μ` if its localizations are pure of slope `μ` at zero and raw slope `−μ` at infinity.
+At infinity, the same subobjects indexed by decreasing raw slopes are indexed by increasing slopes
+after reversal. Form
 the category of Laurent modules with a specified finite filtration by globally pure quotients in
 increasing slope order at zero. Prove that localization at zero is an equivalence with the local
 analytic category for all rational slopes, with all horizontal maps preserving the specified
-filtration. Give the comparison of models and their morphisms, the quasi-inverse and the tensor and
-exact comparisons. At infinity use the reversed shift: a normalized Laurent matrix `D(w)` gives the
+filtration. Give the comparison of models and their morphisms, the quasi-inverse and the tensor
+and exact comparisons. For each fixed local analytic module the groupoid of models with their
+comparison isomorphisms, restricted to this filtered subcategory, is equivalent to the terminal
+groupoid. Use full faithfulness to compare all choices and give the cocycle law.
+At infinity use the reversed shift: a normalized Laurent matrix `D(w)` gives the
 original-shift model `B_∞(z) = D(1/(qz))⁻¹`.
 [VPR07, §4, Lemma 4.2, Theorem 4.3 and Observations 4.5][VPR07].
 
@@ -768,7 +870,7 @@ iterating `H(qz) = B(z)H(z)A(z)⁻¹`. This gives a unique meromorphic map on `�
 infinity the analogous map extends to `ℙ¹ ∖ {0}`. Include maps of arbitrary ranks
 and compare their compositions and inverses where defined.
 
-*Needs:* §§0.3–0.4, 3.2–3.6 and 4.1–4.2, and meromorphic continuation by the identity principle.
+*Needs:* §§0.2–0.4, 3.2–3.6 and 4.1–4.2, and meromorphic continuation by the identity principle.
 
 ### 5.2 Meromorphic Birkhoff factorization
 
@@ -798,9 +900,11 @@ of largest slope `≤ μ`, or zero if there is none. The zero bundle has the emp
 filtration-preserving holomorphic maps. This specified filtration is the rational
 anti-Harder–Narasimhan filtration in [M19, §§1.5.1 and 10.1.3][M19].
 
-Prove the exact symmetric monoidal equivalence with local analytic difference modules. Descend the
-Laurent model of §5.1 and its filtration. Model comparisons and their coherence come from the
-uniqueness of extension of horizontal maps. For full faithfulness, apply §4.7 after ramifying to
+Prove the exact symmetric monoidal equivalence with local analytic difference modules. Realize the
+Laurent model of §5.1 as a shift-equivariant bundle on `𝔾_m` by §1.6, analytify, and use §2.1 to
+descend it with its slope filtration. Use §0.2 to retain the model and its local comparison.
+Full faithfulness in §5.1 gives the comparison under changes of model, basis and local comparison,
+including the identity and cocycle laws. For full faithfulness, apply §4.7 after ramifying to
 integral slopes, then descend the maps. For essential surjectivity, realize the semistable graded
 quotients by §3.8. Local filtered splittings compatible with the graded identifications form a
 torsor under the sheaf in §4.4. Compare the cocycle of the Laurent model with this torsor using
@@ -816,7 +920,8 @@ Denote the endpoint functors by `V₀,V_∞`, using the same `z`-coordinate on `
 for the descended bundles. In Laurent frames, a meromorphic map from `V₀(L₀)` to
 `V_∞(L_∞)` corresponds to a matrix `R` satisfying `(σ_q R)B₀ = B_∞ R`.
 
-*Needs:* §§2.1, 3.2, 3.8, 4.3–4.7 and 5.1, and finite analytic descent.
+*Needs:* §§0.2, 1.6, 2.1, 3.2–3.8, 4.1–4.7 and 5.1, and finite analytic descent. Use the
+local splitting of filtered locally free sheaves and the torsor comparison.
 
 ### 5.4 Rational modules and their connection data
 
@@ -1205,15 +1310,46 @@ over a general parameter base has its own existence, base-change and regularity 
 
 ## Scope and ownership
 
-This roadmap owns the `q`-specific structures on semilinear algebra, bundle models and their
-modifications, local classification, global comparison, and the transport and polynomial
-transformations specified above. Its analytic classification and global comparison allow resonance,
+This roadmap owns the automorphism comparison with invertible semilinear operators, the
+model construction along difference scalar extension, and the relative difference connections of
+§1.6. It supplies the `q`-shift, local slope and Stokes theory, the global comparison, coherent
+transport and polynomial transformations. Its analytic classification and global comparison allow resonance,
 nonsemisimple factors, and arbitrary rational slopes. The separated spectral type is the domain of
 the polynomial transformation theorem. Individual `q`-Painlevé equations, stability conditions and
 the geometry of particular moduli surfaces, cluster realizations, tau functions, confluence and
 difference Galois density lie outside this scope. The differential theory in
 [PainleveEquations](../PainleveEquations/README.md) is the counterpart for ordinary connections. The
 present roadmap uses the indicated algebraic, analytic and geometric suppliers directly.
+
+### Reuse of the foundations
+
+The linearized algebra and the two-term complex over the fixed scalars come from
+[PhiGammaModulesAndIwasawaCohomology §§0.1–0.2][pg-linear]. The reuse in other settings is
+described by the following inputs and hypotheses.
+
+| Setting | Shared input | Further data or results in that setting |
+| --- | --- | --- |
+| Complex linear `q`-difference systems | Local and global comparison in arbitrary finite rank, with resonance, nonsemisimple factors and rational slopes | A specified singular type, framing, stability condition or polynomial condition supplies the corresponding restriction. |
+| Relative `q`-connections on possibly nonreduced bases and nontrivial bundles | Linearized algebra, scalar extension models, and §§1.6–1.8 for finite-pole connections, decorations, descent and endpoint constructions | §4.7 gives fixed-graded-type coefficient families. The analytic family results of §§6.5–6.7 use their stated hypotheses. A relative local or global classification requires its own comparison theorem. |
+| Additive differences and other automorphisms of curves | The algebra of §§0.1–0.3, rational difference connections of §1.1, and relative finite-pole connections of §1.6 | Each shift has its own local and global analytic theory. The elliptic quotient, the `q`-Stokes sheaf and the comparison using zero and infinity belong to the multiplicative shift. |
+| Mahler systems `z ↦ z^ℓ` with `ℓ ≥ 2` | Linearized modules for a unital endomorphism over the rational coefficient ring. The germ at `z = 1` uses `z = exp(u)` and the local shift `u ↦ ℓu` at zero. [R16, §1, p. 2][R16] | At zero and infinity the local classification and the Puiseux and Hahn extensions are Mahler-specific. |
+| Frobenius modules, isocrystals and (φ,Γ)-modules | Finite projective linearized modules, their tensor, dual and scalar extension, and the two-term complex over fixed scalars | Coefficient topologies, étaleness, Frobenius slopes and the Γ-action with its cohomology come from the respective theories. |
+
+The Laurent models of §§3.6 and 5.1 globalize local analytic modules. To retain finite singularities
+of the original rational system, use the lattices and modifications of §§1.2–1.7 together
+with the global connection data of §5.4. In the general model groupoid, a model is specified by
+its comparison isomorphism after scalar extension. Freeness and realization as a submodule are
+conclusions in §3.6. Existence and uniqueness for the filtered Laurent category are theorems in
+§5.1. For an integral lattice whose linearization becomes invertible only after localization,
+apply the model construction to the actual localization functor on the category of those
+integral lattices. The coefficient algebra for a shift of infinite order on the unit circle
+is included, with the analytic classification using the modulus hypothesis in Conventions.
+
+Section 1.6 uses an automorphism of the underlying space. Geometric constructions for
+noninvertible endomorphisms also require hypotheses on the pullback of the divisors.
+Connections for a general algebraic group would require torsors and tensor-compatible
+structure. Several spatial shifts would require commuting structure maps. The several
+time directions in Layer 6 act on a system with a single spatial shift.
 
 ## Exact supplier contracts
 
@@ -1223,6 +1359,9 @@ present roadmap uses the indicated algebraic, analytic and geometric suppliers d
 | --- | --- |
 | [Mathlib semilinear equivalences][ml-linear] and [module scalar change][ml-scalars] | `LinearMap` and `LinearEquiv` implement semilinearity with a `RingHomInvPair` for the inverse. `ModuleCat` supplies tensor operations, scalar restriction and extension, and the scalar change comparisons for §0.2. |
 | [Mathlib skew monoid algebras][ml-skew], [lifting][ml-lift], and [skew polynomials][ml-skewpoly] | `single_mul_single`, `singleOneRingHom`, `of` and `liftNCRingHom` supply the carrier and universal map. §0.5 supplies the action, its module comparison, and the cyclic-vector theorem. |
+| [Mathlib categorical pullback][ml-cat-pullback] and [core][ml-core] | The categorical pullback has both projections and a comparison natural isomorphism, and carries every compatible pair of maps. The core gives isomorphism groupoids and the induced functors. Section 0.2 applies these to scalar extension, and §1.6 uses the same comparisons for geometric pullback. |
+| [Tau Ceti's affine bundle equivalence][tc-bundle-affine] | `FiniteLocallyFreeSheaf.finiteProjectiveEquiv` identifies finite projective modules over a commutative ring with finite locally free sheaves on its spectrum, with all linear maps. Section 1.6 uses the associated sheaf and global sections, the pullback and scalar extension comparison, and the inverse orientation for the connection. |
+| [Tau Ceti dualizability][tc-fpd] and [dual tensor and internal Hom][tc-dual-ihom] | `ModuleCat.hasLeftDualOfFiniteProjective` and `ModuleCat.hasRightDualOfFiniteProjective` give categorical duals. `ModuleCat.dualTensorIhom_app_eq` identifies the comparison with contraction on modules. Section 0.2 uses these comparisons for the horizontal structures. |
 | [Mathlib rational functions][ml-rat] and [Laurent series][ml-laurent] | Use `RatFunc` and `LaurentSeries`, the fraction-field, coefficient and valuation structures, and the rational-to-formal embedding. §0.4 supplies the analytic intermediate field comparison and equivariance. |
 | [Tau Ceti meromorphic germs][tc-germ], [pullback][tc-pullback] and [stalk comparison][tc-stalk] | `TauCeti.meromorphicGerms ℂ 0` carries the field of one-variable germs. Pullback along the local biholomorphism `z ↦ qz` gives the shift. The holomorphic stalk and its fraction field give the valuation and regularity comparisons. |
 | [Mathlib derived Ext][ml-ext], [Tau Ceti projective presentations][tc-ext] and [Baer sum][tc-baer] | Use `CategoryTheory.Abelian.Ext` and the short exact sequence class. `TauCeti.homCokernelEquivExt` consumes the explicit left-`D` presentation of §3.5 and identifies the cokernel with Ext compatibly with pushout. |
@@ -1234,6 +1373,21 @@ present roadmap uses the indicated algebraic, analytic and geometric suppliers d
 | [Mathlib generalized eigenspaces][ml-eigenspace] and [triangularization inputs][ml-triangular] | Use the spanning result and the behavior under intertwiners for the Sylvester map. §7.1 adds the factorization, and §7.3 applies triangularization to `L`. |
 
 ### From other roadmaps
+
+[PhiGammaModulesAndIwasawaCohomology §0.1][pg-linear] supplies the linearized module category for
+a commutative ring with a unital endomorphism, its horizontal maps and finite projective
+subcategory, tensor, unit, dual, and scalar extension. For example, on the standard line
+over `𝔽_p[t]` with `σ(t) = t^p` the linearization is invertible and `t` lies outside
+the image of the semilinear map. Sections 0.1–0.2 supply the comparison for automorphisms
+and the models along scalar extension. The inverse-action, abelian-category and skew Laurent
+results use automorphisms.
+
+[PhiGammaModulesAndIwasawaCohomology §0.2][pg-complex] supplies the two-term complex with
+differential `Φ − 1` over the fixed scalars. Its skew polynomial interpretation uses right
+multiplication by `Φ − 1` in the resolution of the unit among left modules. Section 3.5
+uses its own free presentation and internal Hom to compute Ext for the skew Laurent ring.
+These inputs are the general algebra of the cited sections.
+[KL15, Convention 1.5.1, Definition 1.5.4 and Remark 1.5.6][KL15].
 
 | Roadmap | Sections and supplied structures |
 | --- | --- |
@@ -1251,6 +1405,11 @@ present roadmap uses the indicated algebraic, analytic and geometric suppliers d
 
 ## References
 
+- **KL15.** K. S. Kedlaya and R. Liu, *Relative p-adic Hodge theory: Foundations*,
+  arXiv:1301.0792v5 (2015), Convention 1.5.1, Definition 1.5.4 and Remark 1.5.6.
+  [Preprint][KL15]
+- **R16.** J. Roques, *On the local structure of Mahler modules*, §1, p. 2, author's
+  manuscript dated November 30, 2016. [Author's text][R16]
 - **S00.** J. Sauloy, *Systèmes aux q-différences singuliers réguliers : classification, matrice de
   connexion et monodromie*, Ann. Inst. Fourier **50** (2000), 1021–1071. [Published text][S00]
 - **S03.** J. Sauloy, *Galois theory of fuchsian q-difference equations*, Ann. Sci. ENS **36**
@@ -1277,6 +1436,11 @@ present roadmap uses the indicated algebraic, analytic and geometric suppliers d
   (2019), §§1.5.1 and 10.1.2–10.1.3. [Preprint][M19]
 - **SPF, SPQ, SPD.** The Stacks Project, [Stacks in groupoids][SPF],
   [Quotients by group actions][SPQ], and [Relative effective Cartier divisors][SPD].
+
+[KL15]: https://arxiv.org/pdf/1301.0792v5
+[R16]: https://math.univ-lyon1.fr/~roques/OTLSOMM.pdf
+[pg-linear]: ../PhiGammaModulesAndIwasawaCohomology/README.md#01-linearized-frobenius-modules
+[pg-complex]: ../PhiGammaModulesAndIwasawaCohomology/README.md#02-free-covers-and-frobenius-cohomology
 
 [S00]: https://www.numdam.org/item/AIF_2000__50_4_1021_0/
 [S03]: https://www.numdam.org/item/10.1016/j.ansens.2002.10.001/
@@ -1318,3 +1482,8 @@ present roadmap uses the indicated algebraic, analytic and geometric suppliers d
 [tc-monoidal]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/Modules/Pullback/Monoidal/Basic.lean
 [tc-ks]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/Preadditive/KrullSchmidt.lean
 [tc-localend]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/CategoryTheory/Preadditive/Indecomposable.lean
+[ml-cat-pullback]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/Basic.lean
+[ml-core]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/CategoryTheory/Core.lean
+[tc-bundle-affine]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/VectorBundle/Affine/Basic.lean
+[tc-fpd]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Dualizable.lean
+[tc-dual-ihom]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/Category/ModuleCat/DualTensorIhom.lean
