@@ -571,7 +571,7 @@ theorem IsStrictSNumberSequence.apply_diagOp {p : ℝ≥0∞} [Fact (1 ≤ p)]
 
 /-- The approximation numbers of a diagonal operator `ℓ_qᵐ → ℓ_pᵐ` with `p < q < ∞` and
 nonincreasing `|σ|`: the `ℓ_r` norm of the tail `(σ_k)_{k ≥ n}`, `1/r = 1/p - 1/q`
-(Pietsch 1974, Theorem 7.2; README SN-E05). -/
+(Pietsch 1974, Theorem 7.2, which also covers the source exponent `q = ∞`; README SN-E05). -/
 theorem singularValue_diagOp {p q : ℝ≥0∞} [Fact (1 ≤ p)] [Fact (1 ≤ q)]
     (hpq : p < q) (hq : q ≠ ∞) {r : ℝ} (hr : 1 / r = 1 / p.toReal - 1 / q.toReal)
     {m n : ℕ} (σ : Fin m → 𝕜) (hσ : Antitone fun i => ‖σ i‖) (hn : n < m) :

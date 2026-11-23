@@ -974,10 +974,11 @@ coordinates, where it is invertible with inverse of norm `|σₙ|⁻¹` when `σ
 
 Prove `singularValue_diagOp`: for `1 ≤ p < q < ∞`, `1/r = 1/p − 1/q`, `|σ|` nonincreasing and
 `D_σ : ℓ_q^m → ℓ_p^m`, `aₙ(D_σ) = (∑_{k ≥ n} |σ_k|^r)^{1/r}` for `n < m`; in particular
-`‖D_σ‖ = ‖σ‖_{ℓ_r}` (Pietsch 1974, Theorem 7.2). The upper bound truncates `σ` after `n` terms and
-applies Hölder's inequality. For the lower bound, `le_singularValue_iff` tests each `L` of rank
-`≤ n` on a vector of `ker L` chosen for that `L` (a coercivity bound on one fixed subspace gives at
-most the Bernstein number). On the coordinates where `σ ≠ 0`, the `e` with
+`‖D_σ‖ = ‖σ‖_{ℓ_r}` (Pietsch 1974, Theorem 7.2, which names the two exponents the other way round
+and also covers the source exponent `q = ∞`, with `r = p`). The upper bound truncates `σ` after
+`n` terms and applies Hölder's inequality. For the lower bound, `le_singularValue_iff` tests each
+`L` of rank `≤ n` on a vector of `ker L` chosen for that `L` (a coercivity bound on one fixed
+subspace gives at most the Bernstein number). On the coordinates where `σ ≠ 0`, the `e` with
 `(|σ_k|^{r/q} e_k)_k ∈ ker L` form a subspace of codimension `≤ n`; the flat vector of SN-C20
 (Pietsch 1974, Lemma 7.1) gives such an `e` with `|e_k| ≤ 1` for all `k` and `|e_k| = 1` at all
 but at most `n` of these coordinates, and `x_k := |σ_k|^{r/q} e_k` then has
