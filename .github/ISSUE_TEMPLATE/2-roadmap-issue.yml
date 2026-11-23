@@ -123,6 +123,7 @@ body:
         - ConformalMappingPartII
         - CongruenceSpectralGap
         - ConvexLifting
+        - CooperativeGames
         - CountableModelCounting
         - CountableStructureSpaces
         - CountableStructureSpacesPartII
@@ -202,6 +203,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteGroupInvariants
         - FiniteSamplingDiscrepancy
+        - FirstOrderOptimization
         - FlagVarieties
         - Foams
         - FormalConnectionsOpers
@@ -248,6 +250,7 @@ body:
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
         - HermitianKTheoryOfPoincareCategories
+        - HiddenMarkovModels
         - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
         - HodgeTateAndCanonicalSubgroups
@@ -344,6 +347,7 @@ body:
         - NumberFieldEnumeration
         - OcneanuRigidity
         - OddOrderTheorem
+        - OneStepMethodsForODEs
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
@@ -414,6 +418,7 @@ body:
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomGraphs
         - RandomMatrices
+        - RandomizedSmoothing
         - Rank24LatticeConstructions
         - RationalHomotopyModels
         - RealAnalyticGeometry
