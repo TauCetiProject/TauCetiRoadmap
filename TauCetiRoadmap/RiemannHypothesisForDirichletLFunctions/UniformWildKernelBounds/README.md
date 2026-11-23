@@ -237,6 +237,12 @@ III, and every one with `ℓ ∈ B(χ)` in Case II, IV or V ([FormalProof],
 - `χ = 1`, `Q = {q, q′}`, `ℓ = 5`, `e = 2`: `ψ = 1` is Case Z; the quadratic character of `ℚ(√−q)` is odd, so it
   lies in `X(E, 1)`, not in `X(E, 2)`.
 - Without `t`-largeness a good prime `ℓ = q ∈ Q` with `(q − 1) | 2e` would divide `N` and 0.3(d) would fail.
+- `χ = 1`, `t > 2`, `e = 2`, `ψ` the quadratic character of `ℚ(√(qq′))`, the product of those of `ℚ(√−q)` and
+  `ℚ(√−q′)`: `ψ` is even, so `ψ ∈ X(E, 2)`; `q, q′ > P(1) = 7` gives `3, 5, 7 ∤ N`, so `χ_P(5, ψ) = χ_P(7, ψ) = ψ`,
+  of order `2`. Then `(5, 2, ψ)` is in Case II because `4 | 2e`, and `(7, 2, ψ)` is in Case II because `7 ∈ B(1)`,
+  although `6 ∤ 2e`: with `(ℓ − 1) | 2e` alone in Case II it would be in no case. `Gal(E/ℚ)` is a `2`-group
+  (0.1(iii)), so Case III has no instances (as for every `χ` with `o_χ` a power of `2`), and for `ℓ ∈ {3, 7}`,
+  `χ_P(ℓ, ψ) = ψ` for every `ψ`, so Case IV occurs only for `ψ = 1`.
 
 ### Examples
 
@@ -3827,6 +3833,15 @@ polynomial in `Ne` per character; by 0.4 each component is in Case II (5.7), IV 
 characters in Case IV number at most `f_χ` up to their `ℓ`-parts. Add 7.1. *Needs:* 0.4, 5.7, 6.2–6.4, 7.1;
 BernoulliBoundsForClassGroupEigenspaces §6.18.
 
+*The trivial character.* For `χ = 1`, `f_χ = 1` and `B(1) = {3, 7}` (0.3), so the fields of the hypothesis are
+`ℚ(μ_{ℓ^{j(ℓ)+1}})`, `ℓ ∈ {3, 7}`. Both primes are regular (`h(ℚ(μ₃)) = h(ℚ(μ₇)) = 1`), so `Ш¹(ℚ(μ_{ℓ^{m+1}}), ℓ, e) = 0` for all
+`e ≥ 1` and `m ≥ 0` (1.1, first Check), and `B = 0` serves for every `j`: for every host field `E = E_n(1, Q)`,
+`Σ_{ℓ odd} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C`. With 7.3(a) and `Ш¹ = Ш⁺ ⊕ Ш⁻`
+(BernoulliBoundsForClassGroupEigenspaces §6.17(f)) the bound of 7.3(b) then holds, with a larger `C`, for the sum over all
+odd `ℓ`, and in 7.4 the window is needed for the `2`-part only (2.4(a), with `𝔅 = ∅`). This specialization is the roadmap's
+own, from 7.2 and 7.3 as stated here, and is not in [FormalProof], whose bound for the plus part
+(`UpperTheory.V.HVAt`, `AV/PrimeSetBoundDataOfPrimitiveChar.lean`) keeps the window term `exp(x^{4ε/5})` for every character.
+
 ### 7.3 Polynomial bound away from the bad primes
 
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
@@ -3893,8 +3908,14 @@ window is `≥ Y₀ ≥ X₀^{1/J}`). The route uses, through 7.4, the following
 stated for `0 < ε < 1/52`, with the term `exp(x^{4ε/5})` in place of the `exp(x^δ)` of 7.4, and allows every `κ ≥ 1` and every layer
 `n ≥ 2` with `2^n ≤ x^α` at each scale of the window; the headline of [FormalProof] (`UpperTheory.Top.VWin`,
 `Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean`, deduced from the joint window statement in
-`AV/CMFieldExponentialBounds/AdmissibleOfPageN.lean`) is the narrower case `0 < ε < 1/52`, `t = ⌊x^{401}⌋` and one layer per
-scale, with the bound `exp(x^ε/2)`. [FormalProof] obtains this form from two statements that it also proves: the Galois
+`AV/CMFieldExponentialBounds/AdmissibleOfPageN.lean`) is the narrower case `0 < ε < 1/52`, `t = ⌊x^{401}⌋`, with the bound
+`exp(x^ε/2)`, for one layer at each scale, given by any function `n(x)` with `x^{2+8ε} ≤ 2^{n(x)} ≤ 2x^{2+8ε}` for all `x ≥ 1`,
+and for the pairs of primes `q ≡ 3 mod 8`, `q′ ≡ 7 mod 16` with `Y₀^{ε/5}/2 < log q ≤ Y₀^{ε/5}`,
+`Y₀^{ε/5}·log²Y₀/2 < log q′ ≤ Y₀^{ε/5}·log²Y₀`, `q | q′ + 1` and `p | q′ + 1` for every odd prime `p ≤ Y₀^{ε/5}`, where
+`Y₀ = X^{1/J}`; the field is given by the automorphisms of `ℚ(μ_N)` that fix it: `ζ ↦ ζ^a` with `a ≡ ±1 mod 2^{n+2}`,
+`χ(a) = 1`, `(a/q) = (a/q′) = 1`
+([FormalProof], `Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean` (`UpperTheory.Top.VWinAt`, `UpperTheory.Top.WinPair`, `UpperTheory.Top.PageN`, `UpperTheory.Top.IsChiField`, `UpperTheory.Top.VVle`)).
+[FormalProof] obtains this form from two statements that it also proves: the Galois
 representations of regular algebraic polarized cuspidal representations over CM fields in the form of
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.1, the one hypothesis of its theorem for the window bound, and weak base
 change from the standard definite unitary group in the form recorded at BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1,
@@ -4230,6 +4251,11 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
   eigenvalues, in 3.22(b).
 - J. Arthur and L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Annals of Math.
   Studies 120 (1989): the descent in 4.2, and the base change and automorphic induction of the seeds in the outline of 3.20(d).
+- R. Taylor and A. Wiles, *Ring-theoretic properties of certain Hecke algebras*, Ann. of Math. 141 (1995): the Taylor–Wiles
+  levels of 3.15.
+- L. Clozel, M. Harris and R. Taylor, *Automorphy for some l-adic lifts of automorphic mod l Galois representations*, Publ.
+  Math. IHÉS 108 (2008): the patching method for unitary groups, in the form that the works of Thorne and of
+  Allen–Newton–Thorne cited here extend to residually reducible representations.
 - C. Skinner and A. Wiles, *Residually reducible representations and modular forms*, Publ. Math. IHÉS 89 (1999); J. Thorne,
   *Automorphy lifting for residually reducible l-adic Galois representations*, J. Amer. Math. Soc. 28 (2015); P. Allen,
   J. Newton and J. Thorne, *Automorphy lifting for residually reducible l-adic Galois representations, II*, Compositio Math.
