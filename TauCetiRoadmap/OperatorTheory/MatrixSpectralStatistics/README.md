@@ -332,8 +332,8 @@ Let `[RCLike 𝕜]`, `n` finite, and `h : ℝ → ℝ` continuous.
 **MSS-B09 — Continuity of Hermitian functional calculus.** The map `A ↦ cfc h A` is continuous on
 the set of Hermitian matrices in `Matrix n n 𝕜`; equivalently, its restriction to the subtype of
 Hermitian matrices is continuous. This is Mathlib's continuity of the functional calculus in its
-operator variable, `continuousOn_cfc`, for the ℓ² operator norm, which induces the entrywise
-topology.
+operator variable, `ContinuousOn.cfc_of_mem_nhdsSet` with all of `ℝ` as the neighbourhood of the
+spectra, for the ℓ² operator norm, which induces the entrywise topology.
 
 *In Tau Ceti:* `TauCeti.continuousOn_matrix_cfc`.
 
@@ -345,7 +345,7 @@ random Hermitian matrix, `ω ↦ cfc h (A(ω))` is measurable, by composition.
 *In Tau Ceti:* `TauCeti.measurable_matrix_cfc`.
 
 *Needs:* MSS-B01 and MSS-B02 (the measurable structure); Mathlib `cfc`,
-`cfc_apply_of_not_predicate`, `continuousOn_cfc`.
+`cfc_apply_of_not_predicate`, `ContinuousOn.cfc_of_mem_nhdsSet`.
 
 **Checks.**
 - The map `A ↦ cfc id A` is the identity on Hermitian matrices and `0` off them: for the
@@ -436,8 +436,8 @@ null-measurability is used to pass from the event to its complement.
 
 *In Tau Ceti:* `TauCeti.tendstoInMeasure_of_tendsto_measure_dist_le_rate`.
 
-MSS-B16, MSS-B17 and MSS-B18 need no measurability of the exceptional sets, by monotonicity of the
-measure on all subsets.
+MSS-B16, MSS-B17 and MSS-B18 need no measurability of the exceptional sets, by subadditivity
+(MSS-B16) and monotonicity (MSS-B17, MSS-B18) of the measure on all subsets.
 
 *Needs:* Mathlib `MeasureTheory.TendstoInMeasure`, `MeasureTheory.IsProbabilityMeasure`.
 
@@ -799,9 +799,10 @@ not part of this roadmap: the dimension factors of Conventions 5 are the specifi
   symmetric), the ℓ² operator norm of the scope `Matrix.Norms.L2Operator`;
   `LinearMap.IsSymmetric.eigenvalues` and `LinearMap.IsSymmetric.eigenvectorBasis`.
 - *Functional calculus:* `cfc`, with its instance for Hermitian matrices over `RCLike`;
-  `cfc_apply_of_not_predicate` (`cfc f a = 0` when `a` is not self-adjoint); `continuousOn_cfc`
-  (continuity of the functional calculus in the operator variable); `Set.indicator`,
-  `IsStarProjection`.
+  `cfc_apply_of_not_predicate` (`cfc f a = 0` when `a` is not self-adjoint);
+  `ContinuousOn.cfc_of_mem_nhdsSet` (if `a` is continuous on `t`, each `a x` is in the domain of
+  the calculus, and `f` is continuous on a neighbourhood of the union of the spectra of the `a x`,
+  then `x ↦ cfc f (a x)` is continuous on `t`); `Set.indicator`, `IsStarProjection`.
 - *Measurability on matrices:* the instance `MeasurableSpace (Matrix m n α)`, defined as that of
   `m → n → α`, with `Matrix.measurable_iff`; the instance `BorelSpace (Matrix m n α)` for countable
   `m`, `n` and a second-countable Borel space `α` (both in
