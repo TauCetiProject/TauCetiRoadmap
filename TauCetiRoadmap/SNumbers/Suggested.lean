@@ -401,10 +401,10 @@ theorem gelfandNumber_precomp_le (T : X →L[𝕜] Y) (n : ℕ) :
     (ContinuousLinearMap.precomp 𝕜 T : StrongDual 𝕜 Y →L[𝕜] StrongDual 𝕜 X).gelfandNumber n ≤
       T.kolmogorovNumber n := sorry
 
-/-- For a compact operator between Banach spaces the Gelfand numbers of the dual operator are the
-Kolmogorov numbers (Pietsch 1974, Theorem 6.3; README SN-C15). -/
-theorem gelfandNumber_precomp_of_isCompactOperator [CompleteSpace X] [CompleteSpace Y]
-    {T : X →L[𝕜] Y} (hT : IsCompactOperator T) (n : ℕ) :
+/-- For a compact operator between normed spaces the Gelfand numbers of the dual operator are the
+Kolmogorov numbers (Pietsch 1974, Theorem 6.3, there for Banach spaces; README SN-C15). -/
+theorem gelfandNumber_precomp_of_isCompactOperator {T : X →L[𝕜] Y} (hT : IsCompactOperator T)
+    (n : ℕ) :
     (ContinuousLinearMap.precomp 𝕜 T : StrongDual 𝕜 Y →L[𝕜] StrongDual 𝕜 X).gelfandNumber n =
       T.kolmogorovNumber n := sorry
 
@@ -571,7 +571,7 @@ theorem IsStrictSNumberSequence.apply_diagOp {p : ℝ≥0∞} [Fact (1 ≤ p)]
 
 /-- The approximation numbers of a diagonal operator `ℓ_qᵐ → ℓ_pᵐ` with `p < q < ∞` and
 nonincreasing `|σ|`: the `ℓ_r` norm of the tail `(σ_k)_{k ≥ n}`, `1/r = 1/p - 1/q`
-(README SN-E05). -/
+(Pietsch 1974, Theorem 7.2; README SN-E05). -/
 theorem singularValue_diagOp {p q : ℝ≥0∞} [Fact (1 ≤ p)] [Fact (1 ≤ q)]
     (hpq : p < q) (hq : q ≠ ∞) {r : ℝ} (hr : 1 / r = 1 / p.toReal - 1 / q.toReal)
     {m n : ℕ} (σ : Fin m → 𝕜) (hσ : Antitone fun i => ‖σ i‖) (hn : n < m) :

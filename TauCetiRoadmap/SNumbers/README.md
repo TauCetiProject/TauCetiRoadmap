@@ -21,10 +21,10 @@ s-number sequences are the approximation numbers, and in finite dimension the si
 maximal difference theorem: over ℝ or ℂ, aₙ(T) ≤ e (n + 1) hₙ(T) for every operator between normed
 spaces, hence sₙ(T) ≤ e (n + 1) tₙ(T) for any two s-number sequences; for the inclusion ℓ₁ → ℓ∞,
 cₙ ≥ (n + 1)/2 · hₙ, so the linear factor cannot be improved. Over ℝ or ℂ, the Kolmogorov numbers
-of the dual operator are the Gelfand numbers of T, and for compact T between Banach spaces the
-Gelfand numbers of the dual are the Kolmogorov numbers of T. Over ℝ or ℂ the entropy numbers bound
-every s-number sequence, sₙ(T) ≤ 2e (n + 1) eₙ(T), and for complete Y, T is compact if and only if
-cₙ(T) → 0, if and only if dₙ(T) → 0, if and only if eₙ(T) → 0.
+of the dual operator are the Gelfand numbers of T, and for compact T the Gelfand numbers of the
+dual are the Kolmogorov numbers of T. Over ℝ or ℂ the entropy numbers bound every s-number
+sequence, sₙ(T) ≤ 2e (n + 1) eₙ(T), and for complete Y, T is compact if and only if cₙ(T) → 0, if
+and only if dₙ(T) → 0, if and only if eₙ(T) → 0.
 
 The approximation numbers, with their calculus, the min–max formulas on Hilbert spaces, the
 compactness criterion on Hilbert targets and the Eckart–Young theorem, come from Tau Ceti, in the
@@ -100,8 +100,9 @@ B4 and on Grothendieck's theorem of BanachSpaceTheory B6.
 9. **Duality.** The dual of `X` is `StrongDual 𝕜 X`, written `X*`. The dual operator
    `T' : Y* → X*`, `φ ↦ φ ∘ T`, is Mathlib's `ContinuousLinearMap.precomp 𝕜 T`. For a subspace
    `M ≤ X` the annihilator `Mᗮ ≤ X*` and, for `V ≤ X*`, the preannihilator `V_⊥ ≤ X` are Mathlib's
-   `Submodule.orthogonalBilin` for `topDualPairing 𝕜 X` and its flip, as in Tau Ceti. The
-   identifications `(X/M)* ≅ Mᗮ` and `M* ≅ X*/Mᗮ` are Tau Ceti's (supplier contracts below).
+   `Submodule.orthogonalBilin` for the flip of `topDualPairing 𝕜 X` and for `topDualPairing 𝕜 X`,
+   as in Tau Ceti. The identifications `(X/M)* ≅ Mᗮ` and `M* ≅ X*/Mᗮ` are Tau Ceti's (supplier
+   contracts below).
 10. **Names.** The four sequences built here, the entropy numbers and the determinant quantities
     are `ContinuousLinearMap.gelfandNumber`, `kolmogorovNumber`, `bernsteinNumber`,
     `hilbertNumber`, `entropyNumber` and `detNumber`, each of type `(X →L[𝕜] Y) → ℕ → ℝ≥0`. The
@@ -679,11 +680,11 @@ Theorem 6.3). For `V ≤ Y` of dimension `≤ n`, `Vᗮ` is closed of codimensio
 
 ### SN-C15 Duality for compact operators
 
-Prove `gelfandNumber_precomp_of_isCompactOperator`: `cₙ(T') = dₙ(T)` for compact `T` between Banach
-spaces (Pietsch 1974, Theorem 6.3). Since `dₙ(T'') = cₙ(T')` by SN-C13, it suffices that
-`dₙ(T) ≤ dₙ(T'')`. Take `W ≤ Y**` of dimension `≤ n` with `‖π_W ∘ T''‖ < dₙ(T'') + ε` and a finite
-`δ`-net `T x₁, …, T x_N` of `T(B_X)`. Apply local reflexivity on `F := W + span {J_Y (T x_j)}`,
-with a map `R : F → Y` of distortion `≤ 1 + ε` and `R (J_Y y) = y`. Then `V := R(W)` has dimension
+Prove `gelfandNumber_precomp_of_isCompactOperator`: `cₙ(T') = dₙ(T)` for compact `T` between normed
+spaces (Pietsch 1974, Theorem 6.3, there for Banach spaces). Since `dₙ(T'') = cₙ(T')` by SN-C13,
+it suffices that `dₙ(T) ≤ dₙ(T'')`. Take `W ≤ Y**` of dimension `≤ n` with
+`‖π_W ∘ T''‖ < dₙ(T'') + ε` and a finite `δ`-net `T x₁, …, T x_N` of `T(B_X)`. Apply local
+reflexivity on `F := W + span {J_Y (T x_j)}`, with a map `R : F → Y` of distortion `≤ 1 + ε` and `R (J_Y y) = y`. Then `V := R(W)` has dimension
 `≤ n`, and `infDist (T x) V ≤ δ + (1 + ε)(dₙ(T'') + ε)` for every `x ∈ B_X`. *Needs:* SN-A10, SN-B07,
 SN-C13, SN-C14; Tau Ceti `LinearIsometry.exists_continuousLinearMap_of_doubleDual`,
 `IsCompactOperator.totallyBounded_image_closedBall`; Mathlib `NormedSpace.inclusionInDoubleDual`.
@@ -890,10 +891,11 @@ applies (Pietsch 1980, 12.3.2). *Needs:* SN-D08, SN-D10.
 
 ### SN-D12 Approximation numbers against entropy numbers on Hilbert spaces
 
-Prove `aₙ(T) ≤ 2 eₙ(T)` for `T` between complete Hilbert spaces over `RCLike 𝕜`. If `aₙ(T) = 0`
-there is nothing to prove. Otherwise, for `0 < γ < aₙ(T)` the scalar factorization SN-B02 gives
-contractions with `γ⁻¹ B T A = id` on `ℓ₂^{n+1}`, so `1/2 ≤ eₙ(id_{ℓ₂^{n+1}}) ≤ γ⁻¹ eₙ(T)` by SN-D09
-and SN-D05 (Carl–Stephani 1990, Chapters 1–2). *Needs:* SN-B02, SN-D05, SN-D09.
+Prove `aₙ(T) ≤ 2 eₙ(T)` for `T` from a complete inner product space to an inner product space over
+`RCLike 𝕜`. If `aₙ(T) = 0` there is nothing to prove. Otherwise, for `0 < γ < aₙ(T)` the scalar
+factorization SN-B02 gives contractions with `γ⁻¹ B T A = id` on `ℓ₂^{n+1}`, so
+`1/2 ≤ eₙ(id_{ℓ₂^{n+1}}) ≤ γ⁻¹ eₙ(T)` by SN-D09 and SN-D05 (Carl–Stephani 1990, Chapters 1–2).
+*Needs:* SN-B02, SN-D05, SN-D09.
 
 ### SN-D13 Hilbert numbers against entropy numbers
 
@@ -972,8 +974,16 @@ coordinates, where it is invertible with inverse of norm `|σₙ|⁻¹` when `σ
 
 Prove `singularValue_diagOp`: for `1 ≤ p < q < ∞`, `1/r = 1/p − 1/q`, `|σ|` nonincreasing and
 `D_σ : ℓ_q^m → ℓ_p^m`, `aₙ(D_σ) = (∑_{k ≥ n} |σ_k|^r)^{1/r}` for `n < m`; in particular
-`‖D_σ‖ = ‖σ‖_{ℓ_r}`. *Needs:* SN-E04; Tau Ceti `ContinuousLinearMap.singularValue`,
-`le_singularValue_of_lt_rank`; Mathlib `Real.inner_le_Lp_mul_Lq`.
+`‖D_σ‖ = ‖σ‖_{ℓ_r}` (Pietsch 1974, Theorem 7.2). The upper bound truncates `σ` after `n` terms and
+applies Hölder's inequality. For the lower bound, `le_singularValue_iff` tests each `L` of rank
+`≤ n` on a vector of `ker L` chosen for that `L` (a coercivity bound on one fixed subspace gives at
+most the Bernstein number). On the coordinates where `σ ≠ 0`, the `e` with
+`(|σ_k|^{r/q} e_k)_k ∈ ker L` form a subspace of codimension `≤ n`; the flat vector of SN-C20
+(Pietsch 1974, Lemma 7.1) gives such an `e` with `|e_k| ≤ 1` for all `k` and `|e_k| = 1` at all
+but at most `n` of these coordinates, and `x_k := |σ_k|^{r/q} e_k` then has
+`‖D_σ x‖_p ≥ (∑_{k ≥ n} |σ_k|^r)^{1/r} ‖x‖_q`. *Needs:* SN-C20, SN-E04; Tau Ceti
+`ContinuousLinearMap.singularValue`, `singularValue_le_nnnorm_sub`, `le_singularValue_iff`; Mathlib
+`Real.inner_le_Lp_mul_Lq`.
 
 ### SN-E06 Diagonal operators, `q ≤ p`
 
