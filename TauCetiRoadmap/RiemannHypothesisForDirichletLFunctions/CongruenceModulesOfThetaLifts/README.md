@@ -1388,7 +1388,11 @@ Under the hypotheses of 7.10a, among them the depth hypothesis on the thick set 
 
 `Σ_𝔭 ϱ(𝔭)e_𝔭η_j(𝔭) ≤ d^Z_j·( C·f·m·b·L² + V(E, t) )`,
 
-and `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`.
+and `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`, and, on a host of FrobeniusRestrictedRieszSums §0.4 with
+`Q_S := f_E/(q·d) ≤ |A|²` and `q, d > 4·t·r + 1` (conditions that the hosts of the chain carry in [FormalProof]),
+`log w_{tr}(E) ≤ log(Q_S·t·r) ≤ 2·log|A| + log t + log r`; [FormalProof] uses that `t·r` is odd. `Q_S ≤ |A|²` holds on a
+host of layer `n` with `2^n ≥ 4f_ψ`, as there `2^n` divides `|A|` and `f_E ≤ 2^{n+2}·f_ψ·q·d`
+(FrobeniusRestrictedRieszSums §0.4 (iii)).
 
 *At a level.* For every level `(P, χ_P)` at the type primes the same holds for the level parts:
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^P_j(𝔭) ≤ d^{Z,P}_j·( C·f·m·b·L² + V(E, t) )`. *The form of the formal proof.* At the base level this is
@@ -1431,8 +1435,12 @@ ArithmeticStatisticsPartIII §2.1; `SizeThin`:
 if only the primes `≤ X″` were twisted, the main term would be `C·f·m·b·log X″ = C·f·m·b·x^{ε/3}`; row 1 is needed because a
 twisted place can lie above a prime larger than `ℓ*` (ThetaChainsOnDefiniteUnitaryGroups §2.5).
 
-*NEW*. `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)`: follows from [FormalProof],
-`Development/AutomorphicArithmetic/CyclotomicBounds/CyclotomicOrders/NuHost.lean` (`UpperTheory.KStar.nuBudget`).
+*NEW*. `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)` and the bound on `log w_{tr}(E)`: follows from [FormalProof],
+`Development/AutomorphicArithmetic/CyclotomicBounds/CyclotomicOrders/NuHost.lean` (`UpperTheory.KStar.sum_nuL_le`, `UpperTheory.KStar.nuBudget_le`),
+`Development/AutomorphicArithmetic/CyclotomicBounds/RootsOfUnity/NuRecord.lean` (`UpperTheory.Mu.sum_nu_le`, `UpperTheory.Mu.budget_le`),
+which bound `Σ_{ℓ∈S} v_ℓ(w_{tr}(E))·log ℓ` for every finite set `S` of primes; in [FormalProof] the conditions `Q_S ≤ |A|²`
+and `q, d > 4·t·r + 1` are fields of the host record,
+`Formalism/LocalRingCardinality/DataHost.lean` (`Formalism.BasicNotions.Host.QS_le`, `Formalism.BasicNotions.Host.qd_big`).
 The rows of 7.10a and 7.10b at every point of a family, as one statement: [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.ConclF`),
 with its record of fifteen clauses
