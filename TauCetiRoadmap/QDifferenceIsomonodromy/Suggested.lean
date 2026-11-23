@@ -6,8 +6,8 @@ import Mathlib.RingTheory.Finiteness.Defs
 /-!
 # Suggested interfaces for q-difference equations and isomonodromy
 
-The README is the specification. These declarations suggest forms for selected targets.
-The analytic classifications and geometric interfaces are specified in the README.
+The definitive specification is `README.md`. This file gives suggested forms for selected
+algebraic targets. The two theorem declarations state targets with `sorry`.
 -/
 
 namespace TauCetiRoadmap.QDifferenceIsomonodromy
@@ -51,8 +51,8 @@ def IsHorizontal (σ : K ≃+* K) (A : Matrix ι ι K) (A' : Matrix κ κ K)
 
 /-- §6.2. The time square for two gauges and their translates. -/
 def TimeSquare {ι : Type*} [Fintype ι]
-    (Bᵢ Bⱼ Bⱼ_after_i Bᵢ_after_j : Matrix ι ι K) : Prop :=
-  Bⱼ_after_i * Bᵢ = Bᵢ_after_j * Bⱼ
+    (Bᵢ Bⱼ BjAfterI BiAfterJ : Matrix ι ι K) : Prop :=
+  BjAfterI * Bᵢ = BiAfterJ * Bⱼ
 
 end Matrices
 
