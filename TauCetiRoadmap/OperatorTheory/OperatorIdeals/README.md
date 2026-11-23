@@ -203,11 +203,11 @@ OI-A17 and OI-A22.
 *Needs:* Mathlib `ContinuousLinearMap` with its operator norm, `LinearMap.rank`.
 
 **Checks.**
-- For `T = diag(3, 1)` on `𝕜²` with the Euclidean norm, `a₀(T) = 3`, `a₁(T) = 1` and `aₙ(T) = 0`
-  for `n ≥ 2`: the approximant `diag(3, 0)` is at distance `1`, and every `R` of rank at most `1`
-  kills some unit vector `x`, so that `‖T − R‖ ≥ ‖Tx‖ ≥ 1`. Measuring the distance in the
-  Frobenius norm instead would give `a₀(T) = √10`, and a one-based infimum over `rank R < n` would
-  shift the sequence and give `3` at index `1`.
+- Over `ℝ` or `ℂ`, for `T = diag(3, 1)` on `𝕜²` with the Euclidean norm, `a₀(T) = 3`,
+  `a₁(T) = 1` and `aₙ(T) = 0` for `n ≥ 2`: the approximant `diag(3, 0)` is at distance `1`, and
+  every `R` of rank at most `1` kills some unit vector `x`, so that `‖T − R‖ ≥ ‖Tx‖ ≥ 1`. Measuring
+  the distance in the Frobenius norm instead would give `a₀(T) = √10`, and a one-based infimum over
+  `rank R < n` would shift the sequence and give `3` at index `1`.
 - For `S = diag(1, 0)` and `T = diag(0, 1)` on `𝕜²`, `S + T` is the identity and `a₁(S + T) = 1`,
   while `a₁(S) = a₁(T) = 0`: the same-index inequality `aₙ(S + T) ≤ aₙ(S) + aₙ(T)` fails, and the
   mixed-index form `a₁₊₀(S + T) ≤ a₁(S) + a₀(T) = 1` holds with equality.
@@ -326,10 +326,11 @@ min–max principle; Gohberg and Kreĭn).
   `T` is `c`-coercive on the span of `n + 1` linearly independent vectors, or `‖Tx‖ ≤ c‖x‖` on the
   orthogonal complement of a subspace of rank at most `n`.
   *In Tau Ceti:* `TauCeti.HasMinMaxLowerBound.of_completeSpace`, `ContinuousLinearMap.exists_linearIndependent_or_exists_rank_le`.
-- **OI-A40 — Finite-restriction supremum.** On a pair with the property of OI-A38, `aₙ(T)` is the
-  least upper bound of the constants `s` for which `T` is `s`-coercive on the span of some `n + 1`
-  linearly independent vectors; for a normed source, this least-upper-bound property for every `T`
-  and `n` characterizes the pairs with the property of OI-A38.
+- **OI-A40 — Finite-restriction supremum.** For a normed space `E` and a seminormed space `F`, on
+  a pair `(E, F)` with the property of OI-A38, `aₙ(T)` is the least upper bound of the constants
+  `s` for which `T` is `s`-coercive on the span of some `n + 1` linearly independent vectors; and
+  this least-upper-bound property for every `T` and `n` characterizes the pairs `(E, F)` with the
+  property of OI-A38.
   *In Tau Ceti:* `TauCeti.HasMinMaxLowerBound.isLUB_singularValue`, `TauCeti.hasMinMaxLowerBound_iff_forall_isLUB`.
 
 *Needs:* §§A1, A3; Mathlib `Submodule.orthogonal`, `Submodule.subtypeL`,
@@ -431,9 +432,9 @@ for diagonal operators, Pietsch, *Operator Ideals*, Thm 11.11.3).
 *Needs:* §§A1–A4; Tau Ceti `lp.diagonalCLM`; Mathlib `OrthonormalBasis`, `Matrix.toLin`.
 
 **Checks.**
-- For `D : 𝕜³ → 𝕜²` with diagonal entries `d₀ = 1` and `d₁ = −2`, `a₀(D) = 2 = ‖D‖`, `a₁(D) = 1`
-  and `aₙ(D) = 0` for `n ≥ 2`. Reading the entries in their given order would give `a₀ = 1 ≠ ‖D‖`,
-  and dropping the absolute values would give a negative value.
+- Over `ℝ` or `ℂ`, for `D : 𝕜³ → 𝕜²` with diagonal entries `d₀ = 1` and `d₁ = −2`,
+  `a₀(D) = 2 = ‖D‖`, `a₁(D) = 1` and `aₙ(D) = 0` for `n ≥ 2`. Reading the entries in their given
+  order would give `a₀ = 1 ≠ ‖D‖`, and dropping the absolute values would give a negative value.
 
 ### Examples
 
@@ -690,8 +691,9 @@ Analysis*).
   Majorization (section *Concrete rectangular seminorms*, Tau Ceti's
   `TauCeti.UnitarilyInvariantSeminorm.frobenius`).
   *In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.schatten_two`.
-- **OI-B55 — Finite-dimensional energy identity.** For a bounded `T : E → F` between inner product
-  spaces with `E` finite-dimensional and any Hilbert basis `b` of `E`,
+- **OI-B55 — Finite-dimensional energy identity.** For a bounded `T : E → F` from a
+  finite-dimensional inner product space `E` into a Hilbert space `F` and any Hilbert basis `b` of
+  `E`,
   `E_b(T) = ENNReal.ofReal (‖T‖_F²)`, where `‖T‖_F` is the Frobenius seminorm.
   *In Tau Ceti:* `ContinuousLinearMap.hilbertSchmidtEnergy_eq_ofReal_sq_frobenius`.
 
@@ -875,9 +877,8 @@ the Schatten scale with its trace-class, Hilbert–Schmidt and operator-norm end
   *In Tau Ceti:* `TauCeti.OperatorIdealFamily.finiteSubmodule_schatten_le_of_le`.
 - **OI-B90 — Hilbert–Schmidt reconciliation.** For a bounded `T` from a Hilbert space into an inner
   product space and every Hilbert basis `b` of the source, `∑' n, aₙ(T)² = E_b(T)` in `ℝ≥0∞`. The
-  inequality `E_b(T) ≤ ∑' n, aₙ(T)²` needs no completeness; the energy is finite exactly when the
-  approximation numbers are square-summable; and between Hilbert spaces
-  `‖T‖_HS² = ∑' n, aₙ(T)²`.
+  energy is finite exactly when the approximation numbers are square-summable; and between Hilbert
+  spaces `‖T‖_HS² = ∑' n, aₙ(T)²`.
   *In Tau Ceti:* `ContinuousLinearMap.tsum_singularValue_sq_eq_hilbertSchmidtEnergy`, `ContinuousLinearMap.hilbertSchmidtEnergy_le_tsum_singularValue_sq`, `ContinuousLinearMap.hilbertSchmidtEnergy_ne_top_iff_summable_singularValue_sq`, `ContinuousLinearMap.sq_hilbertSchmidtNorm_eq_tsum_singularValue_sq`.
 
 *Needs:* §§B2–B4; §A5 (OI-A48); Tau Ceti `ENNReal.Lq_le_Lp_tsum`.
@@ -908,7 +909,8 @@ list every entry of the union, which matters for noncompact blocks with infinite
 - **OI-B91 — Approximation numbers of a block sum.** Over `ℝ` or `ℂ`, for `T₁ : E₁ → F₁` and
   `T₂ : E₂ → F₂` with `E₁`, `E₂` Hilbert spaces and `F₁`, `F₂` inner product spaces,
   `aₙ(T₁ ⊕ T₂) = (a(T₁) ⊔↓ a(T₂))ₙ` for every `n`. The inequality `≤` holds on seminormed spaces
-  over any nontrivially normed field, and `≥` for blocks whose pairs have the property of OI-A38.
+  over any nontrivially normed field, and `≥` for blocks with normed sources whose pairs have the
+  property of OI-A38.
   *In Tau Ceti:* `ContinuousLinearMap.singularValue_withLpProdMap`, `ContinuousLinearMap.singularValue_withLpProdMap_le`, `ContinuousLinearMap.decreasingMerge_le_singularValue_withLpProdMap`.
 - **OI-B92 — Symmetric-gauge block formula.** In the setting of OI-B91, for every symmetric gauge
   `Φ`, the induced gauge satisfies `Φ(T₁ ⊕ T₂) = Φ∞(n ↦ (a(T₁) ⊔↓ a(T₂))ₙ)`.
@@ -1035,7 +1037,7 @@ Ideals*).
 
 - **OI-C15 — Left isometric invariance.** For inner product spaces `E`, `F`, `G` over `ℝ` or `ℂ`, a
   Hilbert basis `b` of `E`, a bounded `T : E → F` and a bounded `U : F → G` with `‖Ux‖ = ‖x‖` for
-  every `x`, `E_b(UT) = E_b(T)`, with no completeness; between Hilbert spaces also
+  every `x`, `E_b(UT) = E_b(T)`, with no completeness of `F` or `G`; between Hilbert spaces also
   `‖UT‖_HS = ‖T‖_HS`.
   *In Tau Ceti:* `ContinuousLinearMap.hilbertSchmidtEnergy_isometry_comp`, `ContinuousLinearMap.hilbertSchmidtNorm_isometry_comp`.
 - **OI-C16 — Right coisometric invariance.** For `V : E → F` and `T : F → G` between Hilbert spaces,
@@ -1060,9 +1062,9 @@ hypotheses (Simon, *Trace Ideals*).
 
 - **OI-C18 — Left Pythagoras.** For inner product spaces `E`, `F`, `G` over `ℝ` or `ℂ`, a Hilbert
   basis `b` of `E` and a bounded `T : E → F`, if bounded `Pⱼ : F → G` satisfy
-  `∑' j, ‖Pⱼ v‖ₑ² = ‖v‖ₑ²` for every `v ∈ F`, then `∑' j, E_b(Pⱼ T) = E_b(T)`; no completeness or
-  finite energy is needed. The orthogonal projections onto a subspace and onto its orthogonal
-  complement form such a family.
+  `∑' j, ‖Pⱼ v‖ₑ² = ‖v‖ₑ²` for every `v ∈ F`, then `∑' j, E_b(Pⱼ T) = E_b(T)`; neither completeness
+  of `F` or `G` nor finite energy is needed. The orthogonal projections onto a subspace and onto
+  its orthogonal complement form such a family.
   *In Tau Ceti:* `ContinuousLinearMap.tsum_hilbertSchmidtEnergy_comp_left`, `ContinuousLinearMap.hilbertSchmidtEnergy_starProjection_comp_add_orthogonal`.
 - **OI-C19 — Right Pythagoras.** For `E`, `F` and `H` Hilbert spaces and a bounded `T : E → F`, if
   bounded `Qⱼ : H → E` satisfy `∑' j, ‖Qⱼ† v‖ₑ² = ‖v‖ₑ²` for every `v ∈ E`, then
