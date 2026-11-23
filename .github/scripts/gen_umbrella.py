@@ -23,7 +23,10 @@ everything that this needs, read from the READMEs:
   paragraph): bare ids and `Layer k` are its own roadmap's, and citations
   (`Name §1.2`, `Name §§1.1–1.3 and 2.4`, `Name Layers 3 and 5`, `Name A5.3`, ...) another
   roadmap's; `Mathlib ...` and `Tau Ceti ...` name nothing, and stop the reading of local ids
-  only to the next `;`, sentence, list item or blank line. A section without such a line
+  only to the next `;`, sentence, list item or blank line. A reference counts unless its
+  clause (the stretch between two such boundaries) says otherwise: a clause that negates
+  (`Layer 0 is not needed`) or names the referenced unit as a consumer (`§4.5 consumes it`,
+  `used by §§4.4 and 4.5`) creates no need (`ASIDE_CUES`). A section without such a line
   needs what the `Dependencies` subsection of its layer cites of other roadmaps. The rest of
   the text (statements, routes, checks, examples, remarks) needs nothing.
 - A layer that has sections is not an item: no pull request completes it as such, it is
@@ -48,12 +51,16 @@ everything that this needs, read from the READMEs:
   `:word` parts (`### AI.0:integral.1`, `## Layer AI.0:integral: ...`); the slug writes the
   colon `-` (`AInfCohomology.AI.0-integral.1`), the item's text keeps the README's spelling.
 
-The target list is acyclic, as the worker requires: inside each strongly connected
-component, a dependency is kept only when it points to a unit earlier in a fixed order
-(area with the root's last, roadmap, end of the unit's text), and the others are dropped
-and listed. `needs:` lists every stated dependency that survives: none is left out because
-another need implies it, since a need may be done (merged, or ticked) out of order.
-`serves:` names the roadmaps under the root whose units need the item directly.
+The target list is acyclic, as the worker requires. A dependency stated on the first sentence
+of a unit's own `*Needs:*` or `*Prerequisites:*` line outranks any other (later sentences,
+`Dependencies` subsections). Inside each strongly connected component the cycles among the
+stated dependencies alone are broken first: a dependency is kept when it points to a unit
+earlier in a fixed order (area with the root's last, roadmap, end of the unit's text). Then
+each other dependency is added, those pointing to an earlier unit first, unless it would
+close a cycle with what is kept. The dropped ones are listed. `needs:` lists every stated
+dependency that survives: none is left out because another need implies it, since a need may
+be done (merged, or ticked) out of order. `serves:` names the roadmaps under the root whose
+units need the item directly.
 
 Regeneration keeps what an operator records in the target list: an item's mark (`[x]`,
 `[~]`) and the clauses of its trailing group the generator does not write (`partial: #N`),
@@ -887,6 +894,7 @@ class Roadmap:
         self.refs: list[Ref] | None = None
         self.needs: list[tuple[int, int, int]] = []    # (line, start, end) of each *Needs:* text
                                                        # (or *Prerequisites:* text)
+        self.statements: dict[tuple[str, int], list] = {}   # (source, start) -> its clauses
         self._heads = self._kinds = self._deps = self._leading = None
 
     def heading_rows(self) -> list[tuple[int, int]]:
@@ -1241,78 +1249,154 @@ def needs_spans(rd: Readme) -> list[tuple[int, int, int]]:
     return out
 
 
-def stretches(text: str) -> list[str]:
-    """`text` cut at the boundaries after which a reading stopped by an outside name resumes:
-    `;`, a blank line, the start of a list item, and the end of a sentence."""
-    out = []
-    for piece in STRETCH_BREAK.split(text):
-        start = 0
-        for m in FULL_STOP.finditer(piece):
-            if not ABBREVIATION.search(piece, 0, m.start()):
-                out.append(piece[start:m.start()])
-                start = m.end()
-        out.append(piece[start:])
-    return out
+# The cues that set a clause of a statement of dependency aside, so that its references create no
+# need. This is a deliberate, closed list: a word that is not here sets nothing aside, however the
+# clause reads. A reference counts unless its clause says otherwise.
+ASIDE_CUES = {
+    # the clause negates: `Layer 0 is not needed`, `uses no other item of this layer`
+    "negation": ("not", "no", "never", "without", "neither", "nor", "none"),
+    # the cited unit is the consumer: after the reference, a verb whose object is the present
+    # unit (`§§4.4 and 4.5 consume it`) ...
+    "consumer verb": ("consumes?", "uses?", "needs?", "requires?", r"depends?\s+on", r"rel(?:y|ies)\s+on",
+                      r"builds?\s+on", "imports?", "appl(?:y|ies)", "calls?", "invokes?", "speciali[sz]es?",
+                      "extends?", "refines?"),
+    "the present unit": ("it", "this", "them", "these", r"the\s+present"),
+    # ... or, before the reference, a phrase naming it a consumer (`used by §§4.4 and 4.5`)
+    "consumer phrase": (r"consumed\s+by", r"used\s+by", r"needed\s+by", r"required\s+by", r"imported\s+by",
+                        r"cited\s+by", r"feeds(?:\s+into)?", "serves", "consumers?", "downstream", r"users?\s*:"),
+}
+NEGATION = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["negation"]) + r")\b", re.I)
+CONSUMER_VERB = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["consumer verb"]) + r")\s+(?:"
+                           + "|".join(ASIDE_CUES["the present unit"]) + r")\b", re.I)
+CONSUMER_PHRASE = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["consumer phrase"]) + r")(?!\w)", re.I)
+ASIDE = re.compile(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)")       # an aside, over a line break but not a paragraph
+ITALIC = re.compile(r"(?<!\*)\*(?!\*)(?:[^*\n]|\n(?![ \t]*\n))+?(?<!\*)\*(?!\*)")
 
 
-def needs_ids(text: str, names: set[str]) -> list[tuple[str, str, str | None]]:
-    """The ids of the README's own roadmap that the text of a `*Needs:*` (or `*Prerequisites:*`)
-    line, or of a `Dependencies` subsection, names: [(kind, id, start of a range or None)]. An id
-    counts when it follows `§`, `§§`, `Section`, `Layer` or `Layers` (directly or through a list)
-    or reads as a section id on its own (`1.2`, `2.4a`, `D4.3`). Reading stops at a roadmap's
-    name, in backticks too (`` `Name`, layer 3 ``, `` `TauCetiRoadmap.Name` §2 ``), at any other
-    capitalised word (`Mathlib`, `Tau Ceti`, a roadmap written in words), at a bracketed source
-    key and at a parenthesis left open, since what follows is another roadmap's id or a source's:
-    the citation reader reads another roadmap's ids. A stop lasts to the next boundary
-    (`stretches`: `;`, a blank line, a list item, the end of a sentence), where reading resumes.
-    The ids right before `of Name` (`§3.4 of Name`, `§§3.4 and 3.5 of Name`) are not its own. Other
-    spans in backticks (Lean names) and asides in parentheses, which may run over a line break,
-    are passed over."""
-    text = re.sub(r"`([^`]*)`",
-                  lambda m: "\x00" if re.split(r"[/.]", m.group(1).strip())[-1] in names else "\x01", text)
+class Clause:
+    """A stretch of a statement of dependency between two boundaries (`;`, the end of a sentence,
+    a list item, a blank line): its offsets in the README, the number of the sentence it is in,
+    the ids of its own roadmap it names as (kind, id, start of a range or None, offset), and
+    `aside`: None, or why its references create no need ('negation' or 'consumer')."""
+
+    __slots__ = ("start", "end", "sentence", "ids", "aside")
+
+    def __init__(self, start, end, sentence, ids, aside):
+        self.start, self.end, self.sentence, self.ids, self.aside = start, end, sentence, ids, aside
+
+
+def _blank(m: re.Match) -> str:
+    return " " * len(m.group(0))
+
+
+def _prepared(text: str, names: set[str]) -> str:
+    """`text` as the reader of local ids sees it, offsets kept: a span in backticks becomes a stop
+    (a roadmap's name) or a mark that is passed over (a Lean name), an aside in parentheses is
+    blanked out, and a bracketed source key or a parenthesis left open becomes a stop."""
+    def code(m: re.Match) -> str:
+        name = re.split(r"[/.]", m.group(1).strip())[-1] in names
+        return ("\x00" if name else "\x01") + " " * (len(m.group(0)) - 1)
+    text = re.sub(r"`([^`]*)`", code, text)
     prev = None
     while prev != text:
         prev = text
-        text = re.sub(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)", " ", text)
-    text = re.sub(r"\[[^\]\n]*\]|[()]", "\x00", text)
+        text = ASIDE.sub(_blank, text)
+    return re.sub(r"\[[^\]\n]*\]|[()]", lambda m: "\x00" + " " * (len(m.group(0)) - 1), text)
+
+
+def _cue_text(text: str) -> str:
+    """The words a clause says itself, offsets kept: spans in backticks, asides in parentheses and
+    titles in italics (`*Interpolation does not determine ...*`) are blanked out."""
+    text = re.sub(r"`[^`]*`", _blank, text)
+    prev = None
+    while prev != text:
+        prev = text
+        text = ASIDE.sub(_blank, text)
+    return ITALIC.sub(_blank, text)
+
+
+def clause_ids(part: str, names: set[str]) -> list[tuple[str, str, str | None, int]]:
+    """The ids of the README's own roadmap that one clause names, as (kind, id, start of a range
+    or None, offset in the clause). An id counts when it follows `§`, `§§`, `Section`, `Layer` or
+    `Layers` (directly or through a list) or reads as a section id on its own (`1.2`, `2.4a`,
+    `D4.3`). Reading stops, for the rest of the clause, at a roadmap's name (the citation reader
+    reads another roadmap's ids), at any other capitalised word (`Mathlib`, `Tau Ceti`, a roadmap
+    written in words) and at a stop of `_prepared`. The ids right before `of Name` (`§3.4 of
+    Name`, `§§3.4 and 3.5 of Name`) are not its own."""
     out = []
-    for part in stretches(text):
-        kind, mode, prev_id, rng = "section", None, None, False
-        run: list[tuple[str, str, str | None]] = []     # the ids of the list being read
-        for t in NEEDS_TOKEN.finditer(part):
-            g = t.lastgroup
-            if g == "code":
-                continue
-            if g in ("sign", "layer"):
-                out += run
-                run = []
-                kind, mode = ("section", "sign") if g == "sign" else ("layer", "layer")
-                prev_id, rng = None, False
-            elif g == "range":
-                rng = prev_id is not None
-            elif g == "sep":
-                rng = False
-            elif g == "id":
-                tok = t.group("id").rstrip(".")
-                if tok in names or (not has_digit(tok) and tok[0].isupper() and tok not in ("Layer", "Layers")):
-                    break
-                if has_digit(tok) and (mode is not None or _bare_ok(tok)):
-                    run.append((kind, tok, prev_id if rng else None))
-                    prev_id = tok
-                else:
-                    if tok == "of" and REVERSE_OF.match(part, t.end()):
-                        run = []                  # `§3.4 of Name`: the list is the other roadmap's
-                    out += run
-                    run = []
-                    kind, mode, prev_id = "section", None, None
-                rng = False
-            elif g == "stop":
+    kind, mode, prev_id, rng = "section", None, None, False
+    run: list[tuple[str, str, str | None, int]] = []      # the ids of the list being read
+    for t in NEEDS_TOKEN.finditer(part):
+        g = t.lastgroup
+        if g == "code":
+            continue
+        if g in ("sign", "layer"):
+            out += run
+            run = []
+            kind, mode = ("section", "sign") if g == "sign" else ("layer", "layer")
+            prev_id, rng = None, False
+        elif g == "range":
+            rng = prev_id is not None
+        elif g == "sep":
+            rng = False
+        elif g == "id":
+            tok = t.group("id").rstrip(".")
+            if tok in names or (not has_digit(tok) and tok[0].isupper() and tok not in ("Layer", "Layers")):
                 break
+            if has_digit(tok) and (mode is not None or _bare_ok(tok)):
+                run.append((kind, tok, prev_id if rng else None, t.start()))
+                prev_id = tok
             else:
+                if tok == "of" and REVERSE_OF.match(part, t.end()):
+                    run = []                      # `§3.4 of Name`: the list is the other roadmap's
                 out += run
                 run = []
-                kind, mode, prev_id, rng = "section", None, None, False
-        out += run
+                kind, mode, prev_id = "section", None, None
+            rng = False
+        elif g == "stop":
+            break
+        else:
+            out += run
+            run = []
+            kind, mode, prev_id, rng = "section", None, None, False
+    return out + run
+
+
+def statement_clauses(text: str, a: int, b: int, names: set[str], cites: list[int]) -> list[Clause]:
+    """The clauses of the statement of dependency `text[a:b]` (a `*Needs:*` or `*Prerequisites:*`
+    paragraph, or a `Dependencies` subsection), `cites` being the sorted offsets where the
+    citations of other roadmaps begin. A clause is set aside, so that none of its references
+    creates a need, when it negates (`Layer 0 is not needed`), or when it names the referenced unit
+    as a consumer: a verb after a reference whose object is the present unit (`§4.5 consumes it`),
+    or a phrase before a reference (`used by §§4.4 and 4.5`); `ASIDE_CUES` lists the words."""
+    seg = text[a:b]
+    prepared, words = _prepared(seg, names), _cue_text(seg)
+    pieces, sentence, pos = [], 0, 0
+    for brk in [*STRETCH_BREAK.finditer(prepared), None]:
+        end = brk.start() if brk else len(prepared)
+        start = pos
+        for stop in FULL_STOP.finditer(prepared, pos, end):
+            if not ABBREVIATION.search(prepared, 0, stop.start()):
+                pieces.append((start, stop.start(), sentence))
+                start, sentence = stop.end(), sentence + 1
+        pieces.append((start, end, sentence))
+        if brk:
+            pos = brk.end()
+            sentence += brk.group(0) != ";"           # `;` divides a sentence, it does not end it
+    out = []
+    for start, end, sentence in pieces:
+        ids = [(k, i, r, a + start + off) for k, i, r, off in clause_ids(prepared[start:end], names)]
+        lo, hi = bisect.bisect_left(cites, a + start), bisect.bisect_left(cites, a + end)
+        refs = sorted([p - a - start for p in cites[lo:hi]] + [p - a - start for *_rest, p in ids])
+        aside = None
+        if refs:
+            said = words[start:end]
+            verb, phrase = CONSUMER_VERB.search(said), CONSUMER_PHRASE.search(said)
+            if NEGATION.search(said):
+                aside = "negation"
+            elif (verb and refs[0] < verb.start()) or (phrase and refs[-1] > phrase.start()):
+                aside = "consumer"
+        out.append(Clause(a + start, a + end, sentence, ids, aside))
     return out
 
 
@@ -1387,27 +1471,35 @@ class Tree:
             else:
                 out.append(Ref(c.pos, r[0], (r[1], c.id), True, where, what))
         rm.needs = needs_spans(rd)
-        # the ids of its own roadmap that a `*Needs:*` line names, or a `Dependencies` subsection
-        # (these count only for a layer item: a section takes other roadmaps' units from there)
-        spans = [(no, a, b, "*Needs:*") for no, a, b in rm.needs]
-        spans += [(no, a, b, "Dependencies") for no, _lvl, a, b in rm.dependency_subsections()]
-        for no, a, b, source in spans:
-            items = []
-            for kind, ident, start in needs_ids(text[a:b], self.names):
-                if start is not None:
-                    ids = rd.expand_range(start, ident, kind == "layer")
-                    if ids is None:
-                        self.ranges_kept.append(f"{rm.name}:{no}: {source} {start}–{ident}")
-                    else:
-                        items += [(kind, i) for i in ids if i not in (start, ident)]
-                items.append((kind, ident))
-            for kind, ident in items:
-                what = f"{rm.name} {label_of(kind, ident)} ({source})"
-                r = self.resolve(rm, kind, ident)
-                if r is None:
-                    out.append(Ref(a, None, None, False, f"{rm.name}:{no}", what, (rm, ident, kind == "layer")))
-                else:
-                    out.append(Ref(a, r[0], (r[1], ident), False, f"{rm.name}:{no}", what))
+        # each statement of dependency in clauses, and the ids of its own roadmap that a clause
+        # names, at their offsets (from a `Dependencies` subsection these count only for a layer
+        # item: a section takes other roadmaps' units from there)
+        cite_pos = sorted(c.pos for c in cites + expanded)
+        spans = [("*Needs:*", no, a, b) for no, a, b in rm.needs]
+        spans += [("Dependencies", no, a, b) for no, _lvl, a, b in rm.dependency_subsections()]
+        rm.statements = {}
+        for source, no, a, b in spans:
+            clauses = statement_clauses(text, a, b, self.names, cite_pos)
+            rm.statements[(source, a)] = clauses
+            for clause in clauses:
+                for kind, ident, start, at in clause.ids:
+                    items = []
+                    if start is not None:
+                        ids = rd.expand_range(start, ident, kind == "layer")
+                        if ids is None:
+                            if clause.aside is None:
+                                self.ranges_kept.append(f"{rm.name}:{no}: {source} {start}–{ident}")
+                        else:
+                            items += [(kind, i) for i in ids if i not in (start, ident)]
+                    items.append((kind, ident))
+                    for kind2, ident2 in items:
+                        what = f"{rm.name} {label_of(kind2, ident2)} ({source})"
+                        r = self.resolve(rm, kind2, ident2)
+                        if r is None:
+                            out.append(Ref(at, None, None, False, f"{rm.name}:{no}", what,
+                                           (rm, ident2, kind2 == "layer")))
+                        else:
+                            out.append(Ref(at, r[0], (r[1], ident2), False, f"{rm.name}:{no}", what))
         out.sort(key=lambda r: r.pos)
         rm.refs = out
         return out
@@ -1548,30 +1640,48 @@ class Goal:
             refs, pos = by_pos[rm]
             return refs[bisect.bisect_left(pos, a):bisect.bisect_left(pos, b)]
 
-        def stated(u: Unit) -> list[Ref]:
-            """What a section needs: the refs on its own `*Needs:*` and `*Prerequisites:*` lines;
-            without one, the citations in the `Dependencies` subsection of its layer."""
+        def clause_refs(rm: Roadmap, source: str, a: int, first_ranked: bool,
+                        citations_only: bool = False) -> list[tuple[int, Ref]]:
+            """(rank, ref) of the references of one statement whose clauses are not set aside:
+            rank 1 for the first sentence of a `*Needs:*` or `*Prerequisites:*` line, which states
+            the needs (`first_ranked`), rank 2 for the rest."""
+            out = []
+            for clause in rm.statements[(source, a)]:
+                if clause.aside:
+                    self.set_aside.setdefault((rm.name, clause.start), (clause.aside, rm, clause))
+                    continue
+                rank = 1 if first_ranked and clause.sentence == 0 else 2
+                out += [(rank, r) for r in refs_in(rm, clause.start, clause.end) if r.citation or not citations_only]
+            return out
+
+        def stated(u: Unit) -> list[tuple[int, Ref]]:
+            """What a section needs: the references on its own `*Needs:*` and `*Prerequisites:*`
+            lines; without one, the citations in the `Dependencies` subsection of its layer."""
             rm = u.roadmap
             tree.refs(rm)
-            own = [(a, b) for no, a, b in rm.needs
-                   if (rm.owner[no] is u if u.structural else u.line <= no <= u.end)]
+            own = [a for no, a, b in rm.needs if (rm.owner[no] is u if u.structural else u.line <= no <= u.end)]
             if own:
-                return [r for a, b in own for r in refs_in(rm, a, b)]
+                return [x for a in own for x in clause_refs(rm, "*Needs:*", a, True)]
             self.without_needs[rm.name] += 1
             layer = rm.layer_of(u)
             if layer is None:
                 return []
-            return [r for a, b in rm.dependency_spans(layer) for r in refs_in(rm, a, b) if r.citation]
+            return [x for a, b in rm.dependency_spans(layer)
+                    for x in clause_refs(rm, "Dependencies", a, False, citations_only=True)]
 
-        def layer_stated(u: Unit) -> list[Ref]:
-            """What a layer item (a layer without sections) needs: the refs on every `*Needs:*` and
-            `*Prerequisites:*` line in its text, and in its own `Dependencies` subsection the
-            citations and the ids of its own roadmap."""
+        def layer_stated(u: Unit) -> list[tuple[int, Ref]]:
+            """What a layer item (a layer without sections) needs: the references on every
+            `*Needs:*` and `*Prerequisites:*` line in its text, and in its own `Dependencies`
+            subsection the citations and the ids of its own roadmap."""
             rm = u.roadmap
             tree.refs(rm)
-            rs = [r for no, a, b in rm.needs if u.line <= no <= u.end for r in refs_in(rm, a, b)]
-            rs += [r for a, b in rm.dependency_spans(u) for r in refs_in(rm, a, b)]
-            return list({id(r): r for r in rs}.values())
+            rs = [x for no, a, b in rm.needs if u.line <= no <= u.end for x in clause_refs(rm, "*Needs:*", a, True)]
+            rs += [x for a, b in rm.dependency_spans(u) for x in clause_refs(rm, "Dependencies", a, False)]
+            best: dict[int, tuple[int, Ref]] = {}
+            for rank, r in rs:
+                if id(r) not in best or rank < best[id(r)][0]:
+                    best[id(r)] = (rank, r)
+            return list(best.values())
 
         def enclosing_layers(u: Unit) -> set:
             out, w = set(), u.roadmap.layer_of(u)
@@ -1595,6 +1705,8 @@ class Goal:
         self.serves: dict[Unit, set] = collections.defaultdict(set)
         self.without_needs: collections.Counter = collections.Counter()
         self.own_layer = 0
+        self.set_aside: dict[tuple[str, int], tuple] = {}       # clauses whose references create no need
+        edge_rank: dict[tuple[Unit, Unit], int] = {}
         roots = list(dict.fromkeys(w for name in self.family
                                    for u in sorted(tree.roadmaps[name].units().values(), key=lambda u: u.line)
                                    for w in work(u)))
@@ -1606,7 +1718,7 @@ class Goal:
             rm = u.roadmap
             out = []
             mine = enclosing_layers(u)
-            for r in (layer_stated(u) if u.kind == "layer" else stated(u)):
+            for rank, r in (layer_stated(u) if u.kind == "layer" else stated(u)):
                 if r.target is None:
                     met[id(r)] = r
                     continue
@@ -1619,6 +1731,7 @@ class Goal:
                     all_keys[r.target][r.key].add(rm.name)
                 for v in work(r.target):
                     out.append(v)
+                    edge_rank[(u, v)] = min(edge_rank.get((u, v), rank), rank)
                     if rm.name in family and v.roadmap is not rm:
                         self.serves[v].add(rm.name)
             deps[u] = list(dict.fromkeys(v for v in out if v is not u))     # self-dependencies dropped
@@ -1633,16 +1746,35 @@ class Goal:
         self.stated_edges = {u: list(e) for u, e in edges.items()}
         comps = [c for c in strongly_connected(units, edges) if len(c) > 1]
         dropped = []
+        self.edge_rank = edge_rank
         for comp in comps:
+            # A stated need (rank 1) outranks an inferred one (rank 2). The cycles among stated
+            # needs alone are broken by the order: inside each, a need is kept when it points to an
+            # earlier unit. Then each inferred need is added, those pointing to an earlier unit
+            # first, unless it would close a cycle with what is kept.
+            comp = sorted(comp, key=rank.get)
             inside = set(comp)
-            for u in comp:
-                keep = []
-                for v in edges[u]:
-                    if v in inside and rank[v] > rank[u]:
+            kept = {u: [v for v in edges[u] if v in inside and edge_rank[(u, v)] == 1] for u in comp}
+            for sub in strongly_connected(comp, kept):
+                within = set(sub)
+                for u in sub if len(sub) > 1 else ():
+                    for v in [v for v in kept[u] if v in within and rank[v] > rank[u]]:
+                        kept[u].remove(v)
                         dropped.append((u, v))
-                    else:
-                        keep.append(v)
-                edges[u] = keep
+            inferred = [(u, v) for u in comp for v in edges[u] if v in inside and edge_rank[(u, v)] == 2]
+            for u, v in sorted(inferred, key=lambda e: (rank[e[1]] > rank[e[0]], rank[e[0]], rank[e[1]])):
+                seen_v, todo = {v}, [v]           # does u lie on a kept path from v?
+                while todo and u not in seen_v:
+                    for w in kept[todo.pop()]:
+                        if w not in seen_v:
+                            seen_v.add(w)
+                            todo.append(w)
+                if u in seen_v:
+                    dropped.append((u, v))
+                else:
+                    kept[u].append(v)
+            for u in comp:
+                edges[u] = sorted([v for v in edges[u] if v not in inside] + kept[u], key=rank.get)
         assert not [c for c in strongly_connected(units, edges) if len(c) > 1]
         # the longest chain of needs, along a topological order of the acyclic graph
         order: list[Unit] = []                   # every unit after the units it needs
@@ -1754,7 +1886,8 @@ class Goal:
             f"layer that has no sections; a need of a layer that has sections is a need of each of its "
             f"sections. `needs:` names every item it depends on: what its *Needs:* or *Prerequisites:* lines "
             f"name or, for a section that has none, what the Dependencies subsection of its layer cites; for "
-            f"a layer, also what its own Dependencies subsection names. `serves:` names the roadmaps under "
+            f"a layer, also what its own Dependencies subsection names; a clause that negates a reference or "
+            f"names it as a consumer creates no need. `serves:` names the roadmaps under "
             f"{ROADMAP_DIR}/{root}/ whose units need the item directly. An item is done when its targets are "
             f"in the library. Its slug is the roadmap's name and the id its heading starts with; other ids of "
             f"the heading follow the id in brackets. The area {root} comes last.",
@@ -1866,6 +1999,7 @@ class Goal:
             f"label, {self.naming['ordinal']} by an ordinal (a leading id that is not unique in its README), "
             f"{self.naming['cited']} by the id they are cited by; {self.duplicates} leading ids in the "
             f"members' READMEs are not unique",
+            f"  stated needs (rank 1) dropped for cycles: {sum(1 for e in self.dropped if self.edge_rank[e] == 1)}",
             f"  items that need nothing (eligible at the start): {sum(1 for u in units if not self.edges[u])}; "
             f"longest chain of needs: {max(self.depth.values(), default=0)} items",
         ]
@@ -1893,9 +2027,16 @@ class Goal:
                 big = max(blocks, key=lambda b: len(b.encode("utf-8")))
                 out.append(f"    largest area block: {big.split(chr(10), 1)[0]}, {len(big.encode('utf-8')) + 4} bytes")
         if self.dropped:
-            out.append("  dependencies dropped for cycles:")
+            out.append("  dependencies dropped for cycles (rank 1: stated on the first sentence of a *Needs:* line):")
             for u, v in sorted(self.dropped, key=lambda e: (self.file_order(e[0]), self.file_order(e[1]))):
-                out.append(f"    {self.slug[u]} needs {self.slug[v]}")
+                out.append(f"    {self.slug[u]} needs {self.slug[v]} (rank {self.edge_rank[(u, v)]})")
+        rules = collections.Counter(rule for rule, _rm, _c in self.set_aside.values())
+        out.append(f"  clauses set aside, their references creating no need: {rules['negation']} by a negation, "
+                   f"{rules['consumer']} by a consumer cue")
+        for (name, start), (rule, rm, clause) in sorted(self.set_aside.items()):
+            line = bisect.bisect_right(rm.readme.starts, start)
+            said = " ".join(rm.readme.text[clause.start:clause.end].split())
+            out.append(f"    {rule}: {rm.rel}/README.md:{line}: {said[:120]}")
         return out
 
 

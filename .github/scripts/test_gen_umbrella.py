@@ -637,6 +637,73 @@ Mathlib, e.g. Layer 6.
         code, output = self.run_script("--stats", root=root)
         assert "Fam §2.1" not in output and "Fam §2.2" not in output, output     # Alpha's, not local
 
+    def test_a_clause_that_negates_or_names_a_consumer_creates_no_need(self) -> None:
+        root = self.other_tree("asides", {
+            "Fam": """# Roadmap: f
+
+### 4.4 Four
+
+### 4.5 Five
+
+*Needs:* §4.8.
+
+### 4.6 These count
+
+*Needs:* Mathlib groups. Alpha Layer 11 for the reciprocity map; Beta §9.2 supplies the Minkowski bound.
+
+### 4.7 A consumer phrase
+
+*Needs:* Mathlib groups; used by §§4.4 and 4.5.
+
+### 4.8 A consumer verb
+
+*Needs:* Mathlib groups. §4.5 consumes it.
+
+## Layer 0: base
+
+Text.
+
+## Layer 1: a negation
+
+Text.
+
+### Dependencies
+
+Mathlib `Nat.add`. Layer 0 is not needed.
+""",
+            "Alpha": "# Roadmap: alpha\n\n## Layer 11: reciprocity\n\nText.\n",
+            "Beta": "# Roadmap: beta\n\n### 9.2 Minkowski\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert items["Fam.4.5"]["needs"] == ["Fam.4.8"], items["Fam.4.5"]
+        assert items["Fam.4.8"]["needs"] == [] and items["Fam.4.7"]["needs"] == [], items
+        assert items["Fam.4.6"]["needs"] == ["Alpha.Layer11", "Beta.9.2"], items["Fam.4.6"]
+        assert items["Fam.Layer1"]["needs"] == [], items["Fam.Layer1"]
+        assert "> Dropped" not in (root / "umbrellas" / "GRH-targets.md").read_text(encoding="utf-8")
+        code, output = self.run_script("--stats", root=root)
+        assert "1 by a negation, 2 by a consumer cue" in output, output
+        assert "negation: TauCetiRoadmap/Fam/README.md:" in output and "Layer 0 is not needed" in output, output
+
+    def test_a_stated_need_outranks_an_inferred_one(self) -> None:
+        root = self.other_tree("ranks", {"Fam": """# Roadmap: f
+
+### 4.5 Five
+
+*Needs:* §4.8.
+
+### 4.8 Eight
+
+*Needs:* Mathlib groups. §4.5 treats the pointed case.
+"""})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        # the need stated first is kept; the one in a later sentence closes the cycle and goes
+        assert items["Fam.4.5"]["needs"] == ["Fam.4.8"] and items["Fam.4.8"]["needs"] == [], items
+        text = (root / "umbrellas" / "GRH-targets.md").read_text(encoding="utf-8")
+        assert "> Dropped to break a cycle: `Fam.4.8` needs `Fam.4.5`." in text, text
+
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
         # `Aα1` loses its `α` in a slug and would become the slug of `A1`

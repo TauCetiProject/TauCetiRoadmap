@@ -94,7 +94,11 @@ are generated from the roadmaps' READMEs:
   `Name Layers 3 and 5`, `Name A5.3`; a name may also be written
   `` `Name` `` or `TauCetiRoadmap.Name`). A section without such a line needs
   what the `### Dependencies` subsection of its layer cites. Nothing else in a
-  README (statements, checks, examples, remarks) creates a dependency.
+  README (statements, checks, examples, remarks) creates a dependency. Within
+  those statements a clause that negates a reference (`Layer 0 is not needed`)
+  or names it as a consumer (`§4.5 consumes it`, `used by §4.4`) creates no
+  need; the cue words are one closed list in the script, and `--stats` lists
+  every clause they set aside.
 - A layer that has sections is not an item, since no pull request completes it
   as such: a need of it is a need of each of its sections. A layer without
   sections is an item, the unit of work; it needs what the `*Needs:*` and
@@ -113,10 +117,12 @@ are generated from the roadmaps' READMEs:
   the item's text), so a citation added or removed elsewhere never renames it.
 - Roadmaps under `Completed/` are never members or items, and citing one needs
   nothing.
-- The worker rejects a target list with a cycle. Inside each cycle the
-  generator keeps only the dependencies that point to an earlier unit (by area,
-  roadmap and position in the README) and records each dropped one in a line
-  starting with `>`.
+- The worker rejects a target list with a cycle. A dependency stated on the
+  first sentence of a unit's own `*Needs:*` line outranks the others: inside
+  each cycle the generator first keeps, among those stated ones, the
+  dependencies that point to an earlier unit (by area, roadmap and position in
+  the README), then adds each other dependency unless it closes a cycle, and
+  records each dropped one in a line starting with `>`.
 
 Only `description`, `goal` and `root` in an umbrella file are written by hand;
 the generator keeps them and writes everything else. In a target list, an
