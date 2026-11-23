@@ -386,6 +386,7 @@ body:
         - PolylogarithmFunctions
         - Polylogarithms
         - PolynomialGaloisGroupsPartIII
+        - PopulationDynamics
         - PositiveMass
         - PositiveScalarCurvature
         - PotentialAutomorphyDworkMotivesPartII
@@ -471,6 +472,7 @@ body:
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SolidAnalyticRings
+        - SpanningTreesAndShortestPaths
         - SpecialFunctionsAiry
         - SpecialFunctionsAppell
         - SpecialFunctionsBessel
