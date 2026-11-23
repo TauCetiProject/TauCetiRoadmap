@@ -335,7 +335,19 @@ class GenUmbrellaTest(unittest.TestCase):
         code, output = self.run_script()
         assert code == 0, output
 
-    def test_needs_are_written_in_reduced_form(self) -> None:
+    def other_tree(self, name: str, roadmaps: dict) -> pathlib.Path:
+        root = self.root / name
+        self.tree(root, roadmaps)
+        return root
+
+    def items_of(self, root: pathlib.Path) -> dict[str, dict]:
+        self.root, saved = root, self.root
+        try:
+            return self.items()
+        finally:
+            self.root = saved
+
+    def test_needs_are_written_in_full(self) -> None:
         reduced = self.root / "reduced"
         self.tree(reduced, {"Fam": """# Roadmap: reduced
 
@@ -370,10 +382,86 @@ class GenUmbrellaTest(unittest.TestCase):
             items = self.items()
         finally:
             self.root = saved
-        assert items["Fam.1.1"]["needs"] == ["Fam.1.2"], items["Fam.1.1"]
-        assert items["Fam.2.1"]["needs"] == ["Fam.2.2", "Fam.2.3"], items["Fam.2.1"]
+        # every stated need is written, the one another need implies too
+        assert items["Fam.1.1"]["needs"] == ["Fam.1.2", "Fam.1.3"], items["Fam.1.1"]
+        assert items["Fam.2.1"]["needs"] == ["Fam.2.2", "Fam.2.3", "Fam.2.4"], items["Fam.2.1"]
         code, output = self.run_script("--stats", root=reduced)
-        assert "8 stated" in output and "6 written" in output, output
+        assert "8 stated" in output and "8 written" in output, output
+
+    def test_a_ticked_need_does_not_hide_a_new_one(self) -> None:
+        root = self.other_tree("ticked", {"Fam": "# Roadmap: f\n\n### 1.1 A\n\n*Needs:* 1.2.\n\n### 1.2 B\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        path = root / "umbrellas" / "GRH-targets.md"
+        path.write_text(path.read_text(encoding="utf-8").replace("- [ ] `Fam.1.2`", "- [x] `Fam.1.2`"),
+                        encoding="utf-8")
+        (root / "TauCetiRoadmap" / "Fam" / "README.md").write_text(
+            "# Roadmap: f\n\n### 1.1 A\n\n*Needs:* 1.2, 1.3.\n\n### 1.2 B\n\n*Needs:* 1.3.\n\n### 1.3 C\n",
+            encoding="utf-8")
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert items["Fam.1.1"]["needs"] == ["Fam.1.2", "Fam.1.3"], items["Fam.1.1"]
+        assert items["Fam.1.2"]["mark"] == "x" and items["Fam.1.3"]["mark"] == " ", items
+
+    def test_a_layer_item_needs_what_its_lines_and_dependencies_name(self) -> None:
+        root = self.other_tree("layer", {
+            "Fam": "# Roadmap: f\n\n### 1.1 Uses a layer\n\n*Needs:* Alpha Layer 2.\n",
+            "Alpha": """# Roadmap: alpha
+
+## Layer 1: base
+
+### 1.5 Base
+
+## Layer 2: a layer without sections
+
+Its targets are stated here.
+
+### An unnumbered subheading
+
+*Needs:* Gamma §1.1.
+
+### Dependencies
+
+Delta §1.1; 1.5; Layer 2.
+""",
+            "Gamma": "# Roadmap: g\n\n### 1.1 G\n",
+            "Delta": "# Roadmap: d\n\n### 1.1 D\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert items["Fam.1.1"]["needs"] == ["Alpha.Layer2"], items["Fam.1.1"]
+        # its own *Needs:* line, the supplier and its own section in its Dependencies, not itself
+        assert items["Alpha.Layer2"]["needs"] == ["Alpha.1.5", "Delta.1.1", "Gamma.1.1"], items["Alpha.Layer2"]
+
+    def test_a_slug_comes_from_the_heading_not_from_how_it_is_cited(self) -> None:
+        def family(needs: str) -> dict:
+            return {"Fam": f"# Roadmap: f\n\n### 1.1 Cites alpha\n\n*Needs:* {needs}.\n",
+                    "Alpha": "# Roadmap: alpha\n\n### 1.1 A result (A1.1)\n\n### 1.2 Another (A1.2)\n"}
+        root = self.other_tree("slugs", family("Alpha §A1.1"))
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert sorted(s for s in items if s.startswith("Alpha.")) == ["Alpha.1.1"], sorted(items)
+        assert items["Alpha.1.1"]["desc"] == "§1.1 [A1.1] A result", items["Alpha.1.1"]
+        path = root / "umbrellas" / "GRH-targets.md"
+        path.write_text(path.read_text(encoding="utf-8").replace("- [ ] `Alpha.1.1`", "- [x] `Alpha.1.1`"),
+                        encoding="utf-8")
+        readme = root / "TauCetiRoadmap" / "Fam" / "README.md"
+        # the second form of citation, on the same dependency line: nothing is renamed or lost
+        readme.write_text(family("Alpha §A1.1; see also Alpha §1.1")["Fam"], encoding="utf-8")
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0 and "no longer an item" not in output, output
+        items = self.items_of(root)
+        assert items["Alpha.1.1"]["mark"] == "x" and sorted(items) == ["Alpha.1.1", "Fam.1.1"], items
+        # citations added and removed elsewhere leave the slug of a unit that stays as it was
+        for needs in ("Alpha §1.1", "Alpha §A1.2; Alpha §A1.1", "Alpha §1.2; Alpha §A1.1"):
+            readme.write_text(family(needs)["Fam"], encoding="utf-8")
+            code, output = self.run_script("--fix", root=root)
+            assert code == 0 and "no longer an item" not in output, (needs, output)
+            items = self.items_of(root)
+            assert items["Alpha.1.1"]["mark"] == "x", (needs, items)
+            assert not [s for s in items if s.startswith("Alpha.A")], (needs, sorted(items))
 
     def edit_list(self, change) -> None:
         path = self.root / "umbrellas" / "GRH-targets.md"
@@ -469,6 +557,17 @@ class GenUmbrellaTest(unittest.TestCase):
         assert "Fam.3.1" in items and "Fam.Layer3" not in items
         sections = {a["name"]: a.get("sections") for a in umbrella["area"]}
         assert sections["Colon"] == ["§X.0:alpha.1", "§X.0:alpha.2", "§X.0:beta.1", "§X.0:beta.2"], sections
+
+    def test_a_leading_id_that_is_not_unique_takes_the_alias(self) -> None:
+        root = self.other_tree("restart", {
+            "Fam": "# Roadmap: f\n\n### 1.1 Cites both\n\n*Needs:* Alpha §1.1; Alpha §B1.1.\n",
+            "Alpha": "# Roadmap: alpha\n\n## Layer A: first\n\n### 1.1 First\n\n## Layer B: second\n\n"
+                     "### 1.1 Second (B1.1)\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert items["Fam.1.1"]["needs"] == ["Alpha.1.1", "Alpha.B1.1"], items["Fam.1.1"]
+        assert items["Alpha.B1.1"]["desc"] == "§B1.1 Second", items["Alpha.B1.1"]
 
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"

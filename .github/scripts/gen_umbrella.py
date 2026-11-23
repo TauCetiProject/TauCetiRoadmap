@@ -27,8 +27,10 @@ everything that this needs, read from the READMEs:
   the text (statements, routes, checks, examples, remarks) needs nothing.
 - A layer that has sections is not an item: no pull request completes it as such, it is
   done when its sections are. A need of it is a need of each of its sections (and of the
-  sections of the layers nested in it); a section's need of the layer it is in creates
-  nothing. A layer without sections is an item, the unit of work, and needs nothing.
+  sections of the layers nested in it); a unit's need of the layer it is in creates
+  nothing. A layer without sections is an item, the unit of work: it needs what the
+  `*Needs:*` and `*Prerequisites:*` lines in its text name (under unnumbered subheadings
+  too) and what its own `Dependencies` subsection cites or names of its own roadmap.
 - A roadmap's name in code font or with the package prefix (`` `Name` ``,
   `` `TauCetiRoadmap.Name` ``, `TauCetiRoadmap.Name`) is read as the plain name.
 - The goal is every item of the root's roadmaps, with everything they need,
@@ -36,19 +38,21 @@ everything that this needs, read from the READMEs:
   needs; its items are those units. Roadmaps under `Completed/` are known to the reader,
   so that their citations are read as citations, but they are never members or items,
   and a citation of one needs nothing.
-- An item is named `<Roadmap>.<id>` (`<Roadmap>.Layer<k>` for a layer) by the id its line
-  starts with, or by the id the root's roadmaps cite it by when they use only another id
-  of that line (one in the heading's parenthesis). An id may go on with `:word` parts
-  (`### AI.0:integral.1`, `## Layer AI.0:integral: ...`); the slug writes the colon `-`
-  (`AInfCohomology.AI.0-integral.1`), the item's text keeps the README's spelling.
+- An item is named `<Roadmap>.<id>` (`<Roadmap>.Layer<k>` for a layer) from its README
+  alone, so that a citation added or removed elsewhere never renames it: by the id its
+  heading or label starts with (the other ids of the line, such as `(A1.1)`, are aliases
+  that citations resolve through, shown in the item's text), by its paragraph's label, by
+  its place `P.n` in the numbered list under the id `P`, or, for a heading with no leading
+  id, by the first id in its parenthesis (`Roadmap.unit_name`). An id may go on with
+  `:word` parts (`### AI.0:integral.1`, `## Layer AI.0:integral: ...`); the slug writes the
+  colon `-` (`AInfCohomology.AI.0-integral.1`), the item's text keeps the README's spelling.
 
 The target list is acyclic, as the worker requires: inside each strongly connected
 component, a dependency is kept only when it points to a unit earlier in a fixed order
 (area with the root's last, roadmap, end of the unit's text), and the others are dropped
-and listed. `needs:` is then written in reduced form: it omits an item that another listed
-need already needs, directly or through others (the transitive reduction), which changes
-no item's eligibility as long as items are completed after what they need. `serves:` names
-the roadmaps under the root whose sections need the item directly, before that reduction.
+and listed. `needs:` lists every stated dependency that survives: none is left out because
+another need implies it, since a need may be done (merged, or ticked) out of order.
+`serves:` names the roadmaps under the root whose units need the item directly.
 
 Regeneration keeps what an operator records in the target list: an item's mark (`[x]`,
 `[~]`) and the clauses of its trailing group the generator does not write (`partial: #N`),
@@ -270,7 +274,7 @@ def opener(match_text: str) -> str:
 
 def _bare_ok(tok: str) -> bool:
     """A bare token after a roadmap name that reads as a section id: `1.4`, `7a`, `10A`,
-    `SR.5.2`, `C.6`, `K3`, `AG2.6`, `OI-B30`, `AI.0:integral.1`; not a year, a count or a word."""
+    `SR.5.2`, `C.6`, `K3`, `AG2.6`, `AG2.P`, `OI-B30`, `AI.0:integral.1`; not a year, a count or a word."""
     head, colon, rest = tok.partition(":")
     if colon and not re.fullmatch(COLON, colon + rest):
         return False
@@ -281,7 +285,7 @@ def _bare_ok(tok: str) -> bool:
         return True
     if tok[0].isdigit():
         return "." in tok or tok[-1].isalpha()
-    return bool(re.fullmatch(r"[A-Z]{1,4}(?:\.[A-Z]+)*\.?\d+[a-z]?(?:\.\d+[a-z]?)*", tok))
+    return bool(re.fullmatch(r"[A-Z]{1,4}(?:\.[A-Z]+)*\.?\d+[a-z]?(?:\.\d+[a-z]?)*(?:\.[A-Z]{1,3})?", tok))
 
 
 def read_citations(text: str, names: set[str], citer: str) -> list[Cite]:
@@ -637,7 +641,8 @@ class Readme:
             if how.endswith("paren"):
                 # the label without the parenthesis and without its own leading id
                 core = (label[: m.start()] + label[m.end():]).strip()
-                core = re.sub(r"^(?:§\s?)?(?:" + KEYWORD + r")?§?[0-9A-Za-z][\w.]*(?=[\s:.)—–]|$)", "", core, count=1)
+                core = re.sub(r"^(?:§\s?)?(?:" + KEYWORD + r")?§?(?=[\w.]*\d)[0-9A-Za-z][\w.]*(?=[\s:.)—–]|$)",
+                              "", core, count=1)
                 title = core.strip(" :.—–-*")
                 if kind == "bold" and not title:
                     title = _first_sentence(rest)
@@ -881,7 +886,7 @@ class Roadmap:
         self.refs: list[Ref] | None = None
         self.needs: list[tuple[int, int, int]] = []    # (line, start, end) of each *Needs:* text
                                                        # (or *Prerequisites:* text)
-        self._heads = self._kinds = None
+        self._heads = self._kinds = self._deps = self._leading = None
 
     def heading_rows(self) -> list[tuple[int, int]]:
         """(line, level) of every heading outside code fences."""
@@ -970,9 +975,7 @@ class Roadmap:
             return self.extra[line]
         rd = self.readme
         lines = rd.lines
-        if self._kinds is None:
-            self._heads = dict(self.heading_rows())
-            self._kinds = {no: (kind, label) for no, kind, label, _r in rd.rows}
+        self.row(line)
         heads, kinds = self._heads, self._kinds
         row = kinds.get(line, ("other", ""))
         level = heads.get(line, 7 if row[0] == "bold" else 8)
@@ -1001,6 +1004,88 @@ class Roadmap:
         self.extra[line] = u
         return u
 
+    def row(self, line: int) -> tuple[str, str]:
+        """(kind, label) of a line outside code fences: 'heading', 'bold' or 'other'."""
+        if self._kinds is None:
+            self._heads = dict(self.heading_rows())
+            self._kinds = {no: (kind, label) for no, kind, label, _r in self.readme.rows}
+        return self._kinds.get(line, ("other", ""))
+
+    def leading(self) -> collections.Counter:
+        """How many headings of the README start with each id."""
+        if self._leading is None:
+            owns = (own_label(label) for _no, kind, label, _r in self.readme.rows if kind == "heading")
+            self._leading = collections.Counter(own for own in owns if own)
+        return self._leading
+
+    def unit_name(self, u: Unit) -> tuple[tuple[str, str] | None, str, list[str]]:
+        """The unit's name as its README alone gives it, how it was found, and the other ids of
+        its line (its aliases, which citations resolve through as well):
+          'own'      the id its heading or label starts with, the id that labels its paragraph
+                     (`2.2.3. Prove ...`), or for item n of the numbered list under the id P, `P.n`;
+          'alias'    without a leading id, an id in the heading's parenthesis (`(3A, 3B)`: `3A`)
+                     or before the colon of `Define X (3.2.1): ...`;
+          'ordinal'  a leading id that another heading of the README has first, with no alias:
+                     the id and its place among those headings (`GS4-2`);
+        None when the line names no id that resolves to it. How the unit is cited plays no part,
+        so a citation added or removed elsewhere never renames it."""
+        rd = self.readme
+
+        def here(ident: str, layer: bool = False) -> bool:
+            d = rd.find_definition(ident, layer)
+            return d is not None and d[0] == u.line
+
+        kind, label = self.row(u.line)
+        line = rd.lines[u.line - 1]
+        if kind != "other":
+            own = own_label(label)
+            aliases = [c for c in dict.fromkeys(_paren_candidates(label))
+                       if has_digit(c) and (own is None or c != own[1]) and here(c)]
+            if own and here(own[1], own[0] == "layer"):
+                return own, "own", aliases
+            if aliases:
+                return ("section", aliases[0]), "alias", aliases[1:]
+            if own:
+                same = [no for no, k, lab, _r in rd.rows if k == "heading" and own_label(lab) == own]
+                place = same.index(u.line) + 1 if u.line in same else len(same) + 1
+                return (own[0], f"{own[1]}-{place}"), "ordinal", []
+            starts = [c for c in set(_start_candidates(label, PLAIN_LEAD, True))
+                      | set(_start_candidates(label, KEYWORD_LEAD, False))
+                      if has_digit(c) and c[-1].isalnum() and here(c)]
+            if starts:
+                return ("section", max(starts, key=lambda c: (len(c), c))), "own", []
+        m = NUMBERED.match(line)
+        if m:
+            # item n of the numbered list under the id P: `P.n`, P being the heading above it (the
+            # section) or else a label between that heading and the item, the nearest first
+            labels = []
+            for no, k, lab, _r in reversed([r for r in rd.rows if r[0] < u.line]):
+                if k == "heading" or (k == "bold" and not NUMBERED.match(rd.lines[no - 1])):
+                    labels.append(lab)
+                if k == "heading":
+                    break
+            for lab in labels[-1:] + labels[:-1]:
+                parents = [own_label(lab)[1]] if own_label(lab) else []
+                parents += sorted((c for c in set(_start_candidates(lab, PLAIN_LEAD, True))
+                                   if has_digit(c) and c[-1].isalnum()), key=lambda c: (-len(c), c))
+                for parent in parents:
+                    if here(f"{parent}.{m.group(1)}"):
+                        return ("section", f"{parent}.{m.group(1)}"), "own", []
+        if kind == "other":
+            # a paragraph labelled by its id (`2.2.3. Prove ...`; a bare number is a list's own)
+            for c in sorted(set(_paragraph_candidates(line)), key=lambda c: (-len(c), c)):
+                if not c.isdigit() and here(c):
+                    return ("section", c), "own", []
+            for g in PAREN_COLON.finditer(line):
+                if here(g.group(1)):
+                    return ("section", g.group(1)), "alias", []
+        else:
+            # last, the word a heading or label starts with, if it resolves to the line
+            starts = [c for c in set(_start_candidates(label, PLAIN_LEAD, True)) if c[-1:].isalnum() and here(c)]
+            if starts:
+                return ("section", max(starts, key=lambda c: (len(c), c))), "own", []
+        return None, "", []
+
     def layer_of(self, u: Unit) -> Unit | None:
         """The layer whose text holds the unit: its nearest enclosing structural layer."""
         w = u.parent if u.structural else self.owner[u.line]
@@ -1022,24 +1107,29 @@ class Roadmap:
                 out.append(v)
         return sorted(out, key=lambda v: v.line)
 
+    def dependency_subsections(self) -> list[tuple[int, int, int, int]]:
+        """(line, level, start, end) of every `Dependencies` subsection: the offsets of its text,
+        from the line after its heading to the next heading of the same or a higher level."""
+        if self._deps is None:
+            rd = self.readme
+            heads = self.heading_rows()
+            self._deps = []
+            for i, (no, lvl) in enumerate(heads):
+                if HEADING.match(rd.lines[no - 1]).group(2).strip() != "Dependencies":
+                    continue
+                end = len(rd.lines)
+                for nxt, nl in heads[i + 1:]:
+                    if nl <= lvl:
+                        end = nxt - 1
+                        break
+                start = rd.starts[no] if no < len(rd.lines) else len(rd.text)
+                self._deps.append((no, lvl, start, max(start, rd.starts[end - 1] + len(rd.lines[end - 1]))))
+        return self._deps
+
     def dependency_spans(self, layer: Unit) -> list[tuple[int, int]]:
-        """The offsets of each `Dependencies` subsection in the text of a layer: from its heading
-        to the next heading of the same or a higher level."""
-        rd = self.readme
-        heads = self.heading_rows()
-        out = []
-        for i, (no, lvl) in enumerate(heads):
-            if not layer.line < no <= layer.end or lvl <= layer.level:
-                continue
-            if HEADING.match(rd.lines[no - 1]).group(2).strip() != "Dependencies":
-                continue
-            end = layer.end
-            for nxt, nl in heads[i + 1:]:
-                if nl <= lvl:
-                    end = min(end, nxt - 1)
-                    break
-            out.append((rd.starts[no - 1], rd.starts[end - 1] + len(rd.lines[end - 1])))
-        return out
+        """The offsets of each `Dependencies` subsection in the text of a layer."""
+        return [(a, b) for no, lvl, a, b in self.dependency_subsections()
+                if layer.line < no <= layer.end and lvl > layer.level]
 
 
 LABELLED = re.compile(r"\s*(?:[-*+]\s+)?§?[0-9A-Za-z][\w.\-]*[.:]\s+\S")
@@ -1236,8 +1326,8 @@ class Tree:
 
     def refs(self, rm: Roadmap) -> list[Ref]:
         """Every citation the README of `rm` makes, and the ids of its own that its `*Needs:*` and
-        `*Prerequisites:*`
-        lines name, in the order of the README."""
+        `*Prerequisites:*` lines and its `Dependencies` subsections name, in the order of the
+        README."""
         if rm.refs is not None:
             return rm.refs
         rm.units()
@@ -1271,18 +1361,22 @@ class Tree:
             else:
                 out.append(Ref(c.pos, r[0], (r[1], c.id), True, where, what))
         rm.needs = needs_spans(rd)
-        for no, a, b in rm.needs:
+        # the ids of its own roadmap that a `*Needs:*` line names, or a `Dependencies` subsection
+        # (these count only for a layer item: a section takes other roadmaps' units from there)
+        spans = [(no, a, b, "*Needs:*") for no, a, b in rm.needs]
+        spans += [(no, a, b, "Dependencies") for no, _lvl, a, b in rm.dependency_subsections()]
+        for no, a, b, source in spans:
             items = []
             for kind, ident, start in needs_ids(text[a:b], self.names):
                 if start is not None:
                     ids = rd.expand_range(start, ident, kind == "layer")
                     if ids is None:
-                        self.ranges_kept.append(f"{rm.name}:{no}: *Needs:* {start}–{ident}")
+                        self.ranges_kept.append(f"{rm.name}:{no}: {source} {start}–{ident}")
                     else:
                         items += [(kind, i) for i in ids if i not in (start, ident)]
                 items.append((kind, ident))
             for kind, ident in items:
-                what = f"{rm.name} {label_of(kind, ident)} (*Needs:*)"
+                what = f"{rm.name} {label_of(kind, ident)} ({source})"
                 r = self.resolve(rm, kind, ident)
                 if r is None:
                     out.append(Ref(a, None, None, False, f"{rm.name}:{no}", what, (rm, ident, kind == "layer")))
@@ -1443,6 +1537,16 @@ class Goal:
                 return []
             return [r for a, b in rm.dependency_spans(layer) for r in refs_in(rm, a, b) if r.citation]
 
+        def layer_stated(u: Unit) -> list[Ref]:
+            """What a layer item (a layer without sections) needs: the refs on every `*Needs:*` and
+            `*Prerequisites:*` line in its text, and in its own `Dependencies` subsection the
+            citations and the ids of its own roadmap."""
+            rm = u.roadmap
+            tree.refs(rm)
+            rs = [r for no, a, b in rm.needs if u.line <= no <= u.end for r in refs_in(rm, a, b)]
+            rs += [r for a, b in rm.dependency_spans(u) for r in refs_in(rm, a, b)]
+            return list({id(r): r for r in rs}.values())
+
         def enclosing_layers(u: Unit) -> set:
             out, w = set(), u.roadmap.layer_of(u)
             while w is not None:
@@ -1461,13 +1565,6 @@ class Goal:
                 expanded[v] = list(dict.fromkeys(w for p in parts for w in work(p))) if parts else [v]
             return expanded[v]
 
-        # The family's citations anywhere in its text name the items (`name_units`), so the names
-        # follow the family's usage whatever the dependencies are.
-        fam_keys: dict[Unit, dict] = collections.defaultdict(lambda: collections.defaultdict(set))
-        for name in self.family:
-            for r in tree.refs(tree.roadmaps[name]):
-                if r.target is not None and r.citation:
-                    fam_keys[r.target][r.key].add(name)
         all_keys: dict[Unit, dict] = collections.defaultdict(lambda: collections.defaultdict(set))
         self.serves: dict[Unit, set] = collections.defaultdict(set)
         self.without_needs: collections.Counter = collections.Counter()
@@ -1482,21 +1579,22 @@ class Goal:
             u = queue.pop()
             rm = u.roadmap
             out = []
-            if u.kind != "layer":                 # a layer without sections needs nothing
-                mine = enclosing_layers(u)
-                for r in stated(u):
-                    if r.target is None:
-                        met[id(r)] = r
-                        continue
-                    if r.target in mine:
-                        self.own_layer += 1               # a section never needs the layer it is in
-                        continue
-                    if work(r.target) == [r.target]:
-                        all_keys[r.target][r.key].add(rm.name)
-                    for v in work(r.target):
-                        out.append(v)
-                        if rm.name in family and v.roadmap is not rm:
-                            self.serves[v].add(rm.name)
+            mine = enclosing_layers(u)
+            for r in (layer_stated(u) if u.kind == "layer" else stated(u)):
+                if r.target is None:
+                    met[id(r)] = r
+                    continue
+                if r.target is u:                         # a self-dependency, dropped
+                    continue
+                if r.target in mine:
+                    self.own_layer += 1                   # a unit never needs the layer it is in
+                    continue
+                if work(r.target) == [r.target]:
+                    all_keys[r.target][r.key].add(rm.name)
+                for v in work(r.target):
+                    out.append(v)
+                    if rm.name in family and v.roadmap is not rm:
+                        self.serves[v].add(rm.name)
             deps[u] = list(dict.fromkeys(v for v in out if v is not u))     # self-dependencies dropped
             for v in deps[u]:
                 if v not in seen:
@@ -1520,9 +1618,7 @@ class Goal:
                         keep.append(v)
                 edges[u] = keep
         assert not [c for c in strongly_connected(units, edges) if len(c) > 1]
-        self.kept_edges = {u: list(e) for u, e in edges.items()}
-        # `needs:` is written in reduced form: a need that another listed need already needs,
-        # directly or through others, is left out (the transitive reduction of the acyclic graph)
+        # the longest chain of needs, along a topological order of the acyclic graph
         order: list[Unit] = []                   # every unit after the units it needs
         done: set = set()
         for start in units:
@@ -1539,41 +1635,30 @@ class Goal:
                         work_stack.append((edges[u][i], 0))
                 else:
                     order.append(u)
-        below: dict[Unit, int] = {}              # a bit set of the units each unit needs, transitively
         depth: dict[Unit, int] = {}              # the units on its longest chain of needs
         for u in order:
-            bits = 0
-            for v in edges[u]:
-                bits |= below[v] | (1 << rank[v])
-            below[u] = bits
             depth[u] = 1 + max((depth[v] for v in edges[u]), default=0)
-        for u in units:
-            covered = 0
-            for w in edges[u]:
-                covered |= below[w]
-            edges[u] = [v for v in edges[u] if not (covered >> rank[v]) & 1]
         self.depth = depth
         self.units, self.edges, self.dropped, self.comps = units, edges, dropped, comps
         refs = list(met.values())
         self.completed = sum(1 for r in refs if r.why == "completed")
         self.unresolved = sorted((r for r in refs if r.why != "completed"),
                                  key=lambda r: (r.where.split(":")[0], int(r.where.split(":")[1]), r.what))
-        self.name_units(fam_keys, all_keys)
+        self.name_units(all_keys)
 
-    def name_units(self, fam_keys, all_keys) -> None:
-        """Each unit's (kind, id): the id its line starts with; when the root family cites it only
-        under other ids (an id in the heading's parenthesis, another id of the same line), the one
-        most of the family's roadmaps cite, so that the items speak the family's language."""
-        self.name = {}
+    def name_units(self, all_keys) -> None:
+        """Each unit's (kind, id), from its README alone (`Roadmap.unit_name`); only a line that names
+        no id resolving to it is named by the id it is cited by."""
+        self.name, self.aliases = {}, {}
+        self.naming = collections.Counter({"alias": 0, "ordinal": 0, "cited": 0})
         slugs = {}
         for u in self.units:
-            fam = fam_keys.get(u, {})
-            if u.own and (not fam or u.own in fam):
-                key = u.own
-            else:
-                pool = fam or all_keys[u]
-                key = max(pool, key=lambda k: (len(pool[k]), k))
-            self.name[u] = key
+            key, how, aliases = u.roadmap.unit_name(u)
+            if key is None:
+                pool = all_keys[u]
+                key, how = max(pool, key=lambda k: (len(pool[k]), k)), "cited"
+            self.naming[how] += 1
+            self.name[u], self.aliases[u] = key, aliases
             slug = make_slug(u.roadmap.name, *key)
             if not valid_slug(slug):
                 raise SystemExit(f"{u.roadmap.rel}/README.md:{u.line}: the item's name {slug!r} is not a "
@@ -1584,6 +1669,7 @@ class Goal:
                                  f"{u.roadmap.rel}/README.md:{u.line}")
             slugs[slug] = u
         self.slug = {u: s for s, u in slugs.items()}
+        self.duplicates = sum(n - 1 for rm in {u.roadmap for u in self.units} for n in rm.leading().values() if n > 1)
 
     # --- the files ---
 
@@ -1600,15 +1686,20 @@ class Goal:
         d = u.roadmap.readme.find_definition(ident, kind == "layer")
         if d is not None and d[0] == u.line:
             return d[2]
-        if u.own:
-            d = u.roadmap.readme.find_definition(u.own[1], u.own[0] == "layer")
-            if d is not None and d[0] == u.line:
-                return d[2]
+        kind_, label = u.roadmap.row(u.line)
+        own = own_label(label) if kind_ != "other" else None
+        if own:                                # a leading id that another heading has first
+            m = _id_at_start(label, own[1], own[0] == "layer", False) or _id_at_start(label, own[1], False, True)
+            if m:
+                return label.lstrip()[m.end():].strip(" :.—–-")
         return ""
 
     def item(self, u: Unit) -> str:
         kind, ident = self.name[u]
-        desc = description(label_of(kind, ident), self.title(u), ": " if kind == "layer" else " ")
+        label = label_of(kind, ident)
+        if self.aliases[u]:                    # the other ids of its heading stay visible
+            label += " [" + ", ".join(self.aliases[u]) + "]"
+        desc = description(label, self.title(u), ": " if kind == "layer" else " ")
         clauses = []
         citers = [n for n in self.family if n in self.serves[u]]
         if citers:
@@ -1635,11 +1726,12 @@ class Goal:
             f"Goal: {goal}",
             f"Each item is a section of a roadmap that the goal needs, directly or through other items, or a "
             f"layer that has no sections; a need of a layer that has sections is a need of each of its "
-            f"sections. `needs:` names the items it depends on: what its *Needs:* or *Prerequisites:* lines "
-            f"name or, when it has none, what the Dependencies subsection of its layer cites. `needs:` omits "
-            f"an item that another listed need already needs. `serves:` names the roadmaps under "
-            f"{ROADMAP_DIR}/{root}/ whose sections need the item directly. An item is done when its targets "
-            f"are in the library. Its slug is the roadmap's name and the id. The area {root} comes last.",
+            f"sections. `needs:` names every item it depends on: what its *Needs:* or *Prerequisites:* lines "
+            f"name or, for a section that has none, what the Dependencies subsection of its layer cites; for "
+            f"a layer, also what its own Dependencies subsection names. `serves:` names the roadmaps under "
+            f"{ROADMAP_DIR}/{root}/ whose units need the item directly. An item is done when its targets are "
+            f"in the library. Its slug is the roadmap's name and the id its heading starts with; other ids of "
+            f"the heading follow the id in brackets. The area {root} comes last.",
             f"This file is generated by `{SCRIPT}` from the roadmaps' READMEs. Everything is regenerated "
             f"except an item's mark and the clauses the generator does not write, which are kept by slug; the "
             f"worker detects completed items from merged pull requests, and a tick records one in the file. "
@@ -1673,7 +1765,8 @@ class Goal:
             f"needs. The goal needs every section of the roadmaps under {ROADMAP_DIR}/{root}/ and, "
             f"transitively, what a needed section needs: what its *Needs:* or *Prerequisites:* lines name or, "
             f"when it has none, what the Dependencies subsection of its layer cites. A need of a layer that "
-            f"has sections is a need of each of its sections; a layer counts as a unit only when it has none. "
+            f"has sections is a need of each of its sections; a layer counts as a unit only when it has none, "
+            f"and then needs what the *Needs:* lines in it and its own Dependencies subsection name. "
             f"Roadmaps under {COMPLETED_DIR}/ are never members.",
             "`sections` lists the units of a member that the goal needs, in README order, with "
             "the roadmap's name in front in an area of several roadmaps. The root's area has no `sections`: "
@@ -1741,8 +1834,12 @@ class Goal:
                                                                    key=lambda x: (-x[1], x[0]))[:10]),
             f"  dependencies: {sum(len(v) for v in self.stated_edges.values())} stated, {len(self.dropped)} "
             f"dropped for cycles in {len(self.comps)} strongly connected components, "
-            f"{sum(len(v) for v in self.kept_edges.values())} kept, {sum(len(v) for v in self.edges.values())} "
-            f"written (reduced); {self.own_layer} of a section on the layer it is in, ignored",
+            f"{sum(len(v) for v in self.edges.values())} written; {self.own_layer} of a unit on the layer it "
+            f"is in, ignored",
+            f"  names: {self.naming['alias']} items named by an id in their heading's parenthesis or their "
+            f"label, {self.naming['ordinal']} by an ordinal (a leading id that is not unique in its README), "
+            f"{self.naming['cited']} by the id they are cited by; {self.duplicates} leading ids in the "
+            f"members' READMEs are not unique",
             f"  items that need nothing (eligible at the start): {sum(1 for u in units if not self.edges[u])}; "
             f"longest chain of needs: {max(self.depth.values(), default=0)} items",
         ]

@@ -97,17 +97,20 @@ are generated from the roadmaps' READMEs:
   README (statements, checks, examples, remarks) creates a dependency.
 - A layer that has sections is not an item, since no pull request completes it
   as such: a need of it is a need of each of its sections. A layer without
-  sections is an item, the unit of work.
+  sections is an item, the unit of work; it needs what the `*Needs:*` and
+  `*Prerequisites:*` lines in it name and what its own `### Dependencies`
+  subsection names.
 - A member of the umbrella is an area, a top-level directory of
   `TauCetiRoadmap/`, that contains a unit the goal needs; its `sections` list
   the units needed there. An item of the target list is one needed section or
   layer, with the slug
   `<Roadmap>.<id>` or `<Roadmap>.Layer<k>` (an id may go on with `:word` parts,
   `AI.0:integral.1`, whose colon the slug writes `-`), its `needs:`, and the roadmaps of
-  the goal that need it directly (`serves:`). `needs:` omits an item that
-  another listed need already needs (the transitive reduction), which keeps the
-  list small and changes no item's eligibility as long as items are completed
-  after what they need.
+  the goal that need it directly (`serves:`). `needs:` lists every stated
+  dependency that survives cycle breaking. The slug comes from the item's own
+  README alone: the id its heading starts with (other ids of the heading, such
+  as `(A1.1)`, are aliases that citations resolve through, shown in brackets in
+  the item's text), so a citation added or removed elsewhere never renames it.
 - Roadmaps under `Completed/` are never members or items, and citing one needs
   nothing.
 - The worker rejects a target list with a cycle. Inside each cycle the
