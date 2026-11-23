@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.InnerProductSpace.BorelCalculus.DiagonalMeasure
 
 /-!
 # Krylov methods and orthogonal polynomials: target signatures
@@ -21,7 +22,8 @@ docstring naming its owner and section: from IterativeMethodsForLinearSystems `c
 `energyNorm`, `chebyshevIterate`, `krylov` and `IsCGIterate`; from
 SpecialFunctionsOrthogonalPolynomialsGeneral `jacobiMatrix`, `jFraction`, `pairing`, `monic`,
 `normSq`, `normSqX`, `orthonormal`, `recB`, `alpha`, `beta`, `zeros` and `christoffelNumber`;
-from FirstOrderOptimization `heavyBallStep`.
+from FirstOrderOptimization `heavyBallStep`. For complex matrices the spectral measure is compared
+with Tau Ceti's diagonal measure `ContinuousLinearMap.diagMeasure` of a normal operator.
 -/
 
 noncomputable section
@@ -179,6 +181,17 @@ theorem spectralMeasure_spec {A : Matrix ι ι 𝕜} (hA : A.IsHermitian) (b : �
           (A.PosSemidef → energyNorm A (aeval A p *ᵥ b) ≤ M * energyNorm A b) := by
   sorry
 
+/-- 1.1 For a complex Hermitian matrix `A`, the spectral measure of `(A, b)` is the image under
+`z ↦ Re z` of Tau Ceti's diagonal measure of the operator `Matrix.toEuclideanCLM A` at `b`, a
+finite measure on its spectrum in `ℂ`. The operator is normal because `A` is Hermitian; the
+normality is taken as an instance argument. -/
+theorem spectralMeasure_eq_map_diagMeasure {A : Matrix ι ι ℂ} (hA : A.IsHermitian)
+    [IsStarNormal (Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) A)] (b : ι → ℂ) :
+    spectralMeasure hA b =
+      ((Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) A).diagMeasure (WithLp.toLp 2 b)).map
+        (fun z : spectrum ℂ (Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) A) => (z : ℂ).re) := by
+  sorry
+
 /-- 1.2 Exact termination and strict decrease: for positive definite `A`, the `k`-th conjugate
 gradient iterate is `A⁻¹ b` if and only if `k` is at least the number of points of the support
 of the spectral measure of the initial residual; below that number the energy norm of the error
@@ -253,11 +266,11 @@ theorem lanczos_gauss {A : Matrix ι ι 𝕜} (hA : A.IsHermitian) (b : ι → �
           Measure.dirac (zeros (spectralMeasure hA b) k i) = spectralMeasure hA b) := by
   sorry
 
-/-- 2.4 The J-fraction: for `1 ≤ k ≤ g` and `z ∈ ℂ` off the Ritz values, the Stieltjes
+/-- 2.4 The J-fraction: for `k ≤ g` and `z ∈ ℂ` off the Ritz values, the Stieltjes
 transform of the `k`-point Gauss measure is `μ(ℝ)` times the `k`-th convergent of the J-fraction
 of `μ`; at `k = g` it is the Stieltjes transform of `μ` itself. -/
 theorem sum_christoffelNumber_div_eq_convs {A : Matrix ι ι 𝕜} (hA : A.IsHermitian)
-    (b : ι → 𝕜) {k : ℕ} (hk : 0 < k) (hkg : k ≤ (spectralMeasure hA b).support.ncard) {z : ℂ}
+    (b : ι → 𝕜) {k : ℕ} (hkg : k ≤ (spectralMeasure hA b).support.ncard) {z : ℂ}
     (hz : aeval z (monic (spectralMeasure hA b) k) ≠ 0) :
     ∑ i, (christoffelNumber (spectralMeasure hA b) k i : ℂ) /
         (z - zeros (spectralMeasure hA b) k i) =
@@ -285,8 +298,8 @@ theorem IsCGIterate.lanczos {A : Matrix ι ι 𝕜} (hA : A.PosDef) {b x₀ : ι
       b - A *ᵥ x = ((((monic μ k).eval 0)⁻¹ : ℝ) : 𝕜) •(aeval A (monic μ k) *ᵥ (b - A *ᵥ x₀)) ∧
       energyNorm A (x - A⁻¹ *ᵥ b) ^ 2 =
         ∫ t, t⁻¹ * ((monic μ k).eval t / (monic μ k).eval 0) ^ 2 ∂μ ∧
-      (0 < k → energyNorm A (x - A⁻¹ *ᵥ b) ^ 2 =
-        ∫ t, t⁻¹ ∂μ - ∑ i, christoffelNumber μ k i / zeros μ k i) ∧
+      energyNorm A (x - A⁻¹ *ᵥ b) ^ 2 =
+        ∫ t, t⁻¹ ∂μ - ∑ i, christoffelNumber μ k i / zeros μ k i ∧
       ∀ hk : 0 < k, x - x₀ = (energyNorm 1 (b - A *ᵥ x₀) : 𝕜) •
         ∑ j : Fin k, (lanczosMatrix A (b - A *ᵥ x₀) k)⁻¹ j ⟨0, hk⟩ •
           lanczosVec A (b - A *ᵥ x₀) j := by

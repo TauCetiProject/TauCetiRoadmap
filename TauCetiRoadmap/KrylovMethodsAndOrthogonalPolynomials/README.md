@@ -102,6 +102,12 @@ Define, for `hA : A.IsHermitian`, `spectralMeasure hA b = Σ_i ofReal(|c_i|²) �
 - **spectral bound**: if `|p(t)| ≤ M` at every point of `supp μ`, then `‖p(A) b‖ ≤ M ‖b‖`, and, for
   positive semidefinite `A`, `‖p(A) b‖_A ≤ M ‖b‖_A`.
 
+For `𝕜 = ℂ`, prove also `spectralMeasure_eq_map_diagMeasure`: `spectralMeasure hA b` is the image
+under `z ↦ Re z` of Tau Ceti's diagonal measure `(Matrix.toEuclideanCLM A).diagMeasure b`, the
+finite measure on the spectrum of the operator in `ℂ` with `∫ f dμ_b = ⟪b, f(a) b⟫`. The operator
+is normal because `A` is Hermitian (`Matrix.isHermitian_iff_isSelfAdjoint`,
+`IsSelfAdjoint.isStarNormal`); the Lean statement takes this normality as an instance argument.
+
 Route. Write `b = Σ c_i u_i`. Since `A u_i = λ_i u_i` (Mathlib
 `Matrix.IsHermitian.mulVec_eigenvectorBasis`), `p(A) b = Σ c_i p(λ_i) u_i` with `p(λ_i)` real, and
 orthonormality gives `(p(A)b)*(q(A)b) = Σ |c_i|² p(λ_i) q(λ_i) = ∫ p q dμ`. `μ` is a finite sum of
@@ -122,16 +128,41 @@ grade is `min(|ι|, |supp μ|) = |supp μ|`, as the support consists of eigenval
 bound: `‖p(A) b‖² = ∫ p² dμ ≤ M² μ(ℝ)`, and `‖p(A) b‖_A² = ∫ x p(x)² dμ ≤ M² ∫ x dμ = M² ‖b‖_A²`
 because `x ≥ 0` on the support when `A` is positive semidefinite. (Proved here; the dimension
 formula `min(k, g)` without the count of the support is IterativeMethodsForLinearSystems 4.1.)
+*Comparison.* Let `a = Matrix.toEuclideanCLM A` and `ν` the image of `μ_b = a.diagMeasure b`
+under `z ↦ Re z`, a continuous map, so `ν` is a finite measure on `ℝ`. For a real polynomial `p`,
+`∫ p dν = ∫ p(Re z) dμ_b = ⟪b, cfc (p ∘ Re) a b⟫` (`MeasureTheory.integral_map`,
+`ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`). The spectrum of `a` is that of `A`
+(`AlgEquiv.spectrum_eq`, `Matrix.toEuclideanCLM` being a star-algebra isomorphism), which is the
+set of eigenvalues (`Matrix.IsHermitian.spectrum_eq_image_range`), all real; on it `p ∘ Re` agrees
+with `z ↦ p(z)`, so `cfc (p ∘ Re) a = p(a)` (`cfc_congr`, `cfc_polynomial`) and
+`∫ p dν = b* p(A) b = ∫ p dμ` by the moment bullet. Both measures are carried by the finite set `S`
+of eigenvalues (`ν(ℝ ∖ S)` is `μ_b` of the empty set), and two finite measures carried by `S`
+with the same polynomial integrals are equal: the Lagrange polynomial of `t ∈ S` on `S` gives the
+mass at `t`. For `b = 0` both measures are `0` (`μ_b(ℝ) = ‖b‖²`,
+`ContinuousLinearMap.diagMeasure_real_univ`), and for empty `ι` the space is `0`, the spectrum is
+empty and both are `0`; the diagonal measure needs only completeness, which a finite-dimensional
+space has, and normality.
 
 *Needs:* HankelFormsAndRealMomentProblems 1.1 (`hankelSection`) and 1.2
 (`rank_hankelSection_eq_min`, `RepresentsUpTo`); SpecialFunctionsOrthogonalPolynomialsGeneral 2.1
 (`pairing`); IterativeMethodsForLinearSystems 3.4 and 4.1 (`energyNorm`, `krylov`); Mathlib
 `Matrix.IsHermitian.eigenvectorBasis`, `Matrix.IsHermitian.mulVec_eigenvectorBasis`,
 `Matrix.rank_eq_finrank_span_cols`, `Matrix.rank_conjTranspose_mul_self`,
-`MeasureTheory.Measure.support`, `MeasureTheory.Measure.dirac`.
+`MeasureTheory.Measure.support`, `MeasureTheory.Measure.dirac`; for the comparison, Tau Ceti
+`ContinuousLinearMap.diagMeasure`, `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`,
+`ContinuousLinearMap.diagMeasure_real_univ`, and Mathlib `Matrix.toEuclideanCLM`,
+`AlgEquiv.spectrum_eq`, `Matrix.IsHermitian.spectrum_eq_image_range`, `cfc_congr`,
+`cfc_polynomial`, `MeasureTheory.integral_map`, `Lagrange.basis`.
 
 **Checks.**
-- `A = diag(1, 2, 4)`, `b = (1, 1, 1)`: `μ = δ₁ + δ₂ + δ₄`, moments `3, 7, 21, 73`, grade `3`.
+- `A = diag(1, 2, 4)`, `b = (1, 1, 1)`: `μ = δ₁ + δ₂ + δ₄`, moments `3, 7, 21, 73`, grade `3`. The
+  diagonal measure has mass `⟪b, P_t b⟫ = 1` at each `t ∈ {1, 2, 4}` (`P_t` the coordinate
+  projection), so its image under `z ↦ Re z` is also `δ₁ + δ₂ + δ₄`.
+- Comparison on non-diagonal complex Hermitian matrices (exact, with `P_t` the Lagrange polynomial
+  of `t` on the spectrum applied to `A`): for `A = ((2, i), (−i, 2))`, `b = (1, 0)`, the eigenvalues
+  are `1, 3`, both measures are `δ₁/2 + δ₃/2` and the moments are `1, 2, 5, 14`; for
+  `A = ((1, 0, 0), (0, 2, i), (0, −i, 2))`, `b = (1, 1, 0)` (eigenvalue `1` twice), both are
+  `(3/2)δ₁ + (1/2)δ₃`.
 - `A = diag(1, 1, 2)`, `b = (1, 1, 0)`: `μ = 2δ₁`, so the grade is `1` and `dim K_k = 0, 1, 1, 1`
   for `k = 0, 1, 2, 3`. The support is not the set of eigenvalues of `A`, which is `{1, 2}`, and the
   repeated eigenvalue gives one atom, not two.
@@ -184,8 +215,8 @@ and `|supp μ| ≤ k` by `⇒`, a contradiction. The non-strict inequality is th
 ### Dependencies
 
 1.1: HankelFormsAndRealMomentProblems 1.1–1.2, SpecialFunctionsOrthogonalPolynomialsGeneral 2.1,
-IterativeMethodsForLinearSystems 3.4 and 4.1, Mathlib. 1.2: 1.1, IterativeMethodsForLinearSystems
-4.2 and 4.4.
+IterativeMethodsForLinearSystems 3.4 and 4.1, Mathlib, Tau Ceti (the comparison). 1.2: 1.1,
+IterativeMethodsForLinearSystems 4.2 and 4.4.
 
 ## Layer 2: Lanczos vectors, Jacobi matrices and Gauss quadrature
 
@@ -366,7 +397,7 @@ Hestenes–Stiefel, (14:4), p. 428; proved here in this generality.)
 
 ### 2.4 The J-fraction and the Stieltjes transform
 
-For `1 ≤ k ≤ g` and `z ∈ ℂ` with `monic μ k (z) ≠ 0`, prove `sum_christoffelNumber_div_eq_convs`:
+For `k ≤ g` and `z ∈ ℂ` with `monic μ k (z) ≠ 0`, prove `sum_christoffelNumber_div_eq_convs`:
 `Σ_i w_i/(z − θ_i) = μ(ℝ) · F_k(z)`, where `F_k(z)` is the `k`-th convergent (`GenContFract.convs`,
 the quotient of the continuants) of `jFraction α β z = 1/(z − α_0 − β_1/(z − α_1 − ⋯))` with the
 coefficients of `μ`; and for `k = g` both sides equal `∫ dμ(λ)/(z − λ)`. The J-fraction of a
@@ -390,7 +421,10 @@ are `(p_k^(0)(z), monicThreeTerm α β k (z))`, and the second is `p_k(z) ≠ 0`
 `F_k(z) = ρ_k(z)/(μ(ℝ) p_k(z))`. Finally the Gauss rule of 2.3, applied to the real and imaginary
 parts of the polynomial `x ↦ (p_k(z) − p_k(x))/(z − x)` of degree `k − 1`, gives
 `ρ_k(z) = Σ_i w_i p_k(z)/(z − θ_i)`, as `p_k(θ_i) = 0` and `z ≠ θ_i`. For `k = g` the Gauss measure
-is `μ` (2.3), and `z` is off the support since `p_g` vanishes there.
+is `μ` (2.3), and `z` is off the support since `p_g` vanishes there. For `k = 0` the sum is empty
+and the `0`-th convergent is the head term `0` of the J-fraction (`GenContFract.zeroth_conv_eq_h`),
+so both sides are `0`; if also `g = 0`, then `μ = 0` (a finite measure on `ℝ` with empty support)
+and the Stieltjes transform is `0`.
 
 Two consequences, not separate targets. For complex Hermitian `A` and `z` not an eigenvalue,
 `b*(z − A)⁻¹ b = ∫ dμ(λ)/(z − λ)` by the computation of 1.1 with `(z − λ_i)⁻¹` in place of `p(λ_i)`.
@@ -402,7 +436,7 @@ infinity.
 *Needs:* 2.1, 2.3; SpecialFunctionsOrthogonalPolynomialsGeneral 1.2 (the corecursive polynomials),
 1.4 (`jFraction`, `TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral.conts_jFraction`),
 2.2 (`TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral.pairing_monic_eq_zero`); Mathlib
-`GenContFract.convs`. (Proved here.)
+`GenContFract.convs`, `GenContFract.zeroth_conv_eq_h`. (Proved here.)
 
 **Checks.**
 - `A = diag(1, 2, 4)`, `b = (1, 1, 1)`, `z = 3`: `∫ dμ/(z − λ) = 1/2 + 1 − 1 = 1/2`; the convergents
@@ -410,6 +444,8 @@ infinity.
   continuants and through `3 ((z − T_k)⁻¹)₀₀`).
 - `F_1 = 1/(z − α_0)` and `μ(ℝ) F_1(z) = w_0/(z − θ_0)` with the single node `θ_0 = α_0`.
 - `z` must avoid the Ritz values: at `z = 7/3` and `k = 1` the denominator `p_1(z)` is `0`.
+- `k = 0`: `monic μ 0 = 1`, the sum is empty and `F_0 = 0`; for `b = 0` (`g = 0`) both sides of
+  the second identity are `0` as well.
 
 ### Examples
 
@@ -433,9 +469,9 @@ Throughout, `A` is positive definite, `r₀ = b − A x₀`, `μ = spectralMeasu
 For `k ≤ g` prove `IsCGIterate.lanczos`:
 
 - `monic μ k (0) ≠ 0` and `r_k = monic μ k (A) r₀ / monic μ k (0)`;
-- `‖e_k‖_A² = ∫ λ⁻¹ (monic μ k (λ)/monic μ k (0))² dμ`; for `k ≥ 1` this is
+- `‖e_k‖_A² = ∫ λ⁻¹ (monic μ k (λ)/monic μ k (0))² dμ`, and this is
   `∫ λ⁻¹ dμ − Σ_i w_i/θ_i`, the error of the `k`-point Gauss rule of 2.3 for `λ ↦ λ⁻¹`
-  (`∫ λ⁻¹ dμ = ‖e₀‖_A²`);
+  (`∫ λ⁻¹ dμ = ‖e₀‖_A²`; for `k = 0` the sum is empty);
 - for `k ≥ 1`, `x − x₀ = ‖r₀‖ Σ_j (T_k⁻¹)_(j0) q_j`, with `T_k` and `q_j` the Lanczos data of
   `(A, r₀)`: the iterate is `x₀ + ‖r₀‖ Q_k T_k⁻¹ e_0`, `e_0 = (1, 0, …, 0)`.
 
@@ -462,7 +498,9 @@ support is positive). *Iterate and Gauss remainder.* For `1 ≤ k ≤ g`, `K_k =
 (2.1), so `x − x₀ = Q y`; the Galerkin condition gives `Q* r₀ = Q* A Q y = T_k y`, and
 `Q* r₀ = ‖r₀‖ e_0`, so `y = ‖r₀‖ T_k⁻¹ e_0` (`T_k = Q* A Q` is positive definite). Since `e_k` is
 `A`-orthogonal to `K_k ∋ x − x₀`, `‖e₀‖_A² = ‖e_k‖_A² + ‖x − x₀‖_A² = ‖e_k‖_A² + ‖r₀‖² (T_k⁻¹)₀₀`.
-With the eigenbasis of `T_k` as in 2.3, `‖r₀‖² (T_k⁻¹)₀₀ = Σ_i w_i/θ_i`.
+With the eigenbasis of `T_k` as in 2.3, `‖r₀‖² (T_k⁻¹)₀₀ = Σ_i w_i/θ_i`. For `k = 0`,
+`monic μ 0 = 1`, the sum over the nodes is empty and the Gauss-remainder identity is the energy
+identity `‖e₀‖_A² = ∫ λ⁻¹ dμ`.
 
 *Needs:* 1.1, 2.1, 2.2, 2.3; IterativeMethodsForLinearSystems 4.2
 (`TauCetiRoadmap.IterativeMethodsForLinearSystems.isCGIterate_iff`) and 4.4
@@ -477,7 +515,8 @@ Hestenes–Stiefel, (14:3), p. 428.)
 - `A = diag(1, 2)`, `b = (1, 1)`, `x₀ = 0`: `μ = δ₁ + δ₂`, `monic μ 1 = X − 3/2`, so
   `r₁ = ((−1/2)/(−3/2), (1/2)/(−3/2)) = (1/3, −1/3)`, the residual of
   IterativeMethodsForLinearSystems's example. `‖e₁‖_A² = 1·(1/3)² + (1/2)(1/3)² = 1/6`, and the
-  Gauss form gives `∫ λ⁻¹ dμ − w_0/θ_0 = 3/2 − 2/(3/2) = 1/6`.
+  Gauss form gives `∫ λ⁻¹ dμ − w_0/θ_0 = 3/2 − 2/(3/2) = 1/6`. At `k = 0`, `x = x₀ = 0` and
+  `‖e₀‖_A² = 1 + 1/2 = 3/2 = ∫ λ⁻¹ dμ`, the empty Gauss sum.
 - `k = g`: `monic μ g` vanishes on the support, so `r_g = 0`; with `A = 2I`, `g = 1` and
   `monic μ 1 = X − 2` gives `r_1 = 0`.
 - Normalizing by the leading coefficient instead of the value at `0` would give `r₁ = (−1/2, 1/2)`,
@@ -675,8 +714,9 @@ Prove `IsCGIterate.energyNorm_sub_le_of_outliers`: let `0 < a ≤ c`, `O` a fini
 eigenvalue of `A` in `[a, c]` or in `O`, and `k ≥ |O|`. Then, with `κ = c/a`,
 `‖e_k‖_A ≤ 2 (∏_(t ∈ O) max(|1 − a/t|, |1 − c/t|)) ((√κ − 1)/(√κ + 1))^(k − |O|) ‖e₀‖_A`. For
 outliers above the interval (`t ≥ c`) the factor `max(|1 − a/t|, |1 − c/t|) = 1 − a/t` is below `1`:
-`|O|` large eigenvalues cost `|O|` steps. For outliers below (`t ≤ a`) the factor is `c/t − 1`. With
-`O = ∅` this is IterativeMethodsForLinearSystems 4.5.
+`|O|` large eigenvalues cost `|O|` steps. For outliers below (`0 < t ≤ a`) the factor is
+`c/t − 1`. Points of `O` that are not eigenvalues, `0` and negative reals included, are allowed;
+they only enlarge the bound. With `O = ∅` this is IterativeMethodsForLinearSystems 4.5.
 
 No open source for this statement was found; it is proved here.
 
@@ -879,12 +919,17 @@ measure of a matrix and a vector has finitely many atoms and `β_g = 0`, so this
 definitions from Layers 3 and 5, and nothing from Layers 7 and 9. The statements here are about
 matrices (the Lanczos vectors and matrices, the conjugate gradient iterates), and their parts about
 the spectral measure alone (2.2, the finite Gauss rule of 2.3, the finite J-fraction of 2.4) are
-proved with routes written for a finite support. From IterativeMethodsForLinearSystems it takes
-Krylov spaces, the energy norm, the conjugate gradient iterates with their existence, Galerkin
-characterization, polynomial optimality and termination, and the Chebyshev residual polynomial, its
-bound and Chebyshev iteration; from HankelFormsAndRealMomentProblems the rank of a moment Hankel
-section (1.2); from EigenvalueIterations the Kato–Temple bound (3.2); and from
-FirstOrderOptimization the heavy-ball step and the parameters of its rate on quadratics (4.1).
+proved with routes written for a finite support. Every finite measure on `ℝ` with finite support,
+`Σ_l w_l δ_(t_l)` with distinct `t_l` and `w_l ≥ 0`, is a spectral measure, of `A = diag(t_l)` and
+`b_l = √w_l` (both measures are carried by the `t_l` and have the same polynomial integrals, by the
+moment bullet of 1.1; a weight `w_l = 0` gives no atom), so 2.2, the Gauss rule of 2.3 and 2.4 are
+the finite-support counterparts of SpecialFunctionsOrthogonalPolynomialsGeneral 5.1, 5.3 and 9.2.
+From IterativeMethodsForLinearSystems it takes Krylov spaces, the energy norm, the conjugate
+gradient iterates with their existence, Galerkin characterization, polynomial optimality and
+termination, and the Chebyshev residual polynomial, its bound and Chebyshev iteration; from
+HankelFormsAndRealMomentProblems the rank of a moment Hankel section (1.2); from
+EigenvalueIterations the Kato–Temple bound (3.2); and from FirstOrderOptimization the heavy-ball
+step and the parameters of its rate on quadratics (4.1).
 
 The other boundaries:
 
@@ -901,6 +946,14 @@ The other boundaries:
 - HankelFormsAndRealMomentProblems owns the moment problems; 2.3's `k`-atom Gauss measure represents
   the moments of `μ` up to degree `2k − 1`, which is its truncated problem in odd degree, not used
   here.
+- The scalar spectral measure of an operator at a vector is Tau Ceti's
+  `ContinuousLinearMap.diagMeasure` (a normal bounded operator on a complex Hilbert space, a finite
+  measure on its spectrum in `ℂ`), and OperatorTheory/SelfAdjointSpectralTheory states the diagonal
+  scalar measure of a projection-valued measure (SA-B21) and the real spectral projection-valued
+  measure of a bounded self-adjoint operator (SA-B31). 1.1's spectral measure is the matrix case:
+  Hermitian matrices over `ℝ` or `ℂ`, and a measure on `ℝ` given by its atoms;
+  `spectralMeasure_eq_map_diagMeasure` (1.1) identifies it, for `𝕜 = ℂ`, with the image of the
+  library's measure under `z ↦ Re z`.
 - Mathlib has the spectral theorem for Hermitian matrices, Gram–Schmidt, the Chebyshev polynomials
   with their extremal nodes, and Sion's minimax theorem. Tau Ceti has the Rayleigh–Ritz compression
   `ContinuousLinearMap.compression` and its Ritz residual for a general isometric trial map; for
@@ -946,10 +999,20 @@ infinite-dimensional spaces.
   `Polynomial.divByMonic`, `Lagrange.basis`, `GenContFract.convs` (the quotient of the continuants),
   `Matrix.toEuclideanCLM`, `ContinuousLinearMap.rayleighQuotient`, `gradient`, `Matrix.PosDef`,
   `Matrix.PosSemidef`.
+- For the comparison in 1.1: `Matrix.isHermitian_iff_isSelfAdjoint`, `IsSelfAdjoint.isStarNormal`,
+  `AlgEquiv.spectrum_eq`, `Matrix.IsHermitian.spectrum_eq_image_range` (the spectrum of a Hermitian
+  matrix is the image of its eigenvalues), `cfc_congr`, `cfc_polynomial`,
+  `MeasureTheory.integral_map`; for `k = 0` in 2.4, `GenContFract.zeroth_conv_eq_h`.
 
 ### From Tau Ceti
 
-Nothing is used; `Suggested.lean` imports only Mathlib.
+- `TauCeti/Analysis/InnerProductSpace/BorelCalculus/DiagonalMeasure.lean`, imported by
+  `Suggested.lean`: `ContinuousLinearMap.diagMeasure` (a normal operator `a` on a complex Hilbert
+  space, `[IsStarNormal a]`; a finite measure on `spectrum ℂ a`),
+  `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc` (`∫ f dμ_ξ = ⟪ξ, cfc f a ξ⟫` for `f`
+  continuous on the spectrum), `ContinuousLinearMap.diagMeasure_real_univ` (`μ_ξ(univ) = ‖ξ‖²`):
+  used in 1.1 (`spectralMeasure_eq_map_diagMeasure`). The general object is also stated in
+  OperatorTheory/SelfAdjointSpectralTheory, SA-B21 and SA-B31; no statement here uses them.
 
 ### From TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral
 
