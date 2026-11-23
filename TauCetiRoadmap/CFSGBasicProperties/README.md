@@ -34,18 +34,22 @@ supplies ten permutation models of sporadic groups, their orders and surjections
 the presented groups. The Leech lattice of
 [Rank24LatticeConstructions](../Rank24LatticeConstructions/README.md) and the extended Golay code
 of [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md) are the inputs to the
-Conway groups and the Monster. From the Tau Ceti library come the cyclic and alternating cases,
-the finiteness of every Lie-type group, Tits's simplicity criterion for split BN-pairs, Iwasawa's
-criterion for central quotients, and the simplicity of the type-`A` and Suzuki families.
+Conway groups and the Monster. The Tau Ceti library supplies the carriers and their Steinberg maps,
+Tits systems with their Bruhat decomposition, presented groups, stabilizer chains, and class data
+with ordinary character theory.
 
-Layer 1 sets up split Tits systems; Layers 2 and 3 build the root calculus of the Steinberg fixed
-points and prove the ordinary and graph-twisted groups simple. Layer 4 adds, to Tau Ceti's
-coset-table, covering and sifting theorems, the remaining soundness theorems for bounding,
-recognizing and proving simple presented groups. Layer 5 treats the Ree and Tits groups. Layers 6
-to 10 treat the sporadic groups: fourteen with existing permutation models, nine more by
-permutation or matrix models, the Conway groups through the Leech lattice, and the Monster and Baby
-Monster through the Griess algebra. Layer 11 classifies the conjugacy classes of the Monster, and
-Layer 12 assembles the list.
+The milestone graph below lists the milestones E0 to A0 and their dependencies. E0 treats the cyclic
+and alternating branches, and F0–F1 prove every Lie-type group finite through a finite-coordinate
+criterion for fixed points. Layer 1 classifies the parabolic subgroups of a Tits system, proves
+Tits's and Iwasawa's simplicity criteria, and sets up the split Tits systems to which they apply;
+Layers 2 and 3
+build the root calculus of the Steinberg fixed points and prove the ordinary and graph-twisted
+groups simple. Layer 4 proves the soundness theorems for bounding, recognizing and proving simple
+presented groups. Layer 5 treats the Suzuki, Ree and Tits groups. Layers 6 to 10 treat the
+sporadic groups: fourteen with existing permutation models, nine more by permutation or matrix
+models, the Conway groups through the Leech lattice, and the Monster and Baby Monster through the
+Griess algebra. Layer 11 classifies the conjugacy classes of the Monster, and Layer 12 assembles
+the list.
 
 ## Conventions
 
@@ -96,23 +100,170 @@ Layer 12 assembles the list.
 9. **Bounds.** A homomorphism from a presented group onto a finite group bounds the presented group
    from below. Finiteness of a presented group needs an upper bound proved from its relators: a
    finite index of a subgroup of bounded order, or a finite spanning set of words.
-10. **Milestone labels.** Other roadmaps cite this one by the labels E0, F0, F1, T0–T3, P0–P2, P2M
-    and A0. The layer headings below carry the labels T0 to A0; E0, F0 and F1 are the cyclic and
-    alternating branches, the finite-coordinate fixed-point criterion and the finiteness of the
-    Lie-type groups, recorded under Scope and ownership. P0 items 1–5 are §§4.1–4.5, and
-    *Starting points and ownership* is *Scope and ownership*.
+10. **Milestone labels.** The milestones are E0, F0, F1, T0–T3, P0, P1, P2 (with P2-N, P2-L, P2-G,
+    P2-M, P2-D and P2-R), P2M and A0, and other roadmaps cite this one by these labels. The
+    milestone graph below lists them; E0 and F0–F1 are sections under their own labels, and the
+    layer headings carry the labels T0 to A0. P0 items 1–5 are §§4.1–4.5, and *Starting points and
+    ownership* is *Scope and ownership*.
 11. **Homes.** Family results live under `TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/`;
     reusable presentation, group-action, finite-field and Tits-system theorems live in their
     mathematical homes. The final assembly imports the family theorems and does not reprove them by
     unfolding the four-way index. All carriers live in `Type`.
 
-## Layer 1: split Tits systems (T0)
+## Milestone graph
 
-Tau Ceti carries Tits systems (`TauCeti.TitsSystem`), their Bruhat decomposition with distinct
-cells, the classification of the subgroups containing `B` by the standard parabolics, and Tits's
-simplicity criterion for the normal closure of a solvable subgroup `U` normalized by `B`. This
-layer adds the split structure that the fixed-point groups of Layers 2, 3 and 5 carry, so that the
-criterion can be applied to them.
+The milestones of the roadmap, where each is specified, what each depends on, and what each
+delivers. The rows are mathematical dependencies, not a requirement of one pull request per row;
+the finite-field, Lie-structure and sporadic lanes progress independently once their listed inputs
+exist.
+
+| Item | Where | Depends on | Deliverable |
+| --- | --- | --- | --- |
+| E0: elementary branches | E0 below | Mathlib prime-order and alternating simplicity | finiteness and simplicity of the exact cyclic and alternating carriers |
+| F0: fixed-point criterion | F0–F1 below | `TauCeti.fixedSubgroup`, `TauCeti.FixedPointCandidate`, Mathlib polynomial roots | the finite-coordinate criterion in its matrix, iterate, `GL n K` and representation forms, and its transport to the candidate group |
+| F1: Lie-type finiteness | F0–F1 below | F0; the Steinberg iterate formulas and Frobenius formulas on Tau Ceti's designated carriers | `Finite d.FixedPoints` and `Finite d.Group` for every valid Lie-type index |
+| T0: abstract simplicity machinery | Layer 1 | `TauCeti.TitsSystem`, Mathlib group actions | the classification of the subgroups containing `B`, Tits's normal-subgroup theorem and simplicity criterion, Iwasawa's criterion for central quotients, and split Tits systems |
+| T1: fixed-point root calculus | Layer 2 | T0; the ambient calculus on the designated carrier, proved directly or transported from ChevalleyGroups C2–C5 through CFSGStatement §3.1 | Steinberg descent, twisted root groups, the fixed-point Bruhat decomposition and split Tits system of the ordinary and graph-twisted families, and comparisons with other realizations |
+| T2: ordinary and graph-twisted simplicity | Layer 3 | T1, F1 | `IsSimpleGroup d.Group` on the thirteen ordinary and graph-twisted constructors, including the valid small fields |
+| P0: presentation and action certificate tools | Layer 4 | Tau Ceti's presentation, coset-table, stabilizer-chain and class-data libraries; SporadicOrders Layer 0 | sound upper-bound, recognition, simplicity and conjugacy certificates |
+| T3: Suzuki, Ree and Tits simplicity | Layer 5 | T0, F1, P0; the ambient calculus as in T1 | `IsSimpleGroup d.Group` on the four half-Frobenius constructors, and the Lie-type endpoint |
+| P1: sporadic groups with existing permutation models | Layer 6 | P0, SporadicOrders Layers 1–2 | recognition, order and simplicity for the fourteen names with existing permutation models |
+| P2: remaining sporadic groups | Layers 7–10 | P0, P1, T1–T3 as used by local groups, Rank24LatticeConstructions Layer 6, AlgebraicCodingTheory Layer 5 | finite models, recognition, order and simplicity for the other twelve presented groups |
+| P2M: Monster conjugacy structure | Layer 11 | P0's conjugacy tools; P2's Monster model, local subgroups and recognition; Tau Ceti's character theory | explicit class representatives, centralizers and power and fusion data for the exact Monster carrier; 194 classes and 194 irreducible complex characters |
+| A0: assembly | Layer 12 | E0, F1, T2, T3, P1, P2 | `CFSGIndex_finite` and `CFSGIndex_isSimpleGroup` |
+
+P2 covers the twelve names `J3`, `J4`, `Ru`, `ONan`, `Co1`, `Fi23`, `Fi24Prime`, `HN`, `Ly`, `Th`,
+`B` and `M`, with the same `Finite`, `Nat.card` and `IsSimpleGroup` deliverables as P1. For each
+name it constructs a finite realization independently of the presentation, checks the exact
+presentation-to-realization map, certifies an upper bound for the presented group, and proves the
+realization simple, through the checked certificate interfaces of P0, with compressed words and
+local structures for the large cases. It consists of the following items.
+
+| P2 item | Where | Depends on | Deliverable |
+| --- | --- | --- | --- |
+| P2-N: nine presentation models | Layer 7 | P0, P1, T1–T3 | the construction, recognition and simplicity certificates of `J3 J4 Ru ONan Fi23 Fi24Prime HN Ly Th` |
+| P2-L: Leech and Conway bridges | Layer 8 | P0, the Mathieu and `Co2` models of P1, Rank24LatticeConstructions Layer 6, AlgebraicCodingTheory Layer 5 | identified code and lattice actions, recognition and simplicity of `Co1`, the mod-two module and the `Co2` stabilizer |
+| P2-G: local Monster representations | Layer 9, §9.1 | P2-L | the specified local subgroups, their common representation, and triality |
+| P2-M: Monster and Baby Monster models | Layer 9, §§9.2–9.4 | P2-G | finite models, actual axis stabilizers, orders and simplicity |
+| P2-D: central-extension theorem | Layer 9, §9.5 | P2-M | no perfect central double cover of the constructed Monster |
+| P2-R: Monster and Baby Monster recognition | Layer 10 | P0, P2-M, P2-D | equivalences from the two exact Tau Ceti presentations, and the uniform sporadic theorems |
+
+## E0: cyclic and alternating branches
+
+For every prime `p`, the carrier `(TauCeti.CFSGIndex.cyclic p hp).Group`, which is
+`Multiplicative (ZMod p)`, has exactly `p` elements, is finite, and is simple, a group of prime
+order being simple (Mathlib `isSimpleGroup_of_prime_card`). For every `n ≥ 5`, the carrier
+`(TauCeti.CFSGIndex.alternating n hn).Group`, which is `alternatingGroup (Fin n)`, is simple
+(Mathlib `alternatingGroup.isSimpleGroup`); it is finite as a subgroup of the finite group
+`Equiv.Perm (Fin n)`. These are statements about the exact indexed types, and no new model is
+needed. *Needs:* Mathlib `isSimpleGroup_of_prime_card`, `alternatingGroup.isSimpleGroup`;
+Tau Ceti `TauCeti.CFSGIndex.cyclic`, `TauCeti.CFSGIndex.alternating`.
+
+*In Tau Ceti:* `TauCeti.CFSGIndex.natCard_cyclic`, `TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_alternating`.
+
+**Checks.**
+- The bound `n ≥ 5` cannot be lowered: `A₄`, of order 12, has the Klein four-group as a normal
+  subgroup, so a branch for `n ≥ 4` would assert a false simplicity.
+
+### Examples
+
+`p = 7` gives a simple group of order 7; `n = 5` gives `A₅`, simple of order 60.
+
+### Dependencies
+
+Mathlib's prime-order and alternating simplicity, and the index of CFSGStatement. No layer of this
+roadmap.
+
+## F0–F1: finiteness of the Lie-type carriers
+
+### F0: the finite-coordinate fixed-point criterion
+
+Let `G` be a group, `K` an integral domain, `n` a finite type and `ρ : G → Matrix n n K` injective;
+let `F : G →* G` be an endomorphism, `r` a natural number (zero allowed) and `m > 1`. If
+`ρ (F^[r] g) i j = (ρ g i j)^m` for all `g`, `i` and `j`, then `fixedSubgroup F` is finite: every
+coordinate of a fixed point is a root of `X^m − X`, which has finitely many roots in an integral
+domain. In the iterate form, if `Φ : G → G` raises every coordinate to the power `m` and
+`F^[r] = Φ^[k]` with `k ≠ 0`, then `fixedSubgroup F` is finite. The iterate form also holds for a
+subgroup `S` of `GL n K`, for `n` a finite type with decidable equality, with the matrix entries as
+coordinates; and the first form holds for an injective representation `ρ` of `G` on a `K`-module
+with a finite basis `b`, the coordinates of `g` being the entries of `LinearMap.toMatrix b b (ρ g)`.
+No characteristic hypothesis and no positive power of `F` is required, but the Frobenius iterate
+number `k` must be nonzero.
+
+Then transport finiteness: if a `MulEquiv` `ψ : G ≃* G'` intertwines `F` and `F'`, that is
+`ψ ∘ F = F' ∘ ψ`, then `TauCeti.fixedSubgroupCongr` identifies `fixedSubgroup F` with
+`fixedSubgroup F'`, so one is finite exactly when the other is; and a finite `fixedSubgroup F`
+makes `FixedPointCandidate F = DerivedCentralQuotient (fixedSubgroup F)` finite, as a quotient of a
+subgroup of it. *Needs:* Mathlib `Polynomial.X`, finiteness of the roots of a nonzero polynomial
+over a domain, `LinearMap.toMatrix`; Tau Ceti `TauCeti.fixedSubgroup`, `TauCeti.fixedSubgroupCongr`,
+`TauCeti.FixedPointCandidate`, `TauCeti.DerivedCentralQuotient`.
+
+*In Tau Ceti:* `TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow`, `TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate`, `Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate`, `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow`, `TauCeti.finiteFixedPointCandidate`.
+
+**Checks.**
+- On `GL₂(K)`, `K` an algebraic closure of `𝔽_p`, with `F` the entrywise `q`-power map, `r = 1`
+  and `m = q`, the fixed subgroup is `GL₂(𝔽_q)`, of order `(q² − 1)(q² − q)`, and every entry of a
+  fixed point is one of the `q` roots of `X^q − X`.
+- The hypothesis `k ≠ 0` cannot be dropped: with `k = 0` the iterate hypothesis says only
+  `F^[r] = id`, which `F = id` satisfies on the infinite group `GL₁(ℚ) = ℚˣ`, whose fixed subgroup is
+  all of `ℚˣ`. Likewise `m > 1` is needed, since `X¹ − X` is the zero polynomial.
+
+### F1: every Lie-type carrier is finite
+
+For every `d : TauCeti.ValidLieTypeIndex`, prove `Finite d.FixedPoints` and `Finite d.Group`,
+including the Tits group and every retained small parameter. *Route.* On the four half-Frobenius
+constructors `F² = Frob_q` (`TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`).
+On the thirteen ordinary and graph-twisted constructors prove the twist-order iterate formula
+`F^[t] = Frob_q^[t]`, with `t` the twist order (`1` on the untwisted families, `2` on `²A`, `²D` and
+`²E₆`, `3` on `³D₄`), positive by `TauCeti.GraphTwistedIndex.twistOrder_pos`, from the constructor
+Frobenius and graph-automorphism formulas. In both cases prove that an endomorphism of
+`d.AmbientGroup` with an iterate equal to a nonzero iterate of `Frob_q` has finitely many fixed
+points: on each constructor `Frob_q` raises every matrix coordinate of the designated carrier, a
+subgroup of a general linear group over `K`, to the power `q`, which exceeds one by
+`TauCeti.LieTypeIndex.one_lt_fieldOrder`, so that F0 applies; `TauCeti.ValidLieTypeIndex.card_fixedField`
+identifies the finite field of the fixed points. Finiteness of `d.Group` then follows by the
+transport of F0. *Needs:* F0; Tau Ceti `TauCeti.ValidLieTypeIndex.AmbientGroup`,
+`TauCeti.ValidLieTypeIndex.steinberg`, `TauCeti.ValidLieTypeIndex.frobenius`,
+`TauCeti.ValidLieTypeIndex.FixedPoints`, `TauCeti.ValidLieTypeIndex.Group`, the constructor
+Frobenius formulas (`TauCeti.ValidLieTypeIndex.frobenius_A` and its analogues),
+`TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`,
+`TauCeti.GraphTwistedIndex.twistOrder`, `TauCeti.GraphTwistedIndex.twistOrder_pos`,
+`TauCeti.LieTypeIndex.one_lt_fieldOrder`, `TauCeti.ValidLieTypeIndex.card_fixedField`.
+
+*In Tau Ceti:* `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`, `TauCeti.ValidLieTypeIndex.finite_fixedSubgroup_of_iterate_eq_iterate_frobenius`, `TauCeti.ValidLieTypeIndex.finite_fixedPoints`, `TauCeti.ValidLieTypeIndex.finite`.
+
+When T1, T2 or T3 works in another realization of the fixed points, to establish root calculus or
+simplicity, the consuming milestone owns the comparison of that realization with the fixed points and
+with `d.Group`; §2.6 states it. The
+finiteness of the designated carriers needs no comparison, and CFSGStatement §3.1 is needed only by
+a proof that passes through the canonical carrier.
+
+**Checks.**
+- On `²A₂(q)` the Steinberg map is the `q`-power Frobenius composed with the graph map
+  `g ↦ J g⁻ᵀ J⁻¹`, which does not raise coordinates to a power, so F0 does not apply with `r = 1`;
+  its square is the `q²`-power Frobenius, so F0 applies with `r = t = 2` and `m = q²`. The fixed
+  points are `SU₃(q)`, of order `q³(q² − 1)(q³ + 1)`, which is 6048 at `q = 3`.
+
+### Examples
+
+For `A₁(q)` the fixed points are `SL₂(𝔽_q)`, of order `q(q² − 1)`, and the candidate is
+`PSL₂(𝔽_q)`, finite for every prime power `q`; for the Tits index, `F² = Frob_2` and the fixed points are `²F₄(2)`, of order
+35942400.
+
+### Dependencies
+
+F0 depends on Mathlib and on Tau Ceti's fixed subgroups and candidates; F1 depends on F0 and on Tau
+Ceti's designated carriers, Steinberg maps and Frobenius formulas. No other layer of this roadmap
+and no other roadmap.
+
+## Layer 1: a reusable simplicity criterion (T0)
+
+Tau Ceti carries Tits systems (`TauCeti.TitsSystem`) and their Bruhat decomposition with distinct
+cells (`TauCeti.TitsSystem.bruhatCell_injective`, `TauCeti.TitsSystem.disjoint_bruhatCell_iff`,
+`TauCeti.TitsSystem.existsUnique_mem_bruhatCell`). This layer classifies the subgroups containing
+`B`, proves Tits's normal-subgroup theorem and simplicity criterion and Iwasawa's criterion for
+central quotients, and adds the split structure that the fixed-point groups of Layers 2, 3 and 5
+carry, so that the criteria can be applied to them.
 
 ### 1.1 Split Tits systems
 
@@ -123,7 +274,7 @@ normal subgroup `U` in `B` (Conrad's notes on Tits systems, the definition prece
 with `U` solvable as in that theorem. Write `Z = ⋂_{g ∈ G} g B g⁻¹` and `H⁺` for the normal
 closure of `U` in `G`.
 
-- A split Tits system satisfies the hypotheses of Tau Ceti's criterion: `B` normalizes `U`, and
+- A split Tits system satisfies the hypotheses of the criterion of §1.2: `B` normalizes `U`, and
   `B ≤ U ⊔ (B ∩ N)`.
 - **Transport.** Along a `MulEquiv` `e : G' ≃* G`, a split Tits system on `G` pulls back to one on
   `G'` whose `B`, `N` and `U` are the preimages, with the same Weyl group and simple reflections;
@@ -137,16 +288,13 @@ closure of `U` in `G`.
 
 The simplicity statement is the split-BN-pair criterion of Conrad's notes on Tits systems,
 Theorem 2.4. Neither this criterion nor the group-action criterion of Iwasawa uses an order formula
-for the whole group. *Route.* The simplicity statement is Tau Ceti's
-`TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient` with its centre identification
-`TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf` and its nontriviality statement
-`TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`, applied to the split data; transport
+for the whole group. *Route.* The simplicity statement is the criterion of §1.2
+(`TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient`, with the centre identification
+`TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf` and the nontriviality statement
+`TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`) applied to the split data; transport
 is `TauCeti.TitsSystem.comap` along `e` with `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`, and
-the quotient comparison is `TauCeti.DerivedCentralQuotient.congr`. *Needs:* Tau Ceti
+the quotient comparison is `TauCeti.DerivedCentralQuotient.congr`. *Needs:* §1.2; Tau Ceti
 `TauCeti.TitsSystem`, `TauCeti.TitsSystem.comap`, `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`,
-`TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient`,
-`TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf`,
-`TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`,
 `TauCeti.DerivedCentralQuotient.congr`; Mathlib `IsSolvable`, `Subgroup.normalClosure`.
 
 **Checks.**
@@ -166,6 +314,67 @@ the quotient comparison is `TauCeti.DerivedCentralQuotient.congr`. *Needs:* Tau 
   `DerivedCentralQuotient G = SL₂(𝔽₃)/{±1} ≅ A₄` is nontrivial and not simple, so that hypothesis
   cannot be dropped.
 
+### 1.2 Parabolic subgroups and Tits's normal-subgroup theorem
+
+Let `(B, N, S)` be a Tits system on a group `G`, with Weyl group `W`, and write
+`Z = ⋂_{g ∈ G} g B g⁻¹`. Prove the classification of the subgroups containing `B`: the standard
+parabolic subgroups `P_J = B W_J B`, for `J ⊆ S` (the subgroup generated by `B` and the Bruhat
+cells of the reflections in `J`), are exactly the subgroups of `G` containing `B`, and `J ↦ P_J` is
+an order isomorphism from the subsets of `S`, ordered by inclusion, onto the subgroups containing
+`B` (Bourbaki, *Lie Groups and Lie Algebras*, Chapter IV, §2, no. 5).
+
+Prove Tits's normal-subgroup theorem and simplicity criterion for the normal closure of a solvable
+subgroup. Suppose the Weyl group is irreducible (for nonempty `S`, the Coxeter graph is connected),
+`U` is a solvable subgroup of `G` normalized by `B` with `B ≤ U (B ∩ N)`, and the normal closure
+`H⁺` of `U` in `G` is perfect. Then:
+
+- every normal subgroup of `H⁺` lies in `Z ∩ H⁺` or is all of `H⁺`, so `H⁺ / (Z ∩ H⁺)` is simple
+  whenever it is nontrivial;
+- if moreover `Z ∩ U = 1`, then `Z ∩ H⁺` is the centre of `H⁺`;
+- if `Z ∩ U = 1` and `U ≠ 1`, then `H⁺ / (Z ∩ H⁺)` is nontrivial (this needs neither the irreducibility
+  of the Weyl group nor perfectness);
+- if `Z ∩ U = 1` and `H⁺ = [G, G]`, then `DerivedCentralQuotient G = [G, G] / Z([G, G])` is simple
+  whenever it is nontrivial.
+
+The hypothesis `U ≤ B` is not needed; the split case `B = U (B ∩ N)` of §1.1 is the main example
+(Bourbaki, Chapter IV, §2, no. 7; Conrad's notes on Tits systems, Theorem 2.4). *Route.* Either
+`H⁺ ≤ Z`, or `H⁺ B = G` by Tits's theorem on normal subgroups; in the second case `(B, N)` pulls back
+to a Tits system on `H⁺` with the same Weyl group, in which the conjugates of `U` generate, and the
+normal core of `B ∩ H⁺` in `H⁺` is `Z ∩ H⁺`. *Needs:* Tau Ceti `TauCeti.TitsSystem`,
+`TauCeti.TitsSystem.bruhatCell`, `TauCeti.TitsSystem.standardParabolic`, `TauCeti.TitsSystem.comap`,
+`TauCeti.TitsSystem.IsIrreducible`; Mathlib `Subgroup.normalClosure`, `Subgroup.normalCore`,
+`IsSolvable`.
+
+*In Tau Ceti:* `TauCeti.TitsSystem.standardParabolicOrderIso`, `TauCeti.TitsSystem.le_normalCore_subgroupOf_or_eq_top_of_normal`, `TauCeti.TitsSystem.isSimpleGroup_quotient_normalCore_subgroupOf`, `TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf`, `TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`, `TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient`.
+
+**Checks.**
+- In `GL₃(k)` over a field, with `B` the upper triangular matrices and `S = {s₁, s₂}`, the subgroups
+  containing `B` are `B`, the two block upper triangular groups of block shapes `(2, 1)` and
+  `(1, 2)`, and `GL₃(k)`: four, one for each subset of `S`, not six, one for each element of `W = S₃`.
+
+### 1.3 Iwasawa's criterion for central quotients
+
+Let `G` act quasiprimitively on `α` with an Iwasawa structure in Mathlib's sense
+(`MulAction.IwasawaStructure`: a commutative subgroup `T x` for every point `x`, with
+`T (g • x) = g T(x) g⁻¹`, whose conjugates generate `G`). Prove that if `G` is perfect and every
+element acting trivially is central, then the central elements of `G` are exactly those acting
+trivially, and, if moreover `G` is nontrivial, `G / Z(G)` and `DerivedCentralQuotient G` are
+simple. Prove that a transitive action, a point `a` and a commutative subgroup `T` normalized by the
+stabilizer of `a` whose conjugates generate `G` give an Iwasawa structure, with `g T g⁻¹` at the
+point `g • a`. This route is used for rank-one and small-field calculations; it needs no order
+formula for the whole group. *Needs:* Mathlib `MulAction.IwasawaStructure`,
+`MulAction.IwasawaStructure.isSimpleGroup`, `MulAction.IsQuasiPreprimitive`; Tau Ceti
+`TauCeti.DerivedCentralQuotient`.
+
+*In Tau Ceti:* `MulAction.IwasawaStructure.ofConj`, `MulAction.IwasawaStructure.mem_center_iff`, `MulAction.IwasawaStructure.isSimpleGroup_quotient_center`, `MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`.
+
+**Checks.**
+- `SL₂(𝔽₅)` acting on the six points of the projective line over `𝔽₅`, with `T` the upper
+  unitriangular group of order 5 at the point `∞`, is perfect of order 120 with kernel `{±1}`, which
+  is central, and the quotient `PSL₂(𝔽₅) ≅ A₅` is simple. `SL₂(𝔽₃)` on the four points of the
+  projective line over `𝔽₃` meets every hypothesis except perfectness, and its quotient `A₄` is not
+  simple.
+
 ### Examples
 
 `SL_n(k)` over a field, with `B` the upper triangular matrices, `N` the monomial matrices and `U`
@@ -177,7 +386,8 @@ of order `q − 1`, is split of rank one.
 ### Dependencies
 
 Tau Ceti's Tits-system library (`TauCeti/GroupTheory/TitsSystem/`) and
-`TauCeti.DerivedCentralQuotient`. No other layer and no other roadmap.
+`TauCeti.DerivedCentralQuotient`; Mathlib's Iwasawa structures and quasiprimitive actions. No other
+layer and no other roadmap.
 
 ## Layer 2: root calculus on the Steinberg fixed points (T1)
 
@@ -303,7 +513,7 @@ For each of the thirteen constructors, prove that the normal closure in `H` of `
 give an explicit `MulEquiv` between `H⁺ / (Z_H ∩ H⁺)` and `DerivedCentralQuotient H`; prove that
 `[H, H]` is perfect and that `U_H ≠ 1`; and identify the centre of `[H, H]` as `Z_H ∩ [H, H]`,
 rather than replacing it by the centre of `H`. A Tits system on a larger group does not establish
-these facts for `H`. *Needs:* §§1.1, 2.4–2.5.
+these facts for `H`. *Needs:* §§1.1–1.2, 2.4–2.5.
 
 ### 3.2 Small fields
 
@@ -325,17 +535,16 @@ retained cases include the higher-rank groups over `𝔽₂`, `G₂(3)` and `F�
 ### 3.3 Simplicity
 
 Prove `IsSimpleGroup d.Group` for every valid index of each of the thirteen ordinary and
-graph-twisted constructors. The type-`A` constructor is Tau Ceti's
-`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`. *Route.* Apply §1.1 to the split Tits system of §2.5
-with §3.1, or, where it is shorter, Iwasawa's criterion for central quotients
-(`MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`, with the structure built from a
-commutative root subgroup and its conjugates by `MulAction.IwasawaStructure.ofConj`) on a
+graph-twisted constructors, including the small fields of §3.2. *Route.* Apply §1.1 to the split
+Tits system of §2.5 with §3.1, or, where it is shorter, Iwasawa's criterion for central quotients of
+§1.3 (`MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`, with the structure built
+from a commutative root subgroup and its conjugates by `MulAction.IwasawaStructure.ofConj`) on a
 finite-field model of §2.6: the projective symplectic group for `B₂`
 (`TauCeti.TypeB2LieIndex.projectiveSymplecticEquivGroup`, with `Sp₄(𝔽_q)` perfect by
 `TauCeti.TypeB2LieIndex.commutator_symplectic_eq_top`), the symplectic groups for `C`, the special
-unitary groups for `²A`. *Needs:* §§1.1, 2.5, 2.6, 3.1, 3.2; Tau Ceti
-`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`, `MulAction.IwasawaStructure.ofConj`,
-`MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient`.
+unitary groups for `²A`. *Needs:* §§1.1, 1.3, 2.5, 2.6, 3.1, 3.2; F1.
+
+*In Tau Ceti:* `TauCeti.ValidLieTypeIndex.isSimpleGroup_A` (the constructor `A`).
 
 ### Examples
 
@@ -344,16 +553,16 @@ and centre of order `gcd(3, 4) = 1`; `F₄(2)` and `G₂(3)` are retained small-
 
 ### Dependencies
 
-Layers 1–2; Tau Ceti's type-`A` theorem, Iwasawa criterion and finite-field comparisons.
+Layers 1–2; F0–F1; Tau Ceti's finite-field comparisons.
 
 ## Layer 4: proof-producing tools for presented groups (P0)
 
 `TauCeti.SporadicName.Group` is the `PresentedGroup` on the exact relator set of
 `TauCeti.SporadicName.presentation`, and a finite list of relators does not make a group finite.
 This layer collects the reusable soundness theorems by which the sporadic layers bound, recognize
-and prove simple their presented groups: those Tau Ceti proves are cited by name, and the others
-are proved here. Group-specific certificates live in Layers 5 to 11; their soundness theorems and
-group-action criteria live here.
+and prove simple their presented groups: those the pinned Tau Ceti proves are named in the
+items, and the others are proved here. Group-specific certificates live in Layers 5 to 11; their
+soundness theorems and group-action criteria live here.
 
 ### 4.1 Maps and rewriting
 
@@ -448,8 +657,10 @@ Tau Ceti `TauCeti.GroupPresentation.homEquiv`, `TauCeti.GroupPresentation.range_
 
 ### 4.4 Permutation-group and simplicity certificates
 
-The soundness of stabilizer-chain and sifting certificates is Tau Ceti's, for a subgroup `H` of a
-group acting on a type with base points `b_0, b_1, …`: the order formula along the stabilizer chain
+The soundness of stabilizer-chain and sifting certificates, for a subgroup `H` of a group acting on
+a type with base points `b_0, b_1, …`, consists of the following statements, the first two being
+those of SporadicOrders §§0.1 and 0.3; the pinned Tau Ceti proves each of them, under the name given:
+the order formula along the stabilizer chain
 (`Subgroup.prod_ncard_orbit_mul_card_stabilizerChain`) and the membership criterion along it
 (`Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`); a successful sift writes the sifted
 element as a product of entries of the lists (`TauCeti.inv_mul_mem_closure_of_sift`); and nonempty
@@ -538,22 +749,30 @@ No other layer and no other roadmap.
 ## Layer 5: Suzuki, Ree and Tits groups, and the Lie-type endpoint (T3)
 
 The exceptional isogenies exchange root lengths, so the ordinary fixed-root construction of Layer 2
-does not specialize to these branches. The Suzuki branch is Tau Ceti's
-`TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`; this layer treats Ree and Tits.
+does not specialize to these branches. This layer treats the Suzuki, Ree and Tits groups and
+concludes the Lie-type endpoint.
 
-### 5.1 The Ree groups
+### 5.1 The Suzuki and Ree groups
 
-For `²G₂(3^(2m+1))` and `²F₄(2^(2m+1))` with every `m ≥ 1`, build from the half-Frobenius maps
-on the designated short-root carriers (Tau Ceti's Steinberg maps) the finite twisted root groups, the opposite
-groups, the Weyl representatives and the Bruhat cells. Apply the carrier comparison rule of §§2.1
-and 2.6 before consuming ambient results proved on the canonical carrier; otherwise prove the
-needed ambient root and Bruhat statements on these carriers. Prove generation, the local commutator
-relations, nontriviality and perfectness, and conclude `IsSimpleGroup d.Group` by §1.1 (with the
-bridge from `H⁺` to `[H, H]` of §3.1) or by Iwasawa's criterion. *Needs:* §§1.1, 2.1, 2.6, 3.1;
-Tau Ceti `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`; ChevalleyGroups
-C2–C5 and CFSGStatement §3.1 on the transport route.
+For the Suzuki groups `²B₂(2^(2m+1))` and the Ree groups `²G₂(3^(2m+1))` and `²F₄(2^(2m+1))`, with
+every `m ≥ 1`, build from the half-Frobenius maps on the designated carriers (Tau Ceti's Steinberg
+maps) the finite twisted root groups, the opposite groups, the Weyl representatives and the Bruhat
+cells. Apply the carrier comparison rule of §§2.1 and 2.6 before consuming ambient results proved on
+the canonical carrier; otherwise prove the needed ambient root and Bruhat statements on these
+carriers. Prove generation, the local commutator relations, nontriviality and perfectness, and
+conclude `IsSimpleGroup d.Group` for the indices `suzuki m`, `reeG2 m` and `reeF4 m` by §1.1 (with
+the bridge from `H⁺` to `[H, H]` of §3.1) or by Iwasawa's criterion of §1.3. For the Suzuki groups
+the derived central quotient of the fixed points is identified with the subgroup `Sz(q)` of
+`GL₄(𝔽_q)`, `q = 2^(2m+1)`, generated by its standard unipotent matrices and its Weyl matrix, which
+carries the split Tits system of rank one of the Examples of Layer 1. *Needs:* §§1.1–1.3, 2.1, 2.6,
+3.1; F1; Tau Ceti `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`,
+`TauCeti.suzukiGroup`; ChevalleyGroups C2–C5 and CFSGStatement §3.1 on the transport route.
+
+*In Tau Ceti:* `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`, `TauCeti.SuzukiLieIndex.groupEquivSuzukiGroup`, `TauCeti.Suzuki.titsSystem` (the Suzuki groups).
 
 **Checks.**
+- At `m = 1`, `|Sz(8)| = 8²(8² + 1)(8 − 1) = 29120`. At `m = 0`, `Sz(2)` has order
+  `2²(2² + 1)(2 − 1) = 20` and is a solvable Frobenius group, not simple; the index excludes `m = 0`.
 - At `m = 1`, `|²G₂(27)| = 27³ (27³ + 1)(27 − 1) = 10073444472` and
   `|²F₄(8)| = 8¹² (8⁶ + 1)(8⁴ − 1)(8³ + 1)(8 − 1) = 264905352699586176614400`.
 - At `m = 0`, `²G₂(3) ≅ PΓL₂(8)` has order 1512 and is not perfect: its derived subgroup `L₂(8)`
@@ -588,13 +807,12 @@ simplicity by a normal-closure or primitive-action certificate (§4.4). *Needs:*
 ### 5.3 The Lie-type endpoint
 
 Prove `validLieTypeIndex_isSimpleGroup`: for every `d : TauCeti.ValidLieTypeIndex`,
-`IsSimpleGroup d.Group`, by cases on the constructor from §3.3 (ordinary and graph-twisted), Tau
-Ceti's Suzuki theorem, §5.1 (Ree) and §5.2 (Tits). Its finiteness companion, `Finite d.Group`
-for every valid index including the Tits group and every retained small parameter, is Tau Ceti's
-`TauCeti.ValidLieTypeIndex.finite`, proved through the finite-coordinate fixed-point criterion and
-the iterate formulas `F² = Frob_q` (half-Frobenius) and `F^t = Frob_q^t` with `t` the twist order
-(ordinary and graph-twisted). *Needs:* §§3.3, 5.1, 5.2;
-Tau Ceti `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`, `TauCeti.ValidLieTypeIndex.finite`.
+`IsSimpleGroup d.Group`, by cases on the constructor from §3.3 (ordinary and graph-twisted),
+§5.1 (Suzuki and Ree) and §5.2 (Tits). Its finiteness companion, `Finite d.Group` for every
+valid index including the Tits group and every retained small parameter, is F1 (Tau Ceti's
+`TauCeti.ValidLieTypeIndex.finite`), proved through the finite-coordinate fixed-point criterion F0
+and the iterate formulas `F² = Frob_q` (half-Frobenius) and `F^t = Frob_q^t` with `t` the twist
+order (ordinary and graph-twisted). *Needs:* §§3.3, 5.1, 5.2; F1.
 
 ### Examples
 
@@ -603,7 +821,7 @@ the four half-Frobenius constructors.
 
 ### Dependencies
 
-Layers 1–4; Tau Ceti's Suzuki theorem and Lie-type finiteness.
+Layers 1–4; F0–F1.
 
 ## Layer 6: the fourteen sporadic groups with existing permutation models (P1)
 
@@ -931,15 +1149,19 @@ Construction-A lattice is not a substitute. For the Conway and Griess coordinate
 explicit coordinate equivalence and the form-preserving comparison, including the normalization
 factor; a different displayed norm needs its proved scaling dictionary.
 
-The minimal vectors are classified and counted in Tau Ceti. In the raw integer coordinates
-`x_i = a_i/2`, of norm `∑ a_i²/8`, they form three pairwise disjoint families: two coordinates `±4`
+Classify the minimal vectors of this congruence model and count them. In the raw integer
+coordinates `x_i = a_i/2`, of norm `∑ a_i²/8`, they form three pairwise disjoint families: two coordinates `±4`
 (`TauCeti.leechPairVectors`, 1104 vectors); eight coordinates `±2` on an octad with an even number of
 minus signs (`TauCeti.leechOctadVectors`, 97152 vectors); and one coordinate `±3` with the others
 `±1`, parametrized by a Golay codeword and a distinguished coordinate (`TauCeti.leechOddVectors`,
 98304 vectors). A lattice vector has norm 4 exactly when it lies in one of them
 (`TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`), so `Λ` has 196560 minimal vectors
-(`TauCeti.ncard_vectorsOfNorm_four_leechLattice`). These explicit families, with their sign and
-congruence data, are what the action of `Co0` below uses.
+(`TauCeti.ncard_vectorsOfNorm_four_leechLattice`). The count alone is also a corollary of the
+theta identity `Θ_Λ = E₄³ − 720Δ` ([ThetaSeries](../ThetaSeries/README.md), Layer 8, item 8D); the
+explicit families with their sign and congruence data are what the action of `Co0` below uses, and
+they are owned here together with the count they give.
+
+*In Tau Ceti:* `TauCeti.leechPairVectors`, `TauCeti.leechOctadVectors`, `TauCeti.leechOddVectors`, `TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`, `TauCeti.ncard_vectorsOfNorm_four_leechLattice`, `TauCeti.kissingNumber_leechLattice` (the classification and count of the minimal vectors).
 
 The isometry group `Co0 := Aut(Λ)` is Tau Ceti's
 `TauCeti.IntegralLattice.Isometry TauCeti.leechLattice TauCeti.leechLattice`: the isometries of the
@@ -1274,13 +1496,10 @@ Layers 4, 9 and 10; Tau Ceti's class-data and character-table libraries.
 
 Prove `CFSGIndex_finite`, `Finite i.Group`, and `CFSGIndex_isSimpleGroup`, `IsSimpleGroup i.Group`,
 for every `i : TauCeti.CFSGIndex`, by cases on the four constructors: the cyclic and alternating
-branches are Tau Ceti's (`TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
-`TauCeti.CFSGIndex.isSimpleGroup_alternating`, with finiteness of `alternatingGroup (Fin n)` an
-instance), the Lie-type branch is §5.3, and the sporadic branch is §10.5. No case uses
-`TauCeti.ClassificationStatement` or assumes the property being proved, and the endpoint depends on
-no axiom beyond Lean's standard ones. *Needs:* §§5.3, 10.5; Tau Ceti
-`TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
-`TauCeti.CFSGIndex.isSimpleGroup_alternating`.
+branches are E0, the Lie-type branch is F1 for finiteness and §5.3 for simplicity, and the sporadic
+branch is §10.5. The assembly imports these family theorems and does not reprove them by unfolding
+the index. No case uses `TauCeti.ClassificationStatement` or assumes the property being proved, and
+the endpoint depends on no axiom beyond Lean's standard ones. *Needs:* E0, F1, §§5.3, 10.5.
 
 **Checks.**
 - The dispatcher on one index of each kind gives the expected group: the cyclic index `p = 7`, of
@@ -1296,52 +1515,37 @@ For `i = cyclic 2 _` the carrier is `Multiplicative (ZMod 2)`, simple of order 2
 
 ### Dependencies
 
-Layers 5 and 10; Tau Ceti's elementary branches.
+E0, F0–F1, Layers 5 and 10.
 
 ## Scope and ownership
 
 This roadmap owns the finiteness and simplicity of every group on the classification list, on the
 exact carriers of CFSGStatement, together with the structure theory of the finite Steinberg fixed
 points (split Tits systems, twisted root groups, fixed-point Bruhat decomposition), the soundness
-theorems for presented groups and permutation certificates that Tau Ceti lacks, the sporadic
+theorems for presented groups and permutation certificates, the sporadic
 models, recognitions and simplicity proofs, the Leech-lattice and Griess-algebra constructions of
 the Conway groups, the Monster and the Baby Monster, and the conjugacy classes of the Monster. Each
 layer above states what it owns.
 
+The declarations of the pinned Tau Ceti that realise this roadmap's own items (the elementary
+branches E0, the criterion F0, the finiteness F1, the theorems of §§1.2–1.3, the simplicity of the
+type-`A` and Suzuki constructors, the finite-field comparisons of §2.6, the certificate soundness
+theorems of Layer 4 and the minimal vectors of §8.2) are named in those items above.
+
 **Already in the libraries at the pins and consumed by name above.**
 
-- The cyclic and alternating branches (E0): Tau Ceti's
-  `TauCeti.CFSGIndex.natCard_cyclic`, `TauCeti.CFSGIndex.finite_cyclic`,
-  `TauCeti.CFSGIndex.isSimpleGroup_cyclic` and `TauCeti.CFSGIndex.isSimpleGroup_alternating`.
-- The finite-coordinate fixed-point criterion and its transport (F0), and the finiteness of every
-  Lie-type carrier (F1): Tau Ceti's `TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow`,
-  `TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate`,
-  `Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate`,
-  `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow`, `TauCeti.fixedSubgroupCongr`,
-  `TauCeti.finiteFixedPointCandidate`,
-  `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`,
-  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`.
-- Of T0: the Bruhat uniqueness theorems, the classification of overgroups of `B`
-  (`TauCeti.TitsSystem.standardParabolicOrderIso`), Tits's normal-subgroup theorem and simplicity
-  criterion for the normal closure of `U` with its bridge to the derived central quotient, and the
-  Iwasawa route for central quotients. Layer 1 adds the split structure.
-- Of T2 and T3: simplicity of the type-`A` constructor (`TauCeti.ValidLieTypeIndex.isSimpleGroup_A`)
-  and of the Suzuki constructor (`TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`), and the
-  fixed-point comparisons with `SL_{r+1}(𝔽_q)`, `Sp_{2r}(𝔽_q)`, `Sp₄(𝔽_q)` and `SU_{r+1}(q)`.
-- Of P0: generator elimination, the Reidemeister–Schreier kernel identification given a free basis,
-  the index-two rewriting, the homomorphism induced by a satisfying assignment and its range, the
-  coset-table, covering and double-coset upper bounds, the stabilizer-chain order formula and
-  membership criterion, the order of a permutation group from successful sifts, the recognition of
-  a centralizer from a coset table, normal-generation programs, the prime-order normal-generation
-  criterion and its Sylow-local form, class data, the mass criterion and the transport of class
-  data.
+- The Bruhat uniqueness theorems of Tau Ceti's Tits systems (Layer 1).
+- Of P0's inputs: generator elimination, the Reidemeister–Schreier kernel identification given a
+  free basis, the index-two rewriting, the homomorphism induced by a satisfying assignment and its
+  range, normal-generation programs, class data with its class count, and the stabilizer-chain
+  order formula and membership criterion that SporadicOrders Layer 0 states.
 - The twenty-six sporadic presentations (`TauCeti.SporadicName.presentation`), with the
   Coxeter-quotient identifications of the Monster and Baby Monster presentations and the
   commutator identification of `Fi24′`; the permutation models of `M11 M12 M24 J1 J2 HS McL` with
   the surjections from their presented groups, and the order of the `M11` model (§6.2).
-- The Leech lattice of Rank24LatticeConstructions Layer 6 (`TauCeti.leechLattice`), the
-  classification and count of its minimal vectors, and its isometry group `Co0` with its finiteness
-  and its element `−1` (§8.2).
+- The Leech lattice of Rank24LatticeConstructions Layer 6 (`TauCeti.leechLattice`), and the group of
+  isometries of an integral lattice, finite for a positive definite lattice, which gives `Co0` and
+  its element `−1` (§8.2).
 
 **Left to other roadmaps.**
 
@@ -1370,7 +1574,7 @@ layer above states what it owns.
   models with their orders (Layer 1) and the surjections from the presented groups (Layer 2). It
   supplies theorems, not a checker or a certificate format. This roadmap owns the upper bounds,
   recognition and simplicity for those ten names, the four further models of §6.3, and the action
-  lemmas of §4.4; the soundness of stabilizer-chain and sifting certificates is Tau Ceti's (§4.4),
+  lemmas of §4.4; the soundness of stabilizer-chain and sifting certificates is §4.4,
   and a permutation certificate never bounds an abstract presented group.
 
 ## Exact supplier contracts
@@ -1393,6 +1597,9 @@ layer above states what it owns.
 
 ### From Tau Ceti
 
+The declarations that realise this roadmap's own items are named in those items above; this list
+holds the Tau Ceti declarations the roadmap consumes.
+
 - **The list and its carriers** (`CFSG/Index.lean`, `CFSG/Classification.lean`,
   `CFSG/Assembly/LieType.lean`, `CFSG/Sporadic/Presentation.lean`): `TauCeti.CFSGIndex`,
   `TauCeti.CFSGIndex.Group`, `TauCeti.CFSGIndex.cyclic`, `TauCeti.CFSGIndex.alternating`,
@@ -1401,63 +1608,27 @@ layer above states what it owns.
   `TauCeti.SporadicName.presentation`, `TauCeti.SporadicName.Group`, `TauCeti.GroupPresentation`
   with `TauCeti.GroupPresentation.mem_relatorSet_iff`, `TauCeti.Relator`, and
   `TauCeti.ClassificationStatement`. The carriers include no finiteness or simplicity condition.
-- **Elementary branches** (`CFSG/BasicProperties/Elementary.lean`):
-  `TauCeti.CFSGIndex.natCard_cyclic` (the cyclic carrier has `p` elements),
-  `TauCeti.CFSGIndex.finite_cyclic`, `TauCeti.CFSGIndex.isSimpleGroup_cyclic`,
-  `TauCeti.CFSGIndex.isSimpleGroup_alternating`.
-- **Fixed points and finiteness** (`GroupTheory/FixedSubgroup.lean`,
-  `GroupTheory/FixedSubgroup/MatrixCoordinates.lean`, `GroupTheory/FixedPointCandidate.lean`,
-  `CFSG/BasicProperties/LieTypeFinite.lean`): `TauCeti.fixedSubgroup`, `TauCeti.fixedSubgroupCongr`
-  (fixed subgroups of endomorphisms intertwined by a `MulEquiv` are isomorphic),
-  `TauCeti.FixedPointCandidate`, `TauCeti.FixedPointCandidate.congr`,
-  `TauCeti.DerivedCentralQuotient`, `TauCeti.DerivedCentralQuotient.congr`,
-  `TauCeti.finiteFixedPointCandidate`; the finite-coordinate criterion
-  `TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow` (for `ρ : G → Matrix n n K` injective, `n`
-  finite, `K` an integral domain, `F` an endomorphism, `r` any natural number and `m > 1`: if
-  `ρ (F^[r] g) i j = (ρ g i j)^m` for all `g, i, j`, then `fixedSubgroup F` is finite), its iterate form
-  `TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate` (if `Φ` raises every coordinate to the power
-  `m` and `F^[r] = Φ^[k]` with `k ≠ 0`; with `k = 0` the hypothesis holds for `F = id` on an infinite
-  group), and its forms `Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate` for a subgroup of
-  `GL n K` and `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow` for a faithful
-  representation with a finite basis; `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius`,
-  `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`,
-  the constructor Frobenius formulas (`TauCeti.ValidLieTypeIndex.frobenius_A` and its analogues),
-  `TauCeti.GraphTwistedIndex.twistOrder`, `TauCeti.GraphTwistedIndex.twistOrder_pos`,
-  `TauCeti.LieTypeIndex.one_lt_fieldOrder`, `TauCeti.ValidLieTypeIndex.card_fixedField`,
-  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`
-  (`Finite d.Group` for every valid index).
-- **Finite-field comparisons and family simplicity** (`CFSG/BasicProperties/TypeA.lean`,
-  `TypeC.lean`, `TypeB/Two.lean`, `TwistedA.lean`, `Suzuki.lean`, `CFSG/Suzuki/`):
-  `TauCeti.TypeALieIndex.specialLinearEquivFixedPoints`,
-  `TauCeti.TypeALieIndex.projectiveSpecialLinearEquivGroup`,
-  `TauCeti.ValidLieTypeIndex.isSimpleGroup_A` (the group of every valid `A_r(q)` is simple),
-  `TauCeti.TypeCLieIndex.symplecticEquivFixedPoints`,
-  `TauCeti.TypeB2LieIndex.symplecticEquivFixedPoints`,
-  `TauCeti.TypeB2LieIndex.projectiveSymplecticEquivGroup` (the group of `B₂(q)` is `PSp₄(𝔽_q)`),
-  `TauCeti.TypeB2LieIndex.commutator_symplectic_eq_top`,
-  `TauCeti.TypeALieIndex.specialUnitaryEquivFixedPoints`, `TauCeti.suzukiGroup`,
-  `TauCeti.Suzuki.titsSystem`, `TauCeti.SuzukiLieIndex.groupEquivSuzukiGroup` and
-  `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki` (the group of every valid Suzuki index is simple).
+- **Fixed points and the Steinberg maps** (`GroupTheory/FixedSubgroup.lean`,
+  `GroupTheory/FixedPointCandidate.lean`, `CFSG/Assembly/LieType.lean`, `CFSG/Frobenius.lean`):
+  `TauCeti.fixedSubgroup`, `TauCeti.fixedSubgroupCongr` (fixed subgroups of endomorphisms
+  intertwined by a `MulEquiv` are isomorphic), `TauCeti.FixedPointCandidate`,
+  `TauCeti.FixedPointCandidate.congr`, `TauCeti.DerivedCentralQuotient`,
+  `TauCeti.DerivedCentralQuotient.congr`,
+  `TauCeti.ValidLieTypeIndex.steinberg_steinberg_of_usesHalfFrobenius` (on the four half-Frobenius
+  constructors the Steinberg map squares to `Frob_q`), the constructor Frobenius formulas
+  (`TauCeti.ValidLieTypeIndex.frobenius_A` and its analogues), `TauCeti.GraphTwistedIndex.twistOrder`,
+  `TauCeti.GraphTwistedIndex.twistOrder_pos`, `TauCeti.LieTypeIndex.one_lt_fieldOrder` and
+  `TauCeti.ValidLieTypeIndex.card_fixedField` (the fixed field has `q` elements).
+- **Suzuki groups** (`CFSG/Suzuki/`): `TauCeti.suzukiGroup` (the subgroup `Sz(q)` of `GL₄(𝔽_q)`,
+  `q = 2^(2m+1)`, generated by its standard unipotent matrices and its Weyl matrix).
 - **Tits systems** (`GroupTheory/TitsSystem/`): `TauCeti.TitsSystem`,
   `TauCeti.TitsSystem.IsIrreducible`, `TauCeti.TitsSystem.IsIrreducible.of_mulEquiv`,
   `TauCeti.TitsSystem.bruhatCell`, `TauCeti.TitsSystem.bruhatCell_injective`,
-  `TauCeti.TitsSystem.disjoint_bruhatCell_iff`, `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`,
-  `TauCeti.TitsSystem.standardParabolic`, `TauCeti.TitsSystem.standardParabolicOrderIso` (the
-  subsets of `S` are order-isomorphic to the subgroups containing `B`), `TauCeti.TitsSystem.comap`,
-  `TauCeti.TitsSystem.le_normalCore_subgroupOf_or_eq_top_of_normal`,
-  `TauCeti.TitsSystem.center_normalClosure_eq_normalCore_subgroupOf`,
-  `TauCeti.TitsSystem.isSimpleGroup_quotient_normalCore_subgroupOf`,
-  `TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient` and
-  `TauCeti.TitsSystem.nontrivial_quotient_normalCore_subgroupOf`. The criterion assumes an
-  irreducible Weyl group, `U` solvable and normalized by `B` with `B ≤ U (B ∩ N)`, `Z ∩ U = 1`, the
-  normal closure of `U` equal to `[G, G]` and perfect, and concludes that
-  `DerivedCentralQuotient G` is simple whenever it is nontrivial.
-- **Iwasawa's criterion for central quotients** (`GroupTheory/GroupAction/Iwasawa.lean`):
-  `MulAction.IwasawaStructure.ofConj`, `MulAction.IwasawaStructure.isSimpleGroup_quotient_center`,
-  `MulAction.IwasawaStructure.mem_center_iff` and
-  `MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient` (a nontrivial perfect group
-  with an Iwasawa structure on a quasiprimitive action whose kernel is central has simple derived
-  central quotient).
+  `TauCeti.TitsSystem.disjoint_bruhatCell_iff`, `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`
+  (distinct Bruhat cells and the uniqueness of the cell of an element),
+  `TauCeti.TitsSystem.standardParabolic` and `TauCeti.TitsSystem.comap` (the pullback of a Tits
+  system along a homomorphism `f : H → G` such that every element of `G` is `f x · t` with
+  `t ∈ B ∩ N`).
 - **Presentations** (`GroupTheory/Presentation/`): `TauCeti.GroupPresentation.homEquiv`
   (homomorphisms out of a presented group are the generator assignments satisfying its relators)
   and `TauCeti.GroupPresentation.range_homEquiv_symm` (the range of the induced homomorphism is the
@@ -1470,43 +1641,14 @@ layer above states what it owns.
   `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_eval_eq` and
   `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_check` (a checked program recovering a
   generating family proves normal generation).
-- **Upper bounds and permutation certificates** (`GroupTheory/Coset/Table.lean`,
-  `GroupTheory/Coset/Recognition.lean`, `Algebra/Group/Subgroup/Closure.lean`,
-  `GroupTheory/DoubleCoset/Cover.lean`, `GroupTheory/GroupAction/Stabilizer/Chain.lean`,
-  `GroupTheory/GroupAction/Stabilizer/Sift.lean`): `TauCeti.CosetTable` with
-  `TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex` and
-  `TauCeti.CosetTable.index_eq_of_check` (for generators satisfying the relators and subgroup words
-  in `L`, a coset table on `k` points whose deduction certificate checks gives `[G : L] ≤ k`, finite
-  index, and equality when the named cosets are distinct),
-  `TauCeti.CosetTable.eq_centralizer_of_check` (such a table for a subgroup of the centralizer of
-  `x` identifies it with the centralizer when every named representative commuting with `x` lies
-  in it),
-  `Subgroup.finite_closure_of_forall_mul_mem` and `Subgroup.natCard_closure_le_ncard_mul` (if left
-  multiplication by each element of `S` maps `R · K` into itself, for `R` finite and nonempty and `K`
-  a finite subgroup, the subgroup generated by `S` is finite of order at most `|R| · |K|`),
-  `Subgroup.exists_mem_doubleCoset_of_generator_transitions`,
-  `Subgroup.finiteIndex_of_doubleCoset_cover` and `Subgroup.index_le_sum_of_doubleCoset_cover`
-  (double cosets containing `1` and closed under the generator transitions cover the group; a
-  finite cover with intersections of finite index gives finite index, bounded by the sum of the
-  intersection indices), `Subgroup.stabilizerChain`,
-  `Subgroup.prod_ncard_orbit_mul_card_stabilizerChain` (the order is the product of the
-  basic-orbit lengths times the order of the last member, with no finiteness hypothesis),
-  `Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`, `TauCeti.sift`,
-  `TauCeti.inv_mul_mem_closure_of_sift`, `Subgroup.natCard_eq_prod_length_of_sift` and
-  `Subgroup.stabilizerChain_eq_bot_of_sift` (successful sifts give the order as a product of list
-  lengths, and a base). None of these assumes the ambient group finite.
-- **Simplicity certificates** (`GroupTheory/Subgroup/Simple.lean`, `GroupTheory/Sylow/Simple.lean`):
-  `IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top` and
-  `TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`.
-- **Conjugacy classes and characters** (`GroupTheory/ClassEquation.lean`,
-  `RepresentationTheory/CharacterTable/Dixon/ClassData/Basic.lean`,
-  `RepresentationTheory/CharacterTable/Table.lean`, `Algebra/Group/Conj.lean`):
-  `List.sum_index_centralizer_eq_card_iff` (a pairwise nonconjugate list of a finite group meets
-  every conjugacy class exactly when the centralizer indices of its entries sum to the group
-  order), `TauCeti.ClassData` (a list of representatives with pairwise nonconjugacy and coverage),
-  `TauCeti.ClassData.ofSumIndexCentralizer`, `TauCeti.ClassData.map` with
-  `TauCeti.ClassData.rep_map`, `TauCeti.ClassData.classOf_map`, `TauCeti.ClassData.classFinset_map`,
-  `TauCeti.ClassData.index_map_inv` and `TauCeti.ClassData.index_map_pow`,
+- **Stabilizer chains** (`GroupTheory/GroupAction/Stabilizer/Chain.lean`): `Subgroup.stabilizerChain`,
+  `Subgroup.prod_ncard_orbit_mul_card_stabilizerChain` (the order is the product of the basic-orbit
+  lengths times the order of the last member, with no finiteness hypothesis) and
+  `Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain` (membership along a base), the statements of
+  SporadicOrders Layer 0. They assume no ambient group finite.
+- **Conjugacy classes and characters** (`RepresentationTheory/CharacterTable/Dixon/ClassData/Basic.lean`,
+  `RepresentationTheory/CharacterTable/Table.lean`, `Algebra/Group/Conj.lean`): `TauCeti.ClassData`
+  (a list of representatives with pairwise nonconjugacy and coverage),
   `TauCeti.ClassData.index_eq_index_iff` (two elements have the same label exactly when they are
   conjugate), `TauCeti.ClassData.numClasses_eq_card_conjClasses`, `MulEquiv.conjClassesEquiv`,
   `TauCeti.irreducibleCharacters` and `TauCeti.card_irreducibleCharacters` (for a finite group `G`
@@ -1540,14 +1682,8 @@ layer above states what it owns.
   and `TauCeti.Sporadic.card_M11` (the `M11` model has 7920 elements).
 - **The Leech lattice** (`LinearAlgebra/IntegralLattice/Rank24/Leech/`): `TauCeti.leechLattice`
   (the even overlattice of the Construction-B lattice glued along its odd shift, on `Fin 24 → ℚ`
-  with the halved dot product; even, unimodular, positive definite, of rank 24 and minimum 4),
-  `TauCeti.leechPairVectors`, `TauCeti.leechOctadVectors` and `TauCeti.leechOddVectors` (the three
-  families of §8.2 in raw coordinates `x = a/2`),
-  `TauCeti.intCast_div_two_mem_leechLattice_carrier_and_sum_sq_eq_iff` and
-  `TauCeti.mem_vectorsOfNorm_four_leechLattice_iff` (a lattice vector has norm 4 exactly when it is
-  half a vector of one of the families), `TauCeti.ncard_vectorsOfNorm_four_leechLattice` and
-  `TauCeti.kissingNumber_leechLattice` (196560 minimal vectors), and `TauCeti.isPosDef_leechLattice`
-  (`Λ` is positive definite).
+  with the halved dot product; even, unimodular, positive definite, of rank 24 and minimum 4) and
+  `TauCeti.isPosDef_leechLattice` (`Λ` is positive definite).
 - **Lattice isometries** (`LinearAlgebra/IntegralLattice/Isometry/Basic.lean`,
   `Isometry/Group.lean`, `PosDef/Finite.lean`): `TauCeti.IntegralLattice.Isometry L M` (isometries
   of the ambient rational spaces carrying `L` onto `M`), a group under composition when `M = L`,
@@ -1571,6 +1707,10 @@ algebraically closed field, and the Frobenius, graph and exceptional endomorphis
 action on root subgroups and characters. Consumed on the transport route of §2.1.
 
 ### From TauCetiRoadmap.SporadicOrders
+
+Layer 0: the stabilizer-chain order formula (its §0.1), the orbits of a generated permutation group
+(its §0.2) and the membership criterion along a base (its §0.3); the first and the third are realized
+in Tau Ceti (above). Consumed in §4.4.
 
 Layers 1–2: the ten carriers `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, their orders, and the
 surjections from the presented groups onto them. Consumed in §6.2; seven of the carriers with their
