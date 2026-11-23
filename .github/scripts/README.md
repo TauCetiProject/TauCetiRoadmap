@@ -76,3 +76,74 @@ The topic lives in its own file rather than in the roadmap's `README.md`
 because the progress tooling identifies the specification a coverage assessment
 was made against by a hash of the README (`readme_sha`); a README edit that only
 changed the topic would mark that assessment as out of date.
+
+## `gen_umbrella.py`
+
+An umbrella `umbrellas/NAME.toml` names the roadmap areas that one goal needs; the
+library worker reads it for `tauceti work --roadmap-only NAME`. Its target list
+`umbrellas/NAME-targets.md` breaks the goal into items, each naming the items it
+needs, for the worker's `--roadmap-targets`. The worker's documentation
+(`docs/umbrellas.md`, `docs/target-lists.md`) defines both formats. Both files
+are generated from the roadmaps' READMEs:
+
+- The goal is every section of the roadmaps under `TauCetiRoadmap/<root>/`,
+  where `root` is set in the umbrella file, and, transitively, everything they
+  need. A section needs what its `*Needs:*` and
+  `*Prerequisites:*` lines name: bare ids and `Layer k` of its own roadmap, and
+  citations of other roadmaps (`Name §1.2`, `Name §§1.1–1.3 and 2.4`,
+  `Name Layers 3 and 5`, `Name A5.3`; a name may also be written
+  `` `Name` `` or `TauCetiRoadmap.Name`). A section without such a line needs
+  what the `### Dependencies` subsection of its layer cites. Nothing else in a
+  README (statements, checks, examples, remarks) creates a dependency.
+- A layer that has sections is not an item, since no pull request completes it
+  as such: a need of it is a need of each of its sections. A layer without
+  sections is an item, the unit of work.
+- A member of the umbrella is an area, a top-level directory of
+  `TauCetiRoadmap/`, that contains a unit the goal needs; its `sections` list
+  the units needed there. An item of the target list is one needed section or
+  layer, with the slug
+  `<Roadmap>.<id>` or `<Roadmap>.Layer<k>` (an id may go on with `:word` parts,
+  `AI.0:integral.1`, whose colon the slug writes `-`), its `needs:`, and the roadmaps of
+  the goal that need it directly (`serves:`). `needs:` omits an item that
+  another listed need already needs (the transitive reduction), which keeps the
+  list small and changes no item's eligibility as long as items are completed
+  after what they need.
+- Roadmaps under `Completed/` are never members or items, and citing one needs
+  nothing.
+- The worker rejects a target list with a cycle. Inside each cycle the
+  generator keeps only the dependencies that point to an earlier unit (by area,
+  roadmap and position in the README) and records each dropped one in a line
+  starting with `>`.
+
+Only `description`, `goal` and `root` in an umbrella file are written by hand;
+the generator keeps them and writes everything else. In a target list, an
+item's mark (`[x]` done, `[~]` in flight) and the clauses of its trailing group
+that the generator does not write (`partial: #N`, `in flight: #M`) are kept by
+slug when it is regenerated, so an operator may tick items in the file and a
+check of that change passes. A slug that is no longer an item loses what was
+recorded for it, and `--fix` and `--stats` name it.
+
+- `python3 .github/scripts/gen_umbrella.py` checks that the committed files equal
+  the generator's output and exits non-zero on drift.
+- `--fix` writes them.
+- `--stats` writes nothing and prints counts and problems: ids that resolve in
+  no README, dependencies stated and written, dependencies dropped to break
+  cycles, the size of each file.
+
+The [`sync-umbrellas`](../workflows/sync-umbrellas.yml) workflow runs `--fix` on
+`main` once a day, and at once when `umbrellas/` or the generator changes there,
+and commits the result as the same app as the dropdown sync (the setup above
+applies). It does not run after every roadmap merge: a push to `main` outside the
+merge queue makes the queue rebuild every candidate, and roadmaps merge many times
+a day, so the umbrellas may lag the roadmaps by up to a day. The
+[`umbrellas`](../workflows/umbrellas.yml) workflow checks pull requests that touch
+`umbrellas/` or the generator, at the pull request's head commit: it runs
+`test_gen_umbrella.py`, which runs the generator on throwaway trees, and then the
+check, against the roadmaps of that same commit. A pull request that only changes
+roadmaps is not checked; the daily sync picks the change up. If the check fails,
+run `--fix` on the branch and commit the result.
+
+To add an umbrella, write `umbrellas/NAME.toml` with a one-line `description`
+and the `root` directory (optionally a `goal`, the statement the target list
+opens with), run `--fix`, and commit both files. An umbrella file without `root`
+is left as it is.
