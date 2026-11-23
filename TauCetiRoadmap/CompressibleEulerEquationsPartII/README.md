@@ -271,33 +271,42 @@ slabs.
 - Constant state, maximal development, `S = B(0, R)`: the generators are the segments from
   `|x| = R` toward the centre, moving with the fluid at sound speed; they meet at the apex
   `t − t₀ = R/c₀`, after which `𝒞(D)` is empty.
-- Expanding flow, maximal development, `S = (−1, 1)`: the generators are the two curves
+- Expanding flow, maximal development, `S = (−1, 1)`: outside the hypotheses as stated, since
+  `v = x/(1 + t)` is unbounded on every slab, but the generators are still the two curves
   `x = ±(2√(1 + t) − (1 + t))`, meeting at `t = 3`.
 
 *Needs:* §2.1; CompressibleEulerEquations §8.1, §8.4; LorentzianGeometry §3.1, §12.7.
 
 ### 2.3 Eikonal description of the characteristic boundary
 
-In the slab setting of §1.2 (`k ≥ 2`, `S′ = E`, `Ψ_t` diffeomorphisms of E for `t ∈ [t₀, t₁)`), let
-`S = {u₀ < 0}` and `O₁ = [t₀, t₁) × E`. Prove `D⁺_{O₁}({t₀} × S) = {u < 0}` and
+In the slab setting of §1.2 (`k ≥ 2`, `S′ = E`, `Ψ_t` diffeomorphisms of E for `t ∈ [t₀, t₁)`), with
+`c` and `|v|` bounded on `[t₀, t₂] × E` for every `t₂ < t₁`, let `S = {u₀ < 0}` and
+`O₁ = [t₀, t₁) × E`. Prove `D⁺_{O₁}({t₀} × S) = {u < 0}` and
 `𝒞 = {u = 0} ∩ {t₀ < t < t₁}`, a `C^k` null hypersurface ruled by the curves `γ_y`, `u₀(y) = 0`.
 Route: u is nondecreasing along future causal curves (its differential is future causal and causal
 curves are Lipschitz), so a past causal curve in `O₁` from a point with `u < 0` keeps `u < 0` and,
 reaching `Σ_{t₀}` by the slab statement, ends in S; from a point with `u ≥ 0` the curve `γ_y`
-through it is a past causal curve ending at `(t₀, y)` with `u₀(y) ≥ 0`, outside S. The route needs
-only that u is a `C²` acoustical function on `O₁` and that `c`, `|v|` are bounded on `[t₀, t₂] × E`
-for every `t₂ < t₁`, with the integral curve of `L` through a point with `u ≥ 0` in place of `γ_y`;
-prove the statement in that form (`futureDomainOfDependence_eq_setOf_neg`). For half-space data
-`S = {x¹ > 0}` (`u₀ = −x¹`, `Λ = 0` or `Λ_cyl`), this is the domain `𝒟₀` and the boundary `C₀` of
-Luo–Yu 2025a, §2, for as long as the outgoing acoustical function of `−x¹` has no caustic.
+through it is a past causal curve ending at `(t₀, y)` with `u₀(y) ≥ 0`, outside S. The route uses
+only that u is a `C²` acoustical function on `O₁` and the bound on `c` and `|v|`, with the integral
+curve of `L` through a point with `u ≥ 0` in place of `γ_y`; prove the statement in that form
+(`futureDomainOfDependence_eq_setOf_neg`). For half-space data `S = {x¹ > 0}` (`u₀ = −x¹`,
+`Λ = 0` or `Λ_cyl`), this is the domain `𝒟₀` and the boundary `C₀` of Luo–Yu 2025a, §2, for as
+long as the outgoing acoustical function of `−x¹` has no caustic.
 
 **Checks.**
 
 - Constant state: `u = (v¹ + c)(t − t₀) − x¹` and `{u < 0} = {x¹ > (v¹ + c)(t − t₀)}`, the domain of
   CompressibleEulerEquations §3.3's half-space Check.
 - Constant state, `n = 2`, `S = B(0, R)` with `u₀ = |x| − R` on `S′ = E ∖ {0}`: the hypothesis
-  `S′ = E` fails, and it must: the curves `γ_y` are the inward rays, which meet at the apex
-  `t − t₀ = R/c₀`, where `Ψ_t` stops being injective and the characteristic boundary ends (§2.2).
+  `S′ = E` fails, and it must. With `s = t − t₀`, `Ψ_t(y) = sv₀ + (|y| − c₀s)ŷ`: the generators
+  from `|y| = R` meet at the apex `s = R/c₀`, where the characteristic boundary ends (§2.2), and
+  `Ψ_t` is injective for no `s > 0`, since `Ψ_t(ae) = Ψ_t(−(2c₀s − a)e)` for a unit vector `e` and
+  `0 < a < c₀s`.
+- The bound on `c` and `|v|` is needed: for the Chaplygin law `P = A − 1/ρ` (`c = 1/ρ`) and
+  `n = 1`, the stationary solution `ρ = 1/(1 + x²)`, `v = −(1 + x²)` carries the acoustical
+  function `u = −x`, with `L = ∂_t` and `Ψ_t = id` on `O₁ = [0, 1) × ℝ`. The past causal curve
+  `ẋ = v − c = −2(1 + x²)` through `(1/2, 1)`, where `u = −1`, has `arctan x = π/4 + 1 − 2t` and
+  runs to `+∞` as `t ↓ (1 − π/4)/2` without meeting `Σ₀`, so `(1/2, 1) ∉ D⁺_{O₁}({0} × {x > 0})`.
 - The expanding flow is excluded as stated, because `v = x/(1 + t)` is unbounded on E; its
   acoustical function of §1.2 with `u₀ = x − 1` still has `{u < 0} = {x < 2√(1 + t) − (1 + t)}`.
 
@@ -454,9 +463,12 @@ difference of two solutions. The restriction of U to the domain of dependence of
 **Checks.**
 
 - Constant data: the reduction returns the constant state.
-- The jets cannot be prescribed freely on C: for data whose `r`-component of the first transverse
-  derivative at the edge is `α₀ < 0` (compressive) the Riccati equation of §3.1 blows up in finite
-  time along the generator, so τ is in general finite even for small smooth data.
+- The jets cannot be prescribed freely on C. For `n = 1`, constant `Ū_C` and
+  `φ = (v_C + c_C)(t − t₀) − x`, the Riccati equation of §3.1 along the generator is
+  `dα/dt = ρ⁻¹(d(ρc)/dρ)α²`, where `α` is the `r`-component of `∂_φU`; for `p = ρ²/2` and
+  `Ū_C = (1, 0)` it is `dα/dt = (3/2)α²`. Data with `α₀ > 0` at the edge (compressive) blow up at
+  `t − t₀ = 2/(3α₀)`, so τ is finite even for small smooth data, while `α₀ < 0` (expansive) decays;
+  for the Chaplygin law `P = A − 1/ρ`, `ρc` is constant and `α` stays constant.
 
 *Needs:* §§3.1–3.3, §2.3; CompressibleEulerEquations §6.1, §6.2, §7.1, §7.3; Hörmander, *The
 Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6; Rendall 1990 (sources, by
@@ -516,10 +528,12 @@ solution `U′` on a Λ-invariant set `𝒲′ ⊆ (0, t*) × E ∖ 𝒟₀` wit
 
 Prove that for `u₁ > u₂` the hypersurface `C′_{u₁}` lies to the future of `C′_{u₂}` (u′ is
 nondecreasing along future causal curves), that conditions 1–4 are invariant under translations
-in `x²,…,xⁿ` and under rescaling `(t, x) ↦ (λt, λx)` of solutions, and that if `κ′/t` converges as
-`t → 0` to a function `a(u)` of `u` alone, of class `C^N` and bounded above and below by positive
-constants, then replacing `u` by `∫₀^u a` gives a family satisfying 1–4 (compare Luo–Yu 2025b,
-Remark 2.14).
+in `x²,…,xⁿ` and under the rescalings `(t, x) ↦ (t/k, x/k)` of solutions and data, `k` a positive
+integer, with `t*` replaced by `t*/k` and the chart `(t, u, ϑ) ↦ k⁻¹X(kt, u, kϑ)` on lifts to `𝔐`
+(the rescaled field must stay `Λ_cyl`-periodic, which a factor `λ` with `1/λ ∉ ℤ` does not ensure),
+and that if `κ′/t` converges as `t → 0` to a function `a(u)` of `u` alone, of class `C^N` and
+bounded above and below by positive constants, then replacing `u` by `∫₀^u a` gives a family
+satisfying 1–4 (compare Luo–Yu 2025b, Remark 2.14).
 
 **Checks.**
 
@@ -689,7 +703,7 @@ Boundaries:
   Remark 2.14, §5.4 (Goursat problem).
 - Rendall1990: A. D. Rendall, *Reduction of the characteristic initial value problem to the Cauchy
   problem and its applications to the Einstein equations*, Proc. R. Soc. Lond. A 427 (1990), 221–239.
-- Hörmander: L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6
-  (Borel's lemma).
+- Hörmander: L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, 2nd ed.,
+  Grundlehren der mathematischen Wissenschaften 256, Springer, 1990, Theorem 1.2.6 (Borel's lemma).
 - HawkingEllis1973: S. W. Hawking, G. F. R. Ellis, *The Large Scale Structure of Space-Time*, Ch. 6
   (Cauchy horizons and their generators).
