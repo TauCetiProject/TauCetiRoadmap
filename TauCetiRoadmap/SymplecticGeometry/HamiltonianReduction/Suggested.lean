@@ -10,11 +10,10 @@ import TauCeti.Geometry.Lie.Subgroup.Torus
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
 and Tau Ceti, those headline theorems of the roadmap that can be stated there, each with `sorry`.
 
-Stated below (README R2, §R2.4 and §R2.5), for a compact connected Lie group `G` with
-Lie algebra `𝔤`:
+Stated below (README R2, §R2.4 and §R2.5), for a compact Lie group `G` with Lie algebra `𝔤`:
 
 * conjugate elements of the Lie algebra of a maximal torus are conjugate under its normalizer;
-* every coadjoint stabilizer `G_ν`, `ν ∈ 𝔤*`, is connected.
+* if `G` is connected, every coadjoint stabilizer `G_ν`, `ν ∈ 𝔤*`, is connected.
 
 The other headline theorems of the roadmap are not statable at the pins:
 
@@ -47,17 +46,17 @@ open scoped Manifold ContDiff
 
 /-! ## R2: coadjoint orbits and the Kirillov–Kostant–Souriau form -/
 
-/-- **Weyl-relatedness of conjugate torus elements.** Let `G` be a compact connected Lie group and
-`T` a maximal torus with Lie algebra `𝔱`. If `X, Y ∈ 𝔱` and `Ad_g X = Y` for some `g ∈ G`, then
-`Ad_n X = Y` for some `n` in the normalizer of `T`. Route: `T` and `g T g⁻¹` are maximal tori of the
-compact connected group `Z_G(Y)⁰`, so some `c ∈ Z_G(Y)⁰` conjugates the second to the first, and
-`n = c g` normalizes `T` (Alexandrino–Bettiol, *Introduction to Lie groups, isometric and adjoint
-actions and some generalizations*, arXiv:0901.2374v3, §4.3, the remark after Definition 4.28,
-p. 84). -/
+/-- **Weyl-relatedness of conjugate torus elements.** Let `G` be a compact Lie group, connected or
+not, and `T` a maximal torus with Lie algebra `𝔱`. If `X, Y ∈ 𝔱` and `Ad_g X = Y` for some
+`g ∈ G`, then `Ad_n X = Y` for some `n` in the normalizer of `T`. Route: `T` and `g T g⁻¹` are
+maximal tori of the compact connected group `Z_G(Y)⁰`, so some `c ∈ Z_G(Y)⁰` conjugates the
+second to the first, and `n = c g` normalizes `T` (Alexandrino–Bettiol, *Introduction to Lie
+groups, isometric and adjoint actions and some generalizations*, arXiv:0901.2374v3, §4.3, the
+remark after Definition 4.28, p. 84, for connected `G`). -/
 theorem exists_mem_normalizer_Ad_eq {E H G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     [TopologicalSpace G] [ChartedSpace H G] [Group G] [LieGroup I ∞ G] [T2Space G]
-    [CompactSpace G] [ConnectedSpace G] {T : Subgroup G} (hT : IsMaximalTorus T)
+    [CompactSpace G] {T : Subgroup G} (hT : IsMaximalTorus T)
     {X Y : LeftInvariantDerivation I G} (hX : X ∈ lieSubalgebraOfSubgroup (I := I) T)
     (hY : Y ∈ lieSubalgebraOfSubgroup (I := I) T) {g : G} (hg : Ad (I := I) g X = Y) :
     ∃ n ∈ Subgroup.normalizer (T : Set G), Ad (I := I) n X = Y := by

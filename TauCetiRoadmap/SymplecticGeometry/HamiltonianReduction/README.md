@@ -949,11 +949,11 @@ system for a chosen base; its strict fundamental-domain theorem
 For `X, Y ∈ 𝔱` with `Ad_g X = Y`, both `T` and `g T g⁻¹` lie in `Z_K(Y)⁰`, being connected and
 centralizing `Y`; they are maximal tori there, so conjugacy in that compact connected group gives
 `c ∈ Z_K(Y)⁰` with `c g ∈ N_K(T)`, and `Ad_(cg) X = Y`. Prove `exists_mem_normalizer_Ad_eq`: for a
-compact connected Lie group `K`, a maximal torus `T` with Lie algebra `𝔱`, and `X, Y ∈ 𝔱` with
+compact Lie group `K`, connected or not, a maximal torus `T` with Lie algebra `𝔱`, and `X, Y ∈ 𝔱` with
 `Ad_g X = Y` for some `g`, there is `n` in the normalizer of `T` with `Ad_n X = Y` (Alexandrino–Bettiol,
-the remark after Definition 4.28, p. 84: the Weyl group orbits in `𝔱` are the intersections of `𝔱`
-with the adjoint orbits). The argument does not
-assume the full centralizer `Z_K(Y)` connected. Through LieGroups Layer 6's comparison the action of
+the remark after Definition 4.28, p. 84, for connected `K`: the Weyl group orbits in `𝔱` are the
+intersections of `𝔱` with the adjoint orbits). The argument assumes neither `K` nor the full
+centralizer `Z_K(Y)` connected. For connected `K`, through LieGroups Layer 6's comparison the action of
 `N_K(T)/T` on `𝔱_ss` is the abstract Weyl action, and it fixes the centre; the uniqueness half of
 `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` then proves that two dominant Weyl-related
 points are equal, and with dominant existence every coadjoint orbit contains exactly one point of
@@ -1814,9 +1814,9 @@ arbitrary weakly flat `A`, construct local rough gauges by rescaling small coord
 disc, extending by a cutoff into a fixed auxiliary round sphere, and solving the small `H^s` Coulomb
 equation there, using the mean-zero scalar Laplace inverse obtained from ComplexKahlerGeometry §5.7's
 compact Green operator and the gauge-exponential implicit-function theorem. In the integer Sobolev
-scale, a `W^(1,q)` connection on the unit disc whose curvature is small in `L^(s₀)`, `s₀ > 1`, has a
-`W^(2,q)` gauge into Coulomb gauge with a Neumann boundary condition (Feehan, Theorem 2.3, p. 18,
-restating Uhlenbeck's theorem). On the fixed connected
+scale, a `W^(1,q)` connection, `1 < q < ∞`, on the unit disc whose curvature is small in `L^(s₀)`,
+`s₀ > 1`, has a `W^(2,q)` gauge into Coulomb gauge with a Neumann boundary condition (Feehan,
+Theorem 2.3, p. 18, restating Uhlenbeck's theorem). On the fixed connected
 sphere prove that `ker Δ` consists of the constants by the energy identity for the nonnegative scalar
 `Δ = d* d`, identify its geometric `L²` complement with the mean-zero functions, and use the regularity in
 all real orders to obtain the bounded inverse `H^(s−1)_0 → H^(s+1)_0`, tensored with the finite real Lie
