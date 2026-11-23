@@ -133,7 +133,7 @@ Define the structure `LinearSystem n N` with fields `A0`, `A : Fin n → …` an
 `S.apply u t x = A⁰ ∂ₜu + Σⱼ Aʲ ∂ⱼu + B u` with the derivatives of the Conventions; the predicate
 `IsSymmetricHyperbolic S λ` (Friedrichs 1954, p. 348, where some combination `Σ ξ⁰_μ A^μ` is
 required to be positive definite; with the time coefficient `A⁰` positive definite, John 1982,
-Ch. 5 §3 (a), (3.1a), p. 163, and Métivier, Definition 4.1.1); and the predicate `IsClassicalSolution S F T u`. The source `F` and
+Ch. 5 §3 (a), (3.1a), p. 163); and the predicate `IsClassicalSolution S F T u`. The source `F` and
 the initial value are not fields of the system.
 
 - `S.apply` is additive and homogeneous in `u` among functions differentiable in the relevant
@@ -176,7 +176,7 @@ the initial value are not fields of the system.
 - The predicate does not fix `u 0`: with `A⁰ = 1`, `Aʲ = B = F = 0`, every `u(t,x) = g(x)` with
   `g` of class `C¹` is a classical solution.
 
-*Needs:* §1.1; Mathlib's `Matrix.mulVec`, `Matrix.dotProduct`, `Matrix.IsSymm`, `ContDiffOn`.
+*Needs:* §1.1; Mathlib's `Matrix.mulVec`, `dotProduct`, `Matrix.IsSymm`, `ContDiffOn`.
 
 ### Examples
 
@@ -195,7 +195,7 @@ Mathlib only.
 
 For a classical solution of a symmetric hyperbolic system with `A⁰`, `Aʲ` of class `C¹` and `B`
 continuous, prove the pointwise identity on `(0,T) × ℝⁿ` (John 1982, (3.5a)–(3.5b), p. 164, where
-`C = 2B − ∂ₜA⁰ − Σⱼ ∂ⱼAʲ` has `uᵀCu = −⟪Ku, u⟫`; Métivier, Lemma 4.2.1)
+`C = 2B − ∂ₜA⁰ − Σⱼ ∂ⱼAʲ` has `uᵀCu = −⟪Ku, u⟫`)
 
     ∂ₜ⟪A⁰u, u⟫ + Σⱼ ∂ⱼ⟪Aʲu, u⟫ = ⟪K u, u⟫ + 2⟪F, u⟫,
     K = ∂ₜA⁰ + Σⱼ ∂ⱼAʲ − B − Bᵀ,
@@ -260,17 +260,18 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   classical solutions on `[0,T]` with the same `F` and the same initial value agree on
   `[0,T] × ℝⁿ`. Their difference vanishes on every cone of §2.2 with the speed of §1.2, and every
   point lies in such a cone.
-- **Integrated energy identity** (John 1982, (3.6)–(3.8), p. 164, there for `u(·,0) = 0`). If `A⁰` and `Aʲ` are `C¹`, `B` is continuous, `F` is continuous
-  on `[0,T] × ℝⁿ` and the classical solution `u` vanishes outside a bounded set of
-  `[0,T] × ℝⁿ`, then for `0 ≤ t ≤ T`
+- **Integrated energy identity** (John 1982, (3.6)–(3.8), p. 164, there for `u(·,0) = 0`). If `A⁰` and `Aʲ` are `C¹`, `B` is continuous and the
+  classical solution `u` vanishes outside a bounded set of `[0,T] × ℝⁿ`, then for `0 ≤ t ≤ T`
 
       ∫ ⟪A⁰u, u⟫(t) − ∫ ⟪A⁰u, u⟫(0) = ∫₀ᵗ ∫ (⟪Ku, u⟫ + 2⟪F, u⟫) dx ds.
 
   This is §2.1 integrated over `[0,t] × ℝⁿ`; the divergence terms `∂ⱼ⟪Aʲu, u⟫` integrate to `0`
-  because `u(s,·)` has compact support. No bound on the `Aʲ` is needed. In `Suggested.lean` this
+  because `u(s,·)` has compact support. No bound on the `Aʲ` is needed, and no hypothesis on `F`:
+  on the open slab `F = S.apply u`, which is continuous and vanishes where `u` does, and the
+  values of `F` at `t = 0` and `t = T` do not enter the integrals. In `Suggested.lean` this
   is `integral_dotProduct_A0_sub_eq`, and the estimate below is `integral_dotProduct_A0_le`.
 - **Energy estimate** (Lax 2006, Theorem 4.3, pp. 41–42, for `A⁰ = 1` and `F = 0`; p. 45 notes
-  the extension to a positive symmetric `A⁰`; Métivier, Proposition 4.2.3; compare John
+  the extension to a positive symmetric `A⁰`; compare John
   1982, (3.9)–(3.12a), p. 165, an integrated form for `u(·,0) = 0`, and the energy integral
   inequality of Friedrichs 1954, §7, Theorem 7, p. 361). Under the
   hypotheses of the integrated identity (again no bound on the `Aʲ`
@@ -366,7 +367,8 @@ supported grid functions prove:
   `a(1) D₊v(0) + D₊a(0) v(0) = 1 · h⁻¹ + h⁻¹ · 0 = h⁻¹`. Evaluating `a` at `j` instead of `j + eᵢ`
   in the first term would give `0`.
 
-*Needs:* Mathlib's `fwdDiff`, `Function.HasFiniteSupport`, `tsum_eq_finsum`, `Equiv.tsum_eq`.
+*Needs:* Mathlib's `fwdDiff`, `Function.HasFiniteSupport`, `tsum_eq_finsum`, `Equiv.tsum_eq`;
+Tau Ceti's `TauCeti.fwdDiff_iter_smul`.
 
 ### 3.2 The discrete Sobolev inequality
 
@@ -386,8 +388,8 @@ one-dimensional inequality in each coordinate in turn to the slices. Consequentl
 **Checks.**
 
 - `n = 1`, `v = δ₀`: the left side is `1`, the right side `h + 2/h ≥ 2√2`.
-- The difference terms are needed: `v` the indicator of `{0, …, N−1}` with `N` fixed has
-  `sup |v| = 1` and `‖v‖²_h = N h → 0` as `h → 0`.
+- The difference terms are needed: `v` the indicator of `{0, …, J−1}` with `J` fixed has
+  `sup |v| = 1` and `‖v‖²_h = J h → 0` as `h → 0`.
 - `n = 2`, `v = δ₀`: the right side is `h² + 2h²(2/h²) + h²(4/h⁴) = h² + 4 + 4/h² ≥ 1`.
 
 *Needs:* §3.1.
@@ -434,7 +436,7 @@ as interpolants; and the value `1/4` at the centre of a cell.
 
 ### Dependencies
 
-Mathlib only.
+Mathlib; Tau Ceti's `TauCeti.fwdDiff_iter_smul`.
 
 ## Layer 4: Friedrichs' scheme
 
@@ -544,9 +546,8 @@ Layer 3.
 
 ### 5.1 Difference quotients of the scheme
 
-The difference quotients of the scheme are estimated as in John 1982, Ch. 5 §3 (b); the
-continuous analogue, differentiating the equation and applying the energy inequality, is
-John 1982, (3.20a)–(3.21), pp. 167–168. For a
+(John 1982, Ch. 5 §3 (b); the continuous analogue, differentiating the equation and applying the
+energy inequality, is John 1982, (3.20a)–(3.21), pp. 167–168.) For a
 multi-index `α`, apply `D₊^α` to `u^{m+1} = P u^m + k(F − B u^m)` and expand with the
 Leibniz rule of §3.1. Prove the identity
 
@@ -616,13 +617,14 @@ Layer 4.
 
 ## Layer 6: passage to the limit for `A⁰ = 1`
 
-Fix the hypotheses of §5.2 with `T` replaced by `T + 1`, a mesh ratio `μ` satisfying the CFL
-condition, and `k = μ h`.
+Fix the hypotheses of §5.2 with `T` replaced by `T + 1 + μ`, a mesh ratio `μ` satisfying the CFL
+condition, and `k = μ h` with `0 < h ≤ 1`. The interpolant at times `t ≤ T + 1` uses iterates
+`u^{m+1}` with `t_m ≤ T + 1`, so `(m + 1) k ≤ T + 1 + μ h ≤ T + 1 + μ`, which the bounds then
+cover.
 
 ### 6.1 Compactness
 
-The passage to the limit follows John 1982, Ch. 5 §3 (b); compactness is obtained here from
-Arzelà–Ascoli. Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
+(John 1982, Ch. 5 §3 (b).) Compactness is obtained here from Arzelà–Ascoli. Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
 `interp h u^{m+1}` at `t_{m+1}`, for `0 ≤ t ≤ T + 1`, and let `W_{h,i}` be the same for
 `D₊ᵢ u^m`. By §5.2, §3.3 and §4.1:
 
@@ -645,7 +647,7 @@ Identify the limit and prove that it is a classical solution on `[0,T]` with `u 
 1982, Ch. 5 §3 (b)).
 
 - **Space.** Shift equivariance (§3.3) gives
-  `U_h(t, x + N h eᵢ) − U_h(t, x) = h Σ_{l < N} W_{h,i}(t, x + l h eᵢ)`; with `N = ⌊s/h⌋` the right
+  `U_h(t, x + q h eᵢ) − U_h(t, x) = h Σ_{l < q} W_{h,i}(t, x + l h eᵢ)`; with `q = ⌊s/h⌋` the right
   side is a Riemann sum, and in the limit `u(t, x + s eᵢ) − u(t,x) = ∫₀ˢ wᵢ(t, x + σ eᵢ) dσ`.
 - **Time.** Summing the scheme, using §4.1 for `P`,
   `u^m = u⁰ + k Σ_{l<m} [ (h/2nμ) Σᵢ D₊ᵢD₋ᵢ u^l − Σᵢ Aⁱ D₀ᵢ u^l − B u^l + F^l ]` at grid points. The
@@ -710,6 +712,9 @@ uniform version, `exists_bound_iteratedFDeriv_sqrt_comp` in
 `0 < c ≤ Λ`, and let every derivative of the entries of `A` of order `≤ m` be bounded by `C`.
 Then every derivative of order `≤ m` of the entries of `x ↦ CFC.sqrt (A x)` and of
 `x ↦ (CFC.sqrt (A x))⁻¹` is bounded, by a constant depending on `m`, `N`, `c`, `Λ` and `C`.
+The Lean statement `exists_bound_iteratedFDeriv_sqrt_comp` records boundedness only: its constant
+may depend on `A`. The uniform dependence stated here is what the proof gives; §7.2 needs only
+boundedness.
 Proof: the set `K` of symmetric `T` with `c|ξ|² ≤ ⟪Tξ, ξ⟫ ≤ Λ|ξ|²` is compact and consists of
 positive definite matrices, so the iterated derivatives of `CFC.sqrt` and of `P ↦ P ^ (−1/2 : ℝ)`
 of order `≤ m` are bounded near `K`, and the chain rule bounds the composites. The set
@@ -823,7 +828,7 @@ function, and the reduction of a general `A⁰` to `A⁰ = 1`.
 
 ### From Mathlib
 
-- `Matrix.dotProduct` and `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean:76,719`), `Matrix.of`
+- `dotProduct` and `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean:76,719`), `Matrix.of`
   (`Mathlib/LinearAlgebra/Matrix/Defs.lean:90`) and `Matrix.IsSymm`
   (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`).
 - `Matrix.PosSemidef`, `Matrix.PosDef` and `Matrix.posSemidef_iff_dotProduct_mulVec`
@@ -901,6 +906,3 @@ above is a target.
   ((8.69)–(8.70)). Cited at §2.2, §2.3, §4.1, §4.2, §4.3 and §6.3.
 - W. Rudin, *Principles of Mathematical Analysis*, 3rd ed., McGraw-Hill, 1976: Theorem 9.21, p. 219.
   Cited at §1.1.
-- G. Métivier, lecture notes, Chapter 4, *Symmetric systems. The L² linear theory*,
-  https://www.math.u-bordeaux.fr/~gmetivie/NotesPisaChap4.pdf: Definition 4.1.1, Lemma 4.2.1,
-  Proposition 4.2.3. Cited at §1.2, §2.1 and §2.3.

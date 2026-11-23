@@ -141,7 +141,8 @@ theorem eqOn_of_isClassicalSolution {S : LinearSystem n N} {lam : ℝ}
 
 /-- **The integrated energy identity** (§2.3), for a classical solution vanishing outside a
 bounded set: the energy changes by the integral of `⟪K u, u⟫ + 2 ⟪F, u⟫`, where
-`K = ∂ₜA⁰ + ∑ⱼ ∂ⱼAʲ − B − Bᵀ`. No bound on the `Aʲ` is assumed. -/
+`K = ∂ₜA⁰ + ∑ⱼ ∂ⱼAʲ − B − Bᵀ`. No bound on the `Aʲ` and no hypothesis on `F` is assumed: on the
+open slab `F = S.apply u`. -/
 theorem integral_dotProduct_A0_sub_eq {S : LinearSystem n N} {lam : ℝ}
     (hS : S.IsSymmetricHyperbolic lam)
     (hA0 : ContDiff ℝ 1 fun p : ℝ × EuclideanSpace ℝ (Fin n) => Matrix.of.symm (S.A0 p.1 p.2))
@@ -149,7 +150,7 @@ theorem integral_dotProduct_A0_sub_eq {S : LinearSystem n N} {lam : ℝ}
       Matrix.of.symm (S.A j p.1 p.2))
     (hB : Continuous fun p : ℝ × EuclideanSpace ℝ (Fin n) => Matrix.of.symm (S.B p.1 p.2))
     {F u : ℝ → EuclideanSpace ℝ (Fin n) → Fin N → ℝ} {T : ℝ}
-    (hu : S.IsClassicalSolution F T u) (hFc : ContinuousOn (uncurry F) (Icc 0 T ×ˢ univ))
+    (hu : S.IsClassicalSolution F T u)
     (hsupp : ∃ R, ∀ t ∈ Icc 0 T, ∀ x, R < ‖x‖ → u t x = 0) :
     ∀ t ∈ Icc 0 T, (∫ x, u t x ⬝ᵥ (S.A0 t x *ᵥ u t x)) - ∫ x, u 0 x ⬝ᵥ (S.A0 0 x *ᵥ u 0 x) =
       ∫ s in (0 : ℝ)..t, ∫ x,
@@ -170,7 +171,7 @@ theorem integral_dotProduct_A0_le {S : LinearSystem n N} {lam : ℝ}
       ξ ⬝ᵥ ((matDt S.A0 t x + (∑ j, matDx (S.A j) j t x) - S.B t x - (S.B t x)ᵀ) *ᵥ ξ) ≤
         κ * (ξ ⬝ᵥ ξ))
     {F u : ℝ → EuclideanSpace ℝ (Fin n) → Fin N → ℝ} {T : ℝ}
-    (hu : S.IsClassicalSolution F T u) (hFc : ContinuousOn (uncurry F) (Icc 0 T ×ˢ univ))
+    (hu : S.IsClassicalSolution F T u)
     (hsupp : ∃ R, ∀ t ∈ Icc 0 T, ∀ x, R < ‖x‖ → u t x = 0) :
     ∀ t ∈ Icc 0 T, ∫ x, u t x ⬝ᵥ (S.A0 t x *ᵥ u t x) ≤
       Real.exp ((κ + 1) / lam * t) *
@@ -329,6 +330,8 @@ section Layer7
 /-- **Derivative bounds for the square root** (§7.1): for a family of symmetric matrices with
 `c |ξ|² ≤ ξ ⬝ᵥ A x ξ ≤ Lam |ξ|²`, `0 < c`, whose entries have bounded derivatives of order `≤ m`,
 the entries of `CFC.sqrt (A x)` and of its inverse have bounded derivatives of order `≤ m`.
+This form records boundedness only; the README's constant depends only on `m`, `N`, `c`, `Lam`
+and `C`.
 Smoothness itself is Tau Ceti's `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`. -/
 theorem exists_bound_iteratedFDeriv_sqrt_comp {X : Type*} [NormedAddCommGroup X]
     [NormedSpace ℝ X] {A : X → Matrix (Fin N) (Fin N) ℝ} {m : ℕ}
