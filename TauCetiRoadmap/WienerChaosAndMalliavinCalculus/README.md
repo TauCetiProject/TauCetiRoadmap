@@ -62,8 +62,9 @@ Suggested home: `TauCeti/Probability/Malliavin/` for Layers 1–6 and
 Layer 1 fixes the isonormal process and its Wick powers; everything else is a statement about
 functionals of it. Layer 2 decomposes the square-integrable functionals into orthogonal chaoses,
 which is the coordinate system for all of Layers 4–6. Layer 3 specializes the index space to
-L²(T, μ) and realizes each chaos as the range of a multiple integral; Layers 4–6 do not need
-it, and the product formula is its main output. Layer 4 builds the derivative as a closed
+L²(T, μ) and realizes each chaos as the range of a multiple integral, and the product formula
+is its main output; Layers 4–6 use it only for the white-noise forms of the derivative in §4.4
+and of the divergence in §5.1. Layer 4 builds the derivative as a closed
 operator by closing the graph of the gradient of smooth cylinder functionals, and computes its
 domain in chaos coordinates. Layer 5 defines the divergence as the adjoint of the derivative.
 Layer 6 defines the Ornstein–Uhlenbeck semigroup and its generator by their action on the chaos,
@@ -76,9 +77,12 @@ for statements that adapt a source, and a *Needs:* line. Each layer ends with **
 
 ## Conventions
 
-- `H` is a real inner product space, complete where a statement needs it, and never assumed
-  separable. `(Ω, P)` is a probability space. An isonormal process is a map `W : H → Ω → ℝ`
-  (`IsIsonormal`).
+- `H` is a real inner product space, never assumed separable. The statements about the
+  derivative and the divergence (Layers 4–5, and those of Layer 6 that involve 𝔻¹,²) take `H`
+  complete (`CompleteSpace`): for an incomplete `H` the closed derivative misses the limits that
+  leave `H`, and the chaos description of 𝔻¹,² fails (see the Checks of Layer 4). The other
+  statements need no completeness assumption. `(Ω, P)` is a probability space. An isonormal process is a map
+  `W : H → Ω → ℝ` (`IsIsonormal`).
 - Square-integrable functionals are elements of `Lp ℝ 2 P`, and `H`-valued ones of `Lp H 2 P`.
   A function is turned into an `L²` class by `toL2`, whose value is `0` when the function is not
   square integrable; every statement that uses `toL2` proves or assumes the square integrability
@@ -413,7 +417,7 @@ limit (Nualart, proof of Proposition 1.2.3).
 E‖D:W(h)ⁿ:‖² = n · n! ‖h‖²ⁿ = n E[:W(h)ⁿ:²]; orthogonality across orders and closedness give
 the description. Poincaré: Var F = ∑ₙ₌₁ ‖JₙF‖² ≤ ∑ₙ n ‖JₙF‖² = E‖DF‖².
 
-*Needs:* §§2.1, 4.2, 4.3.
+*Needs:* §§2.1, 4.2, 4.3; §3.1 for the white-noise form.
 
 ### 4.5 Constants and indicators
 
@@ -441,6 +445,11 @@ indicator outside `gaussianL2` unless P(A) ∈ {0, 1}.
   description would put every functional of `W` in 𝔻¹,², including 1{W(h) > 0}, which
   `IsIsonormal.indicator_mem_sobolev12_iff` excludes; numerically the partial sums of
   n ‖JₙF‖² for that indicator grow like √n (0.298, 0.392, 0.561, 0.798 at n ≤ 5, 9, 19, 39).
+- Negative control for completeness: let `H` be the finitely supported sequences in ℓ², h̄ =
+  (1, 1/2, 1/3, …) ∈ ℓ² outside `H`, hₖ its truncations and F the L² limit of W(hₖ). Then F lies
+  in the chaos of order 1 with ∑ₙ n ‖JₙF‖² = ‖h̄‖² = π²/6, but F ∉ 𝔻¹,², since the derivatives
+  hₖ converge to h̄, which is not `H`-valued; hence the assumption `CompleteSpace` in
+  `IsIsonormal.mem_sobolev12_iff`.
 
 ### Examples
 
@@ -729,10 +738,7 @@ Completion means:
   StochasticCalculus §6.1, as the engine of its martingale representation theorem. The
   statements of §§1.2 and 2.2 are the same facts for an arbitrary isonormal process on an
   arbitrary `H`; they are not consumed there, and the Brownian grid forms are not consumed here.
-- Mehler averaging in one dimension, the finite-dimensional Poincaré inequality, Gaussian
-  concentration in Banach spaces, the Wick–Isserlis formula, the Wiener integral and the dyadic
-  Hermite basis of Brownian motion are formalized in Tau Ceti and are not targets here; this
-  roadmap consumes from Tau Ceti only the Gaussian Hermite bases.
+- This roadmap consumes from Tau Ceti only the Gaussian Hermite bases.
 
 ## Exact supplier contracts
 
