@@ -727,6 +727,10 @@ portion, not the transported adjunction.
 *Needs:* Mathlib groups. §0.12 supplies analytic categories, §0.16 supplies comparisons used by §4.4, and §10.0 states
 the rest; the dévissage criterion is used by the proper comparison of §10.2.
 
+### 0.11 Independently of
+
+*Needs:* Mathlib groups. §0.12 for the analytic categories, independently of §0.16.
+
 ### 0.12 A
 
 ### 0.16 B
@@ -782,6 +786,7 @@ Text.
         assert needs("Fam.0.8") == ["Fam.D0.16", "Fam.D0.23"], needs("Fam.0.8")
         # the suppliers before `used by` count; what follows it is set aside, up to a new statement
         assert needs("Fam.0.9") == ["Fam.0.12", "Fam.0.16", "Fam.10.0"], needs("Fam.0.9")
+        assert needs("Fam.0.11") == ["Fam.0.12"], needs("Fam.0.11")
 
     def test_a_table_row_and_cell_are_boundaries(self) -> None:
         root = self.other_tree("table", {"Fam": """# Roadmap: f

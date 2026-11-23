@@ -1257,9 +1257,9 @@ def needs_spans(rd: Readme) -> list[tuple[int, int, int]]:
 # closed list: a word that is not here sets nothing aside, however the sentence reads. A reference
 # counts unless such a cue governs it.
 ASIDE_CUES = {
-    # a negation right before the reference (`no Layer 6 input`, `without using §0.16`), the words
-    # in "skipped" passed over
-    "negation": ("no", "not", "nor", "neither", "never", "without"),
+    # a negation right before the reference (`no Layer 6 input`, `without using §0.16`,
+    # `independently of §8.7`), the words in "skipped" passed over
+    "negation": ("no", "not", "nor", "neither", "never", "without", r"independent(?:ly)?"),
     "skipped": ("the", "any", "a", "an", "of"),
     # a verb right before the reference, negated by the word before it (`does not consume Layer 6`)
     "negated verb": ("consumes?", "uses?", "using", "needs?", "requires?", "imports?", r"built\s+on"),
