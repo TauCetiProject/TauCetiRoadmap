@@ -77,6 +77,7 @@ body:
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
+        - BernoulliPercolation
         - BianchiModularForms
         - BordismFormalGroups
         - BorelEquivalenceRelations
