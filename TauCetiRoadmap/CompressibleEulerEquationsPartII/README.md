@@ -84,8 +84,8 @@ a `C^k` function on an open set of `𝔐` containing D, and that the set
 `D̃ = D ∪ {(t₀ − s, x) : s > 0, (t₀ + s/i, x) ∈ D for all i, c̃(t₀ − s, x) > 0}` contains an open
 set `D̂ ⊆ 𝔐` with `D̂ ∩ H_{t₀} = D` (for `(t₀, x) ∈ D` use that D is relatively open in `H_{t₀}`
 and `c(t₀, x) > 0`). On `D̂` the reflected field `(c̃, ṽ)` defines, by LorentzianGeometry §7.3, a
-`C^k` Lorentzian metric time-oriented by `B̃ = ∂_t + ṽ`, with `t` a `C^∞` temporal function
-(`g̃⁻¹(dt, dt) = −c̃⁻² < 0`).
+`C^k` Lorentzian metric, time-oriented by `[B̃]` for `B̃ = ∂_t + ṽ` (LorentzianGeometry §8.1), with
+`t` a `C^∞` temporal function (`g̃⁻¹(dt, dt) = −c̃⁻² < 0`).
 
 - For `p ∈ D`, a past causal curve in `D̂` ending at p is, on the part of its interval where
   `t ≥ t₀`, a past causal curve in D; so `causalPast` in D and the restriction to `{t ≥ t₀}` of the
@@ -101,7 +101,7 @@ and `c(t₀, x) > 0`). On `D̂` the reflected field `(c̃, ṽ)` defines, by Lor
 - The even reflection of `f(t) = t` is `|t|`, not `C¹`: `k = 0` gives only continuity, as stated.
 - The constant state is its own reflection (`Σ aᵢ = 1`).
 
-*Needs:* CompressibleEulerEquations §§1.2–1.3, §3.2; LorentzianGeometry §7.3, §12.6.
+*Needs:* CompressibleEulerEquations §§1.2–1.3, §3.2; LorentzianGeometry §7.3, §8.1, §12.6.
 
 ### 1.2 Outgoing acoustical functions
 
@@ -281,8 +281,9 @@ slabs.
 
 In the slab setting of §1.2 (`k ≥ 2`, `S′ = E`, `Ψ_t` diffeomorphisms of E for `t ∈ [t₀, t₁)`), with
 `c` and `|v|` bounded on `[t₀, t₂] × E` for every `t₂ < t₁`, let `S = {u₀ < 0}` and
-`O₁ = [t₀, t₁) × E`. Prove `D⁺_{O₁}({t₀} × S) = {u < 0}` and
-`𝒞 = {u = 0} ∩ {t₀ < t < t₁}`, a `C^k` null hypersurface ruled by the curves `γ_y`, `u₀(y) = 0`.
+`O₁ = [t₀, t₁) × E`. Prove `D⁺_{O₁}({t₀} × S) = {u < 0}` and, for `D` this domain of dependence,
+`𝒞(D) ∩ {t < t₁} = {u = 0} ∩ {t₀ < t < t₁}`, a `C^k` null hypersurface ruled by the curves `γ_y`,
+`u₀(y) = 0`.
 Route: u is nondecreasing along future causal curves (its differential is future causal and causal
 curves are Lipschitz), so a past causal curve in `O₁` from a point with `u < 0` keeps `u < 0` and,
 reaching `Σ_{t₀}` by the slab statement, ends in S; from a point with `u ≥ 0` the curve `γ_y`
@@ -341,7 +342,8 @@ side of C and `C¹` up to it, satisfies the inner equation on C. For the barotro
 entropy component: `ℓ = (1, −(ρ/c)n̂)`, `r = (1, −(c/ρ)n̂)`. Prove that on C the remaining equations
 determine the transverse derivative `∂_φU` modulo `r`, and that the `r`-component satisfies a
 Riccati equation along the null generators of C, and the higher transverse derivatives linear
-transport equations (Rendall 1990, by locator; Luo–Yu 2025b, §1.4.3, the diagonal system (1.25) in
+transport equations (Rendall 1990, the reduction of the characteristic initial value problem to
+the Cauchy problem, abstract, p. 221; Luo–Yu 2025b, §1.4.3, the diagonal system (1.25) in
 the `L`-direction).
 
 **Checks.**
@@ -354,7 +356,7 @@ the `L`-direction).
   `Bρ = −(1 + t)⁻²`, `∂_xρ = 0`, `div v = (1 + t)⁻¹`, `Bv = 0`, and the inner expression is
   `−(1 + t)⁻² + (1 + t)⁻² = 0`.
 
-*Needs:* CompressibleEulerEquations §§1.2–1.3, §2.2, §3.1; Rendall 1990 (source, by locator).
+*Needs:* CompressibleEulerEquations §§1.2–1.3, §2.2, §3.1; Rendall 1990 (source; see References).
 
 ### 3.2 Characteristic data sets and compatibility
 
@@ -442,7 +444,7 @@ vanishes on C.
 Prove: for smoothly compatible smooth data with `𝓔/Λ` compact, there are `τ > 0` and a development
 of the data restricted to `C ∩ {t < t₀ + τ}`, of class `C^∞` on its wedge domain (for `𝓔/Λ`
 noncompact, the same near every compact subset of `𝓔`). Route (reduction to the Cauchy problem,
-Rendall 1990, by locator): the transport equations of §3.1 determine all transverse jets of the
+Rendall 1990, abstract, p. 221): the transport equations of §3.1 determine all transverse jets of the
 solution on C near `𝓔`, with initial values at `𝓔` from the formal jets of `Ū₀`; a Borel lemma for
 jets along a hypersurface (constructed here: a smooth function on a neighbourhood of C with
 prescribed transverse Taylor coefficients, Hörmander, Theorem 1.2.6, in the normal coordinate)
@@ -471,8 +473,8 @@ difference of two solutions. The restriction of U to the domain of dependence of
   for the Chaplygin law `P = A − 1/ρ`, `ρc` is constant and `α` stays constant.
 
 *Needs:* §§3.1–3.3, §2.3; CompressibleEulerEquations §6.1, §6.2, §7.1, §7.3; Hörmander, *The
-Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6; Rendall 1990 (sources, by
-locator).
+Analysis of Linear Partial Differential Operators I*, Theorem 1.2.6; Rendall 1990 (source; see
+References).
 
 ### 3.5 The Goursat problem
 
@@ -484,8 +486,10 @@ Z (the m-jets determined at Z by the two sets of transport equations agree). A d
 classical solution on a relatively open subset D of `{φ ≥ 0, φ̲ ≥ 0}` containing `C ∪ C̲` near Z with
 `D = D⁺_D(C ∪ C̲)`. Prove uniqueness (§3.3 with two null faces) and local existence near compact
 pieces of Z for smoothly compatible data, by the reduction of §3.4 with jets on both hypersurfaces
-(Rendall 1990, the case treated there). Luo–Yu 2025b, §5.4 (p. 77; Step 3 of the plan in §2.3.2,
-p. 26), solves this problem between the rarefaction fronts `H` and `H̲`.
+(Rendall 1990, data on two transversely intersecting null hypersurfaces, abstract, p. 221; for
+quasilinear wave equations its theorem is restated as Luk 2012, §3, Theorem 3). Luo–Yu 2025b,
+§5.4 (p. 77; Step 3 of the plan in §2.3.2, p. 26), solves this problem between the rarefaction
+fronts `H` and `H̲`.
 
 **Checks.**
 
@@ -494,7 +498,7 @@ p. 26), solves this problem between the rarefaction fronts `H` and `H̲`.
   `φ̲ = x − (v₀ − c₀)t`, `dφ(B) = dφ̲(B) = c₀`, so both are future null, and
   `g⁻¹(dφ, dφ̲) = −c₀⁻²·c₀·c₀ + (−1)(1) = −2`.
 
-*Needs:* §§3.1–3.4; LorentzianGeometry §9.2; Rendall 1990 (source, by locator).
+*Needs:* §§3.1–3.4; LorentzianGeometry §9.2; Rendall 1990 (source; see References); Luk 2012, §3.
 
 ### Examples
 
@@ -673,7 +677,8 @@ Boundaries:
 - §§3.2–3.3: the geodesic predicate, pregeodesics and their reparametrization, the flow of a
   locally Lipschitz connection and its `C^r` regularity for `C^r` coefficients.
 - §7.3: the acoustical form on `ℝ × Σ`, `g(B, X) = 0` for `X` tangent to `Σ_t`, the inverse form,
-  `g⁻¹(dt, dt) = −c⁻²`, causal vectors and the time orientation `[B]`.
+  `g⁻¹(dt, dt) = −c⁻²`, causal vectors, and that `B` is a continuous timelike field.
+- §8.1: time orientations, and the time orientation `[B]` of the acoustical form.
 - §9.2: null hypersurfaces, null normals, optical functions with null normal `−grad_g u`, double
   null foliations; §9.3: `∇_L L = κL` on a `C²` null hypersurface and `∇_L L = 0` for
   `L = −grad_g u` of a `C²` optical function.
@@ -703,6 +708,19 @@ Boundaries:
   Remark 2.14, §5.4 (Goursat problem).
 - Rendall1990: A. D. Rendall, *Reduction of the characteristic initial value problem to the Cauchy
   problem and its applications to the Einstein equations*, Proc. R. Soc. Lond. A 427 (1990), 221–239.
+  The article has no open copy and was not read, so its own section, theorem and page numbers are
+  not given. Its abstract (p. 221) states the method, a reduction of the characteristic initial
+  value problem to the Cauchy problem, and its application to data on two transversely
+  intersecting null hypersurfaces. Luk 2012, §3, Theorem 3, restates its existence and uniqueness
+  theorem for quasilinear wave equations with data on two null hypersurfaces meeting in a
+  2-sphere; Cabet–Chruściel–Tagne Wafo 2016, Introduction, records that it covers quasilinear
+  wave equations and symmetric hyperbolic systems.
+- Luk2012: J. Luk, *On the local existence for the characteristic initial value problem in general
+  relativity*, Int. Math. Res. Not. IMRN 2012, no. 20, 4625–4678; arXiv:1107.0898: §3 (Rendall's
+  theorem), Theorem 3.
+- CabetChruscielTagneWafo2016: A. Cabet, P. T. Chruściel, R. Tagne Wafo, *On the characteristic
+  initial value problem for nonlinear symmetric hyperbolic systems, including Einstein equations*,
+  Dissertationes Math. (2016), 1–72; arXiv:1406.3009v2: Introduction.
 - Hörmander: L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, 2nd ed.,
   Grundlehren der mathematischen Wissenschaften 256, Springer, 1990, Theorem 1.2.6 (Borel's lemma).
 - HawkingEllis1973: S. W. Hawking, G. F. R. Ellis, *The Large Scale Structure of Space-Time*, Ch. 6
