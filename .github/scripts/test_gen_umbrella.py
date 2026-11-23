@@ -682,8 +682,149 @@ Mathlib `Nat.add`. Layer 0 is not needed.
         assert items["Fam.Layer1"]["needs"] == [], items["Fam.Layer1"]
         assert "> Dropped" not in (root / "umbrellas" / "GRH-targets.md").read_text(encoding="utf-8")
         code, output = self.run_script("--stats", root=root)
-        assert "1 by a negation, 2 by a consumer cue" in output, output
-        assert "negation: TauCetiRoadmap/Fam/README.md:" in output and "Layer 0 is not needed" in output, output
+        assert "1 by a negation, 3 by a consumer cue" in output, output
+        assert "negation: TauCetiRoadmap/Fam/README.md:31: Fam Layer 0 (cue: is not)" in output, output
+
+    def test_cues_act_on_the_reference_they_govern(self) -> None:
+        root = self.other_tree("governed", {
+            "Fam": """# Roadmap: f
+
+### 0.1 Kept despite a negation elsewhere
+
+*Needs:* Mathlib groups. Alpha §0.18, the character prime number theorem without an exceptional-zero term.
+
+### 0.2 A negation inside a description
+
+*Needs:* Mathlib groups. Layer 8.1 `Z_p^d`-extensions in which no finite prime splits completely.
+
+### 0.3 One counts, one is set aside
+
+*Needs:* Mathlib groups. The complex projective-tensor construction of §0.12, without using §0.16's colimit theorem.
+
+### 0.4 A negation after a comma
+
+*Needs:* Mathlib groups. §§10.0–10.2, with the relevant amplitude established, not assumed at real dyadic places.
+
+### 0.5 The raw-quotient comparisons
+
+*Needs:* Mathlib groups. The raw-quotient comparisons use §4.4, whose construction needs only that coreflection
+portion, not the transported adjunction.
+
+### 0.6 Set aside by a negation
+
+*Needs:* Mathlib groups. Layer 0 is not needed; no Layer 6 input is needed; it does not consume Layer 7's computation.
+
+### 0.7 Set aside as consumers
+
+*Needs:* Mathlib groups. Beta R0.9 and Gamma R3.6 consume this section and are not inputs to it.
+
+### 0.8 Feeds
+
+*Needs:* Mathlib groups. D0.16 feeds D0.22, and D0.23 feeds D0.24.
+
+### 0.9 Used by
+
+*Needs:* Mathlib groups. §0.12 supplies analytic categories, §0.16 supplies comparisons used by §4.4, and §10.0 states
+the rest; the dévissage criterion is used by the proper comparison of §10.2.
+
+### 0.12 A
+
+### 0.16 B
+
+### 4.4 C
+
+### 10.0 D
+
+### 10.1 E
+
+### 10.2 F
+
+### D0.16 G
+
+### D0.22 H
+
+### D0.23 I
+
+### D0.24 J
+
+## Layer 0: base
+
+Text.
+
+## Layer 6: six
+
+Text.
+
+## Layer 7: seven
+
+Text.
+
+## Layer 8: eight
+
+### 8.1 Extensions
+""",
+            "Alpha": "# Roadmap: alpha\n\n### 0.18 Prime number theorem\n",
+            "Beta": "# Roadmap: beta\n\n### R0.9 Beta\n",
+            "Gamma": "# Roadmap: gamma\n\n### R3.6 Gamma\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+
+        def needs(slug):
+            return items[slug]["needs"]
+        assert needs("Fam.0.1") == ["Alpha.0.18"], needs("Fam.0.1")
+        assert needs("Fam.0.2") == ["Fam.8.1"], needs("Fam.0.2")
+        assert needs("Fam.0.3") == ["Fam.0.12"], needs("Fam.0.3")
+        assert needs("Fam.0.4") == ["Fam.10.0", "Fam.10.1", "Fam.10.2"], needs("Fam.0.4")
+        assert needs("Fam.0.5") == ["Fam.4.4"], needs("Fam.0.5")
+        assert needs("Fam.0.6") == [] and needs("Fam.0.7") == [], items
+        # D0.16 and D0.23 feed: they count; D0.22 and D0.24 are fed: set aside
+        assert needs("Fam.0.8") == ["Fam.D0.16", "Fam.D0.23"], needs("Fam.0.8")
+        # the suppliers before `used by` count; what follows it is set aside, up to a new statement
+        assert needs("Fam.0.9") == ["Fam.0.12", "Fam.0.16", "Fam.10.0"], needs("Fam.0.9")
+
+    def test_a_table_row_and_cell_are_boundaries(self) -> None:
+        root = self.other_tree("table", {"Fam": """# Roadmap: f
+
+### 1.2 B
+
+### 1.3 C
+
+## Layer 1: a layer whose Dependencies subsection is a table
+
+Text.
+
+### Dependencies
+
+| From | Items |
+| --- | --- |
+| Mathlib | 1.2 |
+| Tau Ceti | 1.3 |
+"""})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        # without the boundaries `Mathlib` would stop the reading of the rest of the table
+        assert self.items_of(root)["Fam.Layer1"]["needs"] == ["Fam.1.2", "Fam.1.3"]
+
+    def test_a_sentence_opener_is_not_a_name(self) -> None:
+        root = self.other_tree("openers", {"Fam": """# Roadmap: f
+
+### 1.1 Openers
+
+*Needs:* Mathlib groups. The proof uses §1.2. For the case of a field, see Section 1.3. Within the layer, 1.4
+uses 1.2. Mathlib also gives §1.4.
+
+### 1.2 B
+
+### 1.3 C
+
+### 1.4 D
+"""})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        # `The`, `For` and `Within` open sentences, after which an id after a sign is read but a bare
+        # one is not; `Mathlib` is an outside name and stops the reading
+        assert self.items_of(root)["Fam.1.1"]["needs"] == ["Fam.1.2", "Fam.1.3"]
 
     def test_a_stated_need_outranks_an_inferred_one(self) -> None:
         root = self.other_tree("ranks", {"Fam": """# Roadmap: f

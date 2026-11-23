@@ -23,10 +23,12 @@ everything that this needs, read from the READMEs:
   paragraph): bare ids and `Layer k` are its own roadmap's, and citations
   (`Name §1.2`, `Name §§1.1–1.3 and 2.4`, `Name Layers 3 and 5`, `Name A5.3`, ...) another
   roadmap's; `Mathlib ...` and `Tau Ceti ...` name nothing, and stop the reading of local ids
-  only to the next `;`, sentence, list item or blank line. A reference counts unless its
-  clause (the stretch between two such boundaries) says otherwise: a clause that negates
-  (`Layer 0 is not needed`) or names the referenced unit as a consumer (`§4.5 consumes it`,
-  `used by §§4.4 and 4.5`) creates no need (`ASIDE_CUES`). A section without such a line
+  only to the next `;`, sentence, list item, table row or cell, or blank line (an ordinary
+  sentence opener such as `The` or `For` is not taken for a name). A reference counts unless a
+  cue governs it: a negation right before it (`no Layer 6 input`, `without using §0.16`) or a
+  negated predicate right after it (`Layer 0 is not needed`), or a cue naming it a consumer (`§4.5
+  consumes it`, `used by §§4.4 and 4.5`). A cue acts on the reference it governs, never on the
+  rest of the sentence (`ASIDE_CUES`). A section without such a line
   needs what the `Dependencies` subsection of its layer cites of other roadmaps. The rest of
   the text (statements, routes, checks, examples, remarks) needs nothing.
 - A layer that has sections is not an item: no pull request completes it as such, it is
@@ -172,11 +174,12 @@ class Cite:
     where the citation begins (the roadmap's name, or the sign of `§3.4 of Name`); `form` records
     how it was read."""
 
-    __slots__ = ("citer", "line", "pos", "cited", "kind", "id", "form", "range_of")
+    __slots__ = ("citer", "line", "pos", "cited", "kind", "id", "form", "range_of", "at")
 
-    def __init__(self, citer, line, pos, cited, kind, ident, form, range_of=None):
+    def __init__(self, citer, line, pos, cited, kind, ident, form, range_of=None, at=None):
         self.citer, self.line, self.pos, self.cited = citer, line, pos, cited
         self.kind, self.id, self.form, self.range_of = kind, ident, form, range_of
+        self.at = at                     # the offset of the id itself, when it is written there
 
 
 def _line_of(starts: list[int], pos: int) -> int:
@@ -329,10 +332,11 @@ def read_citations(text: str, names: set[str], citer: str) -> list[Cite]:
             if ext:                                      # `Layer 6A`: the base pattern read `6`
                 first, end, form = first + ext.group(0), m.end() + len(ext.group(0)), "base+suffix"
             at = off + m.start()
-            out.append(Cite(citer, no, at, m.group(1), kind, first, form))
+            first_at = off + m.start("layer" if layer else "sec" if m.group("sec") else "pre")
+            out.append(Cite(citer, no, at, m.group(1), kind, first, form, None, first_at))
             op = opener(m.group(0))
             for k, ident, p, rng, how in _continue(text, off + end, first, kind, bool(m.group("sec"))):
-                out.append(Cite(citer, _line_of(starts, p), at, m.group(1), k, ident, f"list/{how}/{op}", rng))
+                out.append(Cite(citer, _line_of(starts, p), at, m.group(1), k, ident, f"list/{how}/{op}", rng, p))
     # a citation wrapped across one line break inside a paragraph (`... InductionRestriction` /
     # `Layer 2; ...`): the base pattern on the text with line breaks as spaces (same offsets)
     flat = text.replace("\n", " ")
@@ -351,11 +355,12 @@ def read_citations(text: str, names: set[str], citer: str) -> list[Cite]:
         ext = LAYER_SUFFIX.match(text, m.end()) if layer else None
         if ext:
             first, end = first + ext.group(0), m.end() + len(ext.group(0))
-        out.append(Cite(citer, ln, m.start(), m.group(1), kind, first, "wrapped"))
+        first_at = m.start("layer" if layer else "sec" if m.group("sec") else "pre")
+        out.append(Cite(citer, ln, m.start(), m.group(1), kind, first, "wrapped", None, first_at))
         op = opener(m.group(0))
         for k, ident, p, rng, how in _continue(text, end, first, kind, bool(m.group("sec"))):
             out.append(Cite(citer, _line_of(starts, p), m.start(), m.group(1), k, ident, f"wrapped+list/{how}/{op}",
-                            rng))
+                            rng, p))
     for form, pat in extra_patterns(present):
         for no in hit:
             line, off = lines[no - 1], starts[no - 1]
@@ -373,21 +378,19 @@ def read_citations(text: str, names: set[str], citer: str) -> list[Cite]:
                     tok = m.group("tok").rstrip(".")
                     if not _bare_ok(tok) or OWN_AFTER.match(line, m.end("tok")):
                         continue
-                    kind, first, signed, end = "section", tok, False, m.end("tok")
-                elif form in ("lowlayer", "prefixlayer"):
-                    kind, first, signed, end = "layer", m.group("layer"), False, m.end("layer")
-                elif m.group("layer"):
-                    kind, first, signed, end = "layer", m.group("layer"), False, m.end("layer")
+                    kind, first, signed, end, group = "section", tok, False, m.end("tok"), "tok"
+                elif form in ("lowlayer", "prefixlayer") or m.group("layer"):
+                    kind, first, signed, end, group = "layer", m.group("layer"), False, m.end("layer"), "layer"
                 else:
-                    kind, first, signed, end = "section", m.group("sec").rstrip("."), True, m.end("sec")
+                    kind, first, signed, end, group = "section", m.group("sec").rstrip("."), True, m.end("sec"), "sec"
                 taken.add(npos)
                 at = off + m.start()
-                out.append(Cite(citer, no, at, name, kind, first, form))
+                out.append(Cite(citer, no, at, name, kind, first, form, None, off + m.start(group)))
                 if form == "reverse":
                     continue
                 op = opener(m.group(0))
                 for k, ident, p, rng, how in _continue(text, off + end, first, kind, signed):
-                    out.append(Cite(citer, _line_of(starts, p), at, name, k, ident, f"{form}+list/{how}/{op}", rng))
+                    out.append(Cite(citer, _line_of(starts, p), at, name, k, ident, f"{form}+list/{how}/{op}", rng, p))
     return out
 
 
@@ -1202,10 +1205,10 @@ NEXT_LABEL = re.compile(r"\s\*{1,2}[A-Z][\w ’'-]{0,40}:\*{1,2}")
 BLOCK_START = re.compile(r"\s*(?:#|[-*+]\s|\d+\.\s|```|~~~|>|\|)")
 LINE_LABEL = re.compile(r"\s*(?:[-*+]\s+|\d+\.\s+)?\*{1,2}[^\s*]")     # a line that opens with a label
 # Where a reading of local ids stopped by an outside name resumes: `;`, a blank line, the start
-# of a list item, and the end of a sentence (a full stop followed by white space and a capital,
+# of a list item, a table's row or cell, and the end of a sentence (a full stop followed by white space and a capital,
 # `§`, a backtick, `*`, `(` or the end; never the full stop of an id such as `1.2`, nor that of an
 # abbreviation such as `e.g.`)
-STRETCH_BREAK = re.compile(r";|\n[ \t]*\n|\n(?=[ \t]*(?:[-*+]|\d+\.)\s)")
+STRETCH_BREAK = re.compile(r";|\||\n[ \t]*\n|\n(?=[ \t]*(?:[-*+]|\d+\.)\s|[ \t]*\|)")
 FULL_STOP = re.compile(r"\.(?=\s+[A-Z§*(`\x00\x01]|\s*$)")
 ABBREVIATION = re.compile(r"(?<![\w.])(?:e\.g|i\.e|[cC]f|resp|Thm|Prop|Sect|Lem|Cor|Def|Rem|Ex|Eq|Ch|Fig"
                           r"|[vV]ol|pp?|[nN]o)$")
@@ -1249,35 +1252,69 @@ def needs_spans(rd: Readme) -> list[tuple[int, int, int]]:
     return out
 
 
-# The cues that set a clause of a statement of dependency aside, so that its references create no
-# need. This is a deliberate, closed list: a word that is not here sets nothing aside, however the
-# clause reads. A reference counts unless its clause says otherwise.
+# The cues that set a reference in a statement of dependency aside, so that it creates no need.
+# They act on the reference they govern, never on the rest of its clause. This is a deliberate,
+# closed list: a word that is not here sets nothing aside, however the sentence reads. A reference
+# counts unless such a cue governs it.
 ASIDE_CUES = {
-    # the clause negates: `Layer 0 is not needed`, `uses no other item of this layer`
-    "negation": ("not", "no", "never", "without", "neither", "nor", "none"),
-    # the cited unit is the consumer: after the reference, a verb whose object is the present
-    # unit (`§§4.4 and 4.5 consume it`) ...
+    # a negation right before the reference (`no Layer 6 input`, `without using §0.16`), the words
+    # in "skipped" passed over
+    "negation": ("no", "not", "nor", "neither", "never", "without"),
+    "skipped": ("the", "any", "a", "an", "of"),
+    # a verb right before the reference, negated by the word before it (`does not consume Layer 6`)
+    "negated verb": ("consumes?", "uses?", "using", "needs?", "requires?", "imports?", r"built\s+on"),
+    # a predicate right after the reference (`Layer 0 is not needed`)
+    "negated predicate": (r"(?:is|are|was|were)\s+not", r"(?:is|are)\s+never",
+                          r"(?:is|are)\s+(?:unnecessary|unneeded)"),
+    # the reference is the consumer: right after it a verb whose object is the present unit
+    # (`§§4.4 and 4.5 consume it`) ...
     "consumer verb": ("consumes?", "uses?", "needs?", "requires?", r"depends?\s+on", r"rel(?:y|ies)\s+on",
                       r"builds?\s+on", "imports?", "appl(?:y|ies)", "calls?", "invokes?", "speciali[sz]es?",
                       "extends?", "refines?"),
     "the present unit": ("it", "this", "them", "these", r"the\s+present"),
-    # ... or, before the reference, a phrase naming it a consumer (`used by §§4.4 and 4.5`)
+    # ... or before it a phrase naming what follows a consumer (`used by §§4.4 and 4.5`): the list of
+    # references that follows the phrase, up to a reference that opens a statement of its own
     "consumer phrase": (r"consumed\s+by", r"used\s+by", r"needed\s+by", r"required\s+by", r"imported\s+by",
-                        r"cited\s+by", r"feeds(?:\s+into)?", "serves", "consumers?", "downstream", r"users?\s*:"),
+                        r"cited\s+by", r"feeds(?:\s+into)?", "serves", r"consumers?\s*:", "downstream"),
+    "opens a statement": ("consumes?", "uses?", "needs?", "requires?", "feeds", "serves", "supplies", "provides",
+                          "gives", "states", "proves", "owns", "is", "are", "was", "were", "has", "have"),
 }
-NEGATION = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["negation"]) + r")\b", re.I)
-CONSUMER_VERB = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["consumer verb"]) + r")\s+(?:"
-                           + "|".join(ASIDE_CUES["the present unit"]) + r")\b", re.I)
-CONSUMER_PHRASE = re.compile(r"\b(?:" + "|".join(ASIDE_CUES["consumer phrase"]) + r")(?!\w)", re.I)
+
+
+def _cue(words) -> str:
+    return r"(?:" + "|".join(words) + r")"
+
+
+SIGN_BEFORE = r"(?:§§?\s?|\bSections?\s+|\b[Ll]ayers?\s+)?"     # between a cue and an id of its own roadmap
+NEGATED_BEFORE = re.compile(r"(?:\b" + _cue(ASIDE_CUES["negation"]) + r"(?:\s+" + _cue(ASIDE_CUES["negated verb"])
+                            + r")?|\b(?:not|without)\s+" + _cue(ASIDE_CUES["negated verb"]) + r")(?:\s+"
+                            + _cue(ASIDE_CUES["skipped"]) + r")*\s*" + SIGN_BEFORE + "$", re.I)
+NEGATED_AFTER = re.compile(r"\s*" + _cue(ASIDE_CUES["negated predicate"]) + r"\b", re.I)
+CONSUMER_AFTER = re.compile(r"\s*,?\s*" + _cue(ASIDE_CUES["consumer verb"]) + r"\s+"
+                            + _cue(ASIDE_CUES["the present unit"]) + r"\b", re.I)
+CONSUMER_PHRASE = re.compile(r"\b" + _cue(ASIDE_CUES["consumer phrase"]) + r"(?!\w)", re.I)
+OPENS_STATEMENT = re.compile(r"\s*" + _cue(ASIDE_CUES["opens a statement"]) + r"\b", re.I)
+LIST_GAP = re.compile(r"[\s,]*(?:(?:and|or|&)[\s,]*)?" + SIGN_BEFORE)    # what joins the references of a list
+
+# Words capitalised only because they open a sentence or an entry: after one of these the reading of
+# local ids goes on (any other capitalised word is taken for an outside name and stops it). A
+# closed list.
+SENTENCE_OPENERS = frozenset((
+    "The", "This", "These", "Those", "That", "It", "Its", "For", "From", "In", "On", "With", "Within",
+    "Uses", "Use", "Using", "Also", "And", "Only", "All", "Each", "Every", "Both", "Here", "See", "As", "By",
+    "At", "To", "When", "Where", "If", "Any", "Some", "Then", "Thus", "Hence", "There", "Their", "Our", "We",
+    "Together", "Via", "Over", "Under", "After", "Before", "Once", "While", "Since", "But", "Or",
+))
 ASIDE = re.compile(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)")       # an aside, over a line break but not a paragraph
 ITALIC = re.compile(r"(?<!\*)\*(?!\*)(?:[^*\n]|\n(?![ \t]*\n))+?(?<!\*)\*(?!\*)")
 
 
 class Clause:
     """A stretch of a statement of dependency between two boundaries (`;`, the end of a sentence,
-    a list item, a blank line): its offsets in the README, the number of the sentence it is in,
-    the ids of its own roadmap it names as (kind, id, start of a range or None, offset), and
-    `aside`: None, or why its references create no need ('negation' or 'consumer')."""
+    a list item, a table's row or cell, a blank line): its offsets in the README, the number of
+    the sentence it is in, the ids of its own roadmap it names as (kind, id, start of a range or
+    None, offset), and `aside`: the references set aside, by the offset where each begins, with
+    the rule ('negation' or 'consumer') and the words of the cue."""
 
     __slots__ = ("start", "end", "sentence", "ids", "aside")
 
@@ -1321,11 +1358,14 @@ def clause_ids(part: str, names: set[str]) -> list[tuple[str, str, str | None, i
     `Layers` (directly or through a list) or reads as a section id on its own (`1.2`, `2.4a`,
     `D4.3`). Reading stops, for the rest of the clause, at a roadmap's name (the citation reader
     reads another roadmap's ids), at any other capitalised word (`Mathlib`, `Tau Ceti`, a roadmap
-    written in words) and at a stop of `_prepared`. The ids right before `of Name` (`§3.4 of
-    Name`, `§§3.4 and 3.5 of Name`) are not its own."""
+    written in words) that is not an ordinary sentence opener (`SENTENCE_OPENERS`), and at a stop
+    of `_prepared`. Past a sentence opener only an id after a sign (`§`, `Section`, `Layer`) is
+    read, since a bare id there is as often the subject of the sentence as a need. The ids right
+    before `of Name` (`§3.4 of Name`, `§§3.4 and 3.5 of Name`) are not its own."""
     out = []
     kind, mode, prev_id, rng = "section", None, None, False
     run: list[tuple[str, str, str | None, int]] = []      # the ids of the list being read
+    opened = False                        # past a sentence opener, only an id after a sign is read
     for t in NEEDS_TOKEN.finditer(part):
         g = t.lastgroup
         if g == "code":
@@ -1339,11 +1379,15 @@ def clause_ids(part: str, names: set[str]) -> list[tuple[str, str, str | None, i
             rng = prev_id is not None
         elif g == "sep":
             rng = False
+            if prev_id is None:               # a sign with no id after it (`the layer, 1.4`) governs nothing
+                kind, mode = "section", None
         elif g == "id":
             tok = t.group("id").rstrip(".")
-            if tok in names or (not has_digit(tok) and tok[0].isupper() and tok not in ("Layer", "Layers")):
+            if tok in names or (not has_digit(tok) and tok[0].isupper() and tok not in ("Layer", "Layers")
+                                and tok not in SENTENCE_OPENERS):
                 break
-            if has_digit(tok) and (mode is not None or _bare_ok(tok)):
+            opened = opened or tok in SENTENCE_OPENERS
+            if has_digit(tok) and (mode is not None or (_bare_ok(tok) and not opened)):
                 run.append((kind, tok, prev_id if rng else None, t.start()))
                 prev_id = tok
             else:
@@ -1362,13 +1406,17 @@ def clause_ids(part: str, names: set[str]) -> list[tuple[str, str, str | None, i
     return out + run
 
 
-def statement_clauses(text: str, a: int, b: int, names: set[str], cites: list[int]) -> list[Clause]:
+def statement_clauses(text: str, a: int, b: int, names: set[str],
+                      cites: list[tuple[int, int]]) -> list[Clause]:
     """The clauses of the statement of dependency `text[a:b]` (a `*Needs:*` or `*Prerequisites:*`
-    paragraph, or a `Dependencies` subsection), `cites` being the sorted offsets where the
-    citations of other roadmaps begin. A clause is set aside, so that none of its references
-    creates a need, when it negates (`Layer 0 is not needed`), or when it names the referenced unit
-    as a consumer: a verb after a reference whose object is the present unit (`§4.5 consumes it`),
-    or a phrase before a reference (`used by §§4.4 and 4.5`); `ASIDE_CUES` lists the words."""
+    paragraph, or a `Dependencies` subsection), `cites` being the sorted (start, end) offsets of
+    the citations of other roadmaps (from the name to the last id). References joined only by
+    `,`, `and` or `or` form a list. A list is set aside, so that it creates no need, when a
+    negation governs it from the left (`no Layer 6 input`, `does not consume Layer 6`, `without
+    using §0.16`), when a negated predicate follows it (`Layer 0 is not needed`), or when it is
+    the consumer: a verb with the present unit for object follows it (`§§4.4 and 4.5 consume it`),
+    or it follows a consumer phrase (`used by §§4.4 and 4.5`, `D0.16 feeds D0.22`). `ASIDE_CUES`
+    lists the words; what they do not govern counts."""
     seg = text[a:b]
     prepared, words = _prepared(seg, names), _cue_text(seg)
     pieces, sentence, pos = [], 0, 0
@@ -1382,20 +1430,42 @@ def statement_clauses(text: str, a: int, b: int, names: set[str], cites: list[in
         pieces.append((start, end, sentence))
         if brk:
             pos = brk.end()
-            sentence += brk.group(0) != ";"           # `;` divides a sentence, it does not end it
+            sentence += brk.group(0) not in (";", "|")    # `;` divides a sentence, it does not end it
     out = []
     for start, end, sentence in pieces:
         ids = [(k, i, r, a + start + off) for k, i, r, off in clause_ids(prepared[start:end], names)]
-        lo, hi = bisect.bisect_left(cites, a + start), bisect.bisect_left(cites, a + end)
-        refs = sorted([p - a - start for p in cites[lo:hi]] + [p - a - start for *_rest, p in ids])
-        aside = None
-        if refs:
-            said = words[start:end]
-            verb, phrase = CONSUMER_VERB.search(said), CONSUMER_PHRASE.search(said)
-            if NEGATION.search(said):
-                aside = "negation"
-            elif (verb and refs[0] < verb.start()) or (phrase and refs[-1] > phrase.start()):
-                aside = "consumer"
+        lo = bisect.bisect_left(cites, (a + start, -1))
+        hi = bisect.bisect_left(cites, (a + end, -1))
+        refs = sorted({(p - a - start, e - a - start) for p, e in cites[lo:hi]}
+                      | {(p - a - start, p - a - start + len(i)) for _k, i, _r, p in ids})
+        said = words[start:end]
+        aside: dict[int, tuple[str, str]] = {}
+        # the lists: references joined only by `,`, `and`, `or`
+        lists, current = [], []
+        for ref in refs:
+            if current and not LIST_GAP.fullmatch(said[current[-1][1]:ref[0]]):
+                lists.append(current)
+                current = []
+            current.append(ref)
+        if current:
+            lists.append(current)
+        for group in lists:
+            first, last = group[0][0], max(e for _s, e in group)
+            cue = (NEGATED_BEFORE.search(said, 0, first), NEGATED_AFTER.match(said, last),
+                   CONSUMER_AFTER.match(said, last))
+            rule = "negation" if cue[0] or cue[1] else "consumer" if cue[2] else None
+            if rule:
+                found = next(c for c in cue if c)
+                for ref in group:
+                    aside[a + start + ref[0]] = (rule, " ".join(found.group(0).split()))
+        # a consumer phrase governs the references that follow it, up to one that opens a statement
+        for phrase in CONSUMER_PHRASE.finditer(said):
+            after = [ref for ref in refs if ref[0] >= phrase.end()]
+            for i, ref in enumerate(after):
+                if i and (not LIST_GAP.fullmatch(said[after[i - 1][1]:ref[0]])
+                          or OPENS_STATEMENT.match(said, ref[1])):
+                    break
+                aside.setdefault(a + start + ref[0], ("consumer", " ".join(phrase.group(0).split())))
         out.append(Clause(a + start, a + end, sentence, ids, aside))
     return out
 
@@ -1474,7 +1544,10 @@ class Tree:
         # each statement of dependency in clauses, and the ids of its own roadmap that a clause
         # names, at their offsets (from a `Dependencies` subsection these count only for a layer
         # item: a section takes other roadmaps' units from there)
-        cite_pos = sorted(c.pos for c in cites + expanded)
+        ends: dict[int, int] = {}
+        for c in cites:
+            ends[c.pos] = max(ends.get(c.pos, c.pos), (c.at + len(c.id)) if c.at is not None else c.pos)
+        cite_pos = sorted(ends.items())
         spans = [("*Needs:*", no, a, b) for no, a, b in rm.needs]
         spans += [("Dependencies", no, a, b) for no, _lvl, a, b in rm.dependency_subsections()]
         rm.statements = {}
@@ -1487,7 +1560,7 @@ class Tree:
                     if start is not None:
                         ids = rd.expand_range(start, ident, kind == "layer")
                         if ids is None:
-                            if clause.aside is None:
+                            if at not in clause.aside:
                                 self.ranges_kept.append(f"{rm.name}:{no}: {source} {start}–{ident}")
                         else:
                             items += [(kind, i) for i in ids if i not in (start, ident)]
@@ -1647,11 +1720,17 @@ class Goal:
             the needs (`first_ranked`), rank 2 for the rest."""
             out = []
             for clause in rm.statements[(source, a)]:
-                if clause.aside:
-                    self.set_aside.setdefault((rm.name, clause.start), (clause.aside, rm, clause))
-                    continue
                 rank = 1 if first_ranked and clause.sentence == 0 else 2
-                out += [(rank, r) for r in refs_in(rm, clause.start, clause.end) if r.citation or not citations_only]
+                for r in refs_in(rm, clause.start, clause.end):
+                    if citations_only and not r.citation:
+                        continue
+                    if r.pos in clause.aside:
+                        rule, cue = clause.aside[r.pos]
+                        entry = self.set_aside.setdefault((rm.name, r.pos), (rule, cue, rm, []))
+                        if r.what not in entry[3]:
+                            entry[3].append(r.what)
+                        continue
+                    out.append((rank, r))
             return out
 
         def stated(u: Unit) -> list[tuple[int, Ref]]:
@@ -1886,8 +1965,8 @@ class Goal:
             f"layer that has no sections; a need of a layer that has sections is a need of each of its "
             f"sections. `needs:` names every item it depends on: what its *Needs:* or *Prerequisites:* lines "
             f"name or, for a section that has none, what the Dependencies subsection of its layer cites; for "
-            f"a layer, also what its own Dependencies subsection names; a clause that negates a reference or "
-            f"names it as a consumer creates no need. `serves:` names the roadmaps under "
+            f"a layer, also what its own Dependencies subsection names; a reference that a negation governs, "
+            f"or that is named as a consumer, creates no need. `serves:` names the roadmaps under "
             f"{ROADMAP_DIR}/{root}/ whose units need the item directly. An item is done when its targets are "
             f"in the library. Its slug is the roadmap's name and the id its heading starts with; other ids of "
             f"the heading follow the id in brackets. The area {root} comes last.",
@@ -2030,13 +2109,13 @@ class Goal:
             out.append("  dependencies dropped for cycles (rank 1: stated on the first sentence of a *Needs:* line):")
             for u, v in sorted(self.dropped, key=lambda e: (self.file_order(e[0]), self.file_order(e[1]))):
                 out.append(f"    {self.slug[u]} needs {self.slug[v]} (rank {self.edge_rank[(u, v)]})")
-        rules = collections.Counter(rule for rule, _rm, _c in self.set_aside.values())
-        out.append(f"  clauses set aside, their references creating no need: {rules['negation']} by a negation, "
+        rules = collections.Counter(rule for rule, _cue, _rm, _w in self.set_aside.values())
+        out.append(f"  references set aside, creating no need: {rules['negation']} by a negation, "
                    f"{rules['consumer']} by a consumer cue")
-        for (name, start), (rule, rm, clause) in sorted(self.set_aside.items()):
+        for (name, start), (rule, cue, rm, what) in sorted(self.set_aside.items()):
             line = bisect.bisect_right(rm.readme.starts, start)
-            said = " ".join(rm.readme.text[clause.start:clause.end].split())
-            out.append(f"    {rule}: {rm.rel}/README.md:{line}: {said[:120]}")
+            refs = "; ".join(w.replace(" (*Needs:*)", "").replace(" (Dependencies)", "") for w in what)
+            out.append(f"    {rule}: {rm.rel}/README.md:{line}: {refs[:100]} (cue: {cue[:60]})")
         return out
 
 

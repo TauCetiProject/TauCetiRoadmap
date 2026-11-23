@@ -95,10 +95,11 @@ are generated from the roadmaps' READMEs:
   `` `Name` `` or `TauCetiRoadmap.Name`). A section without such a line needs
   what the `### Dependencies` subsection of its layer cites. Nothing else in a
   README (statements, checks, examples, remarks) creates a dependency. Within
-  those statements a clause that negates a reference (`Layer 0 is not needed`)
-  or names it as a consumer (`§4.5 consumes it`, `used by §4.4`) creates no
-  need; the cue words are one closed list in the script, and `--stats` lists
-  every clause they set aside.
+  those statements a reference creates no need when a negation governs it
+  (`no Layer 6 input`, `Layer 0 is not needed`) or a cue names it a consumer
+  (`§4.5 consumes it`, `used by §4.4`); a cue acts only on the reference it
+  governs. The cue words are one closed list in the script, and `--stats`
+  lists every reference they set aside.
 - A layer that has sections is not an item, since no pull request completes it
   as such: a need of it is a need of each of its sections. A layer without
   sections is an item, the unit of work; it needs what the `*Needs:*` and
