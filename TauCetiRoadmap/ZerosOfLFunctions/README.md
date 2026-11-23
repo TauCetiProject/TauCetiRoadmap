@@ -485,7 +485,7 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
 
 *Needs:* *invGammaFactor*; L-functions Layer 0 `HasDirichletAgreement`,
 `HasMeromorphicContinuation`, `HasFunctionalEquation.eventuallyEq`, `AnalyticLFunctionData.dual`,
-Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_zero`.
+L-functions Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_zero`.
 
 **Checks.**
 
@@ -1161,7 +1161,7 @@ the three clauses are assembled here from 5.5, 3.1 and 4.4, as 6.4 is.
 `TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq`,
 `TauCeti.LFunctions.AnalyticLFunctionData.dual_completed` and the field
 `HasFunctionalEquation.polarOrder_one_sub_conj` (L-functions Layer 0); L-functions Layers 3 and 5,
-and Layer 7 `heckeLFunction_ne_zero_of_one_le_re` at `s = 1` for `Λ₀(0) ≠ 0`.
+and L-functions Layer 7 `heckeLFunction_ne_zero_of_one_le_re` at `s = 1` for `Λ₀(0) ≠ 0`.
 
 **Checks.**
 
