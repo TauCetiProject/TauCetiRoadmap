@@ -365,7 +365,9 @@ with `ContMDiffHolder I I k α f` and `ContMDiffHolder I I k α f.symm`. Prove t
 `0 < α ≤ 1` it consists of exactly these diffeomorphisms (`coe_holderDiff`): the identity is smooth,
 the set is closed under inverses by its symmetry, and §2.3 item 1, applied to `f ∘ g` and to
 `g.symm ∘ f.symm`, gives closure under composition. By §3.1 the second condition follows from the
-first. For `k = 0` and `α < 1` the set is not closed under composition (Conventions). For `1 ≤ k` and
+first. For `k = 0` and `0 < α < 1` the set need not be closed under composition: on the circle, a
+homeomorphism equal near `0` to the map `x ↦ sign(x)|x|^α` of the Conventions lies in it and its
+square does not. For `1 ≤ k` and
 `0 < α ≤ 1`, prove the multiplicative equivalence between `HolderDiff I M k α` and
 `HolderDiffeomorph I I M M k α` with its `trans`/`symm` group structure. Prove that the forgetful
 homomorphism `TauCeti.Diff I M (k + 1) → TauCeti.Diff I M k` maps `HolderDiff I M (k + 1) α` into
@@ -511,7 +513,11 @@ finite-atlas spaces of §2.2; `F` is a complete normed space over `ℝ` or `ℂ`
    finite-dimensional `F` the inclusion is compact: by Arzelà–Ascoli on the pieces a bounded
    sequence has a subsequence converging in `C^k_A(M, F)`, and §1.2 upgrades the convergence to
    `C^{k,α'}`.
-2. `C^{k+1}_A(M, F) → C^{k,1}_A(M, F)` is continuous, and the Check of §2.5 shows it is not onto.
+2. `C^{k+1}_A(M, F) → C^{k,1}_A(M, F)` is continuous, and for nonempty `M` of positive dimension
+   and `F ≠ 0` it is not onto: as in the Checks of §2.5, the map equal in a chart to
+   `ψ(z) ℓ(z − z₀)^k |ℓ(z − z₀)| v` and to `0` elsewhere, for `z₀` interior to `Set.range I`, a
+   smooth cutoff `ψ` equal to `1` near `z₀` with support in a small ball around `z₀`, a nonzero
+   linear form `ℓ` on `E` and `v ≠ 0` in `F`, lies in the second space and not the first.
 3. For real `r ≥ 0`, define `C^r_A(M, F)` as `C^k_A(M, F)` when `r = k` is a natural number and as
    `C^{⌊r⌋, r − ⌊r⌋}_A(M, F)` otherwise. The inclusions `C^r_A(M, F) → C^{r'}_A(M, F)` for
    `r' ≤ r` are continuous.
