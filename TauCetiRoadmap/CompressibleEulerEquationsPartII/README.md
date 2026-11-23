@@ -364,9 +364,10 @@ Define a *characteristic data set* for an equation of state as: a time `t₀`;
 a period group Λ; a Λ-invariant open `W ⊆ 𝔐` and a Λ-invariant `C¹` function `φ` on W with
 `dφ ≠ 0`, whose *edge* `𝓔 = {x : (t₀, x) ∈ W, φ(t₀, x) = 0}` is a `C¹` hypersurface of E (the
 spatial part of `dφ` is nonzero there); the hypersurface `C = {p ∈ W ∩ H_{t₀} : φ(p) = 0}` and the
-wedge `K_φ`; a Λ-invariant open `S₀ ⊆ E` with `{t₀} × S₀ ⊆ K_φ` and `𝓔 ⊆ closure S₀`; and data
-`Ū₀` on `S₀`, `C¹` up to `𝓔`, and `Ū_C` on C, `C¹` on C as a manifold with boundary `{t₀} × 𝓔`,
-Λ-periodic, valued in the states. Require:
+wedge `K_φ`; a Λ-invariant open `S₀ ⊆ E` with `{t₀} × S₀ ⊆ K_φ` and `{t₀} × (S₀ ∪ 𝓔)` relatively
+open in `K_φ ∩ Σ_{t₀}`, that is, `S₀ ⊇ {x ∈ N : φ(t₀, x) > 0}` for an open `N ⊇ 𝓔` with
+`{t₀} × N ⊆ W` (so `𝓔 ⊆ closure S₀`); and data `Ū₀` on `S₀`, `C¹` up to `𝓔`, and `Ū_C` on C, `C¹`
+on C as a manifold with boundary `{t₀} × 𝓔`, Λ-periodic, valued in the states. Require:
 
 1. `Ū₀ = Ū_C` on `𝓔`;
 2. *nullity*: `dφ` is future null for `g_{Ū_C}` at every point of C (a condition on the data,
@@ -374,7 +375,10 @@ wedge `K_φ`; a Λ-invariant open `S₀ ⊆ E` with `{t₀} × S₀ ⊆ K_φ` an
 3. *constraint*: `Ū_C` satisfies the inner equation of §3.1 on C;
 4. *compatibility of order 1*: the 1-jet at each edge point determined by `Ū₀` and the equations
    (the formal time derivative of CompressibleEulerEquations §7.1's Cauchy problem) restricts on
-   `T C` to the derivative of `Ū_C`.
+   `T C` to the derivative of `Ū_C`;
+5. *C issues from the edge*: every point of C is the endpoint of a past causal curve in C for the
+   acoustical cone of `Ū_C` (CompressibleEulerEquations §3.3) whose interval contains `t₀`, so that
+   it starts on `C ∩ Σ_{t₀} = {t₀} × 𝓔`.
 
 For data of class `C^m`, define *compatibility of order m* in the same way with m-jets: the formal
 m-jet at an edge point computed from `Ū₀` by the equations restricts on C to the m-jet of `Ū_C`
@@ -391,18 +395,30 @@ m-jet at an edge point computed from `Ū₀` by the equations restricts on C to 
 
 **Checks.**
 
-- Constant data `(ρ₀, v₀)` on `S₀ = {x¹ < 0}` and on `C = {x¹ = (v₀¹ + c₀)(t − t₀)}` satisfy 1–4 and
+- Constant data `(ρ₀, v₀)` on `S₀ = {x¹ < 0}` and on `C = {x¹ = (v₀¹ + c₀)(t − t₀)}` satisfy 1–5 and
   are smoothly compatible; replacing `Ū_C` by a different constant violates 1.
 - With `n = 1`, `p = ρ²/2`, `t₀ = 0`, `Ū_C` the constant state `(1, 0)` on `C = {x = t}`, and
-  `Ū₀ = (1, a x)` on `x < 0`: 1–3 hold, and the formal derivative at the edge from `Ū₀` has
+  `Ū₀ = (1, a x)` on `x < 0`: 1–3 and 5 hold, and the formal derivative at the edge from `Ū₀` has
   `∂_tv = −v∂_xv − ∂_xρ = 0`, `∂_tρ = −ρ∂_xv = −a`, so its derivative along `L = ∂_t + ∂_x` is
   `(−a, a)`; compatibility of order 1 holds exactly when `a = 0`.
 - The top of the slab is excluded in the statement on traces: for `n = 1`, `c₀ = 1`, `v₀ = 0` and
   constant data on `(−1, 1)`, the largest development in `[0, 1/2) × ℝ` is
   `{|x| < 1 − t, 0 ≤ t < 1/2}`, whose characteristic boundary contains the spacelike segment
   `{t = 1/2, |x| < 1/2}`, where nullity fails.
+- The condition on `S₀` at the edge is needed: for `n = 1`, `p = ρ²/2`, `t₀ = 0`, `W = 𝔐`,
+  `φ = t − x` (`𝓔 = {0}`, `C = {x = t, t ≥ 0}`, `K_φ = {0 ≤ t, x ≤ t}`) and the open set
+  `S₀ = (−1, 0) ∖ {−1/k : k ≥ 2}`, whose closure contains 0, the constant state `(1, 0)` satisfies
+  1–5 and is smoothly compatible, but a relatively open subset of `K_φ` containing `(0, 0)`
+  contains `(0, −1/k)` for large k, so these data have no development (§3.3).
+- Condition 5 is needed: for `n = 1`, `p = ρ²/2`, `t₀ = 0`, `W = 𝔐 ∖ {(0, 5)}`, `φ = t − x + 5` and
+  `S₀` empty, the edge is empty and `C = {x = t + 5, t > 0}`, and the constant state `(1, 0)` on C
+  satisfies 1–4 but not 5. The data on `C ∩ {t < τ}` have no development for any `τ > 0`: a
+  development D contains points p with `φ(p) > 0`, and the maximal past integral curve through p
+  of `∂_t + (v + c)∂_x` for its solution is a past-inextendible causal curve in D that meets
+  neither C, an integral curve of the same field, nor `Σ₀`, which D does not meet, so
+  `p ∉ D⁺_D(C)`.
 
-*Needs:* §3.1; CompressibleEulerEquations §7.1, §8.1; Layer 2.
+*Needs:* §3.1; CompressibleEulerEquations §3.3, §7.1, §8.1; Layer 2.
 
 ### 3.3 Developments of characteristic data
 
@@ -708,13 +724,12 @@ Boundaries:
   Remark 2.14, §5.4 (Goursat problem).
 - Rendall1990: A. D. Rendall, *Reduction of the characteristic initial value problem to the Cauchy
   problem and its applications to the Einstein equations*, Proc. R. Soc. Lond. A 427 (1990), 221–239.
-  The article has no open copy and was not read, so its own section, theorem and page numbers are
-  not given. Its abstract (p. 221) states the method, a reduction of the characteristic initial
-  value problem to the Cauchy problem, and its application to data on two transversely
-  intersecting null hypersurfaces. Luk 2012, §3, Theorem 3, restates its existence and uniqueness
-  theorem for quasilinear wave equations with data on two null hypersurfaces meeting in a
-  2-sphere; Cabet–Chruściel–Tagne Wafo 2016, Introduction, records that it covers quasilinear
-  wave equations and symmetric hyperbolic systems.
+  Cited by its abstract (p. 221), which states the method, a reduction of the characteristic
+  initial value problem to the Cauchy problem, and its application to data on two transversely
+  intersecting null hypersurfaces, and through Luk 2012, §3, Theorem 3, which restates its
+  existence and uniqueness theorem for quasilinear wave equations with data on two null
+  hypersurfaces meeting in a 2-sphere; Cabet–Chruściel–Tagne Wafo 2016, Introduction, records that
+  it covers quasilinear wave equations and symmetric hyperbolic systems.
 - Luk2012: J. Luk, *On the local existence for the characteristic initial value problem in general
   relativity*, Int. Math. Res. Not. IMRN 2012, no. 20, 4625–4678; arXiv:1107.0898: §3 (Rendall's
   theorem), Theorem 3.
