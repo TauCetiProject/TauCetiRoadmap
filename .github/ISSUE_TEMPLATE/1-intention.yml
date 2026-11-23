@@ -293,6 +293,7 @@ body:
         - KleinianGroups
         - LFunctions
         - LaguerreJacobi
+        - LangevinAndHamiltonianMonteCarlo
         - LanglandsParameterStacks
         - LatticePackingsAndPerfectForms
         - LefschetzPencilsAndVanishingCycles
@@ -310,6 +311,7 @@ body:
         - LogicAndDefinabilityInNumberTheory
         - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
+        - MarkovChainMixing
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
         - MassFormula
@@ -415,6 +417,7 @@ body:
         - QuantumEnvelopingAlgebras
         - QuantumFoundations
         - QuantumGroups
+        - QuantumOptimization
         - QuasiRiemannHypothesis
         - QuasiregularMaps
         - QuaternionArithmetic
@@ -453,6 +456,7 @@ body:
         - SchemeKTheoryOperations
         - SchemeKTheoryOperationsPartII
         - SchubertGeometry
+        - ScoreBasedDiffusion
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
         - SequentCalculusAndCutElimination
