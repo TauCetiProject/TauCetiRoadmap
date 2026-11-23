@@ -438,6 +438,7 @@ body:
         - RiemannianGeometry
         - RiemannianManifoldsWithConvexBoundary
         - RigidAnalyticGeometry
+        - RobustnessCertificates
         - RootSystemsPartII
         - SNumbers
         - SatoTateGroups
