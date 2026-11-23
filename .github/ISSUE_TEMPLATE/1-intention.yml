@@ -301,6 +301,7 @@ body:
         - LieGroupoidsPoisson
         - LieGroupsPartII
         - LieHighestWeightPartII
+        - LinearAlgebraMethodInCombinatorics
         - LinearFormsInLogarithms
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
