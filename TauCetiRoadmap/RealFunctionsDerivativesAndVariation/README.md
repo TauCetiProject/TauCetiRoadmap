@@ -206,11 +206,13 @@ lies outside `E` only if `G c ≥ G d`.
   `x ∈ interior D` outside `s`, then `f` is monotone on `D` (Bruckner, Chapter XI, Corollary 4.2,
   p. 189; Bourbaki, *FRV*, Chapter I, §2, Proposition 2, p. 13, for the right derivative).
 
-*Proof route.* Bruckner, Chapter XI, Theorem 4.1, p. 189, applied to `f t + ε t` for `ε > 0`:
-if `f x₁ > f x₂` with `x₁ < x₂`, choose a level `y₀` strictly between, outside the countable
-image `f(s)`, and take the last point where `f + ε t` is at least `y₀`; its upper right Dini
-derivative is at most `0 < ε`. Let `ε → 0`. Mathlib's comparison lemma
-`image_le_of_liminf_slope_right_lt_deriv_boundary` gives the case `s = ∅` in its lower-Dini form.
+*Proof route.* Bruckner, Chapter XI, Theorem 4.1, p. 189, applied to `g t = f t + ε t`: if
+`f x₁ > f x₂` with `x₁ < x₂` (by continuity `x₁` may be taken in `interior D`), then
+`g x₁ > g x₂` for small `ε > 0`. Choose a level `y₀` strictly between `g x₂` and `g x₁`, outside
+the countable image `g(s)`, and let `t` be the last point of `[x₁, x₂]` with `g t ≥ y₀`. Then
+`g t = y₀`, so `t ∉ s`, and `D⁺g(t) ≤ 0`, that is `D⁺f(t) ≤ -ε < 0`, a contradiction.
+Mathlib's comparison lemma `image_le_of_liminf_slope_right_lt_deriv_boundary` gives the case `s = ∅`
+in its lower-Dini form.
 
 *Needs:* §1.1.
 
@@ -310,8 +312,9 @@ Benedetto–Czaja's proof, p. 198.
 
 *Proof route.* Thomson's proof, §70, p. 166 and the pages following: Young's theorem (§1.3)
 disposes of the points where an upper Dini derivative on one side lies below the lower one on
-the other side, and the remaining cases, a finite upper Dini derivative on one side with a
-different lower one on the same side, are shown null for each pair of rationals by the Vitali
+the other side, and the remaining cases, an upper Dini derivative `< +∞` on one side strictly
+above the lower one on the other side (the set where `D⁺f < +∞` and `D₋f < D⁺f`, and its three
+images under `f ↦ -f` and `x ↦ -x`), are shown null for each pair of rationals by the Vitali
 covering theorem for Lebesgue outer measure. The corollary `ae_dini_ne_infty` reads off the four
 alternatives.
 
@@ -747,8 +750,10 @@ Completion means:
   the density topology. Lusin's theorem is in Tau Ceti and is consumed.
 - The Banach indicatrix theorem for continuous curves, the variation formula for absolutely
   continuous curves, and the Cantor function are in Tau Ceti and are consumed, not restated. The
-  continuous Jordan decomposition of a continuous function of locally bounded variation is
-  formalized in Tau Ceti and is not a target here.
+  continuous Jordan decomposition of a continuous function of locally bounded variation is not
+  a target here: it follows from Mathlib's Jordan decomposition and Mathlib's continuity of the
+  variation function at points of continuity, both in
+  `Mathlib/Topology/EMetricSpace/VariationOnFromTo.lean`.
 - The Weierstrass nowhere differentiable function is in Mathlib's Counterexamples directory
   and is used only as an example.
 - [Poincare3D](../Poincare3D/README.md), §11.1, uses an upper right Dini derivative inequality
