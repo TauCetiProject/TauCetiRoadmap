@@ -19,7 +19,7 @@ Layer 1 sets up diffusion triples and the Γ-calculus on test functions. Layer 2
 ## Conventions
 
 - **Functions and measures.** `E` is a measurable space and `μ : Measure E` is σ-finite. When `μ` is finite it is a probability measure. Functions are real valued, `E → ℝ`. Equalities and inequalities between functions hold `μ`-almost everywhere (`=ᵐ[μ]`, `≤ᵐ[μ]`), except membership in an algebra, which is literal.
-- **Operators on functions.** `Γ : (E → ℝ) → (E → ℝ) → (E → ℝ)` and `L : (E → ℝ) → (E → ℝ)` are total functions. Every hypothesis and conclusion about them is stated on the test algebra `A₀` or the extended algebra `A`; their values elsewhere carry no meaning and are never used. Write `Γ(f) = Γ(f, f)`.
+- **Operators on functions.** `Γ : (E → ℝ) → (E → ℝ) → (E → ℝ)` and `L : (E → ℝ) → (E → ℝ)` are total functions. Every hypothesis and conclusion about them is stated on the test algebra `A₀` or the extended algebra `A`; their values elsewhere carry no meaning and are never used. The extensions built in Layers 2 and 5 (the generator on `Lp ℝ 2 μ`, and `Γ`, `Γ₂` and the Hessian on `𝒟(ℰ)` and `𝒟(L)`) are separate objects, written with the same letters by abuse of notation; in Lean they get their own names. Write `Γ(f) = Γ(f, f)`.
 - **Algebras.** The test algebra `A₀ : NonUnitalSubalgebra ℝ (E → ℝ)` consists of bounded measurable functions in every `Lᵖ(μ)`, `1 ≤ p < ∞`. It does not contain the constants when `μ` is infinite. The extended algebra `A : Subalgebra ℝ (E → ℝ)` contains `A₀` and the constants.
 - **Signs.** `L` is nonpositive: `ℰ(f) = ∫ Γ(f) dμ = −∫ f Lf dμ ≥ 0`. The semigroup is `P_t = e^{tL}`, `t ≥ 0`.
 - **Curvature-dimension.** `n : ℝ≥0∞` with `1 ≤ n`. The term `(Lf)²/n` is `(n⁻¹).toReal * (Lf)²`, so `n = ∞` removes it. Following BGL, `CD(ρ, n)` is defined on the test algebra `A₀`; on a full triple, prove that it extends to the specified extended algebra `A`. Never quantify over a separately supplied, unconstrained function class.
@@ -53,7 +53,7 @@ Prove, for `f, g, h ∈ A₀` and smooth `ψ` with `ψ(0) = 0` [BGL, (3.1.1), (3
 * the `L²` continuity estimate `|∫ Γ(f, g) dμ| ≤ ‖Lf‖₂ ‖g‖₂` [BGL, D4];
 * `∫ Γ(f, g) dμ = −∫ f Lg dμ`, a symmetric bilinear form on `A₀`.
 
-The fundamental identity holds a.e. and needs the diffusion property and the density of `A₀`. Integration by parts alone, without them, does not determine `Γ` pointwise.
+The fundamental identity holds a.e. and needs the diffusion property, but not the density of `A₀`: the defect `F = L(fg) − f Lg − g Lf − 2Γ(f, g)` lies in `A₀`, integration by parts, the diffusion property for `ψ(a, b) = ab` and the symmetry of `Γ` give `∫ h F dμ = 0` for every `h ∈ A₀`, and `h = F` gives `F = 0` a.e. Integration by parts alone, without the diffusion property, does not determine `Γ` pointwise.
 
 **Checks.**
 - On the circle `ℝ/2πℤ` with `Γ(f, g) = f'g'` and `L = d²/dx²`: `L(cos²) = −2 cos 2x` and `2 cos·L cos + 2Γ(cos) = −2cos² + 2sin² = −2 cos 2x`.
@@ -71,7 +71,7 @@ The form `ℰ(f, g) = ∫ Γ(f, g) dμ` on the image of `A₀` in `Lp ℝ 2 μ` 
 
 The **generator** is the nonpositive self-adjoint operator `L : Lp ℝ 2 μ →ₗ.[ℝ] Lp ℝ 2 μ` that UO-D06 associates with `ℰ` (the Friedrichs extension of `L` on `A₀`). It extends `L` on `A₀`. Its domain is characterized by `u ∈ 𝒟(L)` with `Lu = w` if and only if `u ∈ 𝒟(ℰ)` and `ℰ(u, v) = −⟪w, v⟫` for every `v ∈ A₀` [BGL, §3.1.5].
 
-The semigroup `P_t` is `IsCoercive.formSemigroup` of the coercive form `ℰ + ⟪·,·⟫` on `𝒟(ℰ)`, shifted by `StronglyContinuousSemigroup.expShift` with parameter `−1` (the form semigroup is `e^{−t} P_t`). Prove that:
+The semigroup `P_t` is `IsCoercive.formSemigroup` of the coercive form `ℰ + ⟪·,·⟫` on `𝒟(ℰ)`, shifted by `StronglyContinuousSemigroup.expShift` with parameter `−1` (Tau Ceti's convention is `expShift λ = e^{−λt} S(t)`, and the form semigroup is `e^{−t} P_t`). Prove that:
 * its generator is `L`;
 * it is a symmetric contraction semigroup on `Lp ℝ 2 μ`;
 * `P_t u ∈ 𝒟(L)` for `t > 0`, with `‖L P_t u‖₂ ≤ ‖u‖₂ / t`;
@@ -114,7 +114,7 @@ The **extended algebra** `A` [BGL, Definition 3.3.1; hypotheses F1–F9] is an a
 * **Semigroup stability (F8):** for `f ∈ A₀` and `t ≥ 0`, `P_t f` has a representative in `A`.
 * **Connexity (F9):** `f ∈ A` and `Γ(f) = 0` imply that `f` is constant [BGL, Definition 3.3.7].
 
-A **full triple** is a standard triple equipped with such an extended algebra and satisfying essential self-adjointness (ESA) for `L` on `A₀` [BGL, Definition 3.3.25 and hypotheses F10]. A **compact triple** is a full triple with `μ` a probability measure, `1 ∈ A₀` and `A = A₀` [BGL, Definition 3.3.26]; ESA is already part of the full-triple hypothesis. A diffusion triple is **complete** if there is a nonnegative exhaustion `(u_k)` in `A₀` with `Γ(u_k) ≤ 1/k` [BGL, Definition 3.3.9]. A diffusion triple is **weakly hypo-elliptic** if every `u ∈ L²(μ)` with `L*u = λu` for some `λ ∈ ℝ` is in `A` [BGL, Definition 3.3.8].
+A **full triple** is a standard triple equipped with such an extended algebra and satisfying essential self-adjointness (ESA) for `L` on `A₀` [BGL, Definition 3.3.25 and hypotheses F10]. A **compact triple** is a full triple with `μ` a probability measure, `1 ∈ A₀` and `A = A₀` [BGL, Definition 3.3.26]; ESA is already part of the full-triple hypothesis. A diffusion triple is **complete** if there is a nonnegative exhaustion `(u_k)` in `A₀` with `Γ(u_k) ≤ 1/k` [BGL, Definition 3.3.9]. A diffusion triple is **weakly hypo-elliptic** if every `u ∈ L²(μ)` with `L*u = λu` for some `λ ∈ ℝ` is in `A` [BGL, Definition 3.3.8]. Connexity (F9) and weak hypo-ellipticity refer only to `A`, `Γ`, `L` and the semigroup, so they make sense for a diffusion triple equipped with an extended algebra satisfying F1–F9 that is not yet known to be ESA or ergodic; Layer 5 uses them in that setting.
 
 Prove that `L` and `Γ(u, u)` on `A` depend only on a.e. classes, and the chain rules `Γ(ψ∘g, h) = ψ'(g) Γ(g, h)` and `Γ(f²) = 4f² Γ(f)` on `A`.
 
@@ -137,7 +137,7 @@ Define `Γ₂(f, g) = ½ (L Γ(f, g) − Γ(f, Lg) − Γ(g, Lf))` on `A` [BGL, 
 
 ## Layer 5: the Γ-calculus on the generator domain
 
-- **Weak hypo-ellipticity.** For a complete triple satisfying connexity and weak hypo-ellipticity: functions in `𝒟(ℰ) ∩ A` with `Γ = 0` are constant [BGL, Proposition 3.2.1], the triple is ergodic [BGL, Proposition 3.3.10], and it is ESA [BGL, Proposition 3.3.11].
+- **Weak hypo-ellipticity.** Here the triple is a diffusion triple equipped with an extended algebra `A` satisfying F1–F9 of Layer 4, complete and weakly hypo-elliptic. It is not assumed ESA or ergodic: these are the conclusions. Prove that if `u ∈ 𝒟(ℰ)` and `ℰ(u) = 0`, then `Lu = 0`, so `u ∈ A` by weak hypo-ellipticity, `Γ(u) = 0` by the agreement of the next item, and `u` is constant by connexity (F9), hence zero when `μ` is infinite. Deduce that the triple is ergodic [BGL, Proposition 3.3.10] and that it is ESA [BGL, Proposition 3.3.11].
 - **`Γ` on the form domain.** Extend `Γ` to `𝒟(ℰ)` as an `L¹(μ)`-valued symmetric bilinear map, with Cauchy–Schwarz, the Leibniz rule on `𝒟(ℰ) ∩ L^∞(μ)` (an algebra, unlike `𝒟(ℰ)`), and agreement with `Γ` on `A ∩ 𝒟(ℰ)` [BGL, Propositions 3.3.5–3.3.6].
 - **`Γ₂` and the Hessian on the generator domain** [BGL, Proposition 3.3.16]. On a full triple with `CD(ρ, n)`:
   * `Γ`, `Γ₂` and the Hessian `H` extend from `A₀` to `𝒟(L)`, as `L¹(μ)` limits along every graph-norm convergent sequence, independently of the sequence;
@@ -180,7 +180,7 @@ The **Poincaré inequality** `P(C)` of a diffusion triple with probability measu
 
 **Checks.**
 - The circle is `CD(0, 1)` and has spectral gap `1`, attained by `cos x`. Curvature `0` gives no bound, and the inequality `P(1)` holds by Fourier series.
-- Ornstein–Uhlenbeck with `ρ = 1`: `P(1)` holds with equality for `f(x) = x`, agreeing with Tau Ceti's `poincareInequality_stdGaussian`.
+- Ornstein–Uhlenbeck with `ρ = 1`: `P(1)` holds with equality for `f(x) = x`, an equality on `𝒟(ℰ)` through the first item (no nonzero `f ∈ A₀` attains it), agreeing with Tau Ceti's `poincareInequality_stdGaussian`.
 
 *Needs:* Layers 4–5; Tau Ceti `MeasureTheory.Measure.PoincareInequality`; Mathlib `ProbabilityTheory.variance`.
 
@@ -194,7 +194,7 @@ The **logarithmic Sobolev inequality** `LS(C)` of a diffusion triple with probab
 * For the Gibbs triples of Layer 9, the triple's `LS(C)` is equivalent to Tau Ceti's `μ_V.LogSobolevInequality C`.
 
 **Checks.**
-- Ornstein–Uhlenbeck, `ρ = 1`: `LS(1)` holds with equality for `f = e^{ax/2}`, agreeing with Tau Ceti's Gaussian logarithmic Sobolev inequality.
+- Ornstein–Uhlenbeck, `ρ = 1`: `LS(1)` holds with equality for `f = e^{ax/2}`, an equality on `𝒟(ℰ)` through the first item, agreeing with Tau Ceti's Gaussian logarithmic Sobolev inequality.
 - The round sphere `S²` (`d = 3`, `CD(1, 2)`) gets `LS(1/2)`.
 
 *Needs:* Layers 6–7; Tau Ceti `MeasureTheory.entropy`, `MeasureTheory.Measure.LogSobolevInequality`.
@@ -208,7 +208,7 @@ For each model, specify a concrete extended algebra `A`, prove the extended-alge
 - **Ornstein–Uhlenbeck on `ℝᵈ`.** Standard Gaussian measure, `A₀ = C_c^∞(ℝᵈ)` and `A = C^∞(ℝᵈ)`, `L = Δ − x·∇`, `CD(1, ∞)`, with Hermite eigenfunctions (`Polynomial.hermite`) and the Mehler formula `P_t f(x) = ∫ f(e^{−t}x + √(1 − e^{−2t}) y) dγ(y)`.
 - **Round spheres `S^{d−1} ⊂ ℝᵈ`, `d ≥ 2`.** The normalized surface measure (Mathlib `Measure.toSphere` of Lebesgue measure, normalized), `A₀ = A = C^∞(S^{d−1})` (equivalently, restrictions of smooth functions on `ℝᵈ`), and the Laplace–Beltrami operator, defined extrinsically by `Lf = Δ(f ∘ (x ↦ x/‖x‖))` on the sphere, with `f ∘ (x ↦ x/‖x‖)` the 0-homogeneous extension of `f`, so that this layer needs no Riemannian geometry; `Γ` and `Γ₂` are computed directly from this formula. `Γ(f) = ‖∇f‖² − (x·∇f)²` on the sphere, for any smooth extension `f` to `ℝᵈ`. A compact triple with `CD(d − 2, d − 1)`. The spherical harmonics of degree `k` are eigenfunctions with eigenvalue `−k(k + d − 2)`. For `d ≥ 3` this gives the Lichnerowicz gap `d − 1` and `LS(1/(d − 1))`.
 - **Gibbs measures on `ℝᵈ`.** For `V : ℝᵈ → ℝ` smooth with `∫ e^{−V} dx < ∞`, the probability measure `μ_V = e^{−V} dx / Z`, `A₀ = C_c^∞(ℝᵈ)`, the extended algebra `A = C^∞(ℝᵈ)`, and `L = Δ − ∇V·∇`.
-  * It is complete, connected and weakly hypo-elliptic (by the interior regularity of PDE §5.1), hence ESA, ergodic and a full triple.
+  * `A = C^∞(ℝᵈ)` satisfies F1–F9, and the triple is complete, connected and weakly hypo-elliptic; by Layer 5 it is therefore ESA and ergodic, hence a full triple. Weak hypo-ellipticity: `u ∈ L²(μ_V)` with `L*u = λu` solves `Δu − ∇V·∇u = λu` in the sense of distributions; prove that such `u` is in `H¹_loc`, then interior regularity (PDE §5.1) with the right side `λu`, bootstrapped, makes `u` smooth. F8: for `f ∈ A₀` and `t > 0`, `P_t f ∈ 𝒟(Lᵏ)` for every `k` by the spectral calculus, and interior regularity applied to `L(L^{k−1} P_t f) = Lᵏ P_t f`, iterated in `k`, gives `P_t f ∈ C^∞(ℝᵈ)`.
   * `Γ₂(f) = ‖∇²f‖²_HS + ⟪∇²V ∇f, ∇f⟫`, so `CD(ρ, ∞)` holds if and only if `∇²V ≥ ρ`.
   * For `ρ > 0`, `μ_V` satisfies `P(1/ρ)` and `LS(1/ρ)`, and hence Tau Ceti's `PoincareInequality (1/ρ)` and `LogSobolevInequality (1/ρ)`.
 
@@ -268,7 +268,7 @@ Throughout, `V : ℝᵈ → ℝ` is smooth and has positive-definite Hessian at 
 ## Scope and ownership
 
 This roadmap owns:
-- the diffusion, standard, full and compact triple structures and their Γ-calculus (Layers 1, 4);
+- the diffusion, standard, full and compact triple structures and their Γ-calculus (Layers 1, 3, 4);
 - the Dirichlet form, generator and Markov semigroup of a diffusion triple, and its positivity and sub-Markov property (Layer 2);
 - ergodicity, essential self-adjointness, conservativeness and their criteria (Layers 3, 5);
 - the extension of the Γ-calculus to the form and generator domains (Layer 5);
@@ -302,7 +302,7 @@ It does not contain:
 | Diffusion operators on manifolds | §3.2; Appendix C | the round spheres | Riemannian metrics, curvature, the Laplace–Beltrami operator and the Bochner formula: RiemannianGeometry |
 | Poincaré and logarithmic Sobolev inequalities | Chapters 4–5 | §§4.2, 4.8, 5.1, 5.7; Theorem 4.9.1, Lemma 4.9.2, (4.9.2) and (4.9.4) (Layer 11) | §4.3 tensorization, the Gaussian case of §4.1, Herbst's argument of §5.4: RandomMatrices §2.2 |
 | Sobolev inequalities and heat kernels | Chapter 6; §§7.1–7.4 | — | interpolation: PDE |
-| Generalized functional and isoperimetric inequalities | §§7.5–7.7; Chapter 8 | Theorem 8.5.3, Corollaries 8.5.4–8.5.5 and (8.5.7)–(8.5.11) for full triples, and the isoperimetric form for Gibbs measures (Layer 10) | co-area: GeometricMeasureTheory; Euclidean isoperimetry: Isoperimetry; Gaussian perimeter and the uniqueness of half-spaces: GaussianIsoperimetryAndClusters |
+| Generalized functional and isoperimetric inequalities | §§7.5–7.7; Chapter 8 | §8.5.2, Theorem 8.5.3, Corollaries 8.5.4–8.5.5 and (8.5.7)–(8.5.11) for full triples, and the isoperimetric form for Gibbs measures (Layer 10) | co-area: GeometricMeasureTheory; Euclidean isoperimetry: Isoperimetry; Gaussian perimeter and the uniqueness of half-spaces: GaussianIsoperimetryAndClusters |
 | Transportation inequalities | Chapter 9 | — | §§9.1–9.3, 9.6–9.8: OptimalTransport |
 | Markov processes and model semigroups | Chapters 1–2; Appendix B | the case of symmetric diffusion triples in §§1.4, 1.6–1.8 and 1.16; §2.1; §2.2; the circle in §2.5; the Ornstein–Uhlenbeck semigroup in §2.7 | §1.10 and Appendix B: StochasticCalculus |
 
@@ -340,7 +340,7 @@ UnboundedOperators UO-D06: closed, densely defined forms bounded below, their fo
 
 ### From TauCetiRoadmap.PDE
 
-§2.2 (B9): the Riesz–Thorin interpolation theorem. §5.1 (E20): interior `Hᵏ` regularity, giving smoothness of weak solutions of `(Δ − ∇V·∇) u = λu` with smooth `V`.
+§2.2 (B9): the Riesz–Thorin interpolation theorem. §5.1 (E20): interior `Hᵏ` regularity for elliptic equations with smooth coefficients, giving smoothness of `H¹_loc` weak solutions of `(Δ − ∇V·∇) u = g` with smooth `V` and `g ∈ Hᵏ_loc` for every `k`. It is used for weak hypo-ellipticity (with `g = λu`, bootstrapped), for F8 of the Gibbs triple, and for the Poisson equation `−Lh = f − ∫ f dμ_V` of Layer 11, where `h ∈ 𝒟(ℰ) ⊆ H¹_loc`. E20 starts from `H¹_loc` solutions; the step from a distributional solution `u ∈ L²_loc` to `u ∈ H¹_loc`, needed for weak hypo-ellipticity, is a target of Layer 9 unless PDE supplies it.
 
 ## Provenance
 

@@ -89,7 +89,8 @@ namespace DiffusionTriple
 attribute [instance] DiffusionTriple.sigmaFinite
 
 /-- The fundamental identity (BGL (3.1.1)/(3.1.6)), polarized, on the test algebra.
-Proof: integrate against `h ∈ A₀`, use `ibp` and the diffusion property, conclude by density. -/
+Proof: the defect `F` lies in `A₀`; `ibp`, the diffusion property and `Γ_symm` give
+`∫ h F = 0` for `h ∈ A₀`, and `h = F` gives `F = 0` a.e. The density field is not needed. -/
 theorem fundamentalIdentity (T : DiffusionTriple E) {f g : E → ℝ}
     (hf : f ∈ T.A₀) (hg : g ∈ T.A₀) :
     T.L (f * g) =ᵐ[T.μ] f * T.L g + g * T.L f + (2 : ℝ) • T.Γ f g := by
