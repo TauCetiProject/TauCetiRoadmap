@@ -352,7 +352,7 @@ The `MarkovDiffusionOperators` repository ([github.com/djalilchafai/MarkovDiffus
 
 ## References
 
-- [BGL] D. Bakry, I. Gentil, M. Ledoux, *Analysis and Geometry of Markov Diffusion Operators*, Grundlehren der mathematischen Wissenschaften 348, Springer, 2014, [Zbl 1376.60002](https://zbmath.org/?q=an%3A1376.60002). The standard reference on the subject, cited by more than 750 documents in zbMATH Open.
+- [BGL] D. Bakry, I. Gentil, M. Ledoux, *Analysis and Geometry of Markov Diffusion Operators*, Grundlehren der mathematischen Wissenschaften 348, Springer, 2014, [Zbl 1376.60002](https://zbmath.org/?q=an%3A1376.60002). The standard reference on the subject.
 - [BrascampLieb] H. J. Brascamp, E. H. Lieb, *On extensions of the Brunn–Minkowski and Prékopa–Leindler theorems, including inequalities for log concave functions, and with an application to the diffusion equation*, Journal of Functional Analysis 22 (1976), 366–389, [Zbl 0334.26009](https://zbmath.org/?q=an%3A0334.26009).
 - [CorderoErausquin2005] D. Cordero-Erausquin, *On Berndtsson's generalization of Prékopa's theorem*, Mathematische Zeitschrift 249 (2005), 401–410, [Zbl 1079.32020](https://zbmath.org/?q=an%3A1079.32020).
 - [Davies] E. B. Davies, *Heat Kernels and Spectral Theory*, Cambridge Tracts in Mathematics 92, Cambridge University Press, 1989, [Zbl 0699.35006](https://zbmath.org/?q=an%3A0699.35006).
