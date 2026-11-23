@@ -408,6 +408,7 @@ body:
         - QuadraticFormInvariants
         - QuadraticFormInvariantsPartII
         - QuantumEnvelopingAlgebras
+        - QuantumFoundations
         - QuantumGroups
         - QuasiRiemannHypothesis
         - QuasiregularMaps
@@ -475,6 +476,7 @@ body:
         - SpectralManifolds
         - SpectralSequencesAndConvergence
         - SpectralSequencesAndConvergencePartII
+        - SpectralSteepestDescent
         - SpinGeometry
         - SporadicOrders
         - SpringerResolutionAndCharacteristicCycles
