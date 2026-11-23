@@ -426,14 +426,15 @@ In §3.1 and §3.2 the coefficients are deterministic continuous Markov coeffici
 σ(s, t) on (0, ∞) × [0, T] and a deterministic continuous rate r(t). Assume that from every
 deterministic start (s₀, t₀) with s₀ > 0 and t₀ ∈ [0, T) the equation
 `dS_t = μ(S_t, t) S_t dt + σ(S_t, t) S_t dW_t`, `S_(t₀) = s₀`, has a positive strong solution
-(StochasticCalculus §9.1) on [t₀, T] that does not explode. A function C of class C^(2,1) on
-D = {(s, t) : s > 0, t < T} **replicates from (s₀, t₀)** when some self-financing strategy (§1.2,
-on [t₀, T]) has wealth V_t = C(S_t, t) for all t ∈ [t₀, T), almost surely; equality at maturity
-alone is not replication.
+(StochasticCalculus §9.1) on [t₀, T] that does not explode. Let D = {(s, t) : s > 0, 0 ≤ t < T};
+class C^(2,1) on D is that of Convention 8 with the time derivative at t = 0 taken from the right.
+A function C of class C^(2,1) on D **replicates from (s₀, t₀)** when some self-financing
+strategy (§1.2, on [t₀, T]) has wealth V_t = C(S_t, t) for all t ∈ [t₀, T), almost surely;
+equality at maturity alone is not replication.
 
 ### 3.1 The pricing equation as a necessary condition
 
-Let U = {(s, t) ∈ D : σ(s, t) ≠ 0}, an open set. Prove: if C replicates from (s₀, t₀) by the
+Let U = {(s, t) ∈ D : σ(s, t) ≠ 0}, open in D. Prove: if C replicates from (s₀, t₀) by the
 strategy (a, b), then dt × P-almost everywhere on {t ∈ [t₀, T) : (S_t, t) ∈ U}
 
 `a_t = ∂C/∂s(S_t, t)`,   `b_t = (C(S_t, t) − S_t ∂C/∂s(S_t, t))/β_t`,
@@ -560,13 +561,17 @@ the log-spot operator of u at (y, t) equals the Black–Scholes operator of C at
 The growth adapter identifies the solution with the price. Let C = (1 + s) v be the solution above,
 and let μ(s, t) be a drift such that the standing hypotheses of this milestone hold for μ and this σ
 and the market price of risk (μ − r)/σ is bounded on (0, ∞) × [0, T], with F the augmented natural
-filtration of W. Prove that C satisfies the growth bound of §3.2 with p = 1, namely
+filtration of W. Prove that C is of class C^(2,1) on D and solves the Black–Scholes equation
+there, that it satisfies the growth bound of §3.2 with p = 1, namely
 `|C(s, t)| + |s ∂C/∂s(s, t)| ≤ (2‖v‖ + ‖v_y‖)(1 + s)` with sup norms on the slab, extends
 continuously to t = T with C(s, T) = h(s), and that from every start (s₀, t₀) with s₀ > 0 and
-0 < t₀ < T the asset has `E_Q[sup_(t₀≤t≤T) S_t²] < ∞`. Consequently, by §3.2, the delta strategy
+t₀ ∈ [0, T) the asset has `E_Q[sup_(t₀≤t≤T) S_t²] < ∞`. Consequently, by §3.2, the delta strategy
 of C replicates h(S_T) from every such start and `C(S_t, t) = β_t E_Q[h(S_T)/β_T | F_t]` for
 t ∈ [t₀, T]: the solution of this section is the price of §2.4 (a Feynman–Kac representation).
-*Route:* at y = log s, `s ∂C/∂s = s v + (1 + s) v_y`; v is continuous on the closed slab with
+*Route:* at y = log s, `s ∂C/∂s = s v + (1 + s) v_y`; v, v_y, v_yy and v_t are continuous on the
+closed slab, v_t at t = 0 being the right derivative (the time derivative of
+`TauCeti.ParabolicC2HolderSpace` is taken within [0, T]), so C is of class C^(2,1) on D and its
+operator, continuous on D and zero for 0 < t < T, vanishes at t = 0; and
 v(y, T) = h(e^y)/(1 + e^y). Under Q the discounted asset is
 `S_t/β_t = (s₀/β_(t₀)) exp(∫_(t₀)^t σ dW^Q − ½∫_(t₀)^t σ² du)` with σ² ≤ Λ, so its square is at most
 `(s₀/β_(t₀))² e^(Λ(T − t₀))` times the stochastic exponential of `∫ 2σ dW^Q`, a true martingale by
