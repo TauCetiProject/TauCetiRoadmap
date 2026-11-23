@@ -31,8 +31,8 @@ Applebaum; the layers follow the proof dependencies of the subject, not the orde
 [Suggested.lean](Suggested.lean) states, against the pinned Mathlib and Tau Ceti and each with
 `sorry`, the headlines below that carry a Lean name, each with every conclusion this README
 attaches to it, together with the definitions their statements need. It is not an exhaustive
-acceptance test: the other headlines of this README are targets of the same standing, stated in
-prose with their locators or proof routes.
+acceptance test: the targets in prose belong to the roadmap as well and are stated in this README
+with their locators or proof routes.
 
 Suggested home: `TauCeti/Probability/InfinitelyDivisible/` for Layers 2–5 and 7–8,
 `TauCeti/Analysis/RegularVariation/` for Layer 6, and
@@ -50,8 +50,8 @@ use its theorem to identify the Lévy measure from the roots (§4.1 needs only �
 there is no cycle). Layer 5 applies Layer 4 to infinitesimal triangular arrays through the compound
 Poisson approximation. Layer 6 is
 independent real analysis (regular variation) and is used only by Layer 7, which treats i.i.d.
-sums: weak laws, stable laws and domains of attraction. Layer 8 is two independent applications of
-Layer 3.
+sums: weak laws, stable laws and domains of attraction. Layer 8 is two independent applications:
+self-decomposability, of Layers 3 and 5, and the lattice `ℕ`, of Layer 2.
 
 Each subsection states its targets, a locator in at least one source (with the printed page) or a
 proof route, and a *Needs:* line. Each layer ends with **Checks.**, *Examples* and
@@ -130,10 +130,15 @@ symmetrisation, from `1 - cos 2u = 2 (1 - cos u)(1 + cos u) ≤ 4 (1 - cos u)`.
   `a n → a₀ > 0`, `b n → b₀`, and `ν₀ = affineMap μ₀ a₀ b₀` (Petrov, Theorem I.13, p. 17; Loève,
   §14.2.A, p. 216; Durrett, Theorem 3.8.9, p. 166).
 
-*Proof route.* Tightness bounds `a n` above; nondegeneracy of `ν₀` bounds it below away from `0`
-(if `a n → 0` along a subsequence, `|φ_{ν₀}| = 1` near `0`); along a subsequence `a n → a₀`,
-`b n → b₀`, and two subsequential limits `(a₀, b₀) ≠ (a₁, b₁)` would make `μ₀` invariant under a
-nontrivial affine map with `|φ_{μ₀}(t)| = |φ_{μ₀}(c t)|`, `c ≠ 1`, forcing `|φ_{μ₀}| ≡ 1`.
+*Proof route.* Nondegeneracy of `μ₀` bounds `a n` above: if `a n → ∞` along a subsequence, then
+`|φ_{μ n}(t)| = |φ_{ν n}(t / a n)| → 1` by tightness of the images
+`ν n = affineMap (μ n) (a n) (b n)`, so `μ₀` is degenerate.
+Nondegeneracy of `ν₀` bounds `a n` below away from `0` (if `a n → 0` along a subsequence,
+`|φ_{ν₀}| = 1` near `0`); `b n` is then bounded by tightness, and along a subsequence `a n → a₀`,
+`b n → b₀`. Two subsequential limits `(a₀, b₀) ≠ (a₁, b₁)` with `a₀ ≠ a₁` give
+`|φ_{μ₀}(t)| = |φ_{μ₀}(c t)|`, `c ≠ 1`, forcing `|φ_{μ₀}| ≡ 1`; with `a₀ = a₁` and `b₀ ≠ b₁`,
+`μ₀` is invariant under a translation by some `β ≠ 0`, so `φ_{μ₀}(t) (e^{itβ} - 1) = 0`, which
+fails for small `t ≠ 0` since `φ_{μ₀} → 1` at `0`.
 
 *Needs:* §1.2.
 
@@ -384,7 +389,8 @@ the pin, writes it as `α s + ∫ (1 - e^{-sx}) ν'(dx)` with `∫ min 1 x dν' 
 the triplet (§3.2), after analytic continuation to `s = -it`, gives `σ² = 0`, `ν' = ν` and
 `α = b₀ ≥ 0`.
 
-*Needs:* §3.2, §3.7.
+*Needs:* §3.2, §3.7; Tau Ceti's Bernstein-function Lévy–Khintchine formula
+(`TauCeti/Analysis/CompletelyMonotone/Bernstein/LevyKhintchine/`).
 
 ### 3.7 The Lévy measure from the roots
 
@@ -432,8 +438,9 @@ the image measures is equivalent to that of `λ n`, or of `n • ν n`, to `ν`,
 ### Dependencies
 
 Layers 1–2, and §4.1 for §§3.6–3.7; Tau Ceti's
-`TauCeti.exists_probabilityMeasure_of_tendsto_charFun`; Mathlib's
-`measureReal_abs_gt_le_integral_charFun`.
+`TauCeti.exists_probabilityMeasure_of_tendsto_charFun`, and for §3.6 its Bernstein-function
+Lévy–Khintchine formula (`TauCeti/Analysis/CompletelyMonotone/Bernstein/LevyKhintchine/`);
+Mathlib's `measureReal_abs_gt_le_integral_charFun`.
 
 ## Layer 4: convergence of infinitely divisible laws
 
@@ -517,8 +524,12 @@ a compound Poisson characteristic function, and §2.1 closes the class under wea
 
 *Proof route.* By Kallenberg, Proposition 7.11, p. 155, the row sums are asymptotically equivalent
 to the compound Poisson laws with jump measures `∑_j law(X n j - c n j)`, `c n j` the truncated
-means; apply §4.1 to these and translate the conditions back, which costs only
-`∑_j (E truncOne (X n j))² → 0`, a consequence of infinitesimality and the variance bound.
+means; apply §4.1 to these and translate the conditions back. With `c = E truncOne X`,
+`E((X - c)²; |X| ≤ 1) = Var(truncOne X) - c² P(|X| > 1)`, so the centred truncated second moments
+differ from `∑_j Var(truncOne (X n j))` by at most `max_j (c n j)² ∑_j P(|X n j| > 1)` and by the
+change of the truncation set from `|X| ≤ 1` to `|X - c| ≤ 1`. Both vanish, because
+`max_j |c n j| → 0` by infinitesimality, `∑_j P(|X n j| > 1/2)` stays bounded, and the limit Lévy
+measure does not charge `{|x| = 1}`; the drifts are compared in the same way.
 
 *Needs:* §§4.1, 5.1, 5.2.
 
@@ -528,6 +539,10 @@ means; apply §4.1 to these and translate the conditions back, which costs only
   row-independent variables, the row sums converge to `N(b, c)` iff `∑_j P(|X n j| > ε) → 0` for
   every `ε > 0`, `∑_j E truncOne (X n j) → b` and `∑_j Var(truncOne (X n j)) → c` (Kallenberg,
   Theorem 6.16, p. 137).
+- Target in prose: the degenerate case `c = 0`: the row sums of an infinitesimal array of
+  row-independent variables converge in probability to a constant `b` iff
+  `∑_j P(|X n j| > ε) → 0`, `∑_j E truncOne (X n j) → b` and `∑_j Var(truncOne (X n j)) → 0`
+  (the headline at `c = 0`, where `N(b, 0)` is the point mass at `b`).
 
 *Proof route.* §5.3 with `T = (b, c, 0)`: convergence of `∑_j law(X n j)` to the zero measure away
 from the origin is `∑_j P(|X n j| > ε) → 0`. Kallenberg's direct proof (p. 137) is an alternative.
@@ -556,10 +571,6 @@ level `ε`, so the truncated second moments lose no mass:
   variables with `max_j P(X n j > 0) → 0` and `c ≥ 0`, the row sums converge to the Poisson law of
   mean `c` (Mathlib's `poissonMeasure`) iff `∑_j P(X n j > 1) → 0` and `∑_j P(X n j = 1) → c`
   (Kallenberg, Theorem 6.7, p. 130; Durrett, Theorem 3.7.1, p. 151, for sufficiency).
-- Target in prose: the degenerate case: the row sums of an infinitesimal array of
-  row-independent variables converge in probability to a constant `b` iff
-  `∑_j P(|X n j| > ε) → 0`, `∑_j E truncOne (X n j) → b` and `∑_j Var(truncOne (X n j)) → 0`
-  (§5.4 with `c = 0`).
 
 *Proof route.* The Lévy measure `c δ₁` of the Poisson law charges `{|x| = 1}`, so §5.3 is applied
 to the halved array `X n j / 2`, whose row sums converge to the image of the Poisson law under
@@ -671,25 +682,26 @@ Mathlib's measure theory on `ℝ`.
   statement for `p ∈ (1, 2)` and derives it in the proof; the constant sequence `X = 1` with
   `p = 3/2` shows it is needed).
 
-*Proof route.* §5.6's degenerate case for the array `X_j / n^{1/p}`, `j < n`, whose conditions
-reduce to the stated tail and truncated-mean conditions.
+*Proof route.* The degenerate case of §5.4 for the array `X_j / n^{1/p}`, `j < n`, whose
+conditions reduce to the stated tail and truncated-mean conditions (Kallenberg's proof, p. 138,
+applies Theorem 6.16 in the same way).
 
-*Needs:* §5.6.
+*Needs:* §5.4.
 
 ### 7.2 Stable laws
 
-- **Stable laws** (`IsStable`): nondegenerate, and for every `n ≥ 1` the sum of `n` independent
+- **Stable laws** (`IsStableLaw`): nondegenerate, and for every `n ≥ 1` the sum of `n` independent
   copies has the law of `a X + b` for some `a > 0`, `b` (Klenke, Definition 16.20, p. 382);
-  **stable with index `α`** (`IsStableWithIndex`): with `a = n^{1/α}` (Klenke, Definition 16.20,
+  **stable with index `α`** (`IsStableLawWithIndex`): with `a = n^{1/α}` (Klenke, Definition 16.20,
   p. 383).
-- **Stable laws are infinitely divisible** (`IsStable.isInfinitelyDivisible`).
-- **The index** (`IsStable.exists_index`): every stable law is stable with an index
+- **Stable laws are infinitely divisible** (`IsStableLaw.isInfinitelyDivisible`).
+- **The index** (`IsStableLaw.exists_index`): every stable law is stable with an index
   `α ∈ (0, 2]` (Klenke, Theorem 16.22(i), p. 383).
-- **Index two is Gaussian** (`IsStableWithIndex.exists_eq_gaussianReal`) (Klenke,
+- **Index two is Gaussian** (`IsStableLawWithIndex.exists_eq_gaussianReal`) (Klenke,
   Theorem 16.22(ii), p. 383).
 - **Power-law Lévy densities** (`powerLevyDensity`): `c₊ x^{-α-1}` on `(0, ∞)` and
   `c₋ |x|^{-α-1}` on `(-∞, 0)`.
-- **Stable laws through their triplets** (`isStable_iff_levyTriplet`): a nondegenerate law with
+- **Stable laws through their triplets** (`isStableLaw_iff_levyTriplet`): a nondegenerate law with
   triplet `(b, σ², ν)` is stable iff `ν = 0`, or `σ² = 0` and `ν` has a power-law density with some
   `α ∈ (0, 2)` (Petrov, Theorem IV.11, p. 89; Klenke, Theorem 16.22(iii), p. 383).
 - Target in prose: the stable characteristic functions
@@ -713,10 +725,10 @@ triplet: by §3.3, `n ν = ν ∘ (x ↦ a_n x)⁻¹`, which forces a power law 
 - **Domain of attraction** (`IsInDomainOfAttraction`): `(S_n - b n) / a n → ν` in distribution for
   some `a n > 0`, `b n`, with `S_n` the sum of `n` independent draws from `μ` (Klenke,
   Definition 16.26, p. 387).
-- **Stable laws are exactly the limits** (`isStable_iff_exists_isInDomainOfAttraction`): a
+- **Stable laws are exactly the limits** (`isStableLaw_iff_exists_isInDomainOfAttraction`): a
   nondegenerate law has a nonempty domain of attraction iff it is stable (Klenke, Theorem 16.27,
   p. 387; Durrett, Theorem 3.8.8, p. 166; Petrov, Theorem IV.10, p. 88).
-- **Self-attraction** (`IsStable.isInDomainOfAttraction_self`) (Klenke, Theorem 16.27, p. 387).
+- **Self-attraction** (`IsStableLaw.isInDomainOfAttraction_self`) (Klenke, Theorem 16.27, p. 387).
 
 *Proof route.* Self-attraction is the definition. For the converse, `S_{kn}` is the sum of `k`
 independent copies of `S_n`, so the limit `ν` satisfies `ν^{∗k} = affineMap ν a b` for limits `a`,
@@ -757,7 +769,7 @@ independent copies of `S_n`, so the limit `ν` satisfies `ν^{∗k} = affineMap 
 
 - The Cauchy law: `φ(t)ⁿ = e^{-n|t|} = φ(n t)`, so it is stable with index `1`; the Gaussian:
   `e^{-n t²/2} = φ(√n t)`, index `2`.
-- Negative control for `IsStable` against infinite divisibility: the Poisson law is infinitely
+- Negative control for `IsStableLaw` against infinite divisibility: the Poisson law is infinitely
   divisible but not stable, since `a X + b` with `a ≠ 1` changes the lattice and `a = 1` gives
   variance `λ ≠ n λ`.
 - The Pareto law with `P(X > x) = x^{-3/2}`, `x ≥ 1`: the truncated second moment
@@ -862,8 +874,8 @@ Completion means:
 **Not owned here.**
 
 - The sufficiency half of the Lindeberg–Feller theorem is owned by
-  [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) §1.2 (and the
-  scalar form is formalized in Tau Ceti); this roadmap owns only the converse.
+  [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) §1.2; this
+  roadmap owns only the converse.
 - The scalar stable laws in a fixed parametrisation, their construction, densities, tails and
   moments are owned by [StandardDistributions](../StandardDistributions/README.md), Layer 15, which
   excludes the general Lévy–Khintchine classification and domains of attraction; this roadmap owns

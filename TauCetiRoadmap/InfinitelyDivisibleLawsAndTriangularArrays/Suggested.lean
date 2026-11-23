@@ -9,9 +9,9 @@ public import TauCeti.MeasureTheory.Measure.LevyConvergence
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
-to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+to it, together with the definitions their statements need. The README's targets in prose
+belong to the roadmap as well; they are stated there with their locators or proof routes, and
+are not stated here.
 
 The conventions of the README are used throughout. Laws are probability measures on `ℝ`
 (on `ℕ` in §8.2); the characteristic function is Mathlib's `charFun μ t = ∫ x, exp (i t x) ∂μ`.
@@ -498,13 +498,13 @@ end IID
 
 /-- A law is stable (in the broad sense) when it is nondegenerate and, for every `n ≥ 1`, the
 sum of `n` independent copies has the law of `a X + b` for some `a > 0` and `b`. -/
-def IsStable (μ : Measure ℝ) : Prop :=
+def IsStableLaw (μ : Measure ℝ) : Prop :=
   IsProbabilityMeasure μ ∧ ¬ IsDegenerate μ ∧
     ∀ n : ℕ, 0 < n → ∃ a > 0, ∃ b : ℝ, iidSumLaw μ n = μ.map fun x ↦ a * x + b
 
 /-- A law is stable with index `α` when it is nondegenerate and the sum of `n` independent
 copies has the law of `n^{1/α} X + b n`. -/
-def IsStableWithIndex (α : ℝ) (μ : Measure ℝ) : Prop :=
+def IsStableLawWithIndex (α : ℝ) (μ : Measure ℝ) : Prop :=
   IsProbabilityMeasure μ ∧ ¬ IsDegenerate μ ∧
     ∀ n : ℕ, 0 < n → ∃ b : ℝ, iidSumLaw μ n = μ.map fun x ↦ (n : ℝ) ^ α⁻¹ * x + b
 
@@ -522,39 +522,39 @@ def powerLevyDensity (α : ℝ) (cp cm : ℝ≥0) (x : ℝ) : ℝ≥0∞ :=
   else if x < 0 then cm * ENNReal.ofReal ((-x) ^ (-α - 1)) else 0
 
 /-- 7.2 A stable law is infinitely divisible. -/
-theorem IsStable.isInfinitelyDivisible {μ : Measure ℝ} (h : IsStable μ) :
+theorem IsStableLaw.isInfinitelyDivisible {μ : Measure ℝ} (h : IsStableLaw μ) :
     IsInfinitelyDivisible μ := by
   sorry
 
 /-- 7.2 **The index of a stable law.** Every stable law is stable with some index
 `α ∈ (0, 2]`. -/
-theorem IsStable.exists_index {μ : Measure ℝ} (h : IsStable μ) :
-    ∃ α ∈ Ioc (0 : ℝ) 2, IsStableWithIndex α μ := by
+theorem IsStableLaw.exists_index {μ : Measure ℝ} (h : IsStableLaw μ) :
+    ∃ α ∈ Ioc (0 : ℝ) 2, IsStableLawWithIndex α μ := by
   sorry
 
 /-- 7.2 A stable law of index `2` is Gaussian. -/
-theorem IsStableWithIndex.exists_eq_gaussianReal {μ : Measure ℝ} (h : IsStableWithIndex 2 μ) :
+theorem IsStableLawWithIndex.exists_eq_gaussianReal {μ : Measure ℝ} (h : IsStableLawWithIndex 2 μ) :
     ∃ (m : ℝ) (v : ℝ≥0), 0 < v ∧ μ = gaussianReal m v := by
   sorry
 
 /-- 7.2 **Stable laws through their triplets.** A nondegenerate law with triplet `T` is stable
 iff `ν = 0`, or `σ² = 0` and `ν` has a power-law density with some index `α ∈ (0, 2)`. -/
-theorem isStable_iff_levyTriplet {μ : Measure ℝ} {T : LevyTriplet} (hT : HasLevyTriplet μ T)
+theorem isStableLaw_iff_levyTriplet {μ : Measure ℝ} {T : LevyTriplet} (hT : HasLevyTriplet μ T)
     (hμ : ¬ IsDegenerate μ) :
-    IsStable μ ↔ T.levyMeasure = 0 ∨ (T.gaussVar = 0 ∧ ∃ α ∈ Ioo (0 : ℝ) 2, ∃ cp cm : ℝ≥0,
+    IsStableLaw μ ↔ T.levyMeasure = 0 ∨ (T.gaussVar = 0 ∧ ∃ α ∈ Ioo (0 : ℝ) 2, ∃ cp cm : ℝ≥0,
       T.levyMeasure = volume.withDensity (powerLevyDensity α cp cm)) := by
   sorry
 
 /-- 7.3 **Stable laws are the limits of normalized i.i.d. sums.** A nondegenerate law has a
 nonempty domain of attraction iff it is stable. -/
-theorem isStable_iff_exists_isInDomainOfAttraction {ν : Measure ℝ} [IsProbabilityMeasure ν]
+theorem isStableLaw_iff_exists_isInDomainOfAttraction {ν : Measure ℝ} [IsProbabilityMeasure ν]
     (hν : ¬ IsDegenerate ν) :
-    IsStable ν ↔ ∃ μ : Measure ℝ, ∃ _ : IsProbabilityMeasure μ, IsInDomainOfAttraction μ ν := by
+    IsStableLaw ν ↔ ∃ μ : Measure ℝ, ∃ _ : IsProbabilityMeasure μ, IsInDomainOfAttraction μ ν := by
   sorry
 
 /-- 7.3 A stable law lies in its own domain of attraction. -/
-theorem IsStable.isInDomainOfAttraction_self {ν : Measure ℝ} [IsProbabilityMeasure ν]
-    (h : IsStable ν) : IsInDomainOfAttraction ν ν := by
+theorem IsStableLaw.isInDomainOfAttraction_self {ν : Measure ℝ} [IsProbabilityMeasure ν]
+    (h : IsStableLaw ν) : IsInDomainOfAttraction ν ν := by
   sorry
 
 /-- 7.4 **Domain of attraction of the Gaussian law** (Lévy, Feller, Khintchine). A
@@ -570,7 +570,7 @@ attraction of some stable law of index `α ∈ (0, 2)` iff its truncated second 
 varying with index `2 - α` and `P(X ≥ x) / P(|X| ≥ x)` converges. -/
 theorem exists_isInDomainOfAttraction_iff {μ : Measure ℝ} [IsProbabilityMeasure μ] {α : ℝ}
     (hα : α ∈ Ioo (0 : ℝ) 2) :
-    (∃ ν : Measure ℝ, ∃ _ : IsProbabilityMeasure ν, IsStableWithIndex α ν ∧
+    (∃ ν : Measure ℝ, ∃ _ : IsProbabilityMeasure ν, IsStableLawWithIndex α ν ∧
         IsInDomainOfAttraction μ ν) ↔
       IsRegularlyVarying (2 - α) (truncSecondMoment μ) ∧
         ∃ q : ℝ, Tendsto (fun x ↦ μ.real (Ici x) / μ.real {y | x ≤ |y|}) atTop (𝓝 q) := by
@@ -580,7 +580,7 @@ theorem exists_isInDomainOfAttraction_iff {μ : Measure ℝ} [IsProbabilityMeasu
 stable law of index `α`, then `∫ |x|^β dμ < ∞` for `0 < β < α`, and `= ∞` for `β > α` when
 `α < 2`. -/
 theorem IsInDomainOfAttraction.lintegral_rpow {μ ν : Measure ℝ} [IsProbabilityMeasure μ]
-    [IsProbabilityMeasure ν] {α : ℝ} (hν : IsStableWithIndex α ν)
+    [IsProbabilityMeasure ν] {α : ℝ} (hν : IsStableLawWithIndex α ν)
     (h : IsInDomainOfAttraction μ ν) :
     (∀ β ∈ Ioo 0 α, ∫⁻ x, ENNReal.ofReal (|x| ^ β) ∂μ < ∞) ∧
       (α < 2 → ∀ β > α, ∫⁻ x, ENNReal.ofReal (|x| ^ β) ∂μ = ∞) := by
