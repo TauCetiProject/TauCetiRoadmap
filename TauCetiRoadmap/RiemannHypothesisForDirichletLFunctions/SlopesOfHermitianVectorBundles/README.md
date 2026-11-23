@@ -314,6 +314,11 @@ Let `Ē, F̄` be nonzero and `φ : E_K → F_K` a nonzero `K`-linear map.
 
 (b) is Bost 2001, Prop. 4.5, p. 199 (second form), and Gaudron 2008, Lemme 6.4, p. 78 (first form); for `φ(E) ⊂ F`, with the archimedean part `h_∞(φ)` of Conventions in place of `h(φ)`, (b) and (c) are Bost 1996, Prop. 4.3, p. 131.
 
+[FormalProof], `Formalism/HarderNarasimhan/StatementPl.lean` (`Formalism.HN.SlopeIneqMean`), states for totally complex `K`, with
+`h_∞(φ)` in place of `h(φ)` (there slopes and heights are `2μ̂` and `2h_∞`, which changes no statement, Conventions), the form of
+2.3 in which the image lattice `φ(E)`, with the metrics of `F_K`, has minimal slope at least `μ̂_min(Ē) − h_∞(φ)`, and (a) and,
+for injective `φ`, the first form of (b) for every `F̄` with `φ(E) ⊂ F`.
+
 Because `h(φ)` contains the finite places, a map with `φ(E_𝔭) ⊂ 𝔭^(−a_𝔭)·F_𝔭` at every `𝔭` (`a_𝔭 ≥ 0`, almost all zero) has `h(φ) ≤ (1/d)·(Σ_σ log‖φ‖_σ + Σ_𝔭 a_𝔭·log N𝔭)`, and (a)–(e) hold with this bound in place of `h(φ)`.
 
 *Route.* (a) 2.3 with `μ̂_min(F̄_W) ≤ μ̂(F̄_W) ≤ μ̂_max(F̄)`. (b) Apply 1.4 (ii) to the restriction of `φ` to the maximal destabilising sub-bundle of `Ē`, whose image is a sub-bundle of `F̄` of the same rank; the second form follows from `μ̂ ≤ μ̂_max`. (c) 2.3 with `W = F_K`. (d) is (a). (e) 1.4 (ii) for the isomorphism `Ē → F̄_W` onto the image `W = φ(E_K)`, of height `≤ h(φ)` (1.3), gives `rk E·(μ̂(Ē) − h(φ)) ≤ deĝ_n(F̄_W)`; additivity (1.2) and `μ̂(F̄/W) ≥ μ̂_min(F̄)` (2.1) for `W ≠ F_K` give the rest. The finite-place bound is the definition of the lattice norm: `‖φ‖_𝔭 ≤ N𝔭^(a_𝔭)`.
@@ -694,7 +699,8 @@ dim ( Σ_i B_i(W_i) )^⊥ ≤ ( η + 2·(ε + √(ε·e))/(1 − √e) ) · D,
 
 and in particular, for `e ≤ 1/4`, `dim ( Σ_i B_i(W_i) )^⊥ ≤ ( η + 4ε + 4√(ε·e) ) · D`.
 
-[FormalProof] states the case of complex inner-product spaces and `0 ≤ e ≤ 1/4`, with the bound
+[FormalProof], `Formalism/HarderNarasimhan/StatementFrameF.lean` (`Formalism.HN.FrameLA1`), states the case of complex
+inner-product spaces and `0 ≤ e ≤ 1/4`, with the bound
 `dim ( Σ_i B_i(W_i) )^⊥ ≤ ( η + 4ε + 4√e ) · D`, which the last bound implies (`√(ε·e) ≤ √e` for `ε ≤ 1`, and both bounds
 exceed `D` for `ε ≥ 1/4`); the bound with `2/(1 − √e)`, the term `√(ε·e)`, real scalars and `1/4 < e < 1` are this
 roadmap's, by the route below.
@@ -753,8 +759,15 @@ and (ii)
 
 where the terms in `u` are `0` when `u = 0`. For `e ≤ 1/4`, `κ_e ≤ 4` gives the bounds with `4` in place of `κ_e`: `n − dim F_{≥ s−τ} ≤ (1 − δ)⁻¹(η + 4u/(u + τ) + 4√(e·u/(u + τ)))·n` and `μ̂(F̄) ≥ s − (1 − δ)⁻¹(η·H + 4u·log(1 + H/u) + 8√(e·u)·(√(u + H) − √u)) ≥ s − (1 − δ)⁻¹(4u·log(1 + H/u) + (η + 4√e)·H)`. Since `√(u + H) − √u ≤ √H`, the middle bound of (ii) also implies `μ̂(F̄) ≥ s − (1 − δ)⁻¹ (η·H + κ_e·u·log(1 + H/u) + 2κ_e·√(e·u·H))`. For `u = 0` it reads `μ̂(F̄) ≥ s − (1 − δ)⁻¹·η·H`: for sources that are semistable of one slope the bound does not involve `e`, and of the defect hypothesis only its consequence `tr Q > 0` (5.3, step (1)) is used, since with `ε = 0` Cauchy–Schwarz on the eigenvalues of `Q` gives `D − rk Q ≤ η·D/(1 + η)` when `tr Q > 0`. Positive trace cannot be dropped: the zero map from a line of slope `1` to a line of slope `0`, with the zero lift (`Q = 0`), meets every other hypothesis with `s = H = 1` and `u = η = δ = 0`, and the conclusion `0 ≥ 1` is false. The hypothesis `H ≥ 0` cannot be dropped (fifth Check below). The condition `η ≥ 0` is no restriction, since `tr(Q²) ≥ (tr Q)²/D` always.
 
-[FormalProof] states the last form of (ii) for `e ≤ 1/4`, `μ̂(F̄) ≥ s − (1 − δ)⁻¹(4u·log(1 + H/u) + (η + 4√e)·H)`, in the
-case set out at the start of this layer, with the same hypotheses on `s`, `u`, `H`, `δ`, `γ_i` and `η`. Every other bound of
+[FormalProof], `Formalism/HarderNarasimhan/StatementFrameF.lean` (`Formalism.HN.TheoremFSharp`), states the last form of (ii)
+for `e ≤ 1/4`, `μ̂(F̄) ≥ s − (1 − δ)⁻¹(4u·log(1 + H/u) + (η + 4√e)·H)`, in the
+case set out at the start of this layer, with the same hypotheses on `s`, `u`, `H`, `δ`, `γ_i` and `η`.
+`Formalism.HN.TheoremF`, in the same file, is that statement with `log|I|` subtracted from `s`, the form in which [FormalProof]
+applies it to chains of theta lifts, through the combined statement cited at 5.7. There the frame data are in coordinates:
+`ℋ = ℂ^{κ ⊔ κ₁}` with the standard inner product, where `κ` indexes a `K`-basis of `F_K`, `π` is the projection onto the
+coordinates in `κ`, and the lift `φ̃_i` is a matrix with `d_i` columns such that `π ∘ φ̃_i = Y′^{−1}·[φ_i]_σ·Y_i` for invertible
+complex matrices `Y_i`, `Y′`, where `[φ_i]_σ` is the matrix of `φ_i` in `K`-bases with `σ` applied to its entries; the condition
+on `δ` reads `(1 − δ)·|κ ⊔ κ₁| ≤ |κ|`. Every other bound of
 this target ((i), the forms with `κ_e`, the middle bounds of (ii) and the bound with `√(e·u·H)`) is this roadmap's
 sharpening, by the route below. *Status.* The remarks of the previous paragraph (the case `u = 0`, positive trace, `H ≥ 0`,
 `η ≥ 0`) are this roadmap's own and are not statements of [FormalProof].
@@ -812,6 +825,11 @@ restrictions have total defect at most `2e·R′`; and under the pairwise hypoth
 constants `4/3` and `2.6` of the special case, are this roadmap's sharpening: they follow by the route below from the same
 three facts (the frame operator decreases, its trace drops by at most `R(ϑ + √(ϑe))`, compression does not increase a
 Hilbert–Schmidt norm).
+In [FormalProof] the first three inequalities of 5.6 form one hypothesis,
+`Formalism/SizeWindowBrackets/FrameTraceRatioFinEquiv.lean` (`Formalism.LFunctionChainParameters.MatrixLatticeEstimates.InputSG`),
+and 5.6 and this compression are combined with 5.5 in
+`Formalism/SizeWindowBrackets/FrameTraceRatioFinEquiv.lean` (`Formalism.LFunctionChainParameters.MatrixLatticeEstimates.JointARam`),
+which gives the last form of 5.5 (ii) with `5ϖ + 3·√ϑ` and `2e₀` in place of `η` and `e`, and with `log|I|` subtracted from `s`.
 
 *Route.* With `Q′` the new frame operator, `0 ≤ Q′ ≤ Q` in the Loewner order, so `tr Q′² ≤ tr Q²`. The trace drops by `Σ_i tr(P_i K_i P_i) ≤ R(ϑ + √(ϑe))` (5.3, step (4)), so `tr Q′ ≥ (1 − κ) tr Q` using `R ≤ tr Q/(1 − √e)`. The compressions `K′_i − 1` of `K_i − 1` have no larger Hilbert–Schmidt norm, and `R′ ≥ (1 − ϑ) R`. For the special case put `x = √ϑ ≤ 1/2`; since `√e ≤ 1/40`, `κ = x(x + √e)/(1 − √e) ≤ (40/39)·x(x + 0.025) ≤ 0.539·x ≤ 0.27`; then `(1 − κ)^(−2) − 1 ≤ 2κ/(1 − κ)² ≤ 3.76·κ`, and `η′ = η + (1 + η)((1 − κ)^(−2) − 1) ≤ 5ϖ + 1.25 · 3.76 · 0.539·x ≤ 5ϖ + 2.6·√ϑ`, using that `η′` increases with `η` and `1 + η ≤ 1.25`. Finally `e′ = e/(1 − ϑ) ≤ (4/3)·e ≤ 1/4 < 1`, as the frame data of this layer require.
 
