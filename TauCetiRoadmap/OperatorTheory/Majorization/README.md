@@ -30,10 +30,12 @@ The headline theorems are four.
 Within Tau Ceti, Mathlib supplies the singular values and the sorted eigenvalues that every
 statement is phrased against. PolarDecomposition supplies the operator modulus and the singular
 system, which enter through Ky Fan attainment and modulus invariance; OrthogonalGeometry
-supplies the Gram rigidity behind the rectangular singular-value factorization. Downstream,
-PrincipalAngles and SpectralSubspacePerturbation state their perturbation estimates for the
-seminorms built here, and OperatorIdeals carries the Ky Fan triangle inequality to approximation
-numbers and identifies its Hilbert–Schmidt norm with the Frobenius seminorm.
+supplies the Gram rigidity that makes the rectangular diagonal model independent of its
+orthonormal families up to unitaries on both sides, on which the orbit-hull characterization and
+the gauge representation rest. Downstream, PrincipalAngles and SpectralSubspacePerturbation state
+their perturbation estimates for the seminorms built here, and OperatorIdeals carries the Ky Fan
+triangle inequality to approximation numbers and identifies its Hilbert–Schmidt norm with the
+Frobenius seminorm.
 
 The build has two parts, described below. Part A is the convex engine (prefix sums, transfers,
 symmetric convex sets and gauges, transfer descent) and its two bridges to operators: diagonal
@@ -116,8 +118,8 @@ square-operator input to the gauge representation of Part B. Its four milestones
 
 ### 1.1 Convex majorization objects
 
-The objects of the convex engine (Bhatia, *Matrix Analysis*, Chapters II–IV), on tuples with no
-operator in sight.
+The objects of the convex engine (Bhatia, *Matrix Analysis*, §II.1 for majorization and
+T-transforms, §IV.1 for symmetric gauge functions), on tuples with no operator in sight.
 
 **MAJ-A01 — Prefix sums.** For `x : Fin n → ℝ` and `k : ℕ`, the prefix sum
 `Pₖ(x) = x₀ + ⋯ + xₖ₋₁` is the sum of the coordinates `xᵢ` with `i < k`. It is `0` for `k = 0` and
@@ -192,7 +194,8 @@ subadditive, absolutely homogeneous function) with `g(x ∘ σ) = g(x)` for ever
 
 The closure laws make weak majorization compositional, and transfer descent turns it into
 membership in symmetric convex sets and into inequalities for symmetric gauges (Bhatia, *Matrix
-Analysis*, Chapters II–IV).
+Analysis*, §II.1 for the reduction of majorization to T-transforms, §IV.1 for symmetric gauge
+functions under weak majorization).
 
 **MAJ-A07 — Prefix sums of sums.** For `x, y : Fin n → ℝ` and every `k`,
 `Pₖ(x + y) = Pₖ(x) + Pₖ(y)`.
@@ -349,7 +352,8 @@ basis `e`.
 
 Ky Fan sums package the leading singular values into variational quantities; the variational
 principle gives the singular-value triangle majorization and the bounded-factor estimate (Fan
-1949; Bhatia, *Matrix Analysis*, Chapters II–IV).
+1949; Bhatia, *Matrix Analysis*, Chapter III for the variational principles, §IV.2 for the Ky Fan
+norms).
 
 **MAJ-A26 — Ky Fan sums.** For a map `A : E → F` between finite-dimensional inner product spaces
 and `k : ℕ`, the Ky Fan `k`-sum `Kₖ(A) = σ₀(A) + ⋯ + σₖ₋₁(A)` is the sum of the first `k` entries
@@ -424,7 +428,9 @@ generally `Kₖ(c A) = ‖c‖ Kₖ(A)` for `c ∈ 𝕜`, and `Kₖ(−A) = Kₖ
 *In Tau Ceti:* `LinearMap.singularValues_comp_le`.
 
 *Needs:* §1.2 (weak majorization); Mathlib `LinearMap.singularValues`, `Orthonormal`,
-`LinearIsometryEquiv`.
+`LinearIsometryEquiv`; Tau Ceti
+`LinearMap.IsSymmetric.re_inner_apply_self_eq_sum_eigenvalues_mul_sq` (PolarDecomposition `PD-A50`,
+for MAJ-A27).
 
 **Checks.**
 - For `J = [[0, 1], [0, 0]]` on `𝕜²` (`J e₁ = e₀`, `J e₀ = 0`), `σ(J) = (1, 0)`, so
@@ -510,9 +516,10 @@ orthonormal basis it is `diag(x)`.
 Part A rests on Mathlib and on Tau Ceti. From Mathlib it uses singular values, the sorted
 eigenvalues and eigenbases of symmetric operators, orthonormal bases and families, convexity with
 Jensen's inequality, doubly stochastic matrices, and matrices of linear maps. From Tau Ceti it uses
-the singular system of a map (PolarDecomposition Part C), for the attainment by the singular pairs
-in MAJ-A29. Within the Part, §1.2 uses §1.1, §1.4 uses the weak majorization of §1.2, and §1.3 and
-§1.5 use only the libraries.
+the eigenbasis expansion of the quadratic form of a symmetric operator (PolarDecomposition Part A),
+for the Ky Fan trace inequality MAJ-A27, and the singular system of a map (PolarDecomposition
+Part C), for the attainment by the singular pairs in MAJ-A29. Within the Part, §1.2 uses §1.1,
+§1.4 uses the weak majorization of §1.2, and §1.3 and §1.5 use only the libraries.
 
 ## Part B: rectangular unitarily invariant seminorms
 
@@ -532,7 +539,7 @@ Square operators are the case of equal source and target. Its six milestones are
 
 The rectangular interface lets unitaries act on source and target independently; isometric
 transport, zero extension and adjoints connect rectangular maps to the singular-value theory
-(Bhatia, *Matrix Analysis*, Chapters II–IV).
+(Bhatia, *Matrix Analysis*, §IV.2).
 
 **MAJ-B01 — Unitarily invariant seminorm.** A unitarily invariant seminorm on `E →ₗ[𝕜] F` is a
 structure extending `Seminorm 𝕜 (E →ₗ[𝕜] F)` by the field `N(U ∘ A ∘ V) = N(A)` for every
@@ -648,7 +655,8 @@ every unitarily invariant seminorm `N` on `E → F`. Route: MAJ-B20 and MAJ-B16.
 *In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.map_le_of_kyFanSum_le`.
 
 *Needs:* §2.1; §1.4 (MAJ-A26); §1.2 (transfer descent, for the hull characterization); §1.5 (the
-rectangular diagonal model); Mathlib `mem_convexHull_iff_exists_fintype`, `Matrix.toLin`.
+rectangular diagonal model); Mathlib `mem_convexHull_iff_exists_fintype`, `Matrix.toLin`; Tau Ceti
+`TauCeti.exists_linearIsometryEquiv_of_inner_eq` (OrthogonalGeometry `OG-07`, for MAJ-B20).
 
 **Checks.**
 - For `C = diag(2, 0)` and the swap `P` of the two basis vectors, `(C + P C P)/2` is the identity
@@ -666,8 +674,7 @@ rectangular diagonal model); Mathlib `mem_convexHull_iff_exists_fintype`, `Matri
 ### 2.3 Square-operator consequences
 
 Specializing to `E = F`, the diagonal models of §1.5 identify every unitarily invariant seminorm
-with a symmetric gauge of the singular values (Mirsky 1960; Bhatia, *Matrix Analysis*,
-Chapters II–IV).
+with a symmetric gauge of the singular values (Mirsky 1960; Bhatia, *Matrix Analysis*, §IV.2).
 
 **MAJ-B44 — Gauge representation.** Every unitarily invariant seminorm `N` on the endomorphisms of
 `E` is a symmetric gauge of the singular-value tuple of length `n = dim E`: there is a symmetric
@@ -698,8 +705,9 @@ MAJ-B19.
 *In Tau Ceti:* `TauCeti.UnitarilyInvariantSeminorm.map_operatorAbs`.
 
 *Needs:* §2.2; §1.5; §1.2 (gauge monotonicity, for the converse construction of MAJ-B44); Tau Ceti
-`LinearMap.operatorAbs`, `LinearMap.singularValues_operatorAbs`; Mathlib
-`Submodule.starProjection`.
+`LinearMap.operatorAbs`, `LinearMap.singularValues_operatorAbs`,
+`TauCeti.exists_linearIsometryEquiv_of_inner_eq` (OrthogonalGeometry `OG-07`, for the rectangular
+gauge of MAJ-B44); Mathlib `Submodule.starProjection`.
 
 **Checks.**
 - The gauges of the concrete seminorms of §2.5 are `max |xᵢ|` (operator norm), `(∑ xᵢ²)^(1/2)`
@@ -770,7 +778,7 @@ domination gives Ky Fan domination of the block sums.
 
 The operator, Frobenius, Ky Fan and nuclear seminorms instantiate the rectangular interface, and
 their basis and singular-value formulas identify them with the classical norms (Bhatia, *Matrix
-Analysis*, Chapters II–IV).
+Analysis*, §IV.2).
 
 **MAJ-B30 — Operator-norm instance.** The operator norm `A ↦ ‖A‖`, the norm of
 `LinearMap.toContinuousLinearMap A`, is a unitarily invariant seminorm on `E → F`.
@@ -889,8 +897,9 @@ Part B rests on Part A: the Ky Fan sums and their triangle inequality (§1.4), w
 and gauge monotonicity (§1.2), and the diagonal models (§1.5). From Mathlib it uses seminorms,
 linear isometric equivalences, adjoints, convex hulls, the `L²` products `WithLp 2`, product maps,
 matrices of linear maps, trace and determinant. From Tau Ceti it uses the singular values of the
-adjoint and of the modulus and the modulus itself (PolarDecomposition, Parts A and C). Part A has
-no dependency on Part B.
+adjoint and of the modulus and the modulus itself (PolarDecomposition, Parts A and C), and ambient
+Gram rigidity (OrthogonalGeometry `OG-07`), for the orbit-hull characterization and the
+rectangular gauge. Part A has no dependency on Part B.
 
 ## Downstream consumers
 
@@ -942,12 +951,14 @@ of block sums (MAJ-B23, MAJ-B25) are Mathlib lemmas, named in those items.
 **Owned elsewhere and consumed here.**
 
 - *The operator modulus, the singular system and the singular-value identities* `σ(A†) = σ(A)`,
-  `σ(|A|) = σ(A)` and `σᵢ(A)² = λᵢ(A†A)`, and the Courant–Fischer min–max formula behind the Ky Fan
-  trace inequality: PolarDecomposition (Part A, `PD-A51`; Part C, `PD-C08`–`PD-C18`, `PD-C28`),
-  present in Tau Ceti as the declarations listed under the supplier contracts below; nothing here
-  re-proves them.
-- *Gram rigidity and coordinate isometries*: OrthogonalGeometry (`OG-01`–`OG-08`), on which the
-  rectangular singular-value factorization and the orbit statements of §2.2 rest.
+  `σ(|A|) = σ(A)` and `σᵢ(A)² = λᵢ(A†A)`, and the eigenbasis expansion of the quadratic form
+  behind the Ky Fan trace inequality: PolarDecomposition (Part A, `PD-A50`; Part C,
+  `PD-C08`–`PD-C18`, `PD-C28`), present in Tau Ceti as the declarations listed under the supplier
+  contracts below; nothing here re-proves them.
+- *Gram rigidity*: OrthogonalGeometry (`OG-01`–`OG-08`, consumed through the ambient form `OG-07`),
+  which makes the rectangular diagonal model of §1.5 independent of its orthonormal families up to
+  unitaries on both sides; the orbit-hull characterization MAJ-B20 and the gauge representation
+  MAJ-B44 rest on it.
 - *Approximation numbers and every gauge of them*: OperatorIdeals; this roadmap stays in finite
   dimension.
 - *Angles, the permutation-orbit hull for diagonals, Davis's bound and von Neumann's trace
@@ -984,8 +995,8 @@ of block sums (MAJ-B23, MAJ-B25) are Mathlib lemmas, named in those items.
 ### From Tau Ceti
 
 The declarations that realise this roadmap's own items are named on the *In Tau Ceti* lines of the
-items above. The declarations consumed from PolarDecomposition are the following, with paths under
-`TauCeti/`; each is assumed to state what its use above says.
+items above. The declarations consumed from PolarDecomposition and OrthogonalGeometry are the
+following, with paths under `TauCeti/`; each is assumed to state what its use above says.
 
 - `Analysis/InnerProductSpace/SingularValues.lean`: `LinearMap.singularValues_adjoint`
   (`σ(A†) = σ(A)`), `LinearMap.singularValues_operatorAbs` (`σ(|A|) = σ(A)`), and the singular
@@ -995,12 +1006,20 @@ items above. The declarations consumed from PolarDecomposition are the following
   `LinearMap.exists_orthonormalBasis_apply_eq_leftSingularVector`.
 - `Analysis/InnerProductSpace/Positive/SquareRoot.lean`: `LinearMap.operatorAbs`, the positive
   square root of `A†A` for `A : E →ₗ[𝕜] F`.
+- `Analysis/InnerProductSpace/CourantFischer.lean`:
+  `LinearMap.IsSymmetric.re_inner_apply_self_eq_sum_eigenvalues_mul_sq` (PolarDecomposition
+  `PD-A50`): for symmetric `T` with eigenvalues `λᵢ` and eigenbasis `(vᵢ)`,
+  `Re⟪T x, x⟫ = ∑ᵢ λᵢ ‖⟪vᵢ, x⟫‖²`.
+- `Analysis/InnerProductSpace/Gram/Rigidity.lean`: `TauCeti.exists_linearIsometryEquiv_of_inner_eq`
+  (OrthogonalGeometry `OG-07`): two families in a finite-dimensional space with the same pairwise
+  inner products are carried one onto the other by a linear isometric equivalence of the space.
 
 ## References
 
-- R. Bhatia, *Matrix Analysis*, Graduate Texts in Mathematics 169, Springer (1997), Chapters
-  II–IV: majorization, symmetric gauge functions, Ky Fan dominance (Theorem IV.2.2), unitarily
-  invariant norms.
+- R. Bhatia, *Matrix Analysis*, Graduate Texts in Mathematics 169, Springer (1997): §II.1
+  (majorization and T-transforms), Chapter III (variational principles for eigenvalues), §IV.1
+  (symmetric gauge functions) and §IV.2 (unitarily invariant norms, Ky Fan dominance,
+  Theorem IV.2.2).
 - A. W. Marshall, I. Olkin, B. C. Arnold, *Inequalities: Theory of Majorization and Its
   Applications*, 2nd ed., Springer (2011), Theorem 9.B.1 (Schur–Horn).
 - I. Schur, *Über eine Klasse von Mittelbildungen mit Anwendungen auf die Determinantentheorie*,
