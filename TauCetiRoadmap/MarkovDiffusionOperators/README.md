@@ -130,7 +130,7 @@ Define `Γ₂(f, g) = ½ (L Γ(f, g) − Γ(f, Lg) − Γ(g, Lf))` on `A` [BGL, 
 
 **Checks.**
 - On `ℝᵈ` with Lebesgue measure: `Γ₂(f) = ‖∇²f‖²_HS ≥ (Δf)²/d`. So `CD(ρ, n)` holds if and only if `ρ ≤ 0` and `n ≥ d`.
-- Ornstein–Uhlenbeck on `ℝ`, `Lf = f'' − x f'`: `Γ₂(f) = f''² + f'²`. This gives `CD(1, ∞)`. For `n < ∞`, `CD(ρ, n)` holds for no `ρ`: at `f(x) = x`, it would need `1 ≥ ρ + x²/n` for every `x`.
+- Ornstein–Uhlenbeck on `ℝ`, `Lf = f'' − x f'`: `Γ₂(f) = f''² + f'²`. This gives `CD(1, ∞)`. For `n < ∞`, `CD(ρ, n)` holds for no `ρ`: at `f ∈ A₀` equal to `x` on `[−R, R]`, it would need `1 ≥ ρ + x²/n` for `|x| < R`, and `R` is arbitrary.
 - Circle: `Γ₂(f) = f''² = (Lf)²`, so `CD(0, 1)` holds.
 
 *Needs:* Layer 3.
@@ -163,8 +163,8 @@ On a full triple with `CD(ρ, ∞)`, for every `ρ ∈ ℝ`, `f ∈ A₀` and `t
 If moreover the triple is complete, it is conservative [BGL, Theorem 3.3.23]. If in addition `ρ > 0`, then `μ` is finite.
 
 **Checks.**
-- On `ℝ`, with `f` smooth and compactly supported, `|∂ₓ P_t f| = |P_t f'| ≤ P_t |f'|`: equality in the strong bound with `ρ = 0` when `f' ≥ 0`.
-- Ornstein–Uhlenbeck: `∂ₓ P_t f = e^{−t} P_t f'`, so the strong bound holds with equality at `ρ = 1` for monotone `f`.
+- On `ℝ`, with `f` smooth and compactly supported, `|∂ₓ P_t f| = |P_t f'| ≤ P_t |f'|`. Equality in the strong bound with `ρ = 0` needs `f'` of constant sign, which no nonzero `f ∈ A₀` has; it holds for bounded nondecreasing `f ∈ A`, for example `f = arctan`.
+- Ornstein–Uhlenbeck: `∂ₓ P_t f = e^{−t} P_t f'`, so the strong bound holds with equality at `ρ = 1` for bounded nondecreasing `f ∈ A`, for example `f = arctan`.
 
 *Needs:* Layer 5.
 
