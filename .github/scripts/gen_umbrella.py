@@ -20,9 +20,10 @@ everything that this needs, read from the READMEs:
   same or a higher level (fewer dots in its id).
 - A dependency comes only from a statement of dependency. A section needs what the
   `*Needs:*` and `*Prerequisites:*` lines in its text name (a line runs to the end of its
-  first sentence or paragraph): bare ids and `Layer k` are its own roadmap's, and citations
+  paragraph): bare ids and `Layer k` are its own roadmap's, and citations
   (`Name §1.2`, `Name §§1.1–1.3 and 2.4`, `Name Layers 3 and 5`, `Name A5.3`, ...) another
-  roadmap's; `Mathlib ...` and `Tau Ceti ...` name nothing. A section without such a line
+  roadmap's; `Mathlib ...` and `Tau Ceti ...` name nothing, and stop the reading of local ids
+  only to the next `;`, sentence, list item or blank line. A section without such a line
   needs what the `Dependencies` subsection of its layer cites of other roadmaps. The rest of
   the text (statements, routes, checks, examples, remarks) needs nothing.
 - A layer that has sections is not an item: no pull request completes it as such, it is
@@ -1192,12 +1193,18 @@ NEEDS_LABEL = re.compile(r"(?:\*(?:Needs|Prerequisites):\*|\*\*(?:Needs|Prerequi
 NEXT_LABEL = re.compile(r"\s\*{1,2}[A-Z][\w ’'-]{0,40}:\*{1,2}")
 BLOCK_START = re.compile(r"\s*(?:#|[-*+]\s|\d+\.\s|```|~~~|>|\|)")
 LINE_LABEL = re.compile(r"\s*(?:[-*+]\s+|\d+\.\s+)?\*{1,2}[^\s*]")     # a line that opens with a label
-SENTENCE_END = re.compile(r"\.(?=\s|$)")
-OPEN_PAREN = re.compile(r"\(")     # left open by the paragraph's end
+# Where a reading of local ids stopped by an outside name resumes: `;`, a blank line, the start
+# of a list item, and the end of a sentence (a full stop followed by white space and a capital,
+# `§`, a backtick, `*`, `(` or the end; never the full stop of an id such as `1.2`, nor that of an
+# abbreviation such as `e.g.`)
+STRETCH_BREAK = re.compile(r";|\n[ \t]*\n|\n(?=[ \t]*(?:[-*+]|\d+\.)\s)")
+FULL_STOP = re.compile(r"\.(?=\s+[A-Z§*(`\x00\x01]|\s*$)")
+ABBREVIATION = re.compile(r"(?<![\w.])(?:e\.g|i\.e|[cC]f|resp|Thm|Prop|Sect|Lem|Cor|Def|Rem|Ex|Eq|Ch|Fig"
+                          r"|[vV]ol|pp?|[nN]o)$")
 NEEDS_TOKEN = re.compile(r"(?P<sign>§§?|\bSections?\b)\s?|(?P<layer>\b[Ll]ayers?\b)"
                          r"|(?P<range>[ \t]*[–-][ \t]*)|(?P<sep>,|\band\b|&)"
-                         r"|(?P<id>" + HYPH + "|" + SIGNED_TOK + r")|(?P<stop>\x00)|(?P<other>\S)")
-REVERSE_OF = re.compile(r"\bof\s+(?:the\s+roadmap\s+)?[A-Z\x00]")
+                         r"|(?P<id>" + HYPH + "|" + SIGNED_TOK + r")|(?P<stop>\x00)|(?P<code>\x01)|(?P<other>\S)")
+REVERSE_OF = re.compile(r"\s+(?:the\s+roadmap\s+)?[A-Z\x00]")     # after `of`: `§3.4 of Name`
 
 
 def _masked(text: str) -> str:
@@ -1212,11 +1219,10 @@ def _masked(text: str) -> str:
 
 def needs_spans(rd: Readme) -> list[tuple[int, int, int]]:
     """(line, start, end) of the text of every `*Needs:*` or `*Prerequisites:*` label outside
-    code fences, as offsets
-    in the README. The text runs from the label to the end of its paragraph (a blank line, a
-    heading, a line that opens with a bold or italic label, a list item, a fence, a quote or a
-    table ends it) and is cut at the next label in the line and at the end of its first
-    sentence; an aside in parentheses or a span in backticks does not end it."""
+    code fences, as offsets in the README. The text runs from the label to the end of its
+    paragraph (a blank line, a heading, a line that opens with a bold or italic label, a list
+    item, a fence, a quote or a table ends it), all its sentences, and is cut at the next label
+    in the line (`*Lean:*`); a label in an aside in parentheses or in backticks does not cut it."""
     out = []
     lines, starts = rd.lines, rd.starts
     for no, _kind, _label, _rest in rd.rows:
@@ -1230,45 +1236,58 @@ def needs_spans(rd: Readme) -> list[tuple[int, int, int]]:
                 j += 1
             a = starts[no - 1] + m.end()
             b = starts[j - 1] + len(lines[j - 1])
-            masked = _masked(rd.text[a:b])
-            cut = len(masked)
-            for pat in (NEXT_LABEL, SENTENCE_END, OPEN_PAREN):
-                found = pat.search(masked)
-                if found:
-                    cut = min(cut, found.start())
-            out.append((no, a, a + cut))
+            found = NEXT_LABEL.search(_masked(rd.text[a:b]))
+            out.append((no, a, a + found.start() if found else b))
+    return out
+
+
+def stretches(text: str) -> list[str]:
+    """`text` cut at the boundaries after which a reading stopped by an outside name resumes:
+    `;`, a blank line, the start of a list item, and the end of a sentence."""
+    out = []
+    for piece in STRETCH_BREAK.split(text):
+        start = 0
+        for m in FULL_STOP.finditer(piece):
+            if not ABBREVIATION.search(piece, 0, m.start()):
+                out.append(piece[start:m.start()])
+                start = m.end()
+        out.append(piece[start:])
     return out
 
 
 def needs_ids(text: str, names: set[str]) -> list[tuple[str, str, str | None]]:
     """The ids of the README's own roadmap that the text of a `*Needs:*` (or `*Prerequisites:*`)
-    line names:
-    [(kind, id, start of a range or None)]. The text is split at `;`. In each part, an id counts
-    when it follows `§`, `§§`, `Section`, `Layer` or `Layers` (directly or through a list) or
-    reads as a section id on its own (`1.2`, `2.4a`, `D4.3`). Reading stops at a roadmap's
+    line, or of a `Dependencies` subsection, names: [(kind, id, start of a range or None)]. An id
+    counts when it follows `§`, `§§`, `Section`, `Layer` or `Layers` (directly or through a list)
+    or reads as a section id on its own (`1.2`, `2.4a`, `D4.3`). Reading stops at a roadmap's
     name, in backticks too (`` `Name`, layer 3 ``, `` `TauCetiRoadmap.Name` §2 ``), at any other
-    capitalised word (`Mathlib`, `Tau Ceti`) and at a bracketed source key, since what follows
-    is another roadmap's id or a source's: the citation reader reads another roadmap's ids. A
-    part of the form `§3.4 of Name` names nothing of its own. Other spans in backticks (Lean
-    names) and asides in parentheses are dropped."""
-    text = re.sub(r"`([^`]*)`", lambda m: "\x00" if re.split(r"[/.]", m.group(1).strip())[-1] in names else " ",
-                  text)
+    capitalised word (`Mathlib`, `Tau Ceti`, a roadmap written in words), at a bracketed source
+    key and at a parenthesis left open, since what follows is another roadmap's id or a source's:
+    the citation reader reads another roadmap's ids. A stop lasts to the next boundary
+    (`stretches`: `;`, a blank line, a list item, the end of a sentence), where reading resumes.
+    The ids right before `of Name` (`§3.4 of Name`, `§§3.4 and 3.5 of Name`) are not its own. Other
+    spans in backticks (Lean names) and asides in parentheses, which may run over a line break,
+    are passed over."""
+    text = re.sub(r"`([^`]*)`",
+                  lambda m: "\x00" if re.split(r"[/.]", m.group(1).strip())[-1] in names else "\x01", text)
     prev = None
     while prev != text:
         prev = text
-        text = re.sub(r"\([^()]*\)", " ", text)
-    text = re.sub(r"\[[^\]]*\]", "\x00", text.split("(", 1)[0])
+        text = re.sub(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)", " ", text)
+    text = re.sub(r"\[[^\]\n]*\]|[()]", "\x00", text)
     out = []
-    for part in text.split(";"):
-        if REVERSE_OF.search(part):
-            continue
+    for part in stretches(text):
         kind, mode, prev_id, rng = "section", None, None, False
+        run: list[tuple[str, str, str | None]] = []     # the ids of the list being read
         for t in NEEDS_TOKEN.finditer(part):
             g = t.lastgroup
-            if g == "sign":
-                kind, mode, prev_id, rng = "section", "sign", None, False
-            elif g == "layer":
-                kind, mode, prev_id, rng = "layer", "layer", None, False
+            if g == "code":
+                continue
+            if g in ("sign", "layer"):
+                out += run
+                run = []
+                kind, mode = ("section", "sign") if g == "sign" else ("layer", "layer")
+                prev_id, rng = None, False
             elif g == "range":
                 rng = prev_id is not None
             elif g == "sep":
@@ -1278,15 +1297,22 @@ def needs_ids(text: str, names: set[str]) -> list[tuple[str, str, str | None]]:
                 if tok in names or (not has_digit(tok) and tok[0].isupper() and tok not in ("Layer", "Layers")):
                     break
                 if has_digit(tok) and (mode is not None or _bare_ok(tok)):
-                    out.append((kind, tok, prev_id if rng else None))
+                    run.append((kind, tok, prev_id if rng else None))
                     prev_id = tok
                 else:
+                    if tok == "of" and REVERSE_OF.match(part, t.end()):
+                        run = []                  # `§3.4 of Name`: the list is the other roadmap's
+                    out += run
+                    run = []
                     kind, mode, prev_id = "section", None, None
                 rng = False
             elif g == "stop":
                 break
             else:
+                out += run
+                run = []
                 kind, mode, prev_id, rng = "section", None, None, False
+        out += run
     return out
 
 

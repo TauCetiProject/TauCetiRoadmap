@@ -569,6 +569,74 @@ Delta §1.1; 1.5; Layer 2.
         assert items["Fam.1.1"]["needs"] == ["Alpha.1.1", "Alpha.B1.1"], items["Fam.1.1"]
         assert items["Alpha.B1.1"]["desc"] == "§B1.1 Second", items["Alpha.B1.1"]
 
+    def test_local_references_resume_after_an_outside_name(self) -> None:
+        root = self.other_tree("stretches", {
+            "Fam": """# Roadmap: f
+
+### 1.2 A section
+
+### 1.3 Needs across sentences
+
+*Needs:* Mathlib open subgroups. §1.2 and Layer 3; Alpha §2.1, 2.2. Layer 4.
+
+## Layer 3: a layer without sections
+
+Text.
+
+## Layer 4: another
+
+Text.
+
+## Layer 6: the supplier
+
+Text.
+
+## Layer 7: after a sentence about Mathlib
+
+Text.
+
+### Dependencies
+
+Mathlib: `Nat.add`. Layer 6 (the supplier).
+
+## Layer 8: an aside that runs over a line break
+
+Text.
+
+### Dependencies
+
+Tau Ceti `TauCeti.Foo` (an aside that
+runs over a line break). Layer 6.
+
+## Layer 9: a parenthesis left open
+
+Text.
+
+### Dependencies
+
+Mathlib (left open. Layer 4.
+
+## Layer 10: e.g. is no boundary
+
+Text.
+
+### Dependencies
+
+Mathlib, e.g. Layer 6.
+""",
+            "Alpha": "# Roadmap: alpha\n\n### 2.1 A\n\n### 2.2 B\n"})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        assert items["Fam.Layer7"]["needs"] == ["Fam.Layer6"], items["Fam.Layer7"]
+        assert items["Fam.1.3"]["needs"] == ["Alpha.2.1", "Alpha.2.2", "Fam.1.2", "Fam.Layer3", "Fam.Layer4"], \
+            items["Fam.1.3"]
+        assert items["Fam.Layer8"]["needs"] == ["Fam.Layer6"], items["Fam.Layer8"]
+        assert items["Fam.Layer9"]["needs"] == ["Fam.Layer4"], items["Fam.Layer9"]
+        assert items["Fam.Layer10"]["needs"] == [], items["Fam.Layer10"]
+        code, output = self.run_script("--stats", root=root)
+        assert "Fam §2.1" not in output and "Fam §2.2" not in output, output     # Alpha's, not local
+
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
         # `Aα1` loses its `α` in a slug and would become the slug of `A1`
