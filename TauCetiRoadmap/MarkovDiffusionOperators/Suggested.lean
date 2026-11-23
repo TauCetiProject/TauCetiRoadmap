@@ -1,4 +1,7 @@
-import Mathlib
+module
+
+public import Mathlib
+import all TauCetiRoadmap.GaussianIsoperimetryAndClusters.Suggested
 
 /-!
 # Markov diffusion operators: target signatures
@@ -14,7 +17,8 @@ Layer 4; the local Bobkov inequalities,
 which need the semigroup, are specified in `README.md`, Layer 10.
 -/
 open MeasureTheory Filter
-open scoped ENNReal Topology
+open scoped ENNReal NNReal Topology
+open TauCetiRoadmap.GaussianIsoperimetryAndClusters (gaussianIsoperimetricProfile)
 
 namespace TauCeti.MarkovDiffusionOperators
 
@@ -117,16 +121,17 @@ def PI (T : DiffusionTriple E) (C : ℝ) : Prop :=
   IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, ProbabilityTheory.variance f T.μ ≤ C * ∫ x, T.Γ f f x ∂T.μ
 
-/-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ > 0`:
+/-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ > 0` and `I` the
+Gaussian isoperimetric profile `gaussianIsoperimetricProfile` of GaussianIsoperimetryAndClusters §1.1:
 `√ρ I(∫ f dμ) ≤ ∫ √(ρ I(f)² + Γ(f)) dμ` for `f ∈ A₀` with values in `[0, 1]`. Under `CD(ρ, ∞)`
 with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4). The
 condition `0 < ρ` is part of the predicate: for `ρ ≤ 0`, `Real.sqrt ρ = 0` would make it
 trivially true. -/
-def Bobkov (T : DiffusionTriple E) (ρ : ℝ) (I : ℝ → ℝ) : Prop :=
+def Bobkov (T : DiffusionTriple E) (ρ : ℝ) : Prop :=
   0 < ρ ∧ IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, (∀ x, f x ∈ Set.Icc (0 : ℝ) 1) →
-      Real.sqrt ρ * I (∫ x, f x ∂T.μ) ≤
-        ∫ x, Real.sqrt (ρ * I (f x) ^ 2 +
+      Real.sqrt ρ * gaussianIsoperimetricProfile (∫ x, f x ∂T.μ) ≤
+        ∫ x, Real.sqrt (ρ * gaussianIsoperimetricProfile (f x) ^ 2 +
           T.Γ f f x) ∂T.μ
 
 end DiffusionTriple
@@ -137,14 +142,6 @@ section Gibbs
 
 variable {d : ℕ}
 
-/-- `I` is the Gaussian isoperimetric profile `φ ∘ Φ⁻¹` on `[0, 1]` (BGL (8.5.7)), with `Φ` and
-`φ` the standard normal distribution function and density. Since `Φ` is a bijection from `ℝ`
-onto `(0, 1)`, this determines `I` on `[0, 1]` without the quantile function. -/
-def IsGaussianProfile (I : ℝ → ℝ) : Prop :=
-  I 0 = 0 ∧ I 1 = 0 ∧
-    ∀ x, I (ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) x) =
-      ProbabilityTheory.gaussianPDFReal 0 1 x
-
 /-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9). It is a probability
 measure when `e^{−V}` is integrable; otherwise the Bochner integral is `0`, its inverse is `∞`,
 and the value is meaningless, so every statement about it assumes integrability. -/
@@ -154,28 +151,28 @@ noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
     volume.withDensity (fun x => ENNReal.ofReal (Real.exp (-V x)))
 
 /-- Functional Bobkov inequality for a uniformly convex Gibbs measure (BGL Cor. 8.5.4 on the
-Gibbs triple, extended from `C_c^∞` to `C¹` functions with gradient in `L²(μ_V)`, which lie in
-the Dirichlet domain `𝒟(ℰ)`). -/
-theorem gibbs_bobkov {I : ℝ → ℝ} (hI : IsGaussianProfile I)
-    (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+Gibbs triple), for Lipschitz functions with values in `[0, 1]`, the class used in BGL §8.5. Such
+`f` are differentiable a.e. (Rademacher, `LipschitzWith.ae_differentiableAt`), the junk value of
+`fderiv` lives on a Lebesgue-null, hence `μ_V`-null, set, and `‖fderiv ℝ f x‖ ≤ K`, so the
+right side is integrable. -/
+theorem gibbs_bobkov (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
-    (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ 1 f) (hf01 : ∀ x, f x ∈ Set.Icc (0 : ℝ) 1)
-    (hgrad : MemLp (fun x => ‖fderiv ℝ f x‖) 2 (gibbsMeasure V)) :
-    Real.sqrt ρ * I (∫ x, f x ∂gibbsMeasure V) ≤
-      ∫ x, Real.sqrt (ρ * I (f x) ^ 2 +
+    (f : EuclideanSpace ℝ (Fin d) → ℝ) {K : ℝ≥0} (hf : LipschitzWith K f)
+    (hf01 : ∀ x, f x ∈ Set.Icc (0 : ℝ) 1) :
+    Real.sqrt ρ * gaussianIsoperimetricProfile (∫ x, f x ∂gibbsMeasure V) ≤
+      ∫ x, Real.sqrt (ρ * gaussianIsoperimetricProfile (f x) ^ 2 +
         ‖fderiv ℝ f x‖ ^ 2) ∂gibbsMeasure V := by
   sorry
 
 /-- Minkowski-content form of Gaussian isoperimetry for a uniformly convex Gibbs measure
 (BGL (8.5.10)): `μ_V⁺(A) ≥ √ρ I(μ_V(A))`, stated without `liminf` junk values: for every
 `c < √ρ I(μ_V(A))`, eventually `μ_V(A_r) − μ_V(A) ≥ c r` as `r ↓ 0`. -/
-theorem gibbs_isoperimetric {I : ℝ → ℝ} (hI : IsGaussianProfile I)
-    (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+theorem gibbs_isoperimetric (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
     {A : Set (EuclideanSpace ℝ (Fin d))} (hA : IsClosed A) {c : ℝ}
-    (hc : c < Real.sqrt ρ * I ((gibbsMeasure V).real A)) :
+    (hc : c < Real.sqrt ρ * gaussianIsoperimetricProfile ((gibbsMeasure V).real A)) :
     ∀ᶠ r in 𝓝[>] (0 : ℝ),
       c * r ≤ (gibbsMeasure V).real (Metric.thickening r A) - (gibbsMeasure V).real A := by
   sorry
