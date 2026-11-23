@@ -8,9 +8,9 @@ product even on normed spaces), no manifold `d`, no orientations, no integration
 no de Rham cohomology, no flows beyond the local integral-curve theory, no Frobenius theorem, no
 mapping degree, no Green's theorem beyond rectangles, no Riemannian Laplacian.
 
-This roadmap asks for that theory, following [Lee] = John M. Lee, *Introduction to Smooth
-Manifolds*, 2nd ed., GTM 218 (cited with that edition's numbering; departures from its route are
-marked). The headline theorems are Stokes (for the half-space and for smooth faces and corners),
+This roadmap asks for that theory. Its standard reference is [Lee] = John M. Lee, *Introduction
+to Smooth Manifolds*, 2nd ed., GTM 218, cited with that edition's numbering; departures from its
+proofs are marked. The headline theorems are Stokes (for the half-space and for smooth faces and corners),
 the fundamental theorem of flows for Banach models, Frobenius and global leaves, the de Rham
 theorem, Poincaré duality, the equality of the two definitions of the mapping degree, the hairy
 ball theorem, Green's theorem for absolutely continuous planar cycles and for finite
@@ -96,17 +96,19 @@ the ids and the names under which consumers cite them, and plan nothing again. W
 outward orientation of `Sⁿ` with the sign of its antipodal map; the targets of
 layers 6–11 are what remains: the Mayer–Vietoris induction principle (7.4), the smoothing
 theorem (8.3), Stokes for chains and the de Rham homomorphism (8.4), the de Rham theorem (8.5),
-top cohomology and Poincaré duality (9.2–9.3), Sard in all dimensions (10.2), the degree with
-its integral formula and calculus (10.3–10.5) and the hairy ball theorem (11).
+top cohomology and Poincaré duality (9.2–9.3), Sard in all dimensions for boundaryless sources
+(10.2), the degree with its integral formula and calculus (10.3–10.5) and the hairy ball
+theorem (11).
 
 Left to named roadmaps, and neither a target nor an input here: the relative de Rham theory of
 an open pair, the comparison of integration with the singular fundamental classes (the
 algebraic-topology roadmap's), finite-parameter relative transversality, and the strict inward cone of a
 model with corners, strictly inward vector fields, their forward semiflow and inward domination
 of a manifold with corners by its interior are DeRhamCohomologyAndDuality's (its Layers 1–5);
-the sharp finite-order Sard theorem is HeegaardFloer §2.1's; the comparison of the smooth degree
-of layer 10 with the homological degree is AlgebraicTopology's (its 6.5); collars, tubular
-neighbourhoods and gluing are GeometricTopology's.
+the sharp finite-order Sard theorem is HeegaardFloer §2.1's; Sard in all dimensions for sources
+modelled on the half-space or carrying 5.5b's face structure is TangentialBordism §2.1's; the
+comparison of the smooth degree of layer 10 with the homological degree is AlgebraicTopology's
+(its 6.5); collars, tubular neighbourhoods and gluing are GeometricTopology's.
 
 One owner per shared construction, stated identically on both sides.
 
@@ -1810,12 +1812,25 @@ stronger quantifier order.
   be the star-shaped form domain with a fixed smooth contraction to x₀; N is
   an arbitrary smooth parameter manifold. Apply the homotopy in U with N fixed
   and prove that slicing commutes with it; positive-degree closed slice forms
-  then have jointly smooth primitives. No contraction of N is required. Separately, Stokes on
-  `M × Icc 0 1` for boundaryless `M`, which 10.5's homotopy invariance of the degree consumes.
+  then have jointly smooth primitives. No contraction of N is required. Separately, prove
+  Stokes on the cylinder: for a boundaryless Hausdorff σ-compact `C^∞` manifold `M` of dimension
+  `n` with an orientation `o` indexed by `Fin n`, the cylinder `M × Icc 0 1` oriented by 2.2's
+  product of `o` and the increasing orientation `TauCeti.Manifold.Orientation.interval 0 1`, `M`
+  first, and a compactly supported `C¹` real `n`-form `ω` on the cylinder,
+  `∫_{M × [0,1]} dω = (−1)^n (∫_M ι₁^*ω − ∫_M ι₀^*ω)`, where `ι_t x = (x, t)`. The sign is
+  that of moving `dt` past the `n` directions of `M`, as in 5.5b's product boundary sign. Route:
+  write `ω = α_t + dt ∧ β_t`; in top degree `dω = dt ∧ (∂_t α_t − d_M β_t)`, so by Fubini
+  `∫ dω = (−1)^n ∫₀¹ ∫_M (∂_t α_t − d_M β_t) dt`; the interval fundamental theorem of calculus
+  turns the `α` term into `∫_M α₁ − ∫_M α₀`, and the `β` term vanishes slice by slice by 5.3's
+  boundaryless Stokes on `M`. Check of the sign: on `M = ℝ`, `ω = t φ(x) dx` with `φ` compactly
+  supported and `∫ φ = 1` has `dω = −φ dx ∧ dt`, so `∫ dω = −1 = (−1)^1 (1 − 0)`, where the
+  formula without the sign gives `+1`. 10.5's homotopy invariance of the degree consumes it.
   *Needs:* 0.3–0.4; 1.1–1.3; Mathlib's interval integral and differentiation under it
   (`Analysis/Calculus/ParametricIntervalIntegral.lean`); 1.5's adapters for the planar formulas;
-  5.2's integral and the interval fundamental theorem of calculus, for the separate Stokes on
-  `M × Icc 0 1`; not 5.3.
+  for the separate Stokes on `M × Icc 0 1`, 2.2's product orientation, 5.2's integral, 5.3's
+  boundaryless Stokes `TauCeti.integralTopForm_mextDeriv_eq_zero`, Mathlib's Fubini theorem
+  `MeasureTheory.integral_prod` and the interval fundamental theorem of calculus. The homotopy
+  operator itself needs no Stokes theorem.
 - **5.4a Contraction along a map and differentiation of pullback.** This
   extends layers 0–1 on their existing arbitrary `ModelWithCorners` and
   fixed-coefficient form carriers, retaining the stated smoothness and
@@ -2702,12 +2717,20 @@ signed count of 10.3 are Tau Ceti's; the rest are targets.*
   manifold to a manifold of the same finite dimension, with or without corners, are null and the
   regular values dense [Lee, Thm. 6.10]; the meagreness of the critical values of a smooth map
   between boundaryless manifolds of any dimensions is `ContMDiff.isMeagre_image_criticalPoints`
-  (`Sard/Meagre.lean`). **The target** is Sard's theorem in all dimensions: for a `C^∞` map
-  `f : M → N` between finite-dimensional manifolds with `M` Lindelöf, the set of critical values
-  `f '' {x | ¬ IsRegularPoint f x}` is null in `N`, from the flat Morse–Sard theorem
-  `TauCeti.addHaar_image_criticalPoints_eq_zero` (`Analysis/Calculus/Sard/OutermostStratum.lean`,
-  for maps of class `C^k` with `k ≥ (dim M)² + 1`) read in countably many pairs of extended
-  charts, as the equal-dimensional case is. The sharp finite-order theorem,
+  (`Sard/Meagre.lean`). **The target** is Sard's theorem in all dimensions for boundaryless
+  sources: for a `C^∞` map `f : M → N` between finite-dimensional manifolds with `M` Lindelöf and
+  boundaryless (`[BoundarylessManifold I M]`; `N` may have boundary or corners), the set of
+  critical values `f '' {x | ¬ IsRegularPoint f x}` is null in `N`, from the flat Morse–Sard
+  theorem `TauCeti.addHaar_image_criticalPoints_eq_zero`
+  (`Analysis/Calculus/Sard/OutermostStratum.lean`, for maps of class `C^k` with
+  `k ≥ (dim M)² + 1`) read in countably many pairs of extended charts, as the equal-dimensional
+  case is. That theorem asks for `ContDiffAt` at each point and concludes for `fderiv`; every
+  chart of a boundaryless `M` lands in the interior of `range I`
+  (`ModelWithCorners.isInteriorPoint_iff_of_mem_atlas`), where the chart representative of `f`
+  is `ContDiffAt` and `mfderiv` reads as its `fderiv`. At a boundary point the representative is
+  smooth only within `range I`, so the route stops there; the extension to sources modelled on
+  the half-space or carrying 5.5b's face structure is TangentialBordism §2.1's (*Scope and
+  ownership*). The sharp finite-order theorem,
   `k > max(dim M − dim N, 0)`, is not a target here (*Scope and ownership*). The names IsNullSet
   and isNullSet_image_criticalPoints under which consumers cite 10.2 are the Tau Ceti
   declarations. *Needs:* Tau Ceti's `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint` and the flat
@@ -2748,8 +2771,9 @@ signed count of 10.3 are Tau Ceti's; the rest are targets.*
     `y > 0` and `0` over `y < 0`; without compactness of `M` the count depends on the regular
     value, and the integral formula fails (`∫_{(0,∞)} f^*ω ≠ c · ∫_ℝ ω`).
 - **10.5 Degree calculus.** Homotopy invariance under smooth homotopies, from the integral
-  formula and 5.4's Stokes on `M × Icc 0 1` (`∫_M f₁^*ω − ∫_M f₀^*ω = ∫_{M × [0,1]} d(F^*ω) = 0`,
-  as `dω = 0` in top degree); `deg id = 1`, `deg const = 0`, `deg (g ∘ f) = deg g · deg f`,
+  formula and 5.4's Stokes on `M × Icc 0 1`
+  (`∫_M f₁^*ω − ∫_M f₀^*ω = (−1)^n ∫_{M × [0,1]} d(F^*ω) = 0`, as `d(F^*ω) = F^*(dω)` and
+  `dω = 0` in top degree); `deg id = 1`, `deg const = 0`, `deg (g ∘ f) = deg g · deg f`,
   surjectivity of a map of nonzero degree, `deg antipodal = (−1)^(n+1)`; the extension to
   continuous maps by smooth approximation (Mathlib's `Geometry/Manifold/SmoothApprox`), with
   homotopy invariance under continuous homotopies, for sphere targets and, through 8.3's
