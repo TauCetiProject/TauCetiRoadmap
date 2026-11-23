@@ -19,30 +19,16 @@ partial derivatives imply `C¹`" on Euclidean space (§1.1), a toolkit for grid 
 inequality and multilinear interpolation (Layer 3), and the positive-weights lemma (§4.2). The
 roadmap is this README; `Suggested.lean` states the headline definitions and theorems.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns, on `ℝ × ℝⁿ` with `n ≥ 1` for the existence theory: linear first-order systems
-for an unknown in `ℝᴺ` with `N × N` real matrix coefficients; symmetric
-hyperbolicity; classical (`C¹`) solutions; the energy identity, the weighted energy inequality,
-finite propagation speed, uniqueness and the `L²` energy estimate; grid functions on the
-lattice `hℤⁿ` with their difference quotients, discrete `ℓ²` norms, summation by parts,
-discrete Leibniz rule, discrete Sobolev inequality and multilinear interpolation; Friedrichs'
-scheme, its stability and the higher-order discrete bounds; existence of classical solutions
-and convergence of the scheme; bounds for the derivatives of the inverse square root of a positive definite matrix-valued
-function, and the reduction of a general `A⁰` to `A⁰ = 1`.
-
-- **PDE** owns the scalar elliptic and parabolic theory, the Sobolev and Besov spaces and the
-  Strichartz estimates for the wave equation (its Layer 8). Nothing here consumes it and it
-  consumes nothing here: the wave equation appears in this roadmap only as an example, through
-  its first-order reduction, and every statement here is about classical solutions.
-- **OneParameterSemigroups** owns strongly continuous semigroups and their generators. The
-  evolution here is non-autonomous and is constructed directly; no generator of a symmetric
-  hyperbolic operator is stated here.
-- Outside this roadmap: quasilinear and nonlinear symmetric hyperbolic systems (Kato, Majda);
-  the `Hˢ` theory of hyperbolic systems; weak and distributional solutions; initial-boundary
-  value problems; strictly hyperbolic systems without a symmetrizer; Cauchy–Kowalevski and
-  Holmgren; rates of convergence of difference schemes; and the case `n = 0`, which is a
-  linear ordinary differential equation.
+Layer 1 sets up the objects and one calculus criterion. Layer 2 is the energy method for
+classical solutions: it gives uniqueness and the domain of dependence for general `A⁰` and is
+independent of Layers 3–6. Layer 3 is the grid toolkit and depends on nothing in this roadmap.
+Layer 4 defines Friedrichs' scheme for `A⁰ = 1` and proves its stability; Layer 5 bounds its
+difference quotients of every order; Layer 6 passes to the limit and proves existence and
+convergence for `A⁰ = 1`. Layer 7 removes the restriction `A⁰ = 1`. Layers 2 and 3 can be built
+in parallel after Layer 1; Layer 4 needs Layer 3; Layer 5 needs Layer 4; Layer 6 needs Layers 2,
+3 and 5 and §1.1; Layer 7 needs Layers 2 and 6.
 
 ## Conventions
 
@@ -111,81 +97,6 @@ function `f` on `ℝⁿ` is `j ↦ f(x_j)`.
 on the mesh ratio `μ`, on explicit bounds for the coefficients and finitely many of their
 derivatives, on `T`, on `n`, on `N` and on the multi-index. An unqualified `∃ C` appears only in
 compactness arguments, never in a final estimate.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Matrix.dotProduct` and `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean:76,719`), `Matrix.of`
-  (`Mathlib/LinearAlgebra/Matrix/Defs.lean:90`) and `Matrix.IsSymm`
-  (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`).
-- `Matrix.PosSemidef`, `Matrix.PosDef` and `Matrix.posSemidef_iff_dotProduct_mulVec`
-  (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:311`): positivity in the dot-product form used here.
-- `hasStrictFDerivAt_uncurry_coprod` (`Mathlib/Analysis/Calculus/FDeriv/Partial.lean:62`):
-  continuous partial derivatives of a function of two variables give strict differentiability.
-  This is the two-variable case of §1.1; Mathlib has no `n`-variable version.
-- `integral_bilinear_fderiv_right_eq_neg_left_of_integrable`
-  (`Mathlib/Analysis/Calculus/LineDeriv/IntegrationByParts.lean:195`): integration by parts on a
-  finite-dimensional space, the only integration by parts used in Layer 2.
-- `hasDerivAt_integral_of_dominated_loc_of_deriv_le`
-  (`Mathlib/Analysis/Calculus/ParametricIntegral.lean:569`): differentiation of the energy in `t`.
-- `le_gronwallBound_of_liminf_deriv_right_le` (`Mathlib/Analysis/ODE/Gronwall.lean:112`): the
-  continuous Grönwall inequality for a one-sided bound `f' ≤ K f + ε`, which is the form the
-  energy method supplies (§2.2, §2.3).
-- `discrete_gronwall` and `discrete_gronwall_Ico` (`Mathlib/Analysis/ODE/DiscreteGronwall.lean:80,98`):
-  the discrete Grönwall inequality for `u (m+1) ≤ (1 + c m) u m + b m`.
-- `fwdDiff`, `fwdDiff_smul` and `fwdDiff_iter_eq_sum_shift` (`Mathlib/Algebra/Group/ForwardDiff.lean`):
-  forward differences on an additive monoid, the scalar Leibniz rule and the binomial expansion.
-- `Function.HasFiniteSupport` (`Mathlib/Algebra/FiniteSupport/Defs.lean`), `tsum_eq_finsum` and
-  `Equiv.tsum_eq` (`Mathlib/Topology/Algebra/InfiniteSum/Basic.lean`): finite sums over `ℤⁿ` and
-  their invariance under the shifts `Equiv.addRight eᵢ`.
-- `BoundedContinuousFunction.arzela_ascoli`
-  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean:113`) on a compact space, and
-  `tendsto_of_subseq_tendsto` (`Mathlib/Order/Filter/AtTopBot/CountablyGenerated.lean:125`).
-- `Real.smoothTransition` (`Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean`): the smooth
-  monotone cutoff used for the weight of §2.2.
-- The continuous functional calculus for Hermitian matrices
-  `Matrix.IsHermitian.instContinuousFunctionalCalculus`
-  (`Mathlib/Analysis/Matrix/HermitianFunctionalCalculus.lean:98`), the Loewner order on matrices
-  under `open scoped MatrixOrder` (`Mathlib/Analysis/Matrix/Order.lean:80`), and with them
-  `CFC.sqrt`, `CFC.sqrt_unique`
-  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean:232,279`) and
-  `Matrix.PosSemidef.inv_sqrt` (`Mathlib/Analysis/Matrix/Order.lean:137`): the positive square
-  root of a positive semidefinite matrix, its uniqueness, and `(√A)⁻¹ = √(A⁻¹)`.
-- The `L²` operator norm on matrices, a Banach-algebra norm, under
-  `open scoped Matrix.Norms.L2Operator` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean:280`); it is
-  the norm in which Tau Ceti states the smoothness of the square root, and §7.1 transfers that
-  statement to the entrywise norm.
-- The Faà di Bruno bound `norm_iteratedFDerivWithin_comp_le`
-  (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:444`), and `CFC.sqrt_eq_rpow` and
-  `CFC.rpow_neg` (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean:633,516`).
-- `ContinuousLinearMap.hasFDerivAt_of_bilinear` (`Mathlib/Analysis/Calculus/FDeriv/Bilinear.lean:120`):
-  the product rule for a bounded bilinear map, applied to `dotProduct` and `mulVec` in §2.1.
-
-### From Tau Ceti
-
-- `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`
-  (`TauCeti/Analysis/Matrix/Exponential/Log.lean:106,98`): `CFC.sqrt` and `P ↦ P ^ s` are `C^k`
-  on the positive definite matrices for every `k`, in the norm of
-  `open scoped Matrix.Norms.L2Operator`.
-- `TauCeti.fwdDiff_iter_smul` (`TauCeti/Algebra/Group/ForwardDiff.lean:102`): the iterated
-  discrete Leibniz rule over a possibly noncommutative ring, used with `j ↦ Matrix.toLin' (a j)`
-  in §3.1.
-
-The statements of `Suggested.lean` need only Mathlib. Nothing else in Mathlib or Tau Ceti treats
-hyperbolic systems, transport equations or difference schemes; every such item below is a
-target.
-
-## How to read the build
-
-Layer 1 sets up the objects and one calculus criterion. Layer 2 is the energy method for
-classical solutions: it gives uniqueness and the domain of dependence for general `A⁰` and is
-independent of Layers 3–6. Layer 3 is the grid toolkit and depends on nothing in this roadmap.
-Layer 4 defines Friedrichs' scheme for `A⁰ = 1` and proves its stability; Layer 5 bounds its
-difference quotients of every order; Layer 6 passes to the limit and proves existence and
-convergence for `A⁰ = 1`. Layer 7 removes the restriction `A⁰ = 1`. Layers 2 and 3 can be built
-in parallel after Layer 1; Layer 4 needs Layer 3; Layer 5 needs Layer 4; Layer 6 needs Layers 2,
-3 and 5 and §1.1; Layer 7 needs Layers 2 and 6.
 
 ## Layer 1: systems and classical solutions
 
@@ -882,6 +793,95 @@ No roadmap in this repository consumes this one yet. The quasilinear Cauchy prob
 symmetric hyperbolic systems, which is outside this roadmap, would consume the energy identity
 and its integrated form (§2.1, §2.3), finite propagation speed (§2.2) and the linear existence
 theorem (§7.3).
+
+## Scope and ownership
+
+This roadmap owns, on `ℝ × ℝⁿ` with `n ≥ 1` for the existence theory: linear first-order systems
+for an unknown in `ℝᴺ` with `N × N` real matrix coefficients; symmetric
+hyperbolicity; classical (`C¹`) solutions; the energy identity, the weighted energy inequality,
+finite propagation speed, uniqueness and the `L²` energy estimate; grid functions on the
+lattice `hℤⁿ` with their difference quotients, discrete `ℓ²` norms, summation by parts,
+discrete Leibniz rule, discrete Sobolev inequality and multilinear interpolation; Friedrichs'
+scheme, its stability and the higher-order discrete bounds; existence of classical solutions
+and convergence of the scheme; bounds for the derivatives of the inverse square root of a positive definite matrix-valued
+function, and the reduction of a general `A⁰` to `A⁰ = 1`.
+
+- **PDE** owns the scalar elliptic and parabolic theory, the Sobolev and Besov spaces and the
+  Strichartz estimates for the wave equation (its Layer 8). Nothing here consumes it and it
+  consumes nothing here: the wave equation appears in this roadmap only as an example, through
+  its first-order reduction, and every statement here is about classical solutions.
+- **OneParameterSemigroups** owns strongly continuous semigroups and their generators. The
+  evolution here is non-autonomous and is constructed directly; no generator of a symmetric
+  hyperbolic operator is stated here.
+- Outside this roadmap: quasilinear and nonlinear symmetric hyperbolic systems (Kato, Majda);
+  the `Hˢ` theory of hyperbolic systems; weak and distributional solutions; initial-boundary
+  value problems; strictly hyperbolic systems without a symmetrizer; Cauchy–Kowalevski and
+  Holmgren; rates of convergence of difference schemes; and the case `n = 0`, which is a
+  linear ordinary differential equation.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Matrix.dotProduct` and `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean:76,719`), `Matrix.of`
+  (`Mathlib/LinearAlgebra/Matrix/Defs.lean:90`) and `Matrix.IsSymm`
+  (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`).
+- `Matrix.PosSemidef`, `Matrix.PosDef` and `Matrix.posSemidef_iff_dotProduct_mulVec`
+  (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:311`): positivity in the dot-product form used here.
+- `hasStrictFDerivAt_uncurry_coprod` (`Mathlib/Analysis/Calculus/FDeriv/Partial.lean:62`):
+  continuous partial derivatives of a function of two variables give strict differentiability.
+  This is the two-variable case of §1.1; Mathlib has no `n`-variable version.
+- `integral_bilinear_fderiv_right_eq_neg_left_of_integrable`
+  (`Mathlib/Analysis/Calculus/LineDeriv/IntegrationByParts.lean:195`): integration by parts on a
+  finite-dimensional space, the only integration by parts used in Layer 2.
+- `hasDerivAt_integral_of_dominated_loc_of_deriv_le`
+  (`Mathlib/Analysis/Calculus/ParametricIntegral.lean:569`): differentiation of the energy in `t`.
+- `le_gronwallBound_of_liminf_deriv_right_le` (`Mathlib/Analysis/ODE/Gronwall.lean:112`): the
+  continuous Grönwall inequality for a one-sided bound `f' ≤ K f + ε`, which is the form the
+  energy method supplies (§2.2, §2.3).
+- `discrete_gronwall` and `discrete_gronwall_Ico` (`Mathlib/Analysis/ODE/DiscreteGronwall.lean:80,98`):
+  the discrete Grönwall inequality for `u (m+1) ≤ (1 + c m) u m + b m`.
+- `fwdDiff`, `fwdDiff_smul` and `fwdDiff_iter_eq_sum_shift` (`Mathlib/Algebra/Group/ForwardDiff.lean`):
+  forward differences on an additive monoid, the scalar Leibniz rule and the binomial expansion.
+- `Function.HasFiniteSupport` (`Mathlib/Algebra/FiniteSupport/Defs.lean`), `tsum_eq_finsum` and
+  `Equiv.tsum_eq` (`Mathlib/Topology/Algebra/InfiniteSum/Basic.lean`): finite sums over `ℤⁿ` and
+  their invariance under the shifts `Equiv.addRight eᵢ`.
+- `BoundedContinuousFunction.arzela_ascoli`
+  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean:113`) on a compact space, and
+  `tendsto_of_subseq_tendsto` (`Mathlib/Order/Filter/AtTopBot/CountablyGenerated.lean:125`).
+- `Real.smoothTransition` (`Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean`): the smooth
+  monotone cutoff used for the weight of §2.2.
+- The continuous functional calculus for Hermitian matrices
+  `Matrix.IsHermitian.instContinuousFunctionalCalculus`
+  (`Mathlib/Analysis/Matrix/HermitianFunctionalCalculus.lean:98`), the Loewner order on matrices
+  under `open scoped MatrixOrder` (`Mathlib/Analysis/Matrix/Order.lean:80`), and with them
+  `CFC.sqrt`, `CFC.sqrt_unique`
+  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean:232,279`) and
+  `Matrix.PosSemidef.inv_sqrt` (`Mathlib/Analysis/Matrix/Order.lean:137`): the positive square
+  root of a positive semidefinite matrix, its uniqueness, and `(√A)⁻¹ = √(A⁻¹)`.
+- The `L²` operator norm on matrices, a Banach-algebra norm, under
+  `open scoped Matrix.Norms.L2Operator` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean:280`); it is
+  the norm in which Tau Ceti states the smoothness of the square root, and §7.1 transfers that
+  statement to the entrywise norm.
+- The Faà di Bruno bound `norm_iteratedFDerivWithin_comp_le`
+  (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:444`), and `CFC.sqrt_eq_rpow` and
+  `CFC.rpow_neg` (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean:633,516`).
+- `ContinuousLinearMap.hasFDerivAt_of_bilinear` (`Mathlib/Analysis/Calculus/FDeriv/Bilinear.lean:120`):
+  the product rule for a bounded bilinear map, applied to `dotProduct` and `mulVec` in §2.1.
+
+### From Tau Ceti
+
+- `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`
+  (`TauCeti/Analysis/Matrix/Exponential/Log.lean:106,98`): `CFC.sqrt` and `P ↦ P ^ s` are `C^k`
+  on the positive definite matrices for every `k`, in the norm of
+  `open scoped Matrix.Norms.L2Operator`.
+- `TauCeti.fwdDiff_iter_smul` (`TauCeti/Algebra/Group/ForwardDiff.lean:102`): the iterated
+  discrete Leibniz rule over a possibly noncommutative ring, used with `j ↦ Matrix.toLin' (a j)`
+  in §3.1.
+
+The statements of `Suggested.lean` need only Mathlib. Nothing else in Mathlib or Tau Ceti treats
+hyperbolic systems, transport equations or difference schemes; every such item in the layers
+above is a target.
 
 ## References
 
