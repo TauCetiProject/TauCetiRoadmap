@@ -130,7 +130,14 @@ end DiffusionTriple
 section Gibbs
 
 variable {d : ℕ}
-variable (I : ℝ → ℝ)
+
+/-- `I` is the Gaussian isoperimetric profile `φ ∘ Φ⁻¹` on `[0, 1]` (BGL (8.5.7)), with `Φ` and
+`φ` the standard normal distribution function and density. Since `Φ` is a bijection from `ℝ`
+onto `(0, 1)`, this determines `I` on `[0, 1]` without the quantile function. -/
+def IsGaussianProfile (I : ℝ → ℝ) : Prop :=
+  I 0 = 0 ∧ I 1 = 0 ∧
+    ∀ x, I (ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) x) =
+      ProbabilityTheory.gaussianPDFReal 0 1 x
 
 /-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9). -/
 noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
@@ -140,7 +147,8 @@ noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
 
 /-- Functional Bobkov inequality for a uniformly convex Gibbs measure (BGL Cor. 8.5.4 on the
 Gibbs triple, extended from `C_c^∞` to `C¹` functions). -/
-theorem gibbs_bobkov (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+theorem gibbs_bobkov {I : ℝ → ℝ} (hI : IsGaussianProfile I)
+    (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
     (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ 1 f) (hf01 : ∀ x, f x ∈ Set.Icc (0 : ℝ) 1)
@@ -153,7 +161,8 @@ theorem gibbs_bobkov (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ
 /-- Minkowski-content form of Gaussian isoperimetry for a uniformly convex Gibbs measure
 (BGL (8.5.10)): `μ_V⁺(A) ≥ √ρ I(μ_V(A))`, stated without `liminf` junk values: for every
 `c < √ρ I(μ_V(A))`, eventually `μ_V(A_r) − μ_V(A) ≥ c r` as `r ↓ 0`. -/
-theorem gibbs_isoperimetric (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+theorem gibbs_isoperimetric {I : ℝ → ℝ} (hI : IsGaussianProfile I)
+    (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
     {A : Set (EuclideanSpace ℝ (Fin d))} (hA : IsClosed A) {c : ℝ}
