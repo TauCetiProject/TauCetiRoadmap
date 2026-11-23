@@ -1015,6 +1015,8 @@ For a selected index set `s`, the residual columns are `R_j = λ_j(A) v_j − A 
 (Convention 9): the population eigenvalue applied to the sample eigenvector. `R_j = 0` exactly
 when `v_j` is an eigenvector of `A` for `λ_j(A)`. The residual columns of an arbitrary ordered
 eigenframe of `B` at the indices `e(i)` are defined in the same way, with `λ_{e(i)}(A)`.
+Tau Ceti has no named definition of the residual columns; the declarations of §D.8–§D.11 write
+them inline.
 
 ### D.4 The left singular subspace
 
@@ -1134,8 +1136,8 @@ of dimension `n`, and `U` and `V` corresponding eigenblocks of rank `d` (§D.1) 
 `e(0), …, e(d − 1)`. Let `Δ > 0` with `Δ ≤ |λ_{e(i)}(A) − λ_k(A)|` for every `i` and every index
 `k` not selected, which is the internal gap §S.1 of `A` at `U`. Then
 `‖sin Θ(U, V)‖_F ≤ 2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ`. No gap is assumed in the spectrum of `B`
-(Yu, Wang and Samworth 2015, Theorem 1, proved there for real matrices and a run of consecutive
-indices). Route: the complement identity §D.7 and the residual sandwich §D.8–§D.10.
+(Yu, Wang and Samworth 2015, Theorem 2, inequality (2), proved there for real matrices and a run
+of consecutive indices). Route: the complement identity §D.7 and the residual sandwich §D.8–§D.10.
 *In Tau Ceti:* `LinearMap.IsSymmetric.sinThetaFrobenius_orderedEigenframe_le`, `LinearMap.IsSymmetric.sinThetaFrobenius_eigenvectorSpan_le`.
 
 ### D.17 Aligned bases
