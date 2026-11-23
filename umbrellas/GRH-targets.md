@@ -4674,7 +4674,7 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.5.8` — §6.5.8 Prove that forgetting the pairings and bicartesian witness gives a functor Qh[E]→Q[E], preserving the… (needs: GeometryOfNumbersAndQuadraticArithmetic.6.1)
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.5.10` — §6.5.10 Construct the realization of the forgetful map (needs: none)
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.8` — §6.8 Formations (needs: GeometricTopology.4.3.1, GeometryOfNumbersAndQuadraticArithmetic.6.1, GeometryOfNumbersAndQuadraticArithmetic.6.2, GeometryOfNumbersAndQuadraticArithmetic.6.5, QuadraticFormInvariants.Layer1)
-- [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.8.3` — §6.8.3 Prove that sending to the loop formed by the L1 path followed by the inverse L2 path identifies the… (needs: GeometryOfNumbersAndQuadraticArithmetic.6.1, GeometryOfNumbersAndQuadraticArithmetic.6.5)
+- [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.8.3` — §6.8.3 Prove that sending to the loop formed by the L1 path followed by the inverse L2 path identifies the… (needs: GeometryOfNumbersAndQuadraticArithmetic.6.1, GeometryOfNumbersAndQuadraticArithmetic.6.5, GeometryOfNumbersAndQuadraticArithmetic.6.8)
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.8.4` — §6.8.4 Prove that the homomorphism from formations to ExactK0 sending a formation to [L1]−[L2] has image… (needs: none)
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.8a` — §6.8a Derived duality and Poincaré spectra (needs: BordismFormalGroups.6.5, DGAInfinity.Layer1, DGAInfinity.Layer5, DGAInfinity.Layer6, DGAInfinity.Layer7, EnhancedDerivedSheaves.E0.6, EnhancedDerivedSheaves.E5-abstract.4, EnhancedDerivedSheaves.E5-presentability.2, GeometryOfNumbersAndQuadraticArithmetic.6.1a, GeometryOfNumbersAndQuadraticArithmetic.6.1b)
 - [ ] `GeometryOfNumbersAndQuadraticArithmetic.6.9` — §6.9 Localisation for Dedekind rings (needs: ArithmeticGaloisDuality.R02.3.1, ArithmeticGaloisDuality.R02.4.1, ArithmeticGaloisDuality.R02.4.2, ArithmeticGaloisDuality.R02.4.3, ArithmeticGaloisDuality.R02.4.4, GrothendieckEulerForms.0.1, GrothendieckEulerForms.0.2, GrothendieckEulerForms.0.3, GrothendieckEulerForms.0.4, GrothendieckEulerForms.0.5, StableHomotopyKTheory.3.15, StableHomotopyKTheory.3.25, StableHomotopyKTheory.3.28, StableHomotopyKTheory.4.14)
@@ -4700,7 +4700,6 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 > Dropped to break a cycle: `GeometryOfNumbersAndQuadraticArithmetic.6.5.2` needs `GeometryOfNumbersAndQuadraticArithmetic.6.5`.
 > Dropped to break a cycle: `GeometryOfNumbersAndQuadraticArithmetic.6.5.3` needs `GeometryOfNumbersAndQuadraticArithmetic.6.5`.
 > Dropped to break a cycle: `GeometryOfNumbersAndQuadraticArithmetic.6.5.8` needs `GeometryOfNumbersAndQuadraticArithmetic.6.5`.
-> Dropped to break a cycle: `GeometryOfNumbersAndQuadraticArithmetic.6.8.3` needs `GeometryOfNumbersAndQuadraticArithmetic.6.8`.
 
 ## GlobalGaloisDeformations
 - [ ] `GlobalGaloisDeformations.3.3` — §3.3 Global deformation data and T-framed deformations (needs: LocalGaloisDeformationRings.F.1.3, LocalGaloisDeformationRings.F.1.6, LocalGaloisDeformationRings.F.1.7, LocalGaloisDeformationRings.F.3.1)
@@ -9638,11 +9637,11 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `ZerosOfLFunctions.5.3` — §5.3 The canonical product (needs: ZerosOfLFunctions.5.1, ZerosOfLFunctions.5.2)
 - [ ] `ZerosOfLFunctions.5.4` — §5.4 The entire logarithm (serves: RiemannHypothesisStatementsAndConsequences; needs: none)
 - [ ] `ZerosOfLFunctions.5.5` — §5.5 Hadamard's theorem at order at most one (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.5.3, ZerosOfLFunctions.5.4)
-- [ ] `ZerosOfLFunctions.5.6` — §5.6 The L-function corollaries (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.0.1, ZerosOfLFunctions.0.2, ZerosOfLFunctions.0.3, ZerosOfLFunctions.0.4, ZerosOfLFunctions.1.5, ZerosOfLFunctions.3.1, ZerosOfLFunctions.4.4, ZerosOfLFunctions.5.5)
+- [ ] `ZerosOfLFunctions.5.6` — §5.6 The L-function corollaries (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.0.1, ZerosOfLFunctions.0.2, ZerosOfLFunctions.0.3, ZerosOfLFunctions.0.4, ZerosOfLFunctions.1.5, ZerosOfLFunctions.3.1, ZerosOfLFunctions.4.4, ZerosOfLFunctions.5.5, ZerosOfLFunctions.5.6a)
 - [ ] `ZerosOfLFunctions.5.6a` — §5.6a Ordinate summability of the zeros (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.0.1, ZerosOfLFunctions.0.2, ZerosOfLFunctions.0.3, ZerosOfLFunctions.0.4, ZerosOfLFunctions.1.5, ZerosOfLFunctions.3.1, ZerosOfLFunctions.4.2, ZerosOfLFunctions.5.3)
 - [ ] `ZerosOfLFunctions.6.1` — §6.1 Quantitative 3-4-1 (needs: none)
-- [ ] `ZerosOfLFunctions.6.2` — §6.2 The region for the Dedekind zeta function (serves: RiemannHypothesisStatementsAndConsequences; needs: none)
-- [ ] `ZerosOfLFunctions.6.3` — §6.3 The exceptional zero (serves: RiemannHypothesisStatementsAndConsequences, RieszSumsOverPrimesAndExceptionalZeros, FrobeniusRestrictedRieszSums and 1 more; needs: ZerosOfLFunctions.6.2)
+- [ ] `ZerosOfLFunctions.6.2` — §6.2 The region for the Dedekind zeta function (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.6.4)
+- [ ] `ZerosOfLFunctions.6.3` — §6.3 The exceptional zero (serves: RiemannHypothesisStatementsAndConsequences, RieszSumsOverPrimesAndExceptionalZeros, FrobeniusRestrictedRieszSums and 1 more; needs: ZerosOfLFunctions.6.2, ZerosOfLFunctions.6.4)
 - [ ] `ZerosOfLFunctions.6.4` — §6.4 The region for Hecke L-functions (serves: RiemannHypothesisStatementsAndConsequences, RieszSumsOverPrimesAndExceptionalZeros; needs: ZerosOfLFunctions.1.4, ZerosOfLFunctions.2.2, ZerosOfLFunctions.4.1, ZerosOfLFunctions.4.2, ZerosOfLFunctions.4.3, ZerosOfLFunctions.4.4, ZerosOfLFunctions.4.5, ZerosOfLFunctions.4.6, ZerosOfLFunctions.5.6, ZerosOfLFunctions.6.1)
 - [ ] `ZerosOfLFunctions.6.4a` — §6.4a Direct primitive Dirichlet exports of 6.4d–e (serves: RiemannHypothesisStatementsAndConsequences; needs: ZerosOfLFunctions.0.1, ZerosOfLFunctions.0.2, ZerosOfLFunctions.0.3, ZerosOfLFunctions.0.4, ZerosOfLFunctions.1.2, ZerosOfLFunctions.1.4, ZerosOfLFunctions.1.6, ZerosOfLFunctions.5.5)
 - [ ] `ZerosOfLFunctions.6.5` — §6.5 The edges (serves: RiemannHypothesisStatementsAndConsequences, GeneralizedRiemannHypothesisFromWindowBounds; needs: ZerosOfLFunctions.1.5, ZerosOfLFunctions.1.6, ZerosOfLFunctions.3.1, ZerosOfLFunctions.3.2, ZerosOfLFunctions.3.3, ZerosOfLFunctions.3.4, ZerosOfLFunctions.3.5, ZerosOfLFunctions.5.1, ZerosOfLFunctions.5.2, ZerosOfLFunctions.5.3, ZerosOfLFunctions.5.4, ZerosOfLFunctions.5.5, ZerosOfLFunctions.5.6, ZerosOfLFunctions.5.6a)
@@ -9666,9 +9665,6 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 > Dropped to break a cycle: `ZerosOfLFunctions.3.1` needs `ZerosOfLFunctions.6.3`.
 > Dropped to break a cycle: `ZerosOfLFunctions.3.1` needs `ZerosOfLFunctions.6.4`.
 > Dropped to break a cycle: `ZerosOfLFunctions.3.1` needs `ZerosOfLFunctions.6.5`.
-> Dropped to break a cycle: `ZerosOfLFunctions.5.6` needs `ZerosOfLFunctions.5.6a`.
-> Dropped to break a cycle: `ZerosOfLFunctions.6.2` needs `ZerosOfLFunctions.6.4`.
-> Dropped to break a cycle: `ZerosOfLFunctions.6.3` needs `ZerosOfLFunctions.6.4`.
 
 ## RiemannHypothesisForDirichletLFunctions
 - [ ] `AdelicHeightsAndSuccessiveMinima.2.5a` — §2.5a Adelic heights of vectors and subspaces (serves: SlopesOfHermitianVectorBundles; needs: ArakelovGeometryAndAbelianHeights.1.12, ArakelovGeometryAndAbelianHeights.1.14, DiophantineApproximationAndTranscendence.2.5)

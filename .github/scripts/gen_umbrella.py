@@ -57,9 +57,11 @@ The target list is acyclic, as the worker requires. A dependency stated on the f
 of a unit's own `*Needs:*` or `*Prerequisites:*` line outranks any other (later sentences,
 `Dependencies` subsections). Inside each strongly connected component the cycles among the
 stated dependencies alone are broken first: a dependency is kept when it points to a unit
-earlier in a fixed order (area with the root's last, roadmap, end of the unit's text). Then
-each other dependency is added, those pointing to an earlier unit first, unless it would
-close a cycle with what is kept. The dropped ones are listed. `needs:` lists every stated
+earlier in a fixed order (area with the root's last, roadmap, end of the unit's text). A
+stated dependency on a later unit is then tried again, the nearest first, and kept unless it
+would close a cycle with what is kept. Then each other dependency is added in the same way,
+those pointing to an earlier unit first. So no dependency is dropped that could be put back
+on its own. The dropped ones are listed. `needs:` lists every stated
 dependency that survives: none is left out because another need implies it, since a need may
 be done (merged, or ticked) out of order. `serves:` names the roadmaps under the root whose
 units need the item directly.
@@ -1829,26 +1831,34 @@ class Goal:
         for comp in comps:
             # A stated need (rank 1) outranks an inferred one (rank 2). The cycles among stated
             # needs alone are broken by the order: inside each, a need is kept when it points to an
-            # earlier unit. Then each inferred need is added, those pointing to an earlier unit
-            # first, unless it would close a cycle with what is kept.
+            # earlier unit. A stated need on a later unit is then tried again, the nearest first,
+            # and kept unless it would close a cycle with what is kept, so that none is dropped
+            # that could stay. Then each inferred need is added in the same way, those pointing to
+            # an earlier unit first.
             comp = sorted(comp, key=rank.get)
             inside = set(comp)
             kept = {u: [v for v in edges[u] if v in inside and edge_rank[(u, v)] == 1] for u in comp}
+            again = []
             for sub in strongly_connected(comp, kept):
                 within = set(sub)
                 for u in sub if len(sub) > 1 else ():
                     for v in [v for v in kept[u] if v in within and rank[v] > rank[u]]:
                         kept[u].remove(v)
-                        dropped.append((u, v))
-            inferred = [(u, v) for u in comp for v in edges[u] if v in inside and edge_rank[(u, v)] == 2]
-            for u, v in sorted(inferred, key=lambda e: (rank[e[1]] > rank[e[0]], rank[e[0]], rank[e[1]])):
-                seen_v, todo = {v}, [v]           # does u lie on a kept path from v?
+                        again.append((u, v))
+
+            def closes(u, v) -> bool:             # does u lie on a kept path from v?
+                seen_v, todo = {v}, [v]
                 while todo and u not in seen_v:
                     for w in kept[todo.pop()]:
                         if w not in seen_v:
                             seen_v.add(w)
                             todo.append(w)
-                if u in seen_v:
+                return u in seen_v
+
+            inferred = [(u, v) for u in comp for v in edges[u] if v in inside and edge_rank[(u, v)] == 2]
+            for u, v in (sorted(again, key=lambda e: (rank[e[1]] - rank[e[0]], rank[e[0]], rank[e[1]]))
+                         + sorted(inferred, key=lambda e: (rank[e[1]] > rank[e[0]], rank[e[0]], rank[e[1]]))):
+                if closes(u, v):
                     dropped.append((u, v))
                 else:
                     kept[u].append(v)

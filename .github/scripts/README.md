@@ -122,8 +122,10 @@ are generated from the roadmaps' READMEs:
   first sentence of a unit's own `*Needs:*` line outranks the others: inside
   each cycle the generator first keeps, among those stated ones, the
   dependencies that point to an earlier unit (by area, roadmap and position in
-  the README), then adds each other dependency unless it closes a cycle, and
-  records each dropped one in a line starting with `>`.
+  the README), then tries each remaining stated one again, the nearest first,
+  then each other dependency, keeping every one that closes no cycle. No
+  dependency is dropped that could be put back on its own. Each dropped one is
+  recorded in a line starting with `>`.
 
 Only `description`, `goal` and `root` in an umbrella file are written by hand;
 the generator keeps them and writes everything else. In a target list, an

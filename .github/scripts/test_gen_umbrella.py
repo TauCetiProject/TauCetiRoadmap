@@ -850,6 +850,44 @@ uses 1.2. Mathlib also gives §1.4.
         text = (root / "umbrellas" / "GRH-targets.md").read_text(encoding="utf-8")
         assert "> Dropped to break a cycle: `Fam.4.8` needs `Fam.4.5`." in text, text
 
+    def test_a_stated_need_on_a_later_unit_is_kept_when_it_closes_no_cycle(self) -> None:
+        root = self.other_tree("retry", {"Fam": """# Roadmap: f
+
+### 3.1 Three
+
+*Needs:* 6.2, 6.4.
+
+### 4.1 Four
+
+### 5.1 Five
+
+### 6.2 The region
+
+*Needs:* 6.4.
+
+### 6.4 The region for all
+
+*Needs:* 3.1.
+"""})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        # 6.4 needs the earlier 3.1: kept first. Of the needs on a later unit, 6.2 needs 6.4 is the
+        # nearest (3.1 is three units before 6.2) and closes no cycle: kept. The two needs of 3.1
+        # would then each close one: dropped.
+        assert items["Fam.6.4"]["needs"] == ["Fam.3.1"] and items["Fam.6.2"]["needs"] == ["Fam.6.4"], items
+        assert items["Fam.3.1"]["needs"] == [], items
+        text = (root / "umbrellas" / "GRH-targets.md").read_text(encoding="utf-8")
+        assert text.count("> Dropped to break a cycle:") == 2, text
+        # no dropped dependency could be put back on its own
+        needs = {s: set(i["needs"]) for s, i in items.items()}
+
+        def reach(a, b, seen=None):
+            seen = seen or set()
+            return a == b or any(reach(c, b, seen | {a}) for c in needs[a] if c not in seen)
+        for u, v in (("Fam.3.1", "Fam.6.2"), ("Fam.3.1", "Fam.6.4")):
+            assert reach(v, u), (u, v)
+
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
         # `Aα1` loses its `α` in a slug and would become the slug of `A1`
