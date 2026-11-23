@@ -146,10 +146,11 @@ increasing `t`. Witness, `n = 1`, `c = 1`, `v = 0`: `(1, 1/2)` has `g = −3/4` 
 For the covector `dt`, `g⁻¹(dt, dt) = −c⁻²`, so with `c = 2` it is `−1/4`: every slice `Σ_t` is
 spacelike. Luk–Speck normalise the acoustical metric as `c⁻² g`; with `c = 2`, `v = 0` and
 `X = (1, 0)` their value is `−1` and ours `−4`. Causal character is unchanged by this conformal
-factor, and nothing here depends on it. The signature is LorentzianGeometry's, and its §7.3
-time-orients the acoustical form by `[B]`, `B = (1, v)`: a nonzero causal `X = (τ, ξ)` has
-`g(B, X) = −c²τ`, so `X` is future for `[B]` exactly when `τ > 0`, and the two notions of future
-agree. In the witness above, `g(B, (1, 1/2)) = −1 < 0` with `B = (1, 0)`.
+factor, and nothing here depends on it. The signature is LorentzianGeometry's, its §7.3 makes
+`B = (1, v)` a timelike field, continuous when `c` and `v` are, and its §8.1 orients time by
+`[B]`: a nonzero causal `X = (τ, ξ)` has `g(B, X) = −c²τ`, so `X` is future for `[B]` exactly
+when `τ > 0`, and the two notions of future agree. In the witness above, `g(B, (1, 1/2)) = −1 < 0`
+with `B = (1, 0)`.
 
 **Sobolev orders and norms.** Sobolev orders are natural numbers; `k > n/2 + 1` means
 `2k > n + 2`. `Hᵏ_Λ` norms are the `ℓ²` sums over multi-indices of order at most `k` of the
@@ -419,10 +420,10 @@ and inverse form on covectors `g⁻¹_{c,v}(ζ, η) = −c⁻²(ζ₀ + v·ζ′
 lines 1999–2008, eqs. (3.3.10a)–(3.3.10b), in the normalisation `c⁻²g`). LorentzianGeometry §7.3
 proves that `g_{c,v}` is Lorentzian, `g(B, B) = −c²`, `g(X, B) = −c²τ` for `X = (τ, ξ)`, the
 inverse formula and `g⁻¹(dt, dt) = −c⁻²`, that a nonzero `X` is causal iff `|ξ − τv| ≤ c|τ|`, in
-which case `τ ≠ 0`, and that `[B]` orients time. The acoustical form of a state `U` of either
-Euler system is `g_{c(U), v(U)}`. In this roadmap the closed cone `{X : g(X, X) ≤ 0}` is
-LorentzianGeometry's set of causal vectors together with `0`, and a causal vector is *future*
-when `τ > 0`, equivalently `g(B, X) < 0`.
+which case `τ ≠ 0`, and that `B` is a timelike field (its §8.1 orients time by `[B]`). The
+acoustical form of a state `U` of either Euler system is `g_{c(U), v(U)}`. In this roadmap the
+closed cone `{X : g(X, X) ≤ 0}` is LorentzianGeometry's set of causal vectors together with `0`, and
+a causal vector is *future* when `τ > 0`, equivalently `g(B, X) < 0`.
 
 Prove the following, which LorentzianGeometry §7.3 does not state:
 
@@ -561,7 +562,7 @@ Prove, beyond LorentzianGeometry §8.2 and §12.6:
   `x_m(a_m) = −m` is unbounded, `J = (1/4, 1/2]`, and the limit, the same material curve, tends
   to `−∞` at `1/4`, so it is past-inextendible.
 
-*Needs:* LorentzianGeometry §7.3 (the acoustical field is Lorentzian and time-oriented), §8.2
+*Needs:* LorentzianGeometry §7.3 (the acoustical field is Lorentzian with `B` timelike), §8.2
 and §12.6 (causal curves in `D`, past-inextendibility, restriction, concatenation, reduction to
 time-parametrised curves); Mathlib `LocallyLipschitzOn`,
 `LipschitzOnWith.ae_differentiableWithinAt_of_mem`,
@@ -2240,11 +2241,11 @@ Boundaries:
   `Λ = (2πℤ)^n`), up to norm equivalence. The spaces `Hᵏ_Λ` here are for discrete period groups of
   every rank, nothing here uses the full-rank case, and the norm comparison is a Check of §4.1.
 - **Lorentzian geometry** is LorentzianGeometry's, and this roadmap imports what it uses of it.
-  LorentzianGeometry §7.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the
-  material vector `B`, causal vectors, its Lorentzian character and the time orientation `[B]`),
-  §6.1 the Minkowski form (and §7.3's first Check the frame carrying the acoustical form of
-  constant `c`, `v` to it), and §6.3 the causal type of hyperplanes through the sign of the
-  inverse form; §8.2 owns locally Lipschitz causal curves, their restriction and concatenation
+  LorentzianGeometry §7.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the material
+  vector `B`, causal vectors, its Lorentzian character and `B` timelike), §8.1 the time orientation
+  `[B]`, §6.1 the Minkowski form (and §7.3's first Check the frame carrying the acoustical form of
+  constant `c`, `v` to it), and §6.3 the causal type of hyperplanes through the sign of the inverse
+  form; §8.2 owns locally Lipschitz causal curves, their restriction and concatenation
   and the passage from piecewise `C¹` curves; §12.6 owns causal curves in an arbitrary subset,
   past-inextendibility, the future domain of dependence `D⁺_D(S)` in a subset, its monotonicity,
   the slice identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D`, the reduction to time-parametrised curves,
@@ -2561,7 +2562,7 @@ on `E`, no Lorentzian quadratic form with a time orientation and no causal curve
   Lorentzian, `g(B, B) = −c²` for `B = ∂_t + v`, `g(X, B) = −c² dt(X)`,
   `g⁻¹ = −c⁻² B ⊗ B + h⁻¹`, `g⁻¹(dt, dt) = −c⁻²`, every causal vector has `dt(X) ≠ 0`, `∂_t + Y`
   is causal iff `|Y − v| ≤ |c|`, and where `c > 0` with `c`, `v` continuous, `B` is a continuous
-  timelike field orienting time. Assumed: these statements for constant and for continuous
+  timelike field. Assumed: these statements for constant and for continuous
   `c > 0`, `v`, which is all §§3.1–3.3 use.
 - §8.2: locally Lipschitz future causal curves (velocity future causal almost everywhere),
   their restriction and concatenation, and that piecewise `C¹` future causal curves are locally
