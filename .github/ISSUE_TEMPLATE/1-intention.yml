@@ -209,6 +209,7 @@ body:
         - FiniteSamplingDiscrepancy
         - FirstOrderOptimization
         - FlagVarieties
+        - FlowMatching
         - Foams
         - FormalConnectionsOpers
         - FormalLaurentPuiseux
