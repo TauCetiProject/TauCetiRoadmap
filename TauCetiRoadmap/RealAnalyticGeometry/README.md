@@ -793,7 +793,7 @@ product construction; the case of Weierstrass degree zero is handled separately.
   semialgebraic, and Lemma 5 needs boundedness.
 - For `f = t² − u` at `(0, 0)`, the projection of `{f = 0}` is `[0, ∞)`, not open, so `{f = 0}`
   lacks property (P); with `g = t² + u`, which has `g(0, ·) = t²`, the set `{fg = 0}` is the union of
-  `u = t²` and `u = −t²`, and the projections of its relatively open subsets are open intervals.
+  `u = t²` and `u = −t²`, and the projections of its relatively open subsets are open.
 
 ### 2.0c Adapted decompositions (Lemmas 8–9)
 
