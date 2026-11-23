@@ -188,9 +188,17 @@ Prove:
    `‖A(z)⁻¹‖ ≤ B`, then `z ↦ A(z)⁻¹` is `α`-Hölder on `S` with constant `B²C`. For
    `Set.range I = E` and `Set.range J = E'` the item is the Hölder regularity of the inverse of a
    `C^{k,α}` diffeomorphism between open sets;
-2. the quantitative bound: on compact sets the `C^{k,α}` norm of `φ⁻¹` is bounded by a constant
-   depending only on `k`, `α`, the `C^{k,α}` norm of `φ`, a bound for `‖(Dφ)⁻¹‖` and the Lipschitz
-   constant of `φ⁻¹`.
+2. the quantitative bound: for a compact convex `K` in the domain of `φ⁻¹`,
+   `max_{1 ≤ m ≤ k} sup_K ‖D^m(φ⁻¹)‖ + [D^k(φ⁻¹)]_{α,K}` is bounded by a constant depending only on
+   `k`, `α`, the `C^{k,α}` norm of `φ` on `φ⁻¹(K)` and a bound for `‖(Dφ)⁻¹‖` on `φ⁻¹(K)`. The
+   mean value inequality along the segments of `K` bounds the Lipschitz constants of `φ⁻¹` and of
+   `D^j φ ∘ φ⁻¹`, `j < k`, on `K`. The term `sup_K ‖φ⁻¹‖` is not controlled.
+
+**Checks.**
+
+- *Order zero.* For `φ_c(x) = x − c` on `(c − 1, c + 1)`, `k = α = 1` and `K = [−1/2, 1/2]`, the
+  `C^{1,1}` norm of `φ_c` on `φ_c⁻¹(K)` is `1` and `|(φ_c')⁻¹| = 1` for every `c`, while
+  `sup_K |φ_c⁻¹| = |c| + 1/2`: item 2 cannot bound the order-zero term.
 
 *Needs:* §1.1; Mathlib `ContinuousLinearMap.inverse`.
 
@@ -218,7 +226,12 @@ def ContMDiffHolder (I J) (k : ℕ) (α : ℝ≥0) (f : M → N) : Prop :=
 ```
 
 `ContMDiffHolderOn` is the local class `C^{k,α}_loc` on an open set; on a noncompact manifold the
-class `ContMDiffHolder` is the local class, with no global bound. Prove the basic API:
+class `ContMDiffHolder` is the local class, with no global bound. `ContMDiffHolderAt` asks for the
+Hölder bound between any two points of a relative ball. Mathlib's pointwise condition
+`ContDiffPointwiseHolderAt` (`Analysis/Calculus/ContDiffHolder/Pointwise.lean`) compares
+`D^k f(x)` only with `D^k f(a)` at the base point `a`; on open sets it follows from the bound on a
+neighbourhood and is strictly weaker: `x ↦ x sin(1/x)`, extended by `0`, has
+`|f(x) − f(0)| ≤ |x|` but is Lipschitz on no neighbourhood of `0`. Prove the basic API:
 
 1. `ContMDiffHolder I J k α f → ContMDiff I J k f` (`ContMDiffHolder.contMDiff`);
    `ContMDiff I J (k + 1) f → ContMDiffHolder I J k 1 f` (`ContMDiff.contMDiffHolder_one`);
@@ -264,7 +277,11 @@ the space of those of finite second norm with the second. Prove, with boundary a
 and `0 < α ≤ 1`: a `C^k` map `u` lies in `C^{k,α}_A(M, F)` exactly when
 `ContMDiffHolder I 𝓘(ℝ, F) k α u`, so this set `C^{k,α}(M, F)` does not depend on `A`; both spaces
 are complete; and two compact chart atlases give equivalent norms, by the closed graph theorem
-(`LinearMap.continuous_of_isClosed_graph`) once the sets agree.
+(`LinearMap.continuous_of_isClosed_graph`) once the sets agree. Prove that in two cases these
+spaces are those of other roadmaps, with the same underlying set and an equivalent norm: for
+`F = ℝ` and boundaryless `M`, `C^k_A(M, ℝ)` is HeegaardFloer §2.3's Banach space of real `C^k`
+functions, and for finite-dimensional `F` and boundaryless `M`, `C^{k,α}_A(M, F)` is
+PseudodifferentialOperators §5.4's `C^{k,α}` space of sections of the trivial bundle `M × F`.
 
 ### 2.3 Composition
 
@@ -307,7 +324,8 @@ extensionality.
 
 *Needs:* Layer 1; Mathlib `writtenInExtChartAt`, `extChartAt`, `maximalAtlas`, `ContMDiff`,
 `ContMDiff.contMDiff_tangentMap`, `HolderOnWith.of_le`, `norm_iteratedFDerivWithin_mul_le`,
-`LinearMap.continuous_of_isClosed_graph`; Tau Ceti `ContMDiffMap.chartCkSeminorm`.
+`LinearMap.continuous_of_isClosed_graph`; Tau Ceti `ContMDiffMap.chartCkSeminorm`; HeegaardFloer
+§2.3 and PseudodifferentialOperators §5.4 for the comparisons of §2.2.
 
 ## Layer 3: Hölder diffeomorphisms and the group `Diff^{k,α}(M)` (H3)
 
@@ -459,7 +477,9 @@ allowed:
    and `g_n → g`, then for `β < β' < α` both converge in `C^{k,β'}`, and §1.1 item 3 (second part)
    gives `f_n ∘ g_n → f ∘ g` in `C^{k,β}`. Continuity of inversion:
    `f_n⁻¹ → f⁻¹` in the weak Whitney `C^k` topology by Tau Ceti's `Diffeomorph.continuous_symm`,
-   the `f_n⁻¹` are bounded in `C^{k,β'}` by §1.3 item 2, and §1.2 gives convergence in `C^{k,β}`;
+   so the `f_n⁻¹` are bounded in `C^k` on compact sets in charts, §1.3 item 2 bounds the
+   `β'`-Hölder seminorms of their `k`th derivatives on compact convex sets in charts, and §1.2
+   gives convergence in `C^{k,β}`;
 2. the inclusion into `TauCeti.Diff I M k` with the weak Whitney topology is continuous, and the
    `C^{k,α}` topology of §4.3 is finer than the lower Hölder topology;
 3. the inclusion `TauCeti.Diff I M ∞ → HolderDiff I M k α` is continuous for the weak Whitney
@@ -487,9 +507,10 @@ finite-atlas spaces of §2.2; `F` is a complete normed space over `ℝ` or `ℂ`
 
 1. For `k' ≤ k`, `α' ≤ 1` and `k' + α' ≤ k + α`, the inclusion
    `C^{k,α}_A(M, F) → C^{k',α'}_A(M, F)` is a continuous linear map (with `C^{k',0}_A` meaning
-   `C^{k'}_A`), and so is `C^{k,α}_A(M, F) → C^k_A(M, F)`. For `α' < α` and `k' = k` the inclusion
-   is compact: by Arzelà–Ascoli on the pieces a bounded sequence has a subsequence converging in
-   `C^k_A(M, F)`, and §1.2 upgrades the convergence to `C^{k,α'}`.
+   `C^{k'}_A`), and so is `C^{k,α}_A(M, F) → C^k_A(M, F)`. For `α' < α`, `k' = k` and
+   finite-dimensional `F` the inclusion is compact: by Arzelà–Ascoli on the pieces a bounded
+   sequence has a subsequence converging in `C^k_A(M, F)`, and §1.2 upgrades the convergence to
+   `C^{k,α'}`.
 2. `C^{k+1}_A(M, F) → C^{k,1}_A(M, F)` is continuous, and the Check of §2.5 shows it is not onto.
 3. For real `r ≥ 0`, define `C^r_A(M, F)` as `C^k_A(M, F)` when `r = k` is a natural number and as
    `C^{⌊r⌋, r − ⌊r⌋}_A(M, F)` otherwise. The inclusions `C^r_A(M, F) → C^{r'}_A(M, F)` for
@@ -537,6 +558,9 @@ boundaryless here.
   the exponent `s` in the uniform bound of §5.4 is attained.
 - *Integer index.* `C^2_A(M, F)` is `C^2`, not `C^{1,1}`: the function of the first Check of §2.5
   lies in the second and not the first.
+- *Infinite-dimensional values.* For nonempty `M` and `F = ℓ²`, the constant maps `u_n` with value
+  the `n`th unit vector have `C^{k,α}_A` norm `1` and pairwise `C^k_A` distance `√2`, so no
+  subsequence converges: the compactness in §5.1 needs finite-dimensional `F`.
 
 *Needs:* Layers 1–2, with the finite-atlas spaces of §2.2; Tau Ceti `TauCeti.HolderSpace`,
 `TauCeti.MetricSpace.ofRiemannianMetric`; Mathlib smooth partitions of unity
@@ -568,10 +592,11 @@ between finite-dimensional manifolds with corners, their chart independence, com
 tangent maps (Layer 2); Hölder diffeomorphisms, their inverse function theorems, the group
 `Diff^{k,α}(M)` and uniform estimates in exponential charts (Layer 3); the `C^{k,α}` and
 lower Hölder topologies and openness of diffeomorphisms (Layer 4); and on compact manifolds with
-corners the inclusions, the real-index scale, the Riemannian description of `C^{0,α}`, pullback and
-smoothing (Layer 5), together with the finite-atlas spaces `C^k_A(M, F)` and `C^{k,α}_A(M, F)` of
-maps into a Banach space on compact manifolds with corners, their completeness and their atlas
-independence (§2.2).
+corners the inclusions, the real-index scale, the Riemannian description of `C^{0,α}`, pullback,
+and on boundaryless manifolds smoothing (Layer 5), together with the finite-atlas spaces
+`C^k_A(M, F)` and `C^{k,α}_A(M, F)` of maps into a Banach space on compact manifolds with corners,
+their completeness, their atlas independence and their comparison with the spaces of HeegaardFloer
+§2.3 and PseudodifferentialOperators §5.4 (§2.2).
 
 Not owned here: the finite-chart `C^{k,α}` norms of finite-rank bundles, their completeness and
 atlas independence on compact boundaryless manifolds, Zygmund spaces and little Hölder spaces
@@ -579,12 +604,15 @@ atlas independence on compact boundaryless manifolds, Zygmund spaces and little 
 used for generic Morse functions (HeegaardFloer §2.3); the `C^n` and `C^∞` diffeomorphism groups with
 the weak Whitney topology, isotopy extension and their homotopy theory (GeometricTopology Layer 3);
 the uniform normal radius on compact sets (SmoothBundlesConnections B6.0); Euclidean Hölder spaces
-of real functions on open sets and Schauder theory (PDE). Already in the library: the order-zero
-composition estimate and the interpolation of Hölder constants (Mathlib's `HolderOnWith.comp` and
-`HolderOnWith.interpolate`), and the compact chart `C^k` seminorms (Tau Ceti's
-`ContMDiffMap.chartCkSeminorm`). The Banach manifold structure of `C^{k,α}(M, N)`,
-little Hölder diffeomorphism groups and differentiability of composition in Hölder scales are not
-part of this roadmap.
+of real functions on open sets and Schauder theory (PDE); the compactness of
+`C^{k,α}(X) → C^{k,β}(X)`, `β < α < 1`, for real functions on a compact complex manifold `X`
+(ComplexHessianEquations §5.2), of which §5.1's compactness, through the comparison of §2.2, is
+the generalisation to finite-dimensional `F`, manifolds with corners and `α ≤ 1`. Already in the
+library: the order-zero composition estimate and the interpolation of Hölder constants (Mathlib's
+`HolderOnWith.comp` and `HolderOnWith.interpolate`), and the compact chart `C^k` seminorms (Tau
+Ceti's `ContMDiffMap.chartCkSeminorm`). The Banach manifold structure of `C^{k,α}(M, N)`, little
+Hölder diffeomorphism groups and differentiability of composition in Hölder scales are not part of
+this roadmap.
 
 ## Exact supplier contracts
 
@@ -617,6 +645,14 @@ a compact `K ⊆ (extChartAt I x).target` and `k ≤ n`, the seminorm on `C^n⟮
 by the maximum over `m ≤ k` of the supremum on `K` of the `m`th derivative of the representative
 within the chart target, with boundary and corners allowed. §2.2 builds the finite-atlas norms from
 it.
+
+### From HeegaardFloer §2.3 and PseudodifferentialOperators §5.4
+
+HeegaardFloer §2.3: the Banach space of real `C^k` functions on a compact boundaryless manifold,
+for finite `k`, with finite-atlas norms that are equivalent under change of atlas.
+PseudodifferentialOperators §5.4: the finite-chart `C^{k,α}` norms of sections of a finite-rank
+bundle on a compact boundaryless manifold, complete and equivalent under change of atlas, frame
+and partition. §2.2 identifies its spaces with these in the cases they share.
 
 ### From GeometricTopology Layer 3 and Tau Ceti's diffeomorphism groups
 
