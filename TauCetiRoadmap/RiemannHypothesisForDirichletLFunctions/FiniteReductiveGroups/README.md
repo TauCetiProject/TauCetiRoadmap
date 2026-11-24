@@ -278,7 +278,7 @@ are direct: `u − 1` has rank `n − 1` iff `u` has one Jordan block, the kerne
 `u`-stable complete flag, and a block-triangular `u` with one Jordan block has one Jordan block in each
 diagonal block.
 
-*Needs:* 0.1; ReductiveGroups Layers 7, 7a, 7C, 9.
+*Needs:* 0.1; ReductiveGroups Layers 7, 7a, 7C; ReductiveGroups §9B (root subgroup maps and their commutator relations).
 
 **Checks.**
 - `GL₂`: `[[1, a], [0, 1]]` with `a ≠ 0` is regular and fixes only the line `⟨e₁⟩`; `a = 0` gives `1`, whose
@@ -479,7 +479,7 @@ connected group `U₀*` (ReductiveGroups 7a) gives `U₀^F/U₀*^F ≅ (U₀/U�
 `U_α` along the orbits. The degree is `|G^F|/|U₀^F| = |G^F|_{p'}` by 0.1. For `GL_n`, conjugation by
 `diag(t₁, …, t_n)` multiplies `a_i` by `t_i/t_{i+1}`.
 
-*Needs:* 0.1; ReductiveGroups Layers 7a, 7C, 9; InductionRestriction Layer 2.
+*Needs:* 0.1; ReductiveGroups Layers 7a, 7C; ReductiveGroups §9B (root subgroup maps and their commutator relations); InductionRestriction Layer 2.
 
 **Checks.**
 - `SU₃(𝔽_q)` (type `²A₂`): the two simple roots `α, β` form one `F`-orbit and `α + β` is a root, so
