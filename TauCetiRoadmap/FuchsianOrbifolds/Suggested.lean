@@ -33,9 +33,9 @@ distance on `ℍ`, `χ = 2 − 2g` for compact connected Riemann surfaces, Riema
 form, the orbifold area formula of a cofinite group in terms of the genus of its compactified
 quotient, and the minimal areas `π / 21` and `π / 3` with their equality cases. Second
 countability of `PSL(2, ℝ)`, the isometric `GL(2, ℝ)` action and the half-space comparison of
-the README's Layer 0 items 1–2 and Layer 2 item 1 are targets there, derived from the pinned APIs
-and the distance comparison, not headlines. The Fuchsian Riemann–Hurwitz formula of Layer 5
-item 6 is `riemannHurwitz` applied to Tau Ceti's
+the README's §§0.1–0.2 and §2.1 are targets there, derived from the pinned APIs and the distance
+comparison, not headlines. The Fuchsian Riemann–Hurwitz formula of §5.6 is `riemannHurwitz`
+applied to Tau Ceti's
 `TauCeti.Fuchsian.compactifiedQuotientFiniteHolomorphicMap`, and is not restated. Every headline
 of the roadmap is statable at the pins; none is omitted for want of a carrier.
 -/
@@ -58,7 +58,7 @@ of the `C¹` paths from `z` to `w`. The vertical segment realises it on a vertic
 theorem isRiemannianManifold_upperHalfPlane : IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ := by
   sorry
 
-/-! ## Layer 5: genus, Riemann–Hurwitz and the orbifold area formula -/
+/-! ## Layer 5: compact-surface degree theory and Fuchsian applications -/
 
 /-- The **topological genus** of a space of finite CW type, read off its Euler characteristic
 through `χ = 2 − 2g`, that is `g = (2 − χ) / 2` truncated at `0`. For a compact connected Riemann
@@ -125,7 +125,7 @@ theorem covolume_eq_pi_div_twentyOne_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTo
 
 /-- **The minimal area with a cusp.** A cofinite Fuchsian group with at least one cusp has
 covolume at least `π / 3`. This follows from the area formula (Martin, arXiv:1311.2636,
-Theorem 2.2) by the case analysis over signatures with a cusp of the roadmap's Layer 4a item 2. -/
+Theorem 2.2) by the case analysis over signatures with a cusp of the README's §4a.2. -/
 theorem minimum_area_finite_area_orbifold (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.IsCofinite)
     [Nonempty Γ.CuspOrbit] :
     ENNReal.ofReal (π / 3) ≤ covolume Γ ℍ := by
@@ -133,8 +133,8 @@ theorem minimum_area_finite_area_orbifold (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.
 
 /-- **The equality case with a cusp.** A cofinite Fuchsian group with at least one cusp has
 covolume `π / 3` exactly when its signature is `(0; 2, 3; 1)`, that of `PSL(2, ℤ)`: genus zero,
-one cusp, and one elliptic orbit of each order `2` and `3`. The case analysis of the roadmap's
-Layer 4a item 2, applied to the area formula, gives it. -/
+one cusp, and one elliptic orbit of each order `2` and `3`. The case analysis of the README's
+§4a.2, applied to the area formula, gives it. -/
 theorem covolume_eq_pi_div_three_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
     (hΓ : Γ.IsCofinite) [Nonempty Γ.CuspOrbit] [FiniteCWType Γ.CompactifiedQuotient] :
     covolume Γ ℍ = ENNReal.ofReal (π / 3) ↔
