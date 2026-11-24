@@ -227,8 +227,10 @@ section headings; consumers cite either form. The stochastic programme X3 is PDE
   (`Mathlib/Analysis/Complex/Harmonic/Liouville.lean:48`) and the Poisson kernel of the disk
   (`Mathlib/Analysis/Complex/Harmonic/Poisson.lean`). Mathlib has no mean-value theorem on balls
   in general dimension; that theorem and its converse are Tau Ceti's, cited below.
-- `UpperSemicontinuous`, `EReal` and `MeasureTheory.LocallyIntegrableOn`, for the upper
-  semicontinuous subharmonic functions of §§3.2a and 3.4a.
+- `UpperSemicontinuous` (`Mathlib/Topology/Semicontinuity/Defs.lean:317`), `EReal`
+  (`Mathlib/Data/EReal/Basic.lean:35`) and `MeasureTheory.LocallyIntegrableOn`
+  (`Mathlib/MeasureTheory/Function/LocallyIntegrable.lean:50`), for the upper semicontinuous
+  subharmonic functions of §§3.2a and 3.4a.
 - `ContinuousLinearMap.IsFredholm` (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean:123`):
   Fredholm operators between normed spaces; the index and the compact-perturbation theorem are
   Tau Ceti's, cited below.
@@ -1489,9 +1491,11 @@ sub-mean-value inequality on balls about `x₀` forces `u = u(x₀)` almost ever
 limit of the ball means in (a) gives it everywhere; the set where the supremum is attained is open
 and closed.
 
-- An upper semicontinuous `u` with `u(x) ≤` the mean of `u` over `∂B(x, r_ν)` for some sequence
-  `r_ν → 0` at every `x` is subharmonic (Demailly, Theorem-Definition 4.12, e) ⇒ b)); for
-  continuous real-valued `u` this is the agreement with `TauCeti.SubharmonicOn`.
+- An upper semicontinuous `u` with `u(x) ≤` the mean of `u` over `B(x, r_ν)`, or over
+  `∂B(x, r_ν)`, for some sequence `r_ν → 0` at every `x` is subharmonic (Demailly,
+  Theorem-Definition 4.12, d) ⇒ b) and e) ⇒ b)); for continuous real-valued `u` the ball form is
+  the agreement with `TauCeti.SubharmonicOn`, whose sub-mean-value inequality is over balls of
+  arbitrarily small radius.
 
 **Checks.**
 
@@ -1658,7 +1662,7 @@ characterization of harmonicity.
 
 ### 3.4a The Riesz representation on balls and Hartogs' lemma
 
-Prove: (a) let `n ≥ 2` and let `u` be subharmonic (§3.2a) on a connected open `Ω ⊇ B̄(a, R)` of
+Prove: (a) let `u` be subharmonic (§3.2a) on a connected open `Ω ⊇ B̄(a, R)` of
 `ℝⁿ` and not `≡ −∞`. Then the distributional Laplacian `Δu` is a positive Radon measure `μ_u`, and
 for every `x ∈ B(a, R)`, `u(x) = P_{a,R}[u](x) − ∫_{B(a,R)} G_{a,R}(x, y) dμ_u(y)`, with `P_{a,R}[u]`
 the Poisson integral of the restriction of `u` to `∂B(a, R)` (integrable by §3.2a) and
@@ -1704,18 +1708,24 @@ which is why the subsequence is chosen first.
 
 - `u = log|x|` on the unit disc of `ℝ²`: `μ_u = 2πδ₀`, `P_{0,1}[u] = 0`,
   `G_{0,1}(x, 0) = (2π)^{−1}log(1/|x|)`, and the formula gives
-  `u(x) = −(2π)^{−1}log(1/|x|)·2π = log|x|`.
+  `u(x) = −(2π)^{−1}log(1/|x|)·2π = log|x|`. In `n = 1`, `u = |x|` on `(−1, 1)`: `μ_u = 2δ₀`,
+  `P_{0,1}[u] = 1`, `G_{0,1}(x, 0) = (1 − |x|)/2`, and the formula gives `1 − 2·(1 − |x|)/2 = |x|`;
+  the kernel `1 − |x|` without the factor `1/2` would give `2|x| − 1`.
 - `u_k = k·log|x|` on the unit disc: `sup_{|x|≤ρ} u_k = k·log ρ → −∞`, so `u_k → −∞` locally
   uniformly on the disc (the first alternative of (b)). `u_k = (1/k)·log|x|`: uniformly bounded
   above, converging in `L¹_loc` to `0` (the second alternative), while `u_k(0) = −∞` for every `k`.
-- `u_k(x) = (1/k)log|x − (1/k)e₁|` on `ℝ²` converges in `L¹_loc` to `0`, while `u_k((1/k)e₁) = −∞`:
-  convergence in `L¹_loc` does not give pointwise convergence.
+- Take `(q_m)_{m≥1}` dense in the unit disc `D` of `ℝ²` and `v = Σ_m 2^{−m} log(|x − q_m|/2)`: each
+  term is `≤ 0` on `D`, so `v` is a decreasing limit of subharmonic partial sums, hence subharmonic,
+  and `‖v‖_{L¹(D)} ≤ 2π` since `∫_D log(2/|x − q|) dx ≤ 2π` for every `q ∈ D`. Then `u_k = v/k ≤ 0`
+  converges in `L¹(D)` to `0`, while `u_k(q_m) = −∞` for every `k` and `m`: the inequality of (b) is
+  strict on a dense set, so convergence in `L¹_loc` does not give pointwise convergence.
 - The constants `0, −1, 0, −2, 0, −3, …` on the disc: their means neither tend to `−∞` nor stay
   bounded, the sequence does not tend to `−∞` locally uniformly, and the subsequence of zeros
   converges, as (b) asserts.
 
 *Needs:* §3.2a; §3.1 (Weyl's lemma); §3.4 (the Green and Poisson kernels of the ball and the Green
-representation); Tau Ceti `TauCeti.ballGreenKernel`, `TauCeti.ballPoissonKernel`,
+representation); Tau Ceti `TauCeti.ballGreenKernel` for `n ≠ 2` (it vanishes identically for
+`n = 2`), `TauCeti.planarGreenKernelDisk` for `n = 2`, `TauCeti.ballPoissonKernel`,
 `TauCeti.ballPoissonIntegral`; Mathlib measures, `MeasureTheory.Lp` and convolution.
 
 ### Examples
