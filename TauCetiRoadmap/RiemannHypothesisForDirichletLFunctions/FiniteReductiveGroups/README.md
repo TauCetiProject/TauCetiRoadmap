@@ -170,13 +170,14 @@ this roadmap's own formulations are named in the first label.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
-the whole section. As long as that general theorem is not in the library, what the line covers is proved as
-[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
-that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs.
-Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and
-the lemmas that only the first proof uses are removed. The statement does not change. In 4.4, 4.5, 4.7, 4.9 and 4.10 the
-line names, beside the general theorem, RepresentationTheory/CharacterTheory §9a.8 (b), which identifies Green's class
-functions `J_n(θ̃)` with the Deligne–Lusztig characters of the Coxeter torus.
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced from
+it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in full:
+the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement when
+that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names. In 4.4, 4.5, 4.7, 4.9 and 4.10 the line names, beside
+the general theorem, RepresentationTheory/CharacterTheory §9a.8 (b), which identifies Green's class functions `J_n(θ̃)`
+with the Deligne–Lusztig characters of the Coxeter torus.
 
 ## Layer 0: finite reductive groups, rational tori and classes
 

@@ -26,9 +26,12 @@ formulation.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
-the whole section: what the line covers follows from that theorem. The route given with the section is that of
-[FormalProof], which the `*Method of the formal proof:*` label describes, unless the label says that it differs; the
-statement is the same whichever proof is used.
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem
+in full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the
+statement when that proof has a narrower one. Where the route given with the section is not the deduction, it is a
+second proof, [FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs,
+and the deduction needs the section that the `*Corollary of:*` line names.
 
 ## Layer 2: Adelic heights of vectors and subspaces
 

@@ -32,13 +32,14 @@ over any complete Noetherian local domain `B` and the form of the commutation in
 `lim_𝒰 q_N = 1` and any `𝒰` are this roadmap's own formulations. For the rank of `cot_{−1}(x)` in 4.8 (1) no statement
 of [FormalProof] was found; it is proved by the route written there.
 
-**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
-`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when
-it does not cover the whole section. As long as that general theorem is not in the library, what the line covers is
-proved as [FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the
-statement when that proof has a narrower one; the route given with the section is that proof's unless the label says
-that it differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the
-deduction from it, and the lemmas that only the first proof uses are removed. The statement does not change.
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
 
 ## Layer 3: Multigraded Koszul Euler characteristics and orders of elements
 

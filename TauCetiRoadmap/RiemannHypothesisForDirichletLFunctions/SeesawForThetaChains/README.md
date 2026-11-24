@@ -84,7 +84,15 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and `*Method of the formal proof:*` how [FormalProof] proves it. Every section 6.1–6.15 and 6.2a–6.2d carries both labels. The forms of 6.2a–6.2d over every quadratic extension of number fields, the definition of the seesaw ratio by cases in 6.1, the level `p^{j+1}` of the chart levels in 6.7, the root-of-unity forms of 6.12, 6.14 (c) and 6.15 (b), and 6.15 under the hypotheses stated there, are this roadmap's own formulations; [FormalProof] has the forms recorded with them. The origin of 6.13 names a formulation for which no published source is named; [FormalProof] states its clauses (o) and (a), and (b), (c) follow from statements of [FormalProof], as recorded there.
 
-**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover the whole section. As long as that general theorem is not in the library, what the line covers is proved as [FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and the lemmas that only the first proof uses are removed. The statement does not change. In this roadmap the line of 6.9 covers one clause of (c), and the line of 6.10 the whole section, with the further inputs that it names.
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced from
+it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in full:
+the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement when
+that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names. In this roadmap the line of 6.9 covers one clause of
+(c), and the line of 6.10 the whole section, with the further inputs that it names.
 
 ## Layer 6: The seesaw and the Bessel pairing
 

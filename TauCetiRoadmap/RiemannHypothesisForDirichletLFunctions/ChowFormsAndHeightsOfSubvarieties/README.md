@@ -27,11 +27,12 @@ visibly use. A wider or sharper form stated beside it is not in [FormalProof] an
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
-the whole section. As long as that general theorem is not in the library, what the line covers is proved as
-[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
-that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs.
-Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and
-the lemmas that only the first proof uses are removed. The statement does not change.
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
 
 ## Layer 5: Arithmetic intersection numbers under change of metric
 
@@ -423,9 +424,9 @@ Hermitian metrics, which is the form the family uses ([FormalProof],
 (`ChowFormHeightComparison₂.CF.D.formHeight_one_eq`)); the case of a lattice that is not free is reduced to it by a finite
 extension ((a3)).
 
-*Route.* (a1)–(a7) and (b) are proved here, by these routes, except the decomposition of (a7), which is proved as
-[FormalProof] proves it (Conventions): the route written for it below is a second proof, an alternative to that of the
-`*Method of the formal proof:*` label. The published sources are those that the `*Origin:*` label names: Bost, Gillet and Soulé for the height of cycles in `ℙ(J^∨)` and for (a7) with the exact value of the height of
+*Route.* (a1)–(a7) and (b) are proved here, by these routes, except the decomposition of (a7), which is deduced from
+the general theorem that its `*Corollary of:*` line names (Conventions): the route written for it below is a second
+proof, as is that of the `*Method of the formal proof:*` label. The published sources are those that the `*Origin:*` label names: Bost, Gillet and Soulé for the height of cycles in `ℙ(J^∨)` and for (a7) with the exact value of the height of
 `ℙ^{N−1}`, Sombra for the bound of (a7) with its argument, and, for (b), the comparison of Bost, Gillet and Soulé for an
 arbitrary Hermitian vector bundle, from which (b) is adapted. The standard case on which (b) rests here is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b;
 for `M_J = O_K^N` the metrised `𝒪(1)` and the intersection number of (a) are those of [FormalProof],
@@ -603,7 +604,7 @@ Layer 5; HeightsRationalPointsAndObstructions §§5.9b, 5.17a, 5.17f; AlgebraicM
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the statements of its sections in the forms stated here, with the forms of [FormalProof] recorded at them, and their proofs; what a `*Corollary of:*` line covers is proved as [FormalProof] proves it as long as the general theorem that the line names is not in the library (Conventions). Those general theorems, and the height of cycles in `ℙ(J^∨)` that 6.2 (a) uses, belong to the roadmap that states them (below): the change-of-metric formula (5.1), the comparison of the Fubini–Study height of an effective cycle in `ℙ^n_K` with the spherical height of its Chow form together with the archimedean identity behind its (iii) (6.1), and the height of cycles in the projective space `ℙ(J^∨)` of a Hermitian vector bundle `J̄` with its value on the whole space (6.2 (a), (a7)). The statements that are this roadmap's alone are the local statements (i) and (ii) on a hyperplane section on which the comparison of 6.1 rests, with the Crofton formula of the route of 6.1 (iii); and, for the height of 6.2 (a), its normalisation, its invariance under isometries and finite extension, its rescaling, its value on points, its change under a change of metrics with the same lattice (6.2 (a1)–(a6)), and its comparison with the spherical height of the Chow form relative to `J̄` (6.2 (b)).
+This roadmap owns the statements of its sections in the forms stated here, with the forms of [FormalProof] recorded at them, and their proofs; what a `*Corollary of:*` line covers is deduced from the general theorem that the line names (Conventions). Those general theorems, and the height of cycles in `ℙ(J^∨)` that 6.2 (a) uses, belong to the roadmap that states them (below): the change-of-metric formula (5.1), the comparison of the Fubini–Study height of an effective cycle in `ℙ^n_K` with the spherical height of its Chow form together with the archimedean identity behind its (iii) (6.1), and the height of cycles in the projective space `ℙ(J^∨)` of a Hermitian vector bundle `J̄` with its value on the whole space (6.2 (a), (a7)). The statements that are this roadmap's alone are the local statements (i) and (ii) on a hyperplane section on which the comparison of 6.1 rests, with the Crofton formula of the route of 6.1 (iii); and, for the height of 6.2 (a), its normalisation, its invariance under isometries and finite extension, its rescaling, its value on points, its change under a change of metrics with the same lattice (6.2 (a1)–(a6)), and its comparison with the spherical height of the Chow form relative to `J̄` (6.2 (b)).
 
 Not owned here. The theory these statements extend is HeightsRationalPointsAndObstructions: the height `projectiveCycleHeight` of projective cycles with its additivity, projection and arithmetic Bézout (§5.9b), and the arithmetic intersection numbers `arithmeticIntersection` with their symmetry, multilinearity, Cartier recursion and the contribution of vertical fibres (§5.17a). The general theorems of which 5.1, 6.1 and 6.2 (a7) are corollaries are HeightsRationalPointsAndObstructions §5.17a.1 (the change-of-metric formula), §5.9b.1 (the comparison of the Fubini–Study height with the spherical height of the Chow form, with Philippon's archimedean identity) and §5.9b.2 (the height of cycles in the projective space of a Hermitian vector bundle, which 6.2 (a) uses, and the height of the whole space, with the value and the bound of the height of `ℙ^{N−1}`). Chow forms over an algebraically closed field are AlgebraicModuliForArithmeticGeometry §1.6 ([AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md)) and Polylogarithms §5.3 ([Polylogarithms](../../Polylogarithms/README.md)). Hermitian vector bundles, their operations, the Arakelov degree, its additivity and its invariance under finite extension are ArakelovGeometryAndAbelianHeights §§1.1–1.3, 1.5 and 1.6 ([ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md)). The spherical height of a multiform, the normalised spherical measure `ν` with its disintegration along a unit vector, and the spherical height relative to a Hermitian vector bundle are SlopesOfHermitianVectorBundles §§6.6 and 6.7a ([SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md)).
 

@@ -249,12 +249,13 @@ of 0.2, 4.10, 5.8, 6.4a, the clauses of the remark of 0.2 that ReductiveGroups Â
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
-cover the whole section. As long as that general theorem is not in the library, what the line covers is proved as
-[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
-that proof has a narrower one; the route given with the section is that proof's unless the label says that it
-differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction
-from it, and the lemmas that only the first proof uses are removed. The statement does not change. Most
-`*Corollary of:*` lines of this roadmap cover some clauses of their section only, and name them.
+cover the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is
+deduced from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general
+theorem in full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of
+the statement when that proof has a narrower one. Where the route given with the section is not the deduction, it is
+a second proof, [FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route
+needs, and the deduction needs the section that the `*Corollary of:*` line names. Most `*Corollary of:*` lines of
+this roadmap cover some clauses of their section only, and name them.
 
 ## Layer 0: unitary groups
 
