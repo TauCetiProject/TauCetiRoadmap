@@ -65,8 +65,11 @@ Not stated here:
 * The convexity bound 3.4 and the truncated explicit formulas 8.3 and 8.6 over a general field are
   steps toward the end theorems and stay README targets, as do the growth, gamma-factor,
   conductor, counting, rectangle-contour and certificate statements of Layers 0–2, 4, 7.1–7.3 and
-  9, and the completion comparisons, gamma bound, one-zero inequality and finite-family radius of
-  6.4a.
+  9, the completion comparisons, gamma bound, one-zero inequality and finite-family radius of
+  6.4a, Selberg's formula for `ζ'/ζ` (8.4a), the prime counts at `ℚ` under a zero-free
+  half-plane (8.5a), the independence of primitive characters from the reciprocity dictionary
+  (8.7a), and the equivalence of the completed and the uncompleted hypothesis for a primitive
+  Dirichlet character (9.1).
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
