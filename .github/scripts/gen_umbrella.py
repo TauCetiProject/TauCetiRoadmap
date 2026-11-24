@@ -266,7 +266,7 @@ def extra_patterns(names) -> list[tuple[str, re.Pattern]]:
         ("lowlayer", re.compile(r"\b(" + alt + r")\b,?[ \t]+layers?[ \t]+(?P<layer>" + LAYER_ID + ")")),
         ("prefixlayer", re.compile(r"\b(" + alt + r")\b,?[ \t]+Layers?[ \t]+(?P<layer>[A-Z]{1,4}\.?\d+(?:\.\d+)*"
                                    r"[A-Za-z]{0,2}(?![\w])" + COLON + r")")),
-        ("bare", re.compile(r"\b(" + alt + r")\b[ \t]+(?P<tok>" + HYPH + "|" + TOK + r")(?![\w])")),
+        ("bare", re.compile(r"\b(" + alt + r")\b(?:,[ \t]+(?=[A-Z]{1,4}\.?\d)|[ \t]+)(?P<tok>" + HYPH + "|" + TOK + r")(?![\w])")),
         ("paren", re.compile(r"\b(" + alt + r")\b[ \t]+\((?:§§?[ \t]?(?P<sec>" + SIGNED_TOK + r")|Layers?[ \t]+"
                              r"(?P<layer>" + LAYER_ID + "))")),
         ("marked", re.compile(r"(?:\*\*|`)(?:[A-Za-z]+/)?(" + alt + r")(?:\*\*|`),?[ \t]+\(?(?:§§?[ \t]?(?P<sec>"
@@ -1409,17 +1409,36 @@ def _blank(m: re.Match) -> str:
     return " " * len(m.group(0))
 
 
+# a title in italics (`*Dagger spaces*`), whose capitalised words are not a stop; a star against a word
+# character (`MU_*MU`, `P_*`) opens or closes none
+TITLE = re.compile(r"(?<![\w*])\*(?=[^\s*])(?:[^*\n]|\n(?![ \t]*\n))+?(?<=[^\s*])\*(?![\w*])")
+
+
+# a parenthesis that names only ids (`(§2.5)`, `(Layer CR.1)`, `(AL.3.1.1; §§2.1–2.3)`): its ids are read
+_PID = r"(?:§§?[ \t]?|(?:Sections?|Layers?)[ \t]+)?(?:[A-Z]{1,4}(?:\.[A-Z]+)*\.?)?\d+[A-Za-z]?(?:\.\d+[a-z]?)*" + COLON
+ID_PAREN = re.compile(r"\((" + _PID + r"(?:[ \t]*(?:,|;|–|-|\band\b|&)[ \t]*" + _PID + r")*)\)")
+
+
+def _unwrap(m: re.Match) -> str:
+    return " " + m.group(1) + " "
+
+
 def _prepared(text: str, names: set[str]) -> str:
     """`text` as the reader of local ids sees it, offsets kept: a span in backticks becomes a stop
     (a roadmap's name) or a mark that is passed over (a Lean name), an aside in parentheses is
     blanked out, and a bracketed source key or a parenthesis left open becomes a stop."""
     def code(m: re.Match) -> str:
-        name = re.split(r"[/.]", m.group(1).strip())[-1] in names
+        inner = m.group(1).strip()
+        if "." in inner and _bare_ok(inner.lstrip("§")):
+            return " " + m.group(1) + " "             # an id in code font (`C0.16`) is an id
+        name = re.split(r"[/.]", inner)[-1] in names
         return ("\x00" if name else "\x01") + " " * (len(m.group(0)) - 1)
     text = re.sub(r"`([^`]*)`", code, text)
+    text = TITLE.sub(_blank, text)
     prev = None
     while prev != text:
         prev = text
+        text = ID_PAREN.sub(_unwrap, text)
         text = ASIDE_SPAN.sub(_blank, text)
     return re.sub(r"\[[^\]\n]*\]|[()]", lambda m: "\x00" + " " * (len(m.group(0)) - 1), text)
 
@@ -1574,10 +1593,14 @@ class Tree:
             self._why[key] = why_unresolved(rm.readme, ident, layer)
         return self._why[key]
 
-    def resolve(self, rm: Roadmap, kind: str, ident: str):
+    def resolve(self, rm: Roadmap, kind: str, ident: str, bare: bool = False):
         """(unit, kind) of the id in the README of `rm`, or None. A layer id that no layer heading
         carries (`Layer 10B`) is looked up as a section."""
         d = rm.readme.find_definition(ident, kind == "layer")
+        if bare and kind == "section" and not ident[0].isdigit():
+            dl = rm.readme.find_definition(ident, True)
+            if dl is not None and rm.unit_at(dl[0], dl[3]).kind == "layer":
+                d, kind = dl, "layer"
         if d is None and kind == "layer" and not ident.isdigit():
             d = rm.readme.find_definition(ident, False)
             kind = "section"
@@ -1615,7 +1638,7 @@ class Tree:
             target = self.roadmaps[c.cited]
             what = f"{c.cited} {label_of(c.kind, c.id)}"
             where = f"{rm.name}:{c.line}"
-            r = None if target.completed else self.resolve(target, c.kind, c.id)
+            r = None if target.completed else self.resolve(target, c.kind, c.id, bare=c.form.split("+")[0] == "bare")
             namesake = self.shadowed.get(c.cited)
             if target.completed or (r is None and namesake is not None
                                     and self.resolve(namesake, c.kind, c.id) is not None):

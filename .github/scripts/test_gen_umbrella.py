@@ -1013,6 +1013,78 @@ part*), 2.2 and 2.3.
             assert items[slug]["needs"] == ["Alpha.2.1", "Alpha.2.2", "Alpha.2.3"], (slug, items[slug])
         assert items["FamAside.1.4"]["needs"] == ["Alpha.2.1"], items["FamAside.1.4"]
 
+    def test_own_ids_past_titles_in_parentheses_and_code_font(self) -> None:
+        forms = """# Roadmap: forms
+
+## Layer 1: base
+
+### 1.1 Base
+### 1.2 Second base
+
+## Layer 2: forms of a need
+
+### 2.1 An own id after an italic title
+
+*Needs:* *The Base Construction*, §1.1.
+
+### 2.2 Stars in mathematics open no title
+
+*Needs:* §1.1 for MU_*MU; §1.2 for P_*.
+
+### 2.3 Parentheses that name only ids
+
+*Needs:* *Base* (§1.1); *Second* (1.2).
+
+### 2.4 A parenthesis with words is an aside
+
+*Needs:* Alpha §2.1 (built as in 1.2).
+
+### 2.5 An id in code font, and a Lean name
+
+*Needs:* `1.2`; `Nat.card` is a Lean name.
+
+### 2.6 A comma between a name and an id without a dot
+
+*Needs:* Epsilon, E1.
+
+### 2.7 A bare id that names a layer is the layer
+
+*Needs:* Pi P1.
+"""
+        pi = """# Roadmap: pi
+
+## Internal dependencies
+
+#### P1
+
+A table of the layer's internal needs.
+
+## Layer P1: one
+
+### P1.1 First
+### P1.2 Second
+"""
+        root = self.other_tree("forms", {
+            "Fam": "# Roadmap: f\n\n- [Forms](FamForms/README.md)\n",
+            "Fam/FamForms": forms,
+            "Pi": pi,
+            "Epsilon": "# Roadmap: epsilon\n\n### E1 An undotted id\n",
+            **{k: SUPPLIERS[k] for k in ("Alpha", "Gamma", "Delta", "Group", "Group/Beta")}})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+
+        def needs(slug):
+            return set(items[f"FamForms.{slug}"]["needs"])
+        assert needs("2.1") == {"FamForms.1.1"}, needs("2.1")
+        assert needs("2.2") == {"FamForms.1.1", "FamForms.1.2"}, needs("2.2")
+        assert needs("2.3") == {"FamForms.1.1", "FamForms.1.2"}, needs("2.3")
+        assert needs("2.4") == {"Alpha.2.1"}, needs("2.4")
+        assert needs("2.5") == {"FamForms.1.2"}, needs("2.5")
+        assert needs("2.6") == {"Epsilon.E1"}, needs("2.6")
+        assert needs("2.7") == {"Pi.P1.1", "Pi.P1.2"}, needs("2.7")
+        assert "Pi.P1" not in items, sorted(items)
+
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
         # `Aα1` loses its `α` in a slug and would become the slug of `A1`
