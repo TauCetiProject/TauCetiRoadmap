@@ -977,7 +977,6 @@ Consumed, not restated (see the supplier contracts for the hypotheses):
   the zero eigenvalue, the component count and "connected iff the algebraic connectivity is
   positive", the Laplacian spectrum of the complement.
 - PeriodicNonnegativeMatrices 3.2 and 3.3: the bipartiteness criteria.
-- QuasirandomGraphs 4.1: `∑θᵢᵏ` as a count of homomorphisms from the `k`-cycle.
 - TopologicalCombinatorics 3.1: the Kneser graph, `K(n, 1) ≅ Kₙ` and its regularity.
 - AssociationSchemes 5.1: the eigenvalues and primitive idempotents of the Johnson scheme, from
   which 2.6 derives the multiset spectra of the Johnson and Kneser graphs.
@@ -1114,11 +1113,6 @@ equivalence `α ≃ Fin n` and 1.7. Used in 2.6.
 The roadmap TopologicalCombinatorics, 3.1: its Kneser graph on `{s : Finset α | s.card = k}`
 (copied verbatim in `Suggested.lean`), `K(n, 1) ≅ Kₙ`, and regularity of degree `C(n-k, k)` for
 `k ≥ 1`. Used in 2.4 and 2.6.
-
-### From QuasirandomGraphs
-
-The roadmap QuasirandomGraphs, 4.1: for `k ≥ 2`, the number of homomorphisms from the `k`-cycle to
-`G` is `∑ θᵢᵏ`. Cited in 1.3; not a dependency of any target.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
