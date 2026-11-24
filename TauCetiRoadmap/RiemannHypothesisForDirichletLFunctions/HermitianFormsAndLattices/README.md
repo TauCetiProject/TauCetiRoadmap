@@ -76,7 +76,7 @@ discriminant forms to [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefin
 to [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) and to the roadmaps on
 chains of theta lifts built on them.
 
-Layer 0 constructs the unitary groups and the section of the determinant, and records their
+Layer 0 constructs the unitary groups and the section of the determinant, and proves their
 reductive structure. Layer 1 is the algebra of Hermitian forms over a quadratic étale algebra.
 Layer 2 classifies Hermitian spaces over local fields and decides when local unitary groups are
 compact; Layer 3 classifies them over number fields. Layer 4 is the local and global theory of
@@ -233,8 +233,8 @@ and `β_v^⋆ = β_v^⋆(n)`.
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is not in [FormalProof]: its `*Origin:*` label says where it comes
-from, and it is proved by the route written here until the theorem named in its `*Corollary of:*` line, if it has one,
-is in the library. A declaration named may be the proposition stating the form (a definition of type `Prop`), not its
+from, and the route written here proves it, beside the deduction from the theorem that its `*Corollary of:*` line
+names, if it has one. A declaration named may be the proposition stating the form (a definition of type `Prop`), not its
 proof; one quantified over the proof's own datum, a CM field with auxiliary choices (6.2–6.4), states the form only for
 the CM extensions such a datum carries, all unramified at every finite place.
 
@@ -243,9 +243,9 @@ the CM extensions such a datum carries, all unramified at every finite place.
 only. The statements of 1.3, 1.5, 3.3, 4.3, 4.6 and 6.1b are not statements of [FormalProof]: 1.3, 1.5 and 4.3 state
 published theorems in the form used here and cite the home section that states each; 3.3 (in characteristic `≠ 2`) is
 a published theorem, cited with it; 4.6 adapts published theorems on integral models, its first two statements being
-cited from its home; 6.1b adapts published archimedean densities to the normalisations of this roadmap. The statement
-of 0.2, 4.10, 5.8, 6.4a, the clauses of the remark of 0.2 that ReductiveGroups §9D.1 does not state, the remark of
-7.2, and the parts that each label names are this roadmap's own formulations.
+cited from its home; 6.1b adapts published archimedean densities to the normalisations of this roadmap. The parts
+of 0.2 that ReductiveGroups §9D.1 does not state, the statements of 4.10, 5.8, 6.4a and 7.2, and the parts that each
+label names are this roadmap's own formulations.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
@@ -304,12 +304,12 @@ characteristic `≠ 2`); Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGr
 
 ### 0.2 Reductive structure
 
-*Origin:* this roadmap's own formulation: the homomorphic section `s_x` of `det` attached to a vector with
-`h(x, x) ≠ 0`, the existence of such a vector (an elementary lemma), and the centre of `U(V)`. The structure of `U(V)`
-and `SU(V)` in the remark below is published for a field `E` of characteristic `≠ 2`: Platonov and Rapinchuk (1994),
-second edition with I. Rapinchuk (2023), §2.3.3 and Proposition 2.35 (3), stated in ReductiveGroups §9D.1 for the
-clauses named in the remark; the other clauses of the remark, and for `E = F × F` and in characteristic two the whole
-remark, are this roadmap's own formulation.
+*Origin:* published for a field `E` of characteristic `≠ 2`: Platonov and Rapinchuk (1994), second edition with
+I. Rapinchuk (2023), §2.3.3 and Proposition 2.35 (3), the clauses of the structure of `U(V)` and `SU(V)` that
+ReductiveGroups §9D.1 states (named in the `*Corollary of:*` line). This roadmap's own formulation: the other clauses
+of the structure (the word outer, absolute almost simplicity for `n ≥ 2`), the whole structure for `E = F × F` and in
+characteristic two, the homomorphic section `s_x` of `det` attached to a vector with `h(x, x) ≠ 0`, the existence of
+such a vector (an elementary lemma), and the centre of `U(V)`.
 
 *Method of the formal proof:* on groups of points, over number fields, their completions and their adeles: the
 quasi-reflection `y ↦ y + (u − 1)h(x, x)^{−1}h(x, y)x` is checked directly to be unitary for `uū = 1`, multiplicative
@@ -320,12 +320,26 @@ is a scalar: it commutes with the Cayley transforms of all skew-adjoint matrices
 written here finds the vector `x` through the nondegeneracy of the trace form of `E`, in every characteristic, and
 reads the centre off `GL_E(V)` after base change.
 
-Let `n ≥ 1`. For every `x ∈ V`
+*Corollary of:* ReductiveGroups §9D.1 (for a separable quadratic field extension in characteristic `≠ 2` and a
+nondegenerate Hermitian or skew-Hermitian space of dimension `n ≥ 1`: `U(V)` is connected reductive and a form of
+`GL_n` split by `E`, `SU(V)` is a simply connected semisimple form of `SL_n`, `det` is smooth and surjective with
+kernel `SU(V)`, and `X^*(U(V)) = X^*(U(1)) ≅ ℤ` with the nontrivial element of `Gal(E/F)` acting by `−1`), for these
+clauses when `E` is a field of characteristic `≠ 2`.
+
+Let `n ≥ 1`. Prove that `U(V)` is connected reductive, with centre `U(1)` embedded
+as scalars; for a field `E`
+it is an outer form of `GL_n` split by `E` (`U(V) ⊗_F E ≅ GL_E(V)`), and for `E = F × F` it is
+`GL_n` (0.1).
+`SU(V)` is semisimple and simply connected, absolutely almost simple for `n ≥ 2`, a form of `SL_n`.
+`det : U(V) → U(1)` is a smooth surjective homomorphism with kernel `SU(V)`, so
+`U(V)/SU(V) ≅ U(1)` and `X^*(U(V)) = X^*(U(1)) ≅ ℤ`. For a field `E` the Galois action on this
+character module factors through `Gal(E/F)`, whose nontrivial element acts by `−1`, so `U(V)` has no
+nontrivial `F`-rational character; for `E = F × F`, `U(1) = {(a, a^{−1})} ≅ G_m` with trivial Galois
+action, and `det : U(V) ≅ GL(V_1) → G_m` is a nontrivial `F`-rational character. For every `x ∈ V`
 with `h(x, x) ≠ 0`, `V = Ex ⊕ x^⊥`, and the map
 `s_x : U(1) → U(V)`, multiplication by `a` on `Ex` and the identity on `x^⊥`, is a homomorphic
 section of `det`; hence `U(V) = SU(V) ⋊ U(1)` and `det` is surjective on `R`-points for every
-`F`-algebra `R`, as soon as such an `x` exists; it exists whenever `n ≥ 1`. Prove also that the centre of `U(V)` is
-`U(1)`, embedded as scalars.
+`F`-algebra `R`, as soon as such an `x` exists; it exists whenever `n ≥ 1`.
 
 *The form of the formal proof.* Over a number field with its involution, its completions and its adeles, for `x` with
 `h(x, x) ≠ 0` and `u` with `uū = 1`: the quasi-reflection `y ↦ y + (u − 1)h(x, x)^{−1}h(x, y)x` is unitary, acts by
@@ -341,20 +355,7 @@ this to `δ^{−1}w`, which has the same unitary group (0.1). The centre: `U(V)_
 (for `E = F × F`, `U(V) ≅ GL(V_1)` over `F`), whose centre is the group of scalars, and the scalars of `U(V)` are
 `U(1)`.
 
-*Remark (the structure of the group schemes).* For a field `E` of characteristic `≠ 2`, ReductiveGroups §9D.1 states
-that `U(V)` is connected reductive and a form of `GL_n` split by `E`, that `SU(V)` is a simply connected semisimple
-form of `SL_n`, that `det` is smooth and surjective with kernel `SU(V)`, and that `X^*(U(V)) = X^*(U(1)) ≅ ℤ` with the
-nontrivial element of `Gal(E/F)` acting by `−1`; the other clauses below (the word outer, absolute almost simplicity
-for `n ≥ 2`, and everything for `E = F × F` or in characteristic two) are this roadmap's own formulation. Let `n ≥ 1`.
-`U(V)` is connected reductive; for a field `E`
-it is an outer form of `GL_n` split by `E` (`U(V) ⊗_F E ≅ GL_E(V)`), and for `E = F × F` it is
-`GL_n` (0.1).
-`SU(V)` is semisimple and simply connected, absolutely almost simple for `n ≥ 2`, a form of `SL_n`.
-`det : U(V) → U(1)` is a smooth surjective homomorphism with kernel `SU(V)`, so
-`U(V)/SU(V) ≅ U(1)` and `X^*(U(V)) = X^*(U(1)) ≅ ℤ`. For a field `E` the Galois action on this
-character module factors through `Gal(E/F)`, whose nontrivial element acts by `−1`, so `U(V)` has no
-nontrivial `F`-rational character; for `E = F × F`, `U(1) = {(a, a^{−1})} ≅ G_m` with trivial Galois
-action, and `det : U(V) ≅ GL(V_1) → G_m` is a nontrivial `F`-rational character. Route: base change along
+The structure: base change along
 `E ⊗_F E ≅ E × E` makes `V ⊗_F E` a space over a split algebra, so
 `U(V)_E ≅ GL_E(V)` by the split case of 0.1, under which `det` becomes the determinant; reductivity,
 connectedness, simple connectedness and surjectivity of `det` are geometric and are read off `GL_n`
@@ -365,13 +366,14 @@ nontrivial element of `Gal(E/F)` exchanges the two factors, hence maps the chara
 characters, the Galois-fixed ones, are `0`. For `E = F × F` no base change is needed:
 `U(1) = {(a, a^{−1})}` is split over `F`.
 
-*Needs:* 0.1; ReductiveGroups Layer 6; ReductiveGroups §9D.1 (the remark, for a field `E` of characteristic `≠ 2`).
+*Needs:* 0.1; ReductiveGroups Layer 6; ReductiveGroups §9D.1 (the clauses of the `*Corollary of:*` line).
 
 **Checks.**
 
-- `n = 1`: `SU(V)` is trivial, `U(V) = U(1)` and `s_x` is the identity of `U(1)`. `n = 0`: `U(V)` is the trivial
-  group and `det` is not onto `U(1)`, which is why the target assumes `n ≥ 1`.
-- Of the remark: for a field `E` the Galois action on the character module is by `−1`: a rational character of
+- `n = 1`: `SU(V)` is trivial, `U(V) = U(1)` and `s_x` is the identity of `U(1)`; absolute almost simplicity is
+  asserted only for `n ≥ 2`. `n = 0`: `U(V)` is the trivial group, `det` is not onto `U(1)` and `U(V)/SU(V)` is not
+  `U(1)`, which is why the target assumes `n ≥ 1`.
+- For a field `E` the Galois action on the character module is by `−1`: a rational character of
   `U(V)` over `F` is trivial, although `det` is a character over `E`. For `E = F × F` this fails:
   `U(V) ≅ GL(V_1)` (0.1), and `det` is a nontrivial character defined over `F`.
 
@@ -830,10 +832,9 @@ Route: 2.1 and `det(H^r) = (−1)^r`; the global product is `η((−1)^{n(n−1)
 ### 2.5 Compactness, strong approximation and rescaling
 
 *Origin:* published: Rapinchuk (2012), Theorem 2.3, strong approximation for a simply connected absolutely almost
-simple group and any nonempty finite set of places (the theorem of Kneser and Platonov), for (d); weak approximation,
-Platonov and Rapinchuk (1994), Chapter 7, for (f), whose statement for `U(V)` was not located there. The compactness
-criteria (a)–(c), the rescaling
-(e) and the consequence of (f) for lattices are this roadmap's own formulation.
+simple group and any nonempty finite set of places (the theorem of Kneser and Platonov), for (d). (f) is adapted from
+weak approximation, Platonov and Rapinchuk (1994), Chapter 7: here for `U(V)`. The compactness criteria (a)–(c), the
+rescaling (e) and the consequence of (f) for lattices are this roadmap's own formulation.
 
 *Method of the formal proof:* (d) is proved for a CM extension, for every admissible `S` at once, by reduction to rank
 one: adelic points supported at finitely many places are dense, rational points are dense at those places, every
@@ -2270,9 +2271,10 @@ Layers 0–3; GeometryOfNumbersAndQuadraticArithmetic 2.2.3–2.2.5, 2.5.2–2.5
 
 ### 5.1 Genus and class set
 
-*Origin:* published: Borel (1963), and Kirschmer (2016), §10.1, the classes of a genus of lattices as adelic double
-cosets, with the stabilizers `U(V)(F) ∩ gK_Lg^{−1}`; the form for lattices over a conjugation-stable order is this
-roadmap's own formulation.
+*Origin:* adapted from Borel (1963), §2.1 and Proposition 2.3, lattices from their localizations and the classes in
+the genus of a rational quadratic form as the double cosets of its adelic orthogonal group modulo the rational points
+and the stabilizer of the integral lattice: here for Hermitian lattices over a number field, with the stabilizers
+`U(V)(F) ∩ gK_Lg^{−1}`; the form for lattices over a conjugation-stable order is this roadmap's own formulation.
 
 *Method of the formal proof:* the genus is defined by rational isometries of the localizations at each pair of
 conjugate primes, and its basic properties are formal; the dictionary with adelic double cosets and with the groups
@@ -3919,7 +3921,7 @@ form of the formal proof.
 
 *Origin:* published for `2k < n`: Weil (1965), the mean-value form of Siegel's main theorem for the classical groups,
 unitary groups included, (a) and the covolumes of stabilizers in (d), stated in MetaplecticAutomorphicForms §6.4b; in
-the range `n ≤ 2k ≤ 2n − 2` they are stated here by the same route, with no printed statement located. (b) and (c) are
+the range `n ≤ 2k ≤ 2n − 2` they are adapted from it: the same identities, proved here by the same route. (b) and (c) are
 its specialization to definite lattices, published for positive Hermitian forms over an imaginary quadratic
 field by Braun (1941), Satz V, after Siegel (1935–1937) for quadratic forms. The clause of (d) on the stabilizer of a
 flag and an anisotropic vector is particular to this proof.
@@ -4140,41 +4142,43 @@ determinant is chosen.
 
 ### 7.2 Siegel's main theorem as a statement on theta series
 
-*Origin:* published: Weil (1965), the mean-value form of Siegel's main theorem (6.5(a)), here as the identity for the
-mean of the rational points of a Gram fibre, in the setting of [FormalProof], a CM extension and `2k < n`. The
-genus-average form of the remark below, over a CM field and with the densities in this roadmap's normalisation, is
-this roadmap's own formulation; for positive Hermitian forms over an imaginary quadratic field the corresponding
-statement on representation numbers (6.5(b)) is Braun (1941), Satz V.
+*Origin:* this roadmap's own formulation: the genus average of the theta series of 7.1 and its Fourier coefficients,
+over a CM field and with the densities in this roadmap's normalisation; for positive Hermitian forms over an imaginary
+quadratic field the corresponding statement on representation numbers (6.5(b)) is Braun (1941), Satz V. The form of
+the formal proof below is published: Weil (1965), the mean-value form of Siegel's main theorem (6.5(a)), here as the
+identity for the mean of the rational points of a Gram fibre, in the setting of [FormalProof], a CM extension and
+`2k < n`.
 
-*Method of the formal proof:* [FormalProof] states the identity with the `T`-th coefficient of `Φ` on one side, a
-Fourier transform of `Φ` along the Gram map `X ↦ T_X`, and the integral of `Φ` over the theta mean on the fibre `X_T` on
-the other: the coefficient is computed for pure tensors by an approximate identity around `T` as the archimedean fibre
-integral times the product of the local fibre measures, and the measure form 6.5(a) identifies that product with the
-mean of the rational points with Gram matrix `T`. The statement written here has the value `∫ Φ dμ_T` in place of that
-coefficient; the route written here reads it off 6.5(a).
+*Method of the formal proof:* the genus average is not a statement of [FormalProof], which has no theta series of a
+Hermitian lattice in a matrix variable (7.1). [FormalProof] states the identity with the `T`-th coefficient of `Φ` on
+one side, a Fourier transform of `Φ` along the Gram map `X ↦ T_X`, and the integral of `Φ` over the theta mean on the
+fibre `X_T` on the other: the coefficient is computed for pure tensors by an approximate identity around `T` as the
+archimedean fibre integral times the product of the local fibre measures, and the measure form 6.5(a) identifies that
+product with the mean of the rational points with Gram matrix `T`. The form recorded below has the value `∫ Φ dμ_T` in
+place of that coefficient, and the route written here reads it off 6.5(a).
 
 *Corollary of:* MetaplecticAutomorphicForms §6.4b (Weil's mean-value form of Siegel's formula for unitary groups, for
-`T` of size `k` with `2k < dim V`).
+`T` of size `k` with `2k < dim V`), for the form of the formal proof below.
 
-Let `E/F` be a CM extension, `V` a nondegenerate Hermitian space over `E` of dimension `n`, `k ≥ 1` with `2k < n`,
-`T ∈ Herm_k(E)` nondegenerate and `Φ` a Schwartz–Bruhat function on `V(𝔸)^k`, with `X_T`, `μ_T` and the Tamagawa
-measure `dg` as in 6.5(a). Prove that the mean over `U(V)(F)\U(V)(𝔸)` of the rational points of the Gram fibre,
-`τ(U(V))^{−1}∫_{U(V)(F)\U(V)(𝔸)} Σ_{X ∈ X_T(F)} Φ(g^{−1}X) dg`, is `∫_{X_T(𝔸)} Φ dμ_T`: a case of 6.5(a), in the
-setting recorded there as the form of the formal proof.
-
-Route: 6.5(a), in this setting.
-
-*Remark (the genus average).* Let `V`, `L` be as in 7.1 and `1 ≤ k ≤ n − 1`. The genus average
+Let `V`, `L` be as in 7.1 and `1 ≤ k ≤ n − 1`. Prove that the genus average
 `Θ_gen^{(k)}(L)(Z) = mass(L)^{−1}Σ_{[M]} θ_M^{(k)}(Z)/|U(M)|` has, at every totally positive definite
-`T`, the Fourier coefficient `α_∞(L, T)·∏_v α_v(L, T)`. Route: 6.5(b) coefficientwise with 7.1(a).
+`T`, the Fourier coefficient `α_∞(L, T)·∏_v α_v(L, T)`.
+
+Route: 6.5(b) coefficientwise with 7.1(a).
+
+*The form of the formal proof.* Let `E/F` be a CM extension, `V` a nondegenerate Hermitian space over `E` of dimension
+`n`, `k ≥ 1` with `2k < n`, `T ∈ Herm_k(E)` nondegenerate and `Φ` a Schwartz–Bruhat function on `V(𝔸)^k`, with `X_T`,
+`μ_T` and the Tamagawa measure `dg` as in 6.5(a). The mean over `U(V)(F)\U(V)(𝔸)` of the rational points of the Gram
+fibre, `τ(U(V))^{−1}∫_{U(V)(F)\U(V)(𝔸)} Σ_{X ∈ X_T(F)} Φ(g^{−1}X) dg`, is `∫_{X_T(𝔸)} Φ dμ_T`: a case of 6.5(a), in
+the setting recorded there as the form of the formal proof, and read off it.
 
 *Needs:* 6.5, 7.1.
 
-**Checks** (of the remark).
+**Checks.**
 
 - `E = ℚ(√−3)`, `L = O_E²`, `k = 1`: the coefficient of `e(z)` is `12` (6.5's Check) and equals
   `r(L, 1)` because the genus has one class.
-- The remark is for totally positive definite `T` only; it does not extend to singular `T`, at which
+- The statement is for totally positive definite `T` only; it does not extend to singular `T`, at which
   the densities of 6.1 (defined for nondegenerate `T`) do not exist. For `L = O_E²` over `ℚ(√−3)` and
   `k = 1` the constant coefficient (`T = 0`) is `1`, since `X = 0` is the only solution and
   `mass(L)^{−1}Σ_{[M]}1/|U(M)| = 1`; the expression of 6.1b vanishes at `T = 0` for `k < n` (factor
@@ -4247,8 +4251,9 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 **Owned here.** Hermitian and skew-Hermitian forms over a quadratic étale algebra, the split algebra
 included (its decomposition and isometry group in characteristic `≠ 2` are consumed from
 MetaplecticAutomorphicForms §3.2a), and their base change (Layer 1); the group schemes `U(V)`, `SU(V)` of an
-arbitrary Hermitian space with the section of `det` and the centre of `U(V)` (Layer 0; their structure for a field `E`
-of characteristic `≠ 2` is ReductiveGroups §9D.1) and the integral models of lattice stabilizers (4.6); the forms
+arbitrary Hermitian space, their reductive structure, the section of `det` and the centre of `U(V)` (Layer 0; for a
+field `E` of characteristic `≠ 2` the clauses of the structure that ReductiveGroups §9D.1 states are corollaries of
+it) and the integral models of lattice stabilizers (4.6); the forms
 stated in Layers 2–3 of the classification of Hermitian spaces over nonarchimedean local fields and over number
 fields, of Landherr's theorem in both directions, of the coherence criterion in dimension one and of the Hasse
 principle for representations and isotropy, whose general theorems are GeometryOfNumbersAndQuadraticArithmetic
@@ -4276,8 +4281,8 @@ a given lattice (6.4a), the mass formula for every signature and its closed form
 total mass of the integral lattices of given discriminant and the weighted count of subspaces (6.4b,
 6.4c), Siegel's main theorem in Weil's form for every space, in the lattice form for definite spaces and
 for primitive representations, and the volumes of stabilisers (Layer 6); Hermitian theta series of definite lattices
-and their transformation laws (7.1), and the mean-value identity of 7.2 (Layer 7). 2.1(a) is the local classification
-that
+and their transformation laws (7.1), and the Fourier coefficients of their genus averages (7.2) (Layer 7). 2.1(a)
+is the local classification that
 EndoscopicTransferAndUnitaryTraceComparisonPartII asks of GeometryOfNumbersAndQuadraticArithmetic, and
 3.1–3.2 are the Hasse classification and existence of global Hermitian spaces that
 SelmerIwasawaCohomologyPartII and PELModuliPartII ask of AdelicAlgebraicGroups: GeometryOfNumbersAndQuadraticArithmetic
@@ -4309,7 +4314,7 @@ group schemes.
 
 **General theorems in their homes.** What is owned here is the form of each statement given here. The general
 theorems of which sections here are corollaries (their `*Corollary of:*` lines), or which they cite for the theorem
-they state (1.3, 1.5, 4.3, 4.6, 5.3 and the remark of 0.2), are owned by their homes: ReductiveGroups §9D.1;
+they state (1.3, 1.5, 4.3, 4.6 and 5.3), are owned by their homes: ReductiveGroups §9D.1;
 ReductiveGroupsPartII §RG2.3.5a; GeometryOfNumbersAndQuadraticArithmetic §§2.2.6, 2.4.7, 2.4.8, 2.5.7, 2.7.4–2.7.7,
 2.9.2, 2.9.3, 2.9.3a–2.9.3c, 2.9.4a, 2.9.4b, 2.9.6, 2a.1–2a.5, 3.1.3, 3.2.8, 3.2.9 and 4.4.13; AdelicAlgebraicGroups
 §§1.5a, 3.4a, 4.1a, 4.2a, 4.5a; MetaplecticAutomorphicForms §§3.2a, 6.4b; AutomorphicFormsOnReductiveGroups §7.5;
@@ -4330,8 +4335,8 @@ characteristic two beyond Layer 1, 2.1 and 2.4. The classification of lattices a
 places beyond 4.3 and the conjugacy of norm-maximal lattices (4.4(c)), and local densities there
 beyond the general statement 6.1 (6.1d excludes them).
 Hermitian modular forms
-as a theory on the Hermitian half-space: Layer 7 states theta series and their transformation laws
-only, and records their genus averages in a remark. The theta correspondence: Weil representations, adelic theta
+as a theory on the Hermitian half-space: Layer 7 states theta series, their transformation laws and
+their genus averages only. The theta correspondence: Weil representations, adelic theta
 kernels and the identification of genus averages of theta series with Siegel Eisenstein series (the Siegel–Weil
 formula) belong to MetaplecticAutomorphicForms and ThetaLiftsForDefiniteUnitaryGroups. The comparison
 of the Hermitian spaces of PELModuli M0.22 (`HermitianSpace`, `HermitianSpace.unitaryGroup`,
@@ -4501,8 +4506,8 @@ measures on a `G`-stable open subvariety of a fibre `Φ^{−1}(t)`, all for `G` 
 Layer 6: reductive, semisimple and simply connected groups. §9D.1: the unitary group `U(V)` of a nondegenerate
 Hermitian or skew-Hermitian space over a separable quadratic field extension in characteristic `≠ 2` is a connected
 reductive form of `GL_n`, `SU(V)` a simply connected semisimple form of `SL_n`, `det` smooth and surjective with
-`X^*(U(V)) ≅ ℤ` and the Galois action by `−1`; used in the remark of 0.2, in 2.5(d), in the Conventions and in the
-routes of 6.0b and 6.5.
+`X^*(U(V)) ≅ ℤ` and the Galois action by `−1`; used in 0.2 (its `*Corollary of:*` line), in 2.5(d), in the
+Conventions and in the routes of 6.0b and 6.5.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -4636,7 +4641,7 @@ and 6.5.
   Habilitationsschrift, RWTH Aachen (2016). Definition 2.1.3 (5) (1.4); Theorem 2.1.4 (1.1); Definition 2.3.3
   (4.0); Theorem 2.4.1, p. 20 (3.1); Theorem 3.2.3 and
   Corollary 3.2.4, pp. 29–30 (2.1, 2.4); Algorithm 3.3.2, Theorem 3.3.3 and Proposition 3.3.5, pp. 31–33
-  (4.1, 4.2, 4.3, 4.8, 5.8); Theorem 3.3.6 (4.2); Theorem 3.3.18, p. 38 (4.3); Corollary 5.1.4 (5.3); §10.1 (5.1); Remark 3.4.2 (3), p. 40 (3.2); Definition 2.3.3 (7), p. 18,
+  (4.1, 4.2, 4.3, 4.8, 5.8); Theorem 3.3.6 (4.2); Theorem 3.3.18, p. 38 (4.3); Corollary 5.1.4 (5.3); Remark 3.4.2 (3), p. 40 (3.2); Definition 2.3.3 (7), p. 18,
   and Lemmas 3.5.2, 3.5.3, p. 43 (4.4); Definition 5.2.1 and Propositions 5.2.4, 5.2.5, pp. 75–76 (5.4);
   Theorem 5.4.14, p. 89 (5.3); Definition 4.2.2, pp. 50–51 (6.1); Theorem 4.2.3, p. 51 (6.0b, 6.2);
   Theorem 4.2.4 and Lemma 4.2.5, pp. 52–53 (6.1a, 6.1d); Definition 4.2.6 and Lemma 4.2.9, pp. 53–56
@@ -4660,8 +4665,9 @@ and 6.5.
   <https://stacks.math.columbia.edu/tag/02MB>. Definition 10.121.5 and Lemmas 10.121.6, 10.121.7, the index of two
   lattices over a discrete valuation ring (4.0b).
 - [Borel] Armand Borel, *Some finiteness properties of adele groups over number fields*, Publications mathématiques
-  de l'IHÉS 16 (1963), pp. 5–30. Lattice stabilizers (4.5), the classes of a genus as double cosets (5.1), finiteness
-  of class numbers (5.2(a)).
+  de l'IHÉS 16 (1963), pp. 5–30. Lattice stabilizers (4.5); §2.1 and Proposition 2.3, lattices from their
+  localizations and the classes in the genus of a rational quadratic form as double cosets, adapted in 5.1; Theorem
+  5.1, finiteness of class numbers (5.2(a)).
 - [Tits] J. Tits, *Reductive groups over local fields*, in *Automorphic Forms, Representations and L-functions*
   (Corvallis 1977), Proc. Sympos. Pure Math. 33, Part 1, AMS 1979, 29–69. 1.15,
   3.8.1, 3.9 and 3.9.1, integral models of lattice stabilizers (4.6).
