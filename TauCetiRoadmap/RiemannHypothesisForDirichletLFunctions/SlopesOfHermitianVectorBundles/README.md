@@ -48,9 +48,9 @@ ArakelovGeometryAndAbelianHeights §1A.1.
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The statements of 1.3a, 2.5, 4.3a, 4.4, 4.5, 6.1, 6.3,
 6.3a, 6.4 and 6.7 are not statements of [FormalProof]: 1.3a, 6.3a and 6.4 state published theorems, cited with each, in
-the form this roadmap uses, and 6.1 states a published theorem, cited with it, with the invariant choice this roadmap's
-own; 2.5, 4.3a, 4.4, 4.5 and 6.3 adapt published theorems, cited with each, in this roadmap's own forms and with its own
-constants; 6.7 is this roadmap's own formulation.
+the form this roadmap uses, and 6.1 states a published theorem, cited with it, and the invariant choice of its home
+BanachSpaceTheory B7.HermitianNorms, reached here by averaging; 2.5, 4.3a, 4.4, 4.5 and 6.3 adapt published theorems,
+cited with each, in this roadmap's own forms and with its own constants; 6.7 is this roadmap's own formulation.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
@@ -361,7 +361,7 @@ For a nonzero `Ē`, `μ̂_max(Ē) = max{μ̂(Ē_V) : V ≠ 0}` and `μ̂_min(Ē)
 
 ### 2.2 Duality, direct sums and extensions
 
-*Origin:* published: Bost (2001), (4.2), and Gaudron (2008), Lemme 5.6 and Propriétés 5.7 (2), the duality of maximal and minimal slopes and the slopes of an orthogonal sum (ArakelovGeometryAndAbelianHeights §1A.4); the passage to sub-bundles and quotients, `μ̂_max(Ē_V) ≤ μ̂_max(Ē)` and `μ̂_min(Ē/V) ≥ μ̂_min(Ē)`, is its §1A.3 (iv); the upper extension bounds `μ̂_max(Ē) ≤ max(μ̂_max(Ē_V), μ̂_max(Ē/V))` and `μ̂_min(Ē) ≥ min(μ̂_min(Ē_V), μ̂_min(Ē/V))`, which follow in one step from the slope inequality for nonzero maps of Chen (2010), §9.1, are this roadmap's own formulation.
+*Origin:* published: Bost (2001), (4.2), and Gaudron (2008), Lemme 5.6 and Propriétés 5.7 (2), the duality of maximal and minimal slopes and the slopes of an orthogonal sum (ArakelovGeometryAndAbelianHeights §1A.4); the passage to sub-bundles and quotients, `μ̂_max(Ē_V) ≤ μ̂_max(Ē)` and `μ̂_min(Ē/V) ≥ μ̂_min(Ē)`, is its §1A.3 (iv); the upper extension bounds `μ̂_max(Ē) ≤ max(μ̂_max(Ē_V), μ̂_max(Ē/V))` and `μ̂_min(Ē) ≥ min(μ̂_min(Ē_V), μ̂_min(Ē/V))`, which follow in one step from the slope inequality for nonzero maps of Chen (2010), §9, p. 37, are this roadmap's own formulation.
 
 *Method of the formal proof:* only the duality for lattices of full rank over a totally complex `K`, the two identities for orthogonal sums, and `μ̂_max(Ē_V) ≤ μ̂_max(Ē)`. For the duality, the dual lattice with the dual metrics is again a lattice of full rank, with bidual the lattice and inverse height, and its least and largest sizes, the exponentials of a constant minus the maximal and the minimal slope, are the inverses of the largest and the least size of the lattice; in the Euclidean slopes of the restriction of scalars to `ℤ` the two identities carry the constant `log 2 − log|d_K|/[K:ℚ]`, `d_K` the discriminant of `K`, which the normalised slopes do not; the dual of a quotient lattice lies in the dual of the lattice. For two lattices with orthogonal images the degree of the sum is the sum of the degrees, and a sublattice of the sum has slope at most the larger of the two maximal slopes. The route written here obtains the orthogonal sums from the extension bounds for a general subspace instead.
 
@@ -380,7 +380,7 @@ For a nonzero `Ē`, `μ̂_max(Ē) = max{μ̂(Ē_V) : V ≠ 0}` and `μ̂_min(Ē)
 
 ### 2.3 The image form of the slope inequality
 
-*Origin:* adapted from Bost (1996), Proposition 4.3 (2), and Chen (2010), §9.1: the slope inequality for surjective maps, read on the image sub-bundle.
+*Origin:* adapted from Bost (1996), Proposition 4.3 (2), and Chen (2010), §9, p. 37: the slope inequality for surjective maps, read on the image sub-bundle.
 
 *Method of the formal proof:* only the form recorded in 2.4, for a totally complex `K` and a map with `φ(E) ⊂ F`: the image lattice `φ(E)`, with the metrics of `F_K`, has minimal slope at least `μ̂_min(Ē) − h_∞(φ)`. For Euclidean lattices with a map bounded by `C` on lattice vectors, a sublattice of the image is saturated and pulled back to a saturated sublattice of the source, the bound passes to the orthogonal projections that realise the two quotients, and the degree inequality of 1.4 compares the quotients; for lattices over `O_K` the metrics of the target are first rescaled at each infinite place, with factors of product one, so that all archimedean operator norms of the map equal their geometric mean, which changes no slope. The route written here lets the height enter place by place through 1.4, with no rescaling of the target.
 
@@ -399,7 +399,7 @@ For nonzero bundles and a nonzero `φ : E_K → F_K` with image `W`, `μ̂_min(F
 
 ### 2.4 Bost's slope inequality
 
-*Origin:* published: Bost (2001), Proposition 4.5, Gaudron (2008), Lemme 6.4, Bost (1996), Proposition 4.3, and Chen (2010), §9.1, Bost's slope inequality (a)–(d), with heights at all places, and the bound of the height by the finite-place twist; (e) is this roadmap's own formulation.
+*Origin:* published: Bost (2001), Proposition 4.5, Gaudron (2008), Lemme 6.4, Bost (1996), Proposition 4.3, and Chen (2010), §9, p. 37, Bost's slope inequality (a)–(d), with heights at all places, and the bound of the height by the finite-place twist; (e) is this roadmap's own formulation.
 
 *Method of the formal proof:* only the forms recorded below, for a totally complex `K` and `φ(E) ⊂ F`, with `h_∞(φ)` in place of `h(φ)`: (a) and, for injective `φ`, the first form of (b). (a) follows from the image form, since the minimal slope of the image is at most its slope, which is at most the maximal slope of the target; for an injective map the degree inequality of 1.4 is applied to every sublattice of the source and its image, which has the same rank, and the characterisation of the maximal slope by all sublattices gives (b); over `O_K` the constant is the mean over the infinite places of the logarithms of the operator norms, reached by the rescaling of 2.3. The route written here restricts the map to the maximal destabilising sub-bundle for (b) and carries the height at all places, with no rescaling.
 
@@ -491,7 +491,7 @@ Layer 1; ArakelovGeometryAndAbelianHeights §§1A.3–1A.6 (the homes of 2.1–2
 
 ### 3.1 Harder–Narasimhan steps
 
-*Origin:* published: Stuhler (1976) and Grayson (1984), the canonical filtration through the largest maximiser of the supermodular function `deĝ_n − θ·dim`, and Chen (2010), §9.1, the steps of the filtration indexed by the real numbers as sums of the sub-bundles of minimal slope at least `θ`.
+*Origin:* published: Stuhler (1976) and Grayson (1984), the canonical filtration through the largest maximiser of the supermodular function `deĝ_n − θ·dim`, and Chen (2010), the display after Proposition 9.1, p. 37, the steps of the filtration indexed by the real numbers as sums of the sub-bundles of minimal slope at least `θ`.
 
 *Method of the formal proof:* the step at level `θ` is defined as the sum of all nonzero submodules of minimal slope at least `θ`; that condition says that the submodule maximises `deg − θ·rk` among its own submodules, it passes to sums by supermodularity, and the lattice is noetherian, so the step is the largest such submodule; it is saturated because its saturation has the same property, and the strict inequality above the step follows from the attained maximum of the relative slope of a submodule over the step. The characterisation as the largest maximiser of `g_θ` is not stated in [FormalProof]; it follows from the two inequalities. The route written here obtains the step as the largest maximiser of `g_θ` on all subspaces and derives its properties from that.
 
@@ -778,7 +778,7 @@ For `m = 2`, (ii) is weaker than the first branch of (i) (because `ab − 1 ≤ 
 
 ### 4.5 Symmetric powers
 
-*Origin:* adapted from Gaudron (2008), Théorème 7.1, Bost (2001), (4.6), and Bost (1996), Proposition A.4: a bound of `μ̂_max(Sym^n Ē)` linear in `n`, with a constant depending only on the rank; (a) is adapted from Gaudron and Rémond (2013), Lemme 6.2, with the constant `min((r − 1)·ψ(n), log n!)`; (b1) and (b2), with the constant `log r + (r(r − 1)/2)·log 2`, are this roadmap's own formulation.
+*Origin:* adapted from Gaudron (2008), Théorème 7.1, Bost (2001), (4.6), and Bost (1996), Proposition A.4: a bound of `μ̂_max(Sym^n Ē)` linear in `n`, with a constant depending only on the rank; (a) is adapted from the proof of Gaudron and Rémond (2013), Lemme 6.2, with the constant `min((r − 1)·ψ(n), log n!)`; (b1) and (b2), with the constant `log r + (r(r − 1)/2)·log 2`, are this roadmap's own formulation.
 
 *Method of the formal proof:* none; the statement is not in [FormalProof].
 
@@ -788,7 +788,7 @@ For nonzero `Ē` of rank `r` and `n ≥ 0` (with `Sym^0 Ē = Ō_K`, of maximal s
 - (b1) for every finite extension `L/K` and every basis `λ_1, …, λ_r` of `E_L^∨`, `μ̂_max(Sym^n Ē) ≤ n·( max_i h_{Ē^∨}(λ_i) + log r )`;
 - (b2) `μ̂_max(Sym^n Ē) ≤ n·( μ̂_max(Ē) + log r + (r(r − 1)/2)·log 2 )`; for `r ≤ 2` this reads `μ̂_max(Sym^n Ē) ≤ n·( μ̂_max(Ē) + 2·log r )`.
 
-Bounds of the form (b2), linear in `n` with a constant depending only on `r`, are Bost 1996, Prop. A.4, p. 149; Bost 2001, (4.6), p. 196, and Gaudron 2008, Thm 7.1, p. 82, with the constant `2r·log r`; and Gaudron–Rémond 2014, arXiv v1, §6.8, p. 22, with `(r + ½)·log r`, proved in Gaudron 2008, §7. The proof of Gaudron 2008, Thm 7.1, pp. 84–86, compares `Ē` with an orthogonal sum of lines built from a short basis, as the route of (b1) does. The bound `0 ≤ μ̂_max(Sym^n Ē) − n·μ̂_max(Ē) ≤ 2nr·log r` of Gaudron 2008, Thm 7.1 (2), is HeightsRationalPointsAndObstructions §5.17f.2. Gaudron–Rémond 2013, Théorème 6.1 with Lemme 6.2, bound the same difference by `½·log binom(n + r − 1, r − 1)` plus the logarithm of the least common multiple of the multinomial coefficients, which their introduction reads as `2n·log r` in place of `2nr·log r`; their Lemme 6.2 is the published form of (a).
+Bounds of the form (b2), linear in `n` with a constant depending only on `r`, are Bost 1996, Prop. A.4, p. 149; Bost 2001, (4.6), p. 196, and Gaudron 2008, Thm 7.1, p. 82, with the constant `2r·log r`; and Gaudron–Rémond 2014, arXiv v1, §6.8, p. 22, with `(r + ½)·log r`, proved in Gaudron 2008, §7. The proof of Gaudron 2008, Thm 7.1, pp. 84–86, compares `Ē` with an orthogonal sum of lines built from a short basis, as the route of (b1) does. The bound `0 ≤ μ̂_max(Sym^n Ē) − n·μ̂_max(Ē) ≤ 2nr·log r` of Gaudron 2008, Thm 7.1 (2), is HeightsRationalPointsAndObstructions §5.17f.2. Gaudron–Rémond 2013, Théorème 6.1 with Lemme 6.2, bound the same difference by `½·log binom(n + r − 1, r − 1)` plus the logarithm of the least common multiple of the multinomial coefficients, which their introduction reads as `2n·log r` in place of `2nr·log r`; their Lemme 6.2 is the analogue of (a) for first absolute minima, and the computation in its proof, pp. 11–12, that the symmetrisation map `Sym^n E_K → E_K^{⊗n}` is an isometry at the infinite places and has height `log p(r, n)`, with `p(r, n)` that least common multiple, gives (a) through 2.4 (b), since `log p(r, n) ≤ min((r − 1)·ψ(n), log n!)`.
 
 *Status.* 4.5 and the symmetric powers of 1.3a are not statements of [FormalProof].
 
@@ -1054,7 +1054,7 @@ In 6.2–6.5, `𝒳 → Spec O_K` is projective and flat with `𝒳` integral, `
 
 ### 6.1 Hermitian norms close to a given norm
 
-*Origin:* published: the John–Löwner theorem over `ℂ`, as stated in BanachSpaceTheory B7.HermitianNorms (John (1948) for real spaces): a Hermitian norm within the factor `√N` of a given norm on a complex space of dimension `N`. The choice invariant under a conjugate-linear involution, by averaging, is this roadmap's own formulation; Chen (2010), before Lemma 9.4, takes such norms from the ellipsoid of John or Löwner and assumes the family invariant under complex conjugation.
+*Origin:* published: the John–Löwner theorem over `ℂ`, as stated in BanachSpaceTheory B7.HermitianNorms (John (1948) for real spaces): a Hermitian norm within the factor `√N` of a given norm on a complex space of dimension `N`. The choice invariant under a conjugate-linear involution is the last clause of B7.HermitianNorms, and the averaging route to it is this roadmap's own; Chen (2010), before Lemma 9.4, takes such norms from the ellipsoid of John or Löwner and assumes the family invariant under complex conjugation.
 
 *Method of the formal proof:* none; the statement is not in [FormalProof].
 
