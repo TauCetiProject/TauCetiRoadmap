@@ -27,10 +27,11 @@ its multiplication-by-n maps. The affinization Brauer obstruction lacks the sche
 sheaf on the fppf site and its Leray comparison. The semiample contraction dictionary and
 numerical uniqueness lack the graded section algebra of an invertible sheaf on a scheme.
 Openness of ampleness for proper algebraic spaces lacks algebraic spaces. The
-Nakai–Moishezon criterion over an arbitrary field and Kleiman's nonnegativity theorem lack
-iterated first-Chern intersection numbers on higher-dimensional subschemes; the closed-cone
-descriptions of the real ample and nef cones, absolute and relative, lack the real space of
-curve classes, and the real ample cone is stated through curve degrees instead.
+Nakai–Moishezon criterion over an arbitrary field and Kleiman's nonnegativity theorem are stated
+with `numericalIntersection`, the mixed difference of Euler characteristics that computes the
+intersection numbers `(L₁ ⋯ L_d · V)`. The closed-cone descriptions of the real ample and nef
+cones, absolute and relative, lack the real space of curve classes, and the real ample cone is
+stated through curve degrees instead.
 Geometric exceptional negativity and Zariski's lemma lack the geometric intersection
 pairing, although their matrix inequalities are supplied by Tau Ceti.
 Negative-curve descent and intersection-label descent lack that pairing.
@@ -41,9 +42,9 @@ vertical descent lacks ℚ-Cartier ℚ-divisor classes with their ℚ-linear equ
 relative Cartier pullback theory. Independence and transformation of AHK rank lack exceptional
 prime divisor data and resolution comparison.
 The Angehrn–Siu separation of points by adjoint bundles on a smooth projective complex variety
-(§6.8) is stated. It needs two definitions: the intersection numbers `(L^d · Z)`, which
-`PointSeparation.selfIntersection` computes as the `d`-th difference of `m ↦ χ(Z, L^m)`, and the
-canonical bundle `det Ω_{X/k}`, `PointSeparation.canonicalBundle`. Layer 6's theorems on pairs,
+(§6.8) is stated. Its intersection numbers `(L^d · Z)` are those of `numericalIntersection`, and
+it needs one further definition, the canonical bundle `det Ω_{X/k}`,
+`PointSeparation.canonicalBundle`. Layer 6's theorems on pairs,
 namely Nadel vanishing for pairs (§6.3), the isolated non-klt centre theorem (§6.5), and Kollár's
 global generation and two-point separation for klt pairs (§§6.6–6.7), need the canonical divisor
 of a normal variety, the `ℚ`-Cartier condition with pullback along proper birational morphisms,
@@ -137,6 +138,56 @@ def IsNef (k : Type u) [Field k] (X : Scheme.{u}) (x : X ⟶ Spec (CommRingCat.o
     topologicalKrullDim C = 1 →
       letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
       0 ≤ TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i a
+
+/-- The numerical intersection `(a₁ ⋯ a_r · X)` of line-bundle classes `a₁, …, a_r` on a scheme `X`
+over a field `K` (README §1.7), as the mixed difference
+`Σ_{S ⊆ {1, …, r}} (−1)^{r − |S|} χ(X, ⊗_{i ∈ S} a_i)`, `χ` being Tau Ceti's
+`Scheme.Modules.eulerCharBelow` truncated at `r + 1`. For `X` proper over `K` of dimension at most
+`r` the cohomology vanishes above degree `r`, `(n₁, …, n_r) ↦ χ(X, a₁^{n₁} ⋯ a_r^{n_r})` is a
+numerical polynomial of total degree at most `r` (Stacks, Lemma 33.45.1, tag 0BEM), and this
+difference is its coefficient of `n₁ ⋯ n_r`: the intersection number of Stacks, Definition 33.45.3
+(tag 0BEP), which is the degree of `c₁(a₁) ∩ ⋯ ∩ c₁(a_r) ∩ [X]` (Stacks, Lemma 42.41.4, tag 0BFI).
+With every `a_i` equal to `a` it is `Σ_{j=0}^{r} (−1)^{r−j} binom(r, j) χ(X, a^j)`, the
+self-intersection `(a^r · X)`; for `r = 1` it is `χ(a) − χ(O_X)`. -/
+noncomputable def numericalIntersection (K : Type u) [Field K] (X : Scheme.{u})
+    [X.Over (Spec (.of K))] {r : ℕ} (a : Fin r → TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    ℤ :=
+  ∑ S : Finset (Fin r), (-1 : ℤ) ^ (r - S.card) *
+    TauCeti.AlgebraicGeometry.LineBundleClass.lift
+      (fun L ↦ Scheme.Modules.eulerCharBelow K X L.obj (r + 1))
+      (fun _ _ ⟨e⟩ ↦ Scheme.Modules.eulerCharBelow_congr K e (r + 1)) (∏ i ∈ S, a i)
+
+/-- Nakai–Moishezon criterion over an arbitrary field (README §1.7 (i)): on a proper scheme `X`
+over a field `k`, a line-bundle class `a` is ample exactly when `(a^d · V) > 0` for every integral
+closed subscheme `V` of `X` of positive dimension `d`, the number being the numerical intersection
+over `k` of `d` copies of the restriction of `a` to `V`. Each `V` is a `k`-scheme through its
+closed immersion into `X`. No reducedness, irreducibility, projectivity, perfection of `k` or
+restriction on the characteristic is imposed. Kleiman, Theorem III.1. -/
+theorem isAmple_iff_forall_numericalIntersection_pos (k : Type u) [Field k] (X : Scheme.{u})
+    (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x]
+    (a : TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    a.IsAmple ↔
+      ∀ (V : Scheme.{u}) (_ : IsIntegral V) [V.Over (Spec (CommRingCat.of k))] (i : V ⟶ X)
+        (_ : IsClosedImmersion i), V ↘ Spec (CommRingCat.of k) = i ≫ x → ∀ d : ℕ,
+          0 < d → topologicalKrullDim V = d →
+            0 < numericalIntersection k V
+              (fun _ : Fin d ↦ TauCeti.AlgebraicGeometry.LineBundleClass.pullback i a) := by
+  sorry
+
+/-- Kleiman's nonnegativity theorem (README §1.7 (ii)): on a proper scheme `X` over a field `k`, if
+the line-bundle classes `a₁, …, a_d` are nef, then `(a₁ ⋯ a_d · V) ≥ 0` for every integral closed
+subscheme `V` of `X` of dimension `d`, the number being the numerical intersection over `k` of the
+restrictions of the `a_i` to `V`, a `k`-scheme through its closed immersion into `X`. No
+reducedness, projectivity, perfection of `k` or restriction on the characteristic is imposed.
+Lazarsfeld, Theorem 1.4.9; the mixed form follows by the induction on `d` of README §1.7. -/
+theorem numericalIntersection_nonneg_of_isNef (k : Type u) [Field k] (X : Scheme.{u})
+    (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x] (V : Scheme.{u}) [IsIntegral V]
+    [V.Over (Spec (CommRingCat.of k))] (i : V ⟶ X) [IsClosedImmersion i]
+    (hi : V ↘ Spec (CommRingCat.of k) = i ≫ x) (d : ℕ) (hV : topologicalKrullDim V = d)
+    (a : Fin d → TauCeti.AlgebraicGeometry.LineBundleClass X) (ha : ∀ j, IsNef k X x (a j)) :
+    0 ≤ numericalIntersection k V
+      (fun j ↦ TauCeti.AlgebraicGeometry.LineBundleClass.pullback i (a j)) := by
+  sorry
 
 /-- Kleiman's criterion in integral form: on a proper scheme over an arbitrary field carrying an
 ample class `h`, a class `a` is ample exactly when `a ^ m * h⁻ⁿ` is nef for some positive `m`
@@ -476,19 +527,6 @@ namespace PointSeparation
 
 open AlgebraicGeometry CategoryTheory TauCeti.AlgebraicGeometry
 
-/-- The intersection number `(a^r · X)` of a line-bundle class `a` on a scheme `X` over a field `K`
-with `X` itself (README §6.8), as the `r`-th difference
-`Σ_{j=0}^{r} (−1)^{r−j} binom(r, j) χ(X, a^j)` of the Euler characteristic, `χ` being Tau Ceti's
-`Scheme.Modules.eulerCharBelow` truncated at `r + 1`. For `X` projective over `K` of dimension `r`
-the cohomology vanishes above degree `r`, `m ↦ χ(X, a^m)` is a polynomial of degree at most `r`,
-and this difference is `r!` times its coefficient of `m^r`, which is the degree of `c_1(a)^r ∩ [X]`
-(Stacks, Definition 33.45.3, tag 0BEP). For `r = 1` it is `χ(a) − χ(O_X)`. -/
-noncomputable def selfIntersection (K : Type u) [Field K] (X : Scheme.{u}) [X.Over (Spec (.of K))]
-    (r : ℕ) (a : LineBundleClass X) : ℤ :=
-  ∑ j ∈ Finset.range (r + 1), (-1 : ℤ) ^ (r - j) * (r.choose j : ℤ) *
-    LineBundleClass.lift (fun L ↦ Scheme.Modules.eulerCharBelow K X L.obj (r + 1))
-      (fun _ _ ⟨e⟩ ↦ Scheme.Modules.eulerCharBelow_congr K e (r + 1)) (a ^ j)
-
 /-- The canonical bundle `K_X = det Ω_{X/k}` of a scheme `X` smooth of relative dimension `n` over
 a field `k` (README §6.8): the determinant of the locally free sheaf of relative differentials,
 of rank `n`. It is not Tau Ceti's `TauCeti.AlgebraicGeometry.InvertibleSheaf.canonicalBundle`, a
@@ -506,7 +544,8 @@ Let `X` be a smooth projective variety over `ℂ` of dimension `n`, `L` an ample
 and `x_1, …, x_ℓ` distinct closed points of `X`. If `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every
 closed integral subscheme `Z` of `X` of dimension `d ≥ 1` (`Z = X` included), then for every `i`
 the adjoint bundle `K_X ⊗ L` has a global section that is nonzero at `x_i` and vanishes at every
-`x_j` with `j ≠ i`. As every residue field `ℂ(x_i)` is `ℂ`, this is the surjectivity of
+`x_j` with `j ≠ i`. The number `(L^d · Z)` is the numerical intersection over `ℂ` of `d` copies of
+the restriction of `L` to `Z`. As every residue field `ℂ(x_i)` is `ℂ`, this is the surjectivity of
 `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L) ⊗ ℂ(x_i)`. -/
 theorem angehrnSiuPointSeparation (X : Scheme.{0}) [X.Over (Spec (.of ℂ))] [IsIntegral X]
     [X.IsProjectiveOver ℂ] (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of ℂ))]
@@ -516,7 +555,8 @@ theorem angehrnSiuPointSeparation (X : Scheme.{0}) [X.Over (Spec (.of ℂ))] [Is
       [IsClosedImmersion ι] [ι.IsOver (Spec (.of ℂ))] (d : ℕ), 1 ≤ d →
       topologicalKrullDim Z = d →
       ((n * (n + 2 * ℓ - 1) : ℚ) / 2) ^ d <
-        selfIntersection ℂ Z d (LineBundleClass.pullback ι (LineBundleClass.mk L))) :
+        numericalIntersection ℂ Z
+          (fun _ : Fin d ↦ LineBundleClass.pullback ι (LineBundleClass.mk L))) :
     ∀ i, ∃ s : Γ((InvertibleSheaf.tensorProduct (canonicalBundle ℂ X n) L).obj, ⊤),
       x i ∈ (InvertibleSheaf.tensorProduct (canonicalBundle ℂ X n) L).obj.nonvanishingLocus s ∧
       ∀ j, j ≠ i →
