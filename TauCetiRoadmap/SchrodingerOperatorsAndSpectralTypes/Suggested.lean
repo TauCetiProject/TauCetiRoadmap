@@ -60,7 +60,8 @@ declaration at the pins.
 -/
 
 open Bundle MeasureTheory Filter Topology
-open scoped InnerProductSpace ENNReal ContDiff Manifold ComplexConjugate Laplacian SchwartzMap TauCeti
+open scoped InnerProductSpace ENNReal ContDiff Manifold ComplexConjugate Laplacian SchwartzMap
+open scoped TauCeti
 
 namespace TauCetiRoadmap.SchrodingerOperatorsAndSpectralTypes
 
@@ -82,9 +83,9 @@ operator, and write `f = f_ac + f_sc + f_pp` with `μ_{f_ac}` absolutely continu
 continuous and singular, and `μ_{f_pp}` carried by a countable set (such a decomposition exists
 and is unique, UnboundedOperators UO-C03, so the components are the orthogonal projections of `f`
 onto the three type subspaces). Then `μ_f` is the sum of the three component measures, `μ_{f_ac}`
-is the absolutely continuous part `Leb.withDensity (μ_f.rnDeriv Leb)` of `μ_f`, `μ_{f_sc} + μ_{f_pp}`
-is its singular part, and `μ_{f_pp}` is its restriction to its atoms (Teschl, (3.83)–(3.85) and
-Lemma 3.19, for a separable space). -/
+is the absolutely continuous part `Leb.withDensity (μ_f.rnDeriv Leb)` of `μ_f`,
+`μ_{f_sc} + μ_{f_pp}` is its singular part, and `μ_{f_pp}` is its restriction to its atoms
+(Teschl, (3.83)–(3.85) and Lemma 3.19, for a separable space). -/
 theorem diag_spectralType_components {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] [CompleteSpace H] (P : TauCeti.ProjValMeasure ℝ H)
     (f fac fsc fpp : H) (hf : f = fac + fsc + fpp)
@@ -251,8 +252,8 @@ theorem gaffney_isSelfAdjoint_closure {E : Type*} [NormedAddCommGroup E] [Normed
     [I.Boundaryless] {M : Type*} [EMetricSpace M] [ChartedSpace HM M] [IsManifold I ∞ M]
     [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M] [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M]
-    [BorelSpace M]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M]
+    [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     (T : Lp ℂ 2 (TauCeti.riemannianVolume I M) →ₗ.[ℂ] Lp ℂ 2 (TauCeti.riemannianVolume I M))
     (hdom : ∀ u, u ∈ T.domain ↔ ∃ f : M → ℂ, ContMDiff I 𝓘(ℝ, ℂ) ∞ f ∧ HasCompactSupport f ∧
       (u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] f)
@@ -278,8 +279,8 @@ theorem exists_mem_domain_closure_eq_zero_iff {E : Type*} [NormedAddCommGroup E]
     {I : ModelWithCorners ℝ E HM} [I.Boundaryless] {M : Type*} [EMetricSpace M]
     [ChartedSpace HM M] [IsManifold I ∞ M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M] [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M]
-    [BorelSpace M]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M]
+    [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     (T : Lp ℂ 2 (TauCeti.riemannianVolume I M) →ₗ.[ℂ] Lp ℂ 2 (TauCeti.riemannianVolume I M))
     (hdom : ∀ u, u ∈ T.domain ↔ ∃ f : M → ℂ, ContMDiff I 𝓘(ℝ, ℂ) ∞ f ∧ HasCompactSupport f ∧
       (u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] f)
@@ -357,8 +358,8 @@ theorem Ici_quarter_subset_essentialSpectrum {E : Type*} [NormedAddCommGroup E]
     {I : ModelWithCorners ℝ E HM} [I.Boundaryless] {M : Type*} [EMetricSpace M]
     [ChartedSpace HM M] [IsManifold I ∞ M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M] [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M]
-    [BorelSpace M]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M]
+    [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     (T : Lp ℂ 2 (TauCeti.riemannianVolume I M) →ₗ.[ℂ] Lp ℂ 2 (TauCeti.riemannianVolume I M))
     (hdom : ∀ u, u ∈ T.domain ↔ ∃ f : M → ℂ, ContMDiff I 𝓘(ℝ, ℂ) ∞ f ∧ HasCompactSupport f ∧
       (u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] f)
@@ -418,7 +419,8 @@ theorem schrodinger_isSelfAdjoint_closure (d : ℕ) (hd : 0 < d)
       (T u : EuclideanSpace ℝ (Fin d) → ℂ) =ᵐ[volume] fun x => -(Δ f) x + (V x : ℂ) * f x) :
     IsSelfAdjoint T.closure ∧
       (∀ u : Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin d))),
-        u ∈ T.closure.domain ↔ TemperedDistribution.MemSobolev 2 2 (u : 𝓢'(EuclideanSpace ℝ (Fin d), ℂ))) ∧
+        u ∈ T.closure.domain ↔
+          TemperedDistribution.MemSobolev 2 2 (u : 𝓢'(EuclideanSpace ℝ (Fin d), ℂ))) ∧
       (∀ x : T.closure.domain,
         essInf V volume * ‖(x : Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin d))))‖ ^ 2 ≤
           (⟪(x : Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin d)))), T.closure x⟫_ℂ).re) ∧
