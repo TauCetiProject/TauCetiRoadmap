@@ -577,34 +577,36 @@ theorem isGaussianProcess_iff_wick {Ω : Type*} [MeasurableSpace Ω] (P : Measur
 
 /-! ## Layer 7: Reachable random fields -/
 
-/-- **7.1.** The point `x / L ∈ ℝ^d` of the rescaled lattice (README §7.1). -/
-def latticePoint {d : ℕ} (L : ℕ) (x : Fin d → ℤ) : EuclideanSpace ℝ (Fin d) :=
+/-- **7.1.** The point `x / L ∈ ℝ^d` of the lattice rescaled by a real scale `L` (README §7.1). -/
+def latticePoint {d : ℕ} (L : ℝ) (x : Fin d → ℤ) : EuclideanSpace ℝ (Fin d) :=
   WithLp.toLp 2 fun i ↦ (x i : ℝ) / L
 
-/-- **7.1.** The block second moment `Σ^{(R)}_L = ⟨(Σ_{x ∈ Λ_L} φ_x)²⟩_{V_R}`
+/-- **7.1.** The block second moment `Σ^{(R)}_L = ⟨(Σ_{x ∈ Λ_L} φ_x)²⟩_{V_R}` at a real scale `L`,
+whose block `Λ_L = [−L, L]^d ∩ ℤ^d` is the box `V_{⌊L⌋}` for `L ≥ 0`
 (Aizenman–Duminil-Copin (1.15); README §7.1). -/
-def blockSecondMoment (d : ℕ) (J : Sym2 (Fin d → ℤ) → ℝ) (ρ : Measure ℝ) (L R : ℕ) : ℝ :=
-  ∫ ω, (∑ x ∈ box d L, ω x) ^ 2 ∂boxGibbs d J ρ R
+def blockSecondMoment (d : ℕ) (J : Sym2 (Fin d → ℤ) → ℝ) (ρ : Measure ℝ) (L : ℝ) (R : ℕ) : ℝ :=
+  ∫ ω, (∑ x ∈ box d ⌊L⌋₊, ω x) ^ 2 ∂boxGibbs d J ρ R
 
 /-- **7.1.** The rescaled lattice field `T_{f,L,Σ}(φ) = Σ^{−1/2} Σ_{x ∈ V_R} f(x/L) φ_x` of a
-function `f : ℝ^d → ℝ` on the box `V_R`, evaluated on a configuration of `ℝ^{ℤ^d}`
-(Aizenman–Duminil-Copin (1.14); README §7.1); with Lean's conventions it is `0` when `Σ = 0`. -/
-def rescaledField {d : ℕ} (L R : ℕ) (s : ℝ) (f : EuclideanSpace ℝ (Fin d) → ℝ)
+function `f : ℝ^d → ℝ` at a real scale `L` on the box `V_R`, evaluated on a configuration of
+`ℝ^{ℤ^d}` (Aizenman–Duminil-Copin (1.14); README §7.1); with Lean's conventions it is `0` when
+`Σ = 0`. -/
+def rescaledField {d : ℕ} (L : ℝ) (R : ℕ) (s : ℝ) (f : EuclideanSpace ℝ (Fin d) → ℝ)
     (ω : (Fin d → ℤ) → ℝ) : ℝ :=
   (Real.sqrt s)⁻¹ * ∑ x ∈ box d R, f (latticePoint L x) * ω x
 
 /-- **7.2.** A reachability scheme for a class `𝒞` of single-site measures: single-site measures
-`ρ_n ∈ 𝒞`, strengths `J_n ≥ 0` of the nearest-neighbour coupling, scales `L_n → ∞` and volumes
-`R_{n,k} ≥ L_n` with `R_{n,k} → ∞` as `k → ∞`, such that every box Gibbs measure is a probability
-measure (the triple is stable) with square-integrable coordinates (Aizenman–Duminil-Copin,
-Definition 1.1 and footnote 2; README §7.2). -/
+`ρ_n ∈ 𝒞`, strengths `J_n ≥ 0` of the nearest-neighbour coupling, real scales `L_n ≥ 1` with
+`L_n → ∞` and integer volumes `R_{n,k} ≥ L_n` with `R_{n,k} → ∞` as `k → ∞`, such that every box
+Gibbs measure is a probability measure (the triple is stable) with square-integrable coordinates
+(Aizenman–Duminil-Copin, Definition 1.1 and footnote 2; README §7.2). -/
 structure ReachabilityScheme (d : ℕ) (𝒞 : Set (Measure ℝ)) where
   /-- The single-site measures `ρ_n`. -/
   ρ : ℕ → Measure ℝ
   /-- The strengths `J_n` of the nearest-neighbour coupling. -/
   J : ℕ → ℝ
-  /-- The scales `L_n`. -/
-  L : ℕ → ℕ
+  /-- The real scales `L_n`. -/
+  L : ℕ → ℝ
   /-- The volumes `R_{n,k}`. -/
   R : ℕ → ℕ → ℕ
   /-- Every single-site measure lies in the class. -/
@@ -616,7 +618,7 @@ structure ReachabilityScheme (d : ℕ) (𝒞 : Set (Measure ℝ)) where
   /-- The scales tend to infinity. -/
   tendsto_L : Tendsto L atTop atTop
   /-- Every volume contains the block of its scale. -/
-  le_R : ∀ n k, L n ≤ R n k
+  le_R : ∀ n k, L n ≤ (R n k : ℝ)
   /-- For each scale the volumes tend to infinity. -/
   tendsto_R : ∀ n, Tendsto (R n) atTop atTop
   /-- Every box Gibbs measure is a probability measure. -/
@@ -691,14 +693,15 @@ def gffCovariance (d : ℕ) (m : ℝ) (f g : EuclideanSpace ℝ (Fin d) → ℝ)
 /-- **7.4, reachability of the Gaussian free field.** For `m > 0` in every dimension, and for
 `m = 0` in dimension `d ≥ 3`: take the nearest-neighbour coupling of strength `1`, the Gaussian
 single-site measures of variance `1 / (2d + m²/L_n²)` (that is, `b_n = −(d + m²/(2L_n²))`), any
-scales `L_n → ∞` and any volumes `R_{n,k} ≥ L_n` with `R_{n,k} → ∞` as `k → ∞`. For every finite
-family `(f_i)` of test functions the laws of the rescaled fields `(T^{n,k}_{f_i})_i`, normalised by
-the block second moment, converge as `k → ∞` and then as `n → ∞` to the centred Gaussian law with
-covariance `C_m(f_i, f_j) / C_m(1_Q, 1_Q)`, `Q = [−1, 1]^d`; the statement in this form is the
-roadmap's (Fröhlich, the paragraph after (33), for the free lattice field; README §7.4). -/
-theorem gff_reachable (d : ℕ) (m : ℝ) (hm : 0 < m ∨ (m = 0 ∧ 3 ≤ d)) (L : ℕ → ℕ)
+real scales `L_n ≥ 1` with `L_n → ∞` and any integer volumes `R_{n,k} ≥ L_n` with `R_{n,k} → ∞` as
+`k → ∞`. For every finite family `(f_i)` of test functions the laws of the rescaled fields
+`(T^{n,k}_{f_i})_i`, normalised by the block second moment, converge as `k → ∞` and then as
+`n → ∞` to the centred Gaussian law with covariance `C_m(f_i, f_j) / C_m(1_Q, 1_Q)`,
+`Q = [−1, 1]^d`; the statement in this form is the roadmap's (Fröhlich, the paragraph after (33),
+for the free lattice field; README §7.4). -/
+theorem gff_reachable (d : ℕ) (m : ℝ) (hm : 0 < m ∨ (m = 0 ∧ 3 ≤ d)) (L : ℕ → ℝ)
     (hL1 : ∀ n, 1 ≤ L n) (hL : Tendsto L atTop atTop) (R : ℕ → ℕ → ℕ)
-    (hRL : ∀ n k, L n ≤ R n k) (hR : ∀ n, Tendsto (R n) atTop atTop) {ι : Type*} [Fintype ι]
+    (hRL : ∀ n k, L n ≤ (R n k : ℝ)) (hR : ∀ n, Tendsto (R n) atTop atTop) {ι : Type*} [Fintype ι]
     [DecidableEq ι]
     (f : ι → C_c(EuclideanSpace ℝ (Fin d), ℝ)) :
     ∃ ν : ℕ → Measure (EuclideanSpace ℝ ι), (∀ n, IsProbabilityMeasure (ν n)) ∧
@@ -706,10 +709,10 @@ theorem gff_reachable (d : ℕ) (m : ℝ) (hm : 0 < m ∨ (m = 0 ∧ 3 ≤ d)) (
         Tendsto (fun k ↦ ∫ ω, g (WithLp.toLp 2 fun i ↦
             rescaledField (L n) (R n k)
               (blockSecondMoment d (nnCoupling d)
-                (gaussianReal 0 (Real.toNNReal (2 * d + m ^ 2 / (L n : ℝ) ^ 2)⁻¹)) (L n) (R n k))
+                (gaussianReal 0 (Real.toNNReal (2 * d + m ^ 2 / L n ^ 2)⁻¹)) (L n) (R n k))
               (f i) ω)
             ∂boxGibbs d (nnCoupling d)
-              (gaussianReal 0 (Real.toNNReal (2 * d + m ^ 2 / (L n : ℝ) ^ 2)⁻¹)) (R n k))
+              (gaussianReal 0 (Real.toNNReal (2 * d + m ^ 2 / L n ^ 2)⁻¹)) (R n k))
           atTop (𝓝 (∫ v, g v ∂ν n))) ∧
       ∀ g : EuclideanSpace ℝ ι →ᵇ ℝ,
         Tendsto (fun n ↦ ∫ v, g v ∂ν n) atTop
