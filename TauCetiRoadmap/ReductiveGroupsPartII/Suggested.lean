@@ -209,12 +209,12 @@ namespace Lang
 /-- Lang's theorem: for a smooth geometrically connected finite-type group over a finite field `F`
 and `σ` the `|F|`-power Frobenius, `g ↦ g⁻¹ σ(g)` is surjective on `H(F̄)` (Milne, *Algebraic
 groups*, Prop. 27.54 and Cor. 27.55, v2.00 pp. 487–488). -/
-theorem lang_surjective {F : Type u} [Field F] [Fintype F]
+theorem lang_surjective {F : Type u} [Field F] [Finite F]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} F)
     (_hsm : TauCeti.smoothCommHopfAlgProperty F H.obj)
     (_hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty F H.obj)
     (σ : AlgebraicClosure F →ₐ[F] AlgebraicClosure F)
-    (_hσ : ∀ z, σ z = z ^ Fintype.card F) :
+    (_hσ : ∀ z, σ z = z ^ Nat.card F) :
     Function.Surjective fun g : WithConv (H →ₐ[F] AlgebraicClosure F) =>
       g⁻¹ * WithConv.toConv (σ.comp g.ofConv) := sorry
 
@@ -222,7 +222,7 @@ theorem lang_surjective {F : Type u} [Field F] [Fintype F]
 groups over a finite field, on compatible families of geometric points: the Lang fibres are finite
 and nonempty (Milne, *Algebraic groups*, Cor. 27.55, v2.00 p. 488), so they have a compatible
 section. -/
-theorem lang_proAlgebraic_surjective {F : Type u} [Field F] [Fintype F]
+theorem lang_proAlgebraic_surjective {F : Type u} [Field F] [Finite F]
     {ι : Type v} [Preorder ι] [Nonempty ι]
     (hdir : ∀ i j : ι, ∃ k, i ≤ k ∧ j ≤ k)
     (H : ι → TauCeti.FiniteTypeCommHopfAlgCat.{u, u} F)
@@ -233,7 +233,7 @@ theorem lang_proAlgebraic_surjective {F : Type u} [Field F] [Fintype F]
     (fcomp : ∀ i j k (hij : i ≤ j) (hjk : j ≤ k),
       f i j hij ≫ f j k hjk = f i k (hij.trans hjk))
     (σ : AlgebraicClosure F →ₐ[F] AlgebraicClosure F)
-    (hσ : ∀ z, σ z = z ^ Fintype.card F)
+    (hσ : ∀ z, σ z = z ^ Nat.card F)
     (a : ∀ i, WithConv (H i →ₐ[F] AlgebraicClosure F))
     (ha : ∀ i j (hij : i ≤ j),
       WithConv.toConv ((a j).ofConv.comp
@@ -313,8 +313,8 @@ nonarchimedean local fields of either characteristic (RG2.4, Iwasawa integration
 The factor is the absolute adjoint determinant, with Mathlib's modular-character convention. -/
 theorem modularCharacter_eq_adjointModulus (E : Type u) [Field E] [ValuativeRel E]
     [TopologicalSpace E] [IsNonarchimedeanLocalField E]
-    (H : Type u) [CommRing H] [HopfAlgebra E H] [Algebra.FiniteType E H] [Algebra.Smooth E H] :
-    letI : MeasurableSpace (WithConv (H →ₐ[E] E)) := borel _
+    (H : Type u) [CommRing H] [HopfAlgebra E H] [Algebra.FiniteType E H] [Algebra.Smooth E H]
+    [MeasurableSpace (WithConv (H →ₐ[E] E))] [BorelSpace (WithConv (H →ₐ[E] E))] :
     ∀ (μ : MeasureTheory.Measure (WithConv (H →ₐ[E] E))) [μ.IsHaarMeasure]
       (g : WithConv (H →ₐ[E] E)),
       μ.map (fun x => x * g) = adjointModulus E H g • μ := sorry
@@ -329,8 +329,8 @@ open scoped PointTopology
 is right invariant (Cartier, Corvallis Part 1, §4.1, p. 144). -/
 theorem modularCharacter_eq_one (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
     [IsNonarchimedeanLocalField E] (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} E)
-    (hH : TauCeti.reductiveCommHopfAlgProperty E H) :
-    letI : MeasurableSpace (WithConv (H →ₐ[E] E)) := borel _
+    (hH : TauCeti.reductiveCommHopfAlgProperty E H)
+    [MeasurableSpace (WithConv (H →ₐ[E] E))] [BorelSpace (WithConv (H →ₐ[E] E))] :
     ∀ (μ : MeasureTheory.Measure (WithConv (H →ₐ[E] E))) [μ.IsHaarMeasure], μ.IsMulRightInvariant :=
   sorry
 
