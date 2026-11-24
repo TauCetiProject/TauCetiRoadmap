@@ -87,7 +87,7 @@ hand: Layer 2 applies it to the span of the eigenvectors of a closed operator.
 ### 1.1 Dirac's ladder theorem
 
 Prove `exists_nat_eigenvalue_eq`: if `b(a x) = μ x` with `x ≠ 0`, then `μ = n` for a natural
-number `n`, `aⁿ x ≠ 0` and `aⁿ⁺¹ x = 0`. (Proved here; Teschl, §8.3, p. 178, gives the argument for
+number `n`, `aⁿ x ≠ 0` and `aⁿ⁺¹ x = 0`. (Proved here; Teschl, §8.3, p. 213, gives the argument for
 the concrete oscillator on the span of the Hermite functions.)
 
 Route. Put `N = ba`. First, `μ‖x‖² = ⟪x, b a x⟫ = ⟪a x, a x⟫ = ‖a x‖²`, so `μ` is real and
@@ -137,9 +137,8 @@ factorial gives `bⁿ aⁿ x = n(n − 1)⋯1 · x = n! x`, so `x = bⁿ y`.
 **Checks.**
 
 - On the Fock basis (`a e_m = √m e_(m−1)`, `b e_m = √(m+1) e_(m+1)`) one has
-  `bⁿ aⁿ e_m = m!/(m−n)! e_m = m(m−1)⋯(m−n+1) e_m`, `0` for `m < n`; checked exactly for
-  `n ≤ 5`, `m ≤ 8`, together with the commutator identity for `n ≤ 4`, `m ≤ 7`, and
-  `‖bⁿ e₀‖² = n!`.
+  `bⁿ aⁿ e_m = m!/(m−n)! e_m = m(m−1)⋯(m−n+1) e_m` (`0` for `m < n`),
+  `a bⁿ⁺¹ e_m = bⁿ⁺¹ a e_m + (n + 1) bⁿ e_m` and `‖bⁿ e₀‖² = n!`.
 - `ker a` can be zero, and then every eigenspace is zero. On the subspace `C_c^∞(ℝ)` of `L²(ℝ)`
   with `a = (x + d/dx)/√2`, `b = (x − d/dx)/√2` both hypotheses hold (integration by parts), the
   solutions of `a ψ = 0` are the multiples of `e^{−x²/2}`, none compactly supported except `0`, and
@@ -154,10 +153,22 @@ factorial gives `bⁿ aⁿ x = n(n − 1)⋯1 · x = n! x`, so `x = bⁿ y`.
 - The Schrödinger model: `V` the span of the Hermite functions, `a`, `b` the ladder operators;
   `ker a = ℂ h₀` and the towers are `bⁿ h₀ = √(n!) hₙ` (QuantumFoundations §9.2,
   `hₙ = (a†)ⁿ h₀/√(n!)`).
-- If `V` is spanned by eigenvectors of `N`, then 1.2 makes `V` the orthogonal direct sum, over an
-  orthonormal basis `(ε_k)` of `ker a`, of the towers spanned by `bⁿ ε_k/√(n!)`, on which `a` and
-  `b` act by `√n` and `√(n+1)` shifts; two such spaces with `ker a` of the same Hilbert dimension
-  are isometrically intertwined. This is the algebraic core of 2.1.
+- If `V` is spanned by eigenvectors of `N`, then by 1.2 `V` is the orthogonal algebraic direct
+  sum of the eigenspaces `bⁿ(ker a)` (eigenspaces of the symmetric `N` for distinct eigenvalues
+  are orthogonal). Let `F` be the span of the Hermite functions with its ladder operators `a_F`,
+  `b_F` (the first Example), and give the algebraic tensor product `ker a ⊗ F` the inner product
+  `⟪y ⊗ f, y′ ⊗ f′⟫ = ⟪y, y′⟫⟪f, f′⟫`. Then `y ⊗ hₙ ↦ bⁿ y/√(n!)` is an isometric isomorphism of
+  `ker a ⊗ F` onto `V` carrying `1 ⊗ a_F`, `1 ⊗ b_F` to `a`, `b`: it preserves inner products by
+  the first clause of 1.2 and the orthogonality of the eigenspaces, it is onto by the last
+  clause, and `a bⁿ y = n bⁿ⁻¹ y` for `y ∈ ker a` is the commutator identity. So two such spaces
+  are isometrically intertwined exactly when their kernels of `a` are isometrically isomorphic
+  (an intertwiner maps one kernel onto the other). `V` is the orthogonal direct sum of the towers
+  spanned by `bⁿ ε_k/√(n!)` over an orthonormal family `(ε_k)` of `ker a` exactly when the family
+  is an algebraic basis of `ker a`; one exists in countable dimension (Gram–Schmidt), but not for
+  `V = ℓ² ⊗ F` with `a = 1 ⊗ a_F`, where `ker a ≅ ℓ²` and, for an infinite orthonormal family,
+  `Σ 2^{−k} ε_k` is not a finite combination. Nor are `ℓ² ⊗ F` and `c₀₀ ⊗ F` intertwined,
+  although a maximal orthonormal family in either kernel is countable. Step 3 of 2.1 uses the same
+  facts on a Hilbert space, with a Hilbert basis of the closed kernel `ker A`.
 
 ### Dependencies
 
@@ -208,7 +219,7 @@ Route (following Dixmier, pp. 265–267, for the first two steps).
    polar decomposition (VonNeumannAlgebras V10.ClosedOperators): `U` maps `M = (ker T)^⊥`
    isometrically onto `H`. Taking adjoints, `T* = |T|U*`, so `TT* = U|T||T|U* = U(T*T)U*`: the
    part of `T*T` in `M`, which `M` reduces, is unitarily equivalent to `TT*` (Teschl, Theorem 8.6,
-   p. 180, whose proof is this computation; `ker T* = 0` here).
+   pp. 214–215, whose proof is this computation; `ker T* = 0` here).
    Let `σ ⊆ [0, ∞)` be the spectrum of `T*T` (SelfAdjointSpectralTheory SA-E01, SA-E08). Then
    `σ = σ_0 ∪ (σ + 2)` where `σ_0 = {0}` if `ker T ≠ 0` and `σ_0 = ∅` otherwise. If `H = 0` take
    `κ` empty and stop. Otherwise `σ` is nonempty and has a least element `s`; `ker T = 0` would give
@@ -261,7 +272,7 @@ Route (following Dixmier, pp. 265–267, for the first two steps).
   (UnboundedOperators §5.6, UO-E05). The conclusion holds with `κ` a one-point type and
   `e(·, n) = hₙ`: `x hₙ = √(n/2) hₙ₋₁ + √((n+1)/2) hₙ₊₁` is Tau Ceti's
   `TauCeti.mul_hermiteFunction`, and `−i hₙ′ = i√((n+1)/2) hₙ₊₁ − i√(n/2) hₙ₋₁` follows from
-  `TauCeti.deriv_hermiteFunction` (both checked symbolically for `n ≤ 5`).
+  `TauCeti.deriv_hermiteFunction`.
 - The hypothesis on `P² + Q²` cannot be dropped. On `L²(0, 1)` with `X = C_c^∞(0, 1)`, `P = −i d/dx`
   and `Q = x`, the subspace is dense and invariant, both operators are symmetric on it
   (integration by parts with compact support) and `PQ − QP = −i`. But `Q̄` is bounded with norm at
@@ -277,7 +288,7 @@ Route (following Dixmier, pp. 265–267, for the first two steps).
 
 *Needs:* 1.2; UnboundedOperators §5.3 (`CommonInvariantDomain`, `nelson_essential_selfAdjoint`);
 VonNeumannAlgebras V10.ClosedOperators (self-adjointness of `T*T` and `TT*`, polar decomposition of
-a closed densely defined operator); Teschl, Theorem 8.6, p. 180 (step 2); SelfAdjointSpectralTheory
+a closed densely defined operator); Teschl, Theorem 8.6, pp. 214–215 (step 2); SelfAdjointSpectralTheory
 SA-E01, SA-E03, SA-E08, SA-E09, SA-E10, SA-E13 (spectral measure and projections, support on the
 spectrum, spectral restriction, gap resolvent, form bounds); Mathlib `LinearPMap.closure`,
 `LinearPMap.adjoint`, `IsSelfAdjoint`, `HilbertBasis`, `exists_hilbertBasis`.
@@ -333,12 +344,11 @@ continuity of `P_t` gives `P_t g = Σ e^{−nt} bₙ Heₙ/√(n!)`, and applyin
 
 **Checks.**
 
-- `W(Heₙ/√(n!)) = hₙ` and `‖W Heₙ‖₂² = ‖Heₙ‖²_(L²(γ)) = n!`, checked symbolically for `n ≤ 5`
-  (respectively `n ≤ 3`); a transform without the dilation by `√2` sends `He₂` to a multiple of
+- `W(Heₙ/√(n!)) = hₙ` and `‖W Heₙ‖₂² = ‖Heₙ‖²_(L²(γ)) = n!`; a transform without the dilation by `√2` sends `He₂` to a multiple of
   `(x² − 1) e^{−x²/2}`, which is not proportional to `h₂`, a multiple of `(2x² − 1) e^{−x²/2}`.
 - Eigenvalue bookkeeping: `e^{−t(n+½)} = e^{−t/2} e^{−nt}`, so the right side is
   `e^{t/2} e^{−tH} W g`; the generator relation `W(L g) = −(H − ½) W g` for `L g = g″ − u g′` holds
-  pointwise for `C²` functions (symbolic check on `g(u) = e^{−u³/7} sin u`).
+  pointwise for `C²` functions.
 - `t ≥ 0` is needed: for `t = −1` the copied kernel is the point mass at `e·x`, and
   `P_(−1) He₂ (x) = e² x² − 1` while `e² He₂(x) = e² x² − e²`.
 
@@ -388,12 +398,12 @@ same number.
 **Checks.**
 
 - The power series in `ρ` of `ρ^{−1/2} e^{(x²+y²)/2} K_t(x, y)` agrees with
-  `Σ ρⁿ hₙ(x) hₙ(y) e^{(x²+y²)/2}` through `ρ⁶`, checked symbolically in `x, y`.
+  `Σ ρⁿ hₙ(x) hₙ(y) e^{(x²+y²)/2}` through `ρ⁶`, as polynomials in `x, y`.
 - The trace: `∫ e^{−c x²} dx = √(π/c)` with `c = (1 − ρ)/(1 + ρ)` gives `ρ^{1/2}/(1 − ρ)`, and
   `(e^{t/2} − e^{−t/2}) e^{−t/2} = 1 − e^{−t}` gives `1/(2 sinh(t/2))`. Halving matters: the
   operator `e^{−t(P²+Q²)}` of QuantumFoundations' normalisation would have trace `1/(2 sinh t)`.
-- The transport identity was checked symbolically; without the dilation by `√2` it fails, already
-  at `t = 1`, `x = 1`, `y = 0`.
+- Without the dilation by `√2` the transport identity fails, already at `t = 1`, `x = 1`,
+  `y = 0`.
 - `t = 0` is excluded: `T` is then the identity, which is not trace class
   (`ContinuousLinearMap.nuclearENorm_id_eq_top`), while `1/(2 sinh 0)` is `0` in Lean and
   `mehlerHeatKernel 0` is identically `0`.
@@ -523,7 +533,7 @@ multiplying by `e^{−it(m+½)}` gives the same numbers, because `cos t − i si
 **Checks.**
 
 - `ψ = hₖ`, `k ≤ 2`: `x e^{−it(k+½)} hₖ` and `U(cos t · x hₖ − i sin t · hₖ′)` agree, and so do the
-  momentum sides (symbolic, at `t ∈ {7/10, 3}`); replacing `+ sin t · P` by `− sin t · P` fails
+  momentum sides; replacing `+ sin t · P` by `− sin t · P` fails
   already for `h₀`.
 - On the truncated Fock matrices (size 12, `t = 7/10`), `U*aU = e^{−it} a`,
   `U*QU = Q cos t + P sin t` and `U*PU = P cos t − Q sin t`, with `Q = (a + a†)/√2`,
@@ -585,8 +595,7 @@ Already in the library or on main, and used rather than restated:
 
 Not treated here: the Segal–Bargmann transform and coherent states, which
 SpecialFunctionsAffineHeisenbergGroups (§3.4) and ThetaKernelsForUnitaryDualPairs (§3.45) treat;
-Cramér's inequality `|hₙ(x)| ≤ π^{−1/4}` (DLMF 18.14.9), whose short proof by Indritz (1961) could
-not be read here; Plancherel–Rotach asymptotics and the classical (arcsine) limit of `|hₙ|²`;
+Cramér's inequality `|hₙ(x)| ≤ π^{−1/4}` (DLMF 18.14.9); Plancherel–Rotach asymptotics and the classical (arcsine) limit of `|hₙ|²`;
 multidimensional and anisotropic oscillators; anharmonic perturbations; the metaplectic
 representation.
 
@@ -675,10 +684,9 @@ and an occupation basis. Nothing here is taken from it.
   Théorème 1, p. 265, proof pp. 265–267.
 - F. Rellich, *Der Eindeutigkeitssatz für die Lösungen der quantenmechanischen
   Vertauschungsrelationen*, Nachr. Akad. Wiss. Göttingen, Math.-Phys. Kl. (1946), 107–115 (cited
-  through Dixmier, not consulted).
-- G. Teschl, *Mathematical Methods in Quantum Mechanics*, 2nd ed., AMS, 2014 (author's PDF);
-  §8.3, pp. 178–179; §8.4, Theorem 8.6, p. 180.
+  through Dixmier).
+- G. Teschl, *Mathematical Methods in Quantum Mechanics*, 2nd ed., Graduate Studies in Mathematics
+  157, AMS, 2014 (author's PDF); §8.3, pp. 212–214 (the ladder argument on p. 213); §8.4,
+  Theorem 8.6, pp. 214–215.
 - NIST Digital Library of Mathematical Functions, §18.18, equation 18.18.28 (Mehler's formula for
   `|z| < 1`); §18.14, equation 18.14.9 (the bound in the scope section).
-- A. Indritz, *An inequality for Hermite polynomials*, Proc. Amer. Math. Soc. 12 (1961), 981–983
-  (not consulted).
