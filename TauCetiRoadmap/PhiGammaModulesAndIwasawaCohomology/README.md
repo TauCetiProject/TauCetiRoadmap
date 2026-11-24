@@ -2423,7 +2423,7 @@ Proposition II.1.1, §§II–III and Proposition III.4.2, with the cited errata;
 Corollary III.4.5, manuscript p.22, for the filtration; LLZ-2011 §2C.  The specialized base changes
 and good-basis coordinates are §§6.1–6.2.
 *Needs:* §§1.0–1.3 integral realization and positive period rings; PadicPeriodRings §§4.1–4.3 crystalline
-periods and invariant functor.
+periods and invariant functor; §6.4 (1)–(2), for the filtered comparison.
 
 **API.**
 
@@ -2632,8 +2632,13 @@ Consequently, for every crystalline `V`,
 `B_rig,F^+[1/t] ⊗_{B_F^+} N(V) = B_rig,F^+[1/t] ⊗_F D_cris(V)`, compatibly with `φ`, `Γ_F` and `E`:
 for positive `V` because `(t/π)^{r_j}` divides `t^{r_j}`, in general by the interval twist of §6.0.
 Sources: Berger-Wach-2004 Proposition II.2.1, Propositions II.3.1 and III.2.1.
+The route takes two inputs, proved here with it: for positive crystalline `V`, `D_cris(V) ⊆ D_rig(V)`,
+the Robba realization of §1.2, without inverting `t` (Berger-diffeq Theorem 3.6 and Proposition 3.7, the
+crystalline case); and `B_rig,F^+` has elementary divisors: every square matrix over it is
+`P·Diag(f_1, …, f_n)·Q` with `P`, `Q` invertible and `f_1 ∣ ⋯ ∣ f_n` (Berger-diffeq Proposition 4.12 (5)).
 *Needs:* §6.0 (existence, uniqueness and interval twist of `N(V)` only; the filtered comparison of §6.0
-is deduced from (1)); §6.2 (for `F = ℚ_p`, `p` odd); PadicPeriodRings §§4.1–4.3 crystalline periods and
+is deduced from (1) and (2)); §6.2 (the definitions of `B_rig,E^+` and `N_Wach,rig^+(V)`, for `F = ℚ_p`,
+`p` odd); §1.2 the Robba realization `D_rig(V)`; PadicPeriodRings §§4.1–4.3 crystalline periods and
 invariant functor.
 
 **API.**
@@ -2742,7 +2747,7 @@ restriction of their original sources; no dyadic extension is inferred from rati
 Sections 6.4–6.6 use the Wach modules of §6.0 with their existence, uniqueness and interval twist for
 §§6.4–6.5, and their filtration for §6.6 (the filtered comparison of §6.0 is deduced in the source from
 §6.4, so §§6.4–6.5 do not use it); §6.2 for the positive analytic module when `F = ℚ_p` and `p` is odd;
-§1.0; PadicPeriodRings §§1.1–1.5 and 4.1–4.3.
+§§1.0 and 1.2; PadicPeriodRings §§1.1–1.5 and 4.1–4.3.
 
 ## Layer 7: characters, weights and global triangulations
 
@@ -3438,7 +3443,8 @@ reported claim.
 - **Berger-intro** — Laurent Berger, *An introduction to the theory of p-adic representations*,
   [arXiv:math/0210184](https://arxiv.org/abs/math/0210184), for period and exponential conventions.
 - **Berger-diffeq** — Laurent Berger, *Représentations p-adiques et équations différentielles*, Inventiones
-  Mathematicae 148 (2002), 219–284, [arXiv:math/0102179](https://arxiv.org/abs/math/0102179), Theorem 5.10.
+  Mathematicae 148 (2002), 219–284, [arXiv:math/0102179](https://arxiv.org/abs/math/0102179), Theorem 3.6,
+  Propositions 3.7 and 4.12, and Theorem 5.10.
 - **Bloch–Kato** — Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The
   Grothendieck Festschrift I (1990), 333–400, Proposition 1.17 and Remark 1.18, pp.340–341, for the
   continuous period-sequence sections and boundary; Lemma 3.8.1, Corollary 3.8.4, Example 3.9 and Definition
