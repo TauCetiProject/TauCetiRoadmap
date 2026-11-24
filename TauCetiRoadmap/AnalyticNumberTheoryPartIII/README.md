@@ -1497,7 +1497,7 @@ objects.
 - The sine integral `Si` as an entire function, with its continuation, asymptotics and Gibbs
   phenomenon: SpecialFunctionsEiLiErfIncompleteGamma Layer 9. 7.2 here states only two uniform
   bounds on the real truncated Dirichlet integral, without defining a function.
-- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators T1.
+- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators §1.2.
 - The Laplace carrier `HasLaplace` and Delange's theorem: ArithmeticDirichletSeriesPartII §0.1 and
   §3.2. Layer 7 works with Mathlib's Fourier carrier and needs neither.
 
