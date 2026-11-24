@@ -102,7 +102,7 @@ For `P = ∅` one has `N(P) = {1}` and a Selmer triple is a Selmer structure.
 
 `N(P)` is closed under taking divisors, and `n, nq ∈ N(P)` with `q` prime implies `q ∈ P` and `q ∤ n`.
 
-*Needs:* `SelmerIwasawaCohomology Layer 2`; `SelmerIwasawaCohomology §2.2 (Compact and rational Selmer kernel)`; `Squarefree`; `IsAdic`; `IsAdicComplete`; `IsModuleTopology`; `TauCeti.IsSmoothDiscrete`.
+*Needs:* `SelmerIwasawaCohomology §2.13 (Dual Selmer structures)`; `SelmerIwasawaCohomology §2.2 (Compact and rational Selmer kernel)`; `SelmerIwasawaCohomology §2.5 (Propagating local conditions)`; `SelmerIwasawaCohomology §2.7 (The unramified condition)`; `Squarefree`; `IsAdic`; `IsAdicComplete`; `IsModuleTopology`; `TauCeti.IsSmoothDiscrete`.
 
 ### 0.2 Finite self-injective coefficients and arithmetic duality
 
@@ -386,7 +386,7 @@ Additional arithmetic check: For `T = ℤ_p(1) ⊗ ρ^{-1}` with `ρ` finite ord
 
 For `T = ℤ_p(1)` over `ℚ` with `p` odd: `H¹(ℚ_p, T)` is the `p`-adic completion of `ℚ_p^×`, free of rank two. `T^* = ℚ_p/ℤ_p` with trivial action has `H⁰` of corank one, so Corollary 5.3 does not apply. `F_ur` at `p` is the image of the local units, free of rank one and saturated, and its dual condition is the unramified condition, of corank one (Lemma 5.2). The rational inertia kernel at `p` is zero, since `ℚ_p(1)` has no inertia invariants and `H¹(ℚ_p, T)` has no torsion. So an inertia-kernel definition of `F_ur` at `p` is wrong.
 
-*Needs:* Layer 0.4 Cartesian local conditions; `SelmerIwasawaCohomology §2.6 (From V to T and W; saturation)`; `SelmerIwasawaCohomology §2.7 (The unramified condition)`; `SelmerIwasawaCohomology Layer 2`; `ArithmeticGaloisDuality §D7.3 (Compact Shapiro and projection formulas)`; `Submodule.torsion`; `cyclotomicCharacter`.
+*Needs:* Layer 0.4 Cartesian local conditions; `SelmerIwasawaCohomology §2.6 (From V to T and W; saturation)`; `SelmerIwasawaCohomology §2.7 (The unramified condition)`; `SelmerIwasawaCohomology §2.13 (Dual Selmer structures)`; `SelmerIwasawaCohomology §2.5 (Propagating local conditions)`; `ArithmeticGaloisDuality §D7.3 (Compact Shapiro and projection formulas)`; `Submodule.torsion`; `cyclotomicCharacter`.
 
 ### 0.8 The core rank of a cartesian Selmer structure
 
@@ -3133,7 +3133,7 @@ Each of `ind_O(c), n_W, n_W^*` is retained; an application may drop an error ter
 
 The bound is for `S_{Σ_p}(K, W^*)`, strict at `p`, not for the Bloch–Kato Selmer group; `(c)` is the passage to `S(K, W^*)`.
 
-*Needs:* Layer 4.3 Rubin's hypotheses, index of divisibility and error terms; Layer 4.10 Rubin's selection of primes with large localisation; Layer 3.13 Local behaviour of derivative classes; Layer 1.8 The finite–singular comparison map; `SelmerIwasawaCohomology Layer 2`; `SelmerIwasawaCohomology §2.18 (Selmer groups of T and W as limits)`.
+*Needs:* Layer 4.3 Rubin's hypotheses, index of divisibility and error terms; Layer 4.10 Rubin's selection of primes with large localisation; Layer 3.13 Local behaviour of derivative classes; Layer 1.8 The finite–singular comparison map; `SelmerIwasawaCohomology §2.19 (Poitou–Tate for Selmer groups)`; `SelmerIwasawaCohomology §2.20 (Poitou–Tate for the Selmer group of W^*)`; `SelmerIwasawaCohomology §2.18 (Selmer groups of T and W as limits)`.
 
 ### 4.18 Self-dual descent with explicit error constants
 
@@ -5158,7 +5158,7 @@ Both statements are invariant under twisting by characters of `Γ` (`X∞ ↦ X�
 
 Without `Hyp(K∞/K)` (a field with `r_2 ≥ 1` not imaginary quadratic, `T = Z_p(1)`) the quotient `X∞/JX∞` can be infinite, since `K` has a `Z_p²`-extension in which the primes above `p` are not infinitely split.
 
-*Needs:* Layer 8.6 Rubin's hypothesis `Hyp(K∞/K)`; Layer 8.3 The Iwasawa module `X∞` of the restricted Selmer groups; Layer 8.15 Kernels and cokernels of restriction along the tower; Layer 8.14 Invariance of the Iwasawa-theoretic statements under twisting; `SelmerIwasawaCohomology Layer 4`; `TauCetiRoadmap.ClassFieldTheory Layer 12`.
+*Needs:* Layer 8.6 Rubin's hypothesis `Hyp(K∞/K)`; Layer 8.3 The Iwasawa module `X∞` of the restricted Selmer groups; Layer 8.15 Kernels and cokernels of restriction along the tower; Layer 8.14 Invariance of the Iwasawa-theoretic statements under twisting; `SelmerIwasawaCohomology §4.18 (Leopoldt and the strict-at-p Tate Selmer group)`; `TauCetiRoadmap.ClassFieldTheory Layer 12`.
 
 ### 8.22 Control of Selmer groups at height-one specializations
 
