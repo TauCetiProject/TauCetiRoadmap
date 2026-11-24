@@ -35,36 +35,47 @@ attains this bound. Dvoretzky's theorem finds almost Euclidean subspaces in high
 every k and ε > 0 there is N such that every real normed space of finite dimension at least N
 admits a linear map T from `ℓ₂ᵏ` with `(1 − ε)‖x‖ ≤ ‖Tx‖ ≤ (1 + ε)‖x‖` for all x.
 
-Much of the groundwork, such as the Eberlein–Šmulian theorem, the Banach tensor products and
-Grothendieck's inequality for matrices, is already in the Tau Ceti library.
 [Operator ideals](../OperatorTheory/OperatorIdeals/README.md) supplies the trace-class norm on
-Hilbert space, which Layer 4 identifies with the nuclear norm. In turn, BanachAlgebras draws
-spectral and invariant-subspace consequences from the Argyros–Haydon space,
-SelfAdjointSpectralTheory uses the description of the dual of `C(K)` by measures, and SNumbers
-uses Grothendieck's and John's theorems.
+Hilbert space, which B4 identifies with the nuclear norm. In turn, BanachAlgebras draws spectral
+and invariant-subspace consequences from the Argyros–Haydon space, SelfAdjointSpectralTheory uses
+the description of the dual of `C(K)` by measures, and SNumbers uses Grothendieck's and John's
+theorems.
 
-Layer 1 completes the duality theory of normed spaces, Layer 2 proves James's theorem, and Layer 3
-adds block bases, the perturbation of basic sequences and the Haar basis of `Lᵖ[0,1]`. Layer 4
-holds the approximation theorems and both constructions. Layer 5, on function spaces, identifies
-the dual of `C(K)`, for compact Hausdorff K, with the scalar measures of regular variation normed
-by total variation, and the dual of `Lᵖ(μ)` with `L^q(μ)` for `1 < p < ∞`, `q = p/(p − 1)`, and
-any μ. It also covers Hilbert dimension, the Dunford–Pettis theory of `L¹`, and the dual of `L¹`
-for regular left Haar measures that need not be σ-finite. Layer 6 adds Rademacher type and cotype
-and proves Grothendieck's theorem, and Layer 7 is the local theory. Layers 2 and 3 need Layer 1,
-and Layers 4 and 5 need Layers 1–3. Layer 6 needs Layer 5, and Layer 7 needs Layers 1, 4 and 6.
+## How to read the build
+
+The layers are B1–B7. B1 is the duality theory of normed spaces: annihilators and quotient duals,
+the Banach transpose and the closed-range theorem, the bidual with Goldstine's and the bipolar
+theorems, and the weak, weak-star and operator topologies. B2 proves the Eberlein–Šmulian, James,
+Milman–Pettis, Krein–Šmulian and Bishop–Phelps theorems and treats weakly compact operators. B3
+develops Schauder bases, the classical sequence spaces with their duals, and the Haar basis of
+`Lᵖ[0,1]`. B4 holds the approximation properties, the projective and injective tensor products,
+nuclear operators, integral bilinear forms and Grothendieck's approximation theorems, followed by
+the real–complex comparison B4.C and the two constructions, Enflo's space (B4.0) and the
+Argyros–Haydon space (B4.1). B5, on function spaces, identifies the dual of `C(K)`, for compact
+Hausdorff K, with the scalar measures of regular variation normed by total variation, and the dual
+of `Lᵖ(μ)` with `L^q(μ)` for `1 < p < ∞`, `q = p/(p − 1)`, and any μ. It also covers Hilbert
+dimension, the Dunford–Pettis theory of `L¹`, and the dual of `L¹` for regular left Haar measures
+that need not be σ-finite (B5.LocalHaarDual). B6 treats absolutely summing operators with Pietsch
+domination, Rademacher type and cotype (B6.Cotype2), and Grothendieck's inequality and theorem.
+B7 is the local theory: the Banach–Mazur distance, finite representability and local
+reflexivity, John's theorem and its projection constants, and Dvoretzky's theorem. B2 and B3 need
+B1, and B4 and B5 need B1–B3. B6 needs B5, and B7 needs B1, B4 and B6.
 
 ## Conventions
 
 Spaces are over `𝕜 = ℝ` or `ℂ`, expressed with `RCLike` where appropriate; completeness is a
-hypothesis, not part of the meaning of normed space. Enflo's construction in §4.4, the
-Argyros–Haydon construction of §4.5, the cotype-2 bound and Dvoretzky's theorem are over `ℝ`;
-their complex versions are stated separately where they are claimed. All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means surjectivity of
+hypothesis, not part of the meaning of normed space. Enflo's construction in B4.0, the
+Argyros–Haydon construction of B4.1, the cotype-2 bound and Dvoretzky's theorem are over `ℝ`;
+their complex versions are stated separately where they are claimed. The Banach–Mazur distance,
+finite representability, local reflexivity, John's theorem and the projection theorems of B7 are
+over `𝕜`. All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means surjectivity of
 `NormedSpace.inclusionInDoubleDual`, not algebraic reflexivity. Weak and weak-star topologies are
 `WeakSpace 𝕜 E` and `WeakDual 𝕜 E` with explicit transport; weak convergence in a dual differs
 from weak-star convergence. Operators are `ContinuousLinearMap`; subspaces and quotients are
-Mathlib's `Submodule` and normed quotients, and a Banach subspace is closed. Relative compactness
-means compact closure in the stated ambient topology. A Schauder series converges along initial
-segments (`SummationFilter.conditional`); an unconditional series converges along finite sets.
+Mathlib's `Submodule` and normed quotients, and a Banach subspace is closed. Compactness and
+relative compactness are distinguished: relative compactness means compact closure in the stated
+ambient topology. A Schauder series converges along initial segments
+(`SummationFilter.conditional`); an unconditional series converges along finite sets.
 
 Scalar pairings are bilinear, without conjugation: `L^q × Lᵖ → 𝕜` is `(g, f) ↦ ∫ f g`, and the
 dual of `C(K, 𝕜)` pairs through `ContinuousLinearMap.mul ℝ 𝕜`. The adjoint of `T : E → F` is
@@ -73,24 +84,49 @@ conjugate-linear twist. The trace pairing of `X* ⊗ X` with `L(X)` sends `f ⊗
 `f(T x)`. Rademacher averages are over the uniform sign cube `{±1}ⁿ` and Gaussians are standard
 real ones.
 
-## Layer 1: duality and weak topologies (B1)
+## B1. Duality and weak topologies
 
 ### 1.1 Annihilators, restriction and quotient duals, and the Banach transpose
 
-On top of the pinned double-annihilator theorems and the isometries `(E/F)* ≅ Fᗮ` and
-`F* ≅ E*/Fᗮ`, prove order reversal and the annihilators of sums and intersections, and the
-naturality of the restriction, quotient and inclusion maps under bounded maps. For the
-adjoint `T* = ContinuousLinearMap.precomp 𝕜 T` prove `‖T*‖ = ‖T‖` (by Hahn–Banach; van Neerven,
-*Functional Analysis*, Proposition 4.24, p. 146) and `(S ∘ T)* = T* ∘ S*`. For a bounded endomorphism of a complex Banach space prove that the
-spectrum of the Banach transpose equals the spectrum of the operator, using Hahn–Banach and the
-pinned closed-range theorem to transfer invertibility both ways. The Hilbert adjoint instead
-conjugates the complex spectrum; compare it with the transpose through the Riesz
-conjugate-linear map.
+For a subspace `F ≤ E` write `Fᗮ ≤ E*` for its annihilator, and for a subspace `G ≤ E*` write
+`G_⊥ ≤ E` for its preannihilator. Prove the double-annihilator theorem: `(Fᗮ)_⊥` is the norm
+closure of `F`, and `(G_⊥)ᗮ` is the weak-star closure of `G`.
+
+*In Tau Ceti:* `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`, `Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`.
+
+Develop annihilators and preannihilators with order reversal and the annihilators of sums and
+intersections.
+
+For a subspace `F ≤ E`, identify `(E/F)*` isometrically with `Fᗮ`, by precomposition with the
+quotient map, and `F*` isometrically with `E*/Fᗮ`, by restriction of functionals (Hahn–Banach).
+
+*In Tau Ceti:* `Submodule.quotientDualEquivAnnihilator`, `Submodule.quotientAnnihilatorEquivDual`.
+
+Construct the restriction, quotient and inclusion maps and prove their naturality under bounded
+maps. For the adjoint `T* = ContinuousLinearMap.precomp 𝕜 T` prove `‖T*‖ = ‖T‖` (by Hahn–Banach;
+van Neerven, *Functional Analysis*, Proposition 4.24, p. 146) and `(S ∘ T)* = T* ∘ S*`.
+
+For `T : E →L[𝕜] F` prove the kernel identities `ker T* = (range T)ᗮ` and `ker T = (range T*)_⊥`,
+which hold without a closed-range hypothesis. For `E` and `F` complete prove the closed-range theorem:
+`range T` is norm closed iff `range T*` is norm closed, and then `range T* = (ker T)ᗮ`. Completeness
+of the domain is needed: on the finitely supported sequences `c₀₀ ⊂ ℓ²` with the `ℓ²` norm, the
+inclusion has dense proper range, so its range is not closed, while its adjoint, restriction of
+functionals, is surjective by Hahn–Banach extension.
+
+*In Tau Ceti:* `ContinuousLinearMap.ker_precomp_eq_orthogonalBilin_range`, `ContinuousLinearMap.ker_eq_orthogonalBilin_range_precomp`, `ContinuousLinearMap.range_precomp_eq_orthogonalBilin_ker`, `ContinuousLinearMap.isClosed_range_precomp_iff`, `TauCeti.finiteSupportL2`, `TauCeti.dense_finiteSupportL2`, `TauCeti.not_isClosed_finiteSupportL2`, `Submodule.surjective_precomp_subtypeL`.
+
+Deduce the unconditional identity `closure(range T) = (ker T*)_⊥` from `ker T* = (range T)ᗮ` and
+the double-annihilator theorem.
+
+For a bounded endomorphism of a complex Banach space prove that the spectrum of the Banach
+transpose equals the spectrum of the operator, using Hahn–Banach and the closed-range theorem
+above to transfer invertibility both ways. The Hilbert adjoint instead conjugates the complex
+spectrum; compare it with the transpose through the Riesz conjugate-linear map.
 
 For `1 ≤ p < ∞` and conjugate `q`, including `p = 1, q = ∞`, define the right and left shifts
 `R_p`, `L_p` on `ℓᵖ(ℕ)` by `(R_p x)₀ = 0`, `(R_p x)ₙ₊₁ = xₙ` and `(L_p x)ₙ = xₙ₊₁`, and prove
-`(R_p)* = L_q` and `(L_p)* = R_q` under the pinned identification `(ℓᵖ)* ≅ ℓᑫ` (`lp.dualEquiv`)
-and its bilinear series pairing.
+`(R_p)* = L_q` and `(L_p)* = R_q` under B3's identification `(ℓᵖ)* ≅ ℓᑫ` (§3.4) and its bilinear
+series pairing.
 
 - `R_p` is a linear isometry and `L_p` a contraction of norm one, with `L_p ∘ R_p = id`.
 - `R_p ∘ L_p` is the projection onto the vectors with vanishing zeroth coordinate.
@@ -103,18 +139,19 @@ and its bilinear series pairing.
   the identification `(R_p)* = R_q` is refuted.
 - `‖R_p‖ = ‖L_p‖ = 1` for every `p`, with `‖L_p e₁‖ = ‖e₁‖` attaining the norm; a convention
   scaling the shifted coordinates by `1/2` would give norm `1/2`.
+- On `c₀₀ ⊂ ℓ²` the partial sums of `Σ 2^(−n) eₙ` lie in `c₀₀` and converge in `ℓ²` to a vector
+  with infinite support, so the range of the inclusion is not closed, while the range of its
+  adjoint is all of `(c₀₀)*`; the closed-range theorem fails without completeness of the domain.
 
-*Needs:* Tau Ceti Layer 1 contract (annihilators, quotient duals, adjoint identities, closed
-range); `lp.dualEquiv`; Mathlib `spectrum`, `exists_extension_norm_eq`.
+*Needs:* Mathlib `spectrum`, `exists_extension_norm_eq`, `lp`, the open mapping theorem; §3.4 for
+the shifts' duality.
 
-### 1.2 The bidual, its naturality and norming
+### 1.2 The bidual, Goldstine's theorem and the bipolar theorem
 
-Extend the canonical bidual embedding by its naturality under bounded maps,
+Extend the canonical bidual embedding `J_E` by its naturality under bounded maps,
 `T** ∘ J_E = J_F ∘ T`, and norming by the dual unit ball, `‖x‖ = sup_{‖f‖≤1} |f(x)|` (van Neerven,
 *Functional Analysis*, Corollary 4.13, p. 139, for the norming formula and Proposition 4.23,
-p. 145, for the isometry `J_E`). Over
-complex scalars convexity in the pinned bipolar and Mazur theorems is real convexity. Do not
-impose separability on Banach–Alaoglu or Goldstine.
+p. 145, for the isometry `J_E`).
 
 - `J_E` is a linear isometry, natural in `E`, and `J` of the zero space is zero.
 - `T**` restricts to `T` along `J`.
@@ -127,14 +164,37 @@ impose separability on Banach–Alaoglu or Goldstine.
 - Norming needs the whole dual ball: on `ℓ²` the single functional `e₁*` gives `|x₁|`, which is
   `0` at `e₂`, while the supremum over the dual unit ball is `‖e₂‖ = 1`.
 
-*Needs:* Mathlib `NormedSpace.inclusionInDoubleDual`, `exists_extension_norm_eq`.
+Prove Goldstine's theorem: the image under `J_E` of the closed unit ball of `E` is weak-star
+dense in the closed unit ball of `E**`; more precisely, the weak-star closure of
+`J_E(closedBall x r)` is the closed ball of radius `r` about `J_E x` (Megginson, Theorem 2.6.26).
+Neither Goldstine's theorem nor Banach–Alaoglu carries a separability hypothesis.
+
+*In Tau Ceti:* `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`, `NormedSpace.denseRange_inclusionInDoubleDualWeak`.
+
+Prove the bipolar theorem: the bipolar of a nonempty absolutely convex subset of `E` is its
+closure, and the bipolar of any subset is its closed absolutely convex hull. Over complex scalars
+convexity, here and below, is real convexity. A convex set has the same weak and norm closures
+(Mathlib `Convex.toWeakSpace_closure`). Prove Mazur's lemma in its finite-convex-combination
+form: if `uₙ → x` weakly, then for every `n` and `ε > 0` some convex combination of
+`uₙ, uₙ₊₁, …` lies within `ε` of `x` in norm, and such combinations, one from each tail, converge
+to `x` in norm.
+
+*In Tau Ceti:* `AbsConvex.bipolar_eq_closure`, `StrongDual.bipolar_eq_closedAbsConvexHull`, `TauCeti.exists_sum_smul_norm_sub_lt_of_tendsto_weak`, `TauCeti.exists_tendsto_sum_smul_of_tendsto_weak`.
+
+*Needs:* Mathlib `NormedSpace.inclusionInDoubleDual`, `exists_extension_norm_eq`,
+`WeakDual.isCompact_polar`, `Convex.toWeakSpace_closure`.
 
 ### 1.3 Weak, weak-star and operator topologies
 
 Give weak and weak-star continuity criteria by evaluation and boundedness consequences of weak
-boundedness, reusing `WeakDual.metrizable_of_isCompact`, `WeakDual.isSeqCompact_closedBall` and
-the pinned compatible metric `StrongDual.weakStarClosedBallMetricSpace` of a dual ball over a
-separable space.
+boundedness, reusing `WeakDual.metrizable_of_isCompact` and `WeakDual.isSeqCompact_closedBall`.
+When the predual is separable, a weak-star compact subset `K` of the dual, in particular a closed
+dual ball, is metrizable by an explicit compatible metric: for a sequence `(uₙ)` dense in the
+closed unit ball of `E` put `d(f, g) = Σ_n min(2^(−n), |f(uₙ) − g(uₙ)|)`. Its topology is the
+weak-star topology of `K` for every dense sequence, so it does not depend on the chosen sequence
+at the level of topologies.
+
+*In Tau Ceti:* `WeakDual.metricSpaceOfDenseSeq`, `WeakDual.metricSpaceOfDenseSeq_toTopologicalSpace`, `StrongDual.weakStarClosedBallMetricSpace`.
 
 On bounded maps between normed spaces, consume native `PointwiseConvergenceCLM` for SOT and
 `ContinuousLinearMapWOT` for pointwise weak convergence. Prove their evaluation/dual-pairing
@@ -148,7 +208,7 @@ Hahn–Banach, with an actual directed index and SOT limit. Also construct SOT-n
 prescribed finite subspace, `T_i` with shrinking norm and range in a separated complementary
 direction, and reciprocal scaling. On `c₀` construct forward and backward shift powers
 `T_n, S_n` and prove both WOT-null, `S_n` SOT-null, `S_n T_n = I` and `T_n S_n` the SOT-null tail
-projection, every estimate through the pinned `c₀* = ℓ¹`.
+projection, every estimate through B3's `c₀* = ℓ¹` (§3.4).
 
 Construct a norm-one functional `φ` on `ℓ∞` with `φ(c₀) = 0` and `φ(1) = 1` by Hahn–Banach on
 `ℓ∞/c₀`, proving the quotient norm of `1` is `1`; BanachAlgebras A3 consumes this single
@@ -172,8 +232,7 @@ the native weak topology along this directed order.
   `m`; the net reaches `0` only by letting `m` grow along the finite-set index.
 
 *Needs:* Mathlib `PointwiseConvergenceCLM`, `ContinuousLinearMapWOT`, uniform boundedness,
-`exists_extension_norm_eq`, `lp`; Tau Ceti `ZeroAtInftyContinuousMap.dualEquiv`,
-`StrongDual.weakStarClosedBallMetricSpace`.
+`exists_extension_norm_eq`, `lp`; §3.4 (`c₀* = ℓ¹`).
 
 ### 1.4 A metric that agrees with the usual one on lines
 
@@ -196,17 +255,33 @@ ambient topology.
 
 ### Examples
 
-The shifts on `ℓ²(ℕ)` with `(R₂)* = L₂`; the closed-range counterexample `c₀₀ ⊂ ℓ²` (pinned);
-the vectors `e_m + m e_n` in `ℓ²`; the shift powers on `c₀`; the metric `d` on `ℝ²`.
+The shifts on `ℓ²(ℕ)` with `(R₂)* = L₂`; the closed-range counterexample `c₀₀ ⊂ ℓ²`; the vectors
+`e_m + m e_n` in `ℓ²`; the shift powers on `c₀`; the metric `d` on `ℝ²`.
 
 ### Dependencies
 
-Mathlib: Hahn–Banach, Banach–Alaoglu, uniform boundedness, `lp`, the operator topologies.
-Tau Ceti: the Layer 1 contract above. No other roadmap.
+Mathlib: Hahn–Banach, Banach–Alaoglu, uniform boundedness, the open mapping theorem, `lp`, the
+operator topologies. Within the roadmap: B3's sequence-space dualities (§3.4) for the shifts on
+`ℓᵖ` and `c₀`. No other roadmap.
 
-## Layer 2: weak compactness and reflexivity (B2)
+## B2. Weak compactness and reflexivity
 
-### 2.1 James's theorem
+Prove the following with reusable intermediate separation, compactness and subsequence lemmas.
+
+### 2.1 The Eberlein–Šmulian theorem
+
+Prove the Eberlein–Šmulian theorem over `ℝ` and `ℂ`: a subset `K` of a normed space is weakly
+compact iff it is weakly sequentially compact, that is, iff every sequence in `K` has a
+subsequence converging weakly to a point of `K`. Prove also the relative form: `K` has weakly
+compact weak closure iff every sequence in `K` has a subsequence converging weakly to a point of
+the ambient space. No completeness or separability assumption is allowed (Megginson,
+Theorem 2.8.6).
+
+*In Tau Ceti:* `TauCeti.isCompact_toWeakSpace_iff_isSeqCompact`, `TauCeti.isCompact_closure_toWeakSpace_iff`.
+
+*Needs:* Mathlib `toWeakSpace`, Banach–Alaoglu, Hahn–Banach; §1.2 (Goldstine).
+
+### 2.2 James's theorem
 
 Prove James's theorem (`james`): for a nonempty norm-closed bounded convex subset `A` of a
 Banach space over `ℝ` or `ℂ`, weak compactness of `A` is equivalent to attainment on `A` of the
@@ -216,18 +291,16 @@ space carries its real scalar action compatibly (`IsScalarTower ℝ 𝕜 E`). Ov
 *Weakly compact sets*, Theorems 4–5 (pp. 138–139); over `ℂ` apply it to the underlying real Banach
 space, whose continuous real functionals are exactly the real parts `Re f`. Deduce that a Banach
 space is reflexive iff every functional attains its norm on the closed unit ball
-(`surjective_inclusionInDoubleDual_iff_forall_exists_norm_apply_eq`): by the pinned
-`TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall` reflexivity is weak
-compactness of the ball, and on the ball the supremum of `Re f` is `‖f‖`, attained exactly where
-`|f|` attains `‖f‖` after a unimodular rotation. Develop the separable reduction and the finite
-norming sets needed in the proof; keep completeness as an explicit hypothesis (Megginson,
-Theorems 2.9.3–2.9.4).
+(`surjective_inclusionInDoubleDual_iff_forall_exists_norm_apply_eq`): by §2.3 reflexivity is weak
+compactness of the closed unit ball, and on the ball the supremum of `Re f` is `‖f‖`, attained
+exactly where `|f|` attains `‖f‖` after a unimodular rotation. Develop the separable reduction and
+the finite norming sets needed in the proof; keep completeness as an explicit hypothesis
+(Megginson, Theorems 2.9.3–2.9.4).
 
 **Checks.**
 - On `ℓ¹`, `f = Σ (1 − 1/n) xₙ` has `‖f‖ = 1` and `|f(x)| < 1` on the closed unit ball, so `f`
-  does not attain its norm and `ℓ¹` is not reflexive, in agreement with the pinned
-  `lp.not_surjective_inclusionInDoubleDual_one`; on that ball both sides of the convex-set
-  equivalence are false.
+  does not attain its norm and `ℓ¹` is not reflexive, in agreement with §3.4; on that ball both
+  sides of the convex-set equivalence are false.
 - Nonemptiness is needed: for `A = ∅` the set is weakly compact while no functional attains a
   maximum on it, so the equivalence would fail without it.
 - Off the unit ball: in `c₀` the closed bounded convex set `A = {x : 0 ≤ xₙ ≤ 1 for all n}` meets
@@ -237,42 +310,131 @@ Theorems 2.9.3–2.9.4).
 - On a Hilbert space every `f = ⟪y, ·⟫` attains `‖f‖` at `y/‖y‖`, consistent with reflexivity.
 - On `c₀` the functional given by `(2^(−n))_{n≥1} ∈ ℓ¹` has norm `1`, and `Σ 2^(−n) xₙ = 1` with
   `‖x‖∞ ≤ 1` forces `xₙ = 1` for every `n`, which is not in `c₀`; so `c₀` is not reflexive, in
-  agreement with the pinned `ZeroAtInftyContinuousMap.not_surjective_inclusionInDoubleDual`.
+  agreement with §3.4.
 
-*Needs:* Tau Ceti Layer 2 contract (Eberlein–Šmulian,
-`TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall`); Mathlib Hahn–Banach
-separation, `Convex`; James 1964, Theorems 4–5.
+*Needs:* §2.1 (Eberlein–Šmulian), §2.3 (reflexivity as weak compactness of the ball); Mathlib
+Hahn–Banach separation, `Convex`; James 1964, Theorems 4–5.
+
+### 2.3 Reflexivity and the Milman–Pettis theorem
+
+Prove that a normed space over `ℝ` or `ℂ` is reflexive iff its closed unit ball is weakly
+compact; no completeness is needed. Prove that reflexivity is invariant under bounded linear
+equivalence, in particular under passage to an equivalent norm, that it passes to closed
+subspaces and to quotients, and that a Banach space is reflexive iff its dual is.
+
+*In Tau Ceti:* `TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall`, `ContinuousLinearEquiv.surjective_inclusionInDoubleDual_iff`, `Submodule.surjective_inclusionInDoubleDual`, `Submodule.surjective_inclusionInDoubleDual_quotient`, `TauCeti.surjective_inclusionInDoubleDual_strongDual_iff`.
+
+Consume Mathlib's `UniformConvexSpace` to prove the Milman–Pettis theorem: every complete
+uniformly convex normed space over `ℝ` or `ℂ` is reflexive (Megginson, Theorem 5.2.15). A closed
+subspace of a uniformly convex space is uniformly convex with the induced norm. One route makes a
+sequence of unit vectors maximizing the real part of a nonzero functional Cauchy by uniform
+convexity, so that completeness gives norm attainment and §2.2 applies.
+
+*In Tau Ceti:* `TauCeti.surjective_inclusionInDoubleDual_of_uniformConvexSpace`, `Submodule.uniformConvexSpace`.
+
+Develop the modulus of convexity
+`δ_E(ε) = inf {1 − ‖(x + y)/2‖ : ‖x‖ ≤ 1, ‖y‖ ≤ 1, ‖x − y‖ ≥ ε}`, `0 < ε ≤ 2`, so that `E` is
+uniformly convex iff `δ_E(ε) > 0` for every such `ε`, with its passage to closed subspaces.
+
+Prove Clarkson's inequalities and the uniform convexity of `Lᵖ(μ)`, `1 < p < ∞`, for values in a
+uniformly convex real space, hence the reflexivity of `Lᵖ(μ)` over `ℝ` and `ℂ`; B5 consumes these.
+For `2 ≤ p < ∞` and `f, g ∈ Lᵖ(μ)` with values in a space whose norm satisfies the parallelogram
+identity, `‖f + g‖ᵖ + ‖f − g‖ᵖ ≤ 2^(p−1) (‖f‖ᵖ + ‖g‖ᵖ)`, and the same pointwise inequality holds
+for vectors of such a space. For `1 < p < ∞` and values in a uniformly convex real space, every
+`η > 0` has a `δ > 0` with `‖f + g‖ᵖ + δ ‖f − g‖ᵖ ≤ (2^(p−1) + δη)(‖f‖ᵖ + ‖g‖ᵖ)` for all `f, g`,
+which gives uniform convexity.
+
+*In Tau Ceti:* `TauCeti.norm_add_rpow_add_norm_sub_rpow_le`, `MeasureTheory.Lp.norm_add_rpow_add_norm_sub_rpow_le`, `MeasureTheory.Lp.exists_forall_norm_add_rpow_add_mul_norm_sub_rpow_le`, `MeasureTheory.Lp.uniformConvexSpace`, `MeasureTheory.Lp.surjective_inclusionInDoubleDual`.
+
+For `1 < p < 2` and the conjugate exponent `q`, prove Clarkson's second inequality
+`‖f + g‖^q + ‖f − g‖^q ≤ 2 (‖f‖ᵖ + ‖g‖ᵖ)^(q−1)` for scalar `f, g ∈ Lᵖ(μ)`.
+
+*Needs:* Mathlib `UniformConvexSpace`, `MeasureTheory.Lp`; §1.2 (Goldstine), §2.1.
+
+### 2.4 The Krein–Šmulian theorem
+
+Prove the Krein–Šmulian theorem: a convex subset of the dual of a Banach space is weak-star
+closed iff its intersection with every closed ball centred at zero is weak-star closed
+(Megginson, Theorem 2.7.11). In particular a subspace of the dual is weak-star closed iff its
+intersection with the closed unit ball is weak-star closed.
+
+*In Tau Ceti:* `Convex.isClosed_iff_forall_isClosed_inter_closedBall`, `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`.
+
+*Needs:* Mathlib `WeakDual`, Banach–Alaoglu, Hahn–Banach separation.
+
+### 2.5 The Bishop–Phelps theorem
+
+Prove the Bishop–Phelps theorem: the continuous linear functionals on a Banach space that attain
+their norm on the closed unit ball are norm dense in the dual (Megginson, Theorem 2.11.14). A
+support functional of a set `C` is a nonzero functional whose real part attains its supremum on
+`C`, and a support point is a point of `C` where some support functional attains it. For a closed
+convex subset `C` of a Banach space the support points are dense in the boundary of `C`; for a
+nonempty bounded closed convex subset of a nonzero Banach space the support functionals are norm
+dense in the dual. The zero space is treated separately.
+
+*In Tau Ceti:* `TauCeti.dense_setOf_exists_norm_apply_eq_norm`, `Convex.frontier_subset_closure_setOf_isMaxOn_re`, `Convex.dense_setOf_ne_zero_isMaxOn_re`.
+
+*Needs:* Mathlib Hahn–Banach separation, completeness of closed subsets.
+
+### 2.6 Weakly compact operators
+
+A bounded operator is weakly compact when the image of the closed unit ball is relatively weakly
+compact. For `T : E →L[𝕜] F` with `E` normed and `F` Banach prove the Gantmacher criterion: `T` is
+weakly compact iff `T**(E**) ⊆ J_F(F)`, and `T` is weakly compact iff its adjoint `T*` is. Weakly
+compact operators are stable under sums and under composition with bounded operators on either
+side, and every compact operator is weakly compact. The identity of an infinite-dimensional
+reflexive space is weakly compact and not compact, which separates the two classes.
+
+*In Tau Ceti:* `ContinuousLinearMap.IsWeaklyCompact`, `ContinuousLinearMap.isWeaklyCompact_iff_range_subset`, `ContinuousLinearMap.isWeaklyCompact_precomp_iff`, `ContinuousLinearMap.IsWeaklyCompact.add`, `ContinuousLinearMap.IsWeaklyCompact.comp_clm`, `ContinuousLinearMap.IsWeaklyCompact.clm_comp`, `IsCompactOperator.isWeaklyCompact`, `ContinuousLinearMap.isWeaklyCompact_id_and_not_isCompactOperator_id`.
+
+*Needs:* §1.1 (adjoints), §1.2 (bidual), §2.3.
 
 ### Examples
 
 `ℓ¹` with the functional `Σ (1 − 1/n) xₙ`; Hilbert spaces; `Lᵖ`, `1 < p < ∞`, reflexive by the
-pinned Milman–Pettis theorem.
+Milman–Pettis theorem of §2.3; the identity of `ℓ²`, weakly compact and not compact.
 
 ### Dependencies
 
-Mathlib: Hahn–Banach separation, Banach–Alaoglu. Tau Ceti: the Layer 2 contract. Within the
-roadmap: Layer 1.
+Mathlib: Hahn–Banach separation, Banach–Alaoglu, `UniformConvexSpace`, `MeasureTheory.Lp`. Within
+the roadmap: B1.
 
-## Layer 3: Schauder bases and classical spaces (B3)
-
-### 3.1 Block bases, equivalence of bases and ambient perturbation
+## B3. Schauder bases and classical spaces
 
 The basis-constant, perturbation, duality and convergence results here concern Banach spaces;
 coordinate and finite-projection identities retain the weaker hypotheses of Mathlib's basis API.
+
+### 3.1 Basis constants, block bases, equivalence of bases and perturbation
+
+Extend Mathlib's `SchauderBasis` and its coordinate maps. The coefficients of an expansion are
+unique: if `Σ aₙ bₙ` converges to `x` along initial segments, then `aₙ = bₙ*(x)` for every `n`. The
+basis constant is `SchauderBasis.nnnormProjBound`, the supremum of the norms of the initial
+projections `P_N`. Every basis is monotone, with basis constant `1`, for the equivalent norm
+`|||x||| = sup_N ‖P_N x‖`, and a subsequence of a basis is a basis of its closed span with basis
+constant at most the original one.
+
+*In Tau Ceti:* `SchauderBasis.coord_eq_of_hasSum`, `SchauderBasis.MonotoneRenorm`, `SchauderBasis.monotoneBasis`, `SchauderBasis.subsequence`, `SchauderBasis.subsequence_nnnormProjBound_le`.
+
 Prove that block bases of a basis are bases of their closed spans with basis constant at most
 the original one, and that two bases are equivalent iff two-sided inequalities hold on finite
-linear combinations, with the induced continuous linear equivalence of closed spans. Prove the
-ambient basic-sequence form of the small perturbation theorem: if `xₙ` is basic in a Banach space
-`X`, `yₙ ∈ X` need not lie in its closed span, and `θ = Σ ‖xₙ*‖ ‖xₙ − yₙ‖ < 1`, then `xₙ ↦ yₙ`
-extends to an isomorphism `[xₙ] → [yₙ]` with norm at most `1 + θ` and inverse norm at most
-`(1 − θ)⁻¹` (Heil, *A Basis Theory Primer*, Theorem 7.6, p. 54, proves the case `yₙ ∈ [xₙ]`; the
-ambient case extends each coordinate functional `xₙ*` from `[xₙ]` to `X` by Hahn–Banach with the
-same norm and runs the same estimate). Construct it as the isometric inclusion plus `Σ xₙ*(·)(yₙ − xₙ)`, prove
-convergence, the lower bound and closed range, and identify that range with `[yₙ]`. Develop the
-dual basic sequence on the closed span of a basis and the duality between shrinking and
-boundedly complete bases. Construct the conversions between `UnconditionalSchauderBasis ℕ 𝕜 E`
-and a `SchauderBasis` whose expansion also converges along `SummationFilter.unconditional ℕ`;
-do not equate an ordinary Schauder expansion with an unconditional `tsum`.
+linear combinations, with the induced continuous linear equivalence of closed spans.
+
+Prove the small perturbation theorem: if `(bₙ)` is a Schauder basis of a Banach space with
+coordinate functionals `bₙ*`, and `θ = Σ ‖bₙ*‖ ‖bₙ − cₙ‖ < 1`, then the operator sending `bₙ` to
+`cₙ` is a bounded invertible operator of the space with norm at most `1 + θ` and inverse norm at
+most `(1 − θ)⁻¹`, so `(cₙ)` is a basis equivalent to `(bₙ)`; the same holds for unconditional
+bases.
+
+*In Tau Ceti:* `GeneralSchauderBasis.smallPerturbationEquiv`, `GeneralSchauderBasis.norm_smallPerturbationEquiv_le`, `GeneralSchauderBasis.norm_smallPerturbationEquiv_symm_le`, `GeneralSchauderBasis.perturb`.
+
+Prove the ambient basic-sequence form of the small perturbation theorem: if `xₙ` is basic in a
+Banach space `X`, `yₙ ∈ X` need not lie in its closed span, and `θ = Σ ‖xₙ*‖ ‖xₙ − yₙ‖ < 1`, then
+`xₙ ↦ yₙ` extends to an isomorphism `[xₙ] → [yₙ]` with norm at most `1 + θ` and inverse norm at
+most `(1 − θ)⁻¹` (Heil, *A Basis Theory Primer*, Theorem 7.6, p. 54, proves the case `yₙ ∈ [xₙ]`;
+the ambient case extends each coordinate functional `xₙ*` from `[xₙ]` to `X` by Hahn–Banach with
+the same norm and runs the same estimate). Construct it as the isometric inclusion plus
+`Σ xₙ*(·)(yₙ − xₙ)`, prove convergence, the lower bound and closed range, and identify that range
+with `[yₙ]`.
 
 **Checks.**
 - In `ℓᵖ`, `u_k = 2^(−1/p)(e_{2k} + e_{2k+1})` has `‖Σ a_k u_k‖_p = (Σ |a_k|ᵖ)^(1/p)`: the
@@ -280,28 +442,96 @@ do not equate an ordinary Schauder expansion with an unconditional `tsum`.
   unnormalized blocks `e_{2k} + e_{2k+1}` already have norm `1`.
 - In `ℓ²`, `xₙ = e_{2n}` and `yₙ = e_{2n} + 2^(−n−2) e_{2n+1}` give `θ = 1/2` with `yₙ` outside
   `[xₙ]`; the isomorphism has norm `√(1 + 1/16) ≤ 3/2`, within the bound `1 + θ`.
+
+*Needs:* Mathlib `SchauderBasis`, `SummationFilter`, Hahn–Banach.
+
+### 3.2 Shrinking and boundedly complete bases
+
+A basis is shrinking when its coordinate functionals span a norm-dense subspace of the dual. It
+is boundedly complete when every scalar sequence `(aₙ)` whose initial partial sums
+`Σ_(n<N) aₙ bₙ` are bounded gives a norm-convergent series `Σ aₙ bₙ`.
+
+*In Tau Ceti:* `SchauderBasis.IsShrinking`, `SchauderBasis.IsBoundedlyComplete`.
+
+Develop the dual basic sequence on the closed span of the coordinate functionals and the duality
+between shrinking and boundedly complete bases. Prove James's basis criterion: a Banach space with
+a Schauder basis is reflexive iff that basis is both shrinking and boundedly complete (Megginson,
+Theorem 4.4.15).
+
+*In Tau Ceti:* `SchauderBasis.surjective_inclusionInDoubleDual_iff`.
+
+*Needs:* §3.1; B2 (§2.3, reflexivity).
+
+### 3.3 Unconditional bases
+
+Use `UnconditionalSchauderBasis ℕ 𝕜 E` for sequence-indexed unconditional bases, with Mathlib's
+`UnconditionalSchauderBasis.nnnormProjBound` as basis constant. Construct the conversions between
+`UnconditionalSchauderBasis ℕ 𝕜 E` and a `SchauderBasis` whose expansion also converges along
+`SummationFilter.unconditional ℕ`; do not equate an ordinary Schauder expansion with an
+unconditional `tsum`.
+
+For a basis, the finite coordinate projections `P_A`, `A` finite, are uniformly bounded iff the
+signed coordinate multipliers `x ↦ Σ_(i∈A) εᵢ bᵢ*(x) bᵢ`, `εᵢ = ±1`, are uniformly bounded. For an
+unconditional basis prove these bounds, suppression and permutation invariance (every
+rearrangement of an unconditional basis is an unconditional basis), and, on a Banach space, that
+every bounded scalar family `a ∈ ℓ∞` acts by the bounded multiplier `x ↦ Σ aᵢ bᵢ*(x) bᵢ`, of norm
+at most `4K‖a‖∞` for basis constant `K`.
+
+*In Tau Ceti:* `GeneralSchauderBasis.exists_forall_norm_proj_le_iff`, `UnconditionalSchauderBasis.reindex`, `UnconditionalSchauderBasis.multiplier`, `UnconditionalSchauderBasis.norm_multiplier_le`.
+
+**Checks.**
 - The summing basis `sₙ = e₀ + ⋯ + eₙ` of `c₀` is conditional: `x = ((−1)^k/(k+1))_k ∈ c₀` has
   coefficients `aₙ = xₙ − xₙ₊₁ = (−1)ⁿ(1/(n+1) + 1/(n+2))`, and replacing them by `|aₙ|` makes
   the zeroth coordinate of the partial sums the divergent `Σ (1/(n+1) + 1/(n+2))`; a conversion
   that ignored the summation filter would make this basis unconditional.
 
-*Needs:* Mathlib `SchauderBasis`, `UnconditionalSchauderBasis`, `SummationFilter`; Tau Ceti
-`GeneralSchauderBasis.smallPerturbationEquiv`, `SchauderBasis.subsequence`,
-`SchauderBasis.IsShrinking`, `SchauderBasis.IsBoundedlyComplete`.
+*Needs:* Mathlib `UnconditionalSchauderBasis`, `SummationFilter`, `lp`; §3.1.
 
-### 3.2 The Haar basis of `Lᵖ[0,1]`
+### 3.4 The classical sequence spaces
+
+Construct the canonical unit-vector bases of `c₀`, modelled as `C₀(ℕ, 𝕜)`
+(`ZeroAtInftyContinuousMap`), and of `ℓᵖ`, `1 ≤ p < ∞`, modelled as Mathlib's `lp`; both are
+unconditional. Use Mathlib's sequence-space models and give isometric equivalences rather than
+competing spaces.
+
+*In Tau Ceti:* `ZeroAtInftyContinuousMap.unconditionalBasis`, `lp.unconditionalBasis`.
+
+Identify the duals isometrically through the bilinear series pairing: `c₀* ≅ ℓ¹`, and
+`(ℓ^q)* ≅ ℓᵖ` for Hölder conjugate exponents with `1 ≤ q < ∞`, which includes `(ℓ¹)* ≅ ℓ∞`.
+
+*In Tau Ceti:* `ZeroAtInftyContinuousMap.dualEquiv`, `lp.dualEquiv`.
+
+Prove Schur's theorem: a weakly convergent sequence in `ℓ¹` converges in norm. The unit vectors
+of `c₀` are weakly null but not norm null; `c₀` and `ℓ¹` are not reflexive, and `ℓᵖ` is reflexive
+for `1 < p < ∞`. These examples separate the two properties of §3.2: the unit-vector basis of
+`c₀` is shrinking and not boundedly complete, that of `ℓ¹` is boundedly complete and not
+shrinking, and that of `ℓᵖ`, `1 ≤ p < ∞`, is boundedly complete.
+
+*In Tau Ceti:* `lp.tendsto_of_tendsto_toWeakSpace_one`, `ZeroAtInftyContinuousMap.tendsto_toWeakSpace_single_one_cofinite`, `ZeroAtInftyContinuousMap.not_surjective_inclusionInDoubleDual`, `lp.not_surjective_inclusionInDoubleDual_one`, `lp.surjective_inclusionInDoubleDual`, `ZeroAtInftyContinuousMap.isShrinking_toSchauderBasis_unconditionalBasis`, `ZeroAtInftyContinuousMap.not_isBoundedlyComplete_toSchauderBasis_unconditionalBasis`, `lp.isBoundedlyComplete_toSchauderBasis_unconditionalBasis`, `lp.not_isShrinking_toSchauderBasis_unconditionalBasis_one`.
+
+*Needs:* Mathlib `lp`, `lp.dualPairing`, `ZeroAtInftyContinuousMap`; §§3.2–3.3; B2.
+
+### 3.5 The Haar basis of `Lᵖ[0,1]`
 
 Construct the Haar basis of `Lᵖ([0,1])`, `1 ≤ p < ∞`, with the constant first vector,
 unnormalized `±1` functions on successive dyadic intervals, and increasing dyadic levels. Its
 initial projections are averages on the successively refined dyadic atom partitions; construct
 these contractions, their composition law and convergence on `Lᵖ`, first on dense step
-functions, consuming the pinned dyadic conditional-expectation convergence. For
-unconditionality, consume the pinned Burkholder function `Φ_p(x,y) = (x+y)^(p−1)((p−1)x − y)`
-and its estimates for `p > 2`, and integrate the midpoint inequality inductively over each split
-dyadic atom to obtain the signed-transform bound `p − 1`. Use orthogonality at `p = 2` and
-finite-atom Hölder duality at conjugate `q > 2` for `1 < p < 2`. Thus the real Haar sign-transform
-bound is `max(p, p/(p−1)) − 1`. Deduce the complex bound twice that value by real and imaginary
-parts, and hence unconditionality over both fields for `1 < p < ∞` (Albiac–Kalton, 6.1.3–6.1.7).
+functions, consuming Tau Ceti's dyadic conditional-expectation convergence.
+
+For unconditionality prove the scalar Bellman estimates for `p ≥ 2` and Burkholder's function
+`Φ_p(x,y) = (x+y)^(p−1)((p−1)x − y)` (Albiac–Kalton, 6.1.5–6.1.6): for `x, y ≥ 0`,
+`((p−1)^(p−1)/p^(p−2)) Φ_p(x,y) ≤ (p−1)^p xᵖ − yᵖ`, and for real `x, y, a` and `ε = ±1`,
+`Φ_p(|x+a|, |y+εa|) + Φ_p(|x−a|, |y−εa|) ≥ 2 Φ_p(|x|, |y|)`, the latter from the convexity of
+`t ↦ Φ_p(|x+t|, |y+εt|)`.
+
+*In Tau Ceti:* `TauCeti.burkholderPhi`, `TauCeti.mul_burkholderPhi_le`, `TauCeti.two_mul_burkholderPhi_abs_le`, `TauCeti.convexOn_burkholderPhi_abs_add`.
+
+Integrate the midpoint inequality inductively over each split dyadic atom to obtain the
+signed-transform bound `p − 1` for `p ≥ 2`. Use orthogonality at `p = 2` and finite-atom Hölder
+duality at conjugate `q > 2` for `1 < p < 2`. Thus the real Haar sign-transform bound is
+`max(p, p/(p−1)) − 1`. Deduce the complex bound twice that value by real and imaginary parts, and
+hence unconditionality over both fields for `1 < p < ∞` (Albiac–Kalton, 6.1.3–6.1.7).
 
 - The Haar functions form a Schauder basis of `Lᵖ[0,1]` for `1 ≤ p < ∞`, monotone in the
   dyadic order.
@@ -317,32 +547,49 @@ parts, and hence unconditionality over both fields for `1 < p < ∞` (Albiac–K
 - The constant `max(p, p/(p−1)) − 1` is `1` at `p = 2` and `2` at both `p = 3` and `p = 3/2`, and
   it tends to `∞` as `p → 1`, consistent with the Haar basis not being unconditional in `L¹`.
 
-*Needs:* Mathlib `MeasureTheory.Lp`, `SchauderBasis`; Tau Ceti `TauCeti.burkholderPhi` and its
-estimates, `TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`.
+*Needs:* Mathlib `MeasureTheory.Lp`, `SchauderBasis`; Tau Ceti
+`TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`.
 
 ### Examples
 
-The unit-vector bases of `c₀` and `ℓᵖ` with their pinned dualities; the summing basis of `c₀`;
-the Haar basis at `p = 2` and `p = 3`.
+The unit-vector bases of `c₀` and `ℓᵖ` with their dualities; the summing basis of `c₀`; the Haar
+basis at `p = 2` and `p = 3`.
 
 ### Dependencies
 
-Mathlib: the basis API, `lp`, `Lp`. Tau Ceti: the Layer 3 contract. Within the roadmap: Layer 1.
+Mathlib: the basis API, `lp`, `Lp`. Within the roadmap: B1, and B2 for reflexivity in §§3.2 and
+3.4.
 
-## Layer 4: approximation and Banach tensor products (B4)
+## B4. Approximation and Banach tensor products
 
-The approximation-property equivalences below concern Banach spaces; the target `F` is complete
-in the operator identifications involving `E* ⊗̂ε F` and `E* ⊗̂π F`. The approximation
-properties, the tensor norms and their completions, the approximable-operator identification,
-nuclear operators and integral bilinear forms are the pinned Tau Ceti carriers of the supplier
-contract; consumers of B4's tensor products cite those carriers.
+The approximation-property equivalences and stability results below concern Banach spaces.
+Algebraic tensor norms are defined for normed spaces; completed tensor/operator identifications,
+nuclear operators and scalar-unit isometries use Banach factors, and the target `F` is complete
+in the operator identifications involving `E* ⊗̂ε F` and `E* ⊗̂π F`. Subsections 4.2–4.5 develop
+the approximation properties, the tensor products, nuclear operators and integral bilinear forms
+and Grothendieck's comparisons; B4.C, B4.0 and B4.1 then compare a real space with its
+complexification and construct the two examples.
 
-### 4.1 Approximation properties of the classical function spaces
+### 4.2 The approximation properties
+
+A Banach space `E` has the approximation property when for every norm-compact `K ⊆ E` and every
+`ε > 0` some bounded finite-rank operator `T` satisfies `‖T x − x‖ ≤ ε` for all `x ∈ K`. For
+`λ ≥ 0` it has the `λ`-bounded approximation property when `T` can moreover be chosen with
+`‖T‖ ≤ λ`; the bounded approximation property means that some finite `λ` works, and the metric
+approximation property means `λ = 1`. The metric approximation property implies the bounded one,
+which implies the approximation property. Under a bounded linear equivalence `U : E → F` the
+`λ`-bounded approximation property of `E` gives the `λ ‖U‖ ‖U⁻¹‖`-bounded one of `F`; the
+approximation and bounded approximation properties are invariant under such equivalences, and
+the metric approximation property under isometric ones. If `P` is a bounded projection of `E`
+onto a closed subspace `M`, then `M` inherits the approximation property of `E`, and the
+`λ`-bounded approximation property of `E` gives the `λ ‖P‖`-bounded one of `M`. A Banach space with
+a Schauder basis of basis constant `K` has the `K`-bounded approximation property. The spaces `c₀`
+and `ℓᵖ`, `1 ≤ p < ∞`, have the metric approximation property.
+
+*In Tau Ceti:* `TauCeti.HasApproximationProperty`, `TauCeti.HasBoundedApproximationPropertyWith`, `TauCeti.HasBoundedApproximationProperty`, `TauCeti.HasMetricApproximationProperty`, `TauCeti.HasMetricApproximationProperty.hasBoundedApproximationProperty`, `TauCeti.HasBoundedApproximationProperty.hasApproximationProperty`, `ContinuousLinearEquiv.hasApproximationProperty_iff`, `ContinuousLinearEquiv.hasBoundedApproximationPropertyWith`, `LinearIsometryEquiv.hasMetricApproximationProperty_iff`, `TauCeti.HasApproximationProperty.of_projection`, `TauCeti.HasBoundedApproximationPropertyWith.of_projection`, `SchauderBasis.hasBoundedApproximationPropertyWith`, `SchauderBasis.hasBoundedApproximationProperty`, `TauCeti.hasMetricApproximationProperty_lp`, `TauCeti.hasMetricApproximationProperty_zeroAtInfty`.
 
 Prove the metric approximation property of `Lᵖ([0,1])`, `1 ≤ p < ∞`, from the dyadic averaging
-contractions of §3.2 (Daws, remark after Proposition 2.3.4, p. 40). The pinned results cover
-`ℓᵖ`, `c₀`, spaces with a basis, and transport
-along equivalences and projections.
+contractions of §3.5 (Daws, remark after Proposition 2.3.4, p. 40).
 
 **Checks.**
 - The dyadic averages `P_n` on `Lᵖ[0,1]` have norm `1` (`P_n 1 = 1`) and `P_n f → f`, so the
@@ -351,40 +598,107 @@ along equivalences and projections.
   `2^(−n)` containing `1/3`, so `‖P_n f − f‖₁ ≤ 2^(−n)`.
 - On the zero space the zero operator witnesses all three properties with norm `0 ≤ 1`.
 
-*Needs:* Tau Ceti `TauCeti.HasMetricApproximationProperty`; §3.2's dyadic projections.
+Prove Grothendieck's characterization: a Banach space `E` has the approximation property iff for
+every Banach space `F` every compact operator `F → E` is an operator-norm limit of finite-rank
+operators (Megginson, Theorem 3.4.32). Include the compact-disk construction and the fact that a
+relatively norm-compact set is contained in the closed convex hull of a null sequence.
 
-### 4.2 Grothendieck's tensor characterization and the Hilbert comparisons
+*In Tau Ceti:* `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`, `TauCeti.HasApproximationProperty.mem_closure_setOf_hasFiniteRange`, `TotallyBounded.exists_tendsto_zero_subset_closure_convexHull`.
+
+*Needs:* Mathlib `IsCompactOperator`, finite-rank operators; B3 (bases, §3.5's dyadic
+projections).
+
+### 4.3 Projective and injective tensor products
+
+Use distinct normed type synonyms of Mathlib's binary `TensorProduct 𝕜 E F` for the projective
+and injective norms, and `UniformSpace.Completion` for the completed tensor products `E ⊗̂π F` and
+`E ⊗̂ε F`. On the algebraic tensor product define the projective norm `‖u‖π` as the infimum of
+`Σ ‖xᵢ‖ ‖yᵢ‖` over finite decompositions `u = Σ xᵢ ⊗ yᵢ`, and the injective norm
+`‖u‖ε = sup {|Σ f(xᵢ) g(yᵢ)| : ‖f‖ ≤ 1, ‖g‖ ≤ 1}`. Over `ℝ` and `ℂ` both are norms,
+`‖x ⊗ y‖π = ‖x ⊗ y‖ε = ‖x‖ ‖y‖`, and `‖u‖ε ≤ ‖u‖π`. Construct the completions and their dense
+algebraic embeddings, the maps `f ⊗ g` induced by bounded maps in both variables, with
+`‖f ⊗ g‖ ≤ ‖f‖ ‖g‖`, and the symmetry, associativity and scalar-unit isometries, with coherence on
+pure tensors. The injective tensor product of isometric embeddings is an isometric embedding; the
+projective tensor product of metric quotient maps is a metric quotient map.
+
+*In Tau Ceti:* `TensorProduct.projectiveSeminorm`, `TauCeti.ProjectiveTensor`, `TensorProduct.injectiveSeminorm`, `TauCeti.InjectiveTensor`, `TensorProduct.projectiveSeminorm_tmul`, `TensorProduct.injectiveSeminorm_tmul`, `TensorProduct.injectiveSeminorm_le_projectiveSeminorm`, `TauCeti.CompletedProjectiveTensor`, `TauCeti.CompletedInjectiveTensor`, `TauCeti.CompletedProjectiveTensor.mapL`, `TauCeti.CompletedInjectiveTensor.mapL`, `TauCeti.ProjectiveTensor.assoc`, `TauCeti.InjectiveTensor.assoc`, `TauCeti.CompletedProjectiveTensor.comm`, `TauCeti.CompletedProjectiveTensor.lid`, `TauCeti.CompletedInjectiveTensor.comm`, `TauCeti.CompletedInjectiveTensor.lid`, `TauCeti.CompletedInjectiveTensor.mapIsometry`, `TauCeti.CompletedProjectiveTensor.image_mapL_ball`.
+
+Give norm-preserving pure-tensor comparisons with the finite-family `PiTensorProduct` interfaces.
+
+Prove the norm-preserving universal property of the completed projective tensor product: bounded
+bilinear maps `E × F → G` into a Banach space correspond isometrically to bounded linear maps
+`E ⊗̂π F → G`, and at `G = 𝕜` this identifies `(E ⊗̂π F)*` with the bounded bilinear forms. Every
+`u ∈ E ⊗̂π F` is a norm-convergent series `Σ xₙ ⊗ yₙ` with `Σ ‖xₙ‖ ‖yₙ‖ < ‖u‖π + ε` for each
+`ε > 0`, and `‖u‖π` is the infimum of these costs. For complete `F`, the map `f ⊗ y ↦ f(·) y`
+identifies `E* ⊗̂ε F` isometrically with the operator-norm closure of the finite-rank operators
+`E → F`.
+
+*In Tau Ceti:* `TauCeti.CompletedProjectiveTensor.liftIsometry`, `TauCeti.CompletedProjectiveTensor.norm_lt_iff_exists_hasSum_tmul`, `TauCeti.CompletedInjectiveTensor.toOperator`, `TauCeti.CompletedInjectiveTensor.range_toOperator`.
+
+**Checks.**
+- In `ℓ²₂ ⊗ ℓ²₂`, `u = e₁ ⊗ e₁ + e₂ ⊗ e₂` has `‖u‖ε = 1`, the operator norm of the identity of
+  `ℓ²₂`, and `‖u‖π = 2`, its trace-class norm, so `ε ≤ π` is strict here; defining the
+  projective norm through the operator norm of the associated map would give `1`.
+
+*Needs:* Mathlib `TensorProduct`, `PiTensorProduct`, `UniformSpace.Completion`, Hahn–Banach;
+§1.2.
+
+### 4.4 Nuclear operators and integral bilinear forms
+
+For complete `F`, construct the canonical map `E* ⊗̂π F → (E →L[𝕜] F)`, `f ⊗ y ↦ f(·) y`; it is a
+contraction and its kernel is closed. Its range, with the quotient norm `ν`, is the space of
+nuclear operators: `T` is nuclear iff `T x = Σ fₙ(x) yₙ` with `Σ ‖fₙ‖ ‖yₙ‖ < ∞`, and the nuclear
+norm `ν(T)` is the infimum of `Σ ‖fₙ‖ ‖yₙ‖` over these representations. Use the range submodule of
+the canonical map as the underlying algebraic carrier, with a separate normed type carrying the
+quotient norm and a contractive forgetful map into bounded operators. Prove that the nuclear
+operators form a Banach space, `‖T‖ ≤ ν(T)`, the rank-one norm `ν(f(·) y) = ‖f‖ ‖y‖` and the ideal
+inequality `ν(A T B) ≤ ‖A‖ ν(T) ‖B‖`. Keep the nuclear norm distinct from the operator norm.
+
+*In Tau Ceti:* `TauCeti.CompletedProjectiveTensor.toContinuousLinearMap`, `TauCeti.CompletedProjectiveTensor.norm_toContinuousLinearMap_le`, `TauCeti.CompletedProjectiveTensor.isClosed_ker_toContinuousLinearMap`, `TauCeti.nuclearOperators`, `TauCeti.nuclearGauge`, `TauCeti.exists_toContinuousLinearMap_eq_of_nuclearGauge_lt`, `TauCeti.nuclearGauge_comp_comp_le`, `TauCeti.NuclearOperator`, `TauCeti.NuclearOperator.norm_smulRight`.
+
+Identify `(E ⊗ε F)*` with the integral bilinear forms: the bilinear forms `B` on `E × F` whose
+induced functional `x ⊗ y ↦ B(x, y)` on algebraic tensors is bounded for `‖·‖ε`, normed by the
+least such bound, the integral norm. Prove evaluation, completeness, the rank-one formulas and
+bounded functoriality in both factors; the integral norm dominates the ordinary bilinear norm.
+
+*In Tau Ceti:* `ContinuousLinearMap.integralENorm`, `ContinuousLinearMap.enorm_le_integralENorm`, `TauCeti.IntegralBilinearForm`, `TauCeti.IntegralBilinearForm.liftIsometry`, `TauCeti.IntegralBilinearForm.bilinearComp`, `TauCeti.IntegralBilinearForm.smulRight`.
+
+Compare currying into `F*` and the forgetful map to bounded bilinear forms; do not conflate the
+integral and ordinary bilinear norms.
+
+*Needs:* §4.3; Mathlib normed quotients.
+
+### 4.5 Grothendieck's tensor characterization and the Hilbert comparisons
 
 Prove Grothendieck's tensor characterization
 (`hasApproximationProperty_iff_injective_toCompletedInjectiveTensor`): a Banach space `E` has the
-approximation property iff for every Banach space `F` the pinned contraction
-`F ⊗̂π E → F ⊗̂ε E` is injective (Daws, Proposition 2.3.4(3), pp. 39–40; Ryan, Proposition 4.6).
-Prove that the pinned canonical map `E* ⊗̂π F → (E →L[𝕜] F)` is injective if `E*` or `F` has the
-approximation property (Daws, Proposition 2.3.4, pp. 39–40), and keep
-this hypothesis-dependent identification distinct from the always-defined quotient-norm nuclear
-carrier `TauCeti.NuclearOperator`. Build the finite-rank tensor approximation and the
-separation/compact-set arguments for these comparisons.
+approximation property iff for every Banach space `F` the contraction `F ⊗̂π E → F ⊗̂ε E` of §4.3 is
+injective (Daws, Proposition 2.3.4(3), pp. 39–40; Ryan, Proposition 4.6). Prove that the canonical
+map `E* ⊗̂π F → (E →L[𝕜] F)` of §4.4 is injective if `E*` or `F` has the approximation property
+(Daws, Proposition 2.3.4, pp. 39–40), and keep this hypothesis-dependent identification distinct
+from the always-defined quotient-norm nuclear carrier of §4.4. Build the finite-rank tensor
+approximation and the separation/compact-set arguments for these comparisons.
 
 On Hilbert pairs, construct the isometric identification of the nuclear norm with OperatorIdeals
-OI-B29–OI-B30's trace-class gauge. Construct the compact Schmidt series from the pinned spectral
-theorem for compact self-adjoint operators (`exists_hilbertBasis_forall_hasEigenvector`) and
-Mathlib's `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`: for compact
-`T : H → K` on complete real or complex Hilbert spaces, apply these to `T†T`, order the positive
-eigenvalues `λ_j` with multiplicity and put `s_j = √λ_j`. Prove that a compact self-adjoint
-operator has only finitely many eigenvalues of modulus at least `ε` for each `ε > 0`:
-eigenvectors for distinct eigenvalues are orthogonal, each nonzero eigenspace is
-finite-dimensional (`IsCompactOperator.finiteDimensional_eigenspace`), and the images of an
-infinite orthonormal family of eigenvectors with eigenvalues of modulus at least `ε` are at
-mutual distance at least `ε√2`. Choose the orthonormal families `(e_j), (f_j)` with
-`f_j = s_j⁻¹ T e_j` and `s_j > 0` nonincreasing, tending to zero in the infinite-rank case;
-prove `T x = Σ s_j ⟪e_j, x⟫ f_j`, vanishing on `ker T`, with operator-norm convergence of the
-truncations (van Neerven, *Functional Analysis*, Theorem 9.2, pp. 305–306). Zero-pad the
-singular values in the finite-rank case and prove `s_n = a_n(T)` with
-the zero-based OI convention (OI-A01): the rank-`n` truncation gives the upper bound and, below
-the rank, a kernel vector on an `(n+1)`-dimensional singular span gives the lower bound. A finite
+OI-B29–OI-B30's trace-class gauge. Construct the compact Schmidt series from Tau Ceti's spectral
+theorem for compact self-adjoint operators
+(`ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`) and Mathlib's
+`ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`: for compact `T : H → K` on
+complete real or complex Hilbert spaces, apply these to `T†T`, order the positive eigenvalues `λ_j`
+with multiplicity and put `s_j = √λ_j`. Prove that a compact self-adjoint operator has only finitely
+many eigenvalues of modulus at least `ε` for each `ε > 0`: eigenvectors for distinct eigenvalues are
+orthogonal, each nonzero eigenspace is finite-dimensional
+(`IsCompactOperator.finiteDimensional_eigenspace`), and the images of an infinite orthonormal family
+of eigenvectors with eigenvalues of modulus at least `ε` are at mutual distance at least `ε√2`.
+Choose the orthonormal families `(e_j), (f_j)` with `f_j = s_j⁻¹ T e_j` and `s_j > 0` nonincreasing,
+tending to zero in the infinite-rank case; prove `T x = Σ s_j ⟪e_j, x⟫ f_j`, vanishing on `ker T`,
+with operator-norm convergence of the truncations (van Neerven, *Functional Analysis*, Theorem 9.2,
+pp. 305–306). Zero-pad the singular values in the finite-rank case and prove `s_n = a_n(T)` with the
+zero-based OI convention (OI-A01): the rank-`n` truncation gives the upper bound and, below the
+rank, a kernel vector on an `(n+1)`-dimensional singular span gives the lower bound. A finite
 trace-class gauge implies compactness by OI-A25–OI-A28. The summable Schmidt series gives the
-nuclear-norm upper bound; for the reverse inequality use OI's gauge subadditivity and rank-one
-norm on partial nuclear sums, operator-norm continuity of each `a_n`, and Fatou for the series of
+nuclear-norm upper bound; for the reverse inequality use OI's gauge subadditivity and rank-one norm
+on partial nuclear sums, operator-norm continuity of each `a_n`, and Fatou for the series of
 approximation numbers.
 
 **Checks.**
@@ -395,13 +709,11 @@ approximation numbers.
 - The diagonal operator `diag(1, 1/2, 1/3, …)` on `ℓ²` is compact with `s_j = 1/j`, not nuclear
   since `Σ 1/j = ∞`, while `diag(1/j²)` is nuclear with nuclear norm `π²/6`.
 
-*Needs:* Tau Ceti `TauCeti.HasApproximationProperty`,
-`TauCeti.CompletedProjectiveTensor.toCompletedInjectiveTensor`,
-`TauCeti.CompletedProjectiveTensor.toContinuousLinearMap`, `TauCeti.NuclearOperator`,
-`exists_hilbertBasis_forall_hasEigenvector`, `IsCompactOperator.finiteDimensional_eigenspace`;
-OperatorIdeals OI-A01, OI-A25–OI-A28, OI-B29–OI-B30.
+*Needs:* §§4.2–4.4; Tau Ceti `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`,
+`IsCompactOperator.finiteDimensional_eigenspace`; OperatorIdeals OI-A01, OI-A25–OI-A28,
+OI-B29–OI-B30.
 
-### 4.3 Real and complex approximation comparisons (B4.C)
+### B4.C. Real and complex approximation comparisons
 
 For any real Banach space `X`, consume `TauCeti.Complexification X` with its Taylor norm
 `‖x + iy‖ = sup_θ ‖cos(θ)x − sin(θ)y‖` (Muñoz–Sarantopoulos–Tonge, Proposition 3, p. 5), native
@@ -429,35 +741,34 @@ Proposition 3, p. 5).
   imaginary part would not be inverse to the stated formula.
 
 *Needs:* Tau Ceti `TauCeti.Complexification`, `ContinuousLinearMap.complexify`, `ofRealLI`,
-`reCLM`, `imCLM`, the approximation-property definitions; Mathlib `StrongDual`.
+`reCLM`, `imCLM`; §4.2's approximation properties; B2 (reflexivity); Mathlib `StrongDual`.
 
-### 4.4 Grothendieck's reflexive theorem and Enflo's counterexample (B4.0)
+### B4.0. An explicit failure of the approximation property
 
 Prove Grothendieck's reflexive theorem
-(`hasMetricApproximationProperty_of_surjective_inclusionInDoubleDual`): a reflexive real or
-complex Banach space `X` with the approximation property has the metric one. Pin the norm
-comparison as follows. Write `A(X)` for the operator-norm closure of finite-rank endomorphisms,
-identified isometrically with `X ⊗̂ε X*` by the pinned approximable-operator map. Define the
+(`hasMetricApproximationProperty_of_surjective_inclusionInDoubleDual`): a reflexive real or complex
+Banach space `X` with the approximation property has the metric one. Pin the norm comparison as
+follows. Write `A(X)` for the operator-norm closure of finite-rank endomorphisms, identified
+isometrically with `X ⊗̂ε X*` by the approximable-operator identification of §4.3. Define the
 contractive trace-pairing map `Θ_X : X* ⊗̂π X → (X ⊗̂ε X*)*` by `Θ_X(f ⊗ x)(y ⊗ g) = f(y)g(x)`,
-extending through the pinned completions. Prove the metric criterion
-`MAP(X) ↔ ∀ u, ‖Θ_X u‖ = ‖u‖π` (Daws, Theorem 2.3.14, pp. 43–44, at bound `M = 1`). The
-direction from isometry to MAP is compact-open separation: on bounded sets the compact-open dual
-of `L(X)` is given by trace pairing with `X* ⊗̂π X`, and `|⟨u, id⟩| ≤ ‖u‖π`. The direction from
-MAP to isometry uses the MAP and the pinned local reflexivity
-`LinearIsometry.exists_continuousLinearMap_of_doubleDual` together. The dual of `X* ⊗̂π X` is
-`L(X, X**)`. Take a finite tensor `u = Σ_(i≤m) f_i ⊗ x_i`, `δ > 0`, `ε > 0` and `T` in the unit
-ball of `L(X, X**)` with `|⟨u, T⟩| > ‖u‖π − δ`. By the MAP choose a finite-rank `F` with `‖F‖ ≤ 1`
-and `‖F x_i − x_i‖ < δ` for every `i`. Apply local reflexivity to the finite-dimensional range
-`V = T(F(X)) ⊆ X**` (with its inclusion as the isometry) and `G = span{f_i}`: it gives
-`R : V → X` with `‖R‖ ≤ 1 + ε` and `g(R v) = v(g)` for `g ∈ G`. Then `S = R ∘ T ∘ F` is a
-finite-rank endomorphism of `X` with `‖S‖ ≤ 1 + ε`, and
+extending through the completions of §4.3. Prove the metric criterion `MAP(X) ↔ ∀ u, ‖Θ_X u‖ = ‖u‖π`
+(Daws, Theorem 2.3.14, pp. 43–44, at bound `M = 1`). The direction from isometry to MAP is
+compact-open separation: on bounded sets the compact-open dual of `L(X)` is given by trace pairing
+with `X* ⊗̂π X`, and `|⟨u, id⟩| ≤ ‖u‖π`. The direction from MAP to isometry uses the MAP and the
+local reflexivity of §7.1 (`LinearIsometry.exists_continuousLinearMap_of_doubleDual`) together. The
+dual of `X* ⊗̂π X` is `L(X, X**)`. Take a finite tensor `u = Σ_(i≤m) f_i ⊗ x_i`, `δ > 0`, `ε > 0`
+and `T` in the unit ball of `L(X, X**)` with `|⟨u, T⟩| > ‖u‖π − δ`. By the MAP choose a finite-rank
+`F` with `‖F‖ ≤ 1` and `‖F x_i − x_i‖ < δ` for every `i`. Apply local reflexivity to the
+finite-dimensional range `V = T(F(X)) ⊆ X**` (with its inclusion as the isometry) and
+`G = span{f_i}`: it gives `R : V → X` with `‖R‖ ≤ 1 + ε` and `g(R v) = v(g)` for `g ∈ G`. Then
+`S = R ∘ T ∘ F` is a finite-rank endomorphism of `X` with `‖S‖ ≤ 1 + ε`, and
 `|⟨u, S⟩ − ⟨u, T⟩| = |Σ_i (T(F x_i − x_i))(f_i)| ≤ δ Σ_i ‖f_i‖`. A finite-rank `S` lies in
 `A(X) ≅ X ⊗̂ε X*` with injective norm `‖S‖`, so `‖Θ_X u‖ ≥ (‖u‖π − δ − δ Σ_i ‖f_i‖)/(1 + ε)`;
 letting `δ, ε → 0` gives `‖Θ_X u‖ = ‖u‖π` on finite tensors, and the equality passes to the
-completion because `Θ_X` is a contraction and both sides are continuous. The reflexive theorem
-uses only the direction from isometry to MAP. The codomain carries the dual of the injective
-norm; injectivity alone is the approximation-property comparison of §4.2 and does not yield the
-norm-one bound.
+completion because `Θ_X` is a contraction and both sides are continuous. The reflexive theorem uses
+only the direction from isometry to MAP. The codomain carries the dual of the injective norm;
+injectivity alone is the approximation-property comparison of §4.5 and does not yield the norm-one
+bound.
 
 - `Θ_X` is a contraction, natural in isometries of `X`, and `Θ_X(f ⊗ x)` evaluated at `y ⊗ g` is
   `f(y)g(x)`.
@@ -488,7 +799,7 @@ use the separable essential range of Bochner functions for a.e. uniqueness; do n
 separable. For complex targets use the underlying real Banach space and prove compatibility
 with complex scalar multiplication.
 
-Run this route for real `X`. Using the pinned integral bilinear forms, define the integral
+Run this route for real `X`. Using the integral bilinear forms of §4.4, define the integral
 endomorphism ideal on `X*` and its norm by currying the trace-pairing dual. Construct the isometric
 comparison `A(X)* ≃ I(X*)`. For reflexive `X`, use scalar weak-star-dual-ball factorization, the
 Riesz–Markov–Kakutani representation below and the reflexive-target density theorem just assigned to
@@ -496,8 +807,8 @@ obtain `I(X*) ≃ N(X*)` with equality of integral and nuclear ideal norms, with
 finite-rank/simple-density approximations and their norm bounds. The representation is that of a
 bounded functional `Λ` on `C(K, ℝ)`, `K` compact Hausdorff, identified with `C_c(K, ℝ)` by
 `CompactlySupportedContinuousMap.continuousMapEquiv`. Such a `Λ` is order bounded, since
-`Λ g ≤ ‖Λ‖ ‖f‖` whenever `0 ≤ g ≤ f`, so the pinned
-`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` writes it as the
+`Λ g ≤ ‖Λ‖ ‖f‖` whenever `0 ≤ g ≤ f`, so the signed Riesz–Markov–Kakutani representation of §5.4
+(`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`) writes it as the
 difference of the integrals against the Riesz measures of `TauCeti.RealRMK.posPart` and
 `TauCeti.RealRMK.negPart`. The two measures are finite because `K` is compact (Mathlib's
 `IsFiniteMeasure` instance for `RealRMK.rieszMeasure` on a compact space). Their total masses add up
@@ -579,13 +890,13 @@ resulting adjacent trace bound is `5‖T‖/n_(m+1)`. Derive Enflo's quantitativ
 finite-dimensional subspaces `E_m` with `dim E_m ≥ 2` and `dim E_m → ∞`, and a finite `C` such
 that `‖(I − T)|_(E_m)‖ ≥ 1 − C‖T‖/log(dim E_m)` for every bounded finite-rank `T`. This excludes
 the bounded approximation property; reflexivity and Grothendieck's reflexive theorem exclude the
-approximation property. Derive failure of a Schauder basis from the pinned basis ⇒ bounded
+approximation property. Derive failure of a Schauder basis from §4.2's basis ⇒ bounded
 approximation implication, rather than using lack of a basis to infer failure of the
 approximation property.
 
-Transport the example to a complex Banach space by the complexification of §4.3; prove
+Transport the example to a complex Banach space by the complexification of B4.C; prove
 reflexivity is preserved and that the complex approximation property would imply the real one by
-real inclusion/projection. By the pinned compact-operator characterization, construct a compact
+real inclusion/projection. By §4.2's compact-operator characterization, construct a compact
 `S : F → E` not approximable by finite-rank maps. On `F ⊕ E` construct the compact endomorphism
 `(x, y) ↦ (0, Sx)` and prove it also cannot be approximated by finite-rank endomorphisms, using
 its coordinate inclusions and projections (Enflo, §§1–4).
@@ -608,21 +919,16 @@ its coordinate inclusions and projections (Enflo, §§1–4).
 - Scaling: `Tr̃(M, cI) = c` for every scalar `c`, and `Tr̃({e_i}, T) = a_ii` on a singleton, so the
   normalized trace on singletons reads off the diagonal coefficient.
 
-*Needs:* Mathlib `lp` over a dependent family, `ZMod 2`, `Nat.choose` identities and bounds;
-Tau Ceti `TauCeti.HasApproximationProperty`, `TauCeti.HasMetricApproximationProperty`,
-`TauCeti.CompletedProjectiveTensor`, `TauCeti.CompletedInjectiveTensor`,
-`TauCeti.CompletedInjectiveTensor.toOperator`, `TauCeti.IntegralBilinearForm`,
-`TauCeti.NuclearOperator`, `SchauderBasis.hasBoundedApproximationProperty`,
-`TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`,
-`LinearIsometry.exists_continuousLinearMap_of_doubleDual` (the direction from MAP to isometry of
-the metric criterion only),
-`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`,
-`TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
-`TauCeti.RealRMK.negPart_apply`, Mathlib `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure`,
-`CompactlySupportedContinuousMap.continuousMapEquiv` (the integral/nuclear route); §§4.2–4.3;
-Daws §2.3; Enflo §§1–4.
+*Needs:* Mathlib `lp` over a dependent family, `ZMod 2`, `Nat.choose` identities and bounds,
+`RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure`,
+`CompactlySupportedContinuousMap.continuousMapEquiv`; §4.2 (approximation properties, basis ⇒
+bounded approximation, compact-operator characterization), §4.3 (completed tensor products and
+approximable operators), §4.4 (nuclear operators and integral bilinear forms), §4.5, B4.C; B2
+(reflexivity); §5.4 (signed Riesz–Markov–Kakutani representation, for the integral/nuclear
+route) and §7.1 (local reflexivity, for the direction from MAP to isometry of the metric
+criterion only); Daws §2.3; Enflo §§1–4.
 
-### 4.5 Bourgain–Delbaen spaces and the scalar-plus-compact example (B4.1)
+### B4.1. Bourgain–Delbaen spaces and the scalar-plus-compact example
 
 Construct the Argyros–Haydon real Banach space `X_K` (`exists_scalarPlusCompact` records its
 scalar-plus-compact conclusion) as the closed span of its biorthogonal vectors in native bounded
@@ -690,7 +996,7 @@ compact. Supply uniqueness, linearity, multiplicativity and the norm bound of `T
 theorem about operators on all of `X_K`, not an assertion that strictly singular operators on
 arbitrary subspaces are compact.
 
-Apply §4.3 to `X_K` to obtain a complexification with dual isomorphic to `ℓ¹(Γ, ℂ)`. Decompose
+Apply B4.C to `X_K` to obtain a complexification with dual isomorphic to `ℓ¹(Γ, ℂ)`. Decompose
 the real and imaginary parts of every complex-linear operator on this space into their real
 scalar-plus-compact forms to prove its complex scalar-plus-compact theorem. Retain hereditary
 indecomposability as a proved property of the real construction; it is not inferred for an
@@ -868,23 +1174,25 @@ sequences using the RIS estimates, supplying the `c₀` case as well as the `ℓ
   sequences.
 
 *Needs:* Mathlib `lp (fun _ : Γ => ℝ) ∞`, `IsCompactOperator`, normed quotients; §3.1's ambient
-small-perturbation theorem and basic sequences; §4.3; Argyros–Haydon §§2–9; AOST Theorem 5.4;
+small-perturbation theorem and basic sequences; B4.C; Argyros–Haydon §§2–9; AOST Theorem 5.4;
 DOSZ Theorems 6–7, Corollary 9 and Lemmas 10–11; Emmanuele.
 
 ### Examples
 
-`𝕜`, `ℓ²ₙ` and the diagonal operators `diag(1/j)`, `diag(1/j²)` on `ℓ²`; the Krawtchouk tables
-at `n = 3, 4`; the Argyros–Haydon parameters `(4,16)`, `(16, 2^32)`.
+`c₀`, `ℓᵖ` and `Lᵖ[0,1]` with the metric approximation property; `𝕜`, `ℓ²ₙ` and the diagonal
+operators `diag(1/j)`, `diag(1/j²)` on `ℓ²`; the Krawtchouk tables at `n = 3, 4`; the
+Argyros–Haydon parameters `(4,16)`, `(16, 2^32)`.
 
 ### Dependencies
 
-Mathlib: `lp`, `ZMod`, `Nat.choose`, normed quotients, `IsCompactOperator`. Tau Ceti: the Layer 4
-contract, the pinned local reflexivity of the Layer 7 contract for §4.4's metric criterion, and
-the pinned Riesz–Markov–Kakutani theorem of the Layer 5 contract for §4.4's integral/nuclear
-route. Within the roadmap: Layer 1 (bidual), Layer 2 (reflexivity) and Layer 3 (bases and
-perturbation). OperatorIdeals for §4.2.
+Mathlib: `lp`, `ZMod`, `Nat.choose`, `TensorProduct`, `UniformSpace.Completion`, normed quotients,
+`IsCompactOperator`. Tau Ceti: the complexification and the spectral theorem for compact
+self-adjoint operators of the supplier contracts. Within the roadmap: B1 (bidual), B2
+(reflexivity) and B3 (bases and perturbation); for B4.0 also B5's signed Riesz–Markov–Kakutani
+representation (§5.4) and B7's local reflexivity (§7.1), both with their realising declarations.
+OperatorIdeals for §4.5.
 
-## Layer 5: function spaces and weak compactness (B5)
+## B5. Function spaces and weak compactness
 
 ### 5.1 Finitely supported vectors and separability of `ℓ²(S)`
 
@@ -949,7 +1257,7 @@ For complete `H` and `K` over the same field with Hilbert bases indexed by `ι` 
 (`nonempty_linearIsometryEquiv_iff_lift_mk_eq`). Given an index equivalence `e`, construct the
 coordinate-reindexing isometry of the native `lp` spaces and compose it with the two
 `HilbertBasis.repr` maps; prove the resulting unitary sends `b_i` to `c_(e i)`
-(`exists_linearIsometryEquiv_hilbertBasis`). Conversely the pinned `HilbertBasis.mapₗᵢ` transports a
+(`exists_linearIsometryEquiv_hilbertBasis`). Conversely Tau Ceti's `HilbertBasis.mapₗᵢ` transports a
 Hilbert basis along a unitary, with `HilbertBasis.mapₗᵢ_apply` giving its vectors. Deduce that the Hilbert dimension of `lp(S, 𝕜, 2)` is `#S`, and that separable spaces
 are classified by dimension `0`, a positive finite integer, or `ℵ₀` (van Neerven, *Functional
 Analysis*, Theorem 3.25 and Corollary 3.23, pp. 107–108, for maximal orthonormal systems and the
@@ -997,8 +1305,8 @@ basis of `L²` of the circle).
 Prove completeness with the specified norms for the ten examples `c₀`, `C₀(ℝ)`, `C¹[0,1]`,
 `C²[0,1]`, `Lip[0,1]`, `C^(0,α)[0,1]` (`0 < α < 1`), `W^(1,1)(0,1)`, weighted `ℓ¹`, `B(ℓ²)` and
 `L¹[0,1] ⊕₁ L²[0,1]`. Use sup/derivative-sup sums for `C^k`, sup plus Lipschitz/Hölder seminorm
-for `Lip`/`C^(0,α)`, and `‖u‖₁ + ‖u′‖₁` on the pinned `TauCeti.W1p` carrier of `W^(1,1)(0,1)`,
-whose completeness is pinned and whose absolutely continuous representative is PDE Layer 1 §1.1
+for `Lip`/`C^(0,α)`, and `‖u‖₁ + ‖u′‖₁` on Tau Ceti's complete `TauCeti.W1p` carrier of
+`W^(1,1)(0,1)`, whose absolutely continuous representative is PDE Layer 1 §1.1
 (A1)'s identification at `p = 1`. Distinguish the smooth `C¹` carrier with its `L¹` graph norm
 from this complete weak `W^(1,1)` carrier. On smooth `C¹[0,1]` prove differentiation to `L¹` is
 unbounded for the `L¹` domain norm, using `tⁿ` with norms `1/(n+1)` and `1`. Differentiation to
@@ -1043,7 +1351,7 @@ For compact Hausdorff `K` with its Borel σ-algebra, use the submodule of
 `MeasureTheory.VectorMeasure K 𝕜` of measures with regular variation, normed by
 `(ν.variation Set.univ).toReal`; every scalar vector measure has finite variation
 (`MeasureTheory.VectorMeasure.isFiniteMeasure_variation`). Write `M(K)` for this normed
-submodule, closed under addition, scalar multiples and differences by the pinned regularity
+submodule, closed under addition, scalar multiples and differences by Tau Ceti's regularity
 instances `regular_variation_add`, `regular_variation_smul` and `regular_variation_sub`. Compare
 with native `SignedMeasure` and `ComplexMeasure`. Regularity of a signed or complex measure is
 regularity of its variation: for the signed measure `δ₀ − δ₁` on `[0,1]` and `A = {0,1}`,
@@ -1051,12 +1359,12 @@ regularity of its variation: for the signed measure `δ₀ − δ₁` on `[0,1]`
 regularity cannot be applied to signed or complex values.
 
 Construct the scalar density of a scalar measure first; it serves the norm equality below and
-§§5.7 and 5.9. For a measurable space, a σ-finite positive measure `ν` (`[SigmaFinite ν]`) and a
+§§5.7 and 5.8. For a measurable space, a σ-finite positive measure `ν` (`[SigmaFinite ν]`) and a
 scalar vector measure `μ` with `|μ| ≪ ν`, construct the integrable density
-`h = rnDeriv(re μ, ν) + I · rnDeriv(im μ, ν)` from the pinned signed parts `scalarMeasureRealPart`
-and `scalarMeasureImagPart`, prove `μ = ν.withDensityᵥ h` by the pinned reconstruction
+`h = rnDeriv(re μ, ν) + I · rnDeriv(im μ, ν)` from Tau Ceti's signed parts `scalarMeasureRealPart`
+and `scalarMeasureImagPart`, prove `μ = ν.withDensityᵥ h` by Tau Ceti's reconstruction
 `scalarMeasureOfReal_realPart_add_I_smul_imagPart`, and specialize to the native `ℝ` and `ℂ`
-derivatives: for `ℂ`, identify the density with native `ComplexMeasure.rnDeriv` using the pinned
+derivatives: for `ℂ`, identify the density with native `ComplexMeasure.rnDeriv` using Tau Ceti's
 real/imaginary compatibility `re_integral_ofReal` and consume native `integrable_rnDeriv`; for
 `ℝ` consume `SignedMeasure.absolutelyContinuous_iff_withDensityᵥ_rnDeriv_eq` and
 `SignedMeasure.totalVariation_eq_variation`. Consume `Integrable.withDensityᵥ_eq_iff` for a.e.
@@ -1064,22 +1372,30 @@ uniqueness and `Measure.variation_withDensityᵥ` for `|μ| = ν.withDensity (fu
 `μ` of finite variation, `ν = |μ|` is finite, hence σ-finite, and `|h| = 1` ν-a.e. (van Neerven,
 *Functional Analysis*, Theorem 2.48 and Examples 2.49–2.50, pp. 73–76).
 
+Construct the positive and negative parts of an order-bounded linear functional `Λ` on
+`C_c(X, ℝ)`, `X` locally compact Hausdorff: `Λ⁺(f) = sup {Λ(g) : 0 ≤ g ≤ f}` for `f ≥ 0`, additive
+and positively homogeneous on nonnegative functions and extended to a positive linear
+functional, and `Λ⁻ = Λ⁺ − Λ`, also positive. Apply the Riesz–Markov–Kakutani theorem to both
+parts: `Λ f = ∫ f dμ⁺ − ∫ f dμ⁻` with `μ⁺` and `μ⁻` the Riesz measures of `Λ⁺` and `Λ⁻`.
+
+*In Tau Ceti:* `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`, `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.negPart_apply`, `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`.
+
 Prove the Riesz representation of `C(K, 𝕜)*` (`exists_unique_vectorMeasure_regular`): every
 `φ ∈ StrongDual 𝕜 C(K, 𝕜)` is `f ↦ ∫ᵛ x, f x ∂[mul ℝ 𝕜; μ]` for a unique `μ` with regular
 variation, and `‖φ‖ = |μ|(K)` (van Neerven, Theorem 4.2, p. 127, for `𝕜`-valued Radon measures on
 a locally compact Hausdorff space). Restrict to real-valued functions and represent the real and
-imaginary parts of `φ`: a bounded real functional on `C(K, ℝ)` is order bounded, so the pinned
-`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` writes it as a
-difference of integrals against the Riesz measures of its positive and negative parts, regular
-measures that are finite because `K` is compact (§4.4). Reconstruct the scalar measure by
-`scalarMeasureOfReal` and the pinned reconstruction
-`scalarMeasureOfReal_realPart_add_I_smul_imagPart`, and extend from real tests by the pinned
-`𝕜`-homogeneity `integral_const_mul`. Uniqueness is the pinned
+imaginary parts of `φ`: a bounded real functional on `C(K, ℝ)`, identified with `C_c(K, ℝ)` by
+`CompactlySupportedContinuousMap.continuousMapEquiv`, is order bounded, since `Λ g ≤ ‖Λ‖ ‖f‖`
+whenever `0 ≤ g ≤ f`, so the signed representation above writes it as a difference of integrals
+against the Riesz measures of its positive and negative parts, regular measures that are finite
+because `K` is compact. Reconstruct the scalar measure by Tau Ceti's `scalarMeasureOfReal` and
+its reconstruction `scalarMeasureOfReal_realPart_add_I_smul_imagPart`, and extend from real
+tests by Tau Ceti's `𝕜`-homogeneity `integral_const_mul`. Uniqueness is Tau Ceti's
 `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_continuousMap`. For the norm, the integral
 bound gives `‖φ‖ ≤ |μ|(K)`. For the reverse inequality, use the density construction above at
 `ν = |μ|`: `μ = ν.withDensityᵥ h` with `‖h‖ = 1` ν-a.e.; choose a measurable representative of
 `conj h` bounded by one, approximate it in `L¹(ν)` by continuous functions with the same bound
-(`MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`), and use the pinned
+(`MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`), and use Tau Ceti's
 pairing identity `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ`; their integrals against
 `μ` tend to `ν(K)`. Transport completeness of `M(K)` from the strong dual through the resulting
 onto linear isometry, and export the isometric dual equivalence `StrongDual 𝕜 C(K, 𝕜) ≃ₗᵢ M(K)`
@@ -1112,10 +1428,9 @@ spaces separately.
   `‖μ‖ = 2` by mutual singularity; the Jordan parts are `λ` and `δ_{1/2}`.
 
 *Needs:* Mathlib `MeasureTheory.VectorMeasure`, `VectorMeasure.variation`, `RealRMK.rieszMeasure`,
-`OnePoint`; Tau Ceti the scalar-measure layer (B5.ScalarIntegral, B5.ScalarDensity,
-B5.AbsContRegular, B5.ScalarUniqueness, B5.BoundedApprox), `TauCeti.RealRMK.posPart`,
-`TauCeti.RealRMK.negPart`; Mathlib signed and complex Radon–Nikodym derivatives,
-`Integrable.withDensityᵥ_eq_iff`, `Measure.variation_withDensityᵥ` (density construction only).
+`CompactlySupportedContinuousMap.continuousMapEquiv`, `OnePoint`, signed and complex
+Radon–Nikodym derivatives, `Integrable.withDensityᵥ_eq_iff`, `Measure.variation_withDensityᵥ`
+(density construction only); Tau Ceti's scalar-measure layer (supplier contracts).
 
 ### 5.5 Banach–Stone
 
@@ -1140,13 +1455,13 @@ variation splitting and phase arguments of §5.4).
 ### 5.6 The `Lᵖ` dualities
 
 Construct the isometric duality `(L¹(μ))* ≅ L∞(μ)` for σ-finite `μ` by the bilinear integral
-pairing (`exists_lpInftyDualEquiv`): the pinned `MeasureTheory.Lp.toDual` is an isometry for
-σ-finite `μ`, and the pinned `MeasureTheory.Lp.dualOneEquiv` is the finite-measure case; prove
+pairing (`exists_lpInftyDualEquiv`): Tau Ceti's `MeasureTheory.Lp.toDual` is an isometry for
+σ-finite `μ`, and Tau Ceti's `MeasureTheory.Lp.dualOneEquiv` is the finite-measure case; prove
 surjectivity by a countable finite-measure exhaustion, gluing the finite-measure densities. For
 `1 < p < ∞` and `q = p/(p − 1)`, on native scalar `Lp` spaces over an arbitrary measure `μ` prove
 the isometric duality `(Lᵖ(μ))* ≅ L^q(μ)` by `φ_g(f) = ∫ f g`, bilinear without conjugation
-(`exists_lpDualEquiv`). Consume the pinned uniform convexity and reflexivity of `Lᵖ` and the
-norm attainment of functionals on reflexive spaces (Layer 2): the derivative of the `p`-norm identifies
+(`exists_lpDualEquiv`). Consume the uniform convexity and reflexivity of `Lᵖ` (§2.3) and the
+norm attainment of functionals on reflexive spaces (§2.2): the derivative of the `p`-norm identifies
 every functional with `g = ‖φ‖ |f|^(p−2) conj(f)` at a normalized maximizing `f`, and at `f = 0`
 the pointwise expression is zero. Prove the differentiation/domination, Hölder and exact-norm
 statements on actual a.e. classes; this proof needs no σ-finiteness. Include zero measure and
@@ -1162,9 +1477,8 @@ p. 133, which removes σ-finiteness for `1 < p < ∞`).
   conjugate-linear and not a linear isometric equivalence onto the dual.
 
 *Needs:* Mathlib `MeasureTheory.Lp`, `ContinuousLinearMap.lpPairing`, `ENNReal.HolderConjugate`;
-Tau Ceti `MeasureTheory.Lp.toDual`, `MeasureTheory.Lp.dualOneEquiv`,
-`MeasureTheory.Lp.uniformConvexSpace`, `MeasureTheory.Lp.surjective_inclusionInDoubleDual`;
-Layer 2 (James) for norm attainment.
+Tau Ceti `MeasureTheory.Lp.toDual`, `MeasureTheory.Lp.dualOneEquiv`; §2.3 (uniform convexity
+and reflexivity of `Lᵖ`) and §2.2 (norm attainment).
 
 ### 5.7 The Dunford–Pettis criterion and the Dunford–Pettis property
 
@@ -1177,21 +1491,34 @@ tail-integral criterion, transporting representatives of `Lp` classes explicitly
 truncation, Radon–Nikodym and weak-closure arguments, and prove weak sequential completeness of
 `L¹(μ)`.
 
+An operator is completely continuous, or Dunford–Pettis, when it maps weakly convergent
+sequences to norm-convergent sequences; prove that this is equivalent to mapping weakly compact
+sets to norm-compact sets. A Banach space has the Dunford–Pettis property when every weakly
+compact operator from it to any Banach space is completely continuous. Prove the sequence
+criterion: the space has the property iff `fₙ(xₙ) → 0` whenever `xₙ → 0` weakly in the space and
+`fₙ → 0` weakly in its dual. If the dual `X*` has the property, so does `X`, by the canonical
+bidual embedding and the sequence criterion. `c₀` has the property, from Schur's theorem for
+`c₀* = ℓ¹` (§3.4) and the sequence criterion, and so does `ℓ¹`; an infinite-dimensional Hilbert
+space does not, since a Hilbert space has the property only in finite dimension. Weak-star null
+functionals cannot replace weakly null ones in the criterion: in `c₀` the unit vectors are weakly
+null and their coordinate functionals are weak-star null, with every pairing equal to `1`.
+
+*In Tau Ceti:* `ContinuousLinearMap.IsDunfordPettis`, `ContinuousLinearMap.isDunfordPettis_iff_forall_isCompact_image`, `TauCeti.HasDunfordPettisProperty`, `TauCeti.hasDunfordPettisProperty_iff`, `TauCeti.HasDunfordPettisProperty.of_dual`, `ZeroAtInftyContinuousMap.hasDunfordPettisProperty`, `lp.hasDunfordPettisProperty_one`, `TauCeti.hasDunfordPettisProperty_iff_finiteDimensional_of_innerProductSpace`, `ZeroAtInftyContinuousMap.not_forall_tendsto_apply_of_tendsto_toWeakDual`.
+
 Prove the Dunford–Pettis property of `C(K, 𝕜)` for compact Hausdorff `K`
 (`hasDunfordPettisProperty_continuousMap`) and of `L¹(μ)` for every measure
-(`hasDunfordPettisProperty_lp_one`), through the pinned sequence criterion
-`TauCeti.hasDunfordPettisProperty_iff` (Albiac–Kalton, §5.4). For `C(K)`: for a weakly null,
-hence bounded, sequence of regular scalar measures `(νₙ)` form the finite regular measure
-`ν = Σ 2^(−n−1) |νₙ|`; prove that for every finite regular positive `ν` the map
-`g ↦ ν.withDensityᵥ g` is an isometric embedding `L¹(ν) → M(K)` with closed range, consuming
-`Measure.variation_withDensityᵥ` and the pinned pairing identity `⟨f, ν.withDensityᵥ g⟩ = ∫ f g dν`.
-Each `νₙ` satisfies `|νₙ| ≪ ν`, so §5.4's density construction writes `νₙ = ν.withDensityᵥ hₙ`; use
-these densities to transfer weak nullity; uniform integrability of those densities (the criterion above) and
-bounded convergence of the weakly null continuous functions then prove the `C(K)` sequence
-criterion. For `L¹(μ)`: a sequence in `L¹(μ)` lives on a σ-finite set `S`, and restriction to
-`L¹(μ|S)` preserves weak nullity of functionals, so it suffices to treat σ-finite `μ`; there
-`L¹(μ)* ≅ L∞(μ) ≅ C(K_μ)` by §5.6 and §5.9, `C(K_μ)` has the property, and the pinned
-`TauCeti.HasDunfordPettisProperty.of_dual` transfers it to `L¹(μ)`.
+(`hasDunfordPettisProperty_lp_one`), through the sequence criterion above (Albiac–Kalton, §5.4).
+For `C(K)`: for a weakly null, hence bounded, sequence of regular scalar measures `(νₙ)` form the
+finite regular measure `ν = Σ 2^(−n−1) |νₙ|`; prove that for every finite regular positive `ν` the
+map `g ↦ ν.withDensityᵥ g` is an isometric embedding `L¹(ν) → M(K)` with closed range, consuming
+`Measure.variation_withDensityᵥ` and Tau Ceti's pairing identity
+`⟨f, ν.withDensityᵥ g⟩ = ∫ f g dν`. Each `νₙ` satisfies `|νₙ| ≪ ν`, so §5.4's density construction
+writes `νₙ = ν.withDensityᵥ hₙ`; use these densities to transfer weak nullity; uniform
+integrability of those densities (the criterion above) and bounded convergence of the weakly null
+continuous functions then prove the `C(K)` sequence criterion. For `L¹(μ)`: a sequence in `L¹(μ)`
+lives on a σ-finite set `S`, and restriction to `L¹(μ|S)` preserves weak nullity of functionals,
+so it suffices to treat σ-finite `μ`; there `L¹(μ)* ≅ L∞(μ) ≅ C(K_μ)` by §5.6 and §5.8, `C(K_μ)` has
+the property, and the passage from the dual above transfers it to `L¹(μ)`.
 
 **Checks.**
 - In `L¹[0,1]`, `fₙ = n 1_[0,1/n]` has norm `1` and `∫_[0,1/n] fₙ = 1` on a set of measure `1/n`:
@@ -1202,15 +1529,17 @@ criterion. For `L¹(μ)`: a sequence in `L¹(μ)` lives on a σ-finite set `S`, 
   relatively weakly compact: boundedness is a separate hypothesis when `μ` has atoms.
 - A dominated family `{g : |g| ≤ h}` with `h ∈ L¹(μ)` satisfies the integral condition uniformly
   by absolute continuity of `∫ h`, and is relatively weakly compact.
+- In `ℓ²` the unit vectors are weakly null and, as functionals, weakly null in the dual, while
+  `⟨eₙ, eₙ⟩ = 1`: the sequence criterion fails, so `ℓ²` lacks the property, and the identity of
+  `ℓ²` is weakly compact without being completely continuous.
 
 *Needs:* for the criterion, Mathlib `MeasureTheory.Lp`, `UnifIntegrable`, `UniformIntegrable`;
-for the property of `C(K)`, Tau Ceti `TauCeti.HasDunfordPettisProperty`,
-`TauCeti.hasDunfordPettisProperty_iff`, the scalar-measure layer, Mathlib
+for the property of `C(K)`, Tau Ceti's scalar-measure layer (supplier contracts), Mathlib
 `Measure.variation_withDensityᵥ`, §5.4 (`M(K)` and the density construction) and the criterion
-above; for the property of `L¹(μ)`, additionally `TauCeti.HasDunfordPettisProperty.of_dual`,
-§5.6 (`L¹(μ)* ≅ L∞(μ)`) and §5.9 (`L∞(μ) ≅ C(K_μ)`).
+above; for the property of `L¹(μ)`, additionally §5.6 (`L¹(μ)* ≅ L∞(μ)`) and §5.8
+(`L∞(μ) ≅ C(K_μ)`); §2.6 (weakly compact operators), §3.4 (Schur's theorem).
 
-### 5.8 The local-null Haar endpoint (B5.LocalHaarDual)
+### B5.LocalHaarDual. The local-null Haar endpoint
 
 For a locally compact Hausdorff topological group `G` with its Borel measurable space and a
 nonzero regular left Haar measure `μ`, and scalars `𝕜 = ℝ` or `ℂ`, construct the following
@@ -1328,12 +1657,12 @@ Haar mass.
 `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le`, `TauCeti.radialRetraction`;
 AmenableGroups Layer 7, item 1; §5.6.
 
-### 5.9 Finitely additive charges and `L∞` as a space of continuous functions
+### 5.8 Finitely additive charges and `L∞` as a space of continuous functions
 
 Construct `(L∞(μ))*` as bounded-variation finitely additive charges on the measurable sets,
 vanishing on μ-null sets. Use native `MeasureTheory.AddContent 𝕜 {s | MeasurableSet s}` for
 finite additivity, with the subtype normalization `ν s = 0` for every nonmeasurable `s`, bounded
-variation and annihilation of measurable μ-null sets; the pinned
+variation and annihilation of measurable μ-null sets; Tau Ceti's
 `PositiveLinearMap.addContentLpTopEquiv` is the positive case. Prove extensionality on measurable
 sets for this normalized subtype. Define total variation by suprema over finite measurable
 partitions. Give its normed linear space, completeness, positivity, Jordan real and imaginary
@@ -1372,24 +1701,59 @@ functions. Treat the zero measure separately.
 ### Examples
 
 `ℓ²(ℕ)` and `ℓ²(ℝ)`; the Fourier unitaries; `t^α` and `t^β` in the little Hölder space; `δ₀ − δ₁`
-and `λ − δ_{1/2}` in `M([0,1])`; `n 1_[0,1/n]` in `L¹[0,1]`; the group `ℝ_d × ℝ`; the
-purely finitely additive charge on `ℕ`.
+and `λ − δ_{1/2}` in `M([0,1])`; `n 1_[0,1/n]` in `L¹[0,1]`; `c₀`, `ℓ¹` and `ℓ²` for the
+Dunford–Pettis property; the group `ℝ_d × ℝ`; the purely finitely additive charge on `ℕ`.
 
 ### Dependencies
 
 Mathlib: `lp`, `HilbertBasis`, `fourierBasis`, `Lp`, vector measures, Riesz–Markov–Kakutani,
-Radon–Nikodym, `OnePoint`, Haar measure, `AddContent`, Gelfand duality. Tau Ceti: the Layer 5
-contract, in particular the scalar-measure layer. Within the roadmap: Layers 1–3. Other roadmaps:
-AmenableGroups Layer 7, item 1 (§5.8); PDE Layer 1 §1.1 (§5.3); PseudodifferentialOperators Layer 5
-(§5.3, comparison only).
+Radon–Nikodym, `OnePoint`, Haar measure, `AddContent`, Gelfand duality. Tau Ceti: the
+scalar-measure layer and the other declarations of the supplier contracts. Within the roadmap:
+B1–B3. Other roadmaps: AmenableGroups Layer 7, item 1 (B5.LocalHaarDual); PDE Layer 1 §1.1
+(§5.3); PseudodifferentialOperators Layer 5 (§5.3, comparison only).
 
-## Layer 6: cotype and Grothendieck's theorem (B6)
+## B6. Summing operators and Grothendieck's inequality
 
-The operator-ideal laws below use Banach source and target spaces; finite-family inequalities
-retain normed-space scope. The summing-operator ideal, Pietsch domination and factorization and
-Grothendieck's matrix inequality are the pinned carriers of the supplier contract.
+The operator-ideal completeness and series characterizations below use Banach source and target
+spaces; finite-family inequalities retain normed-space scope.
 
-### 6.1 Rademacher type and cotype and the cotype-2 summing bound (B6.Cotype2)
+### 6.1 Absolutely summing operators and Pietsch domination
+
+For real `1 ≤ p < ∞`, define the weak `p`-norm of a finite family `(xᵢ)` in `E` as
+`sup_{‖f‖≤1} (Σ |f(xᵢ)|ᵖ)^(1/p)`. A bounded operator `T : E → F` is absolutely `p`-summing with
+constant `C` if `(Σ ‖T xᵢ‖ᵖ)^(1/p)` is at most `C` times the weak `p`-norm of `(xᵢ)` for every
+finite family; `πₚ(T)` is the least such constant. Bundle the operators satisfying this
+inequality as a submodule `Πₚ(E, F)` of `E →L[𝕜] F`, with a separate normed type carrying the
+`πₚ` norm and a contractive forgetful inclusion into the operator-norm carrier. Prove the Banach
+operator-ideal laws: the rank-one norm `πₚ(f(·) y) = ‖f‖ ‖y‖`, `‖T‖ ≤ πₚ(T)`, completeness of
+`Πₚ(E, F)` for complete `F`, the ideal inequality `πₚ(A T B) ≤ ‖A‖ πₚ(T) ‖B‖`, and
+`π_q(T) ≤ πₚ(T)` for `p ≤ q`. For `p = 1` and Banach `E`, an operator is absolutely summing iff it
+maps unconditionally convergent series to absolutely convergent ones.
+
+*In Tau Ceti:* `TauCeti.weakLpNorm`, `ContinuousLinearMap.summingENorm`, `TauCeti.absolutelySummingOperators`, `TauCeti.AbsolutelySumming`, `ContinuousLinearMap.summingENorm_smulRight`, `ContinuousLinearMap.enorm_le_summingENorm`, `ContinuousLinearMap.summingENorm_comp_comp_le`, `ContinuousLinearMap.summingENorm_le_summingENorm_of_exponent_le`, `TauCeti.mem_absolutelySummingOperators_one_iff`.
+
+Prove Pietsch domination: for `C ≥ 0`, `πₚ(T) ≤ C` iff there is a regular Borel probability
+measure `ν` on the closed dual unit ball, a subtype of `WeakDual 𝕜 E` with its weak-star compact
+topology and Borel structure, such that `‖T x‖ ≤ C (∫ |f(x)|ᵖ dν(f))^(1/p)` for all `x`
+(Albiac–Kalton, 8.2.8). Include the separating-convex-sets argument constructing `ν` and the
+measurability of evaluations. Prove Pietsch factorization: `T` then factors, with factor of norm
+at most `C`, through the canonical image of `E` in `Lᵖ(ν)`, and through the closure of that image
+when `F` is complete; no extension of the factor to all of `Lᵖ(ν)` with arbitrary codomain is
+asserted.
+
+*In Tau Ceti:* `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_isProbabilityMeasure`, `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_rangeRestrict`, `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_codRestrict_topologicalClosure`.
+
+**Checks.**
+- The identity of `ℓ²` is not `1`-summing: the unit vectors `e₁, …, eₙ` have weak `ℓ¹` norm `√n`
+  while `Σ ‖eᵢ‖ = n`; on a finite-dimensional space every operator is absolutely summing.
+- A rank-one operator `f(·) y` has `πₚ = ‖f‖ ‖y‖` for every `p`, dominated by the Dirac
+  probability at `f/‖f‖`; a summing norm that grew with `p` on rank-one maps would contradict
+  `π_q ≤ πₚ`.
+
+*Needs:* Mathlib Hahn–Banach separation, `WeakDual.isCompact_polar`, `Measure.Regular`,
+`MeasureTheory.Lp`; B1 (weak-star topology).
+
+### B6.Cotype2. Rademacher type and cotype and the cotype-2 summing bound
 
 For a finite family `y` in a real Banach space `Y`, put `R₂(y) = (E_ε ‖Σ ε_i y_i‖²)^(1/2)` on the
 uniform finite sign cube (`rademacherSecondMoment` is `R₂(y)²`) and
@@ -1398,7 +1762,7 @@ uniform finite sign cube (`rademacherSecondMoment` is `R₂(y)²`) and
 for `2 ≤ q < ∞`, with constant `C` by `(Σ ‖y_i‖^q)^(1/q) ≤ C R₂(y)` (`HasCotype`), both for every
 finite family; a cotype-2 bound is cotype 2 with constant `C ≥ 1` (Pisier, *Grothendieck's
 theorem, past and present*, Definition 9.6, for cotype 2, type 2 and the cotype-`q` variant).
-The finite Gaussian model shared with Layer 7 is Mathlib's standard Gaussian
+The finite Gaussian model shared with B7 is Mathlib's standard Gaussian
 `ProbabilityTheory.stdGaussian` on `EuclideanSpace ℝ (Fin n)`, whose coordinates in an orthonormal
 basis are independent standard real Gaussians; construct the Banach-valued integrability and the
 sign/Gaussian law comparisons it needs.
@@ -1439,7 +1803,7 @@ Choose `t = t(C) > 0` with `C (E[g² 1_{|g|>t}])^(1/2) ≤ 1/2`. Split each Gaus
 and tail parts. Sign contraction bounds the bounded sum by `t R₂(y)`; the 2-summing/Pietsch bound
 and the tail covariance bound its `L²` norm by `C (E[g² 1_{|g|>t}])^(1/2) G₂(y)`. Absorption
 proves `G₂(y) ≤ 2t(C) R₂(y)` and hence `π₂(U) ≤ 2C t(C) R₂(U e_i)` (`cotype2_summing_bound`, stated
-with the pinned gauge `ContinuousLinearMap.summingENorm` at `p = 2` and a constant depending only
+with §6.1's gauge `ContinuousLinearMap.summingENorm` at `p = 2` and a constant depending only
 on `C`). For complex-linear `U`, pass to its realification and the real orthonormal basis
 `(e_i, i e_i)`: compare the real and complex weak-2 norms and use the Gaussian triangle inequality
 to obtain `π₂(U) ≤ 4C t(C) R₂(U e_i)`. All constants are independent of `n` and `Y` apart from
@@ -1449,23 +1813,34 @@ Banach Spaces*, §3, Lemma 3.5, Proposition 3.7, Lemma 3.8 and Theorem 3.9, pp. 
 uses neither a noncommutative Khintchine theorem nor a predual cotype assertion.
 
 *Needs:* Mathlib Bochner integration, finite sign averages, `gaussianReal`,
-`ProbabilityTheory.stdGaussian`, `EuclideanSpace`; Tau Ceti `ContinuousLinearMap.summingENorm`,
-`TauCeti.weakLpNorm`, Pietsch domination.
+`ProbabilityTheory.stdGaussian`, `EuclideanSpace`; §6.1 (summing norms and Pietsch domination).
 
-### 6.2 Grothendieck's inequality on compact spaces and Grothendieck's theorem
+### 6.2 Grothendieck's inequality and Grothendieck's theorem
 
-The real and complex matrix inequalities with constants `κ_ℝ = 8` and `κ_ℂ = 16` are the pinned
-`Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`.
-The compact-space form for finite families is pinned as well: for compact normal `K, L`, a
-bilinear `B` on `C(K, 𝕜) × C(L, 𝕜)` with `0 ≤ C` and `‖B(f, g)‖ ≤ C ‖f‖ ‖g‖`, and finite
-families with `Σ_i |f_i|² ≤ 1` on `K` and `Σ_i |g_i|² ≤ 1` on `L`, `‖Σ_i B(f_i, g_i)‖ ≤ 16 C`
-(`LinearMap.norm_sum_apply_apply_le_sixteen_mul`; over `ℝ` the bound `8 C` is
-`LinearMap.abs_sum_apply_apply_le_eight_mul`). From it derive the measure form by the
+Prove Grothendieck's inequality for matrices with the universal constants `κ_ℝ = 8` and
+`κ_ℂ = 16`: if a finite scalar matrix `a` satisfies `|Σ aᵢⱼ sᵢ tⱼ| ≤ C` for all scalars with
+`|sᵢ| ≤ 1` and `|tⱼ| ≤ 1`, then `|Σ aᵢⱼ ⟪uᵢ, vⱼ⟫| ≤ κ_𝕜 C` for all vectors `uᵢ`, `vⱼ` of norm at
+most one in any inner product space over the same field (Albiac–Kalton, 8.1.1); the constant
+`16` serves every `RCLike` field. The constants carry no optimality claim. A route passes to the
+finite-dimensional span of the vectors, uses the finite Gaussian model of B6.Cotype2 with a
+truncation and absorption argument over `ℝ`, and for complex scalars splits real and imaginary
+parts and rotates the total sum by a unit scalar, so that `κ_ℂ = 2κ_ℝ`.
+
+*In Tau Ceti:* `Matrix.abs_sum_sum_mul_inner_le_eight_mul`, `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`.
+
+Prove the compact-space form for finite families: for compact normal `K, L`, a bilinear `B` on
+`C(K, 𝕜) × C(L, 𝕜)` with `0 ≤ C` and `‖B(f, g)‖ ≤ C ‖f‖ ‖g‖`, and finite families with
+`Σ_i |f_i|² ≤ 1` on `K` and `Σ_i |g_i|² ≤ 1` on `L`, `‖Σ_i B(f_i, g_i)‖ ≤ 16 C`, and
+`|Σ_i B(f_i, g_i)| ≤ 8 C` over `ℝ`, by finite partitions of unity and the matrix inequality.
+
+*In Tau Ceti:* `LinearMap.norm_sum_apply_apply_le_sixteen_mul`, `LinearMap.abs_sum_apply_apply_le_eight_mul`.
+
+From it derive the measure form by the
 Hahn–Banach separation argument: for compact Hausdorff `K, L` and a bounded bilinear
 `B : C(K) × C(L) → 𝕜`, there are probability measures `μ, ν` with
 `|B(f, g)| ≤ κ_𝕜 ‖B‖ ‖f‖_{L²(μ)} ‖g‖_{L²(ν)}` (Albiac–Kalton, 8.1.3); the constants carry no
 optimality claim. Derive `π₂(T) ≤ κ_𝕜 ‖T‖` for `T : C(K) → L¹(μ)` with finite
-`μ`, using §5.9's `L∞ ≅ C(K_μ)` and its square-function comparison in the integral bilinear form
+`μ`, using §5.8's `L∞ ≅ C(K_μ)` and its square-function comparison in the integral bilinear form
 `(f, g) ↦ ∫ Tf · g`. Prove Grothendieck's theorem (`summingENorm_one_le_of_lp_one`): for every
 measure `μ`, every bounded operator `T : L¹(μ) → H` into an inner product space over `𝕜` has
 `π₁(T) ≤ 16 ‖T‖`, the complex constant serving both fields (Albiac–Kalton, Chapter 8); over `ℝ`
@@ -1482,39 +1857,66 @@ extend from simple functions by density, reusing §5.6's pairing.
   domination with the image of Lebesgue measure among the Dirac functionals, within
   `κ_𝕜 ‖ι‖`.
 
-*Needs:* Tau Ceti `Matrix.abs_sum_sum_mul_inner_le_eight_mul`,
-`Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`, `LinearMap.norm_sum_apply_apply_le_sixteen_mul`,
-`LinearMap.abs_sum_apply_apply_le_eight_mul`, `ContinuousLinearMap.summingENorm`; §§5.6, 5.9.
+*Needs:* §6.1 (summing norms and Pietsch domination), B6.Cotype2 (Gaussian model, for the route
+of the matrix inequality); §§5.6, 5.8; Mathlib Hahn–Banach separation.
 
 ### Examples
 
-`c₀`, `ℓ¹` and Hilbert spaces for type and cotype; the family `(y, …, y)`; the integration
-functional on `L¹[0,1]`; the inclusion `C([0,1]) → L¹[0,1]`.
+`c₀`, `ℓ¹` and Hilbert spaces for type and cotype; the family `(y, …, y)`; the identity of `ℓ²`
+and rank-one operators for the summing norms; the integration functional on `L¹[0,1]`; the
+inclusion `C([0,1]) → L¹[0,1]`.
 
 ### Dependencies
 
-Mathlib: Bochner integration, `gaussianReal`. Tau Ceti: the Layer 6 contract. Within the roadmap:
-Layer 5 (§§5.6, 5.9).
+Mathlib: Bochner integration, `gaussianReal`, Hahn–Banach separation, regular measures. Within the
+roadmap: B1 (weak-star topology) and B5 (§§5.6, 5.8).
 
-## Layer 7: local theory and Euclidean sections (B7)
+## B7. Local theory and Euclidean sections
 
-The Banach–Mazur distance, finite representability, local reflexivity and finite
-representability of `E**` in `E` are the pinned carriers of the supplier contract.
+### 7.1 The Banach–Mazur distance, finite representability, local reflexivity and trace duality
 
-### 7.1 Local reflexivity and trace duality
+Define the Banach–Mazur distance between finite-dimensional normed `𝕜`-spaces of equal dimension
+as `d(E, F) = inf ‖T‖ ‖T⁻¹‖` over `𝕜`-linear isomorphisms `T : E → F`. Prove symmetry, the
+multiplicative triangle inequality `d(E, G) ≤ d(E, F) d(F, G)`, invariance under isometries, and,
+for nonzero spaces, `d(E, F) = 1` iff `E` and `F` are isometric.
 
-Prove trace duality for every real or complex Banach space `E` that is reflexive or has the
-metric approximation property: for every `u` in the completed `E* ⊗̂π E`, `‖u‖π` equals the
-supremum of `|⟨u, S⟩|` over `S` in the unit ball of `L(E)`. The supremum never exceeds `‖u‖π`;
-since the dual of `E* ⊗̂π E` is `L(E, E**)`, the reverse inequality is the statement that
-`J_E ∘ S`, `S` in the unit ball of `L(E)`, norms `E* ⊗̂π E`. For reflexive `E` every
-`T ∈ L(E, E**)` is `J_E ∘ (J_E⁻¹ ∘ T)`, so the supremum is attained in `L(E)`. For `E` with the
-metric approximation property, §4.4's metric criterion, proved there from the pinned local
-reflexivity `LinearIsometry.exists_continuousLinearMap_of_doubleDual`, gives the stronger equality with the supremum over finite-rank `S` of norm at most `1`, that is
-`‖Θ_E u‖ = ‖u‖π` (Daws, Theorem 2.3.14, pp. 43–44). No form without these hypotheses is claimed:
-the route applies local reflexivity to the finite-dimensional range of `T ∘ F` and so needs the
-finite-rank contractions `F` of the metric approximation property, which reflexivity makes
-unnecessary.
+*In Tau Ceti:* `TauCeti.banachMazurDist`, `TauCeti.banachMazurDist_comm`, `TauCeti.banachMazurDist_triangle`, `LinearIsometryEquiv.banachMazurDist_congr_left`, `LinearIsometryEquiv.banachMazurDist_congr_right`, `TauCeti.banachMazurDist_eq_one_iff`.
+
+A normed space `E` is finitely representable in `F` when every finite-dimensional subspace `S` of
+`E` embeds into `F` with arbitrarily small distortion: for each `ε > 0` some linear `T : S → F`
+satisfies `(1 − ε)‖x‖ ≤ ‖T x‖ ≤ (1 + ε)‖x‖` on `S`; equivalently, `S` is at Banach–Mazur distance
+less than any `λ > 1` from a subspace of `F`. Prove transitivity and inheritance by subspaces.
+
+*In Tau Ceti:* `TauCeti.FinitelyRepresentable`, `TauCeti.finitelyRepresentable_iff_banachMazurDist_lt`, `TauCeti.FinitelyRepresentable.trans`, `TauCeti.FinitelyRepresentable.submodule`.
+
+Prove the principle of local reflexivity over `𝕜`: for a finite-dimensional subspace `V ≤ E**`, a
+finite-dimensional subspace `G ≤ E*` and `ε > 0`, there is a linear map `T : V → E` with
+`(1 − ε)‖v‖ ≤ ‖T v‖ ≤ (1 + ε)‖v‖` for every `v ∈ V`, `g(T v) = v(g)` for every `g ∈ G` and
+`v ∈ V`, and `T(J_E x) = x` whenever `J_E x ∈ V` (Albiac–Kalton, 12.2.4). The two-sided bounds are
+the primary existence statement; derive the multiplicative distortion form,
+`‖T v‖ ≤ (1 + ε)‖v‖` and `‖v‖ ≤ (1 + ε)‖T v‖`, by choosing a smaller tolerance. Develop the
+finite-system separation and norm approximation lemmas used in the proof, and deduce that `E**`
+is finitely representable in `E`.
+
+*In Tau Ceti:* `LinearIsometry.exists_continuousLinearMap_of_doubleDual`, `LinearIsometry.exists_continuousLinearMap_of_doubleDual_norm_le_mul`, `TauCeti.finitelyRepresentable_doubleDual`.
+
+Conversely, derive the two-sided statement from the distortion form by adjoining a nonzero
+`J_E x₀` to `V`, so that both `T` and its inverse on its range have norm at least one, and treat
+the zero space separately; this compares existence statements with changed data and tolerance.
+
+Prove trace duality for every real or complex Banach space `E` that is reflexive or has the metric
+approximation property: for every `u` in the completed `E* ⊗̂π E`, `‖u‖π` equals the supremum of
+`|⟨u, S⟩|` over `S` in the unit ball of `L(E)`. The supremum never exceeds `‖u‖π`; since the dual of
+`E* ⊗̂π E` is `L(E, E**)`, the reverse inequality is the statement that `J_E ∘ S`, `S` in the unit
+ball of `L(E)`, norms `E* ⊗̂π E`. For reflexive `E` every `T ∈ L(E, E**)` is `J_E ∘ (J_E⁻¹ ∘ T)`, so
+the supremum is attained in `L(E)`. For `E` with the metric approximation property, B4.0's metric
+criterion, proved there from the local reflexivity above, gives the stronger equality with the
+supremum over finite-rank `S` of norm at most `1`, that is `‖Θ_E u‖ = ‖u‖π` (Daws, Theorem 2.3.14,
+pp. 43–44). No form without these hypotheses is claimed: the route applies local reflexivity to the
+finite-dimensional range of `T ∘ F` and so needs the finite-rank contractions `F` of the metric
+approximation property, which reflexivity makes unnecessary. The direction from the metric
+approximation property to `‖Θ_E u‖ = ‖u‖π` in B4.0's metric criterion holds for every `E`, and B4.0
+proves it from the local reflexivity above.
 
 **Checks.**
 - For reflexive `E` the density is equality, since `J_E` is onto.
@@ -1522,13 +1924,12 @@ unnecessary.
 - For a rank-one `u = f ⊗ x` both sides are `‖f‖ ‖x‖`: take `S = φ(·) z` with `φ(x) = ‖x‖`,
   `‖φ‖ = 1`, `‖z‖ ≤ 1` and `|f(z)| > ‖f‖ − ε`, in every Banach space.
 - The supremum over all of the unit ball of `L(E)` and the supremum over its finite-rank part
-  differ in general: Enflo's reflexive space of §4.4 fails the metric approximation property, so
-  §4.4's criterion gives some `u` with `‖Θ_E u‖ < ‖u‖π`, while reflexivity gives the full
+  differ in general: Enflo's reflexive space of B4.0 fails the metric approximation property, so
+  B4.0's criterion gives some `u` with `‖Θ_E u‖ < ‖u‖π`, while reflexivity gives the full
   supremum `‖u‖π`.
 
-*Needs:* Tau Ceti `TauCeti.CompletedProjectiveTensor`,
-`TauCeti.CompletedProjectiveTensor.norm_lt_iff_exists_hasSum_tmul`; §4.4 (`Θ_E` and the metric
-criterion, which consumes `LinearIsometry.exists_continuousLinearMap_of_doubleDual`); Daws §2.3.
+*Needs:* §4.3 (completed projective tensors and their series representations); B4.0 (`Θ_E` and
+the metric criterion); Daws §2.3.
 
 ### 7.2 John's theorem and projection constants
 
@@ -1548,7 +1949,7 @@ symmetric-body statement (Ball, Lecture 3, Theorem 3.1); for `𝕜 = ℂ` the de
 distance bound below are stated for `ℂⁿ` with a norm in Arias–Figiel–Johnson–Schechtman, §1, p. 3,
 where the ellipsoid of minimal volume containing the ball and the dual ellipsoid of maximal
 volume are compared. Derive John's bound (`banachMazurDist_euclideanSpace_le_sqrt`): an
-`n`-dimensional normed space over `𝕜` is at pinned Banach–Mazur distance at most `√n` from
+`n`-dimensional normed space over `𝕜` is at Banach–Mazur distance (§7.1) at most `√n` from
 `ℓ₂ⁿ` (Ball, Lecture 3, p. 13: `B ⊆ K ⊆ √n B` in John's position; Arias–Figiel–Johnson–Schechtman,
 §1, p. 3, over `ℝ` and `ℂ`). Derive the Kadec–Snobar projection theorem (`kadec_snobar`): every
 subspace `F` of dimension `n` of a normed `𝕜`-space is the range of a projection of norm at most
@@ -1592,7 +1993,7 @@ continuous. The lift of the quotient norm is the sole source of `ε`.
   `⟨·, i⟩` is conjugate-linear, so it cannot serve as the contact functional.
 
 *Needs:* Mathlib `ConvexBody`, `EuclideanSpace`, `LinearMap.det`, Lebesgue measure, Hahn–Banach
-(`exists_extension_norm_eq`), normed quotients; Tau Ceti `TauCeti.banachMazurDist`; Ball
+(`exists_extension_norm_eq`), normed quotients; §7.1 (the Banach–Mazur distance); Ball
 Lecture 3; Arias–Figiel–Johnson–Schechtman §1; Albiac–Kalton 13.1.5, 13.1.7; Garling–Gordon;
 Pietsch, *Eigenvalues and s-Numbers*, 1.7.17.
 
@@ -1603,32 +2004,46 @@ every real normed space of dimension at least `N` admits an embedding `T : ℓ²
 `(1 − ε)‖x‖ ≤ ‖Tx‖ ≤ (1 + ε)‖x‖`, so a `k`-dimensional subspace at Banach–Mazur distance at most
 `(1 + ε)/(1 − ε)` from `ℓ²_k`; `k = 0` is trivial. Deduce that `ℓ²` is finitely representable in
 every infinite-dimensional real Banach space (`dvoretzky`) (Albiac–Kalton, 12.3.13 and
-13.3.2–13.3.7). Build the sphere concentration and net estimates on the pinned normalized
-spherical measure `TauCeti.Probability.uniformSphereMeasure`, whose rotation invariance is the
-pinned `LinearIsometryEquiv.map_uniformSphereMeasure`: a bound `2 exp(−c n t²/L²)` about a median for real `L`-Lipschitz functions on
-`Sⁿ⁻¹` with its Euclidean distance, for `n ≥ 2`, `L > 0` and `t > 0`, with `c = 1/(1024π²)`.
-Prove the mean-centred estimate `σ{|f − ∫ f dσ| > t} ≤ 4 exp(−n t²/(32π² L²))` and the bound
-`|median(f) − ∫ f dσ| ≤ √(32π² log 8) L/√n`. Reuse §6.1's finite Gaussian model; its
-radial/directional independence and the spherical law of its normalized direction are the pinned
-`ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`,
-`TauCeti.Probability.stdGaussian_map_sphereDirection` and
-`TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`. Construct normalized Haar
-rotations on the orthogonal group and prove that `U ↦ Ux` pushes Haar probability to the pinned
-`uniformSphereMeasure` for every unit vector `x`.
-Supply the Gaussian exponential-moment and interpolation estimates and the smooth approximation
-of Lipschitz functions used in concentration. For a centred Lipschitz spherical function, use the
-bound `|f| ≤ 2L` in the radial-extension argument and propagate the resulting constants. The
-finite `η`-nets of `Sᵏ⁻¹` of size at most `(1 + 2/η)^k` are the pinned
-`TauCeti.exists_finset_isCover_sphere`.
+13.3.2–13.3.7).
 
-Make the dimension-growth step explicit. In John's position for an `n`-dimensional space,
-`n ≥ 4`, construct a Dvoretzky–Rogers orthonormal basis with `‖e_j‖ ≥ 2^(−n/(n−j+1))`. Pass to the
-span `Y` of the first `m = ⌊n/2⌋` vectors, whose norms are at least `1/4`. The Gaussian maximum
-estimate `𝔼 max_{j≤m} |g_j| ≥ √(log m)/32` for independent standard Gaussians is the pinned
-`TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`; it implies the weaker
-`(1/100) √(log m)` used below.
-Use the pinned Rademacher convexity inequality `max_j ‖v_j‖ ≤ 𝔼_ε ‖Σ ε_j v_j‖`
-(`Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`) to deduce
+Define the normalized spherical measure `σ` on the unit sphere of a finite-dimensional real inner
+product space, the surface measure `volume.toSphere` normalized to a probability measure in
+positive dimension, and prove its invariance under linear isometries.
+
+*In Tau Ceti:* `TauCeti.Probability.uniformSphereMeasure`, `LinearIsometryEquiv.map_uniformSphereMeasure`.
+
+Build the sphere concentration and net estimates on `σ`: a bound `2 exp(−c n t²/L²)` about a median
+for real `L`-Lipschitz functions on `Sⁿ⁻¹` with its Euclidean distance, for `n ≥ 2`, `L > 0` and
+`t > 0`, with `c = 1/(1024π²)`. Prove the mean-centred estimate
+`σ{|f − ∫ f dσ| > t} ≤ 4 exp(−n t²/(32π² L²))` and the bound
+`|median(f) − ∫ f dσ| ≤ √(32π² log 8) L/√n`. Reuse B6.Cotype2's finite Gaussian model and prove its
+radial/directional independence and the spherical law of its normalized direction: for a standard
+Gaussian vector `g` in positive dimension, `g/‖g‖` has law `σ` and is independent of `‖g‖`.
+
+*In Tau Ceti:* `TauCeti.Probability.stdGaussian_map_sphereDirection`, `TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`, `ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`.
+
+Construct normalized Haar rotations on the orthogonal group and prove that `U ↦ Ux` pushes Haar
+probability to `σ` for every unit vector `x`. Supply the Gaussian exponential-moment and
+interpolation estimates and the smooth approximation of Lipschitz functions used in concentration.
+For a centred Lipschitz spherical function, use the bound `|f| ≤ 2L` in the radial-extension
+argument and propagate the resulting constants.
+
+Construct for every `η > 0` a finite `η`-net of `Sᵏ⁻¹` consisting of at most `(1 + 2/η)^k` points
+of the sphere.
+
+*In Tau Ceti:* `TauCeti.exists_finset_isCover_sphere`.
+
+Make the dimension-growth step explicit. In John's position for an `n`-dimensional space, `n ≥ 4`,
+construct a Dvoretzky–Rogers orthonormal basis with `‖e_j‖ ≥ 2^(−n/(n−j+1))`. Pass to the span `Y`
+of the first `m = ⌊n/2⌋` vectors, whose norms are at least `1/4`. Prove the Gaussian maximum
+estimate `𝔼 max_{j≤m} |g_j| ≥ (1/100) √(log m)` for `m` independent standard Gaussians, using a
+scalar tail estimate at `s = (1/4) √(log m)` and independence; the constant `1/32` in place of
+`1/100` holds as well. Prove the elementary Rademacher convexity inequality
+`max_j ‖v_j‖ ≤ 𝔼_ε ‖Σ ε_j v_j‖` for independent Rademacher signs.
+
+*In Tau Ceti:* `TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`, `Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`.
+
+Use these two estimates to deduce
 `θ_Y = ∫_{S^(m−1)} ‖x‖ dσ ≥ (1/400) √(log m/m)`. Prove the random-rotation/net lemma: for
 `0 < η < 1/3` and `k ≤ 10⁻⁶ m θ_Y² η²/log(3/η)`, a `k`-dimensional subspace has norm between
 `(1 − η) θ_Y ‖x‖₂` and `(1 + η) θ_Y ‖x‖₂`. This yields the logarithmic dimension bound and the
@@ -1644,123 +2059,54 @@ qualitative theorem. For a requested `ε > 0`, use `η = min(ε/4, 1/4)` and the
   (`log 1 = 0`), which is why `n ≥ 4` is imposed.
 
 *Needs:* Mathlib `Measure.toSphere`, `gaussianReal`, `ProbabilityTheory.stdGaussian`, Haar measure
-on the orthogonal group, `EuclideanSpace`; Tau Ceti `TauCeti.exists_finset_isCover_sphere`,
-`TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`, `TauCeti.FinitelyRepresentable`,
-`TauCeti.Probability.uniformSphereMeasure`, `LinearIsometryEquiv.map_uniformSphereMeasure`,
-`TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`,
-`TauCeti.Probability.stdGaussian_map_sphereDirection`,
-`ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`,
-`Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`; §§6.1, 7.2.
+on the orthogonal group, `EuclideanSpace`; §7.1 (finite representability), §7.2 (John's
+position), B6.Cotype2 (Gaussian model).
 
 ### Examples
 
-The cube, the cross-polytope and the interval for John's theorem; `c₀` for trace duality;
-`k = 1` for Dvoretzky.
+The Banach–Mazur distance `d(ℓ₁ⁿ, ℓ₂ⁿ) = √n`; the cube, the cross-polytope and the interval for
+John's theorem; `c₀` for trace duality; `k = 1` for Dvoretzky.
 
 ### Dependencies
 
-Mathlib: convex bodies, Lebesgue and spherical measure, Gaussian measures. Tau Ceti: the Layer 7
-contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model).
+Mathlib: convex bodies, Lebesgue and spherical measure, Gaussian measures, Hahn–Banach, normed
+quotients. Within the roadmap: B1, §4.3 and B4.0 (for §7.1), B6.Cotype2 (Gaussian model).
 
 ## Downstream consumers
 
-- BanachAlgebras consumes Layers 1–2 and 4–5 (dual quotients, weak compactness, completed
+- BanachAlgebras consumes B1–B2 and B4–B5 (dual quotients, weak compactness, completed
   projective tensors and the scalar measure representation), §1.3's functional on `ℓ∞/c₀` for
-  A3, and §4.5's scalar-plus-compact theorem for A8. The tensor carriers it uses are Tau Ceti's.
-- VonNeumannAlgebras consumes Layers 1, 2 and 4.
+  A3, and B4.1's scalar-plus-compact theorem for A8.
+- VonNeumannAlgebras consumes B1, B2 and B4.
 - OperatorTheory/UnboundedOperators §4.1 and IndexTheory Layer 1 consume §5.2's Hilbert dimension
   and unitary classification.
-- NoncommutativeIntegration §7.5 consumes §6.1's Rademacher type and cotype, and Layers 1–2's
-  duality and Milman–Pettis, which are Tau Ceti's at the pin.
-- SNumbers consumes §4.2's Schmidt series, §6.2's Grothendieck theorem, and §7.2's John theorem
-  over `𝕜` with the Kadec–Snobar and Garling–Gordon projection theorems; the local reflexivity it
-  also names is Tau Ceti's at the pin.
-- CStarAlgebras and HilbertModules consume Layers 1–2.
-- SelfAdjointSpectralTheory consumes §5.4's `M(K)` and its Riesz isometry with `C(K)*`; the
-  Goldstine theorem and the scalar-measure layer it also uses are Tau Ceti's.
-- CompactQuantumMetricSpaces consumes Layers 1 and 5; ToeplitzOperators consumes §5.9's scalar
-  `L∞` algebra laws; Hyperfunctions consumes Layers 1 and 2.
+- NoncommutativeIntegration §7.5 consumes B6.Cotype2's Rademacher type and cotype, and B1–B2's
+  duality and the Milman–Pettis theorem.
+- SNumbers consumes §4.5's Schmidt series, §6.2's Grothendieck theorem, §7.1's local
+  reflexivity, and §7.2's John theorem over `𝕜` with the Kadec–Snobar and Garling–Gordon
+  projection theorems.
+- CStarAlgebras and HilbertModules consume B1–B2.
+- SelfAdjointSpectralTheory consumes §5.4's `M(K)` and its Riesz isometry with `C(K)*`, and
+  §1.2's Goldstine theorem.
+- CompactQuantumMetricSpaces consumes B1 and B5; ToeplitzOperators consumes §5.8's scalar `L∞`
+  algebra laws; Hyperfunctions consumes B1 and B2.
 - LocallyConvexDuality, NoncommutativeGeometry N1, SmoothBanachRepresentations and
-  AutomorphicSpectralTheoryPartII consume Layer 4's Banach tensor products and nuclear operators,
-  which are the pinned Tau Ceti carriers named in the supplier contract.
+  AutomorphicSpectralTheoryPartII consume B4's Banach tensor products and nuclear operators
+  (§§4.3–4.4).
 
 ## Scope and ownership
 
-This roadmap owns the targets of its seven layers. The layer ids `B1`–`B7`, and the target ids
-`B4.0`, `B4.1`, `B4.C`, `B5.LocalHaarDual` and `B6.Cotype2`, are kept in the headings above,
-since other roadmaps cite them. The layer anchors used by other roadmaps' links map to the layer
-headings as follows:
+This roadmap owns the targets of its seven layers B1–B7, including B4.C, B4.0, B4.1,
+B5.LocalHaarDual and B6.Cotype2; other roadmaps cite these ids. It owns general Banach-space
+tensor norms and absolutely summing operators, Hilbert dimension (the cardinality of a Hilbert
+basis of a complete inner-product space over ℝ or ℂ, with its basis independence and the unitary
+classification), Rademacher type and cotype with their transport laws, and the local-null `L∞`
+carrier of an arbitrary regular Haar measure.
 
-- `#b1-duality-and-weak-topologies` → Layer 1 (B1),
-  `#layer-1-duality-and-weak-topologies-b1`.
-- `#b2-weak-compactness-and-reflexivity` → Layer 2 (B2),
-  `#layer-2-weak-compactness-and-reflexivity-b2`.
-- `#b3-schauder-bases-and-classical-spaces` → Layer 3 (B3),
-  `#layer-3-schauder-bases-and-classical-spaces-b3`.
-- `#b4-approximation-and-banach-tensor-products` → Layer 4 (B4),
-  `#layer-4-approximation-and-banach-tensor-products-b4`.
-- `#b5-function-spaces-and-weak-compactness` → Layer 5 (B5),
-  `#layer-5-function-spaces-and-weak-compactness-b5`.
-- `#b6-summing-operators-and-grothendiecks-inequality` → Layer 6 (B6),
-  `#layer-6-cotype-and-grothendiecks-theorem-b6`.
-- `#b7-local-theory-and-euclidean-sections` → Layer 7 (B7),
-  `#layer-7-local-theory-and-euclidean-sections-b7`.
-
-Already in the library at the pins, consumed and not restated (the supplier contracts give names
-and files):
-
-- From B1: the double-annihilator theorems for subspaces of `E` and of `E*`, the isometries
-  `(E/F)* ≅ Fᗮ` and `F* ≅ E*/Fᗮ`, the kernel and range identities of the adjoint, the
-  closed-range theorem with the `c₀₀ ⊂ ℓ²` counterexample, Goldstine's theorem, the bipolar
-  theorem, Mazur's lemma and the compatible weak-star metric on a dual ball of a separable space.
-- From B2: Eberlein–Šmulian (absolute and relative forms), reflexivity as weak compactness of
-  the ball with its invariance and inheritance by closed subspaces, quotients and duals,
-  Milman–Pettis, Clarkson's inequalities and uniform convexity of `Lᵖ`, Krein–Šmulian for convex
-  sets and subspaces, Bishop–Phelps for functionals, support points and support functionals, and
-  weakly compact operators with Gantmacher's theorem.
-- From B3: the small perturbation theorem for bases, subsequence bases, monotone renorming,
-  unconditional-basis criteria and multipliers, the dualities `c₀* = ℓ¹` and `(ℓᵖ)* = ℓᑫ`
-  (including `(ℓ¹)* = ℓ∞`), Schur's theorem for `ℓ¹`, the reflexivity examples, shrinking and
-  boundedly complete bases with James's basis criterion, and Burkholder's function with its
-  Bellman estimates.
-- From B4: the approximation, bounded and metric approximation properties with their transport
-  and projection inheritance, the metric approximation property of `ℓᵖ` and `c₀`, the bounded
-  approximation property of a space with a basis, Grothendieck's compact-operator
-  characterization of the approximation property, the projective and injective tensor norms
-  with their completions, universal property, functoriality, symmetry, unit and associativity
-  isometries, the injective tensor product of isometric embeddings, the projective tensor
-  product of metric quotient maps, series representations of completed projective tensors,
-  `E* ⊗̂ε F` as the approximable operators, nuclear operators with the nuclear norm, and integral
-  bilinear forms as the dual of the injective tensor product.
-- From B5: the scalar-measure integration layer. Its five items, cited by id elsewhere, are
-  Tau Ceti's at the pin, and this roadmap and SelfAdjointSpectralTheory both consume them there:
-  - B5.ScalarIntegral (scalar vector-integral linearity and signed parts):
-    `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean`.
-  - B5.ScalarDensity (integral against a scalar density):
-    `TauCeti/MeasureTheory/VectorMeasure/WithDensity.lean`.
-  - B5.AbsContRegular (absolute-continuity regularity):
-    `TauCeti/MeasureTheory/Measure/Regular.lean` and
-    `TauCeti/MeasureTheory/VectorMeasure/Variation/Regular.lean`.
-  - B5.ScalarUniqueness (scalar-measure uniqueness on continuous tests):
-    `TauCeti/MeasureTheory/VectorMeasure/Uniqueness.lean`.
-  - B5.BoundedApprox (bounded continuous approximation in `L¹`, simultaneously for finitely many
-    measures): `TauCeti/MeasureTheory/Function/ContinuousApproximation.lean`.
-  Also from B5: the transport of a Hilbert basis along a unitary, the finite-measure `L¹`–`L∞`
-  duality, the isometry of the integral pairing `L^q → (L^q')*` for σ-finite measures, the
-  Riesz–Markov–Kakutani representation of order-bounded real functionals by differences of
-  regular measures, Dunford–Pettis operators and the Dunford–Pettis property with its sequence
-  criterion, its passage from the dual, and its examples `ℓ¹`, `c₀` and the infinite-dimensional
-  Hilbert space.
-- From B6: the weak `p`-norm, the absolutely `p`-summing gauge and the Banach ideal `Πₚ(E,F)`
-  with all its laws, Pietsch domination and factorization, and Grothendieck's inequality for
-  matrices and for one bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` evaluated on finite families
-  with square functions at most one, with the constants `8` over `ℝ` and `16` over `𝕜`.
-- From B7: the Banach–Mazur distance with symmetry, the multiplicative triangle inequality and
-  distance one exactly for isometric spaces, finite representability, local reflexivity, finite
-  representability of `E**` in `E`, covering numbers of spheres, the Gaussian-maximum estimate,
-  the uniform probability on the sphere with its isometry invariance and its description as the
-  law of the direction of a standard Gaussian, independent of the radius, and the Rademacher
-  convexity inequality.
+The scalar-measure integration layer that B5 uses (scalar vector-integral linearity and signed
+parts, integration against a scalar density, absolute-continuity regularity, scalar-measure
+uniqueness on continuous tests, and bounded continuous approximation in `L¹`) is already in the
+Tau Ceti library and is not a target here; the supplier contracts name it.
 
 Owned elsewhere: [Operator ideals](../OperatorTheory/OperatorIdeals/README.md) owns approximation
 numbers, finite-rank approximability, Hilbert-space Schatten ideals, trace norms and singular
@@ -1769,9 +2115,9 @@ nuclear norm with that trace-class gauge. [Operator theory](../OperatorTheory/RE
 Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space scope. The
 spectral and invariant-subspace consequences of the scalar-plus-compact theorem are BanachAlgebras
 A8's. The Hilbert matrix-coefficient WOT and the ultraweak and ultrastrong topologies are
-VonNeumannAlgebras V1's; the generic operator topologies of Layer 1 are this roadmap's. The
+VonNeumannAlgebras V1's; the generic operator topologies of B1 are this roadmap's. The
 absolutely continuous representative of an interval Sobolev class is PDE Layer 1 §1.1 (A1);
-Layer 5 consumes it. AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ`; the local-null
+B5 consumes it. AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ`; the local-null
 Haar carrier is this roadmap's.
 
 ## Exact supplier contracts
@@ -1780,7 +2126,8 @@ Haar carrier is this roadmap's.
 
 - `StrongDual`, `NormedSpace.inclusionInDoubleDual`, `toWeakSpace`, `WeakDual`, Hahn–Banach
   (`exists_extension_norm_eq`), Banach–Alaoglu (`WeakDual.isCompact_polar`), uniform boundedness,
-  the open mapping theorem, `PointwiseConvergenceCLM` and `ContinuousLinearMapWOT`.
+  the open mapping theorem, `Convex.toWeakSpace_closure`, `PointwiseConvergenceCLM` and
+  `ContinuousLinearMapWOT`.
 - `SchauderBasis`, `UnconditionalSchauderBasis`, `SchauderBasis.nnnormProjBound` and
   `UnconditionalSchauderBasis.nnnormProjBound` (`Mathlib/Analysis/Normed/Module/Bases.lean`),
   `SummationFilter`, `lp`, `lp.single`, `lp.hasSum_single`, `lp.completeSpace`, `lp.dualPairing`,
@@ -1803,209 +2150,64 @@ Haar carrier is this roadmap's.
 
 ### From Tau Ceti
 
-Layer 1:
-- `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`
-  (`Analysis/Normed/Module/Annihilator.lean:128`) and
-  `Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`
-  (`Analysis/LocallyConvex/WeakDual/Annihilator.lean:63`): the norm and weak-star double
-  annihilators.
-- `Submodule.quotientDualEquivAnnihilator` (`Analysis/Normed/Module/Dual/Quotient.lean:38`) and
-  `Submodule.quotientAnnihilatorEquivDual` (`Analysis/Normed/Module/Dual/Submodule.lean:78`).
-- `ContinuousLinearMap.ker_precomp_eq_orthogonalBilin_range`,
-  `ContinuousLinearMap.range_precomp_eq_orthogonalBilin_ker` and the closed-range theorem
-  `ContinuousLinearMap.isClosed_range_precomp_iff` (`Analysis/Normed/Module/Dual/Adjoint.lean:68,
-  106,234`; both spaces complete for the last); `TauCeti.finiteSupportL2` and
-  `TauCeti.not_isClosed_finiteSupportL2`
-  (`Analysis/Normed/Module/Dual/ClosedRangeCounterexample.lean:40,78`).
-- `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`
-  (`Analysis/Normed/Module/Dual/Goldstine.lean:50`), `AbsConvex.bipolar_eq_closure` and
-  `StrongDual.bipolar_eq_closedAbsConvexHull` (`Analysis/LocallyConvex/Bipolar.lean:71,87`),
-  `TauCeti.exists_sum_smul_norm_sub_lt_of_tendsto_weak` (`Analysis/Normed/Module/Mazur.lean:82`).
-- `WeakDual.metricSpaceOfDenseSeq` and `StrongDual.weakStarClosedBallMetricSpace`
-  (`Analysis/Normed/Module/WeakDual/Metric.lean:73,115`; separable predual for the second).
+The declarations realising this roadmap's own items are named on the *In Tau Ceti:* lines of the
+layers above. Besides those, the roadmap consumes:
 
-Layer 2:
-- `TauCeti.isCompact_toWeakSpace_iff_isSeqCompact` and `TauCeti.isCompact_closure_toWeakSpace_iff`
-  (`Analysis/Normed/Module/WeakSpace/EberleinSmulian.lean:153,137`).
-- `TauCeti.surjective_inclusionInDoubleDual_iff_isCompact_toWeakSpace_closedBall`
-  (`Analysis/Normed/Module/Dual/Reflexive/WeakCompact.lean:99`),
-  `ContinuousLinearEquiv.surjective_inclusionInDoubleDual_iff` and
-  `TauCeti.surjective_inclusionInDoubleDual_strongDual_iff`
-  (`Analysis/Normed/Module/Dual/Reflexive/Basic.lean:112,94`),
-  `Submodule.surjective_inclusionInDoubleDual` and
-  `Submodule.surjective_inclusionInDoubleDual_quotient`
-  (`Analysis/Normed/Module/Dual/Reflexive/Submodule.lean:41,67`).
-- `TauCeti.surjective_inclusionInDoubleDual_of_uniformConvexSpace`
-  (`Analysis/Convex/Uniform/Basic.lean:147`, Milman–Pettis); `TauCeti.norm_add_rpow_add_norm_sub_rpow_le`
-  (`Analysis/InnerProductSpace/Clarkson.lean:45`); `MeasureTheory.Lp.norm_add_rpow_add_norm_sub_rpow_le`,
-  `MeasureTheory.Lp.uniformConvexSpace` and `MeasureTheory.Lp.surjective_inclusionInDoubleDual`
-  (`MeasureTheory/Function/Lp/UniformConvex.lean:75,123,157`, for `1 < p < ∞`).
-- `Convex.isClosed_iff_forall_isClosed_inter_closedBall` and
-  `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
-  (`Analysis/Normed/Module/Dual/KreinSmulian.lean:272,305`).
-- `TauCeti.dense_setOf_exists_norm_apply_eq_norm`, `Convex.dense_setOf_ne_zero_isMaxOn_re` and
-  `Convex.frontier_subset_closure_setOf_isMaxOn_re`
-  (`Analysis/Normed/Module/Dual/BishopPhelps.lean:319,243,282`).
-- `ContinuousLinearMap.IsWeaklyCompact`, `ContinuousLinearMap.isWeaklyCompact_iff_range_subset`,
-  `ContinuousLinearMap.isWeaklyCompact_precomp_iff`, `IsCompactOperator.isWeaklyCompact` and
-  `ContinuousLinearMap.isWeaklyCompact_id_and_not_isCompactOperator_id`
-  (`Analysis/Normed/Operator/WeaklyCompact.lean:60,190,304,154,179`).
-
-Layer 3:
-- `SchauderBasis.IsShrinking`, `SchauderBasis.IsBoundedlyComplete` and
-  `SchauderBasis.surjective_inclusionInDoubleDual_iff`
-  (`Analysis/Normed/Module/Bases/Reflexive.lean:49,60,199`).
-- `GeneralSchauderBasis.smallPerturbationEquiv` and `GeneralSchauderBasis.perturb`
-  (`Analysis/Normed/Module/Bases/Perturbation.lean:60,133`), `SchauderBasis.subsequence`
-  (`Analysis/Normed/Module/Bases/Subsequence.lean:55`), `SchauderBasis.monotoneBasis`
-  (`Analysis/Normed/Module/Bases/Monotone.lean:159`),
-  `GeneralSchauderBasis.exists_forall_norm_proj_le_iff` and `UnconditionalSchauderBasis.multiplier`
-  (`Analysis/Normed/Module/Bases/Unconditional.lean:120,178`).
-- `ZeroAtInftyContinuousMap.dualEquiv` (`Topology/ContinuousMap/ZeroAtInfty/Dual.lean:129`),
-  `lp.dualEquiv` (`Analysis/Normed/Lp/Dual.lean:175`, `q ≠ ∞`), `lp.tendsto_of_tendsto_toWeakSpace_one`
-  (`Analysis/Normed/Lp/Schur.lean:155`), `lp.surjective_inclusionInDoubleDual` and
-  `lp.not_surjective_inclusionInDoubleDual_one` (`Analysis/Normed/Lp/Reflexive.lean:66,44`),
-  `ZeroAtInftyContinuousMap.not_surjective_inclusionInDoubleDual`
-  (`Topology/ContinuousMap/ZeroAtInfty/Reflexive.lean:68`).
-- `TauCeti.burkholderPhi`, `TauCeti.mul_burkholderPhi_le` and `TauCeti.convexOn_burkholderPhi_abs_add`
-  (`Analysis/SpecialFunctions/Pow/Burkholder.lean:59,204,357`, for `p ≥ 2`);
-  `TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`
-  (`MeasureTheory/Constructions/UnitInterval/Dyadic.lean:141`).
-
-Layer 4:
-- `TauCeti.HasApproximationProperty`, `TauCeti.HasBoundedApproximationPropertyWith`,
-  `TauCeti.HasBoundedApproximationProperty` and `TauCeti.HasMetricApproximationProperty`
-  (`Analysis/Normed/Module/ApproximationProperty/Basic.lean:47,52,58,62`); their transport
-  `ContinuousLinearEquiv.hasApproximationProperty_iff`,
-  `ContinuousLinearEquiv.hasBoundedApproximationPropertyWith`,
-  `TauCeti.HasApproximationProperty.of_projection` and
-  `TauCeti.HasBoundedApproximationPropertyWith.of_projection`
-  (`Analysis/Normed/Module/ApproximationProperty/Transport.lean:129,136,92,99`);
-  `TauCeti.hasMetricApproximationProperty_lp` and `TauCeti.hasMetricApproximationProperty_zeroAtInfty`
-  (`Analysis/Normed/Module/ApproximationProperty/SequenceSpace.lean:35,43`);
-  `SchauderBasis.hasBoundedApproximationPropertyWith` and `SchauderBasis.hasBoundedApproximationProperty`
-  (`Analysis/Normed/Module/Bases/Approximation.lean:59,64`);
-  `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`
-  (`Analysis/Normed/Module/ApproximationProperty/CompactOperator.lean:178`).
-- `TensorProduct.projectiveSeminorm`, `TauCeti.ProjectiveTensor`
-  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm.lean:123,236`);
-  `TensorProduct.injectiveSeminorm`, `TauCeti.InjectiveTensor`,
-  `TensorProduct.injectiveSeminorm_le_projectiveSeminorm` and
-  `TensorProduct.injectiveSeminorm_le_iff_forall_norm_le_one`
-  (`Analysis/Normed/Module/TensorProduct/InjectiveSeminorm.lean:109,330,151,203`; the classical
-  injective norm over `ℝ` and `ℂ`); `TauCeti.CompletedProjectiveTensor`,
-  `TauCeti.CompletedInjectiveTensor`, `TauCeti.CompletedProjectiveTensor.toCompletedInjectiveTensor`
-  and `TauCeti.CompletedProjectiveTensor.liftIsometry`
-  (`Analysis/Normed/Module/TensorProduct/Completion.lean:76,81,170,196`); the symmetry, unit and
-  associativity isometries (`Analysis/Normed/Module/TensorProduct/Associator.lean`);
-  `TauCeti.CompletedInjectiveTensor.mapIsometry` (`Analysis/Normed/Module/TensorProduct/Isometry.lean:125`);
-  `TauCeti.CompletedProjectiveTensor.image_mapL_ball`
-  (`Analysis/Normed/Module/TensorProduct/Quotient.lean:132`);
-  `TauCeti.CompletedProjectiveTensor.norm_lt_iff_exists_hasSum_tmul`
-  (`Analysis/Normed/Module/TensorProduct/Series.lean:148`);
-  `TauCeti.CompletedInjectiveTensor.toOperator` with its range
-  (`Analysis/Normed/Module/TensorProduct/Approximable.lean:172,188`).
-- `TauCeti.CompletedProjectiveTensor.toContinuousLinearMap`, `TauCeti.nuclearOperators`,
-  `TauCeti.nuclearGauge` and `TauCeti.NuclearOperator` (`Analysis/Normed/Operator/Nuclear.lean:84,
-  129,173,304`; complete target).
-- `ContinuousLinearMap.integralENorm`, `TauCeti.IntegralBilinearForm` and
-  `TauCeti.IntegralBilinearForm.liftIsometry`
-  (`Analysis/Normed/Module/TensorProduct/IntegralBilinearForm.lean:76,239,296`).
 - `TauCeti.Complexification` with `ofRealLI`, `reCLM`, `imCLM`, `equivProd` and
-  `ContinuousLinearMap.complexify` (`Analysis/Normed/Module/Complexification.lean`).
-- `exists_hilbertBasis_forall_hasEigenvector` (`Analysis/InnerProductSpace/Spectrum.lean:152`),
+  `ContinuousLinearMap.complexify` (`Analysis/Normed/Module/Complexification.lean`): the Taylor
+  complexification of a real normed space and of real operators, for B4.C, B4.0 and B4.1.
+- `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  (`Analysis/InnerProductSpace/Spectrum.lean:152`) and
   `IsCompactOperator.finiteDimensional_eigenspace`
-  (`Analysis/Normed/Operator/Compact/Eigenspace.lean:56`).
-
-Layer 5:
-- The scalar-measure layer listed under Scope and ownership, in particular
-  `MeasureTheory.VectorMeasure.scalarMeasureRealPart`, `scalarMeasureImagPart`,
-  `scalarMeasureOfReal`, `scalarMeasureOfReal_realPart_add_I_smul_imagPart`,
-  `variation_scalarMeasureRealPart_le`, `integral_const_mul`, `re_integral_ofReal`,
-  `integral_mul_eq_integral_posPart_sub_integral_negPart`
-  (`MeasureTheory/VectorMeasure/ScalarIntegral.lean`);
-  `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ` and `integral_withDensityᵥ_congr_ae`
-  (`MeasureTheory/VectorMeasure/WithDensity.lean:155,83`);
-  `MeasureTheory.Measure.AbsolutelyContinuous.regular` (`MeasureTheory/Measure/Regular.lean:234`);
-  `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_continuousMap`
-  (`MeasureTheory/VectorMeasure/Uniqueness.lean:122`);
-  `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` and
-  `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`
-  (`MeasureTheory/Function/ContinuousApproximation.lean`, finitely many finite weakly regular
-  measures on a normal Borel space).
-- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
-  `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.negPart_apply` and
-  `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
-  (`MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean:160,188,205,211,262`; the last states
-  only the integral identity, on `C_c(X, ℝ)`, with measures that need not be finite), used also by
-  §4.4.
+  (`Analysis/Normed/Operator/Compact/Eigenspace.lean:56`): the spectral theorem for compact
+  self-adjoint operators and finite-dimensionality of their nonzero eigenspaces, for §4.5.
+- `TauCeti.unitInterval.tendsto_eLpNorm_condExp_dyadicFiltration`
+  (`MeasureTheory/Constructions/UnitInterval/Dyadic.lean:141`): `Lᵖ` convergence of the dyadic
+  conditional expectations on `[0,1]`, for §3.5.
+- The scalar-measure integration layer, for §§5.4 and 5.7:
+  - scalar vector-integral linearity and signed parts,
+    `MeasureTheory.VectorMeasure.scalarMeasureRealPart`, `scalarMeasureImagPart`,
+    `scalarMeasureOfReal`, `scalarMeasureOfReal_realPart_add_I_smul_imagPart`,
+    `variation_scalarMeasureRealPart_le`, `integral_const_mul`, `re_integral_ofReal` and
+    `integral_mul_eq_integral_posPart_sub_integral_negPart`
+    (`MeasureTheory/VectorMeasure/ScalarIntegral.lean`);
+  - integration against a scalar density, `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ`
+    and `integral_withDensityᵥ_congr_ae` (`MeasureTheory/VectorMeasure/WithDensity.lean:155,83`);
+  - absolute-continuity regularity, `MeasureTheory.Measure.AbsolutelyContinuous.regular`
+    (`MeasureTheory/Measure/Regular.lean:234`), and the closure of regular variation under sums,
+    scalar multiples and differences, `MeasureTheory.VectorMeasure.regular_variation_add`,
+    `regular_variation_smul` and `regular_variation_sub`
+    (`MeasureTheory/VectorMeasure/Variation/Regular.lean`);
+  - scalar-measure uniqueness on continuous tests,
+    `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_continuousMap`
+    (`MeasureTheory/VectorMeasure/Uniqueness.lean:122`);
+  - bounded continuous approximation in `L¹`, simultaneously for finitely many measures,
+    `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` and
+    `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`
+    (`MeasureTheory/Function/ContinuousApproximation.lean`, finitely many finite weakly regular
+    measures on a normal Borel space), also for B5.LocalHaarDual.
 - `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean:102`, finite
   measure) and `MeasureTheory.Lp.toDual` (`MeasureTheory/Function/Lp/Duality.lean:431`, an
-  isometry for σ-finite measures; surjectivity is not asserted there).
-- `ContinuousLinearMap.IsDunfordPettis`, `ContinuousLinearMap.isDunfordPettis_iff_forall_isCompact_image`,
-  `TauCeti.HasDunfordPettisProperty` and `TauCeti.hasDunfordPettisProperty_iff`
-  (`Analysis/Normed/Operator/DunfordPettis/Basic.lean:86,172,247,296`);
-  `TauCeti.HasDunfordPettisProperty.of_dual`, `ZeroAtInftyContinuousMap.hasDunfordPettisProperty`
-  and `ZeroAtInftyContinuousMap.not_forall_tendsto_apply_of_tendsto_toWeakDual`
-  (`Analysis/Normed/Operator/DunfordPettis/Dual.lean:75,97,115`);
-  `TauCeti.hasDunfordPettisProperty_iff_finiteDimensional_of_innerProductSpace`
-  (`Analysis/Normed/Operator/DunfordPettis/Reflexive.lean:63`).
+  isometry for σ-finite measures; surjectivity is not asserted there), for §5.6.
 - `PositiveLinearMap.addContentLpTopEquiv` (`MeasureTheory/Function/Lp/AddContent.lean:254`,
-  positive functionals on `L∞` as finitely additive contents).
-- `TauCeti.radialRetraction` (`Analysis/Normed/Module/Ball/Retraction.lean:85`).
-- `TauCeti.W1p` with its completeness (`Analysis/Sobolev/W1p/Basic.lean:372,376`).
+  positive functionals on `L∞` as finitely additive contents), for §5.8.
+- `TauCeti.radialRetraction` (`Analysis/Normed/Module/Ball/Retraction.lean:85`), for
+  B5.LocalHaarDual.
+- `TauCeti.W1p` with its completeness (`Analysis/Sobolev/W1p/Basic.lean:372,376`), for §5.3.
 - `HilbertBasis.mapₗᵢ` (`Analysis/InnerProductSpace/HilbertBasis/Map.lean:32`), the transport of a
-  Hilbert basis along a linear isometric equivalence, with `HilbertBasis.mapₗᵢ_apply`.
-
-Layer 6:
-- `TauCeti.weakLpNorm` (`Analysis/Normed/Lp/Weak.lean:78`), `ContinuousLinearMap.summingENorm`
-  and `TauCeti.AbsolutelySumming` (`Analysis/Normed/Operator/AbsolutelySumming/Basic.lean:99,591`).
-- `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_isProbabilityMeasure`
-  (`Analysis/Normed/Operator/AbsolutelySumming/Pietsch.lean:329`, Pietsch domination) and
-  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_rangeRestrict` and
-  `ContinuousLinearMap.summingENorm_le_ofReal_iff_exists_eq_comp_codRestrict_topologicalClosure`
-  (`Analysis/Normed/Operator/AbsolutelySumming/Factorization.lean:129,143`, Pietsch factorization
-  through the canonical image, and through its closure for a complete target).
-- `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`
-  (`Analysis/Matrix/Grothendieck.lean:169,207`).
-- `LinearMap.norm_sum_apply_apply_le_sixteen_mul` and `LinearMap.abs_sum_apply_apply_le_eight_mul`
-  (`Topology/ContinuousMap/Grothendieck.lean:157,169`; compact normal `K, L`): Grothendieck's
-  inequality for a bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` and finite families with square
-  functions at most one.
-
-Layer 7:
-- `TauCeti.banachMazurDist`, `TauCeti.banachMazurDist_comm`, `TauCeti.banachMazurDist_triangle`,
-  `TauCeti.banachMazurDist_eq_one_iff` (`Analysis/Normed/Module/BanachMazur.lean:69,119,126,268`).
-- `TauCeti.FinitelyRepresentable` and `TauCeti.finitelyRepresentable_iff_banachMazurDist_lt`
-  (`Analysis/Normed/Module/FinitelyRepresentable.lean:67,221`).
-- `LinearIsometry.exists_continuousLinearMap_of_doubleDual` and
-  `TauCeti.finitelyRepresentable_doubleDual` (`Analysis/Normed/Module/Dual/LocalReflexivity.lean:228,320`).
-- `TauCeti.exists_finset_isCover_sphere` (`Analysis/Normed/Module/CoveringNumber.lean:168`) and
-  `TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs`
-  (`Probability/Distributions/Gaussian/Maximum.lean:83`).
-- `TauCeti.Probability.uniformSphereMeasure`, the normalized surface measure `volume.toSphere` on
-  the unit sphere of a finite-dimensional real inner product space, a probability measure in
-  positive dimension, with its isometry invariance `LinearIsometryEquiv.map_uniformSphereMeasure`,
-  the law of direction and radius of a standard Gaussian
-  `TauCeti.Probability.stdGaussian_map_sphereDirection_prod_norm`, the spherical law of the
-  direction `TauCeti.Probability.stdGaussian_map_sphereDirection` and the independence of
-  direction and radius `ProbabilityTheory.HasLaw.indepFun_sphereDirection_norm_stdGaussian`
-  (`Probability/Distributions/Uniform/Sphere/Basic.lean:77,138,237,251,277`).
-- `Finset.sup'_norm_le_integral_norm_sum_smul_rademacher`
-  (`Probability/Distributions/Rademacher/Norm.lean:98`), the Rademacher convexity inequality
-  `max_j ‖v_j‖ ≤ 𝔼 ‖Σ ε_j v_j‖` for pairwise independent Rademacher signs, with no completeness or
-  dimension hypothesis.
+  Hilbert basis along a linear isometric equivalence, with `HilbertBasis.mapₗᵢ_apply`, for §5.2.
 
 ### From TauCetiRoadmap.OperatorTheory/OperatorIdeals
 
 OI-A01 (approximation numbers), OI-A25–OI-A28 (finite-rank approximability) and OI-B29–OI-B30
-(the Hilbert trace-class gauge), consumed by §4.2 for the nuclear/trace-class comparison.
+(the Hilbert trace-class gauge), consumed by §4.5 for the nuclear/trace-class comparison.
 
 ### From TauCetiRoadmap.AmenableGroups
 
 Layer 7, item 1: the raw Haar support/localization and Baire/null-envelope contract, with its
-locally finite and finite-set compact-inner-regular hypotheses, consumed by §5.8. Its later
-global-`L∞` means, smoothing conclusion and amenability theorem are not consumed.
+locally finite and finite-set compact-inner-regular hypotheses, consumed by
+B5.LocalHaarDual. Its later global-`L∞` means, smoothing conclusion and amenability theorem are
+not consumed.
 
 ### From TauCetiRoadmap.PDE
 
