@@ -25,11 +25,11 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 [FormalProof].
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
-`*Method of the formal proof:*` how [FormalProof] proves it. The statements of 9.8, 12.1 and 13.1 are not
-statements of [FormalProof]: 9.8 (a), and 12.1 when `[E : F]` is prime to `p`, are published theorems,
-stated in the roadmaps cited with them; 9.8 (b), 12.1 when `p` divides `[E : F]`, and 13.1, which extends a
-published splitting theorem from the ordinary places to the reducible ones, are this roadmap's own
-formulations.
+`*Method of the formal proof:*` how [FormalProof] proves it. [FormalProof] does not prove or use the statements
+of 9.8, 12.1 and 13.1: 9.8 (a), and 12.1 when `[E : F]` is prime to `p`, are published theorems,
+stated in the roadmaps cited with them; 9.8 (b) is this roadmap's own formulation; 12.1 when `p` divides `[E : F]`,
+and 13.1, which extends a published splitting theorem from the ordinary places to the reducible ones, are adapted
+from published theorems (Kolster 2009, Theorem 3.3; Brown and Ghate 2003, Theorem 3.3.1).
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
 of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when
@@ -255,6 +255,10 @@ determinant, at most the product of the `ℓ¹`-norms of its rows by expansion o
 `ℤ^ι/⟨Λ₀⟩` has at most as many elements as the quotient by that lattice. Soulé's lemma uses Euclidean norms and
 Hadamard's inequality in the real span of the subfamily; the `ℓ¹` form needs only the permutation expansion.
 
+*Corollary of:* ArithmeticKTheory §9.1 (Gabber's lemma: the torsion of the homology of a based complex of free
+abelian groups of finite rank has order at most `b^a`), applied to the complex `ℤ^{Λ₀} → ℤ^ι`: `Λ₀` is
+finite, its vectors being integral of bounded norm, the Euclidean norms of the boundaries are at most their `ℓ¹`-norms, at most `b`, and `a ≤ #ι`.
+
 For a finite set `ι` and a set `Λ₀ ⊂ ℤ^ι` of vectors of `ℓ¹`-norm at most `b ≥ 1`: `#(ℤ^ι/⟨Λ₀⟩)_tors ≤ b^{#ι}`. This follows from
 the bound of the torsion of the cokernel by the product of the Euclidean norms of a subfamily of `Λ₀` that is a basis of its
 real span (Soulé 1999, Lemma 1, p. 5), since the Euclidean norm is at most the `ℓ¹`-norm and the span has rank at most `#ι`.
@@ -371,11 +375,11 @@ the faces of the Voronoi tessellation, the published result nearest to (e).
 ### 9.4 Torsion in the homology of `GL_N(𝒪_L)`
 
 *Origin:* particular to this proof: an explicit bound for the whole torsion of `H_m(GL_N(𝒪_L); ℤ)`, every prime
-included, with `log log` of its order linear in `log |d_L|`, for totally complex `L`; nearest published results: Soulé
-(2003) and Bayer-Fluckiger, Emery and Houriet (2014), bounds of the same shape away from small primes, de la Torre
-Durán (2026), such bounds for totally real and CM fields, and Emery (2014), every prime under the hypothesis that the
-rational homology vanishes, with constants that are not explicit. The form for a field with a real place is this
-roadmap's own formulation.
+included, with `log log` of its order linear in `log |d_L|`, for totally complex `L`; nearest published results:
+Bayer-Fluckiger, Emery and Houriet (2014), a bound of the same shape away from small primes that improves Soulé
+(2003), de la Torre Durán (2026), such bounds for totally real and CM fields, and Emery (2014), every prime under
+the hypothesis that the rational homology vanishes, with constants that are not explicit. The form for a field with
+a real place is this roadmap's own formulation.
 
 *Method of the formal proof:* the torsion bound for groups acting on acyclic complexes is applied to `GL_N(𝒪_L)`
 acting on the ordered nerve of the perfect forms: the nerve is acyclic, its orbits of simplices are counted
@@ -594,7 +598,9 @@ IntegralIwasawaTheory §§0.1–0.3, 10.5; SchemeKTheoryOperations §6.7; Chebot
 integer depending only on the degree, stated in StableHomotopyKTheory §4.24a; (b) this roadmap's own formulation:
 the bound for the part of `K_m(𝒪_L)_tors` prime to `R_m` and the `ℓ`-part inequalities, from 9.4 and (a).
 
-*Method of the formal proof:* none; the statement is not in [FormalProof].
+*Method of the formal proof:* none. [FormalProof] states (a), for commutative `R` and `m ≥ 2`, as the proposition
+`UpperTheory.V.Published.KHurewicz` (`AV/PublishedTheorems/KAcyclicHomology.lean`), a hypothesis that it does not
+prove and on which its main theorems do not depend; it does not state (b).
 
 (a) For every `m ≥ 1` and every ring `R` the kernel of the Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is
 killed by the positive integer `R_m` of StableHomotopyKTheory §4.24a, which depends only on `m`: for
@@ -621,7 +627,7 @@ For `ι = {1}` and `Λ₀ = {b}` the quotient is `ℤ/b` and the bound `b^{#ι}`
 
 ### Dependencies
 
-Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1, 9.1 (Gabber's lemma, cited in 9.2); LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.4, 4.9; K3SurfacesAndSymplecticBoundedness §4.5; Polylogarithms §2.2; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); KTheoryFiniteLocalFields §§1.1–1.2; IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §4.24a; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
+Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1, 9.1 (Gabber's lemma, the general theorem of which 9.1 is a corollary; cited in 9.2); LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.4, 4.9; K3SurfacesAndSymplecticBoundedness §4.5; Polylogarithms §2.2; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); KTheoryFiniteLocalFields §§1.1–1.2; IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §4.24a; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
 
 ## Layer 10: Minus parts of twisted Sha groups and Bernoulli numbers
 
@@ -1151,7 +1157,7 @@ Not owned here. The theory these statements extend belongs to four roadmaps. [Ar
 
 ### From TauCetiRoadmap.ArithmeticKTheory
 
-Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1). §9.1: Gabber's lemma, the torsion of the homology in degree `k` of a based complex of free abelian groups of finite rank has order at most `b^a`, for `b ≥ 1` bounding the Euclidean norms of the boundaries of the basis elements in degree `k + 1` and `a` the smaller of the ranks in degrees `k` and `k + 1` (cited at 9.2).
+Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1). §9.1: Gabber's lemma, the torsion of the homology in degree `k` of a based complex of free abelian groups of finite rank has order at most `b^a`, for `b ≥ 1` bounding the Euclidean norms of the boundaries of the basis elements in degree `k + 1` and `a` the smaller of the ranks in degrees `k` and `k + 1` (the general theorem of which 9.1 is a corollary; cited at 9.2).
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
