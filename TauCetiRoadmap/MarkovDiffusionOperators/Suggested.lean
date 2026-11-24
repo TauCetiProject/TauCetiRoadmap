@@ -1,6 +1,10 @@
 module
 
-public import Mathlib
+import Mathlib
+-- `import all`: the Gaussian isoperimetric profile is a private definition of the owning roadmap's
+-- `Suggested.lean`, and the Tau Ceti commit pinned here predates
+-- `TauCeti.Probability.gaussianIsoperimetricProfile`. Switch to that public import once the pin
+-- moves.
 import all TauCetiRoadmap.GaussianIsoperimetryAndClusters.Suggested
 
 /-!
@@ -12,7 +16,7 @@ iterated carré du champ and its integrated identity on the test algebra (Layer 
 Poincaré inequality of a triple (Layer 7), the Bobkov inequality of a triple and the
 Gaussian isoperimetric inequalities of Gibbs measures (Layer 10), each with `sorry`. Full
 triples, the extended algebra and the curvature-dimension condition, which is defined on
-`A₀` and extended to the extended algebra on full triples, are specified in `README.md`,
+`A₀` and extended to the extended algebra on every triple equipped with one, are specified in `README.md`,
 Layer 4; the local Bobkov inequalities,
 which need the semigroup, are specified in `README.md`, Layer 10.
 -/
@@ -20,7 +24,7 @@ open MeasureTheory Filter
 open scoped ENNReal NNReal Topology
 open TauCetiRoadmap.GaussianIsoperimetryAndClusters (gaussianIsoperimetricProfile)
 
-namespace TauCeti.MarkovDiffusionOperators
+namespace TauCetiRoadmap.MarkovDiffusionOperators
 
 variable {E : Type*} [MeasurableSpace E]
 
@@ -191,4 +195,4 @@ theorem gibbs_enlargement (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDif
 
 end Gibbs
 
-end TauCeti.MarkovDiffusionOperators
+end TauCetiRoadmap.MarkovDiffusionOperators
