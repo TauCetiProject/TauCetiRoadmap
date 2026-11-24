@@ -1,1037 +1,2240 @@
-# Real-analytic geometry and semianalytic triangulation
-
-Develop the local and global geometry of real-analytic manifolds and semianalytic sets, including
-the proper real-analytic embedding theorem and Łojasiewicz's simultaneous triangulation theorem.
-The target is the real-analytic category: a theorem about polynomial semialgebraic sets alone does
-not discharge the semianalytic statements here.
-
-## Conventions and boundaries
-
-Manifolds are Hausdorff, finite-dimensional, second-countable and without boundary. Use the
-Mathlib manifold carrier `IsManifold 𝓘(ℝ,E) ω M` for real charts and
-`IsManifold 𝓘(ℂ,E) ∞ X` for complex charts, with K3.0's analytic comparison; R0 proves the chartwise `AnalyticAt ℝ` transition API from the real `ω` carrier
-and the boundaryless/open-chart hypotheses. Holomorphic maps are `MDifferentiable ℂ`.
-Analytic maps are defined in these analytic charts, using Mathlib's convergent `AnalyticAt`
-notion; formal Taylor data without a convergence theorem is not an analytic map. Semianalytic
-means locally a finite Boolean
-combination of zero sets and strict positivity sets of real-analytic functions. More precisely,
-near each point the set is a finite union of finite intersections of loci `f>0` and `f=0`, for
-real-analytic functions defined on that neighborhood; the functions and formula may depend on the
-point. This roadmap does not silently extend the category to subanalytic sets.
-
-Consume [RealAlgebraicGeometry Layer 7](../../Completed/RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection) for the real-analytic chart and `TauCeti.IsAnalyticSubmanifold` carrier, convergent local complexification/restriction and conjugation compatibility, including the implemented `AnalyticAt.exists_complexification`/`exists_complexification_pi` and native radius bounds, plus Layer 7's sharper radius-halving target. Consume RealAlgebraicGeometry Layers 1, 2, 4, and 6 respectively for Thom encodings, subresultants, continuous-family root matching, and parameter-uniform quantifier elimination. This roadmap does not redevelop those analytic/algebraic carriers or root facts. It owns real semianalytic normal decomposition, affine/manifold triangulation, and the global analytic embedding and Stein arguments specified below. Consume ComplexKahlerGeometry K3.0's real/complex chart comparison and K3's convergent complex Weierstrass preparation/division, primitive local generators of analytic ideals and local parametrization. Consume CK K1/K2 type calculus, K4's Chern connection and canonical bundle, and K6.0's local Kähler/Lefschetz and Bochner–Kodaira–Nakano identities. Consume SBC B2's bundle L² carrier and CK K5a's real/complex density, formal-adjoint, distribution, and local Laplace-type regularity; do not duplicate them. This roadmap owns the complete noncompact weighted `∂̄` estimate with precise curvature/domain hypotheses and the Stein and coherent-sheaf consequences. No R3 proof uses K6.1 or K5a's compact global Hodge theory or CK K6's later cycle package. K6.1's analytic-cycle theory consumes R5; R5 consumes only K6.0's earlier local identities through R3.
-
-RealAlgebraicGeometry owns polynomial semialgebraic definitions, CAD and quantifier elimination. Its Layer 6 formula-level elimination is used for R2's coefficient-parametric projection step; it does not supply semianalytic normal decomposition or triangulation. RealAlgebraicGeometry Layer 7 owns the shared real analytic submanifold and local-complexification carriers, and RealAlgebraicGeometry Layer 4 owns continuity/constancy of ordered real roots in its stated fixed-degree/gcd hypotheses. R1 builds real semianalytic local decompositions using these suppliers and the RealAlgebraicGeometry Layer 1 Thom/subresultant sign data, without duplicating their analytic roots or CAD.
-
-R1.1 owns the analytic-algebraic (Nash) germ comparison and R2.1 owns the analytic-simplex
-strengthening of finite semialgebraic triangulation, together with
-the real multiprojective theorem. Consume [AffineMorseLefschetz A4.1](../AffineMorseLefschetz/README.md#a4-compact-algebraic-pairs-triangulation-and-complement-duality)
-for the shared finite compact semialgebraic construction: quasi-monic coordinate changes,
-compatible base refinements, section-closure extension, simplicial lifting and compact gluing.
-Consume its arbitrary marked-family and face-stack invariants, and prove the additional Nash
-invariant in that construction here; do not
-implement a second compact topological triangulation library. A4.1 owns its semialgebraic
-dimension and complex-projective algebraic-pair applications. R1.1 proves the comparison of its
-semianalytic dimension with that dimension. AlgebraicTopology Stage4.6 owns real projective
-topology/smooth charts; R2.1 owns their Nash/projector comparison. CK K7.1 owns complex
-projective charts on the same generic quotient topology.
-
-## R0. Real analytic charts and germs
-
-Use RealAlgebraicGeometry Layer 7's convergent real-to-complex germ extension and chart-map complexification, its conjugation-fixed characterization, and its common-radius estimate `‖p_ℂ‖≤2^k‖p‖` (hence extension radius at least `r/2`). Consume CK K3.0's real-analytic chart comparison and CK K3's convergent complex local algebra. Build the real chart-local analytic function and germ API using `AnalyticAt`, including restriction, pullback, composition, shrinking, equality and transport across analytic chart equivalences. Prove these operations agree with RealAlgebraicGeometry Layer7's complexification/restriction maps. Do not provide a second complexification theorem or identify formal series with convergent germs without the RealAlgebraicGeometry Layer7 radius theorem.
-Prove the neighborhood adapter: a real-valued real-analytic function on an
-open subset of real affine space extends holomorphically to a conjugation-invariant
-complex neighborhood of that real open set. Use the native local extension,
-shrink real-centered complex balls, and glue by real-locus uniqueness on their
-connected overlaps; prove conjugation compatibility and neighborhood/germ
-uniqueness. This adapter uses the native germ construction, not a new series.
-
-## R1. Semianalytic sets and local normal decomposition
-
-Use the RealAlgebraicGeometry Layer 7 `TauCeti.IsAnalyticSubmanifold` carrier and its chart/API. Define a local semianalytic presentation by finite Boolean formulas in `f=0` and `f>0` for analytic germs; prove shrinking invariance, equivalence of presentations, finite Boolean closure and analytic preimage/isomorphism stability. The manifold-level notion is tested in the shared charts, not by a duplicate submanifold structure.
-
-Prove the local normal-decomposition theorem for a finite family of real analytic functions on a coordinate neighborhood. After shrinking, give a finite partition into connected, locally closed analytic submanifolds on which every function has constant sign. Each piece and each connected component is semianalytic. Inside the neighborhood, closures are unions of pieces, and a boundary piece has strictly smaller dimension. Keep this theorem local; do not attempt to glue arbitrary chartwise decompositions into a global stratification. The proof induction is: use RealAlgebraicGeometry Layer7 complexification, CK K3 convergent Weierstrass preparation, and the conjugation/uniqueness theorem to obtain real Weierstrass preparation; remove repeated factors using squarefree reduction and RealAlgebraicGeometry Layer 2 subresultant/gcd criteria (the discriminant of a repeated product may vanish identically); put every principal subresultant coefficient of `(P_i,P_i')` and `(P_i,P_j)`, together with leading coefficients and the discriminant/resultant loci, into the base induction family; on each cell prove fixed degrees and fixed gcd degrees before using RealAlgebraicGeometry Layer 4; and on each complementary connected cell use RealAlgebraicGeometry Layer 4 root matching plus RealAlgebraicGeometry Layer 1 Thom encodings to order the real roots and describe each selected root section by its Thom signs. Own analytic-coefficient delineability on these cells: subresultants are polynomial expressions in the analytic coefficients, and constant-rank gcd/squarefree formulas are analytic where their selected pivot minors do not vanish. Simple roots of the resulting monic squarefree polynomial are analytic by RealAlgebraicGeometry Layer7 implicit inversion; RealAlgebraicGeometry Layer4 gives ordered continuity, multiplicity constancy and pairwise root matching under the proved fixed-degree/gcd hypotheses. Thom descriptions prove each section semianalytic. Include local connectedness at frontier points as an induction invariant and prove section/sector boundary compatibility from that invariant and the root-matching neighborhoods. Prove the induction terminates by strict dimension drop. Do not use a global analytic atlas refinement as a substitute for this bad-set induction.
-
-Prove local dimension invariance for semianalytic sets: define dimension by the maximum dimension of pieces in a compatible local normal decomposition, with `dim ∅=−∞`; show independence of decomposition, `dim closure(A)=dim A`, and `dim(closure(A)\A)<dim A` for nonempty A. State empty and zero-dimensional cases. Do not assert the ambient boundary of a lower-dimensional closed set has smaller dimension. Prove local finiteness of connected components and semianalyticity of every component. The local normal decompositions satisfy the frontier condition. State both parts of the frontier condition: `S ∩ closure(T)≠∅ → S ⊆ closure(T)`, and `S ⊆ closure(T), S≠T → dim S<dim T`. The first is a containment assertion; the second gives the dimension drop for incident distinct strata.
-### R1.1. Analytic-algebraic germs and locally semialgebraic sets
-
-Use `TauCeti.IsSemialgebraic` on finite real coordinate spaces, and
-`TauCeti.IsSemialgebraicOn` for graphs on specified domains. The latter includes
-semialgebraicity of the domain and uses `Equiv.sumArrowEquivProdArrow` to encode its graph.
-The native `Semialgebraic.Image` and `Semialgebraic.QuantifierElimination` APIs require a
-projection-closure hypothesis; discharge it using RealAlgebraicGeometry Layer 6, rather than
-treating the conditional theorems as an implemented Tarski–Seidenberg theorem. Derive the
-semialgebraicity of closure and interior from the ordered-ring formulas for arbitrarily small
-Euclidean balls meeting a set and their complements. Prove finite-coordinate/norm transport;
-a sup-norm ball in `Fin n → ℝ` and a Euclidean ball are both semialgebraic neighborhoods.
-
-For an analytic scalar function on an open `Ω⊂ℝⁿ`, an **analytic-algebraic relation on Ω**
-means a single nonzero `P∈ℝ[x₁,…,xₙ,t]` satisfying `P(x,f(x))=0` for every `x∈Ω`.
-A **Nash germ at x** is an analytic germ having such a relation on some neighborhood of x.
-The polynomial and neighborhood may depend on x. Define maps coordinatewise and identify
-equal germs; prove restriction, equality, finite tuples, sum/product, reciprocal on a
-nonvanishing neighborhood and composition. The analytic inverse/implicit-function theorems
-come from RealAlgebraicGeometry Layer 7; prove the Nash comparison for those constructions
-here. A Nash function on Ω means an analytic function whose germ at every point of Ω
-is Nash. For an open semialgebraic Ω, its finitely many connected components and analytic
-uniqueness extend one local relation to each component; their product is a single
-nonzero relation on Ω. Derive finiteness/semialgebraicity of components from
-RealAlgebraicGeometry Layer6's finite connected CAD cells and the finite adjacency union.
-A Nash function on an open semialgebraic domain has a semialgebraic graph; an analytic
-function with semialgebraic graph is Nash. For the local theorem, state this precisely as:
-`f` is a Nash germ at x iff it is analytic at x and there is an open semialgebraic
-neighborhood U of x on which its graph is semialgebraic. Prove a common smaller U for any
-finite list of germs. On a connected open domain, analytic uniqueness extends a relation
-from one nonempty open neighborhood to the whole domain; retain the semialgebraic-domain
-hypothesis when asserting global graph semialgebraicity.
-
-Prove the graph criterion with its singular cases. For the relation-to-graph direction,
-remove polynomial content and repeated factors over `ℝ(x)` and clear denominators. Off the
-nonzero leading-coefficient/discriminant polynomial's zero locus, take a CAD compatible with
-these polynomials **and U's defining polynomials**. Each cell lies inside or outside U;
-the cells inside U are connected with continuously ordered distinct roots. Analytic f
-chooses a single root on each such cell by continuity and separation. Layer 1's Thom signs
-describe that section semialgebraically. Their finite union is the graph over a dense open
-part of U; continuity implies that its closure, restricted to `U×ℝ`, is the entire graph.
-Prove density, the graph-closure equality and the cleared-denominator identities; values
-over a vanishing coefficient locus cannot be freely chosen. In the reverse direction,
-write a finite sign description of the graph in disjunctive normal form. The graph has
-empty ambient interior, so every nonempty sign piece includes a genuinely nonzero polynomial
-equality; a product of these polynomials vanishes on the graph. Handle empty pieces and
-identically zero polynomials before taking that product. This proof uses polynomial
-sign/CAD/QE and analytic continuity, not an assertion that all analytic graphs are algebraic.
-
-Define **locally semialgebraic in the ambient affine space** by: for every ambient point x,
-there is an open semialgebraic neighborhood U of x with `S∩U` semialgebraic. Prove equivalence
-with a finite Boolean presentation near x by zero and strict positivity loci of Nash germs.
-Use the graph criterion and projection for one direction, polynomial functions for the
-other. The quantifier includes frontier points outside S. Prove finite Boolean operations,
-locally finite unions, Nash preimages/chart transport, local component and frontier APIs.
-Prove that a bounded locally semialgebraic set is globally semialgebraic: its closure is
-compact, a finite subcover by these neighborhoods suffices, and the finitely many restricted
-pieces have a semialgebraic union. Include the empty set and zero-dimensional ambient case.
-
-Prove R1's finite local normal decomposition in the Nash category: pieces are semialgebraic
-analytic submanifolds, root/graph maps are Nash, closures/frontiers remain semialgebraic and
-the same dimension/frontier conditions hold. Prove Nashness of the Weierstrass preparation
-coefficients used here, beyond their analyticity: first prove algebraic realification and
-Nashness of the real/imaginary components of a Nash germ's local holomorphic extension on
-a smaller conjugation-invariant semialgebraic tube. Prove the algebraic realification lemma:
-the extension w and its conjugate satisfy the original and conjugate polynomial relations;
-field-extension/resultant elimination makes `(w+conjugate(w))/2` and
-`(w−conjugate(w))/(2i)` algebraic. A nonzero real or imaginary coefficient part gives a
-nonzero real relation for each real-valued component, then the Nash graph criterion applies.
-Containment in the simultaneous real/imaginary polynomial zero set is not the graph criterion.
-Isolate the finite root cluster, express
-the factor coefficients by elementary symmetric functions of that cluster, counted with
-multiplicity. Prove differentiation preserves Nash germs by implicit differentiation off
-the nonzero squarefree discriminant locus and the graph-closure criterion at its frontier.
-Describe each root multiplicity by vanishing of the preceding derivatives and nonvanishing
-of the next one; the finite list is bounded by the fixed Weierstrass degree. Use real
-and imaginary polynomial coordinates and Layer 6 elimination for its graph. Prove the
-root-cluster isolation and coefficient uniqueness on a smaller neighborhood; complex
-conjugation makes the required coefficients real. Compare the dimension of the resulting
-pieces with A4.1's semialgebraic dimension. On semialgebraic analytic submanifolds, define
-Nash maps by analytic maps with semialgebraic graphs in finite affine coordinates, and
-prove restriction, products, composition and Nash inverse/implicit chart transport.
-
-## R2. Łojasiewicz's affine triangulation theorem
-
-For every finite-dimensional real affine space `A` and locally finite family `(Bν)` of semianalytic
-subsets of `A`, prove §3 Theorem 1 of S. Łojasiewicz, “Triangulation of semi-analytic sets,”
-*Annali della Scuola Normale Superiore di Pisa* (3) 18 (1964), 449–474, printed p. 463. Produce a
-locally finite simplicial complex `K` with `|K|=A` and a homeomorphism `τ:|K|→A` such that
-`τ` has property (A), every open simplex maps analytically isomorphically onto an analytic
-submanifold, and every image simplex lies wholly in or wholly outside every `Bν`. Since A is
-second-countable, the nonempty members of a locally finite `(Bν)` are countable.
-Discard empty members for the direction argument; their compatibility condition is automatic. The target is
-the whole affine space and the whole locally finite input family; the bounded semialgebraic
-Theorem 3 and projective Theorem 4 are distinct results, not substitutes. For clarity, if
-`f:E⊂A→A`, property (A) means that its graph `{(y,x):y=f(x)}` in target-by-source coordinates
-is locally, over each target point `y`, a finite Boolean combination of conditions
-`P_j(y,x)=0` or `P_j(y,x)>0`, where each `P_j` is polynomial in the affine-source variable `x`
-with real-analytic coefficient functions of the target variable `y`. Property (A⁻¹) uses the
-target coordinate as its affine polynomial variable. These are local partial-semialgebraic
-graph conditions; neither says the whole graph is semialgebraic.
-
-Use R1's proved local semianalytic presentations, normal decompositions, frontier/dimension
-facts, component finiteness and closure stability. R2 also proves the
-following stronger *normal-box* API needed by the induction: after an affine coordinate change
-and shrinking, a normal box has a finite partition into connected analytic pieces indexed by
-`k=0,…,n`; each piece is a connected component of the successive Weierstrass-root loci with the
-preceding discriminant/nonvanishing conditions; its dimension is k; the k=n pieces are open, the
-k<n pieces are analytic graphs over open subsets of the first k coordinates, and the frontier of
-each piece is a union of lower-dimensional pieces. Prove compatibility with a finite family of
-analytic functions/semianalytic sets and arbitrary-small choice. Also prove the prescribed-zero-set version: given a
-nonsingular line, transverse hyperplane, finite defining functions f_j and an analytic
-F with `f_j=0⇒F=0` and with F nonzero as a germ along the chosen
-line through the center, choose the adapted affine normal system whose union of
-lower-dimensional pieces is exactly `{F=0}` near the center. Prove this using
-Weierstrass preparation/division and the successive discriminant systems, with
-the prescribed line and hyperplane retained. Prove that coordinate projection
-to the first m variables sends the normal data to normal data and preserves the dimension label
-for each piece of dimension at most m. The proof uses CK K3's convergent Weierstrass preparation
-and division, RealAlgebraicGeometry Layer 7's analytic inversion, and R1's local sign decomposition; these normal
-root/graph and projection assertions remain R2 targets.
-
-First export the independent **relative convex-polyhedral subdivision lemma**: a finite or
-locally finite family of compact convex polytopes with disjoint relative interiors, every
-proper face a finite union of controlling lower-dimensional polytopes and common intersections
-unions of common lower faces has a compatible affine simplicial subdivision, finite on each
-polytope. Preserve prescribed compatible boundary triangulations. Prove by dimension induction,
-retaining lower-face triangulations and coning to an interior point; prove independence of the
-cone point from every boundary-simplex affine span, common-face agreement and coverage.
-Use only native affine independence, convex hulls, finite polytopes and simplices. This lemma
-precedes the analytic induction and is the single subdivision supplier for A4.1's finite
-lifting; it does not depend on A4.1, R1.1 or the semianalytic theorem.
-
-Also export Lemmas11–12's band-closure and endpoint/restriction calculus and
-Lemma14's closed-band continuity clause as independent helpers before the analytic
-induction. They use only continuous endpoint/base maps, bounded graph closures,
-the collapsed-endpoint condition and elementary topology; they consume neither
-A4.1, R1.1 nor Lemmas1–10. A4.1 consumes these same helpers. Lemma13's analytic
-isomorphism clause and Lemma14's property(A⁻¹) clause remain in the analytic
-proof below and are not prerequisites of A4.1.
-
-The affine proof is by induction on `n=dim A`, with dimensions zero and one handled directly.
-Establish the remaining analytic Lemmas1–15 in the order below, using the independently
-proved clauses just exported, with empty and zero-dimensional cases included.
-
-1. Lemma 1 is the analytic Sard-meagerness statement: if countable-basis analytic manifolds
-   `X,Y` and analytic `g:X→Y` satisfy `rank g<dim Y`, then `g(X)` is meager. Prove it by
-   induction on `dim X`: locally decompose the semianalytic rank-drop locus, apply induction on
-   its lower-dimensional pieces, and use the constant-rank theorem plus a countable cover on
-   maximal-rank pieces. Lemma 2 is the Lefschetz–Whitehead rank estimate: for an
-   `(m−1)`-submanifold `S⊂V` with `u∉T_uS`, if `g:X→M`, `h:X→S` are C1 and
-   `(x,λ)↦g(x)+λh(x)` has rank at most `m−1` on a neighborhood of `X×{0}`, then
-   `rank h≤m−2`. Derive the estimate by dividing the differential by λ, first showing the rank minors are polynomial in λ, hence vanishing near λ=0
-   implies vanishing for all λ, then taking the λ→∞ rank limit, and using transversality of h to `T S`.
-
-   Lemma 3 then proves that singular directions for one analytic function not identically zero
-   on a connected open set are meager in projective direction space. Represent a singular
-   direction by a unit vector and the analytic incidence set of points/directions for which
-   `f(u+ξv)` vanishes as a germ. Its analytic equations must include the zeroth derivative
-   `f(u)=0` as well as every directional derivative of positive order; prove local finite determination of this countable zero family on a common
-   complex neighborhood. Complexify the single defining function f; all its
-   directional-derivative equations extend holomorphically on that same
-   neighborhood (with analytic direction charts). Use CK K3's Noetherian germs
-   to select finite equations at a point, take a sufficiently small representative
-   of their finitely many analytic components, and use the holomorphic identity
-   theorem on their dense connected regular loci to make every remaining equation
-   vanish on those components. This gives a uniform neighborhood for the common
-   zero **set**, beyond mere germ stabilization. Own this common-neighborhood
-   reduction and the component/identity adapters here, then apply normal boxes
-   and Lemmas 1–2. No simultaneous complexification is assumed for an arbitrary
-   countable family of unrelated real-analytic functions. Lemma 4 applies Baire to
-   countably many local defining functions for a countable semianalytic family; the countable
-   union of singular-direction sets is meager, so the simultaneously nonsingular directions form
-   a dense residual subset of projective direction space. This finite-dimensional Baire step
-   also handles the countable normal-box cover used below.
-
-2. Lemma 5: a bounded semianalytic subset of `M×ℝ` whose vertical direction is nonsingular is
-   partially semialgebraic with respect to the ℝ-coordinate. Prove the local Weierstrass
-   polynomial description and patch over a locally finite cover. For this exact projection
-   convention, prove the §1/V closure rules: finite Boolean operations; connected components via normal decomposition; locally finite unions
-   (each base neighborhood meets only finitely many members); and projection of a set described
-   by analytic functions polynomial in the quantified affine coordinates. Consume RealAlgebraicGeometry Layer 6's
-   formula-level quantifier elimination with parameters. Show the fixed finite output formula
-   substitutes analytic coefficient functions on a neighborhood of each base point, so no
-   parameter-by-parameter choice or global semialgebraic graph is being asserted.
-
-   Lemma 6: an analytic submanifold `ψ⊂M×ℝ` satisfying
-   `|t−t′|≤A|u−u′|` for all its points is a topographic graph with A-Lipschitz graph function.
-   Prove injectivity and full-rank projection locally and globally from the inequality. For the
-   shear `(u,t)↦(u+tz,t)`, the sufficient threshold is `|z|<1/A`; derive it from
-   `|Δu+zΔt|≥(1−A|z|)|Δu|`. This is the required shear target. Lemma 7 is the property-(P) hypersurface lemma:
-   given analytic f at `(c,0)` with `f(c,·)` not identically zero, construct analytic g with
-   `g(c,·)` not identically zero such that `{fg=0}` has property (P), where property (P)
-   means its projection to M is open. Also prove that a topographic submanifold of dimension
-   `dim M=n−1` has (P): its projected analytic submanifold has full dimension in M and is open.
-   Prove the hypersurface lemma by induction on `dim(M×ℝ)` using a distinguished
-   Weierstrass polynomial, its discriminant, a line nonsingular for the discriminant, roots of a
-   second Weierstrass polynomial and the product construction; handle degree zero explicitly.
-
-3. Develop the adapted local decomposition package in Lemmas 8–9. Lemma 8 refines a normal box
-   compatible with the finite semianalytic family and an already chosen nonsingular vertical
-   line. In affine coordinates, make that line the last axis and the transverse slice the
-   coordinate hyperplane; first apply Lemma7 to the product of the defining functions, obtaining a
-   prescribed zero set `{fg=0}` with property(P), and use the prescribed-zero-set
-   normal-box theorem above so the lower-dimensional union is that zero set.
-   An arbitrary Weierstrass zero set is not claimed to have open projection.
-   Lemma 9 proves all adapted pieces are partially semialgebraic, every piece of dimension below
-   n is topographic, and projection gives a normal decomposition with the same k-dimensional
-   labels for k<n. Obtain property(P) from the Lemma7 choice in Lemma8 and the prescribed-zero-set
-   realization; the frontier and graph descriptions supply its remaining normal data. These are the normal-system/projection facts absent
-   from the article's proof and are R2 targets on top of R1.
-
-4. Lemma 10 straightens an ordered, locally finite family of analytic graphs φν near c, indexed
-   by ν=±1,±2,…, where φν(c) strictly increases with ν and tends to ±∞ at the two ends. Assume
-   their graph family is locally finite and an open region G contains `{c}×ℝ`. After restricting
-   each graph to a connected neighborhood of c, construct an analytic isomorphism
-   `g:M×ℝ→M×ℝ` such that ψν=g(φν*) are pairwise disjoint, bounded, semianalytic topographic
-   graphs; (1) `g((M×ℝ)\G)⊂M×(−1,1)`; (2) the ψν are bounded and disjoint; (3) every bounded
-   subset of M is contained in `⋂_{|ν|≥N}Ων` for some N, with `Ων=π(ψν)`; (4) ψν(u) tend
-   uniformly to ±∞ on bounded base sets as ν→±∞; (5) all graph functions satisfy one Lipschitz
-   bound independent of ν; (6) `cl(ψν)⊂g(φν)` and `g(φν)\ψν⊂M×(−1,1)`; deduce that `ψν∩{|t|≥1}` is closed.
-
-   Follow the actual construction. Choose disjoint compact height intervals Δν and radii aν;
-   choose a positive function γ constant on each Δν and each complementary interval, with
-   `γ(t)<aν` on Δν and `{(u,t):|u|≤γ(t)}` contained in G minus the union over ν of the discarded
-   graph portions `φν\φν*`. Construct a smooth positive target for h with strict margins and
-   prove the affine C1 Whitney approximation needed to replace it by a positive real-analytic h.
-   Only derivative orders 0 and 1 are required, with pointwise error tolerances chosen to preserve
-   strict inequalities; do not claim arbitrary all-orders uniform approximation. Require
-   `h(t)>γ(t)⁻¹√(t²−1)` for `|t|≥1`, `h(t)>2kν`, and `|h′(t)|<aν⁻¹` on Δν, where kν is a
-   Lipschitz bound for φν* on its radius-aν domain. Let β be inverse to
-   `t↦(eᵗ−e⁻ᵗ)/(e−e⁻¹)`; prove β is increasing analytic, β(±1)=±1, and
-   `|β′(t)|≤min(2,1/|t|)`. Set `g=g₂∘g₁`, where `g₁(u,t)=(h(t)u,t)` and
-   `g₂(u,t)=(u,β(t/√(1+|u|²)))`; prove both maps are analytic isomorphisms and verify
-   conditions (1)–(6). In particular, show each Ων contains the ball of radius
-   `½√(bν²−1)`, where `bν=inf{|t|:t∈Δν}`, proving the common-tail condition. Lemma 10 owns
-   this affine C1 approximation; it has no dependence on R4 or a manifold-level approximation
-   theorem.
-
-   Lemmas 11–14 provide band calculus. When the closures of the graphs of `φ,φ′` are bounded
-   single-valued functions on `cl E`,
-   prove `cl(φ,φ′)=[cl φ,cl φ′]` if `φ<φ′` on E (Lemma 11). For a map g between bases and
-   endpoint functions ψ,ψ′, define the interpolation on a closed band by
-   `s=ψ(g(u))+(t−φ(u))(ψ′(g(u))−ψ(g(u)))/(φ′(u)−φ(u))` when endpoints are distinct, and collapse
-   equal endpoints to `(g(u),ψ(g(u)))`; require the exact collapsed-endpoint condition
-   `φ(u)=φ′(u) ⇒ ψ(g(u))=ψ′(g(u))`. Lemma 12 proves graph/restriction compatibility;
-   Lemma 13 proves the graph map and strict open-band map are analytic isomorphisms when the
-   base map and endpoints are analytic with strict source and target endpoint inequalities;
-   Lemma 14 proves the closed-band extension is continuous when the base and endpoint maps are
-   continuous on a compact base, and has property (A⁻¹) when g has (A⁻¹), the source endpoints are partially
-   semialgebraic over ℝ, and the target endpoints are semialgebraic. Prove the last claim by
-   writing the interpolation graph as a finite partially semialgebraic system, introducing
-   endpoint-value variables, and applying the projection theorem. These lemmas supply actual
-   extension and gluing contracts, not just a name for “band interpolation.”
-
-5. Prove the global topographic-family construction (§4 step I) from Lemmas 4–10. First use the
-   common nonsingular direction to arrange vertical transversality for the whole locally finite
-   family. Use countably many adapted normal boxes and their projected decompositions; choose a
-   base point outside the countable union of nowhere-dense lower-dimensional
-   projected strata, using Baire; projection does not preserve local finiteness. Select a
-   two-sided sequence of graph levels through this point and disjoint strips between consecutive
-   levels. Lemma 10 and then a shear with `|z|<1/A`, chosen also in the dense nonsingular-direction
-   set, produce the locally finite upper/lower graph family outside `|t|<1`; apply Lemma 5 after
-   the shear to prove these graphs partially semialgebraic. Derive the uniform graph Lipschitz
-   bounds through the two coordinate changes (first at most 1, then at most 3) so Lemma 6 applies.
-   Inside this strip,
-   cover each compact vertical segment by finitely many adapted normal boxes and place truncated
-   cones with locally finite bases. Keep each lower-dimensional normal stratum clipped to each
-   truncated cone as an individual family piece, together with the cone sides and the two boundary
-   planes. These individual pieces remain the objects used for the partially-semialgebraic and
-   topographic conditions and for compatibility transfer to each input `Bν`. For proving (P),
-   group the strata only as an auxiliary union: for each adapted normal box indexed by `(ν,σ)`, put
-   `C_{νσ}=⋃_{k<n,κ} Γ^k_κ(ν,σ)`. Obtain (P) for `C_{νσ}` from the lower-dimensional-union clause
-   of the adapted decomposition; do not assume (P) for any individual stratum. For each truncated
-   cone `O` in that box, its intersection `C_{νσ}∩O` is open in `C_{νσ}`, so the restricted
-   projection has (P). This restricted grouped set is exactly the union of the individually clipped
-   strata in that cone. Thus the union of all individual pieces, cone sides, and boundary planes has
-   (P), using also the (P) established from their explicit constructions for the cone-side and
-   boundary-plane pieces. The projection of a relatively open subset of this total union is the
-   union of the open projections obtained from the grouped restrictions, sides, and planes. Prove
-   closedness separately: within each closed cone region, prove the grouped normal set is relatively
-   closed; any limit point leaving the open cone lies on its included cone side or one of the two
-   strip boundary planes. Local finiteness then gives closedness of the total union. Property (P)
-   alone does not imply closedness. Prove every connected subset compatible with the individual
-   pieces is compatible with each input `Bν`,
-   separately outside and inside the strip. Record all six properties needed later: partially semialgebraic
-   topographic pieces whose intersections with `B×ℝ` are bounded for every
-   bounded base set B (including the two boundary planes); local finiteness; compact/disjoint tails; closed
-   union with (P); unbounded positive and negative vertical intersections over every base point;
-   and compatibility transfer to the input family.
-
-6. Form the **clipped** projected family
-   `π(Γ∩Γ′∩(M×(−2,2)))`, including diagonal pairs, for the topographic pieces.
-   Prove semianalyticity by the partial-semialgebraic projection theorem. Near
-   a compact base neighborhood, the defining pieces meet its compact product
-   with `[-2,2]`; product local finiteness therefore leaves finitely many
-   relevant pairs. This proves local finiteness of the clipped family, not
-   of the raw projections of all pieces. Apply induction in dimension n−1.
-   For distinct Γ,Γ′ or a lower-dimensional Γ, the topographic-family tail
-   properties place their intersection inside the strip, giving compatibility
-   with the full pair intersection. For a diagonal full-base-dimensional graph,
-   the complement of its clipped projection splits into `M\πΓ` and
-   `{u∈πΓ:|Γ(u)|≥2}`. Prove both are closed: the first from its open graph domain,
-   the second from the closed bounded high-graph portion and projection of that
-   compact portion. They are disjoint; connectedness of an open base simplex
-   compatible with the clipped projection makes it lie in πΓ or outside it.
-   Do not require the unbounded domain complement to be compact. Thus obtain
-   the compatibility with every full projected pair needed for the prismatic
-   construction. Barycentrically subdivide it so each subdivided open simplex lies in a single controlling open
-   simplex and has that simplex's barycenter as a vertex. Pull the topographic family back over these base simplices to
-   obtain the prismatic strata. Prove they are disjoint and locally finite, cover all vertical
-   directions, have continuous closure graphs, and restrict to strata over every face. The
-   distinguished-vertex condition gives strict order preservation for pairs of disjoint graph
-   sections. Define consecutive sections (no section strictly between); prove restrictions to
-   faces stay equal or consecutive. Fill each gap with the strict open band. The graph strata
-   and open bands then form a locally finite disjoint cover; on each connected base simplex the
-   consecutive bands are both open and closed in the vertical complement, so cover the whole
-   fiber. Lemma 11 gives the exact closure formula for a band, and the face/equality and
-   consecutive-order results prove every closure is a union of strata. This is the prismatic
-   closure and compatibility package used in §4 steps III–IV.
-
-7. Record the Step-I analytic coordinate change `f=l∘g` and the transformed
-   input family `f(Bν)`. Pin the rectilinear cells before constructing the transfer.
-   For each graph γ over a base simplex β, put `ρ=τ_b⁻¹(β)`, where τ_b is
-   step6's base triangulation homeomorphism. At each vertex v of closureρ use
-   the height of the continuous closure graph of γ at τ_b(v), where v is
-   the barycenter of its controlling projected simplex δ_v. Keep the source's
-   `s(β)={τ_b(v):v is a vertex of closure(τ_b⁻¹β)}` notation for that finite
-   set of points. Their affine interpolant
-   defines the graph σ(γ) over ρ; these heights are prescribed, not arbitrary.
-   Prove the source IV(1)–(4): projection to ρ, strict order on the open simplex,
-   the endpoint bounds, and compatibility/inclusion on closure faces. The
-   distinguished-vertex condition ensures strict order even when endpoint
-   values coincide on a face. Take the intervening rectilinear affine bands.
-   Use the associated band maps over `g_β=τ_b⁻¹|β`, with these fixed endpoint
-   data. Verify the collapsed-endpoint condition on each closed band;
-   use Lemmas 12–14 to prove graph/band maps agree on all face restrictions, are continuous on
-   closures, and are analytic isomorphisms on each open graph or band. Define the global map as
-   the union of the locally finite stratum maps. The closure compatibility makes it a
-   homeomorphism, not merely a bijection. Prove property (A⁻¹) for this map by the local-finite
-   union and affine-source projection theorem, then take the inverse to obtain property (A) for
-   `τ*` for the transformed input. The final map is `τ=f⁻¹∘τ*`.
-   Prove analytic-isomorphism transport preserves open-simplex analyticity and
-   compatibility with the original Bν. Prove property(A) is preserved here:
-   graphs of analytic isomorphisms and their inverses are locally polynomial
-   in the affine source coordinate, and for this postcomposition substitute `y=f(z)` in the
-   analytic target-coefficient functions of the graph of τ*. Polynomial
-   dependence on the affine source coordinate is unchanged. Do not assume
-   general composition closure when a quantified intermediate variable
-   would occur in analytic coefficients. Show every transferred stratum
-   remains compatible with each Bν. Preserve the exact
-   affine-source convention: for `f:E⊂A→A`, property (A) means its graph in `A×A` is locally
-   described by analytic-coefficient polynomials in the source coordinate; property (A⁻¹) uses
-   the target coordinate. No globally semialgebraic graph is claimed.
-
-8. Prove Lemma15 for the **rectilinear affine** cell family constructed in
-   step7, using its prescribed vertex heights and affine interpolants. The graph is an affine simplex; between ordered affine
-   endpoint functions a≤b, the closed band is
-   `{(u,t):u∈closure β, a(u)≤t≤b(u)}`, a finite-vertex convex polytope.
-   Prove the vertex description as the convex hull of the lower and upper
-   endpoint vertices. A face on which the width vanishes is an ordinary
-   lower-dimensional face of this polytope. These assertions concern the
-   rectilinear cells, whose nonlinear images under τ need not be convex.
-   Prove all faces are finite unions of the controlling lower-dimensional
-   affine cells, using step6's ordering/equality compatibility. Apply the independent
-   relative convex-polyhedral subdivision lemma above after verifying its hypotheses.
-   It preserves chosen boundary triangulations and gives common-face intersections and coverage.
-   Every cell receives finitely many simplices, so local finiteness of the
-   cell family gives local finiteness of the subdivided complex. Its support
-   is all A. Composing the affine simplex charts with τ proves simultaneous
-   compatibility, property(A), and the analytic-isomorphism condition on every
-   open simplex. This is a finite polyhedral subdivision target, rather than
-   a triangulation assertion for arbitrary CW complexes.
-
-### R2.1. Bounded affine and real multiprojective semialgebraic triangulation
-
-Prove the following separate targets, with R1.1's Nash/semialgebraic API. Use the native
-`Geometry.SimplicialComplex ℝ E` for the affine complex, its `faces` and `space`, and
-`Affine.Simplex` for simplex charts. The open simplex is its intrinsic interior in its
-affine span, not its interior in the full ambient space. Prove the comparison with the
-abstract complex/realization carrier consumed by A4.1 and the topology on its affine
-support. A finite set of faces implies compact support. Include the empty complex,
-zero-dimensional simplices and finite restrictions/subdivisions.
-For a real affine torsor choose an affine coordinate equivalence to the native vector
-carrier, prove semialgebraicity independent of that choice, and transport the complex's
-vertices/affine simplices back by that equivalence. All coordinates in the theorem refer
-to this same original affine space.
-
-**Bounded affine theorem (Łojasiewicz §3 Theorem 3, printed p.464).** Given any finite family
-of bounded semialgebraic subsets `B₁,…,B_k` of a finite-dimensional real affine space M,
-put `X=⋃ᵢ closure(Bᵢ)`. Produce a finite simplicial complex K **in M** and a semialgebraic
-homeomorphism `τ:|K|→X`. For every open simplex σ, `τ(σ)` is an analytic submanifold of
-dimension `dim σ`, and `τ|σ` is an analytic isomorphism onto it, including analyticity of
-the inverse in the native submanifold charts. For every i and σ, require
-`τ(σ)⊆Bᵢ` or `τ(σ)⊆M\Bᵢ`. The Bᵢ need not be closed; they correspond to unions of open
-simplices, and become subcomplexes only when they are closed in X. The map and inverse
-have semialgebraic graphs; the analytic open-simplex maps are therefore Nash. If the
-family is empty or all members are empty, X and K are empty. Prove compatibility with
-additional marked semialgebraic subsets of X, restriction to a closed marked member,
-common marked-family refinements, and transport under Nash automorphisms of the fixed
-ambient M. For the latter postcompose the map and transport the marked sets while retaining
-the affine K in M; a nonlinear image of its vertices is not itself an affine complex.
-Common marked-family refinement means one new compatible triangulation for the union of
-the finite families; it does not assert every change of triangulation is piecewise linear.
-
-Consume A4.1's exposed **parametrized finite compact lifting data**, not merely its final
-closed-subset/subcomplex consequence. Those data retain the original marked-family signs,
-the adapted cells, base maps, extended sections, completed face stacks and distinguished
-vertices. Prove Theorem3 by induction on ambient dimension n. For n=0 use the
-empty complex or the single point; for n=1 subdivide a bounding interval at the
-finitely many polynomial roots and marked endpoints, retaining exactly the cells
-of X. Before choosing the higher-dimensional bounding box, make the generic
-invertible linear change rendering the nonconstant defining polynomials quasi-monic
-in the last variable. Choose a compact semialgebraic box containing the transformed
-X and polynomial descriptions of **the original Bᵢ**, their closures and X.
-Choose M>0 bounding its last coordinate, adjoin `t²−M²`, and close this finite
-quasi-monic family F under last-variable differentiation, treating zero and constant
-polynomials separately. Cut every completed section list to [−M,M]. Build the
-projection CAD including its discriminant, gcd and frontier refinements before
-handing it to A4.1; no unrelated CAD is substituted after this handoff.
-Let Y be the projected bounding box. Apply Theorem3 in ambient dimension n−1
-to Y itself and the projection-CAD cells intersected with Y as the finite bounded
-marked family. Its map Φ has support onto Y and is an analytic isomorphism on
-every open base simplex, which lies in one projection cell. Supply this base
-complex and Φ together with F and that projection CAD to A4.1's parametrized
-lifting theorem. Use each
-section's exported nonzero witnessing polynomial P and constant fiber multiplicity m:
-its `∂_t^(m−1)P` vanishes on the section and `∂_t^m P` does not. The native analytic
-implicit-function theorem and R1.1's graph criterion make each global section a Nash
-analytic submanifold over its analytic base cell; pull it back through the
-inductively supplied Nash map Φ on each open base simplex. Apply A4.1's continuous
-closure extension using the already refined projection CAD.
-Retain the sign membership of each original Bᵢ on every section/sector; replacing the
-family by its closures loses this invariant.
-
-Prove the analytic invariant of A4.1's ordered auxiliary-section construction. Its
-initial barycentric subdivision and fixed ordered-top-vertex matching first produce
-face-coherent boundary lists inside each original gap; consume their natural index maps,
-including sections present only on a boundary face and copies coinciding with the upper
-endpoint. Consume its element regime `I={x∈L(F_d):a|F_d<x≤b|F_d}` and
-its explicit restrictions on the other facets. Auxiliary indices take the lower
-endpoint at the top vertex, while the original upper endpoint retains its value.
-No coherent boundary list on an arbitrary unsubdivided simplex is assumed.
-Whenever I is nonempty, a<b on every open facet entering the extension formula;
-normalized boundary heights `(c−a)/(b−a)` lie in [0,1] and are Nash there.
-If the opposite-facet gap collapses, I is empty and no auxiliary E-map is created.
-On a d-simplex
-with barycentric coordinates λ, let F_i be its i-th facet and
-`p_i(λ)_j=λ_j/(1−λ_i)` for j≠i, with i-th coordinate0. For d>0 set
-`w_i=∏_{j≠i}λ_j` and `w_*=∏_j λ_j`. For each ordered boundary ratio r_l, extend it by
-`E_l(λ)=(w_* α_l+Σ_i w_i r_l(p_i(λ)))/(w_*+Σ_i w_i)`,
-with fixed `0<α₁<⋯<α_L<1`. A4.1 owns this finite semialgebraic extension and its
-boundary/matching theorem. Prove here that it is Nash on the open simplex: every p_i
-lands in an open facet, its known map is Nash by the auxiliary construction's
-face-dimension recursion and the ambient-dimension induction for Φ, and the
-denominator is positive. The positive w_* term gives strict interior order, even when
-sections coincide on faces. Return to heights by `c_l=a+(b−a)E_l`. At a collapsed
-boundary gap, only boundedness of the ratios is needed: the factor b−a tends to zero.
-Consume A4.1's continuity theorem there and at vertices, with prescribed boundary heights
-and its dominant/negligible facet-weight estimates. Treat d=0 directly. Consume its
-finite ordered-face preparation and dimension-decreasing recursion; R2.1 proves Nashness
-of those same extension maps, not another boundary-matching or topological construction.
-
-After completing these stacks, consume A4.1's **second** barycentric refinement: every resulting
-simplex has a vertex in its controlling open simplex where all its noncollapsed gaps
-are strictly positive. Face chains have the same property with their own controlling
-simplex. The affine interpolants of vertex heights are therefore strictly ordered on
-each open simplex. Consume its proof that completed consecutive sections restrict to **equal or
-consecutive** sections on every face; an extra boundary section has been extended into
-the incident stacks, not discarded. Graph lifts are Nash isomorphisms by projection.
-Band lifts use R2 Lemmas12–14 with positive width in source and target and the exact
-collapsed-endpoint condition; these face/order invariants prove agreement with the
-already chosen face maps. Rectilinear bands are finite polytopes, so consume the independent
-relative convex-polyhedral subdivision lemma after its hypotheses are verified. This is
-the same affine-geometric helper used in R2 step8 and A4.1. Compose the affine
-simplex charts with the lift and prove that every image remains inside one original
-sign cell, including all lower-dimensional pieces. Own the native analytic
-restriction/image/transitivity adapter used by both subdivisions: if an open affine
-k-simplex δ lies inside an old open d-simplex σ and Φ|σ is an analytic isomorphism
-onto a native analytic submanifold T of the ambient affine space, then Φ(δ) is a
-native analytic k-submanifold of that ambient space and Φ|δ and its inverse are
-analytic in its submanifold charts. Construct its flattening charts by transporting
-the affine submanifold δ⊂σ into T and composing with T's ambient flattening charts;
-prove the corresponding local product/normal-coordinate extensions and dimension
-comparison. State this only for nonempty δ, as required by the native carrier.
-Use this adapter for lower-dimensional simplices introduced by both subdivisions
-and by the polyhedral subdivision; an analytic immersion alone does not supply it.
-Transport the final complex and map back by the inverse initial linear change;
-the transported vertices and faces still form an affine complex in the original M,
-and all analytic and semialgebraic properties are preserved.
-Finite union of the semialgebraic
-graphs and compact-to-Hausdorff give the global map and its inverse. R2's noncompact
-Lemma10 uses analytic approximation and a transcendental coordinate change; it is not
-a proof of semialgebraicity of this finite map.
-
-**Real projective coordinates and semialgebraic transport.** Use
-`Projectivization ℝ (Fin (n+1) → ℝ)` for lines and its native quotient by nonzero scalar
-multiples. Consume AlgebraicTopology Stage4.6's single generic quotient topology/open-map
-API following [Mathlib PR44117](https://github.com/leanprover-community/mathlib4/pull/44117),
-its real finite atlas and its homeomorphism with the native antipodal
-`TauCeti.RealProjectiveSpace n`. Stage4.6 owns those constructions and builds the missing
-generic Mathlib interface; R2.1 adds the analytic/Nash comparison of its real charts.
-Pin the ratio-coordinate enumeration as `Fin.succAbove i` and inverse `Fin.insertNth i 1`,
-and compare it with Stage4.6's enumeration/model by the explicit linear permutation and
-norm-model equivalence to `Fin n → ℝ`. Prove the comparison on chart functions and
-transitions. Keep the supplier's chosen `ChartedSpace H M` and model I, and upgrade it
-to `IsManifold I ω M` by this analytic ratio-transition comparison; do not introduce
-another global charted-space instance. Give the `Fin n` formulas through the proved
-comparison and identify the smooth restriction with the supplied C∞ structure.
-Consume that stage's quotient/atlas
-topology, proving the Hausdorff, second-countable and compact comparisons needed here.
-Use `EuclideanSpace.equiv` for the norm adapter. Reduce arbitrary finite real vector
-spaces and complements of arbitrary hyperplanes to these charts by a linear coordinate
-equivalence. The n=0 chart is a single point; no second quotient instance is introduced.
-
-Use the finite-product carrier `(i : Fin m) → Projectivization ℝ (Fin (n i+1) → ℝ)`.
-Flatten its representatives to `(Σ i, Fin (n i+1)) → ℝ` and its matrix entries to
-`(Σ i, Fin (n i+1) × Fin (n i+1)) → ℝ`; prove the finite-coordinate equivalences.
-For such M a subset S is semialgebraic iff its preimage under
-the product of punctured-vector quotient maps, viewed in finite affine coordinates, is
-semialgebraic. Prove equivalence to global semialgebraicity in every standard product
-affine chart, and to local semialgebraicity at **every point of M** in those charts.
-For the local-to-global step use compactness and finitely many bounded semialgebraic
-chart patches; an unbounded affine chart alone does not justify that step. Define maps
-between such spaces by semialgebraic graphs; prove finite Boolean operations, products,
-diagonals, composition, images and preimages through the chart/quotient comparison and
-Layer 6 projection closure. Extend this pullback/chart definition to products of affine
-spaces and real multiprojective spaces, and to graphs between any such mixed spaces;
-in particular it defines semialgebraic maps from an affine complex's support to M.
-Graph semialgebraicity does not assert continuity; analytic
-Nash maps carry both the graph and analytic conditions. Include the empty product.
-
-Construct the projector embedding from the scale-invariant formula
-`P(x)ᵢⱼ=xᵢxⱼ/(∑ₖ xₖ²)` for **all n+1 coordinates** and x≠0, using
-`Projectivization.lift`. This replaces the inconsistent printed p.464 formula, which
-uses only indices1,…,n and target ℝⁿ² despite representatives with n+1 coordinates.
-The sum-of-squares denominator is strictly positive. Its image
-is exactly the real matrices with `Aᵀ=A`, `A²=A`, and `trace A=1`. Prove that symmetry and
-idempotence make the eigenvalues 0 or 1, so trace one forces rank one, and conversely
-recover the line from the image of A. Prove quotient injectivity, continuity, a
-homeomorphism onto this closed compact bounded real algebraic locus, and analyticity
-with injective differential in the projective charts. In the i-th chart the inverse
-ratios are `Aⱼᵢ/Aᵢᵢ` with `Aᵢᵢ>0`, hence analytic and semialgebraic. This proves the
-Nash embedding/inverse rather than merely a continuous compact embedding. For finite
-products use the product projector locus in a finite affine matrix-coordinate space.
-Prove equivalence of quotient/chart semialgebraicity of S with semialgebraicity of its
-embedded image, and transport relative complements inside that locus.
-
-**Real multiprojective theorem (Łojasiewicz §3 Theorem 4, printed p.464).** For any finite
-family of semialgebraic subsets Bᵢ of this real multiprojective M, produce a finite
-simplicial complex K in some real affine space and a semialgebraic homeomorphism
-`τ:|K|→M`, onto **all M**, in the mixed affine/projective graph definition above.
-Require the same wholly-in/wholly-out condition for every original Bᵢ. Pin analyticity
-chartwise: for every open d-simplex σ and standard product chart φ_I:U_I→ℝᴺ, on each
-nonempty `σ∩τ⁻¹(U_I)` the map φ_I∘τ is an analytic isomorphism onto
-`φ_I(τ(σ)∩U_I)`, a native `TauCeti.IsAnalyticSubmanifold d`; analyticity of both directions
-uses `AnalyticOnSubmanifold` in their affine coordinates. Empty intersections impose no
-nonempty-submanifold assertion. Prove chart independence and equivalence to the matrix
-model: an ambient analytic submanifold contained in the projector locus is an analytic
-submanifold of that locus, and the rational chart/embedding maps transport its analytic
-charts and dimension. Own this containment/chart adapter here, using the native analytic
-chart calculus rather than treating every analytic immersion as an embedding.
-Apply the bounded affine theorem to the compact projector locus itself and the images
-of all Bᵢ; retaining the whole locus as an input forces the support to cover it. Compose
-with the Nash inverse projector map; prove analytic and semialgebraic chart transport
-for every simplex and family member. This theorem uses real projective spaces and
-arbitrary semialgebraic marked sets, separately from A4.1's complex-projective algebraic
-pairs. It has no dependence on R3/R4's Stein or proper analytic embedding arguments.
-
-## R3. Complexification, strict psh exhaustion, Stein theory and coherent sheaves
-
-### R3.0. Global complexification and tubes
-
-Consume RealAlgebraicGeometry Layer7's local complexification of transition maps and shared
-`TauCeti.IsAnalyticSubmanifold` carrier. Construct a Bruhat–Whitney complexification
-of every Hausdorff, second-countable real-analytic n-manifold by the following
-paracompact gluing argument, including the noncompact case. Fix complex model
-`Fin n→ℂ`, with `IsManifold 𝓘(ℂ,Fin n→ℂ) ∞` on the resulting X, using R0's
-real coordinate equivalence. Consume the open-gluing carrier and chart maps
-of [ComplexManifolds #279 Milestones4–6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), as in CK's supplier contract; R3.0
-owns the W/A/B separation and real-structure choices for this gluing. Choose three locally
-finite chart covers with `closure V_i⊂U_i`, `closure U_i⊂T_i`, all relatively
-compact in the next chart. Complexify transitions on the outer overlaps; choose
-relatively compact complex overlap domains extending the middle overlaps, with
-inverse transitions and closure intersections with the real locus fixed.
-For each pair of neighboring charts put the compact common part of the inner
-real closures in a smaller overlap W. Separate their remaining compact parts
-by disjoint open buffers A and B. Use these W/A/B buffers and local finiteness
-to choose complex neighborhoods of the inner charts: only finitely many neighbor
-and triple-overlap constraints occur at each chart. Require that they avoid
-transitions to disjoint real inner closures, that the triple compositions lie
-in their domains, and that the inverse and cocycle identities hold there by
-analytic uniqueness. Make all choices invariant under conjugation.
-
-Glue only these inner complex neighborhoods along the restricted transitions.
-Prove the buffer lemma: limits, within the two chart neighborhoods, of
-transition-related pairs remain in the middle complex overlap where the
-transition is defined. Continuity then makes the limit pair related. Use this
-closed-transition-graph property and the open chart identifications to separate
-distinct quotient points; cocycles alone do not prove Hausdorffness. Prove that
-the original real charts embed with their original topology, that the quotient
-has a countable atlas, and hence is second-countable and paracompact. Conjugation
-descends to an antiholomorphic involution; shrink its neighborhood to identify
-its fixed locus exactly with the original manifold, which is closed there.
-Prove uniqueness of the complexification germ by extending an analytic
-identification and shrinking overlaps. The proof route is Whitney–Bruhat,
-[§1 Proposition1](https://doi.org/10.1007/BF02565913), including its separation
-buffers rather than merely its cocycle calculation.
-
-Pin complex manifolds by `IsManifold 𝓘(ℂ,E) ∞`, holomorphic maps by
-`MDifferentiable ℂ`, and the fixed locus in K3.0's realified analytic atlas.
-R0 owns the manifold adapter: compose each native real extended chart with a
-fixed continuous real-linear equivalence `E≃L[ℝ](Fin n→ℝ)`, then test the
-image with `TauCeti.IsAnalyticSubmanifold`. Prove chart and coordinate-equivalence
-independence and analytic-isomorphism transport. In a complex n-dimensional
-model use real dimension 2n and K3.0's restriction-of-scalars comparison.
-
-Define a Stein manifold by holomorphic convexity, holomorphic point separation, and holomorphic local coordinates. Prove Grauert's p-function construction. A p-function is a germ on an open neighborhood of the entire fixed locus M in the complexification: `p≥0`, `p^{-1}(0)=M`, `p=dp=0` on M, and `p` is strongly plurisubharmonic on a possibly smaller neighborhood including M. The neighborhood may shrink under a positive smooth multiplier or a locally finite sum. For every proper smooth exhaustion `r:M→ℝ`, construct a positive smooth multiplier `λ` on M and an extension to a neighborhood so that `r+λp` is strongly plurisubharmonic near M; The multiplier λp depends on r; the initial p-function germ can be fixed before the exhaustion is chosen. Define the barrier `p*` as a further positive smooth multiple of p chosen on a shrunk tube so that it remains strongly psh there and `{p*<1}` has closure inside the complexification neighborhood. State explicitly the smooth extension of r, λ, p* and their domains. The product/multiplier lemma is local near M and follows from `p=dp=0` and the positive Levi form there; it is not asserted globally for arbitrary positive multipliers away from M.
-
-Consume [GeometricTopology Layer 1's normal tubular neighborhood](../GeometricTopology/README.md#layer-1-manifold-library-buildout-general-dimension-general-structure-group) for the closed real fixed locus, and its smooth retraction π onto M. Use the smooth extension `R=r∘π`, with r normalized bounded below. Choose p* and the tube T inside the common region where p*, p and `r+λp` have the required plurisubharmonicity, so for every compact `K⊂M` and `ε>0`, `{x∈T:p*(x)≤1−ε, π(x)∈K}` has compact closure inside the complexification neighborhood. Prove this by choosing a variable normal-radius tube and finite-rank closed disk-bundle compactness over K; this is the transverse compactness bound required in addition to closure inside the neighborhood. Normalize `r` to be bounded below and construct a global proper smooth strictly psh exhaustion `q` on the resulting tube T, for example `q=(r+λp)+(1-p*)^{-1}` after proving each term and the barrier have the stated Levi form. Prove q is proper, its sublevels are relatively compact and exhaust T, and regular values are dense by Sard. For each regular level prove the sublevel is relatively compact strongly pseudoconvex with smooth boundary. Prove directly that any second-countable complex manifold with a global smooth strictly psh exhaustion is Stein by the weighted `∂̄` route below; do not infer Steinness from an arbitrary increasing union of Stein open sets. The generalized Runge limit theorem in Grauert is not used as a black box.
-
-### R3.1. Weighted estimates, Stein criteria and approximation
-
-In complex dimension zero, prove the Stein and embedding claims directly for a countable discrete space, using a proper enumeration into ℂ; no `∂̄` estimate is needed. For positive dimension, own the noncompact weighted `∂̄` theorem on a complete Kähler n-manifold X without boundary and a smooth Hermitian holomorphic bundle E. For a smooth real weight φ and `1≤k≤n`, put `B=[iΘ(E)+i∂∂̄φ,Λ]` on E-valued `(n,k)`-forms. If B is pointwise positive definite and distributionally closed data f belong to weighted L² with `∫⟨B⁻¹f,f⟩e⁻φ dV<∞`, prove existence of an E-valued `(n,k−1)`-form u with `∂̄u=f` and `∫|u|²e⁻φ dV≤∫⟨B⁻¹f,f⟩e⁻φ dV`. The uniform variant `B≥ε Id`, `ε>0`, gives the closed-range bound `‖u‖≤ε⁻¹ᐟ²‖f‖`; the pointwise-positive theorem does not assert a uniform closed-range constant. Prove maximal distributional `∂̄` is closed and densely defined, and that compactly supported smooth forms are dense in `Dom ∂̄∩Dom ∂̄*` in the graph norm for the complete metric. Derive the estimate from Bochner–Kodaira–Nakano, graph-domain density, Hilbert orthogonal projection onto `ker ∂̄`, and Riesz representation. The minimal solution is orthogonal to `ker ∂̄`; for smooth data, local elliptic regularity for its `∂̄`-Laplacian gives smoothness. Consume CK K5a for local elliptic regularity, K5b.0 for the Hermitian
-Dolbeault formal adjoint and principal symbol `½|ξ|² Id`, and SBC B2 for bundle L².
-Prove here that the scalar/bundle weight changes the adjoint only in lower order,
-so the weighted ∂̄-Laplacian has that same Laplace-type symbol on its open domain.
-
-Construct a complete Kähler metric on X from its normalized strictly psh exhaustion q, using a smooth increasing convex function `χ₀(q)` whose derivative and second derivative give completeness; prove a lower bound on lengths of paths along which q escapes. On a regular sublevel `D_c={q<c}`, also prove completeness of `i∂∂̄(q−log(c−q))` at its smooth boundary. To solve scalar `(0,k)` problems, use the canonical holomorphic identification with `(n,k)`-forms valued in `K_X⁻¹`, endowed with the dual of the canonical metric induced by the chosen Kähler metric; prove this identification respects `∂̄` and the L² norms. Its curvature contributes the Ricci term. Choose a smooth increasing convex weight `χ₁(q)` with derivative large enough on each compact q-shell to dominate the negative curvature of `K_X⁻¹` and E and ensure `B≥Id`; prove such a choice using compact-shell bounds and the strictly positive Levi form of q. The same construction on D_c uses its proper exhaustion `q−log(c−q)`. A constant multiple is used only when the corresponding uniform curvature bound has been proved. Prove the exhaustion-limit and weak compactness lemmas with bounds on each earlier compact.
-
-For a finite set of distinct points a and prescribed holomorphic jet polynomials P_a of degrees at most d, choose disjoint coordinate balls and cutoffs χ_a equal to one near a, and set `v=Σχ_a P_a`. Solve `∂̄u=∂̄v` with a weight `χ₁(q)+Σs_a η_a log|z−a|²`, where η_a is one near a and vanishes outside its coordinate ball, and `s_a=n+d`. The logarithm is a weight singularity; the resulting holomorphic functions have no poles. Regularize by `log(|z−a|²+δ²)`, bound all negative Levi contributions on the cutoff annuli uniformly in δ, and increase χ₁ to absorb them. The data are supported away from the singularities, so the inverse-curvature estimates are uniform. Pass to a weak limit and prove `∫|u|²|z−a|⁻²s_a<∞` locally. Since u is holomorphic near a, polar integration of its Taylor expansion forces every coefficient of degree at most `s_a−n=d` to vanish. Thus `v−u` has every prescribed jet: d=0 gives simultaneous point separation, d=1 gives holomorphic local coordinates. Include local Cauchy bounds that convert the L² estimates to compact sup-norm bounds.
-
-Prove the same finite-point jet interpolation for sections of every finite-rank
-holomorphic bundle E on Stein X, before Cartan A/B. Choose a smooth Hermitian
-metric on E using SBC B2, apply the weighted theorem to `E⊗K_X⁻¹`, and choose
-χ₁(q) to absorb its compact-shell curvature. In local frames the cutoff jet
-sections and singular weights have the same vanishing-order argument as above.
-A prescribed value in any fiber extends to a global holomorphic section; finitely
-many such sections generate E near any given compact by continuity and a finite
-subcover. This is the vector-bundle section supplier used in R3.2's exact
-block-matrix gluing, independent of coherent-sheaf Cartan A.
-
-For holomorphic convexity, given compact K and `c>sup_K q`, construct for each b outside `{q≤c}` a holomorphic function f with `f(b)=1` and `sup_K|f|<1`. Use a cutoff near b disjoint from `{q≤c}` and a logarithmic weight there with s=n. Choose the convex part of the weight to grow fast between K and the support of the cutoff derivative; the inverse-curvature estimate and local Cauchy bounds make the correction arbitrarily small on K while its value at b is zero. Prove the holomorphic hull is closed and contained in the compact sublevel `{q≤c}`. For Oka–Weil on an arbitrary holomorphically convex compact K and any neighborhood U of K, construct a smooth strictly psh exhaustion ψ with `ψ<0` on K and `ψ>0` outside U. Build ψ from finitely many holomorphic separators on a large compact shell, the existing q outside that shell, and a smooth regularized maximum, preserving strict inequalities after a small strictly psh perturbation. Choose an intermediate compact neighborhood where the cutoff derivative has a positive ψ-gap from K. Solve with weight `χ₁(q)+tψ`, `t→∞`, and use local Cauchy estimates to obtain approximation of the holomorphic germ on K, with every finite derivative on smaller compact neighborhoods. This proves the Stein criterion and finite-point jet interpolation before any use of Cartan A/B for arbitrary coherent sheaves.
-
-Own the convex-compact Stein-neighborhood lemma used by R3.2: with ψ as
-above, `D={ψ<0}` contains K, is relatively compact in U, and has proper strictly
-psh exhaustion `q−log(−ψ)`. Prove its boundary divergence and Levi positivity,
-then apply the direct R3.1 Stein criterion. Own its precise finite-cut form.
-Write `t=Re F` for a global holomorphic F and take a fixed O(X)-convex compact
-`K_{≤s}`, a<s, η>0, and open sets `U₁⊇K_{≤a}`, `U₂⊇K_{a−η,s+η}`,
-`W_a⊇K_{a,a}` and `V⊇K_{≤s}`. For sufficiently small ε>0 prove that
-`[(U₁∩{t<a−ε/2}) ∪ (U₁∩U₂∩W_a∩{|t−a|<ε}) ∪ (U₂∩{t>a+ε/2})] ∩ V`
-is an open neighborhood of the fixed cut, using compactness and positive
-margins. Choose ψ and hence the relatively compact Stein D inside this open
-neighborhood. Then `ω₁=D∩{t<a+ε/2}` and `ω₂=D∩{t>a−ε/2}` cover D,
-lie respectively in U₁ and U₂, and have overlap inside
-`U₁∩U₂∩W_a∩{|t−a|<ε/2}`. Take V to be the intersection of all common
-sheaf, section and relation-column domains required in the application,
-each containing the fixed cut. Choose D only after this intersection, and
-prove its Stein property using the displayed exhaustion.
-
-Prove the converse exhaustion theorem for every Stein manifold under the
-holomorphic-convexity/separation/coordinate definition in R3.0. Choose a countable
-O(X)-convex compact exhaustion and finite holomorphic separators of each compact
-shell. Raise/rescale them so they are summably small, with every finite derivative,
-on earlier compact neighborhoods and their squared moduli are large on the new
-shell. Add a countable positively weighted tuple of global holomorphic coordinate
-functions whose differentials span at every point. Prove local convergence with
-all derivatives by Cauchy estimates; the sum of squared moduli is smooth, strictly
-psh and proper. Its nonnegative terms prevent cancellation in the shell lower
-bound. This establishes the exhaustion required by the weighted, approximation
-and coherent-theory targets for general Stein X, independently of R4 or A/B.
-
-### R3.2. Coherent Cartan theory from compact generation
-
-Prove Cartan A and B for coherent analytic sheaves defined on the whole Stein
-manifold X, in the following order. A section considered near a compact may be
-local; the sheaf itself is not silently extended from that neighborhood.
-
-0. Construct the coherent analytic module-sheaf carrier and calculus before
-   the compact argument. Use native `SheafOfModules` over the RingCat-valued
-   holomorphic structure sheaf R_W supplied by CK K4 on an open W, with K4's
-   locally free section sheaves as examples. Consume CK K4's identification
-   `O_U≅O_W|_U` and compatibility with germ maps. Use native
-   `SheafOfModules.over` on `J.over U`, where `J=Opens.grothendieckTopology W`,
-   and `Opens.overEquivalence : Over U ≌ Opens U` from
-   `Mathlib.Topology.Sheaves.Over`, including its two continuous-site
-   comparisons. Consume `SheafOfModules.pushforward` and
-   `pushforwardPushforwardEquivalence` from
-   `Mathlib.Algebra.Category.ModuleCat.Sheaf.PushforwardContinuous` to transport
-   modules across this equivalence, supplying CK K4's analytic ring maps and
-   verifying their unit/counit compatibility. Own the analytic section/stalk
-   and germ comparisons across this transport, so the bundle section sheaf on
-   a Stein D and F|_D are modules over the same ring sheaf. Consume native `SheafOfModules.IsFiniteType`,
-   `GeneratingSections` and `LocalGeneratorsData` from
-   `Mathlib.Algebra.Category.ModuleCat.Sheaf.Generators`, and native
-   `SheafOfModules.IsLocallyFree` from
-   `Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree`; prove their analytic
-   local-frame/finite-tuple comparisons. Define coherence by this finite type
-   and the following local condition: for every open U⊆W, q∈ℕ and morphism
-   `free (ULift (Fin q))→F.over U` of modules over `R_W.over U` on `J.over U`, its
-   native kernel is `SheafOfModules.IsFiniteType`; the lifted finite index
-   lies in the ring/module universe. Own the preservation lemmas transporting
-   this condition to opens of U. Let O_U be CK K4's RingCat sheaf on U,
-   identified with `U.sheafRestrict R_W`, and let E be the native equivalence
-   from modules over O_U to modules over `R_W.over U`. Construct
-   `unit (R_W.over U)≅E.functor.obj (unit O_U)` from the analytic ring
-   isomorphism. Obtain the inverse-direction unit comparison by composing
-   `E.unitIso.app (unit O_U)` with E.inverse applied to the inverse of that
-   displayed isomorphism.
-   Prove E and its inverse preserve finite free modules, kernels, finite type,
-   local freeness and finite presentation. Consume `GeneratingSections.map`
-   with its colimit-preservation and unit-isomorphism hypotheses. For
-   `QuasicoherentData.pushforward` on E.functor, use the inverse of the
-   displayed unit iso, and use the analogous iso for E.inverse. Supply
-   continuity and cocontinuity in both directions, continuity of each
-   `Over.post` on the over-sites, and the per-over colimit-preservation
-   hypothesis. Prove that over-site continuity here, and discharge the
-   colimit condition using the left-adjoint pushforwards with invertible
-   ring maps and the native pullbacks on `Opens U` and `Over U`, following native `isQuasicoherent_pushforward_of_isLeftAdjoint`
-   and `isLeftAdjoint_pushforward_of_isIso`. Own the finite-type and
-   finite-presentation comparisons beyond those native statements, tracking
-   the finite generator and relation index types in `Presentation.map`. Consume native `QuasicoherentData` and
-   `SheafOfModules.IsFinitePresentation` from `Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent`; prove
-   equivalence with that finite-presentation predicate over coherent O.
-   Consume CK K3's Oka output in its local primitive form: relations among any
-   finite tuple of holomorphic functions on any open admit, near each point,
-   finitely many holomorphic relation vectors whose germs generate the
-   relation module at every point of that neighborhood. Translate this statement
-   into native kernels and prove O coherent in the module-sheaf sense here;
-   CK's primitive local-algebra proofs do not consume R3.2 or its native
-   coherence predicate. Translate CK's reduced-ideal and finite-tuple ideal
-   generator outputs into native `IsFiniteType` subsheaves of O; prove their
-   coherence using the coherent structure sheaf and kernel comparisons. Build
-   analytic section and stalk comparisons for restriction to smaller opens,
-   consuming native `Over.iteratedSliceEquiv` with
-   `pushforwardPushforwardEquivalence`, as in `QuasicoherentData.bind`.
-   Build finite free presentations with their exactness and transport laws.
-   Consume the native
-   abelian-category instance in `Mathlib.Algebra.Category.ModuleCat.Sheaf.Abelian`,
-   its kernels/cokernels/images and module sheafification. Verify
-   `HasSheafify` and `WEqualsLocallyBijective` for AddCommGrpCat on J,
-   `J.over U`, `(J.over U).over V`, `Opens.grothendieckTopology U` and its
-   over-sites, deriving the required instances on every small site used here;
-   these also supply the weaker sheafification
-   hypotheses of the native finite-generator API.
-   Consume the native module stalk and `germ_smul` API in
-   `Mathlib.Algebra.Category.ModuleCat.Stalk`. Build the analytic section/stalk
-   comparisons and exactness adapters for these constructions, and prove
-   closure of coherent sheaves under these operations and extensions, using
-   CK K3's Oka coherence. In particular the relation sheaf R(h) of any finite
-   tuple h in a coherent F is coherent. Prove stalk generators extend to
-   sections generating on a neighborhood, and every equality or finite
-   relation of germs holds after shrinking. Give the local-presentation
-   comparison for coherent ideals/quotients and holomorphic bundle section
-   sheaves. No Cartan A/B or global generation is an input to this calculus.
-1. Obtain scalar `H^k(X,O)=0`, k>0, from R3.1, the local Dolbeault lemma and the
-   fine Dolbeault resolution. Consume CK K2's sheaf/Čech/Dolbeault comparison; own the scalar Cousin-I splitting. These assertions concern O, not arbitrary coherent
-   sheaves, and precede A/B.
-2. Define (E)(K) to quantify over **every** coherent sheaf F on a neighborhood
-   of the O(X)-convex compact K. Clause(i) gives a finite holomorphic tuple
-   generating F near K. Clause(ii) applies to **every** finite tuple h
-   generating F near K and every section σ defined near K: on a smaller
-   neighborhood σ is a holomorphic-coefficient combination of h. Prove both
-   clauses for finite compacts by item0's stalk calculus and disjoint small
-   neighborhoods. Choose finitely many global holomorphic F_j that give local
-   coordinates at each point of K. Their simultaneous real and imaginary
-   level compacts are finite. Induct by deleting the 2N real-level constraints,
-   with (E) for **every** choice of the remaining levels. For a real part t(z),
-   define `K_{a,b}={z∈K:a≤t(z)≤b}` and `K_{≤u}={z∈K:t(z)≤u}`.
-   The finite-cut lemma7.2.2 proves (E)(K) from (E) on every `K_{a,a}`.
-   Prove level compacts and one-sided cuts O(X)-convex using `|exp(±F)|`
-   (use iF for imaginary levels).
-
-   Run the supremum continuation separately for each object. For clause(i)
-   fix F and let P_F(u) assert generation near `K_{≤u}`. For clause(ii) fix
-   F,h,σ on a neighborhood of all K and let P_(F,h,σ)(u) assert coefficients
-   for this specified σ in this specified tuple near `K_{≤u}`. Both properties
-   inherit to smaller cuts, and the empty cuts below min_K t give initial
-   values. At a hypothetical finite supremum α, clause(i) on `K_{α,α}` gives
-   a tuple g generating on a neighborhood containing `K_{α−δ,α+δ}`, δ>0.
-   Choose a∈(α−δ,α) with P_F(a), giving generators f near `K_{≤a}`, and
-   choose a fixed s∈(α,α+δ). On `K_{a,a}`, use level(E)(ii) with these tuples
-   to obtain `γ₁f=g`, `γ₂g=f`. After their coefficient domains are known,
-   choose a coefficient neighborhood W_a of `K_{a,a}` and ε>0. If U₁,U₂
-   are the respective generation domains, first intersect
-   `(U₁∩{t<a−ε/2}) ∪ (U₁∩U₂∩W_a∩{|t−a|<ε}) ∪ (U₂∩{t>a+ε/2})`
-   with the common sheaf domain. Prove the resulting open contains the
-   **fixed** `K_{≤s}` for ε small enough by compactness; only then choose the
-   Stein D inside it by R3.1. Put
-   `ω₁=D∩{t<a+ε/2}`, `ω₂=D∩{t>a−ε/2}`, with f generating on ω₁ and g
-   generating on ω₂; their overlap lies in all matrix domains and in
-   `W_a∩{a−ε<t<a+ε}`. The shrink changes these open neighborhoods, not s.
-   Put `T₁=[[I,0],[γ₁,I]]`, `T₂=[[I,γ₂],[0,I]]`, so
-   `T₁(f,0)=T₂(0,g)`. The frame change is `v=(T₂⁻¹T₁)u`, and the coefficient
-   transition is `c₂=(T₁⁻¹T₂)ᵀc₁`. Consume CK K4 and its
-   [ComplexManifolds #279 Milestone7](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279)
-   cocycle gluing to construct a rank p+q bundle on D surjecting to F there.
-   R3.1's bundle-value interpolation and compactness give a finite tuple
-   generating F near `K_{≤s}`, contradicting the supremum α. Finish this
-   clause(i) argument near **all K for every coherent sheaf** before beginning
-   clause(ii): refuting every finite supremum gives P_F(u) for all
-   `u≥max_K t`. In particular obtain relation columns r_k generating R(h) on
-   a neighborhood of all K, using item0's coherence of R(h).
-
-   For clause(ii)'s separate supremum α, obtain a coefficient vector c² for
-   the **fixed** h,σ from level(E)(ii) on `K_{α,α}`; its domain contains
-   `K_{α−δ,α+δ}`. Choose a∈(α−δ,α) with P_(F,h,σ)(a), obtaining c¹ near
-   `K_{≤a}`, and fix s∈(α,α+δ). Their difference on the overlap is a section
-   of item0's coherent relation sheaf R(h). Use the already obtained tuple r
-   defined near **all K**; level(E)(ii) on `K_{a,a}` with that tuple expresses
-   `c¹−c²=Σγ_k r_k` near the level. Only then choose ε and a coefficient
-   neighborhood W_a. Use the same three-part neighborhood construction with
-   U₁,U₂ now the c¹,c² coefficient domains and W_a the level-coefficient
-   domain. Intersect it with the common domains of F, σ, h and all r_k,
-   each containing all K, before applying R3.1 to choose the Stein D.
-   The fixed cut is contained in this open by compactness, and only the
-   overlap must lie in the γ_k domains. Scalar Cousin I on D splits each γ_k; correcting
-   c¹,c² by the corresponding multiples of r_k preserves σ and makes them
-   agree. This proves P_(F,h,σ)(s), contradicting its supremum α; hence
-   clause(ii) also holds near all K. Prove all domain choices by compactness
-   and the positive separation margins.
-   This exact block gluing needs no near-identity hypothesis or coherent A/B;
-   later approximation estimates are separate targets.
-3. Prove the nested-compact summable-section lemma (7.2.4) and coherent
-   approximation (7.2.7): for F coherent on X, K O(X)-convex, and a section s
-   defined near K, construct global sections of F approximating s in the
-   finite-presentation seminorms on K. Use the compact generators, scalar
-   Oka–Weil and summable corrections. State the quotient/seminorm topology,
-   independence of finite presentations, restriction maps and convergence.
-4. Deduce Cartan A (7.2.8): approximate a finite local generating tuple near
-   each point so that its coefficient matrix remains invertible, and prove
-   `Γ(X,F)⊗_(Γ(X,O))O_x→F_x` onto. Separately prove coefficient lifting
-   (7.2.9): whenever global sections f₁,…,f_q generate F on X, every global
-   section is `Σa_i f_i` with a_i∈O(X). Stalk generation alone is insufficient;
-   prove this using compact approximation and summable gluing, before B.
-5. Build arbitrarily fine locally finite Stein covers of uniformly finite
-   order, and prove their finite intersections with each regular q-sublevel
-   are Stein. Own the geometric refinement: choose a smooth Hermitian metric
-   and a positive radius function below the local coordinate, distance-Hessian
-   and metric-comparison bounds and below the subordinate-cover margins.
-   Take it sufficiently Lipschitz so radii of meeting balls are comparable;
-   a maximal disjoint smaller-ball family covers after enlargement. Prove a
-   dimension-dependent finite overlap bound by packing in uniformly comparable
-   local Euclidean charts. Shrink the allowed radii until squared distance
-   from each center is strictly psh, giving a proper psh barrier on each ball.
-   On a finite intersection add the nonnegative ball barriers and the
-   q-sublevel barrier; prove properness and strict positivity, then use R3.1.
-   Do not identify a merely contractible good-cover intersection with a Stein
-   domain or require R5's analytic triangulation for this refinement.
-6. Prove B (7.4.3) first on a relatively compact Stein stage X′⊂X. By A on X
-   and compactness of closure X′, choose finitely many sections in Γ(X,F)
-   generating F on a neighborhood of closure X′. The relation sheaf R is
-   coherent in `0→R→O^q→F→0`. On the Stein cover intersections, coefficient
-   lifting gives the surjective map of Čech cochain groups; prove that exactness
-   and its connecting maps. Scalar acyclicity and repeated coherent-kernel
-   dimension shifting reduce positive cohomology to degrees beyond the fixed
-   finite cover order, where the cochains vanish. Prove this for every
-   cover in the arbitrarily fine finite-order Stein refinement family. Pass
-   to the Čech colimit and use CK K2's paracompact Čech/derived comparison;
-   no F-acyclicity of intersections is assumed to invoke Leray. Do not infer finitely many
-   generators on an arbitrary noncompact stage from A without the compact
-   neighborhood argument. Exhaust X by regular Stein stages. For degrees>1,
-   recursively correct primitives on previous stages; for degree1 use coherent
-   section approximation and summable errors to correct the 0-cocycle
-   differences. Prove the resulting limit and `H^k(X,F)=0`, k>0.
-
-Derive global-section exactness, coherent ideal/quotient computations and
-finite-point jet interpolation from B, comparing the latter with R3.1's earlier
-scalar construction. The order is scalar weighted theory → compact coherent
-generation/approximation → A/coefficient lifting → B; R4 is not an input.
-
-Grauert's paper also states a generalized Runge exhaustion theorem. Record it as a conditional lemma only: for increasing relatively compact domains `T_ρ` with dense Stein levels, prove the union Stein when each earlier domain is Runge in each later domain, deriving Runge from holomorphic convexity/psh sublevels in this construction. Do not state it for arbitrary nested Stein domains. Our tube T already has the global strictly psh exhaustion and the direct weighted-L² Stein proof, so the conditional Runge lemma is not needed to establish its Steinness.
-## R4. Grauert's proper real-analytic embedding
-
-For n=0, use R3.1's proper enumeration of the countable discrete space into ℂ. For every Hausdorff, second-countable real-analytic n-manifold M, prove there is a regular proper real-analytic embedding `F:M→ℝ^(4n+2)` with closed analytic image. This fixed target dimension is `2N` for the proper holomorphic embedding target `N=2n+1`; do not leave N to a later dimension choice. Complexify M and use R3's actual global strictly psh tube T, which is Stein by the direct weighted-L² proof; do not repeat a compact argument or rely on a false general increasing-union-Stein statement. Consume R3's weighted-L² consequences—Steinness, Oka–Weil approximation, point/tangent separation and finite-jet interpolation—without requiring Cartan A/B for arbitrary coherent sheaves in this embedding proof.
-
-Prove proper holomorphic embedding into the fixed `ℂ^(2n+1)` by the following
-split-coordinate construction, for n≥1.
-
-1. Define the compact-open Fréchet topology on O(T,ℂ^n), prove completeness and
-   the Baire theorem, and build Bishop's almost-proper residual subset. An
-   almost-proper map h has relatively compact connected components of the inverse
-   image of every compact. Prove the stronger polyhedral exhaustion lemma:
-   `P_j⊂⊂P_(j+1)` exhaust T, each P_j is a finite union of special analytic
-   polyhedra, h maps P_j properly onto `a_j D^n`, and a_j strictly increase to
-   infinity. Build the finite polyhedra and compact-component choices under
-   successive small holomorphic perturbations, prove openness/density of the
-   compact-component conditions at each stage, and preserve them by summable
-   errors. Prove the following buffered compact-component approximation
-   lemma from these polyhedra. Choose `a_(j−1)<b_j<a_j` and let
-   `Z_j={‖h‖∞≤b_j}`, `Q_j=closure P_(j+1)∩Z_j`. The boundary-to-boundary
-   property gives `Q_j=P_(j+1)∩Z_j`, compact and open-and-closed in Z_j.
-   Prove Q_j O(T)-convex: its compact holomorphic hull lies in Z_j by the
-   h-coordinate bounds. The locally constant function 0 on Q_j and 1 on
-   Z_j\Q_j extends holomorphically to a neighborhood of Z_j, since those
-   subsets are disjoint closed subsets there. Approximate its germ on the
-   compact, O(T)-convex hull by Oka–Weil. Any point of the hull outside Q_j
-   would have a value near1 while the function is uniformly near0 on Q_j,
-   contradicting the hull inequality. Handle Q_j=∅ separately. Split
-   Q_j into the disjoint compacts `A_j=P_j∩Q_j`, `L_j=Q_j\P_j`.
-   Boundary values `‖h‖∞=a_j>b_j` make both parts open-and-closed in Q_j.
-   The strict buffer b_j>a_(j−1) puts closure P_(j−1) in the interior of A_j.
-   Theorem2.1(d) and the Bishop paragraph in
-   [Forstnerič §2.1](https://arxiv.org/html/1709.05630v5) supply the
-   almost-proper/polyhedral targets; this compact-component hull argument
-   supplies the simultaneous old-map and shell-growth compact for Oka–Weil.
-2. Prove global holomorphic one-jet and off-diagonal two-point transversality
-   into Euclidean targets in every prescribed compact-open neighborhood. Use
-   R3.1's finite-point jet interpolation to obtain finite-dimensional global
-   holomorphic perturbations that span the relevant value/jet fibers near each
-   compact coordinate piece. Apply parametric Sard, prove each finite-stage
-   condition open and dense, and take a countable intersection. For rank
-   strata use compact coordinate pieces contained in each exact-rank stratum
-   and establish the needed stability there; no closedness of a nonclosed
-   rank stratum is assumed. For off-diagonal
-   pairs exhaust `(T×T)\Δ` by compact pieces; no assertion is made on Δ.
-   Intersect these residual conditions with the almost-proper residual set in
-   the same mapping space. Choose h so `D_h={(x,y):x≠y,h(x)=h(y)}` is a complex
-   n-manifold and the exact-corank-k locus of dh has dimension n−k², empty if
-   that number is negative.
-3. With h fixed, prove the same open-neighborhood density for maps
-   `g:T→ℂ^(n+1)` making (h,g) injective and immersive. On D_h the difference
-   g(x)−g(y) has target dimension n+1>n. On a corank-k locus, noninjectivity of
-   `dg|ker dh` has codimension n+2−k, exceeding n−k² by k²−k+2. Construct the
-   surjective value/first-jet parameter families for these constrained loci,
-   use Sard, and prove the resulting residual density even inside neighborhoods
-   specifying finitely many strict shell inequalities. These statements require
-   the full parameter construction, not dimension counting alone.
-4. At stage j prescribe the old g on A_j and a first-coordinate constant
-   of modulus>j on L_j. They are disjoint compacts whose union Q_j is
-   O(T)-convex, so choose disjoint neighborhoods and apply Oka–Weil to
-   every coordinate. Choose the perturbation from item3 within the open
-   mapping neighborhood preserving the strict growth and approximation
-   bounds. Uniform approximation on A_j gives C¹ control on the smaller
-   closure P_(j−1) by Cauchy, using its positive buffer. Prove every previous
-   L_i, i<j, is inside A_j, so these approximations also preserve earlier
+# Roadmap: real-analytic geometry and semianalytic triangulation
+
+**Summary.** This roadmap develops the local and global geometry of real-analytic manifolds and of
+their semianalytic subsets: the sets that, near every point, are finite unions of finite
+intersections of loci `f = 0` and `f > 0` of real-analytic functions. Manifolds are Hausdorff,
+second countable, finite-dimensional and without boundary, and analytic means given by convergent
+power series. A theorem about polynomial semialgebraic sets does not discharge a semianalytic
+statement, and subanalytic sets are not part of the roadmap.
+
+Its headline theorems are four.
+
+- *Łojasiewicz's triangulation theorem.* If `M` is a real-analytic manifold and `(B_ν)` is a
+  locally finite family of semianalytic subsets of `M`, there are a locally finite simplicial
+  complex `K` and a homeomorphism `τ : |K| → M` that maps every open simplex analytically
+  isomorphically onto an analytic submanifold of `M` lying either inside or outside each `B_ν`.
+  Moreover `τ` has Łojasiewicz's property (A): locally over each point of `M`, its graph is cut
+  out by sign conditions on functions that are polynomial in the coordinates of `|K|` with
+  analytic coefficients.
+- *The semialgebraic triangulation theorems.* If `B_1, …, B_k` are bounded semialgebraic subsets
+  of `ℝⁿ`, the union of their closures is the image of a finite simplicial complex in `ℝⁿ` under a
+  homeomorphism with semialgebraic graph that is an analytic isomorphism on each open simplex and
+  is compatible with every `B_i`. Every finite product of real projective spaces has a finite
+  triangulation of the same kind compatible with finitely many semialgebraic subsets.
+- *Grauert's embedding theorem.* Every real-analytic manifold of dimension `n` has a proper
+  real-analytic embedding with injective differential into `ℝ^(4n+2)`; its image is closed.
+- *The Stein theory behind it.* A complex manifold with a smooth strictly plurisubharmonic
+  exhaustion is Stein (holomorphically convex, with holomorphic functions separating points and
+  giving local coordinates); a complexification of `M` carries such an exhaustion on a tube around
+  `M`, so the tube is Stein. On a complete Kähler manifold with a Hermitian holomorphic bundle and
+  a weight whose curvature operator is positive semi-definite, Hörmander's weighted `L²` estimate solves
+  `∂̄u = f` for every `∂̄`-closed bundle-valued `(n, k)`-form `f` that is square-integrable for the
+  weight and of finite weighted inverse-curvature norm, with `u` bounded by that norm. On a Stein manifold, Cartan's theorems hold for coherent analytic
+  sheaves: global sections generate every stalk, and `Hᵏ(X, F) = 0` for `k > 0`.
+
+The roadmap sits between real algebraic and complex geometry. The
+RealAlgebraicGeometry roadmap supplies the Thom encodings, subresultants and root continuity from
+which the local decomposition of semianalytic sets is built. AffineMorseLefschetz supplies the
+finite semialgebraic lifting construction whose analytic refinement gives the bounded theorem.
+ComplexKahlerGeometry supplies the local algebra of holomorphic germs, the holomorphic structure
+sheaf and the local Kähler identities, and uses R1 and R5 in return. ComplexComparisonPartII
+and SchubertGeometry build on the Stein and coherent theory of R3.
+
+R0 fixes analytic charts, analytic germs and analytic submanifolds on a manifold. R1 sets up
+semianalytic sets and proves their local normal decomposition and dimension theory; R1.1 adds Nash
+germs, locally semialgebraic sets and the Nash refinement. R2 proves Łojasiewicz's theorem in
+affine space, and R2.1 the semialgebraic theorems. R3 builds the complexification, the weighted
+`∂̄` theory, the Stein criteria and Cartan's theorems. R4 proves Grauert's embedding theorem, and
+R5 transports the affine triangulation to manifolds.
+
+## How to read the build
+
+The layers are R0–R5, the labels by which other roadmaps cite this one. The sections of layer Rk
+are numbered §k.n, and the sections cited under labels of their own carry them in their headings:
+R1.1 is §1.1, R2.1 is §2.1 with its continuation §§2.1a–2.1b, and R3.0, R3.1 and R3.2 are §§3.0,
+3.1 and 3.2. In R1 and R2 the sections numbered `k.0` and `k.0a`, `k.0b`, … come before §k.1,
+which uses them. A statement that Tau Ceti proves ends with a line *In Tau Ceti:* naming the
+declarations that realise it.
+
+R0–R2 form the real part. §§0.1–0.2 are used by the complexification of §3.0 and by R5. §1.0
+sets up semianalytic presentations and proves the local normal decomposition by induction on the
+dimension, and §1.0a draws its dimension and frontier consequences; §1.1 develops Nash germs and
+locally semialgebraic sets and refines both to the Nash category for the semialgebraic theorems.
+R2 is one induction on the dimension of the affine space, in the order its *Needs:* lines force:
+normal boxes (§2.0), nonsingular directions (§2.0a), partially semialgebraic sets (§2.0b), adapted
+decompositions (§2.0c), the straightening of graph families and the band calculus (§2.0d), and the
+three steps of the construction (§§2.0e–2.0g), ending with the relative subdivision lemma, the
+rectilinear cells and Theorem 1 in §2.0h. §2.1 proves the bounded semialgebraic theorem on the
+semialgebraic lift of AffineMorseLefschetz, and §§2.1a–2.1b the multiprojective theorem.
+
+R3–R5 form the global part. §3.0 builds the complexification and its strictly plurisubharmonic
+tube; §3.1 proves the weighted `∂̄` theorem and, from it, the Stein criterion, interpolation and
+approximation; §3.2 proves Cartan's theorems. R4 uses only §3.1's consequences for the tube, and
+R5 combines R1, R2 and R4. Each subsection's *Needs:* line lists what its statement and its route
+use, so that a target proved another way is not blocked behind an unrelated section.
+
+## Conventions
+
+1. **Manifolds.** A manifold is Hausdorff, second countable, finite-dimensional and without
+   boundary. A real-analytic manifold is a charted space `M` over a boundaryless model
+   `I : ModelWithCorners ℝ E H`, `E` a finite-dimensional real normed space, with
+   `IsManifold I ω M`; its analytic charts are those of the maximal `ω` atlas. A complex manifold
+   is `IsManifold 𝓘(ℂ, E) ∞ X`, and holomorphic maps are `MDifferentiable` for the complex
+   models. A complex manifold of complex dimension `n` is a real-analytic manifold of real
+   dimension `2n` with the same charts (`IsManifold.restrictScalars_of_ne_zero`, the realified
+   atlas of ComplexKahlerGeometry K3.0).
+2. **Analytic.** Analytic means Mathlib's `AnalyticAt` (a convergent power series); formal Taylor
+   data without a convergence statement is not an analytic map. A function on a real-analytic
+   manifold is analytic at a point exactly when its expression in one, equivalently every, chart
+   of the maximal atlas is (`TauCeti.contMDiffAt_omega_iff_analyticAt`).
+3. **Semianalytic.** A subset `s` of a real normed space is semianalytic at `x`
+   (`TauCeti.SemianalyticAt s x`) when, on a neighbourhood `U` of `x`, it agrees with a finite
+   Boolean combination of the sets `{f = 0}` and `{f > 0}` for functions `f` analytic on `U`;
+   the functions, the neighbourhood and the formula may depend on `x`. It is semianalytic
+   (`TauCeti.IsSemianalytic s`) when it is semianalytic at every point of the ambient space,
+   including points outside `s`. On a real-analytic manifold the notion is read in charts
+   (`TauCeti.IsMSemianalytic I s`). Images of semianalytic sets under proper analytic maps are not
+   asserted to be semianalytic. Their calculus opens §1.0.
+4. **Semialgebraic and Nash.** Semialgebraic subsets of `σ → ℝ`, `σ` finite, are
+   `TauCeti.IsSemialgebraic`; a function is semialgebraic on `s` (`TauCeti.IsSemialgebraicOn f s`)
+   when `s` and its graph, a subset of the coordinate space indexed by `σ ⊕ τ`, are semialgebraic.
+   Tarski–Seidenberg is the instance `TauCeti.HasSemialgebraicProjections ℝ`. A real function is a
+   Nash germ at `x` (`TauCeti.IsNashAt f x`) when it is analytic at `x` and some nonzero polynomial
+   `P(y, t)` satisfies `P(y, f(y)) = 0` near `x`; a map is Nash when its coordinates are, and a
+   Nash function on an open set is one that is a Nash germ at each of its points. A set is
+   locally semialgebraic (`TauCeti.IsLocallySemialgebraic`) when every ambient point has an open
+   semialgebraic neighbourhood meeting it in a semialgebraic set. §1.1 states their calculus.
+5. **Analytic submanifolds of `ℝⁿ`.** `TauCeti.IsAnalyticSubmanifold d S` says that `S ⊆ ℝⁿ` is a
+   nonempty `d`-dimensional analytic submanifold, straightened near each point by an analytic
+   chart of `ℝⁿ`; `TauCeti.AnalyticOnSubmanifold d f S` says that `f` is analytic on it, in those
+   charts. An analytic isomorphism `S → T` of `d`-dimensional analytic submanifolds is a bijection
+   that is analytic on `S` with inverse analytic on `T`. On a manifold, analytic submanifolds and
+   maps are read in charts as in §0.2.
+6. **Property (A).** Write `ℝⁿ = ℝ^(n−1) × ℝ` with base `u` and vertical coordinate `t` where a
+   vertical direction is singled out. A set `s ⊆ E × ℝ^ι` is partially semialgebraic
+   (`TauCeti.IsPartiallySemialgebraic s`) when, over a neighbourhood `U` of every base point, it
+   is a finite Boolean combination of sign conditions on functions polynomial in the fibre
+   coordinates with coefficients analytic on `U`. A map `f` from a subset of `ℝᵐ` to `ℝⁿ` has
+   *property (A)* when its graph `{(y, x) : y = f(x)} ⊆ ℝⁿ × ℝᵐ`, base the target and fibre the
+   source, is partially semialgebraic, and *property (A⁻¹)* when the same holds with base the
+   source and fibre the target. Neither says that the graph is semialgebraic. Property (A) for maps
+   into a manifold is defined in §5.2.
+7. **Simplicial complexes.** A simplicial complex is Mathlib's `Geometry.SimplicialComplex ℝ V` in
+   a finite-dimensional real vector space `V`, with faces `K.faces` and support `|K| = K.space`.
+   The open simplex of a face `s` is the intrinsic interior of its convex hull,
+   `intrinsicInterior ℝ (convexHull ℝ s)`, of dimension `card s − 1`; it is not the interior in
+   `V`. `K` is finite when `K.faces` is finite and locally finite when the convex hulls of its
+   faces form a locally finite family. A homeomorphism `τ : |K| → X` is compatible with a family
+   `(B_ν)` of subsets of `X` when every open simplex has its image inside `B_ν` or inside its
+   complement, for every `ν`. Statements on a finite-dimensional real affine space are made in
+   affine coordinates `ℝⁿ = Fin n → ℝ`, written `RealCoordinates n` in `Suggested.lean` (§2.0
+   proves that nothing depends on the choice).
+8. **Stein manifolds and plurisubharmonicity.** A complex manifold `X` is Stein when it is
+   holomorphically convex (the holomorphic hull of every compact set is compact), holomorphically
+   separable (global holomorphic functions separate points) and has holomorphic local coordinates
+   (at each point some global holomorphic functions have differentials spanning the cotangent
+   space). A `C²` real function is strictly plurisubharmonic at `x` when its Levi form at `x` is
+   positive definite (`TauCeti.IsManifoldStrictlyPlurisubharmonicAt`, through
+   `TauCeti.manifoldLeviForm`). An exhaustion is a proper function bounded below.
+9. **Weighted forms.** On a Kähler manifold `X` of complex dimension `n` with a Hermitian
+   holomorphic bundle `E`, `Θ(E)` is the Chern curvature, `Λ` the adjoint of the Lefschetz
+   operator, `dV` the Kähler volume, and the weight `e^(−φ)` multiplies the pointwise norm; on
+   `E`-valued `(n, k)`-forms, `B = [iΘ(E) + i∂∂̄φ, Λ]`. Coherent analytic sheaves are the module
+   sheaves of §3.2, item 0.
+
+## R0: Real analytic charts and germs
+
+This layer puts the coordinate theory of analytic functions, analytic germs and analytic
+submanifolds on a real-analytic manifold. Convergent complexification at a point, with its radius
+bounds, and the complexification of analytic charts are RealAlgebraicGeometry Layer 7's and are
+taken in coordinates from the supplier contracts. This layer proves the chart dictionary, the
+neighbourhood form of complexification, the germ calculus and its compatibility with
+complexification, and reads them on `M`, checking that nothing depends on the chart. No second
+complexification theorem is proved here, and formal power series are not identified with
+convergent germs.
+
+### 0.1 Analytic germs on a manifold and their complexification
+
+**Analytic charts.** Let `M` be a real-analytic manifold over a boundaryless model `I` (Convention
+1). For any two charts `e, e′` of the maximal `ω` atlas, the change of coordinates
+`I ∘ e′ ∘ e⁻¹ ∘ I⁻¹` is analytic on its domain, in particular at the coordinate of every point of
+`e.source ∩ e′.source`. A function `f : M → F` into a complete normed space is `C^ω` at `x` if and
+only if its coordinate expression `f ∘ (e.extend I)⁻¹` in a chart `e` of the maximal atlas at `x`
+is analytic at the coordinate of `x`; the preferred chart `extChartAt I x` is one such chart. On a
+preconnected `M` modelled on a locally connected space, two `C^ω` functions agreeing on a
+neighbourhood of one point are equal (the identity theorem).
+*In Tau Ceti:* `ModelWithCorners.analyticOnNhd_extendCoordChange`,
+`ModelWithCorners.analyticAt_extendCoordChange`, `TauCeti.analyticOnNhd_ext_coord_change`,
+`TauCeti.contMDiffAt_omega_iff_analyticAt_of_mem_maximalAtlas`,
+`TauCeti.contMDiffAt_omega_iff_analyticAt`, `ContMDiff.eq_of_eventuallyEq`.
+
+**The neighbourhood adapter.** Let `U ⊆ ℝⁿ` be open and `f : U → ℝ` analytic (the same holds for
+maps to `ℝᵐ`, coordinatewise). There are an open set `W ⊆ ℂⁿ`, invariant under complex conjugation,
+whose real points are exactly the points of `U`, and a holomorphic `F : W → ℂ` with `F = f` on `U`
+and `F(z̄) = conj F(z)`. The extension is unique near `U`: two holomorphic functions on an open
+neighbourhood `W` of the real points of `U` that agree on `U` agree on a smaller open
+conjugation-invariant `V ⊆ W` whose real points are exactly those of `U`. Route:
+RealAlgebraicGeometry Layer 7's extension on a real-centred polydisc at each point of `U`, shrunk so
+that its real points lie in `U`; two such extensions agree on the intersection of their polydiscs,
+which is convex and contains the real part of each of its points, by the identity theorem on the
+real points; they glue to the union.
+*In Tau Ceti:* `AnalyticOnNhd.exists_complexification`, `AnalyticOnNhd.exists_complexification_pi`,
+`AnalyticOnNhd.exists_eqOn_of_forall_real`.
+
+**Chart-local germs and their complexification.** For a point `a` of a normed space, the germs at
+`a` of functions analytic at `a` form a subring `TauCeti.analyticGerms 𝕜 a` of all germs, and two
+analytic functions have the same germ exactly when they agree near `a`. An analytic map `g` with
+`g(a) = b` induces a ring homomorphism, pullback, from the germs at `b` to the germs at `a`;
+pullback along the identity is the identity, pullback is contravariantly functorial under
+composition, and locally inverse analytic maps induce mutually inverse ring isomorphisms. For two
+charts `e, e′` of the maximal `ω` atlas of `M` at `x`, pullback by the change of coordinates is a
+ring isomorphism between the germ rings at the two coordinates of `x`; it satisfies the identity
+and cocycle laws, and it carries the representative of a `C^ω` function `M → 𝕜` in one chart to its
+representative in the other. For `a ∈ ℝⁿ`, complexification is an injective ring homomorphism from
+real analytic germs at `a` to holomorphic germs at `a`, characterized by restricting back to the
+given germ on the real points; it commutes with pullback along any holomorphic extension of an
+analytic map, and its image consists exactly of the holomorphic germs commuting with complex
+conjugation near `a`.
+*In Tau Ceti:* `TauCeti.analyticGerms`, `TauCeti.analyticGerms.ofAnalyticAt_eq_ofAnalyticAt_iff`,
+`TauCeti.analyticGerms.pullback`, `TauCeti.analyticGerms.pullback_id`,
+`TauCeti.analyticGerms.pullback_pullback`, `TauCeti.analyticGerms.equivOfInverse`,
+`ModelWithCorners.analyticGermsEquiv`, `ModelWithCorners.analyticGermsEquiv_trans`,
+`ModelWithCorners.analyticGermsEquiv_ofAnalyticAt_comp_extend_symm_of_contMDiffAt`,
+`TauCeti.analyticGerms.complexify`, `TauCeti.analyticGerms.realRestriction_complexify`,
+`TauCeti.analyticGerms.complexify_injective`, `TauCeti.analyticGerms.complexify_pullback`,
+`TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`.
+
+**Germs on a manifold.** Let `M` be a real-analytic manifold of dimension `n`. Define the ring of
+analytic germs of `M` at `x`: germs at `x` of real functions on `M` that are analytic near `x`
+(Convention 2). Prove that the chart representative identifies it, for every chart `φ` of the
+maximal atlas at `x`, with the ring
+`TauCeti.analyticGerms ℝ (φ x)` of germs at `φ(x)` in the model, compatibly with the canonical
+isomorphisms `ModelWithCorners.analyticGermsEquiv` between the germ rings of two charts; and that
+an analytic map of manifolds `g : M → M′` induces a ring homomorphism from the germs of `M′` at
+`g(x)` to the germs of `M` at `x`, which in charts is `TauCeti.analyticGerms.pullback` along the
+chart expression of `g`, is functorial in `g`, and is an isomorphism when `g` is an analytic
+isomorphism near `x`. For a model `ℝⁿ`, define the complexification of a germ at `x` through a
+chart by `TauCeti.analyticGerms.complexify`, and prove that the complexifications through two
+charts correspond under the holomorphic germ of the complexified transition map
+(`OpenPartialHomeomorph.exists_complexification`, `TauCeti.analyticGerms.complexify_pullback`).
+This is the local input to the gluing of §3.0 (Whitney–Bruhat, §1).
+*Needs:* the analytic charts and the chart-local germs above; RealAlgebraicGeometry Layer 7's
+chart complexification, Tau Ceti `OpenPartialHomeomorph.exists_complexification`.
+
+- Two functions analytic near `x` have the same germ exactly when their representatives in one,
+  equivalently every, chart at `x` agree near the image of `x`
+  (`ModelWithCorners.analyticGermsEquiv_ofAnalyticAt_comp_extend_symm_of_contMDiffAt`); on a
+  connected open set, two analytic functions agreeing near one point agree everywhere
+  (`ContMDiff.eq_of_eventuallyEq`).
+- The complexification of a germ is a holomorphic germ commuting with complex conjugation, and
+  every holomorphic germ at a real point commuting with conjugation is a complexification
+  (`TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`), through any chart.
+
+**Checks.**
+- The homeomorphism `x ↦ x³` of `ℝ` is not a chart of the maximal analytic atlas of `ℝ`: the
+  coordinate function `x`, read in it, is `y ↦ y^(1/3)`, which is not analytic at `0`. A ring of
+  germs defined through arbitrary topological charts would depend on the chart.
+
+### 0.2 Chartwise analytic submanifolds
+
+Fix a continuous real-linear equivalence `e : E ≃L[ℝ] ℝⁿ`. Define a nonempty subset `S ⊆ M` to be
+a `d`-dimensional analytic submanifold of `M` (`ChartwiseRealAnalyticSubmanifold`) when, for each
+`x ∈ S`, the image of `S` near `x` under the extended chart at `x` followed by `e` is, on some open
+set `U ⊆ ℝⁿ` containing the image of `x` and contained in the chart's target, a `d`-dimensional
+analytic submanifold in the sense of `TauCeti.IsAnalyticSubmanifold`. Define a map from a
+`d`-dimensional analytic submanifold of `ℝᴺ` into `M` to be analytic (`AnalyticOnSubmanifoldInto`)
+when near each point it maps the submanifold into the source of the chart at the image point and its
+expression in that chart, followed by `e`, is analytic on the submanifold
+(`TauCeti.AnalyticOnSubmanifold`), and a map from an analytic submanifold of `M` to `ℝᴺ` to be
+analytic (`ChartwiseAnalyticOn`) when its expression through the inverse of those charts is.
+Prove that both notions are independent of the chart of the maximal atlas and of `e`, that they are
+transported by analytic isomorphisms of manifolds, that for `M = ℝⁿ` with its
+identity chart they are `TauCeti.IsAnalyticSubmanifold` and `TauCeti.AnalyticOnSubmanifold`, and
+that a relatively open nonempty subset of an analytic submanifold is one. On a complex manifold of
+complex dimension `n` the notions are read in the realified atlas, of real dimension `2n`.
+*Needs:* §0.1; Tau Ceti `TauCeti.IsAnalyticSubmanifold`, `TauCeti.AnalyticOnSubmanifold`,
+`TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`, `TauCeti.analyticOnNhd_ext_coord_change`,
+`IsManifold.restrictScalars_of_ne_zero`; ComplexKahlerGeometry K3.0 (§3.1) for the realified
+atlas.
+
+**Checks.**
+- In `ℝ²`, the cross `{xy = 0}` is not a `1`-dimensional analytic submanifold, although it is the
+  union of two analytic submanifolds (the axes) and each axis minus the origin is one. A
+  definition asking only for a local finite union of analytic submanifolds would accept it.
+
+### Examples
+
+- On the circle `S¹` with its two stereographic charts, the germ at a point of the restriction of
+  the coordinate function `x₁` of `ℝ²` is the same element of the ring of §0.1 through either
+  chart, and its complexifications through the two charts agree under the complexified transition
+  map `z ↦ 1/z`.
+- The diagonal `{(x, x)}` of a real-analytic manifold `M × M` is an `n`-dimensional analytic
+  submanifold of it in the sense of §0.2.
+
+### Dependencies
+
+Mathlib: analytic functions and the maximal analytic atlas. RealAlgebraicGeometry Layer 7, as
+implemented in Tau Ceti: analytic submanifolds of `ℝⁿ` and convergent complexification at a point
+and of analytic charts. ComplexKahlerGeometry K3.0 (§3.1) for the realified atlas of a complex
+manifold.
+
+## R1: Semianalytic sets and local normal decomposition
+
+This layer sets up semianalytic sets (Convention 3) and their calculus, and proves their local
+structure: a normal decomposition into analytic submanifolds near each point, the resulting
+dimension theory and the frontier condition, and, in §1.1, Nash germs, locally semialgebraic sets
+and the refinements of the decomposition in the Nash category. The decompositions are local; no
+chartwise decompositions are glued into a global stratification here (§5.3 does that on a
+triangulated manifold).
+
+### 1.0 Semianalytic presentations and the local normal decomposition
+
+**Semianalytic presentations.** For an open set `U` of a real normed space, call `t` an analytic
+Boolean combination over `U` when it is a finite Boolean combination of sets `{f = 0}` and
+`{f > 0}` with `f` analytic on `U`; every such combination is described by a condition on the signs
+of finitely many functions analytic on `U` (the sign-condition normal form). A set `s` is
+semianalytic at `x` when `s ∩ U = t ∩ U` for some neighbourhood `U` of `x` and some analytic Boolean
+combination `t` over `U`, and semianalytic when it is semianalytic at every point of the ambient
+space, including points outside `s`. Then:
+
+- *Shrinking.* A presentation of `s` at `x` exists on every sufficiently small neighbourhood of
+  `x`, and being semianalytic at `x` depends only on the germ of `s` at `x`.
+- *Equivalence of presentations.* `s` is semianalytic at `x` exactly when, on some neighbourhood
+  `U` of `x`, it agrees with a finite union of sets `{f = 0, g₁ > 0, …, gₖ > 0}` with
+  `f, g₁, …, gₖ` analytic on `U`.
+- *Boolean operations.* The sets semianalytic at `x`, and the semianalytic sets, form algebras of
+  sets: they contain `∅` and the whole space and are closed under complements and finite unions,
+  intersections and differences. The union of a locally finite family of semianalytic sets is
+  semianalytic.
+- *Analytic preimages and isomorphisms.* If `s` is semianalytic at `g(x)` and `g` is analytic at
+  `x`, then `g⁻¹(s)` is semianalytic at `x`; preimages of semianalytic sets under analytic maps are
+  semianalytic; for a bijection `e` analytic with analytic inverse, `e(s)` is semianalytic exactly
+  when `s` is.
+- *The line.* A subset of `ℝ` is semianalytic at `x` exactly when, near `x`, membership of `y`
+  depends only on the sign of `y − x`; inside any prescribed neighbourhood of `x` there is then an
+  interval `(a, b) ∋ x` meeting the set in a union of some of `(a, x)`, `{x}` and `(x, b)`.
+- *On a manifold.* On a real-analytic manifold `M` over a boundaryless model, a set is semianalytic
+  at `x` when its preimage under the inverse of the preferred extended chart is semianalytic at the
+  coordinate of `x`, equivalently under any chart of the maximal analytic atlas at `x`; the same
+  Boolean operations hold, preimages under `C^ω` maps of manifolds are semianalytic, and
+  homeomorphisms analytic in both directions preserve and reflect semianalyticity. No second
+  submanifold structure is introduced: the notion is tested in the charts.
+
+*In Tau Ceti:* `TauCeti.IsAnalyticBooleanCombination`,
+`TauCeti.IsAnalyticBooleanCombination.exists_eq_setOf_sign`, `TauCeti.SemianalyticAt`,
+`TauCeti.IsSemianalytic`, `TauCeti.SemianalyticAt.exists_subset`, `TauCeti.semianalyticAt_congr`,
+`TauCeti.semianalyticAt_iff_exists_iUnion`, `TauCeti.isSetAlgebra_setOf_semianalyticAt`,
+`TauCeti.isSetAlgebra_setOf_isSemianalytic`, `LocallyFinite.isSemianalytic_iUnion`,
+`TauCeti.SemianalyticAt.preimage`, `TauCeti.IsSemianalytic.preimage`,
+`Equiv.isSemianalytic_image_iff`, `TauCeti.semianalyticAt_real_iff`,
+`TauCeti.SemianalyticAt.exists_Ioo_mem_iff_sign_mem`, `TauCeti.MSemianalyticAt`,
+`TauCeti.IsMSemianalytic`, `TauCeti.mSemianalyticAt_iff_of_mem_maximalAtlas`,
+`TauCeti.isSetAlgebra_setOf_isMSemianalytic`, `TauCeti.IsMSemianalytic.preimage`,
+`Homeomorph.isMSemianalytic_image_iff`.
+
+**The local normal decomposition.** Prove the local normal decomposition, part of the local
+theory of semianalytic sets that Łojasiewicz states without proof in §1: let `U ⊆ ℝⁿ` be open,
+`x ∈ U` and `f_1, …, f_k` analytic on `U`. There is an open neighbourhood
+`V ⊆ U` of `x` and a finite partition of `V` into connected, locally closed analytic submanifolds
+of `ℝⁿ` (the pieces) such that `x` lies in the closure of every piece (Łojasiewicz, §1.II.4,
+p. 452); every `f_j` has constant sign (negative, zero or positive) on every piece; every piece is
+semianalytic, and so is every connected component of every sign-condition
+set `{sign f_1 = ε_1, …, sign f_k = ε_k} ∩ V`, which is a union of pieces; inside `V` the closure of
+a piece is a union of pieces; and a piece contained in the closure of another, distinct piece has
+strictly smaller dimension.
+
+Route, by induction on `n`. The case `n = 1` is the three-cell normal form
+(`TauCeti.semianalyticAt_real_iff`, `TauCeti.SemianalyticAt.exists_Ioo_mem_iff_sign_mem`). For
+`n > 1`, after a generic linear change of coordinates and shrinking, real Weierstrass preparation
+makes each nonzero `f_j` a unit times a monic polynomial in the last variable with analytic
+coefficients in the others: complexify (`AnalyticAt.exists_complexification`), apply convergent
+complex Weierstrass preparation (ComplexKahlerGeometry K3, §3.2), and use uniqueness and
+conjugation (`TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`) to make the
+factors real. Remove repeated factors by squarefree reduction with the subresultant gcd criterion
+(RealAlgebraicGeometry Layer 2); the discriminant of a product with a repeated factor vanishes
+identically, so the reduction comes first. Put the leading coefficients, the discriminants and
+resultants, and every principal subresultant coefficient of `(P_i, P_i′)` and of `(P_i, P_j)`
+into the family decomposed in dimension `n − 1`. On each base piece these coefficients have
+constant sign, which fixes the degrees and the gcd degrees, so the family is delineable
+(`TauCeti.nonempty_delineation`, with RealAlgebraicGeometry Layer 4 for the continuity
+and constancy of the ordered roots); its root functions are analytic on the base piece
+(`TauCeti.Delineation.analyticOnSubmanifold_root`; at simple roots also
+`AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`), and Thom encodings (RealAlgebraicGeometry
+Layer 1) describe each section by sign conditions, which makes the sections and sectors
+semianalytic. The roots of a Weierstrass polynomial tend to the last coordinate of `x` as the base
+variable tends to the projection `x′` of `x`, so every section and sector over a base piece with
+`x′` in its closure has `x` in its closure. Carry local connectedness at frontier points as an
+induction invariant, and prove from it and the root-matching neighbourhoods that the boundary of a
+section or sector is a union of lower sections and sectors. The induction terminates because each
+step lowers the dimension. A global refinement of an analytic atlas is not a substitute for this
+bad-set induction.
+*Needs:* the semianalytic presentations above, with their normal form on the line; R0 (§0.1, the
+germ complexification); Tau Ceti `AnalyticAt.exists_complexification`,
+`TauCeti.nonempty_delineation`, `TauCeti.Delineation.analyticOnSubmanifold_root`,
+`AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`; ComplexKahlerGeometry K3 (§3.2, Weierstrass
+preparation and division); RealAlgebraicGeometry Layers 1, 2 and 4.
+
+- *Analytic-coefficient delineability.* Subresultants of polynomials with analytic coefficients
+  are polynomial expressions in those coefficients, hence analytic; on a connected analytic
+  submanifold of the base where the selected pivot minors do not vanish, the constant-rank gcd
+  and squarefree formulas have analytic coefficients.
+- *Shrinking.* The decomposition can be chosen inside any prescribed neighbourhood of `x`, and
+  restricts to a decomposition of the same kind on every smaller open neighbourhood of `x` on
+  which the pieces stay connected; `x` stays in the closure of every restricted piece.
+- *Compatibility.* For a semianalytic set `A` with a presentation near `x` by the functions
+  `f_j`, every piece lies in `A` or in its complement, so `A ∩ V` is a union of pieces.
+
+**Checks.**
+- For `f = x² − y²` near the origin of `ℝ²`, a normal decomposition has nine pieces: the origin,
+  the four open half-lines of the cross `{x² = y²}` and the four open sectors. The connected
+  components of the sign conditions give only five sets, among them the whole cross, which is not
+  an analytic submanifold at the origin; a decomposition into sign-condition components fails the
+  submanifold requirement.
+
+### 1.0a Dimension, components and the frontier condition
+
+For a set `A` semianalytic at `x`, define its local dimension at `x` as the largest dimension of a
+piece contained in `A` of a normal decomposition near `x` compatible with `A`, with
+`dim_x ∅ = −∞`, and the dimension of a semianalytic set as the supremum of its local dimensions.
+Prove that the local dimension does not depend on the decomposition; that `dim closure(A) = dim A`;
+that `dim(closure(A) ∖ A) < dim A` for nonempty `A`; that a set of dimension `0` near `x` is
+locally finite there; that the connected components of a semianalytic set form a locally finite
+family and each is semianalytic; and that the pieces of a normal decomposition satisfy both parts
+of the frontier condition: if `S ∩ closure(T) ≠ ∅` then `S ⊆ closure(T)`, and if
+`S ⊆ closure(T)` with `S ≠ T` then `dim S < dim T`. The first is a containment and the second the
+dimension drop for distinct incident pieces (Łojasiewicz, §1). The ambient boundary of a
+lower-dimensional closed set is not asserted to have smaller dimension.
+*Needs:* §1.0; Tau Ceti `TauCeti.IsSemianalytic`, `LocallyFinite.isSemianalytic_iUnion`.
+
+**Checks.**
+- For the closed segment `A = [0, 1] × {0} ⊂ ℝ²`, `dim A = 1`, `closure(A) ∖ A = ∅`, and the ambient
+  boundary of `A` is `A` itself, of dimension `1`. A frontier statement written with the ambient
+  boundary in place of `closure(A) ∖ A` would claim `dim A < dim A`.
+- For `A = {(1, 0)} ⊂ ℝ²` and `x = 0`, `dim_x A = −∞`, since `A` misses the disc of radius `1/2`.
+  Without the requirement of §1.0 that `x` lie in the closure of every piece, the partition of the
+  disc of radius `2` into `{(1, 0)}` and its complement would be admissible for
+  `f = (u − 1)² + v²` and would give `dim_x A = 0`: the local dimension would depend on the size of
+  the neighbourhood.
+- For the Whitney umbrella `W = {x² = z y²} ⊂ ℝ³`, points of `W` off the `z`-axis `S` have `y ≠ 0`
+  and `z = x²/y² ≥ 0`, so `W ∖ S` is the graph of `x²/y²` over `{y ≠ 0}` and has the two components
+  `T± = W ∩ {±y > 0}`. Since `(√z · y, y, z) → (0, 0, z)` as `y → 0⁺`, `closure(T₊) ∩ S` is the
+  half-axis `z ≥ 0`. Then `S ∩ closure(T₊) ≠ ∅` but `S ⊄ closure(T₊)`: the partition `{S, T₊, T₋}`
+  into connected analytic submanifolds fails the frontier condition, and a normal decomposition
+  splits the axis at the origin.
+
+### 1.1 Analytic-algebraic germs and locally semialgebraic sets (R1.1)
+
+This section develops the analytic-algebraic side of R1 (Łojasiewicz, §1.VI, p. 454): the
+topology of semialgebraic sets in finite coordinates, Nash germs and Nash functions, the graph
+criterion, locally semialgebraic sets, the Nash comparisons for the analytic inverse and implicit
+function theorems, the Nash refinement of §§1.0–1.0a with the Nashness of the Weierstrass
+coefficients it uses, and Nash maps on semialgebraic analytic submanifolds. Semialgebraic sets and
+functions themselves, CAD and quantifier elimination are RealAlgebraicGeometry's (Convention 4).
+
+**Semialgebraic topology in finite coordinates.** Semialgebraic subsets of `σ → ℝ`, `σ` finite,
+and functions semialgebraic on a set are `TauCeti.IsSemialgebraic` and `TauCeti.IsSemialgebraicOn`,
+the graph of `f` on `s` being read in the coordinate space indexed by `σ ⊕ τ` through
+`Equiv.sumArrowEquivProdArrow`. Their image and quantifier-elimination results assume projection
+closure; over `ℝ` this is the Tarski–Seidenberg instance `TauCeti.HasSemialgebraicProjections ℝ`
+of RealAlgebraicGeometry Layer 6, and no conditional statement is used as Tarski–Seidenberg
+itself. The closure, the interior and the frontier of a semialgebraic subset of `σ → ℝ` are
+semialgebraic, by the ordered-ring formulas saying that arbitrarily small balls around a point meet
+the set or its complement. Open balls of `σ → ℝ` for the sup norm, and open Euclidean balls read
+in the coordinates `σ → ℝ`, are semialgebraic, so either kind gives semialgebraic neighbourhood
+bases.
+*In Tau Ceti:* `TauCeti.isSemialgebraic_ball`, `TauCeti.isSemialgebraic_preimage_toLp_ball`,
+`TauCeti.IsSemialgebraic.closure`, `TauCeti.IsSemialgebraic.interior`,
+`TauCeti.IsSemialgebraic.frontier`.
+
+**Nash germs.** Let `f` be a real function on `ℝⁿ = σ → ℝ`. An *analytic-algebraic relation* for
+`f` on a set `Ω` is a nonzero polynomial `P ∈ ℝ[y₁, …, yₙ][t]` with `P(y, f(y)) = 0` for every
+`y ∈ Ω`. A *Nash germ* at `x` is a function analytic at `x` with such a relation on some
+neighbourhood of `x`; the polynomial and the neighbourhood may depend on `x`. A map is a Nash germ
+when its coordinates are, and a Nash function on an open set is a function that is a Nash germ at
+each of its points. Being a Nash germ at `x` depends only on the germ of `f` at `x`, and a Nash
+germ at `x` is a Nash germ at every nearby point. Polynomial functions are Nash germs everywhere;
+sums, negatives, differences, products, powers, finite sums and finite products of Nash germs at
+`x` are Nash germs at `x`, and so are `1/f` and `g/f` when `f(x) ≠ 0`. If `f` is a Nash germ at
+`g(x)` and the coordinates of `g` are Nash germs at `x`, then `f ∘ g` is a Nash germ at `x`.
+*In Tau Ceti:* `TauCeti.IsNashAt`, `TauCeti.isNashAt_iff_exists_mem_nhds`, `TauCeti.IsNashAt.congr`,
+`TauCeti.IsNashAt.eventually_isNashAt`, `MvPolynomial.isNashAt_eval`, `TauCeti.IsNashAt.add`,
+`TauCeti.IsNashAt.mul`, `TauCeti.IsNashAt.inv`, `TauCeti.IsNashAt.div`, `TauCeti.IsNashAt.comp`.
+
+**One relation on a semialgebraic set.** A function that is a Nash germ at every point of a
+preconnected set satisfies one nonzero relation on the whole set, by analytic continuation. A
+semialgebraic set has finitely many connected components, each semialgebraic. Hence a function
+that is a Nash germ at every point of a semialgebraic set `s`, for instance a Nash function on an
+open semialgebraic `Ω`, satisfies a single nonzero relation `P(y, f(y)) = 0` for all `y ∈ s`: the
+product of the relations of the components. The set need not be open, since being a Nash germ at a
+point already involves a neighbourhood of it.
+*In Tau Ceti:* `TauCeti.IsSemialgebraic.connectedComponentIn`,
+`TauCeti.IsSemialgebraic.finite_image_connectedComponentIn`,
+`IsPreconnected.exists_ne_zero_polynomial_relation_of_isNashAt`,
+`TauCeti.IsSemialgebraic.exists_ne_zero_polynomial_relation_of_isNashAt`.
+
+**The graph criterion.** A function continuous on an open semialgebraic `U` and satisfying a single
+nonzero relation on `U` has semialgebraic graph on `U`, the fibres over which the relation
+vanishes identically included; so a Nash function on an open semialgebraic set has semialgebraic
+graph there. Conversely, a function with semialgebraic graph on any set satisfies a single nonzero
+relation on that set; so a function analytic at `x` whose graph is semialgebraic on a neighbourhood
+of `x` is a Nash germ at `x`, and a function analytic on an open set on which its graph is
+semialgebraic is Nash there. In local form: `f` is a Nash germ at `x` if and only if it is analytic
+at `x` and its graph is semialgebraic on some open semialgebraic neighbourhood `U` of `x`;
+finitely many Nash germs at `x` have semialgebraic graphs on one common such `U`, the empty family
+included; and a map between coordinate spaces has Nash coordinates at `x` if and only if it is
+analytic at `x` and its graph is semialgebraic on some open semialgebraic neighbourhood of `x`.
+Global semialgebraicity of the graph keeps the hypothesis that the domain is semialgebraic, since
+the graph projects onto the domain. Route, from
+relation to graph: off the zero set of a nonzero coefficient of the relation, a CAD adapted to the
+relation and to `U` has connected cells over which a continuous root selects one section,
+described by Thom signs; that zero set has dense complement, and continuity recovers the graph
+over it from the closure, so no values there can be chosen freely. From graph to relation: the
+graph has empty interior, so every nonempty piece of a sign description of it contains a nonzero
+polynomial equation, and the product of these vanishes on the graph.
+*In Tau Ceti:* `TauCeti.isSemialgebraicOn_of_polynomial_relation`,
+`TauCeti.IsSemialgebraicOn.exists_ne_zero_polynomial_relation`, `TauCeti.IsSemialgebraicOn.isNashAt`,
+`TauCeti.IsSemialgebraicOn.isNashAt_of_isOpen`, `TauCeti.isNashAt_iff_exists_isSemialgebraicOn`,
+`TauCeti.exists_isSemialgebraicOn_of_forall_isNashAt`,
+`TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn`.
+
+**Derivatives of Nash germs.** If `f` is a Nash germ at `x`, then for every vector `v` the
+directional derivative `y ↦ Df(y)v` is a Nash germ at `x`, at every point, including the singular
+locus of any relation chosen for `f`. Route: the derivative is analytic, and its graph is
+semialgebraic by the difference-quotient formula, so the graph criterion applies.
+*In Tau Ceti:* `TauCeti.IsNashAt.fderiv_apply`.
+
+**Locally semialgebraic sets.** A set `s ⊆ σ → ℝ` is semialgebraic at `x` when some open
+semialgebraic neighbourhood `U` of `x` (equivalently, some sup-norm ball around `x`) meets `s` in a
+semialgebraic set, and locally semialgebraic when it is semialgebraic at every ambient point,
+frontier points outside `s` included. Then `s` is semialgebraic at `x` if and only if, on some
+neighbourhood `U` of `x`, it agrees with a finite Boolean combination of zero sets and positivity
+sets of functions that are Nash germs at every point of `U`: one direction because polynomials are
+Nash germs, the other by the graph criterion. The sets semialgebraic at `x`, and the locally
+semialgebraic sets, form algebras of sets, and a locally finite union of locally semialgebraic sets
+is locally semialgebraic. Closures, interiors and frontiers of sets semialgebraic at `x` are
+semialgebraic at `x`. Preimages of locally semialgebraic sets under maps with Nash coordinates are
+locally semialgebraic, and bijections that are Nash with Nash inverse transport them. The distinct
+nonempty connected components of a locally semialgebraic set form a locally finite family of
+locally semialgebraic sets. A bounded locally semialgebraic set is semialgebraic: its closure is
+compact, finitely many of the neighbourhoods cover it, and the finitely many pieces have a
+semialgebraic union. The empty set and the zero-dimensional coordinate space are included.
+*In Tau Ceti:* `TauCeti.SemialgebraicAt`, `TauCeti.IsLocallySemialgebraic`,
+`TauCeti.IsNashBooleanCombination`, `TauCeti.semialgebraicAt_iff_exists_isNashBooleanCombination`,
+`TauCeti.isSetAlgebra_setOf_isLocallySemialgebraic`, `LocallyFinite.isLocallySemialgebraic_iUnion`,
+`TauCeti.SemialgebraicAt.closure`, `TauCeti.SemialgebraicAt.frontier`,
+`TauCeti.SemialgebraicAt.preimage`, `TauCeti.IsLocallySemialgebraic.preimage`,
+`Equiv.isLocallySemialgebraic_image_iff`, `TauCeti.IsLocallySemialgebraic.connectedComponentIn`,
+`TauCeti.IsLocallySemialgebraic.locallyFinite_connectedComponentIn`,
+`TauCeti.IsLocallySemialgebraic.isSemialgebraic_of_isBounded`.
+
+**Nash inverse and implicit functions.** Prove that if a map `g : ℝⁿ → ℝⁿ` has Nash coordinates at
+`x` and invertible derivative there, the analytic local inverse of `AnalyticAt.exists_openPartialHomeomorph`
+has Nash coordinates at `g(x)`, and that the analytic implicit function of a Nash map
+(`ImplicitFunctionData.analyticAt_implicitFunction`) has Nash coordinates. Route: the graph of the
+inverse is the transposed graph, semialgebraic on an open semialgebraic neighbourhood by the map
+form of the graph criterion (`TauCeti.forall_isNashAt_apply_iff_exists_isSemialgebraicOn`), and an
+analytic function with semialgebraic graph near a point is a Nash germ there
+(`TauCeti.IsSemialgebraicOn.isNashAt`).
+*Needs:* the Nash germs and the graph criterion above; RealAlgebraicGeometry Layer 7's analytic
+inverse and implicit functions, Tau Ceti `AnalyticAt.exists_openPartialHomeomorph`,
+`ImplicitFunctionData.analyticAt_implicitFunction`; `TauCeti.HasSemialgebraicProjections`.
+
+**Nash Weierstrass coefficients.** Let `f` be a Nash germ at a real point. Prove the algebraic
+realification lemma: if `w` is the local holomorphic extension of `f` and `w̄` its conjugate, they
+satisfy the original and the conjugate polynomial relations, and elimination by resultants makes
+`(w + w̄)/2` and `(w − w̄)/(2i)` algebraic over the real polynomial ring; a nonzero real or
+imaginary coefficient part gives a nonzero real relation for each real-valued component, so on a
+smaller conjugation-invariant semialgebraic tube the real and imaginary parts of the extension
+are Nash in the real coordinates, by the graph criterion. Containment in the common zero set of
+the real and imaginary parts of a polynomial is not the graph criterion. Then isolate the finite
+root cluster of the Weierstrass polynomial, express the coefficients of the factor by elementary
+symmetric functions of the cluster counted with multiplicity, describe each root multiplicity by
+the vanishing of the preceding derivatives and the nonvanishing of the next (finitely many
+conditions, bounded by the Weierstrass degree), and use real and imaginary polynomial coordinates
+and Tarski–Seidenberg for the graph. Prove that the root cluster and the coefficients are unique on
+a smaller neighbourhood and that conjugation makes them real. Hence the coefficients of the real
+Weierstrass factor of a Nash germ are Nash germs.
+*Needs:* the inverse and implicit functions, the derivatives of Nash germs and the graph
+criterion above; Tau Ceti `AnalyticAt.exists_complexification`,
+`TauCeti.HasSemialgebraicProjections`; ComplexKahlerGeometry K3 (§3.2).
+
+**The Nash normal decomposition.** Prove §1.0 in the Nash category: for finitely many Nash germs
+at `x`, the neighbourhood `V` can be taken open and semialgebraic and the pieces semialgebraic
+analytic submanifolds, the root and graph maps are Nash, closures and frontiers of pieces are
+semialgebraic, and the dimension and frontier conditions of §1.0a hold. The dimension of §1.0a of
+a nonempty semialgebraic `k`-dimensional piece equals its semialgebraic dimension
+`TauCeti.semialgebraicDim`, the dimension of AffineMorseLefschetz §5.1: both are `k`, the second by
+`TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace` (a nonempty subset of `ℝⁿ` that is a
+topological manifold modelled on `ℝᵏ` has semialgebraic dimension `k`). Prove only the assembly:
+the charts on `ℝᵏ` that the analytic submanifold structure gives the piece.
+*Needs:* §§1.0–1.0a, the Nash Weierstrass coefficients and the locally semialgebraic sets above;
+Tau Ceti `TauCeti.semialgebraicDim`, `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`,
+`TauCeti.IsSemialgebraic.semialgebraicDim_closure`.
+
+**Nash maps on semialgebraic analytic submanifolds.** On a semialgebraic analytic submanifold of
+`ℝⁿ`, define a Nash map to `ℝᵐ` as a map analytic on it (`TauCeti.AnalyticOnSubmanifold`) whose
+graph over it is semialgebraic. Prove that restriction to a semialgebraic relatively open subset,
+products, composition, and transport through the Nash inverse and implicit function theorems
+above preserve Nash maps.
+*Needs:* the paragraphs above; Tau Ceti `TauCeti.AnalyticOnSubmanifold`,
+`TauCeti.IsSemialgebraicOn`, `TauCeti.HasSemialgebraicProjections`.
+
+**Checks.**
+- For the Nash germ `f(x) = √(1 + x)` at `0`, write its extension `w = √(1 + z)`, `z = x + iy`, as
+  `a + ib`: then `a² − b² = 1 + x` and `2ab = y`, so `a` satisfies `4a⁴ − 4(1 + x)a² − y² = 0`, a
+  nonzero real relation; at `y = 0` it factors as `4a²(a² − 1 − x)`, recovering `f`. The real part
+  of the extension is Nash in `(x, y)` on a tube where `1 + x > 0`.
+- The analytic function `exp` on `ℝ` is not a Nash germ at `0`: a relation `P(x, eˣ) = 0` near `0`
+  holds on all of `ℝ` by analytic continuation, and a root `t` of `P(x, t)` with leading
+  coefficient `a_d(x) ≠ 0` satisfies `|t| ≤ 1 + max_i |a_i(x)/a_d(x)|`, which grows at most
+  polynomially in `x` for large `x`, while `eˣ` does not. So the Nash refinement is a genuine
+  restriction on the pieces of §1.0, not a relabelling.
+
+### Examples
+
+- For `f = y² − x³` near the origin of `ℝ²` (the cusp), a normal decomposition has the origin, the
+  two open branches `y = ±x^(3/2)`, `x > 0`, and the two open regions `y² > x³` and `y² < x³`; the
+  branches are graphs of Nash functions of `x` on `x > 0`, so this is also a Nash normal
+  decomposition.
+- The union of the closed unit disc and the segment `[1, 2] × {0}` in `ℝ²` has dimension `2`, and
+  its points of local dimension `1` are those of `(1, 2] × {0}`.
+
+### Dependencies
+
+§§1.0–1.0a: R0 (§0.1); RealAlgebraicGeometry Layer 7's convergent complexification and analytic
+implicit root theorem, and Tau Ceti's delineations; ComplexKahlerGeometry K3 (§3.2);
+RealAlgebraicGeometry Layers 1, 2 and 4. §1.1 adds RealAlgebraicGeometry's semialgebraic sets and
+Tarski–Seidenberg, the analytic inverse and implicit function theorems of its Layer 7, and the
+semialgebraic dimension of AffineMorseLefschetz §5.1.
+
+## R2: Łojasiewicz's affine triangulation theorem
+
+Theorem 1 (§2.0h) is Łojasiewicz's triangulation theorem in affine space, proved by induction on
+the dimension `n`; dimensions `0` and `1` are handled directly, and §§2.0–2.0g are the steps of
+the induction, in the order their *Needs:* lines force; with §2.0h they treat Łojasiewicz's
+Lemmas 1–15 (§2) and the five steps of his §4, step V (the triangulation, printed p. 473) in
+§2.0h. The relative convex-polyhedral subdivision lemma of §2.0h and the elementary clauses of the
+band calculus of §2.0d (Lemmas 11 and 12, and the continuity clause of Lemma 14) use only affine
+geometry and elementary topology, and depend on nothing else in this roadmap. In these
+sections `ℝⁿ = M × ℝ` with base `M = ℝ^(n−1)`, carrying its Euclidean norm, and vertical
+coordinate `t`; `π : M × ℝ → M` is the projection. A set `Γ ⊆ M × ℝ` is *topographic* when it is
+the graph of an analytic function on an analytic submanifold of `M`. A set `Z ⊆ M × ℝ` has
+*property (P)* when `π` restricted to `Z` is an open map: the projection of every relatively open
+subset of `Z` is open in `M`. §2.1 proves the bounded semialgebraic theorem, and §§2.1a–2.1b the
+multiprojective theorem; they use from §§2.0–2.0h only the affine-coordinate statements, the
+band maps and the subdivision theorem named there.
+
+### 2.0 Normal boxes
+
+Call a *normal box* at `c ∈ ℝⁿ` an open coordinate box `Q` around `c`, in some affine coordinates,
+together with a finite partition of `Q` into connected analytic submanifolds `Γ^k_κ`, `0 ≤ k ≤ n`,
+such that each `Γ^k_κ` is a connected component of the locus `V^k` where the successive real
+distinguished (Weierstrass) polynomials `H^(n−1)_n, …, H^k_(k+1)` in the last `n − k` coordinates
+vanish and the next one, `H^(k−1)_k` in the coordinate `x_k`, does not, with `H^(−1)_0 = 1`;
+`Γ^k_κ` has dimension `k`; the pieces with `k = n` are open; a piece with `k < n` is
+the graph of an analytic map over an open subset of the first `k` coordinates; and the frontier of
+each piece in `Q` is a union of pieces of lower dimension (Łojasiewicz, §1.II, pp. 451–452). Prove,
+using §§1.0–1.0a, that near every point, after an affine change of coordinates and shrinking, there
+is a normal box compatible with any given finite family of analytic functions and semianalytic sets
+(each piece inside or outside each set, each function of constant sign on each piece), and that it
+can be chosen inside any prescribed neighbourhood (Łojasiewicz, §1.III.1 and §1.III.3,
+pp. 452–453). Prove the *prescribed-zero-set* form: given a line `L` through the centre, a
+hyperplane transverse to it, finitely many analytic `f_j` and an analytic `F` with
+`f_j = 0 ⇒ F = 0` near the centre and `F` not identically zero along `L` near the centre, there is a
+normal box adapted to the `f_j`, with `L` as last axis and the hyperplane as the coordinate
+hyperplane, whose union of pieces of dimension `< n` is exactly `{F = 0}` near the centre
+(Łojasiewicz, §1.III.2, pp. 452–453). Prove that the coordinate projection onto the first `m`
+coordinates sends the normal data of a box to normal data of the projected box and preserves the
+dimension label of every piece of dimension at most `m` (Łojasiewicz, §1.II, p. 452, the projection
+statement). Route: Weierstrass preparation and division and the successive discriminant systems,
+retaining the prescribed line and hyperplane. These normal-root, graph and projection statements
+go beyond §1.0 and are targets here.
+*Needs:* §§1.0–1.0a; ComplexKahlerGeometry K3 (§3.2, Weierstrass preparation and division); Tau
+Ceti `AnalyticAt.exists_openPartialHomeomorph`, `AnalyticAt.exists_complexification`.
+
+- *Affine coordinates.* An affine change of coordinates of `ℝⁿ` is polynomial and analytic with
+  polynomial and analytic inverse. It preserves semianalytic sets (`Equiv.isSemianalytic_image_iff`),
+  semialgebraic sets and graphs, analytic submanifolds and analytic isomorphisms between them
+  (`TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`), and partially semialgebraic sets under
+  affine changes of the base (`TauCeti.IsPartiallySemialgebraic.preimage_prodMap`) and of the
+  fibre (a polynomial composed with an affine map is a polynomial). Hence properties (A) and
+  (A⁻¹), and every statement of this layer about a finite-dimensional real affine space, do not
+  depend on the affine coordinates.
+
+### 2.0a Nonsingular directions (Lemmas 1–4)
+
+For an analytic `f` on an open `G ⊆ ℝⁿ`, a direction `[v]` (a point of the projective space of
+directions of `ℝⁿ`) is *singular* for `f` at `u ∈ G` when `ξ ↦ f(u + ξv)` vanishes identically near
+`ξ = 0`, and singular for `f` when it is singular at some point of `G`. For a family of analytic
+functions, a direction is nonsingular when it is nonsingular for each member.
+
+**Lemma 1** (Łojasiewicz, §2, Lemma 1; analytic Sard meagreness). Let `X` and `Y` be analytic
+manifolds without boundary, `X` with a countable basis (Lindelöf suffices), and `g : X → Y` an
+analytic map (smooth suffices) whose differential has rank `< dim Y` at every point. Then `g(X)` is
+meagre in `Y`. Route: every point is critical, and the critical values of a smooth map from a
+Lindelöf manifold form a meagre set (Morse–Sard). Łojasiewicz's route, by induction on `dim X`
+through a local decomposition of the rank-drop locus and the constant-rank theorem on its
+maximal-rank pieces, is not needed.
+*In Tau Ceti:* `ContMDiff.isMeagre_range_of_finrank_mfderiv_lt`.
+
+**Lemma 2** (Łojasiewicz, §2, Lemma 2; the Lefschetz–Whitehead rank estimate). Let `g` and `h` be
+maps from a normed space to a finite-dimensional space `V`, differentiable at `x`, with `h(x)`
+outside the range of the derivative of `h` at `x`. If the swept map `(y, λ) ↦ g(y) + λ h(y)` has
+rank at most `p` at `(x, λ)` for infinitely many `λ`, in particular for every `λ` near `0`, then the
+derivative of `h` at `x` has rank `< p`. In Łojasiewicz's form, `g` and `h` are `C¹` maps on a
+manifold `X`, `h` takes values in an `(m − 1)`-dimensional submanifold `S` of an `m`-dimensional
+`V` with `u ∉ T_u S` at the points `u` of `S`, the swept map has rank at most `m − 1` on a
+neighbourhood of `X × {0}`, and the conclusion is `rank h ≤ m − 2`; it follows, because the range of the derivative of `h` lies in the tangent
+space of `S`, which does not contain `h(x)`. Route: the minors of `g′ + λh′` are polynomials in
+`λ`, so a rank bound at infinitely many `λ` holds for all `λ`; dividing by `λ` and letting
+`λ → ∞` bounds the rank of `h′` together with the line spanned by `h(x)`, which is transverse to
+its range.
+*In Tau Ceti:* `HasFDerivAt.finrank_range_lt_of_infinite`.
+
+Prove Lemma 3 (Łojasiewicz, §2, Lemma 3): if `f` is analytic on a connected open `G ⊆ ℝⁿ` and not
+identically zero, the singular directions of `f` form a meagre subset of the space of directions.
+Represent a direction by a unit vector and consider the incidence set of pairs `(u, v)` for which
+`f(u + ξv)` vanishes as a germ in `ξ`. Its equations are all the directional derivatives
+`∂^m_ξ f(u + ξv)|_(ξ=0) = 0`, `m ≥ 0`, including `f(u) = 0` for `m = 0`. Prove that this countable
+family is determined, locally, by finitely many of its members on a common complex neighbourhood:
+complexify the single function `f` (`AnalyticOnNhd.exists_complexification`), so that all its
+directional-derivative equations extend holomorphically on that neighbourhood, with analytic
+charts for the directions; use Noetherianity of holomorphic germs (ComplexKahlerGeometry K3,
+§3.4) to select finitely many equations at a point; take a small representative of their finitely
+many analytic components, and use the holomorphic identity theorem on their dense connected
+regular loci to make every remaining equation vanish on those components. This gives a uniform
+neighbourhood for the common zero *set*, beyond the stabilization of germs. Own this
+common-neighbourhood reduction and the component and identity adapters here, then apply the
+normal boxes of §2.0 and Lemmas 1–2 to the incidence set. No simultaneous complexification of an
+arbitrary countable family of unrelated analytic functions is assumed.
+*Needs:* §2.0; Lemmas 1–2; R0 (§0.1, the neighbourhood adapter); ComplexKahlerGeometry K3
+(§3.4, Noetherian germs and analytic components).
+
+Prove Lemma 4 (Łojasiewicz, §2, Lemma 4): for a countable family of analytic functions, each not
+identically zero on its connected open domain (for instance the local defining functions of a
+locally finite family of semianalytic sets, on a countable cover), the union of their
+singular-direction sets is meagre, so the directions nonsingular for all of them form a dense
+residual set, by the Baire category theorem in the space of directions. The same argument handles
+the countable cover by normal boxes used in §2.0e.
+*Needs:* Lemma 3; Mathlib's Baire category theorem.
+
+**Checks.**
+- For `f(x, y) = y` on `ℝ²`, `f(u + ξv) = u₂ + ξv₂` vanishes identically exactly when `u₂ = 0` and
+  `v₂ = 0`, so the only singular direction is the horizontal one, a single point of the space of
+  directions.
+- For `f(x, y) = exp(y)`, every directional derivative of positive order along the horizontal
+  direction vanishes identically, but `f` never vanishes, so no direction is singular. An incidence
+  set built from the derivatives of positive order alone, omitting `f(u) = 0`, would contain every
+  pair `(u, horizontal)`.
+
+### 2.0b Partially semialgebraic sets, topographic graphs and property (P) (Lemmas 5–7)
+
+**The closure rules of Łojasiewicz's §1.V.** For a set `s ⊆ E × ℝ^ι`, base `E` a real normed
+space and `ι` finite (Convention 6): the sets partially semialgebraic over a base point `u`, and
+the partially semialgebraic sets, form algebras of sets; the union of a family of partially
+semialgebraic sets whose projections to the base form a locally finite family is partially
+semialgebraic; preimages under analytic changes of the base, `(u, x) ↦ (φ(u), x)` with `φ`
+analytic, are partially semialgebraic; the cylinder `E × T` over a semialgebraic `T ⊆ ℝ^ι` is
+partially semialgebraic; the projection along finitely many fibre coordinates of a partially
+semialgebraic set is partially semialgebraic; and the projection to the base of a set partially
+semialgebraic over `u` is semianalytic at `u`, so that of a partially semialgebraic set is
+semianalytic. In the projection rules one semialgebraic formula, with the analytic coefficients
+substituted, serves a whole neighbourhood of each base point; no choice is made base point by base
+point and no global semialgebraic graph is asserted. Route for the projections: replace the
+coefficients by new variables, project the resulting semialgebraic set by Tarski–Seidenberg, and
+substitute the same analytic coefficients back.
+*In Tau Ceti:* `TauCeti.PartiallySemialgebraicAt`, `TauCeti.IsPartiallySemialgebraic`,
+`TauCeti.isSetAlgebra_setOf_isPartiallySemialgebraic`, `TauCeti.PartiallySemialgebraicAt.inter`,
+`LocallyFinite.isPartiallySemialgebraic_iUnion`, `TauCeti.IsPartiallySemialgebraic.preimage_prodMap`,
+`TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`,
+`TauCeti.IsPartiallySemialgebraic.image_prodMap_comp_inl`,
+`TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`,
+`TauCeti.IsPartiallySemialgebraic.isSemianalytic_image_fst`.
+
+Prove the remaining rule of §1.V: the connected components of a partially semialgebraic set are
+partially semialgebraic, through the normal decomposition of §1.0.
+*Needs:* §1.0; the closure rules above.
+
+Prove Lemma 5 (Łojasiewicz, §2, Lemma 5): a bounded semianalytic subset of `M × ℝ` whose vertical
+direction is nonsingular for its local defining functions is partially semialgebraic with respect
+to `t` (Convention 6). Route: the local Weierstrass polynomial description in the vertical
+variable, patched over a locally finite cover of the base by the locally finite union rule above.
+*Needs:* §§1.0, 2.0a; the closure rules above; ComplexKahlerGeometry K3 (§3.2).
+
+**Lemma 6** (Łojasiewicz, §2, Lemma 6). Write points of `ℝ^(n−1) × ℝ` as `(u, t)`. If a
+`d`-dimensional analytic submanifold `ψ` of `ℝ^(n−1) × ℝ` satisfies `|t − t′| ≤ A |u − u′|` for all
+its points `(u, t), (u′, t′)`, then its projection `π(ψ)` is a `d`-dimensional analytic submanifold
+of `ℝ^(n−1)` and `ψ` is the graph of an `A`-Lipschitz function analytic on `π(ψ)`: `ψ` is
+topographic. The shear `(u, t) ↦ (u + tz, t)` maps `ψ` to an analytic submanifold of the same
+dimension satisfying the same inequality with constant `A/(1 − A|z|)` whenever `A|z| < 1`, from
+`|Δu + zΔt| ≥ (1 − A|z|)|Δu|`; so the sheared set is again topographic, and `|z| < 1/A` is the
+threshold Step I uses. In Tau Ceti the base carries the sup norm of `Fin (n − 1) → ℝ` and the
+height is the first coordinate; constants measured with the Euclidean norm of §2.0d convert by
+`‖u‖_∞ ≤ ‖u‖₂ ≤ √(n − 1) ‖u‖_∞`.
+*In Tau Ceti:* `TauCeti.IsAnalyticSubmanifold.exists_topographic`, `TauCeti.horizontalShear`,
+`TauCeti.dist_le_mul_dist_tail_of_mem_image_horizontalShear`,
+`TauCeti.IsAnalyticSubmanifold.image_horizontalShear`.
+
+Prove Lemma 7 (Łojasiewicz, §2, Lemma 7): if `f` is analytic at `(c, 0) ∈ M × ℝ` with `f(c, ·)` not
+identically zero, there is `g` analytic at `(c, 0)` with `g(c, ·)` not identically zero such that
+`{fg = 0}` has property (P) near `(c, 0)`. Prove also that a topographic submanifold of dimension
+`n − 1 = dim M` has property (P): its projection is an analytic submanifold of full dimension, hence
+open, and `π` is a homeomorphism from it onto that projection. Route for the first claim: induction
+on `dim(M × ℝ)`, with a distinguished Weierstrass polynomial for `f`, its discriminant, a line
+nonsingular for the discriminant (§2.0a), the roots of a second Weierstrass polynomial and the
+product construction; the case of Weierstrass degree zero is handled separately.
+*Needs:* §§2.0–2.0a; Lemma 6; ComplexKahlerGeometry K3 (§3.2).
+
+**Checks.**
+- The set `{(u, t) ∈ ℝ × ℝ : sin t = 0}` is semianalytic, its vertical direction is nonsingular
+  (`sin(t + ξ)` is not identically zero in `ξ`), and its fibres are the infinite discrete set `πℤ`,
+  whereas a fibre of a partially semialgebraic set over a neighbourhood is described by finitely
+  many polynomials in `t`, hence is a finite union of points and intervals. So it is not partially
+  semialgebraic, and Lemma 5 needs boundedness.
+- For `f = t² − u` at `(0, 0)`, the projection of `{f = 0}` is `[0, ∞)`, not open, so `{f = 0}`
+  lacks property (P); with `g = t² + u`, which has `g(0, ·) = t²`, the set `{fg = 0}` is the union of
+  `u = t²` and `u = −t²`, and the projections of its relatively open subsets are open.
+
+### 2.0c Adapted decompositions (Lemmas 8–9)
+
+Prove Lemma 8 (Łojasiewicz, §2, Lemma 8): given a point, a finite semianalytic family and a
+vertical line through the point nonsingular for its defining functions (§2.0a), there is a normal
+box at the point compatible with the family whose union of pieces of dimension `< n` is a
+prescribed zero set `{fg = 0}` with property (P). In affine coordinates make the line the last axis
+and the transverse slice the coordinate hyperplane; apply Lemma 7 to the product `f` of the
+defining functions to obtain `g`, and the prescribed-zero-set normal box of §2.0 with `F = fg`. An
+arbitrary Weierstrass zero set is not claimed to have open projection.
+
+Prove Lemma 9 (Łojasiewicz, §2, Lemma 9): the pieces of such an adapted box are partially
+semialgebraic, every piece of dimension `< n` is topographic, and projection onto the base gives a
+normal decomposition with the same dimension labels `k < n`. Property (P) comes from the choice of
+`g` in Lemma 8 and the prescribed-zero-set realization; the frontier and graph descriptions of §2.0
+supply the remaining normal data. These normal-system and projection facts are not proved in the
+article and are targets here.
+*Needs:* §§2.0–2.0b.
+
+### 2.0d Straightening graph families and the band calculus (Lemmas 10–14)
+
+Prove Lemma 10 (Łojasiewicz, §2, Lemma 10). Let `c ∈ M`, and let `φ_ν`, `ν = ±1, ±2, …`, be analytic
+functions on neighbourhoods of `c` whose graphs form a locally finite family, with `φ_ν(c)`
+strictly increasing in `ν` and tending to `±∞` as `ν → ±∞`; let `G ⊆ M × ℝ` be an open set
+containing `{c} × ℝ`. After restricting each `φ_ν` to a connected neighbourhood of `c`, with graph
+`φ_ν*`, there is an analytic isomorphism `g : M × ℝ → M × ℝ` such that the sets `ψ_ν = g(φ_ν*)`
+satisfy:
+
+1. `g((M × ℝ) ∖ G) ⊆ M × (−1, 1)`;
+2. the `ψ_ν` are bounded, pairwise disjoint, semianalytic and topographic;
+3. every bounded subset of `M` lies in `⋂_(|ν| ≥ N) Ω_ν` for some `N`, where `Ω_ν = π(ψ_ν)`;
+4. the functions with graphs `ψ_ν` tend to `±∞` as `ν → ±∞`, uniformly on bounded subsets of `M`;
+5. these functions satisfy one Lipschitz bound independent of `ν`;
+6. `closure(ψ_ν) ⊆ g(graph φ_ν)` and `g(graph φ_ν) ∖ ψ_ν ⊆ M × (−1, 1)`; hence `ψ_ν ∩ {|t| ≥ 1}` is
+   closed.
+
+Route. Choose disjoint compact height intervals `Δ_ν` and radii `a_ν`,
+and a positive function `γ`, constant on each `Δ_ν` and on each complementary interval, with
+`γ < a_ν` on `Δ_ν` and the tube `{(u, t) : |u − c| ≤ γ(t)}` inside `G` minus the discarded portions
+of the graphs. Take `h` positive and analytic with `h(t) > γ(t)⁻¹ √(t² − 1)` for `|t| ≥ 1`,
+`h > 2k_ν` and `|h′| < a_ν⁻¹` on `Δ_ν`, where `k_ν` is a Lipschitz bound for `φ_ν*` on its
+radius-`a_ν` domain (`TauCeti.exists_analyticOnNhd_sqrt_sq_sub_one_lt_mul`, built on the analytic
+`C¹` approximation `ContDiff.exists_analyticOnNhd_abs_sub_lt`; only orders `0` and `1` are
+approximated, with pointwise tolerances preserving the strict inequalities). Let `β` be the inverse
+of `t ↦ (eᵗ − e⁻ᵗ)/(e − e⁻¹)` (`TauCeti.normalizedArsinh`: increasing, analytic, `β(±1) = ±1`,
+`|β′(t)| ≤ min(2, 1/|t|)`), and put `g = g₂ ∘ g₁` with `g₁(u, t) = (h(t)u, t)` (`TauCeti.baseScaling`)
+and `g₂(u, t) = (u, β(t/√(1 + |u|²)))` (`TauCeti.heightCompression`), both analytic isomorphisms
+(`TauCeti.analyticAt_baseScaling`, `TauCeti.analyticAt_heightCompression` and their inverse forms),
+in coordinates centred at `c`. Condition 1 follows from
+`TauCeti.mapsTo_heightCompression_comp_baseScaling`, condition 5 with bound `3` from
+`TauCeti.dist_snd_le_three_mul_dist_fst_of_mem_image_heightCompression_comp_baseScaling`, and
+condition 3 from the fact that `Ω_ν` contains the ball of radius `½ √(b_ν² − 1)`, `b_ν = inf{|t| :
+t ∈ Δ_ν}` (`TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`). Prove conditions 2,
+4 and 6 and assemble the six conditions. This lemma uses no manifold-level approximation theorem
+and nothing from R3–R4.
+*Needs:* §2.0b (topographic graphs); Tau Ceti `TauCeti.normalizedArsinh`,
+`TauCeti.abs_mul_deriv_normalizedArsinh_le_one`, `TauCeti.deriv_normalizedArsinh_le_two`,
+`TauCeti.baseScaling`, `TauCeti.heightCompression`, `TauCeti.exists_analyticOnNhd_sqrt_sq_sub_one_lt_mul`,
+`ContDiff.exists_analyticOnNhd_abs_sub_lt`, `TauCeti.mapsTo_heightCompression_comp_baseScaling`,
+`TauCeti.dist_snd_le_three_mul_dist_fst_of_mem_image_heightCompression_comp_baseScaling`,
+`TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`.
+
+**Checks.**
+- Take `n = 2`, `c = 0`, `γ ≡ 1` and `G = {|u| < 2}`, which contains the tube `{|u| ≤ 1}`; the point
+  `(u, t) = (2, 3)` lies outside `G`. With `h(t) = 2 + t²`, which satisfies `h(t) > √(t² − 1)`,
+  `g₁(2, 3) = (22, 3)` and `3/√(1 + 22²) = 3/√485 < 1`, so `g` sends the point into the strip
+  `|t| < 1`, as condition 1 asks. With `h ≡ 1`, which violates `h(3) > √8`, the height becomes
+  `β(3/√5)` with `3/√5 > 1`, outside the strip: condition 1 needs the growth of `h`.
+
+**The band calculus (Łojasiewicz, §2, Lemmas 11–14).** A *band* over a set `E` is the region
+between two real functions on `E`: the open band `{(u, t) : u ∈ E, φ(u) < t < φ′(u)}` and the
+closed band `{(u, t) : u ∈ E, φ(u) ≤ t ≤ φ′(u)}`. Over a base map `g` and target endpoints
+`ψ ≤ ψ′`, the *band map* sends `(u, t)` to
+`(g(u), ψ(g(u)) + (t − φ(u))(ψ′(g(u)) − ψ(g(u)))/(φ′(u) − φ(u)))` when `φ(u) < φ′(u)`, and to
+`(g(u), ψ(g(u)))` on a collapsed fibre `φ(u) = φ′(u)`; it sends lower endpoint to lower endpoint.
+The *collapsed-endpoint condition* is `φ(u) = φ′(u) ⇒ ψ(g(u)) = ψ′(g(u))`. Lemmas 11, 12 and the
+continuity clause of Lemma 14 use only continuity of the base and endpoint maps, bounded graph
+closures, the collapsed-endpoint condition and elementary topology, and are independent of the
+analytic induction.
+
+- **Lemma 11** (band closure). If `φ < φ′` on `E` and the closures of the graphs of `φ` and `φ′`
+  over `E` are the graphs over `closure(E)` of bounded functions `Φ` and `Φ′`, then the closure of
+  the open band between `φ` and `φ′` over `E` is the closed band between `Φ` and `Φ′` over
+  `closure(E)`.
+  *In Tau Ceti:* `TauCeti.closure_regionBetween_of_closure_graphOn_eq`.
+- **Lemma 12** (graph and restriction compatibility). The band map sends the graph of `φ` over a
+  set `s` onto the graph of `ψ` over `g(s)`, and, under the collapsed-endpoint condition on `s`, the
+  graph of `φ′` over `s` onto the graph of `ψ′` over `g(s)`; two systems of base and endpoint data
+  that agree over `s` have band maps that agree over `s`. If `g` is a bijection from `s` to `t` with
+  inverse `g′`, the endpoints are ordered and a source fibre collapses exactly when the target fibre
+  over it does, the band map is a bijection between the closed bands.
+  *In Tau Ceti:* `TauCeti.regionBetweenMap`, `TauCeti.image_regionBetweenMap_graphOn_lower`,
+  `TauCeti.image_regionBetweenMap_graphOn_upper`, `TauCeti.eqOn_regionBetweenMap`,
+  `TauCeti.bijOn_regionBetweenMap`.
+- **Lemma 13** (analytic band maps). If the base map is an analytic isomorphism (an open partial
+  homeomorphism, analytic with analytic inverse) and the source and target endpoints are analytic
+  with `φ < φ′` and `ψ < ψ′`, the band map is an analytic isomorphism between the open bands, with
+  inverse the band map of the inverse base map with the endpoint pairs exchanged.
+  *In Tau Ceti:* `OpenPartialHomeomorph.regionBetween`,
+  `OpenPartialHomeomorph.analyticOnNhd_regionBetween`,
+  `OpenPartialHomeomorph.analyticOnNhd_regionBetween_symm`.
+- **Lemma 14** (closed bands). If the base map and the endpoints are continuous and the
+  collapsed-endpoint condition holds, the band map is continuous on the closed band. Its graph is
+  partially semialgebraic with base the source point `(u, t)` and fibre the target, that is, the band
+  map has property (A⁻¹), when the graph of `g` is partially semialgebraic in that sense (`g` has
+  (A⁻¹)), the source endpoints have partially semialgebraic graphs and the target endpoints have
+  semialgebraic graphs. Route for the last clause: write the graph as a finite partially
+  semialgebraic system with the four endpoint values as auxiliary variables, and eliminate them by
+  the projection rule of §2.0b; the graph clause needs neither continuity nor the collapsed-endpoint
+  condition.
+  *In Tau Ceti:* `TauCeti.continuousOn_regionBetweenMap`,
+  `TauCeti.isPartiallySemialgebraic_graphOn_regionBetweenMap`.
+
+These lemmas are the extension and gluing statements used by §§2.0f–2.0h and §2.1, not just a name
+for band interpolation.
+
+### 2.0e The topographic family (§4, step I)
+
+Prove the global topographic-family construction (Łojasiewicz, §4, step I) for a locally finite
+family `(B_ν)` of semianalytic subsets of `ℝⁿ`, from Lemmas 4–10. First use a common nonsingular
+direction (Lemma 4) to make the vertical direction transverse for the whole family. Use countably
+many adapted normal boxes (§2.0c) and their projected decompositions, and choose a base point
+outside the countable union of the nowhere-dense lower-dimensional projected strata, by the Baire
+category theorem; projection does not preserve local finiteness. Select a two-sided sequence of
+graph levels through this point and disjoint strips between consecutive levels. Lemma 10, followed
+by a shear `(u, t) ↦ (u + tz, t)` with `|z|` below the reciprocal of the Lipschitz bound and `z`
+chosen in the dense set of nonsingular directions, produces the locally finite family of upper and
+lower graphs outside `|t| < 1`; apply Lemma 5 after the shear to make these graphs partially
+semialgebraic, and derive the uniform Lipschitz bounds through the two coordinate changes (first at
+most `1`, then at most `3`) so that Lemma 6 applies. Inside the strip, cover each compact vertical
+segment by finitely many adapted normal boxes and place truncated cones with locally finite bases.
+Keep each lower-dimensional normal piece clipped to each truncated cone as an individual member of
+the family, together with the cone sides and the two boundary planes; these individual members
+carry the partially semialgebraic and topographic conditions and the compatibility with each
+`B_ν`. For property (P), group the pieces only as an auxiliary union: for the adapted box indexed
+by `(ν, σ)` put `C_νσ = ⋃_(k < n, κ) Γ^k_κ(ν, σ)`, which has (P) by the lower-dimensional-union clause
+of Lemma 8, no individual piece being assumed to have (P). For each truncated cone `O` in that box,
+`C_νσ ∩ O` is open in `C_νσ`, so the restricted projection has (P), and it is exactly the union of
+the clipped pieces in that cone; with the (P) of the cone sides and boundary planes, proved from
+their explicit construction, the union of all members has (P), since the projection of a relatively
+open subset of the union is the union of the open projections of its parts. Prove closedness of
+the union separately: within each closed cone region the grouped normal set is relatively closed,
+a limit point leaving the open cone lies on its cone side or on a boundary plane, and local
+finiteness gives closedness of the total union; property (P) alone does not imply closedness.
+Prove that every connected set compatible with the individual members is compatible with each
+`B_ν`, separately outside and inside the strip.
+
+Record the six properties used later: (i) the members are partially semialgebraic topographic
+sets whose intersections with `B × ℝ` are bounded for every bounded `B ⊆ M`, the two boundary
+planes included; (ii) the family is locally finite; (iii) the tails `Γ ∩ {|t| ≥ 2}` of its
+members `Γ` are compact and pairwise disjoint, and empty for members of dimension below `n − 1`
+(Łojasiewicz, §4, step I, (3), p. 465, prints `dim Γ < n`, but every member is topographic, of
+dimension at most `n − 1`);
+(iv) its union is closed and has property (P); (v) over every base point the union meets both the
+positive and the negative vertical rays in unbounded sets; (vi) compatibility passes from the
+members to each `B_ν`.
+*Needs:* §§2.0–2.0d.
+
+### 2.0f The prismatic decomposition (§4, steps II–III)
+
+Form the clipped projected family `π(Γ ∩ Γ′ ∩ (M × (−2, 2)))` over all pairs of members `Γ, Γ′` of the
+topographic family, diagonal pairs included (Łojasiewicz, §4, steps II–III). Prove it semianalytic
+by the projection rule of §2.0b. Near a compact base neighbourhood the relevant pieces meet its
+compact product with `[−2, 2]`, so local finiteness of the family leaves finitely many relevant
+pairs (`LocallyFinite.image_fst_of_subset`); this proves local finiteness of the clipped family,
+not of the raw projections. Apply Theorem 1 in dimension `n − 1` to it. For distinct `Γ, Γ′`, or for
+a lower-dimensional `Γ`, the tail properties place `Γ ∩ Γ′` inside the strip, which gives
+compatibility with the whole intersection. For a diagonal pair with `Γ` a graph over an open subset
+of `M`, the complement of its clipped projection splits into `M ∖ πΓ` and
+`{u ∈ πΓ : |Γ(u)| ≥ 2}`; prove both closed, the first because the graph domain is open and the
+second because the high portion of the graph is closed and bounded, so compact, with compact
+projection. They are disjoint, so a connected open base simplex compatible with the clipped
+projection lies in `πΓ` or outside it; the unbounded complement of the domain is not required to be
+compact. Thus the base triangulation is compatible with every projected pair.
+
+Subdivide it barycentrically, so that each new open simplex lies in a single open simplex of the
+base triangulation and has that simplex's barycentre as a vertex (the distinguished vertex). Pull
+the topographic family back over these simplices to obtain the prismatic pieces. Prove that they
+are disjoint and locally finite, cover every vertical direction, have continuous closure graphs and
+restrict to pieces over every face; the distinguished vertex gives strict order between disjoint
+graph sections. Call two sections consecutive when no section lies strictly between them, and prove
+that their restrictions to a face are equal or consecutive. Fill each gap with the open band
+between consecutive sections. The graph pieces and the open bands form a locally finite disjoint
+cover; over each connected base simplex the consecutive bands are open and closed in the
+complement of the sections, so they cover the whole fibre. Lemma 11 gives the closure of each band,
+and with the face and order results every closure is a union of pieces.
+*Needs:* §2.0e; Theorem 1 in dimension `n − 1` (§2.0h, induction hypothesis); Lemma 11 (§2.0d);
+the projection rule of §2.0b; Tau Ceti `LocallyFinite.image_fst_of_subset`.
+
+### 2.0g The transfer map (§4, step IV)
+
+Let `f = l ∘ g` be the analytic change of coordinates of step I (the map of Lemma 10 followed by the
+shear `l`), and consider the transformed family `f(B_ν)` (Łojasiewicz, §4, step IV). Fix the
+rectilinear cells first. For a graph `γ` over a base simplex `β`, let `ρ = τ_b⁻¹(β)`, where `τ_b` is
+the homeomorphism of the base triangulation of §2.0f. At each vertex `v` of `closure(ρ)`, take the
+height of the continuous closure graph of `γ` at `τ_b(v)`, where `v` is the barycentre of its
+controlling projected simplex, and let `σ(γ)` be the graph over `ρ` of the affine interpolant of
+these heights; the heights are prescribed, not chosen. Keep Łojasiewicz's notation
+`s(β) = {τ_b(v) : v a vertex of closure(τ_b⁻¹ β)}` for that finite set. Prove his conditions
+IV(1)–(4): `σ(γ)` projects onto `ρ`, the interpolants are strictly ordered on the open simplex,
+the endpoint bounds hold, and compatibility and inclusion hold on the faces of the closure; the
+distinguished vertex gives strict order even where endpoint values coincide on a face. Take the
+rectilinear affine bands between consecutive interpolants, and the band maps over
+`g_β = τ_b⁻¹|β` with these endpoint data. Verify the collapsed-endpoint condition on each closed
+band, and use Lemmas 12–14 to prove that the graph and band maps agree on all face restrictions,
+are continuous on closures and are analytic isomorphisms on each open graph or band. Define the
+global map as the union of these locally finite cell maps; the closure compatibility makes it a
+homeomorphism, not merely a bijection. Prove property (A⁻¹) for it by Lemma 14, the locally finite
+union rule and the projection rule of §2.0b, and take the inverse to obtain property (A) for the
+map `τ*` triangulating the transformed family; the final map is `τ = f⁻¹ ∘ τ*`. Prove that the
+analytic isomorphism `f⁻¹` preserves the open-simplex analyticity and the compatibility with the
+original `B_ν`, and that it preserves property (A): graphs of analytic isomorphisms are locally
+polynomial in the affine source coordinate, and postcomposition substitutes `y = f(z)` in the
+analytic coefficient functions of the target variable, leaving the polynomial dependence on the
+source coordinate unchanged. General closure of property (A) under composition, where a quantified
+intermediate variable would enter the analytic coefficients, is not assumed.
+*Needs:* §2.0f; Lemmas 12–14 (§2.0d); the projection and locally finite union rules of §2.0b.
+
+### 2.0h Polyhedral subdivision, rectilinear cells and Theorem 1 (Lemma 15)
+
+**The relative convex-polyhedral subdivision lemma.** Let `(P_i)` be a locally finite family of
+nonempty compact convex sets (cells) in a finite-dimensional real normed space, with pairwise
+disjoint intrinsic interiors, for instance compact convex polytopes each proper face of which is a
+finite union of lower-dimensional polytopes of the family. Let `L` be a simplicial complex that
+meets every cell in a finite subcomplex and avoids the intrinsic interiors of all cells, and
+suppose that the intrinsic frontier of each cell is covered by `|L|` and the other cells contained
+in it. Then there is a simplicial complex `K` with `|K| = |L| ∪ ⋃_i P_i` that contains `L`, has no
+other simplex with all its vertices in `|L|`, triangulates every cell by finitely many of its
+simplices, and all of whose simplices outside `L` lie in a single cell; with `L` empty, every
+locally finite such family of cells has a locally finite simplicial subdivision. Common faces of
+two cells are then triangulated compatibly, and the prescribed boundary triangulation `L` is
+retained. Route: induction on the dimension of the cells, keeping the triangulations of the lower
+faces and coning the frontier of each top-dimensional cell to a point of its intrinsic interior,
+which lies in no affine span of a boundary simplex; a cell contained in the frontier of another has
+strictly smaller dimension. The lemma uses only affine independence, convex hulls, finite
+polytopes and simplices; it depends neither on the analytic induction nor on §1.1, and §2.1 uses it
+as well.
+*In Tau Ceti:* `Geometry.SimplicialComplex.exists_subdivision_extending`,
+`Geometry.SimplicialComplex.exists_subdivision`.
+
+**Lemma 15** (Łojasiewicz, §2, Lemma 15, for the rectilinear cells of §2.0g). Over a simplex
+`convexHull(s)` of a real vector space, the graph of an affine function is the convex hull of its
+graph points over the vertices, an affine simplex; and for affine `a ≤ b` on `s`, the closed band
+`{(u, t) : u ∈ convexHull(s), a(u) ≤ t ≤ b(u)}` is the convex hull of the lower vertices `(v, a(v))`
+and the upper vertices `(v, b(v))`, `v ∈ s`, a finite-vertex convex polytope that collapses to the
+graph where `a = b`. If moreover `a < b` somewhere on `s`, the intrinsic interior of the closed
+band is the open band over the intrinsic interior of `convexHull(s)`, and for closed domains its
+intrinsic frontier consists of the lower graph, the upper graph and the closed band over the
+intrinsic frontier of the domain; so a face on which the width vanishes is an ordinary
+lower-dimensional face. These statements concern the rectilinear cells; their images under `τ` need
+not be convex.
+*In Tau Ceti:* `AffineMap.graphOn_convexHull`, `TauCeti.closedRegionBetween_convexHull`,
+`TauCeti.closedRegionBetween_self`, `TauCeti.intrinsicInterior_closedRegionBetween`,
+`TauCeti.intrinsicFrontier_closedRegionBetween`.
+
+**Step V: the triangulation** (Łojasiewicz, §4, step V). Prove that every face of a rectilinear
+cell of §2.0g is a finite union of lower-dimensional cells of the family, using the order and
+equality compatibility of §2.0f, and verify the hypotheses of the subdivision lemma above: it
+gives a simplicial complex triangulating each cell by finitely many simplices, retaining chosen
+boundary triangulations, with common faces and coverage, and the local finiteness of the cell
+family makes the complex locally finite. Its support is all of `ℝⁿ`. This is a finite polyhedral
+subdivision of each cell, not a triangulation statement for arbitrary CW complexes. Composing the
+affine simplex charts with `τ` gives compatibility,
+property (A) and the analytic-isomorphism condition on every open simplex; for an open simplex `δ`
+inside an open cell on which `τ` is an analytic isomorphism onto an analytic submanifold, `τ(δ)` is
+an analytic submanifold of dimension `dim δ` and `τ|δ` an analytic isomorphism onto it
+(`TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`).
+
+**Theorem 1** (Łojasiewicz, §3, Theorem 1, printed p. 463), `exists_affine_semianalytic_triangulation`.
+Let `(B_ν)` be a locally finite family of semianalytic subsets of `ℝⁿ`. There are a locally finite
+simplicial complex `K` in `ℝⁿ` with `|K| = ℝⁿ` and a homeomorphism `τ : ℝⁿ → ℝⁿ` with property (A)
+such that for every face `s` of `K`, with open simplex `σ`, the image `τ(σ)` is an analytic
+submanifold of dimension `card s − 1`, `τ` restricted to `σ` is an analytic isomorphism onto it, and
+for every `ν` either `τ(σ) ⊆ B_ν` or `τ(σ) ∩ B_ν = ∅`. By §2.0 the same holds on every
+finite-dimensional real affine space. Since `ℝⁿ` is second countable, the nonempty members of a
+locally finite family are countable; empty members impose nothing. The theorem concerns the whole
+space and the whole locally finite family: the bounded Theorem 3 and the projective Theorem 4 are
+distinct results.
+*Needs:* §§2.0–2.0g; the subdivision lemma, Lemma 15 and step V above; the analytic image adapter
+(stated in §2.1; Tau Ceti `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`); §1.0 (semianalytic
+sets) and §2.0b (partially semialgebraic sets).
+
+**Checks.**
+- The map `x ↦ sin x` of `ℝ` has property (A⁻¹), its graph being `y − sin x = 0` with `y` the
+  polynomial variable, but not property (A): over a neighbourhood of a target value `y₀ ∈ (−1, 1)`,
+  the fibre `{x : sin x = y}` is infinite and discrete, while a Boolean combination of sign
+  conditions on finitely many polynomials in `x` has fibres that are finite unions of points and
+  intervals. The two properties are not interchangeable.
+- For `n = 1` and the single set `B = ℤ`, any compatible `K` has a vertex at each `τ⁻¹(k)` and
+  infinitely many simplices; local finiteness, not finiteness, is the right condition when
+  `|K| = ℝⁿ`.
+
+### 2.1 Bounded affine and real multiprojective semialgebraic triangulation (R2.1)
+
+This section and its continuation §§2.1a–2.1b prove Łojasiewicz's bounded affine Theorem 3 and real
+multiprojective Theorem 4, with the Nash and semialgebraic API of §1.1.
+
+Use Mathlib's `Geometry.SimplicialComplex`, its faces and support, and `Affine.Simplex` for the
+simplex charts, with open simplices the intrinsic interiors (Convention 7). Prove that a finite
+complex has compact support; that the support of a finite complex, with the topology of the
+ambient space, is homeomorphic to the realization of its vertex scheme
+(`AbstractSimplicialComplex.Realization`, with its weak topology) by the barycentric-coordinate
+map, the realization in which AffineMorseLefschetz §5.1 states its triangulations; and the empty
+complex, zero-dimensional simplices, restriction to subcomplexes and finite subdivisions
+(`Geometry.SimplicialComplex.IsSubdivision`). For a real affine space, choose an affine coordinate
+equivalence with `ℝⁿ`, use §2.0 for independence of the choice, and transport vertices and
+simplices back; all coordinates below refer to the original affine space.
+*Needs:* Mathlib `Geometry.SimplicialComplex`, `Affine.Simplex`, `intrinsicInterior`; Tau Ceti
+`AbstractSimplicialComplex.Realization`, `Geometry.SimplicialComplex.IsSubdivision`.
+
+**The analytic image adapter.** Let `S ⊆ ℝⁿ` be a `k`-dimensional analytic submanifold
+(Convention 5) and `f` a map analytic on `S` that maps `S` into a `d`-dimensional analytic
+submanifold `T ⊆ ℝᵐ` and has a left inverse `g` on `S` that is analytic on `T`. Then `f(S)` is a
+`k`-dimensional analytic submanifold of `ℝᵐ`.
+*In Tau Ceti:* `TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`.
+
+Prove the restriction form used by the subdivisions: if an open affine `k`-simplex `δ`, which is a
+`k`-dimensional analytic submanifold, lies inside an open `d`-simplex `σ` and `Φ|σ` is an analytic
+isomorphism onto an analytic submanifold `T`, then `Φ(δ)` is a `k`-dimensional analytic
+submanifold, by the adapter, and `Φ|δ` and its inverse are analytic in its submanifold charts. The
+statement is for nonempty `δ`, as the carrier requires, and an analytic immersion alone does not
+give it. It serves the lower-dimensional simplices introduced by the barycentric subdivisions
+below, by the polyhedral subdivision, and by step V of §2.0h.
+*Needs:* the adapter above; Convention 5.
+
+**Theorem 3** (Łojasiewicz, §3, Theorem 3, printed p. 464), `bounded_semialgebraic_analytic_triangulation`.
+Let `B_1, …, B_k` be bounded semialgebraic subsets of `ℝⁿ` and `X = ⋃_i closure(B_i)`. There are a
+finite simplicial complex `K` in `ℝⁿ` and a homeomorphism `τ : |K| → X` with semialgebraic graph
+(bundled as `FiniteCompatibleAnalyticTriangulation`, with total extensions of `τ` and its inverse) such
+that for every face `s` of `K`, with open simplex `σ`, `τ(σ)` is an analytic submanifold of dimension
+`card s − 1`, `τ` is analytic on `σ` and its inverse analytic on `τ(σ)` in the submanifold charts,
+and `τ(σ) ⊆ B_i` or `τ(σ) ⊆ ℝⁿ ∖ B_i` for every `i`. The `B_i` need not be closed: each is a union of
+images of open simplices, and the image of a subcomplex exactly when it is closed in `X`. The map
+and its inverse have semialgebraic graphs, so the analytic open-simplex maps are Nash. If the
+family is empty or all members are empty, `X` and `K` are empty. Prove with it the compatibility
+with finitely many further semialgebraic subsets of `X`, the restriction to a closed marked member,
+one common triangulation for the union of two finite marked families (not that every change of
+triangulation is piecewise linear), and transport under Nash automorphisms of `ℝⁿ`: postcompose
+`τ` and transport the marked sets, keeping the affine `K`, since a nonlinear image of its vertices
+is not an affine complex.
+
+Route. Consume the parametrized finite compact lifting data of AffineMorseLefschetz Layer 5 (§5.3),
+not only its final triangulation: the original marked signs, the adapted cells, the base maps, the
+extended sections, the completed face lists and the distinguished vertices. Prove Theorem 3 by
+induction on `n`. For `n = 0` use the empty complex or a single point; for `n = 1` subdivide a
+bounding interval at the finitely many roots of the defining polynomials and the marked endpoints,
+keeping exactly the cells of `X`. For `n > 1`, first make the generic invertible linear change that
+renders the nonconstant defining polynomials quasi-monic in the last variable (AffineMorseLefschetz
+§5.2). Choose a compact semialgebraic box containing the transformed `X` and polynomial
+descriptions of the original `B_i`, their closures and `X`; choose `M > 0` bounding its last
+coordinate, adjoin `t² − M²`, and close this finite quasi-monic family `F` under differentiation in
+the last variable, treating zero and constant polynomials separately. Cut every completed section
+list to `[−M, M]`. Build the projection decomposition, with its discriminant, gcd and frontier
+refinements, before passing it to the lifting theorem, and substitute no unrelated decomposition
+afterwards. Let `Y` be the projected box. Apply Theorem 3 in dimension `n − 1` to `Y` and the cells of
+the projection decomposition meeting `Y`, as a finite bounded marked family; its map `Φ` is onto `Y`
+and an analytic isomorphism on each open base simplex, which lies in one projection cell. Pass this
+base complex and `Φ`, with `F` and the decomposition, to the lifting theorem. Each section carries a
+nonzero witnessing polynomial `P` and a constant fibre multiplicity `m`: `∂_t^(m−1) P` vanishes on the
+section and `∂_t^m P` does not, so the analytic implicit function theorem and the graph criterion
+make each section a Nash analytic submanifold over its analytic base cell; pull it back through
+`Φ` on each open base simplex. Apply the continuous closure extension of the lifting theorem with
+the refined projection decomposition. Keep the membership signs of each original `B_i` on every
+section and sector; replacing the family by its closures would lose them.
+
+Prove the analytic invariant of the ordered auxiliary-section construction of AffineMorseLefschetz
+§§5.4–5.5. Its initial barycentric subdivision and ordered top-vertex matching produce
+face-coherent boundary lists inside each original gap; use their index maps, including sections
+present only on a boundary face and copies coinciding with the upper endpoint, the auxiliary index
+set `I = {x ∈ L(F_d) : a|F_d < x ≤ b|F_d}` and its prescribed restrictions to the other facets.
+Auxiliary indices take the lower endpoint at the top vertex, while the original upper endpoint keeps
+its value; no coherent boundary list on an unsubdivided simplex is assumed. When `I` is nonempty,
+`a < b` on every open facet entering the extension formula, and the normalized boundary heights
+`(c − a)/(b − a)` lie in `[0, 1]` and are Nash there; if the opposite gap collapses, `I` is empty and
+no auxiliary map is created. On a `d`-simplex with barycentric coordinates `λ`, let `F_i` be its
+`i`-th facet and `p_i(λ)_j = λ_j/(1 − λ_i)` for `j ≠ i`, with `i`-th coordinate `0`; for `d > 0` put
+`w_i = ∏_(j≠i) λ_j` and `w_* = ∏_j λ_j`, and extend each ordered boundary ratio `r_l` by
+`E_l(λ) = (w_* α_l + Σ_i w_i r_l(p_i(λ)))/(w_* + Σ_i w_i)` with fixed `0 < α_1 < ⋯ < α_L < 1`.
+Prove that `E_l` is Nash on the open simplex: each `p_i` lands in an open facet, where the map is
+Nash by the recursion on face dimension and by the induction hypothesis for `Φ`, and the
+denominator is positive. The positive term `w_*` gives strict interior order even where sections
+coincide on faces. The heights are `c_l = a + (b − a)E_l`; at a collapsed boundary gap only
+boundedness of the ratios is needed, since `b − a` tends to zero. The continuity at vertices and
+collapsed gaps, the finite ordered-face preparation and the dimension-decreasing recursion are
+those of AffineMorseLefschetz §§5.4–5.5; this section proves the Nashness of those same extension
+maps, not another boundary-matching construction. The case `d = 0` is direct.
+
+After completing the stacks, use the second barycentric refinement of AffineMorseLefschetz §5.5:
+every new simplex has a vertex in its controlling open simplex at which all its noncollapsed gaps
+are positive, and face chains have the same property with their own controlling simplex, so the
+affine interpolants of vertex heights are strictly ordered on each open simplex; completed
+consecutive sections restrict to equal or consecutive sections on every face, an extra boundary
+section having been extended into the incident stacks. Graph lifts are Nash isomorphisms by
+projection. Band lifts use the band maps of §2.0d with positive width in source and target and the
+collapsed-endpoint condition, and these face and order invariants make them agree with the face maps
+already chosen. The rectilinear bands are finite polytopes, so subdivide them by
+`Geometry.SimplicialComplex.exists_subdivision_extending` after verifying its hypotheses, as in
+§2.0h. Compose the affine simplex charts with the lift and prove that every image lies in one
+original sign cell, lower-dimensional pieces included. For the lower-dimensional simplices that
+both subdivisions introduce, prove that an open affine `k`-simplex inside an open `d`-simplex is a
+`k`-dimensional analytic submanifold, with its flattening charts, and apply the analytic image
+adapter above. Transport the final complex and map
+back by the inverse of the initial linear change; the transported vertices and faces form an affine
+complex in the original `ℝⁿ` and all analytic and semialgebraic properties are preserved. The finite
+union of semialgebraic graphs and compactness of `|K|` with Hausdorff `X` give the global map and its
+inverse. The noncompact Lemma 10 of §2.0d uses analytic approximation and a transcendental change of
+coordinates and proves nothing about semialgebraicity of this finite map.
+*Needs:* §1.1 (with its graph criterion); §2.0d (band maps); §2.0h (the subdivision lemma); the
+analytic image adapter above; AffineMorseLefschetz Layer 5 (§§5.2–5.7); Tau Ceti
+`ImplicitFunctionData.analyticAt_implicitFunction`, `TauCeti.HasSemialgebraicProjections`,
+`TauCeti.IsSemialgebraicOn`.
+
+**Checks.**
+- For `X = {(x, |x|) : |x| ≤ 1} ⊂ ℝ²` with `B_1 = X`, the map `t ↦ (t, |t|)` from the edge `[−1, 1]`
+  is a homeomorphism with semialgebraic graph, but the image of the open edge contains the corner
+  `(0, 0)`, where `X` is not an analytic submanifold. Every triangulation of Theorem 3 has a vertex
+  mapped to `(0, 0)`; a theorem asking only for a semialgebraic homeomorphism would accept one edge.
+- For `n = 1`, `B_1 = (0, 1)` and `B_2 = {1/2}`, a compatible triangulation of `X = [0, 1]` needs a
+  vertex mapped to `1/2`, and `B_1` is the image of two open edges and one vertex but of no
+  subcomplex, since it is not closed.
+
+### 2.1a Real projective coordinates and semialgebraic transport
+
+Real projective `n`-space is `Projectivization ℝ (Fin (n+1) → ℝ)` with Mathlib's quotient
+topology, which is Hausdorff by AlgebraicTopology §4.6 and homeomorphic there to the sphere
+quotient `TauCeti.RealProjectiveSpace n`.
+
+**The standard affine charts.** For `i ∈ Fin (n + 1)`, the `i`-th affine chart is the partial
+equivalence, defined on the affine open `U_i = {[v] : v_i ≠ 0}` without reference to a topology,
+that sends `[v]` to the ratios `(v (Fin.succAbove i j) / v i)_j ∈ ℝⁿ`, with inverse
+`z ↦ [Fin.insertNth i 1 z]`; the affine opens cover the space, and on the overlap of `U_i` and
+`U_j` the transition from the chart of `i` to the chart of `j` divides the homogeneous coordinates
+`Fin.insertNth i 1 z` by their `j`-th entry.
+*In Tau Ceti:* `Projectivization.affineChart`, `Projectivization.affineOpen`,
+`Projectivization.iUnion_affineOpen`, `Projectivization.affineChart_symm_trans_apply`.
+
+The transition maps are therefore rational with nonvanishing denominators on the overlaps, hence
+analytic there. Analyticity on real projective space is read through these chart
+maps. Prove that, for Mathlib's topology, the affine opens are open and the charts are
+homeomorphisms onto `ℝⁿ`, and that the space is compact and second countable; reduce arbitrary
+finite-dimensional real vector spaces and complements of arbitrary hyperplanes to these charts by
+linear coordinate equivalences; use `EuclideanSpace.equiv` for the Euclidean norm. For `n = 0` the
+chart is a point; no second topology is introduced.
+
+On the finite product `M = (i : Fin m) → Projectivization ℝ (Fin (n i + 1) → ℝ)` (`Multiprojective`),
+flatten representatives to `(Σ i, Fin (n i + 1)) → ℝ` and matrix entries to
+`(Σ i, Fin (n i + 1) × Fin (n i + 1)) → ℝ`, with the finite-coordinate equivalences. The standard
+product chart for a choice `I` of one homogeneous coordinate in each factor is the product of the
+charts `Projectivization.affineChart (I i)`, flattened by `finSigmaFinEquiv` to `ℝ^(∑ i, n i)`
+(`multiprojectiveChart`, with inverse `multiprojectiveChartSymm`), on the product of the affine opens.
+Define a subset `S ⊆ M` to be semialgebraic (`IsMultiprojectiveSemialgebraic`) when its preimage
+under the product of the quotient maps from nonzero vectors is semialgebraic in the flattened
+homogeneous coordinates. Prove that this is equivalent to semialgebraicity in every standard product
+affine chart, and to local semialgebraicity at every point of `M` in those
+charts; the local-to-global step uses compactness and finitely many bounded semialgebraic chart
+patches, which a single unbounded affine chart does not supply. Define maps between such spaces, and
+between products of affine and multiprojective spaces (the mixed spaces), by semialgebraic graphs,
+the graph of a map from a subset of `ℝᴺ` to `M` being read through the quotient maps on the second
+factor (`IsMultiprojectiveSemialgebraicOn`); prove finite Boolean operations, products, diagonals, composition, images and preimages through the
+chart comparison and Tarski–Seidenberg. In particular this defines semialgebraic maps from the
+support of an affine complex to `M`. Semialgebraicity of a graph does not assert continuity, and
+Nash maps carry both the graph and the analytic condition. The empty product is included.
+
+**The projector map.** The projector map sends the line of `x ≠ 0` to the matrix
+`P(x) = x xᵀ/(xᵀ x)`, with entries `x_i x_j / Σ_k x_k²` over all `n + 1` coordinates; it is
+unchanged when `x` is rescaled, and the denominator is positive. The formula printed on p. 464 uses
+only the indices `1, …, n` and a target of dimension `n²`, which does not match representatives with
+`n + 1` coordinates. The projector map is a bijection from real projective space onto the
+projector locus of symmetric idempotent matrices of trace one, which is compact and
+semialgebraic. A matrix `A` of the locus is the projector of each of its rows with nonzero diagonal
+entry (a symmetric idempotent fixes its rows, and an idempotent of trace zero vanishes), so these
+rows recover the line.
+*In Tau Ceti:* `TauCeti.rankOneProjector`, `Projectivization.projector`,
+`Projectivization.range_projector`, `Projectivization.projector_injective`,
+`TauCeti.projectorLocus`, `TauCeti.isSemialgebraic_projectorLocus`, `TauCeti.isCompact_projectorLocus`,
+`TauCeti.rankOneProjector_row_eq_self`.
+
+Prove that it is a
+homeomorphism onto the locus for Mathlib's topology, analytic with injective differential in the
+projective charts, and that in the `i`-th chart its inverse is given by the ratios `A_ji/A_ii` on
+`A_ii > 0`, hence analytic and semialgebraic: a Nash embedding with Nash inverse, beyond a continuous
+compact embedding. For finite products use the product projector locus in the flattened matrix
+coordinates. Prove that semialgebraicity of `S ⊆ M` in the sense above is equivalent to
+semialgebraicity of its image, and transport relative complements inside the locus.
+*Needs:* §1.1; the affine charts and the projector map above; AlgebraicTopology §4.6; Tau Ceti
+`TauCeti.HasSemialgebraicProjections`; Mathlib
+`Projectivization.instTopologicalSpace`, `EuclideanSpace.equiv`, `Fin.succAbove`, `Fin.insertNth`,
+`finSigmaFinEquiv`.
+
+**Checks.**
+- For `n = 1`, a symmetric `2 × 2` matrix `[[a, b], [b, 1 − a]]` of trace one is idempotent exactly
+  when `a² + b² = a`, so the locus is the circle `(a − 1/2)² + b² = 1/4`; the line of `(cos θ, sin θ)`
+  goes to `a = cos² θ`, `b = cos θ sin θ`, which satisfies it. A model keeping only the entry
+  `1 − a = sin² θ` would not separate the lines of `(cos θ, sin θ)` and `(cos θ, −sin θ)`, which the
+  full projector separates by the sign of `b`.
+
+### 2.1b The real multiprojective theorem
+
+**Theorem 4** (Łojasiewicz, §3, Theorem 4, printed p. 464),
+`exists_multiprojective_semialgebraic_triangulation`. Let `M` be a finite product of real
+projective spaces as in §2.1a and `B_1, …, B_k` semialgebraic subsets of `M`. There are a finite
+simplicial complex `K` in some `ℝᴺ` and a homeomorphism `τ : |K| → M` onto all of `M`, semialgebraic in
+the mixed sense of §2.1a (with total extensions of `τ` and its inverse), such that `τ(σ) ⊆ B_i` or `τ(σ) ⊆ M ∖ B_i` for every open simplex `σ` and
+every `i`, and such that for every open `d`-simplex `σ` and every standard product chart
+`φ_I : U_I → ℝᴺ′`, on each nonempty `σ ∩ τ⁻¹(U_I)` the map `φ_I ∘ τ` is an analytic isomorphism onto
+`φ_I(τ(σ) ∩ U_I)`, a `d`-dimensional analytic submanifold (`TauCeti.IsAnalyticSubmanifold`), with
+analyticity in both directions in the sense of `TauCeti.AnalyticOnSubmanifold`; empty intersections
+impose nothing. Prove that the chartwise condition does not depend on the charts and is equivalent to
+the same condition in the matrix model: an analytic submanifold of the matrix space contained in the
+projector locus is an analytic submanifold of the locus, and the rational chart and embedding maps
+transport its analytic charts and dimension; own this containment and chart adapter here, using
+the analytic chart calculus rather than treating an analytic immersion as an embedding. Route: apply
+Theorem 3 to the compact projector locus itself together with the images of the `B_i`; keeping the
+whole locus as a member forces the support to cover it. Compose with the Nash inverse of the
+projector map, and prove the analytic and semialgebraic chart transport for every simplex and every
+member. This theorem is about real projective spaces and arbitrary semialgebraic marked sets,
+separately from the complex projective algebraic pairs of AffineMorseLefschetz §5.8, and uses
+nothing from R3–R4.
+*Needs:* §§2.1–2.1a; Tau Ceti `TauCeti.IsAnalyticSubmanifold`, `TauCeti.AnalyticOnSubmanifold`,
+`TauCeti.IsAnalyticSubmanifold.image_of_leftInvOn`, `Projectivization.affineChart`.
+
+**Checks.**
+- For `M = ℝP¹` and the empty family, the theorem triangulates the projector circle of §2.1a. A
+  simplicial complex in `ℝᴺ` has no loops or multiple edges, so `K` has at least three vertices; a
+  single edge with identified ends is not a simplicial complex.
+
+### Examples
+
+- For `n = 2` and the single set `B = {(x, eˣ)}`, the graph of the exponential, Theorem 1 gives a
+  triangulation of the plane in which `B` is a union of images of open edges and vertices, and `τ`
+  has property (A) although `B` is not semialgebraic: property (A) is a local partial
+  semialgebraicity of the graph of `τ`, not of `B`.
+- For the closed unit disc `D ⊂ ℝ²` with marked sets `B_1 = D` and `B_2` its interior, Theorem 3
+  triangulates `D` so that the boundary circle is the image of a subcomplex, at least a triangle.
+
+### Dependencies
+
+§§2.0–2.0h: R0 (§0.1, the neighbourhood adapter); R1 (§§1.0–1.0a); ComplexKahlerGeometry K3
+(§§3.2, 3.4); Tau Ceti's Morse–Sard theorem, the analytic ingredients of Lemma 10 and local
+finiteness of projected families. §§2.1–2.1b: §1.1, the band maps of §2.0d and the subdivision
+lemma of §2.0h; AffineMorseLefschetz Layer 5; AlgebraicTopology §4.6.
+
+## R3: Complexification, strict psh exhaustion, Stein theory and coherent sheaves
+
+This layer builds a complexification of a real-analytic manifold with a strictly
+plurisubharmonic tube around it (§3.0), the weighted `∂̄` theorem on complete Kähler manifolds
+and, from it, the Stein criterion, interpolation and approximation (§3.1), and Cartan's theorems
+for coherent sheaves (§3.2). The order is: scalar weighted theory, then compact coherent generation
+and approximation, then theorem A and coefficient lifting, then theorem B. R4 is not an input.
+No proof here uses compact global Hodge theory (ComplexKahlerGeometry K5's compact parts or K6.1)
+or the cycle theory of ComplexKahlerGeometry K6; of K6 only the local identities of K6.0 (§6.1) are
+used.
+
+### 3.0 Global complexification and tubes (R3.0)
+
+**Complexification.** Construct a complexification of every Hausdorff, second-countable
+real-analytic manifold `M` of dimension `n`, noncompact included, by Whitney and Bruhat's
+paracompact gluing (Whitney–Bruhat, §1, Proposition 1), including its separation buffers and not
+only its cocycle calculation: a complex manifold `X` modelled on `Fin n → ℂ`, with
+`IsManifold 𝓘(ℂ, Fin n → ℂ) ∞ X`, an antiholomorphic involution of `X`, and a real-analytic embedding
+of `M` onto its fixed locus, a closed subset, which is an `n`-dimensional analytic submanifold of the
+realified `X` (§0.2). Use the coordinate charts of §0.1, read through a fixed linear equivalence
+`E ≃L[ℝ] ℝⁿ`, and the open-gluing carrier and chart maps of ComplexManifolds Milestone 5; this section
+owns the separation buffers and the real-structure choices of the gluing. Choose three locally
+finite chart covers with `closure V_i ⊆ U_i` and `closure U_i ⊆ T_i`, each relatively compact in the
+next. Complexify the transitions on the outer overlaps (`OpenPartialHomeomorph.exists_complexification`,
+§0.1) and choose relatively compact complex overlap domains extending the middle overlaps, with the
+inverse transitions and the intersections of closures with the real locus fixed. For each pair of
+neighbouring charts put the compact common part of the inner real closures in a smaller overlap
+`W`, and separate their remaining compact parts by disjoint open buffers `A` and `B`. Use these
+buffers and local finiteness to choose complex neighbourhoods of the inner charts, subject to only
+finitely many neighbour and triple-overlap constraints at each chart: they avoid the transitions to
+disjoint real inner closures, the triple compositions lie in their domains, and the inverse and
+cocycle identities hold there by analytic uniqueness (`AnalyticOnNhd.exists_eqOn_of_forall_real`).
+Make every choice invariant under conjugation. Glue only these inner complex neighbourhoods along the
+restricted transitions, and prove the buffer lemma: limits, inside the two chart neighbourhoods, of
+transition-related pairs remain in the middle complex overlap where the transition is defined, so
+by continuity the limit pair is related. Use this closed-graph property of the transitions and the
+open chart identifications to separate distinct points of the quotient; the cocycle identities alone
+do not prove Hausdorffness. Prove that the real charts embed with their original topology and that
+the quotient has a countable atlas, hence is second countable and paracompact. Conjugation descends
+to an antiholomorphic involution; shrink so that its fixed locus is exactly `M`, closed in `X`. Prove
+uniqueness of the complexification germ: two complexifications are biholomorphic on neighbourhoods of
+`M`, by extending the identity of `M` analytically and shrinking the overlaps.
+*Needs:* §§0.1–0.2; ComplexManifolds Milestone 5; Tau Ceti `OpenPartialHomeomorph.exists_complexification`,
+`AnalyticOnNhd.exists_eqOn_of_forall_real`, `IsManifold.restrictScalars_of_ne_zero`;
+ComplexKahlerGeometry K3.0 (§3.1).
+
+**Stein manifolds.** Define the predicate *Stein* on second-countable complex manifolds as in
+Convention 8 (`IsStein`: holomorphic convexity through the holomorphic hull `holomorphicHull`,
+holomorphic separation of points, holomorphic local coordinates).
+- `ℂⁿ` is Stein: the coordinate functions separate points and give coordinates, and the holomorphic
+  hull of a compact set lies in a closed polydisc containing it.
+- The predicate is invariant under biholomorphisms.
+
+**Grauert's p-function.** Prove Grauert's construction (Grauert, 1958, §3, Propositions 6 and 7).
+A *p-function* for `M` is a
+germ, on an open neighbourhood of the whole fixed locus `M` in the complexification, of a smooth
+function `p` with `p ≥ 0`, `p⁻¹(0) = M`, `p = dp = 0` on `M`, strictly plurisubharmonic on a possibly
+smaller neighbourhood of `M`. The neighbourhood may shrink under a positive smooth multiplier or a
+locally finite sum. For every proper smooth exhaustion `r : M → ℝ`, construct a positive smooth
+multiplier `λ` on `M` and an extension so that `r + λp` is strictly plurisubharmonic near `M`; the
+multiplier depends on `r`, while the p-function germ is fixed before `r` is chosen. Define the
+barrier `p*` as a further positive smooth multiple of `p` on a shrunk tube that remains strictly
+plurisubharmonic there and such that `{p* < 1}` has closure inside the complexification
+neighbourhood. State the smooth extension of `r`, and the domains of `λ` and `p*`, explicitly. The
+multiplier lemma is local near `M`, from `p = dp = 0` and the positive Levi form there; it is not
+asserted for arbitrary positive multipliers away from `M`.
+*Needs:* the complexification above; Tau Ceti `TauCeti.IsManifoldStrictlyPlurisubharmonicAt`,
+`TauCeti.manifoldLeviForm`.
+
+**The tube and its exhaustion.** Use the tubular neighbourhood of the closed real fixed locus in the
+realified complexification (`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`,
+GeometricTopology §1.5) and its smooth retraction `π` onto `M` (the bundle projection, through the
+tubular diffeomorphism), and extend `r` by `R = r ∘ π`, with `r` normalized to be bounded below.
+Choose `p*` and the tube `T` inside the common region where `p*`, `p` and `r + λp` are strictly
+plurisubharmonic, so that for every compact `K ⊆ M` and `ε > 0` the set
+`{x ∈ T : p*(x) ≤ 1 − ε, π(x) ∈ K}` has compact closure inside the complexification neighbourhood;
+prove this by a tube of variable normal radius and compactness of the closed disc bundle over `K`,
+the transverse compactness bound needed besides closure inside the neighbourhood. Construct a proper
+smooth strictly plurisubharmonic exhaustion `q` of `T`, for example `q = (R + λp) + (1 − p*)⁻¹`,
+after proving the Levi form of each term and of the barrier. Prove that `q` is proper, that its
+sublevel sets are relatively compact and exhaust `T`, that its regular values are dense (Sard), and
+that for each regular value `c` the sublevel `{q < c}` is relatively compact and strictly pseudoconvex
+with smooth boundary. Steinness of `T` follows from the criterion of §3.1, not from an increasing
+union of Stein open sets, and Grauert's generalized Runge limit theorem is not used as a black box.
+*Needs:* the paragraphs above; Tau Ceti `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`,
+`TauCeti.IsManifoldStrictlyPlurisubharmonicAt`, `ContDiff.addHaar_image_criticalPoints_eq_zero`;
+GeometricTopology §1.5.
+
+**Checks.**
+- For `M = ℝ ⊂ ℂ`, `p(z) = (Im z)²` is a p-function: it is smooth, vanishes with its differential
+  exactly on `ℝ`, and `i∂∂̄p = (i/2) dz ∧ dz̄ = dx ∧ dy`, which is positive. The function `|Im z|`
+  vanishes exactly on `ℝ` too but is not differentiable there, so `dp = 0` on `M` fails.
+- The circle `S¹` has the complexification `ℂ*` with the antiholomorphic involution `z ↦ 1/z̄`, whose
+  fixed points are the `z` with `|z|² = 1`.
+- `X = ℂ² ∖ {0}` separates points by holomorphic functions and has the coordinates `z, w` at every
+  point, but it is not Stein: by Hartogs every holomorphic function on `X` extends to `ℂ²`, so by the
+  maximum principle the holomorphic hull of the unit sphere is the closed unit ball minus the
+  origin, which is not compact. A definition of Stein by separation and coordinates alone would
+  accept `X`.
+
+<a id="r31-weighted-estimates-stein-criteria-and-approximation"></a>
+
+### 3.1 Weighted estimates, Stein criteria and approximation (R3.1)
+
+**Dimension zero.** In complex dimension `0`, prove the Stein and embedding claims directly for a
+countable discrete space, by a proper enumeration into `ℂ`; no `∂̄` estimate is needed.
+
+**The weighted theorem.** For positive dimension, prove the noncompact weighted `∂̄` theorem
+(Demailly, Chapter VIII, §§3–5, Theorems 3.2 and 4.5; Hörmander, 1965). Let `X` be a complete
+Kähler manifold of complex dimension `n ≥ 1` without boundary, `E` a smooth Hermitian holomorphic
+bundle, `φ` a smooth real weight and `1 ≤ k ≤ n`, with `B = [iΘ(E) + i∂∂̄φ, Λ]` on `E`-valued
+`(n, k)`-forms (Convention 9). If `B` is positive semi-definite at every point and `f` is a
+distributionally `∂̄`-closed `E`-valued `(n, k)`-form with `∫|f|² e^(−φ) dV < ∞` and
+`∫⟨B⁻¹f, f⟩ e^(−φ) dV < ∞`, where `⟨B⁻¹f, f⟩` at a point is the least `α ≥ 0` with
+`|⟨f, v⟩|² ≤ α⟨Bv, v⟩` for every `E`-valued `(n, k)`-covector `v` there, and `+∞` when there is
+none (Demailly, Chapter VIII, p. 371; the usual value where `B` is invertible), there is an
+`E`-valued `(n, k − 1)`-form `u` with `∂̄u = f` and `∫|u|² e^(−φ) dV ≤ ∫⟨B⁻¹f, f⟩ e^(−φ) dV`. The uniform
+variant `B ≥ ε Id`, `ε > 0`, gives the closed-range bound `‖u‖ ≤ ε^(−1/2) ‖f‖` in the weighted norms;
+the pointwise statement asserts no uniform constant. Prove that the maximal distributional `∂̄` is
+closed and densely defined and that compactly supported smooth forms are dense in
+`Dom ∂̄ ∩ Dom ∂̄*` for the graph norm, by completeness of the metric. Derive the estimate from the
+Bochner–Kodaira–Nakano identity, this density, orthogonal projection onto `ker ∂̄` and the Riesz
+representation theorem. The minimal solution is orthogonal to `ker ∂̄`; for smooth data it is smooth
+by local elliptic regularity of its `∂̄`-Laplacian. Prove that the weight changes the formal adjoint
+only in lower order, so that the weighted `∂̄`-Laplacian has the Laplace-type principal symbol
+`½|ξ|² Id` on its open domain.
+*Needs:* ComplexKahlerGeometry K6.0 (§6.1, Bochner–Kodaira–Nakano and the local Kähler identities),
+K5a (§§5.1 and 5.7, distributions and local Laplace-type regularity), K5b.0 (§5.9, the Hermitian
+Dolbeault formal adjoint and its principal symbol), K4 (§4.2, Chern connections);
+SmoothBundlesConnections B2 (§§B2.1–B2.2, Hermitian bundle metrics and square-integrable sections).
+
+**Complete metrics and twisting.** Construct a complete Kähler metric on `X` from a normalized
+strictly plurisubharmonic exhaustion `q`, adding `i∂∂̄χ₀(q)` for a smooth increasing convex `χ₀`
+whose first and second derivatives give completeness; prove a lower bound for the length of a path
+along which `q` escapes. On a regular sublevel `D_c = {q < c}`, prove completeness of the metric
+`i∂∂̄(q − log(c − q))` at its smooth boundary. Solve scalar `(0, k)` problems through the canonical
+holomorphic identification with `(n, k)`-forms valued in `K_X⁻¹`, with the dual of the canonical
+metric of the chosen Kähler metric; prove that it respects `∂̄` and the `L²` norms, its curvature
+contributing the Ricci term. Choose a smooth increasing convex weight `χ₁(q)` whose derivative on
+each compact shell of `q` dominates the negative curvature of `K_X⁻¹` and of `E`, so that `B ≥ Id`,
+and, for a given locally square-integrable datum `f`, which grows fast enough that
+`∫|f|² e^(−χ₁(q)) dV < ∞`; prove that such a choice exists from bounds on compact shells and the
+positive Levi form of `q`.
+On `D_c` use its proper exhaustion `q − log(c − q)` in the same way. A constant multiple of the
+weight is used only where the corresponding uniform curvature bound is proved. Prove the
+exhaustion-limit and weak compactness lemmas with bounds on each earlier compact set.
+*Needs:* the weighted theorem; §3.0's exhaustion; ComplexKahlerGeometry K4 (§4.2) and the canonical
+bundle of ComplexManifolds Milestone 7.
+
+**Jet interpolation.** For finitely many distinct points `a` and prescribed holomorphic jet
+polynomials `P_a` of degree at most `d`, choose disjoint coordinate balls and cutoffs `χ_a` equal to
+one near `a`, put `v = Σ χ_a P_a`, and solve `∂̄u = ∂̄v` with the weight
+`χ₁(q) + Σ s_a η_a log|z − a|²`, where `η_a` is one near `a` and vanishes outside its ball and
+`s_a = n + d`. The logarithm is a singularity of the weight, and the resulting holomorphic functions
+have no poles. Regularize by `log(|z − a|² + δ²)`, bound the negative Levi contributions on the cutoff
+annuli uniformly in `δ` and increase `χ₁` to absorb them; the data are supported away from the
+singularities, so the inverse-curvature estimates are uniform. Pass to a weak limit and prove
+`∫|u|² |z − a|^(−2s_a) < ∞` near `a`. Since `u` is holomorphic near `a`, polar integration of its
+Taylor expansion forces every coefficient of degree at most `s_a − n = d` to vanish, so `v − u` is
+holomorphic with every prescribed jet: `d = 0` gives simultaneous separation of points, `d = 1`
+holomorphic local coordinates. Include the local Cauchy bounds converting the `L²` estimates into
+sup-norm bounds on compact sets.
+
+**Bundle sections.** Prove the same finite-point jet interpolation for sections of every finite-rank
+holomorphic bundle `E` on a Stein `X`, before Cartan's theorems: choose a smooth Hermitian metric on
+`E` (SmoothBundlesConnections B2), apply the weighted theorem to `E ⊗ K_X⁻¹`, and choose `χ₁(q)` to
+absorb its curvature on compact shells; in local frames the cutoff jets and singular weights give
+the same vanishing-order argument. A prescribed value in any fibre extends to a global holomorphic
+section, and finitely many such sections generate `E` near any given compact set, by continuity and
+a finite subcover. This supplies the bundle sections of the block-matrix gluing of §3.2,
+independently of Cartan's theorem A for coherent sheaves.
+
+**Holomorphic convexity and Oka–Weil.** Given a compact `K` and `c > sup_K q`, construct for each
+point `b` outside `{q ≤ c}` a holomorphic `f` with `f(b) = 1` and `sup_K |f| < 1`: use a cutoff near
+`b` disjoint from `{q ≤ c}` and a logarithmic weight there with `s = n`, choose the convex part of the
+weight to grow fast between `K` and the support of the cutoff derivative, and use the
+inverse-curvature estimate and local Cauchy bounds to make the correction arbitrarily small on `K`,
+while its value at `b` is zero. Prove that the holomorphic hull is closed and contained in the
+compact sublevel `{q ≤ c}`. For Oka–Weil, given an `O(X)`-convex compact `K` and a neighbourhood `U`
+of it, construct a smooth strictly plurisubharmonic exhaustion `ψ` with `ψ < 0` on `K` and `ψ > 0`
+outside `U`, from finitely many holomorphic separators on a large compact shell, the given `q` outside
+that shell and a smooth regularized maximum, preserving strict inequalities after a small strictly
+plurisubharmonic perturbation. Choose an intermediate compact neighbourhood where the cutoff
+derivative keeps a positive `ψ`-gap from `K`, solve with the weight `χ₁(q) + tψ`, `t → ∞`, and use local
+Cauchy estimates to approximate a holomorphic germ on `K` by global holomorphic functions, with every
+finite derivative, on smaller compact neighbourhoods.
+
+**The Stein criterion** (`isStein_of_strictlyPlurisubharmonic_exhaustion`). Prove that a
+second-countable complex manifold with a smooth strictly plurisubharmonic exhaustion is Stein, by
+the holomorphic convexity and the jet interpolation above;
+this precedes any use of Cartan's theorems for arbitrary coherent sheaves. In particular the tube `T`
+of §3.0 is Stein.
+
+**Stein neighbourhoods of convex compacts.** With `ψ` as above, prove that `D = {ψ < 0}` contains
+`K`, is relatively compact in `U` and has the proper strictly plurisubharmonic exhaustion
+`q − log(−ψ)`: prove its divergence at the boundary and its Levi positivity, then apply the Stein
+criterion. Prove the finite-cut form used in §3.2. Write `t = Re F` for a global holomorphic `F`, and
+take a fixed `O(X)`-convex compact `K_(≤s)`, `a < s`, `η > 0`, and open sets `U₁ ⊇ K_(≤a)`,
+`U₂ ⊇ K_(a−η, s+η)`, `W_a ⊇ K_(a,a)` and `V ⊇ K_(≤s)` (notation of §3.2, item 2). For all sufficiently
+small `ε > 0`, the set
+`[(U₁ ∩ {t < a − ε/2}) ∪ (U₁ ∩ U₂ ∩ W_a ∩ {|t − a| < ε}) ∪ (U₂ ∩ {t > a + ε/2})] ∩ V`
+is an open neighbourhood of the fixed cut `K_(≤s)`, by compactness and positive margins. Choose `ψ`,
+hence the relatively compact Stein `D`, inside it. Then `ω₁ = D ∩ {t < a + ε/2}` and
+`ω₂ = D ∩ {t > a − ε/2}` cover `D`, lie in `U₁` and `U₂` respectively, and meet inside
+`U₁ ∩ U₂ ∩ W_a ∩ {|t − a| < ε/2}`. Take `V` to be the intersection of all common sheaf, section and
+relation-column domains of the application, each containing the fixed cut, and choose `D` only after
+this intersection.
+
+**The converse exhaustion theorem.** Prove that every Stein manifold, in the sense of Convention 8,
+has a smooth strictly plurisubharmonic exhaustion. Choose a countable exhaustion by `O(X)`-convex
+compact sets and finitely many holomorphic separators of each compact shell; raise and rescale them
+so that they are summably small, with every finite derivative, on earlier compact neighbourhoods,
+while their squared moduli are large on the new shell. Add a countable positively weighted family of
+global holomorphic coordinate functions whose differentials span at every point. Prove local
+convergence with all derivatives by Cauchy estimates; the sum of squared moduli is smooth, strictly
+plurisubharmonic and proper, its nonnegative terms preventing cancellation in the lower bound on
+the shells. This gives the exhaustion that the weighted, approximation and coherent results need on
+a general Stein `X`, independently of R4 and of Cartan's theorems.
+*Needs:* (for the paragraphs from jet interpolation on) the weighted theorem, the complete metrics
+and twisting; ComplexKahlerGeometry K4 (§4.1, holomorphic bundles); SmoothBundlesConnections B2.
+
+**Checks.**
+- In `ℂ` (`n = 1`) with `d = 0`, the condition `∫_(|z−a|<r) |u|² |z − a|^(−2s_a) dV < ∞` with
+  `s_a = n + d = 1` forces `u(a) = 0`, since `∫_(|z−a|<r) |z − a|^(−2) dV = 2π ∫₀^r dρ/ρ` diverges, while a
+  monomial `(z − a)^m` with `m ≥ 1` gives a convergent integral. With the exponent `s_a = n + d − 1 = 0`
+  the condition would force nothing; in `ℂⁿ`, `|z − a|^(2m − 2s)` is integrable near `a` exactly when
+  `m > s − n`, which is why `s_a = n + d` kills the jets of degree at most `d`.
+- On `ℂ² ∖ {0}` the function `|z|² + |w|²` is smooth and strictly plurisubharmonic but not an
+  exhaustion (its sublevel sets contain points near the origin and are not compact), and the
+  manifold is not Stein (§3.0, Checks): properness cannot be dropped from the Stein criterion.
+
+### 3.2 Coherent Cartan theory from compact generation (R3.2)
+
+Prove Cartan's theorems A and B for coherent analytic sheaves defined on the whole Stein manifold
+`X`, in the following order. A section considered near a compact set may be local; the sheaf itself
+is not silently extended from that neighbourhood. The numbers (7.2.2)–(7.4.3) below refer to
+Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Variables* (3rd edition,
+1990).
+
+0. **The coherent module calculus.** Build the coherent analytic module sheaves and their calculus
+   before the compact argument. Use Mathlib's `SheafOfModules` over the `RingCat`-valued holomorphic
+   structure sheaf `R_W` of an open `W` (ComplexKahlerGeometry K4, §4.1); for `W = X`, with `X`
+   modelled on `E` (Convention 1), it is
+   `TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ)`, the sheaf of
+   complex-smooth, that is holomorphic, functions with commutativity forgotten, and Mathlib's
+   `smoothSheafCommRing` takes `X` in `Type`, the universe of `ℂ`. Use it with K4's locally free
+   section sheaves as examples, and K4's identification of the structure sheaf `O_U` of an open
+   `U ⊆ W` with the restriction `U.sheafRestrict.obj R_W`, compatible with germ maps. Work with
+   `SheafOfModules.over` on `J.over U`, `J = Opens.grothendieckTopology W`, with
+   `TopologicalSpace.Opens.overEquivalence` and its two continuous-site comparisons, and with the
+   equivalence `TopologicalSpace.Opens.sheafOfModulesEquivOver` between modules over `R_W.over U` and
+   modules over `U.sheafRestrict.obj R_W`, built from `SheafOfModules.pushforwardPushforwardEquivalence`,
+   with its unit comparisons `TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
+   `TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit`; transport them along K4's analytic ring
+   isomorphism to obtain the equivalence `Ψ` between modules over `O_U` and over `R_W.over U` and its
+   unit comparisons in both directions. Own the analytic section, stalk and germ comparisons across
+   this transport, so that the bundle section sheaf on a Stein `D` and `F|_D` are modules over the same
+   ring sheaf. Use `SheafOfModules.IsFiniteType`, `SheafOfModules.GeneratingSections` and
+   `SheafOfModules.LocalGeneratorsData`, and `SheafOfModules.IsLocallyFree`, and prove their
+   comparisons with analytic local frames and finite tuples.
+
+   Define `F` to be *coherent* (`IsCoherentAnalyticSheaf`, for `W = X`) when it is of finite type
+   and, for every open `U ⊆ W`, every `q ∈ ℕ` and
+   every morphism `free (ULift (Fin q)) → F.over U` of modules over `R_W.over U` on `J.over U`, its
+   kernel is of finite type (`SheafOfModules.IsFiniteType`); the lifted finite index lies in the ring
+   and module universe. Own the lemmas transporting this condition to opens of `U`. Prove that `Ψ` and
+   its inverse preserve finite free modules, kernels, finite type, local freeness and finite
+   presentation: use `SheafOfModules.GeneratingSections.map` with its colimit-preservation and
+   unit-isomorphism hypotheses, and `SheafOfModules.QuasicoherentData.pushforward` with the unit
+   comparisons above, supplying continuity and cocontinuity in both directions, continuity of each
+   `Over.post` on the over-sites, and the per-over colimit-preservation hypothesis. Prove that
+   over-site continuity here, and discharge the colimit condition through the left-adjoint
+   pushforwards with invertible ring maps (`SheafOfModules.isLeftAdjoint_pushforward_of_isIso`) and the
+   pullbacks on `Opens U` and `Over U`, following `SheafOfModules.isQuasicoherent_pushforward_of_isLeftAdjoint`.
+   Own the finite-type and finite-presentation comparisons beyond those statements, tracking the
+   finite generator and relation index types in `SheafOfModules.Presentation.map`. Using
+   `SheafOfModules.QuasicoherentData` and `SheafOfModules.IsFinitePresentation`, prove that over a
+   coherent structure sheaf coherence is equivalent to finite presentation.
+
+   Take ComplexKahlerGeometry K3's Oka theorem in its primitive local form (§3.4): the relations among
+   any finite tuple of holomorphic functions on any open set admit, near each point, finitely many
+   holomorphic relation vectors whose germs generate the relation module at every point of a
+   neighbourhood. Translate it into kernels and prove that the structure sheaf is coherent; the
+   primitive local proofs of K3 use nothing of this section. Translate K3's reduced-ideal and
+   finite-tuple ideal generators into subsheaves of finite type of the structure sheaf, and prove them
+   coherent from the coherent structure sheaf and the kernel comparisons. Build the section and stalk
+   comparisons for restriction to smaller opens, through `CategoryTheory.Over.iteratedSliceEquiv` with
+   `SheafOfModules.pushforwardPushforwardEquivalence`, as in `SheafOfModules.QuasicoherentData.bind`,
+   and finite free presentations with their exactness and transport laws. Use the abelian structure on
+   sheaves of modules, its kernels, cokernels and images, and sheafification, verifying
+   `CategoryTheory.HasSheafify` and `CategoryTheory.GrothendieckTopology.WEqualsLocallyBijective` for
+   `AddCommGrpCat` on `J`, `J.over U`, `(J.over U).over V`, `Opens.grothendieckTopology U` and its
+   over-sites; these also give the weaker sheafification hypotheses of the finite-generator API. With
+   the module stalks and `PresheafOfModules.germ_smul`, build the section and stalk comparisons and
+   exactness adapters, and prove that coherent sheaves are closed under these operations and under
+   extensions, by Oka's theorem. In particular the relation sheaf `R(h)` of any finite tuple `h` of
+   sections of a coherent `F` is coherent; stalk generators extend to sections generating on a
+   neighbourhood; every equality or finite relation of germs holds after shrinking; and coherent
+   ideals, quotients and holomorphic bundle section sheaves have local presentations. No Cartan
+   theorem and no global generation is an input to this calculus.
+1. **Scalar vanishing.** Prove `Hᵏ(X, O) = 0` for `k > 0` from §3.1, the local Dolbeault lemma and the
+   fine Dolbeault resolution, with ComplexKahlerGeometry K2's comparison of sheaf, Čech and Dolbeault
+   cohomology (§2.5); own the scalar Cousin I splitting. These statements concern `O`, not arbitrary
+   coherent sheaves, and precede theorems A and B.
+2. **Compact generation.** For an `O(X)`-convex compact `K`, let `(E)(K)` quantify over every coherent
+   sheaf `F` on a neighbourhood of `K`: clause (i) gives a finite holomorphic tuple generating `F` near
+   `K`; clause (ii) says that for every finite tuple `h` generating `F` near `K` and every section `σ`
+   defined near `K`, on a smaller neighbourhood `σ` is a combination of `h` with holomorphic
+   coefficients. Prove both clauses for finite `K` from item 0 and disjoint small neighbourhoods.
+   Choose finitely many global holomorphic `F_j` giving local coordinates at each point of `K`; their
+   simultaneous real and imaginary level sets in `K` are finite. Induct by removing the `2N` real level
+   constraints, with `(E)` for every choice of the remaining levels. For a real part `t(z)`, put
+   `K_(a,b) = {z ∈ K : a ≤ t(z) ≤ b}` and `K_(≤u) = {z ∈ K : t(z) ≤ u}`. The finite-cut lemma (7.2.2)
+   proves `(E)(K)` from `(E)` on every `K_(a,a)`. Prove the level sets and one-sided cuts `O(X)`-convex
+   using `|exp(±F)|` (and `iF` for imaginary levels).
+
+   Run the supremum continuation separately for each object. For clause (i) fix `F` and let `P_F(u)`
+   say that `F` is generated near `K_(≤u)`; for clause (ii) fix `F, h, σ` on a neighbourhood of all of
+   `K` and let `P_(F,h,σ)(u)` say that `σ` has coefficients in `h` near `K_(≤u)`. Both properties pass to
+   smaller cuts, and the empty cuts below `min_K t` start them. At a finite supremum `α`, clause (i) on
+   `K_(α,α)` gives a tuple `g` generating on a neighbourhood containing `K_(α−δ, α+δ)`, `δ > 0`. Choose
+   `a ∈ (α − δ, α)` with `P_F(a)`, giving generators `f` near `K_(≤a)`, and a fixed `s ∈ (α, α + δ)`. On
+   `K_(a,a)`, level `(E)`(ii) gives `γ₁f = g` and `γ₂g = f`. Once their coefficient domains are known,
+   choose a coefficient neighbourhood `W_a` of `K_(a,a)` and `ε > 0`; with `U₁, U₂` the generation
+   domains, intersect
+   `(U₁ ∩ {t < a − ε/2}) ∪ (U₁ ∩ U₂ ∩ W_a ∩ {|t − a| < ε}) ∪ (U₂ ∩ {t > a + ε/2})` with the common
+   sheaf domain, prove that the result contains the fixed `K_(≤s)` for small `ε` by compactness, and only
+   then choose the Stein `D` inside it by §3.1. Put `ω₁ = D ∩ {t < a + ε/2}` and
+   `ω₂ = D ∩ {t > a − ε/2}`, with `f` generating on `ω₁` and `g` on `ω₂`; their overlap lies in all matrix
+   domains and in `W_a ∩ {a − ε < t < a + ε}`. The shrinking changes these neighbourhoods, not `s`. Put
+   `T₁ = [[I, 0], [γ₁, I]]` and `T₂ = [[I, γ₂], [0, I]]`, so that `T₁(f, 0) = T₂(0, g)`; the frame change
+   is `v = (T₂⁻¹ T₁) u` and the coefficient transition is `c₂ = (T₁⁻¹ T₂)ᵀ c₁`. Glue by the holomorphic
+   cocycle construction (ComplexManifolds Milestone 7, ComplexKahlerGeometry K4) a bundle of rank
+   `p + q` on `D` surjecting onto `F` there; the bundle sections of §3.1 and compactness give a finite
+   tuple generating `F` near `K_(≤s)`, contradicting the supremum. Finish clause (i) near all of `K` for
+   every coherent sheaf before clause (ii): refuting every finite supremum gives `P_F(u)` for all
+   `u ≥ max_K t`. In particular obtain relation columns `r_k` generating `R(h)` on a neighbourhood of all
+   of `K`, by item 0's coherence of `R(h)`.
+
+   For clause (ii), at a finite supremum `α`, level `(E)`(ii) on `K_(α,α)` gives a coefficient vector
+   `c²` for the fixed `h, σ` on a domain containing `K_(α−δ, α+δ)`. Choose `a ∈ (α − δ, α)` with
+   `P_(F,h,σ)(a)`, giving `c¹` near `K_(≤a)`, and fix `s ∈ (α, α + δ)`. On the overlap `c¹ − c²` is a
+   section of the coherent relation sheaf `R(h)`; with the tuple `r` defined near all of `K`, level
+   `(E)`(ii) on `K_(a,a)` gives `c¹ − c² = Σ γ_k r_k` near the level. Only then choose `ε` and `W_a`, use
+   the same three-part neighbourhood with `U₁, U₂` the domains of `c¹, c²` and `W_a` the domain of the
+   level coefficients, intersect with the common domains of `F`, `σ`, `h` and all `r_k`, each containing
+   all of `K`, and choose the Stein `D` by §3.1. The fixed cut lies in this open set by compactness, and
+   only the overlap needs to lie in the domains of the `γ_k`. Scalar Cousin I on `D` splits each `γ_k`;
+   correcting `c¹, c²` by the corresponding multiples of `r_k` preserves `σ` and makes them agree. This
+   proves `P_(F,h,σ)(s)`, contradicting the supremum, so clause (ii) holds near all of `K`. Prove every
+   domain choice by compactness and positive margins. This block gluing needs no near-identity
+   hypothesis and no Cartan theorem; the approximation estimates of item 3 are separate.
+3. **Approximation.** Prove the nested-compact summable-section lemma (7.2.4) and coherent
+   approximation (7.2.7): for `F` coherent on `X`, `K` `O(X)`-convex and `s` a section defined near `K`,
+   construct global sections of `F` approximating `s` in the finite-presentation seminorms on `K`, from
+   the compact generators, scalar Oka–Weil and summable corrections. State the quotient seminorm
+   topology, its independence of the finite presentation, the restriction maps and convergence.
+4. **Theorem A and coefficient lifting.** Deduce theorem A (7.2.8): approximate a finite local
+   generating tuple near each point so that its coefficient matrix stays invertible, and prove that
+   `Γ(X, F) ⊗_(Γ(X, O)) O_x → F_x` is onto at every `x`, equivalently that some family of global
+   sections of `F` induces an epimorphism onto `F` from a free module, a
+   `SheafOfModules.GeneratingSections` (`nonempty_generatingSections_of_isStein`). Prove separately
+   coefficient lifting (7.2.9): if global sections `f_1, …, f_q` generate `F` on `X`, every global
+   section is `Σ a_i f_i` with `a_i ∈ O(X)`; stalk generation alone does not give this, which is
+   proved by compact approximation and summable gluing, before theorem B.
+5. **Fine Stein covers.** Build arbitrarily fine locally finite Stein covers of uniformly finite
+   order, and prove that their finite intersections with each regular sublevel of `q` are Stein.
+   Choose a smooth Hermitian metric and a positive radius function below the local coordinate,
+   distance-Hessian and metric-comparison bounds and below the margins of a subordinate cover; take it
+   Lipschitz enough that radii of meeting balls are comparable, so that a maximal disjoint family of
+   smaller balls covers after enlargement. Prove a finite overlap bound depending on the dimension, by
+   packing in uniformly comparable local Euclidean charts. Shrink the radii until the squared distance
+   from each centre is strictly plurisubharmonic, giving a proper plurisubharmonic barrier on each
+   ball; on a finite intersection add the nonnegative ball barriers and the sublevel barrier, prove
+   properness and strict plurisubharmonicity, and apply §3.1. A merely contractible intersection of a
+   good cover is not a Stein domain, and the analytic triangulation of R5 is not used.
+6. **Theorem B.** Prove theorem B (7.4.3), first on a relatively compact Stein stage `X′ ⊆ X`. By A on
+   `X` and compactness of `closure X′`, choose finitely many sections of `Γ(X, F)` generating `F` on a
+   neighbourhood of `closure X′`; the relation sheaf `R` in `0 → R → O^q → F → 0` is coherent. On the
+   intersections of a Stein cover, coefficient lifting makes the map of Čech cochain groups onto;
+   prove this exactness and its connecting maps. Scalar acyclicity and repeated dimension shifting
+   along coherent kernels reduce positive cohomology to degrees beyond the finite order of the cover,
+   where the cochains vanish. Prove this for every cover of the refinement family of item 5, pass to
+   the Čech colimit and use ComplexKahlerGeometry K2's comparison of the Čech colimit with derived
+   sheaf cohomology on paracompact spaces (§2.5); no acyclicity of `F` on intersections is assumed to
+   invoke Leray. Finitely many generators on a noncompact stage are not inferred from A without the
+   compact neighbourhood argument. Exhaust `X` by regular Stein stages; in degrees `> 1` correct
+   primitives recursively on earlier stages, and in degree `1` use coherent approximation and summable
+   errors to correct the differences of `0`-cocycles. Prove the resulting limit and `Hᵏ(X, F) = 0` for
+   `k > 0` (`subsingleton_sheafH_of_isStein`), where `Hᵏ(X, F)` is Mathlib's sheaf cohomology
+   `Sheaf.H`, the `Ext` group from the constant sheaf `ℤ`, of the underlying abelian sheaf of `F`.
+
+Derive exactness of global sections, coherent ideal and quotient computations, and finite-point jet
+interpolation from theorem B, and compare the last with the scalar construction of §3.1.
+
+Grauert's paper also states a generalized Runge exhaustion theorem. Prove it in its conditional form
+only: for increasing relatively compact domains `T_ρ` with dense Stein levels, the union is Stein when
+each earlier domain is Runge in each later one, with the Runge property derived from holomorphic
+convexity and plurisubharmonic sublevels in this construction. It is not stated for arbitrary nested
+Stein domains, and the tube `T` does not need it, being Stein by §3.1.
+*Needs:* §3.1; ComplexKahlerGeometry K2 (§2.5), K3 (§3.4, Oka coherence, Noetherian germs, ideal
+generators), K4 (§4.1, structure sheaf and holomorphic bundles); ComplexManifolds Milestone 7; Mathlib
+`SheafOfModules` and its finite-type, generating-sections, locally free, quasicoherent and
+finite-presentation API, `TopologicalSpace.Opens.sheafOfModulesEquivOver`,
+`SheafOfModules.pushforwardPushforwardEquivalence`, `CategoryTheory.Over.iteratedSliceEquiv`,
+`PresheafOfModules.germ_smul`, `smoothSheafCommRing`, `SheafOfModules.toSheaf`, `Sheaf.H`; Tau Ceti
+`TauCeti.SheafOfModules.ringCatSheaf`.
+
+**Checks.**
+- On `X = ℂ`, the ideal sheaf of the discrete set `ℤ` is coherent and is generated at every stalk by
+  the single global section `sin(πz)`, whose zeros are exactly the integers and simple, as theorem A
+  predicts; no polynomial generates it, a polynomial having finitely many zeros.
+- On `ℂ² ∖ {0}`, which is not Stein, `H¹(ℂ² ∖ {0}, O)` is not zero: for the cover by `{z ≠ 0}` and
+  `{w ≠ 0}` the Čech class of `1/(zw)` is not a difference of functions holomorphic on the two sets,
+  since a Laurent series in `z, w` holomorphic on `{z ≠ 0}` has no terms with negative powers of `w`,
+  and one on `{w ≠ 0}` none with negative powers of `z`. Theorem B needs the Stein hypothesis.
+
+### Examples
+
+- The unit disc with `q(z) = −log(1 − |z|²)`, strictly plurisubharmonic since
+  `i∂∂̄q = i dz ∧ dz̄/(1 − |z|²)²`, is Stein by §3.1, and the metric of §3.1 built from `q` is complete
+  (the Poincaré metric up to normalization).
+- For `M = ℝⁿ ⊂ ℂⁿ`, the function `p(z) = |Im z|²` is a p-function, and the tube `{|Im z| < 1}` with
+  `q = |Re z|² + (1 − |Im z|²)⁻¹`, of the shape of §3.0, is Stein.
+
+### Dependencies
+
+§3.0: R0; ComplexManifolds Milestone 5; GeometricTopology §1.5; ComplexKahlerGeometry K3.0
+(§3.1); Tau Ceti's convergent complexification, tubular neighbourhoods, Levi forms and Morse–Sard.
+§3.1: §3.0; ComplexKahlerGeometry K4 (§§4.1–4.2), K5a (§§5.1, 5.7), K5b.0 (§5.9), K6.0 (§6.1);
+ComplexManifolds Milestone 7; SmoothBundlesConnections B2. §3.2: §3.1; ComplexKahlerGeometry K2
+(§2.5), K3 (§3.4), K4 (§4.1); ComplexManifolds Milestone 7; Mathlib's sheaves of modules.
+
+## R4: Grauert's proper real-analytic embedding
+
+### 4.1 Proper holomorphic embedding of the tube
+
+For `n = 0`, `M` is a countable discrete space and the enumeration of §3.1 embeds it properly in `ℂ`.
+For `n ≥ 1`, prove that the Stein tube `T` of §3.0, of complex dimension `n`, has a proper holomorphic
+embedding into `ℂ^(2n+1)`, by the following split-coordinate construction. It uses the consequences
+of §3.1 (Steinness, Oka–Weil approximation, separation of points and tangents, finite-jet
+interpolation) and no Cartan theorem for arbitrary coherent sheaves, and the target dimension
+`2n + 1` is fixed from the start (Forstnerič, §2.1, Theorem 2.1 and Proposition 2.2).
+
+1. Define the compact-open Fréchet topology on `O(T, ℂⁿ)`, prove completeness and the Baire theorem,
+   and build Bishop's residual set of almost proper maps: those for which the connected components of
+   the preimage of every compact set are relatively compact. Prove the polyhedral exhaustion lemma:
+   `P_j ⋐ P_(j+1)` exhaust `T`, each `P_j` is a finite union of special analytic polyhedra, `h` maps `P_j`
+   properly onto `a_j Dⁿ` (`D` the unit disc) and `a_j` increases strictly to infinity. Build the finite
+   polyhedra and compact-component choices under successive small holomorphic perturbations, prove
+   the compact-component conditions open and dense at each stage, and preserve them by summable
+   errors. Prove the buffered compact-component approximation lemma from these polyhedra: choose
+   `a_(j−1) < b_j < a_j` and put `Z_j = {‖h‖_∞ ≤ b_j}` and `Q_j = closure(P_(j+1)) ∩ Z_j`. The
+   boundary-to-boundary property gives `Q_j = P_(j+1) ∩ Z_j`, compact and open and closed in `Z_j`.
+   Prove `Q_j` is `O(T)`-convex: its holomorphic hull lies in `Z_j` by the coordinate bounds of `h`; the
+   locally constant function equal to `0` on `Q_j` and `1` on `Z_j ∖ Q_j` extends holomorphically to a
+   neighbourhood of `Z_j`, those parts being disjoint and closed; approximate its germ on the compact
+   `O(T)`-convex hull by Oka–Weil; a point of the hull outside `Q_j` would have a value near `1` while the
+   function is uniformly near `0` on `Q_j`, contradicting the hull inequality. Treat `Q_j = ∅`
+   separately. Split `Q_j` into the disjoint compact sets `A_j = P_j ∩ Q_j` and `L_j = Q_j ∖ P_j`; the
+   boundary values `‖h‖_∞ = a_j > b_j` make both open and closed in `Q_j`, and the strict buffer
+   `b_j > a_(j−1)` puts `closure(P_(j−1))` in the interior of `A_j` (Forstnerič, §2.1, Theorem 2.1(d) and
+   the paragraph on Bishop's maps, for the almost proper and polyhedral statements; the hull argument
+   gives the compact set on which Oka–Weil controls both the old map and the growth on the shell).
+2. Prove global holomorphic one-jet transversality and off-diagonal two-point transversality into
+   Euclidean targets in every prescribed compact-open neighbourhood: use the finite-point jet
+   interpolation of §3.1 to obtain finite-dimensional families of global holomorphic perturbations
+   spanning the relevant value and jet fibres near each compact coordinate piece, apply parametric
+   Sard, prove each finite-stage condition open and dense, and take a countable intersection. For the
+   rank strata use compact coordinate pieces inside each exact-rank stratum and prove the needed
+   stability there, without assuming a rank stratum closed; for pairs exhaust `(T × T) ∖ Δ` by compact
+   pieces, asserting nothing on the diagonal `Δ`. Intersect these residual conditions with the almost
+   proper residual set in the same mapping space, and choose `h` so that
+   `D_h = {(x, y) : x ≠ y, h(x) = h(y)}` is a complex `n`-manifold and the locus where `dh` has corank
+   exactly `k` has dimension `n − k²`, empty when that number is negative.
+3. With `h` fixed, prove the same density, inside open neighbourhoods specifying finitely many strict
+   shell inequalities, for the maps `g : T → ℂ^(n+1)` making `(h, g)` injective and immersive. On `D_h`
+   the difference `g(x) − g(y)` has target dimension `n + 1 > n`. On a corank-`k` locus, the failure of
+   injectivity of `dg` on `ker dh` has codimension `n + 2 − k`, which exceeds `n − k²` by `k² − k + 2`.
+   Construct the surjective value and first-jet parameter families for these constrained loci and use
+   Sard; dimension counting alone is not a proof.
+4. At stage `j`, prescribe the old `g` on `A_j` and a first coordinate constant of modulus `> j` on `L_j`.
+   They are disjoint compact sets whose union `Q_j` is `O(T)`-convex, so choose disjoint neighbourhoods
+   and apply Oka–Weil to every coordinate; choose the perturbation of item 3 in the open neighbourhood
+   preserving the strict growth and approximation bounds. Uniform approximation on `A_j` gives `C¹`
+   control on the smaller `closure(P_(j−1))` by Cauchy estimates, through its positive buffer. Prove
+   that every earlier `L_i`, `i < j`, lies in `A_j`, so that these approximations preserve the earlier
    growth margins.
-5. Choose summable future errors below the growth margins on each L_i,
-   immersion margins on each earlier compact, and pair-separation margins on
-   compact off-diagonal pieces; schedule all pieces so every point and pair is
-   covered. Prove local uniform convergence and holomorphicity of the limit g.
-   Prove injectivity and injective differential from these persistent margins.
-   On `closure P_(j+1)\P_j`, either `‖h‖∞>b_j` or `|g₁|>j`, so the norm
-   of (h,g) escapes every compact target set. This proves properness and a closed
-   holomorphic embedding in dimension n+(n+1)=2n+1.
+5. Choose summable future errors below the growth margins on each `L_i`, the immersion margins on
+   each earlier compact set and the pair-separation margins on compact off-diagonal pieces, scheduled
+   so that every point and pair is covered. Prove locally uniform convergence and holomorphy of the
+   limit `g`, and injectivity and injectivity of the differential from the persistent margins. On
+   `closure(P_(j+1)) ∖ P_j` either `‖h‖_∞ > b_j` or `|g₁| > j`, so `(h, g)` leaves every compact set of
+   the target: it is proper, a closed holomorphic embedding into `ℂ^(n+(n+1)) = ℂ^(2n+1)`.
+*Needs:* §§3.0–3.1; Tau Ceti's Morse–Sard theorem `ContDiff.addHaar_image_criticalPoints_eq_zero`.
 
-Restrict this embedding to the closed fixed locus M, obtaining a regular proper
-real-analytic embedding after `ℂ^(2n+1)≅ℝ^(4n+2)`. For compact M properness of
-its restriction follows from compactness; the construction retains the full
-noncompact scope. The separate n=0 enumeration above supplies ℂ¹.
+**Checks.**
+- The surplus `k² − k + 2 = (k − 1/2)² + 7/4` is positive for every `k ≥ 1` (`2` for `k = 1`, `4` for
+  `k = 2`), so the immersion condition of item 3 is generic in every corank. With `g` valued in `ℂⁿ`
+  instead, the pair condition would ask `g(x) − g(y) ∈ ℂⁿ` to avoid `0` on the `n`-dimensional `D_h`;
+  a generic map then has isolated zeros there, so injectivity would fail, and this count does not
+  lower the target below `ℂ^(2n+1)`.
 
-## R5. Manifold triangulation and transport
+### 4.2 Grauert's embedding theorem
 
-For a second-countable real-analytic manifold `M` and a locally finite family `(Bν)` of
-semianalytic subsets, prove §3 Theorem 2, printed p. 464, by embedding `M` as a closed analytic
-submanifold of a finite-dimensional real affine space properly using R4, applying R2 there, and
-transporting the resulting
-triangulation back. Prove the embedded images `Bν` remain semianalytic. Transport
-property (A) by pulling its local graph presentations back along `F × id`;
-the embedding F is analytic and its source factor is not required to be affine.
-Prove open-simplex analytic isomorphisms transport, and
-whole-simplex membership in every `Bν` is preserved. Use properness to prove the family of embedded images is locally finite; include `F(M)` itself in the locally finite family passed to R2 and restrict the resulting complex to the subcomplex lying over the closed set `F(M)`. Prove this restriction is locally finite and covers all of `F(M)`. Own the homeomorphism from the geometric realization of a locally finite simplicial complex to its affine-space realization with the subspace topology, and state the map and inverse continuity. On compact `M`, derive the finite-complex and finite-nonempty-family consequence by a finite-subcover argument; do not state compactness as an assumption of the printed theorem. Construct the global locally finite frontier stratification here from these open-simplex images and the frontier property of the locally finite subcomplex; R1 supplies local dimension and semianalytic compatibility.
+**Theorem** (Grauert, 1958, Theorem 3, p. 470), `grauert_proper_real_analytic_embedding`. Every
+Hausdorff, second-countable real-analytic manifold `M` of dimension `n` has a regular proper real-analytic
+embedding into `ℝ^(4n+2)` with closed image: a closed embedding `F : M → ℝ^(4n+2)`
+(`ProperRealAnalyticEmbedding`) whose expression in every chart is analytic with injective
+differential. The target dimension is `2N` for the fixed `N = 2n + 1` of §4.1. Route: complexify `M`
+(§3.0); the tube `T` is Stein (§3.1); embed it properly in `ℂ^(2n+1)` (§4.1); restrict to the closed
+fixed locus `M` and identify `ℂ^(2n+1)` with `ℝ^(4n+2)`. For `n = 0` the enumeration of §4.1 gives the
+embedding into `ℂ`. For compact `M` properness of the restriction is automatic, but the theorem keeps
+its full noncompact scope.
+*Needs:* §§3.0–3.1, 4.1; Mathlib `Topology.IsClosedEmbedding`, `extChartAt`, `AnalyticAt`, `fderiv`.
 
-This is the provider consumed by ComplexKahlerGeometry K6 for a finite triangulation compatible
-with its analytic strata and closed analytic subvarieties. The consumer still proves its own
-subcomplex, homology and cycle statements; this roadmap supplies semianalytic stratification and
-triangulation, not analytic-cycle theory.
+**Checks.**
+- The map `t ↦ (cos(2 arctan t), sin(2 arctan t))` is an analytic injective immersion of `ℝ` into `ℝ²`
+  and a homeomorphism onto its image, the circle minus `(−1, 0)`, which is not closed. It is not
+  proper, and the closed-embedding requirement excludes it.
 
-## Source and proof-route references
+### Examples
 
-The finite semialgebraic branch has the item-level order RealAlgebraicGeometry Layers1/3/5/6/7 + R0/R1 + CK K3's local preparation + A4.1's CAD dimension API → R1.1, then R1.1 + A4.1's parametrized compact lifting + R2 Lemmas12–14 + the independent relative convex-polyhedral subdivision lemma + AlgebraicTopology Stage4.6's generic projective topology/real atlas + native RealProjectiveSpace → R2.1. The subdivision lemma precedes A4.1 lifting and uses only native affine geometry. A4.1's common semialgebraic lifting and dimension targets do not use R2.1's analytic invariant; R2.1 proves that invariant in their construction.
+- For `M = ℝ` (`n = 1`), the complexification is a neighbourhood of `ℝ` in `ℂ`, the tube a strip, and
+  the theorem gives a proper analytic embedding into `ℝ⁶`; any proper analytic embedding, such as
+  `t ↦ (t, 0, …, 0)`, has the properties of §4.2.
 
-The item-level dependency order is RealAlgebraicGeometry Layer7 complexification/carriers → R0/R1, RealAlgebraicGeometry Layer1/2/4 plus R0 → R1, R1 + RealAlgebraicGeometry Layer6 parameter QE + RealAlgebraicGeometry Layer7 complexification + CK K3 Noetherian germs/components → R2, R0 + GeometricTopology Layer1 tubular neighborhoods + CK K1/K2/K4/K6.0 + SBC B2 + CK K5a local estimates + CK K5b.0 local symbol/adjoint → R3.0/R3.1, R3.1 → R4, R3.1 + CK K2’s Čech-colimit comparison + CK K3 local coherence + CK K4/[#279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279) bundle cocycle gluing → R3.2 item0 coherent-module calculus → R3.2 compact/global Cartan theory, and R1 + R2 + R4 → R5. RealAlgebraicGeometry Layer 4 is consumed only under its stated fixed-degree/gcd hypotheses; RealAlgebraicGeometry Layer 6 supplies formula-level QE for every assignment of analytic coefficient parameters. CK K3.0/K3, SBC B2 and named earlier CK K5a local analytic tools are external inputs as stated above. CK K6 consumes
-R5 after its own K3 singular-locus/stratification targets; K6.0 is earlier and independent of R5. There is no edge from R5 back to CK K6,
-and no R3 proof depends on K5a's compact global Hodge theory.
+### Dependencies
 
-- S. Łojasiewicz, [“Triangulation of semi-analytic sets”](https://numdam.org/article/ASNSP_1964_3_18_4_449_0.pdf), *Annali della Scuola Normale Superiore di Pisa* (3) 18 (1964), 449–474. Theorem 1 is §3, printed p. 463; Theorem 2 and the Grauert reduction are printed p. 464; §1.VI's Nash/projective comparisons are on p.454 and Theorems3–4 are on p.464. The paper's introduction explicitly says §1's basic semianalytic properties are only stated and their proofs were to appear separately.
-- H. Grauert, [“On Levi's Problem and the Imbedding of Real-Analytic Manifolds”](https://doi.org/10.2307/1970257), *Annals of Mathematics* (2) 68 (1958), 460–472. Use its real-analytic embedding theorem together with the Stein/Levi proof machinery specified in R3.
-- F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630), §2.1, Theorem 2.1 and Proposition 2.2, for the almost-proper residual maps, Bishop polyhedral shells and fixed-dimension embedding targets in R4. R4 owns the required constrained transversality and shell-approximation proofs.
-- J.-P. Demailly, [*Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf), Chapter VIII §§3–5, especially Theorems 3.2 and 4.5, for the complete-metric graph-domain and inverse-curvature estimate.
-- L. Hörmander, [“L² estimates and existence theorems for the ∂ operator”](https://doi.org/10.1007/BF02392081), *Acta Mathematica* 113 (1965), 89–152, for the weighted `∂̄` estimate and solvability route; formalize the domain, positivity and completeness hypotheses used in R3.
-- Consume Mathlib `AnalyticAt`, Tau Ceti `TauCeti.Analysis.Complex.CauchyIntegralPolydisc`, and the shared `TauCeti.IsAnalyticSubmanifold`/local complexification carrier in RealAlgebraicGeometry Layer 7. RealAlgebraicGeometry Layer 7 consumes the native iterative Cauchy, circle-integral and differentiable-to-analytic APIs at `CauchyIntegralPolydisc.lean` lines 116, 261, 275, 282, 335, and 348. Its analytic inversion, implicit roots, constant-order factorization and scalar graph/product carriers also consume the native modules named in Layer7; the sharper complexification radius and chart/delineation adapters remain explicit targets. This roadmap does not duplicate those results.
+R3 (§§3.0–3.1); Tau Ceti's Morse–Sard theorem; Mathlib's closed embeddings and analytic maps.
+
+## R5: Manifold triangulation and transport
+
+### 5.1 Realization of locally finite complexes
+
+Prove that for a locally finite simplicial complex `K` in `ℝᴺ` the realization of its vertex scheme
+(`AbstractSimplicialComplex.Realization`, with its weak topology) is homeomorphic to `|K|` with the
+subspace topology of `ℝᴺ`, by the map sending barycentric coordinates to the affine point, with map and
+inverse continuous; for finite `K` this is the comparison of §2.1. Local finiteness gives finite
+vertex stars, and then the weak topology is the topology of barycentric coordinates
+(`AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`).
+*Needs:* §2.1; Tau Ceti `AbstractSimplicialComplex.Realization`,
+`AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`.
+
+**Checks.**
+- The complex in `ℝ²` with vertices `0` and `(1, 1/k)`, `k ≥ 1`, and the edges from `0` to each
+  `(1, 1/k)` is not locally finite at `0`. The points `x_k = (1, 1/k)/k`, one on each edge, form a set
+  meeting every closed simplex in at most one point, hence closed for the weak topology, but they
+  converge to `0` in `ℝ²`: the weak topology and the subspace topology differ, so local finiteness
+  cannot be dropped.
+
+### 5.2 Łojasiewicz's manifold theorem (Theorem 2)
+
+Define property (A) for a map `τ` from a subset of `ℝᴺ` to a real-analytic manifold `M`
+(`HasManifoldPropertyA`): for every `y ∈ M`, the graph of `τ` over the domain of the chart at `y`,
+read through that chart (followed by the linear equivalence `e` of §0.2) in the target factor, is
+partially semialgebraic over the chart image of `y` in the sense of `TauCeti.PartiallySemialgebraicAt`,
+base the target and fibre `ℝᴺ`. Prove that this does not depend on the chart or on `e` and agrees with
+Convention 6 for `M = ℝⁿ`.
+
+**Theorem 2** (Łojasiewicz, §3, Theorem 2, printed p. 464),
+`exists_manifold_semianalytic_triangulation`. Let `M` be a nonempty second-countable real-analytic
+manifold and `(B_ν)` a locally finite family of semianalytic subsets of `M`
+(`TauCeti.IsMSemianalytic`). There are a locally finite simplicial complex `K` in some `ℝᴺ` and a
+homeomorphism `τ : |K| → M` (with total extensions of `τ` and its inverse) with property (A) such that
+for every face `s` of `K`, with open simplex `σ`, `τ(σ)` is an analytic submanifold of `M` of dimension
+`card s − 1` and `τ` restricted to `σ` is an analytic isomorphism onto it (§0.2), and `τ(σ) ⊆ B_ν` or
+`τ(σ) ∩ B_ν = ∅` for every `ν`. For empty `M` the empty complex serves; the total extension of `τ`
+to `ℝᴺ` needs a point of `M`. Route (the
+reduction printed on p. 464): embed `M` as a closed analytic submanifold of `ℝ^(4n+2)` by §4.2, prove
+that the images of the `B_ν` are semianalytic and, by properness, form a locally finite family;
+include the image `F(M)` itself in the family passed to Theorem 1, and restrict the resulting complex
+to the subcomplex over the closed set `F(M)`, which is locally finite and covers `F(M)`. Transport
+property (A) by pulling the local graph presentations back along `F × id`
+(`TauCeti.IsPartiallySemialgebraic.preimage_prodMap`); `F` is analytic and the source factor is not
+required to be affine. Prove that the open-simplex analytic isomorphisms transport and that membership
+of whole simplices in every `B_ν` is preserved. For compact `M`, derive by a finite subcover that `K` can
+be taken finite and that only finitely many `B_ν` are nonempty; compactness is not a hypothesis of the
+theorem.
+*Needs:* §§0.2, 2.0h, 4.2, 5.1; Tau Ceti `TauCeti.IsMSemianalytic`, `TauCeti.PartiallySemialgebraicAt`,
+`TauCeti.IsPartiallySemialgebraic.preimage_prodMap`.
+
+**Checks.**
+- For `M = S¹` and the family consisting of one point, `K` is a polygon with at least three vertices,
+  one of them mapped to the point; an edge whose ends are glued is not a simplicial complex.
+
+### 5.3 The global frontier stratification
+
+Prove that the images of the open simplices of the triangulation of Theorem 2 form a locally finite
+partition of `M` into semianalytic analytic submanifolds that is compatible with every `B_ν` and has the
+frontier property: the closure of each piece is a union of pieces, and a piece in the closure of
+another, distinct piece has strictly smaller dimension. Each piece `τ(σ)` is semianalytic because
+`τ` has property (A) and the open simplex `σ` is semialgebraic (Łojasiewicz, §3, printed p. 463):
+read in the chart at a point `y` of `M` as in §5.2, the part of the graph of `τ` over `σ` is
+partially semialgebraic over the chart image of `y`, so its projection to the base, the chart
+image of the part of `τ(σ)` in the chart domain, is semianalytic at the chart image of `y`. The
+local dimension comes from §1.0a, the compatibility with every `B_ν` from Theorem 2, and the
+frontier property from that of the locally finite subcomplex.
+*Needs:* §§1.0a, 5.2; Tau Ceti `TauCeti.IsSemialgebraic.partiallySemialgebraicAt_preimage_snd`,
+`TauCeti.PartiallySemialgebraicAt.inter`, `TauCeti.PartiallySemialgebraicAt.semianalyticAt_image_fst`.
+
+### Examples
+
+- For a compact real-analytic surface `M` and the zero set `B` of a nonconstant analytic function,
+  Theorem 2 gives a finite triangulation with `B` a subcomplex, `B` being closed.
+
+### Dependencies
+
+R1 (§1.0a), R2 (§2.0h), R4 (§4.2), §0.2 and §2.1; Tau Ceti's semianalytic sets on
+manifolds, partial semialgebraicity and realizations of abstract simplicial complexes.
+
+## Downstream consumers
+
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md): K3 (§3.4) builds its finite partition
+  into regular pieces from the local semianalytic and component results of §§1.0–1.0a, and K6.1
+  (§6.4) uses Theorem 2 and §5.3 for a finite triangulation compatible with its analytic strata and
+  closed analytic subvarieties. The consumer proves its own subcomplex, homology and cycle
+  statements; this roadmap supplies the semianalytic stratification and the triangulation, not
+  analytic-cycle theory.
+- ComplexComparisonPartII uses the Stein predicate and the Stein criterion (§§3.0–3.1), the weighted
+  theorem, the complete metrics and approximation (§3.1), the coherent module calculus (§3.2, item 0)
+  and Cartan's theorems (§3.2). SchubertGeometry uses the coherence predicate and Cartan's theorems
+  (§3.2). GlobalHolomorphicFunctions proves the one-variable case of §3.2, item 1, on open subsets
+  of `ℂ` itself and takes nothing from §3.2.
+- Hyperfunctions uses the complexification of R0 and §3.0 and the results of §§3.1–3.2, and
+  AlgebraicTopologyPartII the bounded affine theorem with analytic simplex maps (§2.1).
+
+## Scope and ownership
+
+**This roadmap owns** the real-analytic and semianalytic theory of R0–R2 and the global theory of
+R3–R5: the chart dictionary for analytic maps, the neighbourhood form of convergent
+complexification with its uniqueness, the calculus of analytic germs and its compatibility with
+complexification, germs and chartwise analytic submanifolds on manifolds (R0, §§0.1–0.2);
+semianalytic sets and their presentation calculus on normed spaces and on manifolds, the local
+normal decomposition, semianalytic dimension, components and the frontier condition (R1,
+§§1.0–1.0a); the topology of semialgebraic sets in finite coordinates, Nash germs and their closure
+properties, a single relation on a semialgebraic set, the graph criterion, derivatives of Nash
+germs, locally semialgebraic sets, the Nash inverse and implicit function theorems, the Nashness of
+real Weierstrass coefficients, the Nash normal decomposition and its comparison with semialgebraic
+dimension, and Nash maps on semialgebraic analytic submanifolds (R1.1, §1.1); normal boxes and
+their prescribed-zero-set and projection forms, Łojasiewicz's Lemmas 1–15 with the closure rules
+of his §1.V for partially semialgebraic sets, the five steps of his §4, the relative
+convex-polyhedral subdivision lemma and Theorem 1 (R2, §§2.0–2.0h); the analytic image adapter,
+the bounded semialgebraic Theorem 3 with the analytic invariant of the semialgebraic lift, the
+standard affine charts of projective space, semialgebraic structure and the Nash projector
+embedding for real multiprojective spaces, and Theorem 4 (R2.1, §§2.1–2.1b); the Whitney–Bruhat
+complexification, the Stein predicate, Grauert's p-function and the strictly plurisubharmonic tube
+(R3.0, §3.0); the noncompact weighted `∂̄` theorem with its precise curvature and domain
+hypotheses, the complete metrics, jet interpolation, Oka–Weil approximation, the Stein criterion,
+Stein neighbourhoods and the converse exhaustion theorem (R3.1, §3.1); the coherent module
+predicate and its calculus over the holomorphic structure sheaf, the scalar Cousin I splitting,
+compact generation, coherent approximation, Cartan's theorems A and B, coefficient lifting, fine
+Stein covers and the conditional Runge lemma (R3.2, §3.2); the proper holomorphic embedding of the
+tube and Grauert's theorem (R4); and the realization homeomorphism for locally finite complexes,
+Theorem 2 and the global frontier stratification (R5). The statements of this roadmap that Tau Ceti
+proves stay in their layers, with the declarations that realise them. Subanalytic sets are outside
+it.
+
+**Already in the library, owned elsewhere, used and not planned again.** The supplier contracts
+list the exact declarations.
+
+- *Convergent complexification and analytic submanifolds* (Tau Ceti, the implemented part of
+  RealAlgebraicGeometry Layer 7): the extension of an analytic function at a point of `ℝⁿ` to a
+  holomorphic function on a real-centred polydisc commuting with conjugation, the norm estimate
+  `‖p_ℂ‖ ≤ 2ᵏ‖p‖` with the extension radius at least half the real one, the complexification of
+  analytic charts, the analytic inverse, implicit function and implicit root theorems, and analytic
+  submanifolds of `ℝⁿ` with analytic maps on them.
+- *Semialgebraic geometry* (Tau Ceti, from RealAlgebraicGeometry and AffineMorseLefschetz):
+  semialgebraic sets and functions, Tarski–Seidenberg and quantifier elimination with parameters,
+  delineations with analytic roots, semialgebraic dimension and its value on subsets that are
+  topological manifolds.
+- *Analysis on manifolds* (Tau Ceti): the tubular neighbourhood theorem, Levi forms and strict
+  plurisubharmonicity on complex manifolds, the Morse–Sard theorem, the realization of abstract
+  simplicial complexes with its weak topology, and local finiteness of projected families.
+- *Sheaves of modules* (Mathlib): the finite-type, generating-sections, locally free, quasicoherent
+  and finite-presentation API, pushforward equivalences, and the equivalence between modules over
+  `R.over U` and over the restricted ring sheaf with its unit comparisons.
+
+**Owned elsewhere and consumed here.**
+
+- [RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md) owns polynomial semialgebraic
+  sets, Thom encodings (Layer 1), subresultants (Layer 2), root continuity and matching in continuous
+  families under fixed degree and gcd hypotheses (Layer 4), CAD and quantifier elimination (Layer 6),
+  and the local analytic carriers and complexification (Layer 7). It supplies no semianalytic normal
+  decomposition or triangulation, and its root facts are used only under their stated hypotheses.
+- [AffineMorseLefschetz](../AffineMorseLefschetz/README.md) Layer 5 (A4.1) owns finite marked-family
+  semialgebraic triangulation and semialgebraic dimension (§5.1), the generic direction and frontier
+  preparation (§5.2), the parametrized compact lifting theorem with its exported data (§5.3), the
+  rational extension of boundary heights (§5.4), completed face lists and the second refinement
+  (§5.5), the continuous band transfer and endpoint pulling triangulation of its lift (§5.6), the
+  projection-compatible lift (§5.7) and the complex projective algebraic pairs (§5.8). §2.1 proves the
+  Nash invariant of that construction and does not build a second compact triangulation. That
+  roadmap's lift uses its own band transfer and pulling triangulation and takes no input from this
+  one; the band calculus of §2.0d serves this roadmap's analytic construction.
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) owns the realified atlas (K3.0, §3.1),
+  convergent Weierstrass preparation and division (K3, §3.2), Noetherian germs, local
+  parametrization, primitive Oka coherence and ideal generators (K3, §3.4), the Čech and Dolbeault
+  comparisons (K2, §2.5), the holomorphic structure sheaf, holomorphic bundles and Chern connections
+  (K4, §§4.1–4.2), local elliptic regularity and distributions (K5a, §§5.1, 5.7), the Hermitian
+  Dolbeault adjoint and its symbol (K5b.0, §5.9), the local Kähler and Bochner–Kodaira–Nakano
+  identities (K6.0, §6.1), and complex projective charts (K7.1, §7.1). Its analytic-cycle theory
+  (K6.1) consumes R5; no proof here uses K6.1 or its compact Hodge theory.
+- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) B2 (§§B2.1–B2.2) owns Hermitian
+  bundle metrics and square-integrable sections.
+- [ComplexManifolds](../ComplexManifolds/README.md) owns compatible open gluing (Milestone 5) and
+  holomorphic cocycle gluing and the canonical bundle (Milestone 7).
+- [GeometricTopology](../GeometricTopology/README.md) §1.5 owns the uniqueness of tubular
+  neighbourhoods and the retraction of the tube; [AlgebraicTopology](../AlgebraicTopology/README.md)
+  §4.6 owns the Hausdorff property of Mathlib's topology on real projective space and its
+  homeomorphism with the sphere quotient.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Analytic functions and manifolds: `AnalyticAt`, `AnalyticOnNhd`, `fderiv`, `IsManifold`,
+  `ModelWithCorners.Boundaryless`, `extChartAt`, `MDifferentiable`, `mfderiv`, `ContMDiff`,
+  `Topology.IsClosedEmbedding`,
+  `IsProperMap` and `Topology.IsClosedEmbedding.isProperMap`.
+- Simplicial complexes and convexity: `Geometry.SimplicialComplex` with `faces` and `space`
+  (`Mathlib/Analysis/Convex/SimplicialComplex/Basic.lean`; it carries no local-finiteness notion,
+  which is expressed by local finiteness of the convex hulls of the faces), `AbstractSimplicialComplex`,
+  `Affine.Simplex`, `intrinsicInterior`, `convexHull`.
+- Projective spaces and coordinates: `Projectivization`, `Projectivization.lift`,
+  `Projectivization.mk'`, the quotient topology `Projectivization.instTopologicalSpace` with its open
+  quotient map (`Mathlib/Topology/Algebra/Projectivization.lean`), `Projectivization.mk`,
+  `EuclideanSpace.equiv`, `Equiv.sumArrowEquivProdArrow`, `finSigmaFinEquiv`, `Fin.succAbove`,
+  `Fin.insertNth`.
+- Sheaves of modules (under `Mathlib/Algebra/Category/ModuleCat/`): `SheafOfModules`,
+  `SheafOfModules.unit`, `SheafOfModules.free` (`Sheaf/Free.lean`); `SheafOfModules.over`,
+  `SheafOfModules.pushforward`, `SheafOfModules.pushforwardPushforwardEquivalence` and the instance
+  `SheafOfModules.isLeftAdjoint_pushforward_of_isIso` (`Sheaf/PushforwardContinuous.lean`);
+  `SheafOfModules.GeneratingSections`, `SheafOfModules.GeneratingSections.map` (for a functor
+  preserving colimits with an isomorphism of units), `SheafOfModules.LocalGeneratorsData` and
+  `SheafOfModules.IsFiniteType` (`Sheaf/Generators.lean`); `SheafOfModules.IsLocallyFree`
+  (`Sheaf/LocallyFree.lean`); `SheafOfModules.Presentation.map`, `SheafOfModules.QuasicoherentData`,
+  `SheafOfModules.QuasicoherentData.pushforward` (for continuous and cocontinuous functors with
+  continuous `Over.post` and the colimit hypothesis), `SheafOfModules.QuasicoherentData.bind`,
+  `SheafOfModules.isQuasicoherent_pushforward_of_isLeftAdjoint`, and the finite-presentation classes
+  `SheafOfModules.IsFinitePresentation` and `SheafOfModules.QuasicoherentData.IsFinitePresentation`
+  (`Sheaf/Quasicoherent.lean`); the abelian structure (`Sheaf/Abelian.lean`, under `HasSheafify` and
+  `WEqualsLocallyBijective` for `AddCommGrpCat`); module stalks and `PresheafOfModules.germ_smul`
+  (`Stalk.lean`). Also `TopologicalSpace.Opens.overEquivalence` (`Mathlib/Topology/Sheaves/Over.lean`),
+  `TopologicalSpace.Opens.sheafRestrict`, `TopologicalSpace.Opens.sheafOfModulesEquivOver` with
+  `TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
+  `TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit` (`Mathlib/Topology/Sheaves/Module.lean`:
+  modules over `R.over U` are equivalent to modules over the restriction of `R` to `U`, unit to unit),
+  `Opens.grothendieckTopology`, `CategoryTheory.Over.iteratedSliceEquiv`, `CategoryTheory.HasSheafify`
+  and `CategoryTheory.GrothendieckTopology.WEqualsLocallyBijective`.
+- The holomorphic structure sheaf and sheaf cohomology: `smoothSheafCommRing`
+  (`Mathlib/Geometry/Manifold/Sheaf/Smooth.lean`, the sheaf of commutative rings of smooth functions
+  into a smooth ring, with the manifold and the ring in one universe), the forgetful functor
+  `SheafOfModules.toSheaf` to abelian sheaves (`Mathlib/Algebra/Category/ModuleCat/Sheaf.lean`), and
+  `Sheaf.H` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`: the `Ext` groups from the
+  constant sheaf `ℤ`, for a choice of universe in which `HasExt` holds).
+
+### From Tau Ceti
+
+Paths are under `TauCeti/`. Each declaration is assumed as stated there. The declarations that
+realise this roadmap's own statements are named in the layers above, on the *In Tau Ceti:* lines,
+and are not repeated here.
+
+- Analytic submanifolds (`Analysis/Analytic/Submanifold/Basic.lean`, RealAlgebraicGeometry Layer 7):
+  `TauCeti.IsAnalyticSubmanifold`, `TauCeti.AnalyticOnSubmanifold`.
+- The realified atlas of a complex manifold: `IsManifold.restrictScalars_of_ne_zero`
+  (`Geometry/Manifold/Complex/Analytic.lean`).
+- Complexification at a point and of charts (`Analysis/Analytic/Complexification/`, RealAlgebraicGeometry
+  Layer 7): `AnalyticAt.exists_complexification`, `AnalyticAt.exists_complexification_pi`,
+  `ContinuousMultilinearMap.norm_complexifyPi_le_two_pow`,
+  `FormalMultilinearSeries.le_radius_complexifyPi_two_mul`, `AnalyticAt.eventually_apply_star`
+  (`Basic.lean`); `OpenPartialHomeomorph.exists_complexification` (`Chart.lean`).
+- Analytic inverse and implicit functions (`Analysis/Analytic/Inverse.lean`, RealAlgebraicGeometry
+  Layer 7): `AnalyticAt.exists_openPartialHomeomorph`, `ImplicitFunctionData.analyticAt_implicitFunction`,
+  `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`. The polydisc Cauchy formula, Osgood's lemma
+  and analytic parameter integrals of `Analysis/Complex/CauchyIntegralPolydisc.lean`
+  (`ContinuousOn.torusIntegral_prod_sub_inv_smul`, `ContinuousOn.analyticAt_of_differentiableAt_update`,
+  `DifferentiableOn.analyticAt_of_finiteDimensional`, `TauCeti.analyticAt_circleIntegral`) underlie
+  these and the complexification.
+- Semialgebraic geometry (`Geometry/RealAlgebraic/`): `TauCeti.IsSemialgebraic`,
+  `TauCeti.IsSemialgebraicOn` (`Semialgebraic/Basic.lean`, `Semialgebraic/Function.lean`); the instance
+  `TauCeti.HasSemialgebraicProjections ℝ` (`CAD/Existence.lean`, Tarski–Seidenberg) and quantifier
+  elimination with parameters `TauCeti.exists_isQF_realize_iff` (`Semialgebraic/QuantifierElimination.lean`);
+  `TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_closure`
+  (`Semialgebraic/Dimension/`) and `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`
+  (`Semialgebraic/Dimension/Manifold.lean`: a nonempty subset of `Fin n → ℝ` with charts on a
+  finite-dimensional real space `E`, for the subspace topology, has semialgebraic dimension
+  `finrank ℝ E`).
+- Delineations (`Geometry/RealAlgebraic/Stack/`): `TauCeti.nonempty_delineation`
+  (`Delineation.lean`: a finite family of polynomials with continuous coefficients over a preconnected
+  base, each zero everywhere or nowhere, with constant degree, number of distinct complex roots and
+  pairwise gcd degree, has a delineation) and `TauCeti.Delineation.analyticOnSubmanifold_root`
+  (`Analytic.lean`: over an analytic submanifold, with analytic coefficients, the root functions are
+  analytic).
+- Ingredients of Lemma 10, used by its route in §2.0d: `TauCeti.normalizedArsinh`,
+  `TauCeti.deriv_normalizedArsinh_le_two`, `TauCeti.abs_mul_deriv_normalizedArsinh_le_one`
+  (`Analysis/SpecialFunctions/Arsinh.lean`); `TauCeti.baseScaling`, `TauCeti.heightCompression`,
+  `TauCeti.analyticAt_baseScaling`, `TauCeti.analyticAt_heightCompression`,
+  `TauCeti.mapsTo_heightCompression_comp_baseScaling`,
+  `TauCeti.dist_snd_le_three_mul_dist_fst_of_mem_image_heightCompression_comp_baseScaling`,
+  `TauCeti.closedBall_subset_fst_image_baseScaling_image_graphOn`,
+  `TauCeti.exists_analyticOnNhd_sqrt_sq_sub_one_lt_mul` (`Analysis/Analytic/HeightCompression.lean`);
+  `ContDiff.exists_analyticOnNhd_abs_sub_lt` (`Analysis/Analytic/Approximation.lean`: analytic
+  approximation of a `C¹` function on `ℝ` with its derivative within a positive continuous tolerance).
+- Simplicial complexes and local finiteness: `Geometry.SimplicialComplex.IsSubdivision`
+  (`Analysis/Convex/SimplicialComplex/Subdivision.lean`); `LocallyFinite.image_fst_of_subset`
+  (`Topology/LocallyFinite/Projection.lean`); `AbstractSimplicialComplex.Realization` and
+  `AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`
+  (`AlgebraicTopology/SimplicialComplex/Realization/`).
+- Projective spaces: Tau Ceti's analytic atlas of projective space (`Projectivization.instChartedSpace`,
+  `Projectivization.instIsManifold`, `Geometry/Manifold/Instances/Projectivization.lean`) and its
+  projector continuity are stated on Tau Ceti's own copy of the quotient topology
+  (`Topology/Algebra/Projectivization.lean`), declared under the same instance name as Mathlib's, so
+  those modules are not imported beside Mathlib's; §2.1a works with Mathlib's topology and reads
+  analyticity through the chart maps, and does not use that atlas.
+- Manifolds: `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
+  (`Geometry/Manifold/TubularNeighborhood/Existence.lean`: the normal bundle of a smooth embedding into
+  a Hausdorff second-countable boundaryless manifold is diffeomorphic to an open neighbourhood of the
+  image inside any given open set, the zero section going to the embedding);
+  `TauCeti.manifoldLeviForm`, `TauCeti.IsManifoldStrictlyPlurisubharmonicAt`
+  (`Geometry/Manifold/Complex/LeviForm.lean`); `ContDiff.addHaar_image_criticalPoints_eq_zero`
+  (`Analysis/Calculus/Sard/OutermostStratum.lean`, the Morse–Sard theorem).
+- Sheaves of modules: `TauCeti.SheafOfModules.ringCatSheaf`
+  (`Algebra/Category/ModuleCat/Sheaf/Defs.lean`: a sheaf of commutative rings with commutativity
+  forgotten, the coefficient ring sheaf of `SheafOfModules`).
+
+### From TauCetiRoadmap.RealAlgebraicGeometry
+
+Layer 1 (Thom encodings of real roots), Layer 2 (subresultants and the gcd criterion at actual
+degrees), Layer 4 (continuity and constancy of ordered real roots, and root matching for families of
+fixed degree and gcd degree), Layer 6 (CAD with connected cells and quantifier elimination with
+parameters, valid for every assignment of the parameters) and Layer 7 (analytic carriers and local
+complexification, implemented in Tau Ceti as listed above). Assumed as stated there.
+
+### From TauCetiRoadmap.AffineMorseLefschetz
+
+Layer 5 (A4.1): §5.1 the finite semialgebraic triangulation theorem and semialgebraic dimension; §5.2 the
+generic quasi-monic direction and the frontier preparation; §5.3 the parametrized finite compact
+lifting theorem, with its exported adapted cells, marked signs, witnessing polynomials and fibre
+multiplicities, extended sections, vertex orders, completed lists `L(σ)`, restriction maps `ρ`,
+extension maps `E_l` and distinguished vertices; §5.4 positivity, order and continuity of the
+rational extension `E_l`; §5.5 the auxiliary index set, the equal-or-consecutive restriction and the
+second barycentric refinement; §5.7 the projection-compatible lift. Assumed as stated there.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K3.0 (§3.1, the realified atlas); K3 (§3.2, convergent Weierstrass preparation and division; §3.4,
+Noetherian germs, analytic components, local parametrization, Oka coherence in primitive form and
+the reduced-ideal and finite-tuple ideal generators); K2 (§2.5, the comparison of sheaf, Čech and
+Dolbeault cohomology and of the Čech colimit with derived sheaf cohomology on paracompact spaces); K4
+(§4.1, the `RingCat`-valued holomorphic structure sheaf, its restriction to opens through
+`U.sheafRestrict` and the locally free section sheaves of holomorphic bundles; §4.2, Chern
+connections); K5a (§5.1, densities and distributions; §5.7, local Laplace-type regularity); K5b.0
+(§5.9, the Hermitian Dolbeault formal adjoint with principal symbol `½|ξ|² Id`); K6.0 (§6.1, the local
+Kähler identities and the Bochner–Kodaira–Nakano identity). Assumed as stated there.
+
+### From TauCetiRoadmap.ComplexManifolds
+
+Milestone 5 (compatible open gluing of charted spaces along `TopCat.GlueData`) and Milestone 7
+(holomorphic cocycle gluing of vector bundles and the canonical bundle). Assumed as stated there.
+
+### From TauCetiRoadmap.GeometricTopology
+
+§1.5 (tubular neighbourhoods: uniqueness and the retraction of the tube onto the submanifold).
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+§4.6 (Mathlib's quotient topology on real projective space is Hausdorff, and the homeomorphism with
+`TauCeti.RealProjectiveSpace n`).
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+B2 (§B2.1, Hermitian bundle metrics; §B2.2, fibre metrics and the Hilbert space of square-integrable
+sections).
+
+## References
+
+- S. Łojasiewicz, [“Triangulation of semi-analytic sets”](https://numdam.org/article/ASNSP_1964_3_18_4_449_0.pdf),
+  *Annali della Scuola Normale Superiore di Pisa* (3) 18 (1964), 449–474. Theorem 1 is in §3, printed
+  p. 463; Theorem 2 and the reduction through Grauert's embedding are printed p. 464; the Nash and
+  projective comparisons of §1.VI are on p. 454, and Theorems 3 and 4 on p. 464. The introduction of
+  the paper says that the basic properties of semianalytic sets in §1 are stated without proof, the
+  proofs to appear separately.
+- H. Grauert, [“On Levi's problem and the imbedding of real-analytic manifolds”](https://doi.org/10.2307/1970257),
+  *Annals of Mathematics* (2) 68 (1958), 460–472: the real-analytic embedding theorem (Theorem 3,
+  p. 470), the Stein criterion of R3 (§2, Theorem 2, for relatively compact domains, and §3
+  for the passage to an exhaustion) and its p-functions (§3, Propositions 6 and 7).
+- H. Whitney and F. Bruhat, [doi:10.1007/BF02565913](https://doi.org/10.1007/BF02565913), §1,
+  Proposition 1: the complexification of a real-analytic manifold, with its separation buffers.
+- F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630),
+  §2.1, Theorem 2.1 and Proposition 2.2: almost proper maps, Bishop's polyhedral shells and the fixed
+  target dimension of R4. The constrained transversality and shell approximation are proved in
+  §4.1 above.
+- J.-P. Demailly, [*Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf),
+  Chapter VIII, §§3–5, especially Theorems 3.2 and 4.5: complete metrics, the graph-domain density and
+  the inverse-curvature estimate.
+- L. Hörmander, [“L² estimates and existence theorems for the ∂̄ operator”](https://doi.org/10.1007/BF02391775),
+  *Acta Mathematica* 113 (1965), 89–152: the weighted `∂̄` estimate and the solvability route, whose
+  domain, positivity and completeness hypotheses §3.1 makes explicit.
+- L. Hörmander, *An Introduction to Complex Analysis in Several Variables*, 3rd edition,
+  North-Holland Mathematical Library 7 (1990), Chapter VII: the numbered results (7.2.2), (7.2.4),
+  (7.2.7), (7.2.8), (7.2.9) and (7.4.3) cited in §3.2 for compact generation, approximation, theorem A,
+  coefficient lifting and theorem B.
