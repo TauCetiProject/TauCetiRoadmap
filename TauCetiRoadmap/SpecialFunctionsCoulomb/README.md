@@ -65,8 +65,8 @@ prove; they test the conventions on explicit values.
   for `F_ℓ`, `G_ℓ`, `H⁺_ℓ`, `H⁻_ℓ`. The functions of `(ε, r)` are `coulombEnergyF ε ℓ r` for
   `f(ε, ℓ; r)`, `coulombEnergyH ε ℓ r` for `h(ε, ℓ; r)` and `coulombEnergyA ε ℓ` for `A(ε, ℓ)`,
   with the auxiliary `coulombKappa ε r` and `coulombStokesFactor ε r`; `hydrogenRadial n ℓ r` is
-  `φ_{n,ℓ}(r)`. The coefficient sequences are `coulombSeriesCoeff` (3.1), `coulombBesselCoeff`
-  (4.3) and `coulombEnergyCoeff` (6.1).
+  `φ_{n,ℓ}(r)`. The coefficient sequences are `coulombSeriesCoeff` (3.1),
+  `coulombSphericalCoeff` (4.2), `coulombBesselCoeff` (4.3) and `coulombEnergyCoeff` (6.1).
 - **Parameters.** `ℓ : ℕ` and `η : ℝ` throughout; complex `ℓ` and `η` are beyond this roadmap.
   The functions of `ρ` are complex valued, `ℝ → ℂ`, with real values proved
   (QuantumFoundations §9.5); `F_ℓ` is defined for all real `ρ` and is real analytic there, while
@@ -123,13 +123,17 @@ pp. 213–214). This roadmap proves none of these; every later target consumes t
 Two consequences are used often and are one line each from the core: `𝒲{H⁻_ℓ, H⁺_ℓ} = 2i`, and
 `H⁻_ℓ = conj H⁺_ℓ` for `ρ > 0`.
 
+QuantumFoundations §9.5 writes `H^±_ℓ` with the Tricomi function `U` of QuantumFoundations §9.4,
+while the definitions here use SpecialFunctionsConfluent's `kummerU`. SpecialFunctionsConfluent 2.1
+proves that the two functions agree, so §9.5's results hold for the definitions here.
+
 **Checks.**
 - `𝒲{H⁻_1, H⁺_1} = 2i` at `η = 0.7`, `ρ = 2.3` to 15 digits.
 - `F_0(1, 1) = 0.22752621051056`, `G_0(1, 1) = 2.04309716210354`,
   `F_1(−1, 2) = 0.831877152552468`, `G_1(−1, 2) = −0.345746410383545`.
-- `F_0(0, ρ) = sin ρ`, `G_0(0, ρ) = cos ρ`, `H^±_0(0, ρ) = e^{±iρ}` (DLMF 33.5.4, p. 744).
+- `F_0(0, ρ) = sin ρ`, `G_0(0, ρ) = cos ρ`, `H^±_0(0, ρ) = e^{±iρ}` (DLMF 33.5.5, p. 744).
 
-*Needs:* QuantumFoundations §9.5.
+*Needs:* QuantumFoundations §9.5; SpecialFunctionsConfluent 2.1.
 
 ### 1.2 The phase shift and the normalising constant
 
@@ -188,8 +192,9 @@ with `z = 2ρ` as `d²W/dz² = (−¼ + k/z + (m² − ¼)/z²)W`, `k = η`, `m 
 Exercise 4.5, p. 403.
 
 *Suggested proof:* `M_{κ,μ}(z) = e^{−z/2} z^{½+μ} M(½ + μ − κ, 1 + 2μ, z)` and Kummer's
-transformation `M(a, b, z) = e^z M(b − a, b, −z)` (SpecialFunctionsConfluent, Layer 1) give the
-two forms of `F_ℓ`; the powers `(±2iρ)^{ℓ+1}` are integer powers. For `H⁺_ℓ`,
+transformation `M(a, b, z) = e^z M(b − a, b, −z)`
+([SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md) 1.4) give
+the two forms of `F_ℓ`; the powers `(±2iρ)^{ℓ+1}` are integer powers. For `H⁺_ℓ`,
 `W_{κ,μ}(z) = e^{−z/2} z^{½+μ} U(½ + μ − κ, 1 + 2μ, z)` gives the form directly, with
 `(−2iρ)^{ℓ+1+iη} = (−2iρ)^{ℓ+1} e^{iη ln 2ρ} e^{πη/2}` on the principal branch.
 
@@ -200,7 +205,8 @@ two forms of `F_ℓ`; the powers `(±2iρ)^{ℓ+1}` are integer powers. For `H�
   the branch `ph(−2iρ) = 3π/2` the definition of `H⁺_1` at the same point is multiplied by
   `e^{−1.4π} = 0.0122990935428127`.
 
-*Needs:* 1.1, 1.2; SpecialFunctionsConfluent, its Conventions and 1.4–1.6.
+*Needs:* 1.1, 1.2; SpecialFunctionsConfluent, its Conventions, 1.4–1.6 and 2.1;
+SpecialFunctionsParabolicCylinder 1.4.
 
 ### 1.4 The cross-product
 
@@ -252,13 +258,17 @@ Put `R_L = (1 + η²/L²)^{1/2}`, `S_L = L/ρ + η/L`, `T_L = S_L + S_{L+1}`.
   recurrence of 2.1 and `ℓ ↦ G_ℓ(η, ρ)` is dominant; `F_{ℓ+1}/F_ℓ ∼ ρ/(2ℓ)` and
   `G_{ℓ+1}/G_ℓ ∼ 2ℓ/ρ` as `ℓ → ∞` (Temme, §13.3, Example 4, pp. 339–340, from case [1] of the
   theorem of that section).
-- **The continued fraction:** for `ρ > 0`,
+- **The continued fraction** (`tendsto_convs_coulombF`): for `ρ > 0` and `F_ℓ(η, ρ) ≠ 0`,
   `F′_ℓ/F_ℓ = S_{ℓ+1} − R²_{ℓ+1}/(T_{ℓ+1} − R²_{ℓ+2}/(T_{ℓ+2} − ⋯))`, convergent (DLMF 33.8.1,
   p. 745), as an instance of Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma 4.1
-  applied to the minimal solution `F_ℓ` and the second ladder relation.
-- **Barnett's formulas**, stated in prose: with `p + iq = H⁺′_ℓ/H⁺_ℓ` and `u = F′_ℓ/F_ℓ`,
-  `F_ℓ = ±(q/((u − p)² + q²))^{1/2}`, `G_ℓ = (u − p)F_ℓ/q`, `G′_ℓ = (up − p² − q²)F_ℓ/q`
-  (DLMF 33.8.3–33.8.4, p. 745); these are algebra from `𝒲{G_ℓ, F_ℓ} = 1` and `q > 0`.
+  applied to the minimal solution `F_ℓ` and the second ladder relation. In `Suggested.lean` it is
+  the limit of the convergents of a `GenContFract ℝ` with head `S_{ℓ+1}`, partial numerators
+  `−R²_{ℓ+n+1}` and partial denominators `T_{ℓ+n+1}`. At the zeros of `F_ℓ(η, ·)`, of which there
+  are infinitely many, the left side is undefined and the fraction diverges.
+- **Barnett's formulas**, stated in prose: for `ρ > 0` and `F_ℓ(η, ρ) ≠ 0`, with
+  `p + iq = H⁺′_ℓ/H⁺_ℓ` and `u = F′_ℓ/F_ℓ`, `F_ℓ = ±(q/((u − p)² + q²))^{1/2}`,
+  `G_ℓ = (u − p)F_ℓ/q`, `G′_ℓ = (up − p² − q²)F_ℓ/q` (DLMF 33.8.4–33.8.5, p. 745); these are
+  algebra from `𝒲{G_ℓ, F_ℓ} = 1` and `q > 0`.
 
 **Checks.**
 - At `ℓ = 1`, `η = 0.7`, `ρ = 2.3`: the fraction gives `0.757107891228786 = F′_1/F_1`, and with
@@ -267,8 +277,12 @@ Put `R_L = (1 + η²/L²)^{1/2}`, `S_L = L/ρ + η/L`, `T_L = S_L + S_{L+1}`.
 - At `η = 0`, `ℓ = 0`, `ρ = 1` the fraction gives `0.642092615934331 = cot 1 = F′_0/F_0`.
 - Negative control: with `R_L` in place of `R²_L` the fraction at `ℓ = 1`, `η = 0.7`, `ρ = 2.3`
   gives `0.784689045890256`.
+- Negative control for the hypothesis `F_ℓ ≠ 0`: at `η = 0`, `ℓ = 0`, `ρ = π`, where
+  `F_0 = sin ρ` vanishes, the approximants of depth 5, 10, 20 are `−1090.09945891328`,
+  `−2.47499339243593·10¹⁰` and `−3.90485668259691·10³⁰`.
 
-*Needs:* 2.1; SpecialFunctionsEiLiErfIncompleteGamma 4.1; Mathlib `GenContFract`.
+*Needs:* 2.1; SpecialFunctionsEiLiErfIncompleteGamma 4.1; Mathlib `GenContFract`,
+`GenContFract.convs`, `Stream'.Seq.ofStream`.
 
 ## Layer 3: the origin, the power series and `η = 0`
 
@@ -337,9 +351,9 @@ H^±_ℓ = e^{±iθ_ℓ}/((2ℓ + 1)! Γ(−ℓ ± iη)) · ( ∑_{k≥0} (a)_k/
   is `(πkr/2)^{1/2} J_{ℓ+½}(kr)`).
 - **Small `|η|`**, stated in prose: `σ_0(η) ∼ −γη` as `η → 0` (DLMF 33.5.7, p. 744), from the
   product formula of 1.2.
-- **Large `ℓ`**, stated in prose: for fixed `η` and `ρ ≠ 0`, `F_ℓ ∼ C_ℓ ρ^{ℓ+1}`,
-  `G_ℓ ∼ ρ^{−ℓ}/((2ℓ + 1)C_ℓ)` and `C_ℓ(η) ∼ e^{−πη/2}/(2ℓ + 1)!!` as `ℓ → ∞` (DLMF 33.5.8–33.5.9,
-  p. 744).
+- **Large `ℓ`**, stated in prose: for fixed `η`, `F_ℓ ∼ C_ℓ ρ^{ℓ+1}` for `ρ ≠ 0`,
+  `G_ℓ ∼ ρ^{−ℓ}/((2ℓ + 1)C_ℓ)` for `ρ > 0`, and `C_ℓ(η) ∼ e^{−πη/2}/(2ℓ + 1)!!` as `ℓ → ∞`
+  (DLMF 33.5.8–33.5.9, p. 744).
 
 *Suggested proof:* at `η = 0`, `e^{iρ} M(ℓ + 1, 2ℓ + 2, −2iρ)` is the `₀F₁` of `𝗃_ℓ` by Kummer's
 second transformation (SpecialFunctionsConfluent 6.2, DLMF 13.6.9). The functions
@@ -387,17 +401,30 @@ of the integrand in the sector between (AsymptoticExpansions 4.3).
 
 ### 4.2 Expansions in spherical Bessel functions
 
-A headline without a Lean name: `F_ℓ(η, ρ) = ρ ∑_{k≥0} a_k 𝗃_{ℓ+k}(ρ)` with `a_{−1} = 0`,
-`a_0 = (2ℓ + 1)!! C_ℓ(η)` and
-`(k(k + 2ℓ + 1)/(2k + 2ℓ + 1)) a_k = 2η a_{k−1} − ((k − 2)(k + 2ℓ − 1)/(2k + 2ℓ − 3)) a_{k−2}`
-(DLMF 33.9.1, pp. 745–746). The companion expansion of `G_ℓ`, DLMF 33.9.2, with its extra
-logarithmic part, is stated in prose.
+- **The expansion** (`hasSum_coulombF_sphericalBesselJ`): for every real `ρ`,
+  `F_ℓ(η, ρ) = ρ ∑_{k≥0} a_k 𝗃_{ℓ+k}(ρ)` with `a_{−1} = 0`, `a_0 = (2ℓ + 1)!! C_ℓ(η)` and
+  `(k(k + 2ℓ + 1)/(2k + 2ℓ + 1)) a_k = 2η a_{k−1} − ((k − 2)(k + 2ℓ − 1)/(2k + 2ℓ − 3)) a_{k−2}`
+  for `k ≥ 1` (DLMF 33.9.1–33.9.2, pp. 745–746, where the series is said to converge for all
+  finite `η` and `ρ`; `coulombSphericalCoeff ℓ η k = a_k`, with `(2ℓ + 1)!!` as
+  `Nat.doubleFactorial`).
+
+*Suggested proof:* both sides are entire in `ρ`; substitute the series into the Coulomb equation
+and use the recurrences and the equation of `𝗃_n` (SpecialFunctionsBessel 3.1–3.2): the
+coefficient of each `𝗃_{ℓ+k}` gives the recurrence of the `a_k`, and the leading term
+`ρ^{ℓ+1}a_0/(2ℓ + 1)!!` as `ρ → 0` fixes `a_0` against 3.1. The `a_k` grow at most
+geometrically, while `𝗃_{ℓ+k}(ρ)` decays like `ρ^{ℓ+k}/(2ℓ + 2k + 1)!!`.
 
 **Checks.**
-- At `ℓ = 1`, `η = 0.7`, `ρ = 2.3` the sum gives `0.657526749516749`.
+- `a_k/C_ℓ(η)` begins `1, 3, 5, 14/3` at `ℓ = 0`, `η = 1`, and `3, 5.25, 5.145, 1.5015` at
+  `ℓ = 1`, `η = 0.7`.
+- The sum gives `0.657526749516749 = F_1(0.7, 2.3)` and `0.735868466687586 = F_0(−1.3, 4.1)`,
+  and for negative `ρ` `0.0968886051511807 = F_1(0.7, −2.3)` and
+  `−11.0769198447575 = F_2(−0.9, −3.4)`.
+- Negative control: with `+((k − 2)(k + 2ℓ − 1)/(2k + 2ℓ − 3)) a_{k−2}` on the right of the
+  recurrence the sum at `(ℓ, η, ρ) = (1, 0.7, 2.3)` is `0.689661338402147`.
 - At `η = 0`, `a_k = 0` for `k ≥ 1`, and the expansion is `F_ℓ(0, ρ) = ρ𝗃_ℓ(ρ)` of 3.3.
 
-*Needs:* 3.1, 3.3; SpecialFunctionsBessel 3.1–3.2.
+*Needs:* 1.2, 3.1, 3.3; SpecialFunctionsBessel 3.1–3.2; Mathlib `Nat.doubleFactorial`.
 
 ### 4.3 Expansions in `I_k` and `J_k`
 
@@ -412,12 +439,15 @@ With `t = 2|η|ρ` and `b_{2ℓ} = 0`, `b_{2ℓ+1} = 1`, `b_{2ℓ+2} = 0`,
   `F_ℓ = C_ℓ (2ℓ + 1)!/(2|η|)^{2ℓ+1} ρ^{−ℓ} ∑_{k≥2ℓ+1} (−1)^{k+1} b_k t^{k/2} J_k(2t^{1/2})`.
   DLMF 33.9.4 omits the sign `(−1)^{k+1}`, in print and online; without it the sum is not `F_ℓ`.
 
-*Suggested proof:* `t^{k/2} I_k(2t^{1/2}) = t^k 𝐅(k + 1, t)`, so the right side is `ρ^{−ℓ}`
-times a power series in `t` with infinite radius once the `b_k` are bounded geometrically.
-Substituting it into the Coulomb equation in the variable `t` and using the recurrences of `I_k`
-(SpecialFunctionsBessel 1.5) reduces the equation to the recurrence of the `b_k`; the leading
-term as `ρ → 0` fixes the constant against 3.1. For `η < 0`, `I_k(ix) = i^k J_k(x)` with `t ↦ −t`
-produces the sign `(−1)^{k+1}` relative to `b_k` and the prefactor.
+*Suggested proof:* both expansions are Buchholz's expansion
+`𝐌(a, b, z) = e^{z/2} ∑_s A_s (z/2)^s 𝐅(b + s, −(b − 2a)z/2)` of SpecialFunctionsConfluent 6.3
+(DLMF 13.11.3–13.11.4) at `a = ℓ + 1 + iη`, `b = 2ℓ + 2`, `z = −2iρ`, where
+`−(b − 2a)z/2 = 2ηρ` and `e^{z/2}` cancels the factor `e^{iρ}` of `F_ℓ`. With
+`b_{2ℓ+1+s} = (−i)^s A_s/(2η)^s` the recurrence of the `A_s` becomes that of the `b_k`
+(`A_2 = ℓ + 1` gives `b_{2ℓ+3} = −(2ℓ + 2)/(8η²)`), and `t^{k/2} I_k(2t^{1/2}) = t^k 𝐅(k + 1, t)`
+turns the sum into the right side of 33.9.3. For `η < 0` the argument `2ηρ = −t` is negative:
+`(−t)^k 𝐅(k + 1, −t) = (−1)^k t^{k/2} J_k(2t^{1/2})`, and with the sign of `(2η)^{2ℓ+1}` this is
+the factor `(−1)^{k+1}`.
 
 **Checks.**
 - `coulombBesselCoeff 0 1` begins `1, 0, −1/4, −1/12`.
@@ -427,35 +457,42 @@ produces the sign `(−1)^{k+1}` relative to `b_k` and the prefactor.
   `0.32059442892911`, both equal to `F_ℓ`.
 - Negative control: the printed 33.9.4 differs from `F_ℓ` by `−0.110492211106306` at
   `(0, −0.7, 1.2)` and by `2.15488800509365` at `(0, −1.5, 4)`.
+- `b_{2ℓ+1+s} = (−i)^s A_s/(2η)^s` for `s < 12`, with `A_s` of DLMF 13.11.4 at
+  `a = ℓ + 1 + iη`, `b = 2ℓ + 2`, at `(ℓ, η) = (0, 0.7)` and `(2, −1.3)`.
 
-*Needs:* 1.1, 1.2, 3.1; SpecialFunctionsBessel, its Conventions and 1.5; Mathlib
-`Complex.besselJ`.
+*Needs:* 1.1, 1.2; SpecialFunctionsConfluent 6.3; SpecialFunctionsBessel, its Conventions;
+Mathlib `Complex.besselJ`.
 
 ## Layer 5: large `ρ` and large `|η|`
 
 ### 5.1 The asymptotic expansion for large `ρ`
 
-A headline without a Lean name: as `ρ → ∞` with `η` fixed,
-`H^±_ℓ ∼ e^{±iθ_ℓ} ∑_k (a)_k (b)_k/(k! (±2iρ)^k)` with `a = ℓ + 1 ± iη`, `b = −ℓ ± iη`, in the
-sense of the asymptotic-expansion predicate of AsymptoticExpansions, its Conventions (DLMF
-33.11.1, p. 747; the handbook prints `(∓2iρ)^k`, which is corrected online). Equivalently
-`F_ℓ ∼ g cos θ_ℓ + f sin θ_ℓ`, `G_ℓ ∼ f cos θ_ℓ − g sin θ_ℓ` with the series `f, g, f̂, ĝ` of
-DLMF 33.11.2–33.11.6, p. 747, whose leading terms are QuantumFoundations' unit-amplitude
-asymptotics. The formal series satisfy
-`f ĝ − g f̂ = 1`, the Wronskian; DLMF 33.11.7 prints `g f̂ − f ĝ = 1`, with the opposite sign, in
-print and online.
+- **The expansion of `H⁺_ℓ`** (`coulombHPlus_sub_sum_isBigO`): for every `N`, as `ρ → ∞` with
+  `η` fixed, `H⁺_ℓ − e^{iθ_ℓ} ∑_{k<N} (a)_k (b)_k/(k! (2iρ)^k) = O(ρ^{−N})` with
+  `a = ℓ + 1 + iη`, `b = −ℓ + iη` (DLMF 33.11.1, p. 747; the handbook prints `(∓2iρ)^k`, which is
+  corrected online to `(±2iρ)^k`). The Pochhammer symbols are Mathlib's `ascPochhammer`.
+- **The expansion of `H⁻_ℓ`**, stated in prose: the same with `−iη` and `(−2iρ)^k`, by
+  conjugation.
+- **The real form**, stated in prose: `F_ℓ ∼ g cos θ_ℓ + f sin θ_ℓ`,
+  `G_ℓ ∼ f cos θ_ℓ − g sin θ_ℓ` with the series `f, g, f̂, ĝ` of DLMF 33.11.2–33.11.6, p. 747,
+  whose leading terms are QuantumFoundations' unit-amplitude asymptotics. The formal series
+  satisfy `f ĝ − g f̂ = 1`, the Wronskian; DLMF 33.11.7 prints `g f̂ − f ĝ = 1`, with the
+  opposite sign, in print and online.
 
 *Suggested proof:* the expansion of `U(a, b, z)` for large `z` (SpecialFunctionsConfluent 5.1), at
 `z = ∓2iρ`; the Wronskian identity is 1.1 applied to the truncations, with the remainders of the
 expansion.
 
 **Checks.**
+- At `ℓ = 1`, `η = 0.7`, `N = 4`, `ρ⁴` times the remainder has modulus `0.784482772149830`,
+  `0.777865444724296` and `0.774173060982327` at `ρ = 30, 60, 120`.
 - At `ℓ = 1`, `η = 0.7`, `ρ = 30`, twelve terms give `F_1 = 0.719372168230036` and
   `F′_1 = 0.694698368402081`; `f ĝ − g f̂ = 0.999999999999989`.
 - Negative control: with `(−2iρ)^k` in the series of `H⁺_1` the twelve-term sum is
   `0.75201760687568 + 0.642628434018433 i` instead of `0.712646695823506 + 0.719372168230038 i`.
 
-*Needs:* 1.1; SpecialFunctionsConfluent 5.1; AsymptoticExpansions, its Conventions.
+*Needs:* 1.1, 1.2; SpecialFunctionsConfluent 5.1; Mathlib `ascPochhammer`,
+`Asymptotics.IsBigO`.
 
 ### 5.2 Large `|η|`
 
@@ -465,24 +502,39 @@ expansion.
   (DLMF 33.10.10, p. 746), by oddness.
 - **The normalising constant**, stated in prose: `C_0(η) ∼ (2πη)^{1/2} e^{−πη}` as `η → +∞` and
   `C_0(η) ∼ (−2πη)^{1/2}` as `η → −∞` (DLMF 33.10.6, 33.10.10).
-- **`F_ℓ` for large `|η|`**, stated in prose: with `ρ` fixed,
-  `F_ℓ ∼ (2ℓ + 1)! C_ℓ/(2η)^{ℓ+1} · (2ηρ)^{1/2} I_{2ℓ+1}((8ηρ)^{1/2})` as `η → +∞`
-  (DLMF 33.10.3, p. 746), and `F_0 ∼ (πρ)^{1/2} J_1((−8ηρ)^{1/2})` as `η → −∞` (DLMF 33.10(iii),
-  p. 746), from the first terms of 4.3. At `ℓ = 1`, `ρ = 0.3` the ratio is `0.99631793472244`
-  at `η = 80`.
+- **`F_ℓ` for large `|η|` with `ηρ` fixed**, stated in prose: with `x = |η|ρ > 0` fixed,
+  `F_ℓ ∼ (2ℓ + 1)! C_ℓ/(2η)^{ℓ+1} · (2x)^{1/2} I_{2ℓ+1}((8x)^{1/2})` as `η → +∞` (DLMF 33.10.3,
+  p. 746), and
+  `F_ℓ = (2ℓ + 1)! C_ℓ/(−2η)^{ℓ+1} · ((2x)^{1/2} J_{2ℓ+1}((8x)^{1/2}) + O(η^{−2}))` as `η → −∞`,
+  in particular `F_0 = (πρ)^{1/2} J_1((−8ηρ)^{1/2}) + O(|η|^{−5/2})` (DLMF 33.10.7–33.10.8,
+  p. 746, which have the weaker remainders `o(|η|^{1/4})` inside the bracket and `o(|η|^{−1/4})`).
+  The forms with `J` are additive, not asymptotic equivalences, since `J_{2ℓ+1}` has zeros at
+  which `F_ℓ` does not vanish. The printed handbook states 33.10(ii)–(iii) for `ρ` fixed; the
+  online DLMF corrects this to `ηρ` fixed (erratum of version 1.0.19).
 
 *Suggested proof:* Stirling's formula for `ln Γ(1 + iη)` on the imaginary axis
-(ZerosOfLFunctions 1.2); the `F_ℓ` limits are the leading terms of 4.3 with the tails bounded
-uniformly in `η`.
+(ZerosOfLFunctions 1.2) for the phase and `C_0`; by 1.2, `C_0(η)` is `(2π|η|)^{1/2}` up to a
+factor `1 + O(e^{−2π|η|})` as `η → −∞`. The `F_ℓ` forms are 6.3 at `ε = 1/η²`, `r = −ηρ`, with
+`r = −x` for `η > 0` and `r = x` for `η < 0` fixed: `f(ε, ℓ; r) − f(0, ℓ; r) = O(ε)` because the
+coefficients `α_k` of 6.1 are polynomials in `ε` bounded uniformly for `|ε| ≤ 1`, and `f(0, ℓ; r)`
+is the Bessel form of 6.4. For `η > 0` the sign `(−1)^{ℓ+1}` of the case `r < 0` of 6.4 and of
+`(−2η)^{ℓ+1}` cancel, and `I_{2ℓ+1} > 0` makes the form an equivalence.
 
 **Checks.**
 - `σ_0(η) − (η(ln η − 1) + π/4)` is `−0.00416701413737145` at `η = 20` and
   `−0.00104167209225612` at `η = 80`, close to the next term `−1/(12η)`.
 - `C_0(η)/((2πη)^{1/2} e^{−πη}) = 1.0` to 15 digits at `η = 20` and `η = 80`.
-- Negative control: without the `π/4` the difference at `η = 80` is `−0.786…`, which does not
-  tend to `0`.
+- Negative control: without the `π/4` the difference at `η = 80` is `0.784356491305192`, which
+  does not tend to `0`.
+- At `x = 6`: `F_1(η, 6/η)` divided by the `I_3` form is `0.976470977852675` at `η = 10` and
+  `0.99962884176556` at `η = 80`; at `η = −10` and `η = −80` the bracket of the `J_3` form misses
+  `(12)^{1/2} J_3(48^{1/2})` by `−0.0323191874959933` and `−0.000521555247519079`, that is
+  `−3.232` and `−3.338` times `η^{−2}`.
+- Negative control for `∼` in the `J` form: at `ρ = 0.3`, `η = −113.034022613697`, where
+  `−8ηρ = j²_{1,5}` is the square of the fifth zero of `J_1`, the `J_1` form is `0` while
+  `F_0 = −0.000694439872421130`.
 
-*Needs:* 1.2, 4.3; ZerosOfLFunctions 1.2.
+*Needs:* 1.2, 6.1, 6.3, 6.4; ZerosOfLFunctions 1.2; SpecialFunctionsBessel, its Conventions.
 
 ## Layer 6: the functions of `(ε, r)`
 
@@ -502,7 +554,8 @@ uniformly in `η`.
 
 *Suggested proof:* the series of `f` is the Frobenius solution of the equation with exponent
 `ℓ + 1` normalised by `α₀`; the Kummer form solves the same equation with the same leading term,
-by SpecialFunctionsConfluent 1.6. Since Kummer's transformation makes the Kummer form even in `κ`,
+by SpecialFunctionsConfluent 1.6. Since Kummer's transformation (SpecialFunctionsParabolicCylinder
+1.4) makes the Kummer form even in `κ`,
 the sign convention for `κ` does not matter for `f`. For `A`, the functional equation of `Γ`.
 
 **Checks.**
@@ -520,15 +573,25 @@ the sign convention for `κ` does not matter for `f`. For `A`, the functional eq
 
 ### 6.2 The irregular solution `h` and the Wronskians
 
-- **The Wronskian** (`wronskian_coulombEnergyH_coulombEnergyF`): for `ε ≠ 0`, `ε ≠ −1/n²`
-  (`n ≥ 1`) and `r ≠ 0`, `𝒲{h, f} = 2/π` (DLMF 33.14.16, p. 749).
+- **The Wronskian** (`wronskian_coulombEnergyH_coulombEnergyF`): for `ε ≠ 0` and `r ≠ 0` off the
+  junk values of `h` of the Conventions (not `r > 0` with `ε = −1/n²`, `n > ℓ`),
+  `𝒲{h, f} = 2/π` (DLMF 33.14.16, p. 749).
 - **`h` solves the equation** and `𝒲{c, s} = 1/π`, stated in prose (DLMF 33.14.16).
-- **`h` is real analytic in `ε`** in a neighbourhood of `ε = 0` for fixed `r ≠ 0`, stated in
-  prose; this is the purpose of the factor `S(ε, r)` (DLMF 33.14(iii), p. 748, and 33.19).
+- **Regularity in `ε`**, stated in prose: for fixed `r ≠ 0`, `h` is real analytic in `ε` on
+  `ε > 0` and on `ε < 0`; for `r > 0` the factor `S(ε, r)` cancels the poles of `Γ(ℓ + 1 − κ)`
+  at `ε = −1/n²`, `n > ℓ`, which are removable singularities of `h` (DLMF 33.14(iii), p. 748).
+  As `ε → 0` from either side, `h` tends to `−(2r)^{1/2} Y_{2ℓ+1}((8r)^{1/2})` for `r > 0` and to
+  `(−1)^ℓ (2/π)(2|r|)^{1/2} K_{2ℓ+1}((8|r|)^{1/2})` for `r < 0` (DLMF 33.20.1–33.20.2, p. 752).
+  It is not analytic at `ε = 0`: there it has only the asymptotic, divergent, expansion of DLMF
+  33.20.7 (p. 753), while `f` has the convergent one of DLMF 33.20.3.
 
 *Suggested proof:* the Wronskian of `M_{κ,μ}` and `W_{κ,μ}` (SpecialFunctionsConfluent 3.4),
 `𝒲{M_{κ,μ}, W_{κ,μ}} = −Γ(1 + 2μ)/Γ(½ + μ − κ)`, and the chain rule for `z = 2r/κ`; the term in
-`M` does not contribute.
+`M` does not contribute. For the limit `ε → 0`, the series of 6.4: `A` and the `γ_k`, `δ_k` are
+polynomials in `ε`, and the digamma term tends to `2 ln|2r|`. It is not analytic at `0`: at
+`ℓ = 0`, `ε > 0`, the digamma term minus `2 ln|2r|` is `ln ε + Re ψ(1 + iy) + Re ψ(iy)` with
+`y = ε^{−1/2}`, whose asymptotic series `∑_k (−1)^{k+1} B_{2k} ε^k/k` has radius `0`; a function
+analytic at `0` would have its Taylor series as asymptotic expansion.
 
 **Checks.**
 - `𝒲{h, f} π/2 = 1` to 15 digits at `(ε, ℓ, r) = (0.3, 1, ±2.5)` and `(−0.13, 2, ±3)`.
@@ -540,8 +603,21 @@ the sign convention for `κ` does not matter for `f`. For `A`, the functional eq
 - `S(0.3, 1) = 309.741230803103 = 1/S(0.3, −1)`, `S(−1/4, 1) = 2`, `S(−0.13, −1) = 0`; negative
   control: with `S = 0` for `ε < 0`, `r > 0`, the expression at `(−0.13, 1, 1.4)` is
   `1.36475077522515`, while `h` is `0.728096697899092`, the value of the power series of 6.4.
+- `𝒲{h, f} π/2 = 1` at `(ε, ℓ, r) = (−1/4, 2, ±1.4)` (`n = 2 ≤ ℓ`), `(−1/4, 0, −1.4)` and
+  `(−1/9, 1, −1.4)` (`r < 0`), values that the hypothesis of the Wronskian admits.
+- `h(−1/4 + 10⁻⁶, 0; 1.4) = −0.655687359169131` and `h(−1/4 − 10⁻⁶, 0; 1.4) = −0.655687307842203`:
+  the pole at `n = 2 > ℓ` is removed.
+- `h(ε, 0; 1.4)` is `−0.660115045571889` at `ε = 0.001` and `−0.660094332213961` at
+  `ε = −0.0011`, near `−2.8^{1/2} Y_1(11.2^{1/2}) = −0.660105215647171`; at `r = −1.4` it is
+  `0.0283685937605596` and `0.0283343216470722`, near
+  `(2/π) 2.8^{1/2} K_1(11.2^{1/2}) = 0.0283522634891982`.
+- Negative control for analyticity at `0`: at `ε = 0.3`, `ℓ = 0`, the digamma term minus
+  `2 ln|2r|` is `0.0518283934046760`, and the partial sums of its asymptotic series are
+  `0.05, 0.0515, 0.0517143, 0.0517818, 0.0518186, 0.0518494, 0.0518858, 0.0519440`: they pass the
+  value and move away.
 
-*Needs:* 6.1; SpecialFunctionsConfluent 3.4.
+*Needs:* 6.1, 6.4 (for the limit `ε → 0`); SpecialFunctionsConfluent 3.4;
+SpecialFunctionsBessel, its Conventions.
 
 ### 6.3 Connection with `F_ℓ`, `G_ℓ` and with Whittaker functions
 
@@ -600,7 +676,7 @@ other forms follow by substitution into the definitions of `s` and `c`.
 - **`ε = 0`, `r < 0`**, stated in prose:
   `f(0, ℓ; r) = (−1)^{ℓ+1}(2|r|)^{1/2} I_{2ℓ+1}((8|r|)^{1/2})` (DLMF 33.20.2, p. 752).
 - **The power series of `h`**, a headline without a Lean name: with the `γ_k`, `δ_k` of DLMF
-  33.19.3–33.19.6 (p. 752), `κ` as in Conventions for `ε > 0` and `κ = (−ε)^{−1/2}` for `ε < 0`
+  33.19.3–33.19.7 (p. 752), `κ` as in Conventions for `ε > 0` and `κ = (−ε)^{−1/2}` for `ε < 0`
   and both signs of `r`,
 
 ```text
@@ -744,9 +820,10 @@ theory, the radial Laguerre normalisation and the Coulomb transform. `Suggested.
 definitions out as local copies of §9.5's formulas, since §9.5 gives them no Lean names. §9.5
 cites "DLMF 33.10–33.11" for its unit-amplitude asymptotics; this roadmap reads that as the
 leading terms (33.10.1–33.10.2) and owns the full expansion of 5.1 and the large-`|η|` forms of
-5.2. SpecialFunctionsConfluent owns `M`, `U` and the Whittaker
-functions; LaguerreJacobi owns the Laguerre polynomials; SpecialFunctionsBessel owns the Bessel
-functions.
+5.2. QuantumFoundations §9.4 owns Tricomi's `U`; SpecialFunctionsConfluent owns its form
+`kummerU` on the logarithmic plane, whose agreement with §9.4's `U` is its 2.1, and the Whittaker
+functions; SpecialFunctionsParabolicCylinder 1.4 owns Kummer's transformation of `𝐌`;
+LaguerreJacobi owns the Laguerre polynomials; SpecialFunctionsBessel owns the Bessel functions.
 
 **Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
 - the reflection formula `Γ(z)Γ(1 − z) = π/sin(πz)`: Mathlib's
@@ -765,25 +842,26 @@ functions.
 - §9.5: the radial normalisation
   `∫₀^∞ x^{α+1} e^{−x} (L^{(α)}_k(x))² dx = (2k + α + 1)Γ(k + α + 1)/k!`. For 7.2.
 
-### From SpecialFunctionsConfluent (open PR #1995)
+### From SpecialFunctionsConfluent
 
 - Its Conventions and 1.4, 1.6: `kummerUBracket`, `kummerULog`, `kummerU`,
   `regularizedWhittakerM`, `whittakerM`, `whittakerW`, `whittakerWLog`, copied verbatim into
   `Suggested.lean`; holomorphy in the parameters and in `log z`. For 1.3, 3.2, 6.1–6.3.
-- 2.1: Euler's integral (DLMF 13.4.1) and the Laplace integral of `U` (DLMF 13.4.4). For 4.1.
+- 2.1: Euler's integral (DLMF 13.4.1) and the Laplace integral of `U` (DLMF 13.4.4), and the
+  agreement of `kummerU` with the `U` of QuantumFoundations §9.4. For 1.1, 1.3, 4.1.
 - 3.4: the Wronskian of the Whittaker functions. For 6.2.
 - 4.1: the contiguous relations of `M` and `U`. For 2.1.
 - 5.1: the asymptotic expansion of `U` for large argument; 5.2: the growth of `M`. For 5.1, 7.1.
-- 6.2: Kummer's second transformation (DLMF 13.6.9); 6.4: the Laguerre case of `M` (DLMF
-  13.18.17). For 3.3, 7.1.
+- 6.2: Kummer's second transformation (DLMF 13.6.9); 6.3: Buchholz's expansion (DLMF
+  13.11.3–13.11.4); 6.4: the Laguerre case of `M` (DLMF 13.18.17). For 3.3, 4.3, 7.1.
 
 ### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
 
 - Its Conventions: `I_ν` and the spherical functions `𝗃_n`, `𝗒_n`, copied verbatim as
-  `Complex.besselI`, `Complex.sphericalBesselJ`, `Complex.sphericalBesselY`. For 3.3, 4.3.
+  `Complex.besselI`, `Complex.sphericalBesselJ`, `Complex.sphericalBesselY`; `Y_ν`, `K_ν`. For
+  3.3, 4.2, 4.3, 5.2, 6.2.
 - 3.1–3.2: the spherical Bessel functions, their equations, elementary forms and recurrences.
   For 3.3, 4.2.
-- 1.5: the recurrences in the order of `J_ν` and `I_ν` (DLMF 10.6, 10.29). For 4.3.
 
 ### From [LaguerreJacobi](../LaguerreJacobi/README.md)
 
@@ -791,7 +869,6 @@ functions.
 
 ### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
 
-- Its Conventions: the predicate for an asymptotic expansion along a filter. For 5.1.
 - 4.3: rotation of the path of a Laplace integral. For 4.1.
 
 ### From SpecialFunctionsEiLiErfIncompleteGamma
@@ -805,25 +882,18 @@ functions.
 
 ### From Tau Ceti
 
-- No Tau Ceti declaration is consumed. Tau Ceti formalizes three inputs that can replace local
-  work here:
-  - the Laguerre polynomials with the definition of LaguerreJacobi 1.1
-    (`TauCeti/RingTheory/Polynomial/Laguerre/Basic.lean`), which can replace the local copy of
-    `Polynomial.laguerre`;
-  - the holomorphic logarithm of `Γ` on the slit plane, normalised at `2`
-    (`TauCeti/Analysis/SpecialFunctions/Gamma/Log.lean`); since `ℓ + 1 + iη` lies in the slit
-    plane, `σ_ℓ(η)` is the imaginary part of its value there, which gives the phase and the
-    continuity of 1.2;
-  - `|Γ(1 + iy)|² = πy/sinh(πy)` for `y ≠ 0`
-    (`TauCeti/Analysis/SpecialFunctions/Gamma/ModulusProduct.lean`), the case `ℓ = 0` of
-    `coulombC_sq`.
+- No Tau Ceti declaration is consumed. Later Tau Ceti work on the Laguerre polynomials, on a
+  holomorphic logarithm of `Γ` on the slit plane (whose imaginary part at `ℓ + 1 + iη` is
+  `σ_ℓ(η)`) or on `|Γ(1 + iy)|²` may replace the local copy of `Polynomial.laguerre`, the product
+  formula of 1.2 and the case `ℓ = 0` of `coulombC_sq`.
 
 ### From Mathlib
 
 - `Complex.regularizedHGFun`, `Complex.Gamma`, `Complex.digamma`, `Complex.besselJ`,
   `Complex.Gamma_mul_Gamma_one_sub`, `Complex.Gamma_conj`, `Complex.GammaSeq`,
   `Real.eulerMascheroniConstant`, `Real.arctan`, `Complex.cpow`, `Complex.slitPlane`,
-  `intervalIntegral`, `MeasureTheory.MemLp`, `GenContFract`, `ascPochhammer`.
+  `intervalIntegral`, `MeasureTheory.MemLp`, `GenContFract`, `GenContFract.convs`,
+  `Stream'.Seq.ofStream`, `Nat.doubleFactorial`, `Asymptotics.IsBigO`, `ascPochhammer`.
 
 ## References
 

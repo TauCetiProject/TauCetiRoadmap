@@ -13,12 +13,8 @@ prose. Discharging this file finishes neither a layer nor the roadmap.
 Headlines of the README without a Lean statement here, and what each lacks:
 - the logarithmic series of `H^±_ℓ` (README 3.2) and of `h` (README 6.4) need the digamma
   coefficients written out as named sequences, which the README describes but does not name;
-- the expansion in spherical Bessel functions (README 4.2) needs its coefficient sequence as a
-  named function, which the README describes but does not name;
-- the continued fraction for `F′_ℓ/F_ℓ` (README 2.2) needs the minimal solutions and continued
-  fractions of SpecialFunctionsEiLiErfIncompleteGamma 4.1, which this file does not copy;
-- the asymptotic expansions for large `ρ` (README 5.1) need the sequences `f_k, g_k, f̂_k, ĝ_k`
-  as named functions and AsymptoticExpansions' expansion predicate, which this file does not copy;
+- the real form of the large-`ρ` expansion (README 5.1) needs the sequences `f_k, g_k, f̂_k, ĝ_k`
+  as named functions; the expansion of `H⁺_ℓ` itself is stated here;
 - the Whittaker forms of `s` and `c` for `r < 0` (README 6.3) are stated only for `r > 0` here.
 
 The definitions below are roadmap-local copies. Kummer's `U` and the Whittaker functions are
@@ -187,6 +183,18 @@ def coulombBesselCoeff (ℓ : ℕ) (η : ℝ) : ℕ → ℝ
       -(((2 * ℓ + 3 + m : ℕ) : ℝ) * coulombBesselCoeff ℓ η (m + 1) + coulombBesselCoeff ℓ η m) /
         (4 * η ^ 2 * ((m + 3 : ℕ) : ℝ))
 
+/-- The coefficients of the expansion in spherical Bessel functions (README 4.2; DLMF
+33.9.1–33.9.2): `a_0 = (2ℓ + 1)!! C_ℓ(η)`, `a_{−1} = 0` and
+`(k(k + 2ℓ + 1)/(2k + 2ℓ + 1)) a_k = 2η a_{k−1} − ((k − 2)(k + 2ℓ − 1)/(2k + 2ℓ − 3)) a_{k−2}`
+for `k ≥ 1`; at `k = 1` this is `a_1 = 2η a_0 (2ℓ + 3)/(2ℓ + 2)`. -/
+def coulombSphericalCoeff (ℓ : ℕ) (η : ℝ) : ℕ → ℝ
+  | 0 => ((2 * ℓ + 1).doubleFactorial : ℝ) * coulombC ℓ η
+  | 1 => 2 * η * (((2 * ℓ + 1).doubleFactorial : ℝ) * coulombC ℓ η) * (2 * ℓ + 3) / (2 * ℓ + 2)
+  | k + 2 =>
+      (2 * η * coulombSphericalCoeff ℓ η (k + 1) -
+          (k : ℝ) * (k + 2 * ℓ + 1) / (2 * k + 2 * ℓ + 1) * coulombSphericalCoeff ℓ η k) *
+        (2 * k + 2 * ℓ + 5) / (((k : ℝ) + 2) * (k + 2 * ℓ + 3))
+
 /-! ## The functions of `(ε, r)` (README Conventions and Layer 6) -/
 
 /-- The coefficients `α_k` of the regular solution `f(ε, ℓ; r) = r^{ℓ+1} ∑ α_k r^k`
@@ -240,14 +248,25 @@ def hydrogenRadial (n ℓ : ℕ) (r : ℝ) : ℝ :=
 
 /-! ## Sanity checks of the definitions -/
 
-/-- Sanity check of the definition: `σ_ℓ(0) = 0` term by term. -/
-example (ℓ : ℕ) : coulombPhase ℓ 0 = 0 := by simp [coulombPhase]
+/-- Sanity check of the definition: `A^0_2(1) = 1/6` (README 3.1); with `+A^ℓ_{k−2}` in the
+recurrence it would be `1/2`. -/
+example : coulombSeriesCoeff 0 1 2 = 1 / 6 := by
+  norm_num [coulombSeriesCoeff]
 
-/-- Sanity check of the definition: `A(ε, 0) = 1`. -/
-example (ε : ℝ) : coulombEnergyA ε 0 = 1 := by simp [coulombEnergyA]
+/-- Sanity check of the definition: `b_3 = −1/12` at `ℓ = 0`, `η = 1` (README 4.3); with
+`b_{2ℓ+2} = 1` in place of `0` it would be `−1/3`. -/
+example : coulombBesselCoeff 0 1 3 = -1 / 12 := by
+  norm_num [coulombBesselCoeff]
 
-/-- Sanity check of the definition: `A^ℓ_{ℓ+1} = 1`. -/
-example (ℓ : ℕ) (η : ℝ) : coulombSeriesCoeff ℓ η 0 = 1 := rfl
+/-- Sanity check of the definition: `α_2 = 3/4` at `ε = −1/4`, `ℓ = 0` (README 6.1), the
+coefficient of `r³` in `2r e^{−r/2}(1 − r/2)`; with `α₁ = +α₀/(ℓ + 1)` it would be `−7/12`. -/
+example : coulombEnergyCoeff (-1 / 4) 0 2 = 3 / 4 := by
+  norm_num [coulombEnergyCoeff]
+
+/-- Sanity check of the definition: `A(0.3, 2) = 2.86` (README 6.1); the product over `k < ℓ`
+would give `1.3`. -/
+example : coulombEnergyA (3 / 10) 2 = 143 / 50 := by
+  norm_num [coulombEnergyA, Finset.prod_range_succ]
 
 /-! ## Layer 1: the equation and its standard solutions -/
 
@@ -320,6 +339,20 @@ theorem hasDerivAt_coulomb_ladder {X : ℕ → ℝ → ℝ → ℂ}
           (Real.sqrt (1 + η ^ 2 / ((ℓ : ℝ) + 1) ^ 2) : ℂ) * X (ℓ + 1) η ρ) ρ := by
   sorry
 
+/-- **2.2** The continued fraction for `F′_ℓ/F_ℓ` (DLMF 33.8.1), for `ρ > 0` and `F_ℓ(η, ρ) ≠ 0`:
+`F′_ℓ/F_ℓ = S_{ℓ+1} − R²_{ℓ+1}/(T_{ℓ+1} − R²_{ℓ+2}/(T_{ℓ+2} − ⋯))`, as the limit of the convergents
+of the generalized continued fraction with head `S_{ℓ+1}`, partial numerators `−R²_{ℓ+n+1}` and
+partial denominators `T_{ℓ+n+1}`. -/
+theorem tendsto_convs_coulombF (ℓ : ℕ) (η : ℝ) {ρ : ℝ} (hρ : 0 < ρ)
+    (hF : coulombF ℓ η ρ ≠ 0) :
+    let R : ℝ → ℝ := fun L => Real.sqrt (1 + η ^ 2 / L ^ 2)
+    let S : ℝ → ℝ := fun L => L / ρ + η / L
+    let g : GenContFract ℝ := ⟨S ((ℓ : ℝ) + 1), Stream'.Seq.ofStream fun n : ℕ =>
+      ⟨-R ((ℓ : ℝ) + n + 1) ^ 2, S ((ℓ : ℝ) + n + 1) + S ((ℓ : ℝ) + n + 2)⟩⟩
+    Tendsto g.convs atTop
+      (𝓝 (deriv (fun x => (coulombF ℓ η x).re) ρ / (coulombF ℓ η ρ).re)) := by
+  sorry
+
 /-! ## Layer 3: the origin, the power series and `η = 0` -/
 
 /-- **3.1** The power series of `F_ℓ` (DLMF 33.6.1), convergent for every real `ρ`. -/
@@ -364,6 +397,14 @@ theorem coulombHMinus_eq_integral (ℓ : ℕ) (η : ℝ) {ρ : ℝ} (hρ : 0 < �
           ((t : ℂ) + 2 * (ρ : ℂ) * I) ^ ((ℓ : ℂ) + (η : ℂ) * I) := by
   sorry
 
+/-- **4.2** The expansion of `F_ℓ` in spherical Bessel functions (DLMF 33.9.1), for every real
+`ρ`: `F_ℓ(η, ρ) = ρ ∑_k a_k 𝗃_{ℓ+k}(ρ)`. -/
+theorem hasSum_coulombF_sphericalBesselJ (ℓ : ℕ) (η ρ : ℝ) :
+    HasSum (fun k : ℕ =>
+        (ρ : ℂ) * (coulombSphericalCoeff ℓ η k : ℂ) * Complex.sphericalBesselJ (ℓ + k) ρ)
+      (coulombF ℓ η ρ) := by
+  sorry
+
 /-- **4.3** The expansion of `F_ℓ` in `I_k(2√t)`, `t = 2ηρ`, for `η > 0` (DLMF 33.9.3). -/
 theorem hasSum_coulombF_besselI (ℓ : ℕ) {η ρ : ℝ} (hη : 0 < η) (hρ : 0 < ρ) :
     HasSum (fun j : ℕ =>
@@ -384,6 +425,17 @@ theorem hasSum_coulombF_besselJ (ℓ : ℕ) {η ρ : ℝ} (hη : η < 0) (hρ : 
   sorry
 
 /-! ## Layer 5: large `ρ` and large `|η|` -/
+
+/-- **5.1** The asymptotic expansion of `H⁺_ℓ` for large `ρ` (DLMF 33.11.1, upper sign): for every
+`N`, `H⁺_ℓ − e^{iθ_ℓ} ∑_{k<N} (a)_k (b)_k/(k! (2iρ)^k) = O(ρ^{−N})` as `ρ → ∞`, with
+`a = ℓ + 1 + iη`, `b = −ℓ + iη`. -/
+theorem coulombHPlus_sub_sum_isBigO (ℓ : ℕ) (η : ℝ) (N : ℕ) :
+    (fun ρ : ℝ => coulombHPlus ℓ η ρ - cexp ((coulombTheta ℓ η ρ : ℂ) * I) *
+        ∑ k ∈ Finset.range N, (ascPochhammer ℂ k).eval ((ℓ : ℂ) + 1 + (η : ℂ) * I) *
+          (ascPochhammer ℂ k).eval (-(ℓ : ℂ) + (η : ℂ) * I) /
+            ((k ! : ℂ) * (2 * (ρ : ℂ) * I) ^ k)) =O[atTop]
+      fun ρ : ℝ => ρ ^ (-(N : ℤ)) := by
+  sorry
 
 /-- **5.2** The phase shift for large positive `η`: `σ₀(η) = η(ln η − 1) + π/4 + o(1)`
 (DLMF 33.10.6). -/
@@ -415,10 +467,10 @@ theorem coulombEnergyA_eq_gamma {ε : ℝ} (hε : ε ≠ 0) (ℓ : ℕ) :
         coulombKappa ε 1 ^ (-(2 * (ℓ : ℤ) + 1)) := by
   sorry
 
-/-- **6.2** The Wronskian `𝒲{h, f} = 2/π` (DLMF 33.14.16), for `ε ≠ 0` off the values
-`ε = −1/n²`, and `r ≠ 0`. -/
-theorem wronskian_coulombEnergyH_coulombEnergyF {ε : ℝ} (hε : ε ≠ 0)
-    (hεn : ∀ n : ℕ, ε ≠ -1 / ((n : ℝ) + 1) ^ 2) (ℓ : ℕ) {r : ℝ} (hr : r ≠ 0) :
+/-- **6.2** The Wronskian `𝒲{h, f} = 2/π` (DLMF 33.14.16), for `ε ≠ 0` and `r ≠ 0` off the
+junk values of `h`: not `r > 0` with `ε = −1/n²`, `n > ℓ`. -/
+theorem wronskian_coulombEnergyH_coulombEnergyF {ε : ℝ} (hε : ε ≠ 0) (ℓ : ℕ) {r : ℝ}
+    (hr : r ≠ 0) (hεn : ∀ n : ℕ, ℓ < n → 0 < r → ε ≠ -1 / (n : ℝ) ^ 2) :
     coulombEnergyH ε ℓ r * deriv (coulombEnergyF ε ℓ) r -
         deriv (coulombEnergyH ε ℓ) r * coulombEnergyF ε ℓ r = 2 / π := by
   sorry
@@ -520,6 +572,10 @@ theorem memLp_coulombEnergyF_iff (ε : ℝ) (ℓ : ℕ) :
 #check @intervalIntegral
 #check @MeasureTheory.MemLp
 #check @GenContFract
+#check @GenContFract.convs
+#check @Stream'.Seq.ofStream
+#check @Nat.doubleFactorial
+#check @Asymptotics.IsBigO
 #check @ascPochhammer
 
 end TauCetiRoadmap.SpecialFunctionsCoulomb
