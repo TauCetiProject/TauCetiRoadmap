@@ -285,6 +285,14 @@ theorem isoperimetricConstant_bounds (hV : 2 ≤ Fintype.card V) :
       isoperimetricConstant G ≤ Real.sqrt (2 * G.maxDegree * algebraicConnectivity G) := by
   sorry
 
+/-- **2.2** (Davidoff–Sarnak–Valette, Theorem 1.2.3) A `k`-regular graph on at least two
+vertices has `(k - θ₂) / 2 ≤ h(Γ) ≤ √(2k(k - θ₂))`. -/
+theorem isoperimetricConstant_bounds_of_isRegularOfDegree {k : ℕ} (hG : G.IsRegularOfDegree k)
+    (hV : 2 ≤ Fintype.card V) :
+    (k - secondAdjEigenvalue G) / 2 ≤ isoperimetricConstant G ∧
+      isoperimetricConstant G ≤ Real.sqrt (2 * k * (k - secondAdjEigenvalue G)) := by
+  sorry
+
 /-- **2.3** (Krebs–Shaheen, Lemma 4.5 and Proposition 4.6, with the maximum degree) A graph on
 at least two vertices with `0 < ε ≤ h(Γ)` and maximum degree `D` has diameter at most
 `2 log n / log(1 + ε / D)`. -/
@@ -359,29 +367,16 @@ theorem card_walk_regularTreeRoot (k ℓ : ℕ) :
       w.length = ℓ} = treeWalkCount k ℓ 0 := by
   sorry
 
-open scoped Classical in
-/-- **4.3** The adjacency operator on finitely supported functions:
-`(A f)(x) = ∑_{y ∼ x} f(y)`. -/
-def adjApply {V : Type*} (G : SimpleGraph V) (f : V →₀ ℝ) (x : V) : ℝ :=
-  ∑ y ∈ f.support, if G.Adj x y then f y else 0
-
 /-- **4.3** (Lubotzky, Proposition 4.5.2, for the norm) For `k ≥ 2` and `r = 2√(k - 1)`, the
-adjacency operator of the `k`-regular tree on `ℓ²` has norm at most `r`, every `μ ∈ [-r, r]` is
-an approximate eigenvalue, and `A - μ` is bounded below by `|μ| - r` for `|μ| > r`; that is, its
-norm is `r` and its spectrum is `[-r, r]`. -/
-theorem adjApply_regularTree_norm_and_spectrum {k : ℕ} (hk : 2 ≤ k) :
-    (∀ (f : RegularTreeVertex k →₀ ℝ) (T : Finset (RegularTreeVertex k)),
-        ∑ x ∈ T, adjApply (regularTree k) f x ^ 2 ≤
-          (2 * Real.sqrt ((k : ℝ) - 1)) ^ 2 * ∑ y ∈ f.support, f y ^ 2) ∧
-    (∀ μ ∈ Set.Icc (-(2 * Real.sqrt ((k : ℝ) - 1))) (2 * Real.sqrt ((k : ℝ) - 1)),
-      ∀ ε : ℝ, 0 < ε → ∃ f : RegularTreeVertex k →₀ ℝ, f ≠ 0 ∧
-        ∀ T : Finset (RegularTreeVertex k),
-          ∑ x ∈ T, (adjApply (regularTree k) f x - μ * f x) ^ 2 ≤
-            ε ^ 2 * ∑ y ∈ f.support, f y ^ 2) ∧
-    (∀ μ : ℝ, 2 * Real.sqrt ((k : ℝ) - 1) < |μ| → ∀ f : RegularTreeVertex k →₀ ℝ,
-      ∃ T : Finset (RegularTreeVertex k),
-        (|μ| - 2 * Real.sqrt ((k : ℝ) - 1)) ^ 2 * ∑ y ∈ f.support, f y ^ 2 ≤
-          ∑ x ∈ T, (adjApply (regularTree k) f x - μ * f x) ^ 2) := by
+adjacency operator of the `k`-regular tree, `(A f)(x) = ∑_{y ∼ x} f(y)`, is a bounded operator on
+`ℓ²` with norm `r` and spectrum `[-r, r]`. -/
+theorem exists_adjacencyOperator_regularTree {k : ℕ} (hk : 2 ≤ k) :
+    ∃ A : lp (fun _ : RegularTreeVertex k ↦ ℂ) 2 →L[ℂ] lp (fun _ : RegularTreeVertex k ↦ ℂ) 2,
+      (∀ f x, (A f : RegularTreeVertex k → ℂ) x =
+        ∑' y : (regularTree k).neighborSet x, (f : RegularTreeVertex k → ℂ) y) ∧
+      ‖A‖ = 2 * Real.sqrt ((k : ℝ) - 1) ∧
+      spectrum ℂ A = Complex.ofReal '' Set.Icc (-(2 * Real.sqrt ((k : ℝ) - 1)))
+        (2 * Real.sqrt ((k : ℝ) - 1)) := by
   sorry
 
 /-! ## Layer 5: coverings and switching -/
@@ -657,5 +652,11 @@ theorem binomialRandom_spectrum {p : unitInterval} (hp0 : 0 < (p : ℝ)) (hp1 : 
 #check @Matrix.IsHermitian.eigenvalues₀_add_le
 #check @Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card
 #check @TauCeti.Probability.semicircleReal
+#check @lp
+#check @spectrum
+#check @LinearMap.mkContinuous
+#check @ContinuousLinearMap.extend
+#check @IsSelfAdjoint.mem_spectrum_eq_re
+#check @spectrum.subset_closedBall_norm
 
 end TauCetiRoadmap.ExpanderGraphs

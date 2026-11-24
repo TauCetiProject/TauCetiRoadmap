@@ -102,10 +102,9 @@ Each section rests only on the sections and roadmaps named in its *Needs:* line.
 - **Signings and lifts.** A signing is `s : G.edgeSet → ℤˣ`; `signedAdjMatrix G s` is the signed
   adjacency matrix of MatchingPolynomial 2.1, and `twoLift G s` the `2`-lift of RamanujanGraphs
   3.1 on `V × Bool`.
-- **Infinite graphs.** The adjacency operator of a graph of bounded degree is tested on finitely
-  supported functions: `adjApply G f x = ∑_{y ∼ x} f(y)` for `f : V →₀ ℝ`. A bound
-  `∑_{x ∈ T} (Af)(x)² ≤ C² ∑ f(y)²` for every finite `T` and every `f` says that `A` extends to
-  `ℓ²(V)` with norm at most `C`; the spectral statements of 4.3 are made in the same terms.
+- **Infinite graphs.** The adjacency operator of the `k`-regular tree acts on Mathlib's `lp` space
+  `ℓ²(V, ℂ)` by `(Af)(x) = ∑_{y ∼ x} f(y)`. Neither library defines it, so 4.3 states its
+  existence as a bounded operator together with its norm and spectrum.
 - **Families.** A family is indexed by `m : ℕ`, with vertex types `V m`; "orders tending to
   infinity" is `Tendsto (fun m ↦ Fintype.card (V m)) atTop atTop`.
 - **Multigraphs.** Multigraphs appear only as `ℕ`-valued symmetric matrices (the Margulis graphs,
@@ -210,7 +209,6 @@ weighted graph (symmetric, nonnegative) with every degree `d` and Laplacian `G.l
 - `Kₙ`, `n ≥ 2`: `ν_{n-1} = n`, `h = ⌈n/2⌉ ≥ n/2`, and `⌈n/2⌉ ≤ √(2(n - 1)n)`.
 - `P₃`: `d = 2`, `ν_{n-1} = 1`, `h = 1`, and `1/2 ≤ 1 ≤ 2`; `K_{1,3}`: `d = 3`, `ν_{n-1} = 1`,
   `h = 1 ≤ √6`.
-- Both bounds hold on all `1251` graphs with `2` to `7` vertices, `256` of them disconnected.
 - Negative control: `K_{1,3}` has Laplacian spectrum `4, 1, 1, 0`; with the largest eigenvalue
   `4` in place of `ν_{n-1}` the lower bound would claim `2 ≤ 1`.
 
@@ -219,23 +217,21 @@ KernelsAndSpectralMethods 3.2.
 
 ### 2.2 Regular graphs and the spectral characterization
 
-- **Regular graphs.** A `k`-regular graph on `n ≥ 2` vertices has
-  `(k - θ₂)/2 ≤ h(Γ) ≤ √(2k(k - θ₂))` [DSV, Theorem 1.2.3, p. 13]. A target stated in prose;
-  route: 2.1 with `d = k` (or `d = 0` when `k = 0`) and `ν_{n-1} = k - θ₂`, GraphSpectra 1.2 at
-  the index `n - 2`.
+- **Regular graphs** (`isoperimetricConstant_bounds_of_isRegularOfDegree`). A `k`-regular graph
+  on `n ≥ 2` vertices has `(k - θ₂)/2 ≤ h(Γ) ≤ √(2k(k - θ₂))` [DSV, Theorem 1.2.3, p. 13].
 - **Expander families are spectral** (`isExpanderFamily_iff_spectralGap`). A family of
   connected `k`-regular graphs with orders tending to infinity is an expander family iff
   `k - θ₂` is bounded below by one `ε > 0` on the members with at least two vertices [DSV,
   Corollary 1.2.4, p. 18].
 
-**Suggested proof:** the regular case in both directions, with `ε ↦ ε/2` and `ε ↦ ε²/(2k)`;
+**Suggested proof:** for the regular graphs, 2.1 with `d = k` (or `d = 0` when `k = 0`, where
+both sides are `0`) and `ν_{n-1} = k - θ₂`, from `L = kI - A` and GraphSpectra 1.2 at the index
+`n - 2`. For the families, the regular case in both directions, with `ε ↦ ε/2` and `ε ↦ ε²/(2k)`;
 `k ≥ 1` once a member has two vertices, by connectedness.
 
 **Checks.**
 - The Petersen graph: `k = 3`, `θ₂ = 1`, `h = 1`, and `1 ≤ 1 ≤ √12`; the lower bound is attained.
 - `C₆`: `k - θ₂ = 1`, `h = 2/3`, and `1/2 ≤ 2/3 ≤ 2`.
-- The regular form holds on all `25` regular graphs with `2` to `7` vertices, edgeless ones
-  included, and `k - θ₂ = ν_{n-1}` on each.
 - Negative control: the cycles `Cₙ` have `k - θ₂ = 2 - 2cos(2π/n) → 0` and `h → 0`; neither
   side of the equivalence holds.
 
@@ -258,7 +254,6 @@ then `(1 + ε/D)^{r_v} ≤ n`. Two such balls meet, so `dist(v, w) ≤ r_v + r_w
 **Checks.**
 - `K₂`: `D = 1`, `h = 1`, and the bound is `2 log 2 / log 2 = 2 ≥ 1`.
 - The Petersen graph with `ε = h = 1`: the bound is `2 log 10 / log(4/3) ≈ 16.01 ≥ 2`.
-- The bound holds with `ε = h` on all `995` connected graphs with `2` to `7` vertices.
 - Negative control: `C₂₀` has diameter `10` and `h = 1/5`; with `ε = 2 > h` the bound would be
   `2 log 20 / log 2 ≈ 8.64 < 10`.
 
@@ -359,18 +354,22 @@ at a given distance `h`, summed over the vertices at distance `h`: a step away f
 
 ### 4.3 The spectrum of the tree
 
-Definition: `adjApply G f x`, the adjacency operator on finitely supported functions.
+- **Norm and spectrum** (`exists_adjacencyOperator_regularTree`). For `k ≥ 2` the adjacency
+  operator of `regularTree k` is a bounded operator on `ℓ²` with norm `2√(k - 1)` [Lu,
+  Proposition 4.5.2, p. 55, for the random walk operator `A/k`] and spectrum
+  `[-2√(k - 1), 2√(k - 1)]`.
 
-- **Norm and spectrum** (`adjApply_regularTree_norm_and_spectrum`). For `k ≥ 2` the adjacency
-  operator of `regularTree k` on `ℓ²` has norm `2√(k - 1)` [Lu, Proposition 4.5.2, p. 55, for the
-  random walk operator `A/k`] and spectrum `[-2√(k - 1), 2√(k - 1)]`. In the form of the
-  Conventions: `A` has norm at most `r = 2√(k - 1)`, every `μ ∈ [-r, r]` is an approximate
-  eigenvalue, and `‖(A - μ)f‖ ≥ (|μ| - r)‖f‖` for `|μ| > r`.
-
-**Suggested proof:** the upper bound by the Schur test with the weights `(k - 1)^{-|x|/2}`. For
-`μ = r cos φ`, the radial functions `(k - 1)^{-|x|/2} cos(|x|φ)`, cut off at a large radius, are
-approximate eigenvectors. For `|μ| > r` the bound below is the distance from `μ` to `[-r, r]` for
-a self-adjoint operator of norm at most `r`.
+**Suggested proof:** first on finitely supported functions, where `(Af)(x)` is a finite sum.
+The upper bound `‖Af‖ ≤ r‖f‖` there is the Schur test with the weights `(k - 1)^{-|x|/2}`; it
+also gives `‖Af‖ ≤ k‖f‖`, so `A` extends by density to a bounded operator on `ℓ²` (Mathlib
+`LinearMap.mkContinuous`, `ContinuousLinearMap.extend`), whose values at each `x` are still the
+neighbour sums. For `μ = r cos φ` the radial functions `(k - 1)^{-|x|/2} cos(|x|φ)`, cut off
+at a large radius `R`, satisfy `‖(A - μ)f‖ ≤ ε_R‖f‖` with `ε_R → 0`. Hence `‖A‖ ≥ r` (take
+`μ = ±r`), so `‖A‖ = r`; and every `μ ∈ [-r, r]` is in the spectrum, since an inverse `B` of
+`A - μ` would give `‖f‖ ≤ ‖B‖ ε_R ‖f‖`. Conversely `A` is self-adjoint, as
+`⟪Af, g⟫ = ∑_{x ∼ y} f(y) conj(g(x))` is symmetric, so its spectrum is real
+(`IsSelfAdjoint.mem_spectrum_eq_re`) and lies in the closed ball of radius `‖A‖ = r`
+(`spectrum.subset_closedBall_norm`).
 
 **Checks.**
 - The adjacency matrices of the balls of radius `5`, `20` and `80` in the `3`-regular tree have
@@ -378,8 +377,8 @@ a self-adjoint operator of norm at most `r`.
 - `k = 4`: the same balls give `3.1833`, `3.4317`, `3.4616`, below `2√3 = 3.4641`, the norm in
   [FreeProbability](../FreeProbability/README.md) 3.6 of the `4`-regular tree as the Cayley graph
   of the free group of rank `2`.
-- `adjApply` on the tree with `f` the indicator of the root gives `1` on the `k` neighbours of
-  the root and `0` elsewhere, so `∑ (Af)² = k ≤ 4(k - 1)` for `k ≥ 2`.
+- `A` applied to the indicator of the root gives `1` on the `k` neighbours of the root and `0`
+  elsewhere, so `‖Af‖² = k ≤ 4(k - 1) = r²` for `k ≥ 2`.
 - Negative control: `k = 1`: the tree is `K₂` with spectrum `±1`, while `2√(k - 1) = 0`; the
   statement needs `k ≥ 2`.
 
