@@ -135,7 +135,8 @@ SIGNED_TOK = r"[0-9A-Za-z](?:[\w.]*[0-9A-Za-z])?" + COLON   # an id after a sect
 GAP = r"[ \t]*(?:\n[ \t>]*)?"                           # spaces, at most one line break
 CLAUSE = re.compile(r"[ \t]?\((?:[a-z]|[ivx]{1,5}|\d{1,2}|[a-z]?\d?′{1,2}|[a-z]\d)\)")   # (a) (ii) (3)
 ASIDE = re.compile(r"[ \t]?\([^()\n]{0,240}\)")         # a descriptive parenthetical inside a list
-LIST_SEP = re.compile(r"(?:," + GAP + r"(?:and" + GAP + r")?|[ \t]+and" + GAP + r"|[ \t]*&[ \t]*)")
+LIST_SEP = re.compile(r"(?:," + GAP + r"(?:and" + GAP + r")?|(?:[ \t]+|[ \t]*\n[ \t>]*)and" + GAP
+                      + r"|[ \t]*&[ \t]*)")   # `and` may open a wrapped line
 RANGE_SEP = re.compile(r"(?:[ \t]*–" + GAP + r"|-)")
 SIGN = re.compile(r"§§?[ \t]?")
 LAYER_WORD = re.compile(r"[Ll]ayers?[ \t]+")

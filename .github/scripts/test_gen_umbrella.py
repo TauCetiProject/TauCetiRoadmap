@@ -981,7 +981,7 @@ Text.
         needs = self.items_of(root)["FamWrapped.1.1"]["needs"]
         assert needs == ["Alpha.1.2", "Gamma.2.1"], needs
 
-    def test_a_list_goes_on_after_a_parenthetical(self) -> None:
+    def test_a_list_goes_on_after_a_parenthetical_and_a_line_break(self) -> None:
         root = self.other_tree("aside", {
             "Fam": "# Roadmap: f\n\n- [Aside](FamAside/README.md)\n",
             "Fam/FamAside": """# Roadmap: aside
@@ -989,12 +989,18 @@ Text.
 ### 1.1 Titles in parentheses between the ids of one list
 
 *Needs:* Alpha §2.1 (*First*), 2.2 (*Second*) and 2.3.
+
+### 1.2 A list wrapped before its `and`
+
+*Needs:* Alpha §§2.1, 2.2
+and 2.3.
 """,
             **{k: SUPPLIERS[k] for k in ("Alpha", "Gamma", "Delta")}})
         code, output = self.run_script("--fix", root=root)
         assert code == 0, output
-        needs = self.items_of(root)["FamAside.1.1"]["needs"]
-        assert needs == ["Alpha.2.1", "Alpha.2.2", "Alpha.2.3"], needs
+        items = self.items_of(root)
+        for slug in ("FamAside.1.1", "FamAside.1.2"):
+            assert items[slug]["needs"] == ["Alpha.2.1", "Alpha.2.2", "Alpha.2.3"], (slug, items[slug])
 
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
