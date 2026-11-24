@@ -13,6 +13,11 @@ headline theorems is statable against the pinned interfaces:
   Northcott theorem require arithmetic hermitian bundles, Green functions and metrized
   line-bundle heights. Ordinary invertible sheaves and relative tuple heights exist, but do not
   supply these objects.
+* Layers 1A–1B's slope inequality and Harder–Narasimhan filtration require hermitian vector
+  bundles over `O_K` with arbitrary metrics, their sub-bundles, normalised degrees and slopes,
+  and the heights of linear maps between them. Tau Ceti's Arakelov heights of subspaces of
+  `K^n`, for the Euclidean norms, determine the degrees of the sub-bundles of the standard bundle
+  `O_K^n` only.
 * Layers 2–3's integral Hodge-line duality, base-change correction and geometric stable height
   require Néron models, the determinant of their invariant differentials and the Faltings
   integration metric. Tau Ceti has abelian varieties and isogenies over fields and the
@@ -25,7 +30,11 @@ headline theorems is statable against the pinned interfaces:
 * Layer 5's logarithmic-metric Northcott theorem, boundary growth, exact modular-height identity
   and theta-height comparisons require metrized arithmetic lines, semi-abelian families,
   integral Siegel compactifications and good translated theta bases. None is supplied by the
-  pinned interfaces; the modular discriminant alone does not define these heights.
+  pinned interfaces; the modular discriminant alone does not define these heights. Mumford's
+  theorem on the Chern forms of good metrics (§5.1d) requires hermitian metrics on holomorphic
+  vector bundles over complex manifolds, forms with Poincaré growth along a normal crossings
+  divisor, and currents on a complex manifold; Tau Ceti's currents live on open subsets of a
+  finite-dimensional real vector space.
 * Layer 6's Zarhin height identity, polarized moduli finiteness and Bost's uniform lower bound
   require the stable Faltings height, duality and polarized moduli. The bounded torsion-field
   extensions additionally require abelian-variety torsion and semistable reduction.
