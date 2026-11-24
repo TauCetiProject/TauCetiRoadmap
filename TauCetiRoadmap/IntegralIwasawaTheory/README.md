@@ -499,7 +499,7 @@ For cyclic finite `E/F`, record the ambiguous-class comparison through the unit 
   ([E:F] [O_F^× : O_F^×∩N_{E/F}E^×]).
 ```
 
-Infinite places are included when ramified. The denominator uses norms of field elements intersected with base units, not only norms of integral units. (Sharifi, Theorem 1.3.16, p. 19.) *Needs:* Layer 2 and the cyclic cohomology supplier.
+Infinite places are included when ramified. The denominator uses norms of field elements intersected with base units, not only norms of integral units. (Sharifi, Theorem 1.3.16, p. 19.) *Needs:* §0.4; §§2.1–2.3, 2.4a, 2.6 and 2.7 (class-group limits, units and the field-level defect, the p-ramified and unramified modules, procyclic descent, Leopoldt finiteness and global-local reciprocity); the cyclic cohomology supplier.
 
 ### 3.6 Uniform capitulation and real-unit square classes
 
@@ -792,11 +792,15 @@ r₂(B_n) ≤ e_n⁻+1,       r₂(A_n) ≤ 2e_n⁻+1.
 
 The proof uses the quadratic ambiguous-class and norm-kernel comparison at finite level, with its order-two errors. It does not apply a minus idempotent to a pseudo-isomorphism of full dyadic modules. Since relative μ is zero, `e_n⁻=O(n)` and the second bound gives `r₂(A_n)/2ⁿ→0`. The lower bound for any vertical elementary summand in §3.4 now forces full arithmetic μ=0. Prove `dyadicNormMinus_mu_zero` for the inverse norm-kernel module and for the contragredient dual of the direct norm-kernel limit when `μ₄⊂k`, using their finite comparison and the absence-of-finite-submodules result at the appropriate step. (Washington 1975, Lemma 4 and proof, p. 184; Ferrero 1978, Lemmas 1.5–1.7 and Theorem 1.8, pp. 11–12.) The numerical estimate accompanies the arithmetic rank inequality on its class-group carriers.
 
+*Needs:* §5.4 (relative μ-vanishing); §§2.8, 3.4 and 3.5 (minus classes, the vertical-summand rank bound and the ambiguous-class comparison); PadicMeasuresIwasawaAlgebras §4.2 (absence of finite submodules).
+
 ### 5.6 Ferrero–Washington for every abelian field
 
 Prove `ferreroWashington`: for every finite abelian `E/ℚ` and every prime p, the arithmetic μ of its cyclotomic `ℤ_p`-extension is zero. Place E in a finite layer of the cyclotomic tower of an imaginary first-kind cyclotomic base k containing `μ_q`: a cyclotomic overfield of E has conductor dividing `dp^a` with `(d,p)=1`, and one can take `k=ℚ(μ_{dq})`. Apply §§5.4–5.5 to k, pass through the finite initial tower shift, and descend along the bounded-degree class norm using §3.4. This proves the full-module statement, not just a statement about relative class-number quotients. Combining it with growth gives eventual linearity `v_p(h(E_n))=λn+ν`. `Suggested.lean` states `ferreroWashington` for every abelian E on the native fields `CyclotomicField (p^(n+1)) E`, giving `HasIwasawaGrowth` with μ=0. These full cyclotomic fields retain the finite torsion extension of the cyclotomic `ℤ_p`-tower; the eventual equation absorbs its initial conductor shift. (Sinnott 1984, §4, pp. 279–282; Ferrero 1978, Theorem 1.8, p. 12; Oesterlé, Théorème 2 and §4, pp. 171, 174.)
 
 The result does not say that λ vanishes. For totally real abelian E it reduces Greenberg's condition to λ=0, leaving that assertion unproved. It also does not replace the distinct-prime boundedness theorem described in the scope section.
+
+*Needs:* §§5.4–5.5; §§3.3–3.4 (arithmetic μ, growth and norm descent); §§0.1–0.2 (cyclotomic towers and layer shifts); Mathlib `CyclotomicField`.
 
 **Checks.**
 
@@ -972,6 +976,8 @@ f_u(π_a)=σ_a^{a−1}(u_a),    u_a=σ_a^{1−a}(f_u(π_a)).
 ```
 
 Its API includes multiplication, evaluation, uniqueness, norm compatibility and Galois equivariance, where b acts on series by `f(T)↦f(Y^b−1)`. Prove existence using `Nf≡Σf mod p`, `N(1+p^kB)⊂1+p^{k+1}B` for k≥1, and compactness; uniqueness uses Weierstrass preparation and the unbounded degrees of π_a, not convergence of π_a to zero. The corrected projector is `lim_n(Σ⁻¹N)^n`. For E=ℚ_p, Σ=id and this is norm-fixed interpolation. (Sharifi, Proposition 5.4.6, Corollaries 5.4.7–5.4.8, Theorem 5.4.9, Definition 5.4.12 and Corollary 5.4.13, pp. 144–147; the roots in that theorem are indexed here by a=n+1. RJW, Theorem 10.13 and proof, pp. 168–169.)
+
+*Needs:* PadicMeasuresIwasawaAlgebras §§2.2 and 2.4 (Frobenius, ψ, root translation and root averaging on integral power series); PadicMeasuresIwasawaAlgebras §4.3 (Weierstrass preparation); LocalFieldsRamification Layers 0–3 and LocalGaloisGroups Layer 0 for the native local tower; Mathlib `Algebra.norm`, `Algebra.trace` and `PowerSeries`.
 
 **Checks.**
 
