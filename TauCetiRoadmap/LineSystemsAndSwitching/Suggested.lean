@@ -13,6 +13,7 @@ public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.Dynkin
 public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.ZeroSum
 public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.Basic
 public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
+public import TauCeti.Analysis.Matrix.Spectrum
 
 /-!
 # Line systems and switching: suggested statements
@@ -245,8 +246,9 @@ variable {V : Type*} [Fintype V] [DecidableEq V] (G : _root_.SimpleGraph V) [Dec
 
 /-! ### 1.1 Small cospectral pairs -/
 
-/-- **The smallest cospectral pair.** The star `K_{1,4}` and `K₁ ⊔ C₄` have the same adjacency
-spectrum `2, 0, 0, 0, -2` and are not isomorphic. (README 1.1) -/
+/-- Worked example, a sanity check of the definitions of 1.1 (a finite computation, not a
+headline). **The smallest cospectral pair.** The star `K_{1,4}` and `K₁ ⊔ C₄` have the same
+adjacency spectrum `2, 0, 0, 0, -2` and are not isomorphic. (README 1.1) -/
 theorem adjSpectrum_star_eq_adjSpectrum_sum_cycle :
     (completeBipartiteGraph (Fin 1) (Fin 4)).adjSpectrum =
         ((⊥ : _root_.SimpleGraph (Fin 1)) ⊕g cycleGraph 4).adjSpectrum ∧
@@ -265,7 +267,8 @@ the pendant edges `24` and `35`. -/
 def cospectralSixSnd : _root_.SimpleGraph (Fin 6) :=
   fromRel fun i j ↦ (i, j) ∈ [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 4), (3, 5)]
 
-/-- **A connected cospectral pair on six vertices.** Both graphs are connected, both have
+/-- Worked example, a sanity check of the definitions of 1.1 (a finite computation, not a
+headline). **A connected cospectral pair on six vertices.** Both graphs are connected, both have
 characteristic polynomial `t⁶ - 7t⁴ - 4t³ + 7t² + 4t - 1`, and they are not isomorphic.
 (README 1.1) -/
 theorem cospectralSix :
@@ -437,8 +440,8 @@ def coxeterNumber : DynkinType → ℕ
 namespace SimpleGraph
 
 /-- **The index of a Dynkin diagram is `2 cos (π / h)`.** (README 2.4) -/
-theorem largestEigenvalue_diagramGraph {t : DynkinType} (ht : t.Valid) (hs : t.IsSimplyLaced) :
-    haveI : Nonempty (Fin t.rank) := ⟨⟨0, DynkinType.rank_pos ht⟩⟩
+theorem largestEigenvalue_diagramGraph {t : DynkinType} (ht : t.Valid) (hs : t.IsSimplyLaced)
+    [Nonempty (Fin t.rank)] :
     largestEigenvalue (diagramGraph t.cartanMatrix) =
       2 * Real.cos (Real.pi / coxeterNumber t) := by
   sorry
@@ -535,22 +538,11 @@ namespace SimpleGraph
 
 /-! ### 4.1 Cocktail party graphs -/
 
-/-- The **cocktail party graph** `CP(m) = K_{m × 2}` on `2m` vertices: two vertices are adjacent
-unless they lie in the same of the `m` pairs. -/
-def cocktailPartyGraph (m : ℕ) : _root_.SimpleGraph (Fin m × Bool) where
-  Adj p q := p.1 ≠ q.1
-  symm := ⟨fun _ _ h ↦ Ne.symm h⟩
-  loopless := ⟨fun _ h ↦ h rfl⟩
-
-instance (m : ℕ) : DecidableRel (cocktailPartyGraph m).Adj := fun p q ↦
-  inferInstanceAs (Decidable (p.1 ≠ q.1))
-
-/-- **The spectrum of the cocktail party graph.** For `m ≥ 1` it is `2m - 2` once, `0` with
-multiplicity `m` and `-2` with multiplicity `m - 1`. (README 4.1) -/
-theorem adjSpectrum_cocktailPartyGraph {m : ℕ} (hm : 1 ≤ m) :
-    (cocktailPartyGraph m).adjSpectrum =
-      (2 * (m : ℝ) - 2) ::ₘ (Multiset.replicate m 0 + Multiset.replicate (m - 1) (-2)) := by
-  sorry
+/-- The **cocktail party graph** `CP(m) = K_{m × 2}` on `2m` vertices, Mathlib's complete
+equipartite graph with `m` parts of size `2`: two vertices are adjacent unless they lie in the
+same of the `m` pairs. Its spectrum is the case `r = m`, `t = 2` of GraphSpectra 2.6. -/
+abbrev cocktailPartyGraph (m : ℕ) : _root_.SimpleGraph (Fin m × Fin 2) :=
+  completeEquipartiteGraph m 2
 
 /-! ### 4.2 Generalized line graphs -/
 
@@ -712,12 +704,15 @@ theorem isDeterminedByAdjSpectrum_of_isCompleteMultipartite_compl
 
 /-! ### 5.4 Counterexamples -/
 
-/-- **`K_{1,4}` is not determined by its adjacency spectrum.** (README 5.4) -/
+/-- Worked example, a sanity check of the definitions of 5.1 (a consequence of the first
+worked example of 1.1, not a headline). **`K_{1,4}` is not determined by its adjacency
+spectrum.** (README 5.4) -/
 theorem not_isDeterminedByAdjSpectrum_star :
     ¬ (completeBipartiteGraph (Fin 1) (Fin 4)).IsDeterminedByAdjSpectrum := by
   sorry
 
-/-- **`K₅ ⊔ 5K₂` and the Petersen graph with five isolated vertices are Laplacian
+/-- Worked example, a sanity check of the definitions of 5.1 (a finite computation, not a
+headline). **`K₅ ⊔ 5K₂` and the Petersen graph with five isolated vertices are Laplacian
 cospectral**, so `K₅ ⊔ 5K₂` is not determined by its Laplacian spectrum. (README 5.4) -/
 theorem lapSpectrum_complete_sum_matching :
     ((⊤ : _root_.SimpleGraph (Fin 5)) ⊕g ((⊥ : _root_.SimpleGraph (Fin 5)) □
@@ -808,6 +803,7 @@ end RelativeBound
 #check @SimpleGraph.lineGraph
 #check @SimpleGraph.IsBipartite
 #check @SimpleGraph.IsCompleteMultipartite
+#check @SimpleGraph.completeEquipartiteGraph
 #check @SimpleGraph.pathGraph
 #check @SimpleGraph.cycleGraph
 #check @SimpleGraph.IsSRGWith
@@ -817,6 +813,10 @@ end RelativeBound
 #check @Matrix.posSemidef_gram
 #check @Matrix.IsHermitian.eigenvalues₀
 #check @RootPairing.nonempty_base
+
+/-! Tau Ceti: the trace of a power of a Hermitian matrix (5.1). -/
+
+#check @Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow
 
 /-! Tau Ceti: Dynkin diagrams, affine diagrams and the form `2I - A` (Layer 2). -/
 

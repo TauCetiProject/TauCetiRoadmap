@@ -25,9 +25,10 @@ The headline theorems are:
 - complete graphs, regular complete bipartite graphs, cycles, disjoint unions of complete graphs
   and connected graphs with `θ₁ < 2` are determined by their spectrum, and for regular graphs the
   adjacency, Laplacian and signless Laplacian notions agree;
-- the two-graph of a graph is regular of degree `k` exactly when a descendant is strongly regular
-  with `k = 2μ`, and a regular graph has a regular two-graph exactly when it is strongly regular
-  with `k - n/2` as an eigenvalue;
+- for a graph switching equivalent neither to the complete nor to the empty graph, the two-graph
+  is regular of degree `k` exactly when a descendant is strongly regular with `k = 2μ`, and such a
+  graph, if regular, has a regular two-graph exactly when it is strongly regular with `k - n/2`
+  as an eigenvalue;
 - an equiangular family of `n` unit vectors spanning a space of dimension `d < n`, whose Seidel
   matrix has exactly two eigenvalues, meets the relative bound with equality,
   `n(1 - dα²) = d(1 - α²)`.
@@ -98,7 +99,8 @@ Definitions:
   others with the two further edges `12` and `34`; the second is `K₄` minus the edge `23`, with
   pendant edges `24` and `35`.
 
-Targets:
+Worked examples (finite computations, stated in `Suggested.lean` as sanity checks of the
+definitions, not as headlines):
 - **The smallest cospectral pair** (`adjSpectrum_star_eq_adjSpectrum_sum_cycle`). `K_{1,4}` and
   `K₁ ⊔ C₄` both have spectrum `2, 0³, -2` and are not isomorphic [BH, Figure 1.1, p. 7].
   **Suggested proof:** the spectra of complete bipartite graphs and cycles (GraphSpectra 2.6) and
@@ -337,9 +339,10 @@ Basic API (prose):
 - **the coordinate models**: the `ℤ`-span of `rootsA n` is the zero-sum lattice
   `TauCeti.IntegralLattice.zeroSumLattice`, isometric to the root lattice of type `A_n`
   (`TauCeti.IntegralLattice.typeAIsometryZeroSumLattice`, `TauCeti.DynkinType.rootLattice_A`);
-  that of `rootsD n` is `TauCeti.IntegralLattice.checkerboardLattice`, isometric to the root
-  lattice of type `D_n` for `n ≥ 4` (`TauCeti.DynkinType.rootLatticeIsometryCheckerboard`); that
-  of `rootsE8` is `D₈⁺`, isometric to the root lattice of type `E₈`
+  for `n ≥ 2` that of `rootsD n` is `TauCeti.IntegralLattice.checkerboardLattice` (at `n = 1`
+  the set is empty and spans `0`, while the checkerboard lattice is `2ℤ`), isometric to the
+  root lattice of type `D_n` for `n ≥ 4` (`TauCeti.DynkinType.rootLatticeIsometryCheckerboard`);
+  that of `rootsE8` is `D₈⁺`, isometric to the root lattice of type `E₈`
   (`TauCeti.IntegralLattice.typeE₈IsometryD8Plus`, `TauCeti.DynkinType.rootLattice_E8`). In each
   case the norm-`2` vectors of the span are exactly the set, and they correspond to the roots of
   the type (`TauCeti.DynkinType.rootLatticeRootEquiv`).
@@ -448,22 +451,24 @@ p. 62; §6.4, p. 171];
 ### 4.1 Cocktail party graphs
 
 Definitions:
-- `cocktailPartyGraph m` on `Fin m × Bool`: `p ∼ q` when `p.1 ≠ q.1`, the complete multipartite
-  graph `K_{m×2}` [CRS, p. 6].
+- `cocktailPartyGraph m` on `Fin m × Fin 2`: an abbreviation for Mathlib's
+  `SimpleGraph.completeEquipartiteGraph m 2`, so `p ∼ q` when `p.1 ≠ q.1`; this is the complete
+  multipartite graph `K_{m×2}` [CRS, p. 6]. No second carrier is introduced.
 
-Targets:
-- **The spectrum of the cocktail party graph** (`adjSpectrum_cocktailPartyGraph`): for `m ≥ 1` it
-  is `2m - 2` once, `0` with multiplicity `m` and `-2` with multiplicity `m - 1` [CRS, §6.4,
-  p. 171]. **Suggested proof:** `CP(m)` is the complete equipartite graph of GraphSpectra 2.6
-  with `m` parts of size `2`.
+Not a separate target: the spectrum of `CP(m)` for `m ≥ 1` is `2m - 2` once, `0` with
+multiplicity `m` and `-2` with multiplicity `m - 1` [CRS, §6.4, p. 171]; it is the case `r = m`,
+`t = 2` of the complete equipartite spectrum of GraphSpectra 2.6.
 
 Basic API (prose): `cocktailPartyGraph m` is `(2m - 2)`-regular and is isomorphic to the
-complement of the perfect matching on `2m` vertices.
+complement of the perfect matching on `2m` vertices, and to the petal graph at a vertex of 4.2,
+whose petal index is `Bool`.
 
 **Checks.**
 - `CP(1)`: two isolated vertices, spectrum `0, 0`; the formula gives `0` and `0¹`, with no `-2`.
 - `CP(2) = C₄` with spectrum `2, 0², -2`, and `CP(3)` is the octahedron `L(K₄)` with spectrum
   `4, 0³, (-2)²`.
+- Negative control for the argument order: `completeEquipartiteGraph 2 3` is `K_{3,3}`, with
+  spectrum `3, 0⁴, -3`, not the spectrum `4, 0³, (-2)²` of `CP(3) = completeEquipartiteGraph 3 2`.
 
 *Needs:* GraphSpectra 2.6.
 
@@ -590,18 +595,20 @@ Definitions:
 Targets:
 - **The number of edges** (`card_edgeFinset_eq_of_adjSpectrum_eq`): the adjacency spectrum
   determines the number of edges [BH, Lemma 14.4.3(ii), p. 207]. **Suggested proof:**
-  `Σ θ_i² = tr A² = 2m` (GraphSpectra 1.3).
+  `Σ θ_i² = tr A² = 2m` (SpectralGraphBounds 1.1).
 - **Regularity and the degree** (`IsRegularOfDegree.of_spectrum_eq`): each of the three spectra
   recognizes whether a graph is `k`-regular [BH, Lemma 14.4.3(iii), p. 207, and Proposition
   14.4.1, p. 206]. **Suggested proof:** for `A`, a graph on a nonempty vertex type is regular
   exactly when `n θ₁ = 2m` (SpectralGraphBounds 1.2), and then its degree is `θ₁`; `n`, `θ₁` and
-  `2m = Σ θ_i²` are read off the spectrum. For `L` and `Q`, the spectrum gives `n`,
-  `tr L = tr Q = Σ d_i` and `tr L² = tr Q² = Σ d_i² + Σ d_i`, and `(Σ d_i)² ≤ n Σ d_i²` with
-  equality exactly for equal degrees, the degree then being `Σ d_i / n`.
+  `2m = Σ θ_i²` (SpectralGraphBounds 1.1) are read off the spectrum. For `L` and `Q`, the
+  spectrum gives `n`, `tr L = tr Q = Σ d_i` and `tr L² = tr Q² = Σ d_i² + Σ d_i`, and
+  `(Σ d_i)² ≤ n Σ d_i²` with equality exactly for equal degrees, the degree then being
+  `Σ d_i / n`.
 
 Further spectral recognition (prose): the three spectra determine the number of vertices and
 of edges (`tr L = tr Q = 2m`, GraphSpectra 1.3); the adjacency spectrum determines the number of
-closed walks of each length (`Σ θ_iʰ = tr Aʰ`, GraphSpectra 1.3 and Mathlib's
+closed walks of each length (`Σ θ_iʰ = tr Aʰ`, Tau Ceti's
+`Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow`, and Mathlib's
 `SimpleGraph.adjMatrix_pow_apply_eq_card_walk`) and hence bipartiteness (no closed walk of odd
 length); the Laplacian spectrum determines the number of components (the multiplicity of `0`,
 Mathlib's `SimpleGraph.card_connectedComponent_eq_finrank_ker_toLin'_lapMatrix`) and the number
@@ -668,6 +675,8 @@ Basic API (prose): each predicate is invariant under isomorphism of `G`.
 
 ### 5.4 Counterexamples
 
+Worked examples (stated in `Suggested.lean` as sanity checks of the definitions of 5.1, not as
+headlines):
 - **`K_{1,4}`** (`not_isDeterminedByAdjSpectrum_star`): `K_{1,4}` is complete multipartite but
   not determined by its adjacency spectrum, by 1.1 [BH, after Proposition 14.4.5, p. 208].
 - **A Laplacian cospectral pair** (`lapSpectrum_complete_sum_matching`): `K₅ ⊔ 5K₂` and the
@@ -843,9 +852,9 @@ here are listed under Scope and ownership.
 ## Scope and ownership
 
 The roadmap is complete when Tau Ceti proves every target above. `Suggested.lean` states the
-headlines that carry a Lean name, each with every conclusion the README attaches to it; it is not
-an exhaustive acceptance test, and the other headlines are targets of the same standing, stated
-in prose.
+headlines that carry a Lean name, each with every conclusion the README attaches to it, and the
+four worked examples of 1.1 and 5.4 as sanity checks of the definitions; it is not an exhaustive
+acceptance test, and the other headlines are targets of the same standing, stated in prose.
 
 Owned here:
 - the cospectral examples, the Godsil–McKay partition, its switched graph and its conjugating
@@ -855,8 +864,9 @@ Owned here:
 - the coordinate root systems `A_n`, `D_n`, `E₈` as sets of rational vectors, root
   representations of graphs, the Gram classification of connected lattices generated by norm-`2`
   vectors, and the theorem of Cameron, Goethals, Seidel and Shult;
-- the cocktail party graph, generalized line graphs, their signed incidence matrix, and the
-  bounds on exceptional graphs;
+- generalized line graphs, their signed incidence matrix, and the bounds on exceptional graphs
+  (the cocktail party graph is Mathlib's `SimpleGraph.completeEquipartiteGraph m 2`, and its
+  spectrum is GraphSpectra 2.6);
 - spectral determination for the adjacency matrix, the Laplacian and the signless Laplacian;
 - the descendant of a graph at a vertex, the correspondence between regular two-graphs and
   strongly regular graphs, and the converse of the equality case of the relative bound.
@@ -889,8 +899,9 @@ Consumed from other roadmaps, not restated (see the supplier contracts):
 - StronglyRegularGraphsAndDesigns 1.3; LaplacianSpectraAndSpanningTrees 2.3.
 - [ZigzagPreprojective](../ZigzagPreprojective/README.md) 0.1,
   [RootSystems](../RepresentationTheory/RootSystems/README.md) §3.1 and
-  [IntegralLattices](../IntegralLattices/README.md), native rows 0G and 1K, each formalized in
-  Tau Ceti and consumed through Tau Ceti.
+  [IntegralLattices](../IntegralLattices/README.md), native rows 0G and 1K: RootSystems §3.1
+  and IntegralLattices are formalized in Tau Ceti and consumed through Tau Ceti;
+  ZigzagPreprojective 0.1 states its recognition theorem as a target, consumed in 2.2.
 
 Neighbouring roadmaps, not used here:
 - StronglyRegularAndMooreGraphs: the spectrum of a strongly regular graph (1.2); 6.3 reads strong
@@ -906,7 +917,8 @@ positive definite `2I - A`, the identification of their diagrams with paths and 
 `T(a, b, c)`, the containment of an affine diagram in every connected graph that is not a Dynkin
 diagram, the classification of root systems by Dynkin type, and the root lattices with their
 roots and coordinate models (Tau Ceti); the existence of a base of a root system (Mathlib). The
-affine recognition theorem of ZigzagPreprojective 0.1 is formalized in Tau Ceti.
+affine recognition theorem is not among them: it is a target of ZigzagPreprojective 0.1, which
+2.2 consumes.
 
 Outside the scope: Schwenk's theorem that almost all trees have a cospectral mate [BH, Theorem
 14.2.2, p. 201]; [CRS, §4.2, p. 122]; [Go, Chapter 4, Theorem 6.1, p. 65]; [Sch], which needs
@@ -926,6 +938,7 @@ switching; the Seidel matrix and equiangular lines themselves are EquiangularLin
   `SimpleGraph.IsBipartite`, `SimpleGraph.IsCompleteMultipartite`, `completeBipartiteGraph`,
   `SimpleGraph.pathGraph`, `SimpleGraph.cycleGraph`, the disjoint sum `G ⊕g H` and the box product
   `G □ H`.
+- `SimpleGraph.completeEquipartiteGraph`, the carrier of the cocktail party graph (4.1).
 - `SimpleGraph.IsSRGWith`, with natural parameters (Layer 6).
 - `SimpleGraph.adjMatrix_pow_apply_eq_card_walk` and
   `SimpleGraph.card_connectedComponent_eq_finrank_ker_toLin'_lapMatrix` (5.1).
@@ -935,6 +948,8 @@ switching; the Seidel matrix and equiangular lines themselves are EquiangularLin
 
 ### From Tau Ceti
 
+- `Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow`: `tr Bʰ = Σ λ_iʰ` for a Hermitian `B`
+  (5.1).
 - `SimpleGraph.graphCartanMatrix`, the matrix `2I - A`, and
   `SimpleGraph.posDef_graphCartanMatrix_iff`: a connected graph has positive definite rational
   `2I - A` exactly when it is the diagram of a valid simply-laced Dynkin type (2.2).
@@ -968,7 +983,7 @@ switching; the Seidel matrix and equiangular lines themselves are EquiangularLin
 
 - [ZigzagPreprojective](../ZigzagPreprojective/README.md), 0.1: a connected finite graph has a
   nonzero natural function `a` with `Σ_{j ∼ i} a_j = 2a_i` exactly when it is isomorphic to the
-  graph of a unique valid graphical affine type; formalized in Tau Ceti; used in 2.2.
+  graph of a unique valid graphical affine type, a target there; used in 2.2.
 - [RootSystems](../RepresentationTheory/RootSystems/README.md), §3.1: a nonempty irreducible
   finite reduced crystallographic root system has exactly one valid Dynkin type, independent of
   the base; used in 3.3 through Tau Ceti.
