@@ -628,7 +628,7 @@ forms are the algebraic and affinoid charts below, which are in `Suggested.lean`
 *etale-flat-unramified*, *smooth-local-structure*, *smooth-differentials-locally-free*,
 *open-embedding-etale*,
 *etale-smooth-composition*, *etale-local-open-finite-etale-factorisation*,
-*smooth-morphism-open* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.ValuationSpectrum.closedPolydisc`.
+*smooth-morphism-open* (AdicSpacesPartII §§R0.8, R0.16 and R0.17); Tau Ceti `TauCeti.ValuationSpectrum.closedPolydisc`.
 
 Define the DLLZ normal crossings predicate on the same adic spaces,
 structure morphisms to `Spa K` and stalk ideals as smooth pairs. Require the structure
@@ -2832,7 +2832,7 @@ and `A` reduced `|.|_sup` is equivalent to the residue norm, and `completion_was
 `T_n = TauCeti.Huber.restrictedMvPowerSeriesCompletion n K`, compatibly with `W_n → T_n`)
 (GK00 §1, 1.2, p. 3). *Needs:*
 *overconvergent-tate-algebra*; *overconvergent-tate-algebra-properties*;
-*affinoid-supremum-seminorm*, *affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer R0).
+*affinoid-supremum-seminorm*, *affinoid-power-bounded-iff-sup* (AdicSpacesPartII §R0.9).
 Lean: `Dagger.IsDaggerAlgebra`, `Dagger.IsDaggerAlgebra.washnitzerAlgebra`,
 `Dagger.IsDaggerAlgebra.quotient`, `Dagger.presentationDim`, `Dagger.presentation`,
 `Dagger.presentation_surjective`, `Dagger.completion`, `Dagger.toCompletion`, `Dagger.intSubring`,
@@ -2888,7 +2888,7 @@ carries a canonical topology, the one induced from the finite `Â`-module `M ⊗
 `A`-linear maps of finite modules are continuous (GK00 §1, Prop. 1.6 (1)–(2) and 1.11). *Needs:*
 *overconvergent-tate-algebra-properties*; *overconvergent-faithful-flatness*;
 *dagger-noether-normalisation*; *overconvergent-tate-algebra*; *dagger-algebra*;
-*affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer R0).
+*affinoid-power-bounded-iff-sup* (AdicSpacesPartII §R0.9).
 
 **Dagger algebras are excellent in characteristic 0.**
 (*dagger-algebra-excellent*) Excellence is the notion of SchemeAndStackFoundations §0.21
@@ -2935,7 +2935,7 @@ equivalence would give `|a_k| → 0`, `ε = 0`). Moreover the completion is
 functorial: every morphism `φ : A → B` of dagger algebras extends uniquely to a continuous
 `K`-algebra map `φ̂ : Â → B̂`, and `φ ↦ φ̂` is a functor (GK00 §1, Thm 1.7 (1), p. 5). *Needs:*
 *overconvergent-faithful-flatness*; *dagger-norm-and-continuity*; *dagger-algebra*;
-*reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); *dagger-algebra-excellent*.
+*reduced-affinoid-supremum-norm* (AdicSpacesPartII §R0.9); *dagger-algebra-excellent*.
 Lean: `Dagger.completion_isAffinoid` (`Â` is affinoid and `τ` is faithfully flat),
 `Dagger.completion_isReduced` (`char K = 0` and `A` reduced imply `Â` reduced),
 `Dagger.completion_existsUnique_isMaximal_comap` (the maximal-ideal bijection),
@@ -3003,7 +3003,7 @@ Ceti's `LinearMap.isStrictMap_of_module_finite` (`Â` a complete Tate ring, `B̂
 `Â`-module), and strictness of `φ` itself, `A` and `B` being incomplete, is what (e) adds. *Needs:*
 *dagger-finite-extension*; *dagger-completion-comparison*; *dagger-norm-and-continuity*;
 *dagger-weak-completeness*; *overconvergent-weierstrass-division*; *affinoid-reduction-finite*
-(AdicSpacesPartII layer R0); Tau Ceti `LinearMap.isStrictMap_of_module_finite`.
+(AdicSpacesPartII §R0.9); Tau Ceti `LinearMap.isStrictMap_of_module_finite`.
 
 **Checks.**
 
@@ -3153,7 +3153,7 @@ via `Dagger.completion_isReduced`. In every characteristic the package applies w
 is reduced. Its boundedness input is `Dagger.completion_isUniform`, with the explicit hypothesis
 `IsReduced (Dagger.completion K A)`. *Needs:* *fringe-presentation*;
 *dagger-norm-and-continuity*; *dagger-completion-comparison*;
-*reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0);
+*reduced-affinoid-supremum-norm* (AdicSpacesPartII §R0.9);
 [*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1); Tau Ceti Huber pairs and their completions.
 
 **Checks.**
@@ -3289,7 +3289,7 @@ composition, and that `A₁ → A₁ ⊗†_K A₂` is flat for `A₁, A₂` of 
 (*mw-type-dagger-algebra*), hence reduced (Kedlaya06 Remark 2.3.9 with the reducedness hypothesis of
 his errata) (GK00 §1, 1.16, p. 9). *Needs:* *dagger-algebra*; *dagger-weak-completeness*;
 *dagger-completion-comparison*; *fringe-morphism-factorisation*; *dagger-finite-extension*;
-*completed-tensor-product* (AdicSpacesPartII layer R0).
+*completed-tensor-product* (AdicSpacesPartII §R0.3).
 
 **Checks.**
 
@@ -3871,7 +3871,7 @@ points, by *dagger-affinoid-subdomain-completion* (b) (GK00 §2, 2.12, p. 12). *
 *dagger-rational-localisation*; *dagger-tate-acyclicity*; *dagger-g-topology*;
 *dagger-completion-comparison*; *dagger-norm-and-continuity*; *dagger-tensor-product*;
 *rigid-analytic-space*, *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1); *fibre-products-existence*
-(AdicSpacesPartII layer R0).
+(AdicSpacesPartII §R0.7).
 
 **Checks.**
 
@@ -3965,7 +3965,7 @@ coherent `O†_X`-module. Then there are a finite `A`-module `M` and an isomorph
 the functor `M ↦ M ⊗ O†_X` is an equivalence between finite `A`-modules and coherent `O†_X`-modules,
 with quasi-inverse `F ↦ Γ(X, F)` (GK00 §2, Thm 2.16, p. 13). *Needs:* *dagger-coherent-module*;
 *fringe-module-descent*; *dagger-affinoid-subdomain-completion*; *dagger-tate-acyclicity*;
-*tate-kiehl-affinoid* (AdicSpacesPartIII layer R3).
+*tate-kiehl-affinoid* (AdicSpacesPartIII §R3.2).
 
 The statement consists of essential surjectivity onto coherent modules, fullness and
 faithfulness; the associated
@@ -4066,7 +4066,7 @@ The identification with a submodule of `Γ(X', F')` is the one from this descent
 An arbitrary rigid trivialisation need not preserve it: multiplication by a unit of `Â`
 outside `A` carries the extendable submodule `A` to a different submodule of `Â`. *Needs:* *strict-neighbourhood*;
 *fringe-module-descent*; *dagger-coherent-affinoid-kiehl*; *fringe-presentation*;
-*dagger-completion-comparison*; *tate-kiehl-affinoid* (AdicSpacesPartIII layer R3).
+*dagger-completion-comparison*; *tate-kiehl-affinoid* (AdicSpacesPartIII §R3.2).
 
 **Relative compactness, partially proper and proper morphisms, and Stein spaces for dagger spaces.**
 (*dagger-partially-proper*) Let `f : X = Sp(A) → Y = Sp(B)` be a morphism of affinoid `K`-dagger
@@ -4096,7 +4096,7 @@ Stein spaces are partially proper over `Sp(K)`, and that the interior `T ∩ (D^
 of an affinoid `T` with a closed immersion into a polydisc is Stein (GK00 §2, 2.24, p. 15).
 *Needs:* *dagger-space*; *dagger-affinoid-subdomain*; *strict-neighbourhood*;
 *dagger-completion-comparison*; *dagger-coherent-module*; *partially-proper-morphism*,
-*separated-morphism* (AdicSpacesPartII layer R0); *rigid-analytic-space*, *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1).
+*separated-morphism* (AdicSpacesPartII §R0.10); *rigid-analytic-space*, *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1).
 
 **Checks.**
 
@@ -6141,6 +6141,14 @@ specialization by the condition that a section has value strictly less than
 one. Thus the component-intersection tubes in Theorem C (*dagger-semistable-tube-invariance*)
 and in *dagger-semistable-tube-finiteness* are inverse images under this specialization
 map, with their actual open immersions into the dagger generic fibre.
+
+*Needs:* §§F1.3, F1.9, F1.10, F1.11 and F1.12 (*fringe-presentation*; *dagger-de-rham-complex*,
+*dagger-polyannulus-de-rham-cohomology*; *compact-support-de-rham*; *dagger-semistable-tube-invariance*,
+*dagger-semistable-tube-finiteness*; *compact-support-log-complex*); §R4.7 (*smooth-pair*, normal crossings
+charts); AdicSpacesPartII §§R0.15 and R1.1 (*continuous-differentials*; *rigid-analytic-space*,
+*affinoid-subdomain*); AdicSpacesPartIII §§R2.2, R2.3, R2.4 and R3.1 (*admissible-formal-scheme*,
+*generic-fibre-functor-d*, *specialisation-map*, *associated-module-sheaf*); Mathlib `KaehlerDifferential`,
+`ExteriorAlgebra.exteriorPower`, `DerivedCategory`, `DerivedCategory.triangleOfSESδ`.
 
 **Checks.** The empty model is strictly semistable,
 the trait is strictly semistable, and
