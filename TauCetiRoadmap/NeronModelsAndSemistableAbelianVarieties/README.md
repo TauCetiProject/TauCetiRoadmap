@@ -1339,7 +1339,7 @@ for an arbitrary discrete valuation ring. At each such localisation `R'`, 3.8 an
 the regular semistable model over `R'` itself, whatever its residue field, so no strict
 henselisation and no enlargement of the residue field is needed. *Needs:* 3.1, 3.2, 3.8, 3.9;
 StableReduction Layers 4 and 7 (curve existence); JacobianChallenge Layers D–F (Jacobians);
-AbelianSchemesAndArithmeticModuli A3 (isogenies) and A6.5 (`poincareReducibility`);
+AbelianSchemesAndArithmeticModuli §A3.1 (isogenies) and A6.5 (`poincareReducibility`);
 Mathlib `IsIntegralClosure.finite` and `IsIntegralClosure.isDedekindDomain` in
 `Mathlib/RingTheory/DedekindDomain/IntegralClosure.lean` (the integral closure of a Noetherian
 integrally closed domain in a finite separable extension of its fraction field is finite over it
@@ -1481,9 +1481,9 @@ retaining the residue Galois action. The comparison concerns the identity model:
 not `A`, and this target does not identify completions of the full Néron model.
 *Needs:* 2.4, 3.1; AdicSpacesPartIII F0 (formal schemes and completion); SchemeAndStackFoundations
 §§4.8–4.10 (coherent formal existence and algebraisation of compatible morphisms)
-and Layer 1 (étale descent); `SemiabelianExtensionClassification`;
-AbelianSchemesAndArithmeticModuli A2 (duality and the Poincaré bundle),
-and A4.8 (polarised effectivity).
+and SchemeAndStackFoundations §1.1 (étale descent); `SemiabelianExtensionClassification`;
+AbelianSchemesAndArithmeticModuli §§A2.2, A2.3 and A2.5 (duality, the Poincaré bundle and
+polarisations), and AbelianSchemesAndArithmeticModuli A4.8 (polarised effectivity).
 
 **Checks.**
 
@@ -1531,7 +1531,8 @@ and quotient; constant split lattices are auxiliary choices. *Needs:* 2.4, 3.13;
 RigidAnalyticGeometry §§6.1–6.2 (rigid spaces), §8.1 (rigid analytification),
 §§8.2–8.3 (classical points and rigid–adic comparison); AdicSpacesPartIII
 F0 and R2.3 (formal schemes, completion and generic fibres);
-AbelianSchemesAndArithmeticModuli A2–A3 (Poincaré duality and finite flat torsion).
+AbelianSchemesAndArithmeticModuli §§A2.2, A2.5, A3.2 and A3.5 (Poincaré duality, polarisations,
+finite flat torsion and Weil pairings).
 
 **Checks.**
 
@@ -3388,7 +3389,7 @@ cotangent spaces multiplication by the nonzero integer `deg f` is invertible in 
 zero, and the lattices are torsion-free by 1.11. This is a formal consequence of those targets,
 not the general statement of Yuan–Zhang's specialised CM erratum (introduction, p. 1,
 Theorems 1–2, p. 2); that erratum supplies the warning against exactness of Néron models.
-*Needs:* 1.5, 1.11, 5.2; AbelianSchemesAndArithmeticModuli A3 (the isogeny identity).
+*Needs:* 1.5, 1.11, 5.2; AbelianSchemesAndArithmeticModuli §§A3.1 and A3.3 (the isogeny identity).
 
 **Checks.**
 
@@ -3731,7 +3732,8 @@ description at places of bad reduction through the strict `1`-motive, 5.3 at pla
 and the `ℓ`-independence of 5.6; the coefficient-prime trace comparison and
 Saito's base-change argument are built below. *Needs:* 3.10, 3.14, 5.3, 5.6;
 `AbelianSchemesAndArithmeticModuli:A4.4` (`exteriorCohomology`);
-ArithmeticGaloisRepresentations Layer 1 (character comparison) and Layer 2 (§2.4).
+ArithmeticGaloisRepresentations §§1.2, 1.7 and 1.8 (coefficient extension, semisimplification
+and the Brauer–Nesbitt character comparison) and ArithmeticGaloisRepresentations Layer 2 (§2.4).
 
 Prove `good_abelian_frobenius_polynomial` here for the
 good abelian quotient over the valuation ring of finite `K/ℚ_p`: consume its supplied
