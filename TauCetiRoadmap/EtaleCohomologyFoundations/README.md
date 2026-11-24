@@ -454,7 +454,7 @@ universally injective and surjective. Hence `EtaleFundamentalGroup.map f x̄` is
 for every geometric point `x̄` of `X`; for connected `X` and `Y` this is Stacks, Proposition
 58.8.4, tag 0BQN.
 (Stacks §59.45, Theorem 59.45.2, 04DZ.)
-*Needs:* SchemeAndStackFoundations §§0.23–0.23a, §0.29 and Layer 2; EnhancedDerivedSheaves §§0.1–0.4 for generic sheaf equivalences and derived transport; §F.0.2 (finite étale covers, fibre functors and `EtaleFundamentalGroup`).
+*Needs:* SchemeAndStackFoundations §§0.23–0.23a, §0.29 and §2.1 (`Sheaf.H.pullback`, the small étale site); EnhancedDerivedSheaves §§0.1–0.4 for generic sheaf equivalences and derived transport; §F.0.2 (finite étale covers, fibre functors and `EtaleFundamentalGroup`).
 
 **Checks.**
 
@@ -500,8 +500,8 @@ inertia groups and the orbit description of fibres; Stacks, More on Algebra, Lem
 equalities `e_i = e`, `f_i = f`, normality of the residue extension and surjectivity of
 `D → Aut(κ(y)/κ(x))`, with the count `|D| = ef = |I|·|Aut(κ(y)/κ(x))|` in the proof of
 Lemma 15.114.5 (tag 09EE), which gives `|I| = e` when `κ(y)/κ(x)` is separable. *Needs:* Supplied by §F.0.2 /
-VanishingCycles.finiteEtaleGaloisCategory; SchemeAndStackFoundations Layer 0;
-AlgebraicCurves Layers 8 and 12; Mathlib `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`,
+VanishingCycles.finiteEtaleGaloisCategory; SchemeAndStackFoundations §§0.20 and 0.30;
+AlgebraicCurves §§8.6, 12A, 12B and 12C; Mathlib `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`,
 `Ideal.Quotient.stabilizerQuotientInertiaEquiv`, `Ideal.card_inertia_eq_ramificationIdxIn`; Tau Ceti
 `TauCeti.Place.stabilizer_eq_decompositionSubgroup`,
 `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup`.
@@ -543,7 +543,7 @@ an algebraically closed field is a Kummer cover. Source: [SGA 1](https://arxiv.o
 Exposé XIII, Corollary 2.12, p. 290; for the field case, Exposé V, Proposition 8.1, p. 117, which
 is Tau Ceti's declaration above. *Needs:* Supplied by §F.0.2 /
 VanishingCycles.finiteEtaleGaloisCategory; Tau Ceti
-`TauCeti.FiniteEtaleScheme.galContinuousMulEquivAutFiber`; BelyiMaps Layers 12 and 13;
+`TauCeti.FiniteEtaleScheme.galContinuousMulEquivAutFiber`; BelyiMaps §§12.5 and 12.6, BelyiMaps Layer 13;
 ProfiniteArithmetic Layer 0. Finite lisse coefficients require no invertibility; `π₁` and paths
 are §F.0.2's `EtaleFundamentalGroup` and EtalePath, defined for every scheme and geometric point.
 
@@ -1954,7 +1954,7 @@ regular immersion followed by a smooth morphism (ILO XVI, Definitions 2.5.1–2.
 Theorem 2.5.5); no regularity is assumed. Its being an isomorphism for a closed immersion of
 regular schemes is the absolute-purity theorem of LefschetzPencilsAndVanishingCycles §0.10.
 (SGA 4 XVIII 3.2; SGA 5 VII; ILO XVI §§1–2.)
-*Needs:* F.2, F.4–F.5; §§0.9–0.11; SchemeAndStackFoundations Layer 5 (Chow and Chern classes).
+*Needs:* F.2, F.4–F.5; §§0.9–0.11; SchemeAndStackFoundations §§5.1–5.5 (Chow groups and their pushforward, Chern classes, normal bundles).
 
 **Checks.**
 
