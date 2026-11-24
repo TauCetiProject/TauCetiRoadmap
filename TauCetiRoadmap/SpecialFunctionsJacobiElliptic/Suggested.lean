@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.JacobiElliptic.Basic
 public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Legendre
+public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Relation
 public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Carlson.Basic
 public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Carlson.RJ
 public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Carlson.Legendre
@@ -318,11 +319,11 @@ theorem jacobiSn_I_mul_modulus {k k₁' : ℂ} (h : k₁' ^ 2 * (1 + k ^ 2) = 1)
       jacobiDn (I * k) u = jacobiGlaisher .n .d (k * k₁') (u / k₁') := by
   sorry
 
-/-- README 4.4: the descending Landen transformation, `τ ↦ 2τ` (DLMF 22.7.1–4). -/
+/-- README 4.4: the descending Landen transformation, `τ ↦ 2τ` (DLMF 22.7.1–4). The denominator
+of the third law vanishes with that of the first two, since `1 + k₁ − dn² = k₁(1 + k₁ sn²)`. -/
 theorem jacobiSnTau_landen {τ : ℂ} (hτ : 0 < τ.im) {k₁ u w : ℂ}
     (hk₁ : k₁ = thetaModulus (2 * τ)) (hw : w = u / (1 + k₁))
-    (hn : nevilleTheta .n (2 * τ) w ≠ 0) (hs : 1 + k₁ * jacobiSnTau (2 * τ) w ^ 2 ≠ 0)
-    (hd : 1 + k₁ - jacobiDnTau (2 * τ) w ^ 2 ≠ 0) :
+    (hn : nevilleTheta .n (2 * τ) w ≠ 0) (hs : 1 + k₁ * jacobiSnTau (2 * τ) w ^ 2 ≠ 0) :
     k₁ = (1 - thetaComplModulus τ) / (1 + thetaComplModulus τ) ∧
       (1 + k₁) * jacobiK (2 * τ) = jacobiK τ ∧
       jacobiSnTau τ u = (1 + k₁) * jacobiSnTau (2 * τ) w / (1 + k₁ * jacobiSnTau (2 * τ) w ^ 2) ∧
@@ -479,7 +480,8 @@ theorem weierstrassZeta_jacobiK {τ : ℂ} (hτ : 0 < τ.im) {u : ℂ}
 
 /-- README 8.1: `arcsn x = x R_F(1 − x², 1 − k²x², 1)` inverts `sn` on the star-shaped domain
 where `1 − x²` and `1 − k²x²` avoid `(−∞, 0]`, with derivative
-`(1 − x²)^{−1/2}(1 − k²x²)^{−1/2}` (DLMF 22.15.11). -/
+`(1 − x²)^{−1/2}(1 − k²x²)^{−1/2}` (DLMF 19.25.33 with `p = n`; DLMF 22.15.11 for real
+`−1 ≤ x ≤ 1` and `0 ≤ k ≤ 1`). -/
 theorem jacobiSn_mul_carlsonRF {k x : ℂ} (hx : 1 - x ^ 2 ∈ slitPlane)
     (hkx : 1 - k ^ 2 * x ^ 2 ∈ slitPlane) :
     jacobiSn k (x * carlsonRF (1 - x ^ 2) (1 - k ^ 2 * x ^ 2) 1) = x ∧
@@ -514,6 +516,7 @@ theorem jacobiSn_mul_carlsonRF {k x : ℂ} (hx : 1 - x ^ 2 ∈ slitPlane)
 #check @TauCeti.Real.legendreEc
 #check @TauCeti.Real.ofReal_legendreK_eq_carlsonRF
 #check @TauCeti.Real.ofReal_legendreEc_eq_carlsonRF_sub_carlsonRD
+#check @TauCeti.Real.legendre_relation
 #check @TauCeti.Real.jacobiSn
 #check @TauCeti.Real.jacobiCn
 #check @TauCeti.Real.jacobiDn

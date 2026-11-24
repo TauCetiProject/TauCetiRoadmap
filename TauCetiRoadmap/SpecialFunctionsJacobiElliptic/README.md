@@ -17,12 +17,12 @@ is drawn from Lawden (*Elliptic Functions and Applications*, Chs. 2, 3, 6 and 8)
 Armitage–Eberlein (*Elliptic Functions*, Chs. 2, 4, 5 and 7), Whittaker–Watson (Ch. XXII),
 Takebe (*Elliptic Integrals and Elliptic Functions*, Ch. 17), Chandrasekharan (*Elliptic
 Functions*, Ch. VII), Magnus–Oberhettinger–Soni (*Formulas and Theorems for the Special
-Functions of Mathematical Physics*, §§10.3–10.4), Temme (*Special Functions*, §12.3), Schwalm
-(*Lectures on Selected Topics in Mathematical Physics: Elliptic Functions and Elliptic
-Integrals*, §4.3), Lang (*Elliptic Functions*, Ch. 18), Koecher–Krieg (*Elliptic Functions and
-Modular Forms*, Ch. I) and the NIST *Digital Library of Mathematical Functions* (DLMF), whose
-equation numbers are given as additional locators; each headline cites its sources; see
-[References](#references).
+Functions of Mathematical Physics*, §§10.3, 10.4 and 10.6), Temme (*Special Functions*,
+§12.3), Schwalm (*Lectures on Selected Topics in Mathematical Physics: Elliptic Functions and
+Elliptic Integrals*, §4.3), Lang (*Elliptic Functions*, Ch. 18), Koecher–Krieg (*Elliptic
+Functions and Modular Forms*, Ch. I) and the NIST *Digital Library of Mathematical Functions*
+(DLMF), whose equation numbers are given as additional locators; each headline cites its
+sources; see [References](#references).
 
 Mathlib has Jacobi's `jacobiTheta₂` with its functional equation, the Weierstrass function
 `PeriodPair.weierstrassP` of a lattice with its differential equation and meromorphy, `logDeriv`,
@@ -177,8 +177,9 @@ is the list of zeros in its 4.2 (the four lattices of zeros are disjoint transla
 
 **Checks.**
 - At `τ = 0.3 + 0.8i`, `u = 0.37 + 0.21i`: `sn = 0.37321 44443 8 + 0.18744 22832 3 i`,
-  `cn = 0.94935 53182 6 − 0.07368 80764 3 i`, `dn = 0.99159 52968 8 − 0.07556 22303 0 i`, equal to
-  the values of mpmath's ellipfun at `m = λ(τ) = 0.76600 28750 45 + 0.40978 63252 80 i`.
+  `cn = 0.94935 53182 6 − 0.07368 80764 3 i`, `dn = 0.99159 52968 8 − 0.07556 22303 0 i`, with
+  `λ(τ) = 0.76600 28750 45 + 0.40978 63252 80 i`; the value `x` of `sn` satisfies
+  `x R_F(1 − x², 1 − λx², 1) = u` to `10⁻³¹` (8.1).
 - `ns · sn = 1` at the same point; `K(i) = 1.85407 46773 01`, the lemniscatic value of
   SpecialFunctionsTheta 6.3; `K(0.3 + 0.8i) = 1.85699 35908 5 + 0.45075 87082 7 i`.
 - Negative control: without the factor `θ₃²(0|τ)`, `θ₁(ζ)/θ₁′(0)` has slope
@@ -285,7 +286,7 @@ cancel in each quotient, which is why the rows hold for every `u` (Conventions).
 - Every zero and pole is simple.
 - **Residues** (`tendsto_sub_mul_jacobiSnTau`): at `iK′`, `sn`, `cn`, `dn` have residues `k⁻¹`,
   `−ik⁻¹`, `−i`, as limits of `(u − iK′) f(u)` on the punctured neighbourhood (Lawden §2.8,
-  (2.8.5), p. 42; Whittaker–Watson §22.35, p. 505; Magnus–Oberhettinger–Soni §10.3, p. 382; DLMF
+  (2.8.5), p. 42; Whittaker–Watson §22.341, p. 504; Magnus–Oberhettinger–Soni §10.3, p. 382; DLMF
   Table 22.5.1); the residues at the other poles follow by 2.2.
 - **Special values:** `sn K = 1`, `cn K = 0`, `dn K = k′`, `sn(K + iK′) = k⁻¹`,
   `cn(K + iK′) = −ik′k⁻¹`, `dn(K + iK′) = 0` (Lawden (2.2.20)–(2.2.22), p. 28; DLMF Table 22.5.1),
@@ -317,7 +318,7 @@ Layer 1; SpecialFunctionsTheta 1.3, 4.2.
 
 - **Inversion** (`exists_modularLambda_eq`): for `μ ∉ {0, 1}` there is `τ` with `Im τ > 0` and
   `λ(τ) = μ` (Takebe Proposition 17.4, p. 295; Armitage–Eberlein Theorem 5.1, p. 109;
-  Chandrasekharan Ch. VII §1, p. 99; Whittaker–Watson §22.11, p. 491).
+  Chandrasekharan Ch. VII §1, p. 99; Whittaker–Watson §22.11, p. 491, for `μ` off the two cuts).
 - `jacobiTau` as in Conventions.
 
 SpecialFunctionsTheta 6.2 gives `λ` on its fundamental region `F` onto
@@ -368,7 +369,7 @@ gives `R_F(0, 1 − λ(τ), 1) = (π/2)θ₃²(0|τ) = K(τ)`, and at `−1/τ �
 - `carlsonTau (0.5 + 0.3i) = 0.39746 33014 76 + 1.20618 08674 3 i`, with `λ = 0.16 + 0.3i = k²` and
   `K = R_F(0, 1 − k², 1) = 1.61320 51868 6 + 0.13668 79387 4 i`; at this `τ` also
   `thetaModulus τ = k`, and `sn(u|τ)` at `u = 0.37 + 0.21i` is
-  `0.37293 77462 9 + 0.19483 14769 5 i`, mpmath's `sn(u, k)`.
+  `x = 0.37293 77462 9 + 0.19483 14769 5 i`, and `x R_F(1 − x², 1 − k²x², 1) = u` to `10⁻³¹` (8.1).
 - `carlsonTau (1.3 + 0.4i) = 0.52519 94543 2 + 0.64720 97507 2 i`, with `thetaModulus = 1.3 + 0.4i`:
   `k` beyond `1` is off the cuts when not real.
 - Negative control: the swapped quotient `i R_F(0, 1 − k², 1)/R_F(0, k², 1)` at `k = 0.5 + 0.3i`
@@ -490,18 +491,25 @@ Proof: as 4.2, `w(u) = k₁′ sd(u/k₁′, k₁)` solves the equation of `sn(�
 ### 4.4 Landen's transformation
 
 - **`τ ↦ 2τ`** (`jacobiSnTau_landen`): with `k₁ = k(2τ)` and `w = u/(1 + k₁)`:
-  `k₁ = (1 − k′)/(1 + k′)`, `(1 + k₁)K(2τ) = K(τ)`, and, where `θ_n(w|2τ) ≠ 0` and the
-  denominators do not vanish,
+  `k₁ = (1 − k′)/(1 + k′)`, `(1 + k₁)K(2τ) = K(τ)`, and, where `θ_n(w|2τ) ≠ 0` and
+  `1 + k₁ sn²(w|2τ) ≠ 0`,
   `sn(u|τ) = (1 + k₁) sn(w|2τ)/(1 + k₁ sn²(w|2τ))`,
   `cn(u|τ) = cn(w|2τ) dn(w|2τ)/(1 + k₁ sn²(w|2τ))`,
-  `dn(u|τ) = (dn²(w|2τ) − (1 − k₁))/(1 + k₁ − dn²(w|2τ))` (Whittaker–Watson §22.42, pp. 507–508,
-  with Example 2; Lawden (3.9.15)–(3.9.24), pp. 78–79; Armitage–Eberlein §4.8, pp. 99–101;
-  Magnus–Oberhettinger–Soni §10.3, table, p. 385; DLMF 22.7.1–22.7.4).
+  `dn(u|τ) = (dn²(w|2τ) − (1 − k₁))/(1 + k₁ − dn²(w|2τ))` (Lawden (3.9.15)–(3.9.24), pp. 78–79;
+  Armitage–Eberlein §4.8, pp. 99–101; Magnus–Oberhettinger–Soni §10.3, table, p. 385;
+  DLMF 22.7.1–22.7.4). The two denominators vanish together: `1 + k₁ − dn² = k₁(1 + k₁ sn²)` by
+  1.2, and `k₁ ≠ 0`.
 - In the modulus form, for either root `k′` of `k′² = 1 − k²` with `k′ ≠ −1`
   (DLMF §22.17(ii)).
 
-SpecialFunctionsTheta 4.4 (the quotients between `τ` and `2τ`) at `ζ` gives `k₁ = k(2τ)` and the
-first law as Whittaker–Watson derive it; the others from 1.2. The modulus form: the two roots
+The theta constants of SpecialFunctionsTheta 2.4, `θ₃²(0|τ) = θ₃²(0|2τ) + θ₂²(0|2τ)` and
+`θ₄²(0|τ) = θ₃²(0|2τ) − θ₂²(0|2τ)`, give `k₁ = (1 − k′)/(1 + k′)` and `(1 + k₁)K(2τ) = K(τ)`, so
+`w/θ₃²(0|2τ) = ζ`. The second pair of quotients of its 4.4,
+`θ₁(z|2τ)θ₄(z|2τ)/θ₁(z|τ) = θ₂(z|2τ)θ₃(z|2τ)/θ₂(z|τ)`, at `z = ζ` gives
+`sc(u|τ) = (1 + k₁) sn/(cn dn)` at `(w|2τ)`. With 1.2, `nc² = 1 + sc²` makes `cn²(u|τ)` the square
+of the right side of the second law; two meromorphic functions with equal squares agree up to a
+constant sign, which is `+` at `u = 0`. The first law is `sc · cn`, and the third follows from
+`dn² = 1 − k² sn²` in the same way. The modulus form: the two roots
 `k′` correspond to two values of `τ` with the same `λ` but different `λ(2τ)`, and 3.2 applies to
 each.
 
@@ -510,25 +518,36 @@ each.
   `0.55 + 1.4i`; the three laws there to `2 · 10⁻²⁹`.
 - In the modulus form at `k = 0.6`, `0.5 + 0.3i`, `1.3 + 0.4i`, both roots `±k′` give the left
   side to `10⁻²⁹`.
+- `1 + k₁ − dn²(w|2τ) = k₁(1 + k₁ sn²(w|2τ))` at `u = 0.37 + 0.21i` and the three test values of
+  `τ`, to `10⁻³⁰`.
 
 ### 4.5 Gauss's transformation
 
 - **`τ ↦ τ/2`** (`jacobiSnTau_gauss`): with `k₂ = k(τ/2)`, `k₂′ = k′(τ/2)` and
   `w = u/(1 + k₂′)`: `k₂′ = (1 − k)/(1 + k)`, and where `θ_n(w|τ/2)` and `θ_d(w|τ/2)` do not vanish,
   `sn(u|τ) = (1 + k₂′) sn cn/dn`, `cn(u|τ) = (1 + k₂′)(dn² − k₂′)/(k₂² dn)`,
-  `dn(u|τ) = (1 − k₂′)(dn² + k₂′)/(k₂² dn)`, the functions on the right at `(w|τ/2)` (Lawden
-  (3.9.25)–(3.9.29), p. 80; Magnus–Oberhettinger–Soni §10.3, table, p. 385; DLMF 22.7.5–22.7.8).
-- In the modulus form, with `k₂ = 2k^{1/2}/(1 + k)` for either root `k^{1/2}`, and
-  `k₂′ = (1 − k)/(1 + k)` as a quotient (DLMF 22.7.5 defines `k₂′` by a root of `1 − k₂²`; the
-  quotient is the right branch).
+  `dn(u|τ) = (1 − k₂′)(dn² + k₂′)/(k₂² dn)`, the functions on the right at `(w|τ/2)`
+  (Whittaker–Watson §22.42, pp. 507–508, with Example 2; Lawden (3.9.25)–(3.9.29), p. 80;
+  Magnus–Oberhettinger–Soni §10.3, table, p. 385; DLMF 22.7.5–22.7.8).
+- In the modulus form, for `k ≠ −1`, with `k₂ = 2k^{1/2}/(1 + k)` for either root `k^{1/2}`, and
+  `k₂′ = (1 − k)/(1 + k)`, the quotient of DLMF 22.7.5; the other root of `1 − k₂²` fails
+  (Checks).
 
-4.4 at `τ/2`, solved for the functions at `τ`.
+The first pair of quotients of SpecialFunctionsTheta 4.4 at `τ/2`,
+`θ₁(z|τ/2)θ₂(z|τ/2)/θ₁(2z|τ) = θ₃(z|τ/2)θ₄(z|τ/2)/θ₄(2z|τ)`, at `z = w/θ₃²(0|τ/2)` gives the first
+law, as Whittaker–Watson §22.42 derive it: their `sn((1 + k′)u, k₁) = (1 + k′) sn(u, k) cd(u, k)`
+is the first law with `τ/2` in place of `τ`, and their `k₁ = (1 − k′)/(1 + k′)` at `τ/2` is
+`k = (1 − k₂′)/(1 + k₂′)`. The other two laws follow from 1.2: `cn² = 1 − sn²` and
+`dn² = 1 − k² sn²` are the squares of their right sides, and the sign is `+` at `u = 0`.
 
 **Checks.**
 - `k′(τ/2) = (1 − k)/(1 + k)` and `k(τ/2)² = 4k/(1 + k)²` at the three test values of `τ`; the
   three laws there to `3 · 10⁻³⁰`.
 - Negative control: `k₂′ = −(1 − k)/(1 + k)`, the other root of `1 − k₂²`, gives `sn` off by
   `0.02854` at `k = 0.6`.
+- The modulus form at `k = −0.6`, `−3`, `−0.7 + 0.9i`, both roots `k^{1/2}`, to `10⁻³⁰`; at
+  `k = −1`, `x / 0 = 0` gives `k₂ = k₂′ = 0`, and the first law would read
+  `tanh u = sin u cos u`.
 
 ### Examples
 
@@ -537,7 +556,7 @@ each.
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsTheta 3.1, 4.4.
+Layers 1–3; SpecialFunctionsTheta 2.4, 3.1, 4.4.
 
 ## Layer 5: addition
 
@@ -547,7 +566,8 @@ Layers 1–3; SpecialFunctionsTheta 3.1, 4.4.
   `D = 1 − k² sn²u sn²v` do not vanish,
   `sn(u + v) = (sn u cn v dn v + sn v cn u dn u)/D`,
   `cn(u + v) = (cn u cn v − sn u dn u sn v dn v)/D`,
-  `dn(u + v) = (dn u dn v − k² sn u cn u sn v cn v)/D` (Whittaker–Watson §22.2, pp. 494–496;
+  `dn(u + v) = (dn u dn v − k² sn u cn u sn v cn v)/D` (Whittaker–Watson §22.2, pp. 494–496, for
+  `sn`, and §22.21, p. 497, for `cn` and `dn`;
   Lawden (2.4.1)–(2.4.3), pp. 33–34; Takebe §17.3.1, p. 303; Chandrasekharan Ch. VII §6,
   pp. 106–107; Armitage–Eberlein §2.4, pp. 30–33; Magnus–Oberhettinger–Soni §10.3, p. 378;
   DLMF 22.8.1–22.8.3).
@@ -574,7 +594,7 @@ formulas for `θⱼ(z + w)θⱼ(z − w)`) at `z = ζ`, `w = η`.
   (2.4.4)–(2.4.6), p. 34; DLMF 22.6.5–22.6.7), 5.1 at `v = u`.
 - `sn²(u/2) = (1 − cn u)/(1 + dn u)`, `cn²(u/2) = (dn u + cn u)/(1 + dn u)`,
   `dn²(u/2) = (dn u + cn u)/(1 + cn u)` where the denominators do not vanish (Lawden
-  (2.4.7)–(2.4.9), p. 34; DLMF 22.6.19–22.6.20), from the double arguments.
+  (2.4.7)–(2.4.9), p. 34; DLMF 22.6.19–22.6.21), from the double arguments.
 
 **Checks.**
 - The three duplication and three halving laws hold at `u = 0.37 + 0.21i`, `k = 0.5 + 0.3i` to
@@ -605,8 +625,10 @@ dn u = π/(2K) + (2π/K) Σ_{n≥1} qⁿ cos(2nζ)/(1 + q^{2n})
   §10.3, p. 379; DLMF §22.11).
 
 Whittaker–Watson's contour argument: integrate `sn(2Kx/π) e^{inx}` around the parallelogram with
-corners `±π`, `±π + πτ`, using 2.2 and the residues of 2.3; the series converges absolutely in the
-strip since the poles nearest the real axis are at `Im ζ = ±π Im τ/2`.
+corners `−π`, `π`, `πτ`, `−2π + πτ`, whose sides avoid the poles `x = mπ + (n + ½)πτ`; the poles
+inside are `−π + πτ/2` and `πτ/2`, with the residues of 2.3, and 2.2 makes the two slanted sides
+cancel. The series converges absolutely in the strip since the poles nearest the real axis are at
+`Im ζ = ±π Im τ/2`.
 
 **Checks.**
 - At `τ = 0.3 + 0.8i`, `ζ = 0.21 + 0.17i` (strip half-width `1.2566`) and at `τ = −1.2 + 0.5i`
@@ -741,7 +763,9 @@ differentiation with 1.2–1.3.
 
 - **Legendre's relation** (`jacobiETau_legendre`): for `Im τ > 0`,
   `E K′ + E′ K − K K′ = π/2` with `K′ = K(−1/τ)`, `E′ = E(−1/τ)` (Armitage–Eberlein
-  Theorem 5.11, (5.53), p. 131; Lawden (3.8.29), p. 76, for `0 < k < 1`).
+  Theorem 5.11, (5.53), p. 131; Lawden (3.8.29), p. 76, for `0 < k < 1`). The rectangular case,
+  `τ = carlsonTau k` for real `0 < k < 1`, is `TauCeti.Real.legendre_relation` with Carlson's
+  form below and 3.3.
 - **Carlson's form of `E`** (`jacobiETau_carlsonTau`): if `k²` and `1 − k²` lie in `slitPlane`,
   `E(carlsonTau k) = R_F(0, 1 − k², 1) − (k²/3) R_D(0, 1 − k², 1)`; for real `k` with
   `0 < k² < 1` this is `TauCeti.Real.legendreEc k` by
@@ -759,7 +783,7 @@ plane (3.3 and Tau Ceti's Carlson functions), and agree for `0 < k < 1` by
 - At `τ = 0.3 + 0.8i` and `−1.2 + 0.5i` the left side of Legendre's relation is
   `π/2 = 1.57079 63267 9` to `5 · 10⁻³¹`; `K(−1/τ) = −iτ K(τ)` there.
 - At `k = 0.5 + 0.3i`: `E(carlsonTau k) = 1.51394 93183 3 − 0.12451 76876 8 i`, the Carlson
-  value and mpmath's `ellipe(k²)`.
+  value and the integral `∫₀^{π/2} (1 − k² sin²θ)^{1/2} dθ`.
 - Negative control: `E K′ + E′ K + K K′` is not `π/2` (at `τ = i`, `E = 1.35064 38810 5`,
   `K = 1.85407 46773 0`, and `2EK − K² = π/2` while `2EK + K² ≠ π/2`).
 
@@ -789,7 +813,8 @@ they are equal.
 Layers 1–4; SpecialFunctionsTheta 1.3, 2.3; Tau Ceti `UpperHalfPlane.periodPair`,
 `PeriodPair.weierstrassP_smul`, `PeriodPair.weierstrassZeta`,
 `PeriodPair.hasDerivAt_weierstrassZeta`, `PeriodPair.weierstrassZeta_add_coe`,
-`PeriodPair.quasiPeriod`, `Complex.carlsonRD`, `TauCeti.Real.legendreEc`; Mathlib
+`PeriodPair.quasiPeriod`, `Complex.carlsonRD`, `TauCeti.Real.legendreEc`,
+`TauCeti.Real.legendre_relation`; Mathlib
 `PeriodPair.weierstrassP`, `PeriodPair.meromorphic_weierstrassP`,
 `PeriodPair.derivWeierstrassP_sq`.
 
@@ -801,7 +826,9 @@ Layers 1–4; SpecialFunctionsTheta 1.3, 2.3; Tau Ceti `UpperHalfPlane.periodPai
   `1 − k²x²` in `slitPlane`, `sn(x R_F(1 − x², 1 − k²x², 1), k) = x`, and
   `x ↦ x R_F(1 − x², 1 − k²x², 1)` has derivative `(1 − x²)^{−1/2}(1 − k²x²)^{−1/2}` (Lawden
   §8.14, p. 238; Schwalm §4.3, pp. 4-10–4-11; Whittaker–Watson §22.11, p. 492;
-  Magnus–Oberhettinger–Soni §10.3, p. 386; DLMF 22.15.11).
+  Magnus–Oberhettinger–Soni §10.3, p. 386; DLMF 19.25.33 with `p = n`, and 22.15.11 for real
+  `−1 ≤ x ≤ 1` and `0 ≤ k ≤ 1`). The extension to the star-shaped complex domain is the route
+  below.
 - In particular `x R_F(1 − x², 1 − k²x², 1)` at `x = 1` is `K = R_F(0, 1 − k², 1)` for `k²` off
   `[1, ∞)`, and at `k = 0`, `1` it is `arcsin x`, `artanh x`.
 
@@ -829,8 +856,8 @@ Layers 1–3; Tau Ceti `Complex.carlsonRF`; Mathlib `Complex.cpow`, `slitPlane`,
 ## Downstream consumers
 
 - Lamé functions and ellipsoidal harmonics, whose equation in Jacobi's form has the coefficient
-  `k² sn²(z, k)` at complex `z` (Whittaker–Watson Ch. XXIII); SpecialFunctionsHeun (an open PR)
-  states the Jacobi form of Lamé's equation in its 2.4 with the real functions only.
+  `k² sn²(z, k)` at complex `z` (Whittaker–Watson Ch. XXIII); SpecialFunctionsHeun 2.4 states the
+  Jacobi form of Lamé's equation with the real functions only.
 - The periodic solutions of the KdV and nonlinear Schrödinger equations (cnoidal and dnoidal
   waves) and the pendulum beyond the real time axis.
 - A roadmap for conformal maps by elliptic functions (Schwarz–Christoffel maps of rectangles,
@@ -860,18 +887,17 @@ inputs, not targets:
 - the real functions `TauCeti.Real.jacobiSn`, `TauCeti.Real.jacobiCn`, `TauCeti.Real.jacobiDn` of
   a real modulus with `k² < 1`, with their derivatives, periods and values at `K`
   (`TauCeti/Analysis/SpecialFunctions/JacobiElliptic/Basic.lean`), and the theory of
-  [EllipticIntegrals](../EllipticIntegrals/README.md) behind them; 3.4 identifies them with the
-  restrictions of the complex functions;
-- Tau Ceti also proves the real addition theorems
-  (`JacobiElliptic/Addition.lean`), the real limit `k → 1⁻` (`JacobiElliptic/Degeneration.lean`)
-  and the pendulum (`JacobiElliptic/Pendulum.lean`); 5.1 and 3.5 restricted to real data are these;
+  [EllipticIntegrals](../EllipticIntegrals/README.md) behind them (its Milestone 7); 3.4
+  identifies them with the restrictions of the complex functions;
+- the real addition theorem, the real limit `k → 1⁻` and the pendulum are EllipticIntegrals
+  7.5–7.7; 5.1 and 3.5 restricted to real data are these;
+- Legendre's relation for real `0 < k < 1`, `TauCeti.Real.legendre_relation`
+  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Relation.lean`; EllipticIntegrals 3.2), is
+  the rectangular case of 7.4;
 - the theta functions, `λ` and `K = (π/2)θ₃²(0|τ)` with its Carlson form are SpecialFunctionsTheta's
-  (its Layers 1–6), and Tau Ceti formalizes its Layer 1.1–1.2
-  (`TauCeti/Analysis/SpecialFunctions/JacobiTheta/Basic.lean`);
+  (its Layers 1–6);
 - `℘` and its differential equation (Mathlib), Weierstrass's `ζ` with its quasi-periods (Tau Ceti,
-  `TauCeti/Analysis/SpecialFunctions/Elliptic/WeierstrassZeta.lean`; Tau Ceti also has
-  `Elliptic/Weierstrass/Zeta.lean` and `Sigma.lean`, with Legendre's relation for the lattice
-  quasi-periods).
+  `TauCeti/Analysis/SpecialFunctions/Elliptic/WeierstrassZeta.lean`).
 
 **Auxiliary results.** The no-common-zero statement of 1.1, the Taylor-coefficient argument of
 3.2 and the star-shapedness of the domain of 8.1 are proved here as lemmas; they are not owned as
@@ -920,7 +946,7 @@ functions with Legendre's relation, and `arcsn` as `R_F`; it consumes the theta 
 - **Quadratic relations, addition, derivative of a quotient** (2.2–2.3): for 1.2, 1.3, 5.1, 7.2.
 - **Inversion `τ ↦ −1/τ`** (3.1): for 3.3, 4.1, 7.3, 7.4.
 - **Products, zeros, theta constants, `θ₁′(0) = θ₂θ₃θ₄`** (4.2–4.3): for 1.1, 2.3, 6.3.
-- **Landen's quotients** (4.4): for 4.4–4.5.
+- **Landen's quotients and the theta constants at `2τ`** (2.4, 4.4): for 4.4–4.5.
 - **`λ`, its laws and mapping theorem, `K` and its Carlson form** (6.1–6.4): for 3.1, 3.3.
 - **The combined theta functions** (6.6): the identities between `pq` and `φ_{m,n}` of
   Conventions.
@@ -931,7 +957,7 @@ functions with Legendre's relation, and `arcsn` as `R_F`; it consumes the theta 
   `TauCeti.Real.hasDerivAt_jacobiSn`, `TauCeti.Real.jacobiSn_zero_modulus`
   (`TauCeti/Analysis/SpecialFunctions/JacobiElliptic/Basic.lean`), for 3.4.
 - `TauCeti.Real.legendreK`, `TauCeti.Real.legendreEc`, `TauCeti.Real.ofReal_legendreK_eq_carlsonRF`,
-  `TauCeti.Real.ofReal_legendreEc_eq_carlsonRF_sub_carlsonRD`
+  `TauCeti.Real.ofReal_legendreEc_eq_carlsonRF_sub_carlsonRD`, `TauCeti.Real.legendre_relation`
   (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for 3.3, 7.4.
 - `Complex.carlsonRF`, `Complex.carlsonRD` (`EllipticIntegral/Carlson/Basic.lean`, `RJ.lean`), for
   3.3, 7.4, 8.1.
@@ -1011,5 +1037,5 @@ Contributors should not attempt it under this roadmap.
   Physics*, Wiley, 1996, §12.3, pp. 322–327; §12.4, p. 328.
 - E. T. Whittaker and G. N. Watson, *A Course of Modern Analysis*, 4th ed., Cambridge University
   Press, 1927, Chapter XXII: §22.1, p. 491; §22.11, pp. 491–493; §22.122, p. 494; §22.2,
-  pp. 494–496; §22.35–§22.351, pp. 504–505; §22.4, p. 505; §22.42, pp. 507–508; §22.421, p. 508;
-  §22.5, p. 508; §22.6, p. 510; §22.73, p. 517.
+  pp. 494–496; §22.21, p. 497; §22.341, pp. 503–504; §22.35–§22.351, pp. 504–505; §22.4, p. 505;
+  §22.42, pp. 507–508; §22.421, p. 508; §22.5, p. 508; §22.6, p. 510; §22.73, p. 517.
