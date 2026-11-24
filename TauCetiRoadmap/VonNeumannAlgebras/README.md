@@ -2531,7 +2531,7 @@ commutant computations, weighted Bergman spaces (built here on Mathlib's `Measur
 holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–de la Harpe–Jones,
 §3.3, for the discrete-series formal degree and the coupling-constant computations.
 
-**V9.IntegrableDiscreteSeries — projectors of integrable discrete series.** Let G be a unimodular second-countable
+**V9.IntegrableDiscreteSeries — projectors of integrable discrete series.** Let G be a unimodular
 locally compact group with a fixed Haar measure, π an irreducible unitary representation of G with
 a nonzero square-integrable matrix coefficient, `d_π` its formal degree for that Haar measure (as
 defined above), w a unit vector of π, and `e_π(g)=d_π·conj⟪w,π(g)w⟫`, with the inner product of
