@@ -461,7 +461,7 @@ first proof via 1.6.5.1).
 Use [Milne-LEC] Theorem 14.7, p. 93; [Milne-LEC] Example 14.8, p. 93; [SGA4-XVIII] Lemme 1.6.6, p. 545.
 
 *Needs:* EtaleCohomologyFoundations §0.9; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves
-§§0.1–0.3; AbelianSchemesAndArithmeticModuli §A3 (Weil pairing); JacobianChallenge Layer D; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
+§§0.1–0.3; AbelianSchemesAndArithmeticModuli §A3.7 (*Polarized Weil pairings*); JacobianChallenge Layer D; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 **Checks.**
 
@@ -5716,7 +5716,7 @@ fibre-dimension bound gives the needed vanishing (BBD 5.4.13).
 
 Use [BBD-1982] Lemme 5.4.11, Lemme 5.4.12 and 5.4.13, pp. 145–146.
 
-*Needs:* §2.6; §2.7; §4.4; §0.2; §2.4; Layer 2.
+*Needs:* §2.6; §2.7; §4.4; §0.2; §2.4; §2.10.
 
 **Checks.**
 
