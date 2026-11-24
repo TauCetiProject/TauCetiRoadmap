@@ -42,10 +42,12 @@ sheaves of Λ-modules with constructible cohomology sheaves, the canonical map f
 cohomology of K to the cohomology of its analytification is an isomorphism. No smoothness,
 properness or separatedness is assumed.
 
-A companion Lean file states four of the results, with proofs left open: Montel's theorem in several
-variables, Schwartz's finiteness theorem for Fréchet spaces, and the two analytic steps of the de
-Rham comparison in forms the libraries allow. The others need objects, such as analytic
-spaces, missing from the libraries it is written against; the layers specify them.
+A companion Lean file states seven of the results, with proofs left open: Montel's theorem in several
+variables, Schwartz's finiteness theorem for Fréchet spaces, the two analytic steps of the de
+Rham comparison in forms the libraries allow, and, on open subsets of ℂⁿ, Skoda's division theorem,
+the Ohsawa–Takegoshi extension theorem and the strong openness of multiplier ideals. The others need
+objects missing from the libraries it is written against, such as analytic spaces, coherent analytic
+sheaves, Kähler manifolds and `∂̄` on forms with distribution coefficients; the layers specify them.
 
 The roadmap builds on ComplexKahlerGeometry, which supplies Weierstrass preparation, local Dolbeault
 theory and holomorphic bundles. RealAnalyticGeometry supplies the weighted `L²` estimate for `∂̄` and
@@ -67,7 +69,7 @@ approximation of plurisubharmonic functions.
 ## How to read the build
 
 C-1 uses ComplexKahlerGeometry K3's convergent local algebra to build analytic local models, scheme and space analytification,
-completed-stalk comparison and SNC coordinates. C0 puts coherent sheaf theory on the analytic spaces of §§C-1.1–C-1.2: the coherent category, ideals with nilpotents, holomorphic bundles, the analytification
+completed-stalk comparison and SNC coordinates, and proves the curve selection lemma for holomorphic germs. C0 puts coherent sheaf theory on the analytic spaces of §§C-1.1–C-1.2: the coherent category, ideals with nilpotents, holomorphic bundles, the analytification
 functors on coherent modules of schemes and algebraic spaces and the exchange maps for higher
 direct images, which every later comparison uses. C1.1–C1.8 compute coherent analytic cohomology: local and
 weighted Dolbeault theory (with the Hermitian and Kähler linear algebra it needs) give Cartan's
@@ -175,13 +177,17 @@ Each layer ends with its checks and dependencies.
 - **Lean.** The names below specify target declarations in
   `TauCetiRoadmap.ComplexComparisonPartII`, except for the explicitly supplied APIs.
   `Suggested.lean` states `montelTheorem` and `schwartzFiniteness` (C1.6),
-  `holomorphicPoincare` in its stalkwise positive-degree form on Tau Ceti's smooth forms, and
-  `nonempty_sheafSingularComparison` (C5.1) against the pinned libraries. The geometric comparison
+  `holomorphicPoincare` in its stalkwise positive-degree form on Tau Ceti's smooth forms,
+  `nonempty_sheafSingularComparison` (C5.1), and, on open subsets of `ℂⁿ`, `skodaDivision` (C7.6),
+  `ohsawaTakegoshi` (C7.7) and `strongOpenness` (C7.12), with the definitions `IsPlurisubharmonicOn`
+  (C5.4a) and `IsPseudoconvex` (C7.1), against the pinned libraries. The geometric comparison
   targets require complex analytic spaces, analytification, algebraic-space derived
   categories, sheaf complexes of algebraic and holomorphic forms, connection complexes,
   locally constant sheaves of local systems or constructible étale coefficients
-  that are not available at the pins; their statements are specified in this README, and the
-  module docstring of `Suggested.lean` names, target by target, the carrier each lacks.
+  that are not available at the pins, and the other headline targets of C7 require `∂̄` on forms with
+  distribution coefficients, Kähler manifolds and coherent analytic sheaves; their statements are
+  specified in this README, and the module docstring of `Suggested.lean` names, target by target,
+  the carrier each lacks.
 - **Universes.** Schemes are `X : Scheme.{u}` over `Spec (CommRingCat.of (ULift.{u} ℂ))`, and
   finite coefficient rings are `Λ : Type u`. Analytic spaces, the analytification `X^an` and its
   underlying space `T_X`, a `TopCat.{u}`, live in the same universe `u`. Étale sheaves in
@@ -407,6 +413,47 @@ Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §
 
 *Needs:* §§C-1.1–C-1.3; ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification) and §6.4 (SNC coordinates) for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above and `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`; Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
+### C-1.5 Curve selection for holomorphic germs
+
+Let `f, g_1, …, g_r` be germs at `0 ∈ ℂⁿ` of holomorphic functions vanishing at `0`, and put
+`|g| = (Σ_j|g_j|²)^{1/2}`. A *germ of analytic curve* through `0` is a holomorphic map `γ` from a disc about `0 ∈ ℂ`
+to `ℂⁿ` with `γ(0) = 0`. Prove:
+
+(a) `|f| ≤ C|g|` holds on a neighbourhood of `0` for some constant `C` iff for every germ of analytic curve `γ`
+through `0` there is a constant `C_γ` with `|f∘γ| ≤ C_γ|g∘γ|` near `0`;
+
+(b) if `|f| ≤ C|g|` holds on no neighbourhood of `0` for any `C`, there is a germ of analytic curve `γ` through `0`
+with `f∘γ ≢ 0` such that each quotient `(g_j∘γ)/(f∘γ)`, holomorphic on a punctured disc, extends holomorphically
+across `0` with value `0` there.
+
+(Demailly, VIII.10.7, pp. 396–397, and *Analytic Methods*, (12.20), p. 122, for (a); (b) is the construction in
+their proof, stated as Guan–Zhou, *A proof of Demailly's strong openness conjecture*, Lemma 2.11, p. 9 of
+arXiv:1311.3781v1.)
+
+*Route.* The forward implication of (a) holds with `C_γ = C`. For the converse, the curve of (b) has
+`|g∘γ(t)| ≤ C′|t|·|f∘γ(t)|` near `0` and `f∘γ(t) ≠ 0` for small `t ≠ 0`, so no `C_γ` serves it. For (b), let
+`(A, 0) ⊂ (ℂ^{n+r}, 0)` be the germ of the analytic set `{(z, w) : g_j(z) = f(z)w_j for every j}`. There are points
+`z_ν → 0` with `f(z_ν) ≠ 0` and `|g(z_ν)| ≤ |f(z_ν)|/ν`, so the points `(z_ν, g(z_ν)/f(z_ν))` of `A` tend to `0`.
+Infinitely many of them lie on one irreducible component `(Y, 0)` of `(A, 0)`, of dimension `k ≥ 1`, on which `f` is
+not identically zero. Project `(Y, 0)` finitely onto a polydisc of `ℂ^k` and choose a complex line `L` through `0`
+that lies neither in the ramification locus nor in the image of `Y ∩ {f = 0}`, both proper analytic subsets. An
+irreducible component of the curve germ of `Y` over `L` is parametrised by a holomorphic `γ̃ = (γ, w)` on a disc with
+`γ̃(0) = 0` (Demailly, II.4.27, pp. 98–99: a connected finite covering of a punctured disc is `t ↦ t^q`, and the
+lift extends across `0` by Riemann's extension theorem). Then `f∘γ ≢ 0`, and `(g_j∘γ)/(f∘γ) = w_j` with `w_j(0) = 0`.
+
+*Needs:* ComplexKahlerGeometry K3 (§3.4: irreducible components of analytic germs, local parametrisation by finite
+branched projections, elimination under finite projections, the smaller dimension of proper analytic subgerms; §3.5:
+Riemann's extension theorem); Mathlib path and homotopy lifting for covering maps (`IsCoveringMap.liftPath`,
+`IsCoveringMap.liftHomotopy`).
+
+**Checks.**
+
+- `n = 2`, `f = z₁`, `g = (z₂)`: `|z₁| ≤ C|z₂|` fails near `0`. The curve `t ↦ (t, t)` satisfies the curve inequality
+  with `C_γ = 1`, and `t ↦ (t, 0)` violates it with `(g∘γ)/(f∘γ) = 0`: (a) quantifies over every curve, not over one.
+- `n = 2`, `f = z₂²`, `g = (z₂² − z₁³)`: the inequality holds along every complex line through `0` (with `C_γ = 2`
+  on `z₂ = az₁`, `a ≠ 0`, once `|z₁| ≤ |a|²/2`), but on `t ↦ (t², t³)` the function `g∘γ` vanishes while
+  `f∘γ = t⁶`, so `|f| ≤ C|g|` fails: lines do not suffice in (a).
+
 ### Examples
 
 - The dual-number point `Spec ℂ[ε]/(ε²)` analytifies to one topological point whose ring sheaf
@@ -431,8 +478,9 @@ ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; ReductiveGroups
 Layer 3, §6.1 and §§7.6.1/7.7; SchemeAndStackFoundations Layer 1 (§§1.4–1.5/1.14);
 ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2 and 6.4; Mathlib locally ringed spaces,
 sheaves of modules, `smoothSheafCommRing`, analytic power series, local rings, Noetherian
-completion and flatness, the analytic inverse APIs cited in §C-1.4, and closed points of schemes
-over an algebraically closed field (`AlgebraicGeometry.pointEquivClosedPoint`); Tau Ceti
+completion and flatness, the analytic inverse APIs cited in §C-1.4, path and homotopy lifting for covering
+maps (§C-1.5), and closed points of schemes over an algebraically closed field
+(`AlgebraicGeometry.pointEquivClosedPoint`); Tau Ceti
 `TauCeti.holomorphicSheaf`, `AnalyticAt.exists_openPartialHomeomorph` and
 `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
@@ -3332,7 +3380,9 @@ of the means of the continuous functions `≥ v`. It equals `∫v⁺ − ∫v⁻
 every holomorphic map `g` from a neighbourhood of the closed unit disc into `U`, `u(g(0))` is at most the mean of
 `u ∘ g` on the unit circle. In a chart this is equivalent to: the restriction of `u` to every complex line is
 subharmonic or `≡ −∞` on each component of the intersection. The notion is invariant under biholomorphisms and local
-on `M`, and the constant `−∞` is plurisubharmonic.
+on `M`, and the constant `−∞` is plurisubharmonic. On an open subset of a complex normed space, `IsPlurisubharmonicOn`
+states the definition with the affine discs `z ↦ a + zξ` in place of all holomorphic discs, which in finite dimension
+is the same notion by the chart criterion; the mean enters as the circle average of every continuous majorant.
 
 Prove that plurisubharmonic functions on `U` are closed under:
 
@@ -3343,7 +3393,8 @@ Prove that plurisubharmonic functions on `U` are closed under:
 - `χ ∘ u` for `χ : ℝ → ℝ` convex and nondecreasing, extended by `χ(−∞) = lim_{t→−∞} χ(t) ∈ [−∞, ∞)`.
 
 Prove also that `log|f|` and `log Σⱼ |fⱼ|^{aⱼ}` (`aⱼ > 0`) are plurisubharmonic for holomorphic `f`, `fⱼ`, and that
-a function of class `C²` is plurisubharmonic iff its Levi form is nonnegative at every point.
+a function of class `C²` is plurisubharmonic iff its Levi form is nonnegative at every point. The Levi form is Tau Ceti's
+`TauCeti.leviForm` on a complex normed space and `TauCeti.manifoldLeviForm` on a complex manifold, read in a chart.
 
 Prove also that on an open subset of `ℂⁿ = ℝ²ⁿ` a plurisubharmonic function is subharmonic in the sense of PDE §3.2a:
 the mean over a sphere is an average of the means over the circles cut out by the complex lines through the centre
@@ -3353,8 +3404,8 @@ tend to its value, and it obeys the maximum principle.
 
 A plurisubharmonic `u ∈ L¹_loc` is *strictly plurisubharmonic* if every point has a chart neighbourhood `V` and a
 constant `ε > 0` such that `u − ε|z|²` is plurisubharmonic on `V`. Equivalently, `i∂∂̄u ≥ θ` as currents for a
-continuous positive definite `(1,1)`-form `θ`. For smooth `u` this is positive definiteness of the Levi form, the
-notion used in C1.5.
+continuous positive definite `(1,1)`-form `θ`. For smooth `u` this is positive definiteness of the Levi form at every
+point (Tau Ceti's `TauCeti.IsManifoldStrictlyPlurisubharmonicAt` at each point), the notion used in C1.5.
 
 (Demailly, I.5.1, I.5.4, I.5.6 and I.5.7 with Choquet's lemma I.4.23, the Levi-form criterion stated before I.5.8,
 and I.5.20; Choquet, *Lectures on Analysis*.)
@@ -3393,7 +3444,8 @@ gives the commutation with `∂∂̄`.
 *Needs:* C5.4 (`CurrentCalculus`: positive currents and local convolution); PDE §3.2a (upper semicontinuous
 subharmonic functions with values in `[−∞, ∞)`: local integrability, monotone means, the maximum principle);
 ComplexKahlerGeometry §3.1 (K3.0) (charts and several-variable calculus); Mathlib `UpperSemicontinuous`, `EReal`,
-`Distribution`, convolution.
+`Real.circleAverage`, `Distribution`, convolution; Tau Ceti `TauCeti.leviForm`, `TauCeti.manifoldLeviForm` and
+`TauCeti.IsManifoldStrictlyPlurisubharmonicAt` (Levi forms and strict plurisubharmonicity of `C²` functions).
 
 C5.4a and C5.4c use of C5.4 only the currents, positivity and convolution of currents of `CurrentCalculus`;
 `CurrentCalculus`'s convolution of plurisubharmonic functions and `closedCurrentExtension` use the definitions of
@@ -3582,6 +3634,13 @@ The exponent: (k) is (g) and (h) applied to `tu`; for `ν = 0`, apply (g) for ev
 *Needs:* C5.4a, C5.4b; C5.4 (`CurrentCalculus`, trace measures); PDE §3.4a (a) (the Riesz representation on discs
 of `ℝ²`); ComplexHessianEquations §7.1 (the local exponential integrability estimate for `C²` plurisubharmonic
 functions).
+
+**Checks.**
+
+- On `ℂⁿ` and for `c > 0`, `u = c·log|z|²` has `ν(u, 0) = 2c`, and `e^{−tu} = |z|^{−2tc}` is integrable near `0` iff
+  `tc < n`, so `c(u, 0) = n/c = 2n/ν`. The function `u = c·log|z₁|²` also has `ν(u, 0) = 2c`, while `|z₁|^{−2tc}` is
+  integrable near `0` iff `tc < 1`, so `c(u, 0) = 1/c = 2/ν`. The two attain the bounds of (k); with weights `e^{−2u}`
+  the exponents would be `n/ν` and `1/ν`.
 
 ### C5.4f Singular Hermitian metrics on line bundles
 
@@ -4940,14 +4999,15 @@ metrics smooth off them (C7.4–C7.5); Skoda's division theorem (C7.6); the Ohsa
 analyticity theorem (C7.13–C7.15); the regularisation of quasi-plurisubharmonic functions on Kähler manifolds
 (C7.15a); Demailly's estimate for singular metrics, Nadel vanishing and the separation of points and jets
 (C7.16–C7.18). It uses the plurisubharmonic functions, multiplier ideals, regularisations and singular metrics of
-C5.4a–C5.4j, and the strong Noetherian property of C0.1a. Weights are those of C5.4f (`|e|²_h = e^{−φ}`); where a
+C5.4a–C5.4j, the strong Noetherian property of C0.1a and the curve selection lemma of §C-1.5. Weights are those of C5.4f (`|e|²_h = e^{−φ}`); where a
 source writes `e^{−2φ}`, its weights are half of these, and thresholds are stated in this roadmap's normalisation. On
 open subsets of `ℂⁿ`, `dλ` is Lebesgue measure and forms are normed as in C7.1. No earlier layer uses this one.
 
 ### C7.1 Hörmander's theorem on pseudoconvex domains
 
 An open set `Ω ⊆ ℂⁿ` is *pseudoconvex* if it has a continuous plurisubharmonic exhaustion function (C5.4a), that is, one
-whose sublevel sets are relatively compact in `Ω`. In this section and in C7.2, pointwise norms of forms on open
+whose sublevel sets are relatively compact in `Ω` (`IsPseudoconvex`, for open subsets of finite-dimensional complex
+normed spaces). In this section and in C7.2, pointwise norms of forms on open
 subsets of `ℂⁿ` are those of the Kähler form `i∂∂̄|z|² = iΣⱼ dzⱼ ∧ dz̄ⱼ`, so that `|dz̄ⱼ| = 1`; `dλ` is Lebesgue measure,
 and `∂̄` acts in the sense of distributions.
 
@@ -5146,7 +5206,8 @@ Let `Ω ⊆ ℂⁿ` be pseudoconvex (C7.1), `φ` plurisubharmonic on `Ω` and no
 `g = (g_1, …, g_p)` holomorphic on `Ω` and not all identically zero on any component, `|g|² = Σ_j|g_j|²`, and
 `q = min(n, p − 1)`. Prove: for every real `α > 1` and every holomorphic `f` on `Ω` with
 `I = ∫_Ω|f|²|g|^{−2(αq+1)}e^{−φ}dλ < ∞` there are holomorphic `h_1, …, h_p` on `Ω` with `f = Σ_j g_jh_j` and
-`∫_Ω Σ_j|h_j|²·|g|^{−2αq}e^{−φ}dλ ≤ (α/(α − 1))·I`.
+`∫_Ω Σ_j|h_j|²·|g|^{−2αq}e^{−φ}dλ ≤ (α/(α − 1))·I` (`skodaDivision`; the powers of `|g|²` are taken in `[0, ∞]`,
+so they are `∞` on the common zeros of the `g_j`, a null set).
 
 (Skoda 1972 (Ann.), Théorème 1, pp. 555–556; Demailly, VIII.9.10, p. 392, with `m = q ≥ 1` and `m + ε = αq`, so
 that `1 + m/ε = α/(α − 1)`.)
@@ -5204,7 +5265,8 @@ domain (C7.1), `H = {z_n = 0}`, `φ` plurisubharmonic on `Ω`, and `f` holomorph
 `∫_{Ω∩H}|f|²e^{−φ}dλ_{n−1} < ∞`. Prove: there is `F` holomorphic on `Ω` with `F|_{Ω∩H} = f` and
 `∫_Ω|F|²e^{−φ}dλ_n ≤ (π/c_D(0)²)·∫_{Ω∩H}|f|²e^{−φ}dλ_{n−1}`. For `n = 1` (`Ω = D`, `Ω ∩ H = {0}`, `f` a value at `0`)
 the right side is `(π/c_D(0)²)·|f(0)|²e^{−φ(0)}`. For the disc `D = {|z| < r}`, `c_D(0) = 1/r` and the constant is
-`πr²`.
+`πr²`. In `ohsawaTakegoshi`, `ℂ^{n−1} × D` is a subset of `ℂ^m × ℂ` with `m = n − 1`, and `1/c_D(0)² = e^{2h₀(0)}` is
+written with Tau Ceti's `TauCeti.perronSolution`.
 
 (Błocki 2013, Theorem 1, p. 150; Guan–Zhou 2015 (Ann. 181), an `L²` extension theorem with an optimal estimate;
 with an unspecified constant, Ohsawa–Takegoshi 1987.)
@@ -5290,6 +5352,13 @@ instance a ball) such that `φ = v + ψ` on a neighbourhood of `B̄`, with `v` p
 `B`, `J(φ)` is the ideal generated by the Hilbert space `H(B, φ) = {f ∈ O(B) : ∫_B|f|²e^{−φ}dλ < ∞}`. (Nadel 1990;
 Demailly, *Analytic Methods*, Prop. 5.7, p. 37, for plurisubharmonic `φ`.)
 
+Prove also that `H(B, φ)` is a closed subspace of `L²(B, e^{−φ}dλ)` on which evaluation at each point of `B` is
+continuous, so that it is a Hilbert space; the same holds for every bounded open `B ⊆ ℂⁿ` and every upper
+semicontinuous `φ : B → [−∞, ∞)`, the case C7.13 uses. Indeed `φ` is bounded above, by `M_K` say, on the compact
+`r`-neighbourhood of a compact `K ⊂ B`, `r > 0`, and `|f|²` is subharmonic, so for `f` holomorphic and `z ∈ K`,
+`|f(z)|² ≤ (πⁿr^{2n}/n!)^{−1}·e^{M_K}·∫_{B(z,r)}|f|²e^{−φ}dλ`. Hence `L²(e^{−φ}dλ)`-Cauchy sequences in `H(B, φ)`
+converge locally uniformly on `B`, and their limits are holomorphic.
+
 *Route.* Fix `C` with `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` near `B̄`. Then `φ̃ = φ + C|z|²` is plurisubharmonic on `B` and differs from
 `φ` by a bounded smooth function, so it has the same multiplier ideal and the same weighted `L²` spaces on `B`
 (C5.4g (a)). The logarithmic pole added below is plurisubharmonic but does not compensate a negative Levi form of `ψ`,
@@ -5311,8 +5380,9 @@ Krull's theorem also shows that an ideal `𝔞` of `O_x` is closed under locally
 is the preimage of a subspace of the finite-dimensional `O_x/𝔪_x^l`, so it is closed, and `⋂_l(𝔞 + 𝔪_x^l) = 𝔞` by
 Krull's theorem. C7.11 and C7.13 use this.
 
-*Needs:* C0.1a (the strong Noetherian property); C5.4b, C5.4e, C5.4g; C7.1 (a); ComplexKahlerGeometry K3
-(coherence, Noetherianity of the local rings); Mathlib `HilbertBasis`.
+*Needs:* C0.1a (the strong Noetherian property); C5.4a, C5.4b, C5.4e, C5.4g; C7.1 (a); PDE §3.2a (the sub-mean-value
+inequality on balls); ComplexKahlerGeometry K3 (coherence, Noetherianity of the local rings); Mathlib `HilbertBasis` and
+`MeasureTheory.Lp`.
 
 ### C7.10 The restriction theorem
 
@@ -5347,6 +5417,8 @@ Restrict to the diagonal, which is cut out by `n` hypersurfaces, by C7.10: `(φ 
 
 Prove `J(φ) = ⋃_{ε>0} J((1 + ε)φ)` for every plurisubharmonic `φ` on a complex manifold. (Guan–Zhou, *A proof of
 Demailly's strong openness conjecture*, 2015, Theorem 1.1, pp. 1–2 of arXiv:1311.3781v1; another proof is Hiep 2014.)
+The statement is local; `strongOpenness` states it on stalks at a point of an open subset of `ℂⁿ`, in terms of the
+integrability of `|F|²e^{−φ}` and `|F|²e^{−(1+ε)φ}` near the point.
 
 *Route.* The inclusion `⊇` is C5.4g (b). The inclusion `⊆` is a statement on stalks, and adding a constant to `φ`
 changes neither side (C5.4g (a)), so at a point it is Guan and Zhou's theorem for a negative plurisubharmonic function
@@ -5356,13 +5428,13 @@ arXiv:1311.3781v1).
 *Needs:* C5.4g; for the cited proof: an `L²` extension theorem from a hypersurface with a constant independent of
 the domain and of the weights (C7.7 in the case of a coordinate hyperplane; the paper uses the form with negligible
 weights on Stein manifolds, its Theorem 2.8), C7.9, ComplexKahlerGeometry K3 (local parametrisation of analytic
-germs), a curve selection lemma for holomorphic germs (*Analytic Methods*, (12.20), p. 122), and the strong
-Noetherian property of coherent sheaves (Demailly, II.3.22, p. 90).
+germs), §C-1.5 (the curve selection lemma for holomorphic germs, with the curve of (b), the paper's Lemma 2.11), and
+C0.1a (the strong Noetherian property).
 
 ### C7.13 Demailly's approximation by Bergman kernels
 
 Let `Ω ⊂ ℂⁿ` be a bounded pseudoconvex domain and `φ` plurisubharmonic on `Ω`, not `≡ −∞`. For `m ≥ 1` let
-`(σ_{m,k})_k` be an orthonormal basis of `H(Ω, mφ) = {f ∈ O(Ω) : ∫_Ω|f|²e^{−mφ}dλ < ∞}`, and put
+`(σ_{m,k})_k` be an orthonormal basis of the Hilbert space `H(Ω, mφ) = {f ∈ O(Ω) : ∫_Ω|f|²e^{−mφ}dλ < ∞}` (C7.9), and put
 `φ_m = (1/m)log Σ_k|σ_{m,k}|²`, the logarithm of the diagonal of the (unweighted) reproducing kernel of `H(Ω, mφ)`.
 Prove: there are constants `C₁, C₂` depending only on `n` and the diameter of `Ω` such that
 
@@ -5524,7 +5596,7 @@ of its global sections, each point counted once.
 
 ### Dependencies
 
-C0.1a (the strong Noetherian property); C1.3–C1.5 (curvature conventions, `weightedDolbeaultEstimate`,
+§C-1.5 (curve selection); C0.1a (the strong Noetherian property); C1.3–C1.5 (curvature conventions, `weightedDolbeaultEstimate`,
 `SteinManifold` and the complete Kähler metric of an exhaustion); C5.4 (`CurrentCalculus`) and C5.4a–C5.4j;
 RealAnalyticGeometry R3.1; ComplexKahlerGeometry K2 (fine resolutions and the Dolbeault theorem), K3 (analytic
 subsets, coherence, Noetherianity of the local rings), K4 (holomorphic vector bundles and their curvature), §4.2a
@@ -5677,8 +5749,8 @@ of C5 have no counterpart there; the overlap is with the algebraic inputs.
 The roadmap owns C-1's extension of supplied manifold local algebra to analytic spaces with
 nilpotents and their analytification, proper coherent GAGA of C1.9,
 and the algebraicity and component targets of C3.2a–C3.2g, as well as the analytic-space descent
-of RealAnalyticGeometry R3.2's coherent module interface and operations, and the strong Noetherian property of
-coherent analytic modules on complex manifolds; coherent
+of RealAnalyticGeometry R3.2's coherent module interface and operations, the curve selection lemma for holomorphic
+germs, and the strong Noetherian property of coherent analytic modules on complex manifolds; coherent
 ideals and their nilpotent quotients; the identification of ComplexKahlerGeometry K4's
 bundle–sheaf dictionary with this coherent category, including locally varying finite rank; the analytification functor on coherent algebraic modules with its
 faithfulness and its tensor, Hom, dual and determinant comparisons; the canonical exchange map for
@@ -6085,7 +6157,9 @@ as explained in C5.1); the two names denote the same target.
   compactness via Arzelà–Ascoli, `circleIntegral` with
   `circleIntegral.integral_sub_inv_of_mem_ball` (`∮ (z − w)⁻¹ = 2πi`), Lebesgue measure on `ℂ`,
   `Matrix.PosSemidef`, `Matrix.det`, `UpperSemicontinuous` and `EReal` (functions with values in `[−∞, ∞)`,
-  C5.4a–C5.4j); `HilbertBasis` (weighted Bergman spaces, C7.9–C7.13) and `MeasureTheory.Lp` (Layer C7).
+  C5.4a–C5.4j); `Real.circleAverage` (the circle means of `IsPlurisubharmonicOn`, C5.4a) and `EReal.exp` (the weights
+  `e^{−φ}` with values in `[0, ∞]` of C7.6, C7.7 and C7.12); `HilbertBasis` (weighted Bergman spaces, C7.9–C7.13) and
+  `MeasureTheory.Lp` (Layer C7).
   `TestFunction` has the locally convex inductive-limit
   topology of compactly supported smooth functions; `Distribution Ω F ⊤` is the compact-convergence
   continuous real-linear dual of real-valued test functions, with values in `F`.
@@ -6303,6 +6377,16 @@ as explained in C5.1); the two names denote the same target.
   the Cartier dual of the pullback along `Spec R′ ⟶ Spec R` is the pullback of the Cartier dual).
   These are affine statements; their globalization to an arbitrary base scheme is ModularCurves
   §0B's construction, and to an algebraic-space base it is part of C3.2d.5.
+- Levi forms, used by C5.4a: `TauCeti.leviForm` in `TauCeti.Analysis.Complex.LeviForm` (the Levi form of a real
+  function on a complex normed space, the sesquilinear form built from its second real derivative) and
+  `TauCeti.manifoldLeviForm` with `TauCeti.IsManifoldStrictlyPlurisubharmonicAt` in
+  `TauCeti.Geometry.Manifold.Complex.LeviForm` (the Levi form in the preferred chart of a complex manifold, chart
+  independent for `C²` functions, and its positive definiteness at a point).
+- `TauCeti.perronSolution` in `TauCeti.Analysis.PDE.Perron.Basic`: the supremum of the functions subharmonic on a set,
+  continuous on its closure and below the boundary datum on its frontier; on a bounded open set it is harmonic when
+  the datum is bounded above on the frontier and that family is nonempty
+  (`TauCeti.harmonicOnNhd_perronSolution`). It is PDE §3.4's Perron solution, from which C7.7 and
+  `ohsawaTakegoshi` build the Green function of a bounded planar domain.
 
 ### From TauCetiRoadmap roadmaps
 
