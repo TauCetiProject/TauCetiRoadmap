@@ -113,8 +113,8 @@ and Tau Ceti alone, and they are what `Suggested.lean` states.
   set" may be used for each other, as §2.2, §2.3 and §2.7 do.
 - **Smooth metrics.** A smooth metric, Mathlib's `Bundle.ContMDiffRiemannianMetric`, is in
   particular a continuous one (`Bundle.ContMDiffRiemannianMetric.toContinuousRiemannianMetric`).
-  The statements of §7.6 about flat manifolds, local Riemannian isometries and descended metrics
-  are for smooth metrics, and are instances of the definitions made for continuous ones.
+  The statements of §7.6 about flat manifolds and descended metrics are for smooth metrics, and
+  are instances of the definitions made for continuous ones.
 - **Euclidean space.** `ℝⁿ` is `EuclideanSpace ℝ (Fin n)` with the flat metric and the
   orientation of its standard basis, made a manifold orientation by
   `TauCeti.Manifold.Orientation.model`. Lebesgue measure is `volume`. The flat metric is
