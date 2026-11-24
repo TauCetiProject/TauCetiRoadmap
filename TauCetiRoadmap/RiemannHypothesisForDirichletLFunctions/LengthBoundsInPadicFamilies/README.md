@@ -64,8 +64,11 @@ general finite `A`, with (1) and (2), is this roadmap's own formulation.
 the family bound (4′) is proved by induction on `S` for a finitely generated `O`-module stable under the `α_π`, one point `π`
 at a time: the image of the module modulo the eigenspaces of the other points is torsion-free of rank at most `mult(π)`, so
 its quotient by `a_π` has length at most `mult(π)·v(a_π)`, and the part inside the other eigenspaces is treated by the
-induction; this is the filtration of the route. The bound (4) is not a statement of [FormalProof]; it is the case of (4′)
-given in the statement.
+induction; this is the filtration of the route. [FormalProof] states (4) as well, for a local `A` and an integer `A_α`, and
+its last sentence for a local `A` (`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.StatCongBoundGood`,
+`Formalism.NG.StatCongBound`)), and proves both by the same induction
+(`Formalism/CharacterColumnKernels/IdempotentNormalForms/LengthQuotSmulRangeFree.lean` (`Formalism.NG.congBoundGood`,
+`Formalism.NG.congBound`)); for a general `A`, (4) is the case of (4′) given in the statement.
 
 Let `O` be a discrete valuation ring with fraction field `K` and normalized valuation `v`, `A` a finite `O`-algebra (not
 necessarily commutative or reduced), `M` a finitely generated torsion-free `O`-module with an `O`-linear `A`-action,
@@ -331,8 +334,8 @@ reducibility locus of the generalized matrix algebra (IntegralHeckeAndGaloisDete
 extensions of IntegralHeckeAndGaloisDeterminants §1.4 (*GMA extension module*, *Off-diagonal extension injection*; [BC09],
 Section 1.5), whose qualitative rank-two case is *Classical Ribet lattice* in the same section. The two-dimensional
 integral Ribet theorems with Fitting ideals over the family ring are IntegralHeckeAndGaloisDeterminants §§6.1, 6.7 and,
-with local conditions, IntegralIwasawaTheory §9.6; neither they nor (1) contain the other. In the polarized three-block form of the method
-(Skinner–Urban), the polarization and the vanishing of the abelian term isolate the Selmer group of the middle
+with local conditions, IntegralIwasawaTheory §9.6; neither they nor (1) contain the other. In the polarized three-block form of the method,
+the polarization and the vanishing of the abelian term isolate the Selmer group of the middle
 block; 1.8c–1.8d are the unpolarized form, with the lengths of all blocks summed.
 *Needs:* 1.7a, 1.8b;
 IntegralHeckeAndGaloisDeterminants §§0.2 (characteristic coefficients), 0.5 (Amitsur's formula, descent), 1.2
@@ -363,7 +366,7 @@ ArithmeticGaloisRepresentations §1.7 (absolute irreducibility); ProfiniteCohomo
 
 ### 1.8d The bound with local conditions
 
-*Origin:* adapted from Urban (2001), as quoted in Berger (2009), proof of Theorem 6, for two blocks: the module of extensions
+*Origin:* adapted from Berger (2009), proof of Theorem 6, steps (i) and (ii), after Urban (2001), for two blocks: the module of extensions
 injects into a Selmer group with local conditions, whose length then bounds the congruence ideal; and from Dasgupta (2023),
 §3: the evaluation that excludes coboundaries when the projector onto the character is an idempotent. Here for any number
 of blocks, with local defects (2′), and with an element `E`, `E² = δ_A·E`, for a non-unit `δ_A(π)`, at the cost
@@ -693,7 +696,7 @@ Layer 1: continuous cohomology `continuousCohomology` with discrete coefficients
 - **[Ribet76]** Kenneth A. Ribet, *A modular construction of unramified p-extensions of ℚ(μ_p)*, Inventiones Mathematicae 34 (1976), 151–162 (1.8c).
 - **[BC09]** Joël Bellaïche and Gaëtan Chenevier, *Families of Galois representations and Selmer groups*, Astérisque 324 (2009), Chapter 1 (1.8c (3)).
 - **[JN13]** H. Johnston and A. Nickel, *Noncommutative Fitting invariants and improved annihilation results*, Journal of the London Mathematical Society 88 (2013); arXiv:1202.0711, Definition 2.1, Theorem 2.4, §3.8 and Lemma 4.15: noncommutative Fitting invariants, the one-block case of the determinant lemma and its Morita step (1.8b).
-- **[Urban01]** E. Urban, *Selmer groups and the Eisenstein–Klingen ideal*, Duke Mathematical Journal 106 (2001), 485–525, Theorem 1.1 and p. 519: for two blocks, a stable lattice whose reduction modulo the Eisenstein ideal `I` is an extension of `ρ₂ ⊗ T/I` by `ρ₁ ⊗ N/I` with `length(T/I) ≤ length(N/IN)` (1.8c), and the injection into a Selmer group (1.8d), as quoted in [Berger09].
+- **[Urban01]** E. Urban, *Selmer groups and the Eisenstein–Klingen ideal*, Duke Mathematical Journal 106 (2001), 485–525, Theorem 1.1 and p. 519: for two blocks, a stable lattice whose reduction modulo the Eisenstein ideal `I` is an extension of `ρ₂ ⊗ T/I` by `ρ₁ ⊗ N/I` with `length(T/I) ≤ length(N/IN)` (1.8c), as quoted in [Berger09], which follows Urban for the injection into a Selmer group (1.8d).
 - **[Berger09]** T. Berger, *An Eisenstein ideal for imaginary quadratic fields and the Bloch–Kato conjecture for Hecke characters*, Compositio Mathematica 145 (2009), 603–632; arXiv:math/0701177, Theorem 7 and the proof of Theorem 6, steps (i) and (ii): Urban's lattice for two blocks (1.8c) and the injection of the module of extensions into a Selmer group with local conditions (1.8d).
 - **[Dasgupta23]** S. Dasgupta, *On constructing extensions of residually isomorphic characters*, preprint (2023), arXiv:2310.16631, §3 and Lemma 4.5: the unit case of the exclusion of coboundaries (1.8d), and the vanishing of the determinant of a square array of relations where the relations have a nonzero solution, for `GL₂` and two characters (1.8c).
 - **[OW24]** A. Ophir and A. Weiss, *On Ribet's lemma for GL₂ modulo prime powers*, Research in the Mathematical Sciences (2024); arXiv:2111.01559, Theorem 1.3: Ribet's lemma for congruent characters, with a loss (1.8d).
