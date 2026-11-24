@@ -1,110 +1,46 @@
-import Mathlib.Analysis.InnerProductSpace.Trace
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Analysis.InnerProductSpace.Calculus
+import Mathlib
 
 /-!
-This file contains suggested target signatures to help implementors of the corresponding
-application. The mathematical specification remains definitive; these signatures are aids,
-not an exhaustive checklist.
+# Four-dimensional Seiberg–Witten theory: target signatures
 
-The operator below lives in native continuous complex-linear endomorphisms. Its derivative
-is real-linear, since rankOne is conjugate-linear in its second argument. No matrix carrier,
-Clifford-to-two-form comparison, or bundle realization is introduced here.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, as its acceptance test.
+
+The headline theorems are:
+
+* **Compactness** (README §5.4, with the bound of §5.2): for a closed oriented Riemannian
+  four-manifold with a Spinᶜ structure and a smooth self-dual perturbation `η`, the solutions of the
+  perturbed Seiberg–Witten equations modulo gauge form a compact space, and every solution satisfies
+  `|ψ|² ≤ max(0, sup(2√2|η| − Scal))`.
+* **Structure of the moduli space** (§§3.3, 3.5, 6.3): if `b₂⁺ ≥ 1`, for generic parameters the
+  moduli space is a compact smooth manifold of dimension `(⟨l², [X]⟩ − 2χ − 3σ)/4`, empty when this
+  is negative.
+* **Invariance** (§§8.2–8.3): the integral alternating forms `SW^r` on `H₁(X; ℤ)/torsion` do not
+  depend on the metric or the perturbation when `b₂⁺ > 1`, and are constant on each chamber when
+  `b₂⁺ = 1`.
+* **Wall crossing** (§10.3): for `b₂⁺ = 1`, `d ≥ 0`, `0 ≤ r ≤ min(b₁, d)` and `r ≡ d ≡ b₁ mod 2`,
+  the jump `SW^r_+(λ) − SW^r_−(λ)` is `⟨ν_T(λ) u^k/k!, [T]_h⟩` on the Picard torus, with
+  `k = (b₁ − r)/2`; outside this range both invariants vanish and the formula is not asserted.
+
+None of them is statable at the pins, so this file declares nothing. Each needs Spinᶜ structures on
+a smooth four-manifold (principal lifts of the oriented frame bundle with their spinor bundles and
+determinant line), Spinᶜ connections and the Spinᶜ Dirac operator on sections, Sobolev completions
+of spaces of sections over a compact manifold, and the action of the gauge group `X → U(1)` on
+configurations, none of which exists in Mathlib or Tau Ceti at the pins. The structure theorem
+further needs the first Chern class of a complex line bundle on a manifold and the signature of a
+closed oriented four-manifold; the invariance and wall-crossing theorems further need the moduli
+space as a manifold with a fundamental class, the universal line bundle over the configuration
+space, homology orientations and `b₂⁺` of a manifold; the wall-crossing formula further needs the
+Dirac family over the Picard torus and its index in `K⁰` with its Segre classes.
+
+The pointwise algebra used by the first layers is proved in Tau Ceti and is not restated here: the
+group `CliffordAlgebra.spinCGroup` and its half-spin representations
+`CliffordAlgebra.spinCGroupHalfSpinRep`, the Clifford map `TauCeti.SeibergWitten.cliffordRestriction`
+and its adjoint, the quadratic endomorphism `TauCeti.SeibergWitten.quadraticEnd` with its trace,
+self-adjointness, phase invariance and real derivative, and the quadratic two-form
+`TauCeti.SeibergWitten.quadraticTwoForm`.
 -/
 
-noncomputable section
-
 namespace TauCetiRoadmap.SeibergWittenTheory
-
-open scoped ComplexConjugate
-
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
-  [FiniteDimensional ℂ E]
-
-local instance : CompleteSpace E := FiniteDimensional.complete ℂ E
-
-/-- Trace-free rank-one spinor endomorphism in complex rank two. -/
-def quadraticEnd (ψ : E) : E →L[ℂ] E :=
-  InnerProductSpace.rankOne ℂ ψ ψ -
-    ((‖ψ‖ : ℂ) ^ 2 / 2) • ContinuousLinearMap.id ℂ E
-
-omit [FiniteDimensional ℂ E] in
-theorem quadraticEnd_zero : quadraticEnd (0 : E) = 0 := by
-  simp [quadraticEnd]
-
-/-- The rank-two hypothesis enters trace cancellation, not the definition. -/
-theorem trace_quadraticEnd (h₂ : Module.finrank ℂ E = 2) (ψ : E) :
-    (quadraticEnd ψ).trace ℂ E = 0 := by
-  change LinearMap.trace ℂ E
-    ((InnerProductSpace.rankOne ℂ ψ ψ).toLinearMap -
-      ((‖ψ‖ : ℂ) ^ 2 / 2) • LinearMap.id) = 0
-  rw [map_sub, map_smul, InnerProductSpace.trace_rankOne,
-    LinearMap.trace_id, h₂, inner_self_eq_norm_sq_to_K]
-  simp only [Nat.cast_ofNat, smul_eq_mul]
-  change (‖ψ‖ : ℂ) ^ 2 - ((‖ψ‖ : ℂ) ^ 2 / 2) * 2 = 0
-  ring
-
-theorem adjoint_quadraticEnd (ψ : E) :
-    (quadraticEnd ψ).adjoint = quadraticEnd ψ := by
-  simp [quadraticEnd, map_sub, map_smulₛₗ,
-    ContinuousLinearMap.adjoint_id, map_ofNat]
-
-omit [FiniteDimensional ℂ E] in
-theorem quadraticEnd_apply_self (ψ : E) :
-    quadraticEnd ψ ψ = ((‖ψ‖ : ℂ) ^ 2 / 2) • ψ := by
-  simp only [quadraticEnd, sub_apply,
-    InnerProductSpace.rankOne_apply, smul_apply,
-    ContinuousLinearMap.id_apply, inner_self_eq_norm_sq_to_K]
-  rw [← sub_smul]
-  congr 1
-  change (‖ψ‖ : ℂ) ^ 2 - (‖ψ‖ : ℂ) ^ 2 / 2 = (‖ψ‖ : ℂ) ^ 2 / 2
-  ring
-
-omit [FiniteDimensional ℂ E] in
-theorem quadraticEnd_phase (ψ : E) (u : ℂ) (hu : ‖u‖ = 1) :
-    quadraticEnd (u • ψ) = quadraticEnd ψ := by
-  have hunit : conj u * u = 1 := by
-    simpa [hu] using Complex.conj_mul' u
-  have h : InnerProductSpace.rankOne ℂ (u • ψ) (u • ψ) =
-      InnerProductSpace.rankOne ℂ ψ ψ := by
-    ext v
-    simp only [InnerProductSpace.rankOne_apply, inner_smul_left, smul_smul]
-    change ((conj u * inner ℂ ψ v) * u) • ψ = (inner ℂ ψ v) • ψ
-    have hc : (conj u * inner ℂ ψ v) * u = inner ℂ ψ v := by
-      calc
-        _ = (conj u * u) * inner ℂ ψ v := by ring
-        _ = inner ℂ ψ v := by rw [hunit, one_mul]
-    rw [hc]
-  simp only [quadraticEnd, h, norm_smul, hu, one_mul]
-
-/-- The real Fréchet derivative, with its actual endomorphism-valued formula. -/
-theorem exists_real_derivative_quadraticEnd (ψ : E) :
-    ∃ L : E →L[ℝ] (E →L[ℂ] E),
-      HasFDerivAt (quadraticEnd : E → (E →L[ℂ] E)) L ψ ∧
-      ∀ φ : E, L φ = InnerProductSpace.rankOne ℂ φ ψ +
-        InnerProductSpace.rankOne ℂ ψ φ -
-        (Complex.re (inner ℂ ψ φ) : ℂ) • ContinuousLinearMap.id ℂ E := by
-  sorry
-
-#check @quadraticEnd
-#check @quadraticEnd_zero
-#check @trace_quadraticEnd
-#check @adjoint_quadraticEnd
-#check @quadraticEnd_apply_self
-#check @quadraticEnd_phase
-#check @exists_real_derivative_quadraticEnd
-#check InnerProductSpace.rankOne
-#check InnerProductSpace.trace_rankOne
-#check ContinuousLinearMap.adjoint
-#check InnerProductSpace.adjoint_rankOne
-#check LinearMap.trace
-
-#print axioms quadraticEnd
-#print axioms quadraticEnd_zero
-#print axioms trace_quadraticEnd
-#print axioms adjoint_quadraticEnd
-#print axioms quadraticEnd_apply_self
-#print axioms quadraticEnd_phase
-#print axioms exists_real_derivative_quadraticEnd
 
 end TauCetiRoadmap.SeibergWittenTheory
