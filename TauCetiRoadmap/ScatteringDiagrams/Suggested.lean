@@ -21,13 +21,20 @@ Layer 1:
   `PointedCone.fg_iff_dualFG`.
 
 The other headlines are about carriers that this roadmap constructs and that neither pin has, so
-the README states them: the BCH group (§0.4, *BCHGroup*, whose product is defined from
-*bchElement*), the Kontsevich–Soibelman reconstruction (§2.3, *reconstructionEquiv*), existence
-and uniqueness of outgoing completions (§§3.3–3.4, *exists_outgoingCompletion*,
-*outgoingCompletion_unique*), theta functions and their transport (§5.5,
-*probeWall_eq_brokenLineSum*, *theta_transport*), and the positivity theorems (§§7.2, 7.5, 7.7,
-*ordinaryWall_positiveRepresentative*, *polynomialWall_positiveRepresentative*,
-*theta_coefficients_nonnegative*).
+the README states them:
+
+* the BCH group of a nilpotent Lie algebra over a commutative `ℚ`-algebra (§0.4, *BCHGroup*):
+  its product is defined from *bchElement*, and neither pin has a BCH element or a BCH group;
+* the Kontsevich–Soibelman reconstruction (§2.3, *reconstructionEquiv*): the pins have no positive
+  degree data, completed BCH group, Kontsevich–Soibelman complex or completed diagram;
+* existence and uniqueness of outgoing completions (§§3.3–3.4, *exists_outgoingCompletion*,
+  *outgoingCompletion_unique*): the pins have no directed wall spaces, wall groups or directed
+  diagrams with their path products;
+* theta functions and their transport (§5.5, *probeWall_eq_brokenLineSum*, *theta_transport*): the
+  pins have no broken lines, weighted evaluation or theta sections;
+* the positivity theorems (§§7.2, 7.5, 7.7, *ordinaryWall_positiveRepresentative*,
+  *polynomialWall_positiveRepresentative*, *theta_coefficients_nonnegative*): besides the
+  completions, the pins have no grouped wall functions or positive wall representatives.
 -/
 
 namespace TauCetiRoadmap.ScatteringDiagrams
@@ -51,6 +58,7 @@ abbrev FreeLieTwo : Type := FreeLieAlgebra ℚ (Fin 2)
 noncomputable abbrev freeAugmentation : Ideal (UniversalEnvelopingAlgebra ℚ FreeLieTwo) :=
   (TauCeti.HopfIdeal.augmentation ℚ (UniversalEnvelopingAlgebra ℚ FreeLieTwo)).carrier
 
+/-- `U⁺` is a two-sided ideal, so that the quotients `U(𝔣)/(U⁺)^{c+1}` are rings. -/
 instance : freeAugmentation.IsTwoSided :=
   (TauCeti.HopfIdeal.augmentation ℚ (UniversalEnvelopingAlgebra ℚ FreeLieTwo)).isTwoSided'
 
