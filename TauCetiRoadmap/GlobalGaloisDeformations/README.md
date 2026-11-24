@@ -1757,7 +1757,7 @@ reduced generic fibre have their own roles in component arguments and are not su
 representing ring here (CHT, Corollaries 2.2.12, 2.2.13 and 2.3.5, pp. 25 and 32).
 
 *Needs:* §8.3; §8.2;
-LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4; LocalGaloisDeformationRings Layers 1, 2, 3 and 6.
+LocalGaloisDeformationRings §F.0.2; SchemeAndStackFoundations §§4.3–4.4; LocalGaloisDeformationRings §§1.1 and 1.4.
 
 **Checks.**
 
