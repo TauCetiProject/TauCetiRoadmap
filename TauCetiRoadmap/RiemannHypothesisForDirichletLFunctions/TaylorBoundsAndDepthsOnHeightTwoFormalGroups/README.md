@@ -37,7 +37,9 @@ There is one layer, numbered `4` as in the family's core. It sets up Gauss norms
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof].
+[FormalProof]. A declaration counts as a statement of [FormalProof] when the proof of its main theorems uses it, that is,
+when the kernel export of those theorems has it by exact name; the few declarations cited below that the repository
+states but those theorems do not use carry that qualification (4.6, 4.8a, 4.19).
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 4.8b and 4.19 carry the first label only.
@@ -419,8 +421,9 @@ of the numbers `κ!·coeff_κΘ` with `|κ_z| = |ν(z)|` at each place.
 
 *Origin:* particular to this proof: a linear programme that prices the bi-power monomials of a cocycle which a derivative
 can absorb and gives the exponent of the Taylor bounds; its properties follow from duality of linear programmes and
-complementary slackness. The convexity and the upper bound of (b), the last inequality of (d2), (e) and the support
-clause of (g) are this roadmap's own formulations.
+complementary slackness. The upper bound of (b) and the support clause of (g) are this roadmap's own formulations; the
+convexity of (b), the last inequality of (d2) and (e) are stated in the repository of [FormalProof] but not used by its
+main theorems.
 
 *Method of the formal proof:* duality is proved by a hyperplane separation from the closed convex set of the capacities
 and values dominated by a flow, with compactness for the existence of an optimal flow and of an optimal dual vector; the
@@ -494,7 +497,7 @@ odd length `< n_o`); for `n_o = 3`, `p = 5`, `D = (1, 0, 0)`: `𝔉_5(ℤ/3) = �
 programmes, and LP duality and complementary slackness for the finite programme here are proved from Farkas' lemma (with the
 closedness of a finitely generated cone in `ℝ^N`, as `ProperCone.map` is the closure of the image).
 
-*In [FormalProof]* (`Formalism/IncomingBounds/IncomingBound.lean`: the programme Fnum, flows IsFlow, dual radius vectors IsDual), for every integer `p ≥ 3`: (a) LemmaFa, (d1) LemmaFc and (d3) IncomingBound; the lower bound and the homogeneity of (b) and the truncation of (g) are GlobalTheory.T.flow_programme_bounds_and_low_level_optimum; (c) is UpperTheory.fnum_eq_rho_mul_sum_of_demand_ratio_le; the first sentence of (d2) is Formalism.IncomingBounds.FlowDualityReindexing.fd_part1; (d4), with `8` in place of `12`, is the case without top letters of Formalism.DworkPowerSeriesWeights.OddLevelGainBounds.PropSix7; (f) is UpperTheory.exists_nonneg_dual_fnum_sub_le_of_demand_near_mul (`Development/AutomorphicArithmetic/OrbitLabellings/ExistsNonnegDualFnumSubLeOfDemandNearMul.lean`). The convexity and the upper bound of (b), the last inequality of (d2), (e) and the support clause of (g) are not stated there.
+*In [FormalProof]* (`Formalism/IncomingBounds/IncomingBound.lean`: the programme Fnum, flows IsFlow, dual radius vectors IsDual), for every integer `p ≥ 3`: (a) LemmaFa, (d1) LemmaFc and (d3) IncomingBound; the lower bound and the homogeneity of (b) and the truncation of (g) are GlobalTheory.T.flow_programme_bounds_and_low_level_optimum; (c) is UpperTheory.fnum_eq_rho_mul_sum_of_demand_ratio_le; the first sentence of (d2) is Formalism.IncomingBounds.FlowDualityReindexing.fd_part1; (d4), with `8` in place of `12`, is the case without top letters of Formalism.DworkPowerSeriesWeights.OddLevelGainBounds.PropSix7; (f) is UpperTheory.exists_nonneg_dual_fnum_sub_le_of_demand_near_mul (`Development/AutomorphicArithmetic/OrbitLabellings/ExistsNonnegDualFnumSubLeOfDemandNearMul.lean`). The convexity of (b), the last inequality of (d2) and (e) are stated there in LemmaFb, LemmaFd and TopRadius, proved as lemmaFb, lemmaFd and topRadius (`Formalism/IncomingBounds/WeightIdentities.lean`), which the main theorems of [FormalProof] do not use; the upper bound of (b) and the support clause of (g) are not stated there.
 
 ### 4.7 Jet bounds against products of minors
 
@@ -608,10 +611,11 @@ box (the odd top's if `b < i`, the even top's if not), and so does every top–l
 
 ### 4.8a Jets of a Gaussian against products of minors
 
-*Origin:* adapted from Wick's (Isserlis') formula for the derivatives of a Gaussian: a `p`-adic bound for the jets of a
-Gaussian against products of minors, by the number `c′_t` of pairs that the two diagrams can match.
+*Origin:* adapted from Wick's (Isserlis') formula for the derivatives of a Gaussian (Isserlis 1918; Wick 1950): a `p`-adic
+bound for the jets of a Gaussian against products of minors, by the number `c′_t` of pairs that the two diagrams can match.
 
-*Method of the formal proof:* the exponential is expanded, which writes the jet as a sum of integral jets of `σ` times
+*Method of the formal proof:* in the repository's proof of ThmB, which its main theorems do not use, the exponential is
+expanded, which writes the jet as a sum of integral jets of `σ` times
 `∏_t(−S·u_t)^{n_t}` times integers that are coefficients of `∏_tΛ_t^{n_t}/n_t!` applied to the symbol of the operator,
 `Λ_t = Σ_{a,b}∂²/∂X_{(0,t),a,b}∂X_{(1,t),a,b}`; and `Λ_t^n` annihilates the product of the minors for `n > c′_t`, by
 expanding the minors of one side into products of linear forms with one factor from the first row and counting how many
@@ -641,7 +645,7 @@ the bound `p^{n/2}` (`c′_t = n`, and `c_t = n` whether or not `t ∈ 𝔗`): t
 
 *Sources:* (Wick's theorem). *Needs:* Mathlib (determinants, power series).
 
-*In [FormalProof]:* ThmB (`Formalism/GaussJetBounds/StatementN.lean`), proved as thmB (`Formalism/GaussJetBounds/FinalB.lean`), with the last exponent above, `c_t` for `t ∈ 𝔗` carrying the second row `ν(0,t)_1`; the bound with `c′_t` over `ℂ_p` is also proved there.
+*In [FormalProof]:* ThmB (`Formalism/GaussJetBounds/StatementN.lean`), proved as thmB (`Formalism/GaussJetBounds/FinalB.lean`), with the last exponent above, `c_t` for `t ∈ 𝔗` carrying the second row `ν(0,t)_1`; the bound with `c′_t` over `ℂ_p` is also proved there. The main theorems of [FormalProof] use none of these statements.
 
 ### 4.8b Framed points, integral charts and the depth of a weight
 
@@ -992,7 +996,7 @@ plan `y = 0` has value bound `≈ nγΣW`, the bound of 4.18 with `len = S`. For
 
 *Needs:* 4.1, 4.3, 4.4.
 
-*In [FormalProof]:* RowData (`Formalism/LocalToGlobal/CharacterGerms/Interface.lean`); Plan, Plan.bound, Windows and Plan.Ok (`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`). There plans are admissible at the level `i₀` of 4.19d only, with at most `n_o` nonzero `y(a, i)`, and the term `R_w/(ℓ − 1)` is kept apart from the value bound.
+*In [FormalProof]:* RowData (`Formalism/LocalToGlobal/CharacterGerms/Interface.lean`); Plan, Plan.bound and Windows (`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`), with the admissibility Plan.Ok there, which the main theorems of [FormalProof] do not use. There plans are admissible at the level `i₀` of 4.19d only, with at most `n_o` nonzero `y(a, i)`, and the term `R_w/(ℓ − 1)` is kept apart from the value bound.
 
 ### 4.19a Main term of the polarisation series
 
@@ -1488,4 +1492,7 @@ programmes).
 - P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967): 4.19, 4.19e.
 - A. Cayley; A. Capelli (the identity `det(∂)det^{s+1} = ∏(s + 1 + c)det^s`): 4.19b.
 - P. Doubilet, G.-C. Rota and J. Stein (1974); C. De Concini, D. Eisenbud and C. Procesi (1980): 4.7.
+- L. Isserlis, *On a formula for the product-moment coefficient of any order of a normal frequency distribution in any
+  number of variables*, Biometrika 12 (1918), 134–139; G. C. Wick, *The evaluation of the collision matrix*, Phys. Rev. 80
+  (1950), 268–272: 4.8a.
 - S. Bosch, U. Güntzer and R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261, Springer, 1984, section 5.1: 4.1.
