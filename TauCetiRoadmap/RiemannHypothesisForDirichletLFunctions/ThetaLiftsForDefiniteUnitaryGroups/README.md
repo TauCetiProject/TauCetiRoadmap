@@ -217,8 +217,9 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 [FormalProof].
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
-`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 0.1, 0.3, 0.4, 1.1, 1.3, 2.5 and 5.1
-carry the first label only. The statements of 1.4 and 2.3 for a general definite pair, the global form of 1.6 with its
+`*Method of the formal proof:*` how [FormalProof] proves it. Sections 0.1, 0.3, 0.4, 1.1, 1.3, 2.5 and 5.1 make
+definitions and carry the first label only; in 0.3, 0.4, 1.1, 1.3, 2.5 and 5.1 it also says where the properties they
+prove come from. The statements of 1.4 and 2.3 for a general definite pair, the global form of 1.6 with its
 clause on the adjoint, the existence clause of 0.2 and the operator clause of 3.3 are not statements of [FormalProof]:
 it has them for the steps of its chain of unitary groups, or in the other forms that their
 `*Method of the formal proof:*` labels record, and here they are this roadmap's own formulations.
@@ -348,7 +349,10 @@ ThetaKernelsForUnitaryDualPairs §4.4a.
 
 ### 0.3 The Weil representation of a definite pair, test vectors and lattice vectors
 
-*Origin:* definitions and conventions.
+*Origin:* definitions, with standard properties: the Weil representation and its splittings are those of Weil (1964)
+and Kudla (1994), and the line of a lifted self-dual lattice is that of MetaplecticAutomorphicForms §1.1; the existence
+of lifts, the transport of lines, the type-II lattice vector at a split place and the test space are this roadmap's own
+formulation for a definite pair.
 
 For splitting data `(χ_V, χ_W)`, let `ω = ω_{ψ, χ_V, χ_W}` be the global Weil representation of
 `U(V)(𝔸) × U(W)(𝔸)` on `S(X(𝔸))` of ThetaKernelsForUnitaryDualPairs §4.4a, in the polarisation of 0.1.
@@ -416,7 +420,9 @@ ThetaKernelsForUnitaryDualPairs §4.4a gives the restricted tensor structure; th
 
 ### 0.4 The theta kernel of a definite pair
 
-*Origin:* definitions and conventions.
+*Origin:* definitions, with standard properties: the invariance under rational points is that of the theta functional
+(Weil (1964)); the lattice sum and the boundedness on the compact quotients are this roadmap's own formulation for a
+definite pair.
 
 For a test vector `φ`, the theta kernel `θ(g, h; φ) = Σ_{ξ ∈ X(F)} (ω(g, h)φ)(ξ)` of
 MetaplecticAutomorphicForms §5.1 is a smooth function on `U(V)(𝔸) × U(W)(𝔸)`. Prove:
@@ -459,7 +465,8 @@ MetaplecticAutomorphicForms §§0.1, 1.1, 2.6a, 3.2a, 3.3, 4.1, 5.1, 5.2; ThetaK
 
 ### 1.1 The lift of a definite pair
 
-*Origin:* definitions and conventions.
+*Origin:* definitions: the global theta lift and its equivariance as in Gan, Qiu and Takeda (2014), §11.2, here for a
+definite pair; its absolute convergence on the compact quotient and its weights are this roadmap's own formulation.
 
 Define the *definite theta lift* of `φ`, `𝒜(V; K) → 𝒜(W; K′)`, `F ↦ θ_φ(F)`, by
 `θ_φ(F)(h) = ∫_{[U(V)]} θ(g, h; φ) F(g) dg` for a test vector `φ` fixed by `K × K′` ([FormalProof],
@@ -538,7 +545,8 @@ CompactGroups §4.1; HermitianFormsAndLattices §§5.1, 5.2.
 
 ### 1.3 The lattice form
 
-*Origin:* definitions and conventions.
+*Origin:* definitions; the lattice form of the lift, the class-set formula of 1.2 read through the classes of lattices in
+a genus (HermitianFormsAndLattices §§5.1, 5.5), is this roadmap's own formulation.
 
 Let `L ⊂ V` and `M ⊂ W` be `O_E`-lattices, `K = K_L`, `K′ = K′_M` their stabilisers, and `(Â, q)` a
 self-dual lattice with a lift (0.3) whose line is fixed by `K_L × K′_M` (for instance `A_v = L_v ⊗ M_v`
@@ -563,8 +571,9 @@ Route: 1.2 with the dictionary of HermitianFormsAndLattices §§5.1, 5.5 and the
 
 ### 1.4 The adjoint lift
 
-*Origin:* adapted from Rallis (1984), *Injectivity properties of liftings associated to Weil representations*, where for
-orthogonal–symplectic pairs the inner product of two lifts is a pairing of the original forms against a kernel: here the
+*Origin:* adapted from Rallis (1984), *Injectivity properties of liftings associated to Weil representations*, §1,
+formula (1-1), pp. 146–147, where for orthogonal–symplectic pairs the inner product of two lifts is a pairing of the
+original forms against a kernel: here the
 adjointness of the lift of a definite unitary pair; its class-set form and its identification with the lift of the
 exchanged pair are this roadmap's own formulation.
 
@@ -605,7 +614,7 @@ theta kernel of `φ̄` for it.
 
 ### 1.5 Level, translation and the span of lifts
 
-*Origin:* adapted from Gan, Qiu and Takeda (2014), §11.1: the global theta lift and its equivariance
+*Origin:* adapted from Gan, Qiu and Takeda (2014), §11.2: the global theta lift and its equivariance
 (MetaplecticAutomorphicForms §5.6); here its compatibility with levels and traces, its finite level and the
 decomposition of the span of the lifts of `π`, for a definite pair.
 
@@ -656,7 +665,7 @@ forms (Gross (1999)) and Minkowski's bound for the finite subgroups of `GL_N(ℚ
 time, for the class-set operators of the column steps of its chain: at a finite place `𝔭` of the field of coefficients
 above a prime `p`, with `D` a common multiple of the stabiliser orders, each weight `1/|Γ_c|` of the class-set sum is
 `p^{−v_p(D)}` times a `𝔭`-integral number, so a kernel whose coordinates have valuation at least `b` at `𝔭` gives a lift
-of valuation at least `b − v_p(D)` on integral forms by the ultrametric inequality; the stabiliser orders divide
+of valuation at least `b − v_𝔭(D)` on integral forms by the ultrametric inequality; the stabiliser orders divide
 Minkowski's number, which is proved by Schur's trace argument for `ℓ`-subgroups of `GL_N(ℤ)`.
 
 Let `L₀ ⊂ ℂ` be a number field with ring of integers `𝒪`, and suppose `σ_λ^∨ = ρ ⊗_{L₀} ℂ` and
@@ -1079,8 +1088,8 @@ involving `ψ_v`) with the type-II model of MetaplecticAutomorphicForms §3.2a, 
 *Origin:* adapted from the unramified theta correspondence for unitary groups at an inert place as
 MetaplecticAutomorphicForms §3.22a states it (even dimensions, `W_v` split, trivial splitting characters): here for every
 `n ≤ d` and unramified splitting characters, with the sign `c_v` and the segment twisted by `χ_{V,v}(ϖ_v)`, for an
-eigenform of a definite pair; Atobe and Gan (2017) describe the local theta lifts of tempered representations for
-unitary pairs of any ranks in terms of Langlands parameters.
+eigenform of a definite pair; Atobe and Gan (2017), Theorems 4.1, 4.3 and 4.5, describe the local theta lifts of
+tempered representations for unitary pairs of any ranks in terms of Langlands parameters.
 
 *Method of the formal proof:* none for an eigenform of a general definite pair. At a place not split in `E`,
 [FormalProof] has Howe's theorem on fixed vectors for the Weil representation of a pair of Hermitian spaces over the
@@ -1089,7 +1098,8 @@ subgroup of one group are spanned by the translates of the lattice vector under 
 Hecke operator of one group acts on the lattice vector as an element of the group algebra of the other. It has no
 statement there of the homomorphism of spherical Hecke algebras, nor of the relation of Satake parameters; it has the
 relation of Satake parameters of a lift, the original parameter times `χ_V/χ_W` together with a segment of length `d −
-n`, at the places split in `E`, for `d > 2n` (2.2). The route written here is this roadmap's.
+n`, at the places split in `E`, for `d > 2n` (2.5 (d); for the tensor pair of 2.2 the parameter is inverted). The route
+written here is this roadmap's.
 
 *Corollary of:* MetaplecticAutomorphicForms §3.22a (the unramified unitary theta correspondence in unequal rank at an
 inert place: the homomorphism of spherical Hecke algebras and the relation of Satake parameters), when `n` and `d` are
@@ -1122,7 +1132,8 @@ MetaplecticAutomorphicForms §3.22.
 
 ### 2.4 Constituents of a lift
 
-*Origin:* adapted from Rallis (1984), *On the Howe duality conjecture*, the local components of global theta lifts for
+*Origin:* adapted from Rallis (1984), *On the Howe duality conjecture*, Theorem I.2.2 and its proof, pp. 355–356, the
+local components of global theta lifts for
 orthogonal–symplectic pairs (MetaplecticAutomorphicForms §5.6b): here for a definite unitary pair, with the archimedean
 weights of 2.1, the Satake parameters of 2.2–2.3 and the weak base change of the lift, through Labesse's weak base change
 for unitary groups (Labesse (2011)).
@@ -1181,7 +1192,9 @@ EndoscopicTransferAndUnitaryTraceComparison §6.29.
 
 ### 2.5 The homomorphism pair in the dictionary
 
-*Origin:* definitions and conventions.
+*Origin:* definitions and conventions for the homomorphism pair; the dictionary (a)–(g), which reads 1.7, 1.8, 2.1–2.4
+and ThetaKernelsForUnitaryDualPairs §4.4a for that pair, is this roadmap's own formulation; for (e) see also the
+[FormalProof] declaration named there.
 
 Let `X₁`, `X₂` be totally positive definite Hermitian spaces of dimensions `n ≤ d`, `δ′ ∈ E^×` with `δ̄′ = −δ′`, `Φ` the CM
 type `{τ : Im τ(δ′) > 0}`, and `(V, W) = (X₁^*, δ′X₂)` the homomorphism pair of 0.1, on `Hom_E(X₁, X₂)` with
@@ -1452,8 +1465,8 @@ MetaplecticAutomorphicForms §6.10a; AutomorphicLFunctionsAndLocalFactorsPartII 
 
 *Origin:* adapted from Rallis (1984), *Injectivity properties of liftings associated to Weil representations*, Theorem
 1.6, the injectivity of theta lifts for orthogonal–symplectic pairs in his convergent range: here the step of linear
-algebra from an inner product formula to injectivity. Its form for a definite unitary pair, in the Remark, under the
-invertibility of the Rallis operator of 3.3, is this roadmap's own formulation.
+algebra from an inner product formula to injectivity. Its form for a definite unitary pair, the criterion below, under
+the invertibility of the Rallis operator of 3.3, is this roadmap's own formulation.
 
 *Method of the formal proof:* linear algebra in finite dimension: if `T T^*` acts on each of a family of subspaces by a
 nonzero scalar, these lie in the range of `T`, and for `x = T u` in their span with `T^* x = 0`,
@@ -1465,16 +1478,15 @@ definite pair.
 Prove: let `T` be a linear map between finite-dimensional inner product spaces. If `T T^*` acts by a nonzero scalar on
 each of a family of subspaces, then these subspaces lie in the range of `T`, and `T^*` is injective on their span.
 
-*Remark (the criterion for a definite pair).* This form is this roadmap's own formulation; it is not a statement of
-[FormalProof] and is proved by the route below.
-In the setting of 3.3 (`K_v = Stab(L_v)` for the finite `v ∉ S`), if the Rallis
+Prove also (the criterion for a definite pair, this roadmap's own formulation, not a statement of [FormalProof]): in the
+setting of 3.3 (`K_v = Stab(L_v)` for the finite `v ∉ S`), if the Rallis
 operator is invertible on the `π`-isotypic part of `𝒜(V; K)`, then `θ_φ` is injective there. In particular, for
 `d ≥ 2n + 1`, `θ_φ` is injective on the `π`-isotypic part whenever every local Hermitian form `Z_v(s₀, Φ_v, ·, ·)`, `v ∈ S`,
 is positive definite on `π_v^{K_v}` (on `σ_{λ_v}` at the real places). For a level `K` smaller than `Stab(L_v)` at some
 finite `v ∉ S`, the same hypotheses make `θ_φ` injective on the part of the `π`-isotypic space fixed by
 `∏_{v ∉ S} Stab(L_v)`, and `θ_φ` vanishes on the orthogonal complement of that part.
-For `T = θ_φ^*` (1.4) the statement above is its case in which the Rallis operator acts by a nonzero scalar on each
-part.
+For `T = θ_φ^*` (1.4) the first statement is the case of this one in which the Rallis operator acts by a nonzero scalar
+on each part.
 
 Route: `‖θ_φ F‖² = ⟨θ_φ^* θ_φ F, F⟩`; for a smaller level, 3.3 (`θ_φ = θ_φ ∘ e`, `e` an orthogonal projection).
 
@@ -1657,7 +1669,9 @@ Layers 0–3; ThetaKernelsForUnitaryDualPairs §3.9a; MetaplecticAutomorphicForm
 
 ### 5.1 The theta integral of a definite pair
 
-*Origin:* definitions and conventions.
+*Origin:* definitions: the theta integral of Weil (1965), here for a definite pair; its class-set and lattice forms, the
+condition at the real places and its Hecke eigenvalues are this roadmap's own formulation, read from 1.2, 1.3, 2.1
+and 2.2.
 
 For a test vector `φ`, a finite sum of `φ_∞ ⊗ φ_f` with `φ_∞` in the `K_∞`-invariant part of the Fock space, define
 the *theta integral* `I_V(φ) = θ_φ(1)`, `I_V(φ)(h) = ∫_{[U(V)]} θ(g, h; φ) dg`. Prove:
@@ -1739,7 +1753,9 @@ finite set `S` of places the adelic integral is the limit of the products of the
 unramified places are quotients of local `L`-factors, so that it equals `∏_{i<n} L(z + n/2 − i, χ_W)` times an integral
 over the elements integral outside `S`, up to a normalising product; a test function is chosen for which that last
 integral is not zero, the identity is continued to `s₀ = (d − n)/2` by the identity theorem, and the nonvanishing of the
-`L`-values there gives a nonzero theta integral.
+`L`-values there gives a nonzero theta integral. The route written here is not that of the formal proof: it evaluates the
+norm identity of 5.2, which [FormalProof] does not state; it shares with that proof the factorisation and the choice of
+test vectors with nonzero local integrals.
 
 Prove: suppose `d > n`, `ε_v m_{W,v} ≤ −d` at every real place, the values
 `L_E(d/2 − i, χ_W)`, `0 ≤ i < n`, are finite and nonzero, at every finite `v ∈ S_0` the local integral
@@ -1785,7 +1801,8 @@ LFunctions Layer 7; AutomorphicLFunctionsAndLocalFactorsPartII §2.3.
 ### 5.4 Genus theta series as theta integrals
 
 *Origin:* adapted from Siegel's main theorem for positive definite Hermitian forms over an imaginary quadratic field
-(Braun (1941)) and its mean-value form for unitary groups (Weil (1965), for `2k < n`), with the Siegel–Weil formula for an
+(Braun (1941), Satz V) and its mean-value form for unitary groups (Weil (1965), for `2k < n`), with the Siegel–Weil
+formula for an
 anisotropic space at `s₀` (Gan, Qiu and Takeda (2014), Theorem 7.1) for every `k`: here the genus theta series of a
 totally positive definite Hermitian lattice as the theta integral of its lattice vector on `U(k, k)`, with the
 realisation, weight and level of (a) and the constants `c` and `τ(U(V)) = 2` of (b) and (c).
@@ -2537,7 +2554,8 @@ AutomorphicLFunctionsAndLocalFactors §§AL.1.3.2 and AL.1.3.4.
 
 ### 6.6 Nonvanishing up the tower
 
-*Origin:* adapted from the tower property of Rallis (1984), *On the Howe duality conjecture*: nonvanishing of the theta
+*Origin:* adapted from the tower property of Rallis (1984), *On the Howe duality conjecture*, Theorem I.1.1, p. 345,
+and its corollary, p. 351: nonvanishing of the theta
 integral of the trivial representation climbs the Witt tower from a definite pair, where it follows from the inner
 product formula.
 
@@ -3426,12 +3444,13 @@ Boundaries:
   directory `src/` of the first commit of that repository, the source as published:
   <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
   It is the source of the routes of 1.2 (class-set form of the lift), of the form of the formal proof stated in 4.3
-  (nonvanishing through an absolutely convergent integral of matrix coefficients, in dimension `d ≥ d₀`), and of 5.3,
-  6.1–6.7, 6.9, 6.10, steps 1–4 of 6.11, and 6.12 (cuspidality from one line parabolic, the purity lemma, the compact
+  (nonvanishing through an absolutely convergent integral of matrix coefficients, in dimension `d ≥ d₀`), of the
+  factorisation and the choice of test vectors in 5.3, and of 6.1–6.7, 6.9, 6.10, steps 1–4 of 6.11, and 6.12
+  (cuspidality from one line parabolic, the purity lemma, the compact
   case, the constant-term induction, the global descent of matching through factorisation, constant terms and
   injectivity, the archimedean cone lemma, square-integrability of the theta integrals through the square of the theta
   kernel, and the explicit tower recursion with the value of its constants at the ramified places), and of the back-lift
-  argument of 6.8 apart from its constancy step. The routes written in 4.2 and 5.2 are not that proof's; the
+  argument of 6.8 apart from its constancy step. The routes written in 4.2, 5.2 and 5.3 are not that proof's; the
   `*Method of the formal proof:*` labels of those sections say what it does.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - A. Weil, *Sur certains groupes d'opérateurs unitaires*, Acta Math. 111 (1964): 0.3, 0.4, 1.8 (the
@@ -3464,10 +3483,11 @@ Boundaries:
   (Minkowski's theorem): 1.6.
 - S. Rallis, *Injectivity properties of liftings associated to Weil representations*, Compositio
   Math. 52 (1984), for orthogonal–symplectic pairs: Proposition 1.1, pp. 149–150 (the inner product formula in the
-  convergent range): 3.2, 3.3; Theorem 1.6, p. 156 (injectivity of the lift): 3.4; the inner product of two lifts as a
-  pairing of the original forms against a kernel: 1.4.
-- S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), for orthogonal–symplectic pairs: 2.4 (the
-  local components of global theta lifts), 6.6 (the tower property).
+  convergent range): 3.2, 3.3; Theorem 1.6, p. 156 (injectivity of the lift): 3.4; §1, formula (1-1), pp. 146–147 (the
+  inner product of two lifts as a pairing of the original forms against a kernel): 1.4.
+- S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), for orthogonal–symplectic pairs: Theorem
+  I.2.2 and its proof, pp. 355–356 (the local components of global theta lifts): 2.4; Theorem I.1.1, p. 345, and its
+  corollary, p. 351 (the constant terms of lifts, hence the tower property): 6.6.
 - S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982), for
   orthogonal–symplectic pairs: 2.2 (the homomorphism of spherical Hecke algebras compatible with the Weil
   representation).
@@ -3480,7 +3500,8 @@ Boundaries:
   Corollaire 6.3, p. 734 (Théorème 1 of the introduction, p. 718; the explicit correspondence for `(GL_n, GL_m)`,
   `n ≤ m`, in Langlands parameters): 2.2, 6.2.
 - H. Atobe, W. T. Gan, *Local theta correspondence of tempered representations and Langlands parameters*, Invent. Math.
-  (2017), arXiv:1602.01299: 2.3 (the local theta lifts of tempered representations for unitary pairs of any ranks).
+  (2017), cited in the numbering of arXiv:1602.01299v1: §4, Theorems 4.1, 4.3 and 4.5, pp. 11–14 (the local theta lifts
+  of tempered representations for unitary pairs of any ranks): 2.3.
 - J.-P. Labesse, *Changement de base CM et séries discrètes*, in *On the stabilization of the trace
   formula*, International Press (2011): 2.4, 4.3.
 - S. Kudla, S. Rallis, *A regularized Siegel–Weil formula: the first term identity*, Ann. of Math.
@@ -3490,8 +3511,8 @@ Boundaries:
   the Rallis inner product formula*, Invent. Math. 198 (2014), cited in the numbering of arXiv:1207.4709v3:
   Theorem 7.1, §7.1 (the Siegel–Weil formula for an anisotropic target, with the constant `c`): 3.1, 5.4; Theorem 1.3
   (the Rallis inner product formula for `n < m ≤ 2n`): 3.2, 5.3; Theorem 1.2 (ii) (the second term identity): the
-  boundary of Layer 6; §1.7 (the works cited for the inner product formula in Weil's convergent range): 3.3, 4.2; §11.1
-  (the global theta lift): 1.5.
+  boundary of Layer 6; §1.7 (the works cited for the inner product formula in Weil's convergent range): 3.3, 4.2; §11.2
+  (the global theta lift): 1.1, 1.5.
 - A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007): 3.1 (the anisotropic case for
   `n < d ≤ 2n`, as GQT §7.1 attributes it).
 - S. Yamana, *L-functions and theta correspondence for classical groups*, Invent. Math. 196 (2014):
@@ -3499,8 +3520,10 @@ Boundaries:
 - S. Rallis, *L-functions and the oscillator representation*, Lecture Notes in Math. 1245 (1987):
   6.4 (constant terms of theta integrals).
 - H. Braun, *Zur Theorie der hermitischen Formen*, Abh. Math. Sem. Hansische Univ. 14 (1941): 5.4 (the analogue of
-  Siegel's main theorem, and the mass formula, for positive definite Hermitian forms over an imaginary quadratic field).
-- A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965): 5.4 (Siegel's
+  Siegel's main theorem, Satz V, and the mass formula, for positive definite Hermitian forms over an imaginary quadratic
+  field).
+- A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965): 5.1 (the theta
+  integral), 5.4 (Siegel's
   formula for the classical groups over number fields), 6.3 (the convergence criterion for theta integrals).
 - A. Zelevinsky, *Induced representations of reductive p-adic groups II*, Ann. Sci. ÉNS 13 (1980): Theorem 4.2,
   p. 184 (a product of the representations of segments is irreducible exactly when no two segments are linked): 6.5,
