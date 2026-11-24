@@ -254,8 +254,8 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. Every section of this roadmap carries both labels: each
 target is, in the form recorded with it, a statement of [FormalProof]; a wider or sharper form stated beside it is this
-roadmap's own formulation (Statements of the formal proof, above), and the `*Origin:*` labels of 7.12, 8.1, 8.3, 8.6,
-8.21 and 8.24 name such forms.
+roadmap's own formulation (Statements of the formal proof, above), and the `*Origin:*` labels of 7.12, 8.1, 8.2, 8.3,
+8.6, 8.21 and 8.24 name such forms.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
@@ -571,7 +571,8 @@ It follows from [FormalProof], `Formalism/QuotientMetricDivisors/HeightBoundExac
 their norms, and the Taylor coefficients of a function of the space are its reproducing integrals
 (MetaplecticAutomorphicForms §1.5 (ii)); here (a) for entire functions with `|Th(u)| ≤ S·e^{|u|²/2}`, which need not lie
 in the Fock space, and (b), (c), a Gaussian maximum and a bound for a block of Taylor coefficients selected by a
-dominated polynomial, with the exact exponential factor.
+dominated polynomial, with the exact exponential factor. (c) as stated, with the factor `e·(2n + 2)^{2N}` for blocks of
+any sizes, is this roadmap's own formulation.
 
 *Method of the formal proof:* for (a), monomials with different exponents are orthogonal on every polydisc for
 `e^{−|u|²}du`, by invariance under rotations of the coordinates, the Taylor series is integrated term by term on
