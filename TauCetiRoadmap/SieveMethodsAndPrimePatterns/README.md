@@ -1684,7 +1684,7 @@ The indexing type may be empty. N,L∈ℕ, L>0, and f_k=0 whenever |n_k|>N. The 
 
 The empty family gives 0≤‖f‖²B; a singleton has C=0. This conditional theorem is not the full additive large-sieve theorem with constant length+2/δ.
 
-*Needs:* Layer 2 §2.1 squared norm of the tapered fourier vector; Layer 2 §2.1 off-diagonal tapered gram bound; Layer 2 §2.1 tapered pairing recovers a core fourier sum; Layer 0 §0.4 diagonal/off-diagonal gram inequality; Mathlib `norm_inner_symm`.
+*Needs:* §2.1 (*squared norm of the tapered fourier vector*); §2.1 (*off-diagonal tapered gram bound*); §2.1 (*tapered pairing recovers a core fourier sum*); §0.4 (*diagonal/off-diagonal gram inequality*); Mathlib `norm_inner_symm`.
 
 ### 2.2 separated points, interval padding and Bombieri's additive large sieve
 
@@ -3323,7 +3323,7 @@ Nonnegative mass; correct density/remainder data; upper main term for D≥z≥2,
 - At D=z², s=2 and f(2)=0: the lower main-term estimate is available, with its negative error retained.
 - For the empty population X=0,R_d=0, both sifted-sum brackets give 0≤0; no division by X is needed.
 
-*Needs:* Layer 5 §5.2 linear sieve functions; Layer 5 §5.2 rosser sieve weights; Layer 0 §0.5 euler-product sieve dimension.
+*Needs:* §5.2 (*linear sieve functions*); §5.2 (*rosser sieve weights*); §0.5 (*euler-product sieve dimension*).
 
 **Upper sifted-sum bound below s=1.** Under the same product condition and nonnegative mass, for z≥D≥2 and s=log D/log z∈(0,1], prove
 
@@ -3339,7 +3339,7 @@ Here E(D) is the same absolute remainder sum on squarefree sieving divisors d<D.
 - At s=1/2, z=D², F(s)=4e^γ; replacing it by F(1) loses a factor two.
 - In the Richert choice r=3, α=γ/4, β=27γ/28, the limiting parameter (γ−β)/α=1/7 has F=14e^γ and D_p≥N^(γ/28). Thus log D_p tends to infinity uniformly, although D_p<z near the upper prime endpoint.
 
-*Needs:* Layer 5 §5.2 rosser–iwaniec linear sieve (upper s=1 case); Layer 5 §5.2 linear sieve functions; Layer 0 §0.5 truncated remainder mass.
+*Needs:* §5.2 (*rosser–iwaniec linear sieve*, upper s=1 case); §5.2 (*linear sieve functions*); §0.5 (*truncated remainder mass*).
 
 **Beta sieve in general dimension.** For each κ>0 the Iwaniec constants β_κ,A_κ,B_κ and delay functions F_κ,f_κ satisfy s^κF=A_κ for 0<s≤β_κ+1, s^κf=B_κ for 0<s≤β_κ, with the stated delayed derivatives beyond those endpoints and normalization at infinity. Under the corresponding κ product condition, Theorem 1 bounds the sifted sum by XV(z) times these functions with error e^sqrt(K)Q_κ(s)(log D)^(-1/3), plus/minus the absolute remainder sum. For κ=1,β=2,A=2e^γ,B=0. The error control is Q_κ(s)≪_κ exp(−s log s+s log log(3s)+O_κ(s)). For 0<κ<1/2, β=1 and B>0; atκ=1/2, β=1,A=2sqrt(e^γ/π),B=0; forκ>1/2,β>1,B=0. Prove their normalized existence and precise κ-dependent constants, including β_t<9t for integer t≥1 and f_t(s)>0 for s>β_t, the lower-sifting properties used below (BGS-10, Theorem 3.1 and §3.3).
 
@@ -3349,7 +3349,7 @@ Here E(D) is the same absolute remainder sum on squarefree sieving divisors d<D.
 
 *Proof sketch.* Import the complete κ-dependent delay-system existence and normalization proof from the original §§3–5. The linear signature does not define general β_κ. Maintain the original function Q_κ(s), not an unproved dimension-independent exponential replacement.
 
-*Needs:* Layer 0 §0.5 euler-product sieve dimension; Layer 5 §5.2 rosser–iwaniec linear sieve.
+*Needs:* §0.5 (*euler-product sieve dimension*); §5.2 (*rosser–iwaniec linear sieve*).
 
 **Positive lower sieve above 9t.** For an integer t≥1, fixed s>9t, A₁>1 and K≥0, prove that there are c>0 and z₀≥2, depending only on these parameters, with the following property. Let z≥z₀, X>0 and a finite nonnegative weighted population have multiplicative divisibility main term Xg(d), g(1)=1, 0≤g(p)≤1−1/A₁ for every prime p<z, and remainder R_d. Assume, for 2≤w≤v≤z,
 
@@ -3367,7 +3367,7 @@ Writing V(z)=∏_(p<z)(1−g(p)), if Σ_(d<z^s, d squarefree)|R_d|≤c X V(z), t
 - At u=10 and K=2 the elementary error exp(10−u)K¹⁰=1024, so it yields no positive lower bound.
 - A fixed obstruction g(2)=1 makes V(z)=0 for z>2 and violates the strict local margin; the theorem cannot certify a positive count for this population.
 
-*Needs:* Layer 5 §5.2 general-dimension beta sieve, including its lower sifting limit β_t<9t for integer t≥1 and strict positivity beyond that limit; weighted divisibility interchange and the absolute remainder bound of Layer 0.
+*Needs:* §5.2 (*general-dimension beta sieve*, including its lower sifting limit below 9t for integer t≥1 and strict positivity beyond that limit); §0.1 (*weighted divisibility interchange*); §0.1 (*lower main term minus absolute remainder*); §0.5 (*coefficient error controlled by remainder mass*).
 
 **Fundamental lemma for the linear sieve.** For a dimension-one family with X>0 eventually, V(z)>0, Σ_(d<D)|R_d|=o(XV(z)), D≥z→∞ and log z=o(log D), the sifted sum is asymptotic to XV(z). The conclusion needs both the main-term functions tending to 1 and a remainder small relative to XV, not merely relative to X.
 
@@ -3477,7 +3477,7 @@ A presentation is a finite set S of at most r polynomials of total degree≤d in
 - The union xy=0 in 𝔽₃² has 5 points and dimension one. It needs the reducible upper bound, rather than an irreducible leading coefficient 1.
 - Two distinct affine lines meet in one point; coincident lines meet in a line with 3 points over 𝔽₃. The local-factor application must retain distinct geometric factors.
 
-*Needs:* SchemeAndStackFoundations §5.11 `weil_bound` and §5.12 `bezout_inequality`; AlgebraicCurves function fields, places and genus; native affine varieties, dimension and finite fields; Layer 0 §0.10 finite-field polynomial counts.
+*Needs:* SchemeAndStackFoundations §5.11 (`weil_bound`); SchemeAndStackFoundations §5.12 (`bezout_inequality`); AlgebraicCurves function fields, places and genus; native affine varieties, dimension and finite fields; §0.10 (*finite-field polynomial counts*).
 
 **Lang–Weil estimate for a fixed model.** Let K be a number field with ring of integers O, m≥1, and 𝒱 a separated scheme of finite type over O[1/m] whose generic fibre is geometrically irreducible of dimension d. Prove that, as v runs over the finite places of K prime to m, #𝒱(κ(v))=Nv^d+O(Nv^(d−1/2)), with implied constant depending on 𝒱. In particular 𝒱(κ(v)) is nonempty for all v of sufficiently large norm. Geometric irreducibility is required: an irreducible but not geometrically irreducible generic fibre gives no such estimate.
 
@@ -3592,7 +3592,7 @@ The definition exposes the following operations and laws:
 - In the two-element quotient with S={s}, s²=1, the length-one endpoints have masses 1 at each element; P has eigenvalues 1,−1 and T has eigenvalues 1,0. A non-lazy walk alternates point masses instead.
 - For a word with f=0 every positive d divides its value; it contributes no sifted mass once a prime is sieved. With no local primes the full word mass survives.
 
-*Needs:* Layer 0 §0.2 weighted finite-family sieve; native finite reduction maps; Layer 5 §5.4 subgroup reduction images.
+*Needs:* §0.2 (*weighted finite-family sieve*); native finite reduction maps; §5.4 (*subgroup reduction images*).
 
 **Local densities for affine orbits.** For connected simply connected absolutely almost simple G/ℚ, finitely generated Zariski-dense integral Γ, and an integral regular function f nonzero and nonunit on G, let t≥1 be the number of distinct geometric irreducible components of its zero locus. No individual component need be defined over ℚ, and repeated factors of f are allowed. Outside a finite modulus q₀, let t_p count the components of the reduced zero locus individually fixed by Frobenius. Prove β(p)=t_p/p+O(p^(−3/2)), hence β(p)≤t/p+O(p^(−3/2)). If f=c∏_(j=1)^t f_j with distinct f_j∈ℚ[G] absolutely irreducible over the algebraic closure, every t_p=t outside q₀ and the equality with leading coefficient t follows. Multiplicativity on good squarefree moduli comes from the reduction-image theorem; primitivity implies β(p)<1 at every local prime used, including the finite exceptional part.
 
@@ -3613,7 +3613,7 @@ Consequently V(z)=∏_(p<z,p∤q₀)(1−β(p))≥c(log z)^(−t) for z≥2 and 
 - For f=a²+b² the product over p=3,5 is V=(1−0)(1−1/3)=2/3; the inverse product is 3/2. A zero local density contributes factor one and is allowed by the upper dimension condition.
 - The constant f=2 has β(2)=1 and fails primitivity; it cannot be repaired by omitting the prime 2. A unit f=1 has empty zero locus and t=0, outside the nonunit endpoint hypotheses.
 
-*Needs:* Layer 5 §5.4 primitive affine sieve pair; AdelicAlgebraicGroups §1.1 integral models and §4.2 strong approximation; Layer 5 §5.4 subgroup reduction images; Layer 0 §0.10 finite-field polynomial counts; Layer 5 §5.4 uniform algebraic point counts and Lang–Weil estimate for a fixed model; AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
+*Needs:* §5.4 (*primitive affine sieve pair*); AdelicAlgebraicGroups §1.1 (*integral models*); AdelicAlgebraicGroups §4.2 (*strong approximation*); §5.4 (*subgroup reduction images*); §0.10 (*finite-field polynomial counts*); §5.4 (*uniform algebraic point counts* and *Lang–Weil estimate for a fixed model*); AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
 
 **Fixed-modulus conditioning and walk remainders.** Under the algebraic hypotheses of local densities above, suppose the normalized symmetric operators P_(S,q) have every nonconstant eigenvalue at most 1−ε, uniformly over all squarefree q≥1 on their actual images H_q, for some 0<ε≤1. This includes squarefree q containing exceptional primes. The lazy operators then have nonconstant spectrum in [0,ρ], with ρ=1−ε/2∈[1/2,1). For any h∈H_q prove
 
@@ -3650,7 +3650,7 @@ The adapter preserves word multiplicities, counts each divisor preimage, and ide
 - In rank two the length-two ball has 1+4+12=17 words; counting unreduced four-letter words would give 1+4+16=21.
 - Two distinct words with the same absolute f-value contribute mass 2. If f=0 that mass is removed once any prime is sieved.
 
-*Needs:* Layer 0 §0.2 weighted finite-family sieve; Layer 5 §5.4 subgroup reduction images and primitive affine sieve pair; the chosen subgroup's own mixing estimate as an explicit hypothesis.
+*Needs:* §0.2 (*weighted finite-family sieve*); §5.4 (*subgroup reduction images* and *primitive affine sieve pair*); the chosen subgroup's own mixing estimate as an explicit hypothesis.
 
 **Affine sieve level from expansion.** For the original-group lazy population conditioned at (b,c), with Y_L=X_L/|H_b| and τ<1 as above, prove Σ_(d<D,d squarefree,(d,b)=1)|R_(d,c)|≤C′X_L^τ D^dim G for every D≥1. For every 0<δ<(1−τ)/dim G, D=X_L^δ gives remainder o(Y_L/(log X_L)^t) as L→∞, and hence an admissible power level for the positive lower sieve.
 
