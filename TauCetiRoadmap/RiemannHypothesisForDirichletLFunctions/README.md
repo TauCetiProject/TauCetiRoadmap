@@ -7,7 +7,11 @@ every modulus `N ≥ 1`, every Dirichlet character `χ` modulo `N` and every `s`
 hypothesis for the Riemann zeta function, Mathlib's `RiemannHypothesis`; through the factorisation
 of the Dedekind zeta function of an abelian number field into Dirichlet L-functions, it is also the
 Riemann hypothesis for the Dedekind zeta function of every number field abelian over `ℚ`. The last
-roadmap of the family states these theorems. The results that the family states are those of the
+roadmap of the family states the theorems for Dirichlet L-functions and for the Riemann zeta
+function; the statement for Dedekind zeta functions, and the forms that these theorems give of
+conditional theorems of other roadmaps, are those of the roadmap
+[ConsequencesOfTheRiemannHypothesisForDirichletLFunctions](../ConsequencesOfTheRiemannHypothesisForDirichletLFunctions/README.md).
+The results that the family states are those of the
 formal Lean proof, by Levent Alpöge, of the Riemann hypothesis and of the Riemann hypothesis for
 Dirichlet L-functions, announced on 20 November 2026 ([announcement](https://alpo.ge/remark.pdf);
 [the Lean source as published](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005),
@@ -18,11 +22,13 @@ and that it is mirrored there for verification only: unmodified at that first co
 since, as its notes describe. The files the roadmaps of this family name are files of the
 source as published, so they are to be looked up at that first commit, under its directory `src/`.
 The theorems of that proof are the two statements for Dirichlet L-functions and for the Riemann
-zeta function; the statement for Dedekind zeta functions, and the further consequences listed in
-the last roadmap, are drawn from
-them by published theorems and are not statements of the formal proof. Each roadmap states as
-targets what the proof establishes, in the generality in which the statement holds, with the
-published theory it rests on, and says so where a route is not written out.
+zeta function; the statement for Dedekind zeta functions and the further consequences are drawn
+from them by published theorems and are not statements of the formal proof. Each roadmap of the
+family states as targets what that proof establishes and what its route needs, and labels each
+statement with its origin and with the method of the formal proof (see the section on labels
+below). The published theory on which the proof rests is stated, in the generality of its sources,
+in the general roadmaps of the library, and the family cites it there by section; where a statement
+of the family is a case of a general theorem stated there, its section says so.
 
 The route is analytic at both ends. For a positively weighted family of characters, a one-sided
 bound for the weighted sum of the Riesz-smoothed prime sums of its members, less their main terms,
@@ -42,6 +48,27 @@ target signatures; this page is the index of the family. The roadmaps are listed
 within the family, each roadmap cites only roadmaps listed above it. Citations between the roadmaps
 are by section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a
 section keeps its number.
+
+## Origin and method of each statement
+
+Every section of a roadmap of the family that states something to prove carries two labels under
+its heading.
+
+- `*Origin:*` says where the statement comes from, in one of five forms: `published:`, with the
+  source; `adapted from` a published result, with what is changed; `particular to this proof:`, for
+  a statement that the formal proof introduces, with the nearest published result where one is
+  known; `this roadmap's own formulation:`, for a statement that is neither published nor a
+  statement of the formal proof; and `definitions and conventions.`
+- `*Method of the formal proof:*` says how the formal proof proves the statement, and for which
+  form of it when that proof has a narrower one; it says `none` where the formal proof has no such
+  statement.
+
+A section may carry a third line, `*Corollary of:*`, which names a general theorem, the section of
+a general roadmap that states it, and the clauses it covers. As long as the general theorem is not
+in the library, what the line covers is proved as the formal proof proves it. Once the general
+theorem is in the library, that proof is replaced by the deduction from it, and the lemmas that
+only the first proof uses are removed. The statement does not change. Each roadmap states these
+conventions in its own Conventions.
 
 ## When a roadmap is wrong
 
@@ -89,30 +116,30 @@ areas that this family cites.
   Riesz sums and explicit formulas, the Riemann-hypothesis predicates for Dirichlet characters,
   Dedekind zeta functions and ray-class characters, and their consequences.
 - [**Riesz sums over primes and exceptional zeros**](RieszSumsOverPrimesAndExceptionalZeros/README.md):
-  Riesz-smoothed sums over primes, exceptional zeros and zero-density boxes, and class numbers.
+  Riesz-smoothed sums over primes, exceptional zeros and zero-free boxes, and class numbers.
 - [**Quadratic twists selected over primes**](QuadraticTwistSelectionOverPrimes/README.md):
   quadratic twists over primes in a progression, and the selection of auxiliary primes with
   zero-free boxes.
 - [**Frobenius-restricted Riesz sums**](FrobeniusRestrictedRieszSums/README.md):
   abelian CM hosts and their Frobenius data, cyclic hosts and the cyclic family of a primitive
   Dirichlet character, tops, thick sets and admissible pairs; Riesz sums restricted by Frobenius,
-  and the equivalence of the averaged inequality on a host with the window bound for the cyclic
-  family.
+  and the square-root bound for the cyclic family from the averaged inequality on a host.
 - [**Adelic heights and successive minima**](AdelicHeightsAndSuccessiveMinima/README.md):
-  adelic heights of vectors and subspaces for an adelic presentation, with their duality and
-  behaviour under extension, and successive minima over number fields for balanced bodies.
+  the subspace height of a lattice with a frame over a CM field, with its independence of the
+  lattice vectors and its invariance under automorphisms of the lattice, and successive minima over
+  number fields for balanced bodies.
 - [**Orbit measures on adelic groups**](OrbitMeasuresOnAdelicGroups/README.md):
   measures of top forms over local fields and Tamagawa measures on homogeneous spaces of adelic
   groups, the Tamagawa numbers of `G_m`, of groups with a unipotent radical and of quotients by
-  central induced tori, and centralisers of semisimple elements.
+  central induced tori, and centralisers of elements with separable characteristic polynomial.
 - [**Hodge–Tate lattices and Lubin–Tate logarithms**](HodgeTateLatticesAndLubinTateLogarithms/README.md):
   Hodge–Tate lattices and flag sequences with explicit cokernel bounds, and logarithms of Lubin–Tate
   formal group laws with sharp radii.
 - [**Wach lattices over the cyclotomic tower**](WachLatticesOverTheCyclotomicTower/README.md):
   Wach lattices and crystalline lattices over the cyclotomic tower, with explicit exponents.
 - [**Selmer length bounds and local lifting**](SelmerLengthBoundsAndLocalLifting/README.md):
-  Selmer complexes in families, length bounds, local theorems at the places above the prime with
-  explicit constants, and lifting with loss.
+  Selmer presentations over group rings, length bounds, local theorems at the places above the
+  prime with explicit constants, and lifting with loss.
 - [**Length bounds in p-adic families**](LengthBoundsInPadicFamilies/README.md):
   length bounds and eigensystems in `p`-adic families.
 - [**Reducibility ideals and ultrafilter patching**](ReducibilityIdealsAndUltrafilterPatching/README.md):
@@ -138,12 +165,11 @@ areas that this family cites.
   local factors and epsilon factors of twists, converse theorems, and smooth representations with
   their types.
 - [**Finite reductive groups and the characters of `GL_n(𝔽_q)`**](FiniteReductiveGroups/README.md):
-  Harish-Chandra induction and Deligne–Lusztig theory for the groups of rational points of connected
-  reductive groups over finite fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for
-  `GL_n` in prime degree.
+  Harish-Chandra induction and Deligne–Lusztig theory for the general linear groups over finite
+  fields, the characters of `GL_n(𝔽_q)`, and Shintani descent for `GL_n` in prime degree.
 - [**Base change and Galois representations for unitary groups**](BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md):
   base change and inertial types of depth-zero representations, and the Galois representations
-  attached to automorphic representations of unitary groups.
+  attached to automorphic representations of definite unitary groups.
 - [**Hecke ideals and Taylor–Wiles relations**](HeckeIdealsAndTaylorWilesRelations/README.md):
   Taylor–Wiles relations, Hecke ideals and their stability, and Tate–Shafarevich kernels with
   lattice coefficients.
@@ -232,5 +258,4 @@ areas that this family cites.
 - [**The generalized Riemann hypothesis from window bounds**](GeneralizedRiemannHypothesisFromWindowBounds/README.md):
   weighted families of characters and their Riesz remainders, Landau's theorem for families and its
   windowed form, window bounds as a form of the generalized Riemann hypothesis, cyclic families, and
-  the Riemann hypothesis for Dirichlet L-functions in its standard forms, with the forms it gives of
-  conditional theorems of other roadmaps.
+  the Riemann hypothesis for Dirichlet L-functions in its standard forms.

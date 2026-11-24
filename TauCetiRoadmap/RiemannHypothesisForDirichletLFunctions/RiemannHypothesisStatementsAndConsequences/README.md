@@ -10,10 +10,9 @@ Grossencharacter is this predicate on the continued L-function, at `σ = 1/2` (s
 weight for a Grossencharacter), and that of an analytic record says that every zero of its
 completed function lies on the critical line. Beside the predicates the roadmap builds what the
 consequences need: Riesz sums and the explicit formula for the Riesz remainder of a primitive
-character, Selberg's smoothed formula for the logarithmic derivative, Hadamard's three-circles
-theorem, Riesz-smoothed character sums through a surjection of a ray class group, and the
-primitive Dirichlet characters as a bundled carrier, identified with the primitive ray-class
-characters of `ℚ`.
+character, Selberg's smoothed formula for the logarithmic derivative, Riesz-smoothed character
+sums through a surjection of a ray class group, and the primitive Dirichlet characters as a bundled
+carrier, identified with the primitive ray-class characters of `ℚ`.
 
 The headline theorems are these. (1) For a Dirichlet character `χ` modulo `N ≥ 1`, primitive or
 not, the Riemann hypothesis for `χ` holds exactly when every zero of `L(s, χ)` in the open strip
@@ -50,10 +49,12 @@ proves the Riemann hypothesis for Dirichlet L-functions, and the Riesz-smoothed 
 enter the Frobenius-restricted sums of
 [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md).
 
-Layer 3 proves Hadamard's three-circles theorem. Layer 8 defines Riesz sums and the Riesz remainder
+Layer 3 states Hadamard's three-circles theorem, AnalyticNumberTheoryPartIII §8.2a, in the form
+that 9.7 uses. Layer 8 defines Riesz sums and the Riesz remainder
 of a primitive character with its Mellin transform and explicit formula, proves Selberg's smoothed
-formula for the logarithmic derivative, shows that the primitive characters attached to a
-reciprocity dictionary do not depend on it, and expands Riesz-smoothed character sums through a
+formula for the logarithmic derivative, states that the primitive characters attached to a
+reciprocity dictionary do not depend on it (ZerosOfLFunctions §8.7a), and expands Riesz-smoothed
+character sums through a
 surjection of a ray class group. Layer 9 adds symmetries and a change of level to the zero-free
 half-plane predicate, defines the Riemann hypotheses, proves their equivalent forms and their
 bridges to Mathlib's `RiemannHypothesis`, and derives from a zero-free half-plane `Re s > σ`,
@@ -102,12 +103,36 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 9.2 and 10.3 carry
+the first label only. The statements of 3.2a, 8.4b, 8.8, 9.5–9.9 and 11.1 are not statements of
+[FormalProof]: 3.2a and 8.8 state, in the form used here, published theorems whose homes are
+AnalyticNumberTheoryPartIII §8.2a and ZerosOfLFunctions §8.7a; 8.4b, 9.5, 9.7, 9.8, 9.9 and 11.1
+adapt published theorems, cited with each; 9.6 is this roadmap's own formulation.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the
+clauses it covers when it does not cover the whole section. As long as that general theorem is not
+in the library, what the line covers is proved as [FormalProof] proves it: the
+`*Method of the formal proof:*` label says how, and for which form of the statement when that proof
+has a narrower one; the route given with the section is that proof's unless the label says that it
+differs. Once the general theorem is in the library, the proof of what the line covers is replaced
+by the deduction from it, and the lemmas that only the first proof uses are removed. The statement
+does not change.
+
 ## Layer 3: Three-circles convexity for analytic functions
 
 The growth bounds of 9.7 interpolate a logarithm between three circles. This layer states the
-complex three-circles theorem on an annulus, from Mathlib's three-lines theorem.
+complex three-circles theorem on an annulus in the form 9.7 uses, from AnalyticNumberTheoryPartIII
+§8.2a.
 
 ### 3.2a Hadamard's three-circles theorem
+
+*Origin:* published: Robinson (1944), Hadamard's three-circles theorem, the inequality and the
+convexity of `log M` in `log r`, used in Titchmarsh (1986), Chapter XIV (AnalyticNumberTheoryPartIII
+§8.2a); the bound inside the disc is the maximum modulus principle.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Let `0 < r₁ < r₃` and let `f` be continuous on the closed annulus `r₁ ≤ ‖z − z₀‖ ≤ r₃` and
 holomorphic on the open one (`DiffContOnCl` on `{z | r₁ < ‖z − z₀‖ < r₃}`), with `M(r)` the
@@ -117,40 +142,13 @@ identically on the closed annulus, `M` is positive on `[r₁, r₃]` and `log M`
 of `log r` there. If `f` is moreover holomorphic on a neighbourhood of `closedBall z₀ r₃`, then
 `‖f z‖ ≤ M(r₂)` for every `z ∈ closedBall z₀ r₂`.
 
-Route: Mathlib's three-lines theorem
-`Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'` applied to
-`F(w) = f(z₀ + exp w)` on the strip `log r₁ ≤ Re w ≤ log r₃`. `w ↦ z₀ + exp w` maps the open strip
-into the open annulus and the closed strip onto the closed annulus, so `F` is continuous on the
-closed strip and holomorphic inside; it is bounded, `f` being continuous on the compact closed
-annulus (`IsCompact.exists_bound_of_continuousOn`); and its supremum on the line `Re w = log r` is
-`M(r)`. At `Re w = log r₂` the interpolation exponent `(Re w − log r₁)/(log r₃ − log r₁)` is `θ`.
-For the convexity, apply the inequality on every closed sub-annulus `a ≤ ‖z − z₀‖ ≤ c`,
-`r₁ ≤ a < c ≤ r₃`, where `f` satisfies the same hypotheses. `M` is positive on `[r₁, r₃]` when
-`f` has a nonzero value on the closed annulus: if `M(r) = 0`, then for `r₁ < r < r₃` the function,
-holomorphic on the connected open annulus and zero on a circle in it, vanishes there by the
-identity theorem, and for `r = r₁` or `r = r₃` the inequality gives `M = 0` on every circle in
-between; in both cases `f` vanishes on the open annulus, hence by continuity on the closed one.
-Values of `f` off the annulus play no part. The bound inside the disc is the maximum modulus
-principle on `closedBall z₀ r₂`.
+The inequality and the convexity are Hadamard's three-circles theorem, AnalyticNumberTheoryPartIII
+§8.2a (there with the radii `R₁, R₂, R₃`), and the bound inside the disc is the maximum modulus
+principle on `closedBall z₀ r₂`, on whose frontier `sphere z₀ r₂` the norm of `f` is at most
+`M(r₂)`.
 
-*Needs:* Mathlib `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
-`IsCompact.exists_bound_of_continuousOn`, `Complex.norm_le_of_forall_mem_frontier_norm_le`.
-
-**Checks.**
-
-- `f z = z − z₀`: `M(r) = r`, and at `r₁, r₂, r₃ = 1, 2, 4` the exponent is `θ = 1/2` and the
-  inequality is the equality `2 = 1^{1/2} 4^{1/2}`.
-- `f z = (z − z₀)⁻¹`, holomorphic on the annulus and not on the disc: `M(r) = 1/r`, and
-  `M(r₁)^{1 − θ} M(r₃)^θ = exp(−(1 − θ) log r₁ − θ log r₃) = 1/r₂`, equality at every triple. A
-  statement for functions holomorphic on the disc would exclude it, and every `(z − z₀)^k` with
-  `k < 0`.
-- With the exponent interpolated linearly in `r`, `(r₂ − r₁)/(r₃ − r₁) = 1/3` at `1, 2, 4`, the
-  same `f z = z − z₀` would need `2 ≤ 4^{1/3} ≈ 1.587`, which is false: the convexity is in
-  `log r`.
-- For `f = 0`, `M = 0` and the inequality holds, while `log M` is not a real function: the
-  convexity clause needs `f` not identically zero on the annulus. Nonvanishing elsewhere does not
-  suffice: the function equal to `0` on the closed annulus and to `1` at `z₀` satisfies the
-  hypotheses, is not the zero function, and has `M = 0` on `[r₁, r₃]`.
+*Needs:* AnalyticNumberTheoryPartIII §8.2a; Mathlib
+`Complex.norm_le_of_forall_mem_frontier_norm_le`.
 
 ### Examples
 
@@ -161,8 +159,7 @@ radii (3.2a).
 
 ### Dependencies
 
-Mathlib `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
-`IsCompact.exists_bound_of_continuousOn` and the maximum modulus principle
+AnalyticNumberTheoryPartIII §8.2a; Mathlib's maximum modulus principle
 `Complex.norm_le_of_forall_mem_frontier_norm_le`.
 
 ## Layer 8: Riesz sums, smoothed explicit formulas, abelian character sums
@@ -175,6 +172,30 @@ of a ray class through a surjection of the ray class group (8.8a). The routes ru
 shift of ZerosOfLFunctions §8.2 for the L-functions involved.
 
 ### 8.4a Riesz sums and the explicit formula for the Riesz remainder
+
+*Origin:* adapted from Ihara (2006) and Ihara, Murty and Shimura (2009): the explicit formula for
+the first Riesz mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞`, for every primitive finite-order ray-class character `ψ`
+of a number field (ZerosOfLFunctions §8.6a), with the Euler–Kronecker constant of Ihara (2006) at
+the trivial character; here Riesz sums as an operator on coefficients, the Riesz remainder, its
+Mellin transform as a meromorphic normal form with its value at `1`, the constants `A_ψ` and `B_ψ`,
+and the size bounds.
+
+*Method of the formal proof:* over `ℚ`, the Mellin transform of the remainder is computed term by
+term from `∫_n^∞ (y/n − 1) y^(−s−1) dy = n^(−s)/(s(s − 1))`, the sum and the integral being
+exchanged by absolute convergence, with the main terms integrated in closed form; the continuation
+is the difference quotient at `1` of the bracket, divided by `s`, and its poles in `Re s > 0` come
+from the local form `m/(s − ρ)` plus an analytic function of a logarithmic derivative at a zero.
+The route written here is that proof's for these clauses, read for a primitive ray-class character
+of a number field; it differs in that it also proves the inversion of (a), from ExplicitZetaBounds
+§6.1a, and the explicit formula of (b) with the bound `C_ψ y`, by the contour shift of
+ZerosOfLFunctions §8.2, which are not in [FormalProof].
+
+*Corollary of:* ZerosOfLFunctions §8.6a (the explicit formula for the first Riesz mean of
+`Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` of a primitive finite-order ray-class character `ψ` of a number field), for the
+explicit formula of (b), with the summability of its zero sum and the bound `C_ψ y`, and, through
+the Mellin transform of (b), for the poles of `Φ_ψ` on `Re s > 0` with their residues; (a), and in
+(b) the conjugation, the Mellin transform, the value at `1` and the bound `C_ψ y²`, are not
+corollaries of it.
 
 **(a) Riesz sums.** For `a : ℕ → ℂ` and real `y`, define `rieszSum a y` as
 `∑_{1 ≤ n ≤ y} a(n) (y/n − 1)`, the sum over `Finset.Icc 1 ⌊y⌋₊`, which is `0` for `y < 1`. It is
@@ -329,6 +350,12 @@ Layer 7 (`heckeLFunction_ne_zero_of_one_le_re`); ArithmeticDirichletSeries §2.3
 
 ### 8.4b Selberg's smoothed formula for the logarithmic derivative
 
+*Origin:* adapted from Titchmarsh (1986), Chapter XIV: Selberg's smoothed formula for `ζ′/ζ`
+(ZerosOfLFunctions §8.4a); here for the Dedekind zeta function and for the L-function of a
+primitive ray-class character of a number field, by the same contour argument.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Let `d` be `dedekindZetaData K` or `heckeData ψ` for a primitive `ψ`, `L = continuedL d`, `a_L(m)`
 the coefficients of `−logDeriv L` on `Re s > 1` (the norm coefficients of `Λ_K` or of `Λ_K ψ`, as
 in 8.4a), and `κ = 1` if `L = dedekindZetaC K`, `κ = 0` otherwise. For `x > 1` define
@@ -342,6 +369,9 @@ in 8.4a), and `κ = 1` if `L = dedekindZetaC K`, `κ = 0` otherwise. For `x > 1`
 
 the last sum over all zeros `ρ` of `L`, the trivial ones included, with
 `m_ρ = meromorphicOrderAt L ρ`, absolutely summable (Titchmarsh, Chapter XIV, for `ζ`).
+For `d = dedekindZetaData ℚ`, where `L = dedekindZetaC ℚ` agrees with `riemannZeta` off `1`, this
+is Selberg's formula for `ζ′/ζ`, ZerosOfLFunctions §8.4a, whose *selbergSmoothingWeight* is
+*selbergWeight*.
 
 Route. For `y > 0` and `c > 0`, `(2πi)⁻¹ ∫_{(c)} y^w dw/w² = max(log y, 0)`: shift the line right
 when `y < 1` and left when `y > 1`, collecting `log y` at the double pole, the integrand being
@@ -385,28 +415,47 @@ ArithmeticDirichletSeries §2.3 for the coefficients; Tau Ceti `TauCeti.Contour.
 
 ### 8.8 Primitive characters independent of the reciprocity dictionary
 
-This target states as a theorem of its own the step that ZerosOfLFunctions §8.8 uses to show that
-its exceptional term *exceptionalChebotarevTerm* does not depend on the reciprocity dictionary: two
-dictionaries induce the same primitive characters. Precisely,
-*PrimitiveRayClassCharacter.of_comp_dictionary_eq*: if `Φ` at
+*Origin:* published: Milne (2020), Introduction and Chapter V, §3: two reciprocity dictionaries of an
+abelian extension induce the same primitive ray-class characters, a case of the fact that characters
+which agree on the ideals prime to a larger set of primes have one primitive character
+(ZerosOfLFunctions §8.7a).
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
+ZerosOfLFunctions §8.8 shows that its exceptional term *exceptionalChebotarevTerm* does not depend
+on the reciprocity dictionary through the fact that two dictionaries induce the same primitive
+characters: if `Φ` at
 `𝔪` and `Φ′` at `𝔪′` are two reciprocity dictionaries for `L/K` and `ψ` is a character of
 `L ≃ₐ[K] L`, then
-`PrimitiveRayClassCharacter.of (ψ.comp Φ) = PrimitiveRayClassCharacter.of (ψ.comp Φ′)`. Route:
-let `𝔐` be a common multiple of `𝔪` and `𝔪′` whose finite part is divisible by every prime
-ramified in `L`; induced to `𝔐` (`RayClassCharacter.induced`), both characters take the value
-`ψ(Frob_𝔭)` at the class of every prime `𝔭 ∤ 𝔐`, by the two splitting laws, `Gal(L/K)` being
-abelian; these classes generate `RayClassGroup 𝔐`, every ideal prime to `𝔐` being a product of
-such primes (`RayClassGroup.hom_ext`), so the induced characters are equal, and
-`PrimitiveRayClassCharacter.of_induced` gives the same primitive character. The two theorems on
+`PrimitiveRayClassCharacter.of (ψ.comp Φ) = PrimitiveRayClassCharacter.of (ψ.comp Φ′)`. This is
+*PrimitiveRayClassCharacter.of_comp_dictionary_eq*, ZerosOfLFunctions §8.7a. The two theorems on
 the exceptional term itself, its expression as the sum of *exceptionalRayClassTerm* over the fibre
 `Φ⁻¹(σ_C)` and its independence of the dictionary, are ZerosOfLFunctions §8.8's.
 
-*Needs:* ZerosOfLFunctions §8.8 (the reciprocity dictionaries and their splitting laws);
-GlobalNumberFields `RayClassCharacter.induced`, `RayClassGroup.hom_ext`; LFunctions Layer 5
-(`PrimitiveRayClassCharacter.of`), with Tau Ceti
-`TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`.
+*Needs:* ZerosOfLFunctions §8.7a (the theorem), §8.8 (the reciprocity dictionaries and their
+splitting laws); LFunctions Layer 5 (`PrimitiveRayClassCharacter.of`).
 
 ### 8.8a Riesz-smoothed character sums through a surjection of a ray class group
+
+*Origin:* adapted from Davenport (2000), §20, Ihara (2006), and Ihara, Murty and Shimura (2009):
+orthogonality of characters for prime sums in a class, the sum over prime powers with the weight
+`(y/𝔑𝔭^k − 1) log 𝔑𝔭` and the Euler–Kronecker constant, and the first Riesz mean of one character
+with its constant `logDeriv L_ψ 1`; here the expansion of such a sum through a surjection of a ray
+class group of a number field into the Riesz remainders of the primitive characters (8.4a(b)), for
+every `f`, with the term `D_f`, its bound and the Frobenius reading, which is this roadmap's own
+formulation of the identity that [FormalProof] has over `ℚ`.
+
+*Method of the formal proof:* [FormalProof] has the identity in one form
+(`Deduction.ch_balance`): for `K = ℚ` and the group of an abelian
+CM field, given by a Frobenius element and an inertia subgroup at each prime, summed with weights
+over the indicators `f` of the elements outside the CM type of the field, with the values of the
+primitive characters at the primes dividing the modulus in the coefficients, so that it has no term
+`D_f` and no bound, and with the constants `logDeriv L_{ψ_Φ} 1` of the main terms as free
+parameters. It expands the sum by orthogonality on the group, the value of a primitive character at
+a prime power entering as the mean of the character over a coset of the inertia subgroup (the
+subgroup `H_𝔭` of the route below), and the definitions of the Riesz remainders (8.4a(b)) then
+separate the main terms. The route written here is the same expansion for a general surjection and
+a general `f`, with the terms at the primes dividing `𝔪` collected in `D_f`.
 
 Let `𝔪` be a modulus of `K`, `G` a finite abelian group and `Φ : RayClassGroup 𝔪 →* G` a
 surjective homomorphism. For `f : G → ℂ` define *rayClassRieszSum* `Φ f y` as the sum, over the
@@ -492,13 +541,15 @@ admissible modulus, ClassFieldTheory Layer 13 with Tau Ceti
 ### Dependencies
 
 ZerosOfLFunctions §§1.4, 1.4a, 4.5, 5.6, 5.6a, 6.5 and 8.2, and Layer 0 (*entireCompletion*);
-ZerosOfLFunctions §8.8 for 8.8 and 8.8a. 8.4a additionally ArithmeticDirichletSeries §2.3 (the
+ZerosOfLFunctions §8.8 for 8.8 and 8.8a, and §8.7a for 8.8. 8.4a additionally ArithmeticDirichletSeries §2.3 (the
 coefficients of `−logDeriv` of a ray-class L-function), ExplicitZetaBounds §6.1a (the inversion of
 Riesz sums), LFunctions Layers 3, 5 and 7, and 10.3
-and 11.1 of Layers 10 and 11, which use nothing of this layer; 8.4b LFunctions Layer 8
-(`dedekindZeta_logDeriv_eq`) and ArithmeticDirichletSeries §2.3; 8.8 and 8.8a GlobalNumberFields
-`RayClassCharacter.induced`, `RayClassGroup.hom_ext` and `RayClassCharacter.conductor_dvd_iff`,
-and LFunctions Layer 5 (`PrimitiveRayClassCharacter.of`), and, for the Frobenius reading of 8.8a at
+and 11.1 of Layers 10 and 11, which use nothing of this layer, and ZerosOfLFunctions §8.6a, the
+general theorem of which its explicit formula is a corollary; 8.4b LFunctions Layer 8
+(`dedekindZeta_logDeriv_eq`) and ArithmeticDirichletSeries §2.3, and ZerosOfLFunctions §8.4a, cited
+for its case `ζ`; 8.8a GlobalNumberFields
+`RayClassCharacter.induced` and `RayClassCharacter.conductor_dvd_iff`; 8.8 and 8.8a
+LFunctions Layer 5 (`PrimitiveRayClassCharacter.of`), and, for the Frobenius reading of 8.8a at
 an admissible modulus, ClassFieldTheory Layer 13 (`IsAdmissibleModulus.mem_support_of_ramified`).
 
 ## Layer 9: Riemann hypotheses as predicates and their conditional consequences
@@ -525,6 +576,8 @@ modulo `q` is `GRHMod q` of ExplicitNumberFields §0.5, and that for every Diric
 `GRH` of AnalyticNumberTheoryPartI §1.6.
 
 ### 9.2 Zero-free half-planes
+
+*Origin:* definitions and conventions.
 
 `ZeroFreeRightOf σ f`, for `σ : ℝ` and `f : ℂ → ℂ`, is the predicate of QuasiRiemannHypothesis
 §1.1: `meromorphicOrderAt f s ≤ 0` for every `s` with `σ < Re s`; in prose, *`f` is zero-free right
@@ -587,6 +640,25 @@ Tau Ceti `TauCeti.meromorphicOrderAt_conj_conj`.
   which holds, to `s − 2` being zero-free right of `0`, which fails.
 
 ### 9.3 The generalized Riemann hypothesis of a record, and `ζ`
+
+*Origin:* adapted from Titchmarsh (1986), Chapter II, and Iwaniec and Kowalski (2004), Chapter 5:
+the functional equation makes the zeros of the completed function symmetric about the critical
+line, so that the Riemann hypothesis is the absence of zeros right of `1/2`, for `ζ` and for
+L-functions with a functional equation; here read through meromorphic orders on an analytic
+record, with the bridges to *GRH* of ZerosOfLFunctions Layer 9 and to Mathlib's
+`RiemannHypothesis`.
+
+*Method of the formal proof:* only the direction to `RiemannHypothesis` of the `ζ` clause, from the
+value form: a zero `s ≠ 1` of `ζ` that is not trivial and has `Re s < 1/2` is excluded by the
+functional equation `ζ(s) = 2(2π)^(−(1−s)) Γ(1−s) cos(π(1−s)/2) ζ(1−s)`, in which `ζ(1−s) ≠ 0` by
+the hypothesis on `Re s > 1/2`, `Γ(1−s) ≠ 0` because `Re(1−s) > 0`, and the cosine vanishes only at
+the trivial zeros, at `0`, where `ζ` does not vanish, and at points of real part at least `2`.
+
+*Corollary of:* ZerosOfLFunctions §9.1 (for a primitive Dirichlet character, the hypothesis on the
+completed function is equivalent to the absence of zeros of its L-function right of `1/2`), at
+`q = 1` with the `ζ` bridge of ZerosOfLFunctions Layer 9, for the clause
+`RiemannHypothesis ↔ ZeroFreeRightOf (1/2) riemannZeta` and, through the hinge, its value form; the
+clauses on a record `d` are not corollaries of it.
 
 For a record `d : AnalyticLFunctionData`, define *GeneralizedRiemannHypothesis* `d` as
 `∀ ρ, 0 < meromorphicOrderAt d.completed ρ → Re ρ = 1/2`: every zero of the completed function lies
@@ -675,6 +747,27 @@ bridge to `RiemannHypothesis`); LFunctions Layer 0 (`AnalyticLFunctionData.dual_
   conjugation, so the hypothesis for `χ` alone is the hypothesis for its record.
 
 ### 9.4 Dirichlet characters
+
+*Origin:* adapted from Davenport (2000), chapters 5, 9 and 14: primitive characters, the functional
+equation and the absence of zeros on `Re s = 1`, which give the equivalent forms of the hypothesis
+for one Dirichlet character (AnalyticNumberTheoryPartI §§1.6, 1.6a); here read through meromorphic
+orders on Mathlib's `DirichletCharacter.LFunction`, with the forms over one modulus and the bridge
+to *DirichletGRH*.
+
+*Method of the formal proof:* for an imprimitive character the L-function is that of the primitive
+character times the finitely many missing Euler factors, each nonzero for `Re s > 0` because its
+second term has modulus below one; for the strip, the completed function is the L-function times a
+gamma factor without zeros on `Re s > 0`, and the functional equation of a primitive character
+sends a zero `ρ` with `Re ρ < 1/2` to the zero `1 − ρ` of the inverse character, to which the
+half-plane hypothesis, assumed for every character, applies. The route written here proves each
+form for one character, through the conjugation `L(χ⁻¹, conj s) = conj L(χ, s)` of the inverse
+clause, and the converse directions; [FormalProof] has the forms recorded at each clause.
+
+*Corollary of:* AnalyticNumberTheoryPartI §1.6a (the conjugation, reflection and half-plane forms
+of *DirichletGRH* for one Dirichlet character) and §1.6 (primitive induction and conductor one), for
+the inverse, the reflection and the strip forms, and for the change of level, the primitive
+character, modulus one and the quantified forms, each read through the value form and the bridge;
+the hinge, the value form and the completed-function clause are not corollaries of them.
 
 For `[NeZero N]` and `χ : DirichletCharacter ℂ N`, primitive or not, define
 `DirichletCharacter.GeneralizedRiemannHypothesis χ` as `ZeroFreeRightOf (1/2) χ.LFunction`, on Mathlib's continued
@@ -800,6 +893,15 @@ CharacterSumsOverFiniteFields §7.1 (the instance `NeZero χ.conductor`); ZerosO
 
 ### 9.5 Dedekind zeta functions, ray-class characters and Grossencharacters
 
+*Origin:* adapted from Bach (1990), §3, Belabas, Diaz y Diaz and Friedman (2008), §2, and Iwaniec
+and Kowalski (2004), Chapter 5: the extended and generalized Riemann hypotheses for Dedekind zeta
+functions, for characters of the class group and for L-functions of any degree, Grossencharacters
+included, read as the absence of zeros right of `1/2` (AnalyticNumberTheoryPartI §§2.42, 2.42a);
+here read through meromorphic orders on the continued functions of LFunctions, with the forms at
+every threshold `σ`, the records and the bridges.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 For a number field `K` define *ExtendedRiemannHypothesis* `K` as
 `ZeroFreeRightOf (1/2) (dedekindZetaC K)`, on the continued Dedekind zeta function
 `dedekindZetaC K = TauCeti.meromorphicContinuation 1 (NumberField.dedekindZeta K)` of LFunctions
@@ -808,6 +910,12 @@ define *GeneralizedRiemannHypothesis* `χ` as `ZeroFreeRightOf (1/2) (heckeLFunc
 `ψ : PrimitiveRayClassCharacter K` the hypothesis is that of `ψ.character`, and no predicate is
 defined on the bundle. "Every ray-class character of `K`" is the quantifier over `𝔪` and `χ`; no
 predicate names it.
+
+At `σ = 1/2`, read on the zeros in the open strip, the clauses below on the inverse, the strip
+forms, presented and primitive characters, the trivial character, the rationals at `(q)∞` and
+Grossencharacters are those of AnalyticNumberTheoryPartI §2.42a (every modulus, inverse, half-plane
+form, the rationals, algebraic Hecke characters); their readings through orders, their forms at
+every threshold `σ` and the records are stated here.
 
 - **Hinge.** For `s ≠ 1`, `0 < meromorphicOrderAt (dedekindZetaC K) s ↔ dedekindZetaC K s = 0`
   (`analyticAt_dedekindZetaC`, and `dedekindZetaC K 2 ≠ 0` by the Euler product); for a nontrivial
@@ -868,7 +976,8 @@ predicate names it.
   presents.
 
 *Needs:* 9.2–9.4; QuasiRiemannHypothesis §1.1 (germs, the ray-class clause); AnalyticNumberTheoryPartI
-§2.42 and ClassicalArithmeticCompletion §5.0 (for the bridges); ZerosOfLFunctions
+§2.42 and ClassicalArithmeticCompletion §5.0 (for the bridges); AnalyticNumberTheoryPartI §2.42a
+(the forms at `σ = 1/2`); ZerosOfLFunctions
 §§6.5, 1.5, 1.6; LFunctions Layer 3 (`dedekindZetaC`,
 `analyticAt_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`, `dedekindZetaData`), Layer 5
 (`heckeLFunctionC_eq`, `heckeData`, `completedHeckeLFunction_one_sub`,
@@ -899,6 +1008,13 @@ predicate names it.
   zeros (ZerosOfLFunctions §7.6), each giving a zero of `ζ(s − m)` with real part above `m ≥ 1 > 1/2`.
 
 ### 9.6 First consequences
+
+*Origin:* this roadmap's own formulation: the exceptional zeros of ZerosOfLFunctions §6.3 of an
+L-function zero-free right of `σ` lie at most at `σ`, and there are none for `σ < 3/4`; and the
+bound `C y^σ` for the Riesz remainder of 8.4a(b) of a primitive character whose L-function is
+zero-free right of `σ`.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 (a) **Exceptional zeros.** Let `ψ : PrimitiveRayClassCharacter K` and `σ : ℝ`. If
 `heckeLFunctionC ψ.character` is zero-free right of `σ`, every `β` with *IsExceptionalZero* `ψ β`
@@ -950,6 +1066,16 @@ QuasiRiemannHypothesis §1.1 (germs); ZerosOfLFunctions §§2.1, 5.6a, 6.2–6.5
   a density of the zeros with `Re ρ ≥ 1/2`.
 
 ### 9.7 Growth under a zero-free half-plane and under the Riemann hypothesis
+
+*Origin:* adapted from Titchmarsh (1986), Chapter XIV, Littlewood (1928) and Iwaniec and Kowalski
+(2004), Chapter 5: the bounds for `ζ` under the Riemann hypothesis (growth right of the critical
+line, `log |ζ(1/2 + it)| ≪ log |t|/log log |t|`, Lindelöf's bound), Littlewood's bounds for
+`L(1, χ)`, and the analytic conductor in the bounds for L-functions of any degree, all at
+`σ₀ = 1/2`; here for the Dedekind zeta function and the L-function of a primitive ray-class
+character under a zero-free half-plane `Re s > σ₀`, `σ₀ ∈ [1/2, 1)`, with constants depending only
+on the degree and `σ₀`, which for `σ₀ > 1/2` is this roadmap's own formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Let `d` be `dedekindZetaData K` or `heckeData ψ` for a primitive `ψ`, of degree `n = [K:ℚ]`;
 `L = continuedL d`, which is `dedekindZetaC K` or `heckeLFunctionC ψ.character` (ZerosOfLFunctions §1.6);
@@ -1124,6 +1250,15 @@ ArithmeticDirichletSeries Abel summation, for the partial summations.
 
 ### 9.8 The argument under a zero-free half-plane, and `S(T)`
 
+*Origin:* adapted from Titchmarsh (1986), Chapter XIV, and Carneiro, Chandee and Milinovich (2015):
+Littlewood's bound `S(T) = O(log T/log log T)` under the Riemann hypothesis, by Selberg's method,
+and its extension to the argument of a class of L-functions under their Riemann hypothesis; here
+(ii) for the Dedekind zeta function and the L-function of a primitive ray-class character under a
+zero-free half-plane `Re s > σ₀`, `σ₀ ∈ [1/2, 1)`, with constants depending only on the degree and
+`σ₀`, which for `σ₀ > 1/2` is this roadmap's own formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 (i) Under `RiemannHypothesis` there is `C` with `|S(T)| ≤ C log T/log log T` for every `T ≥ 16`
 that is not an ordinate (*S* of ZerosOfLFunctions §7.3).
 
@@ -1168,6 +1303,16 @@ analytic conductor.)
 
 ### 9.9 Prime counts under a zero-free half-plane
 
+*Origin:* adapted from Ingham (1932), Chapter IV, Davenport (2000), §§18 and 20, and Lagarias and
+Odlyzko (1977): the prime counts at `ℚ` with the error given by an upper bound for the real parts of
+the zeros of `ζ` (ZerosOfLFunctions §8.5a), the prime counts at `ℚ` and in progressions, and, under
+the Riemann hypothesis for `ζ_L`, Chebotarev's theorem with an error term; here over a number
+field, in a ray class and in the Frobenius classes of an abelian extension, under a zero-free
+half-plane right of `σ` and with constants independent of `σ`, which is this roadmap's own
+formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Fix a number field `K`. Constants and thresholds below depend on `K`, the modulus `𝔪` and, in
 (iii), on `L`; they do not depend on `σ ∈ [1/2, 1)`.
 
@@ -1203,7 +1348,9 @@ constant; under `RiemannHypothesis` the errors are `O(√x log² x)`
 same for the primes in a reduced class modulo a fixed `q`, under the same zero-free half-plane
 for every Dirichlet character modulo `q` (9.5, rational bullet), which is the hypothesis of (ii),
 `ratDirichletEquiv q hq` being a bijection of the characters. (Ingham, Chapter IV, at `ℚ`;
-Davenport, §§18 and 20, at `ℚ` and at `(q)∞`.)
+Davenport, §§18 and 20, at `ℚ` and at `(q)∞`.) For a fixed `σ` the bounds for `Chebyshev.psi` and
+`π` at `ℚ` are Ingham's theorem, ZerosOfLFunctions §8.5a, whose constants may depend on `σ`; the
+constant independent of `σ` is that of (i) at `K = ℚ`.
 
 At `σ = 1/2` the bound for `ψ_K` in (i) is ClassicalArithmeticCompletion §5.16a (i), which gives it
 with explicit constants for `x ≥ 100` under `DedekindERH K`, that is `ExtendedRiemannHypothesis K`
@@ -1252,10 +1399,14 @@ Layers 3 and 8 (3.2a for 9.7; 8.4a and 8.4b for 9.6–9.8), and 10.2 and 11.1 of
 which use nothing of this layer. QuasiRiemannHypothesis §1.1 for the predicate `ZeroFreeRightOf`
 and its first properties; CharacterSumsOverFiniteFields §7.1 for the instance `NeZero χ.conductor`;
 AnalyticNumberTheoryPartI §§1.6 and 2.42 and ClassicalArithmeticCompletion §5.0 for the bridges of
-9.4 and 9.5; ClassicalArithmeticCompletion §5.16a for 9.9. ZerosOfLFunctions Layer 0 for
-*entireCompletion* and Layer 9 for *AllOnCriticalLine* and *GRH*;
+9.4 and 9.5, and AnalyticNumberTheoryPartI §§1.6a and 2.42a for their forms at `σ = 1/2` (the
+inverse, reflection and strip-form clauses of 9.4 being corollaries of §1.6a, and its
+change-of-level, primitive-character, modulus-one and quantified clauses of §1.6);
+ClassicalArithmeticCompletion §5.16a for 9.9. ZerosOfLFunctions Layer 0 for
+*entireCompletion* and Layer 9 for *AllOnCriticalLine* and *GRH* and §9.1, of whose case `q = 1`
+the `ζ` clause of 9.3 is a corollary;
 ZerosOfLFunctions §§1.4–1.6, 2.1–2.2, 3.4, 4.4–4.5, 5.5–5.6a, 6.2–6.5,
-7.3, 7.6 and 8.3–8.8 for 9.3–9.9. LFunctions Layers 0 and 3–8. Mathlib `RiemannHypothesis`,
+7.3, 7.6 and 8.3–8.8 for 9.3–9.9, and §8.5a, cited for the case `ℚ` of 9.9. LFunctions Layers 0 and 3–8. Mathlib `RiemannHypothesis`,
 `meromorphicOrderAt`, `Complex.borelCaratheodory`, the continued Dirichlet L-functions and their
 functional equation.
 
@@ -1266,6 +1417,13 @@ gamma factor has no zero on `Re s > 0`, and bundles a primitive character with i
 instance `NeZero χ.conductor` it uses is that of CharacterSumsOverFiniteFields §7.1 (Conventions).
 
 ### 10.2 The gamma factor has no zero on `Re s > 0`
+
+*Origin:* adapted from the classical fact that the Gamma function has no zero, and no pole on
+`Re s > 0`, in Mathlib's form `Complex.Gammaℝ_ne_zero_of_re_pos`: here for Mathlib's gamma factor of
+a Dirichlet character, `Gammaℝ s` or `Gammaℝ (s + 1)` by parity, with its analyticity on `Re s > 0`.
+
+*Method of the formal proof:* the gamma factor is `Gammaℝ s` for an even character and
+`Gammaℝ (s + 1)` for an odd one, and `Gammaℝ` has no zero on `Re s > 0`.
 
 Prove that for `0 < Re s`,
 `χ.gammaFactor s ≠ 0`, and Mathlib's `gammaFactor χ` is analytic at `s`. The gamma factor is
@@ -1292,6 +1450,8 @@ the further nonzero factor `q^(s/2)`); 10.2 gives it for every `χ`. The nonvani
   `gammaFactor_eq_zero_iff_of_odd` reads it there.
 
 ### 10.3 The bundled primitive Dirichlet character
+
+*Origin:* definitions and conventions.
 
 Define `PrimitiveDirichletCharacter`, a primitive Dirichlet character bundled with its conductor:
 a level `level : ℕ+`, a character `character : DirichletCharacter ℂ level` and a proof
@@ -1359,6 +1519,15 @@ This layer identifies the primitive Dirichlet characters of Layer 10 with the pr
 characters of `ℚ`, with their values, conductors, L-functions and cards.
 
 ### 11.1 Primitive Dirichlet characters as primitive ray-class characters of `ℚ`, and their cards
+
+*Origin:* adapted from Milne (2020), Introduction and Chapter V, §3: the ray-class characters of `ℚ`
+at the modulus `(N)·∞` are the Dirichlet characters modulo `N`, their L-series are Dirichlet's, and
+each has one primitive character, whose finite conductor is that of the Dirichlet character
+(AnalyticNumberTheoryPartI §0.30); here as an equivalence of bundled primitive characters, with the
+compatibility with the primitive sources and the comparison of the cards, the normalized card at
+conductor one included.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Define *PrimitiveDirichletCharacter.toPrimitiveRayClassCharacter*, an equivalence
 `PrimitiveDirichletCharacter ≃ PrimitiveRayClassCharacter ℚ` sending `ψ` to
@@ -1467,10 +1636,16 @@ GlobalNumberFields (`ratModulus`,
 ## Downstream consumers
 
 - In this family, GeneralizedRiemannHypothesisFromWindowBounds takes the Riesz remainders of 8.4a,
-  the independence of the dictionary of 8.8, the predicates and equivalent forms of 9.2–9.5, the
-  remainder bound of 9.6 (c), the bundle 10.3 and the dictionary 11.1; its headline theorems are
-  the hypotheses of 9.3 for `ζ` and of 9.4 for every Dirichlet character, and its corollaries feed
-  them into 9.6 (a), 9.7, 9.8 and 9.9 at `σ = 1/2`.
+  the predicates and equivalent forms of 9.2–9.5, the
+  remainder bound of 9.6 (c), the prime counts of 9.9 at `ℚ`, the bundle 10.3 and the dictionary
+  11.1; its headline theorems are
+  the hypotheses of 9.3 for `ζ` and of 9.4 for every Dirichlet character.
+- Outside this family, ConsequencesOfTheRiemannHypothesisForDirichletLFunctions takes the
+  independence of the dictionary
+  of 8.8, the predicates and records of 9.2–9.5, the Riesz remainders of 8.4a, the bundle 10.3 and
+  the dictionary 11.1, and feeds the headline theorems of
+  GeneralizedRiemannHypothesisFromWindowBounds at `σ = 1/2` into 9.6 (a) and (c) (its
+  §0.5), 9.7 (its §§1.1 and 4.1), 9.8 (its §1.2) and 9.9 (its §§2.1 and 3.1).
 - FrobeniusRestrictedRieszSums takes 8.8a for the Frobenius-restricted sums of an abelian CM field,
   at the modulus `N·∞` of a cyclotomic field containing it, and 10.3 for the cyclic family of a
   primitive Dirichlet character.
@@ -1490,11 +1665,10 @@ GlobalNumberFields (`ratModulus`,
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns Hadamard's three-circles theorem (3.2a); Riesz sums, the Euler–Kronecker
-constant, and the Riesz remainder of a primitive ray-class or Dirichlet character with its Mellin
-transform, continuation, poles and explicit formula (8.4a); Selberg's smoothed formula for the
-logarithmic derivative (8.4b); the independence of the primitive characters from the reciprocity
-dictionary (8.8); the Riesz-smoothed character sums through a surjection of a ray class group and
+This roadmap owns Riesz sums and the Riesz remainder of a primitive ray-class or Dirichlet
+character with its Mellin transform, continuation, poles and explicit formula (8.4a); Selberg's
+smoothed formula for the logarithmic derivative of Dedekind zeta and Hecke L-functions (8.4b); the
+Riesz-smoothed character sums through a surjection of a ray class group and
 their Frobenius reading (8.8a); the limit form of monotonicity, the converse product clause, the
 symmetries and the change of level of the zero-free half-plane predicate (9.2); the
 Riemann hypothesis, read through orders, of an analytic record (9.3), of a Dirichlet character
@@ -1510,7 +1684,14 @@ and prime counts (9.9); the nonvanishing of the gamma factor of a Dirichlet char
 their L-functions and cards (11.1). The rational dictionary at every level that 11.1 reads at the
 primitive level is AnalyticNumberTheoryPartI §0.30, the comparison cards, to which 11.1 adds the
 normalized comparison at conductor one, are LFunctions Layer 8, and the inversion of Riesz sums in
-8.4a (a) is a case of ExplicitZetaBounds §6.1a.
+8.4a (a) is a case of ExplicitZetaBounds §6.1a. Hadamard's three-circles theorem, of which 3.2a
+states the form 9.7 uses, is AnalyticNumberTheoryPartIII §8.2a. The explicit formula for the first
+Riesz mean, of which the explicit formula of 8.4a is a corollary, is ZerosOfLFunctions §8.6a, which
+defines the Euler–Kronecker constant as 8.4a (b) does; Selberg's formula for `ζ′/ζ`, the case `ζ`
+of 8.4b, is ZerosOfLFunctions §8.4a; the independence of the primitive characters from the reciprocity
+dictionary, which 8.8 states in the form used here, is ZerosOfLFunctions §8.7a; and the prime
+counts at `ℚ` for a fixed `σ`, which 9.9 gives with a constant independent of `σ`, are
+ZerosOfLFunctions §8.5a.
 
 The theory these statements extend is owned by roadmaps on main. Growth predicates and the entire
 completion, gamma factors and the continued L-function, the analytic conductor, convexity, zero
@@ -1540,8 +1721,12 @@ divisor of the completed function; 9.3 reads the hypothesis of a record through 
 order, which for those families is the same statement (its divisor form) and which, unlike the
 divisor reading, fails for an identically zero completed function. AnalyticNumberTheoryPartI §1.6
 states *DirichletGRH* `χ` in the value form on `Re s > 0`, the right side of the second strip form
-of 9.4, and AnalyticNumberTheoryPartI §2.42 states ERH(`K`) and GRH(`χ`) of a primitive Hecke
-character in the strip form, the right sides of the strip forms of 9.5;
+of 9.4, and §1.6a its conjugation, reflection and half-plane forms, of which the inverse, reflection
+and strip-form clauses of 9.4 are corollaries;
+AnalyticNumberTheoryPartI §2.42 states ERH(`K`) and GRH(`χ`) of a primitive Hecke
+character in the strip form, the right sides of the strip forms of 9.5, and §2.42a extends them to
+ray-class characters of every modulus and to algebraic Hecke characters, with the inverse, the
+half-plane form and the rationals, the forms of 9.5 at `σ = 1/2`;
 ClassicalArithmeticCompletion §5.0 states the hypotheses for Dedekind zeta functions and class-group
 characters. These are equivalent to 9.4 and 9.5 by the bridges stated there. AnalyticNumberTheoryPartI §1.9 (i) states
 `ψ(x) − x = O(x^{1/2+ε})` under `RiemannHypothesis`, which 9.9 sharpens to `O(√x log² x)`;
@@ -1588,8 +1773,16 @@ cap `c ≤ log 3/2`, *IsExceptionalZero*, the rational paragraph of §6.4 with
 corollaries, infinitely many zeros. §8.2: the heights of the contour shift and the bound
 `logDeriv L = O(log² T)` on them; §§8.3–8.7: the truncated formulas, the Weil formula, the prime
 ideal theorem, the Hecke instance and effective counting in a ray class with its orthogonality and
-*rayClassPsi*; §8.8: reciprocity dictionaries and their splitting laws, *exceptionalChebotarevTerm*,
-*exceptionalRayClassTerm*, `frobeniusPsi` and `frobeniusPrimeCount`. Layer 9: *AllOnCriticalLine*,
+*rayClassPsi*; §8.4a: Selberg's smoothed formula for `ζ′/ζ` (the case `ζ` of 8.4b); §8.5a: the
+prime counts at `ℚ` under a zero-free half-plane, for a fixed `σ` (the case `ℚ` of 9.9); §8.6a: the
+Euler–Kronecker constant and the explicit formula for the first Riesz mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞`
+for every primitive finite-order ray-class character `ψ` (the explicit formula of 8.4a (b), a
+corollary of it); §8.7a:
+*PrimitiveRayClassCharacter.of_comp_dictionary_eq*, two reciprocity dictionaries induce the same
+primitive characters (8.8); §8.8: reciprocity dictionaries and their splitting laws, *exceptionalChebotarevTerm*,
+*exceptionalRayClassTerm*, `frobeniusPsi` and `frobeniusPrimeCount`. §9.1: for a primitive Dirichlet
+character, the equivalence of the hypothesis on the completed function with the absence of zeros of
+the L-function right of `1/2` (the `ζ` clause of 9.3, its case `q = 1`). Layer 9: *AllOnCriticalLine*,
 and *GRH* over the two families with its bridge to `RiemannHypothesis` at `ζ` (9.3).
 
 ### From TauCetiRoadmap.QuasiRiemannHypothesis
@@ -1610,8 +1803,17 @@ character `χ` over a commutative monoid with zero (9.2, 9.4, 10.3).
 
 §0.30: the rational dictionary between Dirichlet characters and ray-class characters of `ℚ`, with
 conductors, parities, values and the comparison of the continued functions (11.1). §1.6:
-`DirichletGRH` (the bridge of 9.4). §2.42: ERH(`K`) and GRH(`χ`) of a primitive Hecke character, with
-ERH(`ℚ`) `↔ RiemannHypothesis` and the trivial-character clause (the bridges of 9.5).
+`DirichletGRH` (the bridge of 9.4), with conductor one and primitive induction (the modulus-one,
+change-of-level, primitive-character and quantified clauses of 9.4, corollaries of them). §1.6a: the
+conjugation, reflection and half-plane forms of `DirichletGRH` for one character (the inverse,
+reflection and strip-form clauses of 9.4, corollaries of it). §2.42: ERH(`K`) and GRH(`χ`) of a primitive Hecke character, with
+ERH(`ℚ`) `↔ RiemannHypothesis` and the trivial-character clause (the bridges of 9.5). §2.42a: the
+hypotheses of §2.42 for ray-class characters of every modulus and for algebraic Hecke characters,
+with the inverse, the half-plane form and the rationals (the forms of 9.5 at `σ = 1/2`).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartIII
+
+§8.2a: Hadamard's three-circles theorem on an annulus (3.2a).
 
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
@@ -1653,8 +1855,8 @@ coefficients `TauCeti.normCoeff` (8.4a, 8.4b). §§5.2, 6.1–6.2 and 10.1–10.
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
-`RayClassCharacter.induced`, `RayClassCharacter.conductor_dvd_iff` and `RayClassGroup.hom_ext`
-(8.8, 8.8a); `TauCeti.GlobalNumberFields.ratModulus`, `TauCeti.GlobalNumberFields.ratFiniteModulus`,
+`RayClassCharacter.induced` and `RayClassCharacter.conductor_dvd_iff`
+(8.8a); `TauCeti.GlobalNumberFields.ratModulus`, `TauCeti.GlobalNumberFields.ratFiniteModulus`,
 `TauCeti.GlobalNumberFields.ratModulus_dvd_ratModulus_iff`,
 `TauCeti.GlobalNumberFields.ratDirichletEquiv`,
 `TauCeti.GlobalNumberFields.ratDirichletEquiv_absNorm`,
@@ -1700,8 +1902,7 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   `Real.eulerMascheroniConstant`, and `toMeromorphicNFOn` (the transform `Φ_ψ` as a normal form)
   (8.4a, 11.1).
 - `NumberField.dedekindZeta`, `NumberField.abs_discr_gt_two` (9.5, 9.6).
-- `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
-  `IsCompact.exists_bound_of_continuousOn`, `Complex.norm_le_of_forall_mem_frontier_norm_le`
+- `Complex.norm_le_of_forall_mem_frontier_norm_le`
   (3.2a); `Complex.borelCaratheodory`, `Chebyshev.psi_le_const_mul_self` (9.7); `Chebyshev.psi`,
   `Chebyshev.theta`, `Nat.primeCounting` (9.9).
 
@@ -1731,15 +1932,52 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
 
 ## References
 
-- H. Davenport, *Multiplicative Number Theory*, 3rd ed. rev. H. L. Montgomery, GTM 74 — §§18 and 20
-  with the zeros confined to a half-plane (9.9). Cited by locator.
-- E. C. Titchmarsh, rev. D. R. Heath-Brown, *The Theory of the Riemann Zeta-Function*, 2nd ed. —
-  Chapter XIV (consequences of the Riemann hypothesis: `ζ(σ + it)` and `1/ζ(σ + it)` right of the
+- H. Davenport, *Multiplicative Number Theory*, 3rd ed. rev. H. L. Montgomery, GTM 74 (2000) —
+  chapters 5, 9 and 14: primitive characters, the functional equation and the absence of zeros on
+  `Re s = 1` (9.4); §20: orthogonality for unsmoothed prime sums in a class (8.8a); §§18 and 20
+  (9.9). Cited by locator.
+- E. C. Titchmarsh, rev. D. R. Heath-Brown, *The Theory of the Riemann Zeta-Function*, 2nd ed.
+  (1986) — Chapter II (9.3); Chapter XIV (consequences of the Riemann hypothesis: `ζ(σ + it)` and
+  `1/ζ(σ + it)` right of the
   line by Borel–Carathéodory and three circles, Selberg's formula for `ζ′/ζ`, `log |ζ(1/2 + it)|`
-  and `S(T)`; 8.4b, 9.7, 9.8). Cited by locator.
-- H. Iwaniec, E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 — Chapter 5
-  (the analytic conductor in the bounds under the Riemann hypothesis for L-functions of any degree;
+  and `S(T)`; 3.2a, 8.4b, 9.7, 9.8). Cited by locator.
+- H. Iwaniec, E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 (2004) — Chapter 5
+  (L-functions with a functional equation and their Riemann hypothesis, Grossencharacters included,
+  9.3, 9.5; the analytic conductor in the bounds under the Riemann hypothesis for L-functions of any degree;
   9.7, 9.8). Cited by locator.
+- R. M. Robinson, *Hadamard's three circles theorem*, Bull. Amer. Math. Soc. 50 (1944), 795–802,
+  doi:10.1090/S0002-9904-1944-08205-0 — Hadamard's three-circles theorem under its name (3.2a,
+  through AnalyticNumberTheoryPartIII §8.2a).
+- Y. Ihara, *On the Euler–Kronecker constants of global fields and primes with small norms*, in
+  *Algebraic Geometry and Number Theory*, Progress in Mathematics 253, Birkhäuser (2006), 407–451 —
+  the sum over prime powers with the weight `(x/N − 1) log N`, the Euler–Kronecker constant and the
+  formula with the zeros at the trivial character (8.4a, through ZerosOfLFunctions §8.6a; 8.8a).
+- Y. Ihara, V. K. Murty and M. Shimura, *On the logarithmic derivatives of Dirichlet L-functions at
+  s = 1*, Acta Arith. 137 (2009), no. 3, 253–276, doi:10.4064/aa137-3-6 — §2.2, Theorem 1, formula
+  (2.2.1), p. 257: the explicit formula for the first Riesz mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` for every
+  primitive finite-order ray-class character `ψ` of a number field (8.4a, through ZerosOfLFunctions
+  §8.6a; 8.8a).
+- J. S. Milne, *Class Field Theory* (course notes), version 4.03 (6 August 2020),
+  <https://www.jmilne.org/math/CourseNotes/CFT.pdf> — Introduction (the
+  Artin map on the ideals prime to a finite set of primes factors through a ray class group; for
+  `ℚ` and the modulus `(N)·∞` the ray-class characters are the Dirichlet characters modulo `N`, with
+  Dirichlet's L-series) and Chapter V, §3, before Theorem 3.27 (characters that agree on the ideals
+  prime to a larger set are equivalent, each class has one primitive character, conductors) (8.8,
+  through ZerosOfLFunctions §8.7a; 11.1).
+- Eric Bach, *Explicit bounds for primality testing and related problems*, Math. Comp. 55 (1990),
+  355–380 — §3, p. 360 (9.5).
+- Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, *Small generators of the ideal class
+  group*, Math. Comp. 77 (2008), 1185–1197 — §2, pp. 1187–1188 (9.5): with Bach (1990), the
+  hypotheses for Dedekind zeta functions
+  and for characters of the class group, read as the absence of zeros right of `1/2`.
+- Carneiro, Chandee and Milinovich, *A note on the zeros of zeta and L-functions*, Math. Z. 281
+  (2015), 315–332, arXiv:1503.00955 — the bound for the argument under the Riemann hypothesis for a
+  class of L-functions that includes those of cuspidal automorphic representations of `GL(m)` over
+  a number field (9.8, at `σ₀ = 1/2`).
+- J. C. Lagarias and A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in
+  A. Fröhlich (ed.), *Algebraic Number Fields* (Durham, 1975), Academic Press (1977), 409–464 —
+  Chebotarev's theorem with an error term under the
+  Riemann hypothesis for `ζ_L` (9.9 (iii), at `σ = 1/2`).
 - A. E. Ingham, *The Distribution of Prime Numbers*, Cambridge Tracts in Mathematics and
   Mathematical Physics 30 (1932) — Chapter IV: prime counts under a zero-free half-plane (9.9).
   Cited by chapter.
@@ -1752,5 +1990,5 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   of the first commit of that repository, the source as published, with the file paths relative to its directory
   `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
   The form it has of each statement of
-  8.4a, 9.3, 9.4, 10.2 and 10.3 that cites it is recorded at that statement.
+  8.4a, 8.8a, 9.3, 9.4, 10.2 and 10.3 that cites it is recorded at that statement.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.

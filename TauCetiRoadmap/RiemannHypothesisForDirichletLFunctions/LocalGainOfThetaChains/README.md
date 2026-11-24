@@ -98,6 +98,19 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 4.9, 4.9e, 4.9f, 4.14b and 4.17 carry the
+first label only; every other section carries both.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. As long as that general theorem is not in the library, what the line covers is proved as
+[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
+that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs.
+Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and
+the lemmas that only the first proof uses are removed. The statement does not change. No section of this roadmap carries
+such a line.
+
 ## Layer 4: The local gain at primes inert in `K`
 
 This layer holds the targets 4.9–4.17d of Layer 4. They apply to the chain the local theory of the first part of the layer, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c and §§4.18–4.19f, which uses no target of Layers 0–3. That part shows that a function bounded on the Lubin–Tate formal group of height two (logarithm `Σ_e T^{p^{2e}}/p^e`) has its `n`-th derivative at the origin divisible by `p^{γ_LT(p)n − O(log n)}`, with `γ_LT(p) = p/(p² − 1) = 1/p + 1/p³ + ⋯`, and that in the logarithmic coordinates of two dual isotropic formal groups a series of the form (bounded series)`·exp(−β)`, `β` a Hermitian biextension cocycle, gains at the rate `γ_LT(p)` except for exactly one power of `p` for each bi-power monomial of `β` that a derivative can absorb. Two local engines bound that price: weights at radii chosen by a linear programme, the *flow programme* (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.3, 4.5–4.7), and the classification of `β` with a count of pairs of boxes (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.4, 4.4a, 4.8); TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a bounds the jets of a Gaussian. On the row side, the depth of a weight at a framed point of a unitary PEL moduli problem is at most what the flow programme allows along Frobenius orbits, at the points of a unitary moduli problem of any signature (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19f).
@@ -141,6 +154,8 @@ the sublattice, `B ≥ 12` wherever the small-prime theorem 4.15e, stated for `p
 
 ### 4.9 Definitions: positions, types and sides
 
+*Origin:* definitions and conventions.
+
 Positions, types and sides at a prime `p` inert in `K`.
 (a) *Positions.* Let `p ≥ 5` be inert in `K` and unramified in `E`; `Frob_p` has even order `n′ = n′_p` in `G`. The
 orbits of `⟨Frob_p, c⟩` on `G` correspond to the places `v` of `F` above `p`. For each such `v` fix once a base place
@@ -164,13 +179,27 @@ odd order (`c ∈ ⟨ch⟩` iff some odd power of `h` is `1`; the class is empty
 and split in `ℚ(√−q)` the odd positions lie in `cσ_dA`, so no top has a top at odd distance and `p` is unlinked
 (FrobeniusRestrictedRieszSums §0.6(iv)). The places of `ℬ_p` at a prime inert in `K` and in `ℚ(√−q)` carry no top, and every linked place lies in `𝒜_p`.
 
-*NEW* (definitions). The positions and the types: [FormalProof],
+The positions and the types: [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.partner`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.HEv`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.IsCs`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6.
 
 ### 4.9a The host property at an inert prime
+
+*Origin:* particular to this proof: the host property (ii), the integrality at an inert prime, in Lubin–Tate
+coordinates along an orthonormal basis, of `exp(Σ_iφ(T_i))` times a `p`-integral combination of Fock translates of
+`Θ^{CM}_{L,L′}` by torsion points of order prime to `p`; the model (i) of the CM curve is classical and is cited with the
+route; nearest published result: Bannai and Kobayashi (2010), the integrality of the reduced theta function of one CM
+curve and of its torsion translates at ordinary primes.
+
+*Method of the formal proof:* for one copy of the trace lattice, four copies of its Hermitian form are isometric to the
+standard form with index prime to `p`, so the fourth tensor power of its theta function is a product of one-variable
+theta functions of the curve, whose normalised translates are integral; since `Σφ` changes only by an integral
+exponential under unitary substitutions of the logarithmic coordinates, and a series whose fourth tensor power is
+integral is integral, the normalised theta function is integral, and tensor products with matrix units, weak
+approximation at the places above `p` and pull-back extend this to all pairs of lattices, orthonormal bases and torsion
+translates. The good model of (i) is derived from global Artin reciprocity.
 
 Let `p ≥ 5` be inert in `K` and
 unramified in `E`, `𝔭 | p` a place of `𝕃`, `W` the ring of integers of the completion of the maximal unramified extension
@@ -188,7 +217,7 @@ unit at `p`; such bases exist), and every `p`-integral finite combination `G` of
 torsion points of order prime to `p`, the series `exp(Σ_iφ(T_i))·G(c·Σ_ib_iℓ(T_i))` in `T_1, …, T_n` is integral.
 
 *Route.* A formal consequence of four facts and one lemma. (Θ1) is (i): after a homothety by a unit the CM curve has a model over
-`W` with unit discriminant whose reduction over `𝔽_{p²}` has `p²`-power Frobenius `[−p]` (KNOWN: Deuring; for `K = ℚ(√−d)`,
+`W` with unit discriminant whose reduction over `𝔽_{p²}` has `p²`-power Frobenius `[−p]` (Deuring; for `K = ℚ(√−d)`,
 `d > 3`, the canonical CM curve over the Hilbert class field `H` of `K` has good reduction above every `p ∤ d`,
 ComplexMultiplicationAndExplicitReciprocity §4.3, with `H ⊂ W[1/p]` since `p` splits completely in `H`, and supersingular reduction
 at the inert `p`, ComplexMultiplicationAndExplicitReciprocity §5.1; the Frobenius `[−p]` is NonordinaryCMSpecialValues §3.4); by
@@ -219,8 +248,8 @@ integral by (Θ2); a series whose fourth tensor power is integral is integral (t
 power). The proofs of the reductions to the base pair (weak approximation, transport by rational isometries, tensor products
 from rank `2 × 2`) are not given here.
 
-*KNOWN* in kind (Serre–Tate, Deuring, Lubin–Tate for the model, from class field theory for `K`; the theorem of the cube;
-Bannai–Kobayashi for one curve at ordinary primes), *NEW* in this form. [FormalProof] states (ii), read in the parameter of a model of
+*Sources:* (Serre–Tate, Deuring, Lubin–Tate for the model, from class field theory for `K`; the theorem of the cube;
+Bannai–Kobayashi for one curve at ordinary primes). [FormalProof] states (ii), read in the parameter of a model of
 unit discriminant (its formal logarithm in place of `ℓ`), as `Formalism.L2.KerInert.IntInert`
 (`Formalism/LocalToGlobal/InertKernelTheory/StatementInt.lean`), proved as `Formalism.L2.KerInert.kernels_integral_inert` from the
 good model of (i) (`Formalism.L2.Th1.CM.CM2`), which it derives from global Artin reciprocity as
@@ -230,6 +259,15 @@ ComplexMultiplicationAndExplicitReciprocity §§4.3, 5.1; NonordinaryCMSpecialVa
 ModularCurvesPartII §1.4a.
 
 ### 4.9b The hyperbolic shape at a place of split type
+
+*Origin:* particular to this proof: at a place split in `E` the series of 4.9a, read in the parameters of a hyperbolic
+pair, is an integral series times the exponential of minus a sum of cocycles pairing the two isotropic halves; nearest
+published result: Mumford (1969), biextensions of formal groups, with the theorem of the cube.
+
+*Method of the formal proof:* the hyperbolic coordinates are integral points of the formal group, so the integral series
+`exp(Σφ)·Θ` of 4.9a stays integral under the substitution, and the exponent `Σφ(t_i)` is rewritten by the identity for a
+quasi-quadratic series on a hyperbolic frame: by the cube and the norm relation the terms in the `X_e` alone and in the
+`Y_e` alone cancel and the cross terms give `Σ_e β₀(X_e, Y_e)` up to an integral exponential.
 
 In the setting of 4.9a let `p` be
 of split type and `v | p` a place of `F`, split in `E` as `𝔓𝔓̄`. There are integral vectors `f_e, f′_e` (`e` in a finite
@@ -245,13 +283,23 @@ stays integral under the integral substitution; `Σ_iφ(t_i) ≃ Σ_eβ₀(X_e, 
 to `φ`, whose coboundary is biadditive up to `≃` (the cube, 4.9a) and which satisfies the norm relation (Θ3 of 4.9a);
 (F1)–(F2) of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a for `β₀` are the cube and the adjoint form of the norm relation (HodgeTateLatticesAndLubinTateLogarithms §3.6 (o)).
 
-*NEW*. [FormalProof] states it for a given hyperbolic pair, with the integrality of 4.9a as a hypothesis, as
+[FormalProof] states it for a given hyperbolic pair, with the integrality of 4.9a as a hypothesis, as
 `Formalism.L2.Th1.Top.HypShape` (`Formalism/LocalToGlobal/TorsionIntegrality/UniformGaussModels/UniformGaussModelCondition.lean`),
 proved as `Formalism.L2.Th1.Top.hypShape`. The form at the points of the chain that the assembly of [FormalProof] uses:
 `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.EvenConditionsInert`).
 *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, 4.9a; HodgeTateLatticesAndLubinTateLogarithms §3.6.
 
 ### 4.9c The kernel at `d`
+
+*Origin:* particular to this proof: the shape of a step kernel at the ramified prime `d`, a Gaussian whose constant has
+valuation at least `−1/2` times a series with integral divided coefficients, the step-level form of
+ThetaChainsOnDefiniteUnitaryGroups §3.1d (e); the expansion of the Weierstrass sigma function and the integrality of
+`√−d·s₂` are classical.
+
+*Method of the formal proof:* the kernel of the step is read as a `d`-integral combination of torsion translates of the
+normalised CM theta function of the pair of lattices; in the eigen-frame of dual local bases at the ramified prime each
+translate has the Gaussian shape of ThetaChainsOnDefiniteUnitaryGroups §3.1d (e), with the same Gaussian factor, so the
+combination has the shape with the combined cofactor.
 
 Assume `SplitRamification d` (FrobeniusRestrictedRieszSums §0.3) with `d > 3`, let `𝔭 | d`, and
 let `ξ` be a tuple unramified above `d`. For a step `j` and classes `(𝒸, 𝒸′)` read the kernel of `K_j(ξ)` in coordinates
@@ -275,7 +323,7 @@ factor `½` where the form is written as `(s₂/2)·Σ_wz_w²`, are units at `d`
 `ζ^{−2}`: the values are determined up to a sixth root of unity, and are these rational numbers for a suitable choice), of
 valuation `0` at `d`; so the cost of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a at `d` is real.
 
-*NEW* (the step-level form of ThetaChainsOnDefiniteUnitaryGroups §3.1d (e)). [FormalProof] states it for the kernels of its
+[FormalProof] states it for the kernels of its
 adapted kernel data at the places above `d` not above `T(u)`, `g₀`, `g₁` or `Q(ξ)`, with the shape
 `Formalism.MainNotions.OrbitPlaces.ShapeD`, as `GlobalTheory.T.kernelDatum_thetaSeries_shape_at_d_adaptedBases`
 (`Development/AbelianVarietyTheory/Proofs/SatakeParameters/KernelDatumThetaSeriesShapeAtDAdaptedBasesStatement.lean`), proved as
@@ -285,6 +333,16 @@ that it collects as `GlobalTheory.ThLoc.Inputs`. The form at the points of the c
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3.
 
 ### 4.9d The folded shape at a prime of odd conjugate type
+
+*Origin:* particular to this proof: when complex conjugation is an odd power of `Frob_p`, the combinations of translates
+of `Θ^{CM}_{L,L′}` have the folded shape, the two halves of the kernel folding onto one family of letters; the theorem
+of the cube and the classification of unimodular Hermitian lattices over unramified extensions are classical.
+
+*Method of the formal proof:* a family of integers that is its own dual, up to `σ^i`, for the trace form is obtained by a
+Gram–Schmidt procedure for the unimodular Hermitian form `Tr(x·σ^i(y))`; a matrix unitary for the Frobenius-Hermitian
+form carries the orthonormal coordinates of 4.9a to the letter forms, which keeps the integrality; and since the places
+at positions `s` and `s + i` coincide, both arguments of the cocycle in the mean identity are the logarithm of one
+integral series, so `β₀(x, x) ≃ 2φ(x)` and division by `2` give `Σ_r φ(x_r) ≃ ½β(L)`.
 
 In the setting of 4.9a let
 `p` be of odd conjugate type, `h = cFrob_p` and `i := n_cyc` (4.9 (a)). Every `p`-integral combination
@@ -297,7 +355,7 @@ letters, of the cocycle `β₀` of 4.9b; 4.10 (ii′) uses only the shape.)
 *Route.* (1) The Hermitian form `(x, y) ↦ Tr(x·σ^i(y))` on `W(𝔽_{p^{2i}})` over `W(𝔽_{p²})` (`Tr := Σ_{k<i}σ^{2k}`; Hermitian because
 `i` is odd, so `σ^{i+1}` is a power of `σ²`) is unimodular, hence has an orthonormal basis `ω_1, …, ω_i`: a unimodular Hermitian
 lattice over the unramified quadratic extension `W(𝔽_{p²})/ℤ_p` has one (the norm `W(𝔽_{p²})^× → ℤ_p^×` is onto; Gram–Schmidt;
-KNOWN, the unramified case of the classification of Hermitian lattices over local fields; modulo `p` this is
+the unramified case of the classification of Hermitian lattices over local fields; modulo `p` this is
 PotentialAutomorphyDworkMotivesPartII §0.7 over `𝔽_{p²}/𝔽_p`, and an orthonormal basis of `L/pL` lifts). So the dual basis of `(ω_r)` for
 the trace form is `(σ^i(ω_r))`. (2) The matrix `γ_{k,(r,ρ,a,b)} := Σ_mσ^{2m}(ω_ρ)·g(h^{2m}r, a, b, k)`, with `g` the
 Frobenius-equivariant coordinates of the orthonormal basis of 4.9a, is integral, fixed by `σ²`, with `Σ_kσ(γ_{k,e})γ_{k,e′} = δ_{ee′}`,
@@ -309,7 +367,7 @@ odd-letter form with coefficient `ω_r` equals the even-letter form with coeffic
 relation at `α = 2`), and `2A ≃ 0` implies `A ≃ 0` for `p` odd; hence `Σ_rφ(x_r) ≃ ½β(L)`, which is the shape of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a with all signs
 `−1`. The existence of the Frobenius-equivariant coordinates `g` in (2) is not proved here.
 
-*NEW*. [FormalProof] states it under the host property of 4.9a at `p` (`GlobalTheory.KerStd.HostAt`), for the combinations read
+[FormalProof] states it under the host property of 4.9a at `p` (`GlobalTheory.KerStd.HostAt`), for the combinations read
 in its standard bases at `p`, with the shape `UpperTheory.G2.HasThetaProductForm`
 (`Development/AutomorphicArithmetic/OrbitLabellings/ColDefs.lean`), as `UpperTheory.lattice_pairs_odd_degree_isometric`
 (`Development/AutomorphicArithmetic/OrbitLabellings/LatticePairsOddDegreeIsometric.lean`). The form at the points of the
@@ -318,6 +376,8 @@ chain that the assembly of [FormalProof] uses: `Formalism/SharpRestriction/Divis
 PotentialAutomorphyDworkMotivesPartII §0.7.
 
 ### 4.9e Definitions: the local exponents of a place, the gain and the colength data
+
+*Origin:* definitions and conventions.
 
 The local exponents of a place, the gain and the colength data of a step
 `j ∈ {1, …, m}` at a finite place `𝔭` of `𝕃` above a rational prime `p`, for a word `u` (the weights are those of `u`, ThetaChainsOnDefiniteUnitaryGroups §2.3, and
@@ -363,7 +423,7 @@ gain everything, linked terms included. `n′ = 2`, `𝔗_v = {0}`: `r^H_j(v) = 
 `r⁰_j(v) = (Σ_{e odd}(α̂_0/p^e − ĉ_j(1))₊ − dl_v)₊`. At a prime split in `K` and at a prime of conjugate or odd conjugate
 type the gain is `0`.
 
-*NEW* (definitions). `r⁰_j(v)`, `r^H_j(v)` and `dl_v` of (b): [FormalProof],
+`r⁰_j(v)`, `r^H_j(v)` and `dl_v` of (b): [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.g0`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.gU`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.dl`).
@@ -374,6 +434,8 @@ type the gain is `0`.
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.1, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9; IntegralWeylModulesOfGeneralLinearGroups §0.3.
 
 ### 4.9f Definitions: the bulk, the cost and the ledger
+
+*Origin:* definitions and conventions.
 
 The bulk, the cost and the ledger of a step `j ∈ {1, …, m}` at a finite place
 `𝔭` of `𝕃` above a rational prime `p`, for a word `u` (data of 4.9, 4.9e).
@@ -450,13 +512,24 @@ The term `(k − 1)·Σ_{τ∈Φ∖A}w_j(τ)/p³` at odd conjugate type is small
 conjugate type is `≡ ±1 (mod 2^{e+2})` (`|A| ≤ o·2^e`), so `Σ_p log p/p³ ≤ log(2^e)/2^{3e}` over these primes, and for
 `k ≤ x⁵ ≤ 2^{5e/2}` the sum `Σ_p 2 log p·(k − 1)·Σ_{τ∈Φ∖A}w_j(τ)/p³` is `≤ 20·f·b = o(B₀)`.
 
-*NEW* (definitions). The cost of (e): [FormalProof], `Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.Eval`);
+The cost of (e): [FormalProof], `Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.Eval`);
 `Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.EatI`);
 `Formalism/LocalRingCardinality/DataErr.lean` (`Formalism.BasicNotions.EatG`). The net exponent of (g): [FormalProof],
 `Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.SizeData₂.sg`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.9, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, 4.9, 4.9e; AnalyticNumberTheoryPartI §0.11.
 
 ### 4.10 The gain of a step
+
+*Origin:* particular to this proof: a theta-lift step between definite unitary groups is divisible, at a prime inert in
+`K`, by a power of `p` that grows with the large weight entry (a sum of ramp sums), with explicit bulk and cost, and the
+step bounds at `d` and at the other places.
+
+*Method of the formal proof:* for the operator-free bound at a prime of split type, the kernel series of a step is a
+product over the places of exponentials of cocycle sums times one integral series; at each place every series of that
+shape has its jets against products of minors bounded below by the second Taylor engine (counting pairs), the bounds of
+the places add by expanding the integral factor and the ultrametric inequality, and a kernel whose jets against products
+of minors have valuation `≥ B` maps integral forms into `p^B` times integral forms, the class sum costing the stabiliser
+exponent.
 
 Let `ξ` be the base tuple or a tuple used at some place (ThetaChainsOnDefiniteUnitaryGroups §2.5), and assume `2fk + 1 < g₀`, `T(u) > 2fN_m + 1` (ThetaChainsOnDefiniteUnitaryGroups §3.8) and the size
 conditions `k·Sc + m(t+1)(ϑ+1) + k·N_m ≤ min(w″, b′/x)`, `|ν_j(τ)| ≤ a²` for every step `j` and place `τ`, `X″ ≤ a`, and
@@ -548,7 +621,7 @@ With `E_{u,j} = v_p(D_Γ) + Ẽ_{u,j}` and (5) this is (i), (ii), (ii′). (iii)
 `exp(−S·Σ_tu_tΣX_{(0,t)}X_{(1,t)})·σ` with `S = s₂(Λ_K)`, `v_d(S) ≥ −1/2` (attained, 4.9c); TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a with `ϖ = |d|` and `𝔗` the tops (the
 side `0` of each pair the place in `A`) bounds every jet against products of minors by `−½Σ_tc^d_j(u; τ)`, and (6) applies.
 
-*NEW*. [FormalProof] states the operator-free part of (i) at the places of the local model of 4.12 (for each place the ramp
+[FormalProof] states the operator-free part of (i) at the places of the local model of 4.12 (for each place the ramp
 sum of the diagram data, the terms `(s, e)` with `e ∈ Dist_v(s)` omitted, less the loss of the second engine in the diagram
 data `Σ_s(N_j·lg_p α_s + N_{j−1}N_j·lg_p(|ν_j(τ_s)| − α_s)) + Σ_{s∈𝔗_v}lg_p(α_s)²`, summed over the places and not floored at
 `0`, less the stabiliser term, without the bulk and the other costs; the floor at `0` and the comparison of these numbers
@@ -569,6 +642,19 @@ statement: `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, ThetaChainsOnDefiniteUnitaryGroups §3.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.4a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.5a, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.7, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8a, 4.9, 4.9a, 4.9b, 4.9c, 4.9d, 4.9e, 4.9f.
 
 ### 4.10a The chain at the type primes
+
+*Origin:* particular to this proof: the bound for the loss of the periods of the chain at the type primes, through a jet
+bound for theta functions of powers of the CM curve with a finite datum on half of the `ℓ`-torsion at a split prime
+`ℓ = ππ̄`, a jet of order `|m|` having denominator at most `π̄^{|m|}·ℓ^n`, with no factor `ℓ^n` at the places above `π`;
+nearest published result: Finis (2006), for one CM curve and for values, the functional equation of its theta function
+under multiplication by the unitary scalar, which writes it as a sum of Heisenberg translates by torsion points, with the
+same asymmetry of integrality between the two primes above `ℓ`.
+
+*Method of the formal proof:* at a split prime `ℓ = ππ̄` the theta function with a datum on half of the `ℓ`-torsion is a
+sum of translates by `π`-torsion points, which gives the bound at the places above `π̄`; at the places above `π`, where
+`π̄` is a unit, the functional equation under `μ = π/π̄`, whose constant has eighth power `(π̄/π)^{4n}`, rewrites the
+function through translates by étale torsion points, which have integral jets, the substitution `z ↦ μz` scaling each
+derivative by `|ℓ|`.
 
 *The form of the formal proof.* [FormalProof],
 `Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.UsedTuplesBoundByConstant`);
@@ -615,16 +701,27 @@ divides `g^{f_v·N_j(N_j−1)/2}` at a place `v` above `g` of residue degree `f_
 the periods of the chain (the reading of the kernels at `g` as combinations of such theta functions, the composition of the `m`
 steps, the pairing with the row forms and the bookkeeping of `C₁`) is not given here.
 
-*KNOWN* in kind (the asymmetry between the étale and the connected halves of the torsion, as in Katz's theory at ordinary
+*Sources:* (the asymmetry between the étale and the connected halves of the torsion, as in Katz's theory at ordinary
 primes, and, for the Eisenstein–Kronecker theta class at an ordinary prime, a neighbouring theta object, in
 AutomorphicPadicLFunctionsPartII §§6.1, 6.3: integral at the torsion translates whose killing isogeny has étale dual;
-Bannai–Kobayashi), *NEW* for powers of the curve with level at half of the torsion. [FormalProof] states the jet bound of
+Bannai–Kobayashi). [FormalProof] states the jet bound of
 the route (a jet of order `|m|` has denominator at most `π̄^{|m|}ℓ^n`), for every prime `ℓ = ππ̄ ≥ 5` prime to `d` and unramified in `E`, as
 `Formalism.L2.AlgTh.SelfDualLatticeThetaPadicIntegrality` (`Formalism/LocalToGlobal/AlgebraicTheory/StatementD.lean`), proved as
 `Formalism.L2.AlgTh.split_place_scaled_bound`. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, 4.9f,
 4.10.
 
 ### 4.11 The gain of the chain lift
+
+*Origin:* particular to this proof: the divisibility of the steps adds along the chain, because the large weight entry
+persists, and passes to the periods (the composition of the step gains).
+
+*Method of the formal proof:* an element divisible by `p^s` locally at `𝔭` is kept as `a·z` with `z` in the localisation
+of the integral lattice and `v_𝔭(a) ≥ e_𝔭·s`; each step is linear, so the scalar passes through, the exponents add and
+induction on the number of steps gives the bound for the column; the period is linear in the column, so the scalar comes
+out and its valuation is added to that of the period of a locally integral form, which is at least `−e_𝔭·v_p(D_Γ)`; and a
+case distinction on the residue characteristic (level prime, type primes, served orbits, the other places) assembles the
+bound at every place. At the served orbits [FormalProof] takes the column bound from the composite chain in the local
+model, not from the composition of step gains.
 
 (i) If for every `j` the step `K_j(ξ)` maps `ℳ^{int}_{j−1}` into `p^{s_j}ℳ^{int}_j` locally at
 `𝔭`, then `col_ξ(x) ∈ p^{Σ_j s_j}·ℳ^{int}_m` locally at `𝔭` for every `x ∈ ℳ^{int}_0`. (ii) If `col_ξ(x) ∈ p^s·ℳ^{int}_m`
@@ -640,15 +737,29 @@ order `≥ a_τ` at the top places. (ii) ThetaChainsOnDefiniteUnitaryGroups §3.
 values in the Weyl lattices, which pair integrally with `F` up to the stabiliser denominators; the period is linear in the
 column (ThetaChainsOnDefiniteUnitaryGroups §3.9), so a scalar `c` with `v_𝔭(c) ≥ e_𝔭s` comes out of the column slot unchanged. (iii) (i), (ii) and 4.10.
 
-*NEW* (composition). [FormalProof] states the period bound of (i)–(ii), with the chain lift written as a sum over index paths and
-the stabiliser orders dividing one integer `D` (trivial at the first step), as `Formalism.L2.DIV.PathBound`
-(`Formalism/LocalToGlobal/Divisibility/JetBounds/Statement.lean`), proved as `Formalism.L2.DIV.path_height_bound`; its bound is
-`Σ_j(s_j − v_p(D))`. (iii) follows from [FormalProof],
+[FormalProof] states (i) as `Formalism.MainNotions.OrbitPlaces.ValuationComposition`
+(`Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean`), proved as `Formalism.MainNotions.OrbitPlaces.compose`, and (ii)
+as `Formalism.L2.G.Adm2InU.period_geTU` (`Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean`). (iii)
+follows from [FormalProof],
 `Formalism/SharpRestriction/Divisibility/OrbitPlaces.lean` (`Formalism.MainNotions.OrbitPlaces.NoOperatorOrbitBound`);
 `Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean` (`Formalism.MainNotions.LocalQuadraticParts.adm12`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.5, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9e, 4.9f, 4.10.
 
 ### 4.12 The local model of the Hecke operators
+
+*Origin:* adapted from Rallis (1982) and Mínguez (2008): the compatibility of the local theta correspondence with the
+spherical Hecke algebras (Rallis, for orthogonal–symplectic pairs) and the type-II correspondence in Langlands
+parameters, which gives the relation of Satake parameters (Mínguez); here the integral statements: the one-step relation
+(a) as an identity of operators on the forms of Gross's `p`-adic model, Hida's normalisation (b) at hyperspecial level for
+the Weyl and the dual Weyl lattices (for the dual Weyl lattices this roadmap's own formulation), and the frame lemma (c),
+(c1)–(c3).
+
+*Method of the formal proof:* the one-step relation is proved as an identity of lattice counts valid on all forms: the
+kernel at a place is a multiple of the characteristic function of `{x : xL_v ⊂ L′_v}`, the sublattices of the target of a
+given type containing `xL_v` are counted by reduction modulo `p` through superlattices of the source and Gaussian binomial
+coefficients, and these are elementary symmetric polynomials in a segment; Hida's normalisation comes from the normal
+form of an edge and the weight pieces of the Weyl lattices, and the frame lemma from expanding the product of Hecke
+operators over tuples of edges.
 
 Let `p`, `ξ` be as in 4.10 with `p` of split type, and for each place `v` of `F`
 above `p` let `𝔓_v` be the prime of `E` over which, through `𝔭`, the even positions of 4.9 (a) lie; `E_{𝔓_v}` is
@@ -734,7 +845,7 @@ top, the transport opposite to that of (b) would give the lowest weight at the e
 exponent `λ_{ev,0} + λ_{ev,k−1} − λ_{odd,k−1} − λ_{odd,0} = O(Sc) + a⁻ − a < 0` after the factor `p^{h_1}`; with the inverse transport
 the exponent is `h_1(λ) − ⟨μ, (1, 0)⟩_{ev} + ⟨μ′, (1, 0)⟩_{odd} ≥ 0` for every pair of weights.
 
-*NEW* (the integral statements); *KNOWN* in kind (lattice model; Hecke operators of theta lifts, Rallis, Kudla;
+*Sources:* (lattice model; Hecke operators of theta lifts, Rallis, Kudla;
 Satake, Tamagawa; Hida's normalisation). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.3, ThetaChainsOnDefiniteUnitaryGroups §3.6, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9, 4.9e, 4.9f, 4.10;
 ThetaLiftsForDefiniteUnitaryGroups §2.2; SmoothRepresentationsOfLocalGroups SR.4.3; AutomorphicFormsOnReductiveGroups §7.4; PotentialAutomorphyInfrastructurePartII §3.8; ArithmeticLocallySymmetricSpaces ALS.F.7
 (integral Weyl and dual Weyl modules as coefficient lattices); Mathlib `Module.Basis.SmithNormalForm`. [FormalProof] states the
@@ -748,6 +859,16 @@ as `Formalism.MainNotions.FormalGroupSystem.Pf.restWeylEdge`, and (c) as `Formal
 `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`.
 
 ### 4.13 Hecke commutation along the chain
+
+*Origin:* particular to this proof: an exact identity that moves a normalised Hecke operator of the source through the
+chain as an integral combination of Hecke operators of the target, at an explicit power of `p`, obtained by iterating the
+one-step relation of 4.12 (a).
+
+*Method of the formal proof:* iterating the one-step relations of 4.12 (a) along the chain multiplies the generating
+series `∏(1 + 𝔣′X)` of the rescaled segments, and the relation `Σ_a (−1)^a 𝗁_a 𝖾_{n−a} = 0` between complete and
+elementary symmetric polynomials inverts the result into the alternating expansion; the integrality of the coefficients
+is a computation with the valuations of the step values, and the final bound applies the single-place bounds of 4.12 (c)
+term by term.
 
 In the setting of 4.12 assume `2r_H ≤ k` (the inequalities
 `w̃_1(τ) ≤ w̃_2(τ) ≤ ⋯ ≤ w̃_m(τ)` and `w̃_1(τ) ≥ −λ_{k−1}(τ)` hold for every `τ` by ThetaChainsOnDefiniteUnitaryGroups §2.3). Let `chain_j := K_j∘⋯∘K_1`. For a
@@ -779,12 +900,21 @@ by 4.12(c1) and `v_p(c_{j,r_H}) ≥ A^{ev}_v`; with several places, expand the p
 `un_1un_2(s_1 + un_1^{−1}s_2)` times the scalar factors, not `s_1 + s_2`; since the source Hecke coefficient is fixed, no single unit
 in front of the identity repairs the difference unless `un_1 = 1`.
 
-*NEW*. [FormalProof] states it, with the units and the step values given by their valuations and with `U_j^{−r_H}Z_j` in place of
+[FormalProof] states it, with the units and the step values given by their valuations and with `U_j^{−r_H}Z_j` in place of
 `Z_j`, as the last four clauses of `Formalism.MainNotions.FormalGroupSystem.KernelCommutationUpToUnits`
 (`Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean`), proved in
 `Formalism.MainNotions.FormalGroupSystem.Pf.prv_and_kernel_commutation_up_to_units_of_rests`. *Needs:* 4.9e, 4.12.
 
 ### 4.14 The refined gain on the Hecke image
+
+*Origin:* particular to this proof: on the image of an ideal of normalised Hecke operators above `p` the chain recovers
+the divisibility lost where two top places lie at odd distance in one Frobenius orbit.
+
+*Method of the formal proof:* on a generator `∏_{v∈B} y_v^m(F₀)` of the image, an induction on the steps writes
+`P^{m′+1} = P_{B_{m′}}·(P^{m′}P_C)`, where `B_{m′}` is the set of places at which the refined exponent less the price beats
+the operator-free exponent at that step; the commutation of 4.13 moves `P_{B_{m′}}` through the chain as a product of the
+operators `Z_v`, the joint frame bound of 4.12 (c3) gives the exponent of the step, and the places left out are paid in
+advance by their excess.
 
 In the setting of 4.13, let `𝒱` be a set of places above `p` with Hecke
 types, and `𝒴 := ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})` the product of ideals of the commutative algebra generated by the `y_v`.
@@ -808,7 +938,7 @@ with the ledger data `(α̂, ĉ)` by monotonicity, 4.9e (b)): one factor `y_v` b
 when `γ_LTΣα_s ≤ 1`, and otherwise at most `mγ_LTΣα_s − m`, and the ceiling adds less than `1`. (b): the local model of 4.12 (o) is the chain of the tuple read at the places above `p`; that
 comparison (the identification of the forms and of the kernels at the places above `p`) is not given here (4.12, route).
 
-*NEW*. [FormalProof] states (a) for the local model of 4.12, with the data of the diagrams, the exact exponent `P^{ex}_j(v)` in
+[FormalProof] states (a) for the local model of 4.12, with the data of the diagrams, the exact exponent `P^{ex}_j(v)` in
 place of `P_j(v)`, its own logarithmic losses in `r⁰` and `r^H`, the excess without the ceiling, and no bulk or cost besides
 the stabiliser term, as `Formalism.MainNotions.FormalGroupSystem.Conclusion5` (`Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean`), proved,
 under the hypotheses `Formalism.MainNotions.FormalGroupSystem.admitted`, as part of `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`; the bound
@@ -820,6 +950,15 @@ on the excess, without the ceiling, is `Formalism.MainNotions.FormalGroupSystem.
 *Needs:* 4.9e, 4.9f, 4.11, 4.12, 4.13.
 
 ### 4.14a Elementary divisors along a progression
+
+*Origin:* particular to this proof: a bound for the average number of small elementary divisors of a matrix of
+integer-valued polynomials along an arithmetic progression, by the Gauss norm of its determinant; elementary.
+
+*Method of the formal proof:* after the substitution `X ↦ p^H·X + t`, under which binomial polynomials of degree `≤ p^H`
+stay integral, the Smith form of `M(t)` shows that the determinant has Gauss norm at radius `p^{−E}` at most
+`p^{−E·β(t)}`; multiplicativity of the Gauss norm turns this into a bound for `β(t)·E` by the valuations of `t − ζ` over
+the roots, capped at `H`, and along a progression with `p ∤ d` each root is close to few points, which gives the mean
+bound.
 
 Let `𝒦 ⊃ ℚ_p` be complete
 ultrametric, `M(X)` an `n × n` matrix of polynomials of degree `≤ δ₀` with integral coefficients in the binomial basis
@@ -846,7 +985,7 @@ divide by `EY₀`. The valuation of `det M(t_j)` itself is
 not used (it is unbounded when a root is close to `t_j`). The corollary: `p^D` times a pair of dual vectors is available
 for every elementary divisor of absolute value `≥ p^{−D}|s_j|`, and `|s_j| ≤ 1`.
 
-*NEW* (elementary); (1) KNOWN (Mahler; Amice). [FormalProof] states the main statement for `t₀, d ∈ ℤ`, over any ultrametric
+*Sources:* (Mahler; Amice) for (1). [FormalProof] states the main statement for `t₀, d ∈ ℤ`, over any ultrametric
 normed field over `ℚ_p` and for real `E > 0`, as `Formalism.GM.WindowFullAP`
 (`Formalism/MahlerMeasure/QuotientUpperBoundsOfPowerBounds.lean`), proved as `Formalism.GM.Top.windowFullAP`, and the corollary
 for `t₀ ∈ ℕ` and `δ₀ + 1 ≤ p^H` as `Formalism.MainNotions.G.GramWindowAlt.GramWindow2`
@@ -855,6 +994,8 @@ for `t₀ ∈ ℕ` and `δ₀ + 1 ≤ p^H` as `Formalism.MainNotions.G.GramWindo
 norm of polynomials and its multiplicativity, `Polynomial.roots`, binomial polynomials).
 
 ### 4.14b Definitions: lattices at an edge, the hypotheses (H_I) and the blocks of Theorem I
+
+*Origin:* definitions and conventions.
 
 Setting of 4.12 at level `0` for one place `v` with `r_H = 1`, written `w := √p`, `Q₀ := N𝔓_v`; `λ` the
 weight of the tuple and `h := h_1(λ)`. *Lattices at an edge* (used also in 4.15): for a lattice `L` at `v` let `H(L)` be the
@@ -932,11 +1073,20 @@ order `P_1o_1 + o^+` counts the powers of `w` that the lift at the line of the e
 `V_1` and of `x^+`. Without the thresholds on the first rows of `y` the span would contain polynomials of order larger than
 the depth `dep°_v + R°_v`.
 
-*NEW* (definitions). (H_I), `dep°_v`, `R°_v`, `c_v`: [FormalProof],
+(H_I), `dep°_v`, `R°_v`, `c_v`: [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean` (`Formalism.MainNotions.flipOneThree.HypI`).
 *Needs:* 4.12; ArithmeticLocallySymmetricSpaces ALS.F.7.
 
 ### 4.14c Frobenius-twisted columns at rational planes
+
+*Origin:* particular to this proof: Frobenius-twisted analogues of the columns of bideterminants, with their order of
+vanishing at every rational plane and their leading term (relatives of Moore determinants).
+
+*Method of the formal proof:* the change of frame acts on the vector at position `s` by an exterior power of
+`σ^s(g⁻¹g′)` that intertwines wedge and contraction, and raising components to the power `p^{s′−s}` turns divisibility by
+`w^o` into divisibility by `w^{o·p^{s′−s}}`, an extra `w` becoming `w²` when `s < s′`; an induction on the letters keeps
+the invariant that all components are divisible by `w^{o(j,s)}` and the non-minimal ones by one more `w`, a costly step
+gaining one `w`, and a second induction of the same shape gives the leading term.
 
 Let `W = W(𝔽_Q)` with Frobenius `σ`, `𝒪 ⊃ W`
 with `w² = p`, and `1 ≤ r < k` (the first `r` coordinates are the *plane*, the last `k − r` the *normal* ones), and `p ≥ 5`. Let letters `1, …, N` be
@@ -978,11 +1128,23 @@ inequality `ht_i(c) > r` makes every rise costly and no fall.
 costly step, order `1`, leading term `w·x_0^{p^d}v_c`. A vector letter `x` and then a covector letter `ξ` at distance `d`, a column that
 rises and falls: `K^σ = Σ_bx_b^{p^d}ξ_b`, order `1`, leading term `w·x_0^{p^d}ξ_0`.
 
-*NEW* (relatives: Moore determinants, Dickson invariants). [FormalProof] states (a) and (b), with two further clauses, as
+*Sources:* (relatives: Moore determinants, Dickson invariants). [FormalProof] states (a) and (b), with two further clauses, as
 `Formalism.MainNotions.CovariantDegrees.CanonicalTranslateJetIdentity` (`Formalism/SharpRestriction/GrowthBounds/StatementOfDegreeAndBound.lean`),
 proved as `Formalism.MainNotions.LemmaBAlt.canonical_translate_jet_identity`. *Needs:* Mathlib (exterior powers, Witt vectors).
 
 ### 4.14c′ Standard polynomials of paths of horizontal strips with thresholds
+
+*Origin:* adapted from Tange (2012): his description of the truncation at one saturated set of dominant weights by
+standard bideterminants over `ℤ`, for vectors and covectors through rational tableaux, is extended to thresholds on the
+first rows at every initial segment of a chain of vector and covector letters, with standard polynomials of paths of
+horizontal strips.
+
+*Method of the formal proof:* the standard polynomials of all paths form a basis of the polynomials of the given
+multidegree over every ring; over the fraction field the sum of the isotypic components whose types lie in a downward
+closed set of dominant weights is the span of the standard polynomials whose path lies in that set at the given
+position; so the coefficients of an integral polynomial meeting the thresholds vanish outside the thresholded paths,
+position by position. This is Tange's argument for one saturated set, run at every position of the chain and on the basis
+of path polynomials.
 
 Let
 `𝒪 ⊃ W(𝔽_Q)` be as in 4.14c, `k ≥ 3`, and letters `1, …, N`, each a vector letter or a covector letter in the `k − 1` non-special
@@ -997,18 +1159,30 @@ of the components `I(c)` of the columns `K_c(κ)` of 4.14c, `I` a standard filli
 along the rows). Then `𝒴` is contained in the `𝒪`-span of the standard polynomials of the thresholded paths.
 
 *Route.* The route is not given here. For a single vector letter and no threshold this is the standard monomial theory of bideterminants
-(IntegralWeylModulesOfGeneralLinearGroups §0.1); for products of symmetric powers and their duals with thresholds on the first rows,
-no published statement is known (the nearest classical objects are the rational tableaux of mixed tensors).
+(IntegralWeylModulesOfGeneralLinearGroups §0.1). For a truncation at one saturated set of dominant weights, the
+description by standard bideterminants over `ℤ`, by the route of an integral basis, the equality of dimensions over `ℚ`
+and torsion-freeness, is Tange (2012), for matrices and, through Stembridge's rational tableaux, for vectors and
+covectors (Theorem 3.2 and its corollary); Dipper, Doty and Stoll give a bideterminant basis on mixed tensor space. The
+thresholds at every initial segment of the chain and the standard polynomials of paths are particular to [FormalProof].
 
 *Checks.* One vector letter of degree `δ` and `M_1 ≥ δ`: `𝒴` is the space of polynomials of degree `δ`, the paths are `(0, (δ))`, and the
 standard polynomials of the one-row shape `(δ)` are the monomials. With `M_1 < δ` and one vector letter, `𝒴 = 0` (the type `(δ)` has first
 row `δ`), and there is no thresholded path.
 
-*NEW*. [FormalProof] proves the equality of `𝒴` with that span, for thresholds at any set of positions of the chain, as
+[FormalProof] proves the equality of `𝒴` with that span, for thresholds at any set of positions of the chain, as
 `Formalism.MainNotions.flipOneThree.adm8` (`Formalism/SharpRestriction/GrowthBounds/FlipOneThree.lean`), proved as
 `Formalism.MainNotions.G.PolBridge.combined_weight_of_nested_sets`. *Needs:* 4.14b, 4.14c; IntegralWeylModulesOfGeneralLinearGroups §0.1.
 
 ### 4.14d The key lemma: symbols lift to vectors of small depth at one edge
+
+*Origin:* particular to this proof: every symbol of the two-letter model lifts to a polynomial of controlled depth
+concentrated at one rational line, by Frobenius-twisted factors, a localiser and an induction on tails.
+
+*Method of the formal proof:* a tail statement produces, for every family of blocks in a class with slack and every
+generator, a polynomial whose lift at the line is the symbol plus terms `w^ι τ_ι` with `τ_ι` in the span of symbols of
+families of order at most `ord + ι` in classes with less slack; a strong induction on the precision subtracts `w^ι` times
+the polynomials already found for the `τ_ι`, and at precision `c`, with the inclusion of the kept blocks in the class of
+slack `0`, this gives the lift.
 
 Assume (H_I) of 4.14b with the
 windows of `a_s` and `a⁻_s` enlarged by `2Λ_log·b′/k`, let `c := c_v` and `μ := κ₁c + μ′ = 13k·s_max·p^{G′}·c + μ′` with `μ′ ∈ {0, 12c}`
@@ -1050,12 +1224,21 @@ the room inequality (4); the numerical part of (5), that the block of the monomi
 in the class and that the thresholds move by at most `κ₁` per unit of `ι` (which fixes the constants `13`, `12` and `E_0`); and the
 inclusion of the kept blocks in `BL_0`.
 
-*NEW*. [FormalProof] states it at the rational line of the identity and for kept families as `Formalism.MainNotions.ColumnSystems.Pf.CoarseMultiplicityAtIdentity`
+[FormalProof] states it at the rational line of the identity and for kept families as `Formalism.MainNotions.ColumnSystems.Pf.CoarseMultiplicityAtIdentity`
 (`Formalism/SharpRestriction/GrowthBounds/CoarseMultiplicity/CoarseMultiplicityAtIdentity.lean`), derived as `Formalism.MainNotions.ColumnSystems.Pf.lemma44_identity_of_raw_tail`
 from the tail induction of (5) at that line (`Formalism.MainNotions.ColumnSystems.Pf.RawTailAt1`) and the inclusion of the kept blocks in `BL_0`
 (`Formalism.MainNotions.ColumnSystems.Pf.KeptBLAt`). *Needs:* 4.14b, 4.14c, 4.14c′.
 
 ### 4.14e The pairing of the lifts
+
+*Origin:* particular to this proof: the lifts at an edge and at its dual edge pair block-diagonally, up to a constant of
+small valuation, to the product of the segment forms.
+
+*Method of the formal proof:* the pairing of a lift at an edge with a lift at the dual edge is identified with `z·Fock`
+of the two lifts in dual frames, the lifts are replaced by their symbols modulo `w^c`, and the Fock pairing of symbols is
+computed block by block, where it is diagonal in the monomials; the unit factor of `(ρ + Pn)!/(ρ!·n!·P!^n)` is removed
+modulo `w^c` by a diagonal operator built from its expansion in binomial coefficients of the coarse exponents, truncated
+at degree `4c`.
 
 In the setting of 4.14d, for every edge `e` of type `1` there are
 nonzero `κ_β ∈ 𝒪` with `v_p(κ_β) ≤ 8|𝔗_v|k·log_pa` and maps `(β, u) ↦ F(β, u) ∈ C(e)`, `G(β, u) ∈ C′(e)` (depth
@@ -1075,11 +1258,20 @@ a unit that depends on the monomial `μ`; the maps `s, s′` divide out `ε_b(μ
 not preserve the thresholds, and spend the margin between `μ₀` and `13k·s_max·p^{G′}c + 12c` (4.14b). Not proved here: the
 identity (1) as a statement about the lattices, and the construction of `s, s′` within that margin.
 
-*NEW*. [FormalProof] states it as `Formalism.MainNotions.ColumnSystems.Pf.PairLiftAt` (`Formalism/SharpRestriction/GrowthBounds/BinomialRatio/PairLift.lean`)
+[FormalProof] states it as `Formalism.MainNotions.ColumnSystems.Pf.PairLiftAt` (`Formalism/SharpRestriction/GrowthBounds/BinomialRatio/PairLift.lean`)
 and derives it, for large constants, as `Formalism.MainNotions.ColumnSystems.Pf.paired_lifts_of_identity` from three hypotheses, the tail induction of
 4.14d among them. *Needs:* 4.14b, 4.14d.
 
 ### 4.14f The rank of the kept blocks
+
+*Origin:* particular to this proof: the count by which the kept blocks of the two-letter model carry almost all of its
+dimension; the branching rule `GL_k ↓ GL_{k−1}`, Pieri's rule and Weyl's dimension formula are classical.
+
+*Method of the formal proof:* the rank of a block lattice is a sum over levels of numbers of thresholded chains of
+`GL_{k−1}`-weights weighted by Weyl dimensions; these are matched injectively, in both directions, with pairs of a chain of
+`GL_k`-weights and an interlacing `GL_{k−1}`-weight, whose total weight is `m°` by the branching rule, and the pairs
+outside the kept blocks are bounded by a union bound, their number being polynomial in `a` and the Weyl dimension of each
+at most `e^{−Λ_log/5}` times a polynomial factor times `m°`.
 
 For a segment, a class of digits `(rz, ry)` and a margin `μ ≥ 0`, let
 `rk` be the sum of the ranks of `Bl_μ(b)` over the kept blocks with these digits, and `m° := Dim_k(A_0)·∏_iDim_k(A_i)Dim_k(C_i)·Dim_k(a⁻_{x^+})`,
@@ -1097,12 +1289,26 @@ by the dimension of that tensor product over `GL_k`, and the pairs landing in ke
 `∏_jDim_k(A_{0,j})/Dim_k(a_{x_j}) ≥ (1 − C(1/Y + kE_0/a))·Q^{−(k−1)}` over the segments. The tail estimate and the statement that the bounded
 pairs land in kept blocks are not proved here.
 
-*NEW* (the count); *KNOWN* (branching `GL_k ↓ GL_{k−1}`, Pieri, Weyl's dimension formula, ClassicalGroups §5.1). [FormalProof] states the first two bounds as
+*Sources:* (branching `GL_k ↓ GL_{k−1}`, Pieri, Weyl's dimension formula, ClassicalGroups §5.1). [FormalProof] states the first two bounds as
 `Formalism.MainNotions.ColumnSystems.Pf.UpAt` and `Formalism.MainNotions.ColumnSystems.Pf.LowAt` (`Formalism/SharpRestriction/GrowthBounds/BinomialRatio/RankDefs.lean`). *Needs:* 4.14b; ReductiveGroups §10B
 (characters of the induced modules are the Weyl characters);
 ClassicalGroups §5.1 (Weyl's dimension formula), ClassicalGroups §6.1 (branching).
 
 ### 4.14f′ Integral isotypic projectors on chains of letters
+
+*Origin:* adapted from Knapp (2002), Corollary 9.6, the isotypic projector of a unitary representation of a compact
+group (RepresentationTheory/CompactGroups §6.4), with range the isotypic component: here for the projectors of `GL_{k−1}`
+and `GL_{k−2}` on chains of letters, which of them commute (i), their self-adjointness for the Fock pairing (ii), and a
+bound (iii) for their denominators; the exponent of (iii) is this roadmap's own formulation.
+
+*Method of the formal proof:* the isotypic parts for the diagonal action on a set of letters are pairwise orthogonal for
+the Fock form, which is contravariant, and the projectors are the projections of the resulting decomposition; commutation
+follows because the operators of a larger set of letters preserve each isotypic part of a smaller one, and integrality,
+with the exponent `(n(n−1)/2)·⌊log_p(2d + n − 1)⌋`, `d` the total degree on the letters of `S`, follows by writing an
+isotypic projector as a trace, over a basis of the highest weight module, of the invariant projector on the space of
+homomorphisms into the polynomials, to which the integrality of invariant projectors on lattices stable under divided
+powers applies. The route written here instead derives (i) and (ii) from central characters, the projector being a
+polynomial in the image of the centre of the enveloping algebra, which transposition fixes.
 
 Let `𝒪 ⊃ W(𝔽_Q)`, `k ≥ 3`, a chain
 of letters (vector or covector letters in `k − 1` variables, `GL_{k−1}` acting as in 4.14c′) and an integer `D ≥ 1` be given, and
@@ -1139,12 +1345,28 @@ fails. `k = 3`, one vector letter of degree `δ ≤ D`: `GL_2` acts irreducibly 
 only nonzero projector is the identity, and `GL_1` acts on the last variable by its degree: the projectors are those onto the monomials
 of given degree in that variable, integral without denominator.
 
-*NEW*. [FormalProof] uses this target as a hypothesis of its statement of 4.14g, for the projectors onto sets of types on
+[FormalProof] has this target as a hypothesis of its statement of 4.14g, for the projectors onto sets of types on
 the initial segments of the letters of a block, with the three commutations of (i), self-adjointness (ii), and integrality
-after one power `p^{⌈(k−1)²(log_p(8a + k − 1) + 1)⌉}`; the exponent of (iii) is sharper and is this roadmap's own.
+after one power `p^{⌈(k−1)²(log_p(8a + k − 1) + 1)⌉}`, and it proves these statements in
+`Formalism/SharpRestriction/GrowthBounds/CountingStatementReduction.lean`: the three commutations as
+`Formalism.MainNotions.G.CountingStatementReduction.chOps_comm3`, and the integrality of a projector onto a set of types,
+on the polynomials of one multidegree, after `p^{(n(n−1)/2)·⌊log_p(2d + n − 1)⌋}`, `d` the degree of the multidegree on
+the letters of `S`, as `Formalism.MainNotions.G.CountingStatementReduction.subOps_int_lat`. The exponent of (iii), with the
+bound `d_S` in place of `2d`, is this roadmap's own.
 *Needs:* 4.14c′; IntegralWeylModulesOfGeneralLinearGroups §§0.1, 0.3a.
 
 ### 4.14g The bad share of a segment is small on average
+
+*Origin:* particular to this proof: on average over a window of weights the segment forms are nearly unimodular, because
+their Gram matrices are integer-valued polynomial matrices in the weight.
+
+*Method of the formal proof:* a block form is reduced to its level forms at a fixed loss in the depth; on a level the
+lattice is diagonalised for the form without the last tie, and the form with the last tie, multiplied by a binomial
+coefficient in the exponent `z` of the special variable, is a matrix of polynomials in `z` of degree at most `J`, integral
+in the binomial basis, whose top coefficient is that diagonal form, so that the bound for elementary divisors along a
+progression (4.14a) applies on the window of `a_{x⁺}`; the ties of the far tops are treated one at a time along the
+progressions of the coarse degrees by the same bound, and the counts are summed over a box of top weights with fixed
+digits.
 
 Under (H_I) (windows enlarged by `≤ 2Λ_log·b′/k`),
 for every segment with `t` far tops and every `0 ≤ μ ≤ b′/(k·p^{G′}·Y)`: the mean over `(a_{y_1}, …, a_{y_s}, a_{x^+})` in the window
@@ -1167,12 +1389,21 @@ can be taken in a commuting family of 4.14f′ (i)); in (2), that the Gram matri
 `Fock(E_+^jx_0^z·, ·)/a_{x^+}!` gives ratios of factorials); the far ties (3); and the inputs from the integral representation theory
 of `GL_n` (extremal projectors, restriction `GL_{r+1} ↓ GL_r`).
 
-*NEW*. [FormalProof] states it as `Formalism.MainNotions.flipOneThree.Conclusion1` (`Formalism/SharpRestriction/GrowthBounds/FlipOneThree.lean`), under
+[FormalProof] states it as `Formalism.MainNotions.flipOneThree.Conclusion1` (`Formalism/SharpRestriction/GrowthBounds/FlipOneThree.lean`), under
 hypotheses `Formalism.MainNotions.flipOneThree.admitted` that include integral isotypic projectors on the initial segments of the chain (as
 in 4.14f′), the standard polynomials of 4.14c′ and the rank bound of 4.14f, and proves it for large constants as `Formalism.MainNotions.G.GramWindowAlt.theorem_A_closed_form_holds`
 (`Formalism/SharpRestriction/GrowthBounds/FockGramWindow.lean`). *Needs:* 4.14a, 4.14b, 4.14f, 4.14f′.
 
 ### 4.14h Theorem I at one edge
+
+*Origin:* particular to this proof: at an edge of the building, for most weights in a box, almost a full set of vectors
+of small depth with a nearly unimodular pairing (the depth theorem for medium primes at one edge).
+
+*Method of the formal proof:* in each segment a good sublattice is replaced by dual families supported on single blocks;
+the pairing of the lifts (4.14e) turns every tuple of such vectors, one per segment, into a pair of vectors of `C(e)` and
+`C′(e)` whose Gram matrix is a diagonal matrix of small valuation plus `w^c` times an integral matrix, hence invertible up
+to a scalar of valuation at most `D_p`; the number of tuples is bounded below by the product of the ranks of the good
+sublattices and the rank bound of 4.14f.
 
 Under (H_I) of 4.14b there is a function `sh_v(a, a⁻) ≥ 0` of the
 top weights of `v` only, with mean `≤ C|𝔗_v|s_max/Y` over the boxes, such that for every integer `dep ≥ dep°_v + R°_v` and every
@@ -1190,12 +1421,23 @@ the segment lattices at the margin `μ₀` of 4.14b have ranks whose product is 
 forms have small mean; a good sublattice of each segment gives, after diagonalisation, the vectors of the statement with
 `v_p(z_e)` at most the sum over the segments of the numbers `D` of 4.14g plus `8|𝔗_v|k·log_pa`, which is `≤ D_p`.
 
-*NEW*. [FormalProof] states it for the two-letter model `𝕊(a, a⁻)` at one edge, with the share given by `κ_P` and the bad shares of
+[FormalProof] states it for the two-letter model `𝕊(a, a⁻)` at one edge, with the share given by `κ_P` and the bad shares of
 the segments, as `Formalism.MainNotions.ColumnSystems.HerrExtensionClass` (`Formalism/SharpRestriction/GrowthBounds/ColumnSystems.lean`), proved for large
 constants as part of `Formalism.MainNotions.ColumnSystems.Pf.extendedClosedForm`. *Needs:* 4.12, 4.14b, 4.14d, 4.14e, 4.14f, 4.14g; ArithmeticStatisticsPartIV §3.2 (Gaussian binomial coefficients count
 subspaces over `𝔽_q`).
 
 ### 4.15 Definition: the depth property
+
+*Origin:* particular to this proof: the depth property of a weight at a place, which says that the image of the
+normalised Hecke operator contains a fixed power of `p` times all but a small share of the lattice, with the lemma from
+edge families to the depth property at a lattice.
+
+*Method of the formal proof:* the pairings of the vectors of all the edge families with the functionals of the target
+lattice form a lattice of integral vectors; each family supplies, for every primitive combination, a functional whose
+pairing divides `p^D` up to cross terms divisible by `p^{D+1}`, and a lattice with this property contains `p^D` times the
+standard lattice; the clause is carried from one lattice to every other by the transitive action of the general linear
+group of the local field, and the edges into the standard lattice are counted as the kernels of `Q^{r_H(k−r_H)}` linear
+maps modulo `p`.
 
 Setting of 4.12 at level `0` for one place `v`; `λ` the weight of the tuple, `h := h_{r_H}(λ)`,
 and `H(L)`, `⟨·, ·⟩_h`, edges, `H^{½}(e)`, `H^{½}(e)^∨` as in 4.14b (with edges of type `r_H`).
@@ -1238,7 +1480,7 @@ valuation ring): these are the functionals `G_l ∈ B_L` with `⟨F_i, G_l⟩_h 
 linear group of the local field permutes the lattices transitively and the clause is equivariant; its proof is not given here,
 nor is the count of the edges.
 
-*NEW* (definitions). [FormalProof] defines `DepthBound` as `Formalism.MainNotions.G.LPprime`
+[FormalProof] defines `DepthBound` as `Formalism.MainNotions.G.LPprime`
 (`Formalism/SharpRestriction/GrowthBounds/UnramifiedQuadraticSetting.lean`), with the identity block `p^D·1` up to an integral recombination of the
 `F_i`; it proves that the clause at one lattice gives it at every lattice as `Formalism.L2.G.Model.lPOneEvery`
 (`Formalism/LocalToGlobal/GroupLattices/FockModels/LoBlockActComp.lean`) and the count of the edges into the standard lattice as
@@ -1246,6 +1488,16 @@ nor is the count of the edges.
 ArithmeticLocallySymmetricSpaces ALS.F.7; Mathlib `Module.Basis.SmithNormalForm`.
 
 ### 4.15b Walk lemma
+
+*Origin:* particular to this proof: an elementary lemma on commuting endomorphisms of a module over a discrete valuation
+ring, which passes from images of single operators to the image of a product of ideals of powers.
+
+*Method of the formal proof:* an induction on the states of a walk, a state being a set of `β + 1` active places with a
+counter below `m` at each, all smaller places complete and all larger ones untouched; one step applies the spanning
+hypothesis at the active set and either advances a counter, replaces a completed place by the next untouched one, or,
+when no place is left, closes with the factors `π^{S_v}` at the remaining `β` places; the exceptional vectors are the
+images of the sets `G(B)` under the monomials in the `y_v` of the states, which gives the count `m^{β+1}·g(B)` for each
+`B`.
 
 Let `y_v` (`v ∈ V`) be commuting endomorphisms of a module `X` over a discrete valuation ring with
 uniformizer `π`, and `𝓛(σ)` submodules for `σ : V → {base, ball, dual}` such that, changing only the coordinate `v`:
@@ -1263,11 +1515,23 @@ vectors `y^iζ`. In general walk with counters `n_v ≤ m`: while at least `β +
 remaining factor costs `βS`. An exceptional vector is determined by `B` and the counters in `B` (every place below
 `max B` outside `B` is complete, every place above is untouched): `m^{β+1}` choices.
 
-*NEW* (elementary; a statement about commuting endomorphisms of a module over a discrete valuation ring). [FormalProof] states it for
+[FormalProof] states it for
 modules over any commutative ring and any `π`: `Formalism.G0.WalkSharp` (`Formalism/SubspaceCounting/Statement.lean`), proved as
 `Formalism.G0.walkSharp_true`. *Needs:* Mathlib (modules over a discrete valuation ring).
 
 ### 4.15c Colength of the Hecke image
+
+*Origin:* particular to this proof: the image of the ideal of normalised Hecke operators has controlled colength in the
+lattice of integral forms, given the depth property.
+
+*Method of the formal proof:* the depth property gives, in each orbit, a basis of the dual lattice adapted to the images
+under `y_v` up to a share `sh_v`, and Nakayama's lemma turns the resulting congruence into the spanning hypothesis of the
+walk lemma with `c₀ = 2(D_p + 1)`; the walk lemma gives the exceptional vectors for every `β`, and the length is bounded
+through the chain of images of `p^{τ+jS}·M` modulo `P`, whose layers are killed by `p^S` and generated by the exceptional
+vectors. On the path of [FormalProof] the statement is the full one, from the depth property, trivial stabilisers and
+finite classes to the exceptional vectors, the length bound and the clauses on saturated submodules, with the sandwich
+in a separate lemma; the route written here instead bounds the length through elementary divisors in an adapted basis,
+and moves the statement to the integral forms by comparing elementary divisors of nested lattices.
 
 Setting of 4.15. Let `𝒱` be a set of places above `p` with Hecke types and `D_p ∈ ℕ`. Assume that `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` (4.15)
 holds for every `v ∈ 𝒱`, that the level-`0` stabilisers are trivial and the classes finite, that
@@ -1297,12 +1561,26 @@ those of `𝒴·ℳ^∨_0` in `ℳ^∨_0`. Length: in a basis adapted to `P ⊂ 
 `g_β ≤ rank(mΣsh)^{β+1}/(β+1)!`, and `Σ_βg_β ≤ rank(e^{mΣsh} − 1) ≤ 2rank·mΣsh`; saturation of `M′` (`M′/(M′ ∩ Q)` injects
 into `M/Q`) gives the clauses on `M′`.
 
-*NEW*. [FormalProof] states the module-theoretic part (from the spanning hypothesis of 4.15b with shares `κ_v`, `a_v + b_v ≤ c_v` and
-`m·Σ_vκ_v ≤ 1/2` to the exceptional vectors for every `β` and the length bound) as `Formalism.G0.ManyOrbitsRefined`
-(`Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.many_orbits_refined_holds`; the spanning
-lemma from `DepthBound` and the sandwich are not part of that statement. *Needs:* 4.14, 4.15, 4.15b; Mathlib `Module.Basis.SmithNormalForm`.
+[FormalProof] states it for the lattice `ℳ^∨_0` of `∇`-valued forms, with `τ − e` in place of `τ`: from the depth
+property at every `v ∈ 𝒱`, trivial stabilisers, finite classes and commuting `y_v`, it gives the exceptional vectors for
+every `β`, the length bound for `m·Σ_v sh_v ≤ 1/2` and the clauses on a saturated submodule, as
+`Formalism.MainNotions.SelectionLemmas.Conclusion1` under the hypotheses `Formalism.MainNotions.SelectionLemmas.admitted`
+(`Formalism/SharpRestriction/GrowthBounds/SelectionLemmas.lean`); the passage to the integral forms by the sandwich
+exponent is a separate statement of [FormalProof]. *Needs:* 4.14, 4.15, 4.15b; Mathlib `Module.Basis.SmithNormalForm`.
 
 ### 4.15d Good orbits and their probability
+
+*Origin:* particular to this proof: the notion of a good Frobenius orbit of tops, with a union bound for the
+probability that an orbit fails to be good under independent selection; elementary probability. The bound for
+probabilities in `[ω₀δ, δ]` with a general `ω₀` is this roadmap's own formulation.
+
+*Method of the formal proof:* for probabilities in `[3δ/4, δ]`, that is `ω₀ = 3/4`, the failure of an orbit to be good is
+covered by three events, each bounded by a union over windows or tiles: the two window events by comparing the unequal
+probabilities with the equal probability `δ` for monotone functions of the set of tops, proved by induction on the
+positions, and the tile event by the independence of disjoint tiles, of which at least `M₀` among `M₀ + 1` consecutive
+ones avoid the given top and each is marked with probability at least
+`((1−δ)^u)^{3r+1}·(⌊u/2⌋·(3δ/4)·(1−δ)^{u−1})^{3r}`. The route written here instead quotes the stochastic order for the
+comparison and, in (B), takes the `M₀` tiles after a given one, which costs a factor `2`.
 
 For `δ ∈ (0, 1)`, `h, x > 0` and integers `r ≥ 2`, `L₂ ≥ 1`, `M₀ ≥ 1` put
 `u := ⌈1/δ⌉`, `G′ := (M₀ + 5)(6r + 1)u`, `N₁ := ⌈max(6e·G′δ, (h + 3)log₂x)⌉ + 1`. An orbit `ℤ/n′` with tops `𝔗` is *good*
@@ -1327,16 +1605,24 @@ for the stochastic order under convolution). With `q` this lower bound for the p
 probability at most `(1 − q)^{M₀−1} ≤ 2(1 − q)^{M₀}` (`q ≤ 4^{−3r} ≤ 1/2`, because `uδ(1−δ)^{u−1} ≤ 1/2` for `u = ⌈1/δ⌉`), and the union is over at most `n′/((6r + 1)u) + 1 ≤ n′/2` tiles, which
 absorbs the factor `2`: the bound is the second term of `p_orb`.
 
-*NEW* (definition; elementary probability). The probability bound with probabilities in `[ω₀δ, δ]` is this roadmap's own; it
-is used here only in the Route of 4.17d. [FormalProof] proves the case of equal probabilities `δ` (`ω₀ = 1`), with `u`,
-`G′`, `N₁` and the bound `r − 1` of a window free: as `Formalism.G0.TileConditionFailureProbBound`
-(`Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`), proved as `Formalism.G0.choice_of_tops_refined_holds`, and,
-at the window bound `r − 1`, with the window term `L₂·C(L₂, r−1)δ^{r−1} + n′·C(L₂, r)δ^r` in place of `n′·C(L₂, r−1)δ^{r−1}` as
-`Formalism.MainNotions.G.TopChoiceBounds.good_orbit_failure_prob_le` (`Formalism/SharpRestriction/GrowthBounds/TopChoiceBounds.lean`),
-from which it derives its bound on the bad tops of 4.17d (`Formalism.MainNotions.G.TopChoiceBounds.tops_choice_holds`). *Needs:* StandardDistributions §§7.13, 9.4;
+The probability bound for a general `ω₀` is this roadmap's own; it is used here only in the Route of 4.17d.
+[FormalProof] proves the bound for probabilities in `[3δ/4, δ]` (`ω₀ = 3/4`), with `u`, `G′`, `N₁` and the bound of a
+window free (a bound `K` in place of `r − 1`, with the window term `n′·C(L₂, K)δ^K`), as
+`UpperTheory.BernoulliSumsFrobeniusOrbits.not_good_le` (`Development/AutomorphicArithmetic/ThickFrames/NotGoodLe.lean`), for
+the predicate `Formalism.G0.GoodOrbitIntervalTileCondition` (`Formalism/SubspaceCounting/GoodOrbitIntervalTileCondition.lean`).
+*Needs:* StandardDistributions §§7.13, 9.4;
 Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.15e Theorem II (small primes)
+
+*Origin:* particular to this proof: the depth property at small primes, with a Hecke type of rank at least two, from
+frames of consecutive even top places on a good orbit.
+
+*Method of the formal proof:* for every edge of type `r` into the standard lattice an edge family is built from a basis of
+generators of the plane count, whose symbols are realised by vectors of bounded source order and are paired, through a
+Gram statement on the plane coefficients, with functionals of bounded target order; the standard lattice has at least
+`Q^{r(k−r)}` such edges, so the families contain at least `(1 − sh)·dim V_λ` vectors, and the lemma of 4.15 turns them
+into the depth property at the standard lattice and then at every lattice.
 
 Let `13 ≤ p`, in the setting of 4.15, `r_H = r ≥ 2`, `h > 0`, `M₀ := ⌈10^{6r+1}(h + 3)log x⌉` (the statement is made for this value of
 `M₀`, every `h > 0` allowed), the orbit of `v` good (4.15d) with `2L₁ ≤ L₂ < u` and `3G′ ≤ n′` for an integer `L₁ ≥ 1`, and `N₁² ≤ r|𝔗_v|`; top weights with
@@ -1370,12 +1656,22 @@ chains tied to the frames and every joint isotypic projector, the plane coeffici
 on which (L2) is non-degenerate. *(Nd) Non-degeneracy:* every primitive vector in the span of the realised images pairs with a
 realisable vector to a value of valuation `≤ D`.
 
-*NEW*. [FormalProof] states it, with `sh = C|𝔗_v|r²k/Y` (no minimum with `1`), as
+[FormalProof] states it, with `sh = C|𝔗_v|r²k/Y` (no minimum with `1`), as
 `Formalism.MainNotions.tableLineDegreeFive.aux₃` (`Formalism/SharpRestriction/GrowthBounds/TableLineDegreeFive.lean`), proved for an absolute constant as
 `Formalism.MainNotions.G.second_theorem_absolute_constant` (`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`).
 *Needs:* 4.12, 4.14, 4.14b, 4.15, 4.15d, 4.15e′; ArithmeticStatisticsPartIV §3.2.
 
 ### 4.15e′ The plane count
+
+*Origin:* particular to this proof: a count showing that the generators attached to frames of top places span a direct
+summand of nearly full rank, with bounded order degree.
+
+*Method of the formal proof:* the rank is computed modulo the uniformiser: a discriminant of the frame minors is nonzero
+there, multiplication by it carries the reductions of an auxiliary family, built segment by segment from explicit
+independent families indexed by paths of weights, into the reductions of the generators, and the index sets are counted
+from below by products of binomial coefficients with a tail estimate over the good paths; a submodule spanned by
+generators with independent reductions is a direct summand, and the order-degree bound is obtained by summing the bounds
+`o(x)` along the segments.
 
 *Letters and frames.* Let `p ≥ 13`, `n′ ≥ 2` even, `𝔗 ⊂ ℤ/n′` the tops, `k = r + K` with `r ≥ 2` and `K ≥ 1`. A *letter* is an
 integer; it is a vector letter if even and a covector letter if odd, and its *position* is its class modulo `n′`. Every
@@ -1437,7 +1733,7 @@ spanned by elements with independent reductions is a direct summand of rank the 
 reductions; and the order-degree bound, by summing the bounds `o(x)` and the thresholds along a segment. In 4.15e it is
 applied with `Q = p^{G′}`.
 
-*NEW*. [FormalProof], `Formalism/SharpRestriction/GrowthBounds/ValuationLowestDegreeRename.lean`
+[FormalProof], `Formalism/SharpRestriction/GrowthBounds/ValuationLowestDegreeRename.lean`
 (`Formalism.MainNotions.SelectionLemmas.Conclusion2`), with the hypotheses on `𝒪` of `Formalism.MainNotions.G.UnramifiedQuadraticSetting`
 (`Formalism/SharpRestriction/GrowthBounds/UnramifiedQuadraticSetting.lean`, which also names a lift of Frobenius on `W(𝔽_{p^{n′}})`), and with the frames, segment spaces and generators of
 `Formalism/SharpRestriction/GrowthBounds/SegRing.lean` (`Formalism.MainNotions.G.Frames.Valid`,
@@ -1450,6 +1746,15 @@ the lower bound `|𝔽|^{r(k−r)}` for the number of `r`-dimensional subspaces 
 paths of letters and their standard polynomials, and a description of the segment spaces. *Needs:* 4.14c, 4.15, 4.15d.
 
 ### 4.15f Theorem I (medium primes)
+
+*Origin:* particular to this proof: the depth property at medium primes with Hecke type one, for most top weights in a
+box, from the vectors of small depth at the edges into a lattice.
+
+*Method of the formal proof:* for a lattice `L` the vectors of 4.14h at the edges of type `1` into `L` have Gram matrix
+`diag(B_e) + w^c·R`, which after the cofactor matrices is `p^{D_p}·(1 + w^{c−2D_p}·R′)` with unit determinant; the share is
+first defined for flat weights, where the count for the two-letter model splits into the counts for the shifted flat
+weights, and is carried to all weights with the same top weights by product maps between coefficient lattices, the share
+function being a combination of the shares of the flat weights at `(a_s ∓ c″, a⁻_s ∓ c″)`.
 
 In the setting of 4.15 let `r_H = 1`, assume (H_I) of 4.14b, `8D_p < c*` and `4(D_p + 1) ≤ c*` (both hold for
 `c* ≥ 8(D_p + 1)`, the condition of (H_I)). Then there is `sh_v(a, a⁻) ≥ 0`, a function of
@@ -1468,7 +1773,7 @@ That the good orbit of 4.15d satisfies the orbit hypothesis of (H_I): a marked t
 every other top; consecutive even tops are at distance `≤ G′` with at most `N₁` tops between them, and there are at least
 `3r` even tops (consequences of the good-orbit predicate, whose proofs are not given here).
 
-*NEW*. [FormalProof] states the depth statement, with its own form of the threshold, as
+[FormalProof] states the depth statement, with its own form of the threshold, as
 `Formalism.MainNotions.flipOneThree.Conclusion2` (`Formalism/SharpRestriction/GrowthBounds/ProjectionLemmaBaseLevel.lean`), derived in
 `Formalism.MainNotions.G.first_theorem_with_constants` (`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`)
 from the implication "the inputs of 4.14 give the depth statement", which is
@@ -1477,6 +1782,15 @@ and contains the reduction from the two-letter model to all weights that 4.14h (
 *Needs:* 4.14b, 4.14h, 4.15, 4.15d.
 
 ### 4.15a Colengths of lattices exchanged by two operators
+
+*Origin:* adapted from the elementary theory of modules of finite length over a discrete valuation ring (lengths, exact
+sequences): a sandwich bound, the exchange inequality (b) for two operators with `UD = ϖ^e` between two lattices, and the
+subadditivity of the colength under composition.
+
+*Method of the formal proof:* (a) `N/T` is generated by `n` elements killed by `ϖ^e`; (b) the quotient `S′/ϖ^bU(S′)` is
+filtered by `U(B′)`: the top quotient is bounded by (a) through `ϖ^e·s = U(Ds)`, and the bottom one is a quotient of
+`B′/ϖ^bS′`, which injects into `B/ϖ^bS` because `P` is saturated; (c) the sequence `A/h(A) → A/gh(A) → A/g(A) → 0` is
+exact, and induction.
 
 Let `R` be a discrete
 valuation ring with uniformiser `ϖ`; lengths are lengths of `R`-modules.
@@ -1497,9 +1811,18 @@ valuation ring with uniformiser `ϖ`; lengths are lengths of `R`-modules.
 *Check.* `R = ℤ_p`, `M = ℚ_p`, `S = ℤ_p`, `P = M`, `B = p^{−1}ℤ_p`, `b = 1`, `U = p`, `D = 1`, `e = 1`: the left side is
 `length(ℤ_p/p²ℤ_p) = 2`, the right side `length(p^{−1}ℤ_p/pℤ_p) + 1 = 3`.
 
-*KNOWN* (elementary). *Needs:* Mathlib `Module.length`, `Module.Basis.SmithNormalForm`.
+*Needs:* Mathlib `Module.length`, `Module.Basis.SmithNormalForm`.
 
 ### 4.16 The gain sublattice
+
+*Origin:* particular to this proof: a sublattice of controlled index of the lattice of integral forms on which every
+period of the chain is divisible by the net exponent of the ledger.
+
+*Method of the formal proof:* the colength bound of 4.15c is carried from the `∇`-valued forms to the integral forms by the
+sandwich exponent and restricted to the saturated lattice of new forms, and the local inclusion is turned into the global
+one by descent along a basis; for the periods, the local condition places the column in the lattice to which the column
+bound of the kind of prime applies, and the period, being the pairing of the column with the row form, inherits the
+exponent up to the stabiliser term.
 
 Let served data as in 4.9e be given: for each prime `p` (only finitely many, all `< X′`) a
 set `𝒱_p` of places above `p`, empty unless `p` is of split type, with Hecke types and depth data such that
@@ -1532,7 +1855,7 @@ conjugate type). At `d`, 4.10(iii) with 4.11(i). At the type primes, 4.10a (a st
 `K`, or inert above `X″`), 4.10(iv) and 4.11(i): there `𝔊_u = −m·v_p(D_Γ)`. The loss `v_p(D_Γ)` of the class-set pairing
 (ThetaChainsOnDefiniteUnitaryGroups §3.10) is charged in the ledger at each step (`E_{u,j} ∋ v_p(D_Γ)`), so `𝔊_u` is net of it.
 
-*NEW*. [FormalProof] states (i) as the first clause of `Formalism.MainNotions.LinkG_at`
+[FormalProof] states (i) as the first clause of `Formalism.MainNotions.LinkG_at`
 (`Formalism/SharpRestriction/GlobalTheoremInputs.lean`), derived as `Formalism.MainNotions.G.linkG_at_of`
 (`Formalism/SharpRestriction/GrowthBounds/PlaneCountTheoremWithConstants.lean`), and the column bound of the route of (ii), away from the type primes, as
 `Formalism.MainNotions.WeilJacquetShalikaLaw.Conclusion1` (`Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean`).
@@ -1542,6 +1865,18 @@ conjugate type). At `d`, 4.10(iii) with 4.11(i). At the type primes, 4.10a (a st
 *Needs:* FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9e, 4.9f, 4.10, 4.10a, 4.11, 4.12, 4.14, 4.15, 4.15c.
 
 ### 4.16a The kernels at the level prime
+
+*Origin:* particular to this proof: the step kernels at the level prime commute with the level operator up to a power of
+`T` and map Weyl lattices to Weyl lattices with explicit exponents; the relation with `FF_v` in (2) is this roadmap's own
+formulation; the `p`-adic measures of CM theta functions at split primes (Katz) and the isogeny law of theta functions
+are the classical inputs.
+
+*Method of the formal proof:* the kernel at a pair of decorated lattices is written as a jet sum of the normalised theta
+family against a finite datum; the move law follows from the equivariance of that family under a change of the lattices
+at `T`; the two integrality statements follow from a moment theorem (the jets at a place above `T` are moments of a
+measure of norm at most `1`, with a `T`-adic unit period) and from the equality of the Weyl and dual Weyl
+lattices in the closed lowest alcove; the moment theorem is reduced, in an orthogonal frame of the Hermitian lattice, to
+products of powers of translates of the theta function of the CM curve in one variable.
 
 Let `T = T(u) = π_uπ̄_u` (ThetaChainsOnDefiniteUnitaryGroups §2.8), split completely in
 `E`, with `T > 2(Λ_j(τ)_a − Λ_j(τ)_b + N_j)` for all `0 ≤ j ≤ m`, `τ` and positions `a, b` (and `T > 4a_τ` at every top,
@@ -1569,15 +1904,15 @@ comes from the same kernel identity for the moves that define the transpose `D_v
 and the commutation of `K_j` with the diamond operators (ThetaChainsOnDefiniteUnitaryGroups §3.7). Not given here: the kernel identity for two pairs of lattices (it
 rests on the isogeny law of the normalised theta family), hence (2), and the relation with `FF_v` with the value of `c_{j,v}`. (3), (4): at a prime split in `K` the jets of the
 kernel of level `T` are the moments of a bounded measure carried by the lattice points (at `𝔭` above `π̄_u`), resp. by the
-dual support with the index `T^{−fN_{j−1}}` (at `𝔭` above `π_u`) (KNOWN in kind: `p`-adic measures of CM theta functions
+dual support with the index `T^{−fN_{j−1}}` (at `𝔭` above `π_u`) (`p`-adic measures of CM theta functions
 at split primes, Katz, and AutomorphicPadicLFunctionsPartII §§6.3, 7.1 for the Eisenstein–Kronecker theta class, a
 neighbouring theta object whose moments are those of a bounded measure; the moment theorem reduces to a statement for one curve, whose proof is not given here); that a
 table of moments of integral points is an integral map of the `∇`-lattices up to the determinants of the bases used,
 whose valuations give the displayed exponents, is likewise not proved here; and `Δ = ∇` locally at `T` because the
 weights lie below the upper wall of the lowest alcove, `Λ_j(τ)_0 − Λ_j(τ)_{N_j−1} + N_j − 1 < T` (implied by the hypothesis on `T`, which is stronger than needed): for such a weight the Weyl and dual Weyl lattices agree over every discrete valuation ring of residue characteristic `T`, and the induced module
-is simple over a field of characteristic `T` (IntegralWeylModulesOfGeneralLinearGroups §0.2; KNOWN, Jantzen II.5–II.6).
+is simple over a field of characteristic `T` (IntegralWeylModulesOfGeneralLinearGroups §0.2; Jantzen II.5–II.6).
 
-*NEW*. [FormalProof] states (1)–(4), (2) as the law of the kernels without the relation with `FF_v`, as
+[FormalProof] states (1)–(4), (2) as the law of the kernels without the relation with `FF_v`, as
 `GlobalTheory.LvT.Built.Dat.KerDil`, `GlobalTheory.LvT.Built.Dat.KerUK`, `GlobalTheory.LvT.Built.Dat.KerBar` and
 `GlobalTheory.LvT.Built.Dat.KerP` (`Development/AbelianVarietyTheory/Definitions/GlobalTwisting/KerIsTerm.lean`), and proves them for
 the kernels of its chains as `GlobalTheory.T.fivePointLaws_trueChains`
@@ -1587,6 +1922,15 @@ family uses it (4.16b, 4.16c use the move law with `U_v` and its transpose `D_v`
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.3, ThetaChainsOnDefiniteUnitaryGroups §3.7; IntegralWeylModulesOfGeneralLinearGroups §0.2.
 
 ### 4.16b The column bound at the level prime
+
+*Origin:* particular to this proof: along the chain the loss at the level prime is bounded by moving the level operators
+past each step.
+
+*Method of the formal proof:* the forms at the level prime are realised as equivariant functions on points with value
+lattices equal to Weyl lattices; the level operators are moved past each step by the pair law of the kernels and a
+counting identity for incidences, at the cost `T^{(t+1)/2}` per place and step, each step with its product of level
+operators maps value lattices into value lattices up to a fixed power of `T`, and an induction along the chain adds the
+exponents to `m·𝔢_u`.
 
 With 4.16a, `T(u) > 2f·N_m + 1` and `a⁻_τ ≥ 0` at every top `τ`: for every tuple `ξ`
 unramified above `T(u)` and every `𝔭 | T(u)`, `T(u)^{m·E_{u,1}(𝔭)}·col_ξ(N_T(𝔭)) ⊂ ℳ^{int}_m` locally at `𝔭` (`E_{u,j}(𝔭)` of
@@ -1604,7 +1948,7 @@ coordinates of the dual class lattice of `d̃` and has no scalar there; the fact
 Only the column bound (this target), the colength of `N_u` (4.16c) and the archimedean factor of ThetaChainsOnDefiniteUnitaryGroups §3.9(c) involve the level
 prime, on three different maps (the column, the inclusion `N_u ⊂ M_u`, the restriction): nothing is counted twice.
 
-*NEW*. [FormalProof] states the column bound as `Formalism.MainNotions.product_first_zeroth_parts.Conclusion5Sharp`
+[FormalProof] states the column bound as `Formalism.MainNotions.product_first_zeroth_parts.Conclusion5Sharp`
 (`Formalism/SharpRestriction/GlobalSchurBounds/ProductFirstZerothParts.lean`) and derives it, with a lower bound on `T(u)` among its hypotheses, from the kernel laws of 4.16a as
 `GlobalTheory.LvT.Built.Assemble.sharpBound_stability_latticeColumnChain`
 (`Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/SharpBoundStabilityLatticeColumnChain.lean`).
@@ -1613,6 +1957,15 @@ For the used tuples other than the base tuple it states the column bound as `For
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, 4.9f, 4.11, 4.16, 4.16a.
 
 ### 4.16c The colength at the level prime
+
+*Origin:* particular to this proof: the colength of the gain sublattice at the level prime (the count), computed from the
+mean weight of a Weyl lattice and an exchange lemma for two operators; the form of (b) with `|Λ_0(τ_v)|` in place of the
+bound through `a_max` and `𝔴_u` is this roadmap's own formulation; the symmetry of weight multiplicities is classical.
+
+*Method of the formal proof:* for each place `v` the operator `T^{a⁻}·U_v` maps the lattice of new forms into itself, and
+the exchange lemma for two operators with `U_v∘D_v = T^{k−1}` bounds the colength of its image by
+`length(B_v/T^{a⁻}S) + e_𝔭·(k−1)·d^{all}_u`; subadditivity of the colength under composition adds these bounds over the places and
+over the `m` powers.
 
 Let `T = T(u)` be as in 4.16a, with `a⁻_τ ≥ 0` at every top. Let `𝔭 | T(u)` lie above `π_u`, `S` the
 lattice `ℳ^{int}_0 ⊗ 𝒪_𝔭` of integral forms of level `0` (values in `Δ(Λ_0; L^♯_𝔡)`), and for `v ∈ 𝒫(𝔭)` (4.16) with top `τ_v` let
@@ -1643,11 +1996,13 @@ the weights `2ϱ(𝔭)` (`Σ_{𝔭|π_u}ϱ(𝔭)e_𝔭 = ½log T(u)`, and `|𝒫
 between `S` and `B_v`, and the description of `B_v` in coordinates (surjectivity of the coordinate map for trivial
 stabilisers).
 
-*NEW* (the count), *KNOWN* in kind (symmetry of weight multiplicities). (a): [FormalProof],
+(a): [FormalProof],
 `Formalism/LocalToGlobal/GlobalTheory/GL6/CongruenceNoKernelOfHeckeRamified.lean` (`Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.HeckeIntegralLevelZero`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.7, ThetaChainsOnDefiniteUnitaryGroups §3.8, 4.15a, 4.16, 4.16a; ClassicalGroups §4.3; ReductiveGroups §10B.
 
 ### 4.17 Definitions: the data of the gain inequality
+
+*Origin:* definitions and conventions.
 
 Fix, before `ε`, constants `A_w` (the constant of the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), `c_io ≥ 1`
 and the minimum `ω₀ ∈ (0, 1]` of the coset profile of FrobeniusRestrictedRieszSums §0.7. After `ε`, and before the scale,
@@ -1720,7 +2075,7 @@ A check of the cited sandwich exponent, outside the ranks of the chain (which ha
 `max_iv_p(C(n, i)) = ⌊log_p(n + 1)⌋ − v_p(n + 1)`: the bound `⌊log_p(n + 1)⌋` of IntegralWeylModulesOfGeneralLinearGroups §0.3 (b) is
 attained exactly when `p ∤ n + 1`, and the sharper form with `dim V_λ = n + 1` is exact.
 
-*NEW* (definitions). `Drop`: [FormalProof], `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.NoGain`);
+`Drop`: [FormalProof], `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.NoGain`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Cand`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.InBand`).
 The band `ρ_B`: [FormalProof], `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.rhoB`).
@@ -1733,6 +2088,15 @@ is the product of two constants chosen after `ε`, the first at least `2C_H` and
 *Needs:* FrobeniusRestrictedRieszSums §0.3, FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, FrobeniusRestrictedRieszSums §0.7, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.9, 4.9e, 4.14b, 4.15, 4.15d, 4.15e, 4.15f, 4.16.
 
 ### 4.17a The gain inequality
+
+*Origin:* particular to this proof: the gains of the chain, less the colength of the gain sublattice, dominate the ramp
+sums of the top places, which are the local terms of the Frobenius-restricted prime sums.
+
+*Method of the formal proof:* the ramp identity turns the ask of a top into `γ_LT·a` minus a sum of minima, the matching
+lemma charges the main term of the depth and the price at the odd tops to the minima at the even tops, and an inequality
+between the remaining quantities, valid at large scale, gives for each served orbit that its asks less the losses are at
+most its refined gain less its price and depth; the statement follows by a case analysis on whether the prime has served
+places, splits in `ℚ(√−q)` or is at least `X′`.
 
 Data of 4.17.
 (i) *Ramp identity and matching lemma.* `Σ_{e odd}(x/p^e − c_e)₊ = γ_LTx − Σ_{e odd}min(x/p^e, c_e)`; and for `n′` even,
@@ -1767,7 +2131,7 @@ split type `Σ_{v|p}dl_v = C_d·f·N_m²·log_p(2a) + C′_d·|Φ_top|·log_p(2a
 orbit is not given here. Tops whose orbit at `p` is not served are not in `Φ_top(𝔭)` when `p < X′` is inert in `K` and in `ℚ(√−q)`;
 their ask is bounded in 4.17c.
 
-*NEW*. [FormalProof] states the ramp identity of (i), for `x, c_e ≥ 0`, as `Formalism.MainNotions.AuxBlock8.Pf.tsum_pos_add_min`
+[FormalProof] states the ramp identity of (i), for `x, c_e ≥ 0`, as `Formalism.MainNotions.AuxBlock8.Pf.tsum_pos_add_min`
 (`Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/TsumTruncatedShiftLe.lean`), the matching lemma as
 `Formalism.MainNotions.AuxBlock8.Pf.St.kink` (`Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/PartnerCountOfCentral.lean`), and (ii), with its
 own ledger, losses and classes of primes, as `Formalism.MainNotions.AuxBlock8.Pf.GainBoundAtPairUniform`
@@ -1776,6 +2140,16 @@ own ledger, losses and classes of primes, as `Formalism.MainNotions.AuxBlock8.Pf
 proved as `Formalism.MainNotions.AuxBlock8.Pf.St.star_fam`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b, 4.9e, 4.9f, 4.14, 4.15f, 4.15e, 4.16, 4.17; IntegralWeylModulesOfGeneralLinearGroups §0.3 (through 4.9e (f)).
 
 ### 4.17b Size of the loss
+
+*Origin:* particular to this proof: the losses of the gain inequality, summed over the primes with the weights `log p`,
+are of the order of `b` (orders of magnitude).
+
+*Method of the formal proof:* each loss term is bounded prime by prime by constants times indicators of the ranges
+`p ≤ X″`, `p < p₀` and `p < X′`, the sums over the primes are bounded by the trivial count of the primes, by Chebyshev's
+bound `Σ_{p≤y} log p ≤ log 4·y` and by `Σ_{p<y} log p/p ≤ log y·(1 + log y)`, and the resulting products are compared with
+`a/x`, in which [FormalProof] states the result, by inequalities between the parameters that hold at large scale. The
+route written here instead uses Mertens' theorem for `Σ log p/p`, and Chebyshev's bound for the term common to all
+primes.
 
 Data of 4.17. Under `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1), `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b), `k ≥ x²s_max³log a` and `X″·(Sc + k + ϑ)·log(2a) ≤ b`, for `x ≥ x₀(ε)`:
 `Σ_{p<X′}(log p)·(ℒ(p) − C(Sc + k + ϑ)lg_p(2a)) ≤ C₁·b`, `C₁` depending only on the constants fixed before `ε`, and
@@ -1795,12 +2169,23 @@ which also gives the second sum. The floors: `lg_p(2a) ≤ log_2(2a) + 1 ≤ 3·
 *Checks.* `Σ_{p<p₀}log p·[C·r_G·b′·log x] ≤ C·p₀·r_G·b′·log x = C·k²Y_II·r_G·log x·x·b/X′ = o(b)`. Without the hypothesis on `ϑ` the
 sum fails: for `ϑ = b′/4` the term `C·ϑ` summed over `p₀ ≤ p < X′` with weight `log p` is about `C·X′b′/4 = C·x·b/4`.
 
-*NEW* (orders of magnitude). It follows from [FormalProof],
+It follows from [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.WeightedPrimeSumBound`);
 `Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/SecondConstantNonneg.lean` (`Formalism.MainNotions.AuxBlock8.Pf.G5.PrimeSumNumericFacts`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib Chebyshev bounds.
 
 ### 4.17d Selection of the tops
+
+*Origin:* particular to this proof: by the probabilistic method there is a selection of the top places for which few of
+them, weighted over the primes, lie on orbits that are not good; the statement for a general profile `ω ≥ ω₀` is this
+roadmap's own formulation.
+
+*Method of the formal proof:* for the coset profile with `ω₀ = 3/4` (probability `δ_top` on `A₀` and `3δ_top/4` off it),
+the probability that a position is a top with a bad orbit is the probability that it is a top times an expectation over
+the other positions of its orbit, to which the bound of 4.15d applies, and a selection is obtained by a first-moment
+argument for the sum of the normalised squared deviations of the coset counts and the normalised weighted count of the
+bad tops, whose mean is at most `3/4`. The route written here instead combines an event of probability at least `1/2`
+with Markov's inequality.
 
 Data of 4.17, with `ω₀ ≥ 3/4` (the size hypothesis `δ_top|A| ≥ 36o²/ω₀²` of the second sentence of FrobeniusRestrictedRieszSums §0.7 (i)
 holds by 4.17).
@@ -1831,14 +2216,24 @@ probability at least `1/2`, (i),
 `n_top ≤ δ_top|A| ≤ 2|Φ_top|` on the event of (i), by its second sentence);
 `Σ_{p<X′}log p/p ≤ log X′ + C` (Mertens), and `x^{−2}·x^{ε/3} = o(x^{−2+ε})`.
 
-*NEW*. [FormalProof] makes the selection for the uniform law (every position a top with probability `δ_top`, the profile
-`ω = 1`), under `δ_top|A| ≥ 16`, with the conclusions `δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|` and
-`Z_bad ≤ 4C_bx^{−2}·δ_top|A|·Σ_{p∈I}log p/p` (`Formalism.MainNotions.J.TopsOK`), as `Formalism.MainNotions.J.tops_exist_of`
-(`Formalism/SharpRestriction/AdmissibleParameterJoins/GandSa.lean`); the statement for a general profile `ω ≥ ω₀` is this
-roadmap's own, and at the profile `ω = 1` its Route gives the conclusions of [FormalProof].
+[FormalProof] makes the selection for the coset profile with `ω = 1` on `A₀` and `ω = 3/4` on the other cosets of `A₀`
+(probability `δ_top` on `A₀` and `3δ_top/4` off it; `ω₀ = 3/4`), with the conclusions `δ_top|A|/2 ≤ |Φ_top| ≤ 2δ_top|A|`,
+the shares of the cosets of `A₀` within `x^{−1+ε}·|Φ_top|` of `4/(3o + 1)` on `A₀` and `3/(3o + 1)` on each other coset, and
+`Z_bad ≤ 4C_bx^{−2}·δ_top|A|·Σ_{p∈I}log p/p` (for any nonnegative weights in place of `log p/p`), as
+`UpperTheory.BernoulliSumsFrobeniusOrbits.topsGroup` (`Development/AutomorphicArithmetic/ThickFrames/topsGroup.lean`); the
+statement for a general profile `ω ≥ ω₀` is this roadmap's own.
 *Needs:* FrobeniusRestrictedRieszSums §0.7, 4.15d, 4.17; AnalyticNumberTheoryPartI §0.11 (Mertens); Mathlib probability (independent Bernoulli variables, binomial tails).
 
 ### 4.17c The choice of the top weights
+
+*Origin:* particular to this proof: the top weights are chosen by averaging over a box so that the shares of the depth
+theorems are small, and the top places left unserved cost little in the prime sums.
+
+*Method of the formal proof:* the indicator of a large share is bounded by `x^ε` times the share, the mean of `W` over the
+boxes is bounded through the mean of the shares of 4.15f and the pointwise shares of 4.15e, and a point of the boxes at
+which `W` is at most its mean is chosen; the excluded tops are then charged, prime by prime, to the short orbits, the
+band, the orbits that are not good and `W`, and the sums over the primes are taken with the two properties of the host
+and the bounds of 4.17b and 4.17d.
 
 Data of 4.17. Assume `Y_I ≥ C·m|Φ_top|·s_max·x^{c_io+2ε}·log X′` and
 `Y_II ≥ C·m|Φ_top|·r_G²k·x^{c_io+2ε}·log X′`. Let the top weights range over the boxes `a_τ ∈ [a, a + a/(kY_I)]` (the top
@@ -1896,7 +2291,7 @@ and their derivation from the losses of 4.17 is not given here.
 The bound on `Σ log p·𝔦(p)`: by 4.14 (a), `𝔵_v ≤ mγ_LT(p)Σ_{s∈𝔗_v}α_s` with `γ_LT(p) ≤ (1 + 1/168)/p` (`p ≥ 13`) and `α_s ≤ (1 + θ_a)a`, so
 `𝔦(p) ≤ 2𝔖(p)·m·(1 + 1/168)(1 + θ_a)a|Φ_top|/p ≤ 2.02·𝔖(p)·m·a|Φ_top|/p` for `x ≥ x₀`, and `Σ_p log p·𝔦(p) ≤ 2.02·m·a|Φ_top|·W/4`.
 
-*NEW*. (i) and (ii) follow from [FormalProof],
+(i) and (ii) follow from [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/LogarithmicSums/DfcHigh.lean` (`Formalism.MainNotions.AuxBlock8.Pf.G5.sdiff_le`);
 `Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.adm3`);
 `Formalism/SharpRestriction/GrowthBounds/SmallOrderPrimes.lean` (`Formalism.MainNotions.AuxBlock8.ArchimedeanSignatureMatching`).
@@ -2055,7 +2450,8 @@ Not owned here. The first part of Layer 4, TaylorBoundsAndDepthsOnHeightTwoForma
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target marked *NEW*; the file paths given at a target are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every target that carries a `*Method of the formal proof:*` label; the file paths given at a target are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999): 4.12. D. Mumford, *Abelian Varieties* (the theorem of the cube); K. Weierstrass (the sigma function): 4.9a.
-- J. Lubin and J. Tate (1965); T. Honda (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.9–4.10 here, and the first part of Layer 4 (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c). B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974). P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967). R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962): 4.9d. F. G. Frobenius and L. Stickelberger (the sigma function and the theorem of the cube): 4.9a. K. Mahler; Y. Amice (binomial polynomials on discs): 4.14a. P. Pieri; D. P. Zhelobenko (branching): 4.14f. J. C. Jantzen, *Representations of algebraic groups*, II.5–II.6: 4.16a. H. Chernoff (tail bounds): 4.17d. K. Bannai and S. Kobayashi (2010): 4.10. P. Doubilet, G.-C. Rota and J. Stein (1974); C. De Concini, D. Eisenbud and C. Procesi (1980): 4.12. H. Hida: 4.12. S. Rallis (1982); S. Kudla (1986, 1994): 4.12.
+- J. Lubin and J. Tate (1965); T. Honda (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.9–4.10 here, and the first part of Layer 4 (TaylorBoundsAndDepthsOnHeightTwoFormalGroups §§4.1–4.8c). B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974). P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967). R. Jacobowitz, *Hermitian forms over local fields*, Amer. J. Math. 84 (1962): 4.9d. F. G. Frobenius and L. Stickelberger (the sigma function and the theorem of the cube): 4.9a. K. Mahler; Y. Amice (binomial polynomials on discs): 4.14a. P. Pieri; D. P. Zhelobenko (branching): 4.14f. J. C. Jantzen, *Representations of algebraic groups*, II.5–II.6: 4.16a. H. Chernoff (tail bounds): 4.17d. K. Bannai and S. Kobayashi (2010): 4.9a, 4.10a. P. Doubilet, G.-C. Rota and J. Stein (1974); C. De Concini, D. Eisenbud and C. Procesi (1980): 4.12. H. Hida: 4.12. S. Rallis (1982); S. Kudla (1986, 1994): 4.12.
+- T. Finis, *Divisibility of anticyclotomic L-functions and theta functions with complex multiplication*, Ann. of Math. 163 (2006) 767–807: 4.10a. A. Mínguez, *Correspondance de Howe explicite: paires duales de type II*, Ann. Sci. École Norm. Sup. (4) 41 (2008) 717–741: 4.12. R. Tange, *A bideterminant basis for a reductive monoid*, J. Pure Appl. Algebra 216 (2012) 1207–1221 (arXiv:1002.4642), Theorem 3.2 and its corollary: 4.14c′. R. Dipper, S. Doty and F. Stoll, *Quantized mixed tensor space and Schur–Weyl duality*, arXiv:0810.1227: 4.14c′. A. W. Knapp, *Lie Groups Beyond an Introduction*, 2nd ed., Progress in Math. 140 (2002), Corollary 9.6, p. 560: 4.14f′.

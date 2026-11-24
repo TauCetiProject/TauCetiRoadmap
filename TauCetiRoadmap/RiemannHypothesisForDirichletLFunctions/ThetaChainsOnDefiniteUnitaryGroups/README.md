@@ -139,9 +139,10 @@ never of the column or of the place at which the column is bounded: a bound for 
 the column at `𝔭` and the row form at `c_𝕃(𝔭)` (`Υ^c` is integral at `𝔭` exactly when `Υ` is integral at `c_𝕃(𝔭)`;
 3.10).
 
-**Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target marked *NEW*
-states what that proof establishes; where a target is stated in greater generality, its status line says so. Where a
-route is not given, or not given in full, the target says so in its route. The
+**Routes.** The mathematics of this roadmap follows a complete formal proof ([FormalProof]); every target whose origin
+is particular to this proof states what that proof establishes; where a target states more than that proof
+establishes, or is stated in greater generality, its `*Origin:*` and `*Method of the formal proof:*` labels and its
+`*Sources:*` line say so. Where a route is not given, or not given in full, the target says so in its route. The
 conditions (T1), (T2) of 2.5 are conditions on the twisting datum.
 
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
@@ -149,6 +150,20 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own and is not in [FormalProof]; it is proved by
 the route written here, except at the steps that the route names as not given, which [FormalProof] proves only in the
 range recorded at the target (3.1d, 3.3).
+
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 2.2, 2.2a and 2.9–2.9c carry the first
+label only. Parts of the statements of 2.3a, 2.4 (a), 2.5 (a), 3.1, 3.1a, 3.1b and 3.7, and 3.1d and 3.3 for the hosts
+other than those of FrobeniusRestrictedRieszSums §0.4, are not statements of [FormalProof]; the labels of these
+sections say which.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. As long as that general theorem is not in the library, what the line covers is proved as
+[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
+that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs.
+Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and
+the lemmas that only the first proof uses are removed. The statement does not change.
 
 **Quantifier order and sizes.** Constants named before `ε` do not depend on `ε`; the scale `x` and everything chosen at
 it come after `ε`. Between them come the numbers that may depend on `ε`: the layer exponent `A_n` (`2 + 8ε` in the
@@ -267,6 +282,13 @@ condition (every place of `F` above a prime dividing `f_E` splits in `E`) is a s
 
 ### 2.1 Ranks, scales and size predicates
 
+*Origin:* particular to this proof: the definitions of the ranks, the scale and the size conditions of the chain; the
+lemma is elementary arithmetic with the conductor–discriminant formula.
+
+*Method of the formal proof:* the ranks, the scale and the size predicates are records of hypotheses, and the lemma is
+checked clause by clause, by integer arithmetic for the ranks and by comparing exponents of `x` after taking logarithms
+for the sizes; the bound on `log rd_E` is read off `rd_E ≤ (Q_S/2)·√(qd)` and the windows of `|A|`, `log q` and `log d`.
+
 *Definitions.*
 
 *Ranks.* `ChainRanks f` is the set of triples `(k, m, t)` of integers with `k, m` even, `m ≥ 2`, `t` odd and
@@ -381,7 +403,7 @@ and `t ≤ x^{400}` with `C_t = 401`, every parameter predicate holds for large 
 `x^{ε/100}` in the windows of `SizeM` and `SizeK` and a factor `x^{0.30ε}` in the first bound of `SizeW`
 (`x^{ε/100}m⁵fx^{2ε} ≍ x^{9/2+9.70ε}`).
 
-*NEW* (definitions). `ChainRanks f` and the derived ranks follow from [FormalProof],
+`ChainRanks f` and the derived ranks follow from [FormalProof],
 `Formalism/LocalRingCardinality/Params.lean` (`Formalism.BasicNotions.Ranks`),
 `Formalism/LocalRingCardinality/NFLeTwoMulTSq.lean` (`Formalism.BasicNotions.ParamsT.nV_eq`),
 `Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PairRowIffQdRows.lean` (`GlobalTheory.EX.RankVal`); the scale:
@@ -395,6 +417,8 @@ and `t ≤ x^{400}` with `C_t = 401`, every parameter predicate holds for large 
 formula: `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm`).
 
 ### 2.2 The spaces of the chain
+
+*Origin:* definitions and conventions.
 
 *Construction and lemma.* Let the host be as in the introduction of this layer, `(k, m, t)`
 ranks of 2.1, and `T = N_{K/ℚ}(π_T)` with `π_T ∈ 𝒪_K`, `T > 0`. All spaces are `E^n` with diagonal Hermitian forms
@@ -450,7 +474,7 @@ determinant class from the standard `X_m` there and could not be isometric to it
 and `X_m` be standard. For `E = ℚ(√−3, √−7)` and `K = ℚ(√−7)` (`SplitRamification 7` fails, FrobeniusRestrictedRieszSums §0.3) `𝔇_{E/K}` is the prime
 above `3`, which is its own conjugate, and no `𝔟` as in (f) exists.
 
-*KNOWN* (construction). The spaces and the lemma: [FormalProof], `Formalism/LocalRingCardinality/DataSpaces.lean`
+*Sources:* (construction). The spaces and the lemma: [FormalProof], `Formalism/LocalRingCardinality/DataSpaces.lean`
 (`Formalism.BasicNotions.Spaces`), `Formalism/LocalRingCardinality/Params.lean` (`Formalism.BasicNotions.Ranks.sigY0`),
 `Formalism/LocalRingCardinality/DataHost.lean` (`Formalism.BasicNotions.Host.xi0`). There the skew element is
 `−1/(N(𝔠)·√−d)` for a nonzero ideal `𝔠` of `𝒪_K` carried by the host, and the identity of (f) holds for it with `𝔠𝒪_E·𝔞₀` in
@@ -461,6 +485,9 @@ gives `δ_T` and `𝔞₀` of (f), and a general `𝔠` gives the skew element `
 NumberFieldArithmetic (Completed; the different in towers).
 
 ### 2.2a The normal form of a step
+
+*Origin:* definitions and conventions; the normal form of a step, in which a step keeps the Harish-Chandra parameters of
+the earlier steps, is particular to this proof.
 
 *Definition (the normal form of a step) and lemma.* Let the host be as in the introduction
 of this layer, `S`, `T` Hermitian spaces over `E` (conjugate-linear in the first variable) and `δ ∈ ℚ_{>0}·δ_T` (2.2(f);
@@ -547,7 +574,7 @@ sends `λ` to `−λ`: a tower of tensor pairs could not keep the parameters of 
 type `V_{(μ,0)+b}`, and not the dual of such a type (those have first entry `−b = 9`); so only the conjugate kernel pairs with
 it, and the descent has highest weight `(4, −3)`, Harish-Chandra parameter `(9/2, −7/2) = (5, −3) − ½`.
 
-*KNOWN* in kind (Weil; Howe; Kudla's splittings), the normal form and the conventions *NEW* in this form. The conjugate
+*Sources:* (Weil; Howe; Kudla's splittings). The conjugate
 datum of (b) and the convention (c) are this roadmap's formulation: the construction that [FormalProof] follows uses the
 representation of (a) with the complex conjugates of the row forms and row vectors of 2.9a, 2.9c, which is the same pair.
 (a) at the split places: [FormalProof], `Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean`
@@ -556,6 +583,15 @@ representation of (a) with the complex conjugates of the row forms and row vecto
 ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; MetaplecticAutomorphicForms §3.3 and ThetaKernelsForUnitaryDualPairs §4.4a; ThetaKernelsForUnitaryDualPairs §3.46a.
 
 ### 2.3 Chain weight data and words
+
+*Origin:* particular to this proof: the definitions of the weights of the chain (interlacing parameters, nodes, one
+segment per step) and of the family of weights indexed by binary words; the lemma is elementary, with the classical
+branching rule from `GL_N` to `GL_{N−1}`.
+
+*Method of the formal proof:* the weight data are records whose fields are the interlacing and gap conditions, and the
+monotonicity statements are proved by comparing consecutive entries; for (g) the conjugates of a root of unity over `K`
+are paired off by the involution `c·σ_d ∈ Gal(E/K)`, which inverts every root of unity because the inertia element `σ_d`
+fixes them, so the norm is `1`. The route given here proves (g) from `K ⊄ ℚ(ζ)` instead.
 
 *Definitions.* Fix ranks `(k, m, t)` (2.1). A *chain weight datum* consists of, for every
 `τ ∈ Φ`:
@@ -655,7 +691,7 @@ weight `σ`, and the descended parameter is that of stage `m` without `S(−w_m,
 other stages the same rule gives `+½` from an odd to an even stage and `−½` from an even to an odd one, hence the shift
 `−½` exactly at the odd stages.
 
-*NEW* (definitions); the lemma is elementary. The data `u(τ)`, `v(τ)`, `e′(τ)`, `e(τ)` with the interlacing, (W1), (W2),
+The lemma is elementary. The data `u(τ)`, `v(τ)`, `e′(τ)`, `e(τ)` with the interlacing, (W1), (W2),
 the step weights, `(U_j)`, the words and `Sc`: [FormalProof], `Formalism/LocalRingCardinality/Params.lean`
 (`Formalism.BasicNotions.HCParam`), `Formalism/LocalRingCardinality/DataHost.lean` (`Formalism.BasicNotions.Host.MuCond`),
 `Formalism/SharpRestriction/CuspSpanNormBounds/DataS.lean` (`Formalism.MainNotions.S.Draft.SData`); (W3)–(W6) follow from
@@ -665,6 +701,13 @@ the step weights, `(U_j)`, the words and `Sc`: [FormalProof], `Formalism/LocalRi
 *Needs:* 2.1, 2.2, 2.2a; ClassicalGroups §6.1.
 
 ### 2.3b Adapted weight data
+
+*Origin:* particular to this proof: the definitions of the windows of the weights at the top, thick and thin places; the
+lemma is elementary.
+
+*Method of the formal proof:* the windows are verified for the explicit datum of 2.3a, whose nodes and step weights are
+arithmetic progressions `b₁(τ) + i·h₀` and `b₁(τ) + (j − ½)·h₀`, by linear arithmetic from the floor and ceiling bounds
+on the base points.
 
 *Definitions and lemma (adapted data).* A chain weight datum (2.3) is *adapted* to a host
 with tops `Φ_top` and a translate `u₀` (FrobeniusRestrictedRieszSums §0.6), to a scale (2.1) and to the letter step `Δ_w` if:
@@ -707,9 +750,16 @@ Route: (f) `λ_l = u_l − (k−1)/2 + l`; `Sc` is polynomial in
 at a thin place `w_j ≤ w″ + ϑ ≤ 2b′`, and elsewhere `−λ_{k−1} = −u_{k−1} − (k−1)/2 ≤ Sc ≤ w″ ≤ w_1`; the step weights lie
 in a window of width `≤ ϑ + 1` and `e′_0 ≥ w_1 − ϑ`.
 
-*NEW* (definitions); the lemma is elementary. *Needs:* FrobeniusRestrictedRieszSums §0.6, 2.1, 2.3.
+The lemma is elementary. *Needs:* FrobeniusRestrictedRieszSums §0.6, 2.1, 2.3.
 
 ### 2.3c Thresholds, separation and the gap size
+
+*Origin:* particular to this proof: the definitions of the thresholds and of the separation conditions on the weights;
+the implications are elementary.
+
+*Method of the formal proof:* the thresholds are definitions, and the gap statements are read off the equal spacing of
+the nodes and the lower bounds for that spacing, with a case distinction on the position of two consecutive entries of
+the row parameter.
 
 *Definitions (thresholds, separation, the gap size).* For a chain weight datum (2.3) on a host
 of FrobeniusRestrictedRieszSums §0.4 at a scale (2.1), put `D_* := |A|·t²·(N_m + t)·x^{2ε} + k·|A|²·(Sc + t + x^ε)`, `ℓ* := m b/D_*` and
@@ -743,12 +793,20 @@ the gap conditions of the Gram bounds and of the separation statements for the r
 
 *Check.* A datum with `e_i − e′_i = (t + 3)/2` satisfies (W1) and violates (W7).
 
-*NEW* (definitions; the implications are elementary). `D_*`, `ℓ*`, `ℓ_A` and the first two clauses of `SizeSep`:
+`D_*`, `ℓ*`, `ℓ_A` and the first two clauses of `SizeSep`:
 [FormalProof], `Formalism/SharpRestriction/ElevenLe.lean` (`Formalism.MainNotions.szlStar`); (W7), `SizeGap` and the gaps
 of the row parameter follow from [FormalProof], `Formalism/SharpRestriction/ElevenLe.lean` (`Formalism.MainNotions.SizeNodes`).
 *Needs:* FrobeniusRestrictedRieszSums §0.4, 2.1, 2.3, 2.3b.
 
 ### 2.3a Existence of adapted, separated data
+
+*Origin:* particular to this proof: an explicit weight datum meeting all conditions, by elementary verification.
+
+*Method of the formal proof:* the datum is written down explicitly (arithmetic progressions for `v` and for the nodes,
+the bits of the word in the middle entries of `u`), and the unit conditions are obtained by shifting the base point at
+one thick place by the exponent `s₁ ∈ [0, |μ_E|)` that cancels the root of unity `∏_τ τ(ζ_E)^{b₁(τ)}` for a generator
+`ζ_E` of `μ_E`. [FormalProof] proves that such an `s₁` exists; that it is the only one in `[0, |μ_E|)` is proved by the
+route given here.
 
 *Existence of adapted, separated data.* Let a host of FrobeniusRestrictedRieszSums §0.4 satisfying the
 hypotheses of this layer with `d ≥ 5` be given, with tops `Φ_top`, a translate `u₀` with at least one thick place, a
@@ -783,9 +841,22 @@ and every `j`.
 
 *Check.* `μ_E = {±1}`: the condition is that `Σ_τ b₁(τ)` be even, and `s₁ ∈ {0, 1}` corrects its parity.
 
-*NEW* (elementary). *Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, 2.1, 2.3, 2.3b, 2.3c.
+*Needs:* FrobeniusRestrictedRieszSums §0.4, FrobeniusRestrictedRieszSums §0.6, 2.1, 2.3, 2.3b, 2.3c.
 
 ### 2.4 Hecke characters of the chain
+
+*Origin:* adapted from Barnet-Lamb, Gee, Geraghty and Taylor (2014), Lemma A.2.4, and Weil (1955): Hecke characters of a
+CM field with prescribed restrictions to the finite ideles of its totally real subfield, to the units at a finite set of
+places and to the field itself, and with a prescribed infinity type; here the character is moreover unramified at every
+other finite place, the existence criterion `(★)` with its "only if" direction and the description of all solutions are
+this roadmap's own formulation, and (b) constructs the characters of the chain.
+
+*Method of the formal proof:* a character with the prescribed infinity type and local characters is first written on the
+unit ideles; for the characters trivial on `𝔸_F^×` it is extended to a character of `𝔸_E^×` trivial on the norm-one
+elements of `E^×`, which is possible because the norm-one units are roots of unity and the condition on roots of unity
+holds, and the Hecke character is its composite with `z ↦ z/z̄`; for the splitting character it is extended together
+with the values of `η` at the uniformisers of `F`, the compatibility being `(★)`, which is reduced to the product
+formula on `F^×` by dividing `x` by an element `x′ ∈ E^×` with `x′/x̄′ = x/x̄`.
 
 (a) *Existence criterion.* Let `E/F`
 be a CM extension unramified at every finite place, `η = η_{E/F}`, `n_η ∈ {0, 1}`, `S_θ` a finite set of finite places of
@@ -894,7 +965,7 @@ the Hilbert class field of `E` (infinitely many, Chebotarev), and `𝔓 = (α)` 
 is trivial on `E^×` and unramified, `η̃(ϖ_𝔓) = η̃_∞(α)^{−1} = (∏_{τ∈Φ}τ(α)/|τ(α)|)^{−1} = √p/N_{E/K}(α)` (`∏_{τ∈Φ}|τ(α)| = N_{E/ℚ}(α)^{1/2}`);
 the fields `K(√p)` for these `p` are pairwise different, so the values of `η̃` generate an infinite extension of `ℚ`.
 
-*KNOWN* in kind (Hecke; Weil 1955). The criterion in this generality, with its "only if" direction and the description
+*Sources:* (Hecke; Weil 1955). The criterion in this generality, with its "only if" direction and the description
 of the solutions, is this roadmap's own formulation, proved by the extension argument above; [FormalProof] establishes
 the existence of the characters of (b) for the hosts of the chain, which is the case of the "if" direction used later.
 The characters of (b), the type characters and the bad places: [FormalProof],
@@ -918,6 +989,23 @@ GlobalNumberFields (Completed) Layers 8–10; ClassFieldTheory Layer 11 (`η_{E/
 BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a (splitting characters without prescribed ramification).
 
 ### 2.5 Twisting characters and twisting data
+
+*Origin:* adapted from Gras and Munnier (1998), Théorème 1.1 and Remarque 5.2: the criterion for the existence of cyclic
+extensions of a number field totally ramified at a prescribed set of places; here anticyclotomic characters of a CM
+field of `ℓ`-power order, ramified exactly at a split pair `{𝔓, 𝔓̄}` with inertial order `ℓ^M` and trivial on the
+decomposition groups above `ℓ`, with the explicit governing field `E_{ℓ,M}` and the density, which are this roadmap's
+own formulation; the twisting data of (b) are particular to this proof.
+
+*Method of the formal proof:* for a finite set `S` of places of `E` that contains the places above `ℓ` and generates the
+class group, and a place `𝔓` outside `S` that splits completely in `E(μ_{ℓ^M}, (𝒪_{E,S}^×)^{1/ℓ^M})`, the `ℓ^M`-th power
+residue symbol at `𝔓` is trivial on the `S`-units, so it defines a character of all fractional ideals (the symbol of a
+generator away from `S`); Artin reciprocity for conductor `𝔓` gives a character of `G_E` ramified only at `𝔓`,
+surjective on inertia there and trivial on the decomposition groups above `ℓ`, and its quotient by its complex conjugate
+is the anticyclotomic character; the twisting datum is a record, filled by passing from Galois characters to Hecke
+characters through the Artin map. This is the usual governing-field argument with two changes: the set `S` is taken so
+large that the character is defined on all ideals with no extension step, and anticyclotomy is obtained by dividing by
+the conjugate instead of working on `U(1)`; the primes come from Chebotarev's theorem, as an existence statement, where
+they are chosen; the density of (a), for the field `E_{ℓ,M}`, is proved by the route given here.
 
 (a) *Admissible twisting primes.* Let `E/F` be a CM extension,
 `ℓ` a prime, `M ≥ 1` and `Z` a finite set of places of `E`. Put `E_{ℓ,M} := E(μ_{ℓ^M}, β^{1/ℓ^M} : β ∈ 𝒪_E[1/ℓ]^×)` and let
@@ -1005,13 +1093,27 @@ the step characters at a twist place would differ from block to block of a row s
 character on a parahoric of type `(r, n_j − r)`) would not exist: hence one sign. (v) The condition on `Z₀` cannot be dropped:
 if `Z₀` contained a place above `p_δ`, then for `ℓ ≠ p_δ` and `𝔭 ∈ Tw` with `ψ_𝔭 = 1` (allowed) `Q(ξ_𝔭) = A(ℓ)` would meet `Z₀`.
 
-*KNOWN* in kind (class field theory; Chebotarev). The explicit governing field `E_{ℓ,M}` and the density are this roadmap's
+*Sources:* (class field theory; Chebotarev). The explicit governing field `E_{ℓ,M}` and the density are this roadmap's
 formulation, by the route above; what the later roadmaps use is the existence of `ψ_𝔓` for the primes that split completely
 in a finite extension of `E` unramified at the auxiliary places, outside a finite set.
 *Needs:* FrobeniusRestrictedRieszSums §0.1, 2.2, 2.4; ClassFieldTheory Layers 11–13;
 GlobalNumberFields (Completed) Layer 9; Chebotarev (Completed) Layer 10.
 
 ### 2.6 The two fields of the chain
+
+*Origin:* adapted from Serre (1981), Propositions 4′ and 5 (bounds for the discriminant of an extension of number
+fields), and from the principal ideal theorem and the ray class fields of class field theory: an explicit coefficient
+field `𝕂` of bounded degree and root discriminant in which the ideals of the host become principal; the assembly of the
+field `Ω`, with the contents (a) and the size bound (b), is particular to this proof.
+
+*Method of the formal proof:* the coefficient field is built inside `Ω = H₁₂·E(N)·ℚ(ζ_{n_c})·V`; ideals of `E` become
+principal by the principal ideal theorem in the Hilbert class field, which embeds in `E(N)`, and the size bound adds the
+bounds of the four factors, logarithms of degree and of root discriminant being subadditive under composita, with `h_E`
+bounded by Minkowski's bound and a count of ideals of bounded norm.
+
+*Corollary of:* ExplicitNumberFields §0.7 (Serre's bound for the relative discriminant of a finite Galois extension of
+number fields, with its form for root discriminants), for the step of the route of (b) that bounds `log rd(M)` by
+`log rd(F) + log(n·[M:F])` for a Galois extension `M/F` unramified outside `n`.
 
 *The two fields of the chain.* Let `E` be a CM field, abelian over `ℚ`, of degree `2f`, containing `K = ℚ(√−d)` with `d > 3`
 a prime, `d ≡ 3 (mod 4)`; `N ≥ 1` and `n_c ≥ 1` integers; `𝒞` an elliptic curve over `ℚ(j(𝒪_K))` with `j(𝒞) = j(ℂ/𝒪_K)` and
@@ -1088,8 +1190,8 @@ number `τ_{2f}(m)` of ordered factorisations of `m` into `2f` factors (the Eule
 so `log h_E ≤ f·log rd_E + (2f − 1)·log(1 + f·log rd_E)` for every `f ≥ 1`. The
 numerical bound: `log h_E ≤ 10fL`, `log N ≤ 20L + 2`, `log h* ≤ 51fL`, `log|G₀| ≤ f·r²·(18L + 2)`, `log d ≤ 4L`.
 
-*KNOWN* ingredients (class field theory; Furtwängler; Weber; the different of a tamely bounded Galois extension), *NEW*
-assembly. *Needs:* FrobeniusRestrictedRieszSums §0.1, 2.1, 2.4, 2.7; ClassFieldTheory §13.1 (`rayClassField`,
+*Sources:* ingredients (class field theory; Furtwängler; Weber; the different of a tamely bounded Galois extension).
+*Needs:* FrobeniusRestrictedRieszSums §0.1, 2.1, 2.4, 2.7; ClassFieldTheory §13.1 (`rayClassField`,
 `gal_rayClassField_equiv_rayClassGroup`, `isAdmissibleModulus_iff_le_rayClassField`, `IsAdmissibleModulus.mem_support_of_ramified`,
 `isPrincipal_map_hilbertClassField`, `count_relDiscr_eq_finsum_abelianConductor_exponent`); GlobalNumberFields (Completed)
 Layer 2 (the ray-class exact sequence and the class-number formula); NumberFieldArithmetic §6.4 (Completed; the bound
@@ -1098,6 +1200,25 @@ ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ShimuraVarieties §5.9
 EllipticCurves Layer 4; SlopesOfHermitianVectorBundles §3.5.
 
 ### 2.6a Enlarging the field of places
+
+*Origin:* published for the slopes in (a): Bost (1996), Proposition A.2: the canonical filtration of a Hermitian vector
+bundle over the integers of a number field is compatible with a finite extension of the field, so its slopes, the
+maximal and the minimal one included, do not change; the rest of (a) and (b) are adapted from the classical facts on
+the base change of lattices to the integers of a larger number field (it is exact, a length is multiplied by the
+ramification index, `Σ e·f = [𝕃′:𝕃]`): here for the Hermitian lattices and the indices `idx_𝔭` of the chain; (c) and
+(d), the fibres over a field of definition and the twisting data under an enlargement of `𝕃`, are particular to this
+proof (bookkeeping, of which 2.5, Lemma (iv) is the case of the twisting datum and the Convention of 2.6 the case of the
+slopes).
+
+*Method of the formal proof:* lengths over the localisations at `𝔭` and `𝔭′`, which are discrete valuation rings, are
+compared through flat base change: a length is multiplied by the length of `𝒪_{𝕃′,𝔭′}/𝔭𝒪_{𝕃′,𝔭′}`, which is `e(𝔭′|𝔭)`,
+and intersections of lattices commute with the base change; the fibres over a field of definition come from data that
+are defined over the smaller field and then extended. The slope identities of (a) are those of
+SlopesOfHermitianVectorBundles §3.5, where the method is given.
+
+*Corollary of:* ArakelovGeometryAndAbelianHeights §1B.5 (base change: the Harder–Narasimhan filtration of a Hermitian
+vector bundle over `O_K` commutes with a finite extension `L/K`, and the normalised slopes, the maximal and the minimal
+one included, do not change), for the three slope identities of (a).
 
 *Setting.* Let `𝕃 ⊂ 𝕃′` be two fields of places (2.6: finite Galois extensions of `ℚ` inside `ℂ`, stable under complex
 conjugation, containing `𝕂`). For a finite place `𝔭′` of `𝕃′` above the place `𝔭` of `𝕃` write `e(𝔭′|𝔭)` and `f(𝔭′|𝔭)`
@@ -1144,7 +1265,6 @@ and `log 2/4` above, and both weighted indices are `log 2/2`. (ii) The set of (c
 field of definition: for `L₁ = 𝒪_𝕃`, `L₂ = 𝔭` and a prime `𝔭` of `𝕃` with a conjugate `g𝔭 ≠ 𝔭` over `𝕃₀`, the index is
 `1` at `𝔭` and `0` at `g𝔭`.
 
-*NEW* (bookkeeping; 2.5, Lemma (iv) and the Convention of 2.6 are the cases of the twisting datum and of the slopes).
 The instances for the chain: [FormalProof], for the data of the chain on the row side
 `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/AdelicDataExtendLargerFieldsOfPublishedStatement.lean`
 (`GlobalTheory.T.adelicData_extend_largerFields_of_hypotheses`), the two fields being related by
@@ -1164,6 +1284,21 @@ for (b) `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExtendedDa
 *Needs:* 2.5, 2.6; SlopesOfHermitianVectorBundles §3.5; Mathlib `Ideal.sum_ramification_inertia_eq_finrank`.
 
 ### 2.7 Type primes and auxiliary primes
+
+*Origin:* adapted from Linnik (1944) and from the prime ideal theorem in ray classes with uniformity in the modulus, in
+the form of RieszSumsOverPrimesAndExceptionalZeros §2.9b (iv) (c′): the auxiliary primes of (b) by Linnik's theorem, and
+two type primes with disjoint exceptional sets by an elementary count; the exceptional sets `𝔅(N, g)` and the choice of
+the type primes are particular to this proof.
+
+*Method of the formal proof:* the type primes come from the short-interval count of norm primes at interval ratio `1`,
+which gives at least `Y^{9/10}` candidates in `(Y, 2Y]`; for a fixed candidate `g₁` the candidates whose exceptional set
+meets that of `g₁` are counted by residue classes (for each of the at most `3N + 1` primes `ℓ` in the exceptional set of
+`g₁` and each `e ≤ N`, at most `2e` classes modulo a power of `ℓ` exceeding `Y^{1/4}`), which is fewer than `Y^{9/10}`,
+so a pair with disjoint exceptional sets exists; the auxiliary primes come from a polynomial bound for the least prime
+`≡ 1 (mod M)`, applied successively with the modulus multiplied by the primes already found.
+
+*Corollary of:* AnalyticNumberTheoryPartI §1.7b (Linnik's theorem: there is an absolute `A` such that the least prime
+`p ≡ a (mod q)` is at most `q^A`), for (b).
 
 Let `E` be an abelian CM host of conductor `f_E`, `K = ℚ(√−d) ⊂ E`,
 and `M` a multiple of `f_E` with `M ≥ 3`.
@@ -1206,7 +1341,7 @@ character of the ray class group modulo `M`, the principal class loses a factor 
 `(dM²)^{−A_gap}` is what a polynomial lower bound `1 − β ≥ c(dM²)^{−A′_gap}` for the gap pays. Disjointness is a condition:
 `𝔅(3, 11) = {2, 5, 7, 11, 19}` and `𝔅(3, 19) = {2, 3, 5, 19, 127}`, with intersection `{2, 5, 19}`.
 
-*KNOWN* (prime ideals of a ray class with conductor uniformity; Linnik; the count of `𝔅` is elementary). The type primes of
+*Sources:* (prime ideals of a ray class with conductor uniformity; Linnik; the count of `𝔅` is elementary). The type primes of
 the chain, the exceptional sets, their disjointness and `SizeG`: [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/GlobalTwisting/PairRowIffQdRows.lean` (`GlobalTheory.EX.HostArith`),
 `Formalism/CyclotomicNorms/StatementI.lean` (`Formalism.CyclotomicNorms.Exc`), `Formalism/SharpRestriction/ElevenLe.lean`
@@ -1214,6 +1349,15 @@ the chain, the exceptional sets, their disjointness and `SizeG`: [FormalProof],
 2.1; RieszSumsOverPrimesAndExceptionalZeros §1.7b, §2.9b.
 
 ### 2.8 The level prime of a word
+
+*Origin:* particular to this proof: the dimension data `d*_u`, `D*` and a level prime `T(u)` for each word, chosen in a
+short interval so that the rank of the source lattice is `D*·Γ₀^{−2}` up to a bounded factor; the primes exist by a
+count of prime ideals of the principal ray class in short intervals.
+
+*Method of the formal proof:* the level prime is taken from the count of norm primes of the principal ray class in
+`(T*(u), (1 + 1/(fk))·T*(u)]`; the rank window follows from `(1 + 1/(fk))^{fk} ≤ e` and Bernoulli's inequality
+`(1 − T^{−k})^f ≥ 1 − f·T^{−k} ≥ 1/2`; and the size of `T*(u)` is read off a closed formula for `fk·log T*(u)` given by
+the mass formula, the indices at `g₀, g₁` and the ratio of formal degrees to Weyl dimensions.
 
 (a) *Level prime in a short interval.* There are absolute constants
 `A_gap, c₁, c₂, X₀ > 0` with: for `K = ℚ(√−d)` with `d` a prime, `d ≡ 3 (mod 4)`, `d ≥ 100`, an integer `M ≥ 3`, `X ≥ X₀` and
@@ -1267,8 +1411,8 @@ the new column space of the word (mass times index times Weyl dimension, counted
 dimension. (iii) This target only assumes both bounds of `SizeT_u`; at the parameters of the chain they are a consequence of
 the identity behind `T*(u)` (the comparison of `d*_u` with `D*`), not of a choice.
 
-*KNOWN* ingredients (prime ideals of the principal ray class in short intervals; mass and formal degree), *NEW*
-design. (b), the dimension data, the level prime and the rank window: [FormalProof],
+*Sources:* ingredients (prime ideals of the principal ray class in short intervals; mass and formal degree).
+(b), the dimension data, the level prime and the rank window: [FormalProof],
 `Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeOfExplicitAndCompact.lean`
 (`Formalism.MainNotions.StandardLattice.VandermondeCountExplicit`),
 `Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/CmQuadraticFormEqAlternatingForm.lean`
@@ -1283,6 +1427,8 @@ ClassicalGroups Layer 5; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeries
 degree for the measure of the compact dual).
 
 ### 2.9 The level structure, the unramified places and the rule for the characters
+
+*Origin:* definitions and conventions.
 
 *Definitions (the level structure; the unramified places; the rule for the characters).*
 Fix a host as in the introduction of this layer, ranks, weights and words (2.1–2.3c), type primes `g₀, g₁` (2.7), level
@@ -1325,9 +1471,11 @@ against the conjugate kernel belong together. The vector at which the descent ev
 the kernel is `θ̄(·; Φ) = conj θ(·; conj Φ)` (2.2a(c)); the kernel `conj θ(·; Φ)` would be that of the conjugate datum at
 `conj Φ`, which `ω̄(g, 1)` multiplies by `conj χ(g)·c(det g)²` instead of `χ(g)`.
 
-*NEW* (definitions). *Needs:* 2.2–2.8, 2.2a; HermitianFormsAndLattices §5.2.
+*Needs:* 2.2–2.8, 2.2a; HermitianFormsAndLattices §5.2.
 
 ### 2.9a Levels at the type primes
+
+*Origin:* definitions and conventions.
 
 *Definitions and lemma (the type primes).* At `v | g ∈ {g₀, g₁}` (split in `E`; through the
 place `w_v` of 2.4(b), `U(V)(F_v) ≅ GL_n(ℚ_g)` for `V` of rank `n`), with a nontrivial additive character `ψ_g` of `𝔽_g`, the
@@ -1454,13 +1602,15 @@ representations of `G₀` would not occur in the level `(P_1, χ_{P_1})` part. A
 Gelfand–Graev group `P_0(v)`; for `r_S ≥ 1`, `χ₂` (which involves the entry linking `z_m` to `f_{r_S}`) is not the restriction of
 `χ_{P_0}`, while for `r_S = 0` (`m = 2`) `N = 1` and `χ₂ = χ_L = χ_{P_0}|_{P_1}`.
 
-*NEW* (definitions; the lemma is elementary). The levels and the test vectors follow from [FormalProof],
+The lemma is elementary. The levels and the test vectors follow from [FormalProof],
 `Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean` (`Formalism.L2.Col.LocE.JGsym`).
 *Needs:* 2.1–2.9; HermitianFormsAndLattices §§2.3, 5.2(d)(ii);
 FiniteReductiveGroups Conventions (tame labelled form), §5.7 (labels), §2.2 (Gelfand–Graev multiplicity
 one), §2.7 (b) (Bessel-type pairs).
 
 ### 2.9b Levels at the level primes
+
+*Origin:* definitions and conventions.
 
 *Definitions (the level primes).* At `v | T(u)` (split in `E`; `v = w w̄` with `w` above `π_u`;
 `U(X_j)(F_v) ≅ GL_{N_j}(E_w)`; residue field `𝔽_v := 𝒪_w/ϖ_w ≅ 𝔽_{T(u)}`):
@@ -1495,13 +1645,15 @@ exist; the glued lattice is the replacement, and the extra datum it carries is e
 `L_𝔡 = ker(fn) ⊕ Λ^*` and the self-dual lattice `Λ ⊕ Λ^*` differ at `w` only, by the index `T(u)`, and the dual `L_𝔡^∨` contains
 the self-dual lattice with the same index at `w̄`.
 
-*NEW* (definitions). The pairs, the class lattices, the standard pair and the glued lattice: [FormalProof],
+The pairs, the class lattices, the standard pair and the glued lattice: [FormalProof],
 `Formalism/LocalToGlobal/Columns/StdLatUnimodular.lean` (`Formalism.L2.Col.Deco.Ok`),
 `Formalism/LocalToGlobal/Columns/StdLatUnimodular.lean` (`Formalism.L2.Col.Deco.act`),
 `Formalism/SharpRestriction/GlobalSchurBounds/GL3Theta.lean` (`Formalism.MainNotions.GL3Theta.LiftObj.IsMem`).
 *Needs:* 2.2, 2.8, 2.9, 2.9a; HermitianFormsAndLattices §§2.3, 4.2.
 
 ### 2.9c Levels at the twist places
+
+*Origin:* definitions and conventions.
 
 *Definitions (the twist places).* At `v` below `Q(ξ)` (degree one, split in `E`, residue field
 `𝔽_p`; this includes the places above the auxiliary prime of a twisted tuple, 2.5; `Q(ξ)` is `c`-stable, and `w_v` is one of the
@@ -1533,7 +1685,7 @@ column levels above are contained in all of them. Level `p` is not asserted: by 
 has, in its normal form, the first denominator `p^{−a}` and the shear vector `z ∈ L_{j,w_v}`, every element `κ` of the chart level
 satisfies `(κ − 1)z ∈ p^aL_{j,w_v}`, so level `p` fails for a chart with `z ∉ p^{a−1}L_{j,w_v}`.
 
-*NEW* (definitions). The levels and the test vector follow from [FormalProof],
+The levels and the test vector follow from [FormalProof],
 `Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean` (`Formalism.L2.Col.LocE.JQ`),
 `Development/AbelianVarietyTheory/Proofs/SatakeParameters/CongruentOneMemStepLevelsCharacterOneStatement.lean`
 (`GlobalTheory.T.congruent_one_mem_step_levels_character_one`).
@@ -1549,7 +1701,7 @@ satisfies `(κ − 1)z ∈ p^aL_{j,w_v}`, so level `p` fails for a chart with `z
 
 ### Dependencies
 
-FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ClassFieldTheory Layers 11–13; GlobalNumberFields (Completed) Layers 2, 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); Mathlib `NumberField.exists_ideal_in_class_of_norm_le`, `Ideal.sum_ramification_inertia_eq_finrank`; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1; EllipticCurves Layer 4.
+FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAndLattices §§2.1, 2.3, 3.1, 3.2, 4.2, 5.2, 5.5, 6.3; ThetaLiftsForDefiniteUnitaryGroups §§0.1, 2.5; ThetaKernelsForUnitaryDualPairs §§3.46a, 4.4a; MetaplecticAutomorphicForms §3.3; FiniteReductiveGroups (Conventions; §§2.2, 2.7, 5.7); RieszSumsOverPrimesAndExceptionalZeros §§1.7b, 2.9b; AutomorphicFormsOnReductiveGroups §2.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; ClassicalGroups §6.1 and Layer 5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §6.3a; SlopesOfHermitianVectorBundles §3.5; ComplexMultiplicationAndExplicitReciprocity §§3.2, 4.3; ClassFieldTheory Layers 11–13; GlobalNumberFields (Completed) Layers 2, 8–10; Chebotarev (Completed) Layer 10; NumberFieldArithmetic (Completed); Mathlib `NumberField.exists_ideal_in_class_of_norm_le`, `Ideal.sum_ramification_inertia_eq_finrank`; ShimuraVarieties §5.9; ImaginaryQuadraticClassNumber H3.1; EllipticCurves Layer 4; and, named in the `*Corollary of:*` lines of 2.6, 2.6a and 2.7, ExplicitNumberFields §0.7, ArakelovGeometryAndAbelianHeights §1B.5 and AnalyticNumberTheoryPartI §1.7b.
 
 ## Layer 3: The column chain on definite unitary groups
 
@@ -1582,6 +1734,20 @@ vector at the places above `d`) and in 3.3 (iv) (the Hecke relation there). It h
 `n ≥ 2 = v₂(d + 1) − 1` (FrobeniusRestrictedRieszSums §0.4(vi)), in particular for those with a `B`-admissible auxiliary pair (FrobeniusRestrictedRieszSums §0.9(vi)).
 
 ### 3.1 Chain forms and their integral structures
+
+*Origin:* adapted from Gross (1999) and Green (1980): algebraic modular forms on a definite group with values in an
+algebraic representation, and the Weyl and Schur modules of `GL_N` in any characteristic; here the chain forms of weight
+`Λ_j` on `U(X_j)` as functions of frames, with their integral structures from the lattices `Δ_ℤ ⊂ ∇_ℤ` of the
+polynomial model read in bases of the dual class lattices; the Lemma (integral structures), which reads the modules of
+ReductiveGroups 10B in this polynomial model, is this roadmap's own formulation.
+
+*Method of the formal proof:* the formal proof has definitions only at this point: the Weyl lattice is the span of the
+images of the highest weight vector `v_λ` under words in the divided-power row operators, the dual Weyl lattice is the
+module of polynomials of the given column degrees invariant under adding an earlier column to a later one, and the
+integral forms are those whose values, in a local basis of the dual of the class lattice, lie in the integral span of
+tensor products of elements of the Weyl lattices. The route given here defines `Δ_ℤ(λ)` as the dual of `∇_ℤ(λ)` for
+`⟨·,·⟩_λ` instead; the Lemma (integral structures), which identifies the two definitions, is not among the statements of
+[FormalProof] for this section and is proved by the route given with it.
 
 *Definitions and lemma.*
 
@@ -1650,13 +1816,27 @@ character `γ ↦ γ^a` of highest weight `a`: the coefficient module in Gross's
 `λ = (2, 0)`: `∇_ℤ(λ) = ℤx² + ℤxy + ℤy²` (`x, y` the entries of the first column), `⟨x², x²⟩ = 1`, `⟨xy, xy⟩ = 1/2`, so
 `Δ_ℤ(λ) = ℤx² + 2ℤxy + ℤy² ⊊ ∇_ℤ(λ)`; two `∇_ℤ`-valued forms need not pair integrally, a `Δ_ℤ`-valued and a `∇_ℤ`-valued form do.
 
-*KNOWN* (Gross 1999; Weyl modules). The chain forms and their integral structures: [FormalProof],
+*Sources:* (Gross 1999; Weyl modules). The chain forms and their integral structures: [FormalProof],
 `Formalism/LocalToGlobal/HermitianForms/TiedStep.lean` (`Formalism.L2.Forms.IntSpan`).
 *Needs:* 2.3, 2.9, 2.9a, 2.9b, 2.9c; AutomorphicFormsOnReductiveGroups §§7.4, 7.5 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a;
 HermitianFormsAndLattices §§5.1, 5.2, 5.5; ReductiveGroups 10B (integral Weyl and induced modules, contravariant form);
 ArithmeticLocallySymmetricSpaces ALS.F.7 (coefficient lattices of integral dual Weyl modules).
 
 ### 3.1a Theta data, integral coordinates and axis ideals
+
+*Origin:* adapted from Shimura (1976) and Amir-Khosravi (2018): theta functions with complex multiplication, and Serre's
+tensor construction polarised by a positive definite Hermitian module; here the period lattice `𝔙(L, L′)` of a pair of
+self-dual lattices with its integral coordinates and axis ideals, and the explicit semicharacter for `d ≡ 7 (mod 8)` and
+even ranks.
+
+*Method of the formal proof:* the theta data are functions and lattices in `V_ℂ(j)` defined directly; integrality of
+`Im H_A` and of `Q_A` comes from `Tr_{E/K}(a·b̄·𝒪_E) ⊂ 𝒪_K` for `a, b ∈ 𝔞₀` and the self-duality of `L, L′`, with an
+explicit computation in the lattice `Λ_K`; self-duality is reduced to that of `Λ_K`; and a generator of the axis ideal
+is shown to be a unit at the primes outside `S_small ∪ {q}` (2.1), `d` included, by constructing, from elements of
+`𝒪_E` that separate the embeddings, a vector of `𝒪_M·Φ(𝔞₀)` supported at `τ` with unit coordinate. [FormalProof]
+states the lattice, the form, the theta functions and this unit property; the closed formula
+`𝔩_τ = τ(𝔞₀𝔇_{E/K})𝒪_M`, which the route given here obtains by trace duality, and the statement that `A(L, L′)` is a
+principally polarised abelian variety are proved by the route given here.
 
 *Definitions and lemma (theta data, integral coordinates, axis ideals).*
 
@@ -1708,13 +1888,25 @@ is the `log Ω` of the Conventions. (iii) The axis ideal in relative degree `2`:
 `τ₁(a·g′(ϑ)) = τ₁(𝔞𝔇_{E/K})` (`g` the minimal polynomial of `ϑ`); a generator of `τ(𝔞₀)𝒪_𝕃` in place of `c_τ` would not give a
 lattice direction at a prime where `𝔇_{E/K}` is not a unit.
 
-*KNOWN* in kind (Shimura; Serre's construction). The theta data, the Fock translation, the axis ideals and `c_τ`:
+*Sources:* (Shimura; Serre's construction). The theta data, the Fock translation, the axis ideals and `c_τ`:
 [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/GeneralLinearActions/IsDiscriminantTwelfthRootOfIdealLattice.lean`
 (`Formalism.MainNotions.TaylorLogMetric.Hf`), `Formalism/LocalToGlobal/KernelLattices/ThDistC.lean` (`Formalism.L2.Ker.IsDgen`).
 *Needs:* FrobeniusRestrictedRieszSums §0.3, 2.1, 2.2, 2.6; AbelianSchemesAndArithmeticModuli A1.3a, A4.7a, A5.3–A5.4;
 ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.1b The character `χ_D`
+
+*Origin:* adapted from the extension of a homomorphism with values in a divisible group, as for the values of algebraic
+Hecke characters on ideals: here a character `χ_D` of the ideals of relative norm one of `E` with
+`χ_D((z)) = ∏_{τ∈Φ} τ(z)^{−1}` on the principal ones.
+
+*Method of the formal proof:* a unitary character `κ_D` of the finite ideles of `E`, trivial on the integral units and
+equal to `∏_τ τ(a/ā)^{−1}` on `a/ā` for `a ∈ E^×`, is obtained by extending a character from a subgroup to the whole
+group, `ℂ^×` being divisible; `χ_D(𝔞) := κ_D(u)` for an idele `u` generating the ideal `𝔞`, and the value at a principal
+ideal `(z)`, `z·z̄ = 1`, follows by writing `z = b/b̄`. The extension is made on ideles, not from the principal ideals
+to all ideals of norm one as in the route given here, and the algebraicity of the values comes from the associated Hecke
+character. [FormalProof] has `χ_D` with values of absolute value `1` in `ℂ`; that `|σ(χ_D(𝔞))| = 1` at every embedding
+`σ` of `𝕃` is proved by the route given here.
 
 *The character `χ_D`.* Let `I¹` be the group of fractional ideals `𝔞` of `E` with `𝔞𝔞̄ = 𝒪_E`. After
 enlarging `𝕃` (2.6) there is a homomorphism `χ_D : I¹ → 𝕃^×` with `χ_D((z)) = ∏_{τ∈Φ} τ(z)^{−1}` for every `z ∈ E^×` with
@@ -1727,9 +1919,23 @@ Route: on `P¹ := {(z) : zz̄ = 1}` the formula is well defined, because a unit 
 `𝒪_F^{×}/N(𝒪_E^×)`); a homomorphism from `P¹` extends to `I¹` with values in `ℚ̄^×` (divisibility), with values whose conjugates
 all have absolute value `1` (roots of such values).
 
-*KNOWN* in kind (divisibility of `ℚ̄^×`). *Needs:* 2.3, 2.6.
+*Sources:* (divisibility of `ℚ̄^×`). *Needs:* 2.3, 2.6.
 
 ### 3.1c The reduced theta function of `ℂ/Λ_K` and its integrality
+
+*Origin:* adapted from Bannai and Kobayashi (2010): algebraic and `p`-adic properties of reduced theta functions of
+abelian varieties with complex multiplication, at ordinary primes; here, for `d ≡ 7 (mod 8)`, the integrality of
+`s₂ + b₂/12` at every prime `p ≠ d`, the inert primes included (`3` only when it splits in `K`), the bound
+`v_d(s₂) ≥ −1/2`, and the integrality of the derivatives at the origin of products of Fock translates of `θ₀` at the
+same primes and, with a Gaussian factor split off, at `d`.
+
+*Method of the formal proof:* over `ℂ` the isogeny formula for `℘` under a complex multiplication `α` is integrated and
+its quasi-periods compared, which gives `(α² − N(α))·s₂ = Σ_{0≠P∈ker α}℘(P)`; in the formal parameter this identity
+yields `φ∘[α] ≡ N(α)·φ` modulo integral series for `φ = −log(θ/t)`, hence `α` and `ᾱ` are adjoint for the coboundary
+`φ(x ⊕ y) − φ(x) − φ(y)` modulo integral series, and comparing bilinear terms shows that `(α − ᾱ)·φ″(0)` is integral,
+while the derivatives of `φ` of order at least three are integral by the biadditivity of the coboundary. The bound for
+the constant is read off this adjoint relation; the route given here divides the quasi-period identity by `α(α − ᾱ)`
+instead.
 
 *The reduced theta function of `ℂ/Λ_K` and its integrality.* Let `d` be a prime with
 `d ≡ 7 (mod 8)` (on the hosts of the chain `d ≡ 7 (mod 16)`, Layer 2), `K = ℚ(√−d)` and `Λ_K` as in 3.1a.
@@ -1771,12 +1977,24 @@ one more step: for a translate of `θ₀` by a point `s` of odd order it is `F(s
 order of `ℚ(√−d)`, `√−d·s₂ = 1/4, 2/3, 2, 12, 38, 724` (up to a root of unity) for `d = 7, 11, 19, 43, 67, 163`, so `v_d(s₂) = −1/2`;
 for `d = 7` neither `s₂` nor `℘(ω₀/2)` is `2`-integral, while `θ₀″(0) = −(℘(ω₀/2) + s₂) = ±2√−7/7` is.
 
-*KNOWN* in kind (Weierstrass; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; complex multiplication).
+*Sources:* (Weierstrass; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; complex multiplication).
 (a) and (c) follow from [FormalProof], `Formalism/LocalToGlobal/TorsionIntegrality/RamifiedCurveKernels/StatementR.lean`
 (`Formalism.L2.Th1.G.HalfValuation`).
 *Needs:* 2.6, 3.1a; AbelianSchemesAndArithmeticModuli A1.5; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.1d The CM theta family
+
+*Origin:* adapted from Shimura (1976), theta functions with complex multiplication and the algebraicity of their values,
+and Mumford (1970), §6, the theorem of the cube: here one normalised family `Θ^{CM}_{L,L′}` over all pairs of self-dual
+lattices, the family with (b)–(f): the normalised isogeny rules, the mean, and integrality at every prime `p ≠ d` of (d)
+with an explicit Gaussian factor at `d`, with the consistency (o); for the hosts other than those of
+FrobeniusRestrictedRieszSums §0.4 the theorem is this roadmap's own formulation.
+
+*Method of the formal proof:* a vacuum theta vector at the pair of standard lattices is transported to every pair of
+self-dual lattices by the isogeny operator and multiplied by powers of `χ_D` of the two determinant ideals; the
+independence of the moves, the rules (b) and the algebraicity follow from multiplicative operators of the finite adelic
+unitary groups on theta functions of all levels, which act on the vacuum by an algebraic scalar times the isogeny
+operator.
 
 *Definition (the CM theta family) and theorem.* Recall that `d` is prime and `d ≡ 7 (mod 8)` (on the hosts
 of the chain `d ≡ 7 (mod 16)`, Layer 2), so `2` splits in `K` and `d ≥ 7`, and that both ranks `N_{j−1}`, `N_j` are even (2.1).
@@ -1853,8 +2071,8 @@ the family: `N·Θ^{CM}` satisfies them for every integer `N ≠ 0` ((d) is an i
 multiplied by `N⁴`), and (c) up to `2 log|N|` in the mean logarithm; the defining equality fixes the normalisation, and a
 characterisation by (f) alone would need a primitivity condition.
 
-*KNOWN* in kind (Shimura; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; Serre's construction), *NEW*
-(the family with (b)–(f)). [FormalProof] establishes the family, with (b)–(f), for the hosts of FrobeniusRestrictedRieszSums
+*Sources:* (Shimura; Mumford, the theorem of the cube, AbelianSchemesAndArithmeticModuli A1.5; Serre's construction).
+[FormalProof] establishes the family, with (b)–(f), for the hosts of FrobeniusRestrictedRieszSums
 §0.4 (`q ≡ 3 (mod 8)`, `d ≡ 7 (mod 16)`, layer `n ≥ 2`); for the other hosts of Layer 2 (a prime `d ≡ 7 (mod 8)`) the
 theorem is this roadmap's wider form, which rests on the steps that the route lists as not given. The definition and
 (o), (a), (b), (e): [FormalProof],
@@ -1868,6 +2086,15 @@ follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/Taylor
 2.1, 2.2, 2.3, 2.6, 3.1a, 3.1b, 3.1c; AbelianSchemesAndArithmeticModuli A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
 ### 3.2 The step of the chain
+
+*Origin:* adapted from Kashiwara and Vergne (1978) and Gross (1999): theta series with polynomial coefficients, and
+algebraic modular forms; here the definition of the step as a class sum of derivatives at the origin of theta functions
+of abelian varieties with complex multiplication, in integral coordinates.
+
+*Method of the formal proof:* the finite data are indicators of cosets of homomorphisms at the bad places, their theta
+functions are written as explicit finite sums of Heisenberg translates of the theta function of the pair of lattices,
+and the kernel of the step is the table of derivatives at `0` of these functions, paired with the polynomial of the
+source form after the substitution of the frame.
 
 *Definitions and lemma.*
 
@@ -2001,17 +2228,34 @@ Harish-Chandra parameters persist. (ii) The formula of the step for `N_{j−1} =
 `(ν, 0, 0) − (w − 1)·(1, 1, 1, 1) = (λ − (1, 1), (1 − w)²)`: the old entries drop by `(N_j − N_{j−1})/2 = 1` and the new entries are `−w + N_{j−1}/2`, as in 2.3(b). (A step
 from rank `1` to rank `2` does not occur: the splitting characters of the two members would need exponents of different parity.)
 
-*NEW* (definition). The pair, the finite data, the theta functions of a step and the step by jets, with the lemma and
+The pair, the finite data, the theta functions of a step and the step by jets, with the lemma and
 the API, follow from [FormalProof], `Formalism/LocalToGlobal/KernelLattices/ThDistC.lean` (`Formalism.L2.Ker.Amb.jetK`).
 *Needs:* 2.2–2.6, 2.2a, 2.9, 2.9a, 2.9b, 2.9c, 3.1, 3.1a, 3.1b, 3.1d; ThetaLiftsForDefiniteUnitaryGroups §§0.1–0.4,
 1.7, 1.8, 2.1, 2.5; TensorInductionAndFiniteGroupInputs §7.1.
 
 ### 3.3 The step as a class-set theta lift
 
+*Origin:* adapted from Shimura (1976), Kashiwara and Vergne (1978) and Howe (1989): theta functions with complex
+multiplication and the Fock model of a dual pair with a compact member; here, for the pairs of the chain in the normal
+form of 2.2a and in every rank, the reading of the vacuum as the CM theta function of 3.1d, the identity of the step of
+3.2 with the class-set theta lift up to an explicit constant, and the Hecke relation (iv) in this normalisation; (v), the
+same for the conjugate datum, is this roadmap's own formulation (2.2a (b)); for the hosts other than those of
+FrobeniusRestrictedRieszSums §0.4, (i)–(v) are this roadmap's own formulation.
+
+*Method of the formal proof:* at a split place the Weil operator of a pair that moves the self-dual lattices sends the
+lattice vacuum to a character factor times a normalised sum of Heisenberg translates over the cosets of the new lattice
+modulo the old, and this sum is the intertwining operator between the two spaces of theta functions, which gives the
+reading of the moved vacuum; a finite datum at split places is a finite combination of Heisenberg translates, read as
+classical translates, and creation operators act on readings as derivatives; the Hecke relation at a split place is
+proved on the vacuum by counting, for each matrix over the residue field, the subspaces of given codimension in its
+kernel and in the kernel of its transpose, the two counts being related by Gaussian binomial coefficients. The route
+given here derives (iv) from (iii) and the Satake relation of ThetaLiftsForDefiniteUnitaryGroups §2.5 (d) instead, and
+does not give the reading of the moved vacuum at a split place.
+
 Let `ω_ξ` be the Weil representation of step `j` with the splitting characters
 `(μ_j(ξ), μ_j(ξ))`: the representation `ω_{ψ, μ_j(ξ), μ_j(ξ)}` of ThetaLiftsForDefiniteUnitaryGroups §2.5(f) for the pair of 3.2,
-the one characterised by the five properties of ThetaKernelsForUnitaryDualPairs §4.4a (among them continuity of the orbit maps
-`(g, h) ↦ ω(g, h)φ` into `L²` for the adelic topology, and, at a place split in `E`, the law `r·μ̃_j(ξ)(det g)^{−1}μ̃_j(ξ)(det h)`,
+the one characterised by the five properties of ThetaKernelsForUnitaryDualPairs §4.4a (among them continuity, the theta function
+of `ω(g, h)φ` depending continuously on `(g, h)` at every point, and, at a place split in `E`, the law `r·μ̃_j(ξ)(det g)^{−1}μ̃_j(ξ)(det h)`,
 `r > 0`, of the functional `φ ↦ φ(0)` of the type-II model, `det g` taken on `X_{j−1}`; 2.2a(a)). Let `φ⁰` be the vector of norm one
 fixed by the Heisenberg translations of the standard lattice `Â` (3.2) and killed by the annihilation operators at the real
 places (the vacuum), and `n_Â` the scalar with `φ_Â ⊗ (archimedean vacuum) = n_Â·φ⁰`. The *reading* of a finite vector is the
@@ -2072,7 +2316,7 @@ makes the reading of a moved lattice vector the complex conjugate of a section, 
 with the moved lift, and reads the moved Heisenberg translates; the identification of that section, for an element supported at a
 single split place, with the image under the isogeny operator of 3.1d (b) times the scalar of (i) is not given here.
 
-*KNOWN* in kind (Shimura; Kashiwara–Vergne; Howe), *NEW* in this form. [FormalProof] establishes (i)–(iv) for the hosts of
+*Sources:* (Shimura; Kashiwara–Vergne; Howe). [FormalProof] establishes (i)–(iv) for the hosts of
 FrobeniusRestrictedRieszSums §0.4; for the other hosts of Layer 2 (a prime `d ≡ 7 (mod 8)`) (i)–(v) are this roadmap's
 wider form, which rests on the identification of the moved lattice vector that the route does not give and on 3.1d.
 *Needs:* 2.2, 2.2a, 2.4, 2.5, 2.9, 3.1a, 3.1b, 3.1d, 3.2;
@@ -2080,6 +2324,20 @@ ThetaLiftsForDefiniteUnitaryGroups §§0.1, 0.2, 0.3, 1.2, 1.7, 1.8, 2.2, 2.5; T
 AdelicAlgebraicGroups §4.2.
 
 ### 3.4 Weights of the step
+
+*Origin:* adapted from the `(GL_n, GL_m)`-duality on polynomials in matrices and from Kashiwara and Vergne (1978), the
+correspondence of weights for compact dual pairs: the weights of the step operator, with the determinant twists by
+`det^{s♯_j}` and `det^{s_div,j}`.
+
+*Method of the formal proof:* a value of weight `Λ_{j−1}` is multiplied by `det^{s♯_j}`, sent through the jet map of the
+kernel (the substitution `X ↦ ᵗ∂_z·y′` followed by a linear functional), which keeps the column degrees and the
+invariance under column operations with zeros appended, and divided by `det^{s_div,j}`; the class sum of these maps is
+invariant under the stabilisers by the rational equivariance of the kernel entries.
+
+*Corollary of:* RepresentationTheory/SchurWeyl §8.4 (`(GL_n, GL_m)`-duality on polynomials in `n × m` matrices: a
+multiplicity-free decomposition over the partitions with at most `min(n, m)` rows, with products of leading minors as
+highest weight vectors), for the nonvanishing of `ℱ_j` and for the passage from the column degrees `ν` to `(ν, 0^{t+1})`
+before the determinant twists.
 
 `K_j(ξ)` maps `ℳ_{j−1}` into `ℳ_j`: forms of weight `Λ_{j−1}` to forms of weight `Λ_j` (multiplying by
 `det^{s♯_j}`, substituting and dividing by `det^{s_div,j}` sends highest weight `λ` to `(λ − ((t+1)/2)·1, (−s_div,j)^{t+1})`; the new
@@ -2097,9 +2355,16 @@ admissibility (A1)–(A3) of the finite datum. No dictionary of `K_∞`-types is
 *Check.* `s_div,j − s♯_j = (t + 1)/2`: the old highest weights drop by exactly the half-rank jump, which is the shift
 `ρ_{N_j} − ρ_{N_{j−1}}` on the first `N_{j−1}` coordinates, so the Harish-Chandra parameters of the earlier levels persist.
 
-*KNOWN* in kind (Kashiwara–Vergne). *Needs:* 2.3, 3.1, 3.1d, 3.2.
+*Sources:* (Kashiwara–Vergne). *Needs:* 2.3, 3.1, 3.1d, 3.2.
 
 ### 3.5 The chain lift
+
+*Origin:* particular to this proof: the chain lift, the composite of the `m` steps over a system of data as one operator
+on forms of the definite groups, with an elementary API.
+
+*Method of the formal proof:* the chain lift is defined by recursion as the composition of `m` class-sum operators, each
+with weights `|Γ_𝒸|^{−1}` and a kernel map for every pair of classes. This is the chain lift for one kernel map per step
+and pair of classes; the sum over the index paths of a system of data and the API are by the route given here.
 
 *Definitions.* A *system of data* of the chain for the tuple `ξ` consists of finite index sets
 `A_1, …, A_{m−1}` (with `A_0 = A_m = {∗}`) and, for `1 ≤ j ≤ m` and `(α, α′) ∈ A_{j−1} × A_j`, an admissible finite datum
@@ -2138,11 +2403,22 @@ classes of `K′` is `ι` times the sum over those of `K`. Not given here: the v
 levels of 2.9–2.9c (the constants `c_K(j)` of 3.3 (iii), the index factors `ι` of (e) and the chart weights of the sub-roadmap SeesawForThetaChains), and
 which charts of a twist place carry a nonzero datum.
 
-*NEW* (object), elementary API. The chain lift: [FormalProof], `Formalism/LocalRingCardinality/DataKernels.lean`
+The chain lift: [FormalProof], `Formalism/LocalRingCardinality/DataKernels.lean`
 (`Formalism.BasicNotions.ColumnChain.col`). *Needs:* 3.2, 3.3, 3.4; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5b;
 ThetaLiftsForDefiniteUnitaryGroups §1.4.
 
 ### 3.6 Integrality of the chain lift
+
+*Origin:* adapted from Minkowski's bound for the orders of the finite subgroups of `GL_n(ℚ)` (Serre, *Bounds for the
+orders of the finite subgroups of `G(k)`*, §1.1, Theorem 1): the least common multiple `D_Γ` of the stabiliser orders
+of the chain divides `minkowskiBound(2fN_m)`, and the chain lift is integral up to the factor `D_Γ^m`.
+
+*Method of the formal proof:* the stabiliser of a class acts faithfully on its class lattice, a `ℤ`-lattice of rank
+`2fN_j`, so by Minkowski's bound its order divides `minkowskiBound(2fN_j)`; the chain lift is then composed step by
+step, every class weight `|Γ_𝒸|⁻¹` costing at most `v_𝔭(D_Γ)` and the exponents of the steps adding up.
+
+*Corollary of:* FiniteGroupInvariants §10.2 (Minkowski's bound: the order of a finite subgroup of `GL_n(ℚ)` divides
+`minkowskiBound n`), for the divisibility `D_Γ | minkowskiBound(2fN_m)`.
 
 Let `D_Γ` be the least common multiple of the orders of the stabilisers `Γ_𝒸` of all classes of
 all levels `0 ≤ j ≤ m` and of `X^h`. Then `D_Γ` divides `minkowskiBound(2f N_m)`, and `log D_Γ ≤ C f N_m log(f N_m)`. Let `𝔭` be a
@@ -2161,13 +2437,29 @@ dividing `D_Γ` is at most `2fN_m + 1`, so the level primes (2.8) do not divide 
 *Check.* The denominator is attained: one class with `Γ_𝒸 = {±1}`, trivial weight and a kernel equal to `1` give
 `K_j 1 = 1/2`.
 
-*KNOWN* (Minkowski; composition). [FormalProof], `Formalism/SharpRestriction/DesignExistsOfChoices.lean`
+*Sources:* (Minkowski; composition). [FormalProof], `Formalism/SharpRestriction/DesignExistsOfChoices.lean`
 (`Formalism.MainNotions.DGamDvdF`), `Formalism/LocalRingCardinality/DataMink.lean` (`Formalism.BasicNotions.minkM`),
 `Formalism/LocalRingCardinality/RhoDetPrimeEqMuTildeMulChiPow.lean` (`Formalism.BasicNotions.FactDGam`).
 *Needs:* 3.1, 3.2, 3.5; HermitianFormsAndLattices §5.2; FiniteGroupInvariants §10.2;
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5b.
 
 ### 3.7 Operators at the level prime
+
+*Origin:* adapted from the Fourier transform on a finite vector space and the absolute value of Gauss sums: here the
+identities of the diamond, Gauss, Fourier, `U_v` and `D_v` operators on forms on pairs at the level prime; the
+definitions of these operators are particular to this proof.
+
+*Method of the formal proof:* for the forms of level `0`, the composite of the finite Fourier transform with its adjoint
+is computed by exchanging the two sums and using the orthogonality of the additive characters of `Λ/ϖΛ`, which gives
+`q_v^{N_0}` minus a sum over a set stable under the diamond operators, and such sums vanish on new forms by averaging;
+`D_v∘U_v` is computed on all forms by a count of fibres, as `q_v^{N_0−1}` minus two terms that vanish on new forms, and
+`U_v∘D_v = q_v^{N_0−1}` on new forms then follows because the space of new forms is finite dimensional and stable under
+both operators. These are the statements of [FormalProof], at level `0`; the route given here proves them at every
+level `j`, with the other identities of the API, and counts the fibres of `U_v∘D_v` directly on new forms, treating
+`D_v∘U_v` in the same way.
+
+*Corollary of:* FourierDeligneTransform §0.2 (the finite Fourier transform on a finite-dimensional vector space over a
+finite field: inversion, Plancherel, transforms of indicators of subspaces), for the Plancherel identity on new forms.
 
 *Definitions and API* at a place `v | T(u)` (residue field `𝔽_v ≅ 𝔽_{T(u)}`, `q_v = T(u)`), for
 forms on pairs at level `j` (2.9b), with a nontrivial additive character `χ_v` of `𝔽_v` (with values in `μ_{T(u)} ⊂ 𝕃`):
@@ -2217,9 +2509,19 @@ The two transforms have different incidences: in rank one, for `q_v = 3`, a new 
 have the kernel `Λ`, hence the lattice `ϖ^{−1}Λ`), while `FF_vφ = D_vGs_vφ = 0` there (its inputs have the lattice `ϖΛ`); so
 `FF_v^* = D_v∘Gs_v` is false.
 
-*NEW* (definitions; KNOWN finite Fourier analysis). *Needs:* 2.9b, 3.1, 3.2.
+*Sources:* (finite Fourier analysis). *Needs:* 2.9b, 3.1, 3.2.
 
 ### 3.8 Source lattices
+
+*Origin:* adapted from Gross (1999), algebraic modular forms on definite groups, and the mass formula: here the lattice
+of integral new forms of each word as a Hermitian lattice, with the neatness of its level, its exact rank and the shift
+of its slope at the level prime.
+
+*Method of the formal proof:* the stabilisers of the classes of level zero are trivial because an element of finite
+order lying in levels that are pro-`g₀` and pro-`g₁` for two distinct primes has order a power of both; the number of
+classes is then the index of the level times the mass of the genus, and the rank and slope formulas at the level prime
+are conditions on the data of the chain. The route given here uses instead the single prime `g₀ > 2fk + 1`, at which an
+element of finite order that is unipotent modulo the places above `g₀` is trivial.
 
 *Definitions.* For a word `u`: `ℳ_0(u) := ℳ_0(u, 1)`, the space of forms on `U(X_0)` of
 weight `λ_u` and level `K_u` (2.9b) with the character induced by `χ₂` (at `v | T(u)`: forms on pairs); its *new part*
@@ -2248,7 +2550,7 @@ saturated sublattices (SlopesOfHermitianVectorBundles §2.1).
 `φ(1) + φ(−1) = 0`: rank `1 = 2·(3 − 2)/(3 − 1)`, and the lattice `ℤ·(1, −1)` has squared covolume `2`, slope
 `μ = −log 2 = −log(T − 1)/(T − 2)`.
 
-*NEW* (object; count at `T(u)`). (a): [FormalProof],
+(a): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/SatakeParameters/StepZeroTrivialStabilisersTrueColumns.lean`
 (`GlobalTheory.Pdv.StabZero.card_stab_zero`), `Formalism/LocalRingCardinality/DataKernels.lean`
 (`Formalism.BasicNotions.ColumnChain.StabZero`); (b): [FormalProof],
@@ -2261,6 +2563,16 @@ saturated sublattices (SlopesOfHermitianVectorBundles §2.1).
 SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1.
 
 ### 3.9 The top period
+
+*Origin:* adapted from the codimension-one period of Gan, Gross and Prasad (2009), GanGrossPrasadUnitaryGroups §4.1,
+and the classical branching rule from `GL_N` to `GL_{N−1}`: a definite, vector-valued period of the chain lift, made
+integral through the explicit branching maps `br_τ`, `io_τ` and the integer `c_{Br,τ}`.
+
+*Method of the formal proof:* the properties of the top period (injectivity on classes, equal stabilisers, integrality
+of the restriction, the norm bound) are assembled from the comparison of the chain forms with forms in standard
+coordinates, the identification of the lower map with the restriction through the branching map, and the norm identity
+of the branching map, a scalar on the irreducible module by Schur's lemma; the branching integer is an explicit product
+and is bounded factor by factor.
 
 *Definitions.* For a word `u`: the *top weight* `σ(τ)` of 2.3 on `U(X^h)` and, at each `τ`,
 `n_τ := |Λ_m(τ)| − |σ(τ)|` (`|λ| = Σ_i λ_i`; entries indexed from `0`, as in 2.3).
@@ -2349,7 +2661,7 @@ so `c_{Br}` exceeds the least admissible constant `1` by the factor `D₀!`. (ii
 `λ = (1, 1, 1, 1, 1, 0)`, `σ = (1, 1, 1, 1, 1)` one has `D₀ = D₁ = 1`, `R_i ∖ {σ_i} = ∅` for `i < 4`, `R_4 ∖ {σ_4} = {0}` and
 `c_{Br} = ∏_{j=0}^{4}(j − 5) = −120`, which exceeds `(2(λ_0 − λ_5))^{N·D₁} = 64` but not `spread(λ)^{5} = 7⁵`.
 
-*NEW* (object). [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/ProductFirstZerothParts.lean`
+[FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/ProductFirstZerothParts.lean`
 (`Formalism.MainNotions.product_first_zeroth_parts.Conclusion6`),
 `Formalism/LocalToGlobal/Columns/FiniteSumNonzeroLargeDepth.lean` (`Formalism.L2.Col.Br.cBr`),
 `Formalism/PeriodIntegrals/UnitaryGroupMassFormula/GelfandTsetlinTopCoefficient/NumMore.lean` (`PI.GTNum.abs_cBr_le_cBd`);
@@ -2359,6 +2671,19 @@ for the tuples of API (b), `Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGe
 `GL_N ↓ GL_{N−1}`); IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching).
 
 ### 3.10 Integrality of the top period
+
+*Origin:* adapted from Gross (1999), algebraic modular forms on a definite group as the invariants of the coefficient
+module under the stabilisers of the classes: here the top period of a column form with values in the Weyl lattices
+against a row form with values in the dual Weyl lattices, integral up to the stabiliser orders,
+`v_𝔭 ≥ −e_𝔭·v_{p(𝔭)}(D_Γ)`.
+
+*Method of the formal proof:* the period is split over the classes of `U(X^h)` as `Σ_𝒸 |Γ_𝒸|⁻¹·y_𝒸` with `y_𝒸` the
+pairing at one class of a Weyl-lattice value with a dual-lattice value, an algebraic integer; the stabiliser orders
+divide `D_Γ`, so every term, and hence the sum, has valuation at least `−e_𝔭·v_{p(𝔭)}(D_Γ)`.
+
+*Corollary of:* AutomorphicFormsOnReductiveGroups §7.5a (the class-set pairing between forms with values in a lattice
+and forms with values in its dual is integral, and perfect, at a prime `ℓ` such that no stabiliser has an element of
+order `ℓ`), at the places `𝔭` with `p(𝔭) ∤ D_Γ`, where the bound says that the period is integral.
 
 For `φ′ ∈ ℳ_m^{int}` (word `u`, base tuple; values in the Weyl lattices) and a form `Υ` on `U(X^h)` of
 weight `σ` with values in the dual Weyl lattices at every class (`ℳ^{∨}` of 3.1 for `X^h`):
@@ -2375,7 +2700,7 @@ moves the integrality of `Υ` from `c_𝕃(𝔭)` to `𝔭`, while `φ′` enter
 *Check.* The roles of the two lattices cannot be exchanged: for `GL_2` and `σ = (2, 0)` (3.1 Check (iv)) two `∇_ℤ`-valued values
 `xy`, `xy` pair to `1/2`, while `Δ_ℤ` pairs integrally with `∇_ℤ`.
 
-*KNOWN* (stabiliser denominators). [FormalProof], `Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean`
+*Sources:* (stabiliser denominators). [FormalProof], `Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean`
 (`Formalism.MainNotions.WeightDegreeSizes.PeriodClassSumWeyl`) and, for the tuples,
 `Formalism/LocalToGlobal/GroupLattices/AdmissibleAtGeneratorPlaces.lean` (`Formalism.L2.G.Adm2InU.TwistedPeriodAdmissible`).
 *Needs:* 3.1, 3.6, 3.9; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
@@ -2391,7 +2716,7 @@ moves the integrality of `Υ` from `c_𝕃(𝔭)` to `𝔭`, while `φ′` enter
 
 ### Dependencies
 
-Layer 2; FrobeniusRestrictedRieszSums §0.3; HermitianFormsAndLattices §§5.1, 5.2, 5.5, 5.6, 5.7; ThetaLiftsForDefiniteUnitaryGroups §§0.1–0.4, 1.2, 1.4, 1.7, 1.8, 2.1, 2.2, 2.5; ThetaKernelsForUnitaryDualPairs §4.4a; AdelicAlgebraicGroups §4.2; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; ReductiveGroups 10B; ArithmeticLocallySymmetricSpaces ALS.F.7; AbelianSchemesAndArithmeticModuli A1.3a, A1.5, A4.7a, A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2; TensorInductionAndFiniteGroupInputs §7.1; FiniteGroupInvariants §10.2; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1; IntegralWeylModulesOfGeneralLinearGroups §1.1; ClassicalGroups §6.1.
+Layer 2; FrobeniusRestrictedRieszSums §0.3; HermitianFormsAndLattices §§5.1, 5.2, 5.5, 5.6, 5.7; ThetaLiftsForDefiniteUnitaryGroups §§0.1–0.4, 1.2, 1.4, 1.7, 1.8, 2.1, 2.2, 2.5; ThetaKernelsForUnitaryDualPairs §4.4a; AdelicAlgebraicGroups §4.2; AutomorphicFormsOnReductiveGroups §§7.4, 7.5; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b; ReductiveGroups 10B; ArithmeticLocallySymmetricSpaces ALS.F.7; AbelianSchemesAndArithmeticModuli A1.3a, A1.5, A4.7a, A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2; TensorInductionAndFiniteGroupInputs §7.1; FiniteGroupInvariants §10.2; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.1; IntegralWeylModulesOfGeneralLinearGroups §1.1; ClassicalGroups §6.1; and, named in the `*Corollary of:*` lines of 3.4, 3.7 and 3.10, RepresentationTheory/SchurWeyl §8.4, FourierDeligneTransform §0.2 and AutomorphicFormsOnReductiveGroups §7.5a.
 
 ## Downstream consumers
 
@@ -2400,7 +2725,7 @@ The later roadmaps of the chain in the family use this roadmap as follows.
 - ThetaChainsAndFrobeniusPrimeSums asks `HostSplitting E` of the hosts of its chain data (§10.0 (H2)); its §10.6 fixes the order of the constants, the numbers `A_n`, `J` and `c_H` that the size predicates of 2.1 take as arguments, and the values of `δ_top`, of the orbit lengths and of `ε₀`, and states the constraints of the exponents written in the size predicates of 2.1; its §10.0 (D4) collects the conditions on the twisting datum ((T1), (T2) of 2.5, (T3) of GluedTargetAndDivisionInequality §8.20, the good twisting datum of CongruenceModulesOfThetaLifts §7.10a and the wild-kernel budget of CongruenceModulesOfThetaLifts §7.11), which ThetaChainsAndFrobeniusPrimeSums §§10.7 (b), 10.9 (c), (d) verify for the construction; ThetaChainsAndFrobeniusPrimeSums §9.4 uses the measure of the Conventions on the indefinite groups, for which `vol([U(Y_0)]) = mass(𝒪_E^r)`.
 - UniformWildKernelBounds §7.6 gives the window constant `J` at the parameters of the chain.
 - RowTowerAndRallisIdentities forms the row forms on `U(Y_0)` at principal level at the type primes, where the finite group `G₀` of 2.9a acts (its §5.3): the rows `ℋ^♮` at principal level and the good ones `𝔼^♮ = Π_good·ℋ^♮`, their parts `ℋ` and `𝔼 = Π_good·ℋ` of the row type level `(P_1, χ_{P_1})` of 2.9a, on which the Poincaré series, the seesaw and the target rows live, and the part `𝔼_0` of the base level `(P_0, χ_{P_0})`. Its Petersson product for forms on indefinite groups (§5.1) sums over an orthonormal basis of the lowest `K`-type; the arrows of its grid (§5.8a) are homomorphism pairs in the normal form of 2.2a with a positive rational multiple of `δ_T`; the steps of the descent of a tuple are normalised by the volume of its finite level group (§5.4).
-- SeesawForThetaChains: the period pairing `B_u(φ)(x)` of its §6.1 is linear in the column `φ` and conjugate-linear in the row `x ∈ 𝔼` (§6.14 (d)); for a tuple `ξ` and a row form `Υ` of the relevant part `ℋ^{rt}_ξ` of the row type level (RowTowerAndRallisIdentities §5.4), `P̃_ξ(φ, Υ) = ζ(u, ξ)·B_u(φ)(ι_ξΥ)` with a root of unity `ζ(u, ξ)` (SeesawForThetaChains §6.14).
+- SeesawForThetaChains: the period pairing `B_u(φ)(x)` of its §6.1 is linear in the column `φ` and conjugate-linear in the row `x ∈ 𝔼` (§6.14 (d)); for a tuple `ξ` and a row form `Υ` of the relevant part `ℋ^{rt}_ξ` of the row type level (RowTowerAndRallisIdentities §5.4), `P̃_ξ(φ, Υ) = ζ_ℂ(u, ξ)·B_u(φ)(ι_ξΥ)` with a root of unity `ζ_ℂ(u, ξ)` (SeesawForThetaChains §6.14 (c)).
 - LocalGainOfThetaChains §4.16: the cost of the level prime `T(u) = N(π_u)` sits at the places above `π_u` and is `0` at those above `π̄_u`.
 - ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties defines the cusp forms on the Shimura varieties of the steps, their lattices of integral forms and their deep covers over the coefficient field `𝕂` of 2.6 and uses its size bound; the targets of its Layer 8 that use Koecher's principle on the unitary Shimura varieties over `F` ask `f ≥ 2`, which `HostSplitting E` gives (the size conditions of 2.1 give much more, `f = 2|A| ≥ 2x^{A_n}` in the construction).
 
@@ -2411,6 +2736,8 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 This roadmap owns Layers 2 and 3 above: the ranks, scales and size predicates of the chain; its column, row and model spaces and the normal form of the pairs they form, with the conjugate datum, the conventions for lifts and descents and the reading of a step at a real place; weight data, words, adapted and separated data and their existence; the existence criterion for Hecke characters of a CM field with prescribed restriction, local data and infinity type, and the Hecke characters of the chain; anticyclotomic twisting characters and twisting data; the coefficient field `𝕂` with its size bound and the field of places `𝕃`; the type, auxiliary and level primes; the level structures at the unramified places, the type primes, the level primes and the twist places; chain forms and their integral structures; the theta data, the character `χ_D`, the reduced theta function of `ℂ/Λ_K` with its integrality and the CM theta family; the step operator, its identification with a class-set theta lift and its weights; the chain lift and its integrality; the operators at the level prime; the source lattices; the top period and its integrality.
 
 Not owned here. Abelian CM hosts, their predicates, the cyclic hosts, tops and thick sets are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Unitary groups and Hermitian forms over quadratic étale algebras, their local and global classification, unimodular lattices, class sets, stabilisers and masses are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 2–6. The dictionary of the theta lift of a definite homomorphism pair, its lattice vectors, theta kernels, class-set lifts and Hecke relations are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) Layers 0–2; the global Weil representation of a unitary pair and the archimedean correspondence of discrete series are [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) §§4.4a, 3.46a. Integral branching for `GL_N ↓ GL_{N−1}` is [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) §1.1; slopes of Hermitian vector bundles and their base change are [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); prime ideals of a ray class in short intervals and Linnik's theorem are [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) §§1.7b, 2.9b; class-set integration, the perfect pairing of lattices of forms and kernel operators are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) Layer 7 with [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§7.5a, 7.5b, and the formal degree of a discrete series is DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; the Gelfand–Graev and Bessel-type pairs of `GL_n(𝔽_q)` and the tame labelled form are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md); global class field theory is [ClassFieldTheory](../../ClassFieldTheory/README.md); Hecke characters are [GlobalNumberFields](../../../Completed/GlobalNumberFields/README.md); the Serre tensor construction and canonical Gross characters are ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.3. The route of 2.6 takes the bound for the different from NumberFieldArithmetic §6.4, Minkowski's bound from Mathlib (`NumberField.exists_ideal_in_class_of_norm_le`), and the action of the automorphisms fixing `K(n)` on `ℂ/𝒪_K` with its level structure of level `n` from ShimuraVarieties §5.9. The root discriminants of composita and of Kummer steps, and the values of algebraic Hecke characters in a Kummer field, are used by that route and are stated by no roadmap on main.
+
+The general theorems named in the `*Corollary of:*` lines are stated in their homes: Serre's bound for the discriminant of a Galois extension of number fields in ExplicitNumberFields §0.7 (2.6); the base change of the Harder–Narasimhan filtration of a Hermitian vector bundle in ArakelovGeometryAndAbelianHeights §1B.5 (2.6a); Linnik's theorem in AnalyticNumberTheoryPartI §1.7b (2.7); the `(GL_n, GL_m)`-duality on polynomials in matrices in RepresentationTheory/SchurWeyl §8.4 (3.4); Minkowski's bound in FiniteGroupInvariants §10.2 (3.6); the finite Fourier transform in FourierDeligneTransform §0.2 (3.7); and the class-set pairing of algebraic modular forms in AutomorphicFormsOnReductiveGroups §7.5a (3.10).
 
 The roadmaps of the family named under Downstream consumers above use these statements; the theta lifts along rows, the model steps, the periods and the slope argument are theirs.
 
@@ -2485,6 +2812,7 @@ The roadmaps of the family named under Downstream consumers above use these stat
 
 - §2.4: discrete series and their parameters. Used in 2.8.
 - §§7.4, 7.5: algebraic modular forms in Gross's models, finite stabilisers. Used in 3.1.
+- §7.5a: the class-set inner product and its perfect pairing over the integers of a finite extension of `ℚ_ℓ` when no stabiliser has an element of order `ℓ`. Named in the `*Corollary of:*` line of 3.10.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -2550,10 +2878,32 @@ The roadmaps of the family named under Downstream consumers above use these stat
 
 - Layer 4 (Néron–Ogg–Shafarevich). Used in 2.6.
 
+### From TauCetiRoadmap.ExplicitNumberFields
+
+- §0.7 (Serre's bound for the relative discriminant of a finite Galois extension of number fields, and its form for root discriminants). Named in the `*Corollary of:*` line of 2.6.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+- §1B.5 (base change of the Harder–Narasimhan filtration of a Hermitian vector bundle under a finite extension; the normalised slopes, the maximal and the minimal one included, are unchanged). Named in the `*Corollary of:*` line of 2.6a.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §1.7b (Linnik's theorem on the least prime in an arithmetic progression). Named in the `*Corollary of:*` line of 2.7.
+
+### From TauCetiRoadmap.RepresentationTheory.SchurWeyl
+
+- §8.4 (`(GL_n, GL_m)`-duality on polynomials in `n × m` matrices). Named in the `*Corollary of:*` line of 3.4.
+
+### From TauCetiRoadmap.FourierDeligneTransform
+
+- §0.2 (the finite Fourier transform: inversion, Plancherel, transforms of indicators of subspaces). Named in the `*Corollary of:*` line of 3.7.
+
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The mathematics of this roadmap follows it; it is the reference of every target marked *NEW*.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The mathematics of this roadmap follows it; it is the reference of every target whose origin is particular to this proof and of every `*Method of the formal proof:*` label.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - P. L. Chebyshev, *Mémoire sur les nombres premiers* (1852). F. Mertens, *Ein Beitrag zur analytischen Zahlentheorie* (1874). H. Davenport, *Multiplicative Number Theory*, ch. 19–20 (de la Vallée Poussin, Landau, Page). Yu. V. Linnik, *On the least prime in an arithmetic progression* (1944): 2.7.
 - E. Hecke; A. Weil, *On a certain type of characters of the idèle-class group of an algebraic number-field*, Proceedings of the International Symposium on Algebraic Number Theory, Tokyo–Nikko 1955, pp. 1–7: 2.4. Ph. Furtwängler (principal ideal theorem); B. Gross, *Arithmetic on elliptic curves with complex multiplication*, LNM 776 (1980): 2.6.
-- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: 3.1. M. Kashiwara and M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44 (1978), 1–47; R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989), 535–552: 3.3, 3.4. D. Mumford, *Abelian Varieties* (1970), §6 (the theorem of the cube): 3.1c, 3.1d. K. Weierstrass (the sigma function): 3.1c. G. Shimura, *Theta functions with complex multiplication*, Duke Math. J. 43 (1976), 673–696 (algebraicity of CM theta values): 3.1a, 3.1d, 3.3. A. Capelli (the Capelli identity): 3.9. M. Kneser (strong approximation): 3.3.
+- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: 3.1, 3.2, 3.8, 3.10. M. Kashiwara and M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44 (1978), 1–47: 3.2, 3.3, 3.4; R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989), 535–552: 3.3, 3.4. D. Mumford, *Abelian Varieties* (1970), §6 (the theorem of the cube): 3.1c, 3.1d. K. Weierstrass (the sigma function): 3.1c. G. Shimura, *Theta functions with complex multiplication*, Duke Math. J. 43 (1976), 673–696 (algebraicity of CM theta values): 3.1a, 3.1d, 3.3. A. Capelli (the Capelli identity): 3.9. M. Kneser (strong approximation): 3.3.
+- T. Barnet-Lamb, T. Gee, D. Geraghty and R. Taylor, *Potential automorphy and change of weight*, Ann. of Math. 179 (2014), 501–609, arXiv:1010.2561, Lemma A.2.4: 2.4. Gras and Munnier, *Extensions cycliques T-totalement ramifiées*, Publ. Math. Besançon (1998), 1–17, Théorème 1.1 and Remarque 5.2: 2.5. J.-P. Serre, *Quelques applications du théorème de densité de Chebotarev*, Publ. Math. IHÉS 54 (1981), 123–201, Propositions 4′ and 5: 2.6. J.-B. Bost, *Périodes et isogénies des variétés abéliennes sur les corps de nombres (d'après D. Masser et G. Wüstholz)*, Séminaire Bourbaki 1994/95, exp. 795, Astérisque 237 (1996), 115–161, Appendice A, Proposition A.2: 2.6a.
+- J. A. Green, *Polynomial representations of GL_n*, Lecture Notes in Math. 830 (1980): 3.1. Amir-Khosravi, *Serre's tensor construction and moduli of abelian schemes*, Manuscripta Math. (2018), arXiv:1507.07607: 3.1a. K. Bannai and S. Kobayashi, *Algebraic theta functions and the p-adic interpolation of Eisenstein–Kronecker numbers*, Duke Math. J. 153 (2010), 229–295: 3.1c. J.-P. Serre, *Bounds for the orders of the finite subgroups of `G(k)`*, arXiv:1011.0346v1, §1.1, Theorem 1 (Minkowski's bound): 3.6. W. T. Gan, B. H. Gross and D. Prasad, *Symplectic local root numbers, central critical L-values, and restriction problems in the representation theory of classical groups*, arXiv:0909.2999 (2009) (the periods of GanGrossPrasadUnitaryGroups §4.1): 3.9.

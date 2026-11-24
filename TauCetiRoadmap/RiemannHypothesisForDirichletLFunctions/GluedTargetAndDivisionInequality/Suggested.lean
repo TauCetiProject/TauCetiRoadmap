@@ -69,7 +69,9 @@ Suppose that for every finite place `𝔭` of `L` there are an `L`-space `U 𝔭
 `ζ 𝔭` with `P 𝔭 φ Υ = ζ 𝔭 * B φ (j 𝔭 Υ)`, and a real `σ 𝔭` such that for `φ ∈ N`, `Υ ∈ M 𝔭` either
 `P 𝔭 φ Υ = 0` or `v_𝔭(P 𝔭 φ Υ) ≥ σ 𝔭`. Let `τ 𝔭 ∈ ℤ`, zero for almost all `𝔭`, with
 `τ 𝔭 ≤ ⌈σ 𝔭⌉`, and `N′ := (∏_𝔭 𝔭^(-τ 𝔭))·N`. Then `B(N′, R) ⊂ 𝓞 L`.
-It follows from [FormalProof], `Formalism/QuotientMetricDivisors/DivIntoDualShift.lean`
+[FormalProof] states the case `c = id`, in coordinates and with an equality of localisations in
+place of the inclusion `R ⊂ 𝒪_(c⁻¹(𝔭))·j 𝔭 (M 𝔭)`, in
+`Formalism/QuotientMetricDivisors/DivIntoDualShift.lean`
 (`Formalism.DivisionValues.DivIntoDualShift`). -/
 theorem pairing_integral_of_localDivision
     {L : Type*} [Field L] [NumberField L] (c : L ≃+* L)

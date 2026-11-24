@@ -2,9 +2,9 @@
 
 **Summary.** This roadmap adds to the theory of automorphic forms a set of statements about real reductive groups, algebraic modular forms, the automorphic spectrum and automorphic vector bundles. It works in four settings, each with its own standing hypotheses: a connected real reductive group `G` with a maximal compact subgroup `K`, specialised to `U(p, q)` and to products of its bounded symmetric domain where a statement says so; a connected reductive group `G` over a number field `F` with `G(F_∞)/A_∞` compact and `Z_G(F)` discrete in `Z_G(𝔸_f)`, with a compact open level `J ⊂ G(𝔸_f)`; a connected reductive group over a number field with its spaces of cuspidal and discrete automorphic forms; and a Shimura datum `(G, X)` with a neat level `K` and a smooth projective toroidal compactification `Sh_K^Σ` whose boundary `D` is a divisor with simple normal crossings.
 
-The headline theorems are these. (1) Let `G` have a Cartan subgroup compact modulo the split centre `A_G`, and normalise the Haar measure on `G/A_G` by the Haar probability measure of the compact dual `U` that contains `K`. Then the discrete series `π_λ` of regular Harish-Chandra parameter `λ` has formal degree `d(π_λ) = ∏_{α>0} |⟨λ, α^∨⟩| / ∏_{α>0} ⟨ρ, α^∨⟩`, the formal degree being defined by Schur orthogonality; it is the dimension of the irreducible representation of `U` of infinitesimal character `λ` when `λ` is dominant for a chamber of `U`. (2) Let `G = U(p, q)` with `p, q ≥ 1`, `n = p + q`, `q₀ = min(p, q)`, and `σ` the discrete series of Harish-Chandra parameter `λ` whose entries of different signs are at least `h ≥ 120·n·q₀^{3/2}` apart, with lowest `K`-type isotypic subspace `V_Λ`. Then the compression of `σ` to `V_Λ` is, on `exp 𝔭`, an explicit `K`-average of a product of powers of leading principal minors, and `|⟨σ(g)u, v⟩| ≤ exp(−(h/8)·min(d(g)², d(g)/√(2q₀)))·‖u‖·‖v‖` for all `u, v ∈ V_Λ`, where `d(k·exp X) = ‖X‖_HS`. (3) For `G` over `F` as above, class representatives `t_i` of `G(F)\G(𝔸_f)/J` and the finite groups `Γ_i = G(F) ∩ t_i J t_i⁻¹`, put `mass J = Σ_i |Γ_i|⁻¹`. Then `vol(G(F)A_∞\G(𝔸)) = vol(G_∞J/A_∞) · mass J`, and for a finite free coefficient module `M` over a field of characteristic zero on which `Γ_i` acts through `ρ_i`, `dim S(J, M) = Σ_i |Γ_i|⁻¹ Σ_{γ∈Γ_i} tr ρ_i(γ) = mass J · dim M + Σ_i |Γ_i|⁻¹ Σ_{γ∈Γ_i∖{1}} tr ρ_i(γ)`. (4) In the Shimura setting, the metric induced by a `K_∞`-invariant inner product on the automorphic vector bundle `V(J)` of a representation `J` unitary on the stabiliser `K_∞` of a point of `X` is good along `D` relative to the canonical extension `V(J)^can_Σ`. Consequently, with `κ_K = χ_top(Sh_K(ℂ))/χ_top(X̌)` for the compact dual `X̌` and `Sh_K(ℂ)` connected, every polynomial `P` of weighted degree `dim X` in the Chern classes of such bundles `V(J₁), …, V(J_m)` satisfies `P(c(V(J_•)^can_Σ))[Sh_K^Σ] = κ_K · P(c(V̌(J_•)))[X̌]`, and the same proportionality holds on fibre products of flag bundles.
+The headline theorems are these. (1) Let `G` have a Cartan subgroup compact modulo the split centre `A_G`, and normalise the Haar measure on `G/A_G` by the Haar probability measure of the compact dual `U` that contains `K`. Then the discrete series `π_λ` of regular Harish-Chandra parameter `λ` has formal degree `d(π_λ) = ∏_{α>0} |⟨λ, α^∨⟩| / ∏_{α>0} ⟨ρ, α^∨⟩`, the formal degree being defined by Schur orthogonality; it is the dimension of the irreducible representation of `U` of infinitesimal character `λ` when `λ` is dominant for a chamber of `U`. (2) Let `G = U(p, q)` with `p, q ≥ 1`, `n = p + q`, `q₀ = min(p, q)`, and `σ` the discrete series of Harish-Chandra parameter `λ` whose entries of different signs are at least `h ≥ 120·n·q₀^{3/2}` apart, with lowest `K`-type isotypic subspace `V_Λ`. Then the compression of `σ` to `V_Λ` is, on `exp 𝔭`, an explicit `K`-average of a product of powers of leading principal minors, and `|⟨σ(g)u, v⟩| ≤ exp(−(h/8)·min(d(g)², d(g)/√(2q₀)))·‖u‖·‖v‖` for all `u, v ∈ V_Λ`, where `d(k·exp X) = ‖X‖_HS`. (3) For `G` over `F` as above, class representatives `t_i` of `G(F)\G(𝔸_f)/J` and the finite groups `Γ_i = G(F) ∩ t_i J t_i⁻¹`, put `mass J = Σ_i |Γ_i|⁻¹`. Then `vol(G(F)A_∞\G(𝔸)) = vol(G_∞J/A_∞) · mass J`, and for a finite free coefficient module `M` over a field of characteristic zero on which `Γ_i` acts through `ρ_i`, `dim S(J, M) = Σ_i |Γ_i|⁻¹ Σ_{γ∈Γ_i} tr ρ_i(γ) = mass J · dim M + Σ_i |Γ_i|⁻¹ Σ_{γ∈Γ_i∖{1}} tr ρ_i(γ)`. (4) In the Shimura setting, the metric induced by a `K_∞`-invariant inner product on the automorphic vector bundle `V(J)` of a representation `J` of the parabolic subgroup stabilising a point of the compact dual `X̌`, trivial on its unipotent radical and unitary on the stabiliser `K_∞` of a point of `X`, is good along `D` relative to the canonical extension `V(J)^can_Σ`. Consequently, with `κ_K = χ_top(Sh_K(ℂ))/χ_top(X̌)` for the compact dual `X̌` and `Sh_K(ℂ)` connected, every polynomial `P` of weighted degree `dim X` in the Chern classes of such bundles `V(J₁), …, V(J_m)` satisfies `P(c(V(J_•)^can_Σ))[Sh_K^Σ] = κ_K · P(c(V̌(J_•)))[X̌]`, and the same proportionality holds on fibre products of flag bundles.
 
-The roadmap extends [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md), whose real representation theory, holomorphic discrete series and algebraic modular forms with their class sets and finite stabilisers it uses; [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md), whose cuspidal and discrete spectrum it uses; and AutomorphicBundles, whose automorphic vector bundles, canonical extensions and compact duals it uses. Good metrics and their Chern forms come from [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md), and the formal degree from the Schur–Godement orthogonality of [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the class-set formulas feed the theta lifts between definite unitary groups and the masses of Hermitian lattices, and the coefficient bounds, formal degrees and trace-class statements feed the limit multiplicity and the Gram bounds for Bessel–Poincaré series.
+The roadmap extends [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md), whose real representation theory, holomorphic discrete series and algebraic modular forms with their class sets and finite stabilisers it uses; [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md), whose cuspidal and discrete spectrum it uses; and AutomorphicBundles, whose automorphic vector bundles, canonical extensions and compact duals it uses. Good metrics and their Chern forms come from [SingularHermitianMetricsAndL2Methods](../SingularHermitianMetricsAndL2Methods/README.md), and the formal degree from the Schur–Godement orthogonality of [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md). The general theorems on class-set integration, on the evaluation of algebraic modular forms on the class set, on the trace class of `R(f)` and on invariant metrics and proportionality for automorphic vector bundles are those of [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md), AutomorphicFormsOnReductiveGroups, AutomorphicSpectralTheory and AutomorphicBundles, of which the corresponding statements here are corollaries. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the class-set formulas feed the theta lifts between definite unitary groups and the masses of Hermitian lattices, and the coefficient bounds, formal degrees and trace-class statements feed the limit multiplicity and the Gram bounds for Bessel–Poincaré series.
 
 The layers are in increasing order. Layer 2 gives an explicit formula for the lowest-`K`-type coefficient of a gapped discrete series of `U(p, q)`, with its decay and weighted integrability, and decomposes the tensor products of gapped discrete series with the standard representation, its dual and its exterior powers. Layer 6 describes holomorphic discrete series as lowest-weight modules and bounds Poincaré series of discrete subgroups of `U(p, q)^f` uniformly on products of its domain. Layer 7 gives, for groups compact at infinity, the class-set integration formula with its inner product, mass and perfect pairing, kernel operators between class sets, and the dimension formula. Layer 8 proves that `K`-finite vectors of admissible Banach representations are analytic, that irreducible unitary representations with isomorphic Harish-Chandra modules are unitarily equivalent, and the formal-degree formula; the route of the formal degree for `U(p, q)` uses the coefficient formula of Layer 2 and the split Casimir operator behind its tensor products. One citation runs forward: the formula of 2.4a uses the analyticity of lowest-`K`-type vectors, 8.1, which rests on nothing in this roadmap and may be built first. Layer 9 proves that `R(f)` is trace class on the cuspidal and on the discrete spectrum. Layer 10 proves that invariant metrics on automorphic vector bundles are good along the boundary and deduces Hirzebruch–Mumford proportionality.
 
@@ -25,11 +25,40 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 7.5b carry the first label only.
+[FormalProof] has a statement of every other section, in several of them of a case or of some clauses only, which the
+method label names: for `U(p, q)` in 6.8 and 8.1–8.3, for unitary groups and the cuspidal spectrum in 9.1, for trivial
+stabilisers in 7.5c, and for the Hodge metrics of the unitary Shimura varieties of the family in 10.1 and 10.2, where
+the constant of proportionality is a covolume. The forms of 6.8, 8.1 and 8.2 for groups beyond those of their published
+sources, the form of 10.1 for general data, the constant `κ_K` and the forms for several bundles and for flag bundles in
+10.2, and the duality of lattices of forms in 7.5a are this roadmap's own formulations.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers
+when it does not cover the whole section. As long as that general theorem is not in the library, what the line covers
+is proved as [FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the
+statement when that proof has a narrower one; the route given with the section is that proof's unless the label says
+that it differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the
+deduction from it, and the lemmas that only the first proof uses are removed. The statement does not change.
+
 ## Layer 2: Coefficients and tensor products of discrete series
 
 The lowest-`K`-type coefficient of a discrete series of `U(p, q)` with gapped parameter (an explicit formula, its decay and its weighted integrability), and the tensor products of gapped discrete series with the standard representation, its dual and its exterior powers.
 
 ### 2.4a Lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`
+
+*Origin:* adapted from Sun (2007), Theorem 2.1, Proposition 6.1 and formula (26): the integral formula for the
+lowest-`K`-type coefficient of a discrete series of `U(p, q)`, proved there by verification through a uniqueness
+statement, its discrete-series case being credited there to Flensted-Jensen (1980); here for parameters with gap `h` and
+explicit thresholds, with the kernel bound (a) uniform in the parameter, the decay (c) and the weighted integrability (d).
+
+*Method of the formal proof:* the formula is verified rather than derived: the difference of the coefficient and of the
+`K`-average is `K`-bi-equivariant, vanishes at the identity and solves a first-order system near it, so all its Taylor
+jets vanish by a comparison of eigenvalues of the Casimir operator of `K` under the gap, and analyticity along
+one-parameter subgroups concludes. The decay bound writes each leading principal minor of `exp(Y)` as a convex
+combination of exponentials of partial sums of eigenvalues (Cauchy–Binet) and bounds the logarithm of such an average
+from below, with a summation by parts against the gap.
 
 Let `λ` be a Harish-Chandra parameter with gap `h`, and put `Φ_λ(z) = ∏_{i=1}^{n−1} Δ_i(z)^{−(λ_i − λ_{i+1} + 1)} · (det z)^{−(λ_n − (n−1)/2)}`, a function on the matrices all of whose leading principal minors are nonzero. Prove that:
 
@@ -72,6 +101,19 @@ The formula (b), the variant of (c) under `h > max(8nq₀, npq + 1)` and (d), wi
 - The gap concerns entries of different signs only: for `q₀ = 0` the group is compact and every statement is empty or trivial.
 
 ### 2.4b Tensor products of gapped discrete series with the standard representation
+
+*Origin:* published: Zuckerman (1977), the decomposition of the tensor product of a discrete series with a
+finite-dimensional representation on Harish-Chandra modules, and Hecht and Schmid (1975), Theorem (1.4) and
+Corollary (1.5), its form of characters for the standard representation and its dual; here for the standard
+representation of `U(p, q)`, its dual and its exterior powers, with gapped parameters.
+
+*Method of the formal proof:* the partial traces over `ℂ^n` of the powers of the split Casimir operator are computed
+from the infinitesimal character (the trace formula of Gould (1980) and the characteristic identity of Gould (1985),
+Theorem 3), which gives the partial trace `r_s = ∏_{t≠s}(μ_s − μ_t + 1)/(μ_s − μ_t)` of each spectral projection; since
+the projections are self-adjoint for a positive invariant form, an eigenvalue occurs exactly when `r_s ≠ 0`, and an
+`L²` pairing of explicit coefficients with an inequality of formal degrees in both directions identifies each
+eigenspace with one discrete series, with `d(σ_s)/d(σ) = r_s`. The proofs of Zuckerman (1977) and of Hecht and Schmid
+(1975) identify the summands through Harish-Chandra's global characters and coherent continuation.
 
 `G` acts on `ℂ^n` by the standard representation, on `(ℂ^n)^∨` by `g ↦ (g⁻¹)^T`, and on `Λ^lℂ^n` by the exterior power; `e_s` is the `s`-th basis vector of `ℝ^n` and `e_I = Σ_{i∈I}e_i`. Let `σ` be the discrete series of parameter `(ε, μ)`, with gap `h`. Put `t₀ = max(2n, 16nq₀ + 8√(2q₀))` and `t₁ = max(t₀, npq + 1)`. Prove that:
 
@@ -118,6 +160,18 @@ Holomorphic discrete series of a group with Hermitian symmetric space as lowest-
 
 ### 6.8 Holomorphic discrete series as lowest-weight modules
 
+*Origin:* published for connected semisimple `G`: Harish-Chandra (1955–1956) and Knapp (1986), Chapter VI, the
+holomorphic discrete series realised on the bounded symmetric domain, whose `K`-finite part is a lowest-weight module
+(stated for semisimple `G` in AutomorphicFormsOnReductiveGroups §6.8a); the form for a reductive `G`, with the instances
+`U(p, q)` and its double cover `{(g, z) : z² = det g}`, is this roadmap's own formulation.
+
+*Method of the formal proof:* for `U(p, q)`, on the `K`-finite module: if `𝔭⁻` did not kill the lowest `K`-type
+`V_{λ₀}`, a `K`-type of highest weight `λ₀ − β`, `β` a positive noncompact root, would occur, of strictly smaller norm
+`‖μ + 2ρ_c‖` (`μ` the highest weight) than the lowest `K`-type in the holomorphic chamber; the span of the words in `𝔭⁺`
+applied to `V_{λ₀}` is then stable under `𝔤`, hence the whole module by irreducibility, and the weights of these words
+give the `K`-types. Its statement has these clauses and the smoothness of the `K`-finite vectors; the isomorphism with
+`S(𝔭⁺) ⊗ V_{λ₀}` is not among them.
+
 This target extends AutomorphicFormsOnReductiveGroups §6.8, which constructs the scalar holomorphic discrete series of `Sp₂ₙ(ℝ)` and `U(n, n)` with their parameters and minimal compact types, to every holomorphic discrete series: for `G` with `G/K` Hermitian symmetric, `𝔭_ℂ = 𝔭⁺ ⊕ 𝔭⁻` the decomposition into abelian `K`-stable subspaces, a discrete series whose Harish-Chandra parameter lies in the holomorphic chamber is a lowest-weight module: `𝔭⁻` kills the lowest `K`-type `V_{λ₀}`, the `K`-finite part is `U(𝔭⁺)·V_{λ₀} ≅ S(𝔭⁺) ⊗ V_{λ₀}` as a `K`-module, and its `K`-types are `λ₀` plus `ℕ`-combinations of the weights of `𝔭⁺`. Instances: `U(p,q)` and the real points of `{(g, z) : z² = det g}` over it. For `Sp_{2g}(ℝ)`, LevelOneAutomorphicFormsForClassicalGroups §3.4 states the converse direction for the unitary lowest-weight modules `ρ_k` (for `k_g > g`, `ρ_k` is a holomorphic discrete series), with their existence and uniqueness.
 The form that the formal proof uses is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/HolomorphicDiscreteSeries.lean`
@@ -125,7 +179,7 @@ The form that the formal proof uses is [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HolomorphicDiscreteSeriesHolds.lean`
 (`GlobalTheory.HolDS.holomorphicDiscreteSeries_holds`).
 
-*Route.* Harish-Chandra's realisation of the holomorphic discrete series on holomorphic functions on the bounded symmetric domain `G/K` with values in `V_{λ₀}`, square integrable for the weight given by `λ₀` (Harish-Chandra, *Representations of semisimple Lie groups IV–VI*; Knapp, *Representation theory of semisimple groups*, Ch. VI): the `K`-finite vectors are the `V_{λ₀}`-valued polynomials, `𝔭⁻` acts by derivations and kills the constants, `𝔭⁺` acts by multiplication by linear functions modulo `𝔨`, and `𝔭⁺` is abelian. Identification with the discrete series of parameter `λ` by the lowest `K`-type `λ + ρ_n − ρ_c` (AutomorphicFormsOnReductiveGroups §2.4).
+*Route.* Harish-Chandra's realisation of the holomorphic discrete series on holomorphic functions on the bounded symmetric domain `G/K` with values in `V_{λ₀}`, square integrable for the weight given by `λ₀` (Harish-Chandra, *Representations of semisimple Lie groups IV–VI*, for connected semisimple `G`; Knapp, *Representation theory of semisimple groups*, Ch. VI): the `K`-finite vectors are the `V_{λ₀}`-valued polynomials, `𝔭⁻` acts by derivations and kills the constants, `𝔭⁺` acts by multiplication by linear functions modulo `𝔨`, and `𝔭⁺` is abelian. Identification with the discrete series of parameter `λ` by the lowest `K`-type `λ + ρ_n − ρ_c` (AutomorphicFormsOnReductiveGroups §2.4).
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§2.1–2.4, 6.1, 6.8; RepresentationTheory/LieHighestWeight Layers 3, 7 and 9.
 
@@ -134,6 +188,16 @@ The form that the formal proof uses is [FormalProof],
 - `SL₂(ℝ)`, `D_k⁺`: lowest `K`-type `k`, `𝔭⁺` of weight `2`, `K`-types `k, k + 2, k + 4, …`.
 
 ### 6.8a Poincaré series on products of the domains of `U(p, q)`
+
+*Origin:* adapted from the classical convergence of Poincaré series on bounded symmetric domains: on products of the
+domains of `U(p, q)`, a bound uniform on the whole of `D_{p,q}^f` and in the discrete group `Γ`, with the explicit
+exponent `s > 2fn²` and a constant depending only on `f, p, q, s` and `c`.
+
+*Method of the formal proof:* the route written here: with `Z_k = G_k·0` each term is `∏_k |det D(γ_kG_k)|^{−2s}`; a
+tuple with an entry of modulus above `R` contributes at most `((n + 1)/R²)^s`, while the tuples with all entries at most
+`R` are separated by `c/((n + 1)R)` in the matrix space of real dimension `2fn²` and so number at most a constant times
+`R^{4fn²}`; summing over `R = 2^j` gives a geometric series of ratio `4^{2fn² − s}`. The count is made for the Euclidean
+size of the matrix entries, which gives the uniformity in `Z` and in `Γ`.
 
 Let `p, q, f ≥ 0`, `n = p + q`, `D_{p,q} = {Z ∈ M_{p×q}(ℂ) : 1 − ZZ^* is positive definite}`, on which `U(p, q) = {g ∈ GL_n(ℂ) : g^*·diag(1_p, −1_q)·g = diag(1_p, −1_q)}` acts by `g·Z = (AZ + B)(CZ + D)⁻¹` for `g = [[A, B], [C, D]]`, and `ρ(Z) = −Σ_{k=1}^{f} log det(1 − Z_kZ_k^*)` on `D_{p,q}^f` (the logarithm of the Bergman kernel is `n·ρ` up to a constant). Prove that for every real `s > 2fn²` and every discrete subgroup `Γ` of `U(p, q)^f` there is `C < ∞` with `Σ_{γ∈Γ} e^{−s·ρ(γ·Z)} ≤ C` for all `Z ∈ D_{p,q}^f`, where `C` depends only on `f, p, q, s` and on a number `c > 0` such that every `γ ≠ 1` in `Γ` has, in some factor, an entry of `γ_k − 1` of modulus at least `c`.
 The bound is [FormalProof],
@@ -165,6 +229,28 @@ The class-set integration formula with the inner product and the mass, kernel op
 
 ### 7.5a Class-set integration, inner products and the mass
 
+*Origin:* published: Gross (1999), §§4–8, the class set with its finite stabilisers, the mass, the inner product
+weighted by the inverse stabiliser orders and the Hecke operators with their adjoints; Thorne (2012), proof of
+Lemma 6.4, for definite unitary groups, the perfect pairing between the forms with values in a lattice and in its dual
+over the integers of a finite extension of `ℚ_ℓ`, when no stabiliser has an element of order `ℓ`. The duality of
+lattices of forms over the integers of a number field, under the two hypotheses (i), (ii) with an integer `s` and a
+lattice at each class, and its case the chain `N_J·S(J, M_𝒪^∨) ⊂ S(J, M_𝒪)^∨ ⊂ S(J, M_𝒪^∨)` with `N_J = lcm_i |Γ_i|`,
+are this roadmap's own formulation.
+
+*Method of the formal proof:* the quotient is cut into the finitely many pieces of the classes `t_i`, the stabilisers
+being shown finite by a measure count; unfolding over `Γ_i` gives each piece the measure `vol(G_∞J/A_∞)/|Γ_i|`, and a
+function that is only right `J`-invariant is first averaged over the compact group `G_∞/A_∞`. Clause (i) of the
+duality of lattices of forms and the pairing are proved one class at a time from the adjointness of the inclusion of the
+`Γ_i`-invariants and the averaging projector. The route written here differs in two steps: it takes the finiteness of the
+stabilisers from AutomorphicFormsOnReductiveGroups §7.5, and for (i) it pairs with the form supported on one class with
+value `Σ_{γ∈Γ_i}γm`, after making `∇_i` stable under `Γ_i`.
+
+*Corollary of:* AdelicAlgebraicGroups §4.5a (class-set integration on groups compact at infinity: the integration
+formula, the mass and its independence of the representatives, the volume and the index formula), for the clauses
+*Integration formula* and *Volume* and for the mass in *Independence*; and AutomorphicFormsOnReductiveGroups §7.5a (the
+class-set inner product and its independence of the representatives), for the inner product in *Independence*. The
+clauses *Comparison*, *Hecke adjoints* and *Duality of lattices of forms* are not cases of these theorems.
+
 Define `mass J = Σ_i |Γ_i|⁻¹` and, for a coefficient module `M` with a `G(F)`-invariant (through the archimedean or level action, as in AutomorphicFormsOnReductiveGroups §7.4) Hermitian form `⟨·,·⟩_M`, the *class-set inner product* `⟨f, f′⟩_J = Σ_i |Γ_i|⁻¹ ⟨f(t_i), f′(t_i)⟩_M` on `S(J, M)`.
 The class-set inner product is [FormalProof], `Formalism/LocalToGlobal/Divisibility/ClassSum.lean` (`Formalism.L2.DIV.CSD.csum`),
 `Formalism/QuotientMetricDivisors/ClassSumDualLe.lean` (`Formalism.DivisionValues.IsClassSum`). Prove:
@@ -184,7 +270,7 @@ The class-set inner product is [FormalProof], `Formalism/LocalToGlobal/Divisibil
 
 *Route.* `G(F)A_∞\G(𝔸) = ⊔_i G(F)A_∞\G(F)A_∞ t_i G_∞ J`, and the stabiliser of `t_i G_∞J A_∞` in `G(F)` is `Γ_i` (compactness of `G_∞/A_∞` and discreteness of `Z_G(F)` in `Z_G(𝔸_f)` make it the finite-adelic stabiliser); the volume statement is the formula for `F = 1`, and the index statement is the orbit count of `Γ_i` on `J/J′` (sum over orbits of `|stabiliser|⁻¹` equals `[J : J′]/|Γ_i|`). The comparison is Schur orthogonality (RepresentationTheory/CompactGroups §4.1). The Hecke adjoint is the substitution `x ↦ x g` in the integration formula. Duality of lattices of forms: (i) replacing `∇_i` by the intersection of its translates under `Γ_i` changes neither `S(∇)` nor the hypothesis (the dual of the intersection is the sum of the translates of `∇_i^∨`, and `Δ_i` is stable), so let `∇_i` be stable; for `f′ ∈ S(∇)^∨` and `m ∈ ∇_i`, pair `f′` with the form supported on the class of `t_i` with value `Σ_{γ∈Γ_i}γm` (evaluation equivalence of AutomorphicFormsOnReductiveGroups §7.5): by the invariance of `f′(t_i)` the result is `⟨m, f′(t_i)⟩`, so `f′(t_i) ∈ ∇_i^∨` and `s·f′(t_i) ∈ Δ_i`. (ii): `|Γ_i|⁻¹ ∈ N_J⁻¹ℤ`.
 
-(B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), §§4–8; the pairing as in Thorne 2012, proof of Lemma 6.4.) *Needs:* AutomorphicFormsOnReductiveGroups §§7.4, 7.5; AdelicAlgebraicGroups §§2.3, 2.4, 3.4; RepresentationTheory/CompactGroups §4.1.
+(B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), §§4–8; for the perfect pairing over the integers of a finite extension of `ℚ_ℓ` when no stabiliser has an element of order `ℓ`, Thorne 2012, proof of Lemma 6.4.) *Needs:* AutomorphicFormsOnReductiveGroups §§7.4, 7.5; AdelicAlgebraicGroups §§2.3, 2.4, 3.4; RepresentationTheory/CompactGroups §4.1.
 
 **Checks.**
 
@@ -196,6 +282,8 @@ The class-set inner product is [FormalProof], `Formalism/LocalToGlobal/Divisibil
 - For `G = SO(q)` of a totally positive form `q` over a totally real field and `J` the integral stabiliser of a lattice, the Volume clause is GeometryOfNumbersAndQuadraticArithmetic §3.3.4 (the proper mass identity), `mass J` being the proper mass of the genus.
 
 ### 7.5b Kernel operators between class sets
+
+*Origin:* definitions and conventions.
 
 For two groups `G`, `G′` as above with levels `J`, `J′` and coefficients `M`, `M′`, a *kernel* is a function `k : G(𝔸_f) × G′(𝔸_f) → Hom(M, M′)` with the transformation law of the model in use (AutomorphicFormsOnReductiveGroups §7.4):
 
@@ -222,6 +310,18 @@ Prove:
 - The integrality denominator is attained: one class with `Γ = {±1}`, trivial coefficients, kernel `1`: `K_k 1 = 1/2`.
 
 ### 7.5c Dimensions of spaces of algebraic modular forms
+
+*Origin:* adapted from Gross (1999): the forms as the invariants of the finite stabilisers over the class set; here
+their dimension by the character formula, with the mass, the central term and the change of level.
+
+*Method of the formal proof:* the formal proof has the case of trivial stabilisers: every point of `G(𝔸_f)` is then
+uniquely `γ t_i u` with `γ ∈ G(F)` and `u ∈ J`, so evaluation at the representatives identifies the forms with the
+functions on the class set, and at a smaller level `J′` the number of classes is bounded below by `[J : J′]·mass J`, by
+counting the inequivalent points that one double coset contains.
+
+*Corollary of:* AutomorphicFormsOnReductiveGroups §7.5 (the evaluation equivalence `S(J, M) ≃ ⊕_i M^{Γ_i}`, with
+trivial stabilisers at sufficiently small level); the clause on the change of level also uses the index formula of the
+mass (7.5a, AdelicAlgebraicGroups §4.5a).
 
 For a finite free coefficient module `M` over a field of characteristic zero on which every `Γ_i` acts through a representation `ρ_i`, prove:
 
@@ -254,6 +354,15 @@ Three statements about a real reductive group `G`: analyticity of `K`-finite vec
 
 ### 8.1 `K`-finite vectors are analytic
 
+*Origin:* published for connected semisimple groups: Harish-Chandra (1953), Lemma 34 with §7, for representations
+permissible in Harish-Chandra's sense with finite-dimensional `K`-isotypic subspaces; the form for admissible Banach
+representations of a real reductive `G` is this roadmap's own formulation.
+
+*Method of the formal proof:* for a lowest-`K`-type vector `w` of a discrete series `σ` of `U(p, q)`: the Casimir
+operator acts by a real scalar, which bounds `Σ_{a,b}‖E_{ab}y‖²`, `E_{ab}` the matrix units of `𝔤𝔩_n(ℂ)`, for the
+vectors `y` obtained from that `K`-type by words of length at most `j` in `𝔤` by a constant times `(B + j)²‖y‖²`, `B` a constant; hence
+`‖X^k w‖ ≤ C^k(B + k)^k‖w‖`, and Taylor's formula with remainder makes `t ↦ σ(exp tX)w` analytic.
+
 `K`-finite vectors of an admissible Banach representation of a real reductive `G` are analytic vectors, and their matrix coefficients are real-analytic functions on `G`. NoncompactQuantumSymmetry M0 (item 3) proves the analyticity for admissible unitary representations of connected semisimple groups with finite centre.
 The form that the formal proof uses is [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/FlagMeasures/LowestKTypeAnalytic.lean` (`GlobalTheory.Jet.Anal.lowK_analytic`).
@@ -264,16 +373,45 @@ The form that the formal proof uses is [FormalProof],
 
 ### 8.2 Unitary equivalence from an isomorphism of Harish-Chandra modules
 
+*Origin:* published for connected semisimple groups: Harish-Chandra (1953), Theorem 5 and Theorem 8, stated for
+connected semisimple groups with finite centre in NoncompactQuantumSymmetry Layer 3 (M0), item 3; the form for a real
+reductive `G` is this roadmap's own formulation.
+
+*Method of the formal proof:* for `U(p, q)`: in a unitary representation `σ`, a vector generated from a
+finite-dimensional `K`-stable eigenspace of the Casimir operator has an orbit `t ↦ σ(exp tX)v`, `X ∈ 𝔭`, equal to its
+Taylor series on an interval depending only on `X`, by the bound `‖X^m v‖ ≤ C^m·m!` read off the expression of the
+Casimir operator through the Casimir operator of `K` and `Σ_{a,b}‖E_{ab}v‖²`, `E_{ab}` the matrix units of
+`𝔤𝔩_n(ℂ)`; this makes the closure of an admissible submodule stable under the group, and the closed
+graph of the rescaled module isomorphism, an isometry by the uniqueness of the invariant form, gives the unitary
+equivalence.
+
 Irreducible unitary representations of a real reductive `G` with isomorphic Harish-Chandra modules are unitarily equivalent (a positive multiple of the module isomorphism extends to a unitary isomorphism); the closure of an admissible `(𝔤, K)`-submodule of a unitary representation is `G`-stable with that submodule as its `K`-finite part. For connected semisimple groups with finite centre, the first clause, and the second for admissible unitary representations, are NoncompactQuantumSymmetry M0 (item 3).
 The form that the formal proof uses is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/IsAdmissibleSubOfFiniteDimensional.lean`
 (`GlobalTheory.Published.GKGlobalisation`).
 
-*Route.* Harish-Chandra 1953, Theorem 5, p. 228 (closed invariant subspaces and submodules of the `K`-finite part) and Theorem 8, p. 231 (infinitesimal equivalence of irreducible unitary representations is equivalence): `K`-finite matrix coefficients are real-analytic (8.1), so a closed subspace is `G`-stable as soon as its `K`-finite part is `𝔤`-stable (the coefficients against its orthogonal complement vanish to infinite order at `1`); the invariant Hermitian form on an irreducible Harish-Chandra module is unique up to a scalar, so a module isomorphism is a multiple of an isometry.
+*Route.* Harish-Chandra 1953, Theorem 5, p. 228 (closed invariant subspaces and submodules of the `K`-finite part) and Theorem 8, p. 231 (infinitesimal equivalence of irreducible unitary representations is equivalence), for connected semisimple groups: `K`-finite matrix coefficients are real-analytic (8.1), so a closed subspace is `G`-stable as soon as its `K`-finite part is `𝔤`-stable (the coefficients against its orthogonal complement vanish to infinite order at `1`); the invariant Hermitian form on an irreducible Harish-Chandra module is unique up to a scalar, so a module isomorphism is a multiple of an isometry.
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§2.1–2.2; 8.1.
 
 ### 8.3 Formal degree of a discrete series
+
+*Origin:* published: Harish-Chandra (1966) and Atiyah and Schmid (1977), the formal degree of a discrete series, equal
+for the Haar measure matched with the compact dual to the dimension of the representation of the compact dual with the
+same infinitesimal character.
+
+*Method of the formal proof:* for `U(p, q)`, tensoring with the standard representation gives
+`d(λ + e_s) = d(λ)·∏_{s′≠s}(λ_s + 1 − λ_{s′})/(λ_s − λ_{s′})` (for finite-dimensional representations, the theorem of
+Perelomov and Popov (1968), stated in Bufetov and Gorin, Theorem 1.6), so the formal degree divided by
+`∏_{a<b}|λ_a − λ_b|` is constant along a ray; the constant is found by Schur orthogonality and Laplace's method on the
+explicit lowest-`K`-type coefficient (Sun (2007), §7, expresses the lowest-`K`-type coefficient as an integral over the
+maximal compact subgroup of an explicit function and proves its positive definiteness), a Gaussian limit after
+rescaling of the noncompact coordinates, and a moment lemma extends the identity from parameters with a gap to all
+parameters. The proof of Harish-Chandra (1966) rests on the characters of the
+discrete series on the compact Cartan subgroup with the Plancherel measure, that of Atiyah and Schmid (1977) on the
+`L²`-index theorem, and the nearest published route, van Haastrecht and Zhang (2024), §4, fixes the constant of
+Harish-Chandra's product formula by Schur orthogonality on the lowest-`K`-type coefficient, for holomorphic discrete
+series.
 
 Let `G` be a connected real reductive group with a Cartan subgroup `T` compact modulo the split centre `A_G`, `K` a maximal compact subgroup, `𝔤/𝔞_G = 𝔨 ⊕ 𝔭` the Cartan decomposition and `U` the compact dual containing `K`: a connected compact Lie group with Lie algebra `𝔨 ⊕ i𝔭` together with an injective homomorphism `K → U` whose differential is the inclusion of `𝔨`. When `G` is the identity component of the real points of a connected reductive group `𝐆` over `ℝ`, as in AutomorphicFormsOnReductiveGroups §2.4, the analytic subgroup of `𝐆(ℂ)` with Lie algebra `𝔨 ⊕ i𝔭` is such a group, `𝔭` being realised as the `−1`-eigenspace of the Cartan involution in the derived algebra. Normalise the Haar measure on `G/A_G` so that it corresponds, under the identification of `𝔨 ⊕ 𝔭` with `𝔨 ⊕ i𝔭`, to the Haar measure of total mass one on `U`: both are given by the same invariant volume form on `𝔨 ⊕ 𝔭`, transported by left translation. Equivalently, it is the product of the Haar probability measure on `K` and the invariant measure on `G/KA_G` that corresponds to the invariant probability measure on `U/K`; it does not depend on the choice of `U`, because `K` contains a maximal torus of `U` (a compact Cartan subalgebra lies in `𝔨`) and therefore the centre of `U`. A compact group with Lie algebra `𝔨 ⊕ i𝔭` into which `K` maps with a kernel of order `m > 1` gives `m` times this volume form and `1/m` times the formal degree (Checks). For a regular Harish-Chandra parameter `λ`, the discrete series `π_λ` has formal degree `d(π_λ) = ∏_{α>0} |⟨λ, α^∨⟩| / ∏_{α>0} ⟨ρ, α^∨⟩` for this measure, the formal degree being defined by Schur orthogonality (VonNeumannAlgebras Layer 9), not by this formula; it equals the dimension of the irreducible representation of `U` whose infinitesimal character is `λ`, when `λ` is dominant for a chamber of `U`.
 The form that the formal proof uses is [FormalProof],
@@ -310,6 +448,20 @@ The operator `R(f)` of a smooth compactly supported test function on the cuspida
 
 ### 9.1 Trace class on the cuspidal and discrete spectrum
 
+*Origin:* published: Müller (1989), for `K_∞`-finite `f`, and Müller (1998), for general `f`, the trace class of `R(f)`
+on the discrete spectrum; the cuspidal clause by the compactness of the operators on the cuspidal spectrum (Gelfand and
+Piatetski-Shapiro) with the factorisation of Dixmier and Malliavin (1978).
+
+*Method of the formal proof:* for unitary groups and test functions that are finite sums of products, on the cuspidal
+spectrum: for a test function `f` and a square integrable cuspidal `φ`, `R(f)φ` is a smooth cuspidal function whose
+right derivatives are bounded by a constant times `‖φ‖` times a power of the height, so the rapid decay of cuspidal
+functions of uniform moderate growth gives `sup|R(f)φ| ≤ C′·‖φ‖`, and an operator into `L²` of a space of finite
+measure with such a bound is Hilbert–Schmidt; the Dixmier–Malliavin factorisation writes `f` as a finite sum of
+convolutions `g ∗ g′`, and `R(g ∗ g′) = R(g)R(g′)` is a product of two Hilbert–Schmidt operators, hence trace class.
+
+*Corollary of:* AutomorphicSpectralTheory §6.4a (for a connected reductive group over a number field and
+`f ∈ C_c^∞(G(𝔸)¹)`, `R(f)` is trace class on `L²_cusp([G]¹)` and on `L²_disc([G]¹)`).
+
 Let `G` be a connected reductive group over a number field `F` and `f ∈ C_c^∞(G(𝔸)¹)`. Then `R(f)` restricted to `L²_cusp([G]¹)` is trace class, and `R(f)` restricted to `L²_disc([G]¹)` is trace class. The formal proof uses only the cuspidal clause, for unitary groups and for test functions that are finite sums of products of a smooth compactly supported function at the archimedean places and a locally constant compactly supported function at the finite places.
 The cuspidal clause in that form is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/TwistedTraceFormula/CuspDiscreteDecompositionOfTraceClass.lean`
@@ -338,7 +490,23 @@ Invariant metrics on automorphic vector bundles are good relative to the canonic
 
 ### 10.1 Invariant metrics are good
 
-Prove: let `(G, X)` be a Shimura datum, `K` a neat level, `Sh_K^Σ` a smooth projective toroidal compactification with simple normal crossings boundary `D` (ShimuraCompactifications Layer 2 with a smooth projective `Σ`), `J` a representation of the coefficient group whose restriction to the stabiliser `K_∞` of a point of `X` is unitary, and `h` the hermitian metric on the automorphic vector bundle `V(J)` over `Sh_K(ℂ)` induced by a `K_∞`-invariant inner product (the `G(ℝ)`-invariant metric). Then `h` is good along `D` relative to the canonical extension `V(J)^can_Σ` of AutomorphicBundles §5.3 (AutomorphicBundles §6.1 for general data), in the sense of SingularHermitianMetricsAndL2Methods §5.3. Consequently the canonical extension is the unique extension of `V(J)` relative to which `h` is good (SingularHermitianMetricsAndL2Methods §5.3(b)). In particular, for the representation on `(𝔤/𝔮)^∨`, `𝔮` the Lie algebra of the parabolic subgroup of `G_ℂ` stabilising a point of `X̌` (not the Cartan complement `𝔭` of the Conventions), whose automorphic bundle is `Ω¹` of `Sh_K(ℂ)`, the canonical extension is `Ω¹(log D)`: the invariant metric is good relative to `Ω¹(log D)` as well (its frames `dq_j/q_j` have norms of logarithmic growth, as for the Poincaré metric, SingularHermitianMetricsAndL2Methods §5.5), and the extension relative to which a metric is good is unique.
+*Origin:* published in the setting of AutomorphicBundles §5.3: Mumford (1977), Main Theorem 3.1 and Proposition 3.4 a),
+with the canonical extensions of Harris (1989) (AutomorphicBundles §5.3a); the form for general data through
+AutomorphicBundles §6.1 is this roadmap's own formulation.
+
+*Method of the formal proof:* its statement is for the unitary Shimura varieties of the family and the Hodge metric on
+the summands of the Hodge bundle: in a chart at a boundary point of the toroidal compactification the period matrix is
+`τ₀(z) + Σ_i (log z_i/2πi)·B_i`, with `τ₀` holomorphic and the `B_i` integral and positive semidefinite, so that the
+Gram matrix of the metric in holomorphic frames of the summands is the inverse of `Im τ₀(z) − Σ_i (log|z_i|/2π)·B_i`;
+this inverse has Mumford's growth on the punctured polydisc, and that growth is preserved by the holomorphic change of
+frame to the mutually orthogonal summands. The route written here is Mumford's estimate in Siegel-domain coordinates,
+for the invariant metric of a general datum.
+
+*Corollary of:* AutomorphicBundles §5.3a (the invariant metric of a representation trivial on the unipotent radical and
+unitary on `K_∞` is good relative to the canonical extension, which it determines), in the setting of
+AutomorphicBundles §5.3; the clause for general data through AutomorphicBundles §6.1 is not a case of it.
+
+Prove: let `(G, X)` be a Shimura datum, `K` a neat level, `Sh_K^Σ` a smooth projective toroidal compactification with simple normal crossings boundary `D` (ShimuraCompactifications Layer 2 with a smooth projective `Σ`), `J` a representation of the parabolic subgroup stabilising a point of `X̌` (AutomorphicBundles §0.5) on which its unipotent radical acts trivially and whose restriction to the stabiliser `K_∞` of a point of `X` is unitary, and `h` the hermitian metric on the automorphic vector bundle `V(J)` over `Sh_K(ℂ)` induced by a `K_∞`-invariant inner product (the `G(ℝ)`-invariant metric). Then `h` is good along `D` relative to the canonical extension `V(J)^can_Σ` of AutomorphicBundles §5.3 (AutomorphicBundles §6.1 for general data), in the sense of SingularHermitianMetricsAndL2Methods §5.3. Consequently the canonical extension is the unique extension of `V(J)` relative to which `h` is good (SingularHermitianMetricsAndL2Methods §5.3(b)). In particular, for the representation on `(𝔤/𝔮)^∨`, `𝔮` the Lie algebra of the parabolic subgroup of `G_ℂ` stabilising a point of `X̌` (not the Cartan complement `𝔭` of the Conventions), whose automorphic bundle is `Ω¹` of `Sh_K(ℂ)`, the canonical extension is `Ω¹(log D)`: the invariant metric is good relative to `Ω¹(log D)` as well (its frames `dq_j/q_j` have norms of logarithmic growth, as for the Poincaré metric, SingularHermitianMetricsAndL2Methods §5.5), and the extension relative to which a metric is good is unique.
 
 *Route.* Mumford's estimate (Mumford 1977, Main Theorem 3.1, p. 256: the invariant metric on the bundle of a representation of the stabiliser is good relative to a unique extension; Proposition 3.4 a), p. 264, for `Ω¹(log D)`): near a point of a boundary stratum use the degeneration charts of ShimuraCompactifications Layer 2 (ShimuraCompactifications §2.3) in Siegel-domain coordinates (a Siegel domain of the third kind fibred over the boundary component), in which the canonical frames of AutomorphicBundles §5.1 are the frames constant along the unipotent radical; the invariant metric in these frames is computed from the action of the parabolic subgroup, and its entries are polynomials in `log|q_j|` with bounded coefficients, together with their inverses; the connection forms are combinations of `dq_j/(q_j log|q_j|)` and smooth forms, which have Poincaré growth.
 
@@ -351,7 +519,30 @@ Prove: let `(G, X)` be a Shimura datum, `K` a neat level, `Sh_K^Σ` a smooth pro
 
 ### 10.2 Hirzebruch–Mumford proportionality
 
-Prove: in the setting of 10.1 with `Sh_K(ℂ)` connected (or componentwise), let `X̌` be the compact dual of `X` and, for a representation `J`, `V̌(J)` the homogeneous vector bundle on `X̌` defined by the same representation (AutomorphicBundles §0.5). Put `κ_K = χ_top(Sh_K(ℂ))/χ_top(X̌)`, the Euler characteristic of the open variety divided by that of the compact dual; it is a signed number (for modular curves it is negative). Then for finitely many representations `J₁, …, J_m` as in 10.1 and every polynomial `P` of weighted degree `dim X` in the Chern classes of `V(J₁), …, V(J_m)`, `P(c(V(J₁)^can_Σ), …, c(V(J_m)^can_Σ))[Sh_K^Σ] = κ_K·P(c(V̌(J₁)), …, c(V̌(J_m)))[X̌]`. The same holds for fibre products of flag bundles: if `Fl → Sh_K^Σ` is the fibre product of the bundles of full (or partial) flags of `V(J₁)^can_Σ, …, V(J_m)^can_Σ`, `Fľ → X̌` the corresponding bundle over the compact dual, and `Q` a polynomial in the first Chern classes of the tautological line bundles (graded pieces) of degree `dim Fl`, then `∫_{Fl} Q = κ_K·∫_{Fľ} Q`.
+*Origin:* published for one bundle: Mumford (1977), Proportionality Theorem 3.2, with Theorem 1.4 for the Chern forms of
+a good metric, the constant being a sign times a positive volume (AutomorphicBundles §5.3b); the identification of the
+constant as `κ_K`, the polynomials in the Chern classes of several bundles and the fibre products of flag bundles are
+this roadmap's own formulation.
+
+*Method of the formal proof:* its statement is for the unitary Shimura varieties of the family, the summands of the
+Hodge bundle with the good Hodge metric and their full flag bundle, with the covolume as constant: by Chern–Weil theory
+for the good Hodge metric and the push-forward formula on the full
+flag bundle, the top self-intersection number of a weight line bundle on the toroidal flag variety is the integral over
+the open Shimura variety of a top-degree Chern polynomial of the Hodge metric; at every point the Chern forms of that
+metric satisfy the relations of the Chern classes of the tautological bundles of the compact dual, among them the
+Whitney relation `c(E_τ)·c(E_τ̄^∨) = 1` between the summands `E_τ`, `E_τ̄` of the Hodge bundle at conjugate embeddings
+`τ`, `τ̄`, so every such polynomial is the corresponding degree on the flag variety of the compact dual times one fixed
+nonnegative top form, whose integral is the covolume. The route written here compares invariant forms on `X` and on `X̌`
+through the duality of symmetric spaces, identifies the constant as `κ_K` by logarithmic Gauss–Bonnet, and deduces the
+flag statement by push-forward.
+
+*Corollary of:* AutomorphicBundles §5.3b (Hirzebruch–Mumford proportionality for one bundle `V(J)`, `J` as in
+AutomorphicBundles §5.3a, with the constant `(−1)^{dim X}·v`, `v > 0`), in the setting of AutomorphicBundles §5.3, for
+the proportionality of the Chern numbers of one bundle with a constant that is a sign times a positive number; the value
+`κ_K` of the constant, the polynomials in the Chern classes of several bundles and the fibre products of flag bundles
+are not cases of it.
+
+Prove: in the setting of 10.1 with `Sh_K(ℂ)` connected (or componentwise), let `X̌` be the compact dual of `X` and, for a representation `J`, `V̌(J)` the homogeneous vector bundle on `X̌` defined by the same representation (AutomorphicBundles §0.5). Put `κ_K = χ_top(Sh_K(ℂ))/χ_top(X̌)`, the Euler characteristic of the open variety divided by that of the compact dual; it is a signed number (for modular curves it is negative). Then for finitely many representations `J₁, …, J_m` as in 10.1 (trivial on the unipotent radical of the parabolic subgroup stabilising a point of `X̌` and unitary on `K_∞`) and every polynomial `P` of weighted degree `dim X` in the Chern classes of `V(J₁), …, V(J_m)`, `P(c(V(J₁)^can_Σ), …, c(V(J_m)^can_Σ))[Sh_K^Σ] = κ_K·P(c(V̌(J₁)), …, c(V̌(J_m)))[X̌]`. The same holds for fibre products of flag bundles: if `Fl → Sh_K^Σ` is the fibre product of the bundles of full (or partial) flags of `V(J₁)^can_Σ, …, V(J_m)^can_Σ`, `Fľ → X̌` the corresponding bundle over the compact dual, and `Q` a polynomial in the first Chern classes of the tautological line bundles (graded pieces) of degree `dim Fl`, then `∫_{Fl} Q = κ_K·∫_{Fľ} Q`.
 For flag bundles, the form that the formal proof uses is [FormalProof],
 `Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/MumfordProportionality.lean`
 (`GlobalTheory.Published.MumfordProportionality`),
@@ -377,15 +568,17 @@ AutomorphicBundles §§0.5, 5.1–5.3, 6.1 (equivariant coefficients on the comp
 
 ## Downstream consumers
 
-In the family RiemannHypothesisForDirichletLFunctions: ThetaLiftsForDefiniteUnitaryGroups uses the class-set formula and the Hecke adjoints of 7.5a and the kernel operators of 7.5b for its lifts as operators on class sets (ThetaLiftsForDefiniteUnitaryGroups §§1.2, 1.4, 1.6), and the volume statement of 7.5a for the volume of a genus (ThetaLiftsForDefiniteUnitaryGroups §5.4). HermitianFormsAndLattices uses 7.5a for the mass of a genus as a volume (HermitianFormsAndLattices §5.5) and the Hermitian instance of 7.5c with the mass formula. The theta-chain roadmaps use the mass-weighted metrics of 7.5a, the chain operator with its integrality from 7.5b and the expected dimension of the source spaces from 7.5c (mass times local index times Weyl dimension). BesselPoincareSeriesAndGramBounds uses the formal degree 8.3 for the main term `d(σ)·vol·e(1)` of the limit multiplicity and of the Gram bounds, 9.1 for the projector onto the forms of a discrete series with gap and its trace, for unitary groups of isotropic Hermitian spaces, the decay and the weighted integrability of 2.4a (c), (d) (BesselPoincareSeriesAndGramBounds §5.13 (f)), the decay of 2.4a (c) with its threshold `h ≥ 120·n·q₀^{3/2}` (BesselPoincareSeriesAndGramBounds §5.16 (e)), and the dual case of 2.4b (b), a decomposition of smooth vectors with continuous projections (BesselPoincareSeriesAndGramBounds §§5.13d (g), 5.18 (i₁)); RowTowerAndRallisIdentities uses the integrability of 2.4a (d), whose hypotheses are `h > npq + 1` and `h > 16√(2q₀)·n·q₀` (RowTowerAndRallisIdentities §§5.3, 5.5 (a)). RowTowerAndRallisIdentities also uses 9.1 (RowTowerAndRallisIdentities §§5.3, 5.9), and 6.8 and 8.3 for its model lifts (RowTowerAndRallisIdentities §5.7). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses 6.8a with `f = |Φ|`, `n = N` and `s = e_P` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18a (b)): for its domain of frames, the potential `−Σ_τ log|Δ_{τ,p}|` (`Δ_{τ,p}` the `p`-th leading minor of the Gram matrix) restricted to the big cell is the function `ρ` of 6.8a, so its Poincaré sum with exponent `e` is bounded for `e > 2|Φ|N²`, while that roadmap's own hypothesis is `e > 4|Φ|N²`. It also uses 10.2 for the arithmetic proportionality of the product over the real places of the flag bundles of the two eigen-bundles of the Lie algebra on unitary Shimura varieties (mixed monomials in Chern classes of different automorphic bundles), and 10.1 through the intersection numbers of log-log singular metrics.
+In the family RiemannHypothesisForDirichletLFunctions: ThetaLiftsForDefiniteUnitaryGroups uses the class-set formula and the Hecke adjoints of 7.5a and the kernel operators of 7.5b for its lifts as operators on class sets (ThetaLiftsForDefiniteUnitaryGroups §§1.2, 1.4, 1.6), and the volume statement of 7.5a for the volume of a genus (ThetaLiftsForDefiniteUnitaryGroups §5.4). HermitianFormsAndLattices uses 7.5a for the mass of a genus as a volume (HermitianFormsAndLattices §5.5) and the Hermitian instance of 7.5c with the mass formula. The theta-chain roadmaps use the mass-weighted metrics of 7.5a, the chain operator with its integrality from 7.5b and the expected dimension of the source spaces from 7.5c (mass times local index times Weyl dimension). BesselPoincareSeriesAndGramBounds uses the formal degree 8.3 for the main term `d(σ)·vol·e(1)` of the limit multiplicity and of the Gram bounds, 9.1 for the projector onto the forms of a discrete series with gap and its trace, for unitary groups of isotropic Hermitian spaces, the decay and the weighted integrability of 2.4a (c), (d) (BesselPoincareSeriesAndGramBounds §5.13 (f)), the decay of 2.4a (c) with its threshold `h ≥ 120·n·q₀^{3/2}` (BesselPoincareSeriesAndGramBounds §5.16 (e)), and the dual case of 2.4b (b), a decomposition of smooth vectors with continuous projections (BesselPoincareSeriesAndGramBounds §§5.13d (g), 5.18 (i₁)); RowTowerAndRallisIdentities uses the integrability of 2.4a (d), whose hypotheses are `h > npq + 1` and `h > 16√(2q₀)·n·q₀` (RowTowerAndRallisIdentities §§5.3, 5.5 (a)). RowTowerAndRallisIdentities also uses 9.1 (RowTowerAndRallisIdentities §§5.3, 5.9), and 6.8 and 8.3 for its model lifts (RowTowerAndRallisIdentities §5.7). ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties uses 6.8a with `f = |Φ|`, `n = N` and `s = e_P` (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18a (b)): for its domain of frames, the potential `−Σ_τ log|Δ_{τ,p}|` (`Δ_{τ,p}` the `p`-th leading minor of the Gram matrix) restricted to the big cell is the function `ρ` of 6.8a, so its Poincaré sum with exponent `e` is bounded for `e > 2|Φ|N²`, while that roadmap's own hypothesis is `e > 4|Φ|N²`. It also uses 10.2 for the arithmetic proportionality of the product over the real places of the flag bundles of the two eigen-bundles of the Lie algebra on unitary Shimura varieties (mixed monomials in Chern classes of different automorphic bundles), and 10.1 through the intersection numbers of log-log singular metrics; 10.1 and 10.2 are stated for representations trivial on the unipotent radical of the parabolic subgroup stabilising a point of `X̌` and unitary on `K_∞`.
 
 ## Scope and ownership
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: the analyticity of `K`-finite vectors of admissible Banach representations of real reductive groups and of their matrix coefficients (8.1); unitary equivalence of irreducible unitary representations with isomorphic Harish-Chandra modules, and the `G`-stability of the closure of an admissible `(𝔤, K)`-submodule of a unitary representation (8.2); the formula for the formal degree of a discrete series for the measure normalised by the compact dual containing `K` (8.3); the explicit formula, the decay and the weighted integrability of the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)` (2.4a) and the tensor products of gapped discrete series of `U(p, q)` with the standard representation, its dual and its exterior powers (2.4b); the description of holomorphic discrete series as lowest-weight modules (6.8) and the uniform bound for Poincaré series of discrete subgroups of `U(p, q)^f` on products of its domain (6.8a); for groups compact at infinity, the class-set integration formula, the class-set inner product, the mass, the Petersson comparison, the Hecke adjoints and the integral pairing (7.5a), kernel operators between class sets (7.5b) and the dimension formula (7.5c); the trace class property of `R(f)` on the cuspidal and on the discrete spectrum (9.1); and the goodness of invariant metrics on automorphic vector bundles relative to the canonical extension (10.1) with Hirzebruch–Mumford proportionality, also for flag bundles (10.2).
+This roadmap owns: the analyticity of `K`-finite vectors of admissible Banach representations of real reductive groups and of their matrix coefficients (8.1); unitary equivalence of irreducible unitary representations with isomorphic Harish-Chandra modules, and the `G`-stability of the closure of an admissible `(𝔤, K)`-submodule of a unitary representation (8.2); the formula for the formal degree of a discrete series for the measure normalised by the compact dual containing `K` (8.3); the explicit formula, the decay and the weighted integrability of the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)` (2.4a) and the tensor products of gapped discrete series of `U(p, q)` with the standard representation, its dual and its exterior powers (2.4b); the description of holomorphic discrete series as lowest-weight modules (6.8) and the uniform bound for Poincaré series of discrete subgroups of `U(p, q)^f` on products of its domain (6.8a); for groups compact at infinity, the Petersson comparison, the Hecke adjoints and the duality of lattices of forms (7.5a), kernel operators between class sets (7.5b) and the dimension formula with its forms through the mass and the central term (7.5c); and the goodness of invariant metrics on automorphic vector bundles relative to the canonical extension (10.1) with Hirzebruch–Mumford proportionality, also for flag bundles (10.2).
 
 Not owned here. The real representation theory (compact-finite vectors and admissibility, infinitesimal characters and Harish-Chandra finiteness, discrete series with their parameters and lowest compact types, smooth Fréchet representations and the Dixmier–Malliavin factorisation), the Hermitian group datum, the scalar holomorphic discrete series, and the algebraic modular forms of groups compact at infinity with their two models, Hecke operators, finite stabilisers, evaluation equivalence and automorphic realisation are AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 6.1, 6.8 and 7.4–7.5; 6.8 extends that roadmap's §6.8 from the scalar holomorphic discrete series of `Sp₂ₙ(ℝ)` and `U(n, n)` to every holomorphic discrete series. Zuckerman's theorem on the tensor product of a discrete series with an arbitrary finite-dimensional representation, of which 2.4b is a case, is not stated here. Schur–Godement orthogonality, which defines the formal degree, is [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9. The cuspidal, residual and discrete spectrum, rapid decay and finite multiplicity are AutomorphicSpectralTheory §§3.4, 4.4 and 4.5, and the trace class of a product of two Hilbert–Schmidt operators is AutomorphicSpectralTheory §0.9. Automorphic vector bundles, their canonical extensions and the equivariant coefficients on the compact dual are AutomorphicBundles §§0.5, 5.1–5.3 and 6.1. Poincaré growth, good metrics, the uniqueness of the extension relative to which a metric is good, and Mumford's Chern–Weil theory for good metrics are SingularHermitianMetricsAndL2Methods §§5.1–5.5. Toroidal compactifications, their charts and the logarithmic Kodaira–Spencer isomorphism are [ShimuraCompactifications](../../ShimuraCompactifications/README.md); Hermitian symmetric domains are [ShimuraData](../../ShimuraData/README.md), and their rational boundary components are [ShimuraVarieties](../../ShimuraVarieties/README.md) §2.1; the Euler number, fibre integration, flag bundles and Chern–Weil forms are [CharacteristicClasses](../../CharacteristicClasses/README.md) C2.3, C2.5, C2.6, C4.1 and C4.2; Hilbert–Schmidt and trace-class operators are [OperatorTheory/OperatorIdeals](../../OperatorTheory/OperatorIdeals/README.md); rational quotients, Tamagawa normalisation and adelic reduction are AdelicAlgebraicGroups §§2.3, 2.4 and 3.4; Haar measure and Schur orthogonality on compact groups are [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md), Weyl's dimension formula for unitary groups is ClassicalGroups Layer 5 ([RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md)), and highest weights and Weyl's dimension formula are [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) (Layer 6 for the dimension formula).
+
+The class-set integration formula with the mass, the class-set inner product (7.5a), the evaluation of forms on the class set behind 7.5c and the trace class of `R(f)` on the cuspidal and on the discrete spectrum (9.1) are stated here as corollaries of general theorems that are not owned here: class-set integration with the mass, the volume and the index formula is AdelicAlgebraicGroups §4.5a; the class-set inner product with its independence of the representatives is AutomorphicFormsOnReductiveGroups §7.5a; the evaluation equivalence `S(J, M) ≃ ⊕_i M^{Γ_i}` is AutomorphicFormsOnReductiveGroups §7.5; the trace class on the cuspidal and on the discrete spectrum is AutomorphicSpectralTheory §6.4a. Nor are the published cases of 6.8 (semisimple groups, AutomorphicFormsOnReductiveGroups §6.8a), of 8.2 (connected semisimple groups with finite centre, NoncompactQuantumSymmetry Layer 3 (M0), item 3), and of 10.1 and 10.2 (the setting of AutomorphicBundles §5.3, and for 10.2 one bundle with a constant that is a sign times a positive volume, AutomorphicBundles §§5.3a, 5.3b).
 
 In this family the statements above are used by ThetaLiftsForDefiniteUnitaryGroups, HermitianFormsAndLattices, BesselPoincareSeriesAndGramBounds, RowTowerAndRallisIdentities, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties and the theta-chain roadmaps (Downstream consumers above).
 
@@ -393,15 +586,15 @@ In this family the statements above are used by ThetaLiftsForDefiniteUnitaryGrou
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-§2.1: compact-finite vectors, admissibility and Harish-Chandra modules (8.1, 8.2, 2.4b, 6.8). §2.2: infinitesimal characters and Harish-Chandra's finiteness theorem, in particular that a `K`-finite vector of an admissible representation is `𝒵(𝔤)`-finite (8.1, 8.2, 2.4b). §2.3: normalized real induction and Casselman's embedding (within §§2.1–2.4 for 6.8). §2.4: discrete series exist exactly when a Cartan subgroup is compact modulo `A_G`, are labelled by regular Harish-Chandra parameters, and have lowest compact type of highest weight `λ + ρ_n − ρ_c` (8.3, 2.4a, 2.4b, 6.8). §2.7: `dixmierMalliavin`, every vector of a smooth Fréchet representation is a finite sum `Σ_i π(a_i)v_i` with `a_i ∈ C_c^∞`, so that `f = Σ_i f_i ∗ g_i` (9.1). §6.1: the Hermitian group datum with the abelian subspaces `𝔭⁺`, `𝔭⁻` (6.8). §6.8: the scalar holomorphic discrete series of `Sp₂ₙ(ℝ)` and `U(n, n)`, their parameters and minimal compact types (6.8). §7.4: the form spaces `S(J, M)` in the level model `f(γtu) = u⁻¹f(t)` and in Gross's rational model `F(γt) = ρ(γ)F(t)`, the conversion `f(g) = ρ(g_p)⁻¹F(g)`, and the Hecke operators `[JgJ]` (7.5a–7.5c). §7.5: finiteness of the stabilisers `Γ_i`, the evaluation equivalence `S(J, M) ≃ ⊕_i M^{Γ_i}`, sufficiently small level, and the automorphic realisation `automorphicEquiv` (7.5a–7.5c).
+§2.1: compact-finite vectors, admissibility and Harish-Chandra modules (8.1, 8.2, 2.4b, 6.8). §2.2: infinitesimal characters and Harish-Chandra's finiteness theorem, in particular that a `K`-finite vector of an admissible representation is `𝒵(𝔤)`-finite (8.1, 8.2, 2.4b). §2.3: normalized real induction and Casselman's embedding (within §§2.1–2.4 for 6.8). §2.4: discrete series exist exactly when a Cartan subgroup is compact modulo `A_G`, are labelled by regular Harish-Chandra parameters, and have lowest compact type of highest weight `λ + ρ_n − ρ_c` (8.3, 2.4a, 2.4b, 6.8). §2.7: `dixmierMalliavin`, every vector of a smooth Fréchet representation is a finite sum `Σ_i π(a_i)v_i` with `a_i ∈ C_c^∞`, so that `f = Σ_i f_i ∗ g_i` (9.1). §6.1: the Hermitian group datum with the abelian subspaces `𝔭⁺`, `𝔭⁻` (6.8). §6.8: the scalar holomorphic discrete series of `Sp₂ₙ(ℝ)` and `U(n, n)`, their parameters and minimal compact types (6.8). §7.4: the form spaces `S(J, M)` in the level model `f(γtu) = u⁻¹f(t)` and in Gross's rational model `F(γt) = ρ(γ)F(t)`, the conversion `f(g) = ρ(g_p)⁻¹F(g)`, and the Hecke operators `[JgJ]` (7.5a–7.5c). §7.5: finiteness of the stabilisers `Γ_i`, the evaluation equivalence `S(J, M) ≃ ⊕_i M^{Γ_i}`, sufficiently small level, and the automorphic realisation `automorphicEquiv` (7.5a–7.5c); 7.5c is a corollary of the evaluation equivalence. §6.8a: `holomorphicDiscreteSeries_lowestWeight`, the holomorphic discrete series of a connected semisimple `G` with `G/K` Hermitian symmetric as unitary lowest-weight modules, the published case of 6.8 (6.8). §7.5a: `classSetInner` with `classSetInner_independent`, the class-set inner product and its independence of the representatives, and `classSetPairing_perfect`, the perfect pairing `S(J, M) × S(J, M^∨) → O_E` for `E` a finite extension of `ℚ_ℓ` when no `Γ_i` has an element of order `ℓ`; the first two are the general theorems of which the inner product of 7.5a and its independence are corollaries, the third is the published result nearest to the duality of lattices of forms of 7.5a, which is not a case of it (7.5a).
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
-§0.8: a square-integrable kernel defines a Hilbert–Schmidt operator (9.1). §0.9: a product `BC` of two Hilbert–Schmidt operators is trace class, with `‖BC‖₁ ≤ ‖B‖_HS‖C‖_HS` (9.1). §3.4: rapid decay, which bounds the kernels of the operators `R(f_i)` on `L²_cusp` (9.1). §4.4: `L²_cusp`, `L²_res` and `L²_disc = L²_cusp ⊕ L²_res`, with the residual spectrum spanned by square-integrable residues of Eisenstein series (9.1). §4.5: finite multiplicity in the discrete spectrum (9.1). §6.4: the operator `R(f)` of `f ∈ C_c^∞(G(𝔸)¹)` on `[G]¹` and its kernel (9.1).
+§0.8: a square-integrable kernel defines a Hilbert–Schmidt operator (9.1). §0.9: a product `BC` of two Hilbert–Schmidt operators is trace class, with `‖BC‖₁ ≤ ‖B‖_HS‖C‖_HS` (9.1). §3.4: rapid decay, which bounds the kernels of the operators `R(f_i)` on `L²_cusp` (9.1). §4.4: `L²_cusp`, `L²_res` and `L²_disc = L²_cusp ⊕ L²_res`, with the residual spectrum spanned by square-integrable residues of Eisenstein series (9.1). §4.5: finite multiplicity in the discrete spectrum (9.1). §6.4: the operator `R(f)` of `f ∈ C_c^∞(G(𝔸)¹)` on `[G]¹` and its kernel (9.1). §6.4a: `cusp_disc_trace_class`, `R(f)` is trace class on `L²_cusp([G]¹)` and on `L²_disc([G]¹)` for a connected reductive `G` over a number field and `f ∈ C_c^∞(G(𝔸)¹)`, the general theorem of which 9.1 is a corollary (9.1).
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-§0.5: equivariant coefficients on the compact dual, giving the homogeneous vector bundle `V̌(J)` on `X̌` of a representation `J` (10.2). §5.1: coefficients on degeneration charts with their canonical frames (10.1). §5.2: gluing of the canonical extension (10.1). §5.3: the canonical extension `V(J)^can_Σ` on a smooth toroidal model, characterised by canonical boundary frames (10.1, 10.2). §6.1: the canonical extension for general Shimura data, agreeing with §5.3 on Hodge-type charts (10.1, 10.2).
+§0.5: equivariant coefficients on the compact dual, giving the homogeneous vector bundle `V̌(J)` on `X̌` of a representation `J` (10.2). §5.1: coefficients on degeneration charts with their canonical frames (10.1). §5.2: gluing of the canonical extension (10.1). §5.3: the canonical extension `V(J)^can_Σ` on a smooth toroidal model, characterised by canonical boundary frames (10.1, 10.2). §6.1: the canonical extension for general Shimura data, agreeing with §5.3 on Hodge-type charts (10.1, 10.2). §5.3a: `invariantMetricGoodness`, for `J` trivial on the unipotent radical and unitary on `K_∞`, in the setting of §5.3, the general theorem of which 10.1 in that setting is a corollary (10.1). §5.3b: `hirzebruchMumfordProportionality`, for one such bundle, with the constant `(−1)^{dim X}·v`, `v > 0`, the general theorem of which the proportionality for one bundle in 10.2 is a corollary (10.2).
 
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
@@ -417,11 +610,15 @@ Matrices over `ℂ` with their determinants (`Matrix.det`) and leading principal
 
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
-§2.3: rational quotients; §2.4: gauge forms and Tamagawa normalisation; §3.4: adelic reduction and arithmetic quotients (7.5a).
+§2.3: rational quotients; §2.4: gauge forms and Tamagawa normalisation; §3.4: adelic reduction and arithmetic quotients (7.5a). §4.5a: class-set integration on groups compact at infinity, with the mass and its independence of the representatives, the volume and the index formula `mass(U′) = [U : U′]·mass(U)`, the general theorem of which these clauses of 7.5a are corollaries (7.5a).
 
 ### From TauCetiRoadmap.OperatorTheory
 
 OperatorIdeals OI-B30, OI-B41: the trace-class and Hilbert–Schmidt operator-ideal families (9.1).
+
+### From TauCetiRoadmap.NoncompactQuantumSymmetry
+
+Layer 3 (M0), item 3: for connected semisimple groups with finite centre, the analyticity of the `K`-finite vectors of admissible unitary representations, the correspondence between closed invariant subspaces and submodules of the Harish-Chandra module, and the unitary equivalence of infinitesimally equivalent irreducible unitary representations, the unitary case of 8.1 for these groups and the published case of 8.2 (8.1, 8.2).
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 
@@ -451,10 +648,18 @@ C2.3: the Euler number as a sum of local indices of a transverse section; C2.5: 
 - A. W. Knapp, Representation theory of semisimple groups: an overview based on examples, Princeton University Press, 1986, Ch. VI: holomorphic discrete series (6.8).
 - B. H. Gross, Algebraic modular forms, Israel J. Math. 113 (1999), §§4–8: class sets, the mass and the inner product (7.5a).
 - H. Hecht and W. Schmid, A proof of Blattner's conjecture, Invent. Math. 31 (1975), Theorem (1.3), p. 130 (Blattner's formula; Conventions), and Theorem (1.4) and Corollary (1.5), p. 131 (tensor products of a discrete series with a finite-dimensional representation; 2.4b).
-- J. Thorne, On the automorphy of l-adic Galois representations with small residual image, J. Inst. Math. Jussieu 11 (2012), proof of Lemma 6.4, in the numbering of arXiv:1107.5989v1: the integral pairing (7.5a).
+- J. Thorne, On the automorphy of l-adic Galois representations with small residual image, J. Inst. Math. Jussieu 11 (2012), proof of Lemma 6.4, in the numbering of arXiv:1107.5989v1: the perfect pairing over the integers of a finite extension of `ℚ_ℓ` when no stabiliser has an element of order `ℓ` (7.5a).
 - W. Müller, The trace class conjecture in the theory of automorphic forms, Ann. of Math. 130 (1989), cited in the numbering of its preprint MPI 88-31 (Max-Planck-Institut für Mathematik, 1988), Corollaries 0.2 and 8.8, for `K`-finite test functions; and its sequel, The trace class conjecture in the theory of automorphic forms II, Geom. Funct. Anal. 8 (1998): the discrete spectrum (9.1).
+- Jacques Dixmier and Paul Malliavin, Factorisations de fonctions et de vecteurs indéfiniment différentiables, Bulletin des Sciences Mathématiques 102 (1978), 305–330: the factorisation of smooth vectors and of test functions (9.1).
 - D. Mumford, Hirzebruch's proportionality theorem in the non-compact case, Invent. Math. 42 (1977), Theorem 1.4, p. 242, Main Theorem 3.1, p. 256, Proportionality Theorem 3.2, p. 262, and Proposition 3.4, p. 264: good metrics and proportionality (10.1, 10.2).
 - M. Harris, Functorial properties of toroidal compactifications of locally symmetric varieties, Proc. London Math. Soc. 59 (1989): canonical extensions (10.1, 10.2).
 - G. Zuckerman, Tensor products of finite and infinite dimensional representations of semisimple Lie groups, Ann. of Math. 106 (1977): tensor products of a discrete series with a finite-dimensional representation (2.4b).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given above are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. Every target that names it (2.4a, 2.4b, 6.8, 6.8a, 7.5a, 7.5b, 8.1, 8.2, 8.3, 9.1 and 10.2) gives the module and declaration of the statement used. It is the source of 2.4a (b), of the variant of 2.4a (c), of 2.4a (d) and of 2.4b, with their thresholds, whose routes leave steps out; at the other targets the route is written out or a classical source is cited, and it records the form the proof uses.
+- B. Sun, Matrix coefficients of cohomologically induced representations, Compositio Math. 143 (2007), 201–221, Theorem 2.1, Proposition 6.1, Theorem 6.3 and formula (26): the integral formula for the lowest-`K`-type coefficient of a discrete series, verified through a uniqueness statement (2.4a); §7: the lowest-`K`-type coefficient as an integral of an explicit function, positive definite (8.3).
+- M. Flensted-Jensen, Discrete series for semisimple symmetric spaces, Ann. of Math. (2) 111 (1980), 253–311: the formula for discrete series, as credited in Sun (2007) (2.4a).
+- M. D. Gould, A trace formula for semi-simple Lie algebras, Ann. Inst. H. Poincaré Sect. A 32 (1980), 203–219: traces of powers of the generator matrix on modules with an infinitesimal character (2.4b).
+- M. D. Gould, Characteristic identities for semi-simple Lie algebras, J. Austral. Math. Soc. Ser. B 26 (1985), 257–283, Theorem 3: the polynomial identity of the generator matrix (2.4b).
+- M. Atiyah and W. Schmid, A geometric construction of the discrete series for semisimple Lie groups, Invent. Math. 42 (1977), 1–62, with its erratum, Invent. Math. 54 (1979): the formal degree through the `L²`-index theorem (8.3).
+- van Haastrecht and Zhang, arXiv:2412.18382 (2024), §4: Harish-Chandra's product formula for the formal degree of a holomorphic discrete series, with the constant fixed by Schur orthogonality on the lowest-`K`-type coefficient (8.3).
+- A. Bufetov and V. Gorin, Representations of classical Lie groups and quantized free convolution, arXiv:1311.5780, Theorem 1.6 (the theorem of Perelomov and Popov (1968)): the comparison across a tensor product with the standard representation, for finite-dimensional representations, with weights that are quotients of Vandermonde products (8.3).
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given above are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. Every target that cites a declaration of it (2.4a, 2.4b, 6.8, 6.8a, 7.5a, 7.5b, 8.1, 8.2, 8.3, 9.1 and 10.2) gives the module and declaration of the statement used. It is the source of 2.4a (b), of the variant of 2.4a (c), of 2.4a (d) and of 2.4b in the forms with their thresholds, whose routes leave steps out (the origin labels of 2.4a and 2.4b name the published results they adapt or specialise); at the other targets the route is written out or a classical source is cited, and it records the form the proof uses.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.

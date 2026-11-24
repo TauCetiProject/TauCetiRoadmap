@@ -17,13 +17,16 @@ states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, 
 statable there.
 
 The headlines are Nadel vanishing for pairs (9.10c), global generation of adjoint bundles (9.12b),
-separation of points for adjoint bundles (9.12c) and Kollár's two-point separation (9.12a). Of
-these only the separation of points (9.12c), on a smooth projective variety with an ample line
-bundle, is statable at the pins, and it is stated below as `adjoint_separates_points`. It needs two
+separation of points for adjoint bundles (the remark of 9.12c) and Kollár's two-point separation
+(9.12a). Of these only the separation of points (the remark of 9.12c), on a smooth projective
+variety with an ample line bundle, is statable at the pins, and it is stated below as
+`adjoint_separates_points`. It needs two
 definitions: the intersection numbers `(L^d · Z)` of a line bundle with the closed integral
 subschemes of every dimension `d`, which `selfIntersection` computes as the `d`-th difference of
 `m ↦ χ(Z, L^m)` (the numerical intersection of the README Conventions, Stacks, Definition 33.45.3
-(0BEP)), and the canonical bundle `det Ω_{X/k}` of a smooth variety, `canonicalBundle`.
+(0BEP)), and the canonical bundle `det Ω_{X/k}` of a smooth variety, `canonicalBundle`. The
+statement of 9.12c itself, the two-point form over `ℂ` for a nef and big line bundle, is not a
+headline and is not stated here.
 
 The other three headlines are statements about pairs `(X, Δ)` on a normal projective variety over a
 field of characteristic zero, and are not statable at the pins:
@@ -97,17 +100,18 @@ noncomputable def canonicalBundle (k : Type u) [Field k] (X : Scheme.{u}) [X.Ove
     ⟨FiniteLocallyFreeSheaf.relativeDifferentials k X,
       fun x ↦ FiniteLocallyFreeSheaf.rank_relativeDifferentials_apply k n x⟩
 
-/-- **Separation of points for adjoint bundles** (Angehrn–Siu 1995, Theorem 0.3; README 9.12c).
-Let `k` be an algebraically closed field of characteristic zero, `X` a smooth projective variety
-over `k` of dimension `n`, `L` an ample line bundle on `X` and `x_1, …, x_ℓ` distinct closed points
-of `X`. If
+/-- **Separation of points for adjoint bundles** (Angehrn–Siu 1995, Theorem 0.3; the remark of
+README 9.12c). Let `k` be an algebraically closed field of characteristic zero, `X` a smooth
+projective variety over `k` of dimension `n`, `L` an ample line bundle on `X` and `x_1, …, x_ℓ`
+distinct closed points of `X`. If
 `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every closed integral subscheme `Z` of `X` of dimension
 `d ≥ 1` (`Z = X` included), then for every `i` the adjoint bundle `K_X ⊗ L` has a global section
 that is nonzero at `x_i` and vanishes at every `x_j` with `j ≠ i`. As every residue field `k(x_i)`
 is `k`, this is the surjectivity of `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L) ⊗ k(x_i)`. This statement is
-not in the README's [FormalProof], which has only the case of two points over `ℂ` with the
-conclusion that some section vanishes at exactly one of them; the passage from `ℂ` to `k` is this
-roadmap's own, proved by the reduction in the route of README 9.12c. -/
+not in the README's [FormalProof], which has only the two-point form over `ℂ` that README 9.12c
+states, with the conclusion that some section vanishes at exactly one of the two points; the
+passage from `ℂ` to `k` is this roadmap's own, proved by the reduction in the route of the remark of
+README 9.12c. -/
 theorem adjoint_separates_points (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
     (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X] [X.IsProjectiveOver k]
     (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of k))]

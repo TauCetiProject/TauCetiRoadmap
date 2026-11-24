@@ -25,11 +25,12 @@ adelic presentation of a general Hermitian vector bundle.
   and minimal slopes and the height `h(φ)` of a `K`-linear map between generic fibres, the
   normalised sum over all places of the logarithms of its operator norms for the lattice norms and
   the Hermitian norms.
-* The comparison of the Harder–Narasimhan slopes with the successive minima over `K` and with the
-  absolute minima over `ℚ̄` (4.2, 4.3), and the bounds for the maximal slopes of tensor and
-  symmetric powers (4.4, 4.5): it lacks, besides these, the successive minima of a Hermitian vector
-  bundle for its body in `(mixedSpace K)^n`, its absolute minima, and the tensor and symmetric
-  powers of Hermitian vector bundles with their metrics.
+* The comparison of the Harder–Narasimhan slopes with the successive minima over `K` (4.2), of the
+  maximal slope with the first absolute minimum over `ℚ̄` (4.3; at every index, the wider form of
+  4.3), and the bounds for the maximal slopes of tensor and symmetric powers (4.4, 4.5): it lacks,
+  besides these, the successive minima of a Hermitian vector bundle for its body in
+  `(mixedSpace K)^n`, its absolute minima, and the tensor and symmetric powers of Hermitian vector
+  bundles with their metrics.
 * The slope inequality for a nearly tight frame (5.5): it lacks the Harder–Narasimhan steps, the
   slopes and the heights of maps above.
 

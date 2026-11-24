@@ -2,11 +2,11 @@
 
 **Summary.** This roadmap proves Landau's theorem for Laplace transforms in a classical and a windowed form (Layer 6), and, independently of it, Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings (Layers 7 and 8). Landau's theorem says that the real abscissa of convergence of the Laplace transform of an eventually nonnegative function is a singularity of the transform. Applied to `C e^(θu) − g`, it says that a function bounded above by `C e^(θu)` has its rightmost singularity on the real axis, with a sign. This roadmap proves that theorem, and a windowed form in which the bound is known only on windows arbitrarily far out, for the one-sided transform `Φ(s) = ∫₀^∞ g(u) e^(−su) du` of a measurable real function `g` with `∫₀^∞ |g(u)| e^(−σu) du < ∞` for every real `σ > A`, continued meromorphically to a half-plane `Re s > θ` with `θ < A`. The windowed form is stated twice: in the form of the formal proof [FormalProof], for transforms with simple poles and positive residues at the real poles under a pointwise bound, and for poles of any finite order, as this roadmap's extension. The windowed proof is a positivity argument applied to one Taylor coefficient of `Φ` at a time: the coefficient is the integral of `g` against the Gamma kernel `u^k e^(−au)/k!`, which is small off a window. Layers 7 and 8 prove Laplace's method in several variables with the non-vanishing of the integrals it controls, the leading term of stationary phase for holomorphic phases on `ℂ^n`, and an exact stationary-phase formula over finite products of `p`-adic fields, both applied to the phase `Σ x_k + D/∏ x_k`.
 
-The headline theorems are these. (1) If `g(u) ≤ C e^(θu)` for almost every `u ≥ u₀`, then either `Φ` has no pole in `Re s > θ` and the transform converges absolutely there, or the poles of `Φ` in `Re s > θ` have a largest real part, attained at a real pole `β` whose leading Laurent coefficient is negative, and the transform converges absolutely on `Re s > β`; so positive leading coefficients at the real poles exclude every pole. (2) When the bound is known only on windows: let `|g(u)| ≤ C₀ e^(2u)`, let `Φ` continue meromorphically to `Re s > 0` with simple poles only and positive residues at the real poles, and let `0 < θ < 1`. If for some `δ > 0` and every `η > 0` there are arbitrarily large `U` with `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`, then `Φ` has no pole in `Re s > θ`. This roadmap's extension gives the dichotomy of (1) for the poles under the same windows, for poles of any finite order, under the integrability hypothesis alone and with continuation only to `Re s > θ`. Windows of bounded length do not suffice, and without a one-sided bound the conclusion fails: `e^(βu) cos(γu)` has only the nonreal poles `β ± iγ`. (3) In the variable `y = e^u` the windows are `[Y, Y^λ]` and the transform is the Mellin transform `∫₁^∞ G(y) y^(−s−1) dy`. If `|G(y)| ≤ C₀ y²`, the transform continues meromorphically to `Re s > 0` with simple poles only and positive residues at the real poles, `0 < θ < 1`, and if for a fixed `λ > 1` the set of `y ≥ 1` with `G(y) ≤ C y^θ` contains intervals `[Y, Y^λ]` with `Y` arbitrarily large, then the transform has no pole in `Re s > θ`. In the extension, if the transform converges absolutely for every real `s > A` and continues meromorphically to `Re s > θ`, the same windows give that either the transform has no pole in `Re s > θ`, or its poles there have a largest real part, attained at a real pole with negative leading coefficient. Of (2), [FormalProof] proves the case of simple poles with positive residues at the real poles, under a pointwise bound `|g(u)| ≤ C₀ e^(2u)`, and that case of (3) follows from it by `y = e^u` (the formal proof states the Mellin form only for a weighted family of Dirichlet characters); (1) is classical and is not part of [FormalProof]. (4) Laplace's method in several variables: let `E` be a finite-dimensional real normed space of dimension `n` with a Haar measure, `B` a real-bilinear form on `E` with complex values, and `c, γ > 0`; if functions `f_t` on `E`, indexed by the positive integers and measurable for large `t`, satisfy `f_t(Y/√t) → e^(−B(Y,Y))` for every `Y` as `t → ∞` and `|f_t(Y)| ≤ (1 + c‖Y‖²)^(−γt)` for all large `t` and all `Y`, then `Re B(Y,Y) > 0` for `Y ≠ 0`, `t^(n/2) ∫ f_t → ∫ e^(−B(Y,Y)) dY`, this limit is not zero, and so `∫ f_t ≠ 0` for all large `t`. (5) Stationary phase on `ℂ^n`: let `g` be holomorphic on the polydisc of radius `2r` about `x₀` and bounded by `Λ` there, with `∇g(x₀) = 0` and `‖x − x₀‖ ≤ Λ‖∇g(x)‖` on the closed polydisc of radius `r`, and let `a` be a `C^(2n+2)` function with values in a complex Banach space, vanishing outside that closed polydisc, whose derivatives of order at most `2n + 2` are bounded by `S`; then the Hessian `H` of `g` at `x₀` is invertible, and the integral of `exp(i Re(βg(x)/t)) a(x)` against the `n`-th power of the Haar measure on `ℂ` self-dual for `w ↦ exp(i Re(βw))` differs from `exp(i Re(βg(x₀)/t)) |t|^n |det H|^(−1) a(x₀)` by at most `C S |t|^(n+1)` for every `t ≠ 0`, with `C` depending only on `n`, `β`, `r` and `Λ`.
+The headline theorems are these. (1) If `g(u) ≤ C e^(θu)` for almost every `u ≥ u₀`, then either `Φ` has no pole in `Re s > θ` and the transform converges absolutely there, or the poles of `Φ` in `Re s > θ` have a largest real part, attained at a real pole `β` whose leading Laurent coefficient is negative, and the transform converges absolutely on `Re s > β`; so positive leading coefficients at the real poles exclude every pole. (2) When the bound is known only on windows: let `|g(u)| ≤ C₀ e^(2u)`, let `Φ` continue meromorphically to `Re s > 0` with simple poles only and positive residues at the real poles, and let `0 < θ < 1`. If for some `δ > 0` and every `η > 0` there are arbitrarily large `U` with `∫_U^((1+δ)U) max(g, 0)(u) e^(−θu) du ≤ e^(ηU)`, then `Φ` has no pole in `Re s > θ`. This roadmap's extension gives the dichotomy of (1) for the poles under the same windows, for poles of any finite order, under the integrability hypothesis alone and with continuation only to `Re s > θ`. Windows of bounded length do not suffice, and without a one-sided bound the conclusion fails: `e^(βu) cos(γu)` has only the nonreal poles `β ± iγ`. (3) In the variable `y = e^u` the windows are `[Y, Y^λ]` and the transform is the Mellin transform `∫₁^∞ G(y) y^(−s−1) dy`. If `|G(y)| ≤ C₀ y²`, the transform continues meromorphically to `Re s > 0` with simple poles only and positive residues at the real poles, `0 < θ < 1`, and if for a fixed `λ > 1` the set of `y ≥ 1` with `G(y) ≤ C y^θ` contains intervals `[Y, Y^λ]` with `Y` arbitrarily large, then the transform has no pole in `Re s > θ`. In the extension, if the transform converges absolutely for every real `s > A` and continues meromorphically to `Re s > θ`, the same windows give that either the transform has no pole in `Re s > θ`, or its poles there have a largest real part, attained at a real pole with negative leading coefficient. Of (2), [FormalProof] proves the case of simple poles with positive residues at the real poles, under a pointwise bound `|g(u)| ≤ C₀ e^(2u)`, and that case of (3) follows from it by `y = e^u` (the formal proof states the Mellin form only for a weighted family of Dirichlet characters); (1) is this roadmap's own formulation of the one-sided use of Landau's theorem and is not part of [FormalProof]. (4) Laplace's method in several variables: let `E` be a finite-dimensional real normed space of dimension `n` with a Haar measure, `B` a real-bilinear form on `E` with complex values, and `c, γ > 0`; if functions `f_t` on `E`, indexed by the positive integers and measurable for large `t`, satisfy `f_t(Y/√t) → e^(−B(Y,Y))` for every `Y` as `t → ∞` and `|f_t(Y)| ≤ (1 + c‖Y‖²)^(−γt)` for all large `t` and all `Y`, then `Re B(Y,Y) > 0` for `Y ≠ 0`, `t^(n/2) ∫ f_t → ∫ e^(−B(Y,Y)) dY`, this limit is not zero, and so `∫ f_t ≠ 0` for all large `t`. (5) Stationary phase on `ℂ^n`: let `g` be holomorphic on the polydisc of radius `2r` about `x₀` and bounded by `Λ` there, with `∇g(x₀) = 0` and `‖x − x₀‖ ≤ Λ‖∇g(x)‖` on the closed polydisc of radius `r`, and let `a` be a `C^(2n+2)` function with values in a complex Banach space, vanishing outside that closed polydisc, whose derivatives of order at most `2n + 2` are bounded by `S`; then the Hessian `H` of `g` at `x₀` is invertible, and the integral of `exp(i Re(βg(x)/t)) a(x)` against the `n`-th power of the Haar measure on `ℂ` self-dual for `w ↦ exp(i Re(βw))` differs from `exp(i Re(βg(x₀)/t)) |t|^n |det H|^(−1) a(x₀)` by at most `C S |t|^(n+1)` for every `t ≠ 0`, with `C` depending only on `n`, `β`, `r` and `Λ`.
 
-The transform and its convergence are the predicate `HasLaplace` of [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md), whose boundary data fix the normalisation of the leading coefficient and whose counting-function transform gives the Dirichlet-series form. Landau's theorem for Dirichlet series with nonnegative coefficients is that of the completed [ArithmeticDirichletSeries](../../../Completed/ArithmeticDirichletSeries/README.md), with which the transform form agrees. Laplace's method and stationary phase in one variable are [AsymptoticExpansions](../../AsymptoticExpansions/README.md) Layers 5 and 6; Layers 7 and 8 are their analogues in several variables and over non-archimedean rings, and use no statement of them; the Gauss factor of the non-archimedean Gaussian integrals of Layer 8 is identified with the Weil index of [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [GeneralizedRiemannHypothesisFromWindowBounds](../GeneralizedRiemannHypothesisFromWindowBounds/README.md) applies the one-sided and windowed theorems to sums over primes, [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) uses the window predicate, and [BesselPoincareSeriesAndGramBounds](../BesselPoincareSeriesAndGramBounds/README.md) uses Layers 7 and 8 for archimedean and local integrals.
+The transform and its convergence are the predicate `HasLaplace` of [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md), whose §0.1b states Landau's theorem for functions of one sign (6.3), whose boundary data fix the normalisation of the leading coefficient and whose counting-function transform gives the Dirichlet-series form (for coefficients of any sign, its §4.1a, of which the transform identity of 6.9 (c) is a corollary). Landau's theorem for Dirichlet series with nonnegative coefficients is that of the completed [ArithmeticDirichletSeries](../../../Completed/ArithmeticDirichletSeries/README.md), with which the transform form agrees. [AsymptoticExpansions](../../AsymptoticExpansions/README.md) states the holomorphy of the Laplace integral with its derivatives (§4.1a, of which 6.1 (a), the formula of 6.1 (b) and the conjugation in 6.1 (c) are corollaries) and Darboux's method for meromorphic functions (§13.6a, of which the first estimate of 6.6 (b) is a corollary). Laplace's method and stationary phase in one variable are AsymptoticExpansions Layers 5 and 6; Layers 7 and 8 are their analogues in several variables and over non-archimedean rings, and use no statement of them; the Gauss factor of the non-archimedean Gaussian integrals of Layer 8 is identified with the Weil index of [MetaplecticAutomorphicForms](../../MetaplecticAutomorphicForms/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [GeneralizedRiemannHypothesisFromWindowBounds](../GeneralizedRiemannHypothesisFromWindowBounds/README.md) applies the one-sided and windowed theorems to sums over primes, [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) uses the window predicate, and [BesselPoincareSeriesAndGramBounds](../BesselPoincareSeriesAndGramBounds/README.md) uses Layers 7 and 8 for archimedean and local integrals.
 
-Layer 6 first expresses the Taylor coefficients of a transform as integrals against the Gamma kernel (6.1, 6.2) and proves the classical theorem with its meromorphic, one-sided and rightmost-pole forms (6.3, 6.4). It then proves the three ingredients of the windowed theorem: one coefficient per window is bounded by positivity (6.5), a pole makes coefficients large (6.6), and a suitable expansion point exists (6.7). 6.8 is the windowed theorem, in the form of the formal proof (simple poles with positive residues at the real poles, under a pointwise bound) and in this roadmap's extension to poles of any finite order, 6.9 its Mellin and Dirichlet-series forms with the window predicate, and 6.10 its agreement with Landau's theorem for Dirichlet series. Layer 7 is Laplace's method in several variables with a majorant uniform in the integer parameter, and the non-vanishing of the integrals for large parameter. Layer 8 is, over `ℂ^n`, the leading term of stationary phase for holomorphic phases with Banach-valued amplitudes and a remainder bounded by finitely many derivatives of the amplitude, with the critical data of the phase `Σ x_k + D/∏ x_k`; and, over a finite product of `p`-adic fields with a self-dual compact open subring, Gaussian integrals over admissible lattices and the exact stationary-phase formula for the same phase. Layers 7 and 8 use nothing of Layer 6.
+Layer 6 first expresses the Taylor coefficients of a transform as integrals against the Gamma kernel (6.1, 6.2), states the classical theorem as ArithmeticDirichletSeriesPartII §0.1b has it (6.3) and proves its meromorphic, one-sided and rightmost-pole forms (6.4). It then proves the three ingredients of the windowed theorem: one coefficient per window is bounded by positivity (6.5), a pole makes coefficients large (6.6), and a suitable expansion point exists (6.7). 6.8 is the windowed theorem, in the form of the formal proof (simple poles with positive residues at the real poles, under a pointwise bound) and in this roadmap's extension to poles of any finite order, 6.9 its Mellin and Dirichlet-series forms with the window predicate, and 6.10 its agreement with Landau's theorem for Dirichlet series. Layer 7 is Laplace's method in several variables with a majorant uniform in the integer parameter, and the non-vanishing of the integrals for large parameter. Layer 8 is, over `ℂ^n`, the leading term of stationary phase for holomorphic phases with Banach-valued amplitudes and a remainder bounded by finitely many derivatives of the amplitude, with the critical data of the phase `Σ x_k + D/∏ x_k`; and, over a finite product of `p`-adic fields with a self-dual compact open subring, Gaussian integrals over admissible lattices and the exact stationary-phase formula for the same phase. Layers 7 and 8 use nothing of Layer 6.
 
 ## Conventions
 
@@ -28,12 +28,27 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The statements of 6.3, 6.4 and 6.10 are not statements
+of [FormalProof]: 6.3 is Landau's theorem as ArithmeticDirichletSeriesPartII §0.1b states it; 6.4 draws from it meromorphic and one-sided forms, which are this
+roadmap's own formulations; 6.10 compares the transform of the counting function with Landau's theorem for Dirichlet
+series, completed ArithmeticDirichletSeries 8.1. The parts of the other sections that [FormalProof] does not state are
+named with each and in the entry [FormalProof] of the References.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
+of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when it does
+not cover the whole section. As long as that general theorem is not in the library, what the line covers is proved
+as [FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement
+when that proof has a narrower one; the route given with the section is that proof's unless the label says that it
+differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction
+from it, and the lemmas that only the first proof uses are removed. The statement does not change.
+
 ## Layer 6: Landau's theorem for Laplace transforms, classical and windowed
 
 Landau's theorem says that the real abscissa of convergence of the transform of an eventually
 nonnegative function is a singularity. Applied to `C e^(θu) − g`, it says that a function bounded
 above for all large `u` has its rightmost singularity on the real axis, with a sign. This layer
-proves that theorem for the one-sided transform of ArithmeticDirichletSeriesPartII §0.1 and then a windowed form, in which the
+states that theorem as ArithmeticDirichletSeriesPartII §0.1b has it, proves its meromorphic and one-sided forms, and then a windowed form, in which the
 bound is known only on windows `[U, (1+δ)U]` arbitrarily far out. The windowed proof expands the
 transform at a far-out point `σ + iγ`, uses one Taylor coefficient per window, bounds it through
 the window by positivity of the Gamma kernel, and shows that a pole right of `θ` makes the same
@@ -48,6 +63,30 @@ Throughout, `g : ℝ → ℝ` is measurable and only its values on `(0, ∞)` ma
 `HasLaplace (fun u ↦ (g u : ℂ)) s (Φ s)` in the notation of ArithmeticDirichletSeriesPartII §0.1.
 
 ### 6.1 Taylor coefficients of a Laplace transform
+
+*Origin:* published: Widder (1941), chapter II, for (a) and the formula of (b): the transform is analytic on its
+half-plane of absolute convergence and is differentiated under the integral sign (AsymptoticExpansions §4.1a, which
+states these with the conjugation `Φ(s̄) = conj Φ(s)` of (c)). [FormalProof] has the formula of (b), and of (c) a bound
+for `Φ` and `Re ρ ≤ 2` at the poles, only for `|g(u)| ≤ C e^(2u)` (`u ≥ 0`) on `Re s > 2`; beyond that case go (a) and
+(b) for every `A` under the integrability hypothesis alone, the reality of `a_k(σ)`, the conjugation and the normal form
+of (c). The bound of `a_k` by the Gamma kernel in (b), the bound of `Φ` in (c) and the normal form of a meromorphic
+continuation in (c), with the symmetry of its poles and the real Laurent coefficients at a real pole, are this
+roadmap's own formulation.
+
+*Method of the formal proof:* only for measurable `g` with `|g(u)| ≤ C e^(2u)` for `u ≥ 0`, at the points `s` with
+`Re s > 2`: by induction on `k`, differentiating under the integral sign, the integral of `g(u)(−u)^k e^(−su)` has
+complex derivative the integral of `g(u)(−u)^(k+1) e^(−su)` (at `k = 0`, the transform is complex differentiable), so
+`(−1)^k Φ^(k)(s)/k! = ∫₀^∞ g(u) u^k e^(−su)/k! du`, the formula of (b); of (c) it has `|Φ(s)| ≤ ∫₀^∞ C e^(−(σ′−2)u) du`
+on `Re s ≥ σ′` for each `σ′ > 2`, and `Re ρ ≤ 2` at the poles of a meromorphic continuation. The route written here is
+the same induction for every `A` under the integrability hypothesis alone, and it proves the other clauses of (c),
+which are not in [FormalProof], by conjugation under the integral, `|e^(−su)| = e^(−σu)` and Mathlib's normal form with
+the identity theorem.
+
+*Corollary of:* AsymptoticExpansions §4.1a (holomorphy of the Laplace integral `Q(z) = ∫₀^∞ e^(−zt) q(t) dt` on
+`Re z > c` when `e^(−σt) q(t)` is integrable on `(0, ∞)` for every real `σ > c`, with
+`Q^(k)(z) = (−1)^k ∫₀^∞ t^k e^(−zt) q(t) dt` and `Q(z̄) = conj Q(z)` for real-valued `q`), for (a), the integrability and
+the formula of (b) and the conjugation in (c) only; the bounds in (b) and (c) and the normal form of (c) are not
+corollaries of it.
 
 Let `A ∈ ℝ` and let `g` be measurable with
 `u ↦ g(u) e^(−σu)` integrable on `(0, ∞)` for every real `σ > A`. Then:
@@ -95,6 +134,16 @@ identity theorem.
   normal form; "holomorphic" is not.
 
 ### 6.2 The Gamma kernel
+
+*Origin:* particular to this proof: the mass, the supremum and the tails of the kernels `u^k e^(−au)/k!` (the kernels
+of the Post–Widder inversion formula, Widder (1941)) in the forms the windowed theorem uses; the profile (c) and the
+supremum off a window (d) are this roadmap's own formulation.
+
+*Method of the formal proof:* the mass is the Gamma integral, the supremum is `(au)^k/k! ≤ e^(au)`, and the mass off
+`[U, V]` comes from the pointwise bound `e^(−au) ≤ e^(−lV) e^(−(a−l)u) + e^(lU) e^(−(a+l)u)` off the interval (an
+exponential tilt on each side), integrated with the Gamma integral; the window form takes `l = 2 + 6/δ`,
+`σ = l(1 + δ)(l + 2)`, `k = ⌈(1 + δ/2)σU⌉` and uses `1 + x ≤ e^x`. The profile (c) and the supremum off a window (d) are
+not in [FormalProof].
 
 The kernel `w_k^a(u) = u^k e^(−au)/k!` of the Conventions, at a positive rate. Let `a > 0` and `k ∈ ℕ`; then
 `w_k^a(u) = a^(−k−1) gammaPDFReal (k + 1) a u` for `u > 0`.
@@ -148,6 +197,11 @@ The estimates (c) and (d) are the roadmap's; [FormalProof] bounds the mass of th
 
 ### 6.3 Landau's theorem
 
+*Origin:* published: Landau (1905), Landau's theorem for the Laplace transforms of functions of one sign, as
+ArithmeticDirichletSeriesPartII §0.1b states it.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Let `a ∈ ℝ`, `u₀ ≥ 0`, and let
 `f : ℝ → ℝ` be measurable with `f(u) ≥ 0` for almost every `u ≥ u₀` and `HasLaplace f s (F s)` for
 every `s` with `Re s > a`. If there are `r > 0` and `F₁` analytic on the ball `B(a, r)` with
@@ -156,23 +210,22 @@ holds for every `s` with `Re s > a′`, and its value equals `F₁(s)` on `B(a, 
 Equivalently: if the infimum `σ_c` of the real `σ` at which `u ↦ f(u) e^(−σu)` is integrable is
 finite, then `F` has no analytic continuation to a neighbourhood of `σ_c`.
 
-*Proof sketch.* The part of `f` on `(0, u₀)` has an entire transform (it is integrable there), so
-assume `f ≥ 0` almost everywhere. Choose real `b ∈ (a, a + r/2)`; `F` and `F₁` together are analytic
-on the disc `B(b, r − (b − a))`, which reaches left of `a`. Its Taylor series at `b` is
-`Σ_k a_k(b) t^k` with `a_k(b) = ∫ f(u) u^k e^(−bu)/k! du ≥ 0` (6.1 (b)). For real
-`t ∈ (b − a, r − (b − a))` exchange sum and integral by monotone convergence:
-`Σ_k a_k(b) t^k = ∫ f(u) e^(−(b−t)u) du < ∞`, so `f(u) e^(−σu)` is integrable at `σ = b − t < a`.
-The values agree by analytic continuation.
-*Needs:* 6.1; Mathlib `MeasureTheory.lintegral_tsum`, `DifferentiableOn.hasFPowerSeriesOnBall`.
+This is ArithmeticDirichletSeriesPartII §0.1b with `A = a` and `H = F₁`: on the convex set `B(a, r) ∩ {Re s > a′}` the
+value is analytic and equals `F₁` where `Re s > a`, hence everywhere by the identity theorem.
+*Needs:* ArithmeticDirichletSeriesPartII §0.1b; Mathlib the identity theorem.
 
 **Checks.**
 
-- `f = 1`: `F = 1/s` is singular at `σ_c = 0`. `f(u) = e^(−u)`: `F = 1/(s + 1)` is analytic at
-  `0`, and indeed the transform converges on `Re s > −1`.
-- The sign hypothesis is needed: `f(u) = sin u` has `F(s) = 1/(s² + 1)`, analytic at `0`, while
-  `∫₀^∞ |sin u| e^(−σu) du` diverges at `σ = 0`, so `σ_c = 0` is not a singularity.
+- `f(u) = e^(−u)`: `F = 1/(s + 1)` is analytic at `0`, and indeed the transform converges on `Re s > −1`.
 
 ### 6.4 Meromorphic and one-sided forms
+
+*Origin:* this roadmap's own formulation: the meromorphic form (a) of Landau's theorem (ArithmeticDirichletSeriesPartII
+§0.1b, through 6.3) and its one-sided forms (b)–(d), for `C e^(θu) − g` and `C e^(θu) + g`, with the signs of the leading coefficients at
+real poles of any finite order, drawn from Landau's theorem as in the one-sided oscillation theorems of Montgomery and
+Vaughan (2007), §15.1.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 (a) Let `f` be as in 6.3
 (eventually nonnegative, transform `F` on `Re s > a`) and let `b < a`. If `F₂` is meromorphic on
@@ -217,7 +270,7 @@ while `H(σ) ~ c_H (σ − β)^(−m)` with `c_H` real and nonzero (6.1 (c)); so
 coefficient of `Φ` at `β` is `−c_H`. (b): the sign condition excludes (c)(ii); then (c)(i) and (a)
 for `h` give the convergence, which is absolute since `HasLaplace` includes integrability. (d) is
 (b) and (c) for `−g`.
-*Needs:* 6.1, 6.3.
+*Needs:* 6.1, 6.3 (ArithmeticDirichletSeriesPartII §0.1b).
 
 **Checks.**
 
@@ -229,6 +282,17 @@ for `h` give the convergence, which is absolute since `HasLaplace` includes inte
   `(s − β)/((s − β)² + γ²)` has only the nonreal poles `β ± iγ`: the one-sided bound is needed.
 
 ### 6.5 Coefficient inequalities on a window
+
+*Origin:* adapted from Pintz (1980), §§10–12: his window inequality, a twisted integral bounded by the untwisted one where
+the function has one sign, with the kernel's tails off the window, here for one Taylor coefficient of the Laplace
+transform, with the kernel `u^k e^(−σu)/k!`; the step `k = 0` is written out in Mahatab and Mukhopadhyay (2015),
+proof of Theorem 3.2. The form (b), with the supremum of the kernel off the window, is this roadmap's own formulation.
+
+*Method of the formal proof:* `|a_k(σ + iγ)| + a_k(σ)` is at most the integral of `|g| + g` against `u^k e^(−σu)/k!`;
+on the window `|g| + g` is at most twice a nonnegative majorant of `g` and the kernel is at most
+`(σ − θ′)^(−k) e^(−θ′u)`, off the window `|g| + g ≤ 2C₀ e^(2u)` leaves only the kernel's mass at the rate `σ − 2`, and an
+exponential-moment bound for that mass gives an index `k ≥ U` for every window. Pintz (1980) uses a Gaussian kernel
+concentrated on the window where this route uses single Taylor coefficients.
 
 Let `g` be as in 6.1 with
 transform `Φ` on `Re s > A`, `σ > A` real, `γ` real and `k ∈ ℕ`.
@@ -283,6 +347,22 @@ needs `θ′ ≥ 0`.
 
 ### 6.6 Taylor coefficients near a pole
 
+*Origin:* adapted from Flajolet and Sedgewick (2009), chapters IV–V, coefficient asymptotics of meromorphic functions
+(AsymptoticExpansions §13.6a): the coefficients are those of `a_k(z) = (−1)^k Φ^(k)(z)/k!` at a point `z`, the main term
+is written out, and lower bounds for large `k` are added; (a) is Cauchy's estimate.
+
+*Method of the formal proof:* the Taylor coefficients at `z` are those of the Cauchy power series on a circle of radius
+`r′` and are bounded by the mean of `|Φ|` on the circle divided by `r′^k`; at a simple pole, `c/(s − ρ)` is subtracted,
+the difference is extended analytically over `ρ`, the Cauchy bound is applied to it, and the Taylor coefficients of
+`c/(s − ρ)` are computed exactly. Poles of higher order in (b) are not in [FormalProof]; the route written here treats
+them as the simple pole, subtracting the whole principal part.
+
+*Corollary of:* AsymptoticExpansions §13.6a (Darboux's method in the meromorphic case: up to `O(r′^(−k))` for every
+`r′ < r`, the Taylor coefficients of a function with finitely many poles inside the disc of radius `r` are those of the
+sum of its principal parts), for the first estimate of (b) and of the simple-pole form: apply it to `w ↦ Φ(z − w)`,
+with the one pole `z − ρ`; the Taylor coefficients of the principal part, which that section does not write out, are
+computed here. (a) is Cauchy's estimate, and the lower bounds are deduced here from the first estimate.
+
 Let `z ∈ ℂ` and `r > 0`.
 
 - (a) *Cauchy.* If `Φ` is analytic on `B(z, r)` and `0 < r′ < r`, there is `M` with
@@ -303,7 +383,7 @@ with `|a_k(z)| ≥ ½ |c| d^(−k−1)` for `k ≥ k₀`; if moreover `z`, `ρ` 
 `Re a_k(z) ≥ ½ (Re c) d^(−k−1)` for `k ≥ k₀`. This follows from [FormalProof],
 `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/LandauPoleAsym.lean` (`Deduction.landau_pole_asym`).
 
-(b) is the meromorphic case of Darboux's method, AsymptoticExpansions §13.6 (2.10.29), with the principal part as
+(b) is the meromorphic case of Darboux's method, AsymptoticExpansions §13.6a, with the principal part as
 comparison function and the pole strictly inside the disc of analyticity, so that the error is `O(r′^(−k))` for every
 `r′ < r` where Darboux's method, with the singularity on the circle of radius `d`, gives `o(d^(−k))`.
 
@@ -327,6 +407,14 @@ point).
   `(z − ρ)^(−k−2)`, and dropping `(−1)^k` in `a_k` gives alternating signs.
 
 ### 6.7 Choosing the expansion point
+
+*Origin:* particular to this proof: an elementary lemma on closed discrete sets, which moves the expansion point `σ`
+vertically to `σ + iγ` until one point of `Z` is strictly nearest, unless the point of `Z` nearest to `σ` is real and
+rightmost.
+
+*Method of the formal proof:* compactness gives finitely many points of `Z` in a closed disc; either the point of `Z`
+nearest to `σ` is real and rightmost, or the centre is moved to `σ + iγ` with `γ` outside the finitely many values at
+which two points of `Z` are equidistant from it.
 
 Let `θ₀ < θ < σ` be real and let `Z` be a closed
 discrete subset of `{Re s > θ₀}` (every point of the half-plane has a neighbourhood meeting `Z` in
@@ -365,6 +453,20 @@ minimum of `D` and the next distance. Then `|σ + iγ − ρ| < D − ε`, and e
 - `Z = {β}` real: case (B); case (A) would need a point `ρ₁` with `σ − Re ρ₁ < dist(σ, Z) = σ − β`.
 
 ### 6.8 The windowed Landau theorem
+
+*Origin:* particular to this proof: Landau's theorem with the one-sided hypothesis assumed only on windows
+`[U, (1 + δ)U]` along a sequence, for a Laplace transform meromorphic in a half-plane; nearest published results:
+Pintz (1980) and Kaczorowski (1984), window theorems for the remainder term of the prime number theorem. The extension,
+for poles of any finite order with the dichotomy as conclusion, is this roadmap's own formulation.
+
+*Method of the formal proof:* if there were a pole to the right of `θ`, a centre on the line `Re s = σ` would have exactly
+one nearest pole, at distance `d`, and its Taylor coefficients there would grow like `d^(−k)`; the window inequality of
+6.5 bounds that coefficient plus the real coefficient at `σ` by `C e^(ηU) (σ − θ)^(−k)` for an index `k ≥ U`, the
+coefficient at `σ` is bounded below by Cauchy estimates or, for a real nearest pole, by its positive residue, and the two
+are incompatible for small `η`. The route combines, on single Taylor coefficients of a general meromorphic transform, the
+window kernel and the positivity between a complex and a real centre of Pintz (1980), Theorems 1 and 2, with one
+smoothing order per window and the dominance of the nearest pole, without power sums, of Kaczorowski (1984), sections
+3–7, both proved for the remainder term of the prime number theorem.
 
 *The form of the formal proof.* Let `δ > 0` and `0 < θ < 1`. Let `g : ℝ → ℝ` be measurable with `|g(u)| ≤ C₀ e^(2u)`
 for all `u ≥ 0`, for some real `C₀`, and let `Φ` be meromorphic on `{Re s > 0}` with `Φ(s) = ∫₀^∞ g(u) e^(−su) du` for
@@ -481,6 +583,24 @@ conclusion, is this roadmap's; it is not proved in [FormalProof].
 
 ### 6.9 Windows of scales, the Mellin form and the Dirichlet-series form
 
+*Origin:* adapted from Landau's theorem: the windowed theorem of 6.8 in the Mellin variable `y = e^u`, with windows
+`[Y, Y^λ]`, and for Dirichlet series through the counting function, whose transform `F(s)/s` is that of Montgomery and
+Vaughan (2007), chapter 1 (ArithmeticDirichletSeriesPartII §4.1a); the window form is that of 6.8, and the extension in
+(b) and the Dirichlet-series form (c) are this roadmap's own formulation.
+
+*Method of the formal proof:* for the remainder of a weighted family of Dirichlet characters, the integral window
+hypothesis on `[Y, Y^(1+δ)]` is carried to `[log Y, (1 + δ) log Y]` by the substitution `y = e^u`, and the windowed
+theorem of 6.8 is applied to its transform, whose poles in `Re s > 0` are the zeros of the L-functions of the family and
+their conjugates, simple and with positive residue at the real ones; a pointwise bound `C y^θ` on a window gives the
+integral hypothesis because `∫ dy/y` over the window is `δ log Y ≤ Y^η` for large `Y`. The extension in (b) and the
+Dirichlet-series form (c) are not in [FormalProof]; the route written here proves them from the extension of 6.8 and,
+for the transform identity of (c), from ArithmeticDirichletSeriesPartII §4.1 applied to `max(c, 0)` and `max(−c, 0)`.
+
+*Corollary of:* ArithmeticDirichletSeriesPartII §4.1a (the counting-function transform for coefficients of any sign:
+`∫₁^∞ S_c(y) y^(−s−1) dy = F(s)/s` wherever the series converges absolutely with `Re s > 0`), for the transform identity
+of (c) only; (a), (b), the bound of `∫₁^∞ |S_c(y)| y^(−σ−1) dy` and the windowed conclusion of (c) are not corollaries
+of it.
+
 (a) *Windows of scales.* For `S ⊆ ℝ` and `λ > 1`, `HasWindows S λ` means: for
 every `Y₀` there is `Y ≥ max(Y₀, 1)` with `Set.Icc Y (Y ^ λ) ⊆ S`. API:
 
@@ -557,6 +677,12 @@ absolutely convergent series on `Re s > A ≥ 0`: it gives `HasLaplace` of `S_(c
 
 ### 6.10 Agreement with Landau's theorem for Dirichlet series
 
+*Origin:* adapted from Landau (1905): Landau's theorem for Dirichlet series with nonnegative coefficients (completed
+ArithmeticDirichletSeries 8.1), read through the transform `F(s)/s` of the counting function, whose abscissa equals that
+of the series when it is positive.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Let `c n ≥ 0` for all `n` and suppose the
 abscissa of absolute convergence `σ_a` of `Σ c(n) n^(−s)` is a positive real number. Then the
 infimum of the real `σ` at which the transform of `α(t) = S_c(e^t)` (ArithmeticDirichletSeriesPartII §4.1) converges is `σ_a`, the
@@ -596,8 +722,10 @@ the half-plane of convergence.
 
 ### Dependencies
 
-ArithmeticDirichletSeriesPartII §0.1, ArithmeticDirichletSeriesPartII §0.2 (for the normalisation of the leading
-coefficient) and ArithmeticDirichletSeriesPartII §4.1 for 6.9 (c) and 6.10; AnalyticNumberTheoryPartII §4.5c for the model transforms
+ArithmeticDirichletSeriesPartII §0.1, ArithmeticDirichletSeriesPartII §0.1b (Landau's theorem, 6.3), ArithmeticDirichletSeriesPartII §0.2 (for the normalisation of the leading
+coefficient) and ArithmeticDirichletSeriesPartII §4.1 for 6.9 (c) and 6.10, with ArithmeticDirichletSeriesPartII §4.1a, the general theorem of which
+the transform identity of 6.9 (c) is a corollary; AsymptoticExpansions §4.1a, the general theorem of which 6.1 (a), the formula of 6.1 (b) and the conjugation in 6.1 (c) are corollaries, and AsymptoticExpansions §13.6a, the general theorem of which the first estimate of 6.6 (b) is a
+corollary; AnalyticNumberTheoryPartII §4.5c for the model transforms
 of the Examples. Mathlib meromorphic functions and their normal form,
 Cauchy estimates, Bochner integration and the Gamma integral; Tau Ceti's Laurent data at a
 meromorphic point; completed ArithmeticDirichletSeries 8.1 for 6.10.
@@ -607,6 +735,17 @@ meromorphic point; completed ArithmeticDirichletSeries 8.1 for 6.10.
 This layer proves Laplace's method for a family of integrals over a finite-dimensional real space whose integrands, rescaled by `√t`, converge pointwise to a Gaussian `e^(−B(v,v))` with complex-valued `B`, under a majorant uniform in the integer parameter `t`; it concludes that the integrals do not vanish for large `t`. It is the several-variable analogue of Laplace's method on the real line (AsymptoticExpansions §5.2) and uses no statement of it.
 
 ### 7.1 Laplace's method in several variables with a uniform majorant
+
+*Origin:* adapted from Wong (1989), chapters VIII–IX, Laplace's method for multiple integrals, and Hörmander (1990),
+§7.6, the Fourier transforms of Gaussian functions: here the integrands are indexed by the positive integers, converge
+only pointwise after rescaling by `√t` to a complex Gaussian `e^(−B(v,v))` under the uniform majorant
+`(1 + c‖v‖²)^(−γt)`, and the conclusion includes the non-vanishing of the integrals for large `t`.
+
+*Method of the formal proof:* after the rescaling `w ↦ w/√t` the majorant `(1 + c‖w‖²/t)^(−γt)` decreases in `t`
+(weighted arithmetic and geometric means), so one integrable function dominates for all large `t` and dominated
+convergence gives the limit; the same majorant bounds the limit, which gives `Re B(v, v) > 0`; and the Gaussian integral
+is not zero by simultaneous diagonalisation of the real and imaginary parts of the form, which reduces it to a product of
+integrals `∫ e^(−bx²) dx` with `Re b > 0`.
 
 Let `(f_t)_{t≥1}` be complex functions on `E`, indexed by the positive integers, `B : E × E → ℂ` a real-bilinear form, and `c, γ > 0`. Suppose that `f_t` is `μ`-almost everywhere strongly measurable for all large `t`, that `f_t(v/√t) → e^(−B(v,v))` as `t → ∞` for every `v ∈ E`, and that there is `t₀` with `|f_t(v)| ≤ (1 + c‖v‖²)^(−γt)` for all `t ≥ t₀` and all `v ∈ E` (one `t₀` for all `v`). Prove that:
 
@@ -666,6 +805,21 @@ No earlier layer and no other roadmap. Mathlib dominated convergence, Haar measu
 This layer proves stationary phase in two settings, both used for the phase `Σ x_k + D/∏ x_k`. Over `ℂ^n` (8.1) it evaluates complex Gaussian integrals through the Autonne–Takagi factorisation and proves, for arbitrary holomorphic phases and Banach-valued amplitudes, a non-stationary bound and the leading term at a nondegenerate critical point, with remainders bounded by finitely many derivatives of the amplitude; it then records the critical data of the phase `Σ x_k + D/∏ x_k`. Only the leading term is asserted, no asymptotic expansion. Over a finite product of `p`-adic fields with a compact open subring that is its own orthogonal (8.2) it proves Gaussian integrals over admissible lattices and an exact stationary-phase formula for the same phase. Both are analogues of stationary phase on the real line (AsymptoticExpansions Layer 6) and use no statement of it.
 
 ### 8.1 Stationary phase for holomorphic phases on `ℂ^n`, and the phase `Σ x_k + D/∏ x_k`
+
+*Origin:* adapted from Hörmander (1990), Theorems 7.7.1 and 7.7.5: the non-stationary estimate and stationary phase with
+remainder, here for holomorphic phases in the `2n` real coordinates of `ℂ^n`, with Banach-valued amplitudes, constants
+that depend on the phase only through `(η, P)` and `(r, Λ)` and the leading term only, together with the damped complex
+Gaussian integrals of (a) and the critical data of the phase `g_D` in (d); `det H ≠ 0` in (c) is this roadmap's own
+formulation.
+
+*Method of the formal proof:* for (c), in the `2n` real coordinates the amplitude is split into a cut-off times its
+first-order Taylor polynomial at the critical point and a remainder vanishing to second order; the phase is joined to its
+quadratic part by a linear deformation and the integral is expanded to first order in the deformation parameter; every
+error term is bounded by repeated integration by parts with the regularised denominator `|∇φ|² + |t|`, for functions
+whose derivatives are measured against the weight `‖x‖ + |t|^(1/2)`; the term of the linear amplitude vanishes by
+oddness, and the quadratic integral with cut-off is compared with the damped Gaussian integral of (a). This follows the
+deformation argument of Hörmander's proof, carried out for the leading term only, with a weighted estimate in place of
+his non-stationary bound and a damped Gaussian in place of the Fourier transform of a Gaussian.
 
 Let `n ∈ ℕ` and `β ∈ ℂ^×`. Prove that:
 
@@ -758,6 +912,20 @@ functions (`ContDiffBump`), `integrable_one_add_norm`, the Gaussian integral wit
   `z^(−1)[[2, 1], [1, 2]]`, of determinant `3z^(−2)`. For `n = 1`: `x + D/x`, critical points `±√D`, second derivative `2/z`.
 
 ### 8.2 Gaussian integrals over lattices and stationary phase for `Σ x_k + D/∏ x_k` over a non-archimedean ring
+
+*Origin:* adapted from Dąbrowski and Fisher (1997): their exact `p`-adic stationary phase over `ℤ_p`, applied to the
+phase `Σ x_k + D/∏ x_k`, is stated over a finite product of `p`-adic fields with a self-dual compact open subring that
+need not be a maximal order, uniformly for `D` in a compact set. The Morse lemma (b), a bijection preserving congruences
+in every residue characteristic, is particular to this proof; nearest published results: Cluckers and Herremans (2007),
+Lemma 3.3, an exact `p`-adic Morse lemma for odd `p` and a unit Hessian, and Adamski (2026), stationary phase over
+non-archimedean local fields of odd residue characteristic. The identification of the Gauss factor with the Weil index in
+(a), which over `ℚ_p` is Dąbrowski and Fisher's Proposition 1.3 (a), is this roadmap's own formulation.
+
+*Method of the formal proof:* Gaussian sums over a lattice are evaluated in modulus by expanding the squared modulus and
+using orthogonality of characters; near a critical point an exact identity writes the phase as `(m + 1)z` plus a
+quadratic form whose matrix depends on the point, and a fixed point of the matrix equation `Y = N − ϖ·Y·G·Y` on a
+compact set gives a bijection preserving congruences that makes the quadratic part exact; away from the critical points
+the phase is affine on small cosets with a derivative that is not small, so the sums vanish coset by coset.
 
 Let `(K, 𝔒, ψ)` be as in the Conventions; every nonzero integer is invertible in `K`, and nothing is assumed about the
 residue characteristics or about `𝔒` being a maximal order. For every lattice `L`, `L^⊥` is a lattice,
@@ -883,7 +1051,7 @@ No earlier layer. AnalyticNumberTheoryPartII §5.3g, the duality of lattices, an
 
 ## Downstream consumers
 
-- GeneralizedRiemannHypothesisFromWindowBounds: Landau's theorem for positive combinations of logarithmic derivatives of Dirichlet and ray-class `L`-functions, for all large `y` (6.4 (b) and (d), at GeneralizedRiemannHypothesisFromWindowBounds §§1.1–1.3) and on windows: the forms with the hypotheses of the formal proof of 6.8 and 6.9 (b) for its main line, the zero-free conclusions at GeneralizedRiemannHypothesisFromWindowBounds §§2.1–2.3, and the extensions of 6.8 and 6.9 (b) only for its lower-bound consequences at GeneralizedRiemannHypothesisFromWindowBounds §§2.4 and 2.5; and the window predicate `HasWindows` with its API (6.9 (a), in the Conventions of that roadmap, at GeneralizedRiemannHypothesisFromWindowBounds §3.1 and in its Layers 4–5). That roadmap proves the meromorphic continuation, the location of the poles and the signs of their residues for its own transforms; Layer 6 needs none of that arithmetic.
+- GeneralizedRiemannHypothesisFromWindowBounds: Landau's theorem for positive combinations of logarithmic derivatives of Dirichlet and ray-class `L`-functions, for all large `y` (6.4 (b), (c) and (d), at GeneralizedRiemannHypothesisFromWindowBounds §§1.1–1.3) and on windows: the forms with the hypotheses of the formal proof of 6.8 and 6.9 (b) for its main line, the zero-free conclusions at GeneralizedRiemannHypothesisFromWindowBounds §§2.1–2.3, and the extensions of 6.8 and 6.9 (b) only for its lower-bound consequences at GeneralizedRiemannHypothesisFromWindowBounds §§2.4 and 2.5; and the window predicate `HasWindows` with its API (6.9 (a), in the Conventions of that roadmap, at GeneralizedRiemannHypothesisFromWindowBounds §3.1 and in its Layers 2–5). That roadmap proves the meromorphic continuation, the location of the poles and the signs of their residues for its own transforms; Layer 6 needs none of that arithmetic.
 - ThetaChainsAndFrobeniusPrimeSums: the window predicate `HasWindows` and its API (6.9 (a)), at ThetaChainsAndFrobeniusPrimeSums §§10.7, 10.10 and 10.11.
 - BesselPoincareSeriesAndGramBounds: the non-vanishing of Laplace's method 7.1 (d), with `t` a positive integer, at BesselPoincareSeriesAndGramBounds §5.13d (e); the non-stationary bound, the leading term of stationary phase and the critical data of the phase `Σ x_k + D/∏ x_k`, 8.1 (b), (c), (d), at BesselPoincareSeriesAndGramBounds §5.18d (g); and the Gaussian integrals over lattices with their Gauss factor `γ(a)` and the exact stationary-phase formula over a non-archimedean ring, 8.2 (a), (d), at BesselPoincareSeriesAndGramBounds §5.17c (b1).
 
@@ -893,16 +1061,17 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns:
 
-- Landau's theorem for one-sided Laplace transforms (Layer 6): Taylor coefficients of a transform as integrals against the Gamma kernel; the kernel's mass, supremum, profile, supremum off a window and mass off an interval and off a window; the classical theorem for eventually nonnegative functions and its meromorphic, one-sided and rightmost-pole forms; the coefficient-wise window inequality; Cauchy estimates near a pole of finite order; the choice of expansion point; the windowed theorem in the form of the formal proof and in its extension to poles of any finite order; its Mellin and Dirichlet-series forms, with the window predicate `HasWindows`; and the agreement with Landau's theorem for Dirichlet series.
+- Landau's theorem for one-sided Laplace transforms (Layer 6): Taylor coefficients of a transform as integrals against the Gamma kernel; the kernel's mass, supremum, profile, supremum off a window and mass off an interval and off a window; the meromorphic, one-sided and rightmost-pole forms of the classical theorem for eventually nonnegative functions; the coefficient-wise window inequality; Cauchy estimates near a pole of finite order; the choice of expansion point; the windowed theorem in the form of the formal proof and in its extension to poles of any finite order; its Mellin and Dirichlet-series forms, with the window predicate `HasWindows`; and the agreement with Landau's theorem for Dirichlet series.
 - Laplace's method in several variables with a uniform majorant, with the positivity of the limiting form, the non-vanishing of complex Gaussian integrals and of the integrals for large parameter (Layer 7).
 - Over `ℂ^n`: complex Gaussian integrals, the non-stationary bound and the leading term of stationary phase for holomorphic phases with Banach-valued amplitudes, and the critical data of the phase `Σ x_k + D/∏ x_k`; over a finite product of `p`-adic fields with a self-dual compact open subring: Gaussian integrals over admissible lattices with their Gauss factor, and its identification with the Weil index, the Morse lemma for the same phase, its vanishing away from the critical points, and the exact stationary-phase formula (Layer 8).
 
-The theory these statements extend is owned by their homes. [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md) owns the one-sided Laplace transform and the predicate `HasLaplace` (ArithmeticDirichletSeriesPartII §0.1), the boundary data `PoleBoundary` with its normalisation of the leading coefficient (ArithmeticDirichletSeriesPartII §0.2), the counting function of a Dirichlet series (its Conventions) and its transform (ArithmeticDirichletSeriesPartII §4.1), and Delange's theorem. [AsymptoticExpansions](../../AsymptoticExpansions/README.md) owns Laplace's method and stationary phase in one variable (Layers 5 and 6); Layers 7 and 8 above are their analogues in several variables and over non-archimedean rings and use no statement of them.
+The theory these statements extend is owned by their homes. [ArithmeticDirichletSeriesPartII](../../ArithmeticDirichletSeriesPartII/README.md) owns the one-sided Laplace transform and the predicate `HasLaplace` (ArithmeticDirichletSeriesPartII §0.1), Landau's theorem for functions of one sign (ArithmeticDirichletSeriesPartII §0.1b), the boundary data `PoleBoundary` with its normalisation of the leading coefficient (ArithmeticDirichletSeriesPartII §0.2), the counting function of a Dirichlet series (its Conventions) and its transform (ArithmeticDirichletSeriesPartII §4.1, and §4.1a for coefficients of any sign), and Delange's theorem. [AsymptoticExpansions](../../AsymptoticExpansions/README.md) owns the holomorphy of the Laplace integral with its derivatives (AsymptoticExpansions §4.1a), Darboux's method with its meromorphic case (AsymptoticExpansions §§13.6, 13.6a), and Laplace's method and stationary phase in one variable (Layers 5 and 6); Layers 7 and 8 above are their analogues in several variables and over non-archimedean rings and use no statement of them.
 
-Three statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. SpecialFunctionsGamma §10.1 states Landau's theorem for integrals `∫ w h^s` of a nonnegative weight `w` against real powers of a positive function `h` on a measure space, for real `s` in an interval; 6.3 is its case of `(0, ∞)` with Lebesgue measure and `h(u) = e^(−u)`, kept here for eventually nonnegative functions, with complex `s` and the value of `HasLaplace`, the form 6.4 and 6.10 use, and proved from 6.1 without that statement. 6.1 (a) proves the analyticity of the transform from integrability alone, where AsymptoticExpansions §4.4 (2.4.2–2.4.3) also assumes the function differentiable. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
+Three statements here have relatives in other roadmaps and are kept, each in the form this roadmap needs. 6.3 is Landau's theorem of ArithmeticDirichletSeriesPartII §0.1b, stated with the value on a disc, the form 6.4 and 6.10 use. 6.1 (a), the formula of 6.1 (b) and the conjugation in 6.1 (c) are stated in AsymptoticExpansions §4.1a, from integrability alone; 6.1 adds the bound of `a_k` by the Gamma kernel and the normal form of a meromorphic continuation. 8.1 (b) is non-stationary phase for holomorphic phases, with derivative bounds relative to the gradient at a scale `P`, Banach-valued amplitudes and a constant independent of the domain, where QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §1.3 (i) treats real phases on a fixed open set with constants depending on absolute derivative bounds.
 
 Not owned here:
 
+- Landau's theorem for the Laplace transforms of functions of one sign is ArithmeticDirichletSeriesPartII §0.1b; 6.3 states it in the form used here.
 - Landau's theorem for Dirichlet series with nonnegative coefficients is completed ArithmeticDirichletSeries 8.1, in the library as `TauCeti.LSeries.landau`; 6.10 only records the agreement.
 - Weighted families of Dirichlet or ray-class characters, their Riesz-smoothed prime sums, the residues of the associated transforms and every zero-free conclusion drawn from Layer 6: GeneralizedRiemannHypothesisFromWindowBounds.
 - Windows shorter than a fixed ratio, `[U, U + ψ(U)]` with `ψ(U) = o(U)`: Layer 6 does not treat them, and for bounded `ψ` the statement is false (Checks of 6.8).
@@ -914,8 +1083,15 @@ Not owned here:
 ### From TauCetiRoadmap.ArithmeticDirichletSeriesPartII
 
 - §0.1, `HasLaplace` and its API (convergence, value, uniqueness, almost-everywhere congruence, additivity, scalar multiplication): every transform of Layer 6 is a `HasLaplace` statement with the default measure on `(0, ∞)`; integrability is part of the predicate; additivity and scalar multiplication are used in 6.9 (c).
+- §0.1b, Landau's theorem for functions of one sign: if `g ≥ 0` for large `u`, `HasLaplace g s (F s)` for `Re s > A`, and `F` agrees on `Re s > A` near `A` with a function analytic on a disc about `A`, then `HasLaplace g s` holds on `Re s > A′` for some real `A′ < A`, with a value analytic in `s` that equals `F` on `Re s > A`: the statement 6.3, used in 6.4 and 6.10.
 - §0.2, `PoleBoundary`: the normalisation of its leading coefficient `A`, which is the leading coefficient `meromorphicTrailingCoeffAt` of the Conventions above.
 - Conventions and §4.1: the counting function `S_c` and the transform `F(s)/s` of `S_c(e^t)` for nonnegative coefficients with an absolutely convergent series on `Re s > a ≥ 0`, used as stated in 6.9 (c) and 6.10.
+- §4.1a, the counting-function transform for coefficients of any sign: for `c : ℕ → ℂ` with a series converging absolutely at `s`, `Re s > 0`, `HasLaplace` of `S_c(e^t)` with value `F(s)/s` and `∫₁^∞ S_c(y) y^(−s−1) dy = F(s)/s`: the general theorem of which the transform identity of 6.9 (c) is a corollary.
+
+### From TauCetiRoadmap.AsymptoticExpansions
+
+- §4.1a, the holomorphy of the Laplace integral `Q(z) = ∫₀^∞ e^(−zt) q(t) dt` of a function with `e^(−σt) q(t)` integrable on `(0, ∞)` for every real `σ > c`: `Q` is holomorphic on `Re z > c`, `Q^(k)(z) = (−1)^k ∫₀^∞ t^k e^(−zt) q(t) dt`, and `Q(z̄) = conj Q(z)` for real-valued `q`: the general theorem of which 6.1 (a), the formula of 6.1 (b) and the conjugation in 6.1 (c) are corollaries.
+- §13.6a, Darboux's method in the meromorphic case: for a function holomorphic on a disc of radius `r` about `0` except for finitely many poles inside it, the Taylor coefficients at `0` are those of the sum of the principal parts up to `O(r′^(−n))` for every `r′ < r`: the general theorem of which the first estimate of 6.6 (b) is a corollary.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
@@ -934,10 +1110,10 @@ Not owned here:
 
 - `MeromorphicOn`, with `MeromorphicOn.eventually_codiscreteWithin_analyticAt` (the poles of a meromorphic function on an open set are discrete in it), `meromorphicOrderAt` and `meromorphicTrailingCoeffAt` (the value `h(x)` of a presentation `(z − x)^order • h z`, `h` analytic at `x`), with `meromorphicTrailingCoeffAt_congr_nhdsNE` (functions that agree on a punctured neighbourhood of `x` have the same leading coefficient at `x`): poles, orders and leading coefficients in Layer 6.
 - `toMeromorphicNFOn`, with `toMeromorphicNFOn_eqOn_codiscrete`, `meromorphicNFOn_toMeromorphicNFOn`, `MeromorphicOn.toMeromorphicNFOn_eq_self_on_nhdsNE`, `meromorphicOrderAt_toMeromorphicNFOn` and `MeromorphicNFAt.meromorphicOrderAt_nonneg_iff_analyticAt`: the normal form of 6.1 (c), analytic off the poles, with the same orders and the same punctured germs.
-- `norm_cauchyPowerSeries_le` and `DifferentiableOn.hasFPowerSeriesOnBall`: Taylor expansion on discs and Cauchy's estimate for its coefficients, 6.3 and 6.6; `deriv_zpow` and removable singularities, 6.6.
+- `norm_cauchyPowerSeries_le`: Taylor expansion on discs and Cauchy's estimate for its coefficients, 6.6; `deriv_zpow` and removable singularities, 6.6.
 - `MeasureTheory.integral_comp_exp_Ioi` and `MeasureTheory.integrableOn_comp_exp_Ioi`: the substitution `y = e^u`, 6.9.
-- `Real.pow_div_factorial_le_exp` (`x^n/n! ≤ e^x` for `x ≥ 0`; at `x = n` it gives `n! ≥ (n/e)^n`), `Real.integral_rpow_mul_exp_neg_mul_Ioi`, `ProbabilityTheory.gammaPDFReal` and `ProbabilityTheory.lintegral_gammaPDF_eq_one`: the kernel of 6.2. `MeasureTheory.lintegral_tsum` (monotone convergence for series), 6.3. `hasDerivAt_integral_of_dominated_loc_of_deriv_le` (differentiation under the integral sign), 6.1.
-- Compactness of closed balls in `ℂ` and finiteness of discrete subsets of compact sets, 6.7; the identity theorem, 6.1 and 6.4.
+- `Real.pow_div_factorial_le_exp` (`x^n/n! ≤ e^x` for `x ≥ 0`; at `x = n` it gives `n! ≥ (n/e)^n`), `Real.integral_rpow_mul_exp_neg_mul_Ioi`, `ProbabilityTheory.gammaPDFReal` and `ProbabilityTheory.lintegral_gammaPDF_eq_one`: the kernel of 6.2. `hasDerivAt_integral_of_dominated_loc_of_deriv_le` (differentiation under the integral sign), 6.1.
+- Compactness of closed balls in `ℂ` and finiteness of discrete subsets of compact sets, 6.7; the identity theorem, 6.1, 6.3 and 6.4.
 - `MeasureTheory.tendsto_integral_filter_of_dominated_convergence`, `integrable_rpow_neg_one_add_norm_sq`, `MeasureTheory.Measure.integral_comp_smul`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `Real.geom_mean_le_arith_mean2_weighted` and the spectral theorem for real symmetric matrices: 7.1.
 - Bochner integration of Banach-valued functions, Cauchy estimates for holomorphic functions of several variables, smooth bump functions (`ContDiffBump`), `integrable_one_add_norm`, the Gaussian integral with complex parameter and the spectral theorem: 8.1.
 - Additive characters (`AddChar`), Haar measure on locally compact groups, indices of subgroups and orthogonality of characters of finite abelian groups: 8.2.
@@ -949,11 +1125,18 @@ Not owned here:
 
 ## References
 
-- E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905): the theorem on transforms of nonnegative functions (6.3) and its one-sided use (6.4).
-- D. V. Widder, *The Laplace Transform*, Princeton (1941), Chapter II: differentiation under the integral and the singularity at the real abscissa (6.1, 6.3).
-- H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge (2007), §15.1: Landau's theorem and one-sided oscillation (6.4).
+- E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905): the theorem on transforms of nonnegative functions (6.3, as stated in ArithmeticDirichletSeriesPartII §0.1b), its one-sided use (6.4), and the theorem for Dirichlet series with nonnegative coefficients (6.10, as stated in completed ArithmeticDirichletSeries 8.1).
+- D. V. Widder, *The Laplace Transform*, Princeton (1941), Chapter II: differentiation under the integral and the singularity at the real abscissa (6.1, 6.3); the kernels of the Post–Widder inversion formula (6.2).
+- H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge (2007), §15.1: Landau's theorem and one-sided oscillation (6.4); chapter 1: a Dirichlet series as `s` times the Mellin integral of its summatory function (6.9 (c), through ArithmeticDirichletSeriesPartII §4.1a).
 - J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions I, II*, Acta Math. Hungar. 48 (1986) and 49 (1987): localized oscillation theorems, context for 6.8.
-- [Hörmander] L. Hörmander, *The Analysis of Linear Partial Differential Operators I. Distribution Theory and Fourier Analysis*, 2nd ed., Springer (1990; reprinted 2003): Theorem 7.7.1, the non-stationary estimate (8.1 (b)), and Theorem 7.7.5, stationary phase with remainder, with a constant bounded when the phase stays in a bounded set and `|x − x₀|/|f′(x)|` is bounded (8.1 (c)).
+- J. Pintz, *On the remainder term of the prime number formula I*, Acta Arith. 36 (1980), 341–365: §§10–12, a window inequality with a Gaussian kernel concentrated on a window (6.5); Theorems 1 and 2, window theorems for the remainder term of the prime number theorem, a nearest published result for 6.8.
+- J. Kaczorowski, Acta Arith. 44 (1984), 365–377, sections 3–7: one smoothing order per window, with the nearest pole dominant and no power sums, a nearest published result for 6.8.
+- Mahatab and Mukhopadhyay (2015), arXiv:1512.03144, proof of Theorem 3.2: the step `k = 0` of 6.5.
+- P. Flajolet and R. Sedgewick, *Analytic Combinatorics*, Cambridge University Press (2009), Chapters IV–V: coefficient asymptotics of meromorphic functions (6.6, through AsymptoticExpansions §13.6a).
+- R. Wong, *Asymptotic Approximations of Integrals*, Academic Press (1989), Chapters VIII–IX: multidimensional integrals, Laplace's method for multiple integrals (7.1).
+- [Hörmander] L. Hörmander, *The Analysis of Linear Partial Differential Operators I. Distribution Theory and Fourier Analysis*, 2nd ed., Springer (1990; reprinted 2003): §7.6, the Fourier transforms of Gaussian functions (7.1); Theorem 7.7.1, the non-stationary estimate (8.1 (b)), and Theorem 7.7.5, stationary phase with remainder, with a constant bounded when the phase stays in a bounded set and `|x − x₀|/|f′(x)|` is bounded (8.1 (c)).
 - [Dąbrowski–Fisher] R. Dąbrowski and B. Fisher, *A stationary phase formula for exponential sums over ℤ/p^mℤ and applications to GL(3)-Kloosterman sums*, Acta Arith. 80 (1997), 1–48: Proposition 1.3 (a) and (1.3), normalised Gauss sums as Weil indices (8.2 (a)); Theorem 1.8, Corollary 1.10 and Lemma 1.20, the `p`-adic stationary-phase formula over `ℤ_p` (8.2 (c), (d)); Examples 1.16 and 1.17, the hyper-Kloosterman phase.
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem for simple poles with positive residues at the real poles (the form of the formal proof of 6.8), and of its route: the mass and supremum of the kernel and its mass off an interval and off a window (6.2 (a), (b), (e), (f)), the positivity of one Taylor coefficient per window (6.5 (a), (c)), Cauchy's estimate and the coefficients near a simple pole (6.6 (a); 6.6 (b) for simple poles), the choice of the expansion point (6.7) and the two cases of 6.8; of the window predicate (6.9 (a)); and of the statements of Layers 7 and 8 other than 7.1 (a), the limit of 7.1 (c) and `det H ≠ 0` in 8.1 (c), which it does not state, the Gauss factor of 8.2 (a) being defined there by the Gaussian integral. The tail estimate 6.2 (c), (d) with 6.5 (b), the positivity 6.5 (a) outside the range `σ > 2` with the pointwise bound, poles of higher order and the dichotomy of 6.8 and 6.9 (b), the route of 8.1 (c) through [Hörmander] and the identification of the Gauss factor with the Weil index in 8.2 (a) are this roadmap's.
+- Cluckers and Herremans, Bull. SMF 135 (2007), arXiv:math/0408139, Lemma 3.3 and Proposition 3.5: an exact `p`-adic Morse lemma with an isometric change of variables, for odd `p` and a unit Hessian, used to evaluate sums modulo `p^m`; a nearest published result for 8.2 (b).
+- Adamski, Confluentes Math. 18 (2026), arXiv:2502.04881, Theorems 1.5 and 1.12: additive stationary phase over non-archimedean local fields of odd residue characteristic, by an exact Morse lemma; a nearest published result for 8.2.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The source of the windowed Landau theorem for simple poles with positive residues at the real poles (the form of the formal proof of 6.8), and of its route: the Taylor coefficients of the transform and a bound for it, for `|g(u)| ≤ C e^(2u)` on `Re s > 2` only (6.1, whose `*Origin:*` label names what goes beyond that case), the mass and supremum of the kernel and its mass off an interval and off a window (6.2 (a), (b), (e), (f)), the positivity of one Taylor coefficient per window (6.5 (a), (c)), Cauchy's estimate and the coefficients near a simple pole (6.6 (a); 6.6 (b) for simple poles), the choice of the expansion point (6.7) and the two cases of 6.8; of the window predicate (6.9 (a)); and of the statements of Layers 7 and 8 other than 7.1 (a), the limit of 7.1 (c) and `det H ≠ 0` in 8.1 (c), which it does not state, the Gauss factor of 8.2 (a) being defined there by the Gaussian integral. The tail estimate 6.2 (c), (d) with 6.5 (b), the positivity 6.5 (a) outside the range `σ > 2` with the pointwise bound, poles of higher order and the dichotomy of 6.8 and 6.9 (b), the route of 8.1 (c) through [Hörmander] and the identification of the Gauss factor with the Weil index in 8.2 (a) are this roadmap's.
 - [Announcement] Levent Alpöge, the announcement of that proof (2026): <https://alpo.ge/remark.pdf>.

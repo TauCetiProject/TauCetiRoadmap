@@ -1,29 +1,13 @@
 import Mathlib
-import TauCeti.LinearAlgebra.ExteriorPower.Plucker
-import TauCeti.NumberTheory.Height.Arakelov.Subspace.Basic
 import TauCeti.NumberTheory.NumberField.CanonicalEmbedding.MixedImage
-import TauCeti.NumberTheory.NumberField.Global.Adeles.Extension
-import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 
 /-!
 # Adelic heights and successive minima: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Both headlines
-are statable at the pins, and every clause of them that the README's overview states is stated
-here.
+states the roadmap's headline theorem (2) against the pinned Mathlib and Tau Ceti. It is statable
+at the pins, and every clause of it that the README's overview states is stated here.
 
-* Adelic heights (2.5a). The height `H_A` is DiophantineApproximationAndTranscendence §2.5's; this
-  roadmap writes it out under two names. For an adelic matrix `A` over a number field `K`, a
-  finite extension `L` of `K` and `x ∈ L^n`, `adelicHeight A x` multiplies the Euclidean norms of
-  `A_{v(w)} x` at the infinite places `w` of `L`, with exponent `mult(w)/[L:ℚ]`, and the max norms
-  at the finite places, with exponent `1/[L:ℚ]`, reading the components of `A` above the places of
-  `L` through Tau Ceti's extension map of adele rings `NumberField.adeleExtension`;
-  `adelicSubspaceHeight A U` is the height, for the action of `A` on Plücker coordinates, of the
-  Plücker vector of a basis of `U`. For `A ∈ GL_n(𝔸_K)` the file states the value at `A = 1` on
-  `K`-subspaces, Tau Ceti's `Submodule.subspaceHeight`, and the value `|det A|_𝔸` on the whole
-  space, the idele norm `TauCeti.GlobalNumberFields.ideleNorm` of `det A` raised to the power
-  `1/[K:ℚ]`.
 * Minkowski's second theorem over `K` for balanced bodies (3.1). For a finitely generated
   `𝓞 K`-module `Λ ⊆ ι → K` spanning it, read through the mixed image `Submodule.mixedImage` as in
   SubspaceTheorem §4.2, the minima over `K` of SubspaceTheorem §4.2, and a compact convex
@@ -31,71 +15,15 @@ here.
   with the constant `c_K` of an integral basis, when `0` is an interior point of `B` and `B` is
   balanced over the completions.
 
-The theorems of DiophantineApproximationAndTranscendence §2.5 that 2.5a cites are not
-stated: the invariance of both heights under finite extension, the absolute Siegel lemma of Roy
-and Thunder and the dual-height identity. Nor are the elementary clauses of 2.5a that are not
-headlines: the independence of the scalar and of the Plücker vector, the height of vectors at
-`A = 1`, the comparison with the Arakelov height of points, change of basis, the height of a line
-and the case `n = 1`. The attainment of the minima over `K` by one family and their three
-comparisons with the real minima are steps of the route to Minkowski's theorem over `K` and are
-not stated either.
+Headline (1), the subspace height of a lattice with a frame over a CM field (2.5a), is not
+stated. The attainment of the minima over `K` by one family and their three comparisons with the
+real minima are steps of the route to Minkowski's theorem over `K` and are not stated either.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.AdelicHeightsAndSuccessiveMinima
 
-open NumberField IsDedekindDomain Module TauCeti Set.powersetCard
+open NumberField IsDedekindDomain Module Set.powersetCard
 open scoped NNReal Pointwise Matrix
-
-/-! ## Layer 2: Adelic heights of vectors and subspaces -/
-
-/-- The **adelic height** of a vector `x ∈ L^ι` for an adelic matrix `A` over `K` (2.5a), the
-height `H_A` of DiophantineApproximationAndTranscendence §2.5 written out over `L`: the product
-over the infinite places `w` of `L` of the Euclidean norm of `A_{v(w)} x`, with exponent
-`mult(w)/[L:ℚ]`, and over the finite places of `L` of the max norm of `A_{v(w)} x` for the
-ideal-normalised absolute value, with exponent `1/[L:ℚ]`. The component `A_{v(w)}` acts on `L_w`
-through `K_{v(w)} ⊂ L_w`, the image of `A` under the extension map `𝔸_K → 𝔸_L`. For `A = 1` and
-`L = K` this is `TauCeti.height2`. -/
-noncomputable def adelicHeight {K L ι ι' : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [Fintype ι']
-    (A : Matrix ι' ι (AdeleRing (𝓞 K) K)) (x : ι → L) : ℝ :=
-  (∏ w : InfinitePlace L,
-      (∑ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).1 w * (x j : w.Completion)‖ ^ 2) ^
-        ((w.mult : ℝ) / (2 * finrank ℚ L))) *
-    ∏ᶠ v : HeightOneSpectrum (𝓞 L),
-      (⨆ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).2 v *
-        algebraMap L (v.adicCompletion L) (x j)‖) ^ ((1 : ℝ) / finrank ℚ L)
-
-/-- The **adelic subspace height** of a subspace `U ⊆ L^ι` for an adelic matrix `A` over `K`
-(2.5a): the adelic height, for the matrix `Λ^p A` of the `p × p` minors of `A` acting on Plücker
-coordinates (`p = dim U`), of the Plücker vector of a basis of `U`. The zero subspace has height
-`1`. For `A ∈ GL_n(𝔸_K)` the value does not depend on the basis, by the product formula. -/
-noncomputable def adelicSubspaceHeight {K L ι : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
-    (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (U : Submodule L (ι → L)) : ℝ :=
-  adelicHeight
-    (Matrix.of fun I J : Set.powersetCard ι (finrank L U) ↦
-      (Matrix.of fun a b ↦ A (ofFinEmbEquiv.symm I a) (ofFinEmbEquiv.symm J b)).det)
-    (plucker fun i ↦ (Module.finBasis L U i : ι → L))
-
-/-- **Standard data** (2.5a). At `A = 1` the adelic subspace height of a subspace of `K^ι` is its
-absolute Euclidean height `Submodule.subspaceHeight` (DiophantineApproximationAndTranscendence
-§2.5). -/
-theorem adelicSubspaceHeight_one {K ι : Type*} [Field K] [NumberField K] [Fintype ι]
-    [LinearOrder ι] (U : Submodule K (ι → K)) :
-    adelicSubspaceHeight (L := K) (1 : Matrix ι ι (AdeleRing (𝓞 K) K)) U = U.subspaceHeight := by
-  sorry
-
-/-- **The whole space** (2.5a). For `A ∈ GL_n(𝔸_K)` and every finite extension `L` of `K`, the
-adelic subspace height of `L^ι` is `|det A|_𝔸 = ∏_v |det A_v|_v^(w_v)`, with `w_v = mult(v)/[K:ℚ]`
-at the infinite and `1/[K:ℚ]` at the finite places: the idele norm of `det A` raised to the power
-`1/[K:ℚ]`. -/
-theorem adelicSubspaceHeight_top {K L ι : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
-    (A : GL ι (AdeleRing (𝓞 K) K)) :
-    adelicSubspaceHeight (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (⊤ : Submodule L (ι → L)) =
-      ((GlobalNumberFields.ideleNorm (Matrix.GeneralLinearGroup.det A) : ℝ≥0) : ℝ) ^
-        ((finrank ℚ K : ℝ)⁻¹) := by
-  sorry
 
 /-! ## Layer 3: Minkowski's second theorem over number fields for balanced bodies -/
 

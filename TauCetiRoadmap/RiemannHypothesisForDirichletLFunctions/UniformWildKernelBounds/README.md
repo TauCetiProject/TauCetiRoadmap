@@ -54,7 +54,7 @@ hence finitely many and polynomially counted.
 
 Some theorems are stated precisely without their route being given here (see the Conventions): the Selmer counts of the patching argument (3.15(c₀), (c₀′)), the seeds and three clauses of the Hecke ideals of the symplectic problem, with the clause (w2) at the twisted seeds (3.20(d), (e)), the model of the Eisenstein problem relative to the Gaussian field (4.5 (model), with (i) and (ii) of 4.3 for that problem), the inputs of the rank-three seeds and three statements on Hilbert modular forms (3.22(b′), (d₁)–(d₃), (e), (f), (h), in the parts named there), the clauses (w1), (w2) of the automorphy statements 3.22(c), 4.2(b), (c) and 4.5(b) and their passage to twists and restrictions (4.7(iv)), two statements of commutative algebra used by the route to the space of symplectic residual lattices (ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a)), and the automorphic patching data and the adjoint vanishing at regular elements of HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d). The routes of the three headline theorems use them through the plus part in Cases I, II, III and V large; the routes for the `2`-part, the minus part and Cases Z, IV and V small do not.
 
-The roadmap builds on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md), whose §0.4 defines the dyadic host fields; on [BernoulliBoundsForClassGroupEigenspaces](../BernoulliBoundsForClassGroupEigenspaces/README.md), which, extending [ArithmeticKTheory](../../ArithmeticKTheory/README.md) and [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md), carries the groups `Ш¹(F, ℓ, e)`, their duality with étale wild kernels, the total `V`, its decomposition into plus, minus and character components, the explicit torsion bound of Soulé type and the minus part of abelian fields by generalized Bernoulli numbers; on [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) for the Ferrero–Washington theorem and ranks of Iwasawa modules in cyclotomic towers; on [ReducibilityIdealsAndUltrafilterPatching](../ReducibilityIdealsAndUltrafilterPatching/README.md), extending [DeformationAndDerivedPatchingAlgebra](../../DeformationAndDerivedPatchingAlgebra/README.md), for the graded cotangent bound and the patching algebra; and on PotentialAutomorphyInfrastructurePartII, with its extension [HeckeIdealsAndTaylorWilesRelations](../HeckeIdealsAndTaylorWilesRelations/README.md), for ordinary Hida theory on definite unitary groups, also at Eisenstein maximal ideals, soluble descent and the vanishing of adjoint Selmer groups. The other suppliers (Galois representations and local–global compatibility, local
+The roadmap builds on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md), whose §0.4 defines the dyadic host fields; on [BernoulliBoundsForClassGroupEigenspaces](../BernoulliBoundsForClassGroupEigenspaces/README.md), which, extending [ArithmeticKTheory](../../ArithmeticKTheory/README.md) and [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md), carries the groups `Ш¹(F, ℓ, e)`, their duality with étale wild kernels, the total `V`, its decomposition into plus, minus and character components, the explicit torsion bound of Soulé type and the minus part of abelian fields by generalized Bernoulli numbers; on [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) for the Ferrero–Washington theorem, ranks of Iwasawa modules in cyclotomic towers and their twisted coinvariants, used in the route of the twisted control 1.1, which is for odd `ℓ` a corollary of IntegralIwasawaTheory §10.5a; on [ReducibilityIdealsAndUltrafilterPatching](../ReducibilityIdealsAndUltrafilterPatching/README.md), extending [DeformationAndDerivedPatchingAlgebra](../../DeformationAndDerivedPatchingAlgebra/README.md), for the graded cotangent bound and the patching algebra; and on PotentialAutomorphyInfrastructurePartII, with its extension [HeckeIdealsAndTaylorWilesRelations](../HeckeIdealsAndTaylorWilesRelations/README.md), for ordinary Hida theory on definite unitary groups, also at Eisenstein maximal ideals, soluble descent and the vanishing of adjoint Selmer groups. The other suppliers (Galois representations and local–global compatibility, local
 deformation rings, Kato's Euler system, among others) are listed in the supplier contracts. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), its window theorem, in the budget form 7.6, bounds the Ш-term in the congruence modules of theta lifts of [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) and enters the host supply of [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md).
 
 Layer 0 recalls the host fields and defines the components of a Dirichlet character, the bad primes and the
@@ -146,9 +146,28 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 `Development/AutomorphicArithmetic/AutomorphicVarieties/` and `DTC/` the directory
 `AV/ModularityArgument/ThresholdArguments/DenseThresholdCases/`.
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 0.1–0.3 carry the
+first label only. The statement of 7.5 is not a statement of [FormalProof]: it is this roadmap's own
+corollary of 7.4. A statement that [FormalProof] has may carry the origin
+`this roadmap's own formulation` (2.3, 3.1, 3.17, 3.23, 5.2): the label then names the formulation, and
+the section says which form [FormalProof] states.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the
+clauses it covers when it does not cover the whole section. As long as that general theorem is not in
+the library, what the line covers is proved as [FormalProof] proves it: the
+`*Method of the formal proof:*` label says how, and for which form of the statement when that proof
+has a narrower one; the route given with the section is that proof's unless the label says that it
+differs. Once the general theorem is in the library, the proof of what the line covers is replaced by
+the deduction from it, and the lemmas that only the first proof uses are removed. The statement does
+not change.
+
 ## Layer 0: host fields, characters and the case split
 
 ### 0.1 Dyadic host fields
+
+*Origin:* definitions and conventions.
 
 The dyadic host fields are those of FrobeniusRestrictedRieszSums §0.4 (*dyadic host fields*, its definition and its
 API (a)–(f)); this roadmap uses them as defined there, in the following notation. For a finite abelian extension `M` of
@@ -168,6 +187,8 @@ The host fields of Layers 5–7 (Conventions) are these fields with `n ≥ 2` an
 *Definition.* For `E = E_n(M, Q)` and `e ∈ ℤ`, `X(E, e)` is the set of the characters of (vi) with `ψ(−1) = (−1)^e`. *Needs:* FrobeniusRestrictedRieszSums §0.4.
 
 ### 0.2 Components of a Dirichlet character
+
+*Origin:* definitions and conventions.
 
 For a Dirichlet character `ψ` modulo `N` with values in a field of characteristic `0` and a prime `r`,
 `comp_r ψ` is the restriction of `ψ` to the factor `(ℤ/r^{v_r(N)})^×` of `(ℤ/N)^×` (Chinese remainder
@@ -191,6 +212,8 @@ primitive), applied to the components of the primitive character of `ψ`. *Needs
 - `χ_P(ℓ, ψ)` is not `ψ^{[ℓ′]}`: for `ℓ = 5`, `ψ = λ₅`, `ψ^{[5′]} = λ₅` but `χ_P(5, λ₅) = 1`.
 
 ### 0.3 The bad primes of a character
+
+*Origin:* definitions and conventions.
 
 For a primitive `χ` let `p_K = p_K(χ)` be the least prime with `p_K ≡ 3 mod 4`, `p_K ≥ 7`, `p_K ∤ f_χ`;
 `K_χ = ℚ(√−p_K)` and `h_χ` its class number; `p₁ = p₁(χ)` the least prime `≡ 1` modulo the odd part of `o_χ`
@@ -218,6 +241,13 @@ and `ℓ ≤ 2e + 1 < 2t + 1`; then `ℓ < min Q` and `ℓ ∤ f_χ` give `ℓ �
 - `3 ∈ B(χ)` always: for `ℓ = 3`, `(ℓ − 1) | 2e` for every `e`, including `e = 1`.
 
 ### 0.4 The case split
+
+*Origin:* particular to this proof: the split of the triples `(ℓ, e, ψ)` into cases, each bounded by its own method.
+
+*Method of the formal proof:* a direct case distinction: for `ℓ ∉ B(χ)` the facts of 0.3 give `ℓ ∤ o_ψ` and, when
+`(ℓ − 1) | 2e`, `e ≥ 2` and `χ_P(ℓ, ψ) = ψ`, after which the tests `(ℓ − 1) | 2e`, `ψ = 1` and the parity of `o_ψ`
+separate Cases I, Z, III and II; for `ℓ ∈ B(χ)` the test `e = 1` and the parity of the order of `χ_P(ℓ, ψ)` separate
+Cases V, II and IV.
 
 For a host field `E = E_n(χ, Q)`, an odd prime `ℓ`, `e ≥ 1` and `ψ ∈ X(E, e)`, the triple `(ℓ, e, ψ)` is in
 *Case I* if `ℓ ∉ B(χ)` and `(ℓ − 1) ∤ 2e`; *Case Z* if `ℓ ∉ B(χ)`, `(ℓ − 1) | 2e` and `ψ = 1`; *Case II* if
@@ -266,6 +296,21 @@ integer `R ≥ 1` such that `X′_∞(L)` is generated by `R` elements.
 
 ### 1.1 Twisted control
 
+*Origin:* published for odd `ℓ`: Schneider (1979) and Kolster and Movahhedi (2000), the dual of `Ш¹(L_m, ℓ, e)` as the
+twisted coinvariants `(X′_∞ ⊗ ℤ_ℓ(e))_{Γ_m}` of the split Iwasawa module at every layer (IntegralIwasawaTheory §10.5a), of
+which the statement is the equality of lengths; the case `ℓ = 2`, with `μ₄ ⊂ L`, which IntegralIwasawaTheory §10.5a does
+not state, is adapted from it.
+
+*Method of the formal proof:* [FormalProof] states it as `UpperTheory.V.Tower.step0`, for every prime `ℓ` with `μ_ℓ ⊂ L`
+(`μ₄ ⊂ L` if `ℓ = 2`), every `e ≠ 0` and every layer, as an equality in `ℕ∞`; descent along the cyclotomic tower identifies
+`Ш¹(L_m, ℓ, e)` with the invariants of the twisted action of `Γ_m` on the discrete module of which `X′_∞` is the `ℤ_ℓ`-dual,
+that is with the kernel of the twisted generator minus `1`, and Pontryagin duality turns the length of that kernel into the
+length of the stated cokernel. The route written here differs: it obtains the isomorphism
+`Ш¹(L_m, ℓ, e)^∨ ≅ (X′_∞ ⊗ ℤ_ℓ(e))_{Γ_m}` from IntegralIwasawaTheory §10.5.
+
+*Corollary of:* IntegralIwasawaTheory §10.5a (the dual of `Ш¹` of every layer as the twisted coinvariants of the split
+Iwasawa module), for odd primes `ℓ` only; the case `ℓ = 2` is not a case of it.
+
 For every `e ≠ 0` and `m ≥ 0` prove `length Ш¹(L_m, ℓ, e) = length coker(u^{eℓ^m} γ^{ℓ^m} − 1 | X′_∞)`, an equality in `ℕ∞`.
 The infinite-level analogue with Greenberg's local condition over `ℚ(μ_{ℓ^∞})^+` is SelmerIwasawaCohomology §4.20.
 
@@ -275,7 +320,9 @@ above `ℓ` and the infinite places) identifies `H¹(𝒪_{L_m,S}, ℚ_ℓ/ℤ_�
 at `v | ℓ` exactly when its restriction over `L_∞` is, because the decomposition groups of `Γ_m` at the places above `ℓ` are
 open and the `H¹` of an open subgroup of `Γ_m` with these coefficients vanishes (its generator acts through the nonzero
 scalar `u^{−eℓ^{m′}} − 1`). So the classes trivial above `ℓ` are those whose homomorphism kills the decomposition groups above
-`ℓ`, that is, factors through `X′_∞ = 𝔛_S(L_∞)/⟨D_v⟩` (IntegralIwasawaTheory §3.5), and `Ш¹(L_m, ℓ, e)^∨ ≅ (X′_∞ ⊗ ℤ_ℓ(e))_{Γ_m}`.
+`ℓ`, that is, factors through the quotient of `𝔛_S(L_∞)` by the decomposition groups above `ℓ`; these contain the inertia
+groups above `ℓ`, which generate the kernel of `𝔛_S(L_∞) → X` (`L` is totally complex), so the quotient is `X/D_∞ = X′_∞`
+(IntegralIwasawaTheory §3.5), and `Ш¹(L_m, ℓ, e)^∨ ≅ (X′_∞ ⊗ ℤ_ℓ(e))_{Γ_m}`.
 *Needs:* BernoulliBoundsForClassGroupEigenspaces §6.17; IntegralIwasawaTheory §§0.1–0.3, 3.5, 10.5; ProfiniteCohomology §5.4 and Layer 11.
 
 **Checks.**
@@ -285,6 +332,16 @@ scalar `u^{−eℓ^{m′}} − 1`). So the classes trivial above `ℓ` are those
 - The twist enters as `u^{eℓ^m}`: with `u^{e}` in its place the formula is right at `m = 0` only.
 
 ### 1.2 Growth by at most the rank per layer
+
+*Origin:* adapted from Neukirch, Schmidt and Wingberg (2008), *Cohomology of Number Fields*, (5.3.11)–(5.3.16), the exact growth
+of the cokernels along the cyclotomic tower for finitely generated torsion Iwasawa modules: here an inequality, growth by at
+most the number `R` of generators per layer from the layer `j₀` on, for any `ℤ_ℓ`-module with `R` generators, torsion and
+infinite cokernels allowed.
+
+*Method of the formal proof:* a length argument on `X/ℓX` gives `(g − 1)^R X ⊂ ℓX`, the congruence
+`(x − 1)^{ℓ^k} ≡ x^{ℓ^k} − 1 mod ℓ` and one more `ℓ`-th power give `(g^{ℓ^{k+1}} − 1)X ⊂ ℓ²X`, and from that layer on each
+further `ℓ`-th power adds at most `R` to the length of the cokernel, because the norm element `1 + h + ⋯ + h^{ℓ−1}` has image
+`ℓX` by Nakayama and cokernel lengths are subadditive for a composite; induction on the layer.
 
 Let `X` be a `ℤ_ℓ`-module generated by `R ≥ 1` elements and `g` an automorphism of `X` with
 `(g − 1)^M X ⊂ ℓX` for some `M`. Put `j₀ = ⌊log_ℓ R⌋ + 3`. Prove that for every `m ≥ j₀`,
@@ -307,6 +364,16 @@ Induct on `m`. The argument is pointwise: `X` may have torsion. *Needs:* Mathlib
 - `g = 1` gives cokernels of infinite length; the inequality holds in `ℕ∞` and says nothing.
 
 ### 1.3 Centres
+
+*Origin:* particular to this proof: a bound `length ≤ Σ_i (j + c + v_ℓ(e − s_i))` with `R` centres `s_i ∈ ℤ_ℓ`, uniform in
+`e`, for any `ℤ_ℓ`-module with `R` generators; nearest published result: Washington (1997), the growth of twisted
+coinvariants of a torsion Iwasawa module read from the roots of its characteristic power series.
+
+*Method of the formal proof:* the operator is lifted to an `R × R` matrix `S` over `ℤ_ℓ`, the length is at most the
+valuation of `det(w S^{ℓ^j} − 1) = ∏_i (w z_i^{ℓ^j} − 1)`, and for each eigenvalue `z_i` a centre `s_i` is found by an
+ultrametric Helly lemma: closed balls of `ℤ_ℓ` that meet pairwise have a common point, by compactness. Where the published
+treatment reads the twists from the roots of a characteristic power series, through the `ℓ`-adic logarithm and Weierstrass
+preparation, the proof finds the centres by this ball argument, for an arbitrary module.
 
 Let `X` be a `ℤ_ℓ`-module generated by `R ≥ 1` elements, `g` an endomorphism of `X`, `c ≥ 1` (`c ≥ 2` if `ℓ = 2`) and `u ∈ ℤ_ℓ`
 with `v_ℓ(u − 1) = c`. Prove that for every
@@ -335,6 +402,13 @@ needed. *Needs:* Mathlib `Matrix.det`, `PadicInt`, compactness of `ℤ_ℓ`.
 
 ### 1.4 Exceptional twists
 
+*Origin:* particular to this proof: at most `R` twists in `[1, Z]` are exceptional, with an explicit bound for all others,
+by a pigeonhole on residues modulo `ℓ^{⌊log_ℓ Z⌋+1}`.
+
+*Method of the formal proof:* two integers of `[1, Z]` closer than `ℓ^{−⌊log_ℓ Z⌋}` to one centre are congruent modulo
+`ℓ^{⌊log_ℓ Z⌋+1} > Z` by the ultrametric inequality, hence equal, so the exceptional set, the union of these sets over the
+centres, has at most `R` elements; off it every centre is far and the bound of 1.3 applies.
+
 In 1.3, fix `j` and its centres; for `Z ≥ 1` let `Exc(Z)` be the set of `e ∈ [1, Z]` with `v_ℓ(e − s_i) > ⌊log_ℓ Z⌋` for
 some `i`. Prove `#Exc(Z) ≤ R`, and that every `e ∈ [1, Z] ∖ Exc(Z)` has
 `length coker(u^{eℓ^j} g^{ℓ^j} − 1) ≤ R (j + c + log_ℓ Z)` (follows from [FormalProof],
@@ -344,6 +418,16 @@ some `i`. Prove `#Exc(Z) ≤ R`, and that every `e ∈ [1, Z] ∖ Exc(Z)` has
 use 1.3. *Needs:* 1.3.
 
 ### 1.5 Twist bounds over one cyclotomic tower
+
+*Origin:* adapted from Kolster (2009), Lemma 1.2 and Proposition 3.2, the exact order of the twisted coinvariants of a
+torsion Iwasawa module without finite submodules as a value of its characteristic polynomial: here an upper bound for
+`length Ш¹(L_m, ℓ, e)`, uniform in the layer and in the twist, with the centres of a single layer, for `X′_∞` finitely
+generated over `ℤ_ℓ`.
+
+*Method of the formal proof:* `γ` is unipotent on `X′_∞/ℓ` by duality with the discrete module of homomorphisms to
+`ℚ_ℓ/ℤ_ℓ`, on which every element is killed by a power of `γ⁻¹ − 1`; the centres are those of 1.3 at the layer `j₀`, 1.2 for
+the twisted operator `u^e γ` adds `R` per further layer, and 1.1 transports the bound to `Ш¹`; for (b) the same growth and,
+at the layer `j₀`, `length Ш¹ = length Ш² ≤ length H²` from Poitou–Tate duality.
 
 Assume `X′_∞(L)` is finitely generated over `ℤ_ℓ`, let `R = R(L)` and `j₀ = ⌊log_ℓ R⌋ + 3`. Prove that there are
 `s_1, …, s_R ∈ ℤ_ℓ` such that for every `e ≥ 1` and `m ≥ 0`:
@@ -360,6 +444,15 @@ the exceptional sets of 1.4, are those of the single layer `j₀`. For (b), 1.2 
 `length Ш¹ ≤ length H²` at `L_{j₀}` (BernoulliBoundsForClassGroupEigenspaces §6.17(c)). *Needs:* 1.1–1.3; BernoulliBoundsForClassGroupEigenspaces §6.17.
 
 ### 1.6 Exceptional twists and the explicit torsion bound
+
+*Origin:* particular to this proof: a two-case bound for every twist, small off the exceptional set and of Soulé type on it,
+from the étale bound of BernoulliBoundsForClassGroupEigenspaces §9.7 at the field `L_{j₀} ⊇ μ_ℓ`; nearest published result:
+Soulé (2003), Theorem 3, a bound for the order of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` at large primes `ℓ`, which exclude the fields
+containing `μ_ℓ`.
+
+*Method of the formal proof:* a case distinction: off `Exc(Z)` the bound of 1.4; on `Exc(Z)` the growth bound of 1.5 above
+the layer `j₀` and, at `L_{j₀}`, the inequality `length ≤ 2·log #` for a finite `ℓ`-group together with the torsion bound of
+BernoulliBoundsForClassGroupEigenspaces §9.7.
 
 Let `C_K` be the absolute constant of BernoulliBoundsForClassGroupEigenspaces §9.7. In 1.5, for `Z ≥ 1`, every `1 ≤ e ≤ Z` and `m ≥ 0`:
 `length Ш¹(L_m, ℓ, e) ≤ R (max(m, j₀) + c + log_ℓ Z)` if `e ∉ Exc(Z)`, and
@@ -386,6 +479,12 @@ From this family: BernoulliBoundsForClassGroupEigenspaces. Other roadmaps: Integ
 
 ### 2.1 A pigeonhole on scales
 
+*Origin:* particular to this proof: an elementary pigeonhole that places a window of scales away from finitely many
+exceptional values.
+
+*Method of the formal proof:* induction on the number of exceptional values, removing one value and dividing the range by
+`2B` at each step.
+
 Let `R ∈ ℕ`, `B ≥ 1`, `U > 0` and `T ⊂ ℝ` finite with `#T ≤ R`. Prove that there is `y ∈ [U/(2^{R+2} B^R), U/2]` such
 that every `a ∈ T` satisfies `a > 2y` or `B a ≤ y` (for `B > 1` this follows from [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/LayeredIsomorphisms/Window1.lean` (`UpperTheory.V.Win.window1`)).
@@ -400,6 +499,12 @@ admissible range. *Needs:* Mathlib real analysis (`Real.log`), or a direct induc
 - `R = 1`, `B = 1`: the range `[U/8, U/2]` has ratio `4` and cannot lie in a forbidden interval of ratio `2`.
 
 ### 2.2 Window selection for finitely many towers
+
+*Origin:* particular to this proof: a bound for twisted Tate–Shafarevich groups over all twists up to `x^κ`, valid for the
+scales `x` of a window chosen by pigeonhole.
+
+*Method of the formal proof:* the pigeonhole on scales is applied to the logarithms of the exceptional twists, and the
+window is the exponential of the range it gives.
 
 Let `C_K` be as in 1.6, enlarged if necessary so that `C_K ≥ 1` (the bound of 1.6 is monotone in `C_K`), `κ ≥ 1`, `0 < δ ≤ 1`,
 `R, d ∈ ℕ`, and `J = 2^{R+2}(2 C_K κ/δ)^R`. Let `𝓛` be a finite set of pairs `(ℓ, L)` as in Layer 1 with `X′_∞(L)` finitely
@@ -419,6 +524,19 @@ that for every `X ≥ 2` there is `Y ∈ [X^{1/J}, X^{1/2}]` such that for every
 and every twist range below `x^κ`. *Needs:* 1.4, 1.6, 2.1.
 
 ### 2.3 The dyadic base fields and their ranks
+
+*Origin:* this roadmap's own formulation: a number `R₀(M) = 4(g + 6[M : ℚ])` of generators of `X′_∞(L₀(M, Q))` independent
+of the two auxiliary primes, obtained by fixing their residue classes modulo `8` and `16`, with `g` finite by the theorem of
+Ferrero and Washington (1979), and the degree and conductor bookkeeping (b), (c).
+
+*Method of the formal proof:* the theorem of Ferrero and Washington, proved in the formal proof as a bound for `Cl/ℓ` along
+the cyclotomic tower of an abelian field, bounds the everywhere unramified quadratic characters of `M(i)(μ_{2^∞})`; allowing
+ramification at `q` and `q′` multiplies the count by `2` for each orbit of places above them, and each of the two quadratic
+steps squares it, since, for the nontrivial automorphism `σ` of the step, `1 + σ` has square zero on characters with values
+in `ℤ/2`; (b) and (c) are a degree and conductor computation and the bound of length one for the kernel of restriction to a
+subgroup of index two. The theorem of Ferrero and Washington is proved there at finite level, from an independence lemma of
+Sinnott's type and Stickelberger's annihilation of the class group. The route written here iterates the rank bound of
+BernoulliBoundsForClassGroupEigenspaces §11.1 over the two quadratic steps; the constant is the same.
 
 Let `M` be a finite abelian extension of `ℚ` with conductor `f_M`, and `Q = {q, q′}` a pair of primes with `q ≡ 3 mod 8`,
 `q′ ≡ 7 mod 16`, `q, q′ ∤ f_M`; let `L₀(M, Q) = M(i, √−q, √−q′)`. Prove: (a) `X′_∞(L₀(M, Q))` is finitely generated over `ℤ₂`
@@ -448,6 +566,16 @@ BernoulliBoundsForClassGroupEigenspaces §6.17.
 - The index `2^{v₂(q+1)−1}` is in `ℤ₂^×`; in `ℤ₂^×/{±1}` the image of `q` has index `2^{v₂(q+1)−2}`.
 
 ### 2.4 Window bounds for host families over an abelian base
+
+*Origin:* particular to this proof: the window bound for the `2`-part of the twisted Tate–Shafarevich groups of the host
+fields, uniform in the layer and in the auxiliary primes, and for the twist sums of `Ш¹` on fixed layers of the towers of
+`𝔅`.
+
+*Method of the formal proof:* the exceptional twists of the `2`-tower of `M(i, √−q, √−q′)` and of the towers at the primes
+of `𝔅` are pooled in one set of at most `R` elements, the pigeonhole on scales of 2.1 is applied once to that set, and on the
+resulting window each twist is bounded either by the rank bound away from the exceptional twists or by the explicit torsion
+bound at the fixed layer plus the rank times the number of further layers; the index-two passage to the host field and the
+sum over `e < t` are absorbed in `exp(x^δ)`.
 
 Let `M` be a finite abelian extension of `ℚ` with conductor `f_M`, `𝔅` a finite set of pairs `(ℓ, L(ℓ))` with `ℓ` an
 odd prime and `L(ℓ)` an abelian field containing `μ_ℓ`, and let `α, κ ≥ 1` and `0 < δ ≤ 1`. There are
@@ -481,6 +609,19 @@ Layers 0 and 1 above. From this family: BernoulliBoundsForClassGroupEigenspaces.
 ## Layer 3: counting, congruence integers, the graded cotangent bound, Bernoulli units and residually reducible deformation theory
 
 ### 3.1 Counting regular algebraic cuspidal representations
+
+*Origin:* this roadmap's own formulation: a count of the regular algebraic cuspidal representations of `GL_n` over a totally
+real or CM field, polynomial in the level and the weight, through the cohomology of congruence subgroups, to which such
+representations contribute (Clozel (1990)).
+
+*Method of the formal proof:* the count is bounded by the total dimension of the group cohomology of `GL_n(K)` acting on the
+functions on `GL_n(𝔸_f)/K(3M)` with values in an algebraic representation `Ξ` with the given infinitesimal character; that
+dimension is at most `c·M^A·dim Ξ` by Shapiro's lemma over the finitely many orbits on `GL_n(𝔸_f)/K(3)`, the index
+`[K(3) : K(3M)] ≤ (3M)^{n²[K:ℚ]}`, and a bound for the cohomology of arithmetic groups obtained from the nerve of Voronoi's
+perfect cones of Hermitian forms over `𝒪_K`, an acyclic complex with finite stabilisers and finitely many orbits; `Ξ` is cut
+out of the polynomials of bounded degree on `n × n` matrices, so `dim Ξ` is polynomial in `H`. Where the route written here
+counts the cells of a finite triangulation at a neat level and uses Weyl's dimension formula, the proof uses Voronoi's
+complex and a count of monomials.
 
 Let `K` be a totally real or CM number field and `n ≥ 1`. Prove that there are `c, A > 0` such that for all `M ≥ 1`,
 `H ≥ 0`, the number of isomorphism classes of cuspidal automorphic representations `π` of `GL_n(𝔸_K)` with `π_∞`
@@ -519,6 +660,18 @@ weight; sum over the at most `(2H + 1)^{n[K:ℚ]}` weights `λ` with `|λ_{τ,i}
   level `K(3)`.
 
 ### 3.2 Global congruence integers
+
+*Origin:* particular to this proof: one nonzero integer `NN` of controlled size whose `ℓ`-adic valuation, for every
+`ℓ ≠ p`, bounds the valuations of the differences between Frobenius traces and Eisenstein traces, and the separation of the
+two kinds of traces by bounds on absolute values that come from the Jacquet–Shalika bound (Jacquet and Shalika (1981)); the
+abstract form of (a) and the separation of (b) from `q = 5` are this roadmap's own formulation.
+
+*Method of the formal proof:* the numbers `q^h(s_i − t_j)` are permuted by `Aut(ℂ)` and integral, so their product is a
+nonzero rational integer, bounded termwise, whose `ℓ`-adic absolute value is at most the product of those of any subfamily;
+for three positive numbers in `[q^{−1/2}, q^{1/2}]` of product `1` two lie on the same side of `1`, which gives the sum at
+most `√q + 2`, and the Eisenstein trace is separated from such a number by the triangle inequality, its term `q^e z⁻¹`
+dominating for `q ≥ 7`. The route written here obtains `√q + 2` from the sharper bound `√q + 1 + 1/√q`, by convexity, and
+separates by the exact minimum on the unit circle.
 
 Let `q > 1` be a power of a prime `p` and `h ≥ 0`. Let `I` and `J` be finite sets on which `Aut(ℂ)` acts, and `s : I → ℚ̄`,
 `t : J → ℚ̄` families with `s_{τi} = τ(s_i)` and `t_{τj} = τ(t_j)` for every `τ ∈ Aut(ℂ)`, such that `q^h s_i` and `q^h t_j` are
@@ -589,6 +742,15 @@ components (AL.3.3.8) and the products from unitary central characters, applied 
 
 ### 3.3 The graded cotangent bound for deformation models
 
+*Origin:* particular to this proof: a bound for the weight `−1` cotangent length of a torus-graded deformation ring at its
+diagonal point by the valuations of trace differences at the two-signed points.
+
+*Method of the formal proof:* the element `a_σ` is taken as the sum of the diagonal entries of `r(σ)` minus `tr r₀(σ)`, the
+hypotheses give (M1)–(M5) of ReducibilityIdealsAndUltrafilterPatching §4.9 on the model, torus orbits of two-signed points
+are matched with conjugacy classes under the torus, and §4.9(1) is applied; that bound is itself proved by squeezing an
+Euler characteristic of the equations on a tri-graded Rees algebra over `A₀` between a count of leading monomials along the
+fibre over `x` and the local lengths at the two-signed points.
+
 Let `O` be a complete discrete valuation ring of characteristic zero with normalized valuation `v`, `Γ` a profinite
 group, and `r₀ = diag(χ₁, …, χ_n) : Γ → GL_n(O)` a diagonal representation. Let `T` be a split torus over `O` with character
 group `X(T)`, acting on `n × n` matrices through a homomorphism to the diagonal torus, so that the entry `(i, j)` has
@@ -641,6 +803,16 @@ When `T₁ = 1` (so `A = R^{gr}`), every `Ē`-point `ξ` of `A/I_A` carries `ρ_
 
 ### 3.4 Selmer groups as tangent vectors of weight −1
 
+*Origin:* adapted from Mazur (1989), the tangent space of a deformation ring as a Selmer group, and from Wiles (1995), its
+form at an `O`-valued point with torsion coefficients (GlobalGaloisDeformations §3.6a, ungraded, for residual
+representations with scalar endomorphisms): here a finite Selmer group of a character embeds, with lengths, in the weight
+`−1` cotangent module at the point `x` of a graded model of a residually reducible problem.
+
+*Method of the formal proof:* reductions modulo `b` of `O`-valued point derivations of weight `−1` kill the saturated square
+of the kernel of the point and the other weights, so the Selmer module injects into `Hom_O(Q, O/b)` with `Q` the weight `−1`
+cotangent lattice modulo the equations; the residue field being finite, lengths are compared through cardinalities, and
+`length Hom_O(Q, O/b) ≤ length Q`.
+
 Let `Γ`, `r₀` and a graded deformation model `(R, x, r, T₁, I)` be as in 3.3, with the residue field of `O` finite, and `𝒟` a
 deformation problem of `r₀` (lifts
 with local conditions, normalized at marked elements so that the infinitesimal conjugations preserving the
@@ -679,6 +851,15 @@ ReducibilityIdealsAndUltrafilterPatching §4.8(3); ArithmeticGaloisDuality D7.7 
   infinite residue field.
 
 ### 3.5 Bernoulli units for characters of large dyadic conductor
+
+*Origin:* adapted from Washington (1975), chapter IV: the Bernoulli numbers `B_{1,φξ}` are prime to `ℓ` once the `2`-power
+conductor of `ξ` is large, here with the explicit threshold `f·4^k`, linear in the odd conductor `f`, also when `ℓ` divides
+`f`; clause (b) follows by Stickelberger's theorem.
+
+*Method of the formal proof:* the Bernoulli number is written by folding as a sum over the classes modulo `2^m` of
+`ξ(u)·g(u)`, with a shift relation for `g`; if it vanished modulo a prime above `ℓ`, averaging over the powers of the
+Frobenius would leave a vanishing sum over the classes `≡ ±1` modulo `2^{m−k}`, and comparing the instances at `y = 1` and
+`y = 1 − s` through the shift relation gives `2 = 0`; part (b) follows from Stickelberger's theorem.
 
 Let `ℓ` be an odd prime and `d ≥ 1` with `4 | ℓ^d − 1`; put `q = ℓ^d` and `k = v₂(q − 1) ≥ 2`. Let `φ` be a primitive Dirichlet
 character of odd conductor `f` with `φ^{q−1} = 1`, and `ξ` a primitive character of conductor `2^m` with `f·4^k ≤ 2^m`, such that
@@ -736,6 +917,17 @@ ClassFieldTheory §13.1.
 
 ### 3.6 Framed graded presentations of deformation rings
 
+*Origin:* adapted from Mazur (1989), the presentation of a deformation ring by its tangent and obstruction spaces, in the
+framed form over the local lifting rings of Clozel, Harris and Taylor (2008): here graded by a torus, for residual
+representations that are not Schur, such as sums of characters.
+
+*Method of the formal proof:* the functor of framed lifts is represented by an explicit quotient of a completed coproduct;
+the action of torus points on framed lifts by conjugation multiplies the coordinates (entries of `r(s) − r₀(s)` and of
+`α_v − 1`) by their characters, which yields the weighted presentation; a basis of the relative cotangent space is taken
+among these coordinates weight by weight; and each relation of a minimal presentation defines, on the universal small
+extension, an obstruction class of its own weight, these classes being linearly independent because a dependence would split
+the extension, so that the number of relations of weight `χ` is at most `dim_k Ob(ad_χ)`.
+
 This is the torus-equivariant form of the presentation of a framed global deformation ring over its local rings,
 GlobalGaloisDeformations §3.7 (with §8.4 for polarized problems), for residual representations that are not Schur.
 
@@ -788,6 +980,16 @@ F.2.3, F.2.6, F.3.1, 1.4; ArithmeticGaloisRepresentations §7.4; Mathlib `MvPowe
   lift is conjugate to the Teichmüller lift and the functor of deformation classes is represented by `O`.
 
 ### 3.11 Ordinary deformation spaces of sums of characters exchanged by a polarization
+
+*Origin:* adapted from Skinner and Wiles (1999) and Thorne (2015), the residually reducible method: ordinary deformation
+spaces of polarized sums of two or three characters, with dimension bounds for the triangular loci and the existence of nice
+primes.
+
+*Method of the formal proof:* the local ring at a closed point is the universal ring of lifts of the residual lattice with a
+flag at each place above `ℓ`; its tangent space contains the first cone cohomology of the adjoint with Borel local subspaces
+and one torus direction, obstructions to lifting along small extensions are classes in the second cone cohomology, and the
+Euler characteristic inequality gives `N − N′ ≥ nd + 1`; the lower triangular locus is bounded by exhibiting `2 + C₀ + d`
+elements (and `d` more for `n = 3`) that generate its ideal up to radical over the closed fibre.
 
 *Setting.* `L` is a CM field with maximal totally real subfield `L⁺`, `d = [L⁺ : ℚ]` and `η_{L/L⁺}` the character of `L/L⁺`; `ℓ`
 is an odd prime such that every place `v` of `L⁺` above `ℓ` splits in `L` and `μ_ℓ ⊄ L⁺_v` (local degrees `d_v`, `Σ_v d_v = d`).
@@ -900,6 +1102,18 @@ ArithmeticGaloisDuality R02.5.1 (the Greenberg–Wiles formula); LocalGaloisDefo
 
 ### 3.12 The block locus in rank three
 
+*Origin:* particular to this proof: the locus of a rank-three deformation space where a lift splits as a rank-two corner plus
+a character, cut out through the determinant of the matrix of odd relations, every minimal prime being irreducible or thick;
+nearest published result: Skinner and Wiles (1999), and Thorne (2015) with Allen, Newton and Thorne (2020), bounds for
+reducible loci.
+
+*Method of the formal proof:* off the block locus a presentation with at least `3d + 1` more variables than relations and the
+chain lemma bound the minimal primes; on it, each odd relation of a parity-graded presentation is a combination
+`Σ_j M_ij Y_j` of the odd variables, the adjugate puts `det M` in every prime not containing all of them, and a minimal prime
+of `(det M)` is either irreducible or thick, through a vector in the kernel of `M`. It departs from the published arguments,
+which bound the reducible locus by a count or exclude it by a place of Steinberg type, by this determinantal description of
+the locus.
+
 In 3.11 with `n = 3`, assume (F1)–(F3), the class conditions, and that the frame is big, and let `x` be a closed point of the
 core. Let
 `A₂ ⊃ B₂ ⊃ Λ₂` be the space of 3.11 with `n = 2` for the same `Ψ̄` (the space of the *corner*, the coordinates `{1, 3}`), and
@@ -935,6 +1149,13 @@ trivial on inertia at `ℓ` modulo `I₃` and the weight ideal, has finite expon
 
 ### 3.13 The space of residual lattices
 
+*Origin:* adapted from Skinner and Wiles (1999) and Thorne (2015), the residually reducible method: the nonsplit residual
+lattices form one connected space, joined by lines of cocycles.
+
+*Method of the formal proof:* in rank two the lower entries of the points of the core over a ring form a module, so a point
+with entry `a` and the base point with entry `b` are both specialisations of the point with entry `(1 − X)a + Xb` over
+`K[X]`; the kernel of that point is a prime of the core contained in both, and the closure of one point is connected.
+
 In 3.11, assume (F1)–(F3) and the class conditions (for `n = 2` the route uses only the class for `Ψ̄⁻²η_{L/L⁺}`).
 (The entry `a` of weight `−2` carries `Ψ̄⁻²` on `G₀`, and the polarization `a(g*) = a(g)` makes it a cocycle of `Γ` for
 `Ψ̄⁻²η_{L/L⁺}` when the entries of weight `−1` vanish. In rank three the entry `y` at `(2, 1)` is a cocycle for `Ψ̄⁻¹` on `G₀`, the
@@ -965,6 +1186,18 @@ component to the closed fibre. Seeds: a homogeneous irreducible prime of transce
 contraction. *Needs:* 3.11, 3.12.
 
 ### 3.14 Frames on the cyclotomic `ℤ_ℓ`-tower
+
+*Origin:* particular to this proof: base fields taken in the cyclotomic `ℤ_ℓ`-tower of the residue characteristic, with a
+constant bounding the `ℓ`-ranks of class groups uniformly along the tower and two residual classes; nearest published result:
+Skinner and Wiles (1999), base fields in a cyclotomic `ℤ_q`-tower for an auxiliary prime `q ≠ ℓ`, the class groups bounded
+by Washington (1978).
+
+*Method of the formal proof:* the auxiliary data (a real quadratic field agreeing locally with `K`, an auxiliary prime
+`w ≡ 1 mod ℓ`) are fixed before a constant `C₀` bounding the `ℓ`-ranks of class groups along the cyclotomic `ℤ_ℓ`-tower of an
+abelian field (Ferrero and Washington), and `C₀` before a layer `m` with `3C₀ + 7 < ℓ^m`; the frame properties follow from
+global duality and the growth of the local degrees, and the two residual classes come from the Greenberg–Wiles formula at
+`w`. It follows the published degree-against-rank argument, but up the tower of the residue characteristic itself, with the
+theorem of Ferrero and Washington in place of Washington's theorem for `q ≠ ℓ`.
 
 *General position.* A datum `(K, Ψ, M, H)` is in *general position* if: `K` is an imaginary quadratic field with character `η_K`
 unramified at `ℓ`, `ℓ` odd; `M` is an integer divisible by `2ℓ`; `Ψ : G_ℚ → O^×` is a continuous character with reduction `Ψ̄`;
@@ -1013,6 +1246,19 @@ ClassFieldTheory Layers 7, 13; Chebotarev Layer 10.
   or the dual Selmer group shrinks, in which case a class unramified at `w` already existed; both cases give the class.
 
 ### 3.15 Patching at dimension-one primes
+
+*Origin:* particular to this proof: propagation through points whose representation is a sum of two polarized absolutely
+irreducible blocks, joined by thick primes, with Selmer counts over paired dual numbers; nearest published results: Skinner
+and Wiles (1999), Thorne (2015) and Allen, Newton and Thorne (2020), patching at a prime of dimension one carrying an
+absolutely irreducible representation, and Dotto and Thorne (2026), the patching of Galois groups and pseudorepresentations
+in rank two.
+
+*Method of the formal proof:* the points are normalised, finitely many detecting elements are realised by Taylor–Wiles
+places, modules over a universal ring for a limit group are patched with an ultrafilter to supports of dimension `1 + D₀`,
+and the chain is walked point by point, a stable prime being moved across each thick prime by a local statement drawn from
+the generalised matrix algebra of the Cayley–Hamilton quotient; the tangent bounds are Selmer counts over paired dual
+numbers. It departs from the published patching arguments, where the patching prime always carries an absolutely irreducible
+representation, by patching at points of two-block type and joining them through thick primes.
 
 *Setting.* `L` is a CM field with `L/L⁺` unramified at every finite place and `μ_ℓ ⊄ L` (no hypothesis is made on `μ_ℓ` in the
 completions `L_v`), `ℓ` odd, `n ≥ 1`, `d = [L⁺ : ℚ]`, every
@@ -1287,6 +1533,14 @@ ClassFieldTheory Layers 5, 7; Chebotarev Layer 10; HeckeIdealsAndTaylorWilesRela
 
 ### 3.16 The patching conditions at nice primes in ranks two and three
 
+*Origin:* adapted from Skinner and Wiles (1999) and Thorne (2015), the residually reducible method: verification of the
+patching conditions at nice primes, in ranks two and three and at primes of block type.
+
+*Method of the formal proof:* for (a), the characters `ψ_{v,a}` have the same reduction on `N_v` and are pairwise distinct
+there modulo a nice prime, so their ratios take values in the one-units of `K[[T]]`, a torsion-free group in characteristic
+`ℓ`, and an element with free ratios exists in every subgroup of finite index; for (c), `ρ_p(u)` is diagonalised and a regular
+element is found in a coset by making principal minors and finitely many exponential sums in the exponent nonzero.
+
 In 3.11, assume (F1)–(F3), the class conditions, that the frame is big and that `L/L⁺` is unramified at every finite place. Let
 `M` be an integer
 divisible by `ℓ` and by the primes below the ramification set of `Γ`, such that every place of `L⁺` above `M` splits in `L`. Let `κ`
@@ -1385,6 +1639,14 @@ from those of `r` by the units `κ(g)^i` (`Λ_i((r ⊗ κ)(g)) = κ(g)^iΛ_i(r(g
 
 ### 3.17 Ordinarity from Weil–Deligne data and from relations
 
+*Origin:* this roadmap's own formulation: (b), the flag cut out by the ordinary relation and a regular semisimple element,
+over a local ring; (a), ordinarity from Weil–Deligne data, is a corollary of published `p`-adic Hodge theory, with Berger
+(2002); nearest published result for the ordinary condition by product relations: Geraghty (2019).
+
+*Method of the formal proof:* for (b), the Lagrange idempotents of `r(s)`, which are polynomials in `r(s)` with coefficients
+in `C` because the `ψ_i(s)` are pairwise distinct modulo `𝔪_C`, are conjugated to the diagonal matrix units, and the relation
+extended to the group algebra shows that every `r(t)` is triangular in that basis with diagonal characters `ψ_i`.
+
 (a) Let `F_w/ℚ_ℓ` be finite, `r : G_{F_w} → GL_n(ℚ̄_ℓ)` continuous, `h_0(τ) < ⋯ < h_{n−1}(τ)` integers for each embedding `τ`,
 `ω_0, …, ω_{n−1}` smooth characters of `F_w^×` pairwise distinct on units, and `ψ_j` characters of `G_{F_w}`, locally algebraic with
 smooth part `ω_j` and Hodge–Tate weights `h_j`. If `r` is de Rham with Hodge–Tate multiset `{h_j(τ)}` for every `τ` and its
@@ -1414,6 +1676,15 @@ algebra gives `f_i r(t) f_j = 0` for `j < i` and `f_i r(t) f_i = ψ_i(t)f_i`. *N
 NoncommutativeAndEquivariantIwasawa §F.6 (`deRham_iff_potentiallySemistable`).
 
 ### 3.18 From framed presentations to normalized graded models
+
+*Origin:* adapted from the Euler characteristic counts for presentations of deformation rings (Tate's global Euler
+characteristic formula, Poitou–Tate duality and the Greenberg–Wiles formula): the passage from a framed weighted
+presentation to a normalized graded model, with the excess of coordinates over equations counted weight by weight.
+
+*Method of the formal proof:* for (c), a first-order map `R → E[[t]]/(t)²` dual to a basis of the point derivations of `R/I`
+at `x` is lifted through the tower `E[[t]]/(t)^N` by the lifting hypothesis, and the limit `φ` is the chart; its kernel, the
+density and injectivity clauses and `dim R/P = n + 1` follow from parameters dual to the derivations and Krull's intersection
+theorem.
 
 *Smooth points of weighted rings.* Let `E` be the fraction field of `O`. A complete local `O`-algebra `R` with an `X`-weighted
 presentation (3.3, 3.6) is *smooth at its origin* `x` (an `O`-point killing the variables) with `ℓ_χ` coordinates of weight `χ` if
@@ -1511,6 +1782,20 @@ ReducibilityIdealsAndUltrafilterPatching §4.8; ArithmeticGaloisDuality R02.4.3,
   this is why no continuity is asked of a chart.
 
 ### 3.19 Spaces of symplectic residual lattices over totally real fields
+
+*Origin:* particular to this proof: spaces of residual lattices for `GSp₄` over a totally real field with a residual sum of
+four characters, with nine reducible loci, bounded at good lattices by counts of cocycles (the ninth in four of the six
+cases), and propagation between components through good lattices and lines; nearest published results: Skinner and Wiles (1999), the same scheme for `GL₂`, carried to unitary groups
+by Thorne (2015) and Allen, Newton and Thorne (2020); Bellaïche and Chenevier (2009), §1.5, reducibility ideals indexed by
+partitions of the residual constituents, the general form of the reducible loci of (b′); and Wang-Erickson (2018), the
+representations with a given residual pseudorepresentation as a family of finite type, for (a).
+
+*Method of the formal proof:* the residual lattices form a pair `B ⊂ A` cut out of a universal ring with a presentation
+weighted by a torus; the reducible loci are bounded through their tangent spaces by counts of cocycles, the fibres where the
+four roots occur by `2 + 4·#{v | ℓ}`, minimal primes of a completion are joined by chains whose consecutive members meet in a
+prime of dimension one with an absolutely irreducible representation, and two linked lattices are joined through a residual
+lattice over `k′[X]`. It carries the published scheme for `GL₂` and unitary groups to `GSp₄` with a residual sum of four
+characters, with one ring carrying all residual lattices.
 
 *Setting.* `F` is a totally real field of degree `d`, `ℓ` an odd prime, `Γ = G_F`; for `v | ℓ`, `G_v ⊃ I_v` is a decomposition
 group with its inertia group, `d_v = [F_v : ℚ_ℓ]`, `U_v = I_v ∩ ker χ_ℓ`. `ν : Γ → O^×` is a continuous character with `ν(c) = −1`
@@ -1727,6 +2012,19 @@ ClassFieldTheory Layer 7.
   weight-zero part is larger than `B` (the previous Check).
 
 ### 3.20 Towers, chains of lattices, seeds and Hecke ideals for the symplectic problem
+
+*Origin:* particular to this proof: tower data, chains of good residual lattices joining a given lattice to that of a seed,
+seeds built as twists of a tensor product or of an induction from a real quadratic field, and a Hecke ideal glued from two
+auxiliary places, for the symplectic problem; nearest published result: Skinner and Wiles (1999), the same architecture (a
+modular seed, propagation to every residual extension, a base field up a cyclotomic tower) for `GL₂`.
+
+*Method of the formal proof:* a constant bounds the generators of an unramified Iwasawa module along the tower (Ferrero and
+Washington) and the places above the bad primes; finitely many extension classes are killed over a tower datum, and each
+restricted lattice is joined to the reduction of a seed by restriction, passage to a Levi shape and a move of the ordinary
+characters; the local components of the seeds satisfy a window clause on their exponents (from the Jacquet–Shalika bound),
+which gives zero monodromy and excludes ratios of Frobenius eigenvalues equal to powers of the norm at the places above `ℓ`.
+It follows the architecture of Skinner and Wiles, with seeds, chains and Hecke ideals built for `GSp₄`. For (f) the route
+written here uses the temperedness of the components above `ℓ` where the proof uses the window clause.
 
 The data are those of the setting of 4.4 (which uses only Layer 0): the host field `E`, `ℓ`, `2 ≤ e < t`, `ψ ∈ X(E, e)` in Case II or
 Case III, `ξ`, `α, β, θ`, `r̄₀ = diag(θ̄, Ψ̄, ᾱ, 1)`, `S`, `S_b`, `T`, the conditions (G1), (G2), and *tower fields* as defined there.
@@ -2178,6 +2476,14 @@ AutomorphicGaloisRepresentationsPartII AG2.5, AG2.6; ModularityAndLanglandsExten
 
 ### 3.21 Frames relative to the Gaussian field
 
+*Origin:* particular to this proof: the conditions of the unitary problem relative to `ℚ(i)` (separation, local vanishing,
+the weightwise count by the Greenberg–Wiles formula, vanishing in weight `−2`, class number one, general position), verified
+for characters of large dyadic conductor.
+
+*Method of the formal proof:* for (a) a Frobenius-type element `σ` of the decomposition group at `v` is chosen that is trivial
+on `μ_ℓ`, and `x_v = σ²`; then `η₄(x_v) = ω(x_v) = 1`, and `Ψ̄(x_v)² ≠ 1` because the `2`-part of `ψ`, of conductor above the
+threshold of the host data, is not killed on the class of the prime below `v` by the exponents that occur.
+
 The data are those of the setting of 4.5 (which uses only Layer 0): `ℓ`, `e`, `N`, `ψ`, `O`, `η₄`, `S_b`, `T_b`, the host data (including
 the Bernoulli threshold), `Ψ = χ_ℓ^eψ`, and the problem `𝒟_G`, with `ad = ⊕_j ad_j` the `𝒢₃`-adjoint of `r̄` graded by the unitary
 weights. Prove that the host data imply: (a) (*separation*) for every `v ∈ T_b` there is `x_v` in the decomposition group at `v` with
@@ -2221,6 +2527,21 @@ inertia at `ℓ`, as for every Dirichlet character twisted by a power of `χ_ℓ
 `(ℤ/ℓ)^×`); the condition on `H` is (a) outside `T_b`. *Needs:* 0.2, 0.3, 3.5, 3.14; ArithmeticGaloisDuality R02.5.1, D7.7.
 
 ### 3.22 Cusp forms congruent to Eisenstein series with an auxiliary character
+
+*Origin:* particular to this proof, for (b)–(d), (g) and (h): cusp forms congruent to Eisenstein series whose character
+carries an auxiliary character of order `ℓ` and conductor `w ≡ 1 mod ℓ`, with seeds of ranks two and three having the local
+properties the patching needs; Hilbert cusp forms congruent to Eisenstein series of weight one, and a change of weight at a
+set of real places; nearest published result: Billerey and Menares (2018), congruences of local origin between cusp forms and Eisenstein series, with characters
+of order prime to `ℓ`.
+
+*Method of the formal proof:* the Eisenstein series of weight `k` and character `φ·θ_w` has constant term in the maximal
+ideal; subtracting a multiple of a form with unit constant term at one cusp and vanishing at the others leaves an
+`ℓ`-integral cusp form, eigen modulo the maximal ideal, which is lifted to an eigenform; the level-one forms congruent to `1`
+are means of `p`-power powers of translates of the theta series of a lattice over the integers of `F` with a fixed-point-free
+isometry of order `p`, assembled over the narrow ideal classes, the device of Böcherer and Nagaoka (2007) and of Hentschel and
+Nebe (2009) carried to Hilbert modular forms. It departs from the published congruences of local origin by placing an
+auxiliary character of order `ℓ` in the nebentypus. For (f) the route written here cites the level-one Hasse lift of
+IntegralIwasawaTheory §9.3.
 
 Let `ℓ` be an odd prime, `M > 1` an integer prime to `ℓ`, `φ` a primitive Dirichlet character modulo `M`, `w ∤ M` a prime with
 `w ≡ 1 mod ℓ` and `φ(w) = 1`, and `θ_w` a Dirichlet character of conductor `w` and order `ℓ`. Prove: (a) (*the Eisenstein series*) for a
@@ -2529,6 +2850,17 @@ Layer 10.
 
 ### 3.23 The conjugate-norm twist of an imaginary quadratic field
 
+*Origin:* this roadmap's own formulation: an algebraic Hecke character of an imaginary quadratic field `K` with conjugate norm
+`χ_ℓ⁻¹`, ramified at the primes of `d_K` with order prime to `ℓ` there, for every `K` and every odd `ℓ ∤ d_K`; it weakens the
+conditions of the canonical characters of Gross and Rohrlich (ComplexMultiplicationAndExplicitReciprocity §4.3), which exist
+only for some discriminants.
+
+*Method of the formal proof:* a Hecke character with the prescribed exponents and unit characters is produced whose value at
+an inert rational prime `p` is `p·η_K(p)⁻¹`; the identity `κ(t²) = −χ_ℓ(t)⁻¹` for `t ∉ G_K` is verified at Frobenius elements
+of inert primes and extended by continuity and the density of Frobenius elements, and `κκ^c = χ_ℓ⁻¹` follows from it. The
+route written here reads the same identity off the restriction of the Hecke character to the rational ideles through the
+compatibility of the Artin map with the transfer.
+
 Let `K` be an imaginary quadratic field with character `η_K` and discriminant `d_K`, and `ℓ` an odd prime with `ℓ ∤ d_K`. Prove that
 there is a continuous character `κ` of `G_K`, the `ℓ`-adic character (AutomorphicGaloisRepresentationsPartII AG2.0) of an algebraic
 Hecke character of `K` with exponents `−1` and `0` at the two embeddings, unramified outside `ℓd_K`, such that `κκ^c = χ_ℓ⁻¹`,
@@ -2594,6 +2926,15 @@ unitary group at an Eisenstein maximal ideal with its patching data, is HeckeIde
 which in rank four enters through the Hecke ideals of 3.20(e).
 
 ### 4.1 The unitary Eisenstein deformation problem
+
+*Origin:* particular to this proof: the conjugate self-dual deformation problem of `Ψ̄ ⊕ 1 ⊕ Ψ̄⁻¹` with its torus-graded
+model, built so that the Selmer group of `Ψ⁻¹` is a cotangent space of weight `−1`.
+
+*Method of the formal proof:* the local ring at `ℓ` is obtained from a chart criterion: the saturated ordinary ideal cuts
+out, over finite local algebras, the lifts crystalline on `H`, these lift along surjections, and the quotient by the unique
+minimal prime through the diagonal lift then has a formal chart, graded by the torus with `1, 2, 3, 4, 2` coordinates; the
+global model is a presentation over this ring by cohomological counts, the shape of the two-signed points is linear algebra
+with the form and the normalization, and Selmer classes give point derivations of weight `−1`.
 
 Let `K` be an imaginary quadratic field with character `η_K` and a fixed complex conjugation `c`, `ℓ` an odd prime with
 `ℓ ∤ d_K`, `O` the ring of integers of a finite unramified extension `Φ` of `ℚ_ℓ` with residue field `k`, `ψ` a Dirichlet
@@ -2745,6 +3086,18 @@ LocalGaloisDeformationRings §§1.7, 1.9 (ordinary flags).
 
 ### 4.2 Finiteness and automorphy on the unitary Eisenstein component
 
+*Origin:* adapted from the residually reducible automorphy lifting of Skinner and Wiles (1999), Thorne (2015) and Allen,
+Newton and Thorne (2020): finiteness of the weight-zero ring and automorphy of the type I and type II points of the
+deformation problem of `Ψ̄ ⊕ 1 ⊕ Ψ̄⁻¹`, without a Steinberg place.
+
+*Method of the formal proof:* over the frame field `L`, seed points in ranks two and three lie on the pro-modular locus of the
+universal ordinary determinant rings; a propagation theorem makes every component good, first in rank two and then, through
+the block locus, in rank three, with finiteness of the weight-zero ring as a by-product; good irreducible points are
+arithmetic points of the Hecke algebra at the Eisenstein maximal ideal, the argument is run for two auxiliary places and
+glued, and automorphy descends from `L` to `K`. This departs from the published residually reducible lifting theorems in
+treating the two ranks jointly, the rank-two conclusion controlling the block locus of rank three, instead of assuming that
+the reducible locus is small.
+
 In 4.1, assume: `N` even with `f_ψ | N`; `ℓ ∤ o_ψ`; `(comp_ℓ ψ)² = 1`; `(ℓ − 1) ∤ 2e`; `(d_K, N) = 1`; `ℓ ∤ h_K`; `K` is not contained
 in the field cut out by `ω` and `χ_P(ℓ, ψ)`. (These give the general-position conditions: `Ψ̄²` is nontrivial on inertia at `ℓ`, so
 `Ψ̄, 1, Ψ̄⁻¹` are pairwise distinct on the decomposition groups above `ℓ`; `η_K` is unramified at `ℓ`; `K` is not in the field
@@ -2821,6 +3174,20 @@ SmoothRepresentationsOfLocalGroups SR.5.2.
 
 ### 4.3 Rigidity on the unitary Eisenstein component
 
+*Origin:* adapted from Newton and Thorne (2023), the vanishing of adjoint Selmer groups, and Kato (2004), Theorem 14.2, for
+twists of modular forms: the diagonal point is the only point that is both upper and lower triangular and is rigid in
+weights `≤ 0`, and every two-signed point of the Eisenstein component is rigid up to the torus.
+
+*Method of the formal proof:* (i) the diagonal characters of a point that is both upper and lower triangular differ from
+those of the diagonal point by everywhere unramified characters of `G_K` of `ℓ`-power order, trivial as `ℓ ∤ h_K`; (ii)
+cocycles of weight `≤ 0` at the diagonal point reduce to Selmer classes of `Ψ⁻¹`, `Ψ⁻²` and their `η_K`-twists, which vanish
+by finiteness; (iii) the adjoint Selmer group vanishes at type I points by the adjoint vanishing theorem at automorphic points
+of the ordinary determinant ring over the frame field `L`, descended to `ℚ`, and at type II points after decomposing the
+adjoint into the adjoint of `W`, the twists `W`, `W ⊗ η_K` (the instance of Kato's theorem that [FormalProof] proves from
+the Euler system of zeta elements, BernoulliBoundsForClassGroupEigenspaces §14.1) and a line; (iv) point derivations are Bloch–Kato
+classes, hence multiples of the torus direction. The route written here takes the adjoint vanishing from the theorem of
+Newton and Thorne over the base field.
+
 For a point `ρ` of `𝒟`, `ad r` denotes `𝔤𝔩₃` with `G_ℚ` acting through the `𝒢₃`-valued extension of `ρ` (`G_K` by
 conjugation, `c` by `X ↦ −X^*`, the adjoint for the form), and `H¹_f(ℚ, ad r)` its Bloch–Kato Selmer group
 (PotentialAutomorphyInfrastructurePartII §9.3). Under the hypotheses of 4.2, prove: (i) (*diagonal points*) a point
@@ -2891,6 +3258,15 @@ direction. *Needs:* 4.1, 4.2; BernoulliBoundsForClassGroupEigenspaces §§6.17, 
   decomposition group at `29` and `diag(Ψ′, 1, Ψ′⁻¹)`, `Ψ′ = ψχ_ℓ^{−28}`, is a second diagonal point of the problem of 4.1.
 
 ### 4.4 The symplectic Eisenstein component
+
+*Origin:* particular to this proof: a `GSp₄`-valued deformation problem of `{Ψ̄, 1}·{ᾱ, 1}` with an auxiliary character,
+whose subalgebra of `λ`-weight zero carries the Selmer group of `Ψ⁻¹` in weight `−1`.
+
+*Method of the formal proof:* pro-modularity of a lift is obtained over a deep layer of the cyclotomic `ℤ_ℓ`-extension of a
+tower field by carrying membership in the pro-modular locus along a finite chain of residual lattices from the lattice of
+the lift to that of a seed, the depth being controlled through the Ferrero–Washington theorem; finiteness of the weight-zero
+ring, the exclusion of block points with irreducible block and automorphy of the irreducible points are deduced from it, and
+the model is a presentation over the local charts by cohomological counts.
 
 *Setting.* Let `χ` be primitive, `E = E_n(χ, Q)` a host field, `ℓ` odd, `2 ≤ e < t`, and `ψ ∈ X(E, e)` in Case II or Case III
 (0.4), so that `χ_P(ℓ, ψ) ≠ 1`. Let `O` be the ring of integers of a finite extension `Φ` of `ℚ_ℓ` containing the values of `ψ`
@@ -3150,6 +3526,16 @@ AutomorphicGaloisRepresentationsPartII AG2.2, AG2.5, AG2.6; ModularityAndLanglan
 
 ### 4.5 The Eisenstein component relative to the Gaussian field
 
+*Origin:* particular to this proof: the unitary Eisenstein problem relative to `ℚ(i)` for characters of large dyadic
+conductor, with its model, automorphy and rigidity.
+
+*Method of the formal proof:* the problem is stated for an abstract rank-three frame which the host data provide over
+`ℚ(i)`; finiteness and automorphy of type I points come from the route of 4.2 over the frame field, rigidity at automorphic
+points from the adjoint vanishing theorem over the frame field with unlinkedness, and the graded cotangent bound is applied
+to a minimal weighted presentation whose variables and relations are counted by the Selmer complex of the local conditions.
+The route written here takes the adjoint vanishing at type I points from HeckeIdealsAndTaylorWilesRelations §9.9(a) with
+`F = ℚ(i)`.
+
 *Setting.* `ℓ` odd, `e ≥ 1`, `N` even, `ψ` a Dirichlet character modulo `N` with `ψ(−1) = (−1)^e`, `O` the ring of integers of any
 finite extension `Φ` of `ℚ_ℓ` containing the values of `ψ` (lengths normalized by `e_O`), `η₄` the character of `ℚ(i)`;
 `ψ = ψ^{[ℓ′]}ψ_{[ℓ]}` (0.2); `S_b` the primes `p ≠ ℓ` at which `ψ_{[ℓ]}` is ramified; `T_b = {ℓ} ∪ S_b`. Assume (*host data*): there
@@ -3274,6 +3660,13 @@ PotentialAutomorphyInfrastructurePartII §0.9 and HeckeIdealsAndTaylorWilesRelat
 
 ### 4.6 Shapes of the two-signed points
 
+*Origin:* particular to this proof: the classification of the two-signed points of the three Eisenstein problems.
+
+*Method of the formal proof:* in the unitary problem the normalization leaves four shapes, of which the two triangular ones
+are the negative-zero and positive-zero points; in the symplectic problem a two-signed point is scaled by the torus to a
+point of `𝒟_sp`, a triangular point is negative-zero or positive-zero, and a block point degenerates under `λ` to a block
+point with irreducible block on `⟨e₁, e₃⟩`, which 4.4(a′) excludes.
+
 Prove: (a) in 4.2, every two-signed point of `𝒟(ψ, e, K)` is of type I, irreducible on every open subgroup of `G_K` and of
 `G_{K(μ_{ℓ^∞})}`, or of type II with `W` irreducible on every open subgroup of `G_K` and of `G_{K(μ_{ℓ^∞})}`; (b) in 4.5, every
 two-signed point of `𝒟_G` is of type I and irreducible on every open subgroup of `G_{ℚ(i)}` and of `G_{ℚ(i, μ_{ℓ^∞})}`; (c) in 4.4,
@@ -3322,6 +3715,17 @@ the decomposition group at `ℓ`. *Needs:* 4.1, 4.4, 4.5.
   `r₀`; without `ψ̄(Frob_ℓ) = 1` it is not a point of `𝒟_sp`.
 
 ### 4.7 Rigidity on the symplectic component
+
+*Origin:* adapted from Newton and Thorne (2023), the vanishing of adjoint Selmer groups: rigidity of the irreducible points
+of the symplectic Eisenstein component; clause (iv) is the statement of [FormalProof] on the clauses (w1), (w2) under twist
+and restriction, used in (i).
+
+*Method of the formal proof:* the tangent cocycle of a first-order deformation that is a point is a Bloch–Kato cocycle with
+values in `𝔰𝔭₄`; `ρ` restricted to the tower field `L` of its pro-modularity, twisted to unitary type, is automorphic by
+soluble base change from the imaginary quadratic field of the tower, the adjoint vanishing theorem at automorphic points with
+regular elements is applied over `L`, the vanishing is brought down to `ℚ`, and the class is projected onto `𝔰𝔭₄`. The route
+written here quotes the theorem of Newton and Thorne where `ρ` is irreducible on every open subgroup; the proof obtains the
+vanishing from its own theorem over the tower field, for every irreducible point.
 
 In 4.4, prove: (i) `H¹_f(ℚ, 𝔰𝔭₄(ρ)) = 0` at every irreducible point `ρ` of `𝒟_sp` with values in `ℚ̄_ℓ`, `𝔰𝔭₄(ρ)` the adjoint
 representation of `Sp₄` composed with `ρ`; (ii) every first-order deformation of `ρ` that is a point of `𝒟_sp` over `Ē[ε]` is
@@ -3383,6 +3787,17 @@ directions, the normalized entries at the other kill the `±Ψ` directions), and
 AutomorphicGaloisRepresentationsPartII AG2.2.
 
 ### 4.8 Levels of the automorphic points
+
+*Origin:* adapted from Caraiani (2012), local–global compatibility with monodromy away from `ℓ`, from which the level of a
+local component follows by Jacquet's lemma: the level theorem (0) and the levels of the automorphic points of 4.2, 4.4 and
+4.5, by a count of conductors.
+
+*Method of the formal proof:* each local component is shown, under a window condition on its cuspidal support (exponents
+within `1/2` of a common value), to be an irreducible principal series of unlinked characters with zero monodromy; a
+compatibility statement for such components identifies its parameter with the Weil–Deligne representation, and a vector
+fixed by `K_w(M)` comes from the Jacquet module along the Borel subgroup (Jacquet's lemma); above `ℓ` the characters are read
+from the flag. The route written here takes, away from `ℓ`, the comparison with monodromy for every local component and
+obtains the fixed vector from the function supported on `B·K_w(M)`.
 
 For a number field `F`, a continuous `r : G_F → GL_n(ℚ̄_ℓ)`, integers `m_1 > ⋯ > m_n` and `M ≥ 1`, say that `r` has *Galois level `M`
 and cyclotomic exponents `m`* if at every place `w ∤ ℓ` the restriction to inertia is conjugate to a sum of `n` characters of `G_F`
@@ -3482,6 +3897,20 @@ Layers 0 and 3 above. From this family: ReducibilityIdealsAndUltrafilterPatching
 
 ### 5.1 Class numbers of quadratic fields
 
+*Origin:* adapted from Bordellès (2002): the regulator-free class-number bound `h_K ≤ b(log b + γ + 1/b)^{n−1}`, stated there
+at the Minkowski bound and valid for every admissible `b` (ExplicitNumberFields §5.3); here the case `n = 2`, `b = √ℓ`, read
+as `h(ℚ(√ℓ)) < ℓ` for primes `ℓ ≡ 1 mod 4`.
+
+*Method of the formal proof:* every ideal class contains an ideal of norm at most `√|d|`, `d` the discriminant (Minkowski); a
+field of degree `n` has at most as many ideals of norm `m` as there are ordered factorizations of `m` into `n` factors, and
+the sum of these numbers over `m ≤ X` is at most `X(1 + log X)^{n−1}`; so `h ≤ √|d|·(1 + log √|d|)^{n−1}`, which for
+`n = 2`, `d = ℓ` is less than `ℓ` because `1 + log y < y` for `y > 1`. The route written here is not this one: it is the
+deduction from ExplicitNumberFields §5.3, through the form with Euler's constant, `h(ℚ(√ℓ)) ≤ √ℓ(log √ℓ + γ + 1/√ℓ)`, with
+`ℓ = 5` computed separately.
+
+*Corollary of:* ExplicitNumberFields §5.3 (Bordellès's regulator-free class-number bounds, first form:
+`h_K ≤ b(log b + γ + 1/b)^{n−1}` for every `b` admissible for `K`).
+
 For every prime `ℓ ≡ 1 mod 4` prove `h(ℚ(√ℓ)) < ℓ`; in particular `ℓ ∤ h(ℚ(√ℓ))` ([FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/LevelCohomology/HQuad.lean` (`UpperTheory.V.X.hQuad`),
 `Development/AbelianVarietyTheory/Proofs/CovolumeBounds/ExistsIdealInClassOfNormLeSqrtDiscr.lean`
@@ -3499,11 +3928,25 @@ less than `ℓ` because `1 + log y < y` for `y > 1`. *Needs:* ExplicitNumberFiel
 
 ### 5.2 Case Z: the trivial character
 
+*Origin:* this roadmap's own formulation: the vanishing of `Ш¹(ℚ, ℓ, e)` for primes `ℓ ≥ 5` and even `e ≥ 2` with
+`(ℓ − 1) | 2e`; its case `(ℓ − 1) | e` is, in K-theoretic form, the unconditional vanishing of the trivial component in
+ArithmeticKTheory §7.5, and the case of the quadratic component of `ℚ(√ℓ)` is by class field theory and 5.1; nearest
+published result: Kurihara (1992), as stated in Weibel (2005), Theorem 105: `K_{4k}(ℤ)` (here `4k = 2e`) has no
+`ℓ`-torsion exactly when the corresponding even eigenspace of the class group of `ℚ(μ_ℓ)` modulo `ℓ` vanishes.
+
+*Method of the formal proof:* it suffices to kill the classes of order `ℓ`. If `(ℓ − 1) | e` such a class is represented by a
+homomorphism to the `ℓ`-torsion unramified outside `ℓ`, which vanishes on the kernel of the cyclotomic character by
+Kronecker–Weber, and the restriction of the Selmer group to that kernel is injective. Otherwise the class restricted to
+`ℚ(√ℓ)` is an everywhere unramified homomorphism, hence factors through the class group, of order prime to `ℓ` by 5.1, and a
+normalisation at an inertia element `δ` with `χ_ℓ(δ)^e ≢ 1` carries the vanishing back to `ℚ`. The route written here, when
+`(ℓ − 1) | e`, identifies the homomorphism with a multiple of the cyclotomic `ℤ/ℓ`-character, the image of a generator of
+`H⁰(ℚ, W)` under the connecting map, and concludes `H¹(ℤ[1/ℓ], W) = 0`.
+
 Prove `Ш¹(ℚ, ℓ, e) = 0` for every prime `ℓ ≥ 5` and every even `e ≥ 2` with `(ℓ − 1) | 2e` ([FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.PropZ`),
 `Development/AutomorphicArithmetic/AutomorphicVarieties/LevelCohomology/PropZ.lean` (`UpperTheory.V.X.propZ`)). Through the
 duality of BernoulliBoundsForClassGroupEigenspaces §6.17 this extends the unconditional vanishing of the trivial component in
-ArithmeticKTheory §7.5 (`K_{2e}(ℤ){ℓ} = 0` for `(ℓ − 1) | e`) to `(ℓ − 1) | 2e`; the new case is the quadratic component of `ℚ(√ℓ)`.
+ArithmeticKTheory §7.5 (`K_{2e}(ℤ){ℓ} = 0` for `(ℓ − 1) | e`) to `(ℓ − 1) | 2e`; the case added is the quadratic component of `ℚ(√ℓ)`.
 
 *Route.* `Ш¹(ℚ, ℓ, e)` is a finite `ℓ`-group (BernoulliBoundsForClassGroupEigenspaces §6.17(b)), so it suffices to show that it has no element of
 order `ℓ`. Put `W = ℚ_ℓ/ℤ_ℓ(−e)`. If `(ℓ − 1) | e`, `G_ℚ` acts trivially on `W[ℓ]`; an element of order `ℓ` of `H¹(ℤ[1/ℓ], W)` is the
@@ -3522,6 +3965,15 @@ to `ℓ` by 5.1; so the class vanishes on `G_F`, hence on `G_ℚ`. *Needs:* 5.1;
 
 ### 5.3 One character
 
+*Origin:* particular to this proof: the length of the component of `Ш¹` at a character is bounded by twice the sum of the
+valuations of the differences between the Eisenstein trace and the traces, at one element `σ`, of the two-signed points of
+the unitary Eisenstein problem.
+
+*Method of the formal proof:* after reduction to unramified coefficients, the graded cotangent bound is applied to the model
+of 4.1 with the weight-zero element `a_σ` whose value at a point `ρ` is `tr ρ(σ) − t`; its hypotheses are the counts of the
+model, finiteness of the weight-zero ring, uniqueness of the diagonal point, proportionality of derivations at two-signed
+points and the hypothesis on `σ`, and the Selmer group embeds in the cotangent module of weight `−1`.
+
 Call `(ψ, e, ℓ, K)`, with `ψ` a character modulo an even `N`, *Case-I admissible* if the hypotheses of 4.2 hold and `ℓ ∤ h_K`.
 Prove: if `(ψ, e, ℓ, K)` is Case-I admissible and `σ ∈ G_K` satisfies `tr ρ(σ) ≠ t := Ψ(σ) + 1 + Ψ(σ)⁻¹` for every two-signed point
 `ρ` of `𝒟(ψ, e, K)`, then `V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) ≤ 2 Σ_{ρ∈𝒳} v_ℓ(tr ρ(σ) − t)` for a finite set `𝒳` of two-signed
@@ -3537,6 +3989,12 @@ two-signed points are the classes of their restrictions to `G_K` (4.1 (points)),
 3.4, 4.1–4.3, 4.6.
 
 ### 5.4 One integer for a Galois orbit of characters
+
+*Origin:* particular to this proof: one nonzero integer of polynomial logarithmic size whose `ℓ`-adic valuation bounds the
+components of `Ш¹` over a Galois orbit of characters, for every admissible `ℓ`.
+
+*Method of the formal proof:* the bound for one character is applied to every character of the orbit at one Frobenius
+element, and the product of all trace differences is compared with one integer supplied by the count of representations.
 
 Let `K` be imaginary quadratic. Prove that there are `c_K, A_K > 0` such that for every even `N ≥ 2` with `(d_K, N) = 1`, every
 `e ≥ 1`, every prime `p ≥ 7` with `p ∤ N d_K`, and every `Aut(ℂ)`-orbit `𝒪` of Dirichlet characters modulo `N` with
@@ -3562,6 +4020,12 @@ trace at `σ`, or two characters with the same Eisenstein trace, are distinct in
 AutomorphicGaloisRepresentationsPartII AG2.0, AG2.3; AutomorphicLFunctionsAndLocalFactors AL.3.3.8.
 
 ### 5.5 Case I
+
+*Origin:* particular to this proof: a bound polynomial in the conductor and the twist for the total plus part of `Ш¹` over
+the primes `ℓ` with `(ℓ − 1) ∤ 2e` outside a finite set.
+
+*Method of the formal proof:* the integer of 5.4 is taken at the two least primes `p ≠ p′`, `p, p′ ≥ 7`, not dividing
+`N d_K`, and the sum over `ℓ` of `log ℓ` times the valuations is bounded by the logarithm of the integer.
 
 (a) *Character form.* For `K` and `c_K, A_K` as in 5.4, prove: for every even `N ≥ 2` with `(d_K, N) = 1`, every `e ≥ 1` and
 every `Aut(ℂ)`-orbit `𝒪` of characters modulo `N` with `ψ(−1) = (−1)^e`,
@@ -3591,6 +4055,15 @@ depend on `K_χ` and on `B(χ)`. *Needs:* 0.3, 0.4, 5.4; BernoulliBoundsForClass
   `ℓ ≤ 2e + 1` with `(ℓ − 1) | 2e` and from `3, 7`.
 
 ### 5.6 Auxiliary symplectic data
+
+*Origin:* particular to this proof: an auxiliary character `ξ = ξ₀ξ′`, with `ξ′` of conductor `2^m` polynomial in `ℓN`, for
+which the two conditions (G1), (G2) of the symplectic problem hold, through the Bernoulli units of 3.5.
+
+*Method of the formal proof:* `ξ′` is an odd primitive character modulo `2^m` and `ξ₀` a character modulo `p₁` of order `o_ψ`
+(trivial in Case II); for (G1) each residual character is the reduction of a product of one primitive character of odd
+conductor dividing `p₁ℓN`, of order dividing `ℓ^{f₀} − 1`, and one primitive character modulo `2^m`, and the threshold on `2^m`
+is the hypothesis of 3.5(b); for (G2) the relation `ξ̄Ψ̄^i(Frob_v) = 1` is raised to a power `2^a·o` killing `ψ` and `ξ₀`,
+which would make `ξ′` trivial on `v^{2^a·o}`, against `v²·2^a ≤ 2^m`.
 
 In the host setting, let `ℓ` be odd, `e ≥ 2` and `ψ ∈ X(E, e)` in Case II or III, so that `χ_P(ℓ, ψ) ≠ 1`. Prove that there is
 `ξ = ξ₀ξ′` as in 4.4, with the exponent `m = m(ℓ, ψ)` of 4.4, for which (G1) and (G2) of 4.4 hold ([FormalProof],
@@ -3629,6 +4102,19 @@ by `5`, on which `ξ′` is faithful, and `v₂(v^{2^a} − 1) = v₂(v² − 1)
   than a factor `2` to spare.
 
 ### 5.7 Cases II and III
+
+*Origin:* particular to this proof: a polynomial bound for one component of `Ш¹` at a prime where the unitary problem is not
+available, through the `GSp₄` Eisenstein problem and one congruence integer.
+
+*Method of the formal proof:* after the choice of the auxiliary data of 5.6, the graded cotangent bound applied to the model
+of 4.4 bounds `V_ℓ(ψ, e)` by twice the sum of the valuations of `tr ρ(σ) − tr r₀(σ)` over finitely many pairwise
+non-isomorphic irreducible automorphic points, `σ` a Frobenius element at the least prime `p₀ ≥ 5` not dividing `ℓNp₁`;
+these points are classified, injectively on isomorphism classes, by a finite `Aut(ℂ)`-stable family of eigenvalue quadruples
+at `p₀` of size polynomial in the level and the weight, and the product of the differences between their traces and the
+conjugates of the Eisenstein trace is a nonzero integer of polynomially bounded logarithm. The route written here takes
+instead a Frobenius element at a place of degree one of `K_χ` above the least prime `p₀ ≥ 5` that splits in `K_χ` and does
+not divide `ℓNp₁`, and counts cuspidal representations of `GL₄(𝔸_{K_χ})` through a map that is at most two-to-one; the count
+on the Galois side is given there as an alternative.
 
 For `χ` there is `C` such that for every host field `E`, every odd `ℓ`, every `2 ≤ e < t` and every `ψ ∈ X(E, e)` in Case II or III:
 `V_ℓ(ψ, e)` is finite and `V_ℓ(ψ, e) log ℓ ≤ (ℓNe)^C` ([FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountII`), `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/ConductorAtMapInjectiveCoeff.lean` (`UpperTheory.V.Th.sp4Main_alt`)). The route uses, through 4.4 and 4.6–4.8, 3.20(d), (e), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (through 3.19(a)), 4.7(iv) and HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d), whose routes are not given in full (see there).
@@ -3699,6 +4185,16 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 
 ### 6.1 Components of bounded order
 
+*Origin:* particular to this proof: a bound for one character component of `Ш¹`, exponential in a power of the twist and the
+degree, from the étale bound of BernoulliBoundsForClassGroupEigenspaces §9.7 at the field `L ⊇ μ_ℓ`; nearest published
+result: Soulé (2003), Theorem 3, a bound for the order of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` at large primes `ℓ`, which exclude the
+fields containing `μ_ℓ`.
+
+*Method of the formal proof:* the component of `ψ` is restricted to the abelian field `L` cut out by `ψ` and `μ_ℓ`, the
+kernel of restriction being bounded by the number of generators of `Gal(L/ℚ)` times a local term; over `L`, `Ш¹` is dual to a
+subgroup of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` by Poitou–Tate duality, and the order of that group is bounded by the torsion bound of
+Soulé type.
+
 Let `ψ` be a Dirichlet character of conductor `N`, `ℓ` an odd prime, `e ≥ 1`, and `L` the field cut out by `ψ` and `μ_ℓ`, of
 conductor dividing `ℓN`. Prove `V_ℓ(ψ, e) ≤ 2 exp((2e [L:ℚ])^{C_K} [L:ℚ] log(2ℓN)) + 2[L:ℚ] ℓ N e` (follows from [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/CharacterLevelBounds/LiftGens.lean` (`UpperTheory.V.Chr.upV`),
@@ -3711,6 +4207,12 @@ conductor dividing `ℓN`. Prove `V_ℓ(ψ, e) ≤ 2 exp((2e [L:ℚ])^{C_K} [L:�
 
 ### 6.2 Case V small
 
+*Origin:* particular to this proof: at the primes of `B(χ)`, twist one and small dyadic conductor, the component is bounded
+polynomially in `ℓN`, an instance of 6.1; nearest published result: Soulé (2003), Theorem 3, as for 6.1.
+
+*Method of the formal proof:* the order of `ψ` is bounded in terms of `χ` and `ℓ ≤ max B(χ)` because its `2`-part has
+conductor below `R₁(ℓ, χ)`, so the field of 6.1 has bounded degree and the bound of 6.1 at `e = 1` is polynomial in `ℓN`.
+
 For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` and every `ψ ∈ X(E, 1)` with
 `2^{c₂(ψ)} < R₁(ℓ, χ)`: `V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C` (follows from [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountVs`),
@@ -3720,6 +4222,13 @@ For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` 
 `o_ψ` and the degree of `L` in 6.1 are bounded in terms of `χ`, `ℓ ≤ max B(χ)`. *Needs:* 0.3, 6.1.
 
 ### 6.3 Case IV
+
+*Origin:* particular to this proof: the components of Case IV are bounded by the twist sums of `Ш¹` over a fixed cyclotomic
+field `ℚ(μ_{ℓ^{j+1} f_χ})`, by going up from the decomposition of `Ш¹` of an abelian field into character components.
+
+*Method of the formal proof:* a character `ψ` whose tame part away from `ℓ`, `χ_P(ℓ, ψ)`, has odd order has conductor
+dividing `f_χ`, so it factors through the layer `ℚ(μ_{ℓ^{j+1} f_χ})`; restriction to that field bounds each component by
+`Ш¹` of the layer plus a local term linear in `N e` times the degree of the layer, and the bounds are summed over the twists.
 
 For `χ`, `ℓ ∈ B(χ)` and `j ≥ 0` there is `C`, depending on `χ`, `ℓ` and `j`, such that for every host field `E` and every `B ≥ 0` with
 `Σ_{1≤e<t} length Ш¹(ℚ(μ_{ℓ^{j+1} f_χ}), ℓ, e) ≤ B`, every character `ψ` of `Gal(E/ℚ)` with `χ_P(ℓ, ψ)` of odd order satisfies
@@ -3731,6 +4240,15 @@ through `ℚ(μ_{f_χ}) ⊂ ℚ(μ_{ℓ^{j+1} f_χ})`, for every `j`; going up (
 local term) and summation over `e`. *Needs:* 0.2, 0.3; BernoulliBoundsForClassGroupEigenspaces §6.18.
 
 ### 6.4 Case V large
+
+*Origin:* particular to this proof: the bound of the component of `Ш¹` at twist one and large dyadic conductor by congruences
+on the unitary Eisenstein problem relative to `ℚ(i)`.
+
+*Method of the formal proof:* the host data give a rank-three frame over `ℚ(i)`; the graded cotangent bound and the tangent
+comparison are applied to a minimal weighted presentation of the universal ring of `𝒟_G`, with hypotheses supplied by 4.5
+(finiteness, automorphy and rigidity at type I points, vanishing in weights `≤ 0`, class number one), and the resulting sum of
+valuations of trace differences at one Galois element is bounded by the counting statement for representations of `GL₃` over
+`ℚ(i)`.
 
 For `χ` there is `C` such that for every host field `E`, every `ℓ ∈ B(χ)` and every `ψ ∈ X(E, 1)` with `R₁(ℓ, χ) ≤ 2^{c₂(ψ)}`:
 `V_ℓ(ψ, 1) log ℓ ≤ (ℓN)^C` (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/Counts.lean` (`UpperTheory.V.HV.CountV`), `Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/CountVOf.lean` (`UpperTheory.V.UnitaryThreeInertia.countV_of_finiteness_duality_euler_host`)). The route uses, through 4.5 and 4.8(b), 4.5 (model) and (i), (ii) of 4.3 for `𝒟_G`, HeckeIdealsAndTaylorWilesRelations §4.2a, 3.15(c) (K1′), (K2′) and the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d), whose routes are not given in full (see there).
@@ -3746,6 +4264,15 @@ with 4.5 (tangent), injectivity of restriction from `ℚ` to `ℚ(i)` (`ℓ` odd
 the least such `p` is polynomial in `N`, `log|NN|/log ℓ` is polynomial in `N`. *Needs:* 3.1–3.4, 4.3, 4.5, 4.6, 4.8.
 
 ### 6.5 The minus part at the odd primes dividing the degree
+
+*Origin:* adapted from Coates and Sinnott (1974), the annihilation of `K₂` of abelian fields, up to powers of `2`, by higher
+Stickelberger elements, from Stickelberger's theorem: here an explicit bound for the length of the minus part of `Ш¹` for every twist and every odd
+`ℓ`, the primes dividing the degree included.
+
+*Method of the formal proof:* a power of `ℓ` kills the minus part (an element of `ℤ_ℓ[Γ]` built at level `M = Nℓ` with
+`a = 2M + 1` kills `Ш¹` after multiplication by `φ(M)`; by the adjugate its determinant on the eigenspace of complex
+conjugation does too, and the valuation of that determinant is bounded), the `ℓ`-torsion of the ambient group has bounded
+length, and the length of a module killed by `ℓ^r` is at most `r` times that of its `ℓ`-torsion.
 
 Prove that there is an absolute constant `C` such that for every abelian CM field `E` of degree `n` contained in `ℚ(μ_N)`, every
 odd prime `ℓ` and every `e ≥ 1`: `Ш⁻(E, ℓ, e)` has finite length and `log ℓ · length Ш⁻(E, ℓ, e) ≤ C·ℓ·n²·(e + 1)·log²(eℓN)`
@@ -3814,6 +4341,14 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 
 ### 7.1 Good primes
 
+*Origin:* particular to this proof: a polynomial bound for the plus part of `Ш¹` of the host fields over all odd primes
+outside `B(χ)` and all twists below `t`.
+
+*Method of the formal proof:* the plus length at each odd prime outside `B(χ)` is bounded by the sum of the component lengths
+over the characters of the host field; for each twist the Case I primes are summed together by the Case I bound, and the
+remaining primes, at most `2t` of them since `ℓ ≤ 2t + 1`, are bounded one character at a time by the bounds of Cases Z, II
+and III, and the result is summed over the twists.
+
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
 `Σ_{ℓ odd, ℓ ∉ B(χ)} log ℓ · Σ_{1≤e<t} length Ш⁺(E, ℓ, e) ≤ (N t)^C` (follows from [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVarieties/HeightAndVanishing/LayerLe.lean` (`UpperTheory.V.HV.SumOut`)). The route uses, through 5.5 and 5.7, the following statements, whose routes are not given in full (see there): 3.15(c) (K1′), (K2′); ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16, through 3.19(a); 3.20(d), (e) ((P1₄), (pur), (aut), the clause (w2) of (wit) and the maps of (e)); 4.7(iv); the clauses (w1), (w2) of 3.22(c) and the rank-three seeds 3.22(d); HeckeIdealsAndTaylorWilesRelations §§4.2a, 9.9(d).
@@ -3823,6 +4358,14 @@ most `2t` such primes, at most `N` characters each, in Case Z (5.2), II or III (
 Sum over `e < t`. *Needs:* 0.4, 5.2, 5.5, 5.7; BernoulliBoundsForClassGroupEigenspaces §6.18.
 
 ### 7.2 Bad primes and the plus part
+
+*Origin:* particular to this proof: the plus part of `Ш¹` at all odd primes is bounded by a polynomial term plus totals over
+finitely many fixed cyclotomic towers.
+
+*Method of the formal proof:* at a prime of `B(χ)` the plus length is bounded by the component lengths plus a loss polynomial
+in `N e` per character; the characters in Case IV, at most `f_χ` of them, are bounded by the hypothesis on the cyclotomic
+layer, the others by the bounds of Cases II and V; the finitely many primes of `B(χ)` are then added to the bound for the good
+primes.
 
 For `χ` and `j : B(χ) → ℕ` there is `C`, depending on `χ` and `j`, such that for every host field `E` and every `B ≥ 0` bounding
 `Σ_{1≤e<t} length Ш¹(ℚ(μ_{ℓ^{j(ℓ)+1} f_χ}), ℓ, e)` for every `ℓ ∈ B(χ)`:
@@ -3844,6 +4387,14 @@ own, from 7.2 and 7.3 as stated here, and is not in [FormalProof], whose bound f
 
 ### 7.3 Polynomial bound away from the bad primes
 
+*Origin:* particular to this proof: a polynomial bound for the total size of the twisted Tate–Shafarevich groups (étale wild
+kernels) of the host fields at all odd primes outside a finite set.
+
+*Method of the formal proof:* (a) the odd primes not dividing `[E : ℚ]` are bounded together, one twist at a time, by the bound
+through generalized Bernoulli numbers, and each of the boundedly many odd primes dividing `[E : ℚ]` by 6.5: a power of `ℓ`
+kills the minus part and the length is at most the exponent times the length of the `ℓ`-torsion of the ambient cohomology
+group. (b) adds 7.1 to (a) through `Ш = Ш⁺ ⊕ Ш⁻`.
+
 For `χ` there is `C` such that for every host field `E = E_n(χ, Q)` (two auxiliary primes, one `≡ 3 mod 8` and one
 `≡ 7 mod 16`, `n ≥ 2`, `Q` `t`-large):
 (a) `Σ_{ℓ odd} log ℓ Σ_{1≤e<t} length Ш⁻(E, ℓ, e) ≤ (N t)^C` (follows from [FormalProof],
@@ -3864,6 +4415,13 @@ summed over `e < t` gives at most `C·o_χ·N²·t²·log²(t·o_χ·N)` each. B
 
 ### 7.4 The window theorem
 
+*Origin:* particular to this proof: a bound for the total size of the twisted Tate–Shafarevich groups of the host fields over
+all primes, valid for the scales of windows found by a pigeonhole.
+
+*Method of the formal proof:* the window of 2.4 for `ℚ(χ)` and the towers `ℚ(μ_{ℓ f_χ})`, `ℓ ∈ B(χ)`, gives a scale `Y` on
+which the `2`-part and the twist sums on the chosen layers of these towers are at most an exponential of a small power of
+`x`; 7.2 is applied at each scale of `[Y, Y²]` with that bound as `B`, and the minus part is added from 7.3(a).
+
 Let `χ` be primitive, `α, κ ≥ 1` and `0 < δ ≤ 1`. Prove that there are `J ≥ 1`, `C > 0` and `X₀` such that for every `X ≥ X₀` and
 every pair `Q = {q, q′}` of primes with `q ≡ 3 mod 8`, `q′ ≡ 7 mod 16`, `q, q′ ∤ f_χ`, `q, q′ > 2X^κ + 1 + P(χ)` and
 `log q + log q′ ≤ X^{δ/J}`, there is `Y ∈ [X^{1/J}, X^{1/2}]` such that for every `x ∈ [Y, Y²]`, every `n ≥ 2` with `2^n ≤ x^α` and
@@ -3880,6 +4438,11 @@ BernoulliBoundsForClassGroupEigenspaces §6.17(b). *Needs:* 2.4, 7.2, 7.3; Berno
 
 ### 7.5 The tower form
 
+*Origin:* this roadmap's own formulation: the window bound read along the layers of the cyclotomic `ℤ₂`-tower of the field of
+`χ`, without auxiliary primes, as a corollary of 7.4.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 For every primitive `χ` and `κ, δ > 0` there are `J` and `k₁` such that for every `k₀ ≥ k₁` some `k ∈ [k₀, J k₀]` satisfies
 `V(E_n(χ, ∅), ⌊2^{κn}⌋) ≤ exp(2^{δn})` for every `n ∈ [k, 2k − 2]`. *Status.* This form is the roadmap's own corollary of 7.4,
 not on the path of [FormalProof]: the family's main theorems use the window theorem over host fields with two auxiliary primes
@@ -3893,6 +4456,14 @@ only. The route uses, through 7.4, the following statements, whose routes are no
 classes modulo `16` in ranges `(y, 2y]`).
 
 ### 7.6 The budget bound on windows (the consumed form)
+
+*Origin:* particular to this proof: the window theorem in the form consumed by the bound for congruence modules of theta
+lifts.
+
+*Method of the formal proof:* on the window of 7.4 the `2`-part, the minus part and the plus part are added through
+`Ш = Ш⁺ ⊕ Ш⁻` at odd primes, the size conditions on the two auxiliary primes are derived from the prescribed ranges of their
+logarithms for large `X`, and since `log(N t)` is at most a small power of `x` on the window the polynomial terms are absorbed
+into `exp(x^ε)`.
 
 Let `χ` be primitive, `0 < ε ≤ 2` and `κ, α ≥ 1`. Prove that there are `J ≥ 1` and `X₀` such that for every `X ≥ X₀` and every
 pair of primes `q ≡ 3 mod 8`, `q′ ≡ 7 mod 16` with `q, q′ ∤ f_χ`, `q, q′ > 2X^κ + 1 + P(χ)` and
@@ -3961,7 +4532,7 @@ CongruenceModulesOfThetaLifts and ThetaChainsAndFrobeniusPrimeSums consume 7.6, 
 `exp(x^ε) x^{O(ε)}`. The local condition at `ℓ` is the same on both sides: classes unramified outside `ℓ` and trivial at every
 place above `ℓ`. The route of 7.6 uses every target of Layers 0–7 through 7.4, and the suppliers of their contracts, among them FrobeniusRestrictedRieszSums §0.4, BernoulliBoundsForClassGroupEigenspaces §§6.17,
 6.18, 9.7, BernoulliBoundsForClassGroupEigenspaces §10.1, ReducibilityIdealsAndUltrafilterPatching §§4.8, 4.9, 6.10–6.16, BernoulliBoundsForClassGroupEigenspaces §11.1,
-HeckeIdealsAndTaylorWilesRelations §10.1, PotentialAutomorphyInfrastructurePartII §§0.8, 0.9, 7.5 and HeckeIdealsAndTaylorWilesRelations §§3.13a, 4.2a, 9.9 (with BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1, the Galois representations of definite unitary groups, behind HeckeIdealsAndTaylorWilesRelations §3.13a), ModularityAndLanglandsExtensions §2.43
+HeckeIdealsAndTaylorWilesRelations §10.1, PotentialAutomorphyInfrastructurePartII §§0.8, 0.9, 7.5 and HeckeIdealsAndTaylorWilesRelations §§3.13a, 4.2a, 9.9 (with BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1, the Galois representations of definite unitary groups in the form stated there, the standard Hermitian form over a CM extension unramified at every finite place, behind HeckeIdealsAndTaylorWilesRelations §3.13a), ModularityAndLanglandsExtensions §2.43
 and BernoulliBoundsForClassGroupEigenspaces §§13.1, 14.1. Among the statements its route uses, these are theorems of [FormalProof] whose routes are not given in full here: 3.15(c) (K1′), (K2′)
 (the Selmer counts of the patching argument), ReducibilityIdealsAndUltrafilterPatching §§6.15, 6.16 (the weight-zero part of a
 weighted presentation and the rescaling ring, through the space of symplectic residual lattices 3.19(a)), 3.20(d) and (e) (the
@@ -3976,7 +4547,7 @@ patching data at a reducible residual determinant) and §9.9(d) (adjoint vanishi
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
 This roadmap owns: the case split of the dyadic host fields (Layer 0); the twisted control
-theorem 1.1 for cyclotomic towers, the explicit Iwasawa-theoretic twist bounds, the pigeonhole on scales and the window
+theorem 1.1 for cyclotomic towers (for odd `ℓ` a corollary of IntegralIwasawaTheory §10.5a), the explicit Iwasawa-theoretic twist bounds, the pigeonhole on scales and the window
 selection (Layers 1–2); the polynomial count of regular algebraic cuspidal representations of `GL_n` over totally real
 and CM fields by level and weight (3.1), global congruence integers for families and the separation of automorphic
 traces from Eisenstein traces (3.2), the application of the graded cotangent bound to deformation models graded by a
@@ -4007,7 +4578,8 @@ It does not own: the dyadic host fields (FrobeniusRestrictedRieszSums §0.4); th
 and character decompositions (BernoulliBoundsForClassGroupEigenspaces §§6.17, 6.18); the explicit torsion
 bound of Soulé type (BernoulliBoundsForClassGroupEigenspaces Layer 9); Sha kernels with divisible coefficients and their duality
 (HeckeIdealsAndTaylorWilesRelations §10.1); Ferrero–Washington, ranks in cyclotomic towers and their growth in extensions of degree
-`ℓ`, and the twisted coinvariants of Iwasawa modules (IntegralIwasawaTheory §§3.4, 5.6, 10.5 and BernoulliBoundsForClassGroupEigenspaces §11.1); Koszul Euler characteristics, orders on modules
+`ℓ`, and the twisted coinvariants of Iwasawa modules (IntegralIwasawaTheory §§3.4, 5.6, 10.5, 10.5a and BernoulliBoundsForClassGroupEigenspaces §11.1); the
+tangent spaces of deformation rings at `𝒪`-valued points with torsion coefficients, in their ungraded form (GlobalGaloisDeformations §3.6a); Koszul Euler characteristics, orders on modules
 finite over the coefficient ring, graded algebras with a torus-fixed point, the graded cotangent bound, patching of rings
 and modules and connectedness dimension, determinantal sections, `ℤ/2`-graded algebras with a determinantal presentation,
 propagation along components, limit groups and patching up to an element, weighted presentations and their graded parts
@@ -4023,7 +4595,8 @@ local–global compatibility (AutomorphicGaloisRepresentationsPartII), with the 
 (SelmerIwasawaCohomology §4.9); the Jacquet–Shalika bound (AutomorphicLFunctionsAndLocalFactors AL.3.3.8); the classification of generic
 representations by segments (SmoothRepresentationsOfLocalGroups SR.5.2); the minus part of abelian fields by Bernoulli
 numbers (BernoulliBoundsForClassGroupEigenspaces §10.1); the class-number bounds of number fields through divisor sums (ExplicitNumberFields §§0.3, 5.3); Hilbert modular forms: the adelic carrier with its finite Hecke action (GL2AutomorphicRepresentationsAndTransfer R16.1.6), the classical forms of parallel weight at least two with their coefficients, integral lattices and Hecke operators (NoncommutativeAndEquivariantIwasawa §F.5), and the level-one Hasse lift (IntegralIwasawaTheory §9.3). Washington's theorem on the prime-to-`p` part of class numbers in a
-cyclotomic `ℤ_p`-tower is not used. Towers at an odd tower prime are not treated. The routes use purity of Frobenius
+cyclotomic `ℤ_p`-tower is not quoted: 3.5 proves the explicit statement that is needed, by an argument adapted from
+Washington (1975). Towers at an odd tower prime are not treated. The routes use purity of Frobenius
 eigenvalues only through the temperedness of the local components above `ℓ` of regular algebraic conjugate self-dual cuspidal
 representations over CM fields (AutomorphicGaloisRepresentationsPartII AG2.5, *Temperedness of regular unitary-type cuspidal
 forms*), in the free ratios of 3.20(f) and 4.4; elsewhere the Jacquet–Shalika bound replaces it, and the weak purity of
@@ -4055,7 +4628,7 @@ Additions to ArithmeticKTheory: §6.17: the group `Ш¹(F, ℓ, e)` (classes unr
 
 ### From TauCetiRoadmap.ArithmeticKTheory
 
-§7.4 and §7.5 (`K₄(ℤ) = 0`) for Checks.
+§7.4 and §7.5 (`K₄(ℤ) = 0`) for Checks; §7.5 (the unconditional vanishing of the trivial component, with `K_{2i}(ℤ)/ℓ` as the `ω^{−i}`-component of `Pic(ℤ[ζ_ℓ, 1/ℓ])/ℓ`), compared with the case `(ℓ − 1) | e` of 5.2.
 
 ### From HeckeIdealsAndTaylorWilesRelations, a sub-roadmap of this family
 
@@ -4065,7 +4638,7 @@ Additions to PotentialAutomorphyInfrastructurePartII: §3.13a (the universal ord
 
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 
-§14.1 (the Galois representations of regular algebraic polarized cuspidal representations over CM fields, with the comparison at the places not above `ℓ`) and §16.1 (the Galois representations of automorphic representations of definite unitary groups), in the route of 3.22(d₂).
+§14.1 (the Galois representations of regular algebraic polarized cuspidal representations over CM fields, with the comparison at the places not above `ℓ`) and §16.1 (the Galois representations of automorphic representations of definite unitary groups, in the form stated there: the standard Hermitian form over a CM extension unramified at every finite place, the setting of 3.22(d₂), (d₃)), in the route of 3.22(d₂).
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
@@ -4073,7 +4646,7 @@ R02.1.3 (lattices, rational and torsion coefficients). R02.3.3 (*The Kummer sequ
 
 ### From TauCetiRoadmap.IntegralIwasawaTheory
 
-§§0.1–0.3 (cyclotomic towers); §3.4 (`μ = 0` iff bounded `p`-rank iff `X` finitely generated over `ℤ_p`); §3.5 (`X′ = X/D_∞`); §4.1a (the `ℓ`-adic logarithm, for the Check of 1.3); §5.6 (`ferreroWashington`, used as bounded `ℓ`-rank on every layer); §9.3 (*Level-one Hasse lift*: forms of level one and trivial character over `ℤ_(p)`, of every positive even weight divisible by `(p − 1)p^{N₀}`, congruent to `1` at every cusp), in the route of 3.22(f); §10.5 (`twistedRamified_coinvariants`: for `E ⊇ μ_{2p}` and `n ≠ 0` the dual of `𝔛_S(E_∞)(−n)_Γ` is `H¹(𝒪_{E,S}, ℚ_p/ℤ_p(n))`).
+§§0.1–0.3 (cyclotomic towers); §3.4 (`μ = 0` iff bounded `p`-rank iff `X` finitely generated over `ℤ_p`); §3.5 (`X′ = X/D_∞`); §4.1a (the `ℓ`-adic logarithm, for the Check of 1.3); §5.6 (`ferreroWashington`, used as bounded `ℓ`-rank on every layer); §9.3 (*Level-one Hasse lift*: forms of level one and trivial character over `ℤ_(p)`, of every positive even weight divisible by `(p − 1)p^{N₀}`, congruent to `1` at every cusp), in the route of 3.22(f); §10.5 (`twistedRamified_coinvariants`: for `E ⊇ μ_{2p}` and `n ≠ 0` the dual of `𝔛_S(E_∞)(−n)_Γ` is `H¹(𝒪_{E,S}, ℚ_p/ℤ_p(n))`), in the route of 1.1; §10.5a (`twistedSplit_coinvariants`: for odd `p`, `E ⊇ μ_p`, every integer `i ≠ 1` and every layer `m`, `Ш¹(E_m, ℚ_p/ℤ_p(1−i))^∨ ≅ X′_{S_p}(E_∞)(i−1)_{Γ_m}`, `X′_{S_p}(E_∞)` the split Iwasawa module), the general theorem of which 1.1 is, for odd `ℓ`, a corollary.
 
 ### From ReducibilityIdealsAndUltrafilterPatching, a sub-roadmap of this family
 
@@ -4089,7 +4662,7 @@ Additions to DeformationAndDerivedPatchingAlgebra: §4.8: graded local algebras 
 
 ### From TauCetiRoadmap.GlobalGaloisDeformations
 
-§3.7 (presentation of the framed global ring over the local rings by the relative tangent space, with kernel bounded by the obstruction space; the Schur hypothesis only in the identification with a dual Selmer group) and §8.4 (the polarized case), in 3.6; §§8.3–8.4 (tangent and obstruction spaces and presentations of polarized problems), in 3.11 and 3.19; §4.5 (diagonalizable groups on complete local algebras) in 3.6 and 4.4 (local chart); §4.6 (quotients by free actions of formally smooth groups) in 3.18.
+§3.7 (presentation of the framed global ring over the local rings by the relative tangent space, with kernel bounded by the obstruction space; the Schur hypothesis only in the identification with a dual Selmer group) and §8.4 (the polarized case), in 3.6; §§8.3–8.4 (tangent and obstruction spaces and presentations of polarized problems), in 3.11 and 3.19; §4.5 (diagonalizable groups on complete local algebras) in 3.6 and 4.4 (local chart); §4.6 (quotients by free actions of formally smooth groups) in 3.18; §3.6a (the tangent space at an `𝒪`-valued point with torsion coefficients, `Hom_𝒪(℘/℘², 𝒪/λ^m) ≅ H¹_ℳ(G, ad⁰ρ ⊗ 𝒪/λ^m)`, for residual representations with scalar endomorphisms), the ungraded form of 3.4, named in its origin.
 
 ### From TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
 
@@ -4209,7 +4782,7 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 ### From TauCetiRoadmap.ExplicitNumberFields
 
 §5.3, first form (`h_K ≤ b(log b + γ + 1/b)^{n−1}`, `γ` Euler's constant, for every admissible `b`), with §0.3 (admissible `b`), at `b = √|d|`, in
-5.1 and in step (4) of 6.5.
+5.1, of which it is the general theorem, and in step (4) of 6.5.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
@@ -4227,7 +4800,18 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 - C. Soulé, *A bound for the torsion in the K-theory of algebraic integers*, Documenta Math., Extra Volume Kato (2003): the
   published K-theoretic bound, compared with BernoulliBoundsForClassGroupEigenspaces Layer 9; the bound consumed in 1.6, 2.2 and 6.1 is
   BernoulliBoundsForClassGroupEigenspaces §9.7, proved homologically for every prime.
-- P. Schneider, *Über gewisse Galoiscohomologiegruppen*, Math. Z. 168 (1979): 1.1.
+- P. Schneider, *Über gewisse Galoiscohomologiegruppen*, Math. Z. 168 (1979), §6, Lemma 1: the origin of 1.1, published for
+  odd `ℓ` (IntegralIwasawaTheory §10.5a).
+- M. Kolster and A. Movahhedi, *Galois co-descent for étale wild kernels and capitulation*, Ann. Inst. Fourier 50 (2000), §3:
+  the twisted coinvariants of the split Iwasawa module as étale wild kernels, the origin of 1.1, published for odd `ℓ`
+  (IntegralIwasawaTheory §10.5a).
+- J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*, 2nd ed., Springer (2008), (5.3.11)–(5.3.16): the exact
+  growth along the cyclotomic tower for finitely generated torsion Iwasawa modules, the origin of 1.2.
+- L. C. Washington, *Introduction to Cyclotomic Fields*, 2nd ed., Springer (1997), chapters 7 and 13: the growth of twisted
+  coinvariants read from the roots of the characteristic power series, a nearest published result for 1.3.
+- M. Kolster, *Special values of L-functions at negative integers*, Maine–Québec Number Theory Conference lecture notes
+  (2009), Lemma 1.2 and Proposition 3.2: the order of twisted coinvariants as a value of the characteristic polynomial, the
+  origin of 1.5.
 - B. Ferrero and L. Washington, *The Iwasawa invariant μ_p vanishes for abelian number fields*, Ann. of Math. 109 (1979): 2.3,
   2.4, 3.14, 4.2, 4.4, 4.5.
 - K. Iwasawa, *Riemann–Hurwitz formula and p-adic Galois representations for number fields*, Tôhoku Math. J. 33 (1981), and
@@ -4239,32 +4823,54 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
   (2002), and T. Fukuda and K. Komatsu, *Weber's class number problem in the cyclotomic ℤ₂-extension of ℚ*, Experiment.
   Math. 18 (2009): context for 3.5; L. Washington, *The non-p-part of the class number in a cyclotomic ℤ_p-extension*,
   Invent. Math. 49 (1978), the qualitative statement.
+- L. C. Washington, *Class numbers and ℤ_p-extensions*, Math. Ann. 214 (1975), 177–193, chapter IV: an explicit threshold on
+  the `2`-power conductor beyond which the Bernoulli numbers are prime to `ℓ`, by a coset-sum vanishing lemma and a trace to the
+  decomposition field, the origin of 3.5, whose threshold, linear in the odd conductor, and clause (b) are this roadmap's.
 - J. Bellaïche and G. Chenevier, *Families of Galois representations and Selmer groups*, Astérisque 324 (2009): generalized
-  matrix algebras and reducibility ideals in 3.15 (and ReducibilityIdealsAndUltrafilterPatching §6.11); context for 3.4, 4.1.
+  matrix algebras and reducibility ideals in 3.15 (and ReducibilityIdealsAndUltrafilterPatching §6.11); context for 3.4, 4.1;
+  §1.5, reducibility ideals indexed by partitions of the residual constituents, a nearest published result for the reducible
+  loci of 3.19(b′).
 - B. Mazur, *Deforming Galois representations*, in Galois groups over ℚ, MSRI Publ. 16 (1989): the presentation argument of
-  3.6.
+  3.6; the tangent space of a deformation ring as a Selmer group, the origin of 3.4.
+- A. Wiles, *Modular elliptic curves and Fermat's last theorem*, Ann. of Math. 141 (1995), as written out in H. Darmon,
+  F. Diamond and R. Taylor, *Fermat's Last Theorem* (1995), Lemmas 2.39 and 2.40: the tangent space of a deformation ring at
+  an `O`-valued point with torsion coefficients, in the origin of 3.4.
 - A. Grothendieck, SGA 2, Exposé XIII: the connectedness theorem behind ReducibilityIdealsAndUltrafilterPatching §6.10 (cited there)
   and 3.19(b).
 - K. Ribet, *A modular construction of unramified p-extensions of ℚ(μ_p)*, Invent. Math. 34 (1976): the construction that
   3.3–3.4 reverse; the lattice with nonsplit reduction (Ribet's lemma) in the outline of 3.20(d).
 - P. Deligne and J.-P. Serre, *Formes modulaires de poids 1*, Ann. Sci. ÉNS 7 (1974), Lemme 6.11: the lifting of residual
   eigenvalues, in 3.22(b).
+- S. Böcherer and S. Nagaoka, *On mod p properties of Siegel modular forms*, Math. Ann. 338 (2007), 421–433, and M. Hentschel
+  and G. Nebe, *Hermitian modular forms congruent to 1 modulo p*, Arch. Math. 92 (2009), 251–256: modular forms congruent to
+  `1` from theta series of a lattice with a fixed-point-free isometry of order `p`, the device that [FormalProof] carries to
+  the Hilbert modular forms of 3.22(f).
+- N. Billerey and R. Menares, *Strong modularity of reducible Galois representations*, Trans. Amer. Math. Soc. 370 (2018),
+  arXiv:1604.01173: congruences of local origin between cusp forms and Eisenstein series, a nearest published result for
+  3.22.
 - J. Arthur and L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Annals of Math.
   Studies 120 (1989): the descent in 4.2, and the base change and automorphic induction of the seeds in the outline of 3.20(d).
 - R. Taylor and A. Wiles, *Ring-theoretic properties of certain Hecke algebras*, Ann. of Math. 141 (1995): the Taylor–Wiles
   levels of 3.15.
 - L. Clozel, M. Harris and R. Taylor, *Automorphy for some l-adic lifts of automorphic mod l Galois representations*, Publ.
   Math. IHÉS 108 (2008): the patching method for unitary groups, in the form that the works of Thorne and of
-  Allen–Newton–Thorne cited here extend to residually reducible representations.
+  Allen–Newton–Thorne cited here extend to residually reducible representations; the presentation of the framed global ring
+  over the local lifting rings, in the origin of 3.6.
 - C. Skinner and A. Wiles, *Residually reducible representations and modular forms*, Publ. Math. IHÉS 89 (1999); J. Thorne,
   *Automorphy lifting for residually reducible l-adic Galois representations*, J. Amer. Math. Soc. 28 (2015); P. Allen,
   J. Newton and J. Thorne, *Automorphy lifting for residually reducible l-adic Galois representations, II*, Compositio Math.
   156 (2020): the propagation and patching methods extended by 3.11–3.23, 4.2 and 4.4 here and by ReducibilityIdealsAndUltrafilterPatching §§6.12–6.13 (no Steinberg place, constituents
   exchanged by the polarization, the cyclotomic `ℤ_ℓ`-tower in place of a `ℤ_q`-tower).
+- A. Dotto and J. Thorne, *On the modularity of residually reducible Galois representations of rank 2*, arXiv:2610.41764
+  (2026): the patching of Galois groups and pseudorepresentations in rank two, a nearest published result for 3.15.
+- C. Wang-Erickson, *Algebraic families of Galois representations and potentially semi-stable pseudodeformation rings*,
+  Math. Ann. 371 (2018), arXiv:1501.05629: the representations with a given residual pseudorepresentation form a family of
+  finite type, a nearest published result for 3.19(a).
 - G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group, and pseudorepresentations over arbitrary
   rings*, in Automorphic Forms and Galois Representations, LMS Lecture Note Ser. 414 (2014): determinants, in 3.15 and 3.16.
 - D. Geraghty, *Modularity lifting theorems for ordinary Galois representations*, Math. Ann. 373 (2019): ordinarity from
-  Weil–Deligne data, compared with 3.17(a).
+  Weil–Deligne data, compared with 3.17(a); the ordinary condition by product relations, a nearest published result for
+  3.17(b).
 - L. Berger, *Représentations p-adiques et équations différentielles*, Invent. Math. 148 (2002): de Rham representations are
   potentially semistable, in 3.17(a).
 - S. Bloch and K. Kato, *L-functions and Tamagawa numbers of motives*, in The Grothendieck Festschrift I (1990): the local
@@ -4287,4 +4893,13 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 - J. Newton and J. Thorne, *Adjoint Selmer groups of automorphic Galois representations of unitary type*, J. Eur. Math.
   Soc. 25 (2023): 4.3, 4.5, 4.7.
 - K. Kato, *p-adic Hodge theory and values of zeta functions of modular forms*, Astérisque 295 (2004), Theorem 14.2: 4.3.
+- O. Bordellès, *Explicit upper bounds for the average order of d_n(m) and application to class number*, J. Inequal. Pure
+  Appl. Math. 3 (2002), Art. 38: the regulator-free class-number bound of ExplicitNumberFields §5.3, of which 5.1 is a corollary.
+- M. Kurihara, *Some remarks on conjectures about cyclotomic fields and K-groups of ℤ*, Compositio Math. 81 (1992), as stated
+  in C. Weibel, *Algebraic K-theory of rings of integers in local and global fields*, Handbook of K-theory (2005),
+  pp. 139–190, Example 101 and Theorem 105: the vanishing of `K_{4k}(ℤ){ℓ}` read from an even eigenspace of the class group of `ℚ(μ_ℓ)`, a nearest
+  published result for 5.2.
+- J. Coates and W. Sinnott, *An analogue of Stickelberger's theorem for the higher K-groups*, Invent. Math. 24 (1974): the
+  annihilation of `K₂` of abelian fields, up to powers of `2`, by higher Stickelberger elements, the origin of 6.5, whose
+  length bound is this roadmap's.
 - R. Greenberg, *On the Iwasawa invariants of totally real number fields*, Amer. J. Math. 98 (1976): context for the Summary.

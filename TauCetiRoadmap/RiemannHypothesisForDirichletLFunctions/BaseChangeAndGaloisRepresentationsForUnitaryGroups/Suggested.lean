@@ -21,16 +21,19 @@ Mathlib has `Representation` for abstract groups, `Field.absoluteGaloisGroup` an
 `gaussSum` of finite rings, none of which carries the representation theory of `GL_n(F)`.
 
 * The trace-defined correspondence is the local Langlands correspondence (10.29a): for every
-  `n ≥ 1` the trace-defined map from irreducible smooth representations of `GL_n(F)` to
-  Frobenius-semisimple `n`-dimensional Weil–Deligne representations is a bijection with the five
-  properties of a local Langlands correspondence (rank one through `Art_geo⁻¹`, supercuspidals to
-  irreducible Weil representations with `N = 0`, determinants, the segment rule, `ε`-factors of
-  supercuspidal pairs of different ranks), and the only such family; it also matches duals, twists
-  and all `L`- and `ε`-factors of pairs. This restates, with the same hypotheses, what
-  EndoscopicTransferAndUnitaryTraceComparison proves of its trace-defined correspondence. It lacks
-  the smooth representations of `GL_n(F)`, their supercuspidal support and Langlands
-  classification, Weil–Deligne representations, the trace-defined correspondence itself, and the
-  Rankin–Selberg and Langlands–Deligne factors of pairs.
+  `n ≥ 1` a map `r_n`, defined by cases, from irreducible smooth representations of `GL_n(F)` to
+  Frobenius-semisimple `n`-dimensional Weil–Deligne representations, with laws used in this
+  family, among them rank one through `Art_geo⁻¹`, supercuspidals to irreducible Weil
+  representations with `N = 0` and the segment rule. In the remark of 10.29a, the trace-defined
+  map is a bijection with the five properties of a local Langlands correspondence (rank one
+  through `Art_geo⁻¹`, supercuspidals to irreducible Weil representations with `N = 0`,
+  determinants, the segment rule, `ε`-factors of supercuspidal pairs of different ranks), and the
+  only such family; it also matches duals, twists and all `L`- and `ε`-factors of pairs. This
+  restates, with the same hypotheses, what EndoscopicTransferAndUnitaryTraceComparison proves of
+  its trace-defined correspondence. It lacks the smooth representations of `GL_n(F)`, their
+  supercuspidal support and Langlands classification, Weil–Deligne representations, the
+  trace-defined correspondence itself, and the Rankin–Selberg and Langlands–Deligne factors of
+  pairs.
 * Explicit parameters of depth-zero supercuspidal representations (10.34): for a regular
   character `θ̃` of level zero of `F_n^×` with reduction `θ`, the parameter of `π_θ̃` is the
   induction of `(Δ_n θ̃)∘Art_{geo,F_n}⁻¹` from `W_{F_n}` to `W_F`, its restriction to inertia is
@@ -51,15 +54,18 @@ Mathlib has `Representation` for abstract groups, `Field.absoluteGaloisGroup` an
   local Langlands correspondence, Weil–Deligne representations of `ℓ`-adic representations of
   local Galois groups, and `D_pst`.
 * Galois representations of definite unitary groups (16.1): for an automorphic representation
-  `Π` of `U(V)(𝔸_{E⁺})`, `V` definite at every infinite place and `[E⁺:ℚ] ≥ 2`, the sum of the
+  `Π` of `U(V)(𝔸_{E⁺})`, `V` the standard Hermitian space, definite at every infinite place, over
+  a CM extension `E/E⁺` unramified at every finite place, and `[E⁺:ℚ] ≥ 2`, the sum of the
   Galois representations of the twisted blocks of the Speh decomposition of its weak base change
-  is continuous, semisimple, unramified with the Satake polynomial at its unramified places away
-  from `ℓ`, and de Rham above `ℓ` with `τ`-labelled weights `{j − 1 − λ_{τ,j} : 1 ≤ j ≤ n}`, where
-  `λ_τ` is the highest weight of the archimedean component of `Π` read through the embedding
-  `τ : E → ℂ`. It lacks, besides the carriers of the previous item, the unitary group `U(V)` of a
-  Hermitian space over a CM field as a group over `E⁺` with its adelic points (Mathlib's
-  `Matrix.unitaryGroup` is the group of unitary matrices over a star ring), its automorphic
-  representations, weak base change to `GL_n(𝔸_E)` and Speh representations.
+  is continuous, semisimple, unramified with the Satake polynomial at the split places away from
+  `ℓ` where `Π` is unramified, and, when `Π` is unramified above `ℓ`, crystalline there with
+  `τ`-labelled weights `{j − 1 − λ_{τ,j} : 1 ≤ j ≤ n}`, where `λ_τ` is the highest weight of the
+  archimedean component of `Π` read through the embedding `τ : E → ℂ` (the remark of 16.1: every
+  definite `V`, every unramified place away from `ℓ`, de Rham above `ℓ`). It lacks, besides the
+  carriers of the previous item, the unitary group `U(V)` of a Hermitian space over a CM field as
+  a group over `E⁺` with its adelic points (Mathlib's `Matrix.unitaryGroup` is the group of
+  unitary matrices over a star ring), its automorphic representations, weak base change to
+  `GL_n(𝔸_E)` and Speh representations.
 
 The splitting characters of 6.3a are Hecke characters of a quadratic extension `E/F` with
 prescribed restriction to the idele classes of `F` and prescribed archimedean components; Tau

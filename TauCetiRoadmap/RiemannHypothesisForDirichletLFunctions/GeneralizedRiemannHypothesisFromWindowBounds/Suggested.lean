@@ -1,43 +1,31 @@
 import Mathlib
-import TauCeti.NumberTheory.LFunctions.Hecke.Basic
-import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Reciprocity
 
 /-!
 # The generalized Riemann hypothesis from window bounds: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti: the Riemann
-hypothesis, and the Riemann hypothesis for Dirichlet L-functions in its standard forms (Layer 5),
-the window-bound form of the Riemann hypothesis (3.5), the equivalence of window bounds for the
-cyclic family of a primitive Dirichlet character with the Riemann hypothesis for its members (4.2),
-the extended Riemann hypothesis for the Dedekind zeta functions of fields abelian over `ℚ` and the
-Riemann hypothesis for the Hecke characters of such fields that come from abelian extensions of
-`ℚ` (5.5, 5.6), and the prime number theorem in progressions with the square-root error term
-(6.5).
+states the roadmap's headline theorems against the pinned Mathlib: the Riemann hypothesis, and the
+Riemann hypothesis for Dirichlet L-functions in its standard forms (Layer 5), the window-bound form
+of the Riemann hypothesis (3.5), and the equivalence of window bounds for the cyclic family of a
+primitive Dirichlet character with the Riemann hypothesis for its members (4.2). The statements
+that these theorems give for further L-functions and for the conditional theorems of other
+roadmaps are those of ConsequencesOfTheRiemannHypothesisForDirichletLFunctions.
 
 Of the statements below, `riemannHypothesis`, `LFunction_ne_zero_of_one_half_lt_re` and
 `re_eq_half_of_LFunction_eq_zero` are, binder for binder, theorems of the formal proof
-[FormalProof]. `meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re`,
-`riemannZeta_ne_zero_of_one_half_lt_re` and
-`re_eq_half_of_meromorphicOrderAt_completedLFunction_pos` follow from them by
+[FormalProof]. `meromorphicOrderAt_LFunction_nonpos_of_one_half_lt_re` and
+`riemannZeta_ne_zero_of_one_half_lt_re` follow from them by
 Mathlib alone, and so does the implication from the window bounds to `RiemannHypothesis` in
 `riemannHypothesis_iff_forall_exists_windows`, given the windowed theorem of that proof; in
 `forall_exists_windows_cyclicFamily_iff` the implication from the window bounds is the step of that
-proof. The converse implications there, the two statements on Dedekind zeta functions and Hecke
-L-functions, and `psiAP_isBigO` are consequences by the published theorems that the README cites;
-the formal proof does not state them.
+proof. The converse implications there are consequences by the published theorems that the README
+cites; the formal proof does not state them.
 
 The predicates through which the README states these theorems are declarations of other
-roadmaps, and every statement below unfolds them into Mathlib and Tau Ceti terms:
+roadmaps, and every statement below unfolds them into Mathlib terms:
 `ZeroFreeRightOf σ f` (RiemannHypothesisStatementsAndConsequences §9.2) is
 `∀ s, σ < s.re → meromorphicOrderAt f s ≤ 0`; the hypothesis `χ.GeneralizedRiemannHypothesis` of a
-Dirichlet character (§9.4) is `ZeroFreeRightOf (1/2) χ.LFunction`; the extended Riemann
-hypothesis of a number field and the hypothesis of a ray-class character (§9.5) are
-`ZeroFreeRightOf (1/2)` of the continued Dedekind zeta function and of the continued Hecke
-L-function, which Tau Ceti has as `TauCeti.LFunctions.heckeLFunctionC` (the Dedekind zeta
-function being the L-function of the trivial primitive character); the hypothesis of the record
-of a primitive Dirichlet character (§9.3, with the record of LFunctions Layer 4) is the statement
-on the points of positive order of Mathlib's `DirichletCharacter.completedLFunction`; the
+Dirichlet character (§9.4) is `ZeroFreeRightOf (1/2) χ.LFunction`; the
 predicate `HasWindows S λ` (PositivityOfDirichletSeriesWithKernels §6.9 (a)) is
 `∀ Y₀, ∃ Y, max Y₀ 1 ≤ Y ∧ Set.Icc Y (Y ^ λ) ⊆ S`. The statement of 4.2 needs three pieces of
 data of other roadmaps, which this file writes out with the definitions those roadmaps give: the
@@ -71,17 +59,10 @@ place.
   `σ ∈ [1/2, 1)`, every member is zero-free right of `σ` exactly when the window bound holds at
   every exponent `σ + ε`. It lacks the same remainder. Its case over `ℚ` for the trivial
   character, whose remainder is explicit, is 3.5 and is stated below.
-* The least prime in a progression (6.23): for `q > 3` and a unit `a` modulo `q` there is a prime
-  `p ≡ a (mod q)` with `p ≤ (φ(q) log q)²`, given the finite records under which the README states
-  it. It lacks these records (of ExplicitPrimeCounting and ExplicitZetaBounds) as propositions:
-  finite computations and zero counts, which the Riemann hypothesis does not give.
 
-The other targets of Layer 6 are statements of other roadmaps with the hypotheses that Layer 5
-proves removed; they are not headlines of this roadmap and are not stated here. Three special cases
-are not stated separately: the zeros of `riemannZeta` in the critical strip (5.3), the case `N = 1`
-of `re_eq_half_of_LFunction_eq_zero` (Mathlib's `DirichletCharacter.LFunction_modOne_eq`); the
-completed Riemann zeta function, the case `N = 1` of the statement on completed L-functions
-(Mathlib's `DirichletCharacter.completedLFunction_modOne_eq`); and the cyclotomic fields of 5.5.
+One special case is not stated separately: the zeros of `riemannZeta` in the critical strip (5.3),
+the case `N = 1` of `re_eq_half_of_LFunction_eq_zero` (Mathlib's
+`DirichletCharacter.LFunction_modOne_eq`).
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.GeneralizedRiemannHypothesisFromWindowBounds
@@ -215,61 +196,6 @@ theorem re_eq_half_of_LFunction_eq_zero {N : ℕ} [NeZero N] (χ : DirichletChar
 (`allChi`). -/
 theorem riemannZeta_ne_zero_of_one_half_lt_re {s : ℂ} (hs : 1 / 2 < s.re) :
     riemannZeta s ≠ 0 := by
-  sorry
-
-/-- **Completed L-functions of primitive characters** (5.4). For a primitive Dirichlet character
-`χ`, every point of positive order of its completed L-function has real part `1/2`; there is no
-condition on `Re s`. This is the hypothesis of the record of `χ`
-(RiemannHypothesisStatementsAndConsequences §9.3, for the record of LFunctions Layer 4, whose
-completed function is Mathlib's `DirichletCharacter.completedLFunction`), unfolded. For `N = 1`
-the completed function is `completedRiemannZeta`, whose poles at `0` and `1` have negative
-order. -/
-theorem re_eq_half_of_meromorphicOrderAt_completedLFunction_pos {N : ℕ} [NeZero N]
-    {χ : DirichletCharacter ℂ N} (hχ : χ.IsPrimitive) {s : ℂ}
-    (hs : 0 < meromorphicOrderAt (DirichletCharacter.completedLFunction χ) s) :
-    s.re = 1 / 2 := by
-  sorry
-
-/-- **The extended Riemann hypothesis for fields abelian over `ℚ`** (5.5). For every number field
-`K` abelian over `ℚ`, the Dedekind zeta function of `K`, the continued L-function of the trivial
-primitive ray-class character of `K`, has order at most `0` at every `s` with `1/2 < Re s`. This is
-the predicate `NumberField.ExtendedRiemannHypothesis K` of
-RiemannHypothesisStatementsAndConsequences §9.5, unfolded. -/
-theorem meromorphicOrderAt_dedekindZeta_nonpos_of_isAbelianGalois (K : Type*) [Field K]
-    [NumberField K] [IsAbelianGalois ℚ K] {s : ℂ} (hs : 1 / 2 < s.re) :
-    meromorphicOrderAt
-      (TauCeti.LFunctions.heckeLFunctionC
-        (1 : TauCeti.LFunctions.PrimitiveRayClassCharacter K).character) s ≤ 0 := by
-  sorry
-
-/-- **Hecke characters of abelian extensions of `ℚ`** (5.6). Let `K ⊆ L` be number fields with `L`
-abelian over `ℚ` (so that `L/K` is abelian), let `φ` be a character of `Gal(L/K)`, and let `φ̃` be
-the primitive character of `φ` composed with the ray-class Artin map of `L/K` at its conductor.
-The continued Hecke L-function of `φ̃` has order at most `0` at every `s` with `1/2 < Re s`: the
-predicate `GeneralizedRiemannHypothesis` of RiemannHypothesisStatementsAndConsequences §9.5 for
-`φ̃`, unfolded. The primitive character does not depend on the admissible modulus at which the
-Artin map is taken (§8.8). The fields are in `Type`, the universe of Tau Ceti's ray-class Artin
-map. -/
-theorem meromorphicOrderAt_heckeLFunctionC_nonpos_of_isAbelianGalois {K L : Type} [Field K]
-    [NumberField K] [Field L] [NumberField L] [Algebra K L] [IsAbelianGalois K L]
-    [IsAbelianGalois ℚ L] (φ : Gal(L/K) →* ℂˣ) {s : ℂ} (hs : 1 / 2 < s.re) :
-    meromorphicOrderAt
-      (TauCeti.LFunctions.heckeLFunctionC
-        (TauCeti.LFunctions.PrimitiveRayClassCharacter.of
-          (φ.comp (TauCeti.ClassFieldTheory.rayClassArtinMap
-            (TauCeti.ClassFieldTheory.abelianConductor K L)
-            (TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor K L)))).character)
-      s ≤ 0 := by
-  sorry
-
-/-! ## Layer 6: consequences for the conditional theorems of other roadmaps -/
-
-/-- **Primes in progressions with the square-root error term** (6.5). For every `q ≥ 1` and every
-unit `a` modulo `q`, `ψ(x; a, q) - x/φ(q) = O(√x log² x)` as `x → ∞`, where
-`ψ(x; a, q) = Σ_{n ≤ x, n ≡ a mod q} Λ(n)` (AnalyticNumberTheoryPartI §0.2). -/
-theorem psiAP_isBigO (q : ℕ) [NeZero q] {a : ZMod q} (ha : IsUnit a) :
-    (fun x : ℝ ↦ (∑ n ∈ Finset.Iic ⌊x⌋₊, ArithmeticFunction.vonMangoldt.residueClass a n) -
-        x / q.totient) =O[Filter.atTop] fun x ↦ √x * Real.log x ^ 2 := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.GeneralizedRiemannHypothesisFromWindowBounds

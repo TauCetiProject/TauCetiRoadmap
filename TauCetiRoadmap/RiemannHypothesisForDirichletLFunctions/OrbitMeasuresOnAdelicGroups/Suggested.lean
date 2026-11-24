@@ -1,19 +1,12 @@
 import Mathlib
-import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
-import TauCeti.Algebra.AlgebraicGroup.Connected.GroupScheme
-import TauCeti.Algebra.AlgebraicGroup.Derived.Semisimple
-import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Vanishing
-import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
-import TauCeti.Algebra.AlgebraicGroup.Representation.SemisimplePoint.Basic
-import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 /-!
 # Orbit measures on adelic groups: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Of the four
-headlines, the first three are not statable at the pins, and the fourth is stated below in two of
-its clauses.
+headlines, the first three are not statable at the pins, and the fourth (4.1) is not stated here,
+so the file has no declaration.
 
 The first three headlines are statements about Tamagawa measures: Haar measures on the adelic
 points `G(𝔸_F)` of a linear algebraic group `G` over a number field `F`, built as restricted
@@ -49,66 +42,10 @@ fixed only up to a scalar does not suffice: the normalisation is the content of 
   `G_2`, `i` being the index of the image of `X^*_F(G_2) → X^*_F(T_1)`. It lacks, besides the
   Tamagawa measure, the norm-one subgroup `G(𝔸)^1` with its measure and the Tamagawa number
   `τ(G)`.
-* Centralisers of semisimple elements (4.1): for a connected reductive group `G` over an
-  algebraically closed field and a semisimple `s ∈ G`, the identity component of `C_G(s)` is
-  reductive, and `C_G(s)` is connected when the derived group of `G` is simply connected. These two
-  clauses are stated below, with `G` given by its coordinate Hopf algebra `H` over the
-  algebraically closed field `k` and `C_G(s)` the closed subgroup cut out by the vanishing ideal of
-  the subgroup of `G(k)` of the elements commuting with `s`. Over `k` this reduced subgroup has the
-  same points and the same underlying space as the scheme-theoretic centraliser, so the
-  connectedness of (c) and the identity component in (a) are the same for both; that the two
-  coincide is the smoothness clause of (a), which is not stated. The scheme-theoretic centraliser
-  of a point is not at the pins: Tau Ceti has the centraliser of a closed diagonalizable subgroup,
-  and using it here would need, as data, the diagonalizable closure of the powers of `s`, whose
-  existence is a theorem.
-
-The root system and the Weyl group of `C_G(s)°` in (a), and the clauses (b), (d) and (e) of 4.1,
-are the structure that the proof of the headline provides, not headline statements, and they are
-not stated. The case `G = GL_n` of 4.1 (the centraliser of a diagonal matrix is a product of
-general linear groups) is statable in Mathlib's `Matrix.GeneralLinearGroup`; it is a special case
-and a Check of 4.1 and is not stated.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups
 
-open TauCeti
-
 universe u
-
-/-! ## Layer 4: Centralisers of semisimple elements in reductive groups -/
-
-/-- **Centralisers of semisimple elements are reductive** (4.1 (a)). Let `G` be a connected
-reductive group over an algebraically closed field `k`, with coordinate Hopf algebra `H`, and let
-`s ∈ G(k)` be semisimple. Then the identity component `C_G(s)°` of the centraliser of `s` is a
-connected reductive group. Here `C_G(s)` is the closed subgroup of `G` cut out by the functions
-vanishing at every element of `G(k)` that commutes with `s`. -/
-theorem reductive_identityComponent_centralizer {k : Type u} [Field k] [IsAlgClosed k]
-    (H : FiniteTypeCommHopfAlgCat.{u, u} k) (hH : reductiveCommHopfAlgProperty k H)
-    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
-    reductiveCommHopfAlgProperty k
-      (FiniteTypeCommHopfAlgCat.identityComponent
-        (FiniteTypeCommHopfAlgCat.quotient H
-          (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s})))) := by
-  sorry
-
-/-- **Steinberg's connectedness theorem** (4.1 (c)). Let `G` be a connected reductive group over
-an algebraically closed field `k`, with coordinate Hopf algebra `H`, whose derived group is simply
-connected, and let `s ∈ G(k)` be semisimple. Then the centraliser `C_G(s)` is connected. Here the
-derived group is the scheme-theoretic derived subgroup, which is semisimple, and `C_G(s)` is the
-closed subgroup of `G` cut out by the functions vanishing at every element of `G(k)` that commutes
-with `s`. Writing `s = zs′` with `z` in the connected centre `Z°` and `s′` in the derived group,
-`C_G(s) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected by Steinberg's theorem for simply
-connected semisimple groups (Steinberg, *Endomorphisms of linear algebraic groups*, Theorem 8.1). -/
-theorem geometricallyConnected_centralizer_of_simplyConnected {k : Type u} [Field k]
-    [IsAlgClosed k] (H : FiniteTypeCommHopfAlgCat.{u, u} k)
-    (hH : reductiveCommHopfAlgProperty k H)
-    (hder : simplyConnectedSemisimpleCommHopfAlgProperty k
-      ⟨FiniteTypeCommHopfAlgCat.quotient H (CommHopfAlgCat.derivedDefiningIdeal H.obj),
-        hH.semisimple_derived⟩)
-    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
-    geometricallyConnectedCommHopfAlgProperty k
-      (FiniteTypeCommHopfAlgCat.quotient H
-        (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s}))).obj := by
-  sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups

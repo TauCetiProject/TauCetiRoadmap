@@ -251,6 +251,20 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section of this roadmap carries both labels: each
+target is, in the form recorded with it, a statement of [FormalProof]; a wider or sharper form stated beside it is this
+roadmap's own formulation (Statements of the formal proof, above), and the `*Origin:*` labels of 7.12, 8.1, 8.3, 8.6,
+8.21 and 8.24 name such forms.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers
+when it does not cover the whole section. As long as that general theorem is not in the library, what the line covers
+is proved as [FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the
+statement when that proof has a narrower one; the route given with the section is that proof's unless the label says
+that it differs. Once the general theorem is in the library, the proof of what the line covers is replaced by the
+deduction from it, and the lemmas that only the first proof uses are removed. The statement does not change.
+
 ## Layer 7: Division of the source and the glued target
 
 At each place `𝔭` the period is divisible by the accumulated gain for the tuple `ξ_𝔭` used there; the target lattice
@@ -267,6 +281,19 @@ the set of places of `E` at which `ψ_𝔭` is ramified, and `Q(ξ_𝔭) = A(ℓ
 of places above the auxiliary prime of `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.5).
 
 ### 7.12 Integrality after division
+
+*Origin:* particular to this proof: integrality after division for a bilinear pairing, the second module being generated
+near each place by a module that may change with the place; elementary, integrality over a Dedekind domain being
+checked place by place. The form stated here, for a `c`-semilinear pairing (`c ≠ id` included), for spaces of any
+dimension and with the inclusion `R ⊂ 𝒪_(c^{−1}(𝔭))·j_𝔭(M_𝔭)` in place of an equality of localisations, is this
+roadmap's own formulation.
+
+*Method of the formal proof:* [FormalProof] states the case `c = id` in coordinates, with the local map a product of two
+matrices, an equality of localisations in place of the inclusion `R ⊂ 𝒪_(c^{−1}(𝔭))·j_𝔭(M_𝔭)`, and for every module
+`N′` that is at each finite place `𝔭` of the form `a·N` with `v_𝔭(a) = −τ_𝔭`; it proves it by a valuation count at each
+`𝔭`: an element of `R` is locally a combination of images of elements of `M_𝔭`, and the value of `B` differs from `P_𝔭`
+by the `𝔭`-unit `ζ_𝔭`, so `v_𝔭 ≥ ⌈σ_𝔭⌉ − τ_𝔭 ≥ 0`; an element of `𝕃′` with nonnegative valuation at every finite place
+is an integer.
 
 Let `𝕃′` be a number field, `c`
 an automorphism of `𝕃′` (`c = id` allowed), `V` and `W` `𝕃′`-vector spaces and `B : V × W → 𝕃′` biadditive,
@@ -290,12 +317,20 @@ such `aφ`.
 `(2 + i)/(2 − i)`. (iii) The localisation is at `c^{−1}(𝔭)`: in the same field with `N = 𝒪` (`σ = 0` everywhere) the lattice
 `R = c(𝔭)^{−1}` lies in `𝒪_(𝔭)·𝒪` but not in `𝒪_(c(𝔭))·𝒪`, and `B(N, R) = 𝔭^{−1}` is not integral at `𝔭`.
 
-*NEW* (elementary). Stated in `Suggested.lean` as `pairing_integral_of_localDivision`. It follows from [FormalProof],
+Stated in `Suggested.lean` as `pairing_integral_of_localDivision`. Its case `c = id`, in the form of the Method label, follows from [FormalProof],
 `Formalism/QuotientMetricDivisors/DivIntoDualShift.lean` (`Formalism.DivisionValues.DivIntoDualShift`).
 *Needs:* Mathlib
 (`IsDedekindDomain`, valuations at maximal ideals, fractional ideals).
 
 ### 7.13 The divided source and the glued target
+
+*Origin:* particular to this proof: the objects of the division, the source lattice divided by the ideal of its proved
+divisibility and a target lattice glued place by place from the integral forms of the tuple used at each place, with
+the lattice properties (i), (ii).
+
+*Method of the formal proof:* the glued lattice is the intersection over the places of the localisations of the
+prescribed lattices; denominators at the finitely many exceptional places give finite generation, and an element that
+is a unit at one place and divisible at the others gives the localisations.
 
 *Definitions.* Assume the hypotheses of RowTowerAndRallisIdentities §5.8, on which the rational structure
 `𝔼_{1,𝕃}` rests (those of RowTowerAndRallisIdentities §5.8b for the grid of the chain, the size predicate `Size_□` of
@@ -354,7 +389,7 @@ primes of `K` over each, LocalGainOfThetaChains §4.9f (e)) are not `c_𝕃`-inv
 *Check.* With no twisted place (`ξ_𝔭 = 1` for all `𝔭`) the definition gives `R = Λ_1`, the lattice spanned by the images
 of the integral forms of the base tuple.
 
-*NEW* (objects). The definitions: [FormalProof], `Formalism/LocalRingCardinality/DataDIVDefs.lean`
+The definitions: [FormalProof], `Formalism/LocalRingCardinality/DataDIVDefs.lean`
 (`Formalism.BasicNotions.DV.NprimeDef`), `Formalism/LocalRingCardinality/DataDIVDefs.lean` (`Formalism.BasicNotions.DV.RRDef`),
 `Formalism/LocalRingCardinality/DataArith.lean` (`Formalism.BasicNotions.DivData.cc`); (i): [FormalProof],
 `Formalism/LocalToGlobal/IndefiniteForms/IndefUse.lean` (`Formalism.L2.Indef.IndefRows.RR_spec`),
@@ -364,6 +399,16 @@ of the integral forms of the base tuple.
 SlopesOfHermitianVectorBundles §2.2.
 
 ### 7.14 The period pairing on the divided source
+
+*Origin:* particular to this proof: the period pairing is integral on the divided source against the glued target, by
+the divisibility of the periods place by place.
+
+*Method of the formal proof:* the pairing and the lattices are written in coordinates, in which the pairing is bilinear
+and the target is the lattice of linear functionals integral on the glued target; at each finite place the valuation
+bound of the local gain, known for finitely many generating integral forms, is extended by linearity in the row to
+every integral form of the tuple used there, and integrality after division is applied in the case `c = id` of 7.12
+with the local description of the glued target given by the gluing of lattices. The route written here instead applies
+7.12 with `c = c_𝕃` to the `c_𝕃`-semilinear pairing.
 
 For every word `u`, under the hypotheses of LocalGainOfThetaChains §4.16(ii) (and of LocalGainOfThetaChains §4.16b at the places above
 `T(u)`), of RowTowerAndRallisIdentities §5.5 for every step, of RowTowerAndRallisIdentities §5.8 and RowTowerAndRallisIdentities §5.12 (as in 7.13), and of
@@ -383,7 +428,7 @@ of every step at every place not above the level prime (LocalGainOfThetaChains �
 `τ_𝔭 := ⌊e_𝔭 𝔊_u(𝔭)⌋ = σ_𝔭` is the exponent of `𝔭` in `I_u⁻¹` (7.13). The pairing `B_u` is one and the same for all tuples, while the lattice `R` is taken at each place from
 the tuple for which the gain is proved there: no single tuple would give integrality at every place.
 
-*NEW*. The statement is [FormalProof], `Formalism/LocalRingCardinality/DataArith.lean`
+The statement is [FormalProof], `Formalism/LocalRingCardinality/DataArith.lean`
 (`Formalism.BasicNotions.DivData.OneMapIntoCC`), `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
 (`Formalism.MainNotions.LinkDIV_at`).
 *Needs:* LocalGainOfThetaChains §4.9f, LocalGainOfThetaChains §4.10, LocalGainOfThetaChains §4.10a, LocalGainOfThetaChains §4.16, LocalGainOfThetaChains §4.16b, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, 7.12, 7.13; ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §3.9, ThetaChainsOnDefiniteUnitaryGroups §3.10, RowTowerAndRallisIdentities §5.4, RowTowerAndRallisIdentities §5.5, RowTowerAndRallisIdentities §5.6, RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, RowTowerAndRallisIdentities §5.12.
@@ -473,6 +518,17 @@ column) and conjugate-linear in the row form `Υ`; a bound at a place `𝔭` use
 
 ### 8.1 The height of a map that factors through a chain
 
+*Origin:* particular to this proof: a bound for the height of a pairing that factors through a chain of operators, a
+quotient and a map that is scalar on finitely many parts; its ingredients, the submultiplicativity of operator norms
+and of heights of linear maps, are standard. The form for `c`-semilinear functionals with `c ≠ id` is this roadmap's
+own formulation.
+
+*Method of the formal proof:* [FormalProof] states the bound for linear functionals, in coordinates and at the infinite
+places: at each embedding `|B(φ)(ι(PF))| ≤ ‖Pt‖·∏_j ‖K_j‖·‖φ‖·‖F‖`, the quotient norm is
+attained by a lift of least norm, and `‖ιq‖² ≥ κ·min_π ∏_j λ_j(π)·‖q‖²`, because `ι^*ι` is the scalar
+`κ·∏_j λ_j(π)` on `Q_π` and parts with distinct scalars are orthogonal; this bounds the dual norm of `B(φ)`, and the
+logarithms are averaged over the embeddings.
+
 *Statement.* Let `𝕃` be a number field and let `S_0, …, S_m`, `V`, `𝒯` be
 finite-dimensional `𝕃`-vector spaces carrying a positive definite Hermitian form at every embedding `σ : 𝕃 → ℂ`;
 let `P : V → Q` be a surjection, `Q` carrying the quotient forms; let `K_j : S_{j−1} → S_j` (`1 ≤ j ≤ m`),
@@ -501,7 +557,7 @@ coordinate lines, `ι` multiplying squared norms by `1` on `Q_1` and by `4` on `
 `‖B‖² = 1 = ‖Pt‖²·‖K_1‖²/1`. With `max_π` in place of `min_π` the bound would read
 `‖B‖² ≤ 1/4`, which is false.
 
-*KNOWN* in kind (submultiplicativity of operator norms; the archimedean operator-norm analogue of HeightsAndUnits §0.3), *NEW* as packaged.
+*Sources:* (submultiplicativity of operator norms; the archimedean operator-norm analogue of HeightsAndUnits §0.3).
 It follows from [FormalProof], `Formalism/QuotientMetricDivisors/HeightBoundExactNorms.lean`
 (`Formalism.DivisionValues.HeightBoundConstant`), `Formalism/LocalToGlobal/Divisibility/DivisionHeightBoundStatement.lean`
 (`Formalism.L2.DIV.complex_height_cast_at`).
@@ -509,6 +565,19 @@ It follows from [FormalProof], `Formalism/QuotientMetricDivisors/HeightBoundExac
 §1.3 (operator norms and heights of linear maps, quotient and dual metrics).
 
 ### 8.2 Taylor blocks in the Fock model
+
+*Origin:* adapted from Bargmann (1961): in the Fock space the monomials are orthogonal for the Gaussian weight, with
+their norms, and the Taylor coefficients of a function of the space are its reproducing integrals
+(MetaplecticAutomorphicForms §1.5 (ii)); here (a) for entire functions with `|Th(u)| ≤ S·e^{|u|²/2}`, which need not lie
+in the Fock space, and (b), (c), a Gaussian maximum and a bound for a block of Taylor coefficients selected by a
+dominated polynomial, with the exact exponential factor.
+
+*Method of the formal proof:* for (a), monomials with different exponents are orthogonal on every polydisc for
+`e^{−|u|²}du`, by invariance under rotations of the coordinates, the Taylor series is integrated term by term on
+polydiscs, and dominated convergence, which the growth bound allows, passes to `ℂ^ι`; for (c), which [FormalProof]
+states with the factor `∏_τ e·(2n_τ + 2)^{2|ι_τ|}` for blocks `ι_τ` of one size, the block is the Gaussian integral of
+`Th` against the conjugate polynomial, and homogeneity and the Gaussian integral of (b), applied place by place, bound
+it.
 
 *Statement.* Let `ι` be a finite set partitioned as `ι = ⊔_{τ∈P} ι_τ`, `N = |ι|`, and let
 `Th : ℂ^ι → ℂ` be entire with Taylor coefficients `c_e` (`e ∈ ℕ^ι`) and `|Th(u)| ≤ S·e^{|u|²/2}`.
@@ -540,12 +609,31 @@ growth bound leaves the integral of (b), and squaring gives the claim. Applying 
 `((2n)!/(2^n n!))²·Ω^{−2n} ∼ 2(2n/e)^{2n}Ω^{−2n}`, the right side `e(4n + 2)²(2n/e)^{2n}Ω^{−2n}`: the exponential factor
 `exp(ph(2n))` is attained, so `ph` cannot be replaced by anything smaller.
 
-*KNOWN* (Bargmann's reproducing formula), *NEW* in this form. (a): [FormalProof],
+*Sources:* (Bargmann's reproducing formula). (a): [FormalProof],
 `Formalism/ThetaSupremumBounds/StatementA.lean` (`Formalism.DimensionVariation.FockJet`).
 *Needs:* Mathlib (Gaussian integrals on `ℂ^n`,
 power series of entire functions, dominated convergence).
 
 ### 8.3 Pointwise bounds for theta functions
+
+*Origin:* particular to this proof: an explicit bound, uniform in `g` and in the first minimum of the lattice, for
+`|Th(z)|²·e^{−|z|²}` against the Gaussian `L²` norm over a fundamental domain, in the form for lattices of covolume
+`π^g` with `h ≤ 1`; its ingredient, the sub-mean-value inequality for the squared modulus of a holomorphic function, is
+classical; nearest published result: Gillet and Soulé (1992), Gromov's lemma, by which the sup norm of a section of the
+`n`-th power of a positive line bundle is at most `n^c` times its `L²` norm, `c` depending on the variety and the
+bundle, as quoted for theta functions by Gaudron and Rémond (2014). The form stated here, for every lattice and every
+`h > 0` with the constant `(C(1 + g/h))^g`, and its consequence for finite combinations are this roadmap's own
+formulation.
+
+*Method of the formal proof:* [FormalProof] states the bound in the normalisation `e^{−π|z|²}`, for lattices of
+covolume `1` whose nonzero vectors have squared norm at least `1/v`, `v ≥ 1`, with the constant `3·(2g·v + 1)^g`; after
+the rescaling `u = √π·z` this is the statement for lattices of covolume `π^g` and `h = 1/v ≤ 1`. The sub-mean-value
+inequality for `|G|²`, proved by circle averages in complex lines and the rotation invariance of the measure, is
+applied on the ball about `z` of radius `1/(2√v)`, at most half the least length of a lattice vector, whose translates
+by the lattice are disjoint, so that the integral over the ball is at most the integral over a fundamental domain; the
+Gaussian factor is at most `3` on that ball, and its volume gives the constant. The route written here instead takes
+the ball of radius `√g`, counts the lattice translates that cover a point, and takes the sub-mean-value inequality from
+a statement on functions with nonnegative Laplacian.
 
 *Statement.* Let `Λ ⊂ ℂ^g` be a lattice with `|λ|² ≥ πh` for every `0 ≠ λ ∈ Λ` (`h > 0`), and
 let `Th` be entire on `ℂ^g` such that `|Th(z)|²e^{−|z|²}` is `Λ`-periodic. Then for every `z ∈ ℂ^g`
@@ -561,12 +649,23 @@ the same bound `h`), `|Th(u)| ≤ S·e^{|u|²/2}` with `S = Σ_i |α_i|·(C(1+g/
 of `ℂ^g/Λ` at most `#(Λ ∩ B_{2ρ}) ≤ (1 + 4ρ/√(πh))^{2g}` times (disjoint balls of radius `√(πh)/2` about lattice
 points), and `e^{g}g!/(π g)^g ≤ C^g`.
 
-*KNOWN* (sub-mean-value estimates for theta functions). *Needs:* Mathlib (volumes of balls); Tau Ceti
+*Sources:* (sub-mean-value estimates for theta functions). *Needs:* Mathlib (volumes of balls); Tau Ceti
 `TauCeti.le_setAverage_ball_of_laplacian_nonneg` (the sub-mean-value inequality over balls, applied to `|G|²`, whose Laplacian
 `4Σ_i|∂G/∂z_i|²` is nonnegative); SpecialFunctionsTheta Layer 7 (Riemann theta functions and their quasi-periodicity,
 which satisfy the hypothesis).
 
 ### 8.4 The norm of a step operator
+
+*Origin:* particular to this proof: the bound for the operator norm of a step of the chain at one embedding, with main
+term `Σ_τ(Σ_i ph(ν_{j,τ,i}) − n_{j,τ}·log Ω_{τ,σ})`, uniform in the rank and the weights; it rests on the Taylor blocks
+of 8.2 (c) and on a bound for the norm of a matrix of blocks, which is standard.
+
+*Method of the formal proof:* at each embedding a step is a matrix of blocks indexed by pairs of classes and of index
+sets; each block is a Taylor block of a combination of Fock translates of one base theta function and is bounded by
+8.2 (c), with main term `Σ ph(ν) − (Σ ν)·log Ω_{τ,σ}`, and the norm of the class sum follows from the Cauchy–Schwarz
+inequality at the cost of the numbers of classes and of index sets, the last two steps being bounded together as one
+operator. The route written here instead bounds the class sum by the Schur test, with the same constant, and treats
+every step separately.
 
 *Statement.* Fix a step `1 ≤ j ≤ m` and an embedding `σ : 𝕃 → ℂ`, and give the forms on
 `U(X_{j−1})` and `U(X_j)` the Petersson forms of the Conventions. For `τ ∈ Φ` let `ν_{j,τ} = (ν_{j,τ,i})_i` be the row
@@ -606,11 +705,30 @@ applied with its entrywise domination to the matrix of block norms of the kernel
 `exp(ph(n))` of the bound. The identification that is isometric for the Fischer form (unit vector `u′^n/√(n!)`) would
 give a block of size `1`, and the hook products of 8.8 would then not be paid by the kernels.
 
-*NEW* (the statement and its uniformity), *KNOWN* ingredients. It follows from [FormalProof],
+It follows from [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/Divisors/FactorBounds.lean` (`GlobalTheory.ColRows.KerSide`).
 *Needs:* 8.2, 8.3, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §3.1, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2, ThetaChainsOnDefiniteUnitaryGroups §3.4; MathematicalStatisticsHighDimensional §1.4.
 
 ### 8.5c The mean period of the step kernels
+
+*Origin:* adapted from Chowla and Selberg (1967), the mean over the ideal classes of `K` of
+`log(area(Λ)/π) + (1/6)·log|Δ(Λ)|` (for the conjugates of a lattice of discriminant `1`:
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (c)): here the mean of `log Ω_{τ,σ}` at each place `τ`
+of the CM type induced from `K`, on the tangent side, with the transport term `−(1/[E:ℚ])·log N(𝔡_{E/K})` of the
+relative different.
+
+*Method of the formal proof:* the mean of `log Ω_{τ,σ}` is computed as a normalised arithmetic degree of the
+`τ`-eigenline of the tangent lattice: trace duality identifies the eigenline with the extension of `τ(𝔞₀·𝔡_{E/K})`,
+the product formula removes the chosen element, the mean of `log(area/π)` over the conjugates is the Chowla–Selberg
+value, and `|d_E| = N(𝔡_{E/K})·D^{[E:K]}` gives the transport term.
+
+*Corollary of:* ComplexMultiplicationAndExplicitReciprocityPartII §4.6 (the Chowla–Selberg formula in the height
+normalisation: for an imaginary quadratic field, here `K`, and either CM type, the Faltings height is
+`−(L′/L)(0, χ_K)/2 − log D/4 − log(2π)/2`), for the first step of the route only: the value `log Ω_K` of the mean of
+`log(area(Λ_K^σ)/π)`, taken from ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (c), which that
+section deduces from §4.6 (the period form is equivalent to the height form through the functional equation of
+`L(s, χ_K)` and the area of the period lattice). The value per `τ` on the tangent side and the transport term
+`−(1/[E:ℚ])·log N(𝔡_{E/K})` are not cases of §4.6.
 
 For the host `E ⊃ K`, `K` of discriminant `−D` with `D > 4` (on the hosts of the chain `D = d ≥ 7`), the CM abelian varieties
 of ThetaChainsOnDefiniteUnitaryGroups §3.1a and the coefficient field `𝕃` of ThetaChainsOnDefiniteUnitaryGroups §2.6: for every `τ ∈ Φ`,
@@ -628,11 +746,21 @@ eigen-quotient the sign of the transport term would be `+`.
 
 *Check.* For `E = K` there is no transport: `𝔡_{E/K} = 𝒪_K`, `ℓ_τ = 𝔞₀ = 𝒪_K` and the statement is `log Ω = log Ω_K`.
 
-*NEW* (the transport). The statement is [FormalProof], `Formalism/LocalToGlobal/Divisibility/Inputs.lean`
+The statement is [FormalProof], `Formalism/LocalToGlobal/Divisibility/Inputs.lean`
 (`Formalism.L2.DIV.HtNums`), `Formalism/LocalRingCardinality/DataParams₂.lean` (`Formalism.BasicNotions.SizeData₂.logOm`).
 *Needs:* 8.4, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5; ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1a.
 
 ### 8.6 The height of a step operator
+
+*Origin:* particular to this proof: the bound for the mean over the embeddings of `log ‖K_j‖²_σ`, the archimedean height
+of a step, with main term `Σ_τ(Σ_i ph(ν_{j,τ,i}) − n_{j,τ}·log Ω)` and an explicit error, from the norm bound of 8.4
+through the mean CM period (8.5c), the mass formula and the bounds of 8.3. The form without `SizeT_u`, with the error
+`C·f·m²·N_m²·(La + log T(u))`, is this roadmap's own formulation.
+
+*Method of the formal proof:* the bounds of 8.4 are averaged over the embeddings of a number field containing the
+coefficient data: the period terms average to `log Ω` (8.5c), the Gaussian norm of the base theta function is bounded in
+the mean (8.3), and the numbers of classes and of index sets are bounded by exponentials of
+`C·f·m²·N_m²·log(g₀g₁T(u))`.
 
 *Statement.* For every step `j`,
 
@@ -654,12 +782,23 @@ SeesawForThetaChains §6.5, SeesawForThetaChains §6.8 and LocalGainOfThetaChain
 system of data with index sets `A_{j−1}`, `A_j` the bound for the squared norm of the block operator of the step has the further
 factor `|A_{j−1}|·|A_j|`, whose logarithm is at most `C·f·m²·N_m²·log(g₀g₁T(u))`, within the error above.
 
-*NEW*. The form under `SizeT_u` follows from [FormalProof], `Formalism/LocalToGlobal/Divisibility/Inputs.lean`
+The form under `SizeT_u` follows from [FormalProof], `Formalism/LocalToGlobal/Divisibility/Inputs.lean`
 (`Formalism.L2.DIV.RecNums.hB`), `Formalism/LocalRingCardinality/KernelPlaceMeanBound.lean`
 (`Formalism.BasicNotions.DV.kernelPlaceMeanBound`).
 *Needs:* 8.4, 8.5c, 8.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2; HermitianFormsAndLattices §§5.5, 6.3.
 
 ### 8.7 The scaled branching map and the top period
+
+*Origin:* particular to this proof: the exact squared norm of the scaled branching map for the transported Hermitian
+forms, `br∘br^*` being a scalar, and the bound for the height of the restriction that gives the factor `T(u)^{−a_τ}` of
+the top period at each top place; the branching rule from `GL_{n+1}` to `GL_n` (Gelfand and Tsetlin; Zhelobenko) and
+Schur's lemma are classical.
+
+*Method of the formal proof:* for (a), the transpose of the branching map for the invariant pairings is computed on the
+highest-weight vector; equivariance for the block subgroup and the fact that the orbit of the highest-weight vector
+spans make the branching map composed with its transpose a scalar, the adjoint for the transported Hermitian forms is
+the transpose times the scaling factor, and a map `P` with `P∘P^*` a scalar `k` has `‖Pf‖² ≤ k‖f‖²`, with equality on
+the image of `P^*`.
 
 *Statement.* (a) *Scaled branching.* Let `K′` be a field with an involution and
 `s : K′ → ℂ` an embedding compatible with it. For `τ` in a finite set let `λ_τ` (of `GL_{n+1}`) and `σ_τ` (of `GL_n`) be
@@ -727,7 +866,7 @@ of `⟨ξ_τ, ξ_τ⟩` at most `C·N_m²·La`; summed over `τ` this is the las
 `‖z^a‖² = β^{−1}g^a`, the squared norm of `br` is `β·(|t|²g)^{−a} = β·T_br^{−a}`. With forms for which `‖z^a‖² ∝ g^{−a}` the
 exponent of `g` would change sign and the instance `g = T_br`, `t = 1` would give `T_br^{+a}`.
 
-*NEW* (exact form). (a): [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/ScaledCoisometryNorms.lean`
+(a): [FormalProof], `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/ScaledCoisometryNorms.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.ScaledCoisometryNorms.BrNorm`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.9; IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching and the bound
 for `c_{Br,τ}`); ClassicalGroups §5.1 (Weyl dimension), ClassicalGroups §6.1 (branching
@@ -735,6 +874,16 @@ for `c_{Br,τ}`); ClassicalGroups §5.1 (Weyl dimension), ClassicalGroups §6.1 
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §§7.5a, 7.5b (class-set integration).
 
 ### 8.8 Rallis eigenvalues and hook products
+
+*Origin:* particular to this proof: a lower bound for the eigenvalues of `θ_jθ_j^*` by hook products, uniform in the
+rank, the weights and the level; its inputs, the Rallis inner product formula, Harish-Chandra's formal degrees and the
+mass formula, are classical.
+
+*Method of the formal proof:* on each Hecke part the lift composed with its adjoint is computed by the inner product
+formula (the Siegel–Weil formula in the convergent range and doubling integrals) as a product of local factors; the
+Fock (Fischer) norm of the minor-product vector is the product of the hook products of the two diagrams, the remaining
+factors (mass, formal degrees, Euler product, level) are bounded below one by one, and at the places other than the
+base place the rational lift is the adelic lift of the conjugate data.
 
 *Statement.* For a step `j`, a place `τ ∈ Φ` and the Harish-Chandra parameter of
 the row discrete series of `U(W_j)` at `τ` (ThetaChainsOnDefiniteUnitaryGroups §2.3), with positive block `s^+(τ)` (length `p_j = k + j − 1`, its first
@@ -774,7 +923,7 @@ at most `C·f·r²·log(b·r)`.)
 *Check.* `g₀, g₁ ≥ (kb)^8` and `A_R = 8` are the values of one construction. The Fischer norm of `Δ_j` is the hook
 product, not the product of the row factorials (IntegralWeylModulesOfGeneralLinearGroups §3.1, Check).
 
-*NEW* (bound), *KNOWN* ingredients (the Rallis inner product formula; Harish-Chandra's formal degrees). (a) follows from
+*Sources:* (the Rallis inner product formula; Harish-Chandra's formal degrees). (a) follows from
 [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/FormalDegreeUpperC.lean` (`GlobalTheory.LowRow.AdelC`);
 (b) follows from [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefSide.lean` (`Formalism.L2.Indef.IndefData.L6`),
 `Formalism/LocalRingCardinality/KernelPlaceMeanBound.lean` (`Formalism.BasicNotions.DV.L6lo`),
@@ -787,6 +936,15 @@ integrals, Bernstein–Zelevinsky finiteness and the formal degree formula, in
 RowTowerAndRallisIdentities §5.1, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.11; HermitianFormsAndLattices §6.3; DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3 (the formal degree of a discrete series).
 
 ### 8.9 The height of the period pairing
+
+*Origin:* particular to this proof: the explicit height `h_u` of the period pairing of the chain, assembled from the
+norms of the steps, the top period and the Rallis eigenvalues.
+
+*Method of the formal proof:* in coordinates the pairing is the top period applied to the composite of the chain
+matrices, and the descent multiplies squared norms, at every infinite place, by a positive scalar `(𝔫/|P_1|)·∏_j λ_j`
+on each of finitely many parts; the inequality for a map that factors through a chain (8.1) is applied place by place,
+the mean is taken, and the eigenvalues, the step norms and the norm of the top period are replaced by the bounds of
+8.8, 8.6 and 8.7.
 
 *Statement.* For a word `u` define the *explicit height*
 
@@ -818,7 +976,7 @@ values in the `c_𝕃`-semilinear functionals. Apply 8.1 in its form for semilin
 `min_𝔥 Σ_j log λ_j(1, 𝔥, σ)` at every embedding (the base tuple). The size of the seesaw scalar `a_u` of SeesawForThetaChains §6.14 does not
 enter.
 
-*NEW*. [FormalProof] collects the archimedean inputs of this target, at every word, in
+[FormalProof] collects the archimedean inputs of this target, at every word, in
 `Formalism/LocalToGlobal/PtKOfReal.lean` (`Formalism.L2.RowDataTransport.RowsU`), with the factorisation
 `Formalism/LocalToGlobal/Divisibility/Inputs.lean` (`Formalism.L2.DIV.ColChain`), the numbers of 8.5c–8.7
 (`Formalism.L2.DIV.HtNums`) and the step bound `Formalism/ThetaSupremumBounds/StatementCB.lean`
@@ -831,6 +989,17 @@ enter.
 *Needs:* 8.1, 8.6, 8.7, 8.8, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.9, RowTowerAndRallisIdentities §5.10, RowTowerAndRallisIdentities §5.11, RowTowerAndRallisIdentities §5.12, SeesawForThetaChains §6.1, SeesawForThetaChains §6.14, SeesawForThetaChains §6.15, 7.13.
 
 ### 8.10 Stirling terms against hook products
+
+*Origin:* particular to this proof: the comparison of the Stirling terms of the kernels with the hook products of the
+Rallis eigenvalues, which leaves one row of length `a_τ` at each top place; the inequality `∏_i μ_i! ≤ H(μ)` is
+elementary.
+
+*Method of the formal proof:* a hook length is at least the arm length plus one, so the hook product is at least the
+product of the factorials of the rows; each kernel row is paired with a hook row whose length differs from it by at most
+a difference of two interlacing parameters plus `(j − 1)t`, the difference of `ph` is at most that distance times `La`,
+and the distances telescope to at most the cloud size, leaving `ph(a_τ)` at a top place; off the top places the row left
+unpaired is the last. The route written here for (c) instead dominates every kernel row but the first by a hook row and
+uses the monotonicity of the factorial.
 
 *Statement.* (a) For every Young diagram `μ`, `∏_i μ_i! ≤ H(μ)`, the product of its hook
 lengths; hence `log H(μ) ≥ Σ_i ph(μ_i)`.
@@ -864,12 +1033,23 @@ rows go into `δ_{j,τ}`.
 size `a_τ` in (c) would add `m·a_τ` per top place, above the budget of the chain. `ph` is not monotone on `[0, 1]`
 (`ph(0) = 0 > ph(1) = −1`), which is why (c) compares through `log ν!`.
 
-*NEW* (elementary; the hook-length formula of Frame, Robinson and Thrall). (b)–(d): [FormalProof],
+*Sources:* (elementary; the hook-length formula of Frame, Robinson and Thrall). (b)–(d): [FormalProof],
 `Formalism/LocalToGlobal/Divisibility/Numbers.lean` (`Formalism.L2.DIV.NumDatum.nu`).
 *Needs:* 8.4, 8.8; SchurWeyl Layer 5 (hook
 lengths); ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.4, LocalGainOfThetaChains §4.9f, IntegralWeylModulesOfGeneralLinearGroups §3.1.
 
 ### 8.19e The theta conditions of the twist selection are polynomial conditions
+
+*Origin:* particular to this proof: twisted theta values and the indices of twisted theta lattices are governed by
+polynomials in the twisting roots of unity with a controlled reduction, polynomial conditions of the second kind,
+through an Euler-factor relation in the Hecke operators.
+
+*Method of the formal proof:* for (b) the polynomial is the determinant of the coordinates of the twisted theta series in
+a basis of the lattice; the Euler-factor relation factorises it, pair by pair and after every specialisation at roots of
+unity, into determinants of `1 + Σ_n (−1)^n N(P)^{n(n−1)/2}·y^n·T_{n,P}` times the untwisted determinant, the factors at
+the first-half pairs are units by the eigensystem condition, those at the second-half pairs reduce to a unit times a
+power of the variable of exponent at most `r·k`, and the index of a span is bounded by the valuation of its coordinate
+determinant. For (c) the hypotheses of (b) are verified formally from three properties of the lattices of the chain.
 
 Let `ℓ` be a prime under a twisted place, not a type prime, `δ_ℓ` its auxiliary character (ThetaChainsOnDefiniteUnitaryGroups §2.5), assume `r ≥ 100` and
 `g₀, g₁ ≥ 2r` as CongruenceModulesOfThetaLifts §7.8 does (both hold under `Size(x, ε)` for `x ≥ 32` and the type primes of the chain), and use the twisting
@@ -1016,7 +1196,7 @@ into one condition, their product (levels and exponent bounds add), or each take
 many conditions, each with its own subgroup); one condition per step and place with `ℓ^{−2}` each would allow `2m/ℓ²` in all.
 The exponent bound `r·k` depends on the rank `k` of the lattice and on `r`, not on `M`, the number of places or the places.
 
-*NEW*. (a): [FormalProof],
+(a): [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/GaloisSideTwistedSelmerAuxiliaryPrimes.lean`
 (`GlobalTheory.TwSys.PropE`); (b) follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/IntegralHeckeForms.lean`
@@ -1027,6 +1207,15 @@ The exponent bound `r·k` depends on the rank `k` of the lattice and on `r`, not
 *Needs:* ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19a, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.10a, RowTowerAndRallisIdentities §5.11, ThetaChainsOnDefiniteUnitaryGroups §2.5, CongruenceModulesOfThetaLifts §7.8; SelmerLengthBoundsAndLocalLifting §3.24, SelmerLengthBoundsAndLocalLifting §3.25b, SelmerLengthBoundsAndLocalLifting §3.26.
 
 ### 8.20 The local terms of the glued target
+
+*Origin:* particular to this proof: the index and duality terms of the glued target at the twisted places, and the list
+of inputs on theta series that the slope bound of the step lattices uses, in this form; elementary given its inputs,
+the duality between projecting and intersecting lattices and the product formula being standard.
+
+*Method of the formal proof:* for (i) to (vi), the Gram valuations and the dual indices of the projected lattices are
+bounded class by class through the duality of projection and intersection, with the order of the finite group, the
+stabiliser orders and the integer of the coefficient lattices as the only losses, and the sums over the places are
+bounded by the product formula for these integers and by `Σ_p 2·log p/p² < 1`.
 
 Assume the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the
 size predicate `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
@@ -1244,7 +1433,7 @@ is the second. [FormalProof] states the bound for the base-level lengths in `For
 primes, `0` elsewhere; with `vd` the mean different exponent alone (and not `v_ℓ(Q)`) the scalar part at a small prime would
 be wrong: it is `v_ℓ(Q)·DF`.
 
-*NEW* (this form), elementary given its inputs. The definitions and `SizePage`: [FormalProof],
+The definitions and `SizePage`: [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/Jets/CmQuadraticFormEqAlternatingForm.lean` (`GlobalTheory.RunDepth.RunTie`),
 `Formalism/LocalToGlobal/CharacterGerms/RestNonneg.lean` (`Formalism.L2.FormalSeriesBounds.RF.DegHyp2`); (o): [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/HeightFunctions/NormComparisonConstants.lean`
@@ -1302,6 +1491,15 @@ be wrong: it is `v_ℓ(Q)·DF`.
 ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; HermitianFormsAndLattices §4.0a (b), (c); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
 
 ### 8.20a The depth table
+
+*Origin:* particular to this proof: the table of depth errors of the step lattices by type of prime, in this form,
+assembled from the depth bounds on height-two formal groups and the Hodge–Tate colength bounds; elementary given its
+inputs.
+
+*Method of the formal proof:* the four kinds of primes (good, auxiliary, small, type) are treated separately; in each
+case the depth bound of the run at the place, supplied by the theory of depths on height-two formal groups, is combined
+with the entrywise bounds for the weights of the run, the page conditions and the valuation of the scalar of the step,
+and rounded.
 
 In the notation of 8.20, with `C₁`, `C_P` the constants of `SizePage`, there is
 `C₀ ≥ 20`, depending only on `C₁`, such that for every `C ≥ max(C₀, C_P)`, with `Y := C·DF` and
@@ -1366,7 +1564,7 @@ step (3) at every good place as `Development/AbelianVarietyTheory/Definitions/Je
 contains no theta function: `E_j` and `𝔰_j` are defined by formulas. Without the case split of step (3) the error
 `T·f(k − 1)³log²k` of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.19d would not be in `aE_j(ℓ)`.
 
-*NEW* (this form), elementary given its inputs. (good), (auxiliary), (type) and the form of (small): [FormalProof],
+(good), (auxiliary), (type) and the form of (small): [FormalProof],
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
 (`Formalism.L2.Indef.Tree.LeafDepthGood`), `Development/AbelianVarietyTheory/Proofs/JetHarmonics/LeafDepthAllRun.lean`
 (`GlobalTheory.RunDepth.leafDepth_all_run`).
@@ -1374,6 +1572,17 @@ contains no theta function: `E_j` and `𝔰_j` are defined by formulas. Without 
 ThetaChainsOnDefiniteUnitaryGroups §2.9a; HodgeTateLatticesAndLubinTateLogarithms §§0.5e, 0.5f.
 
 ### 8.20b The indices at the twisted places and the total of the local terms
+
+*Origin:* particular to this proof: the bound for the indices of the lifted lattices at the twisted places and the total
+of the local terms, in this form, assembled from the twist selection, the depth table and the generation by short theta
+series; elementary given its inputs.
+
+*Method of the formal proof:* at each place of a pair the index of the lifted lattice is bounded by the averaging of
+lattice indices over a Mackey pair (ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18b), fed with a
+uniform index bound for the theta lattice, the traced short theta series, the
+compatibility of the lift with the good projector and the comparison of the twisted with the untwisted lattice; the
+bounds are summed over the steps and the two places, the depth errors of 8.20a are inserted prime by prime, and the cost
+of the twist, at most `2/ℓ²`, is paid once.
 
 In the
 notation of 8.20, for a twisting datum that is good (CongruenceModulesOfThetaLifts §7.10a) for the polynomial conditions of 8.19e (a) and (b), and under the
@@ -1490,7 +1699,7 @@ rational prime `ℓ(𝔭)`, because 8.19e (b) is applied to the product of the `
 needed by the argument. `e_g = 9`, `e_P = 12`, and `(4C² + 25C + 12)` for the constant of the good primes, are the values of one
 construction.
 
-*NEW* (this form), elementary given its inputs. The index statement, with the depth errors and the size conditions:
+The index statement, with the depth errors and the size conditions:
 [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
 (`Formalism.L2.Indef.Tree.ONwith`),
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/ExampleSatisfiesConditionsAtFive.lean`
@@ -1501,6 +1710,18 @@ the twist term `2e_𝔭/ℓ(𝔭)²`: [FormalProof], `Formalism/LocalToGlobal/In
 CongruenceModulesOfThetaLifts §7.5a, CongruenceModulesOfThetaLifts §7.10c, CongruenceModulesOfThetaLifts §7.11, CongruenceModulesOfThetaLifts §7.15, CongruenceModulesOfThetaLifts §7.16a, FrobeniusRestrictedRieszSums §0.1, FrobeniusRestrictedRieszSums §0.3, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3b.
 
 ### 8.21 The slope of the target
+
+*Origin:* particular to this proof: the slope of the dual of the glued target is bounded by the slopes of the step
+lattices of integral cusp forms, the bulk divisibility and the local terms at the twisted places, through a determinant
+identity for the descent (an instance of the gluing identity of SlopesOfHermitianVectorBundles §1.2a (iii)), with the
+passage from the base level to the level of the rows. The deviation `4fr/g ≤ δ_G` of the route of (c) is this
+roadmap's own formulation.
+
+*Method of the formal proof:* (a) the gluing identity for slopes is applied to the base-level lattices, the determinant
+identity being deduced from the description of the descent and of the model lifts as scalars on corresponding parts,
+and the local terms are those of 8.20 and 8.20b; (b) the lattices of the two levels are compared inside one lattice
+stable under the finite group, through its isotypic parts, in which the base level occurs once and the row level with
+nearly constant multiplicities.
 
 Under the hypotheses of RowTowerAndRallisIdentities §5.8b for the grid of the chain and a scale `x ≥ x_F` with the size predicate
 `Size_□` of RowTowerAndRallisIdentities §5.8e, the depth constant `C_F ≥ C_F⁰` and the gap hypotheses of
@@ -1599,7 +1820,7 @@ valuation `−1` at `𝔭`; only over the pair does the sum of the Gram valuatio
 indices (`0` at `𝔭`, `−1` at `c_𝕃(𝔭)`). In one construction the passage constants are
 `14` and `28`.
 
-*NEW* (instance). (a), the inequality, follows from [FormalProof], `Formalism/DivisorInequality/StatementObj.lean`
+(a), the inequality, follows from [FormalProof], `Formalism/DivisorInequality/StatementObj.lean`
 (`Formalism.DivisorInequality.BoundsMu`), `Formalism/LocalToGlobal/IndefiniteForms/IndefUse.lean`
 (`Formalism.L2.Indef.IndefSide.boundsMu`), `Formalism/LocalToGlobal/Divisibility/TwistedPlaceEtaSumLeExtended.lean`
 (`Formalism.L2.DIV.DivInputsDef3.toDivInputs0R`); (b): [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefSide.lean`
@@ -1608,6 +1829,17 @@ indices (`0` at `𝔭`, `−1` at `c_𝕃(𝔭)`). In one construction the passa
 2.2, 2.4; FiniteReductiveGroups §§2.7 (b), 2.8.
 
 ### 8.22 The division inequality
+
+*Origin:* particular to this proof: the inequality that adds the bound for the slope of the target to the explicit
+height of the period pairing; the powers of the CM period cancel between kernels and step lattices, and the Stirling
+terms against the hook products.
+
+*Method of the formal proof:* the slope bound of the target (8.21) and the explicit height (8.9) are added; the descent
+constant and the bulk divisibility occur on both sides, the Stirling terms are set against the hook products by
+8.10 (c), the row sums of 8.10 (d) against the slopes of the step lattices, and the remaining terms
+`(p_j − q_j − k)·w_j(τ)·log Ω` are bounded one by one by `2m·b·La` and absorbed with the other errors. The route written
+here instead uses in (D4) that the numbers `2j − 1 − m` sum to zero over the steps and that the step weights of a place
+vary within the window, which gives `f·m²·(ϑ + 1)·La`.
 
 *Statement.* Assume that the twisting datum is good (CongruenceModulesOfThetaLifts §7.10a) and that the host has wild-kernel
 budget `κ_W = 1` (CongruenceModulesOfThetaLifts §7.11; for instance `V(E, t) ≤ b`), the depth hypothesis of CongruenceModulesOfThetaLifts §7.10a, the length bound of
@@ -1659,12 +1891,21 @@ almost nothing over the chain; a discrepancy `c·w_j(τ)·log Ω` per place and 
 `f·m·b·La`, and one of size `k` would make the inequality trivial. A mismatch between the bulk of the rows and that of
 the columns at the places of the inert class would be of size `f·m·k·b`, above the whole budget: (D2) needs one number.
 
-*NEW*. The inequality is the seventh clause of [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
+The inequality is the seventh clause of [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
 (`Formalism.MainNotions.LinkDIV_at`), whose main term is `Formalism/LocalRingCardinality/DataParams₂.lean`
 (`Formalism.BasicNotions.SizeData₂.MAIN`).
 *Needs:* 8.9, 8.10, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20, 8.20b, 8.21; ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.9f.
 
 ### 8.23 The cost of the type primes
+
+*Origin:* particular to this proof: the total of the costs of a step over the places, equal to `A_top·log(g₀g₁)` up to
+the budget, and the comparison of the explicit heights of two words; Mertens' theorem and the product formula are the
+classical inputs.
+
+*Method of the formal proof:* (a) the cost, defined by cases of the prime, is summed separately above the type primes,
+where a degree count leaves `A_top·log(g₀g₁)`, and elsewhere, where the stabiliser term, the term at `d`, the level prime
+and the inert primes are each bounded through the product formula; (b) the difference of the explicit heights of two
+words is the sum of the differences of their kernel terms, in which only the inner rows move, by at most the cloud size.
 
 *Statement.* For every word `u` and step `j`, with `E_{u,j}` of LocalGainOfThetaChains §4.9f (e) and `A_top` of 8.7 (b), under
 the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `SizeT_u` of ThetaChainsOnDefiniteUnitaryGroups §2.8 and the cost condition `𝔢_u·log T(u) ≤ C·B₀` at the level prime):
@@ -1707,7 +1948,7 @@ and `|ph(y) − ph(y′)| ≤ |y − y′|·log M` on `[1, M]`; so the differenc
 word; only the inner entries of `u(τ)` do, by at most `Δ_w` each, and `Sc = 4kΔ_w`. The factor `T(u)^{−n_τ}` of the restriction is
 archimedean (ThetaChainsOnDefiniteUnitaryGroups §3.9 (c)), not a cost; the costs of the level prime are those of (a)(v).
 
-*NEW*. (a): [FormalProof], `Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean`
+(a): [FormalProof], `Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean`
 (`Formalism.MainNotions.LocalQuadraticParts.adm11`); its inputs: [FormalProof],
 `Formalism/SharpRestriction/Divisibility/WeightDegreeSizes.lean` (`Formalism.MainNotions.WeightDegreeSizes.SecondComplementInputs`,
 and `Formalism.MainNotions.WeightDegreeSizes.secondComplement_of_inputs` for the derivation of (a)); (b): the last clause of
@@ -1715,6 +1956,15 @@ and `Formalism.MainNotions.WeightDegreeSizes.secondComplement_of_inputs` for the
 *Needs:* FrobeniusRestrictedRieszSums §0.4 (g), (v), ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.6, ThetaChainsOnDefiniteUnitaryGroups §3.9, LocalGainOfThetaChains §4.9e, LocalGainOfThetaChains §4.9f, 8.7, 8.8, 8.9, 8.10, 8.20.
 
 ### 8.24a Valuations of the ratios of square constants at the twisted places
+
+*Origin:* particular to this proof: bounds at the twisted places for the valuations of ratios of constants of the row
+tower, which are ratios of values of Hecke `L`-functions; the algebraicity and integrality of such values are classical
+inputs.
+
+*Method of the formal proof:* the bound (d) is assembled from the tower identity for the square constants, the bound for
+the ratio of the bottom constants, the functional equation in ratio form, the lower bound (b) against the gauge and the
+upper bound (c) at the twisted place, the factors of the denominator being bounded from below and those of the
+numerator from above.
 
 For a twisting datum with sign `s = +1` and a
 square `(i, j)` of the grid of RowTowerAndRallisIdentities §5.8a let `ν_ξ = μ_{j+1}(ξ)/χ_{m−i}` be its Hecke character for the tuple `ξ` (RowTowerAndRallisIdentities §5.8d), `h_sq` half
@@ -1795,13 +2045,21 @@ and `(Λ(s, ν_ξ)^♮)^{12} = ρ_ξ(s)^{12}·β`. The lemma with `c = ρ_ξ(s)^
 twist, summable over `ℓ` with the weights `ϱ(𝔭)`. For the hosts `E = ℚ_n·ℚ(ψ)·ℚ(√−q)·ℚ(√−d)` of FrobeniusRestrictedRieszSums §0.4, `d` is
 prime and `2` is ramified in `E` when `n ≥ 1`, so the two hypotheses of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b that this layer carries hold there.
 
-*NEW*. (d): [FormalProof], `Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/NormSmall.lean`
+(d): [FormalProof], `Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/NormSmall.lean`
 (`GlobalTheory.SqTop.OneSqSt`),
 `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`
 (`Formalism.L2.Indef.Tree.LeafOneSquare`).
 *Needs:* RowTowerAndRallisIdentities §5.8a, RowTowerAndRallisIdentities §5.8b, RowTowerAndRallisIdentities §5.8d, RowTowerAndRallisIdentities §5.8e, CongruenceModulesOfThetaLifts §7.8, CongruenceModulesOfThetaLifts §7.11, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19d, 8.19e, 8.24b, ThetaChainsOnDefiniteUnitaryGroups §2.5; ThetaLiftsForDefiniteUnitaryGroups §6.12; AnalyticNumberTheoryPartI §2.3a.
 
 ### 8.24b Integrality and archimedean size of the bottom norms
+
+*Origin:* particular to this proof: an integrality defect and an archimedean bound for the bottom norms of the row tower,
+which are class sums of squared jets of CM theta values.
+
+*Method of the formal proof:* the exponents `d(ℓ)` are written down explicitly and their weighted sum is bounded by an
+elementary lemma; the coordinates at representatives integral above `ℓ`, and then the norm, are bounded under every
+embedding into the completion of an algebraic closure of `ℚ_ℓ`, and these bounds are turned into valuations at the
+places above `ℓ`.
 
 There is an absolute `C > 0` such that, for an integer `N ≥ 1` and a real `B ≥ 1`, for the bottom pairs of RowTowerAndRallisIdentities §5.8d of rank at most `2N` and
 weights at most `2B` at a level `Q ≥ 1` all of whose prime factors split in `K`, and every `L ≥ 1` with `log rd_E ≤ L`: (i) there
@@ -1843,7 +2101,7 @@ the means of the two terms that depend on the conjugate lattice by `C·L`. The f
 statements of [FormalProof]; their proofs are not given here. (i) is not a consequence of
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i), which concerns lattice sums and toric sums.
 
-*NEW*. [FormalProof], `Development/AbelianVarietyTheory/Statements/CuspidalUnitaryTwists/ExistsSmallSpherical.lean`
+[FormalProof], `Development/AbelianVarietyTheory/Statements/CuspidalUnitaryTwists/ExistsSmallSpherical.lean`
 (`GlobalTheory.NormSum.IntSt` for (i) and (ii), `GlobalTheory.NormSum.ArchSt` for (iii)), proved in
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/IntegralAndArchimedeanBounds.lean` (`GlobalTheory.NormSum.intSt_and_archSt`);
 [FormalProof], `Formalism/LocalToGlobal/IndefiniteForms/IndefiniteTree/FunctionalLowerBoundOfConditionsNumeric.lean`
@@ -1851,6 +2109,14 @@ ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b (i), which co
 *Needs:* RowTowerAndRallisIdentities §5.8d, 8.24d, 8.24e.
 
 ### 8.24c The denominators of the test values and the sizes of the square values
+
+*Origin:* particular to this proof: the denominators of the test values of the grid and the total sizes of the gauges of
+the square values, with the ranks, weights and levels of the bottom pairs of the grid, assembled from 8.24a and 8.24b.
+
+*Method of the formal proof:* for (ii), the gauges are mean valuations of the conjugates of the twelfth power of a
+normalised value; they are bounded below by the denominator exponents, and the product formula for the constant term of
+the minimal polynomial bounds the sum of their absolute values by the archimedean size of the conjugates plus twice the
+sum of the denominator exponents.
 
 In the setting of 8.24 (the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1 and the hypotheses of
 RowTowerAndRallisIdentities §5.8b for the grid of the chain at a scale `x ≥ x_F` with the size predicate `Size_□` of
@@ -1905,7 +2171,7 @@ every prime under `S_□` split in `K`, and bounds `Σ_{v∈S_□}c(v)·log N v`
 characteristic is that of no twist place of `ξ` outside `S_□`; the tuple `ξ_𝔭` used at `𝔭` has this property at `𝔭`, and
 `d_F(𝔭) := ⌊d(𝔭)⌋`.
 
-*NEW*. (i): [FormalProof], `Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/InfClassAt.lean`
+(i): [FormalProof], `Development/AbelianVarietyTheory/Statements/PlaceShiftStatements/InfClassAt.lean`
 (`GlobalTheory.SumSize.FinAt`, `GlobalTheory.SumSize.bOne`), `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/SumSizeFiniteAwayArchimedeanCombined.lean`
 (`GlobalTheory.T.sum_size_bound_all_places`), `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LeafFixedPointOfFinKAwayKStatement.lean`
 (`GlobalTheory.T.leafFixedPoint_of_finK_awayK`), `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/TwistedLocalFactorAwayFromLevel.lean`
@@ -1919,6 +2185,19 @@ RowTowerAndRallisIdentities §5.8, RowTowerAndRallisIdentities §5.8a, RowTowerA
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19b, 8.24a, 8.24b.
 
 ### 8.24d Jets of torsion translates of the CM theta function
+
+*Origin:* adapted from Bannai and Kobayashi (2010): the Taylor coefficients of the translates of the reduced theta
+function of an elliptic curve with complex multiplication by torsion points are algebraic, and they are integral at the
+ordinary primes (`p ≥ 5` split in `K`, torsion points of order prime to `p`); here the bound for the jets at every prime
+not dividing `N(𝔠)`, the inert primes, `p = 2` and the ramified prime `p = d` included, with the factors `|N₁|_p^{−n}`
+and `p^{n/4}`, and the product form (b) on matrix spaces.
+
+*Method of the formal proof:* for (a), in the parameter of the formal group of a Weierstrass model with unit
+discriminant over the integers of `ℂ_p`, the translate of the theta function is the exponential of minus a phase series
+times a series with integral coefficients, and the passage to derivatives in the uniformising variable keeps
+integrality; the jets of the phase are integral except the second at the ramified prime, which gives the factor
+`p^{n/4}`, and when `p` divides the order of the point the function is pulled back by multiplication by that order and
+written as a product.
 
 *Notation.* `𝔠 ≠ 0` an ideal of `𝒪_K` of norm prime to `2d`, `Λ := δ·ι₀(𝔠)` with `δ^{12} = Δ(ι₀(𝔠))` (`Λ = Λ_K` for `𝔠 = 𝒪_K`,
 ThetaChainsOnDefiniteUnitaryGroups §3.1a), `A` its covolume; `(U_ωG)(z) := G(z + ω)·exp(−πzω̄/A − π|ω|²/(2A))`; `θ` the reduced
@@ -1947,7 +2226,7 @@ with integral coefficients (the phase is integral at `2` and at the primes split
 (a) is a statement of [FormalProof] at every prime; ThetaChainsOnDefiniteUnitaryGroups §3.1c gives it, for `𝔠 = 𝒪_K` and
 points of order prime to `p`, at the primes it covers; the rest of its proof is not given here.
 
-*NEW* (this form). (a): [FormalProof],
+(a): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/TorsionTranslateThetaJetsDenominatorBoundStatement.lean`
 (`GlobalTheory.T.torsionTranslate_theta_jets_denominator_bound`); (b): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/JetsTorsionTranslatesCmThetaProductStatement.lean`
@@ -1955,6 +2234,18 @@ points of order prime to `p`, at the primes it covers; the rest of its proof is 
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §§2.2, 3.1a, 3.1c.
 
 ### 8.24e Conjugates of the coordinates of a bottom pair, and means over the conjugate lattices
+
+*Origin:* adapted from Chowla and Selberg (1967), whose formula gives, through
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (c), the mean of `log(area/π)` over the conjugates of
+the period lattice of an elliptic curve with complex multiplication: here the bounds `C·L` for the means of
+`log⁺(1/area(Λ^ρ))` and of `log⁺‖θ₀(Λ^ρ, t_ρ)‖²_{Λ^ρ}` over the conjugate lattices (b), and, through the main theorem of
+complex multiplication for elliptic curves and a Cauchy estimate in the Fock norm, a bound for every conjugate of the
+coordinates of a bottom pair (a).
+
+*Method of the formal proof:* (a) a coordinate is a class sum of jets of combinations of Fock translates of one theta
+vector, and the conjugate of such a jet is bounded by the Cauchy estimate in the Fock norm of the conjugate lattice;
+(b) lattices of discriminant `1` have bounded area, so the mean of `log⁺(1/area)` over the conjugates is controlled by
+the Chowla–Selberg mean, and the norm of the theta function by a multiple of `L` and of `log⁺(1/area)`.
 
 *Statement.* In the notation of 8.24d, for a field automorphism `ρ` of `ℚ̄` let `Λ^ρ` be the lattice with invariants
 `ρ(g₂(Λ))`, `ρ(g₃(Λ))`, `t_ρ` a point of order two of `Λ^ρ` killed by neither `(1 ± √−d)/2`, and
@@ -1970,7 +2261,7 @@ is the coordinate formed with the conjugate lattice, and the factors are those o
 `a·Σ_τn_τ` in the Fock norm; in (b) the conjugate lattices are those of the conjugates of the curve, and the mean of the
 logarithms of their areas is governed by `log rd_E` and `(L′/L)(1, χ_K)` (the Chowla–Selberg mean of the Conventions).
 
-*NEW* (this form). (a): [FormalProof],
+(a): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/DefiniteThetaPairCoordinateConjugatesBoundedStatement.lean`
 (`GlobalTheory.T.definiteThetaPair_coordinate_conjugates_bounded`); (b): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/FoundationProofs/ConjugateLatticeMeansPosLogAreaThetaBoundedStatement.lean`
@@ -1978,6 +2269,21 @@ logarithms of their areas is governed by `log rd_E` and `(L′/L)(1, χ_K)` (the
 *Needs:* 8.24d (the notation), RowTowerAndRallisIdentities §5.8d.
 
 ### 8.24 The maximal slope of the target
+
+*Origin:* particular to this proof: the bound `x^C·b` for the maximal slope of the glued target, obtained by a slope
+test for the test map of the Bessel periods from the glued target into the lattice of test values, with its five terms
+and the finite-place terms of 8.24a–8.24c; nearest published result: Bost (1996), the slope inequality for an injective
+linear map (ArakelovGeometryAndAbelianHeights §1A.5 (b)), which the test applies in the linear case, through
+SlopesOfHermitianVectorBundles §2.4 (b). The form of the slope test for a `c`-semilinear map with finite-place exponents
+of either sign, through the conjugate lattice, is this roadmap's own formulation.
+
+*Method of the formal proof:* on the complex conjugates of the rows, on which the test map is `𝕃`-linear, the test map
+into the lattice of test values is injective by the kernel statement of the descent; at each place the image of the
+localised row lattice lies in the test lattice times the power of the prime ideal given by the valuation of the product
+of the ratios of square constants and the denominator of the test values, and a local-to-global inclusion and Bost's
+slope inequality for an injective map then bound the maximal slope, the five terms being bounded separately and summed.
+The route written here instead states the slope test for a `c`-semilinear map and reduces it to the linear case
+through the conjugate lattice `L^c`.
 
 With the metric of 8.9 on `𝔼_0` and `𝔼`, under the size
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1, the hypotheses of 8.8 at every step and place (for the Rallis
@@ -2051,7 +2357,7 @@ square by `C·f·b·(log b + log x)`; `Σ_ℓ log ℓ/ℓ² < 1` bounds the twis
 and 8.20b (last clause); every added term is at most `C·m·(B₀ + N_c)·x^{e_D ε}` (the passage term is `≤ 1 + C·log|G₀|` because
 `δ_G·x^C·b` is tiny when `min(g₀, g₁) ≥ (kb)^{A_g}`).
 
-*NEW* (this application); the principle (a lattice mapping injectively with small height into a lattice of small maximal
+The principle (a lattice mapping injectively with small height into a lattice of small maximal
 slope has small maximal slope) is Bost's (Bost 1996, Prop. 4.3 (1), p. 131). The form for a semilinear map is reduced to it
 through the conjugate lattice, as in the route; [FormalProof] works with the complex conjugates of the rows
 (RowTowerAndRallisIdentities §5.8e), on which the test map is `𝕃`-linear, and applies the linear slope test to their
@@ -2155,7 +2461,12 @@ toric sums, the step lattices on the unitary Shimura varieties and the generatio
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §§8.5, 8.11–8.19d. The Fischer norm of a product of minors (the hook-product
 identity) and integral branching are IntegralWeylModulesOfGeneralLinearGroups §§3.1, 1.1; slopes, heights and the gluing lemma are
 SlopesOfHermitianVectorBundles Layers 1–2; lattices from local data are HermitianFormsAndLattices §4.0; the
-multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 2.8.
+multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 2.8. Bost's slope inequality for linear
+maps is ArakelovGeometryAndAbelianHeights §1A.5, which the route of 8.24 (a) applies in the linear case, through
+SlopesOfHermitianVectorBundles §2.4 (b); the Chowla–Selberg formula in the height normalisation is
+ComplexMultiplicationAndExplicitReciprocityPartII §4.6, from which 8.5c takes, through
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (c), the value `log Ω_K`; the Fock space with its
+orthogonal monomials and reproducing integrals is MetaplecticAutomorphicForms §1.5.
 
 ## Exact supplier contracts
 
@@ -2182,6 +2493,11 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 - §§1.1, 1.3, 1.6 (Hermitian vector bundles over a ring of integers, the Arakelov degree and slope, the degree under finite
   extension). Used in the Conventions.
+- §1A.5 (b) (Bost's slope inequality for an injective linear map, with the bound of its height through finite-place
+  exponents). Cited in the `*Origin:*` label of 8.24: the slope test of the route of 8.24 (a) in the linear case is this
+  theorem, which the route takes through SlopesOfHermitianVectorBundles §2.4 (b); no clause of 8.24 is a case of it.
+- §2.9 (the Faltings height of an elliptic curve from the discriminant and the periods) and §4.6 (the `τ`-components of
+  the Hodge line under an `O_E`-action). Cited in the Conventions (the CM period) and in 8.5c.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -2196,9 +2512,22 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 - §5.1 (the Weyl dimension formula) and §6.1 (branching `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin). Used in 8.7.
 
+### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocityPartII
+
+- §0.2 (the heights of induced CM types). Cited in 8.5c.
+- §4.6 (the Chowla–Selberg formula: the Faltings height of an elliptic curve with complex multiplication by an imaginary
+  quadratic field). Cited in the Conventions (the CM period) and named in the `*Corollary of:*` line of 8.5c, for the
+  value `log Ω_K` of the first step of its route.
+
 ### From TauCetiRoadmap.MathematicalStatisticsHighDimensional
 
 - §1.4 (the Schur test and entrywise domination for matrix norms). Used in 8.4.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+- §1.5 (ii) (the Fock space: the monomials are orthogonal for the Gaussian weight, with their norms, and the Taylor
+  coefficients of a function of the space are its reproducing integrals). The Fock-space case of 8.2 (a), cited in the
+  `*Origin:*` label of 8.2.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -2325,15 +2654,24 @@ multiplicities of the Bessel-type characters are FiniteReductiveGroups §§2.7, 
 
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. Its file paths given above are relative to the directory `src/` of the first commit of that repository, `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
-- V. Bargmann, *On a Hilbert space of analytic functions and an associated integral transform*, Comm. Pure Appl. Math. 14
-  (1961): 8.2.
+- V. Bargmann, *On a Hilbert space of analytic functions and an associated integral transform, Part I*, Comm. Pure Appl.
+  Math. 14 (1961), 187–214: 8.2.
 - L. Kronecker; M. Lerch, *Sur quelques formules relatives au nombre des classes*, Bull. Sci. Math. 21 (1897); S. Chowla and
-  A. Selberg, *On Epstein's zeta-function*, J. reine angew. Math. 227 (1967): the CM period of the Conventions, 8.5c.
+  A. Selberg, *On Epstein's zeta-function*, J. reine angew. Math. 227 (1967), pp. 86–110: the CM period of the
+  Conventions, 8.5c, 8.24e.
 - J. S. Frame, G. de B. Robinson and R. M. Thrall, *The hook graphs of the symmetric group*, Canad. J. Math. 6 (1954): 8.10.
-- D. P. Zhelobenko; I. M. Gelfand and M. L. Tsetlin: 8.7.
+- D. P. Zhelobenko, *Compact Lie groups and their representations*, 1973; I. M. Gelfand and M. L. Tsetlin,
+  *Finite-dimensional representations of the group of unimodular matrices*, 1950: 8.7.
 - J.-B. Bost, *Périodes et isogénies des variétés abéliennes sur les corps de nombres*, Séminaire Bourbaki exp. 795,
   Astérisque 237 (1996), 115–161: App. A.2, pp. 146–147 (the normalised degree and slope, Conventions); Prop. 4.3 (1),
   p. 131 (the slope inequality for a map that is injective on the generic fibres, 8.24).
 - É. Gaudron and G. Rémond, *Théorème des périodes et degrés minimaux d'isogénies*, Comment. Math. Helv. 89 (2014); in the
   version read (HAL hal-00590958v1, 2011), §3.2, Lemme 3.9 and its proof: the slope inequality for a map whose norms at
-  the finite places are at most `1`, 8.24.
+  the finite places are at most `1`, 8.24; after Lemme 6.3 (arXiv:1105.1230v1, 2011): Gromov's lemma as quoted there for
+  theta functions, 8.3.
+- H. Gillet and C. Soulé, *An arithmetic Riemann–Roch theorem*, Invent. Math. 110 (1992), Lemme 30 (Gromov's lemma: for
+  the sections of the `n`-th power of a positive line bundle the sup norm is at most `n^c` times the `L²` norm): 8.3.
+- Kenichi Bannai and Shinichi Kobayashi, *Algebraic theta functions and the p-adic interpolation of Eisenstein–Kronecker
+  numbers*, Duke Math. J. 153 (2010), 229–295 (locators of arXiv:math/0610163v4): §§2.1–2.2, the algebraicity of the
+  Taylor coefficients of torsion translates of reduced theta functions; Prop. 2.14–2.15 and Cor. 2.16, their
+  `p`-integrality under an ordinarity condition: 8.24d.

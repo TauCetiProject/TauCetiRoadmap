@@ -8,7 +8,7 @@ The headline theorems are these.
 2. Let `𝒜` be an `O`-algebra, `ψ_b : 𝒜 → M_{d_b}(O)` (`b` in a finite set `B`) surjective `O`-algebra homomorphisms and `Rel ⊆ 𝒜^g` a left `𝒜`-submodule. If an ideal `J ⊆ O` contains every coefficient of the generic determinant `∏_b det ψ_b(Σ_k X_kΘ_k)` for all tuples of arrays `Θ_k` with rows in `Rel`, then `length_O(O/J) ≤ Σ_b length_O Sol_b`, where `Sol_b ⊆ ((K/O)^{d_b})^g` is the module of solutions of the relations through `ψ_b`. When `Rel` is finitely generated and the residue field of `O` has more than `g·Σ_bd_b` elements, one array of relations suffices (1.8b (1′), the form of the formal proof; the generic form is this roadmap's).
 3. Let `O` be complete, `A` local, `G` a profinite group and `r_x : G → GL_n(O)` (`x ∈ X`) continuous representations whose determinants are the specialisations of a determinant `D : A[G] → A` of dimension `n`. Let `π ∈ X` be a point with `r_π ⊗ K ≅ ⊕_b ρ_b ⊗ K`, where the reductions of the `ρ_b : G → GL_{d_b}(O)` are absolutely irreducible and pairwise non-isomorphic and one block is a continuous character `χ`; let `Xs, Z ⊆ X` with `π ∈ Xs ∩ Z`, where `Z` contains every `x ∈ Xs` at which `χ` occurs in `r_x ⊗ K`, and put `c(π) = {f(π) : f ∈ A, f = 0 on Xs ∖ Z}`. If the cut cocycles of every block (cocycles of `G` with values in `ρ_b ⊗ χ^{−1} ⊗ K/O`, cut out by the family) satisfy local conditions `L_{b,v}` at closed subgroups `G_v`, then `length_O(O/c(π)) ≤ Σ_b length_O H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`, a sum of lengths of Selmer groups. The derivation of the hypotheses from `D` (1.8c (3)) and the bound over every residue field are this roadmap's; in [FormalProof] the residue field of `O` has more than `g·n` elements, `g` the number of generators of the module `Y_s` of 1.8c (1.8c, *The form of the formal proof*).
 
-The roadmap extends [PadicFamilies](../../PadicFamilies/README.md), whose congruence module and congruence ideal of one augmentation are the case of a single point. [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) provides determinants, Amitsur's formula, Henselian lifting of matrix units and generalized matrix algebras, from which the hypotheses of the third headline are derived; [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) and [ProfiniteCohomology](../../ProfiniteCohomology/README.md) provide Selmer structures and explicit continuous cocycles; and the sub-roadmap [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) of the family [RiemannHypothesisForDirichletLFunctions](../README.md) provides the duality of local defects and the lifting exponents at the places above `p`. In the family, these bounds measure the congruence modules of theta lifts in [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
+The roadmap extends [PadicFamilies](../../PadicFamilies/README.md), whose congruence module and congruence ideal of one augmentation are the case of a single point; PadicFamilies §1.7a states the congruence module of a commutative `O`-algebra, finite and free, along an idempotent of `A ⊗ K`, which is the case `M = A` of the congruence module of 1.7a. [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) provides determinants, Amitsur's formula, Henselian lifting of matrix units and generalized matrix algebras, from which the hypotheses of the third headline are derived; [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) and [ProfiniteCohomology](../../ProfiniteCohomology/README.md) provide Selmer structures and explicit continuous cocycles; and the sub-roadmap [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) of the family [RiemannHypothesisForDirichletLFunctions](../README.md) provides the duality of local defects and the lifting exponents at the places above `p`. In the family, these bounds measure the congruence modules of theta lifts in [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
 
 Layer 1, the only layer, defines the congruence module along a central idempotent, its symmetry and its form relative to a set of points of a split algebra, with the length bound by multiplicities (1.7a); proves the determinant lemma by a Morita reduction, the Smith normal form and Gauss's lemma, and its form with one array over a large residue field (1.8b); bounds the congruence ideal at a reducible point by extension modules of the blocks, embeds them into cocycles, and derives the hypotheses from a residually multiplicity-free determinant and through finite free extensions (1.8c); passes to Selmer groups with local conditions, local defects and the coboundary terms of a non-unit `δ` (1.8d); and proves the general bound with local defects, for an absolutely irreducible block and characters, with the places split into rows and columns, the orthogonality of cut cocycles to a dual family, and an element `E` with `E² = δE` built from one group element (1.8e).
 
@@ -27,11 +27,44 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both labels. The forms stated beside
+those of [FormalProof] that are not statements of [FormalProof] are named in the first label: the congruence module along a
+central idempotent of a general finite algebra (1.7a (1), (2)), the generic form (1) and the form (2) over every residue
+field of 1.8b, the form over every residue field and the clauses (3), (4) of 1.8c, the refinement in 1.8d (3′) and the
+case `t = 1` of 1.8e (4).
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the
+clauses it covers when it does not cover the whole section. As long as that general theorem is not in
+the library, what the line covers is proved as [FormalProof] proves it: the
+`*Method of the formal proof:*` label says how, and for which form of the statement when that proof
+has a narrower one; the route given with the section is that proof's unless the label says that it
+differs. Once the general theorem is in the library, the proof of what the line covers is replaced by
+the deduction from it, and the lemmas that only the first proof uses are removed. The statement does
+not change.
+
 ## Layer 1: Congruence modules and Ribet-type length bounds
 
-PadicFamilies §1.7 defines the raw congruence module `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])` of one augmentation `λ : A → O`, with its functoriality, its annihilation by `𝔭_λ + I_λ` and the identification `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))`, and PadicFamilies §1.8 the congruence ideal `η_λ = λ(Ann_A(ker λ))` with `Ψ_λ(A) ≅ O/η_λ` under the double-annihilator identity. This layer adds the congruence module along a central idempotent of `A ⊗ K` and its symmetry, its form relative to a set of points of a split algebra, the relative congruence ideal at a point of a set and the length bound by multiplicities (1.7a, which reduces to PadicFamilies §1.7 for a single point, as its first Check says); and the Ribet-type bound of a congruence ideal with lengths (1.8b–1.8e).
+PadicFamilies §1.7 defines the raw congruence module `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])` of one augmentation `λ : A → O`, with its functoriality, its annihilation by `𝔭_λ + I_λ` and the identification `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))`, PadicFamilies §1.7a the congruence module of a commutative `O`-algebra, finite and free, along an idempotent of `A ⊗ K`, and PadicFamilies §1.8 the congruence ideal `η_λ = λ(Ann_A(ker λ))` with `Ψ_λ(A) ≅ O/η_λ` under the double-annihilator identity. This layer adds the congruence module of a module `M` along a central idempotent of `A ⊗ K` and its symmetry, its form relative to a set of points of a split algebra, the relative congruence ideal at a point of a set and the length bound by multiplicities (1.7a, which reduces to PadicFamilies §1.7 for a single point, as its first Check says); and the Ribet-type bound of a congruence ideal with lengths (1.8b–1.8e).
 
 ### 1.7a Congruence modules along an idempotent and relative to a set of points
+
+*Origin:* adapted from Hida (1986), the module of congruences of a decomposition of a Hecke algebra in two factors: what is
+published is the case of an algebra acting on itself, which PadicFamilies §1.7a states for a commutative `O`-algebra, finite
+and free, along an idempotent of `A ⊗ K`, with its symmetry, finite length, raw-annihilator form and split case; it is the
+case `M = A`, `A` commutative, of (1) without its last clause, of (2) and of the first clause of (3). The module form, for a
+finitely generated torsion-free `O`-module with an action of a finite `O`-algebra, along a central idempotent of `A ⊗ K` and
+relative to a set of points of a split algebra, is this roadmap's: the relative congruence ideal `cc_Z(π)` and the length
+bounds (4), (4′) by multiplicities are particular to this proof; the congruence module along a central idempotent for a
+general finite `A`, with (1) and (2), is this roadmap's own formulation.
+
+*Method of the formal proof:* the congruence module is formed relative to a set of points of a split algebra, as in (3), and
+the family bound (4′) is proved by induction on `S` for a finitely generated `O`-module stable under the `α_π`, one point `π`
+at a time: the image of the module modulo the eigenspaces of the other points is torsion-free of rank at most `mult(π)`, so
+its quotient by `a_π` has length at most `mult(π)·v(a_π)`, and the part inside the other eigenspaces is treated by the
+induction; this is the filtration of the route. The bound (4) is not a statement of [FormalProof]; it is the case of (4′)
+given in the statement.
 
 Let `O` be a discrete valuation ring with fraction field `K` and normalized valuation `v`, `A` a finite `O`-algebra (not
 necessarily commutative or reduced), `M` a finitely generated torsion-free `O`-module with an `O`-linear `A`-action,
@@ -109,6 +142,21 @@ filtration proof, and for (4′) in it
 
 ### 1.8b Lengths from generic determinants of block homomorphisms
 
+*Origin:* adapted from Johnston and Nickel (2013): the one-block case and the Morita step, the Fitting ideal of a module over
+a matrix ring being generated by determinants of square arrays of relations; here one array serves several block
+homomorphisms at once, over a residue field with more than `g·Σ_b d_b` elements (1′). The generic form (1) and the form (2)
+over every residue field are this roadmap's own formulation.
+
+*Method of the formal proof:* for (1′), with `Rel` the left span of the rows of one relation matrix `P` with finitely many
+rows, one left multiplier `C` is chosen and `Θ = C·P`: for each block a Smith normal form of `ψ_b(P)` singles out a minor
+such that any multiplier making it a unit gives `C·P` the same solutions in `((K/O)^{d_b})^g` as `P`; modulo `ϖ` these
+minors are nonzero polynomials in the coefficients of a general multiplier, that of the block `b` of total degree at most
+`g·d_b`, so over a residue field with more than `g·Σ_b d_b` elements their product has a non-root, which lifts to one
+multiplier good for every block; the length of the solution module of a square array is then read as the valuation of its
+determinant. The step beyond the one-block statement is this general-position choice of a single multiplier. The route
+below reaches (1′) otherwise: one optimal array for each block, combined generically, the contents of the determinants being
+compared by Gauss's lemma.
+
 Let `O` be a discrete valuation ring with fraction field `K` and normalized valuation `v`, `𝒜` an `O`-algebra (not
 necessarily commutative), `B` a finite set and `ψ_b : 𝒜 → M_{d_b}(O)` surjective `O`-algebra homomorphisms (`b ∈ B`),
 `g ≥ 1`, and `Rel ⊆ 𝒜^g` a left `𝒜`-submodule. For a `g × g` array `Θ` over `𝒜` write `ψ_b(Θ)` for the
@@ -175,6 +223,19 @@ AInfCohomology §AI.1.3 (diagonal form and `Fitt₀` over a valuation ring).
   generate `16O`, of colength `4 > 3`. Here `g·Σ_bd_b = 3 > 2 = #k`.
 
 ### 1.8c Congruence ideals at a reducible point are bounded by extension modules
+
+*Origin:* adapted from Urban (2001), Theorem 1.1, as quoted in Berger (2009), Theorem 7: the bound of a congruence ideal by
+the length of a module of extensions, for two blocks, is extended to any number of matrix blocks at one reducible point,
+relative to a set of points, with the lengths of all blocks summed; the vanishing of the determinant of a square array of
+relations at a point where the relations have a nonzero solution is Dasgupta (2023), Lemma 4.5, for `GL₂` and two
+characters. The form over every residue field and (4) are this roadmap's own formulation; (3) is the classical unit case,
+after Ribet (1976) and Bellaïche and Chenevier (2009).
+
+*Method of the formal proof:* `Y_s` is presented by a relation matrix over `𝒜`; 1.8b (1′) gives one square array of
+relations optimal for every block at `π`, whose determinant is by (P) a function in `A` and vanishes at every point of
+`Xs ∖ Z`, where the relations have a nonzero solution; after a descent along a finite cover, as in (5), its value at `π` lies
+in `c(π)`, and it is the product of the block determinants, whose valuations are the lengths of the solution modules. The
+step beyond the published two-block argument is that one determinant controls all blocks at once.
 
 Let `O`, `K`, `X`, `A ⊆ O^X` be as in the split case of 1.7a, `G` a group, `r_x : G → GL_n(O)` (`x ∈ X`) representations,
 and `𝒜 ⊆ ∏_{x∈X}M_n(O)` the `A`-span of the elements `r(g) = (r_x(g))_x`, `g ∈ G`. Let `χ : G → O^×` be a character,
@@ -269,9 +330,9 @@ reducibility locus of the generalized matrix algebra (IntegralHeckeAndGaloisDete
 extensions of IntegralHeckeAndGaloisDeterminants §1.4 (*GMA extension module*, *Off-diagonal extension injection*; [BC09],
 Section 1.5), whose qualitative rank-two case is *Classical Ribet lattice* in the same section. The two-dimensional
 integral Ribet theorems with Fitting ideals over the family ring are IntegralHeckeAndGaloisDeterminants §§6.1, 6.7 and,
-with local conditions, IntegralIwasawaTheory §9.6; neither they nor (1) contain the other. The polarized three-block form of the method
-(Skinner–Urban), in which the polarization and the vanishing of the abelian term isolate the Selmer group of the middle
-block, is AutomorphicCongruences §0.7; 1.8c–1.8d are the unpolarized form, with the lengths of all blocks summed.
+with local conditions, IntegralIwasawaTheory §9.6; neither they nor (1) contain the other. In the polarized three-block form of the method
+(Skinner–Urban), the polarization and the vanishing of the abelian term isolate the Selmer group of the middle
+block; 1.8c–1.8d are the unpolarized form, with the lengths of all blocks summed.
 *Needs:* 1.7a, 1.8b;
 IntegralHeckeAndGaloisDeterminants §§0.2 (characteristic coefficients), 0.5 (Amitsur's formula, descent), 1.2
 (determinants and semisimple reconstruction), 1.3 (Henselian lifting of matrix units), 1.4 (reducibility ideals);
@@ -300,6 +361,19 @@ ArithmeticGaloisRepresentations §1.7 (absolute irreducibility); ProfiniteCohomo
   `length_O(O/c(π)) = 2`.
 
 ### 1.8d The bound with local conditions
+
+*Origin:* adapted from Urban (2001), as quoted in Berger (2009), proof of Theorem 6, for two blocks: the module of extensions
+injects into a Selmer group with local conditions, whose length then bounds the congruence ideal; and from Dasgupta (2023),
+§3: the evaluation that excludes coboundaries when the projector onto the character is an idempotent. Here for any number
+of blocks, with local defects (2′), and with an element `E`, `E² = δ_A·E`, for a non-unit `δ_A(π)`, at the cost
+`2d_b·v(δ_A(π))` in the length bound (3′); nearest published result with a loss: Ophir and Weiss (2024), Theorem 1.3, for
+`GL₂` and congruent characters. The refinement in (3′), at the cost `d_b·v(δ_A(π))`, is this roadmap's own formulation.
+
+*Method of the formal proof:* for `E = Σ_g t_g r(g)` with `E² = δ_A·E` and `τ = Σ_g t_g χ(g)`, a homomorphism whose cut
+cocycle is the coboundary of `m` sends the element `(E − τ)E` of `Y` to `−δ_A(π)·m`, and applying `E` once more gives
+`δ_A(π)²·m = 0`; cocycles modulo coboundaries then map into the Selmer group, and a larger local condition costs the length
+of the quotient. The published argument has an idempotent, for which no coboundary occurs; here `E` need not be idempotent
+and the loss is recorded.
 
 In the situation of 1.8c let `G` be profinite, the `r_x` and `χ` continuous, and fix closed subgroups `G_v` (`v ∈ 𝒱`) and
 local conditions `L_{b,v} ⊆ H¹(G_v, ρ_b ⊗ χ^{−1} ⊗ K/O)`; write `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)` for the classes whose
@@ -371,6 +445,15 @@ Layer 1 (continuous cohomology and restriction), §§2.1, 2.3 and 3.2 (explicit 
   available when no `E` with a unit `δ_A(π)` exists (1.8e(4)).
 
 ### 1.8e The bound with local defects: columns, rows and a non-unit `δ`
+
+*Origin:* particular to this proof: Ribet's module enlarged by generators that impose the local conditions at some places,
+duality at the others, and a projector up to a non-unit built from one group element, with explicit losses. The case
+`t = 1` of (4), with the product taken in the corner, is this roadmap's own formulation.
+
+*Method of the formal proof:* the local conditions at the columns are built into the module `Y_c` by adjoining generators
+and relations; the determinant of an array of its relations vanishes at the points of `Xs ∖ Z`, because a count of
+dimensions at each column gives a nonzero homomorphism there, and equals at `π` the product of the block determinants; the
+kernels of `Ψ_b` are then counted block by block from the relations.
 
 **Setting.** In the situation of 1.8d (`G` profinite; (P), (D), (E), (N) of 1.8c at `π ∈ Xs ∩ Z`; local conditions `L_{b,v}`
 at the subgroups `G_v`, `v ∈ 𝒱`), suppose that the blocks at `π` are `ρ_0 : G → GL_N(O)` with **absolutely irreducible
@@ -557,15 +640,15 @@ CongruenceModulesOfThetaLifts uses the split case of 1.7a, with the family form 
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns congruence modules along a central idempotent and relative to a set of points of a split finite flat algebra, with their length bound (1.7a); the generic-determinant length lemma (1.8b); the bound of the congruence ideal at a reducible point by extension and Selmer modules of its blocks, with the derivation of its hypotheses from a residually multiplicity-free determinant (1.8c–1.8d); and the general bound with local defects for a partition of the places into rows and columns, the orthogonality of the cut cocycles to the classes of a dual family, and an element `E` with `E² = δE`, `δ` not a unit, built from one group element with a correction that separates the roots at every point (1.8e). These statements extend Layer 1 of [PadicFamilies](../../PadicFamilies/README.md), which they follow in its notation.
+This roadmap owns congruence modules of modules along a central idempotent and relative to a set of points of a split finite flat algebra, with their length bound (1.7a); the generic-determinant length lemma (1.8b); the bound of the congruence ideal at a reducible point by extension and Selmer modules of its blocks, with the derivation of its hypotheses from a residually multiplicity-free determinant (1.8c–1.8d); and the general bound with local defects for a partition of the places into rows and columns, the orthogonality of the cut cocycles to the classes of a dual family, and an element `E` with `E² = δE`, `δ` not a unit, built from one group element with a correction that separates the roots at every point (1.8e). These statements extend Layer 1 of [PadicFamilies](../../PadicFamilies/README.md), which they follow in its notation.
 
-Not owned here. The raw congruence module and the congruence ideal of one augmentation are PadicFamilies §§1.7–1.8. Determinants and their characteristic coefficients, Amitsur's formula, semisimple reconstruction, Henselian lifting of matrix units, generalized matrix algebras and reducibility ideals are [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) §§0.2, 0.5, 1.2–1.4; the two-dimensional integral Ribet theorems with Fitting ideals over the family ring, different statements, are IntegralHeckeAndGaloisDeterminants §6.1 (*Ribet theory for distinct residual characters*) and §6.7 (*Ribet extension with all local conditions*, *Ribet extension without residual distinctness*), and, with local conditions, IntegralIwasawaTheory §9.6; the polarized three-block form of the lattice method is AutomorphicCongruences §0.7. Continuous cohomology with discrete coefficients is [ProfiniteCohomology](../../ProfiniteCohomology/README.md) Layer 1, its explicit low-degree cocycles ProfiniteCohomology §§2.1, 2.3 and 3.2, continuous cochains into inverse limits (the lattice coefficients of 1.8e) [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) §R02.1.2, and the local invariant of a local field ArithmeticGaloisDuality §R02.4.2. Selmer structures and Selmer groups with discrete coefficients are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§2.1–2.9. The defect of a class under local duality and the lifting of finite classes with loss are [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) §§4.10b–4.10f. The congruence modules of theta lifts to which these bounds are applied belong to [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
+Not owned here. The raw congruence module and the congruence ideal of one augmentation are PadicFamilies §§1.7, 1.8; the congruence module of a commutative `O`-algebra, finite and free, along an idempotent of `A ⊗ K`, with its symmetry and its raw-annihilator form, is PadicFamilies §1.7a, which states the case of an algebra acting on itself: the case `M = A`, `A` commutative, of 1.7a (1) without its last clause, of (2) and of the first clause of (3). Determinants and their characteristic coefficients, Amitsur's formula, semisimple reconstruction, Henselian lifting of matrix units, generalized matrix algebras and reducibility ideals are [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) §§0.2, 0.5, 1.2–1.4; the two-dimensional integral Ribet theorems with Fitting ideals over the family ring, different statements, are IntegralHeckeAndGaloisDeterminants §6.1 (*Ribet theory for distinct residual characters*) and §6.7 (*Ribet extension with all local conditions*, *Ribet extension without residual distinctness*), and, with local conditions, IntegralIwasawaTheory §9.6. Continuous cohomology with discrete coefficients is [ProfiniteCohomology](../../ProfiniteCohomology/README.md) Layer 1, its explicit low-degree cocycles ProfiniteCohomology §§2.1, 2.3 and 3.2, continuous cochains into inverse limits (the lattice coefficients of 1.8e) [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) §R02.1.2, and the local invariant of a local field ArithmeticGaloisDuality §R02.4.2. Selmer structures and Selmer groups with discrete coefficients are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§2.1–2.9. The defect of a class under local duality and the lifting of finite classes with loss are [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) §§4.10b–4.10f. The congruence modules of theta lifts to which these bounds are applied belong to [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.PadicFamilies
 
-§1.7: the raw congruence module `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])` of a surjection `λ : A → O` with `I_λ = Ann_A(𝔭_λ)`, functorial in `A`-linear maps and killed by `𝔭_λ + I_λ`, with `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))` (1.7a (2) and its first Check). §1.8: the congruence ideal `η_λ = λ(Ann_A(ker λ))` and `Ψ_λ(A) ≅ O/η_λ` under the double-annihilator identity (1.7a (3)).
+§1.7: the raw congruence module `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])` of a surjection `λ : A → O` with `I_λ = Ann_A(𝔭_λ)`, functorial in `A`-linear maps and killed by `𝔭_λ + I_λ`, with `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))` (1.7a (2) and its first Check). §1.7a: for a commutative `O`-algebra `A`, finite and free, and an idempotent `e` of `A ⊗ K`, the congruence module `eA/(A ∩ e(A ⊗ K))` (Hida's module of congruences of the decomposition), its symmetry in `e` and `1 − e`, its finite length, `Ann_A(𝔞_e) = 𝔞_{1−e}` with the raw annihilator form, and the split case: the case of an algebra acting on itself, which is the case `M = A`, `A` commutative, of 1.7a (1) without its last clause, of (2) and of the first clause of (3). §1.8: the congruence ideal `η_λ = λ(Ann_A(ker λ))` and `Ψ_λ(A) ≅ O/η_λ` under the double-annihilator identity (1.7a (3)).
 
 ### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
 
@@ -608,5 +691,10 @@ Layer 1: continuous cohomology `continuousCohomology` with discrete coefficients
 - **[Hida]** Haruzo Hida, *Iwasawa modules attached to congruences of cusp forms*, Annales Scientifiques de l'École Normale Supérieure (4) 19 (1986), 231–273: congruence modules of Hecke algebras (1.7a).
 - **[Ribet76]** Kenneth A. Ribet, *A modular construction of unramified p-extensions of ℚ(μ_p)*, Inventiones Mathematicae 34 (1976), 151–162 (1.8c).
 - **[BC09]** Joël Bellaïche and Gaëtan Chenevier, *Families of Galois representations and Selmer groups*, Astérisque 324 (2009), Chapter 1 (1.8c (3)).
+- **[JN13]** H. Johnston and A. Nickel, *Noncommutative Fitting invariants and improved annihilation results*, Journal of the London Mathematical Society 88 (2013); arXiv:1202.0711, Definition 2.1, Theorem 2.4, §3.8 and Lemma 4.15: noncommutative Fitting invariants, the one-block case of the determinant lemma and its Morita step (1.8b).
+- **[Urban01]** E. Urban, *Selmer groups and the Eisenstein–Klingen ideal*, Duke Mathematical Journal 106 (2001), 485–525, Theorem 1.1 and p. 519: for two blocks, a stable lattice whose reduction modulo the Eisenstein ideal `I` is an extension of `ρ₂ ⊗ T/I` by `ρ₁ ⊗ N/I` with `length(T/I) ≤ length(N/IN)` (1.8c), and the injection into a Selmer group (1.8d), as quoted in [Berger09].
+- **[Berger09]** T. Berger, *An Eisenstein ideal for imaginary quadratic fields and the Bloch–Kato conjecture for Hecke characters*, Compositio Mathematica 145 (2009), 603–632; arXiv:math/0701177, Theorem 7 and the proof of Theorem 6, steps (i) and (ii): Urban's lattice for two blocks (1.8c) and the injection of the module of extensions into a Selmer group with local conditions (1.8d).
+- **[Dasgupta23]** S. Dasgupta, *On constructing extensions of residually isomorphic characters*, preprint (2023), arXiv:2310.16631, §3 and Lemma 4.5: the unit case of the exclusion of coboundaries (1.8d), and the vanishing of the determinant of a square array of relations where the relations have a nonzero solution, for `GL₂` and two characters (1.8c).
+- **[OW24]** A. Ophir and A. Weiss, *On Ribet's lemma for GL₂ modulo prime powers*, Research in the Mathematical Sciences (2024); arXiv:2111.01559, Theorem 1.3: Ribet's lemma for congruent characters, with a loss (1.8d).
 - **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The files and declarations of [FormalProof] named in this README are those of the first commit of that repository, the source as published, with the file paths relative to its directory `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. It is the source of the length bound for relative congruence modules in its family form (1.7a (4′)); of the determinant lemma in the form of one array over a large residue field (1.8b (1′)) and of the bound by extension modules deduced from it, with the passage to a finite cover (1.8c (1), (2), (5)); of the passage to Selmer groups with local defects and of the coboundary bound with the square of `δ` (1.8d (2), (2′), (3′)); and of the module with columns with its kernel counts, the bounds of the three kinds of block, the duality at the rows and the element `E` with `E² = δE` (1.8e). The congruence module along a central idempotent (1.7a (1), (2)), the generic form of the determinant lemma without a condition on the residue field (1.8b (1)), the supply of the hypotheses (1.8c (3), (4)) and the refinement of 1.8d (3′) are this roadmap's.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
