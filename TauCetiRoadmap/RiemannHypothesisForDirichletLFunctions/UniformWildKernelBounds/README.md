@@ -149,9 +149,9 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 0.1–0.3 carry the
 first label only. The statement of 7.5 is not a statement of [FormalProof]: it is this roadmap's own
-corollary of 7.4. A statement that [FormalProof] has may carry the origin
-`this roadmap's own formulation` (2.3, 3.1, 3.17, 3.23, 5.2): the label then names the formulation, and
-the section says which form [FormalProof] states.
+corollary of 7.4. The origin `this roadmap's own formulation` is reserved for a statement that is neither
+published nor a statement of [FormalProof]; the origin of a section stating something that [FormalProof] has may
+name what in the section is this roadmap's own formulation (3.1, 3.2).
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels,
 `*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the
@@ -526,7 +526,7 @@ and every twist range below `x^κ`. *Needs:* 1.4, 1.6, 2.1.
 
 ### 2.3 The dyadic base fields and their ranks
 
-*Origin:* this roadmap's own formulation: a number `R₀(M) = 4(g + 6[M : ℚ])` of generators of `X′_∞(L₀(M, Q))` independent
+*Origin:* particular to this proof: a number `R₀(M) = 4(g + 6[M : ℚ])` of generators of `X′_∞(L₀(M, Q))` independent
 of the two auxiliary primes, obtained by fixing their residue classes modulo `8` and `16`, with `g` finite by the theorem of
 Ferrero and Washington (1979), and the degree and conductor bookkeeping (b), (c).
 
@@ -611,9 +611,10 @@ Layers 0 and 1 above. From this family: BernoulliBoundsForClassGroupEigenspaces.
 
 ### 3.1 Counting regular algebraic cuspidal representations
 
-*Origin:* this roadmap's own formulation: a count of the regular algebraic cuspidal representations of `GL_n` over a totally
-real or CM field, polynomial in the level and the weight, through the cohomology of congruence subgroups, to which such
-representations contribute (Clozel (1990)).
+*Origin:* particular to this proof: a count of the conjugate self-dual regular algebraic cuspidal representations of `GL_n`,
+`n ≥ 2`, over a CM field, polynomial in the level and the weight, through the cohomology of congruence subgroups, to which such
+representations contribute (Clozel (1990)); the statement over a totally real or CM field, for all regular algebraic cuspidal
+representations and every `n ≥ 1`, is this roadmap's own formulation.
 
 *Method of the formal proof:* the count is bounded by the total dimension of the group cohomology of `GL_n(K)` acting on the
 functions on `GL_n(𝔸_f)/K(3M)` with values in an algebraic representation `Ξ` with the given infinitesimal character; that
@@ -1640,7 +1641,7 @@ from those of `r` by the units `κ(g)^i` (`Λ_i((r ⊗ κ)(g)) = κ(g)^iΛ_i(r(g
 
 ### 3.17 Ordinarity from Weil–Deligne data and from relations
 
-*Origin:* this roadmap's own formulation: (b), the flag cut out by the ordinary relation and a regular semisimple element,
+*Origin:* particular to this proof: (b), the flag cut out by the ordinary relation and a regular semisimple element,
 over a local ring; (a), ordinarity from Weil–Deligne data, is a corollary of published `p`-adic Hodge theory, with Berger
 (2002); nearest published result for the ordinary condition by product relations: Geraghty (2019).
 
@@ -2851,7 +2852,7 @@ Layer 10.
 
 ### 3.23 The conjugate-norm twist of an imaginary quadratic field
 
-*Origin:* this roadmap's own formulation: an algebraic Hecke character of an imaginary quadratic field `K` with conjugate norm
+*Origin:* particular to this proof: an algebraic Hecke character of an imaginary quadratic field `K` with conjugate norm
 `χ_ℓ⁻¹`, ramified at the primes of `d_K` with order prime to `ℓ` there, for every `K` and every odd `ℓ ∤ d_K`; it weakens the
 conditions of the canonical characters of Gross and Rohrlich (ComplexMultiplicationAndExplicitReciprocity §4.3), which exist
 only for some discriminants.
@@ -3929,7 +3930,7 @@ less than `ℓ` because `1 + log y < y` for `y > 1`. *Needs:* ExplicitNumberFiel
 
 ### 5.2 Case Z: the trivial character
 
-*Origin:* this roadmap's own formulation: the vanishing of `Ш¹(ℚ, ℓ, e)` for primes `ℓ ≥ 5` and even `e ≥ 2` with
+*Origin:* particular to this proof: the vanishing of `Ш¹(ℚ, ℓ, e)` for primes `ℓ ≥ 5` and even `e ≥ 2` with
 `(ℓ − 1) | 2e`; its case `(ℓ − 1) | e` is, in K-theoretic form, the unconditional vanishing of the trivial component in
 ArithmeticKTheory §7.5, and the case of the quadratic component of `ℚ(√ℓ)` is by class field theory and 5.1; nearest
 published result: Kurihara (1992), as stated in Weibel (2005), Theorem 105: `K_{4k}(ℤ)` (here `4k = 2e`) has no
