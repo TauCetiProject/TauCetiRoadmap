@@ -137,13 +137,13 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 2.1 carry the first label only. The
 statements of 0.3a, 2.3, 2.5, 3.2, 3.3, 3.5, 4.1, 5.5, 6.1–6.6, 7.1, 7.3, 7.5, 8.2, 8.4, 9.4 and 9.6 are not statements of
-[FormalProof]: 0.3a, 2.3, 3.2, 3.5, 4.1, 6.1, 6.2, 7.1, 7.5 and 8.2 state published theorems in the form used here, cited from
-the roadmap sections that state them, with the parts that those sections do not state; 3.3, 6.3–6.6, 7.3, 8.4 and 9.4 add
+[FormalProof]: 0.3a, 3.2, 3.5, 4.1, 6.1, 6.2, 7.1, 7.5 and 8.2 state published theorems in the form used here, cited from
+the roadmap sections that state them, with the parts that those sections do not state; 2.3, 3.3, 6.3–6.6, 7.3, 8.4 and 9.4 add
 to published theorems, cited with each, forms that are this roadmap's own formulations; 5.5 applies published theorems,
 cited with it; 2.5 and 9.6 are this roadmap's own formulations. In 0.4, 0.6, 1.1, 1.2, 2.2, 2.6 and 7.4 the statement is
 the form that [FormalProof] has; in all but 7.4 the wider published form is cited in a sentence from the roadmap section
 that states it. A wider form that is this roadmap's own formulation is not a statement of [FormalProof]: in 7.4, where 7.7
-and 8.4 rest on it, it is a second statement block headed **Wider form**; in 0.4 and 2.6, where nothing rests on it, it is
+rests on it, it is a second statement block headed **Wider form**; in 0.4 and 2.6, where nothing rests on it, it is
 a *Remark*.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
@@ -338,8 +338,8 @@ to one, and a compactness bound for the quotient of two Levi forms.
 
 *Corollary of:* ComplexComparisonPartII §C5.4b (quasi-plurisubharmonic and `γ`-plurisubharmonic functions and their
 closure under sums), with §C5.4a (the `C²` criterion) for the pointwise reading and §C5.4i (regularised maxima of smooth
-plurisubharmonic functions) for the regularised maxima; the constant `C` with `w + C·Ω` plurisubharmonic is a direct
-computation.
+plurisubharmonic functions) for the regularised maxima; the constant `C` with `w_i + C·Ω_i` plurisubharmonic is a direct
+computation on the compact closures `Ū_i`.
 
 Define `u` on a complex manifold to be *quasi-plurisubharmonic* if locally `u = v + ψ` with `v` plurisubharmonic and
 `ψ` smooth; and, for a continuous real `(1,1)`-form `γ`, `u` to be *`γ`-plurisubharmonic* if `u` is
@@ -347,8 +347,9 @@ quasi-plurisubharmonic and `γ + i∂∂̄u ≥ 0` (the `γ`-plurisubharmonic fu
 Prove, in the form that [FormalProof] has: let `X` be a compact complex manifold with a finite holomorphic atlas and `γ` a
 real `(1,1)`-form with a smooth potential `θ` in each chart (`γ = i∂∂̄θ`). A function `u` of class `C²` is in `PSH(X, γ)`
 if and only if `i∂∂̄(θ + u) ≥ 0` at every point of each chart; these functions are closed under sums (for the sum of the
-forms) and under regularised maxima; and for every smooth `w` and every smooth `Ω` with `i∂∂̄Ω > 0` in the charts there is
-a constant `C` with `i∂∂̄(w + C·Ω) ≥ 0`.
+forms) and under regularised maxima; and for all smooth functions `w_i` and `Ω_i` on open neighbourhoods `V_i` of the
+closures `Ū_i` of the chart domains `U_i`, with `i∂∂̄Ω_i > 0` on `V_i`, there is a constant `C` with
+`i∂∂̄(w_i + C·Ω_i) ≥ 0` on every `U_i` (fifth Check: functions on the `U_i` alone do not suffice).
 
 The general form, cited below as 0.4(a) and (b), is ComplexComparisonPartII §C5.4b: (a) for a fixed `γ`, `PSH(X, γ)` is
 closed under convex combinations, finite maxima, limits of decreasing sequences and upper semicontinuous regularisations
@@ -388,6 +389,11 @@ where the supremum is attained (upper semicontinuity on compact `X`) gives the m
   is not quasi-plurisubharmonic. Here `i∂∂̄(a − √(x² + a²))` has no lower bound uniform in `a`.
 - On `ℂ`, with `x = Re z`, the smooth functions `f_j = 2^{−j}(3 + cos(4^j x))` decrease (`f_j ≥ 2^{1−j} ≥ f_{j+1}`) to `0`, which
   is quasi-plurisubharmonic, while `∂²f_j/∂x²(0) = −2^{3j}`: no continuous `γ` has `γ + i∂∂̄f_j ≥ 0` for all `j` near `0`.
+- In the last clause of the statement the neighbourhoods `V_i` of the closures cannot be replaced by the chart domains.
+  Cover `ℙ¹` by the charts `ℂ` (coordinate `z`), whose closure is `ℙ¹`, and `ℙ¹ ∖ {0}`. On `ℂ` take
+  `Ω = ∫_0^{|z|²}(1 − e^{−s})ds/s`, so that `i∂∂̄Ω = e^{−|z|²}·i dz ∧ dz̄ > 0`, and let `w` be smooth on `ℙ¹` with
+  `w = −1/|z|²` for `|z| ≥ 1` (near `∞` it is `−|1/z|²`). For `|z| > 1`,
+  `i∂∂̄(w + C·Ω) = (C·e^{−|z|²} − |z|^{−4})·i dz ∧ dz̄`, negative for `|z|` large whatever `C` is.
 
 ### 0.5 Pluripolar sets and removable singularities
 
@@ -2029,7 +2035,8 @@ quasi-plurisubharmonic with `α + i∂∂̄φ ≥ γ`. Then there are quasi-plur
 singularities (2.2, with `c = 1/m`), smooth on `X′ ∖ V(J(mφ))`, such that `φ_m → φ` pointwise and in `L¹_loc`, `φ_m ≥ φ − C/m`,
 `α + i∂∂̄φ_m ≥ γ − ε_m ω` with `ε_m → 0`, and `ν(φ, x) − 2n/m ≤ ν(φ_m, x) ≤ ν(φ, x)`. No monotonicity in `m` is asserted
 (8.1 does not use any). For compact `X` and `X′ = X`, functions `φ_m` with analytic singularities of coefficient `1/m`,
-with `φ < φ_m ≤ sup_{|ζ−x|<r}φ(ζ) + C(|log r|/m + r + ε_m)` in the coordinate balls of a finite cover, the convergence, the
+with `φ ≤ φ_m ≤ sup_{|ζ−x|<r}φ(ζ) + C(|log r|/m + r + ε_m)` in the coordinate balls of a finite cover and `φ < φ_m` where
+`φ > −∞` (both are `−∞` at a point `x` with `ν(φ, x) > 2n/m`), the convergence, the
 loss `ε_m` and the bounds of Lelong numbers above, are ComplexComparisonPartII §C7.15; the variant on `X′ ⋐ X` and the
 smoothness off `V(J(mφ))` stay here.
 
@@ -2946,13 +2953,13 @@ It leaves to named roadmaps:
   integral Chern classes) and the smooth weighted `L²` estimate on complete Kähler manifolds; Stein manifolds and
   strongly 1-complete spaces with their complete metrics. Its §§C5.4a–C5.4j: plurisubharmonic and
   quasi-plurisubharmonic functions, pluripolar sets, plurisubharmonic functions on reduced complex spaces, Lelong numbers
-  with Skoda's integrability theorem and the complex singularity exponent, singular Hermitian metrics (Chern class,
+  with Skoda's integrability theorem and the complex singularity exponent (§C5.4e (k)), singular Hermitian metrics (Chern class,
   Poincaré–Lelong formula, analytic singularities, positivity), multiplier ideals and their comparison with algebraic
-  multiplier ideals, Richberg's theorem and smooth regularisation. Its Layer C7: Hörmander's theorem with
+  multiplier ideals, Richberg's theorem (§C5.4i) and smooth regularisation. Its Layer C7: Hörmander's theorem with
   plurisubharmonic weights, the estimate with the datum measured by the Levi form, the twisted Bochner–Kodaira–Nakano
   estimate, complete Kähler metrics off analytic subsets, the estimate for metrics smooth off them, Skoda's division
   theorem, the Ohsawa–Takegoshi theorems, Nadel's coherence, restriction, subadditivity, strong openness, Demailly's
-  approximations, Siu's theorem, Demailly's estimate for singular metrics, Nadel vanishing and the separation of points
+  approximations, Siu's theorem (§C7.14), Demailly's estimate for singular metrics, Nadel vanishing and the separation of points
   and jets. RealAnalyticGeometry R3: the Stein criterion and the
   weighted theorem it rests on.
 - PDE §§3.2a and 3.4a: upper semicontinuous subharmonic functions (local integrability, means, the maximum principle),
@@ -2979,10 +2986,10 @@ It leaves to named roadmaps:
   projective manifold for the curvature probability volume, its uniform asymptotic `bergmanDensity_uniform`
   (`B_n/h⁰(L^n) → 1`), and the uniform restriction to smooth members of `|L^a|` (`positiveBundle_uniformRestriction`), each
   proved there by its own route; its §§5.17c.2–5.17c.7: weighted Bergman spaces in three printed cases (cases of 3.6), the
-  Suita inequality, Berman's local upper bound (of which 9.3, for a metric smooth near the point, is a corollary), the
+  Suita inequality (§5.17c.3), Berman's local upper bound (of which 9.3, for a metric smooth near the point, is a corollary), the
   leading asymptotics for an
   arbitrary smooth positive volume form (of which 9.2 is a corollary), the asymptotics for metrics smooth off a proper
-  analytic subset (the published case of 9.4), and Demailly's characterisation of big line bundles by singular metrics.
+  analytic subset (the published case of 9.4), and Demailly's characterisation of big line bundles by singular metrics (§5.17c.7).
   9.6 treats Poincaré-type metrics on noncompact manifolds, which those sections do not; and 4.2 is the general extension
   theorem, of which that restriction is the case `E = L^a` applied to `L^n ⊗ K_X^{−1}` for large `n`.
 - Not in this roadmap: Monge–Ampère operators on singular weights and pluripotential capacities (Bedford–Taylor
