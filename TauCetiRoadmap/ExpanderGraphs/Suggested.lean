@@ -608,7 +608,7 @@ theorem abelian_not_expander (k : ℕ) {ε : ℝ} (hε : 0 < ε) :
       S.card ≤ k → N ≤ Fintype.card A → isoperimetricConstant (addCayley (S : Set A)) < ε := by
   sorry
 
-/-! ## Layer 9: spectra of binomial random graphs -/
+/-! ## Layer 9: spectra of random graphs -/
 
 open scoped Classical in
 /-- **9.1** (Van Mieghem, Theorems 50 and 52 and art. 190; Füredi–Komlós) For `0 < p < 1`, in

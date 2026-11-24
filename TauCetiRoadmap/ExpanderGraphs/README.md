@@ -29,8 +29,9 @@ Margulis graphs and by random graphs. Its headline theorems are these.
   for `p ≥ 5` and `q > p⁸` they are connected, and for fixed `p` and large `q` their nontrivial
   eigenvalues are at most `p^{5/6 + ε} + p^{1/6 - ε}`, so they form an expander family.
 - *Groups.* The Cayley graphs of the finite quotients of a group with property (T) have
-  isoperimetric constants bounded away from `0`, and so do the Margulis graphs on `ℤ/m × ℤ/m`;
-  no family of bounded-degree Cayley graphs of finite abelian groups is an expander family.
+  isoperimetric constants bounded away from `0`; the Margulis multigraphs on `ℤ/m × ℤ/m` have
+  second eigenvalue at most `8 - ε` for one `ε > 0` and every `m`; no family of bounded-degree
+  Cayley graphs of finite abelian groups is an expander family.
 - *Random graphs.* In `G(n, p)` with `0 < p < 1`, with probability tending to `1`, the largest
   eigenvalue is `pn(1 + o(1))`, the others are at most `(2 + ε)√(p(1 - p)n)` in absolute value,
   and the rescaled eigenvalue distribution is close to the semicircle law of variance
@@ -373,7 +374,7 @@ at a large radius `R`, satisfy `‖(A - μ)f‖ ≤ ε_R‖f‖` with `ε_R → 
 
 **Checks.**
 - The adjacency matrices of the balls of radius `5`, `20` and `80` in the `3`-regular tree have
-  largest eigenvalues `2.6286`, `2.8040` and `2.8265`, increasing to `2√2 = 2.8284`.
+  largest eigenvalues `2.6286`, `2.8040` and `2.8264`, increasing to `2√2 = 2.8284`.
 - `k = 4`: the same balls give `3.1833`, `3.4317`, `3.4616`, below `2√3 = 3.4641`, the norm in
   [FreeProbability](../FreeProbability/README.md) 3.6 of the `4`-regular tree as the Cayley graph
   of the free group of rank `2`.
@@ -758,7 +759,7 @@ Consumed, not restated (see the supplier contracts):
 - RamanujanGraphs 3.1, 3.3 and 5.1: `2`-lifts, bipartite Ramanujan graphs of every degree and the
   tree numbers.
 - [FactorRigidity](../FactorRigidity/README.md) 3.1 and 3.2: relative property (T) and the pair
-  `(ℤ² ⋊ SL₂(ℤ), ℤ²)`; the latter is formalized in Tau Ceti.
+  `(ℤ² ⋊ SL₂(ℤ), ℤ²)`; the latter is a target of FactorRigidity 3.2.
 - [RandomMatrices](../RandomMatrices/README.md) 1.2, 4.3 and 4.5 and
   [RandomGraphs](../RandomGraphs/README.md) 0.2: the Wigner limit laws, Weyl's inequality and the
   rank bound, and the binomial random graph.
@@ -800,9 +801,10 @@ Not owned here, and not used:
 - [AmenableGroups](../AmenableGroups/README.md) owns Følner sets; the route of 8.3 through the
   diameter does not use them.
 
-Formalized in Tau Ceti and not restated: the Cayley tree of a free group as a Serre graph, and the
-relative property (T) of `(ℤ² ⋊ SL₂(ℤ), ℤ²)` (FactorRigidity 3.2). The tree of 4.1 for even `k`
-is the Cayley tree of the free group of rank `k/2`, and an implementation may identify the two.
+Not restated here: the relative property (T) of `(ℤ² ⋊ SL₂(ℤ), ℤ²)`, a target of FactorRigidity
+3.2, which 8.2 consumes. Tau Ceti has Serre graphs and their trees; the tree of 4.1 for even `k`
+is the Cayley tree of the free group of rank `k/2`, an identification this roadmap does not
+use.
 
 Boundary in one sentence: edge expansion of finite simple graphs and its spectral
 characterization, the regular tree, coverings, prime cycles, and the Ramanujan, LPS,
@@ -890,7 +892,7 @@ belong to their owners.
 
 - [FactorRigidity](../FactorRigidity/README.md) 3.1: `HasAlmostInvariantVectors` and
   `RelativePropertyT`, copied verbatim into `Suggested.lean`; used in 8.1. 3.2: the relative
-  property (T) of `(ℤ² ⋊ SL₂(ℤ), ℤ²)`, formalized in Tau Ceti; used in 8.2.
+  property (T) of `(ℤ² ⋊ SL₂(ℤ), ℤ²)`, a target there; used in 8.2.
 
 ### From RandomMatrices and RandomGraphs
 
@@ -906,7 +908,8 @@ belong to their owners.
 
 - **Friedman's theorem.** For fixed `k ≥ 3` and `ε > 0`, a uniformly random `k`-regular graph on
   `n` vertices (`kn` even) has `θ₂ < 2√(k - 1) + ε` with probability tending to `1` [BH, §4.1,
-  p. 67; Sp, §43.2, p. 341; Friedman; Bordenave]. A roadmap would start from the configuration
+  p. 67; Friedman; Bordenave]; Spielman states it for the sum of `k` random perfect matchings, a
+  multigraph model [Sp, §43.2, p. 341]. A roadmap would start from the configuration
   model and the non-backtracking counts of IharaZetaFunction.
 - **The Ramanujan property of the LPS graphs.** The eigenvalues of `X^{p,q}` other than
   `±(p + 1)` satisfy `|μ| ≤ 2√p` [DSV, Theorem 4.2.2 and Remark 4.2.3(b), p. 114]. The proof
