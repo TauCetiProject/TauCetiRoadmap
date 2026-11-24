@@ -1832,13 +1832,14 @@ on a neighbourhood of `B̄(a, R)`, and `y ↦ 1_{B(a,R)}(y)·G_{a,R}(·, y)` is 
 functions equal almost everywhere are equal, each being the limit of its means over small balls
 (§3.2a), which gives the formula at every `x`. The mass bound is Green's formula against a cut-off.
 (b) Suppose that `u_k` does not tend to `−∞` locally uniformly: there are a compact `K`, a constant
-`c` and a subsequence `u_{k_j}` with `sup_K u_{k_j} ≥ −c`. Bound the means along this subsequence
+`c`, a subsequence `u_{k_j}` and points `x_j ∈ K` with `u_{k_j}(x_j) ≥ −c` and, `K` being compact,
+`x_j → x₀`. Bound the means along this subsequence
 from below: on a ball `B(w, ρ) ⋐ Ω` let `C` bound all `u_k` from above; if `u_{k_j}(w) ≥ −c′`, the
 sub-mean-value inequality for `u_{k_j} − C ≤ 0` on `B(w, ρ)` bounds the mean of `u_{k_j}` over every
 ball contained in `B(w, ρ)` (in particular over `B(y, ρ/2)` for `|y − w| < ρ/2`) from below, and a
 mean bounded below gives points where `u_{k_j}` is bounded below. So the set of points having a ball
 on which the means of the `u_{k_j}` are bounded below is open and closed in the connected `Ω`, and
-it is not empty (a limit point of maximising points in `K`): the `u_{k_j}` are bounded in
+it contains `x₀`: the `u_{k_j}` are bounded in
 `L¹_loc(Ω)`. Then (a) and the weak compactness of the measures `μ_{u_{k_j}}` (of bounded mass by
 (a)) make the Poisson parts compact and the Green potentials converge in `L¹_loc` along a further
 subsequence; the `limsup` inequality comes from the sub-mean-value inequality on small balls and the
