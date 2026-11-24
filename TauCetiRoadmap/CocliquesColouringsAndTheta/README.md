@@ -27,9 +27,8 @@ the Kneser graphs as the running example. Its headline theorems are these.
   that of the graph; a homomorphism `G → H` into a vertex-transitive `H` gives
   `|V(G)|/α(G) ≤ |V(H)|/α(H)`; every finite monoid is the endomorphism monoid of a finite graph.
 - *Fractional colourings.* The fractional chromatic number `χ_f` is attained at a rational
-  weighting, equals the value of the dual linear program, satisfies `n/α ≤ χ_f ≤ χ` with
-  `χ_f = n/α` for vertex-transitive graphs, and is the least `v/r` over the homomorphisms from
-  `G` to Kneser graphs `K(v, r)`.
+  weighting, satisfies `n/α ≤ χ_f ≤ χ` with `χ_f = n/α` for vertex-transitive graphs, and is the
+  least `v/r` over the homomorphisms from `G` to Kneser graphs `K(v, r)`.
 - *Theta values and capacity.* A regular graph of degree `k > 0` that is edge-transitive or
   strongly regular has `ϑ = −nθₙ/(k − θₙ)`. Over any field, the Shannon capacity is at most the
   rank of a matrix with nonzero diagonal that vanishes at distinct nonadjacent pairs. The strict
@@ -206,7 +205,9 @@ Conversely `θ₁(Kₙ) = n − 1` and `θ₁(C_m) = 2` [BH, p. 40].
 ### 2.2 Biclique partitions
 
 Definition: `IsBicliquePartition G X Y` for `X Y : Fin m → Finset V`: each `X k` is disjoint
-from `Y k`, and `u ∼ v` exactly when exactly one `k` has `u ∈ X k, v ∈ Y k` or `v ∈ X k, u ∈ Y k`.
+from `Y k`, every `u ∈ X k` is adjacent to every `v ∈ Y k` (each biclique is a subgraph of `G`),
+and every edge `uv` has exactly one `k` with `u ∈ X k, v ∈ Y k` or `v ∈ X k, u ∈ Y k`; that is,
+an edge decomposition of `G` into complete bipartite subgraphs.
 For `G = ⊤` it is the biclique decomposition of `Kₙ` in
 [LinearAlgebraMethodInCombinatorics](../LinearAlgebraMethodInCombinatorics/README.md) 4.1.
 
@@ -229,6 +230,11 @@ eigenvalues only in `0`; likewise for the negative ones [BH, p. 12].
   edges.
 - Negative control for "exactly one": on `K₃` the stars `{0} | {1, 2}` and `{1} | {0, 2}` cover
   the edge `01` twice and are not a biclique partition.
+- Negative control for "every biclique is a subgraph": on `C₆` the bicliques `{0, 2} | {1, 5}`
+  and `{2, 4} | {5, 3}` join each edge of `C₆` exactly once and the non-edge `25` twice. They are
+  not a biclique partition. If they counted as one (by asking only that the pairs joined exactly
+  once be the edges), the inequality would fail: `C₆` has eigenvalues `2, 1², (−1)², −2`, with
+  `n₊ = 3 > 2`.
 
 *Needs:* SpectralGraphBounds 1.1; LinearAlgebraMethodInCombinatorics 4.1.
 
@@ -245,9 +251,10 @@ so identities between chromatic polynomials follow from bijections between colou
 Definition: `contract G u v` on `{x // x ≠ v}`, built with `SimpleGraph.fromRel` from the
 relation "`x ∼ y` in `G`, or `x = u` and `v ∼ y` in `G`", with its `DecidableRel` instance.
 
-- **Neighbourhood** (`contract_adj_iff`). For `u ≠ v`, the merged vertex `u` is adjacent to `y`
-  exactly when `y ≠ u` and `y` is a neighbour of `u` or of `v`; other adjacencies are those of
-  `G`.
+Basic API, stated in prose (it holds by unfolding `contract` and `SimpleGraph.fromRel_adj`): for
+`u ≠ v`, the merged vertex `u` is adjacent to `y` exactly when `y ≠ u` and `y` is a neighbour of
+`u` or of `v`; other adjacencies are those of `G`.
+
 - **Deletion–contraction** (`chromaticPolynomial_eq_sub`). For an edge `uv`,
   `C_G = C_{G−uv} − C_{G/uv}` [B, Proposition 9.3, p. 65].
 
@@ -279,8 +286,9 @@ TuttePolynomialAndArrangements 4.2 and no comparison with contraction in the cyc
 - **Disjoint unions** (`chromaticPolynomial_sum`). `C_{G ⊕g H} = C_G C_H` [B, p. 64].
 - **Trees** (`IsTree.chromaticPolynomial_eq`). A tree on `n` vertices has `C = t(t − 1)^{n−1}`
   [B, Corollary 9.4, p. 65].
-- **Cycles** (`chromaticPolynomial_cycleGraph`). For `n ≥ 3`,
-  `C_{Cₙ} = (t − 1)^n + (−1)^n (t − 1)` [B, pp. 65–66].
+- **Cycles** (`chromaticPolynomial_cycleGraph`). For `n ≥ 2`,
+  `C_{Cₙ} = (t − 1)^n + (−1)^n (t − 1)` [B, pp. 65–66, for `n ≥ 3`]. Mathlib's `cycleGraph 2` is
+  `K₂`, for which the formula also holds.
 
 The edgeless graph has `C = t^n`, since only the empty edge set occurs in Whitney's form; this is
 a target in prose.
@@ -291,15 +299,16 @@ of TuttePolynomialAndArrangements 4.2: for `⊤` the colourings are the injectio
 (`Fintype.card_embedding_eq`, `descPochhammer_eval_eq_descFactorial`); for disjoint unions use
 `SimpleGraph.Coloring.sumEquiv`; for trees remove a leaf, whose colour is any of the `t − 1`
 colours other than its neighbour's [B, p. 65]. For cycles, deleting an edge of `Cₙ` gives the
-path `Pₙ` and contracting it gives a graph isomorphic to `C_{n−1}` (3.1), and `C₃ = K₃` starts
-the induction [B, p. 65].
+path `Pₙ` and contracting it gives a graph isomorphic to `C_{n−1}` for `n ≥ 3` (3.1), and
+`cycleGraph 2 = K₂` starts the induction [B, p. 65].
 
 **Checks.**
 - `C₄`: `(t − 1)⁴ + (t − 1) = t⁴ − 4t³ + 6t² − 3t`; `C₃ = K₃`:
   `(t − 1)³ − (t − 1) = t(t − 1)(t − 2)`.
 - `K₂ ⊕g K₁`: `t²(t − 1)`. The empty vertex type: `C = 1`, one colouring with any number of
   colours.
-- Negative control for `n ≥ 3`: `cycleGraph 1` has one vertex and `C = t`, while the formula
+- `cycleGraph 2 = K₂`: `(t − 1)² + (t − 1) = t(t − 1)`.
+- Negative control for `n ≥ 2`: `cycleGraph 1` has one vertex and `C = t`, while the formula
   gives `(t − 1) − (t − 1) = 0`.
 
 *Needs:* 3.1; TuttePolynomialAndArrangements 4.1–4.2; Mathlib `descPochhammer`,
@@ -426,7 +435,11 @@ Basic API, stated in prose: a weighted family of cocliques indexed by any finite
 every vertex gives a fractional colouring of the same total weight; the set of feasible totals is
 nonempty (weight `1` on every singleton) and bounded below by `0`; preimages of cocliques under a
 homomorphism are cocliques, so `G → H` gives `χ_f(G) ≤ χ_f(H)` [GR, Corollary 7.4.2, p. 139];
-`χ_f` is invariant under isomorphism.
+`χ_f` is invariant under isomorphism. `fractionalChromaticNumber G` is the fractional clique cover
+number of the complement `Gᶜ` of AsymptoticSpectra 2.3, by unfolding the two definitions: the
+cocliques of `G` are the cliques of `Gᶜ`, and since every vertex lies in its singleton, the
+fractional covers of all finite sets that vanish off the cliques of `Gᶜ` are exactly the
+fractional colourings of `G`, so the two sets of totals coincide.
 
 **Checks.**
 - `IsFractionalColouring`: the colour classes of a proper colouring with weight `1` each, and
@@ -437,28 +450,27 @@ homomorphism are cocliques, so `G → H` gives `χ_f(G) ≤ χ_f(H)` [GR, Coroll
 
 ### 5.2 Attainment and duality
 
-- **Attainment and rationality** (`exists_isFractionalColouring_sum_eq`). The infimum is attained
-  at a rational weighting [GR, Theorem 7.3.2, p. 138].
-- **Linear-programming duality** (`fractionalChromaticNumber_eq_sSup`). `χ_f` is the supremum of
-  the total weight of a nonnegative vertex weighting with weight at most `1` on every coclique,
-  the fractional clique number [GR, §7.5, p. 141]; the weak inequality is [GR, Lemma 7.5.1,
-  p. 141].
+Attainment and linear-programming duality are AsymptoticSpectra 2.3 for the complement and are
+not restated: through the identity of 5.1, the infimum is attained, and `χ_f` is the largest
+total weight of a nonnegative vertex weighting with weight at most `1` on every coclique, the
+fractional clique number [GR, §7.5, p. 141; the weak inequality is Lemma 7.5.1, p. 141].
 
-**Suggested proof:** write the covering program in the standard form of ConvexAnalysisAndDuality
-5.3, with a variable for each coclique and a slack variable for each vertex:
-`Σ_{s ∋ x} w s − z x = 1`, `w, z ≥ 0`, objective `Σ_s w s`. It is feasible and bounded below by
-`0`, so 5.3 there gives an optimal solution and a dual solution of equal value, and the dual
-program is the fractional clique program. For rationality, an optimal solution of least support
-has linearly independent support columns (a kernel vector moves it along the optimal face until
-a coordinate vanishes), so it solves a nonsingular square system with integer data and is
-rational by Cramer's rule (`Matrix.cramer`, `Matrix.mulVec_cramer`).
+- **Attainment at a rational weighting** (`exists_isFractionalColouring_sum_eq`). The infimum is
+  attained at a rational weighting [GR, Theorem 7.3.2, p. 138].
+
+**Suggested proof:** AsymptoticSpectra 2.3, through the identity of 5.1, gives an optimal
+fractional colouring. Among the optimal ones take one of least support. Its support columns in
+the system `Σ_{s ∋ x} w s − z x = 1`, `w, z ≥ 0`, with a slack variable `z x` for each vertex,
+are linearly independent: a kernel vector moves it along the optimal face until a coordinate
+vanishes. So it solves a nonsingular square system with integer data, and it is rational by
+Cramer's rule (`Matrix.cramer`, `Matrix.mulVec_cramer`).
 
 **Checks.**
 - `C₅`: weight `1/2` on each of its five maximum cocliques gives `5/2`, and weight `1/2` on
   every vertex is a fractional clique of weight `5/2`, so `χ_f(C₅) = 5/2`.
 - The Petersen graph: `χ_f = 5/2`, attained by weight `1/2` on the five stars, while `χ = 3`.
 
-*Needs:* 5.1; ConvexAnalysisAndDuality 5.3; Mathlib `Matrix.cramer`, `Matrix.mulVec_cramer`.
+*Needs:* 5.1; AsymptoticSpectra 2.3; Mathlib `Matrix.cramer`, `Matrix.mulVec_cramer`.
 
 ### 5.3 Bounds and vertex-transitive graphs
 
@@ -733,8 +745,8 @@ Owned here:
   disjoint-union graphs, its leading coefficients and the strict alternation of its coefficients;
 - cores, core retracts, homomorphic equivalence, cores of vertex-transitive graphs, the
   no-homomorphism lemma and endomorphism monoids;
-- fractional colourings and the fractional chromatic number, its attainment, duality, bounds and
-  Kneser characterization; vector and strict vector colourings;
+- fractional colourings and the fractional chromatic number, the rationality of an optimal
+  weighting, its bounds and Kneser characterization; vector and strict vector colourings;
 - the theta values of edge-transitive regular, strongly regular and self-complementary
   vertex-transitive graphs; Haemers' rank bound;
 - the least eigenvalue, the core property, the fractional chromatic number and the theta value
@@ -764,7 +776,11 @@ Consumed, not restated (see the supplier contracts):
 - AssociationSchemes 5.2: uniqueness of the extremal Erdős–Ko–Rado families.
 - StronglyRegularAndMooreGraphs 1.1 and 1.2: the strongly regular graphs with `μ = 0` and the
   spectrum of a strongly regular graph.
-- ConvexAnalysisAndDuality 5.3: linear-programming duality with attainment.
+- AsymptoticSpectra 2.3: the fractional clique cover number, with attainment and
+  linear-programming duality. `fractionalChromaticNumber G` here is that number for `Gᶜ` (5.1),
+  so attainment and duality are consumed from there through the complement. This roadmap adds
+  the rationality of an optimal weighting, `n/α ≤ χ_f ≤ χ`, the vertex-transitive value, the
+  Kneser characterization and the Kneser values.
 - [LinearAlgebraMethodInCombinatorics](../LinearAlgebraMethodInCombinatorics/README.md) 4.1 and
   4.2: biclique decompositions of `Kₙ` and the Graham–Pollak theorem.
 - [RandomMatrices](../RandomMatrices/README.md) 1.2: the max–min formula and Cauchy interlacing.
@@ -877,10 +893,12 @@ The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Su
   regular graph with `μ > 0` that is not complete, the spectrum is `{k, r, s}` with `s < r < k`.
   Used in 6.1.
 
-### From ConvexAnalysisAndDuality
+### From AsymptoticSpectra
 
-- 5.3: linear-programming duality for `min c ⬝ᵥ x` over `A x = b`, `x ≥ 0`, feasible and bounded
-  below, with attainment of both programs and equal values. Used in 5.2.
+- 2.3: the fractional clique cover number (the infimum of the total weight of nonnegative
+  weights on finite sets that vanish off the cliques and cover every vertex) is attained and
+  equals the largest total weight of a nonnegative vertex weighting with weight at most `1` on
+  every clique. Applied to `Gᶜ` in 5.2.
 
 ### From LinearAlgebraMethodInCombinatorics and RandomMatrices
 

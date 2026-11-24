@@ -272,12 +272,12 @@ theorem Connected.chromaticNumber_eq_one_add_iff [Nonempty V] (hG : G.Connected)
     (G.chromaticNumber.toNat : ℝ) = 1 + largestEigenvalue G ↔ G = ⊤ ∨ IsOddCycle G := by
   sorry
 
-/-- **2.2** A partition of the edges of `G` into `m` complete bipartite graphs with sides `X k`
-and `Y k`: the sides are disjoint, and two vertices are adjacent exactly when exactly one of the
-bicliques joins them. -/
+/-- **2.2** A partition of the edges of `G` into `m` complete bipartite subgraphs with sides
+`X k` and `Y k`: the sides are disjoint, every biclique is a subgraph of `G`, and every edge is
+joined by exactly one of the bicliques. -/
 def IsBicliquePartition {m : ℕ} (X Y : Fin m → Finset V) : Prop :=
-  (∀ k, Disjoint (X k) (Y k)) ∧
-    ∀ u v : V, G.Adj u v ↔ ∃! k, (u ∈ X k ∧ v ∈ Y k) ∨ (v ∈ X k ∧ u ∈ Y k)
+  (∀ k, Disjoint (X k) (Y k)) ∧ (∀ k, ∀ u ∈ X k, ∀ v ∈ Y k, G.Adj u v) ∧
+    ∀ u v : V, G.Adj u v → ∃! k, (u ∈ X k ∧ v ∈ Y k) ∨ (v ∈ X k ∧ u ∈ Y k)
 
 /-- **2.2 (Brouwer–Haemers, Proposition 1.5.1).** A partition of the edges into `m` complete
 bipartite graphs has `m` at least the number of positive and at least the number of negative
@@ -307,12 +307,6 @@ def contract (u v : V) : _root_.SimpleGraph {x // x ≠ v} :=
 
 instance (u v : V) : DecidableRel (contract G u v).Adj := fun x y ↦ by
   unfold contract; infer_instance
-
-/-- **3.1** The neighbours of the merged vertex are the neighbours of `u` and of `v` other than
-`u`. -/
-theorem contract_adj_iff {u v : V} (huv : u ≠ v) (y : {x // x ≠ v}) :
-    (contract G u v).Adj ⟨u, huv⟩ y ↔ (y : V) ≠ u ∧ (G.Adj u y ∨ G.Adj v y) := by
-  sorry
 
 /-- **3.1 (Biggs, Proposition 9.3).** Deletion–contraction: for an edge `uv`,
 `C_G = C_{G - uv} - C_{G / uv}`. -/
@@ -344,8 +338,9 @@ theorem IsTree.chromaticPolynomial_eq (hG : G.IsTree) :
     chromaticPolynomial G = X * (X - 1) ^ (Fintype.card V - 1) := by
   sorry
 
-/-- **3.2 (Biggs, pp. 65–66).** The cycle `Cₙ`, `n ≥ 3`, has `C = (t-1)^n + (-1)^n (t-1)`. -/
-theorem chromaticPolynomial_cycleGraph {n : ℕ} (hn : 3 ≤ n) :
+/-- **3.2 (Biggs, pp. 65–66).** The cycle `Cₙ`, `n ≥ 2`, has `C = (t-1)^n + (-1)^n (t-1)`;
+Mathlib's `cycleGraph 2` is `K₂`. -/
+theorem chromaticPolynomial_cycleGraph {n : ℕ} (hn : 2 ≤ n) :
     chromaticPolynomial (_root_.SimpleGraph.cycleGraph n) =
       (X - 1) ^ n + (-1) ^ n * (X - 1) := by
   sorry
@@ -448,18 +443,12 @@ colourings. -/
 def fractionalChromaticNumber : ℝ :=
   sInf {t | ∃ w, IsFractionalColouring G w ∧ ∑ s, w s = t}
 
-/-- **5.2 (Godsil–Royle, Theorem 7.3.2).** The infimum is attained, at a rational weighting. -/
+/-- **5.2 (Godsil–Royle, Theorem 7.3.2).** The infimum is attained, at a rational weighting.
+Attainment alone, and linear-programming duality, are AsymptoticSpectra 2.3 for the complement
+(README 5.1–5.2). -/
 theorem exists_isFractionalColouring_sum_eq :
     ∃ w, IsFractionalColouring G w ∧ (∀ s, ∃ q : ℚ, w s = q) ∧
       ∑ s, w s = fractionalChromaticNumber G := by
-  sorry
-
-/-- **5.2 (Godsil–Royle, §7.5).** Linear-programming duality: `χ_f` is the supremum of the
-total weights of nonnegative vertex weightings with weight at most `1` on every coclique. -/
-theorem fractionalChromaticNumber_eq_sSup :
-    fractionalChromaticNumber G =
-      sSup {t | ∃ g : V → ℝ, (∀ x, 0 ≤ g x) ∧
-        (∀ s : Finset V, G.IsIndepSet (s : Set V) → ∑ x ∈ s, g x ≤ 1) ∧ ∑ x, g x = t} := by
   sorry
 
 /-- **5.3 (Godsil–Royle, §7.1 and Corollary 7.5.3).** `n / α ≤ χ_f ≤ χ`. -/
@@ -581,7 +570,7 @@ end SimpleGraph
 
 end TauCetiRoadmap.CocliquesColouringsAndTheta
 
-/-! ## Library declarations consumed -/
+/-! Pinned library declarations named in the supplier contracts of `README.md`. -/
 
 #check @SimpleGraph.indepNum
 #check @SimpleGraph.cliqueNum
