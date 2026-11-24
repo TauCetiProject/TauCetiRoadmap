@@ -432,7 +432,8 @@ Prove:
 At `k = 0` the equation is `w″ + hw = 0` on `[0, π/2]`. Continuity at `0`: the boundary functions
 are jointly continuous in `(h, k)` (continuous dependence on the coefficient, and `K` continuous by
 EllipticIntegrals 2.1), and the roots are simple. For `k → 1`: `K → ∞` (EllipticIntegrals 3.1) and
-`sn(z, k) → tanh z` locally uniformly (SpecialFunctionsJacobiElliptic 3.5); the limit problem on
+`sn(z, k) → tanh z` at each real `z` (SpecialFunctionsJacobiElliptic 3.5), hence locally uniformly
+on `ℝ`, since `|∂_z sn| = |cn dn| ≤ 1` makes the family `1`-Lipschitz; the limit problem on
 `[0, ∞)` is the Pöschl–Teller equation, whose bound states are at `h = ν(ν + 1) − (ν − m)²` for
 `0 ≤ m < ν` (with `x = tanh z` it is Legendre's equation of order `μ`), and the remaining
 eigenvalues accumulate at the threshold `ν(ν + 1)`. The pairs `a^m`, `b^{m+1}` have the same limit
