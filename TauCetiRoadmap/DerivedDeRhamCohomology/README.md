@@ -3324,10 +3324,10 @@ with the dg-algebra structure carried by the strict model.
 pp.5–6; [StacksCt], Remark 5.5 and Lemmas 5.6–5.7, Tags 08QI, 08QJ, 08QK, pp.9–10; [DoldPuppe] §2
 (the generalized Eilenberg–Zilber theorem), pp.211–219.
 
-*Needs:* Layer 2: The ordinary algebraic de Rham complex; Layer 2: The functorial map of ordinary de
-Rham complexes; Layer 2: Ordinary polynomial base change and Künneth; DerivedModuleAlgebra §0.1
+*Needs:* §2.12 (*The ordinary algebraic de Rham complex*); §2.19 (*The functorial map of ordinary de
+Rham complexes*); §2.20 (*Ordinary polynomial base change and Künneth*); DerivedModuleAlgebra §0.1
 Simplicial polynomial resolutions; DerivedModuleAlgebra §0.2 Derived tensor products on module
-derived categories; Layer 1: Filtered derived categories; DGAInfinity Layer 1 (DG algebras, DG
+derived categories; §1.14 (*Filtered derived categories*); DGAInfinity Layer 1 (DG algebras, DG
 morphisms and signed tensor products).
 
 Prove the following named laws.
@@ -3393,9 +3393,11 @@ differential is formed before realization, not defined only on cotangent homolog
 [BL22], Appendix E, Construction E.2, pp.232–233; [StacksCt] Lemmas 5.6–5.7, Tags 08QJ, 08QK,
 pp.9–10.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; DerivedModuleAlgebra §0.4 The full
-cotangent complex; DerivedModuleAlgebra §0.14 Derived exterior powers; DerivedModuleAlgebra §0.1
-Simplicial polynomial resolutions; Layer 1: Filtered derived categories.
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); DerivedModuleAlgebra §0.4 The
+full cotangent complex; DerivedModuleAlgebra §0.14 Derived exterior powers; DerivedModuleAlgebra
+§0.1 Simplicial polynomial resolutions; DerivedModuleAlgebra §0.3 Derived functors of non-additive
+functors; DerivedModuleAlgebra §0.17 Exterior powers of a triangle and décalage; §1.14 (*Filtered
+derived categories*).
 
 Lean: `DerivedDeRham.hodgeGradedPieces`.
 
@@ -3416,9 +3418,9 @@ p-completion are different operations.
 
 [BL22], Appendix E, Construction E.14 and Remark E.15, p.235.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge graded pieces of
-derived de Rham; Layer 1: Completion of a filtered object; Layer 1: Completed filtered tensor
-products; DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); §2.24 (*Hodge graded pieces of
+derived de Rham*); §1.15 (*Completion of a filtered object*); §1.17 (*Completed filtered tensor
+products*); DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The
 Milnor sequence for towers of complexes*; DGAInfinity Layer 1 (strict DG models and morphisms).
 
 Prove the following named laws.
@@ -3455,10 +3457,10 @@ algebras the mod-p computation uses the ordinary reductions; general reductions 
 [Bhatt12], Definition 8.1, Lemmas 8.2–8.3, pp.31–32; [BL22], Appendix E, Construction E.3 and Remark
 E.4, p.233.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; DerivedModuleAlgebra §1.3 The
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); DerivedModuleAlgebra §1.3 The
 derived completion reflector; DerivedModuleAlgebra §1.5 When ordinary quotient towers compute
-completion; Layer 1: Completed filtered tensor products; DerivedModuleAlgebra §1.1 Derived limits of
-towers; DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
+completion; §1.17 (*Completed filtered tensor products*); DerivedModuleAlgebra §1.1 Derived limits
+of towers; DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
 
 Prove the following named laws.
 
@@ -3492,11 +3494,11 @@ graded-commutative `A`-dg algebras with odd squares zero, continuous differentia
 
 [Prisms], §1.2; §4 Hodge–Tate universal map after Lemma 4.10, pp.10–11, 39–40.
 
-*Needs:* Layer 1: Elkik algebraization of completely smooth and étale algebras; DerivedModuleAlgebra
-§1.7 Complete flatness and complete faithful flatness; DerivedModuleAlgebra §0.12 The smooth
-cotangent computation; Layer 2: The universal differential graded algebra; Layer 2: The ordinary
-algebraic de Rham complex; SchemeAndStackFoundations §4.7 (`Formal.AdicRing`, `Spf`); DGAInfinity
-Layer 1 (strict DG models and morphisms).
+*Needs:* §1.12 (*Elkik algebraization of completely smooth and étale algebras*);
+DerivedModuleAlgebra §1.7 Complete flatness and complete faithful flatness; DerivedModuleAlgebra
+§0.12 The smooth cotangent computation; §2.21 (*The universal differential graded algebra*); §2.12
+(*The ordinary algebraic de Rham complex*); SchemeAndStackFoundations §4.7 (`Formal.AdicRing`,
+`Spf`); DGAInfinity Layer 1 (strict DG models and morphisms).
 
 Prove the following named laws.
 
@@ -3527,9 +3529,9 @@ canonically split. The relative conjugate filtration is constructed in §3.6.1.
 pp.232–233.
 
 *Needs:* DerivedModuleAlgebra §0.8 The cotangent transitivity triangle; DerivedModuleAlgebra §0.17
-Exterior powers of a triangle and décalage; Layer 2: De Rham cohomology from polynomial resolutions;
-Layer 2: Ordinary polynomial base change and Künneth; Layer 1: Filtered derived categories; Layer 1:
-Valid exchanges of completion and derived operations.
+Exterior powers of a triangle and décalage; §2.22 (*De Rham cohomology from polynomial
+resolutions*); §2.20 (*Ordinary polynomial base change and Künneth*); §1.14 (*Filtered derived
+categories*); §1.22 (*Valid exchanges of completion and derived operations*).
 
 Lean: `DerivedDeRham.deRhamTransitivity`.
 
@@ -3597,7 +3599,7 @@ Frobenius, the algebraic input to the `B^(1)`-action.
 
 [Bhatt12], Notation 3.1, final paragraph, p.6.
 
-*Needs:* Layer 2: The graded Leibniz identity; Mathlib `Derivation.leibniz_pow`.
+*Needs:* §2.11 (*The graded Leibniz identity*); Mathlib `Derivation.leibniz_pow`.
 
 Lean: `DeRham.d_frobenius_smul`.
 
@@ -3622,9 +3624,9 @@ the further convergence hypotheses stated below.
 
 [Bhatt12], Proposition 2.3, proof and Remark 2.4, p.5.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 1: Filtered derived
-categories; DerivedModuleAlgebra §0.1 Simplicial polynomial resolutions; Layer 3: The derived
-Frobenius twist (constructed before this subsection).
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); §1.14 (*Filtered derived
+categories*); DerivedModuleAlgebra §0.1 Simplicial polynomial resolutions; §3.3 (*The derived
+Frobenius twist*, constructed before this subsection).
 
 Prove the following named laws.
 
@@ -3700,8 +3702,8 @@ cohomology; a chain-level splitting obtained from a lift may depend on choices.
 
 [Bhatt12], Theorem 3.2, proof and Remark 3.3, p.7.
 
-*Needs:* Layer 2: The ordinary algebraic de Rham complex; Layer 3: The derived Frobenius twist; Layer 2:
-The graded Leibniz identity.
+*Needs:* §2.12 (*The ordinary algebraic de Rham complex*); §3.3 (*The derived Frobenius twist*);
+§2.11 (*The graded Leibniz identity*).
 
 Lean: `DerivedDeRham.polynomialCartier`.
 
@@ -3751,9 +3753,9 @@ Cartier theorem, including imperfect fields and the relative twist.
 
 [Bhatt12], Theorem 3.2 and Remark 3.4 with proof, p.7.
 
-*Needs:* Layer 3: The polynomial Cartier map; Layer 3: The derived Frobenius twist;
+*Needs:* §3.4 (*The polynomial Cartier map*); §3.3 (*The derived Frobenius twist*);
 DerivedModuleAlgebra §0.12 The smooth cotangent computation; DerivedModuleAlgebra §0.10 Derived base
-change of the cotangent complex; Layer 2: Ordinary polynomial base change and Künneth.
+change of the cotangent complex; §2.20 (*Ordinary polynomial base change and Künneth*).
 
 Lean: `DerivedDeRham.smoothCartier`.
 
@@ -3784,11 +3786,10 @@ of 3.3 and 3.5; no replacement of a nondiscrete twist by `π₀` is made.
 
 [Bhatt12], Proposition 3.22, Remark 3.23 and Lemma 3.24, pp.11–12.
 
-*Needs:* Layer 2: Derived de Rham transitivity filtrations (ordinary base-forms filtration); Layer
-3: The derived Frobenius twist; Layer 3: Derived Cartier graded pieces; Layer 3: The classical
-smooth Cartier isomorphism; Layer 1: Filtered derived categories; Layer 1: Valid exchanges of
-completion and derived operations; DerivedModuleAlgebra §0.17 Exterior powers of a triangle and
-décalage.
+*Needs:* §2.28 (*Derived de Rham transitivity filtrations*, ordinary base-forms filtration); §3.3
+(*The derived Frobenius twist*); §3.5 (*Derived Cartier graded pieces*); §3.6 (*The classical smooth
+Cartier isomorphism*); §1.14 (*Filtered derived categories*); §1.22 (*Valid exchanges of completion
+and derived operations*); DerivedModuleAlgebra §0.17 Exterior powers of a triangle and décalage.
 
 **Checks.**
 
@@ -3814,10 +3815,11 @@ totalization and convergence hypotheses.
 
 [Bhatt12], Proposition 2.3 and Remark 2.4; Proposition 3.5, pp.5, 7; [GP], Proposition 2.18, pp.7–8.
 
-*Needs:* Layer 3: The conjugate filtration; Layer 3: Derived Cartier graded pieces; Layer 1:
-Filtered derived categories; Layer 1: Valid exchanges of completion and derived operations;
+*Needs:* §3.2 (*The conjugate filtration*); §3.5 (*Derived Cartier graded pieces*); §1.14 (*Filtered
+derived categories*); §1.22 (*Valid exchanges of completion and derived operations*);
 DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The Milnor
-sequence for towers of complexes*.
+sequence for towers of complexes*; DerivedModuleAlgebra §0.7 Degree zero and the naive cotangent
+complex.
 
 Lean: `DerivedDeRham.conjugateSpectralSequence`.
 
@@ -3964,8 +3966,8 @@ has `H¹ = ℚ·dt/t`. Hodge completion recovers ordinary de Rham cohomology for
 [Bhatt12], Corollary 2.5, proof and Remark 2.6, pp.5–6; [Bhatt12], Remark 3.12 and Corollary 3.10,
 p.8.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 3: The conjugate filtration;
-Mathlib `LaurentPolynomial`.
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); §3.2 (*The conjugate
+filtration*); Mathlib `LaurentPolynomial`.
 
 Lean: `DerivedDeRham.rationalCollapse`.
 
@@ -3996,11 +3998,11 @@ Hodge filtration and multiplication.
 [Bhatt12], Corollary 3.10, Remarks 2.6 and 3.12, pp.6, 8; [BL22], Appendix E, Proposition E.12 and
 Construction E.14, pp.234–235.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge graded pieces of
-derived de Rham; Layer 2: Hodge-completed derived de Rham; Layer 2: p-completed derived de Rham;
-Layer 2: The de Rham algebra of a completely smooth formal algebra; Layer 3: Why Hodge completion
-matters; DerivedModuleAlgebra §0.12 The smooth cotangent computation; Layer 1: Completion of a
-filtered object.
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); §2.24 (*Hodge graded pieces of
+derived de Rham*); §2.25 (*Hodge-completed derived de Rham*); §2.26 (*p-completed derived de Rham*);
+§2.27 (*The de Rham algebra of a completely smooth formal algebra*); §3.12 (*Why Hodge completion
+matters*); DerivedModuleAlgebra §0.12 The smooth cotangent computation; §1.15 (*Completion of a
+filtered object*).
 
 Lean: `DerivedDeRham.smoothDeRhamComparison`.
 
@@ -4081,8 +4083,8 @@ is `W(A₀)`.
 
 [Bhatt12], Proposition 8.5, Corollary 8.6, Remark 8.7, pp.32–33.
 
-*Needs:* DerivedModuleAlgebra §1.3 The derived completion reflector; Layer 1: Valid exchanges of
-completion and derived operations; Layer 2: p-completed derived de Rham; §PD.6 here; Mathlib
+*Needs:* DerivedModuleAlgebra §1.3 The derived completion reflector; §1.22 (*Valid exchanges of
+completion and derived operations*); §2.26 (*p-completed derived de Rham*); §PD.6 here; Mathlib
 `WittVector`.
 
 Lean: `DerivedDeRham.fpOverZpTorsion`.
@@ -4123,7 +4125,7 @@ limit. The two relative categories are distinguished.
 [BMS19], Definition 4.10; Lemmas 4.15–4.17 and 4.34; Variants 4.33 and 4.35,
 pp.223–225, 231–232.
 
-*Needs:* Layer 1: The quasisyntomic cotangent condition; DerivedModuleAlgebra §0.8 The cotangent
+*Needs:* §1.23 (*The quasisyntomic cotangent condition*); DerivedModuleAlgebra §0.8 The cotangent
 transitivity triangle; DerivedModuleAlgebra §0.10 Derived base change of the cotangent complex;
 DerivedModuleAlgebra §1.7 Complete flatness and complete faithful flatness; DerivedModuleAlgebra
 §1.9 Complete faithful-flat module descent.
@@ -4274,8 +4276,8 @@ sense of the Conventions, not as a strict commutative dg algebra.
 
 [BMS19], Proposition 4.31 and Remark 4.32, pp.230–231; Variants 4.33 and 4.35, pp.231–232.
 
-*Needs:* Layer 5: Compatible-root quasisyntomic covers; Layer 5: Refinement and Čech stability of
-QRSP covers; Layer 1: Filtered derived categories; Layer 1: Completion of a filtered object;
+*Needs:* §5.3 (*Compatible-root quasisyntomic covers*); §5.4 (*Refinement and Čech stability of QRSP
+covers*); §1.14 (*Filtered derived categories*); §1.15 (*Completion of a filtered object*);
 DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The Milnor
 sequence for towers of complexes*.
 
@@ -4307,8 +4309,8 @@ derived reductions and the completed base ring; no freeness of the cotangent com
 *Needs:* DerivedModuleAlgebra §0.4 The full cotangent complex; DerivedModuleAlgebra §0.10 Derived
 base change of the cotangent complex; DerivedModuleAlgebra §0.14 Derived exterior powers;
 DerivedModuleAlgebra §0.17 Exterior powers of a triangle and décalage; DerivedModuleAlgebra §1.9
-Complete faithful-flat module descent; Layer 1: Valid exchanges of completion and derived
-operations.
+Complete faithful-flat module descent; §1.22 (*Valid exchanges of completion and derived
+operations*).
 
 Lean: `DerivedDeRham.completedCotangentDescent`.
 
@@ -4339,11 +4341,12 @@ that uncompleted derived de Rham commutes with every unbounded totalization.
 
 [BMS19], Example 5.11, p.240; [BL22], Proposition E.16 with proof, pp.235–236.
 
-*Needs:* Layer 5: Descent of raw and completed cotangent powers; Layer 2: Hodge graded pieces of
-derived de Rham; Layer 2: Hodge-completed derived de Rham; Layer 2: p-completed derived de Rham;
-Layer 1: Completion of a filtered object; Layer 1: Valid exchanges of completion and derived
-operations; DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The
-Milnor sequence for towers of complexes*.
+*Needs:* §5.6 (*Descent of raw and completed cotangent powers*); §2.24 (*Hodge graded pieces of
+derived de Rham*); §2.25 (*Hodge-completed derived de Rham*); §2.26 (*p-completed derived de Rham*);
+§1.15 (*Completion of a filtered object*); §1.22 (*Valid exchanges of completion and derived
+operations*); DerivedModuleAlgebra §1.1 Derived limits of towers; DerivedModuleAlgebra §1.T.1 / *The
+Milnor sequence for towers of complexes*; DerivedModuleAlgebra §1.9 Complete faithful-flat module
+descent.
 
 Lean: `DerivedDeRham.filteredDeRhamDescent` collects the three laws
 `hodgeQuotientFlatDescent`, `hodgeCompletedFlatDescent` and `pCompletedHodgeDescent`
@@ -4406,15 +4409,15 @@ followed by the sheaf multiplication; no strictly commutative global model is as
 unbounded hypercohomology and relative cup products), and §21.33, Lemmas 21.33.1–21.33.3,
 Tags 0FPK, 0FPL, 0FPM; [StacksCoh] §20.25, Tag 01FP.
 
-*Needs:* Layer 2: De Rham cohomology from polynomial resolutions; Layer 2: Hodge-completed derived
-de Rham; Layer 2: p-completed derived de Rham; Layer 2: Hodge graded pieces of derived de Rham;
-Layer 5: Descent of Hodge quotients and completion; DerivedModuleAlgebra §0.11 Localization and
+*Needs:* §2.22 (*De Rham cohomology from polynomial resolutions*); §2.25 (*Hodge-completed derived
+de Rham*); §2.26 (*p-completed derived de Rham*); §2.24 (*Hodge graded pieces of derived de Rham*);
+§5.7 (*Descent of Hodge quotients and completion*); DerivedModuleAlgebra §0.11 Localization and
 filtered colimits of cotangent complexes; DerivedModuleAlgebra §0.2 Derived tensor products on
-module derived categories; Layer 3: Smooth ordinary and completed de Rham comparisons; Mathlib
+module derived categories; §3.13 (*Smooth ordinary and completed de Rham comparisons*); Mathlib
 `AlgebraicGeometry.Scheme`, `SheafOfModules` and its Grothendieck abelian instance;
-SchemeAndStackFoundations §2.18, §4.7; DerivedModuleAlgebra §1.1 Derived limits of towers; Layer 1:
-Filtered derived categories; Layer 1: Completion of a filtered object; DerivedModuleAlgebra §1.T.1 /
-*The Milnor sequence for towers of complexes*; EnhancedDerivedSheaves §§0.1–0.3
+SchemeAndStackFoundations §2.18, §4.7; DerivedModuleAlgebra §1.1 Derived limits of towers; §1.14
+(*Filtered derived categories*); §1.15 (*Completion of a filtered object*); DerivedModuleAlgebra
+§1.T.1 / *The Milnor sequence for towers of complexes*; EnhancedDerivedSheaves §§0.1–0.3
 `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`,
 `ClassicalDerived.inverseLimits`; EnhancedDerivedSheaves §E1.4 `enhancedPullback`,
 `enhancedPushforward`.
@@ -4613,9 +4616,9 @@ Given the derived-Witt identification of CrystallineCohomology §CR.DDR.4.5, thi
 [Bhatt12], Proposition 9.3(2)–(5), Remark 9.6, Definition 9.7, Proposition 9.9, Remark 9.10, pp.34–35;
 Lemma 3.29 and Corollary 3.40, pp.13–17; Lemma 8.3 and Corollary 8.6, pp.31–32.
 
-*Needs:* Layer 5: The period setup; Layer 4: The torsion boundary for F_p over Z_p;
-DerivedModuleAlgebra §§0.13, 0.8, 1.1–1.5; Layer 2: p-completed derived de Rham; Layer 2: Derived de
-Rham transitivity filtrations; §§PD.6–PD.7 here. The principal period regular-envelope
+*Needs:* §5.11 (*The period setup*); §4.6 (*The torsion boundary for F_p over Z_p*);
+DerivedModuleAlgebra §§0.13, 0.8, 1.1–1.5; §2.26 (*p-completed derived de Rham*); §2.28 (*Derived de
+Rham transitivity filtrations*); §§PD.6–PD.7 here. The principal period regular-envelope
 equivalence uses PadicPeriodRings §3's ordinary envelope, presentation, completion and `θ_cris`,
 and §4.1's Frobenius and actions; its generalization retains the stated regular-envelope hypothesis.
 
@@ -4750,10 +4753,10 @@ assertions, not finite-projectivity assertions.
 
 [BMS19], Lemma 4.7, Lemma 4.34 and Lemma 5.14(1), pp.221–222, 231, 241.
 
-*Needs:* Layer 1: The quasisyntomic cotangent condition; DerivedModuleAlgebra §0.14 Derived exterior
-powers; DerivedModuleAlgebra §0.16 Derived divided powers; Layer 5: Quasiregular semiperfectoid
-rings; Layer 5: The quasisyntomic sites; DerivedModuleAlgebra §1.7 Complete flatness and complete
-faithful flatness.
+*Needs:* §1.23 (*The quasisyntomic cotangent condition*); DerivedModuleAlgebra §0.14 Derived
+exterior powers; DerivedModuleAlgebra §0.16 Derived divided powers; §5.2 (*Quasiregular
+semiperfectoid rings*); §5.1 (*The quasisyntomic sites*); DerivedModuleAlgebra §1.7 Complete
+flatness and complete faithful flatness.
 
 Lean: `DerivedDeRham.relativeTorAmplitude`.
 
@@ -4775,10 +4778,10 @@ Variant E.17's p-quasisyntomic range. The uniform bound and relative-site restri
 
 [BMS19], Example 5.12 and Lemma 4.34, pp.231, 240; [BL22], Variant E.17 with proof, p.236.
 
-*Needs:* Layer 5: The quasisyntomic sites; Layer 5: Descent of raw and completed cotangent powers; Layer 3: The
-conjugate filtration; Layer 3: Derived Cartier graded pieces; Layer 3: The conjugate spectral sequence
-and convergence; Layer 1: Valid exchanges of completion and derived operations; Layer 5: Relative
-Tor-amplitude estimates; PerfectoidSpaces §P1.24.
+*Needs:* §5.1 (*The quasisyntomic sites*); §5.6 (*Descent of raw and completed cotangent powers*);
+§3.2 (*The conjugate filtration*); §3.5 (*Derived Cartier graded pieces*); §3.7 (*The conjugate
+spectral sequence and convergence*); §1.22 (*Valid exchanges of completion and derived operations*);
+§5.16 (*Relative Tor-amplitude estimates*); PerfectoidSpaces §P1.24.
 
 Lean: `DerivedDeRham.uncompletedPDeRhamDescent`.
 
@@ -4863,10 +4866,11 @@ Hodge-completed comparison in the appropriate characteristic.
 [StacksPerfect], §36.30, Lemmas 36.30.1 and 36.30.4 with proof; Tags 0A1H, 0B91, pp.73–74; [StacksMA]
 Lemma 15.99.4, Tag 09AW, p.288.
 
-*Needs:* Layer 2: The de Rham algebra of a completely smooth formal algebra; Layer 3: Smooth ordinary and
-completed de Rham comparisons; Layer 5: Derived de Rham on schemes and formal schemes; Layer 5: Relative
-Tor-amplitude estimates; Layer 5: Descent of Hodge quotients and completion; Layer 1: Valid exchanges of
-completion and derived operations; Layer 1: Effectivity of compatible perfect systems;
+*Needs:* §2.27 (*The de Rham algebra of a completely smooth formal algebra*); §3.13 (*Smooth
+ordinary and completed de Rham comparisons*); §5.8 (*Derived de Rham on schemes and formal
+schemes*); §5.16 (*Relative Tor-amplitude estimates*); §5.7 (*Descent of Hodge quotients and
+completion*); §1.22 (*Valid exchanges of completion and derived operations*); §1.13 (*Effectivity of
+compatible perfect systems*);
 EnhancedDerivedSheaves §E1.9; SchemeAndStackFoundations §2.18, §4.7; Mathlib
 `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Smooth`.
 
@@ -4956,9 +4960,11 @@ small site is used only after chart hypotheses are checked.
 
 [BMS19], Remark 10.4 and its construction, p.293.
 
-*Needs:* Layer 5: The quasisyntomic sites; Layer 5: Sheaves and unfolding from the QRSP basis; Layer 5:
-Descent of Hodge quotients and completion; Layer 1: Elkik algebraization of completely smooth and étale
-algebras; SchemeAndStackFoundations §4.7; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`.
+*Needs:* §5.1 (*The quasisyntomic sites*); §5.5 (*Sheaves and unfolding from the QRSP basis*); §5.7
+(*Descent of Hodge quotients and completion*); §1.12 (*Elkik algebraization of completely smooth and
+étale algebras*); DerivedModuleAlgebra §0.12 The smooth cotangent computation;
+DerivedModuleAlgebra §0.25 Cotangent obstruction theory for square-zero lifts;
+SchemeAndStackFoundations §4.7; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`.
 
 Lean: `DerivedDeRham.formalEtaleRealization`.
 
