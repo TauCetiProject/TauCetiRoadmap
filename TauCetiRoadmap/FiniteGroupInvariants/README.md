@@ -1460,9 +1460,14 @@ Let `F ⊆ ℂ` be a number field, `ℓ` an odd prime and `t = [F(ζ_ℓ) : F]`.
 `GL (Fin n) F` has order `ℓ`. This is the vanishing case of Schur's bound (serre-bounds, §2.2, Theorem 2′, p. 9):
 let `a` be the largest integer such that `F(ζ_ℓ)` contains a primitive `ℓ^a`-th root of unity, and put
 `M_F(n, ℓ) = a⌊n/t⌋ + ⌊n/(ℓt)⌋ + ⌊n/(ℓ²t)⌋ + ⋯`; the order of a finite `ℓ`-subgroup of `GL (Fin n) ℂ` all of whose
-traces lie in `F` has `ℓ`-adic valuation at most `M_F(n, ℓ)`. If `t > n`, every term of `M_F(n, ℓ)` is `0`, while an
-element of order `ℓ` of `GL (Fin n) F` would generate such a subgroup of order `ℓ`. *Needs:* 10.2; Mathlib
-`Matrix.GeneralLinearGroup`.
+traces lie in `F` has `ℓ`-adic valuation at most `M_F(n, ℓ)`, and every term of `M_F(n, ℓ)` is `0` when `t > n`.
+Route, by the minimal polynomial and without Schur's bound: let `g` have order `ℓ`. Its minimal polynomial over `F`
+divides `X^ℓ − 1 = (X − 1)Φ_ℓ` and does not divide `X − 1`, as `g ≠ 1`, so it has an irreducible factor `f` over `F`
+dividing `Φ_ℓ`. A root `ζ` of `f` in `ℂ` is a primitive `ℓ`-th root of unity, so `f` is the minimal polynomial of `ζ`
+over `F`, of degree `[F(ζ) : F] = t`; and `f` divides the characteristic polynomial of `g`, of degree `n`. Hence
+`t ≤ n`. *Needs:* Mathlib `Matrix.GeneralLinearGroup`, `Polynomial.cyclotomic_prime_mul_X_sub_one`,
+`Matrix.minpoly_dvd_charpoly`, `Matrix.charpoly_natDegree_eq_dim`, `minpoly.eq_of_irreducible_of_monic`,
+`IntermediateField.adjoin.finrank`.
 
 **Checks.**
 - For `F = ℚ`, `M_ℚ(n, ℓ)` is the exponent of `ℓ` in `minkowskiBound n` (10.2).
@@ -1594,7 +1599,8 @@ Layers 6, 9; Mathlib; Tau Ceti `TauCeti.ClassificationStatement`.
 ## Downstream consumers
 
 SatoTateGroups consumes `jordanBound` and Jordan's theorem 10.5; AdelicImagesAndModularCurves
-consumes 7.1 and `AlmostConjugateOfFiniteIndex` (7.3); QuaternionArithmetic consumes 7.1; the
+consumes 7.1 and `AlmostConjugateOfFiniteIndex` (7.3); QuaternionArithmetic consumes 7.1;
+HermitianFormsAndLattices consumes Minkowski's bound 10.2 for its §5.2 (c) and 10.2a for its §5.2 (e); the
 roadmaps that construct finite groups (HyperellipticCurves, PadicExtensionFamilies,
 HypergeometricMotives, GroupActionsOnRiemannSurfaces, ArtinRepresentations) take the invariants of
 the abstract group from here.
@@ -1697,7 +1703,7 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | representations | `Representation`, `Representation.character`, `Representation.IsIrreducible`, `IntermediateField.adjoin`, `IntermediateField.relfinrank`, `IsCyclotomicExtension.autEquivPow`, `MonoidAlgebra` |
 | orders and lattices | `Subalgebra`, `Submodule.span`, `IsSemisimpleRing`, Maschke's theorem (`MonoidAlgebra.Submodule.exists_isCompl`, with the `IsSemisimpleRing` instance on `MonoidAlgebra k G` when `#G` is invertible in `k`), `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure` |
 | number fields | `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, `NumberField.discr`, `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.classNumber`, `NumberField.Units.regulator`, `NumberField.Units.unitLattice_rank`, `NumberField.IsTotallyReal`, `NumberField.RingOfIntegers`, `NumberField.RingOfIntegers.mapAlgEquiv`, the action of `Gal(L/K)` on `NumberField.InfinitePlace L` (`NumberField.InfinitePlace.smul_eq_comap`: `σ • w = w.comap σ⁻¹`), `CyclotomicField`, `IntermediateField.fixedField`, `IntermediateField.normalClosure`, `AlgebraicClosure` |
-| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `Matrix.SpecialLinearGroup`, `Matrix.unitaryGroup`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank`, `Subgroup.FiniteIndex`, `IsAlgClosed`, `IsAlgClosed.exists_pow_nat_eq`, `card_rootsOfUnity`, `Module.End.exists_eigenvalue`, `IsCyclotomicExtension.algEquiv`, `Real.sqrt` |
+| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `Matrix.SpecialLinearGroup`, `Matrix.unitaryGroup`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank`, `Subgroup.FiniteIndex`, `IsAlgClosed`, `IsAlgClosed.exists_pow_nat_eq`, `card_rootsOfUnity`, `Module.End.exists_eigenvalue`, `IsCyclotomicExtension.algEquiv`, `Real.sqrt`, `Matrix.minpoly_dvd_charpoly`, `Matrix.charpoly_natDegree_eq_dim`, `Polynomial.cyclotomic_prime_mul_X_sub_one`, `minpoly.eq_of_irreducible_of_monic`, `IntermediateField.adjoin.finrank` |
 | permutations | `Equiv.Perm`, `Equiv.Perm.isConj_iff_cycleType_eq`, `MulAction.IsPretransitive`, `alternatingGroup` |
 
 ### From Tau Ceti
