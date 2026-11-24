@@ -1222,7 +1222,7 @@ Prove `theta_coefficientRationality`: For relevant `π`, let `U_π` be the finit
 
 Exact coefficient field L and embeddings; finite nonsymmetric set so the subgroup is open; class-field construction is imported.
 
-(DL24, Lemma4.5 and (4.2) arXiv PDF42). *Needs:* 3.43, 2.7; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (change of additive character).
+(DL24, Lemma4.5 and (4.2) arXiv PDF42). *Needs:* 3.43, 2.7; AnalyticNumberTheoryPartII §5.3g (change of additive character at number-field places).
 
 ### Examples
 
@@ -1833,7 +1833,7 @@ Construct `standardDoublingFactors` for the GQT datum of §§2.1–2.2: orthogon
 
 Compute the unramified denominator `d_v(s,χV,v)` as the explicit product of Hecke factors of Lapid–Rallis p.334 Remark3, so a standard spherical section gives `Z_v=L_v/d_v`. For a number-field cuspidal π construct the partial Euler product, the ramified and infinity factors and the completed standard L-function; prove convergence in a right half-plane and meromorphic continuation from the global doubling integral and its functional equation. With the same unscaled spherical sections prove the convergence of `∏_v Z_v*` on `Re s>0` used in 6.12–6.13, with GQT's good-section and factorizability hypotheses. AL.1–AL.2 supply the Hecke and `GLₙ` factors in the denominators and Levi/rank-one comparisons; the classical and metaplectic standard factors are constructed here.
 
-(GQT, §11.6 PDF54, local GCD, normalized quotients and (11.3); LapidRallis05, Theorem4 and p.334 Remark3; Yamana14, local good-section GCD theorem cited in GQT §11.6; Gan12, §§5–6, pp.76–80, metaplectic factors and unramified comparison.) *Needs:* 5.16, 6.2, 6.10; AutomorphicLFunctionsAndLocalFactors §§AL.1.3.1, AL.1.4.2 and AL.2.1.5 (Hecke and `GLₙ` comparisons); AnalyticNumberTheoryPartI §2.3a (Hecke continuation for the global denominators); SmoothRepresentationsOfLocalGroups §SR.2.2; AutomorphicSpectralTheory §§2.1–2.6.
+(GQT, §11.6 PDF54, local GCD, normalized quotients and (11.3); LapidRallis05, Theorem4 and p.334 Remark3; Yamana14, local good-section GCD theorem cited in GQT §11.6; Gan12, §§5–6, pp.76–80, metaplectic factors and unramified comparison.) *Needs:* 5.16, 6.2, 6.10; AutomorphicLFunctionsAndLocalFactors §§AL.1.2.1, AL.1.3.1, AL.1.4.2, AL.2.1.4 and AL.2.1.5 (Hecke and `GLₙ` factors and comparisons); AnalyticNumberTheoryPartI §2.3a (Hecke continuation for the global denominators); SmoothRepresentationsOfLocalGroups §SR.2.2; AutomorphicSpectralTheory §§2.1–2.6.
 
 **Checks.**
 

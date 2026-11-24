@@ -1619,7 +1619,7 @@ the formal proof, `Development/WeilBound/ThetaLifts/SmallCones/ThetaUniq.lean` (
 (`PositivityTheory.ThKG.Loc.ConeFacB`), `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
 (`GlobalTheory.ThK.EvZero`).
 *Needs:* 3.3b, 3.45, 3.47, 5.7a, 5.7b; MetaplecticAutomorphicForms §§3.3, 5.1, 5.2, 5.5; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2, 3.1;
-AutomorphicLFunctionsAndLocalFactors §§AL.1.3.2 and AL.1.6.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h.
+AutomorphicLFunctionsAndLocalFactors §§AL.1.2.1, AL.1.3.2 and AL.1.6.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h.
 
 **Checks.**
 

@@ -3007,8 +3007,8 @@ constants of 6.5 outside `T` and the real places depend on `α`, `β` only throu
 `P` outside `T` they are the Euler factors of `L^T` (6.5, route), so `C` is the same for every `T ⊆ P`. The identities
 above use only that `c_T(G)` is nonzero; its value is that of 6.5.
 
-*Needs:* 6.2, 6.4, 6.5, 6.11; AutomorphicLFunctionsAndLocalFactors §§AL.1.1.2 and AL.1.2.1; HermitianFormsAndLattices §4.7;
-ThetaKernelsForUnitaryDualPairs §3.47.
+*Needs:* 6.2, 6.4, 6.5, 6.11; AutomorphicLFunctionsAndLocalFactors §§AL.1.1.2, AL.1.2.1 and AL.1.2.3;
+HermitianFormsAndLattices §4.7; ThetaKernelsForUnitaryDualPairs §3.47.
 
 **Checks.**
 

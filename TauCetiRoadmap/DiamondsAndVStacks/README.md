@@ -3503,7 +3503,8 @@ without surjectivity the equalizer statement fails (for `Y = ∅ → X ≠ ∅`,
 equalizer is `0 ≠ R`), which is why the finite quasicompact image condition, not merely
 pro-étaleness or flatness, is the covering condition. *Needs:* Mathlib
 `CategoryTheory.GrothendieckTopology.Subcanonical`, `Module.FaithfullyFlat`; D1.6; D1.8; D2.6; D2.2;
-PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a perfectoid base); PerfectoidSpaces §P2.7
+PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a perfectoid base); PerfectoidSpaces §P2.5
+(completed residue fields); PerfectoidSpaces §P2.7
 (*almost-exactness-from-reduction-mod-pseudouniformizer*); PerfectoidSpaces §P2.13 (the
 completed-tensor plus-ring almost formula).
 

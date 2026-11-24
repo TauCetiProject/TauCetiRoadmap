@@ -10099,7 +10099,7 @@ Here k perfect of characteristic `p>0`; X smooth over k; A,B disjoint with `A+B`
 
 For the proof, `(a)` is the projection formula for the finite flat morphism F. For `(b)`, factor the inclusion through the subcomplexes `I_B^(j+1)·Ω`•⊂`I_B^j·Ω`• for `1≤j≤p−1`; the connection d on `O_X`(−jB) has residue j along every component of B, which is a unit in k for these j, so each inclusion is a quasi-isomorphism by the residue criterion; locally the quotients are the acyclic complexes of the first check. For `(c)`, combine `(a)`, `(b)` and the Cartier isomorphism for `Ω•_X(log D)`.
 
-*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations §0.29 (the relative Frobenius), SchemeAndStackFoundations §2.6 (the projection formula for a finite flat morphism), SchemeAndStackFoundations §2.18 (complexes of modules, quasi-isomorphisms and the derived category).
+*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations §0.29 (the relative Frobenius), SchemeAndStackFoundations §2.18 (the projection formula, complexes of modules, quasi-isomorphisms and the derived category).
 
 **Checks.**
 
@@ -10136,7 +10136,7 @@ Prove `algebraicAdjointVanishing`: if a rational divisor A on a smooth projectiv
 
 Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth characteristic-zero variety and a nonnegative rational c. On a principalization `π:Y→X`, write `a O_Y=O_Y(−F)` and set `J(a^c)=π_*O_Y(K_(Y/X)−⌊cF⌋)`. Define it as an ideal in `O_X` through the canonical rational-function identification. Common domination, the local root-cover vanishing and the projection formula prove independence of π and vanishing of the positive direct images in this formula. Its API `algebraicMultiplierIdeal.ofPrincipal`, `algebraicMultiplierIdeal.ofUnit`, `algebraicMultiplierIdeal.monotone`, `algebraicMultiplierIdeal.resolutionIndependent`, `algebraicMultiplierIdeal.localVanishing` records the principal SNC formula, the unit ideal, reverse inclusion as c grows, independence and vanishing. If `a⊗M` is globally generated and `L−cM` is nef and big, the same calculation on Y gives `H^q(X,ω_X⊗L⊗J(a^c))=0` for `q>0`. This is the algebraic case of the multiplier-ideal vanishing used in the effective argument. (Demailly, §1, Theorem 1.2 and formula (1.4), pp. 3–5, and the algebraic-use statement at the start of §2, p. 5; the algebraic proof is the preceding root-cover and birational vanishing.)
 
-*Needs:* `algebraicAdjointVanishing`, `cyclicCoverEigensummand`, §9.4 (principalization), SchemeAndStackFoundations §2.6 (the projection formula and higher direct images), SchemeAndStackFoundations §2.20 (relative canonical sheaves).
+*Needs:* `algebraicAdjointVanishing`, `cyclicCoverEigensummand`, §9.4 (principalization), SchemeAndStackFoundations §2.6 (higher direct images), SchemeAndStackFoundations §2.18 (the projection formula), SchemeAndStackFoundations §2.20 (relative canonical sheaves).
 
 **Checks.**
 
