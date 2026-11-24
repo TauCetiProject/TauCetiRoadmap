@@ -6,7 +6,7 @@ The headline theorems are these. (1) For every effective `d`-cycle `Z` in `ℙ^n
 
 The roadmap extends HeightsRationalPointsAndObstructions, which defines the height of projective cycles and the arithmetic intersection numbers with their Cartier recursion, and which states the general theorems of which 5.1, 6.1 and 6.2 (a7) are corollaries: the change-of-metric formula for these numbers (§5.17a.1), the comparison of the Fubini–Study height with the spherical height of the Chow form (§5.9b.1), and the height of cycles in the projective space of a Hermitian vector bundle, with its value on the whole space and the value of the height of `ℙ^{N−1}` (§5.9b.2). The Chow forms are those of [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md); Hermitian vector bundles and their Arakelov degree are those of [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md); the spherical heights of multiforms, the normalised spherical measure with its disintegration along a unit vector, and the heights relative to a Hermitian vector bundle are those of [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), the comparison turns the explicit arithmetic Hilbert–Samuel inequalities of SlopesOfHermitianVectorBundles, stated with spherical heights of Chow forms, into bounds in terms of heights of varieties, in [ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties](../ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties/README.md); the height of the whole space gives the height of a projective bundle in [HeightsForLogSingularMetrics](../HeightsForLogSingularMetrics/README.md).
 
-Layer 5 adds to the arithmetic intersection numbers the change of the metric of one factor by a function `e^{−f}`. Layer 6 first proves the comparison (1) from three local statements on a hyperplane section (the Chow form of the section, its Gauss norms at the finite places, and its spherical integrals at the complex embeddings, through a Crofton formula) and the Cartier recursion, by induction on the dimension. It then takes the height of a cycle in `ℙ(J^∨)` that HeightsRationalPointsAndObstructions defines, proves its invariance under isometries and finite extension, its behaviour under rescaling and under a change of metrics, its value on points and on the whole space, and deduces (2) from (1) by moving the metrics of `J̄` along a path to standard ones.
+Layer 5 adds to the arithmetic intersection numbers the change of the metric of one factor by a function `e^{−f}`. Layer 6 first proves the comparison (1) from three local statements on a hyperplane section (the Chow form of the section, its Gauss norms at the finite places, and its spherical integrals at the complex embeddings, through a Crofton formula) and the Cartier recursion, by induction on the dimension. It then takes the height of a cycle in `ℙ(J^∨)` that HeightsRationalPointsAndObstructions defines, proves its invariance under isometries and finite extension, its behaviour under rescaling and under a change of metrics, and its value on points, deduces its value on the whole space from the general theorem stated there, and deduces (2) from (1) by moving the metrics of `J̄` along a path to standard ones.
 
 ## Conventions
 
@@ -72,7 +72,7 @@ metrics with semipositive other factors (metrics at distance at most `ε` change
 the mixed degree of the other factors), and the first-order expansion in the route of HeightsRationalPointsAndObstructions
 §5.17g follows from it.
 
-*Route.* The route written here is a second proof of the formula, an alternative to that of [FormalProof], which the
+*Route.* The route written here is that of HeightsRationalPointsAndObstructions §5.17a.1, recalled, an alternative to that of [FormalProof], which the
 `*Method of the formal proof:*` label describes; its published statements are those that the `*Origin:*` label names.
 The formula is [FormalProof],
 `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/ArithmeticIntersection/RationalSections/ThmISt.lean`
@@ -424,9 +424,11 @@ Hermitian metrics, which is the form the family uses ([FormalProof],
 (`ChowFormHeightComparison₂.CF.D.formHeight_one_eq`)); the case of a lattice that is not free is reduced to it by a finite
 extension ((a3)).
 
-*Route.* (a1)–(a7) and (b) are proved here, by these routes, except the decomposition of (a7), which is deduced from
-the general theorem that its `*Corollary of:*` line names (Conventions): the route written for it below is a second
-proof, as is that of the `*Method of the formal proof:*` label. The published sources are those that the `*Origin:*` label names: Bost, Gillet and Soulé for the height of cycles in `ℙ(J^∨)` and for (a7) with the exact value of the height of
+*Route.* (a1)–(a6) and (b) are proved here, by these routes; (a7), with the value and the bound of the height of
+`ℙ^{N−1}`, is deduced from the general theorem that its `*Corollary of:*` line names (Conventions). For the decomposition
+and the value, the route written below is that of HeightsRationalPointsAndObstructions §5.9b.2, recalled, and that of
+the `*Method of the formal proof:*` label is a second proof of the decomposition; the route written for the bound,
+Sombra's and [FormalProof]'s, is a second proof, as §5.9b.2 obtains the bound from the value. The published sources are those that the `*Origin:*` label names: Bost, Gillet and Soulé for the height of cycles in `ℙ(J^∨)` and for (a7) with the exact value of the height of
 `ℙ^{N−1}`, Sombra for the bound of (a7) with its argument, and, for (b), the comparison of Bost, Gillet and Soulé for an
 arbitrary Hermitian vector bundle, from which (b) is adapted. The standard case on which (b) rests here is 6.1. (a) (a1) is the definition of HeightsRationalPointsAndObstructions §5.9b;
 for `M_J = O_K^N` the metrised `𝒪(1)` and the intersection number of (a) are those of [FormalProof],
