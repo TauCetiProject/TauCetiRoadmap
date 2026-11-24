@@ -257,7 +257,7 @@ semiabelian model.
 `ω_{A_{R'}/R'} = ω_{A/R} ⊗_R R'` (R28.1.1), the index multiplies by the norm and each infinite place of
 `K` splits into places of `K'` whose weights sum to `[K' : K]·ε_v`, the metrics corresponding.
 
-*Needs:* R28.1.1, R28.1.2; ArakelovGeometryAndAbelianHeights Layers 1–3; Mathlib
+*Needs:* R28.1.1, R28.1.2; ArakelovGeometryAndAbelianHeights §§1.3–1.6, 1.12–1.14, 2.1, 2.4, 2.7 and 3.1–3.4 (degrees, heights, the Faltings metric, the metrized Hodge line and its normalisations, the Faltings height); Mathlib
 `NumberField.InfinitePlace`, `NumberField.InfinitePlace.mult`, `NumberField.prod_abs_eq_one`,
 `NumberField.RingOfIntegers`, `FractionalIdeal.absNorm`.
 
@@ -742,7 +742,7 @@ are `f_𝔭`-th roots of those of `Frob_𝔭`.
 
 *Needs:* WeightsInEtaleCohomology R34.2, “Purity and integral polynomials at good reduction”;
 ArithmeticGaloisRepresentations §1.3 “The Mackey decomposition” (`Rep.mackeyDecomposition`,
-the continuous Mackey decomposition target); DeligneWeightsAndPurity DWP.1 §1.4 (the
+the continuous Mackey decomposition target); DeligneWeightsAndPurity §1.4 (the
 Weil estimate for abelian varieties over finite fields); NeronModelsAndSemistableAbelianVarieties §5.1
 `NeronOggShafarevich`.
 
@@ -1483,7 +1483,7 @@ isogenous by R28.4.7. Faltings' printed proof stops at the spanning statement; t
 R28.4.7, (ii) ⇒ (i). The places of `T` must lie outside `S` and away from `l`, which the source leaves implicit.
 
 *Needs:* R28.4.5, R28.4.7, R28.5.1, R28.5.2; WeightsInEtaleCohomology R34.2, “Purity and integral polynomials at good reduction”,
-and DeligneWeightsAndPurity DWP.1 §1.4
+and DeligneWeightsAndPurity §1.4
 (Weil's bound); NeronModelsAndSemistableAbelianVarieties §5.1 `NeronOggShafarevich`.
 
 **Checks.**
@@ -1513,9 +1513,9 @@ absolute value `p^{1/2}`, so `P_1` has roots `α_1, …, α_{2gm}` of absolute v
 typographical variant of `≠`.
 
 *Needs:* ArithmeticGaloisRepresentations §1.3 “The Mackey decomposition” (`Rep.mackeyDecomposition`,
-the continuous Mackey decomposition target), §7.1 `ContinuousRep.extPower`;
+the continuous Mackey decomposition target), ArithmeticGaloisRepresentations §7.1 `ContinuousRep.extPower`;
 AbelianSchemesAndArithmeticModuli A6.33 `weilRestrictionTate`; WeightsInEtaleCohomology R34.2 and
-DeligneWeightsAndPurity DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1.4; Mathlib `Representation.ind`.
+DeligneWeightsAndPurity §0.14 (eigenvalues of exterior powers), DeligneWeightsAndPurity §1.4; Mathlib `Representation.ind`.
 
 **Checks for the auxiliary-polynomial identities.**
 - At an inert quadratic place (`f_v = 2`), `|α| = p` for a root of `Q_v`; a root `z`
