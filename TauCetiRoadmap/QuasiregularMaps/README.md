@@ -82,9 +82,7 @@ Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layer 3 needs Layer 
 needs Layers 2 and 3. Layer 6 needs §2.2, §2.7, §2.8 and §3.1. Layer 7 needs Layers 4 and 6. The
 Euclidean part of the roadmap needs no supplier roadmap: the minimal stretch (§1.1), Euclidean
 quasiregularity (§2.9, the definition), the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib
-and Tau Ceti alone, and `Suggested.lean` states them so. It states the definitions of §2.1, §2.2
-and §7.1, with §2.3, the manifold form of §3.2 and §7.2, against the target signatures of
-SobolevMapsBetweenManifolds, which it imports.
+and Tau Ceti alone, and they are what `Suggested.lean` states.
 
 ## Conventions
 
@@ -96,8 +94,6 @@ SobolevMapsBetweenManifolds, which it imports.
   and theorems that `Suggested.lean` states (§1.1, §2.9, the Euclidean form of §3.2, §5.1–§5.3)
   carry no dimension hypothesis: in dimension `0` the space is a point, every map of it is
   `ACL^p` and `K`-quasiregular for every `K ≥ 1`, and each of those statements holds trivially.
-  The manifold definitions of `Suggested.lean` take `n` as a natural number; the attainment
-  theorem of §2.3 carries `n ≠ 0`, because it fails for a point with two opposite orientations.
 - **Euclidean domains in Lean.** An open set `Ω` of a finite-dimensional real inner product
   space `E` is a `TopologicalSpace.Opens E`, as in `TauCeti.HasWeakFDerivOn`. A map of `Ω` is a
   function `E → E` (or `E → F`) whose values off `Ω` play no role: continuity is `ContinuousOn`
@@ -119,12 +115,6 @@ SobolevMapsBetweenManifolds, which it imports.
   particular a continuous one (`Bundle.ContMDiffRiemannianMetric.toContinuousRiemannianMetric`).
   The statements of §7.6 about flat manifolds, local Riemannian isometries and descended metrics
   are for smooth metrics, and are instances of the definitions made for continuous ones.
-- **Manifolds in Lean.** `Suggested.lean` states the manifold definitions with the instances of
-  SobolevMapsBetweenManifolds §6.3: the model space `E` carries a Haar measure `volume`, the
-  tangent spaces have dimension `n` through `Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E) x) = n)`, and
-  the metrics are `Bundle.RiemannianBundle` instances with `IsContinuousRiemannianBundle`. The
-  norm `‖Df(x)‖` is the operator norm of a continuous linear map between tangent spaces with the
-  norms of the two metrics.
 - **Euclidean space.** `ℝⁿ` is `EuclideanSpace ℝ (Fin n)` with the flat metric and the
   orientation of its standard basis, made a manifold orientation by
   `TauCeti.Manifold.Orientation.model`. Lebesgue measure is `volume`. The flat metric is
@@ -224,8 +214,7 @@ With the oriented Jacobian `J(A)` of SobolevMapsBetweenManifolds §6.1, define t
 
 These are the pointwise quotients whose essential suprema are the outer and inner dilatation of
 MartioRickmanVaisala1969 (2.21)–(2.22). When `J(A) > 0` all singular values are
-positive, so the denominators do not vanish. `Suggested.lean` states `q_O` as `outerQuotient`,
-with values in `ℝ≥0∞`.
+positive, so the denominators do not vanish.
 
 - If `J(A) > 0` then `q_O(A) = σ₁ⁿ/(σ₁ ⋯ σₙ) = Π_{i ≥ 2} σ₁/σᵢ ≥ 1` and
   `q_I(A) = (σ₁ ⋯ σₙ)/σₙⁿ = Π_{i ≤ n−1} σᵢ/σₙ ≥ 1`, and both are at least `σ₁/σₙ`.
@@ -359,11 +348,7 @@ For a real `K`, call `f : M → N` `K`-quasiregular when `1 ≤ K`, `f` is conti
 quasiregular when it is `K`-quasiregular for some `K`. This is the definition of
 HeikkilaPankka2025 §1, p. 1, with (1.1), and Prywes2019 §1, p. 1. On Euclidean domains it is
 MartioRickmanVaisala1969 Definition 2.20, with `ACLⁿ` in place of
-`W^{1,n}_loc`; §5.3 identifies the two. `Suggested.lean` states the definition as
-`IsQuasiregularMap K oM oN f`, on the supplier's `IsSobolevMap`, `HasWeakMFDeriv` and
-`orientedJacobian`. It asks the inequality of some weak differential of `f`. Two weak
-differentials of a continuous map differ on a null set (`HasWeakMFDeriv.ae_eq`), so the
-inequality then holds for every weak differential.
+`W^{1,n}_loc`; §5.3 identifies the two.
 
 - If `f` is `K`-quasiregular and `K ≤ K'` then `f` is `K'`-quasiregular.
 - `f` is `K`-quasiregular iff `1 ≤ K`, `f` is continuous, `f ∈ W^{1,n}_loc(M, N)` and
@@ -395,10 +380,7 @@ inequality then holds for every weak differential.
 Define the outer distortion `K_O(f) ∈ [1, ∞]`. For continuous `f ∈ W^{1,n}_loc(M, N)` it is
 `max(1, ess sup_x q_O(Df(x)))`, the essential supremum (`essSup`) taken for
 `TauCeti.riemannianVolume`. For every other map it is `∞` (MartioRickmanVaisala1969
-2.20, p. 14). `Suggested.lean` states it as `outerDistortion oM oN f`, with values in `ℝ≥0∞`: the
-infimum, over the weak differentials `Df` of a member `f` of the class, of
-`max(1, ess sup q_O(Df))`. All weak differentials give one value, and the infimum over none is
-`∞`.
+2.20, p. 14).
 
 - `K_O(f) = 1` for constant maps and for every map out of an empty manifold.
 - `K_O(f|_U) ≤ K_O(f)` for open `U ⊆ M` (§2.5).
@@ -427,8 +409,7 @@ Prove that for every map `f : M → N`,
 
     { K ∈ ℝ : f is K-quasiregular } = { K ∈ ℝ : 1 ≤ K and K_O(f) ≤ K }.
 
-Off the continuous Sobolev class both sets are empty, since `K_O(f) = ∞` there. This is
-`isQuasiregularMap_iff_outerDistortion_le` in `Suggested.lean`.
+Off the continuous Sobolev class both sets are empty, since `K_O(f) = ∞` there.
 So `f` is `K_O(f)`-quasiregular when `K_O(f) < ∞`, and `f` is quasiregular iff `K_O(f) < ∞`; the
 least admissible constant of MartioRickmanVaisala1969 2.20, p. 14, exists. Route: by §1.3 the
 inequality at `x` is `q_O(Df(x)) ≤ K`. An almost-everywhere bound bounds the essential supremum
@@ -723,13 +704,6 @@ is `K`-quasiregular, and a `K`-quasiregular map is `K^{n−1}`-quasiregular in t
 Route: at almost every point either `J_f > 0`, where §1.3 applies, or `Df = 0` (§2.4), where
 both quotients vanish. Then pass to essential suprema, using that `t ↦ t^{n−1}` is monotone and
 continuous on `[0, ∞]`.
-
-`Suggested.lean` states the two inequalities between manifolds through the inequalities that
-define the distortions, as it does on Euclidean domains below: a `K`-quasiregular `f` has
-`J(Df(x)) ≤ K^{n−1} ℓ(Df(x))ⁿ` almost everywhere for every weak differential `Df`
-(`IsQuasiregularMap.orientedJacobian_le_pow_mul_minimalStretch_pow`), and a quasiregular `f` with
-`J(Df(x)) ≤ K ℓ(Df(x))ⁿ` almost everywhere for some weak differential and some `K ≥ 1` is
-`K^{n−1}`-quasiregular (`IsQuasiregularMap.of_orientedJacobian_le_mul_minimalStretch_pow`).
 
 On Euclidean domains this is MartioRickmanVaisala1969 (2.25) in its own setting, and it is
 stated without the distortion functions, through the inequalities that define them. Let `E` be
@@ -1352,9 +1326,7 @@ flat metric and the standard orientation.
 
 For `K ≥ 1`, call `N` `K`-quasiregularly elliptic when there is a non-constant `K`-quasiregular
 map `ℝⁿ → N`, and quasiregularly elliptic when it is `K`-quasiregularly elliptic for some `K`
-(HeikkilaPankka2025 §1, p. 1, and §2, p. 6; Prywes2019 §1, p. 1). `Suggested.lean` states
-the two notions as `IsQuasiregularlyEllipticWith K oN` and `IsQuasiregularlyElliptic oN`, with
-`ℝⁿ` as in the Conventions.
+(HeikkilaPankka2025 §1, p. 1, and §2, p. 6; Prywes2019 §1, p. 1).
 
 - If `N` is `K`-quasiregularly elliptic and `K ≤ K'`, then it is `K'`-quasiregularly elliptic.
 - `N` is `K`-quasiregularly elliptic iff some `K`-quasiregular `f : ℝⁿ → N` has `J_f > 0` on a
@@ -1375,8 +1347,7 @@ the two notions as `IsQuasiregularlyEllipticWith K oN` and `IsQuasiregularlyElli
 
 ### 7.2 Independence of the orientation
 
-Prove that `N` is `K`-quasiregularly elliptic for `o_N` iff it is for `−o_N`, with the same `K`
-(`isQuasiregularlyEllipticWith_neg`).
+Prove that `N` is `K`-quasiregularly elliptic for `o_N` iff it is for `−o_N`, with the same `K`.
 Route: if `f : (ℝⁿ, std) → (N, o_N)` is `K`-quasiregular, then by §4.2 it is `K`-quasiregular
 from `(ℝⁿ, −std)` to `(N, −o_N)`. The reflection `R` is an orientation-preserving isometry
 `(ℝⁿ, std) → (ℝⁿ, −std)`, so §4.3 makes `f ∘ R` `K`-quasiregular to `(N, −o_N)`. It is
@@ -1926,7 +1897,7 @@ Every statement of Layers 2–4 and 7, and the oriented Jacobian of Layer 1, is 
 continuous Sobolev class of maps between manifolds that SobolevMapsBetweenManifolds builds. This
 roadmap assumes exactly the following of the sections cited, and nothing about how they are
 constructed. Each paragraph names the declarations of that roadmap's `Suggested.lean` that
-state its part; implementations and this roadmap's `Suggested.lean` use these names.
+state its part, and an implementation of this roadmap uses these names.
 
 The class: its §4.2 (the class and its independence of the atlases), §4.4 (`C¹` members) and
 §4.5 (restriction, locality and metric copies). In Lean: `IsSobolevMap`,
