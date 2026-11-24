@@ -508,9 +508,10 @@ exactly when `u` is upper semicontinuous.
 - If `𝒮` is a nonempty family of upper semicontinuous subsolutions, locally uniformly bounded
   above, then `(sup 𝒮)*` is a subsolution; dually for infima of lower semicontinuous
   supersolutions (Crandall–Ishii–Lions, Lemma 4.2, p. 23).
-- Stability (Evans, §10.1.1; Crandall–Evans–Lions, Theorem 1.2): if `Fₙ → F` and `uₙ → u`
-  locally uniformly, the `uₙ` are continuous and `uₙ` is a subsolution of `Fₙ = 0`, then `u`
-  is a subsolution of `F = 0`; likewise for supersolutions.
+- Stability (Crandall–Evans–Lions, Theorem 1.2; the argument is the one Evans, §10.1.1, gives
+  for vanishing viscosity): if `Fₙ → F` and `uₙ → u` locally uniformly, the `uₙ` are continuous
+  and `uₙ` is a subsolution of `Fₙ = 0`, then `u` is a subsolution of `F = 0`; likewise for
+  supersolutions.
 - Half-relaxed limits (Barles–Perthame; Crandall–Ishii–Lions, Lemma 6.1 with Remarks 6.2 and
   6.3, pp. 34–35): for a locally uniformly bounded sequence of upper
   semicontinuous subsolutions `uₙ` of `Fₙ = 0` with `Fₙ → F` locally uniformly,
@@ -549,14 +550,15 @@ for all `x, y, p, q`. Prove, by doubling the variables:
 - **The whole space** (Bardi–Capuzzo-Dolcetta, Theorem II.3.5). Let `λ > 0` and `H` satisfy
   `(S1)` and `(S2)`. If `u` is a bounded upper semicontinuous subsolution and `v` a bounded
   lower semicontinuous supersolution of `λu + H(x, ∇u) = 0` in `E`, then `u ≤ v`.
-- **The Cauchy problem** (Evans, §10.2, Theorem 1, there for bounded uniformly continuous
-  solutions; Crandall–Lions). Let `H` satisfy `(S1)` and
-  be Lipschitz in `p` uniformly in `x`. If `u` is bounded and upper semicontinuous on
-  `[0,T) × E` and a subsolution of `∂ₜu + H(x, ∇u) = 0` in `(0,T) × E`, `v` is bounded and
-  lower semicontinuous on `[0,T) × E` and a supersolution, and `u(0, ·) ≤ v(0, ·)`, then
-  `u ≤ v` on `[0,T) × E`. For `u`, `v` bounded and continuous on `[0,T] × E` and `H` satisfying
-  `(S1)` and `(S2)`, this is OptimalControlAndHamiltonJacobi 4.1 after the time reversal of
-  §4.6, and that case is consumed from there; the target here is the semicontinuous form.
+- **The Cauchy problem** (Evans, §10.2, Theorem 1, there as uniqueness of bounded uniformly
+  continuous solutions, for `H` Lipschitz in `p` and satisfying `(S1)` with `ω₁` linear;
+  Crandall–Lions). Let `H` satisfy `(S1)` and be Lipschitz in `p` uniformly in `x`. If `u` is
+  bounded and upper semicontinuous on `[0,T) × E` and a subsolution of `∂ₜu + H(x, ∇u) = 0` in
+  `(0,T) × E`, `v` is bounded and lower semicontinuous on `[0,T) × E` and a supersolution, and
+  `u(0, ·) ≤ v(0, ·)`, then `u ≤ v` on `[0,T) × E`. For `u`, `v` bounded and continuous on
+  `[0,T] × E` and `H` satisfying `(S1)` and `(S2)`, this is OptimalControlAndHamiltonJacobi 4.1
+  after the time reversal of §4.6, and that case is consumed from there; the target here is the
+  semicontinuous form.
 - **Hamiltonians of the gradient alone.** Let `H : E → ℝ` be continuous. If `u, v` are `BUC` on
   `[0,T] × E`, `u` a subsolution and `v` a supersolution of `∂ₜu + H(∇u) = 0` in `(0,T) × E`
   with `u(0, ·) ≤ v(0, ·)`, then `u ≤ v`.
@@ -772,7 +774,7 @@ Define the *Lax–Oleinik solution* `u(t,x) = G((x − y(t,x))/t)`.
 
 - `u` is an integral solution of the conservation law with datum `u₀`
   (Evans, §3.4.2, Theorem 2).
-- The one-sided inequality (Evans, §3.4.2, Lemma): for `t > 0`, `z > 0` and all `x` at which
+- The one-sided inequality (Evans, §3.4.3, Lemma): for `t > 0`, `z > 0` and all `x` at which
   `u(t, ·)` is defined, `u(t, x + z) − u(t, x) ≤ z/(θt)`.
 - `ess inf u₀ ≤ u ≤ ess sup u₀`; `u(t, ·)` has locally bounded variation for `t > 0`, and left
   and right limits `u(t, x⁻) ≥ u(t, x⁺)` at every `x`.
@@ -795,8 +797,8 @@ An *entropy solution in the sense of Oleinik* is an integral solution for which 
 `C ≥ 0` with `u(t, x + z) − u(t, x) ≤ C(1 + 1/t) z` for almost every `t > 0` and almost every
 `(x, z)` with `z > 0`.
 
-- Uniqueness (Oleinik; Evans, §3.4.3, Theorem 3): for `f ∈ C²` convex, two entropy solutions
-  with the same `u₀ ∈ L^∞` agree almost everywhere.
+- Uniqueness (Oleinik; Evans, §3.4.3, Theorem 3, there for a smooth flux): for `f ∈ C²` convex,
+  two entropy solutions with the same `u₀ ∈ L^∞` agree almost everywhere.
 - For `f ∈ C²` uniformly convex, the Lax–Oleinik solution is the entropy solution.
 - For piecewise `C¹` solutions as in the Rankine–Hugoniot bullet of §5.1 with `f` uniformly
   convex, the entropy condition holds across the curve exactly when `u_l ≥ u_r`; at a point
@@ -825,12 +827,14 @@ the rarefaction `x/t` of §5.1.
 
 Let `f ∈ C²` be uniformly convex with constant `θ`, and `u` the Lax–Oleinik solution.
 
-- Decay (Evans, §3.4.5, Theorem 5): if `u₀ ∈ L¹ ∩ L^∞` then
-  `|u(t,x)| ≤ C t^{−1/2}` for `t > 0`, with `C` depending only on `f` and `‖u₀‖₁`.
-- N-waves (Evans, §3.4.5, Theorem 6, there for `p, q > 0`): if `f ∈ C³` and `u₀` is bounded with
-  compact support, put `σ = f'(0)`, `κ = f''(0)`, `p = −2 min_y ∫_{−∞}^y u₀` and
-  `q = 2 max_y ∫_y^∞ u₀`, and `N(t,x) = (x/t − σ)/κ` for `−√(pκt) < x − σt < √(qκt)`, `0`
-  otherwise. Then `∫ |u(t,x) − N(t,x)| dx ≤ C t^{−1/2}` for `t > 0`.
+- Decay (Evans, §3.4.5, Theorem 5, there for a smooth flux with `f(0) = 0`): if
+  `u₀ ∈ L¹ ∩ L^∞` then `|u(t,x)| ≤ C t^{−1/2}` for `t > 0`, with `C` depending only on `f` and
+  `‖u₀‖₁`.
+- N-waves (Evans, §3.4.5, Theorem 6, there for a smooth flux with `f(0) = 0` and for
+  `p, q > 0`): if `f ∈ C³` and `u₀` is bounded with compact support, put `σ = f'(0)`,
+  `κ = f''(0)`, `p = −2 min_y ∫_{−∞}^y u₀` and `q = 2 max_y ∫_y^∞ u₀`, and
+  `N(t,x) = (x/t − σ)/κ` for `−√(pκt) < x − σt < √(qκt)`, `0` otherwise. Then
+  `∫ |u(t,x) − N(t,x)| dx ≤ C t^{−1/2}` for `t > 0`.
 - Conservation of mass: `∫ u(t,x) dx = ∫ u₀` for `u₀ ∈ L¹ ∩ L^∞`.
 
 **Checks.**
