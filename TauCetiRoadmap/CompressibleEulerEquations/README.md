@@ -1864,6 +1864,14 @@ same data are compatible, false on a fixed Galilean background by §8.2; Christo
 Definition 2.13; BarGinouxPfaffle2007 line 1006, Definition 1.3.5, the two-sided Cauchy
 development `D(S)`; EperonReallSbierski2019 lines 1129–1144; Christodoulou2007, Ch. 1.)
 
+Data posed on a Λ-invariant closed set `F ⊆ E` with nonempty interior, as LuoYu2023b lines
+658–660 pose them on `{x¹ ≥ 0}` before taking the trace of the solution on the boundary of their
+domain of dependence, are treated here as data on the open set `S = int F`. For a classical
+solution `U` on a slab `O` as in §8.3, every classical solution on `O` with the same data on `S`
+agrees with `U` on `D⁺_O({t₀} × S)` (§8.3) and so, by continuity, on the closure of
+`D⁺_O({t₀} × S)` in `O`, in particular on its boundary in `O`; the comparison with the domain of
+dependence of the closed set `{t₀} × F` is under Downstream consumers, below.
+
 - `≤` is a partial order on the developments of fixed data.
 - *Past-closed truncation.* If `(D, U)` is a development and `D′ ⊆ D` is a Λ-invariant domain
   with `D′ ∩ Σ_{t₀} = {t₀} × S` and `J⁻_D(q) ⊆ D′` for every `q ∈ D′`, then `(D′, U|_{D′})` is a
@@ -2157,14 +2165,24 @@ Layers 1, 2 (§2.2), 3, 6 and 7; LorentzianGeometry §12.6 (concatenation, for �
   characteristic initial data on `S₀ ∪ C` with the constraint and compatibility conditions on
   `C`, acoustical eikonal functions and null foliations (ChristodoulouMiao2014 lines 880–910;
   LuoYu2023b line 910, Definition 2.13), and the ruling of the characteristic boundary of a
-  development by null geodesics issuing from the edge of the data. It consumes §§1.1–1.3,
-  2.1–2.2, 3.1–3.3, 6.1–6.2, 7.1–7.3 and 8.1–8.4 here and LorentzianGeometry for geodesics and
-  null hypersurfaces.
+  development by null geodesics issuing from the edge of the data. Its §2.1 compares, for an open
+  `S` equal to the interior of its closure (such as `{x¹ > 0}`), the development
+  `D⁺_O({t₀} × S)` in a slab (§8.3) with the domain of dependence of the closed set
+  `{t₀} × closure S`; this relates the data on closed sets of the classical formulation to the
+  open data sets of §8.1. It consumes §§1.1–1.3, 2.1–2.2, 3.1–3.3, 6.1–6.2, 7.1–7.3 and 8.1–8.4
+  here and LorentzianGeometry for geodesics and null hypersurfaces.
 - **Shock formation and shock development** (Christodoulou2007; Speck2016, §1.11; LukSpeck2018;
   AbbresciaSpeck2022; Christodoulou2019): their theorems describe portions of maximal
-  developments of `Hᵏ` data through the acoustical metric and are stated against §7.2, §8.2–§8.4.
+  developments of `Hᵏ` data through the acoustical metric and are stated against §7.2, §8.2–§8.4
+  and against the acoustical (eikonal) functions and coordinates of "Compressible Euler
+  equations, Part II" (its Layers 1–2).
 - **Rarefaction waves** (LuoYu2023a, LuoYu2023b): the future domain of dependence of data on a
-  half-space and its null boundary (§8.3, §8.4) are the carriers of their main theorems.
+  half-space, its null boundary and the trace of the solution on that boundary (§8.1, §8.3, §8.4)
+  give the solution to which their rarefaction waves are connected. Their main theorems
+  (LuoYu2023a line 1458, Main Theorem; LuoYu2023b line 745, Corollary 1, and line 769, Theorem 2)
+  are stated on the development of characteristic data posed on that boundary and on part of a
+  later slice `t = δ`, and on centered rarefaction waves; these are the subjects of "Compressible
+  Euler equations, Part II" (its §3.3 and Layer 4), which the papers consume as well.
 - **Relativistic fluids and the Einstein equations in harmonic or symmetric hyperbolic
   formulations**: they consume the quasilinear symmetric hyperbolic well-posedness theorem of
   §7.1 and the domain-of-dependence uniqueness of §6.2 for quasilinear systems.
