@@ -1117,7 +1117,7 @@ For `a ∈ A`, `ξa ∈ A` exactly when `(1 − ξ)a ∈ A`, and then `a = ξa +
 - (*the indices*) `A = O × O`, `𝒴 = {1}`: `𝔠_ξ = O × 0` and `Ψ_ξ(A) = 0`, two separated factors; taking for `𝔠_ξ` the functions vanishing on `𝒴` would give `0 × O`, the other factor.
 - (*an algebra not given inside `O^𝒳`*) `A = O[t]/(t² − ϖ^{2n})` with odd residue characteristic and `ξ = (1 + t/ϖⁿ)/2`: `Ψ_ξ(A) ≅ O/ϖⁿ`, the congruence between the points `t = ±ϖⁿ`, recovered by the split case after `A ↪ O × O`, `t ↦ (ϖⁿ, −ϖⁿ)`.
 
-See [Hida](#hida), §0, p. 232, and §3, (3.11a)–(3.11b) with the remark before (3.12), p. 254; [Hida81](#hida81).
+See [Hida](#hida), §0, p. 232, and §3, (3.11a)–(3.11b) with the remark before (3.12), p. 254.
 
 This uses §1.7; Mathlib `IsIdempotentElem`; Mathlib `Module.length`; Mathlib `Module.annihilator`; Mathlib `Submodule.torsionBySet`.
 
@@ -2904,7 +2904,7 @@ The ordinary period and branch-measure constructions supply family normalisation
 
 ## Scope and ownership
 
-This roadmap owns the passage from single forms and single-weight symbols to families. It uses the shared rational ordinary towers and control of `IntegralIwasawaTheory`, §9.0, and constructs their Katz and weight-coordinate comparisons, the odd-prime cuspidal extension, integral homology period modules, branch congruence modules and congruence modules along a decomposition of a Hecke algebra, distribution coefficients varying over weight space, the global family eigenmodule sheaf, and its additional Eisenstein critical L-functions. The cuspidal local critical suite, including its local families and secondary functions, belongs to `ModularSymbolsPadicLFunctions`, §3.0; its identification with the global model is §2.7a here. It also owns the ordinary and Coleman-family Galois and regulator applications needed here. A period is a trivialisation of a module; its existence and its comparison with a different integral period convention are separate theorems.
+This roadmap owns the passage from single forms and single-weight symbols to families. It uses the shared rational ordinary towers and control of `IntegralIwasawaTheory`, §9.0, and constructs their Katz and weight-coordinate comparisons, the odd-prime cuspidal extension, integral homology period modules, branch congruence modules and congruence modules of a commutative algebra finite and free over a discrete valuation ring along a decomposition of its generic fibre (Hecke algebras among them), distribution coefficients varying over weight space, the global family eigenmodule sheaf, and its additional Eisenstein critical L-functions. The cuspidal local critical suite, including its local families and secondary functions, belongs to `ModularSymbolsPadicLFunctions`, §3.0; its identification with the global model is §2.7a here. It also owns the ordinary and Coleman-family Galois and regulator applications needed here. A period is a trivialisation of a module; its existence and its comparison with a different integral period convention are separate theorems.
 
 Classical eigenforms, newforms, their conductors and full bad-prime eigenproperties belong to `ModularForms`, Layer 4, and the semisimple Hecke algebra of the newspace to its Layer 8G. Integral modular curves, their Jacobians, degeneracy correspondences and ordinary special-fibre geometry belong to `ModularCurvesPartII`, §§3–5, 7, 13–17. The single-weight symbol, refinement, integral eigensymbol lattice, one-variable interpolation theorem and cuspidal local critical suite belong to `ModularSymbolsPadicLFunctions`, Layers 0–2 and §3.0. That roadmap and this one share the symbol conventions above. Measures and completed group algebras belong to `PadicMeasuresIwasawaAlgebras`, whose §5.2 also supplies topological Nakayama. The canonical Kubota–Leopoldt object and its arithmetic normalization come from `IntegralIwasawaTheory`, §§5.0 and 6.3. The arithmetic Eisenstein measures, localized constants and character interpolation come from its full-character adapters in `DirichletPadicLFunctions`, §§1.6 and 5.4–5.9; §0.12 here adapts them to the angular weight coordinate and identifies their common ordinary family with `IntegralIwasawaTheory`, §9.0.
 
@@ -3028,10 +3028,6 @@ For the angular adapters use left character 1 at level one and right character `
 ### hida
 
 **Hida.** Haruzo Hida, [Iwasawa modules attached to congruences of cusp forms](https://www.numdam.org/item/10.24033/asens.1507.pdf). Ann. Sci. École Norm. Sup. (4) 19 (1986), no. 2, 231–273, DOI 10.24033/asens.1507; Numdam open-access scan (44 pages; printed page = PDF page + 229).
-
-### hida81
-
-**Hida81.** Haruzo Hida, [Congruences of cusp forms and special values of their zeta functions](https://eudml.org/doc/142797). Invent. Math. 63 (1981), 225–261, DOI 10.1007/BF01393877.
 
 ### sharifi-aws
 
