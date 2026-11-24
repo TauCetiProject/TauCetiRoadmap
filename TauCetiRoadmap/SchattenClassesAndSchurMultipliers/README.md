@@ -80,14 +80,15 @@ BMO seminorms, the martingale BMO of operator-valued filtrations with its interp
 `L²`, and the interpolation inequality between matrix BMO and `S₂`; Layer 11 proves the
 Hörmander–Mikhlin–Schur theorem.
 
-Layers 1 and 2 can be built at once, except that §2.3 and §2.4 use §1.1 and §1.4. Layer 3 needs
-Layer 1 and §2.1–§2.4, not §2.5: the definitions of the multiplier, of its norm and bounded
-extension and of its completely bounded norm (§3.1, §3.3, §3.5) need only §1.1, §1.4, §2.1 and
-§2.2, and the norming of §1.2 enters only through §3.8 and the stabilisation of §1.5 only through
-§3.6. Layer 4 needs Layers 1–3; Layer 5 needs Layers 2 and 3. Layer 6 needs Layers 1–5 (§6.1–6.3
-need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5. Layer 8 needs Layers 1, 3 and 5.
-Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10 needs Layers 1, 2 (§2.1) and 3, except
-§10.4, which needs only NoncommutativeIntegration. Layer 11 needs Layers 2, 3, 4, 7 and 10.
+Layers 1 and 2 can be built at once, except that §2.1 and §2.3 use §1.1, and §2.3 and §2.4 use
+§1.4. Layer 3 needs Layer 1 and §2.1–§2.4, not §2.5: the definitions of the multiplier, of its
+norm and bounded extension and of its completely bounded norm (§3.1, §3.3, §3.5) need only §1.1,
+§1.4, §2.1 and §2.2, and the norming of §1.2 enters only through §3.8 and the stabilisation of
+§1.5 only through §3.6. Layer 4 needs Layers 1–3; Layer 5 needs §1.1 and Layers 2 and 3. Layer 6
+needs Layers 1–5 (§6.1–6.3 need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5.
+Layer 8 needs Layers 1, 3 and 5. Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10
+needs Layers 1, 2 (§2.1) and 3, except §10.4, which needs only NoncommutativeIntegration. Layer 11
+needs Layers 2, 3, 4, 7 and 10.
 
 ## Conventions
 
@@ -426,10 +427,11 @@ Define the kernel unitary `k ↦ T_k : L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))
 `T_k = u ⊗ v*` for `k(x, y) = u(x) conj v(y)`, `u ∈ L²(μ)`, `v ∈ L²(ν)`. It exists because these
 products span a dense subspace of `L²(μ ⊗ ν)` (VonNeumannAlgebras V2.RectangularL2, whose product
 measure is `μ.prod ν` for σ-finite `μ`, `ν`), the operators `u ⊗ v*` span the finite-rank
-operators, which are dense in `S₂`, and the two inner products agree: that of `u(x) conj v(y)` and
-`u'(x) conj v'(y)` in `L²(μ ⊗ ν)` is `⟨u, u'⟩ ⟨v', v⟩ = Σ_j ⟨(u ⊗ v*) e_j, (u' ⊗ v'*) e_j⟩` for
-every Hilbert basis `(e_j)` of `L²(ν)` (Parseval; OperatorIdeals OI-B32–OI-B35). No countable
-basis, standard Borel structure or separability is used.
+operators, which are dense in `S₂` (§1.1), and the two inner products agree: that of
+`u(x) conj v(y)` and `u'(x) conj v'(y)` in `L²(μ ⊗ ν)` is
+`⟨u, u'⟩ ⟨v', v⟩ = Σ_j ⟨(u ⊗ v*) e_j, (u' ⊗ v'*) e_j⟩` for every Hilbert basis `(e_j)` of `L²(ν)`
+(Parseval; OperatorIdeals OI-B32–OI-B35). No countable basis, standard Borel structure or
+separability is used.
 Define the kernel
 `k_A ∈ L²(μ ⊗ ν)` of `A ∈ S₂` as the inverse image of `A` (lafforgue-delasalle-2011 lines 226–232;
 reed-simon-1-1980 §VI.6). Prove:
@@ -471,8 +473,9 @@ reed-simon-1-1980 §VI.6). Prove:
   is null.
 - For the zero measure all spaces are zero.
 
-*Needs:* VonNeumannAlgebras V2.RectangularL2, V4.Core (the trace `Tr`); AutomorphicSpectralTheory
-§0.9; OperatorIdeals OI-B32–OI-B41; Mathlib `MeasureTheory.Measure.prod`,
+*Needs:* §1.1 (the class `S₂` and the density of finite-rank operators in it); VonNeumannAlgebras
+V2.RectangularL2, V4.Core (the trace `Tr`); AutomorphicSpectralTheory §0.9; OperatorIdeals
+OI-B32–OI-B41; Mathlib `MeasureTheory.Measure.prod`,
 `MeasureTheory.lintegral_prod`, `MeasureTheory.integral_prod`.
 
 ### 2.2 Kernel calculus and the trace formula
@@ -800,7 +803,10 @@ Define, for `m ≥ 1`, the amplified symbol `M_m ∈ L^∞((Ω × Fin m)²)` by 
 for the measure `μ ⊗` counting measure on `Ω × Fin m`, and
 `‖S_M‖_{cb,p} = sup_m ‖S_{M_m}‖_p ∈ [0, ∞]` (lafforgue-delasalle-2011 Lemma 1.5, line 254;
 cgpt-2023 lines 217–219). In `Suggested.lean` this is `schurCbNorm`, whose supremum also admits
-`m = 0`, the zero space, which contributes `0`.
+`m = 0`, the zero space, which contributes `0`. The definition needs only the multiplier and its
+norm (§3.1, §3.3) on the σ-finite spaces `Ω × Fin m`, and through them §1.1, §1.4, §2.1 and §2.2;
+the statements below also use the identification of `L²(Ω × Fin m)` with `L²(Ω)^m`, the
+multiplicativity of `M ↦ S_M` (§3.2) and the finite case (§3.4).
 
 - Through `L²(Ω × Fin m) = L²(Ω)^m`, `S_{M_m}` is the amplification `(S_M)^{(m)}` of §1.4; so
   `‖S_M‖_{cb,p}` is the completely bounded norm of §1.4 of the map `S_M`.
@@ -834,8 +840,10 @@ cgpt-2023 lines 217–219). In `Suggested.lean` this is `schurCbNorm`, whose sup
   level, and `S_M(E₁₂) = 2E₁₂` gives the reverse.
 - For the zero measure all norms are `0`.
 
-*Needs:* §1.4, §2.4, §3.1, §3.2, §3.3, §3.4; Mathlib `Matrix.kroneckerMap`; VonNeumannAlgebras
-V2.RectangularL2 (for `L²(Ω × Fin m)`).
+*Needs:* §3.1, §3.3 (the definition, the value at `p = 2` and null sets); §1.4 and
+VonNeumannAlgebras V2.RectangularL2 (for `L²(Ω × Fin m) = L²(Ω)^m`; the identification with the
+amplification and monotonicity in `m`); §3.2 (multiplicativity); §3.4 and Mathlib
+`Matrix.kroneckerMap` (finite index sets).
 
 ### 3.6 Stabilisation and comparison of completely bounded norms
 
@@ -1039,9 +1047,9 @@ generating `𝓑`. For `f ∈ L^∞(𝓑 ⊗ 𝓑)` let `f_α = E[f | 𝓑_α �
 completely bounded norms (lafforgue-delasalle-2011 Lemma 1.11, line 383, and Remark 1.12, line 393).
 Route: monotonicity and `≤` by §5.1 and the tower property of §2.5; `≥` by the pairing formula of
 §3.8 tested on finite-rank operators with `𝓑_α ⊗ 𝓑_α`-measurable kernels, which are dense in
-`S_p(L²(𝓑))` and `S_{p'}(L²(𝓑))` because `⋃_α L²(𝓑_α)` is dense in `L²(𝓑)` (the closure is `L²` of
-the generated σ-algebra), together with the pairing identity of §5.1; the completely bounded case by
-§3.6.
+`S_p(L²(𝓑))` and `S_{p'}(L²(𝓑))` because finite-rank operators are (§1.1) and `⋃_α L²(𝓑_α)` is
+dense in `L²(𝓑)` (the closure is `L²` of the generated σ-algebra), together with the pairing
+identity of §5.1; the completely bounded case by §3.6.
 
 For the dyadic filtration of `[0, 1]` and `f = 1_{x<y}`: `f₀` is the constant `1/2` on the trivial
 σ-algebra, with norm `1/2`; `f₁` is the `2 × 2` symbol `[[1/2, 1], [0, 1/2]]` on two atoms of mass
@@ -1052,7 +1060,7 @@ family must be nonempty (Mathlib's `Directed` does not require it): the empty fa
 trivial σ-algebra, and for `𝓑 = {∅, Ω}`, `μ(Ω) = 1` and `f = 1` the left side is `1` while the
 supremum over the empty family is `0`; the one-member family `𝓑₀ = 𝓑` gives `1 = 1`.
 
-*Needs:* §2.5, §3.6, §3.8, §5.1; Mathlib `MeasureTheory.lpMeas`, `MeasureTheory.condExpL2`.
+*Needs:* §1.1, §2.5, §3.6, §3.8, §5.1; Mathlib `MeasureTheory.lpMeas`, `MeasureTheory.condExpL2`.
 
 ### 5.3 Independence of the ambient σ-algebra for completely bounded norms
 
@@ -1086,7 +1094,7 @@ both completely bounded norms are `2`.
 
 ### Dependencies
 
-Layers 2 and 3; Mathlib conditional expectations and Lévy's upward theorem.
+Layer 1 (§1.1); Layers 2 and 3; Mathlib conditional expectations and Lévy's upward theorem.
 
 ## Layer 6: positive symbols and the Grothendieck–Haagerup characterisation
 
