@@ -23,8 +23,9 @@ orbit of `θ`), suspensions with their Hausdorff suspension groupoids, and a sus
 one-sided holonomy whose holonomy groupoid is not Hausdorff. Layer Fo7 turns a holonomy-invariant
 transverse measure into a lower semicontinuous densely defined trace on `C*_r(V,F)`, induced from
 the trace of the measure on the étale reduction. [Suggested.lean](Suggested.lean) states the Fo1
-holonomy headlines and the pseudogroup facts behind Fo2.3 that are statable at the pinned
-libraries; its docstring records which carriers the remaining statements lack.
+holonomy headlines that are statable at the pinned libraries, proves the quasi-analyticity of
+analytic holonomy behind Fo2.3, and ends with sanity checks of the flat shift and of slidings; its
+docstring records which carriers the remaining statements lack.
 
 ## How to read the build
 
@@ -76,11 +77,10 @@ Each layer ends with its examples and its dependencies.
   p. 4); for `Hol(M,F)`, `A = TF` and these are leafwise half densities. The product of the two
   factors at a common point is a density, integrated over a range fibre `t⁻¹(y)` after identifying
   `T_γ t⁻¹(y)` with `A_{s(γ)}` by left translation.
-- **Convolution.** `(f * g)(γ) = ∫_{γ₁γ₂ = γ} f(γ₁) g(γ₂)` and `f*(γ) = conj(f(γ⁻¹))`. Connes
-  (1982, p. 17; 1994, p. 124) and Kordyukov (p. 26) write `f*(γ) = f(γ⁻¹)`, leaving the complex
-  conjugation of half densities implicit. Witness: on the groupoid with one arrow, the element
-  `f = i` would otherwise satisfy `f* * f = −1`, which no *-representation sends to a positive
-  operator.
+- **Convolution.** `(f * g)(γ) = ∫_{γ₁γ₂ = γ} f(γ₁) g(γ₂)` and `f*(γ) = conj(f(γ⁻¹))`, as in
+  Connes (1982, p. 17; 1994, p. 124) and Kordyukov (p. 26). Witness that the conjugate is needed:
+  on the groupoid with one arrow, the element `f = i` would otherwise satisfy `f* * f = −1`, which
+  no *-representation sends to a positive operator.
 - **C*-algebras.** Haar systems, the I-norm, the full and reduced norms and the regular
   representations are those of OperatorAlgebraDynamics D5: Haar measures live on the range fibres
   `G^u = t⁻¹(u)`, regular representations act on `L²(G_u)` of the source fibres `G_u = s⁻¹(u)`.
@@ -375,16 +375,22 @@ restriction of LieGroupoidsPoisson §G3.4, since `T` is transverse to the anchor
   LieGroupoidsPoisson §G3.5, so `G` is Morita equivalent to `G_T^T` (Crainic–Moerdijk, Lemma 2,
   p. 9, and p. 3); two complete transversals give Morita equivalent étale groupoids;
 - for `G = Hol(M,F)`, `g ↦ σ_g` identifies `Hol_T^T` with the groupoid of germs of the holonomy
-  pseudogroup `Γ_T` with its étale topology (Crainic–Moerdijk, p. 10), and `Hol_T^T` is Hausdorff
-  if and only if `Hol(M,F)` is (both are quasi-analyticity of `Γ_T`, Fo2.3).
+  pseudogroup `Γ_T` with its étale topology (Crainic–Moerdijk, p. 10); `Hol_T^T` is Hausdorff
+  when `Hol(M,F)` is, and for complete `T` the converse holds (both are then quasi-analyticity of
+  `Γ_T`, Fo2.3).
 
 **Checks.**
 
 - *Torus.* For the circle `{0} × ℝ/ℤ`, `Hol_T^T ≅ ℤ ⋉ ℝ/ℤ` with `n` acting by the rotation
   `u ↦ u + nθ` (Connes 1994, Chapter II, §8.β, p. 127).
-- *Completeness is needed.* For the horizontal lines of `ℝ²` and the transversal `{0} × (0,1)`, the
-  orbit space of `Hol_T^T` is `(0,1)` while that of `Hol` is `ℝ`; Morita equivalent groupoids have
-  homeomorphic orbit spaces (LieGroupoidsPoisson §G3.5), so there is no Morita equivalence.
+- *Completeness is needed.* For the lines `ℝ × {y}` of the cylinder `ℝ × ℝ/ℤ` and the transversal
+  `T = {0} × (0, 1/2)`, the orbit space of `Hol_T^T` is the interval `(0, 1/2)` while that of `Hol`
+  is the circle `ℝ/ℤ`; Morita equivalent groupoids have homeomorphic orbit spaces
+  (LieGroupoidsPoisson §G3.5), so there is no Morita equivalence. In the second item it is the
+  anchor that fails: `t(G_T) = ℝ × (0, 1/2)` is not `M`.
+- *Completeness in the Hausdorff criterion.* For the suspension of the flat shift (Fo6.4) and the
+  interval `T = (−2, −1)` of the fibre `ℝ`, the leaves through `T` are circles without holonomy,
+  each meeting `T` once, so `Hol_T^T` is the unit groupoid of `T`, Hausdorff, while `Hol` is not.
 - *Germs, not arrows.* For a general foliation groupoid `σ` need not be injective: for the
   suspension groupoid of the flat shift (Fo6.3–Fo6.4), the arrows of `G_T^T` over `u < 0` labelled
   by `n ≠ 0` have identity germs.
@@ -578,7 +584,9 @@ range in `Ω` and in `M ∖ Ω̄` (Proposition 3 (2)). The first is `L²(D^p) �
 (Proposition 3 (1), (4), p. 204), and Kasparov stabilization (HilbertModules H4) absorbs the
 second, so `E_T ≅ H_{C*_r(G_T^T)}` and `C*_r(V,F) = K(E_T) ≅ K ⊗ C*_r(G_T^T)` (Proposition 3 (3);
 p. 206); stability of `C*_r(V,F)` follows. For Hausdorff `Hol(M,F)` the full algebras satisfy the
-same, by Fo5.1 and Brown–Green–Rieffel (HilbertModules H4), both algebras being separable.
+same (Hilsum–Skandalis, Remarque 5, p. 206): the decomposition and Kasparov stabilization above run
+for the full norms, with OperatorAlgebraDynamics D6's equivalence module of `G_T` (Fo5.1) in place
+of `E_T`, so `C*(V,F)` is stable and `C*(V,F) ≅ K ⊗ C*(G_T^T)`.
 
 **Checks.**
 
@@ -588,7 +596,7 @@ same, by Fo5.1 and Brown–Green–Rieffel (HilbertModules H4), both algebras be
   vertical axis.
 - *Torus.* `C(T²) ⋊ ℝ ≅ K ⊗ A_θ` (Fo6.2).
 
-*Needs:* Fo1.1, Fo5.1; HilbertModules H4.
+*Needs:* Fo1.1, Fo5.1; HilbertModules H4; OperatorAlgebraDynamics D6.
 
 ### 5.3 Compact transversals and projections (Fo5.3)
 
@@ -606,8 +614,9 @@ are complementary full corners (HilbertModules H3).
 - *Torus.* For the closed geodesics `N_{p,q}` of the torus, `e_{p,q} C*_r(V,F) e_{p,q}` is the
   rotation algebra `A_θ'` of Fo6.2.
 - *Circle fibres.* For `S¹ × S¹` foliated by the circles `S¹ × {y}` and `N = {1} × S¹`,
-  `Hol_N^N` is the unit groupoid of `N`, `C*_r(V,F) = C(S¹) ⊗ K(L²(S¹))` (Fo6.1) and `e_N` is
-  `1 ⊗ e`, `e` the projection onto the constant half density of length one, with corner `C(S¹)`.
+  `Hol_N^N` is the unit groupoid of `N`, `C*_r(V,F) = C(S¹) ⊗ K(L²(S¹))` (Fo6.1), and `e_N` is
+  the field over `y ∈ S¹` of the rank-one projections onto `ξ(·, y)`, Murray–von Neumann
+  equivalent to `1 ⊗ e` for a rank-one projection `e`, with corner `C(S¹)`.
 
 *Needs:* Fo5.1; HilbertModules H3.
 
@@ -912,7 +921,7 @@ It leaves the following to the named owners and consumes them by section.
 - **OperatorAlgebraDynamics** owns crossed products (D1–D2), Haar systems, the convolution algebras,
   full and reduced completions, regular representations and transformation groupoids of Hausdorff
   groupoids (D5), and groupoid equivalence with Renault's equivalence theorem and the conditional
-  expectation of étale groupoids (D6). Fo4.3 and Fo5.1 consume them for Hausdorff holonomy
+  expectation of étale groupoids (D6). Fo4.3 and Fo5.1–Fo5.2 consume them for Hausdorff holonomy
   groupoids; the non-Hausdorff constructions of Fo4–Fo5 are this roadmap's.
 - **HilbertModules** owns Hilbert modules and their compact operators (H1–H2), imprimitivity
   bimodules, linking algebras and full corners (H3), and Kasparov stabilization with

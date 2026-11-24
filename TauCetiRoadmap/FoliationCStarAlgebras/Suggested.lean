@@ -11,13 +11,19 @@ public import TauCeti.Geometry.Manifold.Foliation.Leaf
 # Holonomy groupoids and C*-algebras of foliations: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry`, the
-headline theorems of Layer Fo1 and the pseudogroup facts behind Fo2.3 that are statable against
-the pinned Mathlib and Tau Ceti, together with the definitions they need: leafwise paths of Tau
-Ceti's `TauCeti.Foliation` (the curves of `TauCeti.Foliation.JoinedByTangentCurve`), transversals
-as smooth embeddings complementary to the leaves, slidings of a leafwise path between two
-transversals, whose endpoint germs (Mathlib's `Filter.Germ`) are the holonomy germs, the holonomy
-pseudogroup of a transversal as a Mathlib `StructureGroupoid`, quasi-analyticity, and the flat
-shift of Fo2.3 and Fo6.4.
+headline theorems of Layer Fo1 that are statable against the pinned Mathlib and Tau Ceti: the
+existence, uniqueness and leafwise homotopy invariance of holonomy germs, and the holonomy
+pseudogroup. It gives the definitions they need: leafwise paths of Tau Ceti's `TauCeti.Foliation`
+(the curves of `TauCeti.Foliation.JoinedByTangentCurve`), transversals as smooth embeddings
+complementary to the leaves, slidings of a leafwise path between two transversals, whose endpoint
+germs (Mathlib's `Filter.Germ`) are the holonomy germs, and the holonomy pseudogroup of a
+transversal as a Mathlib `StructureGroupoid`. For Fo2.3 it defines quasi-analyticity and the flat
+shift of Fo2.3 and Fo6.4, and proves that analytic holonomy is quasi-analytic.
+
+The last two sections are sanity checks of these definitions, not targets: the flat shift is
+smooth, strictly increasing and surjective, with the identity germ at negative points and another
+germ at `0` (proved here), and the lines of slope `θ` slide from the axis to the line `{1} × ℝ`
+with endpoint map `v ↦ v + θ` (the Check "A computed germ" of Fo1.2, stated with `sorry`).
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
@@ -151,40 +157,67 @@ Winkelnkemper's criterion, foliations with such holonomy have Hausdorff holonomy
 theorem isQuasiAnalyticAt_of_analyticOnNhd {V : Type*} [NormedAddCommGroup V] [NormedSpace ℝ V]
     {S : Set (OpenPartialHomeomorph V V)} (hS : ∀ e ∈ S, AnalyticOnNhd ℝ e e.source) (x : V) :
     IsQuasiAnalyticAt S x := by
-  sorry
+  intro e he hx U hU hUs hxU hEq
+  obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 e.open_source x hx
+  obtain ⟨z, hzB, hzU⟩ := mem_closure_iff_nhds.1 hxU _ (Metric.ball_mem_nhds x hr)
+  have hfg : (e : V → V) =ᶠ[𝓝 z] id := Filter.eventuallyEq_of_mem (hU.mem_nhds hzU) hEq
+  have hEqB : EqOn e id (Metric.ball x r) :=
+    ((hS e he).mono hball).eqOn_of_preconnected_of_eventuallyEq analyticOnNhd_id
+      (convex_ball x r).isPreconnected hzB hfg
+  filter_upwards [Metric.ball_mem_nhds x hr] with y hy using hEqB hy
 
 /-- The flat shift (README, Fo2.3 and Fo6.4): the identity on `(-∞, 0]` and `u ↦ u + exp (-1/u)`
 on `(0, ∞)`. -/
 def flatShift (u : ℝ) : ℝ := u + expNegInvGlue u
 
+/-! ## Sanity checks: the flat shift
+
+These test `flatShift` against the properties that Fo2.3 and Fo6.4 use; they are not targets. -/
+
 /-- The flat shift is smooth (README, Fo2.3). -/
-theorem contDiff_flatShift : ContDiff ℝ ∞ flatShift := by
-  sorry
+theorem contDiff_flatShift : ContDiff ℝ ∞ flatShift :=
+  contDiff_id.add expNegInvGlue.contDiff
 
 /-- The flat shift is strictly increasing (README, Fo2.3). -/
-theorem strictMono_flatShift : StrictMono flatShift := by
-  sorry
+theorem strictMono_flatShift : StrictMono flatShift :=
+  strictMono_id.add_monotone expNegInvGlue.monotone
 
 /-- The flat shift is surjective (README, Fo2.3). -/
 theorem surjective_flatShift : Function.Surjective flatShift := by
-  sorry
+  refine contDiff_flatShift.continuous.surjective ?_ ?_
+  · exact tendsto_atTop_mono (fun u ↦ le_add_of_nonneg_right (expNegInvGlue.nonneg u)) tendsto_id
+  · refine tendsto_id.congr' ?_
+    filter_upwards [eventually_le_atBot 0] with u hu
+    simp [flatShift, expNegInvGlue.zero_of_nonpos hu]
 
 /-- The germ of the flat shift at every negative point is the identity germ (README, Fo2.3). -/
 theorem germ_flatShift_eq_id_of_neg {u : ℝ} (hu : u < 0) :
     (flatShift : Germ (𝓝 u) ℝ) = (id : ℝ → ℝ) := by
-  sorry
+  refine Germ.coe_eq.2 ?_
+  filter_upwards [Iio_mem_nhds hu] with v hv
+  simp [flatShift, expNegInvGlue.zero_of_nonpos hv.le]
 
 /-- The germ of the flat shift at `0` is not the identity germ (README, Fo2.3). -/
 theorem germ_flatShift_ne_id : (flatShift : Germ (𝓝 (0 : ℝ)) ℝ) ≠ (id : ℝ → ℝ) := by
-  sorry
+  intro h
+  obtain ⟨ε, hε, hball⟩ := Metric.eventually_nhds_iff.1 (Germ.coe_eq.1 h)
+  have hd : dist (ε / 2) (0 : ℝ) < ε := by
+    rw [Real.dist_eq, sub_zero, abs_of_pos (half_pos hε)]
+    linarith
+  have hpos : 0 < expNegInvGlue (ε / 2) := expNegInvGlue.pos_of_pos (half_pos hε)
+  have h2 := hball hd
+  simp only [flatShift, id] at h2
+  linarith
 
-/-! ## A computed holonomy germ -/
+/-! ## Sanity check: a computed holonomy germ
+
+This tests `IsSliding` against the Check "A computed germ" of Fo1.2; it is not a target. -/
 
 /-- **Holonomy of the lines of slope `θ`** (README, Fo1.2, Checks): on `ℝ × ℝ` foliated by the
 lines of slope `θ`, the leaf segment from `(0, v₀)` to `(1, v₀ + θ)` slides from the axis
 `{0} × ℝ` to the line `{1} × ℝ` with endpoint map `v ↦ v + θ`. -/
-theorem isSliding_slope (θ : ℝ) (hn : (1 : ℕ∞ω) ≤ ∞) (v₀ : ℝ) :
-    IsSliding (TauCeti.Foliation.ofSubmodule (Submodule.span ℝ {((1 : ℝ), θ)}) hn)
+theorem isSliding_slope (θ : ℝ) (v₀ : ℝ) :
+    IsSliding (TauCeti.Foliation.ofSubmodule (Submodule.span ℝ {((1 : ℝ), θ)}) (by simp))
       (fun v : ℝ ↦ ((0 : ℝ), v)) (fun v : ℝ ↦ ((1 : ℝ), v)) (fun t ↦ (t, v₀ + θ * t)) v₀ univ
       (fun v t ↦ (t, v + θ * t)) (fun v ↦ v + θ) := by
   sorry
