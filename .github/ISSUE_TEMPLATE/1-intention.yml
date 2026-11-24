@@ -68,6 +68,7 @@ body:
         - ArithmeticStatisticsPartV
         - ArithmeticStatisticsPartVI
         - ArithmeticStatisticsPartVII
+        - ArtinRepresentations
         - AsymptoticExpansions
         - AutomorphicBundles
         - AutomorphicFormsOnReductiveGroups
@@ -431,6 +432,7 @@ body:
         - QuasiregularMaps
         - QuaternionArithmetic
         - QuaternionicAnalysis
+        - QuaternionicModularForms
         - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomGraphs
