@@ -2912,7 +2912,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-- §§0.5, 5.3 (automorphic bundles and their canonical extension). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.15, 8.18, 8.19.
+- §§0.5, 5.3 (automorphic bundles and their canonical extension), used in the setting of 8.11–8.19, 8.11, 8.14, 8.15, 8.18, 8.19; §12.15 (Fourier–Jacobi expansion with vector coefficients: the coefficients, on the abelian torsor over a cusp of a neat PEL toroidal model, of a section of the canonical extension of the bundle of a finite projective representation), used in 8.19a.
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
