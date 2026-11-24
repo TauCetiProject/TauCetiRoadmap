@@ -79,7 +79,7 @@ compact-perturbation index foundation.
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
 | `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
 | `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
-| `SelfAdjointSpectralTheory`    | `VonNeumannAlgebras` V2.BorelCalculus and V10.ClosedOperators, `BanachSpaceTheory` §5.4 (§1.6 only), `BanachAlgebras` §8.1 (§2.1 only), `OneParameterSemigroups` |
+| `SelfAdjointSpectralTheory`    | `VonNeumannAlgebras` V2.BorelCalculus, V4.0.Multiplication and V10.ClosedOperators, `BanachSpaceTheory` §5.4 (SA-B63/65 only), `BanachAlgebras` §8.1 (SA-C86 only), `OneParameterSemigroups` |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
 | `ToeplitzOperators`            | Mathlib Fourier/projection APIs, Tau Ceti circle degree, `BanachSpaceTheory` B5, `CStarAlgebras` C1/C5/C8, `OperatorKTheory` K4 |
@@ -93,14 +93,17 @@ stated against.
 
 ### Dependency-minimal material
 
-The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A depends only on Mathlib
-within this family. `SelfAdjointSpectralTheory` takes nothing from the other roadmaps of this
-family: its Layers 1 and 2 are independent of each other and of Layers 3 and 4. Layer 1
-consumes `VonNeumannAlgebras` V2.BorelCalculus and Tau Ceti’s projection-valued measures, and
-its Borel bidual embedding additionally consumes `BanachSpaceTheory` §5.4. Layer 2 consumes
-`BanachAlgebras` §8.1. Layer 3 consumes `VonNeumannAlgebras` V10.ClosedOperators and Tau
-Ceti’s supplied scalar-generic `LinearPMap` resolvent core. Layer 4 consumes Tau Ceti’s
-unitary groups with Stone's theorem, built on `OneParameterSemigroups`.
+The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group
+and bounded-Borel-calculus layers in `SelfAdjointSpectralTheory` Parts A and B depend only
+on Mathlib within this family; no Part of `SelfAdjointSpectralTheory` takes anything from the
+other roadmaps of this family, and Parts A and B are independent of each other and of Parts
+C–E. Parts A and E consume `OneParameterSemigroups` through its implementation in Tau Ceti,
+with Tau Ceti’s Stone theorem. Part B consumes `VonNeumannAlgebras` V2.BorelCalculus and
+V4.0.Multiplication and Tau Ceti’s projection-valued measures; its bidual comparison `SA-B63`
+and `SA-B65` additionally consume `BanachSpaceTheory` §5.4. The compact normal spectral
+theorem `SA-C86` consumes `BanachAlgebras` §8.1 and nothing from Part B. Part D consumes Tau
+Ceti’s supplied scalar-generic `LinearPMap` resolvent core, and Part E consumes
+`VonNeumannAlgebras` V10.ClosedOperators.
 
 ## Ownership boundaries
 
