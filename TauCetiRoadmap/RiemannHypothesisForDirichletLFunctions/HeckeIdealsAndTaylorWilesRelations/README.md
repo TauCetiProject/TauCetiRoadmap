@@ -61,9 +61,9 @@ determinant is that of a sum of pairwise distinct characters, with the universal
 
 *Origin:* adapted from Geraghty (2019), the big ordinary Hecke algebra of a definite unitary group at a non-Eisenstein maximal
 ideal, with the determinants of Chenevier (2014), and from Wake and Wang-Erickson (2017), a ring of ordinary pseudorepresentations
-equal to the Eisenstein component of a Hida Hecke algebra in rank two: here the ring of polarized ordinary determinants in rank `n`
-and its map onto the big ordinary Hecke algebra at a maximal ideal whose residual determinant is that of a sum of pairwise distinct
-characters.
+equal, when the eigenspace `X_θ` of an Iwasawa class group vanishes, to the Eisenstein component of a Hida Hecke algebra in rank two
+(Theorem 4.2.8): here the ring of polarized ordinary determinants in rank `n` and its map onto the big ordinary Hecke algebra at a
+maximal ideal whose residual determinant is that of a sum of pairwise distinct characters.
 
 *Method of the formal proof:* `M` is free over `Λ` and specializes at arithmetic points to classical ordinary forms; at the points
 of each regular weight whose inertial characters have pairwise distinct finite parts, which are Zariski dense, the classical space is
@@ -318,9 +318,11 @@ Taylor–Wiles places.
 
 ### 4.2a Automorphic patching data at a reducible residual determinant
 
-*Origin:* particular to this proof: Taylor–Wiles data with no condition on the residual Frobenius eigenvalues, comparison maps whose
-composites are multiplication by a product `f` of differences of Hecke eigenvalues, and Taylor–Wiles relations that, multiplied by
-`f`, are nilpotent with an exponent independent of `N`.
+*Origin:* adapted from Thorne (2022), §3 (Lemma 3.7, Proposition 3.8) and §5 (its Taylor–Wiles data and relation (5.1)), where the
+characteristic polynomial of Frobenius is split into two coprime factors at parahoric level, with no condition on the residual
+eigenvalues, the two comparison maps compose to multiplication by the resultant on modules killed by `Nv − 1`, and the relations are
+multiplied by a power of a resultant with exponent `n!`, independent of the level: here the full flag at Iwahori level, for the Hecke
+ideal `J` of 3.13a, with `f` the product over all ordered pairs and its factors `U_{j,i} − Nw_{N,j}·U_{j,i′}` keeping the norm.
 
 *Method of the formal proof:* (L) is applied to the places of the datum at each level `N`: the `U_{j,i}` are the normalized
 double-coset operators of the diagonal matrices on the Iwahori invariants, the trace to Iwahori level is onto with kernel generated
@@ -975,4 +977,4 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 - [Mil] J. S. Milne, *Arithmetic duality theorems*, second edition, 2006, chapter I, §4. Poitou–Tate duality for finite modules, the finite-level case of 10.1 (b), through ArithmeticGaloisDuality §D7.6a.
 - [NT23] J. Newton and J. A. Thorne, *Adjoint Selmer groups of automorphic Galois representations of unitary type*, Journal of the European Mathematical Society 25 (2023), 1919–1967; arXiv:1912.11265v3. [Open preprint](https://arxiv.org/abs/1912.11265v3). The vanishing theorem used in the routes of 9.9 (a)–(c).
 - [Tho22] J. A. Thorne, *On the vanishing of adjoint Bloch–Kato Selmer groups of irreducible automorphic Galois representations*, Pure and Applied Mathematics Quarterly 18 (2022), 2159–2202; arXiv:2207.04925. [Open preprint](https://arxiv.org/abs/2207.04925). Theorem A (Theorem 6.1): the vanishing theorem of which 9.9 (d) is a case and from which 9.9 (a)–(c) follow.
-- [WWE17] Wake and Wang-Erickson, *Ordinary pseudorepresentations and modular forms*, Proceedings of the American Mathematical Society, Series B 4 (2017), 53–71; arXiv:1510.01661. [Open preprint](https://arxiv.org/abs/1510.01661). A ring of ordinary pseudorepresentations equal to the Eisenstein component of a Hida Hecke algebra in rank two, from which 3.13a is adapted.
+- [WWE17] Wake and Wang-Erickson, *Ordinary pseudorepresentations and modular forms*, Proceedings of the American Mathematical Society, Series B 4 (2017), 53–71; arXiv:1510.01661. [Open preprint](https://arxiv.org/abs/1510.01661). A ring of ordinary pseudorepresentations equal, when the eigenspace `X_θ` of an Iwasawa class group vanishes, to the Eisenstein component of a Hida Hecke algebra in rank two (Theorem 4.2.8 of arXiv v4), from which 3.13a is adapted.
