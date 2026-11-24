@@ -1330,6 +1330,15 @@ Earlier constructions used here are 0.5 Finite analytic component decomposition;
 
 **Target.** `TauCeti.Shimura.siegel_moduli_uniformization`. Construct the complex analytic uniformization and universal-family comparison of these charts with the Siegel double quotient of Layers 1–3. Use the Riemann bilinear relations and AbelianSchemesAndArithmeticModuli `A5`, comparing homology, integral lattices, polarizations and finite-adelic levels. Give pullback, morphism and level-change laws. For `g=1` identify this rational Siegel moduli functor with the full ordered-basis elliptic functor of ModularCurves §5B; compare AA.5.2’s adelic/analytic components with the independently supplied ModularCurvesPartII §§1.2–1.5 and §3.14 algebraic-curve uniformization, preserving the ordered basis and pairing value. This identification is constructed here; §§5.11–5.13 and 8.9 verify canonical reciprocity, and §§8.11–8.13 verify the determinant and row-action laws. ([Milne, SVI](https://jmilne.org/math/xnotes/svi.pdf), §6, especially Proposition 6.3, pp.70–71, and Theorem 6.11, p.74; [ModularCurvesPartII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularCurvesPartII/README.md), §§1.2–1.5,3.14.)
 
+*Needs:* §§P.4, 1.1–1.4, 2.7, 3.3 and 3.4a (the Siegel datum and its double quotient, level maps and
+translations, its algebraization at neat level and its coarse finite quotients);
+AbelianSchemesAndArithmeticModuli Layers A0, A1, A2, A3, A4, A5 and A6 (abelian schemes, rigidity,
+duality and polarizations, isogenies and level structures, Tate realizations, complex uniformization and
+the Riemann bilinear relations, Hom and quasi-isogenies); SchemeAndStackFoundations §§1.17 and 1.23
+(quotients and representability, fine and coarse moduli spaces); ModularCurves §5.2 (full ordered bases
+and fixed pairing); AdelicAlgebraicGroups §5.2 (`GL₂` over `ℚ` and principal levels); ModularCurvesPartII
+§§1.2–1.5 and 3.14 (elliptic uniformization, the analytic Weil pairing, open modular uniformization).
+
 **Checks.**
 
 - At genus one all elliptic curves carry the canonical principal polarization, including the universal full-level family.
@@ -1384,6 +1393,12 @@ Prove the type-norm identities as follows. `(a)` For `E*⊂k⊂ℂ, N_{k,Φ}=N_�
 
 Prove `TauCeti.Shimura.ReflexNorm.cm_type` as follows. For the CM torus datum `(Res_{E/ℚ}G_m,h_Φ)` of the local datum foundations of §§P.1–P.4, so that `E(T,h_Φ)=E*`, the cocharacter reflex norm `r_{h_Φ}:Res_{E*/ℚ}G_m→Res_{E/ℚ}G_m` of [4.2 Reflex norm of a special torus](#42-reflex-norm-of-a-special-torus) equals `N_Φ`, as morphisms of tori and on finite ideles. In split coordinates both send a to the element whose `φ`-component is the product of `ρ(a)` over the embeddings `ρ:E*→ℂ` for which `σ⁻¹∘φ∈Φ`, where `σ∈Aut(ℚ̄/ℚ)` extends `ρ`. This condition is independent of the extension: two such `σ` differ on the right by an automorphism fixing `E*`, and that stabilizer preserves `Φ`. Embeddings and compositions here are restricted to `ℚ̄` (SVI Example 12.4(b), p.112, and `(60)`, p.114; Milne CM, Proposition 1.26, p.17).
 
+*Needs:* §§P.1–P.4 (the local datum foundations: the CM torus datum and its cocharacter reflex field);
+§4.2 (*Reflex norm of a special torus*); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and the
+Deligne torus); AdelicAlgebraicGroups §1.4 (restriction of scalars on adelic points); Mathlib
+`NumberField.IsCMField`, `NumberField.ComplexEmbedding.conjugate`, `IntermediateField.adjoin`,
+`IntermediateField.adjoin_le_iff` and `LinearMap.det`.
+
 **Checks.**
 
 - For `E=ℚ(i)` and `Φ={i↦i}, E*=ℚ(i)` and `N_Φ` is the identity under the selected embedding; `N_Φ(2+i)·ι(N_Φ(2+i))=(2+i)(2−i)=5=Nm(2+i)`.
@@ -1406,6 +1421,11 @@ Use `A5` to obtain the analytic family. Add an appropriate level after an étale
 Borel algebraizes its classifying map into the neat arithmetic quotient. Pull back the universal abelian scheme and descend through the level cover.
 
 Algebraize homomorphisms via the relative moduli/rigidity and proper comparison, not a claim that all holomorphic functions on `S` are algebraic.
+
+*Needs:* §§3.2 and 5.0 (Borel algebraicity; the rational Siegel moduli); AbelianSchemesAndArithmeticModuli
+Layer A5 (analytic abelian families); AbelianSchemesAndArithmeticModuli §§A1.2, A3.7 and A3.8 (rigidity,
+polarized Weil pairings, full level structures); ComplexComparisonPartII Layer C4 (the proper
+comparison).
 
 **Checks.**
 
@@ -1436,6 +1456,11 @@ Expose the following operations and laws.
 - An actual abelian variety with an injective CM-algebra action of dimension `2 dim A` supplies the full CM object and its `Lie` type; a compatible polarization is included when Rosati data are required.
 - Two `E`-linear quasi-homomorphisms between full CM objects agreeing on `H₁(-,Q)`, or on a rational Tate module after comparison, are equal.
 
+*Needs:* §5.1 (*CM types, reflex fields and reflex norms*); AbelianSchemesAndArithmeticModuli Layer A5
+(uniformization, `H₁` and the `Lie` eigenspaces); AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A6.2,
+A6.7, A6.14 and A6.22 (polarizations, the Rosati involution, faithfulness on Tate modules,
+finite-dimensional `End⁰`, Rosati positivity, coefficient Hom and quasi-isogenies).
+
 **Checks.**
 
 - An elliptic curve with an imaginary quadratic embedding in `End⁰` has a full CM action of degree two.
@@ -1456,6 +1481,10 @@ At maximal order the integral lattice is locally an invertible `O_E`-module, yie
 
 Use injectivity of rational `Hom` on Tate modules for uniqueness of a quasi-isogeny.
 
+*Needs:* §5.3 (*CM abelian varieties with their algebra action*); AbelianSchemesAndArithmeticModuli
+Layer A5 (uniformization); AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.2 and A6.7 (torsion of the
+multiplication maps, the Tate module, faithfulness and injectivity of Hom on Tate modules).
+
 **Checks.**
 
 - The rational rank statement includes product CM algebras.
@@ -1474,6 +1503,10 @@ Use the fixed CM action/type locus and rigidity to show its moduli point is alge
 Extend the field to define the action/polarization/level. Do not assert that every arbitrary complex abelian variety has a number-field model.
 
 The rigidity and descent argument for the CM locus is proved here, as a step separate from the main theorem.
+
+*Needs:* §§5.0, 5.1 and 5.3 (the rational Siegel moduli; CM types; CM abelian varieties);
+AbelianSchemesAndArithmeticModuli Layer A6 (endomorphisms, Hom and their spreading and descent);
+AlgebraicModuliForArithmeticGeometry §3.5 (polarized descent); §4.9b (continuous field descent).
 
 **Checks.**
 
@@ -1495,6 +1528,10 @@ Apply NeronModelsAndSemistableAbelianVarieties §5.1 to get good reduction. The 
 
 Compactness and the Rosati norm constraint alone do not imply finite inertia. In particular, absolute local inertia is not virtually pro-p.
 
+*Needs:* §§5.4 and 5.5 (the rank-one CM Tate module; number-field models);
+NeronModelsAndSemistableAbelianVarieties §§3.7, 3.10 and 5.1 (unipotence of inertia of exponent two,
+semistable reduction after a finite separable extension, Néron–Ogg–Shafarevich).
+
 **Checks.**
 
 - This is potential good reduction, not good reduction over the original field.
@@ -1514,6 +1551,11 @@ Let `C` be the centralizer of `E` in `End⁰` of the reduction. AbelianSchemesAn
 
 AbelianSchemesAndArithmeticModuli §A6.11 makes the Frobenius endomorphism integral over `Z`, so its element of `E` lies in `O_E`. The compatible polarization and Rosati conjugation give `ππbar=q`.
 
+*Needs:* §§5.4 and 5.6 (the rank-one CM Tate module; potential good reduction);
+AbelianSchemesAndArithmeticModuli §§A2.5, A3.1, A3.9, A4.1, A6.7, A6.11 and A6.25 (polarizations,
+isogenies, the Rosati involution, the integral Tate module, finite rank of Hom, the characteristic
+polynomial on the Tate module, relative Hom and normal-base extension).
+
 **Checks.**
 
 - The Frobenius is arithmetic `q`-power on the reduction; Layer `4 art` is its inverse on Galois reciprocity.
@@ -1531,6 +1573,10 @@ Compare the `Lie` eigenspace lengths of the CM action at `P` with the Frobenius 
 Use type counting to identify the valuation at each CM prime.
 
 Translate the product ideal through the reflex norm. For product algebras use the torus norm; the field reflex-type formula alone is not a product reflex type.
+
+*Needs:* §§4.2, 5.1 and 5.7 (the reflex norm of a special torus; CM types and reflex norms; the CM
+Frobenius endomorphism); AbelianSchemesAndArithmeticModuli Layer A4 (the realizations at the good
+reduction: Tate modules, `Lie` and the Barsotti–Tate group of the Frobenius kernel).
 
 **Checks.**
 
@@ -1551,6 +1597,10 @@ Compose ideal multiplications to obtain a finite ray-class homomorphism; prove i
 
 At almost every suitable good unramified prime use Shimura–Taniyama. Dirichlet/Chebotarev prime generation of ray classes extends equality to every class.
 
+*Needs:* §§5.1, 5.4, 5.5 and 5.8 (CM types and reflex norms; the rank-one CM Tate module; number-field
+models; the Shimura–Taniyama calculation); ClassFieldTheory Layer 11 (the global class formation and
+global Artin reciprocity).
+
 **Checks.**
 
 - Equality only on a few Frobenius elements is insufficient; excluded primes form a finite set and remaining primes generate every ray class.
@@ -1564,6 +1614,9 @@ This uses [5.5 Number-field models for full CM objects](#55-number-field-models-
 **Target.** `TauCeti.Shimura.unit_congruence_topology`. For a number field `F` and a finite-index torsion-free subgroup `U⊂O_F×`, import [GL2AutomorphicRepresentationsAndTransfer §R16.1.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1617-congruences-detecting-finite-index-subgroups-of-s-units), `chevalley_power_congruence`, with its finitely generated subgroup `E=U` and empty excluded-place set; for a finite-index `U′⊂U` take `n` the exponent of the finite group `U/U′`, so that `Uⁿ⊂U′`. Deduce that the finite-idelic subspace topology on `U` equals its full profinite topology: congruence kernels have finite index, and the supplier places one inside every finite-index `U′⊂U`. Identify the `closure` of `U` in the compact integral finite ideles with its profinite completion, hence also its `closure` in `A_{f,F}×`. For a CM field `E` choose such a `U` inside the maximal real subfield's units and prove
 `ker(art_E:A_{f,E}×/E×→Gal(E^ab/E))=closure(E×)/E×≅closure(U)/U`.
 This quotient is fixed by CM conjugation and uniquely divisible by every positive integer; use the unit rank and the identification with `(ℤ̂/Z)^r`. Apply this componentwise to CM product algebras before §5.10. This target owns these topology and residual-kernel deductions; the generic Chevalley congruence theorem remains with the `GL₂` supplier, while ClassFieldTheory Layer 13 supplies the cyclic Hasse norm theorem separately. ([Serre, Sur les groupes de congruence des variétés abéliennes](https://www.mathnet.ru/php/archive.phtml?jrnid=im&option_lang=eng&paperid=3061&wshow=paper), §3.5, pp.3–20; [Milne 2007c](https://jmilne.org/math/articles/2007c.pdf), Lemma 3.6, p.21.)
+
+*Needs:* §4.1 (*Milne geometric Artin conversion*); GL2AutomorphicRepresentationsAndTransfer §R16.1.7
+(`chevalley_power_congruence`); ClassFieldTheory Layer 11 (global Artin reciprocity).
 
 **Checks.**
 
@@ -1580,6 +1633,10 @@ Reduce by an `E`-linear quasi-isogeny to maximal integral order. Choose an `E`-l
 The ideal theorem identifies `η(σ)/r_Φ(s)` modulo every finite torsion level. The conjugation/norm-one condition removes the residual `closure` ambiguity (`2007c` 3.6–3.12), using §5.9a and ClassFieldTheory Layer 13’s cyclic Hasse norm theorem.
 
 Faithfulness on the rational Tate module gives uniqueness. Transport back through the chosen `E`-isogeny.
+
+*Needs:* §§4.1, 4.2, 5.4, 5.9 and 5.9a (the Artin convention; reflex norms; the rank-one CM Tate module;
+CM ideal reciprocity; the CM closure quotient); ClassFieldTheory Layers 11 and 13 (global Artin
+reciprocity; the cyclic Hasse norm theorem).
 
 **Checks.**
 
@@ -1600,6 +1657,11 @@ Class field theory identifies the quotient scalar as a positive rational number.
 
 Apply the formula to the actual symplectic Tate trivialization and its `K`-orbit, not a raw matrix without the quasi-isogeny equivalence.
 
+*Needs:* §§4.1 and 5.10 (the Artin convention; the main theorem of complex multiplication);
+AbelianSchemesAndArithmeticModuli §§A2.5, A3.7, A3.8 and A3.9 (polarizations, polarized Weil pairings,
+level structures, the Rosati involution); ClassFieldTheory Layer 11 (the cyclotomic character and global
+reciprocity).
+
 **Checks.**
 
 - The similitude factor is `χ/N`, not `N/χ` in this `α` convention.
@@ -1616,6 +1678,10 @@ Prove `TauCeti.Shimura.siegel_special_cm` as follows. Assume `g≥1`. For the ge
 Use the Mumford–Tate torus criterion for a polarized weight-one Hodge structure, with the Mumford–Tate group of §P.3a.
 
 By complete reducibility and positive Rosati involution, a torus Mumford–Tate action gives a full CM algebra in the endomorphisms. Conversely a full CM algebra forces a torus Hodge image.
+
+*Needs:* §§P.1, P.3a, P.4 and 5.3 (special pairs; Mumford–Tate groups; the Siegel datum; CM abelian
+varieties); AbelianSchemesAndArithmeticModuli §§A6.5, A6.8, A6.14 and A6.37 (complete reducibility, the
+semisimple endomorphism algebra, Rosati positivity, the CM isotypic decomposition).
 
 **Checks.**
 
@@ -1636,6 +1702,11 @@ Construct the rational generic Siegel moduli object from §5.0 and its analytic 
 For every special point use the product-algebra CM criterion and main theorem to identify Galois transport of the represented polarized level object.
 
 Compare its scalar action with the special-pair cocharacter reflex norm. Extend to all levels via finite quotients.
+
+*Needs:* §§P.4, 3.4a, 4.2, 4.3 and 4.4 (the Siegel datum; finite quotients; reflex norms, finite-level
+reciprocity and the canonical-model condition); §§5.0, 5.2, 5.10, 5.11 and 5.12 (the rational Siegel
+moduli and their algebraization; the main theorem of complex multiplication with polarization and level;
+Siegel special points are full CM).
 
 **Checks.**
 
@@ -1826,6 +1897,9 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 
 **Target.** `TauCeti.Shimura.SerreProtorus`. For every finite Galois CM extension `L/ℚ` construct the torus `S^L` with character lattice consisting of `χ=Σ n_ρ[ρ]∈Z[Hom(L,ℚ̄)]` such that `(σ−1)(c+1)χ=0` for every `σ`, with `c` complex conjugation. Construct its universal cocharacter `μ^L`, rational weight, conjugation and the norm transition maps `S^{L′}→S^L`. Prove the universal mapping property for a rational torus split by `L` with a cocharacter satisfying this character relation. Form the Serre protorus `S=lim S^L` and its universal cocharacter, with finite-level factorization of torus morphisms. Use the algebraic torus character dictionary of ReductiveGroups and RG2.0a. ([Milne–Shih, Langlands's construction of the Taniyama group](https://jmilne.org/math/articles/1982c.pdf), §1, equations (1.1)–(1.3), pp.230–232.)
 
+*Needs:* ReductiveGroups Layer 4 (diagonalizable groups and tori: the character dictionary);
+ReductiveGroupsPartII Layer RG2.0a (Weil restriction and the Deligne torus).
+
 **Checks.**
 
 - For `L=ℚ(i)`, the two character coefficients have constant sum under conjugation; `S^L` is `Res_{L/ℚ}G_m`.
@@ -1835,6 +1909,11 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 ### 7.0b Taniyama extension and torsors
 
 **Target.** `TauCeti.Shimura.TaniyamaExtension`. For finite Galois CM extensions `L/ℚ`, use GL2AutomorphicRepresentationsAndTransfer §R17.5.0’s relative extensions `1→C_L→W_{L/ℚ}→Gal(L/ℚ)→1` and global Weil group, with their supplied transfer, norm-transition, local-map and reciprocity compatibilities. Use the imported projection and abelianization comparison to lift elements of `Gal(L^ab/ℚ)` as in Milne–Shih (3.2), retaining the class-formation fundamental class represented by the imported extension. Construct the associated Serre-torus extensions over `Gal(L^ab/ℚ)` by Milne–Shih §3’s cocharacter cocycle construction using §7.0a, and pull them back to `Gal(ℚ̄/ℚ)`. Prove that changing a representative cocycle by a coboundary gives an isomorphism of the resulting Serre-torus extensions preserving their finite-adelic sections. Prove that the Serre-level transition maps induce Galois restriction on the quotient and the §7.0a norm on the kernel, and that the imported transfer/reciprocity squares remain commutative after the Serre-torus maps. Use this single Weil-extension system throughout. Construct the compatible extensions by `S^L` and their inverse limit `1→S→𝒯→Gal(ℚ̄/ℚ)→1`, with the norm-compatible continuous finite-adelic homomorphic section. Prove independence from the auxiliary Weil representatives, the transition laws and the extension multiplication. For `σ` construct the actual `S`-torsor `S_σ` above `σ`, its distinguished finite-adelic point and the contracted-product multiplication isomorphisms, with identity, associativity and cocycle laws. Push these torsors along the universal marked cocharacter homomorphism `S→T^ad`; give base-change and torus-morphism compatibility and faithful descent of morphisms. This supplies the arithmetic torsors of §7.5, before their Shimura interpretation. ([Milne–Shih](https://jmilne.org/math/articles/1982c.pdf), §2, especially Corollary 2.8 and Remark 2.9, pp.233–239; §3, diagrams (3.1)–(3.2), pp.242–243, transfer diagram, p.250, Proposition 3.11 and Lemma 3.12, pp.250–256; Remark 3.18, p.259.)
+
+*Needs:* §7.0a (*Serre protorus*); GL2AutomorphicRepresentationsAndTransfer §R17.5.0 (relative Weil
+groups, the global Weil group, transfer and reciprocity); ClassFieldTheory Layer 11 (the global class
+formation and its fundamental class); SchemeAndStackFoundations §§1.15 and 1.16 (torsors and contracted
+products).
 
 **Checks.**
 
@@ -1847,6 +1926,10 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 
 **Target.** `TauCeti.Shimura.finite_normalizer_index`. Let `D` be a positive-dimensional Hermitian symmetric domain with no Euclidean or compact factors and `Γ⊂Aut_hol(D)` a torsion-free arithmetic lattice acting effectively. Prove that `N=Norm_{Aut_hol(D)}(Γ)` is discrete and `[N:Γ]` is finite. Lifting automorphisms of `Γ∖D` to its simply connected domain identifies `Aut_hol(Γ∖D)=N/Γ`; consequently its algebraic automorphism group is finite. Prove countability and closedness of `N` and apply the Baire/`Lie` argument, then use finite covolume for the index. Retain component permutations for a finite disjoint union. ([Milne 1999](https://jmilne.org/math/articles/1999cP.pdf), Lemma 2.2 and its normalizer proof, p.4; Margulis, Discrete subgroups of semisimple `Lie` groups, II §6.3, cited there.)
 
+*Needs:* §P.2 (*Hermitian components*); ArithmeticLocallySymmetricSpaces §§ALS.0.5–ALS.0.9 (proper
+actions of arithmetic groups and their quotients); AdelicAlgebraicGroups §3.4 (arithmetic quotients and
+the Borel–Harish-Chandra covolume criterion).
+
 **Checks.**
 
 - A neat modular arithmetic curve has finite automorphism group, although its open analytic uniformization is noncompact.
@@ -1856,6 +1939,10 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 ### 7.0d Ranked S-arithmetic reconstruction
 
 **Target.** `TauCeti.Shimura.s_arithmetic_reconstruction`. For the almost `ℚ`-simple simply connected connected datum of §7.1, construct `Γ₀` from the lifted conjugated Hecke correspondences on the Hermitian universal cover of §7.6 as in Milne 3.3–3.4. For a sufficiently large nonempty finite set `S` of finite primes, its subgroup `Γ₀,S^+` is an irreducible lattice in `G′_S=Aut(D′)^+×∏_{p∈S}G(ℚ_p)`. Require the sum of local ranks to be at least two. Prove arithmeticity in this precise setting: recover a `ℚ`-group `G₁` and `ψ_S:(G₁)_R×∏_{p∈S}(G₁)_{ℚ_p}→G′_S` with an `S`-arithmetic subgroup mapping commensurably to `Γ₀,S^+, ψ_∞` surjective with compact kernel and each `ψ_p` an isomorphism. Prove uniqueness and compatibility as `S` grows. Apply superrigidity to the adjoint faithful representations of this lattice, retaining unboundedness and Zariski density, to place `Γ₀` in `ψ(G₁(Q))·Z(G(𝔸_f))`, and identify the compatible finite-local maps. No rank-one lattice rigidity is asserted. ([Milne 1983](https://jmilne.org/math/articles/1983a.pdf), Lemmas 3.5–3.7 and their proofs, pp.248–250, using Margulis's arithmeticity and superrigidity theorems, Theorems 7 and 8 of Margulis 1977.)
+
+*Needs:* §§1.5, 7.1 and 7.6 (holomorphic Hecke correspondences; the reduced datum; the Hermitian
+universal cover of the conjugate quotient); AdelicAlgebraicGroups §3.4 (`S`-arithmetic subgroups and
+arithmetic quotients); ReductiveGroups Layer 7 (structure theory).
 
 **Checks.**
 
@@ -1867,6 +1954,10 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 
 **Target.** `TauCeti.Shimura.global_centre_adjoint_comparison`. For a semisimple simply connected group `G` over a number field `k` with no simple factor of type `A_n` for `n≥4`, prove injectivity of `H¹(k,Z(G))→∏_{v finite}H¹(k_v,Z(G))`. Construct the centre's finite character/Galois module, reduce by products and Weil restriction, and use the cyclic splitting-field argument in the corrected Lemma 3.8; this is not an assertion about `H¹(k,G)`. Construct twisting compatibility. Separately prove the adjoint Hasse comparison used in Milne p.258: classes of torsors under a semisimple adjoint `k`-group that agree at every place agree globally, with the comparison isomorphism on the represented inner forms. Apply it to the finite-locally trivial marked twists with equal real classes. The exceptional `A_n` central adjustment is the separate §7.7 proof using its rank-one subgroups, rather than an application of the first assertion. ([Milne 1983](https://jmilne.org/math/articles/1983a.pdf), corrected Lemma 3.8, p.250; special-point transition, p.258, citing Langlands, *Les débuts d'une formule des traces stables*, VII.6, for the adjoint Hasse principle; V. P. Platonov and A. S. Rapinchuk, *Algebraic Groups and Number Theory*, Academic Press (1994), Theorem 6.22, p.336, for the adjoint Hasse principle and twisting.)
 
+*Needs:* ReductiveGroups Layers 4, 6 and 7 (character modules of tori, centres of semisimple groups,
+structure theory); ReductiveGroupsPartII Layer RG2.0a (Weil restriction); AdelicAlgebraicGroups §4.1
+(weak approximation and torsors); ClassFieldTheory Layer 11 (global class field theory).
+
 **Checks.**
 
 - For `SL₂` the centre is `μ₂`, so the first map is the finite-place square-class test.
@@ -1877,6 +1968,10 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 
 **Target.** `TauCeti.Shimura.quadratic_torus_norms`. For a quadratic CM extension `L/F` with `F` totally real and `T` split by `L` and compact at all real places, conjugation acts by `−1` on `X_*(T)`; identify `T` with a product of `Res¹_{L/F}G_m` using a lattice basis. Construct `H¹(F,T)≅(F×/Nm L×)^r`, with its localization maps. Import the cyclic Hasse norm theorem from ClassFieldTheory Layer 13 and prove the real-localization surjectivity needed to prescribe a single real obstruction: weak approximation chooses representatives with the required signs. A totally positive representative a becomes a norm after the totally real extension `F(√a)`, since `Nm(√a)=a` in the base-changed quadratic algebra. Prove compatibility of these operations with the root-torus inclusions in §7.10 and with successive extensions. ([Milne 1983](https://jmilne.org/math/articles/1983a.pdf), Remark 4.2, p.253, and Weyl-length induction, pp.260–261.)
 
+*Needs:* ClassFieldTheory Layer 13 (the cyclic Hasse norm theorem); AdelicAlgebraicGroups §4.1 (weak
+approximation and torsors); ReductiveGroups Layer 4 (tori and cocharacter lattices); ReductiveGroupsPartII
+Layer RG2.0a (Weil restriction).
+
 **Checks.**
 
 - For `ℚ(i)/Q` the real norm image is `ℝ>0`, so `−1` gives a nontrivial real class.
@@ -1886,6 +1981,9 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 ### 7.0g Compact-case metric input
 
 **Target.** `TauCeti.Shimura.compact_negative_ke_metric`. For a smooth projective complex variety `V` with ample canonical bundle, construct the unique Kähler–Einstein metric with usual Ricci form `−ω` and Kähler class `2πc₁(K_V)`. Prove existence by the negative-first-Chern-class complex Monge–Ampère argument and uniqueness by its comparison principle. Prove completeness on `V` and compatibility with finite étale covers: pullback is the normalized metric on each compact cover by uniqueness. Isomorphisms between such covers preserve it, so their lifts give the invariant metric needed for the conjugated arithmetic tower. Use Milne's opposite sign for Ricci of a volume element only when translating to his positive-volume criterion. Apply his Theorem 2.4 to the lifted group action and finite volume to recover the Hermitian symmetric universal cover; a negative Einstein metric alone is insufficient to assert symmetry. This compact-case input precedes §7.6. ([Yau, On the Ricci curvature of a compact Kähler manifold and the complex Monge–Ampère equation, I](https://doi.org/10.1002/cpa.3160310304), §6, Theorems 4–5 and the ample-canonical deduction, pp.383–385; [Milne, Kazhdan's theorem on arithmetic varieties](https://www.jmilne.org/math/articles/1984T.pdf), Theorem 2.4 and Remark 2.7, pp.9–12.)
+
+*Needs:* ComplexHessianEquations Layers 4 and 6 (the comparison principle and the a priori estimates for
+the complex Monge–Ampère equation); §P.2 (*Hermitian components*).
 
 **Checks.**
 
@@ -1898,6 +1996,11 @@ Construct §§7.0a–7.0b before §7.5, §7.0c before §7.12, §§7.0e–7.0f be
 **Target.** `TauCeti.Shimura.clozel_top_forms_growth`. In the reduced case of §7.1 let `G/ℚ` be connected, simply connected, semisimple and almost `ℚ`-simple, with `G(ℝ)` noncompact and Hermitian domain `D`. Construct the finite-place supercuspidal input of Clozel §3.1: a place `p_0`, a unitary supercuspidal `π_(p_0)`, a compact open `K_(p_0)` with nonzero fixed vectors, and its matrix-coefficient test. Choose a nonempty finite set `S` of primes disjoint from `{p_0}`, a sufficiently small neat factorizable `K_0`, and a nested normal congruence tower `K_i=K_(p_0)×K_(S,i)×K^(S,p_0)`, with `K_(S,i)` tending to 1 and the other factors fixed. Prove that `Γ_i=G(ℚ)∩K_i` have trivial intersection; the adelic `K_i` themselves retain the fixed local factors. For the holomorphic discrete series `W` of square-integrable holomorphic top forms on `D`, prove
 `liminf_i m(W,L²_cusp(Γ_i∖G(ℝ)))/[Γ_0:Γ_i]>0`.
 Use SmoothRepresentationsOfLocalGroups §SR.`3a`.1 for local matrix coefficients and formal-degree orthogonality, and AutomorphicSpectralTheory §0.48 for real discrete series, §6.18 for pseudo-coefficients, and §§6.12–6.16 for fine expansions and trace distributions. Construct the shrinking-level trace estimates needed for this bound here, as in Clozel §§3,5; these estimates are additional to the supplied trace identities. Identify the `W`-multiplicity with `dim H⁰_(2)(Γ_i∖D,Ω^dim D)`, and deduce a positive normalized lower bound for these `L²` holomorphic top forms, after discarding finitely many levels if necessary. Prove its transport to conjugate varieties by extension to top forms on smooth compactifications and invariance of their algebraic dimensions. This is the congruence-tower bound with fixed supercuspidal place; it assumes no general limit-multiplicity conjecture. ([Clozel, On limit multiplicities of discrete series representations in spaces of automorphic forms](https://doi.org/10.1007/BF01388963), Invent. Math. `83 (1986)`, Theorem `1A`, §3, pp.268–276, and Theorem 1, §5.1, pp.280–281; [Milne, Kazhdan's theorem on arithmetic varieties](https://www.jmilne.org/math/articles/1984T.pdf), p.19 and Lemmas 3.18–3.19, p.20.)
+
+*Needs:* §7.1 (the reduced case); SmoothRepresentationsOfLocalGroups §SR.3a.1 (supercuspidal matrix
+coefficients and formal degrees); AutomorphicSpectralTheory §§0.48, 6.12–6.16 and 6.18 (real discrete
+series, fine expansions and trace distributions, pseudo-coefficients); AdelicAlgebraicGroups §4.3 (neat
+levels).
 
 **Checks.**
 
@@ -1912,6 +2015,12 @@ Use SmoothRepresentationsOfLocalGroups §SR.`3a`.1 for local matrix coefficients
 Use AbelianSchemesAndArithmeticModuli §§A4.1, `A4`.3–`A4`.4 and `A5`.6–`A5`.7 for abelian schemes, degree-one realizations, exterior powers and the homology/cohomology conventions. Use ComplexComparisonPartII §§C5.1–C5.3 for the multiplicative Betti/de Rham and relative Hodge comparisons, and §C6.6 for the rational étale comparison. These are the realization carriers of this target. On every tensor expression, if `c_dR,A` is the Betti/de Rham comparison, require `c_dR,τA(t_B^τ)=τ_*c_dR,A(t_B)`, with scalar extension understood. Require the analogous equality for the finite-adelic étale comparison and algebraic base change of étale realizations. Prove compatibility with quasi-isogenies, products, duality, contractions and tensor relations; transport by `τ` followed by `σ` equals transport by `στ`.
 
 Construct the family form as well. For an abelian scheme over a smooth connected finite-type complex base, a rational flat tensor of type `(0,0)` on every fibre has a horizontal algebraic de Rham realization and compatible étale realization, and conjugation transports these to the rational flat Hodge tensor on the conjugate family. Construct those algebraic realizations on the supplied bundles; analytic flatness alone does not assert algebraicity. Prove the deformation principle for compatible horizontal realization sections, then reduce abelian Hodge tensors to CM fibres and the split Weil classes of Deligne's proof. This supplies the absolute-Hodge and family input independently of the general Shimura conjugation theorem. ([Deligne, Hodge cycles on abelian varieties](https://www.jmilne.org/math/Documents/Deligne82.pdf), §2, Theorem 2.11, Theorems 2.12 and 2.15, tensor formulation preceding Example 2.3, p.16, and §§3–6.)
+
+*Needs:* §§P.3, P.3a and 5.3 (Hodge structures, Mumford–Tate groups, CM abelian varieties);
+AbelianSchemesAndArithmeticModuli §§A4.1, A4.3, A4.4, A5.6 and A5.7 (the Tate module, first de Rham
+cohomology, the exterior structure, analytic families, degree-one realization conventions);
+ComplexComparisonPartII §§C5.1–C5.3 and C6.6 (the multiplicative Betti/de Rham and relative Hodge
+comparisons, the rational étale comparison).
 
 **Checks.**
 
@@ -1944,6 +2053,11 @@ Retain the finite-adelic realization equality of §7.0i, so that the tensor-pres
 
 For an abelian-type connected datum, use its actual Hodge-type witness and central derived isogeny. The complex comparisons of §§6.3 and 6.6 give a common sufficiently small finite level and the finite effective quotient maps through the relevant congruence completions. Retain these maps, their kernels and their level indices, rather than identifying full varieties from their derived groups. Conjugation preserves the finite étale common covers and their finite quotient diagrams. At torsion-free effective target levels these are unramified quotient maps; covering-space theory gives the same Hermitian universal domain and a finite-index extension or subgroup of its arithmetic lattice. For an arbitrary arithmetic subgroup commensurable with these congruence groups, use their common finite-index subgroup and ComplexComparisonPartII §C6.2 / `riemannExistence` to algebraize the finite analytic covers before conjugating them. This proves the moduli branch of §7.6 for abelian type. Use the earlier complex quotient comparisons, without the conjugation comparisons of §§7.7–7.11. ([Milne, Kazhdan's theorem on arithmetic varieties](https://www.jmilne.org/math/articles/1984T.pdf), p.2, moduli argument and finite étale reduction; [Milne, SVI](https://jmilne.org/math/xnotes/svi.pdf), §14, especially Proposition 14.16, pp.127–128.)
 
+*Needs:* §§2.7, 3.2, 3.3, 5.2, 6.2, 6.3, 6.6 and 7.0i (the connected algebraization and its maps; weight-one
+algebraization; Hodge-type models; connected towers and central-isogeny descent; absolute Hodge tensors);
+AbelianSchemesAndArithmeticModuli §A5.5 (the polarized Hodge equivalence); ComplexComparisonPartII §C6.2
+(`riemannExistence`).
+
 **Checks.**
 
 - For the Siegel datum, transport of the polarization and level gives the conjugate polarized abelian moduli problem.
@@ -1960,6 +2074,10 @@ Use the classification of `ℚ`-simple semisimple groups as restrictions of scal
 Separate the central torus/component reconstruction from the semisimple conjugation assertion.
 
 Use product and central-isogeny descent only with their completed symmetry; do not identify full data by derived groups.
+
+*Needs:* §§P.1, 6.4, 6.5 and 6.6 (pure data; connected and full canonical formulations; products;
+central-isogeny descent); ReductiveGroups Layer 7 (structure theory); ReductiveGroupsPartII Layer RG2.0a
+(Weil restriction).
 
 **Checks.**
 
@@ -1982,6 +2100,10 @@ Construct the diagonal inclusion into `Res_{F′/Q}(G′_{F′})` with the induc
 
 Apply the subgroup comparison principle of Milne 1.6 and §6.4. Compatibility and choice independence are checked in the marked comparison.
 
+*Needs:* §§P.1, 3.4, 6.4 and 7.1 (pure data; algebraic maps of data; connected formulations; the reduced
+datum); ReductiveGroups Layer 7 (structure theory); ReductiveGroupsPartII Layer RG2.0a (Weil
+restriction).
+
 **Checks.**
 
 - The extension need not be chosen canonically.
@@ -2003,6 +2125,10 @@ Construct the reductive subgroup generated by `T′` and the `±α` root groups 
 
 Use the `A₁` symplectic realization and Layers 5–6 to prove its marked conjugation comparison from CM, not just canonical-model existence. Prove that `A₁` comparison here, with its functoriality for the inclusion (Milne 1983 Remark 1.5, p.242; Milne–Shih, Conjugates of Shimura varieties, §9); canonical-model existence for the `A₁` datum alone does not give it.
 
+*Needs:* §§P.1, 5.10, 5.11, 6.2, 6.7 and 7.2 (pure data; the main theorem of complex multiplication with
+polarization and level; Hodge- and abelian-type canonical models; the auxiliary splitting extension);
+ReductiveGroups Layer 7 (structure theory).
+
 **Checks.**
 
 - A root may be compact at some places and noncompact at another.
@@ -2023,6 +2149,8 @@ Use irreducibility of the absolute root system and Galois action to show the rel
 Compute each subgroup centre by vanishing of its root characters.
 
 Apply Corollary 4.4 to their adelic intersections with the rational quotient retained.
+
+*Needs:* §7.3 (*Root subdata of type A₁*); ReductiveGroups Layer 7 (structure theory).
 
 **Checks.**
 
@@ -2053,6 +2181,10 @@ Expose the following operations and laws.
 - An inclusion of connected data preserving the marked adjoint torus/cocharacter induces the compatible inclusion of twists and their adelic trivializations. Identity and composition hold.
 - Two morphisms of contracted-product twists agreeing after a common torsor-trivializing faithfully flat extension are equal; marked isomorphisms also retain the torus and distinguished adelic trivialization.
 
+*Needs:* §§P.1, P.3, 6.3, 7.0a, 7.0b and 7.1 (special pairs; cocharacters; connected towers; the Serre
+protorus; the Taniyama extension and its torsors; the reduced datum); ReductiveGroups Layer 7 (structure
+theory); SchemeAndStackFoundations §1.16 (contracted products).
+
 **Checks.**
 
 - For `τ=id` the distinguished torsor section gives the original datum and identity adelic map.
@@ -2075,6 +2207,11 @@ For symplectic/abelian-type quotients use §7.0j: transport all defining tensors
 For the remaining `E₆/E₇` and mixed `D` cases construct the Bergman-form and lower-dimensional arithmetic-subvariety argument of Kazhdan, On arithmetic varieties II, pp.139–159. Use §7.0h’s proved Clozel bound and multiplicity/top-form comparison for the nonzero `L²` top-form input, and Milne’s detailed proof exposition §§2–4 for the finite-volume and Bergman nondegeneracy arguments. Milne 1983 Theorem 3.2 states the conclusion.
 
 Prove that exceptional uniformization argument as an input to the weak comparison; the general conjugation theorem is not a premise.
+
+*Needs:* §§2.7, 3.3 and 5.2 (Baily–Borel algebraization; unique algebraization; weight-one
+algebraization); §§7.0g, 7.0h, 7.0i and 7.0j (the compact-case metric, Clozel's top-form growth, absolute
+Hodge tensors, conjugation of tensor moduli); ReductiveGroups Layer 7 (structure theory);
+ArithmeticLocallySymmetricSpaces §§ALS.0.5–ALS.0.9 (arithmetic quotients).
 
 **Checks.**
 
@@ -2099,6 +2236,12 @@ Use §7.0d’s irreducible `S`-arithmetic reconstruction at sufficiently large n
 
 Handle the nonexceptional central obstruction using Lemma 3.8 in its corrected form, which concerns `H¹(k,Z(G))` (§7.0e). In the exceptional `Aₙ` cases §3.10 uses rank-one subgroups after a totally real extension making their semisimple forms isotropic at all finite places. Platonov–Rapinchuk 1979 Theorem 1 proves perfection of `SL₁(D)`, not simplicity; it cannot be applied as a no-noncentral-normal-subgroup theorem to the full reductive `Hα` containing `T`. The exact passage from the semisimple perfection result to the central adjustment on the marked torus must be proved separately. Finite étale comparison rigidity in §§2.1–2.2 then gives the tower isomorphism once this adjustment is justified.
 
+*Needs:* §§1.5, 6.3 and 7.3 (holomorphic Hecke correspondences; connected towers; type-`A₁` subdata);
+§§7.0d, 7.0e, 7.0f and 7.6 (`S`-arithmetic reconstruction; centre cohomology and the adjoint comparison;
+quadratic torus norms; uniformization of conjugates); AdelicAlgebraicGroups §4.2 (strong approximation for
+semisimple groups); ReductiveGroups Layer 7 (structure theory); ArithmeticLocallySymmetricSpaces
+§§ALS.0.5–ALS.0.9 (arithmetic quotients).
+
 **Checks.**
 
 - The finite adelic map does not identify the real forms.
@@ -2121,6 +2264,9 @@ At the CM-split auxiliary extension compare both maps on every rank-one subvarie
 
 The centre intersection forces the residual adelic adjustment to be rational. Normalize the marked point and use density of its rational/adelic orbit for uniqueness.
 
+*Needs:* §§4.8 and 6.7 (density of Hecke translates; abelian-type canonical models); §§7.3, 7.4, 7.5 and
+7.7 (type-`A₁` subdata; central separation; the marked conjugated datum; the weak comparison).
+
 **Checks.**
 
 - No chosen isomorphism or Langlands axiom is an input.
@@ -2142,6 +2288,9 @@ Prove the precise density and compatibility needed to extend equivariance contin
 
 Compare finite levels to obtain the completed action identity. The precise density statement is a required proof input of this target.
 
+*Needs:* §§6.3, 7.2 and 7.8 (connected towers with completed symmetry; the auxiliary splitting extension;
+the marked comparison); ReductiveGroups Layer 7 (structure theory).
+
 **Checks.**
 
 - Equivariance for `G(𝔸_f)` alone does not establish the connected canonical formulation.
@@ -2162,6 +2311,10 @@ After simultaneous CM splitting of the two tori, measure their real discrepancy 
 
 For a compact reflection shorten via the real normalizer; for a noncompact reflection use its `A₁` subgroup and weak approximation to localize the change at one real place. Induct on the length and compare common refinements.
 
+*Needs:* §§7.0e, 7.0f, 7.3, 7.5, 7.8 and 7.9 (the adjoint Hasse comparison; quadratic torus norms;
+type-`A₁` subdata; the marked conjugated datum and comparison; completed symmetry); AdelicAlgebraicGroups
+§4.1 (weak approximation); ReductiveGroups Layer 7 (structure theory).
+
 **Checks.**
 
 - Point-independence is proved by Weyl-length induction, not asserted from density of one chosen orbit.
@@ -2179,6 +2332,10 @@ Reassemble connected comparisons through the central/torus component extension.
 Normalize reflex-field-fixing twists using the cocharacter class and prove the same special-point action as Layer 4.
 
 Apply uniqueness of marked comparisons and transitive transitions to identify the two composites. This produces the cocycle law; continuity is a distinct next theorem.
+
+*Needs:* §§4.2, 4.4 and 6.4 (reflex norms; the canonical-model condition; connected and full
+formulations); §§7.1, 7.9 and 7.10 (the reduced datum; completed symmetry; independence of the marked
+point).
 
 **Checks.**
 
@@ -2200,6 +2357,10 @@ Reciprocity at finite level gives an open Galois stabilizer for each point; take
 
 For a zero-dimensional finite étale level use all geometric points to rigidify its finite permutation group; do not impose positive dimension in the final canonical-model theorem.
 
+*Needs:* §§4.3, 4.8, 7.0c and 7.11 (finite-level reciprocity; density of Hecke translates; the finite
+normalizer index; the descent cocycle); ArithmeticLocallySymmetricSpaces §§ALS.0.5–ALS.0.9 (arithmetic
+quotients).
+
 **Checks.**
 
 - A finite subset of an arbitrary orbit need not rigidify; density and finite automorphisms are used.
@@ -2217,6 +2378,9 @@ Spread the variety and the finite rigidifying subset to a finitely generated fie
 For automorphisms fixing `L` the canonical comparisons and the split comparisons agree on `Σ` and hence agree globally.
 
 Use the continuity criterion of Milne 1999 Theorem 1.1 and Corollary 1.2; Remark 1.3(c) there records that the earlier Lemma 3.23 of Milne 1994 omits the continuity condition.
+
+*Needs:* §§4.9b, 7.11 and 7.12 (continuous field descent; the descent cocycle; finite rigidifying special
+points); AlgebraicModuliForArithmeticGeometry §3.5 (polarized descent).
 
 **Checks.**
 
@@ -2236,6 +2400,10 @@ At neat level combine quasi-projectivity from Layers 2–3 with Milne 1999 Theor
 Descend all compatible finite-level maps using the constructed equivariant system; extend to non-neat levels by finite quotients.
 
 The established canonical descent action verifies the exact Layer 4 field of definition and geometric-Artin formula. Compare auxiliary choices through §7.10 and the specified analytic identity.
+
+*Needs:* §§2.7, 3.3, 3.5, 4.4 and 4.9b (quasi-projective algebraization; finite quotients and normalization;
+the canonical-model condition; continuous field descent); §§7.10, 7.11 and 7.13 (independence of the marked point; the descent cocycle
+and its continuity); AlgebraicModuliForArithmeticGeometry §3.5 (polarized descent).
 
 ([J. S. Milne, Descent for Shimura varieties](https://jmilne.org/math/articles/1999cP.pdf), Theorem 2.3 and Remark 2.4, pp.4–5; 1983 Theorem 7.2.)
 
