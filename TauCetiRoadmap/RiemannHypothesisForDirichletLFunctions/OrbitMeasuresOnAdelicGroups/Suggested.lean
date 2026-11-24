@@ -5,8 +5,8 @@ import Mathlib
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Of the four
-headlines, the first three are not statable at the pins, and the fourth (4.1) is not stated here,
-so the file has no declaration.
+headlines, the first three are not statable at the pins; of the fourth (4.1), clause (a) is stated
+below and clause (b) is not statable at the pins.
 
 The first three headlines are statements about Tamagawa measures: Haar measures on the adelic
 points `G(𝔸_F)` of a linear algebraic group `G` over a number field `F`, built as restricted
@@ -42,10 +42,32 @@ fixed only up to a scalar does not suffice: the normalisation is the content of 
   `G_2`, `i` being the index of the image of `X^*_F(G_2) → X^*_F(T_1)`. It lacks, besides the
   Tamagawa measure, the norm-one subgroup `G(𝔸)^1` with its measure and the Tamagawa number
   `τ(G)`.
+
+Clause (b) of the fourth headline is the centraliser of a regular element of a unitary group: for
+a nondegenerate Hermitian space `V` over a quadratic extension `E/F` of fields of characteristic
+zero, the element `γ` attached to a monic irreducible `P ∈ E[X]` with
+`P(X) = c(P(0))^{−1} X^n P^c(1/X)` has, on points over every commutative `F`-algebra `R`, the
+norm-one torus of `E[X]/(P)` as its centraliser in `U(V)(R)`. It lacks the unitary group `U(V)`
+as a group functor on commutative `F`-algebras, that is the extension of a Hermitian form to
+`R ⊗_F V` over `R ⊗_F E` and the group of its isometries: Mathlib extends the scalars of bilinear
+forms (`LinearMap.BilinForm.baseChange`) but not of sesquilinear ones, and its
+`Matrix.unitaryGroup` is the group of matrices whose conjugate transpose, for a star ring, is
+their inverse.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups
 
-universe u
+/-! ## Layer 4: Centralisers of elements with separable characteristic polynomial -/
+
+/-- **Matrices commuting with an element with separable characteristic polynomial** (4.1 (a)).
+Let `k` be a field and `g ∈ GL_n(k)` an element whose characteristic polynomial is separable.
+Then every `n × n` matrix `y` over `k` that commutes with `g` is a polynomial in `g` with
+coefficients in `k`. So any two matrices that commute with `g` commute with each other, and the
+centraliser of `g` in `GL_n(k)` is the group of units of `k[g]`. -/
+theorem exists_eq_aeval_of_separable_charpoly {k : Type*} [Field k] {n : Type*} [Fintype n]
+    [DecidableEq n] (g : GL n k) (hg : (g : Matrix n n k).charpoly.Separable)
+    {y : Matrix n n k} (hy : Commute (g : Matrix n n k) y) :
+    ∃ p : Polynomial k, y = Polynomial.aeval (g : Matrix n n k) p := by
+  sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups
