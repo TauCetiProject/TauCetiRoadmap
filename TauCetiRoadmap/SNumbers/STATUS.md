@@ -1,34 +1,45 @@
-<!--tauceti-status:v1 {"roadmap":"SNumbers","to_sha":"1c6a1a4e61e51f1bcef7784fdd6d5131235b7299","ts":"2026-11-11T04:46:07Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Part A","remaining":"Gelfand, Kolmogorov, Bernstein and Hilbert numbers with lifting/embedding identities and injectivity/surjectivity (A2-A4)","state":"partial"},{"id":"Part B","remaining":"scalar factorization, uniqueness on Hilbert spaces, the lower bound by Hilbert numbers, compactness criteria, Bernstein bounds","state":"partial"},{"id":"Part C","state":"untouched"},{"id":"Part D","state":"untouched"},{"id":"Part E","state":"untouched"}],"readme_sha":"257327b8a6873c0ba6e838035e6c15dfa439ecf409a9c5dbebe60b46e4ebff78","roadmap":"SNumbers","to_sha":"1c6a1a4e61e51f1bcef7784fdd6d5131235b7299"}-->
+<!--tauceti-status:v1 {"roadmap":"SNumbers","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Part A","remaining":"Pietsch's lifting identity SN-A14, Kolmogorov s-numbers over non-complete fields, and Milestone A4 (metric injections/surjections, SN-A21 to SN-A24)","state":"partial"},{"id":"Part B","remaining":"scalar factorization, uniqueness on Hilbert spaces, the lower bound by Hilbert numbers, compactness criteria, Bernstein comparisons","state":"partial"},{"id":"Part C","state":"untouched"},{"id":"Part D","state":"untouched"},{"id":"Part E","state":"untouched"}],"readme_sha":"dc9f4f51f3dc11bad12c5e463e7fb9690d27f9613741b09b9211937cd270d0fe","roadmap":"SNumbers","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
 # Status: SNumbers
 
-This file documents the status of the SNumbers roadmap up until `1c6a1a4` (2026-11-11T04:46:07Z). There may have been subsequent updates.
+This file documents the status of the SNumbers roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The axioms are in place, and so is their first model, the approximation numbers, which form a strict s-number sequence. That completes Milestone A1. One step of Part B is also proved: every s-number sequence lies below the approximation numbers. The Gelfand, Kolmogorov, Bernstein, Hilbert and entropy numbers have not been started, so neither have the inequalities and examples built on them.
+**At a glance.** All five classical s-number sequences are now defined, and each is proved to satisfy Pietsch's axioms, so Milestones A1 and A3 are done and A2 lacks only the lifting identity. Injectivity and surjectivity (A4) have not begun. In Part B only the upper half of the sandwich is proved. The inequalities, the entropy numbers and the examples (Parts C–E) have not begun.
 
 ### Named results
 
-- **Approximation numbers are a strict s-number sequence** — over every nontrivially normed field, the approximation numbers satisfy all of Pietsch's axioms and are normalized on the identity of every normed space below its dimension; [`isStrictSNumberSequence_approximation`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Approximation.html#TauCeti.SNumbers.isStrictSNumberSequence_approximation). The roadmap asked for a complete scalar field here, but the proof goes through rank–nullity and needs no completeness.
-- **Approximation numbers are the largest s-numbers** — `sₙ(T) ≤ aₙ(T)` for every s-number sequence and every operator, the upper half of the sandwich `hₙ ≤ sₙ ≤ aₙ`; [`IsSNumberSequence.le_singularValue`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Approximation.html#TauCeti.SNumbers.IsSNumberSequence.le_singularValue).
+- **Gelfand, Bernstein and Kolmogorov numbers are strict s-number sequences** — they satisfy the axioms and equal 1 on the identity of every normed space below its dimension. For the [Gelfand](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Gelfand.html#TauCeti.SNumbers.isStrictSNumberSequence_gelfand) and [Bernstein](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Bernstein.html#TauCeti.SNumbers.isStrictSNumberSequence_bernstein) numbers this holds over any nontrivially normed field, and for the [Kolmogorov](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Kolmogorov.html#TauCeti.SNumbers.isStrictSNumberSequence_kolmogorov) numbers over a complete one.
+- **Hilbert numbers are an s-number sequence** — over ℝ or ℂ, the supremum of the approximation numbers of compressions through `ℓ₂` satisfies Pietsch's axioms; [`isSNumberSequence_hilbert`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Hilbert.html#TauCeti.SNumbers.isSNumberSequence_hilbert).
+- **Approximation numbers are a strict s-number sequence** — over every nontrivially normed field, with no completeness hypothesis, which is weaker than the roadmap expected; [`isStrictSNumberSequence_approximation`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Approximation.html#TauCeti.SNumbers.isStrictSNumberSequence_approximation).
+- **Approximation numbers are the largest s-numbers** — `sₙ(T) ≤ aₙ(T)` for every s-number sequence, the upper half of the sandwich `hₙ ≤ sₙ ≤ aₙ`; [`IsSNumberSequence.le_singularValue`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Approximation.html#TauCeti.SNumbers.IsSNumberSequence.le_singularValue).
+- **Pietsch's embedding identity** — over ℝ or ℂ, `cₙ(T)` is the approximation number of `T` followed by evaluation on the dual unit ball of the target, with no completeness assumed. It is in the library as `singularValue_dualBallEmbedding_comp`, outside the work recorded for this roadmap.
 
 ### Notable definitions and infrastructure
 
-- **Pietsch's axioms** — [`IsSNumberSequence`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsSNumberSequence), on the one-universe family type [`SNumberFamily`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.SNumberFamily). It already proves the shared calculus (norm bound, continuity, homogeneity), so each new sequence only has to verify the axioms.
-- **Strict s-numbers** — [`IsStrictSNumberSequence`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsStrictSNumberSequence), with a [constructor](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsStrictSNumberSequence.of_normalize_of_lt_rank) that takes the first four axioms plus normalization below the dimension. This is the form the Gelfand, Kolmogorov and Bernstein numbers will need.
+- **Pietsch's axioms and their strict form** — [`IsSNumberSequence`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsSNumberSequence) and [`IsStrictSNumberSequence`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsStrictSNumberSequence). The [constructor](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Basic.html#TauCeti.SNumbers.IsStrictSNumberSequence.of_normalize_of_lt_rank) takes the first four axioms plus normalization below the dimension, and it proved strictness for the approximation, Kolmogorov and Bernstein numbers.
+- **The unit-ball form of the Kolmogorov numbers** — [`kolmogorovNumber_eq_iInf_sSup_infNndist`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Kolmogorov.html#ContinuousLinearMap.kolmogorovNumber_eq_iInf_sSup_infNndist) gives `dₙ` as the deviation of the image of the unit ball from `n`-dimensional subspaces. The covering estimates and compactness criteria of Part B start from this form.
+- **The ratio form of the Hilbert numbers** — [`hilbertNumber_eq_iSup_div`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/SNumbers/Hilbert.html#ContinuousLinearMap.hilbertNumber_eq_iSup_div) removes the contraction constraint, which makes it convenient for comparing `hₙ` with other sequences.
 
 ### Roadmap coverage
 
-Part A is partial. Milestone A1 (`SN-A01`–`SN-A07`) is done, though the approximation family is built directly on `singularValue` and not under the README's name `approximationNumber`. Milestones A2–A4 (the other four sequences, the lifting and embedding identities, injectivity and surjectivity) are untouched. Part B is partial: only `SN-B01` is proved. Parts C (inequalities, the maximal difference theorem, duality), D (entropy numbers) and E (the `ℓ_p^m` and `ℓ₁ → ℓ_∞` examples) are untouched.
+**Part A is partial.**
+- Milestone A1 (`SN-A01`–`SN-A07`) is done, as is Milestone A3 (`SN-A16`–`SN-A20`).
+- Milestone A2 is done except Pietsch's lifting identity `SN-A14`. `SN-A12` holds only over complete scalar fields, where the roadmap asks for any nontrivially normed field.
+- Milestone A4 (`SN-A21`–`SN-A24`) is untouched.
+
+**Part B is partial:** only `SN-B01` is proved.
+
+**Parts C, D and E are untouched.**
 
 ## The frontier
 
-- **Gelfand and Kolmogorov numbers** (Milestone A2) — define `cₙ` and `dₙ` and verify that they are strict. Pietsch's lifting identity needs the summation surjection from `ℓ₁(B_X)`, and his embedding identity needs Hahn–Banach over `RCLike`.
-- **Bernstein and Hilbert numbers** (Milestone A3) — define `bₙ` and `hₙ` and verify the axioms. The Hilbert numbers are only an s-number sequence, not a strict one.
-- **The sandwich and uniqueness on Hilbert spaces** (Milestone B1) — the scalar factorization `SN-B02` comes from the operator-ideals min–max theory. It gives `sₙ = aₙ` on Hilbert spaces, then the lower bound `hₙ ≤ sₙ` once the Hilbert numbers exist.
-- **Entropy numbers** (Milestone D1) — the covering definition and its index laws use only the norm, so they do not wait on Parts B and C.
-- **The maximal difference theorem** (Milestone C2) — `aₙ ≤ e (n+1) hₙ` through the determinant quantities `Δ_k`. It needs the Hilbert numbers first.
+- **Injectivity and surjectivity** (Milestone A4) — define metric injections and surjections, then prove that `cₙ` is injective and `dₙ` is surjective. The norm of the quotient map has just landed, and `SN-A14` and `SN-B12` both wait on this milestone.
+- **Pietsch's lifting identity** (`SN-A14`) — `dₙ(T) = aₙ(T ∘ Q_X)` for the summation surjection `Q_X : ℓ₁(B_X) → X`, over a complete densely normed field. It needs `SN-A24`.
+- **Bernstein below Gelfand** (`SN-B11`) — `bₙ ≤ cₙ` over any nontrivially normed field. Both definitions now exist, and the proof is a dimension count.
+- **The sandwich and uniqueness on Hilbert spaces** (`SN-B02`–`SN-B05`) — the scalar factorization through `ℓ₂^{n+1}` from the min–max theory gives `sₙ = aₙ` on Hilbert spaces. Since the Hilbert numbers now exist, that would then give the lower bound `hₙ ≤ sₙ`.
+- **The maximal difference theorem** (Milestone C2) — `aₙ ≤ e (n+1) hₙ` through the determinant quantities `Δ_k`. Its prerequisite, the Hilbert numbers, is in place, but none of the determinant machinery has started.
