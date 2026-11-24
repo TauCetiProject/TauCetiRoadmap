@@ -146,7 +146,7 @@ The torus has dimension d+1 and T_so has dimension d; the scalar-kernel map is d
 - For d=2, the diagonal factors through squaring on the kernel G_m and has kernel μ₂.
 - For any d, the vector supported on one embedding alone is not a T-character when d>1, whereas each CM-type characteristic vector is.
 
-*Needs:* ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; ShimuraVarieties §§4.1–4.6; ShimuraData Layer 3; ReductiveGroups Layer 4; ReductiveGroupsPartII §RG2.0a.2; `NumberField.IsCMField`; `NumberField.IsCMField.complexConj`; `NumberField.IsCMField.complexConj_apply_apply`.
+*Needs:* ComplexMultiplicationAndExplicitReciprocity §§0.1–0.2; ShimuraVarieties §§4.1–4.6; ReductiveGroups Layer 4; ReductiveGroupsPartII §RG2.0a.2; `NumberField.IsCMField`; `NumberField.IsCMField.complexConj`; `NumberField.IsCMField.complexConj_apply_apply`.
 
 ### 1.2 The compact integral level
 

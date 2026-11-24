@@ -60,6 +60,8 @@ The API includes `eval`, `ofLevel`, `level_mono`, `rightTranslate`, `rightTransl
 
 The elementary predicates also make sense on any abstract group: `IsLeftInvariant(Γ,f)` means `f(γg)=f(g)` for `γ∈Γ`, and `IsLevelInvariant(J,f)` means `f(gu)=f(g)` for `u∈J`. Their API is `subgroup_mono`, `add`, `scalar_mul` and `rightTranslate`; only the latter changes the right subgroup, by the conjugation above. Define the real-bodied function `rightTranslate(y,f)(g)=f(gy)` on all functions, with `eval`, `one`, `mul` and the two invariance compatibilities. Smoothness and arithmetic diagonal embeddings enter only in the specialization.
 
+*Needs:* AdelicAlgebraicGroups §§1.1, 1.2, 1.3 and 1.5 for adelic points, the topological product `G(𝔸)=G∞×Gf` with the restricted-product topology of `Gf`, rational points and compact open levels; ArithmeticLocallySymmetricSpaces ALS.F.1 for the real Lie group `G∞`; LieGroups Layers 0 and 1 for the Lie algebra, the exponential map and `Ad`.
+
 **Checks.**
 
 - For either predicate, constants satisfy every subgroup condition; the trivial subgroup imposes no condition on an arbitrary function.
@@ -75,6 +77,8 @@ Let `G∞` be the real Lie group of archimedean points, a finite-dimensional rea
 
 Expose `toFunction`, `ext`, `support`, `translate`, `inversion`, `conj`, `fixedSupportSeminorm`, `convolution`, `convolution_assoc`, `support_convolution_subset`, `leftDeriv_convolution`, `involution` and `smoothApproximateIdentity`, together with the continuity criterion for linear maps out of the final topology.
 
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.1 for `G∞` as a real Lie group with finitely many components; LieGroups Layer 0 for the exponential map and one-parameter subgroups; AdelicAlgebraicGroups §1.5 for unimodularity of `G∞`; Mathlib `ContMDiffMap`, `HasCompactSupport`, `TestFunction`, smooth bump functions and Haar measure.
+
 **Checks.**
 
 - On `G∞=(ℝ,+)` with `X=d/dx`, `L_Xa=a'` and, for the smooth function `f(g)=g`, `R(a)f(g)=g∫a+∫y a(y)dy`, so `R(X)R(a)f=∫a`; integration by parts gives `R(−L_Xa)f(g)=−∫a'(y)(g+y)dy=∫a`, the same value, whereas `R(L_Xa)f=−∫a`. This fixes the sign in `R(X)R(a)=R(−L_Xa)`.
@@ -87,6 +91,8 @@ Expose `toFunction`, `ext`, `support`, `translate`, `inversion`, `conj`, `fixedS
 Construct `AdelicTestFunction(G)=C_c∞(G∞)⊗ℂ C_c^{lc}(Gf)`, using §0.1a's `LieTestFunction(G∞)` for `C_c∞(G∞)`, and identify it with compactly supported smooth finite-level functions on `G(𝔸)`. Finite compact support permits a common compact-open level; archimedean support is measured on the Lie group. Use §0.1a's fixed-support derivative seminorms and locally convex final topology for the archimedean factor. The finite factor is the inductive limit of finite-dimensional spaces of functions with prescribed compact support and a fixed bi-level. Give the tensor product its corresponding test-function topology and prove independence of cofinal support/level choices. Construct the adelic convolution and continuous integrated action from §0.1a's archimedean operations and the finite-place operations, and involution `a*(g)=overline{a(g⁻¹)}` for the unimodular reductive group. (Getz, §§3.1–3.4, pp.16–19; Bernstein–Krötz, §§2.3–2.5, pp.7–12.)
 
 Expose `toFunction`, `ext`, `tensor_eval`, `convolution`, `convolution_assoc`, `involution`, `support_convolution_subset` and `finiteIdempotent`. The support bound is `supp(a*b)⊂supp(a)supp(b)`. There is no archimedean delta function inside `C_c∞` when `dim G∞>0`; its action is approximated by test functions. Finite idempotents act as exact projections at the finite level. Choosing an integral model away from a finite set `S₀`, the finite factor is the directed union over finite `S⊇S₀` of `⊗_{v∈S}C_c^∞(G(F_v))⊗⊗_{v∉S}1_{G(O_v)}`, with the restricted-product Haar measure of AdelicAlgebraicGroups Layer 0. At one finite place `v`, convolution of functions `f_v⊗⊗_{w≠v}1_{G(O_w)}` is the local convolution of SmoothRepresentationsOfLocalGroups SR.1.1 times the finite product of the volumes `vol(G(O_w))≠1`.
+
+*Needs:* §§0.1 and 0.1a for smooth finite-level functions and the archimedean test functions with their convolution and topology; AdelicAlgebraicGroups §§0.2, 0.3, 1.1, 1.2 and 1.5 for the restricted-product Haar measure, integrals of factorizable functions, integral models, the restricted-product structure of `Gf`, compact open levels and unimodularity; SmoothRepresentationsOfLocalGroups SR.1.1 for locally constant compactly supported functions, local convolution and normalized idempotents.
 
 **Checks.**
 
@@ -108,6 +114,8 @@ At a common finite bi-level, convolution is a continuous bilinear map from the s
 
 Prove `integrable_height_rpow_neg`: for the archimedean group `G∞` with a Haar measure there is `r₀≥0` such that `∫_{G∞}H(g)^{−r}dg<∞` for every `r>r₀`; with a fixed compact finite support the same bound holds on `G(𝔸)`. In particular `vol{g∈G∞ : H(g)≤T}≤C·T^{r₀+1}` for `T≥1`, and conversely such a volume bound gives the integrability for `r>r₀+1`. Compare `H` with the norm of a faithful representation with closed image (Conventions), write `g=k₁ak₂` by the `KAK` decomposition (LieGroups Layer 9), bound the Haar density on the closed positive chamber `A⁺` by a constant times `e^{2ρ(log a)}`, and use the lower bound `H(a)≥c·e^{δ‖log a‖}` on `A⁺` for some `δ>0`. The weighted integrability of Schwartz functions and the smoothing estimates of §0.5 rest on this bound. (Bernstein–Krötz, §5.3.1, p.27, where such an exponent is fixed for the weighted spaces.)
 
+*Needs:* §§0.1, 0.1a and 0.2 for smooth finite-level functions and the test functions with their operations; AdelicAlgebraicGroups §3.5 for the height and the comparison of heights; ArithmeticLocallySymmetricSpaces ALS.F.1 and ALS.0.1–ALS.0.3 for the maximal compact subgroup and Cartan involution of `G∞`; LieGroups Layer 9 for the `KAK` decomposition.
+
 **Checks.**
 
 - On `ℝ×`, `t↦exp(−π(t²+t⁻²))` is Schwartz for the symmetric height and is not compactly supported; its maximum is `exp(−2π)` at `t=±1`.
@@ -126,6 +134,8 @@ Prove `integrable_height_rpow_neg`: for the archimedean group `G∞` with a Haar
 For any real-valued function `H`, define the underlying predicate `HasModerateGrowth(H,f)` by the existence of `C≥0` and `N∈ℝ_{≥0}` with `|f(g)|≤C H(g)^N`. For the arithmetic applications require `H≥1` and the supplied polynomial height bounds; under those hypotheses rounding the exponent up gives the equivalent natural-exponent condition, and the predicate is invariant under polynomial change of height. Define `T_sm([G])` by rational left invariance, smoothness with a finite level, and one exponent `N` that works for all `R(u)f`, allowing a constant depending on `u`. Fixed-`J,N` pieces carry the derivative weighted-supremum seminorms; construct their complete locally convex topology and continuous inclusions on increasing the exponent or shrinking the level. Use the resulting final topology on their union. A claim of strictness of the exponent limit requires a separate closed-image theorem and is not built into the definition. (Beuzart-Plessis–Chaudouard–Zydor, §§2.5.7–2.5.8, p.18.)
 
 Expose `height_change`, `add`, `scalar_mul`, `rightTranslate`, `derivedAction`, `fixedLevelExponent`, `seminorm` and `kFinite_equiv`. For `T_sm`, the last map identifies its `K`-finite vectors with the supplied `T([G])`. Derivative estimates use `p_v(R(u)f)=p_{vu}(f)`, and translating an infinitesimal operator uses `Ad(y∞⁻¹)`. Right translation preserves uniform moderate growth, with a constant depending on `y` and the seminorm. Moderate growth without the uniform derivative condition is not differentiated without further assumptions. For the submultiplicative height fixed in Conventions and `y∈G(𝔸)`, the translated seminorm estimate is `p_{N,v}(R(y)φ)≤H(y)^N·p_{N,Ad(y∞)⁻¹v}(φ)`, with the conjugated finite level. On each fixed-`J,N` piece `(y∞,φ)↦R(y∞)φ` is jointly continuous, so that piece is a smooth Fréchet representation of `G∞` of moderate growth. For a merely polynomial multiplication bound `H(xy)≤C H(x)^aH(y)^b`, translation instead maps the exponent-`N` piece to the exponent-`aN` piece. (Beuzart-Plessis–Chaudouard–Zydor, §2.5.8, p.18.)
+
+*Needs:* §0.1 for smooth finite-level functions and the derived action; AdelicAlgebraicGroups §3.5 for the height; ArithmeticLocallySymmetricSpaces ALS.F.6 for `T([G])`; LieGroups Layer 1 for `Ad`; Mathlib `WithSeminorms`.
 
 **Checks.**
 
@@ -146,6 +156,8 @@ Prove that if `φ` is Haar-measurable and has moderate growth and `a` is a Schwa
 
 Restrict the supplied finite Hecke action to these spaces and prove continuity, preservation of rational invariance and compatibility with `𝔤` and `K`. For `JgJ=⊔_i g_iJ`, `vol(J)=1` and a right-`J`-invariant vector, `R(1_{JgJ})φ(x)=Σ_i φ(xg_i)`. The sum uses right cosets in that decomposition. For a general Haar normalization `R(1_{JgJ})φ=vol(J)·Σ_iφ(·g_i)`, and `1_J` acts by `vol(J)` on `J`-fixed vectors. Prove `R(f*h)=R(f)R(h)` for the finite Hecke algebra, preservation of the growth exponent for the fixed submultiplicative height, commutation with `R(X)` and `R(g∞)`, and compatibility with `e_{J'}` for `J'⊆J`. Polynomial height replacement gives a comparison of the unions, with the exponent changes of §0.4. (Getz, §3.4, p.18.)
 
+*Needs:* §§0.1a, 0.2, 0.3, 0.4 and 0.7 for left differentiation of test functions, the integrated action with its finite idempotents, Schwartz functions with `integrable_height_rpow_neg`, moderate growth and the coset count of a double coset; AdelicAlgebraicGroups §3.5 for the height; Mathlib Haar measure, Fubini and differentiation under the integral.
+
 **Checks.**
 
 - `R(a)1=(∫a)1`, and a mass-one bump fixes constants.
@@ -163,6 +175,8 @@ Define `invariantsHecke` and `invariantsHeckeOpposite` as follows. Let `R` be a 
 
 For the opposite convention use the inverse double coset in the inverse submonoid `Δ⁻¹`. Prove that inversion is an anti-isomorphism from `𝕋 Δ Γ R` to `𝕋 Δ⁻¹ Γ R`; then `invariantsHeckeOpposite(D)=invariantsHecke(D⁻¹)` acts on `A^Γ` as a module over `(𝕋 Δ Γ R)ᵐᵒᵖ`. In the native right-coset decomposition `D=⊔ᵢΓaᵢ` its formula is `Σᵢρ(aᵢ⁻¹)a`; at mixed levels inversion exchanges `Γ₁` and `Γ₂`. Prove this comparison with the native right-coset vocabulary and specialize the ordinary action to `ρ(g)=R(g)` on the spaces above. The representative-independent invariants design follows the Imperial College London FLT project. (Mathlib, `NumberTheory/HeckeRing/Defs.lean`, `IsHeckeTriple` and `HeckeCoset`; Tau Ceti, `NumberTheory/HeckeRing/Multiplicity/Basic.lean`, `multiplicity_def`, and `Multiplication.lean`, `HeckeCosetModule.single_mul_single`; Shimura, Chapter 3, §3.4, (3.4.1) and Proposition 3.37.)
 
+*Needs:* §0.1 for right translation on smooth functions; Mathlib `IsHeckeTriple`, `HeckeCoset` and `Representation.invariants`; Tau Ceti `HeckeCosetModule.mul` and `HeckeCosetModule.single_mul_single`.
+
 **Checks.**
 
 - For `Γ₁=Γ₂={1}`, `D_g` acts by `ρ(g)`, so `H(D_g)H(D_h)=ρ(gh)`. In the permutation representation of `S₃`, `g=(01)`, `h=(12)` send the basis vector `e₀` to `e₁` in this order and to `e₂` in the reverse order. The opposite version uses inverses and reverses composition.
@@ -172,6 +186,8 @@ For the opposite convention use the inverse double coset in the inverse submonoi
 ### 0.7 Coset systems and volume
 
 Define `IsCosetSystem` and prove `cosetSystem_volume` as follows. For a subgroup `U⊂G`, an element `g∈G` and a finite indexed family `reps:I→G`, define `IsCosetSystem U g reps` by membership in `UgU`, coverage by the cosets `reps(i)U`, and injectivity of `i↦reps(i)U`. Prove the disjoint-union characterization, invariance under changing representatives and reindexing, and existence when the double coset has finitely many such cosets, in particular for a Hecke pair. For a locally compact group with Borel Haar measure `μ` and a measurable subgroup `U`, prove `μ(UgU)=#I·μ(U)` in `ℝ≥0∞`; left invariance suffices. For compact open `U` the measure is finite and positive. This identifies the cardinal in the invariants sum with the characteristic-function integral. The cosets `reps(i)U` are the convention used above for adelic sums; Mathlib calls these left cosets, and calls `U·reps(i)` right cosets. (Mathlib, `GroupTheory/Coset/Defs.lean`, `QuotientGroup.leftRel`; Tau Ceti, `NumberTheory/HeckeRing/Basic.lean`, the `DoubleCoset` decomposition API; Getz, §3.2, pp.16–17, and §3.4, p.18; finite additivity and left invariance of Haar measure.)
+
+*Needs:* Mathlib `QuotientGroup.leftRel`, `IsHeckeTriple` and Haar measure; Tau Ceti's `DoubleCoset` decomposition API.
 
 **Checks.**
 
@@ -194,6 +210,8 @@ Mathlib's integration, locally constant functions, smooth calculus, `WithSeminor
 Extend the supplied all-degree relative complex by coefficient maps, restriction along actual morphisms of compatible pairs, tensor cup products and the relative derived-functor interpretation. For a finite-dimensional complex Lie algebra `𝔤`, a compact group `K` acting with the supplied differentiated inclusion, and a compatible locally finite complex module `V`, the relative cochains are `Hom_K(Λ^q(𝔤/𝔨),V)`. Use that existing complex. Construct `relativeCochainMap`, `restriction`, `cup` and `connectingMap`; prove naturality, the long exact sequence for a short exact coefficient sequence, and the graded Leibniz rule. Compact averaging in characteristic zero makes taking `K`-invariants exact. A morphism of pairs includes the intertwining map on the Lie quotients; an arbitrary linear map between Lie algebras is insufficient. (Wockel, §3, pp.11–13; Vogan–Zuckerman, Proposition 5.4(a), p.74, for the identification of the continuous cohomology of an irreducible unitary representation with the relative cohomology of its Harish-Chandra module.)
 
 Construct `relativeKoszulResolution` as the relative induced resolution in the category of compatible modules, and prove its augmentation is a resolution using PBW and the Koszul contraction. The result `relativeCohomology_ext` identifies cohomology with relative Ext from the trivial module, where exact sequences split as `K`-modules. This requires that resolution's exactness; it does not follow from simply writing down alternating maps. Identify degree zero with `V^{𝔤,K}` and the absolute specialization with the supplied absolute complex. The relative degree-zero condition includes every component of `K`.
+
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.5 for the relative complex and compatible pairs; CompactGroups §0.2 for compact averaging; LieHighestWeight §3.1 for the PBW basis in the Koszul resolution; Mathlib `exteriorPower`, `AlternatingMap` and `Ext`.
 
 **Checks.**
 
@@ -280,6 +298,8 @@ Before defining these projectors, construct `compactHaarIntegral` for continuous
 
 The infinitesimal criterion for compact-finiteness uses a connected compact Lie group; for finitely many components it is extended by taking the sum over component representatives. For an admissible compatible module, finite generation and local finiteness of the centre are related by Harish-Chandra's finiteness theorem, with the precise finite-generation/central-finiteness hypotheses in §2.2. Neither arbitrary smoothness nor admissibility alone is finite generation.
 
+*Needs:* CompactGroups Layer 5 (`gap:banach-gfinite-density`) for the orbit-span predicate, its submodule, the Banach density theorem and Peter–Weyl approximation, and CompactGroups §§0.1, 0.2, 2.2, 6.1 and 6.4 for the Haar probability measure, `TauCeti.haarAverage`, complete reducibility, characters and the finite-dimensional isotypic projectors; ArithmeticLocallySymmetricSpaces ALS.F.5 for compatible `(𝔤,K)`-modules; LieGroups Layers 0 and 2 for the infinitesimal criterion on compact Lie groups; Mathlib `ContRepresentation`, `isotypicComponent`, `WithSeminorms` and `banach_steinhaus`.
+
 **Checks.**
 
 - Every vector in a finite-dimensional representation is compact-finite; the zero vector has orbit-span dimension zero. In the trivial representation every orbit spans at most a line, even in an infinite-dimensional ambient module. A trivial acting group likewise gives one-point orbits.
@@ -306,7 +326,7 @@ Let `𝔤` be a finite-dimensional reductive complex Lie algebra, `𝔤=𝔷⊕�
 
 Use the supplied normalization with `ρ` extended by zero on `𝔷`: translation leaves every central coordinate unchanged, and on the derived ideal the ordinary-invariant map evaluates the raw Harish-Chandra projection at the parameter minus `ρ`. Characters of `Z(U(𝔤))` are the `χ_λ`, `λ∈𝔥^*`, with `χ_λ` the character by which the centre acts on the Verma module of highest weight `λ−ρ`; `χ_λ=χ_μ` exactly when `μ∈Wλ`. The central functional is unrestricted. The Killing form of `glₙ` is degenerate; the supplied construction applies the semisimple theorem to `𝔤'`, and LieHighestWeight Layer 9's trace-form Casimir supplies the `glₙ` comparison. (The LieHighestWeight Layer 9 gap above; Borel–Jacquet, §1.1, p.189, for the role of the centre.)
 
-*Needs:* LieHighestWeight Layer 9 (`gap:reductive-enveloping-centers`) for the reductive centre and Harish-Chandra isomorphisms, and Layer 7 for the raw/dot and translated/ordinary invariant conventions.
+*Needs:* LieHighestWeight §9.2 (*Reductive enveloping centers and the actual invariant maps*, `gap:reductive-enveloping-centers`) for the reductive centre and Harish-Chandra isomorphisms, and LieHighestWeight §§7.1 and 7.2 for the raw/dot and translated/ordinary invariant conventions; §2.1 for admissible and Harish-Chandra modules; ArithmeticLocallySymmetricSpaces ALS.F.7 for `LocallySymmetric.cohomologicalRepresentation.finiteInfinitesimalCharacter`.
 
 Define `HasInfinitesimalCharacter(V,χ)` by `zv=χ(z)v` for every `z∈Z`, where `χ:Z→ₐ[ℂ]ℂ` is an actual algebra character. Define generalized `χ`-finiteness by local annihilation by powers of `ker χ`; distinguish it from a uniform annihilator ideal. Irreducible admissible modules have an infinitesimal character. Use the supplied reductive Harish-Chandra isomorphism to identify it with a Weyl orbit, retaining the central functional and the supplied semisimple normalization. Expose `centralAction`, `generalizedCharacter`, `dualCharacter`, `subquotient` and `tensorFiniteDim`. The dual character uses the principal anti-automorphism `X↦−X`. (Bernstein–Krötz, §4.1, pp.20–22.)
 
@@ -355,6 +375,8 @@ After the irreducible embedding, prove the uniform bound of §2.2 for a connecte
 
 For SL₂, construct alongside the general induced space `I(ε,ν)` its right-covariant model: smooth functions with `f(gp)=δ_P(p)^{−1/2}χ(p)^{−1}f(g)`, equivalently smooth sections of the associated line bundle over `G/P`, with the compact picture over `K/M` and its Fréchet topology. Inversion gives the topological intertwiner `Jf(g)=f(g⁻¹)` between the two models: from `f(pg)=δ_P(p)^{1/2}χ(p)f(g)` obtain `Jf(gp)=δ_P(p)^{−1/2}χ(p)^{−1}Jf(g)` and `J(R(y)f)(g)=Jf(y⁻¹g)`. Restriction to `K` identifies the left-covariant space with its compact picture over `P\G`; inversion compares it with the right-covariant line-bundle model over `G/P`. Expose `induction_inversion_covariance` as an equivalence of the two covariance laws, `induction_inversion_involutive` as `J²=id`, and `induction_inversion_rightTranslate` as the action identity, for an arbitrary group and parabolic character with the half-modulus absorbed into that character. Inversion is a diffeomorphism and gives a continuous linear equivalence for the smooth compact-convergence topologies, with inverse itself. It preserves `ν` and parity and intertwines the compact-finite modules. For a continuous intertwiner `A:I(ε,ν)→I(ε,ν′)`, its expression on the right-covariant models is `J_(ν′) A J_ν⁻¹`; its kernel is the image under `J_ν` of `ker A`, and the induced quotient map is a topological isomorphism for closed kernels. At a reducibility point distinguish the compact-finite module, the smooth Fréchet kernel and quotient, and the completed unitary constituent, and transport the endpoint exact sequences through `J`. Record the circle convention as a witness: with the opposite parametrization `k_t=r_(−t)` of `SO(2)`, compact-weight signs reverse, so a model using that parametrization labels as `D_n⁺,D_n⁻` what are `D_n⁻,D_n⁺` here, while `ν`, the parity and `Ω=(ν²−1)/4` are unchanged. These rank-one models and the convention comparison use no Hilbert forms, completions or unitary-dual exhaustion. (Bernstein–Krötz, §4 and §9.3, Proposition 9.6; Casselman, *Representations of SL₂(ℝ)*, §10, pp.24–27, especially Proposition 10.8, and §12, p.32.)
 
+*Needs:* §§2.1, 2.2 and 2.3a for Harish-Chandra modules, central finiteness and the minimal parabolic `P=MAN` with `M=Z_K(A)`; ArithmeticLocallySymmetricSpaces ALS.F.1 and ALS.0.1–ALS.0.3 for real reductive groups and their maximal compact subgroups; LieGroups Layers 1, 2 and 9 for `Ad`, closed subgroups and the Iwasawa decomposition; ReductiveGroups Layer 7 for parabolic subgroups and Levi decompositions; CompactGroups §§0.1 and 2.2 for the compact-picture measure and complete reducibility of `σ|_M`.
+
 **Checks.**
 
 - For a compact group, `M=K` and `V=W`; the multiplicity is one when `σ≃W` and zero otherwise, so it is at most `dim σ`.
@@ -383,6 +405,8 @@ Prove `langlandsClassification`: every irreducible admissible module is the uniq
 
 Write `IrrAdmissible(G)` for the set of isomorphism classes of irreducible admissible compatible `(𝔤,K)`-modules, equivalently of irreducible Harish-Chandra modules. It is the common domain of the infinitesimal-character map of §2.2, of the Langlands classification above and of the archimedean correspondence of §2.5. Expose `infChar`, `infChar_finite_fibres`, `dual` (the contragredient, an involution) and `twist` by characters of `G/[G,G]`. On the real-points groups of §2.2, define the adapter `infChar_finite_fibres(χ) := LocallySymmetric.cohomologicalRepresentation.finiteInfinitesimalCharacter(χ)` under this identification of isomorphism classes. Its conclusion is `Finite {v∈IrrAdmissible(G) | infChar(v)=χ}`, with the supplied full-`K`, irreducibility, admissibility and compatibility hypotheses. (ArithmeticLocallySymmetricSpaces ALS.F.7; Langlands, *On the notion of an automorphic representation*, p.203, for the role of this set.)
 
+*Needs:* §§2.1, 2.2, 2.3 and 2.3a for admissible modules, infinitesimal characters, normalized induction and parabolic subgroups with their restricted roots; ArithmeticLocallySymmetricSpaces ALS.F.1, ALS.0.1–ALS.0.3 and ALS.F.7 for real reductive groups, Cartan involutions, maximal compact subgroups and `LocallySymmetric.cohomologicalRepresentation.finiteInfinitesimalCharacter`; LieGroups Layers 6, 7 and 9 for maximal tori and the Weyl group of `K`, complexification and the Cartan decomposition; the root-space, weight and classification declarations of the RepresentationTheory supplier contract and the native `RootPairing.dominantChamber` for compact weights and chambers.
+
 **Checks.**
 
 - A unitary character of a real torus is square-integrable modulo its split centre when the remaining quotient is compact. The trivial representation of noncompact semisimple `SL₂(ℝ)` is not tempered.
@@ -407,6 +431,8 @@ Construct `WeilGroupComplex=ℂ×` and `WeilGroupReal=ℂ×⊔jℂ×` as topolog
 
 Construct `recGL` for `GL_n(ℝ)` and `GL_n(ℂ)`, `n≥1`, as a bijection between irreducible admissible Harish-Chandra-module isomorphism classes and semisimple continuous `n`-dimensional Weil representations. It agrees with character theory at `n=1`, takes determinant to central character, and commutes with contragredients and character twists. Temperedness is boundedness of the parameter; essential square-integrability is irreducibility of it. For `W_ℝ`, restriction to `ℂ×` gives the infinitesimal-character multiset `(p_i)`, with `(q_i)` its permutation; for complex groups the two multisets belong to the two factors of the complexified real Lie algebra. The construction uses normalized induction and its Langlands quotient. Local factors and their functional equations are subsequent consumers. (Knapp, Theorem 2, p.403, and Theorem 5, p.406.)
 
+*Needs:* §§2.1, 2.2, 2.3 and 2.4 for Harish-Chandra modules, infinitesimal characters, normalized induction, Langlands quotients, temperedness and essential square-integrability; GlobalNumberFields Layer 10 for the characters of `ℝ×` and `ℂ×`.
+
 **Checks.**
 
 - `j²=−1`, whereas the square of a nonidentity element in a split `ℂ×⋊C₂` above conjugation can be `1`. For `j·2`, the square is `−4`, and its norm is `−4`.
@@ -428,6 +454,8 @@ Integrate the algebraic `GL₂` coefficient `V_(a,b)=Sym^{a−b}(Std)⊗det^b`, 
 For `L=ℝ` or `ℂ`, construct `archimedeanUnitaryDual` for all `GL_m(L)`, `m≥1`. For a square-integrable unitary block `δ`, construct the Speh module `u(δ,r)` as the Langlands quotient with exponents `(r−1)/2,…,−(r−1)/2`, and its complementary pair `u(δ,r)|det|_L^β × u(δ,r)|det|_L^{−β}`, `0<β<1/2`. Here `|z|_ℂ=z zbar`. Prove unitarity of the Speh modules and complementary pairs, irreducibility and unitarity of their normalized products, exhaustion of the irreducible unitary dual, and uniqueness of the block multiset. This section is the sole owner of these real and complex classification assertions, including the unitary-product irreducibility and Speh-unitarity prerequisites. They are independent of cyclic lifting and Shintani character identities. Use the archimedean blocks of Badulescu–Renard §9 and prove the hypotheses U(0)–U(4) of §7.2 before deriving Theorem 7.2, pp.15–16.
 
 On the continuous globalizations of §2.7, define `HasWhittakerModel` with a specified nondegenerate unitary character of a maximal unipotent and a nonzero continuous equivariant functional. Construct the GLₙ specialization of Badulescu–Renard's genericity criterion, Theorem 8.1, pp.16–17: generic irreducibles are precisely the irreducible normalized inductions from essentially tempered blocks. Derive `genericUnitaryClassification`: an irreducible generic unitary representation is a normalized induction of tempered generic unitary blocks and complementary pairs `τ|det|_L^β,τ|det|_L^{−β}`, `0<β<1/2`; conversely these products are irreducible, generic and unitary. Repeated exponents may be grouped into a tempered block before choosing a strictly decreasing list. In the full unitary list, genericity retains precisely the blocks of Speh length one and their complementary pairs; for `L=ℂ` these start from rank-one unitary characters. The continuous-functional assertions follow globalization; the algebraic unitary classification supplies its own unitary realizations. (Badulescu–Renard, Theorems 8.1–8.2 and §9.1, pp.16–17; Jiang–Zhang, Appendix B, equation (B.6), p.86, for the self-dual specialization.) Expose `genericUnitaryInduction`, `genericUnitaryClassification` and `whittakerTwist`.
+
+*Needs:* §§2.1, 2.2, 2.3, 2.4 and 2.7 for admissible modules, infinitesimal characters, principal series, discrete series, Langlands quotients and the continuous globalizations; §5.4 for unitarity of `A_q(λ)` in the Speh-unitarity step; the highest-weight declarations of the RepresentationTheory supplier contract and Tau Ceti's rational Weyl modules for the algebraic coefficient `V_(a,b)`; ReductiveGroups Layer 7 for the maximal unipotent subgroup.
 
 **Checks.**
 
@@ -451,6 +479,8 @@ For a real Lie basis `X₁,…,X_m`, compare the word seminorm `P_k(v)=Σ_{|w|�
 A `GContinuousNorm` on a Harish-Chandra module means a norm whose Banach completion carries an actual continuous `G`-representation extending the given compact-finite differentiated action and recovering that module. Construct such norms using the embedding theorem. For a norm `p` and a basis `X₁,…,X_m` of `𝔤`, the `k`-th Sobolev norm is `p_k(v)=(Σ_{|α|≤k}p(X^αv)²)^{1/2}`; write `p≺q` when `p≤C·q_k` for some `k` and `C`. Prove any two `G`-continuous norms are Sobolev-equivalent (`p≺q` and `q≺p`), and that every `G`-continuous norm is Sobolev-equivalent to a `K`-invariant Hermitian one (Bernstein–Krötz, §1, pp.2–3, and §2.4.2, p.10). An arbitrary norm need not be `G`-continuous. For a linear real reductive group, use these results to construct `casselmanWallachGlobalization` and prove the compact-finite functor is an exact equivalence between SAF representations with continuous intertwining maps and Harish-Chandra modules. All intertwining maps have closed image, and every module morphism extends uniquely and continuously. The proof proceeds through principal series, extension stability, induction/deformation, Langlands classification and the square-integrable case. (Bernstein–Krötz, Theorem 1.1, p.3, and Theorem 10.6 with §§10.2–10.4, pp.44–45.)
 
 Prove `dixmierMalliavin`: each vector in a smooth Fréchet representation is a finite sum `Σ_i π(a_i)v_i` with `a_i∈C_c∞(G)`. For an `SFRepresentation(G)`, the integrated Schwartz algebra acts continuously and nondegenerately as well. For an irreducible Harish-Chandra module the globalization is algebraically simple as a Schwartz-algebra module. Nondegeneracy means finite linear span of the images, not a claim that one fixed test function is an identity. For a smooth representation of `G(𝔸)`, a strict inductive limit over compact open `J⊂Gf` of smooth Fréchet representations of `G∞`, apply Bernstein–Krötz, Remark 2.19, p.12, on each fixed finite-level Fréchet space and insert the finite idempotent `e_J`. This gives finite-sum factorization by `C_c^∞(G(𝔸))`. Apply it also to the left and right archimedean regular actions on the fixed finite-support/bi-level Schwartz Fréchet stages of §0.3 to prove `S(G(𝔸))=S(G(𝔸))*C_c^∞(G(𝔸))`. Beuzart-Plessis–Chaudouard–Zydor, §2.5.3, p.17, supplies the smooth-vector topology. The single-term identity `φ=R(α)φ` for a compact-finite, centre-finite automorphic function is Harish-Chandra's separate lemma, imported with the automorphic carrier. (Bernstein–Krötz, §2.5, Remark 2.19 and Proposition 2.20, pp.12–13.)
+
+*Needs:* §§0.1a, 0.2 and 0.3 for Lie test functions, smooth approximate identities, adelic test functions and the Schwartz stages; §§2.1, 2.3 and 2.4 for `compactFinite_dense_locallyConvex`, the projectors `e_σ`, the embedding theorem, principal series and the Langlands classification; LieGroups Layers 0, 1 and 2 for the exponential map, `Ad` and smoothness of continuous representations of compact Lie groups; LieHighestWeight §3.1 for the PBW basis; AdelicAlgebraicGroups §3.5 for the height; ArithmeticLocallySymmetricSpaces ALS.F.1 for linear real reductive groups; Mathlib `ContMDiff`, `banach_steinhaus` and Bochner integration, and Tau Ceti `StronglyContinuousSemigroup.smoothVectors`.
 
 **Checks.**
 
@@ -487,6 +517,8 @@ Define `SmoothAutomorphicForm(G)` as the `Z`-finite part of `T_sm([G])`. Here `Z
 
 Use the supplied finite adelic component decomposition and actual stabilizers to construct `classicalEquiv`. For distinct representatives `t_i∈Gf`, restriction is `φ↦(x↦φ(xt_i))_i` on `Γ_i\G∞`, where `Γ_i` is precisely the rational stabilizer of `t_iJ`. Its inverse glues using rational invariance and level invariance. The growth comparison is supplied on these representatives, and establishes equivalence of the classical and adelic automorphic conditions. The result respects the pair action, fixed compact types and central ideals. Changing representatives produces the explicit transport maps. (Borel–Jacquet, §4.3(i)–(ii), p.195; Getz, §6.3, equation (6.3.1), p.31.)
 
+*Needs:* §§0.4, 0.5, 2.2 and 2.7 for `T_sm([G])`, the finite Hecke action, finite length and the Casselman–Wallach globalization; ArithmeticLocallySymmetricSpaces ALS.F.6 for `AutomorphicForm(G)` and fixed-type finiteness; AdelicAlgebraicGroups §§3.4 and 3.5 for the component decomposition of a level quotient, arithmetic stabilizers and heights.
+
 **Checks.**
 
 - Constants belong to both spaces. On a compact archimedean group, a fixed cofinite central ideal cuts out finitely many compact types by elliptic/Peter–Weyl theory, so `A∞=A` in that case.
@@ -507,6 +539,8 @@ For the smooth comparison use admissible finite-length representations on each f
 Define the underlying function predicate `HasCentralCharacter(Z,χ,f)` by `f(gz)=χ(z)f(g)` for a subgroup `Z` and a homomorphism `χ:Z→ℂ×`. The equation makes sense for every subgroup; its automorphic specialization requires the actual central subgroup and a character trivial on the rational intersection. The API is `add`, `scalar_mul`, `subspace`, `character_unique_of_nonzero`, and `rightTranslate` under centrality.
 
 Prove `centralTranslationFinite` directly: every automorphic vector's central translates remain in one finite-level, finite-compact-type, cofinite-central-ideal space, which is finite-dimensional by the supplied finiteness theorem. The resulting finite-dimensional central representation decomposes into joint generalized characters. Ordinary eigenspaces do not suffice for all automorphic forms. (Borel–Jacquet, §4.3(iv), p.195.)
+
+*Needs:* §§0.2, 0.4, 2.3, 2.7, 3.1 and 3.3 for the adelic test algebra, uniform moderate growth, normalized induction, globalization, smooth automorphic vectors and the global Hecke algebra; ArithmeticLocallySymmetricSpaces ALS.F.6 for automorphic forms, constant terms, cusp forms and fixed-type finiteness; AdelicAlgebraicGroups §§1.3, 2.1, 2.2, 3.1, 3.4 and 3.5 for the centre, the spaces `a_P`, the parabolic modulus, rational parabolics with the adelic Iwasawa decomposition, Siegel sets and heights.
 
 **Checks.**
 
@@ -529,6 +563,8 @@ Construct `archimedeanHeckeAlgebra(𝔤,K)` from the distributions supported on 
 
 For a finite set `S` of irreducible compact types, `e_S=Σ_{σ∈S}e_σ` is an idempotent; `e_Se_T=e_S` when `S⊂T`. These form a directed local identity. They also give the global algebra together with the finite adelic Hecke algebra. Expose `finiteTypeCorner`, `cornerAction` and compatibility with the finite-level idempotents.
 
+*Needs:* §§0.1a, 0.2 and 2.1 for Lie test functions with their topology, the finite adelic test algebra with its idempotents, compatible `(𝔤,K)`-modules and the projectors `e_σ`; CompactGroups §§3.2 and 6.1 for the representative ring and characters; ArithmeticLocallySymmetricSpaces ALS.F.1 and ALS.F.5 for `G∞`, `K` and the differentiated inclusion; Mathlib `UniversalEnvelopingAlgebra`.
+
 **Checks.**
 
 - If `G∞=K`, the enveloping balance collapses the carrier to `R(K)`.
@@ -543,6 +579,8 @@ For a countable index set of places, complex vector spaces `W_v` and nonzero ref
 For algebras stabilized by idempotents construct the analogous nonunital algebra and its compatible module action. Multiplication is computed at a common finite tensor stage. The finite inclusions preserve multiplication because the stabilization entries are idempotent, not because they are necessarily units. Prove the finite adelic test algebra is the restricted tensor product of its local Hecke algebras after choosing an integral model away from a finite set.
 
 Prove `finiteCornerFactorization`: a nonzero finite-dimensional simple module over `A₁⊗ℂ A₂`, for unital complex algebras, is `V₁⊗V₂` with finite-dimensional simple factors, unique up to isomorphism. For a nondegenerate simple module over an idempotented algebra, every nonzero corner `eV` is simple over `eAe`; admissibility makes it finite-dimensional in the present application. A nonzero corner submodule generates the whole simple module, and multiplying back by `e` proves equality; no complement of that submodule is assumed. Apply finite-dimensional density/Schur theory over ℂ, then glue factors across larger corners. (Flath, Theorem 1 and proof, pp.179–180.)
+
+*Needs:* §0.2 for the finite adelic test algebra; AdelicAlgebraicGroups §1.1 for integral models; SmoothRepresentationsOfLocalGroups SR.1.1 and SR.1.3 for local Hecke algebras, idempotented algebras and nondegenerate modules; Mathlib finite tensor products and filtered colimits.
 
 **Checks.**
 
@@ -560,6 +598,8 @@ Prove `finrank_spherical_le_one`. Let `v` be a finite place and `K_v=𝒢(O_v)` 
 For the global choice, AdelicAlgebraicGroups §3.1 supplies an admissible maximal compact subgroup `∏_vK_v` of `G(𝔸)` whose factors are hyperspecial outside a finite set `S`; it is built from the integral models and spreading out of AdelicAlgebraicGroups §1.1 together with RG2.3. Fix such a subgroup once; the spherical line is then available at every `v∉S`. Local unramified theory at a single place does not supply this global choice. (Flath, §3 and the number-field discussion following Theorem 3, pp.181–182; Getz, §§7.1–7.2, pp.34–36.)
 
 Prove `flath`: every irreducible admissible global `(𝔤,K)×Gf` module is the restricted tensor product of irreducible admissible local modules, spherical at almost all finite places. The factor is unique up to isomorphism and the reference line up to scalar. At infinity use the archimedean Hecke distribution algebra, and at finite places use local identities. The proof proceeds through a nonzero finite-dimensional level/type corner, the factorization in §3.4 and compatible enlargement; it does not assume a finite tensor decomposition of the whole infinite-dimensional module. Construct `localFactor`, `tensorEquiv`, `unramifiedAlmostEverywhere` and `factor_unique`. A Hilbert tensor-product version is a separate realization for unitary modules. (Flath, Theorems 1–3, pp.179–182; Theorem 4, p.182.)
+
+*Needs:* §§2.1, 3.2, 3.3 and 3.4 for admissible `(𝔤,K)`-modules, admissible global modules, the archimedean Hecke algebra and finite-corner factorization; ReductiveGroupsPartII RG2.3.1 for reductive models and hyperspecial subgroups; SmoothRepresentationsOfLocalGroups SR.0.4, SR.1.3 and SR.4.1 for admissibility, level algebras and the Satake transform; AdelicAlgebraicGroups §§1.1 and 3.1 for integral models and the admissible maximal compact subgroup.
 
 **Checks.**
 
@@ -587,6 +627,8 @@ Extend the supplied constant term by its smooth/topological and equivariance API
 
 For `Q⊂P`, construct the quotient-measure disintegration from `N_Q=N_P⋊N_{Q∩M_P}` and prove `constantTerm_constantTerm` by Fubini: integrating first along `N_P`, then along the Levi unipotent, equals the `Q`-constant term. For rational `γ`, prove `φ_{γPγ⁻¹}(g)=φ_P(γ⁻¹g)`. Use these identities to reduce vanishing at every proper rational parabolic to the maximal standard ones, relative to a fixed minimal rational parabolic `P₀` (AdelicAlgebraicGroups §3.1). Unipotent groups over `F` are split in characteristic zero; the quotient measures in stages of AdelicAlgebraicGroups §2.2 give the iterated integral along a normal series with vector-group quotients. The identity parabolic is allowed as an operator, and its constant term is identity; it is excluded from cuspidality tests. The light kernel predicate `IsCuspidalFor(CT,v)` means `CT_P(v)=0` for every index `P` in the specified family of linear constant-term maps. Its API is `zero`, `add`, `scalar_mul`, `family_mono` and `nonzero_constantTerm_not_cuspidal`. The arithmetic specialization must use all proper rational parabolics; it then agrees with the supplied cusp-form subspace. (Beuzart-Plessis–Chaudouard–Zydor, §2.5.10, p.19; Borel–Jacquet, §4.1, p.194.)
 
+*Needs:* §§0.1, 0.4 and 0.5 for smooth functions, weighted pieces and the finite Hecke action; ArithmeticLocallySymmetricSpaces ALS.F.6 for the supplied constant term and cusp forms; AdelicAlgebraicGroups §§2.2, 3.1, 3.4 and 3.5 for quotient measures in stages, rational and minimal parabolics, compactness of unipotent quotients and heights on Siegel sets; ReductiveGroups Layer 5 for unipotent groups.
+
 **Checks.**
 
 - A constant `c` has constant term `c`, using total mass one. Integrating over the full noncompact `N_P(𝔸)` instead would fail even for `c=1`.
@@ -604,6 +646,8 @@ For the kernel predicate, an empty parabolic family makes every vector satisfy i
 Use the supplied cuspidal kernel subspace and its rapid-decay and discrete-spectrum theorems. Construct the adapters `smoothCuspidalForm`, `cuspidal_kFinite`, `cuspidalOccurrence`, `cuspidalTensorFactorization` and `cuspidalCentralTwist`. At a specified unitary central character, a cuspidal automorphic module has a closed irreducible unitary occurrence in the supplied cuspidal Hilbert space; its smooth compact-finite realization recovers the algebraic module. Conversely recover every such algebraic occurrence. Every cuspidal automorphic representation is automorphic and occurs as an irreducible submodule, with finite multiplicity `m_cusp(π)`; at a unitary central character the cuspidal module is semisimple, so its subquotients are submodules. In a function-space realization the chosen subspace must be invariant under both the Lie and the compact actions. The algebraic direct sum uses compact-finite, finite-level, centre-finite vectors. The unrestricted smooth compact-finite part of a Hilbert sum can contain vectors with infinitely many infinitesimal characters and is not identified with `A₀` without that condition. (Borel–Jacquet, §§4.4–4.6, pp.195–197; Getz, §6.3, Definition 6.15 and the density of `∪A₀(ξ,J)` in `L²₀`, pp.31–32.)
 
 For coherent applications construct `DiscreteOccurrence(G,ω)` as an irreducible closed unitary subrepresentation, its Hilbert space, and an isometric occurrence map into the specified central-character `L²` space. A weighted occurrence for a nonunitary `ω` additionally records the positive norm twist making that map unitary. Define the discrete subspace as the closed span of such occurrence images. This small interface does not claim completeness of the automorphic spectrum. Expose `occurrenceMap`, `smoothVectors`, `kFinite`, `centralBalance` and `unitarize`. A comparison of cusp cohomology with a larger discrete space must be induced by these actual inclusions, not by assigning arbitrary coefficients the same dimension.
+
+*Needs:* §§2.7, 3.1, 3.2, 3.5 and 4.1 for globalization, smooth automorphic vectors, automorphic representations and central characters, Flath factorization and cuspidality; ArithmeticLocallySymmetricSpaces ALS.F.6 for the cuspidal kernel, rapid decay and the cuspidal Hilbert direct sum; AdelicAlgebraicGroups §§2.1 and 2.3 for the split centre and the measure on the automorphic quotient.
 
 **Checks.**
 
@@ -632,6 +676,8 @@ With compact abelian Fourier theory (CompactGroups Layer 5), every `L²` functio
 For a specified nontrivial character `ψ` of an arithmetic maximal-unipotent quotient, construct `whittakerCoefficient(φ,g)=∫φ(ng)ψ(n)⁻¹dn`; for GLₙ use a nondegenerate character on every simple-root subgroup. Prove equivariance under unipotent translation and finite/right archimedean actions, and prove global cuspidal GLₙ genericity by successive Fourier expansion and cuspidal vanishing of the degenerate terms. This supplies the local genericity needed in the purity argument, without assuming a later theory of L-functions. Expose `whittakerCoefficient`, `whittaker_equivariant`, `cuspidalGLn_hasWhittaker` and `localFactor_generic`. The construction is for the actual arithmetic quotient, with the character identification of AnalyticNumberTheoryPartII §5.3h and the Fourier expansion above. (Cogdell, Theorem 1.1 and §1.2, pp.7–10, for the cuspidal Fourier expansion and Whittaker model; Jiang–Zhang, Appendix B, pp.85–86, for the local generic-unitary input.)
 
 Prove `trivial_not_generic` on split `SL₂`: every nontrivial Fourier coefficient of a constant is zero by character orthogonality, while its constant term is nonzero. The assertion that all automorphic representations are generic is therefore false. Holomorphic Eisenstein forms provide a different check: they are noncuspidal but have nonzero nonconstant Fourier coefficients; noncuspidality does not force every such coefficient to vanish.
+
+*Needs:* §§2.6, 3.5, 4.1 and 4.2 for archimedean Whittaker models and the generic unitary dual, local factors, constant terms and cuspidal occurrences; AnalyticNumberTheoryPartII §§5.3g and 5.3h for the standard character and the identification of `F` with the characters of `F\𝔸_F`; CompactGroups §5.4 for compact abelian Fourier theory; GlobalNumberFields Layer 5 for compactness of `F\𝔸_F`; AdelicAlgebraicGroups §§2.2, 3.1 and 3.4 for quotient measures in stages, unipotent radicals of rational parabolics and compactness of unipotent quotients.
 
 **Checks.**
 
@@ -670,6 +716,8 @@ Define `maassHecke(m)`, `m≥1`, by `m^{−1/2}Σ_{ad=m,a,d>0}Σ_{b mod d}φ((az
 
 The shared normalized carrier is `NormalizedMaassEigenform(r,δ)`, with `δ∈{0,1}` and `r` in either of the branches above: the subtype of `MaassCuspForm(SL₂(ℤ),1/4+r²)` consisting of simultaneous eigenvectors for all `maassHecke(m)`, with `a(1)=1` in the factor-two expansion and reflection `φ(−z̄)=(−1)^δφ(z)`. Use its inherited `fourierCoefficient` and `fourierExpansion`. The comparison `maassHeckeRecurrence` identifies the eigenvalue of `T_m` with `a(m)` and gives `a(m)a(n)=Σ_{d|(m,n)}a(mn/d²)` for positive `m,n`. For any `λ`, the comparison `maassClassicalEquiv`, with forward map `maassAdelization`, identifies `MaassCuspForm(SL₂(ℤ),λ)` with the right-`PGL₂(ℤ̂)`-invariant, right-`SO(2)`-invariant Laplace eigenspace of eigenvalue `λ` in the ALS.F.6 PGL₂ cusp space. It restricts to the normalized eigenform subtype, preserving Fourier coefficients, reflection and normalized Hecke actions. Its inverse is restriction to the upper-half-plane Iwasawa section, with the same normalization. These are the shared form-space comparisons, including for the real-parameter specialization. (Duke–Imamoğlu–Tóth, §5, equations (5.6)–(5.8), p.962; AdelicAlgebraicGroups §5.2 for the classical quotient.)
 
+*Needs:* §§0.5, 3.1 and 4.1 for the finite Hecke operators, classical components and constant terms; ArithmeticLocallySymmetricSpaces ALS.F.6 for the `PGL₂` cusp space; AdelicAlgebraicGroups §§4.2 and 5.2 for strong approximation and the `GL₂` upper-half-plane quotient; Mathlib upper half-plane, integration and ODE tools.
+
 **Checks.**
 
 - `T_p²=T_{p²}+T₁`. At `p=2`, the raw operator has three cosets on constants, while the normalized operator has scalar `3/sqrt(2)`; cusp forms have the same operator normalization.
@@ -700,6 +748,8 @@ For an irreducible admissible real or complex module with parameter `μ`, define
 
 Record separately Chenevier–Taïbi's convention `IsAlgebraicCT`: a Harish-Chandra module of `GLₙ(ℝ)` is algebraic in their sense when every element of the centre `ℝ^×⊂W_ℝ` acts on its Langlands parameter (§2.5) by `±1`. This forces `ℝ_{>0}` to act trivially, so it fixes a normalization as well as integrality; for cuspidal representations of `PGLₙ` over `ℚ` it agrees with their algebraicity through Clozel's purity lemma (§5.5). A comparison with L-algebraicity after a norm twist takes the common weight and the sign condition as explicit hypotheses (`isAlgebraicCT_compat`); bare L-algebraicity is not equivalent. (Chenevier–Taïbi, §2.1, p.13; Buzzard–Gee, Proposition 5.2.2, p.29, for the twisting element.)
 
+*Needs:* §§2.2 and 2.5 for infinitesimal characters and Langlands parameters; ArithmeticLocallySymmetricSpaces ALS.F.7 for the algebraic coefficients `V_λ` and the cohomological predicate; LieHighestWeight §7.1 for the Harish-Chandra isomorphism and central characters of highest-weight modules; ReductiveGroups Layer 7 for Borel pairs and character lattices; AdelicAlgebraicGroups §1.4 for restriction of scalars; Tau Ceti `TauCeti.vermaCentralCharacter_dotAction`, `TauCeti.exists_int_apply_coroot`, `TauCeti.integralWeightLattice` and `TauCeti.nonempty_lieModuleEquiv_iff_eq_of_isHighestWeightVector`.
+
 **Checks.**
 
 - For `GL₂`, `ρ=(1/2,−1/2)`, so the trivial representation is C-algebraic and is not L-algebraic. The determinant half-twist makes its parameter integral.
@@ -727,6 +777,8 @@ Extend the supplied cohomological predicate by `HasCohomologyWith(π,B)`: there 
 For a tensor `π⊗B` with trivial `𝔞`-action, define `HasConnectedCohomologyWith(π,B)` by nonzero `H^q(𝔤/𝔞,K°;π⊗B)` in some degree. Retain its `K/K°`-action. The supplied component comparison identifies `H^q(𝔤/𝔞,K;π⊗B)` with the component invariants of this connected-pair group. Full-`K` nonvanishing requires nonzero invariants; it does not follow from connected-pair nonvanishing. Section 5.7 uses this connected predicate with the algebraic coefficient selected by the infinitesimal character. (Clozel, Lemme 3.14, pp.114–120; Buzzard–Gee, §7.2, p.37, before Definition 7.2.1, for the possible quadratic correction in the full-`K` convention.)
 
 Apply the supplied Wigner lemma using the principal anti-automorphism: if the centre acts on a `(𝔤,K)`-module `V` by `χ_V` and on a finite-dimensional `(𝔤,K)`-module `F` by `χ_F`, and `H^*(𝔤,K;V⊗F^∨)≠0`, then `χ_V=χ_F`; an arbitrary algebra endomorphism of the centre in place of the principal anti-automorphism gives the wrong dual character. Twisting `π` by an algebraic character `χ` replaces the coefficient `V` by `V⊗χ^{−1}`, and an automorphic representation is cohomological when its archimedean component is. The same definitions apply to a general pair `(𝔮,K)`; expose `nonzeroDegree` with `nonzeroDegree_nonzero`. A full-centre mismatch, including the split centre, kills cohomology. In the split-centre-quotiented formulation first require the tensor's central balance. For the raw pair, a trivial split central Lie algebra contributes its exterior algebra. (Vogan–Zuckerman, Proposition 5.4 and Theorems 5.5–5.6, pp.74–75; Harder–Raghuram, Proposition 3.11, p.19.)
+
+*Needs:* §§1.1, 2.2 and 3.5 for functorial relative cohomology, infinitesimal and dual characters, and archimedean components; ArithmeticLocallySymmetricSpaces ALS.F.5 and ALS.F.7 for relative cochains, the cohomological predicate, algebraic coefficients and Wigner's lemma.
 
 **Checks.**
 
@@ -774,6 +826,8 @@ Every compact type of `A_q(λ)` has highest weight `λ|𝔱+2ρ(𝔲∩𝔭)+Σ_
 
 For the Hermitian datum of §6.1 and balanced centre, construct the Hodge decomposition. Put `R±=dim(𝔲∩𝔭±)`, and retain the nonzero finite-dimensional irreducible group coefficient `F` whose lowest weight is `−λ`. For each `p≥0`, prove `H^{p+R+,p+R−}(𝔤,𝔨;A_q(λ)⊗F)≃H^{p,p}(𝔩,𝔩∩𝔨;ℂ)≃Hom_{𝔩∩𝔨}(Λ^{2p}(𝔩∩𝔭),ℂ)`. Its dimension is the number of length-`p` representatives of `W(𝔩,𝔟)/W_{L∩K}`. A bidegree `(a,b)` with `a−b≠R+−R−`, or with either shifted index negative, contributes zero. The non-Hermitian theorem above remains independent of this specialization. (Vogan–Zuckerman, Proposition 6.19, p.84.)
 
+*Needs:* §§1.1, 2.1, 2.2 and 6.1 for functorial relative cohomology, admissible modules, infinitesimal characters and the Hermitian datum; ArithmeticLocallySymmetricSpaces ALS.F.1, ALS.0.1–ALS.0.3, ALS.F.5 and ALS.F.7 for real reductive groups and their maximal compact subgroups, relative cochains and algebraic coefficients; LieGroups Layers 2, 6 and 7 for closed subgroups, maximal tori and complexification; the root-space and classification declarations of the RepresentationTheory supplier contract for roots and highest weights.
+
 **Checks.**
 
 - For `q=g`, the nilradical is zero and `R=0`; the module is the unitary character, and the formula is the invariant exterior cohomology of `𝔭`. Vogan's range condition is vacuous, and induction preserves this unitary character.
@@ -793,6 +847,8 @@ Prove `clozelPurity` for cuspidal GLₙ automorphic representations algebraic in
 
 Define cohomological weight zero by `χ_π∞=χ_1`, equality with the infinitesimal character of the trivial representation. For a real GLₙ parameter tuple, `IsCohomologicalWeightZeroGL(μ)` means that `μ` is a permutation of `ρ`; it is distinct from the purity condition `w_raw=0`. Construct the classification of irreducible tempered `GL_n(ℝ)` modules with this infinitesimal character for every `n≥1`, using the trivial coefficient. For even `n` there is one full-group module, its restriction to the identity component has two irreducible constituents, and its `(𝔤𝔩_n,SO(n))` cohomology is free over `ℂ[O(n)/SO(n)]`. For odd `n` there are two connected-pair cohomological modules differing by sign, with component action respectively `+1` and `−1`; only the first has full-`O(n)` cohomology. Purity and genericity place cohomological-weight-zero cuspidal infinity types in this list. Central balance permits the split-centre quotient; full-`K` cohomology takes component invariants as in §5.2. (Clozel, Lemme 3.14, pp.114–120; Boxer–Calegari–Gee, Introduction and Remark 1.2, pp.1,3–4.)
 
+*Needs:* §§2.2, 2.4, 2.5 and 2.6 for infinitesimal characters, tempered modules, Weil parameters and the generic unitary dual; §§3.5, 4.2 and 4.3 for archimedean factors, cuspidal representations and global cuspidal genericity; §§5.1, 5.2 and 5.4 for the algebraicity conventions, connected-pair cohomology and the cohomology of `A_q(λ)`.
+
 **Checks.**
 
 - For `D_k(μ)`, both parameter exponent sums are `μ`; unitary `D_k(0)` has common weight zero and the cohomological twist `D_k(2−k)` has common weight `2−k`. It is not always `k−1`.
@@ -808,6 +864,8 @@ Define cohomological weight zero by `χ_π∞=χ_1`, equality with the infinites
 For a nonarchimedean local field `E` with valuation ring `O_E`, of characteristic zero (a finite extension of `ℚ_p`) or of equal characteristic (`𝔽_q((t))` with `O_E=𝔽_q[[t]]`), finite rank `n≥0` and compact subgroup `J⊂GL_n(E)`, use EtaleCohomologyFoundations F.4.0's `GaloisLattice.IntegralModel` for the jointly continuous tautological action of `J` on `E^n`. Its underlying submodule satisfies Mathlib's `Submodule.IsLattice E`; stability under all group elements implies setwise equality. Instantiate `ContinuousRep.exists_stable_lattice_iff` and `GaloisLattice.IntegralModel.nonempty` for existence (`J` is compact, and `O_E` is compact and open in `E` in either characteristic), `exists_pow_le` for commensurability and `nonempty_iso_genericFibre` for the equivariant generic-fibre comparison `E⊗_{O_E}Λ≅E^n`, rather than constructing another local carrier. Conjugation by `g∈GL_n(E)` transports the action of `J` to `gJg⁻¹` and a stable lattice `L` to `gL`; this is the only local statement added, and it is bookkeeping for the finite-adelic family below. (EtaleCohomologyFoundations F.4.0; Ding, arXiv v2, §4.2.2, pp.71–72, for the coefficient-lattice setting.)
 
 For an algebraic representation over a number field `E`, construct `StableAdelicLattice(J,V)` as a family of local integral lattices, equal to a fixed reference family almost everywhere and stable under the given compact-open finite adelic action. Over `E⊗ℚ_p` work factor by factor; global integral lattices need not be free over `O_E`. Prove existence by the local result and integral-model spreading, and prove two such families coincide after inverting one nonzero integer. Expose `local`, `restrictedFamily`, `exists`, `eqAfterInverting`, `restrictLevel`, `conjugate`, `reduction` and `componentLocalSystem`. On a component represented by `t`, transport the lattice so the actual arithmetic stabilizer preserves it. A global `G(F)`-stable integral lattice is not asserted. (Ding, arXiv v2, §4.2.2, pp.71–72; AdelicAlgebraicGroups §1.1 integral models; ArithmeticLocallySymmetricSpaces ALS.F.7.)
+
+*Needs:* EtaleCohomologyFoundations F.4.0 for stable lattices and integral models over nonarchimedean local fields; AdelicAlgebraicGroups §§1.1, 1.5 and 3.4 for integral models with spreading out, product levels, the component decomposition and arithmetic stabilizers; ArithmeticLocallySymmetricSpaces ALS.F.7 and ALS.1.1 for algebraic coefficients and arithmetic local systems; Mathlib `Submodule.IsLattice`.
 
 **Checks.**
 
@@ -835,6 +893,8 @@ Prove Clozel's arithmetic rationality theorem for regular algebraic cuspidal GL�
 
 For every regular C-algebraic cuspidal `GLₙ` representation `π` over a number field, let `V_λ` be the algebraic coefficient selected by `χ_π∞=χ_(V_λ^∨)`. Prove central balance and `HasConnectedCohomologyWith(π∞,V_λ)`. Prove `galoisConjugate_cuspidal`: for each `τ∈Aut(ℂ)` there is a regular C-algebraic cuspidal representation `π^τ` whose finite part is `galoisTwist(πf,τ)` and for which `HasConnectedCohomologyWith((π^τ)∞,τV_λ)` holds, with its component action retained. Full-`K` cohomology is the component-invariant part and is nonzero exactly when that part is nonzero in some degree. Coefficient conjugation permutes labelled embeddings and extends algebraic scalars. Construct the conjugate on isomorphism classes and prove identity and composition compatibility. For independence of choices, use §5.5's purity and §2.5's Weil parameters with §5.1's infinitesimal character. The essentially tempered parameter is determined by these weights, except for a real sign choice fixed by the central character. Weak approximation determines the global central character from its finite part; §3.5's factorization identifies the full representation. (Clozel, Théorème 3.13, p.112, and Lemme 3.14, pp.114–120; Buzzard–Gee, §7.2, p.37.)
 
+*Needs:* §§2.5, 3.4, 3.5, 4.2, 5.1, 5.2 and 5.5 for Weil parameters, restricted tensor products, Flath factorization, cuspidal representations, infinitesimal characters, connected-pair cohomology and purity; SmoothRepresentationsOfLocalGroups SR.0.4 for admissible representations and change of coefficients; ArithmeticLocallySymmetricSpaces ALS.F.6, ALS.F.7, ALS.5b.5 and ALS.5b.6 for cuspidal automorphic representations, algebraic coefficients, cuspidal cohomology and the contribution of regular algebraic cuspidal `GLₙ` representations, and ArithmeticLocallySymmetricSpaces Layers ALS.1 and ALS.3 for Betti cohomology with number-field coefficients, its coefficient change and Hecke actions; AdelicAlgebraicGroups §4.1 for weak approximation.
+
 **Checks.**
 
 - The trivial finite-part representation has rationality field ℚ and its evident ℚ-model. Its cuspidal GL₁ conjugate is itself for every `τ`.
@@ -852,6 +912,8 @@ For every regular C-algebraic cuspidal `GLₙ` representation `π` over a number
 For a commutative Hecke ring `T`, a coefficient ring `Λ`, a module `H` with the specified commuting coefficient/Hecke actions, define `TorsionEigenSystem` as data `(θ,c)` with a unital ring map `θ:T→Λ`, nonzero `c∈H`, and `tc=θ(t)c`. In arithmetic use the supplied integral Betti cohomology with a stable coefficient lattice and `Λ=O_E/λ^m`, `m≥1`. Use a neat level or the supplied stabilizer/groupoid complex; arbitrary orbifold cohomology does not acquire integral base change by declaration. Expose `system`, `class`, `eigen`, `map`, `map_system`, `maximalKernel` and `lattice_indep_awayFromIndex`. (Scholze, Introduction, Conjecture I.2 and discussion, pp.5–6, and §V.4 for the arithmetic setting.)
 
 For finite-field `Λ`, the image of `θ` is a finite integral domain, hence a field; `ker θ` is maximal even without surjectivity. A `κ`-semilinear Hecke-equivariant map sends the system to `(κ∘θ,f(c))` only if `f(c)≠0`. Reduction from characteristic zero requires an actual integral eigenclass and a nonzero reduction, not only integral eigenvalues. Lattice independence away from the finite comparison index uses the explicit localization isomorphism of §5.6. Neither residual classes nor integral torsion are defined as classes already known to lift. For weight-two `GL₂/ℚ` eigenclasses, reduction from characteristic zero needs a neat level, a specified integral Hecke-equivariant model with base change and a characteristic-zero lifting theorem; that comparison belongs to the consumer and is not proved here.
+
+*Needs:* §5.6 for stable lattices; ArithmeticLocallySymmetricSpaces ALS.1.1, ALS.1.2, ALS.1.7 and ALS.3.3 for arithmetic local systems, integral Betti complexes with their equivariant models at arbitrary level, coefficient change and Hecke actions.
 
 **Checks.**
 
@@ -909,6 +971,8 @@ Require the Hermitian symmetric bracket relations, in particular `[𝔭⁺,𝔭�
 Let `A_h` be the identity component of the full real split centre. Require `Kʰ/A_h` compact and use its compact Cartan and actual character lattice. This quotient differs from the global `A∞`: for `Res_{F/ℚ}GSp₄`, with `F` totally real of degree `d`, `A_h≃(ℝ_{>0})^d` whereas `A∞` is its diagonal positive line. In every relative coherent tensor product, specify an `A_h`-character on the representation and its inverse on the coefficient before passing to the quotient. The balanced Lie pair is `(𝔭_h/𝔞_h,Kʰ/A_h)`. An unbalanced tensor does not descend. Global units and the other `d−1` real central directions are not silently removed from ordinary automorphic cohomology.
 
 Expose `hodgeStabilizer`, `positiveSplitCentre`, `compactQuotient`, `pPlus`, `pMinus`, `parabolicLie`, `bracket_pp`, `bracket_mm`, `compactRootSystem` and `noncompactPositiveRoots`. The complex structure fixes the sign of noncompact roots; choose a positive system of compact roots separately, then a compatible full system. It does not canonically choose a Borel inside the compact group. Construct base change, products and restriction-of-scalars adapters using the supplied group operations. A geometric Shimura datum will later produce this datum; no geometric assertion is assumed here.
+
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.1 and ALS.0.1–ALS.0.3 for real reductive groups, Cartan involutions and maximal compact subgroups; LieGroups Layers 1, 6, 7 and 9 for the adjoint representation, maximal tori, complexification and the Cartan decomposition; ReductiveGroups Layer 7 for character lattices; AdelicAlgebraicGroups §1.4 for restriction of scalars.
 
 **Checks.**
 
@@ -1069,6 +1133,8 @@ in the unitary case. Prove the parameter from the minimal-type identity `Λ=λ+�
 
 Expose `scalarHolomorphicSeries`, `minimalCompactType`, `scalarParameter`, `parameter_regular`, `minimalType_unique` and the product construction over all real places. The endoscopic and Galois consequences following that proposition are consumers, not additional conclusions of this local construction.
 
+*Needs:* §§2.4 and 6.1 for the discrete-series classification and the holomorphic convention; ArithmeticLocallySymmetricSpaces ALS.F.1 for the real groups `Sp₂n(ℝ)` and `U(n,n)`; LieGroups Layer 6 for maximal tori and characters of `U(n)`.
+
 **Checks.**
 
 - For `Sp₂=SL₂`, `k=2` gives parameter `1` and the usual holomorphic `D₂`. The boundary `k=1` gives parameter zero, a limit rather than the discrete series in this theorem.
@@ -1117,6 +1183,8 @@ The operator `L` is `−i` times Zhang's displayed lowering matrix. For `δ_k f=
 
 For a normalized cuspidal newform, construct its actual irreducible cuspidal occurrence. If `k≥2`, its infinity representation is `D_k(0)` and the finite factors are unramified away from `N`. At weight one use the nondegenerate limit of the discrete-series construction, not a square-integrable discrete series. Newform, conductor and multiplicity-one statements use ModularForms Layers 4 and 5; local newvector theory is not assumed. The ordinary relative cohomological twist is `D_k(2−k)` with the coefficient equation of §5.2; it is not an extra twist in the displayed unitary adelization.
 
+*Needs:* §§0.1, 0.4, 2.6, 3.2, 3.5, 4.1, 4.2 and 5.2 for the derived action, moderate growth, `D_k(μ)` and its limit, central characters, Flath factors, constant terms, cuspidal occurrences and the coefficient equation; ArithmeticLocallySymmetricSpaces ALS.F.6 for automorphic forms; AdelicAlgebraicGroups §§4.2 and 5.2 for strong approximation and the `GL₂/ℚ` quotient; ModularForms §§4.1 and 5.1 for conductors and multiplicity one; Mathlib and Tau Ceti modular forms and slash operators.
+
 **Checks.**
 
 - For weight twelve and level one, `Δ` gives Casimir `12·10/4=30`. At weight two the scalar is zero, and at weight one it is `−1/4`.
@@ -1135,6 +1203,8 @@ Fix a compact open `J⊂GL₂(Ẑ)` with `det J=Ẑ×`, a level character `η:J�
 
 Prove `adelize_isAdelicLift` and `IsAdelicLift.unique`: two functions satisfying the predicate for the same data agree everywhere. Use the supplied decomposition `GL₂(𝔸)=GL₂(ℚ)·(GL₂⁺(ℝ)×J)` for these levels; the determinant hypothesis is retained for this decomposition. Prove its compatibility with `deadelize`, coefficient-linear combinations at fixed character, and the Hecke and diamond comparisons of §7.3. (Getz, §6.4, Lemma 6.19 and Remark 6.20, pp.32–33; AdelicAlgebraicGroups §5.2 for the rational intersection and strong approximation.)
 
+*Needs:* §§7.2 and 7.3 for the adelization and the Hecke and diamond comparisons; AdelicAlgebraicGroups §§4.2 and 5.2 for the decomposition `GL₂(𝔸)=GL₂(ℚ)·(GL₂⁺(ℝ)×J)` and the rational intersection.
+
 **Checks.**
 
 - For `Δ` at level one, `η=1` and the value formula gives `φ(diag(y,1)∞,1)=y⁶Δ(iy)`; rational invariance and the decomposition determine all other values.
@@ -1151,6 +1221,8 @@ equivalently `φ_{T_pf}=p^{k/2−1}R_pφ_f`. Thus the unitary normalized operato
 Compare this with `T_pf(z)=p^{k−1}χ(p)f(pz)+p^{−1}Σ_{a mod p}f((z+a)/p)`. Both summands have the common factor `p^{1−k/2}`; the positive-real determinant power and the inverse level character fix it.
 
 Under the cohomological twist `π_unit⊗|det|^{(2−k)/2}`, the finite-place value at `diag(p,1)` is multiplied by `p^{(k−2)/2}`. Hence the raw operator on this twist has eigenvalue `a_p`. This is why the cohomological finite part has Hecke field `ℚ(a_n)` in §5.7. A K₀(N)-lift with lower-right entry `d` acts on the unitary adelization by `χ(d)⁻¹`; the classical diamond with eigenvalue `χ(d)` is its inverse right-translation operator. Expose `hecke_adelize`, `unitaryEigenvalue`, `cohomologicalTwist_hecke`, `diamond_adelize` and the compatibility with the finite-part tensor factors.
+
+*Needs:* §§0.5, 3.5 and 7.2 for the finite Hecke operators, the finite-part tensor factors and the adelization; SmoothRepresentationsOfLocalGroups SR.1.1 for local Hecke algebras; Tau Ceti `HeckeRing.GL2.heckeSlashModularFormEnd` and `twistedHeckeSlashModularFormCharEnd` for the classical Hecke operators.
 
 **Checks.**
 
@@ -1185,6 +1257,8 @@ Separately define Gross's rational coefficient model for an actual algebraic rep
 `F(γg)=ρ(γ)F(g)`, `F(gu)=F(g)`.
 After extension to the selected p-adic coefficient field, the equivalence to the previous model is `f(g)=ρ(g_p)⁻¹F(g)`, with inverse `F(g)=ρ(g_p)f(g)`. It applies to algebraic coefficients whose action extends to these points. It does not identify an arbitrary level representation twisted by an inertial type with a rational algebraic representation. Define `IsAlgebraicModularForm` by this rational covariance model over an arbitrary commutative scalar ring, before arithmetic finiteness is asserted. Its comparison `algebraicModularForm_iff_levelCovariant` states the change of values on abstract groups over any commutative scalar ring when the rational coefficient representation is the restriction of a representation of the finite-point group. The inverse change is `F(g)=ρ(g)f(g)`; no finiteness or smallness hypothesis enters this algebraic comparison. (BCGP25, §5.7.2, pp.130–131, for the inverse level covariance; the two identities follow from the representation action law.)
 
+*Needs:* §0.6 for the inversion anti-isomorphism of Hecke rings; AdelicAlgebraicGroups §§1.3, 1.5 and 2.1 for rational points, the centre, compact open levels and `A∞`; Mathlib `IsHeckeTriple` and `HeckeRing`, and Tau Ceti `HeckeCosetModule.mul`.
+
 **Checks.**
 
 - For trivial scalar coefficients, the space is exactly the functions on `G(F)\Gf/J`. The zero coefficient module gives the zero space.
@@ -1210,6 +1284,8 @@ For an actual algebraic coefficient put `V_ℂ=V⊗_{E,ι}ℂ`. When the specifi
 `Hom_{G∞}(V_ℂ^∨,π∞)⊗(π_f)^J⊗ℂ^{m(π)}`.
 Through finite levels its finite-part multiplicity is `m(π)·dim Hom_{G∞}(V_ℂ^∨,π∞)`, with contributions added when their finite parts are isomorphic. Only when `V_ℂ` is nonzero and irreducible does this reduce to infinity representation `π∞≃V_ℂ^∨` and multiplicity `m(π)`. The general comparison retains all irreducible infinity types and their coefficient multiplicities. Expose `stabilizer`, `stabilizer_finite`, `equivSum`, `IsSufficientlySmall`, `stabilizer_trivial`, `baseChange`, `automorphicEquiv` and `occurrenceMultiplicity`. (BCGP25, §5.7.2, pp.130–133, for the finite-level model; ALS.F.6 and compact Peter–Weyl for the discrete realization; the occurrence formula follows by applying the finite-dimensional Hom functor to that realization.)
 
+*Needs:* §§3.2, 4.2 and 7.4 for central characters, discrete occurrences and the abstract carrier with its evaluation equivalence; ArithmeticLocallySymmetricSpaces ALS.F.6 for automorphic forms and their discrete realization; AdelicAlgebraicGroups §§1.3, 3.4 and 4.3 for discreteness of rational points, finite class sets, arithmetic stabilizers, compact anisotropic quotients and neat levels; CompactGroups §5.5 for the Peter–Weyl decomposition.
+
 **Checks.**
 
 - A definite quaternion algebra over ℚ has no proper rational parabolics. Its constants are cuspidal; they are not assigned an Eisenstein summand by analogy with split GL₂.
@@ -1230,6 +1306,8 @@ The relevant class set is `G(F)\Gf/(Z_fJ)`, finite as a quotient of the supplied
 Prove `centralArithmeticDescent`: at a class representative `t`, pairs `(γ,z,u)` with `γtzu=t` act on a value by `ψ(z)u⁻¹`. The action descends after dividing by rational-central pairs, because rational-centre triviality and overlap compatibility make their action the identity. Their image in the adjoint rational group lies in a compact set at infinity and in the compact finite-adelic image of `tJt⁻¹`. Adelic discreteness for the adjoint group therefore makes that image finite. This gives the finite effective stabilizer `Γ_t^eff` with its well-defined coefficient action and
 `S_ψ(J,M)≃⊕_t M^{Γ_t^eff}`.
 This proof imports rational-point discreteness for the adjoint group and constructs the central descent; it never declares the generally infinite full rational-central stabilizer finite. Base change follows when the effective stabilizer orders are invertible, or under a smallness hypothesis that makes these effective stabilizers trivial. State that latter effective condition explicitly rather than inferring it from torsion-freeness of an unrelated central lift.
+
+*Needs:* §§7.4 and 7.5 for the abstract carrier, `inverseActionHeckeEquiv` and stabilizer base change; AdelicAlgebraicGroups §§1.3 and 3.4 for the centre, discreteness of rational points and finite class sets.
 
 **Checks.**
 

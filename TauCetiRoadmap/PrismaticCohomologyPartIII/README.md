@@ -89,7 +89,7 @@ For lisse descent on these formal generic fibres, construct the finite-coefficie
 
 (ECD, Proposition 15.4 and Lemma 15.6, pp.90–91, for the imported geometric carrier; BS23-FCRYS, Example 3.5 and Corollaries 3.7–3.8, pp.10–11, for the resulting comparison; BMS2, Lemma 4.7, p.19, for the complete-flat discreteness input over `C^+`).
 
-*Needs:* PrismaticCohomology §1.0, §6.0a, DerivedDeRhamCohomology §§5.1–5.7, DiamondsAndVStacks Layer D2, the exact D6 targets above, EnhancedDerivedSheaves E1, EnhancedDerivedSheaves E2, DiamondsAndVStacks D3/etale-and-finite-etale-are-v-stacks.
+*Needs:* §6.0a, PrismaticCohomology §1.0, DerivedDeRhamCohomology §§5.1–5.7, DiamondsAndVStacks Layer D2, DiamondsAndVStacks §§D6.3–D6.6 (the exact D6 targets above), DiamondsAndVStacks §D1.4 (*strictly-totally-disconnected*), DiamondsAndVStacks §D3.5 (*etale-and-finite-etale-are-v-stacks*), EnhancedDerivedSheaves §§E1.3–E1.4 (the enhanced derived category, internal Hom and pullback), EnhancedDerivedSheaves E2, EnhancedDerivedSheaves E3.
 
 **Checks.**
 
@@ -435,7 +435,7 @@ Use the canonical PD envelope `A_crys(R)`, its Frobenius, and its Nygaard filtra
 
 (BL22, Theorem 7.1.1 and proof, §7.1; p. 167.)
 
-*Needs:* PrismaticCohomology §2.20, PrismaticCohomologyPartII §3.1, §6.10, DerivedDeRhamCohomology §§PD.6–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedDeRhamCohomology §§5.1–5.7, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22.
+*Needs:* §6.10, PrismaticCohomology §2.20, PrismaticCohomologyPartII §3.1, DerivedDeRhamCohomology §§PD.6–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedDeRhamCohomology §§5.1–5.7, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22.
 
 **Proof route.** Use p-completeness and p-torsion-freeness of the three groups to reduce exactness modulo `p`. Isolate the first Conjugate filtration on derived Hodge–Tate cohomology step of `A_crys(R)/p` and identify its degree-zero quotient with `R♭/φ(J)`.
 
@@ -447,7 +447,7 @@ The crystalline complex is the canonical derived crystalline complex; the left s
 
 (BL22, Construction 7.3.1, Variant 7.3.3, Theorem 7.3.5 and proof, §7.3; pp. 175, 176, 177.)
 
-*Needs:* §6.22, PrismaticCohomology §2.17, §6.15, SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§5.1–5.7.
+*Needs:* §6.22, §6.15, PrismaticCohomology §2.17, SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§5.1–5.7.
 
 **Proof route.** Construct the crystalline first Chern class on the quasisyntomic site, compatibly with Frobenius, so it lands in the fibre of `φ/p−1` on `Fil_N^1` crystalline cohomology.
 
@@ -459,7 +459,7 @@ Let `R` be an animated commutative ring. (1) For `n > 0`, `RΓ_syn(Spf R, Z_p(�
 
 (BL22, Corollary 7.4.9; p. 180; BL22, Proposition 8.1.8, Theorem 8.1.9, Corollary 8.1.10; p. 191; BL22, Theorem 7.1.1, Proposition 7.5.2, Theorem 7.5.6; pp. 167, 181, 184; BS22, Lemma 9.6; p. 76.)
 
-*Needs:* §6.9, §6.8, §6.10, §6.14, PrismaticCohomologyPartII §4.19, PrismaticCohomologyPartII §3.17, PrismaticCohomology §1.14, PrismaticCohomology §2.17, SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§PD.6–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10, DerivedDeRhamCohomology §§5.1–5.7, Mathlib `CommRing.Pic`, PrismaticCohomology §2.20, §6.22, §6.23, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, PrismaticCohomologyPartII §3.1.
+*Needs:* §6.9, §6.8, §6.10, §6.14, §6.22, §6.23, PrismaticCohomologyPartII §4.19, PrismaticCohomologyPartII §3.17, PrismaticCohomology §1.14, PrismaticCohomology §2.17, SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§PD.6–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10, DerivedDeRhamCohomology §§5.1–5.7, Mathlib `CommRing.Pic`, PrismaticCohomology §2.20, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, PrismaticCohomologyPartII §3.1.
 
 **Proof route.** (1) (BL Corollary 7.4.9): by sifted colimits and descent reduce to `R` quasiregular semiperfectoid, where with a generator `e` of A{−n}, `φ{−n}(e) = λe` with `λ ∈ I^n`, the complex is `A → A`, `x ↦ x − λφ(x)`, whose differential has the convergent inverse `x ↦ x + λφ(x) + λφ(λ)φ^2(x) + ⋯`.
 
@@ -757,7 +757,7 @@ Fil_H^n LΩ_R[1/p]    → LΩ_R[1/p].
 
 The API is `Prismatic.Beilinson.chi`, `chi_boundedDenominator`, `square`, `cofibre`, `chi_characteristicP_natural`, `chi_frobenius`, `chi_eigenspaceImage` and `chi_scalarNonzero`. The last two require `n>0`; all square and cofibre maps retain their functorial commutative diagrams. Expose the compatibility names `gradedBeilinsonSquare`, `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`, `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and `gradedBeilinsonSquare_local` for, respectively, the square, its naturality, weight-zero identity, cartesianness, bounded-denominator integral diagram and QRSP two-degree construction. These names alias the constructions above, with the same p-torsion-free quasisyntomic hypotheses and weight `n≥0`. The integral name asserts a commutative diagram whose rationalization is the square; it does not assert integral cartesianness.
 
-*Needs:* Layers 2–3 (quasisyntomic descent, root covers, Nygaard filtration and §3.26), Layer 6 (§§6.8–6.9 syntomic fibres and Kan extension; characteristic-p crystalline and weight-one Kummer comparisons), AInfCohomology §AI.7.2 with the specific targets named above, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology Layer 2, DerivedDeRhamCohomology §§5.1–5.7, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, EnhancedDerivedSheaves E2 and EnhancedDerivedSheaves Layer E5:abstract.
+*Needs:* §§6.8–6.9 (syntomic fibres and Kan extension), §6.15, §6.23 and §6.24 (characteristic-p crystalline and weight-one Kummer comparisons), PrismaticCohomology §§2.16–2.17 (quasisyntomic descent and root covers), PrismaticCohomologyPartII §§3.1, 3.20 and 3.26 (Nygaard filtration, Nygaard completion and the prismatic recognition statements), AInfCohomology §AI.7.2 with the specific targets named above, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §2.22 (derived de Rham with its Hodge filtration), DerivedDeRhamCohomology §§2.24–2.27 (Hodge graded pieces, Hodge and p-completion, smooth de Rham algebras), DerivedDeRhamCohomology §§5.1–5.7, CrystallineCohomology §§CR.4.1–CR.4.8, CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, EnhancedDerivedSheaves E2 and EnhancedDerivedSheaves Layer E5:abstract.
 
 **Checks.**
 
@@ -1002,7 +1002,7 @@ In (1) `S` is an arbitrary commutative F_p-algebra (no noetherian, normality or 
 
 (BS23-FCRYS, Proposition 3.4 and its proof; p. 9; BS23-FCRYS, Proposition 3.4, proof; p. 9; BS23-FCRYS, Proposition 3.6 and its proof; p. 10.)
 
-*Needs:* SchemeAndStackFoundations §§2.1–2.6, §6.1, §6.4, AdicEtaleGeometry A1.0.5 (henselian-finite-etale-approximation), PerfectoidSpaces P3/finite-etale-under-completed-perfection, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, §6.2.
+*Needs:* §6.1, §6.2, §6.4, SchemeAndStackFoundations §§2.1–2.6, AdicEtaleGeometry A1.0.5 (henselian-finite-etale-approximation), PerfectoidSpaces P3/finite-etale-under-completed-perfection, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23.
 
 **Proof route.** Full faithfulness in (1): by finite étale descent on both sides reduce to endomorphisms of the constant sheaf, i.e. to `RΓ(Spec(S)_ét, F_p) ≃ fib(φ − 1: S → S)`, the Artin–Schreier sequence.
 
@@ -1014,7 +1014,7 @@ Let `X` be a bounded p-adic formal scheme with generic fibre `X_η`, regarded as
 
 (BS23-FCRYS, Corollary 3.7 and its proof; p. 10; BS23-FCRYS, Corollary 3.8; p. 11; BS23-FCRYS, Example 3.5; p. 10; BS23-FCRYS, Notation 3.1; p. 9.)
 
-*Needs:* §7.6, §7.7, §7.2, PerfectoidSpaces §P4.15.2, §6.0a, §6.0b, PerfectoidSpaces P3/finite-etale-tilting-equivalence, PerfectoidSpaces P1.16–P1.18, P1.24–P1.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, PerfectoidSpaces P3, DiamondsAndVStacks Layer D0.
+*Needs:* §7.6, §7.7, §7.2, §6.0a, §6.0b, PerfectoidSpaces §P4.15.2, PerfectoidSpaces P3/finite-etale-tilting-equivalence, PerfectoidSpaces P1.16–P1.18, P1.24–P1.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, PerfectoidSpaces P3, DiamondsAndVStacks Layer D0.
 
 **Proof route.** (1): by the definition of both sides as coherent limits it is enough to treat one prism. Retain derived reductions in the p-adic devissage. On the extra degree `−1` term `A[p]` of `A⊗ᴸ_Z F_p`, Frobenius is zero: `pa=0` and the δ product identity give `φ(a)=p^(p−1)a^p=0`. Perfection thus kills this term; the Frobenius-invertible categories are unchanged on passage to π₀. There the map `A/p[1/I]→B/p[1/I]` is the passage from `R=A/p` (derived t-complete for a local generator `t` of `I`) to the t-completed perfection, and §7.7 (2) applies.
 
@@ -1026,7 +1026,7 @@ The functor to Laurent F-crystals exists for every p-adic formal scheme `X`; the
 
 (BS23-FCRYS, Construction 4.8; p. 13; BS23-FCRYS, Example 4.9; p. 13.)
 
-*Needs:* §7.5, §7.6, §7.8, PrismaticCohomologyPartII §3.9, §6.26, DiamondsAndVStacks Layer D0.
+*Needs:* §7.5, §7.6, §7.8, §6.26, PrismaticCohomologyPartII §3.9, DiamondsAndVStacks Layer D0.
 
 - `Prismatic.FCrystal.etaleRealization`: The Laurent F-crystal `E ⊗ O_Δ[1/I_Δ]^∧_p` attached to a prismatic F-crystal `E`.
 - `Prismatic.FCrystal.etaleRealizationMap`: The action of the étale realisation on morphisms.
@@ -1202,7 +1202,7 @@ Write `c` for the natural map `(Δ_R⟨I/p⟩{n})^(φ=1)[1/p]→(Δ_R{I/p}{n})^(
 
 (BS23-FCRYS, Proposition 6.8; p. 22; BS23-FCRYS, Proposition 6.8, proof; p. 22; BS23-FCRYS, Proposition 6.8, proof; p. 22.)
 
-*Needs:* §7.16, §7.11, §6.8, PrismaticCohomologyPartII §3.1, PrismaticCohomologyPartII §3.5, PrismaticCohomologyPartII §3.9, PerfectoidSpaces §P4.15.3, PrismaticCohomology §0.69, PrismaticCohomologyPartII §4.25, §7.0, DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10.
+*Needs:* §7.16, §7.11, §6.8, §7.0, PrismaticCohomologyPartII §3.1, PrismaticCohomologyPartII §3.5, PrismaticCohomologyPartII §3.9, PerfectoidSpaces §P4.15.3, PrismaticCohomology §0.69, PrismaticCohomologyPartII §4.25, DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10.
 
 **Proof route.** `H^0(Q_p(n)(R)) → Δ_R{n}^{φ=1}[1/p]` is an isomorphism: a φ-fixed element lies in `Fil^n_N` because the Nygaard filtration of a quasiregular semiperfectoid ring is the φ-preimage of the I-adic filtration (BS22 Definition 12.1, §3.1). `Δ_{R/p} = Δ_R{I/p}`, and `H^0(Q_p(n)(R/p)) = (Δ_R{I/p}{n})^{φ=1}[1/p]` since inverting `p` kills the Nygaard graded quotients of `Δ_{R/p}`.
 
@@ -1226,7 +1226,7 @@ Weak admissibility is that of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.
 
 (BS23-FCRYS, Section 6.4, proof of essential surjectivity, second paragraph; pp.26–27; BS23-FCRYS, Section 6.4, proof of essential surjectivity, second paragraph; pp.26–27.)
 
-*Needs:* §7.17, §7.16, §7.13, §7.0 (Filtered Frobenius bundle dictionary, including its slope-zero and triviality statements), PhiGammaModulesAndIwasawaCohomology §1.0c (the bundle comparison `periodModuleBundleComparison C^♭ 1`), AInfCohomology §§AI.2.1–AI.2.3 (including the extended Robba rings of §AI.2.3, with the Galois action by functoriality), FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3 §R07.3.2 (weak admissibility).
+*Needs:* §7.17, §7.16, §7.13, §7.0 (Filtered Frobenius bundle dictionary, including its slope-zero and triviality statements), PhiGammaModulesAndIwasawaCohomology §1.0c (the bundle comparison `periodModuleBundleComparison C^♭ 1`), AInfCohomology §§AI.2.1–AI.2.3 (including the extended Robba rings of §AI.2.3, with the Galois action by functoriality), FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.2 (weak admissibility).
 
 **Proof route.** Identify φ-modules over ℛ with vector bundles on `X_FF` by `FilteredBundle.robbaEquivalence`, the alias of PhiGammaModulesAndIwasawaCohomology §1.0c's `periodModuleBundleComparison C^♭ 1` (Fargues–Fontaine Corollary 11.2.22 and GAGA Theorem 11.3.1) and check that the bundle attached to `M(D)(Y)_ℛ` is the modification of the bundle `E(D, φ_D)` at the point ∞ by the lattice `Fil^0(D_K ⊗_K B_dR)`, i.e. the bundle Fargues–Fontaine attach to `(D, φ_D, Fil^•)`: this is the matching of constructions, read off from step `(c)` of §7.17.
 

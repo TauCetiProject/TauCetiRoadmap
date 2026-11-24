@@ -123,7 +123,8 @@ over affine bases; the native tensor product with its pullback comparisons
 `FiniteLocallyFreeSheaf.det` with `FiniteLocallyFreeSheaf.pullbackDualIso`,
 `FiniteLocallyFreeSheaf.pullbackExteriorPowerIso` and
 `FiniteLocallyFreeSheaf.pullbackDetIso` (From Tau Ceti);
-SchemeAndStackFoundations Layer 1 closed immersions and base change.
+SchemeAndStackFoundations §§0.28 and 1.1 (ideal sheaves and their pullback for the
+closed immersion and its base change; gluing along open covers).
 
 ### 1.2 Root-cell dictionary (S1.2)
 

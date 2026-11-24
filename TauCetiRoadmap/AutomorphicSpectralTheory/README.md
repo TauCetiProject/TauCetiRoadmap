@@ -895,7 +895,7 @@ The construction rests on the Euclidean Paley–Wiener theorem, recorded here as
 
 ([Art05], §12 preceding Lemma 12.2, pp.64–66.)
 
-*Needs:* §1.1; §1.2; §1.4; AutomorphicLFunctionsAndLocalFactors AL.0 (Fourier inversion and self-dual measures); `euclidean_paley_wiener` above.
+*Needs:* §1.1; §1.2; §1.4; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (Fourier inversion and self-dual measures); `euclidean_paley_wiener` above.
 
 
 ### 1.7 Square-integrability of pseudo-Eisenstein series
@@ -1452,7 +1452,7 @@ Prove `local_normalization`. There exist scalar meromorphic `r_Q|P(π_λ)`, prod
 
 (Source: Gelbart–Shahidi [GS01], *Boundedness of automorphic `L`-functions in vertical strips*, JAMS `14 (2001)`, §2, (2.5)–(2.6) and Assumption 2.1, pp.84–85; §4, Corollary 4.2 and its proof, p.88; Mœglin–Waldspurger [MW89], `I` §10, Proposition, pp.639–640.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3, local L/epsilon factors and local functional equation; Archimedean Whittaker comparisons (AL.R.1); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §§2.1–2.3 for unipotent operators, continuation and compact-picture normalization.
+*Needs:* AutomorphicLFunctionsAndLocalFactors §AL.3.3.2 (local L/epsilon factors and local functional equation); AutomorphicLFunctionsAndLocalFactors §AL.R.1 (*Archimedean Whittaker comparisons*); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §§2.1–2.3 for unipotent operators, continuation and compact-picture normalization.
 
 
 ### 2.4 Langlands meromorphic continuation and functional equations
@@ -3515,7 +3515,7 @@ Construct normalized twisted characters of `σ`-stable irreducible admissible lo
 
 (Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.54–57; [Art05], §26, pp.188–190.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors §§AL.R.1–AL.R.4 (representation prerequisites); AutomorphicLFunctionsAndLocalFactors §AL.3.1.1 (local Whittaker uniqueness); §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
 
 ### 7.0b Local matching and twisted character transfer
 
@@ -3540,7 +3540,7 @@ The consumer GL2AutomorphicRepresentationsAndTransfer R17.4.1 (Unramified base-c
 
 (Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190; [BH16], §2.2, §§6.1–6.2, pp.20–21, Propositions 6.4–6.6 and the example following Proposition 6.5, p.24.)
 
-*Needs:* §7.0a; Layer 6 ordinary orbital integrals and Paley–Wiener theory; SmoothRepresentationsOfLocalGroups SR.4 Satake theory; AutomorphicLFunctionsAndLocalFactors AL.2 local Whittaker and factor interfaces. Local twisted transfer, its spherical fundamental lemma and its character identity are targets here.
+*Needs:* §7.0a; §§6.1, 6.2 and 6.9 (ordinary orbital integrals and Paley–Wiener theory); SmoothRepresentationsOfLocalGroups SR.4 Satake theory; AutomorphicLFunctionsAndLocalFactors §AL.3.1.1 (local Whittaker uniqueness); AutomorphicLFunctionsAndLocalFactors §§AL.2.1.4 and AL.2.1.5 (standard factor interfaces). Local twisted transfer, its spherical fundamental lemma and its character identity are targets here.
 
 **Unitary and residual-Speh Shintani lift.** For the prime-degree cyclic extensions of nonarchimedean local fields of characteristic zero in §7.0a, or `ℂ/ℝ`, prove the Shintani identity for every irreducible unitary `π` and its Langlands base change `Π`, with the normalized operator of §7.0a. Include the split cyclic algebra case by cyclic permutation of tensor factors. Retain the finite-place tempered-support hypothesis above in the quotient constructions. As prerequisites construct the `GLₙ` unitary induction classification at finite places only: the blocks are `u(δ,k)`, the Langlands quotients with exponents `(k−1)/2,…,−(k−1)/2` for square-integrable unitary `δ` and `k≥1`, and the complementary blocks `ν^αu(δ,k)×ν^(−α)u(δ,k)` for `0<α<1/2`. Their finite products are irreducible and unitary and exhaust the unitary dual, with block uniqueness up to permutation. At real and complex places use the Speh and complementary blocks, unitarity, product irreducibility, exhaustion and block uniqueness supplied by AutomorphicFormsOnReductiveGroups §2.6, together with its §2.7 smooth Fréchet realization and continuous Whittaker functionals. The finite-place classification and its irreducibility assertions are targets here, beyond the supplied conditional Langlands classification; the archimedean Shintani identities and normalized-operator comparisons are also targets here.
 
@@ -3557,7 +3557,7 @@ The proof uses the preliminary twisted trace comparison of §7.0c before any res
 
 (Source: [BH16], §§2.1–2.2 and 2.6, Theorem D(a)–(b), pp.14–15, Theorem E, pp.19–20, and §6.7, pp.37–39; [AC89], Chapter I, Lemma 6.5, p.54, and the prescribed cyclic-extension theorem cited in [BH16, §6.7].)
 
-*Needs:* §7.0a and the tempered and whole-induced-module identities of §7.0b; the preliminary comparison and cuspidal isolation of §7.0c; §4.14a; §§0.48–0.50; SmoothRepresentationsOfLocalGroups SR.2–SR.3; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.3 cuspidal factors; ClassFieldTheory Layers 11–12 for cyclic characters and local norm compatibility. The finite-place unitary classification, globalization, Speh lifting and its normalized-operator comparison, including the archimedean Shintani comparisons, are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.6–2.7, 3.4–3.5 supplies the shared constructions used by these adapters; §2.6 is the sole owner of the real/complex unitary block classification.
+*Needs:* §7.0a and the tempered and whole-induced-module identities of §7.0b; the preliminary comparison and cuspidal isolation of §7.0c; §4.14a; §§0.48–0.50; SmoothRepresentationsOfLocalGroups SR.2–SR.3; AutomorphicLFunctionsAndLocalFactors §§AL.R.1–AL.R.4 (representation prerequisites); AutomorphicLFunctionsAndLocalFactors §§AL.3.2.3 and AL.3.6.1 (cuspidal factors); ClassFieldTheory Layers 11–12 for cyclic characters and local norm compatibility. The finite-place unitary classification, globalization, Speh lifting and its normalized-operator comparison, including the archimedean Shintani comparisons, are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.6–2.7, 3.4–3.5 supplies the shared constructions used by these adapters; §2.6 is the sole owner of the real/complex unitary block classification.
 
 ### 7.0c Cyclic twisted trace comparison and spectral isolation
 
@@ -3579,7 +3579,7 @@ Prove spectral isolation: varying the spherical Hecke tests outside a finite set
 
 (Source: [Art05], §26, pp.189–191, especially (26.8) and the corrections on p.191; [AC89], Chapter II §§5, 9–12 and `17`, pp.131–158 and 197–198; Chapter III §§3–5, pp.201–213.)
 
-*Needs:* §§7.0a–7.0b; Layers 2–4 and `6`; AutomorphicLFunctionsAndLocalFactors AL.3's Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix. The comparison and spectral-isolation arguments are constructed here before §7.1.
+*Needs:* §§7.0a–7.0b; Layers 2–4; §§6.1–6.18; AutomorphicLFunctionsAndLocalFactors §§AL.3.6.1, AL.3.6.3 and AL.3.7.2 (Rankin–Selberg pole/nonvanishing and isobaric multiplicity one). The comparison and spectral-isolation arguments are constructed here, ahead of the base-change theorem that follows.
 
 ### 7.1 Solvable `GLₙ` base change and descent
 
@@ -3589,7 +3589,7 @@ Prove spectral isolation: varying the spherical Hecke tests outside a finite set
 
 (Source: Arthur–Clozel [AC89], *Simple algebras, base change, and the advanced theory of the trace formula*, Chapter 3, Theorems 3.1, 4.2 and 5.1, pp.201–203 and 212–213; Ramakrishnan [Ram18], pp.3–6, Proposition 1.1 and Claim 1.2.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, GLₙ isobaric sums (AL.R.4); ClassFieldTheory §4, Layers 11–12 (number-field Artin reciprocity, norm quotients and the cyclic character dictionary); AutomorphicLFunctionsAndLocalFactors AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix; §§7.0a–7.0c (cyclic twisted objects, local transfer, trace comparison and spectral isolation).
+*Needs:* AutomorphicLFunctionsAndLocalFactors §AL.R.4 (Representation prerequisites, *GLₙ isobaric sums*); ClassFieldTheory §4, Layers 11–12 (number-field Artin reciprocity, norm quotients and the cyclic character dictionary); AutomorphicLFunctionsAndLocalFactors §§AL.3.6.1, AL.3.6.3 and AL.3.7.2 (number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity one); §§7.0a–7.0c (cyclic twisted objects, local transfer, trace comparison and spectral isolation).
 
 
 ### 7.1a Quantitative Hecke roots and low-degree comparison

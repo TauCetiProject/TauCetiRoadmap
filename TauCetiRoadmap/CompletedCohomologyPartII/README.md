@@ -1610,7 +1610,7 @@ To prove this, use the finite double-coset decomposition to evaluate functions a
 - For stabilizer `C_2` acting by sign on `O` at `p=2`, integral invariant values are zero, while modulo 2 all values are invariant. Invariants cannot be interchanged with coefficient reduction without a descent theorem.
 - An empty double quotient gives the zero module; a disjoint union gives a product, not an identification with one selected component.
 
-*Needs:* Layer 0, Layer 1, Layer 2, Layer 3.
+*Needs:* Layer 0, Layer 1, §§2.1 and 2.6 (the completed degree-zero object, its topology and actions), §§3.1, 3.2 and 3.17 (Pontryagin and Schikhof duals and the definite degree-zero dual interface).
 
 ### 8.6 Scholze fixed-exponent support convention
 

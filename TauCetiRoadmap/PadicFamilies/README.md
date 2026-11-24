@@ -1268,7 +1268,7 @@ Keep the nilpotent structure of the zero locus. Verify `Tφ=1` on a selected eig
 
 See [Buzzard](#buzzard), §4 setup, pp. 25–26; §5, p. 32.
 
-This uses `LocallyAnalyticDistributions`, §§4.8–4.9 and 4.14; `LocallyAnalyticDistributions`, §4.2; `LocallyAnalyticDistributions`, §4.1; `LocallyAnalyticDistributions`, §§4.2 and 4.15.
+*Needs:* `LocallyAnalyticDistributions`, §§4.8–4.9 and 4.14; `LocallyAnalyticDistributions`, §4.2; `LocallyAnalyticDistributions`, §4.1; `LocallyAnalyticDistributions`, §§4.2 and 4.15; `RigidAnalyticGeometry`, §§6.1–6.2 (rigid spaces, admissible coverings and gluing, the analytic affine line and its closed discs, fibre products).
 
 ### 2a.2 Flat quasi-finite spectral charts
 
@@ -1307,7 +1307,7 @@ Retain quasi-compactness and separatedness, including over nondiscretely valued 
 
 See [Buzzard](#buzzard), Corollary 4.3, p. 27; [Conrad](#conrad), Theorem A.1.2 and proof, internal pp. 37–39.
 
-This uses §2a.2; `AdicSpacesPartIII`, §R2.4; `AdicSpacesPartIII`, §§R2.6–R2.7.
+*Needs:* §2a.2; `AdicSpacesPartIII`, §R2.4; `AdicSpacesPartIII`, §§R2.6–R2.7; `RigidAnalyticGeometry`, §6.3 (quasi-compact and separated morphisms).
 
 ### 2a.4 Newton polygons and fiber-degree loci
 
@@ -1321,7 +1321,7 @@ Prove a single finite cutoff valid over the whole affinoid base. Do not assume t
 
 See [Buzzard](#buzzard), Lemma 4.4 and proof, p. 28.
 
-This uses §2a.1; `LocallyAnalyticDistributions`, §4.2.
+*Needs:* §2a.1; `LocallyAnalyticDistributions`, §4.2; `NewtonPolygons`, §§4.1 and 4.3 (the disc factor and its exact zero count on a closed disc).
 
 ### 2a.5 Strict neighborhoods with a fixed slope block
 
@@ -1346,7 +1346,7 @@ Keep radii and logarithmic radii distinct: the high-coefficient bound uses `(n�
 
 See [Buzzard](#buzzard), Lemma 4.5 and proof, pp. 29–30 (author manuscript pagination); [Buzzard](#buzzard), Definition of strict neighbourhood, p. 28; [Buzzard](#buzzard), Lemma 4.5, proof, p. 30, strict-neighbourhood witness identities.
 
-This uses §2a.4; §2a.3.
+*Needs:* §2a.4; §2a.3; `NewtonPolygons`, §§4.1 and 4.3 (zero counts on closed discs and on their boundary spheres); `RigidAnalyticGeometry`, §2.2 (the maximum modulus principle).
 
 ### 2a.6 An admissible cover by finite slope blocks
 
@@ -1360,7 +1360,7 @@ Establish a finite cover on each `Z_r`, not merely coverage of geometric points.
 
 See [Buzzard](#buzzard), Theorem 4.6 and full proof, pp. 30–31.
 
-This uses §2a.4; §2a.5; §2a.3.
+*Needs:* §2a.4; §2a.5; §2a.3.
 
 ### 2a.7 `A` polynomial for each spectral block
 
@@ -1385,7 +1385,7 @@ Prove `Q(0)=1` and a unit leading coefficient, and justify coprimality with the 
 
 See [Buzzard](#buzzard), §5, pp. 34–35.
 
-This uses §2a.6; `LocallyAnalyticDistributions`, §§4.14–4.16; `LocallyAnalyticDistributions`, §4.4; the projective-determinant supplier contract.
+*Needs:* §2a.6; `LocallyAnalyticDistributions`, §§4.14–4.16; `LocallyAnalyticDistributions`, §4.4; the projective-determinant supplier contract, i.e. `IntegralHeckeAndGaloisDeterminants`, §0.6 (*Determinant of a finite projective representation*).
 
 ### 2a.8 Finite Hecke algebras on slope blocks
 
@@ -1410,7 +1410,7 @@ Retain generalized eigenspaces and nilpotents. Verify that the finite algebra is
 
 See [Buzzard](#buzzard), §5, pp. 34–35.
 
-This uses §2a.7; `LocallyAnalyticDistributions`, §§4.9 and 4.14.
+*Needs:* §2a.7; `LocallyAnalyticDistributions`, §§4.9 and 4.14; Mathlib `Module.Finite`; Mathlib `IsNoetherian`.
 
 ### 2a.9 Gluing Hecke charts
 
@@ -1435,7 +1435,7 @@ Prove the overlap maps are the prescribed pullbacks. Prove separatedness and loc
 
 See [Buzzard](#buzzard), Lemmas 5.1–5.3 and gluing argument, pp. 35–37.
 
-This uses §2a.8; §2a.6; `AdicSpacesPartIII`, §§R3.1–R3.3.
+*Needs:* §2a.8; §2a.6; `AdicSpacesPartIII`, §§R3.1–R3.3; `RigidAnalyticGeometry`, §§6.2–6.3 (gluing of rigid spaces and morphisms, separatedness).
 
 ### 2a.10 Flat base change of eigenvarieties
 
@@ -1449,7 +1449,7 @@ Retain the flatness hypothesis. Use the source’s `R=K⟨X,Y⟩` example to tes
 
 See [Buzzard](#buzzard), Lemmas 5.4–5.5 and the flatness remark, pp. 37–38.
 
-This uses §2a.9; §2a.1; `LocallyAnalyticDistributions`, §§4.2 and 4.15.
+*Needs:* §2a.9; §2a.1; `LocallyAnalyticDistributions`, §§4.2 and 4.15.
 
 ### 2a.11 Radius changes and linked Banach modules
 
@@ -1463,7 +1463,7 @@ Require genuine intertwining identities for a radius change; equality of pointwi
 
 See [Buzzard](#buzzard), Primitive links and Lemma 5.6 with proof, pp. 39–40.
 
-This uses §2a.8; §2a.9; `LocallyAnalyticDistributions`, §4.2.
+*Needs:* §2a.8; §2a.9; `LocallyAnalyticDistributions`, §4.2.
 
 ### 2a.12 The eigenvariety over weight space
 
@@ -1489,7 +1489,7 @@ Prove canonical restriction to every affinoid and independence of the covering. 
 
 See [Buzzard](#buzzard), Construction 5.7 and proof, pp. 40–41.
 
-This uses §2a.11; §2a.10; `PadicMeasuresIwasawaAlgebras`, §3a.1 (The character space of `ℤ_pˣ` and its functions).
+*Needs:* §2a.11; §2a.10; `PadicMeasuresIwasawaAlgebras`, §3a.1 (The character space of `ℤ_pˣ` and its functions).
 
 ### 2a.13 Points and finite-slope eigenpackets
 
@@ -1503,7 +1503,7 @@ Retain the distinction between the point classification and an isomorphism of po
 
 See [Buzzard](#buzzard), Lemmas 5.9–5.10 and proofs, p. 42.
 
-This uses §2a.8; §2a.10; §2a.12; `LocallyAnalyticDistributions`, §§4.8–4.9 and 4.14.
+*Needs:* §2a.8; §2a.10; §2a.12; `LocallyAnalyticDistributions`, §§4.8–4.9 and 4.14.
 
 ### 2a.14 Equidimensionality and components of the eigenvariety
 
@@ -1526,7 +1526,7 @@ State the torsion-freeness and equidimensionality lemma as a purely algebraic st
 
 See [Buzzard](#buzzard), Lemma 5.8 and its one-line proof, p. 41; [Chenevier](#chenevier), Proposition 6.4.2 and proof, internal p. 53; [Chenevier](#chenevier), Lemme 6.2.10 and proof, internal pp. 47–48; [Chenevier](#chenevier), Lemme 6.4.3 and Corollaire 6.4.4, internal p. 54; [Conrad-IC](#conrad-ic), Corollary 2.2.7, p. 499, Corollary 2.2.9, p. 500, and Theorems 4.2.2 and 4.3.2, pp. 524–527.
 
-This uses §2a.8; §2a.12.
+*Needs:* §2a.8; §2a.12; `RigidAnalyticGeometry`, §§0.1, 1.2 and 7.3 (factoriality of Tate algebras, dimension of affinoid algebras, analytic subsets and the identity principle).
 
 ### 2a.15 The spectral hypersurface of a compact endomorphism of a complex
 
@@ -1606,7 +1606,7 @@ This construction gives the eigenmodule itself. Cohomology in several degrees ad
 
 See [Buzzard](#buzzard), §5, Construction 5.7 and Lemmas 5.9–5.10, pp. 40–42; [Chenevier](#chenevier), §6.2, Lemme 6.2.10, pp. 47–48; §6.4, Lemme 6.4.3, p. 54; [Bellaïche09](#bellaiche09), §3.4.3, Lemma 3.17, pp. 32–33.
 
-This uses §2a.9; §2a.12; §2a.8; §2a.13; `LocallyAnalyticDistributions`, §§4.2 and 4.15; `LocallyAnalyticDistributions`, §§4.14–4.16; `AdicSpacesPartIII`, §§R3.1–R3.3.
+*Needs:* §2a.9; §2a.12; §2a.8; §2a.13; `LocallyAnalyticDistributions`, §§4.2 and 4.15; `LocallyAnalyticDistributions`, §§4.14–4.16; `AdicSpacesPartIII`, §§R3.1–R3.3.
 
 ### Examples
 

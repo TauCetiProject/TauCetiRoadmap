@@ -2257,7 +2257,7 @@ AbelianSchemesAndArithmeticModuli A3 (finite flat quotients). (Anschütz–Le Br
 closed immersion into a projective abelian scheme, citing Berthelot–Breen–Messing 3.1.1, and its use
 to get exact sequences `0 → G → X → X′ → 0`.)
 
-*Needs:* AbelianSchemesAndArithmeticModuli Layer A3; TauCetiRoadmap.ModularCurves Layer 0B.
+*Needs:* AbelianSchemesAndArithmeticModuli §A3.3 (*Quotients by finite locally free subgroups*); TauCetiRoadmap.ModularCurves §0.2.
 
 **Checks.**
 

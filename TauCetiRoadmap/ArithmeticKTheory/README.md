@@ -679,7 +679,7 @@ Its basic laws are:
   its compact point quotient cannot be used as a finite K(C_p,1).
 
 *Needs:* ArithmeticLocallySymmetricSpaces ALS.2.2–ALS.2.3 and ALS.5a.1;
-GeometricTopology Layer 1's smooth collar and gluing; Mathlib
+GeometricTopology §§1.1 and 1.3 (smooth collar and gluing); Mathlib
 `SmoothPartitionOfUnity.exists_isSubordinate`; MorseTheory M1–M3; ClassifyingSpaces Stage 3,
 items 12–13 and Stage 4, item 16 for lifting and cellular resolutions.
 

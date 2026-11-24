@@ -297,7 +297,7 @@ the pulled-back torsor, coherently for identity and composition); `embedding_tor
 `embedding_changeTrivialization` (if `t_β = t_α g_{αβ}` then the weight-`m` coordinates satisfy
 `q_{β,m} = m(g_{αβ})⁻¹ q_{α,m}`, and these transitions preserve multiplication, boundary ideals and
 face maps); `embedding_homEquiv` (maps `Y → T(σ)` over `Z` correspond to `O_Z`-algebra maps
-`A_σ → f_*O_Y`). *Needs:* 0.21; AlgebraicVectorBundles L1A–L1B (relative spectrum); SchemeAndStackFoundations Layer 1 (fpqc
+`A_σ → f_*O_Y`). *Needs:* 0.21; AlgebraicVectorBundles L1A–L1B (relative spectrum); SchemeAndStackFoundations §1.1 (fpqc
 descent of quasi-coherent algebras); Tau Ceti `TauCeti.SplitTorus.groupScheme`; Mathlib
 `AddMonoidAlgebra.domCongr`; AnalyticToricGeometry Layer 0.
 
@@ -321,7 +321,9 @@ supporting-character face formula of AnalyticToricGeometry Layer 0); the open is
 monomial of weight `m` is invertible, which is well defined because a change of trivialization
 multiplies it by a unit. This is a statement about ordinary charts; it gives no map between
 completions along two different strata ([Lan], Lemma 6.1.2.4 and Theorem 6.1.2.8(2), pp. 443–445).
-*Needs:* 0.8; SchemeAndStackFoundations Layer 0, Layer 1; AnalyticToricGeometry Layer 0.
+*Needs:* 0.8; SchemeAndStackFoundations §§0.1 and 0.2 (quasi-coherent algebras and their relative
+spectra); SchemeAndStackFoundations §1.1 (descent along trivializations); AnalyticToricGeometry
+Layer 0.
 
 **Checks.**
 
@@ -342,7 +344,8 @@ the ray generators extend to an integral basis (simpliciality is weaker). The ba
 of this comparison, not part of the definition of `T(σ)`: a change of basis or of trivialization
 acts by the induced monomial map and character units. The algebra map is Mathlib's
 `AddMonoidAlgebra.domCongr` along the monoid equivalence ([Lan], 6.1.1.11 and Theorem 6.1.2.8(5),
-pp. 442–445). *Needs:* 0.8; Mathlib `AddMonoidAlgebra.domCongr`; SchemeAndStackFoundations Layer 0;
+pp. 442–445). *Needs:* 0.8; Mathlib `AddMonoidAlgebra.domCongr`;
+SchemeAndStackFoundations §§0.1 and 0.2 (quasi-coherent algebras and their relative spectra);
 AnalyticToricGeometry Layer 0.
 
 **Checks.**
@@ -363,7 +366,10 @@ submonoid (and a saturated subgroup); on a trivialization apply 0.1, 0.4, 0.5 an
 descend along the character-unit cocycle. This is the closed stratum as a scheme: the ideal is the
 off-face ideal, not its radical, and it agrees with the reduced closed orbit only under a separate
 reducedness hypothesis ([Lan], Lemma 6.1.2.6 and Definition 6.1.2.7, pp. 443–445). *Needs:* 0.4,
-0.5, 0.7, 0.8, 0.21; SchemeAndStackFoundations Layer 0, Layer 1; AnalyticToricGeometry Layer 0.
+0.5, 0.7, 0.8, 0.21; SchemeAndStackFoundations §§0.1, 0.2, 0.4 and 0.28 (quasi-coherent algebras,
+relative spectra, quotients and base change of ideal sheaves);
+SchemeAndStackFoundations §§1.1, 1.15 and 1.16 (descent, torsors and their pushout);
+AnalyticToricGeometry Layer 0.
 
 **Checks.**
 
@@ -385,7 +391,8 @@ the intersection is smooth over the local base because polynomial and Laurent al
 Smoothness over an arithmetic base also needs smoothness of the base, and the statement concerns
 the components of one chart: identifying global boundary branches requires the neat-level branch
 separation of 7.6–7.8 ([Lan], 6.1.2.6–6.1.2.8 and the charts of 6.3.2.5, pp. 443–445 and 503).
-*Needs:* 0.5, 0.7, 0.10; SchemeAndStackFoundations Layer 0, Layer 1.
+*Needs:* 0.5, 0.7, 0.10; SchemeAndStackFoundations §§0.1, 0.2 and 0.28 (relative spectra, base
+change of ideal sheaves); SchemeAndStackFoundations §1.1 (descent along the transition maps).
 
 **Checks.**
 
@@ -503,7 +510,7 @@ The API: `affineChart_baseChange`; `finiteFanScheme_baseChange` (coherent for id
 composition); `finiteFanScheme_complex` (agreement with AnalyticToricGeometry's realization over
 `ℂ`); `finiteFanScheme_torusAction`; `finiteFanScheme_glue_hom` (maps out of `X_{Σ,R}` correspond to
 compatible maps out of the charts). *Needs:* 0.6, 0.7; AnalyticToricGeometry Layer 0;
-SchemeAndStackFoundations Layer 0; Tau Ceti `TauCeti.SplitTorus.groupScheme`; Mathlib
+SchemeAndStackFoundations §0.28 (stratum ideals under coefficient change); Tau Ceti `TauCeti.SplitTorus.groupScheme`; Mathlib
 `AlgebraicGeometry.Spec`, `AlgebraicGeometry.Spec.map`.
 
 **Checks.**
@@ -527,8 +534,9 @@ argument on character monomials over arbitrary coefficients, and descends proper
 over `ℂ` it is AnalyticToricGeometry Layer 5, item 3. For arithmetic quotients one needs in addition
 the separated finite-type quotient models of Layers 2 and 7 and complete compatible systems: orbit
 finiteness does not make an unquotiented infinite toric scheme proper ([Pink], 6.25 and 6.27,
-pp. 112–115). *Needs:* 0.8, 0.16; AnalyticToricGeometry Layer 5; SchemeAndStackFoundations Layer 0,
-Layer 1.
+pp. 112–115). *Needs:* 0.8, 0.16; AnalyticToricGeometry Layer 5; SchemeAndStackFoundations §0.11
+(properness descends along field extensions, for the geometric-fibre test);
+SchemeAndStackFoundations §1.1 (fpqc descent).
 
 **Checks.**
 
@@ -596,7 +604,8 @@ monoids gives finiteness. A further subdivision gives a proper map that need not
 up the origin of a regular two-dimensional cone has an exceptional curve). For arithmetic cusp
 systems the statement is used chartwise and descent through the quotient is checked separately
 ([Dimitrov], Remark 7.3, p. 543; [Lan17], Theorem 6.1(3)–(4), pp. 22–23, and Construction 4.5,
-p. 11). *Needs:* 0.9, 0.16; AnalyticToricGeometry Layer 5; SchemeAndStackFoundations Layer 0, Layer 1.
+p. 11). *Needs:* 0.9, 0.16; AnalyticToricGeometry Layer 5; SchemeAndStackFoundations §0.30 (normal
+schemes), SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -617,8 +626,9 @@ graded algebras. Pushout along the quotient torus with character lattice a satur
 fppf locally `T` is trivial and `π_*O_T = O_Z[M]`; quasi-coherent comodules over the Hopf algebra of
 `D(M)` are exactly `M`-graded modules; descend the grading and the multiplication (SGA 3, Exposé I,
 Proposition 4.7.3 and Corollary 4.7.3.1, re-edition pp. 30–31; [Lan], 6.1.2.1–6.1.2.2, pp. 443–444; [FKW], 3.2.1, p. 24). *Needs:* Tau Ceti
-`TauCeti.SplitTorus.groupScheme`; AlgebraicVectorBundles L1A–L1B (relative spectrum); SchemeAndStackFoundations Layer 1 (torsors,
-fpqc descent of quasi-coherent modules and affine morphisms).
+`TauCeti.SplitTorus.groupScheme`; AlgebraicVectorBundles L1A–L1B (relative spectrum);
+SchemeAndStackFoundations §§1.1, 1.15 and 1.16 (fpqc descent of quasi-coherent modules and affine
+morphisms; torsors and their pushout).
 
 **Checks.**
 
@@ -690,7 +700,8 @@ and `V_1 ≅ gr_{−1}`); `MixedBoundaryDatum.conjugation` (rational conjugation
 cover, parameter map and filtrations with the boundary label); `MixedBoundaryDatum.h_finiteFibers`
 (the fibres of the parameter map from `X_1` are finite);
 `MixedBoundaryDatum.ext` (with ambient datum and cover fixed, the subgroups and `h_1` determine the
-datum). *Needs:* ShimuraVarieties 2.1; ShimuraData Layers 3–4; ReductiveGroups Layer 7; Tau Ceti
+datum). *Needs:* ShimuraVarieties 2.1; ShimuraData §§3.1–3.9 (Hodge variations, compact duals and
+reflex-field flags); ShimuraData Layer 4; ReductiveGroups Layer 7; Tau Ceti
 `TauCeti.Hodge.MixedHodgeStructure`.
 
 **Checks.**
@@ -773,9 +784,11 @@ using the Poincaré biextension and descent, and compare transition maps ([Pink]
 The API: `BoundaryTorsor.torusCharacters` (the character lattice is dual to the integral `U_1`
 lattice); `BoundaryTorsor.abelianQuotient` (the quotient by the torus is the abelian torsor over the
 pure base); `BoundaryTorsor.levelChange` (level changes induce the lattice and torsor maps,
-compatibly with conjugation). *Needs:* 1.1, 1.2; AbelianSchemesAndArithmeticModuli A2 (dual
-abelian scheme and Poincaré biextension); ShimuraVarieties §5.2;
-SchemeAndStackFoundations Layer 1 (torsors); ShimuraVarieties 0.5; Tau Ceti
+compatibly with conjugation). *Needs:* 1.1, 1.2;
+AbelianSchemesAndArithmeticModuli §§A2.2, A2.3 and A2.5 (dual abelian scheme, Poincaré biextension
+and polarizations); ShimuraVarieties §5.2;
+SchemeAndStackFoundations §§1.1, 1.15 and 1.16 (descent, torsors and contracted products);
+ShimuraVarieties 0.5; Tau Ceti
 `TauCeti.SplitTorus.groupScheme`.
 
 **Checks.**
@@ -953,7 +966,7 @@ Pink's controlled neighbourhoods `V_1 ⊆ V_2 ⊆ V_3` in the rational Satake sp
 finite-overlap theorem 1.5 gives discontinuity on cone charts; on the controlled neighbourhoods the
 chart relation is the action of the cusp normalizer, whose graph is closed ([Pink], 6.20–6.24, pp.
 107–112). *Needs:* 1.5, 2.1; ShimuraVarieties §P.6, 2.2; ComplexComparisonPartII §C-1.1;
-AnalyticToricGeometry Layer 3; SchemeAndStackFoundations Layer 1 (finite group quotients).
+AnalyticToricGeometry Layer 3; SchemeAndStackFoundations §§1.17 and 1.23 (finite group quotients).
 
 **Checks.**
 
@@ -995,7 +1008,7 @@ Prove `ToroidalSpace.normal` and `ToroidalSpace.interior_dense`: the toroidal sp
 normality of saturated monoid algebras over the normal boundary base and from finite invariant
 quotients, not from the existence of a smooth refinement. The torus is schematically dense in each
 monoid chart, and the identification transports through the chart relation ([Pink], 6.6 and 6.24,
-pp. 98 and 112). *Needs:* 0.16, 2.2, 2.3; SchemeAndStackFoundations Layer 0;
+pp. 98 and 112). *Needs:* 0.16, 2.2, 2.3; SchemeAndStackFoundations §0.30 (normal schemes);
 ComplexComparisonPartII §C-1.1.
 
 **Checks.**
@@ -1057,7 +1070,9 @@ a projective algebraic variety in which `Sh_K(ℂ)` is Zariski open (Pink 9.24);
 and in general as an algebraic space (Pink 9.34–9.35) ([Pink], Chapters 8–9, pp. 131–169, especially
 9.21–9.24 and 9.28–9.35; [Pink], 12.4–12.5, pp. 197–198). *Needs:* 0.15, 1.5, 2.3, 2.4, 2.5;
 ComplexComparisonPartII C2, C3.3 (derived GAGA for proper algebraic spaces), C4.2, C4.4;
-SchemeAndStackFoundations Layer 1 (algebraic spaces), Layer 4 (formal completion and algebraization).
+SchemeAndStackFoundations §§1.4, 1.6, 1.8, 1.9, 1.17 and 1.23 (algebraic spaces, their étale-local
+properties and properness, finite quotients); SchemeAndStackFoundations §§4.8 and 4.10 (formal
+completion and algebraization).
 
 **Checks.**
 
@@ -1106,8 +1121,9 @@ original p. 213). This last theorem alone does not give effective descent of arb
 ([Pink], 12.1–12.8, pp. 196–200). The API: `ToroidalCanonicalModel.interior`;
 `ToroidalCanonicalModel.boundaryCompletion`; `ToroidalCanonicalModel.descent_cocycle`;
 `ToroidalCanonicalModel.unique` (two models with the given complex comparison and boundary
-identifications are uniquely isomorphic). *Needs:* 2.7, 2.8, 2.10; ShimuraVarieties Layer 8 (8.1
-canonical towers, uniqueness of canonical models); SchemeAndStackFoundations Layer 1 (descent);
+identifications are uniquely isomorphic). *Needs:* 2.7, 2.8, 2.10; ShimuraVarieties §§8.1 and 8.8
+(canonical towers); ShimuraVarieties §4.12 (uniqueness of canonical models);
+SchemeAndStackFoundations §§1.1, 1.2 and 1.24 (descent);
 ComplexComparisonPartII C4.4.
 
 **Checks.**
@@ -1134,9 +1150,12 @@ a pure datum and copies of Pink's datum `(P_0, h(X_0))`, each of which has a can
 (Pink 11.4, 11.15, and 11.17, which uses the canonical models of pure data), and apply 11.9; in
 general pass through the torsor construction of 2.26(b) and the Siegel-type universal families of
 11.16 ([Pink], 11.1–11.18, pp. 186–195; density of special points in 12.13–12.17). *Needs:* 1.1,
-1.3; ShimuraVarieties Layer 4 (reciprocity at special points), Layer 8 (canonical models,
-uniqueness, functoriality) and the general-data route of Layer 7 for the pure factor;
-AbelianSchemesAndArithmeticModuli A1–A2; PELModuli M2 (Siegel moduli with universal family).
+1.3; ShimuraVarieties §§4.1–4.5, 4.7, 4.9 and 4.12 (reciprocity at special points, torus
+canonical models, density of special points, uniqueness); ShimuraVarieties §§8.5 and 8.22
+(canonical models and their functoriality); ShimuraVarieties §7.14 (the general-data route for the
+pure factor); AbelianSchemesAndArithmeticModuli Layer A1; AbelianSchemesAndArithmeticModuli
+§§A2.2, A2.3 and A2.5 (dual abelian scheme, Poincaré biextension and polarizations); PELModuli
+§§M2.8 and M2.9 (Siegel moduli with universal family).
 
 **Checks.**
 
@@ -1308,8 +1327,8 @@ This is the weight argument of [LanHK], Lemma 7.5 and Proposition 7.8, pp. 18–
 finite subdivision; compare [Lan], Lemma 7.1.1.4 and its proof, pp. 532–533, and [Lan17],
 Proposition 7.5 and its proof, pp. 28–29. A cone relative to its entire boundary is not itself
 contractible; that pair is not the claimed graded complex. Normality of the source alone gives neither
-statement. *Needs:* 0.16, 0.17; SchemeAndStackFoundations Layer 2 (Čech cohomology of quasi-coherent
-sheaves); AnalyticToricGeometry Layer 5.
+statement. *Needs:* 0.16, 0.17; SchemeAndStackFoundations §§2.2 and 2.6 (Čech cohomology of
+quasi-coherent sheaves); AnalyticToricGeometry Layer 5.
 
 **Checks.**
 
@@ -1331,7 +1350,9 @@ under `H′/H`, as the level direction of his Proposition 7.3 requires.) On equa
 this is the degree-zero part of 4.5; descend through the torsor and quotient charts, using
 normality and Zariski's main theorem for normalized charts ([Lan17], Proposition 7.5, (7.6) and the
 proof (7.10)–(7.14), pp. 28–29, and Proposition 7.3, p. 27). *Needs:* 4.1, 4.5;
-SchemeAndStackFoundations Layer 0, Layer 1.
+SchemeAndStackFoundations §§0.1 and 0.30 (direct-image algebras, normal schemes);
+SchemeAndStackFoundations §§1.1, 1.10, 1.11 and 1.17 (descent, structure sheaves of algebraic
+spaces, finite quotients).
 
 **Checks.**
 
@@ -1354,8 +1375,9 @@ and formal-direct-image maps. For non-neat finite quotient-stack refinement maps
 pull back along a compatible neat cover of the target, apply the comparison to the proper
 base-changed algebraic-space morphism, and descend the equivariant sheaf comparison to the
 quotient stack.
-*Needs:* SchemeAndStackFoundations Layer 1 (algebraic spaces and descent), Layer 2 (coherent higher
-direct images); AdicSpacesPartIII §F0.6 (formal-functions-affine, theorem-on-formal-functions,
+*Needs:* SchemeAndStackFoundations §§1.1, 1.9, 1.10, 1.11, 1.21 and 1.22 (algebraic spaces, their
+properness, étale sites and quasi-coherent modules, quotient stacks and descent);
+SchemeAndStackFoundations §§2.1 and 2.6 (coherent higher direct images); AdicSpacesPartIII §F0.6 (formal-functions-affine, theorem-on-formal-functions,
 formal-direct-image-comparison).
 
 **Checks.**
@@ -1376,7 +1398,9 @@ image of an affine target chart apply the positive-degree part of 4.5 and descen
 and finite-quotient charts; formal completions are compared by the theorem on formal functions
 (4.7, including algebraic spaces), not by recognising completed coordinate rings ([Lan17], Proposition 7.5,
 (7.8) and its proof, pp. 28–29). *Needs:* 4.1, 4.5, 4.7;
-SchemeAndStackFoundations Layer 1, Layer 2.
+SchemeAndStackFoundations §§1.1, 1.10, 1.11 and 1.17 (descent, algebraic-space modules, finite
+quotients); SchemeAndStackFoundations §§2.1 and 2.6 (higher direct images, local on the target and
+under flat base change).
 
 **Checks.**
 
@@ -1398,7 +1422,9 @@ Cartier `D`, `f^*I_D` identifies with its image ideal. For a change of level as 
 degree-zero statement takes `H′/H`-invariants. Use the boundary-ideal part of 4.5 and descend as in
 4.8 ([Lan17], Proposition 7.5, (7.7) and (7.9), pp. 28–29; [Pilloni20], 5.3 and Theorem 6.1.5.1(2),
 pp. 24 and 29, where the comparison is used in this derived form rather than as an equality of
-pullbacks). *Needs:* 0.12, 4.1, 4.5; SchemeAndStackFoundations Layer 1, Layer 2.
+pullbacks). *Needs:* 0.12, 4.1, 4.5; SchemeAndStackFoundations §§1.1, 1.10, 1.11 and 1.17 (descent,
+algebraic-space modules, finite quotients); SchemeAndStackFoundations §§2.1 and 2.6 (higher direct
+images, local on the target and under flat base change).
 
 **Checks.**
 
@@ -1423,8 +1449,9 @@ for locally free sheaves; for arbitrary `M`, reduce by filtered colimits to fini
 modules, split them over the Dedekind base into torsion and projective parts, and use the universal
 form of 4.5 for the torsion quotients. Fan independence follows through common refinements (4.4)
 ([Lan], 7.1.1.4–7.1.1.5, pp. 532–533; [CG], 5.2, pp. 821–822, and A.3.2, pp. 886–888;
-[Pilloni20], 5.3, p. 24). *Needs:* 4.4, 4.6, 4.8, 4.9; SchemeAndStackFoundations Layer 2 (projection
-formula, cohomology and filtered colimits).
+[Pilloni20], 5.3, p. 24). *Needs:* 4.4, 4.6, 4.8, 4.9;
+SchemeAndStackFoundations §§2.2, 2.5, 2.6 and 2.18 (Leray spectral sequence, projection formula,
+cohomology and filtered colimits).
 
 **Checks.**
 
@@ -1554,7 +1581,8 @@ the Hodge bundle `E = e^*Ω¹_{G/S}`, locally free of rank the relative dimensio
 Layers 6–8, and AutomorphicBundles builds its coefficient bundles on it. *Needs:*
 ArakelovGeometryAndAbelianHeights §2.0;
 AbelianSchemesAndArithmeticModuli A0.1 (abelian schemes), A1.3 (invariant differentials);
-SchemeAndStackFoundations Layer 0, Layer 1; Tau Ceti `TauCeti.SplitTorus.groupScheme`.
+SchemeAndStackFoundations Layer 0; SchemeAndStackFoundations §§1.3 and 1.8 (étale atlases of
+algebraic-space bases, étale-local properties); Tau Ceti `TauCeti.SplitTorus.groupScheme`.
 
 **Checks.**
 
@@ -1576,7 +1604,7 @@ fibrewise Galois-invariant characters satisfying the specialization condition al
 valuation rings; reduce to a reduced finite-type base and argue by noetherian induction. A
 constructible sheaf with jumping rank is not replaced by a local system ([Lan], 3.3.1.8–3.3.1.10,
 pp. 192–193; [FC], Chapter I, Proposition 2.9, Theorem 2.10 and Corollary 2.11, pp. 11–13). *Needs:*
-6.1; SchemeAndStackFoundations Layer 1 (étale sheaves and descent).
+6.1; SchemeAndStackFoundations §§1.1 and 1.10 (étale sheaves and descent).
 
 **Checks.**
 
@@ -1596,7 +1624,8 @@ noetherian base and isotrivial character data of Lan 4.2.1; a split torus is not
 `⊕_χ L_χ` of 0.21 reconstructs `G`, with multiplication from the Poincaré biextension ([Lan],
 Proposition 3.1.5.1, p. 183, and 4.2.1.7, 4.2.1.13, pp. 210 and 213). *Needs:* 0.21, 6.1, 6.2;
 AbelianSchemesAndArithmeticModuli A2.2 (dual abelian scheme and Poincaré bundle), A2.3 (biextension
-identities); SchemeAndStackFoundations Layer 1.
+identities); SchemeAndStackFoundations §§1.1, 1.15 and 1.16 (descent along an étale trivialization,
+torsors, pushforward of torsors).
 
 **Checks.**
 
@@ -1658,7 +1687,8 @@ subdivisions give comparison maps agreeing on the generic fibre). On principal S
 ArakelovGeometryAndAbelianHeights §5.0a and identify this interface with its supplied
 specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; 0.8, 0.15, 6.4;
 AdicSpacesPartIII §F0.7 (grothendieck-existence), §F0.8 (grothendieck-algebraization);
-SchemeAndStackFoundations Layer 1, Layer 4; NeronModelsAndSemistableAbelianVarieties 3.14.
+SchemeAndStackFoundations §§1.1, 1.17 and 4.8 (descent of the ample line, finite group quotients,
+formal completion); NeronModelsAndSemistableAbelianVarieties 3.14.
 
 **Checks.**
 
@@ -1678,7 +1708,8 @@ generic isomorphism and its inverse by 6.8, so composites are identities by uniq
 polarization, character, period and biextension data. Essential surjectivity: Mumford's construction
 6.5. Singular complete rings outside the normal-domain setting are not covered ([Lan], 4.4.1–4.4.16,
 pp. 250–255; [FC], Chapter III). *Needs:* 6.4, 6.5, 6.8; NeronModelsAndSemistableAbelianVarieties
-3.13; SchemeAndStackFoundations Layer 4.
+3.13; SchemeAndStackFoundations §§4.8 and 4.10 (formal completion, Grothendieck existence and
+algebraization).
 
 **Checks.**
 
@@ -1697,7 +1728,8 @@ and generic PEL structure, compatible with faces and with changes of cusp repres
 monomials; positivity holds because the cone is in the interior; faces and representatives are
 compared by full faithfulness ([Lan], 6.2.5.25–6.2.5.28 and 6.3.2.5, pp. 484–487 and 503). The API:
 `UniversalDegeneration.character`; `.genericPEL`; `.faceRestriction`. *Needs:* 0.8, 1.3, 6.6;
-PELModuli M1.2 (PEL-type abelian schemes), M1.7; SchemeAndStackFoundations Layer 1, Layer 4.
+PELModuli M1.2 (PEL-type abelian schemes), M1.7; SchemeAndStackFoundations §§1.1, 1.8, 1.11 and 4.8
+(descent, algebraic-space bases and their quasi-coherent modules, formal completion).
 
 **Checks.**
 
@@ -1715,8 +1747,8 @@ theorem of ArakelovGeometryAndAbelianHeights §2.0 on Noetherian normal affine o
 then supplies the algebraic-space statement. All families use 6.1's finite-presentation carrier
 ([FC], Chapter I, Proposition 2.7 and its proof, pp. 9–11; [Lan], 3.3.1.5, p. 192; [BP], Lemma
 4.2.2, p. 43). *Needs:* 6.1; ArakelovGeometryAndAbelianHeights §2.0;
-NeronModelsAndSemistableAbelianVarieties Layer 1, 3.10; SchemeAndStackFoundations Layer 1, Layer 4
-(Stein factorization).
+NeronModelsAndSemistableAbelianVarieties §§1.3, 1.5 and 3.10;
+SchemeAndStackFoundations §§1.1, 1.8 and 4.9 (étale descent over algebraic spaces, Stein factorization).
 
 **Checks.**
 
@@ -1774,7 +1806,7 @@ rank. Zero-dimensional fibres and flatness follow from the induced maps on toric
 and lattices, by fibrewise flatness over the normal base. For the Tate curve, the map `G_{q^p} → G_q`
 that is the identity on the multiplicative coordinate has generic kernel of order `p` and trivial
 special kernel ([BP], 4.1.1 and Lemma 4.2.2, pp. 41 and 43). *Needs:* 6.4, 6.8;
-SchemeAndStackFoundations Layer 0, Layer 1.
+SchemeAndStackFoundations Layer 0, §1.8 (flat and quasi-finite morphisms of algebraic spaces).
 
 **Checks.**
 
@@ -1857,7 +1889,8 @@ R07.2.21; this target is their extension to the boundary, used in Layer 8. The c
 Frobenius of the semi-abelian group, not a truncated Barsotti–Tate group of height `2g`, which does
 not exist at a toric boundary ([BHW], proof of Lemma 5.12, pp. 1747–1748, and §7.1, pp. 1759–1760,
 which use ordinarity of the boundary; the general determinant comparison is proved here). *Needs:*
-6.1, 6.18; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.21; SchemeAndStackFoundations Layer 0.
+6.1, 6.18; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.21; SchemeAndStackFoundations §0.29
+(scheme Frobenius).
 
 **Checks.**
 
@@ -1927,8 +1960,8 @@ the epimorphism `F`). On invariant differentials `F^* = 0` and
 (SGA 3, Exposé VII_A, §§4.1–4.3, especially 4.2.1, 4.3.1 and 4.3.2, re-edition pp. 464–472; for
 the smooth Frobenius, Stacks, Lemma 50.19.5, Tag 0FW2: étale locally its basis is the monomials with
 each exponent less than `p`.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.1;
-AbelianSchemesAndArithmeticModuli A1.3 (invariant differentials); SchemeAndStackFoundations Layer 0,
-Layer 1 (fppf descent).
+AbelianSchemesAndArithmeticModuli A1.3 (invariant differentials);
+SchemeAndStackFoundations §§0.29 and 1.1 (absolute and relative Frobenius, fppf descent).
 
 **Checks.**
 
@@ -1999,7 +2032,8 @@ universal formal family and its PEL structures by Artin approximation
 items 60–77). The API: `GoodCuspModel.formalComparison`; `.openPEL` (the dense open maps étale to the
 moduli space of PELModuli M2.8 with its universal family); `.embeddings` (the two maps and the
 conditions (3a)–(3c)). *Needs:* 6.7, 6.9, 6.10 (tame part); PELModuli M2.8, M2.9;
-AlgebraicModuliForArithmeticGeometry Layer 6; SchemeAndStackFoundations Layer 1, Layer 4.
+AlgebraicModuliForArithmeticGeometry Layer 6; SchemeAndStackFoundations §§0.12, 1.8 and 4.8 (strict
+local rings, étale morphisms to algebraic spaces, formal completion).
 
 **Checks.**
 
@@ -2020,7 +2054,8 @@ over `R_H[0]` extends to `R_H` (6.8 and uniqueness), both projections `R_H → U
 composition of an étale groupoid (Lan 6.3.3.14). Charts with unrelated embeddings of function fields
 are not identified pointwise ([Lan], (6.3.3.10), p. 512; normalization after Remark 6.3.3.12, p. 514;
 Proposition 6.3.3.13 and Corollary 6.3.3.14, pp. 514–517). *Needs:* 1.4, 6.8, 7.1;
-SchemeAndStackFoundations Layer 1 (étale groupoids and quotients), Layer 4.
+SchemeAndStackFoundations §§1.8, 1.14 and 4.8 (fibre products of algebraic spaces, étale groupoids,
+formal completion).
 
 **Checks.**
 
@@ -2048,7 +2083,9 @@ open-and-closed generic piece through its cusp charts; the full generic fibre is
 connected-data, SV3 and type A/C hypotheses. The moduli compactification itself has the scope of
 (7-a). On principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0a and identify this
 interface with its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a;
-0.10, 6.9, 7.2; PELModuli M2.8, M3.6, M4.3; SchemeAndStackFoundations Layer 1.
+0.10, 6.9, 7.2; PELModuli M2.8, M3.6, M4.3;
+SchemeAndStackFoundations §§1.2, 1.6, 1.20, 1.21 and 1.22 (descent of algebraic spaces, étale
+quotients, properties of stacks, quotient stacks, quasi-coherent modules on stacks).
 
 **Checks.**
 
@@ -2069,7 +2106,8 @@ open neighbourhood obtained by removing all strata in its closure other than the
 universal formal chart of 6.7 modulo its stabilizer, compatibly with the family, Hodge bundles,
 `O`-action and level structures. Completions along different centres are not compared through
 unrelated chart inclusions. Assume (7-a) and the same `Σ` as 7.3 ([Lan], 6.4.1.1(5) and its proof,
-pp. 519–523). *Needs:* 6.7, 7.1, 7.3; SchemeAndStackFoundations Layer 1, Layer 4.
+pp. 519–523). *Needs:* 6.7, 7.1, 7.3; SchemeAndStackFoundations §§1.8, 1.11, 1.17, 1.21 and 4.8
+(algebraic spaces and their quasi-coherent modules, quotients by the stabilizer, formal completion).
 
 **Checks.**
 
@@ -2088,7 +2126,8 @@ algebraic charts extend the moduli point; descend along the finite extension usi
 the étale relation ([Lan], Proposition 6.3.3.17, p. 518, and the opening assertion of Theorem 6.4.1.1,
 p. 519). Lan's Theorem 6.4.1.1(6) is the finer criterion for extending families over normal bases.
 *Needs:* 0.13, 6.6, 7.3, 7.4; NeronModelsAndSemistableAbelianVarieties 3.10;
-SchemeAndStackFoundations Layer 1.
+SchemeAndStackFoundations §§1.9 and 1.20 (properness of algebraic spaces, the valuative criterion for
+stacks after extension).
 
 **Checks.**
 
@@ -2227,7 +2266,7 @@ boundary. A general PEL quotient is not replaced by `Sym² E`. On the interior t
 on each formal degeneration chart compute the derivative of the periods, with logarithmic
 differentials `dq_i/q_i`; glue by the PEL relations and étale descent, and check the rank-one case
 against 6.13 ([Lan], 6.4.1.1(4), pp. 519–520). *Needs:* 6.1, 6.13, 7.3, 7.4; PELModuli M2.10;
-SchemeAndStackFoundations Layer 0.
+SchemeAndStackFoundations §§1.1 and 1.11 (étale descent of quasi-coherent modules).
 
 **Checks.**
 
@@ -2246,7 +2285,7 @@ power through the finite quotient otherwise) ([FC], Chapter V, Proposition 2.1, 
 direct proof in V.3; [Lan], Propositions 7.2.1.1–7.2.1.2, pp. 540–541). On principal Siegel data use
 ArakelovGeometryAndAbelianHeights §5.0b and identify this interface with its supplied
 specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0b; 6.1, 7.3, 7.5, 7.32;
-SchemeAndStackFoundations Layer 2.
+SchemeAndStackFoundations §2.6 (quasi-coherent direct images).
 
 **Checks.**
 
@@ -2267,7 +2306,8 @@ is torsion-free; after replacing `m` by a multiple, `ω^{⊗m}` is the pullback 
 finite module over it, by coherence of the direct image of `ω^{⊗r}` on `M`. Finite generation over the
 fraction field of `B` alone is not enough ([FC], Chapter V, proof of Theorem 2.3, pp. 151–152;
 [Lan], Corollary 7.2.2.6 and 7.2.3.1–7.2.3.3, pp. 544–546). *Needs:* 7.5, 7.13;
-SchemeAndStackFoundations §0.3, Layer 2, Layer 4.
+SchemeAndStackFoundations §§0.3, 2.6 and 4.9 (relative Proj, Serre vanishing and coherent direct
+images, Stein factorization).
 
 **Checks.**
 
@@ -2296,7 +2336,8 @@ AutomorphicBundles B5, which specializes to it ([Lan], Definition 7.1.1.1, Lemma
 
 The API: `HodgeLineFJ.coeff`; `.indep_cone`; `.indep_fan` (through 4.10); `.invariant`; `.map_module`
 (functorial in `M`); `.restrict_stratum`. *Needs:* 0.8, 0.11, 1.4, 1.6, 4.10, 6.1, 6.7, 7.3,
-7.4; SchemeAndStackFoundations Layer 1, Layer 2.
+7.4; SchemeAndStackFoundations §§1.11 and 2.6 (quasi-coherent modules and direct images on algebraic
+spaces, quasi-coherent cohomology).
 
 **Checks.**
 
@@ -2330,8 +2371,8 @@ proof, pp. 150–152; [Lan], 7.2.3 and 7.2.3.1–7.2.3.9, pp. 544–548). The AP
 On principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0b and identify
 this interface with its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0b;
 4.10, 7.3, 7.14, 7.15, 7.33; PELModuli M3.6, M4.3;
-ShimuraVarieties 2.5, 2.7; SchemeAndStackFoundations Layer 0, Layer 2,
-Layer 4.
+ShimuraVarieties 2.5, 2.7; SchemeAndStackFoundations §§0.3, 0.4, 0.30, 2.6 and 4.9 (relative Proj,
+direct images, normal schemes, coherent direct images, Stein factorization).
 
 **Checks.**
 
@@ -2355,7 +2396,8 @@ level and with the stabilizer conditions of the quotient. In the Siegel case thi
 finitely to projective space and `O(1)` pulls back to `ω^{⊗m}` ([Lan], 7.2.3, p. 544; [Yuan], §3.4,
 Theorem 3.8, pp. 54–56). On principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0b and
 identify this interface with its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights
-§5.0b; 6.1, 7.13, 7.16; SchemeAndStackFoundations Layer 1.
+§5.0b; 6.1, 7.13, 7.16; SchemeAndStackFoundations §§1.17 and 1.23 (finite group quotients, coarse
+moduli spaces).
 
 **Checks.**
 
@@ -2395,7 +2437,8 @@ moduli problem at parahoric level ([BPS], 5.1–5.2, pp. 1009–1010; compare [L
 pp. 22–24, and 7.20). The API: `NormalizedToroidalModel.finiteMap`; `.openNormalization`;
 `.chartIntegralClosure` (7.20); `.refinement`; `.desc` (normal flat spaces over the good-level model
 with a generic lift factor uniquely). *Needs:* 7.3, 7.4; PELModuli M4.5, M4.6;
-SchemeAndStackFoundations Layer 1, Layer 4.
+SchemeAndStackFoundations §§1.1, 1.8 and 4.11 (relative normalization of algebraic spaces by étale
+descent, modifications).
 
 **Checks.**
 
@@ -2433,8 +2476,9 @@ these can be nonfinite already on the interior. A subdivision also gives a gener
 proper map ([Lan17], Construction 4.5, p. 11, Theorem 6.1(3)–(4), pp. 22–23, Proposition 7.1,
 p. 27; [Lan16], Remark 13.10 and Example 13.12, pp. 63–65).
 *Needs:* 0.16, 0.20, 6.10 (tame/generic part), 7.19, 7.31;
-SchemeAndStackFoundations Layer 1, Layer 4; excellent-ring normalization and completion
-([Stacks], Tag 0C23 for normality of completed excellent local normal rings).
+SchemeAndStackFoundations §§0.3, 1.1, 1.8 and 4.8 (Rees algebras and Veronese subalgebras, gluing of
+chart isomorphisms, formal completion); SchemeAndStackFoundations §0.21 (excellent-ring normalization
+and completion; [Stacks], Tag 0C23 for normality of completed excellent local normal rings).
 
 **Checks.**
 
@@ -2497,7 +2541,7 @@ pieces of the filtration, extend formally, and glue over `U` ([Lan17], Theorem 8
 8.9–8.10, pp. 34–35, with the dimension-one exception of the errata, item (3); [BPS], Proposition
 5.2.1, p. 1010; [LanHK], Theorem 2.3, p. 3). Normal generic-fibre Hartogs does not give the
 statement for torsion coefficients. *Needs:* 7.16, 7.19, 7.21, 7.31; SchemeAndStackFoundations
-Layer 2.
+§2.6 (quasi-coherent cohomology).
 
 **Checks.**
 
@@ -2699,7 +2743,8 @@ canonically identified); `.refinement` (Theorem 6.1(2), keeping `J`); `.collecti
 (the projective map of Proposition 7.1 for compatible collections and fans, with identity, composition and pullback of
 each matching tautological family); `.valuativeExtension`
 (Theorem 6.1(6)). *Needs:* 0.15, 2.7, 2.8, 6.4, 7.16; PELModuli M4.5, M4.6;
-SchemeAndStackFoundations §0.3, Layer 2, Layer 4.
+SchemeAndStackFoundations §§0.3, 2.6, 4.8, 4.9 and 4.11 (relative Proj and blow-ups, coherent
+cohomology, formal completion, formal functions, modifications).
 
 **Checks.**
 
@@ -2761,7 +2806,8 @@ specialization. Apply the trick on the polarized abelian locus, with its étale-
 hypotheses; use 6.8 to extend the resulting homomorphisms and identities across the boundary.
 *Needs:* 6.8; PadicDifferentialEquationsAndRigidCohomology §RD.5.116;
 ArakelovGeometryAndAbelianHeights §5.0b; 6.2, 7.32; AbelianSchemesAndArithmeticModuli A2.5, A3.6;
-NeronModelsAndSemistableAbelianVarieties Layer 1.
+NeronModelsAndSemistableAbelianVarieties §§1.8 and 1.9 (good reduction, abelian-scheme models over
+Dedekind bases).
 
 **Checks.**
 

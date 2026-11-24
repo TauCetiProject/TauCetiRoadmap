@@ -708,7 +708,7 @@ torsion lattices vanish.
 
 #### Dependencies
 
-EnhancedDerivedSheaves §§E1.3–E1.4/E3.2/E4.1–E4.5; DiamondEtaleCohomology C0/C2/C3/C6; DiamondSixOperations S0/S2–S4; EtaleCohomologyFoundations §§F.4.1–F.4.5 for scheme realizations.
+EnhancedDerivedSheaves §§E1.3–E1.4, E3.2 and E4.1–E4.5; DiamondEtaleCohomology §§C0.4, C0.21, C2.2, C2.9 and C2.12; DiamondEtaleCohomology §§C3.1, C3.2, C3.5 and C3.7–C3.11; DiamondEtaleCohomology §§C6.1, C6.5 and C6.6; DiamondSixOperations Layer S0; DiamondSixOperations Layer S2; DiamondSixOperations Layer S3; DiamondSixOperations Layer S4; EtaleCohomologyFoundations §§F.4.1–F.4.5 for scheme realizations.
 
 ### Layer L1: Schemes as v-sheaves
 
@@ -1367,7 +1367,7 @@ The fold Y ⊔ Y → Y is a nonstrict compactification morphism for a nonempty p
 
 #### Dependencies
 
-The scheme, compactification, finite-diagram and cohomology contracts in §3; StableReduction Layer 4; AdicSpacesPartIII R2; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E3.2/E4.5. The regular-adic support extension also uses `L1/scheme-adic-category`; the schematic and discrete targets use no other layer.
+The scheme, compactification, finite-diagram and cohomology contracts in §3; StableReduction Layer 4; AdicSpacesPartIII §R2.7 (`fitting-ideal-invertible-locally-free`); EnhancedDerivedSheaves §§E1.3–E1.4, E2.3, E3.2 and E4.5. The regular-adic support extension also uses `L1/scheme-adic-category`; the schematic and discrete targets use no other layer.
 
 ### Layer L3: The comparison in characteristic `p`
 

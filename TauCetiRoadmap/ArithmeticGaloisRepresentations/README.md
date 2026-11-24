@@ -1169,7 +1169,8 @@ restriction of an induced representation is the sum over the places `w | v` of t
 representations (Mackey);
 and that for `ρ` of finite image, `Gal(K_ρ,𝔭/F_v)` embeds in `Aut M` with inertia onto `ρ(I_Q)` and
 wild inertia onto `ρ(P_Q)` (Deligne 1973, 3.12, p. 533). At a real place the local group is
-`{1, c_ι}` (§4.1). *Needs:* Layer 1.
+`{1, c_ι}` (§4.1). *Needs:* §§1.1, 1.2, 1.3 and 1.4 (continuous representations, restriction and
+tensor products, induction and Mackey, finite image).
 
 **Checks.**
 - The local restriction of `ℤ_ℓ(1)` takes an arithmetic Frobenius at `p ≠ ℓ` to `p`; that of the
@@ -1426,8 +1427,8 @@ underlying jointly continuous action of `ρ`, to obtain a unique nilpotent
 Transport the supplied equivalence between finite inertia image and `N = 0` and the
 ramification-index scaling under compatible tame identifications
 (Deligne 1973, 8.1 and Thm 8.2, p. 566; FSY, §5.3.1, p. 54).
-*Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2 `wd-complete-coefficients` and
-`nilpotent-exp-log`; Tau Ceti's inertia, tame and cyclotomic characters.
+*Needs:* §§1.1 and 1.2 (`ContinuousRep` and `ℤ_ℓ(1)`); SmoothRepresentationsOfLocalGroups SR.5.2
+`wd-complete-coefficients` and `nilpotent-exp-log`; Tau Ceti's inertia, tame and cyclotomic characters.
 The monodromy theorem itself is the supplier's headline; this specialization is an adapter and
 has no statement of its own in `Suggested.lean`. Old → new Lean name, for citing roadmaps:
 - *GaloisRep.grothendieck_quasiUnipotent* → SmoothRepresentationsOfLocalGroups SR.5.2
@@ -1480,7 +1481,8 @@ A basis identifies the underlying action with the matrix input of
 `classical-llc-normalization`; prove naturality under change of basis and the agreement of
 its Frobenius-semisimplification with that supplied parameter in §2.5
 (Deligne 1973, 8.3.7, p. 568, and 8.4.2–8.4.3, p. 569; Bushnell–Henniart, §32.6,
-pp. 206–207). *Needs:* Layer 1; the `ContinuousRep` monodromy specialization and local bridge
+pp. 206–207). *Needs:* §§1.1, 1.2 and 1.3 (`ContinuousRep`, frames, tensor products and
+restriction, induction); the `ContinuousRep` monodromy specialization and local bridge
 above; SmoothRepresentationsOfLocalGroups SR.5.2 `full-wd-construction`,
 `wd-parameter-operations` and `classical-llc-normalization`.
 
@@ -2356,8 +2358,8 @@ finite tame of ramification index `e` the positive breaks are multiplied by `e` 
 `Sw_L(V|_{G_L}) = e · Sw_K(V)`, by the tame transition function `ψ_{L/K}(u) = eu` of §3.0 and the
 intersection formula `G_K^u ∩ G_L = G_L^{eu}`; and extension of the coefficient field preserves
 `Sw` and `a`, by the coefficient-extension invariance of §3.1's break decomposition and of the
-inertia invariants. *Needs:* Layer 1 (restriction, duals,
-tensor products, twists, semisimplification); Mathlib `Representation.dual`, `Representation.tprod`;
+inertia invariants. *Needs:* §§1.2 and 1.7 (restriction, duals,
+tensor products, twists and coefficient extension; semisimplification); Mathlib `Representation.dual`, `Representation.tprod`;
 `TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and Frobenius);
 RamificationOfCompleteDiscretelyValuedFields
 §§4a.2–4a.3 (transition functions on open subgroups and the completed maximal-unramified
@@ -3287,8 +3289,8 @@ or an auxiliary coefficient prime. Removing a finite set `Z` of geometric points
 count by at most `#Z`, uniformly in `r`. This is the numerical input for the finite-cover counts
 below (Hartshorne, *Algebraic Geometry*, V, Exercise 1.10, the Weil bound for a curve over a
 finite field from the Hodge index theorem on its self-product).
-*Needs:* SchemeAndStackFoundations §5.11, *The Weil bound via surfaces*; AlgebraicCurves Layer 12
-(geometric and function-field genus comparison).
+*Needs:* SchemeAndStackFoundations §5.11, *The Weil bound via surfaces*; AlgebraicCurves §12E
+(geometric and function-field genus comparison); AlgebraicCurves §8.2 (genus under constant-field extension).
 
 **Checks.**
 - `D = ℙ¹` has `g = 0` and exactly `Q^r + 1` points.
@@ -3312,7 +3314,8 @@ counting theorem, including covers with enlarged constants. Sum over the allowed
 Deduce Dirichlet density `#B/#H > 0` (Serre, *Zeta and L functions*, 1965, Theorem 7;
 Kisin–Zhou 2025, proof of Prop. 5.3.5, p. 54).
 *Needs:* the preceding curve point-counting input and restricted-ramification groups;
-SchemeAndStackFoundations Layer 1 (effective descent); EtaleCohomologyFoundations §F.0.2
+SchemeAndStackFoundations §§1.1 and 1.24 (effective descent, Galois descent); ModularCurves §0.5
+(effective descent of polarised projective curves); EtaleCohomologyFoundations §F.0.2
 (finite étale Galois categories); Mathlib real power series and finite-group orbit counting.
 
 **Checks.**
@@ -4046,7 +4049,8 @@ give the Lie algebras of the group schemes `ConstantForm.groupScheme`, `Symplect
 sense of `TauCetiRoadmap.ReductiveGroups` layer 2 (BLGGT, §1.1, p. 11; BCGP21, §2.1.1, p. 15; CG, §2.1,
 p. 807). *Needs:* Mathlib `Matrix.symplecticGroup`, `Matrix.J`, `skewAdjointMatricesSubmodule`; Tau
 Ceti `Symplectic.groupScheme`, `Orthogonal.groupScheme`, `ConstantForm.groupScheme`,
-`Matrix.transpose_mul_J_mul_eq_smul_iff`; `TauCetiRoadmap.ReductiveGroups` layers 0, 2, 9.
+`Matrix.transpose_mul_J_mul_eq_smul_iff`; `TauCetiRoadmap.ReductiveGroups` layers 0 and 2;
+`TauCetiRoadmap.ReductiveGroups` §§9B.5 and 9B.6 (symplectic, orthogonal and similitude group schemes).
 
 **Checks.**
 - `GSp₂ = GL₂` with `ν = det`; `Sp_{2m}` is Mathlib's `Matrix.symplecticGroup`, whose `J` is

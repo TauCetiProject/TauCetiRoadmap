@@ -171,7 +171,7 @@ If gcd(n,d)=1 and 0≤i<j, then gcd(n+i*d,n+j*d) divides j-i, with gcd nonnegati
 
 Subtract the two terms. Any common divisor divides (j-i)*d. The term is coprime to d by a Bezout combination with n; cancel d using the native gcd cancellation theorem.
 
-*Needs:* Layer 0 — primitive progression solutions; Mathlib `Int.gcd_greatest`; Mathlib `Int.dvd_of_dvd_mul_left_of_gcd_one`.
+*Needs:* §0.1 — primitive progression solutions; Mathlib `Int.gcd_greatest`; Mathlib `Int.dvd_of_dvd_mul_left_of_gcd_one`.
 
 ([BS20], Lemma 3.1(i), p. 360.)
 
@@ -181,7 +181,7 @@ Assume S. For prime q≥k and i<k, ell divides padicValInt(q,n+i*d). The valuati
 
 The gcd bound prevents q dividing two distinct terms because their difference of indices is less than q. Apply valuation additivity to the nonzero product and the ell-th power. Only the chosen term contributes.
 
-*Needs:* Layer 0 — gcd of progression terms; Mathlib `padicValInt.mul` in `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`, with `[Fact q.Prime]` and both factors nonzero.
+*Needs:* §0.2 — gcd of progression terms; Mathlib `padicValInt.mul` in `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`, with `[Fact q.Prime]` and both factors nonzero.
 
 ([BS20], Lemma 3.1(ii), p. 360.)
 
@@ -211,7 +211,7 @@ For positive odd ell and nonzero terms n+i*d, i<k, whose valuations at every pri
 
 Split the factorization of |n+i*d| at the strict bound k. Divide each large-prime exponent by ell using large-prime valuation divisibility. Since ell is odd, restore the sign in z_i. Unique factorization and injectivity of odd powers give uniqueness.
 
-*Needs:* Layer 0 — large-prime valuation divisibility; Mathlib `Nat.factorization`; Mathlib `Nat.prod_factorization_pow_eq_self`.
+*Needs:* §0.3 — large-prime valuation divisibility; Mathlib `Nat.factorization`; Mathlib `Nat.prod_factorization_pow_eq_self`.
 
 ([BS20], Equation (6), p. 360.)
 
@@ -290,7 +290,7 @@ If gcd(n,d)=1 and r>0, then I_r is empty when gcd(r,d)>1. Otherwise I_r is a sin
 
 A common prime of r,d cannot divide n. In the coprime case invert d modulo r and count one class in range(k); keep the rounding error even for r>k.
 
-*Needs:* Layer 0 — divisibility index sets; Layer 0 — gcd of progression terms.
+*Needs:* §0.7 — divisibility index sets; §0.2 — gcd of progression terms.
 
 ([BS20], §9 before Proposition 9.1, p. 381; Proof of Proposition 12.3, pp.387–388.)
 
@@ -465,7 +465,7 @@ For S and a triple in A(k), the native invariant identities are Delta(E)=16(abc)
 
 Compute the native Weierstrass discriminant and c4 by polynomial algebra. Pairwise coprimality forces c4 a unit whenever an odd prime divides Delta; use the supplier minimal/multiplicative criterion. At p≥k the gcd is a unit and the large-prime valuations are multiples of ell.
 
-*Needs:* Layer 1 — progression frey specialization; Layer 0 — large-prime valuation divisibility; EllipticCurves Layer 4; Mathlib `WeierstrassCurve.Δ`; Mathlib `WeierstrassCurve.c₄`.
+*Needs:* §1.2 — progression Frey specialization; Layer 0 — large-prime valuation divisibility; EllipticCurves Layer 4; Mathlib `WeierstrassCurve.Δ`; Mathlib `WeierstrassCurve.c₄`.
 
 ([BS20], Lemma 3.2 discriminant display, p. 361, which prints 64(abc)², four times the native discriminant 16(abc)² of this equation (2304=16·12² at a=1, c=3); Lemma 3.2, p. 361; Lemma 3.2 last conclusion, p.361.)
 
@@ -509,7 +509,7 @@ For all integers n,d and q in I(k), the native invariant identities are Delta(E_
 
 Compute invariants using A-B=kappa*d^2. For p≥k use gcd and large valuations. For the half-interval two-term branch use unique or paired term valuations from the product equation and p-unit d, gaps p-1,1; prove the c4 unit directly. Do not invoke the p≥k statement at p<k.
 
-*Needs:* Layer 1 — equal-sum second frey family; Layer 0 — gcd of progression terms; Layer 0 — large-prime valuation divisibility; EllipticCurves Layer 4.
+*Needs:* §1.5 — equal-sum second Frey family; Layer 0 — gcd of progression terms; Layer 0 — large-prime valuation divisibility; EllipticCurves Layer 4.
 
 ([BS20], Lemma 3.4, p. 362; Lemma 3.4 last conclusion, p.362; §4 second case, p.364.)
 
@@ -561,7 +561,7 @@ Assume `SchoenfeldFiniteRangeInput`, which enters through the Chebyshev bounds o
 
 Suppose p does not divide d. One or two terms are divisible by p. Choose a first-family triple containing the unique term, or the source equal-sum quadruple for two terms. Prove minimal multiplicative reduction and deleted p; p differs from ell. Apply the exact removed-prime norm bound to M_a or M_q. The exponential level bounds contradict ell>exp(10^k), using the numerical range k≥10^8.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1 — second-family reduced-level bounds; Layer 1 — second-family invariants and local tests; EllipticCurveModularityPartII §2.2 (EC.1) for the removed-prime exponent bound; §0.9's `SchoenfeldFiniteRangeInput`.
+*Needs:* §1.7 — first-family reduced-level bounds; §1.8 — second-family reduced-level bounds; §1.6 — second-family invariants and local tests; EllipticCurveModularityPartII §2.2 (EC.1) for the removed-prime exponent bound; §0.9's `SchoenfeldFiniteRangeInput`.
 
 ([BS20], Lemma 4.1, p. 364.)
 
@@ -573,7 +573,7 @@ Under H and a in A(k), E_a[ell] is irreducible of Serre weight 2, its prime-to-e
 
 The level bound places ell above all level primes. At ell, use the good or finite-flat multiplicative case of coefficient-prime weight-two lowering, justified by the large-prime discriminant divisibility. Match every local conductor exponent with the deletion level. This is a real theorem, not an equality assigned by definition.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; Layer 0 — large-prime valuation divisibility; SerreWeightAndLevelOptimisation §§6.1–6.2 with its coefficient-prime hypotheses; NeronModelsAndSemistableAbelianVarieties §5.3h; §1.1's residual-conductor wrapper.
+*Needs:* §1.7 — first-family reduced-level bounds; Layer 0 — large-prime valuation divisibility; SerreWeightAndLevelOptimisation §§6.1–6.2 with its coefficient-prime hypotheses; NeronModelsAndSemistableAbelianVarieties §5.3h; §1.1's residual-conductor wrapper.
 
 ([BS20], §2, Theorem 4, p. 360; §3.1, Lemmas 3.2–3.3, pp. 361–362; §5, Lemma 5.1, p. 365. The weight and conductor comparison is the adapter between these results.)
 
@@ -585,7 +585,7 @@ Under H and a in A(k), mu(M_a) and mu(lcm(M_a,4)) are at most 2^8*log(k)*exp(1.0
 
 Use the primorial divisibility and the explicit totient ratio bound. Combine the resulting mu bounds with the supplier Martin newspace inequality and exact Kraus F,G,H definitions; compare their logarithms to 10^k. Do not use the full Gamma1 dimension.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; EllipticCurveModularityPartII §§1.5–1.8 (EC.2) for the thresholds F♯, G♯, H♯ and their majorants F_K, G_K, H_K; EllipticCurveModularityPartII §1.4 (EC.0) for the newspace dimension bound; §0.9's Euler-product and divisor bounds.
+*Needs:* §1.7 — first-family reduced-level bounds; EllipticCurveModularityPartII §§1.5–1.8 (EC.2) for the thresholds F♯, G♯, H♯ and their majorants F_K, G_K, H_K; EllipticCurveModularityPartII §1.4 (EC.0) for the newspace dimension bound; §0.9's Euler-product and divisor bounds.
 
 ([BS20], Proof of Lemma 5.1, p. 365 (Tenenbaum Theorem 9 and following remark).)
 
@@ -609,7 +609,7 @@ The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ wit
 
 Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved; the conductor of the realized curve is transported to the algorithmic conductor by Ogg's formula (NeronModelsAndSemistableAbelianVarieties §5.3e). Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; §0.9's `SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem, §2.0 (EC.6) for the geometric-torsion carrier and §5.1 (EC.6) for the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
+*Needs:* §1.10 — Serre-weight and residual-conductor bridge; §1.11 — Kraus threshold for progression levels; §0.9's `SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem, §2.0 (EC.6) for the geometric-torsion carrier and §5.1 (EC.6) for the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -621,7 +621,7 @@ Under H, a in A(k), and prime k/2<p≤k, both E_a and its chosen F_a have good r
 
 p|d and gcd(n,d)=1 imply every term is a p-unit, hence good reduction for the first model. The level bound gives good reduction of F_a. Residual congruence together with the Hasse bounds and ell>4*sqrt(p) makes the integer traces equal. Reducing the first model with d=0 modulo p gives a twist of Y^2=X(X-1)(X+1), whose trace vanishes for p≡3 mod 4.
 
-*Needs:* Layer 1 — actual comparison elliptic curve; Layer 1 — half-interval primes divide the difference; Layer 1 — first-family invariants and odd local properties; EllipticCurves Layer 3; SerreWeightAndLevelOptimisation §6.3; EllipticLegendreCharacterInterfaces §5.1 for the trace of the symmetric cubic; Tau Ceti `WeierstrassCurve.frobeniusTrace`.
+*Needs:* §1.12 — actual comparison elliptic curve; §1.9 — half-interval primes divide the difference; §1.3 — first-family invariants and odd local properties; EllipticCurves Layer 3; SerreWeightAndLevelOptimisation §6.3; EllipticLegendreCharacterInterfaces §5.1 for the trace of the symmetric cubic; Tau Ceti `WeierstrassCurve.frobeniusTrace`.
 
 ([BS20], Lemma 5.2, first conclusion, pp. 365-366; Lemma 5.2, second conclusion, pp. 365-366.)
 
@@ -742,7 +742,7 @@ Given k and finite parameter sets L_a of rational numbers for a in A(k), form Ca
 
 Filter A(k) by the explicit rational-square predicate and take the relative complement. Use the native Legendre interfaces of this layer, retaining all six labelled root orderings.
 
-*Needs:* Layer 0 — three-term progression triples; Layer 1 — actual comparison elliptic curve; §2.1's native Legendre interfaces.
+*Needs:* Layer 0 — three-term progression triples; §1.12 — actual comparison elliptic curve; §2.1's native Legendre interfaces.
 
 ([BS20], §6, p. 367.)
 
@@ -754,7 +754,7 @@ Under H, every associated Legendre parameter lambda is a nonsquare modulo every 
 
 Transfer a_p(F_a)=0 to a_p(F_λ)=0 using the unramified twist sign of §2.1. Thus #F_λ(𝔽_p)=p+1≡4 mod 8 at p≡3 mod 8. A square λ would give the ordinary-model subgroup ℤ/2ℤ×ℤ/4ℤ, contradicting that count. The mod8 classes rule out the other excluded squareclasses. Apply the explicit theta(x;8,3) error bound at k and k/2. The triangle inequality bounds the maximum absolute sum by a quarter of the absolute signed combination.
 
-*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; §0.9's prime estimates; §2.1's native Legendre interfaces.
+*Needs:* §2.2 — Legendre case partition; §1.13 — good reduction and forced trace zero; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; §0.9's prime estimates; §2.1's native Legendre interfaces.
 
 ([BS20], Lemma 6.4, p. 368; §6, Case I, equations (19)–(21), p. 369; Equation (21), p.369.)
 
@@ -770,7 +770,7 @@ Use the six-parameter transformations to place lambda in(0,1) and both lambda,1-
 
 - the point-count comparison over 𝔽₅: over 𝔽₅ the symmetric curve has eight points and its twist by the nonsquare 2 has four; neither count is divisible by 16. The symmetric trace is −2 and the twist trace is 2, in agreement with the §2.1 twist sign.
 
-*Needs:* Layer 2 — legendre case partition; Layer 1 — good reduction and forced trace zero; §2.1's native Legendre interfaces.
+*Needs:* §2.2 — Legendre case partition; §1.13 — good reduction and forced trace zero; §2.1's native Legendre interfaces.
 
 ([BS20], Lemma 6.6, pp. 371-372; §6 before (22), p. 370.)
 
@@ -782,7 +782,7 @@ Under H, the native elliptic curve E_a is not CM, for every a in A(k). Its j-inv
 
 Import algebraic integrality of CM j-values and deduce integer j for rational j. At an odd divisor of abc the numerator is a unit, contradicting integrality. Classify the elementary signed powers-of-two relation and use gcd(n,d)=1 and index bounds. The contradiction uses a prime p>3 in the half interval, which Bertrand's postulate at ⌊k/2⌋ supplies for k≥8.
 
-*Needs:* Layer 1 — first-family invariants and odd local properties; Layer 1 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; Mathlib `Nat.exists_prime_lt_and_le_two_mul`; Mathlib `WeierstrassCurve.j`.
+*Needs:* §1.3 — first-family invariants and odd local properties; §1.9 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; Mathlib `Nat.exists_prime_lt_and_le_two_mul`; Mathlib `WeierstrassCurve.j`.
 
 ([BS20], §6 final Case-II proof, p. 373.)
 
@@ -794,7 +794,7 @@ Under H⁺ and CaseII choose a character from the four squareclasses omega*t*v, 
 
 Project to primes 5 mod 8 using the previous square test and the explicit theta(x;8,5) estimate. Use Legendre parameter valuation and conductor support. Clear denominators primitively in2t^2+2v^2=1. Apply the exact T^4+V^4=2U^2 descent theorem, not FLT4. Import the CM normalizer image and the rational-isogeny surjectivity theorem, then use the same residual comparison.
 
-*Needs:* Layer 2 — case-ii positive normalization and square test; Layer 2 — cm exclusion for progression frey curves; Layer 1 — actual comparison elliptic curve; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §4.41; §2.1's residual-image comparison; §0.9's prime estimates; §2.1's native Legendre interfaces.
+*Needs:* §2.4 — Case-II positive normalization and square test; §2.5 — CM exclusion for progression Frey curves; §1.12 — actual comparison elliptic curve; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §4.41; §2.1's residual-image comparison; §0.9's prime estimates; §2.1's native Legendre interfaces.
 
 ([BS20], §6 Case II, pp. 372–373; §6 Case II first paragraph, p.372.)
 

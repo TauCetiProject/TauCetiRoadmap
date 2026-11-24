@@ -459,7 +459,8 @@ line 571.)
 
 *Needs:* §§1.2–1.4; EllipticCurveModularityImaginaryQuadratic §3.1
 `integral_regular_module_etale`, §4.3 `characterLattice θ`, §4.4 `prime_switch_congruences`;
-ArithmeticGaloisRepresentations Layer 1.
+ArithmeticGaloisRepresentations §§1.2, 1.5, 1.6, 1.7 and 1.9 (coefficient extension and
+coefficient fields, lattices, semisimplification, reduction and its independence of the lattice).
 
 **API.**
 
@@ -624,7 +625,8 @@ Théorème 3.2.2, pp.36–37, BD14 line 2144.)
 
 *Needs:* GL2ModularityLifting, Layer 5, the Breuil–Diamond weight-two lifting theorem required
 above (gap:totally-real-weight-two-lifting); NeronModelsAndSemistableAbelianVarieties §§3.10,
-5.1, 5.3 and 6.10; AbelianSchemesAndArithmeticModuli A6; AutomorphicGaloisRepresentations §3.10.
+5.1, 5.3 and 6.10; AbelianSchemesAndArithmeticModuli §§A6.2 and A6.22 (Tate realizations of
+homomorphisms, coefficient endomorphism algebras); AutomorphicGaloisRepresentations §3.10.
 
 **Checks.**
 
@@ -1043,7 +1045,8 @@ pp.27–28, OpenAI26 lines 1200–1215.)
 endomorphisms required above (gap:cm-elliptic-endomorphism-field);
 ComplexMultiplicationAndExplicitReciprocity §4.1 (the Hecke character over KT and the Tate-module
 components); ShimuraVarieties §5.3; EllipticCurves Layer 0.5 (the action of `G_K` on
-`End(E_K̄)`); AbelianSchemesAndArithmeticModuli A6; AutomorphicGaloisRepresentations §§3.10 and 3.13;
+`End(E_K̄)`); AbelianSchemesAndArithmeticModuli §§A6.2 and A6.22 (the action of `T ⊗ ℚ̄_ℓ` on the
+Tate module); AutomorphicGaloisRepresentations §§3.10 and 3.13;
 AutomorphicGaloisRepresentationsPartII AG2.0;
 GL2AutomorphicRepresentationsAndTransfer R16.2.13 and R17.4.16; ArithmeticGaloisRepresentations
 §5.3; §4.2.

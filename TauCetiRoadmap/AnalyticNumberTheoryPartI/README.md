@@ -676,7 +676,7 @@ The dictionary compares ideals with positive integers, conductors, parities, pri
 
 Use [ZerosOfLFunctions 6.2–6.4][R16] through this dictionary for the conductor-uniform Dirichlet region and its exceptional-zero API. Those results are not targets here.
 
-See [56][R56], V §1, Example 1.4 and Theorem 1.7, pp.149–151 (ray classes over `ℚ`), and LFunctions 4–5 for the analytic records. *Needs:* GlobalNumberFields Layers 2 and 9; [LFunctions 4–5][R57]; Mathlib `DirichletCharacter.LFunction_changeLevel` and the primitive completed functional equation.
+See [56][R56], V §1, Example 1.4 and Theorem 1.7, pp.149–151 (ray classes over `ℚ`), and LFunctions 4–5 for the analytic records. *Needs:* GlobalNumberFields Layers 2 and 9; [LFunctions Layers 4 and 5][R57]; Mathlib `DirichletCharacter.LFunction_changeLevel` and the primitive completed functional equation.
 
 **§0.30a Conductor-uniform rational logarithmic-derivative adapter.** For primitive nonprincipal `χ` of conductor `q≥3`, combine the imported divisor, fixed-degree conductor-uniform strip growth and high-height count from [ZerosOfLFunctions Layers 3–4][R14] with the following compact-height specialization. The local contour interface has absolute constants before `χ,q`, rather than constants after fixing a character.
 
@@ -774,6 +774,8 @@ See Montgomery–Vaughan, *Multiplicative Number Theory I. Classical Theory*, §
 The signature is `landau_siegel_exclusion`. There is an absolute, effectively computable constant `c_LS>0` such that every real zero `β∈(0,1)` of `L(s,χ)`, for every primitive nonprincipal real Dirichlet character `χ` of conductor `q≥3`, satisfies `(1−β)log q≥c_LS`. Real means `χ²=1`, Mathlib's `MulChar.IsQuadratic`; `L(s,χ)` is the canonical continued `DirichletCharacter.LFunction`. The constant includes its threshold: every conductor `q≥3` is covered and no finite range is set aside. For an imprimitive real nonprincipal character of modulus `m` the same bound holds with `log m` in place of `log q`, since its deleted Euler factors vanish only on `Re s=0` and `m` is at least the conductor.
 
 Combine §0.34b with §0.34c at `X=q^C`, for a fixed multiple `C` of 3 with `C≥C₀` (§0.34c) and `C≥8(1+A)` (§0.34b). Mertens's estimate (§0.11a) gives `Σ_{p≤X}(log p)/p≥log X−B` with an absolute `B`, the primes dividing `q` contribute at most `log q`, and the remaining primes have `χ(p)=±1`. With `δ=(1−β)log q` the two estimates give `(C/4−1−A−AC²δ)log q≤B+K_C`, hence `δ≥1/(16AC)` once `log q>16(B+K_C)/C`. Below this effective threshold there are finitely many conductors: a zero `β≤1/2` has `δ≥(log 3)/2`, and a zero `β>1/2` has `1−β≥c q^(−1)` by the effective exponent-`1/2` gap of §0.12 at `ε=1/2`, applied to the field character that §0.34a identifies with `χ`. Take `c_LS` the least of the three effective constants.
+
+*Needs:* §§0.34a–0.34c; §0.11a (Mertens's estimate); §0.12 (the effective gap below the threshold); §0.30 (the deleted Euler factors of an imprimitive character); `DirichletCharacter.LFunction`; `DirichletCharacter.IsPrimitive`; `MulChar.IsQuadratic`.
 
 **§0.34a Real primitive characters are Kronecker characters.** `quadratic_character_eq_fundamentalDiscriminantChar`: a primitive nonprincipal real Dirichlet character `χ` of conductor `q` is Tau Ceti's `fundamentalDiscriminantCharCast ℂ D`, at level `|D|=q`, for the fundamental discriminant `D=χ(−1)q`. In particular (`quadratic_character_kronecker`), with `d` the squarefree part of `D`, one has `d≠1`, `|d|≤q` and `χ(p)=(d/p)` for every odd prime `p∤q`. Decompose `χ` into its prime-power components by the Chinese remainder theorem; the only primitive real character of an odd prime-power conductor is the Legendre character of conductor `p`, and those of 2-power conductor are `ZMod.χ₄`, `ZMod.χ₈` and `ZMod.χ₈'`. Assemble with `jacobiSym.quadratic_reciprocity` and the Multiquadratic value table. Checks: `q=3` gives `D=−3`; `q=4` gives `D=−4`, `d=−1`; conductor 8 carries two characters, `D=8` and `D=−8`, with `d=2` and `d=−2`; `q=12` gives `D=12`, `d=3`, and `χ(5)=(12/5)=(2/5)=−1=χ₋₃(5)χ₋₄(5)`; conductors `≡2 mod 4` carry none. Source: [112], Chapter 5. *Needs:* the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration); `DirichletCharacter.IsPrimitive`; `MulChar.IsQuadratic`; `jacobiSym`.
 
@@ -906,7 +908,7 @@ For odd `k, k/2` is a half integer; for even `k` both integer endpoint correctio
 
 See [47][R47], Bennett–Siksek §12 Proposition 12.2 p.387; Kedlaya §§10.1–10.2 pp.59–60, where the parity `a` of the character is assigned oppositely in Theorem 10.2 and after Lemma 10.3, while here `a=0` for even and `a=1` for odd characters throughout; [53][R53], §10.2 Lemma 10.3 p.60, uniform local count used in the explicit-formula route.
 
-*Needs:* §0.30; [ZerosOfLFunctions Layer 4 divisor and high-height estimates][R14]; [ZerosOfLFunctions its Gamma estimates][R12]; Completed/ArithmeticDirichletSeries Layer 6 finite Perron; §0.30a; §1.4a; §1.4c; §1.4d.
+*Needs:* §0.30; [ZerosOfLFunctions §§4.1, 4.2, 4.4 and 4.5, the divisor and high-height estimates][R14]; [ZerosOfLFunctions §§1.2–1.4, its Gamma estimates][R12]; Completed/ArithmeticDirichletSeries Layer 6 finite Perron; §0.30a; §1.4a; §1.4c; §1.4d.
 
 **§1.4a Primitive-character subtracted Perron contour.** For a primitive nonprincipal `χ` modulo `q≥3, k≥4` an integer and `2≤T≤k`, put `K_k(s)=(k^s−(k/2)^s)/s`, extended by `K_k(0)=log2`. Finite Perron on `c=1+1/log k` expresses the half-weighted interval sum as the integral of `−(L′/L)(s,χ)K_k(s)` over `[c−iT,c+iT]`, divided by `2πi`, with error `O(k log²(qk)/T+log k)`. All constants here are absolute.
 
@@ -930,11 +932,15 @@ Integrate the derivative of `t^ρ` on `[x/2,x]`: the quotient is `∫t^(ρ−1)d
 
 See [47][R47], Bennett–Siksek §12 Proposition 12.2 p.387; the half-interval deduction is completed here.
 
+*Needs:* Mathlib complex powers of positive reals (`Complex.cpow`) and the fundamental theorem of calculus (`intervalIntegral.integral_eq_sub_of_hasDerivAt`).
+
 **§1.4d Logarithmic-square sum of zero weights.** There is an absolute `C>0` such that for every primitive Dirichlet character `χ` of conductor `q≥1` and every `T≥2, Σ_(nontrivial zeros |Imρ|≤T)mρ min(1,1/|ρ|)≤C log²(q(T+2))`. Nontrivial means `0<Reρ<1`, and multiplicity is analytic order.
 
 The conductor-uniform local count gives `O(logq)` low zeros, each weighted `≤1`. In a unit band `m≤|Imρ|<m+1`, `m≥1`, the weight `≤1/m` and count `≤C₀log(q(m+2))`. Summation to `⌈T⌉` gives `O(logq log(T+2)+log²(T+2))≤O(log²(q(T+2)))`. Primitive principal conductor 1 uses the supplier’s `ζ` local count and the same bands. No unbounded `1/|ρ|` estimate at low zeros is used.
 
 See [47][R47], Bennett–Siksek §12 Proposition 12.2 p.387; Kedlaya Lemma 10.3 p.60.
+
+*Needs:* §0.30 (the transported divisor and zero counts); §0.30a (the conductor-uniform bounded-height count); [ZerosOfLFunctions §§4.2, 4.4 and 4.5][R14] (analytic multiplicities, the local count and the unit-band counts).
 
 ### 1.5 Mean square of a Dirichlet polynomial
 
@@ -1222,7 +1228,7 @@ Write `a_v(ρ)=⟨χ_ρ,a_(G_w)⟩` with the Artin character `a_(G_w)`. Herbrand
 
 See [115], Chapter VI §§1–3 and Chapter XV §2; [98], Chapter VII §11.
 
-*Needs:* LocalFieldsRamification (lower and upper numbering, Herbrand functions, Hasse–Arf, the different); [ClassFieldTheory 7][R29], `characterConductorExp`; [ClassFieldTheory 11][R27]; [ClassFieldTheory 13][R28]; [RepresentationTheory/InductionRestriction 3][R31] and [6][R30], Mackey and Brauer's characterization; [NumberFieldArithmetic 2][R24].
+*Needs:* LocalFieldsRamification (lower and upper numbering, Herbrand functions, Hasse–Arf, the different); [ClassFieldTheory §7.1][R29], `characterConductorExp`; [ClassFieldTheory §11.1][R27]; [ClassFieldTheory §13.1][R28]; [RepresentationTheory/InductionRestriction Layer 3b][R31] and [RepresentationTheory/InductionRestriction Layer 6][R30], Mackey and Brauer's characterization; [NumberFieldArithmetic Layer 2][R24].
 
 ### 2.3 Hecke ideal-series comparison
 
@@ -1315,7 +1321,7 @@ Checks: `F=ℚ` recovers ImaginaryQuadraticClassNumber H2.2's `ζ_K=ζ·L(s,χ_D
 
 See Neukirch [98], Chapter VII §10, Definition (10.1) with its inertia-invariant local factors and the corollary expressing `ζ_L` as the product of the Artin `L`-series `L(L|K,χ,s)^(χ(1))` over the irreducible characters, specialized to a quadratic extension.
 
-*Needs:* §2.18a; [GlobalNumberFields 9][R19]; [ClassFieldTheory 11][R27]; [ClassFieldTheory 13][R28].
+*Needs:* §2.18a; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27]; [ClassFieldTheory §13.1][R28].
 
 ### 2.8 Partial ideal zeta series
 
@@ -1532,13 +1538,15 @@ Use `L(1,ε_D)=κ_K/κ_Q` with `κ_Q=1` and the continued/norm-series comparison
 
 Derived from Mathlib `NumberField.dedekindZeta_residue_def` and `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` (`NumberTheory/NumberField/DedekindZeta.lean`), with the positive residue quotient §2.17a. Gross–Zagier [71][R71], Chapter IV §4, pp.283–284, applies quadratic special values in Rankin L-series formulas; its Propositions (4.4)–(4.5) are not the class-number formulas.
 
-*Needs:* `B4`; `NumberField.dedekindZeta_residue`.
+*Needs:* §2.5; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27]; §2.7; §2.3a; §2.17a (together `B4`); `NumberField.dedekindZeta_residue`.
 
 **§2.17a Quadratic Hecke value as residue quotient.** For a quadratic extension `E/F, L_f(1,η)=κ_E/κ_F>0`, where `κ_K` is the positive residue of the continued Dedekind function. Here `η` is the canonical nontrivial primitive quadratic Hecke character attached by global Artin reciprocity. Its holomorphy at 1, the continued zeta factorization, and the two simple positive residues give the quotient; general line-one nonvanishing is not needed for this argument.
 
 Multiply the continued quadratic factorization by `s−1` and take the limit at 1. Cancel the positive `κ_F` and use holomorphy of the nonprincipal Hecke factor.
 
 See [64][R64], proof of Corollary 3.3, p.384 (it bounds `L(1,ρ)` through Brauer's induction theorem and Brauer–Siegel; for a quadratic `η` the residue quotient above is that step); [73][R73], equations (2-1)–(2-7).
+
+*Needs:* §2.7 (the continued quadratic factorization); §2.5 (the positive Dedekind residues); §2.3a (holomorphy of the nontrivial Hecke factor at 1); [LFunctions Layer 5][R57]; ClassFieldTheory §11.1 (the character `η` attached by global Artin reciprocity).
 
 ### 2.18 Norm-regrouped Artin coefficient comparison
 
@@ -1581,7 +1589,7 @@ On a decomposition group the restriction of `Ind σ` splits along the double cos
 
 See [Cogdell, On Artin L-functions][Artin-FE], p.12, for Artin's local factor on inertia invariants at every prime, ramified ones included, with its additivity, inflation and inductivity, and p.18 for Brauer's integral induction and the meromorphic continuation it gives; [98], Chapter VII §10, for a textbook treatment. [53][R53] covers only the incomplete `L`-function of `K/ℚ` (§22.2, p.128), Artin's conjecture (Conjecture 22.2, p.128), rational induction (Theorem 22.3, p.129) and continuation to a neighbourhood of `Re s≥1` (Theorem 22.4, p.129).
 
-*Needs:* §2.2a; [NumberFieldArithmetic 1][R25] and [2][R24]; [RepresentationTheory/InductionRestriction 3][R31], integral Brauer induction and Frobenius reciprocity (From RepresentationTheory); [ClassFieldTheory 11][R27]; [LFunctions Layers 5 and 7][R9]; §2.28.
+*Needs:* §2.2a; [NumberFieldArithmetic Layer 1][R25] and [NumberFieldArithmetic Layer 2][R24]; [RepresentationTheory/InductionRestriction Layer 3a][R31], integral Brauer induction and Frobenius reciprocity (From RepresentationTheory); [ClassFieldTheory §11.1][R27]; [LFunctions Layers 5 and 7][R9]; §2.28.
 
 ### 2.19 Negative even zeros of the continuation
 
@@ -1633,7 +1641,7 @@ For `E=ℚ(i), F=ℚ, Q=4: L_f(0,η)=1/2` and `L_f(1,η)=π/4`; the claimed sum 
 
 See [64][R64], proof of Corollary 3.3, p.384, where differentiating the logarithm of the Artin functional equation `Λ_ρ(s)=w_ρΛ_(ρ̄)(1−s)` of §2.44 bounds `L′/L(0,ρ)+L′/L(1,ρ̄)` by `O_g(log f_ρ)` (the source prints `ρ` at both points; the two sums differ by `2i·Im L′/L(1,ρ)` and agree for self-dual `ρ`, such as `η`); this section makes that step exact for `η`. The odd gamma factors are from [73][R73], (2-3)–(2-7), pp.1140–1141, specialized to the CM sign characters.
 
-*Needs:* `B4`; §2.11; §2.22a; [ClassFieldTheory 13][R28]; [GlobalNumberFields 10][R20].
+*Needs:* §2.5; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27]; §2.7; §2.3a; §2.17a (together `B4`); §2.11; §2.22a; [ClassFieldTheory §13.1][R28]; [GlobalNumberFields Layer 10][R20].
 
 ### 2.22a CM quadratic completion and gamma correction
 
@@ -1652,7 +1660,7 @@ Every real place of `F` becomes complex in `E`, so each archimedean component of
 
 See [73][R73], §2, (2-3)–(2-7), pp.1140–1141.
 
-*Needs:* §2.7; §2.16a; [ClassFieldTheory 13][R28]; [LFunctions Layer 5][R57]; [ZerosOfLFunctions 3.3–3.4][R13]; `Complex.Gammaℝ`.
+*Needs:* §2.7; §2.16a; [ClassFieldTheory §13.1][R28]; [LFunctions Layer 5][R57]; [ZerosOfLFunctions 3.3–3.4][R13]; `Complex.Gammaℝ`.
 
 ### 2.23 Hecke CM partial-zeta identity
 
@@ -1716,11 +1724,15 @@ Apply §2.28a with `θ=2^(−1−ε)` and `t=(Np)^−Re s`. Since `Np≥2`, the 
 
 See [53][R53], §22.2 p.128 absolute convergence paragraph.
 
+*Needs:* §2.28a; [ArithmeticDirichletSeries Layers 3 and 5][R2] (unordered ideal Euler products and the Dedekind majorant on `Re s>1`).
+
 **§2.28a Uniform finite Artin factor bound.** For `d∈N,0≤m≤d,0≤t≤θ<1` and `α₁,…,α_m∈C` with `|α_j|=1`, put `A(z)=∏_{j=1}^m(1−α_j z)`. For `|z|=t, A(z)≠0, |A(z)^−1|≤(1−θ)^−d` and `|A(z)^−1−1|≤d t(1−θ)^−d`. The assertion includes `d=m=0`.
 
 Each `|1−α_jz|≥1−θ>0`. Telescoping the reciprocal product bounds each of its `m` difference terms by `t(1−θ)^−m`, giving `mt(1−θ)^−m≤dt(1−θ)^−d`. A finite-order invariant-space automorphism has roots `α^N=1` for a positive group exponent `N`, hence unit modulus; its polynomial splits over `ℂ`. Thus the Artin factors satisfy these hypotheses.
 
 See [53][R53], §22.2 p.128 local `O(p^−s)` estimate.
+
+*Needs:* Mathlib `Monoid.exponent` (unit-modulus roots of a finite-order automorphism) and `IsAlgClosed.splits` over `ℂ`.
 
 ### 2.29 Imprimitive Hecke deleted factors
 
@@ -1766,6 +1778,8 @@ For nontrivial `H_i`, `codim V^(H_i)≤χ(1)` and `|H_i|≤2(|H_i|−1)`; trivia
 
 Required interfaces are the normal-closure discriminant bound, the subfield discriminant bound, the Artin analytic-conductor bound and the quadratic analytic-conductor identity. They use §2.2a's conductors and LocalFieldsRamification's different; their inequalities are local adapters here.
 
+*Needs:* §2.2 (the Artin analytic conductor); §2.2a (Artin conductors, the lower filtration and the conductor–discriminant formula); ClassFieldTheory §13.1 (the quadratic conductor `f_η=D_(E/F)`); [NumberFieldArithmetic Layer 7][R26] (normal closures); LocalFieldsRamification's different `TauCeti.differentExponent` and its tower formula.
+
 **Checks.**
 
 - For `d=1,E=Q` the normal closure has `D=1`; every inequality is equality.
@@ -1782,6 +1796,8 @@ If `1−β_K≥1/(4n!logD_K)`, the bound follows. Otherwise Stark Lemma 8 pp.145
 For that quadratic `F`, §0.31b's uniform zero gap gives `1−β_K≥c_LS/log D_F`, hence `1−β_K≥c_bD_F^−b` for each `b>0`. The different tower gives `D_F≤D_K`; take `b=a`. The finite remaining discriminant range has positive residues, and `ℚ` has `κ=1`. The residue/class-number formula and degree-bounded archimedean factors give §§2.32,2.46. Roots of unity have bounded order since `φ(w)≤n` leaves finitely many `w`.
 
 Required interfaces are the residue lower bound from a zero gap, the linear character attached to a simple Dedekind zero, the quadratic subfield carrying a near-one Dedekind zero, and the subpower residue lower bound. Their prerequisites are the §2.39b, §2.31d, meromorphic Artin/Hecke comparison, finite cyclic character orthogonality and §0.31b.
+
+*Needs:* §0.31b (the uniform zero gap); §2.7 and §0.30 (`ζ_F=ζL(s,χ)` for the quadratic `F`, read as a Dirichlet `L`-function); §2.5 (the continued Dedekind function and its residue); §2.18a (meromorphic Artin continuation, induction and the Hecke comparison); §2.21 (the pole-aware convexity bound); §2.31d (normal-closure discriminants and the different tower); §2.39b (the Aramata entire quotient); InductionRestriction Layer 6 (Artin induction and Frobenius reciprocity); [LFunctions Layer 5][R57] (holomorphy of the cyclic Hecke factors); ZerosOfLFunctions §§1.4 and 5.6 (digamma bounds and the partial-fraction expansion of the completed logarithmic derivative); finite cyclic character orthogonality.
 
 **Checks.**
 
@@ -1801,6 +1817,8 @@ For nontrivial `ψ` of order `h≤m`, reciprocity gives a cyclic `N/K`, `[N:K]=h
 For §§2.33,2.45, `Q≤D_E^(2M_g)` and `Σ|n_j|≤B_g`. Reciprocity gives `Σn_jδ_j=⟨χ_ρ,1⟩=0`, so `L_ρ=∏H_j^n_j` has no pole. Divide endpoint exponents by `2M_gB_g` for the two-sided §2.33 bounds. Apply exponent a/2 to `H′` and `1/H`, then sum `n_jH′_j/H_j` for §2.45 and §2.44, without Artin holomorphy. §2.51 needs only the quadratic endpoint `κ_E/κ_F>0`.
 
 Required interfaces are the circle bound for the regularized Hecke function and subpower bounds for its value, its inverse, its derivative and its logarithmic derivative. The source for the convexity bound and its proof is [73][R73], Lemma 2.3, pp.1142–1143; the lower bound is the residue/product argument above, not a consequence of Cauchy alone.
+
+*Needs:* §2.21 (the pole-aware convexity bound); §2.31e (the residue bounds for `κ_N` and `κ_K`); §2.5 (the Dedekind residue at the trivial character); §2.18a (the factorization `ζ_N=∏L(s,ψ^j)` by induction and the Hecke comparison); ClassFieldTheory §§11.1 and 13.1 (the cyclic class field of `ψ` and the conductor–discriminant formula); [LFunctions Layer 5][R57] (primitive finite-order Hecke functions); native Cauchy estimates.
 
 **Checks.**
 
@@ -1829,7 +1847,7 @@ Use `χ_ρ=Σ_(j∈J)n_jInd_(H_j)^Gψ_j` with `|J|,Σ|n_j|≤B_g` and base degre
 
 See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
-*Needs:* `B1`; §2.20; §2.6; [RepresentationTheory/InductionRestriction 6][R30]; §2.31d; §2.31f.
+*Needs:* §2.18a; [NumberFieldArithmetic Layer 1][R25]; [NumberFieldArithmetic Layer 2][R24]; [RepresentationTheory/InductionRestriction Layer 3a][R31]; §2.18; §2.5; [ArithmeticDirichletSeries Layer 1][R4]; [ArithmeticDirichletSeries Layer 3][R2]; §2.3; [ClassFieldTheory §11.1][R27]; [ClassFieldTheory §7.1][R29]; [GlobalNumberFields Layer 9][R19]; §2.28; §2.28a (together `B1`); §2.20; §2.6; [RepresentationTheory/InductionRestriction Layer 6][R30]; §2.31d; §2.31f.
 
 ### 2.34 A fixed small circle gives a subpolynomial derivative
 
@@ -1893,7 +1911,7 @@ Use §2.31e’s Stark finite-character argument for the theorem. Heilbronn’s s
 
 See [76][R76], Theorem 1 p.870; complete proof pp.871–873; postscript p.873; [51][R51], §8.3 p.92, proof following Theorem 8.13.
 
-*Needs:* `B1`; §2.39b; `LinearMap.charpoly_prodMap`; §2.7.
+*Needs:* §2.18a; [NumberFieldArithmetic Layer 1][R25]; [NumberFieldArithmetic Layer 2][R24]; [RepresentationTheory/InductionRestriction Layer 3a][R31]; §2.18; §2.5; [ArithmeticDirichletSeries Layer 1][R4]; [ArithmeticDirichletSeries Layer 3][R2]; §2.3; [ClassFieldTheory §11.1][R27]; [ClassFieldTheory §7.1][R29]; [GlobalNumberFields Layer 9][R19]; §2.28; §2.28a (together `B1`); §2.39b; `LinearMap.charpoly_prodMap`; §2.7; §2.31e (Stark's finite-character argument).
 
 **§2.39a Positive cyclic decomposition of the augmentation character.** For a finite group `G`, there exist a positive integer `N` and finitely many cyclic subgroups `C_j≤G`, nontrivial one-dimensional complex characters `ψ_j` of `C_j` and nonnegative integers `n_j` such that `N(Reg_G−1_G)=Σ_j n_j Ind_(C_j)^G ψ_j`. The trivial group permits the empty sum. This positive rational decomposition is stronger than the signed integral Brauer expression used for meromorphic continuation; no claim of nonnegative coefficients for arbitrary irreducible characters is made.
 
@@ -1970,7 +1988,7 @@ The conditional Chebotarev targets below carry this hypothesis explicitly; the u
 
 See [53][R53], §10.3, Remark 10.5, p. 61; [Cogdell, On Artin L-functions][Artin-FE], p.4, for the Weber–Hecke factorization of the Dedekind zeta function of an abelian extension over the characters of its class group.
 
-*Needs:* §1.6; §2.5; §2.11; §2.18a; §2.20; [ClassFieldTheory 11][R27].
+*Needs:* §1.6; §2.5; §2.11; §2.18a; §2.20; [ClassFieldTheory §11.1][R27].
 
 ### 2.43 Explicit exceptional-zero region for an abelian character product
 
@@ -1986,7 +2004,7 @@ Apply Zaman Theorem 4.1.1 to the congruence-character product of orders `≥r`. 
 
 See [67][R67], §1.3.2, Theorem 1.3.5 and Corollary 1.3.6, p. 16; §4.1, Theorem 4.1.1, p. 69.
 
-*Needs:* `B3`; §2.11; §2.29; §2.20; [ZerosOfLFunctions 5.4–5.6][R15].
+*Needs:* §2.5; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27] (together `B3`); §2.11; §2.29; §2.20; [ZerosOfLFunctions 5.4–5.6][R15].
 
 ### 2.44 Logarithmic functional equation
 
@@ -2000,7 +2018,7 @@ For `E=ℚ(ζ₅)`, `g=2`, take `ρ=χ`, the odd quartic character of `Gal(E/ℚ
 
 See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
-*Needs:* `B3`; §2.6; §2.31; §2.18; §2.3; §2.18a; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 3][R2]; [ClassFieldTheory 7][R29]; `Complex.Gammaℝ`; §2.28; §2.28a; §2.31d; §2.31f.
+*Needs:* §2.5; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27] (together `B3`); §2.6; §2.31; §2.18; §2.3; §2.18a; [ArithmeticDirichletSeries Layer 1][R4]; [ArithmeticDirichletSeries Layer 3][R2]; [ClassFieldTheory §7.1][R29]; `Complex.Gammaℝ`; §2.28; §2.28a; §2.31d; §2.31f.
 
 ### 2.45 Factorwise logarithmic derivative at one
 
@@ -2012,7 +2030,7 @@ Differentiate the regularized Brauer product at 1. The nonzero-factor condition 
 
 See [64][R64], proof of Corollary 3.3, p.384, where `|L′(1,ρ)/L(1,ρ)|` is bounded to control the `L′/L` terms of Theorem 3.2, p.383.
 
-*Needs:* `B1`; §2.33; [RepresentationTheory/InductionRestriction 6][R30]; §2.31d; §2.31f.
+*Needs:* §2.18a; [NumberFieldArithmetic Layer 1][R25]; [NumberFieldArithmetic Layer 2][R24]; [RepresentationTheory/InductionRestriction Layer 3a][R31]; §2.18; §2.5; [ArithmeticDirichletSeries Layer 1][R4]; [ArithmeticDirichletSeries Layer 3][R2]; §2.3; [ClassFieldTheory §11.1][R27]; [ClassFieldTheory §7.1][R29]; [GlobalNumberFields Layer 9][R19]; §2.28; §2.28a (together `B1`); §2.33; [RepresentationTheory/InductionRestriction Layer 6][R30]; §2.31d; §2.31f.
 
 ### 2.46 Uniform subpolynomial Dedekind residues
 
@@ -2064,7 +2082,7 @@ For `g∈C, H=⟨g⟩` and `E=L^H`, use Chebotarev Layers 8 and 11–12's cyclic
 
 See [67][R67], §1.2, equations (1.18), (1.20), (1.21), pp. 7–8; [78][R78], §1.1, Theorems A and B, p.2 of arXiv:1709.09637; Theorem B (1.3)–(1.4) retains the exceptional-zero term.
 
-*Needs:* `B3`; §2.43; §2.42; §2.20; [Chebotarev 8][R46]; [Chebotarev 11][R45]; [Chebotarev 13][R43]; [ArithmeticDirichletSeries 6][R1].
+*Needs:* §2.5; [GlobalNumberFields Layer 9][R19]; [ClassFieldTheory §11.1][R27] (together `B3`); §2.43; §2.42; §2.20; [Chebotarev Layer 8][R46]; [Chebotarev Layer 11][R45]; [Chebotarev Layer 13][R43]; [ArithmeticDirichletSeries Layer 6][R1].
 
 ### 2.50 Two-sided quadratic Hecke value bound
 
@@ -3070,6 +3088,8 @@ See [86][R86], Introduction p.411 (terminology); unnumbered fixed-u limit preced
 *Needs:* §3.20; §3.21; §0.21; `Nat.mem_smoothNumbersUpTo`; §3.34a; the compact-limit and prime-rescaling adapters above.
 
 **§3.34a Largest-prime-factor smooth decomposition.** For `x≥1,y≥2, Ψ(x,y)+∑_{y<p≤x, p prime}Ψ(x/p,p)=floor x`. Each positive non-`y`-smooth integer has a unique largest prime divisor `p>y`, and dividing by one copy of `p` leaves a `p`-smooth integer. Repeated largest primes are permitted.
+
+*Needs:* §3.20 (the inclusive count `Ψ(x,y)`); `Nat.mem_smoothNumbersUpTo`; `Nat.primeFactors`.
 
 **Checks.**
 

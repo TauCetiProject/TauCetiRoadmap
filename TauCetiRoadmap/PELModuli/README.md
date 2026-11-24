@@ -1356,7 +1356,7 @@ every test scheme, with pullback. The API is `PELTriple.rosati`; `PELTriple.detC
 determinant condition is `rank Lie = g`); and `PELTriple.toAbelianVariety` (over `Spec k`, `A` is a Tau
 Ceti `AbelianVariety k` with `i : O → AbelianVariety.End A`). Over `ℂ` a triple gives the polarized
 Hodge structure `H₁(A, ℚ)` with `B`-action and `V^{−1,0} ≅ Lie A ≅ V₀` (Kottwitz, §8). *Needs:* M0.5,
-M0.18, M1.1; AbelianSchemesAndArithmeticModuli A1, A2, A4 (Lie algebra); Tau Ceti `AbelianVariety`,
+M0.18, M1.1; AbelianSchemesAndArithmeticModuli A1, §§A2.2, A2.5 and A4.3 (dual, polarizations, Lie algebra and Hodge sequence); Tau Ceti `AbelianVariety`,
 `AbelianVariety.End`.
 
 **Checks.**
@@ -1493,8 +1493,8 @@ geometric point, liftability identifies `ker λ` with `(L^#/L) ⊗ Ẑ^□`; Lan
 `n = 1` this is fibrewise and gives no global trivialization of `ker λ`); `PrincipalLevel.pullback`;
 `PrincipalLevel.reduce` (to level `m | n`); `PrincipalLevel.act` (the completed group `G(Ẑ^□)` acts
 through its reduction; a finite similitude acts only with a completed lift); and
-`PrincipalLevel.multiplier_data`. *Needs:* M1.2, M1.4; AbelianSchemesAndArithmeticModuli A3 (`A[n]`
-finite étale for invertible `n`); Tau Ceti `RootsOfUnityGroup.groupScheme`.
+`PrincipalLevel.multiplier_data`. *Needs:* M1.2, M1.4; AbelianSchemesAndArithmeticModuli §§A3.2 and A3.7 (`A[n]`
+finite étale for invertible `n`, the polarized Weil pairing); Tau Ceti `RootsOfUnityGroup.groupScheme`.
 
 **Checks.**
 
@@ -1999,7 +1999,7 @@ over a discrete valuation ring homomorphisms extend by the Néron property
 (NeronModelsAndSemistableAbelianVarieties R11.1) and the polarization extends the inverse, giving the
 valuative criterion; proper and quasi-finite is finite. *Needs:* M1.7, M2.1;
 AlgebraicModuliForArithmeticGeometry Layer 2; NeronModelsAndSemistableAbelianVarieties R11.1;
-AbelianSchemesAndArithmeticModuli A2.
+AbelianSchemesAndArithmeticModuli §§A2.5 and A2.6 (polarizations, the graph bundle and its Hilbert polynomial).
 
 **Checks.**
 
@@ -2039,7 +2039,7 @@ maps (AlgebraicModuliForArithmeticGeometry §8.3, `FramedDeformation`, `familyVe
 For a larger geometric residue field, first make the specified coefficient base change and choose
 a `k`-rational lift on the base-changed chart; its completion is not identified with the original stalk.
 *Needs:* M1.7, M2.1; AbelianSchemesAndArithmeticModuli A4.7; AlgebraicModuliForArithmeticGeometry
-Layer 8; SchemeAndStackFoundations Layer 4; TauCetiRoadmap.ModularCurves §7D.
+Layer 8; SchemeAndStackFoundations §§4.2, 4.4 and 4.6 (`ArtinLocalAlg`, Schlessinger's theorem, deformations of smooth schemes and line bundles); TauCetiRoadmap.ModularCurves §7D.
 
 **Checks.**
 
@@ -2145,7 +2145,7 @@ pp. 1018–1023, assembles the criterion; §2.3.3, pp. 265–268, verifies it fo
 problems. Quasi-compactness follows from the bounded polarized Hilbert presentation together with
 the finitely presented order and level conditions (as in §2.3.3); smoothness from M2.6; trivial inertia
 at neat level from M2.3. For arbitrary `H` the Deligne–Mumford conclusion is M6.2. *Needs:* M1.10,
-M1.11, M1.12, M2.3, M2.4, M2.5, M2.6, M2.7; AlgebraicModuliForArithmeticGeometry Layer 7;
+M1.11, M1.12, M2.3, M2.4, M2.5, M2.6, M2.7; AlgebraicModuliForArithmeticGeometry §7.1 (`artin_stack_criterion`, `artin_space_criterion`);
 SchemeAndStackFoundations §0.21 and §§1.4, 1.19 (`AlgebraicSpace`, `IsAlgebraicStack`); Mathlib `Smooth`,
 `IsSeparated`.
 
@@ -2175,7 +2175,7 @@ lives on the stack. The API is `PELModuli.classify_pullback` and `PELModuli.clas
 `PELModuli.universal_lie` (its Lie algebra satisfies the determinant condition);
 `PELModuli.universal_hecke` (Hecke translates pull universal objects back to prime-to-`□` isogenous
 ones); and `PELModuli.universal_siegel` (for the principal genus-one datum and level `n ≥ 3`, the
-universal elliptic curve of ModularCurves §5B). *Needs:* M1.12, M2.8; SchemeAndStackFoundations Layer 1.
+universal elliptic curve of ModularCurves §5B). *Needs:* M1.12, M2.8; SchemeAndStackFoundations §§1.3 and 1.23 (étale atlases, `FineModuliSpace`).
 
 **Checks.**
 
@@ -2210,7 +2210,7 @@ dimension `rank KS_{(A,λ,i)}`, the dimension of the quotient of `V₀^∨ ⊗ (
 with CM type `Φ`, and `[F : ℚ]` for the Hilbert datum. The symmetry and `O`-relations come from lifting
 `λ` and `i(b)` to the first infinitesimal neighbourhood of the diagonal (Lan, Proposition 2.1.3.2 and
 the proof of 2.3.4.2); the ranks from `V₀ = ⊕ W_τ^{p_τ}`. *Needs:* M0.13, M2.6, M2.8;
-SchemeAndStackFoundations Layers 2–3 (cohomology, relative differentials); AbelianSchemesAndArithmeticModuli
+SchemeAndStackFoundations §2.6 (quasi-coherent cohomology), SchemeAndStackFoundations Layer 3 (relative differentials); AbelianSchemesAndArithmeticModuli
 A4.3; Stacks Tag 02GU.
 
 **Checks.**
@@ -2366,7 +2366,7 @@ summands keep the constant 3n-displays (Wedhorn (3.2.5)–(3.2.9), pp. 595–598
 This is a construction of particular liftings, rather than a classification over every
 nilpotent thickening. M2.16 uses these explicit one-parameter liftings; Serre–Tate
 (AbelianSchemesAndArithmeticModuli A4.9) transfers them to abelian schemes. *Needs:*
-M2.6; AbelianSchemesAndArithmeticModuli A4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
+M2.6; AbelianSchemesAndArithmeticModuli A4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.2, R07.2.10, R07.2.11, R07.2.12 and R07.2.20 (étale–multiplicative splitting, Dieudonné classification, Lie algebra and height, standard modules, covariant module).
 
 **Checks.**
 
@@ -2639,7 +2639,7 @@ full group. No rational group obtained by deleting arbitrary compact real
 factors is assumed. This adapter supplies the missing interface between
 the general PEL quotient and ShimuraVarieties Layers 0–3.
 When `G` is connected and SV3 holds, the result is `Sh_K(G,X)`.
-*Needs:* M0.8, M0.12, M2.2; ShimuraVarieties Layers 0–3; the reduction-theory
+*Needs:* M0.8, M0.12, M2.2; ShimuraVarieties Layers 0–2, ShimuraVarieties §3.2 (Borel algebraicity); the reduction-theory
 and group-quotient suppliers named in Scope.
 
 **Checks.**
@@ -2753,7 +2753,7 @@ applied to the marked Hodge variations, with `λ`, `i` and level), and `uniformi
 `Sh_K(G^{(i)}, X)` when SV3 holds and `G` is connected (Kottwitz, §8, p. 400; Milne, Proposition 6.3,
 p. 70, for the Siegel case; Tsimerman, *The André–Oort conjecture for `A_g`*, §6.1, p. 387). *Needs:* M1.10, M2.8, M2.9,
 M2.10, M3.3, M3.4; AbelianSchemesAndArithmeticModuli A5.6; ComplexComparisonPartII §§C−1.1–C−1.3;
-ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `UpperHalfPlane`.
+ShimuraVarieties Layers 0–1; SchemeAndStackFoundations §§1.3 and 1.6 (étale atlases and presentations); Mathlib `UpperHalfPlane`.
 
 **Checks.**
 
@@ -2996,7 +2996,7 @@ Hodge-type model (ShimuraVarieties §4.12 `CanonicalModel.unique_iso` and Layer 
 M4.2 additionally transports the polarized levelled families in its simple type-A odd-rank scope;
 the semisimple argument uses the individual reciprocity calculations. The union is compatible with
 level maps and Hecke translations. *Needs:* M0.17, M3.6, M4.1;
-ShimuraVarieties Layer 4, especially §§4.8, 4.10 and 4.12, and §§6.1–6.2.
+ShimuraVarieties §§4.4, 4.8 and 4.10–4.12 (the canonical-model condition, Hecke density, disjoint special reflex fields, Hecke translation over the reflex field, uniqueness), ShimuraVarieties §§6.1–6.2.
 
 **Checks.**
 
@@ -3102,7 +3102,7 @@ and hence on the normalized model (Stacks, Tag 035L, whose finite-component hypo
 because the generic cover is noetherian). Flatness: every irreducible component
 dominates `Spec O_{F₀,v}` because the structure sheaf injects into the pushforward from the generic
 fibre, so the local rings are torsion free over the discrete valuation ring, hence flat (Stacks, Tag
-0539). *Needs:* M4.5; SchemeAndStackFoundations Layer 0; Mathlib `Flat`, `IsFinite`;
+0539). *Needs:* M4.5; SchemeAndStackFoundations §§0.8, 0.20, 0.21 and 0.30 (flatness over Dedekind bases, Nagata normalization, `IsExcellentScheme`, normal schemes); Mathlib `Flat`, `IsFinite`;
 ModularCurvesPartII §11.5 for the genus-one special-fibre Check.
 
 **Checks.**
@@ -3591,7 +3591,7 @@ torsor, and §4.11, pp. 23–24, the principal case of this presentation (Kottwi
 Lipnowski–Tsimerman, *How large is `A_g(F_q)`?*, §4.1 and Remark 4.2, p. 17, for polarizations over
 finite fields coming from line bundles). The descent uses AlgebraicModuliForArithmeticGeometry Layer 3.
 *Needs:* M1.12, M2.4; AbelianSchemesAndArithmeticModuli A2.4, A2.6, A2.8; AlgebraicModuliForArithmeticGeometry
-Layers 2, 3, 4, 7; SchemeAndStackFoundations Layers 1 and 4.
+Layers 2, 3 and 4, AlgebraicModuliForArithmeticGeometry §7.3 (`rigidification_gm_torsor`); SchemeAndStackFoundations §§1.19, 1.20, 1.21 and 4.14 (Deligne–Mumford stacks, separated and finite-type stacks, quotient stacks, `hilbert_quot_schemes`).
 
 **Checks.**
 
@@ -3618,7 +3618,7 @@ moduli point `x_A ∈ A_g(K)` (Tsimerman, §1, footnote 1, p. 380). Invariants o
 with flat base change. In general apply `keel_mori` directly to the finite
 inertia stack of M2.8 and M2.4; existence of a neat prime-to-`□` cover is
 not needed. For the all-prime Siegel problem use the compatible presentations
-after localizing at `3` and `4` from M6.3. *Needs:* M6.2, M6.3, M6.4; SchemeAndStackFoundations Layer 1;
+after localizing at `3` and `4` from M6.3. *Needs:* M6.2, M6.3, M6.4; SchemeAndStackFoundations §1.23 (`keel_mori`, `IsCoarseModuliSpace`);
 AlgebraicModuliForArithmeticGeometry Layer 5; TauCetiRoadmap.ModularCurves §9E.
 
 **Checks.**
@@ -3687,7 +3687,7 @@ lifts to an object over `k` iff `𝒢_x` is neutral. If objects have no automorp
 point is not by itself a polarized abelian variety over `K`; consumers use objects, or a rigidifying
 level with its field extension (M6.10) (Tsimerman, proof of Lemma 4.1, p. 384; Lipnowski–Tsimerman,
 Definition 4.3, p. 17). *Needs:* M0.9, M1.12, M2.4, M6.2, M6.5; AlgebraicModuliForArithmeticGeometry
-Layer 4; Mathlib `CategoryTheory.PresheafOfGroups.H1`, `WeierstrassCurve.ofJ`, `WeierstrassCurve.ofJ_j`;
+§§4.1–4.3 (gerbes, bands, neutralizations); Mathlib `CategoryTheory.PresheafOfGroups.H1`, `WeierstrassCurve.ofJ`, `WeierstrassCurve.ofJ_j`;
 Tau Ceti `WeierstrassCurve.j_quadraticTwist`, `WeierstrassCurve.not_exists_smul_quadraticTwist_eq`.
 
 **Checks.**

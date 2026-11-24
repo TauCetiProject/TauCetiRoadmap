@@ -599,7 +599,7 @@ The API provides:
 - A short exact sequence of coherent sheaves adds Hilbert polynomials.
 - Twisting by `L^a` translates the variable by a.
 
-*Needs:* `hilbertSerre`, `serreGeneration`, `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, Tau Ceti `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, JacobianChallenge Layer B, `amplePowersAndFixedTwists`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3.
+*Needs:* `hilbertSerre`, `serreGeneration`, `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, Tau Ceti `AlgebraicGeometry.Scheme.Modules.eulerCharBelow`, Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, JacobianChallenge Layer B, `amplePowersAndFixedTwists`, SchemeAndStackFoundations §§5.1–5.3 (cycles, degrees of zero-cycles, the first Chern class).
 
 **Checks.**
 
@@ -737,7 +737,7 @@ Here Reduced pure dimension r; fixed embedding; geometric fibres in the family f
 
 For the proof, a subscheme of a geometric fibre of the family is a subscheme of the corresponding `Pⁿ`, so by `boundedSupportParameters` every Y in question is the reduced geometric fibre `(W_c)_red` of `W_(r,D)` at a geometric point of the scheme `C_(r,D)×_ℤ S`, which is of finite type over the Noetherian S. It is therefore enough to show that the reduced geometric fibres of a closed subscheme of `Pⁿ` over a Noetherian parameter scheme lie in finitely many flat finite-type families; this needs no flat universal cycle functor. On an irreducible parameter component with generic field K, take the radical of the fibre after extension to an algebraic closure of K. Its finitely many generators and the finitely many equations expressing equality with the support are defined over one finite extension `K′/K`. In characteristic p this extension can have a purely inseparable part; it must not be suppressed. Over `K′` the resulting finite-presentation support is geometrically reduced. Spread it over a finite dominant cover of an open of the component, use generic flatness and shrink until its fibres are geometrically reduced. The defining equations of W and properness ensure that these fibres have the prescribed geometric supports; then every geometric point of that open lifts to the finite dominant parameter cover after passing to its algebraically closed residue field. The flat geometrically reduced fibre there is exactly the reduced subscheme with that support. Repeat on the proper closed complement. Noetherian induction produces finitely many finite-type flat families, including the positive-characteristic case. Their finitely many Hilbert polynomials give the bound. Embedded nilpotents would not be detected by this support construction and are explicitly excluded.
 
-*Needs:* `boundedSupportParameters`, `familyHilbertPolynomials`, SchemeAndStackFoundations §4.12, `hilbertPolynomial`, SchemeAndStackFoundations Layer 4.
+*Needs:* `boundedSupportParameters`, `familyHilbertPolynomials`, SchemeAndStackFoundations §4.12, `hilbertPolynomial`, SchemeAndStackFoundations §§0.8–0.9 (spreading out of geometric reducedness over a dense open, finite-presentation limits).
 
 Prove `chowOpenAndEmbedding`. Let Y be a complex variety open and dense in its fixed projective closure Ybar. In the finite union Ch(Ybar,r,≤D), the cycles whose support meets Y form an open locus. This means at least one component meets Y; it differs from requiring every component to avoid the boundary. For two fixed projective embeddings of Ybar, a degree bound in one induces a degree bound in the other, separately for each r. Thus the collection of bounded-degree cycles is independent of the embedding up to change of the numerical bound.
 
@@ -747,7 +747,7 @@ Here Y locally closed; first replace Ybar by its closure so Y is open there. Fix
 
 For the proof, the complementary locus is the closed Chow locus of cycles supported in Ybar minus Y, obtained by the support-in-closed construction. Use its complement for the support-meets-open condition; then for very ample `L₁`,`L₂`, choose m so `A=L₁^m` tensor `L₂` inverse is very ample. The mixed intersection numbers of SchemeAndStackFoundations §5.3 are positive for ample factors, and multilinearity expands `(m c₁(L₁))^r=(c₁(L₂)+c₁(A))^r`. Every term is nonnegative, so `deg_L₂ Z≤m^r deg_L₁ Z` for each integral r-component. Add component multiplicities and reverse the roles for the other bound. No informal comparison of chosen hyperplanes is needed.
 
-*Needs:* `chowParameters`, `amplePowersAndFixedTwists`, `hilbertPolynomial`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3.
+*Needs:* `chowParameters`, `amplePowersAndFixedTwists`, `hilbertPolynomial`, SchemeAndStackFoundations §§5.1–5.3 (cycles, degrees, mixed intersection numbers of first Chern classes).
 
 Define `bigLineBundle`. An invertible sheaf `L` on a projective geometrically integral variety
 `V` of dimension `d` over a field is big when there is `c > 0` with `h⁰(V, L^m) ≥ c·m^d` for all
@@ -1035,7 +1035,7 @@ Here Schemes and quasi-coherent modules in specified universes; no Noetherian, f
 
 For the proof, replace the finite affine cover by its finite disjoint union, which is affine; its ring is the finite product of the component rings, and the resulting ring map is faithfully flat by flatness and joint surjectivity; then use tildeEquiv and its tensor pullback comparisons to identify the module descent of `affineModuleDescentEquivalence` with the sheaf descent of `qcoh_fpqc_descent` for this cover, comparing finite-family and disjoint-union descent data with their morphisms and cocycles. This is the affine module presentation of the §1.1 theorem, not a second proof of it.
 
-*Needs:* `quasicoherentPseudofunctor`, Tau Ceti `TauCeti.AlgebraicGeometry.tildeFunctorCompPullbackIso`, `affineModuleDescentEquivalence`, Mathlib `AlgebraicGeometry.tildeEquiv`, SchemeAndStackFoundations §1.1 (`qcoh_fpqc_descent`), SchemeAndStackFoundations Layer 1.
+*Needs:* `quasicoherentPseudofunctor`, Tau Ceti `TauCeti.AlgebraicGeometry.tildeFunctorCompPullbackIso`, `affineModuleDescentEquivalence`, Mathlib `AlgebraicGeometry.tildeEquiv`, SchemeAndStackFoundations §1.1 (`qcoh_fpqc_descent`).
 
 **Checks.**
 
@@ -1067,7 +1067,7 @@ Here An fpqc covering and a quasi-coherent module; A finite rank r is specified 
 
 For the proof, work on affine standard fpqc refinements, as in the general module-descent proof; then descend finite presentation and flatness, then use the theorem to obtain finite projectivity; then use the finite-projective/local-free comparison; ranks agree after the residue-field extensions at points above every base point; then apply rank 1 to the invertible-sheaf predicate.
 
-*Needs:* `finitePresentationModuleDescent`, Mathlib `Module.Flat.of_flat_tensorProduct`, Mathlib `Module.Flat.projective_of_finitePresentation`, Tau Ceti `TauCeti.SheafOfModules.IsInvertible`, SchemeAndStackFoundations Layer 1.
+*Needs:* `finitePresentationModuleDescent`, Mathlib `Module.Flat.of_flat_tensorProduct`, Mathlib `Module.Flat.projective_of_finitePresentation`, Tau Ceti `TauCeti.SheafOfModules.IsInvertible`, SchemeAndStackFoundations §1.1 (fpqc coverings and quasi-coherent descent).
 
 Define `spaceQuasicoherentModules` as SchemeAndStackFoundations §1.11's `Spaces.QCoh`: for an algebraic space X, the full category of sheaves of modules on its small étale ringed site satisfying the sheaf-of-modules quasi-coherence predicate. No second carrier is introduced; the chart API below is added here. The category is equivalent to compatible quasi-coherent modules on its scheme étale charts, with specified pullback isomorphisms and composition equations (§1.11's `QCoh.presentationEquiv` for a presentation).
 
@@ -1081,7 +1081,7 @@ The API provides:
 - A chart morphism gives a specified pullback isomorphism with unit/composition coherence.
 - For a scheme X the category agrees with the ordinary quasi-coherent category.
 
-*Needs:* SchemeAndStackFoundations §1.11 (`Spaces.QCoh`, `QCoh.presentationEquiv`, `QCoh.ofSchemeEquiv`), Mathlib `SheafOfModules.IsQuasicoherent`, `quasicoherentPseudofunctor`, SchemeAndStackFoundations Layer 1.
+*Needs:* SchemeAndStackFoundations §1.11 (`Spaces.QCoh`, `QCoh.presentationEquiv`, `QCoh.ofSchemeEquiv`), Mathlib `SheafOfModules.IsQuasicoherent`, `quasicoherentPseudofunctor`, SchemeAndStackFoundations §1.10 (the small étale ringed site and its chart restrictions).
 
 **Checks.**
 
@@ -1095,7 +1095,7 @@ Prove `spaceFpqcQuasicoherentDescent`. For any fpqc covering {Xi→X} of algebra
 
 For the proof, choose scheme étale charts Tij→Xi. The composite family {Tij→X} is an fpqc refinement of {Xi→X}; preserve the pulled original datum and the comparison to its restrictions; then for every scheme `U→X` in the small étale site, the representable diagonal of X makes `U×X` Tij a scheme. Apply the scheme descent theorem to the fpqc cover {`U×X` Tij→U}. Do not apply a theorem about scheme covers directly to `U×X` Xi before replacing Xi by its scheme charts; then full faithfulness makes the descended modules functorial in the input datum and supplies the comparisons for chart maps; then faithfulness verifies their unit and composition equations; glue them as a sheaf on the ringed étale site; then compare both composites with identity on objects and morphisms by the same chartwise full faithfulness.
 
-*Needs:* `spaceQuasicoherentModules`, SchemeAndStackFoundations §1.1 (`qcoh_fpqc_descent`), Mathlib `CategoryTheory.Pseudofunctor.isEquivalence_toDescentData`, SchemeAndStackFoundations Layer 1.
+*Needs:* `spaceQuasicoherentModules`, SchemeAndStackFoundations §1.1 (`qcoh_fpqc_descent`), Mathlib `CategoryTheory.Pseudofunctor.isEquivalence_toDescentData`, SchemeAndStackFoundations §§1.3, 1.8 and 1.10 (scheme étale charts and the representable diagonal, fibre products of spaces, the small étale site).
 
 Define `moduleOverlapDatum`. ModuleOverlapDatum(f) has an S-module N and an `S⊗R S`-linear isomorphism `θ:N⊗R S→S⊗R N` satisfying `θ12∘θ01=θ02` on the triple tensor product. On `N⊗R S` the two scalar factors act on N and S respectively; on `S⊗R N` they act on S and N respectively. θij is extension along the insertion map `p_ij:S⊗R S→S⊗R S⊗R S`, using the tensor associators.
 
@@ -1647,7 +1647,7 @@ Here the base cover is fppf; all object and line-bundle cocycle identifications 
 
 For the proof, descend the underlying algebraic space by SchemeAndStackFoundations §1.2 and the invertible module by `spaceFpqcQuasicoherentDescent` and `finiteLocallyFreeDescent`, using the specified lift of the object cocycle to `L′`; then fpqc locality of relative ampleness (0D3C) makes the descended space a scheme over S; properness and finite presentation descend independently. Then full faithfulness of object and module descent gives the unique comparison between any two descended pairs with the given local identity; it preserves the polarization map and all compatible morphisms and sections; then pull back the local identity under refinement or base change. Uniqueness identifies the resulting comparison with the directly constructed one, giving unit and composition coherence.
 
-*Needs:* SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §1.11, SchemeAndStackFoundations Layer 1, ModularCurves §0E, StableReduction Layer 2.
+*Needs:* §3.1 (`spaceFpqcQuasicoherentDescent`, `finiteLocallyFreeDescent`), SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §1.11, SchemeAndStackFoundations §§1.4, 1.8 and 1.9 (schemes among algebraic spaces, fppf-local properties of morphisms, properness), ModularCurves §0E, StableReduction Layer 2.
 
 Prove `ModuliDescent.finiteModuliDescentComparison`. For an fppf cover `S′→S` and a finite locally free group scheme `G′/S′` with descent datum by group isomorphisms, take the descended finite locally free group `G/S` of ModularCurves §0E. If one also supplies a compatible finite locally free closed subgroup `H′→G′`, a compatible torsor under `G′`, and a finite tuple of compatible sections and morphisms of these objects satisfying specified equations, compare the simultaneous descent of ModularCurves §0E with descent of algebraic spaces and of quasi-coherent modules (SchemeAndStackFoundations §§1.2, 1.11). There is a unique isomorphism of the descended tuples preserving the specified local identifications, the group operations, subgroup immersion, torsor action, sections and all the equations. It commutes coherently with arbitrary base change and with forgetting any of the extra data. This stage supplies the comparison, not a second construction of any finite flat group or level-structure moduli scheme.
 
@@ -8263,7 +8263,7 @@ The API provides:
 - Every object of X▹G lifts to X on a covering sieve.
 - The constructed pseudofunctor has effective object descent and Hom sheaves; its fibres are groupoids.
 
-*Needs:* `ArithmeticModuli.NormalInertiaSubgroup`, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.17, SchemeAndStackFoundations §1.19, Mathlib `CategoryTheory.Quotient`, Mathlib `CategoryTheory.Quotient.lift`, Mathlib `CategoryTheory.Pseudofunctor.sheafHom`, SchemeAndStackFoundations Layer 1, Mathlib `CategoryTheory.IsGroupoid`.
+*Needs:* `ArithmeticModuli.NormalInertiaSubgroup`, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.17, SchemeAndStackFoundations §1.19, Mathlib `CategoryTheory.Quotient`, Mathlib `CategoryTheory.Quotient.lift`, Mathlib `CategoryTheory.Pseudofunctor.sheafHom`, SchemeAndStackFoundations §1.20 (inertia, presentations and local finite presentation of algebraic stacks), Mathlib `CategoryTheory.IsGroupoid`.
 
 **Checks.**
 
@@ -8300,7 +8300,7 @@ Here X,G,ρ as in rigidification; The proper and étale assertions have the extr
 
 For the proof, after an fppf local lift y=ρx, identify `X×_{X▹G}T` with `BG_x`, as in AOV pp.1088–1089; then apply the geometry of classifying stacks as quotient stacks (SchemeAndStackFoundations §§1.19–1.21); B of a flat finitely presented group is smooth as a stack even if its torsor atlas is merely flat; then for finite G use finite diagonal and universal closedness of the gerbe to get properness. For étale G use étale stack charts; then for a DM source its flat finitely presented inertia subgroup is unramified and hence étale; the quotient Isom spaces remain unramified.
 
-*Needs:* `ArithmeticModuli.Rigidification.stack`, `ArithmeticModuli.Rigidification.stabilizer_kernel`, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations §1.19.
+*Needs:* `ArithmeticModuli.Rigidification.stack`, `ArithmeticModuli.Rigidification.stabilizer_kernel`, §4.1 (`IsGerbe`), SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §1.21 (classifying stacks as quotient stacks), SchemeAndStackFoundations §1.19.
 
 Prove `ArithmeticModuli.Rigidification.base_change`. For any morphism `S′→S`, `(X×_S S′)`▹`(G×_S S′)≃(X▹G)×_S S′`, compatibly with ρ and quotient Hom sheaves. More generally, pulling the gerbe ρ back along `T→X`▹G gives the rigidification by the pulled-back subgroup. No flatness or tameness assumption on `S′→S` is needed.
 
@@ -8354,7 +8354,7 @@ The API provides:
 - For `f≅h∘g` and source objects x,y, `Isom_E`(gx,gy) is the fpqc quotient `Isom_Γ(x,y)`/Kx, compatibly with composition. It is generally only a subfunctor of `Isom_Δ`(fx,fy), not equal to that final-target sheaf.
 - For BG→BH the construction identifies with `B(G/ker f)`→BH.
 
-*Needs:* `canonicalAffineFactorization`, SchemeAndStackFoundations §§1.18, 1.21, SchemeAndStackFoundations Layer 1.
+*Needs:* `canonicalAffineFactorization`, §4.22 (arbitrary affine normal quotients and affine fpqc descent), SchemeAndStackFoundations §§1.18, 1.21, SchemeAndStackFoundations §§1.1, 1.14 and 1.15 (fpqc descent of affine objects, groupoids and their quotients, torsors).
 
 **Checks.**
 
@@ -8406,12 +8406,12 @@ The API provides:
 - Over a base where 2 is invertible, level `2` is not, `[-1]` fixes `E[2]`
 - Has `μ_p ⊂ E[p]` for an ordinary elliptic curve in characteristic p, so full p-torsion level does not furnish the finite étale torsor required by this definition. Fibrewise torsor structures without a compatible global G-action do not supply the quotient of the next theorem.
 (ModularCurves §4C supplies the elliptic level rigidifier and the elliptic examples.)
-*Needs:* SchemeAndStackFoundations Layer 1 (SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.15), ModularCurves §4C, 0E.
+*Needs:* SchemeAndStackFoundations §1.15 (torsors), SchemeAndStackFoundations §§1.18–1.19 (stacks in groupoids, representable morphisms), SchemeAndStackFoundations §1.23, ModularCurves §4C, ModularCurves §0E.
 The definition is generic in `P`. Its abelian instance (rigidity of full level `N ≥ 3` on polarized abelian schemes, which needs the abelian-scheme carrier, finiteness of polarized automorphism groups and the rigidity lemma for families) is a target of AbelianSchemesAndArithmeticModuli, which applies `rigidLevelStructure`; it is not an input here, and the elliptic checks do not supply it. The unpolarized-product check uses only elliptic curves: on A = E × E in characteristic zero the automorphism `(P,Q)` ↦ (P+NQ,Q), with matrix `(1,N;0,1)`, is nonidentity but fixes `A[N]`, so the level functor on products of elliptic curves with all automorphisms is not rigid; a polarization is needed in the abelian instance.
 
 Prove `levelRemovalQuotient`. If the level of §5.2 is rigid and `P` is algebraic with finite inertia, then `P_N` is an algebraic space with a finite étale `G`-action, `[P_N/G] ≃ P` ("removal of level"), `P_N → P` is the finite étale cover by the fine space ("addition of level"), and the coarse space of `P` is the quotient space `P_N/G`, a scheme when `P_N` is quasi-projective over `S`.
 (SchemeAndStackFoundations §§1.17, 1.21 and 1.23; ModularCurves §0C and §4C. The quotient-stack equivalence is descent of the specified G-torsor, not a consequence of a mere fibrewise free action.)
-*Needs:* §5.1, §5.2, SchemeAndStackFoundations Layer 1 (SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.17, SchemeAndStackFoundations §1.21), ModularCurves §0C.
+*Needs:* §5.1, §5.2, SchemeAndStackFoundations §1.15 (torsor descent), SchemeAndStackFoundations §1.17, SchemeAndStackFoundations §1.20 (the setoid criterion), SchemeAndStackFoundations §1.21, SchemeAndStackFoundations §1.23, ModularCurves §0C.
 
 ### 5.3 Finite correspondences
 
@@ -8432,7 +8432,7 @@ The API provides:
 - An isomorphism of spans is an equivalence of their middle stacks with compatible 2-isomorphisms on both legs. For schemes it is an apex isomorphism commuting with both legs.
 - Finite correspondences with these span isomorphisms form a groupoid; identities, composition and inverses preserve both leg comparisons.
 
-*Needs:* SchemeAndStackFoundations §1.19, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §1.9, Mathlib `AlgebraicGeometry.IsFinite`, SchemeAndStackFoundations Layer 1.
+*Needs:* SchemeAndStackFoundations §1.19, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §1.9, Mathlib `AlgebraicGeometry.IsFinite`.
 
 **Checks.**
 
@@ -8459,7 +8459,7 @@ Here the endpoint hypotheses of finite-correspondence; An actual fpqc descent da
 
 For the proof, regard the joint finite map as a commutative quasi-coherent finite algebra on `X×_S Y`; then descend this algebra, its multiplication and unit using SchemeAndStackFoundations §1.1 and the stack chart version of SchemeAndStackFoundations §1.22; then recover the middle as the relative Spec of the descended algebra: on each scheme chart it is AlgebraicVectorBundles L1A's relative Spec, which commutes with base change (L1B), so the chart spectra descend along the presentation (affine morphisms satisfy fpqc descent, ModularCurves §0E); descend each leg and the leg compatibility 2-isomorphisms; then finiteness and finite local freeness are fpqc local on the target. Descend morphisms by full faithfulness of algebra descent.
 
-*Needs:* `ArithmeticModuli.FiniteCorrespondence`, SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §1.22, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations Layer 1.
+*Needs:* `ArithmeticModuli.FiniteCorrespondence`, SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §1.22, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §1.19 (representable legs and their fpqc-local properties).
 
 Prove `ArithmeticModuli.FiniteCorrespondence.coarse_finite`. A finite correspondence `X←Z→Y` as above induces `M_X←M_Z→M_Y` between the Keel–Mori coarse spaces, and both induced maps are finite. Formation of these maps commutes with flat change of the common base. Arbitrary base change is valid when each of X,Y,Z is tame. Neither preservation of degree nor preservation of middle fibre products follows in general.
 
@@ -8469,7 +8469,7 @@ Here X,Y are separated finite-type DM stacks over locally Noetherian S, with fin
 
 For the proof, use SchemeAndStackFoundations §1.23 for the three coarse spaces and categorical universality for the induced maps; then for the left induced map, `π_X∘p`=ar `p∘π_Z` is proper. After any base change, surjectivity of `π_Z` descends universal closedness to ar p; separatedness and finite type come from the endpoint/coarse separation and local finite-type results; then after passage to an algebraically closed field, the classes in a coarse fibre are images of the finite fibre of p after choosing an isomorphism in X; this yields finitely many geometric points, hence quasi-finiteness for the finite-type coarse map; then apply the algebraic-space theorem proper plus quasi-finite implies finite. Repeat for q; use coarse uniqueness for flat or tame base-change compatibility.
 
-*Needs:* `ArithmeticModuli.FiniteCorrespondence`, SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §1.9, SchemeAndStackFoundations Layer 1.
+*Needs:* `ArithmeticModuli.FiniteCorrespondence`, SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §1.9, SchemeAndStackFoundations §1.7 (points of algebraic spaces).
 
 Prove `ArithmeticModuli.tame_finite_flat_descent`. Let `π:X→M` be the coarse space of a locally Noetherian tame algebraic stack with finite inertia. For a representable finite locally free `p:Z→X`, let `A=p_*O_Z`. If every stabilizer at a closed geometric point of X acts trivially on the fibre of A, then `B=π_*A` is a finite locally free commutative `O_M`-algebra, the adjunction `π*B→A` is an isomorphism of algebras, and `Z≃X×_M Spec_M(B)`. The descended finite locally free morphism has the same rank. The condition is on the entire finite algebra, including its stabilizer action; a coarse geometric point bijection is insufficient.
 
@@ -8479,7 +8479,7 @@ Here X is locally Noetherian, tame, and has finite inertia; p is representable f
 
 For the proof, exact coarse QCoh pushforward and `O_M≅π_*O_X` make this tame coarse morphism a good moduli space in Alper’s sense; then apply Alper Theorem 10.3 to the vector bundle A; then full faithfulness of pullback on vector bundles descends multiplication and unit; faithfulness verifies associativity, commutativity and the unit identities; then form the relative Spec of the descended algebra chartwise (AlgebraicVectorBundles L1A) and use its compatibility with arbitrary base change (L1B) to obtain the cartesian square and rank preservation.
 
-*Needs:* SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.22, SchemeAndStackFoundations §1.11, SchemeAndStackFoundations Layer 1.
+*Needs:* SchemeAndStackFoundations §1.23, SchemeAndStackFoundations §1.22, SchemeAndStackFoundations §1.11, SchemeAndStackFoundations §1.19 (representable finite locally free morphisms).
 
 ### 5.4 Closures and normalization
 
@@ -8548,7 +8548,7 @@ Here All conditions in the statement, including the joint immersion and quasi-fi
 
 For the proof, construct the closure and restrict to U; an immersion already closed over U has its original schematic image there. The joint map of a finite span is finite, so the given immersion is closed over U; then if X,Y are proper over S, the product projections and closed-substack inclusions give properness of both legs; then a proper locally quasi-finite morphism of algebraic spaces is finite (Stacks, Lemma 76.35.1, tag 0A4X); apply this on each target chart; descend finiteness.
 
-*Needs:* `ArithmeticModuli.DMSchematicClosure.stack`, `ArithmeticModuli.FiniteCorrespondence`, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations Layer 1.
+*Needs:* `ArithmeticModuli.DMSchematicClosure.stack`, §5.3 (`ArithmeticModuli.FiniteCorrespondence`), SchemeAndStackFoundations §§1.18–1.20 (2-fibre products, representable morphisms, properness of stacks).
 
 Prove `ArithmeticModuli.normalized_finite_correspondence`. Under finite-closure, the middle C has finite normalization `C^ν` because it is finite type over excellent S. Composing `C^ν→C` with the two finite legs gives a normal finite correspondence. If `C_U` is normal, its restriction to U is the original `C_U`; otherwise the restriction is its normalization. No preservation of rank on special fibres or commutation with arbitrary base change is asserted.
 
@@ -8627,7 +8627,7 @@ Here the points have identified residue fields and lie over the same point of S;
 
 For the proof, approximate the finitely presented equations defining the formal graph and its inverse; then invert the Jacobian conditions to obtain étale projections and preserve the prescribed finite jet; then compare completions at the common point; no assertion that every chosen formal automorphism is algebraic is needed.
 
-*Needs:* `polynomial_approximation`, SchemeAndStackFoundations Layer 1.
+*Needs:* `polynomial_approximation`, SchemeAndStackFoundations §0.12 (pointed étale neighbourhoods).
 
 ### Examples
 
@@ -8773,7 +8773,7 @@ Here Formal versality is the smooth lifting property of its complete-local defor
 
 For the proof, use the tangent comparison to identify simultaneous lift differences; then use injectivity of the obstruction comparison to detect simultaneous vanishing; then apply the finite-presentation algebra and openness argument of 0CYF; do not infer openness merely from finite-dimensional tangent spaces.
 
-*Needs:* `ModuleObstructionTheory`, `ArtinCriteria.StrongInfinitesimalGluing`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations Layer 1.
+*Needs:* `ModuleObstructionTheory`, `ArtinCriteria.StrongInfinitesimalGluing`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations §§1.18–1.19 (categories fibred in groupoids, representable diagonals).
 
 Prove `openness_of_versality_strongEffective`. Let S be locally Noetherian and X a category fibred in groupoids over `(Sch/S)_fppf` with diagonal representable by algebraic spaces, RS* and limit preservation. Suppose X is strongly effective: for every affine open `Spec Λ⊂S`, every inverse system `(R_n)` of Λ-algebras with surjective transition maps such that `Ker(R_m→R_n)` has square zero for all `m≥n`, and every compatible system of objects `ξ_n` over `Spec R_n`, there is an object over Spec(lim `R_n`) restricting to the system. Then X satisfies openness of versality. No obstruction theory and no perfectness of a deformation complex is used.
 
@@ -8783,7 +8783,7 @@ Here S locally Noetherian; effectivity is required only for systems in which eve
 
 For the proof, argue by contradiction. If versality fails at finite-type points `u_n` accumulating at a versal point, with no specializations among them, the construction of Lemma 98.20.1 produces first-order thickenings `U→U_1→U_2`→… and objects `x→x_1→x_2`→… such that no neighbourhood of `u_n` in `U_n` carries a lift of `x_n` compatible with the original object; RS* glues the successive square-zero extensions. Strong effectiveness realizes the system over the limit ring, limit preservation descends that object to a finite-type stage, and versality at the accumulation point then yields the excluded local lifts.
 
-*Needs:* `ArtinCriteria.StrongInfinitesimalGluing`, `ArtinCriteria.FormalPoint`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations Layer 1.
+*Needs:* `ArtinCriteria.StrongInfinitesimalGluing`, `ArtinCriteria.FormalPoint`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations §§1.18–1.19 (categories fibred in groupoids over the fppf site, diagonals representable by algebraic spaces).
 
 **Checks.**
 
@@ -8799,7 +8799,7 @@ Here F is an étale sheaf; S is locally Noetherian; `O_{S,s}` is a G-ring for ev
 
 For the proof, construct formal versal hulls from RS and finite tangent spaces by Schlessinger's theorem (SchemeAndStackFoundations §4.4); then use effectivity to realize the compatible formal point and approximation to obtain a finite-type family with the prescribed tangent jet; then use the openness hypothesis and representable diagonal to obtain smooth charts. The sufficient obstruction criterion is openness-versality; then take the bounded coproduct of charts at finite-type field points, prove surjectivity by openness, and apply Artin's bootstrap (SchemeAndStackFoundations §1.17); limit preservation supplies local finite presentation.
 
-*Needs:* Mathlib `CategoryTheory.Limits.PreservesFilteredColimits`, `formal_object_approximation`, `ArtinCriteria.IsEffective`, `ArtinCriteria.TangentFiber`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations Layer 1.
+*Needs:* Mathlib `CategoryTheory.Limits.PreservesFilteredColimits`, `formal_object_approximation`, `ArtinCriteria.IsEffective`, `ArtinCriteria.TangentFiber`, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations §§1.3, 1.8 and 1.17 (algebraic spaces and representable diagonals, local finite presentation, Artin's bootstrap).
 
 Prove `artin_stack_criterion`. An étale stack in groupoids X over S satisfying the listed hypotheses admits a smooth surjective atlas by schemes and is an algebraic stack locally of finite presentation over S. Limit preservation is equivalence of the 2-colimit of affine fibre groupoids with the fibre over the filtered colimit.
 
@@ -8809,7 +8809,7 @@ Here X is a stack for the étale topology; S is locally Noetherian; `O_{S,s}` is
 
 For the proof, construct versal deformation hulls, retaining infinitesimal automorphisms; then use essential effectivity, approximation and open versality to obtain smooth charts. Represented diagonal identifies Isom sheaves with spaces and supplies fully faithful compatible restriction of morphisms; then take the bounded coproduct, test surjectivity at finite-type points after base change, and conclude algebraicity.
 
-*Needs:* SchemeAndStackFoundations §1.18, SchemeAndStackFoundations Layer 1, `formal_object_approximation`, `ArtinCriteria.IsEffective`, `ArtinCriteria.TangentFiber`, SchemeAndStackFoundations §4.4.
+*Needs:* SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §§1.19–1.20 (algebraic stacks, representable diagonals, smooth atlases, local finite presentation), `formal_object_approximation`, `ArtinCriteria.IsEffective`, `ArtinCriteria.TangentFiber`, SchemeAndStackFoundations §4.4.
 
 ### 7.1a A concrete gluing failure
 
@@ -8936,7 +8936,7 @@ Here f of finite presentation; F finitely presented with support proper over Y; 
 
 For the proof, proper support makes F universally pure: an associated point of a fibre specializes inside the proper support to a point over the closed point of any henselian test trait. The flattening functor is an fppf sheaf and a subfunctor of Y, so its diagonal is that of Y, and representability is étale local on Y because a monomorphism of finite presentation is separated and quasi-finite and such morphisms descend. On an affine scheme Y, use descending induction on n for the subfunctors of flatness in fibre dimensions at least n, applying the scheme theorem for pure modules at each step and re-establishing purity after each quasi-finite base change.
 
-*Needs:* `spaceQuasicoherentModules`, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §4.12, SchemeAndStackFoundations Layer 1.
+*Needs:* `spaceQuasicoherentModules`, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §4.12, SchemeAndStackFoundations §§1.8–1.9 (finite presentation and étale locality of morphisms of spaces, proper support).
 
 **Checks.**
 
@@ -8953,7 +8953,7 @@ Here modules use `spaceQuasicoherentModules` on the ringed small étale site, wi
 
 ([Stacks](https://stacks.math.columbia.edu/tag/08K6), Proposition 99.3.10; Situation 99.3.1, tag 08JT, and Remark 99.3.4 for the base-change functor.)
 
-*Needs:* `spaceQuasicoherentModules`, `spaceFpqcQuasicoherentDescent`, SchemeAndStackFoundations §0.9 (Noetherian approximation and finite-presentation limits), SchemeAndStackFoundations Layer 1 (affine morphisms, étale descent of algebraic spaces). The affine representability construction for module Hom is a target here.
+*Needs:* `spaceQuasicoherentModules`, `spaceFpqcQuasicoherentDescent`, SchemeAndStackFoundations §0.9 (Noetherian approximation and finite-presentation limits), SchemeAndStackFoundations §§1.1, 1.2 and 1.8 (descent of quasi-coherent algebras and affine morphisms, étale descent of algebraic spaces, fibre products of spaces). The affine representability construction for module Hom is a target here.
 
 **Checks.**
 
@@ -8969,7 +8969,7 @@ Here f is of finite presentation, and both F and G are finitely presented, B-fla
 
 ([Stacks](https://stacks.math.columbia.edu/tag/08K9), Proposition 99.4.3; [Stacks](https://stacks.math.columbia.edu/tag/08W6), Lemma 99.5.3; [Stacks](https://stacks.math.columbia.edu/tag/0DLY), Lemma 108.4.1.)
 
-*Needs:* `coherentModuleHom` with evaluation, composition and base change; SchemeAndStackFoundations Layer 1 (finite-presentation closed sections and fibre products).
+*Needs:* `coherentModuleHom` with evaluation, composition and base change; SchemeAndStackFoundations §1.8 (finite-presentation closed sections and fibre products of spaces), SchemeAndStackFoundations §§1.18–1.19 (the relative diagonal of `Coh_{X/B}` and its 2-fibre products).
 
 **Checks.**
 
@@ -9064,7 +9064,7 @@ Here Separatedness, not merely local separatedness, guarantees existence. AdicSp
 
 For the proof, choose separated étale scheme charts; the analytified relation has closed diagonal; then apply the analytic quotient theorem, reducing étale-locally to free finite-group actions and gluing their quotients; then use the good strictly analytic/rigid comparison to return to rigid spaces; the named nonarchEtaleQuotient construction below supplies the Berkovich quotient theorem, including its finite-group and graded-valuation steps.
 
-*Needs:* `SpaceAnalytification`, AdicSpacesPartII R1.3, SchemeAndStackFoundations Layer 1.
+*Needs:* `SpaceAnalytification`, AdicSpacesPartII R1.3, SchemeAndStackFoundations §§1.5, 1.6 and 1.9 (étale equivalence relations and their quotients, separated spaces).
 
 Prove `analytification_descent`. For analytifiable algebraic spaces over a complete nontrivially valued nonarchimedean field, the quotient analytification is independent up to unique canonical isomorphism of the chosen étale presentation. It is functorial in morphisms and compatible with fibre products whenever the terms are analytifiable. The scheme comparison respects these identifications.
 
@@ -9251,7 +9251,7 @@ The API provides:
 - A line bundle pulled back from T maps to zero.
 - Sheafifying `T↦Pic(X_T)/im(f_T*:Pic(T)→Pic(X_T))` gives the same fppf sheaf as sheafifying `T↦Pic(X_T)`; injectivity of `f_T*` is not presumed.
 
-*Needs:* `spaceQuasicoherentModules`, Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, SchemeAndStackFoundations Layer 1, JacobianChallenge Layer A, Mathlib `CategoryTheory.HasSheafify`, Mathlib `CategoryTheory.presheafToSheaf`, Mathlib `CategoryTheory.sheafifyLift`, Mathlib `CategoryTheory.sheafifyLift_unique`.
+*Needs:* `spaceQuasicoherentModules`, Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, SchemeAndStackFoundations §§1.8, 1.10 and 1.11 (fibre products `X_T`, the small étale ringed site, invertible modules on spaces), JacobianChallenge Layer A, Mathlib `CategoryTheory.HasSheafify`, Mathlib `CategoryTheory.presheafToSheaf`, Mathlib `CategoryTheory.sheafifyLift`, Mathlib `CategoryTheory.sheafifyLift_unique`.
 
 **Checks.**
 
@@ -9275,7 +9275,7 @@ Here For every scheme `T→B`, the canonical map of sheaves of rings `O_T→(f_T
 
 For the proof, a base line bundle with trivial pullback is trivial by local trivialization and the universal global-functions isomorphism; then a line bundle mapping to zero is fppf-locally trivial after base cover; then its overlap trivializations differ by units on XTij; the global-functions hypothesis identifies these with units on Tij; then their cocycle descends a base line bundle whose pullback is the original line bundle.
 
-*Needs:* `relativePicardSheaf`, `spaceFpqcQuasicoherentDescent`, `finiteLocallyFreeDescent`, SchemeAndStackFoundations Layer 1.
+*Needs:* `relativePicardSheaf`, `spaceFpqcQuasicoherentDescent`, `finiteLocallyFreeDescent`, SchemeAndStackFoundations §1.11 (invertible modules on spaces and their unit automorphisms).
 
 Define `sectionRigidifiedPicard`. For a section `σ:B→X` of algebraic spaces, extend the scheme rigidifications already supplied by Tau Ceti to invertible modules on the small étale ringed site. A rigidified Picard object over T is an invertible sheaf L on XT and an isomorphism α:OT≅σT*L. An arrow is an isomorphism of line bundles preserving α. Under universal OT≅fT*OXT every such object has only the identity automorphism, and its isomorphism class lies in ker(σT*:Pic(XT)→`Pic(T)`).
 
@@ -9293,7 +9293,7 @@ The API provides:
 - Two rigidified arrows are equal exactly when their underlying sheaf isomorphisms agree.
 - The structure sheaf `O_(X_T)`, with the canonical pullback unit isomorphism `O_T≅σ_T*O_(X_T)`, is the trivial rigidified object.
 
-*Needs:* `spaceQuasicoherentModules`, Tau Ceti `TauCeti.SheafOfModules.IsInvertible`, Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`, SchemeAndStackFoundations Layer 1.
+*Needs:* `spaceQuasicoherentModules`, Tau Ceti `TauCeti.SheafOfModules.IsInvertible`, Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`, SchemeAndStackFoundations §1.8 (fibre products and sections of spaces), SchemeAndStackFoundations §1.11 (invertible modules on spaces and their pullback).
 
 **Checks.**
 
@@ -9330,6 +9330,8 @@ Equality of classes means equality after fppf sheafification. A global formula `
 
 `RelativePicard.relativePicardPresheaf f` sends `T→B` to line-bundle classes on `T×_B X`, using the existing `LineBundleClass` carrier. This is the raw scheme version. Its API `RelativePicard.relativePicardPresheaf_id_obj`, `RelativePicard.relativePicardPresheaf.map`, `RelativePicard.relativePicardPresheaf.map_id`, `RelativePicard.relativePicardPresheaf.map_comp` gives the identity-family comparison and contravariant pullback of classes. Its fppf sheafification gives the relative Picard sheaf, including quotienting base classes locally. The algebraic-space construction of §7.7 uses the ringed small étale site. (Stacks, §99.11, Situation 99.11.1 and the pullback discussion preceding it, tag 0D24.)
 
+*Needs:* §7.6.1 (`relativePicardSheaf`), Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, Mathlib `CategoryTheory.presheafToSheaf`, Mathlib `AlgebraicGeometry.Scheme.Pullback`.
+
 **Checks.**
 
 - The identity family's raw value is `Pic(T)`, before sheafification kills base classes.
@@ -9348,6 +9350,8 @@ For an algebraic space X, use the small étale site of SchemeAndStackFoundations
 - For a split cover, transitions `u_01=2` and `u_12=3` over Q force `u_02=6`. The reversed transition is `1/6`, so the overlap direction and triple equation are material.
 
 Define `spaceDQCoh X` as the full subcategory of the derived category of `O_X`-modules whose cohomology sheaves are quasi-coherent. It is the one quasi-coherent derived category of an algebraic space: for a scheme, `spaceDQCoh.schemeEtaleEquivalence` identifies it with SchemeAndStackFoundations §2.18's `DQCoh`. Define `spacePerfect X` by étale-local quasi-isomorphism to a bounded complex of finite locally free modules. Its API is `spaceDQCoh.chartRestriction`, `spaceDQCoh.schemeEtaleEquivalence`, `spaceDQCoh.derivedPullback`, `spaceDQCoh.derivedPushforward`, `spaceDQCoh.tensor`, `spaceDQCoh.cohomologyComparison`; `spacePerfect.isLocal`, `spacePerfect.pullback`, `spacePerfect.tensor`, `spacePerfect.dual`, `spacePerfect.torAmplitude`, `spacePerfect.chartCharacterisation`. The category and localization use Mathlib's derived category; X and its ringed site come from SchemeAndStackFoundations Layer 1. These are predicates on actual complexes and sheaves, not new unspecified carriers. For qcqs `f:X→Y`, derived pushforward preserves quasi-coherent cohomology, as checked after every affine étale chart of Y. Derived pullback uses the ringed-site map and its left-derived tensor; its composition isomorphism and the derived base-change map retain the canonical natural transformation, rather than selecting an arbitrary isomorphism. Perfectness descends through faithfully flat étale charts because a finite complex and its quasi-isomorphism can be descended after a common finite cover. (Stacks, Derived Categories of Spaces, §§5, 13 and 21; Cohomology of Algebraic Spaces, Lemma 3.3, p. 3.)
+
+*Needs:* SchemeAndStackFoundations §§1.8–1.11 (fibre products of charts, quasi-separated morphisms, the small étale ringed site and its chart comparisons, quasi-coherent modules on spaces and their chart descent), SchemeAndStackFoundations §2.1 (derived direct images on sites), SchemeAndStackFoundations §2.18 (`DQCoh`, perfect complexes, derived tensor and pullback), Tau Ceti `TauCeti.SheafOfModules.IsInvertible`, Mathlib `DerivedCategory`, `SheafOfModules`.
 
 **Checks.**
 
@@ -9373,6 +9377,8 @@ The Artin interfaces use the full module-valued obstruction theory: for every af
 
 Prove `effectiveHull_smoothChart` with a hull retaining its tangent isomorphism, full formal effectivity, limit preservation, the G-ring approximation hypothesis and openness of versality. Approximate the effective universal object with agreement modulo `m²` and equal associated-graded lengths; formal versality gives a map to its completed local chart. Complete-local Nakayama makes this map surjective, and equality of the lengths of every quotient makes each quotient map an isomorphism. Taking the complete inverse limit identifies the completed chart with the hull. Openness makes the induced finite-type map a smooth presentation near the chosen point. For a space criterion use a sheaf and a represented diagonal; for a stack use groupoid fibres and either a represented diagonal or the weak-diagonal criterion with its full arrow-effectivity and diagonal-versality assumptions. Do not infer a hull from an arbitrary padded smooth presentation. (Stacks, Artin's Axioms, Lemma 12.7, pp. 20–21, Lemmas 13.3–13.8, pp. 22–24, Proposition 16.1, Lemma 17.1 and Proposition 17.2, pp. 26–28.)
 
+*Needs:* §2.3 (`coherentDevissage`, `devissageViaChow`), §3.5 (`ModuliDescent.coherentPresentationDescent`), §6.1 (`polynomial_approximation`), §7.1 (`ModuleObstructionTheory`, `formal_object_approximation`, `openness_of_versality`), SchemeAndStackFoundations §§1.9–1.11 (separated spaces, small étale sites, coherent modules on spaces), SchemeAndStackFoundations §§1.18–1.20 (stacks, represented diagonals, smooth presentations), SchemeAndStackFoundations §4.1 (smooth lifting), SchemeAndStackFoundations §4.4 (hulls and versality), SchemeAndStackFoundations §4.10 (Grothendieck's existence theorem for schemes), SchemeAndStackFoundations §4.12 (Chow's lemma), StableReduction Layer 2 (coherent direct images).
+
 **Checks.**
 
 - The point functor has hull k and a zero-dimensional minimal chart.
@@ -9392,7 +9398,7 @@ For finite type, work over a Noetherian affine base and choose a quasi-compact o
 
 For properness, apply the separated finite-presentation, geometrically connected-fibre criterion to `P⁰→B`. The identity section makes the structural map universally submersive; properness of each fibre and the section-component valuative argument give properness near each base point. The proof passes to spaces by étale presentations, the space valuative criterion and effective descent of properness, with the same prescribed section. Since P is separated, the map from proper `P⁰` to P is proper; an open immersion which is proper is also closed. (EGA IV₃, Proposition 15.6.8, pp. 241–242, and Corollaries 15.7.10–15.7.11, p. 247; Kleiman, Proposition 5.20 and proof, pp. 47–48.)
 
-*Needs:* SchemeAndStackFoundations §1.13 (group algebraic spaces), SchemeAndStackFoundations Layer 1 (étale presentations and descent).
+*Needs:* SchemeAndStackFoundations §1.13 (group algebraic spaces), SchemeAndStackFoundations §§1.6–1.9 (étale presentations, points, étale-local properties and their descent, separation and properness).
 
 **Checks.**
 
@@ -9439,6 +9445,8 @@ Define `finiteFreeAnalyticQuotient U G` for a free right action of a finite grou
 - `z↦−z` at zero has a fixed geometric point; the quotient algebra can exist, but its projection is not an étale torsor there.
 
 Define `nonarchEtaleQuotient R U` for an étale equivalence relation in this analytic category with `R→U×U` a closed immersion. Its API `nonarchEtaleQuotient.projection`, `nonarchEtaleQuotient.relationIso`, `nonarchEtaleQuotient.descent`, `nonarchEtaleQuotient.separated`, `nonarchEtaleQuotient.strict`, `nonarchEtaleQuotient.good` gives the étale cover, fibre-product identification and invariant-map universal property, and preserves the stated properties. Étale-local descent of quotient existence is obtained by forming pulled-back relations and gluing the representing quotients by unique isomorphisms. Near a point, extend its completed residue field by a finite Galois extension splitting the finitely many relation points; their étale maps then have residual isomorphisms and are local analytic isomorphisms. On a compact domain around the point, shrink away the compact image of every unwanted relation branch. The remaining branches form a finite group of germ automorphisms; shrink to a common invariant open, where the relation is its free finite-group action. The previous quotient supplies local existence. Descend and glue. Analytification of a separated algebraic-space relation satisfies the closed-immersion condition. Returning to the rigid model uses the paracompactness and local finite étale quasi-sections above, not an assertion that all nonarchimedean étale maps are local isomorphisms. (Conrad–Temkin Theorems 4.2.1–4.2.2, p. 20; Lemmas 4.3.1–4.3.3 and proofs, pp. 23–25.)
+
+*Needs:* AdicSpacesPartII §§R0.4, R0.5 and R0.9 (spectral seminorms, Banach modules, classical K-affinoid algebras), AdicSpacesPartII §§R0.13 and R0.16–R0.18 (finite and étale maps of affinoids, complete field and affinoid carriers), AdicSpacesPartII §§R1.1 and R1.3 (affinoid domains, rational and Laurent refinements, Tate acyclicity, rigid spaces, rigid analytification of schemes), SchemeAndStackFoundations §1.5 (étale equivalence relations), SchemeAndStackFoundations §1.9 (separated algebraic spaces), Mathlib graded rings, localization and `ValuationRing`.
 
 **Checks.**
 
@@ -9562,7 +9570,7 @@ Here S locally Noetherian; residue k finite type over S; all products are 2-prod
 
 For the proof, transport the frame through the morphism using the pullback comparison; then an object of a 2-product consists of two deformations and an isomorphism whose residue is `γ₀`; the framed constructions match on arrows; then use representable infinitesimal lifting after forming the fibre product over an Artinian test scheme.
 
-*Needs:* `FramedDeformation`, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations §4.4.
+*Needs:* `FramedDeformation`, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.19 (representable morphisms), SchemeAndStackFoundations §4.1 (formally smooth morphisms and infinitesimal lifting), SchemeAndStackFoundations §4.4.
 
 Define `InfinitesimalStabilizer`. For a deformation y over `A′` and its restriction z over A, `Inf(y/z)` is the kernel of `Aut_A′(y)→Aut_A(z)`. The infinitesimal stabilizer at `x₀` is this kernel for the trivial dual-number deformation over `k[ε]→k`. Its group law is specified from automorphisms. It is distinct from the entire residual stabilizer `Aut_k(x₀)`.
 
@@ -9619,7 +9627,7 @@ The API provides:
 - For a Noetherian stalk, its completion is complete for its own maximal ideal, using the maximal-ideal-completeness theorem.
 - For a Noetherian stalk, its completed ring is Noetherian (Stacks, Lemma 10.97.5, tag 05GH).
 
-*Needs:* Mathlib `AdicCompletion`, Mathlib `AdicCompletion.evalₐ`, Mathlib `AdicCompletion.ext_evalₐ`, Mathlib `AdicCompletion.isLocalRing_of_fg`, Mathlib `AdicCompletion.residueField_map_bijective`, SchemeAndStackFoundations §4.7, Mathlib `AdicCompletion.isAdicComplete_of_fg`, SchemeAndStackFoundations Layer 4.
+*Needs:* Mathlib `AdicCompletion`, Mathlib `AdicCompletion.evalₐ`, Mathlib `AdicCompletion.ext_evalₐ`, Mathlib `AdicCompletion.isLocalRing_of_fg`, Mathlib `AdicCompletion.residueField_map_bijective`, SchemeAndStackFoundations §4.7, Mathlib `AdicCompletion.isAdicComplete_of_fg`.
 
 **Checks.**
 
@@ -9645,7 +9653,7 @@ Here S locally Noetherian and x finite type; Specify the residue comparison and 
 
 For the proof, étale formal lifting uniquely lifts the nilpotent Artinian test morphism through the chosen residue point; then compare any two charts through their pointed fibre product, using unique étale lifting; then apply the scheme completion comparison and uniqueness of the representing natural isomorphism.
 
-*Needs:* `schemeFramedCompletionEquiv`, `framedDeformation_twoFibre`, SchemeAndStackFoundations Layer 1.
+*Needs:* `schemeFramedCompletionEquiv`, `framedDeformation_twoFibre`, SchemeAndStackFoundations §§1.7–1.8 (points and residue fields of spaces, pointed fibre products of charts), SchemeAndStackFoundations §4.1 (unique étale formal lifting).
 
 Prove `schemeRelativeTangentEquiv`. For `X/S` as in the scheme comparison, the tangent space of its framed point functor is `Der_Λ(O_X,x,k)` at the specified residue point. For a k-rational point of a k-scheme this is naturally `Hom_k(m_x/m_x²,k)`, hence the existing ZariskiTangentSpace(X,x). For a general relative base retain relative differentials or derivations; the absolute stalk cotangent dual is not asserted to equal the relative tangent.
 
@@ -9655,7 +9663,7 @@ Here the k-rational special case fixes base `S=Spec k` and its structural k-alge
 
 For the proof, restrict the natural comparison to `k[ε]`; then apply the dual-number lift–derivation equivalence with the correct algebra tower; then the affine rational-point cotangent localization equivalence is already Tau Ceti. Dualize that equivalence and use the derivation–cotangent universal property (Tau Ceti `TauCeti.derivationToTrivSqZeroExtEquivLift` with `B = k` and `M = k`, so that `TrivSqZeroExt k k` is `k[ε]` and the lifts are the k-algebra maps `O_X,x → k[ε]` over the point `O_X,x → k`); reduce a non-affine point to its affine neighbourhood. Only the geometric functor transport is new.
 
-*Needs:* `schemeFramedCompletionEquiv`, Tau Ceti `TauCeti.derivationToTrivSqZeroExtEquivLift`, Tau Ceti `TauCeti.AlgebraicGeometry.ZariskiTangentSpace`, Tau Ceti `AlgHom.kernelCotangentLinearEquivZariski`, SchemeAndStackFoundations §4.3, SchemeAndStackFoundations Layer 1.
+*Needs:* `schemeFramedCompletionEquiv`, Tau Ceti `TauCeti.derivationToTrivSqZeroExtEquivLift`, Tau Ceti `TauCeti.AlgebraicGeometry.ZariskiTangentSpace`, Tau Ceti `AlgHom.kernelCotangentLinearEquivZariski`, SchemeAndStackFoundations §4.3.
 
 Define `FormalObject`. For a fixed complete Noetherian local S-algebra R with residue k, a formal object of X is a tower `ξ_n∈X(R/m_R^(n+1))`, `n≥0`, with restriction isomorphisms `ξ_(n+1)|_(R/m^(n+1))≅ξ_n`. Morphisms are levelwise arrows commuting with these comparisons. Composites of adjacent comparisons define all longer transitions. The category is a groupoid at fixed R, and changes of complete local base use coherent pullback.
 
@@ -9705,7 +9713,7 @@ Here R is complete, separated, local and Noetherian; This theorem concerns maps 
 
 For the proof, for schemes every map from the local test rings lies in a single affine neighbourhood; compatible ring maps have a unique complete limit; then for space injectivity, the equalizer is a locally quasi-finite separated scheme; all-order agreement forces equality at its local ring; then for surjectivity choose a pointed étale cover after a finite separable residue extension, lift to its finite étale complete-local extension, effect the scheme maps, then descend using injectivity on the finite product of complete local overlap rings.
 
-*Needs:* SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations §4.7, `FormalObject`.
+*Needs:* SchemeAndStackFoundations §1.3 (étale atlases, the diagonal by locally quasi-finite separated monomorphisms), SchemeAndStackFoundations §1.7 (points and residue fields of spaces), SchemeAndStackFoundations §4.7, `FormalObject`.
 
 Prove `algebraicStackRestriction_equivalence`. Let S be locally Noetherian and X an algebraic stack over S. Restriction from objects over complete Noetherian local S-algebras with residue field finite type over S to formal objects is an equivalence, compatible with change of such bases. In particular each `res_R` is fully faithful and essentially surjective.
 
@@ -9715,7 +9723,7 @@ Here Algebraicity of X is already established; this result cannot supply the eff
 
 For the proof, for full faithfulness represent `Isom(y,z)` by an algebraic space and apply complete-local space restriction; then for objects choose a smooth atlas, pass to a finite separable residue extension and its finite étale complete local ring, and recursively lift a compatible atlas point across successive square-zero quotients; then effect the scheme map; full faithfulness identifies descent arrows over the overlap and proves their cocycle. Effective fppf descent gives the object over R and its specified all-order comparison.
 
-*Needs:* `completeLocalSpaceRestriction_bijective`, `IsEffective`, SchemeAndStackFoundations §§1.20–1.21, SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations §1.18.
+*Needs:* `completeLocalSpaceRestriction_bijective`, `IsEffective`, SchemeAndStackFoundations §§1.20–1.21, SchemeAndStackFoundations §1.19 (algebraic stacks, Isom spaces from the representable diagonal), SchemeAndStackFoundations §1.18.
 
 Prove `restriction_twoFibre_equivalence`. If complete-local restriction is an equivalence for X, Y and Z, it is an equivalence for `X×_Y Z`. Compatible objects and the comparison isomorphism are all algebraized; uniqueness of the isomorphism follows from full faithfulness for Y.
 
@@ -9755,7 +9763,7 @@ Here Use the same coefficient and residue maps for `h_R` and `Def_U`,u; The sche
 
 For the proof, identify `Def_U`,u with `h_R` by the completed-local universal property; then the morphism induced by y under this identification is exactly the morphism of its formal object; then for schemes apply the local infinitesimal criterion of smoothness with the stated finiteness assumptions.
 
-*Needs:* `FamilyVersalAt`, `schemeFramedCompletionEquiv`, SchemeAndStackFoundations Layer 1.
+*Needs:* `FamilyVersalAt`, `schemeFramedCompletionEquiv`, SchemeAndStackFoundations §1.18 (categories fibred in groupoids), SchemeAndStackFoundations §4.1 (the infinitesimal lifting criterion of smoothness).
 
 Prove `smoothChart_versalHullComparison`. A smooth representable chart `U→X` at a specified lift u of `x₀` induces a smooth `h_(Ô_U,u)→Def_X`,`x₀`, hence a versal formal family. In the classical equal-residue coefficient setting, its isomorphism-class transformation is a hull exactly when its tangent map is bijective. Under RS and `Inf_X`,`x₀=0` the framed category is setoid-valued; if the chart map is also tangent-bijective, Schlessinger's prorepresentability criterion (SchemeAndStackFoundations §4.4) makes this pair prorepresent the framed functor. `Inf=0` alone does not make an arbitrary smooth-chart ring prorepresent it.
 
@@ -9775,7 +9783,7 @@ Here Residue points u,r have the fixed k; use the geometric base change when nee
 
 For the proof, apply framed 2-fibre compatibility to `U×_X U` at the identity arrow; then smooth lifting of the atlas makes `Def_U`,u essentially surjective onto the framed category on Artinian tests; then the relation arrows and composition recover that category by the presentation of SchemeAndStackFoundations §1.20 (`stack_presentation`); replace the scheme/space point functors by their completion representatives.
 
-*Needs:* `spaceFramedEtaleCompletionEquiv`, `smoothChart_versalHullComparison`, `framedDeformation_twoFibre`, `framedTangent_exactSequence`, SchemeAndStackFoundations §§1.20–1.21, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations Layer 1.
+*Needs:* `spaceFramedEtaleCompletionEquiv`, `smoothChart_versalHullComparison`, `framedDeformation_twoFibre`, `framedTangent_exactSequence`, SchemeAndStackFoundations §§1.20–1.21, SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §1.19 (smooth atlases, the algebraic space `U×_X U`).
 
 Prove `effectiveVersal_algebraization`. Let S be locally Noetherian, X fibred in groupoids and limit preserving on objects, and ξ a formal object over a complete Noetherian local S-algebra R with residue k finite type over S, image `s∈S`. If ξ is effective and versal and `O_S`,s is a G-ring, there are `U→S` of finite type, a finite-type `u∈U` with `κ(u)=k`, and `y∈X(U)`, versal at u, with an isomorphism `R≅Ô_U,u` and a compatible identification of all the `ξ_n` with the formal restrictions of y. The isomorphism and family need not be unique.
 
@@ -9785,7 +9793,7 @@ Here All four inputs—effectivity, versality, local G-ring and limit preservati
 
 For the proof, effect ξ by an object over `Spec R`. Apply the approximation theorem `formal_object_approximation` (§7.1) at `N=2`, preserving the second jet and associated graded dimensions; then versality recursively lifts the approximation to all orders and gives a compatible local map `R→Ô_U,u`. The second-jet agreement makes this map surjective by the complete form of Nakayama's lemma (Matsumura, Commutative Ring Theory, Theorem 8.4); then associated graded dimension equality gives equal finite lengths at every quotient, making the surjections isomorphisms. Pass to the complete limit and transfer versality back to the algebraic family.
 
-*Needs:* `IsEffective`, `FamilyVersalAt`, `familyVersalAt_completion_iff`, `formal_object_approximation`, `gRing_essentiallyFiniteType`, SchemeAndStackFoundations Layer 0, SchemeAndStackFoundations Layer 4.
+*Needs:* `IsEffective`, `FamilyVersalAt`, `familyVersalAt_completion_iff`, `formal_object_approximation`, `gRing_essentiallyFiniteType`, SchemeAndStackFoundations §0.9 (limit preservation and finite-presentation limits), SchemeAndStackFoundations §0.21 (G-rings), SchemeAndStackFoundations §4.4 (versality and smooth lifting of deformation functors), SchemeAndStackFoundations §4.7 (complete local rings and adic thickenings).
 
 Define `ParameterFormalExports`. Over a locally Noetherian S, given a locally finite-type parameter scheme `P→S` and a parameter functor F on S-schemes with a supplied natural representation `θ:Hom_S(-,P)≅F` and a finite-type `p∈P`, let `ξ₀=θ(p)`. Transport schemeFramedCompletionEquiv through θ to obtain `h_(Ô_P,p)≅Def_F`,`ξ₀`. Export the representation, universal object, pullback naturality and this formal comparison under named projective-bundle, Grassmannian, flag, Hilbert, Quot, Hom and Isom interfaces. Space-valued parameters use the pointed étale chart comparison instead. Their original representability and geometric hypotheses are those of Layers 1 and 2 and SchemeAndStackFoundations Layer 1; this target proves only the uniform point/completion transport.
 
@@ -9806,7 +9814,7 @@ The API provides:
 - Deformations of a specified morphism in the supplied representable Hom functor are classified by its completed parameter stalk.
 - Deformations of a specified isomorphism are classified by the supplied Isom completion and retain the invertibility requirement.
 
-*Needs:* `schemeFramedCompletionEquiv`, `spaceFramedEtaleCompletionEquiv`, Mathlib `CategoryTheory.yoneda`, Layers 1–2, SchemeAndStackFoundations Layer 1.
+*Needs:* `schemeFramedCompletionEquiv`, `spaceFramedEtaleCompletionEquiv`, §§1.1, 1.3 and 2.1 (projective bundles, Grassmannians and flags, Hilbert, Quot, Hom and Isom parameters), SchemeAndStackFoundations §1.4 (algebraic spaces), Mathlib `CategoryTheory.yoneda`.
 
 **Checks.**
 
@@ -9968,6 +9976,8 @@ including reducible schemes, with no integrality restriction on the supplied res
 (Source: Bierstone–Milman 1997, Theorem 1.10, pp. 216–217; Theorems 11.14, 12.2, 12.4 and 13.2,
 pp. 290–298; ResolutionOfSingularitiesCharacteristicZero §§5.1–5.5, 7.8.)
 
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§5.1–5.5, ResolutionOfSingularitiesCharacteristicZero §7.8, SchemeAndStackFoundations §4.17 (SNC divisors).
+
 **Checks.**
 
 - For the unit ideal the supplied principalization has F=0, so the multiplier-ideal application in §9.10 gives `O_X`.
@@ -9994,6 +10004,8 @@ decomposition, the disjoint supports and the difference identity) on the same bl
 so this contract applies without smoothness, integrality, Noetherianity or characteristic
 hypotheses. (Boxer–Pilloni, §4.1.10, Proposition-construction 4.1.11, p. 42;
 ResolutionOfSingularitiesCharacteristicZero §6.3.)
+
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §§6.1–6.3, SchemeAndStackFoundations §4.17 (SNC divisors), CrystallineCohomology §CR.5.1 (logarithmic differentials).
 
 **Checks.**
 
@@ -10076,6 +10088,8 @@ For the proof, work étale locally on a relative chart, where the boundary coord
 
 Prove `logFrobeniusSplitting`: over a perfect field of characteristic `p>0`, if the smooth pair `(X,D)` lifts to `W₂` and `i<p`, there is an isomorphism in the derived category from `⊕_{a≤i} Ω^a_(X^(p))(log D^(p))[−a]` to `τ≤i F_*Ω•_X(log D)`. In particular the full complex splits when `dim X<p`. The degree-one local splitting is division by p of the differential of a lifted Frobenius. Differences on double overlaps are derivations, providing the Čech homotopy; its triple equation gives descent of the chain map. Exterior powers and antisymmetrization divide by a!, which is invertible for `a<p`. Cartier's local coordinate computation proves that the map induces the required cohomology isomorphism. The `W₂` lift and this strict degree bound are essential. (Esnault–Viehweg, §9, Theorem 9.14, and §10, Theorem 10.16 and proof, pp. 114–116.)
 
+*Needs:* `logDeRhamComplex`, CrystallineCohomology §CR.5.1 (the log Cartier isomorphism), SchemeAndStackFoundations §0.29 (Frobenius twists), SchemeAndStackFoundations §2.2 (Čech complexes), SchemeAndStackFoundations §2.18 (the derived category), Mathlib `WittVector`.
+
 Prove `compactBoundaryFrobeniusComparison`. Over a perfect field k of characteristic `p>0`, let X be smooth over k, `D=A+B` with A,B disjoint labelled reduced divisors and D SNC (relative to k, which over the perfect field k is the absolute condition), `F:X→X′` the relative Frobenius, and `B′`,`D′` the base changes to `X′`. Then: `(a)` the projection formula and `F^*O_(X′)(−B′)=O_X`(−pB) give an isomorphism of complexes of `O_(X′)`-modules `F_*Ω•_X(log D)⊗O_(X′)(−B′)≅F_*(I_B^p·Ω•_X(log D))`; `(b)` the inclusion `F_*`(`I_B^p·Ω•_X(log D)`)→`F_*`(`logDeRhamComplex.withCompactBoundary A B`) is a quasi-isomorphism; `(c)` the Cartier isomorphism of `logFrobeniusSplitting`, twisted by `O_(X′)(−B′)`, gives `Ω^a_(X′)`(log `D′`)⊗`O_(X′)(−B′)≅H^a`(`F_*`(`logDeRhamComplex.withCompactBoundary A B`)). These identifications commute with étale pullback. The two complexes in `(b)` are not equal; their quotient is acyclic.
 
 Here k perfect of characteristic `p>0`; X smooth over k; A,B disjoint with `A+B` SNC; B is the twisted label.
@@ -10084,7 +10098,7 @@ Here k perfect of characteristic `p>0`; X smooth over k; A,B disjoint with `A+B`
 
 For the proof, `(a)` is the projection formula for the finite flat morphism F. For `(b)`, factor the inclusion through the subcomplexes `I_B^(j+1)·Ω`•⊂`I_B^j·Ω`• for `1≤j≤p−1`; the connection d on `O_X`(−jB) has residue j along every component of B, which is a unit in k for these j, so each inclusion is a quasi-isomorphism by the residue criterion; locally the quotients are the acyclic complexes of the first check. For `(c)`, combine `(a)`, `(b)` and the Cartier isomorphism for `Ω•_X(log D)`.
 
-*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations Layer 2.
+*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations §0.29 (the relative Frobenius), SchemeAndStackFoundations §2.6 (the projection formula for a finite flat morphism), SchemeAndStackFoundations §2.18 (complexes of modules, quasi-isomorphisms and the derived category).
 
 **Checks.**
 
@@ -10113,9 +10127,15 @@ Prove `logHodgeDegeneration`: for a smooth proper characteristic-zero scheme and
 
 Prove `cyclicCoverEigensummand`: for an invertible L, a nonzero section of `L^N` with SNC divisor `D=Σα_jD_j`, and N prime to the characteristic, the normalized root cover has eigensummand `L^(−i)⊗O(⌊iD/N⌋)` for `0≤i<N`. Its logarithmic connection has residue equal to the fractional part of `iα_j/N` in the field; integral residues remove the corresponding boundary component. Root-cover coordinate charts prove this formula, and normalizing the monomials proves the floor, including its sign. The local quotient singularities are resolved using Layer 9; trace splits the finite cover because N is invertible. Apply logarithmic degeneration to the resolved cover and its character summands. Consequently, for `0<α_j<N` in characteristic zero, every effective divisor B supported on D gives a surjection `H^q(L^(−1)(−B))→H^q(L^(−1))`. Enlarging to an SNC divisor and using the version with compact boundary gives the corresponding restriction maps with extra labelled components. (Esnault–Viehweg, Theorem 3.2, pp. 19–21; §§3.6–3.11, pp. 22–25; Theorem 5.1, pp. 42–43.)
 
+*Needs:* `logHodgeDegeneration`, `logDeRhamComplex.withCompactBoundary`, §9.4 (resolution of the quotient singularities), SchemeAndStackFoundations §§0.1–0.2 (relative spectra of quasi-coherent algebras), SchemeAndStackFoundations §2.6 (cohomology of coherent sheaves and finite pushforward), SchemeAndStackFoundations §4.17 (SNC divisors).
+
 Prove `algebraicAdjointVanishing`: if a rational divisor A on a smooth projective characteristic-zero variety is nef and big, with fractional support SNC, then `H^q(X,ω_X⊗O(⌈A⌉))=0` for `q>0`. The integral ample case is Kodaira vanishing; the nef-and-big case is Kawamata–Viehweg vanishing. Clear denominators, write a sufficiently large multiple as an ample divisor plus an effective divisor, resolve their union, apply the cyclic-cover restriction surjection, and kill the source by Serre vanishing and duality. The round-up comes from the dual of the floor in the root-cover summand. The birational comparison retains the higher-direct-image vanishing; a finite quotient chart is reduced to a smooth cover by trace, and the Leray induction proves rationality of that quotient. (Esnault–Viehweg, Corollaries 5.2 and 5.6, pp. 43–46; Corollary 5.12`(c)` and Claim 5.13 with proofs, pp. 48–52.) No unrestricted positive-characteristic vanishing is used: the source's positive-characteristic variant requires a W₂ lift, dimension bound and a root exponent prime to p.
 
+*Needs:* `cyclicCoverEigensummand`, §1.6 (`bigLineBundle`), §9.4 (resolution), SchemeAndStackFoundations §§2.2, 2.6 and 2.20 (Leray, Serre vanishing and higher direct images, Serre duality), SchemeAndStackFoundations §5.3 (nef divisors through intersection numbers).
+
 Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth characteristic-zero variety and a nonnegative rational c. On a principalization `π:Y→X`, write `a O_Y=O_Y(−F)` and set `J(a^c)=π_*O_Y(K_(Y/X)−⌊cF⌋)`. Define it as an ideal in `O_X` through the canonical rational-function identification. Common domination, the local root-cover vanishing and the projection formula prove independence of π and vanishing of the positive direct images in this formula. Its API `algebraicMultiplierIdeal.ofPrincipal`, `algebraicMultiplierIdeal.ofUnit`, `algebraicMultiplierIdeal.monotone`, `algebraicMultiplierIdeal.resolutionIndependent`, `algebraicMultiplierIdeal.localVanishing` records the principal SNC formula, the unit ideal, reverse inclusion as c grows, independence and vanishing. If `a⊗M` is globally generated and `L−cM` is nef and big, the same calculation on Y gives `H^q(X,ω_X⊗L⊗J(a^c))=0` for `q>0`. This is the algebraic case of the multiplier-ideal vanishing used in the effective argument. (Demailly, §1, Theorem 1.2 and formula (1.4), pp. 3–5, and the algebraic-use statement at the start of §2, p. 5; the algebraic proof is the preceding root-cover and birational vanishing.)
+
+*Needs:* `algebraicAdjointVanishing`, `cyclicCoverEigensummand`, §9.4 (principalization), SchemeAndStackFoundations §2.6 (the projection formula and higher direct images), SchemeAndStackFoundations §2.20 (relative canonical sheaves).
 
 **Checks.**
 
@@ -10126,9 +10146,15 @@ Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth cha
 
 Prove `uniformAdjointVeryAmpleness`: `K_X+(n+1)L` is nef for ample L, and there is a positive integer `λ_n` depending only on n such that `m(K_X+(n+2)L)+G` is very ample for every `m≥λ_n` and nef G. One may take `λ_n=max(1, binom(3n+1,n)−2n)` for `n≥1`. For the proof, apply multiplier-ideal vanishing to ideals of algebraic sections, choose sections outside each positive-dimensional multiplier support by the numerical-polynomial root bound, and strictly enlarge its coherent ideal. Noetherianity leaves only a finite support. Jet restrictions then surject by `H¹` vanishing. The descending integer recurrence `b_(k+1)=floor(a(b_k+η)/(a+1))+1` stops at `a(η+1)+1`; with no imposed jets `η=n`, taking `a→∞` proves nefness of `K+(n+1)L`. With two point jets or one first-order jet, take `a=1` and the binomial jet-length bound. This yields the adjoint very-ampleness constant and its stability under nef addition. This proof uses only the algebraic multiplier ideals just constructed, HRR and coherent exact sequences, although the source writes the same ideals using weights of sections. (Demailly, Theorems 2.3 and 2.4 with proofs, pp. 6–10, and Theorem 0.2`(c)`, p. 2.)
 
+*Needs:* `algebraicMultiplierIdeal`, §1.4 (`relativeVeryAmple`), SchemeAndStackFoundations §2.6 (coherent cohomology), SchemeAndStackFoundations §5.3 (nef classes), SchemeAndStackFoundations §5.8 (Hirzebruch–Riemann–Roch).
+
 Prove `nefMixedIntersectionBound`: for ample L, nef H and `v=L^n>0`, `H^p L^(n−p)≤(H L^(n−1))^p/v^(p−1)` for `1≤p≤n`. Cut to surfaces by general ample divisors (SchemeAndStackFoundations §4.13), apply the surface Hodge index theorem of SchemeAndStackFoundations §5.10, and use induction for the log-concavity of mixed intersections `(H^p L^(n−p))² ≥ (H^(p−1) L^(n−p+1))(H^(p+1) L^(n−p−1))`; take a limit after adding positive rational ample classes to nef factors. The bound is the telescoped form of log-concavity: the ratios `H^p L^(n−p) / H^(p−1) L^(n−p+1)` are nonincreasing in p and the first is `h/v`. The dimensions zero and one need no surface cutting. This is the specific higher-dimensional inequality needed below, not a new copy of the supplied surface theorem. (Demailly, proof of Theorem 4.7, p. 15, where it is the Khovanskii–Teissier concavity inequality `(L^(n−p)·H^p)^(1/p) (L^n)^(1−1/p) ≤ L^(n−1)·H`, with its references Teissier 1979 and 1982.)
 
+*Needs:* SchemeAndStackFoundations §4.13 (Bertini), SchemeAndStackFoundations §5.3 (mixed intersection numbers), SchemeAndStackFoundations §5.10 (the Hodge index theorem).
+
 Prove `resolutionCanonicalDegreeBound`: for an integral p-dimensional subvariety Y in a very ample embedding H of degree δ, its Grauert–Riemenschneider canonical sheaf `ω_Y^GR=ρ_*ω_(Ỹ)` has a nonzero map to `O_Y((δ−p−2)H)`. A general projection is finite and birational to a hypersurface of degree δ. The canonical trace embeds the resolution canonical sheaf in the hypersurface's dualizing line; its rational-form identification and pullback into `O_Y` give the asserted map. This uses the resolution canonical sheaf, which need not equal the dualizing sheaf of a non-rational singularity. On a smooth hypersurface the bound is an equality. Combining adjoint vanishing on the resolution, HRR, and the fact that a degree-p nonzero polynomial has at most p integer roots gives a nonzero section of `ω_Y^GR⊗O_Y(mL−B)` for some `m≤p(B L^(p−1)Y)/(L^pY)+p+1`, when L is ample and B nef. (Demailly, Theorem 3.1 and its projection proof, pp. 11–12; Proposition 4.6, p. 13.)
+
+*Needs:* `algebraicAdjointVanishing`, §1.4 (`relativeVeryAmple`), §9.4 (resolution), SchemeAndStackFoundations §§2.19–2.21 (trace and the dualising sheaves of the hypersurface and of the resolution), SchemeAndStackFoundations §5.3 (intersection numbers), SchemeAndStackFoundations §5.8 (Hirzebruch–Riemann–Roch).
 
 These inputs prove `numericalVeryAmpleness` as follows. Set `H=λ_n(K+(n+2)L)` and `h=H L^(n−1)=λ_n(w+(n+2)v)`. For `n≥2`, the descending-cycle proof of Demailly's Theorem 4.7 gives a bound depending only on n,v,h and `b=B L^(n−1)`: start with a bounded section of `m_n L−B`, then on each integral p-dimensional component use the preceding canonical-degree and adjoint-section estimates to choose bounded `m_p`. Intersections bound the next component degrees by products of the already chosen `m_j` and `h^p/v^(p−1)`. Finite products and the recurrence in that proof therefore give one numerical bound; no individual Hilbert-polynomial coefficient occurs. For a curve not contained in the last one-dimensional stratum, the first section that does not vanish identically on it proves nonnegative degree of `m_0L−B`; for a curve in that stratum, its bounded degree and the positive integral degree of L give the same conclusion after increasing `m_0`. Thus `m_0L−B` is nef. Replace B by `B+H` and add H to get a very ample `mL−B` for every sufficiently large m. With `B=0` this gives the required uniform exponent. The displayed h is positive because H is ample. For `n=1`, the degree criterion gives very ampleness whenever `mv≥w+3`; the degree-one projective line is included. For `n=0` the geometric integral variety is a point and exponent 1 suffices. The complete embedding satisfies `h⁰(L^m)≤m^n v+n`, by the nondegenerate degree bound in projective space. (Demailly, Lemma 4.1, Proposition 4.3 and Corollary 4.4, pp. 12–13; Theorem 4.7 and proof, pp. 14–16.)
 

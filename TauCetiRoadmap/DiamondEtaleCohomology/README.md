@@ -345,7 +345,7 @@ Require the following API.
 - For `Y = Spa(R, R⁺)^♢` with `(R, R⁺)` a perfectoid Tate pair, `Y_ét` is equivalent to `Spa(R♭, R♭⁺)_ét`.
 - For an infinite profinite set `S, Spa(C, O_C) × S → Spa(C, O_C)` is quasi-pro-étale but not étale, so it is not an object of `Spa(C, O_C)_ét`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D4; `CategoryTheory.GrothendieckTopology`; `CategoryTheory.Sheaf`.
+*Needs:* `DiamondsAndVStacks`, §D3.6; `DiamondsAndVStacks`, §§D5.1 and D5.5; `DiamondsAndVStacks`, §§D4.5, D4.7 and D4.8; `DiamondsAndVStacks`, §D6.5; `PerfectoidSpaces`, §P3.18; `CategoryTheory.GrothendieckTopology`; `CategoryTheory.Sheaf`.
 
 (ECD Definition 14.1(i), p. 81; ECD paragraph after Definition 14.1, p. 81.)
 
@@ -369,7 +369,7 @@ Require the following API.
 - `A` locally separated étale map `Y′ → Y` is an object of both `Y_ét` and `Y_qproét`, and a jointly surjective étale family covers in both.
 - For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `Spa(C′, O_C′) → Spa(C, O_C)` is a `v`-cover but not quasi-pro-étale, so it is not an object of `Spa(C, O_C)_qproét`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D4; `CategoryTheory.GrothendieckTopology`.
+*Needs:* `DiamondsAndVStacks`, §D3.6; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, §D0.23; `DiamondsAndVStacks`, §§D4.1 and D4.7; `DiamondsAndVStacks`, §D1.9; `PerfectoidSpaces`, §P6.1; `CategoryTheory.GrothendieckTopology`.
 
 (ECD Definition 14.1(ii), p. 81; ECD paragraph after Definition 14.1, p. 81.)
 
@@ -393,7 +393,7 @@ Require the following API.
 - For a perfectoid space `X`, the restriction of `X_v` to perfectoid objects is the `v`-site of `DiamondsAndVStacks` D2, with the same covering families.
 - For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `{Spa(C′, O_C′) → Spa(C, O_C)}` covers in the `v`-site but is not a family of quasi-pro-étale maps.
 
-*Needs:* `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `CategoryTheory.GrothendieckTopology`.
+*Needs:* `DiamondsAndVStacks`, §§D4.4 and D4.7; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, §D0.23; `DiamondsAndVStacks`, §D1.9; `DiamondsAndVStacks`, §D3.8; `PerfectoidSpaces`, §P6.1; `CategoryTheory.GrothendieckTopology`.
 
 (ECD Definition 14.1(iii), p. 81; ECD paragraph after Definition 14.1, p. 81.)
 
@@ -417,7 +417,7 @@ Require the following API.
 - If `Y_v,κ` is fixed, `D(Y_v,κ, Λ)` is Mathlib's `DerivedCategory` of the Grothendieck abelian category of sheaves of `Λ`-modules on `Y_v,κ`.
 - The category of all small sheaves of `Λ`-modules on `Y_v` has no set of generators when `Y ≠ ∅` and `Λ ≠ 0`, so `D(Y_v, Λ)` is not the derived category of a single Grothendieck abelian category.
 
-*Needs:* `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `EnhancedDerivedSheaves`, Layer E1; `DerivedCategory`.
+*Needs:* §C0.2; §C0.3; §C0.8; §C0.21; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, §D0.23; `EnhancedDerivedSheaves`, §§E1.3 and E1.4; `DerivedCategory`.
 
 (ECD paragraph before Proposition 14.10, p. 86.)
 
@@ -425,7 +425,7 @@ Require the following API.
 
 The categories of small sheaves on `Y_ét, Y_qproét` and `Y_v`, for `Y` a locally spatial diamond, a diamond and a small `v`-stack respectively, are algebraic topoi (at each cutoff for the last two). If `Y` is `0`-truncated (a small `v`-sheaf), an object of any of these sites is quasicompact, resp. quasiseparated, in the topos-theoretic sense if and only if it is quasicompact, resp. quasiseparated, as a small `v`-stack on Perf.
 
-*Needs:* `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D2; `C0.1`; `C0.2`; `C0.3`; `C0.16`; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D1.
+*Needs:* `DiamondsAndVStacks`, §D0.23; `DiamondsAndVStacks`, Layer D2; §C0.1; §C0.2; §C0.3; §C0.16; `DiamondsAndVStacks`, §§D4.7 and D4.8; `DiamondsAndVStacks`, §§D5.1 and D5.5; `DiamondsAndVStacks`, §D1.9.
 
 (ECD Proposition 14.2, p. 82; ECD proof of Proposition 14.2, p. 82.)
 
@@ -450,7 +450,7 @@ Require the following API.
 - The geometric stalk functor is the fibre functor of a point of `Y_ét` in the sense of `CategoryTheory.GrothendieckTopology.Point`.
 - For `Y = Spa(C, C⁺)` of rank `2` with open generic point `j : {η} ⊂ Y` and `M ≠ 0`, the sheaf `j_!M` has `F(Y) = 0` but `F_η̄ = M`; so stalks at generalizations are not global sections.
 
-*Needs:* `C0.1`; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D1; `CategoryTheory.GrothendieckTopology.Point`.
+*Needs:* §C0.1; `DiamondsAndVStacks`, §§D5.3, D5.4 and D5.8; `DiamondsAndVStacks`, §§D1.4 and D1.5; `CategoryTheory.GrothendieckTopology.Point`.
 
 (ECD Proposition 14.3, p. 82; ECD proof of Proposition 14.3, p. 82.)
 
@@ -492,7 +492,7 @@ Require the following API.
 
 Let `Y` be a small `v`-stack. Strictly totally disconnected perfectoid spaces over `Y` form a basis of `Y_v`, and if `Y` is a diamond, strictly totally disconnected perfectoid spaces quasi-pro-étale over `Y` form a basis of `Y_qproét`. If `X` is a strictly totally disconnected perfectoid space, then `X_qproét^∼ ≃ X_qproét,qc,sep^∼` for the site of quasicompact separated pro-étale maps `X′ → X`, and `X_v^∼ ≃ X_v,qcqs^∼` for the site of qcqs representable `X′ → X`; both subsites consist of qcqs objects, are stable under fibre products, and the topoi are coherent.
 
-*Needs:* `DiamondsAndVStacks`, Layer D1; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `C0.2`; `C0.3`.
+*Needs:* `DiamondsAndVStacks`, §§D1.4, D1.9 and D1.10; `PerfectoidSpaces`, §§P6.6, P6.7 and P6.13; `DiamondsAndVStacks`, §D4.1; `DiamondsAndVStacks`, Layer D0; §C0.2; §C0.3.
 
 (ECD proof of Lemma 14.4, p. 83.)
 
@@ -519,7 +519,7 @@ Require the following API.
 - For `X′ = X × S` with `S` profinite, `λ∘_X(X′) = X × S`.
 - For a nontrivial extension `C ⊊ C′` of algebraically closed fields, `Spa(C′, O_C′) → Spa(C, O_C)` is not pro-étale, yet its hull is `Spa(C, O_C)`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D0; `PerfectoidSpaces`, Layer P6.
+*Needs:* `DiamondsAndVStacks`, §§D1.3, D1.5 and D1.10; `DiamondsAndVStacks`, §D0.6; `PerfectoidSpaces`, §§P6.6–P6.8.
 
 (ECD Lemma 14.5, p. 83; ECD Lemma 14.5(i), p. 83.)
 
@@ -569,7 +569,7 @@ Let `Y` be a locally spatial diamond and `F` a sheaf of abelian groups (resp. gr
 
 Let `Y` be a spatial diamond and `Y_ét,qc,sep ⊂ Y_ét` the full subcategory of quasicompact separated étale maps. Then `Y_ét,qc,sep` is an essentially small basis of `Y_ét`, so `Y_ét,qc,sep^∼ ≃ Y_ét^∼`. The functor `Pro(Y_ét,qc,sep) → Y_qproét`, “`lim`” `Ỹ_j ↦ lim Ỹ_j`, is fully faithful and its essential image is a basis of `Y_qproét`; for a sheaf `F` on `Y_ét` and `Ỹ = lim Ỹ_j, (ν_Y^∗F)(Ỹ) = colim_j F(Ỹ_j)`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D5; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layer D2; `C0.1`; `C0.2`; `C0.8`.
+*Needs:* `DiamondsAndVStacks`, §§D5.1, D5.3 and D5.4; `PerfectoidSpaces`, §P6.9; `DiamondsAndVStacks`, Layer D2; §C0.1; §C0.2; §C0.8.
 
 (ECD proof of Proposition 14.8, p. 85.)
 
@@ -585,7 +585,7 @@ Let `Y` be a locally spatial diamond. Then `ν_Y^∗ : Y_ét^∼ → Y_qproét^�
 
 Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with inverse limit `Y`, and assume `I` has a final object `0`. Let `F_0` be an étale sheaf on `Y_0` with pullbacks `F_i` to `Y_i` and `F` to `Y`. Then `colim_i Hʲ(Y_i, F_i) → Hʲ(Y, F)` is an isomorphism for `j = 0` if `F_0` is a sheaf of sets, for `j = 0, 1` if it is a sheaf of groups, and for all `j ≥ 0` if it is a sheaf of abelian groups. Relative form: for `i_0 ∈ I` and `f_i : Y → Y_i, f_{i,i_0} : Y_i → Y_{i_0}`, one has `R^q f_{i_0∗}F = colim_{i→i_0} R^q f_{i,i_0∗}F_i` on `(Y_{i_0})_ét`, in the same range of `q` as the absolute statement (`q = 0` for sheaves of sets, `q ≤ 1` for sheaves of groups, all `q` for abelian sheaves).
 
-*Needs:* `C0.16`; `DiamondsAndVStacks`, Layer D5; `C0.5`; `PerfectoidSpaces`, Layer P5; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C0.16; `DiamondsAndVStacks`, §D5.3; §C0.5; `DiamondsAndVStacks`, §§D0.18 and D0.21.
 
 (ECD Proposition 14.9, p. 86; ECD proof of Proposition 14.9, p. 86.)
 
@@ -593,7 +593,7 @@ Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with inve
 
 Let `X` be a strictly totally disconnected perfectoid space. Then `X_ét^∼` is equivalent to the topos of sheaves on `|X|`, every étale cover of a quasicompact open `U ⊂ X` splits, and `Hⁱ(U_ét, F) = 0` for all `i > 0`, all sheaves of abelian groups `F` and all quasicompact open `U`; in particular these `U` form a basis of `X_ét` of objects with vanishing higher cohomology.
 
-*Needs:* `DiamondsAndVStacks`, Layer D1; `C0.1`; `CategoryTheory.Sheaf.H`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* `DiamondsAndVStacks`, §§D1.2 and D1.4; §C0.1; `CategoryTheory.Sheaf.H`; `DiamondsAndVStacks`, §§D5.1 and D5.7.
 
 (ECD proof of Proposition 14.10, p. 86; ECD Definition 20.1(i), p. 113.)
 
@@ -611,7 +611,7 @@ Let `Y` be a diamond and `κ` a cutoff cardinal. The topos `Y_qproét,κ^∼` (h
 
 Let `Y` be a small `v`-stack and `κ` a cutoff cardinal. The topos `Y_v,κ^∼` (and hence the category of small sheaves on `Y_v`) is replete: for every sequence of epimorphisms of sheaves `⋯ → F_2 → F_1 → F_0`, the map `lim_n F_n → F_0` is an epimorphism.
 
-*Needs:* `C0.3`; `EnhancedDerivedSheaves`, Layer E2; `PerfectoidSpaces`, Layer P5; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layer D0; `TopCat.nonempty_limitCone_of_compact_t2_cofiltered_system`.
+*Needs:* §C0.3; `EnhancedDerivedSheaves`, Layer E2; `PerfectoidSpaces`, §§P5.3, P5.4 and P5.7; `PerfectoidSpaces`, §P6.1; `DiamondsAndVStacks`, §D0.23; `TopCat.nonempty_limitCone_of_compact_t2_cofiltered_system`.
 
 (ECD proof of Proposition 14.10, p. 86.)
 
@@ -818,7 +818,7 @@ Require the following API.
 - For strictly totally disconnected `X, D_ét(X, Λ)` is equivalent to Mathlib's `DerivedCategory` of sheaves of `Λ`-modules on `|X|`.
 - For `Y = Spa(C, O_C)` and `Λ = ℤ_p`, the `v`-sheaf `X ↦ C(|X|, ℤ_p)` (continuous maps for the `p`-adic topology) is not in `D_ét(Y, ℤ_p)`: it is concentrated in degree `0` and not pulled back from `Y_ét`, whose sheaves take the value `C(S, M)` with `M` discrete on `Spa(C, O_C) × S`.
 
-*Needs:* `C0.24`; `C0.4`; `C2.1`; `DiamondsAndVStacks`, Layer D1; `DerivedCategory`.
+*Needs:* §C0.24; §C0.4; §C2.1; `DiamondsAndVStacks`, §D1.4; `DerivedCategory`.
 
 (ECD Definition 14.13, p. 88.)
 
@@ -826,7 +826,7 @@ Require the following API.
 
 Let `Y` be a small `v`-stack. `A ∈ D(Y_v, Λ)` lies in `D_ét(Y, Λ)` as soon as its pullback to one `v`-cover of `Y` by a locally spatial diamond (e.g. a disjoint union of strictly totally disconnected spaces) does. If `Y` is a locally spatial diamond, `D⁺_ét(Y, Λ) = D⁺(Y_ét, Λ)`; if `Y` is strictly totally disconnected, `D_ét(Y, Λ) = D(Y_ét, Λ)`.
 
-*Needs:* `C2.1`; `C2.2`; `C0.9`; `DiamondsAndVStacks`, Layer D1.
+*Needs:* §C2.1; §C2.2; §C0.9; `DiamondsAndVStacks`, §§D1.4 and D1.9.
 
 (ECD Remark 14.14, p. 88.)
 
@@ -898,7 +898,7 @@ Require the following API.
 - For the finite fold `Y⊔Y→Y, Rf_{v,κ∗}(A,B)=A×B`. Cutoff extension preserves this finite product, so the mate is invertible for arbitrary `A,B`.
 - Let `κ` be an allowed singular cutoff with `δ=cf(κ)=ω₁<κ, Y=Spa(C,O_C) κ`-small with `C` algebraically closed perfectoid of characteristic `p, Λ=𝔽_ℓ, ℓ≠p`, and `|J_i|<κ` cofinal in `κ` for `i<δ`. Put `S_i=Λ^{J_i}, F_i(T)=C(|T|,S_i)` and `f:⊔_{i<δ}Y→Y`. Each `F_i` is a module sheaf represented as a set sheaf by the `κ`-small perfectoid space `Y×S_i`; strong limit growth bounds both its profinite set and its continuous-function ring below `κ`. The disjoint union is `κ`-small, and the family `F=(F_i)` is an ambient module sheaf with no uniform bound on the `|J_i|`. Cutoff extension is componentwise and preserves each `κ`-small representable `Y×S_i`, hence extends each `F_i` to the same represented module sheaf. Write `J=⊔_i J_i, |J|=κ`. Then `H⁰Rf_{v,κ∗}F=∏_{j∈J}Λ_Y`. At `κ′` large enough for `Y×S` with `S=Λ^J`, the larger pushforward has the coordinate section given by `id_S`. By ECD Proposition 8.2, a section extended from `κ` factors through a `κ`-small affinoid approximation, so its coordinate image has cardinality `<κ`, whereas `|S|=ℓ^κ>κ`. The mate fails already on `H⁰`. This uses `t`-exactness of extension, without an exactness assertion for uncountable products.
 
-*Needs:* `EnhancedDerivedSheaves`, Layer E1; `EnhancedDerivedSheaves`, Layer E3; `C0.4`; `C0.3`.
+*Needs:* `EnhancedDerivedSheaves`, §§E1.3 and E1.4; `EnhancedDerivedSheaves`, Layer E3; §C0.4; §C0.3.
 
 (ECD Lemma 17.1 and proof, p. 96; ECD Proposition 8.2 and proof, pp. 39–40; ECD Lemma 4.1, pp. 19–20; `EnhancedDerivedSheaves` §E3.4, `cutoffRightAdjoint_compat`; pinned Mathlib `CategoryTheory/Adjunction/Mates.lean`, `CategoryTheory.mateEquiv`.)
 
@@ -914,7 +914,7 @@ Let `Y` be a small `v`-stack, `Y_• → Y` a simplicial `v`-hypercover by small
 
 Let `Y` be a small `v`-stack and `Y_• → Y` a simplicial `v`-hypercover by disjoint unions of strictly totally disconnected spaces. Then `D_ét(Y, Λ) = D_ét,cart(Y_•, Λ)`, the cartesian objects with terms in `D(Y_i,ét, Λ)`; hence `D_ét(Y, Λ) ⊂ D(Y_v,κ, Λ)` for every cutoff `κ` such that all `Y_i` are `κ`-small.
 
-*Needs:* `C2.10`; `C2.3`; `PerfectoidSpaces`, Layer P6.
+*Needs:* §C2.10; §C2.3; `PerfectoidSpaces`, §P6.1.
 
 (ECD Remark 17.4, p. 97.)
 
@@ -939,7 +939,7 @@ Require the following API.
 - For `Y = ∅, 𝒟_ét(Y, Λ)` is the zero `∞`-category.
 - `𝒟_ét(Y, Λ)` is not closed under limits in `𝒟(Y_v,κ, Λ)` in general; its limits are computed with the coreflection `R_Yét`.
 
-*Needs:* `C2.9`; `C2.10`; `C2.11`; `C0.24`; `EnhancedDerivedSheaves`, Layer E3; `C2.6`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D4.
+*Needs:* §C2.9; §C2.10; §C2.11; §C0.24; `EnhancedDerivedSheaves`, Layer E3; §C2.6; `DiamondsAndVStacks`, §§D1.4 and D1.9; `DiamondsAndVStacks`, §D4.7.
 
 (ECD Lemma 17.1, p. 96; ECD proof of Lemma 17.1, p. 96.)
 
@@ -1108,7 +1108,7 @@ Require the following API.
 - At `Y=Spa(C,O_C), Λ=𝔽_ℓ` with `ℓ≠p`, let `I` have cardinality at least `κ` in the coefficient universe, `A=⊕_{i∈I}Λ_Y` and `B=Λ_Y`. Then `H⁰RHom_{v,κ}(A,B)=∏_IΛ_Y`. Choose `κ′` large enough for `X_S=Y×S, S=(𝔽_ℓ)^I` profinite. The coordinate tuple on `X_S` in the larger product cannot come from the smaller product: ECD Proposition 8.2 expresses every extended section through one `κ`-small affinoid approximation `X_j`, so its coordinate map factors through `|X_j|` of cardinality `<κ`, whereas the identity of `S` has image of cardinality `ℓ^{|I|}>κ`. Thus the ambient Hom comparison is not an equivalence in this example; the cutoff bounds tests, not the rank of `A`.
 - For dualizable `A`, including finite free constant complexes, the ambient Hom comparison is an equivalence at every adequate enlargement; the dual-tensor formula supplies it.
 
-*Needs:* `EnhancedDerivedSheaves`, Layer E1; `C2.9`; `C3.1`; `CategoryTheory.MonoidalCategory`.
+*Needs:* `EnhancedDerivedSheaves`, §§E1.3 and E1.4; §C2.9; §C3.1; `CategoryTheory.MonoidalCategory`.
 
 (ECD §17, p. 99; ECD Proposition 8.2 and proof, pp. 39–40; ECD Definition 4.2, p. 20.)
 
@@ -1220,7 +1220,7 @@ The properness predicate is imported from `DiamondsAndVStacks` §D4.11 together 
 - The perfectoid open unit disc over `Spa(C, O_C)` is partially proper over `Spa(C, O_C)` but not quasicompact, hence not proper.
 - For a finite group `G ≠ 1` acting trivially on `X = Spa(C, O_C), [X/G] → X` is quasicompact and universally closed `(|[X/G] ×_X T| = |T|)` but not `0`-truncated, hence not separated and not proper; its valuative lifts exist but form the groupoid `BG`.
 
-*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `IsClosedMap`.
+*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, §D3.8; `DiamondsAndVStacks`, §§D4.5 and D4.8; `IsClosedMap`.
 
 (ECD Definition 18.1 and the paragraph after it, p. 101.)
 
@@ -1242,7 +1242,7 @@ Starting from the field-valuative criterion of `DiamondsAndVStacks` §D4.11 (per
 - For a rank-two `C⁺ ⊊ O_C`, the open immersion `Spa(C, O_C) → Spa(C, C⁺)` is not proper, and the identity square with `R = C`, `R⁺ = C⁺` has zero lifts.
 - For `G ≠ 1` finite acting trivially on `X = Spa(C, O_C)`, the map `[X/G] → X` is not proper: lifts exist but are not unique, forming `BG`.
 
-*Needs:* `DiamondsAndVStacks`, §D4.11; `C4.1`; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
+*Needs:* `DiamondsAndVStacks`, §D4.11; §C4.1; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Proposition 18.3, p. 101.)
 
@@ -1268,7 +1268,7 @@ Require the following API.
 - The perfectoid closed unit disc `Spa`(`C`⟨`T^{1/p^∞}`⟩, `O_C`⟨`T^{1/p^∞}`⟩) over `Spa(C, O_C)` is quasicompact and separated but not partially proper: it misses the rank-two points at the boundary that its canonical compactification adds.
 - For `C⁺ ⊊ O_C, a ∈ O_C ∖ C⁺` and `U = {|a| ≤ 1} ⊂ X = Spa(C, C⁺)`, the space `Y′` obtained by gluing two copies of `X` along `U` maps to `X` by a `0`-truncated quasiseparated map with lifts for all `(R, R⁺)`-squares, which is not partially proper: the `(C, C⁺)`-square at the rank-one point has two lifts, so `Y′ → X` is not separated.
 
-*Needs:* `DiamondsAndVStacks`, Layer D3; `PerfectoidSpaces`, Layer P4.
+*Needs:* `DiamondsAndVStacks`, §D3.8; `PerfectoidSpaces`, §P4.20; §C4.4.
 
 (ECD Definition 18.4, p. 103; ECD Remark 18.5, p. 103.)
 
@@ -1284,7 +1284,7 @@ A map `f : Y′ → Y` of `v`-stacks is proper if and only if it is partially pr
 
 Using the stability of proper maps under composition and arbitrary base change supplied by `DiamondsAndVStacks` §D4.11, prove the corresponding statements for partially proper maps. If `g ∘ f` is proper (resp. partially proper) and `g` is separated, then `f` is proper (resp. partially proper). In particular a fibre product of two proper maps to `X` is proper over `X`.
 
-*Needs:* `C4.1`; `C4.5`; `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3.
+*Needs:* §C4.1; §C4.5; `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, §D3.8.
 
 (ECD proof of Theorem 19.2, p. 109.)
 
@@ -1310,7 +1310,7 @@ Require the following API.
 - For a separated diamond `Y, Ȳ` is a diamond (target C4.12); for a spatial diamond `Y, Ȳ` is quasicompact and quasiseparated and `Y → Ȳ` is a quasicompact injection. Whether `Ȳ` is spatial is open (ECD p. 130) and is not asserted.
 - For `C` algebraically closed with residue field `k` transcendental over `𝔽_p, Spa(C, O_C) → Spa(C, (O_C)′)` is a quasicompact injection whose image, the rank-one point, is not open (any finitely many elements of `k` lie in a proper valuation ring of `k` containing the algebraic closure of `𝔽_p` in `k`); so `Y → Ȳ` is not an open immersion in general.
 
-*Needs:* `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D3; `PerfectoidSpaces`, Layer P4.
+*Needs:* `DiamondsAndVStacks`, §§D1.1, D1.3 and D1.9; `DiamondsAndVStacks`, §D3.8; `PerfectoidSpaces`, §P4.20.
 
 (ECD after Proposition 18.6, p. 104.)
 
@@ -1318,7 +1318,7 @@ Require the following API.
 
 If `Y = Spa(R, R⁺)` is an affinoid perfectoid space, then `Ȳ = Spa(R, (R⁺)′)`, where `(R⁺)′ ⊂ R⁺` is the smallest open and integrally closed subring of `R`, namely the integral closure of `𝔽_p + R°°`. Relative form: for a map `Spa(R, R⁺) → X = Spa(A, A⁺)` of affinoid perfectoid spaces (in particular for `X` strictly totally disconnected), the canonical compactification is `Spa(R, R⁺_X)`, where `R⁺_X` is the integral closure in `R` of (the image of `A⁺`) `+ R°°`; it is affinoid perfectoid. For `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` with `C` algebraically closed, `R⁺_X = C⁺ + C′°°`.
 
-*Needs:* `C4.8`; `C4.13`; `DiamondsAndVStacks`, Layer D1.
+*Needs:* §C4.8; §C4.13; `DiamondsAndVStacks`, §§D1.1, D1.3 and D1.4.
 
 (ECD Proposition 18.7(iv), p. 104; ECD proof of Proposition 18.7, p. 105.)
 
@@ -1372,7 +1372,7 @@ Require the following API.
 - For `X′ = Spa(R, R⁺)` over `X = Spa(A, A⁺)` affinoid perfectoid, `X̄′^{/X} = Spa(R, R⁺_X)` with `R⁺_X` the integral closure of the image of `A⁺` plus `R°°`.
 - For the perfectoid closed unit disc `D` over `Spa(C, O_C), D → D̄^{/Spa(C,O_C)}` is not an isomorphism (`D` is not partially proper), though it is an open immersion; the same map need not be an open immersion for general separated `f`.
 
-*Needs:* `C4.8`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4.
+*Needs:* §C4.8; `DiamondsAndVStacks`, §§D1.1, D1.3, D1.4 and D1.9; `DiamondsAndVStacks`, §D3.8; `DiamondsAndVStacks`, Layer D4.
 
 (ECD Proposition 18.6, p. 103; ECD after Proposition 18.6, p. 103.)
 
@@ -1457,7 +1457,7 @@ Require the following API.
 - For a finite étale map `f` of degree `d` over a geometric point `Spa(C, O_C), f_!Λ = Λ^d`.
 - For `Λ≠0, C⁺ ≠ O_C` of rank `2` and the open immersion `j : Spa(C, O_C) ⊂ Spa(C, C⁺), j_!Λ` has zero stalk at the closed point while `Rj∗Λ` has stalk `Λ`, so `j_! ≠ Rj∗`.
 
-*Needs:* `C3.1`; `C2.10`; `C2.11`; `C0.1`; `C0.19`; `DiamondsAndVStacks`, Layer D3; `C2.5`; `C2.3`; `EnhancedDerivedSheaves`, Layer E3.
+*Needs:* §C3.1; §C2.10; §C2.11; §C0.1; §C0.19; `DiamondsAndVStacks`, §D3.6; §C2.5; §C2.3; `EnhancedDerivedSheaves`, Layer E3.
 
 (ECD Definition/Proposition 19.1, p. 107; ECD after Definition/Proposition 19.1, p. 107.)
 
@@ -1513,7 +1513,7 @@ Let `X = Spa(C, C⁺)` be a geometric point (or any strictly totally disconnecte
 
 Let `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` be connected strictly totally disconnected (`C, C′` algebraically closed) with `X′ → X`, and `Y′ = X̄′^{/X} = Spa(C′, C′°° + C⁺)`. Then `Y′` has a single rank-one point, every map in `Y′_ét` is a local isomorphism, so `Y′_ét^∼ ≃ |Y′|^∼`; and with `K′, K` the residue fields of `C′, C` and `V = C⁺/C°° ⊂ K, |Y′| ≅ |Spa(K′, V)|`, the space of valuation rings of `K′` containing `V`. This is compatible with `|X| ≅ |Spa(K, V)|` under `V′ ↦ V′ ∩ K`, so the points of `Y′` over the closed point of `X` form `f^{−1}(s)`.
 
-*Needs:* `C4.9`; `C0.1`; `C0.19`; `PerfectoidSpaces`, Layer P3.
+*Needs:* §C4.9; §C0.1; §C0.19; `PerfectoidSpaces`, §§P3.14 and P3.15; `PerfectoidSpaces`, §P4.1.
 
 (ECD proof of Theorem 19.2, p. 110.)
 
@@ -1757,7 +1757,7 @@ For noetherian `Λ` and a small `v`-stack `Y`, the class of constructible sheave
 
 Prove `constructibleCompactSpectral`, stated in `Suggested.lean`. For a noetherian coefficient ring `Λ` on a spectral space `X`, identify the constructible module sheaves with the finitely presentable objects of the module-sheaf category: `Hom(F, −)` preserves filtered colimits precisely for those `F` admitting the finite stratification in C7.1. Prove in addition that every module sheaf is a filtered colimit of such sheaves.
 
-*Needs:* `C7.1`; `CategoryTheory.IsFinitelyPresentable`; `TopCat.Sheaf`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C7.1; `CategoryTheory.IsFinitelyPresentable`; `TopCat.Sheaf`; `DiamondsAndVStacks`, §D0.18.
 
 (ECD Lemma 20.4, p. 113; ECD proof of Lemma 20.4, p. 114.)
 
@@ -1773,7 +1773,7 @@ Let `Λ` be noetherian, `f : Ỹ → Y` a surjective map of small `v`-stacks and
 
 Work with a spatial diamond `Y`, a noetherian `Λ` and an étale `Λ`-module sheaf `F`. Prove the equivalence of constructibility, finite presentability of `F` in the étale module-sheaf category, and the following stratum condition. There must be a stratification `|Y| = ⋃ S_i` by constructible locally closed subsets such that, for each strictly totally disconnected `f : X → Y`, the restriction of `f^∗F` to `f^{−1}(S_i)` is constant with a finitely generated module as value. Here finite presentability means that `Hom(F, −)` preserves filtered colimits. Prove also that arbitrary étale `Λ`-module sheaves are filtered colimits of constructible ones.
 
-*Needs:* `C7.3`; `C7.5`; `C7.6`; `DiamondsAndVStacks`, Layer D5; `C5.1`; `C0.1`; `C0.23`; `C5.2`.
+*Needs:* §C7.3; §C7.5; §C7.6; `DiamondsAndVStacks`, §§D5.1 and D5.4; §C5.1; §C0.1; §C0.23; §C5.2.
 
 (ECD Proposition 20.6, p. 114; ECD proof of Proposition 20.6, p. 114.)
 
@@ -1781,7 +1781,7 @@ Work with a spatial diamond `Y`, a noetherian `Λ` and an étale `Λ`-module she
 
 Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with inverse limit `Y = lim Y_i`, again a spatial diamond, and `Λ` noetherian. Then `2-colim_i Cons(Y_i, Λ) → Cons(Y, Λ)` is an equivalence of categories.
 
-*Needs:* `C7.7`; `C0.18`; `DiamondsAndVStacks`, Layer D5; `C5.1`; `C5.2`.
+*Needs:* §C7.7; §C0.18; `DiamondsAndVStacks`, §D5.3; §C5.1; §C5.2.
 
 (ECD Proposition 20.7, p. 115; ECD proof of Proposition 20.7, p. 115.)
 
@@ -1855,7 +1855,7 @@ also makes sense for an arbitrary predicate when no invariance theorem is invoke
 - If `P` is invariant under isomorphism and `P(F)` holds, the filtration `0⊂F` has one graded piece isomorphic to `F`.
 - For `P` always false, no nonzero object has a filtration; allowing a missing final graded piece fails this check.
 
-*Needs:* `C7.7`; `C7.8`; `C7.9`; `C7.10`; `C8.24`; `C8.29`; `C8.26`; `DiamondsAndVStacks`, Layer D5; `C5.1`.
+*Needs:* §C7.7; §C7.8; §C7.9; §C7.10; §C8.24; §C8.29; §C8.26; `DiamondsAndVStacks`, Layer D5; §C5.1.
 
 (ECD Proposition 20.8, p. 115; ECD proof of Proposition 20.8, p. 116.)
 
@@ -1976,7 +1976,7 @@ Let `Λ` be noetherian, `Y` a small `v`-stack and `A ∈ D_ét(Y, Λ)`. The foll
 
 In this statement, `Λ` noetherian: constructible sheaves (Definition 20.1) are only defined over noetherian `Λ`, and the pointwise equivalence of (ii) and (iii) uses that over a noetherian ring a bounded complex with finitely generated cohomology is pseudo-coherent.
 
-*Needs:* `C7.14`; `C7.3`; `C0.19`; `DiamondsAndVStacks`, Layer D1; `DGAInfinity`, Layers 5–6.
+*Needs:* §C7.14; §C7.3; §C0.19; `DiamondsAndVStacks`, §§D1.4 and D1.5; `DGAInfinity`, Layers 5–6.
 
 (ECD Proposition 20.12, p. 118; ECD proof of Proposition 20.12, p. 118; [Stacks 0652](https://stacks.math.columbia.edu/tag/0652) (Definition 15.68.1); [Stacks 0658](https://stacks.math.columbia.edu/tag/0658) (Lemma 15.76.2); [Stacks 066E](https://stacks.math.columbia.edu/tag/066E) (Lemma 15.66.17).)
 
@@ -1992,7 +1992,7 @@ Let `Λ` be a field (for example `𝔽_ℓ`) and `Y` a small `v`-stack. `A ∈ D
 
 Let `Λ` be a commutative ring, `f : Ỹ → Y` a surjective map of small `v`-stacks and `A ∈ D_ét(Y, Λ)`. If `f^∗A` is perfect-constructible, then `A` is perfect-constructible.
 
-*Needs:* `C7.14`; `C7.13`; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layer D5; `C2.3`; `C7.16`; `C7.6`; `C0.10`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C7.14; §C7.13; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layer D5; §C2.3; §C7.16; §C7.6; §C0.10; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D0.
 
 (ECD Proposition 20.13, p. 118; ECD proof of Proposition 20.13, p. 118.)
 
@@ -2002,7 +2002,7 @@ Let `Λ` be a commutative ring, `f : Ỹ → Y` a surjective map of small `v`-st
 
 Let `Y` be a spatial diamond, `Λ` a commutative ring and `A ∈ D_ét(Y, Λ)` perfect-constructible. For every filtered direct system `C_j ∈ D^{≥−n}_ét(Y, Λ), j ∈ J`, uniformly bounded to the left, `colim_j Hom_{D_ét(Y,Λ)}(A, C_j) → Hom_{D_ét(Y,Λ)}(A, colim_j C_j)` is an isomorphism.
 
-*Needs:* `C7.14`; `C7.15`; `DiamondsAndVStacks`, Layer D0; `C5.1`; `C2.10`.
+*Needs:* §C7.14; §C7.15; `DiamondsAndVStacks`, §D0.18; §C5.1; §C2.10.
 
 (ECD Proposition 20.14, p. 119; ECD proof of Proposition 20.14, p. 119.)
 
@@ -2018,7 +2018,7 @@ Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with inve
 
 Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with limit `Y = lim Y_i` a spatial diamond, and `Λ` a commutative ring. Every `L ∈ D_ét(Y, Λ)` that is locally constant with perfect values is isomorphic to the pullback of some `L_i ∈ D_ét(Y_i, Λ)` that is locally constant with perfect values. The same holds for a spatial diamond `Y` and a filtered colimit of commutative rings `Λ = colim Λ_i`.
 
-*Needs:* `C7.20`; `C7.12`; `C2.10`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C7.20; §C7.12; §C2.10; `DiamondsAndVStacks`, §D5.3.
 
 (ECD proof of Proposition 20.15, pp. 119–120.)
 
@@ -2026,7 +2026,7 @@ Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with limi
 
 Let `Λ` be a commutative ring, `Y` a spatial diamond and `A ∈ D_ét(Y, Λ)`. Equivalent: (i) `A` is perfect-constructible; (ii) there is a stratification of `|Y|` into constructible locally closed `S_i` such that for every strictly totally disconnected `f : X → Y, f^∗A|_{f^{−1}(S_i)}` is constant with perfect value; (iii) `A` has a finite filtration with graded pieces `j_!(L|_Z), j : U → Y` quasicompact separated étale, `Z ⊂ |U|` constructible closed, `L ∈ D_ét(U, Λ)` locally constant with perfect values.
 
-*Needs:* `C7.20`; `C7.19`; `C7.18`; `C7.12`; `C7.10`; `C7.15`; `C8.24`; `C8.29`; `C8.26`; `DiamondsAndVStacks`, Layer D5; `C5.1`; `C7.21`.
+*Needs:* §C7.20; §C7.19; §C7.18; §C7.12; §C7.10; §C7.15; §C8.24; §C8.29; §C8.26; `DiamondsAndVStacks`, Layer D5; §C5.1; §C7.21.
 
 (ECD Proposition 20.16, p. 120; ECD proof of Proposition 20.16, p. 120.)
 
@@ -2294,7 +2294,7 @@ Require the following API.
 - For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `trdeg.mod(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
 - If `topologicalTrdeg(K,L)=1` then `trdeg.mod(K,L)=1`, without Temkin's theorem: the value is at most `1` because the modified degree is at most the original one, and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
 
-*Needs:* `C8.3`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C8.3; `DiamondsAndVStacks`, §D0.24.
 
 (ECD Paragraph before Definition 21.5, p.123.)
 
@@ -2397,7 +2397,7 @@ Require the following API.
 - `Spa(D,O_D)→Spa(C,O_C)` gives `trdeg.mod(C,D)`.
 - Nonempty source has value at least zero, never bottom.
 
-*Needs:* `C8.10` (normalization independence of the modified degree); `C8.13`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C8.10 (normalization independence of the modified degree); §C8.13; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Definition 21.7 and Remark 21.8, p.123.)
 
@@ -2434,7 +2434,7 @@ Require the following API.
 - The identity has bound zero.
 - A disjoint union of maps of finite but unbounded component dimensions is locally finite without a uniform global finite bound.
 
-*Needs:* `C8.16`; `C8.17`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C8.16; §C8.17; `DiamondsAndVStacks`, §§D5.1 and D5.12.
 
 (ECD Convention 22.1, p. 127; Definition 21.7 and Remark 21.8, p. 123.)
 
@@ -2442,7 +2442,7 @@ Require the following API.
 
 For `f:Y′→Y` representable in locally spatial diamonds, define its topological fibre dimension as the supremum of `AdicSpace.relDim(f×Y X)` over locally spatial diamond tests `X→Y`. The same supremum is obtained by restricting to `X=Spa(C,C+)` for complete algebraically closed perfectoid fields `C` and open bounded valuation subrings `C+`.
 
-*Needs:* `C8.2`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C8.2; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Remark 21.8, second paragraph, p.123.)
 
@@ -2452,7 +2452,7 @@ For `f:Y′→Y` representable in locally spatial diamonds, define its topologic
 
 For strictly totally disconnected perfectoid `X`, every abelian étale sheaf `F` has `Hⁱ(X_et,F)=0` for `i>0`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D1; `C0.19`; `EnhancedDerivedSheaves`, Layer E1.
+*Needs:* `DiamondsAndVStacks`, §D1.4; §C0.19; `EnhancedDerivedSheaves`, §E1.3.
 
 (ECD Remark 21.14, p.125.)
 
@@ -2460,7 +2460,7 @@ For strictly totally disconnected perfectoid `X`, every abelian étale sheaf `F`
 
 For a quasicompact separated quasi-pro-étale map `j:U→Y` of locally spatial diamonds, `R^i j_et`,* `F=0` for every abelian étale sheaf `F` and `i>0`.
 
-*Needs:* `C1.11`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5; `C0.19`; `C0.7`.
+*Needs:* §C1.11; `DiamondsAndVStacks`, §§D1.4 and D1.10; `DiamondsAndVStacks`, §§D5.1 and D5.5; §C0.19; §C0.7.
 
 (ECD Remark 21.14, p.125.)
 
@@ -2468,7 +2468,7 @@ For a quasicompact separated quasi-pro-étale map `j:U→Y` of locally spatial d
 
 For a quasicompact injection `j:U→Y` of locally spatial diamonds, `R^i j_et`,* `F=0` for every abelian étale `F` and `i>0`.
 
-*Needs:* `C8.22`; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C8.22; `DiamondsAndVStacks`, §D5.2; `DiamondsAndVStacks`, Layer D0.
 
 (ECD Lemma 21.13 and proof, p.125.)
 
@@ -2476,7 +2476,7 @@ For a quasicompact injection `j:U→Y` of locally spatial diamonds, `R^i j_et`,*
 
 A quasiseparated diamond `Y` with exactly one underlying point is `Spa(C,O_C)/G` for a complete algebraically closed nonarchimedean field `C` of characteristic `p` and a profinite group `G` acting continuously and faithfully on `C`.
 
-*Needs:* `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D0.
+*Needs:* `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, §§D1.4 and D1.10; `DiamondsAndVStacks`, Layer D0.
 
 (ECD Proposition 21.9 and proof, pp.123–124.)
 
@@ -2535,7 +2535,7 @@ Require the following API.
 
 For a spatial diamond `Y` whose underlying space is local with closed point `s` and generic point `η`, the presentation `Spa(C,C+)→Y` in 21.15 gives profinite groups `G_y` at the points. If `y′` generalizes `y`, then `G_y` embeds as a closed subgroup of `G_y′`; in particular `G_s≤G_η`.
 
-*Needs:* `C8.24`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C8.24; `DiamondsAndVStacks`, §§D1.4, D1.5 and D1.10; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Proposition 21.15, proof first two paragraphs, p.126.)
 
@@ -2708,7 +2708,7 @@ Prove `spectralCohomologicalBound`, stated in `Suggested.lean`. For spectral `X`
 
 In the constructible-stratum reduction of 21.11, the boundary `B=closure(V minus U) minus V` satisfies `dim B<dim(Y minus U)` whenever the latter dimension is finite and the boundary is nonempty. Here `V` is quasicompact open and `U` is the open on which `F` vanishes.
 
-*Needs:* `C8.1`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C8.1; `AdicSpacesPartII`, §R0.19.3.
 
 (ECD Proposition 21.11, first proof paragraph on p.125.)
 
@@ -2716,7 +2716,7 @@ In the constructible-stratum reduction of 21.11, the boundary `B=closure(V minus
 
 To prove the 21.11 bound for an `ℓ`-primary torsion sheaf `F` vanishing on open `U`, it suffices to treat `F=F0/j_U!F0|U` with `F0` constructible and supported on one locally closed constructible stratum `S=V∩Z0`, where its pullback to any strictly totally disconnected cover is constant finite `ℓ`-torsion on the stratum.
 
-*Needs:* `C7.7`; `C7.11`; `C7.1`; `DiamondsAndVStacks`, Layer D0; `C5.1`; `C5.3`.
+*Needs:* §C7.7; §C7.11; §C7.1; `DiamondsAndVStacks`, §D0.18; §C5.1; §C5.3.
 
 (ECD Proposition 21.11, proof p.124.)
 
@@ -2724,7 +2724,7 @@ To prove the 21.11 bound for an `ℓ`-primary torsion sheaf `F` vanishing on ope
 
 In ECD Proposition 21.11, after C8.46 and replacement by a closed support `Z`, for `g:Y_et→|Y|` the sheaves `R^i g_*F` vanish for `i>sup_y cd_ℓ(y)`, with `y` ranging over maximal points.
 
-*Needs:* `C8.46`; `C8.23`; `C8.31`; `C0.18`; `C0.6`; `C0.7`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* §C8.46; §C8.23; §C8.31; §C0.18; §C0.6; §C0.7; `DiamondsAndVStacks`, §D5.8.
 
 (ECD Proposition 21.11, final proof paragraph, p.125.)
 
@@ -2732,7 +2732,7 @@ In ECD Proposition 21.11, after C8.46 and replacement by a closed support `Z`, f
 
 Fix a spatial diamond `Y`, a prime `ℓ`, an open `U ⊂ Y` and an étale sheaf `F` of `ℓ`-primary torsion groups whose restriction to `U` is zero. If `d` bounds the topological dimension of `|Y| ∖ |U|` and `e` bounds `cd_ℓ(y)` at every maximal point, prove `Hⁱ(Y, F) = 0` for `i > d + e`. Equivalently the bound is the support dimension plus the supremum of maximal-point dimensions. Empty support gives `F = 0`; infinite values give no finite vanishing range.
 
-*Needs:* `C8.46`; `C8.45`; `C8.23`; `C8.47`; `C8.44`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C8.46; §C8.45; §C8.23; §C8.47; §C8.44; `DiamondsAndVStacks`, §D0.19.
 
 (ECD Proposition 21.11 and Remark 21.12, pp.124–125.)
 
@@ -2859,7 +2859,7 @@ Let `Y` be spatial and `F` a constructible étale sheaf of `𝔽_ℓ`-vector spa
 
 Let `Λ` be a commutative ring and `Y` spatial. Suppose one natural `N` satisfies `Hⁱ(Y,F)=0` for `i>N` and every étale `Λ`-module sheaf `F`. Then the same `N` works for every quasicompact separated étale `j:U→Y` and every étale `Λ`-module sheaf on `U`.
 
-*Needs:* `C8.22`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* §C8.22; `DiamondsAndVStacks`, §D0.19.
 
 (ECD First proof paragraphs of 20.10 and20.17, pp.117,121.)
 
@@ -2918,7 +2918,7 @@ Under the same hypotheses, the canonical comparison `D(Y_et,Λ)→D_et(Y,Λ)` is
 
 Under the same hypotheses, for every quasicompact separated étale `U→Y, RΓ(U,−)` on `D(U_et,Λ)` commutes with arbitrary coproducts.
 
-*Needs:* `C9.2`; `C9.3`; `DiamondsAndVStacks`, Layer D0; `EnhancedDerivedSheaves`, Layer E2.
+*Needs:* §C9.2; §C9.3; `DiamondsAndVStacks`, §D0.18; `EnhancedDerivedSheaves`, Layer E2.
 
 (ECD Propositions20.10 and20.17, pp.117,121.)
 

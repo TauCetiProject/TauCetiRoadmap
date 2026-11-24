@@ -462,7 +462,7 @@ field of definition: [FormalProof],
 *Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7, 2.4 (e), 3.4 (v);
 AlgebraicModuliForArithmeticGeometry §1.6 (big line bundles); AlgebraicModuliForArithmeticGeometryPartII §§1.5, 1.6, 1.7 (ii);
 ArakelovGeometryAndAbelianHeightsPartII §0.3 (1′); MultiplierIdealsOfPairsAndPointSeparation §§9.10c, 9.12;
-ResolutionOfSingularitiesCharacteristicZero §5.1; ShimuraCompactifications §§7.3, 7.12, 7.13, 7.17, 7.22 and Layer 2; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.17a (a);
+ResolutionOfSingularitiesCharacteristicZero §5.1; ShimuraCompactifications §§2.3, 2.6, 2.7 and 2.9 (smooth projective toroidal compactifications and their models over the reflex field); ShimuraCompactifications §§7.3, 7.12, 7.13, 7.17, 7.22; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §7.17a (a);
 ComplexComparisonPartII C1.9, C2.2 (GAGA, through 8.11 (a)); ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §9.1; AutomorphicBundles §§0.5, 5.3.
 
 ### 8.14a Nefness away from the cut-off: a degree inequality on curves
@@ -2006,7 +2006,7 @@ number `f_E`: [FormalProof],
 *Needs:* TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8b, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.18, RowTowerAndRallisIdentities §5.11, 8.19, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.4 (b), ThetaChainsOnDefiniteUnitaryGroups §2.9a; HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a), (b) the colength
 identity and the colength inequality with their corollary the descent lemma, (c)); PELModuli M1.7, M2.8;
 AbelianSchemesAndArithmeticModuli A2.4 (for a principal polarisation `π_*L` is invertible: the theta section) and A5.3–A5.4
-(the Appell–Humbert theorem; one theta function, up to a scalar, for a principal polarisation over `ℂ`); ShimuraCompactifications §7.22 and Layer 7 (Fourier–Jacobi expansions);
+(the Appell–Humbert theorem; one theta function, up to a scalar, for a principal polarisation over `ℂ`); ShimuraCompactifications §§7.15 and 7.22 (Fourier–Jacobi expansions of Hodge-line sections; the Koecher principle); AutomorphicBundles §12.15 (Fourier–Jacobi expansions with vector coefficients);
 SlopesOfHermitianVectorBundles §§1.2, 1.7, 4.1–4.2; GeometryOfNumbersAndQuadraticArithmetic §4.4 (transference).
 
 ### 8.19a′ The depth of the theta lattices

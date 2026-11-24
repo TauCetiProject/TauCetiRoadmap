@@ -182,7 +182,7 @@ Conventions; the positivity is that of intersection numbers of ample sheaves (Cy
 *Needs:* AlgebraicModuliForArithmeticGeometry §1.5 (`hilbertPolynomial`); AlgebraicModuliForArithmeticGeometryPartII §1.6
 (bigness, and bigness of a nef sheaf with positive top intersection); CyclotomicClassGroupsAndStickelberger §4.3 (numerical
 intersections, positivity for ample sheaves); DynamicalDegreesOfRationalMaps §2.2 (agreement with the degrees of
-`c_1(L)^d ∩ [Z]`); SchemeAndStackFoundations Layer 2 (Serre vanishing).
+`c_1(L)^d ∩ [Z]`); SchemeAndStackFoundations §2.6 (`ample_serre_vanishing`).
 
 **Checks.**
 
@@ -229,7 +229,7 @@ near `x`, gives `D ≡ λ′N`.
 
 *Needs:* 9.10a, 9.10b, 9.10d; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.7 (nef `ℚ`-Cartier divisors, bigness of a nef
 divisor with positive top intersection, Kleiman's nonnegativity, and §1.7 (v): a nef plus an ample `ℚ`-Cartier divisor is
-ample, and ampleness is numerical); SchemeAndStackFoundations Layer 2 (Serre vanishing).
+ample, and ampleness is numerical); SchemeAndStackFoundations §2.6 (`ample_serre_vanishing`).
 
 ### 9.12a Kollár's two-point separation for klt pairs
 
@@ -279,8 +279,8 @@ The result is `D ≡ dN`, `d < 1`, with one of the points an isolated point of t
 
 *Needs:* 9.10a, 9.10b, 9.10c, 9.10d; AlgebraicModuliForArithmeticGeometryPartII §§1.5–1.7 (nef and big `ℚ`-Cartier
 divisors, Kleiman's nonnegativity, and §1.7 (v): a nef plus an ample `ℚ`-Cartier divisor is ample, and ampleness is
-numerical); SchemeAndStackFoundations Layer 2 (Serre vanishing); ResolutionOfSingularitiesCharacteristicZero
-(log resolutions).
+numerical); SchemeAndStackFoundations §2.6 (`ample_serre_vanishing`); ResolutionOfSingularitiesCharacteristicZero
+§§5.1, 5.5–5.6, 7.7 (log resolutions).
 
 **Checks.**
 

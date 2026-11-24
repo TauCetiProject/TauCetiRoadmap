@@ -712,7 +712,7 @@ Hodge-star, Hilbert–Schmidt and reverse-dual declarations listed under
 the suppliers; Mathlib `CliffordAlgebra.equivExterior`,
 `Module.Basis.ExteriorAlgebra`, `exteriorPower.inner_ιMulti_ιMulti` and
 `ExteriorAlgebra.baseChangeEquiv`; G1.2's Fock action and metric; G1.3's
-evaluation isomorphism; G2.1's Γ; ComplexKahlerGeometry K5's exterior
+evaluation isomorphism; G2.1's Γ; ComplexKahlerGeometry §5.1's exterior
 Gram metric of bundles of forms.
 
 **Checks.**
@@ -2021,7 +2021,7 @@ curvature, with Tau Ceti's `CovariantDerivative.curvatureOperator` for
 R^E; RiemannianGeometry R1's orthonormal geodesic frames (item 4) for the
 normal-frame calculation; the
 differential-operator contract P1.0 whose owner the supplier section
-names, with P1's Bochner connection; ComplexKahlerGeometry K5's
+names, with P1's Bochner connection; ComplexKahlerGeometry §5.7's
 Laplace-type theory.
 
 **Checks.**

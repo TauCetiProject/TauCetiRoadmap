@@ -354,7 +354,7 @@ Taking any labelled complete Noetherian local `B` as coefficient base gives the 
 - For a complete DVR `Λ` and `R=k`, `d=0` but `J=(π)`; replacing the relative condition by `J⊆m_S²` would fail.
 - The surjection `k[[X,Y]]→k[[X]]` killing `Y` is not minimal: it has a nonzero linear relation.
 
-**Targets.** Construct evaluation from the selected lifts using §1.9 and prove the two minimality criteria. Source: Schlessinger, Notation 2.6 and proof of Theorem 2.11, pp. 211, 213–214; Khare–Wintenberger II, Lemma 4.4, pp. 41–42. Needs: Layer 1 and the representable-functor comparison with SchemeAndStackFoundations, Layer 4.
+**Targets.** Construct evaluation from the selected lifts using §1.9 and prove the two minimality criteria. Source: Schlessinger, Notation 2.6 and proof of Theorem 2.11, pp. 211, 213–214; Khare–Wintenberger II, Lemma 4.4, pp. 41–42. *Needs:* §§1.6 and 1.9 (labelled coefficient objects, relative cotangent spaces and series presentations) and the representable-functor comparison with SchemeAndStackFoundations §§4.3–4.4 (tangent spaces of `h_R`, hulls).
 
 ### 2.2 Relation spaces
 
@@ -371,7 +371,7 @@ when `I` has the residue action, and Nakayama's equivalence between bases lifted
 - For `(X,Y)²⊂k[[X,Y]]`, the classes of `X²,XY,Y²` are a basis, including over `𝔽₂`.
 - Presenting `k` as `k[[Y]]/(Y)` gives a one-dimensional relation space, whereas its zero-variable presentation gives zero. Presentation independence requires additional structure and is not asserted.
 
-**Targets.** Construct this quotient over the native ideal module and prove the API. Source: Khare–Wintenberger II, §4.2 around Lemma 4.6, pp. 43–45; Gee, Lemma 3.13, p. 13. Needs: §2.1 and native quotient modules/Nakayama.
+**Targets.** Construct this quotient over the native ideal module and prove the API. Source: Khare–Wintenberger II, §4.2 around Lemma 4.6, pp. 43–45; Gee, Lemma 3.13, p. 13. *Needs:* §2.1 and native quotient modules/Nakayama.
 
 ### 2.3 Relation evaluation as a complete obstruction
 
@@ -388,7 +388,7 @@ The API proves independence from all variable lifts, the formula on each relatio
 - For `R=k` over a DVR `Λ`, the extension `Λ/(π²)→k` sends the relation class of `π` to its nonzero kernel class.
 - Without minimality, evaluation is not independent: for `k[[Y]]→k`, lifts `Y↦0` and `Y↦ε` into `k[ε]` give different values.
 
-Define a complete socle obstruction theory for `F` with values in `V` to consist of obstructions in `V⊗_k I` for every finite-dimensional kernel `I` with `m_B I=0`, vanishing exactly when the specified point lifts, and natural under every commuting extension square and linear kernel pushout, including the zero pushout. Its API includes restriction to one-dimensional small extensions, transport by a linear equivalence of `V`, and the presentation instance `V=E(q)*`. The four computations above test that instance: the relation-free zero case, the quadratic obstruction, the coefficient obstruction and the nonminimal failure. This is stronger than a small-kernel-only detector; no automatic extension of such a detector is assumed. **Targets.** Prove the lift criterion and tensor-valued naturality for kernels of every finite dimension. The principal-small-extension detector alone is insufficient for §2.5. Source: Stacks, Artin's Axioms, Definition 98.22.1 and Example 98.22.4, tags [07YG](https://stacks.math.columbia.edu/tag/07YG), [07YI](https://stacks.math.columbia.edu/tag/07YI); Gee, Lemma 3.13, p. 13. Needs: §§1.7, 2.2 and the complete socle obstruction theory interface just defined.
+Define a complete socle obstruction theory for `F` with values in `V` to consist of obstructions in `V⊗_k I` for every finite-dimensional kernel `I` with `m_B I=0`, vanishing exactly when the specified point lifts, and natural under every commuting extension square and linear kernel pushout, including the zero pushout. Its API includes restriction to one-dimensional small extensions, transport by a linear equivalence of `V`, and the presentation instance `V=E(q)*`. The four computations above test that instance: the relation-free zero case, the quadratic obstruction, the coefficient obstruction and the nonminimal failure. This is stronger than a small-kernel-only detector; no automatic extension of such a detector is assumed. **Targets.** Prove the lift criterion and tensor-valued naturality for kernels of every finite dimension. The principal-small-extension detector alone is insufficient for §2.5. Source: Stacks, Artin's Axioms, Definition 98.22.1 and Example 98.22.4, tags [07YG](https://stacks.math.columbia.edu/tag/07YG), [07YI](https://stacks.math.columbia.edu/tag/07YI); Gee, Lemma 3.13, p. 13. *Needs:* §§1.7, 2.2 and the complete socle obstruction theory interface just defined.
 
 ### 2.4 An Artinian extension testing all relations
 
@@ -405,7 +405,7 @@ Both objects are Artinian. Its kernel is canonically `E(q)`, killed by the maxim
 - For `J=(X,Y)²` and `N=3`, the kernel has dimension three; calling it principal small would be wrong.
 - For the nonminimal presentation `J=(Y)`, `N=2`, the resulting dual-number extension has a coefficient section, so the minimality hypothesis in the non-lifting assertion is necessary.
 
-**Targets.** Construct these finite quotients and all kernel pushouts. Source: Khare–Wintenberger II, proof of Lemma 4.6, pp. 43–45; Schlessinger, Definition 1.2 and proof of Theorem 2.11, pp. 209, 213–214. Needs: §§2.2–2.3 and native Artin–Rees.
+**Targets.** Construct these finite quotients and all kernel pushouts. Source: Khare–Wintenberger II, proof of Lemma 4.6, pp. 43–45; Schlessinger, Definition 1.2 and proof of Theorem 2.11, pp. 209, 213–214. *Needs:* §§2.2–2.3 and native Artin–Rees.
 
 ### 2.5 Bounding equations of a hull
 
@@ -417,7 +417,7 @@ In particular `V=0` implies that the hull is a power-series ring. A nonzero, non
 
 The smooth-transformation comparison identifies smooth `h_S→h_R` with formally smooth `R→S` in §1.11. Such `S` is a finite-variable power-series algebra over `R`, with the number of variables its relative cotangent dimension. For a hull, surjectivity of `F(B)→F(A)` on all Artinian surjections is equivalent to formal smoothness of `Λ→R`. These are coefficient-specific transports of SchemeAndStackFoundations' criterion, rather than a second representability theorem.
 
-Source: Khare–Wintenberger II, Lemma 4.6, pp. 43–45; Gee, Proposition 3.24(2), p. 18; Schlessinger, Definition 2.2, Proposition 2.5, Theorem 2.11, pp. 210–215. Needs: §§2.1–2.4 and the exact SchemeAndStackFoundations, Layer 4 contracts above. The hypothesis is a complete socle obstruction theory for `F` with values in `V` of §2.3, including its higher-dimensional pushout maps.
+Source: Khare–Wintenberger II, Lemma 4.6, pp. 43–45; Gee, Proposition 3.24(2), p. 18; Schlessinger, Definition 2.2, Proposition 2.5, Theorem 2.11, pp. 210–215. *Needs:* §§1.6, 1.11 and 2.1–2.4, and the exact SchemeAndStackFoundations §§4.3–4.4 contracts above (hulls, smooth morphisms of deformation functors). The hypothesis is a complete socle obstruction theory for `F` with values in `V` of §2.3, including its higher-dimensional pushout maps.
 
 ### 2.6 Fixed-basis matrix equations
 
@@ -433,7 +433,7 @@ Its API gives universal matrices, their entry formulas, the natural evaluation b
 - Over `Λ=ℤ₂`, the same relation gives the reduced ring `ℤ₂[[X]]/(X(2+X))`, whose special fibre is `𝔽₂[[X]]/(X²)`.
 - A word not satisfied residually would give an ideal containing a unit and the zero quotient, which is not a coefficient object.
 
-**Targets.** Construct the quotient and evaluation equivalence. Source: Kisin, Lecture 1, Proposition 1.2.1(1), p. 2, and Remark 1.1.2(1), p. 1; Gee, Lemma 3.2 and Exercise 3.11, pp. 12–13. Needs: Layer 1, native matrices/free groups/power series.
+**Targets.** Construct the quotient and evaluation equivalence. Source: Kisin, Lecture 1, Proposition 1.2.1(1), p. 2, and Remark 1.1.2(1), p. 1; Gee, Lemma 3.2 and Exercise 3.11, pp. 12–13. *Needs:* §§1.6 and 1.9 (labelled Artinian coefficient objects, series evaluation and relative cotangent spaces), native matrices/free groups/power series.
 
 ### 2.7 Continuous framed representations
 
@@ -449,7 +449,7 @@ Now let `k` be finite of characteristic `p` and let `Γ` be profinite with a con
 - Finite-word equations over an arbitrary infinite residue field do not supply this continuity theorem: finiteness of the discrete quotients is used in constructing the profinite map.
 - In rank one for `Γ=ℤ_p` and trivial residual character, the presentation with one generator and no relation is `Λ[[T]]` with `T` the entry of `ρ^□(1)−1`, so the identification with §0.4's pair sends its universal value at `1` to `1+T`. Changing `T` to `T+T²` is a ring automorphism but does not preserve that universal lift, so it is not a second identification.
 
-**Targets.** Prove the presentation theorem and the reduction and evaluation statements on §0.4's pair. Source: Kisin, Lecture 1, Proposition 1.2.1(1) and Remark 1.1.2(1), pp. 1–2. Needs: §2.6, PadicLocalLanglandsForGL2Qp §0.4's representing pair and its universal-lift-preserving comparison, the free profinite and maximal pro-`p` interfaces of ProfiniteProPGroups, and native profinite limits. The generic free profinite construction is supplied by `ProfiniteProPGroups` Layers 0, 3 and 4; only its continuous matrix-presentation comparison is new here.
+**Targets.** Prove the presentation theorem and the reduction and evaluation statements on §0.4's pair. Source: Kisin, Lecture 1, Proposition 1.2.1(1) and Remark 1.1.2(1), pp. 1–2. *Needs:* §2.6, PadicLocalLanglandsForGL2Qp §0.4's representing pair and its universal-lift-preserving comparison, the free profinite and maximal pro-`p` interfaces of ProfiniteProPGroups, and native profinite limits. The generic free profinite construction is supplied by `ProfiniteProPGroups` Layers 0, 3 and 4; only its continuous matrix-presentation comparison is new here.
 
 ### 2.8 A hull with nonunique compatible automorphisms
 

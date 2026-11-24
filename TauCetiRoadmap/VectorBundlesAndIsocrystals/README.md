@@ -113,7 +113,7 @@ Construct the v-descent, pullback and addition of ordinary closed relative Carti
 - Frobenius translates of a marked untilt give the same `Div¹` object; this comparison uses no Picard classification.
 - Multiplying two Cartier ideals retains multiplicity at coincident supports. An arbitrary torsion sheaf without a regular Cartier inclusion is not a divisor.
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding relative curve; PerfectoidSpaces P1; FarguesFontaineDiamonds Layer F4; AdicSpacesPartII §R0.8; DiamondsAndVStacks D2–D4.
+*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding relative curve; PerfectoidSpaces §§P1.16–P1.22; FarguesFontaineDiamonds Layer F4; AdicSpacesPartII §R0.8; DiamondsAndVStacks D2–D4.
 
 ### Completed local period rings
 
@@ -161,7 +161,7 @@ For `E = ℚ_p` and a geometric perfectoid field, all fixed-field annular and to
 
 ### Dependencies
 
-*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; AdicSpaces §6; AdicSpacesPartII R0; AdicSpacesPartIII R3; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D4; FarguesFontaineDiamonds F4; LocalFieldsRamification Layer 2; ReductiveGroupsPartII §RG2.0.4; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3; SchemeAndStackFoundations §§0.3, 2.2 and 2.5.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; AdicSpaces §6; AdicSpacesPartII §§R0.1, R0.1a, R0.3–R0.5 and R0.8; AdicSpacesPartIII §§R3.1–R3.5; PerfectoidSpaces Layers P1–P3; DiamondsAndVStacks D2–D4; FarguesFontaineDiamonds F4; LocalFieldsRamification Layer 2; ReductiveGroupsPartII §RG2.0.4; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3; SchemeAndStackFoundations §§0.3, 2.2 and 2.5.
 
 ## Layer 1: Finite isocrystals and division algebras
 
@@ -711,7 +711,7 @@ The zero bundle has the empty filtration and polygon endpoint `(0,0)`. The bundl
 
 ### Dependencies
 
-*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; Layer 0 relative geometry and Layer 1; AdicSpacesPartIII §§R3.1–R3.5; SchemeAndStackFoundations §§0.3–0.4, 2.2, 2.5 and 3.3–3.4; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D3; the Lubin–Tate and untilt-sequence targets in Layer 5, in the construction order stated above.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; Layer 0 relative geometry and Layer 1; AdicSpacesPartIII §§R3.1–R3.5; SchemeAndStackFoundations §§0.3–0.4, 2.2, 2.5 and 3.3–3.4; PerfectoidSpaces Layers P1–P3; DiamondsAndVStacks Layer D2; DiamondsAndVStacks D3.10 / locally-profinite-torsors; the Lubin–Tate and untilt-sequence targets in Layer 5, in the construction order stated above.
 
 ## Layer 3: Positive generation and algebraization
 
@@ -915,7 +915,7 @@ Twisting by `𝒪(1)` changes Frobenius invariants to eigenvalue `π`; reversing
 
 ### Dependencies
 
-*Needs:* Layer 0 and Layer 2; AdicSpacesPartIII R3; SchemeAndStackFoundations §§0.3–0.4, 2.2 and 2.5.
+*Needs:* Layer 0 and Layer 2; AdicSpacesPartIII §§R3.1–R3.5; SchemeAndStackFoundations §§0.3–0.4, 2.2 and 2.5.
 
 ## Layer 4: Geometric classification and its consequences
 
@@ -969,7 +969,7 @@ For complete algebraically closed perfectoid `C/𝔽_q`, every bundle on `X_C` i
 
 ([FS][FS], Theorem II.2.14 and proof, pp. 70–72; [FF][FF], Theorem 8.2.10, pp. 238–239.)
 
-*Needs:* [Dieudonné–Manin classification of finite isocrystals](#dieudonnémanin-classification-of-finite-isocrystals); [The exact tensor isocrystal-to-bundle functor](#the-exact-tensor-isocrystal-to-bundle-functor); [Stability of rational standard bundles](#stability-of-rational-standard-bundles); [Fixed-slope abelian finite-length category](#fixed-slope-abelian-finite-length-category); [Harder–Narasimhan filtration of geometric bundles](#hardernarasimhan-filtration-of-geometric-bundles); [Base change of the geometric HN filtration](#base-change-of-the-geometric-hn-filtration); [Nonzero sections of the key rank-one extension](#nonzero-sections-of-the-key-rank-one-extension); [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles); [Coefficient extension and induction adjunction](#coefficient-extension-and-induction-adjunction); DiamondsAndVStacks D3 / locally-profinite-torsors; [Global generation and vanishing after positive twists](#global-generation-and-vanishing-after-positive-twists).
+*Needs:* [Dieudonné–Manin classification of finite isocrystals](#dieudonnémanin-classification-of-finite-isocrystals); [The exact tensor isocrystal-to-bundle functor](#the-exact-tensor-isocrystal-to-bundle-functor); [Stability of rational standard bundles](#stability-of-rational-standard-bundles); [Fixed-slope abelian finite-length category](#fixed-slope-abelian-finite-length-category); [Harder–Narasimhan filtration of geometric bundles](#hardernarasimhan-filtration-of-geometric-bundles); [Base change of the geometric HN filtration](#base-change-of-the-geometric-hn-filtration); [Nonzero sections of the key rank-one extension](#nonzero-sections-of-the-key-rank-one-extension); [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles); [Coefficient extension and induction adjunction](#coefficient-extension-and-induction-adjunction); DiamondsAndVStacks D3.10 / locally-profinite-torsors; [Global generation and vanishing after positive twists](#global-generation-and-vanishing-after-positive-twists).
 
 #### Hom and extension calculus for geometric bundles
 
@@ -1188,7 +1188,7 @@ Only isocrystals D all of whose slopes share one sign fall under this statement;
 
 ([FS][FS], Proposition II.3.7, pp. 82–83.)
 
-*Needs:* [Two-term Banach–Colmez geometry](#two-term-banachcolmez-geometry); [Dieudonné–Manin classification of finite isocrystals](#dieudonnémanin-classification-of-finite-isocrystals); DiamondsAndVStacks D5 / spatial-v-sheaf-criterion; DiamondsAndVStacks D5 / relative-representability; DiamondSixOperations S4; DiamondSixOperations S5; [Effective divisors and projective sections](#effective-divisors-and-projective-sections); DiamondsAndVStacks D5; [Quotients by contracting automorphisms](#quotients-by-contracting-automorphisms); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [Two-term Banach–Colmez geometry](#two-term-banachcolmez-geometry); [Dieudonné–Manin classification of finite isocrystals](#dieudonnémanin-classification-of-finite-isocrystals); DiamondsAndVStacks D5 / spatial-v-sheaf-criterion; DiamondsAndVStacks D5 / relative-representability; DiamondSixOperations S4; DiamondSixOperations S5; [Effective divisors and projective sections](#effective-divisors-and-projective-sections); DiamondsAndVStacks D5; [Quotients by contracting automorphisms](#quotients-by-contracting-automorphisms); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 #### Effective divisors and projective sections
 
@@ -1205,7 +1205,7 @@ Absolute curve over `k=𝔽̄_q`; coefficient field E as in FS.
 
 ([FS][FS], Proposition II.3.6, pp. 81–82.)
 
-*Needs:* [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Ordinary Banach–Colmez properness](#ordinary-banachcolmez-properness); [Marked-untilt Div¹](#marked-untilt-cartier-divisors-and-cartier-descent); [Rank, determinant degree and rational slope](#rank-determinant-degree-and-rational-slope); DiamondsAndVStacks D5 / spatial-v-sheaf-criterion; DiamondsAndVStacks D5; DiamondSixOperations S5; [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); [Regular noetherian geometric curve and PID complements](#regular-noetherian-geometric-curve-and-pid-complements); [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Ordinary Banach–Colmez properness](#ordinary-banachcolmez-properness); [Marked-untilt Div¹](#marked-untilt-cartier-divisors-and-cartier-descent); [Rank, determinant degree and rational slope](#rank-determinant-degree-and-rational-slope); DiamondsAndVStacks D5 / spatial-v-sheaf-criterion; DiamondsAndVStacks D5; DiamondSixOperations S5; [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); [Regular noetherian geometric curve and PID complements](#regular-noetherian-geometric-curve-and-pid-complements); [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 #### Punctured absolute spaces and scalar quotients
 
@@ -1225,7 +1225,7 @@ The nonzero extension has fixed determinant; the acting group is `SL₁(D)`, not
 
 ([FS][FS], Example II.3.12, p. 84.)
 
-*Needs:* [Geometric classification of vector bundles](#geometric-classification-of-vector-bundles); [Hom and extension calculus for geometric bundles](#hom-and-extension-calculus-for-geometric-bundles); [Stable-bundle division endomorphism comparison](#stable-bundle-division-endomorphism-comparison); [Arithmetic Brauer invariant and slope normalization](#arithmetic-brauer-invariant-and-slope-normalization); [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Absolute Banach–Colmez spaces of isocrystals of one sign](#absolute-banachcolmez-spaces-of-isocrystals-of-one-sign); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [Geometric classification of vector bundles](#geometric-classification-of-vector-bundles); [Hom and extension calculus for geometric bundles](#hom-and-extension-calculus-for-geometric-bundles); [Stable-bundle division endomorphism comparison](#stable-bundle-division-endomorphism-comparison); [Arithmetic Brauer invariant and slope normalization](#arithmetic-brauer-invariant-and-slope-normalization); [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Absolute Banach–Colmez spaces of isocrystals of one sign](#absolute-banachcolmez-spaces-of-isocrystals-of-one-sign); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 #### SL₂ presentation of negative Banach–Colmez space
 
@@ -1235,7 +1235,7 @@ Nonzero extension class; determinant fixed.
 
 ([FS][FS], Example II.3.13, p. 85.)
 
-*Needs:* [Lubin–Tate universal cover and sections of O(1)](#lubintate-universal-cover-and-sections-of-o1); [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Geometric classification of vector bundles](#geometric-classification-of-vector-bundles); [Hom and extension calculus for geometric bundles](#hom-and-extension-calculus-for-geometric-bundles); [Absolute Banach–Colmez spaces of isocrystals of one sign](#absolute-banachcolmez-spaces-of-isocrystals-of-one-sign); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [Lubin–Tate universal cover and sections of O(1)](#lubintate-universal-cover-and-sections-of-o1); [The fundamental untilt sequence and degree-one divisors](#the-fundamental-untilt-sequence-and-degree-one-divisors); [Geometric classification of vector bundles](#geometric-classification-of-vector-bundles); [Hom and extension calculus for geometric bundles](#hom-and-extension-calculus-for-geometric-bundles); [Absolute Banach–Colmez spaces of isocrystals of one sign](#absolute-banachcolmez-spaces-of-isocrystals-of-one-sign); [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 ### Sympathetic algebras and the classical category
 
@@ -1635,7 +1635,7 @@ Every geometric fibre is semistable of slope zero. On each component of locally 
 
 ([FS][FS], Corollary II.2.20, p. 75.)
 
-*Needs:* [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); [Two-term Frobenius complex for curve cohomology](#two-term-frobenius-complex-for-curve-cohomology); DiamondsAndVStacks D3 / locally-profinite-torsors; `CategoryTheory.Equivalence`; [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles).
+*Needs:* [Relative HN filtration and pro-étale splitting](#relative-hn-filtration-and-pro-étale-splitting); [Two-term Frobenius complex for curve cohomology](#two-term-frobenius-complex-for-curve-cohomology); DiamondsAndVStacks D3.10 / locally-profinite-torsors; `CategoryTheory.Equivalence`; [Slope-sensitive cohomology of standard bundles](#slope-sensitive-cohomology-of-standard-bundles).
 
 #### Slope-dependent cohomology vanishing
 
@@ -1976,7 +1976,7 @@ Use an affinoid characteristic-p perfectoid base `S=Spa(R,R⁺)`. Choose and fix
 
 ([SW][SW], Proposition 22.3.2, book p. 209.)
 
-*Needs:* [Integral Frobenius and local-system comparison](#integral-frobenius-and-local-system-comparison); [Slope-zero bundles and E-local systems](#slope-zero-bundles-and-e-local-systems); [Integral period domain](#integral-period-domain); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [Integral Frobenius and local-system comparison](#integral-frobenius-and-local-system-comparison); [Slope-zero bundles and E-local systems](#slope-zero-bundles-and-e-local-systems); [Integral period domain](#integral-period-domain); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 #### Integral group torsors and Frobenius
 
@@ -1988,7 +1988,7 @@ For the reduction from G to `GL_n`, construct the exact tensor category `Rep_{�
 
 ([SW][SW], Proposition 22.6.1, book p. 213; Theorems 19.5.1–19.5.2, book pp. 178–180.)
 
-*Needs:* [Integral boundary realization](#integral-boundary-realization); ReductiveGroups / layer 1 representations  comodules; ReductiveGroupsPartII §RG2.3.1 for smooth affine integral models and ReductiveGroupsPartII §RG2.3.7 for Lang's theorem; [Integral period domain](#integral-period-domain); DiamondsAndVStacks D3 / locally-profinite-torsors.
+*Needs:* [Integral boundary realization](#integral-boundary-realization); ReductiveGroups / layer 1 representations  comodules; ReductiveGroupsPartII §RG2.3.1 for smooth affine integral models and ReductiveGroupsPartII §RG2.3.7 for Lang's theorem; [Integral period domain](#integral-period-domain); DiamondsAndVStacks D3.10 / locally-profinite-torsors.
 
 ### Examples
 
@@ -1996,7 +1996,7 @@ The trivial bundle has slope zero and a global integral étale model. Local puri
 
 ### Dependencies
 
-*Needs:* Layers 0–5, with the construction order above; PadicDifferentialEquationsAndRigidCohomology §§RD.2.3–RD.2.4; DiamondsAndVStacks D3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.25–R07.2.28; ReductiveGroups Layers 0–1; ReductiveGroupsPartII §§RG2.3.1 and RG2.3.7.
+*Needs:* Layers 0–5, with the construction order above; PadicDifferentialEquationsAndRigidCohomology §§RD.2.3–RD.2.4; DiamondsAndVStacks D3.10; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.25–R07.2.28; ReductiveGroups Layers 0–1; ReductiveGroupsPartII §§RG2.3.1 and RG2.3.7.
 
 ## Downstream consumers
 

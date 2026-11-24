@@ -2068,7 +2068,7 @@ places; here `e′₀Φ′` need not be regular at `v₁`, and the injectivity o
 `(V′, W₁)`, which converges because `V′` is anisotropic.
 
 *Needs:* 6.1, 6.2, 6.3, 6.3a, 6.4; MetaplecticAutomorphicForms §§0.15, 3.2a and ThetaKernelsForUnitaryDualPairs §§3.45, 3.47, 5.7b, 5.7c, 5.7d, 5.7e;
-AutomorphicLFunctionsAndLocalFactors AL.1.
+AutomorphicLFunctionsAndLocalFactors §§AL.1.3.2 and AL.1.3.4.
 
 **Checks.**
 
@@ -2418,7 +2418,7 @@ induction, with the constant defined through one part of the constant term only.
    is the form in which the induction hypothesis enters 6.5.
 
 *Needs:* 6.1–6.10; ThetaKernelsForUnitaryDualPairs §§3.47–3.47b, 5.7b, 5.7c, 5.7d, 5.7e and MetaplecticAutomorphicForms §§5.5, 6.15; AdelicAlgebraicGroups
-§§3.1, 4.2; HermitianFormsAndLattices §§2.5, 3.1, 3.5, 4.2, 4.7; AutomorphicLFunctionsAndLocalFactors AL.1;
+§§3.1, 4.2; HermitianFormsAndLattices §§2.5, 3.1, 3.5, 4.2, 4.7; AutomorphicLFunctionsAndLocalFactors §§AL.1.1.2 and AL.1.2.1;
 AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7.
 
 **Checks.**
@@ -2497,7 +2497,7 @@ constants of 6.5 outside `T` and the real places depend on `α`, `β` only throu
 `P` outside `T` they are the Euler factors of `L^T` (6.5, route), so `C` is the same for every `T ⊆ P`. The identities
 above use only that `c_T(G)` is nonzero; its value is that of 6.5.
 
-*Needs:* 6.2, 6.4, 6.5, 6.11; AutomorphicLFunctionsAndLocalFactors AL.1; HermitianFormsAndLattices §4.7;
+*Needs:* 6.2, 6.4, 6.5, 6.11; AutomorphicLFunctionsAndLocalFactors §§AL.1.1.2 and AL.1.2.1; HermitianFormsAndLattices §4.7;
 ThetaKernelsForUnitaryDualPairs §3.47.
 
 **Checks.**

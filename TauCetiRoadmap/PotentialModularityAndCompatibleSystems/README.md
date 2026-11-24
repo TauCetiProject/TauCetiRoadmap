@@ -53,7 +53,7 @@ The comparison API is:
 
 The sources are [BLGGT v1][blggt-2014], §5.1, definition of a weakly compatible system, p. 51 (arXiv v1; printed page = PDF page); [Taylor, degree-two L-functions][taylor-2006-meromorphic-continuation], §6, rank d weakly compatible systems over `ℚ, p`. 773 (PDF page 45).
 
-*Needs:* §1.2 (the KW carrier, before this comparison); SmallRamificationAndAbelianVarietyBaseCases §5.0d (`AutomorphicSystemData`); AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations” (`Weak`); AutomorphicGaloisRepresentations §7.1; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations §§1.7–1.9 and Layer 5; PadicHodgeTheory Layer 3; PadicHodgeTheory §§5.3–5.4; `mathlib:Representation`; `mathlib:Field.absoluteGaloisGroup`; `mathlib:LinearMap.charpoly`; `mathlib:NumberField.FinitePlace`; `mathlib:NumberField.FinitePlace.embedding`.
+*Needs:* §1.2 (the KW carrier, before this comparison); SmallRamificationAndAbelianVarietyBaseCases §5.0d (`AutomorphicSystemData`); AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations” (`Weak`); AutomorphicGaloisRepresentations §7.1; ArithmeticGaloisRepresentations §§1.1 and 1.2 (continuous representations, coefficient extension, duals and Tate twists); ArithmeticGaloisRepresentations §§1.7–1.9; ArithmeticGaloisRepresentations §§5.3 and 5.4 (recognition by Frobenius polynomials); PadicHodgeTheory Layer 3; PadicHodgeTheory §§5.3–5.4; `mathlib:Representation`; `mathlib:Field.absoluteGaloisGroup`; `mathlib:LinearMap.charpoly`; `mathlib:NumberField.FinitePlace`; `mathlib:NumberField.FinitePlace.embedding`.
 
 ### 1.2 Rank-two plain, almost-strict and strict families
 
@@ -82,7 +82,7 @@ The additional API specializes the supplied carrier without reconstructing its a
 
 The sources are [KW I][kw-serre-modularity-I], §5, p. 7 of the preprint, §5, p. 8 of the preprint; [Dieulefait–Pacetti v2][dieulefait-pacetti], Definition 1.10 and after, pp. 6–7 of the arXiv version.
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations” (`Strict`); AutomorphicGaloisRepresentations §7.1 (almost-strict compatibility); PadicHodgeTheory §§5.3–5.4; ArithmeticGaloisRepresentations Layer 2; ArithmeticGaloisRepresentations §§1.7–1.9 and Layer 5; ArithmeticGaloisRepresentations Layer 1; `mathlib:Representation`; `mathlib:Field.absoluteGaloisGroup`.
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations” (`Strict`); AutomorphicGaloisRepresentations §7.1 (almost-strict compatibility); PadicHodgeTheory §§5.3–5.4; ArithmeticGaloisRepresentations Layer 2; ArithmeticGaloisRepresentations §§1.7–1.9; ArithmeticGaloisRepresentations §§5.3 and 5.4 (recognition by Frobenius polynomials); ArithmeticGaloisRepresentations §§1.1 and 1.2 (continuous representations and coefficient extension); `mathlib:Representation`; `mathlib:Field.absoluteGaloisGroup`.
 
 ### 1.3 Very weak and extremely weak families
 
@@ -147,7 +147,7 @@ The construction has the following API:
 
 The sources are [BLGGT v4][blggt-2014-v4], §2.1, p.31; §5.1, p.62.
 
-*Needs:* §1.1 (weakly compatible families of arbitrary rank); ArithmeticGaloisRepresentations Layer 7 (§7.4, `PolarizedRep`, `IsTotallyOdd`).
+*Needs:* §1.1 (weakly compatible families of arbitrary rank); ArithmeticGaloisRepresentations §7.4 (`PolarizedRep`, `IsTotallyOdd`).
 
 ### 1.6 Regularity, purity, strictness and automorphy
 
@@ -179,7 +179,7 @@ The construction has the following API:
 
 The sources are [BLGGT v1][blggt-2014], §5.1, the subsidiary definitions, p. 51 (arXiv v1; printed page = PDF page), §5.1, strict compatibility and purity, p. 52 (arXiv v1; printed page = PDF page), §5.1, automorphy, p. 53 (arXiv v1; printed page = PDF page); [Taylor, degree-two L-functions][taylor-2006-meromorphic-continuation], §6, Taylor's remark on motives, p. 773 (PDF page 45).
 
-*Needs:* §1.1 (weakly compatible families of arbitrary rank); PadicHodgeTheory §§5.3–5.4; ArithmeticGaloisRepresentations Layer 7; §1.5 (polarized weakly compatible families).
+*Needs:* §1.1 (weakly compatible families of arbitrary rank); PadicHodgeTheory §§5.3–5.4; ArithmeticGaloisRepresentations §7.4 (polarizations, signs and total oddness); ArithmeticGaloisRepresentations §2.6 (purity of Weil–Deligne representations); §1.5 (polarized weakly compatible families).
 
 ### 1.7 Linear-algebra operations on families
 
