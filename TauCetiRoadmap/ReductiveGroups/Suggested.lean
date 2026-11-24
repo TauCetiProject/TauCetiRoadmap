@@ -45,7 +45,7 @@ radical's defining ideal; Layer 7's conjugacy of maximal tori by rational points
 algebraically closed field, for every finite-type affine group, its Bruhat decomposition of a
 split reductive group over an arbitrary field in Tits-system form, and its Levi decomposition of a
 parabolic subgroup of a connected reductive group over an arbitrary field, in the same
-coinvariant form as Layer 6A's; Layer 7.1's reductivity of the identity component of the
+coinvariant form as Layer 6A's; §7.1's reductivity of the identity component of the
 centralizer of a semisimple element of a connected reductive group over an algebraically closed
 field, and the connectedness of that centralizer when the derived group is simply connected, the
 centralizer being cut out by the functions vanishing at the points that commute with the element;
@@ -114,6 +114,13 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   scheme. The pinned dynamic decomposition `TauCeti.Cocharacter.leviDecompositionMulEquiv` is
   a statement about the point subgroups of one cocharacter over one value algebra and carries
   no Frobenius-stability datum.
+* Layers 7h–7i: the partition of the irreducible representations of `G^F` into Harish-Chandra
+  series, the endomorphism algebras of Harish-Chandra induced cuspidal representations and the
+  multiplicity one of Gelfand–Graev representations. They lack the carrier Layers 7c–7f lack,
+  an `F`-stable Levi complement of an `F`-stable parabolic subgroup as a closed subgroup scheme;
+  Layer 7i also lacks the root subgroups of a connected reductive group given by its coordinate
+  Hopf algebra, which generate the subgroup `U₀*` defining regular characters: the pinned root
+  subgroups belong to the Chevalley groups built from Kostant forms and to specific groups.
 * Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
   `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
   the pinned `TauCeti.FiniteField.frobeniusPoints` is the `q^n`-Frobenius of a given
