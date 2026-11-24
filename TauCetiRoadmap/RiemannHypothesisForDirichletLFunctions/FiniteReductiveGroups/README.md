@@ -607,16 +607,18 @@ rational connected normal subgroup with abelian quotient `U₀/U₀* ≅ ∏_{α
 of simple roots let `U_O` be the image of `∏_{α∈O} U_α` in `U₀/U₀*`, so that
 `U₀^F/U₀*^F ≅ (U₀/U₀*)^F ≅ ∏_O U_O^F`. A character `ψ` of `U₀^F` is **regular** if it is trivial on `U₀*^F`
 and nontrivial on `U_O^F` for every `F`-orbit `O` of simple roots. The **Gelfand–Graev representation** is
-`Γ_ψ = Ind_{U₀^F}^{G^F} ψ`, of degree `|G^F|_{p'}`. For `GL_n` the regular characters are
+`Γ_ψ = Ind_{U₀^F}^{G^F} ψ`, of degree `|G^F|_{p'}`. This is ReductiveGroups §7i.1 (its opening statement and
+(b)), extended to Steinberg endomorphisms in ReductiveGroups Layer 9E. For `GL_n` the regular characters are
 `u ↦ ψ₀(Σ_i a_i u_{i,i+1})` with every `a_i ≠ 0`, and `T^F` permutes them transitively.
 
-*Route.* The commutator relations among root subgroups (ReductiveGroups Layers 7C and 9) give
-`[U_α, U_β] ⊂ ∏_{i,j>0} U_{iα+jβ}`, so `U₀*` is normal with abelian quotient; Lang's theorem for the
-connected group `U₀*` (ReductiveGroups 7a) gives `U₀^F/U₀*^F ≅ (U₀/U₀*)^F`, and `F` permutes the factors
-`U_α` along the orbits. The degree is `|G^F|/|U₀^F| = |G^F|_{p'}` by 0.1. For `GL_n`, conjugation by
-`diag(t₁, …, t_n)` multiplies `a_i` by `t_i/t_{i+1}`.
+*Route.* For the general statements, that of ReductiveGroups §7i.1: the commutator relations among root
+subgroups (ReductiveGroups Layers 7C and 9) give `[U_α, U_β] ⊂ ∏_{i,j>0} U_{iα+jβ}`, so `U₀*` is normal with
+abelian quotient; Lang's theorem for the connected group `U₀*` (ReductiveGroups 7a) gives
+`U₀^F/U₀*^F ≅ (U₀/U₀*)^F`, and `F` permutes the factors `U_α` along the orbits. The degree is
+`|G^F|/|U₀^F| = |G^F|_{p'}` by 0.1. For `GL_n`, conjugation by `diag(t₁, …, t_n)` multiplies `a_i` by
+`t_i/t_{i+1}`.
 
-*Needs:* 0.1; ReductiveGroups Layers 7a, 7C, 9; InductionRestriction Layer 2.
+*Needs:* 0.1; ReductiveGroups §7i.1 (Layer 9E for Steinberg endomorphisms), Layers 7a, 7C, 9; InductionRestriction Layer 2.
 
 **Checks.**
 - `SU₃(𝔽_q)` (type `²A₂`): the two simple roots `α, β` form one `F`-orbit and `α + β` is a root, so
@@ -1101,7 +1103,7 @@ For `GL₂(𝔽_q)`, `Γ_ψ` has degree `(q−1)(q²−1)` and contains each of 
 
 ### Dependencies
 
-Layers 0 and 1; ReductiveGroups Layers 7, 7a, 7b, 7c, 7d, 7e, 7C, 9 and 9E, with Layers 7h (2.4) and 7i (2.2, 2.3, 2.6–2.8); InductionRestriction Layers 0, 2–5 (Mackey and Clifford theory); RepresentationTheory/CharacterTheory §3.5, §9a.2 (2.4) and §9a.9 (2.7).
+Layers 0 and 1; ReductiveGroups Layers 7, 7a, 7b, 7c, 7d, 7e, 7C, 9 and 9E, with Layers 7h (2.4) and 7i (2.1–2.3, 2.6–2.8); InductionRestriction Layers 0, 2–5 (Mackey and Clifford theory); RepresentationTheory/CharacterTheory §3.5, §9a.2 (2.4) and §9a.9 (2.7).
 
 ## Layer 3: Lefschetz numbers of finite-order automorphisms
 
@@ -1147,7 +1149,7 @@ integer does not depend on `ι`.
 
 ### 3.2 Additivity, products, quotients and free actions
 
-*Origin:* published: the Künneth formula in étale cohomology (The Stacks Project, Lemma 59.97.2), here for `X` proper
+*Origin:* published: the Künneth formula in étale cohomology (The Stacks Project, Tag 0F14), here for `X` proper
 and smooth and `Y` proper over an algebraically closed field, with `ℚ_ℓ` coefficients. The remark (the sufficient
 conditions for a filtered stratification and the isotypic form of additivity) is this roadmap's own formulation.
 
@@ -2756,9 +2758,9 @@ The roadmap owns, in the forms stated here:
   (1.2), the irreducibility of Harish-Chandra products of pairwise non-isomorphic cuspidal representations (1.3), and
   for `GL_n` the relation of the operators `T_s` of the type-A Hecke algebras to those of the Levi subgroups of relative
   rank one (1.4) (Layer 1);
-- regular characters, Gelfand–Graev representations and their multiplicity one (2.1, 2.2; for `GL_n` the case that
-  [FormalProof] has), the generic representations of `GL_n(𝔽_q)` (2.3), the lower bound `ψ_{n−1}(q)` for the degree of a
-  generic representation of `GL_n(𝔽_q)` and the consequence of 2.4 (d) for the operators `T_s` of 1.4 (2.4), the
+- for `GL_n`, the form of the regular characters and the transitive action of `T^F` on them (2.1) and the multiplicity
+  one of the Gelfand–Graev representation, the case that [FormalProof] has (2.2), the generic representations of
+  `GL_n(𝔽_q)` (2.3), the lower bound `ψ_{n−1}(q)` for the degree of a generic representation of `GL_n(𝔽_q)` and the consequence of 2.4 (d) for the operators `T_s` of 1.4 (2.4), the
   Gelfand–Graev convolution bound (2.5), the Harish-Chandra restriction of the Gelfand–Graev representation of `GL_n(𝔽_p)` to two blocks, the degenerate
   Gelfand–Graev representations of `GL_n(𝔽_q)` with the wider form and the remark of 2.6, and for `GL_n` the
   derivatives of the Gelfand–Graev representation, the Bessel-type induced representations with their decomposition
@@ -2768,10 +2770,9 @@ The roadmap owns, in the forms stated here:
   stratifications and the isotypic form of additivity), the triviality of the action of a connected algebraic group on
   cohomology, the route of the torus fixed-point formula and the finiteness of the stabilisers of a diagonalisable group
   (3.4) (Layer 3);
-- the inner products, Harish-Chandra restrictions, degree, irreducibility, cuspidality and values of Green's class
-  functions `J_n(θ̃)` of `GL_n(𝔽_q)` (RepresentationTheory/CharacterTheory §9a.8 (b)) (4.4, 4.5, 4.7, 4.9, 4.10), the
-  Harish-Chandra restrictions, irreducibility,
-  norms and Whittaker dimensions of the products of cuspidal characters of `GL_n(𝔽_p)` (4.5, 4.7, 4.8, 4.11), and the
+- the inner products, degree, irreducibility and values of Green's class functions `J_n(θ̃)` of `GL_n(𝔽_q)`
+  (RepresentationTheory/CharacterTheory §9a.8 (b)) (4.4, 4.5 (d), 4.7, 4.9, 4.10), the Harish-Chandra restrictions,
+  irreducibility, norms and Whittaker dimensions of the products of cuspidal characters of `GL_n(𝔽_p)` (4.5, 4.7, 4.8, 4.11), and the
   remarks of 4.2, 4.10 and 4.11 (Layer 4);
 - Green's theory of `GL_n(𝔽_q)` in the forms stated here: the counting lemmas (b), (c) of 5.1 with its wider form (the
   tori of `GL_n`, the Frobenius orbits and the pairs attached to a label), the separation of cuspidal characters by their
@@ -2795,7 +2796,8 @@ sentence (0.4, 1.0–1.3, 2.3, 2.6, 3.2, 4.4, 4.5, 4.7–4.11, 5.1, 5.4, 5.7, 5.
 by the sections named there, among them ReductiveGroups §§7a.1, 7b.1, 7i.2, 7i.3, 9F.4–9F.11,
 RepresentationTheory/CharacterTheory §§9a.1, 9a.6, 9a.9, 9a.10, EtaleCohomologyFoundations §§F.2.5, F.2.5a, F.10.4a and
 EtaleDualityAndPerverseSheaves §7.6. The statements of 0.2, 0.5 (a), (b), 1.4 (the presentation of the endomorphism
-algebra), 2.4 (a)–(d), 3.1, 3.3, 3.4 (b), (c), 4.1–4.3, 4.6, 5.1 (a), 5.2 but for its separation clause, 5.5, 5.6, the
+algebra), 2.1 but for its `GL_n` clause, 2.4 (a)–(d), 3.1, 3.3, 3.4 (b), (c), 4.1–4.3, the vanishing of the proper
+Harish-Chandra restrictions of `J_n(θ̃)` in 4.5 (b) and 4.9, 4.6, 5.1 (a), 5.2 but for its separation clause, 5.5, 5.6, the
 uniqueness of the label in 4.8 and 5.7, the count of cuspidal characters in 5.9, 5.10 (a), 5.11 (a), (b) and the first part
 of (c), and 6.1, which this roadmap restates, are owned by the sections they cite: ReductiveGroups §§7a.2, 7a.3, 7C.6,
 7i.1, 9F.1–9F.3 and 9F.6, RepresentationTheory/CharacterTheory §§9a.2, 9a.4, 9a.5 and 9a.7–9a.12,
@@ -2873,7 +2875,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 | parabolic subgroups contained in a parabolic subgroup, transitivity of the Harish-Chandra functors (1.0, 1.4) | §§7b.1, 7c.1 |
 | regular unipotent elements and their rational form (0.5) | §§7C.6, 7i.1 |
 | cuspidal representations, cuspidal support and Harish-Chandra series, endomorphism algebras (1.1–1.4, 2.4, 4.8, 5.11, 6.1, 6.3) | Layer 7h (§§7h.1–7h.3) |
-| regular characters, Gelfand–Graev representations, multiplicity one and generic representations, degenerate Gelfand–Graev representations and Harish-Chandra restriction (2.2, 2.3, 2.6–2.8, 4.11) | Layer 7i (§§7i.1–7i.3) |
+| regular characters, Gelfand–Graev representations, multiplicity one and generic representations, degenerate Gelfand–Graev representations and Harish-Chandra restriction (2.1–2.3, 2.6–2.8, 4.11) | Layer 7i (§§7i.1–7i.3) |
 | Deligne–Lusztig varieties and characters, Green functions, the character and inner product formulas, Harish-Chandra compatibility, the Steinberg character, degree and irreducibility, Lusztig series, cuspidality, Green functions at regular unipotent elements and Gelfand–Graev characters (Layer 4, 5.2, 5.5, 5.6, 5.11) | Layer 9F (§§9F.1–9F.11) |
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
@@ -3036,7 +3038,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 - Rosen, *Number theory in function fields*, Graduate Texts in Math. 210 (2002): 5.1.
 - Bary-Soroker, Koukoulopoulos, Kozma, *Irreducibility of random polynomials: general measures*, Invent. Math. (2023),
   arXiv:2007.14567: 5.1.
-- The Stacks Project, Lemma 59.97.2 (the Künneth formula in étale cohomology): 3.2.
+- The Stacks Project, Tag 0F14 (the Künneth formula in étale cohomology): 3.2.
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions
   announced in [Announcement]; source with a public verification setup:
   <https://github.com/leanprover-community/riemann-hypothesis>. Source of the statements of 2.7 (b), (c) (the Bessel-type
