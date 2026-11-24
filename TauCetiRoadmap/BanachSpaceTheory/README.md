@@ -11,8 +11,9 @@ a usable theory of spaces, operators and their constructions.
 Spaces are over `𝕜 = ℝ` or `ℂ`, expressed with `RCLike` where appropriate; completeness
 is a hypothesis, not part of the meaning of normed space. In B7 the Banach–Mazur
 distance, finite representability, local reflexivity, John's theorem and the projection
-theorems are over `𝕜`, the Hermitian approximation of a norm (B7.HermitianNorms) is over `ℂ`,
-and concentration of measure and Dvoretzky's theorem are over `ℝ`.
+theorems are over `𝕜`; in B7.HermitianNorms the least-volume inner-product norm bounded above by
+a given norm is over `𝕜` and the rest over `ℂ`; concentration of measure and Dvoretzky's theorem
+are over `ℝ`.
 All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means
 surjectivity of `NormedSpace.inclusionInDoubleDual`, not algebraic reflexivity.
 Use `WeakSpace 𝕜 E` and `WeakDual 𝕜 E`, with explicit transport between topologies.
@@ -1320,9 +1321,11 @@ the lift of the quotient norm is the sole source of `ε`.
 **B7.HermitianNorms — Hermitian norms close to a given norm.** Let `E` be a complex vector space
 of finite dimension `n ≥ 1` with a norm `‖·‖`. Deduce from `d(E,ℓ²_n) ≤ √n` over `ℂ` that `E` has
 a Hermitian inner product whose norm `‖·‖_H` satisfies `‖x‖_H ≤ ‖x‖ ≤ √n·‖x‖_H` for every `x`.
-Prove that there is a unique Hermitian norm `‖·‖_J` bounded above by `‖·‖` whose unit ball has
-the least volume, and that `‖x‖_J ≤ ‖x‖ ≤ √n·‖x‖_J` for every `x` (Chen–Moriwaki,
-arXiv:1903.10798v1, §1.2.8, Theorem 1.2.54, p. 84). Deduce that if a conjugate-linear involution
+Prove, for every normed `𝕜`-space `V` of finite dimension `n ≥ 1`, that among the norms of
+`𝕜`-inner products on `V` (Euclidean for `𝕜 = ℝ`, Hermitian for `𝕜 = ℂ`) bounded above by its
+norm `‖·‖` there is a unique one `‖·‖_J` whose unit ball has the least volume, and that
+`‖x‖_J ≤ ‖x‖ ≤ √n·‖x‖_J` for every `x ∈ V` (Chen–Moriwaki, arXiv:1903.10798v1, §1.2.8,
+Theorem 1.2.54, p. 84). Deduce that if a conjugate-linear involution
 `τ` of `E` preserves `‖·‖`, then `‖τ(x)‖_J = ‖x‖_J`: `x ↦ ‖τ(x)‖_J` is a Hermitian norm bounded
 above by `‖·‖` whose unit ball has the same volume, and `‖·‖_J` is unique.
 
