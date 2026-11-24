@@ -327,7 +327,7 @@ the content here is the arbitrary base. Translation by a nonzero section is not 
 on `S = Spec K[ε]` an infinitesimal translation of `E_S` is a morphism different from the zero map.
 `Suggested.lean` states (1) for zero-preserving maps to any separated group scheme as
 `AbelianScheme.isMonHom_of_zero_preserving`, (2) as
-`AbelianScheme.isCommMonObj` and (4) as `AbelianScheme.eq_of_restrict_nilpotent`. *Needs:* A0.1, A0.3; SchemeAndStackFoundations Layer 4 §4.1 (formal smoothness).
+`AbelianScheme.isCommMonObj` and (4) as `AbelianScheme.eq_of_restrict_nilpotent`. *Needs:* A0.1, A0.3; SchemeAndStackFoundations §4.1 (formal smoothness).
 
 ### A1.3 Invariant differentials
 
@@ -620,8 +620,9 @@ base and give the reduction; checking the identity-component hypotheses of
 ComplexComparisonPartII C3.2f.2 `picardZeroCriterion`
 over a non-Noetherian base through noetherian approximation is part of this target. A nonreduced
 affine base and a disconnected base are both covered; nothing here says that an abelian scheme over
-an arbitrary base is projective. *Needs:* A0.3, A1.1; SchemeAndStackFoundations Layer 1
-§1.17 (`artinBootstrap`), §1.8 (`isAlgebraicSpace_pullback`); AlgebraicModuli §7.6.1 (`relativePicardSheaf`);
+an arbitrary base is projective. *Needs:* A0.3, A1.1; SchemeAndStackFoundations
+§1.17 (`artinBootstrap`), SchemeAndStackFoundations §1.8 (`isAlgebraicSpace_pullback`), SchemeAndStackFoundations
+§§1.9 and 1.13 (proper and group algebraic spaces); AlgebraicModuliForArithmeticGeometry §7.6.1 (`relativePicardSheaf`);
 ComplexComparisonPartII C3.2f.2 (`picardZeroCriterion`).
 
 **Checks.**
@@ -731,8 +732,8 @@ The family statements use coherent base change and the projection formula
 `χ = d` and `deg φ = d²`; for `d > 0`, it has `h⁰ = d`.
 On `E²` with the product of degrees `1` and `2`, `h⁰ = 2`, the top self-intersection is `4`, and
 `deg φ_L = 4`: `φ_L` is a polarization of degree `d = 2` in the sense of A2.5. *Needs:* A1.3, A1.5,
-A2.3; JacobianChallenge Layer E; SchemeAndStackFoundations Layer 5 §5.8 (`grothendieck_riemann_roch`),
-§5.2 (proper Chow pushforward and projection formula), §5.3 (`Chow.c1`);
+A2.3; JacobianChallenge Layer E; SchemeAndStackFoundations §5.8 (`grothendieck_riemann_roch`),
+SchemeAndStackFoundations §5.2 (proper Chow pushforward and projection formula), SchemeAndStackFoundations §5.3 (`Chow.c1`);
 AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 **Checks.**
@@ -847,7 +848,7 @@ dimension `d`, and ample line bundles `L₁, …, L_d` on `X`, the intersection 
 every curve is the limit of positive degrees of ample `ℚ`-classes is nef. The proof is by induction on
 `d`, cutting by an effective divisor of a power of `L_d` (Stacks, Lemma 33.45.9, tag 0BEV). This is
 the positivity input for A2.9 and for Rosati positivity in A6. *Needs:* SchemeAndStackFoundations
-Layer 5 §5.3 (`Chow.c1`), §5.6 (intersection products), §5.2 (proper pushforward).
+§5.3 (`Chow.c1`), SchemeAndStackFoundations §5.6 (intersection products), SchemeAndStackFoundations §5.2 (proper pushforward).
 
 ### A2.8 Projective presentations over normal bases
 
@@ -958,7 +959,7 @@ the field comparison (over `Spec K` it is equivalent to Tau Ceti's `IsIsogeny`, 
 surjective: surjectiveHom_flat below supplies flatness). The
 proof uses that a finite locally free surjection is an fppf cover; translation identifies
 `A ×_B A` with `A × ker f`. *Needs:* A0.1, A1.2; Tau Ceti `IsIsogeny`, `GroupScheme.IsIsogeny`, `GroupScheme/Kernel`
-; SchemeAndStackFoundations Layer 1.
+; SchemeAndStackFoundations §1.15 (torsors).
 
 **Checks.**
 
@@ -1036,7 +1037,8 @@ of the sheaf coequalizer (Faltings–Chai I.1.7–1.9, pp. 4–7). The API is Ab
 AbelianQuotient.kernel_rank (`ker q = H` and `rk q = rk H`). `Suggested.lean` states existence,
 the scheme-theoretic kernel, the rank and the universal property as
 `AbelianScheme.exists_abelianQuotient`. *Needs:* A2.1, A3.1;
-ModularCurves 0E; SchemeAndStackFoundations Layer 1 §§1.5–1.6 (quotient sheaves), §1.17 (`artinBootstrap`); AlgebraicModuli Layer 3
+ModularCurves 0E; SchemeAndStackFoundations §§1.5–1.6 (quotient sheaves), SchemeAndStackFoundations §§1.13 and 1.15
+(the induced group law and the `H`-torsor `q`), SchemeAndStackFoundations §1.17 (`artinBootstrap`); AlgebraicModuliForArithmeticGeometry §3.5
 (`ModuliDescent.finiteQuotientComparison`).
 
 **Checks.**
@@ -1154,7 +1156,7 @@ ThetaGroup.descend (a splitting over a finite locally free `H` gives the descend
 bundle on `A/H` with its pullback identification) and ThetaGroup.baseChange (an isomorphism of
 central extensions preserving the scalar inclusion, commutator and witness). *Needs:* A0.3, A2.3,
 A2.4, A2.5, A3.3, A3.5; ModularCurves 2E (the shared finite-flat pairing carrier);
-SchemeAndStackFoundations Layer 1 (sheaves and torsors); EquivariantIntersectionTheory §§1.1,
+SchemeAndStackFoundations §§1.1 and 1.15 (sheaves and torsors); EquivariantIntersectionTheory §§1.1,
 1.4 (linearized invertible sheaves and their descent).
 
 **Checks.**
@@ -1226,8 +1228,8 @@ FullLevel.changeBasis (precomposition makes the étale sheaf of full level struc
 to `N`, the matrix of `e_{λ,N}` in the basis, a function to `μ_N`-valued alternating matrices) and
 FullLevel.levelFunctor (the torsor is a level functor in the sense of AlgebraicModuli
 `rigidLevelStructure`; its rigidity for `N ≥ 3` on polarized abelian schemes is the polarized
-automorphism theorem of A6). *Needs:* A3.2, A3.7; SchemeAndStackFoundations Layer 1 (torsors);
-AlgebraicModuli Layer 5 §5.2.
+automorphism theorem of A6). *Needs:* A3.2, A3.7; SchemeAndStackFoundations §1.15 (torsors);
+AlgebraicModuliForArithmeticGeometry §5.2.
 
 **Checks.**
 
@@ -1438,7 +1440,7 @@ AbelianVectorExtension.baseChange, AbelianVectorExtension.invariantForms
 (`ω_{E(A)} ≅ H¹_dR(A/S)` with the Hodge sequence) and AbelianVectorExtension.ext (maps of extensions
 are determined by their maps on vector kernels and on `A`). *Needs:* A1.3, A2.2;
 AlgebraicVectorBundles L0B, L2B; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`);
-SchemeAndStackFoundations Layer 1, Layer 2 §2.6 (`qcoh_higherDirectImages`).
+SchemeAndStackFoundations §§1.1 and 1.15 (descent, vector torsors), SchemeAndStackFoundations §2.6 (`qcoh_higherDirectImages`).
 
 **Checks.**
 
@@ -1897,8 +1899,8 @@ algebraizes morphisms by formal full faithfulness, descends along the faithfully
 finite kernels as finite modules; the polarization is checked on the special fibre (Faltings–Chai I.3,
 pp. 14–15; Boxer–Calegari–Gee–Pilloni, proof of Lemma 9.3.4, p. 202, where effectivity is a separate
 step after Serre–Tate). Formal lifts of the Barsotti–Tate group alone do not give an abelian scheme
-without this step. *Needs:* A2.1, A2.6; SchemeAndStackFoundations Layer 4 §4.10 (`grothendieck_existence`, `algebraize_hom`);
-AlgebraicModuli Layer 7 (`properSpaceCompletionEquivalence`).
+without this step. *Needs:* A2.1, A2.6; SchemeAndStackFoundations §4.10 (`grothendieck_existence`, `algebraize_hom`);
+AlgebraicModuliForArithmeticGeometry §7.8 (`properSpaceCompletionEquivalence`).
 
 ### A4.9 The Serre–Tate equivalence with structures
 
@@ -2386,7 +2388,7 @@ abelian variety has degree one. Define End.degRat, the extension to `End⁰(A)` 
 with `nq ∈ End A`, independent of `n` because `End A` is torsion-free (A3.4), and nonzero exactly on
 units of `End⁰(A)`. An endomorphism with finite kernel has a quasi-inverse through the quotient
 property (A3.3, A3.4). *Needs:* A3.1–A3.5; Mathlib `Scheme.Hom.finrank`; Tau Ceti `IsIsogeny`, `End`,
-`mulBy`; SchemeAndStackFoundations Layer 5 §5.2 (proper pushforward).
+`mulBy`; SchemeAndStackFoundations §5.2 (proper pushforward).
 
 **Checks.**
 
@@ -2491,7 +2493,7 @@ scaling all variables by an integer gives homogeneity; in dimension zero the fun
 `1` (Milne 2008, Proposition 10.13 and Lemma 10.12, p. 47). Integrality of coefficients is not inferred
 from integer values. For `End E = ℤ[i]`, `deg(a + bi) = a² + b²`; on `E × E`, `deg diag(a, b) = a²b²`.
 *Needs:* A1.5, A2.4, A6.1;
-SchemeAndStackFoundations Layer 5 §5.3 (`Chow.c1`), §5.6 (intersection products), §5.2 (proper pushforward).
+SchemeAndStackFoundations §5.3 (`Chow.c1`), SchemeAndStackFoundations §5.6 (intersection products), SchemeAndStackFoundations §5.2 (proper pushforward).
 
 ### A6.7 Hom is free of finite rank
 
