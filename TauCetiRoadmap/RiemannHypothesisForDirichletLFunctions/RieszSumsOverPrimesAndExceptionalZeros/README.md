@@ -2,7 +2,7 @@
 
 **Summary.** The distribution of primes in arithmetic progressions, and of prime ideals in ray classes, is governed by the zeros of Dirichlet and Hecke `L`-functions near the point `1`. This roadmap states theorems of that subject in the form in which the possible exceptional real zero of a real character is kept as an explicit term rather than excluded: the logarithmic derivative `L′/L` near the line one, smoothed prime sums controlled by a box free of zeros, the prime number theorem for a character with its exceptional term, the Riesz remainder of a character, the Deuring–Heilbronn repulsion and Linnik's theorem, and primes that are norms from the fields `ℚ(√−d)` in short intervals, with prime ideals of a ray class in short intervals, uniformly in the field and the modulus, as a wider form. The `*Origin:*` label of each section says which of its statements are published. Throughout, `χ` is a Dirichlet character, `L(s, χ)` its `L`-function and `Λ` the von Mangoldt function.
 
-The headline theorems are these. (1) The Riesz remainder `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y(L′/L)(1, χ)` of a primitive nonprincipal character `χ` of conductor `f_χ` satisfies `|G_χ(y) − y^β/(β(1 − β))| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every `y ≥ 2`, with absolute `C, c`, the term present only if `χ` is real and `L(s, χ)` has an exceptional zero `β`. This bound is this roadmap's, and so is the bound without the term, which this family uses, for the characters `χ` that, when real, have no real zero in `(1 − c₀, 1)`, with `C, c` depending on `c₀`. With the uniform exclusion of Landau–Siegel zeros the term can be dropped: `|G_χ(y)| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every such `χ` and every `y ≥ 2`, and the remainder `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1 + γ)y` of the trivial character satisfies `|G_1(y)| ≤ C y exp(−c√(log y))`. The first of these two bounds rests on that exclusion and is not used in this family; the bound for `G_1` is also this roadmap's. Consequently, for every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there is `y₀(α, c_ex)` such that, if `E/ℚ` is a finite abelian extension of conductor `f_E` and every exceptional zero `β` of the `L`-functions of the primitive characters `χ*` attached to its characters has `1 − β ≥ c_ex`, then `|G_{χ*}(y)| ≤ y exp(−c₁(log y)^(1−α))` for all these characters and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`, where `c₁` is absolute. This consequence is this roadmap's; the formal proof [FormalProof] proves it when no real `L(s, χ*)` has a real zero in `(1 − c_ex, 1)`, with `c₁` depending on `c_ex`. (2) Linnik's theorem: there is an absolute `L` such that the least prime `p ≡ a (mod q)` is at most `q^L` for every `q ≥ 3` and every `a` coprime to `q`. It follows from the prime number theorem in progressions with relative error in Linnik's range `x ≥ q^L`, which rests on the Deuring–Heilbronn repulsion: let `q ≥ 3`, let `χ₁` be a real nonprincipal character modulo `q` and `β₁ ∈ [1/2, 1)` a zero of `L(s, χ₁)`; every zero `β + iγ` with `β ≥ 1/2` of every `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ c log(c/((1 − β₁)ℒ))/ℒ` for every `ℒ ≥ log(q(|γ| + 2))`, with an absolute effective `c`, except the zero `β₁` of `L(s, χ₁)` itself when it is simple. Linnik's theorem, this prime number theorem in progressions and the repulsion are statements of the formal proof. (3) There are absolute `A, c, c′ > 0` such that for every prime `d ≡ 3 (mod 4)` with `d ≥ 100`, `K = ℚ(√−d)`, every integer `M ≥ 3` and `B = |d_K| M² = dM²`, the number of primes `p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K`, `α ≡ 1 (mod M𝒪_K)`, is at least `c′hX/(B^A log X)` whenever `X ≥ 1`, `log B ≤ c√(log X)` and `e^(−c√(log X)) ≤ h ≤ 1`; this is the statement of the formal proof. The same for every imaginary quadratic field, with `B²` in place of `B^A` and `X ≥ X₀`, is this roadmap's own formulation, stated as the wider form of 2.9b.
+The headline theorems are these. (1) The Riesz remainder `G_χ(y) = Σ_{n≤y} Λ(n)χ(n)(y/n − 1) + y(L′/L)(1, χ)` of a primitive nonprincipal character `χ` of conductor `f_χ` satisfies `|G_χ(y) − y^β/(β(1 − β))| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every `y ≥ 2`, with absolute `C, c`, the term present only if `χ` is real and `L(s, χ)` has an exceptional zero `β`. This bound is this roadmap's, and so is the bound without the term, which this family uses, for the characters `χ` that, when real, have no real zero in `(1 − c₀, 1)`, with `C, c` depending on `c₀`. With the uniform exclusion of Landau–Siegel zeros the term can be dropped: `|G_χ(y)| ≤ C y (log 3f_χ)^5 exp(−c log y/(√(log y) + log f_χ))` for every such `χ` and every `y ≥ 2`, and the remainder `G_1(y) = Σ_{n≤y} Λ(n)(y/n − 1) − y log y + (1 + γ)y` of the trivial character satisfies `|G_1(y)| ≤ C y exp(−c√(log y))`. The first of these two bounds rests on that exclusion and is not used in this family; the bound for `G_1` is that of the formal proof [FormalProof]. Consequently, for every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there is `y₀(α, c_ex)` such that, if `E/ℚ` is a finite abelian extension of conductor `f_E` and every exceptional zero `β` of the `L`-functions of the primitive characters `χ*` attached to its characters has `1 − β ≥ c_ex`, then `|G_{χ*}(y)| ≤ y exp(−c₁(log y)^(1−α))` for all these characters and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`, where `c₁` is absolute. This consequence is this roadmap's. When no real `L(s, χ*)` has a real zero in `(1 − c_ex, 1)`, the formal proof proves the weaker bound `|G_{χ*}(y)| ≤ y exp(−c(log y)^(3/8))`, for every `c > 0` and all large `y` with `log f_E ≤ (log y)^(3/5)`, which the case `α = 31/50` implies. (2) Linnik's theorem: there is an absolute `L` such that the least prime `p ≡ a (mod q)` is at most `q^L` for every `q ≥ 3` and every `a` coprime to `q`. It follows from the prime number theorem in progressions with relative error in Linnik's range `x ≥ q^L`, which rests on the Deuring–Heilbronn repulsion: let `q ≥ 3`, let `χ₁` be a real nonprincipal character modulo `q` and `β₁ ∈ [1/2, 1)` a zero of `L(s, χ₁)`; every zero `β + iγ` with `β ≥ 1/2` of every `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ c log(c/((1 − β₁)ℒ))/ℒ` for every `ℒ ≥ log(q(|γ| + 2))`, with an absolute effective `c`, except the zero `β₁` of `L(s, χ₁)` itself when it is simple. Linnik's theorem, this prime number theorem in progressions and the repulsion are statements of the formal proof. (3) There are absolute `A, c, c′ > 0` such that for every prime `d ≡ 3 (mod 4)` with `d ≥ 100`, `K = ℚ(√−d)`, every integer `M ≥ 3` and `B = |d_K| M² = dM²`, the number of primes `p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K`, `α ≡ 1 (mod M𝒪_K)`, is at least `c′hX/(B^A log X)` whenever `X ≥ 1`, `log B ≤ c√(log X)` and `e^(−c√(log X)) ≤ h ≤ 1`; this is the statement of the formal proof. The same for every imaginary quadratic field, with `B²` in place of `B^A` and `X ≥ X₀`, is this roadmap's own formulation, stated as the wider form of 2.9b.
 
 On the way the roadmap proves the character prime number theorem with the exceptional term: for a primitive nonprincipal `χ` of conductor `N ≥ 3` and every sufficiently large `X`, `Σ_{m≤X} χ(m)Λ(m) = −X^(β₁)/β₁ + O(X exp(−c log X/(√(log X) + log N)) (log N)^4)` with absolute constants, the term present only if `χ` is real and `L(s, χ)` has a real zero `β₁ ∈ (1 − c₁/log N, 1)`. It and the repulsion are proved without the exclusion of Landau–Siegel zeros; they are AnalyticNumberTheoryPartI §1.4e and AnalyticNumberTheoryPartI §1.7a, of which 1.4g and 1.7b are corollaries in the sense of the Conventions, and with that exclusion both are also corollaries of other statements of AnalyticNumberTheoryPartI.
 
@@ -390,16 +390,18 @@ and `G_1(y)/y = (Σ_{n≤y} Λ(n)/n − log y) + (1 − ψ(y)/y) + γ`, where `0
 
 *Origin:* adapted from Iwaniec and Kowalski (2004), Theorem 5.27, and Davenport (1980), chapters 18–20, the prime
 number theorem for a character with the term of a possible exceptional zero: carried to the Riesz remainder `G_χ` by
-partial summation, uniformly in the conductor and over the characters of an abelian field. The bounds for `G_χ` in
-(a), (b), (c) and (c′), and the bounds for `G_1`, are this roadmap's own formulations; (b′), in the parametrisation
-given after it, is the statement of [FormalProof].
+partial summation, uniformly in the conductor and over the characters of an abelian field. (b), (b′) and the bounds
+for `G_χ` in (a), (c) and (c′) are this roadmap's own formulations; the bound for `G_1` in (a), (c) and (c′), and the
+consequence of (b′) written after (b′), are statements of [FormalProof].
 
-*Method of the formal proof:* (b′), in the parametrisation given after it, from the integral representation: for a
+*Method of the formal proof:* the consequence of (b′) written after (b′), from the integral representation: for a
 primitive character `G_χ(y) = −y ∫_y^∞ ψ_χ(u) u^(−2) du`, and the bound for `ψ_χ` from the explicit formula and the
 zero-free region is integrated over the tail; the absolute convergence of the integral is taken from the
 Siegel–Walfisz theorem, which the proof derives from Siegel's lower bound for `L(1, χ)`. The route written below
 differs at that step: it takes the integrability of `ψ_χ(u) u^(−2)` from the estimate 1.4g (b), carries the term of the
-exceptional zero through the integration, which gives (a), and deduces (b), (b′) and (c′) from (a).
+exceptional zero through the integration, which gives (a), and deduces (b), (b′) and (c′) from (a). The proof
+obtains the bound for `G_1` from the zero-free region of `ζ` and the bound for `ζ′/ζ` in it, by Perron's formula and a
+shift of the contour.
 
 *Corollary of:* AnalyticNumberTheoryPartI §1.4e (the character prime number theorem with the term of a possible
 exceptional zero, which the integral representation of `G_χ` carries to the bound for `G_χ` in (a), and through it to
@@ -418,8 +420,8 @@ Dirichlet character `χ` of conductor `f_χ` and every `y ≥ 2`,
 the term `y^β/(β(1 − β))` present only if `χ` is real and `L(s, χ)` has an exceptional zero `β`; and
 `|G_1(y)| ≤ C y exp(−c √(log y))` for `y ≥ 2`.
 *Status.* The bound for `G_χ` in (a) is this roadmap's own, from the published 1.4g (b); it is not a statement of the
-formal proof, whose statement is (b′) below, in the parametrisation given after it. The bound for `G_1` is also this
-roadmap's own.
+formal proof, whose bound for `G_χ` is the consequence of (b′) written after (b′) below. The bound for `G_1` is that of
+the formal proof.
 
 **(b)** There is an absolute
 `c₁ > 0` such that for every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there is `y₀ = y₀(α, c_ex)` with the following
@@ -434,7 +436,7 @@ character, of conductor dividing `f_E`. If every exceptional zero `β` of an `L(
 `|G_{χ*}(y)| ≤ y exp(−c₁ (log y)^(1−α))` for all `χ ∈ Ĝ` and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`. The
 threshold does not depend on `E`, `f_E` or the characters.
 
-**(b′)** *The form of the formal proof.* For every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there are `c₁ = c₁(c_ex) > 0`
+**(b′)** *The form under a zero-free interval.* For every `α ∈ [1/2, 1)` and `c_ex ∈ (0, 1/2]` there are `c₁ = c₁(c_ex) > 0`
 and `y₀ = y₀(α, c_ex)` with the following property. Every primitive Dirichlet character `χ`, the trivial one included,
 such that `L(s, χ)` has no real zero in `(1 − c_ex, 1)` when `χ` is real and nonprincipal, satisfies
 `|G_χ(y)| ≤ y exp(−c₁ (log y)^(1−α))` for every `y ≥ y₀` with `log f_χ ≤ (log y)^α`. In particular, for `E`, `G`,
@@ -442,12 +444,16 @@ such that `L(s, χ)` has no real zero in `(1 − c_ex, 1)` when `χ` is real and
 `|G_{χ*}(y)| ≤ y exp(−c₁ (log y)^(1−α))` for all `χ ∈ Ĝ` and all `y ≥ y₀(α, c_ex)` with `log f_E ≤ (log y)^α`. The
 threshold and `c₁` do not depend on `E`, `f_E` or the characters.
 
-[FormalProof] states (b′) in a parametrisation in which `log y` is of order `x^(ε/3)`, so that `3/5` and `3/8` take
-the places of `α` and `1 − α`: for every `ε, A, c, c_ex > 0` there is `x₀` such that `|G_χ(y)| ≤ y exp(−c x^(ε/8))`
-for every `x ≥ x₀`, every `χ` as in (b′) with `log f_χ ≤ A x^(ε/5) (log x)²` and every `y ≥ exp(x^(ε/3))/3`. For
-every `α`, (b′) follows from (c′) below by the route of (b). (b), with a hypothesis on the exceptional zero alone and
-an absolute `c₁`, is this roadmap's, by (a), and implies (b′). QuasiRiemannHypothesis §10.7, by which no Dirichlet
-`L`-function vanishes on `Re s > 11/12`, gives the hypotheses of (b) and (b′) at `c_ex = 1/12` for every character.
+(b′) is this roadmap's own. [FormalProof] states a consequence of it, in a parametrisation in which `log y` is of order
+`x^(ε/3)`: for every `ε, A, c, c_ex > 0` there is `x₀` such that `|G_χ(y)| ≤ y exp(−c x^(ε/8))` for every `x ≥ x₀`,
+every `χ` as in (b′) with `log f_χ ≤ A x^(ε/5) (log x)²` and every `y ≥ exp(x^(ε/3))/3`. At `x = (log 3y)^(3/ε)` it
+admits `log f_χ` up to `A (3/ε)² (log 3y)^(3/5) (log log 3y)²` and saves `exp(−c (log 3y)^(3/8))`, so that `3/5` and
+`3/8` take the places of `α` and `1 − α`; its range and saving are those of (b′) at no `α`, since the range needs
+`α ≤ 3/5` and the saving `1 − α ≤ 3/8`. (b′) at `α = 31/50`, with `min(c_ex, 1/2)` for `c_ex`, implies it, since
+`31/150 > 1/5` and `19/150 > 1/8`. For every `α`, (b′) follows from (c′) below by the route of (b). (b), with a
+hypothesis on the exceptional zero alone and an absolute `c₁`, is this roadmap's, by (a), and implies (b′).
+QuasiRiemannHypothesis §10.7, by which no Dirichlet `L`-function vanishes on `Re s > 11/12`, gives the hypotheses of
+(b) and (b′) at `c_ex = 1/12` for every character.
 
 *Route.* (a) *The prime sums.* 1.4g (b) gives, for `u` above its absolute threshold,
 `|ψ_χ(u) + δ u^β/β| ≤ C u (log 3f_χ)^4 exp(−c log u/(√(log u) + log f_χ))`, with `δ = 1` exactly when the term of
@@ -493,7 +499,7 @@ nonprincipal Dirichlet character `χ` of conductor `f_χ` and every `y ≥ 2`,
 | G_χ(y) | ≤ C y (log 3f_χ)^5 exp( −c log y/(√(log y) + log f_χ) ),
 ```
 and `|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`.
-*Status.* (c) is this roadmap's own statement: it rests on the exclusion of Landau–Siegel zeros of
+*Status.* The bound for `G_χ` in (c) is this roadmap's own: it rests on the exclusion of Landau–Siegel zeros of
 AnalyticNumberTheoryPartI §0.34, and is not a statement of the formal proof; it is not used in this family. The forms
 that keep the exceptional zero, (c′) and (b′), are the ones the rest of this family uses.
 
@@ -512,8 +518,8 @@ nonprincipal Dirichlet character `χ` of conductor `f_χ` for which, when `χ` i
 | G_χ(y) | ≤ C y (log 3f_χ)^5 exp( −c log y/(√(log y) + log f_χ) ),
 ```
 and `|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. (c) implies (c′).
-*Status.* (c′) is this roadmap's own statement, not a statement of the formal proof, whose statement is (b′), in the
-parametrisation given after it.
+*Status.* The bound for `G_χ` in (c′) is this roadmap's own, not a statement of the formal proof, whose bound for `G_χ`
+is the consequence of (b′) written after (b′); the bound for `G_1` is that of the formal proof, as in (a).
 
 *Route.* (a): an exceptional zero `β` of such a `χ` has `1 − β ≥ c₀` and `β ≥ 1/2`, so its term is at most
 `(2/c₀) y^(1−c₀)`, which is at most `(2/c₀) y exp(−c₀ log y/(√(log y) + log f_χ))` because `log f_χ ≥ log 3 > 1`. The
@@ -548,8 +554,9 @@ RiemannHypothesisStatementsAndConsequences §8.4a (b); ClassFieldTheory Layer 11
 
 *Origin:* particular to this proof: the power-sum bound (b′), whose hypothesis allows an error `L 2^(−j)` at every
 `j ≥ 1` and whose conclusion is a lower bound for `x`; nearest published result: Kadiri, Ng and Wong (2019), Theorem 2.2,
-after Lagarias, Montgomery and Odlyzko (1979). Its general form (b) is this roadmap's own formulation; (a) is published
-as Lemma 2.1 of Kadiri, Ng and Wong (2019), and (c) is Turán's second main theorem (Turán (1953)).
+after Lagarias, Montgomery and Odlyzko (1979). Its general form (b) is this roadmap's own formulation; (a) follows
+from Lemma 2.1 (i)–(ii) of Kadiri, Ng and Wong (2019) by the splitting (2.2) in their proof of Theorem 2.2, and (c) is
+Turán's second main theorem (Turán (1953)).
 
 *Method of the formal proof:* (a) by an induction on `J`; (b′) by dividing the points `y_i` by the largest modulus,
 averaging their power sums with the Fejér weights and taking `J = ⌈64L⌉`, which gives `C = 2080`; (c) in its two forms by
@@ -1162,7 +1169,7 @@ AnalyticNumberTheoryPartI also states three theorems that this roadmap restates 
 
 The Riesz sums of an `L`-series and the Riesz remainder of a primitive character, the zero-free half-planes, the generalized Riemann hypothesis of a Dirichlet character, the extended Riemann hypothesis of a number field, and primitive Dirichlet characters read as primitive ray class characters of `ℚ` are owned by [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md). Artin `L`-functions, their Brauer continuation and Artin holomorphy are AnalyticNumberTheoryPartI §§2.18a and 2.41; ray class groups and the ray class number formula are GlobalNumberFields Layer 2, in the Tau Ceti library; the class-number bound `h_K ≤ 4^n |d_K|` is EffectiveBounds Layer 1, in the Tau Ceti library.
 
-In this family, [QuadraticTwistSelectionOverPrimes](../QuadraticTwistSelectionOverPrimes/README.md) and [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) use the forms of the formal proof, at box width `1/400`: QuadraticTwistSelectionOverPrimes uses 1.4e (a′), 1.4f (a′) and 1.7b, and FrobeniusRestrictedRieszSums uses 1.4h, with (b′)–(c′) for its constant, and the field form of 1.4i (b′); and [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) and [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) use the least primes `≡ 1 (mod M)` of 1.7b (iii) and the norms from the fields `ℚ(√−d)` in short intervals of 2.9b (iv) (c′), the statement of 2.9b.
+In this family, [QuadraticTwistSelectionOverPrimes](../QuadraticTwistSelectionOverPrimes/README.md) and [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) use the forms of the formal proof, at box width `1/400`: QuadraticTwistSelectionOverPrimes uses 1.4e (a′), 1.4f (a′) and 1.7b, and FrobeniusRestrictedRieszSums uses 1.4h, with (b′)–(c′) for its constant, and the field form of 1.4i (b′), this roadmap's own form under a zero-free interval; and [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) and [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md) use the least primes `≡ 1 (mod M)` of 1.7b (iii) and the norms from the fields `ℚ(√−d)` in short intervals of 2.9b (iv) (c′), the statement of 2.9b.
 
 ## Exact supplier contracts
 
@@ -1236,11 +1243,11 @@ Layer 1: the class-number bound `NumberField.classNumber_le_bound`, `h_K ≤ 4^n
 - Harold M. Stark, *Some effective cases of the Brauer–Siegel theorem*, Invent. Math. 23 (1974), 135–152, Lemma 8, pp. 145–146: the quadratic subfield carrying a near-one Dedekind zero, with the threshold `1/(4 d! log D_E)` (2.9b (iv) (a)).
 - Dimitris Koukoulopoulos, *The distribution of prime numbers*, Graduate Studies in Mathematics 203 (2019) (Koukoulopoulos 2019): Lemmas 8.5–8.6, 11.2 and 11.4, the expansion of `L′/L` over the nearby zeros for primitive characters (0.30b).
 - A. Granville and K. Soundararajan, *The distribution of values of L(1, χ_d)*, Geom. Funct. Anal. 13 (2003), arXiv:math/0206031 (Granville and Soundararajan 2003): Lemma 2.1, `log L(s, χ)` as a short sum over prime powers under a rectangle free of zeros (1.4e), proved in their *Large character sums*, J. Amer. Math. Soc. 14 (2001), Lemmas 8.1–8.2.
-- Y. Ihara, V. K. Murty and M. Shimura, *On the logarithmic derivatives of Dirichlet L-functions at s = 1*, Acta Arith. 137 (2009), 253–276 (Ihara, Murty and Shimura 2009): Corollary 3.3.2, `|L′/L(1, χ)| ≤ 2 log log q + 2(1 − log 2) + O(log log q/log q)` for a primitive `χ` modulo `q` under the Riemann hypothesis for `L(s, χ)` (1.4f), as quoted in the introduction of A. Chirre, A. Simonic and M. Valas Hagen, *Conditional estimates for the logarithmic derivative of Dirichlet L-functions*, arXiv:2206.00819 (2022).
-- H. Kadiri, N. Ng and P.-J. Wong, *The least prime ideal in the Chebotarev density theorem*, arXiv:1902.08640 (2019) (Kadiri, Ng and Wong 2019): Lemma 2.1, the Fejér positivity of 1.7a (a), and Theorem 2.2, the power-sum bound nearest to 1.7a (b′); restated in H. Kadiri and P.-J. Wong, *Primes in the Chebotarev density theorem for all number fields*, arXiv:2105.14181 (2021), Theorem 7.
+- Y. Ihara, V. K. Murty and M. Shimura, *On the logarithmic derivatives of Dirichlet L-functions at s = 1*, Acta Arith. 137 (2009), 253–276 (Ihara, Murty and Shimura 2009): Corollary 3.3.2, `|L′/L(1, χ)| ≤ 2 log log q + 2(1 − log 2) + O(log log q/log q)` for a primitive `χ` modulo `q` under the Riemann hypothesis for `L(s, χ)` (1.4f), as quoted in the introduction of A. Chirre, M. Valås Hagen and A. Simonič, *Conditional estimates for the logarithmic derivative of Dirichlet L-functions*, arXiv:2206.00819 (2022).
+- H. Kadiri, N. Ng and P.-J. Wong, *The least prime ideal in the Chebotarev density theorem*, arXiv:1902.08640 (2019) (Kadiri, Ng and Wong 2019): Lemma 2.1 (i)–(ii), p. 3, the Fejér positivity from which 1.7a (a) follows by the splitting (2.2) in the proof of Theorem 2.2, p. 4, and Theorem 2.2, the power-sum bound nearest to 1.7a (b′); restated in H. Kadiri and P.-J. Wong, *Primes in the Chebotarev density theorem for all number fields*, arXiv:2105.14181 (2021), Theorem 7.
 - J. C. Lagarias, H. L. Montgomery and A. M. Odlyzko, *A bound for the least prime ideal in the Chebotarev density theorem*, Invent. Math. 54 (1979), 271–296 (Lagarias, Montgomery and Odlyzko 1979): Lemma 4.1 and Theorem 4.2, the power-sum lemmas after which Kadiri, Ng and Wong state theirs (1.7a).
 - J. Thorner and A. Zaman, *A unified and improved Chebotarev density theorem*, Algebra Number Theory 13 (2019), 1039–1068, arXiv:1803.02823 (Thorner and Zaman 2019): Theorem 1.4, the count of the prime ideals of a Chebotarev class, uniformly in the field and the conductor, with the term of the exceptional zero; for the cyclotomic field `ℚ(ζ_q)` over `ℚ` it is the estimate for `π(x;a,q)` of 1.7b (ii), and for a ray class field the count of the prime ideals of a ray class that 2.9b adapts.
 - E. Fogels, *On the abstract theory of primes I*, Acta Arith. 10 (1964), 137–182 (Fogels 1964): the Introduction, the Theorem and its Corollary, primes in the classes of an abstract family of classes without a functional equation, the lower bound at `1` being assumed (the method of [FormalProof] for 2.9b, in its `*Method of the formal proof:*` label).
 - E. Landau, Math. Ann. 63 (1907), 145–204 (Landau 1907): primes counted in classes without a functional equation, not uniformly (the method of [FormalProof] for 2.9b, in its `*Method of the formal proof:*` label).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the forms headed *The form of the formal proof*: 1.4e (a′) and 1.4f (a′) (the mean value inside a zero-free box of width `1/400`), 1.4h (b′)–(c′), 1.4i (b′), 1.7a (b′), the gap `c/(q² log q)` in the Convention of 1.7b, and 2.9b (iv) (c′). It also gives 0.30b, the notation and (a) of 1.4h, the Corollary of 1.4g, the integral representation of `G_χ` in 1.4i, 1.7a (a) and (c), the exceptional pair of the Convention of 1.7b, 1.7b (i) with its route (positivity of four logarithmic derivatives at `2` and `2 + iγ`, the local expansion of 0.30b, the cancellation of the pole against the exceptional zero and the power-sum inequality of 1.7a), 1.7b (ii), and the displayed lower bound and the least primes of 1.7b (iii), Linnik's theorem among them. The other statements of this roadmap are its own or its suppliers'.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the forms headed *The form of the formal proof*: 1.4e (a′) and 1.4f (a′) (the mean value inside a zero-free box of width `1/400`), 1.4h (b′)–(c′), 1.7a (b′), the gap `c/(q² log q)` in the Convention of 1.7b, and 2.9b (iv) (c′). It also gives 0.30b, the notation and (a) of 1.4h, the Corollary of 1.4g, the integral representation of `G_χ`, the bound for `G_1` and the consequence of (b′) written after (b′) in 1.4i, 1.7a (a) and (c), the exceptional pair of the Convention of 1.7b, 1.7b (i) with its route (positivity of four logarithmic derivatives at `2` and `2 + iγ`, the local expansion of 0.30b, the cancellation of the pole against the exceptional zero and the power-sum inequality of 1.7a), 1.7b (ii), and the displayed lower bound and the least primes of 1.7b (iii), Linnik's theorem among them. The other statements of this roadmap are its own or its suppliers'.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
