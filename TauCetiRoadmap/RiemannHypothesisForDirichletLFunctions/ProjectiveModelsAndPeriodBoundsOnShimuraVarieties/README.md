@@ -26,8 +26,8 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 7.17a, 7.31a and 9.1, [FormalProof] states a part or a special case, recorded with the section: 6.2a (b), and (a) on the
 charts of the model of 7.31a (b′); 6.7a on those charts; 6.9a without the further properties of its bundle; 7.17a in the
 Siegel case; 7.31a in the marked form (b′); and 9.1 over number fields. 7.31a (a) applies a published theorem, cited
-with it; the wider forms of the others are adaptations of published results or this roadmap's own formulations, as their
-`*Origin:*` labels say.
+with it, and 9.1 over every field of characteristic zero is published (Alper 2013, Theorem 10.3); the wider forms of the
+others are adaptations of published results or this roadmap's own formulations, as their `*Origin:*` labels say.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
 of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when it does
@@ -693,6 +693,8 @@ Let `k` be a field of characteristic zero, `X` an integral projective `k`-scheme
 
 *The form of the formal proof.* [FormalProof] has the statement over number fields, with the linearisation written as the cocycle `c` and the local equations of the Route (`GlobalTheory.T.exists_descent_linearised_lineBundle_finiteGroup_quotient`, in `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsDescentLinearisedLineBundleFiniteGroupQuotStatement.lean`). [DN] Théorème 2.3 is the case `k = ℂ`: it is stated there for a reductive group acting on an integral complex variety with a good quotient and a vector bundle, with the condition at the closed points whose orbit is closed; the orbits of a finite group are closed, and at a closed point of a complex variety the stabiliser is the inertia group. Over every field of characteristic zero the statement is a case of Alper (2013), Theorem 10.3, for the good moduli space `[X/Γ] → W` (EquivariantIntersectionTheory §1.5).
 
+*Needs:* SchemeAndStackFoundations §1.17 (the quotient by a finite group) and EquivariantIntersectionTheory §1.1 (linearisations), for the statement and the Route; EquivariantIntersectionTheory §1.5, for the deduction.
+
 **Checks.**
 
 - `X = ℙ¹` with `Γ = {±1}` acting by `t ↦ −t`, `W = ℙ¹` with coordinate `t²`. For `L = O([0])` with its natural linearisation, `−1` acts by `−1` on the fibre at the fixed point `0` (the fibre is the tangent line), and `L` does not descend (pull-backs from `W` have even degree).
@@ -766,7 +768,7 @@ Layer 2: projective morphisms and relative ampleness of an invertible sheaf, the
 - J.-B. Bost, *Germs of analytic varieties in algebraic varieties: canonical metrics and arithmetic algebraization theorems*, in *Geometric aspects of Dwork theory*, de Gruyter (2004), pp. 371–418: section 2.4 and Corollary 2.7, 6.2a.
 - P. Deligne, *Preuve des conjectures de Tate et de Shafarevitch (d'après G. Faltings)*, Séminaire Bourbaki 1983/84, exposé 616, Astérisque 121–122 (1985), 25–41: Lemme 1.18, 6.7a.
 - W. Goldring and J.-S. Koskivirta, *Strata Hasse invariants, Hecke algebras and Galois representations*, arXiv:1507.05032 (2015): sections 6.1.2–6.1.4 and Theorem 6.2.1, 6.9a.
-- T. Ekedahl and G. van der Geer, *Cycle classes of the E-O stratification on the moduli of abelian varieties*, arXiv:math/0412272 (2004): the section on the toroidal compactification, 6.9a.
+- T. Ekedahl and G. van der Geer, *Cycle classes of the E-O stratification on the moduli of abelian varieties*, arXiv:math/0412272 (2004): §5 (Extension to the boundary), pp. 27–28 of v2, 6.9a.
 - V. Cristante, *Theta functions and Barsotti–Tate groups*, Ann. Sc. Norm. Sup. Pisa 7 (1980): 6.9a.
 - M. Candilera and V. Cristante, Ann. Sc. Norm. Sup. Pisa 10 (1983): 6.9a.
 - P. Deligne, *Le lemme de Gabber*, Astérisque 127 (1985), pp. 131–150: 7.31a (b).
