@@ -8742,7 +8742,9 @@ their finite-type complex, ctf and compact-support separatedness hypotheses.
 AlgebraicModuliForArithmeticGeometry imports torsors and their classes (§1.15), algebraic stacks
 (§§1.18–1.23), the Picard torsors of curves (§3.6) and projective bundles (§5.4).
 NeronModelsAndSemistableAbelianVarieties imports formal functions and algebraization (§§4.9–4.10)
-and the semistable alteration theorem (§4.20). EtaleDualityAndPerverseSheaves imports coherent
+and the semistable alteration theorem (§4.20). NeronModelsAndSemistableAbelianVarietiesPartII §1.9
+uses the schemehood of separated locally quasi-finite algebraic spaces over a scheme (§1.9a).
+EtaleDualityAndPerverseSheaves imports coherent
 duality (§§2.18–2.21) and the pro-étale foundations. AbelianSchemesAndArithmeticModuli imports Chow
 groups (§§5.1–5.8) and numerical equivalence of divisors on surfaces (§5.10) in every
 characteristic. The Weil-conjectures roadmap imports the Weil bound (§5.11). IntegralHeckeAndGaloisDeterminants imports `Ring.IsJapanese.of_complete_local` and
