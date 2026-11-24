@@ -451,7 +451,7 @@ pairing and the forgetful map to rational Spin bordism.
 
 *Needs:* S1.2, S2.1; GeneralizedCohomology G5 (bundle-diagram interface), G5.3,
 G5.6; DGFloer Layer 1 item 2 (cohomological Serre spectral sequence);
-GeometricTopology Layer 1; CharacteristicClasses C2 (Thom isomorphism).
+GeometricTopology §§1.1, 1.3 and 1.5 (collars, gluing and tubular neighbourhoods); CharacteristicClasses C2 (Thom isomorphism).
 
 ### 2.3 Low stems and framings (S2.3)
 
