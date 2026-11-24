@@ -286,7 +286,7 @@ theorem dvoretzky_finite (k : ℕ) (ε : ℝ) (hε : 0 < ε) :
 /-- Dvoretzky's theorem, infinite-dimensional corollary (B7, §7.3): `ℓ²` is finitely representable
 in every infinite-dimensional real Banach space. -/
 theorem dvoretzky {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-    (hE : ¬ FiniteDimensional ℝ E) (n : ℕ) (ε : ℝ) (hε : 0 < ε) (hε' : ε < 1) :
+    (hE : ¬ FiniteDimensional ℝ E) (n : ℕ) (ε : ℝ) (hε : 0 < ε) :
     ∃ T : EuclideanSpace ℝ (Fin n) →L[ℝ] E,
       ∀ x, (1 - ε) * ‖x‖ ≤ ‖T x‖ ∧ ‖T x‖ ≤ (1 + ε) * ‖x‖ := by
   sorry

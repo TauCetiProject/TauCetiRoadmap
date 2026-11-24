@@ -59,7 +59,9 @@ that need not be σ-finite (B5.LocalHaarDual). B6 treats absolutely summing oper
 domination, Rademacher type and cotype (B6.Cotype2), and Grothendieck's inequality and theorem.
 B7 is the local theory: the Banach–Mazur distance, finite representability and local
 reflexivity, John's theorem and its projection constants, and Dvoretzky's theorem. B2 and B3 need
-B1, and B4 and B5 need B1–B3. B6 needs B5, and B7 needs B1, B4 and B6.
+B1, and B4 and B5 need B1–B3. B6 needs B5, and B7 needs B1, B4 and B6. B4.0 also uses the signed
+Riesz–Markov–Kakutani representation of §5.4 and the local reflexivity of §7.1, both realised in
+Tau Ceti and neither depending on B4; the trace duality of §7.1 in turn uses B4.0.
 
 ## Conventions
 
@@ -1919,7 +1921,8 @@ approximation property to `‖Θ_E u‖ = ‖u‖π` in B4.0's metric criterion 
 proves it from the local reflexivity above.
 
 **Checks.**
-- For reflexive `E` the density is equality, since `J_E` is onto.
+- For reflexive `E` the supremum over the unit ball of `L(E)` is the supremum over the unit ball
+  of `L(E, E**)`, since `J_E` is onto.
 - For `E = 𝕜`, `‖u‖π = |u|` and the supremum over `|S| ≤ 1` of `|u S|` is `|u|`.
 - For a rank-one `u = f ⊗ x` both sides are `‖f‖ ‖x‖`: take `S = φ(·) z` with `φ(x) = ‖x‖`,
   `‖φ‖ = 1`, `‖z‖ ≤ 1` and `|f(z)| > ‖f‖ − ε`, in every Banach space.
@@ -2065,7 +2068,8 @@ position), B6.Cotype2 (Gaussian model).
 ### Examples
 
 The Banach–Mazur distance `d(ℓ₁ⁿ, ℓ₂ⁿ) = √n`; the cube, the cross-polytope and the interval for
-John's theorem; `c₀` for trace duality; `k = 1` for Dvoretzky.
+John's theorem; `c₀`, not reflexive but with the metric approximation property of §4.2, for trace
+duality; `k = 1` for Dvoretzky.
 
 ### Dependencies
 
