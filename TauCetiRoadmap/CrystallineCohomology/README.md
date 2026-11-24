@@ -758,7 +758,7 @@ envelope* (DerivedDeRhamCohomology §PD.6); *Pushouts of divided power rings*
 (DerivedDeRhamCohomology §PD.6); *Flat extension of divided powers* (DerivedDeRhamCohomology §PD.2);
 Mathlib `CategoryTheory.ObjectProperty.FullSubcategory`; Mathlib `CategoryTheory.ObjectProperty.ι`.
 For the fppf variant, use the same flat fibre-square calculation and the base-change/composition
-axioms for fppf covers (SchemeAndStackFoundations Layer 2). The topology for the Dieudonné Ext is
+axioms for fppf covers (Mathlib `AlgebraicGeometry.Scheme.fppfPrecoverage`, `AlgebraicGeometry.Scheme.fppfTopology`). The topology for the Dieudonné Ext is
 specified explicitly in [Madapusi–Mondal, *Perfect F-gauges and finite flat group
 schemes*](https://www.keerthimadapusi.com/assets/preprints/fflat.pdf), Remark 4.3.3, printed
 pp.13–14, immediately before Proposition 4.3.4.
@@ -904,7 +904,7 @@ Cohomology, §60.8, [Definition 60.8.4 (07IB)](https://stacks.math.columbia.edu/
 with étale coverings; [Stacks Project](https://stacks.math.columbia.edu), Descent, §35.9,
 Proposition 35.9.3 (03DW).) *Needs:* *Small and big crystalline sites*; *Schemes with a
 quasi-coherent PD ideal*; *Flat extension of divided powers* (DerivedDeRhamCohomology §PD.2); *Étale
-extension of PD envelopes* (DerivedDeRhamCohomology §PD.6); SchemeAndStackFoundations Layer 2.
+extension of PD envelopes* (DerivedDeRhamCohomology §PD.6); SchemeAndStackFoundations §§0.23a, 2.9 and 2.10.
 
 **Checks.**
 
@@ -1179,8 +1179,8 @@ universal PD derivation, and `PDDifferentials/Representability.lean`, where
 structure on A; the initiality among differential graded algebras and the adjoining, quotient,
 diagonal and completion items are not covered there.) *Needs:* *Relative divided
 power polynomial algebras* (DerivedDeRhamCohomology §PD.5); *Pushouts of divided power rings*
-(DerivedDeRhamCohomology §PD.6); DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de
-Rham complex*); DerivedDeRhamCohomology Layer 2 (§2.21 *The universal differential graded algebra*);
+(DerivedDeRhamCohomology §PD.6); DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de
+Rham complex*); DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*);
 Mathlib `KaehlerDifferential`; Mathlib `DividedPowers`; Mathlib
 `KaehlerDifferential.linearMapEquivDerivation`.
 
@@ -1450,7 +1450,7 @@ of the author-hosted manuscript, the paragraph before Theorem 2.19.) *Needs:* *M
 integrable connection and their de Rham complexes*; *Universal PD differentials and the PD de Rham
 complex*; *Differentials of a smooth envelope*; *Universal base-compatible divided power envelope*
 (DerivedDeRhamCohomology §PD.6); *Completed PD envelopes and the derived-completion comparison*
-(DerivedDeRhamCohomology §PD.6); DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de
+(DerivedDeRhamCohomology §PD.6); DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de
 Rham complex*); Mathlib `IsAdicComplete`.
 
 **Checks.**
@@ -1685,8 +1685,8 @@ Cohomology, §60.24, Remark 60.24.10 (Rlim; a remark with a hint of proof); see 
 60.9.4 and 60.9.6; [Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 §60.9, Remark 60.9.4 (Comparison with Zariski site).) *Needs:* *Structure, quotient and PD-ideal
 sheaves* (Layer CR.1); *Morphisms and comparisons of crystalline sites* (Layer CR.1);
-EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*);
-EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*);
+EnhancedDerivedSheaves §E1.3 (*The enhanced derived category*);
+EnhancedDerivedSheaves §E1.4 (*Derived sheaf tensor*);
 EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
 (`IsReplete.derived_limits`, point topos for the surjective global-section tower).
 
@@ -1886,7 +1886,7 @@ lemma*; *Differentials of a smooth envelope* (Layer CR.1); *Universal PD differe
 the PD de Rham complex* (Layer CR.1); *Crystals, stratifications and quasi-nilpotent connections*
 (Layer CR.1); *PD stratifications on a smooth lift* (Layer CR.1); *Modules with integrable
 connection and their de Rham complexes* (Layer CR.1); *Morphisms and comparisons of crystalline
-sites* (Layer CR.1); *Structure, quotient and PD-ideal sheaves* (Layer CR.1); EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*); DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
+sites* (Layer CR.1); *Structure, quotient and PD-ideal sheaves* (Layer CR.1); EnhancedDerivedSheaves §E2.6 (*Hypercover in a topos*); EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*); DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
 
 **Checks.**
 
@@ -2109,7 +2109,7 @@ Theorem 3.6 with proof, pp.8–9; [Le Stum–Quirós, *The filtered Poincaré le
 level*](https://arxiv.org/abs/math/0409564v1), §3, Corollaries 3.10–3.11, p.12, level m=0.) *Needs:*
 *Linearization in a smooth ambient scheme*; *Crystalline cohomology from an embedding*;
 *Independence of the presentation and of the embedding*; *Étale extension of PD envelopes*
-(DerivedDeRhamCohomology §PD.6); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover
+(DerivedDeRhamCohomology §PD.6); EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover
 descent*).
 
 **Checks.**
@@ -2152,8 +2152,8 @@ total complex of a cosimplicial complex with its first column and with its botto
 alternating models and refinements are not covered there.) *Needs:* *Crystalline cohomology from an
 embedding*; *De Rham computation in a smooth ambient embedding*; *Enhanced crystalline direct image
 and global sections*;
-EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*);
-EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*).
+EnhancedDerivedSheaves §E2.6 (*Hypercover in a topos*);
+EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*).
 
 **Checks.**
 
@@ -2222,8 +2222,8 @@ Project](https://stacks.math.columbia.edu), Étale Cohomology, §59.22, Theorem 
 60.17.2–60.17.3; §60.21, Proposition 60.21.1.) *Needs:* *The étale crystalline sites* (Layer CR.1);
 *Quasi-coherent and finite locally free crystals* (Layer CR.1); *Crystalline cohomology from an
 embedding*; *Étale extension of PD envelopes* (DerivedDeRhamCohomology §PD.6);
-EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*); SchemeAndStackFoundations
-Layer 2.
+EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*);
+SchemeAndStackFoundations §§0.23a, 1.1, 2.6 and 2.10.
 
 **Checks.**
 
@@ -2597,7 +2597,7 @@ AdicSpacesPartIII F0.6 (*The theorem on formal functions*); AdicSpacesPartIII F0
 on a locally noetherian formal scheme as compatible systems*); AdicSpacesPartIII F0.7
 (*Grothendieck’s existence theorem*); DerivedDeRhamCohomology (§1.22 *Valid exchanges of
 completion and derived operations*); AdicSpacesPartIII F0.6 (*Good filtrations and the
-Mittag-Leffler property*); SchemeAndStackFoundations Layer 2 (*Tor-independent base change for
+Mittag-Leffler property*); SchemeAndStackFoundations §2.18 (*Tor-independent base change for
 quasi-coherent complexes*).
 
 **Checks.**
@@ -2660,8 +2660,8 @@ such a covering computes the cohomology of a bounded-below complex of sheaves wh
 every finite intersection. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline
 Cohomology, §60.24, Remark 60.24.4 (tag 07MN), Alternating Čech complex; notation from Remark
 60.24.3 (tag 07MM).) *Needs:* *Crystalline cohomology from an embedding* (Layer CR.2); *Morphisms
-and comparisons of crystalline sites* (Layer CR.1); EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*); EnhancedDerivedSheaves Layer
-E2.
+and comparisons of crystalline sites* (Layer CR.1); EnhancedDerivedSheaves §E2.6 (*Hypercover in a topos*); EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*);
+EnhancedDerivedSheaves §E2.6.
 
 **Checks.**
 
@@ -2690,7 +2690,7 @@ sections turn this resolution into the distinguished triangle. Functoriality of 
 all compatibilities. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 §60.24, Remark 60.24.2; §60.9, Lemma 60.9.5.) *Needs:* *Morphisms and comparisons of crystalline
 sites* (Layer CR.1); *Enhanced crystalline direct image and global sections* (Layer CR.2);
-EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*).
+EnhancedDerivedSheaves §E1.3 (*The enhanced derived category*).
 
 **Checks.**
 
@@ -2717,7 +2717,7 @@ in the complete case; homotopy limits commute with homotopy limits. ([Stacks
 Project](https://stacks.math.columbia.edu), Étale Cohomology, §59.22, Theorem 59.22.4; [Bhatt–de
 Jong, *Crystalline cohomology and de Rham cohomology*](https://arxiv.org/abs/1110.5001v1), §3, proof
 of Theorem 3.6, pp.8–9.) *Needs:* *Change of topology for quasi-coherent crystals* (Layer CR.2);
-*Enhanced crystalline direct image and global sections* (Layer CR.2); EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*).
+*Enhanced crystalline direct image and global sections* (Layer CR.2); EnhancedDerivedSheaves §E2.6 (*Hypercover in a topos*); EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*).
 
 **Checks.**
 
@@ -2784,11 +2784,11 @@ Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.24, Rem
 and the hints; [Stacks Project](https://stacks.math.columbia.edu), Cohomology on Sites, Cohomology
 on Sites, Remark 07A7 (base change map for a commutative square of ringed topoi).) *Needs:*
 *Crystalline cohomology from a finite affine cover: the alternating Čech complex*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
-SchemeAndStackFoundations Layer 4 (§4.6, smooth lifting across nilpotent thickenings);
+SchemeAndStackFoundations §4.6 (smooth lifting across nilpotent thickenings);
 *Crystalline cohomology from an embedding* (Layer CR.2); *Differentials of a smooth envelope* (Layer
-CR.1); EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*);
-EnhancedDerivedSheaves Layer E3 (*Coherent Beck–Chevalley comparisons*); DerivedDeRhamCohomology
-Layer 1; *Mayer–Vietoris for crystalline cohomology*.
+CR.1); EnhancedDerivedSheaves §E1.4 (*Derived sheaf tensor*);
+EnhancedDerivedSheaves §E3.4 (*Coherent Beck–Chevalley comparisons*);
+DerivedDeRhamCohomology §§1.13 and 1.22; *Mayer–Vietoris for crystalline cohomology*.
 
 **Checks.**
 
@@ -2856,7 +2856,7 @@ corrigendum to Appendix B of *Notes on crystalline
 cohomology*](https://math.berkeley.edu/~ogus/preprints/BO_B2_Erratumre.pdf), p. 1: the opening
 paragraph and the replacement text for (B2.1); pp. 1–2: (B2.1a) and its proof.) *Needs:* *Derived
 crystalline base change*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
-DerivedDeRhamCohomology Layer 1; EnhancedDerivedSheaves (§E1.9 *Perfect pushforward with proper support*, `perfect_proper_pushforward`); SchemeAndStackFoundations Layer 2
+DerivedDeRhamCohomology §1.13; EnhancedDerivedSheaves (§E1.9 *Perfect pushforward with proper support*, `perfect_proper_pushforward`); SchemeAndStackFoundations §2.18
 (*D_QCoh of a qcqs scheme is generated by one perfect complex*).
 
 **Checks.**
@@ -3193,9 +3193,9 @@ Project](https://stacks.math.columbia.edu), de Rham Cohomology, de Rham Cohomolo
 formula" (tag 0FM9), Lemma 0FMB.) *Needs:* *Crystalline cup products*; *Proper smooth crystalline
 perfectness and reductions*; *Derived crystalline base change*; *Semilinear crystalline Frobenius
 and linearization*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
-SchemeAndStackFoundations Layer 2 (*Tor-independent base change for quasi-coherent complexes*);
-DerivedModuleAlgebra (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology
-Layer 1 (§1.22 *Valid exchanges of completion and derived operations*); *Crystalline cohomology from
+SchemeAndStackFoundations §2.18 (*Tor-independent base change for quasi-coherent complexes*);
+DerivedModuleAlgebra (§1.3 *The derived completion reflector*);
+DerivedDeRhamCohomology §1.22 (*Valid exchanges of completion and derived operations*); *Crystalline cohomology from
 a finite affine cover: the alternating Čech complex*.
 
 **Checks.**
@@ -4076,7 +4076,7 @@ killed by p, so completion preserves this kernel by BLM Lemma 7.2.5. Degreewise 
 commutes with E_p on free models, proving the natural equivalence. ([Bhatt–Lurie–Mathew, *Revisiting
 the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, Corollaries 7.2.2–7.2.3,
 p.84; Proposition 7.2.4 and Lemma 7.2.5 with proofs, pp.84–85.) *Needs:* *Principal p-décalage on
-torsion-free complexes*; EnhancedDerivedSheaves Layer E1.
+torsion-free complexes*; EnhancedDerivedSheaves §E1.3 (*The enhanced derived category*).
 
 **Checks.**
 
@@ -5141,7 +5141,7 @@ Proposition 7.5.3, Corollary 7.5.4, Lemma 7.5.6 and the proof of Theorem 7.4.7, 
 *Dieudonné complexes*; *Saturated Frobenius*; *Saturation by iterated décalage*; *Strict completion
 and its adjunction*; *Derived p-décalage and completion*; DerivedModuleAlgebra (§1.2
 *Derived ideal completeness*); DerivedModuleAlgebra (§1.3 *The derived completion
-reflector*); EnhancedDerivedSheaves Layer E1 (*The enhanced derived
+reflector*); EnhancedDerivedSheaves §E1.3 (*The enhanced derived
 category*); EnhancedDerivedSheaves Layer E0 (*Dold–Kan mapping-space comparison*); *The finite
 quotients compute cohomology modulo p^r*.
 
@@ -5405,8 +5405,8 @@ arXiv v3, §3.1 (conditions (a)–(c), Remark 3.1.1, Definition 3.1.2, Remarks 3
 (Propositions 3.2.1, 3.2.3), §3.4 (Definition 3.4.1, Propositions 3.4.2, 3.4.3), §3.5 (Proposition
 3.5.1, Corollary 3.5.2, Propositions 3.5.5, 3.5.8, Definition 3.5.6), pp.29–38.) *Needs:* *Dieudonné
 complexes*; *Saturation by iterated décalage*; *The Verschiebung filtration*; *Strict completion and
-its adjunction*; DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*);
-DerivedDeRhamCohomology Layer 2 (§2.21 *The universal differential graded algebra*); *Verschiebung
+its adjunction*; DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham complex*);
+DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*); *Verschiebung
 and the differential*; *Frobenius lifting after a divided differential*; Mathlib `DirectSum.GRing`.
 
 **Checks.**
@@ -5490,9 +5490,9 @@ pp.38–45; [Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt
 complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §6.1 Proposition 6.1.2, §6.2 Proposition
 6.2.1, §6.3 Proposition 6.3.1, §6.5 Proposition 6.5.1, pp.70–74.) *Needs:* DiamondsAndVStacks
 D6.9 (`IsSeminormalRing`); *Dieudonné algebras and multiplicative quotients*; *Strict completion
-and its adjunction*; DerivedDeRhamCohomology Layer 2
-(§2.12 *The ordinary algebraic de Rham complex*); DerivedDeRhamCohomology Layer 2 (§2.21 *The
-universal differential graded algebra*); *Witt lifting from a torsion-free Frobenius lift*;
+and its adjunction*; DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham complex*);
+DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*); *Witt lifting from a
+torsion-free Frobenius lift*;
 *Frobenius lifting after a divided differential*; Mathlib `WittVector`; Mathlib
 `WittVector.frobenius`; Mathlib `WittVector.verschiebung`; Mathlib `WittVector.teichmuller`; Mathlib
 `WittVector.frobenius_verschiebung`; Mathlib `WittVector.truncate`; Mathlib `TruncatedWittVector`;
@@ -5585,7 +5585,7 @@ Hodge theory*](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf), 
 10.5 and Remark 10.6, p.81.) *Needs:* *Universal PD differentials and the PD de Rham complex* (Layer
 CR.1); *Canonical divided powers on the Verschiebung ideal of W_r(R)*; Mathlib `WittVector.frobenius`, `WittVector.verschiebung`,
 `WittVector.frobenius_verschiebung` and `WittVector.verschiebung_mul_frobenius`, as listed in
-*Exact supplier contracts*; *Finite-length Witt operators and their identities*; DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de
+*Exact supplier contracts*; *Finite-length Witt operators and their identities*; DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de
 Rham complex*); Mathlib `TruncatedWittVector`; Mathlib `TruncatedWittVector.truncate`; Mathlib
 `WittVector.truncate`; Mathlib `WittVector.frobenius`; Mathlib `WittVector.verschiebung`; Mathlib
 `WittVector.teichmuller`; Mathlib `WittVector.frobenius_verschiebung`; Mathlib
@@ -5785,8 +5785,8 @@ cohomologie cristalline*](http://www.numdam.org/item/ASENS_1979_4_12_4_501_0.pdf
 Théorème 2.17, Proposition 2.18 ((2.18.1)–(2.18.6)), printed pp. 562–564.) *Needs:* Mathlib `WittVector.frobenius`, `WittVector.verschiebung`,
 `WittVector.frobenius_verschiebung` and `WittVector.verschiebung_mul_frobenius`, as listed in
 *Exact supplier contracts*; *Finite-length Witt operators and their identities*; *Initial relative de Rham–Witt complex*;
-DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*);
-DerivedDeRhamCohomology Layer 2 (§2.21 *The universal differential graded algebra*); *Relative
+DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham complex*);
+DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*); *Relative
 Frobenius–Verschiebung procomplexes*; Mathlib `WittVector`; Mathlib `TruncatedWittVector`; Mathlib
 `WittVector.truncate`; Mathlib `WittVector.verschiebung`; Mathlib `WittVector.teichmuller`.
 
@@ -5903,7 +5903,7 @@ morphism*](https://www.math.uni-bielefeld.de/~zink/dRW.pdf), §2.1 Proposition 2
 2.2), printed pp.32–37; §2.4 Lemma 2.14, Proposition 2.15 with proof and Proposition 2.16 with
 proof, pp.49–54.) *Needs:* *Initial relative de Rham–Witt complex*; *Relative Frobenius–Verschiebung
 procomplexes*; *Finite-length Witt operators and their identities*;
-DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*); Mathlib
+DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham complex*); Mathlib
 `TruncatedWittVector`; Mathlib `WittVector.ghostComponent`.
 
 **Checks.**
@@ -6211,7 +6211,7 @@ a torsion base. ([Bhatt–Morrow–Scholze, *Integral p-adic Hodge
 theory*](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf), §10.4: weights, the
 partitions P_a, Cases 1–3, Theorem 10.12 with proof, the integral part, Theorem 10.13 with proof,
 pp.83–85.) *Needs:* *Polynomial basic Witt differential expansion*; *Witt localization and étale
-descent*; DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*); Mathlib
+descent*; DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham complex*); Mathlib
 `KaehlerDifferential.mvPolynomialBasis`; Mathlib `KaehlerDifferential.isLocalizedModule_map`.
 
 **Checks.**
@@ -6297,8 +6297,8 @@ II.1.3, p.125;
 [Stacks, Lemma 21.23.2 (0D6K)](https://stacks.math.columbia.edu/tag/0D6K).)
 *Needs:* *Classical de Rham–Witt complex as the initial V-pro-complex*; *Polynomial basic Witt
 differential expansion*; *Witt localization and étale descent*; *Witt differential quotients and
-completion topologies*; DerivedDeRhamCohomology Layer 3 (§3.6, Cartier);
-SchemeAndStackFoundations Layer 2 (affine quasi-coherent acyclicity);
+completion topologies*; DerivedDeRhamCohomology §3.6 (Cartier);
+SchemeAndStackFoundations §2.6 (affine quasi-coherent acyclicity);
 EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
 (`IsReplete.derived_limits`, point topos for affine section modules).
 
@@ -6402,13 +6402,13 @@ Part I, §2 E: Théorème 2.17, Proposition 2.18 and 2.19 ((2.19.1)–(2.19.6)),
 Part 0, (1.4.8), printed p. 511.) *Needs:* *Structural properties of the classical complex
 on smooth F_p-algebras*; *Universal saturated de Rham–Witt complex*; *Classical de
 Rham–Witt complex as the initial V-pro-complex*; *Initial relative de Rham–Witt complex*; *Strict
-completion and its adjunction*; *Cartier criterion for saturation*; DerivedDeRhamCohomology Layer 3
-(§3.6 *The classical smooth Cartier isomorphism*); DerivedDeRhamCohomology Layer 3 (§3.4 *The
-polynomial Cartier map*); DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham
-complex*); DerivedDeRhamCohomology Layer 2 (§2.27 *The de Rham algebra of a completely smooth formal
+completion and its adjunction*; *Cartier criterion for saturation*;
+DerivedDeRhamCohomology §3.6 (*The classical smooth Cartier isomorphism*); DerivedDeRhamCohomology §3.4 (*The
+polynomial Cartier map*); DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham
+complex*); DerivedDeRhamCohomology §2.27 (*The de Rham algebra of a completely smooth formal
 algebra*); *The finite quotients compute cohomology modulo p^r*; *Dieudonné algebras and
-multiplicative quotients*; SchemeAndStackFoundations §0.15 (`popescu_desingularization`) and
-§0.21 (regular maps and geometrically regular fibres).
+multiplicative quotients*; SchemeAndStackFoundations §0.15 (`popescu_desingularization`);
+SchemeAndStackFoundations §0.21 (regular maps and geometrically regular fibres).
 
 **Checks.**
 
@@ -6565,7 +6565,7 @@ the Verschiebung ideal of W_r(R)*; *Polynomial basic Witt differential expansion
 localization and étale descent*; *Classical and saturated de Rham–Witt comparison*; *Crystalline
 cohomology from an embedding* (Layer CR.2); *Crystalline linearization along a smooth embedding*
 (Layer CR.2); *Enhanced crystalline direct image and global sections* (Layer CR.2); AdicSpacesPartIII
-F0.6 (*Cohomology of an inverse limit of sheaves*); EnhancedDerivedSheaves Layer E2.
+F0.6 (*Cohomology of an inverse limit of sheaves*); EnhancedDerivedSheaves §§E2.2 and E2.6.
 
 **Checks.**
 
@@ -6686,7 +6686,7 @@ extensions as in II.2.14. The torsion-free finite quotient over the DVR W is fre
 cristalline*](https://www.numdam.org/item/ASENS_1979_4_12_4_501_0.pdf), II.2.1–II.2.5,
 pp.607–609; II.2.9–II.2.14, pp.611–613.) *Needs:* *Structural properties of the classical complex
 on smooth F_p-algebras*, applied sheafwise over k; *Finite and infinite crystalline de Rham–Witt
-comparison*; SchemeAndStackFoundations Layer 2 (proper coherent finiteness);
+comparison*; SchemeAndStackFoundations §2.6 (proper coherent finiteness);
 EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`), with §E2.2
 (`IsReplete.milnor`) for the module towers on the point topos.
 
@@ -6858,8 +6858,8 @@ with proofs, pp.266–267; §8.1.2, Proposition 8.7 with proof, pp.269–270; [B
 *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §8.2
 Proposition 8.2.1(3),(4); §8.3 Proposition 8.3.3, Corollaries 8.3.4, 8.3.5, Example 8.3.6,
 pp.101–104.) *Needs:* *Nygaard filtration and divided Frobenius*; *Classical and saturated de
-Rham–Witt comparison*; DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham
-complex*); DerivedDeRhamCohomology Layer 2 (§2.27 *The de Rham algebra of a completely smooth formal
+Rham–Witt comparison*; DerivedDeRhamCohomology §2.12 (*The ordinary algebraic de Rham
+complex*); DerivedDeRhamCohomology §2.27 (*The de Rham algebra of a completely smooth formal
 algebra*); *The finite quotients compute cohomology modulo p^r*; Mathlib `CochainComplex.truncLE`;
 Mathlib `HomologicalComplex.stupidTrunc`.
 
@@ -7088,7 +7088,7 @@ cristalline*](http://www.numdam.org/item/ASENS_1979_4_12_4_501_0.pdf), Part I, �
 de Rham–Witt et cohomologie cristalline*](http://www.numdam.org/item/ASENS_1979_4_12_4_501_0.pdf),
 Part 0, §2.4: 2.4.1 ((2.4.1.1)–(2.4.1.3)), Théorème 2.4.2 (Bloch) and the sentence after it, printed
 pp. 527–528.) *Needs:* *Relative Frobenius–Verschiebung procomplexes*; *Classical and saturated de
-Rham–Witt comparison*; *Witt localization and étale descent*; SchemeAndStackFoundations Layer 2.
+Rham–Witt comparison*; *Witt localization and étale descent*; SchemeAndStackFoundations §§2.1 and 2.10.
 
 **Checks.**
 
@@ -7648,7 +7648,7 @@ The API:
 *Proof sketch.* Form the multiplicative monoid sheaf of the étale structure sheaf. Impose the
 inverse-image-of-units isomorphism stalkwise; use sheaf descent. ([Kato, *Logarithmic structures of
 Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log-structures.pdf),
-§1.2, p.193; trivial example §1.5(2), p.194.) *Needs:* *Prelog rings*; EnhancedDerivedSheaves Layer E1 (*DG comparison for complexes of module sheaves*); Mathlib
+§1.2, p.193; trivial example §1.5(2), p.194.) *Needs:* *Prelog rings*; EnhancedDerivedSheaves §E1.3 (*DG comparison for complexes of module sheaves*); Mathlib
 `AlgebraicGeometry.Scheme.smallEtaleTopology`.
 
 **Checks.**
@@ -8533,7 +8533,7 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 §1.9, p.196; coefficient complex Theorem 6.4, p.219.)
 *Needs:* DerivedDeRhamCohomology §6.20 (*Shared logarithmic derived de Rham and Cartier theory*);
 *Logarithmic differentials*;
-EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*);
+EnhancedDerivedSheaves §E1.3 (*The enhanced derived category*);
 Mathlib `ExteriorAlgebra`; Mathlib `ExteriorAlgebra.ι_sq_zero`.
 
 **Checks.**
@@ -11270,9 +11270,9 @@ all reductions. Retain the integral system as an object presentation and localiz
 extending composition bilinearly. Evaluation on the actual model PD thickenings retains the same
 reduction isomorphisms before rationalization. ([de Jong, *Crystalline Dieudonné module theory via
 formal and rigid geometry*](https://www.numdam.org/article/PMIHES_1995__82__5_0.pdf), §§2.2.1–2.2.4,
-pp.18–21; formal crystals and completed evaluation.) *Needs:* Layer CR.1; *Logarithmic crystals*
+pp.18–21; formal crystals and completed evaluation.) *Needs:* §§CR.1.1, CR.1.2 and CR.1.3; *Logarithmic crystals*
 (Layer CR.5); *Crystals and log connections* (Layer CR.5); *Derived p-adic log crystalline
-cohomology* (Layer CR.5); EnhancedDerivedSheaves Layer E1 (*Derived
+cohomology* (Layer CR.5); EnhancedDerivedSheaves §E1.4 (*Derived
 sheaf tensor*); Mathlib `ModuleCat`; Mathlib `SheafOfModules`; Mathlib `SheafOfModules.pullback`.
 
 **Checks.**
@@ -11368,9 +11368,9 @@ Theorem 8.1 and proof, pp.31–34, with trivial log structures. For the ordinary
 are Du–Moon–Shimizu, Theorems 10.11–10.12, pp.43–44.
 The inverse-system correction is [Berthelot–Ogus, erratum to *Notes on crystalline
 cohomology*](https://math.berkeley.edu/~ogus/preprints/BO_B2_Erratumre.pdf), pp.1–2,
-21 August 2013. *Needs:* Layer CR.1; *Derived crystalline base change* (Layer CR.3);
+21 August 2013. *Needs:* §§CR.1.1 and CR.1.2; *Derived crystalline base change* (Layer CR.3);
 *Log PD Poincaré lemma* (Layer CR.5), with trivial log structures and compatible base powers;
-EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*);
+EnhancedDerivedSheaves §E2.6 (*Bounded-below hypercover descent*);
 DerivedModuleAlgebra (§1.3 *The derived completion reflector*).
 
 **Checks.**
@@ -11409,8 +11409,8 @@ PD-base convention. The relevant public references are
 and [Du–Moon–Shimizu, *On log crystalline higher direct image*](https://arxiv.org/abs/2603.00559v1),
 Lemma 5.9, pp.13–14; Theorems 8.1–8.2, pp.31–35; Theorem 9.1 and Proposition 9.2,
 pp.35–38, specialized to trivial log structures. *Needs:* *Finite projective crystalline coefficients*;
-Layer CR.3; Layer CR.1; *Proper smooth crystalline base change*;
-EnhancedDerivedSheaves Layer E1 (*The enhanced derived category* and *Derived sheaf tensor*);
+§§CR.3.1, CR.3.2 and CR.3.4; §§CR.1.1 and CR.1.2; *Proper smooth crystalline base change*;
+EnhancedDerivedSheaves §§E1.3 and E1.4 (*The enhanced derived category* and *Derived sheaf tensor*);
 Mathlib `DerivedCategory`.
 
 **Checks.**
@@ -11451,7 +11451,7 @@ of the derived crystal just constructed and the crystal–connection equivalence
 Proposition 60.17.4; [Du–Moon–Shimizu](https://arxiv.org/abs/2603.00559v1),
 Theorem 10.11, p.43). The identification with the base-form boundary is obtained by
 differentiating the first PD-diagonal coordinate; it is part of this target. *Needs:* *Proper smooth crystalline base change*; *Integrable logarithmic
-connections* (Layer CR.5); Layer CR.1; Layer CR.3; EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*).
+connections* (Layer CR.5); §§CR.1.2 and CR.1.3; §CR.3.2; EnhancedDerivedSheaves §E1.3 (*The enhanced derived category*).
 
 **Checks.**
 
