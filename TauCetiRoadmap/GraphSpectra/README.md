@@ -19,6 +19,9 @@ Ceti module states. Among them:
   bipartite and complete equipartite graphs, cycles, paths, hypercubes, Hamming, Johnson, Kneser
   and Petersen graphs;
 - the Laplacian spectrum of the path and the adjacency spectra of line graphs of regular graphs;
+- the derivative of the characteristic polynomial and its recursion at a pendant vertex, and the
+  comparison of a graph with a spanning subgraph beyond the index, on which the grafting of
+  pendant paths rests;
 - the extremes of the index `θ₁` over connected graphs and trees, the bounds of Stanley, Hong,
   Wilf, Nikiforov, Nosal and Hofmeister, Hoffman's polynomial `J = h(A)` of a connected regular
   graph, and the adjacency spectrum of the complement of a regular graph;
@@ -39,7 +42,8 @@ build on it and cite it by section.
 
 Layer 1 is the vocabulary and its basic API: the signless Laplacian, quadratic forms, edge
 decompositions and the unsigned incidence matrix; the three enumerations, spectra and
-characteristic polynomials; traces and walk counts; row sums; the variational formula for the
+characteristic polynomials, with the derivative and the pendant-vertex recursion; traces and walk
+counts; row sums; the variational formula for the
 algebraic connectivity; irreducibility; disjoint unions, isomorphisms and components; the
 multiset spectrum of a decomposition into orthogonal idempotents. Every later layer uses it.
 
@@ -106,8 +110,8 @@ needs it. The entries of `Q` are sanity checks of the definition (`signlessLapMa
 `Q_{ii} = d(i)`, `Q_{ij} = A_{ij}` for `i ≠ j`, `Q` is symmetric over any ring, and `Q𝟙 = 2d`.
 
 *Depends on:* Mathlib; Tau Ceti Courant–Fischer; RandomMatrices 1.2 (min–max for
-`eigenvalues₀`); SpectralGraphBounds 1.1 and LaplacianEigenvaluesOfGraphs 1.1–1.2 (sorted
-eigenvalues, component count).
+`eigenvalues₀`); SpectralGraphBounds 1.1 and LaplacianEigenvaluesOfGraphs 1.1 (sorted
+eigenvalues).
 
 ### 1.1 Quadratic forms, edge decompositions and incidence
 
@@ -173,7 +177,24 @@ component `u` is determined by one value and is nonzero only if the component ha
 - **Regular graphs** (`IsRegularOfDegree.lapEigenvalues_eq`). If `G` is `k`-regular,
   `ν_{i+1} = k - θ_{n-i}` at the reversed index `i.rev` and `q_{i+1} = k + θ_{i+1}` at the same
   index [BH, §1.3.1, p. 4].
-- **Signs** (`signlessLapEigenvalues_nonneg`). `qᵢ ≥ 0` [BH, §1.3, p. 4].
+- **Derivative of a characteristic polynomial** (`Matrix.derivative_charpoly`). For any square
+  matrix `M` over a commutative ring, `χ_M' = ∑_v χ_{M[V∖v]}`, the sum of the characteristic
+  polynomials of the principal submatrices of order `n - 1` [CRS, Theorem 2.3.1, p. 35; B,
+  Additional result 2d, p. 11].
+- **Pendant vertex** (`charpoly_adjMatrix_of_leaf`). If `v` has degree `1` and neighbour `u`,
+  then over any commutative ring `χ_G = Xχ_{G-v} - χ_{G-u-v}`, where `G - v` and `G - u - v`
+  are the graphs induced on `{v}ᶜ` and `{u, v}ᶜ` [CRS, Theorem 2.2.1, p. 30; B, Additional
+  result 2a, p. 11].
+- **Sparse expansion.** For a square matrix `M` over a commutative ring indexed by `Fin (k + 2)`
+  whose row `0` and column `0` vanish beyond their first two entries,
+  `det M = M₀₀ det M[≥1] - M₀₁ M₁₀ det M[≥2]`, where `M[≥i]` deletes the rows and columns below
+  `i`.
+
+The sign `qᵢ ≥ 0` [BH, §1.3, p. 4] is a sanity check of the definition
+(`signlessLapEigenvalues_nonneg`): it is Tau Ceti's `Matrix.PosSemidef.eigenvalues₀_nonneg` at
+`posSemidef_signlessLapMatrix` (1.1). For graphs the derivative reads `χ_G' = ∑_v χ_{G-v}`,
+since the principal submatrix at `V ∖ v` is the adjacency matrix of `G - v`
+(`SimpleGraph.Embedding.submatrix_adjMatrix`); this form is not a separate target.
 
 The monotonicity of the enumerations is Mathlib's `Matrix.IsHermitian.eigenvalues₀_antitone`,
 each spectrum has `n` elements by `simp`, the algebraic connectivity is `ν_{n-1}` for `n ≥ 2` by
@@ -187,8 +208,14 @@ targets.
 `adjSpectrum_eq_roots`, the characteristic polynomial commutes with `Int.castRingHom ℝ`
 (`Matrix.charpoly_map`). The multiplicity is the algebraic multiplicity of a diagonalizable
 matrix. For regular graphs, `L = kI - A` (1.1) reverses the order of the eigenvalues of `A`, hence
-the index `i.rev`, while `Q = kI + A` keeps it. `Q` is positive semidefinite (1.1), so Tau Ceti's
-`Matrix.PosSemidef.eigenvalues₀_nonneg` applies.
+the index `i.rev`, while `Q = kI + A` keeps it. For the derivative, expand `det(XI - M)` by
+Leibniz (`Matrix.det_apply'`) and differentiate each product
+(`Polynomial.derivative_prod_finset`); the sum regroups as the sum over `v` of the determinants
+of `XI - M` with column `v` replaced by `e_v`, and each of these is block triangular
+(`Matrix.twoBlockTriangular_det`) with diagonal blocks `1` and `XI - M[V∖v]` [CRS, proof of
+Theorem 2.3.1, p. 35]. The sparse expansion is `Matrix.det_succ_row_zero` followed by
+`Matrix.det_succ_column_zero` on the one surviving minor. For the pendant vertex, reindex `V` as
+`Fin (k + 2)` with `v ↦ 0` and `u ↦ 1` and apply the sparse expansion to `XI - A`.
 
 **Checks.**
 - `K₂`: `adjSpectrum = {1, -1}`, `lapSpectrum = {2, 0}`, `signlessLapSpectrum = {2, 0}`;
@@ -204,8 +231,15 @@ the index `i.rev`, while `Q = kI + A` keeps it. `Q` is positive semidefinite (1.
   Negative control: pairing `ν_{i+1}` with `k - θ_{i+1}` at the same index gives `3 - 3 = 0`
   against `ν₁ = 4`.
 - `count_adjSpectrum` on `C₄` at `θ = 0`: `2`, the nullity of `A(C₄)`.
+- Derivative: `K₂`: `(X² - 1)' = 2X = X + X`; `K₃`: `(X³ - 3X - 2)' = 3X² - 3 = 3(X² - 1)`;
+  `M = [[a]]`: `(X - a)' = 1`, the characteristic polynomial of the empty matrix.
+- Pendant vertex: `P₃` with leaf `0` and neighbour `1`: `X³ - 2X = X(X² - 1) - X`. Negative
+  control: at the centre `v` of `P₃`, which has degree `2`, with a leaf `u` as neighbour,
+  `X · X² - X = X³ - X ≠ X³ - 2X`; hence degree `1`.
 
-*Needs:* 1.1; Mathlib `Analysis/Matrix/Spectrum.lean`; SpectralGraphBounds 1.1;
+*Needs:* 1.1; Mathlib `Analysis/Matrix/Spectrum.lean`, `Matrix.det_apply'`,
+`Polynomial.derivative_prod_finset`, `Matrix.twoBlockTriangular_det`, `Matrix.det_succ_row_zero`,
+`Matrix.det_succ_column_zero`, `SimpleGraph.induce`; SpectralGraphBounds 1.1;
 LaplacianEigenvaluesOfGraphs 1.1.
 
 ### 1.3 Trace identities
@@ -240,11 +274,17 @@ For the Laplacians, the trace is `∑ d(v) = 2m` (Mathlib's
 - **Degree bound for the Laplacians** (`lapEigenvalues_le_two_mul_maxDegree`). `νᵢ ≤ 2k_max`
   and `qᵢ ≤ 2k_max`. The adjacency bound `|θᵢ| ≤ θ₁ ≤ k_max` is SpectralGraphBounds 1.2–1.3.
 
+Both bounds are the weak forms of `ν₁ ≤ q₁ ≤ max_{x∼y}(d(x) + d(y))` on a graph with an edge
+[BH, Proposition 3.9.1(i)–(ii), p. 50, and Corollary 3.9.2, p. 51]; the Laplacian half of that
+sharper bound, the Anderson–Morley bound, is LaplacianEigenvaluesOfGraphs 4.1, which gives
+`νᵢ ≤ ν₁ ≤ 2k_max` at once. The disc argument below proves both weak bounds without it.
+
 `G` is `k`-regular if and only if `A𝟙 = k𝟙` [BH, §1.3.1, p. 4]: both sides say `d(x) = k` at
 every `x`, by `SimpleGraph.adjMatrix_mulVec_const_apply`; this is not a separate target.
 
 **Suggested proof:** the bounds are Gershgorin's discs (Mathlib's
-`eigenvalue_mem_ball`): the disc of row `x` has centre `d(x)` and radius `d(x)`.
+`eigenvalue_mem_ball`): for `L` and for `Q` the disc of row `x` has centre `d(x)` and radius
+`d(x)`.
 
 **Checks.**
 - `K_{1,3}`: `A𝟙 = (3,1,1,1)`, not constant. `C₅`: `A𝟙 = 2·𝟙`.
@@ -523,9 +563,12 @@ with multiplicities.
   TopologicalCombinatorics 3.1 has the eigenvalue `(-1)^j C(n - k - j, k - j)` with the same
   multiplicities (from AssociationSchemes 5.1; [BH, §12.4.2, p. 179] defines `K(n, k)`).
 
-The hypercube `Q_d` has `d - 2i` with multiplicity `C(d, i)` [BH, §1.4.6, p. 10], the case
-`Q = Bool` of the Hamming graphs, and the Petersen graph has `3, 1⁵, (-2)⁴` [BH, §1.4.5, p. 10],
-the case `K(5, 2)` of the Kneser graphs; these are not separate targets.
+Two special cases carry names of their own because other roadmaps cite them; they are
+corollaries of the two headlines above, not further work:
+- **Hypercubes** (`adjSpectrum_hypercube`). `Q_d` has the eigenvalue `d - 2i` with multiplicity
+  `C(d, i)`, `i = 0, …, d` [BH, §1.4.6, p. 10]: the Hamming formula at `Q = Bool`.
+- **The Petersen graph** (`adjSpectrum_petersenGraph`). Its spectrum is `3, 1⁵, (-2)⁴`
+  [BH, §1.4.5, p. 10]: the Kneser formula at `(n, k) = (5, 2)`.
 
 **Suggested proof:** in each case write `A = ∑ θᵢ Eᵢ` with complete orthogonal idempotents
 `Eᵢ`, and 1.8 turns this into the multiset once the ranks are known. For `Kₙ`:
@@ -576,7 +619,7 @@ about `0`" are PeriodicNonnegativeMatrices 3.2 and 3.3. This layer applies them 
 enumeration is that of SpectralGraphBounds 1.1 (Conventions).
 
 *Depends on:* 1, 2; Tau Ceti Perron–Frobenius; SpectralGraphBounds 1.1–1.4;
-PeriodicNonnegativeMatrices 3.2; LaplacianEigenvaluesOfGraphs 1.2.
+PeriodicNonnegativeMatrices 3.2; LaplacianEigenvaluesOfGraphs 2.1.
 
 ### 3.1 Distinct eigenvalues
 
@@ -606,7 +649,7 @@ is `cI`, so its off-diagonal entries vanish. Two distinct eigenvalues force diam
 - `K₁`: one distinct eigenvalue, no edges. Negative control: on the empty type every spectrum is
   empty, with no distinct eigenvalue, while `G = ⊥`; hence `Nonempty V`.
 
-*Needs:* 1.2, 1.6; Mathlib `SimpleGraph.diam`.
+*Needs:* 1.2; Mathlib `SimpleGraph.diam`, `SimpleGraph.adjMatrix_pow_apply_eq_card_walk`.
 
 ### 3.2 Perron–Frobenius for graphs
 
@@ -659,6 +702,10 @@ at a vertex where the positive Perron vector (3.2) is maximal and propagate equa
   and `H` has fewer vertices or fewer edges than `G`, the inequality is strict [CRS, Propositions
   1.3.9–1.3.10, p. 17; BH, Proposition 3.1.1, p. 33]. On one vertex type the weak inequality is
   SpectralGraphBounds 1.3.
+- **Spanning subgraphs** (`eval_charpoly_adjMatrix_le`, `Connected.eval_charpoly_adjMatrix_lt`).
+  On a nonempty vertex type, if `H ≤ G` then `χ_H(x) ≥ χ_G(x)` for every real `x ≥ θ₁(G)`; if
+  moreover `G` is connected and `H < G` (a proper spanning subgraph), then `χ_H(x) > χ_G(x)` for
+  every real `x ≥ θ₁(G)` [CRS, Lemma 8.1.19, pp. 237–238].
 - **Extremes for connected graphs** (`Connected.largestEigenvalue_bounds`). A connected graph on
   `n` vertices has `2cos(π/(n+1)) ≤ θ₁ ≤ n - 1`, with equality on the left only for `Pₙ` and on
   the right only for `Kₙ` [St, (2.1), p. 28].
@@ -676,24 +723,37 @@ at a vertex where the positive Perron vector (3.2) is maximal and propagate equa
 **Suggested proof:** for monotonicity, take the Perron vector of `H` extended by zero as a test
 vector in the Rayleigh bound of SpectralGraphBounds 1.1; strictness from 3.2 (a nonnegative vector
 with Rayleigh quotient `θ₁(G)` is a positive eigenvector, which forces all vertices and edges). For
-grafting [CRS, proof of Theorem 8.1.20, pp. 238–239], the recursion
-`χ_{G(k,l)} = Xχ_{G(k,l-1)} - χ_{G(k,l-2)}` of the characteristic polynomial at a pendant vertex
-reduces the difference `χ_{G(k+1,l-1)} - χ_{G(k,l)}` to `χ_H - χ_{G(k-l,0)}` with `H` a proper
-spanning subgraph of `G(k - l, 0)`, which is positive beyond `θ₁(G(k - l, 0))` [CRS, Lemma 8.1.19,
-p. 237]. For the lower bound on trees [St, proof of Theorem 2.67, p. 71]: root a tree that is not a
-path at a leaf and take a deepest vertex `w` of degree at least `3`. Each branch at `w` away from
-the root is a pendant path, and the rest of the tree, which contains the root and `w`, is a
-connected graph with at least two vertices; grafting one pendant path at `w` onto another, `l`
-times, strictly lowers `θ₁`, keeps a tree on `n` vertices and lowers `∑_x max(d(x) - 2, 0)`, so
-repetition ends at `Pₙ`; the index of `Pₙ` is `2cos(π/(n+1))`, the largest value of its spectrum
-(2.6). For connected graphs, a spanning tree and monotonicity give the lower bound, and strictness
-gives equality only when `G` is itself a tree, hence `Pₙ`. The upper bounds: `θ₁ ≤ k_max ≤ n - 1`,
-with equality only for `Kₙ` by strictness; for trees, Hong's bound (3.5, which does not use this
-section) with `m = n - 1`.
+spanning subgraphs [CRS, proof of Lemma 8.1.19, pp. 237–238], induct on `n` for the weak inequality,
+over all graphs: by the derivative formula of 1.2, `(χ_H - χ_G)' = ∑_v (χ_{H-v} - χ_{G-v})`, which
+is nonnegative for `x ≥ θ₁(G)` by induction, since `H - v ≤ G - v` and `θ₁(G - v) ≤ θ₁(G)` by
+monotonicity (for `n = 1`, `H = G`). At `x = θ₁(G)`, `χ_G(x) = 0` and `χ_H(x) ≥ 0`, since every root
+of `χ_H` is at most `θ₁(H) ≤ θ₁(G)`; so `χ_H - χ_G` is nonnegative on `[θ₁(G), ∞)`. For connected
+`G` and `H < G`, strict monotonicity gives `θ₁(H) < θ₁(G)`, so `χ_H(x) > 0 = χ_G(x)` at `x = θ₁(G)`,
+and the difference is positive from there on. For grafting [CRS, proof of Theorem 8.1.20, pp.
+238–239], the pendant-vertex recursion of 1.2 at the end of a pendant path, with isomorphism
+invariance (1.7), gives `χ_{G(k,l)} = Xχ_{G(k,l-1)} - χ_{G(k,l-2)}`, which reduces the difference
+`χ_{G(k+1,l-1)} - χ_{G(k,l)}` to `χ_H - χ_{G(k-l,0)}` with `H` a proper spanning subgraph of
+`G(k - l, 0)`; by the spanning-subgraph inequality this is positive from `θ₁(G(k - l, 0))` on. Since
+`θ₁(G(k - l, 0)) < θ₁(G(k, l))` by strict monotonicity, `χ_{G(k+1,l-1)} > χ_{G(k,l)} ≥ 0` on
+`[θ₁(G(k, l)), ∞)`, so every root of `χ_{G(k+1,l-1)}` lies below `θ₁(G(k, l))`. For the lower bound
+on trees [St, proof of Theorem 2.67, p. 71]: root a tree that is not a path at a leaf and take a
+deepest vertex `w` of degree at least `3`. Each branch at `w` away from the root is a pendant path,
+and the rest of the tree, which contains the root and `w`, is a connected graph with at least two
+vertices; grafting one pendant path at `w` onto another, `l` times, strictly lowers `θ₁`, keeps a
+tree on `n` vertices and lowers `∑_x max(d(x) - 2, 0)`, so repetition ends at `Pₙ`; the index of
+`Pₙ` is `2cos(π/(n+1))`, the largest value of its spectrum (2.6). For connected graphs, a spanning
+tree and monotonicity give the lower bound, and strictness gives equality only when `G` is itself a
+tree, hence `Pₙ`. The upper bounds: `θ₁ ≤ k_max ≤ n - 1`, with equality only for `Kₙ` by strictness;
+for trees, Hong's bound (3.5, which does not use this section) with `m = n - 1`.
 
 **Checks.**
 - `P₄`: `θ₁ = 2cos(π/5) = 1.618…` (equality on the left); `K₄`: `θ₁ = 3`.
 - `K_{1,3}`: `θ₁ = √3 = √(n-1)`; `P₄` is a tree with `1.618… < √3`.
+- Spanning subgraphs: `P₃ ⊃ K₂ ⊕g K₁` with `χ_H - χ_G = (X³ - X) - (X³ - 2X) = X`, positive
+  from `θ₁ = √2` on; `K₃ ⊃ P₃` with difference `X + 2`. Negative control: `2K₂ ⊃ K₂ ⊕g 2K₁`
+  with `θ₁ = 1`, where both polynomials vanish at `x = 1`; strictness needs connectivity.
+  Negative control: at `x = -1 < θ₁(P₃)`, `χ_{K₂ ⊕g K₁}(-1) = 0 < 1 = χ_{P₃}(-1)`; hence
+  `x ≥ θ₁(G)`.
 - Grafting with `G = K₂`: `G(1, 1) = K_{1,3}` with `θ₁ = √3 = 1.732…` and `G(2, 0) = P₄` with
   `θ₁ = 1.618…`. Negative control: with `G = K₁`, `G(1, 1)` and `G(2, 0)` are both `P₃`, with
   the same `θ₁ = √2`; hence at least two vertices.
@@ -703,8 +763,8 @@ section) with `m = n - 1`.
 - Negative control: `K₃ ⊕g K₁` contains `K₃` missing a vertex with the same index `2`;
   strictness needs connectivity of `G`.
 
-*Needs:* 1.2, 2.6 (the path), 3.2, 3.5 (Hong's bound); SpectralGraphBounds 1.1–1.3; Mathlib
-`SimpleGraph.Copy`, `IsTree`.
+*Needs:* 1.2 (the derivative and the pendant vertex), 1.7, 2.6 (the path), 3.2, 3.5 (Hong's
+bound); SpectralGraphBounds 1.1–1.3; Mathlib `SimpleGraph.Copy`, `IsTree`.
 
 ### 3.5 Index, edges and cliques
 
@@ -866,8 +926,8 @@ Later roadmaps of algebraic and spectral graph theory cite this one by section:
   of 1.1 and 2.5, the enumerations of 1.2, the variational formula of 1.5, the components of
   1.7, the path of 2.2 and the degree bounds of 3.3.
 - Characteristic polynomials, graph operations and star complements: the integer characteristic
-  polynomial of 1.2, disjoint unions of 1.7, Hamming graphs of 2.3, the multiset spectra of 2.6,
-  the complement of 3.8 and main angles of 3.9.
+  polynomial, its derivative and the pendant-vertex recursion of 1.2, disjoint unions of 1.7,
+  Hamming graphs of 2.3, the multiset spectra of 2.6, the complement of 3.8 and main angles of 3.9.
 - Distance-regular graphs, codes and polygons, and strongly regular graphs and designs: the
   Hamming, Johnson and Kneser graphs of 2.3–2.4 and their spectra in 2.6.
 - Graph symmetry and Cayley graphs: the eigenspace projections and orbit bound of 3.9.
@@ -887,6 +947,9 @@ Owned here:
 - the vocabulary of Layer 1 and its basic API: the signless Laplacian and its enumeration, the
   three spectra, the edge matrices and the unsigned incidence matrix, with `UUᵀ = Q`,
   `UᵀU = 2I + A(L(G))`, the kernel and nullity of `Q`, and sign conjugation;
+- the derivative of the characteristic polynomial of a square matrix, the pendant-vertex
+  recursion and the sparse expansion of a determinant (1.2), and the comparison of the
+  characteristic polynomials of a graph and a spanning subgraph beyond the index (3.4);
 - the variational formula for the algebraic connectivity;
 - irreducibility of the adjacency matrix of a connected graph and Perron–Frobenius for connected
   graphs;
@@ -924,19 +987,18 @@ of Hermitian matrices and the eigenvalues and spectral projectors of the standar
 2.6 here owns the multiset spectra with their multiplicities, derived through 1.8 from explicit
 eigenvectors; 2.6 does not use its statements.
 
-Not owned here, and owned by later roadmaps: the coefficients of the characteristic polynomial
-and vertex deletion, divisibility of characteristic polynomials by equitable quotients, spectra
-of graph products and joins, energy and star complements; the
-matrix-tree theorems, the oriented incidence matrix and further results on `ν_{n-1}` and `ν₁`;
-cospectrality, generalized line graphs and root systems; vertex- and edge-transitivity and
-Cayley graphs of nonabelian groups; expansion; cores, fractional and vector colourings. Owned by
-other open roadmaps and not used here: equitable partitions and their quotient matrices
-(EquitableOperatorReduction), the spectra of strongly regular graphs
+Not owned here, and owned by later roadmaps: the coefficients of the characteristic polynomial and
+the vertex-deletion identities beyond those of 1.2 and 3.4, divisibility of characteristic
+polynomials by equitable quotients, spectra of graph products and joins, energy and star
+complements; the matrix-tree theorems, the oriented incidence matrix and further results on
+`ν_{n-1}` and `ν₁`; cospectrality, generalized line graphs and root systems; vertex- and
+edge-transitivity and Cayley graphs of nonabelian groups; expansion; cores, fractional and vector
+colourings. Owned by other open roadmaps and not used here: equitable partitions and their quotient
+matrices (EquitableOperatorReduction), the spectra of strongly regular graphs
 (StronglyRegularAndMooreGraphs), the Hamming scheme (DelsarteTheoryOfCodesAndDesigns), the signed
 adjacency matrix and the matching polynomial (MatchingPolynomial, 2.1 for the signed adjacency
-matrix), effective resistance and
-random walks (ElectricalNetworksAndRandomWalks), the Seidel matrix and switching
-(EquiangularLinesAndTwoGraphs), colourings (GraphColouring), the theta function
+matrix), effective resistance and random walks (ElectricalNetworksAndRandomWalks), the Seidel matrix
+and switching (EquiangularLinesAndTwoGraphs), colourings (GraphColouring), the theta function
 (LovaszThetaFunction) and the Tutte polynomial (TuttePolynomialAndArrangements).
 
 Boundary in one sentence: a statement about the spectrum of `A`, `L` or `Q` of a general finite
@@ -971,6 +1033,10 @@ matrices and general matrix theory:
 - characteristic polynomials and blocks: `Matrix.charpoly_map`, `Matrix.charpoly_reindex`,
   `Matrix.charpoly_fromBlocks_zero₁₂`, `Matrix.charpoly_mul_comm'`, `Matrix.fromBlocks`,
   `Equiv.sumCongr`; used in 1.2, 1.7, 2.5;
+- determinants and vertex deletion: `Matrix.det_apply'` (the Leibniz expansion),
+  `Polynomial.derivative_prod_finset`, `Matrix.twoBlockTriangular_det`,
+  `Matrix.det_succ_row_zero`, `Matrix.det_succ_column_zero`, `SimpleGraph.induce`,
+  `SimpleGraph.Embedding.submatrix_adjMatrix`; used in 1.2 and 3.4;
 - `Submodule.starProjection` (the orthogonal projection onto a subspace); used in 3.9.
 
 ### From Tau Ceti
@@ -1018,9 +1084,11 @@ both copied verbatim in `Suggested.lean` and the Laplacian enumeration of this r
 - 1.1: the enumeration is nonnegative and its value at index `n - 1` is `0` on a nonempty vertex
   type. Used in 1.2.
 - 1.2: the number of indices with eigenvalue `0` is the number of components; for `n ≥ 2`, the
-  algebraic connectivity is positive iff `G` is connected. Used in 1.5 and 3.1.
+  algebraic connectivity is positive iff `G` is connected. Cited in 1.5; not a dependency.
 - 2.1: for `i + j + 2 = n`, the eigenvalue of `Gᶜ` at index `i` is `n` minus that of `G` at index
   `j`. Used in 3.8.
+- 4.1, the Anderson–Morley bound: a graph with an edge has an edge `xy` with
+  `ν₁ ≤ d(x) + d(y)`. Cited in 1.4; not a dependency.
 
 ### From PeriodicNonnegativeMatrices
 
@@ -1071,20 +1139,22 @@ The roadmap QuasirandomGraphs, 4.1: for `k ≥ 2`, the number of homomorphisms f
 ## References
 
 - [B] N. Biggs, *Algebraic Graph Theory*, 2nd ed., Cambridge Mathematical Library, Cambridge
-  University Press, 1993: Lemma 2.5, Corollary 2.7, pp. 9–10; Additional results 2h, 2j,
+  University Press, 1993: Lemma 2.5, Corollary 2.7, pp. 9–10; Additional results 2a, 2d,
+  p. 11; Additional results 2h, 2j,
   pp. 12–13; Proposition 3.2 and Corollary 3.3, p. 15; Theorem 3.8, p. 19; Additional result 3a,
   p. 20.
 - [Ba] R. B. Bapat, *Graphs and Matrices*, 2nd ed., Universitext, Springer, 2014: introduction to
   Chapter 7, p. 87; Lemma 7.7, p. 93.
 - [BH] A. E. Brouwer, W. H. Haemers, *Spectra of Graphs*, Universitext, Springer, 2012:
-  §§1.1–1.4, 1.7, pp. 1–13; Theorem 2.2.1, p. 22; Theorem 2.4.1, p. 26; §§3.1–3.4, pp. 33–38;
+  §§1.1–1.4, 1.7, pp. 1–13; Theorem 2.2.1, p. 22; §§3.1–3.4, pp. 33–38; Proposition 3.9.1 and
+  Corollary 3.9.2, pp. 50–51;
   §§12.2–12.4.2, pp. 178–179; Chapter 15, pp. 221–224.
-- [CRS] D. Cvetković, P. Rowlinson, S. Simić, *An Introduction to the Theory of Graph Spectra*,
-  LMS Student Texts 75, Cambridge University Press, 2010: §1.3, Theorems 1.3.5–1.3.6,
-  pp. 15–17; §2.6, p. 47; Theorems 3.2.1, 3.2.4, pp. 55–56; §3.9, Corollaries 3.9.10, 3.9.12,
-  pp. 86–87; Lemma 3.10.4, p. 89; Theorem 3.10.5, p. 90; Exercise 4.2, p. 133;
-  Theorem 7.8.1, Corollary 7.8.2 and Proposition 7.8.4, p. 217; Theorem 8.1.17, Lemma 8.1.19,
-  Theorems 8.1.20, 8.1.25–8.1.26 and Remark 8.1.27, pp. 236–241.
+- [CRS] D. Cvetković, P. Rowlinson, S. Simić, *An Introduction to the Theory of Graph Spectra*, LMS
+  Student Texts 75, Cambridge University Press, 2010: §1.3, Theorems 1.3.5–1.3.6, pp. 15–17; Theorem
+  2.2.1, p. 30; Theorem 2.3.1, p. 35; §2.6, p. 47; Theorems 3.2.1, 3.2.4, pp. 55–56; §3.9,
+  Corollaries 3.9.10, 3.9.12, pp. 86–87; Lemma 3.10.4, p. 89; Theorem 3.10.5, p. 90; Exercise 4.2,
+  p. 133; Theorem 7.8.1, Corollary 7.8.2 and Proposition 7.8.4, p. 217; Theorem 8.1.17, Lemma
+  8.1.19, Theorems 8.1.20, 8.1.25–8.1.26 and Remark 8.1.27, pp. 236–241.
 - [St] Z. Stanić, *Inequalities for Graph Eigenvalues*, LMS Lecture Note Series 423, Cambridge
   University Press, 2015: Lemma 1.29, p. 20; (2.1), p. 28; (2.4) and Corollary 2.6, pp. 31–32;
   Corollaries 2.21, 2.22, p. 45; (2.59), p. 53; Theorem 2.38, p. 55; Theorem 2.67, p. 71.

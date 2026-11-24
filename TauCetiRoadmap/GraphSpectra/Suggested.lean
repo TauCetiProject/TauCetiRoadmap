@@ -343,7 +343,26 @@ theorem IsRegularOfDegree.lapEigenvalues_eq {k : ℕ} (hG : G.IsRegularOfDegree 
       G.signlessLapEigenvalues i = k + adjEigenvalues G i := by
   sorry
 
-/-- The signless Laplacian eigenvalues are nonnegative. (README 1.2) -/
+/-- **Derivative of a characteristic polynomial.** For a square matrix over a commutative ring,
+`χ_M'` is the sum of the characteristic polynomials of the principal submatrices of order
+`n - 1`. (README 1.2) -/
+theorem _root_.TauCetiRoadmap.GraphSpectra.Matrix.derivative_charpoly {R : Type*} [CommRing R]
+    (M : Matrix V V R) :
+    derivative M.charpoly =
+      ∑ v : V, (M.submatrix (Subtype.val : {x // x ≠ v} → V) Subtype.val).charpoly := by
+  sorry
+
+/-- **Pendant vertex.** If `v` has degree `1` and neighbour `u`,
+`χ_G = X χ_{G-v} - χ_{G-u-v}`. (README 1.2) -/
+theorem charpoly_adjMatrix_of_leaf (R : Type*) [CommRing R] {u v : V} (huv : G.Adj u v)
+    (hv : G.degree v = 1) :
+    (G.adjMatrix R).charpoly =
+      X * ((G.induce ({v}ᶜ : Set V)).adjMatrix R).charpoly -
+        ((G.induce ({u, v}ᶜ : Set V)).adjMatrix R).charpoly := by
+  sorry
+
+/-- Sanity check of the definition: the signless Laplacian eigenvalues are nonnegative, by
+`Matrix.PosSemidef.eigenvalues₀_nonneg` at `posSemidef_signlessLapMatrix`. (README 1.2) -/
 theorem signlessLapEigenvalues_nonneg (i : Fin (Fintype.card V)) :
     0 ≤ G.signlessLapEigenvalues i := by
   sorry
@@ -646,6 +665,21 @@ theorem adjSpectrum_kneserGraph (α : Type*) [Fintype α] [DecidableEq α] {k : 
             ((-1) ^ (j + 1) * ((Fintype.card α - k - (j + 1)).choose (k - (j + 1)) : ℕ)) := by
   sorry
 
+/-- **Hypercubes**, a special case of `adjSpectrum_hammingGraph` at `Q = Bool`, named because
+other roadmaps cite it: `Q_d` has the eigenvalue `d - 2i` with multiplicity `C(d, i)`.
+(README 2.6) -/
+theorem adjSpectrum_hypercube (d : ℕ) :
+    (hypercube d).adjSpectrum =
+      ∑ i ∈ Finset.range (d + 1), Multiset.replicate (d.choose i) ((d : ℝ) - 2 * i) := by
+  sorry
+
+/-- **The Petersen graph**, a special case of `adjSpectrum_kneserGraph` at `(5, 2)`, named
+because other roadmaps cite it: its spectrum is `3, 1⁵, (-2)⁴`. (README 2.6) -/
+theorem adjSpectrum_petersenGraph :
+    petersenGraph.adjSpectrum =
+      (3 : ℝ) ::ₘ Multiset.replicate 5 1 + Multiset.replicate 4 (-2) := by
+  sorry
+
 end Layer2
 
 /-! ## Layer 3: Perron–Frobenius and the index -/
@@ -719,6 +753,21 @@ theorem Copy.largestEigenvalue_le [Nonempty V] [Nonempty W] (f : Copy H G) :
       (G.Connected → (Fintype.card W < Fintype.card V ∨
           H.edgeFinset.card < G.edgeFinset.card) →
         largestEigenvalue H < largestEigenvalue G) := by
+  sorry
+
+/-- **Spanning subgraphs, weak form.** On a nonempty vertex type, if `H ≤ G` then
+`χ_H(x) ≥ χ_G(x)` for every real `x ≥ θ₁(G)`. (README 3.4) -/
+theorem eval_charpoly_adjMatrix_le [Nonempty V] {H : _root_.SimpleGraph V} [DecidableRel H.Adj]
+    (hHG : H ≤ G) {x : ℝ} (hx : largestEigenvalue G ≤ x) :
+    (G.adjMatrix ℝ).charpoly.eval x ≤ (H.adjMatrix ℝ).charpoly.eval x := by
+  sorry
+
+/-- **Spanning subgraphs, strict form.** If `G` is connected and `H < G` is a proper spanning
+subgraph, then `χ_H(x) > χ_G(x)` for every real `x ≥ θ₁(G)`. (README 3.4) -/
+theorem Connected.eval_charpoly_adjMatrix_lt [Nonempty V] (hG : G.Connected)
+    {H : _root_.SimpleGraph V} [DecidableRel H.Adj] (hHG : H < G) {x : ℝ}
+    (hx : largestEigenvalue G ≤ x) :
+    (G.adjMatrix ℝ).charpoly.eval x < (H.adjMatrix ℝ).charpoly.eval x := by
   sorry
 
 /-- **Extremes of the index.** A connected graph on `n` vertices has
@@ -897,7 +946,9 @@ end SimpleGraph
 
 end TauCetiRoadmap.GraphSpectra
 
-/-! ## Library declarations consumed -/
+/-! ## Library declarations consumed
+
+Pinned library declarations named in the supplier contracts of `README.md`. -/
 
 -- Mathlib
 #check @SimpleGraph.lapMatrix_toLinearMap₂'
@@ -948,6 +999,13 @@ end TauCetiRoadmap.GraphSpectra
 #check @CompleteOrthogonalIdempotents
 #check @Matrix.rank
 #check @Matrix.trace
+#check @Matrix.det_apply'
+#check @Polynomial.derivative_prod_finset
+#check @Matrix.twoBlockTriangular_det
+#check @Matrix.det_succ_row_zero
+#check @Matrix.det_succ_column_zero
+#check @SimpleGraph.induce
+#check @SimpleGraph.Embedding.submatrix_adjMatrix
 
 -- Tau Ceti
 #check @Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow
