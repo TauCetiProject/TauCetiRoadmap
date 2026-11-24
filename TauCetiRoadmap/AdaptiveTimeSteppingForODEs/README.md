@@ -16,8 +16,8 @@ OneStepMethodsForODEs supplies variable-step meshes, numerical recurrences,
 Runge–Kutta tableaux, named methods and their convergence estimates. Mathlib's ODE
 and Grönwall APIs supply the continuous stability estimate used for residual
 certificates. These interfaces apply to any supplied one-step update and continuous
-reconstruction satisfying the hypotheses. PopulationDynamics supplies example
-ODEs; the same interfaces apply to finite-dimensional systems obtained by spatial
+reconstruction satisfying the hypotheses. PopulationDynamics is a source of example
+fields; the same interfaces apply to finite-dimensional systems obtained by spatial
 discretisation, with their actual Lipschitz and residual bounds.
 
 Layer 1 constructs embedded indicators and proves their precise interpretation.
@@ -87,6 +87,8 @@ The 3(2) pair has difference `−u(z³+z⁴)/48`. At `h=0` both differences vani
 
 *Needs:* OneStepMethodsForODEs 2.1, 3.1–3.2, 4.1–4.3. The 3(2) coefficients are
 the Bogacki–Shampine pair; check them by the displayed algebraic conditions.
+Süli, Definition 15 and Example 7 (printed p. 58), give embedded pairs and
+the Heun–Euler tableau.
 
 ### 1.2 Reliability statements with hypotheses
 
@@ -98,7 +100,7 @@ restarted solution and bounds uniform over those states.
 
 Prove asymptotic exactness at a fixed `(t,u)` when
 `(h^(p+1))⁻¹ • eL → v ≠ 0` and `(h^(p+1))⁻¹ • eH → 0` as `h → 0+`:
-`‖Δ‖/‖eL‖ → 1`. These are scalar multiplications in `E`.
+`‖Δ‖/‖eL‖ → 1` (`embedded_asymptotically_exact`). These are scalar multiplications in `E`.
 The nonzero limit is needed for the relative-error conclusion. This conclusion
 concerns the lower-order local error even when the higher-order update is accepted.
 
@@ -133,23 +135,28 @@ restarted exact solution or assuming estimator reliability.
 On each accepted interval `[t_n,t_(n+1)]`, supply a continuous curve `U_n`
 with endpoints `Y_n,Y_(n+1)`, a right derivative on the half-open interval,
 and a bound `‖U_n′(t)−f(t,U_n(t))‖ ≤ ε_n`, `ε_n ≥ 0`.
-Assume `f(t,·)` is `L`-Lipschitz, `L ≥ 0`. Define
+Assume `f(t,·)` is `L`-Lipschitz, `L ≥ 0`. Define `residualBudget`, written `B_n`, by
 
 ```
 B_0 ≥ ‖y(a)−Y_0‖,
 B_(n+1) = gronwallBound B_n L ε_n h_n.
 ```
 
-Prove `‖y(t)−U_n(t)‖ ≤ gronwallBound B_n L ε_n (t−t_n)` on each interval.
+Prove `‖y(t)−U_n(t)‖ ≤ gronwallBound B_n L ε_n (t−t_n)` on each interval
+(`meshwise_reconstruction_error_le`).
 Glue the curves into a continuous reconstruction and deduce nodal and uniform
 error bounds. Derivatives need not match at mesh nodes. Give the local-Lipschitz
 version with explicit membership of both curves in the sets on which the bound
 holds; do not infer that membership from an unproved error estimate.
 
 Prove the weighted recurrence formula, with `t_0=a` and `h_n=t_(n+1)−t_n`,
-`B_N = exp(L(t_N−a)) B_0 + ∑_{j<N} exp(L(t_N−t_(j+1)))
-  gronwallBound 0 L ε_j h_j`, and its `L=0` form
-`B_N=B_0+∑ ε_j h_j`.
+
+```
+B_N = exp(L(t_N−a)) B_0
+      + ∑ j < N, exp(L(t_N−t_(j+1))) gronwallBound 0 L ε_j h_j.
+```
+
+For `L=0`, this is `B_N=B_0+∑ j<N, ε_j h_j`.
 
 **Checks.** For `f=0`, `y=0`, `U(t)=(t−a)v`, and zero initial error, the
 bound is exactly `(t−a)‖v‖`. Nonuniform steps must be
@@ -201,8 +208,8 @@ bound are derived here. General high-order dense output is not required.
 ### 3.1 Scaled indicators
 
 For a componentwise indicator `Δ`, states `u,v : ι → ℝ`, `atol_i>0`, `rtol_i≥0`,
-define `s_i=atol_i+rtol_i max(|u_i|,|v_i|)` and
-`w=‖fun i ↦ Δ_i/s_i‖`, using the existing function-space norm. Prove positivity
+define `toleranceScale`, written `s_i=atol_i+rtol_i max(|u_i|,|v_i|)`, and
+`scaledError`, written `w=‖fun i ↦ Δ_i/s_i‖`, using the existing function-space norm. Prove positivity
 of every scale and `w≤1` iff all `|Δ_i|≤s_i`. The empty index type gives `w=0`.
 Prove invariance under positive changes of units in each component: multiply
 `u_i,v_i,Δ_i,atol_i` by `λ_i>0` and leave `rtol_i` unchanged.
@@ -215,7 +222,7 @@ the method that advances the state.
 ### 3.2 Proposals, rejection and exact state transitions
 
 For an indicator exponent `r : ℕ`, `r≥1`, safety `0<σ<1`, and limits
-`0<gmin<1<gmax`, define the proposal multiplier `G(w)` by
+`0<gmin<1<gmax`, define `proposalFactor`, written `G(w)`, by
 `gmax` if `w=0`, and `min(gmax,max(gmin,σ w^(−1/r)))` otherwise.
 Prove `gmin≤G(w)≤gmax` and `G(w)≥1` whenever `0≤w≤σ^r`.
 If `η(h)=C h^r` with `C>0` and a fixed positive threshold, the unclipped
@@ -231,6 +238,12 @@ the trial step by a fixed `θ∈(0,1)` and keep `(t,u)` unchanged. On acceptance
 advance to `(t+h,Ψ(t,u,h))` for the supplied step map. For an embedded pair use
 `Ψ=ΨH`; the same transitions also admit Euler or another supplied one-step method.
 At `t=T` stop without evaluating the field.
+Represent accepted state and proposal by `AdaptiveState`. Define `acceptedStep`
+using the least successful geometric trial, `adaptiveTransition` for its update,
+and `adaptiveRun` by iteration. If no trial succeeds, `acceptedStep` has the
+explicit fallback zero; the termination theorems exclude that case before `T`.
+The run is constant after completion. These are noncomputable mathematical
+sequences, not executable solver targets.
 Prove preservation of these transition invariants and that accepted traces are
 the supplier's `oneStepSeq` for their accepted step sequence.
 
@@ -246,7 +259,8 @@ geometric rule above, so the full policy is unambiguous.
 For a fixed trial state, suppose there is `δ>0` such that every admissible
 `0<h≤δ` is accepted. Prove a geometric rejection loop starting at `H>0`
 terminates: its first accepted trial occurs no later than any index `k` with
-`θ^k H≤δ`. Supply the first-accepted-index construction and prove that all
+`θ^k H≤δ`. Define `FirstAccepted` to record success and failure of all earlier trials.
+Supply the first-accepted-index construction (`acceptedStep_spec`) and prove that all
 earlier trials are rejected. No monotonicity of the indicator is needed.
 
 Derive the small-step hypothesis from `0≤η(t,u,h)≤C h^r`, `r≥1`, `C≥0`,
@@ -255,6 +269,8 @@ threshold require `r≥2`. For a normalised componentwise rule, use the strictly
 positive minimum absolute tolerance to obtain a sufficient small-step bound.
 
 ### 4.2 A reusable finite-progress theorem
+
+State the conclusion for `adaptiveRun` as `adaptiveRun_completion`.
 
 Start with `H0∈(0,Hmax]`. After an accepted step of length `h`, let the
 uncapped next proposal be `P`. Assume constants `κ∈(0,1]` and `δ_g>0` satisfy
@@ -288,6 +304,8 @@ The proposal conditions and finite-progress theorem are targets of this roadmap.
 
 ### 4.3 Completion for the clipped I-controller
 
+Use `indicatorProposal` in `adaptiveRun`; the result is `indicatorRun_completion`.
+
 For 3.2, accept when `w(t,u,h)≤1`. Suppose `0≤w(t,u,h)≤C_w h^r`,
 `C_w≥0`, uniformly over all reachable accepted states and all admissible trial
 steps up to `Hmax`. When `C_w>0`, take
@@ -317,8 +335,10 @@ it supplies the connection between error-based proposals and finite completion.
 Suppose `a<T`, the initial state is exact, and each accepted reconstruction has
 residual at most `τ≥0`. Prove the uniform bound
 `‖y(t)−U(t)‖≤gronwallBound 0 L τ (T−a)`.
-Given `Tol>0`, set `τ=Tol/gronwallBound 0 L 1 (T−a)`; prove the denominator
-positive and the resulting bound at most `Tol`. Include initial uncertainty via
+Given `Tol>0`, define `residualTolerance` by
+`τ=Tol/gronwallBound 0 L 1 (T−a)`; prove the denominator
+positive and the resulting trajectory bound at most `Tol`
+(`global_reconstruction_tolerance`). Include initial uncertainty via
 the additive term `exp(L(T−a)) B0` and a strictly positive remaining budget.
 
 For the Euler certificate, a uniform bound `M_t+L‖f(t,u)‖≤C` on reachable
@@ -344,7 +364,7 @@ Apply OneStepMethodsForODEs 1.4 to obtain, for every accepted node,
 ```
 
 Both the initial-error and defect terms tend to zero, so the maximum nodal error
-on the completed adaptive mesh tends to zero.
+on the completed adaptive mesh tends to zero (`nodal_error_tendsto_zero`).
 Combine this cap with 4.2 or 4.3 for each fixed positive tolerance. All error-bound
 constants are independent of tolerance; the termination constants may depend on
 it. The cap is needed in this theorem because small embedded differences need
@@ -427,7 +447,7 @@ These are roadmap contracts, not claims that their implementation has landed.
 ## References
 
 - Endre Süli, *B6.1 Numerical Solution of Differential Equations I: Initial-value
-  problems*, 25 February 2022, §5, pp. 56–57, equations (94)–(96): embedded
+  problems*, 25 February 2022, §5, pp. 56–58, equations (94)–(96), Definition 15 and Example 7: embedded
   differences and local step-size proposals.
   <https://people.maths.ox.ac.uk/suli/nsde.pdf>.
 - Hendrik Ranocha and Jan Giesselmann, *Stability of step size control based on
