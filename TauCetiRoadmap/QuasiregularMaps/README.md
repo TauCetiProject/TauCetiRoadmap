@@ -176,7 +176,7 @@ an orientation, and `A : V → W`, `B : W → X` are linear.
 Define the minimal stretch `ℓ(A) = σₙ(A)` (`minimalStretch`), the smallest of the `n` singular
 values of `A`: Mathlib's `LinearMap.singularValues` at the zero-based index `n − 1`, for a linear
 map between finite-dimensional real inner product spaces. Prove that it is the minimum of `|Av|`
-over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVaisala1969 2.1, p. 6.
+over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVaisala1969 2.1, p. 7.
 
 - For every `v ∈ V`, `ℓ(A)|v| ≤ |Av|`, with equality for a right singular vector of `σₙ(A)`; so
   `ℓ(A)` is attained as the minimum over the unit sphere.
@@ -360,7 +360,7 @@ quasiregular when it is `K`-quasiregular for some `K`. This is the definition of
 HeikkilaPankka2025 §1, p. 1, with (1.1), and Prywes2019 §1, p. 1. On Euclidean domains it is
 MartioRickmanVaisala1969 Definition 2.20, with `ACLⁿ` in place of
 `W^{1,n}_loc`; §5.3 identifies the two. `Suggested.lean` states the definition as
-`IsQuasiregular K oM oN f`, on the supplier's `IsSobolevMap`, `HasWeakMFDeriv` and
+`IsQuasiregularMap K oM oN f`, on the supplier's `IsSobolevMap`, `HasWeakMFDeriv` and
 `orientedJacobian`. It asks the inequality of some weak differential of `f`. Two weak
 differentials of a continuous map differ on a null set (`HasWeakMFDeriv.ae_eq`), so the
 inequality then holds for every weak differential.
@@ -423,11 +423,12 @@ SobolevMapsBetweenManifolds §4.2, §4.3, §5.1, §6.2 (gaps `sobolev-maps-class
 
 ### 2.3 Attainment of the outer distortion
 
-Prove that for continuous `f ∈ W^{1,n}_loc(M, N)`,
+Prove that for every map `f : M → N`,
 
     { K ∈ ℝ : f is K-quasiregular } = { K ∈ ℝ : 1 ≤ K and K_O(f) ≤ K }.
 
-This is `isQuasiregular_iff_outerDistortion_le` in `Suggested.lean`.
+Off the continuous Sobolev class both sets are empty, since `K_O(f) = ∞` there. This is
+`isQuasiregularMap_iff_outerDistortion_le` in `Suggested.lean`.
 So `f` is `K_O(f)`-quasiregular when `K_O(f) < ∞`, and `f` is quasiregular iff `K_O(f) < ∞`; the
 least admissible constant of MartioRickmanVaisala1969 2.20, p. 14, exists. Route: by §1.3 the
 inequality at `x` is `q_O(Df(x)) ≤ K`. An almost-everywhere bound bounds the essential supremum
@@ -639,8 +640,9 @@ weak derivative `Du` such that `‖Du‖²` is locally integrable, and set
     f_z = (Du 1 − i Du i)/2,     f_z̄ = (Du 1 + i Du i)/2,
 
 the coefficients of §1.5 for `A = Du(x)`. These are the weak Wirtinger derivatives of
-TeichmullerGeometry §7.4, which defines them by the same formulas; where `f` is differentiable
-they are Tau Ceti's `TauCeti.wirtingerDeriv f x 1` and `TauCeti.conjWirtingerDeriv f x 1`.
+TeichmullerGeometry §7.4, which defines them by the same formulas. At almost every point `x`
+where `f` is differentiable they are Tau Ceti's `TauCeti.wirtingerDeriv f x 1` and
+`TauCeti.conjWirtingerDeriv f x 1`, a weak derivative being determined only up to a null set.
 
 Prove, from §1.5 and the weak derivative alone:
 
@@ -725,9 +727,9 @@ continuous on `[0, ∞]`.
 `Suggested.lean` states the two inequalities between manifolds through the inequalities that
 define the distortions, as it does on Euclidean domains below: a `K`-quasiregular `f` has
 `J(Df(x)) ≤ K^{n−1} ℓ(Df(x))ⁿ` almost everywhere for every weak differential `Df`
-(`IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow`), and a quasiregular `f` with
+(`IsQuasiregularMap.orientedJacobian_le_pow_mul_minimalStretch_pow`), and a quasiregular `f` with
 `J(Df(x)) ≤ K ℓ(Df(x))ⁿ` almost everywhere for some weak differential and some `K ≥ 1` is
-`K^{n−1}`-quasiregular (`IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow`).
+`K^{n−1}`-quasiregular (`IsQuasiregularMap.of_orientedJacobian_le_mul_minimalStretch_pow`).
 
 On Euclidean domains this is MartioRickmanVaisala1969 (2.25) in its own setting, and it is
 stated without the distortion functions, through the inequalities that define them. Let `E` be
@@ -958,7 +960,7 @@ the segment of `Q` through `x` parallel to the `i`-th axis, with `t` the `i`-th 
 Define the formal derivative `u'(x)` (`formalDeriv`) of `u : ℝⁿ → F` at `x` as the linear map
 `ℝⁿ → F` with `u'(x) eᵢ = ∂ᵢu(x)` for every `i`. Here `∂ᵢu(x)` is Mathlib's `lineDeriv ℝ u x eᵢ`,
 the derivative at `0` of `t ↦ u(x + t eᵢ)`, which is `0` where that derivative does not exist
-(MartioRickmanVaisala1969 2.1, p. 6).
+(MartioRickmanVaisala1969 2.1, p. 7).
 
 Call `u` `ACL` on `Ω` (`IsACLOn`) when `u` is continuous on `Ω` and, for every closed coordinate
 box `Q ⊆ Ω` and every `i`, the line function through `x` is absolutely continuous on `[aᵢ, bᵢ]`
@@ -1080,7 +1082,7 @@ Prove that for open `G ⊆ ℝⁿ`, `f : ℝⁿ → ℝⁿ` and `K ≥ 1`, `f` i
 `G` (§2.9) if and only if `f` is `ACLⁿ` on `G` and `‖f'(x)‖ⁿ ≤ K det f'(x)` for almost every
 `x ∈ G`, with `f'` the formal derivative (`isQuasiregularOn_iff_isACLpOn`). The right-hand side
 is the definition of a quasiregular map in MartioRickmanVaisala1969 Definition 2.20 and (2.21),
-where the Jacobian `J(x, f)` of 2.1, p. 6, is the determinant of the derivative,
+where the Jacobian `J(x, f)` of 2.1, p. 7, is the determinant of the derivative,
 `det f'(x)`. With §2.9, `f` is `K`-quasiregular in the sense of §2.1 for the standard orientation
 and flat metric if and only if it is quasiregular in the sense of Martio–Rickman–Väisälä with
 outer dilatation at most `K`.
@@ -1992,8 +1994,8 @@ What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For 
   `f_z̄ = μ f_z` almost everywhere for a measurable `μ` with `‖μ‖_∞ < 1`, and their dilatation
   `(1 + ‖μ‖_∞)/(1 − ‖μ‖_∞)` (the third statement of §2.10 and its Checks). Its weak Wirtinger
   derivatives `f_z = (U 1 − i U i)/2`, `f_z̄ = (U 1 + i U i)/2` of a `W^{1,2}_loc` map with weak
-  derivative `U`, and their agreement with the classical ones at points of differentiability, are
-  the quantities §2.10 writes with the same formulas.
+  derivative `U`, and their agreement, almost everywhere, with the classical ones at points of
+  differentiability, are the quantities §2.10 writes with the same formulas.
 
 ## References
 
@@ -2006,7 +2008,7 @@ What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For 
   of Math. 189 (2019); arXiv 1806.05306v1, whose page numbers are the ones cited. §1, pp. 1–2
   (the definition, Theorem 1.1, Corollary 1.2).
 - `MartioRickmanVaisala1969`: O. Martio, S. Rickman, J. Väisälä, *Definitions for quasiregular
-  mappings*, Ann. Acad. Sci. Fenn. Ser. A I 448 (1969). 2.1, p. 6 (formal derivative,
+  mappings*, Ann. Acad. Sci. Fenn. Ser. A I 448 (1969). 2.1, p. 7 (formal derivative,
   Jacobian, `ℓ(T)`), 2.16, p. 12 (`ACL` and `ACL^p` maps), 2.20, pp. 14–15 (quasiregular maps,
   (2.21)–(2.25)), Lemma 2.26, p. 15.
 - `Rickman1993`: S. Rickman, *Quasiregular Mappings*, Springer Ergebnisse 26 (1993), Ch. I and

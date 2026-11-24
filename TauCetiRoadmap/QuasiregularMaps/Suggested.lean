@@ -35,21 +35,28 @@ SobolevMapsBetweenManifolds, and this file imports that roadmap's target signatu
 of dimension `n` through `Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E) x) = n)`, continuous metrics
 through `Bundle.RiemannianBundle` and `IsContinuousRiemannianBundle`.
 
-* `K`-quasiregular maps (README §2.1), as `IsQuasiregular`;
+* `K`-quasiregular maps (README §2.1), as `IsQuasiregularMap`;
 * the outer distortion quotient of a linear map (README §1.2) and the outer distortion of a map
   (README §2.2), as `outerQuotient` and `outerDistortion`, with the attainment of the outer
-  distortion (README §2.3), as `isQuasiregular_iff_outerDistortion_le`;
+  distortion (README §2.3), as `isQuasiregularMap_iff_outerDistortion_le`;
 * the comparison `K_I(f) ≤ K_O(f)^{n−1}`, `K_O(f) ≤ K_I(f)^{n−1}` for quasiregular maps between
   manifolds (README §3.2), through the inequalities that define the two distortions, as
-  `IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow` and
-  `IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow`;
+  `IsQuasiregularMap.orientedJacobian_le_pow_mul_minimalStretch_pow` and
+  `IsQuasiregularMap.of_orientedJacobian_le_mul_minimalStretch_pow`;
 * `K`-quasiregularly elliptic and quasiregularly elliptic manifolds (README §7.1), as
   `IsQuasiregularlyEllipticWith` and `IsQuasiregularlyElliptic`, and the independence of the
   orientation (README §7.2), as `isQuasiregularlyEllipticWith_neg`.
 
-Not stated here. The README specifies each of the following; its statement needs carriers
-beyond the three above (a triangulation of a manifold with its simplicial maps, a second metric
-on one manifold, flatness of a metric), and nothing is stated in its place:
+Not stated here. The README specifies each of the following. Like the statements above, each
+needs the Sobolev class of maps between manifolds, which the pins lack and this file takes from
+the imported signatures. Each also needs carriers that the pins have and that the definitions
+above do not use: Tau Ceti's smooth triangulations `TauCeti.IsSmoothTriangulation` with
+simplicial maps and their realizations (§6.4, §7.7), Tau Ceti's copy `TauCeti.WithMetric` of a
+manifold carrying a second metric (§7.3), and Mathlib's
+`CovariantDerivative.leviCivitaConnection` with Tau Ceti's
+`CovariantDerivative.HasConstantSectionalCurvature` for flatness (§7.6). This file builds on the
+imported signatures only the definitions above and the statements that need no further carrier,
+and nothing is stated in place of these:
 
 * a non-degenerate orientation-preserving simplicial map of `C¹`-triangulated manifolds with
   bounded simplexwise distortion is quasiregular, with its outer distortion computed simplex by
@@ -75,7 +82,7 @@ open TauCetiRoadmap.SobolevMapsBetweenManifolds
 /-- The **minimal stretch** `ℓ(A)` of a linear map `A : V → W` between finite-dimensional real
 inner product spaces: the smallest of the `n = dim V` singular values, Mathlib's
 `LinearMap.singularValues` at the zero-based index `n − 1`. For `V ≠ 0` it is the minimum of
-`|A v|` over unit vectors `v`, the quantity `ℓ(T)` of MartioRickmanVaisala1969 2.1, p. 6; for
+`|A v|` over unit vectors `v`, the quantity `ℓ(T)` of MartioRickmanVaisala1969 2.1, p. 7; for
 `V = 0` the index is `0` and the value is `0`. -/
 def minimalStretch {V W : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
     [FiniteDimensional ℝ V] [NormedAddCommGroup W] [InnerProductSpace ℝ W]
@@ -120,7 +127,7 @@ section Manifold
 open Bundle
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
+  [MeasureSpace E]
   {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
   {M : Type*} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) 1 M]
   {N : Type*} [TopologicalSpace N] [ChartedSpace E' N] [IsManifold 𝓘(ℝ, E') 1 N]
@@ -133,7 +140,8 @@ of `f` (`HasWeakMFDeriv`) satisfies `‖Df(x)‖ⁿ ≤ K · J(Df(x))` for almos
 Riemannian volume of `M`. The norm is the operator norm for the two metrics and `J` is the
 oriented Jacobian for the tangent orientations. Two weak differentials of a continuous map
 differ on a null set (`HasWeakMFDeriv.ae_eq`), so "some" may be replaced by "every". -/
-def IsQuasiregular
+def IsQuasiregularMap
+    [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
     [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
@@ -157,6 +165,7 @@ the outer distortion quotient of a weak differential `Df`; for every other map i
 infimum runs over the weak differentials of `f`. They agree off a null set, so all give one
 value, and the infimum over none is `∞`. -/
 def outerDistortion
+    [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
     [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
@@ -172,13 +181,14 @@ def outerDistortion
     max 1 (essSup (fun x => outerQuotient (oM.orientationAt x) (oN.orientationAt (f x)) (Df x))
       (TauCeti.riemannianVolume 𝓘(ℝ, E) M))
 
-/-- **Attainment of the outer distortion** (README §2.3). For `n ≥ 1` and `f` in the continuous
-Sobolev class `W^{1,n}_loc(M, N)`, the real numbers `K` for which `f` is `K`-quasiregular are
-exactly those with `1 ≤ K` and `K_O(f) ≤ K`. So `f` is quasiregular if and only if
-`K_O(f) < ∞`, and then it is `K_O(f)`-quasiregular. In dimension `0`, which the roadmap
-excludes, the identity of a point with opposite orientations has `Df = 0`, `q_O = 0` and
-`J = −1`, and the statement fails. -/
-theorem isQuasiregular_iff_outerDistortion_le
+/-- **Attainment of the outer distortion** (README §2.3). For `n ≥ 1` and every map `f : M → N`,
+the real numbers `K` for which `f` is `K`-quasiregular are exactly those with `1 ≤ K` and
+`K_O(f) ≤ K`. Off the continuous Sobolev class `W^{1,n}_loc(M, N)` both sets are empty, since
+`K_O(f) = ∞` there. So `f` is quasiregular if and only if `K_O(f) < ∞`, and then it is
+`K_O(f)`-quasiregular. In dimension `0`, which the roadmap excludes, the identity of a point with
+opposite orientations has `Df = 0`, `q_O = 0` and `J = −1`, and the statement fails. -/
+theorem isQuasiregularMap_iff_outerDistortion_le
+    [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
     [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
@@ -187,9 +197,8 @@ theorem isQuasiregular_iff_outerDistortion_le
     {n : ℕ} [∀ x : M, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E) x) = n)]
     [∀ y : N, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E') y) = n)]
     (hn : n ≠ 0) (oM : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin n))
-    (oN : TauCeti.Manifold.Orientation 𝓘(ℝ, E') N (Fin n)) {f : M → N}
-    (hf : IsSobolevMap E E' n f) (K : ℝ) :
-    IsQuasiregular K oM oN f ↔ 1 ≤ K ∧ outerDistortion oM oN f ≤ ENNReal.ofReal K := by
+    (oN : TauCeti.Manifold.Orientation 𝓘(ℝ, E') N (Fin n)) {f : M → N} (K : ℝ) :
+    IsQuasiregularMap K oM oN f ↔ 1 ≤ K ∧ outerDistortion oM oN f ≤ ENNReal.ofReal K := by
   sorry
 
 end Manifold
@@ -240,7 +249,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 `K_I(f) ≤ K_O(f)^{n−1}`). If `f : M → N` is `K`-quasiregular, then every weak differential `Df`
 of `f` satisfies `J(Df(x)) ≤ K^{n−1} ℓ(Df(x))ⁿ` for almost every `x`, the inner inequality with
 constant `K^{n−1}`. -/
-theorem IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow
+theorem IsQuasiregularMap.orientedJacobian_le_pow_mul_minimalStretch_pow
     [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
@@ -250,7 +259,7 @@ theorem IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow
     [∀ y : N, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E') y) = n)]
     {K : ℝ} {oM : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin n)}
     {oN : TauCeti.Manifold.Orientation 𝓘(ℝ, E') N (Fin n)} {f : M → N}
-    (hf : IsQuasiregular K oM oN f)
+    (hf : IsQuasiregularMap K oM oN f)
     {Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x)}
     (hDf : HasWeakMFDeriv E E' f Df) :
     ∀ᵐ x ∂TauCeti.riemannianVolume 𝓘(ℝ, E) M,
@@ -264,7 +273,7 @@ theorem IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow
 `K_O(f) ≤ K_I(f)^{n−1}`). If `f : M → N` is quasiregular, `1 ≤ K`, and some weak differential
 `Df` of `f` satisfies the inner inequality `J(Df(x)) ≤ K ℓ(Df(x))ⁿ` for almost every `x`, then
 `f` is `K^{n−1}`-quasiregular. The quasiregularity of `f` cannot be dropped (README §3.3). -/
-theorem IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow
+theorem IsQuasiregularMap.of_orientedJacobian_le_mul_minimalStretch_pow
     [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
     [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
@@ -274,7 +283,7 @@ theorem IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow
     [∀ y : N, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E') y) = n)]
     {K K' : ℝ} {oM : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin n)}
     {oN : TauCeti.Manifold.Orientation 𝓘(ℝ, E') N (Fin n)} {f : M → N}
-    (hf : IsQuasiregular K' oM oN f) (hK : 1 ≤ K)
+    (hf : IsQuasiregularMap K' oM oN f) (hK : 1 ≤ K)
     {Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x)}
     (hDf : HasWeakMFDeriv E E' f Df)
     (hI : ∀ᵐ x ∂TauCeti.riemannianVolume 𝓘(ℝ, E) M,
@@ -282,14 +291,14 @@ theorem IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow
           (Df x : TangentSpace 𝓘(ℝ, E) x →ₗ[ℝ] TangentSpace 𝓘(ℝ, E') (f x)) ≤
         K * minimalStretch
           (Df x : TangentSpace 𝓘(ℝ, E) x →ₗ[ℝ] TangentSpace 𝓘(ℝ, E') (f x)) ^ n) :
-    IsQuasiregular (K ^ (n - 1)) oM oN f := by
+    IsQuasiregularMap (K ^ (n - 1)) oM oN f := by
   sorry
 
 end Manifold
 
 /-! ## Layer 5: `ACL^p` maps and the classical definition -/
 
-/-- The **formal derivative** of `u : ℝⁿ → F` at `x` (MartioRickmanVaisala1969 2.1, p. 6):
+/-- The **formal derivative** of `u : ℝⁿ → F` at `x` (MartioRickmanVaisala1969 2.1, p. 7):
 the linear map sending the `i`-th standard basis vector `eᵢ` to the
 partial derivative `∂ᵢu(x)`, Mathlib's `lineDeriv ℝ u x eᵢ`. Where a partial derivative does not
 exist, `lineDeriv` is `0`; for an `ACL` map into finite-dimensional `F`, this happens only
@@ -400,7 +409,7 @@ def IsQuasiregularlyEllipticWith
     Bundle.instIsContinuousRiemannianBundle
       (riemannianMetricVectorSpace (EuclideanSpace ℝ (Fin n))).toContinuousRiemannianMetric
   ∃ f : EuclideanSpace ℝ (Fin n) → N, (¬ ∃ y, ∀ x, f x = y) ∧
-    IsQuasiregular K
+    IsQuasiregularMap K
       (TauCeti.Manifold.Orientation.model (I := 𝓘(ℝ, EuclideanSpace ℝ (Fin n)))
         (EuclideanSpace.basisFun (Fin n) ℝ).toBasis.orientation (by simp)) oN f
 
