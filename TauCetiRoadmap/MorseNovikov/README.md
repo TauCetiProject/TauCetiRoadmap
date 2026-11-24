@@ -888,7 +888,7 @@ The API includes:
 - Norm(1+ct)=1−c²s, whose logarithm −c²s−c⁴s²/2−⋯ is twice the even part of log(1+ct)=ct−c²t²/2+⋯, as log Norm=Tr log requires.
 - For H=ℤ/2 mapping identically to ℤ/2, the component idempotent (1,0) is nonzero but has norm 0; this quotient does not kill torsion.
 
-*Needs:* §§4.1–4.3; Layer 1 coset modules and positive logarithms.
+*Needs:* for the coset-monomial basis, its rank and Tr=k·restriction, Layer 1 coset modules only; for the norms, log Norm=Tr log and the torsion comparison, §§4.1–4.3 and Layer 1 positive logarithms.
 *In Tau Ceti:* `TauCeti.NovikovSeries.cosetBasis`, `TauCeti.NovikovSeries.finrank_eq_index`,
 `TauCeti.NovikovSeries.trace_eq_index_smul_comap`, `TauCeti.NovikovSeries.log_normNonnegSubring`,
 `Algebra.fractionNorm`, `Algebra.fractionNorm_mk'`, `Algebra.fractionNorm_eq_norm`,
