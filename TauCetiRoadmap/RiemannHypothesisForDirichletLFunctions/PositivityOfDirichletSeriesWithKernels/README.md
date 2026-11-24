@@ -70,9 +70,9 @@ half-plane of absolute convergence and is differentiated under the integral sign
 states these with the conjugation `Φ(s̄) = conj Φ(s)` of (c)). [FormalProof] has the formula of (b), and of (c) a bound
 for `Φ` and `Re ρ ≤ 2` at the poles, only for `|g(u)| ≤ C e^(2u)` (`u ≥ 0`) on `Re s > 2`; beyond that case go (a) and
 (b) for every `A` under the integrability hypothesis alone, the reality of `a_k(σ)`, the conjugation and the normal form
-of (c). The bound of `a_k` by the Gamma kernel in (b), the bound of `Φ` in (c) and the normal form of a meromorphic
-continuation in (c), with the symmetry of its poles and the real Laurent coefficients at a real pole, are this
-roadmap's own formulation.
+of (c). The bound of `a_k` by the Gamma kernel in (b), the bound of `Φ` in (c) in the form
+`|Φ(s)| ≤ ∫₀^∞ |g(u)| e^(−σ′u) du` and the normal form of a meromorphic continuation in (c), with the symmetry of its
+poles and the real Laurent coefficients at a real pole, are this roadmap's own formulation.
 
 *Method of the formal proof:* only for measurable `g` with `|g(u)| ≤ C e^(2u)` for `u ≥ 0`, at the points `s` with
 `Re s > 2`: by induction on `k`, differentiating under the integral sign, the integral of `g(u)(−u)^k e^(−su)` has
