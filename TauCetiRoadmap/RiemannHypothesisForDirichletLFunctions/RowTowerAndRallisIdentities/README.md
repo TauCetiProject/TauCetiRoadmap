@@ -504,8 +504,8 @@ AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.7, 7.5; ArithmeticLocallySymme
 ### 5.2a Projectors of integrable discrete series
 
 *Origin:* published: Barnes (1980), Lemma 1 and Proposition 1, the projector of an integrable discrete series in every
-unitary representation; VonNeumannAlgebras V9.IntegrableDiscreteSeries states it, with its source, for every unimodular
-locally compact group, and this section is its case of a second-countable group.
+unitary representation; VonNeumannAlgebras V9.IntegrableDiscreteSeries states it, with its source, in the same
+generality (Barnes proves it without second countability).
 
 *Method of the formal proof:* the orthogonality relation for the formal degree, a hypothesis of its statement, gives
 `e_σ(g^{−1}) = conj e_σ(g)` and a convolution identity from which `P = ρ(e_σ)` is an orthogonal projection with
@@ -515,7 +515,7 @@ the range is the set of the `T(w)` itself. The route written here differs: it ob
 closure of the `T(w)` from Godement's theorem on functions of positive type and the GNS construction.
 
 *Corollary of:* VonNeumannAlgebras V9.IntegrableDiscreteSeries (for an irreducible unitary representation `σ` of a
-unimodular locally compact group with a nonzero square-integrable coefficient and `e_σ ∈ L¹`, `e_σ` is a self-adjoint
+unimodular second-countable locally compact group with a nonzero square-integrable coefficient and `e_σ ∈ L¹`, `e_σ` is a self-adjoint
 idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of `{T(w) : T ∈ Hom_𝐆(σ, ρ)}` in every unitary
 representation `ρ`).
 
@@ -748,7 +748,7 @@ follows from [FormalProof], `Formalism/LocalToGlobal/IndefiniteReal/PartsOrth.le
 ### 5.5 The inner product of the up-lifts of a row step
 
 *Origin:* adapted from the Rallis inner product formula (Rallis (1984b), Proposition 1.1, for orthogonal–symplectic
-pairs, and J.-S. Li (1992), in Weil's convergent range, that of the step `i = 0`; Gan, Qiu and Takeda (2014),
+pairs, and J.-S. Li (1992), in the range `dim Y_1 > 2 dim Y_0` of the step `i = 0`; Gan, Qiu and Takeda (2014),
 Propositions 11.1 (ii) and 11.2, in the range `n_i < n_{i+1} ≤ 2n_i` of the steps `i ≥ 1`): here for one row step of
 the chain, with the value at `s = t/2` of the continuation, the local integrals at the twist places evaluated
 (`loc_v(ξ)`), the doubling integrability of the Lemma, and a constant `𝔫_{i+1}` independent of the eigensystem and of
@@ -885,7 +885,7 @@ ThetaKernelsForUnitaryDualPairs §§3.46a, 5.7a, 6.4a, 6.11, 6.13a, 6.13b, 6.13c
 ### 5.6 The adjoint identity of the descent
 
 *Origin:* adapted from the Rallis inner product formula (Rallis (1984b), Proposition 1.1, for orthogonal–symplectic
-pairs, and J.-S. Li (1992), in Weil's convergent range, that of the step `i = 0`; Gan, Qiu and Takeda (2014),
+pairs, and J.-S. Li (1992), in the range `dim Y_1 > 2 dim Y_0` of the step `i = 0`; Gan, Qiu and Takeda (2014),
 Propositions 11.1 (ii) and 11.2, in the range `n_i < n_{i+1} ≤ 2n_i` of the steps `i ≥ 1`), composed along the `m` row
 steps of 5.5: the chain statement, the descent times its adjoint as a product of `m` partial `L`-values with positive
 values, hence the surjectivity of `ι_ξ`, and the surjectivity of the unprojected descent of the base tuple; the
@@ -1755,8 +1755,8 @@ The statement: [FormalProof], `Development/AbelianVarietyTheory/Definitions/Twis
 ### 5.8g The core column is onto
 
 *Origin:* adapted from the Rallis inner product formula (Rallis (1984b), Proposition 1.1, for orthogonal–symplectic
-pairs, and J.-S. Li (1992), in Weil's convergent range, that of the first step of the column; Gan, Qiu and Takeda
-(2014), Propositions 11.1 (ii) and 11.2, for the later steps, whose larger rank is at most twice the smaller), through
+pairs, and J.-S. Li (1992), for the first step of the column, whose larger rank exceeds twice the smaller; Gan, Qiu
+and Takeda (2014), Propositions 11.1 (ii) and 11.2, for the later steps, whose larger rank is at most twice the smaller), through
 the surjectivity of the unprojected descent of the base tuple of 5.6: here for the core column of the grid, a chain of
 base rank `r + 1` with trivial level characters and no twist places.
 
@@ -2633,8 +2633,8 @@ theta functions (5.4, 5.8, 5.10a).
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
 - Layer 9: coefficient maps, Schur orthogonality for square-integrable representations, formal degree. Used in 5.2a.
-- V9.IntegrableDiscreteSeries: for an integrable discrete series `σ` of a unimodular locally compact group, `e_σ` is a
-  self-adjoint idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of the `T(w)`,
+- V9.IntegrableDiscreteSeries: for an integrable discrete series `σ` of a unimodular second-countable locally compact
+  group, `e_σ` is a self-adjoint idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of the `T(w)`,
   `T ∈ Hom_𝐆(σ, ρ)`, in every unitary representation `ρ`. The general theorem of which 5.2a is a corollary.
 
 ### From TauCetiRoadmap.ShimuraVarieties
