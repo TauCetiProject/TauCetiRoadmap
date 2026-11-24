@@ -258,6 +258,7 @@ body:
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
+        - HanfNumbers
         - HeckeStacksAndLocalShtukas
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
