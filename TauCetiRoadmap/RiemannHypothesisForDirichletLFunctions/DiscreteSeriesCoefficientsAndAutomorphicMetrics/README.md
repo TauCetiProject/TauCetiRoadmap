@@ -31,8 +31,9 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 method label names: for `U(p, q)` in 6.8 and 8.1–8.3, for unitary groups and the cuspidal spectrum in 9.1, for trivial
 stabilisers in 7.5c, and for the Hodge metrics of the unitary Shimura varieties of the family in 10.1 and 10.2, where
 the constant of proportionality is a covolume. The forms of 6.8, 8.1 and 8.2 for groups beyond those of their published
-sources, the form of 10.1 for general data, the constant `κ_K` and the forms for several bundles and for flag bundles in
-10.2, the duality of lattices of forms in 7.5a and the five statements of 7.5b are this roadmap's own formulations.
+sources, the forms of 10.1 and 10.2 for representations unitary on `K_∞¹` rather than on `K_∞`, the form of 10.1 for
+general data, the constant `κ_K` and the forms for several bundles and for flag bundles in 10.2, the duality of
+lattices of forms in 7.5a and the five statements of 7.5b are this roadmap's own formulations.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
@@ -448,7 +449,8 @@ The operator `R(f)` of a smooth compactly supported test function on the cuspida
 
 ### 9.1 Trace class on the cuspidal and discrete spectrum
 
-*Origin:* published: Müller (1989), for `K_∞`-finite `f`, and Müller (1998), for general `f`, the trace class of `R(f)`
+*Origin:* published: Müller (1989), for `K_∞`-finite `f` and `G` over `ℚ` with `Z(ℝ)⁰ = A_G(ℝ)⁰` (`Z` the centre of
+`G`, `A_G` its maximal `ℚ`-split torus), and Müller (1998), for general `f`, the trace class of `R(f)`
 on the discrete spectrum; the cuspidal clause follows, `L²_cusp([G]¹)` being a closed subspace of `L²_disc([G]¹)` stable
 under `R(f)` and `R(f)^*`. The route below proves the cuspidal clause directly, with the factorisation of Dixmier and
 Malliavin (1978).
@@ -470,7 +472,7 @@ The cuspidal clause in that form is [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/CuspTraceClassOfFactorisation.lean`
 (`GlobalTheory.Published.cuspTraceClass_of_factorisation`).
 
-*Route (cuspidal).* By Dixmier–Malliavin (AutomorphicFormsOnReductiveGroups §2.7 `dixmierMalliavin`) write `f = Σ_i f_i ∗ g_i` with `f_i, g_i ∈ C_c^∞`; each `R(f_i)` restricted to `L²_cusp` has a kernel bounded through the rapid decay of cusp forms (AutomorphicSpectralTheory §3.4), hence is Hilbert–Schmidt (AutomorphicSpectralTheory §0.8); a product of two Hilbert–Schmidt operators is trace class (AutomorphicSpectralTheory §0.9). *Route (discrete).* Müller 1989 for `K_∞`-finite `f` (Corollary 8.8 in the numbering of its preprint MPI 88-31, p. 84) and Müller 1998 for general `f`: the residual spectrum is controlled by the Eisenstein series of AutomorphicSpectralTheory §4.4 and the same factorisation. *Needs:* AutomorphicSpectralTheory §§0.8, 0.9, 3.4, 4.4–4.5, 6.4; AutomorphicFormsOnReductiveGroups §2.7; OperatorTheory/OperatorIdeals OI-B30, OI-B41 (trace class and Hilbert–Schmidt).
+*Route (cuspidal).* By Dixmier–Malliavin (AutomorphicFormsOnReductiveGroups §2.7 `dixmierMalliavin`) write `f = Σ_i f_i ∗ g_i` with `f_i, g_i ∈ C_c^∞`; each `R(f_i)` restricted to `L²_cusp` has a kernel bounded through the rapid decay of cusp forms (AutomorphicSpectralTheory §3.4), hence is Hilbert–Schmidt (AutomorphicSpectralTheory §0.8); a product of two Hilbert–Schmidt operators is trace class (AutomorphicSpectralTheory §0.9). *Route (discrete).* Müller 1989 for `K_∞`-finite `f` and `G` over `ℚ` with `Z(ℝ)⁰ = A_G(ℝ)⁰` (Corollary 8.8 in the numbering of its preprint MPI 88-31, p. 84) and Müller 1998 for general `f`: the residual spectrum is controlled by the Eisenstein series of AutomorphicSpectralTheory §4.4 and the same factorisation. *Needs:* AutomorphicSpectralTheory §§0.8, 0.9, 3.4, 4.4–4.5, 6.4; AutomorphicFormsOnReductiveGroups §2.7; OperatorTheory/OperatorIdeals OI-B30, OI-B41 (trace class and Hilbert–Schmidt).
 
 **Checks.**
 
@@ -492,8 +494,9 @@ Invariant metrics on automorphic vector bundles are good relative to the canonic
 ### 10.1 Invariant metrics are good
 
 *Origin:* published in the setting of AutomorphicBundles §5.3: Mumford (1977), Main Theorem 3.1 and Proposition 3.4 a),
-with the canonical extensions of Harris (1989) (AutomorphicBundles §5.3a, for `J` unitary on `K_∞`); the form for general data through
-AutomorphicBundles §6.1 is this roadmap's own formulation.
+stated for a semisimple adjoint group and a representation of its maximal compact subgroup, with the canonical
+extensions of Harris (1989) (AutomorphicBundles §5.3a, for `J` unitary on `K_∞`); the form for `J` unitary on `K_∞¹`
+rather than on `K_∞` and the form for general data through AutomorphicBundles §6.1 are this roadmap's own formulation.
 
 *Method of the formal proof:* its statement is for the unitary Shimura varieties of the family and the Hodge metric on
 the summands of the Hodge bundle: in a chart at a boundary point of the toroidal compactification the period matrix is
@@ -524,9 +527,9 @@ Prove: let `(G, X)` be a Shimura datum, `K` a neat level, `Sh_K^Σ` a smooth pro
 ### 10.2 Hirzebruch–Mumford proportionality
 
 *Origin:* published for one bundle: Mumford (1977), Proportionality Theorem 3.2, with Theorem 1.4 for the Chern forms of
-a good metric, the constant being a sign times a positive volume (AutomorphicBundles §5.3b, for `J` unitary on `K_∞`); the identification of the
-constant as `κ_K`, the polynomials in the Chern classes of several bundles and the fibre products of flag bundles are
-this roadmap's own formulation.
+a good metric, the constant being a sign times a positive volume (AutomorphicBundles §5.3b, for `J` unitary on `K_∞`); the bundles of
+representations unitary on `K_∞¹` rather than on `K_∞`, the identification of the constant as `κ_K`, the polynomials
+in the Chern classes of several bundles and the fibre products of flag bundles are this roadmap's own formulation.
 
 *Method of the formal proof:* its statement is for the unitary Shimura varieties of the family, the summands of the
 Hodge bundle with the good Hodge metric and their full flag bundle, with the covolume as constant: by Chern–Weil theory
