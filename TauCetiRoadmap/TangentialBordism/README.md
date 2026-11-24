@@ -416,7 +416,7 @@ Its API includes:
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
 
-*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, and for half-space sources `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary`, and for the depth strata `ModelWithCorners.depth`, `ModelWithCorners.depth_eq_zero_iff`, `IsLocalDiffeomorphAt.depth_eq` and `ModelWithCorners.depthAt_modelWithCornersEuclideanQuadrant`; DifferentialGeometry §10.2's Sard theorem in all dimensions for boundaryless sources, §5.5b's local quadrant data for the depth strata of face-structured corner sources, and §5.5b for corner rounding; GeometricTopology Layer 1 collars and gluing; AlgebraicTopology 8.13 for boundaryless sources.
+*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, and for half-space sources `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary`, and for the depth strata `ModelWithCorners.depth`, `ModelWithCorners.depth_eq_zero_iff`, `IsLocalDiffeomorphAt.depth_eq` and `ModelWithCorners.depthAt_modelWithCornersEuclideanQuadrant`; DifferentialGeometry §10.2's Sard theorem in all dimensions for boundaryless sources, DifferentialGeometry §5.5b's local quadrant data for the depth strata of face-structured corner sources, and DifferentialGeometry §5.5b for corner rounding; GeometricTopology §§1.1 and 1.3 (collars and gluing); AlgebraicTopology 8.13 for boundaryless sources.
 
 ### 2.2 Model transport and structures (B1.1)
 
@@ -589,7 +589,7 @@ Its API includes:
 - The trivial real line disc bundle over a point is [−1,1] with two boundary points; its rank-zero disc is a point with empty sphere boundary.
 - The interval has two vertex cells and one edge, with its boundary the two-vertex subcomplex.
 
-*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology Layers 1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; CharacteristicClasses C1 bundle carriers.
+*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology §§1.1, 1.3 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; CharacteristicClasses C1 bundle carriers.
 
 ### 2.4 Collared witnesses (B1.2)
 
@@ -620,7 +620,7 @@ Its API includes:
 - Gluing two positive intervals at their matched endpoints leaves one negative and one positive endpoint, total 0.
 - An interval with constant parameter x witnesses cancellation at x; it cannot cancel points in two different components of X.
 
-*Needs:* B1.1, B1.5–B1.6; GeometricTopology Layer 1 collared gluing.
+*Needs:* B1.1, B1.5–B1.6; GeometricTopology §§1.1 and 1.3 (collars and collared gluing).
 
 ### 2.5 Relative cycles (B1.3)
 
@@ -822,7 +822,7 @@ Its API includes:
 
 That bordism of maps from closed manifolds, with any stable tangential structure, is a generalized homology theory is Freed, *Bordism: Old and New*, Lecture 12, p.103; for unoriented bordism it is Miller, Chapter 1, §4, Theorem 4.2 with the remark after it, p.10, deduced there through the Thom spectrum MO, a route not used here. The pair and arbitrary-CW extension is constructed here from the collar and finite-support arguments of B1; it is not asserted to be the coefficient theorem of Thom IV.8.
 
-*Needs:* B2.1; B1.3 relative faces, B1.5 finite support and B1.6 separating hypersurfaces; AlgebraicTopology Layers 2–4.
+*Needs:* B2.1; B1.3 relative faces, B1.5 finite support and B1.6 separating hypersurfaces; AlgebraicTopology Layers 2–3 and AlgebraicTopology §§4.5 and 4.10 (cofibrations, homotopy cofibres and CW approximation).
 
 ### 3.4 Orientation maps (B2.4)
 
@@ -989,7 +989,7 @@ The transgression, operation-algebra and Adams APIs include:
 The algebraic Borel input is Guillou–Weibel v1, Theorem 6.2, p.18, at ℓ=2;
 the Steenrod algebra computation is Miller, Chapter 1, Theorem 11.2.
 
-*Needs:* B4.1; DGFloer Layer 1 items 2–4; AlgebraicTopology Layer 8 EM comparison; GeneralizedCohomology G2–G3 HA, towers and completion.
+*Needs:* B4.1; DGFloer Layer 1 items 2–4; AlgebraicTopology §§8.8c, 8.10 and 8.11b (EM models, universal classes and loop comparison); GeneralizedCohomology G2–G3 HA, towers and completion.
 
 ### 4.3 Thom and Wu classes (B4.3)
 
@@ -1111,7 +1111,7 @@ The odd-prime and p-simple-system API includes:
 - With τx=ι₂ and y=βx, τy=−βι₂=2βι₂ at p=3; applying β again gives zero on both sides since β²=0.
 - The degree-three generator z has z²=−z², hence z²=0 at p=3; at p=2 this argument yields no vanishing. The transpotence has degree 2·3+2=8.
 
-*Needs:* B4.1–B4.2 coherent diagonals and towers; DGFloer Layer 1 item 2's multiplicative Serre sequence and item 4's loop-fibre identification ΩK(A,n)≃K(A,n−1); AlgebraicTopology Layer 8; GeneralizedCohomology G2–G3; DGAInfinity Layer 0 graded tensors.
+*Needs:* B4.1–B4.2 coherent diagonals and towers; DGFloer Layer 1 item 2's multiplicative Serre sequence and item 4's loop-fibre identification ΩK(A,n)≃K(A,n−1); AlgebraicTopology §§8.8c, 8.10 and 8.11b (EM models, universal classes, loop comparison and cohomology suspension); GeneralizedCohomology G2–G3; DGAInfinity Layer 0 graded tensors.
 
 ### Examples
 
@@ -1177,7 +1177,7 @@ Its API includes:
 - Changing the normal framing sign gives degree −1; an unmarked bundle isomorphism cannot identify those framed cycles.
 - The empty embedded cycle collapses to the basepoint and requires no nonempty tubular-domain hypothesis.
 
-*Needs:* B1.1–B1.6; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace` and `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`; GeometricTopology Layer 1 tube uniqueness; CharacteristicClasses C1–C2; GeneralizedCohomology G5.2 unframed collapse and G5.3 normal diagrams.
+*Needs:* B1.1–B1.6; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace` and `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`; GeometricTopology §1.5 (tube uniqueness); CharacteristicClasses C1–C2; GeneralizedCohomology G5.2 unframed collapse and GeneralizedCohomology G5.3 normal diagrams.
 
 ### 5.2 Finite embedded comparison (B5.2)
 
@@ -1316,6 +1316,8 @@ square before concluding independence of embedding choices for that
 abstract stable ξ-cycle. Prove separation of disjoint sums and all
 classifier/block-permutation laws in the same stabilized diagram.
 
+*Needs:* B5.1–B5.3; B1.1 structured cycles and block-permutation laws; B1.6 stabilized block-rotation isotopy and its collared trace; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace`; GeneralizedCohomology G5.2 comparison of embeddings after a common stabilization and GeneralizedCohomology G5.3 normal diagrams; CharacteristicClasses C1 bundle carriers.
+
 **B5.4a. Collapse with a continuous parameter.** Use the single geometric
 ξ-bordism homology theory of B1/B2, with the actual normal diagram and
 its structure maps; prove B2's witness/excision/continuity constructions
@@ -1348,6 +1350,8 @@ bundle map and G's increasing-left suspension coordinates. Pass to the
 stable class using these squares and prove compatibility with the
 stabilized embedding/structure comparison already constructed above.
 No finite-stage bijection over a parameter space is needed here.
+
+*Needs:* B5.4 stabilized embedding comparison; B5.1–B5.3; B1.1–B1.6 and B2.1–B2.3 geometric ξ-bordism; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace` and `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`; GeometricTopology §1.5 (tube uniqueness and closed disc bundles); GeneralizedCohomology G5.2 unframed collapse and GeneralizedCohomology G5.3 Thom spectra from diagrams; CharacteristicClasses C1 bundle carriers.
 
 **B5.4b. Relative faces and boundary comparison.** For a CW pair (X,A)
 represent a relative cycle by a compact collared M with f(∂M)⊂A.
@@ -1383,6 +1387,8 @@ their sign equations, so that `δ_spectral PT=PT ∂_geometric` under
 those fixed adapters. Check the positively oriented interval has
 boundary [1]−[0] with the positive point unit; prove the same boundary
 square in every degree, with no freely chosen simultaneous sign change.
+
+*Needs:* B5.4 and B5.4a; B1.1 block-permutation laws, B1.2–B1.3 collared and relative cycles and B1.6 neat half-space embeddings; B2.3 boundary; Tau Ceti `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`; GeometricTopology §§1.1 and 1.5 (collars and product-compatible tubes); AlgebraicTopology §4.5 (mapping-cylinder replacement and cofibration quotients); GeneralizedCohomology G1.1 and GeneralizedCohomology G1.3 pair connecting maps; GeneralizedCohomology G5.3 Thom spectra from diagrams.
 
 **B5.4c. Natural transformation and CW comparison.** On the stable
 geometric quotients construct the actual homomorphisms
