@@ -33,6 +33,7 @@ body:
         - AdicSpacesPartV
         - AffineLieAlgebras
         - AffineMorseLefschetz
+        - AlgebraicCircuitsAndValiantsClasses
         - AlgebraicCurves
         - AlgebraicKTheory
         - AlgebraicModularFormsAndSerreWeights
@@ -173,6 +174,7 @@ body:
         - EllipticCurveModularityImaginaryQuadraticPartII
         - EllipticCurveModularityPartII
         - EllipticCurveModularityTotallyReal
+        - EllipticCurvePeriodsAndModularParametrizations
         - EllipticCurves
         - EllipticIntegrals
         - EllipticKTheory
