@@ -48,7 +48,7 @@ These two targets continue Layer 3 of DeformationAndDerivedPatchingAlgebra (homo
 ### 3.16 Koszul Euler characteristics of multigraded modules over a local base
 
 *Origin:* adapted from Serre (1965), Chapter IV, the Koszul Euler characteristic and its positivity, and from the mixed
-multiplicities of Bhattacharya (1957) and Teissier (1973): here for sections of a standard `ℕ^c`-graded algebra over a
+multiplicities of Teissier (1973), Chapter I, §2, Proposition 2.1, which refers also to Bhattacharya (1957): here for sections of a standard `ℕ^c`-graded algebra over a
 Noetherian local base, as a function `χ(ts; M)` of large multidegrees defined for admissible lists, with the product rule
 for a factor of degree `0` (8), the peeling of a power (10) and the lower bound (11).
 
@@ -90,7 +90,7 @@ all `d` with all coordinates large:
     degrees); when `δ_1 = ⋯ = δ_q` this is `(Σ_ia_i)·Δ_{L∖1}H_{M/βM}`.
 
 `χ(ts; M)(d)` is, for large `d`, the Euler characteristic of the degree-`d` part of the Koszul complex `K(s_1, …, s_m) ⊗ M`.
-This description is classical and is this roadmap's own; [FormalProof] defines `χ` by the recursion alone.
+This description is classical, not a statement of [FormalProof], which defines `χ` by the recursion alone.
 
 *Route.* Finiteness: admissibility puts a power of `m_B` on the relevant graded pieces for large `d`, and each piece of a
 finite graded module over a standard graded algebra is finite over `B`. (1) and (2) are the long exact sequences of the
@@ -159,8 +159,8 @@ valuation of `d` by `Ring.ord_eq_addVal`), are stated in `Suggested.lean` as `le
 
 *The form of the formal proof.* Of the statements of 3.17, [FormalProof] proves and uses (2) in characteristic `0`, for `O`
 complete and `B` a complete Noetherian local `O`-algebra with residue field `k`, in the form `θ(a; M) ≤ c·Σ_σ v(σ(a))` when every
-`length_{B_{𝔭_σ}}(M_{𝔭_σ}) ≤ c` and every `v(σ(a)) ≥ 0`; (1) and the general form of (2) are classical (Fulton, Appendix A) and
-are this roadmap's own, not statements of [FormalProof].
+`length_{B_{𝔭_σ}}(M_{𝔭_σ}) ≤ c` and every `v(σ(a)) ≥ 0`; (1) and the general form of (2) are published (Fulton, Appendix A),
+not statements of [FormalProof].
 
 *Route.* `B` acts on `M` through `B̄ := B/Ann_B(M)`, a subalgebra of `End_O(M)`, finite over `O`. (1) Both `θ(a; ·)` and
 `v(det_E(a | · ⊗ E))` are additive in short exact sequences of such modules (snake lemma) and vanish on modules of finite
@@ -198,8 +198,8 @@ These two targets continue Layer 4 of DeformationAndDerivedPatchingAlgebra (fini
 
 ### 4.8 Graded algebras with a torus-fixed integral point
 
-*Origin:* adapted from the cotangent space at an integral point and the formal implicit function theorem: weighted forms
-for an algebra graded by a torus with a fixed integral point, set up for the graded cotangent bound.
+*Origin:* particular to this proof: weighted forms of the cotangent space at an integral point and of the formal implicit
+function theorem for an algebra graded by a torus with a fixed integral point, set up for the graded cotangent bound.
 
 *Method of the formal proof:* for (2), a point that kills `A_{−2}` kills every negative weight, a coordinate of weight
 `−1` entering through its square, and likewise for `A_2` and the positive weights, so a point is two-signed exactly when
@@ -423,8 +423,8 @@ These targets continue Layer 6 of DeformationAndDerivedPatchingAlgebra (componen
 ### 6.10 Determinantal sections
 
 *Origin:* adapted from Grothendieck's connectedness theorem (SGA 2, Exposé XIII), applied to the locus `V(m·y, det m)`
-of a generic matrix and a generic column, which is a variety of complexes in the sense of De Concini and Strickland
-(1981) (generic matrices with product zero, under rank conditions by minors): here that locus in power series over a
+of a generic matrix and a generic column, which is a variety of complexes
+(generic matrices with product zero, under rank conditions by minors): here that locus in power series over a
 complete Noetherian local domain `R₀` (1), and its sections, chained in a dimension (2).
 
 *Method of the formal proof:* the radical of `(m·y, det m)` is shown to be the kernel of an explicit parametrisation of
@@ -443,7 +443,7 @@ in which consecutive `P, P′` have `dim R/(P + P′) ≥ D` ([FormalProof],
 
 1. (*the generic locus*) the radical of `(m·y, det m)` in `S` is a prime ideal of height at most `g + 1` (*the form of the
    formal proof*, which holds over any Noetherian domain `R₀`); its height is `g + 1`, and `V(m·y, det m)` is the closure of
-   the locus where `m·y = 0` and `y ≠ 0` (this roadmap's own);
+   the locus where `m·y = 0` and `y ≠ 0` (classical, not a statement of [FormalProof]);
 2. (*determinantal sections*; *the form of the formal proof*) let `O` be a complete discrete valuation ring, `a ≥ b ≥ 0`,
    `R₀ := O[[X₁, …, X_a, Y₀, …, Y_g]]`, `f₁, …, f_b` in the maximal ideal of `R₀`, `M` a `(g + 1) × (g + 1)` matrix with entries
    in that maximal ideal, and `D := a − b` (which is `dim R₀ − b − g − 2`). Then `J := (f, M·Y, det M)` is chained in dimension
@@ -551,7 +551,8 @@ DeformationAndDerivedPatchingAlgebra §1.9; 6.10 (1); dimension under finite ext
 ### 6.12 Propagation along components
 
 *Origin:* adapted from the propagation of modularity along components in residually reducible automorphy lifting, in
-Skinner and Wiles (1999), Thorne (2015) and Allen, Newton and Thorne (2020): here an axiomatic form, local with
+Skinner and Wiles (1999), §4.3, Proposition 4.1, and Allen, Newton and Thorne (2020), §5, proof of Theorem 5.1
+(arXiv:1912.11269v2): here an axiomatic form, local with
 primes of two kinds `TI`, `TE` and thick components (1), and global on a Noetherian topological space (2).
 
 *Method of the formal proof:* for (1), an invariant is carried along a chain of adjacent components, a component being
@@ -632,8 +633,8 @@ fact on towers of modules, assembled in the Route from the Stacks project, Tags 
 *Method of the formal proof:* for each `k` the modules `M_N` are assembled along the ultrafilter modulo
 `(σ)^k + 𝔪_Λ^j` for every `j`, with no bound on their ranks; maps to and from `𝒳` whose composites are `f` make the first
 limit finite once `f` is inverted, and the tower of limits over `k` gives a finite module over the completion of
-`R[1/f]` on which quasi-regularity passes from the levels. The limit group is the closed normal subgroup that agrees with
-the kernels of almost all levels modulo every open normal subgroup.
+`R[1/f]` on which quasi-regularity passes from the levels. The limit group is the quotient of `Ph` by the closed normal subgroup that agrees
+with the kernels of almost all levels modulo every open normal subgroup.
 
 Fix an ultrafilter `𝒰` on `ℕ`; it is part of the data (Conventions above), and "for `𝒰`-almost all `N`" means "for `N` in a set of `𝒰`".
 Prove:
@@ -756,9 +757,9 @@ ProfiniteProPGroups Layers 0 (the compactness lemma, closed and open subgroups, 
 
 ### 6.14 Coordinate grading
 
-*Origin:* adapted from Pinkham (1974) and Rim (1980), group actions on versal deformations and the grading of a versal
-deformation ring by a torus action: here a presentation with homogeneous kernel for a coefficient ring on which a formal
-torus acts.
+*Origin:* adapted from Pinkham (1974), §2, Propositions 2.2–2.3, the grading of the tangent space and the `𝔾_m`-action on
+a formal versal deformation of an isolated singularity with a `𝔾_m`-action: here a presentation with homogeneous kernel for
+a coefficient ring on which a formal torus of any rank acts.
 
 *Method of the formal proof:* separation on the dual numbers gives a surjection from a power series ring in finitely many
 of the elements; its kernel is stable under weight components because it is stable under twisting the variables by
@@ -784,7 +785,7 @@ So `π(p) = 0` gives `π(p_w) ∈ ∩_N 𝔪_R^N = 0`: the kernel is homogeneous
 
 ### 6.15 The graded part of a weighted presentation
 
-*Origin:* adapted from the grading of a versal deformation ring by a torus action, in the setting of 6.14: the weight
+*Origin:* particular to this proof: in the setting of 6.14, the weight
 parts of a weighted presentation form a graded subalgebra, generated over its part of weight `0` by the variables, each
 weight part being finite over it.
 
@@ -802,12 +803,16 @@ determined by the images of the variables.
 
 *Route.* This is a theorem of [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/AdicExtensionMatrices/SxExtA.lean` (`UpperTheory.V.Ws.sxExtA`).
-The route is not given here.
+The route is the method of the label above; each `R_w` is finite over `R_0` because the exponents of weight `w` have
+finitely many minimal elements (Dickson's lemma), every other one exceeding one of them by an exponent of weight `0`.
+*Needs:* 6.14 (the setting and coefficient rings); Mathlib `AddSubmonoid.fg_eqLocusM` (Gordan's lemma),
+`Finsupp.wellQuasiOrderedLE` (Dickson's lemma) and `MvPowerSeries`.
 
 ### 6.16 Rescaling an artinian coefficient ring
 
-*Origin:* adapted from the extended Rees algebra of the maximal ideal: a ring of Laurent series over an artinian
-coefficient ring `C` whose coefficient of `T^{−n}` lies in `𝔪_C^{⌈n/c⌉}`, itself a coefficient ring.
+*Origin:* particular to this proof: a ring of Laurent series over an artinian coefficient ring `C` whose coefficient of
+`T^{−n}` lies in `𝔪_C^{⌈n/c⌉}`, itself a coefficient ring; for `c = 1` it is the extended Rees algebra of `𝔪_C`, with
+`T^{−1}` as its variable, completed `T`-adically.
 
 *Method of the formal proof:* the ring is the subalgebra of the Laurent series generated over `C[[T]]` by the elements
 `T^{−c}x`, `x` in a finite generating set of `𝔪_C`; these are nilpotent, so the subalgebra is finite over `C[[T]]`, every
@@ -821,7 +826,9 @@ of `T^n` vanishes on a power of `𝔪_S`.
 
 *Route.* This follows from [FormalProof],
 `Development/AutomorphicArithmetic/AutomorphicVarieties/WeakShimuraTheory/AdicExtensionMatrices/NearOfAdjoin.lean` (`UpperTheory.V.Ws.sxLaur`).
-The route is not given here.
+The route is the method of the label above. *Needs:* 6.14 (coefficient rings); a local ring finite over a complete
+Noetherian local ring is complete and Noetherian; Mathlib `LaurentSeries`, `PowerSeries`, `Algebra.adjoin` and
+`IsNilpotent`.
 
 ### Examples
 
