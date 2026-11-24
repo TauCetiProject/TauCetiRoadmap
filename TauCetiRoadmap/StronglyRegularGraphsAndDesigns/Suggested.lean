@@ -221,17 +221,19 @@ theorem exists_isSRGWith_iff_exists_real :
 /-! ### 1.2 Parameter bounds -/
 
 /-- **Parameter bounds.** `μ ≤ k` for a strongly regular graph that is not complete.
-(README 1.2) -/
+(README 1.2) Basic API, stated because 1.3 and 2.1 consume it. -/
 theorem IsSRGWith.le_of_ne_top (h : G.IsSRGWith n k ℓ μ) (htop : G ≠ ⊤) : μ ≤ k := by
   sorry
 
-/-- **Parameter bounds.** `ℓ < k` for a strongly regular graph with an edge. (README 1.2) -/
+/-- **Parameter bounds.** `ℓ < k` for a strongly regular graph with an edge. (README 1.2)
+Basic API, stated because 1.3 and 2.1 consume it. -/
 theorem IsSRGWith.lt_of_ne_bot (h : G.IsSRGWith n k ℓ μ) (hbot : G ≠ ⊥) : ℓ < k := by
   sorry
 
 /-- **The parameter relation in the reals.** `k (k - ℓ - 1) = (n - k - 1) μ` with real
-subtraction, for a strongly regular graph with an edge. (README 1.2) -/
-theorem IsSRGWith.param_eq_real (h : G.IsSRGWith n k ℓ μ) (hbot : G ≠ ⊥) :
+subtraction, for a strongly regular graph with at least one vertex. (README 1.2) Basic API,
+stated because 1.3 and Layer 2 compute with real parameters. -/
+theorem IsSRGWith.param_eq_real (h : G.IsSRGWith n k ℓ μ) (hn : 0 < n) :
     (k : ℝ) * ((k : ℝ) - ℓ - 1) = ((n : ℝ) - k - 1) * μ := by
   sorry
 
@@ -391,7 +393,8 @@ theorem compl_completeEquipartiteGraph_isSRGWith (m a : ℕ) :
 
 /-! ### 3.2 The pentagon, the Petersen graph and the Hoffman–Singleton graph -/
 
-/-- **The pentagon.** `C₅` is strongly regular with parameters `(5, 2, 0, 1)`. (README 3.2) -/
+/-- **The pentagon.** `C₅` is strongly regular with parameters `(5, 2, 0, 1)`. (README 3.2)
+A sanity check of the definitions on five vertices. -/
 theorem cycleGraph_five_isSRGWith : (cycleGraph 5).IsSRGWith 5 2 0 1 := by
   sorry
 
@@ -464,7 +467,8 @@ theorem IsTwoDesign.card_blocks_through (h : IsTwoDesign inc v k ℓ) (p : P) :
     Nat.card {l // inc p l} = replication v k ℓ ∧ replication v k ℓ * (k - 1) = ℓ * (v - 1) := by
   sorry
 
-/-- **Counting blocks.** `b k = v r`. (README 5.1) -/
+/-- **Counting blocks.** `b k = v r`. (README 5.1) Basic API, stated because 5.2 consumes
+it. -/
 theorem IsTwoDesign.card_blocks_mul (h : IsTwoDesign inc v k ℓ) :
     Nat.card L * k = v * replication v k ℓ := by
   sorry
@@ -645,7 +649,8 @@ theorem exists_eq_sq_add_sq_of_projectivePlane {P L : Type*} [Membership P L] [F
     ∃ a b : ℕ, Configuration.ProjectivePlane.order P L = a ^ 2 + b ^ 2 := by
   sorry
 
-/-- **No projective plane of order six.** (README 6.3) -/
+/-- **No projective plane of order six.** (README 6.3) A sanity check of the Bruck–Ryser
+theorem at its first value, `6 ≡ 2 (mod 4)`. -/
 theorem projectivePlane_order_ne_six {P L : Type*} [Membership P L] [Finite P] [Finite L]
     [Configuration.ProjectivePlane P L] : Configuration.ProjectivePlane.order P L ≠ 6 := by
   sorry
@@ -663,6 +668,8 @@ end TauCetiRoadmap.StronglyRegularGraphsAndDesigns
 #check @SimpleGraph.IsSRGWith.matrix_eq
 #check @SimpleGraph.IsSRGWith.param_eq
 #check @SimpleGraph.IsSRGWith.compl
+#check @SimpleGraph.IsSRGWith.card_neighborFinset_union_of_not_adj
+#check @SimpleGraph.IsSRGWith.card_neighborFinset_union_of_adj
 #check @SimpleGraph.IsSRGWith.top
 #check @SimpleGraph.bot_strongly_regular
 #check @SimpleGraph.IsSRGWith.ediam_eq_two

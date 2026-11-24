@@ -20,9 +20,12 @@ theorems:
 - the Gram identity characterizes `2`-designs; a `2`-design is symmetric exactly when `r = k`, and
   then its dual is a symmetric design with the same parameters; the incidence graph of a
   symmetric `2`-`(v, k, λ)` design has spectrum `±k` and `±√(k − λ)`, the latter with
-  multiplicity `v − 1`; finite projective planes are the symmetric designs with `λ = 1`;
+  multiplicity `v − 1`; finite projective planes are the symmetric designs with `λ = 1` and
+  `k ≥ 3`;
 - a quasi-symmetric `2`-design gives a strongly regular graph on its blocks, and a strongly
-  regular graph with `λ = μ` or `μ = λ + 2` gives a symmetric design on its vertices;
+  regular graph with `λ = μ` or `μ = λ + 2` gives a symmetric design on its vertices, under the
+  nondegeneracy conditions of 5.5 (`2 ≤ k < n` and `0 < λ`, respectively `1 ≤ k` and
+  `k + 1 < n`);
 - the Bruck–Ryser–Chowla theorem: if a symmetric `2`-`(v, k, λ)` design exists and `v` is even,
   `k − λ` is a square, and if `v` is odd, `x² = (k − λ) y² + (−1)^((v−1)/2) λ z²` has a nonzero
   integer solution; a projective plane of order `q ≡ 1, 2 (mod 4)` has `q` a sum of two squares,
@@ -163,13 +166,16 @@ complete or edgeless graph Mathlib's `SimpleGraph.IsSRGWith.top` and
 
 - **Parameter bounds** (`IsSRGWith.le_of_ne_top`, `IsSRGWith.lt_of_ne_bot`). `μ ≤ k` when
   `G ≠ ⊤`, and `ℓ < k` when `G ≠ ⊥` [BH, proof of Theorem 9.1.2, p. 117].
-- **The parameter relation in the reals** (`IsSRGWith.param_eq_real`). If `G ≠ ⊥`, then
+- **The parameter relation in the reals** (`IsSRGWith.param_eq_real`). If `0 < n`, then
   `k (k − ℓ − 1) = (n − k − 1) μ` with real subtraction [BH, Theorem 9.1.3 (i), p. 118].
+
+Both are basic API, stated with Lean names because 1.3, 2.1 and Layer 2 consume them.
 
 **Suggested proof:** a nonadjacent pair `x ≠ y` has its `μ` common neighbours among the `k`
 neighbours of `x`; an edge `xy` has its `ℓ` common neighbours among the neighbours of `x` other
-than `y`. For the relation, Mathlib's `SimpleGraph.IsSRGWith.param_eq` holds for `0 < n`; `ℓ < k`
-and `k < n` make both truncated subtractions exact.
+than `y`. For the relation, Mathlib's `SimpleGraph.IsSRGWith.param_eq` holds for `0 < n`. If
+`G` has an edge, `ℓ < k` and `k < n` make both truncated subtractions exact. If `G = ⊥`, then
+`k = 0`, and `μ = 0` or `n = 1`, so both sides vanish.
 
 **Checks.**
 - `K₃` satisfies `IsSRGWith 3 2 1 5`: `μ = 5 > k = 2`, so `μ ≤ k` needs `G ≠ ⊤`.
@@ -177,6 +183,10 @@ and `k < n` make both truncated subtractions exact.
   needs `G ≠ ⊥`.
 - Petersen: `3 · (3 − 0 − 1) = 6 = (10 − 3 − 1) · 1`.
 - `3K₃` `(9, 2, 1, 0)`: `2 · (2 − 1 − 1) = 0 = (9 − 2 − 1) · 0`.
+- The edgeless graph on `3` vertices, `IsSRGWith 3 0 7 0`: `0 · (0 − 7 − 1) = 0 = (3 − 0 − 1) · 0`,
+  although `ℓ > k`.
+- Negative control: on the empty type `IsSRGWith 0 1 5 2` holds, and
+  `1 · (1 − 5 − 1) = −5 ≠ −4 = (0 − 1 − 1) · 2`; this is why `0 < n` is assumed.
 
 *Needs:* Mathlib `SimpleGraph.IsSRGWith.param_eq`.
 
@@ -190,7 +200,8 @@ and `k < n` make both truncated subtractions exact.
 - **Three eigenvalues** (`exists_isSRGWith_of_card_toFinset_adjSpectrum`). A connected `k`-regular
   graph with exactly three distinct adjacency eigenvalues is strongly regular [BH, §9.1.3,
   p. 117; N, Theorem 8.11, pp. 76–77]. Nica states the converse direction for regular graphs
-  without connectivity; the Checks show that it is needed. The direction from strong regularity
+  under the standing assumption that graphs are connected [N, §1.1, p. 3]; the Checks show that
+  connectivity is needed. The direction from strong regularity
   to the spectrum `{k, r, s}`, under `0 < μ` and `G ≠ ⊤`, is StronglyRegularAndMooreGraphs 1.2.
 
 **Suggested proof:** for a regular graph `A` commutes with `J` and preserves the orthogonal
@@ -241,9 +252,12 @@ copies of StronglyRegularAndMooreGraphs 1.2 and of AssociationSchemes 1.1, 1.2 a
 The adjacency spectrum of the complement of any regular graph is GraphSpectra 3.8; the statement
 here is about the roots computed from the parameters, which 2.3 and 2.4 apply to the complement.
 
-**Suggested proof:** 1.2 makes the truncated subtractions exact (`2k − μ ≤ n − 2` and
-`2k − ℓ ≤ n` follow from the parameter relation); then the two discriminants agree and the
-roots are compared directly.
+**Suggested proof:** the truncated subtractions are exact by counting a union of two
+neighbourhoods. For distinct nonadjacent `v`, `w` (there are such, as `G ≠ ⊤`) the union has
+`2k − μ` vertices and misses `v` and `w`, so `2k − μ ≤ n − 2`; for an edge `vw` (as `G ≠ ⊥`) the
+union has `2k − ℓ` vertices, so `2k − ℓ ≤ n`. These inequalities do not follow from the parameter
+relation alone: `(10, 6, 4, 2)` satisfies `μ ≤ k`, `ℓ < k` and `k (k − ℓ − 1) = (n − k − 1) μ`,
+but `2k − μ = 10 > n − 2`. Then the two discriminants agree and the roots are compared directly.
 
 **Checks.**
 - The complement of the Petersen graph is `T(5)` with `(10, 6, 3, 4)`: `r = 1 = −1 − (−2)` and
@@ -253,7 +267,9 @@ roots are compared directly.
 - The folded `5`-cube `(16, 5, 0, 2)`, `r = 1`, `s = −3`; its complement `(16, 10, 6, 6)` has
   `r = 2` and `s = −2`.
 
-*Needs:* 1.2; Mathlib `SimpleGraph.IsSRGWith.compl`.
+*Needs:* 1.2; Mathlib `SimpleGraph.IsSRGWith.compl`,
+`SimpleGraph.IsSRGWith.card_neighborFinset_union_of_not_adj`,
+`SimpleGraph.IsSRGWith.card_neighborFinset_union_of_adj`.
 
 ### 2.2 Two classes
 
@@ -380,7 +396,8 @@ one part have all `(m − 1) a` vertices outside it.
 
 ### 3.2 The pentagon, the Petersen graph and the Hoffman–Singleton graph
 
-- **The pentagon** (`cycleGraph_five_isSRGWith`): `(5, 2, 0, 1)` [BH, §9.1.1 (ii), p. 115].
+- **The pentagon** (`cycleGraph_five_isSRGWith`, a sanity check of the definitions):
+  `(5, 2, 0, 1)` [BH, §9.1.1 (ii), p. 115].
 - **The Petersen graph** (`petersenGraph_isSRGWith`): `(10, 3, 0, 1)` [BH, §9.1.1 (iv), p. 115;
   §9.1.7 (ii), p. 119; Biggs, 3b and 3d, p. 20].
 - **The Hoffman–Singleton graph** (`hoffmanSingletonGraph_isSRGWith`): `(50, 7, 0, 1)` [BH,
@@ -450,7 +467,8 @@ PeriodicNonnegativeMatrices 3.3; GraphSpectra 1.2; Layer 1 for 5.5.
 - **The replication number** (`IsTwoDesign.card_blocks_through`). Every point lies on
   `r = replication v k ℓ` blocks, and `r (k − 1) = ℓ (v − 1)` [GR, (5.2), p. 95, and proof of
   Lemma 5.10.1, p. 96].
-- **Counting blocks** (`IsTwoDesign.card_blocks_mul`): `b k = v r` [GR, §5.10, p. 95].
+- **Counting blocks** (`IsTwoDesign.card_blocks_mul`, basic API consumed by 5.2): `b k = v r`
+  [GR, §5.10, p. 95].
 - **The Gram identity** (`IsTwoDesign.incMatrix_mul_transpose`). Over any commutative ring,
   `N Nᵀ = (r − ℓ) I + ℓ J` [GR, §5.10, p. 95].
 - **The converse of the Gram identity** (`isTwoDesign_of_incMatrix_mul_transpose`). An incidence
@@ -537,7 +555,7 @@ equally often.
 - **Projective planes are symmetric designs** (`isSymmetricDesign_of_projectivePlane`). A finite
   `Configuration.ProjectivePlane P L` of order `q` (`Configuration.ProjectivePlane.order`) is a
   symmetric `2`-`(q² + q + 1, q + 1, 1)` design for `p ∈ l` [GR, §5.10, p. 94, for `PG(2, q)`].
-- **Symmetric designs with `ℓ = 1` are projective planes**
+- **Symmetric designs with `ℓ = 1` and `k ≥ 3` are projective planes**
   (`nonempty_projectivePlane_of_isSymmetricDesign`). For `q ≥ 2`, a symmetric
   `2`-`(q² + q + 1, q + 1, 1)` design on `[Membership P L]` is a `Configuration.ProjectivePlane`.
 
@@ -676,7 +694,8 @@ is a square.
 - **The Bruck–Ryser theorem** (`exists_eq_sq_add_sq_of_projectivePlane`). If a finite projective
   plane has order `q ≡ 1` or `2 (mod 4)`, then `q` is a sum of two squares. It is the case
   `λ = 1` of 6.2, with the route below.
-- **No projective plane of order six** (`projectivePlane_order_ne_six`).
+- **No projective plane of order six** (`projectivePlane_order_ne_six`), a sanity check of the
+  Bruck–Ryser theorem at its first value.
 
 **Suggested proof:** by 5.4 the plane is a symmetric `2`-`(q² + q + 1, q + 1, 1)` design.
 `v = q² + q + 1` is odd and `(v − 1)/2 = q(q + 1)/2` is odd exactly for `q ≡ 1, 2 (mod 4)`, so
@@ -697,10 +716,10 @@ order six, `6 ≡ 2 (mod 4)`, and `6` is not a sum of two squares (`a, b ≤ 2`)
 ## Downstream consumers
 
 Later roadmaps of algebraic and spectral graph theory cite this one by section:
-- Distance-regular graphs, codes and generalized polygons: the designs, incidence matrices and
-  incidence graphs of 5.1–5.3 (the incidence graphs of symmetric designs are the bipartite
-  distance-regular graphs of diameter three [GR, Theorem 5.10.3, p. 96]) and the two-class scheme
-  of 2.2–2.3.
+- Distance-regular graphs, codes and generalized polygons: the Krein conditions of 2.4 (for
+  Higman's inequality on generalized quadrangles) and the designs, duals and incidence graphs of
+  5.1–5.3 (the incidence graphs of symmetric designs are the bipartite distance-regular graphs of
+  diameter three [GR, Theorem 5.10.3, p. 96]).
 - Line systems, switching and two-graphs: the strongly regular equation and the restricted
   eigenvalues of Layer 1.
 
@@ -771,11 +790,17 @@ four-square and two-square theorems (Mathlib); Witt cancellation, roundness of o
 Pfister forms, and the rank criterion `Matrix.rank_eq_card_iff_mulVec_injective` (Tau Ceti).
 
 Outside the scope: constructions of strongly regular graphs from codes, geometries and groups
-beyond Layer 3; `t`-designs for `t ≥ 3`; Hadamard matrices.
+beyond Layer 3; `t`-designs for `t ≥ 3`; Hadamard matrices; residual and derived designs; the
+uniqueness of the Hoffman–Singleton graph, polarities of symmetric designs and rank-three groups,
+which the section "Beyond this roadmap" describes.
 
-Boundary in one sentence: everything about a strongly regular graph except its spectrum and the
-consequences of the spectrum, and everything about a single `2`-design, is here; the spectrum is
-StronglyRegularAndMooreGraphs, and schemes with more than two classes are AssociationSchemes.
+Boundary in one sentence: the strongly regular equation and its spectral characterizations
+(Layer 1), the two-class scheme of a strongly regular graph with its Krein conditions (Layer 2),
+the families and uniqueness results of Layers 3 and 4, and the incidence-matrix theory of a
+single `2`-design with its passages to strongly regular graphs and the Bruck–Ryser–Chowla
+theorem (Layers 5 and 6) are here; the spectrum of a strongly regular graph and its consequences
+are StronglyRegularAndMooreGraphs, the Paley graphs are PaleyGraphsAndCharacterSums, and schemes
+with more than two classes are AssociationSchemes.
 
 ## Exact supplier contracts
 
@@ -890,14 +915,15 @@ instance for the sets of blocks through the points; cited in 5.1 and not restate
 ## References
 
 - [BH] Andries E. Brouwer and Willem H. Haemers, *Spectra of Graphs*, Universitext, Springer,
-  2012: §9.1, pp. 115–122; §11.1, p. 166; §11.2, p. 167; §11.4, p. 171.
+  2012 (ISBN 978-1-4614-1938-9; pages are those of this printed edition, not of the authors'
+  online preprint): §9.1, pp. 115–122; §11.1, p. 166; §11.2, p. 167; §11.4, p. 171.
 - [BVM] Andries E. Brouwer and Hendrik Van Maldeghem, *Strongly Regular Graphs*, Encyclopedia of
   Mathematics and its Applications 182, Cambridge University Press, 2022: §1.1, pp. 2–5; §8.3.1,
   p. 201; §10.19, p. 285.
 - [GR] Chris Godsil and Gordon Royle, *Algebraic Graph Theory*, Graduate Texts in Mathematics 207,
   Springer, 2001: §5.9, pp. 92–93; §5.10, pp. 94–96.
 - [N] Bogdan Nica, *A Brief Introduction to Spectral Graph Theory*, EMS Textbooks in Mathematics,
-  European Mathematical Society, 2018: Theorems 8.11, 8.15 and 8.18, pp. 76–80.
+  European Mathematical Society, 2018: §1.1, p. 3; Theorems 8.11, 8.15 and 8.18, pp. 76–80.
 - [CRS] Dragoš Cvetković, Peter Rowlinson and Slobodan Simić, *An Introduction to the Theory of
   Graph Spectra*, London Mathematical Society Student Texts 75, Cambridge University Press, 2010:
   Theorem 6.4.2, p. 170.
