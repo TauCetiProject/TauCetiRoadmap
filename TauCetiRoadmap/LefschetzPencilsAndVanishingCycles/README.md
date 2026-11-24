@@ -434,7 +434,7 @@ pp. 103–104; it rests on the finiteness of `Rf_*` for proper maps (EtaleCohomo
 excellence of the trait is required. Finite cohomological and Tor amplitude come
 from the strict-local stalk formula of 0.5 and XIII 2.1.13, pp. 25–26. The triangle passes bounded
 constructibility from `RΨ` to `RΦ`. *Needs:* 0.5; EtaleCohomologyFoundations §§F.1–F.2 (constructible complexes of
-finite Tor dimension); SchemeAndStackFoundations Layers 0 and 2; TauCetiRoadmap ModularCurves Layer 4D (strict henselization); EtaleCohomologyFoundations §§F.2–F.3.
+finite Tor dimension); SchemeAndStackFoundations §§0.9 and 0.12–0.14 (finite-presentation limits, henselization, henselian traits and strict local rings); SchemeAndStackFoundations §§2.1–2.2, 2.5 and 2.15 (direct images and spectral sequences on sites, filtered colimits, limits and Gabber's theorem in étale cohomology); TauCetiRoadmap ModularCurves Layer 4D (strict henselization); EtaleCohomologyFoundations §§F.2–F.3.
 
 **Checks.**
 
@@ -708,7 +708,7 @@ strict normal crossings divisor `D = ΣD_i` in a regular `X` with complement `j`
 *Travaux de Gabber sur l'uniformisation locale et la cohomologie étale des schémas quasi-excellents*,
 Astérisque 363–364 (2014), arXiv:1207.3648, Exposé XVI (J. Riou), Théorème 3.1.1, Corollaires 3.1.2–3.1.3,
 and the proof in §3.7.) *Needs:* EtaleCohomologyFoundations §F.6 (smooth purity) and EtaleCohomologyFoundations §F.6 (cycle classes and Gysin
-maps); the seven prerequisites above; SchemeAndStackFoundations Layer 0, §0.21 (regular and excellent schemes).
+maps); the seven prerequisites above; SchemeAndStackFoundations §0.21 (regular and excellent schemes), SchemeAndStackFoundations §§0.12–0.14 (strictly henselian traits), SchemeAndStackFoundations §4.17 (strict normal crossings divisors).
 
 **Checks.**
 
@@ -1315,8 +1315,8 @@ characteristic two `Φ` is alternating and its kernel has the parity of `r`. Sca
 defined coefficientwise in a local basis (Mathlib's quadratic base change needs two invertible). (SGA 7
 II, Exposé XII, 1.1 and 1.1 a)–b), p. 2; the source writes `card(A) = 2` where characteristic two is
 meant.) *Needs:* Mathlib `QuadraticMap.Nondegenerate`, `QuadraticMap.polarBilin`;
-AlgebraicModuliForArithmeticGeometry Layer 1, §1.1 (projective bundles); SchemeAndStackFoundations Layer
-0 (§0.8 smoothness, §§0.12–0.14 henselization); Mathlib's Jacobian criterion (`Algebra.IsStandardSmooth`,
+AlgebraicModuliForArithmeticGeometry §1.1 (projective bundles); SchemeAndStackFoundations §0.8
+(smoothness), SchemeAndStackFoundations §§0.12–0.14 (henselization); Mathlib's Jacobian criterion (`Algebra.IsStandardSmooth`,
 `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`).
 
 **Checks.**
@@ -1337,7 +1337,7 @@ source prints the upper limit of the sum as `m − 1`; the sum runs to `m`. *Pro
 étale locally it has a section, a nowhere-zero `e` with `Q(e) = 0`; smoothness at `[e]` gives `f'` with
 `Φ(e, f') = 1`, and `f = −Q(f')e + f'` makes `Ae + Af` hyperbolic; its orthogonal is ordinary of rank `r − 2`.
 (SGA 7 II, Exposé XII, Proposition 1.2 and its proof, pp. 2–3.) *Needs:* the definition above;
-SchemeAndStackFoundations Layer 0, §0.8 (étale-local sections of smooth morphisms).
+SchemeAndStackFoundations §0.8 (étale-local sections of smooth morphisms).
 
 **Checks.**
 
@@ -1383,8 +1383,9 @@ formula `e(W_1 ⊕ W_2) = e(W_1)e(W_2) + (1 − e(W_1))(1 − e(W_2))` to dimens
 `Gén(X)` is smooth, and its geometric fibres over `Z(X)` are connected by reduction to `P¹ × P¹`. (SGA 7
 II, Exposé XII, Proposition 1.5, p. 5; Proposition 1.12, p. 8; Proposition 2.8, p. 13.) *Needs:* 2.1;
 Mathlib `CliffordAlgebra.even`, `Subalgebra.center`; Tau Ceti `CliffordAlgebra.adjoinRootEquivCenterEven` (the field
-case with two invertible); SchemeAndStackFoundations Layers 0 (§0.8, étale localization) and 1 (§1.1, descent of
-quasi-coherent modules). *Lean:* `Suggested.lean` states this algebraic theorem as
+case with two invertible); SchemeAndStackFoundations §0.8 (étale localization), SchemeAndStackFoundations §1.1
+(descent of quasi-coherent modules), SchemeAndStackFoundations §4.9 (Stein factorisation);
+AlgebraicModuliForArithmeticGeometry §1.3 (Grassmannians, for the scheme of generatrices). *Lean:* `Suggested.lean` states this algebraic theorem as
 `evenClifford_center_etale_azumaya` for finite projective modules over any commutative base ring,
 with positive even rank at every prime and a bijective polar map. Its conclusions are finiteness,
 étaleness, local rank two for the centre and the Azumaya property over the centre, including characteristic two.
@@ -1426,7 +1427,7 @@ is a positive hyperplane bundle `L` with `p_*L` locally free of rank `n + 2` and
 of an ordinary form, unique up to a unit; `P(p_*L)` does not depend on `L` and descends to `P(X)`. (SGA 7
 II, Exposé XII, 2.1, p. 9; Définition 2.4 and 2.4–2.6, pp. 10–12.) *Needs:* 2.1;
 AlgebraicModuliForArithmeticGeometry §1.1, §7.6.1 (`relativePicardSheaf`) and §7.6a (base line-bundle
-classes are killed by the fppf sheafification of `RelativePicard.relativePicardPresheaf`); SchemeAndStackFoundations Layer 0.
+classes are killed by the fppf sheafification of `RelativePicard.relativePicardPresheaf`); SchemeAndStackFoundations §0.8 (smooth morphisms and their geometric fibres), SchemeAndStackFoundations §1.1 (étale descent of the ambient projective bundle), SchemeAndStackFoundations §2.6 (coherent cohomology of quadrics).
 
 **Checks.**
 
@@ -1565,7 +1566,7 @@ linear part stays invertible and the quadratic leading term is preserved. *Proof
 iteration in the henselian pair, the Jacobian-square condition giving quadratic convergence; for the
 quadratic germ, present the coordinate-change equations as a finite-type scheme of solutions and apply
 the theorem with `δ'` the Jacobian ideal of `Q`. (SGA 7 II, Exposé XV, Théorème 1.1.2, pp. 2–3.) *Needs:*
-2.1; Mathlib `HenselianRing`; SchemeAndStackFoundations Layer 0, §0.14 (henselian pairs, smooth lifting
+2.1; Mathlib `HenselianRing`; SchemeAndStackFoundations §0.14 (henselian pairs, smooth lifting
 over henselian pairs).
 
 **Checks.**
@@ -1604,7 +1605,7 @@ deformation parameters; the formal versal deformation is computed by the Jacobia
 XV 1.3.1–1.3.3; Artin approximation (AlgebraicModuliForArithmeticGeometry Layer 6) and Elkik's theorem
 pass from the formal to the henselian deformation. (SGA 7 II, Exposé XV, Théorème 1.1.4 (Elkik), p. 4,
 and 1.3.1–1.3.3, pp. 10–12.) *Needs:* the Tjurina lemma; AlgebraicModuliForArithmeticGeometry Layer 6
-(Artin approximation); SchemeAndStackFoundations Layer 0, §§0.12–0.14 (henselization, Elkik's smooth lifting).
+(Artin approximation); SchemeAndStackFoundations §§0.12–0.14 (henselization, Elkik's smooth lifting), SchemeAndStackFoundations §4.4 (versality).
 
 **Checks.**
 
