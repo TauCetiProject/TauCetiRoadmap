@@ -82,6 +82,8 @@ the two Levi formulas, and `det m(A′) = det Ā′/det A′` exhausts the norm-
 `V` follows in the same way from the Levi formula of the exchanged pair. The quaternionic analogue is
 MetaplecticAutomorphicForms §3.28.
 
+*Needs:* MetaplecticAutomorphicForms §§0.15, 1.3, 2.5, 3.3 and 3.3b.
+
 **Checks.**
 
 - `m(A)` and `n(B)` preserve `⟨·,·⟩_W` (`n(B)` exactly when `B` is Hermitian), and `tr(B T_x) ∈ F`; for `A` unitary at a real
@@ -525,6 +527,8 @@ p. 2); A. Paul determined the correspondence in the equal and the almost equal r
 latter being `t = 1` here. The clauses on the explicit Fock module `𝒫` and its joint harmonic are not taken from a
 publication: the route above is their proof.
 
+*Needs:* 3.45, 3.46; MetaplecticAutomorphicForms §3.7; AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.4.
+
 **Checks.**
 
 - `U(1) × U(1, 1)`, `t = 1`: `𝒫 = ℂ[z₁, z₂]` (`z₁` even, `z₂` odd); `U(1)` acts on `z₁^iz₂^j` with weight `i − j`, the torus of
@@ -694,7 +698,7 @@ the commutative Grothendieck ring, LocalFactorsOfTwistsAndTypes §4.1 (iv).)
 (Mínguez08, Théorème 1, p. 718, whose proof goes through Kudla's filtration; R. Godement, H. Jacquet, LNM 260 (1972);
 A. Zelevinsky, Ann. Sci. ÉNS 13 (1980), Theorem 4.2, p. 184, for products of segments.) *Needs:* 3.9a, 3.21a; MetaplecticAutomorphicForms §§3.2a, 3.4, 3.14; SmoothRepresentationsOfLocalGroups §SR.2.1 *l-sheaf-model*, §SR.2.2
 *geometric-lemma*, §SR.3.1, *segment-representations*; LocalFactorsOfTwistsAndTypes §4.1 (ii), (iv);
-AutomorphicLFunctionsAndLocalFactors §§AL.1, AL.2.
+AutomorphicLFunctionsAndLocalFactors §§AL.1.2.1, AL.1.2.3 and AL.2.1.4.
 
 **Checks.**
 
@@ -1524,7 +1528,7 @@ the formal proof, `Development/WeilBound/ThetaLifts/SmallCones/ThetaUniq.lean` (
 (`PositivityTheory.ThKG.Loc.ConeFacB`), `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean`
 (`GlobalTheory.ThK.EvZero`).
 *Needs:* 3.3b, 3.45, 3.47, 5.7a, 5.7b; MetaplecticAutomorphicForms §§3.3, 5.1, 5.2, 5.5; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2, 3.1;
-AutomorphicLFunctionsAndLocalFactors §AL.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h.
+AutomorphicLFunctionsAndLocalFactors §§AL.1.3.2 and AL.1.6.1; AnalyticNumberTheoryPartII §§5.3g, 5.3h.
 
 **Checks.**
 
@@ -1747,7 +1751,7 @@ finite and nonzero under the condition on `z`. So on `S₀`, `ℓ ∘ cone^∨_{
 the other order: translations along `X ⊗ x` shift the variable of the dual cone, and a Fourier transform in that
 variable with the same identity of Tate brings it to the fibre argument.)
 
-(J. Tate's thesis for the local functional equation.) *Needs:* 3.45, 5.7c; AutomorphicLFunctionsAndLocalFactors §AL.1;
+(J. Tate's thesis for the local functional equation.) *Needs:* 3.45, 5.7c; AutomorphicLFunctionsAndLocalFactors §§AL.1.3.2 and AL.1.4.2;
 AnalyticNumberTheoryPartII §5.3g.
 
 **Checks.**
