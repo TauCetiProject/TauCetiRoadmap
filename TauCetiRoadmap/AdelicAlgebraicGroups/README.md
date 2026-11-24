@@ -2086,6 +2086,9 @@ the algebraic sense when `det Ad` on its Lie algebra is `1`.
   `∫ ⊗_v f_v dμ_Ξ = |d_F|^{−dim Ξ/2} ∏_v ∫ f_v |ω_Ξ|_v` for nonnegative Borel `f_v` with
   `f_v = 1_{G(𝒪_v)·x}` for almost all `v`. A measure on such a restricted product given on boxes by
   a product of local measures in this way is called the restricted product of the local measures.
+  Without the hypothesis on characters, if the Tamagawa measure `τ_{G/H}` of the quotient group
+  `G/H = Ξ` exists as well (AA.2.4), the quotient of `τ_G` by `τ_H` is, under the orbit maps, the
+  restriction of `τ_{G/H}` to the open image of `H(𝔸)\G(𝔸)` in `(G/H)(𝔸)`.
   ([Weil], Chapter II, §2.4, for gauge forms on the group, on the subgroup and on the homogeneous
   space matching algebraically, as in (i). For a normal subgroup `H`, where `Ξ` is the quotient
   group, [Oesterlé], Chapter III, 3.1–3.2, pp. 36–37, proves the local comparison (ii) at every
@@ -2136,10 +2139,20 @@ the algebraic sense when `det Ad` on its Lie algebra is `1`.
   intersection that generates the Borel σ-algebra of the second countable restricted product, and
   countably many boxes of finite measure cover it, so they determine `μ_Ξ`. Replacing `ω_Ξ` by
   `cω_Ξ`, `c ∈ F^×`, changes nothing by the product formula (*Independence of the gauge form*).
+  Without the hypothesis on characters, the sequence
+  `0 → X*((G/H)_{F̄}) ⊗ ℂ → X*(G_{F̄}) ⊗ ℂ → X*(H_{F̄}) ⊗ ℂ → 0` is exact (the restriction has
+  kernel `X*((G/H)_{F̄})` and finite cokernel: [Oesterlé], Appendix 1, A.1.4, p. 81), so the `λ_v`, the leading coefficient and the discriminant factor of
+  `G` are those of `H` times those of `G/H`; for almost all `v`, `G(𝒪_v)` maps onto `Ξ(𝒪_v)`
+  (Lang's theorem on the connected smooth special fibre of the closure of `H`, then Hensel
+  lifting), so the image of the open subgroup of `S`-adelic points of `G` is the open subgroup
+  `∏_{v∈S} G(F_v)·x × ∏_{v∉S} Ξ(𝒪_v)` (by (ii)), and the image of `G(𝔸)` is open ([Oesterlé],
+  Chapter I, 3.6, p. 20); on it the computation above, with these products in place of the
+  cancellation, gives `τ_{G/H}` ([Oesterlé], Chapter III, Theorem 3.3, p. 37).
   *Needs:* AA.0.3; AA.1.1 (integral models, spreading out); AA.2.2 (*quotient-measure*); AA.2.4
   (gauge forms, *convergence-factors*, Tamagawa measure, *Independence of the gauge form*);
   AA.2.6 *top-form-measure*, *tamagawa-measure-unipotent-radical*; ReductiveGroups Layer 3A (orbits
-  and orbit maps) and 3A.5f (complex orbit maps); Mathlib `ImplicitFunctionData.implicitFunction`.
+  and orbit maps) and 3A.5f (complex orbit maps); ReductiveGroupsPartII, RG2.3 (Lang and smooth
+  lifting); Mathlib `ImplicitFunctionData.implicitFunction`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -4221,8 +4234,9 @@ class set gives the mass (AA.4.5a).
   its identification with the set of torsor classes above, a comparison of the torsor classes of
   AA.4.1 with the Galois cohomology of points, is proved as part of this target.
   *Needs:* AA.2.4 (*convergence-factors*, *Tamagawa number*); AA.2.5
-  (*tamagawa-restriction-scalars*); AA.3.4 (*Tamagawa numbers are finite*); AA.3.4a
-  (*tamagawa-multiplicative-group*); AA.4.1 (torsor classes and their base change);
+  (*tamagawa-restriction-scalars*); AA.2.6 (*homogeneous-gauge-measure* (iii), without the
+  hypothesis on characters, for the exact-sequence formula); AA.3.4 (*Tamagawa numbers are
+  finite*); AA.3.4a (*tamagawa-multiplicative-group*); AA.4.1 (torsor classes and their base change);
   ClassFieldTheory, layers 0 (the Tate–Nakayama theorem) and 11 (the global class formation);
   Mathlib `groupCohomology`, `groupCohomology.coindIso`, `groupCohomology.H1ofAutOnUnitsUnique`;
   Tau Ceti `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
@@ -4238,7 +4252,8 @@ class set gives the mass (AA.4.5a).
 - **The norm-one torus of a quadratic extension.** (*tamagawa-quadratic-norm-torus*) For a
   quadratic extension `E/F` of number fields let
   `R¹_{E/F}G_m = ker(N_{E/F} : Res_{E/F}G_m → G_m)`, the norm-one torus. Prove
-  `τ(R¹_{E/F}G_m) = 2` ([Ono], as the case of *tamagawa-torus-ono* computed in the Route).
+  `τ(R¹_{E/F}G_m) = 2` ([Ono]; [Oesterlé], Chapter IV, Corollary 3.3, p. 56: the case of
+  *tamagawa-torus-ono* whose two orders are computed in the Route).
 
   *Route.* Over `E`, `E ⊗_F E ≅ E × E` makes `R¹_{E/F}G_m ⊗_F E = {(z_1, z_1^{−1})} ≅ G_m`, and the
   nontrivial element of `Gal(E/F)` exchanges the two factors, hence maps the character
@@ -4616,13 +4631,14 @@ class set gives the mass (AA.4.5a).
   `S` a nonempty finite set of places of `F`, archimedean or not (`S` need not contain the
   archimedean places), with `G_S = ∏_{v∈S} G(F_v)` noncompact, embedded in `G(𝔸_F)` with component
   `1` outside `S`. Prove that `G(F)·G_S` is dense in `G(𝔸_F)`, the full adele group ([Rapinchuk],
-  Theorem 2.3, p. 12, stated for any finite set of places; [Kneser]; [Platonov]). When `S` contains
+  Theorem 2.3, p. 12, stated for any finite set of places and attributed there to [Kneser] and
+  [Platonov] in characteristic zero). When `S` contains
   the archimedean places this is *strong-approximation-sufficiency* (AA.4.2), and the density is
   `Approximation.HasStrongApproximation`; for the other `S`, `G_S` lacks the factors at the
   archimedean places outside `S`, and the density at those places is proved as part of this target.
   *Needs:* AA.4.2 (*strong-approximation-sufficiency*, which is the case of an `S` containing the
   archimedean places); AA.1.2; AA.0.3; for the other `S`, the density at the archimedean places
-  outside `S` is proved as part of this target ([Platonov–Rapinchuk]).
+  outside `S` is proved as part of this target ([Platonov–Rapinchuk], §7.4).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -5213,8 +5229,10 @@ class set gives the mass (AA.4.5a).
   `∫_{G(F)\G(𝔸)^1} f = vol(U)·vol(G(F_∞)/A_G(ℝ)^0)·Σ_i |Γ_i|^{−1} f(x_i)`. Define the mass
   `mass(U) = Σ_i |Γ_i|^{−1}`. Prove that it does not depend on the representatives, that
   `vol(G(F)\G(𝔸)^1) = vol(U)·vol(G(F_∞)/A_G(ℝ)^0)·mass(U)`, and that
-  `mass(U′) = [U : U′]·mass(U)` for compact open `U′ ⊂ U` (the class set, the finite groups `Γ_i`
-  and the weights `|Γ_i|^{−1}` are those of [Gross]; the integration formula is this roadmap's
+  `mass(U′) = [U : U′]·mass(U)` for compact open `U′ ⊂ U` (the finite groups `Γ_i` are those of
+  [Gross], who treats the groups whose arithmetic subgroups are finite; his Proposition 1.4 makes
+  `G(F)` discrete in `G(𝔸_{F,f})` when `G(F_∞)` is compact, as [Loeffler], Proposition 3.1.2 and
+  Remark 3.1.6, p. 15, cites both; the integration formula is this roadmap's
   deduction from *Component decomposition of a level quotient* (AA.3.4), which [Arthur], (2.1),
   p. 13, states for spaces of square-integrable functions under a noncompactness hypothesis).
 
@@ -5840,7 +5858,9 @@ Among the downstream orthogonal applications,
 GeometryOfNumbersAndQuadraticArithmetic, §3.3
 owns the number-field Tamagawa theorem for `SO(Q)` in rank at least three, the orthogonal gauge
 forms and their comparisons, maximal integral models and their canonical local volumes, the
-adelic mass identity and the maximal-lattice mass formula. Its
+adelic mass identity (its §3.3.4: for `Q` totally positive over a totally real field, the case of
+*class-set-integration* (AA.4.5a) for `G = SO(Q)` and `U` the stabilizer of a lattice) and the
+maximal-lattice mass formula. Its
 Scope and ownership
 places strong approximation for `Spin`, Eichler's theorem, mass formulas for arbitrary genera
 and dyadic density formulas for arbitrary lattices, extending the maximal case, in
