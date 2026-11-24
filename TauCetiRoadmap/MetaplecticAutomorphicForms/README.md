@@ -12,7 +12,7 @@ For a nondegenerate quadratic space V, the groups O(V) and Sp(W) act by commutin
 
 The fourth main result is an inversion formula for the genus-two theta series θᵃ_ν(Z, W), with a > 0 an integer and Z in the Siegel upper half-space of degree two. It writes θᵃ_ν(−Z⁻¹, Z⁻¹W) as a finite Fourier transform of the θᵃ_μ(Z, W), μ modulo 2a, times an explicit exponential and the holomorphic branch of √(−det Z) positive at Z = iY. At Z = iI₂, a = 1 and W = ν = 0, it reduces to θ(i/2) = √2·θ(2i) for the Jacobi theta function.
 
-In Tau Ceti, the Heisenberg groups are the library's group extensions defined by factor sets. SmoothRepresentationsOfLocalGroups provides smooth representations, induction and Jacquet functors. AutomorphicLFunctionsAndLocalFactors provides Schwartz–Bruhat analysis and Poisson summation. GrossZagierAndArithmeticHeights uses the toric theta pairings and the coherent and incoherent sections. RankOneConverse uses the genus-two coefficients and local tests of the last layer for its nonvanishing argument for quadratic twists.
+In Tau Ceti, the Heisenberg groups are the library's group extensions defined by factor sets. SmoothRepresentationsOfLocalGroups provides smooth representations, induction and Jacquet functors. AutomorphicLFunctionsAndLocalFactors and AnalyticNumberTheoryPartII provide Schwartz–Bruhat analysis and Poisson summation. GrossZagierAndArithmeticHeights uses the toric theta pairings and the coherent and incoherent sections. RankOneConverse uses the genus-two coefficients and local tests of the last layer for its nonvanishing argument for quadratic twists.
 
 Layers 0 to 2 build the local theory up to the metaplectic cover, Layer 3 the local theta correspondence, and Layer 4 the adelic cover. Layers 5 and 6 contain the global theta lifts with the Siegel–Weil and Rallis identities. The next section orders the targets inside the layers.
 
@@ -522,7 +522,7 @@ Prove `fockModel_weil`: In the setting of 1.5, let `K̃` be the preimage in `Mp(
 
 *Route.* The covariance `ω(k)U_wω(k)⁻¹=U_{kw}` of 1.3 determines `ω(k)` up to a scalar (Schur's lemma for the irreducible model, 1.2), and `G↦G∘k⁻¹` satisfies it because `h_J` is `k`-invariant, so `ω(k)G=c(k)·G∘k⁻¹`; `c=det_J^{−1/2}` because the vacuum is an eigenvector of `dω(J)` with eigenvalue `−iN/2` (Check, in each of `N` orthogonal coordinates). The eigenspaces of `exp(θJ)` are then the spaces of homogeneous polynomials, which with the density of 1.5 (iii) identifies the `K̃`-finite vectors. The Lie algebra action by differentiating the Weil operators of the Levi and unipotent generators in the Schrödinger model ((0)) and comparing on the Hermite span.
 
-(KV78, II.1, (1.1)–(1.3), pp. 10–11, for the operators of (0); Howe89a, §2, (2.1)–(2.3), pp. 537–538, for (i)–(ii).) *Needs:* 1.2, 1.3, 1.5, 2.4b, 2.4c, 2.5 (the notation `m(a)`, `n(b)`).
+(KV78, II.1, (1.1)–(1.3), pp. 9–11, for the operators of (0); Howe89a, §2, (2.1)–(2.3), pp. 537–538, for (i)–(ii).) *Needs:* 1.2, 1.3, 1.5, 2.4b, 2.4c, 2.5 (the notation `m(a)`, `n(b)`).
 
 **Checks.**
 
@@ -844,7 +844,7 @@ As in 3.9 these are sufficient bounds, not first-occurrence formulas.
 
 *Route.* (i) is Kudla's argument for 3.9 with the Jacquet filtration of 3.12 in its unitary form. (iii) is Li's construction in a mixed model `S(V⊗Y*)⊗ω_{V,W′}` for `W_r=Y⊕W′⊕Y*` with `Y` isotropic of dimension `n`, in which `U(V)` acts on the first factor linearly, up to a character and a modulus, and on the second through the Weil representation of the smaller pair; the vector is concentrated near a point whose stabiliser in `U(V)` is trivial (an isomorphism `Y→V`). (ii) follows from (iii) and the nonvanishing of the integral of the matrix coefficient of a bump vector against a matrix coefficient of `π`, which gives a nonzero element of `Hom_{U(V)}(ω,π)`. For `E=F×F` use the type-II model of 3.2a and 3.14, in which `GL_n` acts on `n×dim W_r` matrices and a matrix of full rank has trivial stabiliser.
 
-(Kudla96, III.4, Propositions 4.1, 4.3–4.5, PDF44–49, the argument for symplectic–orthogonal towers; MVW87, type-I pairs over a `p`-adic field, unitary pairs included; Li89, Theorem A, p. 237, with Definition 5.1, p. 247, and Theorem 6.1, p. 251, the stable range for unitary representations; Li92, §§3–5, for (iii); Minguez08, Théorème 1 (2), p. 718, for `E=F×F`.) *Needs:* 3.2a, 3.3, 3.4, 3.6, 3.9, 3.12, 3.14; SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.3.1.
+(Kudla96, III.4, Propositions 4.1, 4.3–4.5, PDF44–49, the argument for symplectic–orthogonal towers; MVW87, Chapter 3, Théorème 5, p. 70 (cited at Kudla96, III.8, p. 58), the Jacquet modules of the Weil representation for every irreducible type-I pair over a `p`-adic field, unitary pairs included; Li89, Theorem A, p. 237, with Definition 5.1, p. 247, and Theorem 6.1, p. 251, the stable range for unitary representations; Li92, §§3–5, for (iii); Minguez08, Théorème 1 (2), p. 718, for `E=F×F`.) *Needs:* 3.2a, 3.3, 3.4, 3.6, 3.9, 3.12, 3.14; SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.3.1.
 
 **Checks.**
 
@@ -1230,7 +1230,7 @@ A zero tensor factor enlarges the dual-pair kernel, so both factors are nonzero 
 
 ### Dependencies
 
-Within this roadmap: Layers 0–2. From other roadmaps: RepresentationTheory/ClassicalGroups Layer 0; GeometryOfNumbersAndQuadraticArithmetic §2.9; QuadraticFormInvariants §6C; AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 (local Fourier inversion, change of additive character, local epsilon factors and Gauss sums); SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.2.1–SR.2.3, SR.3.1, SR.3.3, SR.4.1–SR.4.4; AutomorphicFormsOnReductiveGroups §§2.1, 2.4, 2.7, 5.4, 6.8; AdelicAlgebraicGroups §§1.1, 1.5; GL2AutomorphicRepresentationsAndTransfer R17.1.1; EndoscopicTransferAndUnitaryTraceComparison §§11.2–11.3; RepresentationTheory/CompactGroups Layers 4–5; RepresentationTheory/SchurWeyl §8.4.
+Within this roadmap: Layers 0–2. From other roadmaps: RepresentationTheory/ClassicalGroups Layer 0; GeometryOfNumbersAndQuadraticArithmetic §2.9; QuadraticFormInvariants §6C; AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 (local Fourier inversion, local epsilon factors and Gauss sums); AnalyticNumberTheoryPartII §5.3g (change of additive character at number-field places); SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.2.1–SR.2.3, SR.3.1, SR.3.3, SR.4.1–SR.4.4; AutomorphicFormsOnReductiveGroups §§2.1, 2.4, 2.7, 5.4, 6.8; AdelicAlgebraicGroups §§1.1, 1.5; GL2AutomorphicRepresentationsAndTransfer R17.1.1; EndoscopicTransferAndUnitaryTraceComparison §§11.2–11.3; RepresentationTheory/CompactGroups Layers 4–5; RepresentationTheory/SchurWeyl §8.4.
 
 ## Layer 4: Adelic metaplectic covers and finite Weil representations
 
@@ -1248,9 +1248,9 @@ Prove `metaplectic_goodLattices`: For a symplectic datum over a global field of 
 
 ### 4.1a Function-field vector-space Fourier and Poisson adapter
 
-Construct `functionFieldVectorPoisson`. For `F=𝔽_q(X)`, `char F≠2`, take the completion-valued adeles, residue character associated to a nonzero rational differential, local Schwartz–Bruhat spaces and scalar self-dual measures and Poisson theorem from AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*. For every finite-dimensional rational space A, construct `S(A(𝔸_F))` as the locally constant compactly supported carrier, its coordinatewise Fourier transform into the dual space, and its restricted tensor realization with good lattice indicators. Prove basis independence, Fourier inversion, rational-lattice covolume one for the self-dual measures, and vector-space Poisson summation. Extend the scalar theorem by finite products, using that locally constant compactly supported functions on the finite product are finite sums of product functions. Transport it to a specified perfect rational pairing and prove compatibility with partial Fourier transforms and rational linear changes of variables. Use these adelic and measure carriers in 4.2–4.4 for function fields; AL.0 supplies the number-field versions.
+Construct `functionFieldVectorPoisson`. For `F=𝔽_q(X)`, `char F≠2`, take the completion-valued adeles, residue character associated to a nonzero rational differential, local Schwartz–Bruhat spaces and scalar self-dual measures and Poisson theorem from AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*). For every finite-dimensional rational space A, construct `S(A(𝔸_F))` as the locally constant compactly supported carrier, its coordinatewise Fourier transform into the dual space, and its restricted tensor realization with good lattice indicators. Prove basis independence, Fourier inversion, rational-lattice covolume one for the self-dual measures, and vector-space Poisson summation. Extend the scalar theorem by finite products, using that locally constant compactly supported functions on the finite product are finite sums of product functions. Transport it to a specified perfect rational pairing and prove compatibility with partial Fourier transforms and rational linear changes of variables. Use these adelic and measure carriers in 4.2–4.4 for function fields; AnalyticNumberTheoryPartII §5.3h supplies the number-field versions.
 
-(Weil64, II.§30 Proposition5 and III.§§37–40; AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*, its residue-character and Poisson normalization.) *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*); AdelicAlgebraicGroups §§0.2–0.3.
+(Weil64, II.§30 Proposition5 and III.§§37–40; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*), its residue-character and Poisson normalization.) *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*); AdelicAlgebraicGroups §§0.2–0.3.
 
 **Checks.**
 
@@ -1372,7 +1372,7 @@ Two local central signs multiply to `+1` in the product-one quotient, whereas a 
 
 ### Dependencies
 
-Within this roadmap: Layers 0–3 (directly Layer 2). From other roadmaps: ArithmeticGaloisRepresentations §2.7, *Global inputs* (number-field scalar adelic Schwartz–Bruhat space and Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (number-field local Schwartz–Bruhat spaces, local Fourier inversion, vector-space Poisson summation) and AL.3, *Curve additive analysis* (function-field completion-valued adeles, residue characters, local Fourier theory and scalar Poisson); AdelicAlgebraicGroups §1.2; QuadraticFormInvariants §6C; IntegralLattices Layer 1.
+Within this roadmap: Layers 0–3 (directly Layer 2). From other roadmaps: ArithmeticGaloisRepresentations §2.7, *Global inputs* (number-field scalar adelic Schwartz–Bruhat space and Poisson summation); AnalyticNumberTheoryPartII §5.3h (number-field adelic additive characters, vector-space Poisson summation and partial Fourier transforms); AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Schwartz–Bruhat spaces) and §AL.0.6.1, *Curve additive analysis* (function-field completion-valued adeles, residue characters, local Fourier theory and scalar Poisson); AdelicAlgebraicGroups §1.2; QuadraticFormInvariants §6C; IntegralLattices Layer 1.
 
 ## Layer 5: Global theta kernels and genuine automorphic forms
 
@@ -1476,7 +1476,7 @@ Number field; the lifts converge as in 5.6 for cusp forms (rapid decay); the sam
 
 *Route.* For the consequence: every proper parabolic subgroup of `U(V)` lies in the stabiliser `P_C` of a nonzero isotropic `C`, and its unipotent radical contains `N_C`, so the vanishing of the constant terms along all `N_C` is cuspidality (5.3).
 
-(Rallis84a, Chapter I, §1, Theorem I.1.1, p. 345, for orthogonal–symplectic pairs; Wu13, §3, Proposition 3.1, for unitary pairs.) *Needs:* 3.3d (a) and (b), 5.1, 5.2, 5.3, 5.5, 5.6; AutomorphicFormsOnReductiveGroups §4.2; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (partial Fourier transform).
+(Rallis84a, Chapter I, §1, Theorem I.1.1, p. 345, for orthogonal–symplectic pairs; Wu13, §3, Proposition 3.1, for unitary pairs.) *Needs:* 3.3d (a) and (b), 5.1, 5.2, 5.3, 5.5, 5.6; AutomorphicFormsOnReductiveGroups §4.2; AdelicAlgebraicGroups §§2.2–2.3; AnalyticNumberTheoryPartII §5.3h (adelic partial Fourier transform).
 
 **Checks.**
 
@@ -1543,7 +1543,7 @@ Define `extendedSchwartzWeil` as follows. For totally real F and even-dimensiona
 
 The finite-place restricted tensor product and the joint archimedean span use the same scalar measures and unitary splitting data as 4.5. No decay in u at zero is inferred from Schwartz decay in x.
 
-(YZ18, Published §6.1, printed578–579, PDF46–47; extended formulas recalled from YZZ13 §§2.1.3,4.1; ambient Schwartz action from 2.5 and 4.5.) *Needs:* 4.5, 3.2, 2.5; AutomorphicLFunctionsAndLocalFactors AL.0 (local and vector-space Schwartz theory); AutomorphicFormsOnReductiveGroups §2.7 (smooth representations).
+(YZ18, Published §6.1, printed578–579, PDF46–47; extended formulas recalled from YZZ13 §§2.1.3,4.1; ambient Schwartz action from 2.5 and 4.5.) *Needs:* 4.5, 3.2, 2.5; AnalyticNumberTheoryPartII §§5.3g and 5.3h (local and adelic vector-space Schwartz theory); AutomorphicFormsOnReductiveGroups §2.7 (smooth representations).
 
 - `extendedSchwartzWeil_similitude`: A similitude transports u with the source multiplier convention.
 - `extendedSchwartzWeil_restrict`: At `u=1` in the isometry subgroup, recover the usual even oscillator action in the ambient Schwartz space.
@@ -1621,7 +1621,7 @@ Prove `idealLattice_poisson`: For an imaginary quadratic `K`, fractional ideal b
 
 `D<0` fundamental; d the different, `N(d)=|D|`; the complex norm and trace conventions fixed.
 
-(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275). *Needs:* 5.12; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275). *Needs:* 5.12; AnalyticNumberTheoryPartII §5.3h (vector-space Poisson summation); AnalyticNumberTheoryPartII §5.3g (local Fourier inversion).
 
 ### 5.15 Ideal-class theta transformation
 
@@ -1655,7 +1655,7 @@ The rational theta sum on a zero-dimensional configuration has one term. If a lo
 
 ### Dependencies
 
-Within this roadmap: Layers 2–4. From other roadmaps: AutomorphicLFunctionsAndLocalFactors AL.0; AdelicAlgebraicGroups §§2.2–2.4, 3.4–3.5, 4.4; AutomorphicFormsOnReductiveGroups §§0.1, 0.4, 3.1–3.2, 4.1–4.2; AutomorphicSpectralTheory §§1.1–1.3, 2.4, 2.6; IntegralLattices Layers 1 and `B`; ModularForms Layer 0; QuadraticFormInvariants §6C.
+Within this roadmap: Layers 2–4. From other roadmaps: AnalyticNumberTheoryPartII §§5.3g–5.3h; AdelicAlgebraicGroups §§2.2–2.4, 3.4–3.5, 4.4; AutomorphicFormsOnReductiveGroups §§0.1, 0.4, 3.1–3.2, 4.1–4.2; AutomorphicSpectralTheory §§1.1–1.3, 2.4, 2.6; IntegralLattices Layers 1 and `B`; ModularForms Layer 0; QuadraticFormInvariants §6C.
 
 ## Layer 6: Siegel–Weil, Rallis, see-saw and Jacobi interfaces
 
@@ -1733,7 +1733,7 @@ Number field; quadratic extension `E/F`; in the range `n<m≤2n`, `F` totally re
 
 *Route.* Weil's range: compare the two sides as functions of moderate growth with the same Fourier coefficients, the nondegenerate ones being products of local Siegel densities. The remaining convergent range `n<m≤2n`: Ichino's argument by the doubling see-saw and the analytic continuation of both sides. The anisotropic case `r=0` is 6.4.
 
-(Weil65, §§V–VI, for Weil's range; Ichino07, for `n<m≤2n` over a CM extension and Fock-polynomial data; GQT, proof of Proposition 11.1 (ii), p. 53, where the convergent range is credited to Ichino07.) *Needs:* 2.5a, 5.7, 6.1, 6.2, 6.4; AutomorphicSpectralTheory §§1.1–1.3, 2.4, 2.6.
+(Weil65, §§V–VI, for Weil's range; Ichino07, Theorem 1.1, for `n<m≤2n` over a CM extension and Fock-polynomial data; GQT, proof of Proposition 11.1 (ii), p. 53, where the convergent range is credited to Ichino07.) *Needs:* 2.5a, 5.7, 6.1, 6.2, 6.4; AutomorphicSpectralTheory §§1.1–1.3, 2.4, 2.6.
 
 **Checks.**
 
@@ -1963,7 +1963,7 @@ Prove `jacobi_thetaDecomposition`: For positive index and a normally convergent 
 
 Positive index; compatible integral lattice; normal Fourier convergence and all weight/multiplier data fixed. The generic lattice/discriminant carrier is imported from IntegralLattices.
 
-(BFH90, §2 Proposition2.2, `equations(2.4)–(2.10)`, printed552–553, PDF11–12). *Needs:* 6.19, 6.18, 4.7; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); IntegralLattices Layer 1.
+(BFH90, §2 Proposition2.2, `equations(2.4)–(2.10)`, printed552–553, PDF11–12). *Needs:* 6.19, 6.18, 4.7; AnalyticNumberTheoryPartII §5.3h (vector-space Poisson summation); IntegralLattices Layer 1.
 
 ### 6.22 Toric theta pairing interface
 
@@ -1981,7 +1981,7 @@ The GQT second-term equality holds modulo the image of `A₋₁`; at `r′=0` it
 
 ### Dependencies
 
-Within this roadmap: Layers 0–5. From other roadmaps: AdelicAlgebraicGroups §§0.2–0.4, 1.5, 2.2–2.4, 2.6, 3.4; ArithmeticGaloisRepresentations §2.7, *Global inputs*; AutomorphicLFunctionsAndLocalFactors AL.0–AL.2; AutomorphicSpectralTheory §§0.6–0.7, 1.1–1.3, 2.4, 2.6; AutomorphicFormsOnReductiveGroups §§3.1, 4.1–4.2; SmoothRepresentationsOfLocalGroups §SR.2.2; QuadraticFormInvariants §6C; GlobalQuadraticForms Layers 3, 7 and 8; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9 and Layer 2a; IntegralLattices Layer 1.
+Within this roadmap: Layers 0–5. From other roadmaps: AdelicAlgebraicGroups §§0.2–0.4, 1.5, 2.2–2.4, 2.6, 3.4; ArithmeticGaloisRepresentations §2.7, *Global inputs*; AnalyticNumberTheoryPartI §2.3a; AnalyticNumberTheoryPartII §§5.3g–5.3h; AutomorphicLFunctionsAndLocalFactors AL.0–AL.2; AutomorphicSpectralTheory §§0.6–0.7, 1.1–1.3, 2.4, 2.6; AutomorphicFormsOnReductiveGroups §§3.1, 4.1–4.2; SmoothRepresentationsOfLocalGroups §SR.2.2; QuadraticFormInvariants §6C; GlobalQuadraticForms Layers 3, 7 and 8; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9 and Layer 2a; IntegralLattices Layer 1.
 
 ## Layer 7: Half-integral weight, plus spaces and Shimura lifting
 
@@ -3622,7 +3622,7 @@ GrossZagierAndArithmeticHeights consumes the analytic toric and Waldspurger inte
 
 ## Scope and ownership
 
-This roadmap owns the oscillator side of the theory: bilinear Heisenberg extensions, Schrödinger models and the real Fock model, the oscillator normalizer and the metaplectic double cover of `Sp(W)` over every local field, the Weil index, Leray invariant and Rao cocycle, the operator formulas, dual pairs with their splittings and local theta modules, the adelic cover and global Weil representation, theta kernels, genuine automorphic forms and theta lifts on covering groups, the Siegel–Weil, doubling and Rallis comparisons, half-integral-weight Maass forms with their plus space and Shimura lift, and the genus-two Jacobi analysis of Bump–Friedberg–Hoffstein. It uses smooth representation categories, induction and Jacquet functors from SmoothRepresentationsOfLocalGroups; local and vector-space Schwartz–Bruhat analysis and number-field Poisson summation from AutomorphicLFunctionsAndLocalFactors AL.0, with the scalar number-field adelic theory from ArithmeticGaloisRepresentations §2.7, *Global inputs*, and function-field completion-valued adeles and scalar Poisson summation from AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*; adelic, quotient and Tamagawa measures from AdelicAlgebraicGroups; growth, constant terms and real representations from AutomorphicFormsOnReductiveGroups; and Eisenstein, intertwining and special-function analysis for linear groups from AutomorphicSpectralTheory. The arithmetic Waldspurger identities belong to GrossZagierAndArithmeticHeights and the final quadratic-twist nonvanishing argument to RankOneConverse §4.1; both consume this roadmap.
+This roadmap owns the oscillator side of the theory: bilinear Heisenberg extensions, Schrödinger models and the real Fock model, the oscillator normalizer and the metaplectic double cover of `Sp(W)` over every local field, the Weil index, Leray invariant and Rao cocycle, the operator formulas, dual pairs with their splittings and local theta modules, the adelic cover and global Weil representation, theta kernels, genuine automorphic forms and theta lifts on covering groups, the Siegel–Weil, doubling and Rallis comparisons, half-integral-weight Maass forms with their plus space and Shimura lift, and the genus-two Jacobi analysis of Bump–Friedberg–Hoffstein. It uses smooth representation categories, induction and Jacquet functors from SmoothRepresentationsOfLocalGroups; local Schwartz–Bruhat analysis from AutomorphicLFunctionsAndLocalFactors AL.0; number-field additive characters, vector-space Schwartz–Bruhat analysis and Poisson summation from AnalyticNumberTheoryPartII §§5.3g–5.3h, with the scalar number-field adelic theory from ArithmeticGaloisRepresentations §2.7, *Global inputs*, and function-field completion-valued adeles and scalar Poisson summation from AutomorphicLFunctionsAndLocalFactors §AL.0.6.1, *Curve additive analysis*; adelic, quotient and Tamagawa measures from AdelicAlgebraicGroups; growth, constant terms and real representations from AutomorphicFormsOnReductiveGroups; and Eisenstein, intertwining and special-function analysis for linear groups from AutomorphicSpectralTheory. The arithmetic Waldspurger identities belong to GrossZagierAndArithmeticHeights and the final quadratic-twist nonvanishing argument to RankOneConverse §4.1; both consume this roadmap.
 
 ### Prerequisites and boundaries
 
@@ -3667,7 +3667,9 @@ The analytic and representation-theoretic supplier contracts are:
 | AdelicAlgebraicGroups | §§0.2–0.4 restricted products of Haar measures and integrals of factorizable functions; §1.2 adelic points as restricted products; §1.5 compact open subgroups; §§2.2–2.4 quotient measures, the automorphic quotient, Tamagawa measures and numbers; §2.6 measures of top forms (*top-form-measure*); §§3.4–3.5 Siegel sets, finite volume and heights; §§4.4–4.5 level indices and volumes |
 | AutomorphicFormsOnReductiveGroups | §0.1 smooth finite-level functions; §§0.3–0.4 Schwartz functions on the group and uniform moderate growth; §§2.1, 2.4, 2.7 admissible `(𝔤,K)-modules`, discrete series and Langlands quotients, smooth Fréchet globalizations; §§3.1–3.2 smooth automorphic forms and central characters; §§4.1–4.2 constant terms and cuspidal occurrence; §4.5 Maass forms and their Fourier expansion; §§5.4, 6.8 Vogan–Zuckerman modules and holomorphic discrete series; §6.4 `GSp₄⁺(ℝ)`, its `positiveSimilitude` carrier and multiplier (8.11 supplies only the BFH coordinate comparison); §§7.2–7.3 `GL₂` adelization and Hecke normalization. Genuine forms on covering groups (Layers 5 and 8) follow the same definitions with a genuine central character |
 | ArithmeticGaloisRepresentations | §2.7, *Global inputs*: the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor realization, self-dual Fourier transform and scalar Poisson summation |
-| AutomorphicLFunctionsAndLocalFactors | AL.0, *Characters, trace duality and self-dual measures*, *Local Schwartz–Bruhat spaces and finite Fourier levels*, *Adelic Schwartz spaces, Poisson summation and partial transforms*, and *Bessel transforms*: local self-dual measures and Schwartz spaces, the vector-space and partial-transform extensions of the supplied scalar adelic theory, local Fourier inversion and the K-Bessel kernel; AL.1 Tate theory, archimedean and epsilon factors, ramified local theory; AL.2 Godement–Jacquet factors, `GL₂` newvectors and test vectors; AL.3 Rankin–Selberg factors and *Curve additive analysis* (completion-valued function-field adeles, residue characters, self-dual measures and scalar Poisson summation); 4.1a supplies the function-field vector-space adapter |
+| AnalyticNumberTheoryPartI | §2.3a continuation and functional equation of Hecke L-functions, for the global denominators of 6.10a |
+| AnalyticNumberTheoryPartII | §5.3g standard additive characters and their changes, self-dual measures, local Schwartz spaces, Fourier inversion and partial transforms at the places of a number field; §5.3h adelic Schwartz–Bruhat functions on finite-dimensional vector spaces over a number field, their Fourier and partial Fourier transforms and Poisson summation |
+| AutomorphicLFunctionsAndLocalFactors | AL.0: §AL.0.3.1 local Schwartz–Bruhat spaces, self-dual measures and local Fourier inversion, §AL.0.5 (*Bessel transforms*) transforms of the K-Bessel kernel, and §AL.0.6.1 (*Curve additive analysis*) completion-valued function-field adeles, residue characters, self-dual measures and scalar Poisson summation; AL.1 Tate theory, archimedean and epsilon factors, ramified local theory; AL.2 Godement–Jacquet factors, `GL₂` newvectors and test vectors; AL.3 Rankin–Selberg factors; 4.1a supplies the function-field vector-space adapter |
 | AutomorphicSpectralTheory | §§0.6–0.7 spectral theorem; §0.25 Bessel J and I; §§0.26–0.28 Whittaker `M` and `W`; §1.16 Kloosterman sums and the weight-k Laplacian; §§1.1–1.3, 1.12–1.13 normalized induction and convergent Eisenstein series; §§1.20–1.21 weight-two Poincaré one-forms; §§2.1–2.6, 2.17, 2.19 intertwining operators, continuation, residues and the resolvent; §4.17a genus characters and real-quadratic surfaces |
 | EndoscopicTransferAndUnitaryTraceComparison | §§11.2–11.3 tempered and extended local unitary packets with their pairings, conditional on its classification inputs |
 | GL2AutomorphicRepresentationsAndTransfer | R16.0.1 finite-place local Langlands for `GL₂`; R17.1.1 quaternionic local Jacquet–Langlands; R17.4.13a the number-field rank-one circle cover, Weil action, splittings, theta and genuine Eisenstein definitions; R17.4.13 the adjoint lift |
