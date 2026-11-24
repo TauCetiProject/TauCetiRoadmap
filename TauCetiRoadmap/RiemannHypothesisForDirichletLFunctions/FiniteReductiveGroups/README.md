@@ -1220,53 +1220,33 @@ This is EtaleDualityAndPerverseSheaves §7.6 (*lefschetzJordanFormula*, with `s 
 
 ### 3.4 Connected groups, tori and affine fibrations
 
-*Origin:* published: Deligne and Lusztig (1976), Proposition 6.4 and §3, and Dudas and Michel (2015), Propositions
-13.7–13.9, (a)–(c), (a) there for linear groups; (a) for a connected algebraic group that need not be linear, by the same
-route, and (d) are this roadmap's own formulation.
+*Origin:* published: (a) is Deligne and Lusztig (1976), Proposition 6.4, and, for a connected linear algebraic group,
+Dudas and Michel (2015), Proposition 13.9; (b) is Digne and Michel (1991), Proposition 10.15, as recorded in Chan and
+Ivanov, Proposition 4.4; (c) is Dudas and Michel (2015), Proposition 13.8, with Proposition 13.7 for the cohomology of
+affine space. (d) is the statement *finitelyManyStabilizers* of EtaleDualityAndPerverseSheaves §7.6.
 
 *Method of the formal proof:* none; the statement is not in [FormalProof].
 
 (a) A connected algebraic group acting on `X` acts trivially on every `H^i_c(X)`.
 (b) If a torus `S` acts on `X` commuting with `g`, then `L(g, X) = L(g, X^S)`.
-(c) If `f : X → Y` is equivariant for automorphisms `g` of `X` and `g'` of `Y`, and Zariski-locally on `Y`
+(c) If `f : X → Y` is equivariant for automorphisms `g` of `X` and `g'` of `Y` of finite order, and Zariski-locally on `Y`
 the map `f` is a projection `Y' × 𝔸^d → Y'`, then `H^i_c(X) ≅ H^{i−2d}_c(Y)(−d)` compatibly with `g` and `g'`
 (and with every group of such pairs), and `L(g, X) = L(g', Y)`.
 (d) A diagonalisable group `D` acting on `X` has only finitely many distinct stabilisers `Stab_D(x)`,
 `x ∈ X(k̄)`.
 
-*Route.* (b), (c), and (a) for a connected linear algebraic group, are EtaleDualityAndPerverseSheaves §7.6
-(*lefschetzGroupActions*), which cites the published proof of (b); (a) is proved here for every connected algebraic group,
-and the route of (b) is written below. (a) Let `pr : H × X → H` be the projection and `φ(h, x) = (h, hx)`, an automorphism of `H × X` over `H`. By base
-change for compactly supported direct images (§F.2.4) along `H → Spec k̄`, `R^i pr_! Λ` is the constant sheaf on `H` with
-value `H^i_c(X, Λ)` (`Λ = ℤ/ℓ^r`; then pass to `ℚ̄_ℓ`, §F.4.5), and `φ` acts on it by an automorphism whose fibre at a point
-`h ∈ H(k̄)` is, again by base change, the action of `h` on `H^i_c(X)` (`φ` restricted to `{h} × X` is `x ↦ hx`). An
-endomorphism of a constant sheaf on a connected scheme is constant, so all `h` act as `h = 1`, that is trivially. (The
-action and projection maps `H × X → X` are not proper, so they do not induce maps on `H^*_c` to compare: for `H = 𝔾_m`,
-`X` a point, `H^0_c(X) ≠ 0` and `H^0_c(H) = 0`.) (d) Noetherian induction on closed subsets `Z ⊂ X`, not required to be
-`D`-stable (a disconnected `D` can permute the irreducible components: `μ₂` exchanging two points, `p ≠ 2`, has no
-nonempty irreducible stable closed subset). For an irreducible component `Z₁` of `Z` with its reduced structure, the
-stabiliser family `S = {(d, x) ∈ D × Z₁ : dx = x}`, the preimage of the diagonal under `(d, x) ↦ (dx, x)`, is a closed subgroup
-scheme of `D × Z₁` over `Z₁`, defined whether or not `Z₁` is `D`-stable. By generic flatness it is flat over a dense open
-`V₁ ⊂ Z₁`, and a flat closed subgroup scheme of the constant diagonalisable group over a connected reduced base is constant
-(rigidity of groups of multiplicative type, SGA 3, Exp. IX–X), so `Stab_D(x)` is constant on `V₁`. Doing this for every
-component and removing from `Z` the dense opens `V₁ ∖ (other components)` leaves a proper closed subset, to which the
-induction applies. (b) Apply (d) to
-`D = S × ⟨s⟩` (`g = su`); choose `t ∈ S` of finite order prime to `p` outside the finitely many proper closed
-cosets `{t : st ∈ A}` attached to the stabilisers `A ⊂ S × ⟨s⟩` that do not contain `S` (torsion points of
-order prime to `p` are Zariski dense), so that `X^{st}` and `(X^s)^S` have the same `k̄`-points (a point fixed by `st` has a
-stabiliser containing `st`, hence `S`, hence `s`), hence the same reduced subscheme; as schemes they can differ (Checks). Then
-`L(g, X) = L(gt, X)` by (a), `= L(u, X^{st})` by 3.3, `= L(u, (X^S)^s)` because a Lefschetz number depends only on the
-reduced subscheme (EtaleDualityAndPerverseSheaves §7.6, *lefschetzDevissage* (a), for the closed subscheme `Z_red ⊂ Z`,
-whose complement is empty, gives `L(h, Z) = L(h, Z_red)`), `= L(g, X^S)` by 3.3 on `X^S`.
+This is EtaleDualityAndPerverseSheaves §7.6: (a)–(c) are *lefschetzGroupActions* (written there with `T` for `S`), and
+(d) is the case `F = k̄`, `W = X` of *finitelyManyStabilizers*, stated there over every field for separated schemes of
+finite type.
 
-*Needs:* 3.3 (for (b)); EtaleDualityAndPerverseSheaves §7.6 (*lefschetzGroupActions*; *lefschetzDevissage* (a), for (b));
-EtaleCohomologyFoundations §§F.2.4, F.4.5 (for (a)).
+*Needs:* EtaleDualityAndPerverseSheaves §7.6 (*lefschetzGroupActions*, *finitelyManyStabilizers*).
 
 **Checks.**
 - (b): `S = 𝔾_m` acting on `ℙ¹` by scaling, `g = 1`: `L(1, ℙ¹) = 2 = |{0, ∞}| = L(1, (ℙ¹)^S)`.
 - (b) gives equality of fixed loci, not of fixed-point schemes: for `p ≠ 2`, `X = {y² = x³} ⊂ 𝔸²` with `S = 𝔾_m` acting by the
-  weights `(2, 3)` and `g = s = 1`, the only stabiliser other than `S` is trivial, so `t = −1` is admissible; `X^t` is cut out by
-  `2y = 0`, so `X^t = Spec k̄[x]/(x³)`, while `X^S = Spec k̄` is the reduced origin. Both have one point and Lefschetz number `1`.
+  weights `(2, 3)` and `g = s = 1`, the only stabiliser other than `S` is trivial, so `t = −1` lies in no stabiliser that does
+  not contain `S`, as the route of (b) in EtaleDualityAndPerverseSheaves §7.6 chooses `t`; `X^t` is cut out by `2y = 0`, so
+  `X^t = Spec k̄[x]/(x³)`, while `X^S = Spec k̄` is the reduced origin. Both have one point and Lefschetz number `1`.
 - (d): `𝔾_m` acting on `𝔸²` with weights `(1, 2)` has the three stabilisers `𝔾_m` (the origin), `μ₂` (the
   second axis minus the origin) and `1`.
 - (d) for a disconnected `D`: `μ₂` acting on two points by exchanging them (`p ≠ 2`) has the single stabiliser `1`, found on
@@ -1278,7 +1258,7 @@ On `X = 𝔾_m` the identity has Lefschetz number `0`, and the inversion `x ↦ 
 
 ### Dependencies
 
-EtaleDualityAndPerverseSheaves §7.6 (3.1, 3.3, 3.4 and the Lefschetz numbers cited in 3.2); EtaleCohomologyFoundations §§F.2.4, F.2.5, F.2.5a, F.2.7, F.3, F.4.5 and F.10.4a.
+EtaleDualityAndPerverseSheaves §7.6 (3.1, 3.3, 3.4 and the Lefschetz numbers cited in 3.2); EtaleCohomologyFoundations §§F.2.5, F.2.5a, F.2.7, F.3, F.4.5 and F.10.4a.
 
 ## Layer 4: Deligne–Lusztig induction
 
@@ -2767,9 +2747,7 @@ The roadmap owns, in the forms stated here:
   into degenerate Gelfand–Graev representations, and their multiplicities in Harish-Chandra induced cuspidal
   representations (2.7, 2.8) (Layer 2);
 - the Künneth isomorphism for a proper smooth and a proper scheme (3.2), with the remark of 3.2 (the criteria for filtered
-  stratifications and the isotypic form of additivity), the triviality of the action of a connected algebraic group on
-  cohomology, the route of the torus fixed-point formula and the finiteness of the stabilisers of a diagonalisable group
-  (3.4) (Layer 3);
+  stratifications and the isotypic form of additivity) (Layer 3);
 - the inner products, degree, irreducibility and values of Green's class functions `J_n(θ̃)` of `GL_n(𝔽_q)`
   (DeligneLusztigTheory §2.8 (b)) (4.4, 4.5 (d), 4.7, 4.9, 4.10), the Harish-Chandra restrictions,
   irreducibility, norms and Whittaker dimensions of the products of cuspidal characters of `GL_n(𝔽_p)` (4.5, 4.7, 4.8, 4.11), and the
@@ -2796,7 +2774,7 @@ sentence (0.4, 1.0–1.3, 2.3, 2.6, 3.2, 4.4, 4.5, 4.7–4.11, 5.1, 5.4, 5.7, 5.
 by the sections named there, among them ReductiveGroups §§7a.1, 7b.1, 7i.2, 7i.3,
 DeligneLusztigTheory §§1.4–1.11, 2.1, 2.6, 2.9, 2.10, EtaleCohomologyFoundations §§F.2.5, F.2.5a, F.10.4a and
 EtaleDualityAndPerverseSheaves §7.6. The statements of 0.2, 0.5 (a), (b), 1.4 (the presentation of the endomorphism
-algebra), 2.1 but for its `GL_n` clause, 2.4 (a)–(d), 3.1, 3.3, 3.4 (b), (c), 4.1–4.3, the vanishing of the proper
+algebra), 2.1 but for its `GL_n` clause, 2.4 (a)–(d), 3.1, 3.3, 3.4, 4.1–4.3, the vanishing of the proper
 Harish-Chandra restrictions of `J_n(θ̃)` in 4.5 (b) and 4.9, 4.6, 5.1 (a), 5.2 but for its separation clause, 5.5, 5.6, the
 uniqueness of the label in 4.8 and 5.7, the count of cuspidal characters in 5.9, 5.10 (a), 5.11 (a), (b) and the first part
 of (c), and 6.1, which this roadmap restates, are owned by the sections they cite: ReductiveGroups §§7a.2, 7a.3, 7C.6 and
@@ -2814,8 +2792,9 @@ It does not own, and consumes by name:
   §§7a.1–7a.3, 7b.1, 7c.1, 7C.6 and Layers 7h and 7i;
 - Deligne–Lusztig induction of every finite reductive group: **DeligneLusztigTheory** Layer 1;
 - Green's theory of the characters of `GL_n(𝔽_q)`: **DeligneLusztigTheory** Layer 2;
-- the Lefschetz numbers of finite-order automorphisms: **EtaleDualityAndPerverseSheaves** §7.6; the number of monic
-  irreducible polynomials over a finite field with its bounds: **CharacterSumsOverFiniteFields** §3.1a;
+- the Lefschetz numbers of finite-order automorphisms and the finiteness of the stabilisers of a diagonalisable group:
+  **EtaleDualityAndPerverseSheaves** §7.6; the number of monic irreducible polynomials over a finite field with its
+  bounds: **CharacterSumsOverFiniteFields** §3.1a;
 - the assembled character table and the pinned objects of `GL₂(𝔽_q)`: **RepresentationTheory/CharacterTheory**
   Layer 9, compared in 5.3 and not re-proved;
 - tensor induction of virtual characters to an overgroup of prime index, and the virtual characters of norm one on a
@@ -2935,7 +2914,6 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 | Use here | Section |
 |---|---|
 | compact-support cohomology, localisation sequence | §F.2.5 |
-| base change for compactly supported direct images (used in 3.4(a)) | §F.2.4 |
 | Künneth with compact supports (3.2) | §F.2.7 |
 | finiteness and cohomological dimension | §F.3 |
 | rational realisation, with the Künneth formula for rational coefficients (3.2) | §F.4.5 |
@@ -2946,7 +2924,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 
 | Use here | Section |
 |---|---|
-| Lefschetz numbers of finite-order automorphisms: integrality and independence of `ℓ`, additivity, products, the quotient formula, the vanishing for free actions, the Jordan decomposition formula, connected groups, tori and affine fibrations (3.1–3.4; 4.2) | §7.6 (*lefschetzIntegrality*, *lefschetzDevissage*, *lefschetzJordanFormula*, *lefschetzGroupActions*) |
+| Lefschetz numbers of finite-order automorphisms: integrality and independence of `ℓ`, additivity, products, the quotient formula, the vanishing for free actions, the Jordan decomposition formula, connected groups, tori and affine fibrations (3.1–3.4; 4.2); the finiteness of the stabilisers of a diagonalisable group (3.4) | §7.6 (*lefschetzIntegrality*, *lefschetzDevissage*, *lefschetzJordanFormula*, *lefschetzGroupActions*, *finitelyManyStabilizers*) |
 
 ### From TauCetiRoadmap.CharacterSumsOverFiniteFields
 
@@ -2973,10 +2951,14 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 ## References
 
 - P. Deligne, G. Lusztig, *Representations of reductive groups over finite fields*, Ann. of Math. 103 (1976),
-  103–161: Layer 3 (§3); 4.1–4.3 and 4.6 (§§1, 4, 7); 4.11 (§10); the cuspidal characters of 5.2; 0.2, 5.1, 5.6, 5.7.
+  103–161: 3.1 and 3.3 (§3), 3.4 (Proposition 6.4); 4.1–4.3 and 4.6 (§§1, 4, 7); 4.11 (§10); the cuspidal characters
+  of 5.2; 0.2, 5.1, 5.6, 5.7.
 - F. Digne, J. Michel, *Representations of finite groups of Lie type*, LMS Student Texts 21 (1991); second
-  edition, LMS Student Texts 95 (2020): 2.2 (multiplicity one for every `G`, cited), 4.3 and 4.6 (the statements for
-  every Steinberg endomorphism), the first remark of 4.11 (Chapter 12).
+  edition, LMS Student Texts 95 (2020): 2.2 (multiplicity one for every `G`, cited), 3.4 (b) (first edition,
+  Proposition 10.15), 4.3 and 4.6 (the statements for every Steinberg endomorphism), the first remark of 4.11
+  (Chapter 12).
+- C. Chan, A. B. Ivanov, *On loop Deligne–Lusztig varieties of Coxeter-type for inner forms of GL_n*,
+  arXiv:1911.03412v2, Proposition 4.4: 3.4 (b) (the statement of Digne and Michel (1991), Proposition 10.15).
 - R. W. Carter, *Finite groups of Lie type: conjugacy classes and complex characters* (1985): 0.1, 4.3; 5.1.
 - O. Dudas, J. Michel, *Lectures on finite reductive groups and their representations* (2015): Layers 0–1; 3.1–3.4,
   4.1, 4.2.
@@ -3015,7 +2997,6 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
   attached to a label), 5.6 (uniformity).
 - I. G. Macdonald, *Symmetric functions and Hall polynomials*, second edition (1995), Ch. I §3 and Ch. IV: 5.5
   (the `q`-hook formula), 0.3, 0.4, 5.1, 5.4.
-- M. Demazure, A. Grothendieck, *Schémas en groupes* (SGA 3), Exp. IX–X: 3.4(d).
 - A. Moy, G. Prasad, *Unrefined minimal K-types for p-adic groups*, Invent. Math. 116 (1994); *Jacquet functors
   and unrefined minimal K-types*, Comment. Math. Helv. 71 (1996): 6.0, 6.1, 6.3, 6.5.
 - C. J. Bushnell, G. Henniart, *The local Langlands conjecture for GL(2)* (2006), §11: 6.1 and 6.2, the case
