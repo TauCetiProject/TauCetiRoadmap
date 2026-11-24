@@ -23,9 +23,10 @@ Landau–Page theorem (§0.6), the character prime-number estimate without an ex
 Hadamard factorization, Siegel–Walfisz, Chebyshev's factorial identity and factorial bounds,
 Mertens's von Mangoldt sum with its constant `γ`, and the local expansion of `ζ′/ζ` with its
 half-plane bounds. Layer 1 states Davenport cancellation, the half-interval explicit formula,
-Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula, the `C¹` explicit
-formula for `ζ` with Gauss's digamma integral and its critical-line archimedean form, and the
-conditional RH/GRH prime estimates. Layer 2
+Dirichlet-polynomial means, Selberg density, the Deuring–Heilbronn repulsion for one modulus,
+Linnik's theorem on the least prime in a progression, Mestre's general Weil formula, the `C¹`
+explicit formula for `ζ` with Gauss's digamma integral and its critical-line archimedean form,
+and the conditional RH/GRH prime estimates. Layer 2
 states Zaman's effective lower bound for Chebotarev primes on Tau Ceti's `frobeniusPrimeCount`
 (§2.9), Louboutin's residue bound, the effective real quadratic bound for `h R` (§2.13) and
 bounded-degree Brauer–Siegel. Layer 3 states the
@@ -472,6 +473,35 @@ theorem selberg_zero_density {ε : ℝ} (hε : 0 < ε) :
             DirichletCharacter.LFunction χ z = 0},
             ((analyticOrderAt (DirichletCharacter.LFunction χ) z.val).toNat : ℝ)
         else 0) ≤ C * (Q ^ (5 + ε) * T ^ (3 + ε)) ^ (1 - σ) := by
+  sorry
+
+/-- The Deuring–Heilbronn repulsion for the characters of one modulus (§1.7a): there is an
+absolute `c > 0` such that, if `q ≥ 3`, `χ₁` is a real nonprincipal character modulo `q` and
+`β₁ ∈ [1/2, 1)` is a zero of `L(s, χ₁)`, then every zero `ρ` with `re ρ ≥ 1/2` of `L(s, χ)`, for
+any character `χ` modulo `q`, satisfies `1 - re ρ ≥ c log (c / ((1 - β₁) ℒ)) / ℒ` for every
+`ℒ ≥ log (q (|im ρ| + 2))`, except `ρ = β₁` for `χ = χ₁` when `β₁` is a simple zero. Zeros carry
+their analytic multiplicities; `ρ ≠ 1` sets aside the value of the totalized `L`-function of the
+principal character at its pole. The README notes that the published constant is effective;
+effectivity is not part of this statement. -/
+theorem deuring_heilbronn_repulsion :
+    ∃ c : ℝ, 0 < c ∧ ∀ (q : ℕ) [NeZero q], 3 ≤ q →
+      ∀ χ₁ : DirichletCharacter ℂ q, χ₁.IsQuadratic → χ₁ ≠ 1 →
+      ∀ β₁ : ℝ, 1 / 2 ≤ β₁ → β₁ < 1 → DirichletCharacter.LFunction χ₁ (β₁ : ℂ) = 0 →
+      ∀ (χ : DirichletCharacter ℂ q) (ρ : ℂ), DirichletCharacter.LFunction χ ρ = 0 → ρ ≠ 1 →
+        1 / 2 ≤ ρ.re →
+        (χ = χ₁ → ρ = (β₁ : ℂ) →
+          2 ≤ analyticOrderAt (DirichletCharacter.LFunction χ₁) (β₁ : ℂ)) →
+        ∀ ℒ : ℝ, Real.log (q * (|ρ.im| + 2)) ≤ ℒ →
+          c * Real.log (c / ((1 - β₁) * ℒ)) / ℒ ≤ 1 - ρ.re := by
+  sorry
+
+/-- Linnik's theorem on the least prime in an arithmetic progression (§1.7b): there is an
+absolute `A > 0` such that for every `q ≥ 3` and every `a` coprime to `q` some prime
+`p ≡ a (mod q)` satisfies `p ≤ q ^ A`. The published proofs give an effective `A`; effectivity is
+not part of this statement. -/
+theorem exists_prime_modEq_le :
+    ∃ A : ℝ, 0 < A ∧ ∀ q a : ℕ, 3 ≤ q → a.Coprime q →
+      ∃ p : ℕ, p.Prime ∧ p ≡ a [MOD q] ∧ (p : ℝ) ≤ (q : ℝ) ^ A := by
   sorry
 
 /-- The Riemann hypothesis for one Dirichlet `L`-function.
