@@ -333,17 +333,29 @@ for Heun. The state/derivative bounds are obligations of this application.
 
 For an embedded-indicator controller, require a separate step cap `H(Tol)>0`
 with `H(Tol)→0` as `Tol→0+`, completion at `T`, a uniform Lipschitz bound for its increment,
-and the supplier's uniform defect bound `C h^(p_step+1)`, `p_step≥1`, for the
-method that advances the state (`p_step=pH` for the embedded pairs). Apply
-OneStepMethodsForODEs 1.4 to prove convergence on the resulting adaptive meshes.
+and the supplier's uniform defect bound `C h^(p_step+1)`, `C≥0`, `p_step≥1`, for the
+method that advances the state (`p_step=pH` for the embedded pairs). Allow the
+initial numerical state to depend on tolerance, and require
+`δ(Tol)=‖y(a)−Y_0(Tol)‖→0` as `Tol→0+`; exact initial data is a special case.
+Apply OneStepMethodsForODEs 1.4 to obtain, for every accepted node,
+
+```
+‖y(t_n)−Y_n‖ ≤ gronwallBound δ(Tol) L (C H(Tol)^p_step) (T−a).
+```
+
+Both the initial-error and defect terms tend to zero, so the maximum nodal error
+on the completed adaptive mesh tends to zero.
 Combine this cap with 4.2 or 4.3 for each fixed positive tolerance. All error-bound
 constants are independent of tolerance; the termination constants may depend on
 it. The cap is needed in this theorem because small embedded differences need
 not force small steps. No cost-optimality assertion is made.
 
 **Checks.** `L=0` gives the exact budget `τ(T−a)`. With nonzero initial error,
-even a zero residual cannot remove that error. The Heun–Euler blind spot in 1.2
-must not acquire a certificate merely by passing the indicator test.
+even a zero residual cannot remove that error. In particular, for `f=0`, `y=0`
+and `Y_0(Tol)=1`, Euler and the embedded pairs retain nodal error one on every
+mesh despite a vanishing step cap. This is excluded by the initial-discrepancy
+hypothesis of 5.2. The Heun–Euler blind spot in 1.2 must not acquire a certificate
+merely by passing the indicator test.
 
 *Needs:* Layers 2–4; OneStepMethodsForODEs 1.4. The global budget and controller
 composition are targets here, built from the stated supplier estimates.
