@@ -7534,8 +7534,10 @@ Argue by Noetherian induction on the closed subsets `Z ⊂ W`, which need not be
 permute the irreducible components of `W`). Let `Z₁` be an irreducible component of `Z` with its reduced structure, an integral
 scheme with generic point `η`. The stabilizer family `S ⊂ D × Z₁`, the preimage of the diagonal of `W` under
 `(d, z) ↦ (dz, z)`, is closed because `W` is separated; it is a subgroup scheme of `D × Z₁` over `Z₁` whose fibre at
-`z ∈ Z₁(F)` is `Stab_D(z)`. By generic flatness (SchemeAndStackFoundations §4.12) there is a dense affine open
-`V = Spec A ⊂ Z₁` over which `S` is flat. The generic fibre `S_η` is a closed subgroup of `D` over the function field
+`z ∈ Z₁(F)` is `Stab_D(z)`. The morphism `S → Z₁` is affine and of finite type, and `Z₁` is reduced and Noetherian, so
+by generic flatness (Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`) `S` is flat over a dense open
+subset of `Z₁`; as `Z₁` is irreducible, that subset contains a dense affine open `V = Spec A ⊂ Z₁`, over which `S` is
+flat. The generic fibre `S_η` is a closed subgroup of `D` over the function field
 `K = Frac(A)`, so its coordinate ring is a quotient of `K[M]`, spanned by the images of the characters `χ_m`, `m ∈ M`,
 which are group-like; distinct group-like elements are linearly independent (Mathlib `linearIndepOn_isGroupLikeElem`),
 so `S_η = D(M/N)` where `N ⊂ M` is the group of characters trivial on `S_η`. The coordinate ring of `S_V` is flat, hence
@@ -7547,8 +7549,8 @@ ring `A[M/N]` of `D(M/N) × V` becomes, after `⊗_A K`, the ideal of `S_η = D(
 nonempty open subset of `Z` (`Z₁` is irreducible and not contained in `Z₂ ∪ ⋯ ∪ Z_r`), and the induction applies to
 its closed complement in `Z`.
 
-*Needs:* SchemeAndStackFoundations §4.12 (generic flatness); ReductiveGroups Layer 4 (diagonalizable groups); Mathlib
-`linearIndepOn_isGroupLikeElem`, `Module.Flat.torsion_eq_bot`.
+*Needs:* ReductiveGroups Layer 4 (diagonalizable groups); Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`
+(generic flatness); Mathlib `linearIndepOn_isGroupLikeElem`, `Module.Flat.torsion_eq_bot`.
 
 **Checks.**
 
@@ -7619,7 +7621,7 @@ Over `char(k)≠2`, on `Spec k[x,y,z]/(x³+yz)`, the involution `(x,y,z)↦(x,�
 
 ### Dependencies
 
-Layer 6; SchemeAndStackFoundations normal cones and deformation; ReductiveGroups Layer 4 and exact character projection on finite rational representations; ULA and nearby-cycle compatibility as specified in §7.2. For §7.6: EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.0.4, F.2.4, F.2.5, F.2.5a, F.2.7, F.3, F.4.4, F.4.5, F.4.6, F.10.1, F.10.2b, F.10.3 and F.10.4a; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §§1.24 and 4.12; ReductiveGroups Layer 4 (tori and diagonalizable groups).
+Layer 6; SchemeAndStackFoundations normal cones and deformation; ReductiveGroups Layer 4 and exact character projection on finite rational representations; ULA and nearby-cycle compatibility as specified in §7.2. For §7.6: EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.0.4, F.2.4, F.2.5, F.2.5a, F.2.7, F.3, F.4.4, F.4.5, F.4.6, F.10.1, F.10.2b, F.10.3 and F.10.4a; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.24; ReductiveGroups Layer 4 (tori and diagonalizable groups); Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`.
 
 ## Layer 8: Frobenius reciprocity from graded duality
 
@@ -7864,6 +7866,7 @@ The following Tau Ceti declarations supply the exact algebraic interfaces. Modul
 | `LinearAlgebra.Trace.Pi` | `LinearMap.trace_pi` supplies `Tr(T) = Σ_i Tr(T_ii)` for an arbitrary endomorphism `T` of a finite product `∏_(i∈I) M_i` of finite free modules over a commutative semiring, with diagonal blocks `T_ii`. For an arbitrary self-map `σ` of `I` and the operator `T(x)_i = u_i(x_(σ(i)))` on `M^I`, the block `T_ii` is `u_i` when `σ(i)=i` and `0` otherwise, so `Tr(T) = Σ_(σ(i)=i) Tr(u_i)`. Section 6.3 identifies the geometric cohomological operator and local terms with these linear data; no additional ring-coefficient trace theorem is required. |
 | `LinearAlgebra.Determinant.Basic` | `LinearMap.det_eq_of_compl₁₂_self_eq_smul` identifies the multiplier of a nonzero alternating form with the determinant for a rank-two module with a chosen basis, assuming `IsCancelMulZero R` and `Module.IsTorsionFree R N` for its value module `N`. In particular it applies to a nonzero scalar-valued form over a field. The general-rank determinant is §8.1. |
 | `LinearAlgebra.BilinearForm.Isometry` | `TauCeti.BilinForm.IsIsometry.det_sq_mul_det_toMatrix_self` supplies the Gram-matrix determinant identity for an isometry over a commutative ring, with a finite basis. |
+| `AlgebraicGeometry.Morphisms.Flat.Generic` | `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat` supplies generic flatness: a quasi-compact morphism, locally of finite type, to a reduced locally Noetherian scheme is flat over a dense open subset of its target. Section 7.6 applies it to the stabilizer family of a diagonalizable group action over an irreducible closed subset, to prove finitelyManyStabilizers. |
 | `CategoryTheory.InvolutiveDual` | `CategoryTheory.Functor.IsInvolutiveDual` and `CategoryTheory.Functor.dualityEquivalence` turn a double-dual isomorphism satisfying the triangle identity into an anti-equivalence whose inverse is the same duality. Section 0.2 constructs the geometric dual and its evaluation. |
 
 Roadmap section citations below specify mathematical interfaces with their coefficient and geometric hypotheses. They do not introduce Lean carriers: the suggested signatures use only declarations at the library pins.
@@ -7886,7 +7889,7 @@ SchemeAndStackFoundations §0.7 supplies the dimension function and its speciali
 
 LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a chosen geometric generic point, the vanishing triangle and their stated quasi-finite exchange maps; the all-finite-type and normalized-adic specialization extension is constructed in §6.4; §§3.3–3.5 supply pencil-axis geometry, Veronese re-embedding and smooth pencils; §7b.7 supplies generic restriction in its stated range. ReductiveGroups Layer 4 supplies diagonalizable groups, characters and semisimple elements. Section 7.4 constructs the diagonalizable reduced cyclic closure in semisimpleCyclicClosure_diagonalizable. Exact projection to character spaces is used only on finite-dimensional rational representations in the finite-jet argument of §7.4.
 
-FourierDeligneTransform §2.7 supplies the Euler–Poincaré formula with Swan conductors for lisse sheaves on smooth affine curves over an algebraically closed field of characteristic `p`, with free coefficients over finite local rings, finite fields, finite `E/ℚ_ℓ` and `ℚ̄_ℓ`, and with compact supports; §5.2 imports it. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 supplies the graph–diagonal formula for endomorphisms of smooth proper curves, and §IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) the Brauer-character form of Raynaud's argument in characteristic `p`; §5.2 uses both in characteristic zero. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 supplies the rational trace formula for all powers of Frobenius, which §7.6 applies to twisted Frobenius endomorphisms; SchemeAndStackFoundations §1.24 supplies the Galois descent that produces the twisted forms, and its §4.12 the generic flatness from which §7.6 proves that a diagonalizable group action has finitely many stabilizers.
+FourierDeligneTransform §2.7 supplies the Euler–Poincaré formula with Swan conductors for lisse sheaves on smooth affine curves over an algebraically closed field of characteristic `p`, with free coefficients over finite local rings, finite fields, finite `E/ℚ_ℓ` and `ℚ̄_ℓ`, and with compact supports; §5.2 imports it. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 supplies the graph–diagonal formula for endomorphisms of smooth proper curves, and §IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) the Brauer-character form of Raynaud's argument in characteristic `p`; §5.2 uses both in characteristic zero. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 supplies the rational trace formula for all powers of Frobenius, which §7.6 applies to twisted Frobenius endomorphisms; SchemeAndStackFoundations §1.24 supplies the Galois descent that produces the twisted forms.
 
 The following small geometric interfaces are required in addition to those headings. For a smooth centre, identify the exceptional divisor and its normal line with the conventions above. For a relatively ample line on a universally closed scheme, the complement of a section divisor is affine (Stacks Lemma 29.44.18, Tag 0EKE). Generic affine hyperplanes are smooth for a smooth source with unramified map, as in Katz, *Affine cohomological transforms*, Lemma 3.5, p.182. For fixed multidegree, the open locus of smooth complete intersections in the product of defining-form projective spaces has geometrically irreducible nonempty characteristic fibres and contains a member with a smooth ample chain. Section 4.3 proves the cohomology calculation first for that member and transports it to every smooth complete intersection by proper smooth base change; it does not require a smooth chain for each prescribed presentation. Their tangent–normal exact sequence gives `c(T_X)=(1+h)^{N+1}∏(1+d_i h)⁻¹` and `deg h^m=∏d_i`. The elementary geometric identifications and the two incidence/affineness lemmas are proved in the relevant Layer 4 subsections from the cited scheme geometry; their conclusions are not inferred from weak Lefschetz.
 
