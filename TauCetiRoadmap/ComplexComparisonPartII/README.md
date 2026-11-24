@@ -1782,7 +1782,7 @@ The separatedness statement requires integral geometric fibres and does not add 
 
 For the proof, express the diagonal as the locus of relative equality of line-bundle classes, computed by sections of `L` and `L⁻¹`; then use perfect pushforward and rank loci for its immersion and quasi-compactness; then for a valuation-ring test, two positive section spaces on an integral fibre force a line bundle generically trivial and relatively equal to zero; conclude the properness of the diagonal.
 
-*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations §§1.8 and 1.9 (immersions and quasi-compactness of morphisms of spaces, local separatedness and separatedness), SchemeAndStackFoundations §1.20 (properness from DVR lifts).
+*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations §§1.8 and 1.9 (immersions and quasi-compactness of morphisms of spaces, local separatedness and separatedness), Mathlib `AlgebraicGeometry.UniversallyClosed.eq_valuativeCriterion` (valuation-ring criterion for quasi-compact morphisms of schemes, applied to the base change of the diagonal along each test scheme `T → Pic_{X/B} ×_B Pic_{X/B}`, a quasi-compact immersion; no Noetherian base is needed).
 
 **Checks.**
 
