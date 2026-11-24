@@ -79,6 +79,7 @@ body:
         - BelyiMaps
         - BernoulliPercolation
         - BianchiModularForms
+        - BooleanFunctionAnalysis
         - BordismFormalGroups
         - BorelEquivalenceRelations
         - BorelRegulators
@@ -212,6 +213,7 @@ body:
         - FormalLaurentPuiseux
         - FourManifolds
         - FourierDeligneTransform
+        - FractalGeometry
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
@@ -224,6 +226,7 @@ body:
         - GanGrossPrasadUnitaryGroups
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
+        - GaussianLinearModels
         - GeneralAlgebraicKTheory
         - GeneralizedCohomology
         - GenericDoublePointInterpolation
@@ -320,6 +323,7 @@ body:
         - MathematicalStatisticsHighDimensional
         - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
+        - MatroidOptimization
         - McKaySkewGroup
         - MetaplecticAutomorphicForms
         - MetaplecticAutomorphicFormsPartII
