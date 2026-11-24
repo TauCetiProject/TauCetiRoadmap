@@ -10234,13 +10234,14 @@ invariant under positive powers.
 
 (Kollár 1997, Theorem 2.16 and its proof, p. 13; Lazarsfeld 2004, 9.4.17.)
 
-For the proof, on a log resolution `f : Y → X`, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with
+For the proof, on a log resolution `f : Y → X` by blow-ups (§§9.4 and 9.7), so that `Y` is projective as
+`algebraicAdjointVanishing` requires, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with
 `A = f^*(L − K_X − Δ)` nef and big and with SNC fractional part; `algebraicAdjointVanishing` gives
 `H^i(Y, K_Y + ⌈A⌉) = 0` (over the algebraic closure of the base field in the function field of `X`, as in 9.10b), and
 local vanishing (9.10b) and the projection formula identify it with `H^i(X, O_X(L) ⊗ J(X, Δ))` by the Leray spectral
 sequence.
 
-*Needs:* `pairMultiplierIdeal` (9.10b); `algebraicAdjointVanishing` (§9.10); AlgebraicModuliForArithmeticGeometryPartII
+*Needs:* `pairMultiplierIdeal` (9.10b); `algebraicAdjointVanishing` (§9.10); §§9.4 and 9.7 (log resolutions by blow-ups); AlgebraicModuliForArithmeticGeometryPartII
 §1.5 (nef `ℚ`-Cartier divisors) and §1.6 (bigness); SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`).
 
 **Checks.**
