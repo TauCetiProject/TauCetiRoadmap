@@ -16,9 +16,10 @@ public import TauCeti.Probability.Moments.Bernstein
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
-to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+to it, together with the definitions their statements need. The README has one other headline,
+the corollary of 5.2 that `T₁(C)` tensorizes to the weighted metric `∑ cᵢ dᵢ` with `∑ cᵢ² = 1`;
+it is a target of the same standing, stated there in prose, and is not stated here because
+Mathlib has no metric structure for the weighted `ℓ¹` distance on a product.
 
 The conventions of the README are used throughout. A random variable is a real function on a
 measure space `(Ω, μ)`; on a product space it is a function `f` on `∀ i, α i` under the product
@@ -151,8 +152,7 @@ end SubGamma
 section Entropy
 
 /-- 2.1: the entropy `Ent_μ(g) = ∫ g log g dμ - (∫ g dμ) log (∫ g dμ)`. Verbatim local copy of the
-definition owned by RandomMatrices §2.2, formalized in Tau Ceti as
-`MeasureTheory.Measure.entropy` (`TauCeti/MeasureTheory/Integral/Entropy.lean`). -/
+definition owned by RandomMatrices §2.2. -/
 def entropy {α : Type*} {_ : MeasurableSpace α} (μ : Measure α) (g : α → ℝ) : ℝ :=
   ∫ x, g x * Real.log (g x) ∂μ - (∫ x, g x ∂μ) * Real.log (∫ x, g x ∂μ)
 
@@ -195,7 +195,8 @@ theorem entropy_le_integral_mul_log_sub [IsProbabilityMeasure μ] {g : α → �
     entropy μ g ≤ ∫ x, (g x * (Real.log (g x) - Real.log u) - (g x - u)) ∂μ := by
   sorry
 
-/-- 2.3: the comparison lemma for the differential inequalities of the entropy method. -/
+/-- 2.3: the comparison lemma for the differential inequalities of the entropy method.
+Auxiliary: the step shared by the Herbst arguments of 2.3, 4.2–4.5 and 6.3. -/
 theorem le_mul_integral_of_differential_ineq {b : ℝ} {f G g : ℝ → ℝ}
     (hf : DifferentiableOn ℝ f (Ioo 0 b)) (hfpos : ∀ x ∈ Ioo 0 b, 0 < f x)
     (hG : DifferentiableOn ℝ G (Ioo 0 b)) (hg : ContinuousOn g (Ico 0 b))
@@ -417,7 +418,8 @@ theorem convexDistance_eq_infDist_convexHull {ι : Type*} [Fintype ι] {α : ι 
         ((fun y ↦ WithLp.toLp 2 (fun i ↦ if x i = y i then (0 : ℝ) else 1)) '' A))) := by
   sorry
 
-/-- 5.3: the one-variable inequality behind Talagrand's induction. -/
+/-- 5.3: the one-variable inequality behind Talagrand's induction. Auxiliary: a step of the
+route of 5.3, stated because it is a theorem of its own. -/
 theorem exists_exp_mul_rpow_le {u : ℝ} (hu0 : 0 < u) (hu1 : u ≤ 1) :
     ∃ θ ∈ Icc (0 : ℝ) 1, Real.exp ((1 - θ) ^ 2 / 4) * u ^ (-θ) ≤ 2 - u := by
   sorry
@@ -446,7 +448,8 @@ variable {T : Type*} [Fintype T] [Nonempty T]
 
 /-- 6.1: Bousquet's elementary inequality, in cross-multiplied form: for `β ≥ 0`, `t ≥ 0` and
 `x ≤ 1`, `φ (-t x) / φ (-t) ≤ (x + (β x² - x) e^{-t x}) / (1 + (β - 1) e^{-t})` with
-`φ (u) = exp u - u - 1`. -/
+`φ (u) = exp u - u - 1`. Auxiliary: a step of the route of 6.3, stated because it is a theorem
+of its own. -/
 theorem phi_neg_mul_le {β t x : ℝ} (hβ : 0 ≤ β) (ht : 0 ≤ t) (hx : x ≤ 1) :
     (Real.exp (-(t * x)) + t * x - 1) * (1 + (β - 1) * Real.exp (-t)) ≤
       (x + (β * x ^ 2 - x) * Real.exp (-(t * x))) * (Real.exp (-t) + t - 1) := by
@@ -506,7 +509,8 @@ section Sums
 
 variable {Ω : Type*} {mΩ : MeasurableSpace Ω} {μ : Measure Ω}
 
-/-- 7.1: Freedman's inequality in the form of Fan, Grama and Liu: for martingale differences
+/-- 7.1: Freedman's inequality in the form of Bercu–Delyon–Rio, Theorem 3.10, (3.31), with
+`b x / 3`: for martingale differences
 `Y (k + 1)` bounded above by `b`, the sum `M_n` and the predictable quadratic variation
 `⟨M⟩_n = ∑ E[Y (k + 1)² | ℱ k]` satisfy
 `P(M_n ≥ x, ⟨M⟩_n ≤ y) ≤ exp (-x² / (2 (y + b x / 3)))`. -/

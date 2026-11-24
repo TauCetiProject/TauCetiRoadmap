@@ -32,7 +32,9 @@ relative entropy with Pinsker's inequality and the Donsker–Varadhan formula, a
 distance with Kantorovich–Rubinstein duality.
 [NoncommutativeIntegration](../NoncommutativeIntegration/README.md)
 (§6.2) owns Lévy's and Hoffmann-Jørgensen's inequalities for Rademacher sums of fixed vectors;
-here they are proved for independent random summands.
+here they are proved for independent random summands. The roadmap
+SeriesOfIndependentRandomVariables (§2.2) owns Lévy's inequalities for symmetric real summands;
+7.2 here is the form for summands in a normed group.
 
 The roadmap is a synthesis of several sources: Boucheron, Lugosi and Massart (*Concentration
 Inequalities*), Ledoux (*The Concentration of Measure Phenomenon*), Massart (*Concentration
@@ -362,8 +364,9 @@ proof of Proposition 5.6, p. 98, uses the dual formula (5.13) in the same way).
 - One coordinate: both sides equal `Ent(g)`.
 - `g(x) = g₁(x₁) g₂(x₂)` a product: `Ent(g) = E g₂ Ent(g₁) + E g₁ Ent(g₂)`, the right side, so the
   inequality is an equality.
-- `g(x₁, x₂) = 1 + x₁x₂` on `{0,1}^2` with the uniform law: `Ent(g) = (1/2)log 2 - (5/4)log(5/4)
-  = 0.0676…`, below the right side `log 2 - (3/2)log(3/2) = 0.0849…`.
+- `g(x₁, x₂) = 1 + x₁x₂` on `{0,1}^2` with the uniform law:
+  `Ent(g) = (1/2)log 2 - (5/4)log(5/4) = 0.0676…`, below the right side
+  `log 2 - (3/2)log(3/2) = 0.0849…`.
 
 ### 3.2 Han's inequality for relative entropies
 
@@ -373,11 +376,14 @@ and `Q⁽ⁱ⁾`, `P⁽ⁱ⁾` are the marginals on all coordinates but `i` (BLM
 countable space). The multiplied form in `ℝ≥0∞` avoids division by `n - 1`; for `n = 1` both
 sides are `0` (`0 · ∞ = 0`, and the marginals live on a point).
 
-**Proof route.** For `D(Q ‖ P) < ∞` apply 3.1 to `g = dQ/dP`: `Ent(g) = D(Q ‖ P)` by 2.1, and
-`∫ Entᵢ(g) dP = D(Q ‖ P) - D(Q⁽ⁱ⁾ ‖ P⁽ⁱ⁾)` by the chain rule for relative entropy (Tau Ceti
-`TauCeti.klDiv_eq_klDiv_fst_add_lintegral_condKernel`, after moving coordinate `i` last). This
-removes the countability of the source (BLM p. 105 notes the equivalence of the two inequalities).
-*Needs:* 3.1, 2.1; OptimalTransport §11.1.
+**Proof route.** For `D(Q ‖ P) < ∞` apply 3.1 to `g = dQ/dP`: `Ent(g) = D(Q ‖ P)` by 2.1. Let
+`gᵢ = ∫ g dPᵢ` be `g` with coordinate `i` integrated out; by Fubini it is the density of `Q⁽ⁱ⁾`
+with respect to `P⁽ⁱ⁾`, read as a function on the product. Fubini also gives
+`∫ Entᵢ(g) dP = ∫ g log g dP - ∫ gᵢ log gᵢ dP`, and by 2.1 the two terms are `D(Q ‖ P)` and
+`D(Q⁽ⁱ⁾ ‖ P⁽ⁱ⁾)`. No disintegration is needed, so the coordinate spaces are arbitrary measurable
+spaces. This removes the countability of the source (BLM p. 105 notes the equivalence of the two
+inequalities).
+*Needs:* 3.1, 2.1; OptimalTransport §11.1; Mathlib's Fubini theorem for `Measure.pi`.
 
 **Checks.**
 
@@ -391,7 +397,7 @@ removes the countability of the source (BLM p. 105 notes the equivalence of the 
 
 ### Dependencies
 
-Layer 2; Mathlib `Measure.pi`; Tau Ceti relative entropy chain rule.
+Layer 2; Mathlib `Measure.pi` and Fubini.
 
 ## Layer 4: The entropy method
 
@@ -478,8 +484,11 @@ measurable and `f` is measurable and integrable, then `f - E f` is sub-gamma wit
 `a E f + b` and scale parameter `a/2` (BLM Theorem 6.19, p. 190).
 
 **Proof route.** 4.1 with `φ(-u) ≤ u²/2` for `u ≥ 0` gives
-`t ψ' - ψ ≤ (t²/2)(a ψ' + a m + b)`, i.e. `(t - a t²/2) ψ' - ψ ≤ (t²/2) v` with `v = a m + b`;
-2.3 with `f(t) = t - a t²/2` on `(0, 2/a)` gives `ψ(t) ≤ v t²/(2(1 - a t/2))`.
+`t ψ' - ψ ≤ (t²/2)(a ψ' + a m + b)`, i.e. `(t - a t²/2) ψ' - ψ ≤ (t²/2) v` with `v = a m + b`.
+Take `f(t) = t/(1 - a t/2)` on `(0, 2/a)` (on `(0, ∞)` when `a = 0`), the solution of
+`f'/f = 1/(t (1 - a t/2))`. Then
+`f ψ' - f' ψ = (f/(t (1 - a t/2))) ((t - a t²/2) ψ' - ψ) ≤ f² v/2`, and 2.3 with `g = v/2` gives
+`ψ(t) ≤ f(t) v t/2 = v t²/(2(1 - a t/2))`; `ψ/f → 0` at `0⁺` since `ψ'(0) = 0`.
 *Needs:* 2.3, 4.1.
 
 **Checks.**
@@ -488,6 +497,12 @@ measurable and `f` is measurable and integrable, then `f - E f` is sub-gamma wit
 - `Bin(n, p)`: sub-gamma with parameters `(np, 1/2)` holds on `[0, 2)` for `n = 1, 5, 10`.
 - `a = 0`: the scale parameter is `0` and the conclusion is the sub-Gaussian bound of 4.2 with
   `v = b`.
+- The route's choice of `f` at `a = 1`, `b = 0` for `Bin(10, 0.1)` (self-bounding, `v = m = 1`):
+  the bound `v t²/(2(1 - a t/2))` is `1` at `t = 1` and `4.5` at `t = 1.5`, against
+  `ψ(1) = 0.5857` and `ψ(1.5) = 1.4875`.
+- Negative control for the choice of `f`: with `f(t) = t - a t²/2`, `f' = 1 - a t`, so
+  `f ψ' - f' ψ = ((t - a t²/2) ψ' - ψ) + a t ψ`, and the extra term `a t ψ ≥ 0` (at `t = 1` above,
+  `0.5857`) blocks the hypothesis of 2.3.
 
 ### 4.5 The exponential Efron–Stein inequality
 
@@ -759,8 +774,9 @@ inequality 4.5 (`θ = 1`) bounds `ψ(t)` by `(t/(1 - t)) log E e^{t(W + σ²)}` 
    `f G' - f' G ≤ (v/2)(t f' - f)` for `G(t) = log E e^{t(Z - EZ)}` and `f(t) = φ(t) + t/2`.
 7. Integrate. The comparison lemma 2.3 with
    `g(t) = (v/2)(t f'(t) - f(t))/f(t)²` (continuous on `[0, ∞)`, with `g(0) = v`) gives
-   `G(t) ≤ (v/2) f(t) ∫₀^t g`. Since `(x f' - f)/f² = (-x/f)'` and `x/f(x) → 2` as `x → 0⁺`,
-   this equals `v φ(t)` (BLM pp. 350–351).
+   `G(t) ≤ f(t) ∫₀^t g`. Since `(x f' - f)/f² = (-x/f)'` and `x/f(x) → 2` as `x → 0⁺`,
+   `∫₀^t g = (v/2)(2 - t/f(t))`, and the bound is `(v/2)(2 f(t) - t) = v φ(t)`
+   (BLM pp. 350–351).
 
 The tail follows by Chernoff's bound.
 *Needs:* 2.3, 4.1, 6.1.
@@ -769,6 +785,9 @@ The tail follows by Chernoff's bound.
 
 - `|T| = 1` and Rademacher coordinates: `v = n` and the bound is Bennett's,
   `cosh(t)^n ≤ exp(n φ(t))`.
+- Negative control for the factor of step 7: an extra `v/2` in front of `f(t) ∫₀^t g` would give
+  `(v²/2) φ(t)`; for `n = 1`, `|T| = 1` (`v = 1`) at `t = 1/2` that is `0.0744`, below
+  `log cosh(1/2) = 0.1201`, while `v φ(1/2) = 0.1487`.
 - `Z = |∑ εᵢ|` (`|T| = 2`), `n = 8`, `ε = 2`: `P(Z ≥ E Z + 2) = 0.0703 ≤ 0.8577`.
 - `n = 0`: `Z = 0`, `v = 0` and both sides are `1`.
 
@@ -821,7 +840,9 @@ surely on the event.
 topology, `X i` measurable, independent and symmetric (`-X i` has the law of `X i`), and
 `S_k = ∑_{i<k} X i`. For `t ≥ 0`, `P(max_{k ≤ N} ‖S_k‖ > t) ≤ 2 P(‖S_N‖ > t)` and
 `P(max_{i<N} ‖X i‖ > t) ≤ 2 P(‖S_N‖ > t)` (Ledoux–Talagrand Proposition 2.3, (2.6) and (2.7),
-p. 47, for symmetric sequences).
+p. 47, for symmetric sequences). With `E = ℝ` the first inequality is the case `t ≥ 0` of Lévy's
+inequality in SeriesOfIndependentRandomVariables §2.2, which owns the real case and its signed
+form; the normed-group form and the bound for `maxᵢ ‖X i‖` are owned here.
 
 **Proof route.** With `τ` the first `k` with `‖S_k‖ > t`, the sequence reflected after `τ` has the
 same law (independence and symmetry), and `2 S_k = S_N + (2 S_k - S_N)` gives
@@ -911,28 +932,27 @@ Owned here:
   with different laws) and Efron–Stein interfaces and sub-exponential variables with their
   Bernstein inequality, and in §2.2 the definition of entropy, the gradient logarithmic Sobolev and
   Poincaré inequalities with their tensorization, Herbst's argument for Lipschitz functions and the
-  convex-Lipschitz concentration on cubes. The definition of entropy is a local copy here. The
-  Efron–Stein inequality (`TauCeti/Probability/Concentration/EfronStein.lean`), the logarithmic
-  Sobolev and Poincaré inequalities with Herbst's argument
-  (`TauCeti/Probability/Concentration/Poincare/`), the entropy functional
-  (`TauCeti/MeasureTheory/Integral/Entropy.lean`), McDiarmid for independent coordinates
-  (`TauCeti/Probability/McDiarmid/Independent.lean`), Azuma–Hoeffding and Hanson–Wright
-  (`TauCeti/Probability/Moments/`) are formalized in Tau Ceti; none of it is a target here. The
-  comparison lemma and Herbst's argument of 2.3 are the one-variable statements those proofs share,
-  stated for a function on an arbitrary probability space.
+  convex-Lipschitz concentration on cubes. The definition of entropy is a local copy here. None of
+  these results, nor the Hanson–Wright inequality, is a target here. The comparison lemma and
+  Herbst's argument of 2.3 are the one-variable statements those proofs share, stated for a
+  function on an arbitrary probability space.
 - MathematicalStatisticsHighDimensional owns sub-Gaussian vectors and the sub-Gaussian maximal
-  inequality in probability (§1.1) and the chi-squared tails (§1.2, formalized in Tau Ceti).
+  inequality in probability (§1.1) and the chi-squared tails (§1.2).
   MathematicalStatisticsAsymptotic §3.3 owns the expected maximum of sub-Gaussian variables, which
   is the case `c = 0` of `HasSubgammaMGF.integral_sup'_le`, symmetrization and chaining.
-- OptimalTransport §11.1 owns relative entropy, its tensorization over products (formalized in
-  Tau Ceti, `TauCeti/InformationTheory/KullbackLeibler/Pi.lean`), Pinsker's inequality and the
-  Donsker–Varadhan formula; it also owns the Wasserstein distance and Kantorovich–Rubinstein
-  duality. All are consumed.
+- OptimalTransport §11.1 owns relative entropy, its tensorization over products, Pinsker's
+  inequality and the Donsker–Varadhan formula; it also owns the Wasserstein distance and
+  Kantorovich–Rubinstein duality. All are consumed.
 - [MarkovChainMixing](../MarkovChainMixing/README.md) §1.1 owns the coupling characterization of
   total variation on countable spaces; 5.2 is the standard Borel case.
 - NoncommutativeIntegration §6.2 owns Kahane's inequality, Lévy's inequality and the
-  Hoffmann-Jørgensen tail iteration for Rademacher sums of fixed vectors (formalized in Tau Ceti,
-  `TauCeti/Analysis/Normed/Module/RademacherSum/`); Layer 7 treats independent random summands.
+  Hoffmann-Jørgensen tail iteration for Rademacher sums of fixed vectors; Layer 7 treats
+  independent random summands.
+- The roadmap SeriesOfIndependentRandomVariables (§2.2) owns Lévy's
+  inequalities for independent symmetric real summands, `P(max_k S_k > a) ≤ 2 P(S_n > a)` and
+  `P(max_k |S_k| > a) ≤ 2 P(|S_n| > a)`. The signed form is not stated here. The first conjunct of
+  `levy` (7.2) with `E = ℝ` and `t ≥ 0` is the second of these; 7.2 is the form for summands in a
+  normed group, together with the bound for `maxᵢ ‖X i‖`, which that roadmap does not state.
 - The roadmap LogSobolevForMarkovChains states the subadditivity of entropy on finite state spaces
   for its own use and leaves modified logarithmic Sobolev inequalities out; the roadmap
   LogConcaveFunctionalInequalities owns Talagrand's quadratic transport inequality, the HWI
@@ -976,7 +996,7 @@ Owned here:
   Pinsker's inequality `etvDist² ≤ 2 D`.
 - `TauCeti.klDiv_eq_klDiv_fst_add_lintegral_condKernel`
   (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`): the chain rule on a standard Borel
-  second factor.
+  second factor. Used in the tensorization of 5.2.
 - `TauCeti.IsCoupling` (`TauCeti/MeasureTheory/OptimalTransport/Coupling.lean`);
   `TauCeti.wassersteinEDist`, `TauCeti.HasFiniteMoment`,
   `TauCeti.HasFiniteMoment.integrable_of_lipschitzWith`
