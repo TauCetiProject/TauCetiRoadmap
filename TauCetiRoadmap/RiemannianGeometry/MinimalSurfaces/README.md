@@ -1694,10 +1694,10 @@ two-sidedness enters only in the variational meaning. Prove:
   the stability of this layer: every compactly supported smooth function on Σ, now closed in U,
   extends to some `ζ ∈ C^∞_c(U)` through a tubular neighbourhood.
 - Comparison with 6.3, for Σ minimal and not necessarily two-sided. If Σ is stable in U then
-  `Q(V) ≥ 0` for every `V ∈ Γ₀(ν_f)`, which is the stability of 6.3. Locally `V = uν`, so `|V|`
-  is Lipschitz with compact support in Σ and `|∇|V|| = |∇^⊥V|` almost everywhere: `Q(V)` is the
-  scalar form at `|V|`. That function is a limit in `W^(1,2)` of smooth functions supported in
-  one compact subset of Σ, on which `|A|²` and `Ric_g(ν,ν)` are bounded, and each of them is the
+  `Q(V) ≥ 0` for every `V ∈ C^∞_c(Σ;ν_f)`, which is the stability of 6.3. Locally `V = uν`, so
+  `|V|` is Lipschitz with compact support in Σ and `|∇|V|| = |∇^⊥V|` almost everywhere: `Q(V)` is
+  the scalar form at `|V|`. That function is a limit in `W^(1,2)` of smooth functions supported
+  in one compact subset of Σ, on which `|A|²` and `Ric_g(ν,ν)` are bounded, and each of them is the
   restriction of some `ζ ∈ C^∞_c(U)`, because Σ is a closed submanifold of an open neighbourhood
   in U of that compact set. The converse fails on a one-sided Σ (Checks).
 - Elementary properties. Strict stability implies stability. Test functions in `C¹_c(U)` are
