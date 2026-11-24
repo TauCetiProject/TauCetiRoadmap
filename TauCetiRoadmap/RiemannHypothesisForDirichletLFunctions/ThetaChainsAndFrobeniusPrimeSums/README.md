@@ -461,15 +461,15 @@ Mathlib `Chebyshev.theta_le_log4_mul_x`.
 discrete series; Atiyah and Schmid (1977), the same through the `L²`-index theorem; with the Weyl dimension formula for
 the source.
 
-*Method of the formal proof:* the formal proof has the formula for every Harish-Chandra parameter: it proves it first
-for parameters whose gaps exceed a threshold, and a moment lemma then extends the identity from parameters with a gap
-to all parameters. For the first step, an explicit function with values in the endomorphisms of the lowest `K`-type,
+*Method of the formal proof:* the formal proof has the formula for Harish-Chandra parameters whose gaps exceed an
+explicit threshold, which the parameters of the chain satisfy. To prove it, an explicit function with values in the endomorphisms of the lowest `K`-type,
 positive on the exponential of the non-compact part of the Cartan decomposition (`exp(𝔭)` in the notation of
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3), generates the discrete series (Sun (2007), §7, expresses the
 lowest-`K`-type coefficient as an integral over the maximal compact subgroup of an explicit function and proves its
 positive definiteness on that set); tensoring with the standard representation gives the ratio of the formal degrees at
 two parameters that differ by `1` in one entry as a quotient of Vandermonde products (for finite-dimensional
-representations, the theorem of Perelomov and Popov (1968), stated in Bufetov and Gorin, Theorem 1.6), and the constant
+representations, such quotients are the weights in Perelomov and Popov's formula (1968) for the eigenvalues of the
+higher Casimir elements, Bufetov and Gorin, Theorem 1.6), and the constant
 is fixed by the Gaussian limit of the lowest-`K`-type coefficient along a ray of parameters, through Schur
 orthogonality. On the way to its final theorem the formal proof uses the formula only through the two-sided bound of
 the formal degree by which it proves the bounds of 9.4 (c). The route written here cites the general formula and
@@ -1394,7 +1394,7 @@ parameters of the chain; elementary.
 
 *Method of the formal proof:* the size conditions of the congruence modules, the target and the frame are derived
 inequalities, obtained by direct arithmetic from the primitive conditions of the data; for instance the degree
-`DF(κ_j)` of the weight `κ_j` is at most `4(k·b)²`, below each type prime because `g_i > (kb)^8`.
+`DF(κ_j)` of the weight `κ_j` is at most `4k²·b`, below each type prime because `g_i > (kb)^8`.
 
 *Statement.* With the constants of 10.6, `ε ∈ (0, ε₀)`,
 `J ≥ 1`, `c_Δ > 0`, `c_h > 0` and `c_H ≥ c_H⁰`, there is `x₀(ψ, ε, J, c_Δ, c_h, c_H)` such that for `x ≥ x₀`, every host with (h1)–(h5) and the
@@ -2206,8 +2206,9 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
   lowest-`K`-type coefficient as an integral over the maximal compact subgroup of an explicit function, and its positive
   definiteness on the exponential of the non-compact part of the Cartan decomposition, 9.3. A. Bufetov and V. Gorin,
   *Representations of classical Lie groups and quantized free convolution*, arXiv:1311.5780, Theorem 1.6 (the theorem of
-  Perelomov and Popov (1968)): the comparison across a tensor product with the standard representation, for
-  finite-dimensional representations, with weights that are quotients of Vandermonde products, 9.3.
+  Perelomov and Popov (1968)): the scalar by which the higher Casimir element `Tr(E^p)` acts on the irreducible
+  representation `V_λ` of `U(N)`, a sum over `i` of `(λ_i + N − i)^p` weighted by the quotients of Vandermonde
+  products `dim V_{λ−e_i}/dim V_λ`, 9.3.
 - J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and
   M. Graev; A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981);
   D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups*
