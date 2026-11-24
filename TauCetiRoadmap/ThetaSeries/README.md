@@ -1652,9 +1652,12 @@ its Examples.
 Hermitian form `h`, conjugate-linear in the first variable. Regard `W` as a real inner product
 space of dimension `2r` with `⟪x, y⟫_ℝ = 2 Re h(x, y)`, so that `‖x‖² = 2 h(x, x)`, and let `L` be a
 full-rank `ℤ`-lattice in it; `L^∨` and `ZLattice.covolume L` are the dual lattice and the covolume
-for this real inner product, as in the conventions. ⚠ The real form is `2 Re h`, not `Re h`: the
-factor is the trace from `ℂ` to `ℝ`, and it is what makes the case `s = 1` the theta series of
-Layer 3 (Examples below). For `s ≥ 1`,
+for this real inner product, as in the conventions. As a type, `W` is a complex inner product
+space whose inner product is `2h`, made a real inner product space by
+`InnerProductSpace.rclikeToReal ℂ W`, whose inner product is the real part `2 Re h`; with `h`
+itself as the complex inner product, that real part would be `Re h`. ⚠ The real form is `2 Re h`,
+not `Re h`: the factor is the trace from `ℂ` to `ℝ`, and it is what makes the case `s = 1` the
+theta series of Layer 3 (Examples below). For `s ≥ 1`,
 `ℋ_s = {Z ∈ M_s(ℂ) : (Z - Z^*)/2i positive definite}` is the Hermitian half-space of degree `s`
 (`ℋ_1 = ℍ`), and for `X = (x_1, …, x_s) ∈ W^s` the Gram matrix is `T_X = (h(x_i, x_j))_{i,j}`, a
 positive semidefinite Hermitian matrix. `W^s` is the orthogonal sum
@@ -1699,9 +1702,10 @@ functions on `ℋ_s` which agree on `{iY : Y positive definite}` are equal.
 - `s = 1`: `T_x = h(x, x) = ‖x‖²/2`, so `Θ_L^{(1)}(z) = ∑' x : L, exp(π i ‖x‖² z) = thetaSeries L z`
   (§3.1) for `L` in the real inner product space `(W, 2 Re h)`, and §9.2 is §4.2 at rank `2r`, with
   `k = r`.
-- `W = ℂ`, `h(x, y) = x̄y`, `L = ℤ[i]`, `s = 1`: `Θ_L(z) = (∑_{m ∈ ℤ} e(m² z))²`; `L^∨ = ½ℤ[i]` and
-  `covolume L = 2`, so at `z = i` §9.2 reads `Θ_L(i) = Θ_{L^∨}(i)/2`, the square of Jacobi's
-  `∑_m e^{-2πm²} = 2^{-1/2} ∑_m e^{-πm²/2}`.
+- `W = ℂ` carrying the doubled inner product `2x̄y`, so `h(x, y) = x̄y` (on Mathlib's `ℂ`, whose
+  real inner product is `Re(x̄y)`, `ℤ[i]` is its own dual with covolume `1`), `L = ℤ[i]`, `s = 1`:
+  `Θ_L(z) = (∑_{m ∈ ℤ} e(m² z))²`; `L^∨ = ½ℤ[i]` and `covolume L = 2`, so at `z = i` §9.2 reads
+  `Θ_L(i) = Θ_{L^∨}(i)/2`, the square of Jacobi's `∑_m e^{-2πm²} = 2^{-1/2} ∑_m e^{-πm²/2}`.
 
 ### Dependencies
 
