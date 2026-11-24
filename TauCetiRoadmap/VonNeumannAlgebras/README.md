@@ -2531,6 +2531,39 @@ commutant computations, weighted Bergman spaces (built here on Mathlib's `Measur
 holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–de la Harpe–Jones,
 §3.3, for the discrete-series formal degree and the coupling-constant computations.
 
+**V9.IntegrableDiscreteSeries — projectors of integrable discrete series.** Let G be a unimodular second-countable
+locally compact group with a fixed Haar measure, π an irreducible unitary representation of G with
+a nonzero square-integrable matrix coefficient, `d_π` its formal degree for that Haar measure (as
+defined above), w a unit vector of π, and `e_π(g)=d_π·conj⟪w,π(g)w⟫`, with the inner product of
+the Conventions, conjugate-linear in its first variable. Assume `e_π∈L¹(G)`. Then `e_π*e_π=e_π`
+and `e_π(g⁻¹)=conj e_π(g)`, so that `e_π` is a self-adjoint idempotent of the involutive Banach
+algebra `L¹(G)`; and for every strongly continuous unitary representation (ρ,H) of G the
+integrated operator `ρ(e_π)=∫_G e_π(g)ρ(g)dg` is the orthogonal projection of H onto the closure
+of `{Tw : T∈Hom_G(π,ρ)}`. In particular `ρ(e_π)=0` when π does not occur discretely in ρ.
+(B. A. Barnes, *The role of minimal idempotents in the representation theory of locally compact
+groups*, Proc. Edinburgh Math. Soc. 23 (1980), 229–238: Lemma 1, p. 233, and Proposition 1 with
+the construction before it, pp. 230–231; proved there for every unimodular locally compact group.)
+
+Route. Schur orthogonality for square-integrable representations (above) gives `e_π*e_π=e_π`,
+`e_π*=e_π` and, for every `f∈L¹(G)`, `e_π*f*e_π=⟪w,π(f)w⟫·e_π`; in particular `π(e_π)` is the
+orthogonal projection onto ℂw. For a unitary ρ prove `ρ(f*)=ρ(f)*` from the definition of the
+integrated operator; then `ρ(e_π)` is an orthogonal projection, bounded since `e_π∈L¹`, and for
+`T∈Hom_G(π,ρ)`, `ρ(e_π)T(w)=T(π(e_π)w)=T(w)`. Conversely, for x in the range of `ρ(e_π)` and
+`f∈L¹(G)`, `‖ρ(f)x‖²=⟪x,ρ(e_π*f**f*e_π)x⟫=‖π(f)w‖²·‖x‖²`, so `π(f)w↦ρ(f)x` is well defined on
+the dense subspace `π(L¹(G))w` and extends to a bounded operator T which intertwines the actions
+of `L¹(G)`, hence of G, with `T(w)=T(π(e_π)w)=ρ(e_π)x=x`.
+
+For compact G, `e_π` is `d_π` times a coefficient, integrability is automatic, and `ρ(e_π)` is the
+projection onto the vectors `Tw`, `T∈Hom_G(π,ρ)`, a subspace of the π-isotypic part whose
+dimension is the multiplicity of π in ρ. For `SL₂(ℝ)` the holomorphic discrete series of weight 2
+is square integrable but not integrable, and the statement is not claimed there.
+
+*Needs:* Layer 9's coefficient maps, Schur orthogonality for square-integrable representations and
+formal degree (above); BanachAlgebras §7.2 (convolution and the involution on `L¹(G)`) and §7.3
+A7.IntegratedRepresentations (the integrated operator ρ(f), its multiplicativity for convolution,
+and the passage between intertwiners of the group action and of the `L¹(G)` action); Mathlib's
+Haar measure and Bochner integral.
+
 **Checks.**
 
 - For G=ℝ, Γ=ℤ with Lebesgue measure, `D=[0,1)` has covolume 1 and Weil's formula is
@@ -2560,6 +2593,8 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 
 - Layers 7 and 8.
 - RepresentationTheory (unitary representations of locally compact groups).
+- BanachAlgebras §§7.2–7.3 (convolution and involution on `L¹(G)`; integrated representations), for
+  V9.IntegrableDiscreteSeries.
 
 ## Layer 10: Affiliated operators and Tomita–Takesaki theory
 
@@ -5475,7 +5510,10 @@ with equal transforms `γ↦∫γ dν` are equal. From
 C*-algebra A with nonzero characters Ω: restriction is a bijection, and a homeomorphism for the
 weak-star topologies, from the characters of `Unitization ℂ A` other than the augmentation
 `Unitization.fstHom` onto Ω, so that Ω is open in the compact unitized character space, which is
-its one-point compactification when A has no identity. Each is used as BanachAlgebras states it.
+its one-point compactification when A has no identity. For V9.IntegrableDiscreteSeries,
+A7.IntegratedRepresentations is also used for an arbitrary strongly continuous unitary representation ρ: the
+integrated operator ρ(f), its multiplicativity for convolution, and the passage between intertwiners of the
+group action and of the `L¹(G)` action. Each is used as BanachAlgebras states it.
 
 **From the other roadmaps named in the scope.** RepresentationTheory/CompactGroups (Peter–Weyl),
 RepresentationTheory/SemisimpleAlgebras (finite double centralizer),
@@ -5637,3 +5675,7 @@ application of V8), GlobalNumberFields Layer 4 (finite adeles), and OptimalTrans
   automorphisms*](https://jot.theta.ro/jot/archive/1985-014-001/1985-014-001-011.html),
   J. Operator Theory 14 (1985),189–211, gives the original bicentralizer
   characterization; the proof route specified here is the direct product route.
+- B. A. Barnes, [*The role of minimal idempotents in the representation theory of locally compact
+  groups*](https://doi.org/10.1017/S0013091500003114), Proc. Edinburgh Math. Soc. 23 (1980), 229–238,
+  Lemma 1 and Proposition 1, for the minimal idempotent of an integrable discrete series and its action in an
+  arbitrary unitary representation (V9.IntegrableDiscreteSeries).

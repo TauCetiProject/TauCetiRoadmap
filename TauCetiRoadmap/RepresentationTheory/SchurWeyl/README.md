@@ -64,7 +64,8 @@ followed by the Murnaghan–Nakayama rule (§7.3), the finite Hall form and the 
 characteristic and its induction product (§7.6), the Hopf structure (§7.7), the matrix Newton
 identities (§7.8) and the power-sum basis comparisons (§7.9). Layer 8 builds the simultaneous
 decomposition of the tensor power from the native centralizer theorems and the Schur functor
-(§8.1), its balanced-tensor presentation (§8.2) and the Schur-functor transpose comparison (§8.3).
+(§8.1), its balanced-tensor presentation (§8.2), the Schur-functor transpose comparison (§8.3) and
+the `(GL_n, GL_m)`-duality on polynomial functions on `n × m` matrices (§8.4).
 Layer 9 builds the Brauer algebra (§9.1), its two geometric actions (§9.2), group-image complete
 reducibility over `ℂ`, the invariant-tensor bridge, FFT and reverse commutant (§9.3),
 the harmonic tensors and shape spaces (§9.4), the trace filtration (§9.5), cup expansions and their
@@ -899,14 +900,46 @@ Macdonald I.7 and I.9). *Needs:* §§4.4, 7.5–7.6, 8.1–8.2; ClassicalGroups 
   assert equality of finite-rank dimensions.
 - `ω(s_1²) = s_1² = s_2 + s_11` agrees with the exchanged multiplicities.
 
+### 8.4 `(GL_n, GL_m)`-duality on polynomials in `n × m` matrices
+
+Let `n, m ≥ 1`; here `n`, `m` are the two dimensions and `k` the degree, so that §8.1 is used with `(d, n)` replaced by
+`(n, k)` and `(m, k)`. Let `ℂ[Mat_(n×m)]` be the ring of polynomial functions on complex `n × m` matrices and
+`ℂ[Mat_(n×m)]_k` its homogeneous part of degree `k`, and let `GL_n(ℂ) × GL_m(ℂ)` act by
+`((g, h) · P)(X) = P(ᵗg X h)`. Prove that for every `k ≥ 0`
+`ℂ[Mat_(n×m)]_k ≅ ⊕_(λ ⊢ k, ℓ(λ) ≤ min(n, m)) 𝕊^λ(ℂⁿ) ⊗ 𝕊^λ(ℂᵐ)`
+as representations of `GL_n(ℂ) × GL_m(ℂ)`, with `𝕊^λ` the Schur functor (ClassicalGroups §2.2), and that the
+decomposition is multiplicity-free: each summand is irreducible, the representations `𝕊^λ(ℂⁿ)`, `ℓ(λ) ≤ min(n, m)`, of
+`GL_n(ℂ)` are irreducible and pairwise non-isomorphic, and so are the `𝕊^λ(ℂᵐ)` of `GL_m(ℂ)`, so that `λ` sets up a
+bijection between the representations of the two groups that occur. For the upper triangular Borel subgroups, the
+joint highest weight line of the summand of `λ` is spanned by
+`det_λ = ∏_(i=1)^(min(n,m)) det_i^(λ_i − λ_(i+1))`, with `λ_(min(n,m)+1) = 0`, where `det_i(X)` is the `i × i` leading
+principal minor of `X`. With the action `P(g⁻¹ X h)` in place of `P(ᵗg X h)`, the factor `𝕊^λ(ℂⁿ)` is replaced by its
+contragredient and the upper triangular Borel subgroup of `GL_n(ℂ)` by the lower triangular one; for `n = m` that form
+is also stated in AutomorphicLFunctionsAndLocalFactorsPartII §4.4.
+
+The route: `ℂ[Mat_(n×m)]_k = Symᵏ(ℂⁿ ⊗ ℂᵐ)` (the coordinate functions `x_ij` transform as `e_i ⊗ f_j`, for the
+standard bases `(e_i)` of `ℂⁿ` and `(f_j)` of `ℂᵐ`) is the `Sₖ`-invariant part of `(ℂⁿ)^(⊗k) ⊗ (ℂᵐ)^(⊗k)`.
+Schur–Weyl duality (§8.1, in dimensions `n` and `m` and degree `k`) for each factor and the orthogonality of the
+irreducible characters of `Sₖ` (Layer 6) give the decomposition, with `𝕊^λ(ℂⁿ) = 0` when `ℓ(λ) > n`. Irreducibility
+and non-isomorphism come from the highest-weight classification (ClassicalGroups §3.3). The highest weight vectors are
+computed on the minors, whose torus weights are the fundamental weights (ClassicalGroups §3.1) (Howe–Umeda, §1, (1.3′),
+(1.13)–(1.16), and §11.1, (11.1.1)–(11.1.3)). *Needs:* §8.1, Layer 6; ClassicalGroups §§2.2, 2.3, 3.1 and 3.3.
+
+**Checks.**
+
+- `n = 1`, `m = 2`, `k = 2`: `ℂ[x, y]_2` has dimension `3`; only `λ = (2)` occurs (`ℓ(λ) ≤ 1`), and
+  `𝕊^((2))(ℂ) ⊗ 𝕊^((2))(ℂ²)` has dimension `1 · 3`.
+- `n = m = 2`, `k = 2`: `dim ℂ[Mat_(2×2)]_2 = 10 = 3·3 + 1·1`, from `λ = (2)` and `(1,1)`.
+- `n = 2`, `m = 3`, `k = 2`: `dim Sym²(ℂ⁶) = 21 = 3·6 + 1·3`.
+
 ### Examples
 
 `(ℂ²)^(⊗2)`: the two actions commute, `Sym²` has dimension `3` and `⋀²` dimension `1`.
 
 ### Dependencies
 
-Tau Ceti Layer 8 suppliers; Layer 4 (§4.3 for §8.2); ClassicalGroups Layer 2; Mathlib
-`DirectSum.lmap`, `TensorProduct`.
+Tau Ceti Layer 8 suppliers; Layer 4 (§4.3 for §8.2); Layer 6 (§8.4); ClassicalGroups Layer 2, and
+§§3.1 and 3.3 for §8.4; Mathlib `DirectSum.lmap`, `TensorProduct`.
 
 ## Layer 9: Schur-Weyl duality for the orthogonal and symplectic groups (the Brauer algebra)
 
@@ -1351,7 +1384,8 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
 - DeligneWeightsAndPurity consumes the symplectic pair contractions of §9.6; FreeProbability
   consumes the permutation centralizer of Layer 8; NoncompactQuantumSymmetry consumes Layers 3–5;
   BordismFormalGroups consumes Layers 0, 2 and 5; AutomorphicGaloisRepresentationsPartII consumes
-  the normalised idempotents of Layer 2 and the duality of Layer 8.
+  the normalised idempotents of Layer 2 and the duality of Layer 8; MetaplecticAutomorphicForms
+  §3.7a (compact dual pairs) consumes the `(GL_n, GL_m)`-duality of §8.4.
 
 ## Worked examples
 
@@ -1378,7 +1412,8 @@ symmetric polynomials and the isometry property of the native Frobenius characte
 `ω`, free generators, Hopf structure and rational power-sum presentation, the stable Frobenius
 characteristic with its induction product, and the matrix specialization of Newton's identities
 (Layer 7, §§7.1–7.9); the simultaneous equivariant decomposition of `(ℂᵈ)^(⊗n)` and its balanced
-tensor presentation and transpose comparisons (Layer 8, §§8.1–8.3); the Brauer algebra `B_k(δ)`
+tensor presentation and transpose comparisons, and the `(GL_n, GL_m)`-duality on polynomial
+functions on `n × m` matrices with its highest weight lines (Layer 8, §§8.1–8.4); the Brauer algebra `B_k(δ)`
 with its loop rule, the
 orthogonal and symplectic Brauer actions, the first fundamental theorem on tensors and the reverse
 centralizer, the harmonic tensors and the shape spaces `E_λ`, the trace filtration and cup
@@ -1566,7 +1601,8 @@ ring along any group homomorphism: `Ind(X ⊗ Res Y) ≅ Ind(X) ⊗ Y`; §4.4 us
 Layer 2 owns the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation of the tensor power, its
 tableau independence, its vanishing for more than `d` rows and the extremes `Symᵈ`, `⋀ᵈ`; Layer 4
 owns the theorem that `s_λ` is the torus character of the polynomial irreducible `V_λ`. §8.1 here
-consumes the Layer 2 carrier; Layer 7 here supplies the Schur-polynomial identities Layer 4 there
+consumes the Layer 2 carrier; §8.4 here consumes Layer 2 and, from Layer 3, the maximal torus with
+its weights (§3.1) and the highest-weight classification (§3.3); Layer 7 here supplies the Schur-polynomial identities Layer 4 there
 consumes.
 
 ### From TauCetiRoadmap.CharacterTheory
@@ -1626,3 +1662,6 @@ representations of `O_n` and `Sp_(2l)`.
   679–713, arXiv:0712.0944: Theorem 1.2(b) (numbering of arXiv v3).
 - P. Etingof et al., *Introduction to Representation Theory*, arXiv:0901.0827v5 (2011),
   §4.20, Proposition 4.61, p. 66 (finite Frobenius formula); §4.15, Theorem 4.47, p. 61.
+- R. Howe, T. Umeda, *The Capelli identity, the double commutant theorem, and multiplicity-free actions*,
+  Math. Ann. 290 (1991), 565–619: §1, (1.3′), (1.13)–(1.16), pp. 568–569; §11.1, (11.1.1)–(11.1.3),
+  p. 584; https://eudml.org/doc/164834 .

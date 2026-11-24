@@ -21,6 +21,10 @@ import TauCeti.GroupTheory.TitsSystem.Basic
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 import TauCeti.GroupTheory.Coxeter.Artin
 import TauCeti.LinearAlgebra.RootSystem.Coxeter.Matrix
+import TauCeti.Algebra.AlgebraicGroup.Derived.Semisimple
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Vanishing
+import TauCeti.Algebra.AlgebraicGroup.Representation.SemisimplePoint.Basic
+import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 /-!
 # Reductive algebraic groups: target signatures
@@ -41,7 +45,11 @@ radical's defining ideal; Layer 7's conjugacy of maximal tori by rational points
 algebraically closed field, for every finite-type affine group, its Bruhat decomposition of a
 split reductive group over an arbitrary field in Tits-system form, and its Levi decomposition of a
 parabolic subgroup of a connected reductive group over an arbitrary field, in the same
-coinvariant form as Layer 6A's; Layer 7a's Lang surjectivity for smooth geometrically connected
+coinvariant form as Layer 6A's; Layer 7.1's reductivity of the identity component of the
+centralizer of a semisimple element of a connected reductive group over an algebraically closed
+field, and the connectedness of that centralizer when the derived group is simply connected, the
+centralizer being cut out by the functions vanishing at the points that commute with the element;
+Layer 7a's Lang surjectivity for smooth geometrically connected
 groups over finite fields; Layer 11A's plane-configuration fundamental-group/braid-group
 equivalence, sending half-twist loops to the standard generators; and Layer 11B's finite
 Weyl-arrangement theorem, on the orbit space of the root-hyperplane complement in an arbitrary
@@ -136,6 +144,7 @@ namespace TauCetiRoadmap.ReductiveGroups
 namespace StructureAcceptance
 
 universe v
+universe u
 
 /-! ## Layer 3: quotients by normal closed subgroups -/
 
@@ -315,6 +324,42 @@ theorem exists_levi_complement_of_isParabolic {k : Type v} [Field k]
         ((Ideal.Quotient.mkₐ k J.toIdeal).comp
           (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal
             (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I)).coinvariants.val) := by
+  sorry
+
+open TauCeti in
+/-- **Centralisers of semisimple elements are reductive** (7.1 (a)). Let `G` be a connected
+reductive group over an algebraically closed field `k`, with coordinate Hopf algebra `H`, and let
+`s ∈ G(k)` be semisimple. Then the identity component `C_G(s)°` of the centraliser of `s` is a
+connected reductive group. Here `C_G(s)` is the closed subgroup of `G` cut out by the functions
+vanishing at every element of `G(k)` that commutes with `s`. -/
+theorem reductive_identityComponent_centralizer {k : Type u} [Field k] [IsAlgClosed k]
+    (H : FiniteTypeCommHopfAlgCat.{u, u} k) (hH : reductiveCommHopfAlgProperty k H)
+    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
+    reductiveCommHopfAlgProperty k
+      (FiniteTypeCommHopfAlgCat.identityComponent
+        (FiniteTypeCommHopfAlgCat.quotient H
+          (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s})))) := by
+  sorry
+
+open TauCeti in
+/-- **Steinberg's connectedness theorem** (7.1 (c)). Let `G` be a connected reductive group over
+an algebraically closed field `k`, with coordinate Hopf algebra `H`, whose derived group is simply
+connected, and let `s ∈ G(k)` be semisimple. Then the centraliser `C_G(s)` is connected. Here the
+derived group is the scheme-theoretic derived subgroup, which is semisimple, and `C_G(s)` is the
+closed subgroup of `G` cut out by the functions vanishing at every element of `G(k)` that commutes
+with `s`. Writing `s = zs′` with `z` in the connected centre `Z°` and `s′` in the derived group,
+`C_G(s) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected by Steinberg's theorem for simply
+connected semisimple groups (Steinberg, *Endomorphisms of linear algebraic groups*, Theorem 8.1). -/
+theorem geometricallyConnected_centralizer_of_simplyConnected {k : Type u} [Field k]
+    [IsAlgClosed k] (H : FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hH : reductiveCommHopfAlgProperty k H)
+    (hder : simplyConnectedSemisimpleCommHopfAlgProperty k
+      ⟨FiniteTypeCommHopfAlgCat.quotient H (CommHopfAlgCat.derivedDefiningIdeal H.obj),
+        hH.semisimple_derived⟩)
+    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
+    geometricallyConnectedCommHopfAlgProperty k
+      (FiniteTypeCommHopfAlgCat.quotient H
+        (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s}))).obj := by
   sorry
 
 /-! ## Layer 7a: finite-field Lang surjectivity -/

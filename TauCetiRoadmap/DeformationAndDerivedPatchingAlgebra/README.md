@@ -735,6 +735,33 @@ The raw extraction `multiplicityCoefficient d P=d!·coeff_d(P)` is defined for e
 
 is §0.5's. The sum ranges only over the finitely many top-dimensional minimal support primes, and all localized lengths are finite before conversion to integers. Prove the scaling and vanishing theorems above and the following comparisons. Completion preserves Hilbert functions and multiplicities. A flat local map with `m_B=m_A B` preserves them under scalar extension, with lengths measured in their own residue fields. For a finite local map use the factor `[k_B:k_A]` in length and multiplicity, and retain the ideal `m_A B` rather than substituting `m_B` without equality. Source: Stone, Lemma 8, Theorem 10 and Proposition 14, pp. 9–10, 13–14, 18–20; Emerton–Gee, Lemma 2.2.8, p. 7; Stacks, Algebra §§10.52, 10.97. Needs: §3.11, PadicLocalLanglandsForGL2Qp §0.5's dimension-normalized multiplicity, associativity formula and intrinsic/ambient comparison, native finite-length additivity and completion.
 
+### 3.12a The order of an element on a module free of finite rank over a discrete valuation ring
+
+Let `O` be a discrete valuation ring, not necessarily complete and of any characteristic, with fraction field `E` and normalized valuation `v`. Let `B` be a commutative `O`-algebra, `M` a `B`-module that is free of finite rank over `O`, and `a∈B` an element acting injectively on `M⊗_O E`. Then `a` is injective on `M`, `M/aM` has finite length over `O`, and
+
+`θ(a;M) := length_O(M/aM) = v(det_E(a|M⊗_O E))`.
+
+This is the determinant form, for the lattice `M` and its image `aM⊆M`. It follows that
+
+`θ(a;M) = Σ_P length_(B_P)(M_P)·v(N_(κ(P)/E)(ā))`,
+
+since `v(det_E(a|·))` is additive along a composition series of `M⊗_O E` whose factors are the `κ(P)`, each occurring `length_(B_P)(M_P)` times, and `det_E(ā)=N_(κ(P)/E)(ā)` on `κ(P)`. The sum runs over the finitely many primes `P` of `B` in the support of `M` with `P∩O=0`. Their residue fields `κ(P)` are finite over `E`, and `ā` is the image of `a` in `κ(P)`.
+
+**Checks.**
+
+- `O` complete, `B=O[[X]]`, `M=B/(X(X-πⁿ))` with `n≥1` (free of rank `2` over `O` by Weierstrass division), `a=X+π^m` with `m≠n`. The two points `X=0` and `X=πⁿ` give `θ=m+min(m,n)`. Directly, `M/aM=O/(π^m(π^m+πⁿ))` has length `m+min(m,n)`. Without completeness `M` need not be finitely generated over `O`: for `O=Z_(p)`, `O[[X]]/(X-p)≅Z_p`. Polynomials in place of power series avoid this.
+- For `a=X` the hypothesis fails, because `a` vanishes at the point `X=0`, and `M/aM≅O` has infinite length.
+
+The route is as follows.
+
+- `B` acts on `M` through `B̄:=B/Ann_B(M)`, a subalgebra of `End_O(M)` that is finite over `O`.
+- For `M` free over `O` the first equality is Smith normal form.
+- `B̄⊗_O E⊆End_E(M⊗E)` is finite-dimensional over `E`, hence Artinian. `B⊗E` itself need not be: take `B=O[X]` and `M=O` with `XM=0`.
+- `M⊗E` is a module of finite length over `B̄⊗_O E`, with a composition series whose factors are the `κ(P)`, `P` as above, each occurring `length_(B_P)(M_P)` times. The primes of `B̄⊗E` are those of `B` that contain `Ann_B(M)` and meet `O` in `0`.
+- On `κ(P)`, `det_E(ā)=N_(κ(P)/E)(ā)`.
+
+Source: Stacks, Algebra, Lemma 10.121.7, tag 02MI, for the determinant form for lattices; see also W. Fulton, *Intersection Theory*, Appendix A. The sum over primes is an elementary adapter, proved from the determinant form by the route above. Needs: native `Module.length` with its additivity in short exact sequences, `LinearMap.det`, `Algebra.norm` and the Smith normal form over a principal ideal domain.
+
 ### 3.13 Parameters and initial-form inequalities
 
 For nonzero finite `M` of dimension `d` and a parameter list `x` of length `d`, its Koszul homologies have finite length and
@@ -839,7 +866,7 @@ The DVR computes every shift in local duality and separates intrinsic from ambie
 
 ### Dependencies
 
-Layer 1; the depth, CM, Serre and excellence contracts of SchemeAndStackFoundations; PadicLocalLanglandsForGL2Qp §0.5's Hilbert–Samuel polynomial and multiplicity; ModularCurves §4D; the supplied native Koszul and module tensor/Hom/completion interfaces; native projective resolutions, Ext, local cohomology and finite length; Tau Ceti injective envelopes, Artin–Rees and the pinned regular-local results.
+Layer 1; the depth, CM, Serre and excellence contracts of SchemeAndStackFoundations; PadicLocalLanglandsForGL2Qp §0.5's Hilbert–Samuel polynomial and multiplicity; ModularCurves §4D; the supplied native Koszul and module tensor/Hom/completion interfaces; native projective resolutions, Ext, local cohomology, finite length, determinants and field norms; Tau Ceti injective envelopes, Artin–Rees and the pinned regular-local results.
 
 ## Layer 4: Finiteness, integral points and completed local coordinates
 
@@ -1888,7 +1915,7 @@ The rest of these folders is outside this roadmap. Abstract deformation categori
 
 ## Scope and ownership
 
-This is Part I. It owns coefficient-category adapters, relative local presentations and their relation spaces; the commutative algebra needed to use finite actions; canonical CM duals and explicit duality comparisons; graded Hilbert series and multiplicity comparisons on the shared Hilbert–Samuel polynomial; the algebraic finiteness and point arguments for complete local rings; balanced module patching; component and specialization comparisons; finite-order approximation and coefficient comparisons; and the simultaneous patching and support arguments themselves.
+This is Part I. It owns coefficient-category adapters, relative local presentations and their relation spaces; the commutative algebra needed to use finite actions; canonical CM duals and explicit duality comparisons; graded Hilbert series and multiplicity comparisons on the shared Hilbert–Samuel polynomial, and the order of an element on a module free of finite rank over a discrete valuation ring; the algebraic finiteness and point arguments for complete local rings; balanced module patching; component and specialization comparisons; finite-order approximation and coefficient comparisons; and the simultaneous patching and support arguments themselves.
 
 The following boundaries are part of the specification. They prevent two constructions with the same mathematical meaning from acquiring incompatible APIs.
 
@@ -1911,7 +1938,7 @@ The following boundaries are part of the specification. They prevent two constru
 
 ### From Mathlib
 
-At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, use `Ideal`, `Submodule`, quotient maps, `Localization.AtPrime`, `PrimeSpectrum`, `Module.support`, associated primes, `Module.length` and finite-length additivity. The intended carriers are the native modules, ideals and spectra; set-theoretic support is not replaced by a new spectrum.
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, use `Ideal`, `Submodule`, quotient maps, `Localization.AtPrime`, `PrimeSpectrum`, `Module.support`, associated primes, `Module.length` and finite-length additivity. Section 3.12a also uses `LinearMap.det` and `Algebra.norm`. The intended carriers are the native modules, ideals and spectra; set-theoretic support is not replaced by a new spectrum.
 
 `RingTheory.Sequence.IsWeaklyRegular`, `RingTheory.Sequence.IsRegular`, their flat-base-change API, `Module.Flat`, `Module.FaithfullyFlat`, `Module.Projective`, `Module.Free`, `IsRegularLocalRing`, `ringKrullDim`, and `CategoryTheory.projectiveDimension` supply the basic predicates. `ModuleCat.exists_isRegular_tfae` already identifies regular sequences in an ideal with the corresponding finite-module Ext vanishings under `IM<M`; its two directional theorems in `RingTheory.Depth.Rees` are used rather than replanned. In particular `ModuleCat.projectiveDimension_quotSMulTop_eq_succ_of_isSMulRegular` and `ModuleCat.projectiveDimension_quotient_eq_length` are already available; only the missing local comparisons and end formulas are built here.
 
@@ -1987,6 +2014,7 @@ Page numbers below refer to the versions specified here. Stacks tags are the sta
 - L. Avramov and O. Veliche, [*Stable cohomology over local rings*](https://arxiv.org/pdf/math/0508021v3), arXiv:math/0508021v3, §§1.3–2.1, pp. 4–7, and §5.1, pp. 15–16, especially Lemma 5.1.7 and Theorem 5.1.8 with its proof.
 - L. Avramov, *Infinite free resolutions*, printed pp. 56–63 and 95–99; Construction 6.3.1, Lemma 6.3.3, Theorems 6.3.5, 7.1.3 and 10.2.1. The odd-square addition rule in Remark 10.1.2(3) uses plus signs.
 - M. Nagata, *The theory of multiplicity in general local rings*, *Proceedings of the International Symposium on Algebraic Number Theory, Tokyo & Nikko, 1955* (1956), pp. 191–226, especially Lemmas 5.3–5.4, Theorem 1 and Proposition 5, pp. 204–205; Lemmas 8.1–8.2 and Theorem 6 with proof, pp. 214–216; Theorem 9 and Corollary 1, pp. 219–220.
+- W. Fulton, *Intersection Theory*, Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 2, Springer, Berlin, 1984, Appendix A.
 - Y. André, [*La conjecture du facteur direct*](https://www.numdam.org/item/10.1007/s10240-017-0097-9.pdf), Publ. Math. IHÉS 127 (2018), 71–93, §0.1 and §3.4, pp. 72, 84.
 - B. Bhatt, [*On the direct summand conjecture and its derived variant*](https://arxiv.org/pdf/1608.08882v2), arXiv:1608.08882v2, Lemma 5.3, pp. 9–10.
 - B. Bhatt, L. Ma, Z. Patakfalvi, K. Schwede, K. Tucker, J. Waldron and J. Witaszek, [*Globally +-regular varieties and the minimal model program for threefolds in mixed characteristic*](https://arxiv.org/pdf/2012.15801v3), arXiv:2012.15801v3, §2.1, pp. 10–11.

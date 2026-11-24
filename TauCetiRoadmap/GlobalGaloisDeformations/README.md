@@ -63,7 +63,9 @@ Clozel–Harris–Taylor and the ACC presentation.
 LocalGaloisDeformationRings Layer F supplies the coefficient algebra, deformation functors,
 representability under `Φ_p`, ring comparisons and local-condition interface. Layer R04.3 builds
 the global `T`-framed rings with their map from the local rings, identifies the relative tangent
-space with the framed Selmer group and deduces the presentation and dimension bound. Layer R04.4
+space with the framed Selmer group, gives the universal rings of type `(𝒪, χ, ℳ)` with their
+tangent spaces at `𝒪`-valued points with torsion coefficients (3.6a) and deduces the presentation
+and dimension bound. Layer R04.4
 builds the maps between such rings: restriction, enlargement of `S`, twisting, and the formal-group
 machinery of the dyadic method. Layer R04.5 turns Taylor–Wiles data into augmented deformation
 problems with diamond actions and counts; the cohomological existence of auxiliary primes is
@@ -304,6 +306,83 @@ SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §
   `C₂` cohomology is nonzero: both maps in the
   periodic resolution are zero. Its trace splitting does not remove the real Tate terms.
 
+### 3.6a Tangent spaces at `𝒪`-valued points with torsion coefficients
+
+**Theorem.** Let `G` be a topologically finitely generated profinite group, `ρ̄ : G → GLₙ(k)` a
+continuous representation with `End_{k[G]}(ρ̄) = k` (Schur), and `χ : G → 𝒪^×` a continuous
+character with `det ρ̄ = χ mod λ`. Let `ℳ` be a full subcategory of the category of profinite
+`𝒪[G]`-modules with continuous morphisms that is closed under subobjects, quotients and direct
+products and contains the module `M_ρ̄ = kⁿ` of `ρ̄`. A lift of type `(𝒪, χ, ℳ)` over `A ∈ C_𝒪` is
+a continuous `ρ : G → GLₙ(A)` with `ρ mod 𝔪_A = ρ̄`, `det ρ = χ_A` and module `M_ρ = Aⁿ` in `ℳ`.
+Prove that these lifts, up to conjugation, are represented on `C_𝒪`: there are a ring `R_ℳ` in
+`C_𝒪` and a lift `ρ^univ_ℳ : G → GLₙ(R_ℳ)` of type `(𝒪, χ, ℳ)` such that for every lift `ρ` of
+this type over `A` there is a unique `𝒪`-algebra map `φ : R_ℳ → A` with `ρ` conjugate to
+`φ ∘ ρ^univ_ℳ` (DDT, Theorem 2.36, p. 73, after Mazur and Ramakrishna; for Schur `ρ̄` conjugacy of
+two lifts is conjugacy by `Γ̂ₙ(A)` up to a scalar, so this is the universal deformation of the
+Conventions, with a chosen representative, and the statements below do not depend on the choice).
+For `m ≥ 1` let `ℳ(m)` be the full subcategory of the objects of `ℳ` killed by `λ^m`. For `M` in
+`ℳ(m)`, free of finite rank over `𝒪/λ^m`, `H¹(G, End M)` is the group of extensions of `M` by
+itself as profinite `𝒪[G]`-modules killed by `λ^m`; let `H¹_ℳ(G, End M)` be the image of the
+extensions in `ℳ(m)`, and `H¹_ℳ(G, End⁰ M)` its intersection, in `H¹(G, End M)`, with the image of
+`H¹(G, End⁰ M)`, `End⁰` denoting the trace-zero endomorphisms.
+
+Let `θ : R_ℳ → 𝒪` be an `𝒪`-algebra homomorphism, `℘ = ker θ` and `ρ = θ ∘ ρ^univ_ℳ`, so that
+`ad⁰ρ ⊗ 𝒪/λ^m = End⁰(M_ρ ⊗ 𝒪/λ^m)`. Put
+
+```text
+H¹_ℳ(G, ad⁰ρ ⊗ Frac(𝒪)/𝒪) = lim_→ H¹_ℳ(G, ad⁰ρ ⊗ λ^{−m}𝒪/𝒪) ⊂ H¹(G, ad⁰ρ ⊗ Frac(𝒪)/𝒪).
+```
+
+(The map `H¹(G, ad⁰ρ ⊗ Frac(𝒪)/𝒪) → H¹(G, ad ρ ⊗ Frac(𝒪)/𝒪)` is injective, the trace of the
+scalars, multiplication by `n` on `Frac(𝒪)/𝒪`, being onto; so the limit of the groups
+`H¹_ℳ(G, ad⁰ρ ⊗ λ^{−m}𝒪/𝒪)`, subgroups of `H¹(G, ad ρ ⊗ λ^{−m}𝒪/𝒪)`, is a subgroup of
+`H¹(G, ad⁰ρ ⊗ Frac(𝒪)/𝒪)`, also when `p ∣ n`.)
+
+Then there are canonical `𝒪`-linear isomorphisms
+
+```text
+Hom_𝒪(℘/℘², 𝒪/λ^m)        ≅ H¹_ℳ(G, ad⁰ρ ⊗ 𝒪/λ^m)        for every m ≥ 1,
+Hom_𝒪(℘/℘², Frac(𝒪)/𝒪)    ≅ H¹_ℳ(G, ad⁰ρ ⊗ Frac(𝒪)/𝒪).
+```
+
+(Due to Wiles; DDT, §2.6, Lemma 2.40, p. 76, with its proof, which gives the isomorphism for every
+`m`. The tangent space at the residue field, `Hom_k(𝔪_{R_ℳ}/(λ, 𝔪_{R_ℳ}²), k) ≅ H¹_ℳ(G, ad⁰ρ̄)`, is
+DDT, Lemma 2.39, p. 75, after Mazur. DDT state §2.6 for absolutely irreducible `ρ̄` and note that
+only `End_{k[G]}(ρ̄) = k` is used.)
+
+*Proof sketch* (DDT, proofs of Lemmas 2.39 and 2.40, pp. 75–76). `𝒪`-algebra maps
+`R_ℳ → (𝒪/λ^m)[ε]`, `ε² = 0`, that reduce to `θ mod λ^m` modulo `ε` are the maps `θ + εδ` with `δ`
+an `𝒪`-linear map `R_ℳ → 𝒪/λ^m` vanishing on `1` and on `℘²`, that is, elements of
+`Hom_𝒪(℘/℘², 𝒪/λ^m)`. By the universal property they are the lifts of `ρ mod λ^m` to
+`(𝒪/λ^m)[ε]` of type `(𝒪, χ, ℳ)` up to conjugation by `1 + εMₙ(𝒪/λ^m)`. A lift
+`(1 + εc)(ρ mod λ^m)` is of type `(𝒪, χ, ℳ)` exactly when its determinant is `χ`, that is `c` is a
+trace-zero cocycle, and its module, an extension of `M = M_ρ ⊗ 𝒪/λ^m` by itself killed by `λ^m`,
+lies in `ℳ(m)`; conjugation changes `c` by a coboundary of `End M`. So the classes are those of
+`H¹_ℳ(G, End⁰ M)`, and linearity is checked as in Lemma 2.39. The isomorphisms are compatible with
+the inclusions `λ^{−m}𝒪/𝒪 ⊂ λ^{−m−1}𝒪/𝒪`, and the limit gives the second.
+
+*Needs:* Scope and ownership, tangent spaces (ArithmeticGaloisDuality §D8.1, *First-order Galois
+cocycle comparison* and *Trace-zero adjoint duality without division by n*; SelmerIwasawaCohomology
+§2A.4, *Determinant tangent fibres*); LocalGaloisDeformationRings §§F.1.3, F.1.7 (strict
+equivalence, fixed determinant) and §§F.2.2, F.2.9 (`Φ_p` and fixed-determinant
+representability); LocalGaloisDeformationRings §8.6 (the same construction for local Galois groups
+and categories of finite-length modules, with its fixed-determinant tangent space); Tau Ceti
+`TauCeti.ContCohomology.H1`.
+
+**Checks.**
+
+- **tangentTorsion_level_one.** For `m = 1` the theorem is DDT, Lemma 2.39, at the point `θ`:
+  `R_ℳ = 𝒪 ⊕ ℘` and `𝔪_{R_ℳ} = λ ⊕ ℘`, so `𝔪_{R_ℳ}/(λ, 𝔪_{R_ℳ}²) = ℘/(λ℘ + ℘²)` and
+  `Hom_𝒪(℘/℘², k) = Hom_k(𝔪_{R_ℳ}/(λ, 𝔪_{R_ℳ}²), k)`, while `ad⁰ρ ⊗ k = ad⁰ρ̄`.
+- **tangentTorsion_rank_one.** For `n = 1` the only lift of type `(𝒪, χ, ℳ)` over `A` is `χ_A`, if it
+  is of that type, so `R_ℳ` is a quotient of `𝒪`; the point `θ` makes it `𝒪`, so `℘ = 0`, and
+  `ad⁰ρ = 0`: both sides vanish for every `m`.
+- **tangentTorsion_trace_boundary.** The fixed-determinant classes are taken inside
+  `H¹(G, End M)`, not in `H¹(G, End⁰ M)`: for `p = 2`, `n = 2` and Schur `ρ̄`, the connecting class of
+  the scalar `1` in `0 → ad⁰ρ̄ → ad ρ̄ → k → 0` is nonzero in `H¹(G, ad⁰ρ̄)` but zero in
+  `H¹(G, ad ρ̄)` (LocalGaloisDeformationRings §8.6, Checks); it is a coboundary of `End M` and gives
+  no tangent direction.
+
 ### 3.7 Presentation of the global ring over the local rings
 
 **Theorem.** With `g = dim_k H¹_rel` relative tangent generators there is a surjection
@@ -411,7 +490,7 @@ dimensions*); LocalGaloisDeformationRings 1.1, 1.11, 8.17.
 
 LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2; ArithmeticGaloisDuality R02.4–R02.6 and D8.1; SelmerIwasawaCohomology Layer 2 and §§2A.3–2A.4;
 LocalGaloisDeformationRings §§F.0.1–F.0.2; SchemeAndStackFoundations §§4.2–4.4;
-LocalGaloisDeformationRings 1.1, 1.10, 1.11, 8.17.
+LocalGaloisDeformationRings 1.1, 1.10, 1.11, 8.6, 8.17.
 
 ## Layer R04.4: Restriction, twists and changes of problem
 
@@ -1918,7 +1997,9 @@ R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings 
 ## Scope and ownership
 
 The roadmap owns global deformation types, `T`-framed global rings, the local-to-global map,
-the relative tangent identification, presentations and dimension bounds; restriction, enlargement
+the relative tangent identification, the universal rings of type `(𝒪, χ, ℳ)` of a topologically
+finitely generated profinite group with their tangent spaces at `𝒪`-valued points with torsion
+coefficients, presentations and dimension bounds; restriction, enlargement
 of the ramification set, twisting, formal diagonalizable groups, free quotients and the dyadic
 twisting torsor; Taylor–Wiles data as deformation data with their diamond structures, the shared
 Chebotarev selection theorem for Selmer detection and the generator counts at auxiliary levels;
@@ -2243,3 +2324,9 @@ Page numbers are printed pages of the cited edition unless marked as PDF pages.
   Apache-2.0, cited at commit `c496df0d9beea9deaeabcea8492605f9a0a2313b`; its
   `StacksFrontier/Deformation` directory follows the formal deformation theory chapter of the
   Stacks Project.
+- **DDT.** H. Darmon, F. Diamond and R. Taylor, [*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
+  in *Current Developments in Mathematics, 1995*, International Press (1995), 1–107; cited from the
+  authors' PDF dated 9 September 2007, pages of that PDF: §2.6, Theorem 2.36, p. 73, Lemma 2.39,
+  p. 75, Lemma 2.40, p. 76.
+- **Wiles.** A. Wiles, *Modular elliptic curves and Fermat's last theorem*, Ann. of Math. 141 (1995),
+  443–551.

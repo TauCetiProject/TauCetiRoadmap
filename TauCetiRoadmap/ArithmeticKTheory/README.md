@@ -66,7 +66,7 @@ KTheoryFiniteLocalFields provides the norm-residue theorem and motivic
 complexes over fields; CyclotomicClassGroupsAndStickelberger provides
 Kummer's congruences and regularity criterion. Downstream, K3BlochGroups
 uses the results on K₃, and EllipticKTheory the finiteness criterion for
-curves. The next section describes the eight layers.
+curves. The next section describes the nine layers.
 
 ## How to read the build
 
@@ -78,7 +78,9 @@ Layer 5 identifies the odd groups and their natural torsion maps. Layer 6
 handles even groups, real corrections, divisibility, wild kernels, presentations
 and Bott degrees. Layer 7 extracts Bernoulli and regular-prime consequences.
 Layer 8 supplies computations whose upper and lower bounds can be checked
-independently. The README specifies all targets; Suggested.lean records only
+independently. Layer 9 bounds the torsion in the homology of a complex of free
+abelian groups by the norms of its boundaries. The README specifies all targets;
+Suggested.lean records only
 its headline signatures and the simple definitions needed on the pinned carriers.
 
 ## Conventions
@@ -4508,6 +4510,52 @@ full-rank index–determinant theorem; general localization and finite-field
 K-theory. Both bounds of the golden presentation are independent of
 any special-value formula.
 
+## Layer 9: torsion in the homology of based complexes
+
+### 9.1 Torsion in the homology of a based complex
+
+Let `C_•` be a chain complex of free abelian groups of finite rank, each `C_k` with a chosen
+basis, and give `C_k` the Euclidean norm of coordinates in that basis. Fix `k`, let `b ≥ 1` bound
+the norms of the boundaries `d(e) ∈ C_k` of the basis elements `e` of `C_(k+1)`, and let `a` be
+the smaller of the ranks of `C_k` and `C_(k+1)`. Prove Gabber's lemma: the torsion subgroup of
+`H_k(C_•)` has order at most `b^a`. (Soulé 1999, Proposition 3, p. 6, where the statement is
+attributed to Gabber.)
+
+The cycles form a saturated subgroup of `C_k`, so the torsion of `H_k(C_•)` is the torsion of the
+cokernel of `d : C_(k+1) → C_k`. Choose basis elements of `C_(k+1)` whose boundaries form a basis
+of the real span of `d(C_(k+1))`; there are at most `a` of them. Complete these boundaries by unit
+vectors to a basis of `ℚ ⊗ C_k`. The lattice so spanned has index the absolute value of a
+determinant, at most the product of the norms of the chosen boundaries by Hadamard's inequality;
+the saturation of `d(C_(k+1))` modulo the span of the chosen boundaries embeds in the quotient of
+`C_k` by that lattice and maps onto the torsion of the cokernel. (The bound of the torsion of the
+cokernel by the product of the norms of the chosen boundaries is Soulé 1999, Lemma 1, p. 5, proved
+there with arithmetic degrees of Euclidean lattices.)
+
+**Checks.**
+
+- The complex `ℤ → ℤ`, multiplication by `b ≥ 1`, in degrees 1 and 0: `H₀ = ℤ/b`, the one
+  boundary has norm `b`, `a = 1`, and the bound `b` is attained.
+- The complex `ℤ² → ℤ²` in degrees 1 and 0 whose basis elements have boundaries `(2, 1)` and
+  `(−1, 2)`: `H₀` has order `|det| = 5`, each boundary has Euclidean norm `√5`, and the bound
+  `(√5)² = 5` is attained. The largest coordinate, `2`, would give `2² = 4 < 5`: the norm must be
+  Euclidean.
+
+*Needs:* Mathlib `Matrix.det`, `LinearIndependent`, `AddCommGroup.torsion` and
+`AddSubgroup.index_eq_natAbs_det`; SuccessiveMinima §0.1 (`orthonormal_coordinate_hadamard`,
+0.1.1: Hadamard's inequality).
+
+### Examples
+
+The cyclic quotient `ℤ/b` attains the bound of 9.1, and so does the quotient of `ℤ²` by the lattice
+spanned by `(2, 1)` and `(−1, 2)`, of order 5, which also shows that the Euclidean norm cannot be
+replaced by the largest coordinate.
+
+### Dependencies
+
+No other layer. Mathlib's `Matrix.det`, `LinearIndependent`, `AddCommGroup.torsion` and
+`AddSubgroup.index_eq_natAbs_det`; Hadamard's inequality `orthonormal_coordinate_hadamard` of
+SuccessiveMinima §0.1.
+
 ## Downstream consumers
 
 Special-value applications use the rational, Gaussian and golden-field
@@ -4640,6 +4688,9 @@ S-enlargement compatibility. General motivic cycles and norm residue are
 KTheoryFiniteLocalFields §3.0a; §5.2 extends descent to mixed-characteristic
 S-integer bases. The real Bott spectra are GeneralizedCohomology G5.4;
 §5.4 owns the comparison from algebraic K-theory.
+
+Layer 9 owns Gabber's bound for the torsion in the homology of a complex of
+free abelian groups with chosen bases.
 
 ## Exact supplier contracts
 
@@ -5079,6 +5130,13 @@ field finite.
 Section 3.3 supplies degrees of vector bundles on proper curves, their
 additivity and their change under twisting by a divisor, as used in §3.2.
 
+### From TauCetiRoadmap.SuccessiveMinima
+
+Section 0.1, `orthonormal_coordinate_hadamard` (0.1.1), supplies Hadamard's
+inequality: the determinant of a finite family in the coordinates of an
+orthonormal basis has norm at most the product of the norms of its members.
+Section 9.1 uses it.
+
 ## References
 
 Locators above refer to the following versions and their printed pages.
@@ -5265,3 +5323,8 @@ All formulas and finite data use the conventions fixed here.
   *Tohoku Mathematical Journal* 17 (1965), pp. 349–357,
   Theorem 4 and proof, pp. 354–355, for the one-prime
   p-class argument attributed there to Iwasawa.
+- Christophe Soulé, [*Perfect forms and the Vandiver conjecture*](https://arxiv.org/abs/math/9812171v1),
+  *Journal für die reine und angewandte Mathematik* 517 (1999), pp. 209–221.
+  Locators use the arXiv version 1: Lemma 1, p. 5, for the torsion of a
+  cokernel, and Proposition 3, p. 6, where the bound of §9.1 is attributed to
+  Gabber.

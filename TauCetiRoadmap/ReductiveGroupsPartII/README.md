@@ -3460,7 +3460,8 @@ radical and the behaviour under nested facets and unramified base change, hypers
 and generic points. The second half of the layer treats associated, quasi- and very special
 parahorics, parahorics under central extensions, the integral models of stabilizers for classical
 and Hodge-type groups (lattice chains, closed immersions of fixers, tame realization as fixed points
-of hyperspecial models), the Moy–Prasad filtrations with their Lie-algebra lattices, Lang's
+of hyperspecial models), the integral models of stabilizers of Hermitian lattices (RG2.3.5a), the
+Moy–Prasad filtrations with their Lie-algebra lattices, Lang's
 theorem (of which this layer is the single owner in Tau Ceti) with its fixed-coset form, the
 reduction of smooth models, and explicit level subgroups. A parahoric subgroup is always the group of integral
 points of the connected group scheme; the fixer and the stabilizer of a facet can be larger.
@@ -4477,6 +4478,86 @@ with `s ≠ 0`, `(sΛ)^∨ = sΛ`. *Needs:* *reductive-model*; *hyperspecial-ver
 - `orthogonalRescaling_square_root` — if `Λ^∨ = cΛ` and `s² = c`, `s ≠ 0`, then
   `(sΛ)^∨ = s⁻¹Λ^∨ = sΛ`, independently of the quaternionic normalization and the
   local-field hypothesis in (b)–(c).
+
+### RG2.3.5a integral models of stabilizers of Hermitian lattices
+
+**Stabilizers of Hermitian lattices.** (*hermitian-lattice-stabilizer-models*) Let `K` be a
+nonarchimedean local field of characteristic different from `2`, with valuation ring `O`,
+uniformizer `ϖ` and residue field `κ`. Let `K′` be a quadratic étale `K`-algebra (a separable
+quadratic field extension of `K`, or `K × K`) with its nontrivial involution `x ↦ x̄` (the swap
+for `K × K`), and `O′` the integral closure of `O` in `K′`; `K′/K` is unramified, ramified or split
+accordingly. Let `(V, h)` be a nondegenerate Hermitian space over `K′/K`: a finite free
+`K′`-module of rank `n` with a nondegenerate form `h : V × V → K′`, conjugate-linear in the first
+variable and linear in the second, such that `h(y, x)` is the conjugate of `h(x, y)`. Its unitary
+group `U(V)` is the closed `K`-subgroup of `Res_{K′/K} GL_{K′}(V)` (RG2.0a
+*weil-restriction-group-scheme*) whose points over a `K`-algebra `R` are the `K′ ⊗_K R`-linear
+automorphisms `g` of `V ⊗_K R` with `h_R(gx, gy) = h_R(x, y)`. For an `O′`-lattice `Λ ⊂ V` (a
+finitely generated `O′`-submodule spanning `V`, Mathlib `Submodule.IsLattice`) write
+`Λ^∨ = {x ∈ V : h(x, Λ) ⊆ O′}` for its dual, call `Λ` unimodular if `Λ^∨ = Λ`, and write
+`U(Λ) = {g ∈ U(V)(K) : gΛ = Λ}` for its stabilizer. Define the integral model `𝒢_Λ` as the
+schematic closure (*schematic-closure*) of `U(V)` in the affine `O`-group scheme
+`Res_{O′/O} GL_{O′}(Λ)` (RG2.0a *integral-weil-restriction*), whose generic fibre is
+`Res_{K′/K} GL_{K′}(V)`. Prove:
+
+(a) `𝒢_Λ(O) = U(Λ)`;
+
+(b) if `K′/K` is unramified or split and `Λ` is unimodular, then `𝒢_Λ` is a reductive `O`-model of
+`U(V)` (*reductive-model*), in every residue characteristic, the residue characteristic `2` of
+an unramified extension included.
+
+([Tits], 3.9, p. 55, for a reductive group `G′ ⊂ GL_n` over a global field: the group scheme
+defined by the standard lattice is the schematic closure of `G′` in `GL_n` over the ring of
+integers, and its points over the integers of a completion are the stabilizer of the lattice; (a)
+is the local form, and is *schematic-closure*. [Tits], 3.8.1, p. 55: a point is hyperspecial if
+and only if the identity component of the special fibre of its group scheme is reductive, and the
+special fibre is then connected. [Tits], 3.10, p. 56, for `GL_n`, the split case of (b): the group
+scheme of a special vertex is the Chevalley scheme defined by the corresponding lattice. [Tits],
+1.15, pp. 40–42, and 3.11, pp. 56–58, for the quasi-split special unitary group in odd dimension
+`2m + 1` over a separable quadratic extension, with no hypothesis on the residue characteristic:
+the group scheme of the vertex `v_r` is the one defined by the lattice `Λ_r`, `0 ≤ r ≤ m`, and its
+special fibre is described in the unramified and in the ramified case; the vertex `v_m` of the
+standard lattice, on which the form is unimodular, is hyperspecial if and only if the extension is
+unramified, and the other special vertex `v_0` is never hyperspecial. [Bruhat–Tits 1987], 3.9,
+pp. 180–181, and §5, Théorème, p. 194: for the special unitary group of a Hermitian form over a
+henselian discretely valued field, quasi-split over the strict henselization, the schematic
+closure in the automorphism scheme of the lattices of a point of the building is smooth, in every
+residue characteristic, and is the Bruhat–Tits group scheme of that point. (b) for the full
+unitary group `U(V)` of any rank is proved here by the argument below; the cited locators print
+the cases named, and none states it in this form.)
+
+(a) is *schematic-closure* for the `O`-flat domain `O`: `𝒢_Λ(O)` is `U(V)(K) ∩ GL_{O′}(Λ)`. (b) In
+the split case `K′ = K × K` with idempotents `e₁, e₂`, the summands `e₁V` and `e₂V` are totally
+isotropic and `h` pairs them perfectly; `Λ = e₁Λ ⊕ e₂Λ`, and unimodularity says that `e₂Λ` is the
+dual of `e₁Λ` under this pairing, so that `g ↦ g|_{e₁V}` identifies `𝒢_Λ` with `GL_O(e₁Λ)`, a
+reductive model (*reductive-model*, `SmoothModel.generalLinear_isReductive`). In the unramified
+case let `H` be the Gram matrix of `h` in an `O′`-basis of `Λ`, invertible because `Λ` is
+unimodular. The morphism `g ↦ g^*Hg` from `Res_{O′/O} GL_{O′}(Λ)` to the `O`-scheme of Hermitian
+`n × n` matrices has differential `X ↦ g^*HX + (g^*HX)^*` at `g`, which is onto the Hermitian
+matrices because `X ↦ g^*HX` is bijective and `Tr : O′ → O` is onto. Its fibre over `H` is
+therefore smooth over `O`, hence `O`-flat, with generic fibre `U(V)`, and it is `𝒢_Λ` by the
+uniqueness clause of *schematic-closure*. Its special fibre is the fibre over `H mod ϖ` of the same
+morphism over `κ`, the unitary group of the nondegenerate reduction of `h` on `Λ/ϖΛ` over the
+residue extension, which is connected reductive in every characteristic; so `𝒢_Λ` is reductive.
+The passage to almost all places of a number field belongs to AdelicAlgebraicGroups AA.1.1
+(*Reductive models outside finitely many places*, *Uniqueness of integral models up to enlarging
+`S`*).
+
+*Needs:* *smooth-affine-model*; *schematic-closure*; *reductive-model*; RG2.0a
+*weil-restriction-group-scheme*; RG2.0a *integral-weil-restriction*; RG2.0a
+*weil-restriction-base-change*; ReductiveGroups layer 6; Mathlib `Submodule.IsLattice`.
+*Lean:* none (README-only).
+
+**Checks.**
+
+- *hermitianLatticeModel_gaussian* — for `ℚ(i)/ℚ`, `V = ℚ(i)` with `h(x, y) = x̄y` and `Λ = ℤ[i]`:
+  at `p = 5`, which splits, the model `𝒢_{Λ_5}` of the completion `Λ_5` of `Λ` at `5` is `𝔾_m`
+  over `ℤ_5`; at `p = 3`, which is inert, it is the norm-one torus of the unramified extension
+  `ℤ_3[i]/ℤ_3`, with `|U_1(𝔽_3)| = 4` points over `𝔽_3`.
+- *hermitianLatticeModel_ramified* (non-example) — for the ramified `K′ = ℚ_3(√−3)` over `ℚ_3`,
+  `Π = √−3` and the unimodular line `Λ = O′` with `h(x, y) = x̄y`, write `x = a + bΠ`; then
+  `N(x) ≡ a² mod 3`, and the special fibre of `𝒢_Λ` is `{a² = 1} × {b} ≅ μ₂ × 𝔾_a`, which is
+  neither connected nor reductive. Unimodularity alone does not give a reductive model at a
+  ramified place, which is why (b) assumes `K′/K` unramified or split.
 
 ### RG2.3.6 Moy–Prasad filtrations
 
@@ -7197,6 +7278,9 @@ prove these inputs in the validity range of the ordinary and graph-twisted finit
 - [Bruhat–Tits 1984] François Bruhat, Jacques Tits, *Schémas en groupes et immeubles des groupes
   classiques sur un corps local*, Bull. Soc. Math. France 112 (1984), 259–301.
   http://www.numdam.org/item/10.24033/bsmf.2006.pdf
+- [Bruhat–Tits 1987] François Bruhat, Jacques Tits, *Schémas en groupes et immeubles des groupes
+  classiques sur un corps local. II. Groupes unitaires*, Bull. Soc. Math. France 115 (1987), 141–195.
+  http://www.numdam.org/item/10.24033/bsmf.2073.pdf
 - [Bruhat–Tits I] François Bruhat, Jacques Tits, *Groupes réductifs sur un corps local. I. Données
   radicielles valuées*, Publ. Math. IHÉS 41 (1972), 5–251.
   http://www.numdam.org/item/10.1007/BF02715544.pdf

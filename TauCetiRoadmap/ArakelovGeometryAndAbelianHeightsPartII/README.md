@@ -119,6 +119,18 @@ Use the supplied projective intersection, Hilbert–Samuel input and arithmetic 
 
 *Needs:* §0.1; HeightsRationalPointsAndObstructions §§5.17a–5.17f; ArithmeticDynamics §§4.1a and 4.3; SchemeAndStackFoundations §§5.2–5.3 (degrees of products of first Chern classes, for the geometric case).
 
+### 0.3a Moriwaki's inequality for hermitian line bundles nef on the fibres
+
+Let X be a projective arithmetic variety of dimension d (§0.1) and L̄ = (L, ‖·‖) a hermitian line bundle on X whose metric is smooth and semipositive. If L is nef on every geometric fibre of X → Spec ℤ, then vol^(L̄) ≥ L̄^d, where vol^ is the arithmetic volume of §0.3 and L̄^d the arithmetic self-intersection number (HeightsRationalPointsAndObstructions §5.17a); in particular L̄ is big when L̄^d > 0. This is Moriwaki's inequality, the generalised Hodge index theorem (moriwaki-2009, Theorem 6.2 with Example 6.1 (2), stated as Corollary 6.4, pp. 40–42). X need not be normal and X_ℚ need not be smooth. The hypothesis holds as soon as L is nef on the closed fibre X_𝔽ₚ for every prime p: nefness does not change under extension of the base field, and L_ℚ is then nef on X_ℚ, because a curve in X_ℚ has a closure in X flat over an open subscheme of Spec ℤ, whose special fibres are 1-cycles of the same degree. No condition on horizontal curves is imposed: when L̄ is moreover nef in the sense of §0.1, equality holds by §0.3 (1), and the inequality extends the lower bound to bundles nef only on the fibres.
+
+*Route.* Fix an ample line bundle A on X with a smooth metric of positive curvature, Ā. For rational ε > 0, L + εA is ample and L̄ + εĀ is semipositive, so HeightsRationalPointsAndObstructions §5.17d gives χ̂(H⁰(n(L̄ + εĀ))) = (L̄ + εĀ)^d·n^d/d! + o(n^d); Minkowski's theorem gives ĥ⁰ ≥ χ̂ + o(n^d), so vol^(L̄ + εĀ) ≥ (L̄ + εĀ)^d. Let ε → 0 through rationals, by the continuity and homogeneity of vol^ (§0.3 (3)) on the left and multilinearity on the right. When X_ℚ is not smooth the source reduces to a generic resolution of singularities μ : Y → X by vol^(μ^*L̄) = vol^(L̄) (moriwaki-2009, Theorem 4.2, p. 27) and the projection formula; the route above applies as it stands, HeightsRationalPointsAndObstructions §5.17d being stated on singular models.
+
+**Checks.**
+
+- X = Spec ℤ (d = 1), L̄ = O(c): vol^ = max(c, 0) (first Check of §0.3), and the inequality reads max(c, 0) ≥ c. Equality fails for c < 0, where O(c) is semipositive and not nef (§0.1), so a statement "vol^ = L̄^d" would need nefness.
+
+*Needs:* §0.1; §0.3; HeightsRationalPointsAndObstructions §§5.17a, 5.17d (with its Minkowski input).
+
 ### Examples
 
 On Spec ℤ take norms e⁻¹ and e⁻²: tensor norm e⁻³, degrees 1+2=3; norm e gives degree −1 and is not nef. On Spec ℤ, c=1 gives log(2⌊e^m⌋+1)/m → 1; c=0 gives log 3/m → 0; c=−1 gives 0. With A-degree 2, B-degree 1 and ε=1 the Siu lower bound is 1.
@@ -2209,3 +2221,5 @@ The locators use the editions named here; no source text is reproduced. The PDF 
 - **moret-bailly-1989.** Laurent Moret-Bailly, *La formule de Noether pour les surfaces arithmétiques*, Invent. Math. 98 (1989), 491–498, Théorème 2.5. [Publisher locator](https://doi.org/10.1007/BF01393833). The primary text is uncertified; the displayed normalization is also in yuan-2026, p. 89.
 
 - **faltings-1984.** Gerd Faltings, *Calculus on arithmetic surfaces*, Ann. of Math. 119 (1984), 387–424, Theorem 6 and pp. 401–402 for δ. [Publisher locator](https://doi.org/10.2307/2007043). The original text is uncertified; Wilms Theorem 1.1 supplies the theta-integral characterization used here.
+
+- **moriwaki-2009.** Atsushi Moriwaki, *Continuity of volumes on arithmetic varieties*. Journal of Algebraic Geometry 18 (2009), 407–457. [Legal source](https://arxiv.org/pdf/math/0612269v2). Use the cited preprint version and its printed numbering.

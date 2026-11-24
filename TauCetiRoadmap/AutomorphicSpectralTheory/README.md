@@ -2839,6 +2839,24 @@ Prove the following API statements.
 *Needs:* AdelicAlgebraicGroups §2.3 (automorphic quotient measure); AdelicAlgebraicGroups §§3.4, 3.6 (Siegel covering); §4.2.
 
 
+### 6.4a Trace class on the cuspidal and discrete spectrum
+
+Prove `cusp_disc_trace_class`. Let `G` be a connected reductive group over a number field `F` and `f∈C_c^∞(G(𝔸)^1)`. Then `R(f)` restricted to `L²_cusp([G]^1)` is trace class, and `R(f)` restricted to `L²_disc([G]^1)` is trace class, with `L²_cusp` and `L²_disc` as in §4.4. When `[G]^1` is compact this is part of §6.17. On the whole of `L²([G]^1)` the operator `R(f)` need not be trace class.
+
+*Standing hypotheses:* number-field `G`; `f` smooth and compactly supported, hence of some fixed finite level; the quotient measure and the operator `R(f)` of §6.4.
+
+For the cuspidal clause, write `f=Σ_i f_i∗g_i` with `f_i,g_i∈C_c^∞` by the Dixmier–Malliavin factorization (AutomorphicFormsOnReductiveGroups §2.7, `dixmierMalliavin`). Each `R(f_i)` and each `R(g_i)` restricted to `L²_cusp` has a kernel bounded through the rapid decay of cusp forms (§3.4), hence is Hilbert–Schmidt (§0.8), and `R(f) = Σ_i R(f_i)R(g_i)` is trace class (§0.9). For the discrete clause, Müller proves it first for `K_∞`-finite `f` and then for general `f`; the residual spectrum is controlled by the Eisenstein series of §4.4 and the same factorization. Müller proves the `K_∞`-finite case for arithmetic quotients of the real points of a reductive group over `ℚ` and deduces the adelic form over `ℚ`, the adelic quotient at a fixed level being a finite union of such quotients. For a number field `F` apply this to the restriction of scalars of `G` to `ℚ`. The form used here, over a number field and without `K_∞`-finiteness, is recorded in [FLM11], Remark 3 after Theorem 3.
+
+**Checks.**
+
+- `G=GL₁` over `ℚ`: `[G]^1` is compact, `L²_cusp=L²`, and `R(f)` is a convolution operator on a compact group, trace class with trace `Σ_χ χ̂(f)`, as in §6.17.
+- For `G=SL₂`, `R(f)` on the whole of `L²([G])` is in general not trace class: the continuous spectrum contributes a non-discrete part.
+
+([Mül89], Corollaries 0.2 and 8.8 in the numbering of its preprint MPI 88-31, pp. 2 and 84, for `K_∞`-finite `f` over `ℚ`; [Mül98] for general `f`; [FLM11], Remark 3, for the adelic form over a number field.)
+
+*Needs:* §§0.8, 0.9, 3.4, 4.4–4.5, 6.4; AutomorphicFormsOnReductiveGroups §2.7 (`dixmierMalliavin`); OperatorTheory/OperatorIdeals OI-B30, OI-B41 (trace-class and Hilbert–Schmidt families).
+
+
 ### 6.5 Coarse truncated trace kernels
 
 Define `coarse_truncated_kernel` as follows. For a positive regular `T`, define `k_f^T(x)=Σ_{P⊃P₀}(−1)^dim(a_P/a_G)Σ_{δ∈P(F)\G(F)}τ̂_P(H_P(δx)−T)K_{P,f}(δx,δx)`. Keeping only a geometric class `o` or spectral class `χ` defines `k_o^T` or `k_χ^T`. Its integral `J^T(f)` is a regularized trace, not the ordinary trace of `R(f)` on noncompact `[G]`. At fixed `f` the class integrals are polynomials of `degree≤dim(a₀/a_G)` for sufficiently regular `T`.
@@ -3497,7 +3515,7 @@ In a two-chamber family `c±=b+a±z`, the regularized value is `a₊−a₋`. Wa
 
 ### Dependencies
 
-The real transform uses smooth LF tests, normalized real induction and infinitesimal characters. Spectral multipliers feed the spectral trace estimates. The coarse trace uses automorphic kernels, reduction and truncation; fine expansions add weighted orbital integrals and normalized weighted characters; invariant recursion uses the almost-compact Fourier image and lower-Levi descent. Pseudo-coefficients precede Euler–Poincaré functions and the `L²`-Lefschetz theorem. The function-field suffix uses fixed-degree kernel convergence, determinant roots, finite-kernel torus Fourier inversion, degree cutoffs and regularized operator families. Its root-basis and family identities are constructed before their cutoff and spectral consumers, in the order specified above.
+The real transform uses smooth LF tests, normalized real induction and infinitesimal characters. Spectral multipliers feed the spectral trace estimates. The trace class of `R(f)` on the cuspidal and discrete spectrum (§6.4a) uses Hilbert–Schmidt kernels and operator traces, rapid decay of cusp forms, the discrete spectrum and the Dixmier–Malliavin factorization. The coarse trace uses automorphic kernels, reduction and truncation; fine expansions add weighted orbital integrals and normalized weighted characters; invariant recursion uses the almost-compact Fourier image and lower-Levi descent. Pseudo-coefficients precede Euler–Poincaré functions and the `L²`-Lefschetz theorem. The function-field suffix uses fixed-degree kernel convergence, determinant roots, finite-kernel torus Fourier inversion, degree cutoffs and regularized operator families. Its root-basis and family identities are constructed before their cutoff and spectral consumers, in the order specified above.
 
 ## Layer 7: `GLₙ` transfer applications
 
@@ -3834,3 +3852,6 @@ For the specified compatible packet parameters in §2.8, ArithmeticGaloisReprese
 - **[Ram15]**: Dinakar Ramakrishnan, [A mild Tchebotarev theorem for GL(n)](https://www.its.caltech.edu/~dinakar/papers/mildTcheb-arxiv.pdf). J. Number Theory 146 (2015), 519–533; locators use the author preprint pagination.
 - **[Sar03]**: Peter Sarnak, [Notes on the Generalized Ramanujan Conjectures](https://web.math.princeton.edu/~sarnak/Preprints/SarnakFieldsNotes.pdf). Fields Institute lectures, June 2003, §2, pp.7–8.
 - **[Ram18]**: Dinakar Ramakrishnan, [A Theorem on GL(n) à là Tchebotarev](https://arxiv.org/pdf/1806.08429v1). arXiv:1806.08429v1.
+- **[Mül89]**: Werner Müller, [The trace class conjecture in the theory of automorphic forms](https://archive.mpim-bonn.mpg.de/id/eprint/295/). Ann. of Math. (2) 130 (1989), 473–529; Zbl 0701.11019. The link is the preprint MPI 88-31 (Max-Planck-Institut für Mathematik, 1988); locators use its numbering and pagination.
+- **[Mül98]**: Werner Müller, *The trace class conjecture in the theory of automorphic forms. II*. Geom. Funct. Anal. 8 (1998), 315–355.
+- **[FLM11]**: Tobias Finis, Erez Lapid and Werner Müller, [On the spectral side of Arthur's trace formula — absolute convergence](https://www.math.uni-bonn.de/people/mueller/papers/specpaper060311.pdf). Ann. of Math. (2) 174 (2011), 173–195; author's copy.

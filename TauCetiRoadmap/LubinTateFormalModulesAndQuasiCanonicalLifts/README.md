@@ -65,7 +65,8 @@ and Tate module, identifies the supplied division tower and character in primiti
 compares the character with the arithmetic Artin map. Layer 3 is the deformation theory of formal
 `O_K`-modules of finite height. Layer 4 is Honda's functional-equation theory over
 characteristic-zero discrete valuation rings with a lift of a power of Frobenius, its converse over
-unramified bases, and the
+unramified bases, the functional-equation lemma and the Dieudonné–Dwork lemma in several variables,
+quasi-logarithms and the Dieudonné module, and the
 supersingular elliptic comparison. Layer 5 builds integral lattice quotients of formal modules and
 their homomorphisms. Layer 6 builds canonical and quasi-canonical lifts as finite-residue lattice
 quotients, compares the quadratic ones with their supplied strict-base models when `F₀/ℚ_p` is
@@ -168,7 +169,11 @@ content as follows; the former layer `LT.k` is Layer `k` for `k = 0, …, 9`.
   `O` is any discrete valuation ring of characteristic zero and residue characteristic `p`
   satisfying Honda's condition (F) of §4.1, `q` is the power of `p` in (F) and need not be the
   residue cardinality, the residue field may be infinite, and the fraction field `K` need be neither
-  complete nor finite over `ℚ_p`; Layers 2, 3, 5 and 6 and §§7.1–7.2 allow either characteristic
+  complete nor finite over `ℚ_p`; §4.2a works over the rings `S ⊂ Q` stated there, and in its
+  Checks `K` is a field of characteristic zero with a nonarchimedean absolute value of residue
+  characteristic `p` and `O` is its valuation ring; §4.2b works over `ℤ_p`, and §4.3a over the
+  coefficient rings stated there, its clause (ii) over `W(𝔽̄_p)`; Layers 2, 3, 5 and 6
+  and §§7.1–7.2 allow either characteristic
   and assume `K/ℚ_p` or `F₀/ℚ_p` finite only in the clauses that say so (all of §5.5); in §§0.3–0.4,
   4.3–4.4 and 7.3–7.6 and in Layers 8–9, `K` has characteristic zero, so `K/ℚ_p` is finite with
   ramification index `e` and residue degree `f`.
@@ -1239,7 +1244,10 @@ Honda's theory describes formal groups by the functional equation of their logar
 Frobenius lift in the type operator is data, never suppressed notation. Over the unramified ring
 `W(𝔽_(p²))` it identifies the explicit logarithm of the Lubin–Tate module for `±p`, and with the
 recognition statement of §1.3 it shows that the formal group of a supersingular elliptic curve with
-scalar Frobenius is a Lubin–Tate module. These results hold for every prime `p`.
+scalar Frobenius is a Lubin–Tate module. Sections 4.2a and 4.2b carry the functional-equation
+integrality to several variables and state the Dieudonné–Dwork integrality criterion in several
+variables, and §4.3a describes the Dieudonné module of a formal group by quasi-logarithms, with an
+explicit basis for the laws of §4.3. These results hold for every prime `p`.
 
 ### 4.1 Honda type operators
 
@@ -1316,6 +1324,90 @@ pp.228–230, which do). The converse is not used over ramified coefficient ring
 *Needs:* §4.1; Tau Ceti `FormalGroup.log`, `FormalGroup.exp`, `TauCeti.FormalGroupHom`,
 `TauCeti.FormalGroupIso.IsStrict` (homomorphisms, strict isomorphisms).
 
+### 4.2a The functional-equation lemma in several variables
+
+Let `S` be a subring of a commutative ring `Q`, `𝔞` an ideal of `S`, `τ` a ring endomorphism of
+`Q`, `p` a prime, `q = p^e` with `e ≥ 1`, and `s_1, s_2, …` `m × m` matrices with entries in `Q`.
+Assume `p ∈ 𝔞`, `τ(b) ≡ b^q (mod 𝔞)` for every `b ∈ S`, and `τ^r(c)·𝔞 ⊂ S` for every entry `c` of
+every `s_i` and every `r ≥ 0`. For an `m`-tuple `f` of series over `Q` without constant terms, in
+finitely many variables `X = (X_1, …, X_n)`, let `τ_*f` be the tuple with `τ` applied to the
+coefficients, `X^(q^i) = (X_1^(q^i), …, X_n^(q^i))`, and
+`D(f) = f − Σ_(i≥1) s_i·(τ_*^i f)(X^(q^i))`, a sum with finitely many terms in each degree. A
+system of `m` series in `m` variables over a commutative ring, without constant terms and with
+invertible linear part, has a unique two-sided substitution inverse over that ring; prove this
+first (for `m = 1` it is `PowerSeries.substInv`). Let `f` be an `m`-tuple in `m` variables with
+`D(f)` over `S` and `f(X) ≡ b_1·X` modulo degree two, `b_1` an `m × m` matrix invertible over `S`,
+and let `f^(−1)` be its substitution inverse over `Q`. Prove:
+
+(i) the `m`-tuple `F_f(X, Y) = f^(−1)(f(X) + f(Y))` in `2m` variables has coefficients in `S`; it
+satisfies `F_f(X, 0) = X`, `F_f(X, Y) = F_f(Y, X)` and the associativity identity, so it is a
+commutative formal group law of dimension `m` with coefficients in `S` on which `f` is an
+isomorphism to the additive law over `Q` (its logarithm when `b_1 = 1`) (a `FormalLieGroup` of
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.12 when `S` is a complete noetherian local
+ring);
+
+(ii) if `f̄` is an `m`-tuple in `n` variables with `D(f̄)` over `S`, then `f^(−1)(f̄)` has
+coefficients in `S`; in particular two tuples as in (i) with the same linear part have laws
+isomorphic over `S` by a tuple with identity linear part;
+
+(iii) if `h` is an `m`-tuple of series over `S` without constant terms, in any finite set of
+variables, then `D(f(h))` has coefficients in `S`;
+
+(iv) for `m`-tuples `α` over `S` and `β` over `Q` without constant terms and every `r ≥ 1`,
+`α ≡ β (mod 𝔞^r)` if and only if `f(α) ≡ f(β) (mod 𝔞^r)`
+
+(Haz79, §2, 2.1–2.8; the proof is in Haz78, I.2 and II.10; after H70). There is no restriction on
+`p`. A proof route: for (ii) show by induction on the degree that the coefficients of `f^(−1)(f̄)`
+lie in `S`, using for the substituted terms `τ(b) ≡ b^q (mod 𝔞)` and the fact that
+`x ≡ y (mod 𝔞^r)` in `S`, `r ≥ 1`, gives `x^p ≡ y^p (mod 𝔞^(r+1))`, because `p ∈ 𝔞` (Haz78, §2,
+the proof of the lemma).
+
+**Checks.**
+
+- Let `K` be a field of characteristic zero with a nonarchimedean absolute value of residue
+  characteristic `p`, `O` its valuation ring, and `σ` a ring endomorphism of `K` with `σ(O) ⊂ O`
+  and `σ(a) ≡ a^p (mod pO)` for `a ∈ O`. Then `S = O`, `Q = K`, `𝔞 = pO`, `τ = σ²`, `q = p²`,
+  `s_1 = p^(−1)` (a scalar matrix) and `s_i = 0` for `i ≥ 2` satisfy the hypotheses, and
+  `D(g) = g − p^(−1)·g^(σ²)(X^(p²))`. For `m = 1` the series `ℓ₁ = Σ_(j≥0) p^(−j) X^(p^(2j))` (the
+  logarithm `ℓ₁` of §4.3) has `D(ℓ₁) = X`, and (ii) says that every series `g` in finitely many
+  variables with `g(0) = 0` and `D(g)` integral is `ℓ₁(ϑ)` with `ϑ` integral and `ϑ(0) = 0`. For
+  `m = n` and a system `g ≡ X` modulo degree two with `D(g)` integral, (i) and (ii) give the
+  integral law `F_g` and, for a second such system `g′`, the integral isomorphism `g′^(−1)(g(X))`
+  from `F_g` to `F_(g′)`; for `g = (ℓ₁(X_1), …, ℓ₁(X_n))`, `F_g` is the product of `n` copies of
+  the law of `ℓ₁`.
+- In that setting, if `O` is a discrete valuation ring in which `p` is a uniformizer, so that `σ`
+  satisfies condition (F1) of §4.2, then in one variable `(p − T²) ⋆ g = p·D(g)` with the `q = p`
+  of §4.1: `D(g)` integral is Honda type `p − T²`, and (i), (ii) for `m = n = 1` are the
+  integrality statements of §4.2 for that type.
+- `g = X + X²/p` has `D(g)` with coefficient `1/p` at `X²`, since `p² > 2`; its law is not
+  integral (§4.2, Checks).
+
+*Needs:* §§4.1–4.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.12; Mathlib
+`MvPowerSeries`, `MvPowerSeries.subst`, `PowerSeries.substInv`.
+
+### 4.2b The Dieudonné–Dwork lemma in several variables
+
+Let `p` be a prime, `X = (X_1, …, X_n)` and `X^p = (X_1^p, …, X_n^p)`. Prove: a series
+`γ ∈ ℚ_p[[X]]` with constant term `1` lies in `ℤ_p[[X]]` if and only if
+`γ(X^p)/γ(X)^p ∈ 1 + p·ℤ_p[[X]]`; equivalently, for `ϑ ∈ ℚ_p[[X]]` with `ϑ(0) = 0`,
+`exp(ϑ) ∈ ℤ_p[[X]]` if and only if `ϑ(X^p) − p·ϑ ∈ p·ℤ_p[[X]]` (KR11, Lemma 1; the exponential
+form is the first step of the proof of Lemma 2, Section 4; in one variable this is the lemma of
+Dieudonné and Dwork, Lan80, chapter 14, p.76). A proof route: the two forms are equivalent, because
+`exp(ϑ)(X^p)/exp(ϑ)^p = exp(ϑ(X^p) − p·ϑ)` and, for integral series `y`, `z` without constant term,
+`exp(p·y) ∈ 1 + p·ℤ_p[[X]]` and `log(1 + p·z) ∈ p·ℤ_p[[X]]`, since `v_p(p^k/k!) ≥ 1` and
+`v_p(p^k/k) ≥ 1` for `k ≥ 1`. If `γ` is integral, then `γ(X)^p ≡ γ(X^p) (mod p)` and `γ(X)^p` is
+a unit, which gives one direction; the converse is proved coefficient by coefficient, by induction
+on the total degree, as in one variable.
+
+**Checks.**
+
+- `ϑ = X_1`: `ϑ(X^p) − p·ϑ = X_1^p − pX_1 ∉ p·ℤ_p[[X]]`, and `exp(X_1)` is not integral (its
+  coefficient of `X_1^p` is `1/p!`).
+- `ϑ = Σ_(e≥0) X_1^(p^e)/p^e`: `ϑ(X^p) − p·ϑ = −pX_1`, so the Artin–Hasse exponential `exp(ϑ)` is
+  integral.
+
+*Needs:* Mathlib `PowerSeries.exp`, `MvPowerSeries`, `MvPowerSeries.subst`, `PadicInt`.
+
 ### 4.3 The unramified Honda–Lubin–Tate comparison
 
 Let `p` be prime, `O = W(𝔽_(p²))`, `q = p²` and `s ∈ {1, −1}`. Let `G` be a commutative formal group
@@ -1360,6 +1452,66 @@ the Lubin–Tate module of parameter `−p`: that is the correct pair, type `p +
 `TauCeti.FormalGroupIso.IsStrict`; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.1
 (`frobeniusHom`) and §R07.2.8 (`dieudonneEquivalenceFinite`) for the Dieudonné reading of scalar
 Frobenius.
+
+### 4.3a Quasi-logarithms and the Dieudonné module
+
+Let `R` be a ring flat over `ℤ`, `R_ℚ = R ⊗ ℚ`, and `F` a commutative formal group law over `R`,
+with logarithm `ℓ_F` over `R_ℚ`. A *quasi-logarithm* of `F` is a series `f ∈ X·R_ℚ[[X]]` whose
+derivative `f′` lies in `R[[X]]` and whose defect `δ_F f(X, Y) = f(F(X, Y)) − f(X) − f(Y)` lies in
+`R[[X, Y]]`; for a formal `A`-module over `R` (§0.1) one asks moreover that `f([a](X)) − a·f(X)`
+lie in `R[[X]]` for every `a ∈ A`. The quasi-logarithms modulo `X·R[[X]]` form an `R`-module
+`QLog(F/R)`, which contains the classes of the multiples `c·ℓ_F`, `c ∈ R`, whose defect is `0`
+(K81, §5.1, p.193, where this module is the explicit description of the Dieudonné module of a
+formal Lie group over a `ℤ`-flat ring; BW16, Definition 2.3, for formal modules). K81, Theorem
+5.2.1, identifies it with the group of rigidified extensions of `F` by the additive group; for a
+formal module of finite height over a local base this is BW16, Proposition 2.4. Prove:
+
+(i) if `R` is moreover a complete noetherian local ring with residue characteristic `p` and `F` is
+`p`-divisible of height `h` (FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.12), then
+`QLog(F/R)` is locally free, hence free, of rank `h`; the classes of the multiples of `ℓ_F`, the
+invariant differentials, form a submodule free of rank one, and the quotient is the tangent space
+of the Cartier dual of the connected `p`-divisible group of `F`
+(FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.7, R07.1.13–R07.1.15), free of rank `h − 1`
+(K81, (5.3.1)–(5.3.2) and Theorem 5.3.3, for `p`-divisible formal Lie groups of any dimension `d`
+over `ℤ`-flat `p`-adically complete rings, where the quotient has rank `h − d`);
+
+(ii) let `p` be a prime, `s ∈ {1, −1}`, `ℓ_s = Σ_(j≥0) (sp)^(−j) X^(p^(2j))` the logarithm of
+§4.3, and `F_s = ℓ_s^(−1)(ℓ_s(X) + ℓ_s(Y))`. Over `ℤ_p` with `σ = id` (condition (F1) of §4.2),
+`ℓ_s` has type `p − sT²`, since `p·ℓ_s − s·ℓ_s(X^(p²)) = pX` (§4.3); so `F_s` and the series
+`[a] = ℓ_s^(−1)(a·ℓ_s)`, `a ∈ ℤ_p`, are integral (§4.2; for `[a]` take `t = a` in its criterion),
+and `F_s` with this action is the standard formal `ℤ_p`-module of height two for the uniformizer
+`sp`, whose logarithm is `Σ_(i≥0) X^(p^(2i))/(sp)^i`. Write `W(𝔽̄_p)` for the integers of the
+completion of the maximal unramified extension of `ℚ_p`, and regard `F_s` as a formal
+`ℤ_p`-module over `W(𝔽̄_p)`. Then `g₀ = ℓ_s(X^p)/p` is a quasi-logarithm of it, and the classes
+of `ℓ_s` and `g₀` form a basis of the `W(𝔽̄_p)`-module `QLog(F_s/W(𝔽̄_p))`: every
+quasi-logarithm over `W(𝔽̄_p)` is `α·g₀ + β·ℓ_s + r` with `α, β ∈ W(𝔽̄_p)` and
+`r ∈ X·W(𝔽̄_p)[[X]]` (BW16, Lemma 2.5, which attributes it to HG94, Proposition 13.8). A proof
+route: (i) is K81, Theorem 5.3.3, read through the explicit description of §5.1 there; over a
+local ring a locally free module of finite rank is free. (ii) is the case `K = ℚ_p`, `n = 2`,
+`π = sp` of BW16, Lemma 2.5 (HG94, Proposition 13.8): for a finite extension `K/ℚ_p` with
+uniformizer `π` and residue cardinality `q`, and the standard formal `O_K`-module of height `n`
+over the integers of the completion of the maximal unramified extension of `K`, whose logarithm
+is `log(X) = Σ_(i≥0) X^(q^(in))/π^i`, the classes of `log(X)`, `π^(−1)·log(X^q)`, …,
+`π^(−1)·log(X^(q^(n−1)))` form a basis of the quasi-logarithms modulo integral series. Here
+`log = ℓ_s` and `π^(−1)·log(X^p) = (sp)^(−1)·ℓ_s(X^p) = s·g₀`, `s` being a unit.
+
+**Checks.**
+
+- `g₀ = X^p/p + ⋯` has coefficient `1/p` at `X^p`, while `ℓ_s` has no term of degree `p`; so
+  `g₀` is not `β·ℓ_s` plus an integral series for any `β ∈ W(𝔽̄_p)[1/p]`, and it cannot be
+  omitted from the basis of (ii).
+- The condition on `f′` cannot be dropped: every `β·ℓ_s`, `β ∈ W(𝔽̄_p)[1/p]`, has `δ_F = 0` and
+  `β·ℓ_s([a](X)) = aβ·ℓ_s(X)`, but `(β·ℓ_s)′` is integral only for `β ∈ W(𝔽̄_p)`. Without that
+  condition the series modulo `X·W(𝔽̄_p)[[X]]` would contain the classes of all `β·ℓ_s`,
+  `β ∈ W(𝔽̄_p)[1/p]`, which are distinct for distinct `β` (the coefficients `β·(sp)^(−j)` are
+  unbounded unless `β = 0`): a copy of `W(𝔽̄_p)[1/p]`, which is not a finitely generated
+  `W(𝔽̄_p)`-module.
+- For the multiplicative law `X + Y + XY` over `ℤ_p`, `p`-divisible of height one with logarithm
+  `log(1 + X)`, the quotient in (i) has rank `h − 1 = 0`: every quasi-logarithm is `c·log(1 + X)`
+  plus an integral series, with `c ∈ ℤ_p`.
+
+*Needs:* §§0.1, 4.2, 4.3; Tau Ceti `FormalGroup.log`; FiniteFlatGroupsAndIntegralPadicHodgeTheory
+§§R07.1.7, R07.1.12–R07.1.15; Mathlib `PowerSeries.derivative`, `PadicInt`, `WittVector`.
 
 ### 4.4 The supersingular elliptic comparison
 
@@ -1409,9 +1561,11 @@ Over `W(𝔽_(p²))` choose the Honda model of the Lubin–Tate module for `−p
 ### Dependencies
 
 §§0.1, 1.3; EllipticCurves Layers 1 and 3; ModularCurves §§7C, 7E;
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.1, R07.2.8; Tau Ceti's elliptic formal group,
-its multiplication series `FormalGroup.zsmulSeries`, logarithm, homomorphisms and strict
-isomorphisms; Mathlib `WittVector`, `GaloisField` and Weierstrass curves.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.1, R07.1.7, R07.1.12–R07.1.15, R07.2.8; Tau
+Ceti's elliptic formal group, its multiplication series `FormalGroup.zsmulSeries`, logarithm,
+homomorphisms and strict isomorphisms; Mathlib `WittVector`, `GaloisField`, Weierstrass curves,
+`MvPowerSeries` with its substitution, `PowerSeries.substInv`, `PowerSeries.exp`,
+`PowerSeries.derivative` and `PadicInt`.
 
 ## Layer 5: Lattice kernels and integral quotient isogenies
 
@@ -2277,7 +2431,9 @@ Tate-module comparisons, the arithmetic Artin comparison and the change-of-unifo
 2). Marked deformations of formal `O_K`-modules over a specified coefficient ring, their coefficient
 algebra, cocycles, lifting torsors, tangent space and the extension of universal deformations to
 arbitrary specified coefficient bases (Layer 3). Honda type operators, functional-equation
-integrality and the unramified and supersingular elliptic Lubin–Tate comparisons (Layer 4). Tate
+integrality in one and several variables, the Dieudonné–Dwork lemma in several variables,
+quasi-logarithms and the Dieudonné module of a formal group, and the unramified and supersingular
+elliptic Lubin–Tate comparisons (Layer 4). Tate
 lattices, integral lattice quotients of formal modules with their Frobenius-twisted markings,
 homomorphisms and descent (Layer 5). Finite-residue descent and higher-degree lattice classification
 of canonical and quasi-canonical lifts, quadratic order algebra and fields of moduli (Layer 6).
@@ -2325,11 +2481,13 @@ correction of traces between differently indexed generators and the trace-compat
   `FormalLieGroup.End`, `FormalLieGroup.Points` and the dimension-one comparison
   `FormalLieGroup.ofFormalGroup`; the equivalence `BarsottiTate.equivFormalLieGroup` between
   `p`-divisible formal Lie groups and connected `p`-divisible groups; the `ℤ_p`-Tate module
-  `BarsottiTate.tateModule`; schematic closure `schematicClosure_flat`; quotients
+  `BarsottiTate.tateModule`; the Cartier dual of a `p`-divisible group, its dimension and tangent
+  space, and `dim G + dim G^D` equal to the height; schematic closure `schematicClosure_flat`;
+  quotients
   `BarsottiTate.quotientFiniteFlatSubgroup` by finite flat subgroups over a complete discrete
   valuation ring; relative Frobenius and Verschiebung `frobeniusHom`, `verschiebungHom` and finite
   Dieudonné theory `dieudonneEquivalenceFinite`: FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  §§R07.1.1, R07.1.8, R07.1.12–R07.1.13, R07.1.20–R07.1.20a, R07.2.6–R07.2.8. Sections 2.1–2.2
+  §§R07.1.1, R07.1.7–R07.1.8, R07.1.12–R07.1.15, R07.1.20–R07.1.20a, R07.2.6–R07.2.8. Sections 2.1–2.2
   differ by working `π`-adically with the `O_K`-action; §5.2 differs by constructing the quotient
   as a formal `O₀`-module with an explicit integral coordinate and a Frobenius-twisted marking.
 - The elliptic formal group law and its base change (`WeierstrassCurve.formalGroup`,
@@ -2375,6 +2533,9 @@ correction of traces between differently indexed generators and the trace-compat
 - `PowerSeries.substInv`, `PowerSeries.substInvOfIsUnit`, `PowerSeries.subst_substInv_left` and
   `PowerSeries.subst_substInv_right`: the two-sided substitution inverse of a series with zero
   constant term and invertible linear coefficient.
+- `MvPowerSeries`, `PowerSeries.exp`, `PowerSeries.derivative` and `PadicInt`: power series in
+  several variables, the exponential series over `ℚ`-algebras, the formal derivative and the
+  `p`-adic integers (§§4.2a, 4.2b, 4.3a).
 - `PowerSeries.eval₂Hom` and `PowerSeries.comp_eval₂`: evaluation at an element with
   `PowerSeries.HasEval` in a complete separated linearly topologized ring, and its compatibility
   with continuous ring maps.
@@ -2568,7 +2729,12 @@ characteristic zero. §R07.1.20 supplies `schematicClosure_flat` over a Dedekind
 `0 → T_p(G) → T_p(G/H) → H(K̄) → 0`, over a complete discrete valuation ring of mixed
 characteristic. §R07.1.1 supplies `frobeniusHom` and `verschiebungHom` with `V∘F = [p] = F∘V`;
 §§R07.2.6–R07.2.8 supply the contravariant finite Dieudonné module and
-`dieudonneEquivalenceFinite`. Variances are those of the supplier.
+`dieudonneEquivalenceFinite`. Variances are those of the supplier. Section 4.2a uses §R07.1.12
+(`FormalLieGroup`) for the law of its clause (i) when the base is a complete noetherian local
+ring. Section 4.3a uses §R07.1.12 (`p`-divisibility and height of a formal Lie group) and §R07.1.13
+with §R07.1.7 (the Cartier dual of a `p`-divisible group), §R07.1.14 (its tangent space, free of
+rank its dimension) and §R07.1.15 (`dim G + dim G^D` is the height), for the tangent space of the
+dual of a `p`-divisible formal group law.
 
 ### From TauCetiRoadmap.EllipticCurves
 
@@ -2643,3 +2809,23 @@ formulation of the field of moduli.
   312 (2007), 57–66. [Numdam](https://www.numdam.org/item/AST_2007__312__R1_0.pdf).
 - **Mil20.** James S. Milne, *Algebraic Number Theory*, course notes, version 3.08 (2020).
   [Author page](https://www.jmilne.org/math/CourseNotes/ANT.pdf).
+- **Haz79.** Michiel Hazewinkel, *On formal groups. The functional equation lemma and some of its
+  applications*, Astérisque 63 (1979), 73–82.
+  [Numdam](https://www.numdam.org/item/AST_1979__63__73_0/).
+- **Haz78.** Michiel Hazewinkel, *Formal Groups and Applications*, Pure and Applied Mathematics 78,
+  Academic Press, 1978 (Zbl 0454.14020).
+- **KR11.** Christian Krattenthaler and Tanguy Rivoal, *Multivariate p-adic formal congruences and
+  integrality of Taylor coefficients of mirror maps*, in *Arithmetic and Galois theories of
+  differential equations*, Séminaires et Congrès 23, Société Mathématique de France, 2011, 241–269.
+  [arXiv:0804.3049](https://arxiv.org/abs/0804.3049).
+- **Lan80.** Serge Lang, *Cyclotomic Fields II*, Graduate Texts in Mathematics 69, Springer-Verlag,
+  1980.
+- **K81.** Nicholas M. Katz, *Crystalline cohomology, Dieudonné modules, and Jacobi sums*, in
+  *Automorphic forms, representation theory and arithmetic* (Bombay Colloquium, 1979), 1981,
+  165–246. [Author page](https://web.math.princeton.edu/~nmk/old/CrCohDModJacSum.pdf).
+- **BW16.** Mitya Boyarchenko and Jared Weinstein, *Maximal varieties and the local Langlands
+  correspondence for GL(n)*, Journal of the American Mathematical Society 29 (2016), 177–236, DOI
+  10.1090/jams826. [arXiv:1109.3522](https://arxiv.org/abs/1109.3522).
+- **HG94.** M. J. Hopkins and B. H. Gross, *Equivariant vector bundles on the Lubin–Tate moduli
+  space*, in *Topology and representation theory* (Evanston, 1992), Contemporary Mathematics 158,
+  American Mathematical Society, 1994, 23–88, DOI 10.1090/conm/158/01453.

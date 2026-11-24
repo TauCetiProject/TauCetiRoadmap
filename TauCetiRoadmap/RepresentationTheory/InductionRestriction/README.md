@@ -182,7 +182,7 @@ Suggested file's admitted signatures do not by themselves instantiate these maps
 | Layer4 ordinary specialization | `TauCeti.MackeyDisjoint`, its representative/normal transport, `simple_indFDRep_iff_doubleCoset` and `simple_indFDRep_iff` in `Mackey.Irreducible`; `finrank_hom_indFDRep_mackey_erase` in `Mackey.Intertwining` | Consume algebraically closed characteristic0 criteria/counts in that scope. Build the stated all-field k-linear Hom/identity-algebra comparison, positive-characteristic ℕ count, hG sufficiency/division criterion and separate hG+hSplitG iff. |
 | Layer5 Clifford theory | `TauCeti.inertia`, normal conjugation, structural/multiplicity APIs in `Induction.Clifford`; root `FDRep.clifford_restrict_iso` and `FDRep.cliffordCorrespondence`; `TauCeti.clifford_restrict_character` | Consume structural and character forms with their actual field hypotheses; retain the declared non-algebraically-closed splitting-field/model and scalar-Schur adapters rather than silently narrowing them to the native characteristic0 correspondence. |
 | Layer6 Artin/Brauer | `TauCeti.virtualCharacters`, `ClassFunction.indVirtualCharacterAddHom`; `ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`, `indVirtualCharacterDirectSumBaseChangeRat_isCyclic_surjective`, `indVirtualCharacters_eq_virtualCharacters_isElementary`; `TauCeti.mem_virtualCharacters_iff_forall_comp_subtype_isElementary` | Compare the character lattice and representation-ring models; do not reprove these induction theorems as admitted aliases. |
-| Layer6 auxiliary structures | `TauCeti.IsPElementary`, `IsPHyperelementary`, `IsElementary`, `IsHyperelementary` in `GroupTheory.Elementary`; root `FDRep.nonempty_iso_of_subgroupCharacterSum_eq_cyclic` and `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension` | Match subgroup-vs-underlying-group predicates and field-of-definition conventions, including the exact rational and cyclotomic examples. |
+| Layer6 auxiliary structures | `TauCeti.IsPElementary`, `IsPHyperelementary`, `IsElementary`, `IsHyperelementary` and `TauCeti.IsElementary.isNilpotent` in `GroupTheory.Elementary`; root `FDRep.exists_character_eq_indClassFun_of_isNilpotent` in `Induction.Monomial` (monomiality of finite nilpotent groups, used in Layer 6.1); root `FDRep.nonempty_iso_of_subgroupCharacterSum_eq_cyclic` and `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension` | Match subgroup-vs-underlying-group predicates and field-of-definition conventions, including the exact rational and cyclotomic examples. |
 | Representation ring | `TauCeti.ExactK0`'s FDRep commutative ring, `fdRepK0RingEquiv`, `resK0RingHom`, `indK0` and `indK0_mul_resK0` in `GrothendieckGroup` | In the ordinary semisimple regime compare exact K₀, the stated direct-sum Grothendieck model and the virtual-character lattice. Do not identify split and exact K₀ in a nonsemisimple regime without a proof. |
 | Layer7 projective interfaces | `TauCeti.IsProjectiveRep`, `FactorSet`, `schurMultiplier`, linearization/PGL interfaces in `ProjectiveRepresentation`, and native `TauCeti.twistedMonoidAlgebra` | Match curry/uncurry, bases, the pinned normalized operations and equivalence notions. Native common finite central lifting is not by itself the specified stem Schur cover. |
 | Layer7 Clifford obstruction | `TauCeti.cliffordObstruction`, `cliffordObstruction_eq_zero_iff`, and `IsProjectiveInertiaExtension.tensorRep/homAction/tensorRepEquiv` | Consume the native Simple/algebraically-closed specialization. Layer7.ScalarObstruction owns the explicit scalar-Schur extension over arbitrary fields; Layer7.DivisionCrossedSystem owns the non-scalar commutant/outer-action theory. Retain inverse-factor multiplicities and the independent abstract perfect-group universal extension. |
@@ -718,6 +718,28 @@ Artin/Brauer and virtual-character suppliers in the table above; it connects to 
   then supply the field-of-definition comparison in the
   [character-theory roadmap](../CharacterTheory/README.md)'s exact Layer4 consumer convention.
 
+#### Layer 6.1: Brauer's theorem in degree zero
+
+Over `ℂ` (Deligne states it over every field containing the roots of unity of order the exponent of `G`); finite
+`G`. For a finite-dimensional complex representation `ρ` of `G`, the virtual character
+`tr ρ − dim ρ`, of degree zero, is an integral combination of differences `Ind_H^G χ − Ind_H^G 1`, with `H` an
+elementary subgroup of `G` (Layer 6, `TauCeti.IsElementary`) and `χ` a linear character of `H`. In the notation of
+Layer 6: for `V : FDRep ℂ G`, the class function `V.character − finrank ℂ V` (the second term constant) lies in the
+`ℤ`-span of the class functions `indClassFun χ − indClassFun 1`, over the elementary subgroups `H ≤ G` and the
+one-dimensional characters `χ` of `H`. This is Deligne's form of Brauer's induction theorem (P. Deligne,
+*Les constantes des équations fonctionnelles des fonctions L*, Proposition 1.5 and Scholie 1.6, p. 510).
+
+Route (Deligne's). Brauer's induction theorem for the trivial representation, with the projection formula (Layer 0)
+and transitivity of induction, reduces the statement to elementary groups; an irreducible representation of an
+elementary group is induced from a linear character of a subgroup, which then contains the centre; and an induction
+on the order, through the quotient by the centre, concludes. On the way prove the compatibility of induction with
+inflation along `G → G/Z` for subgroups containing the centre `Z` (Mathlib `Rep.ofQuotient` for the inflation).
+
+It consumes Layer 6's Brauer induction theorem, the elementary-subgroup predicates with their closure under
+subgroups, `indClassFun` and the virtual-character lattice; Layer 0's projection formula and transitivity of
+induction; Layer 2's induced characters; and Tau Ceti `TauCeti.IsElementary.isNilpotent` and
+`FDRep.exists_character_eq_indClassFun_of_isNilpotent` (monomiality of finite nilpotent groups).
+
 ### Layer 7: projective representations, factor sets, and the Schur multiplier
 
 The finite projective-representation subsection works over an algebraically closed field `k`;
@@ -930,7 +952,10 @@ virtual-character ring, Artin and Brauer induction) needs Layer 2's induced-char
 induction on `R(G)` and Layer 0's projection formula for the `R(G)`-module structure; it is otherwise
 self-contained. Its cyclotomic splitting-field corollary is a distinct sublayer (character fields and Schur
 indices), and it is that sublayer, not Brauer induction alone, that discharges the fact the
-[character-theory roadmap](../CharacterTheory/README.md) cites at its Layer 4. Layer 7 (projective
+[character-theory roadmap](../CharacterTheory/README.md) cites at its Layer 4. Layer 6.1 (Brauer's theorem in
+degree zero) needs Layer 6's Brauer induction theorem and elementary-subgroup predicates, Layer 0's projection
+formula and transitivity of induction, Layer 2's induced characters, and Tau Ceti's monomiality of finite
+nilpotent groups. Layer 7 (projective
 representations, factor sets, the Schur multiplier) consumes Mathlib's degree-`2` group cohomology directly
 and is independent of Layers 3–4. Its scalar and division-commutant Clifford refinements consume Layer1/5's actual inertia/intertwiner carriers and native Schur. The isotypic-module equivalence additionally uses the explicitly constructed isotypic evaluation API; it is not a prerequisite of Layer5's Mackey proof of Clifford correspondence. The scalar construction can be built directly from native intertwiners and hScalar. The division branch constructs crossed systems and neutralization before its scalar-recovery and multiplicity comparisons. The abstract perfect-group UCE remains independent of these finite-dimensional representation constructions. The examples are built
 alongside the layer that first makes each expressible.
@@ -955,6 +980,9 @@ alongside the layer that first makes each expressible.
 - J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977) -- Part II, §9–10
   (the Grothendieck ring, Artin's and Brauer's induction theorems, Brauer's characterization of characters,
   and the cyclotomic splitting-field corollary) for Layer 6.
+- P. Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in *Modular Functions of One
+  Variable II*, Springer Lecture Notes in Math. 349 (1973) 501–597 -- Proposition 1.5 and Scholie 1.6, p. 510
+  (Brauer's theorem in degree zero, with `H` elementary), for Layer 6.1.
 - G. Karpilovsky, *Projective Representations of Finite Groups*, Marcel Dekker (1985) -- factor sets, the
   twisted group algebra, the Schur multiplier `H²(G, k^×)`, and representation groups (Schur covers), for
   Layer 7.

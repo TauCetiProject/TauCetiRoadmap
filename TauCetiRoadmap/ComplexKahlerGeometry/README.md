@@ -834,6 +834,46 @@ formula; Layer 1's holomorphic charts.
   holomorphic function on `ℂ²∖{0}` extends, and a function bounded near a hypersurface
   such as `{z=0}` extends by the Riemann extension theorem, while `1/z` is unbounded there.
 
+### 3.5a Extension of `∂̄`-equations across analytic sets
+
+Prove the following, on an open subset `Ω` of `ℂⁿ` with a nowhere-dense closed analytic subset `Z`. Let `u` be
+a form of type `(p,q)` and `v` a form of type `(p,q+1)` on `Ω` with measurable coefficients, those of `u`
+locally square-integrable and those of `v` locally integrable. Suppose that
+`∫_Ω v ∧ α = (−1)^(p+q+1) ∫_Ω u ∧ ∂̄α` for every smooth form `α` of type `(n−p, n−q−1)` with compact support
+in `Ω∖Z`; this is the equation `∂̄u = v` on `Ω∖Z` in the weak sense. Then the identity holds for every such `α`
+with compact support in `Ω` (Demailly, Chapter VIII, Lemma 7.3, pp. 382–383; Demailly 1982, Lemme 6.9,
+pp. 485–486). Prove also that a locally square-integrable function on `Ω` that is holomorphic on `Ω∖Z` agrees
+almost everywhere with a holomorphic function on `Ω` (Skoda 1972, Lemme 2, p. 560, for a hypersurface). This
+is the `L²_loc` form of 3.5's Riemann extension theorem. Both statements are local, so they hold chart by
+chart on a complex manifold.
+
+One route to the first statement is Demailly's. The singular locus of `Z` is a closed analytic subset of
+smaller dimension (3.4), so by induction on `dim Z` it is enough to prove the identity near a regular point
+of `Z`, where holomorphic coordinates put `Z` inside `{z₁ = 0}`. Take `λ` smooth on `ℝ` with `λ = 0` on
+`(−∞, 1/2]` and `λ = 1` on `[1, ∞)`, put `λ_ε(z) = λ(|z₁|/ε)`, and apply the hypothesis to `λ_ε α`. The terms
+`∫ λ_ε v ∧ α` and `∫ λ_ε u ∧ ∂̄α` converge by dominated convergence. By Cauchy–Schwarz,
+`|∫ u ∧ ∂̄λ_ε ∧ α|² ≤ ∫_(|z₁|≤ε) |u ∧ α|² · ∫_(Supp α) |∂̄λ_ε|²`. The first factor tends to zero because the
+coefficients of `u` are locally square-integrable, and the second is at most
+`C ε^(−2)·Vol(Supp α ∩ {|z₁| ≤ ε})`, which is bounded.
+
+For the second statement, `Z` lies locally in a hypersurface `V(f)` with `f ≢ 0`. Near a regular point of
+`V(f)`, in coordinates with `V(f) = {z_n = 0}`, expand the function in `z_n` by its circle Laurent
+coefficients (3.3). The expansion with coefficients holomorphic in the other variables is proved as part of
+this target: prove that for `g` holomorphic on the product of a polydisc and a punctured disc the circle
+Laurent coefficients of 3.3 in `z_n` are holomorphic in the other variables, and that `g` extends
+holomorphically across `z_n = 0` when all coefficients of negative order vanish. By Fubini's theorem the
+integral of the squared modulus of the function over a small punctured disc in `z_n` is finite for almost
+every value of the other variables, which forces the coefficients of negative order to vanish for those
+values, hence for all values, since they are holomorphic in the other variables; so the function extends
+across the regular points of `V(f)`. It then extends across the singular locus of `V(f)`, of codimension at
+least two (3.4), by 3.5's Hartogs extension.
+
+*Needs:* 3.3's circle Laurent coefficients (the expansion with coefficients holomorphic in the other variables,
+and the extension when the coefficients of negative order vanish, are proved in this target); 3.4's singular
+locus with its smaller dimension; 3.5's Hartogs extension; DifferentialGeometry's integration of top-degree
+forms with 1.1's complex orientation; Mathlib's one-variable Cauchy integral formula, local integrability and
+Fubini theorem.
+
 ### Examples
 
 `w²−z` for preparation and division; `{zw=0}` against its nonreduced equation `(zw)²`; the node
@@ -843,7 +883,8 @@ against the Hartogs and Riemann extension theorems.
 ### Dependencies
 
 Tau Ceti's several-variable Cauchy theory, realified atlas, holomorphic structure sheaf, stalk API
-and meromorphic germ field; ContourIntegration; Layer 1; RealAnalyticGeometry R1 for the finite
+and meromorphic germ field; ContourIntegration; DifferentialGeometry's integration of top-degree
+forms, for 3.5a; Layer 1; RealAnalyticGeometry R1 for the finite
 regular-piece partition. 3.1 (K3.0) precedes Layer 1; the convergent local algebra and
 singular-locus targets precede RealAnalyticGeometry R1, which does not consume the later partition,
 and RealAnalyticGeometry R5 applied to that finite family supplies Layer 6's triangulation. The rest
@@ -930,6 +971,85 @@ This supplies GeometricQuantization's holomorphic prequantum line dictionary.
 
 *Needs:* 4.1; 1.4's Newlander–Nirenberg theorem and 1.2's holomorphic implicit function theorem;
 SmoothBundlesConnections B3–B4's connections and curvature.
+
+### 4.2a Curvature of sub-bundles and quotient bundles
+
+Let `E` be a Hermitian holomorphic bundle over a complex manifold `X`, with 4.2's Chern connection
+`D_E = D'_E + ∂̄_E` and curvature `Θ(E) = D_E² = Σ_(j,k) Θ_(jk̄) dz_j ∧ dz̄_k` in local coordinates, the `Θ_(jk̄)`
+being sections of `End E`. In this section `⟨a, b⟩` denotes the fibre metric written linear in `a` and
+conjugate-linear in `b`, as in Demailly, Chapter V. In the convention of this roadmap it is `h(b, a)`. The
+*Griffiths form* of `E` is `θ_E(ξ ⊗ v) = Σ_(j,k) ξ_j ξ̄_k ⟨Θ_(jk̄) v, v⟩` for `ξ ∈ T^(1,0)_x X` and `v ∈ E_x`.
+`E` is Griffiths semipositive (seminegative) when `θ_E(ξ ⊗ v) ≥ 0` (`≤ 0`) for all `ξ` and `v`. For
+`u = Σ_j ∂/∂z_j ⊗ u_j ∈ T^(1,0)_x X ⊗ E_x` put `θ_E(u) = Σ_(j,k) ⟨Θ_(jk̄) u_j, u_k⟩`; `E` is Nakano
+semipositive (seminegative) when `θ_E(u) ≥ 0` (`≤ 0`) for all `u` (Demailly, Chapter VII, (6.1)–(6.4),
+pp. 338–339).
+
+Prove the following.
+
+(a) *Sub-bundles and quotients.* Define a holomorphic sub-bundle `S ⊂ E` of a holomorphic bundle as a
+subset that meets each fibre in a linear subspace and is spanned, near every point, by part of a
+holomorphic frame of `E`. Construct the holomorphic bundle structures on `S` and on the fibrewise quotient
+`Q = E/S` for which the inclusion and the projection are holomorphic bundle maps, the induced metric on
+`S`, the smooth orthogonal complement `S^⊥`, and the quotient metric on `Q`, for which the projection
+`S^⊥ → Q` is an isometry (Demailly, Chapter V, §14, p. 273). Let `S ⊂ E` be a holomorphic sub-bundle with
+the induced metric, and `Q = E/S` with the quotient metric, identified with `S^⊥` as a smooth bundle. The
+*second fundamental form* `β` is defined by letting `β(s)` be the `S^⊥`-component of `D_E s` for smooth
+sections `s` of `S`. It is a `(1,0)`-form with values in `Hom(S, Q)`, `β = Σ_j β_j dz_j`. Its adjoint is
+`β* = Σ_j β_j* dz̄_j`, a `(0,1)`-form with values in `Hom(Q, S)`, where `β_j*` is the adjoint of `β_j` for the
+metrics of `S` and `Q`. With respect to `E = S ⊕ S^⊥`, `D_E = (D_S, −β*; β, D_Q)` with `D_S` and `D_Q` the
+Chern connections of `S` and `Q`, and `Θ(S) = Θ(E)|_S + β* ∧ β`, `Θ(Q) = Θ(E)|_Q + β ∧ β*`, where `Θ(E)|_S`
+and `Θ(E)|_Q` are the diagonal blocks of `Θ(E)`. Hence, for `v ∈ S_x`, for `w ∈ Q_x` with lift `w̃ ∈ S^⊥_x`
+and for `u ∈ T^(1,0)_x X ⊗ S_x`:
+
+- `θ_S(ξ ⊗ v) = θ_E(ξ ⊗ v) − |β(ξ)v|²`;
+- `θ_S(u) = θ_E(u) − |Σ_j β_j u_j|²`;
+- `θ_Q(ξ ⊗ w) = θ_E(ξ ⊗ w̃) + |β(ξ)* w|²`.
+
+So curvature decreases on sub-bundles and increases on quotients: Griffiths and Nakano seminegativity pass to
+sub-bundles, and Griffiths semipositivity passes to quotients. (Demailly, Chapter V, Th. 14.3 and 14.5 and
+(14.6)–(14.7), pp. 273–275, for the block form and the curvature of `S` and `Q`; Chapter VII, Proposition (6.10),
+p. 340, for the three formulas and the statements on semipositivity and seminegativity; Griffiths 1970, §4,
+Lemmas 4.3, 4.5, 4.13 and 4.14, pp. 137–139; Griffiths 1969.)
+
+(b) *Flat bundles with an indefinite form.* Let `V` be a holomorphic vector bundle with a flat connection `∇` such
+that `∇^(0,1) = ∂̄_V`, and with a `∇`-parallel nondegenerate Hermitian form `k_V`. Let `S ⊂ V` be a holomorphic
+sub-bundle on which `k_V` is positive definite, so that its `k_V`-orthogonal `S^(⊥k)` is a complement. Let
+`σ = Σ_j σ_j dz_j`, where `σ(s)` is the `S^(⊥k)`-component of `∇s`. Assume that `k_V` is negative definite on a
+smooth sub-bundle `W ⊂ S^(⊥k)` that contains the image of every `σ_j` (for instance `W = S^(⊥k)` when `k_V` is
+negative definite there). Give `S` the metric `k_V|_S` and `W` the metric `−k_V`. Then `Θ(S) = −σ* ∧ σ`, with `σ`
+read as a form with values in `Hom(S, W)`. Thus `θ_S(ξ ⊗ v) = |σ(ξ)v|²` and `θ_S(u) = |Σ_j σ_j u_j|²`, so `S` is
+Griffiths semipositive and Nakano semipositive. (Griffiths 1970, Lemma 4.13, p. 138, where the metric is only
+assumed non-singular on the sub-bundle, and Theorem 5.2, p. 139.)
+
+*Route.* (a) For a holomorphic section `s` of `S`, which is a holomorphic section of `E`, `D'_E s = D'_S s + βs`
+with `D'_S s = π_S D'_E s`, and the two terms are orthogonal. The identity
+`∂_j ∂̄_k |s|² = ⟨D'_j s, D'_k s⟩ − ⟨Θ_(jk̄) s, s⟩` holds both in `E` and in `S`, and subtracting the two gives the
+Griffiths form of `S`. For the blocks:
+
+- `β` is of type `(1,0)` because `∂̄s ∈ S`;
+- for a section `t` of `S^⊥`, `⟨D_E t, s⟩ = −⟨t, βs⟩` gives the block `−β*`;
+- squaring the block matrix gives the diagonal blocks of `Θ(E)`;
+- `(β* ∧ β)_(jk̄) = −β_k* β_j` and `(β ∧ β*)_(jk̄) = β_j β_k*` give the three formulas.
+
+(b) Use the same block decomposition of `∇` in `V = S ⊕ S^(⊥k)`. Here `π_S ∇` is the Chern connection of
+`(S, k_V|_S)`: it preserves `k_V` and its `(0,1)`-part is `∂̄_S`. The block `τ` from `S^(⊥k)` to `S` satisfies
+`k_V(σs, t) + k_V(s, τt) = 0`, because `k_V` is parallel. So on `W`, `τ` is the `k_V`-adjoint of `−σ`, which is
+`+σ*` since `k_V` is `−1` times the metric on `W`. The `S`-block of `∇² = 0` is `Θ(S) + τ ∧ σ = 0`, and `σ` takes
+values in `W`, so `Θ(S) = −σ* ∧ σ`.
+
+*Needs:* 4.1–4.2; SmoothBundlesConnections B2.2's fibre metrics and B3–B4's connections, flatness and curvature.
+
+**Checks.**
+
+- `S = O(−1) ⊂ ℂ² ⊗ O` over `ℂP¹` with the flat metric: `θ_S = −|β|² < 0` and `θ_Q = |β*|² > 0` for `Q = O(1)`.
+  The induced metric on `O(−1)` and the quotient metric on `O(1)` are the Fubini–Study metrics of 7.2, with
+  curvature forms of opposite signs. A formula with `+|β|²` for the sub-bundle would make `O(−1)` positive.
+- `E = O^p` on an open set of `ℂⁿ` with the flat metric, `g = (g_1, …, g_p)` holomorphic without common zero,
+  `S = ker(g : O^p → O)`: the quotient `Q = O^p/S ≅ O` (via `g`) has quotient metric `|g|^(−2)`, and
+  `θ_Q = |β*|²` is `|w|²·Σ_(j,k) (∂_j∂̄_k log|g|²) ξ_j ξ̄_k`, positive as (a) requires.
+- In (b) the sign of `θ_S` is that of `−k_V` on the image of `σ`: when `k_V` is positive definite on all of `V`,
+  (a) applies with `β = σ` and gives `θ_S = −|σ|² ≤ 0`. So when `k_V` is positive somewhere on `S^(⊥k)`,
+  `W = S^(⊥k)` is not available, and the hypothesis on `W` is needed.
 
 ### 4.3 Holomorphic connections and local systems
 
@@ -1208,8 +1328,8 @@ sequences and `F_M`.
 
 ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B6; Layers 1–3; 2.5's Čech/derived
 comparison and fine-implies-acyclic theorem for 4.5; AlgebraicTopology's singular cochains. None of
-these uses 4.5; 4.5's ℂP¹ normalization check uses K7.1's charts, and K7.FlatDegreeZero consumes
-4.5.
+these uses 4.5; 4.5's ℂP¹ normalization check uses K7.1's charts, 4.2a's first Check uses 7.2's
+tautological bundles and metrics, and K7.FlatDegreeZero consumes 4.5.
 
 ## Layer 5: compact Hermitian elliptic theory and Serre duality (K5)
 
@@ -2199,8 +2319,8 @@ Chapter VII, (1.1) with τ=0, p. 329), the Akizuki–Nakano identity
 Bochner–Kodaira–Nakano identity on compactly supported smooth forms. On `(n,k)`
 forms, for any Hermitian ω, prove the pointwise curvature lower bound: if
 `iΘ(E)≥aω⊗Id_E` in Nakano sense, then `[iΘ(E),Λ]≥ka Id` for `k≥1`, with the
-corresponding pointwise bounds for scalar weight curvature. Define Nakano positivity
-by its Hermitian form on `T^(1,0)M⊗E`; prove the contraction/eigenvalue calculation
+corresponding pointwise bounds for scalar weight curvature. Nakano positivity is that of 4.2a's
+Hermitian form on `T^(1,0)M⊗E`; prove the contraction/eigenvalue calculation
 in a unitary frame. This local layer consumes K1/K2 type calculus, K4 Chern
 connections, and K5a's local formal-adjoint comparison. It uses no compact Hodge
 theorem, analytic-set triangulation or RealAnalyticGeometry R5. RealAnalyticGeometry
@@ -3390,9 +3510,11 @@ This roadmap owns, by layer:
   field, Noetherianity, regularity, Krull dimension and factoriality of the local rings, local
   parametrization, Rückert's Nullstellensatz, Oka and Cartan coherence in primitive local form,
   reduced analytic subsets with their regular and singular loci and the finite regular-piece
-  partition, and the Riemann and Hartogs extension theorems.
+  partition, the Riemann and Hartogs extension theorems, and the extension of `∂̄`-equations with
+  `L²_loc` solutions across nowhere-dense analytic subsets.
 - **Layer 4 (K4):** holomorphic sections and the section/reconstruction equivalence, Chern
-  connections, Koszul–Malgrange, holomorphic connections and local systems, the componentwise
+  connections, Koszul–Malgrange, holomorphic sub-bundles and quotient bundles with their induced and
+  quotient metrics and curvature, holomorphic connections and local systems, the componentwise
   finite-rank assembly, and (K4.P) the unit sheaf, `Pic_hol`, the holomorphic exponential
   sequence, the conditional `c₁` isomorphism and the smooth/continuous line comparison F_M on every
   complex manifold.
@@ -3675,9 +3797,24 @@ connection, through P1.0) and HodgeStructures (linear Hodge structures).
   the flat Kähler metrics of complex tori; Chapter VI, (6.4)–(6.6), pp. 305–306, for the Kähler
   identities and `Δ_d=2Δ_∂=2Δ_∂̄`, (6.8), pp. 306–307, and (6.15), p. 309, for their torsion terms on
   non-Kähler Hermitian manifolds, and Chapter VII, (1.1)–(1.3), pp. 329–330, for the twisted identities
-  and the Akizuki–Nakano identity of K6.0.
+  and the Akizuki–Nakano identity of K6.0; Chapter V, §14, p. 273, Th. 14.3 and 14.5 and
+  (14.6)–(14.7), pp. 273–275, for holomorphic sub-bundles, quotient bundles and their metrics, the
+  second fundamental form and the curvature of sub-bundles and quotient bundles in 4.2a; Chapter VII,
+  (6.1)–(6.4) and (6.10), pp. 338–340, for the Griffiths and Nakano forms and the curvature formulas
+  of 4.2a; Chapter VIII, Lemma 7.3, pp. 382–383, for 3.5a.
+- Demailly, *Estimations L² pour l'opérateur ∂̄ d'un fibré vectoriel holomorphe semi-positif
+  au-dessus d'une variété kählérienne complète*, Ann. Sci. École Norm. Sup. (4) 15 (1982), 457–511,
+  Lemme 6.9, pp. 485–486, for 3.5a.
+- Skoda, *Application des techniques L² à la théorie des idéaux d'une algèbre de fonctions
+  holomorphes avec poids*, Ann. Sci. École Norm. Sup. (4) 5 (1972), 545–579, Lemme 2, p. 560, for
+  the function statement of 3.5a for a hypersurface.
 - Koszul and Malgrange, *Sur certaines structures fibrées complexes*, Arch. Math. 9 (1958),
   102–109, for the holomorphic structure defined by an integrable `(0,1)` connection in 4.2.
+- Griffiths, *Hermitian differential geometry, Chern classes, and positive vector bundles*, in
+  *Global Analysis. Papers in Honor of K. Kodaira* (D. C. Spencer and S. Iyanaga, eds.), University
+  of Tokyo Press and Princeton University Press, 1969, 185–251, for 4.2a(a).
+- Griffiths, *Periods of integrals on algebraic manifolds III*, Publ. Math. IHÉS 38 (1970),
+  125–180, §4, Lemmas 4.3, 4.5, 4.13 and 4.14, pp. 137–139, and Theorem 5.2, p. 139, for 4.2a.
 - Webster, *A new proof of the Newlander–Nirenberg theorem*, Math. Z. 201 (1989), 303–316, for the convex-domain homotopy and rapidly converging iteration route.
 - [Rainer, *Advanced Complex Analysis*, lecture notes, Universität Wien](https://www.mat.univie.ac.at/~armin/lect/advanced_complex_analysis.pdf),
   Theorem 12.2, p. 31, for the scalar `∂̄` solver on a domain, the parameter-free case of the

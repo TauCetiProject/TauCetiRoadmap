@@ -72,7 +72,9 @@ and a name in backticks names the supplied or proposed declaration. Compactifica
 declaration of ShimuraCompactifications. The layers are built in order: Layer 0 fixes the coefficient group and associated bundles;
 Layer 1 builds the canonical principal bundle of Hodge and abelian type, Layer 2 that of general data;
 Layers 3 and 4 associate vector bundles and realizations to representations; Layers 5 and 6
-extend them across the toroidal boundary. Layer 7 constructs the ramified cusp coefficients;
+extend them across the toroidal boundary; over `ℂ`, 5.3a shows that the invariant metrics of coefficients
+trivial on the unipotent radical and unitary on `K_∞` are good relative to the canonical extension and
+5.3b deduces Hirzebruch–Mumford proportionality. Layer 7 constructs the ramified cusp coefficients;
 Layers 8 and 9 construct the finite-level log/BGG comparisons; Layer 10 constructs the rational
 period tower and algebraic descent. Layer 11 defines classical and cuspidal forms and fixes the
 explicit weight conventions; Layer 12 equips them with Hecke operators, expansions and the Siegel
@@ -1472,8 +1474,10 @@ Construct coefficients on the degeneration charts supplied by ShimuraCompactific
 with their normalized boundary frames. Canonical and reduced-boundary extensions behave differently
 under refinement; section comparisons use the direct-image theorems of ShimuraCompactifications Layer 4.
 Logarithmic connections belong to full-group coefficients. The minimal pushforward is coherent, with
-separate positivity requirements for scalar line descent. The last target gives the integral
-coefficients on good-prime PEL models used in Layer 12.
+separate positivity requirements for scalar line descent. Over `ℂ`, the invariant metric of a
+coefficient trivial on the unipotent radical and unitary on `K_∞` is good relative to the canonical
+extension (5.3a), and this gives Hirzebruch–Mumford proportionality (5.3b). The last target gives the
+integral coefficients on good-prime PEL models used in Layer 12.
 
 ### 5.1 Coefficients on degeneration charts
 
@@ -1585,6 +1589,105 @@ ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.sm
   isomorphism equal to the identity on the open preserves the canonical boundary-frame
   normalization: at a boundary parameter q the two lattices are `q⁻¹O` and `O`.
   The zero coefficient has zero canonical extension and every boundary twist stays zero.
+
+### 5.3a Invariant metrics are good relative to the canonical extension
+
+Prove `invariantMetricGoodness`. Let `K` be neat, and let `S_Σ` be a smooth projective toroidal model of `S`, as in 5.3,
+whose boundary `D` is a divisor with simple normal crossings (ShimuraCompactifications Layer 2 with a smooth projective
+`Σ`). Let `J` be a finite-dimensional algebraic representation of `P_Hᶜ` over `L ↪ ℂ` on which the unipotent radical of
+`P_Hᶜ` acts trivially (the inflation of a representation of the Levi quotient, `compactDualCoefficient_inflate` of
+0.5), and whose restriction to the stabiliser `K_∞` of a point of `X` is unitary. A `K_∞`-invariant inner product on
+`J` defines, on each component `Γ ∖ (G(ℝ) × J) / K_∞` of 0.7, a hermitian metric `h_J` on `V(J)^an` over `S(ℂ)`: the
+`G(ℝ)`-invariant metric.
+
+Then:
+
+- `h_J` is good along `D` relative to the canonical extension `V(J)^can_Σ` of 5.3, in the sense of
+  ArakelovGeometryAndAbelianHeights §5.1c;
+- `V(J)^can_Σ` is the unique extension of `V(J)^an` across `D` relative to which `h_J` is good;
+- for the representation `(𝔤_ℂ/Lie(P_H))^∨` of `P_Hᶜ`, which satisfies these hypotheses and whose automorphic bundle
+  is `Ω¹` of `S(ℂ)`, the canonical extension is `Ω¹(log D)` on `S_Σ`, and the invariant metric is good relative to it.
+
+Mumford states the theorem for neat arithmetic quotients of a Hermitian symmetric domain, which are the components of
+`S(ℂ)`.
+
+The route is Mumford's estimate.
+
+- Near a point of a boundary stratum, use the degeneration charts of ShimuraCompactifications §2.3 in Siegel-domain
+  coordinates (a Siegel domain of the third kind fibred over the boundary component). In these charts the canonical
+  frames of 5.1 are the holomorphic frames invariant under `U(F)_ℂ`, the complexified centre of the unipotent radical of
+  the normaliser of the boundary component `F`.
+- The invariant metric in these frames is computed from the action of the parabolic subgroup. Its entries, and those
+  of its inverse, are polynomials in `log|q_j|` with bounded coefficients.
+- The connection forms are combinations of `dq_j/(q_j log|q_j|)` and smooth forms, which have Poincaré growth.
+- Uniqueness of the extension is ArakelovGeometryAndAbelianHeights §5.1c.
+- For `Ω¹`, the frames `dq_j/q_j` of `Ω¹(log D)` have norms of logarithmic growth. For PEL data the identification of
+  the canonical extension of `Ω¹` with `Ω¹(log D)` is also the logarithmic Kodaira–Spencer isomorphism of
+  ShimuraCompactifications §7.12.
+
+*Source:* [Mumford77], Main Theorem 3.1, p.256, and Proposition 3.4 a), p.264 (for `Ω¹(log D)`); [Harris89]
+(canonical extensions).
+
+*Needs:* 0.7 (`analyticCoefficient`); 3.2 (`automorphicAnalyticComparison`); 5.1 (`boundaryCoefficientChart`); 5.2
+(`canonicalExtensionGluing`); 5.3 (`canonicalExtension`); ShimuraCompactifications Layer 1 (§§1.1, 1.3: the boundary
+datum of a rational boundary component and its boundary torsors), Layer 2 (§2.3 `ToroidalSpace`, §2.6
+`ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`), Layer 6 (§6.7 `UniversalDegeneration`)
+and Layer 7 (§7.12 `IntegralToroidalModel.logKodairaSpencer`); ShimuraData Layer 2 (the Hermitian symmetric domain);
+ShimuraVarieties §2.1 (rational boundary components and their normalisers); ArakelovGeometryAndAbelianHeights
+§§5.1a–5.1c (Poincaré growth, good forms, good metrics and the uniqueness of the extension).
+*Lean:* none; specified in the README only.
+
+**Checks.**
+
+- The modular curve `X(N)`, `N ≥ 3`, with `J = (𝔤_ℂ/Lie(P_H))^∨`, whose bundle is `Ω¹`. The invariant metric has
+  `‖dτ‖² = (Im τ)²`, so in the frame `dq/q` of `Ω¹(log cusps)` near a cusp `‖dq/q‖² = (log|q|)²` and the connection
+  form is `2∂ log(−log|q|)`, which has Poincaré growth: the metric is good relative to `Ω¹(log cusps)`. It is not good
+  relative to `Ω¹`: `‖dq‖² = |q|²(log|q|)²` has no lower bound of logarithmic type.
+
+### 5.3b Hirzebruch–Mumford proportionality
+
+Prove `hirzebruchMumfordProportionality`. Work in the setting of 5.3a and suppose `S(ℂ)` connected; otherwise argue on
+each component. Let `X̌` be the compact dual and, for `J` as in 5.3a (trivial on the unipotent radical of `P_Hᶜ` and
+unitary on `K_∞`), let `V̌(J) = Gᶜ ×^(P_Hᶜ) J` be the homogeneous bundle on `X̌` of 0.5. Then there is a real number
+`v > 0`, depending on `S(ℂ)` and not on `J`, such that for every `J` as in 5.3a and every polynomial `Q` of weighted
+degree `dim X` in the Chern classes
+
+`Q(c(V(J)^can_Σ))[S_Σ] = (−1)^(dim X) · v · Q(c(V̌(J)))[X̌]`.
+
+The number `v` is the volume of `S(ℂ)` for the invariant volume form on `X` normalised so that the invariant volume
+form on `X̌` that corresponds to it at the base point (under `Lie G(ℝ) = 𝔨 ⊕ 𝔭` and `𝔨 ⊕ i𝔭` for the compact form) has
+total mass `1`.
+
+The route has three steps.
+
+- The invariant metric `h_J` is good relative to `V(J)^can_Σ` (5.3a), so its Chern forms are good forms
+  (ArakelovGeometryAndAbelianHeights §5.1d). In Mumford's proof of his Theorem 1.4 each of them differs from the Chern
+  form of a smooth metric on `V(J)^can_Σ` by `d` of a good form. Good forms are closed under products and satisfy
+  `d[η] = [dη]` (ArakelovGeometryAndAbelianHeights §5.1b), so `Q(c(V(J)^can_Σ))[S_Σ] = ∫_(S(ℂ)) Q(c(V(J), h_J))` for
+  every `Q` of weighted degree `dim X`. This product step is Mumford's: the transgression in the proof of Theorem 1.4,
+  p.243, with Proposition 1.2 and the remark on p.241 that good forms form a differential graded algebra, as used in
+  the proof of Theorem 3.2, p.262.
+- The Chern forms of the invariant metric are invariant forms on `X`. The duality between `X` and its compact dual `X̌`
+  identifies invariant forms on both, the curvature tensors differing by a sign. So every top-degree polynomial in the
+  Chern forms corresponds to `(−1)^(dim X)` times the one for `V̌(J)`.
+- Integrating gives the proportionality, with the constant `(−1)^(dim X)·v`.
+
+*Source:* [Mumford77], Proportionality Theorem 3.2 and its proof, pp.262–263 (the constant `v`), with Theorem 1.4 and
+its proof, pp.242–243, and Proposition 1.2, p.241, for the Chern forms of a good metric and their products.
+
+*Needs:* 5.3a (`invariantMetricGoodness`); 5.3 (`canonicalExtension`); 0.5 (`compactDualCoefficient`);
+ArakelovGeometryAndAbelianHeights §§5.1b, 5.1d (good forms; Chern forms of good metrics); CharacteristicClasses
+C4.1–C4.2 (invariant polynomials, Chern–Weil forms and their comparison with Chern classes).
+*Lean:* none; specified in the README only.
+
+**Checks.**
+
+- The modular curve `X(N)`, `N ≥ 3`, of genus `g`, with `J = (𝔤_ℂ/Lie(P_H))^∨` as in the Check of 5.3a.
+  - The same `J` gives `Ω¹_(ℙ¹) = O(−2)` on `X̌ = ℙ¹` and `Ω¹(log cusps)`, of degree `2g − 2 + #cusps`, on `X(N)`; the
+    theorem gives `2g − 2 + #cusps = (−1)·v·(−2)`, so `v = (2g − 2 + #cusps)/2`, the hyperbolic area of `Y(N)` divided
+    by `4π`.
+  - Since `ω^(⊗2)` and `Ω¹(log cusps)` differ by the determinant line, `deg ω = (2g − 2 + #cusps)/2`.
+  - The sign `(−1)^(dim X)` cannot be dropped: without it the degree of `Ω¹(log cusps)` would be negative.
 
 ### 5.4 The subcanonical automorphic extension
 
@@ -1857,9 +1960,11 @@ ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`, §7.4 `Integral
 
 ### Dependencies
 
-Layers 0–3; ShimuraCompactifications Layers 2–7; ShimuraVarieties Layers 2, 8;
-AlgebraicModuliForArithmeticGeometry §3.1; HilbertModularVarietiesAndShimuraCurves H2; Mathlib
-scheme modules.
+Layers 0–3; ShimuraCompactifications Layers 1–7 (Layer 1 for 5.3a only); ShimuraData Layer 2 (5.3a);
+ShimuraVarieties Layers 2, 8; AlgebraicModuliForArithmeticGeometry §3.1;
+HilbertModularVarietiesAndShimuraCurves H2; ArakelovGeometryAndAbelianHeights §§5.1a–5.1d (good
+metrics, 5.3a–5.3b); CharacteristicClasses C4.1–C4.2 (Chern–Weil forms, 5.3b); Mathlib scheme
+modules.
 
 ## Layer 6: general-data boundary extensions
 
@@ -5294,7 +5399,9 @@ The roadmap owns:
   general-data versions (Layer 4);
 - canonical and subcanonical extensions over toroidal models, their behaviour under fan refinement,
   logarithmic extensions of full-group connections, coherent pushforward to the minimal model,
-  rationality, and the integral coefficients on good-prime PEL models (Layer 5), with the
+  rationality, the goodness of invariant metrics relative to the canonical extension and
+  Hirzebruch–Mumford proportionality, and the integral coefficients on good-prime PEL models
+  (Layer 5), with the
   general-data versions (Layer 6);
 - the ramified splitting-model compactifications, degeneration coefficient lines, formal cusp
   descent and residue-component detection (Layer 7);
@@ -5445,6 +5552,11 @@ It leaves to other roadmaps:
 - **AdelicAlgebraicGroups.** §4.3 (`Neat.IsNeatLevel`), §4.5 (*Hecke correspondences*;
   *Degree of a Hecke correspondence*; *Cartesian squares of level maps*, which
   needs `U′L = U`): the group-theoretic part of the Hecke targets of Layer 12.
+- **ArakelovGeometryAndAbelianHeights.** §§5.1a–5.1d (Poincaré growth along a normal crossings
+  divisor, good forms, good metrics and the uniqueness of the extension, Chern forms of good
+  metrics): 5.3a–5.3b.
+- **CharacteristicClasses.** C4.1–C4.2 (invariant polynomials, Chern–Weil forms and their
+  comparison with Chern classes): 5.3b.
 
 ### From other roadmaps
 
@@ -5455,7 +5567,7 @@ It leaves to other roadmaps:
 | AdicSpacesPartIII F0 (`FormalScheme.completion`, `FormalScheme.completion.map`, completion of coherent sheaves, sections near a closed subset after EGA I (10.8.11)) | formal boundary charts |
 | ComplexComparisonPartII C0 (`CoherentAnalytification`, `coherentPullbackOperations`), Layer 2 (`projectiveGeometricDictionaries`) | analytification and projective GAGA |
 | AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR`, `AbelianTate`, `exteriorCohomology`) | relative `H¹_dR`, Hodge sequence, Gauss–Manin, Tate modules |
-| ShimuraData §§3.1–3.6 (variations of Hodge structure), §§3.7–3.9 (parabolic of the Hodge filtration, compact dual, compact dual over the reflex field), §§4.2–4.3, 4.9 | filtration parabolic with its sign and Levi, compact duals and their reflex-field descent, rational variations, additional centre hypotheses and the shared `Z_s`, `Gᶜ` quotient |
+| ShimuraData Layer 2 (the Hermitian symmetric domain, 5.3a), §§3.1–3.6 (variations of Hodge structure), §§3.7–3.9 (parabolic of the Hodge filtration, compact dual, compact dual over the reflex field), §§4.2–4.3, 4.9 | filtration parabolic with its sign and Levi, compact duals and their reflex-field descent, rational variations, additional centre hypotheses and the shared `Z_s`, `Gᶜ` quotient |
 | AlgebraicModularFormsAndSerreWeights R15.1 (*Geometric modular forms*, *All-weight analytic comparison*), R15.2 (*The q-expansion principle*, *Integral geometric Hecke operators*, *The equivariant cuspidal sequence*) | the `GL₂` specialization |
 | ShimuraVarieties §P.3, Layers 1–2, 4–8, §8.22 | the Borel embedding into a representation's flag variety and homogeneous variations; towers, minimal compactification, CM reciprocity, canonical models, conjugation |
 | PELModuli M0, M1.7, M5.2, M5.5 | PEL data, the moduli problem `M_H` with its universal family, the Siegel moduli `A_{g,D,n}` (M5.2) and the unitary datum of signature `(1,1)` (M5.5, `unitaryDatum_U11`) |
@@ -5493,7 +5605,8 @@ It leaves to other roadmaps:
 The geometric inputs are §0.15 `ArithmeticFan.exists_smoothProjective_refinement` with its
 invariant integral piecewise-linear polarization, §0.8 `TauCeti.Toric.Relative.torusEmbedding`, §0.11
 `TauCeti.Toric.Relative.stratumQuotientIso`, §0.9 `TauCeti.Toric.Relative.faceOpenImmersion`;
-§1.4 `CuspLabel`, §1.5 `CuspLabel.arithmeticStabilizer`; §2.3 `ToroidalSpace`, §2.6
+§§1.1, 1.3 (the boundary datum of a rational boundary component and its boundary torsors, for
+5.3a), §1.4 `CuspLabel`, §1.5 `CuspLabel.arithmeticStabilizer`; §2.3 `ToroidalSpace`, §2.6
 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`, §2.8
 `ToroidalSpace.toMinimal`, §3.1 `ToroidalCanonicalModel.general`; §4.1
 `ToroidalRefinement`, §4.3 `ToroidalHeckeSpan`, §4.4 `ToroidalRefinement.choice_comparison`,
@@ -5700,3 +5813,11 @@ independent `qcqsSectionsColimit` (11.19) and coefficient trace
   arXiv:2209.01057v4, 9 April 2026; manuscript pagination.
 
 [RC22]: https://arxiv.org/pdf/2209.01057v4
+
+- **Mumford77.** D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977), 239–272. Locators use its theorem and page numbering. [Mumford77]
+
+[Mumford77]: https://eudml.org/doc/142502
+
+- **Harris89.** M. Harris, *Functorial properties of toroidal compactifications of locally symmetric varieties*, Proc. London Math. Soc. (3) 59 (1989), 1–22. [Harris89]
+
+[Harris89]: https://doi.org/10.1112/plms/s3-59.1.1

@@ -14,7 +14,7 @@ The fourth moment of `ζ` on the critical line is `∫_0^T |ζ(1/2+it)|⁴ dt = 
 
 The roadmap builds on ArithmeticDirichletSeries for Euler products and Perron summation. ZerosOfLFunctions provides zero-free regions, uniform in the conductor, with one possible exception, which the central theorem removes at a suitable width. ArtinRepresentations uses the Artin `L`-functions and conductors built here. SieveMethodsAndPrimePatterns uses the exception-free prime estimates. AnalyticNumberTheoryPartII and the ArithmeticStatistics roadmaps build on its prime error terms and class-number bounds.
 
-Layer 0 starts from Weierstrass products and Hadamard factorization of entire functions, proves the quantitative prime estimates, and ends with the exclusion theorem and its consequences. Layer 1 gives explicit formulas, including Weil's in Mestre's general form, and zero-density estimates; the Riemann hypothesis and its generalization enter only as explicit hypotheses of conditional estimates. Layer 2 proves Hecke's functional equation for every unitary idele-class character and extends Artin `L`-functions meromorphically by Brauer induction, keeping Artin's holomorphy conjecture as a hypothesis. It then derives Zaman's bound and the Brauer–Siegel theorem in bounded degree. Layer 3 treats the mean-value theorems of Shiu and Halász, smooth numbers through the Dickman function, and the second and fourth moments of `ζ`.
+Layer 0 starts from Weierstrass products and Hadamard factorization of entire functions, proves the quantitative prime estimates, and ends with the exclusion theorem and its consequences. Layer 1 gives explicit formulas, including Weil's in Mestre's general form, zero-density estimates, the Deuring–Heilbronn repulsion and Linnik's theorem on the least prime in a progression; the Riemann hypothesis and its generalization enter only as explicit hypotheses of conditional estimates. Layer 2 proves Hecke's functional equation for every unitary idele-class character and extends Artin `L`-functions meromorphically by Brauer induction, keeping Artin's holomorphy conjecture as a hypothesis. It then derives Zaman's bound and the Brauer–Siegel theorem in bounded degree. Layer 3 treats the mean-value theorems of Shiu and Halász, smooth numbers through the Dickman function, and the second and fourth moments of `ζ`.
 
 `Suggested.lean` states the headline theorems in Lean; the effectivity the README requires of their constants is not expressed there.
 
@@ -51,7 +51,7 @@ For all quadratic-period targets, `E(z,s)=(1/2)Σ_(gcd(c,d)=1)(Im z)^s/|cz+d|^(2
 
 ## Layer 0: Entire functions and quantitative prime estimates
 
-Start with entire-function factorization and the pole-cancelled `ξ`-function. The prime estimates specify their zero-free regions and numerical ranges. The milestone of this layer is the uniform exclusion of Landau–Siegel zeros (§0.34), which rests on the prime sums of §§0.11–0.11b, the dictionary of §0.30 and the effective gap of §0.12. It precedes the emptiness statement of §0.1 and §§0.6, 0.9, 0.18, 0.28, 0.31b and 0.32, none of which carries an exceptional-zero alternative; their Siegel-type constants are effective. An effective constant includes an effective threshold. Published finite computations enter the affected literal bounds as explicit hypotheses, as specified below. No enumeration or numerical verification is a target.
+Start with entire-function factorization and the pole-cancelled `ξ`-function. The prime estimates specify their zero-free regions and numerical ranges. The milestone of this layer is the uniform exclusion of Landau–Siegel zeros (§0.34), which rests on the prime sums of §§0.11–0.11b, the dictionary of §0.30 and the effective gap of §0.12. It precedes the emptiness statement of §0.1 and §§0.6, 0.9, 0.18, 0.28, 0.31b and 0.32, none of which carries an exceptional-zero alternative; their Siegel-type constants are effective. §1.4e states the character prime-number estimate with the term of a possible exceptional zero, and does not rest on §0.34. An effective constant includes an effective threshold. Published finite computations enter the affected literal bounds as explicit hypotheses, as specified below. No enumeration or numerical verification is a target.
 
 ### 0.1 Exceptional real zero
 
@@ -468,7 +468,7 @@ See [47][R47], Proposition 7.1(i), (23), p. 373.
 
 No exceptional-zero term occurs; absolute constants are chosen before the conductor.
 
-The signature is `character_psi_le`. For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)Λ(m)=O(X exp(−c log X/(√(log X)+log N))(log N)^4)`; `c>0`, the implied constant and the threshold are absolute and effective. This form, without the term `−X^β/β` of an exceptional zero, is the stronger one and is the one stated.
+The signature is `character_psi_le`. For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)Λ(m)=O(X exp(−c log X/(√(log X)+log N))(log N)^4)`; `c>0`, the implied constant and the threshold are absolute and effective. This form, without the term `−X^β/β` of an exceptional zero, is the stronger one; the classical form with the term, whose route does not use §0.34, is §1.4e.
 
 Use the character explicit formula. The conductor-uniform region of ZerosOfLFunctions 6.3–6.4 (through §0.30 and §0.1's supplier comparison) contains no zero except possibly one simple real zero `β≥1/2` of a real `χ`. §0.34 gives `1−β≥c_LS/log N`, so its term satisfies `X^β/β≤2X exp(−c_LS log X/log N)`, which the stated error absorbs once `c≤c_LS`. Optimize the height using the conductor-uniform region; preserve `log N` and the effective constants.
 
@@ -936,6 +936,29 @@ The conductor-uniform local count gives `O(logq)` low zeros, each weighted `≤1
 
 See [47][R47], Bennett–Siksek §12 Proposition 12.2 p.387; Kedlaya Lemma 10.3 p.60.
 
+### 1.4e Character prime-number estimate with the exceptional term
+
+This is the classical form of §0.18, in which a possible exceptional zero is kept as a term. It does not use §0.34.
+
+There are absolute `c,c₁>0` such that, for every primitive nonprincipal Dirichlet character `χ` of conductor `N≥3` and every sufficiently large `X` (the threshold is absolute), `Σ_{m≤X}χ(m)Λ(m)=−X^(β₁)/β₁+O(X exp(−c log X/(√(log X)+log N))(log N)^4)`, with an absolute implied constant. The term `X^(β₁)/β₁` is present only if `χ` is real and `L(s,χ)` has a real zero `β₁∈(1−c₁/log N,1)`; for `c₁` small enough such a zero is unique and simple. The constants are asserted to exist. Effectivity is not part of the statement, because the zero-free region below is taken from [ZerosOfLFunctions 6.3–6.4][R16], whose constant is existential.
+
+Fix a height `2≤T≤X` (chosen at the end) and put `ℓ=log(N(T+2))`. By [ZerosOfLFunctions 6.3–6.4][R16] through §0.30 there is an absolute `c₂>0` such that every zero of height `≤T` other than a possible simple real zero `β₁` of a real `χ` has `1−Re ρ≥c₂/ℓ`. For `c₁≤min(c_Z/3,(log 3)/2)`, with `c_Z` the degree-one constant of that supplier (written `c₁` in §0.1), a real zero in `(1−c₁/log N,1)` is the supplier's exceptional zero, since the analytic conductor of ZerosOfLFunctions Layer 2 has `log Q_an(χ,0)≤log(4N)≤3 log N`; so it is unique and simple. Take `c₂≤min(c₁,1)`, so that the possible exception `β₁` lies in the window of the statement. A real zero of the window with `1−β₁≥c₂/ℓ` contributes `X^(β₁)/β₁≤2X exp(−c₂ log X/ℓ)`, which is within the error, so for such a zero the term may be kept or dropped.
+
+Let `J≥0` be least with `⌊X/2^J⌋<max(k₀,T)`, where `k₀` is the integer of §1.4, and put `k_j=⌊X/2^j⌋` and `k_*=k_J`. Since `k_(j+1)=⌊k_j/2⌋`, the blocks `(k_(j+1),k_j]`, `0≤j<J`, tile the integers of `(k_*,X]`. Since `k_j≥max(k₀,T)`, §1.4 applies to each block at height `T`. In each block, §1.4c bounds the kernel of every zero other than `β₁` by `2k_j^(1−c₂/ℓ)min(1,1/|ρ|)`, and §1.4d sums the weights to at most `Cℓ²`. As `k_j≤X/2^j`, the blocks add up to a geometric series, at most `8Cℓ²X exp(−c₂ log X/ℓ)`. The terms of `β₁` telescope to `−(X^(β₁)−k_*^(β₁))/β₁=−X^(β₁)/β₁+O(T)`. The mismatches of `(k_j/2)^(β₁)` against `k_(j+1)^(β₁)`, and of `⌊X⌋^(β₁)` against `X^(β₁)`, are each `β₁` times an integral of `t^(β₁−1)` over an interval of length at most 1 in `[1,∞)`; they cost `O(log X)` in all. The block errors of §1.4 add up to `O(X log²(NX)/T+log X·log²(NX))`, and the integers `m≤k_*` contribute `O(T)` by Chebyshev's bound. Hence
+`Σ_{m≤X}χ(m)Λ(m)=−X^(β₁)/β₁+O(ℓ²X exp(−c₂ log X/ℓ)+X log²(NX)/T+T+log X·log²(NX))`.
+
+For `N>X^(1/2)` the statement is trivial by Chebyshev's bound, since then `exp(−c log X/log N)≥e^(−2c)` and `X^(β₁)/β₁≤2X`. For `N≤X^(1/2)` take `T=max(exp(√(log X)),N)≤X^(1/2)`. If `log N≤√(log X)`, the logarithmic factors are absorbed by lowering `c`. Otherwise `log X<log²N`, which gives the factor `(log N)^4`. The term `T≤X^(1/2)` is absorbed as well.
+
+**Checks.**
+
+- The exceptional term has the sign `−`: a real zero near 1 makes `Σ_{m≤X}χ(m)Λ(m)` close to `−X`, so the primes with `χ(p)=−1` dominate.
+- The principal character is excluded, as in §0.18: `Σ_{m≤X}Λ(m)=ψ(X)∼X`.
+- Relation with §0.18: by §0.34, `1−β₁≥c_LS/log N`, so the term is at most `2X exp(−c_LS log X/log N)` and the error absorbs it once `c≤c_LS`. This gives the estimate of §0.18 with constants that exist. §0.18 asserts in addition that they are effective, which needs an effective constant in the region of ZerosOfLFunctions 6.3–6.4 and is not given by this route.
+
+See [117], Theorem 5.27; [47][R47], Theorem 5, (26), p. 374, where `c` is effective and the implied constant absolute; [112], Chapters 19–20.
+
+*Needs:* §0.30; §1.4; §1.4c; §1.4d; [ZerosOfLFunctions 6.3–6.4][R16]; `DirichletCharacter.LFunction`; `Chebyshev.psi_le_const_mul_self`.
+
 ### 1.5 Mean square of a Dirichlet polynomial
 
 For each integer `N≥0`, real `T≥0` and complex `a₁,…,a_N`, the absolute difference between `∫_{−T}^T|Σ_{n=1}^N a_n n^(−it)|²dt` and `2TΣ|a_n|²` is at most `6πΣn|a_n|²`. Empty sums are zero. Suggested form: `dirichlet_polynomial_mean_square`.
@@ -980,6 +1003,29 @@ See [53][R53], §7.3, Conjecture 7.8, p. 45; §10.3, Conjecture 10.4 and Remark 
 
 *Needs:* `RiemannHypothesis`; `DirichletCharacter.LFunction`; `DirichletCharacter.LFunction_ne_zero_of_one_le_re`; `riemannZeta`.
 
+### 1.6a Conjugate characters, reflection and the half-plane form
+
+For a Dirichlet character `χ` modulo `N≥1`, write `χ⁻¹=χ̄` for its inverse. It has the same modulus, parity and conductor.
+
+- Conjugation. `L(s̄,χ⁻¹)` is the complex conjugate of `L(s,χ)` for every `s` other than the pole of the principal character. So `L(·,χ⁻¹)` has at `s̄` the order that `L(·,χ)` has at `s`, and DirichletGRH `χ⁻¹` holds if and only if DirichletGRH `χ` holds.
+- Reflection. For primitive `χ` and `0<Re ρ<1`, the order of `L(·,χ)` at `ρ` equals the order of `L(·,χ⁻¹)` at `1−ρ`. With the conjugation clause, the zeros of `L(·,χ)` in the open strip `0<Re s<1`, with their orders, are invariant under `ρ↦1−ρ̄`.
+- Half-plane form. DirichletGRH `χ` holds if and only if `L(s,χ)≠0` for every `s` with `Re s>1/2` and (`χ≠1` or `s≠1`).
+
+The coefficients of `χ⁻¹` are the conjugates of those of `χ`. So the conjugation identity holds on `Re s>1`, and it continues to `ℂ` because `s↦conj L(s̄,χ)` is meromorphic. For the reflection, Mathlib's `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` gives `completedLFunction χ (1−s)=N^(s−1/2)·rootNumber χ·completedLFunction χ⁻¹ s`, with a nonzero factor. `DirichletCharacter.LFunction_eq_completed_div_gammaFactor` divides each completed function by its gamma factor `Γℝ(s+a)`, where `a∈{0,1}` is the common parity of `χ` and `χ⁻¹`. That factor is regular and nonzero on `Re s>0`.
+
+For the half-plane form: if DirichletGRH `χ` holds, a zero with `Re s>1/2` off the pole would have `Re s=1/2` by the definition, so there is none. Conversely, the deleted Euler factors do not vanish on `Re s>0`, so by the primitive induction of §1.6 we may take `χ` primitive. A zero `ρ` with `0<Re ρ<1/2` then gives the zero `1−ρ̄` of `L(·,χ)`, whose real part `1−Re ρ` exceeds `1/2`.
+
+**Checks.**
+
+- The quartic character `χ` modulo 5 with `χ(2)=i` has `χ⁻¹≠χ`. The reflection sends a zero `ρ` of `L(·,χ)` to the zero `1−ρ` of `L(·,χ⁻¹)`, and conjugation returns it to the zero `1−ρ̄` of `L(·,χ)`. A reflection `ρ↦1−ρ` within `L(·,χ)` would say that its zeros are closed under conjugation, which nothing gives for a nonreal character.
+- For the principal character modulo 2, the zeros `2πik/log 2` of `1−2^(−s)` lie on `Re s=0`, outside both forms. Its half-plane form is the Riemann hypothesis (§1.6, conductor one).
+- For the even quadratic character modulo 5, `L(0,χ)=0` is a trivial zero. It lies outside the open strip, and the reflection is stated only for `0<Re ρ<1`.
+- A real character is its own inverse, and the conjugation clause says that its zeros are symmetric about the real axis.
+
+See [112] (primitive characters, the functional equation, and the absence of zeros on the line `Re s=1`); [53][R53], §10.3, Conjecture 10.4 and Remark 10.5, pp. 60–61.
+
+*Needs:* §1.6; `DirichletCharacter.LFunction`; `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`; `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`; `DirichletCharacter.LFunction_changeLevel`; `Complex.Gammaℝ_ne_zero_of_re_pos`.
+
 ### 1.7 Selberg zero-density input
 
 The signature `selberg_zero_density` counts zeros with `Re ρ≥σ`, `Re ρ<1` and `|Im ρ|≤T`, using their analytic multiplicities.
@@ -991,6 +1037,54 @@ Route, in two ranges. For `4/5≤σ≤1`, Jutila's Theorem 1, (1.8), gives `Σ_{
 See [Jutila][R97], Math. Scand. 41 (1977), p.46, Theorem 1, (1.8), and its proof §3, pp.51–54; [Bombieri][R99], §10, Théorème 20, p.77, with its proof pp.77–82, for Montgomery's theorem in the form used here (primitive characters, `(log QT)^A`); Montgomery [108], *Zeros of L-functions*, Invent. Math. 8 (1969), 334–345, for the original, and Montgomery [100], Theorem 12.1, for the textbook form; [47][R47], §12, p.386, for the form of the bound used there.
 
 *Needs:* §1.5; `DirichletCharacter.LFunction`; native large-sieve inequality for Dirichlet polynomials.
+
+### 1.7a Deuring–Heilbronn repulsion for the characters of one modulus
+
+The signature is `deuring_heilbronn_repulsion`. There is an absolute `c>0` with the following property. Let `q≥3`, let `χ₁` be a real nonprincipal character modulo `q`, and let `β₁∈[1/2,1)` with `L(β₁,χ₁)=0`. Let `χ` be any character modulo `q`, the principal character and `χ₁` included, and let `ρ=β+iγ` be a zero of `L(s,χ)` with `β≥1/2`. If `χ=χ₁` and `ρ=β₁`, assume that `β₁` is a multiple zero of `L(s,χ₁)`. Then for every `ℒ≥log(q(|γ|+2))`,
+`1−β≥c log(c/((1−β₁)ℒ))/ℒ`.
+In particular, with `ℒ=log(q(T+2))`, no zero of `∏_(χ mod q)L(s,χ)` other than one copy of `β₁` lies in `σ>max(1/2,1−c log(c/((1−β₁)ℒ))/ℒ)`, `|t|≤T`.
+
+Zeros carry their analytic multiplicities. The published constant is effective (see below); effectivity is not part of this statement. The route does not use §0.34: it keeps a possible exceptional zero, and §0.17 enters only through its inequality, which holds for every smaller positive constant, so that the bound `c_star≤c_LS` fixed in §0.1 is a normalisation and not an input. With §0.34 the statement is immediate for `c≤c_LS`, as the last Check shows; it is stated for the uses that keep a possible exceptional zero.
+
+First pass from the characters modulo `q` to the primitive characters inducing them (§0.30, `DirichletCharacter.LFunction_changeLevel`). The deleted Euler factors vanish only on `Re s=0`, so the zeros with `β≥1/2` are those of the primitive functions, with the same multiplicities, and the conductors are at most `q`. Bombieri's Théorème 16 ([99][R99], p. 41) is the repulsion for the primitive characters of all moduli up to `T`, at heights up to `T`, from the exceptional zero given by the Landau–Page lemma of p. 39. Take `T=e^ℒ`, so that `q≤T` and `|γ|≤T`.
+
+For real zeros of distinct real characters the Landau–Page lemma is §0.17, read at `N₁N₂≤Z²` with `c₀≤3c_star/2`: two real characters of moduli at most `Z` with real zeros above `1−c₀/log Z` are induced by the same primitive character. For the other zeros it is the conductor-uniform region of [ZerosOfLFunctions 6.3–6.4][R16] through §0.30. Théorème 16 follows in one line from Théorème 14, p. 40, which is a target here. Let `N(α,T;χ)` be the number of zeros of `L(s,χ)` in `α≤σ≤1`, `|t|≤T`, the exceptional zero relative to `T` excluded. There are absolute `C,c₃>0` such that, for `T≥2`, `Σ_{q≤T}Σ*_{χ mod q}N(α,T;χ)≤C T^(c₃(1−α))`, the inner sum over primitive characters, and, if the exceptional zero `β₁` exists, `Σ_{q≤T}Σ*_{χ mod q}N(α,T;χ)≤C(1−β₁)log T·T^(c₃(1−α))`. A zero `β+iγ` other than `β₁` is counted by `N(β,T;χ)`, so `1≤C(1−β₁)log T·T^(c₃(1−β))`, which is the repulsion. For `α≥1/2` the first inequality is §1.7 at `Q=T`. The second is proved in [99][R99], pp. 41–54, from Turán's power-sum lemma (for `z₁,…,z_N∈ℂ` and `K≥N` some integer `k∈[K,2K]` has `|z₁^k+…+z_N^k|≥(|z₁|/50)^k`; p. 42, stated there without proof), a local zero count, the large sieve inequality for characters of [99][R99], §5, Théorème 11, and the lower bound for `L(1,χ₁)` that goes with the Landau–Page lemma.
+
+**Checks.**
+
+- The repulsion bounds `1−β₁` from below. For the principal character `χ₀` modulo `q`, `L(s,χ₀)` has the zero `1/2+iγ₁` of `ζ`, `γ₁≈14.13`, so at `ℒ=log(q(γ₁+2))` the bound gives `c log(c/((1−β₁)ℒ))≤ℒ/2`. That is `1−β₁≥c e^(−ℒ/(2c))/ℒ`, a polynomial lower bound in `q`, consistent with §0.12.
+- The bound is positive only when `(1−β₁)ℒ<c`. It improves on the region `1−β≥c_R/ℒ` of ZerosOfLFunctions 6.3–6.4 only when `(1−β₁)ℒ≤c e^(−c_R/c)`: the repulsion concerns zeros very close to 1.
+- The route needs the multiplicity clause: for `χ=χ₁` and a simple zero `ρ=β₁` the repulsion says nothing about `β₁` itself, and the conclusion would read `1−β₁≥c log(c/((1−β₁)ℒ))/ℒ`, which fails if `(1−β₁)ℒ` is small. The statement does not need it: by §0.34, in its form for an imprimitive character, `(1−β₁)log q≥c_LS`, and `ℒ≥log 2q>log q`, so for `c≤c_LS` the right side is negative and the conclusion holds for every zero.
+
+See [118], II, §3, the second basic theorem, p. 348 (at heights `|t|≤log³q`, for the characters of all moduli up to `q²`); [119], Theorem II, pp. 168–169, the form for one modulus at every height, as [120], p. 337, credits it; [120], (26)–(27), p. 336; [99][R99], Théorème 16, p. 41, with the Landau–Page lemma of p. 39 and Théorème 14, p. 40 (Bombieri states these constants to be effectively computable); [117], Chapter 18, for a textbook account.
+
+*Needs:* §0.17; §0.30; §1.7; [ZerosOfLFunctions 6.3–6.4][R16]; `DirichletCharacter.LFunction`; `DirichletCharacter.LFunction_changeLevel`.
+
+### 1.7b Linnik's theorem on the least prime in an arithmetic progression
+
+The signature is `exists_prime_modEq_le`. There is an absolute `A>0` such that, for every `q≥3` and every `a` coprime to `q`, the least prime `p≡a (mod q)` is at most `q^A`.
+
+The published proofs give an effective `A` ([99][R99], Théorème 13, p. 39). Effectivity is not part of this statement, because the route takes its zero-free region from [ZerosOfLFunctions 6.3–6.4][R16], whose constant is existential. The route does not use §0.34: it keeps a possible exceptional zero, and §0.17 enters only through its inequality, which holds for every smaller positive constant, so that the bound `c_star≤c_LS` fixed in §0.1 is a normalisation and not an input.
+
+The route is Linnik's, through three principles: the zero-free region with at most one exceptional zero, the log-free zero density, and the repulsion.
+
+Fix `c₁>0` with `c₁≤3c_star/2` and `c₁≤min(c_Z/3,(log 3)/2)`, where `c_Z` is the degree-one constant of ZerosOfLFunctions 6.3–6.4 (written `c₁` in §0.1). Among the real nonprincipal characters modulo `q`, at most one, `χ₁`, has a real zero `β₁` with `1−c₁/log q<β₁<1`, and then `β₁` is simple and `>1/2`. For one character this is the supplier's region through §0.30, since `log Q_an(χ,0)≤log(4N)≤3 log N` for a conductor `N≤q`. For two characters it is §0.17, since their primitive sources have `log(N₁N₂)≤2 log q`. By §0.12, through §0.34a, `1−β₁≥c q^(−3/4)`.
+
+Expand `ψ(x;a,q)` (§0.2) by orthogonality (`DirichletCharacter.sum_char_inv_mul_char_eq`) and pass to the primitive characters (§0.30); the deleted factors change `ψ(x,χ)` by `O(log q·log x)`. For a nonprincipal primitive character, sum §1.4 over the dyadic blocks of the route of §1.4e at height `T=q²e^(√(log x))`. For the principal character use the truncated explicit formula for `ζ` ([ZerosOfLFunctions 8.2–8.8][R18]). The exceptional zero gives `−χ₁(a)x^(β₁)/(β₁φ(q))+O(T)`.
+
+The zeros with `Re ρ<1/2` contribute `O(x^(1/2)log x·min(1,1/|ρ|))` each to the block sums (§1.4c, over at most `1+log x/log 2` blocks), so by §1.4d they contribute `O(x^(1/2)log x·log²(qT))`. The zeros with `Re ρ≥1/2` other than `β₁` lie in the region of ZerosOfLFunctions 6.3–6.4, and by §1.7a they satisfy `1−Re ρ≥c log(c/((1−β₁)ℒ))/ℒ`, where `ℒ=log(q(T+2))`. Integrate `x^(Re ρ−1)` against the log-free density of §1.7 at `Q=q`, from the edge of this zero-free region. This applies because the characters modulo `q` are induced by distinct primitive characters of conductor at most `q`, with the same zeros in `Re s>0`. For `x≥q^A` with `A` large, the total of these zeros is `≪min(1,(1−β₁)ℒ)(e^(−c log x/log q)+e^(−c√(log x)))x`.
+
+The main term `(x−χ₁(a)x^(β₁)/β₁)/φ(q)` is at least `min(1,(1−β₁)log x)x/(4φ(q))`, because `1−x^(β₁−1)/β₁≥min(1,(1−β₁)log x)/4`. Since `ℒ≤4 log x`, the zero sum is a small multiple of the main term. With `1−β₁≥c q^(−3/4)`, the main term also exceeds the truncation errors of §1.4 and the prime powers, which contribute at most `2√x log x` (`Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`). Hence `θ(x;a,q)>0` at `x=q^A` for `A` large.
+
+**Checks.**
+
+- `A≥1` is forced: the least prime `≡−1 (mod q)` is at least `q−1`.
+- At `q=3` there is no exceptional zero: `ζ` and `L(s,χ₋₃)` have no zero in `(0,1)`.
+- Where an exceptional `β₁` with `χ₁(a)=1` and `(1−β₁)log x` small is not excluded, the class has only about `(1−β₁)log x·Li x/φ(q)` primes up to `x`. The polynomial gap `1−β₁≥c q^(−3/4)` is what makes `x=q^A` large enough. By §0.34 this case does not occur at `x=q^A`, where `(1−β₁)log x≥A c_LS`.
+
+See [118], I, (2), p. 139, and II, the Theorem, p. 347; [99][R99], §6, Théorème 13, p. 39; [117], Chapter 18, for a textbook account.
+
+*Needs:* §0.2; §0.12; §0.17; §0.30; §0.34a; §1.4; §1.4c; §1.4d; §1.7; §1.7a; [ZerosOfLFunctions 6.3–6.4][R16]; [ZerosOfLFunctions 8.2–8.8][R18]; `DirichletCharacter.sum_char_inv_mul_char_eq`; `DirichletCharacter.LFunction_changeLevel`; `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`.
 
 ### 1.8 Weil's explicit formula (Mestre's formalism)
 
@@ -1075,7 +1169,7 @@ For `ψ₀(4)`, the contribution at 4 is `(log 2)/2`, whereas `ψ(4)` includes `
 
 ### Dependencies
 
-Mathlib analytic orders, bounded variation, one-sided limits and integration; completed ContourIntegration via its exact boundary contracts; Layer 0 higher-genus and origin-zero adapters. ZerosOfLFunctions Layers 1, 4–8 supply the Gamma estimates, zero-free regions, the divisor, zero-count phase, rational explicit formula and PNT remainder.
+Mathlib analytic orders, bounded variation, one-sided limits and integration; completed ContourIntegration via its exact boundary contracts; Layer 0 higher-genus and origin-zero adapters, and, for §§1.7a–1.7b, the prime counts, the effective gap, the Kronecker classification, the two-real-zero inequality and the rational dictionary of Layer 0 (§§0.2, 0.12, 0.34a, 0.17, 0.30). ZerosOfLFunctions Layers 1, 4–8 supply the Gamma estimates, zero-free regions, the divisor, zero-count phase, rational explicit formula and PNT remainder.
 
 ## Layer 2: Hecke and Artin comparisons and quantitative number-field estimates
 
@@ -1971,6 +2065,32 @@ The conditional Chebotarev targets below carry this hypothesis explicitly; the u
 See [53][R53], §10.3, Remark 10.5, p. 61; [Cogdell, On Artin L-functions][Artin-FE], p.4, for the Weber–Hecke factorization of the Dedekind zeta function of an abelian extension over the characters of its class group.
 
 *Needs:* §1.6; §2.5; §2.11; §2.18a; §2.20; [ClassFieldTheory 11][R27].
+
+### 2.42a The generalized Riemann hypothesis for ray-class characters of every modulus and for algebraic Hecke characters
+
+The hypotheses of §2.42 extend to every presentation of a ray-class character, and they are invariant under inversion. They read as the absence of zeros right of `1/2`, and they extend to algebraic Hecke characters through their unitary parts. Let `K` be a number field.
+
+- Every modulus. For a modulus `𝔪` and a character `χ` of `Cl_𝔪(K)`, GRH(`χ`) is the proposition of §2.42 for the continued `L_𝔪(s,χ)` (`L_m^cont` of §2.29): every zero `s` with `0<Re s<1` has `Re s=1/2`. Let `χ₀` be the primitive character inducing `χ`. Then GRH(`χ`) holds if and only if GRH(`χ₀`) holds. In particular, GRH of the trivial character of every modulus is ERH(`K`).
+- Inverse. GRH(`χ⁻¹`) holds if and only if GRH(`χ`) holds, because `L_𝔪(s̄,χ⁻¹)` is the complex conjugate of `L_𝔪(s,χ)`.
+- Half-plane form. GRH(`χ`) holds if and only if `L_𝔪(s,χ)≠0` for every `s` with `Re s>1/2`, the pole at `s=1` excepted when `χ₀` is trivial.
+- The rationals. Let `χ` be a Dirichlet character modulo `q≥1`, and `χ_ℚ` the character of the ray class group of `ℚ` of modulus `(q)` and the real place that §0.30 attaches to it. Then GRH(`χ_ℚ`) holds if and only if DirichletGRH `χ` holds.
+- Algebraic Hecke characters. Let `χ` be an algebraic Hecke character of type `A₀` of `K` (LFunctions Layer 6), with unitary part `χ_u` and ideal-side shift `σ` as in §2.3a. GRH(`χ`) is GRH(`χ_u`): every zero `s` of the continued `L(s,χ_u)=∏_vL_v(s,χ_(u,v))` of §2.3a with `0<Re s<1` has `Re s=1/2`. The completion of `χ` at `s` is `Λ_H(χ_u,s−σ)` (§2.3a), so GRH(`χ`) says that every zero of the continued `L(s,χ)` with `σ<Re s<σ+1` has `Re s=σ+1/2`. An imprimitive presentation adds Euler factors that vanish only on `Re s=σ`. For `χ` of finite order, GRH(`χ`) is GRH of the ray-class character it presents.
+
+Every modulus: §2.29 writes `L_𝔪(s,χ)` as `L(s,χ₀)` times `∏(1−χ₀(𝔭)N𝔭^(−s))` over the primes dividing `𝔪_fin` and not `𝔣₀`, and these factors vanish only on `Re s=0`. For trivial `χ₀`, `L(s,χ₀)` is the Dedekind continuation of §2.5. Inverse: the ideal coefficients of `χ⁻¹` are the conjugates of those of `χ`, so the identity holds on `Re s>1` and continues by uniqueness.
+
+Half-plane form: for primitive `χ`, the functional equation of §2.11 relates `χ` and `χ̄=χ⁻¹`. The gamma factors of §2.3a are regular and nonzero on `Re s>0`, so with the inverse clause the zeros of `L(·,χ)` in the open strip, with their orders, are invariant under `ρ↦1−ρ̄`. There is no zero on `Re s≥1`, by the Euler product on `Re s>1` and the boundary nonvanishing of [LFunctions Layer 7][R9].
+
+The rationals: the ideal series of `χ_ℚ` and the Dirichlet series of `χ` agree term by term on `Re s>1`, since the ideals and the integers not prime to `q` contribute 0 to both. So the continued functions agree (§0.30), and §1.6 applies. Algebraic characters: this is §2.3a's comparison of LFunctions' balanced completion of `χ` with `Λ_H(χ_u,·)`, translated by `σ`.
+
+**Checks.**
+
+- Over `ℚ`, the trivial character of modulus `(4)` and the real place has `L_𝔪(s,1)=(1−2^(−s))ζ(s)`, with zeros on `Re s=0`. Its GRH is the Riemann hypothesis.
+- For the norm power `N^m` over `ℚ`, `m≥1`, the continued `L`-function is `ζ(s−m)`, whose nontrivial zeros have real parts in `(m,m+1)`. A hypothesis with the threshold `1/2` in place of `σ+1/2` would be false for it.
+- For a nonreal `χ`, the inverse clause relates two different functions, whose zeros in the strip are complex conjugate. The half-plane form uses both.
+
+See [121], §3, p. 360, and [122], §2, pp. 1187–1188, for the hypotheses for Dedekind zeta functions and for characters of the class group, and for their reading as the absence of zeros right of `1/2`; [117], Chapter 5, for `L`-functions of any degree, Grössencharacters included; [53][R53], §10.3, Remark 10.5, p. 61.
+
+*Needs:* §0.30; §1.6; §2.3a; §2.5; §2.11; §2.29; §2.42; [LFunctions Layers 5, 6 and 7][R9]; [GlobalNumberFields 9][R19].
 
 ### 2.43 Explicit exceptional-zero region for an abelian character product
 
@@ -3376,6 +3496,8 @@ This roadmap belongs to the analytic-number-theory cluster (with AnalyticNumberT
 
 This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case. This part also owns the classification of primitive nonprincipal real Dirichlet characters as the Kronecker characters of fundamental discriminants (§0.34a); QuadraticCharactersAndReduction §1.4 consumes it. ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements: the exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 are stated in this part (§§0.1, 0.6, 0.9, 0.18, 0.32), where later roadmaps consume them.
 
+This part also owns the classical forms that keep a possible exceptional zero and whose routes do not use §0.34: the character prime-number estimate with the exceptional term (§1.4e), the Deuring–Heilbronn repulsion for the characters of one modulus (§1.7a) and Linnik's theorem (§1.7b); and the forms of the generalized Riemann hypothesis for one Dirichlet character (§1.6a) and for ray-class characters of every modulus and algebraic Hecke characters (§2.42a).
+
 Downstream consumers of §0.34 and its corollaries include SieveMethodsAndPrimePatterns, QuadraticCharactersAndReduction and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
 
 ### Prerequisites and boundaries
@@ -3530,7 +3652,7 @@ Completed ContourIntegration Layer 4 and `TauCeti.Contour.Cycle.classicalResidue
 - [96][R96] `H`. Kösters, *The Riemann Zeta-Function and the Sine Kernel*, arXiv:0803.1141v1, §3 pp.9–15 and Appendix A p.20.
 - [97][R97] Matti Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), 45–62; Theorem 1 and §3.
 - [98] Jürgen Neukirch, *Algebraic Number Theory*, Grundlehren der mathematischen Wissenschaften 322, Springer, 1999; Chapter VII §§6–8 (Hecke's theta method), §10 (Artin `L`-series) and §11 (Artin conductors).
-- [99][R99] Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987); §10, Théorème 20.
+- [99][R99] Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (second edition, 1987); §6 (Lemme de Landau–Page, Théorèmes 13, 14 and 16, pp. 39–41) and §10, Théorème 20.
 - [100] Hugh L. Montgomery, *Topics in Multiplicative Number Theory*, Lecture Notes in Mathematics 227, Springer, 1971; Theorem 12.1.
 - [101][R55] Gergő Nemes, *Error bounds and exponential improvements for the asymptotic expansions of the gamma function and its reciprocal*, Proc. Roy. Soc. Edinburgh Sect. A 145 (2015), 571–596; arXiv:1310.0166v2.
 - [102][R68] Habiba Kadiri and Nathan Ng, *Explicit zero density theorems for Dedekind zeta functions*, J. Number Theory 132 (2012), 748–775; arXiv:1201.3932v1.
@@ -3548,6 +3670,12 @@ Completed ContourIntegration Layer 4 and `TauCeti.Contour.Cycle.classicalResidue
 - [114] Walter Rudin, *Real and Complex Analysis*, 3rd ed., McGraw–Hill, 1987; Chapter 15 (infinite products and Weierstrass factorization).
 - [115] Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer, 1979; Chapter VI (Artin and Swan representations, conductors) and Chapter XV §2 (upper numbering and local reciprocity).
 - [116][R116] Alex Kontorovich, Terence Tao and contributors, *Prime Number Theorem and More* (PrimeNumberTheoremAnd), Lean formalization, GitHub repository, 2024–2026, commit `127b50e` of 20 October 2026, which the link names. Paths are from the repository root; its folder `PrimeNumberTheoremAnd/Mathlib/` holds the project's own files, not Mathlib's; names in parentheses are blueprint labels or declarations of the file named. Cited for §§0.8, 0.11, 0.11a, 0.11d, 0.14, 0.15, 0.21, 0.23, 0.26, 0.26a, 0.30a, 0.33, 0.33a, 1.8a, 2.1b and 3.4.
+- [117] H. Iwaniec and E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53, 2004; Theorem 5.27, Chapter 5 and Chapter 18.
+- [118] U. V. Linnik, *On the least prime in an arithmetic progression. I. The basic theorem*, Rec. Math. (Mat. Sbornik) N.S. 15(57) (1944), 139–178; *II. The Deuring–Heilbronn phenomenon*, the same volume, 347–368.
+- [119] S. Knapowski, *On Linnik's theorem concerning exceptional L-zeros*, Publ. Math. Debrecen 9 (1962), 168–178; Theorem II, pp. 168–169.
+- [120] P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339; (26)–(27), p. 336.
+- [121] Eric Bach, *Explicit bounds for primality testing and related problems*, Math. Comp. 55 (1990), 355–380; §3, p. 360.
+- [122] Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, *Small generators of the ideal class group*, Math. Comp. 77 (2008), 1185–1197; §2, pp. 1187–1188.
 
 - **Bessel functions.** [NIST Digital Library of Mathematical Functions, Chapter 10][DLMF-Bessel], particularly §§10.2,10.4,10.6,10.9,10.16; equation numbers are the locators in this unpaginated reference.
 - **Nemes.** [Gergő Nemes — Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel functions][Nemes], arXiv:1606.07961v2, 2017; positive-axis remainder theory and Appendix A.

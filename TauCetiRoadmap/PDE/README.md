@@ -35,7 +35,8 @@ theorem, Gehring's lemma, BMO, John–Nirenberg, the Coifman–Rochberg–Weiss 
 and Sarason's VMO; the classical and weak maximum principles for non-divergence operators, both
 Hopf lemmas, the comparison principle, the Aleksandrov–Bakelman–Pucci estimate with its
 convex-envelope and contact-set lemmas, the Harnack inequalities, the Green representation,
-barriers and regular boundary points; the energy method with `H⁻¹` forcing, `H¹` liftings, the
+barriers and regular boundary points, upper semicontinuous subharmonic functions with the Riesz
+representation on balls and Hartogs' lemma; the energy method with `H⁻¹` forcing, `H¹` liftings, the
 Fredholm compatibility condition and the Dirichlet spectrum of `−Δ`; every elliptic regularity
 theorem of Layer 5; Bochner spaces, the Gelfand triple, Galerkin existence, the heat semigroup
 on `Lᵖ` and `BUC` with its generator, and the complete classical whole-space parabolic
@@ -226,6 +227,8 @@ section headings; consumers cite either form. The stochastic programme X3 is PDE
   (`Mathlib/Analysis/Complex/Harmonic/Liouville.lean:48`) and the Poisson kernel of the disk
   (`Mathlib/Analysis/Complex/Harmonic/Poisson.lean`). Mathlib has no mean-value theorem on balls
   in general dimension; that theorem and its converse are Tau Ceti's, cited below.
+- `UpperSemicontinuous`, `EReal` and `MeasureTheory.LocallyIntegrableOn`, for the upper
+  semicontinuous subharmonic functions of §§3.2a and 3.4a.
 - `ContinuousLinearMap.IsFredholm` (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean:123`):
   Fredholm operators between normed spaces; the index and the compact-perturbation theorem are
   Tau Ceti's, cited below.
@@ -663,7 +666,8 @@ compactness, and Hölder spaces. Layer 2 is the harmonic-analysis engine: the un
 dyadic maximal functions with the Fefferman–Stein inequality, interpolation, Calderón–Zygmund
 operators and multipliers, Gehring, BMO and VMO. Layer 3 is the classical constant-coefficient theory plus the Aleksandrov–Bakelman–Pucci
 estimate: mean values, maximum principles and both Hopf lemmas, Harnack, fundamental solution,
-Green functions and Perron. Layer 4 is the energy method: the weak form and Gårding, coercive
+Green functions and Perron, upper semicontinuous subharmonic functions with the Riesz
+representation on balls and Hartogs' lemma. Layer 4 is the energy method: the weak form and Gårding, coercive
 existence with liftings and `H⁻¹` data, the Fredholm compatibility condition, and the
 spectrum. Layer 5 is elliptic regularity in its two tracks. Layer 6 is parabolic and evolution
 theory, ending with the complete classical whole-space Schauder programme F27. Layers 7–9 are
@@ -1456,6 +1460,56 @@ principle for weak solutions (Tau Ceti `TauCeti.PDE.value_le_of_energyFormH1_le`
 `MeasureTheory.addHaar_image_le_lintegral_abs_det_fderiv`, convex hulls and §1.4's continuity of
 `W^{2,n}` functions.
 
+### 3.2a Upper semicontinuous subharmonic functions
+
+For an upper semicontinuous `u : Ω → [−∞, ∞)` on an open `Ω ⊆ ℝⁿ` and a closed ball
+`B̄(x, r) ⊆ Ω`, `u` is bounded above on the sphere `∂B(x, r)` and on the ball, and its mean there is
+the infimum of the means of the continuous functions `≥ u`; it equals `∫u⁺ − ∫u⁻` (normalised
+measure) when `∫u⁻ < ∞` and `−∞` otherwise. Call `u` subharmonic on `Ω` when `u(x)` is at most the
+mean of `u` over `∂B(x, r)` for every closed ball `B̄(x, r) ⊆ Ω`; the function `≡ −∞` is
+subharmonic. Prove: (a) if `Ω` is connected and `u` is subharmonic on `Ω` and not `≡ −∞`, then
+`u ∈ L¹_loc(Ω)`, the set `{u = −∞}` has Lebesgue measure zero, and `u(x)` is at most the mean of `u`
+over every ball and every sphere centred at `x` with closure in `Ω`, these means being nondecreasing
+in the radius and tending to `u(x)` as the radius tends to `0`; (b) the maximum principle: on a
+connected `Ω`, a subharmonic function attaining its supremum is constant. (Demailly, *Complex
+Analytic and Differential Geometry*, Chapter I, §4: Theorem-Definition 4.12 for the equivalent
+mean-value forms of the definition, Lemma 4.13 and the maximum principle 4.14, Theorem 4.17 for
+local integrability, Theorem 4.18 for the monotone means and the regularisation.)
+
+The route of (a) is the standard argument. If the mean of `u` over a ball `B(x, r)` is `−∞`, the mean
+over every ball containing `B(x, r)` is `−∞`, `u` being bounded above, so `u = −∞` on a
+neighbourhood of `x`; the set of points near which `u` is integrable is therefore open and closed
+in `Ω`, hence all of `Ω` when `u ≢ −∞`, and a locally integrable function is finite almost
+everywhere. Ball means are averages of sphere means. For the monotonicity, the convolutions
+`u ∗ ρ_ε` with a smooth radial mollifier are smooth, subharmonic and decrease to `u`; the derivative
+in the radius of the sphere mean of a smooth function is the normalised integral of its Laplacian
+over the ball, which is `≥ 0` here; upper semicontinuity bounds the `limsup` of the means by
+`u(x)`, and the sub-mean-value inequality gives the reverse bound. For (b), if `u(x₀) = sup u`, the
+sub-mean-value inequality on balls about `x₀` forces `u = u(x₀)` almost everywhere there, and the
+limit of the ball means in (a) gives it everywhere; the set where the supremum is attained is open
+and closed.
+
+- An upper semicontinuous `u` with `u(x) ≤` the mean of `u` over `∂B(x, r_ν)` for some sequence
+  `r_ν → 0` at every `x` is subharmonic (Demailly, Theorem-Definition 4.12, e) ⇒ b)); for
+  continuous real-valued `u` this is the agreement with `TauCeti.SubharmonicOn`.
+
+**Checks.**
+
+- `u(x) = log|x|` on the unit disc of `ℝ²`: the means over the circles `|x| = r` are `log r`,
+  nondecreasing and tending to `u(0) = −∞`; `u` is integrable although `u(0) = −∞`.
+- `u ≡ −∞` is subharmonic and not locally integrable; on the union of two disjoint balls, `u = 0` on
+  one and `u = −∞` on the other is subharmonic and `≢ −∞` but not locally integrable, so (a) needs
+  `Ω` connected.
+- The function equal to `0` on `{|x| ≥ 1}` and to `−∞` on `{|x| < 1}` is upper semicontinuous with
+  values in `[−∞, ∞)`, but its mean over every small sphere centred on `{|x| = 1}` is `−∞ < 0`: it is
+  not subharmonic. A mean computed after sending `−∞` to `0` would be `0` there and would admit it.
+- On the union of two disjoint balls, `u = 0` on one and `u = −1` on the other is harmonic, attains
+  its supremum and is not constant, so (b) needs `Ω` connected.
+
+*Needs:* §3.1 (mean values of harmonic functions); Tau Ceti `TauCeti.SubharmonicOn`,
+`SubharmonicOn.le_of_le_sphere`, `TauCeti.ballPoissonIntegral`; Mathlib `UpperSemicontinuous`,
+`EReal`, Lebesgue measure, `MeasureTheory.LocallyIntegrableOn`, `ContDiffBump` and convolution.
+
 ### 3.3 Harnack inequalities (C14)
 
 Harnack's inequality for nonnegative harmonic functions is pinned in both of its usual forms:
@@ -1602,18 +1656,82 @@ the local-barrier passage, the necessity half and the exterior-cone barrier:
 `TauCeti.SubharmonicOn.le_of_le_frontier_of_subharmonicOn_neg` and the pinned mean-value
 characterization of harmonicity.
 
+### 3.4a The Riesz representation on balls and Hartogs' lemma
+
+Prove: (a) let `n ≥ 2` and let `u` be subharmonic (§3.2a) on a connected open `Ω ⊇ B̄(a, R)` of
+`ℝⁿ` and not `≡ −∞`. Then the distributional Laplacian `Δu` is a positive Radon measure `μ_u`, and
+for every `x ∈ B(a, R)`, `u(x) = P_{a,R}[u](x) − ∫_{B(a,R)} G_{a,R}(x, y) dμ_u(y)`, with `P_{a,R}[u]`
+the Poisson integral of the restriction of `u` to `∂B(a, R)` (integrable by §3.2a) and
+`G_{a,R} ≥ 0` the Dirichlet Green function of `B(a, R)` (§3.4). For a compact `K ⊂ Ω` and
+`ψ ∈ C_c^∞(Ω)` with `0 ≤ ψ ≤ 1` and `ψ = 1` on `K`,
+`μ_u(K) ≤ ∫_Ω u·Δψ ≤ ‖Δψ‖_∞·‖u‖_{L¹(supp ψ)}`.
+(b) Hartogs' lemma: if `u_k` are subharmonic on a connected open `Ω ⊆ ℝⁿ` and locally uniformly
+bounded above, then either `u_k → −∞` locally uniformly, or a subsequence `u_{k_j}` converges in
+`L¹_loc(Ω)` to a subharmonic `u`; then `limsup_j u_{k_j}(x) ≤ u(x)` for every `x ∈ Ω`, by the
+sub-mean-value inequality and §3.2a (a).
+(Demailly, *Complex Analytic and Differential Geometry*, Chapter I, Corollary 4.19 for the measure,
+Proposition 4.22 a) for the formula, Proposition 4.21 for the compactness in `L¹_loc` and, in its
+proof, the mass bound; Hörmander, *The Analysis of Linear Partial Differential Operators I*,
+Theorem 4.1.9, for Hartogs' lemma.)
+
+(a) For `ε` smaller than the distance from `B̄(a, R)` to the complement of `Ω`, the smooth
+subharmonic `u ∗ ρ_ε` of §3.2a is defined on a neighbourhood of `B̄(a, R)`, so Green's
+representation formula holds for it on `B(a, R)` itself, with the Poisson kernel and the Green
+function of that ball (§3.4); no smaller ball is needed. Let `ε → 0`: the left sides decrease to
+`u(x)` and the Poisson integrals converge by monotone convergence on the sphere, so the potentials
+`P_{a,R}[u ∗ ρ_ε] − u ∗ ρ_ε` converge pointwise on `B(a, R)` to the superharmonic function
+`P_{a,R}[u] − u`. The Green potentials `∫_{B(a,R)} G_{a,R}(·, y) dμ_{u∗ρ_ε}(y)` converge in
+`L¹(B(a, R))` to `∫_{B(a,R)} G_{a,R}(·, y) dμ_u(y)`: `μ_{u∗ρ_ε} = μ_u ∗ ρ_ε` converges weakly to `μ_u`
+on a neighbourhood of `B̄(a, R)`, and `y ↦ 1_{B(a,R)}(y)·G_{a,R}(·, y)` is a continuous map into
+`L¹(B(a, R))`, since `G_{a,R}(·, y) → 0` in `L¹` as `y` tends to the sphere. Two superharmonic
+functions equal almost everywhere are equal, each being the limit of its means over small balls
+(§3.2a), which gives the formula at every `x`. The mass bound is Green's formula against a cut-off.
+(b) Suppose that `u_k` does not tend to `−∞` locally uniformly: there are a compact `K`, a constant
+`c` and a subsequence `u_{k_j}` with `sup_K u_{k_j} ≥ −c`. Bound the means along this subsequence
+from below: on a ball `B(w, ρ) ⋐ Ω` let `C` bound all `u_k` from above; if `u_{k_j}(w) ≥ −c′`, the
+sub-mean-value inequality for `u_{k_j} − C ≤ 0` on `B(w, ρ)` bounds the mean of `u_{k_j}` over every
+ball contained in `B(w, ρ)` (in particular over `B(y, ρ/2)` for `|y − w| < ρ/2`) from below, and a
+mean bounded below gives points where `u_{k_j}` is bounded below. So the set of points having a ball
+on which the means of the `u_{k_j}` are bounded below is open and closed in the connected `Ω`, and
+it is not empty (a limit point of maximising points in `K`): the `u_{k_j}` are bounded in
+`L¹_loc(Ω)`. Then (a) and the weak compactness of the measures `μ_{u_{k_j}}` (of bounded mass by
+(a)) make the Poisson parts compact and the Green potentials converge in `L¹_loc` along a further
+subsequence; the `limsup` inequality comes from the sub-mean-value inequality on small balls and the
+`L¹_loc` convergence. The means themselves need neither tend to `−∞` nor be bounded (fourth Check),
+which is why the subsequence is chosen first.
+
+**Checks.**
+
+- `u = log|x|` on the unit disc of `ℝ²`: `μ_u = 2πδ₀`, `P_{0,1}[u] = 0`,
+  `G_{0,1}(x, 0) = (2π)^{−1}log(1/|x|)`, and the formula gives
+  `u(x) = −(2π)^{−1}log(1/|x|)·2π = log|x|`.
+- `u_k = k·log|x|` on the unit disc: `sup_{|x|≤ρ} u_k = k·log ρ → −∞`, so `u_k → −∞` locally
+  uniformly on the disc (the first alternative of (b)). `u_k = (1/k)·log|x|`: uniformly bounded
+  above, converging in `L¹_loc` to `0` (the second alternative), while `u_k(0) = −∞` for every `k`.
+- `u_k(x) = (1/k)log|x − (1/k)e₁|` on `ℝ²` converges in `L¹_loc` to `0`, while `u_k((1/k)e₁) = −∞`:
+  convergence in `L¹_loc` does not give pointwise convergence.
+- The constants `0, −1, 0, −2, 0, −3, …` on the disc: their means neither tend to `−∞` nor stay
+  bounded, the sequence does not tend to `−∞` locally uniformly, and the subsequence of zeros
+  converges, as (b) asserts.
+
+*Needs:* §3.2a; §3.1 (Weyl's lemma); §3.4 (the Green and Poisson kernels of the ball and the Green
+representation); Tau Ceti `TauCeti.ballGreenKernel`, `TauCeti.ballPoissonKernel`,
+`TauCeti.ballPoissonIntegral`; Mathlib measures, `MeasureTheory.Lp` and convolution.
+
 ### Examples
 
 The acceptance examples of this layer are the mean-value computation for `x² − y²`; the
 sign-condition counterexample `sin x`; the one-dimensional Hopf instance `x + 1`; the half-disk
 counterexample `r^s sin θ`; the Aleksandrov–Bakelman–Pucci equality case `(|x|² − 1)/(2n)`; and
 the ball example `u = (1 − |x|²)/6` joining the Newtonian potential, the harmonic correction and
-the Dirichlet problem.
+the Dirichlet problem. The function `log|x|` on the unit disc of `ℝ²` has sphere means `log r`
+(§3.2a) and Riesz measure `2πδ₀` (§3.4a).
 
 ### Dependencies
 
 Layer 1 (§1.1 for the one-dimensional weak Hopf lemma, §1.6 for traces); Mathlib's harmonic
-functions, convolution and the Jacobian inequality; Tau Ceti's potential theory and maximum
+functions, convolution, upper semicontinuous functions, measures and the Jacobian inequality;
+Tau Ceti's potential theory and maximum
 principles. The divergence-form Hopf lemma names §5.3 and §5.4 as inputs; nothing else in this
 layer depends on Layers 4–5.
 
@@ -3135,6 +3253,13 @@ Mathlib Arzelà–Ascoli. Layer 8 is not used.
 - S. Axler, P. Bourdon, W. Ramey, *Harmonic Function Theory*, 2nd ed., Graduate Texts in
   Mathematics 137, Springer, 2001, Theorem 3.4: Harnack's inequality on the ball with the sharp
   Poisson-kernel constant.
+- J.-P. Demailly, *Complex Analytic and Differential Geometry*, open book, version of 21 June 2012,
+  [author's page](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf):
+  upper semicontinuous subharmonic functions (Chapter I, §4: Theorem-Definition 4.12, Lemma 4.13,
+  the maximum principle 4.14, Theorems 4.17–4.18, Corollary 4.19, Propositions 4.21–4.22).
+- L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, 2nd ed., Grundlehren der
+  mathematischen Wissenschaften 256, Springer, 1990: Hartogs' lemma for subharmonic functions
+  (Theorem 4.1.9).
 - P. Grisvard, *Elliptic Problems in Nonsmooth Domains*, Pitman, 1985: Lipschitz domains
   (Definition 1.2.1.1).
 - M. Giaquinta, L. Martinazzi, *An Introduction to the Regularity Theory for Elliptic Systems,

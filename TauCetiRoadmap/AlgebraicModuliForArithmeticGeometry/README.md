@@ -56,7 +56,9 @@ treats rigidification and level structures, Layer 6 Artin approximation. Layer 7
 criteria and Picard sheaves of algebraic spaces, and Layer 8 framed deformations and algebraization
 of formal objects. Layer 9 proves Kawamata–Viehweg vanishing in characteristic zero, and very
 ampleness of every power of an ample line bundle on a smooth projective complex variety beyond a
-bound depending only on numerical data.
+bound depending only on numerical data. It also develops klt pairs, their multiplier ideals and
+Nadel vanishing, and with them the theorems of Angehrn–Siu and Kollár on global generation and
+separation of points by adjoint bundles.
 
 ## How to read the build
 
@@ -66,7 +68,7 @@ limits, and Layer 5 applies them to rigidification and finite correspondences. L
 approximation, Layer 7 Artin's criteria, Picard sheaves and rigidifications, nonarchimedean analytification and the
 arithmetic coefficient comparisons, and Layer 8 the formal deformation comparisons. Layer 9 consumes
 resolution, preservation of the resolved locus and algebraic SNC compactification from
-ResolutionOfSingularitiesCharacteristicZero, then constructs algebraic vanishing and numerical boundedness. Checks are listed under each definition.
+ResolutionOfSingularitiesCharacteristicZero, then constructs algebraic vanishing and numerical boundedness, and on them pairs, multiplier ideals of pairs and Nadel vanishing (§§9.10a–9.10c), global generation and separation of points by adjoint bundles (§§9.12–9.12c) and the Ein–Lazarsfeld global division theorem (§9.13). Checks are listed under each definition.
 
 Where the section order differs from the order of construction, the target-level order is the
 following. In Layer 1, construct `coherentGrassmannian` before `rankOneGrassmannComparison`.
@@ -9845,7 +9847,9 @@ the scheme, ideal-sheaf, blowup and SNC conventions used here. They retain the s
 and naturality, including centre ideals and ordered boundary labels. The marked-ideal, Samuel and
 invariant constructions and their finite-sequence existence theorems belong to that supplier.
 The applications constructed here are the algebraic vanishing and numerical boundedness of
-§§9.10–9.11. The comparisons also fix the interfaces for the rigidification and formal-moduli
+§§9.10–9.11, pairs, their multiplier ideals and Nadel vanishing (§§9.10a–9.10c), global generation
+and separation of points by adjoint bundles (§§9.12–9.12c), and the Ein–Lazarsfeld global division
+theorem (§9.13). The comparisons also fix the interfaces for the rigidification and formal-moduli
 carriers of Layers 5 and 8 without imposing smoothness on an arbitrary moduli stack.
 
 ### 9.1 Marked ideals, transforms and test equivalence
@@ -10132,6 +10136,120 @@ Prove `resolutionCanonicalDegreeBound`: for an integral p-dimensional subvariety
 
 These inputs prove `numericalVeryAmpleness` as follows. Set `H=λ_n(K+(n+2)L)` and `h=H L^(n−1)=λ_n(w+(n+2)v)`. For `n≥2`, the descending-cycle proof of Demailly's Theorem 4.7 gives a bound depending only on n,v,h and `b=B L^(n−1)`: start with a bounded section of `m_n L−B`, then on each integral p-dimensional component use the preceding canonical-degree and adjoint-section estimates to choose bounded `m_p`. Intersections bound the next component degrees by products of the already chosen `m_j` and `h^p/v^(p−1)`. Finite products and the recurrence in that proof therefore give one numerical bound; no individual Hilbert-polynomial coefficient occurs. For a curve not contained in the last one-dimensional stratum, the first section that does not vanish identically on it proves nonnegative degree of `m_0L−B`; for a curve in that stratum, its bounded degree and the positive integral degree of L give the same conclusion after increasing `m_0`. Thus `m_0L−B` is nef. Replace B by `B+H` and add H to get a very ample `mL−B` for every sufficiently large m. With `B=0` this gives the required uniform exponent. The displayed h is positive because H is ample. For `n=1`, the degree criterion gives very ampleness whenever `mv≥w+3`; the degree-one projective line is included. For `n=0` the geometric integral variety is a point and exponent 1 suffices. The complete embedding satisfies `h⁰(L^m)≤m^n v+n`, by the nondegenerate degree bound in projective space. (Demailly, Lemma 4.1, Proposition 4.3 and Corollary 4.4, pp. 12–13; Theorem 4.7 and proof, pp. 14–16.)
 
+### 9.10a Discrepancies of pairs, klt and lc pairs, and the non-klt locus
+
+Define `pairDiscrepancy`. Let `X` be a normal integral variety over a field `k` of characteristic zero and `Δ` a
+`ℚ`-Weil divisor on `X` such that `K_X + Δ` is `ℚ`-Cartier; here `K_X` is the canonical Weil divisor of a nonzero
+rational top form, the closure of the canonical divisor of the smooth locus. For a proper birational morphism
+`f : Y → X` from a normal variety and a prime divisor `E ⊂ Y`, the discrepancy `a(E; X, Δ)` is the coefficient of `E`
+in `K_Y − f^*(K_X + Δ)`, where `K_Y` and `K_X` are the divisors of the same rational top form (so `f_*K_Y = K_X`) and
+`f^*` is the pullback of `ℚ`-Cartier Weil divisors: if `rD` is the Weil divisor of a Cartier divisor `A`, then
+`f^*D = (1/r)·[f^*A]`, where `f^*A` pulls back the local equations of `A`, which stay nonzero because `f` is dominant
+and `X`, `Y` are integral (Stacks, Lemma 31.14.13, tag 02OO), and `[·]` is the Weil divisor on `Y`. The pair
+`(X, Δ)` is *klt* if `a(E; X, Δ) > −1`, and *lc* if `a(E; X, Δ) ≥ −1`, for every such `f` and `E`, exceptional or
+not; its *non-klt locus* `Nklt(X, Δ)` is the union of the centres `f(E)` of the divisors with `a(E; X, Δ) ≤ −1`.
+
+Prove `pairDiscrepancy.logResolution`: (a) `f^*D` does not depend on `(r, A)`, is `ℚ`-linear in `D`, is effective
+when `D` is, and satisfies `f_*f^*D = D`; `a(E; X, Δ)` depends only on the valuation of `k(X)` defined by `E`, not on
+`f`, nor on the top form, nor on the Cartier index used to pull back; for a non-exceptional `E` (a prime divisor of
+`X`), `a(E; X, Δ) = −coeff_E Δ`; (b) if `f : Y → X` is a log resolution of `(X, Δ)`, that is, `Y` is smooth and
+`Exc(f) ∪ f^{−1}_*Supp Δ` is an SNC divisor, then `(X, Δ)` is klt (resp. lc) iff every coefficient of
+`K_Y − f^*(K_X + Δ)` is `> −1` (resp. `≥ −1`), and `Nklt(X, Δ)` is the image of the union of the components with
+coefficient `≤ −1`, a closed subset; (c) a smooth `X` with `Δ = 0` is klt. A log resolution exists by
+ResolutionOfSingularitiesCharacteristicZero §§5.5–5.6 with §5.1, through §§9.4 and 9.7: resolve `X`, then
+principalise the ideal of the exceptional locus together with the strict transform of `Supp Δ`.
+
+(Kollár 1997, Definitions 3.3–3.5, pp. 15–17; Lemma 3.10, p. 18; Lemma 3.11 and Corollaries 3.12–3.13, pp. 18–19;
+Definition 5.7, p. 30; Kollár–Mori 1998, §2.3; Lazarsfeld 2004, §9.3.)
+
+For the proof, (a): if `rD = [A]` and `r′D = [A′]`, then `r′A` and `rA′` have the same Weil divisor, hence are equal
+because the Cartier-to-Weil map of the normal `X` is injective (AlgebraicModuliForArithmeticGeometryPartII §0.7), and
+their pullbacks agree; `f` is an isomorphism over the generic point of every prime divisor of `X`, where `O_X` is a
+discrete valuation ring, which gives `f_*f^*D = D`. Two models are dominated by a third, where the discrepancy of the
+strict transform of `E` is the same coefficient. (b): define `Δ_Y` by `K_Y + Δ_Y = f^*(K_X + Δ)`; then
+`a(E; X, Δ) = a(E; Y, Δ_Y)` for every divisor `E` over `Y` (Kollár 1997, Lemma 3.10), and for a smooth `Y` with an
+SNC `Δ_Y` of coefficients `≤ 1` (resp. `< 1`) every divisor over `Y` has discrepancy `≥ −1` (resp. `> −1`), by a
+computation in local coordinates in which the components of `Δ_Y` are coordinate hyperplanes (Kollár 1997,
+Lemma 3.11 and Corollary 3.12). (c): on smooth `X` the pullback of a local generator of `ω_X` vanishes along every
+exceptional divisor.
+
+*Needs:* §§9.4 and 9.7 (log resolutions, from ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5–5.6);
+AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil divisors, injectivity of the Cartier-to-Weil map on
+normal schemes); SchemeAndStackFoundations §3.4 (`picardToClassGroup`: the Weil divisor of a rational section, here of
+the canonical sheaf of the smooth locus) and §4.17 (SNC divisors); Tau Ceti
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor` and `TauCeti.AlgebraicGeometry.Scheme.CartierDivisor`.
+
+**Checks.**
+
+- `X = 𝔸²`, `Δ = c·L` for a line `L`: klt iff `c < 1`, lc iff `c ≤ 1`.
+- `X = 𝔸²`, `Δ = c·C` for the cusp `C = {y² = x³}`: klt iff `c < 5/6` (the log resolution has exceptional divisors
+  with discrepancies `1 − 2c`, `2 − 3c`, `4 − 6c`); a test on the first blow-up only would give `c < 1`.
+- The cone over a smooth plane cubic, `Δ = 0`: the exceptional curve of the blow-up of the vertex has discrepancy
+  `−1`, so the pair is lc and not klt; the cone over a smooth conic has discrepancy `0` and is klt.
+
+### 9.10b Multiplier ideals of pairs
+
+Define `pairMultiplierIdeal`. For `X`, `Δ` as in 9.10a with `Δ` effective, and a log resolution `f : Y → X` of
+`(X, Δ)`, set `J(X, Δ) = f_*O_Y(⌈K_Y − f^*(K_X + Δ)⌉) ⊆ O_X`, where `⌈·⌉` rounds the coefficients up. Its API:
+`J(X, Δ)` is a coherent ideal sheaf independent of `f`; the higher direct images
+`R^i f_*O_Y(⌈K_Y − f^*(K_X + Δ)⌉)` vanish for `i > 0` (local vanishing); `J(X, Δ) = O_X` iff `(X, Δ)` is klt; the
+cosupport of `J(X, Δ)` is `Nklt(X, Δ)`; and for smooth `X` and an effective Cartier divisor `D` with ideal `O(−D)`,
+`J(X, c·D)` is `algebraicMultiplierIdeal` of `O(−D)` with exponent `c` (§9.10). In that smooth case a log resolution
+is a principalisation of `O(−D)`, and the independence of `f` and the local vanishing are those of
+`algebraicMultiplierIdeal`; the definition here extends it to effective `ℚ`-Weil divisors on normal varieties.
+
+(Kollár 1997, Theorem 2.16 and its proof, p. 13, where the ideal is this push-forward and its cosupport is the non-klt
+locus; Lazarsfeld 2004, Chapter 9: 9.2.19, 9.1.22, and §9.3 for multiplier ideals on singular varieties.)
+
+For the proof, independence: compare two log resolutions through a common one and use that the round-up of an
+`f`-exceptional divisor with SNC support pushes forward to `O_X` (Lazarsfeld 9.2.19). Local vanishing: the relative
+Kawamata–Viehweg vanishing `R^i f_*O_Y(K_Y + ⌈A⌉) = 0` for an `f`-nef and `f`-big `A` with SNC fractional part,
+deduced from `algebraicAdjointVanishing` after compactifying, twisting by the pullback of a sufficiently ample divisor
+on `X` and using Serre vanishing and the Leray spectral sequence (Lazarsfeld 9.1.22), applied to
+`A = −f^*(K_X + Δ)` (`algebraicAdjointVanishing` is applied over the algebraic closure of `k` in the function field of
+`X`, over which `X` and `Y` are geometrically integral; the cohomology groups do not change). Since `Δ` is effective, a
+divisor that is not `f`-exceptional has coefficient `≤ 0` in `⌈K_Y − f^*(K_X + Δ)⌉`, so the push-forward is an ideal
+of `O_X` (Kollár 1997, proof of Theorem 2.16). The klt criterion and the cosupport follow from 9.10a (b). The smooth
+case is the definition of `algebraicMultiplierIdeal` with a principalisation that is also a log resolution.
+
+*Needs:* `pairDiscrepancy` (9.10a); `algebraicAdjointVanishing`, `algebraicMultiplierIdeal` (§9.10); §§9.4 and 9.7
+(log resolutions); SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`) and §2.6 (`ample_serre_vanishing`).
+
+**Checks.**
+
+- `X = 𝔸²`, `Δ = c·L`: `J(X, Δ) = O(−⌊c⌋L)`; for the cusp `C`, `J(X, c·C) = O` for `c < 5/6` and the maximal ideal
+  of the cusp point for `5/6 ≤ c < 1`.
+- On the cone over a conic, `J(X, 0) = O` (klt), while on the cone over a cubic `J(X, 0)` is the maximal ideal of the
+  vertex.
+
+### 9.10c Nadel vanishing for pairs
+
+Prove `pairNadelVanishing`: let `X` be a normal projective variety over a field of characteristic zero, `Δ` an
+effective `ℚ`-Weil divisor with `K_X + Δ` `ℚ`-Cartier, and `L` a Cartier divisor such that `L − (K_X + Δ)` is nef and
+big. Then `H^i(X, O_X(L) ⊗ J(X, Δ)) = 0` for every `i > 0`. For smooth `X` this is the vanishing clause of
+`algebraicMultiplierIdeal` (§9.10) for `a = O_X(−qΔ)` (`q ≥ 1` with `qΔ` integral), `c = 1/q`, `M = O_X(qΔ)` and
+`L − K_X` in place of `L`, through the comparison of 9.10b. A `ℚ`-Cartier divisor `N` with `rN` Cartier is big when
+`O_X(rN)` is big (AlgebraicModuliForArithmeticGeometryPartII §1.6); this does not depend on `r`, bigness being
+invariant under positive powers.
+
+(Kollár 1997, Theorem 2.16 and its proof, p. 13; Lazarsfeld 2004, 9.4.17.)
+
+For the proof, on a log resolution `f : Y → X`, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with
+`A = f^*(L − K_X − Δ)` nef and big and with SNC fractional part; `algebraicAdjointVanishing` gives
+`H^i(Y, K_Y + ⌈A⌉) = 0` (over the algebraic closure of the base field in the function field of `X`, as in 9.10b), and
+local vanishing (9.10b) and the projection formula identify it with `H^i(X, O_X(L) ⊗ J(X, Δ))` by the Leray spectral
+sequence.
+
+*Needs:* `pairMultiplierIdeal` (9.10b); `algebraicAdjointVanishing` (§9.10); AlgebraicModuliForArithmeticGeometryPartII
+§1.5 (nef `ℚ`-Cartier divisors) and §1.6 (bigness); SchemeAndStackFoundations §2.2 (`leray_spectral_sequence`).
+
+**Checks.**
+
+- `X = ℙ²`, `Δ = c·L₀` for a line `L₀`, `0 ≤ c < 1`, `L = O(m)`: `L − (K + Δ)` has degree `m + 3 − c`, nef and big
+  for `m ≥ −2`; the conclusion `H^i(O(m)) = 0` for `i > 0`, `m ≥ −2`, holds. For `c = 1`, `J = O(−1)` and the
+  hypothesis holds for `m ≥ −1`, with `H^i(O(m − 1)) = 0`.
+- For `L − (K + Δ)` nef and not big the statement fails: `X` an elliptic curve, `Δ = 0`, `L = O`: `H¹(O) ≠ 0`.
+
 ### 9.11 Uniform numerical boundedness
 
 Prove `numericalVeryAmpleness`. For each dimension `d≥1` and integers `v>0`,w, there is `m₀(d,v,w)` such that for every smooth projective complex d-fold X and ample L with `L^d=v` and `K_X·L^(d−1)=w`, every `L^m` with `m≥m₀` is very ample. There are bounds for `h⁰(X,L^m₀)` depending only on these numerical data. The result includes the `K_X` trivial case `w=0` used by Charles; it is a uniform numerical assertion, not Serre’s bound for one fixed X.
@@ -10154,6 +10272,192 @@ For the proof, apply the numerical theorem with `w=0` to get a uniform very ampl
 
 *Needs:* `numericalVeryAmpleness`, `boundedDegreeHilbertPolynomials`, `hilbertPolynomial`.
 
+### 9.12 Isolated non-klt centres
+
+In §§9.12–9.12c the base field is `ℂ`, `n = dim X`, a subvariety is a closed integral subvariety of positive
+dimension, and the boundary `Δ` of a pair is effective. For a `ℚ`-Cartier divisor `N` with `rN` Cartier and a
+subvariety `Z` of dimension `d`, `(N^d · Z) = r^{−d}(O_X(rN)^d · Z)` is the intersection number of
+SchemeAndStackFoundations Layer 5 (AlgebraicModuliForArithmeticGeometryPartII §1.7), and `≡` is numerical equivalence
+(AlgebraicModuliForArithmeticGeometryPartII §0.7): equal degrees on every complete integral curve.
+
+Prove `isolatedNonKltCentre`: let `(X, Δ)` be a projective klt pair of dimension `n ≥ 1` (9.10a), `N` a nef and big
+`ℚ`-Cartier divisor on `X`, `x ∈ X` a closed point, and `c_1, …, c_n` positive real numbers with
+`Σ_{d=1}^{n} d/c_d ≤ 1` such that `(N^d · Z) > c_d^d` for every subvariety `Z ∋ x` of dimension `d` (`Z = X`
+included). Then there are an effective `ℚ`-Cartier divisor `D ≡ N` and an open neighbourhood `X⁰` of `x` such that
+`(X⁰, Δ + D)` is lc, `(X⁰, Δ + D)` is klt on `X⁰ ∖ {x}`, and `(X, Δ + D)` is not klt at `x`. By 9.10b the last two
+conditions say that `x` is an isolated point of the cosupport of `J(X, Δ + D)`; the first is a separate conclusion,
+not expressed by the multiplier ideal.
+
+(Kollár 1997, Theorem 6.4, p. 35, and Steps 6.6–6.8; the method is that of Angehrn–Siu 1995.)
+
+For the proof, follow Kollár's algebraic form of the Angehrn–Siu argument. Reduce first to ample `N` (Kollár 1997,
+6.6.1): with `rN` Cartier the numbers `(N^d · Z)` lie in `r^{−d}ℤ`, so the strict inequalities hold with a margin
+independent of `Z`; by Kodaira's lemma `N ≡ H + E` with `H` an ample and `E` an effective `ℚ`-divisor, and for small
+`t > 0` the ample `N_t = (1 − t)N + tH` has `(N_t^d · Z) ≥ (1 − t)^d (N^d · Z)` by Kleiman's nonnegativity, so it
+still satisfies the hypotheses, while `(X, Δ + tE)` is still klt (9.10a (b)); a divisor `D′ ≡ N_t` for the pair
+`(X, Δ + tE)` gives `D = D′ + tE ≡ N`. For ample `N`, asymptotic Riemann–Roch gives, since `(N^n) > c_n^n`, for large
+`m` a divisor in `|mN|` with multiplicity `> m·c_n` at `x` (there are more sections than conditions); scaled by
+`n/(m c_n)` it is a `ℚ`-divisor `≡ (n/c_n)N` with multiplicity `> n` at `x`, which makes the pair not lc at a smooth
+point `x` (the exceptional divisor of the blow-up of `x` has discrepancy `n − 1 − mult_x < −1`). At a singular point
+`x` such a divisor is obtained by specialising from nearby smooth points along a curve through `x`: the divisors at
+those points lie in one linear system `|mN|`, and their limit at `x` is not lc at `x` (Kollár 1997, 6.7.1 and 7.8).
+Take the log canonical threshold and perturb so that the minimal lc centre `Z` through `x` is unique (tie-breaking).
+If `d = dim Z > 0`, `(N^d · Z) > c_d^d` gives in the same way on `Z`, lifted to `X` by Serre vanishing, a
+`ℚ`-divisor `≡ (d/c_d − ε)N` with high multiplicity along `Z` at `x`, which cuts the minimal centre down (Kollár 1997,
+6.8.1). The dimension drops at each step and the total coefficient stays below `Σ_d d/c_d ≤ 1`; adding a general
+effective `ℚ`-divisor in the remaining ample class, which does not pass through `x` and preserves klt and lc near
+`x`, gives `D ≡ N`.
+
+*Needs:* `pairDiscrepancy` (9.10a), `pairMultiplierIdeal` (9.10b); AlgebraicModuliForArithmeticGeometryPartII §0.7
+(numerical equivalence), §1.5 (nef `ℚ`-Cartier divisors), §1.6 (bigness of a nef divisor with positive top
+intersection), §1.6a (Kodaira's lemma), §1.7 (intersection numbers, Kleiman's nonnegativity (ii), and (v): a nef plus
+an ample `ℚ`-Cartier divisor is ample, and ampleness is numerical), §1.7a (asymptotic Riemann–Roch for an ample
+sheaf); SchemeAndStackFoundations Layer 2 (Serre vanishing).
+
+### 9.12a Global generation of adjoint bundles
+
+Prove `adjointGlobalGeneration`: let `(X, Δ)` be a projective klt pair, `N` a nef and big `ℚ`-Cartier divisor, `M` a
+line bundle on `X` with `M ≡ K_X + Δ + N`, `x ∈ X` a closed point, and `c_1, …, c_n` positive real numbers with
+`Σ_{d=1}^{n} d/c_d ≤ 1`. If `(N^d · Z) > c_d^d` for every subvariety `Z ∋ x` of dimension `d`, then `M` is generated
+by global sections at `x`: some global section of `M` is nonzero at `x`.
+
+(Kollár 1997, Theorem 5.8, p. 30, and 5.10; its proof uses the effectivity of `Δ` through Theorem 2.16. The method is
+that of Angehrn–Siu 1995.)
+
+For the proof, for `n = 0`, `X` is a point and `M ≅ O_X`. For `n ≥ 1`, 9.12 applied to `(1 − ε)N` for small `ε > 0`,
+which satisfies the same strict inequalities because the values `(N^d · Z)` lie in `r^{−d}ℤ` for `rN` Cartier, gives
+`D ≡ (1 − ε)N` with `x` isolated in the cosupport of `J(X, Δ + D)`; 9.10c for `M − (K_X + Δ + D) ≡ εN`, nef and big,
+gives `H¹(X, M ⊗ J(X, Δ + D)) = 0`, so the sections of `M` surject onto the summand of `M ⊗ O_X/J(X, Δ + D)` at `x`.
+
+*Needs:* `isolatedNonKltCentre` (9.12), `pairNadelVanishing` (9.10c); AlgebraicModuliForArithmeticGeometryPartII
+§§1.5–1.6 (nefness and bigness are numerical) and §3.3 (the pointwise criterion for global generation).
+
+**Checks.**
+
+- `X = ℙ¹`, `Δ = 0`, `N = O(a)`, `c_1 = 1`: the hypothesis is `a > 1`, and `K + N = O(a − 2)` is globally generated
+  for `a ≥ 2`; for `a = 1`, `K + N = O(−1)` has no section, so the strict inequality is needed.
+- The uniform constant `c_d = ½n(n + 1)` has `Σ_d d/c_d = (½n(n + 1))/(½n(n + 1)) = 1`, so
+  `(N^d · Z) > (½n(n + 1))^d` for every `Z ∋ x` suffices (Kollár 1997, 5.10).
+- `Δ` must be effective: `(ℙ¹, −½p)` is klt (a curve has no exceptional divisors, and the coefficient `−½` is below
+  `1`), `N = ½p + q` is nef with `(N · ℙ¹) = 3/2 > 1 = c_1`, and yet `K + Δ + N = K + q ≅ O(−1)` has no section.
+
+### 9.12b Kollár's two-point separation for klt pairs
+
+Prove `kollarTwoPointSeparation`: let `(X, Δ)` be a projective klt pair of dimension `n ≥ 1`, `N` a nef and big
+`ℚ`-Cartier divisor on `X`, `M` a line bundle on `X` with `M ≡ K_X + Δ + N`, `x₁ ≠ x₂` closed points of `X`, and
+`c_1, …, c_n` positive real numbers such that `(N^e · Z) > c_e^e` for every subvariety `Z` of dimension `e`
+(`Z = X` included) that contains `x₁` or `x₂`, and `Σ_{e=1}^{n} 2^{1/e}·e/c_e ≤ 1`. Then the global sections of `M`
+separate `x₁` and `x₂`: `M` has a global section `s` with `s(x₁) ≠ 0` and `s(x₂) = 0`, or with `s(x₂) ≠ 0` and
+`s(x₁) = 0`. Since the hypotheses of 9.12a hold at `x₁` and at `x₂`, this makes
+`H⁰(X, M) → M ⊗ k(x₁) ⊕ M ⊗ k(x₂)` surjective.
+
+(Kollár 1997, Theorem 5.9, pp. 30–31, with Theorem 6.5; that separation amounts to a section vanishing at exactly one
+of the two points is in the proof of 5.9.)
+
+For the proof, Kollár's induction on the dimension of the non-klt locus through the two points. Write `N = N₀/r` with
+`N₀` a line bundle; the numbers `(N^e · Z)` lie in `r^{−e}ℤ`, so there are rationals `h_e > 0` with
+`2e^e < h_e^e·(N^e · Z)` for all `Z` as above and `Σ_e h_e < 1`; reduce to ample `N` as in 9.12. For an effective
+`D ≡ dN`, a set `P ⊆ {x₁, x₂}` and a subvariety `Z ⊇ P` of dimension `e` that is `X` or a non-klt centre of
+`(X, Δ + D)`, sections of `lN` for large `l`, restricted to `Z` (asymptotic Riemann–Roch on `Z`, and Serre vanishing to
+extend them to `X`) and vanishing to high order at the points of `P`, give an effective `B ≡ h_e N` not containing `Z`
+such that `(X, Δ + (1 − δ)D + B)` is not klt at the points of `P` for small `δ > 0`, while off `Z` adding `B`
+preserves klt. Taking log canonical thresholds at the two points lowers the dimension of the non-klt locus at one of
+them, the roles of the points possibly swapping; starting from `Z = X`, `D = 0`, the result is `D ≡ dN`, `d < 1`,
+with one of the points an isolated point of `Nklt(X, Δ + D)` and the other in it (Kollár 1997, Theorem 6.5). Then
+9.10c for `(X, Δ + D)` and `M`, with `M − (K_X + Δ + D) ≡ (1 − d)N` ample, gives `H¹(X, M ⊗ J(X, Δ + D)) = 0`;
+lifting the section of `M ⊗ O_X/J(X, Δ + D)` that generates at the isolated point and vanishes elsewhere gives `s`.
+
+*Needs:* `pairDiscrepancy`, `pairMultiplierIdeal`, `pairNadelVanishing` (9.10a–9.10c), `isolatedNonKltCentre` (9.12)
+and its route, `adjointGlobalGeneration` (9.12a) for the surjectivity; §§9.4 and 9.7 (log resolutions);
+AlgebraicModuliForArithmeticGeometryPartII §§0.7, 1.5–1.7, 1.6a and 1.7a (as in 9.12); SchemeAndStackFoundations
+Layer 2 (Serre vanishing).
+
+**Checks.**
+
+- `X = ℙ¹`, `Δ = 0`, `N = O(a)`: the hypothesis is `a > c_1` and `2/c_1 ≤ 1`, that is `a ≥ 3`, and
+  `K + N = O(a − 2)` has a section vanishing at exactly one of two points iff `a − 2 ≥ 1`. For `a = 2` both fail (`O`
+  has only constant sections).
+- A uniform constant: since `2^{1/e} ≤ 1 + 1/e`, `Σ_{e=1}^{n} 2^{1/e}e ≤ Σ_{e=1}^{n}(e + 1) = binom(n + 2, 2) − 1`, so
+  `c_e = binom(n + 2, 2) − 1 = ½n(n + 3)` is admissible: the hypothesis `(N^e · Z) > (½n(n + 3))^e` is that of 9.12c
+  for `ℓ = 2` (by the inequality of Kollár 1997, 5.10, which takes the constant `binom(n + 2, 2)`).
+- The conclusion names no point: it is not asserted that the section can be chosen to vanish at `x₂` rather than at
+  `x₁`.
+
+### 9.12c Point separation for adjoint bundles
+
+Prove `angehrnSiuPointSeparation`: let `X` be a smooth projective variety over `ℂ`, `L` an ample line bundle and
+`x_1, …, x_ℓ ∈ X` distinct closed points. If `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every subvariety `Z` of dimension
+`d ≥ 1`, then the restriction `H⁰(X, K_X + L) → ⊕_i (K_X + L) ⊗ k(x_i)` is surjective. Each `k(x_i)` is `ℂ`, so the
+conclusion says that for every `i` some section of `K_X + L` is nonzero at `x_i` and vanishes at the other points. The
+source states the hypothesis as `(L^d · Z)^{1/d} ≥ ½n(n + 2ℓ − 1) + κ` for one `κ > 0`, which is the same condition
+because the numbers `(L^d · Z)` are integers. `uniformAdjointVeryAmpleness` (§9.10) is a neighbouring form proved
+through the same multiplier-ideal vanishing: `m(K_X + (n + 2)L) + G` is very ample for `m ≥ λ_n` and `G` nef, with no
+numerical hypothesis on `L`; neither statement contains the other.
+
+(Angehrn and Siu 1995, Theorem 0.3, p. 291; for `ℓ ≤ 2` also Kollár 1997, Theorems 5.8 and 5.9, as in 5.10.)
+
+For the proof, for `n = 0`, `X` is a point, `ℓ ≤ 1` and `K_X + L ≅ O_X`. For `n ≥ 1`, induct on `ℓ`. The
+concentration of multiplicity in the route of 9.12, carried out at the `ℓ` points simultaneously (Angehrn and Siu
+1995, §§7–9: the step that cuts a centre of dimension `d` costs `d + ℓ − 1`, because `(1 + (ℓ − 1)/d)^d ≥ ℓ` gives
+the required order of vanishing at all the points at once, and `Σ_{d=1}^{n}(d + ℓ − 1) = ½n(n + 2ℓ − 1)`), gives a
+`ℚ`-divisor `D ≡ λL`, `λ < 1`, whose non-klt locus contains all the `x_i` and has at least one of them, say `x_1`, as
+an isolated point. 9.10c for the Cartier divisor `K_X + L` and `Δ = D`, with `(K_X + L) − (K_X + D) ≡ (1 − λ)L`
+ample, makes `H⁰(K_X + L) → H⁰((K_X + L) ⊗ O_X/J(X, D))` surjective, and `O_X/J(X, D)` has a direct summand supported
+at `x_1`; lifting the element that is `1` on that summand and `0` on the rest gives a section `s₁` with `s₁(x_1) ≠ 0`
+and `s₁ ∈ J(X, D) ⊆ m_{x_i}` at `x_2, …, x_ℓ`. The case `ℓ − 1`, whose hypothesis is weaker, gives sections with
+arbitrary values at `x_2, …, x_ℓ`; adding a multiple of `s₁` adjusts the value at `x_1`. The constant grows with `ℓ`
+because at every step the divisor must be singular at all the points.
+
+*Needs:* the route of `isolatedNonKltCentre` (9.12), `pairNadelVanishing` (9.10c);
+AlgebraicModuliForArithmeticGeometryPartII §1.7 (v) (ampleness of `ℚ`-Cartier divisors is numerical).
+
+**Checks.**
+
+- `ℓ = 1` follows from 9.12a with `Δ = 0`, `N = L` and `c_d = ½n(n + 1)`.
+- `X = ℙ¹`, `L = O(a)`, `ℓ = 2`: the threshold is `½·1·4 = 2`, so `a ≥ 3`, and `K + L = O(a − 2)` separates two
+  points iff `a − 2 ≥ 1`.
+
+### 9.13 Global division by sections generating a twisted ideal
+
+Prove `globalDivisionByGenerators`: let `X` be a smooth complex projective variety of dimension `n`, `J ⊆ O_X` a
+nonzero coherent ideal, `L` a line bundle on `X` such that `L ⊗ J` is generated by global sections
+`s_1, …, s_m ∈ H⁰(X, L ⊗ J)`, and `D` a divisor with `O_X(D) ≅ L`. For an integer `ℓ ≥ 0` let `I_ℓ ⊆ O_X` be
+`algebraicMultiplierIdeal` of `J` with exponent `ℓ` (§9.10): on a principalization `f : Y → X` with
+`J·O_Y = O_Y(−F)`, `I_ℓ = f_*O_Y(K_(Y/X) − ℓF)`. For `α ∈ ℕ^m` write `|α| = α_1 + ⋯ + α_m` and
+`s^α = s_1^{α_1} ⋯ s_m^{α_m} ∈ H⁰(X, L^{|α|})`. Let `k ≥ 1` and `ℓ ≥ min(m + k − 1, n + k)` be integers and `A` a
+divisor on `X` such that `A − ℓD` is nef and big. Then multiplication by the `s^α` maps
+`⊕_{|α|=k} H⁰(X, O_X(K_X + A − kD) ⊗ I_{ℓ−k})` onto `H⁰(X, O_X(K_X + A) ⊗ I_ℓ)`. In particular every section of
+`O_X(K_X + A)` whose germs lie in `I_ℓ·O_X(K_X + A)` is `Σ_{|α|=k} s^α·h_α` with
+`h_α ∈ H⁰(X, O_X(K_X + A − kD))`.
+
+(Ein and Lazarsfeld 1999, Proposition 1.2 (ii); its case `k = 1` is Proposition 1.1 (ii). Lazarsfeld 2004, §9.6.)
+
+For the proof, on `Y` write the pullback of the divisor of `s_j` as `F + D′_j`: the effective divisors `D′_j`
+generate the base-point-free linear system of `N = f^*L ⊗ O_Y(−F)`. Twist by
+`O_Y(K_(Y/X) − ℓF) ⊗ f^*O_X(K_X + A)` the Koszul complex of `⊕_j O_Y(−D′_j) → O_Y` (for `k ≥ 2`, the resolution of
+the kernel of its `k`-th symmetric power by Schur powers of `⊕_j O_Y(−D′_j)`). Its terms are sums of sheaves
+`O_Y(K_Y) ⊗ f^*O_X(A − ℓD) ⊗ N^{⊗i}` with `i ≥ 0` in the stated range of `ℓ`, whose higher cohomology vanishes by
+`algebraicAdjointVanishing`, `f^*(A − ℓD)` being nef and big and `N` generated by global sections. So the map of
+global sections on `Y` is surjective, and its push-forward by `f` is the map of the statement.
+
+*Needs:* `algebraicAdjointVanishing`, `algebraicMultiplierIdeal` (§9.10); §9.4 (principalization).
+
+**Checks.**
+
+- `X = ℙ¹`, `J = O_X`, `L = O(1)`, `s_1 = x`, `s_2 = y`, `k = 1`, `ℓ = 2`, `A` of degree `a`. For `a ≥ 3`,
+  `A − 2D` has degree `a − 2 > 0`, and every form of degree `a − 2` is `x·h_1 + y·h_2` with forms `h_i` of degree
+  `a − 3`. For `a = 2`, `A − 2D` is trivial, nef and not big, and the constant `1 ∈ H⁰(O_X(K_X + A))` is not
+  `x·h_1 + y·h_2` with `h_i ∈ H⁰(O(−1)) = 0`: bigness is needed.
+- `X = ℙ¹`, `J` the ideal of a point `P`, `L = O(1)`, `s` a linear form vanishing at `P` (`m = 1`), `k = ℓ = 1`:
+  `I_1 = J` and `I_0 = O_X`, and for `A` of degree `j + 2` with `j ≥ 0` the statement says that a form of degree `j`
+  vanishing at `P` is `s` times a form of degree `j − 1`.
+- Reduced points. Let `J = I_Z` be the ideal of a finite reduced subscheme `Z`, for instance the common zero scheme
+  of `m = n` sections of `L` with simple common zeros. The blow-up of `Z` is a principalization with
+  `K_(Y/X) = (n − 1)F`, so `I_{n−1} = O_X` and `I_ℓ = I_Z^{ℓ+1−n}` for `ℓ ≥ n` (Ein, Lazarsfeld and Smith 2001,
+  proof of Theorem 2.2, the case of a smooth subvariety of codimension `n`). With `m = n` and `ℓ = n + k − 1` the
+  statement divides by the monomials of degree `k` every section of `O_X(K_X + A)` whose germs lie in `I_Z^k`, when
+  `A − (n + k − 1)D` is nef and big.
+
 ### Examples
 
 The unit ideal gives a zero principalization divisor in the multiplier-ideal application. A smooth
@@ -10169,7 +10473,13 @@ applications. CrystallineCohomology §CR.5:log-algebra.4 (*Divisorial log struct
 SNC geometry, for pairs relatively SNC over a regular Noetherian base, which are absolutely SNC on a
 regular Noetherian scheme as that constructor requires. Algebraic adjoint vanishing, multiplier ideals and uniform numerical boundedness are
 constructed here using SchemeAndStackFoundations §§2.19–2.21 (duality) and Layer 5 (intersection
-theory).
+theory). Pairs, multiplier ideals of pairs, Nadel vanishing and the point-separation theorems of
+§§9.10a–9.10c and 9.12–9.12c use AlgebraicModuliForArithmeticGeometryPartII §0.7 (`ℚ`-Cartier Weil
+divisors and numerical equivalence), §§1.5–1.7a (nefness; bigness; Kodaira's lemma, §1.6a;
+intersection numbers with Kleiman's nonnegativity and ampleness of `ℚ`-Cartier divisors; asymptotic
+Riemann–Roch for ample sheaves, §1.7a) and §3.3 (the pointwise criterion for global generation),
+SchemeAndStackFoundations §§2.2, 2.6, 3.4 and 4.17, and Tau Ceti's Weil and Cartier divisors of
+schemes; §9.13 uses §9.10 and §9.4.
 
 ## Downstream consumers
 
@@ -10190,7 +10500,8 @@ of §8.3 and coherent dévissage (§2.3). ResolutionOfSingularitiesCharacteristi
 shared algebraic resolution and SNC compactification interfaces; §§9.4–9.7 retain the
 consumption comparisons of its §§5.5, 5.6 and 6.2 (local-isomorphism resolution, relative
 embedded resolution with an initial boundary and SNC compactification). The algebraic vanishing and numerical boundedness applications
-of §§9.10–9.11 remain exports of this roadmap. FiniteEquivalenceRelations §4.2 states the pure-map
+of §§9.10–9.11, and the pairs, multiplier ideals of pairs, Nadel vanishing, point-separation and
+division theorems of §§9.10a–9.10c and 9.12–9.13, remain exports of this roadmap. FiniteEquivalenceRelations §4.2 states the pure-map
 (Joyal–Tierney) form of module descent and reads its descent data through the dictionary of
 §§3.2–3.3; §3.1 is its faithfully flat case.
 
@@ -10218,9 +10529,12 @@ effectiveness, perfect-complex rank loci on algebraic spaces, universal flatteni
 modules with proper support, Picard stacks as groupoid-valued carriers, Picard sheafification,
 section rigidification and infinitesimal lifting, general group-space components, analytification
 and proper coherent GAGA for algebraic spaces over complete nonarchimedean fields, boundary duality and `K/O` coefficients; framed deformation groupoids,
-formal objects of algebraic stacks and their algebraization; and the applications of supplied
+formal objects of algebraic stacks and their algebraization; the applications of supplied
 characteristic-zero resolution and SNC compactification to algebraic vanishing theorems and uniform
-numerical boundedness.
+numerical boundedness; and discrepancies, klt and lc pairs and their non-klt loci, multiplier ideals
+of pairs, Nadel vanishing for pairs, Kollár's isolated non-klt centres, global generation and
+two-point separation for klt pairs, the Angehrn–Siu separation of points by adjoint bundles, and the
+Ein–Lazarsfeld global division theorem (§§9.10a–9.10c, 9.12–9.13).
 
 **Supplied elsewhere and cited.** SchemeAndStackFoundations supplies relative Proj of a graded
 quasi-coherent algebra (§0.3), the excellence package and Néron–Popescu desingularization (§§0.15,
@@ -10251,6 +10565,11 @@ field resolution (§7.8, stated as `exists_resolution`), relative embedded resol
 initial boundary (§5.6), SNC compactification (§6.2) and Cartier separation (§6.3). Layer 9
 consumes these statements, cited by section, on the common scheme and SNC carriers and
 constructs their vanishing and numerical applications.
+AlgebraicModuliForArithmeticGeometryPartII supplies `ℚ`-Cartier Weil divisors and numerical
+equivalence (§0.7), nefness (§1.5), bigness on integral proper schemes (§1.6), Kodaira's lemma
+(§1.6a), intersection numbers with Kleiman's nonnegativity and the ampleness of `ℚ`-Cartier divisors
+(§1.7), asymptotic Riemann–Roch for ample sheaves (§1.7a) and the pointwise criterion for global
+generation (§3.3), used by §§9.10a–9.10c and 9.12–9.12c.
 StableReduction supplies relative Proj of a
 finitely generated graded algebra, relative ampleness, coherent cohomology and base change (Layer
 2) and blowups with their affine charts and strict transforms (Layer 4). AlgebraicVectorBundles
@@ -10342,7 +10661,9 @@ affine schemes `TauCeti.AffineInvariantQuotient.quotient`, Cartier duality
 `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, the Zariski tangent space
 `TauCeti.AlgebraicGeometry.ZariskiTangentSpace` with `AlgHom.kernelCotangentLinearEquivZariski`,
 `TauCeti.derivationToTrivSqZeroExtEquivLift`, `MvPolynomial.orderAt`, `Algebra.trace_quotient_pow_mk`,
-`TauCeti.SheafOfModules.IsInvertible`.
+`TauCeti.SheafOfModules.IsInvertible`. Weil and Cartier divisors of schemes, for §9.10a:
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor` (finite integer sums of codimension-one points) and
+`TauCeti.AlgebraicGeometry.Scheme.CartierDivisor` (Cartier divisors of an integral scheme).
 
 **From roadmaps on main.** AlgebraicVectorBundles L0A–L2B; StableReduction Layers 2 and 4;
 JacobianChallenge Layers A–D; ModularCurves §§0C, 0E, 0F, 0G, 4C, 7B, 7D, 9D and 9E.
@@ -10378,14 +10699,15 @@ The specific uses:
 
 Additional supplier contracts are ReductiveGroupsPartII RG2.0a.1, AdicSpacesPartII R1.3,
 AdicSpacesPartIII F0.5–F0.7 and R3.7, DerivedModuleAlgebra §§1.E.`1/1`.M.2,
-EnhancedDerivedSheaves §E1.9, and
+EnhancedDerivedSheaves §E1.9, AlgebraicModuliForArithmeticGeometryPartII §§0.7, 1.5–1.7a and 3.3, and
 CrystallineCohomology §§CR.5:log-algebra.4/CR.5.1, as specified under scope. Where a statement
 here needs one of their carriers, the README states it and the Lean does not.
 
 | Object | Supplier/export | Contract |
 | --- | --- | --- |
 | Compatible perfect ring-complex systems | DerivedModuleAlgebra §1.E.1 / `perfectInverseSystemEffectivity` | Derived-limit effectivity for surjective inverse ring systems with locally nilpotent transition kernels |
-| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `exists_resolution` (§7.8) and the statements of §§5.6, 6.2 and 6.3 | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 consume the supplier statements by section, and §§9.10–9.11 construct their vanishing and numerical applications |
+| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `exists_resolution` (§7.8) and the statements of §§5.6, 6.2 and 6.3 | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 consume the supplier statements by section, and §§9.10–9.13 construct their vanishing, numerical and pair applications, with log resolutions of pairs through §§9.4 and 9.7 |
+| `ℚ`-Cartier divisors, nefness, bigness, intersection numbers | AlgebraicModuliForArithmeticGeometryPartII §§0.7, 1.5–1.7a and 3.3 | §0.7: `ℚ`-Cartier Weil divisors on a normal Noetherian integral scheme, injectivity of the Cartier-to-Weil map there, numerical equivalence (§§9.10a, 9.12–9.12b); §1.5: nef `ℚ`-Cartier divisors, nefness invariant under numerical equivalence (§§9.10c, 9.12–9.12b); §1.6: bigness on integral proper schemes, a nef sheaf on an integral proper scheme of dimension `n` being big iff `(L^n) > 0` (§§9.10c, 9.12–9.12b); §1.6a: Kodaira's lemma (§§9.12, 9.12b); §1.7: the intersection numbers `(L_1 ⋯ L_d · V)`, Kleiman's nonnegativity (ii) for nef `L_i`, and (v): a nef plus an ample `ℚ`-Cartier Weil divisor is ample, ampleness depending only on the numerical class (§§9.12–9.12c); §1.7a: asymptotic Riemann–Roch for an ample sheaf (§§9.12, 9.12b); §3.3: a global section of an invertible sheaf generates it at `x` iff its value in the fibre at `x` is nonzero (§9.12a) |
 | Matlis duality and completion | DerivedModuleAlgebra §1.M.2 / *Matlis duality and completion inputs* | §7.5 uses the arbitrary-residue-field duality in `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` and `ko_cohomology_cofinite` |
 
 ## References
@@ -10394,6 +10716,7 @@ here needs one of their carriers, the README states it and the Lean does not.
 - Jarod Alper; [Stacks and Moduli](https://sites.math.washington.edu/~jarod/moduli-versions/moduli-8-19-24.pdf); version of 19 August 2024.
 - Dan Abramovich, Martin Olsson, Angelo Vistoli; [Tame stacks in positive characteristic](https://www.numdam.org/item/10.5802/aif.2378.pdf); Ann. Inst. Fourier 58(4) (2008), 1057–1091; version of record.
 - Jarod Alper; [Good moduli spaces for Artin stacks](https://www.numdam.org/item/10.5802/aif.2833.pdf); Ann. Inst. Fourier 63(6) (2013), 2349–2402; version of record.
+- Urban Angehrn and Yum-Tong Siu; [Effective freeness and point separation for adjoint bundles](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0122/LOG_0023.pdf); Inventiones mathematicae 122 (1995), 291–308.
 - Edward Bierstone and Pierre D. Milman; [Uniformization of analytic spaces](https://doi.org/10.1090/S0894-0347-1989-1001853-2); Journal of the American Mathematical Society 2(4) (1989), 801–836.
 - Edward Bierstone and Pierre D. Milman; [Canonical desingularization in characteristic zero by blowing up the maximum strata of a local invariant](https://doi.org/10.1007/s002220050141); Inventiones mathematicae 128 (1997), 207–302; author preprint arXiv:alg-geom/9508005. Page numbers cited are those of the Inventiones article.
 - Edward Bierstone and Pierre D. Milman; [Resolution except for minimal singularities I](https://arxiv.org/abs/1107.5595).
@@ -10411,6 +10734,8 @@ here needs one of their carriers, the README states it and the Lean does not.
 - Demailly; [Effective Bounds for Very Ample Line Bundles](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/very_ample.pdf).
 - Laura DeMarco, Niki Myrto Mavraki, Hexi Ye; [Bounded geometry for PCF-special subvarieties](https://arxiv.org/pdf/2405.17343v3); arXiv:2405.17343v3, 10 January 2026.
 - Alexander Grothendieck and Jean Dieudonné; [Éléments de géométrie algébrique IV, troisième partie](https://www.numdam.org/item/PMIHES_1966__28__5_0/).
+- Lawrence Ein and Robert Lazarsfeld; [A geometric effective Nullstellensatz](https://arxiv.org/pdf/math/9810004); Inventiones mathematicae 137 (1999), 427–448; arXiv:math/9810004v3, 28 January 1999.
+- Lawrence Ein, Robert Lazarsfeld and Karen E. Smith; [Uniform bounds and symbolic powers on smooth varieties](https://arxiv.org/pdf/math/0005098); Inventiones mathematicae 144 (2001), 241–252; arXiv:math/0005098v3, 4 October 2000.
 - Esnault–Viehweg; [Lectures on Vanishing Theorems](https://page.mi.fu-berlin.de/esnault/books/esvibuch.pdf).
 - Najmuddin Fakhruddin and Vincent Pilloni; [Hecke operators and the coherent cohomology of Shimura varieties](https://arxiv.org/abs/1910.03790v1); arXiv:1910.03790v1, 9 October 2019.
 - James Freitag, Wei Li, Thomas Scanlon; [Differential Chow varieties exist](https://math.berkeley.edu/~scanlon/papers/differential-chow-varieties-22apr15.pdf); Author copy, 22 April 2015.
@@ -10422,6 +10747,9 @@ here needs one of their carriers, the README states it and the Lean does not.
 - Michael Groechenig, Dimitri Wyss and Paul Ziegler; [Geometric stabilisation via p-adic integration](https://arxiv.org/pdf/1810.06739v2); arXiv:1810.06739v2, 28 October 2019 (PDF cover 29 October).
 - The Stacks Project authors; [Groupoids in algebraic spaces](https://stacks.math.columbia.edu/download/spaces-groupoids.pdf).
 - Niles Johnson and Donald Yau; [2-Dimensional Categories](https://arxiv.org/abs/2002.06055).
+- János Kollár; [Singularities of pairs](https://arxiv.org/pdf/alg-geom/9601026); Proc. Sympos. Pure Math. 62, Part 1, American Mathematical Society, 1997, 221–287; arXiv:alg-geom/9601026v2, 6 November 1996; numbers and pages cited are those of the arXiv version.
+- János Kollár and Shigefumi Mori, with the collaboration of C. H. Clemens and A. Corti; *Birational geometry of algebraic varieties*; Cambridge Tracts in Mathematics 134, Cambridge University Press, 1998.
+- Robert Lazarsfeld; *Positivity in Algebraic Geometry II: Positivity for vector bundles, and multiplier ideals*; Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 49, Springer, Berlin, 2004.
 - James S. Milne; [Étale Cohomology, corrected Chapter IV: The Brauer Group](https://jmilne.org/math/Books/ECpup4.pdf); Author correction dated 23 November 2015, original Princeton 1980 chapter.
 - The Stacks Project Authors; [The Stacks Project: More on Morphisms](https://stacks.math.columbia.edu/download/more-morphisms.pdf).
 - James S. Milne; [Algebraic Groups](https://www.jmilne.org/math/CourseNotes/ALA.pdf).
@@ -10442,6 +10770,7 @@ here needs one of their carriers, the README states it and the Lean does not.
 - The Stacks Project authors; [Affine fpqc descent of quasi-coherent sheaves](https://stacks.math.columbia.edu/tag/023S).
 - The Stacks Project authors; [Fpqc descent of quasi-coherent sheaves](https://stacks.math.columbia.edu/tag/023T).
 - The Stacks Project Authors; [The Stacks Project, definition of a stack](https://stacks.math.columbia.edu/tag/026F).
+- The Stacks Project Authors; [The Stacks Project, Divisors, Lemma 31.14.13](https://stacks.math.columbia.edu/tag/02OO).
 - The Stacks Project authors; [Quasi-coherent sheaves on algebraic spaces](https://stacks.math.columbia.edu/tag/03G5).
 - The Stacks Project authors; [Fpqc descent of quasi-coherent sheaves on spaces](https://stacks.math.columbia.edu/tag/04W8).
 - The Stacks Project authors; [Descent of finite presentation](https://stacks.math.columbia.edu/tag/05B0).

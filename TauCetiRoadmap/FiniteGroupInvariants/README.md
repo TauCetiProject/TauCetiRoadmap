@@ -1454,6 +1454,21 @@ has finitely many `ℤ`-classes. *Needs:* 10.1; Mathlib `Matrix.GeneralLinearGro
   order `1152`, a proper divisor of `5760` with quotient `5` (bbnwz, Table 1C, pp. 79–260; 10.4); Serre's
   Remark 2 (lines 131–133) records only that no other dimension is expected to attain the bound.
 
+### 10.2a Elements of order `ℓ` in `GL_n` over a number field
+
+Let `F ⊆ ℂ` be a number field, `ℓ` an odd prime and `t = [F(ζ_ℓ) : F]`. Prove that if `t > n`, no element of
+`GL (Fin n) F` has order `ℓ`. This is the vanishing case of Schur's bound (serre-bounds, §2.2, Theorem 2′, p. 9):
+let `a` be the largest integer such that `F(ζ_ℓ)` contains a primitive `ℓ^a`-th root of unity, and put
+`M_F(n, ℓ) = a⌊n/t⌋ + ⌊n/(ℓt)⌋ + ⌊n/(ℓ²t)⌋ + ⋯`; the order of a finite `ℓ`-subgroup of `GL (Fin n) ℂ` all of whose
+traces lie in `F` has `ℓ`-adic valuation at most `M_F(n, ℓ)`. If `t > n`, every term of `M_F(n, ℓ)` is `0`, while an
+element of order `ℓ` of `GL (Fin n) F` would generate such a subgroup of order `ℓ`. *Needs:* 10.2; Mathlib
+`Matrix.GeneralLinearGroup`.
+
+**Checks.**
+- For `F = ℚ`, `M_ℚ(n, ℓ)` is the exponent of `ℓ` in `minkowskiBound n` (10.2).
+- The companion matrix of the `ℓ`-th cyclotomic polynomial has order `ℓ` in `GL (Fin (ℓ − 1)) ℚ`, and
+  `[ℚ(ζ_ℓ) : ℚ] = ℓ − 1`: the hypothesis `t > n` cannot be weakened to `t ≥ n`.
+
 ### 10.3 Dimensions one, two and three
 
 Define `IsConjSubgroup`, `FiniteSubgroupClasses Γ`, `ZClasses n` and `QClasses n`. Prove
@@ -1811,7 +1826,7 @@ field, multiplicative and compatible with completions), §7.21 (`IntegralOrder.I
 - robinson: D. J. S. Robinson, *A Course in the Theory of Groups*, 2nd ed., Springer, 1996: 3.3.15,
   §5.4, §9.1, §10.1.
 - serre-bounds: J.-P. Serre, *Bounds for the orders of the finite subgroups of `G(k)`*,
-  arXiv:1011.0346v1, §1: Theorem 1, p. 3; Remarks 1–2, p. 3; Lemma 1, p. 4; §1.3.1, p. 4.
+  arXiv:1011.0346v1, §1: Theorem 1, p. 3; Remarks 1–2, p. 3; Lemma 1, p. 4; §1.3.1, p. 4; §2.2: Theorem 2′, p. 9.
 - sutherland-18785: A. Sutherland, *18.785 Number Theory I, Lecture 24: the Herbrand unit theorem*,
   MIT, 2021, Theorem 24.6.
 - szechtman-2015: F. Szechtman, *Groups having a faithful irreducible representation*,

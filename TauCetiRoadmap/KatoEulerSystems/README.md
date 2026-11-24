@@ -1280,6 +1280,32 @@ Kato §§15.12–15.17, pp. 263–265, including the contained-cyclotomic case o
 (the twist `f ⊗ χ` and the conjugate newform, for the inner twists); Mathlib linear
 algebra.
 
+### 4.1a Splitting of Momose's algebra at ordinary places
+
+Let f be a non-CM newform of weight `k ≥ 2` and level N, with F, Γ, `F⁰` and B as in 4.1. Let λ be a
+place of F above a prime `p ∤ N` at which f is ordinary, that is, `a_p(f)` is a λ-adic unit, and let
+`λ₀` be the place of `F⁰` below λ. Prove momose_splits_of_ordinary: B splits at `λ₀`, that is,
+`B ⊗_(F⁰) F⁰_(λ₀) ≅ M₂(F⁰_(λ₀))` (Brown–Ghate, Theorem 3.3.1).
+
+The source states this for the crossed-product algebra X of the inner twists, a central simple
+algebra over `F⁰` which it embeds in the endomorphism algebra of the motive of f (Brown–Ghate,
+Theorem 2.3.8) and which is that endomorphism algebra in weight two (Ribet; Momose); its class in
+the Brauer group of `F⁰` is that of B, the identification under which 4.1 (2) takes the ramification
+bound of B from Ghate–González-Jiménez–Quer. The proof lets X act on the crystalline realization at
+p and decomposes it by the slopes of Frobenius: at an ordinary place exactly half of the slopes are
+0.
+
+**Checks.**
+
+- If Γ is trivial, `F⁰ = F` and B is split at every place (4.1), so the statement holds there with
+  no hypothesis at p.
+- For the primitive form `f ∈ S₃(38, χ₋₁₉)` with Hecke orbit of size 2 (inner twist by `χ₋₁₉`,
+  `F⁰ = ℚ`), `a₅² = −8` is a 5-adic unit and B is split at 5; B is ramified at 2 and at ∞
+  (Brown–Ghate, Example 4.3.4).
+
+*Needs:* 4.1 (F, Γ, `F⁰`, B); `AutomorphicGaloisRepresentations` §§5.1–5.2 (the ordinary filtration
+and `D_cris` at `p ∤ N`).
+
 ### 4.2 Nonvanishing of twisted critical values
 
 Use (1) the boundary nonvanishing supplied by
@@ -1588,7 +1614,7 @@ two. Over `ℚ_3(ζ_3)` the Tate twist has a cup-product generator in `μ_3` but
 
 ### Dependencies
 
-Layer 2; `PadicFamilies` §4.0.3; `AutomorphicGaloisRepresentations` §§1.5–1.6, 4.8,
+Layer 2; `PadicFamilies` §4.0.3; `AutomorphicGaloisRepresentations` §§1.5–1.6, 4.8, 5.1–5.2,
 7.2, 7.5; `EllipticCurveModularity` R29.4–R29.6; `ModularForms` Layers 7 and 9;
 `AutomorphicLFunctionsAndLocalFactors` §AL.3.6.3, “Rankin–Selberg nonvanishing on the boundary”;
 `GL2AutomorphicRepresentationsAndTransfer` §R16.5.3; `EulerSystemsAndKolyvaginSystems` §§2.5, 8.2–8.3,
@@ -3305,6 +3331,13 @@ All statements here are paraphrases. Page numbers refer to the stated edition.
   **27** (1985), 185–194, §3 (pp. 190–192) with Theorem 3.1 (p. 191); Eknath Ghate, Enrique
   González-Jiménez and Jordi Quer, *On the Brauer class of modular endomorphism algebras*,
   IMRN 2005, no. 12, 701–723, Corollary 4.7 (p. 714).
+- Alexander F. Brown and Eknath P. Ghate, *Endomorphism algebras of motives attached to elliptic
+  modular forms*, Ann. Inst. Fourier **53** (2003), no. 6, 1615–1676, Theorem 2.3.8, Theorem 3.3.1
+  (p. 1656) and Example 4.3.4 (p. 1674).
+  [Numdam](https://www.numdam.org/item/AIF_2003__53_6_1615_0.pdf).
+- Kenneth A. Ribet, *Endomorphism algebras of abelian varieties attached to newforms of weight 2*,
+  Seminar on Number Theory, Paris 1979–80, Progr. Math. **12**, Birkhäuser, 1981, 263–276,
+  Theorem 6.
 - Jean-Pierre Serre, *Propriétés galoisiennes des points d'ordre fini des courbes
   elliptiques*, Invent. Math. **15** (1972), 259–331, Théorèmes 2–3.
 - David E. Rohrlich, *L-functions and division towers*,

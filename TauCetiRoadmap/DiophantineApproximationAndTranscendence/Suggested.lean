@@ -36,6 +36,8 @@ import TauCeti.RingTheory.MvPolynomial.SeparateVariable
 import TauCeti.RingTheory.MvPolynomial.WeightedIndex
 import TauCeti.RingTheory.Polynomial.HasseWronskian
 import TauCeti.RingTheory.PowerSeries.DFinite
+import TauCeti.NumberTheory.NumberField.Global.Adeles.Extension
+import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 
 /-!
 # DiophantineApproximationAndTranscendence: target signatures
@@ -50,6 +52,10 @@ nondegenerate solutions) are pinned Tau Ceti definitions, and the headline state
 them directly. The target signatures of the SubspaceTheorem and HeightsAndUnits roadmaps import
 some of them from this file under the names of this roadmap; those names are abbreviations of the
 Tau Ceti definitions, not second definitions.
+
+The adelic heights `H_A` of vectors and of subspaces of README §2.5a, for an adelic matrix `A` over
+a number field `K`, are written out below over every finite extension of `K`, with their value at
+`A = 1` on `K`-subspaces and their value `|det A|_𝔸` on the whole space.
 
 Headline theorems that the pinned Tau Ceti already proves are not restated: they are pinned below
 by `#check`. These are bounded-degree Northcott finiteness, Kronecker's theorem on Mahler measure
@@ -235,7 +241,7 @@ end WronskianBounds
 
 /-! ## Layer 2: subspace theorems and multiplicative groups -/
 
-open Matrix TauCeti.GlobalNumberFields
+open Matrix TauCeti.GlobalNumberFields IsDedekindDomain Module TauCeti Set.powersetCard
 
 namespace DiophantineApproximation
 
@@ -275,6 +281,53 @@ root of its relative Euclidean height; the zero subspace and the whole space hav
 abbrev subspaceHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Finite ι]
     [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
   Submodule.subspaceHeight T
+
+/-- The **adelic height** of a vector `x ∈ L^ι` for an adelic matrix `A` over `K` (README §2.5a),
+the height `H_A` of README §2.5 written out over `L`: the product over the infinite places `w` of
+`L` of the Euclidean norm of `A_{v(w)} x`, with exponent `mult(w)/[L:ℚ]`, and over the finite
+places of `L` of the max norm of `A_{v(w)} x` for the ideal-normalised absolute value, with
+exponent `1/[L:ℚ]`. The component `A_{v(w)}` acts on `L_w` through `K_{v(w)} ⊂ L_w`, the image of
+`A` under the extension map `𝔸_K → 𝔸_L`. For `A = 1` and `L = K` this is `TauCeti.height2`. -/
+noncomputable def adelicHeight {K L ι ι' : Type*} [Field K] [NumberField K] [Field L]
+    [NumberField L] [Algebra K L] [Fintype ι] [Fintype ι']
+    (A : Matrix ι' ι (AdeleRing (𝓞 K) K)) (x : ι → L) : ℝ :=
+  (∏ w : InfinitePlace L,
+      (∑ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).1 w * (x j : w.Completion)‖ ^ 2) ^
+        ((w.mult : ℝ) / (2 * finrank ℚ L))) *
+    ∏ᶠ v : HeightOneSpectrum (𝓞 L),
+      (⨆ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).2 v *
+        algebraMap L (v.adicCompletion L) (x j)‖) ^ ((1 : ℝ) / finrank ℚ L)
+
+/-- The **adelic subspace height** of a subspace `U ⊆ L^ι` for an adelic matrix `A` over `K`
+(README §2.5a): the adelic height, for the matrix `Λ^p A` of the `p × p` minors of `A` acting on
+Plücker coordinates (`p = dim U`), of the Plücker vector of a basis of `U`. The zero subspace has
+height `1`. For `A ∈ GL_n(𝔸_K)` the value does not depend on the basis, by the product formula. -/
+noncomputable def adelicSubspaceHeight {K L ι : Type*} [Field K] [NumberField K] [Field L]
+    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
+    (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (U : Submodule L (ι → L)) : ℝ :=
+  adelicHeight
+    (Matrix.of fun I J : Set.powersetCard ι (finrank L U) ↦
+      (Matrix.of fun a b ↦ A (ofFinEmbEquiv.symm I a) (ofFinEmbEquiv.symm J b)).det)
+    (plucker fun i ↦ (Module.finBasis L U i : ι → L))
+
+/-- **Standard data** (README §2.5a). At `A = 1` the adelic subspace height of a subspace of `K^ι`
+is its absolute Euclidean height `Submodule.subspaceHeight` (README §2.5). -/
+theorem adelicSubspaceHeight_one {K ι : Type*} [Field K] [NumberField K] [Fintype ι]
+    [LinearOrder ι] (U : Submodule K (ι → K)) :
+    adelicSubspaceHeight (L := K) (1 : Matrix ι ι (AdeleRing (𝓞 K) K)) U = U.subspaceHeight := by
+  sorry
+
+/-- **The whole space** (README §2.5a). For `A ∈ GL_n(𝔸_K)` and every finite extension `L` of
+`K`, the adelic subspace height of `L^ι` is `|det A|_𝔸 = ∏_v |det A_v|_v^(w_v)`, with
+`w_v = mult(v)/[K:ℚ]` at the infinite and `1/[K:ℚ]` at the finite places: the idele norm of
+`det A` raised to the power `1/[K:ℚ]`. -/
+theorem adelicSubspaceHeight_top {K L ι : Type*} [Field K] [NumberField K] [Field L]
+    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
+    (A : GL ι (AdeleRing (𝓞 K) K)) :
+    adelicSubspaceHeight (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (⊤ : Submodule L (ι → L)) =
+      ((GlobalNumberFields.ideleNorm (Matrix.GeneralLinearGroup.det A) : ℝ≥0) : ℝ) ^
+        ((finrank ℚ K : ℝ)⁻¹) := by
+  sorry
 
 /-- A family of coefficient vectors in `Fⁿ` is in general position if every subfamily of `n`
 distinct members is linearly independent; a family with fewer than `n` members is in general

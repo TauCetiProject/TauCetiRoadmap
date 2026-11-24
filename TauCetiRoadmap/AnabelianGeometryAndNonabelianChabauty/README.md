@@ -4481,6 +4481,27 @@ The API includes word–shuffle duality, the empty-word normalization, shuffle m
 
 *Needs:* Mathlib `TensorAlgebra`, tensor products, duals and inverse limits of finite word modules. Sections 2.2–2.4 identify these algebraic coordinates with the completed path algebra and its universal connections.
 
+### 2.0a Lyndon words and the shuffle algebra
+
+Let k be a field of characteristic zero and `𝔄` a linearly ordered set, the alphabet; `𝔄` may be infinite. Write `𝔄*` for the free monoid of words in `𝔄` and `Sh_k(𝔄)` for the k-vector space with basis `𝔄*`, with the shuffle product and the empty word as unit; it is a commutative k-algebra. For finite `𝔄` it is the coordinate algebra, with its shuffle multiplication, of [Word algebra and shuffle coordinates](#word-algebra-and-shuffle-coordinates) for the space with basis `𝔄`. Order `𝔄*` lexicographically: `u<uv` for every nonempty word v, and `w₁aw₂<w₁bw₃` for letters `a<b` and words `w₁,w₂,w₃`. A nonempty word w is a Lyndon word if `w<v` for every factorization `w=uv` into nonempty words u and v; `Lyn(𝔄)⊆𝔄*` is the set of Lyndon words. These are the order and the definition of [Michael E. Hoffman](#reference-hoffman-quasi-shuffle), §2.
+
+**Radford's theorem.** `Sh_k(𝔄)` is the polynomial algebra on the Lyndon words: the k-algebra homomorphism from the polynomial algebra `k[t_w : w∈Lyn(𝔄)]` to `Sh_k(𝔄)` sending `t_w` to the word w is an isomorphism.
+
+k of characteristic zero; `𝔄` an arbitrary linearly ordered set.
+
+[Michael E. Hoffman](#reference-hoffman-quasi-shuffle), Theorem 2.2, states the theorem over a subfield of `ℂ` for a locally finite graded set of letters, and credits Radford and chapter 6 of Reutenauer's *Free Lie algebras*. A finite alphabet with every letter in degree one is locally finite graded, so the theorem holds for `Sh_ℚ(𝔅)` with `𝔅⊆𝔄` finite. The general case follows by passing to finite subalphabets and by extension of scalars from `ℚ`. Every word, and every finite family of Lyndon words, lies in `Sh_ℚ(𝔅)` for some finite `𝔅⊆𝔄`, and the Lyndon words of `𝔅` for the induced order are the Lyndon words of `𝔄` with all letters in `𝔅`; so generation and algebraic independence over `ℚ` for `𝔄` follow from the finite case. Finally `Sh_k(𝔄)=k⊗_ℚ Sh_ℚ(𝔄)` as algebras, and extension of scalars carries the isomorphism over `ℚ` to the one over k.
+
+The API states the isomorphism, the generation of `Sh_k(𝔄)` by `Lyn(𝔄)` and the algebraic independence of `Lyn(𝔄)`, and its compatibility with the inclusion of a subalphabet and with extension of scalars.
+
+**Checks.**
+
+- `𝔄={a}`: the only Lyndon word is a, and the n-fold shuffle power of a is n! times the word `aⁿ`, so `Sh_k({a})=k[a]` because every n! is invertible in k. In characteristic p the p-fold shuffle power of a is `p!·a^p=0`: a is nilpotent and the shuffle algebra is not a polynomial algebra, so the hypothesis on the characteristic is needed.
+- `𝔄={a<b}`: the Lyndon words of length at most three are a, b, ab, aab and abb. The monomials of degree two in them are the shuffle squares of a and b, the shuffle product of a and b, and the word ab, four in number as the words of length two, with `aa=½(a⧢a)`, `ba=a⧢b−ab` and `bb=½(b⧢b)`, where `⧢` is the shuffle product; in degree three there are eight, as many as the words of length three. The word ba is not a Lyndon word: its factor a is smaller than ba.
+
+Sources: [David E. Radford](#reference-radford-shuffle); [Michael E. Hoffman](#reference-hoffman-quasi-shuffle), Theorem 2.2.
+
+*Needs:* [Word algebra and shuffle coordinates](#word-algebra-and-shuffle-coordinates); Mathlib `FreeMonoid`, `MvPolynomial`, `Algebra.TensorProduct`.
+
 ### 2.1 Neutral tensor reconstruction
 
 **Neutral tensor category and Hopf reconstruction.** Let K be any field and C an essentially small K-linear rigid abelian symmetric tensor category with `End(1)=K` and an exact faithful K-linear symmetric tensor functor `ω:C→Vect_fd(K)`. Import the matrix-coefficient Hopf algebra, representation of `Aut^⊗(ω)` on every commutative K-algebra, and the tensor equivalence with finite-dimensional representations from MotivesAndAlgebraicCycles §§6.1–6.3. For a commutative K-algebra R and an exact faithful K-linear symmetric tensor fibre functor `η:C→Proj_R`, use its §6.8 affine fpqc torsor `Isom^⊗(R⊗ω,η)` under `Aut^⊗(ω)_R`, with right precomposition and commuting left postcomposition by `Aut^⊗(η)`. Here `Proj_R` consists of finite projective R-modules. No tensor generator is required. The targets here are the representation-category specialization identity and, when K has characteristic zero, the identification of the unit-extension subcategory with the pro-unipotent quotient, including agreement with Tau Ceti's finite-comodule equivalence when the Hopf algebra was given initially.
@@ -9229,3 +9250,11 @@ ResolutionOfSingularitiesCharacteristicZero §§6.1–6.2 supplies smooth projec
 #### Reference: yamashita-open
 
 **Go Yamashita.** p-adic étale cohomology and crystalline cohomology for open varieties, March 2003, §§1–2. [Source](https://www.kurims.kyoto-u.ac.jp/~gokun/DOCUMENTS/kyoto.pdf).
+
+#### Reference: radford-shuffle
+
+**David E. Radford.** A natural ring basis for the shuffle algebra and an application to group schemes. Journal of Algebra 58 (1979), 432–454. [Source](https://doi.org/10.1016/0021-8693(79)90171-6).
+
+#### Reference: hoffman-quasi-shuffle
+
+**Michael E. Hoffman.** Quasi-shuffle products. arXiv:math/9907173v1, 27 July 1999; published in Journal of Algebraic Combinatorics 11 (2000), 49–68. Locators use the arXiv version. [Source](https://arxiv.org/pdf/math/9907173v1).

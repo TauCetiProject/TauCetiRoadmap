@@ -1094,6 +1094,33 @@ See [IKM](#ikm), §2.2 (congruence modules), pp. 13–14; Proposition 2.10 and E
 
 This uses Mathlib `Submodule.torsionBySet`; Mathlib `Module.annihilator`; Mathlib `Submodule.mkQ`.
 
+### 1.7a Congruence modules along a decomposition
+
+Let `O` be a discrete valuation ring with uniformiser `ϖ`, `A` a commutative `O`-algebra that is finite and free as an `O`-module, so that `A ⊆ A[1/ϖ] = A ⊗_O Frac(O)`, and `A[1/ϖ] = ξA[1/ϖ] × (1 − ξ)A[1/ϖ]` a decomposition into two factors, `ξ` the idempotent of the first; for a Hecke algebra the first factor is that of one system of eigenvalues, or of a set of them, and the second that of the rest. The module of congruences of the decomposition is `C(A; ξ) := (ξA ⊕ (1−ξ)A)/A`, `A` embedded diagonally (Hida, §0, p. 232, and (3.11), p. 254, for Hecke algebras over the integer ring of a finite extension of `ℚ_p`). Its annihilator in `A` is the conductor `{a ∈ A : a(ξA ⊕ (1−ξ)A) ⊆ A}` (Hida, p. 254). Put `𝔠_ξ := A ∩ ξA[1/ϖ]`. Then `ξa ↦ (ξa, 0)` induces `Ψ_ξ(A) := ξA/𝔠_ξ ≅ C(A; ξ)` and `a ↦ ξa` induces `A/(𝔠_ξ ⊕ 𝔠_{1−ξ}) ≅ Ψ_ξ(A)`; so `Ψ_ξ(A) ≅ Ψ_{1−ξ}(A)` and the conductor is `𝔠_ξ ⊕ 𝔠_{1−ξ}`. `Ψ_ξ(A)` is an `O`-module of finite length, killed by `𝔠_ξ + 𝔠_{1−ξ}`. Moreover `Ann_A(𝔠_ξ) = 𝔠_{1−ξ}`, so `Ψ_ξ(A) = A/(A[𝔠_ξ] + A[Ann_A(𝔠_ξ)])` is the raw annihilator construction of §1.7 with the ideal `𝔠_ξ` in place of `ker λ`. For a set of eigensystems: if `A` is an `O`-subalgebra of `O^𝒳` separating the points of a finite set `𝒳` (so `A[1/ϖ] = Frac(O)^𝒳`) and `ξ_𝒴` is the idempotent of a subset `𝒴 ⊆ 𝒳`, then `𝔠_{ξ_𝒴}` is the ideal of the functions in `A` vanishing on `𝒳 ∖ 𝒴`, and `Ψ_{ξ_𝒴}(A)` is the quotient of `A` by the sum of the ideals of functions vanishing on `𝒴` and on `𝒳 ∖ 𝒴`.
+
+`O` a discrete valuation ring; `A` commutative, finite and free over `O`; `ξ` any idempotent of `A[1/ϖ]`. Neither completeness of `O` nor reducedness of `A` is used. The source has `O` the integer ring of a finite extension of `ℚ_p` and `A` a Hecke algebra; nothing else is used.
+
+For `a ∈ A`, `ξa ∈ A` exactly when `(1 − ξ)a ∈ A`, and then `a = ξa + (1 − ξ)a` with both summands in `A`; so the surjection `A → ξA → Ψ_ξ(A)` has kernel `𝔠_ξ ⊕ 𝔠_{1−ξ}`, which is symmetric in `ξ` and `1 − ξ`. Since `A` is finite over `O`, `ϖ^Nξ ∈ A` for large `N`, so `ϖ^N` kills the finitely generated `O`-module `Ψ_ξ(A)`, which therefore has finite length. As `𝔠_ξ[1/ϖ] = ξA[1/ϖ]`, an element `a` kills `𝔠_ξ` exactly when `aξ = 0`, that is when `a ∈ 𝔠_{1−ξ}`. In the split case `ξ_𝒴A[1/ϖ]` is the set of functions supported on `𝒴`.
+
+§1.10 treats the family congruence module of a branch and Hida's `Λ`-adic modules (3.9).
+
+- `C(A; ξ) = (ξA ⊕ (1−ξ)A)/A ≅ Ψ_ξ(A)`, with annihilator the conductor `𝔠_ξ ⊕ 𝔠_{1−ξ}`.
+- `Ψ_ξ(A) = ξA/(A ∩ ξA[1/ϖ])`, and `Ψ_ξ(A) ≅ A/(𝔠_ξ ⊕ 𝔠_{1−ξ}) ≅ Ψ_{1−ξ}(A)`.
+- `Ψ_ξ(A)` has finite length and is killed by `𝔠_ξ + 𝔠_{1−ξ}`.
+- `Ann_A(𝔠_ξ) = 𝔠_{1−ξ}`; `Ψ_ξ(A)` is the raw annihilator quotient of §1.7 for the ideal `𝔠_ξ`.
+- For `A ⊆ O^𝒳` separating points and `𝒴 ⊆ 𝒳`, `𝔠_{ξ_𝒴}` is the ideal of the functions vanishing on `𝒳 ∖ 𝒴`.
+
+**Checks.**
+
+- One point: for `𝒴 = {x}` and `λ_x : A → O` the evaluation at `x`, `𝔠_{1−ξ} = ker λ_x` and `𝔠_ξ = Ann_A(ker λ_x) = I_{λ_x}`, so `Ψ_{ξ_{{x}}}(A) = Ψ_{λ_x}(A)` of §1.7.
+- `A = {(a, b) ∈ O² : a ≡ b mod ϖⁿ}`, `𝒴 = {1}`: `𝔠_ξ = ϖⁿO × 0`, `𝔠_{1−ξ} = 0 × ϖⁿO`, `ξA = O × 0`, and `Ψ_ξ(A) ≅ O/ϖⁿ`, of length `n`.
+- (*the indices*) `A = O × O`, `𝒴 = {1}`: `𝔠_ξ = O × 0` and `Ψ_ξ(A) = 0`, two separated factors; taking for `𝔠_ξ` the functions vanishing on `𝒴` would give `0 × O`, the other factor.
+- (*an algebra not given inside `O^𝒳`*) `A = O[t]/(t² − ϖ^{2n})` with odd residue characteristic and `ξ = (1 + t/ϖⁿ)/2`: `Ψ_ξ(A) ≅ O/ϖⁿ`, the congruence between the points `t = ±ϖⁿ`, recovered by the split case after `A ↪ O × O`, `t ↦ (ϖⁿ, −ϖⁿ)`.
+
+See [Hida](#hida), §0, p. 232, and §3, (3.11a)–(3.11b) with the remark before (3.12), p. 254; [Hida81](#hida81).
+
+This uses §1.7; Mathlib `IsIdempotentElem`; Mathlib `Module.length`; Mathlib `Module.annihilator`; Mathlib `Submodule.torsionBySet`.
+
 ### 1.8 The congruence ideal of an augmentation
 
 For a surjection `λ:A→O`, put `𝔭_λ=ker λ`, `I_λ=Ann_A(𝔭_λ)`, and `η_λ=λ(I_λ)⊆O`. If `Ann_A(I_λ)=𝔭_λ`, then `Ψ_λ(A)≅O/η_λ`. A sufficient case is reduced `A` finite flat over the domain `O` with `λ` an `O`-algebra surjection: its generic algebra has `O`’s fraction field as the `λ`-factor. More generally a reduced Noetherian `A` with `𝔭_λ` a minimal prime has the double-annihilator identity. If `O` is a complete `DVR` in the finite-flat case, `η_λ` is nonzero and `O/η_λ` has finite length. Finite flatness over some other domain mapping onto `O` does not by itself give the double-annihilator identity.
@@ -2877,7 +2904,7 @@ The ordinary period and branch-measure constructions supply family normalisation
 
 ## Scope and ownership
 
-This roadmap owns the passage from single forms and single-weight symbols to families. It uses the shared rational ordinary towers and control of `IntegralIwasawaTheory`, §9.0, and constructs their Katz and weight-coordinate comparisons, the odd-prime cuspidal extension, integral homology period modules, branch congruence modules, distribution coefficients varying over weight space, the global family eigenmodule sheaf, and its additional Eisenstein critical L-functions. The cuspidal local critical suite, including its local families and secondary functions, belongs to `ModularSymbolsPadicLFunctions`, §3.0; its identification with the global model is §2.7a here. It also owns the ordinary and Coleman-family Galois and regulator applications needed here. A period is a trivialisation of a module; its existence and its comparison with a different integral period convention are separate theorems.
+This roadmap owns the passage from single forms and single-weight symbols to families. It uses the shared rational ordinary towers and control of `IntegralIwasawaTheory`, §9.0, and constructs their Katz and weight-coordinate comparisons, the odd-prime cuspidal extension, integral homology period modules, branch congruence modules and congruence modules along a decomposition of a Hecke algebra, distribution coefficients varying over weight space, the global family eigenmodule sheaf, and its additional Eisenstein critical L-functions. The cuspidal local critical suite, including its local families and secondary functions, belongs to `ModularSymbolsPadicLFunctions`, §3.0; its identification with the global model is §2.7a here. It also owns the ordinary and Coleman-family Galois and regulator applications needed here. A period is a trivialisation of a module; its existence and its comparison with a different integral period convention are separate theorems.
 
 Classical eigenforms, newforms, their conductors and full bad-prime eigenproperties belong to `ModularForms`, Layer 4, and the semisimple Hecke algebra of the newspace to its Layer 8G. Integral modular curves, their Jacobians, degeneracy correspondences and ordinary special-fibre geometry belong to `ModularCurvesPartII`, §§3–5, 7, 13–17. The single-weight symbol, refinement, integral eigensymbol lattice, one-variable interpolation theorem and cuspidal local critical suite belong to `ModularSymbolsPadicLFunctions`, Layers 0–2 and §3.0. That roadmap and this one share the symbol conventions above. Measures and completed group algebras belong to `PadicMeasuresIwasawaAlgebras`, whose §5.2 also supplies topological Nakayama. The canonical Kubota–Leopoldt object and its arithmetic normalization come from `IntegralIwasawaTheory`, §§5.0 and 6.3. The arithmetic Eisenstein measures, localized constants and character interpolation come from its full-character adapters in `DirichletPadicLFunctions`, §§1.6 and 5.4–5.9; §0.12 here adapts them to the angular weight coordinate and identifies their common ordinary family with `IntegralIwasawaTheory`, §9.0.
 
@@ -3001,6 +3028,10 @@ For the angular adapters use left character 1 at level one and right character `
 ### hida
 
 **Hida.** Haruzo Hida, [Iwasawa modules attached to congruences of cusp forms](https://www.numdam.org/item/10.24033/asens.1507.pdf). Ann. Sci. École Norm. Sup. (4) 19 (1986), no. 2, 231–273, DOI 10.24033/asens.1507; Numdam open-access scan (44 pages; printed page = PDF page + 229).
+
+### hida81
+
+**Hida81.** Haruzo Hida, [Congruences of cusp forms and special values of their zeta functions](https://eudml.org/doc/142797). Invent. Math. 63 (1981), 225–261, DOI 10.1007/BF01393877.
 
 ### sharifi-aws
 

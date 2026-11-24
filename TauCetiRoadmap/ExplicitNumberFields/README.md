@@ -59,7 +59,7 @@ describes how the layers depend on one another.
 Layer 0 fixes the invariants and predicates every later statement mentions: the Minkowski
 constant, the local Euler factors, the quadratic Hecke character and relative class number of a
 CM-field, the Euler product of an abelian field as continued functions, the conjectural and gap
-predicates, and the least primitive roots. Layer 1 is
+predicates, the least primitive roots, and Serre's bound for relative discriminants. Layer 1 is
 the one convexity bound for `ζ_K`, an instance of the general bound, and the digamma and trigamma
 series with explicit remainders, which bound the gamma terms of `Λ'_K/Λ_K` in Layers 4 and 7.
 Layer 2 proves the explicit lattice-point count and the explicit ideal counts; it needs Layers 0 and
@@ -722,6 +722,40 @@ value, and is not redefined here.
 `ZMod.isCyclic_units_of_prime_pow`, `Nat.infinite_setOfPred_prime_and_eq_mod`; Tau Ceti
 `TauCeti.conreyGenerator`.
 
+### 0.7 Serre's bound for relative discriminants
+
+Let `E/K` be a finite Galois extension of number fields, `n = [K:ℚ]`, `𝔡_{E/K}` the relative
+discriminant ideal of `E/K`, `N` the absolute norm, and `P(E/K)` the set of rational primes lying
+below a prime of `K` that ramifies in `E`. Prove Serre's bound (`serre1981` §1.3, Proposition 5,
+(6)):
+
+`log N(𝔡_{E/K}) ≤ n([E:K] − 1) Σ_{p ∈ P(E/K)} log p + [E:ℚ]·log [E:K]`.
+
+- (*in terms of root discriminants*) By `log d_E = [E:K]·log d_K + log N(𝔡_{E/K})` (`serre1981`
+  (3)), (6) reads `log ρ_E ≤ log ρ_K + (1 − 1/[E:K]) Σ_{p ∈ P(E/K)} log p + log [E:K]`.
+
+Route: at a prime `P` of `E` above a prime `𝔭` of `K` above `p ∈ P(E/K)`, with ramification index
+`e = e(P/𝔭)`, the different `𝔇_{E/K}` satisfies `v_P(𝔇_{E/K}) ≤ e − 1 + v_P(e)`, and `e` divides
+`[E:K]`. Taking the norm to `K` and then to `ℚ`, the primes above `p` contribute at most
+`(n([E:K] − 1) + [E:ℚ]·v_p([E:K]))·log p` to `log N(𝔡_{E/K})`; summing over `P(E/K)` and using
+`Σ_p v_p([E:K])·log p ≤ log [E:K]` gives the bound. The root-discriminant form is the bound divided
+by `[E:ℚ]`.
+
+**Checks.**
+
+- `E = ℚ(i)`, `K = ℚ`: `[E:K] = 2`, `P(E/K) = {2}`, `d_E = 4`, and `log 4 ≤ log 2 + 2 log 2`; the
+  root-discriminant form reads `log 2 ≤ (1/2)log 2 + log 2`.
+- `E = ℚ(√5)`, `K = ℚ`: `P(E/K) = {5}`, `d_E = 5`, and `log 5 ≤ log 5 + 2 log 2`: for a tamely
+  ramified quadratic field the first term is attained.
+- `E = ℚ(ζ₈)`, `K = ℚ`: `[E:K] = 4`, `d_E = 2⁸`, and `8 log 2 ≤ 3 log 2 + 4 log 4 = 11 log 2`.
+- Without the Galois hypothesis the last term is `[E:ℚ]·|P(E/K)|·log [E:K]` (`serre1981`
+  Proposition 4); for `K = ℚ` and `E = ℚ(p^{1/p^m})`, so that `[E:K] = p^m`,
+  `d_E = p^{[E:K]−1}·[E:K]^{[E:K]}` and that bound is an equality (`serre1981` §1.4, Exemple).
+
+*Needs:* Mathlib `NumberField.discr`, `differentIdeal`, `Ideal.absNorm`, `Ideal.ramificationIdx`;
+Completed/NumberFieldArithmetic §4.2 (`relDiscr` and its multiplicativity in towers) and §6.4 (the
+bound `v_P(𝔇_{E/K}) ≤ e − 1 + v_P(e)`).
+
 ### Examples
 
 - `ℚ(i)`: `μ_K = 2/π`, `b_K = 4/π`, `Π_K(2) = 2`, `η_K = χ₋₄`, `h⁻ = 1`, *DedekindConjecture* with
@@ -737,7 +771,8 @@ Mathlib number-field, CM-field, cyclotomic Galois, Dirichlet L-function and `ZMo
 uniqueness of meromorphic continuation and `conreyGenerator`; LFunctions Layers 3, 4 and 5;
 AnalyticNumberTheoryPartI §§0.34a, 1.6, 2.7, 2.15a, 2.17a, 2.22, 2.39b, 2.42; ClassFieldTheory
 Layer 13; CyclotomicClassGroupsAndStickelberger §3.4; ExplicitPrimeCounting §1.7;
-ExplicitZetaBounds §7.7 (a Check of 0.5); `gap:artin-norm-compatibility`.
+ExplicitZetaBounds §7.7 (a Check of 0.5); Completed/NumberFieldArithmetic §§4.2 and 6.4 (0.7);
+`gap:artin-norm-compatibility`.
 
 ## Layer 1: the size of `ζ_K` and the digamma remainders
 
@@ -2972,7 +3007,8 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   CyclotomicClassGroupsAndStickelberger's), the predicates *DedekindConjecture*, *CMPositivity*,
   `GRHMod`, *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*
   and `HasNormalTower`, and the least primitive root and least prime primitive root modulo an
-  integer.
+  integer, and Serre's bound for the relative discriminant of a Galois extension with its
+  root-discriminant form.
 - The named propositions of *Computational hypotheses*, which the theorems carry as hypotheses;
   none of them is proved here.
 - Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound;
@@ -3513,6 +3549,12 @@ principal case `|Σ_{n < x} Λ(n)(1 − n/x) − x/2| ≤ √x/20 + 3` under `Ri
 (`mcgowntrevinotrudgian2016` lines 70–76), beside that section's conditional results for primes
 in progressions. Required location: §6.5.
 
+### From Completed/NumberFieldArithmetic
+
+§4.2 (the relative discriminant ideal `relDiscr` with its multiplicativity in towers) and §6.4
+(the bound `e − 1 + v_P(e)` for the exponent of the different at a prime of ramification index
+`e`). Used in 0.7.
+
 ## References
 
 - J.-H. Ahn, S.-H. Kwon, An explicit upper bound for the least prime ideal in the Chebotarev
@@ -3645,6 +3687,8 @@ in progressions. Required location: §6.5.
   ExplicitMultiplicativeFunctions §9.4.
 - L. Schoenfeld, Sharper bounds for the Chebyshev functions `θ(x)` and `ψ(x)`. II, Math. Comp. 30
   (1976) (`schoenfeld-1976`), Corollary 2: the contract of `gap:explicit-mertens-second`.
+- J.-P. Serre, Quelques applications du théorème de densité de Chebotarev, Publ. Math. IHÉS 54
+  (1981) 123–201, [Numdam](https://www.numdam.org/item/PMIHES_1981__54__123_0.pdf) (`serre1981`).
 - H. M. Stark, Some effective cases of the Brauer–Siegel theorem, Invent. Math. 23 (1974),
   DOI 10.1007/BF01405166 (`stark1974`, cited by locator), Lemmas 2–4 and 8: the residue bounds
   of 4.7 and the input of 5.7.

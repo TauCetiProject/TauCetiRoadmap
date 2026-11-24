@@ -38,7 +38,9 @@ the boundary condition at `a` with a positive leading coefficient but a pole of 
 order.
 
 The roadmap also proves the rule for the transform of a derivative, with no condition on
-`Re s`. For complex coefficients with a simple pole at `1` and continuous boundary values, it
+`Re s`, and Landau's theorem: the Laplace integral of a function that is nonnegative for large
+argument is singular at the real point of its abscissa of convergence, with its Mellin form. For
+complex coefficients with a simple pole at `1` and continuous boundary values, it
 proves smoothed and interval forms of Wiener–Ikehara, under a growth bound and a majorant
 respectively.
 
@@ -82,6 +84,8 @@ Gamma–Laplace supplier ─> integer model ────────────
 §4.3 ─> §4.5 lower-pole perturbation;   §4.4 finite change (Tau Ceti summatory API only)
 §4.2, §4.4 ─> §5.1 divisor sums;   §0.2 ─> §5.2 dyadic counterexample
 §0.1 ─> §0.1a derivative rule;   Tau Ceti Wiener–Ikehara modules ─> §2.2a smoothed and interval forms
+§0.1 ─> §0.1b Landau's theorem
+§4.1, §0.1b ─> §4.1a coefficients of any sign
 ```
 
 ## Conventions
@@ -90,8 +94,8 @@ Gamma–Laplace supplier ─> integer model ────────────
 | --- | --- |
 | pole order | A pole of order `m = k + 1` with `k : ℕ`; `k = 0` is a simple pole. The leading coefficient `A` is the value at `a` of the holomorphic numerator `g` in `F(s) = g(s)/(s − a)^(k+1)`. It is real. |
 | abscissa | The Tauberian and counting theorems (§2.2–§4.5) are stated at an abscissa `a > 0`, and the case `a = 0` is excluded from them (a witness is under §4.3). The predicates of Layer 0, the supplied Gamma model and the boundary lemma §2.1 hold for every real `a`. |
-| coefficients | Coefficients are `c : ℕ → ℝ`, except in §2.2a, where they are `f : ℕ → ℂ`. The coefficient `c 0` is ignored, as in Mathlib's `LSeries.term`, which is `0` at `n = 0`. |
-| counting function | `S_c(X) = TauCeti.summatory (fun n : ℕ ↦ n) ĉ X` with `ĉ 0 = 0` and `ĉ n = c n` for `n > 0`. The cutoff is inclusive: `S_c(X) = ∑_{1 ≤ n ≤ X} c n`, `S_c(1) = c 1`, `S_c(X) = 0` for `X < 1`. For `X ≥ 0` it equals `∑ n ∈ Finset.Icc 1 ⌊X⌋₊, c n`, the form used by Tau Ceti's Wiener–Ikehara theorems (by `TauCeti.summatory_eq_summatory_natFloor` and `TauCeti.mem_normLE_natCast`). The `Northcott` instance `northcott_natId` for the identity height on `ℕ` (finite sublevel sets `Set.Iic b`) is part of Layer 4. |
+| coefficients | Coefficients are `c : ℕ → ℝ`, except in §2.2a, where they are `f : ℕ → ℂ`, and in §4.1a, where they are `c : ℕ → ℂ`. The coefficient `c 0` is ignored, as in Mathlib's `LSeries.term`, which is `0` at `n = 0`. |
+| counting function | `S_c(X) = TauCeti.summatory (fun n : ℕ ↦ n) ĉ X` with `ĉ 0 = 0` and `ĉ n = c n` for `n > 0`. The cutoff is inclusive: `S_c(X) = ∑_{1 ≤ n ≤ X} c n`, `S_c(1) = c 1`, `S_c(X) = 0` for `X < 1`. For `X ≥ 0` it equals `∑ n ∈ Finset.Icc 1 ⌊X⌋₊, c n`, the form used by Tau Ceti's Wiener–Ikehara theorems (by `TauCeti.summatory_eq_summatory_natFloor` and `TauCeti.mem_normLE_natCast`). The `Northcott` instance `northcott_natId` for the identity height on `ℕ` (finite sublevel sets `Set.Iic b`) is part of Layer 4. In §4.1a the same finite sum is taken with complex `c`. |
 | Laplace transform | The ordinary one-sided transform `∫₀^∞ e^(−st) f(t) dt` of the function `f`, never the Laplace–Stieltjes transform `∫ e^(−st) df(t)`. Integrals are Bochner integrals for Lebesgue measure restricted to `(0, ∞)`; the endpoint is a null set, so `[0, ∞)` gives the same predicate. Convergence (integrability) is part of every Laplace assertion. Real functions are cast to `ℂ` before the predicate is applied. |
 | boundary data | Every analytic agreement in `PoleBoundary` is required only on the open half-plane `Re s > a`. The values of a total function `F` on the line `Re s = a`, and in particular those of Mathlib's totalised `LSeries` (which is `0` where the series does not converge), carry no meaning and are never used. |
 | kernel | `squaredSinc λ v = (λ/π) sinc(λv)²` with `Real.sinc 0 = 1`; total mass one for `λ > 0`. Fourier variables are angular: the kernel is `(1/2π) ∫_{−2λ}^{2λ} (1 − |y|/(2λ)) e^(iyv) dy`. Mathlib's Fourier transform uses `e^(−2πivw)`; the substitution `w = y/(2π)` converts. |
@@ -118,7 +122,8 @@ The conventions carry explicit witnesses:
 This layer fixes the two hypotheses of Delange's theorem as predicates: the ordinary Laplace
 integral of the counting function converges on a half-plane, and its sum continues holomorphically
 across the boundary line except for a pole of order `k + 1` at the real point `a`. Both are
-phrased so that no junk value of a total function can satisfy or violate them.
+phrased so that no junk value of a total function can satisfy or violate them. §0.1b proves Landau's
+theorem for the transforms of functions of one sign.
 
 ### 0.1 The one-sided Laplace transform
 
@@ -251,6 +256,52 @@ space; the boundary-term argument of the proof sketch supplies it.
   `Re s > 0`, but `s · (1/s) − f(0) = 1 ≠ 0`. Right continuity at `0` cannot be dropped, and this
   `f` is not a primitive of `0` on `[0, ∞)`.
 
+### 0.1b Landau's theorem for functions of one sign
+
+Throughout, `g : ℝ → ℝ` is cast to `ℂ` in `HasLaplace`, the measure is the default one, and a property
+holds *for large `u`* when it holds for almost every `u > u₀`, for some `u₀ ≥ 0`.
+
+**Landau's theorem.** Let `A` be real, let `g(u) ≥ 0` for large `u`, and let `HasLaplace g s (F s)` for
+every `s` with `A < Re s`. If there are `r > 0` and `H : ℂ → ℂ` analytic on `Metric.ball (A : ℂ) r` with
+`F s = H s` for every `s` in that ball with `A < Re s`, then there is a real `A′ < A` such that
+`t ↦ e^(−A′t) g(t)` is integrable on `(0, ∞)`; so `HasLaplace g s` holds for every `s` with
+`A′ < Re s`, with a value analytic in `s` that equals `F s` for `A < Re s`. In classical terms: when the
+abscissa of convergence `σ_c` of the Laplace integral of a function that is nonnegative for large `u`
+is finite, the transform is analytic on `Re s > σ_c` and singular at the real point `σ_c`. For a
+Dirichlet series with nonnegative coefficients this is Completed/ArithmeticDirichletSeries §8.1.
+
+**Mellin form.** For `G : ℝ → ℝ` and `g(u) = G(e^u)`, the substitution `y = e^u` gives
+`∫_1^∞ G(y) y^(−s−1) dy = ∫₀^∞ g(u) e^(−su) du`, either side converging absolutely when the other does,
+and `G(y) ≥ 0` for large `y` is `g(u) ≥ 0` for large `u`; so the theorem holds for the Mellin integrals
+`∫_1^∞ G(y) y^(−s−1) dy` of functions that are nonnegative for large `y`.
+
+*Proof sketch.* The theorem: `g` is integrable on `(0, u₀]`, since `e^(−su) g(u)` is integrable on
+`(0, ∞)` for one `s` and `|e^(−su)|` is bounded below on `(0, u₀]`. `F` is analytic on `Re s > A`, with
+`F^(k)(a) = ∫₀^∞ (−u)^k g(u) e^(−au) du` at real `a > A` (differentiation under the integral sign). Fix
+a real `a ∈ (A, A + r/2)`; with `H`, `F` extends analytically to the disc of radius `r − (a − A) > a − A`
+about `a`, so its Taylor series at `a` converges at a real `b < A` with `a − b < r − (a − A)`:
+`∑_k ((a − b)^k/k!) ∫₀^∞ u^k g(u) e^(−au) du` converges. On `(0, u₀]` the double series converges
+absolutely; on `(u₀, ∞)` every integrand is nonnegative, so by Tonelli its sum is
+`∫_{u₀}^∞ g(u) e^(−bu) du < ∞`. Hence `e^(−bu) g(u)` is integrable on `(0, ∞)`, and so is `e^(−su) g(u)`
+for `Re s ≥ b`; take `A′ = b`, the value being analytic by differentiation under the integral sign and
+equal to `F` on `Re s > A` by uniqueness of the value (§0.1). The Mellin form is the change of variables
+`y = e^u` on `(0, ∞)`. *Needs:* §0.1; Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
+`DifferentiableOn.hasFPowerSeriesOnBall`, `MeasureTheory.lintegral_tsum`.
+
+*Source.* Landau (1905), §4, p. 548, for the theorem in its Mellin form (integrals `∫ φ(x) x^(−s−1) dx`
+with `φ ≥ 0` from some point on), with the proof sketched above (pp. 547–548), and §2, pp. 536–537, for
+Dirichlet series whose coefficients are nonnegative from some point on; the Laplace form is the change of
+variables `x = e^u`. Ingham (1932), chapter V, and Montgomery–Vaughan (2007), chapter 15, Lemma 15.1,
+state the theorem and apply it to one-sided bounds for prime sums.
+
+**Checks.**
+
+- `g = 1`: `HasLaplace g s (1/s)` exactly for `Re s > 0`, and the abscissa `0` is the pole of `1/s`.
+- `g(u) = sin u`, of both signs: `HasLaplace` holds exactly on `Re s > 0` (at `s = 0`, `|sin u|` is not
+  integrable), while the transform `1/(1 + s²)` is analytic at `0`. The theorem needs the sign of `g`
+  for large `u`.
+- Mellin form: `G = 1` on `[1, ∞)` has `∫_1^∞ y^(−s−1) dy = 1/s`, the transform of `g = 1`.
+
 ### 0.2 Boundary continuation with a pole of order `k + 1`
 
 **`PoleBoundary`.** For `F : ℂ → ℂ`, `a A : ℝ` and `k : ℕ`, `PoleBoundary F a k A` is the
@@ -337,8 +388,8 @@ hypotheses.
 
 ### Dependencies
 
-Mathlib only (analytic functions, Bochner integration). The hypothesis style follows the parent's
-Layer 9.
+Mathlib only (analytic functions, power series, Bochner integration); Completed/ArithmeticDirichletSeries §8.1 is
+the Dirichlet-series case of §0.1b. The hypothesis style follows the parent's Layer 9.
 
 ## Layer 1: Squared-sinc smoothing and the polynomial weight
 
@@ -884,7 +935,8 @@ Layers 1 and 2.
 
 This layer translates Layer 3 to Dirichlet series. The counting function `S_c(eᵗ)` of a
 nonnegative series is nondecreasing, and its ordinary Laplace transform is `F(s)/s`; dividing by
-`s` multiplies the leading coefficient by `1/a`. Two perturbation theorems then let an arithmetic
+`s` multiplies the leading coefficient by `1/a`. For coefficients of any sign, and for complex coefficients, the
+transform is still `F(s)/s` (§4.1a). Two perturbation theorems then let an arithmetic
 count discard finitely many terms and terms dominated by a lower-order pole.
 
 ### 4.1 The logarithmic counting function and its Laplace transform
@@ -933,6 +985,49 @@ given discriminant; the bridge above is derived independently.
 - `Re s > 0` cannot be dropped: for the sequence with only `c 1 = 1` the series converges at every
   `s` with sum `1`, in particular at `s = 0`, but `α = 1` on `[0, ∞)` has no Laplace transform at
   `s = 0` (the nonintegrability Check of §0.1), and the totalized quotient `F(0)/0 = 0` does not certify convergence.
+
+### 4.1a The counting-function transform for coefficients of any sign
+
+**Coefficients of any sign.** Let `c : ℕ → ℂ`, let `Re s > 0` and let `LSeriesHasSum c s (F s)`. Put
+`S_c(X) = ∑_{1 ≤ n ≤ X} c n`, the finite sum of the Conventions with complex terms, and `α(t) = S_c(eᵗ)`. Then
+
+```text
+HasLaplace α s (F(s)/s),
+```
+
+and in the variable `y = eᵗ`
+
+```text
+∫₁^∞ S_c(y) y^(−s−1) dy = F(s)/s,
+```
+
+the integral converging absolutely. Summability in `ℂ` is absolute, so the hypothesis says that
+`∑ |c n| n^(−Re s) < ∞`, with sum `F(s)` of the series. Real coefficients of both signs are the case
+`c n = (b n : ℂ)` with `b : ℕ → ℝ`. Nothing is asserted about the sign or the monotonicity of `α`; for
+nonnegative coefficients these are part of §4.1.
+
+*Proof sketch.* Write `c = c₁ − c₂ + i(c₃ − c₄)` with the nonnegative sequences `c₁ = max(Re c, 0)`,
+`c₂ = max(−Re c, 0)`, `c₃ = max(Im c, 0)` and `c₄ = max(−Im c, 0)`; for real coefficients only `c₁` and
+`c₂` occur. Each `c_j` is bounded by `|c|`, so its series converges absolutely at `s`, with sum `F_j(s)`,
+and `F = F₁ − F₂ + i(F₃ − F₄)`. §4.1 gives `HasLaplace` of `S_(c_j)(eᵗ)` with value `F_j(s)/s`. The
+counting function is additive in the coefficients, `S_c = S_(c₁) − S_(c₂) + i(S_(c₃) − S_(c₄))`, so
+additivity and scalar multiplication of `HasLaplace` (§0.1) give the first identity. The second is the
+substitution `y = eᵗ` of the Mellin form of §0.1b, applied to the real and imaginary parts of `S_c`.
+*Needs:* §§0.1, 0.1b, 4.1; Mathlib `LSeriesHasSum`, `summable_norm_iff`; Tau Ceti `TauCeti.summatory`.
+
+*Source.* Montgomery and Vaughan (2007), chapter 1: a Dirichlet series as `s` times the Mellin integral of its
+summatory function. The form at a single point of absolute convergence is obtained in the proof sketch from §4.1 by
+linearity.
+
+**Checks.**
+
+- `c 1 = −1` and all other coefficients `0`, `Re s > 0`: `F = −1`, `α = −1` on `[0, ∞)`, and the transform
+  is `−1/s`. §4.1 does not apply to this sequence.
+- `c n = (−1)^(n+1)`, `Re s > 1`: `S_c(y)` is `1` when `⌊y⌋` is odd and `0` when it is even, so
+  `∫₁^∞ S_c(y) y^(−s−1) dy = s^(−1) ∑_{k odd} (k^(−s) − (k + 1)^(−s)) = F(s)/s` with
+  `F(s) = ∑ (−1)^(n+1) n^(−s)`. Here `α` is not monotone.
+- `c 2 = i` and all other coefficients `0`, `Re s > 0`: `α(t) = i` for `t ≥ log 2` and `0` before, with
+  transform `i ∫_(log 2)^∞ e^(−st) dt = i 2^(−s)/s = F(s)/s`.
 
 ### 4.2 Counting at abscissa one
 
@@ -1247,8 +1342,9 @@ Layer 4 (§5.1) and Layer 0 (§5.2). Mathlib `riemannZeta` and arithmetic functi
 **Owned here.**
 
 - The one-sided Laplace transform of a function, with a complex parameter, as the predicate
-  `HasLaplace` with its projection, uniqueness, linearity and dilation API, and the rule for the
-  transform of a derivative (§0.1a).
+  `HasLaplace` with its projection, uniqueness, linearity and dilation API, the rule for the
+  transform of a derivative (§0.1a), and Landau's theorem for the Laplace integral of a function
+  that is of one sign for large argument, with its Mellin form (§0.1b).
 - The boundary predicate `PoleBoundary F a k A` for a pole of order `k + 1` on the line of
   convergence, with uniqueness of the leading coefficient and of the order, division by the
   argument, rescaling, multiplication by regular functions and products.
@@ -1262,7 +1358,8 @@ Layer 4 (§5.1) and Layer 0 (§5.2). Mathlib `riemannZeta` and arithmetic functi
 - Delange's theorem for nondecreasing functions and pole orders `k + 1`, `k ∈ ℕ` (the
   integer-exponent case of his Theorem III).
 - The passage from a nonnegative Dirichlet series to the Laplace transform of its logarithmic
-  counting function, the counting theorems at abscissa one and at a positive abscissa,
+  counting function, with the transform and its Mellin form for coefficients of any sign (§4.1a), the counting
+  theorems at abscissa one and at a positive abscissa,
   invariance under finitely many altered coefficients, and the lower-pole perturbation theorem, at
   the scale `X^a (log X)^k`.
 - The Dirichlet series `ζ(s)^k` of the divisor functions `d_k = ζ^k` for every `k`, with absolute
@@ -1378,6 +1475,8 @@ supplier contracts*.
   `(a, b)`) and `MeasureTheory.intervalIntegral_tendsto_integral_Ioi`
   (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`: `∫_a^T → ∫_(a,∞)` for an integrable
   function): the derivative rule of §0.1a.
+- `DifferentiableOn.hasFPowerSeriesOnBall` (`Mathlib/Analysis/Complex/CauchyIntegral.lean`) and
+  `MeasureTheory.lintegral_tsum`: Landau's theorem of §0.1b.
 - `HasCompactSupport.toSchwartzMap` (`Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean`),
   Fourier inversion `FourierTransform.fourier_fourierInv_eq` on `𝓢(ℝ, ℂ)`
   (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`) and
@@ -1470,6 +1569,16 @@ excludes zero; the natural exponent has no branch ambiguity (Delange 1954, Lemma
   [numdam](https://www.numdam.org/item/ASENS_1954_3_71_3_213_0.pdf). Standing hypotheses p. 213;
   regularisation and smoothing §§3–4.1, pp. 220–229; Lemmas 3–4, §5.1, pp. 231–233; Theorem III,
   §5.2.1, pp. 235–238; remarks §5.3, p. 242. The primary source for Layers 0–4.
+- E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. **61** (1905), 527–550,
+  [EuDML](https://eudml.org/doc/158244).
+  §4, p. 548: Landau's theorem on the integrals `∫ φ(x) x^(−s−1) dx` of functions `φ ≥ 0` from some point
+  on, with its proof, pp. 547–548; §2, pp. 536–537: the theorem for Dirichlet series (§0.1b).
+- A. E. Ingham, *The Distribution of Prime Numbers*, Cambridge Tracts in Mathematics and Mathematical
+  Physics **30** (1932), chapter V. Landau's theorem and its use for one-sided bounds (§0.1b).
+- H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge
+  Studies in Advanced Mathematics **97** (2007), chapter 15, Lemma 15.1. Landau's theorem and its use for
+  one-sided bounds (§0.1b).
+  Chapter 1: a Dirichlet series as `s` times the Mellin integral of its summatory function (§4.1a).
 - A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, file
   `PrimeNumberTheoremAnd/Wiener.lean` at revision `2667e414c38e5a5dc9aa1946f16f13001e5cd3ed`
   (2026, Apache-2.0),
