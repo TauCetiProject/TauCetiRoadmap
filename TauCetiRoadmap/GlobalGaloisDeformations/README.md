@@ -364,10 +364,10 @@ the inclusions `λ^{−m}𝒪/𝒪 ⊂ λ^{−m−1}𝒪/𝒪`, and the limit gi
 *Needs:* Scope and ownership, tangent spaces (ArithmeticGaloisDuality §D8.1, *First-order Galois
 cocycle comparison* and *Trace-zero adjoint duality without division by n*; SelmerIwasawaCohomology
 §2A.4, *Determinant tangent fibres*); LocalGaloisDeformationRings §§F.1.3, F.1.7 (strict
-equivalence, fixed determinant) and §§F.2.2, F.2.9 (`Φ_p` and fixed-determinant
-representability); LocalGaloisDeformationRings §8.6 (the same construction for local Galois groups
-and categories of finite-length modules, with its fixed-determinant tangent space); Tau Ceti
-`TauCeti.ContCohomology.H1`.
+equivalence, fixed determinant) and §§F.2.1, F.2.9 (`Φ_p` for topologically finitely generated
+groups, and fixed-determinant representability); LocalGaloisDeformationRings §8.6 (the same
+construction for local Galois groups and categories of finite-length modules, with its
+fixed-determinant tangent space); Tau Ceti `TauCeti.ContCohomology.H1`.
 
 **Checks.**
 
@@ -2325,7 +2325,7 @@ Page numbers are printed pages of the cited edition unless marked as PDF pages.
   `StacksFrontier/Deformation` directory follows the formal deformation theory chapter of the
   Stacks Project.
 - **DDT.** H. Darmon, F. Diamond and R. Taylor, [*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
-  in *Current Developments in Mathematics, 1995*, International Press (1995), 1–107; cited from the
+  in *Current Developments in Mathematics, 1995*, International Press (1995), 1–154; cited from the
   authors' PDF dated 9 September 2007, pages of that PDF: §2.6, Theorem 2.36, p. 73, Lemma 2.39,
   p. 75, Lemma 2.40, p. 76.
 - **Wiles.** A. Wiles, *Modular elliptic curves and Fermat's last theorem*, Ann. of Math. 141 (1995),
