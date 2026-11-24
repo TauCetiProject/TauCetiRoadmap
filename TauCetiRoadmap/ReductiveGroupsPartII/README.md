@@ -4534,17 +4534,26 @@ case let `H` be the Gram matrix of `h` in an `O′`-basis of `Λ`, invertible be
 unimodular. The morphism `g ↦ g^*Hg` from `Res_{O′/O} GL_{O′}(Λ)` to the `O`-scheme of Hermitian
 `n × n` matrices has differential `X ↦ g^*HX + (g^*HX)^*` at `g`, which is onto the Hermitian
 matrices because `X ↦ g^*HX` is bijective and `Tr : O′ → O` is onto. Its fibre over `H` is
-therefore smooth over `O`, hence `O`-flat, with generic fibre `U(V)`, and it is `𝒢_Λ` by the
+therefore smooth over `O` by the Jacobian criterion (Mathlib `Algebra.SubmersivePresentation`, which
+gives `Algebra.IsStandardSmooth` and so `Algebra.Smooth`, on the principal opens where a maximal
+minor of the differential is a unit; these cover the fibre and are glued by
+`RingHom.Smooth.ofLocalizationSpanTarget`), hence `O`-flat (`Algebra.Smooth.flat`), with generic
+fibre `U(V)`, connected reductive by ReductiveGroups §9D.1 as `char K ≠ 2`, and it is `𝒢_Λ` by the
 uniqueness clause of *schematic-closure*. Its special fibre is the fibre over `H mod ϖ` of the same
 morphism over `κ`, the unitary group of the nondegenerate reduction of `h` on `Λ/ϖΛ` over the
-residue extension, which is connected reductive in every characteristic; so `𝒢_Λ` is reductive.
+residue field `κ′` of `O′`, which is connected reductive in every characteristic: by ReductiveGroups
+§9D.1 if `char κ ≠ 2`, and if `char κ = 2` because base change along `κ′ ⊗_κ κ′ ≅ κ′ × κ′` makes it
+`GL_n` over `κ′` by the argument of the split case, connected reductivity being geometric; so
+`𝒢_Λ` is reductive.
 The passage to almost all places of a number field belongs to AdelicAlgebraicGroups AA.1.1
 (*Reductive models outside finitely many places*, *Uniqueness of integral models up to enlarging
 `S`*).
 
 *Needs:* *smooth-affine-model*; *schematic-closure*; *reductive-model*; RG2.0a
 *weil-restriction-group-scheme*; RG2.0a *integral-weil-restriction*; RG2.0a
-*weil-restriction-base-change*; ReductiveGroups layer 6; Mathlib `Submodule.IsLattice`.
+*weil-restriction-base-change*; ReductiveGroups layer 6 and §9D.1; Mathlib `Submodule.IsLattice`,
+`Algebra.SubmersivePresentation`, `Algebra.IsStandardSmooth`,
+`RingHom.Smooth.ofLocalizationSpanTarget` and `Algebra.Smooth.flat`.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -7218,7 +7227,9 @@ reductive", "semisimple", "simply connected" and for central isogenies; layer 7 
 theory over a field — maximal split tori `S`, `Z = Z_G(S)`, `N`, the relative root system
 `Φ(G,S)`, the root subgroups `U_a`, parabolic and Levi subgroups, the absolute root datum with its
 Galois action, the Bruhat decomposition and BN-pairs; layer 9 for the pinned Chevalley–Demazure
-group schemes over `ℤ` and the isomorphism theorem for pinned groups. The valued theory here
+group schemes over `ℤ` and the isomorphism theorem for pinned groups; §9D.1 for the unitary group
+of a Hermitian space over a separable quadratic field extension in characteristic other than two,
+a connected reductive form of `GL_n` (RG2.3.5a). The valued theory here
 consumes these objects; RG2.1.2 states from the coordinate Hopf algebra the maximal split torus,
 relative roots, root subgroups, coroots, centralizer, normalizer and absolute root datum that it
 uses, without their structure theory; no parabolic is defined, and the dual group of RG2.5 is
