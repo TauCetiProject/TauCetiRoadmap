@@ -941,14 +941,19 @@ composite of this embedding and `χ`, the comparison of (a) gives the equality.
 - `K = ℚ(i)`, `L = ℚ(i, √−3) = ℚ(ζ_12)`, `φ` the nontrivial character of `Gal(L/K)`: `φ̃` is
   `(·/3) ∘ N` of modulus `(3)`, of order `2` (the character of §11.2's Checks). The prime `(1 + i)`, of
   norm `2`, is inert in `L/K`, since `x² + x + 1` is irreducible over `𝔽₂`, and `(2/3) = −1`.
-- `K = ℚ(√−3)` and a ray-class character of order `3` whose class field is not abelian over `ℚ` (a cubic
-  residue character): it is not the `φ̃` of any `L` abelian over `ℚ`, and so, by (b), not the primitive
-  character of any `χ ∘ N_{K/ℚ}` either.
+- `K = ℚ(√−3)` and two cubic residue characters. At every prime `𝔭 ∤ 6`, `(ω/𝔭)_3 = ω^((N𝔭−1)/3)`,
+  which is `χ(N𝔭)` for the cubic Dirichlet character `χ` modulo `9` with `χ(2) = ω²` (the values `ω², ω, 1`
+  at norms `7, 13, 19`); so `(ω/·)_3` is the primitive character of `χ ∘ N_{K/ℚ}`, and its class field
+  `K(ω^(1/3)) = ℚ(ζ_9)` is the `K(ζ_m)` of (b) at `m = 9`. `(2/·)_3` is `ω²` at `1 + 3ω` (modulo it
+  `ω ≡ 2` and `2^((7−1)/3) = 4 ≡ ω²`) and `ω` at `1 + 3ω²` (modulo it `ω ≡ 4`). These two primes of norm
+  `7` are exchanged by complex conjugation, which fixes every `χ ∘ N_{K/ℚ}` and hence its primitive
+  character; so `(2/·)_3` is the primitive character of no `χ ∘ N_{K/ℚ}` and, by (a), the `φ̃` of no `L`
+  abelian over `ℚ`: its class field `ℚ(ω, 2^(1/3))` has group `S_3` over `ℚ`.
 
 *Needs:* §5.4; ClassFieldTheory C.6 (the Artin symbol of `(ℓ)` on `ℚ(ζ_m)` sends `ζ_m` to `ζ_m^ℓ`),
 Layer 12 (`TauCeti.ClassFieldTheory.abelianConductor`, `rayClassArtinMap`, `rayClassArtinMap_surjective`,
 `rayClassArtinMap_idealClass`) and §13.1 (`TauCeti.ClassFieldTheory.kroneckerWeber`); LFunctions Layer 5
-(`PrimitiveRayClassCharacter.of`, `PrimitiveRayClassCharacter.of_induced`); Tau Ceti
+(`PrimitiveRayClassCharacter.of`); Tau Ceti `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`,
 `TauCeti.GlobalNumberFields.RayClassCharacter.induced`, `TauCeti.GlobalNumberFields.RayClassGroup.hom_ext`;
 Mathlib `IsAbelianGalois`.
 
@@ -2450,7 +2455,8 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   character at its presentation modulus, `0` if none exists, in meromorphic normal form),
   `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (the presented function has the
   germ of the primitive one times the Euler correction at every point),
-  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character`;
+  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character` and `.of_induced`
+  (a character and the character it induces have the same primitive character; §5.4a);
   `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` with
   `differentiable_eulerCorrection` and `eulerCorrection_ne_zero` (no zero on `Re s > 0`);
   `TauCeti.LFunctions.meromorphicNFOn_heckeLFunctionC` (normal form on the whole plane, also when it
@@ -2502,9 +2508,7 @@ at `0` and `1` exactly for the trivial character), Layers 6 and 8 (`heckeData ψ
 coefficient at `0` with the record `grossencharacterData` of its Grossencharacter, which satisfies
 `HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`), Layer 7
 (for a nontrivial primitive `ψ`, `heckeLFunctionC ψ.character` has no zero on `Re s = 1`; the layer
-makes no statement for the trivial character, whose `L`-function `ζ_K` has its pole at `1`). Layer 5 also
-supplies `PrimitiveRayClassCharacter.of_induced` (a character and the character it induces have the same
-primitive character), used in §5.4a.
+makes no statement for the trivial character, whose `L`-function `ζ_K` has its pole at `1`).
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
