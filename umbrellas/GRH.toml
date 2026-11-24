@@ -801,8 +801,22 @@ sections = [
 [[area]]
 name = "AmenableGroups"
 sections = [
-  "Layer 1",
-  "Layer 7",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§1.4",
+  "§1.5",
+  "§1.6",
+  "§2.3",
+  "§2.5",
+  "§7.1",
+  "§7.2",
+  "§7.3",
+  "§7.4",
+  "§7.5",
+  "§7.6",
+  "§7.7",
+  "§7.8",
 ]
 
 [[area]]
@@ -2121,7 +2135,29 @@ sections = [
 [[area]]
 name = "CFSGBasicProperties"
 sections = [
-  "§T1",
+  "§F0",
+  "§F1",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§2.5",
+  "§2.6",
+  "§3.1",
+  "§3.2",
+  "§3.3",
+]
+
+[[area]]
+name = "CFSGStatement"
+sections = [
+  "§1.1",
+  "§2.1",
+  "§2.2",
+  "§3.1",
 ]
 
 [[area]]
@@ -2175,14 +2211,6 @@ sections = [
   "§C7",
   "§7.3",
   "§7.3a",
-]
-
-[[area]]
-name = "ChevalleyGroups"
-sections = [
-  "§C2",
-  "§C3",
-  "§C4",
 ]
 
 [[area]]
@@ -2346,14 +2374,21 @@ name = "CompactOperators"
 sections = [
   "§0.1",
   "§0.2",
+  "§0.4",
   "§1.1",
   "§1.2",
   "§1.3",
   "§1.4",
   "§1.5",
+  "§1.6",
   "§1.7",
+  "§2.1",
+  "§2.2",
+  "§2.3",
   "§2.4",
+  "§2.5",
   "§3.1",
+  "§3.2",
   "§3.3",
   "§3.4",
   "§3.5",
@@ -2373,6 +2408,7 @@ name = "CompletedCohomologyPartII"
 sections = [
   "§F.1",
   "§F.2",
+  "§F.3",
   "§F.4",
   "§0.1",
   "§0.2",
@@ -2675,12 +2711,43 @@ sections = [
 [[area]]
 name = "DGAInfinity"
 sections = [
-  "Layer 0",
-  "Layer 1",
-  "Layer 5",
-  "Layer 6",
-  "Layer 7",
-  "Layer 8",
+  "§0.1",
+  "§0.2",
+  "§0.3",
+  "§0.4",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§1.4",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§3.2",
+  "§3.3",
+  "§3.4",
+  "§3.5",
+  "§4.1",
+  "§4.2",
+  "§4.4",
+  "§5.1",
+  "§5.2",
+  "§5.3",
+  "§5.4",
+  "§5.5",
+  "§6.1",
+  "§6.2",
+  "§6.3",
+  "§6.4",
+  "§6.5",
+  "§7.1",
+  "§7.2",
+  "§7.3",
+  "§7.4",
+  "§8.1",
+  "§8.2",
+  "§8.3",
+  "§8.4",
 ]
 
 [[area]]
@@ -3362,6 +3429,7 @@ sections = [
   "§4.1",
   "§4.2",
   "§4.3",
+  "§4.4",
   "§5.2",
   "§5.3",
   "§5.4",
@@ -4484,14 +4552,46 @@ sections = [
 [[area]]
 name = "FuchsianOrbifolds"
 sections = [
-  "Layer 0",
-  "Layer 1",
-  "§L2.1",
-  "Layer 3",
-  "Layer 4",
-  "Layer 5",
-  "Layer 4a",
-  "Layer 6",
+  "§0.1",
+  "§0.2",
+  "§0.3",
+  "§0.4",
+  "§0.5",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§1.4",
+  "§1.5",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§2.5",
+  "§2.6",
+  "§3.1",
+  "§3.2",
+  "§3.3",
+  "§3.4",
+  "§3.5",
+  "§4.1",
+  "§4.2",
+  "§4.3",
+  "§4.4",
+  "§4.5",
+  "§5.1",
+  "§5.2",
+  "§5.3",
+  "§5.4",
+  "§5.5",
+  "§5.6",
+  "§5.7",
+  "§4a.1",
+  "§4a.2",
+  "§6.1",
+  "§6.2",
+  "§6.3",
+  "§6.4",
+  "§6.5",
 ]
 
 [[area]]
@@ -5180,14 +5280,6 @@ sections = [
 ]
 
 [[area]]
-name = "GroebnerGeometry"
-sections = [
-  "§G2",
-  "§G4",
-  "§G5",
-]
-
-[[area]]
 name = "GrothendieckEulerForms"
 sections = [
   "§0.1",
@@ -5431,15 +5523,6 @@ sections = [
 ]
 
 [[area]]
-name = "HilbertModules"
-sections = [
-  "HilbertModules §H2",
-  "HilbertModules §H4",
-  "HilbertModules §H5",
-  "HilbertModules §H6",
-]
-
-[[area]]
 name = "HodgeTateAndCanonicalSubgroups"
 sections = [
   "§0.1",
@@ -5470,20 +5553,6 @@ sections = [
   "§1.2",
   "§1.3",
   "§2.3",
-]
-
-[[area]]
-name = "Hyperfunctions"
-sections = [
-  "§HF2.AnalyticPreparation.CurrentResolution",
-  "§HF3a",
-]
-
-[[area]]
-name = "ImaginaryQuadraticClassNumber"
-sections = [
-  "§H2.2",
-  "§H3.1",
 ]
 
 [[area]]
@@ -5975,16 +6044,42 @@ sections = [
 [[area]]
 name = "LFunctions"
 sections = [
-  "Layer 0",
-  "Layer 1",
-  "Layer 2",
-  "Layer 3",
-  "Layer 4",
-  "Layer 5",
-  "Layer 6",
-  "Layer 7",
-  "Layer 8",
-  "§8.4",
+  "§0.1",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§2.1",
+  "§2.2",
+  "§3.1",
+  "§3.2",
+  "§3.3",
+  "§3.4",
+  "§3.5",
+  "§3.6",
+  "§3.7",
+  "§4.1",
+  "§4.2",
+  "§5.1",
+  "§5.2",
+  "§5.3",
+  "§5.4",
+  "§6.1",
+  "§6.2",
+  "§6.3",
+  "§6.4",
+  "§6.5",
+  "§6.6",
+  "§6.7",
+  "§6.8",
+  "§6.9",
+  "§6.10",
+  "§7.1",
+  "§7.2",
+  "§7.3",
+  "§7.4",
+  "§7.5",
+  "§8.1",
+  "§8.2",
 ]
 
 [[area]]
@@ -6480,6 +6575,8 @@ sections = [
   "§7.1",
   "§7.2",
   "§7.3",
+  "§PD-5",
+  "§PD-6",
   "§7.4",
   "§7.5",
   "§8.1",
@@ -6497,7 +6594,10 @@ sections = [
   "§9.4",
   "§9.5",
   "§9.6",
-  "Layer 10",
+  "§10.1",
+  "§10.2",
+  "§10.3",
+  "§10.4",
 ]
 
 [[area]]
@@ -6858,12 +6958,14 @@ sections = [
 name = "NewtonPolygons"
 sections = [
   "§0.6",
-  "§0.7",
   "§1.1",
-  "§2.1",
-  "§2.2",
+  "§1.2",
+  "§1.3",
   "§2.3",
-  "§6.3",
+  "§3.3",
+  "§4.1",
+  "§4.3",
+  "§5.3",
 ]
 
 [[area]]
@@ -6919,6 +7021,12 @@ sections = [
   "SelfAdjointSpectralTheory §SA-B81",
   "SelfAdjointSpectralTheory §SA-B85",
   "SelfAdjointSpectralTheory §SA-D20",
+]
+
+[[area]]
+name = "OptimalTransport"
+sections = [
+  "§3.7",
 ]
 
 [[area]]
@@ -8662,9 +8770,11 @@ sections = [
 [[area]]
 name = "RealAnalyticGeometry"
 sections = [
-  "§R3.0",
-  "§R3.1",
-  "§R3.2",
+  "§0.1",
+  "§0.2",
+  "§3.0",
+  "§3.1",
+  "§3.2",
 ]
 
 [[area]]
@@ -8790,7 +8900,11 @@ sections = [
 [[area]]
 name = "ReflectionInvariantTheory"
 sections = [
-  "§2",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§2.5",
 ]
 
 [[area]]
@@ -8849,6 +8963,32 @@ sections = [
 [[area]]
 name = "RepresentationTheory"
 sections = [
+  "AdoIwasawa §0.1",
+  "AdoIwasawa §0.2",
+  "AdoIwasawa §0.3",
+  "AdoIwasawa §0.4",
+  "AdoIwasawa §0.5",
+  "AdoIwasawa §1.2",
+  "AdoIwasawa §1.3",
+  "AdoIwasawa §3.1",
+  "AdoIwasawa §3.2",
+  "AdoIwasawa §3.3",
+  "AdoIwasawa §3.4",
+  "AdoIwasawa §3.5",
+  "AdoIwasawa §3.6",
+  "AdoIwasawa §4.1",
+  "AdoIwasawa §4.2",
+  "AdoIwasawa §4.3",
+  "AdoIwasawa §4.4",
+  "AdoIwasawa §4.5",
+  "AdoIwasawa §5.1",
+  "AdoIwasawa §5.2",
+  "AdoIwasawa §5.3",
+  "AdoIwasawa §5.4",
+  "AdoIwasawa §5.5",
+  "AdoIwasawa §5.6",
+  "AdoIwasawa §5.7",
+  "AdoIwasawa §5.8",
   "CharacterTheory §0.1",
   "CharacterTheory §0.2",
   "CharacterTheory §1.1",
@@ -8924,27 +9064,85 @@ sections = [
   "CompactGroups §6.3",
   "CompactGroups §6.4",
   "CompactGroups §6.5",
-  "InductionRestriction Layer 0",
+  "InductionRestriction §0.1",
   "InductionRestriction Layer 2.1",
+  "InductionRestriction §2.1.1",
   "InductionRestriction Layer 2.2",
   "InductionRestriction Layer 3a",
+  "InductionRestriction §3.1",
   "InductionRestriction Layer 3b",
-  "InductionRestriction Layer 4",
-  "InductionRestriction Layer 5",
-  "InductionRestriction Layer 6",
-  "InductionRestriction §Layer7.ScalarObstruction",
-  "InductionRestriction §Layer7.DivisionCrossedSystem",
-  "LieGroups Layer 0",
-  "LieGroups Layer 1",
-  "LieGroups Layer 2",
-  "LieGroups Layer 3",
-  "LieGroups Layer 4",
-  "LieGroups Layer 5",
-  "LieGroups Layer 5A",
-  "LieGroups Layer 6",
-  "LieGroups Layer 7",
-  "LieGroups Layer 8",
-  "LieGroups Layer 9",
+  "InductionRestriction §4.1",
+  "InductionRestriction §4.2",
+  "InductionRestriction §4.3",
+  "InductionRestriction §4.4",
+  "InductionRestriction §5.1",
+  "InductionRestriction §5.2",
+  "InductionRestriction §5.3",
+  "InductionRestriction §6.1",
+  "InductionRestriction §7.1",
+  "InductionRestriction §7.2",
+  "InductionRestriction §7.3",
+  "InductionRestriction §7.4",
+  "InductionRestriction §7.5",
+  "InductionRestriction §7.6",
+  "InductionRestriction §7.7",
+  "InductionRestriction §7.8",
+  "LieGroups §0.1",
+  "LieGroups §0.2",
+  "LieGroups §0.3",
+  "LieGroups §0.4",
+  "LieGroups §1.1",
+  "LieGroups §1.2",
+  "LieGroups §1.3",
+  "LieGroups §1.4",
+  "LieGroups §2.1",
+  "LieGroups §2.2",
+  "LieGroups §2.3",
+  "LieGroups §2.4",
+  "LieGroups §3.1",
+  "LieGroups §3.2",
+  "LieGroups §3.3",
+  "LieGroups §4.1",
+  "LieGroups §4.2",
+  "LieGroups §4.3",
+  "LieGroups §5.1",
+  "LieGroups §5.2",
+  "LieGroups §5.3",
+  "LieGroups §5.4",
+  "LieGroups §5A.1",
+  "LieGroups §6.1",
+  "LieGroups §6.2",
+  "LieGroups §6.3",
+  "LieGroups §6.4",
+  "LieGroups §6.5",
+  "LieGroups §6.6",
+  "LieGroups §6.7",
+  "LieGroups §6.8",
+  "LieGroups §6.9",
+  "LieGroups §7.1",
+  "LieGroups §7.2",
+  "LieGroups §7.3",
+  "LieGroups §7.4",
+  "LieGroups §7.5",
+  "LieGroups §7.6",
+  "LieGroups §7.7",
+  "LieGroups §7.8",
+  "LieGroups §7.9",
+  "LieGroups §7.10",
+  "LieGroups §7.11",
+  "LieGroups §7.12",
+  "LieGroups §8.1",
+  "LieGroups §8.2",
+  "LieGroups §8.3",
+  "LieGroups §8.4",
+  "LieGroups §8.5",
+  "LieGroups §8.6",
+  "LieGroups §8.7",
+  "LieGroups §9.1",
+  "LieGroups §9.2",
+  "LieGroups §9.3",
+  "LieGroups §9.4",
+  "LieGroups §9.5",
   "LieHighestWeight §0.1",
   "LieHighestWeight §3.1",
   "LieHighestWeight §3.2",
@@ -8956,14 +9154,31 @@ sections = [
   "LieHighestWeight §9.1",
   "LieHighestWeight §9.2",
   "LieHighestWeight §9.3",
-  "ModularInduction Layer 0",
-  "ModularInduction Layer 1",
-  "ModularInduction Layer 4",
+  "ModularInduction §0.1",
+  "ModularInduction §0.2",
+  "ModularInduction §0.3",
+  "ModularInduction §0.4",
+  "ModularInduction §0.5",
+  "ModularInduction §0.6",
+  "ModularInduction §1.1",
+  "ModularInduction §1.2",
+  "ModularInduction §1.3",
+  "ModularInduction §1.4",
+  "ModularInduction §1.5",
+  "ModularInduction §1.6",
+  "ModularInduction §1.7",
+  "ModularInduction §1.8",
+  "ModularInduction §4.1",
+  "ModularInduction §4.2",
+  "ModularInduction §4.3",
+  "ModularInduction §4.4",
+  "ModularInduction §4.5",
+  "ModularInduction §4.6",
+  "ModularInduction §4.7",
   "QuiverRepresentations §0.1",
   "QuiverRepresentations §1.1",
   "QuiverRepresentations §2.1",
   "QuiverRepresentations §3.1",
-  "QuiverRepresentations §3.2",
   "QuiverRepresentations §3.3",
   "QuiverRepresentations §4.1",
   "QuiverRepresentations §4.2",
@@ -9116,6 +9331,7 @@ sections = [
 name = "RiemannianGeometry"
 sections = [
   "RiemannianGeometry §R1",
+  "RiemannianGeometry §R4.5",
   "RiemannianGeometry §R4.9.6a",
   "RiemannianGeometry §R5a",
 ]
@@ -10119,23 +10335,89 @@ sections = [
 [[area]]
 name = "StableReduction"
 sections = [
-  "Layer 0",
-  "Layer 1",
-  "Layer 2",
-  "Layer 3",
-  "Layer 4",
-  "Layer 5",
-  "Layer 6",
-  "Layer 7",
-  "Layer 8",
-  "Layer 9",
+  "§0.1",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§1.4",
+  "§1.5",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§2.5",
+  "§2.6",
+  "§2.7",
+  "§2.8",
+  "§3.1",
+  "§3.2",
+  "§3.3",
+  "§3.4",
+  "§3.5",
+  "§3.6",
+  "§3.7",
+  "§3.8",
+  "§3.9",
+  "§3.10",
+  "§4.1",
+  "§4.2",
+  "§4.3",
+  "§4.4",
+  "§4.5",
+  "§5.1",
+  "§5.2",
+  "§5.3",
+  "§5.4",
+  "§6.1",
+  "§6.2",
+  "§6.3",
+  "§6.4",
+  "§7.1",
+  "§7.2",
+  "§7.3",
+  "§7.4",
+  "§8.1",
+  "§8.2",
+  "§8.3",
+  "§8.4",
+  "§8.5",
+  "§8.6",
+  "§8.7",
+  "§9.1",
+  "§9.2",
+  "§9.3",
+  "§9.4",
+  "§9.5",
+  "§9.6",
+  "§9.7",
+  "§J-A1",
+  "§J-A2",
 ]
 
 [[area]]
 name = "StandardDistributions"
 sections = [
+  "§0.1",
+  "§0.2",
+  "§0.3",
+  "§0.5",
+  "§1.1",
+  "§1.2",
+  "§1.3",
+  "§1.4",
+  "§1.6",
+  "§1.7",
+  "§1.10",
+  "§1.12",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§3.5",
   "§4.1",
   "§4.3",
+  "§7.1",
+  "§7.2",
   "§7.13",
   "§9.4",
 ]
@@ -10208,7 +10490,30 @@ sections = [
 [[area]]
 name = "TemperleyLieb"
 sections = [
-  "Layer 5",
+  "§1.2",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§2.4",
+  "§2.5",
+  "§2.6",
+  "§2.7",
+  "§3.1",
+  "§3.1a",
+  "§3.2",
+  "§3.3",
+  "§3.6",
+  "§4.1",
+  "§4.2",
+  "§4.3",
+  "§4.4",
+  "§4.6",
+  "§5.1",
+  "§5.2",
+  "§5.3",
+  "§5.4",
+  "§5.5",
+  "§5.6",
 ]
 
 [[area]]
@@ -10481,4 +10786,10 @@ sections = [
   "§8.8",
   "§8.9",
   "Layer 9",
+]
+
+[[area]]
+name = "ZigzagPreprojective"
+sections = [
+  "§0.2",
 ]
