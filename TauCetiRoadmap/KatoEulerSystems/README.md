@@ -1285,26 +1285,46 @@ algebra.
 Let f be a non-CM newform of weight `k ≥ 2` and level N, with F, Γ, `F⁰` and B as in 4.1. Let λ be a
 place of F above a prime `p ∤ N` at which f is ordinary, that is, `a_p(f)` is a λ-adic unit, and let
 `λ₀` be the place of `F⁰` below λ. Prove momose_splits_of_ordinary: B splits at `λ₀`, that is,
-`B ⊗_(F⁰) F⁰_(λ₀) ≅ M₂(F⁰_(λ₀))` (Brown–Ghate, Theorem 3.3.1).
+`B ⊗_(F⁰) F⁰_(λ₀) ≅ M₂(F⁰_(λ₀))` (Brown–Ghate, Theorem 3.3.1, p. 1656; for `k = 2`, Ribet,
+Progr. Math. 12 (1981), Theorem 6, p. 274).
 
-The source states this for the crossed-product algebra X of the inner twists, a central simple
-algebra over `F⁰` which it embeds in the endomorphism algebra of the motive of f (Brown–Ghate,
-Theorem 2.3.8) and which is that endomorphism algebra in weight two (Ribet; Momose); its class in
-the Brauer group of `F⁰` is that of B, the identification under which 4.1 (2) takes the ramification
-bound of B from Ghate–González-Jiménez–Quer. The proof lets X act on the crystalline realization at
-p and decomposes it by the slopes of Frobenius: at an ordinary place exactly half of the slopes are
-0.
+The sources state this for the crossed-product algebra X of the inner twists, a central simple
+algebra over `F⁰` which Brown–Ghate embed in the endomorphism algebra of the motive of f
+(Brown–Ghate, Theorem 2.3.8, p. 1630) and which is that endomorphism algebra in weight two (Ribet,
+Math. Ann. 253 (1980), Theorem 5.1, and Momose, Theorem 4.1, as stated in Brown–Ghate, Theorem
+2.3.6, p. 1629); its class in the Brauer group of `F⁰` is that of B (Ribet 1985, §3, pp. 190–191),
+the identification under which 4.1 (2) takes the ramification bound of B from
+Ghate–González-Jiménez–Quer. Brown–Ghate let X act on the crystalline realization of the motive at
+p and count the slopes of Frobenius equal to 0.
+
+The statement follows from 4.1 and the ordinary filtration alone. Put `t = [F : F⁰]` and
+`V_(λ₀) = ⊕_(λ'|λ₀) V_(λ')(f)`, of dimension `2t` over `F⁰_(λ₀)`. Through `B → M₂(F)` the algebra
+`B_(λ₀) = B ⊗_(F⁰) F⁰_(λ₀)` acts on `V_(λ₀)`, and `ρ_f(H) ⊂ B_(λ₀)^×` (4.1). Let C be the
+commutant of `B_(λ₀)` in `End_(F⁰_(λ₀))(V_(λ₀))`. If `B_(λ₀)` were a division algebra, `V_(λ₀)`
+would be free of rank `t/2` over it, C would be `M_(t/2)(B_(λ₀)^op)`, and every nonzero C-stable
+subspace would have dimension divisible by `2t`. Choose τ in an inertia group at p with `τ ∈ H`
+and `κ(τ)^(k−1) ≠ 1`, which exists because H is open and κ maps inertia onto `ℤ_p^×`. The ordinary
+filtration of `V_λ(f)` (`AutomorphicGaloisRepresentations` §5.1) has an unramified graded piece,
+on which τ acts trivially, and the reduced norm of `ρ_f(τ)` is `κ(τ)^(1−k)` (4.1); so `ρ_f(τ)` has
+the distinct eigenvalues 1 and `c = κ(τ)^(1−k)` on `V_λ(f)`. Hence
+`ker(ρ_f(τ) − c)` is a nonzero proper subspace of `V_(λ₀)`, and it is C-stable because
+`ρ_f(τ) ∈ B_(λ₀)^×` commutes with C. Its dimension lies strictly between 0 and `2t`, so `B_(λ₀)`
+is split.
 
 **Checks.**
 
 - If Γ is trivial, `F⁰ = F` and B is split at every place (4.1), so the statement holds there with
   no hypothesis at p.
 - For the primitive form `f ∈ S₃(38, χ₋₁₉)` with Hecke orbit of size 2 (inner twist by `χ₋₁₉`,
-  `F⁰ = ℚ`), `a₅² = −8` is a 5-adic unit and B is split at 5; B is ramified at 2 and at ∞
+  `F⁰ = ℚ`), `a₅ = −1` is a 5-adic unit and B is split at 5; B is ramified at 2 and at ∞
   (Brown–Ghate, Example 4.3.4).
+- The hypothesis at p cannot be dropped: for the primitive form `f ∈ S₂(57, χ₅₇)` with Hecke
+  orbit of size 4 (inner twists by `χ₋₃`, `χ₋₁₉` and `χ₅₇`, `F⁰ = ℚ`), `5 ∤ 57` and `a₅² = −5`,
+  so f is not ordinary at 5, and B is ramified at 5 and at 2 (Brown–Ghate, Example 4.3.2).
 
-*Needs:* 4.1 (F, Γ, `F⁰`, B); `AutomorphicGaloisRepresentations` §§5.1–5.2 (the ordinary filtration
-and `D_cris` at `p ∤ N`).
+*Needs:* 4.1 (F, Γ, `F⁰`, H, B, the embedding `B → M₂(F)`, and `ρ_f(H) ⊂ B(F⁰ ⊗ ℚ̂)^×` with
+reduced norm `κ̂^(1−k)`); `AutomorphicGaloisRepresentations` §5.1 (the ordinary filtration at
+`p ∤ N`).
 
 ### 4.2 Nonvanishing of twisted critical values
 
@@ -1614,7 +1634,7 @@ two. Over `ℚ_3(ζ_3)` the Tate twist has a cup-product generator in `μ_3` but
 
 ### Dependencies
 
-Layer 2; `PadicFamilies` §4.0.3; `AutomorphicGaloisRepresentations` §§1.5–1.6, 4.8, 5.1–5.2,
+Layer 2; `PadicFamilies` §4.0.3; `AutomorphicGaloisRepresentations` §§1.5–1.6, 4.8, 5.1,
 7.2, 7.5; `EllipticCurveModularity` R29.4–R29.6; `ModularForms` Layers 7 and 9;
 `AutomorphicLFunctionsAndLocalFactors` §AL.3.6.3, “Rankin–Selberg nonvanishing on the boundary”;
 `GL2AutomorphicRepresentationsAndTransfer` §R16.5.3; `EulerSystemsAndKolyvaginSystems` §§2.5, 8.2–8.3,
@@ -3332,12 +3352,13 @@ All statements here are paraphrases. Page numbers refer to the stated edition.
   González-Jiménez and Jordi Quer, *On the Brauer class of modular endomorphism algebras*,
   IMRN 2005, no. 12, 701–723, Corollary 4.7 (p. 714).
 - Alexander F. Brown and Eknath P. Ghate, *Endomorphism algebras of motives attached to elliptic
-  modular forms*, Ann. Inst. Fourier **53** (2003), no. 6, 1615–1676, Theorem 2.3.8, Theorem 3.3.1
-  (p. 1656) and Example 4.3.4 (p. 1674).
-  [Numdam](https://www.numdam.org/item/AIF_2003__53_6_1615_0.pdf).
+  modular forms*, Ann. Inst. Fourier **53** (2003), no. 6, 1615–1676, Theorems 2.3.6 (p. 1629)
+  and 2.3.8 (p. 1630), Theorem 3.3.1 (p. 1656) and Examples 4.3.2 and 4.3.4 (p. 1674).
+  [Numdam](https://www.numdam.org/item/AIF_2003__53_6_1615_0.pdf). Correction used here: Example
+  4.3.4 prints `a₅² = −8`, which is `a₃²`; the form there has `a₅ = −1` (4.1a).
 - Kenneth A. Ribet, *Endomorphism algebras of abelian varieties attached to newforms of weight 2*,
   Seminar on Number Theory, Paris 1979–80, Progr. Math. **12**, Birkhäuser, 1981, 263–276,
-  Theorem 6.
+  Theorem 6 (p. 274). [Author's site](https://math.berkeley.edu/~ribet/Articles/dpp1.pdf).
 - Jean-Pierre Serre, *Propriétés galoisiennes des points d'ordre fini des courbes
   elliptiques*, Invent. Math. **15** (1972), 259–331, Théorèmes 2–3.
 - David E. Rohrlich, *L-functions and division towers*,
