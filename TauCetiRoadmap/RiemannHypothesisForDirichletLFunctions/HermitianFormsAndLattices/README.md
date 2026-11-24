@@ -2420,7 +2420,7 @@ For every lattice `L`, GeometryOfNumbersAndQuadraticArithmetic §2.4.7 states: (
 bijection from the set of special genera in the genus of `L` to `U(1)(F)\U(1)(𝔸_f)/det(K_L)`, a finite group; for
 `n = 0` the genus is one special genus. (b) If `n ≥ 2` and
 `SU(V)(F_v)` is noncompact for some archimedean `v`, every special genus is a single class. (c) If
-`V` is totally definite, `n ≥ 2`, and `w` is a finite place at which `SU(V)(F_w)` is noncompact, every
+`n ≥ 2` and `w` is a finite place at which `SU(V)(F_w)` is noncompact, every
 class in the special genus of `L` contains a lattice `M` with `M_v = L_v` for all finite `v ≠ w`.
 The number of special genera in a genus is computed in [Kirschmer], Theorem 5.4.14, p. 89, which refers
 to [Shimura64], Theorems 5.24 and 5.27.
@@ -2456,7 +2456,7 @@ statements of [FormalProof]; the route written here proves (a) from the relative
 strong approximation (GeometryOfNumbersAndQuadraticArithmetic §2.4.7 (c)).
 
 *Corollary of:* GeometryOfNumbersAndQuadraticArithmetic §2.4.8 (Kneser's neighbour method for Hermitian lattices: (a)
-any two lattices of the local orbit of `L_w` are joined by a chain of neighbours; (b) for totally definite `V` and
+any two lattices of the local orbit of `L_w` are joined by a chain of neighbours; (b) for
 `n ≥ 2`, every class of the special genus of `L` is reached by a chain of `w`-neighbours), for (a) and (b).
 
 Let `w` be a finite place, split or unramified in `E`, at which `L_w` is unimodular. A lattice `M`
