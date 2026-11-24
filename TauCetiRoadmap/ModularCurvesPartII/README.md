@@ -687,7 +687,7 @@ The theorem is `moduliStacksAreProperFlatArtin`.
 - The naive cyclic model at `N=p²` is Artin rather than DM at its p-gon boundary in characteristic p.
 - No Layers 3–5 Tate chart is assumed in constructing these stacks.
 
-*Needs:* [§2.10](#210-contraction-compatible-level-extension-and-ranks); [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§2.10](#210-contraction-compatible-level-extension-and-ranks); [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations §§1.18, 1.19 and 1.20`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Lemma 3.1.1 and Theorem 3.1.2, p.18; Theorem 3.2.7, p.26; Theorem 3.3.1, pp.26–30; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorems 4.3.5 (p.39), 4.4.4 (p.40) and 4.6.4 (p.46); Proposition 4.6.5 (p.47).)
 
@@ -1173,7 +1173,7 @@ Establish this as follows. Compare the generalized curve’s dualizing line to i
 - On `Γ₀(5)/ℤ[1/5]` the j-cusp fibre is `[∞]+5[0]`, although the reduced boundary has two points; this is an imported Layer 10 check.
 - In characteristic 2, the weight-k Hodge action of `[−1]` must be tracked as a group-scheme linearization, not removed by the equality of coarse maps.
 
-*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.3](#43-twisted-tate-charts-for-γ₁); `SchemeAndStackFoundations Layer 2`.
+*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.3](#43-twisted-tate-charts-for-γ₁); `SchemeAndStackFoundations §§2.6 and 2.20`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.4, pp.42–43; §4.5 Example 4.5.3, p.48; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 5.13, pp.60–62; Theorem 6.7, pp.64–65.)
 
@@ -1839,7 +1839,7 @@ Establish this as follows. `𝒳_{Γ(m)}` is a projective scheme because m is no
 - For `H=Γ₀(N)`, weight-k modular forms of level `Γ₀(N)` over `ℤ` form a finitely generated `ℤ`-module, computed as the `GL₂(ℤ/m)`-invariants of `H⁰(P_H,p*ω^{⊗k})` on a projective `ℤ`-scheme.
 - Over `ℤ` the sheaf `ω` on `X(1)` has `H⁰=0`, since `−1` acts on it by `−1` and `H⁰` is torsion-free; over `𝔽₂` the Hasse invariant is a nonzero section of `ω`, so `H⁰` does not commute with the non-flat base change `ℤ→𝔽₂`. `ω` is a line bundle on the stack that does not come from `ℙ¹_ℤ`.
 
-*Needs:* [§3.9](#39-level-h-structures-away-from-the-level); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.8](#58-geometry-of-the-level-h-stacks); `SchemeAndStackFoundations §1.1`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §2.2`; `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§3.9](#39-level-h-structures-away-from-the-level); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.8](#58-geometry-of-the-level-h-stacks); `SchemeAndStackFoundations §1.1`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §2.2`; `SchemeAndStackFoundations §§1.18 and 1.19`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 4.3.4, p.38; Proposition 4.3.6, p.39; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.2.1(2) and Remark 4.2.2, pp.35–36.)
 
@@ -2583,7 +2583,7 @@ The public interface should expose:
 - For `E₄` at level one, `p=2` and residue characteristic 5, the constant coefficient of `T₂E₄` is `1+2³=9≡4` mod 5; omitting `n=0` wrongly gives zero.
 - The construction needs `k≥1`: `ξ^0` does not give the multiplicative-kernel divisibility argument.
 
-*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§9.1](#91-compactified-hecke-degeneracy-maps); `SchemeAndStackFoundations Layer 2`.
+*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§9.1](#91-compactified-hecke-degeneracy-maps); `SchemeAndStackFoundations §§2.6, 2.7 and 2.21`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.5.1, Lemma 4.5.2 and Example 4.5.3, pp.46–48.)
 
@@ -3260,7 +3260,7 @@ The public interface should expose:
 - For `r=0` the coefficient system is constant; for `r=1` its fibre has rank two.
 - No universal elliptic family is silently put on a coarse level-one curve.
 
-*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.5](#35-fine-loci-and-bad-level-inertia); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); `AbelianSchemesAndArithmeticModuli §A4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.5](#35-fine-loci-and-bad-level-inertia); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); `AbelianSchemesAndArithmeticModuli §§A4.1 and A4.4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), §§3.9–3.11, pp. 154–156; §3.16, pp. 157–158.)
 
