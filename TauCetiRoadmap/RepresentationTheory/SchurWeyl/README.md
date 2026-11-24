@@ -230,8 +230,9 @@ after the identification `sgn_n ⊗ sgn_n ≅ 1`. These make `F_t` nonzero; asso
 composition then gives `κ_t = κ_(tᵗ)`, so the inverse of `F_t` is `κ_t⁻¹ F_(tᵗ)`. Transport through
 the native ideal/polytabloid comparison `TauCeti.YoungTableau.spechtIdealEquivSpechtSubrepresentation`
 to an isomorphism `T_λ : S^λ ⊗ sgn_n ≅ S^(λᵗ)` in `FDRep ℚ (Equiv.Perm (Fin n))`, choosing the
-row-superstandard tableau of `λ` for the partition-level map; the headline is
-`spechtModule_tensor_sign_iso`. Prove the relabelling comparison: for another tableau `t' = σ t`
+row-superstandard tableau of `λ` for the partition-level map; the headline, the existence of this
+isomorphism, is `nonempty_spechtModule_tensor_sign_iso`. Prove the relabelling comparison: for
+another tableau `t' = σ t`
 the two constructions differ by the unit `sgn(σ)` composed with the native relabelling
 isomorphisms. The independently normalised `T_(λᵗ)` composed with `T_λ ⊗ sgn` is a scalar multiple
 of the identity of `S^λ`; compute that scalar, including for self-transpose shapes, rather than
@@ -243,8 +244,8 @@ tensor-unit comparison squares (Fulton–Harris, Lecture 4, Exercise 4.4; James,
 `TauCeti.signLinearCharacter`, `FDRep.ofLinearCharacter`, `TauCeti.spechtModuleℂ`; Mathlib `FDRep`
 monoidal structure, `Representation.baseChange`.
 
-- `spechtModule_tensor_sign_iso`: for every partition `μ` of `n`, `S^μ ⊗ sgn_n ≅ S^(μᵗ)` in
-  `FDRep ℚ (Equiv.Perm (Fin n))`.
+- `nonempty_spechtModule_tensor_sign_iso`: for every partition `μ` of `n`, `S^μ ⊗ sgn_n ≅ S^(μᵗ)`
+  in `FDRep ℚ (Equiv.Perm (Fin n))`.
 - The composite `F_(tᵗ) ∘ F_t` is `κ_t • id` on `A c_t ⊗ sgn_n`, and `κ_t = κ_(tᵗ)`.
 
 **Checks.**
@@ -299,10 +300,11 @@ the external tensor product `S^λ ⊠ S^μ` of `S_a × S_b` from CharacterTheory
 `sgn_a ⊠ sgn_b`, and apply the inverse of `TauCeti.indProjection` to obtain
 `Ind(W) ⊗ sgn ≅ Ind(W ⊗ Res sgn)`. With
 `T_λ, T_μ, T_ν` this gives a linear equivalence `C_((λ,μ))^ν ≃ C_((λᵗ,μᵗ))^(νᵗ)` with explicit
-inverse, stated as `inducedSpechtTranspose`. For
+inverse, whose existence is stated as `nonempty_inducedSpecht_transpose_equiv`. For
 tensor products inside one `Sₙ` the two sign twists cancel: construct
-`kroneckerDoubleTranspose`, `S^(λᵗ) ⊗ S^(μᵗ) ≅ S^λ ⊗ S^μ`, and
-`kroneckerSingleTranspose`, `S^(λᵗ) ⊗ S^μ ≅ (S^λ ⊗ S^μ) ⊗ sgn_n`, hence the two-factor and
+`S^(λᵗ) ⊗ S^(μᵗ) ≅ S^λ ⊗ S^μ` and `S^(λᵗ) ⊗ S^μ ≅ (S^λ ⊗ S^μ) ⊗ sgn_n`, whose existence is
+stated as `nonempty_kronecker_double_transpose_iso` and `nonempty_kronecker_single_transpose_iso`,
+hence the two-factor and
 factor/output transpose symmetries of the Kronecker multiplicity spaces; simultaneous
 transposition of all three indices is a different assertion and is not claimed (James,
 Theorem 16.4 for the Littlewood–Richardson rule on induced modules). *Needs:* §4.2; Tau Ceti
@@ -1391,7 +1393,8 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
 
 - **`S₃` and `S₄`.** The Specht modules give degrees `1, 2, 1` for `n = 3` and `1, 3, 2, 3, 1` for
   `n = 4`, with the character tables of CharacterTheory; the two degree-`3` modules of `S₄` are
-  exchanged by `spechtModule_tensor_sign_iso`. Sums of squares `6` and `24`.
+  exchanged by tensoring with `sgn` (`nonempty_spechtModule_tensor_sign_iso`). Sums of squares `6`
+  and `24`.
 - **Hook lengths for `n = 5`.** `f^λ = 1, 4, 5, 6, 5, 4, 1`, squares summing to `120`.
 - **Littlewood–Richardson and Hall.** `c^((3,2,1))_((2,1),(2,1)) = 2` by the two ballot tableaux;
   `⟨p_((1,1)), p_((1,1))⟩ = 2`; the degree-`2` Schur functions are orthonormal.
