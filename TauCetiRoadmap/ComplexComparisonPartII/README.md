@@ -5028,11 +5028,13 @@ the same holds with `∫_Ω |u|² e^{−φ} dλ ≤ (1/c)∫_Ω |g|² e^{−φ} 
 
 The same holds for `(p,q)`-forms, `q ≥ 1`, with the constant `1/(qc)` in (b). ((a): Hörmander 1965; Hörmander, *An
 Introduction to Complex Analysis in Several Variables*, chapter IV. (b), for `(n,q)`-forms and hence for
-`(p,q)`-forms: Demailly, VIII.6.5 with (6.4), pp. 377–378. Demailly, VIII.6.9, p. 379, is the form of (a) with the
-factors `(1 + |z|²)` and `(1 + |z|²)^{−ε}` and the constant `4/(qε²)`.)
+`(p,q)`-forms: Demailly, VIII.6.5 with (6.4), pp. 377–378, for smooth `φ`, and for plurisubharmonic `φ` by the
+regularisation of the route, as in the last step of the proof of Demailly, VIII.6.9, p. 379. That theorem is the form
+of (a) with the factors `(1 + |z|²)` and `(1 + |z|²)^{−ε}` and the constant `4/(qε²)`.)
 
 *Route.* Exhaust `Ω` by relatively compact pseudoconvex open sets with smooth strictly plurisubharmonic exhaustions.
-On each, replace `φ` by smooth plurisubharmonic functions decreasing to it (C5.4a (a)). Then apply
+On each, replace `φ` by its convolutions `φ ∗ ρ_ε`, smooth plurisubharmonic functions decreasing to it (C5.4a (a));
+for (b) they keep `φ − c|z|²` plurisubharmonic, because `|z|² ∗ ρ_ε − |z|²` is constant for the radial `ρ`. Then apply
 `weightedDolbeaultEstimate` (C1.4) to the complete Kähler metrics `i∂∂̄|z|² + δω̂`, `δ > 0`, where `ω̂` is the complete
 metric of the exhaustion (C1.5). For `(n,q)`-forms neither the norm `|g|²_ω dV_ω` nor the curvature term
 `⟨B⁻¹g, g⟩ dV_ω` increases when `ω` increases, so the estimate for `i∂∂̄|z|²` follows as `δ → 0`. Weak limits in the
@@ -5503,10 +5505,10 @@ Let `X` be a compact complex manifold of dimension `n` with a Hermitian metric `
 `(1,1)`-form, `γ` a continuous real `(1,1)`-form, and `φ` quasi-plurisubharmonic on `X` with `α + i∂∂̄φ ≥ γ`. Prove:
 there are quasi-plurisubharmonic functions `φ_m` on `X` with analytic singularities of coefficient `1/m` (locally
 `φ_m = (1/m)·log Σ_j|g_j|² + w` with `w` bounded, as in C5.4f (c)) and numbers `ε_m → 0` such that
-`φ < φ_m ≤ sup_{|ζ−x|<r} φ(ζ) + C(|log r|/m + r + ε_m)` in the coordinate open sets of a finite cover of `X`,
-`φ_m → φ` pointwise and in `L¹(X)`, `α + i∂∂̄φ_m ≥ γ − ε_mω`, and `ν(φ, x) − 2n/m ≤ ν(φ_m, x) ≤ ν(φ, x)` for
-every `x ∈ X`. (Demailly 1992, Proposition 3.7; Demailly, *Analytic Methods*, Th. 14.12, pp. 142–143, with a weight
-half of the one here.)
+`φ ≤ φ_m ≤ sup_{|ζ−x|<r} φ(ζ) + C(|log r|/m + r + ε_m)` in the coordinate open sets of a finite cover of `X`, with
+`φ(x) < φ_m(x)` wherever `φ(x) > −∞`, `φ_m → φ` pointwise and in `L¹(X)`, `α + i∂∂̄φ_m ≥ γ − ε_mω`, and
+`ν(φ, x) − 2n/m ≤ ν(φ_m, x) ≤ ν(φ, x)` for every `x ∈ X`. (Demailly 1992, Proposition 3.7; Demailly, *Analytic
+Methods*, Th. 14.12, pp. 142–143, with a weight half of the one here.)
 
 *Route.* Demailly's proof. Cover `X` by finitely many small coordinate balls `B_j` with centres `x_j`. Write
 `α = i∂∂̄g_j` on `B_j` and choose a quadratic polynomial `q_j` with `i∂∂̄q_j = −γ(x_j)`. Since `γ` is continuous,
@@ -5534,6 +5536,13 @@ glued function is the logarithm of a locally finite sum of such exponentials wit
 singularities, and bounded corrections change no Lelong number, so the bounds of C7.13 (b) pass to `φ_m`.
 
 *Needs:* C7.1, C7.9, C7.13; C5.4b, C5.4e, C5.4f (analytic singularities).
+
+**Checks.**
+
+- On `X = ℙ¹` (`n = 1`) with `γ = 0`, let `h` be the Fubini–Study metric on `O(1)`, `s` a section with a simple zero
+  at `x`, `φ = log|s|²_h` and `α = iΘ_h(O(1))`, so that `α + i∂∂̄φ = 2π[x] ≥ 0` (C5.4f (b)). Then `ν(φ, x) = 2`, so
+  `ν(φ_m, x) ≥ 2 − 2/m > 0` for `m ≥ 2`, and a positive Lelong number forces the value `−∞` (C5.4e (b)):
+  `φ_m(x) = −∞ = φ(x)`. The lower bound `φ ≤ φ_m` cannot be strict at `x`.
 
 ### C7.15a Regularisation of quasi-plurisubharmonic functions on Kähler manifolds
 

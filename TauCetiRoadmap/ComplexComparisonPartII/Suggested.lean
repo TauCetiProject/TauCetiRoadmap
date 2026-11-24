@@ -268,8 +268,10 @@ theorem hormanderL2 {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (
 /-- C7.1 (b): if moreover `i∂∂̄φ ≥ c·i∂∂̄|z|²` as currents for a constant `c > 0`, that is, if
 `φ − c|z|²` is plurisubharmonic on `Ω` (which makes `φ` plurisubharmonic), the solution can be
 taken with `∫_Ω |u|²e^{−φ} dλ ≤ (1/c)·∫_Ω |g|²e^{−φ} dλ` (Demailly, *Complex Analytic and
-Differential Geometry*, VIII.6.5 with (6.4)). For `Ω = ℂ`, `φ = |z|²`, `c = 1` and `g = dz̄` both
-sides equal `π` for the solution `z̄`. -/
+Differential Geometry*, VIII.6.5 with (6.4), for smooth `φ`; for plurisubharmonic `φ` by
+regularising with convolutions `φ ∗ ρ_ε`, which keep `φ − c|z|²` plurisubharmonic, as in the last
+step of the proof of VIII.6.9). For `Ω = ℂ`, `φ = |z|²`, `c = 1` and `g = dz̄` both sides equal
+`π` for the solution `z̄`. -/
 theorem hormanderL2_strict {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (Fin n))}
     (hΩ : IsPseudoconvex (Ω : Set (EuclideanSpace ℂ (Fin n))))
     {φ : EuclideanSpace ℂ (Fin n) → EReal} {c : ℝ} (hc : 0 < c)
