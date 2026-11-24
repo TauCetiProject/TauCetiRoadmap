@@ -1251,7 +1251,9 @@ big. Then `H^i(X, O_X(L) ⊗ J(X, Δ)) = 0` for every `i > 0`. For smooth `X` th
 `O_X(rN)` is big (§1.6); this does not depend on `r`, bigness being
 invariant under positive powers.
 
-(KOL97, Theorem 2.16 and its proof, p. 13, line 538; LAZ04-II, 9.4.17.)
+(KOL97, Theorem 2.16 and its proof, p. 13, line 538, there for normal proper `X`; LAZ04-II, 9.4.17. It is stated here
+for projective `X`, which is all that 6.6–6.8 apply it to, and for which the route's log resolution by blow-ups is
+projective.)
 
 For the proof, on a log resolution `f : Y → X` by blow-ups (AlgebraicModuliForArithmeticGeometry §§9.4 and 9.7), so that `Y` is projective as
 `algebraicAdjointVanishing` requires, `⌈K_Y − f^*(K_X + Δ)⌉ + f^*L = K_Y + ⌈A⌉` with
@@ -1442,7 +1444,9 @@ line bundle on `X` with `M ≡ K_X + Δ + N`, `x ∈ X` a closed point, and `c_1
 by global sections at `x`: some global section of `M` is nonzero at `x`.
 
 (KOL97, Theorem 5.8, p. 30, line 1349, and 5.10, line 1392; its proof uses the effectivity of `Δ` through
-Theorem 2.16. The method is that of AS95.)
+Theorem 2.16, and the projectivity of `X` through Theorem 6.4 (line 1555), whose reduction to ample `N` writes `N` as
+an ample plus an effective divisor (6.6.1, line 1593), although 5.8 itself is stated for proper pairs. The method is
+that of AS95.)
 
 For the proof, for `n = 0`, `X` is a point and `M ≅ O_X`. For `n ≥ 1`, 6.5 applied to `(1 − ε)N` for small `ε > 0`,
 which satisfies the same strict inequalities because the values `(N^d · Z)` lie in `r^{−d}ℤ` for `rN` Cartier, gives
@@ -1472,7 +1476,8 @@ separate `x₁` and `x₂`: `M` has a global section `s` with `s(x₁) ≠ 0` an
 `H⁰(X, M) → M ⊗ k(x₁) ⊕ M ⊗ k(x₂)` surjective.
 
 (KOL97, Theorem 5.9, pp. 30–31, line 1362, with Theorem 6.5, line 1572; that separation amounts to a section vanishing at exactly one
-of the two points is in the proof of 5.9.)
+of the two points is in the proof of 5.9. Theorem 5.9 is stated for proper pairs; its proof goes through Theorem 6.5,
+which keeps the projective pair of 6.4, so `X` is projective here as in 6.6.)
 
 For the proof, Kollár's induction on the dimension of the non-klt locus through the two points. Write `N = N₀/r` with
 `N₀` a line bundle; the numbers `(N^e · Z)` lie in `r^{−e}ℤ`, so there are rationals `h_e > 0` with
