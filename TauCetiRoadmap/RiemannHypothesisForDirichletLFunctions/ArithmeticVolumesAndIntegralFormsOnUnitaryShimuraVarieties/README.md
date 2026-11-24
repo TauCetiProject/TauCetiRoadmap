@@ -1256,7 +1256,16 @@ prime to `3M`, and brought down to level `M` by a section without zeros. It is u
 series formed at the auxiliary primes `p_δ, p′_δ`, and at the deep covers of 8.18 (o), with theta series formed at the level
 of the cover.
 
-*Sources:* (the basis problem through the doubling method). *Needs:* RowTowerAndRallisIdentities §5.11; ThetaLiftsForDefiniteUnitaryGroups
+*Sources:* (the basis problem through the doubling method). The spanning statement: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/SiegelThetaTransformation/CuspFormsLeSpanShortThetaSeriesStatement.lean`
+(`GlobalTheory.T.cuspForms_le_span_shortThetaSeries`, the cusp forms of weight `w` lie in the span over `𝕂` of the theta
+series of weight `w` when `n(w) ≥ 4[E:ℚ]·N + 4` and the last entries are positive, at a level with the properties named
+in the route, the theta series being formed at a deeper level `M·p_d`, `p_d` prime to `3M`, and brought down by a section whose
+values in the complex frames have absolute value one) and
+`Development/AbelianVarietyTheory/Proofs/SiegelThetaTransformation/ShortThetaSeriesDominantWeightIsCuspFormStatement.lean`
+(`GlobalTheory.T.short_thetaSeries_dominant_weight_isCuspForm`, these theta series are cusp forms); both take the same
+named statement as a hypothesis.
+*Needs:* RowTowerAndRallisIdentities §5.11; ThetaLiftsForDefiniteUnitaryGroups
 §§3.2–3.3; MetaplecticAutomorphicForms §6.4 and ThetaKernelsForUnitaryDualPairs §6.4a; ThetaChainsOnDefiniteUnitaryGroups §2.4 (b).
 
 ### 8.18 Heights of images on deep covers
