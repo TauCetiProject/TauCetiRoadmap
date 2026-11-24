@@ -232,7 +232,7 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   `∏_v c_v/c′_v` is the ratio of the two discriminant powers. The last sentence is (iii) for the gauge form `ω_X`.
   *Needs:* AdelicAlgebraicGroups §0.3; AdelicAlgebraicGroups §1.1 (integral models, spreading out); AdelicAlgebraicGroups §2.2 (*quotient-measure*); AdelicAlgebraicGroups §2.4 (gauge forms,
   *convergence-factors*, Tamagawa measure, *Independence of the gauge form*); 2.6 *top-form-measure*,
-  *tamagawa-measure-unipotent-radical*; ReductiveGroups Layer 3A (orbits and orbit maps) and 3A.5f (complex orbit maps);
+  *tamagawa-measure-unipotent-radical*; ReductiveGroups §§3A.1–3A.2 (orbits, orbit maps and orbit schemes) and §3A.5f (complex orbit maps);
   AdicSpacesPartV §6.5 (*smooth-morphism-submersion*).
 
   **Checks.**
