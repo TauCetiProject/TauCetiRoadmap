@@ -6,15 +6,14 @@ side of algebraic graph theory. This roadmap builds the theory of vertex-, edge-
 `s`-arc-transitive graphs and of Cayley graphs of arbitrary groups. Its headline theorems are these.
 
 - Automorphisms are the permutations commuting with the adjacency matrix; they permute each
-  eigenspace, the functions constant on the orbits of any group of automorphisms form an invariant
-  subspace, and if every eigenvalue is simple the automorphism group is an elementary abelian
+  eigenspace, and if every eigenvalue is simple the automorphism group is an elementary abelian
   `2`-group.
 - A graph is walk-regular exactly when every spectral projection has constant diagonal, exactly
   when all vertex-deleted subgraphs have the same characteristic polynomial; vertex-transitive
   graphs are walk-regular.
 - Sabidussi's theorem: a graph on a nonempty vertex set is a Cayley graph exactly when its
-  automorphism group contains a subgroup acting regularly. Every finite connected
-  vertex-transitive graph is a retract of a Cayley graph, and the Petersen graph, with
+  automorphism group contains a subgroup acting regularly. Every finite vertex-transitive graph
+  on a nonempty vertex set is a retract of a Cayley graph, and the Petersen graph, with
   automorphism group of order `120`, is vertex-transitive and not a Cayley graph.
 - In a Cayley graph of a finite commutative group every character `ψ` is an eigenvector with
   eigenvalue `∑_{s ∈ S} ψ(s)`. For an arbitrary finite group the characteristic polynomial is the
@@ -42,12 +41,12 @@ families of irreducible representations, central characters, the Wedderburn deco
 group algebra), specified by [CharacterTheory](../RepresentationTheory/CharacterTheory/README.md);
 and on Tau Ceti's edge and vertex connectivity, the implementation of
 [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md). Later roadmaps on cocliques
-and colourings, distance-regular graphs and expanders cite it by section.
+and colourings and on expanders cite it by section.
 
 ## How to read the build
 
 Layer 1 is the foundation: the three notions of transitivity, automorphisms and the adjacency
-matrix, orbits of groups of automorphisms, and the transitivity of Kneser graphs. Every later
+matrix, and the transitivity of Kneser graphs. Every later
 layer uses it.
 
 Layer 2 treats walk-regular graphs through the spectral decomposition of the powers of `A` and
@@ -78,7 +77,8 @@ and 4. A closing section describes Weiss's theorem as a roadmap for a roadmap.
   `Sym2.map φ e = e'`. `IsArcTransitive G` quantifies over Mathlib's darts. An `s`-arc is a map
   `Fin (s + 1) → V` with consecutive values adjacent and `a i ≠ a (i + 2)` [GR, §4.1, p. 59]; it
   may repeat vertices. `IsSArcTransitive G s` asks the automorphism group to be transitive on
-  `s`-arcs, and is vacuous when there are none. All six are defined here.
+  `s`-arcs, and is vacuous when there are none. All five are defined here; the sixth notion of
+  this roadmap, `IsWalkRegular`, is defined in 2.1.
 - **Cayley graphs.** For a group `Γ` and `S : Set Γ`, the Cayley graph is Mathlib's
   `SimpleGraph.mulCayley S`, which symmetrizes `S` and ignores `1`. When `S⁻¹ = S` and `1 ∉ S`,
   `x` and `y` are adjacent exactly when `x⁻¹ * y ∈ S`, and left multiplication acts by
@@ -167,19 +167,21 @@ vertex is the tail of equally many darts of each orbit.
 - **Eigenspaces are invariant** (`adjMatrix_mulVec_comp_symm`). For an automorphism `φ` and a
   `θ`-eigenvector `f`, `f ∘ φ⁻¹` is a `θ`-eigenvector [BH, §1.6, p. 12]. Supply the resulting
   linear action of `G ≃g G` on each eigenspace.
-- **Orbit-constant vectors** (`adjMatrix_mulVec_comp_eq`). For a subgroup `H` of `G ≃g G`, `A`
-  maps functions constant on the `H`-orbits to functions constant on the `H`-orbits, over any
-  semiring.
-- **Orbits are equitable** (`card_adj_mem_orbit_eq`). For a subgroup `H` of `G ≃g G`, the number
-  of neighbours that a vertex has in a given `H`-orbit is the same for all vertices of one
-  `H`-orbit: the orbits of `H` form an equitable partition [CRS-I, §3.9, p. 84; GR, §9.3,
-  p. 196]. With the previous item this is the two sides of [CRS-I, Theorem 3.9.4, pp. 84–85]: a
-  partition is equitable exactly when the span of its cell indicators is `A`-invariant.
 - **Simple spectrum** (`mul_self_eq_one_of_injective_adjEigenvalues`,
   `commute_of_injective_adjEigenvalues`). If every adjacency eigenvalue is simple, every
   automorphism squares to the identity and any two commute, so the automorphism group is an
   elementary abelian `2`-group [BH, Corollary 1.6.1, p. 13; B, Theorem 15.4, p. 117; CRS-I,
   Theorem 3.8.4, p. 82].
+
+Orbit partitions are recorded here and are not targets. For a subgroup `H` of `G ≃g G`, `A` maps
+functions constant on the `H`-orbits to functions constant on the `H`-orbits, and the number of
+neighbours that a vertex has in a given `H`-orbit is the same for all vertices of one `H`-orbit:
+the orbits of `H` form an equitable partition [CRS-I, §3.9, p. 84; GR, §9.3, p. 196], and the two
+facts are the two sides of [CRS-I, Theorem 3.9.4, pp. 84–85]. Equitable partitions, their quotient
+matrices and automorphism-orbit partitions as a case of them belong to
+EquitableOperatorReduction (its Layers 1 and 5); this roadmap does not use it, and no statement
+here rests on the two facts. Both follow from one step: `y ↦ h⁻¹ y` is a bijection from the
+neighbours of `h x` to those of `x` that preserves each `H`-orbit.
 
 Two consequences are quoted and are not targets here. By GraphSpectra 3.9 the number of main
 eigenvalues is at most the number of orbits of the automorphism group. The matrix of `A` on the
@@ -187,13 +189,13 @@ orbit-constant vectors, in the basis of orbit indicators, is the quotient matrix
 partition, and its characteristic polynomial divides that of `A` [CRS-I, Theorem 3.9.5, p. 85];
 that divisibility belongs to a roadmap on characteristic polynomials.
 
-**Suggested proof:** the `(x, y)` entry of `P_σ A` is `A_{σ⁻¹x, y}` and that of `A P_σ` is
-`A_{x, σ y}`; compare entries, using `0 ≠ 1` for the converse. For eigenspaces, `f ∘ φ⁻¹` is
-`P_φ f` and `P_φ` commutes with `A`. For orbit-constant vectors, `(A f)(h x) = ∑_{y ∼ h x} f(y)`,
-and `y ↦ h⁻¹ y` is a bijection from the neighbours of `h x` to those of `x` preserving `f`. For
-equitability, the same bijection preserves each `H`-orbit. For a simple spectrum, an
-automorphism preserves each one-dimensional real eigenspace and is orthogonal, so it acts on it
-by `±1`; its square fixes an eigenbasis. A group of exponent `2` is abelian.
+**Suggested proof:** Mathlib's `σ.permMatrix R` has entry `1` at `(x, y)` exactly when
+`y = σ x`, so the `(x, y)` entry of `P_σ A` is `A_{σ x, y}` and that of `A P_σ` is
+`A_{x, σ⁻¹ y}`; compare entries, using `0 ≠ 1` for the converse. For eigenspaces, `P_φ f = f ∘ φ`,
+so `f ∘ φ⁻¹` is `P_{φ⁻¹} f`, and `P_{φ⁻¹}` commutes with `A` by the criterion applied to the
+automorphism `φ⁻¹`. For a simple spectrum, an automorphism preserves each one-dimensional real
+eigenspace and is orthogonal, so it acts on it by `±1`; its square fixes an eigenbasis. A group
+of exponent `2` is abelian.
 
 **Checks.**
 - `permMatrix_mul_adjMatrix_comm_iff` on `P₃` with the transposition of the two ends: both sides
@@ -202,11 +204,12 @@ by `±1`; its square fixes an eigenbasis. A group of exponent `2` is abelian.
   squares to the identity.
 - Negative control: `C₄` is vertex-transitive with eigenvalue `0` of multiplicity `2`; its
   rotation has order `4`. Simplicity of the spectrum cannot be dropped.
-- `card_adj_mem_orbit_eq` on `K_{1,3}` with `H` the full group: the centre has `3` neighbours in
-  the orbit of leaves and `0` in its own; every leaf has `1` neighbour in the orbit of the centre.
+- Orbit partitions on `K_{1,3}` with `H` the full group: the centre has `3` neighbours in the
+  orbit of leaves and `0` in its own; every leaf has `1` neighbour in the orbit of the centre and
+  `0` in its own.
 - Negative control: the partition of `P₃` into `{end}` and `{middle, other end}` is not an orbit
-  partition and is not equitable: the middle vertex has one neighbour in its own cell, the other
-  end has none.
+  partition and is not equitable: the middle vertex has one neighbour in the cell `{end}`, the
+  other end has none.
 
 *Needs:* 1.1; SpectralGraphBounds 1.1; GraphSpectra 3.9; Mathlib `Equiv.Perm.permMatrix`,
 `MulAction.orbit`.
@@ -252,7 +255,8 @@ G, Chapter 5, §3, p. 81].
 
 - **Walk counts** (`isWalkRegular_iff_adjMatrix_pow`). Over a commutative semiring of
   characteristic zero, `G` is walk-regular exactly when every power `Aʰ` has constant diagonal.
-  Route: `SimpleGraph.adjMatrix_pow_apply_eq_card_walk`.
+  Route: `SimpleGraph.adjMatrix_pow_apply_eq_card_walk`. A sanity check of the definition, proved
+  in `Suggested.lean`; not a target.
 - **Spectral decomposition** (`adjMatrix_pow_eq_sum_adjEigenspaceProjection`). For every
   `h ≥ 0`, `Aʰ = ∑_θ θʰ P_θ` over the distinct eigenvalues `θ` (the elements of
   `(adjSpectrum G).toFinset`); at `h = 0` the projections sum to the identity [CRS-E, (4.2.4),
@@ -340,8 +344,8 @@ where `(A²)_{xx}` is the degree of `x`.
 - **Adjacency.** For `S⁻¹ = S` and `1 ∉ S`, `(mulCayley S).Adj x y` iff `x⁻¹ * y ∈ S`. Route:
   Mathlib's `SimpleGraph.mulCayley_adj`, with `(x⁻¹ * y)⁻¹ = y⁻¹ * x`. A target stated in prose.
 - **Regularity** (`isRegularOfDegree_mulCayley`). For a finite group and a symmetric
-  `S : Finset Γ` avoiding `1`, the Cayley graph is `|S|`-regular; [BH, §1.4.9, p. 11] states it
-  for commutative groups.
+  `S : Finset Γ` avoiding `1`, the Cayley graph is `|S|`-regular [BH, §6.3, p. 94; §1.4.9, p. 11
+  for commutative groups].
 - **Connectivity** (`connected_mulCayley_iff`). For every `S`, the Cayley graph is connected iff
   `Subgroup.closure S = ⊤` [GR, Lemma 3.7.4, p. 49; BH, §6.3, p. 94].
 
@@ -374,7 +378,8 @@ Definitions: `mulLeftIso S g`, left multiplication by `g` as an automorphism of 
 - **The left regular action** (`existsUnique_mulLeftHom_apply_eq`). Left multiplication is a
   homomorphism into the automorphism group whose action on vertices is regular: for all `x, y`
   exactly one `g` maps `x` to `y` [GR, Theorem 3.1.2, p. 35; Lemma 3.7.1, p. 48]. In particular
-  Cayley graphs are vertex-transitive.
+  Cayley graphs are vertex-transitive. A sanity check of the definition of `mulLeftHom`, proved
+  in `Suggested.lean`; not a target (the regular action is used inside `exists_iso_mulCayley_iff`).
 - **Sabidussi's theorem** (`nonempty_iso_mulCayley_of_regular`). Let `Γ` act on `V` by
   automorphisms of `G`, regularly, and fix `v : V`. Then `S = cayleySet Γ G v` is symmetric,
   avoids `1`, and `g ↦ g • v` is an isomorphism `mulCayley S ≃g G` [GR, Lemma 3.7.2, p. 48;
@@ -408,7 +413,9 @@ subgroup.
   right multiplications are automorphisms as well, so `Γ × Γ` acts by `(g, h) · x = g x h⁻¹`.
 - **Circulants** (`circulantGraph_eq_addCayley`). On an additive commutative group,
   `circulantGraph s = addCayley s`; with Mathlib's `SimpleGraph.cycleGraph_eq_circulantGraph`,
-  `cycleGraph (n + 1)` is the Cayley graph of `ZMod (n + 1)` with respect to `{1}`.
+  `cycleGraph (n + 1)` is the Cayley graph of `ZMod (n + 1)` with respect to `{1}`. The equation
+  compares two Mathlib definitions; it is a sanity check, proved in `Suggested.lean`, not a
+  target.
 
 Supply also: the Cayley graph of `Γ₁ × Γ₂` with respect to `S₁ × {1} ∪ {1} × S₂` is the box
 product (Mathlib's `SimpleGraph.boxProd`) of the two Cayley graphs; the hypercube of
@@ -432,11 +439,13 @@ standard basis vectors; and the complete graph on `Γ` is `mulCayley {1}ᶜ` (Ma
 
 ### 4.1 Retractions onto Cayley graphs
 
-- **Retraction onto a Cayley graph** (`exists_retraction_mulCayley`). A finite connected
-  vertex-transitive graph `G` admits a finite group `Γ`, a symmetric `S ⊆ Γ ∖ {1}` and graph
-  homomorphisms `f : G →g mulCayley S`, `r : mulCayley S →g G` with `r ∘ f = id` [GR,
+- **Retraction onto a Cayley graph** (`exists_retraction_mulCayley`). A finite vertex-transitive
+  graph `G` on a nonempty vertex type admits a finite group `Γ`, a symmetric `S ⊆ Γ ∖ {1}` and
+  graph homomorphisms `f : G →g mulCayley S`, `r : mulCayley S →g G` with `r ∘ f = id` [GR,
   Theorem 3.9.1, p. 51]. In the language of graph homomorphisms, `G` is a retract of
-  `mulCayley S`.
+  `mulCayley S`. Godsil–Royle state it for connected graphs; the route uses only a base vertex
+  and vertex-transitivity, and finiteness of `V` only to make `Γ` finite. `Nonempty V` is needed:
+  on the empty type there is no map `r` from the nonempty Cayley graph.
 
 **Suggested proof:** take `Γ = G ≃g G`, a base vertex `v`, and `S = cayleySet (G ≃g G) G v`; then
 `g` and `h` are adjacent in `mulCayley S` exactly when `g v ∼ h v`, so `r g = g v` is a
@@ -451,6 +460,8 @@ homomorphism, and `f x`, an automorphism chosen to carry `v` to `x`, is a homomo
   Cayley graph of the proof is `36`-regular on `120` vertices.
 - Negative control: in the proof, `f` needs an automorphism carrying `v` to each vertex; for
   `P₃`, which is not vertex-transitive, no automorphism carries an end to the middle.
+- `2K₃`, vertex-transitive and disconnected: `|Γ| = 72`, the stabilizer of `v` has order `12`,
+  `|S| = 2 · 12 = 24`, and the same construction gives a retraction.
 
 *Needs:* 1.1, 3.1, 3.2.
 
@@ -845,31 +856,32 @@ spread over classes of size `n!`.
   attaining `s = 7` belong to a roadmap on distance-regular graphs and polygons.
 - **Divisibility by the orbit quotient.** The characteristic polynomial of the quotient matrix of
   an equitable partition, in particular of an orbit partition, divides that of `A` [CRS-I,
-  Theorem 3.9.5, p. 85]: a roadmap on characteristic polynomials and equitable partitions.
+  Theorem 3.9.5, p. 85]: a roadmap on characteristic polynomials built on the equitable
+  partitions of EquitableOperatorReduction.
 
 ## Downstream consumers
 
 Later roadmaps of algebraic and spectral graph theory cite this one by section:
 - Cocliques, colourings and theta: vertex- and edge-transitivity of 1.1, the transitivity of the
   Kneser and Petersen graphs of 1.3, and the retraction of 4.1.
-- Distance-regular graphs, codes and polygons: the transitivity notions of Layer 1 and the
-  `s`-arcs of Layer 7.
-- Expander graphs: Cayley graphs of Layer 3 and their spectra in Layer 5.
-- Characteristic polynomials and star complements: walk-regularity and the vertex-deleted
-  characteristic polynomials of Layer 2, and the orbit partitions of 1.2.
+- Expander graphs: the regularity and connectivity of Cayley graphs of 3.1.
+
+The roadmap on distance-regular graphs, codes and polygons defines distance transitivity directly
+by automorphisms and uses nothing from this one.
 
 ## Scope and ownership
 
 The roadmap is complete when Tau Ceti proves every target above. `Suggested.lean` states the
 headlines that carry a Lean name, each with every conclusion the README attaches to it; it is not
 an exhaustive acceptance test, and the other headlines are targets of the same standing, stated
-in prose.
+in prose. Three declarations of `Suggested.lean` are sanity checks of the definitions, proved
+there and not targets: `isWalkRegular_iff_adjMatrix_pow` (2.1), `existsUnique_mulLeftHom_apply_eq`
+(3.2) and `circulantGraph_eq_addCayley` (3.3).
 
 Owned here:
 - vertex-, edge- and arc-transitivity and `s`-arc-transitivity, with their basic theory and the
   transitivity of the Kneser, Johnson and Hamming graphs;
-- the matrix criterion for automorphisms, eigenspace invariance, the invariance of orbit-constant
-  vectors and the equitability of orbit partitions of groups of automorphisms;
+- the matrix criterion for automorphisms and eigenspace invariance;
 - automorphisms of graphs with simple spectrum;
 - walk-regular graphs, the spectral decomposition of the powers of `A` in terms of the
   projections of GraphSpectra 3.9, and the spectral characterizations of walk-regularity;
@@ -891,12 +903,15 @@ Consumed, not restated (see the supplier contracts):
 - SpectralGraphBounds 1.1: the sorted adjacency eigenvalues.
 - TopologicalCombinatorics 3.1: the Kneser graphs.
 - [CharacterTheory](../RepresentationTheory/CharacterTheory/README.md) 2.1, 3.6 and 4.3: the
-  Wedderburn decomposition, the Fourier map as an algebra isomorphism, and central characters,
-  through their Tau Ceti implementation.
+  Wedderburn decomposition and central characters, through their Tau Ceti implementation, and
+  the Fourier map as an algebra isomorphism, as the statement of its 3.6.
 - [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md): edge and vertex
   connectivity, through their Tau Ceti implementation.
 
 Not owned here, and not used:
+- equitable partitions, their quotient matrices and automorphism-orbit partitions as equitable
+  partitions: EquitableOperatorReduction, Layers 1 and 5. 1.2 records the orbit case in prose,
+  with its locators, and states nothing that rests on it;
 - the perfect matching of a connected vertex-transitive graph of even order: MatchingTheory 5.2;
   6.2 here owns the odd-order statement and the maximum-matching statement;
 - the theta function of vertex-transitive graphs: LovaszThetaFunction 4.2, which states its
@@ -918,10 +933,6 @@ Not owned here, and not used:
   regular graphs: StronglyRegularAndMooreGraphs;
 - automorphism groups of Serre graphs and of trees: Tau Ceti and
   [FreeGroupsAndLimitGroups](../FreeGroupsAndLimitGroups/README.md).
-
-The Fourier isomorphism of the group algebra of a finite group and the characterization of
-non-backtracking walks through their edge lists are formalized in Tau Ceti; the routes of 5.2 and
-7.1 may use them in place of the steps written there.
 
 Boundary in one sentence: everything about the automorphism group of a finite simple graph and
 about Cayley graphs as graphs is here; spectral facts that need no group are GraphSpectra's;
@@ -1002,7 +1013,8 @@ verbatim in `Suggested.lean`. Used in 1.3, 4.2 and 7.2.
 [CharacterTheory](../RepresentationTheory/CharacterTheory/README.md): 2.1, the Wedderburn
 decomposition of the group algebra; 3.6, the Fourier map `f ↦ (∑_g f(g) ρᵢ(g))ᵢ` as an algebra
 isomorphism onto `∏ᵢ End(Vᵢ)` for a complete family; 4.3, central characters. Used in 5.2 and
-5.3, through the Tau Ceti declarations listed above.
+5.3: 2.1 and 4.3 through the Tau Ceti declarations listed above, 3.6 as the statement of that
+section.
 
 ### From GraphConnectivityAndFlows
 

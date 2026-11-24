@@ -8,7 +8,7 @@ public import TauCeti.RepresentationTheory.CharacterTable.CentralCharacter
 public import TauCeti.RepresentationTheory.CharacterTable.Completeness
 
 /-!
-# Graph symmetry and Cayley graphs: suggested statements
+# Graph symmetry and Cayley graphs: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the headlines
@@ -179,22 +179,6 @@ theorem adjMatrix_mulVec_comp_symm (φ : G ≃g G) {θ : ℝ} {f : V → ℝ}
     G.adjMatrix ℝ *ᵥ (f ∘ φ.symm) = θ • (f ∘ φ.symm) := by
   sorry
 
-/-- **1.2 (Cvetković–Rowlinson–Simić, §3.9).** The functions constant on the orbits of a group
-`H` of automorphisms form an `A`-invariant subspace. -/
-theorem adjMatrix_mulVec_comp_eq {R : Type*} [NonAssocSemiring R] (H : Subgroup (G ≃g G))
-    {f : V → R} (hf : ∀ h : H, f ∘ ⇑(h : G ≃g G) = f) (h : H) :
-    (G.adjMatrix R *ᵥ f) ∘ ⇑(h : G ≃g G) = G.adjMatrix R *ᵥ f := by
-  sorry
-
-open Classical in
-/-- **1.2 (Cvetković–Rowlinson–Simić, §3.9).** The orbits of a group `H` of automorphisms form
-an equitable partition: the number of neighbours that a vertex has in a given orbit is the same
-for all vertices of one orbit. -/
-theorem card_adj_mem_orbit_eq (H : Subgroup (G ≃g G)) (h : H) (x z : V) :
-    (Finset.univ.filter fun w ↦ G.Adj ((h : G ≃g G) x) w ∧ w ∈ MulAction.orbit H z).card =
-      (Finset.univ.filter fun w ↦ G.Adj x w ∧ w ∈ MulAction.orbit H z).card := by
-  sorry
-
 /-- **1.2 (Brouwer–Haemers, Corollary 1.6.1; Biggs, Theorem 15.4).** If every adjacency
 eigenvalue is simple, every automorphism is an involution or the identity. -/
 theorem mul_self_eq_one_of_injective_adjEigenvalues (h : Function.Injective (adjEigenvalues G))
@@ -242,10 +226,11 @@ def IsWalkRegular : Prop :=
   ∀ (h : ℕ) (x y : V), (G.finsetWalkLength h x x).card = (G.finsetWalkLength h y y).card
 
 /-- **2.1** Walk-regularity in terms of the diagonal of the powers of `A`, over any commutative
-semiring of characteristic zero. -/
+semiring of characteristic zero. A sanity check of the definition of `IsWalkRegular`, proved
+here; not a target. -/
 theorem isWalkRegular_iff_adjMatrix_pow {R : Type*} [CommSemiring R] [CharZero R] :
     IsWalkRegular G ↔ ∀ (h : ℕ) (x y : V), (G.adjMatrix R ^ h) x x = (G.adjMatrix R ^ h) y y := by
-  sorry
+  simp [IsWalkRegular, adjMatrix_pow_apply_eq_card_walk]
 
 /-- **2.1 (Cvetković–Rowlinson–Simić, *Eigenspaces*, (4.2.4); Biggs, 2j).** The spectral
 decomposition of the powers of `A`: `Aʰ = ∑_θ θʰ P_θ` over the distinct eigenvalues, for every
@@ -330,10 +315,10 @@ def mulLeftHom (S : Set Γ) : Γ →* (mulCayley S ≃g mulCayley S) where
 
 /-- **3.2 (Godsil–Royle, Theorem 3.1.2 and Lemma 3.7.1).** Left multiplication is a regular
 action by automorphisms: for any two vertices exactly one group element carries the first to the
-second. -/
+second. A sanity check of the definition of `mulLeftHom`, proved here; not a target. -/
 theorem existsUnique_mulLeftHom_apply_eq (S : Set Γ) (x y : Γ) :
-    ∃! g : Γ, mulLeftHom S g x = y := by
-  sorry
+    ∃! g : Γ, mulLeftHom S g x = y :=
+  ⟨y * x⁻¹, inv_mul_cancel_right y x, fun _ hg => eq_mul_inv_of_mul_eq hg⟩
 
 /-- **3.2** The connection set of an action at a base vertex `v`: the group elements moving `v`
 to a neighbour. -/
@@ -367,10 +352,11 @@ theorem mulCayley_adj_mul_right_iff {S : Set Γ} (hconj : ∀ g, ∀ s ∈ S, g 
     (g x y : Γ) : (mulCayley S).Adj (x * g) (y * g) ↔ (mulCayley S).Adj x y := by
   sorry
 
-/-- **3.3** Circulant graphs are the additive Cayley graphs of commutative groups. -/
+/-- **3.3** Circulant graphs are the additive Cayley graphs of commutative groups. A sanity
+check comparing Mathlib's two definitions, proved here; not a target. -/
 theorem circulantGraph_eq_addCayley {A : Type*} [AddCommGroup A] (s : Set A) :
     circulantGraph s = addCayley s := by
-  sorry
+  ext x y; simp [circulantGraph, addCayley_adj, neg_add_eq_sub]; grind
 
 end Cayley
 
@@ -382,10 +368,11 @@ section Retract
 
 variable {V : Type u} [Fintype V] (G : _root_.SimpleGraph V)
 
-/-- **4.1 (Godsil–Royle, Theorem 3.9.1).** A connected vertex-transitive graph is a retract of a
-Cayley graph of a finite group: there are homomorphisms `f` into the Cayley graph and `r` back
-with `r ∘ f = id`. -/
-theorem exists_retraction_mulCayley (hG : G.Connected) (hvt : IsVertexTransitive G) :
+/-- **4.1 (Godsil–Royle, Theorem 3.9.1).** A finite vertex-transitive graph on a nonempty vertex
+type is a retract of a Cayley graph of a finite group: there are homomorphisms `f` into the
+Cayley graph and `r` back with `r ∘ f = id`. Godsil–Royle assume connectivity, which the route
+does not use. -/
+theorem exists_retraction_mulCayley [Nonempty V] (hvt : IsVertexTransitive G) :
     ∃ (Γ' : Type u) (_ : Group Γ') (_ : Fintype Γ') (S : Set Γ') (f : G →g mulCayley S)
       (r : mulCayley S →g G), S⁻¹ = S ∧ (1 : Γ') ∉ S ∧ ∀ x, r (f x) = x := by
   sorry
