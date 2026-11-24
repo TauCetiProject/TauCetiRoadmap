@@ -193,8 +193,8 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. Every target 7.1–7.16a carries both labels. The first
 sentence of 7.4 (8), the forms of (Row) and (TB) in 7.7b named there and the place-dependent form of 7.7b (ii), the
-bound `4R` on the places of `Q` in 7.8 (2) and their splitting in `𝒢_M`, the bound for the positive part in 7.15 (b) and
-the form of 7.16a (2) in its remark are this roadmap's own formulations; [FormalProof] has the forms recorded with them.
+bound `4R` on the places of `Q` in 7.8 (2) and their splitting in `𝒢_M`, and the bound for the positive part in 7.15 (b)
+are this roadmap's own formulations; [FormalProof] has the forms recorded with them.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
@@ -1687,8 +1687,9 @@ The wild-kernel budget is the only input of this layer that bounds the groups `�
 
 ### 7.15 The dual index of the projected lattice
 
-*Origin:* adapted from Horesh and Karasik (2023), Proposition B.5 (GeometryOfNumbersAndQuadraticArithmetic §0.2.5): the
-dual of the orthogonal projection of a lattice in a real inner-product space is the dual cut by the subspace; here (a)
+*Origin:* adapted from Horesh and Karasik (2023), Proposition B.5, for the projection of `ℤⁿ` along the span of a
+primitive sublattice, and for a lattice in a real inner-product space GeometryOfNumbersAndQuadraticArithmetic §0.2.5:
+the dual of the orthogonal projection is the dual cut by the subspace; here (a)
 for the lattices of forms over `𝒪_𝕃` with its conjugation and the class-set product; the bound (b), (c′) of the dual
 index by the congruence length, the Weyl exponent and the integer `D_j`, by an elementary argument, is particular to
 this proof, with the stabilisers bounded through Minkowski (1887) in (c). The bound for the positive part `ℐ^+_j(𝔭)` in
@@ -1876,8 +1877,7 @@ multiset form, for a product over the embeddings); HermitianFormsAndLattices §5
 values in the dual Weyl lattice into the forms with values in the Weyl lattice after localisation at a maximal ideal not
 assumed ordinary, with the sum of these exponents over all primes, the summation being elementary; nearest published
 result: Emerton, Gee and Herzig (2013), §7.4 and Lemma 4.5.1, the dévissage of Serre weights through the reduction of a
-coefficient lattice, after Ash and Stevens (1986). The form of (2) for every definite unitary group of the setting of
-7.16 (the remark after (3)) is this roadmap's own formulation.
+coefficient lattice, after Ash and Stevens (1986).
 
 *Method of the formal proof:* the lattices are exchanged one embedding at a time, from the dual Weyl lattice to the Weyl
 lattice through the intermediate lattice `D + ℓ^c·D′`; weight projectors and a graded Pieri bound show that every simple
@@ -1925,8 +1925,8 @@ and all others lie below `x_m(τ)`; put `top_τ := bot_τ + t − 1`. For a prim
    FrobeniusRestrictedRieszSums §0.6; `B₀` of ThetaChainsOnDefiniteUnitaryGroups §2.1);
    (c) for `ℓ > ℓ_𝔧`, `ℓ ∉ Exc_𝔧`: `mw(τ) = mw′(τ) = 0` and `i_W(ℓ, τ) = q_τ·h` at every `τ`; and `𝔧_j(ℓ) = 0` for every `ℓ > h`.
 
-*Remark.* (2) without the hypothesis on `E/F` and `V`, for every definite unitary group of the setting of 7.16, is this
-roadmap's own formulation and is not a statement of this section: its route needs the Galois representations of the
+*Remark.* (2) without the hypothesis on `E/F` and `V`, for every definite unitary group of the setting of 7.16, is not a
+statement of this section: its route needs the Galois representations of the
 forms on such a group, which BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1 has outside the setting of (2)
 only in its remark.
 (3) is within that setting: `E/F` is unramified at every finite place and `V_j = E^{r+t}` has the standard positive form
@@ -2374,7 +2374,7 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   (2015), 239–271; P. Čoupek, E. Gazaki and A. Marmora, *Exactness property of Breuil–Kisin functors and Bloch–Kato
   Selmer groups*, arXiv:2603.26035 (2026): 7.8a (finite classes modulo `p^n` in small weights).
 - T. Horesh and Y. Karasik, *Equidistribution of primitive lattices in ℝ^n*, Quart. J. Math. 74 (2023), 1253–1294,
-  Proposition B.5: 7.15 (the dual of an orthogonal projection of a lattice, through
+  Proposition B.5: 7.15 (the dual of an orthogonal projection of `ℤⁿ`; for every lattice,
   GeometryOfNumbersAndQuadraticArithmetic §0.2.5).
 - B. Bhatt, T. Gee and M. Kisin, *Reduction modulo p of crystalline Galois representations via μ_p-equivariance*,
   arXiv:2607.08660 (2026); R. Bartlett, *Inertial and Hodge–Tate weights of crystalline representations*, Math. Ann.
