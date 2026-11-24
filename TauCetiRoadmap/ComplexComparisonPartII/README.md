@@ -5373,7 +5373,12 @@ continuous, so that it is a Hilbert space; the same holds for every bounded open
 semicontinuous `φ : B → [−∞, ∞)`, the case C7.13 uses. Indeed `φ` is bounded above, by `M_K` say, on the compact
 `r`-neighbourhood of a compact `K ⊂ B`, `r > 0`, and `|f|²` is subharmonic, so for `f` holomorphic and `z ∈ K`,
 `|f(z)|² ≤ (πⁿr^{2n}/n!)^{−1}·e^{M_K}·∫_{B(z,r)}|f|²e^{−φ}dλ`. Hence `L²(e^{−φ}dλ)`-Cauchy sequences in `H(B, φ)`
-converge locally uniformly on `B`, and their limits are holomorphic.
+converge locally uniformly on `B`, and their limits are holomorphic. When `B ⊆ ℂⁿ` is a bounded pseudoconvex open set
+and `φ` is plurisubharmonic on `B`, prove moreover that `H(B, φ)` is separable and that, for every orthonormal basis
+`(σ_k)` of `H(B, φ)` and every `z ∈ B` with `φ(z) > −∞`, the reproducing kernel of `H(B, φ)` on the diagonal is the
+squared norm of evaluation at `z`: `Σ_k|σ_k(z)|² = sup{|f(z)|² : f ∈ H(B, φ), ‖f‖ ≤ 1}`, so that the sum does not
+depend on the basis. Given the continuity of evaluation, both are Hilbert-space theory. C7.13 uses them on a bounded
+pseudoconvex domain `Ω` with the weight `mφ`.
 
 *Route.* Fix `C` with `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` near `B̄`. Then `φ̃ = φ + C|z|²` is plurisubharmonic on `B` and differs from
 `φ` by a bounded smooth function, so it has the same multiplier ideal and the same weighted `L²` spaces on `B`
@@ -5398,7 +5403,7 @@ Krull's theorem. C7.11 and C7.13 use this.
 
 *Needs:* C0.1a (the strong Noetherian property); C5.4a, C5.4b, C5.4e, C5.4g; C7.1 (a); PDE §3.2a (the sub-mean-value
 inequality on balls); ComplexKahlerGeometry K3 (coherence, Noetherianity of the local rings); Mathlib `HilbertBasis` and
-`MeasureTheory.Lp`.
+`MeasureTheory.Lp` (the Hilbert space `H(B, φ)`, its separability and its orthonormal bases).
 
 ### C7.10 The restriction theorem
 
@@ -5480,8 +5485,9 @@ and Prop. 5.7 for (d).)
   element of `H(Ω, mφ)` is an `L²` limit, hence a locally uniform limit, of finite combinations of the `σ_{m,k}`, so by
   the closedness of ideals of `O_x` (C7.9) the `σ_{m,k}` generate the same ideal.
 
-*Needs:* C7.1 (a); C7.7; C7.9; C5.4a, C5.4e, C5.4g; PDE §3.2a (the sub-mean-value inequality); Mathlib
-`HilbertBasis`.
+*Needs:* C7.1 (a); C7.7; C7.9 (the separable Hilbert space `H(Ω, mφ)` and the diagonal of its reproducing kernel as
+the squared norm of evaluation, for the route's first line; its argument and the closedness of ideals of `O_x`, for
+(d)); C5.4a, C5.4e, C5.4g; PDE §3.2a (the sub-mean-value inequality); Mathlib `HilbertBasis`.
 
 ### C7.14 Siu's analyticity theorem
 
