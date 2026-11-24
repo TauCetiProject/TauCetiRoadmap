@@ -134,6 +134,7 @@ body:
         - CrystallineCohomology
         - CrystallineCohomologyPartII
         - CrystallineLocalGlobalCompatibilityCM
+        - CurvesOverFiniteFields
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
         - DGFloer
@@ -251,8 +252,10 @@ body:
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
         - GrothendieckEulerForms
+        - GroupActionsOnRiemannSurfaces
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
+        - HalfIntegralWeightModularForms
         - HamiltonianFloerOperations
         - HanfNumbers
         - HeckeStacksAndLocalShtukas
@@ -260,6 +263,7 @@ body:
         - HeightsRationalPointsAndObstructions
         - HermitianKTheoryOfPoincareCategories
         - HiddenMarkovModels
+        - HilbertModularForms
         - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
         - HodgeTateAndCanonicalSubgroups
@@ -495,6 +499,7 @@ body:
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
         - SpecialFunctionsTheta
+        - SpectralGraphBounds
         - SpectralManifolds
         - SpectralSequencesAndConvergence
         - SpectralSequencesAndConvergencePartII
