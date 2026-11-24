@@ -360,7 +360,7 @@ Define `fockSpace` and `bargmannTransform` as follows. Let `W` be a real symplec
 
 *Route.* The Bargmann kernel and the unitarity of `𝔅` from the Gaussian integral; the Heisenberg relations by completing squares, `U_wU_{w′}=e^{−πi Im h_J(w,w′)}U_{w+w′}=ψ_ℝ(½ω(w,w′))U_{w+w′}`, the law of 0.1, because `Im h_J=−ω`. Orthogonality of the monomials and their norms by integration over polydiscs. Density through the Hermite basis, whose expansions of a Schwartz function converge in the Schwartz topology: the Hermite coefficients decay rapidly because the harmonic oscillator acts on `S(X)` by a positive operator with eigenvalues `ℓ+N/2`, `ℓ≥0`. (iv): `ϑ_T=Σ_κ conj(T(𝔅⁻¹b_κ))b_κ`, with the growth bound from the bounds of `𝔅⁻¹b_κ` and of the Bargmann kernel.
 
-(Bargmann61; Bargmann67 for (iv); KV78; Howe89a.) *Needs:* 0.1, 0.15, 0.17, 0.18, 1.2; OrthogonalL2Bases Part A §§A2–A3 and Part D (the one- and multidimensional Hermite bases); Mathlib `integral_gaussian`.
+(Bargmann61; Bargmann67 for (iv); KV78, III.1, (1.4)–(1.6), pp. 32–34, a mixed Schrödinger–Fock model of the Heisenberg and harmonic representations; Howe89a, §2, p. 537, the polynomial Fock space.) *Needs:* 0.1, 0.15, 0.17, 0.18, 1.2; OrthogonalL2Bases Part A §§A2–A3 and Part D (the one- and multidimensional Hermite bases); Mathlib `integral_gaussian`.
 
 - `bargmannTransform_unitary`: `𝔅` is a unitary isomorphism `L²(X)≃𝓕(W,J)`.
 - `bargmannTransform_intertwines`: `𝔅∘ρψ(w,t)=ψ_ℝ(t)U_w∘𝔅`.
@@ -515,19 +515,19 @@ Prove `weil_generators`: In the polarized nonarchimedean model, the scalar-norma
 Prove `fockModel_weil`: In the setting of 1.5, let `K̃` be the preimage in `Mp(W)` (2.4b) of the unitary group `U(W,J)` of `(W,J)`, and transport the Weil representation of 2.4c to `𝓕(W,J)` by the Bargmann transform.
 
 - (0) *Real generators.* Over `ℝ`, in the model of 0.15, the operators `φ(x)↦|det a|^{1/2}φ(xa)` and `φ(x)↦ψ(½x bᵗx)φ(x)` of 2.5 satisfy the covariance of 1.3 for `m(a)` and `n(b)`, so they are the Weil operators of these elements up to the scalars fixed by 2.4b.
-- (i) *`K̃`-finite vectors.* The polynomial Fock space `ℂ[W]_J` is the space of `K̃`-finite vectors, and `k∈K̃` acts by `G↦det_J(k)^{−1/2}·G∘k⁻¹`, where `det_J` is the determinant of `(W,J)` and `det_J^{−1/2}` is the genuine character of `K̃` whose square is `det_J⁻¹`. On the polynomials of degree `ℓ` this is `det_J^{−1/2}` tensored with `Sym^ℓ` of the dual of `(W,J)`; in particular `exp(θJ)` acts on them by `e^{−i(ℓ+N/2)θ}`.
+- (i) *`K̃`-finite vectors.* The polynomial Fock space `ℂ[W]_J` is the space of `K̃`-finite vectors, and `k∈K̃` acts by `G↦det_J(k)^{−1/2}·G∘k⁻¹`, where `det_J` is the determinant of `(W,J)` and `det_J^{−1/2}` is the genuine character of `K̃` whose square is `det_J⁻¹`. On the homogeneous polynomials of degree `ℓ` this is `det_J^{−1/2}` tensored with `Sym^ℓ` of the dual of `(W,J)`; in particular `exp(θJ)` acts on them by `e^{−i(ℓ+N/2)θ}`.
 - (ii) *Infinitesimal Weil representation.* `𝔰𝔭(W)` acts on `S(X)` by the second-order operators attached to the quadratic Hamiltonians (Weyl quantisation); this action is the derivative of the Weil representation of 2.4c on its smooth vectors (0.18). In the Fock model `𝔨=𝔲(W,J)` acts by the first-order operators `z_i∂_j` plus scalars, and `𝔭^±` by multiplication by `z_iz_j` and by `∂_i∂_j`.
 
 `F=ℝ`; the cover, the Weil representation and the Schrödinger model are those of 2.4b, 2.4c and 0.17, with `ψ_ℝ` as in 1.5.
 
 *Route.* The covariance `ω(k)U_wω(k)⁻¹=U_{kw}` of 1.3 determines `ω(k)` up to a scalar (Schur's lemma for the irreducible model, 1.2), and `G↦G∘k⁻¹` satisfies it because `h_J` is `k`-invariant, so `ω(k)G=c(k)·G∘k⁻¹`; `c=det_J^{−1/2}` because the vacuum is an eigenvector of `dω(J)` with eigenvalue `−iN/2` (Check, in each of `N` orthogonal coordinates). The eigenspaces of `exp(θJ)` are then the spaces of homogeneous polynomials, which with the density of 1.5 (iii) identifies the `K̃`-finite vectors. The Lie algebra action by differentiating the Weil operators of the Levi and unipotent generators in the Schrödinger model ((0)) and comparing on the Hermite span.
 
-(KV78; Howe89a; Bargmann61.) *Needs:* 1.2, 1.3, 1.5, 2.4b, 2.4c, 2.5 (the notation `m(a)`, `n(b)`).
+(KV78, II.1, (1.1)–(1.3), pp. 10–11, for the operators of (0); Howe89a, §2, (2.1)–(2.3), pp. 537–538, for (i)–(ii).) *Needs:* 1.2, 1.3, 1.5, 2.4b, 2.4c, 2.5 (the notation `m(a)`, `n(b)`).
 
 **Checks.**
 
 - *The sign of the action of `K̃`.* In the example `N=1`, `Je=f` of 1.5, 0.15 gives `dρ(e)=d/du` and `dρ(f)=2πiu`. The Gaussian is killed by `d/du+2πu=dρ(e−if)`, and `e−if` spans the `+i`-eigenspace of `J`. The operator `dω(J)=−i(−(1/4π)d²/du²+πu²)` satisfies `[dω(J),dρ(w)]=dρ(Jw)` and has eigenvalue `−i/2` on the Gaussian. By covariance `exp(θJ)` multiplies the annihilation operator `dρ(e−if)` by `e^{iθ}` and the creation operator `dρ(e+if)` by `e^{−iθ}`, so it acts on the Hermite function of degree `ℓ` by `e^{−i(ℓ+1/2)θ}`, as (i) says; an action by `det_J^{1/2}` tensored with `Sym^ℓ(W,J)` would give `e^{+i(ℓ+1/2)θ}`.
-- The centre `±1` of `Mp(W)` acts on the polynomials of degree `ℓ` by `±1` through `det_J^{−1/2}`, not trivially, as 2.4c requires.
+- The kernel `{±1}` of `Mp(W)→Sp(W)` (2.4b) acts on `ℂ[W]_J` by `±1` through `det_J^{−1/2}`, not trivially, as 2.4c requires.
 
 ### 2.6 Generator relations and intrinsic comparison
 
@@ -672,18 +672,18 @@ For nonarchimedean F construct the quaternionic conservation inputs `quaternioni
 
 ### 3.3d Unitary splittings and orthogonal sums
 
-Prove `unitarySplitting_orthogonalSum`: The splittings of 3.3 are compatible with orthogonal sums of the acting group's own space, and with orthogonal sums of the other member when the acting group's space is split. For symplectic spaces `𝕎=𝕎′⊕𝕎″` with Lagrangians `X=X′⊕X″`, the map from the product of the scalar covers of `𝕎′` and `𝕎″` (1.3) to that of `𝕎` is the tensor product of operators on `S(X)=S(X′)⊗S(X″)`. Let `W=W′⊥W″`.
+Prove `unitarySplitting_orthogonalSum`: The splittings of 3.3 are compatible with orthogonal sums of the acting group's own space and with orthogonal sums of the other member. For symplectic spaces `𝕎=𝕎′⊕𝕎″` with Lagrangians `X=X′⊕X″`, the map from the product of the scalar covers of `𝕎′` and `𝕎″` (1.3) to that of `𝕎` is the tensor product of operators on `S(X)=S(X′)⊗S(X″)`. Let `W=W′⊥W″`.
 
-- (a) *The other member decomposed, `V` split.* Suppose that `V` is split. If `χ_{W′}`, `χ_{W″}` are splitting characters for `W′`, `W″` (restrictions `ω_{E/F}^{dim W′}`, `ω_{E/F}^{dim W″}` to `F×`), then `χ_{W′}χ_{W″}` is one for `W`, and the splitting of `U(V)` for `V⊗W` attached to `χ_{W′}χ_{W″}` is the product of the splittings for `V⊗W′` and `V⊗W″` attached to `χ_{W′}` and `χ_{W″}`. Hence the Weil representation of `(V,W)` restricted to `U(V)` is the tensor product of those of `(V,W′)` and `(V,W″)`.
+- (a) *The other member decomposed.* If `χ_{W′}`, `χ_{W″}` are splitting characters for `W′`, `W″` (restrictions `ω_{E/F}^{dim W′}`, `ω_{E/F}^{dim W″}` to `F×`), then `χ_{W′}χ_{W″}` is one for `W`, and the splitting of `U(V)` for `V⊗W` attached to `χ_{W′}χ_{W″}` is the product of the splittings for `V⊗W′` and `V⊗W″` attached to `χ_{W′}` and `χ_{W″}`. Hence the Weil representation of `(V,W)` restricted to `U(V)` is the tensor product of those of `(V,W′)` and `(V,W″)`.
 - (b) *The group's own space decomposed.* For a splitting character `χ_V` of `V`, the restriction to `U(W′)×U(W″)⊂U(W)` of the splitting of `U(W)` for `V⊗W` attached to `χ_V` is the product of the splittings of `U(W′)` for `V⊗W′` and of `U(W″)` for `V⊗W″` attached to the same `χ_V`: `ω_{V,W}(h′,h″)=ω_{V,W′}(h′)⊗ω_{V,W″}(h″)` on `S(X′)⊗S(X″)`.
 
-Both hold with the roles of `V` and `W` exchanged, (a) then for `W` split.
+Both hold with the roles of `V` and `W` exchanged.
 
 Local `F` and `E/F` as in 3.3, with the split carriers of 3.2a when `E=F×F`; all splittings are into the scalar covers of 1.3; isometry groups act on the left and `χ_V` governs the `U(W)`-factor, as in 3.3.
 
-*Route.* (b) is the compatibility of the splittings with direct sums. (a), when the space of the acting group is split: the splitting cochain of Kudla94, Theorem 3.1, is the splitting character times a power of the Weil index of the other member, and Weil indices are multiplicative on orthogonal sums. When `W′` and `W″` are split, (b) also follows from the Levi formula of 3.3b: two continuous liftings of `U(W′)×U(W″)` differ by a continuous character, which factors through the determinants (the derived groups of split unitary groups of dimension `≥2` are their special unitary groups); for a polarisation `Y=Y′⊕Y″` the block-diagonal Levi elements act on `S(V⊗Y′)⊗S(V⊗Y″)` by the tensor product of the two Levi formulas, and their determinants exhaust the norm-one group, so the character is trivial. (a) for split `V` follows in the same way from the Levi formula of the exchanged pair. The quaternionic analogue is 3.28.
+*Route.* (b) is the compatibility of the splittings with direct sums. (a) for split `V`: the splitting cochain of Kudla94, Theorem 3.1, is the splitting character times a power of the Weil index of the other member, and Weil indices are multiplicative on orthogonal sums. (a) for arbitrary `V`: the space `V⊕V⁻`, `V⁻` being `V` with its form negated, is split; by (b) with the roles exchanged, the splittings of `U(V⊕V⁻)` for `(V⊕V⁻)⊗W`, `(V⊕V⁻)⊗W′` and `(V⊕V⁻)⊗W″` restrict on `U(V)×1` to those of `U(V)` for `V⊗W`, `V⊗W′` and `V⊗W″`, each tensored with the identity on the `V⁻`-factor, so (a) for `V⊕V⁻` gives (a) for `V`, because `A↦A⊗1` between the scalar covers is injective. When `W′` and `W″` are split, (b) also follows from the Levi formula of 3.3b: two continuous liftings of `U(W′)×U(W″)` differ by a continuous character, which factors through the determinants (the derived groups of split unitary groups of dimension `≥2` are their special unitary groups); for a polarisation `Y=Y′⊕Y″` the block-diagonal Levi elements act on `S(V⊗Y′)⊗S(V⊗Y″)` by the tensor product of the two Levi formulas, and their determinants exhaust the norm-one group, so the character is trivial. (a) for split `V` follows in the same way from the Levi formula of the exchanged pair. The quaternionic analogue is 3.28.
 
-(HKS96, Appendix, Corollary A.3, for (b), as quoted in Wu13, §2.2, (2.8); Kudla94, Theorem 3.1, for the explicit cochain from which (a) follows when the acting group's space is split.) *Needs:* 1.3, 2.2, 3.2a, 3.3, 3.3b.
+(HKS96, Appendix, Corollary A.3, p. 998, for (b); HKS96, Appendix, (a.5)–(a.6), p. 995, and Kudla94, Theorem 3.1, for the explicit cochain from which (a) follows when the acting group's space is split; HKS96, Appendix, (a.22)–(a.24), p. 997, for the splitting of a non-split space by doubling, which reduces (a) to that case.) *Needs:* 1.3, 2.2, 3.2a, 3.3, 3.3b.
 
 - `unitarySplitting_orthogonalSum_other`: clause (a).
 - `unitarySplitting_orthogonalSum_own`: clause (b).
@@ -691,7 +691,7 @@ Local `F` and `E/F` as in 3.3, with the split carriers of 3.2a when `E=F×F`; al
 **Checks.**
 
 - `χ_{W′}χ_{W″}|_{F×}=ω_{E/F}^{dim W′+dim W″}=ω_{E/F}^{dim W}`, so the product in (a) is a splitting character for `W`.
-- `V` split, `W″=0`: by (a) the restriction of `ω_{V,W}` to `U(V)` is that of `ω_{V,W′}` times the character of `U(V)` on the oscillator line of `(V,0)` (the Check `V=0` of 3.3 with the roles exchanged), which is `η̃∘det` for `η=χ_{W″}`; this agrees with `unitarySplitting_character_change` of 3.3 for the change `χ_{W′}↦χ_{W′}η`.
+- `W″=0`: by (a) the restriction of `ω_{V,W}` to `U(V)` is that of `ω_{V,W′}` times the character of `U(V)` on the oscillator line of `(V,0)` (the Check `V=0` of 3.3 with the roles exchanged), which is `η̃∘det` for `η=χ_{W″}`; this agrees with `unitarySplitting_character_change` of 3.3 for the change `χ_{W′}↦χ_{W′}η`.
 - In (b) the same `χ_V` enters both factors; in (a) it is the characters of the two pieces that multiply.
 
 ### 3.4 Big theta module
@@ -792,15 +792,15 @@ Prove `compactDualPair_howe`: Over `ℂ/ℝ`, let `V` be a definite Hermitian sp
 
 `E=ℂ`, `F=ℝ`; `V` definite; the Weil representation and splittings of 3.3; the archimedean category of 3.7 (AutomorphicFormsOnReductiveGroups §§2.1, 2.4).
 
-*Route.* (i) Howe's theory of joint harmonics: the `U(𝔤′)`-module generated by the `U(n)`-harmonics is the whole polynomial Fock space (2.5a (ii)), and 3.7 applies to the isotypic parts. (iii) `ω(x,ix)=−2Im(δ)·h(x,x)` for the Hermitian form `h` of `V⊗W^♭`, and `Im δ<0`, which gives `J`. By 2.5a (i), `U(n)×U(d)` acts on the polynomials by `G↦det_J^{−1/2}·G∘k⁻¹`; for `ε=−1` (`J=i`) the polynomials of degree `ℓ` are `Sym^ℓ` of the dual of `ℂ^n⊗ℂ^d`, and for `ε=+1` (`J=−i`) the space `(V⊗W,J)` is the complex conjugate of `ℂ^n⊗ℂ^d` and the polynomials are `Sym^ℓ(ℂ^n⊗ℂ^d)`. The twists by `det_J^{−1/2}` and by the splitting characters are characters of `U(n)×U(d)`, and the `(GL_n,GL_d)`-duality applies to `Sym^ℓ(ℂ^n⊗ℂ^d)` and to its dual. A polynomial representation of `GL_n(ℂ)×GL_d(ℂ)` and its restriction to `U(n)×U(d)` have the same invariant subspaces and the same intertwining operators, because `U(n)×U(d)` is Zariski dense (iv); so the summands of §8.4 stay irreducible and pairwise non-isomorphic, and `𝕊^μ(ℂⁿ)` restricts to `σ_μ`.
+*Route.* (i) Howe's theory of joint harmonics: the `U(𝔤′)`-module generated by the `U(n)`-harmonics is the whole polynomial Fock space (2.5a (ii)), and 3.7 applies to the isotypic parts. (iii) `ω(x,ix)=−2Im(δ)·h(x,x)` for the Hermitian form `h` of `V⊗W^♭`, and `Im δ<0`, which gives `J`. By 2.5a (i), `U(n)×U(d)` acts on the polynomials by `G↦det_J^{−1/2}·G∘k⁻¹`; for `ε=−1` (`J=i`) the homogeneous polynomials of degree `ℓ` are `Sym^ℓ` of the dual of `ℂ^n⊗ℂ^d`, and for `ε=+1` (`J=−i`) the space `(V⊗W,J)` is the complex conjugate of `ℂ^n⊗ℂ^d` and the polynomials are `Sym^ℓ(ℂ^n⊗ℂ^d)`. The twists by `det_J^{−1/2}` and by the splitting characters are characters of `U(n)×U(d)`, and the `(GL_n,GL_d)`-duality applies to `Sym^ℓ(ℂ^n⊗ℂ^d)` and to its dual. A polynomial representation of `GL_n(ℂ)×GL_d(ℂ)` and its restriction to `U(n)×U(d)` have the same invariant subspaces and the same intertwining operators, because `U(n)×U(d)` is Zariski dense (iv); so the summands of §8.4 stay irreducible and pairwise non-isomorphic, and `𝕊^μ(ℂⁿ)` restricts to `σ_μ`.
 
-(KV78; Howe89a; Howe89b; Paul98.) *Needs:* 1.5, 2.5a, 3.3, 3.7; RepresentationTheory/SchurWeyl §8.4 (the `(GL_n,GL_m)`-duality on polynomial functions on `n×m` matrices); RepresentationTheory/CompactGroups Layers 4–5; AutomorphicFormsOnReductiveGroups §§2.1, 2.4.
+(KV78, III, Proposition (5.6), Theorems (6.3) and (7.2), pp. 42–45, for `(U(p,q),U(k))`; Howe89a, §3, (3.6)–(3.9), pp. 541–542, for the joint harmonics of a compact member; Howe89b, §3, Theorems 8–9, pp. 553–556, and §4 (d), p. 560, for (iii).) *Needs:* 1.5, 2.5a, 3.3, 3.7; RepresentationTheory/SchurWeyl §8.4 (the `(GL_n,GL_m)`-duality on polynomial functions on `n×m` matrices); RepresentationTheory/CompactGroups Layers 4–5; AutomorphicFormsOnReductiveGroups §§2.1, 2.4.
 
 **Checks.**
 
 - `n=0`: the polynomial Fock space is the line of constants, on which `U(p,q)` acts by the character of the oscillator line of 3.3 (Check `V=0`); (i) has one summand.
 - `n=d=1`, `V` and `W^♭` positive (`ε=−1`, `J=i`): `ℂ[z]=⊕_ℓ ℂz^ℓ`, and relative to the vacuum `(t,s)∈U(1)×U(1)` acts on `z^ℓ` by `(ts)^{−ℓ}`. With `V` negative (`ε=+1`, holomorphic coordinate `z̄`) it acts on `z̄^ℓ` by `(ts)^{ℓ}`. In both cases the weight of one factor determines `ℓ`, hence the weight of the other.
-- (iii) with `n=1`, `ε=+1`: the polynomials of degree `ℓ` in `z̄_1,…,z̄_d` are, after the vacuum twist, the character `t^ℓ` of `U(1)` tensored with `Sym^ℓ(ℂ^d)`, the partition `μ=(ℓ)`.
+- (iii) with `n=1`, `ε=+1`: the homogeneous polynomials of degree `ℓ` in `z̄_1,…,z̄_d` are, after the vacuum twist, the character `t^ℓ` of `U(1)` tensored with `Sym^ℓ(ℂ^d)`, the partition `μ=(ℓ)`.
 
 ### 3.8 Local see-saw identity
 
@@ -844,7 +844,7 @@ As in 3.9 these are sufficient bounds, not first-occurrence formulas.
 
 *Route.* (i) is Kudla's argument for 3.9 with the Jacquet filtration of 3.12 in its unitary form. (iii) is Li's construction in a mixed model `S(V⊗Y*)⊗ω_{V,W′}` for `W_r=Y⊕W′⊕Y*` with `Y` isotropic of dimension `n`, in which `U(V)` acts on the first factor linearly, up to a character and a modulus, and on the second through the Weil representation of the smaller pair; the vector is concentrated near a point whose stabiliser in `U(V)` is trivial (an isomorphism `Y→V`). (ii) follows from (iii) and the nonvanishing of the integral of the matrix coefficient of a bump vector against a matrix coefficient of `π`, which gives a nonzero element of `Hom_{U(V)}(ω,π)`. For `E=F×F` use the type-II model of 3.2a and 3.14, in which `GL_n` acts on `n×dim W_r` matrices and a matrix of full rank has trivial stabiliser.
 
-(Kudla96, III.4, Propositions 4.1, 4.3–4.5, PDF44–49, the argument for symplectic–orthogonal towers; MVW87, type-I pairs over a `p`-adic field, unitary pairs included; Li89, the stable range for unitary representations; Li92, §§3–5, for (iii); Minguez08, Théorème 1 (2), p. 718, for `E=F×F`.) *Needs:* 3.2a, 3.3, 3.4, 3.6, 3.9, 3.12, 3.14; SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.3.1.
+(Kudla96, III.4, Propositions 4.1, 4.3–4.5, PDF44–49, the argument for symplectic–orthogonal towers; MVW87, type-I pairs over a `p`-adic field, unitary pairs included; Li89, Theorem A, p. 237, with Definition 5.1, p. 247, and Theorem 6.1, p. 251, the stable range for unitary representations; Li92, §§3–5, for (iii); Minguez08, Théorème 1 (2), p. 718, for `E=F×F`.) *Needs:* 3.2a, 3.3, 3.4, 3.6, 3.9, 3.12, 3.14; SmoothRepresentationsOfLocalGroups §§SR.2.2, SR.3.1.
 
 **Checks.**
 
@@ -1472,11 +1472,11 @@ Quotient and measure normalized as in GQT; use either anisotropic `H`, the conve
 
 Prove `globalThetaLift_towerProperty`: Let `E/F` be a quadratic extension of number fields and `(U(V),U(W))` a unitary dual pair over it, with splitting characters, global Weil representation and theta kernel `θ(g,h;φ)` (`g∈U(V)(𝔸)`, `h∈U(W)(𝔸)`) as in 3.3, 4.5 and 5.1. Let `C⊂V` be a nonzero isotropic subspace, `V=C⊕V′⊕C^∨` with `V′=(C⊕C^∨)^⊥`, `P_C` the stabiliser of `C` in `U(V)` and `N_C` its unipotent radical. Realise the Weil representation of `(V,W)` on `S((V′⊗W)⁺⊕(C^∨⊗W))(𝔸)`, `(V′⊗W)⁺` a Lagrangian of `V′⊗W`, so that for a cusp form `f` on `U(W)`, a Schwartz function `φ` and `g∈U(V′)(𝔸)` the constant term along `N_C` (5.5) of the lift `θ_φ(f)` of 5.6 to `U(V)` is, at `g`, the lift of `f` to `U(V′)` for the Schwartz function `φ(·,0)`; for `g∈U(V)(𝔸)` apply this to `ω(g,1)φ` at `1`. In the model on `(V′⊗W)⁺⊕(C⊗W)`, obtained by the partial Fourier transform, `φ(·,0)` becomes the integral over `(C⊗W)(𝔸)`. Consequently, if the lifts of `f` to `U(V′)` vanish for every such decomposition with `C≠0`, then `θ_φ(f)` is cuspidal; in particular the first nonzero lift of `f` in a Witt tower is cuspidal.
 
-Number field; the lifts converge as in 5.6 for cusp forms (rapid decay); the same splitting character `χ_V` is used for `(V,W)` and `(V′,W)` (the dimensions of `V` and `V′` have the same parity) and the trivial character for `(C⊕C^∨,W)`, for which `U(W)` acts on `S(C^∨⊗W)` by `φ(y)↦φ(h⁻¹y)` (Wu13, §2.3 and §3); on `U(V′)⊂U(V)` the splittings agree by 3.3d (b) with the roles exchanged; quotient measures as in 5.5–5.6.
+Number field; the lifts converge as in 5.6 for cusp forms (rapid decay); the same splitting character `χ_V` is used for `(V,W)` and `(V′,W)` (the dimensions of `V` and `V′` have the same parity) and the trivial character for `(C⊕C^∨,W)`, for which `U(W)` acts on `S(C^∨⊗W)` by `φ(y)↦φ(h⁻¹y)` (Wu13, §2.3 and §3); `U(W)` acts on `S((V′⊗W)⁺⊕(C^∨⊗W))` by the tensor product of its actions for `(V′,W)` and `(C⊕C^∨,W)`, by 3.3d (a) with the roles exchanged for `V=V′⊥(C⊕C^∨)`; on `U(V′)⊂U(V)` the splittings agree by 3.3d (b) with the roles exchanged; quotient measures as in 5.5–5.6.
 
 *Route.* For the consequence: every proper parabolic subgroup of `U(V)` lies in the stabiliser `P_C` of a nonzero isotropic `C`, and its unipotent radical contains `N_C`, so the vanishing of the constant terms along all `N_C` is cuspidality (5.3).
 
-(Rallis84a, Chapter I, §1, Theorem I.1.1, p. 345, for orthogonal–symplectic pairs; Wu13, §3, Proposition 3.1, for unitary pairs.) *Needs:* 3.3d (b), 5.1, 5.2, 5.3, 5.5, 5.6; AutomorphicFormsOnReductiveGroups §4.2; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (partial Fourier transform).
+(Rallis84a, Chapter I, §1, Theorem I.1.1, p. 345, for orthogonal–symplectic pairs; Wu13, §3, Proposition 3.1, for unitary pairs.) *Needs:* 3.3d (a) and (b), 5.1, 5.2, 5.3, 5.5, 5.6; AutomorphicFormsOnReductiveGroups §4.2; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (partial Fourier transform).
 
 **Checks.**
 
@@ -1488,20 +1488,20 @@ Number field; the lifts converge as in 5.6 for cusp forms (rapid decay); the sam
 Prove `globalThetaLift_localComponents`: Let `F` be a number field, `V` a quadratic space of even dimension and `W` a symplectic space, with the dual pair `O(V)×Sp(W)` of 3.1–3.2 and the global Weil representation and theta kernel of 4.5 and 5.1. Let `π` be an irreducible cuspidal automorphic representation of `O(V)(𝔸)` and `ρ` an irreducible cuspidal automorphic representation of `Sp(W)(𝔸)` occurring in the span of the lifts `θ_φ(f)`, `f∈π` (5.6).
 
 - (i) For every place `v`, `Hom_{O(V_v)×Sp(W_v)}(ω_v,π_v⊗ρ_v)≠0`.
-- (ii) Suppose that local Howe duality, in the form of 3.7, holds for the unitary representations of `O(V_v)` and `Sp(W_v)` at every place `v`, the archimedean places included. Then `ρ_v≅θ(π_v)` for all `v`, the cuspidal part of the span is isotypic, and `π↦ρ` is injective on the `π` with a nonzero cuspidal part.
+- (ii) `ρ_v≅θ(π_v)` for all `v`, by local Howe duality (3.7) at every place, the archimedean places included; the cuspidal part of the span is isotypic, and `π↦ρ` is injective on the `π` with a nonzero cuspidal part.
 
 The lift of 5.6 is conjugate-linear in `f`. For the linear lift `f↦θ_φ(f̄)` and the span of its values, `π_v^∨` replaces `π_v` in (i) and (ii).
 
 Number field; `dim V` even; splitting, measures and convergence as in 5.6.
 
-*Route.* (i) `(φ,f)↦θ_φ(f)` is linear in `φ` and conjugate-linear in `f`, that is a linear map from `ω⊗π̄`, the tensor product with the complex conjugate `π̄` of `π`, which is isomorphic to `π^∨` because `π` is unitary; it is equivariant (5.6, `globalThetaLift_equivariant`). Composed with the projection to `ρ` it is nonzero, and fixing the components away from `v` it gives a nonzero element of `Hom_{O(V_v)×Sp(W_v)}(ω_v,π_v⊗ρ_v)`. For the linear lift the same argument runs with `π` in place of `π̄`. (ii) Under the hypothesis, (i) determines `ρ_v` from `π_v` and `π_v` from `ρ_v` at every place.
+*Route.* (i) `(φ,f)↦θ_φ(f)` is linear in `φ` and conjugate-linear in `f`, that is a linear map from `ω⊗π̄`, the tensor product with the complex conjugate `π̄` of `π`, which is isomorphic to `π^∨` because `π` is unitary; it is equivariant (5.6, `globalThetaLift_equivariant`). Composed with the projection to `ρ` it is nonzero, and fixing the components away from `v` it gives a nonzero element of `Hom_{O(V_v)×Sp(W_v)}(ω_v,π_v⊗ρ_v)`. For the linear lift the same argument runs with `π` in place of `π̄`. (ii) By 3.7, (i) determines `ρ_v` from `π_v` and `π_v` from `ρ_v` at every place.
 
-(Rallis84a, Chapter I, §2, Theorem I.2.2 and Remark I.2.3, pp. 355–356, where the local duality is a hypothesis.) *Needs:* 3.1, 3.2, 3.4, 3.5, 3.7, 4.5, 5.1, 5.6; AutomorphicFormsOnReductiveGroups §§3.1–3.2.
+(Rallis84a, Chapter I, §2, Theorem I.2.2 and Remark I.2.3, pp. 355–356, where (ii) is stated with local Howe duality as a hypothesis.) *Needs:* 3.1, 3.2, 3.4, 3.5, 3.7, 4.5, 5.1, 5.6; AutomorphicFormsOnReductiveGroups §§3.1–3.2.
 
 **Checks.**
 
 - If `θ(π_v)=0` at one finite place, then by (i) no cuspidal `ρ` occurs in the span of the lifts of `π`.
-- When `π_v≅π_v^∨` the statements for the two lifts agree; otherwise (i) distinguishes them, so the convention of 5.6 matters.
+- At a finite place `v` the local statements of (i) and (ii) are the same for the two lifts: every irreducible admissible representation of `O(V_v)` is isomorphic to its contragredient (Kudla96, IV, Theorem 1.6 (i), p. 63, after MVW87, pp. 91–92), so replacing `π_v` by `π_v^∨` changes nothing there. For unitary pairs the replacement matters: a character `χ` of `U(1)=E¹` with `χ²≠1` is not isomorphic to its contragredient `χ⁻¹`, and 6.13 says which lift it uses.
 - If every lift `θ_φ(f)`, `f∈π`, vanishes, no `ρ` occurs and the statement is empty.
 
 ### 5.7 Weil convergence criterion
@@ -3768,9 +3768,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **Howe89a.** Roger Howe, *Transcending classical invariant theory*. Journal of the American Mathematical Society 2 (1989), 535–552.
 
-**Howe89b.** Roger Howe, *Remarks on classical invariant theory*. Transactions of the American Mathematical Society 313 (1989).
-
-**Paul98.** Annegret Paul, *Howe correspondence for real unitary groups*. Journal of Functional Analysis 159 (1998), no. 2, 384–431.
+**Howe89b.** Roger Howe, *Remarks on classical invariant theory*. Transactions of the American Mathematical Society 313 (1989), 539–570.
 
 **Kudla94.** Stephen S. Kudla, *Splitting metaplectic covers of dual reductive pairs*. Israel Journal of Mathematics 87 (1994), 361–401.
 
