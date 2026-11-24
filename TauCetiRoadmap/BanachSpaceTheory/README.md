@@ -2086,8 +2086,8 @@ quotients. Within the roadmap: B1, §4.3 and B4.0 (for §7.1), B6.Cotype2 (Gauss
   reflexivity, and §7.2's John theorem over `𝕜` with the Kadec–Snobar and Garling–Gordon
   projection theorems.
 - CStarAlgebras and HilbertModules consume B1–B2.
-- SelfAdjointSpectralTheory consumes §5.4's `M(K)` and its Riesz isometry with `C(K)*`, and
-  §1.2's Goldstine theorem.
+- SelfAdjointSpectralTheory consumes §5.4's `M(K)` and its Riesz isometry with `C(K)*`; the
+  Goldstine theorem and the scalar-measure layer it also uses are Tau Ceti's.
 - CompactQuantumMetricSpaces consumes B1 and B5; ToeplitzOperators consumes §5.8's scalar `L∞`
   algebra laws; Hyperfunctions consumes B1 and B2.
 - LocallyConvexDuality, NoncommutativeGeometry N1, SmoothBanachRepresentations and
