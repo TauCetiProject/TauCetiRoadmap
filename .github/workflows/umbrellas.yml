@@ -1,0 +1,39 @@
+name: Umbrellas
+
+# The umbrellas in umbrellas/ and their target lists are generated from the
+# roadmaps' READMEs by .github/scripts/gen_umbrella.py. This checks a pull
+# request that touches them or their generator: the generator's tests pass, and
+# the committed files equal what the generator makes of the roadmaps, so a hand
+# edit of a generated file, or a change of the generator without its output, is
+# caught before it merges. Pull requests that only change roadmaps are not
+# checked here: sync-umbrellas regenerates the umbrellas on main once a day.
+
+on:
+  pull_request:
+    paths:
+      - "umbrellas/**"
+      - ".github/scripts/gen_umbrella.py"
+      - ".github/scripts/test_gen_umbrella.py"
+      - ".github/workflows/sync-umbrellas.yml"
+      - ".github/workflows/umbrellas.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      # The pull request's head commit, not GitHub's merge of it with main: the
+      # generated files are compared with what the generator makes of the
+      # roadmaps of the same commit. main may have moved since the branch was
+      # cut, and sync-umbrellas brings main itself up to date.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Test the generator
+        run: python3 .github/scripts/test_gen_umbrella.py
+
+      - name: Check the umbrellas against the roadmaps
+        run: python3 .github/scripts/gen_umbrella.py

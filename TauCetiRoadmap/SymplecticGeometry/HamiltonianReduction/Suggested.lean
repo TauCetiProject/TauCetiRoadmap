@@ -1,113 +1,81 @@
-import TauCetiRoadmap.SymplecticGeometry.Suggested
-import Mathlib.Geometry.Manifold.IsManifold.InteriorBoundary
+import Mathlib
+import TauCeti.Geometry.Lie.Adjoint.Derivation
+import TauCeti.Geometry.Lie.Adjoint.Representation.Coadjoint.Stabilizer
+import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
+import TauCeti.Geometry.Lie.Subgroup.Torus
 
 /-!
-These suggested forms are aids, not the specification. The README is definitive;
-this file is neither exhaustive nor a required implementation plan. Every structure
-field states a mathematical condition; missing constructions are honest `sorry` targets.
+# Hamiltonian actions and symplectic reduction: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
+and Tau Ceti, those headline theorems of the roadmap that can be stated there, each with `sorry`.
+
+Stated below (README R2, §R2.4 and §R2.5), for a compact Lie group `G` with Lie algebra `𝔤`:
+
+* conjugate elements of the Lie algebra of a maximal torus are conjugate under its normalizer;
+* if `G` is connected, every coadjoint stabilizer `G_ν`, `ν ∈ 𝔤*`, is connected.
+
+The other headline theorems of the roadmap are not statable at the pins:
+
+* the regular reduction theorem of Marsden–Weinstein–Meyer, the shifting construction and
+  reduction in stages (§R3.0a–§R3.0c), and the cotangent reductions of R4: the pinned libraries
+  give no smooth manifold structure on the quotient of a manifold by a free and proper action of a
+  Lie group that is not discrete, so the reduced space `μ⁻¹(c) / G_c` and `Q / G` are not
+  carriers;
+* the flux theorem `1 → Ham → Symp₀ → H¹_dR(M) / Γ_ω → 0`, its topological form, its
+  compactly supported form and the torus flux group (R1a): the pinned libraries have no
+  flux homomorphism (the de Rham class of the time integral of a smooth family of closed
+  one-forms), no theorem that time-dependent Hamiltonian flows on manifolds preserve the form, and
+  no group of Hamiltonian diffeomorphisms;
+* the Kirillov–Kostant–Souriau theorem (§R2.2): the pinned libraries give no manifold structure
+  on the homogeneous space `G / G_ν` for a closed subgroup that is not discrete;
+* the parametrization of the coadjoint orbits of a compact connected group by the closed chamber
+  `z(𝔤)* × 𝔱*_(ss,+)` (§R2.5): the pinned libraries have no roots of a compact Lie group;
+* the Morse theory of height functions on compact coadjoint orbits and `χ(O_μ) = |W / W_μ|`
+  (R2a): the orbit `O_μ` is not a manifold at the pins;
+* the local normal form of a proper Hamiltonian action (§R3.1): the associated bundle
+  `G ×_H (𝔪* × V)` is not a carrier;
+* the gauge-theoretic statements of R5: the pinned libraries have no space of principal
+  connections, gauge group or Sobolev space of sections over a manifold.
 -/
-noncomputable section
+
+namespace TauCetiRoadmap.HamiltonianReduction
+
+open TauCeti TauCeti.Lie
 open scoped Manifold ContDiff
-open Manifold
-namespace TauCetiRoadmap.SymplecticGeometry
-variable {E H M EG HG G : Type*}
-  [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
-  [IsManifold I ∞ M]
-  [NormedAddCommGroup EG] [NormedSpace ℝ EG] [TopologicalSpace HG]
-  {IG : ModelWithCorners ℝ EG HG} [TopologicalSpace G] [ChartedSpace HG G]
-  [Group G] [LieGroup IG ∞ G] [MulAction G M]
 
-/-- Differentiating the existing action at identity. -/
-def fundamentalField (ξ : GroupLieAlgebra IG G) (x : M) : TangentSpace I x :=
-  mfderiv IG I (fun g : G ↦ g • x) 1 ξ
+/-! ## R2: coadjoint orbits and the Kirillov–Kostant–Souriau form -/
 
-/-- Coadjoint action obtained from the actual pinned tangent adjoint. -/
-def coadjoint (g : G) (ν : StrongDual ℝ (GroupLieAlgebra IG G)) :
-    StrongDual ℝ (GroupLieAlgebra IG G) :=
-  ν.comp (TauCeti.Lie.adjointContinuousLinearMap (I := IG) g⁻¹)
-
-/-- Smooth group action preserving the given two-form. -/
-structure IsSmoothSymplecticAction (σ : TauCeti.SmoothTwoForm I M) : Prop where
-  smooth : ContMDiff (IG.prod I) I ∞ (fun gx : G × M ↦ gx.1 • gx.2)
-  preserves : ∀ (g : G) x v w,
-    σ.bilinFormAt (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
-      (mfderiv I I (fun y : M ↦ g • y) x w) = σ.bilinFormAt x v w
-
-/-- Group-level moment map, with full equivariance rather than only infinitesimal data. -/
-structure IsEquivariantMomentMap (σ : TauCeti.SmoothTwoForm I M)
-    (μ : M → StrongDual ℝ EG) : Prop where
-  smooth : ContMDiff I 𝓘(ℝ, StrongDual ℝ EG) ∞ μ
-  hamiltonian : ∀ ξ : GroupLieAlgebra IG G,
-    HasHamiltonianField σ (fun x ↦ μ x ξ) (fundamentalField (IG := IG) ξ)
-  equivariant : ∀ (g : G) x, μ (g • x) = coadjoint (IG := IG) g (μ x)
-
-/-- Fundamental fields are the exact antihomomorphism required by HamiltonianSystems. -/
-theorem fundamentalField_lie [CompleteSpace E] (σ : TauCeti.SmoothTwoForm I M)
-    (ha : IsSmoothSymplecticAction (IG := IG) (G := G) σ)
-    (ξ η : GroupLieAlgebra IG G) :
-    fundamentalField (I := I) (M := M) ⁅ξ, η⁆ =
-      -VectorField.mlieBracket I (fundamentalField (I := I) (M := M) ξ) (fundamentalField (I := I) (M := M) η) := by
+/-- **Weyl-relatedness of conjugate torus elements.** Let `G` be a compact Lie group, connected or
+not, and `T` a maximal torus with Lie algebra `𝔱`. If `X, Y ∈ 𝔱` and `Ad_g X = Y` for some
+`g ∈ G`, then `Ad_n X = Y` for some `n` in the normalizer of `T`. Route: `T` and `g T g⁻¹` are
+maximal tori of the compact connected group `Z_G(Y)⁰`, so some `c ∈ Z_G(Y)⁰` conjugates the
+second to the first, and `n = c g` normalizes `T` (Alexandrino–Bettiol, *Introduction to Lie
+groups, isometric and adjoint actions and some generalizations*, arXiv:0901.2374v3, §4.3, the
+remark after Definition 4.28, p. 84, for connected `G`). -/
+theorem exists_mem_normalizer_Ad_eq {E H G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+    [TopologicalSpace G] [ChartedSpace H G] [Group G] [LieGroup I ∞ G] [T2Space G]
+    [CompactSpace G] {T : Subgroup G} (hT : IsMaximalTorus T)
+    {X Y : LeftInvariantDerivation I G} (hX : X ∈ lieSubalgebraOfSubgroup (I := I) T)
+    (hY : Y ∈ lieSubalgebraOfSubgroup (I := I) T) {g : G} (hg : Ad (I := I) g X = Y) :
+    ∃ n ∈ Subgroup.normalizer (T : Set G), Ad (I := I) n X = Y := by
   sorry
 
-/-- Conversion to PR480's algebraic dual, without changing its evaluation equation. -/
-def algebraicMoment (μ : M → StrongDual ℝ EG) : M → Module.Dual ℝ (GroupLieAlgebra IG G) :=
-  fun x ↦ (μ x).toLinearMap
-
-theorem equivariantMoment_infinitesimal (σ : TauCeti.SmoothTwoForm I M)
-    (μ : M → StrongDual ℝ EG) (hμ : IsEquivariantMomentMap (IG := IG) (G := G) σ μ)
-    (ξ : GroupLieAlgebra IG G) :
-    ContMDiff I 𝓘(ℝ, ℝ) ∞ (fun x ↦ algebraicMoment (IG := IG) μ x ξ) ∧
-      HasHamiltonianField σ (fun x ↦ algebraicMoment (IG := IG) μ x ξ) (fundamentalField ξ) := by
+/-- **Coadjoint stabilizers of a compact connected Lie group are connected.** Let `G` be a compact
+connected Lie group. For every `ν ∈ 𝔤*` the stabilizer `G_ν = {g | ν ∘ Ad_(g⁻¹) = ν}` of the
+coadjoint action is connected. Through an `Ad`-invariant inner product `B` with `ν = B(X, ·)`,
+`G_ν` is the centralizer `Z_G(X)`, the centralizer of the torus closure of `exp(ℝ X)`; its identity
+component contains a maximal torus `T` with `X ∈ 𝔱`, and the stabilizer of a dominant element in
+the Weyl group is generated by wall reflections whose rank-one representatives lie in `Z_G(X)⁰`
+(Alexandrino–Bettiol, *Introduction to Lie groups, isometric and adjoint actions and some
+generalizations*, arXiv:0901.2374v3, Lemma 4.26, pp. 83–84, for adjoint stabilizers of elements of
+`𝔱`). -/
+theorem isConnected_stabilizer_coadjointRepresentation {E H G : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+    [TopologicalSpace G] [ChartedSpace H G] [Group G] [LieGroup I ∞ G] [T2Space G]
+    [CompactSpace G] [ConnectedSpace G] (ν : Module.Dual ℝ (GroupLieAlgebra I G)) :
+    IsConnected ((coadjointRepresentation ℝ I G).stabilizer ν : Set G) := by
   sorry
 
-/-- Momentum for the intrinsic cotangent lift. -/
-def cotangentMomentum (z : Cotangent I M) : StrongDual ℝ EG :=
-  z.2.comp (mfderiv IG I (fun g : G ↦ g • z.1) 1)
-
-/-- Cotangent action explicitly transports covectors by inverse base derivative. -/
-def cotangentLiftedAction (g : G) (z : Cotangent I M) : Cotangent I M :=
-  Bundle.TotalSpace.mk' (E →L[ℝ] ℝ) (g • z.1)
-    (z.2.comp (mfderiv I I (fun q : M ↦ g⁻¹ • q) (g • z.1)))
-
-theorem cotangentMomentum_hamiltonian [FiniteDimensional ℝ E]
-    (ha : ContMDiff (IG.prod I) I ∞ (fun gx : G × M ↦ gx.1 • gx.2))
-    (ξ : GroupLieAlgebra IG G) :
-    HasHamiltonianField (canonicalForm (M := M) I)
-      (fun z : Cotangent I M ↦ cotangentMomentum (IG := IG) (G := G) z ξ)
-      (fun z ↦ mfderiv IG (cotangentModel I)
-        (fun g : G ↦ cotangentLiftedAction g z) 1 ξ) := by
-  sorry
-
-variable {F K Q : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
-  [TopologicalSpace K] {J : ModelWithCorners ℝ F K}
-  [TopologicalSpace Q] [ChartedSpace K Q] [IsManifold J ∞ Q]
-
-/-- A temporary local adapter of PR480 `SmoothTwoForm.IsSymplecticMap` for form descent.
-Its equation and argument data are unchanged; use the owner predicate and delete this
-adapter when importing HamiltonianSystems. No independent pullback theory is intended. -/
-def PullsBackTo (p : M → Q) (σ : TauCeti.SmoothTwoForm I M)
-    (τ : TauCeti.SmoothTwoForm J Q) : Prop :=
-  ∀ x v w, τ.bilinFormAt (p x) (mfderiv I J p x v) (mfderiv I J p x w) = σ.bilinFormAt x v w
-
-/-- Quotient form uniqueness follows from surjectivity of projection and its tangent maps. -/
-theorem descendedForm_unique (p : M → Q) (hp : Function.Surjective p)
-    (hdp : ∀ x, Function.Surjective (mfderiv I J p x))
-    (σ : TauCeti.SmoothTwoForm I M) (τ₁ τ₂ : TauCeti.SmoothTwoForm J Q)
-    (h₁ : PullsBackTo p σ τ₁) (h₂ : PullsBackTo p σ τ₂) : τ₁ = τ₂ := by
-  sorry
-/-- A closed basic form with exactly vertical kernel descends to a genuine symplectic form. -/
-theorem descendedForm_exists [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [BoundarylessManifold I M] [BoundarylessManifold J Q]
-    (p : M → Q) (hp : Function.Surjective p)
-    (hpsmooth : ContMDiff I J ∞ p)
-    (hdp : ∀ x, Function.Surjective (mfderiv I J p x))
-    (σ : TauCeti.SmoothTwoForm I M) (hclosed : σ.IsClosed)
-    (hbasic : ∀ x y (v w : TangentSpace I x) (v' w' : TangentSpace I y),
-      p x = p y → mfderiv I J p x v = mfderiv I J p y v' →
-      mfderiv I J p x w = mfderiv I J p y w' → σ.bilinFormAt x v w = σ.bilinFormAt y v' w')
-    (hkernel : ∀ x (v : TangentSpace I x),
-      (∀ w, σ.bilinFormAt x v w = 0) ↔ mfderiv I J p x v = 0) :
-    ∃ τ : TauCeti.SmoothTwoForm J Q, τ.IsSymplectic ∧ PullsBackTo p σ τ := by
-  sorry
-end TauCetiRoadmap.SymplecticGeometry
+end TauCetiRoadmap.HamiltonianReduction
