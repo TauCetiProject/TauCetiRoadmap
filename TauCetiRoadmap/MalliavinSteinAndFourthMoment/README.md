@@ -40,17 +40,17 @@ inequality, with its own covariance representation.
 The nearest roadmaps, and what passes between them:
 
 - WienerChaosAndMalliavinCalculus supplies everything Malliavin: isonormal processes, the chaos
-  and its projections, multiple integrals and contractions, the derivative and 𝔻^{1,2}, the
+  and its projections, multiple integrals and contractions, the derivative and 𝔻¹,², the
   divergence relation, the Ornstein–Uhlenbeck semigroup and the pseudo-inverse of its generator,
-  together with the chain rule, the chaos description of 𝔻^{1,2}, Mehler's formula and the
+  together with the chain rule, the chaos description of 𝔻¹,², Mehler's formula and the
   integration-by-parts formula that this roadmap turns into Stein bounds. Nothing passes back.
 - SteinsMethodForNormalApproximation supplies the Stein solution of the standard normal law and
   the bound of the Wasserstein distance through its Stein class, which is the Wasserstein half
   of Layer 2. It excludes the total variation and Kolmogorov distances; their Stein bounds are
   owned here, in Layer 1.
-- HigherOrderAndResampling owns the Berry–Esseen theorem for sums of independent variables, with
-  its own Kolmogorov distance; this roadmap states its Kolmogorov bounds pointwise in the
-  distribution function instead, and nothing passes between the two.
+- MathematicalStatisticsHigherOrderAndResampling owns the Berry–Esseen theorem for sums of
+  independent variables, with its own Kolmogorov distance; this roadmap states its Kolmogorov bounds
+  pointwise in the distribution function instead, and nothing passes between the two.
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies
   Stein's identity for Gaussian vectors, used to compare two Gaussian laws and in the
   multivariate smart path.
@@ -101,10 +101,10 @@ where they add something, and *Dependencies*.
 - Convergence in law is `TendstoInDistribution`, with the identity map on the limit law.
 - `H` is a real inner product space and W an isonormal process on a probability space (Ω, P), in
   the sense of WienerChaosAndMalliavinCalculus §1.1. Layers 2–3 take `H` complete, as that
-  roadmap's statements about the derivative do. The derivative D, the space 𝔻^{1,2}, the divergence
+  roadmap's statements about the derivative do. The derivative D, the space 𝔻¹,², the divergence
   relation, the semigroup P_t and the pseudo-inverse L⁻¹ are those of its §§4.2, 5.1, 6.1 and
   6.2; `Suggested.lean` carries verbatim copies, and this roadmap owns none of them.
-- The random variance of a centred F ∈ 𝔻^{1,2} is ⟪DF, −DL⁻¹F⟫, and that of a divergence
+- The random variance of a centred F ∈ 𝔻¹,² is ⟪DF, −DL⁻¹F⟫, and that of a divergence
   F = δ(u) is ⟪DF, u⟫; their expectation is E F².
 - Layers 4–5 take H = L²(T, μ) for a σ-finite measure μ, with the kernels of order q, the
   symmetric kernels, the multiple integrals I_q and the contractions f ⊗ᵣ g of
@@ -122,7 +122,7 @@ where they add something, and *Dependencies*.
 
 ### 1.1 Stein solutions for bounded test functions
 
-The Stein solution f_h(w) = e^{w²/2} ∫_{t ≤ w} (h(t) − E h(N)) e^{−t²/2} dt of the standard
+The Stein solution f_h(w) = exp(w²/2) ∫_(t ≤ w) (h(t) − E h(N)) exp(−t²/2) dt of the standard
 normal law is the one of SteinsMethodForNormalApproximation §1.1.
 
 - **The Stein equation in integrated form** (`steinSolution_sub_eq_integral`): for every h
@@ -138,19 +138,19 @@ normal law is the one of SteinsMethodForNormalApproximation §1.1.
   and f_h is 1-Lipschitz (Nourdin–Peccati, Theorem 3.4.2, p. 65; Nualart–Nualart, Proposition
   8.1.7, p. 134; Chen–Goldstein–Shao, Lemma 2.3, (2.8), p. 16).
 
-*Proof route.* Integrated form: with g(t) = (h(t) − E h(N)) e^{−t²/2} and
-G(w) = ∫_{t ≤ w} g(t) dt, G(w) = G(x) + ∫ from x to w of g. Substituting this into
-∫ from x to y of w e^{w²/2} G(w) dw and exchanging the order of integration
+*Proof route.* Integrated form: with g(t) = (h(t) − E h(N)) exp(−t²/2) and
+G(w) = ∫_(t ≤ w) g(t) dt, G(w) = G(x) + ∫ from x to w of g. Substituting this into
+∫ from x to y of w exp(w²/2) G(w) dw and exchanging the order of integration
 (`MeasureTheory.integral_integral_swap`) gives
-G(x)(e^{y²/2} − e^{x²/2}) + ∫ from x to y of g(t)(e^{y²/2} − e^{t²/2}) dt, by
-`intervalIntegral.integral_deriv_eq_sub` applied to e^{w²/2}. Adding ∫ from x to y of
-e^{t²/2} g(t) dt leaves e^{y²/2} G(y) − e^{x²/2} G(x). For continuous h this is the Stein
+G(x)(exp(y²/2) − exp(x²/2)) + ∫ from x to y of g(t)(exp(y²/2) − exp(t²/2)) dt, by
+`intervalIntegral.integral_deriv_eq_sub` applied to exp(w²/2). Adding ∫ from x to y of
+exp(t²/2) g(t) dt leaves exp(y²/2) G(y) − exp(x²/2) G(x). For continuous h this is the Stein
 equation of SteinsMethodForNormalApproximation §1.1. The sources bound the version
 w f_h + h − E h(N) of f_h'; by the integrated form, a bound c on it makes f_h c-Lipschitz. The
 bounds themselves are the Gaussian tail estimate
-e^{w²/2} ∫_{|w|}^∞ e^{−y²/2} dy ≤ √(π/2) and its weighted form
-|w| e^{w²/2} ∫_{|w|}^∞ e^{−y²/2} dy ≤ 1 (Nourdin–Peccati, proof of Theorem 3.3.1, p. 64). For the
-half-line, the closed form f_z(w) = √(2π) e^{w²/2} Φ(min(w, z))(1 − Φ(max(w, z)))
+exp(w²/2) ∫_(|w|)^∞ exp(−y²/2) dy ≤ √(π/2) and its weighted form
+|w| exp(w²/2) ∫_(|w|)^∞ exp(−y²/2) dy ≤ 1 (Nourdin–Peccati, proof of Theorem 3.3.1, p. 64). For the
+half-line, the closed form f_z(w) = √(2π) exp(w²/2) Φ(min(w, z))(1 − Φ(max(w, z)))
 (Nourdin–Peccati, (3.4.1), p. 65).
 
 *Needs:* SteinsMethodForNormalApproximation §1.1.
@@ -173,7 +173,7 @@ hypothesis.
 
 *Proof route.* By Tau Ceti's `MeasureTheory.etvDist_eq_two_mul_iSup_sub`, `tvDist` is twice the
 supremum of |μ(A) − N(0, v)(A)| over Borel sets. Approximate the indicator of A in L¹(μ + N(0, v))
-by continuous h with values in [0, 1]. For continuous h, the function f(x) = f_{h̃}(x/√v)/√v
+by continuous h with values in [0, 1]. For continuous h, the function f(x) = f_(h̃)(x/√v)/√v
 with h̃(y) = h(√v y) solves v f' − x f = h − E h(N(0, v)) and is C¹ by the Stein equation of
 SteinsMethodForNormalApproximation §1.1; §1.1 bounds it, the change of variables being Mathlib's
 `gaussianReal_map_const_mul`. For the Kolmogorov bound, average the half-line solutions of §1.1
@@ -235,42 +235,42 @@ Throughout, `H` is complete and W is isonormal.
 ### 2.1 Integration by parts and the random variance
 
 - **Multivariate integration by parts** (`IsIsonormal.integral_mul_comp_euclidean`): for
-  F₁, …, Fₘ ∈ 𝔻^{1,2}, G a functional of W and φ of class C¹ on ℝᵐ with bounded derivative,
+  F₁, …, Fₘ ∈ 𝔻¹,², G a functional of W and φ of class C¹ on ℝᵐ with bounded derivative,
   E[G φ(F)] = E G · E φ(F) + ∑ᵢ E[∂ᵢφ(F) ⟪DFᵢ, −DL⁻¹G⟫] (Nourdin–Peccati, Theorem 2.9.1, p. 53,
   for m = 1; it is applied to second partial derivatives of a function of a vector in the proof
   of Theorem 6.1.1, p. 117).
-- **Conditional positivity** (`IsIsonormal.condExp_inner_nonneg`): for F ∈ 𝔻^{1,2},
+- **Conditional positivity** (`IsIsonormal.condExp_inner_nonneg`): for F ∈ 𝔻¹,²,
   E[⟪DF, −DL⁻¹F⟫ | F] ≥ 0 almost surely (Nourdin–Peccati, Proposition 2.9.4, p. 54, for centred
   F).
 - **Mehler representation** (`IsIsonormal.inner_malliavinDeriv_ouPseudoInverse`): for
-  F ∈ 𝔻^{1,2} and h ∈ H, ⟪−DL⁻¹F, h⟫ = ∫₀^∞ e^{−t} P_t ⟪DF, h⟫ dt in L² (Nourdin–Peccati,
+  F ∈ 𝔻¹,² and h ∈ H, ⟪−DL⁻¹F, h⟫ = ∫₀^∞ e⁻ᵗ P_t ⟪DF, h⟫ dt in L² (Nourdin–Peccati,
   Proposition 2.9.3, (2.9.2), p. 53, for centred F).
 
 *Proof route.* Integration by parts: WienerChaosAndMalliavinCalculus §6.3 with g the identity
-gives E[(G − E G) Φ] = E⟪DΦ, −DL⁻¹G⟫ for every Φ ∈ 𝔻^{1,2}; take Φ = φ(F) and expand DΦ by the
+gives E[(G − E G) Φ] = E⟪DΦ, −DL⁻¹G⟫ for every Φ ∈ 𝔻¹,²; take Φ = φ(F) and expand DΦ by the
 chain rule of its §4.3. The centring hypotheses of the sources are not needed, since D and L⁻¹
 do not see constants. Positivity: for g ≥ 0 smooth with primitive G vanishing at 0, x G(x) ≥ 0,
 so E[F G(F)] ≥ 0, and integration by parts writes it as E[g(F) E[⟪DF, −DL⁻¹F⟫ | F]]
 (Nourdin–Peccati, proof of Proposition 2.9.4, p. 54). Mehler: on the chaos of order n,
 −DL⁻¹F = DF/n and P_t acts on ⟪DF, h⟫, which lies in the chaos of order n − 1 by
-WienerChaosAndMalliavinCalculus §4.4, as e^{−(n−1)t}; ∫₀^∞ e^{−nt} dt = 1/n, and the chaos
+WienerChaosAndMalliavinCalculus §4.4, as exp(−(n−1)t); ∫₀^∞ e⁻ⁿᵗ dt = 1/n, and the chaos
 description of §4.4 there sums the chaoses.
 
 *Needs:* WienerChaosAndMalliavinCalculus §§4.3, 4.4, 6.1–6.3.
 
 ### 2.2 Bounds for divergences and for centred functionals
 
-- **Divergences** (`IsIsonormal.tvDist_map_le_of_isDivergence`): if F ∈ 𝔻^{1,2} is a divergence
+- **Divergences** (`IsIsonormal.tvDist_map_le_of_isDivergence`): if F ∈ 𝔻¹,² is a divergence
   F = δ(u), then for every v > 0, `tvDist` (F, N(0, v)) ≤ (4/v) E|v − ⟪DF, u⟫|, at every z the
   Kolmogorov difference is at most (1/v) E|v − ⟪DF, u⟫|, and W₁(F, N(0, 1)) ≤
   √(2/π) E|1 − ⟪DF, u⟫| (Nualart–Nualart, Theorem 8.2.1, p. 136, for v = 1, and (8.16), p. 138,
   for general v).
 - **Centred functionals** (`IsIsonormal.tvDist_map_le_of_mem_sobolev12`): the same three bounds
-  for a centred F ∈ 𝔻^{1,2} with ⟪DF, −DL⁻¹F⟫ in place of ⟪DF, u⟫ (Nourdin–Peccati, Theorem
+  for a centred F ∈ 𝔻¹,² with ⟪DF, −DL⁻¹F⟫ in place of ⟪DF, u⟫ (Nourdin–Peccati, Theorem
   5.1.3, p. 91, which assumes a density for the total-variation and Kolmogorov bounds and
   v = E F²; Nualart–Nualart, the case u = −DL⁻¹F after Example 8.2.2, p. 137).
 
-*Proof route.* For f in a Stein class of §1.2, f(F) ∈ 𝔻^{1,2} with D f(F) = f'(F) DF
+*Proof route.* For f in a Stein class of §1.2, f(F) ∈ 𝔻¹,² with D f(F) = f'(F) DF
 (WienerChaosAndMalliavinCalculus §4.3), so the divergence relation of its §5.1 gives
 E[F f(F)] = E[f'(F) ⟪DF, u⟫] and E[v f'(F) − F f(F)] = E[f'(F)(v − ⟪DF, u⟫)], of size at most
 sup|f'| · E|v − ⟪DF, u⟫|; conclude by §1.2. For W₁, the class of SteinsMethodForNormalApproximation
@@ -284,19 +284,24 @@ SteinsMethodForNormalApproximation §3.1.
 ### 2.3 The multivariate smart path
 
 - **Smart-path bound** (`IsIsonormal.abs_integral_sub_multivariateGaussian_le`): for centred
-  F₁, …, F_d ∈ 𝔻^{1,2}, a positive semidefinite d × d matrix C, N ~ N(0, C), and h of class C²
+  F₁, …, F_d ∈ 𝔻¹,², a positive semidefinite d × d matrix C, N ~ N(0, C), and h of class C²
   with every second partial derivative bounded by K,
   |E h(F) − E h(N)| ≤ (K/2) ∑ᵢⱼ E|C(i, j) − ⟪DFⱼ, −DL⁻¹Fᵢ⟫| (Nourdin–Peccati, Theorem 6.1.2,
   pp. 117–118).
 
 *Proof route.* Interpolate Ψ(t) = E h(√(1 − t) F + √t N) with N independent of W; differentiate
-under the integral, apply Stein's identity to the N-part (MathematicalStatisticsFoundations §4.4)
-and §2.1 to the F-part with φ = ∂ᵢh(√(1 − t) · + √t y), whose derivative is bounded by the
+under the integral, apply Stein's identity E[Nᵢ ψ(N)] = ∑ⱼ C(i, j) E[∂ⱼψ(N)] to the N-part and
+§2.1 to the F-part with φ = ∂ᵢh(√(1 − t) · + √t y), whose derivative is bounded by the
 hypothesis; the difference is
 ½ ∫₀¹ ∑ᵢⱼ E[∂ᵢ∂ⱼh(…)(C(i, j) − ⟪DFⱼ, −DL⁻¹Fᵢ⟫)] dt (Nourdin–Peccati, proof of Theorem
-6.1.2, p. 118). The source takes d ≥ 2; d = 1 is the same proof.
+6.1.2, p. 118). The source takes d ≥ 2; d = 1 is the same proof. Stein's identity for N(0, C)
+with C only positive semidefinite follows from the isotropic case N(0, I) of
+MathematicalStatisticsFoundations §4.4: write N = C^(1/2) Z with Z standard
+(`TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt`) and apply that case to
+z ↦ ψ(C^(1/2) z), whose partial derivatives are ∑ⱼ C^(1/2)(j, i) ∂ⱼψ(C^(1/2) z).
 
-*Needs:* §2.1; MathematicalStatisticsFoundations §4.4; Mathlib's `multivariateGaussian`.
+*Needs:* §2.1; MathematicalStatisticsFoundations §4.4; Mathlib's `multivariateGaussian`;
+`TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt`.
 
 **Checks.**
 
@@ -305,7 +310,7 @@ hypothesis; the difference is
   0.3617 ≤ 1.7886, the Kolmogorov difference is at most 0.0815 ≤ 0.4472, and W₁(F, N(0, 1)) =
   0.1936 ≤ 0.3820 (computed by quadrature against the closed-form density of F).
 - Smart path with d = 1, C = 1 and h = cos (K = 1) on the same F: at a = 0.2,
-  |E cos F − e^{−1/2}| = 0.00928 ≤ 0.23937.
+  |E cos F − e⁻¹ᐟ²| = 0.00928 ≤ 0.23937.
 - Convention check for the factor 4: the clipped Gaussian max(−0.3, min(0.3, Z)) has atoms of
   total mass 0.764177 at ±0.3, so `tvDist` to any Gaussian law is at least 2 · 0.764177; its value
   against N(0, E F²) is 1.528354, below the bound 6.113418 of §2.2 (v = E F² = 0.075766).
@@ -319,14 +324,14 @@ SteinsMethodForNormalApproximation §3.1; MathematicalStatisticsFoundations §4.
 
 ### 3.1 The Bouleau–Hirsch criterion
 
-- **Bouleau–Hirsch** (`IsIsonormal.absolutelyContinuous_map_restrict`): for F ∈ 𝔻^{1,2}, the
+- **Bouleau–Hirsch** (`IsIsonormal.absolutelyContinuous_map_restrict`): for F ∈ 𝔻¹,², the
   law of F restricted to the event {DF ≠ 0} is absolutely continuous with respect to Lebesgue
   measure: P(F ∈ B, DF ≠ 0) = 0 for every Lebesgue-null Borel B (Nualart, Corollary 2.1.2, p. 99,
-  for 𝔻^{1,1}_loc).
+  for 𝔻¹,¹_loc).
 - Target in prose: if DF ≠ 0 almost surely then the law of F is absolutely continuous (Nualart,
   Theorem 2.1.3, p. 98), the case of a full event.
 
-*Proof route.* Nualart's proof of Theorem 2.1.3, pp. 98–99, works in 𝔻^{1,2}: reduce to |F| < 1
+*Proof route.* Nualart's proof of Theorem 2.1.3, pp. 98–99, works in 𝔻¹,²: reduce to |F| < 1
 by composing with a C¹ diffeomorphism onto (−1, 1) with bounded derivative; for a Borel g with
 values in [0, 1] and Lebesgue integral 0, approximate g by continuous gₙ almost everywhere for
 the law of F plus Lebesgue measure, apply the chain rule of WienerChaosAndMalliavinCalculus §4.3
@@ -341,11 +346,11 @@ so g(F) DF = 0 almost surely.
   element of the chaos of order q ≥ 1 has an absolutely continuous law (Nourdin–Peccati, Theorem
   2.10.1, p. 54).
 
-*Proof route.* Induction on q, by a route different from the source's. For q = 1, F is a nonzero
-centred Gaussian. For q ≥ 2, E‖DF‖² = q E F² > 0 (WienerChaosAndMalliavinCalculus §4.4), so
-⟪DF, h⟫ ≠ 0 in L² for some h ∈ H; ⟪DF, h⟫ is in the chaos of order q − 1 (the same section,
-chaos by chaos), so by induction it vanishes only on a null event, hence DF ≠ 0 almost surely,
-and §3.1 applies.
+*Proof route.* Induction on q, as in Nourdin–Peccati, proof of Theorem 2.10.1, pp. 54–55, with
+the last step taken from §3.1. For q = 1, F is a nonzero centred Gaussian. For q ≥ 2,
+E‖DF‖² = q E F² > 0 (WienerChaosAndMalliavinCalculus §4.4), so ⟪DF, h⟫ ≠ 0 in L² for some
+h ∈ H; ⟪DF, h⟫ is in the chaos of order q − 1 (the same section, chaos by chaos), so by
+induction it vanishes only on a null event, hence DF ≠ 0 almost surely, and §3.1 applies.
 
 *Needs:* §3.1; WienerChaosAndMalliavinCalculus §4.4.
 
@@ -355,7 +360,7 @@ and §3.1 applies.
   null event W(h) = 0.
 - Negative control for q ≥ 1 in §3.2: the chaos of order 0 consists of constants, whose laws are
   Dirac masses.
-- Negative control for restricting to {DF ≠ 0}: F = max(W(h), 0) is in 𝔻^{1,2} with
+- Negative control for restricting to {DF ≠ 0}: F = max(W(h), 0) is in 𝔻¹,² with
   DF = 1{W(h) > 0} h and an atom of mass 1/2 at 0, carried by {DF = 0}.
 
 ### Dependencies
@@ -373,12 +378,12 @@ kernel f of order q.
   onto the symmetric kernels of order p + q − 2r (Nourdin–Peccati, p. 41, with (B.4.6),
   p. 208).
 - **Contraction inequality** (`norm_contraction_sq_le`): for symmetric f, g of orders p, q and
-  r ≤ min(p, q), ‖f ⊗ᵣ g‖² ≤ ‖f ⊗_{p−r} f‖ ‖g ⊗_{q−r} g‖ (Nourdin–Peccati, p. 121, the display
+  r ≤ min(p, q), ‖f ⊗ᵣ g‖² ≤ ‖f ⊗_(p−r) f‖ ‖g ⊗_(q−r) g‖ (Nourdin–Peccati, p. 121, the display
   after (6.2.3), and (6.2.5)).
-- Target in prose: ‖f ⊗ᵣ g‖² = ⟪f ⊗_{p−r} f, g ⊗_{q−r} g⟫ for symmetric f and g (Nourdin–Peccati,
+- Target in prose: ‖f ⊗ᵣ g‖² = ⟪f ⊗_(p−r) f, g ⊗_(q−r) g⟫ for symmetric f and g (Nourdin–Peccati,
   (6.2.4), p. 121), and ‖f ⊗̃ᵣ g‖ ≤ ‖f ⊗ᵣ g‖.
 
-*Proof route.* Expand both squared norms as integrals over T^{2r} × T^{p−r} × T^{q−r} and use
+*Proof route.* Expand both squared norms as integrals over T^(2r) × T^(p−r) × T^(q−r) and use
 Fubini and the symmetry of f and g to move the contracted variables; Cauchy–Schwarz. The
 projection does not increase norms.
 
@@ -387,14 +392,14 @@ projection does not increase norms.
 ### 4.2 The norm of the derivative and the fourth cumulant
 
 - **Norm of the derivative** (`IsMultipleWienerIntegral.norm_malliavinDeriv_sq`): for q ≥ 1,
-  ‖DF‖²/q = E F² + q ∑_{r=1}^{q−1} (r − 1)! C(q − 1, r − 1)² I_{2q−2r}(f ⊗ᵣ f) (Nourdin–Peccati,
+  ‖DF‖²/q = E F² + q ∑ᵣ₌₁^(q−1) (r − 1)! C(q − 1, r − 1)² I_(2q−2r)(f ⊗ᵣ f) (Nourdin–Peccati,
   Lemma 5.2.4, (5.2.2), p. 95).
 - **Its variance** (`IsMultipleWienerIntegral.variance_norm_malliavinDeriv_sq`):
-  Var(‖DF‖²/q) = ∑_{r=1}^{q−1} (r²/q²) r!² C(q, r)⁴ (2q − 2r)! ‖f ⊗̃ᵣ f‖² (Nourdin–Peccati,
+  Var(‖DF‖²/q) = ∑ᵣ₌₁^(q−1) (r²/q²) r!² C(q, r)⁴ (2q − 2r)! ‖f ⊗̃ᵣ f‖² (Nourdin–Peccati,
   (5.2.3), p. 96; Nualart–Nualart, Proposition 8.3.2, Step 1, p. 138).
 - **Fourth cumulant** (`IsMultipleWienerIntegral.fourth_cumulant_eq`): for q ≥ 1,
-  κ₄(F) = E F⁴ − 3(E F²)² = (3/q) ∑_{r=1}^{q−1} r r!² C(q, r)⁴ (2q − 2r)! ‖f ⊗̃ᵣ f‖², and also
-  = ∑_{r=1}^{q−1} q!² C(q, r)² (‖f ⊗ᵣ f‖² + C(2q − 2r, q − r) ‖f ⊗̃ᵣ f‖²) (Nourdin–Peccati,
+  κ₄(F) = E F⁴ − 3(E F²)² = (3/q) ∑ᵣ₌₁^(q−1) r r!² C(q, r)⁴ (2q − 2r)! ‖f ⊗̃ᵣ f‖², and also
+  = ∑ᵣ₌₁^(q−1) q!² C(q, r)² (‖f ⊗ᵣ f‖² + C(2q − 2r, q − r) ‖f ⊗̃ᵣ f‖²) (Nourdin–Peccati,
   (5.2.5)–(5.2.6), p. 96).
 - **Comparison** (`IsMultipleWienerIntegral.variance_le_fourth_cumulant`):
   Var(‖DF‖²/q) ≤ ((q − 1)/(3q)) κ₄(F) ≤ (q − 1) Var(‖DF‖²/q) (Nourdin–Peccati, (5.2.7), p. 96;
@@ -402,12 +407,17 @@ projection does not increase norms.
   and at q = 0 Lean's division by 0 makes all three terms 0.
 
 *Proof route.* WienerChaosAndMalliavinCalculus §4.4 in its white-noise form,
-D I_q(f) = q I_{q−1}(f(·, t)), and its product formula of §3.3 give (5.2.2); the isometry of its
-§3.1 gives (5.2.3). For (5.2.5), E F⁴ = E[F · F³] = (3/q) E[F² ‖DF‖²] by §2.1, then (5.2.2) and the
-isometry; (5.2.6) by the product formula for F² directly (Nourdin–Peccati, proof of Lemma 5.2.4,
-pp. 95–96). (5.2.7) compares the two series term by term, using r ≤ q − 1.
+D I_q(f) = q I_(q−1)(f(·, t)), and its product formula of §3.3 give (5.2.2); the isometry of its
+§3.1 gives (5.2.3). For (5.2.5): F³ ∈ 𝔻¹,² with D(F³) = 3F² DF by the product rule (a prose
+target of WienerChaosAndMalliavinCalculus §4.3) applied to F · F and F² · F, whose
+integrability hypotheses hold on a chaos because F and ‖DF‖², a finite sum of chaoses by
+(5.2.2), have moments of every order (its §6.4, equivalence of moments). Its §6.3 with g the
+identity gives E[F Φ] = E⟪DΦ, −DL⁻¹F⟫ for every Φ ∈ 𝔻¹,², and −DL⁻¹F = DF/q on the chaos, so
+E F⁴ = E[F · F³] = (3/q) E[F² ‖DF‖²]; then (5.2.2) and the isometry. (5.2.6) follows by the
+product formula for F² directly (Nourdin–Peccati, proof of Lemma 5.2.4, pp. 95–96). (5.2.7)
+compares the two series term by term, using r ≤ q − 1.
 
-*Needs:* §2.1; WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.4.
+*Needs:* WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.3, 4.4, 6.3, 6.4.
 
 ### 4.3 Bounds and non-Gaussianity
 
@@ -422,8 +432,8 @@ pp. 95–96). (5.2.7) compares the two series term by term, using r ≤ q − 1.
 
 *Proof route.* On a chaos, −DL⁻¹F = DF/q, so §2.2 bounds the distances by E|v − ‖DF‖²/q|, at
 most √Var(‖DF‖²/q) by Cauchy–Schwarz since E‖DF‖²/q = v; conclude by §4.2. No density is used.
-Non-Gaussianity: κ₄ = 0 forces f ⊗̃_{q−1} f = 0 by (5.2.5); f ⊗_{q−1} f is already symmetric,
-and ‖f ⊗_{q−1} f‖² bounds the squares of the coordinates of f along an orthonormal basis
+Non-Gaussianity: κ₄ = 0 forces f ⊗̃_(q−1) f = 0 by (5.2.5); f ⊗_(q−1) f is already symmetric,
+and ‖f ⊗_(q−1) f‖² bounds the squares of the coordinates of f along an orthonormal basis
 (Nourdin–Peccati, proof of Corollary 5.2.11, p. 101), so f = 0.
 
 *Needs:* §§2.2, 4.1, 4.2.
@@ -457,16 +467,20 @@ convergence in law. The source takes q ≥ 2; for q = 1 every condition holds.
   E F⁴ = 9, κ₄ = 6; ‖f ⊗₁ f‖² = ‖f ⊗̃₁ f‖² = 1/8, so (5.2.3) gives Var(‖DF‖²/2) =
   (1/4) · 16 · 2 · 1/8 = 1, which is Var((W(e₁)² + W(e₂)²)/2), and (5.2.5) gives
   (3/2) · 16 · 2 · 1/8 = 6.
-- Fourth-moment bound on the centred χ²_m, F = ∑_{i ≤ m} (Zᵢ² − 1) (q = 2, v = 2m, κ₄ = 48m): the
+- Fourth-moment bound on the centred χ²_m, F = ∑_(i ≤ m) (Zᵢ² − 1) (q = 2, v = 2m, κ₄ = 48m): the
   bound is 4√2/√m; at m = 10, `tvDist` = 0.2371 ≤ 1.7889 and the Kolmogorov difference is at most
   0.0596 ≤ 0.4472; at m = 200, 0.0505 ≤ 0.4 and 0.0133 ≤ 0.1.
 - Negative control for q ≥ 2 in §4.3: on the first chaos F is Gaussian and κ₄ = 0.
+- Negative control for σ² > 0 in §4.4: for q = 1 and fₙ = h/n with ‖h‖ = 1, E Fₙ² → 0, Fₙ
+  converges in law to N(0, 0) = δ₀, E Fₙ⁴ = 3/n⁴ → 0 and DFₙ = h/n is deterministic, but
+  `tvDist` (Fₙ, δ₀) = 2 for every n, since Fₙ has a density: at σ² = 0 the last condition fails
+  while the others hold.
 - Negative control for q ≥ 1 in §4.4: on the chaos of order 0, Fₙ = σ is constant, Var ‖DFₙ‖² = 0
   for every n, but E Fₙ⁴ = σ⁴ ≠ 3σ⁴.
 
 ### Dependencies
 
-Layers 1–2; WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.4, 6.4.
+Layers 1–2; WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.3, 4.4, 6.3, 6.4.
 
 ## Layer 5: vectors and chaos expansions
 
@@ -479,24 +493,27 @@ Layers 1–2; WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.4, 6.4.
 This adapts Nourdin–Peccati, (6.2.3), p. 121, which states E[(α − ⟪DF, DG⟫/q)²] for a constant α;
 the variance form is the case α = E⟪DF, DG⟫/q.
 
-*Proof route.* D I_p(f) = p I_{p−1}(f(·, t)) (WienerChaosAndMalliavinCalculus §4.4), the
-product formula of its §3.3 for I_{p−1} I_{q−1}, integration in t, and the isometry of its §3.1.
+*Proof route.* D I_p(f) = p I_(p−1)(f(·, t)) (WienerChaosAndMalliavinCalculus §4.4), the
+product formula of its §3.3 for I_(p−1) I_(q−1), integration in t, and the isometry of its §3.1.
 
 *Needs:* WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.4.
 
 ### 5.2 The Peccati–Tudor theorem
 
 - **Peccati–Tudor** (`IsMultipleWienerIntegral.peccati_tudor`): for vectors
-  Fₙ = (I_{q₁}(f_{1,n}), …, I_{q_d}(f_{d,n})) with all qᵢ ≥ 1 and E[F_{i,n} F_{j,n}] → C(i, j), Fₙ
-  converges in law to N(0, C) exactly when each component F_{i,n} converges in law to
+  Fₙ = (I_(q₁)(f_(1,n)), …, I_(q_d)(f_(d,n))) with all qᵢ ≥ 1 and E[F_(i,n) F_(j,n)] → C(i, j), Fₙ
+  converges in law to N(0, C) exactly when each component F_(i,n) converges in law to
   N(0, C(i, i)) (Nourdin–Peccati, Theorem 6.2.3, pp. 123–124; Nualart–Nualart, Theorem 8.3.5,
   p. 141, for distinct orders; Peccati–Tudor 2005).
 
 *Proof route.* One direction is the continuous mapping theorem. For the other, apply §2.3 to
 h(x) = cos⟪t, x⟫ and sin⟪t, x⟫: on chaoses −DL⁻¹F_i = DF_i/qᵢ, and E|C(i, j) −
 ⟪DF_j, DF_i⟫/qᵢ| is at most |C(i, j) − E[F_i F_j]| plus √Var⟪DF_i, DF_j⟫/qᵢ, which §5.1 and the
-contraction inequality of §4.1 bound by contractions f_{i,n} ⊗ᵣ f_{i,n} and f_{j,n} ⊗ᵣ f_{j,n} of
-orders 1 ≤ r ≤ q − 1, which tend to 0 by §4.4. Characteristic functions converge, and Mathlib's
+contraction inequality of §4.1 bound by contractions f_(i,n) ⊗ᵣ f_(i,n) and f_(j,n) ⊗ᵣ f_(j,n) of
+orders 1 ≤ r ≤ q − 1. These tend to 0: by §4.4 for the components with C(i, i) > 0, and for
+those with C(i, i) = 0 because ‖f ⊗ᵣ f‖ ≤ ‖f‖² and qᵢ! ‖f_(i,n)‖² = E F_(i,n)² → 0. §4.4 cannot
+be used there, since at σ² = 0 its total-variation condition fails (Checks of Layer 4).
+Characteristic functions converge, and Mathlib's
 `TendstoInDistribution.of_tendsto_charFun` concludes.
 
 *Needs:* §§2.3, 4.1, 4.4, 5.1; Mathlib's Lévy continuity theorem.
@@ -504,13 +521,14 @@ orders 1 ≤ r ≤ q − 1, which tend to 0 by §4.4. Characteristic functions c
 ### 5.3 Central limit theorems through chaos expansions
 
 - **Chaotic CLT** (`IsMultipleWienerIntegral.tendstoInDistribution_of_chaos`): let Fₙ = ∑_q
-  I_q(f_{n,q}) be centred, with q! ‖f_{n,q}‖² → σ_q² for each q, ∑_q σ_q² < ∞, contractions
-  ‖f_{n,q} ⊗ᵣ f_{n,q}‖ → 0 for 1 ≤ r < q, and tails ∑_{q>N} q! ‖f_{n,q}‖² small uniformly in n
+  I_q(f_(n,q)) be centred, with q! ‖f_(n,q)‖² → σ_q² for each q, ∑_q σ_q² < ∞, contractions
+  ‖f_(n,q) ⊗ᵣ f_(n,q)‖ → 0 for 1 ≤ r < q, and tails ∑_(q>N) q! ‖f_(n,q)‖² small uniformly in n
   for large N. Then Fₙ converges in law to N(0, ∑_q σ_q²) (Nourdin–Peccati, Theorem 6.3.1,
   p. 125; Nualart–Nualart, Theorem 8.4.1, p. 143; Hu–Nualart 2005).
 
 *Proof route.* Nourdin–Peccati, proof of Theorem 6.3.1, p. 125: truncate at N, apply §5.2 to the
-vector of the first N chaotic components (orthogonal, so its covariance tends to diag(σ_q²)),
+vector of the first N chaotic components (orthogonal, so its covariance tends to diag(σ_q²);
+components with σ_q = 0 are allowed in §5.2),
 and control the tail in characteristic functions by the uniform tail hypothesis; Mathlib's
 `TendstoInDistribution.of_tendsto_charFun` concludes. The uniform tail hypothesis is stated with
 an explicit ε and N; a supremum over n in ℝ would be the junk 0 when the tails are unbounded.
@@ -523,8 +541,8 @@ an explicit ε and N; a supremum over n in ℝ would be the junk 0 when the tail
   3 W(e₂) He₂(W(e₁)) has variance 9 · 1 · 2 = 18, and the formula gives
   36 (3! ‖f ⊗̃₁ g‖² + 4 ‖f ⊗̃₂ g‖²) = 18. For p = q = 1, ⟪DF, DG⟫ = ⟪f, g⟫ is constant and the sum
   over r is empty.
-- Negative control for the covariance hypothesis in §5.2: for F_{1,n} = W(h) and
-  F_{2,n} = (−1)ⁿ W(h) with ‖h‖ = 1, each component has law N(0, 1), but the covariance alternates
+- Negative control for the covariance hypothesis in §5.2: for F_(1,n) = W(h) and
+  F_(2,n) = (−1)ⁿ W(h) with ‖h‖ = 1, each component has law N(0, 1), but the covariance alternates
   between 1 and −1 and the pair does not converge in law.
 
 ### Dependencies
@@ -533,7 +551,7 @@ Layers 2 and 4; WienerChaosAndMalliavinCalculus §§3.1, 3.3, 4.4.
 
 ## Layer 6: the Breuer–Major theorem
 
-Throughout, (X_k)_{k ≥ 0} is a centred Gaussian sequence with E[X_k X_l] = ρ(k − l) and ρ(0) = 1.
+Throughout, (X_k)_(k ≥ 0) is a centred Gaussian sequence with E[X_k X_l] = ρ(k − l) and ρ(0) = 1.
 
 ### 6.1 Hermite rank and the Breuer–Major theorem
 
@@ -543,8 +561,8 @@ Throughout, (X_k)_{k ≥ 0} is a centred Gaussian sequence with E[X_k X_l] = ρ(
 - **Sanity checks** (`hermiteRank_hermite`, `hermiteRank_abs_sub`): He_q has rank q for q ≥ 1, and
   |x| − √(2/π) has rank 2 (Nourdin–Peccati, Example 7.2.2, p. 129, with p = 1).
 - **Breuer–Major** (`tendstoInDistribution_breuerMajor`): for a centred f ∈ L²(γ) of Hermite rank
-  d with ∑_{v∈ℤ} |ρ(v)|^d < ∞, n^{−1/2} ∑_{k<n} f(X_k) converges in law to N(0, σ²) with
-  σ² = ∑_q q! a_q² ∑_{v∈ℤ} ρ(v)^q (Nourdin–Peccati, Theorem 7.2.4, p. 131; Nualart–Nualart,
+  d with ∑_(v∈ℤ) |ρ(v)|^d < ∞, n⁻¹ᐟ² ∑_(k<n) f(X_k) converges in law to N(0, σ²) with
+  σ² = ∑_q q! a_q² ∑_(v∈ℤ) ρ(v)^q (Nourdin–Peccati, Theorem 7.2.4, p. 131; Nualart–Nualart,
   Theorem 8.4.2, p. 144; Breuer–Major 1983).
 
 *Proof route.* The conclusion depends only on the law of (X_k). Take H = L²(Ω, P) and
@@ -552,52 +570,59 @@ Throughout, (X_k)_{k ≥ 0} is a centred Gaussian sequence with E[X_k X_l] = ρ(
 isonormal process W' on H, and (W'(εₖ)) has the law of (X_k), both being centred Gaussian with
 the same covariance (Mathlib's `IsGaussian.charFunDual_eq` and `Measure.ext_of_charFunDual`). By
 the definition of multiple integrals (WienerChaosAndMalliavinCalculus §3.1), He_q(W'(εₖ)) =
-I_q(εₖ^{⊗q}), so the sum has kernels f_{n,q} = a_q n^{−1/2} ∑_{k<n} εₖ^{⊗q}. Then §5.3:
-q! ‖f_{n,q}‖² = q! a_q² ∑_{|v|<n} (1 − |v|/n) ρ(v)^q → σ_q² by dominated convergence, the
-contractions of tensor powers are εₖ^{⊗q} ⊗ᵣ εₗ^{⊗q} = ρ(k − l)^r εₖ^{⊗(q−r)} ⊗ εₗ^{⊗(q−r)}
+I_q(εₖ^(⊗q)), so the sum has kernels f_(n,q) = a_q n⁻¹ᐟ² ∑_(k<n) εₖ^(⊗q). Then §5.3:
+q! ‖f_(n,q)‖² = q! a_q² ∑_(|v|<n) (1 − |v|/n) ρ(v)^q → σ_q² by dominated convergence, the
+contractions of tensor powers are εₖ^(⊗q) ⊗ᵣ εₗ^(⊗q) = ρ(k − l)^r εₖ^(⊗(q−r)) ⊗ εₗ^(⊗(q−r))
 (Fubini, Mathlib's `integral_fintype_prod_eq_prod`) and tend to 0 as in Nourdin–Peccati, proof
 of Theorem 7.2.4, condition (c), pp. 132–133, and the tails are at most
-∑_v |ρ(v)|^d ∑_{q>N} q! a_q², since |ρ| ≤ 1 (there, condition (d), p. 133).
+∑_v |ρ(v)|^d ∑_(q>N) q! a_q², since |ρ| ≤ 1 (there, condition (d), p. 133).
 
 *Needs:* §5.3; WienerChaosAndMalliavinCalculus §§1.1, 3.1; Mathlib's characteristic functions
 of Gaussian measures.
 
 ### 6.2 Quadratic variations in total variation
 
-- **Quadratic rate** (`tvDist_map_quadratic_le`): for n ≥ 1 and S = ∑_{k<n} (X_k² − 1),
-  `tvDist` (S/√(E S²), N(0, 1)) ≤ (8√2 √n / E S²) (∑_{|k|<n} |ρ(k)|^{4/3})^{3/2}
+- **Quadratic rate** (`tvDist_map_quadratic_le`): for n ≥ 1 and S = ∑_(k<n) (X_k² − 1),
+  `tvDist` (S/√(E S²), N(0, 1)) ≤ (8√2 √n / E S²) (∑_(|k|<n) |ρ(k)|⁴ᐟ³)³ᐟ²
   (Nourdin–Peccati, Theorem 7.3.1, p. 133, in its form d_TV(Vₙ/vₙ, N) ≤
-  (4√2/(vₙ² √n))(∑_{|k|<n} |ρ(k)|^{4/3})^{3/2} with Vₙ = S/√n, vₙ² = E S²/n).
+  (4√2/(vₙ² √n))(∑_(|k|<n) |ρ(k)|⁴ᐟ³)³ᐟ² with Vₙ = S/√n, vₙ² = E S²/n).
+- Target in prose: Young's inequality on ℤ with exponents (4/3, 4/3; 2): for u, v : ℤ → ℝ,
+  ‖u ∗ v‖_(ℓ²) ≤ ‖u‖_(ℓ⁴ᐟ³) ‖v‖_(ℓ⁴ᐟ³), where (u ∗ v)(j) = ∑ₖ u(k) v(j − k)
+  (Nourdin–Peccati, (7.3.2), p. 135, for all exponents with 1/p + 1/q = 1 + 1/s).
 
-*Proof route.* In the realization of §6.1, S/√(E S²) = I₂(fₙ) with fₙ = ∑_{k<n} εₖ^{⊗2}/√(E S²),
+*Proof route.* In the realization of §6.1, S/√(E S²) = I₂(fₙ) with fₙ = ∑_(k<n) εₖ^(⊗2)/√(E S²),
 of unit variance, so §2.2 and Cauchy–Schwarz bound `tvDist` by 4 √Var(‖DF‖²/2), and §4.2 gives
-Var(‖DF‖²/2) = 8 ‖fₙ ⊗₁ fₙ‖² = (8/(E S²)²) ∑_{i,j,k,l<n} ρ(k − l)ρ(i − j)ρ(k − i)ρ(l − j). Bound
-the sum by n ‖ρₙ ∗ ρₙ‖²_{ℓ²(ℤ)} with ρₙ = |ρ| 1_{|k|<n}, and that by n ‖ρₙ‖⁴_{ℓ^{4/3}} by Young's
+Var(‖DF‖²/2) = 8 ‖fₙ ⊗₁ fₙ‖² = (8/(E S²)²) ∑_(i,j,k,l<n) ρ(k − l)ρ(i − j)ρ(k − i)ρ(l − j). Bound
+the sum by n ‖ρₙ ∗ ρₙ‖²_(ℓ²(ℤ)) with ρₙ = |ρ| 1_(|k|<n), and that by n ‖ρₙ‖⁴_(ℓ⁴ᐟ³) by Young's
 inequality for convolution with exponents (4/3, 4/3; 2) (Nourdin–Peccati, proof of Theorem
-7.3.1, pp. 134–135). E S² = 2 ∑_{k,l<n} ρ(k − l)² ≥ 2n > 0, so no variance hypothesis is needed.
+7.3.1, pp. 134–135). E S² = 2 ∑_(k,l<n) ρ(k − l)² ≥ 2n > 0, so no variance hypothesis is needed.
+Young's inequality in this case is Hölder's inequality with exponents (2, 4, 4) applied to
+|u(k)| |v(j − k)| = (|u(k)| |v(j − k)|)²ᐟ³ · |u(k)|¹ᐟ³ · |v(j − k)|¹ᐟ³: it gives
+|(u ∗ v)(j)|² ≤ (∑ₖ |u(k)|⁴ᐟ³ |v(j − k)|⁴ᐟ³) ‖u‖_(ℓ⁴ᐟ³)²ᐟ³ ‖v‖_(ℓ⁴ᐟ³)²ᐟ³, and summing
+over j (Tonelli) gives ‖u‖_(ℓ⁴ᐟ³)² ‖v‖_(ℓ⁴ᐟ³)².
 
-*Needs:* §§4.3, 6.1; Young's inequality for convolution (see Scope).
+*Needs:* §§4.3, 6.1; Young's inequality on ℤ (the prose target above).
 
 ### 6.3 Fractional Gaussian noise and its Hermite variations
 
-- **Covariance** (`fgnCov`): ρ_H(v) = (|v + 1|^{2H} + |v − 1|^{2H} − 2|v|^{2H})/2, the covariance of
+- **Covariance** (`fgnCov`): ρ_H(v) = (|v + 1|²ᴴ + |v − 1|²ᴴ − 2|v|²ᴴ)/2, the covariance of
   the increments of fractional Brownian motion of Hurst index H (Nourdin–Peccati, (7.4.2),
   p. 138; Nualart–Nualart, (8.28), p. 146; Nualart, p. 274).
-- **White noise** (`fgnCov_half`): ρ_{1/2}(v) is 1 at v = 0 and 0 otherwise.
+- **White noise** (`fgnCov_half`): ρ_(1/2)(v) is 1 at v = 0 and 0 otherwise.
 - **Positive semidefiniteness** (`fgnCov_posSemidef`): for 0 < H ≤ 1, ∑ᵢⱼ cᵢcⱼ ρ_H(tᵢ − tⱼ) ≥ 0.
 - **Summability** (`summable_abs_fgnCov_pow_iff`): for 0 < H < 1 and q ≥ 1,
   ∑_v |ρ_H(v)|^q < ∞ exactly when H < 1 − 1/(2q) or H = 1/2.
 - **Hermite variations** (`tendstoInDistribution_hermiteVariation`): if (X_k) has covariance
-  ρ_H, q ≥ 1 and H < 1 − 1/(2q) or H = 1/2, then n^{−1/2} ∑_{k<n} He_q(X_k) converges in law to
+  ρ_H, q ≥ 1 and H < 1 − 1/(2q) or H = 1/2, then n⁻¹ᐟ² ∑_(k<n) He_q(X_k) converges in law to
   N(0, q! ∑_v ρ_H(v)^q) (Nourdin–Peccati, Theorem 7.4.1, (7.4.5), p. 139, for q ≥ 2 and
   H < 1 − 1/(2q); Nualart–Nualart, Section 8.5, p. 147, for q ≥ 2 and H < 1 − 1/(2q)).
 
 *Proof route.* Positive semidefiniteness: ρ_H(k − l) is the covariance of the increments
-B_{k+1} − B_k of the kernel r_H(t, s) = (|t|^{2H} + |s|^{2H} − |t − s|^{2H})/2, which is
-nonnegative definite by the integral representation of |t|^{2H} in Nourdin–Peccati, proof of
+Bₖ₊₁ − B_k of the kernel r_H(t, s) = (|t|²ᴴ + |s|²ᴴ − |t − s|²ᴴ)/2, which is
+nonnegative definite by the integral representation of |t|²ᴴ in Nourdin–Peccati, proof of
 Proposition D.1.3, pp. 215–216; expand the increments. Summability: ρ_H(v) =
-H(2H − 1)|v|^{2H−2}(1 + O(v⁻²)) by Taylor's formula applied to the second difference of
-x ↦ |x|^{2H}, and ρ_{1/2} vanishes off 0; compare with Mathlib's `Real.summable_abs_int_rpow`.
+H(2H − 1)|v|²ᴴ⁻²(1 + O(v⁻²)) by Taylor's formula applied to the second difference of
+x ↦ |x|²ᴴ, and ρ_(1/2) vanishes off 0; compare with Mathlib's `Real.summable_abs_int_rpow`.
 Hermite variations: §6.1 with f = He_q, whose rank is q by `hermiteRank_hermite`.
 
 *Needs:* §6.1.
@@ -607,16 +632,16 @@ Hermite variations: §6.1 with f = He_q, whose rank is q by `hermiteRank_hermite
 - Hermite coefficients of |x| − √(2/π): a₀ = a₁ = a₃ = 0 and a₂ = √(2/π)/2 ≈ 0.39894, so the rank
   is 2. Negative control for "rank = lowest degree of the polynomial part": x³ has rank 1, since
   ∫ x³ He₁ dγ = 3.
-- ρ_H(v)/v^{2H−2} at v = 10⁴ equals H(2H − 1) to five digits: −0.125 at H = 0.25, 0.12 at H = 0.6
+- ρ_H(v)/v²ᴴ⁻² at v = 10⁴ equals H(2H − 1) to five digits: −0.125 at H = 0.25, 0.12 at H = 0.6
   and 0.375 at H = 0.75.
-- For H < 1/2 the partial sums ∑_{|v|≤N} ρ_H(v) = (N + 1)^{2H} − N^{2H} tend to 0: 0.00112 at
+- For H < 1/2 the partial sums ∑_(|v|≤N) ρ_H(v) = (N + 1)²ᴴ − N²ᴴ tend to 0: 0.00112 at
   H = 0.25, N = 2 · 10⁵. So for q = 1 and H < 1/2 the Hermite-variation limit is N(0, 0).
 - q! ∑_v ρ_H(v)^q ≈ 2.1642 at (H, q) = (0.6, 2), 2.2504 at (0.3, 2) and 6.6305 at (0.7, 3).
 - Thresholds 1 − 1/(2q): 1/2, 3/4 and 5/6 for q = 1, 2, 3.
 - Positive semidefiniteness on {0, …, 59}: least eigenvalues 0.0208 at H = 0.1 and 0.0877 at
   H = 0.95; at H = 1, ρ₁ ≡ 1 and the matrix has rank one. Negative control for H ≤ 1: at H = 1.2
   the 10 × 10 matrix has eigenvalue −7.005.
-- Young's bound behind §6.2, tr(R⁴) ≤ n (∑_{|k|<n} |ρ(k)|^{4/3})³ for the Toeplitz matrix R of
+- Young's bound behind §6.2, tr(R⁴) ≤ n (∑_(|k|<n) |ρ(k)|⁴ᐟ³)³ for the Toeplitz matrix R of
   ρ_H: 748.05 ≤ 1953.35 at H = 0.6, n = 400, and 111852.63 ≤ 403159.62 at H = 0.74, n = 400.
 
 ### Dependencies
@@ -630,8 +655,8 @@ Throughout, Z is standard Gaussian on Euclidean space ℝⁿ (`stdGaussian`) and
 
 ### 7.1 The Stein factor and the covariance representation
 
-- **Stein factor** (`gaussianSteinFactor`): T_g(x) = ∫₀^∞ e^{−t} E⟪∇g(x), ∇g(e^{−t}x +
-  √(1 − e^{−2t}) Y)⟫ dt with Y standard Gaussian (`gradient`), the finite-dimensional
+- **Stein factor** (`gaussianSteinFactor`): T_g(x) = ∫₀^∞ e⁻ᵗ E⟪∇g(x), ∇g(e⁻ᵗx +
+  √(1 − e⁻²ᵗ) Y)⟫ dt with Y standard Gaussian (`gradient`), the finite-dimensional
   ⟪DF, −DL⁻¹F⟫ for F = g(Z) (Nourdin–Peccati, proof of Proposition 1.6.1, p. 17, for n = 1).
 - **Linear functions** (`gaussianSteinFactor_inner`): for g = ⟪a, ·⟫, T_g ≡ ‖a‖².
 - **Covariance representation** (`integral_mul_comp_stdGaussian`): for a centred C¹ g with
@@ -651,7 +676,7 @@ the graph of D is closed (WienerChaosAndMalliavinCalculus §4.2).
 ### 7.2 Second-order Poincaré inequalities
 
 For g of class C² whose second derivative grows at most polynomially, with E g(Z) = 0 and
-v = E g(Z)², write A = (E‖∇²g(Z)‖⁴)^{1/4} (E‖∇g(Z)‖⁴)^{1/4}, with the operator norm of the Hessian.
+v = E g(Z)², write A = (E‖∇²g(Z)‖⁴)¹ᐟ⁴ (E‖∇g(Z)‖⁴)¹ᐟ⁴, with the operator norm of the Hessian.
 
 - **Variance of the Stein factor** (`integral_abs_sub_gaussianSteinFactor_le`):
   E|v − T_g(Z)| ≤ (3/2) A (Nourdin–Peccati, Proposition 5.3.10, (5.3.9), p. 107, for F = G
@@ -665,7 +690,7 @@ v = E g(Z)², write A = (E‖∇²g(Z)‖⁴)^{1/4} (E‖∇g(Z)‖⁴)^{1/4}, w
 *Proof route.* E T_g(Z) = v by §7.1 with φ the identity, so E|v − T_g| ≤ √Var T_g(Z), and the
 Gaussian Poincaré inequality (WienerChaosAndMalliavinCalculus §4.4, for the isonormal process
 of §7.1) bounds Var T_g by E‖∇T_g‖². Differentiating under the integrals, ∇T_g(x) is
-∇²g(x) applied to ∫ e^{−t} P_t∇g dt plus ∫ e^{−2t} P_t(∇²g)(x) applied to ∇g(x); Jensen for
+∇²g(x) applied to ∫ e⁻ᵗ P_t∇g dt plus ∫ e⁻²ᵗ P_t(∇²g)(x) applied to ∇g(x); Jensen for
 the Mehler average and Hölder give √E‖∇T_g‖² ≤ (1 + 1/2) A (Nourdin–Peccati, proof of
 Proposition 5.3.10, pp. 107–108). Then §2.2 with F = g(Z): (4/v)(3/2) A and √(2/π)(3/2) A.
 
@@ -679,7 +704,7 @@ Proposition 5.3.10, pp. 107–108). Then §2.2 with F = g(Z): (4/v)(3/2) A and �
 - W₁ form, for the normalized g = (x + a(x² − 1))/√(1 + 2a²), which has v = 1: at a = 0.2,
   W₁(g(Z), N(0, 1)) = 0.18805 ≤ 0.52955, and at a = 0.05, 0.04830 ≤ 0.12084.
 - `gaussianSteinFactor_inner` is the equality case: for linear g, T_g − v = 0 and A = 0.
-- Negative control for the weight e^{−t}: with e^{−2t} in place of e^{−t}, the linear g = x would
+- Negative control for the weight e⁻ᵗ: with e⁻²ᵗ in place of e⁻ᵗ, the linear g = x would
   have T_g ≡ 1/2 ≠ v = 1, and with no weight the integral diverges.
 
 ### Dependencies
@@ -716,10 +741,10 @@ Completion means:
 **Not owned here.**
 
 - Isonormal processes, the chaos, multiple integrals and contractions, the derivative and
-  𝔻^{1,2}, the divergence, the infinite-dimensional Ornstein–Uhlenbeck semigroup and the
+  𝔻¹,², the divergence, the infinite-dimensional Ornstein–Uhlenbeck semigroup and the
   pseudo-inverse of its generator, with the chain rule, Mehler's formula, the integration-by-parts
   formula, the Poincaré inequality and hypercontractivity, are owned by
-  WienerChaosAndMalliavinCalculus. This roadmap consumes its §§1.1, 3.1, 3.3, 4.2–4.4, 5.1 and
+  WienerChaosAndMalliavinCalculus. This roadmap consumes its §§1.1, 3.1, 3.3, 4.1–4.4, 5.1 and
   6.1–6.4 and a sanity check of its Layer 1, and is named there as the intended consumer of its
   Malliavin–Stein items.
 - The Stein solution of the standard normal law, its Stein equation, its bounds for Lipschitz and
@@ -727,9 +752,10 @@ Completion means:
   of independent or locally dependent variables are owned by SteinsMethodForNormalApproximation;
   this roadmap consumes its §§1.1 and 3.1. That roadmap excludes total variation, the Kolmogorov
   distance and the Malliavin–Stein method, which are the subject here.
-- The Berry–Esseen theorem and a named Kolmogorov distance belong to HigherOrderAndResampling,
-  which takes the Kolmogorov distance from ArithmeticStatisticsPartVIII §5.14; they are not
-  consumed, and Kolmogorov bounds here are pointwise.
+- The Berry–Esseen theorem and a named Kolmogorov distance belong to
+  MathematicalStatisticsHigherOrderAndResampling, which takes the Kolmogorov distance from
+  ArithmeticStatisticsPartVIII §5.14; they are not consumed, and Kolmogorov bounds here are
+  pointwise.
 - The finite-dimensional Ornstein–Uhlenbeck semigroup with its Mehler kernel and Hermite
   eigenfunctions belongs to OrnsteinUhlenbeckSemigroup; Layer 7 writes the Mehler average inside
   its own definition and does not define a semigroup.
@@ -738,12 +764,12 @@ Completion means:
   the second is replaced by its Wiener-space form.
 - Poisson approximation in total variation belongs to PoissonApproximation, and the martingale
   central limit theorem to MartingaleCentralLimitTheorem; neither is used.
-- Formalized in Tau Ceti and therefore not targets here: Gaussian integration by parts in one and
-  several dimensions, the one-dimensional Mehler operator, the Gaussian Poincaré inequality in
-  one dimension and on products (`TauCeti/Probability/Distributions/Gaussian/Poincare.lean`), and
-  Young's inequality for convolution in the form Lᵖ ⋆ Lʳ ⊆ L^q on commutative groups
-  (`TauCeti/Analysis/Convolution/Young.lean`), which the route of §6.2 uses on ℤ with counting
-  measure.
+- Gaussian integration by parts, Mehler's formula and the Gaussian Poincaré inequality in finite
+  dimension are not targets here: the routes use their Wiener-space forms from
+  WienerChaosAndMalliavinCalculus §§6.1, 6.3 and 4.4, and Stein's identity from
+  MathematicalStatisticsFoundations §4.4. Young's inequality for convolution is in Tau Ceti only
+  for an L¹ kernel, ‖k ⋆ f‖_p ≤ ‖k‖₁ ‖f‖_p, which does not give the exponents (4/3, 4/3; 2) of
+  §6.2; that case is a prose target of §6.2. Later work may supply the general inequality.
 
 ## Exact supplier contracts
 
@@ -771,6 +797,9 @@ Completion means:
   used at exponent 1 in §§2.2 and 7.2.
 - `MeasureTheory.etvDist_eq_two_mul_iSup_sub` (`TauCeti/MeasureTheory/Measure/TotalVariation.lean`):
   total variation as twice the supremum over measurable sets, used in §1.2.
+- `TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt`
+  (`TauCeti/Probability/Distributions/Gaussian/Multivariate.lean`): N(0, C) is the image of the
+  standard Gaussian under C^(1/2), used in §2.3.
 
 ### From other roadmaps
 
@@ -780,26 +809,29 @@ Completion means:
     isonormal process, for §7.1.
   - §3.1: kernels, symmetric kernels, multiple integrals with their isometry; §3.3: contractions
     and the product formula; for Layers 4–6.
-  - §4.2: 𝔻^{1,2} and the closed derivative; §4.3: the chain rule for C¹ functions with bounded
-    derivative; §4.4: the chaos description of 𝔻^{1,2}, the Poincaré inequality, and the prose
-    targets D Jₙ = Jₙ₋₁ D and D I_q(f) = q I_{q−1}(f(·, t)).
+  - §4.1: smooth cylinder functionals and their gradient formula, for §7.1.
+  - §4.2: 𝔻¹,² and the closed derivative; §4.3: the chain rule for C¹ functions with bounded
+    derivative, and its prose target the product rule, used in §4.2 here; §4.4: the chaos
+    description of 𝔻¹,², the Poincaré inequality, and the prose targets D Jₙ = Jₙ₋₁ D and
+    D I_q(f) = q I_(q−1)(f(·, t)).
   - §5.1: the divergence relation; §6.1: the semigroup and Mehler's formula on cylinder
     functionals; §6.2: the pseudo-inverse L⁻¹; §6.3: the commutation and the integration-by-parts
     formula E[F g(G)] = E F E g(G) + E[g'(G) ⟪DG, −DL⁻¹F⟫] for F a functional of W and
-    G ∈ 𝔻^{1,2}; §6.4: the equivalence of moments on a chaos.
+    G ∈ 𝔻¹,²; §6.4: the equivalence of moments on a chaos.
 - SteinsMethodForNormalApproximation:
   - §1.1: the Stein solution f_h and its Stein equation for continuous integrable h.
   - §3.1: the Stein class (differentiable, |f| ≤ 1, |f'| ≤ √(2/π), f' 2-Lipschitz) and the bound
     of W₁(μ, N(0, 1)) by the supremum of |∫ (f' − x f) dμ| over it.
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md):
-  - §4.4: Stein's identity E[(Xᵢ − θᵢ) gᵢ(X)] = v E[∂ᵢgᵢ(X)] for X ~ N(θ, v I), for §§1.3 and 2.3.
+  - §4.4: Stein's identity E[(Xᵢ − θᵢ) gᵢ(X)] = v E[∂ᵢgᵢ(X)] for X ~ N(θ, v I), for §§1.3 and 2.3
+    (in §2.3 through N = C^(1/2) Z).
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
 - **Multivariate Stein bounds in Wasserstein distance** for positive definite covariance
   (Nourdin–Peccati, Theorem 6.1.1, p. 116, and Theorem 6.2.2, p. 121), which need the
   multivariate Stein solution.
-- **Higher derivatives**: the infinite-dimensional second-order Poincaré inequality for F ∈ 𝔻^{2,4}
+- **Higher derivatives**: the infinite-dimensional second-order Poincaré inequality for F ∈ 𝔻²,⁴
   (Nourdin–Peccati, Theorem 5.3.3, p. 103) and the bounds ‖DL⁻¹F‖_p ≤ ‖DF‖_p and
   ‖D²L⁻¹F‖_p ≤ ½‖D²F‖_p (Nourdin–Peccati, Lemma 5.3.7, p. 104), which need the Hilbert-valued
   derivative listed in the Beyond section of WienerChaosAndMalliavinCalculus.

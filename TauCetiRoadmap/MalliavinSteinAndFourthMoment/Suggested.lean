@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.Basic
 public import TauCeti.MeasureTheory.Measure.TotalVariation
+public import TauCeti.Probability.Distributions.Gaussian.Multivariate
 
 /-!
 # The Malliavin–Stein method and the fourth moment theorem: target signatures
@@ -536,7 +537,7 @@ end FixedChaos
 
 section BreuerMajor
 
-/-- 6.1: the `q`-th Hermite coefficient `a_q = (1/q!) ∫ f Heₛ dγ` of `f`, so that
+/-- 6.1: the `q`-th Hermite coefficient `a_q = (1/q!) ∫ f He_q dγ` of `f`, so that
 `f = ∑_q a_q He_q` in `L²(γ)`. -/
 def hermiteCoeff (f : ℝ → ℝ) (q : ℕ) : ℝ :=
   (∫ x, f x * Polynomial.aeval x (Polynomial.hermite q) ∂gaussianReal 0 1) / q.factorial
@@ -703,6 +704,7 @@ end SecondOrder
 #check @MeasureTheory.integral_integral_swap
 #check @intervalIntegral.integral_deriv_eq_sub
 #check @TauCeti.wassersteinEDist
+#check @TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt
 #check @ProbabilityTheory.IsGaussianProcess
 #check @ProbabilityTheory.variance
 #check @MeasureTheory.condExp
