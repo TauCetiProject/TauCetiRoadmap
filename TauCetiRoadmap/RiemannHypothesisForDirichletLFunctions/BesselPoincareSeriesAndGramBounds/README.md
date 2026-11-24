@@ -247,10 +247,10 @@ KAK decompositions"; Mathlib (Fourier inversion, Fatou's lemma, Lagrange interpo
 
 ### 5.13c Bounded Bessel maps, rank one and uniqueness
 
-*Origin:* published: Jiang, Sun and Zhu (2010) and Sun and Zhu (2012), uniqueness of Bessel models for real unitary
-groups; Beuzart-Plessis (2020), Theorem 7.2.1, the regularised Bessel form of a tempered pair has rank at most one and is
-nonzero exactly when a Bessel functional exists, and Lemma 7.3.1, an a priori bound for Bessel functionals; the folding
-of the reproducing formula along the subgroup is in Beuzart-Plessis (2018), Galois pairs, §3.2, for p-adic
+*Origin:* adapted from Jiang, Sun and Zhu (2010) and Sun and Zhu (2012), uniqueness of Bessel models for real unitary
+groups; Beuzart-Plessis (2020), Theorem 7.2.1 and the remark after it, the regularised Bessel form of a tempered pair has
+rank at most one and is nonzero exactly when a Bessel functional exists, and Lemma 7.3.1, an a priori bound for Bessel
+functionals; the folding of the reproducing formula along the subgroup is in Beuzart-Plessis (2018), Galois pairs, §3.2, for p-adic
 square-integrable representations. Here (c) is stated for Sobolev-continuous Bessel maps of every unitary
 representation, and (d) for discrete series with a large gap, on lowest `K`-type vectors, with the absolute convergence
 of the unregularised form, which is the Bessel integral of coefficients over the Bessel subgroup, and its explicit
@@ -292,7 +292,8 @@ reproducing formula (Schur orthogonality; `B` passes under the integral by trunc
 GanGrossPrasadUnitaryGroups §2.6 also gives `B ∈ ℂl`; the reproducing formula is what shows that `B = 0` when `be = 0`.)
 
 *Sources:* (multiplicity one: GanGrossPrasadUnitaryGroups §2.6, from Sun–Zhu, Theorem B, in codimension one and
-Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Jacquet, Wallach). (c):
+Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Beuzart-Plessis (2020),
+Lemma 7.3.1 (i)). (c):
 [FormalProof], `CompanionTheory/AutomorphicTheory/BesselOrbitBounds/BesselMapUniqueness/BesselMapUniqGap.lean`
 (`CompanionTheory.Bmu.Bounded`); (d): follows from [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/MultiplicityOne/StDiagExists.lean`
@@ -406,7 +407,8 @@ clause (d)).
 
 ### 5.13 The Bessel function of a word
 
-*Origin:* adapted from the decay of generalised Whittaker functions (Jacquet; Wallach): the Bessel function attached to a
+*Origin:* adapted from the decay of generalised Whittaker functions (Beuzart-Plessis (2020), Lemma 7.3.1 (i), a bound for
+Bessel functionals of tempered representations): the Bessel function attached to a
 discrete series with a large gap and a type of `U(k)`, with an explicit decay (a domination by an integral of the lowest
 `K`-type coefficient) and an explicit weighted integrability.
 
@@ -444,7 +446,7 @@ covers it); the weighted bound by `ν(x) ≤ ‖sx‖`, the quotient integral fo
 weighted integrability of the coefficient
 (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), whose hypotheses are the two inequalities for `N` in (f)).
 
-*Sources:* (decay of generalised Whittaker functions: Jacquet, Wallach). The chain instance:
+*Sources:* (decay of generalised Whittaker functions: Beuzart-Plessis (2020), Lemma 7.3.1 (i)). The chain instance:
 [FormalProof], `Development/AbelianVarietyTheory/Proofs/FlagMeasures/WuDecayOfGap.lean` (`GlobalTheory.wuDecayOfGap`),
 `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/WuDecay.lean` (`Formalism.L2.SG.WuDecay.WuWeighted`); its hypotheses
 on `h_gap` follow from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ConcreteSettingExists.lean`
@@ -469,7 +471,8 @@ AnalyticNumberTheoryPartII §5.3k (quotient measures on `S_{z′}\G_τ`).
 
 ### 5.14 Bessel–Poincaré series
 
-*Origin:* adapted from Poincaré series of integrable functions (Petersson (1930); Godement; in adelic form, for the
+*Origin:* adapted from Poincaré series of integrable functions (Petersson (1930); Godement (1958), §4, Théorèmes 5 and 5 bis;
+in adelic form, for the
 trivial subgroup, Muić (2009)): the series for a Bessel subgroup of a unitary group, built from a Bessel function and an
 algebraic modular form on the definite factor, whose adjoint takes Bessel periods.
 
@@ -551,7 +554,7 @@ the multiplicity bound of the route: follows from [FormalProof],
 ### 5.15 Geometric expansion of the Gram operators
 
 *Origin:* adapted from the unfolding of Poincaré series and the geometric side of a relative trace formula (Petersson
-(1930); Jacquet): the expansion of the Gram operators of Bessel–Poincaré series over pairs of lattices, with a
+(1930); Jacquet (1986), §§1, 7, 9): the expansion of the Gram operators of Bessel–Poincaré series over pairs of lattices, with a
 classification of the terms for the unitary group and its Bessel subgroups (identity, degenerate, generic and
 non-generic terms) and of the pairs of terms of one row (their corank, loops and scalar pairs).
 
@@ -937,7 +940,7 @@ and `𝔰`: [FormalProof], `Formalism/HermitianCurvature/BlockKernelPropertiesOf
 ### 5.17c Germ identity and periodic majorants of the local kernels
 
 *Origin:* particular to this proof: periodic positive semidefinite majorants of the local kernels, obtained from an exact
-germ identity that adapts the germ expansions of Kloosterman integrals (Jacquet and Ye) by stationary phase over `p`-adic
+germ identity that adapts the germ expansions of Kloosterman integrals (Jacquet and Ye (1999)) by stationary phase over `p`-adic
 fields.
 
 *Method of the formal proof:* the germ identity is a stationary phase computation over the local ring: the sum over the
@@ -1349,7 +1352,7 @@ The scales: [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean` (`For
 
 ### 5.18d Archimedean blocks
 
-*Origin:* adapted from stationary phase and the germ expansions of Kloosterman orbital integrals (Jacquet and Ye): an
+*Origin:* adapted from stationary phase and the germ expansions of Kloosterman orbital integrals (Jacquet and Ye (1999)): an
 archimedean block estimate with a rate, and its consequence for the level forms.
 
 *Method of the formal proof:* the orbital integral over the cell is written as an oscillatory integral with phase
@@ -2346,7 +2349,8 @@ The lower bound of (a) and the Gelfand–Graev weight on squarefree labels: [For
 
 ### 5.23 Good rows
 
-*Origin:* adapted from the statistics of factorisation types of random polynomials over a finite field: the share of the
+*Origin:* adapted from the statistics of factorisation types of random polynomials over a finite field (Flajolet and
+Sedgewick (2009), Example I.20, Note I.66 and Example VII.4): the share of the
 rows whose labels are not good is small; the embedding (v) (1) in copies of the regular representation, from a group
 determinant, is particular to this proof.
 
@@ -2602,11 +2606,12 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - Harish-Chandra, *Discrete series for semisimple Lie groups II*, Acta Math. 116 (1966): 5.13, 5.20a.
 - D. DeGeorge and N. Wallach, *Limit formulas for multiplicities in L²(Γ\G)*, Ann. of Math. 107 (1978); L. Clozel, *On limit multiplicities of discrete series representations in spaces of automorphic forms*, Invent. Math. 83 (1986); G. Savin, *Limit multiplicities of cusp forms*, Invent. Math. 95 (1989); R. P. Langlands, *Dimension of spaces of automorphic forms* (1966): 5.16. W. Banaszczyk, *New bounds in some transference theorems in the geometry of numbers*, Math. Ann. 296 (1993): 5.16.
-- B. Sun and C.-B. Zhu, *Multiplicity one theorems: the Archimedean case*, Ann. of Math. 175 (2012), Theorem B (arXiv 0903.1413v2, p. 2): 5.13c, 5.13; D. Jiang, B. Sun and C.-B. Zhu, *Uniqueness of Bessel models: the Archimedean case*, Geom. Funct. Anal. 20 (2010), Theorem A (arXiv 0908.1728v2, p. 1): 5.13c; H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)*, Invent. Math. 209 (2017), Theorem 0.1 (arXiv 1508.02032v2, p. 3): 5.13d, 5.13; R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean case*, Astérisque 418 (2020), Theorem 12.4.1 (arXiv 1506.01452v3, p. 290): 5.13d, its Lemma 6.5.1, §7.1 and Lemma B.1.1 (the regularised Bessel form, by integrations by parts in a scaling torus): 5.13b, and its Theorem 7.2.1 and Lemma 7.3.1 (the regularised Bessel form is nonzero exactly when a Bessel functional exists; an a priori bound for Bessel functionals): 5.13c; H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023), Theorem 2.2 (p. 1000), with the reduction to codimension one of Corollary 2.5 (p. 1001): 5.13d. I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975): 5.13c.
-- R. Beuzart-Plessis, *On distinguished square-integrable representations for Galois pairs and a conjecture of Prasad*, Invent. Math. (2018), §3.2 (arXiv 1707.06495): 5.13c. T. Kobayashi and B. Speh, *How does the restriction of representations change under translations? A story for the general linear groups and the unitary groups*, preprint (2025), Lemma 2.7, Theorems 2.5, 3.2 (arXiv 2502.08479): 5.13d; M. Harris, T. Kobayashi and B. Speh, *Translation functors, branching problems, and applications to the restriction of coherent cohomology of Shimura varieties*, preprint (2025), Theorems 5.3, 5.6 (arXiv 2509.17007): 5.13d. H. Jacquet; N. Wallach (decay of generalised Whittaker functions): 5.13c, 5.13.
-- R. Godement (square-integrable representations): 5.14; H. Petersson, *Theorie der automorphen Formen beliebiger reeller Dimension und ihre Darstellung durch eine neue Art Poincaréscher Reihen*, Math. Ann. 103 (1930) (Poincaré series): 5.14, 5.15; H. Jacquet (relative trace formulae): 5.15; G. Muić, *On a construction of certain classes of cuspidal automorphic forms via Poincaré series*, Math. Ann. 343 (2009): 5.14.
+- B. Sun and C.-B. Zhu, *Multiplicity one theorems: the Archimedean case*, Ann. of Math. 175 (2012), Theorem B (arXiv 0903.1413v2, p. 2): 5.13c, 5.13; D. Jiang, B. Sun and C.-B. Zhu, *Uniqueness of Bessel models: the Archimedean case*, Geom. Funct. Anal. 20 (2010), Theorem A (arXiv 0908.1728v2, p. 1): 5.13c; H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)*, Invent. Math. 209 (2017), Theorem 0.1 (arXiv 1508.02032v2, p. 3): 5.13d, 5.13; R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean case*, Astérisque 418 (2020), Theorem 12.4.1 (arXiv 1506.01452v3, p. 290): 5.13d, its Lemma 6.5.1, §7.1 and Lemma B.1.1 (the regularised Bessel form, by integrations by parts in a scaling torus): 5.13b, and its Theorem 7.2.1 and Lemma 7.3.1 (the regularised Bessel form is nonzero exactly when a Bessel functional exists; an a priori bound for Bessel functionals): 5.13c, with Lemma 7.3.1 (i) also for 5.13; H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023), Theorem 2.2 (p. 1000), with the reduction to codimension one of Corollary 2.5 (p. 1001): 5.13d. I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975): 5.13c.
+- R. Beuzart-Plessis, *On distinguished square-integrable representations for Galois pairs and a conjecture of Prasad*, Invent. Math. (2018), §3.2 (arXiv 1707.06495): 5.13c. T. Kobayashi and B. Speh, *How does the restriction of representations change under translations? A story for the general linear groups and the unitary groups*, preprint (2025), Lemma 2.7, Theorems 2.5, 3.2 (arXiv 2502.08479): 5.13d; M. Harris, T. Kobayashi and B. Speh, *Translation functors, branching problems, and applications to the restriction of coherent cohomology of Shimura varieties*, preprint (2025), Theorems 5.3, 5.6 (arXiv 2509.17007): 5.13d.
+- R. Godement, *Série de Poincaré et Spitzenformen*, Séminaire Henri Cartan 10 (1957/58), exposé 10, §4, Théorèmes 5 and 5 bis (Poincaré series of integrable functions): 5.14; H. Petersson, *Theorie der automorphen Formen beliebiger reeller Dimension und ihre Darstellung durch eine neue Art Poincaréscher Reihen*, Math. Ann. 103 (1930) (Poincaré series): 5.14, 5.15; H. Jacquet, *Sur un résultat de Waldspurger*, Ann. Sci. ÉNS (4) 19 (1986), §1 (double cosets of tori) and §§7, 9 (the geometric side of a relative trace formula): 5.15; G. Muić, *On a construction of certain classes of cuspidal automorphic forms via Poincaré series*, Math. Ann. 343 (2009): 5.14.
 - A. Ichino, E. Lapid and Z. Mao, *On the formal degrees of square-integrable representations of odd special orthogonal and metaplectic groups*, Duke Math. J. (2017), introduction and §2 (arXiv 1404.2909); R. Beuzart-Plessis, *Plancherel formula for GL_n(F)\GL_n(E) and applications to the Ichino–Ikeda and formal degree conjectures for unitary groups* (2018) (arXiv 1812.00047): 5.15a.
-- A. Molev, *Yangians and classical Lie algebras* (2007); P. Kulish, N. Reshetikhin and E. Sklyanin; V. Drinfeld; E. Sklyanin; S. Kharchev and D. Lebedev: 5.17, 5.18. H. Jacquet and Y. Ye (germs): 5.17c, 5.17, 5.18d, 5.18. S. Friedberg; S. Stevens: 5.17b. A. Markov; T. Takagi: 5.18. G. Zuckerman, *Tensor products of finite and infinite dimensional representations of semisimple Lie groups*, Ann. of Math. 106 (1977): 5.18.
-- A. Molev, *Yangians and transvector algebras*, Discrete Math. 246 (2002), Theorem 1.3 (arXiv math/9811115); D. Krob and B. Leclerc, *Minor identities for quasi-determinants and quantum determinants*, Comm. Math. Phys. 169 (1995); A. Gerasimov, S. Kharchev and D. Lebedev, *Representation theory and the quantum inverse scattering method: the open Toda chain and the hyperbolic Sutherland model* (2002), §§2, 4 (arXiv math/0204206): 5.18a.
+- A. Molev, *Yangians and classical Lie algebras* (2007); P. Kulish, N. Reshetikhin and E. Sklyanin; V. Drinfeld; E. Sklyanin; S. Kharchev and D. Lebedev: 5.17, 5.18. H. Jacquet and Y. Ye, *Germs of Kloosterman integrals for GL(3)*, Trans. Amer. Math. Soc. 351 (1999), 1227–1255: 5.17c, 5.17, 5.18d, 5.18. S. Friedberg; S. Stevens: 5.17b. A. Markov; T. Takagi: 5.18. G. Zuckerman, *Tensor products of finite and infinite dimensional representations of semisimple Lie groups*, Ann. of Math. 106 (1977): 5.18.
+- A. Molev, *Yangians and transvector algebras*, Discrete Math. 246 (2002), Theorem 1.3 (arXiv math/9811115); D. Krob and B. Leclerc, *Minor identities for quasi-determinants and quantum determinants*, Comm. Math. Phys. 169 (1995); A. Gerasimov, S. Kharchev and D. Lebedev, *Representation theory and the quantum inverse scattering method: the open Toda chain and the hyperbolic Sutherland model* (2002), §§2, 4, 6 (arXiv math/0204206): 5.18a.
 - J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977); A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981); D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups* (2011): 5.17, 5.22, 5.23. I. M. Gelfand and M. I. Graev, *Construction of irreducible representations of simple algebraic groups over a finite field*, Dokl. Akad. Nauk SSSR 147 (1962): 5.17a, 5.17, 5.22, 5.23.
 - C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935); G. Shimura, *Euler products and Eisenstein series*, CBMS 93 (1997): 5.17d, 5.17, 5.20a, 5.20. W. T. Gan, J. Hanke and J.-K. Yu, *On an exact mass formula of Shimura*, Duke Math. J. 107 (2001); A. Weil, *Adeles and algebraic groups* (1961): 5.17, 5.20a, 5.20.
+- P. Flajolet and R. Sedgewick, *Analytic Combinatorics*, Cambridge University Press (2009), Example I.20 and Note I.66 (pp. 90–91), Example VII.4 (pp. 449–450): 5.23.
