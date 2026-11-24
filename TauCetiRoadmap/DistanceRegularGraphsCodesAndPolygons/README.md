@@ -18,7 +18,8 @@ consequences of the integrality of multiplicities. Among its theorems:
   distance-regular exactly when the average number of vertices at distance `D` equals the value
   at the degree of the `D`-th predistance polynomial;
 - Lloyd's theorem for perfect sets in any symmetric association scheme, and its Krawtchouk form
-  for perfect codes in Hamming spaces;
+  for perfect codes in Hamming spaces, where the Lloyd polynomial of a perfect code of radius `t`
+  has `t` zeros among `1, …, n`;
 - Moore graphs are distance-regular; the bipartite Moore bound and its equality case;
   generalized polygons, their orders and point graphs, the Feit–Higman theorem, generalized
   quadrangles and Higman's inequality; the symmetric designs as the bipartite distance-regular
@@ -42,7 +43,8 @@ Godsil [Godsil, §§11.7 and 12.3] and Brouwer–Van Maldeghem [BVM, §§1.2–1
 Layer 1 adds the absolute bound to the scheme theory. Layers 2 and 3 are the theory of
 distance-regular graphs and their spectrum; Layer 4 applies them to the Hamming and Johnson
 graphs. Layer 5, the spectral excess theorem, needs Layer 2. Layer 6, Lloyd's theorem, needs
-Layer 2 for its graph form and only the scheme theory otherwise. Layers 7 and 8, the Moore graphs
+Layer 2 for its graph form, 2.3 and 4.1 for the count of zeros, and only the scheme theory
+otherwise. Layers 7 and 8, the Moore graphs
 and generalized polygons, need Layers 2 and 3; 7.3 uses the Feit–Higman theorem of 8.3. Layer 9,
 the cometric and `Q`-polynomial schemes, needs only the scheme theory.
 
@@ -64,11 +66,13 @@ the cometric and `Q`-polynomial schemes, needs only the scheme theory.
 - **Distance-regular graphs** are `IsDistanceRegular G` of AssociationSchemes 6.2: `G` is
   connected and the counts `c_h` and `b_h` depend only on the distance `h`. Its distance classes
   are `distRel G`, with values in `Fin (G.diam + 1)`.
-- **Intersection numbers of a graph.** `G.intersectionCount i j` is the number of neighbours of
-  `y` at distance `j` from `x`, for a chosen pair `(x, y)` with `dist x y = i`, and `0` when there
-  is no such pair. `G.intersectionB i`, `G.intersectionA i` and `G.intersectionC i` are `b_i`,
-  `a_i` and `c_i`, the counts at `j = i + 1`, `i` and `i − 1`; so `c_0 = 0`, because `0 − 1 = 0`
-  in `ℕ` and no neighbour of `y` is at distance `0` from `y`. They are defined for every graph and
+- **Intersection numbers of a graph.** `G.intersectionCount i j` is the largest number, over the
+  pairs `(x, y)` with `dist x y = i`, of neighbours of `y` at distance `j` from `x`, and `0` when
+  there is no such pair; it uses no choice, so it has a determined value on every graph (on a
+  disconnected graph the junk distance `0` puts pairs in different components into class `0`).
+  `G.intersectionB i`, `G.intersectionA i` and `G.intersectionC i` are `b_i`, `a_i` and `c_i`,
+  the counts at `j = i + 1`, `i` and `i − 1`; so `c_0 = 0`, because `0 − 1 = 0` in `ℕ` and no
+  neighbour of `y` is at distance `0` from `y`. They are defined for every graph and
   meaningful for a distance-regular one, whose degree is `k = b_0`.
 - **Sphere sizes and distance matrices.** `G.sphereCount i` is `k_i`, the number of ordered
   pairs at distance `i` divided by `|V|` (natural division, exact for a distance-regular graph).
@@ -202,6 +206,10 @@ The definitions are `intersectionCount`, `intersectionB`, `intersectionC`, `inte
 **Checks of the definitions.**
 - `intersectionCount` on the Petersen graph: for `x`, `y` at distance `2`, `y` has `1` neighbour
   at distance `1` from `x` and `2` at distance `2`.
+- Negative control for `intersectionCount`: on the prism `C_5 □ K_2`, which is not
+  distance-regular, pairs at distance `2` have `1` or `2` neighbours at distance `1` and `0` or `1`
+  at distance `2`, so `intersectionCount 2 1 = 2` and `intersectionCount 2 2 = 1`, the larger
+  values; a minimum over the pairs would give `1` and `0`.
 - `intersectionB`, `intersectionC`: the Petersen graph `{3, 2; 1, 1}`, the cube
   `{3, 2, 1; 1, 2, 3}`, `C_6` `{2, 1, 1; 1, 1, 2}`, the Heawood graph `{3, 2, 2; 1, 1, 3}`.
 - Negative control for `intersectionC`: `c_0 = 0`, not `1`, so that `a_0 + b_0 + c_0 = k`.
@@ -420,9 +428,9 @@ count in `adjSpectrum` with the dimension of the eigenspace, which is `m_j`.
   `n ≥ 1`.
 
 These are the distance-regular graphs of degree `2`, the case that 3.3 excludes. Mathlib's
-`SimpleGraph.IsCycles` describes the components of a graph of maximum degree two by
-`SimpleGraph.IsCycles.exists_cycle_toSubgraph_verts_eq_connectedComponentSupp`, without the
-isomorphism to a cycle graph.
+`SimpleGraph.IsCycles` (every vertex has degree `0` or `2`) describes the components of such a
+graph by `SimpleGraph.IsCycles.exists_cycle_toSubgraph_verts_eq_connectedComponentSupp`,
+without the isomorphism to a cycle graph.
 
 **Suggested proof:** the cycle through a vertex given by that Mathlib lemma covers the component,
 which is all of `V`; walking along it numbers the vertices by `Fin n`. For the cycles, rotations
@@ -632,7 +640,7 @@ the diameter, and `valency (distRel G) i = k_i` by 2.2.
 needs neither `0 ∈ I` nor Proposition 2.5.3 of [BCN, p. 55], through which [BCN] argues.
 
 **Checks.**
-- The cube, `{000, 111}`, `I = {0, 1}`: `a = (1, 0, 0, 1)`, `(aQ)_2 = 1 + 3 = 4 ≠ 0`, and
+- The cube, `{000, 111}`, `I = {0, 1}`: `a = (1, 0, 0, 1)`, `(aQ)_2 = 3 + 3 = 6 ≠ 0`, and
   `P_(20) + P_(21) = 1 + (−1) = 0`.
 - The theorem holds for all `66` pairs `(I, Y)` with `Y` an `I`-perfect set in the cube, all `8`
   in `C_7`, all `11` in the Petersen graph and all `10` in `H(2, 3)`, including sets with
@@ -650,11 +658,22 @@ needs neither `0 ∈ I` nor Proposition 2.5.3 of [BCN, p. 55], through which [BC
   vanishes at `j` [BCN, Corollary 2.5.4, p. 56]. [Godsil, §11.7, Theorem 7.2, p. 210] states
   Lloyd's theorem for completely regular codes, in the form that the characteristic polynomial
   of the quotient divides that of the graph.
+- **The zeros of the Lloyd polynomial** (`card_lloyd_zeros_of_isPerfect`). For a perfect code of
+  radius `t ≤ n` in `H(n, q)`, `q ≥ 2`, at least `t` indices `1 ≤ j ≤ n` have nonzero transform;
+  hence the Lloyd polynomial has at least `t` zeros among `1, …, n`, and since it has degree `t`
+  these are all its zeros [BCN, Proposition 2.5.5 (ii) and Remark (i), p. 56].
 
 **Suggested proof:** 6.2 for the Hamming scheme of DelsarteTheoryOfCodesAndDesigns 2.1, whose
 primitive idempotents have `P_(ij) = Q_(ij) = K_j(i)`, with `I = {0, …, t}`; the inner
 distribution is `A_i/|C|`, and a perfect code of radius `t` in the sense of BoundsOnCodes 1.2 is
-an `I`-perfect set.
+an `I`-perfect set. For the count, suppose only `s < t` indices `j ≥ 1` have `E_j χ_C ≠ 0`. The
+eigenvalues `θ_j = (q − 1)n − qj` are distinct, so a polynomial `g` of degree `s` vanishing at
+those `s` eigenvalues makes `g(A) χ_C = g(θ_0) E_0 χ_C` a constant vector. By 2.3 and 4.1,
+`g(A) = ∑_(i≤s) c_i A_i` with `c_s ≠ 0`. A word at distance `s` from its nearest codeword gives
+the entry `c_s`, and a word at distance `s + 1 ≤ t` from its nearest codeword gives `0` (both exist
+since `t ≤ n`); so `c_s = 0`, a contradiction. The first statement then puts a zero of the Lloyd
+polynomial at each of these at least `t` indices. [BCN] argues instead through the rank of the
+outer distribution matrix.
 
 **Checks.**
 - The binary Hamming code, `n = 7`, `t = 1`: the distance distribution is
@@ -666,13 +685,19 @@ an `I`-perfect set.
   `n = 13`, `q = 3`, `t = 1` (the ternary Hamming code).
 - Negative control: `j = 0` has transform `|C|² = 256` for the Hamming code, and
   `∑_(i≤t) K_i(0) = 8` is the ball size; this is why `1 ≤ j` is assumed.
+- Zeros and nonzero transforms agree: `{2, 4}` for the repetition code of length `5`, `t = 2`;
+  `{3}` for the ternary Hamming code of length `4`; `{1, 2, 3}` for a single word in `H(3, 2)`,
+  `t = 3`.
+- Negative control for the count: a single word of `H(1, 2)` is a perfect code of radius `t = 2`,
+  but there is only the index `j = 1`; this is why `t ≤ n` is assumed.
 
-*Needs:* 6.2; DelsarteTheoryOfCodesAndDesigns 2.1; BoundsOnCodes 1.2 and 5.1 (definitions); Tau
-Ceti `TauCeti.krawtchouk`.
+*Needs:* 2.3, 4.1, 6.2; DelsarteTheoryOfCodesAndDesigns 2.1; BoundsOnCodes 1.2 and 5.1
+(definitions); Tau Ceti `TauCeti.krawtchouk`.
 
 ## Layer 7: Moore graphs and the bipartite Moore bound
 
-The definition is `bipartiteMooreBound` (Conventions).
+The definition is `bipartiteMooreBound` (Conventions). 7.3 is built after 8.3, the Feit–Higman
+theorem; Layer 8 needs nothing of Layer 7, so 7.1 and 7.2 come before Layer 8 and 7.3 after it.
 
 *Depends on:* Layer 2; 8.3; StronglyRegularAndMooreGraphs 3.1 (definition), 3.1 and 3.3; Mathlib
 `SimpleGraph.egirth`.
@@ -715,7 +740,7 @@ neighbour nearer to `x` (`c_i = 1`) and, for `i < D`, none at the same distance 
 
 StronglyRegularAndMooreGraphs 3.2 is the odd-girth bound; the even-girth bound is stated here.
 
-**Suggested proof:** for `t ≥ 1` take an edge `xy`; the vertices at distance less than `t − 1`
+**Suggested proof:** for `t ≥ 1` take an edge `xy`; the vertices at distance at most `t − 1`
 from `x` or from `y` along paths avoiding the edge form two disjoint trees, each with at least
 `∑_(i<t) (k − 1)^i` vertices, because a cycle among them would have length less than `2t`.
 
@@ -1168,8 +1193,9 @@ The roadmap StronglyRegularGraphsAndDesigns:
 ## References
 
 - [BH] Andries E. Brouwer and Willem H. Haemers, *Spectra of Graphs*, Universitext, Springer,
-  2012: §9.6, pp. 129–131; §11.2, p. 167; §11.4, p. 171; §11.6, pp. 173–174; Chapter 12,
-  pp. 177–184.
+  2012 (ISBN 978-1-4614-1938-9, DOI 10.1007/978-1-4614-1939-6; pages are those of this printed
+  edition, not of the authors' online preprint): §9.6, pp. 129–131; §11.2, p. 167; §11.4,
+  p. 171; §11.6, pp. 173–174; Chapter 12, pp. 177–184.
 - [BCN] Andries E. Brouwer, Arjeh M. Cohen and Arnold Neumaier, *Distance-Regular Graphs*,
   Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 18, Springer, 1989: Theorem 2.3.3, p. 51;
   §2.5, pp. 55–56; §2.7, pp. 58–59; Theorem 6.5.1, p. 201.

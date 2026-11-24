@@ -17,10 +17,10 @@ Conventions (README, Conventions): a symmetric association scheme with `d` class
 function `rel : X → X → Fin (d + 1)` satisfying `IsAssocScheme`, with a family `E` of primitive
 idempotents satisfying `IsPrimitiveIdempotents`; eigenmatrices, intersection numbers and Krein
 parameters are the explicit formulas of AssociationSchemes. A distance-regular graph is
-`IsDistanceRegular G`. The intersection numbers `b_i`, `a_i`, `c_i` of a graph are read off at a
-chosen pair of vertices at distance `i`. A generalized `m`-gon is a connected bipartite graph of
-diameter `m` and extended girth `2m`; its points and lines are the two colour classes of a
-`Coloring Bool`.
+`IsDistanceRegular G`. The intersection numbers `b_i`, `a_i`, `c_i` of a graph are the largest
+counts over the pairs of vertices at distance `i`, without choice. A generalized `m`-gon is a
+connected bipartite graph of diameter `m` and extended girth `2m`; its points and lines are the
+two colour classes of a `Coloring Bool`.
 
 Results consumed from other roadmaps are not restated (README, Scope and ownership). The
 definitions of other roadmaps that the statements need are verbatim local copies, each in a
@@ -32,6 +32,13 @@ distance-regular graphs of AssociationSchemes 1.1, 1.2, 2.1, 2.3, 3.1, 4.1 and 6
 schemes of DelsarteTheoryOfCodesAndDesigns 4.1, the Moore number of StronglyRegularAndMooreGraphs
 3.1, the perfect codes and distance distributions of BoundsOnCodes 1.2 and 5.1, and the designs
 and incidence graphs of StronglyRegularGraphsAndDesigns 5.1 and 5.3.
+
+Names: the theorems called `IsDistanceRegular.…` and `IsSRGWith.…` are declared here in the
+namespace `SimpleGraph` of this file, while the predicates are
+`AssociationSchemes.IsDistanceRegular` (the local copy) and Mathlib's `SimpleGraph.IsSRGWith`;
+so `hG.card_adj_dist` does not resolve by dot notation in this file. In the library each theorem
+is to live in the namespace of its predicate, `IsDistanceRegular` where AssociationSchemes places
+it and `SimpleGraph.IsSRGWith`, where dot notation works.
 -/
 
 @[expose] public section
@@ -335,12 +342,12 @@ variable {V : Type*} [Fintype V] [DecidableEq V] (G : _root_.SimpleGraph V) [Dec
 
 /-! ## Layer 2: distance-regular graphs -/
 
-/-- The number of neighbours of `y` at distance `j` from `x`, read at a chosen pair `(x, y)`
-with `dist x y = i` (and `0` if there is none). -/
+/-- The largest number, over the pairs `(x, y)` with `dist x y = i`, of neighbours of `y` at
+distance `j` from `x` (and `0` if there is no such pair). On a distance-regular graph the count
+does not depend on the pair. -/
 def intersectionCount (i j : ℕ) : ℕ :=
-  if h : ∃ p : V × V, G.dist p.1 p.2 = i then
-    #{z | G.Adj h.choose.2 z ∧ G.dist h.choose.1 z = j}
-  else 0
+  Finset.univ.sup fun p : V × V ↦
+    if G.dist p.1 p.2 = i then #{z | G.Adj p.2 z ∧ G.dist p.1 z = j} else 0
 
 /-- The intersection number `b_i`. -/
 def intersectionB (i : ℕ) : ℕ := G.intersectionCount i (i + 1)
@@ -645,6 +652,20 @@ theorem sum_krawtchouk_eq_zero_of_isPerfect {ι α : Type*} [Fintype ι] [Fintyp
     (htr : ∑ i ∈ range (Fintype.card ι + 1), (BoundsOnCodes.distanceDistribution C i : ℤ) *
       TauCeti.krawtchouk (Fintype.card α) (Fintype.card ι) j i ≠ 0) :
     ∑ i ∈ range (t + 1), TauCeti.krawtchouk (Fintype.card α) (Fintype.card ι) i j = 0 := by
+  sorry
+
+/-- **The zeros of the Lloyd polynomial** (README 6.3). For a perfect code of radius `t ≤ n` in
+`H(n, q)`, `q ≥ 2`, at least `t` indices `1 ≤ j ≤ n` have nonzero Krawtchouk transform of the
+distance distribution, and the Lloyd polynomial `∑_(i ≤ t) K_i` has at least `t` zeros among
+`1, …, n`. -/
+theorem card_lloyd_zeros_of_isPerfect {ι α : Type*} [Fintype ι] [Fintype α]
+    [DecidableEq α] [Nontrivial α] {C : Finset (ι → α)} {t : ℕ}
+    (hC : BoundsOnCodes.IsPerfect (C : Set (ι → α)) t) (ht : t ≤ Fintype.card ι) :
+    t ≤ #{j ∈ Icc 1 (Fintype.card ι) | ∑ i ∈ range (Fintype.card ι + 1),
+        (BoundsOnCodes.distanceDistribution C i : ℤ) *
+          TauCeti.krawtchouk (Fintype.card α) (Fintype.card ι) j i ≠ 0} ∧
+      t ≤ #{j ∈ Icc 1 (Fintype.card ι) | ∑ i ∈ range (t + 1),
+        TauCeti.krawtchouk (Fintype.card α) (Fintype.card ι) i j = 0} := by
   sorry
 
 namespace SimpleGraph
