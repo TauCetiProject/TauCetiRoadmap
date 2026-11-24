@@ -1870,7 +1870,8 @@ domain of dependence, are treated here as data on the open set `S = int F`. For 
 solution `U` on a slab `O` as in §8.3, every classical solution on `O` with the same data on `S`
 agrees with `U` on `D⁺_O({t₀} × S)` (§8.3) and so, by continuity, on the closure of
 `D⁺_O({t₀} × S)` in `O`, in particular on its boundary in `O`; the comparison with the domain of
-dependence of the closed set `{t₀} × F` is under Downstream consumers, below.
+dependence of the closed set `{t₀} × closure S` (which is `{t₀} × F` when `F` is the closure of
+its interior, as for `{x¹ ≥ 0}`) is under Downstream consumers, below.
 
 - `≤` is a partial order on the developments of fixed data.
 - *Past-closed truncation.* If `(D, U)` is a development and `D′ ⊆ D` is a Λ-invariant domain
