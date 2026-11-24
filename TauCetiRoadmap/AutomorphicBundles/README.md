@@ -73,7 +73,7 @@ declaration of ShimuraCompactifications. The layers are built in order: Layer 0 
 Layer 1 builds the canonical principal bundle of Hodge and abelian type, Layer 2 that of general data;
 Layers 3 and 4 associate vector bundles and realizations to representations; Layers 5 and 6
 extend them across the toroidal boundary; over `ℂ`, 5.3a shows that the invariant metrics of coefficients
-trivial on the unipotent radical and unitary on `K_∞` are good relative to the canonical extension and
+trivial on the unipotent radical and unitary on `K_∞ ∩ G(ℝ)¹` are good relative to the canonical extension and
 5.3b deduces Hirzebruch–Mumford proportionality. Layer 7 constructs the ramified cusp coefficients;
 Layers 8 and 9 construct the finite-level log/BGG comparisons; Layer 10 constructs the rational
 period tower and algebraic descent. Layer 11 defines classical and cuspidal forms and fixes the
@@ -1487,7 +1487,7 @@ with their normalized boundary frames. Canonical and reduced-boundary extensions
 under refinement; section comparisons use the direct-image theorems of ShimuraCompactifications Layer 4.
 Logarithmic connections belong to full-group coefficients. The minimal pushforward is coherent, with
 separate positivity requirements for scalar line descent. Over `ℂ`, the invariant metric of a
-coefficient trivial on the unipotent radical and unitary on `K_∞` is good relative to the canonical
+coefficient trivial on the unipotent radical and unitary on `K_∞ ∩ G(ℝ)¹` is good relative to the canonical
 extension (5.3a), and this gives Hirzebruch–Mumford proportionality (5.3b). The last target gives the
 integral coefficients on good-prime PEL models used in Layer 12.
 
@@ -1608,9 +1608,10 @@ Prove `invariantMetricGoodness`. Let `K` be neat, and let `S_Σ` be a smooth pro
 whose boundary `D` is a divisor with normal crossings (ShimuraCompactifications Layer 2 with a smooth projective
 `Σ`). Let `J` be a finite-dimensional algebraic representation of `P_Hᶜ` over `L ↪ ℂ` on which the unipotent radical of
 `P_Hᶜ` acts trivially (the inflation of a representation of the Levi quotient, `compactDualCoefficient_inflate` of
-0.5), and whose restriction to the stabiliser `K_∞` of a point of `X` is unitary. A `K_∞`-invariant inner product on
-`J` defines, on each component `Γ ∖ (G(ℝ) × J) / K_∞` of 0.7, a hermitian metric `h_J` on `V(J)^an` over `S(ℂ)`: the
-`G(ℝ)`-invariant metric.
+0.5), and whose restriction to `K_∞¹ = K_∞ ∩ G(ℝ)¹` is unitary; here `K_∞` is the stabiliser of a point of `X` and
+`G(ℝ)¹` is the common kernel of the `|χ|` for the characters `χ` of `G` defined over `ℚ`. Since `G(ℝ) = G(ℝ)¹·Z(ℝ)`,
+`Z(ℝ) ⊂ K_∞` and `χ(Γ) ⊂ {±1}` for each such `χ`, a `K_∞¹`-invariant inner product on `J` defines, on each component
+`Γ ∖ (G(ℝ) × J) / K_∞` of 0.7, a hermitian metric `h_J` on `V(J)^an` over `S(ℂ)`: the `G(ℝ)¹`-invariant metric.
 
 Then:
 
@@ -1621,7 +1622,9 @@ Then:
   is `Ω¹` of `S(ℂ)`, the canonical extension is `Ω¹(log D)` on `S_Σ`, and the invariant metric is good relative to it.
 
 Mumford states the theorem for neat arithmetic quotients of a Hermitian symmetric domain, which are the components of
-`S(ℂ)`.
+`S(ℂ)`, for a semisimple adjoint group and a representation of its maximal compact subgroup. His estimate runs in the
+same way for `G^der(ℝ)⁰`, which acts transitively on each component of `X`, has the compact stabiliser
+`K_∞ ∩ G^der(ℝ)⁰ ⊂ K_∞¹` at the base point, and preserves `h_J` because `G^der(ℝ) ⊂ G(ℝ)¹`.
 
 The route is Mumford's estimate.
 
@@ -1661,7 +1664,7 @@ ShimuraVarieties §2.1 (rational boundary components and their normalisers); Ara
 
 Prove `hirzebruchMumfordProportionality`. Work in the setting of 5.3a and suppose `S(ℂ)` connected; otherwise argue on
 each component. Let `X̌` be the compact dual and, for `J` as in 5.3a (trivial on the unipotent radical of `P_Hᶜ` and
-unitary on `K_∞`), let `V̌(J) = Gᶜ ×^(P_Hᶜ) J` be the homogeneous bundle on `X̌` of 0.5. Then there is a real number
+unitary on `K_∞¹`), let `V̌(J) = Gᶜ ×^(P_Hᶜ) J` be the homogeneous bundle on `X̌` of 0.5. Then there is a real number
 `v > 0`, depending on `S(ℂ)` and not on `J`, such that for every `J` as in 5.3a and every polynomial `Q` of weighted
 degree `dim X` in the Chern classes
 
@@ -1699,7 +1702,10 @@ C4.1–C4.2 (invariant polynomials, Chern–Weil forms and their comparison with
   - The same `J` gives `Ω¹_(ℙ¹) = O(−2)` on `X̌ = ℙ¹` and `Ω¹(log cusps)`, of degree `2g − 2 + #cusps`, on `X(N)`; the
     theorem gives `2g − 2 + #cusps = (−1)·v·(−2)`, so `v = (2g − 2 + #cusps)/2`, the hyperbolic area of `Y(N)` divided
     by `4π`.
-  - Since `ω^(⊗2)` and `Ω¹(log cusps)` differ by the determinant line, `deg ω = (2g − 2 + #cusps)/2`.
+  - The character giving `ω` is unitary on `K_∞¹ = SO(2)` but not on `K_∞ = ℝ_(>0)·SO(2)`: a scalar `t > 0` acts on it
+    by `t^m` with `m` odd. Its square is `(𝔤_ℂ/Lie(P_H))^∨` times a power of the determinant, which gives the trivial
+    bundle on `X̌`, so it gives `O(−1)` on `X̌`, and the theorem gives `deg ω = (−1)·v·(−1) = (2g − 2 + #cusps)/2`, the
+    value forced by `ω^(⊗2)` differing from `Ω¹(log cusps)` by the determinant line.
   - The sign `(−1)^(dim X)` cannot be dropped: without it the degree of `Ω¹(log cusps)` would be negative.
 
 ### 5.4 The subcanonical automorphic extension
