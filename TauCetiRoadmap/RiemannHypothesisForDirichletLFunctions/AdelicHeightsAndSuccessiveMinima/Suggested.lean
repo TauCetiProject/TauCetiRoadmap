@@ -72,7 +72,8 @@ theorem latticeFrameHeight_eq_of_span_eq {E : Type*} [Field E] [NumberField E] [
 /-- **Automorphisms of the lattice** (2.5b). Let `E`, `Φ`, `Λ` and `F` be as in
 `latticeFrameHeight_eq_of_span_eq`, and `g ∈ GL_n(E)` with `g(Λ) = Λ`. Applying `g` to the
 family and replacing the frame by `G_τ = τ(g)·F_τ` does not change the height:
-`h_{Λ,G}(g(U)) = h_{Λ,F}(U)`. -/
+`h_{Λ,G}(g(U)) = h_{Λ,F}(U)`. The identity uses only `hg`: `[IsCMField E]`, `hΦ`, `hΛ`, `hspan`,
+`hz` and `hzΛ` are the setting of 2.5b. -/
 theorem latticeFrameHeight_map {E : Type*} [Field E] [NumberField E] [IsCMField E] {n p : ℕ}
     (Φ : Finset (E →+* ℂ)) (hΦ : IsCMType Φ) (Λ : Submodule (𝓞 E) (Fin n → E)) (hΛ : Λ.FG)
     (hspan : Submodule.span E (Λ : Set (Fin n → E)) = ⊤) (F : (E →+* ℂ) → GL (Fin n) ℂ)

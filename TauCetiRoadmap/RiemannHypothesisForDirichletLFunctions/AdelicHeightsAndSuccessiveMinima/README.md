@@ -21,8 +21,8 @@ Notation and conventions not restated here are those of DiophantineApproximation
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The statement of 3.1 adapts a published theorem, cited
 with it, to every body balanced over the completions; of it, [FormalProof] has only the case `K = ℚ` of the upper
-bound and of the attainment. The comparison of the heights of 2.5a with the Arakelov height is this roadmap's own
-formulation.
+bound and of the attainment. The comparisons of the heights of 2.5a with the Arakelov height and with
+`TauCeti.twistedHeight` and `TauCeti.deltaL` are this roadmap's own formulation.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
@@ -40,8 +40,9 @@ DiophantineApproximationAndTranscendence §2.5 builds the height `H_A` of vector
 ### 2.5a Adelic heights of vectors and subspaces
 
 *Origin:* published: Roy and Thunder (1996), at the places DiophantineApproximationAndTranscendence §2.5a cites, for
-the heights over every finite extension and their properties; the comparison with the Arakelov height under
-*Standard data* is this roadmap's own formulation.
+the heights over every finite extension and their properties; the comparisons with the Arakelov height under
+*Standard data* and with `TauCeti.twistedHeight` and `TauCeti.deltaL` under *Change of basis* are this roadmap's own
+formulation.
 
 *Method of the formal proof:* the subspace height of [FormalProof] is the form of 2.5b, written without adeles.
 
@@ -80,8 +81,9 @@ constant is exponential in `n`. The bound for a single vector with a constant po
 `ε > 0` a finite extension `L/K` and a nonzero `x ∈ L^n` with `H_A(x) ≤ e^ε·√n·|det A|_𝔸^(1/n)`, is not a
 consequence of it for `n ≥ 3`.
 
-*Route.* DiophantineApproximationAndTranscendence §2.5a proves these statements, other than the comparison with the
-Arakelov height under *Standard data*, in this generality: the product formula gives the independence of the scalar
+*Route.* DiophantineApproximationAndTranscendence §2.5a proves these statements, other than the comparisons with the
+Arakelov height under *Standard data* and with `TauCeti.twistedHeight` and `TauCeti.deltaL` under *Change of basis*,
+in this generality: the product formula gives the independence of the scalar
 and of the Plücker vector and removes the coordinate on the whole space, the local isometric reduction of §2.5 gives
 the finiteness of the product and the values at `A = 1`, and `(A·g)(g^(−1)x) = Ax` at every place gives the change of
 basis.
@@ -111,10 +113,14 @@ basis for the automorphisms of the lattice.
 *Method of the formal proof:* the height of a subspace is a product of Gram determinants at the embeddings of a CM
 type divided by a lattice index; it does not depend on the chosen lattice vectors because an integral change of the
 family by a matrix `T` multiplies numerator and index by the same number `|N_{E/ℚ}(det T)|`, and it is invariant
-under an automorphism of the lattice applied to frame and subspace together.
+under an automorphism of the lattice applied to frame and subspace together. [FormalProof] states the invariance only
+for automorphisms that also preserve a nondegenerate Hermitian form on `E^n`, and as the invariance of the supremum of
+`h_{Λ,F}(U)^(−δ)` over the subspaces `U` of each dimension (below).
 
 *Corollary of:* DiophantineApproximationAndTranscendence §2.5a (the adelic subspace heights `H_A(U)` are well defined
-and invariant under the change of basis `H_{A·g}(g^(−1)U) = H_A(U)`).
+and invariant under the change of basis `H_{A·g}(g^(−1)U) = H_A(U)`), through ArakelovGeometryAndAbelianHeights
+§§1.5a and 1.5b (the Gram formula and the degree of a sub-bundle in an adelic presentation, which give
+`h_{Λ,F}(U) = H_A(U)^[E:ℚ]`).
 
 Let `E` be a CM field with a CM type `Φ` (ShimuraVarieties §5.1), a set of embeddings `τ : E → ℂ` containing exactly
 one of each pair of complex conjugate embeddings; `τ` is applied to vectors and matrices entrywise. Let `n ≥ 1`, `Λ ⊂ E^n` a lattice,
