@@ -55,6 +55,7 @@ sections = [
   "§AI.6.6",
   "§AI.7.1",
   "§AI.7.2",
+  "§AI.7.3",
 ]
 
 [[area]]
@@ -314,6 +315,7 @@ sections = [
   "§A3.2",
   "§A4.2",
   "§A4.3",
+  "§A4.4",
   "§A4.5",
   "§A4.7",
 ]
@@ -425,6 +427,24 @@ sections = [
   "§F1.11",
   "§F1.12",
   "§F1.16",
+]
+
+[[area]]
+name = "AdicSpacesPartV"
+sections = [
+  "§0.1",
+  "§0.2",
+  "§0.3",
+  "§0.5",
+  "§2.1",
+  "§2.2",
+  "§2.3",
+  "§3.1",
+  "§3.3",
+  "§6.1",
+  "§6.2",
+  "§6.3",
+  "§6.5",
 ]
 
 [[area]]
@@ -709,6 +729,7 @@ sections = [
   "§1.5",
   "§1.6",
   "§1.7",
+  "§3.3",
 ]
 
 [[area]]
@@ -2126,6 +2147,7 @@ sections = [
   "§2.3",
   "§2.4",
   "§2.5",
+  "§2.6",
   "§C3",
   "§3.2",
   "§3.3",
@@ -2143,7 +2165,9 @@ sections = [
 [[area]]
 name = "ChevalleyGroups"
 sections = [
+  "§C2",
   "§C3",
+  "§C4",
 ]
 
 [[area]]
@@ -2318,6 +2342,8 @@ sections = [
   "§3.3",
   "§3.4",
   "§3.5",
+  "§4.1",
+  "§4.2",
   "§4.3",
 ]
 
@@ -4035,6 +4061,7 @@ sections = [
   "§4.10",
   "§5.1",
   "§5.2",
+  "§5.2a",
   "§5.3",
   "§5.4",
   "§6.1",
@@ -6174,6 +6201,7 @@ sections = [
 name = "LogicAndDefinabilityInNumberTheory"
 sections = [
   "§2.7",
+  "§2.12",
 ]
 
 [[area]]
@@ -6198,6 +6226,12 @@ sections = [
 name = "MaassForms"
 sections = [
   "§7.1",
+]
+
+[[area]]
+name = "MassFormula"
+sections = [
+  "Layer 2",
 ]
 
 [[area]]
@@ -6598,6 +6632,7 @@ sections = [
   "§6.3",
   "§6.4",
   "§6.8",
+  "§6.10",
 ]
 
 [[area]]
@@ -6884,6 +6919,8 @@ sections = [
   "§M4.7",
   "§M4.8",
   "§M4.9",
+  "§M5.1",
+  "§M5.2",
   "§M5.5",
   "§M6.1",
   "§M6.2",
@@ -7868,6 +7905,12 @@ sections = [
   "§5.7",
   "§6.0",
   "§6.1",
+  "§7.1",
+  "§7.2",
+  "§7.2a",
+  "§7.3",
+  "§7.4",
+  "§7.5",
 ]
 
 [[area]]
@@ -8807,6 +8850,7 @@ sections = [
   "LieHighestWeight §9.3",
   "ModularInduction Layer 0",
   "ModularInduction Layer 1",
+  "ModularInduction Layer 4",
   "RootSystems §1.1",
   "RootSystems §1.2",
   "RootSystems §1.3",
@@ -8911,6 +8955,7 @@ sections = [
   "§6.2",
   "§6.3",
   "§6.4",
+  "§7.0",
   "§7.1",
   "§7.2",
   "§7.3",
