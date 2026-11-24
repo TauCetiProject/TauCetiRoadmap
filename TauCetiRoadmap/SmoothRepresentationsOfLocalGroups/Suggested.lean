@@ -38,8 +38,12 @@ induction or Jacquet functors for stating second adjointness (SR.2a and SR.5.2).
 derived Satake (SR.4) require the rational root, hyperspecial and dual-torus data and the actual
 Satake transform. Integral families (SR.5) require the mirabolic functors, distinguished types,
 integral blocks, universal Whittaker projectives and the normalized local Langlands
-correspondence. The finite-wild quotient and excursion theorems (SR.6) require the local Weil
-discretisation, cocycle coordinate algebra and excursion colimit. These are roadmap targets;
+correspondence. The Zelevinsky classification and the irreducibility of unitary products
+(SR.5.2a) require normalised parabolic induction and the segments of cuspidal representations.
+The finite-wild quotient and excursion theorems (SR.6) require the local Weil
+discretisation, cocycle coordinate algebra and excursion colimit. The depth-zero theorems (SR.7)
+require the Moy–Prasad filtration, through which depth zero is defined, the reductive quotients
+of parahoric subgroups, and supercuspidal representations. These are roadmap targets;
 their signatures are deferred rather than replaced by predicates for missing objects.
 
 The rational-point carrier below is Tau Ceti's convolution group, with its evaluation topology.
