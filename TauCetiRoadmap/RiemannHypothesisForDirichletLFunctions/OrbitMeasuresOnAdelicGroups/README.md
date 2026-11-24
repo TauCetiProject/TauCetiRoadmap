@@ -572,7 +572,8 @@ identification are computed here.
 
 Let `k` be a field and `g ∈ GL_n(k)` an element whose characteristic polynomial `P` is separable; over an algebraic
 closure `k̄` the eigenvalues of `g` are distinct, so `g` is a regular semisimple element of `GL_n`. Prove:
-(a) every `n × n` matrix over `k` that commutes with `g` is a polynomial in `g` with coefficients in `k`, stated in
+(a) every `n × n` matrix over `k` that commutes with `g` is a polynomial in `g` with coefficients in `k`; this holds
+for every `n × n` matrix `g` over `k` with separable characteristic polynomial, invertible or not, and is stated so in
 `Suggested.lean` as `exists_eq_aeval_of_separable_charpoly`; so the centraliser of `g` in `GL_n(k)` is `k[g]^×`, and
 any two matrices that commute with `g` commute with each other. This is [FormalProof], `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/EqAevalOfCommuteOfSeparable.lean`
 (`GlobalTheory.SepCentralizer.exists_eq_aeval_of_commute`),

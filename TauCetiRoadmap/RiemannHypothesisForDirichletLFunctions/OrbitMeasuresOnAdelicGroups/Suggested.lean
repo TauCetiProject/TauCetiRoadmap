@@ -60,14 +60,15 @@ namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOn
 /-! ## Layer 4: Centralisers of elements with separable characteristic polynomial -/
 
 /-- **Matrices commuting with an element with separable characteristic polynomial** (4.1 (a)).
-Let `k` be a field and `g ∈ GL_n(k)` an element whose characteristic polynomial is separable.
-Then every `n × n` matrix `y` over `k` that commutes with `g` is a polynomial in `g` with
-coefficients in `k`. So any two matrices that commute with `g` commute with each other, and the
-centraliser of `g` in `GL_n(k)` is the group of units of `k[g]`. -/
+Let `k` be a field and `g` an `n × n` matrix over `k`, invertible or not, whose characteristic
+polynomial is separable. Then every `n × n` matrix `y` over `k` that commutes with `g` is a
+polynomial in `g` with coefficients in `k`. So any two matrices that commute with `g` commute with
+each other, and for `g ∈ GL_n(k)` the centraliser of `g` in `GL_n(k)` is the group of units of
+`k[g]`. -/
 theorem exists_eq_aeval_of_separable_charpoly {k : Type*} [Field k] {n : Type*} [Fintype n]
-    [DecidableEq n] (g : GL n k) (hg : (g : Matrix n n k).charpoly.Separable)
-    {y : Matrix n n k} (hy : Commute (g : Matrix n n k) y) :
-    ∃ p : Polynomial k, y = Polynomial.aeval (g : Matrix n n k) p := by
+    [DecidableEq n] (g : Matrix n n k) (hg : g.charpoly.Separable)
+    {y : Matrix n n k} (hy : Commute g y) :
+    ∃ p : Polynomial k, y = Polynomial.aeval g p := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups
