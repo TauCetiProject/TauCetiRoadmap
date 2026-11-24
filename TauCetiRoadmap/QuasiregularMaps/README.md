@@ -42,7 +42,8 @@ when `M` is compact.
 
 The last results concern quasiregularly elliptic manifolds: connected oriented Riemannian
 `n`-manifolds that receive a non-constant quasiregular map from `ℝⁿ`. This property never depends
-on the orientation, and for closed manifolds not on the metric either. Every closed orientable
+on the orientation, and for closed manifolds it is the same for any two continuous Riemannian
+metrics. Every closed orientable
 flat manifold is `1`-quasiregularly elliptic, for each of its orientations. A connected oriented
 Riemannian manifold that receives a simplicial map as above from a flat torus is quasiregularly
 elliptic.
@@ -50,11 +51,11 @@ elliptic.
 Everything between manifolds is stated on the Sobolev class of SobolevMapsBetweenManifolds,
 which provides the weak differential and the oriented Jacobian. The Euclidean results rest on
 Mathlib and Tau Ceti alone. GeometricTopology provides simplicial
-maps, and RiemannianGeometry the flat quotients `ℝⁿ/Γ` with the Killing–Hopf theorem. Building
-on this roadmap, QuasiregularMaps, Part II proves Reshetnyak's theorem: for `n ≥ 2`, a
-non-constant quasiregular map of a connected manifold is discrete, open and sense preserving.
-Part III proves the cohomological constraints of Bonk–Heinonen, Prywes and Heikkilä–Pankka on
-closed quasiregularly elliptic manifolds.
+maps, and RiemannianGeometry the flat quotients `ℝⁿ/Γ` with the Killing–Hopf theorem. Two
+planned roadmaps build on this one. QuasiregularMaps, Part II is to prove Reshetnyak's theorem:
+for `n ≥ 2`, a non-constant quasiregular map of a connected manifold is discrete, open and sense
+preserving. Part III is to prove the cohomological constraints of Bonk–Heinonen, Prywes and
+Heikkilä–Pankka on closed quasiregularly elliptic manifolds.
 
 The first layer treats a single linear map, the next three quasiregular maps, their
 distortions and their invariance. The fifth is Euclidean, the sixth treats triangulations and
@@ -81,7 +82,9 @@ Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layer 3 needs Layer 
 needs Layers 2 and 3. Layer 6 needs §2.2, §2.7, §2.8 and §3.1. Layer 7 needs Layers 4 and 6. The
 Euclidean part of the roadmap needs no supplier roadmap: the minimal stretch (§1.1), Euclidean
 quasiregularity (§2.9, the definition), the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib
-and Tau Ceti alone, and they are what `Suggested.lean` states.
+and Tau Ceti alone, and `Suggested.lean` states them so. It states the definitions of §2.1, §2.2
+and §7.1, with §2.3, the manifold form of §3.2 and §7.2, against the target signatures of
+SobolevMapsBetweenManifolds, which it imports.
 
 ## Conventions
 
@@ -93,6 +96,8 @@ and Tau Ceti alone, and they are what `Suggested.lean` states.
   and theorems that `Suggested.lean` states (§1.1, §2.9, the Euclidean form of §3.2, §5.1–§5.3)
   carry no dimension hypothesis: in dimension `0` the space is a point, every map of it is
   `ACL^p` and `K`-quasiregular for every `K ≥ 1`, and each of those statements holds trivially.
+  The manifold definitions of `Suggested.lean` take `n` as a natural number; the attainment
+  theorem of §2.3 carries `n ≠ 0`, because it fails for a point with two opposite orientations.
 - **Euclidean domains in Lean.** An open set `Ω` of a finite-dimensional real inner product
   space `E` is a `TopologicalSpace.Opens E`, as in `TauCeti.HasWeakFDerivOn`. A map of `Ω` is a
   function `E → E` (or `E → F`) whose values off `Ω` play no role: continuity is `ContinuousOn`
@@ -105,12 +110,28 @@ and Tau Ceti alone, and they are what `Suggested.lean` states.
   orientation `o_M : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin n)`. The tangent orientation at
   `x` is `o_M.orientationAt x`. A second metric on the same manifold is carried by Tau Ceti's
   `TauCeti.WithMetric` copy. The measure on `M` is `TauCeti.riemannianVolume`; "almost
-  everywhere" refers to it. Its null sets are the chartwise `TauCeti.IsNullSet`s
-  (SobolevMapsBetweenManifolds §3.1), so the notion depends on neither the metric nor the
-  orientation.
+  everywhere" refers to it. Its null sets are the chartwise `TauCeti.IsNullSet`s, and they are
+  the null sets of every positive continuous density measure on `M`
+  (SobolevMapsBetweenManifolds §3.1). So the notion depends on neither the metric nor the
+  orientation, and "almost every `x`" for `TauCeti.riemannianVolume` and "off a chartwise null
+  set" may be used for each other, as §2.2, §2.3 and §2.7 do.
+- **Smooth metrics.** A smooth metric, Mathlib's `Bundle.ContMDiffRiemannianMetric`, is in
+  particular a continuous one (`Bundle.ContMDiffRiemannianMetric.toContinuousRiemannianMetric`).
+  The statements of §7.6 about flat manifolds, local Riemannian isometries and descended metrics
+  are for smooth metrics, and are instances of the definitions made for continuous ones.
+- **Manifolds in Lean.** `Suggested.lean` states the manifold definitions with the instances of
+  SobolevMapsBetweenManifolds §6.3: the model space `E` carries a Haar measure `volume`, the
+  tangent spaces have dimension `n` through `Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E) x) = n)`, and
+  the metrics are `Bundle.RiemannianBundle` instances with `IsContinuousRiemannianBundle`. The
+  norm `‖Df(x)‖` is the operator norm of a continuous linear map between tangent spaces with the
+  norms of the two metrics.
 - **Euclidean space.** `ℝⁿ` is `EuclideanSpace ℝ (Fin n)` with the flat metric and the
   orientation of its standard basis, made a manifold orientation by
-  `TauCeti.Manifold.Orientation.model`. Lebesgue measure is `volume`.
+  `TauCeti.Manifold.Orientation.model`. Lebesgue measure is `volume`. The flat metric is
+  Mathlib's `RiemannianBundle` instance on the tangent bundle of an inner product space, from
+  `riemannianMetricVectorSpace`; its `IsContinuousRiemannianBundle` instance is
+  `Bundle.instIsContinuousRiemannianBundle` applied to
+  `(riemannianMetricVectorSpace _).toContinuousRiemannianMetric`.
 - **Linear algebra.** For a linear map `A : V → W` between real inner product spaces of
   dimension `n`, `σ₁(A) ≥ … ≥ σₙ(A) ≥ 0` are its singular values: Mathlib's
   `LinearMap.singularValues`, zero-indexed, so `σᵢ` is the value at `i − 1`. Then
@@ -122,10 +143,9 @@ and Tau Ceti alone, and they are what `Suggested.lean` states.
   orientation.
 - **Normalisation of the distortion inequality.** The operator norm, not the Hilbert–Schmidt
   norm: `f` is `K`-quasiregular when `‖Df‖ⁿ ≤ K J_f` almost everywhere (HeikkilaPankka2025
-  line 25; Prywes2019 line 25; MartioRickmanVaisala1969 (2.21), line 411). Witness: for
+  (1.1); Prywes2019 §1, p. 1; MartioRickmanVaisala1969 (2.21)). Witness: for
   `A = diag(2, 1)` on `ℝ²`, `‖A‖² = 4`, `J(A) = 2`, so the least admissible `K` is `2`; the
-  Hilbert–Schmidt normalisation of Callender and Reshetnyak (MartioRickmanVaisala1969 (2.23),
-  lines 426–430) gives `5/4` for the same map (§1.4).
+  Hilbert–Schmidt normalisation of Callender and Reshetnyak (MartioRickmanVaisala1969 (2.23)) gives `5/4` for the same map (§1.4).
 - **Quotient conventions.** `q_O(0) = 0` (the quotient `0/0` counts as `0`), so constant maps have
   outer distortion `1`. `q_O(A) = ∞` when `A ≠ 0` and `J(A) ≤ 0`, so orientation-reversing
   differentials have infinite distortion. `q_I(A) = 0` when `J(A) ≤ 0`. Witness:
@@ -135,7 +155,7 @@ and Tau Ceti alone, and they are what `Suggested.lean` states.
   off the class. The constant `K` of a quasiregular map is a real number with `K ≥ 1`; the linear
   statements of §1.3 allow every real `K ≥ 0`.
 - **Two meanings of "`K`-quasiregular".** Here, as in HeikkilaPankka2025 and Prywes2019,
-  `K`-quasiregular means `K_O(f) ≤ K`. In MartioRickmanVaisala1969 (line 418) it means
+  `K`-quasiregular means `K_O(f) ≤ K`. In MartioRickmanVaisala1969 (2.20, p. 14) it means
   `K(f) = max(K_O(f), K_I(f)) ≤ K`; this roadmap calls that "`K`-quasiregular in the maximal
   sense". Witness: the radial stretch `x ↦ |x|^{−1/2} x` of `ℝ³` has `K_O = 2`, `K_I = 4`, so it
   is `2`-quasiregular, and `4`-quasiregular but not `2`-quasiregular in the maximal sense
@@ -156,7 +176,7 @@ an orientation, and `A : V → W`, `B : W → X` are linear.
 Define the minimal stretch `ℓ(A) = σₙ(A)` (`minimalStretch`), the smallest of the `n` singular
 values of `A`: Mathlib's `LinearMap.singularValues` at the zero-based index `n − 1`, for a linear
 map between finite-dimensional real inner product spaces. Prove that it is the minimum of `|Av|`
-over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVaisala1969 line 127.
+over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVaisala1969 2.1, p. 6.
 
 - For every `v ∈ V`, `ℓ(A)|v| ≤ |Av|`, with equality for a right singular vector of `σₙ(A)`; so
   `ℓ(A)` is attained as the minimum over the unit sphere.
@@ -203,8 +223,9 @@ With the oriented Jacobian `J(A)` of SobolevMapsBetweenManifolds §6.1, define t
     q_I(A) = J(A) / ℓ(A)ⁿ  if J(A) > 0,     q_I(A) = 0      if J(A) ≤ 0.
 
 These are the pointwise quotients whose essential suprema are the outer and inner dilatation of
-MartioRickmanVaisala1969 (2.21)–(2.22), lines 411–416. When `J(A) > 0` all singular values are
-positive, so the denominators do not vanish.
+MartioRickmanVaisala1969 (2.21)–(2.22). When `J(A) > 0` all singular values are
+positive, so the denominators do not vanish. `Suggested.lean` states `q_O` as `outerQuotient`,
+with values in `ℝ≥0∞`.
 
 - If `J(A) > 0` then `q_O(A) = σ₁ⁿ/(σ₁ ⋯ σₙ) = Π_{i ≥ 2} σ₁/σᵢ ≥ 1` and
   `q_I(A) = (σ₁ ⋯ σₙ)/σₙⁿ = Π_{i ≤ n−1} σᵢ/σₙ ≥ 1`, and both are at least `σ₁/σₙ`.
@@ -243,7 +264,7 @@ Prove that for every real `K ≥ 0`, `‖A‖ⁿ ≤ K J(A)` iff `q_O(A) ≤ K`,
 `q_I(A) ≤ K`. The hypothesis `K ≥ 0` is needed: for `K = −1` and `R = diag(−1, 1)`,
 `‖R‖² = 1 ≤ (−1)(−1)` holds while `q_O(R) = ∞`.
 
-Prove the pointwise form of MartioRickmanVaisala1969 (2.25), line 438: if `J(A) > 0` then
+Prove the pointwise form of MartioRickmanVaisala1969 (2.25): if `J(A) > 0` then
 
     q_I(A) ≤ q_O(A)^{n−1}   and   q_O(A) ≤ q_I(A)^{n−1}.
 
@@ -273,14 +294,13 @@ Define the Hilbert–Schmidt distortion
     q_S(A) = ‖A‖_HSⁿ / (n^{n/2} J(A))   if J(A) > 0,     q_S(0) = 0,     q_S(A) = ∞   otherwise,
 
 where `‖A‖_HS² = Σ σᵢ(A)²` is the Hilbert–Schmidt norm (Tau Ceti's Frobenius seminorm). This is
-the normalisation of Callender and Reshetnyak (MartioRickmanVaisala1969 (2.23), lines 426–430).
+the normalisation of Callender and Reshetnyak (MartioRickmanVaisala1969 (2.23)).
 
 - `q_S(A) = (σ₁² + … + σₙ²)^{n/2} / (n^{n/2} σ₁ ⋯ σₙ)` when `J(A) > 0`.
 - `q_S(A) ≥ 1` when `J(A) > 0`, by the inequality of arithmetic and geometric means on the
   `σᵢ²`, with equality iff `q_O(A) = 1`.
 - `q_S` has the invariances of `q_O` listed in §1.2.
-- For every `A`, `q_S(A) ≤ q_O(A) ≤ n^{n/2} q_S(A)` (MartioRickmanVaisala1969 (2.24),
-  line 435). The constant `n^{n/2}` cannot be lowered, and for `J(A) > 0` and `n ≥ 2` the upper
+- For every `A`, `q_S(A) ≤ q_O(A) ≤ n^{n/2} q_S(A)` (MartioRickmanVaisala1969 (2.24)). The constant `n^{n/2}` cannot be lowered, and for `J(A) > 0` and `n ≥ 2` the upper
   bound is strict.
 
 **Checks.**
@@ -300,7 +320,10 @@ the normalisation of Callender and Reshetnyak (MartioRickmanVaisala1969 (2.23), 
 Prove, for a real-linear map `A z = a z + b z̄` of `ℂ`, with `ℂ` oriented by the basis `(1, i)`:
 `‖A‖ = |a| + |b|`, `ℓ(A) = ||a| − |b||` and `J(A) = det A = |a|² − |b|²`. If `|b| < |a|` then
 `q_O(A) = q_I(A) = (|a| + |b|)/(|a| − |b|)`; if `A ≠ 0` and `|b| ≥ |a|` then `q_O(A) = ∞`. For
-`0 ≤ k < 1`, `q_O(A) ≤ (1 + k)/(1 − k)` iff `|b| ≤ k|a|` (Ahlfors2006, Ch. I).
+`0 ≤ k < 1`, `q_O(A) ≤ (1 + k)/(1 − k)` iff `|b| ≤ k|a|` (Ahlfors2006, Ch. I). The
+coefficients are `a = (A 1 − i A i)/2` and `b = (A 1 + i A i)/2`. When `A` is the derivative of
+a map `g` at `x`, they are Tau Ceti's `TauCeti.wirtingerDeriv g x 1` and
+`TauCeti.conjWirtingerDeriv g x 1`.
 
 **Checks.**
 
@@ -309,8 +332,8 @@ Prove, for a real-linear map `A z = a z + b z̄` of `ℂ`, with `ℂ` oriented b
 - `a = 2i`, `b = 0`: `q_O(A) = 1`.
 - `K = 2` corresponds to `k = 1/3`: `z + z̄/3` has `q_O = (4/3)/(2/3) = 2`.
 
-*Needs:* §1.2, §1.3; Mathlib `LinearMap.det`; SobolevMapsBetweenManifolds §6.1 (gap
-`sobolev-maps-jacobian`).
+*Needs:* §1.2, §1.3; Mathlib `LinearMap.det`; Tau Ceti `TauCeti.wirtingerDeriv`,
+`TauCeti.conjWirtingerDeriv`; SobolevMapsBetweenManifolds §6.1 (gap `sobolev-maps-jacobian`).
 
 ### Examples
 
@@ -334,9 +357,13 @@ Throughout, `M` and `N` are as in the Conventions, of dimension `n ≥ 1`, and `
 For a real `K`, call `f : M → N` `K`-quasiregular when `1 ≤ K`, `f` is continuous,
 `f ∈ W^{1,n}_loc(M, N)`, and `‖Df(x)‖ⁿ ≤ K J_f(x)` for almost every `x ∈ M`. Call `f`
 quasiregular when it is `K`-quasiregular for some `K`. This is the definition of
-HeikkilaPankka2025 lines 22–27 and Prywes2019 lines 22–26. On Euclidean domains it is
-MartioRickmanVaisala1969 Definition 2.20 (lines 409–412), with `ACLⁿ` in place of
-`W^{1,n}_loc`; §5.3 identifies the two.
+HeikkilaPankka2025 §1, p. 1, with (1.1), and Prywes2019 §1, p. 1. On Euclidean domains it is
+MartioRickmanVaisala1969 Definition 2.20, with `ACLⁿ` in place of
+`W^{1,n}_loc`; §5.3 identifies the two. `Suggested.lean` states the definition as
+`IsQuasiregular K oM oN f`, on the supplier's `IsSobolevMap`, `HasWeakMFDeriv` and
+`orientedJacobian`. It asks the inequality of some weak differential of `f`. Two weak
+differentials of a continuous map differ on a null set (`HasWeakMFDeriv.ae_eq`), so the
+inequality then holds for every weak differential.
 
 - If `f` is `K`-quasiregular and `K ≤ K'` then `f` is `K'`-quasiregular.
 - `f` is `K`-quasiregular iff `1 ≤ K`, `f` is continuous, `f ∈ W^{1,n}_loc(M, N)` and
@@ -368,13 +395,17 @@ MartioRickmanVaisala1969 Definition 2.20 (lines 409–412), with `ACLⁿ` in pla
 Define the outer distortion `K_O(f) ∈ [1, ∞]`. For continuous `f ∈ W^{1,n}_loc(M, N)` it is
 `max(1, ess sup_x q_O(Df(x)))`, the essential supremum (`essSup`) taken for
 `TauCeti.riemannianVolume`. For every other map it is `∞` (MartioRickmanVaisala1969
-lines 412–413 and 418–419).
+2.20, p. 14). `Suggested.lean` states it as `outerDistortion oM oN f`, with values in `ℝ≥0∞`: the
+infimum, over the weak differentials `Df` of a member `f` of the class, of
+`max(1, ess sup q_O(Df))`. All weak differentials give one value, and the infimum over none is
+`∞`.
 
 - `K_O(f) = 1` for constant maps and for every map out of an empty manifold.
 - `K_O(f|_U) ≤ K_O(f)` for open `U ⊆ M` (§2.5).
 - For `C¹` maps, `K_O(f) = max(1, sup_x q_O(df_x))` (§2.7).
 - `K_O` is unchanged by composing with orientation-preserving isometries on either side, and
-  submultiplicative under the compositions of §4.3–§4.4.
+  submultiplicative under the compositions with `C¹` factors. Both statements are proved in
+  §4.3 and §4.4, not here.
 
 **Checks.**
 
@@ -396,8 +427,9 @@ Prove that for continuous `f ∈ W^{1,n}_loc(M, N)`,
 
     { K ∈ ℝ : f is K-quasiregular } = { K ∈ ℝ : 1 ≤ K and K_O(f) ≤ K }.
 
+This is `isQuasiregular_iff_outerDistortion_le` in `Suggested.lean`.
 So `f` is `K_O(f)`-quasiregular when `K_O(f) < ∞`, and `f` is quasiregular iff `K_O(f) < ∞`; the
-least admissible constant of MartioRickmanVaisala1969 lines 412–413 exists. Route: by §1.3 the
+least admissible constant of MartioRickmanVaisala1969 2.20, p. 14, exists. Route: by §1.3 the
 inequality at `x` is `q_O(Df(x)) ≤ K`. An almost-everywhere bound bounds the essential supremum
 (`essSup_le_of_ae_le`), and the function is bounded by its essential supremum almost
 everywhere (`ae_le_essSup`).
@@ -481,8 +513,9 @@ second statement follows with §2.4.
   on a set of positive measure only; positivity almost everywhere is Reshetnyak's theorem
   (QuasiregularMaps, Part II), which needs `n ≥ 2`.
 
-*Needs:* §2.4; Tau Ceti `TauCeti.W1p.exists_value_ae_eq_const_of_gradient_eq_zero`,
-`TauCeti.cantorFunction` (for the Check);
+*Needs:* §2.4; Tau Ceti `TauCeti.W1p.exists_value_ae_eq_const_of_gradient_eq_zero`; for the
+Cantor Check only, §5.2 (Layer 5 does not use Layer 2 before §5.3), `TauCeti.cantorFunction` and
+`TauCeti.not_absolutelyContinuousOnInterval_cantorFunction`;
 SobolevMapsBetweenManifolds §4.2–§4.3 (gaps `sobolev-maps-class`, `sobolev-maps-weak-differential`).
 
 ### 2.7 `C¹` maps
@@ -529,8 +562,8 @@ Call `f : M → N` locally Lipschitz in charts when it is continuous and every l
 Consequently `f` is `K`-quasiregular iff `‖mfderiv f x‖ⁿ ≤ K J(mfderiv f x)` for almost every `x`.
 Route: Rademacher's theorem on the chart domains
 (`LocallyLipschitzOn.ae_differentiableAt_of_mem`) and `LocallyLipschitzOn.hasWeakFDerivOn_fderiv`
-for each representative, with the chart definition of the class. HeikkilaPankka2025 Lemma B.2,
-lines 1255–1260, proves the `W^{1,∞}` case for piecewise smooth functions on closed manifolds by
+for each representative, with the chart definition of the class. HeikkilaPankka2025 Lemma B.2
+proves the `W^{1,∞}` case for piecewise smooth functions on closed manifolds by
 Stokes' theorem; this statement holds on every `M` and is what Layer 6 uses.
 
 **Checks.**
@@ -563,7 +596,7 @@ Give `E` an orientation `o` and let `Ω` and `E` carry the flat metric and the o
 Prove that the restriction of `f` to the open submanifold `Ω` is `K`-quasiregular in the sense
 of §2.1 if and only if `f` is Euclidean `K`-quasiregular on `Ω`. The statement does not depend
 on `o`, since `J_f = det Du` for either choice used on both sides (MartioRickmanVaisala1969
-Definition 2.20, lines 409–412; Prywes2019 lines 22–26). Route: SobolevMapsBetweenManifolds §7.1.
+Definition 2.20; Prywes2019 §1, p. 1). Route: SobolevMapsBetweenManifolds §7.1.
 
 - The condition does not depend on the choice of `Du`: two weak derivatives agree almost
   everywhere on `Ω` (`TauCeti.HasWeakFDerivOn.ae_eq`).
@@ -601,16 +634,30 @@ agreement with §2.1, the definition of §2.1 and SobolevMapsBetweenManifolds §
 ### 2.10 The plane and the Beltrami equation
 
 Let `Ω ⊆ ℂ` be open with the standard orientation and flat metric. Let `f` be continuous with a
-weak derivative `Du` such that `‖Du‖²` is locally integrable, and let `f_z`, `f_z̄` be its weak
-Wirtinger derivatives (TeichmullerGeometry §7.4). Prove that for `K ≥ 1` and
-`k = (K − 1)/(K + 1)`, `f` is `K`-quasiregular iff `|f_z̄| ≤ k |f_z|` almost everywhere. For
-quasiregular `f`, prove `K_O(f) = (1 + k₀)/(1 − k₀)`, where `k₀` is the essential
-supremum of `|f_z̄|/|f_z|` over `{f_z ≠ 0}` (and `k₀ = 0` if that set is null). Prove that every
-orientation-preserving quasiconformal map of TeichmullerGeometry §7.4 with Beltrami coefficient
-`μ`, `‖μ‖_∞ < 1`, is an injective `K`-quasiregular map with `K = (1 + ‖μ‖_∞)/(1 − ‖μ‖_∞)`.
+weak derivative `Du` such that `‖Du‖²` is locally integrable, and set
+
+    f_z = (Du 1 − i Du i)/2,     f_z̄ = (Du 1 + i Du i)/2,
+
+the coefficients of §1.5 for `A = Du(x)`. These are the weak Wirtinger derivatives of
+TeichmullerGeometry §7.4, which defines them by the same formulas; where `f` is differentiable
+they are Tau Ceti's `TauCeti.wirtingerDeriv f x 1` and `TauCeti.conjWirtingerDeriv f x 1`.
+
+Prove, from §1.5 and the weak derivative alone:
+
+- For `K ≥ 1` and `k = (K − 1)/(K + 1)`, `f` is `K`-quasiregular iff `|f_z̄| ≤ k |f_z|` almost
+  everywhere.
+- For quasiregular `f`, `K_O(f) = (1 + k₀)/(1 − k₀)`, where `k₀` is the essential
+  supremum of `|f_z̄|/|f_z|` over `{f_z ≠ 0}` (and `k₀ = 0` if that set is null).
+
+Prove, with the quasiconformal maps of TeichmullerGeometry §7.4:
+
+- Every orientation-preserving quasiconformal map of TeichmullerGeometry §7.4 with Beltrami
+  coefficient `μ`, `‖μ‖_∞ < 1`, is an injective `K`-quasiregular map with
+  `K = (1 + ‖μ‖_∞)/(1 − ‖μ‖_∞)`.
+
 Route: §1.5 pointwise, since `Du = f_z dz + f_z̄ dz̄`. On `{f_z = 0}` the inequality forces
 `f_z̄ = 0`. For a sense-preserving homeomorphism, `K`-quasiconformal and `K`-quasiregular agree
-(MartioRickmanVaisala1969 lines 420–422; Ahlfors2006, Ch. I).
+(MartioRickmanVaisala1969 2.20, p. 14; Ahlfors2006, Ch. I).
 
 **Checks.**
 
@@ -620,7 +667,9 @@ Route: §1.5 pointwise, since `Du = f_z dz + f_z̄ dz̄`. On `{f_z = 0}` the ine
   §7.4.
 - A holomorphic `f` has `f_z̄ = 0`, so `k₀ = 0` and `K_O = 1`.
 
-*Needs:* §1.5, §2.2, §2.9; TeichmullerGeometry §7.4; Mathlib `DifferentiableAt.conformalAt`.
+*Needs:* §1.5, §2.2, §2.9; Tau Ceti `TauCeti.HasWeakFDerivOn`, `TauCeti.wirtingerDeriv`,
+`TauCeti.conjWirtingerDeriv`; Mathlib `DifferentiableAt.conformalAt`. The third statement, and the
+comparisons with §7.4 in the Checks, also need TeichmullerGeometry §7.4.
 
 ### Examples
 
@@ -632,7 +681,7 @@ Route: §1.5 pointwise, since `Du = f_z dz + f_z̄ dz̄`. On `{f_z = 0}` the ine
 
 Layer 1; SobolevMapsBetweenManifolds §1.2, §3.1, §4.2–§4.5, §5.1–§5.2, §6.1–§6.3 and §7.1;
 DifferentialGeometry 12.1; Tau Ceti's measure, orientation and weak-derivative declarations;
-TeichmullerGeometry §7.4 for §2.10.
+TeichmullerGeometry §7.4 for the quasiconformal maps of §2.10.
 
 ## Layer 3: inner, maximal and Hilbert–Schmidt distortion
 
@@ -641,7 +690,7 @@ TeichmullerGeometry §7.4 for §2.10.
 For quasiregular `f : M → N` define the inner distortion `K_I(f) = max(1, ess sup_x q_I(Df(x)))`,
 and set `K_I(f) = ∞` for maps that are not quasiregular. Define the maximal distortion
 `K(f) = max(K_O(f), K_I(f))`. Call `f` `K`-quasiregular in the maximal sense when `K(f) ≤ K`
-(MartioRickmanVaisala1969 lines 413–419).
+(MartioRickmanVaisala1969 2.20, p. 14).
 
 - For quasiregular `f`, `K_I(f)` is the least `K ≥ 1` with `J_f ≤ K ℓ(Df)ⁿ` almost everywhere.
 - `K_I(f|_U) ≤ K_I(f)` for open `U`; for `C¹` quasiregular `f`, `K_I(f) = max(1, sup_x q_I(df_x))`.
@@ -660,11 +709,11 @@ and set `K_I(f) = ∞` for maps that are not quasiregular. Define the maximal di
 
 ### 3.2 Comparison of inner and outer distortion
 
-Prove MartioRickmanVaisala1969 (2.25), line 438: for quasiregular `f`,
+Prove MartioRickmanVaisala1969 (2.25): for quasiregular `f`,
 
     K_I(f) ≤ K_O(f)^{n−1}   and   K_O(f) ≤ K_I(f)^{n−1},
 
-so `K_O(f) ≤ K(f) ≤ K_O(f)^{n−1}`. Both are best possible (line 439): for `n ≥ 2` and every
+so `K_O(f) ≤ K(f) ≤ K_O(f)^{n−1}`. Both are best possible (MartioRickmanVaisala1969 p. 15): for `n ≥ 2` and every
 `s ≥ 1`, the radial stretch with `a = s` has `K_I = s`, `K_O = s^{n−1}`, and the one with
 `a = 1/s` has `K_O = s`, `K_I = s^{n−1}`. Hence finite `K_O` and finite `K` single out the same
 class, the quasiregular maps. A map `K`-quasiregular in the maximal sense
@@ -672,6 +721,13 @@ is `K`-quasiregular, and a `K`-quasiregular map is `K^{n−1}`-quasiregular in t
 Route: at almost every point either `J_f > 0`, where §1.3 applies, or `Df = 0` (§2.4), where
 both quotients vanish. Then pass to essential suprema, using that `t ↦ t^{n−1}` is monotone and
 continuous on `[0, ∞]`.
+
+`Suggested.lean` states the two inequalities between manifolds through the inequalities that
+define the distortions, as it does on Euclidean domains below: a `K`-quasiregular `f` has
+`J(Df(x)) ≤ K^{n−1} ℓ(Df(x))ⁿ` almost everywhere for every weak differential `Df`
+(`IsQuasiregular.orientedJacobian_le_pow_mul_minimalStretch_pow`), and a quasiregular `f` with
+`J(Df(x)) ≤ K ℓ(Df(x))ⁿ` almost everywhere for some weak differential and some `K ≥ 1` is
+`K^{n−1}`-quasiregular (`IsQuasiregular.of_orientedJacobian_le_mul_minimalStretch_pow`).
 
 On Euclidean domains this is MartioRickmanVaisala1969 (2.25) in its own setting, and it is
 stated without the distortion functions, through the inequalities that define them. Let `E` be
@@ -719,7 +775,7 @@ the oriented Jacobian of the supplier, and Tau Ceti `TauCeti.HasWeakFDerivOn.ae_
 
 Prove that for `n ≥ 2` the projection `P(x) = (x₁, …, x_{n−1}, 0)` of `ℝⁿ` lies in
 `W^{1,∞}_loc` and satisfies `J_P ≤ 1 · ℓ(DP)ⁿ` everywhere, both sides being `0`, yet is not
-quasiregular (MartioRickmanVaisala1969 lines 423–425). For `n = 1` the same formula is the zero
+quasiregular (MartioRickmanVaisala1969 2.20, p. 14). For `n = 1` the same formula is the zero
 map, which is quasiregular.
 
 **Checks.**
@@ -732,7 +788,7 @@ map, which is quasiregular.
 ### 3.4 Hilbert–Schmidt distortion of a map
 
 For continuous `f ∈ W^{1,n}_loc(M, N)` define `K_S(f) = max(1, ess sup_x q_S(Df(x)))`, and
-`K_S(f) = ∞` for other maps. Prove MartioRickmanVaisala1969 (2.24), line 435:
+`K_S(f) = ∞` for other maps. Prove MartioRickmanVaisala1969 (2.24):
 `K_S(f) ≤ K_O(f) ≤ n^{n/2} K_S(f)`. The constants cannot be improved, and `f` is quasiregular iff
 `K_S(f) < ∞`.
 
@@ -791,7 +847,7 @@ Let `g_M`, `g'_M` be continuous metrics on `M` with `a|v| ≤ |v|' ≤ b|v|` for
 Route: the second metric through `TauCeti.WithMetric`; the density `ρ_M` is the square root of
 the Gram determinant of `g'_M` in a `g_M`-orthonormal basis, whose eigenvalues lie in
 `[a², b²]` (`Orientation.volumeForm_robust`, `TauCeti.riemannianVolumeForm`); the norm comparison
-of SobolevMapsBetweenManifolds §5.3 (Rickman1993, Ch. I; HeikkilaPankka2025 lines 20–27).
+of SobolevMapsBetweenManifolds §5.3 (Rickman1993, Ch. I; HeikkilaPankka2025 §1, p. 1).
 
 **Checks.**
 
@@ -818,7 +874,7 @@ Prove that `f` is `K`-quasiregular for `(o_M, o_N)` iff it is for `(−o_M, −o
 `J_f`, `K_O(f)` and `K_I(f)`. For `(o_M, −o_N)` the Jacobian is `−J_f`. If `f` is quasiregular
 for both `(o_M, o_N)` and `(o_M, −o_N)`, then `Df = 0` almost everywhere, and `f` is constant on
 each component of `M` (§2.6). Route: `Orientation.volumeForm_neg_orientation` and the sign law of
-SobolevMapsBetweenManifolds §6.2 (HeikkilaPankka2025 lines 20–27).
+SobolevMapsBetweenManifolds §6.2 (HeikkilaPankka2025 §1, p. 1).
 
 **Checks.**
 
@@ -902,13 +958,13 @@ the segment of `Q` through `x` parallel to the `i`-th axis, with `t` the `i`-th 
 Define the formal derivative `u'(x)` (`formalDeriv`) of `u : ℝⁿ → F` at `x` as the linear map
 `ℝⁿ → F` with `u'(x) eᵢ = ∂ᵢu(x)` for every `i`. Here `∂ᵢu(x)` is Mathlib's `lineDeriv ℝ u x eᵢ`,
 the derivative at `0` of `t ↦ u(x + t eᵢ)`, which is `0` where that derivative does not exist
-(MartioRickmanVaisala1969 lines 118–121).
+(MartioRickmanVaisala1969 2.1, p. 6).
 
 Call `u` `ACL` on `Ω` (`IsACLOn`) when `u` is continuous on `Ω` and, for every closed coordinate
 box `Q ⊆ Ω` and every `i`, the line function through `x` is absolutely continuous on `[aᵢ, bᵢ]`
 (Mathlib's `AbsolutelyContinuousOnInterval`) for almost every `x ∈ Q`. For an exponent
 `0 < p ≤ ∞`, call `u` `ACL^p` on `Ω` (`IsACLpOn`) when it is `ACL` on `Ω` and `u'` lies in `L^p`
-on every compact subset of `Ω` (MartioRickmanVaisala1969 Definition 2.16, lines 332–340, where
+on every compact subset of `Ω` (MartioRickmanVaisala1969 Definition 2.16, where
 the boxes are open `n`-intervals with closure in `Ω`, the segments are those of the closure, and
 `p ≥ 1`). The theorems of §5.2 assume `p ≥ 1`, and a Check there shows that they need it. The
 Lean definition accepts every `p : ℝ≥0∞`; at `p = 0` its integrability clause asks only
@@ -1024,14 +1080,14 @@ Prove that for open `G ⊆ ℝⁿ`, `f : ℝⁿ → ℝⁿ` and `K ≥ 1`, `f` i
 `G` (§2.9) if and only if `f` is `ACLⁿ` on `G` and `‖f'(x)‖ⁿ ≤ K det f'(x)` for almost every
 `x ∈ G`, with `f'` the formal derivative (`isQuasiregularOn_iff_isACLpOn`). The right-hand side
 is the definition of a quasiregular map in MartioRickmanVaisala1969 Definition 2.20 and (2.21),
-lines 409–411, where the Jacobian `J(x, f)` of line 124 is the determinant of the derivative,
+where the Jacobian `J(x, f)` of 2.1, p. 6, is the determinant of the derivative,
 `det f'(x)`. With §2.9, `f` is `K`-quasiregular in the sense of §2.1 for the standard orientation
 and flat metric if and only if it is quasiregular in the sense of Martio–Rickman–Väisälä with
 outer dilatation at most `K`.
 
 Prove also that the outer, inner and maximal dilatations of MartioRickmanVaisala1969
-(lines 412–419) are `K_O(f)`, `K_I(f)` and `K(f)` of §2.2 and §3.1, including the value `∞` for
-maps that are not quasiregular. Their "`K`-quasiregular" (line 418) is `K`-quasiregular in the
+(2.20, p. 14) are `K_O(f)`, `K_I(f)` and `K(f)` of §2.2 and §3.1, including the value `∞` for
+maps that are not quasiregular. Their "`K`-quasiregular" is `K`-quasiregular in the
 maximal sense. Route: §5.2 with `p = n`, which gives `Du = f'` almost everywhere, and §2.9.
 
 **Checks.**
@@ -1117,7 +1173,7 @@ on which `‖A(y) − A(x)‖ ≤ c₀/2` and `‖A(y)‖` is bounded. The mean 
 fixed map `A(x)` (`Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le'`) gives the lower bound
 with `c = c₀/2`, and the mean value inequality
 (`Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`) gives the upper bound. The notion
-of piecewise smooth triangulation is HeikkilaPankka2025 Appendix B, lines 1236–1245, which asks
+of piecewise smooth triangulation is HeikkilaPankka2025 Appendix B, p. 23, which asks
 for an extension of `κ|σ` to a neighbourhood of `σ` in its plane. The within-simplex formulation
 of `TauCeti.IsSmoothTriangulation` suffices for every statement here.
 
@@ -1164,13 +1220,13 @@ is `p = κ₂ ∘ |s| ∘ κ₁⁻¹ : M → N`. It is non-degenerate when `s` i
 every simplex of `K₁`. It is orientation preserving when for every `n`-simplex `σ` of `K₁` and
 every `x ∈ κ₁(σ°)`, `p` is orientation preserving at `x`
 (`TauCeti.Manifold.Orientation.IsOrientationPreservingAt`). This is the setting of
-HeikkilaPankka2025 Proposition B.1, lines 1247–1251.
+HeikkilaPankka2025 Proposition B.1.
 
 - `p` is continuous. For non-degenerate `p` and an `n`-simplex `σ`, `|s|` maps `σ` affinely and
   bijectively onto the `n`-simplex `s(σ)`. The restriction of `p` to `κ₁(σ)` is
   `κ₂ ∘ L_σ ∘ (κ₁|σ)⁻¹`, `C¹` within `κ₁(σ)`, with invertible differential at every point of
-  `κ₁(σ)`, boundary points included (HeikkilaPankka2025 lines 1322–1327 build the corresponding
-  local diffeomorphisms `ϕᵢ`).
+  `κ₁(σ)`, boundary points included (the proof of HeikkilaPankka2025 Proposition B.1, p. 24, builds the
+  corresponding local diffeomorphisms `ϕᵢ`).
 - If `p` is non-degenerate and orientation preserving, `J(dp) > 0` on the whole closed `κ₁(σ)`,
   since `J(dp)` is continuous there, positive on `κ₁(σ°)` and nowhere zero.
 - If `p = κ₂ ∘ |s| ∘ κ₁⁻¹` and `q = κ₃ ∘ |t| ∘ κ₂⁻¹` then `q ∘ p = κ₃ ∘ |t ∘ s| ∘ κ₁⁻¹`, and it is
@@ -1202,8 +1258,8 @@ the classical differential of `p|κ(σ°)` exists at every `x ∈ κ(σ°)`. The
 differential `Dp` agrees with this classical differential almost everywhere on each simplex
 interior, hence almost everywhere on `M` by the null lower skeleton and countable local
 finiteness of §6.1.
-HeikkilaPankka2025 Lemma B.2, lines 1255–1260, gives the case of closed `M` with a proof through
-Stokes' theorem (lines 1261–1316). Route here:
+HeikkilaPankka2025 Lemma B.2 gives the case of closed `M` with a proof through
+Stokes' theorem (pp. 23–24). Route here:
 
 - continuity, by the pasting lemma for the locally finite closed cover by the `κ(σ)` (§6.1);
 - Lipschitz bounds near each point of each `κ(σ)` in chart coordinates. Take `x ∈ σ`, the
@@ -1246,7 +1302,7 @@ Let `p` be a non-degenerate orientation-preserving simplicial map (§6.2) and
   `K_I(p) = max(1, sup q_I(dp_x))` over the same points;
 - `K_p ≥ 1` when `M` is non-empty.
 
-This is HeikkilaPankka2025 Proposition B.1, lines 1247–1251, with proof at lines 1317–1339,
+This is HeikkilaPankka2025 Proposition B.1, with proof on p. 24,
 there for closed `M` and `N` and `n ≥ 2`. Route: §6.3 for the class; on each closed `κ₁(σ)`,
 `q_O(dp)` is a continuous function on a compact set (§6.2); §2.7's argument identifies the
 essential supremum with the supremum.
@@ -1294,7 +1350,9 @@ flat metric and the standard orientation.
 
 For `K ≥ 1`, call `N` `K`-quasiregularly elliptic when there is a non-constant `K`-quasiregular
 map `ℝⁿ → N`, and quasiregularly elliptic when it is `K`-quasiregularly elliptic for some `K`
-(HeikkilaPankka2025 lines 20–21 and 271–273; Prywes2019 lines 26–27).
+(HeikkilaPankka2025 §1, p. 1, and §2, p. 6; Prywes2019 §1, p. 1). `Suggested.lean` states
+the two notions as `IsQuasiregularlyEllipticWith K oN` and `IsQuasiregularlyElliptic oN`, with
+`ℝⁿ` as in the Conventions.
 
 - If `N` is `K`-quasiregularly elliptic and `K ≤ K'`, then it is `K'`-quasiregularly elliptic.
 - `N` is `K`-quasiregularly elliptic iff some `K`-quasiregular `f : ℝⁿ → N` has `J_f > 0` on a
@@ -1311,16 +1369,17 @@ map `ℝⁿ → N`, and quasiregularly elliptic when it is `K`-quasiregularly el
   the closed ball, is quasiregular. So the domain `ℝⁿ` is essential.
 - In dimension one, `ℝ` and `S¹ = ℝ/ℤ` are `1`-quasiregularly elliptic.
 
-*Needs:* §2.1, §2.6.
+*Needs:* §2.1, §2.6; §4.3 and §4.4 for the invariance under isometries.
 
 ### 7.2 Independence of the orientation
 
-Prove that `N` is `K`-quasiregularly elliptic for `o_N` iff it is for `−o_N`, with the same `K`.
+Prove that `N` is `K`-quasiregularly elliptic for `o_N` iff it is for `−o_N`, with the same `K`
+(`isQuasiregularlyEllipticWith_neg`).
 Route: if `f : (ℝⁿ, std) → (N, o_N)` is `K`-quasiregular, then by §4.2 it is `K`-quasiregular
 from `(ℝⁿ, −std)` to `(N, −o_N)`. The reflection `R` is an orientation-preserving isometry
 `(ℝⁿ, std) → (ℝⁿ, −std)`, so §4.3 makes `f ∘ R` `K`-quasiregular to `(N, −o_N)`. It is
 non-constant because `R` is a bijection, so it is a witness in the sense of the definition
-(HeikkilaPankka2025 lines 20–21).
+(HeikkilaPankka2025 §1, p. 1).
 
 **Checks.**
 
@@ -1334,10 +1393,10 @@ non-constant because `R` is a bijection, so it is a witness in the sense of the 
 Prove that if `0 < α ≤ β`, `α|w| ≤ |w|' ≤ β|w|` on `TN`, and `N` is
 `K`-quasiregularly elliptic for `g_N`,
 then it is `(β/α)ⁿ K`-quasiregularly elliptic for `g'_N` (the definition on a Riemannian
-manifold is HeikkilaPankka2025 lines 20–21; the comparison is §4.1). Hence for closed `N`,
+manifold is HeikkilaPankka2025 §1, p. 1; the comparison is §4.1). Hence for closed `N`,
 quasiregular ellipticity does not depend on the metric. This is the reading HeikkilaPankka2025
-takes for granted: its Theorem 1.1 (line 18) speaks of a closed quasiregularly elliptic manifold
-without fixing a metric, and lines 32–34 measure quasiregularity of a branched covering of a
+takes for granted: its Theorem 1.1 speaks of a closed quasiregularly elliptic manifold
+without fixing a metric, and §1, p. 1, measures quasiregularity of a branched covering of a
 closed `N` by a torus against the two smooth structures only. With §7.2, quasiregular
 ellipticity of a closed `N` is a property of the closed connected orientable smooth manifold.
 Route: §4.1 with `a = b = 1` on `ℝⁿ`.
@@ -1362,7 +1421,7 @@ diffeomorphism, orientation preserving at every point, with
 `K`-quasiregularly elliptic then `N'` is `K_q K`-quasiregularly elliptic. In particular, a closed
 manifold finitely and orientation-preservingly covered by a quasiregularly elliptic closed
 manifold is quasiregularly elliptic. Postcomposing a non-constant quasiregular map `ℝⁿ → N`
-with a map `N → N'` is the construction of HeikkilaPankka2025 lines 85–91, there with a
+with a map `N → N'` is the construction of HeikkilaPankka2025 §1.1, p. 2, there with a
 piecewise linear branched covering in place of `q` (§7.7). Route: §4.4 with §2.7. If `q ∘ f`
 were constant, `f(ℝⁿ)` would be a connected subset of a fibre of `q`; the fibres of a local
 homeomorphism are discrete, so `f` would be constant.
@@ -1458,8 +1517,9 @@ Prove:
   orientation exactly when every element of `Γ` preserves the orientation of `ℝⁿ`, and its
   orientations are then the descended orientation of §7.5 and its negative. This covers the flat
   tori `ℝⁿ/Λ`; that the `n`-torus is quasiregularly elliptic is noted in HeikkilaPankka2025
-  lines 56–57 and Prywes2019 lines 35–36. It also covers every closed orientable flat manifold
-  `N`: by the Killing–Hopf theorem (RiemannianGeometry R4 item 7) `N` is isometric to such a
+  §1, p. 2, and Prywes2019 §1, p. 1. It also covers every closed orientable flat manifold
+  `N`: by the Killing–Hopf theorem (RiemannianGeometry R4 item 7, with `killingHopf_euclidean`
+  for the universal cover and its description of the flat quotients) `N` is isometric to such a
   quotient `ℝⁿ/Γ`, the orbit projection followed by that isometry is a local Riemannian isometry
   `ℝⁿ → N`, and the second bullet makes `N` `1`-quasiregularly elliptic for each of its
   orientations.
@@ -1478,7 +1538,9 @@ Prove:
 `TauCeti.Manifold.Orientation.pullback`, `TauCeti.Manifold.Orientation.eq_or_eq_neg`,
 `Bundle.ContMDiffRiemannianMetric.quotient`,
 `Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend`,
-`TauCeti.isLocalDiffeomorph_quotientMk`; RiemannianGeometry R4 item 7.
+`TauCeti.isLocalDiffeomorph_quotientMk`; RiemannianGeometry R4 item 7 (the descended metric
+and covering of a free, properly discontinuous group of isometries, `killingHopf_euclidean`, and
+the quotient description of complete flat manifolds).
 
 ### 7.7 Simplicial branched coverings by tori
 
@@ -1489,8 +1551,8 @@ preserving with `K_p < ∞` (automatic for compact `T`). Prove that `p ∘ π` i
 `K_π max(1, K_p)`-quasiregular, so `N` is quasiregularly elliptic. No compactness of `N` is
 assumed. In particular a non-degenerate orientation-preserving simplicial map from a flat torus
 `ℝⁿ/Λ → N` makes `N` `max(1, K_p)`-quasiregularly elliptic. This is the construction of
-HeikkilaPankka2025 lines 32–34 and 85–91, where `N` is closed and the piecewise linear branched
-coverings come from Piergallini and Zuddas; Proposition B.1 there (lines 1247–1251) is likewise
+HeikkilaPankka2025 §1, p. 1, and §1.1, p. 2, where `N` is closed and the piecewise linear branched
+coverings come from Piergallini and Zuddas; Proposition B.1 there is likewise
 stated for closed manifolds.
 
 Route: §4.3 and §6.4. For non-constancy, the image of `π` is open and non-empty, so it meets
@@ -1542,12 +1604,13 @@ orbit-space charts and Tau Ceti's quotient manifolds and orientation constructor
 
 ## Downstream consumers
 
-QuasiregularMaps, Part II and Part III are separate roadmaps. The lists below fix where this
-roadmap stops and describe those two; nothing in them is a target of this roadmap.
+QuasiregularMaps, Part II and Part III are planned roadmaps, separate from this one. The lists
+below fix where this roadmap stops and describe those two; nothing in them is a target of this
+roadmap, and nothing in this roadmap depends on them.
 
 - **QuasiregularMaps, Part II** (Reshetnyak theory) consumes Layers 2–4 and 7. Its targets:
   - Reshetnyak's continuity theorem for `W^{1,n}_loc` solutions of the distortion inequality.
-  - Reshetnyak's theorem (MartioRickmanVaisala1969 Lemma 2.26, lines 440–444; Reshetnyak1989,
+  - Reshetnyak's theorem (MartioRickmanVaisala1969 Lemma 2.26; Reshetnyak1989,
     Ch. II; Rickman1993, Ch. I): a non-constant quasiregular map of a connected manifold is
     discrete, open and sense preserving, differentiable almost everywhere, satisfies Lusin's
     condition (N), and has `J_f > 0` almost everywhere.
@@ -1557,21 +1620,23 @@ roadmap stops and describe those two; nothing in them is a target of this roadma
   - The modulus inequalities of Poletsky and Väisälä, Liouville's theorem in dimension `n ≥ 3`,
     and Rickman's Picard theorem (Rickman1993, Ch. VI).
 - **QuasiregularMaps, Part III** (cohomology of quasiregularly elliptic manifolds) consumes
-  Part II, de Rham cohomology with the de Rham theorem and Poincaré duality, and
-  SobolevDifferentialForms. Its targets:
+  Part II, de Rham cohomology with the de Rham theorem and Poincaré duality, and Sobolev spaces
+  of differential forms on closed Riemannian manifolds. SobolevDifferentialForms builds these
+  spaces on open subsets of `ℝⁿ`, and SobolevMapsBetweenManifolds places Sobolev spaces of
+  differential forms outside its scope, so Part III must name an owner for the manifold version.
+  Its targets:
   - The Bonk–Heinonen bound `dim H^k_dR(N) ≤ C(n, K)` (BonkHeinonen2001, Theorem 1.1, as cited by
-    Prywes2019 lines 33–34).
-  - Prywes's bound `dim H^k_dR(N) ≤ binom(n, k)` (Prywes2019 Theorem 1.1, lines 28–30).
-  - The Heikkilä–Pankka embedding `H^*_dR(N) → ⋀^* ℝⁿ` (HeikkilaPankka2025 Theorem 1.1,
-    lines 18–19).
-  - The non-ellipticity of `#^k (S² × S²)` for `k ≥ 4` (Prywes2019 Corollary 1.2, lines 41–53),
+    Prywes2019 §1, p. 1).
+  - Prywes's bound `dim H^k_dR(N) ≤ binom(n, k)` (Prywes2019 Theorem 1.1).
+  - The Heikkilä–Pankka embedding `H^*_dR(N) → ⋀^* ℝⁿ` (HeikkilaPankka2025 Theorem 1.1).
+  - The non-ellipticity of `#^k (S² × S²)` for `k ≥ 4` (Prywes2019 Corollary 1.2),
     answering the question of Gromov1981 p. 200, restated in Gromov1999, Ch. 2.
   - The classification of closed simply connected quasiregularly elliptic `4`-manifolds up to
-    homeomorphism (HeikkilaPankka2025 Corollary 1.2, lines 94–96). It combines the
+    homeomorphism (HeikkilaPankka2025 Corollary 1.2). It combines the
     Heikkilä–Pankka embedding with the classification by intersection forms of FourManifolds,
     which precedes this roadmap and Part III and so is a supplier of Part III, not a consumer.
 - A later roadmap on `n`-dimensional quasiconformal maps and uniformly quasiregular dynamics, and
-  the dimension-two comparison with Stoïlow factorisation (Prywes2019 lines 59–62), consume
+  the dimension-two comparison with Stoïlow factorisation (Prywes2019 §1, p. 2), consume
   Layers 2–4.
 
 ## Scope and ownership
@@ -1645,23 +1710,25 @@ It leaves to named roadmaps:
   (local finiteness, purity, a null lower skeleton, locally bi-Lipschitz top simplices) by
   elementary arguments, without the combinatorial-manifold structure.
 - **TeichmullerGeometry** §7.4 owns the weak Wirtinger derivatives, planar quasiconformal maps
-  defined by the Beltrami equation, and the measurable Riemann mapping theorem; §2.10 here proves
-  that its quasiconformal maps are quasiregular.
+  defined by the Beltrami equation, and the measurable Riemann mapping theorem. §2.10 here uses
+  the formulas for the weak Wirtinger derivatives to describe planar quasiregular maps, and
+  proves that the quasiconformal maps of §7.4 are quasiregular.
 - **PDE** Layer 1 owns the Euclidean Sobolev spaces; they are consumed through Tau Ceti's
   `TauCeti.HasWeakFDerivOn` and `TauCeti.W1p`. Its §1.1 owns the one-dimensional
   identification of `W^{1,p}(a, b)` with the absolutely continuous functions whose derivative is
   in `L^p`. The theorem `ACL^p = W^{1,p}_loc` of §5.2 is the `n`-dimensional, local form along
   coordinate lines; it applies the one-dimensional statement on almost every line, through the
   Tau Ceti declarations that implement it.
-- **QuasiregularMaps, Part II** owns Reshetnyak's theorem (continuity of `W^{1,n}_loc` solutions of
+- Outside this roadmap, and the subject of the planned roadmap **QuasiregularMaps, Part II**:
+  Reshetnyak's theorem (continuity of `W^{1,n}_loc` solutions of
   the distortion inequality; non-constant quasiregular maps are open, discrete, sense-preserving,
   differentiable almost everywhere, satisfy Lusin's condition (N) and have `J_f > 0` almost
   everywhere), the composition of two arbitrary quasiregular maps, the transfer of ellipticity
   along a non-constant quasiregular map, the modulus of path families with the Poletsky and
   Väisälä inequalities, Liouville's theorem for `1`-quasiregular maps in dimension `n ≥ 3`, the
   higher integrability of the Jacobian, and Rickman's Picard theorem.
-- **QuasiregularMaps, Part III** owns the cohomological constraints on closed quasiregularly
-  elliptic manifolds: the Bonk–Heinonen bound, Prywes's binomial bound, the
+- Outside this roadmap, and the subject of the planned roadmap **QuasiregularMaps, Part III**:
+  the cohomological constraints on closed quasiregularly elliptic manifolds: the Bonk–Heinonen bound, Prywes's binomial bound, the
   Heikkilä–Pankka embedding of the de Rham algebra into `⋀^* ℝⁿ`, and the non-ellipticity of
   `#^k (S² × S²)` for `k ≥ 4`.
 - Mappings of finite distortion (IwaniecMartin2001, Ch. 6) lie outside this roadmap and its Parts
@@ -1739,12 +1806,12 @@ It leaves to named roadmaps:
 - `LinearMap.norm_toContinuousLinearMap_eq_singularValues_zero`
   (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`): `‖A‖ = σ₁(A)`.
 - `LinearMap.abs_singularValues_sub_singularValues_le`
-  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean:106`):
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`):
   `|σᵢ(A) − σᵢ(B)| ≤ ‖A − B‖` for every index and maps between finite-dimensional inner
   product spaces. At index `n − 1` it gives the minimal-stretch perturbation bound.
 - `LinearMap.singularValues_smul`, `LinearMap.singularValues_linearIsometryEquiv_comp` and
   `LinearMap.singularValues_comp_linearIsometryEquiv`
-  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean:602`, 589, 595): scaling by `c`
+  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean`): scaling by `c`
   multiplies each singular value by `‖c‖`, and composition on either side by a linear isometric
   equivalence preserves it. At index `n − 1` these give `ℓ(c A) = |c| ℓ(A)` and
   `ℓ(U ∘ A ∘ U') = ℓ(A)`; the domain dimensions agree under `U'`.
@@ -1815,6 +1882,11 @@ It leaves to named roadmaps:
   `TauCeti.HasWeakLineDerivOn.ae_hasDerivAt` (`…/WeakDeriv/Interval.lean`): on an interval a
   continuous function with integrable weak derivative is absolutely continuous and differentiable
   almost everywhere with that derivative.
+- `TauCeti.wirtingerDeriv` and `TauCeti.conjWirtingerDeriv`
+  (`TauCeti/Analysis/Complex/Wirtinger/Basic.lean`): the complex-linear and complex-antilinear
+  parts `v ↦ (Dg(x) v ∓ i Dg(x)(i v))/2` of the real derivative of a map between complex normed
+  spaces; evaluated at `1` for a map of the plane they are the classical `g_z` and `g_z̄`
+  (§1.5, §2.10).
 - `TauCeti.W1p` (`TauCeti/Analysis/Sobolev/W1p/Basic.lean`) and
   `TauCeti.W1p.exists_value_ae_eq_const_of_gradient_eq_zero`
   (`TauCeti/Analysis/Sobolev/Poincare/Wirtinger/W1p.lean`): on a preconnected open set a
@@ -1851,35 +1923,43 @@ It leaves to named roadmaps:
 Every statement of Layers 2–4 and 7, and the oriented Jacobian of Layer 1, is made on the
 continuous Sobolev class of maps between manifolds that SobolevMapsBetweenManifolds builds. This
 roadmap assumes exactly the following of the sections cited, and nothing about how they are
-constructed.
+constructed. Each paragraph names the declarations of that roadmap's `Suggested.lean` that
+state its part; implementations and this roadmap's `Suggested.lean` use these names.
 
 The class: its §4.2 (the class and its independence of the atlases), §4.4 (`C¹` members) and
-§4.5 (restriction, locality and metric copies).
+§4.5 (restriction, locality and metric copies). In Lean: `IsSobolevMap`,
+`isSobolevMap_iff_forall_maximalAtlas`, `isSobolevMap_of_contMDiff` and `IsSobolevMap.of_locally`.
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-class): For continuous maps between Hausdorff, second countable, boundaryless manifolds and `1 ≤ p ≤ ∞`, the chartwise class `W^{1,p}_loc(M, N)`, independent of the atlases and of the metrics, closed under restriction to open submanifolds, local for open covers, and containing every `C¹` map with `Df = mfderiv f` almost everywhere.
 
 The weak differential and null sets: its §4.3 (the weak differential) and §3.1 (chartwise null
-sets are Riemannian null sets).
+sets are Riemannian null sets, and the null sets of every positive continuous density measure).
+In Lean: `HasWeakMFDeriv`, `IsSobolevMap.exists_hasWeakMFDeriv` and `HasWeakMFDeriv.ae_eq`.
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-weak-differential): For `f ∈ W^{1,p}_loc(M, N)`, the almost-everywhere unique, chart-measurable weak differential `Df(x) : T_xM → T_{f(x)}N` with its chart formula, and the agreement of chartwise `TauCeti.IsNullSet` null sets with the null sets of `TauCeti.riemannianVolume` for every continuous metric.
 
 The norm: its §5.1 (the norm `‖Df‖`), §5.2 (the `L^p` characterisation) and §5.3 (comparable
-metrics).
+metrics). The supplier states §5.1 for compatible continuous tangent norms; this roadmap uses
+the norms of Riemannian metrics.
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-norm): For Riemannian `M` and `N`, the measurability of `x ↦ ‖Df(x)‖` and, for continuous `f` with local representatives in `W^{1,1}_loc`, the equivalence of `f ∈ W^{1,p}_loc(M, N)` with `‖Df‖ ∈ L^p_loc(M)`, with `‖Df‖` changed only by bounded factors under uniformly comparable metrics.
 
 The Jacobian: its §6.1 (the oriented Jacobian of a linear map), §6.2 (the Jacobian of a Sobolev
-map) and §6.3 (Hadamard's inequality and integrability).
+map) and §6.3 (Hadamard's inequality and integrability). In Lean: `orientedJacobian`,
+`orientedJacobian_comp`, `abs_orientedJacobian`, `abs_orientedJacobian_le`,
+`orientedJacobian_self` and `IsSobolevMap.integrableOn_orientedJacobian`.
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-jacobian): For oriented inner product spaces of one dimension `n`, the oriented Jacobian `J(A)` with `A^*(o_W.volumeForm) = J(A) · o_V.volumeForm`, multiplicative, negated by reversing one orientation, with `|J(A)| = normDet(A) ≤ ‖A‖ⁿ` and `J(A) = det A` for endomorphisms; and, for `f ∈ W^{1,p}_loc(M, N)` between oriented Riemannian `n`-manifolds, the measurable Jacobian `J_f = J(Df)` almost everywhere, with `|J_f| ≤ ‖Df‖ⁿ` and `J_f ∈ L¹_loc(M)` when `p ≥ n`.
 
 The chain rules: its §4.6 (a)–(b) (chain rules on manifolds), with §3.3 (null sets under `C¹`
-maps of manifolds).
+maps of manifolds). In Lean: `IsSobolevMap.comp_submersion` and `HasWeakMFDeriv.comp_submersion`
+for §4.6 (a), which is stated for `C¹` submersions and used here for local diffeomorphisms, and
+`IsSobolevMap.comp_contMDiff` and `HasWeakMFDeriv.comp_contMDiff` for §4.6 (b).
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-chain-rules): For a `C¹` local diffeomorphism `θ : M' → M`, `f ∘ θ ∈ W^{1,p}_loc(M', N)` with `D(f ∘ θ)(y) = Df(θ y) ∘ dθ_y` almost everywhere and null preimages of null sets, and for a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)` with `D(g ∘ f)(x) = dg_{f(x)} ∘ Df(x)` almost everywhere, with no bound on `dθ` or `dg`.
 
 The Euclidean case: its §1.2 (the class `W^{1,p}_loc(Ω; F)` on a Euclidean domain) and §7.1
-(Euclidean compatibility).
+(Euclidean compatibility). In Lean: `MemW1pLoc` for §1.2.
 
 What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For an open `Ω` of an `n`-dimensional real inner product space `E` with identity charts and flat metrics, `f ∈ W^{1,p}_loc(Ω, E)` if and only if `f` is continuous on `Ω` with a `TauCeti.HasWeakFDerivOn` derivative `Du` such that `‖Du‖ ∈ L^p_loc(Ω)`, and then `Df = Du` almost everywhere and, for one orientation on both sides, `J_f = det Du` almost everywhere.
 
@@ -1897,7 +1977,8 @@ What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For 
   discontinuous group of isometries, through `Bundle.ContMDiffRiemannianMetric.quotient` and
   `TauCeti.isLocalDiffeomorph_quotientMk`, and the Killing–Hopf classification, by which a
   connected complete flat manifold is isometric to `ℝⁿ/Γ` for a free, properly discontinuous
-  group `Γ` of isometries of `ℝⁿ` (§7.6).
+  group `Γ` of isometries of `ℝⁿ` (§7.6); its Lean name for the flat universal-cover statement
+  is `killingHopf_euclidean`.
 
 ### From TauCetiRoadmap.GeometricTopology
 
@@ -1907,24 +1988,27 @@ What SobolevMapsBetweenManifolds must provide (gap:sobolev-maps-euclidean): For 
 
 ### From TauCetiRoadmap.TeichmullerGeometry
 
-- §7.4: the weak Wirtinger derivatives `f_z`, `f_z̄` of a `W^{1,2}_loc` map of a planar domain,
-  their agreement with the classical ones at points of differentiability, and orientation-preserving
-  quasiconformal maps as `W^{1,2}_loc` homeomorphisms with `f_z̄ = μ f_z` almost everywhere for a
-  measurable `μ` with `‖μ‖_∞ < 1` (§2.10).
+- §7.4: orientation-preserving quasiconformal maps as `W^{1,2}_loc` homeomorphisms with
+  `f_z̄ = μ f_z` almost everywhere for a measurable `μ` with `‖μ‖_∞ < 1`, and their dilatation
+  `(1 + ‖μ‖_∞)/(1 − ‖μ‖_∞)` (the third statement of §2.10 and its Checks). Its weak Wirtinger
+  derivatives `f_z = (U 1 − i U i)/2`, `f_z̄ = (U 1 + i U i)/2` of a `W^{1,2}_loc` map with weak
+  derivative `U`, and their agreement with the classical ones at points of differentiability, are
+  the quantities §2.10 writes with the same formulas.
 
 ## References
 
 - `HeikkilaPankka2025`: S. Heikkilä, P. Pankka, *De Rham algebras of closed quasiregularly
-  elliptic manifolds are Euclidean*, Ann. of Math. 201 (2025); arXiv 2302.11440v2. Lines 18–27
-  (Theorem 1.1, the definition), 32–34 and 85–91 (branched coverings by tori), 271–273
-  (`K`-quasiregular ellipticity), 1234–1339 (Appendix B: Proposition B.1, Lemma B.2).
+  elliptic manifolds are Euclidean*, Ann. of Math. 201 (2025); arXiv 2302.11440v2, whose
+  page numbers are the ones cited. §1, p. 1 (Theorem 1.1, the definition with (1.1), branched
+  coverings by tori), §1, p. 2 and §1.1, p. 2 (the torus, Corollary 1.2), §2, p. 6
+  (`K`-quasiregular ellipticity), Appendix B, pp. 23–24 (Proposition B.1, Lemma B.2).
 - `Prywes2019`: E. Prywes, *A bound on the cohomology of quasiregularly elliptic manifolds*, Ann.
-  of Math. 189 (2019); arXiv 1806.05306v1. Lines 22–30 (definition, Theorem 1.1), 33–36, 41–53
-  (Corollary 1.2), 59–65.
+  of Math. 189 (2019); arXiv 1806.05306v1, whose page numbers are the ones cited. §1, pp. 1–2
+  (the definition, Theorem 1.1, Corollary 1.2).
 - `MartioRickmanVaisala1969`: O. Martio, S. Rickman, J. Väisälä, *Definitions for quasiregular
-  mappings*, Ann. Acad. Sci. Fenn. Ser. A I 448 (1969). Lines 117–127 (formal derivative,
-  Jacobian, `ℓ(T)`), 332–340 (Definition 2.16), 409–439 (Definition 2.20, (2.21)–(2.25)),
-  440–444 (Lemma 2.26).
+  mappings*, Ann. Acad. Sci. Fenn. Ser. A I 448 (1969). 2.1, p. 6 (formal derivative,
+  Jacobian, `ℓ(T)`), 2.16, p. 12 (`ACL` and `ACL^p` maps), 2.20, pp. 14–15 (quasiregular maps,
+  (2.21)–(2.25)), Lemma 2.26, p. 15.
 - `Rickman1993`: S. Rickman, *Quasiregular Mappings*, Springer Ergebnisse 26 (1993), Ch. I and
   Ch. VI.
 - `Vaisala1971`: J. Väisälä, *Lectures on n-Dimensional Quasiconformal Mappings*, LNM 229 (1971),
