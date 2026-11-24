@@ -896,11 +896,11 @@ For finitely many pairwise disjoint closed supports with quasi-compact complemen
 
 On `Spec R`, support in `V(s)` means the perfect complex becomes acyclic over `R[1/s]`. Compare its connective K with the ring supported model and its localization sequence. For finitely generated I, support in `V(I)` is equivalent to I-power-torsion cohomology. ([Weibel, Theorem V.2.6.3 (PDF p. 390)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* §§1.4 and 2.5, affine comparison; GeneralAlgebraicKTheory Layer 9, ring supports.
+*Needs:* §§1.4 and 2.5, affine comparison; GeneralAlgebraicKTheory §9.13, ring supports.
 
 For an effective Cartier divisor on a qcqs scheme with an ample family, let `H_Z` be the exact category of supported sheaves admitting vector-bundle resolutions of length at most one. Its K-spectrum is the connective cover of supported 𝕂. On `Spec R` with s a nonzerodivisor recover the ring `H_s` localization theorem. ([Weibel, Corollary V.7.6.1 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.3.16 (PDF p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Exercise 5.7 (p. 350)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-*Needs:* §1.6, strict resolutions; §3.3, localization; GeneralAlgebraicKTheory Layer 9, nonzerodivisor localization.
+*Needs:* §1.6, strict resolutions; §3.3, localization; GeneralAlgebraicKTheory §9.13, nonzerodivisor localization.
 
 ### 3.5 Coherent support and dévissage
 
@@ -932,7 +932,7 @@ Restriction induces `Coh(X)`/`Coh_Z(X)≃Coh(U)` for Noetherian X. Establish exa
 
 For any closed subscheme i:`Z→X` of a Noetherian scheme, dévissage identifies `G(Z)` with `K(Coh_{|Z|}(X))`. Filter coherent sheaves by powers of the defining ideal. Hence G is unchanged by nilpotent thickenings and depends only on the closed subset in this supported comparison. ([Weibel, Exercise V.4.3 (PDF p. 410)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Application V.4.4 (PDF p. 409)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* the support category and ideal-power filtration above; GeneralAlgebraicKTheory Layer 4, dévissage.
+*Needs:* the support category and ideal-power filtration above; GeneralAlgebraicKTheory §4.8, dévissage.
 
 The coherent Serre quotient and dévissage give `G(Z)→G(X)→G(U)` as a fibre sequence. Negative G is zero, so the long exact sequence ends in `G₀(U)→0`. Tensor by perfect objects makes it a `K(X)`-module sequence with the right-linear boundary convention. ([Weibel, Example V.6.11 (PDF p. 423)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.6.11 (PDF p. 424)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, 3.2 and Proposition 3.1 context (printed p. 120)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
@@ -952,7 +952,7 @@ For Noetherian R and α:`M→M` invertible after inverting s, `∂[α]=[coker α
 
 G commutes with inverse limits of Noetherian schemes along affine flat transitions when the limit is Noetherian. Apply this to neighborhoods of a point and to nonempty opens of an integral scheme. The resulting generic group is K of the function field; arbitrary nonflat G-pullback is not used. ([Quillen, §7, Proposition 2.2 (printed p. 117)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
-*Needs:* the coherent models above; GeneralAlgebraicKTheory Layer 4, filtered continuity.
+*Needs:* the coherent models above; GeneralAlgebraicKTheory §2.6, filtered continuity.
 
 ### 3.6 Unit loops, DVR boundaries and specialization
 
@@ -1249,7 +1249,7 @@ For Noetherian `X=U∪V` the same Mayer–Vietoris fibre sequence holds for G. I
 
 A presheaf of spectra has the Zariski Mayer–Vietoris property when its value on the empty set is zero and every union/intersection square is cartesian. On qcqs schemes use the basis of quasi-compact opens. Define the Nisnevich version using elementary distinguished squares, rather than merely open covers. ([Weibel, Definition V.10.1 (PDF p. 451)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Definition V.10.9 (PDF p. 456)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* StableHomotopyKTheory Layer 5, fibres and homotopy pullbacks.
+*Needs:* StableHomotopyKTheory §§5.7–5.9, fibres and homotopy pullbacks.
 
 Expose the following interface:
 
@@ -1304,7 +1304,7 @@ Supported 𝕂 sends every qcqs elementary Nisnevich square to a homotopy pullba
 
 On a site with enough points define spectral hypercohomology as the totalization of the Godement cosimplicial fibrant replacement. Construct its augmentation, restriction and supported fibre `H_Y(X,F)=fib(H(X,F)→H(X∖Y,F))`. Specify homotopy limits rather than ordinary limits of spectra. ([Thomason.1985, Definition 1.33 (printed p. 452)](http://www.numdam.org/item/10.24033/asens.1495.pdf); [Thomason.1985, Lemma 1.35 (printed p. 452)](http://www.numdam.org/item/10.24033/asens.1495.pdf)).
 
-*Needs:* StableHomotopyKTheory Layer 5 and §§7.9–7.10, spectra and totalization; §4.2, points.
+*Needs:* StableHomotopyKTheory §§5.5, 5.7, 5.9, 5.15–5.16 and 7.9–7.10, spectra, Eilenberg–Mac Lane spectra and totalization; §4.2, points.
 
 Expose the following interface:
 
@@ -1727,7 +1727,7 @@ Layers 1–3; StableHomotopyKTheory Layers 5 and 7; GeneralAlgebraicKTheory §4.
 
 For a nonnegatively graded Noetherian S flat over `R=S₀` with R of finite flat dimension over S, extension from R gives `Gᵢ(R)⊗ℤ[σ,σ⁻¹]≃KᵢMgr(S)`, `σ(M)=M(−1)`. Resolve by modules Tor-independent of R to construct the inverse. The nonnegative grading version uses `ℤ[σ]`. ([Weibel, Example V.3.5.2 (PDF p. 396; book p. 388)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.3.5.2 (PDF p. 396)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.3.3 (PDF p. 404; author-copy book p. 396)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §6, Lemma 1 and Theorem 6, published pp. 117–118 (PDF pp. 33–34)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
-*Needs:* §2.1, coherent models; GeneralAlgebraicKTheory Layer 4 and §6.9, resolution and complexes.
+*Needs:* §2.1, coherent models; GeneralAlgebraicKTheory §§4.3, 4.6 and 6.9, additivity, resolution and complexes.
 
 For `S=R[u,t]`, both variables of degree one, dehomogenization M↦M/`(t−1)` is exact and identifies the Serre quotient by t-power-torsion graded modules with finite `R[s]`-modules, u↦s. Dévissage identifies the kernel's K-theory with graded `R[u]`-modules. A t-torsion graded module can have infinitely many nonzero homogeneous components. ([Weibel, Theorem V.6.2, proof (PDF p. 415; book p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem V.6.2, proof (PDF p. 415)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -1809,7 +1809,7 @@ Over a Noetherian base, coherent sheaves are eventually regular. Prove the three
 
 For regular F define `Z₋₁F=F`, `TₙF=π_*((Zₙ₋₁F)(n))`, and ZₙF as the evaluation kernel. Prove exactness of T₀,…,Tᵣ₋₁ and the finite resolution of F by `π*TᵢF⊗O(−i)`. On bounded regular coherent complexes Tᵢ preserves cones, acyclicity, quasi-isomorphisms and supports; on perfect complexes its values are perfect. Retain the companion exact sequences relating `T_k` to SymⁱE and `π_*F(k)`. ([TT90, Section 4.8 (p. 333; PDF p. 87)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Lemma 4.8.4 `[4.8.3]` (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 4.8.5 (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem II.8.7.8 (PDF p. 159; book p. 151)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* the regularity and evaluation results above; §5.3, cohomological dimension; GeneralAlgebraicKTheory Layer 4, exact-category resolution.
+*Needs:* the regularity and evaluation results above; §5.3, cohomological dimension; GeneralAlgebraicKTheory §§4.1 and 4.6, exact-category 3×3 lemma and resolution.
 
 Expose the following interface:
 
@@ -2036,7 +2036,7 @@ Expose the following interface:
 
 For qcqs f:`X′→X` define `𝕂(f)=fib(f*:𝕂(X)→𝕂(X′))`. The comparison from the fibre of the connective map agrees on all groups in degrees n≥0. It is a `𝕂(X)`-module with its right-linear long exact sequence. For a quasi-compact open immersion it is supported K of the closed complement; for a closed immersion it is relative K of the ringed pair, a different construction from supported K. ([Weibel, Relative K-groups IV.1.11 (PDF p. 275)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-*Needs:* §2.1, nonconnective K; §3.3, supported localization; StableHomotopyKTheory Layer 5, derived fibres; the module pairing above.
+*Needs:* §2.1, nonconnective K; §3.3, supported localization; StableHomotopyKTheory §§5.7–5.8 and 5.11, derived fibres and the smash pairing; the module pairing above.
 
 Expose the following interface:
 
@@ -2059,7 +2059,7 @@ Pullback preserves the supported tensor product and unit, commutes with enlargem
 
 The tensor pairings make `⊕_{n∈ℤ}Kₙ(X)` a unital graded-commutative ring, `xy=(−1)^{mn}yx`. Supported groups are possibly nonunital graded rings and `K_*(X)`-modules; G is a K-module over Noetherian X. These are the actual degree-adding tensor products. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem IV.1.10 (PDF p. 274)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-*Needs:* the coherent symmetric pairings above; StableHomotopyKTheory Layer 5, smash symmetry and suspension signs.
+*Needs:* the coherent symmetric pairings above; StableHomotopyKTheory §5.11, smash symmetry and suspension signs.
 
 Compare the π₀ tensor product with the finite-projective K₀ ring and the `K₀×K₁` product with `id_P⊗α`. On affine rings compare the `K₁×K₁` product with Loday's product in K₂, retaining the ordered unit notation. ([Weibel, Theorem IV.1.10 (PDF p. 274)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Riou, Remark 3.2.2 (p. 13)](https://arxiv.org/pdf/0907.2710)).
 
@@ -2197,11 +2197,13 @@ For a ψ-stable subgroup J with `J=J_a` and `J_{N+1}⊗ℚ=0` in its induced γ-
 
 Construct the finite algebraic representation rings and their integral character and specialness comparisons in §§6.3.1–6.3.3, then their inverse limit and the exact representation ring of an arbitrary abstract group. A representation on finite projectives is not required to be semisimple.
 
+*Needs:* §§6.3.1–6.3.4, the finite, stable and abstract-group representation rings.
+
 #### 6.3.1 Integral exact representation groups and characters
 
 Use ReductiveGroups Layers 0–1 and 4 for the affine group-scheme/comodule dictionary, tensor products and diagonalizable gradings, and Layer 9 for split integral group schemes. For a flat coalgebra C over a Dedekind domain A, define the underlying-projective subcategory by finite projectivity of the underlying A-module, and the underlying-finite subcategory by finite generation. Give these full comodule subcategories the underlying-module exact structures and form the projective representation Grothendieck group and the coherent representation Grothendieck group using the supplied exact Grothendieck group. Their API includes generators, exact additivity, inclusion, corestriction, restriction and generic scalar extension. When C is the coordinate Hopf algebra of a group scheme, tensor is biexact and ordinary duality is exact contravariantly on the underlying-projective subcategory. Finite-projective underlying modules are not projective objects of the comodule category. Over a PID they are finite free. (Serre.1968 §§1.2–1.5 and 2.1–2.3, pp.38–42.)
 
-*Needs:* ReductiveGroups Layers 0–1, 4 and 9, comodules and split integral groups; `TauCeti.ExactK0`.
+*Needs:* ReductiveGroups Layers 0–1 and 4, comodules and gradings; ReductiveGroups §9B, split integral groups; `TauCeti.ExactK0`.
 
 Prove the finite-subcomodule and finite-projective-cover theorems in this Dedekind-base scope: every finite underlying comodule has a resolution `0→P₁→P₀→E→0` with both Pᵢ finite projective over A. Its Euler class defines the representation Euler map, independent of the resolution and exact additive, inverse to inclusion on K₀ and G₀. The construction uses underlying flatness and torsion-freeness over A, not categorical projectivity or a split representation sequence. (Serre.1968 Propositions 2–4 and the corollary to Proposition 3, pp.40–42.)
 
@@ -2221,7 +2223,7 @@ For a split connected reductive group over a field, pass from ReductiveGroups §
 
 For split reductive groups over a PID A, prove the generic-fibre isomorphism and the residue decomposition isomorphism on Grothendieck groups. Construct residue reduction by the two-term Euler resolution, prove lattice independence, and prove the generic localization sequence with the direct sum of residue images. Compare generic and residue characters in the same integral `ℤ[X]^W`, and retain tensor and exterior compatibility. These are isomorphisms of representation Grothendieck rings, not equivalences of representation categories. (Serre.1968 Theorems 1–3, pp.43–45, and Theorem 5, p.51.)
 
-*Needs:* the field character isomorphism and Euler comparison above; ReductiveGroups Layer 9 and §10B, split integral groups and Weyl lattices.
+*Needs:* the field character isomorphism and Euler comparison above; ReductiveGroups §§9B and 10B, split integral groups and Weyl lattices.
 
 **Checks.**
 
@@ -2239,7 +2241,7 @@ For split reductive groups over a PID A, prove the generic-fibre isomorphism and
 
 For every finite tuple `(n₁,…,n_s)`, form the representation ring over ℤ of `Π_i` `GL_(n_i)` using §6.3.1 and identify it by formal character with `ℤ[x_(i,j)^±1]^Π_i` `S_(n_i)`. For one factor this is `ℤ[λ¹V,…,λⁿV,(λⁿV)⁻¹]`. Give the general linear representation ring and its product-group version the exterior pre-λ structure from §6.2.3's canonical exact-sequence filtration. Prove standard, exterior, determinant and dual character formulas, base-change compatibility, and restriction along `diag(g,1)`. The coefficient Hopf algebras, their finite products and scalar-extension comparisons use the supplied group schemes; the additional targets identify their generic entries and inverse determinants under torus restriction and commute those restrictions with base change. (Serre.1968 §§3.7–3.8, pp.51–52; Soulé §1.1, p.490.)
 
-*Needs:* §6.3.1, exact character comparisons; §6.2.3, exterior filtration; ReductiveGroups Layer 9, integral group schemes.
+*Needs:* §6.3.1, exact character comparisons; §6.2.3, exterior filtration; ReductiveGroups §9B, integral group schemes.
 
 **Checks.**
 
@@ -2319,7 +2321,7 @@ In characteristic p, `ψ^p` of the standard `GL_N` representation is its Frobeni
 
 A representation on projective P, after adding a complement, gives a pointed class BG→BGL(A)⁺ independent of the stabilization. Prove block-triangular additivity for exact sequences and naturality, giving q:`R_A(G)`→[BG,BGL(A)⁺]. A stable representation expression gives a compatible inverse-limit family of finite-rank classes; this is not yet a genuine self-map. ([Weibel, Proposition IV.5.3 (PDF p. 320)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Kratzer, Théorème 3.1 (p. 237)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN358147735_0055/LOG_0018.pdf); [Soulé, §1.2 (p. 491)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
-*Needs:* the exact abstract representation group above; GeneralAlgebraicKTheory §3.12, plus/Q; StableHomotopyKTheory Layer 3, plus universality.
+*Needs:* the exact abstract representation group above; GeneralAlgebraicKTheory §3.12, plus/Q; StableHomotopyKTheory §§3.25 and 4.14, plus universality and the plus H-space.
 
 Expose the following interface:
 
@@ -2473,7 +2475,7 @@ For regular finite-dimensional Noetherian X with an ample family, construct the 
 
 Define integral homology localization on connected pointed simplicial sheaves by sheafifying the Bousfield–Kan integral completion, computed from the standard cosimplicial reduced free-abelian resolution and its homotopy totalization. Give its natural unit and homotopy functoriality; an integral homology equivalence induces a weak equivalence after completion. Set `K^N=ℤ×ℤ∞BGL_N` and `K=ℤ×ℤ∞BGL`, pointed at rank zero. The completed stable-GL/plus comparison identifies the latter with the functorial stable plus sheaf; its block-sum and tensor comparisons agree with the K-model above. This is completion of spaces, distinct from the prime-adic spectral completion. ([GS99, §3.1 and Lemma 18, pp.37–39](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf).)
 
-*Needs:* StableHomotopyKTheory Layer 3, plus universality; the pointed sheaf model above and its reduced free-abelian cosimplicial resolution.
+*Needs:* StableHomotopyKTheory §§3.25 and 4.14, plus universality and the plus H-space; the pointed sheaf model above and its reduced free-abelian cosimplicial resolution.
 
 Expose its localization unit, its functoriality, its invariance under integral homology equivalences, and the completed stable-GL/plus comparison. Its checks are: the point completes to the point; an integral-homology-acyclic connected space completes to a contractible space; the completed stable BGL retains `π₁=K₁` rather than becoming simply connected; and its ℤ factor retains locally constant rank on a disconnected scheme.
 
@@ -2650,7 +2652,7 @@ Define `P_m(n)=cofib(n:S^{m−1}→S^{m−1})` for `n≥2` and `m≥2`. For X in
 
 The left group law is induced by the infinite-loop addition of the target, including `m=2`. It does not require `P₂(n)` to be a suspension or a cogroup. Use the §6.7 comparison with derived supported sections, the suspension-spectrum/mapping-space adjunction and the duality of the finite Moore spectrum: `F(S/n,E)≃Σ⁻¹(E/n)`, while Σ∞`P_m(n)`≃`Σ^{m−1}S`/n. The resulting long exact sequence identifies its quotient and torsion maps with both Bockstein maps of the spectral coefficient model. This also fixes the shift in the comparison. ([Geisser, §1.1, p.3](https://www2.rikkyo.ac.jp/web/geisser/padicKtheory.pdf), for the Moore-space construction in the regular separated finite-type-over-a-field scope; the supported extension is the displayed adjunction using §6.7 and StableHomotopyKTheory §§7.1–7.4.)
 
-*Needs:* §6.7, derived supported sections; StableHomotopyKTheory Layer 5 and §§7.1–7.7, suspension-spectrum adjunction and Moore coefficients.
+*Needs:* §6.7, derived supported sections; GeneralizedCohomology G2.5, suspension-spectrum adjunction; StableHomotopyKTheory §§5.7–5.8, 5.18 and 7.1–7.7, cofibre sequences, connective deloopings and Moore coefficients.
 
 Prove finite-cell smash stability of K-coherence: smashing a finite-dimensional K-coherent pointed sheaf space with a finite pointed CW complex preserves both comparisons. For a finite cell attachment, use the mapping fibre sequences and the cohomology exact sequences for the homotopy sheaves; finite filtered-colimit exactness and the dimension bound close induction. At the degree-zero end use pointed-set fibres with their π₁ actions and stabilizers from §6.7, rather than an abelian five-lemma argument for `K^N`. Thus `P_m(n)∧C_Y` has a finite bound at most `D+m`, with D from §6.7. On its mapping classes construct coefficient Adams–Bockstein compatibility, for `n=ℓ^ν`, odd ℓ, `ν≥1`, `k≥1` and `m≥2`: postcompose by the pointed Adams map `ψ^k`, transport through the Moore coefficient comparison, and prove additivity, naturality, support enlargement, Adams composition and compatibility with both Bockstein maps. Additivity uses the universal identity `ψ^k(x+y)=ψ^k(x)+ψ^k(y)` in the special λ-algebra of mapping classes from §6.8, applied to `P_m(n)∧C_Y`. Establish this identity on finite-rank representation models before passing through the two K-coherence comparisons. The Bockstein maps are precomposition by the bottom-cell inclusion and top-cell collapse, so they commute with postcomposition by `ψ^k`. This constructs the required unstable coefficient operation without assuming an integral spectrum-level Adams map. ([GS99, Definition 1 and Proposition 5, pp.38–41; Theorem 3 and proof, pp.46–47](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [Geisser, §1.1, pp.3–4](https://www2.rikkyo.ac.jp/web/geisser/padicKtheory.pdf).)
 
