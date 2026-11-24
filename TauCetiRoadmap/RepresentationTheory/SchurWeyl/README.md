@@ -923,7 +923,7 @@ Schur–Weyl duality (§8.1, in dimensions `n` and `m` and degree `k`) for each 
 irreducible characters of `Sₖ` (Layer 6) give the decomposition, with `𝕊^λ(ℂⁿ) = 0` when `ℓ(λ) > n`. Irreducibility
 and non-isomorphism come from the highest-weight classification (ClassicalGroups §3.3). The highest weight vectors are
 computed on the minors, whose torus weights are the fundamental weights (ClassicalGroups §3.1) (Howe–Umeda, §1, (1.3′),
-(1.13)–(1.16), and §11.1, (11.1.1)–(11.1.3)). *Needs:* §8.1, Layer 6; ClassicalGroups §§2.2, 2.3, 3.1 and 3.3.
+(1.13)–(1.16), and §11.1, (11.1.1)–(11.1.3)). *Needs:* §8.1, Layer 6; ClassicalGroups §§2.2, 3.1 and 3.3.
 
 **Checks.**
 
