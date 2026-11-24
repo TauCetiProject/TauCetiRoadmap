@@ -17,18 +17,23 @@ every Hecke character of such a field whose class field is abelian over `ℚ`.
 
 Each target is a statement of another roadmap, the *conditional theorem* named in its heading,
 with the hypotheses that the main theorems give removed and every other hypothesis kept and named.
-Its `*Origin:*` label names the published source of the conditional theorem, and its `*Needs:*`
-line names the main theorems and the conditional theorem. None of these statements is a statement
+Its `*Origin:*` label names the source of the conditional theorem, published unless the label marks
+it as a preprint or as the cited roadmap's own formulation, and its `*Needs:*` line names the main
+theorems and the conditional theorem. None of these statements is a statement
 of the formal proof that GeneralizedRiemannHypothesisFromWindowBounds cites for its main theorems:
 each is drawn here from the main theorems through the conditional theorem that it cites, and no
-section carries a label on the method of the formal proof.
+section carries a label on the method of the formal proof. One target of Layer 0 is of another
+kind: it proves, under three finite records, one of them stated here, a bound of
+ExplicitPrimeCounting for the sum of the reciprocals of the ordinates of the zeros of `ζ`, which
+other targets use.
 
 Layer 0 states the hypothesis for the completed L-functions of primitive Dirichlet characters, for
 the Dedekind zeta functions of abelian fields, for the Hecke characters of abelian extensions of `ℚ`
 and for the norm-composed characters, and the hypotheses and records that other roadmaps write in
 their own predicates: exceptional zeros and the size of the Riesz remainder, the Riemann hypothesis
-up to a height, Platt's and Lu–Zaman–Zhao's records, and the mod-eight zero clause. Layer 1 concerns
-the zeros and values of `ζ` and of L-functions: growth on vertical lines, the argument on the
+up to a height, Platt's and Lu–Zaman–Zhao's records, and the mod-eight zero clause; it also proves
+Johnston–Yang's bound for the reciprocal ordinates under finite records. Layer 1 concerns the zeros
+and values of `ζ` and of L-functions: growth on vertical lines, the argument on the
 critical line, the zero count of `ζ`, explicit zero-free regions and zero densities, the numerical
 Landau–Siegel gap, and Li and Weil positivity. Layer 2 concerns the counting of primes: von Koch's
 bounds and their explicit forms from the Riemann hypothesis, from verified heights and from
@@ -40,10 +45,12 @@ group and residues of Dedekind zeta functions. Where another roadmap obtains exp
 unconditional general estimate, this roadmap derives them instead from the bounds that the Riemann
 hypothesis gives.
 
-The roadmap feeds [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md),
+The roadmap takes its conditional theorems from
+[AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md),
 [ExplicitZetaBounds](../ExplicitZetaBounds/README.md),
 [ExplicitPrimeCounting](../ExplicitPrimeCounting/README.md) and the other roadmaps whose
-statements assume the Riemann hypothesis for Dirichlet L-functions.
+statements assume the Riemann hypothesis for Dirichlet L-functions, and states them with that
+hypothesis removed.
 
 ## Conventions
 
@@ -168,24 +175,9 @@ is given the Brun–Titchmarsh ranges, the rows of that table it uses, and Rosse
   `∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π)` for every real `T` with `4πe ≤ T ≤ 200` (the left side is
   constant between consecutive ordinates and the right side increases, so it is this inequality at
   `T = 4πe` and at the `74` ordinates in `(4πe, 200]`). Under them Johnston–Yang's two-sided bound
-  of ExplicitPrimeCounting §2.1,
-  `(1/4π) log²(T/2π) − 0.9321 ≤ ∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π)` for `T ≥ 4πe`, holds. Write
-  `N = M + Q`: `ZetaZeroCountLowRange` gives `|Q(t)| ≤ 0.28 log t` on `[2π, 10⁹]`, and Rosser's
-  bound, which ExplicitZetaBounds §5.2 states from `1467` with no record, gives it above `10⁹`
-  (`0.137 log t + 0.443 log log t + 1.588 ≤ 0.28 log t` there). Since `dM(t) = (1/2π) log(t/2π) dt`,
-  Stieltjes integration of `1/t` over `(U, V]`, `2π ≤ U ≤ V`, gives
-  `∑_{U < γ ≤ V} 1/γ = (1/4π)(log²(V/2π) − log²(U/2π)) + Q(V)/V − Q(U)/U + ∫_U^V Q(t) t⁻² dt`,
-  and the last three terms have absolute value at most `0.28 (2 log U + 1)/U`. Lower side: the record
-  at `2π` gives `N(2π) ≤ −1/8 + 0.28 log 2π < 1`, so `N(2π) = 0`, `Q(2π) = 1/8`, and for `T ≥ 4πe`
-  the error from `U = 2π` is at least `−1/(16π) − 0.28 log T/T − 0.28 (1 + log 2π)/(2π) ≥ −0.1754`.
-  Upper side: `ZetaZeroReciprocalSum` lies below `(1/4π) log²(10⁷/2π) = 16.2278074617` by
-  `m₇ = 0.0171594248`; for `200 ≤ T ≤ 10⁷` the identity on `(T, 10⁷]` gives
-  `∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π) − m₇ + 0.28 (2 log T + 1)/T`, and
-  `0.28 (2 log T + 1)/T ≤ 0.0162353 < m₇` for `T ≥ 200`; for `T > 10⁷` the identity on `(10⁷, T]`
-  costs at most `0.28 (2 log 10⁷ + 1)/10⁷ < 10⁻⁶`; on `[4πe, 200]` it is *ZetaZeroReciprocalLowRange*.
-  The first two records alone do not give the upper side on that range (a Check of 2.4). The bound
-  is the one behind the term `s₁` of §3.1(d) and behind Broadbent–Kadiri–Lumley–Ng–Wilk's (A.10); a
-  statement whose route bounds `s₁` that way is given these three records.
+  of ExplicitPrimeCounting §2.1 holds (0.9), the bound behind the term `s₁` of §3.1(d) and behind
+  Broadbent–Kadiri–Lumley–Ng–Wilk's (A.10); a statement whose route bounds `s₁` that way is given
+  these three records.
 - *The Dirichlet zero counts* are, for a primitive character of conductor `k > 1`, the count of
   ExplicitZetaBounds §5.3, given *BennettMartinOBryantRechnitzerRecord*, and, for the trivial
   character, of conductor `1`, Rosser's zero count. A route that sums a zero count over all the
@@ -382,11 +374,13 @@ QuasiRiemannHypothesis §5.4.
 
 ### 0.5 First consequences (RiemannHypothesisStatementsAndConsequences §§9.3, 9.6)
 
-*Origin:* published: the absence of an exceptional zero under a zero-free half-plane and the
-hypothesis for the records (RiemannHypothesisStatementsAndConsequences §§9.3, 9.6), with its
-hypothesis supplied by the main theorems; the square-root bound for the Riesz remainder (§9.6(c)) is
-adapted from Ingham (1932), as GeneralizedRiemannHypothesisFromWindowBounds §3.2 says of its form for
-families.
+*Origin:* (a) and (b) are RiemannHypothesisStatementsAndConsequences's own formulation (its §9.6):
+the absence of an exceptional zero under a zero-free half-plane, and the bound for the Riesz
+remainder, whose square-root case is adapted from Ingham (1932), as
+GeneralizedRiemannHypothesisFromWindowBounds §3.2 says of its form for families; (c) is adapted from
+Titchmarsh (1986), Chapter II, and Iwaniec and Kowalski (2004), Chapter 5, the hypothesis for the
+records read through their completed functions (RiemannHypothesisStatementsAndConsequences §§9.3,
+9.5); each with its hypothesis supplied by the main theorems.
 
 Let `ψ` be the character of `ℚ` attached to a primitive Dirichlet character, or the trivial
 character or a character `φ̃` of 0.3 of a field `K` abelian over `ℚ`.
@@ -497,6 +491,34 @@ ErdosProgressionPowers §0.9 defines its copy by the statement of AnalyticNumber
 *Needs:* GeneralizedRiemannHypothesisFromWindowBounds §5.3; AnalyticNumberTheoryPartI §0.16;
 ErdosProgressionPowers §§0.9, 2.3, 2.6.
 
+### 0.9 Johnston–Yang's bound for the reciprocal ordinates (ExplicitPrimeCounting §2.1)
+
+*Origin:* adapted from Johnston and Yang (2023), Lemma 2.5, as ExplicitPrimeCounting §2.1 states
+it: here under the reciprocal-zero records (Conventions), the third of which, stated here, covers
+the range `4πe ≤ T ≤ 200`; the derivation is this roadmap's own and does not use the main theorems.
+
+Given the reciprocal-zero records, for every real `T ≥ 4πe`,
+`(1/4π) log²(T/2π) − 0.9321 ≤ ∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π)`, the sum running over the
+zeros `β + iγ` of `ζ` with `0 < γ ≤ T`, counted with multiplicity.
+
+Route: write `N = M + Q`: `ZetaZeroCountLowRange` gives `|Q(t)| ≤ 0.28 log t` on `[2π, 10⁹]`, and
+Rosser's bound, which ExplicitZetaBounds §5.2 states from `1467` with no record, gives it above
+`10⁹` (`0.137 log t + 0.443 log log t + 1.588 ≤ 0.28 log t` there). Since
+`dM(t) = (1/2π) log(t/2π) dt`, Stieltjes integration of `1/t` over `(U, V]`, `2π ≤ U ≤ V`, gives
+`∑_{U < γ ≤ V} 1/γ = (1/4π)(log²(V/2π) − log²(U/2π)) + Q(V)/V − Q(U)/U + ∫_U^V Q(t) t⁻² dt`,
+and the last three terms have absolute value at most `0.28 (2 log U + 1)/U`. Lower side: the record
+at `2π` gives `N(2π) ≤ −1/8 + 0.28 log 2π < 1`, so `N(2π) = 0`, `Q(2π) = 1/8`, and for `T ≥ 4πe`
+the error from `U = 2π` is at least `−1/(16π) − 0.28 log T/T − 0.28 (1 + log 2π)/(2π) ≥ −0.1754`.
+Upper side: `ZetaZeroReciprocalSum` lies below `(1/4π) log²(10⁷/2π) = 16.2278074617` by
+`m₇ = 0.0171594248`; for `200 ≤ T ≤ 10⁷` the identity on `(T, 10⁷]` gives
+`∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π) − m₇ + 0.28 (2 log T + 1)/T`, and
+`0.28 (2 log T + 1)/T ≤ 0.0162353 < m₇` for `T ≥ 200`; for `T > 10⁷` the identity on `(10⁷, T]`
+costs at most `0.28 (2 log 10⁷ + 1)/10⁷ < 10⁻⁶`; on `[4πe, 200]` it is *ZetaZeroReciprocalLowRange*.
+The first two records alone do not give the upper side on that range (a Check of 2.4).
+
+*Needs:* ExplicitPrimeCounting §§1.1 (`ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange`), 2.1;
+ExplicitZetaBounds §5.2 (Rosser's bound from `1467`, with no record).
+
 ### Examples
 
 For `K = ℚ(i)`, `ζ_K = ζ · L(·, χ₋₄)`, and 0.2 is GeneralizedRiemannHypothesisFromWindowBounds §5.2
@@ -511,8 +533,8 @@ GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3; RiemannHypothesisSta
 §§8.4a, 8.8, 9.3–9.6, 10.3, 11.1; AnalyticNumberTheoryPartI §§0.16, 1.6, 2.18a, 2.42;
 ZerosOfLFunctions §§6.3, 6.4a, 8.8, 9.1 and Layer 9; QuasiRiemannHypothesis §§1.1, 5.4, 5.4a;
 ClassFieldTheory C.6, Layers 12 and 13; LFunctions Layers 4 and 5; ExplicitZetaBounds §§0.2–0.4b,
-9.3; ExplicitPrimeCounting §1.2; ErdosProgressionPowers §§0.9, 2.3, 2.6; Tau Ceti's ray-class
-characters and their induction.
+5.2, 9.3; ExplicitPrimeCounting §§1.1, 1.2, 2.1; ErdosProgressionPowers §§0.9, 2.3, 2.6; Tau Ceti's
+ray-class characters and their induction.
 
 ## Layer 1: growth, argument and zeros of `ζ` and of L-functions
 
@@ -530,11 +552,11 @@ theorems.
   `‖L(σ + it)‖⁻¹ ≤ C 𝔮(σ + it)^ε` on `σ ≥ 1/2 + δ` at every height that §9.7 calls admissible
   (every `t` for an entire `L`, `|t| ≥ 2` for a Dedekind zeta function).
 - (ii) `log |ζ(1/2 + it)| ≤ C log |t|/log log |t|` for
-  `|t| ≥ 16`; Lindelöf's bound: for every `ε > 0`,
+  `|t| ≥ 16`; Lindelöf's bound (`norm_riemannZeta_le_rpow`): for every `ε > 0`,
   `‖ζ(σ + it)‖ ≤ C_ε |t|^ε` for `σ ≥ 1/2` and `|t| ≥ 2`;
   for a primitive `χ ≠ 1` modulo `q`, with an
   absolute `C`, `log |L(1/2 + it, χ)| ≤ C log(q(|t| + 3))/log log(q(|t| + 3))`; and Littlewood's
-  bounds: for `q ≥ 3`,
+  bounds (`LFunction_one_bounds`): for `q ≥ 3`,
   `(C log log q)⁻¹ ≤ |L(1, χ)| ≤ C log log q` and `|L′/L(1, χ)| ≤ C log log q`. The bounds
   (a)–(d) of §9.7(ii) at `σ₀ = 1/2` hold for the L-functions of 0.5, (c) being Lindelöf's
   bound.
@@ -588,7 +610,10 @@ with the constant `C + 1`, since `1/(40T) < log T/log log T` for `T ≥ 16`.
 *Origin:* published: the explicit zero-free regions and zero-density bounds of Ford (2002), Kadiri
 (2002, 2005, 2013, 2018), McCurley (1984) and the others that ExplicitZetaBounds §§7.2–7.6, 8.1
 and 8.3–8.5 state, and the bounds for `1/ζ` near the line one of its §7.10, with its hypothesis
-supplied by the main theorems; the regions and densities are immediate from the main theorems.
+supplied by the main theorems; the regions and densities are immediate from the main theorems. Two
+parts rest on preprints: the instance `R₀ = 4.896` of the classical region in (a) (Bellotti,
+Trudgian and Yang (2026), Theorem 1; ExplicitZetaBounds §7.3), and Lee and Leong's two bounds in (c)
+(Lee and Leong (2022), Theorem 1.1 (6) and Lemma 4.3; ExplicitZetaBounds §7.10).
 
 - (a) With no hypothesis: Ford's regions of §7.2, that is the exact
   region for `t ≥ 5.45·10⁸`, with `log 3` or with `log 0.618` in `J`,
@@ -782,7 +807,9 @@ AnalyticNumberTheoryPartI §0.34; WeilPositivityAndLiCriterion; Mathlib's
 Frobenius classes under a zero-free half-plane (RiemannHypothesisStatementsAndConsequences §9.9),
 with its hypothesis supplied by the main theorems.
 
-- `ψ(x) − x = O(√x log² x)`; `θ(x) − x = O(√x log² x)`; and `π(x) − Li x = O(√x log x)` (von Koch).
+- `ψ(x) − x = O(√x log² x)`; `θ(x) − x = O(√x log² x)`; and von Koch's bound
+  `π(x) − Li x = O(√x log x)` (`primeCounting_sub_logIntegral_isBigO`), with
+  `Li x = ∫₂ˣ dt/log t`, Tau Ceti's `TauCeti.Real.logIntegral`.
   The first strengthens AnalyticNumberTheoryPartI §1.9(i) (`psi_sub_self_isBigO_of_riemannHypothesis`,
   `ψ(x) − x = O_ε(x^{1/2+ε})` under `RiemannHypothesis`), whose conclusion therefore holds with no
   hypothesis.
@@ -838,9 +865,9 @@ ExplicitZetaBounds §§0.4, 5.2 (Rosser's zero count).
 ### 2.3 Bounds from verified heights (ExplicitPrimeCounting §§2.3, 2.6)
 
 *Origin:* published: the bounds of Büthe (2016) and of Johnston (2022) from the Riemann hypothesis
-verified up to a height, and the general theorem of ExplicitPrimeCounting §2.6
-(ExplicitPrimeCounting §§2.3, 2.6), with its hypothesis supplied by the main theorems at every
-height.
+verified up to a height (ExplicitPrimeCounting §2.3); a preprint: the general theorem of
+ExplicitPrimeCounting §2.6 and its instance (Chirre and Helfgott (2025), Corollaries 1.2 and 1.3);
+each with its hypothesis supplied by the main theorems at every height.
 
 Write *JohnstonInitialRanges* for the proposition that `|ψ(x) − x| < √x log² x` for `3 ≤ x ≤ 59`,
 `|θ(x) − x| < √x log² x` for `3 ≤ x ≤ 599`, `|π*(x) − li x| < √x log x` for `2 ≤ x < 97`, and
@@ -902,8 +929,10 @@ Johnston's statements: on the ranges of the four bounds above (`x > 59`, `x > 59
 
 *Origin:* published: the explicit bounds for `ψ`, `θ` and `π` from zero-free regions and zero
 densities of Faber and Kadiri (2015), Trudgian (2016), Mossinghoff and Trudgian (2015), Platt and
-Trudgian (2021), Fiori, Kadiri and Swidinsky (2023), Johnston and Yang (2023) and Fiori–Jaskari
-(ExplicitPrimeCounting §§3.1, 3.4, 3.6), with its hypothesis supplied by the main theorems; the
+Trudgian (2021), Fiori, Kadiri and Swidinsky (2023) and Johnston and Yang (2023)
+(ExplicitPrimeCounting §§3.1, 3.4, 3.6); a preprint: Fiori–Jaskari's theorem (Fiori and Jaskari
+(2026), Theorem 1.1; ExplicitPrimeCounting §3.6); each with its hypothesis supplied by the main
+theorems; the
 bounds that ExplicitPrimeCounting §3.4 obtains from its §3.1(c) are derived here from those that
 the Riemann hypothesis gives (2.3).
 
@@ -1002,8 +1031,8 @@ GeneralizedRiemannHypothesisFromWindowBounds §5.3 its real part is `1/2 < 1 −
 `R log |t| > R log 14 > 2`; (b) and (d) are 1.4(d) at the parameters stated: the region of (b) has
 the Rosser–Schoenfeld shape, that of (d) is given by `ν`, and the density of (d) bounds
 `N°(σ, t)` with `σ > 1/2`, which 1.4(d) makes `0`. In (d) the term `s₁` is Johnston–Yang's bound of
-ExplicitPrimeCounting §2.1, under the reciprocal-zero records, at `T` when `T ≤ H` and at `H` and
-`T` when `T > H`; both heights are at least `4πe`. The two density inputs bound `N°(σ, T)` at
+ExplicitPrimeCounting §2.1, under the reciprocal-zero records (0.9), at `T` when `T ≤ H` and at `H`
+and `T` when `T > H`; both heights are at least `4πe`. The two density inputs bound `N°(σ, T)` at
 `σ ≥ 0.6` and at `σ ≥ 0.98`, which 1.4(d) makes `0`, by right sides that are nonnegative: in each
 form and at each row the constants (`c̃₁`, `c̃₂`; `C₁`, `C₂`, `c₁`, `c₂`, `d`; `C₁`, `C₂`) are
 positive, as Kadiri–Lumley–Ng's closed forms are (1.4's Checks; among them `(3.7669, 5.2954)`,
@@ -1039,9 +1068,9 @@ Route of the bounds of Faber–Kadiri, Trudgian and Mossinghoff–Trudgian: thre
   `2.21·10⁶` (Trudgian, `π`) and `97.6` (`0.0045 x/log² x`), and it increases with `x`: the
   logarithmic derivatives in `L` are those above less `2/L`, positive for `L ≥ 43`.
 
-*Needs:* GeneralizedRiemannHypothesisFromWindowBounds §5.3; 0.6, 1.4, 2.3; ExplicitPrimeCounting
-§§1.1, 1.3 (`ButheVerified`, *TrudgianRange*, *MossinghoffTrudgianRange*), 2.1, 3.1, 3.4, 3.6;
-ExplicitZetaBounds §§0.4, 5.2 (Rosser's zero count).
+*Needs:* GeneralizedRiemannHypothesisFromWindowBounds §5.3; 0.6, 0.9, 1.4, 2.3;
+ExplicitPrimeCounting §§1.1, 1.3 (`ButheVerified`, *TrudgianRange*, *MossinghoffTrudgianRange*),
+2.1, 3.1, 3.4, 3.6; ExplicitZetaBounds §§0.4, 5.2 (Rosser's zero count).
 
 **Checks.**
 
@@ -1159,9 +1188,10 @@ Route: GeneralizedRiemannHypothesisFromWindowBounds §5.2.
 
 ### 2.7 The Mertens function and Mertens' product (ExplicitMultiplicativeFunctions §§0.7, 1.9, 8.1)
 
-*Origin:* published: Lee–Leong's bound for the Mertens function, Leong's bounds for `1/ζ` from a
-verified height, and Mertens' product under the Riemann hypothesis (ExplicitMultiplicativeFunctions
-§§0.7, 1.9, 8.1), with its hypothesis supplied by the main theorems.
+*Origin:* published: Leong's bounds for `1/ζ` from a verified height, and Mertens' product under the
+Riemann hypothesis (ExplicitMultiplicativeFunctions §§0.7, 1.9, 8.1); a preprint: Lee–Leong's bound
+for the Mertens function (Lee and Leong (2022), Theorem 2.2; ExplicitMultiplicativeFunctions §1.9);
+each with its hypothesis supplied by the main theorems.
 
 - The part `RH(T)` of clause (a) of *ZetaResidueSumVerified*
   `T S Z` holds, so that clause holds exactly when the zeros up to height `T` are simple.
@@ -1318,7 +1348,7 @@ precedes the first row of Ramaré–Saouter, which is why that row starts at `10
 
 ### Dependencies
 
-GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3; 0.2, 0.3, 0.5, 0.6; 1.4;
+GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3; 0.2, 0.3, 0.5, 0.6, 0.9; 1.4;
 RiemannHypothesisStatementsAndConsequences §§8.8, 9.5, 9.9; ZerosOfLFunctions §8.8;
 AnalyticNumberTheoryPartI §1.9; ExplicitZetaBounds §§0.4, 5.2; ExplicitPrimeCounting;
 ExplicitMultiplicativeFunctions; Mathlib's Chebyshev functions.
@@ -1379,8 +1409,9 @@ theorems: the verification heights, the regions and the absence of exceptional m
   over `y`, which need not be attained: Checks): the rows as their sources
   obtain them, by a finite-height smoothed estimate evaluated at each row from the zeros up to the
   verified height and the region for the modulus, both of which the premise contains (the region
-  as in the route below). Given *RamareRumelyRows*, every
-  row holds, for every unit `a` modulo `k` and every `x ≥ x₀`.
+  as in the route below). The rows are carried as this proposition, a record of the published rows
+  that no general statement here gives, and 0.6 discharges its premise: given *RamareRumelyRows*,
+  every row holds, for every unit `a` modulo `k` and every `x ≥ x₀`, by 0.6 alone.
 - §6.3. The three bounds of Bennett, Martin, O'Bryant and Rechnitzer hold for every `q ≥ 3` and
   every unit `a` modulo `q`, with `c₀(q)`, `x₀(q)` as there: for `ψ`,
   for `θ` and for `π` against
@@ -1496,8 +1527,9 @@ characters).
 quadratic nonresidue under the Riemann hypothesis, and their Hecke analogue (QuasiRiemannHypothesis
 §§11.2, 11.3; SieveMethodsAndPrimePatterns §2.9), with its hypothesis supplied by the main theorems.
 
-There is an absolute `C` such that every nonprincipal Dirichlet
-character `χ` modulo `q ≥ 2` has *leastNonOne* `χ ≤ C (log q)²`; hence
+`exists_ne_zero_ne_one_le_log_sq`: there is an absolute `C` such that every nonprincipal Dirichlet
+character `χ` modulo `q ≥ 2` has *leastNonOne* `χ ≤ C (log q)²`, that is, `χ(n) ∉ {0, 1}` for some
+`n` with `1 ≤ n ≤ C (log q)²`; hence
 `SieveApplications.leastNonresidue p ≤ C (log p)²` for every odd
 prime `p`. The Hecke analogue of §11.2 at `θ = 1/2`, for
 every field `K` abelian over `ℚ`, every modulus `𝔪` of `K` and every nontrivial
@@ -1558,7 +1590,7 @@ QuasiRiemannHypothesis §§11.2, 11.3; SieveMethodsAndPrimePatterns §2.9; Expli
 hypothesis (RiemannHypothesisStatementsAndConsequences §9.7) and the class number formula, with its
 hypothesis supplied by the main theorems; the class-number bound is derived here from them.
 
-There is an absolute `c > 0` with
+`mul_sqrt_div_log_log_le_classNumber`: there is an absolute `c > 0` with
 `h(D) ≥ c √|D|/log log |D|` for every fundamental discriminant `D < −4`, `h(D)` the class number of
 the imaginary quadratic field of discriminant `D`. It is the lower bound for `L(1, χ)` of
 Littlewood's bounds in 1.1(ii) read through the class number formula. The bound implies
@@ -1842,7 +1874,8 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - the unconditional statements of Layer 0: the hypothesis for the completed L-functions of
   primitive Dirichlet characters, the extended Riemann hypothesis for fields abelian over `ℚ`, the
   Riemann hypothesis for the Hecke characters of 0.3 and for the norm-composed characters, and the
-  hypotheses and records of other roadmaps that the main theorems give;
+  hypotheses and records of other roadmaps that the main theorems give; and the derivation of
+  Johnston–Yang's bound for the reciprocal ordinates from the reciprocal-zero records (0.9);
 - the statements of Layers 1–4, including Schoenfeld's Mertens estimate from `13.5`, given the
   finite range *SchoenfeldMertensSmallRange*, which 4.6 states as a hypothesis; the records
   *JohnstonInitialRanges*, the initial ranges of Johnston's bounds at the constant `1`, and
@@ -1889,8 +1922,10 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - the Riemann hypothesis for Dedekind zeta functions of fields not abelian over `ℚ`, for
   ray-class characters not of the form of 0.3, and for Artin, automorphic and Rankin–Selberg
   L-functions: no roadmap here proves them, and no target removes them;
-- nonvanishing at the central point, simplicity of zeros, the Dedekind conjecture and every
-  numerical record; so the explicit zero count of
+- nonvanishing at the central point (beyond the nine central values of the record
+  *SmallQuadraticCentralValues*), simplicity of zeros, the Dedekind conjecture, and every numerical
+  record other than those that this roadmap states and takes as hypotheses (above); no numerical
+  record is proved here, so the explicit zero count of
   ExplicitZetaBounds §5.3, whose only hypothesis
   is such a record, Rosser's bound for `N(T)` below the height `1467` (its records
   `ZetaZeroFreeUpTo 14` and `ZetaArgumentBoundUpTo 6800000 2`), the reciprocal-zero records, the
@@ -1914,11 +1949,13 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 
 ### From Mathlib
 
-- `RiemannHypothesis`, `riemannZeta`, `riemannZeta_ne_zero_of_one_le_re` (1.4);
-- `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction` (0.1),
-  `DirichletCharacter.primitiveCharacter`, `DirichletCharacter.IsPrimitive`;
-- `meromorphicOrderAt`; `Chebyshev.psi`, `Chebyshev.theta` (2.3); `MulChar.IsQuadratic`;
+- `RiemannHypothesis`, `riemannZeta` (1.1), `riemannZeta_ne_zero_of_one_le_re` (1.4);
+- `DirichletCharacter.LFunction` (1.1, 3.4), `DirichletCharacter.completedLFunction` (0.1),
+  `DirichletCharacter.primitiveCharacter`, `DirichletCharacter.IsPrimitive`; `logDeriv` (1.1);
+- `meromorphicOrderAt`; `Chebyshev.psi`, `Chebyshev.theta` (2.3); `Nat.primeCounting` (2.1);
+  `ArithmeticFunction.vonMangoldt.residueClass` (3.1); `MulChar.IsQuadratic`;
   `CyclotomicField`, `IsAbelianGalois` (0.2);
+- `NumberField.classNumber`, `NumberField.discr`, `NumberField.IsTotallyComplex` (4.1);
 - `polynomialFunctions_closure_eq_top` (Weierstrass approximation on `[a, b]`) and
   `AnalyticOnNhd.sum_divisor_le` (Jensen's inequality: the zeros, with multiplicity, of a function
   analytic on a closed disc, bounded by `M ≥ 1` on its boundary and nonzero at its centre) (1.6).
@@ -1926,6 +1963,7 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 ### From Tau Ceti
 
 - `TauCeti.primePsi`, `TauCeti.IdealArithmeticFunction.vonMangoldt` (Conventions, 2.1, 4.4);
+- `TauCeti.Real.logIntegral` (`Li x = ∫₂ˣ dt/log t`, 2.1);
 - `TauCeti.GlobalNumberFields.RayClassCharacter.induced` (the pullback of a ray-class character
   of modulus `𝔪` to a multiple `𝔫` of `𝔪` along the transition map
   `RayClassGroup 𝔫 → RayClassGroup 𝔪`, evaluated by `RayClassCharacter.induced_apply`) and
@@ -2056,8 +2094,8 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   `brun_titchmarsh` is proved; §1.1, *FioriKadiriSwidinskyZeroSums*, and `ZetaZeroReciprocalSum`
   and `ZetaZeroCountLowRange`, which with *ZetaZeroReciprocalLowRange* (stated in the Conventions)
   are *the reciprocal-zero records* of §2.1's two-sided bound for
-  `∑_{0 < γ ≤ T} 1/γ` (`T ≥ 4πe`), which bounds the term `s₁` of §3.1(d); §2.1, that bound, whose
-  finite-height part the Conventions derive from the three records; §1.3, `ButheVerified` and
+  `∑_{0 < γ ≤ T} 1/γ` (`T ≥ 4πe`), which bounds the term `s₁` of §3.1(d); §2.1, that bound, which
+  0.9 derives from the three records; §1.3, `ButheVerified` and
   `Buthe2016Range`; §2.1, *CullyHugillJohnstonTable* at its row `(40, 1/2, 0.48, 6.431)`; §3.1,
   *ZeroCountBound* at Rosser's triple `0.137 0.443 1.588 0 2`, the bound that Rosser's zero count
   gives.
@@ -2138,6 +2176,15 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   Mathematical Physics 30 (1932), chapters III–IV: the bound for `ψ(x) − x` under a zero-free
   half-plane, which GeneralizedRiemannHypothesisFromWindowBounds §3.2 adapts to the remainder of a
   weighted family of characters (0.5).
+- E. C. Titchmarsh, *The Theory of the Riemann Zeta-Function*, second edition, revised by
+  D. R. Heath-Brown, Oxford University Press (1986), chapter II: the functional equation and the
+  symmetry of the zeros about the critical line (0.5, through
+  RiemannHypothesisStatementsAndConsequences §9.3); chapter XIV: the consequences of the Riemann
+  hypothesis for the growth of `ζ`, Lindelöf's bound among them (1.1, through
+  RiemannHypothesisStatementsAndConsequences §9.7).
+- H. Iwaniec and E. Kowalski, *Analytic Number Theory*, American Mathematical Society Colloquium
+  Publications 53 (2004), chapter 5: L-functions with a functional equation and their Riemann
+  hypothesis (0.5, through RiemannHypothesisStatementsAndConsequences §§9.3, 9.5).
 - David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016);
   doi:10.1090/mcom/3077, arXiv:1305.3087v1, Theorem 7.1: the verification behind `PlattRecord`
   (0.7, through ExplicitZetaBounds §0.4b).
@@ -2171,6 +2218,13 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - K. S. McCurley, *Explicit zero-free regions for Dirichlet L-functions*, Journal of Number Theory
   19 (1984), 7–32; doi:10.1016/0022-314X(84)90089-1, Theorem 1: the region
   `LFunction_zeroFree_mcCurley` of ExplicitZetaBounds §7.5 (1.4).
+- C. Bellotti, T. Trudgian and A. Yang, *Zero-free regions inspired by work of Heath-Brown* (2026),
+  arXiv:2603.21490v1, preprint, Theorem 1: the classical region with `R₀ = 4.896` stated in
+  ExplicitZetaBounds §7.3 (1.4).
+- E. S. Lee and N. Leong, *New explicit bounds for Mertens function and the reciprocal of the
+  Riemann zeta-function* (2022–2026), arXiv:2208.06141v5, preprint: Theorem 1.1 (6) and Lemma 4.3,
+  bounds for `1/ζ` (1.4, through ExplicitZetaBounds §7.10); Theorem 2.2, the bound for the Mertens
+  function (2.7, through ExplicitMultiplicativeFunctions §1.9).
 - Xian-Jin Li, *The positivity of a sequence of numbers and the Riemann hypothesis*, J. Number
   Theory 65 (1997): Li's criterion (1.6, through WeilPositivityAndLiCriterion §3.2).
 - A. Weil (1952): the positivity criterion (1.6, through WeilPositivityAndLiCriterion §5.2).
@@ -2190,6 +2244,9 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   Riemann hypothesis*, Ramanujan J. 59 (2022), arXiv 2109.02249, Theorems 3.2 and 4.1: the same
   bounds under a weaker condition on the height, and weaker bounds on a wider range (2.3, through
   ExplicitPrimeCounting §2.3).
+- A. Chirre and H. A. Helfgott, *Optimal bounds for sums of non-negative arithmetic functions*
+  (2025), arXiv 2512.15709, preprint, Corollaries 1.2 and 1.3: the bound from the zeros up to a
+  height and its instance (2.3, through ExplicitPrimeCounting §2.6).
 - L. Faber and H. Kadiri, *New bounds for ψ(x)*, Math. Comp. 84 (2015), with its corrigendum, Math.
   Comp. 87 (2018), Corollary 1.2: the bound `|ψ(x) − x| ≤ 5.3688·10⁻⁴ x` for `x ≥ e²⁰` (2.4,
   through ExplicitPrimeCounting §3.4).
@@ -2211,7 +2268,11 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - D. R. Johnston and A. Yang, *Some explicit estimates for the error term in the prime number
   theorem*, J. Math. Anal. Appl. 527 (2023), Theorem 1.1, Corollaries 1.2–1.3 and Theorem 1.4: the
   bounds for `ψ`, `θ` and `π` from the classical and the Vinogradov–Korobov regions (2.4, through
-  ExplicitPrimeCounting §§3.4, 3.6).
+  ExplicitPrimeCounting §§3.4, 3.6); Lemma 2.5: the two-sided bound for the reciprocal ordinates
+  (0.9, through ExplicitPrimeCounting §2.1).
+- A. Fiori and M. Jaskari, *Explicit bounds for the prime number theorem* (2026), arXiv 2609.23222,
+  preprint, Theorem 1.1: the bound from a verified height, a Vinogradov–Korobov-type region and a
+  zero density (2.4, through ExplicitPrimeCounting §3.6).
 - A. W. Dudek and D. J. Platt, *On solving a curious inequality of Ramanujan*, Exp. Math. 24 (2015),
   Theorem 1.3 and Lemma 2.1: Ramanujan's inequality under the Riemann hypothesis and the criterion
   behind it (2.5, through ExplicitPrimeCounting §3.5).
