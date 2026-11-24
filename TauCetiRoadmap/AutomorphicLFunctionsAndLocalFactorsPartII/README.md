@@ -303,7 +303,7 @@ For a characteristic-zero local field F, a quadratic étale algebra E/F, a nonde
 - At split rank one with X=1/2,Y=1/3, Z=5/2 and d₁=6/5 give d₁Z=3; dropping the denominator instead gives 5/2.
 - At χ(z)=z/|z| over ℂ/ℝ the Weyl character is χ itself, with value i at i; replacing it by χ⁻¹ gives −i.
 
-*Needs:* §1.1; AutomorphicLFunctionsAndLocalFactors AL.1–AL.4; MetaplecticAutomorphicForms §§6.10a–6.11; SmoothRepresentationsOfLocalGroups SR.2; AutomorphicFormsOnReductiveGroups §§2.1–2.7.
+*Needs:* §1.1; AutomorphicLFunctionsAndLocalFactors §§AL.1.3.1, AL.1.4.2, AL.1.6.1 and AL.2.1.5; AutomorphicLFunctionsAndLocalFactors Layer AL.4; MetaplecticAutomorphicForms §§6.10a–6.11; SmoothRepresentationsOfLocalGroups SR.2; AutomorphicFormsOnReductiveGroups §§2.1–2.7.
 
 ### 2.1 local unitary doubling integral
 
@@ -339,7 +339,7 @@ A proof can proceed as follows: Bound the matrix coefficient and the section alo
 
 The comparison map has source the EHLS induced fiber and target the supplied classical doubled induction, followed by restriction along U(V)→U(W). It tracks the inverse inducing character, affine parameter and Haar scalar, and is natural under representation transport. It also includes ramified open-cell sections: choose the lattice inside the fixing subgroup and the conductor of χ(det(1−x)), and retain the scalar attached to the chosen Weyl representative (EHLS Lemma 4.2.3, p.50; EHLS line 2129).
 
-*Needs:* §0.1; §1.1; SmoothRepresentationsOfLocalGroups §SR.3.3 (tempered support and Langlands quotients); AutomorphicFormsOnReductiveGroups §§2.1–2.7 (real representations and globalizations); AutomorphicLFunctionsAndLocalFactors Layer AL.0 (vector-space Fourier analysis); MetaplecticAutomorphicForms §6.10a (canonical classical factors); the comparison of §2.0.
+*Needs:* §0.1; §1.1; SmoothRepresentationsOfLocalGroups §SR.3.3 (tempered support and Langlands quotients); AutomorphicFormsOnReductiveGroups §§2.1–2.7 (real representations and globalizations); AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (vector-space Fourier analysis); MetaplecticAutomorphicForms §6.10a (canonical classical factors); the comparison of §2.0.
 
 ### 2.2 unitary unramified denominator
 
@@ -373,7 +373,7 @@ Additional normalization checks:
 
 A proof can proceed as follows: Build the finite product out of Tate factors. Compare χ and χ⁻¹ using the inducing transformation law. Record base-change degree over E and the different residue norm over F.
 
-*Needs:* §1.1; AutomorphicLFunctionsAndLocalFactors Layer AL.1 (Tate factors); AutomorphicLFunctionsAndLocalFactors Layer AL.4 (Satake Euler factors and convergence); MetaplecticAutomorphicForms §6.10a (canonical classical factors); the comparison of §2.0.
+*Needs:* §1.1; AutomorphicLFunctionsAndLocalFactors §AL.1.2.1 (Tate factors); AutomorphicLFunctionsAndLocalFactors Layer AL.4 (Satake Euler factors and convergence); MetaplecticAutomorphicForms §6.10a (canonical classical factors); the comparison of §2.0.
 
 ### 2.3 unramified unitary doubling formula
 
