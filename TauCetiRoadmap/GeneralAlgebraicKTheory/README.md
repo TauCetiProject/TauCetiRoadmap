@@ -2791,7 +2791,7 @@ Prove the equivalence property of the Bass-to-Frobenius comparison: this actual 
 - For `R=k[ε]/ε²`, the class of `1+εt` in `NK₁(R)` is retained on both sides of the Laurent diagram. The equivalence supplies neither polynomial invariance nor vanishing of Nil terms.
 - At the first Λ stage the newly exposed degree minus one maps by the cone–Frobenius comparison, while the connective stage has zero negative homotopy; passage to the tower is essential.
 
-*Needs:* §12.9; §12.3; §12.4; §§10.10–10.11; §§11.14–11.16; §11.8; Layer 9's projective-line and Laurent diagrams; §7.4's exact tensor pairings; §1.7 and GeneralizedCohomology G2.6 for the supplied stable equivalence criterion and telescopes.
+*Needs:* §12.9; §12.3; §12.4; §§10.10–10.11; §§11.14–11.16; §11.8; §§9.7, 9.13 and 9.17, the projective-line and Laurent localization diagrams and the t-class section; §7.4's exact tensor pairings; §1.7 and GeneralizedCohomology G2.6 for the supplied stable equivalence criterion and telescopes.
 
 ### 12.10a The unbounded derived category of an exact category
 

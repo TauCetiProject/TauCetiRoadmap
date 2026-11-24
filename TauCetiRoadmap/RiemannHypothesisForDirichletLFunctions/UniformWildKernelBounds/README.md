@@ -2829,7 +2829,7 @@ places prime to the level, for two characters of finite order with `η₁η₂ =
 there, so one of `η₁, η₂` is `≡ 1` at every idele (Artin reciprocity, ClassFieldTheory Layer 11, and Chebotarev Layer 10), and the
 eigenvalues at a place of `P` above `ℓ` and at a place above `ℓ` outside `P` then force `ω(w) ≡ 1` at one of them, against the
 hypothesis. *Needs:* 3.20(e₀), 3.23; ModularForms Layer 0 and Conventions; AlgebraicModularFormsAndSerreWeights §§1.2, 2.10, 2.15,
-Layer 2, §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5;
+2.1, 2.5–2.8 (q-expansions, integral Hecke operators and eigensequences on the integral cusp lattice), §5.10; GL2AutomorphicRepresentationsAndTransfer R16.1.6; NoncommutativeAndEquivariantIwasawa §F.5;
 ArithmeticLocallySymmetricSpaces ALS.F.6; AdelicAlgebraicGroups §4.2;
 DirichletPadicLFunctions §§0.4, 2.3, 2.4; PadicFamilies §§1.7, 1.8, 1.8a, 1.9; PotentialAutomorphyInfrastructurePartII §§0.8, 0.9;
 HeckeIdealsAndTaylorWilesRelations §3.13a (with its contract for PotentialAutomorphyInfrastructurePartII §3.5 (1));

@@ -6353,7 +6353,9 @@ for `Q^∨(Σ)` inside the translation lattice; [Conrad RGS], Theorems 6.1.16(2)
 pp. 196–197, for the pinned group realizing the specified root datum). *Needs:*
 *dominant-coinvariant-cocharacters*; *iwahori-weyl-exact-sequences*; RG2.1
 *echelonnage-root-system*; *translation-length-formula*; *length-and-bruhat-order*;
-*admissible-set*; ReductiveGroups layers 7 and 9.
+*admissible-set*; ReductiveGroups layer 7; ReductiveGroups §§9B and 9B.3 (the pinned Chevalley
+construction and pinned diagram automorphisms); ReductiveGroups Layer 9D (forms of a split model,
+for the unramified descent).
 *Lean:* none (README-only).
 
 **Checks.**
@@ -6585,7 +6587,9 @@ subgroups) do not depend on that sign. Use `TauCeti.DiagonalizableGroup.pointsMu
 `dualRootSubgroup_conj` (`t x_{α^∨}(r) t⁻¹ = x_{α^∨}(α^∨(t) r)`), `dualGroup_smooth` (`Ĝ` is smooth
 over `ℤ`), `dualGroup_reductive_fibres` (`Ĝ_k` is connected reductive for every field `k`) and
 `dualGroup_torus_points` (for a torus, `Ĝ(R) ≃* Hom(X_*(T), R^×)`). *Needs:*
-*dual-based-root-datum*; ReductiveGroups layer 9; Mathlib `CommHopfAlgCat`; Tau Ceti
+*dual-based-root-datum*; ReductiveGroups §§9B, 9B.1 and 9B.3 (the Chevalley–Demazure construction,
+its root subgroups and torus; smoothness and reductive fibres from the integral charts; uniqueness
+of the pinned group); Mathlib `CommHopfAlgCat`; Tau Ceti
 `TauCeti.DiagonalizableGroup.pointsMulEquiv`, `AlgHom.mapValue`.
 ChevalleyGroups §C2 / Root subgroups for every root states the semisimple Chevalley special case
 of the closed root-immersion interface, to be reconciled after identifying its constructed datum
@@ -6596,7 +6600,7 @@ ChevalleyGroups §C2 / The torus also states the all-root conjugation equation i
 to be reconciled by matching its root characters with the flipped roots `α^∨` and its root
 coordinates with ours, with the non-simple sign cancelling in conjugation.
 ChevalleyGroups §C4 / Fibres and Generality states the semisimple smoothness and connected-fibre
-special case, to be reconciled through ReductiveGroups layer 9's identification of its construction
+special case, to be reconciled through ReductiveGroups §9B's identification of its construction
 before applying the abstract reductivity conclusions.
 *Lean:* none (README-only).
 
@@ -6642,7 +6646,9 @@ faithful on `Ĝ(R)` for `R` an infinite field, but not for every `R`: on `Ĝ(ℤ
 `Ĝ(F_2) = 1` for `Ĝ = G_m` the inversion acts trivially (`pinnedLift_exists`,
 `pinnedLift_injective`, `pinnedLift_not_injective`). The domain `basedAutomorphisms D` is Mathlib's
 `MulAction.stabilizer` of `D.base.support` for the action of `Aut(D.Ψ.flip)` on root indices; Weyl
-automorphisms are excluded. *Needs:* *langlands-dual-group*; ReductiveGroups layers 7 and 9;
+automorphisms are excluded. *Needs:* *langlands-dual-group*; ReductiveGroups layer 7;
+ReductiveGroups §§9B.2 and 9B.3 (the adjoint quotient; the pinned isomorphism theorem);
+ReductiveGroups Layer 9D (the automorphism sheaf with its inner/outer and pinned interfaces);
 Mathlib `MulAction.stabilizer`; Tau Ceti `TauCeti.Pinning`.
 *Lean:* none (README-only).
 
@@ -6781,7 +6787,7 @@ pinned isomorphism `Ĝ ≅ Ĝ'` is `Γ`-equivariant, so `^LG ≅ ^LG'` over `Γ`
 `Ĝ_k` (`k` algebraically closed) with lifts `μ̂`, `μ̂'` and `h ∈ Ĝ(k)` moving one pinning to the other,
 `μ̂' = Int(h)μ̂Int(h)⁻¹`, and `(g,γ) ↦ (hgh⁻¹,γ) : ^LG(k) ≅ ^LG'(k)` over `Γ` depends only on `h`
 modulo the centre ([Buzzard–Gee], §2.1, pp. 4–5). *Needs:* *l-group*; *pinned-automorphisms*;
-ReductiveGroups layer 9.
+ReductiveGroups §9B.3 (the unique pinned isomorphism).
 *Lean:* none (README-only).
 
 **Centre of the dual group and `π₁`.** (*dual-centre-and-fundamental-group*) Provides the semisimple
@@ -6857,7 +6863,8 @@ coroots of `G̃` map bijectively onto those of `G`, `π₁(G̃)` is torsion-free
 ([Springer], §2.15(b), (e), (f), p. 11, for the centre and the simply connected derived group
 through the root and coroot lattices); these are README-only statements about lattices.
 *Needs:* *l-group*; *dual-based-root-datum*; RG2.1 *z-extension*; RG2.1 *z-extension-existence*;
-ReductiveGroups layer 9; Tau Ceti `TauCeti.RootPairingIsogeny`,
+ReductiveGroups §§9B.2 and 9B.3 (the central isogeny of a lattice inclusion; pinned isomorphisms);
+Tau Ceti `TauCeti.RootPairingIsogeny`,
 `TauCeti.CommHopfAlgCat.IsCentralIsogeny`.
 *Lean:* none (README-only).
 

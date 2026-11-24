@@ -207,7 +207,7 @@ Let K/Q_p be finite. (i) V = Q_p: H^1_e = 0, H^1_f = H^1_g = H^1_ur (dimension 1
 
 See HK2 Appendix A, p. 46; HK2011 §1.3, p. 8.
 
-*Needs:* §§1.2–1.7; LocalGaloisGroups Layer 7; KTheoryFiniteLocalFields Layer 6.
+*Needs:* §§1.2–1.7; LocalGaloisGroups Layer 7; KTheoryFiniteLocalFields §6.4 (*Galois cohomology with all three coefficient systems*).
 
 **Checks.**
 

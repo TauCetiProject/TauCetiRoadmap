@@ -1523,7 +1523,7 @@ The hybrid line is the P¹-family specialization in the exact supplier contract.
 - Over ℚ₂ the radius-3/4 Gauss seminorm gives [T]=3/4, whereas the supremum on the classical closed disc is 1/2. The comparison uses weighted seminorms, not suprema over K-points.
 - Over an algebraically closed trivially valued K, classical values of [T] are 0 or 1; the radius-2 point gives 2. Thus the open set 3/2<[T]<5/2 has no classical point, and density requires a nontrivial valuation.
 
-*Needs:* TropicalAndBerkovichArithmetic §§0.21–0.23, 1.1–1.3; AlgebraicModuliForArithmeticGeometry §7.10.2 common analytic category; ComplexComparisonPartII §C−1.1; §2.1 sphere meromorphic comparison; Layer 0 rational maps and projective charts; Mathlib `Homeomorph`, `ContinuousMap`, `MeasureTheory.Measure.map` on Borel spaces.
+*Needs:* TropicalAndBerkovichArithmetic §§0.21–0.23, 1.1–1.3; AlgebraicModuliForArithmeticGeometry §7.10.2 common analytic category; ComplexComparisonPartII §C−1.1; §2.1 sphere meromorphic comparison; §§0.16–0.19, 0.21, 0.22 and 0.26 (homogeneous lifts and their composition, rational maps and their action on ℙ¹(K), PGL₂, base change, and rational maps as endomorphisms of ℙ¹_K with its projective charts); Mathlib `Homeomorph`, `ContinuousMap`, `MeasureTheory.Measure.map` on Borel spaces.
 
 ### 2.3 Nonarchimedean potential theory and local degrees
 
@@ -1546,7 +1546,7 @@ The coordinate and pullback comparisons use the supplied kernel identity Δlogδ
 - Under z↦z² the inverse divisor of 0 is 2(0), including in characteristic 2; its distinct support has cardinality 1 and gives the wrong mass.
 - For A=diag(a,1), |a|>1, the potential log max(|a|[T],1)−log max([T],1) has Δ=δ(ζ(0,|a|⁻¹))−δ_G. Using φ_A(G) instead of φ_A⁻¹(G) gives the radius |a| and reverses the adapter.
 
-*Needs:* §§2.2, 0.31 rational-map action and critical multiplicities; TropicalAndBerkovichArithmetic §§1.1–1.3, 3.3, 6.5 for line geometry, graph Laplacian and line potentials/energy; Layer 0 homogeneous lifts and composition.
+*Needs:* §§2.2, 0.31 rational-map action and critical multiplicities; TropicalAndBerkovichArithmetic §§1.1–1.3, 3.3, 6.5 for line geometry, graph Laplacian and line potentials/energy; §§0.12, 0.16, 0.17 and 0.21 (lifts without common zero, homogeneous lifts and composition, GL₂ coordinate changes).
 
 ### 2.4 Sphere Riesz measures and normalized Laplacian
 
@@ -5073,7 +5073,7 @@ The comparison API preserves mass, addition of model functions, pullback of func
 - A pointwise metric limit without uniform control is not the convergence hypothesis; O(−1) has degree −1 on ℙ¹ and cannot carry a semipositive metric.
 - Transport of the standard O(2) measure gives `h_*(2δ_G)=2δ_{h(G)}` at a finite place, and h_*(2ω)=2h_*ω at the complex place. Division by 2 gives the supplier's probability in each case; transport alone leaves the mass at 2.
 
-*Needs:* §4.1 projective realizations and function/measure transport; TropicalAndBerkovichArithmetic §§6.1–6.4, including their arbitrary-base limit and density statements; SchemeAndStackFoundations Layer 5 model intersection degrees; HeightsRationalPointsAndObstructions §5.17b for the ample global comparison; §2.5 for the P¹ comparison.
+*Needs:* §4.1 projective realizations and function/measure transport; TropicalAndBerkovichArithmetic §§6.1–6.4, including their arbitrary-base limit and density statements; SchemeAndStackFoundations §§5.2–5.3 model intersection degrees (`c_1(L)^n ∩ [X]` and the degree of zero-cycles); HeightsRationalPointsAndObstructions §5.17b for the ample global comparison; §2.5 for the P¹ comparison.
 
 ### 4.3 Arithmetic Siu inequality
 

@@ -15,22 +15,25 @@ public import TauCeti.SetTheory.Descriptive.Antichain
 /-!
 # Counting countable models: Morley's theorem and the Vaught toolkit: target signatures
 
-`README.md` is the definitive specification of this roadmap; this file is not. It states target
-signatures for the roadmap's definitions and milestone theorems against the pinned Mathlib and
-Tau Ceti, the theorems with `sorry`, and is not an exhaustive checklist: discharging every
-statement here finishes neither a layer nor the roadmap.
+`README.md` is the roadmap; this file is not. It states the roadmap's headline theorems, with
+`sorry`, against the pinned Mathlib and Tau Ceti, together with the few definitions they need, and
+is not an exhaustive checklist: discharging every statement here finishes neither a layer nor the
+roadmap.
 
-The file builds on the native Tau Ceti declarations at this repository's pin (the infinitary
-syntax, back-and-forth equivalence and Scott analysis, the relational configurations
-`TauCeti.RelationalConfiguration` with their model classes, isomorphism and back-and-forth
-relations, the perfect-set vocabulary, the language maps and the Morleyization). The targets of
-this roadmap that Tau Ceti already implements are cited, not restated; the README lists them under
-"Targets of this roadmap in Tau Ceti".
+The file builds on Tau Ceti's declarations: the infinitary syntax, back-and-forth equivalence and
+Scott analysis, the relational configurations `TauCeti.RelationalConfiguration` with their model
+classes, isomorphism and back-and-forth relations, the perfect-set vocabulary, the language maps
+and the Morleyization, and the counting material that the README lists under its supplier
+contracts. The back-and-forth stratification and isolating ranks of Layer 1 are Tau Ceti's
+`TauCeti.RelationalConfiguration.bfEquivSetoidOn`,
+`TauCeti.RelationalConfiguration.scottSentenceAtLevel`, `TauCeti.IsIsolatingRank` and
+`Setoid.IsolatedBy`, with the Scott height as an isolating rank
+(`TauCeti.isIsolatingRank_scottHeight`) and the stratification bound
+`TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels`; this file states nothing for Layer 1.
 
-Not statable at the pins: the fragment-spectrum characterization of thinness (Layer 4f), which
+Not statable at the pins: the fragment-spectrum characterization of thinness (README §4.5), which
 needs InfinitaryModelExistence's `fragmentType` and `Fragment.slice`.
 -/
-
 @[expose] public section
 
 universe u v w w' u' v'
@@ -44,13 +47,16 @@ open TauCeti.RelationalConfiguration (atom modelsOf isoSetoid isoSetoidOn bfEqui
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-! ## Layer 0: counting isomorphism classes of countable models
+/-! ## Layer 0: classes of countable models
 
 The restricted isomorphism `isoSetoidOn V φ`, the classes `CountableModelClasses φ`, the count
 `countableModelCount φ`, the class map `classOf φ hM` and `HasPerfectlyManyCountableModels φ` are
 Tau Ceti's `TauCeti.RelationalConfiguration.isoSetoidOn`, `TauCeti.CountableModelClasses`,
 `TauCeti.countableModelCount`, `TauCeti.classOf` and `TauCeti.HasPerfectlyManyCountableModels`;
-the sentence `L.infiniteSentence` is `FirstOrder.Language.infiniteSentence`. -/
+the sentence `L.infiniteSentence` is `FirstOrder.Language.infiniteSentence`. Tau Ceti's
+`LEquiv.lift_countableModelCount_onBoundedFormulaInf` and
+`LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff` transport the count and perfectly
+many countable models along a language equivalence. -/
 
 section Layer0
 
@@ -69,21 +75,6 @@ theorem countable_or_hasPerfectSetOfNonisoModelsOn_fin [Countable (Σ l, L.Relat
   sorry
 
 end Layer0
-
-/-! ## Layer 0: transport between presentations of a countable language
-
-Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf` and
-`LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff` transport the count and perfectly
-many countable models along a language equivalence. -/
-
-/-! ## Layer 1: the back-and-forth stratification and isolating ranks
-
-The restricted levels `bfEquivSetoidOn V φ α`, the level sentences `c.scottSentenceAtLevel α`, the
-contract `IsIsolatingRank ρ` and isolation `R.IsolatedBy E` are Tau Ceti's
-`TauCeti.RelationalConfiguration.bfEquivSetoidOn`,
-`TauCeti.RelationalConfiguration.scottSentenceAtLevel`, `TauCeti.IsIsolatingRank` and
-`Setoid.IsolatedBy`. The Scott height is an isolating rank (`TauCeti.isIsolatingRank_scottHeight`),
-and the stratification bound is `TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels`. -/
 
 /-! ## Layer 2: the bounded-rank dichotomy -/
 
@@ -160,7 +151,8 @@ end Layer3
 
 /-! ## Layer 4: scattered classes and thinness criteria
 
-`BFScattered K` is Tau Ceti's `TauCeti.BFScattered`. Counting a scattered class (4b) is Tau Ceti's
+`BFScattered K` is Tau Ceti's `TauCeti.BFScattered`. Counting a scattered class (README §4.1) is
+Tau Ceti's
 `TauCeti.IsIsolatingRank.countable_isoClasses_iff_bounded` and
 `TauCeti.IsIsolatingRank.mk_isoClasses_eq_aleph_one`. -/
 
@@ -168,10 +160,10 @@ section Layer4
 
 variable [L.IsRelational]
 
-/-- **Layer 4 milestone.** In a countable relational language, a back-and-forth scattered set
-carries no Cantor antichain for isomorphism: its range is analytic, so uniform back-and-forth
-separation finds one level separating it. -/
-theorem not_hasCantorAntichainOn_of_bfScattered [Countable (Σ l, L.Relations l)]
+/-- **Layer 4 milestone.** In every relational language, a back-and-forth scattered set carries
+no Cantor antichain for isomorphism: its range is analytic, so uniform back-and-forth separation
+finds one level separating it. -/
+theorem not_hasCantorAntichainOn_of_bfScattered
     {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K) :
     ¬ (isoSetoid L ℕ).HasCantorAntichainOn K := by
   sorry
@@ -212,7 +204,7 @@ theorem isThin_iff_countable_sentenceSpectra [Countable (Σ l, L.Relations l)]
 
 end Layer4
 
-/-! ## Layer 4g: Morleyization transport
+/-! ### Layer 4, §4.6: Morleyization transport
 
 The Morleyization `L.morleyize Φ`, its inclusion `lhomMorleyize Φ`, the canonical expansion
 `morleyExpansion Φ M` and `nonempty_morleyEquiv_iff` are Tau Ceti's
@@ -223,26 +215,26 @@ section MorleyCode
 variable {L : FirstOrder.Language.{u, v}} [L.IsRelational]
   (Φ : Set (Σ n, L.BoundedFormulaω Empty n))
 
-/-- **Layer 4g, the expansion code.** The code of the canonical expansion of the decoded
+/-- **Layer 4, the expansion code.** The code of the canonical expansion of the decoded
 structure: a base bit is copied; the bit of the new symbol of `φ ∈ Φ` at a tuple is the truth of
 `φ` there in the decoded structure. -/
 noncomputable def morleyCode (c : RelationalConfiguration L ℕ) :
     RelationalConfiguration (L.morleyize Φ) ℕ :=
   @RelationalConfiguration.ofStructure (L.morleyize Φ) ℕ (@morleyExpansion L Φ ℕ c.toStructure)
 
-/-- **Layer 4g.** The base code of a code of the Morleyization: its bits at the base symbols, the
+/-- **Layer 4.** The base code of a code of the Morleyization: its bits at the base symbols, the
 reduct along `lhomMorleyize Φ`. -/
 def morleyBase (e : RelationalConfiguration (L.morleyize Φ) ℕ) : RelationalConfiguration L ℕ :=
   (lhomMorleyize Φ).reductConfiguration e
 
-/-- **Layer 4g.** The expansion code is a measurable embedding: Borel because satisfaction is
+/-- **Layer 4.** The expansion code is a measurable embedding: Borel because satisfaction is
 Borel in the code, injective because `morleyBase` is a left inverse, hence an embedding by
 Lusin–Souslin. -/
 theorem measurableEmbedding_morleyCode [Countable (Σ l, L.Relations l)] (hΦ : Φ.Countable) :
     MeasurableEmbedding (morleyCode Φ) := by
   sorry
 
-/-- **Layer 4g.** The range of the expansion code: the codes whose new bits agree with the truth of
+/-- **Layer 4.** The range of the expansion code: the codes whose new bits agree with the truth of
 their formulas in the decoded base code. -/
 theorem range_morleyCode :
     Set.range (morleyCode Φ) =
@@ -252,7 +244,7 @@ theorem range_morleyCode :
             v} := by
   sorry
 
-/-- **Layer 4g milestone, Morleyization transport.** A class of base codes carries a Cantor
+/-- **Layer 4 milestone, Morleyization transport.** A class of base codes carries a Cantor
 antichain for isomorphism exactly when its image under the expansion code does. This is
 `Setoid.hasCantorAntichainOn_image_iff` applied with `measurableEmbedding_morleyCode` and the fact
 that expansion codes are isomorphic exactly when the base codes are (`nonempty_morleyEquiv_iff`
@@ -265,7 +257,7 @@ theorem hasCantorAntichainOn_image_morleyCode_iff [Countable (Σ l, L.Relations 
 
 end MorleyCode
 
-/-! ## Layer 5: Vaught's conjecture, stated, and its reformulations -/
+/-! ## Layer 5: Vaught's conjecture -/
 
 section Layer5
 
@@ -323,6 +315,18 @@ the finite tiers: the dichotomy then speaks of the models on `ℕ` alone. -/
 theorem hasVaughtDichotomy_and_infiniteSentence_iff [L.IsRelational] (φ : L.Sentenceω) :
     HasVaughtDichotomy (φ ⊓ L.infiniteSentence) ↔
       Countable (Quotient (isoSetoidOn ℕ φ)) ∨ HasPerfectSetOfNonisoModelsOn ℕ φ := by
+  sorry
+
+/-- **Layer 5 milestone, the restriction to countably infinite models.** Vaught's conjecture holds
+exactly when every sentence of every countable relational language has countably many models on
+`ℕ` up to isomorphism or a perfect set of pairwise non-isomorphic ones there. Forward, apply the
+conjecture to `φ ⊓ L.infiniteSentence`; backward, the finite tiers are settled by
+`countable_or_hasPerfectSetOfNonisoModelsOn_fin`. -/
+theorem vaughtConjecture_iff_nat :
+    VaughtConjecture ↔
+      ∀ (L : FirstOrder.Language.{0, 0}) [L.IsRelational] [Countable (Σ l, L.Relations l)]
+        (φ : L.Sentenceω),
+          Countable (Quotient (isoSetoidOn ℕ φ)) ∨ HasPerfectSetOfNonisoModelsOn ℕ φ := by
   sorry
 
 /-- **Layer 5 milestone.** Vaught's conjecture holds exactly when every sentence whose models on
@@ -458,7 +462,7 @@ theorem vaughtConjecture_iff_forall_not_minimallyUncountableOn :
 
 end Layer5
 
-/-! ## Layer 6: row assemblies and a structure of internal Scott rank `ω` -/
+/-! ## Layer 6: a structure of internal Scott rank `ω` whose level-`ω` class is large -/
 
 /-- **Layer 6 milestone.** The internal Scott rank is an isomorphism invariant: orbit ranks are
 carried along the isomorphism by `FirstOrder.Language.Equiv.bfEquiv`. Both structures lie in one

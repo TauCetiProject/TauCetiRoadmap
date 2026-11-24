@@ -2372,7 +2372,7 @@ The API comprises associated bundles, tensor-isomorphism torsors, the three comp
 
 ([SW](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf) Theorems 19.5.1–19.5.2, printed pp. 178–180; [FS](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf) Definition/Proposition III.1.1 and coefficient-extension footnote, printed p. 88; [Deligne–Milne](https://www.jmilne.org/math/xnotes/tc2018.pdf) Propositions 2.20(b), 2.21(b), pp. 25–26.)
 
-*Needs:* PadicHodgeTheory §5.5/tensorIsomTorsor; ReductiveGroups Layer 1; SchemeAndStackFoundations §§1.15 and 2.3; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; DiamondsAndVStacks D2–D3; PerfectoidSpaces P3.17a; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`.
+*Needs:* PadicHodgeTheory §5.5/tensorIsomTorsor; ReductiveGroups Layer 1; SchemeAndStackFoundations §§1.15 and 2.3; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; DiamondsAndVStacks §D2.9/vector-bundles-across-pro-etale-and-v-sites; PerfectoidSpaces P3.17a; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`.
 
 ### 7.1 Modifications of G-bundles at a relative Cartier divisor
 

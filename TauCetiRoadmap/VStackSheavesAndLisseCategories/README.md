@@ -46,7 +46,7 @@ Define an Artin v-stack to be a small v-stack `X` whose diagonal is representabl
 
 Throughout this target, `X` is a small v-stack. The diagonal `X→X×X` is representable in locally spatial diamonds. There is a surjective map `U→X` from a locally spatial diamond that is separated and cohomologically smooth (`ℓ`-cohomologically smooth for the primes `ℓ≠p` in play). (FS, Definition IV.1.1; Remarks IV.1.2–IV.1.6, pp.107–109; Example IV.1.9(iv), p.110.)
 
-*Needs:* DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, DiamondsAndVStacks D5/relative-representability, DiamondSixOperations §S4.2.
+*Needs:* DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*), DiamondsAndVStacks §D5.12 (*relative-representability*), DiamondSixOperations §S4.2.
 
 #### Stability of Artin v-stacks
 
@@ -132,7 +132,7 @@ Let `k` be algebraically closed of characteristic `p`, `X` a spatial diamond par
 
 Throughout this target, `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `X` is a spatial diamond with `X→Spd k` partially proper and dim.trg finite. `S` is a spatial diamond over `k`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, IV.5, construction after Lemma IV.5.1; Definition IV.5.2, pp.152–153.)
 
-*Needs:* DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons.
+*Needs:* DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondsAndVStacks §D5.3 (*limits-and-finite-stage-comparisons*).
 
 #### Vanishing at both partial-support ends
 
@@ -181,7 +181,7 @@ For a compactifiable map `f:X→S` of locally spatial diamonds with locally fini
 
 Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg; in the extension, a compactifiable map of small v-stacks representable in locally spatial diamonds with locally finite dim.trg. `A∈D_et(X,Λ)`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Definition IV.2.1; Remarks IV.2.2–IV.2.3, pp.114–115; Definition IV.2.22, p.123.)
 
-*Needs:* DiamondSixOperations §S0.4, DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, EnhancedDerivedSheaves §E1.3.
+*Needs:* DiamondSixOperations §S0.4, DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*), EnhancedDerivedSheaves §E1.3.
 
 #### ULA locality and proper pushforward
 
@@ -205,7 +205,7 @@ For a spatial diamond `X`, perfect-constructible `A` and any small-v-stack map `
 
 Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg. In IV.2.17–IV.2.18, `X` is spatial and `A` perfect-constructible. In IV.2.15 and IV.2.19, `A` is `f`-universally locally acyclic. In Remark IV.2.21(i), locally on `X` the étale cohomological dimension of quasicompact separated étale `U→X` is uniformly bounded. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.2.15; Lemmas IV.2.16–IV.2.18; Proposition IV.2.19; Lemma IV.2.20; Remark IV.2.21, pp.119–123.)
 
-*Needs:* [VS1/ula-definition-with-constructibility](#local-acyclicity-and-universal-local-acyclicity), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons.
+*Needs:* [VS1/ula-definition-with-constructibility](#local-acyclicity-and-universal-local-acyclicity), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks §D5.3 (*limits-and-finite-stage-comparisons*).
 
 #### The category of cohomological kernels
 
@@ -314,7 +314,7 @@ For a complete nonarchimedean field `K` of residue characteristic `p`, a separat
 
 Throughout this target, `K` is a complete nonarchimedean field with residue characteristic `p`. `f:X→S` is a separated locally finite-type morphism between `K`-schemes locally of finite type. `A∈D^b_c(X,Λ)` has finite Tor amplitude over `Λ`, with locally constant perfect complexes on a constructible stratification. `Λ` is a commutative ring killed by an integer `n` prime to `p`. (FS, Proposition IV.2.30 and footnote 2, p.128; finite-Tor convention as in ClassicalAdicEtaleCohomology §5.6.)
 
-*Needs:* [VS1/ula-dualizability-criterion](#ula-as-a-kernel-adjoint), [scheme ULA interface extension](#scheme-ula-interface-extension), ClassicalAdicEtaleCohomology §§8.2 and 11.1, DiamondsAndVStacks D6/etale-site-comparison, `EtaleCohomologyFoundations F.5–F.6`.
+*Needs:* [VS1/ula-dualizability-criterion](#ula-as-a-kernel-adjoint), [scheme ULA interface extension](#scheme-ula-interface-extension), ClassicalAdicEtaleCohomology §§8.2 and 11.1, DiamondsAndVStacks §D6.5 (*etale-site-comparison*), `EtaleCohomologyFoundations F.5–F.6`.
 
 **Checks.**
 
@@ -346,7 +346,7 @@ Develop the smooth morphisms over these sousperfectoid spaces used for the relat
 
 The API uses the supplied rational-chart restrictions and adds smooth pullback and differentials, the tangent dual, closed-immersion ideals, the conormal sequence, and normal-cone specialization. AdicSpacesPartII R0 supplies the analytic smooth and differential calculus; its extension to this sousperfectoid setting and the normal-cone estimates are targets here.
 
-*Needs:* PerfectoidSpaces P3.17a.1–P3.17a.4 and P3.17b; AdicSpacesPartII R0 (analytic smoothness and differentials).
+*Needs:* PerfectoidSpaces P3.17a.1–P3.17a.4 and P3.17b; AdicSpacesPartII §§R0.15–R0.17 (analytic smoothness and differentials).
 
 **Checks.**
 
@@ -364,7 +364,7 @@ A v-stack map `f:X→Y` is formally smooth if every compatible square consisting
 
 Throughout this target, `f` is a map of v-stacks. Test objects: `S` affinoid perfectoid of characteristic `p`, `S_0⊂S` Zariski closed, with compatible maps `S_0→source` and `S→target`. (FS, Definition IV.3.1, p.130.)
 
-*Needs:* DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, DiamondsAndVStacks D1/strictly-totally-disconnected, DiamondsAndVStacks D1/universally-open-std-cover, DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
+*Needs:* DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*), DiamondsAndVStacks §D1.4 (*strictly-totally-disconnected*), DiamondsAndVStacks §D1.9 (*universally-open-std-cover*), DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
 
 #### Formal smoothness and local sections
 
@@ -372,7 +372,7 @@ Formal smoothness of small v-stack maps is stable under composition and base cha
 
 Throughout this target, the maps are maps of v-stacks; locality on source and target is asserted only for maps of locally spatial diamonds. Sections exist étale-locally only for formally smooth maps that are surjective. (FS, Observations (i)–(iv) following Definition IV.3.1; Propositions IV.3.2 and IV.3.5; Corollary IV.3.6, pp.131–132.)
 
-*Needs:* [VS1/formal-smoothness](#formal-smoothness-of-v-stacks), DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, DiamondSixOperations §§S4.1–S4.2.
+*Needs:* [VS1/formal-smoothness](#formal-smoothness-of-v-stacks), DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*), DiamondSixOperations §§S4.1–S4.2.
 
 #### Formally smooth diamonds and Banach–Colmez spaces
 
@@ -380,7 +380,7 @@ On perfectoid spaces of characteristic `p`, the v-sheaves `B=O⁺` and `A¹=O` a
 
 Throughout this target, in IV.3.3 the base is the point, on perfectoid spaces of characteristic `p`; `E` is a nonarchimedean local field. In IV.3.4, `f` is a smooth morphism of analytic adic spaces over `ℤ_p`. In IV.3.8, `S` is a perfectoid space and `[E_1→E_0]` a map of vector bundles on `X_S` with `E_0` everywhere of positive and `E_1` everywhere of negative Harder–Narasimhan slopes. (FS, Propositions IV.3.3 and IV.3.8; Corollary IV.3.4, pp.131–133; used in the proof of Lemma IV.4.28, pp.147–148.)
 
-*Needs:* [VS1/formal-smoothness](#formal-smoothness-of-v-stacks), [VS1/formal-smoothness-calculus](#formal-smoothness-and-local-sections), RelativeFarguesFontaine §3.1, RelativeFarguesFontaine §§3.1–3.4, VectorBundlesAndIsocrystals Layer 2, “Slope-sensitive cohomology of standard bundles”, VectorBundlesAndIsocrystals Layer 3, “Global generation and vanishing after positive twists”, VectorBundlesAndIsocrystals Layer 5, “Banach–Colmez section and hypercohomology sheaves” and “Two-term Banach–Colmez geometry”, VectorBundlesAndIsocrystals Layer 5, “Étale positive-slope presentations”, VectorBundlesAndIsocrystals Layer 6, “Slope-dependent cohomology vanishing”, AdicSpacesPartII R0 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry.
+*Needs:* [VS1/formal-smoothness](#formal-smoothness-of-v-stacks), [VS1/formal-smoothness-calculus](#formal-smoothness-and-local-sections), RelativeFarguesFontaine §3.1, RelativeFarguesFontaine §§3.1–3.4, VectorBundlesAndIsocrystals Layer 2, “Slope-sensitive cohomology of standard bundles”, VectorBundlesAndIsocrystals Layer 3, “Global generation and vanishing after positive twists”, VectorBundlesAndIsocrystals Layer 5, “Banach–Colmez section and hypercohomology sheaves” and “Two-term Banach–Colmez geometry”, VectorBundlesAndIsocrystals Layer 5, “Étale positive-slope presentations”, VectorBundlesAndIsocrystals Layer 6, “Slope-dependent cohomology vanishing”, AdicSpacesPartII §§R0.16 and R0.17 (analytic smoothness and its local structure); VS1.3, sousperfectoid geometry.
 
 #### Relative section spaces and positive tangent locus
 
@@ -396,7 +396,7 @@ Under the preceding smooth/quasiprojective section hypotheses, `M_Z` is a locall
 
 Throughout this target, `S` is a perfectoid space over `𝔽_q`. `Z→X_S` is a smooth map of sous-perfectoid adic spaces. `Z` admits a Zariski closed immersion into an open subset of the adic projective space `P^n` over `X_S` for some `n`. `ℓ≠p`. (FS, Theorem IV.4.2, p.134; Propositions IV.4.21–IV.4.22, IV.4.24, IV.4.27, IV.4.29 with Lemmas IV.4.23, IV.4.25–IV.4.26, IV.4.28, IV.4.30, pp.141–151.)
 
-*Needs:* [VS1/section-functor-and-positive-tangent](#relative-section-spaces-and-positive-tangent-locus), [VS1/formal-smoothness-calculus](#formal-smoothness-and-local-sections), [VS1/ula-dualizability-criterion](#ula-as-a-kernel-adjoint), [VS1/smooth-ula-criterion](#smoothness-and-duality-criteria), VectorBundlesAndIsocrystals Layer 5, “Banach–Colmez section and hypercohomology sheaves” and “Two-term Banach–Colmez geometry”, VectorBundlesAndIsocrystals Layer 5, “Small-slope resolutions of positive bundles”, AdicSpacesPartII R0 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry, [VS1/formal-smoothness-examples](#formally-smooth-diamonds-and-banachcolmez-spaces).
+*Needs:* [VS1/section-functor-and-positive-tangent](#relative-section-spaces-and-positive-tangent-locus), [VS1/formal-smoothness-calculus](#formal-smoothness-and-local-sections), [VS1/ula-dualizability-criterion](#ula-as-a-kernel-adjoint), [VS1/smooth-ula-criterion](#smoothness-and-duality-criteria), VectorBundlesAndIsocrystals Layer 5, “Banach–Colmez section and hypercohomology sheaves” and “Two-term Banach–Colmez geometry”, VectorBundlesAndIsocrystals Layer 5, “Small-slope resolutions of positive bundles”, AdicSpacesPartII §§R0.15–R0.17 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry, [VS1/formal-smoothness-examples](#formally-smooth-diamonds-and-banachcolmez-spaces).
 
 The API has the following interfaces, with the hypotheses of the definitions above.
 
@@ -477,7 +477,7 @@ Let `E` have residue field `𝔽_q`, put `k=overline(𝔽_q)`, and work on `Perf
 
 Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`; `k` is the algebraic closure of `𝔽_q`; everything is over `Perf_k`. `W_E` is the Weil group of `E` with its Weil topology and degree map, imported from the Tau Ceti ClassFieldTheory roadmap. `Div¹` and its presentation are imported from RelativeFarguesFontaine. (FS, IV.7, construction before Proposition IV.7.1, p.164.)
 
-*Needs:* RelativeFarguesFontaine §§4.3–4.7, ClassFieldTheory Layer 9, “the local Weil group”, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks.
+*Needs:* RelativeFarguesFontaine §§4.3–4.7, ClassFieldTheory Layer 9, “the local Weil group”, DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*).
 
 #### Geometric finite étale descent for divisors
 
@@ -485,7 +485,7 @@ For `E` a nonarchimedean local field and `C0` an algebraically closed characteri
 
 Throughout this target, `E` is a nonarchimedean local field; `C_0` is an algebraically closed nonarchimedean field of characteristic `p` over `k`. The printed lemma is for `E=ℚ_p`; the `E`-generality rests on the supplier's finite étale theorem for the curve of `E`. (SW, Lemma 16.3.2 and the paragraph after it, p.144; Theorem 13.5.7, p.114; FS, Proof of Proposition IV.7.3, p.166.)
 
-*Needs:* VectorBundlesAndIsocrystals Layer 4, “Geometric simple connectivity via finite étale algebras”, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons, DiamondsAndVStacks D6/etale-site-comparison, RelativeFarguesFontaine §§4.3–4.7, [VS1/divisor-weil-map](#the-divisor-to-weil-classifying-map).
+*Needs:* VectorBundlesAndIsocrystals Layer 4, “Geometric simple connectivity via finite étale algebras”, DiamondsAndVStacks §D5.3 (*limits-and-finite-stage-comparisons*), DiamondsAndVStacks §D6.5 (*etale-site-comparison*), RelativeFarguesFontaine §§4.3–4.7, [VS1/divisor-weil-map](#the-divisor-to-weil-classifying-map).
 
 #### Fully faithful divisor descent
 
@@ -800,7 +800,7 @@ For spatial `X` and a pro-étale map `j:U→X` presented as a cofiltered limit o
 
 Throughout this target, `X` is a spatial diamond for the sheaf-level definition, a small v-stack in general. Coefficients are `Ẑ`, then a solid `Ẑ`-algebra (a solid `Ẑ^p`-algebra from VII.2 on). (FS, Definition VII.1.1; Proposition VII.1.8; Definitions VII.1.9–VII.1.10 and VII.1.17; Remark VII.1.18, pp.245,249,252.)
 
-*Needs:* [VS2/solid-abelian-groups](#the-abelian-category-of-solid-groups), [VS2/breen-deligne-resolution](#breendeligne-resolution), DiamondsAndVStacks D6/etale-site-comparison, EnhancedDerivedSheaves §E1.3, EnhancedDerivedSheaves §E5:abstract.2.
+*Needs:* [VS2/solid-abelian-groups](#the-abelian-category-of-solid-groups), [VS2/breen-deligne-resolution](#breendeligne-resolution), DiamondsAndVStacks §D6.5 (*etale-site-comparison*), EnhancedDerivedSheaves §E1.3, EnhancedDerivedSheaves §E5:abstract.2.
 
 #### Solid sheaf structure and completion
 
@@ -808,7 +808,7 @@ On spatial `X` solid `Ẑ`-sheaves form an abelian full subcategory closed under
 
 Throughout this target, `X` is a spatial diamond (a diamond for VII.1.15). Coefficients are `Ẑ`. (FS, Theorem VII.1.3; Question VII.1.4; Proposition VII.1.6; Propositions VII.1.12–VII.1.15, pp.245–251.)
 
-*Needs:* [VS2/solid-sheaves-on-v-stacks](#solid-sheaves-on-small-v-stacks), [VS2/breen-deligne-resolution](#breendeligne-resolution), [VS2/solidification](#solidification-as-a-reflection), EnhancedDerivedSheaves §E5:presentability.1, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks D6/etale-site-comparison.
+*Needs:* [VS2/solid-sheaves-on-v-stacks](#solid-sheaves-on-small-v-stacks), [VS2/breen-deligne-resolution](#breendeligne-resolution), [VS2/solidification](#solidification-as-a-reflection), EnhancedDerivedSheaves §E5:presentability.1, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks §D6.5 (*etale-site-comparison*).
 
 #### Four operations for solid sheaves
 
@@ -1177,7 +1177,7 @@ For `H` locally pro-`p` and a ring `Λ` killed by an integer prime to `p`, there
 
 Throughout this target, `G` is a locally pro-`p` group. `Λ` is a ring killed by an integer `n` prime to `p`. `C` is a complete algebraically closed nonarchimedean field over `k`. (FS, Theorem V.1.1; Lemmas V.1.2–V.1.3; Corollary V.1.4, pp.168–171.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups §SR.0.2, SmoothRepresentationsOfLocalGroups §§SR.0d.1–SR.0d.2, `TauCeti.SmoothDiscreteTopRep`, `TauCeti.IsSmoothDiscrete`, DiamondsAndVStacks D6/etale-site-comparison, EnhancedDerivedSheaves §E2.6, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks.
+*Needs:* SmoothRepresentationsOfLocalGroups §SR.0.2, SmoothRepresentationsOfLocalGroups §§SR.0d.1–SR.0d.2, `TauCeti.SmoothDiscreteTopRep`, `TauCeti.IsSmoothDiscrete`, DiamondsAndVStacks §D6.5 (*etale-site-comparison*), EnhancedDerivedSheaves §E2.6, DiamondsAndVStacks §D4.7 (*small-v-sheaves-and-small-v-stacks*).
 
 #### Banach–Colmez torsor invariance
 

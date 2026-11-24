@@ -342,7 +342,7 @@ Noetherian scheme is integral). Finiteness of the image follows from the open-st
 above. [Schröer](https://arxiv.org/pdf/2004.07025v3), Proposition 5.5, PDF p. 15, is the rank-ten
 application.
 *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 2.
+`VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations §2.1 (*The small étale site*).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -383,7 +383,7 @@ everything. Source: [Kedlaya–Liu,
 *Relative `p`-adic Hodge theory: foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.4.1
 and Remarks 1.4.2–1.4.4 and 1.4.12, PDF pp. 20–23. *Needs:* Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
-SchemeAndStackFoundations Layers 1 and 2. This differs from the constructible `ℤ_ℓ`-systems of
+SchemeAndStackFoundations §§1.1, 1.18 and 2.1 (gluing, stackification, the small étale site). This differs from the constructible `ℤ_ℓ`-systems of
 Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems` in
 that `p` is not assumed invertible and the objects are lisse sheaves
 of modules, not complexes.
@@ -695,7 +695,7 @@ positive characteristic the free presentation on loops around the punctures desc
 prime-to-`p` quotient, not the full tame group. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; EtaleCohomologyFoundations §F.3a (henselian traits,
 inertia, wild inertia and the tame character with its Kummer, surjectivity and conjugation
-statements); BelyiMaps Layers 12 and 13.
+statements); BelyiMaps §12.9 (*Peripheral inertia, and the orientation of the comparison*), BelyiMaps Layer 13.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -742,7 +742,7 @@ Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XIII, §§2.1–
 moments*](https://par.nsf.gov/servlets/purl/10152050), Definition 3.12 and Theorem 3.13, pp.
 394–398. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*, *Tame and prime-to-`p` fundamental
 quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`; BelyiMaps Layers 12 and 13.
+`VanishingCycles.finiteEtaleGaloisCategory`; BelyiMaps §12.9 (the Kummer-tower tame character), BelyiMaps Layer 13.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -778,7 +778,7 @@ Mathlib `FiniteField.frobeniusAlgEquivOfAlgebraic`,
 `FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow`; Tau Ceti
 `TauCeti.maximalUnramifiedGaloisGroupEquivZHat` and, for the factor `q` on local tame inertia,
 `TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv`; Supplied by EtaleCohomologyFoundations §F.10.1 /
-`VanishingCycles.frobeniusFixedPoints`; BelyiMaps Layers 12 and 13.
+`VanishingCycles.frobeniusFixedPoints`; BelyiMaps §§12.10 and 12.11 (the `ẑ`-cyclotomic character and the branch-cycle theorem), BelyiMaps Layer 13.
 Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
 
@@ -1010,7 +1010,7 @@ boundary*; Supplied by EtaleCohomologyFoundations §F.0 /
 §5.5 / `localIsomorphismResolution` and §6.2 / `sncCompactification` (for smooth quasi-projective
 varieties), consumed through AlgebraicModuliForArithmeticGeometry §§9.4–9.5;
 SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12 (henselization)
-and Layer 1 (Zariski gluing).
+and §1.1 (Zariski gluing).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -1629,7 +1629,7 @@ degrees; [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https:
 §1.1 p.6, for Hilbert subsets at all scheme points. *Needs:* *A polynomial guard for regular
 specialization*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and their fibres);
-SchemeAndStackFoundations Layer 0 (scheme points, residue fields, fibre products).
+Mathlib `AlgebraicGeometry.Scheme.residueField`, `Scheme.fromSpecResidueField`, `CategoryTheory.Limits.pullback` (scheme points, residue fields, fibre products).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -1815,7 +1815,7 @@ Serre, *Topics in Galois Theory*,
 §3.3 Proposition 3.3.1, printed p.23, for a Hilbertian field; §3.4 Theorem 3.4.1, p.25, for number
 fields. *Needs:* *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number
 fields* (number-field case), *Thin sets for specialization*, Layer IG.0 *Finite Galois algebras and
-torsors*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; SchemeAndStackFoundations Layer 0.
+torsors*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; SchemeAndStackFoundations §§0.9 and 0.20 (spreading out, finite normalization).
 
 *Lean:* `IsHilbertian.infinite_full_group` states the polynomial form, including coefficient
 regularity, degree and separability; it also allows a constant subextension.
@@ -2015,7 +2015,7 @@ disconnected over `κ(y)`, which gives the inclusion. Use the explicit torus con
 map and its field embeddings. Source: [Harpaz–Wittenberg, *Zéro-cycles sur les espaces homogènes*](https://arxiv.org/pdf/1802.09605v2),
 §4.2 Theorem 4.2 and Lemmas 4.3–4.4, arXiv v2 pp.16–17, especially the Hilbert pullback step on
 p.17. *Needs:* *Hilbert subsets and Hilbertian fields*; ReductiveGroupsPartII Layer RG2.0a (Weil
-restriction and norm tori), SchemeAndStackFoundations Layer 0.
+restriction and norm tori), SchemeAndStackFoundations §§0.8 and 0.9 (spreading out over a dense open).
 
 **Checks.**
 
@@ -6114,7 +6114,7 @@ curves and their Picard groups to identify the branch degree `2g + 2`. The monic
 is that of
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §8.8, published pp. 778–779; the trace-zero splitting is the standard derivation for rank-two
-algebras, proved here. *Needs:* SchemeAndStackFoundations Layer 1,
+algebras, proved here. *Needs:* SchemeAndStackFoundations §1.1 (gluing under change of frame),
 SchemeAndStackFoundations Layer 3.
 
 **Checks.**
@@ -6151,7 +6151,7 @@ smoothness and connectedness from `G_m × G_a`. The coordinate group is the one 
 of
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §8.8, published pp. 778–779; its description is proved here. *Needs:*
-*Double covers and trace-zero normal forms*; SchemeAndStackFoundations Layer 0.
+*Double covers and trace-zero normal forms*; SchemeAndStackFoundations §0.8 (`rational_point_component`).
 
 **Checks.**
 
@@ -6183,7 +6183,7 @@ and descends the Isom sheaves to the quotient-stack equivalence. The monic famil
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §8.8, published pp. 778–779; the quotient equivalence is proved here. *Needs:*
 *Double covers and trace-zero normal forms*, *The lifted affine coordinate group*,
-*Ordered and unordered configurations*; SchemeAndStackFoundations Layer 1.
+*Ordered and unordered configurations*; SchemeAndStackFoundations §§1.18 and 1.21 (stacks in groupoids, quotient stacks).
 
 **Checks.**
 
@@ -6220,7 +6220,7 @@ irreducibility of connected normal covers, checked on an atlas. These facts are 
 about Jacobians of nodal curves. *Needs:* *The lifted affine coordinate group*,
 *The labelled hyperelliptic quotient family*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`,
-SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations Layer 4.
+SchemeAndStackFoundations §§1.14 and 1.19–1.21 (stabilizers, Deligne–Mumford stacks and their atlases, quotient stacks), SchemeAndStackFoundations §4.15 (the compact-type locus).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -6309,7 +6309,7 @@ is proper over `T`. Source: [Harbater–Hartmann](https://arxiv.org/pdf/0710.139
 p. 13; Theorem 7.1(v), p. 22; §7.2, the induced algebras and Theorem 7.3 with its proof, pp. 24–26
 (there `X̂ = ℙ¹_T`, whose closed fibre is geometrically connected), and Remark 7.4(a), p. 26 (other
 smooth curves). *Needs:* *Field patching for curves over a complete DVR*, Layer IG.0 *Finite Galois
-algebras and torsors*; SchemeAndStackFoundations Layers 1 and 3.
+algebras and torsors*; SchemeAndStackFoundations §1.1 (descent along the completions), SchemeAndStackFoundations Layer 3.
 
 **Checks.**
 
@@ -6382,8 +6382,8 @@ and 3.13 and of the general case, PDF pp. 11–13 (the patching steps that consu
 (normalization and normal base change), and
 Scholie (7.8.3)(v), printed p. 215 (completions of excellent rings). *Needs:*
 *Field patching for curves over a complete DVR*, Layer IG.0 *Finite Galois algebras and torsors*;
-SchemeAndStackFoundations Layers 0, 1 and 3 (excellence, normalization, faithfully flat descent of
-étaleness, curves).
+SchemeAndStackFoundations §§0.20, 0.21 and 1.1 (normalization, excellence, faithfully flat descent of
+étaleness), SchemeAndStackFoundations Layer 3 (curves).
 
 **Checks.**
 
@@ -6422,8 +6422,8 @@ and 3.13, PDF pp. 11–13 (specialization of `t`); [EGA IV₃](https://www.numda
 Théorème (8.8.2) (descent of finitely presented objects to a finitely generated subalgebra) and
 Théorème (9.7.7) (constructibility of geometric connectedness of fibres). *Needs:* Layer IG.0 *Finite
 Galois algebras and torsors*; Supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 0 (limits
-and spreading out).
+`VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations §§0.8 and 0.9 (limits,
+spreading out and constructibility of geometric connectedness).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -6478,7 +6478,7 @@ Séminaire Bourbaki exp. 286, n° 1 with Proposition 1 (the Swan module), pp. 13
 [Stacks, Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (constant coefficients) and
 [Theorem 59.83.11 (03RT)](https://stacks.math.columbia.edu/tag/03RT) (vanishing in degree two).
 *Needs:* ArithmeticGaloisRepresentations Layer 3 (Swan conductors in its conductor setting, whose
-perfect residue field covers the algebraically closed `k`); AlgebraicCurves Layer 8 (*Galois II*:
+perfect residue field covers the algebraically closed `k`); AlgebraicCurves §§8.6, 8.7 and 8.9 (*Galois II*:
 lower ramification groups `G_i(P′∣P)` of places and Hilbert's different formula, with no
 finiteness or perfectness of the residue field, and the completion bridge to the local lower
 groups); Supplied by EtaleCohomologyFoundations §F.0 /
@@ -6555,8 +6555,8 @@ curves). *Needs:* *Euler characteristic of `ℓ`-torsion local systems on affine
 §3.4 (Swan conductors under tame base change, over the perfect residue field `k`);
 ProfiniteCohomology Layers 1, 5 and 10
 (inflation–restriction, corestriction); ProfiniteProPGroups Layer 5 (lifting along embedding
-problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier and Kummer sequences,
-Hochschild–Serre for Galois coverings, Tsen, Picard groups of curves).
+problems); SchemeAndStackFoundations §§2.11, 2.15 and 2.16 (Artin–Schreier and Kummer sequences,
+Hochschild–Serre for Galois coverings, Tsen), SchemeAndStackFoundations Layer 3 (Picard groups of curves).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 

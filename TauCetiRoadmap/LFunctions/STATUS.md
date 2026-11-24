@@ -1,65 +1,43 @@
-<!--tauceti-status:v1 {"roadmap":"LFunctions","to_sha":"d2083f0f1dd2136d02467ba36efbbe1af612e89c","ts":"2026-11-08T09:37:56Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","remaining":"the normalization theorem gaussianTheta_mellin_normalization, which needs the completed Dedekind zeta of Layer 3","state":"partial"},{"id":"Layer 2","remaining":"compatibility of partial zeta functions with change of modulus","state":"partial"},{"id":"Layer 3","remaining":"completed partial zeta functions, continuation and functional equation of zeta_K, residues, behaviour at s = 0, dedekindZetaData","state":"partial"},{"id":"Layer 4","remaining":"the cyclotomic factorizations of Dedekind zeta, primitive and imprimitive","state":"partial"},{"id":"Layer 5","remaining":"Gauss sums, completion, root number, heckeData, entirety and the functional equation","state":"partial"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","remaining":"specialize the 3-4-1 criterion to finite-order Hecke L-functions and prove nonvanishing on Re s = 1","state":"partial"},{"id":"Layer 8","remaining":"Mertens' product, the Dedekind, Hecke and Grossencharacter comparison cards, named log-derivative exports","state":"partial"}],"readme_sha":"7cf8410736e9541efb6bb1162e28128f47dadef8cfa77167f5b41f6016fc1a6c","roadmap":"LFunctions","to_sha":"d2083f0f1dd2136d02467ba36efbbe1af612e89c"}-->
+<!--tauceti-status:v1 {"roadmap":"LFunctions","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"a uniform L-series bound right of Re s = 1 + delta, and the growth bound for dedekindZetaData, heckeData and grossencharacterData","state":"partial"},{"id":"Layer 1","remaining":"the named one-parameter Gaussian mixedGaussian of 1.1 with its self-duality and one-parameter theta transformation","state":"partial"},{"id":"Layer 2","remaining":"the named continuation partialZeta with its half-plane identities, residue and change of modulus","state":"partial"},{"id":"Layer 3","remaining":"completedPartialZeta, continuation, residue and functional equation of zeta_K, behaviour at s = 0, the normalization theorem, dedekindZetaData","state":"partial"},{"id":"Layer 4","remaining":"the cyclotomic factorizations of Dedekind zeta, primitive and imprimitive","state":"partial"},{"id":"Layer 5","remaining":"continuation to the plane, orthogonality of continued functions, Gauss sums, completion, root number and heckeData","state":"partial"},{"id":"Layer 6","remaining":"finite-order case, norm powers, conductor, cards, harmonic polynomial, theta kernels and the functional equation","state":"partial"},{"id":"Layer 7","remaining":"nonvanishing on Re s = 1 for Hecke and Grossencharacter L-functions, cancellation packages, angular characters, boundary data","state":"partial"},{"id":"Layer 8","remaining":"the comparison cards of 8.1","state":"partial"}],"readme_sha":"75b9c891cfac0d4076d2cb331a1349f3c32bc54b740208e26d25523b111648d7","roadmap":"LFunctions","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
 # Status: LFunctions
 
-This file documents the status of the LFunctions roadmap up until `d2083f0` (2026-11-08T09:37:56Z). There may have been subsequent updates.
+This file documents the status of the LFunctions roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The completed L-function record of Layer 0 is done. The theta and Mellin side of Hecke's method (Layer 1) is nearly complete, and partial zeta functions, Dirichlet cards and presented Hecke L-functions exist. The summit of the Dedekind layer has not been reached: ζ_K is not yet continued to the plane or given its functional equation. Grossencharacters have not begun.
+**At a glance.** Mertens' product, one of the four headline theorems, is proved. Hecke's method for ζ_K has nearly all its parts: the theta transformation, the volume of a unit fundamental domain, the Mellin representation of each partial zeta function and the functional equation of the kernel pair. These have not yet been assembled into the continuation and functional equation of ζ_K. Grossencharacters have begun. Gauss sums, the completed Hecke L-functions and nonvanishing on Re s = 1 have not.
 
 ### Named results
 
-- **Mertens' second theorem for a number field**: [∑_{N𝔭 ≤ x} 1/N𝔭 − log log x tends to a constant B_K](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Mertens.html#TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log). It is proved from [Mertens' first theorem](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Mertens.html#TauCeti.LFunctions.isBigO_primeSummatory_log_absNorm_div_sub_log), ∑ log N𝔭 / N𝔭 = log x + O(1).
-- **Poisson summation over an ideal lattice**: [the sum of a Schwartz function over σ(I) equals the sum of its mixed-space Fourier transform over the Euclidean dual](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/CanonicalEmbedding/PoissonSummation.html#TauCeti.NumberField.mixedEmbedding.tsum_idealLattice_eq_tsum_mixedDual_mixedFourier). That dual is [the trace dual](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/CanonicalEmbedding/TraceDual.html#TauCeti.NumberField.mixedEmbedding.mixedDual_idealLattice) up to the factor 2 at complex places.
+- **Mertens' product over a number field**: [∏_{N𝔭 ≤ x} (1 − N𝔭⁻¹)⁻¹ ~ e^γ κ_K log x](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Mertens.html#TauCeti.LFunctions.tendsto_prod_one_sub_inv_absNorm_div_log), with κ_K Mathlib's residue of ζ_K. It rests on [Mertens' second theorem](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Mertens.html#TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log) and [the closed form of the Mertens constant](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Mertens.html#TauCeti.LFunctions.mertensConstant_eq).
+- **The Mellin representation of a partial zeta function**: [the Mellin transform at s/2 of the averaged theta kernel minus its constant 2^(r−1) R / w](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/DedekindZeta/Unfolding.html#TauCeti.LFunctions.hasMellin_mellinKernel_idealLattice_sub_mellinConstant) is the completed partial zeta function of the inverse ideal class on Re s > 1. This is Neukirch's (5.5), obtained by unfolding over the cone.
 - **The theta transformation with one parameter per infinite place**: [θ_L(y) = covol(L)⁻¹ N(y)^(−1/2) θ_{L^∨}(y⁻¹)](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Inversion.html#TauCeti.LFunctions.latticeTheta_inv), Neukirch VII (3.6) on the imaginary axis.
 - **The volume of a unit fundamental domain**: [every bounded fundamental domain for the units on the norm-one hypersurface has volume 2^(r−1) R / 2^r₂](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Surface/Volume.html#TauCeti.LFunctions.surfaceHaar_of_isUnitFundamentalDomain), Neukirch's (5.6) in this roadmap's normalization.
-- **The functional equation of a primitive Dirichlet L-function, as a card**: [Λ(χ, s) equals the Gauss-sum root number times Λ(χ̄, 1 − s), with the conductor power included](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.html#TauCeti.LFunctions.dirichletData_hasFunctionalEquation).
+- **Hecke's unit relation**: [for a ≡ 1 mod* 𝔪, the ideal value χ_u((a)) N(a)^σ of a Grossencharacter is the inverse of its archimedean monomial](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Grossencharacter/Compatibility.html#TauCeti.LFunctions.Grossencharacter.compatibility), Neukirch VII (6.13).
 
 ### Notable definitions and infrastructure
 
-- [**Completed L-function data**](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Data/Basic.html#TauCeti.LFunctions.AnalyticLFunctionData) is the common record for every L-function in the roadmap. It comes with a dual, a [card built from a Dirichlet series](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Data/Series.html#TauCeti.LFunctions.AnalyticLFunctionData.ofSeries) by canonical continuation and the root number read off at s = 2, and an [exact translation between arithmetic and analytic normalizations](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Data/Normalization.html#TauCeti.LFunctions.NormalizationTranslation.hasFunctionalEquation_iff).
-- [**The Mellin kernel**](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/MellinKernel.html#TauCeti.LFunctions.mellinKernel) averages the theta series over a unit fundamental domain, which is Neukirch's (5.5). It already has its [transformation law](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/MellinKernel.html#TauCeti.LFunctions.mellinKernel_inv) and continuity, and the theta series has [stretched-exponential decay](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Decay.html#TauCeti.LFunctions.exists_norm_latticeTheta_surfaceScale_sub_one_le). Together with the [level version of Mathlib's functional-equation pairs](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/FEPairWithLevel.html#TauCeti.FEPairWithLevel), these are the inputs for continuing ζ_K.
-- [**The canonical meromorphic continuation**](https://taucetiproject.org/docs/TauCeti/Analysis/Meromorphic/Continuation.html#TauCeti.meromorphicContinuation) from a right half-plane, with uniqueness on the whole plane. Both the continued Dedekind zeta function and the [presented Hecke L-function](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Hecke/Basic.html#TauCeti.LFunctions.heckeLFunctionC) are defined through it.
+- [**Hecke's Mellin pair of a lattice**](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Mellin/Pair.html#TauCeti.LFunctions.mellinKernelFEPair) packages the averaged kernel and its dual as a functional-equation pair, with [its functional equation](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Mellin/Pair.html#TauCeti.LFunctions.mellinKernelFEPair_Λ_eq). Together with [the trace-dual comparison](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Theta/Mellin/Kernel.html#TauCeti.LFunctions.mellinKernel_mixedDual_idealLattice), it is what the continuation of ζ_K will be read from.
+- [**Presentations of algebraic Hecke characters**](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Grossencharacter/Basic.html#TauCeti.LFunctions.Grossencharacter) take the idele class character as primary and pin the weight, infinity type and modulus to it, so a presentation is determined by its character. Inverses, ray-class presentations, the presented L-function and [Hecke's finite character](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Grossencharacter/FiniteCharacter.html#TauCeti.LFunctions.Grossencharacter.finiteCharacter) are built on them.
 
 ### Roadmap coverage
 
-- **Layer 0** is done.
-- **Layer 1** is done except for the single normalization theorem `gaussianTheta_mellin_normalization`, which needs Layer 3's completed zeta.
-- **Layer 2** has partial zeta functions as class-indicator series, with:
-  - convergence;
-  - the sum over classes against the finite Euler correction;
-  - the common residue;
-  - continuation to Re s > 1 − 1/[K:ℚ];
-  - the class-group case.
-
-  Compatibility with change of modulus is missing.
-- **Layer 3** has:
-  - the continued `dedekindZetaC`;
-  - the unit-quotient sums of Neukirch (5.3)–(5.4);
-  - both uniqueness theorems for meromorphic continuation;
-  - the Mellin kernel.
-
-  The completed partial zeta functions, the functional equation, residues, behaviour at s = 0 and the Dedekind card are missing.
-- **Layer 4** has the Dirichlet cards and the quadratic factorization ζ_K = ζ · L(χ_D) for the continued function. The cyclotomic factorizations are missing.
-- **Layer 5** has:
-  - presented Hecke L-functions;
-  - primitive characters bundled with their conductor;
-  - Euler corrections for induced characters;
-  - orthogonality.
-
-  Gauss sums, completions, root numbers and the card are missing.
-- **Layer 6** is untouched.
-- **Layer 7** has only the generic 3-4-1 criterion.
-- **Layer 8** has Mertens' first and second theorems and the boundary data for −ζ_K′/ζ_K. Mertens' product and most comparison cards are missing.
+- **Layer 0** is partial. The [growth predicate](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/Data/Growth.html#TauCeti.LFunctions.AnalyticLFunctionData.HasAverageCoefficientGrowth) exists with summability on Re s > 1, invariance under duals and comparison, and the Riemann and Dirichlet cases. Missing are the bounded L-series on Re s ≥ 1 + δ and the Dedekind, Hecke and Grossencharacter cases, which wait on those cards.
+- **Layer 1** is done except for §1.1's named one-parameter Gaussian `mixedGaussian`. It exists only as the constant-parameter case of the multi-parameter Gaussian.
+- **Layers 2 and 4** are partial. Partial zeta series have their change of modulus, but the named continuation `partialZeta` is missing. The [quadratic factorization of the continued ζ_K](https://taucetiproject.org/docs/TauCeti/NumberTheory/LFunctions/DedekindZeta/Quadratic.html#TauCeti.LFunctions.dedekindZetaC_eq_riemannZeta_mul_LFunction) is proved, and the cyclotomic one is missing.
+- **Layer 3** is partial. It has the Epstein regression (§3.1), `dedekindZetaC`, and the unfolding, kernel, decay and pair of §§3.3–3.4. Missing are the completed partial zeta function, the continuation, residue and functional equation of ζ_K, its behaviour at s = 0, the normalization theorem and `dedekindZetaData`.
+- **Layer 6** is partial. Presentations (§6.1), the unit relation (§6.4) and the finite and residue characters (§6.7) are in place. Missing are the finite-order case, norm powers, conductor, cards, harmonic polynomial, theta kernels and functional equation.
+- **Layers 5 and 7** are partial only through the library's supplier contracts: presented Hecke series with their orthogonality, and the generic 3-4-1 criterion. None of their own milestones (§§5.1–5.4, 7.1–7.5) is proved.
+- **Layer 8** is partial. Mertens' product (§8.2) is done and the comparison cards (§8.1) are missing.
 
 ## The frontier
 
-- **Completed partial zeta functions**: unfold the theta series over the cone above a unit fundamental domain to get Z(𝔎, s) as the Mellin transform of the kernel minus its constant term. Then build the Dedekind functional-equation pair, which gives continuation, Λ_K(1 − s) = Λ_K(s) and the residues. Still missing are the kernel's decay at infinity and its comparison with the trace-dual lattice.
-- **Mertens' product**: steps 3–4 of the README's route, through B_K = γ + log κ_K + ∑_𝔭(…). This needs the residue of `dedekindZetaC` in Layer 3's named form.
-- **Hecke completions**: Gauss sums with (6.4), the completed function, the root number and the Hecke card, plus entirety for nontrivial primitive characters. The Mellin presentation waits on the Grossencharacter kernel of Layer 6.
-- **Cyclotomic factorization of ζ_K**, in primitive and imprimitive form, on Re s > 1, as germs, and pointwise off s = 1.
-- **Grossencharacters**: untouched. They are needed for the Hecke Mellin presentation and the last comparison cards.
+- **The completed Dedekind zeta function**: define the completed partial zeta functions, identify them with the pair's Λ through the Mellin representation and the trace-dual comparison, and sum over classes. That gives continuation, Λ_K(1 − s) = Λ_K(s), the residues and `dedekindZetaData`, then the order and leading coefficient at s = 0.
+- **The named partial zeta functions** of §2.1: the trivial modulus follows from the item above; other moduli need §5.1.
+- **Gauss sums and the Hecke card**: §5.3 needs nothing from the kernel and can start now. Continuation, entirety and the functional equation of the completed Hecke L-function wait on the Grossencharacter kernel (§6.10).
+- **Grossencharacter kernels**: conductor, cards, the harmonic polynomial with Hecke's lemma (whose one-variable Fourier input is in place), twisted theta series, and the functional equation of §6.9.
+- **Cyclotomic factorization of ζ_K** in primitive and imprimitive form, on Re s > 1 and as germs.

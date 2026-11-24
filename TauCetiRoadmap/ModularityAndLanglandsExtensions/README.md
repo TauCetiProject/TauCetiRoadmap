@@ -1976,7 +1976,7 @@ For CM F,RAC unitary-type `π` and enormous `r_{π,ι}(G_{F(ζ_{p^∞})})`,one h
 
 ([NT Selmer](#reference-nt-selmer), Thms. A–B, p.2; Def. 2.23 and Lemma 2.25, pp.20–21; Thm. 4.28 p.39 and applications §5, pp.39–43.)
 
-*Needs:* ArithmeticGaloisRepresentations §7.10, characteristic-zero enormity, eigenprojections and absolute irreducibility; GGD, polarized deformations and pseudocharacters; DeformationAndDerivedPatchingAlgebra Layers 7–9, patching modules; ArithmeticGaloisDuality R02.5 and D8, Bloch–Kato Selmer conditions.
+*Needs:* ArithmeticGaloisRepresentations §7.10, characteristic-zero enormity, eigenprojections and absolute irreducibility; GlobalGaloisDeformations §§8.1–8.4, polarized deformations; LocalGaloisDeformationRings §F.2.11, pseudocharacters; DeformationAndDerivedPatchingAlgebra §5.8, characteristic-zero patching of modules; ArithmeticGaloisDuality R02.5 and ArithmeticGaloisDuality §D8.1, Selmer dimensions and adjoint coefficients; SelmerIwasawaCohomology §4.9, Bloch–Kato local conditions.
 
 ### 4.2 Ordinary lifting with several residual constituents
 

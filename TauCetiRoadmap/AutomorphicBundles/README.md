@@ -192,7 +192,7 @@ The API:
 
 *Needs:* ShimuraData §§4.2–4.3, 4.9 (type and centre hypotheses, shared central subtorus,
 quotient morphism and kernel);
-TauCetiRoadmap.ReductiveGroups Layers 1, 3–4, 6 (representations, quotients, character lattices
+TauCetiRoadmap.ReductiveGroups Layers 1, 3, 4 and 6 (representations, quotients, character lattices
 of tori, centre and central isogenies).
 *Lean:* none; specified in the README only.
 
@@ -227,8 +227,8 @@ SchemeAndStackFoundations §1.23, with characteristic-zero averaging.
 *Source:* [Milne90], III §8, pp.63–64.
 
 *Needs:* 0.1 (`centralSplitQuotient`); AlgebraicModuliForArithmeticGeometry §5.3
-`ArithmeticModuli.tame_finite_flat_descent` (finite-algebra descent); SchemeAndStackFoundations Layer 1
-(§1.23).
+`ArithmeticModuli.tame_finite_flat_descent` (finite-algebra descent); SchemeAndStackFoundations §1.23
+(tame stacks and their local quotient presentations).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -315,7 +315,9 @@ The API:
 - `associatedCoefficient_baseChange`: formation commutes with base change along `S′ → S`.
 - `associatedCoefficient_rank`: `P ×^G V` is locally free of rank `rk V`.
 
-*Needs:* SchemeAndStackFoundations Layer 1 (§1.15 (`Groups.IsTorsor`), §1.1);
+*Needs:* SchemeAndStackFoundations §§1.1, 1.15 and 1.16 (fpqc descent, `Groups.IsTorsor`, contracted
+products); AlgebraicVectorBundles Layers 2, 3 and 4 (the labels L0B–L2: finite locally free sheaves,
+polynomial operations, linear schemes);
 AlgebraicModuliForArithmeticGeometry §3.1 (`spaceFpqcQuasicoherentDescent`); Tau Ceti
 `TauCeti.CommHopfAlgCat.isPullback_fppfQuotientTorsor`.
 *Lean:* none; specified in the README only.
@@ -608,10 +610,10 @@ propagation are supplied by §7.0i.
 p.21; Proposition 6.1, pp.41–42; [CS], §2.3 Lemma 2.3.2, pp.668–669.
 
 *Needs:* 1.1 (`finiteTensorStabilizer`); ShimuraVarieties §7.0i
-(`TauCeti.Shimura.abelian_absolute_hodge`, including its family form), Layer 5
+(`TauCeti.Shimura.abelian_absolute_hodge`, including its family form); ShimuraVarieties §5.0
 (the chosen Hodge-type universal family); PELModuli M1.7 (the moduli problem `M_H` and its universal family), M5.2 (the Siegel moduli `A_{g,D,n}`);
-AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
-connection, `AbelianTate`, `exteriorCohomology`).
+AbelianSchemesAndArithmeticModuli §§A4.1, A4.3 and A4.4 (`AbelianTate`, `AbelianH1dR` with its Hodge
+sequence and Gauss–Manin connection, `exteriorCohomology`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -644,10 +646,11 @@ The API:
   Gal(Ebar/E), hence descend to E.
 
 *Needs:* 1.1 (`finiteTensorStabilizer`); 1.2 (`absoluteHodgePropagation`);
-AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
-connection, `AbelianTate`, `exteriorCohomology`); PELModuli M1.7 (fine-level universal abelian
-families); ShimuraVarieties Layer 5 (canonical Siegel and PEL models and their universal families);
-ShimuraVarieties Layer 8 (the canonical finite étale tower and Hecke spans over the reflex field).
+AbelianSchemesAndArithmeticModuli §§A4.1, A4.3 and A4.4 (`AbelianTate`, `AbelianH1dR` with its Hodge
+sequence and Gauss–Manin connection, `exteriorCohomology`); PELModuli M1.7 (fine-level universal abelian
+families); ShimuraVarieties §§5.0 and 5.13 (the rational Siegel moduli with their universal families, and
+the Siegel canonical model); ShimuraVarieties §§8.1–8.4 and 8.8 (the canonical finite étale tower and
+Hecke spans over the reflex field, in the abelian-type lane).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -733,8 +736,10 @@ good prime is additional model-specific work, not an all-prime consequence.
 *Source:* [Milne90], III §3, p.58; Theorem 4.3, pp.59–60; Example 4.4(a), p.60; [AG], §3.5,
 Proposition 3.5.1 and proof, pp.421–422.
 
-*Needs:* 1.4 (`tensorFrameTorsor`); 1.5 (`filtrationReduction`); ShimuraVarieties Layer 4 (special
-points and reciprocity).
+*Needs:* 1.4 (`tensorFrameTorsor`); 1.5 (`filtrationReduction`); ShimuraVarieties §§4.1–4.4, 4.7 and
+4.11 (special points and reciprocity: the Artin convention, reflex norms, finite-level reciprocity, the
+canonical-model condition, existence and density of special points, Hecke translation over the reflex
+field).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -778,8 +783,9 @@ preferred frame, a numerical period or a trivialization of the period torsor.
 
 *Source:* [Milne90], III Theorem 4.1, p.59; Example 4.2(b), p.59; Remark 4.5, p.60.
 
-*Needs:* 1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties Layer 4 (special points and
-reciprocity).
+*Needs:* 1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties §§4.1–4.4 (special points and
+reciprocity: the Artin convention, reflex norms, finite-level reciprocity, the canonical-model
+condition).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -826,8 +832,8 @@ identity and composition laws. Trace on coherent sections is a separate Layer 12
 *Source:* [Milne90], III Proposition 2.1(a), p.55; Proposition 3.2, p.58; Remark 4.5(i–ii), p.60.
 
 *Needs:* 1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 1 (the analytic tower, level
-maps and Hecke translations); ShimuraVarieties Layer 8 (the canonical finite étale tower and Hecke spans
-over the reflex field).
+maps and Hecke translations); ShimuraVarieties §§8.1–8.4 and 8.8 (the canonical finite étale tower and
+Hecke spans over the reflex field, in the abelian-type lane).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -894,9 +900,9 @@ pp.15–17.
 
 *Needs:* 0.4, 0.6–0.7, 1.1, 1.4–1.6 (tensor frames and the elliptic case);
 ShimuraVarieties Layers 1–2 (arithmetic towers, algebraic datum maps and Baily–Borel boundary);
-ShimuraData Layer 3 (homogeneous variation and compact dual);
+ShimuraData §§3.1, 3.7 and 3.8 (variations, the Hodge-filtration parabolic and the compact dual);
 ComplexComparisonPartII C0, C2 (coherent analytification and projective GAGA);
-AbelianSchemesAndArithmeticModuli A4 (elliptic Gauss–Manin connection).
+AbelianSchemesAndArithmeticModuli §A4.3 (elliptic Gauss–Manin connection).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -923,8 +929,9 @@ controls principal automorphisms.
 *Source:* [Milne88], Theorem 3.10 and Corollary 3.11, pp.18–20.
 
 *Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
-1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 7 (conjugation of connected
-Shimura data); 2.4 (`generalConnectedReduction`).
+1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties §§7.5, 7.8, 7.9 and 7.10 (conjugation of
+connected Shimura data: the marked conjugated datum, the marked comparison, its completed symmetry and
+its independence of the marked point); 2.4 (`generalConnectedReduction`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -945,8 +952,8 @@ restriction on principal automorphisms. Use the corrected order-two injection in
 *Source:* [Milne88], §9 Lemmas 9.3–9.4, pp.33–34.
 
 *Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
-ShimuraData §§3.8–3.9 (compact dual); ShimuraVarieties Layer 7 (conjugation of connected Shimura
-data).
+ShimuraData §§3.8–3.9 (compact dual); ShimuraVarieties §§7.5 and 7.8 (conjugation of connected
+Shimura data: the marked conjugated datum and the marked comparison).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -985,7 +992,9 @@ Do not invoke the stronger rational-point assertion in §8.1, which its footnote
 
 *Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
 2.3 (`adjointJetRealization`); 1.9 (`abelianCanonicalPrincipalBundle`);
-ShimuraVarieties Layer 7 (conjugation of connected Shimura data).
+ShimuraVarieties §§7.1–7.3, 7.5 and 7.8 (conjugation of connected Shimura data: the simple simply
+connected reduction, the auxiliary totally real splitting, the type-`A₁` subdata, the marked conjugated
+datum and the marked comparison).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1009,9 +1018,9 @@ carrier for this construction.
 
 *Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
 2.2 (`connectedPrincipalConjugation`); 2.4 (`generalConnectedReduction`);
-0.1 (`centralSplitQuotient`); ShimuraVarieties
-Layer 7 (conjugation of connected Shimura data); ShimuraVarieties §8.22 (canonical towers for
-general data).
+0.1 (`centralSplitQuotient`); ShimuraVarieties §§7.5, 7.8–7.11 and 7.13 (conjugation of connected
+Shimura data: the marked comparison with its completed symmetry and independence, the reflex-field
+descent cocycle and its continuity); ShimuraVarieties §8.22 (canonical towers for general data).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1053,8 +1062,9 @@ Milne III Theorem 6.2.
 *Source:* [Milne90], III Theorem 4.1, p.59; Remark 4.5, p.60; Theorem 6.2, p.62.
 
 *Needs:* 2.5 (`generalPrincipalModel`); 2.6 (`generalCompactDualMap`);
-2.4 (`generalConnectedReduction`); ShimuraVarieties Layer 7 (conjugation of connected Shimura
-data).
+2.4 (`generalConnectedReduction`); ShimuraVarieties §§7.5, 7.8, 7.10 and 7.11 (conjugation of
+connected Shimura data: the marked comparison, its independence of the marked point and the descent
+cocycle).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1239,8 +1249,9 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* 0.1 (`centralSplitQuotient`); 1.10 (`principalHeckePullback`); ShimuraVarieties Layer 8 (the
-canonical finite étale tower and Hecke spans over the reflex field); ShimuraVarieties Layer 1 (the
+*Needs:* 0.1 (`centralSplitQuotient`); 1.10 (`principalHeckePullback`); ShimuraVarieties §§8.1–8.4 and
+8.8 (the canonical finite étale tower and Hecke spans over the reflex field, in the abelian-type lane);
+ShimuraVarieties Layer 1 (the
 analytic tower, level maps and Hecke translations).
 *Lean:* none; specified in the README only.
 
@@ -1285,8 +1296,9 @@ The API:
   level, field and model hypotheses remain fixed.
 
 *Needs:* 3.1 (`automorphicVectorBundle`); 1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties §P.3
-(homogeneous variation) and ShimuraData §§3.1–3.6 (variations of Hodge structure); AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge
-sequence and Gauss–Manin connection, `AbelianTate`, `exteriorCohomology`).
+(homogeneous variation) and ShimuraData §§3.1–3.6 (variations of Hodge structure); AbelianSchemesAndArithmeticModuli
+§§A4.1, A4.3 and A4.4 (`AbelianTate`, `AbelianH1dR` with its Hodge sequence and Gauss–Manin connection,
+`exteriorCohomology`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1310,8 +1322,8 @@ twists and Hecke pullbacks. The comparison does not add crystalline or `B_dR` as
 *Source:* [AG], Proposition 3.3.1; Proposition 3.5.1, pp.418–422; [Milne90], III §6, pp.61–62.
 
 *Needs:* 3.4 (`bettiCoefficientLocalSystem`); 3.5 (`etaleCoefficientLocalSystem`); 3.6
-(`filteredDeRhamCoefficient`); AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge
-sequence and Gauss–Manin connection, `AbelianTate`, `exteriorCohomology`).
+(`filteredDeRhamCoefficient`); AbelianSchemesAndArithmeticModuli §§A4.1, A4.3 and A4.4 (`AbelianTate`,
+`AbelianH1dR` with its Hodge sequence and Gauss–Manin connection, `exteriorCohomology`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1505,9 +1517,9 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* 3.1 (`automorphicVectorBundle`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
-§6.7 `UniversalDegeneration`); ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`,
-§7.4 `IntegralToroidalModel.formalCompletion`).
+*Needs:* 3.1 (`automorphicVectorBundle`); ShimuraCompactifications §§6.1 and 6.7 (`SemiAbelianScheme`,
+`UniversalDegeneration`); ShimuraCompactifications §§7.3 and 7.4 (`IntegralToroidalModel`,
+`IntegralToroidalModel.formalCompletion`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1528,9 +1540,9 @@ compactification alone does not establish the gluing or uniqueness.
 
 *Source:* [Milne90], V §6 Theorem 6.1, p.90.
 
-*Needs:* 5.1 (`boundaryCoefficientChart`); ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`,
-§2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`); ShimuraCompactifications Layer 6
-(§6.1 `SemiAbelianScheme`, §6.7 `UniversalDegeneration`); AlgebraicModuliForArithmeticGeometry §3.1
+*Needs:* 5.1 (`boundaryCoefficientChart`); ShimuraCompactifications §§2.3, 2.6 and 2.7 (`ToroidalSpace`,
+`ToroidalSpace.smooth_normalCrossings`, `ToroidalSpace.algebraization`); ShimuraCompactifications §§6.1
+and 6.7 (`SemiAbelianScheme`, `UniversalDegeneration`); AlgebraicModuliForArithmeticGeometry §3.1
 (`spaceFpqcQuasicoherentDescent`).
 *Lean:* none; specified in the README only.
 
@@ -1574,8 +1586,8 @@ The API:
   and model hypotheses remain fixed.
 
 *Needs:* 5.1 (`boundaryCoefficientChart`); 3.1 (`automorphicVectorBundle`);
-ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.smooth_normalCrossings`,
-§2.7 `ToroidalSpace.algebraization`); 5.2 (`canonicalExtensionGluing`).
+ShimuraCompactifications §§2.3, 2.6 and 2.7 (`ToroidalSpace`, `ToroidalSpace.smooth_normalCrossings`,
+`ToroidalSpace.algebraization`); 5.2 (`canonicalExtensionGluing`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1713,8 +1725,8 @@ The API:
   map of v∘u is the composite of the induced map of v with the induced map of u; all datum, level,
   field and model hypotheses remain fixed.
 
-*Needs:* 5.3 (`canonicalExtension`); ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`,
-§2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`).
+*Needs:* 5.3 (`canonicalExtension`); ShimuraCompactifications §§2.3, 2.6 and 2.7 (`ToroidalSpace`,
+`ToroidalSpace.smooth_normalCrossings`, `ToroidalSpace.algebraization`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1736,9 +1748,9 @@ pushforwards and section spaces, with coherent composition laws.
 
 *Source:* [HarrisLoc], §1.4, Theorem 1.4.2 and (1.4.3), p.10.
 
-*Needs:* 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications Layer 4
-(§4.1 `ToroidalRefinement`, §4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`,
-§4.10 `ToroidalRefinement.cohomology_iso`).
+*Needs:* 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications §§4.1,
+4.4, 4.9 and 4.10 (`ToroidalRefinement`, `ToroidalRefinement.choice_comparison`,
+`ToroidalRefinement.pushforward_boundaryIdeal`, `ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1760,8 +1772,9 @@ theorem about higher direct images.
 
 *Source:* [LanIntro], §4.2.7, p.49; [HarrisLoc], §1.4, (1.4.3), pp.10–11.
 
-*Needs:* 5.5 (`refinementCanonicalExtension`); ShimuraCompactifications Layer 4 (§4.1 `ToroidalRefinement`,
-§4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.10 `ToroidalRefinement.cohomology_iso`).
+*Needs:* 5.5 (`refinementCanonicalExtension`); ShimuraCompactifications §§4.1, 4.4, 4.9 and 4.10
+(`ToroidalRefinement`, `ToroidalRefinement.choice_comparison`, `ToroidalRefinement.pushforward_boundaryIdeal`,
+`ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1874,8 +1887,8 @@ all-prime integral extension follows from this rationality statement.
 *Source:* [Milne90], V §6 Theorem 6.2, p.91.
 
 *Needs:* 5.3 (`canonicalExtension`); 5.2 (`canonicalExtensionGluing`); 5.4
-(`subcanonicalExtension`); 0.9 (`coefficientGaloisDescent`); ShimuraCompactifications Layer 2
-(§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`); 3.1
+(`subcanonicalExtension`); 0.9 (`coefficientGaloisDescent`); ShimuraCompactifications §§2.3, 2.6 and
+2.7 (`ToroidalSpace`, `ToroidalSpace.smooth_normalCrossings`, `ToroidalSpace.algebraization`); 3.1
 (`automorphicVectorBundle`).
 *Lean:* none; specified in the README only.
 
@@ -1928,9 +1941,9 @@ The API:
   are the extensions 5.3 and 5.4 of the automorphic bundle of `W`.
 
 *Needs:* 0.4 (`associatedCoefficient`); 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`);
-ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`, §7.4 `IntegralToroidalModel.formalCompletion`,
-§7.21 `IntegralToroidalModel.formallyCanonical`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
-§6.7 `UniversalDegeneration`); ShimuraCompactifications Layer 4 (§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`).
+ShimuraCompactifications §§7.3, 7.4 and 7.21 (`IntegralToroidalModel`, `IntegralToroidalModel.formalCompletion`,
+`IntegralToroidalModel.formallyCanonical`); ShimuraCompactifications §§6.1 and 6.7 (`SemiAbelianScheme`,
+`UniversalDegeneration`); ShimuraCompactifications §4.9 (`ToroidalRefinement.pushforward_boundaryIdeal`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3919,8 +3932,9 @@ kernel comparison in the course notes does not prove a full Dolbeault resolution
 *Source:* [LanIntro], §4.2.7, pp.49–50; [HarrisLog], p.3, degree-zero kernels only.
 
 *Needs:* 11.1 (`classicalForms`); 11.2 (`cuspForms`); 3.2 (`automorphicAnalyticComparison`); 0.8
-(`sectionsEquivariant`); 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications Layer 7
-(§7.17 `IntegralMinimalModel.hodgeLine_ample`, §7.13 `IntegralToroidalModel.hodgeLine_semiample`, §7.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`); ComplexComparisonPartII C2 (`projectiveGeometricDictionaries`);
+(`sectionsEquivariant`); 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications
+§§7.13, 7.14 and 7.17 (`IntegralToroidalModel.hodgeLine_semiample`, `IntegralToroidalModel.hodgeSectionAlgebra_fg`,
+`IntegralMinimalModel.hodgeLine_ample`); ComplexComparisonPartII C2 (`projectiveGeometricDictionaries`);
 ComplexComparisonPartII §C1.9 (proper coherent GAGA).
 *Lean:* none; specified in the README only.
 
@@ -4251,7 +4265,7 @@ products is asserted.
 
 *Source:* [StacksColimit], 0GQZ, Lemma 103.13.5.
 
-*Needs:* SchemeAndStackFoundations Layer 1 (§1.22).
+*Needs:* SchemeAndStackFoundations §1.22 (quasi-coherent modules on stacks).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4295,8 +4309,8 @@ The API:
   `AF_cusp(W, L)` are 11.1 and 11.2 of the automorphic bundle of `W`.
 
 *Needs:* 5.10 (`integralLeviCoefficient`); 11.1 (`classicalForms`); 11.2 (`cuspForms`); 11.19
-(`qcqsSectionsColimit`); ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`);
-ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`).
+(`qcqsSectionsColimit`); ShimuraCompactifications §7.3 (`IntegralToroidalModel`);
+ShimuraCompactifications §4.10 (`ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4477,8 +4491,8 @@ The API:
 (`ToroidalRefinement.cohomology_iso`), §6.1 (`SemiAbelianScheme`), §6.7 (`UniversalDegeneration`),
 §7.3 (`IntegralToroidalModel`), §7.4 (`IntegralToroidalModel.formalCompletion`),
 §7.15 (`HodgeLineFJ`); AdicSpacesPartIII F0;
-SchemeAndStackFoundations Layers 1–2 (quasi-coherent descent, module tensor products and the
-projection formula).
+SchemeAndStackFoundations §§1.1, 2.6 and 2.18 (quasi-coherent descent, higher direct images, derived
+tensor products and the projection formula).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4964,10 +4978,10 @@ The API:
   intertwines vector expansions and has its cocycle law.
 
 *Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 5.10
-(`integralLeviCoefficient`); ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`,
-§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`); 11.20 (`integralForms`); ShimuraCompactifications Layer 5
-(§5.1 `ToroidalCanonicalModel.general_functorial`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
-§6.7 `UniversalDegeneration`); 3.1 (`automorphicVectorBundle`); 3.3
+(`integralLeviCoefficient`); ShimuraCompactifications §§4.9 and 4.10 (`ToroidalRefinement.pushforward_boundaryIdeal`,
+`ToroidalRefinement.cohomology_iso`); 11.20 (`integralForms`); ShimuraCompactifications §5.1
+(`ToroidalCanonicalModel.general_functorial`); ShimuraCompactifications §§6.1 and 6.7 (`SemiAbelianScheme`,
+`UniversalDegeneration`); 3.1 (`automorphicVectorBundle`); 3.3
 (`leviHighestWeightConvention`); 5.3 (`canonicalExtension`); 5.1 (`boundaryCoefficientChart`);
 6.1 (`generalCanonicalExtension`); 6.2
 (`generalBoundaryCoefficientComparison`, for general data); 11.1 (`classicalForms`).

@@ -1400,7 +1400,9 @@ For every sufficiently large prime and every torsion basis, each matrix
 in SL₂(𝔽p) is realized by a Galois automorphism. The basis type is
 inhabited by Tau Ceti's rank-two finite-torsion theorem.
 
-*Needs:* ArithmeticGaloisRepresentations Layers 1–2, §§4.4–4.5 and
+*Needs:* ArithmeticGaloisRepresentations §§1.1, 1.2 and 1.4 (continuous and
+finite-image representations, restriction); ArithmeticGaloisRepresentations
+Layer 2, §§4.4–4.5 and
 [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
 with §6.2 for its determinant; FaltingsFinitenessAndIsogenyTheorems
 R28.6.2–R28.6.3 and R28.6.5–R28.6.7; FiniteFlatGroupsAndIntegralPadicHodgeTheory

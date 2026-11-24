@@ -336,6 +336,7 @@ body:
         - MorseTheory
         - MotivesAndAlgebraicCycles
         - MotivicEtaleKTheory
+        - MultiArmedBandits
         - MultiquadraticPartII
         - NashBlowups
         - NeronModelsAndSemistableAbelianVarieties
@@ -405,6 +406,7 @@ body:
         - ProbabilisticAndMetricNumberTheoryPartII
         - ProfiniteCohomology
         - ProfiniteCohomologyPartII
+        - PropositionalSatisfiability
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus

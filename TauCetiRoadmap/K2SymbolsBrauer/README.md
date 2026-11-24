@@ -245,7 +245,7 @@ For every ring `R` there is an isomorphism from `K_2(R)` to the second homotopy 
 - For a finite field both sides are trivial.
 - The Hurewicz step needs simple connectivity, which is why the elementary group, and not the general linear group, appears.
 
-*Needs:* §3.3; StableHomotopyKTheory Layer 3; GeneralAlgebraicKTheory Layer 3; Mathlib `HomotopyGroup`; KTheoryLowDegrees Layer 6.
+*Needs:* §3.3; StableHomotopyKTheory §§3.12, 3.15, 3.29, 3.30 and 3.31; GeneralAlgebraicKTheory §§3.2 and 3.14; Mathlib `HomotopyGroup`; KTheoryLowDegrees Layer 6.
 
 **Chosen classical and homotopy `K₂` comparisons.** For an associative unital ring `R` in `Type`, let `α_R:K₂(R)≃H₂^grp(E(R);Z)` be the kernel equivalence of the unique isomorphism over `E(R)` from `St(R)` to the canonical Hopf universal extension, followed by Hopf’s formula with the bar calibration of §1.1. Put `B_R=BGL(R)⁺` with its canonical based vertex, `j_R:BE(R)→BE(R)⁺` and `p_R:BE(R)⁺→B_R` the universal-cover model supplied by StableHomotopyKTheory Layer 3. Let `γ_R:H₂^grp(E(R);Z)≃H₂^top(BE(R);Z)` be the natural group/classifying-space comparison supplied by StableHomotopyKTheory §1.32, oriented from group homology to space homology. Define `β_R=p_R,* ∘ hur_R⁻¹ ∘ H₂^top(j_R) ∘ γ_R ∘ α_R`, where `hur_R:π₂(BE(R)⁺)≃H₂^top(BE(R)⁺;Z)` is absolute Hurewicz. Then `β_R:K₂(R)≃π₂(B_R)`, and, under the early K-space zero-component equivalence, `β_R` identifies classical with homotopy `K₂`. Both maps are natural for unital ring homomorphisms; `H₂` has trivial integral coefficients and group-valued carriers use the appropriate additive/multiplicative type tags. (Weibel, III.5.5, IV.1.7 and Corollary IV.1.7.1, Exercise IV.1.8, pp. 220, 264, 274.)
 
@@ -269,7 +269,7 @@ Provide the following API.
 - For every `z, hur_R(p_R,*⁻¹β_R(z))=H₂^top(j_R)(γ_R(α_R(z)))`; the intermediate value `γ_R(α_R(z))` lies in space homology of `BE`, not group homology of `E`. This checks carrier alignment and the direction of Hurewicz.
 - The square applies to the unital quotient map `Z→Z/2`; injectivity or invertibility of the ring map is not a hypothesis.
 
-*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; KTheoryLowDegrees §6.2; StableHomotopyKTheory §3.31; StableHomotopyKTheory §3.12; StableHomotopyKTheory §3.30; StableHomotopyKTheory §§1.30, 1.32; AlgebraicTopology Stage 8; GeneralAlgebraicKTheory Layer 3.
+*Needs:* StableHomotopyKTheory §3.29; AlgebraicKTheory §5.1; KTheoryLowDegrees §6.2; StableHomotopyKTheory §3.31; StableHomotopyKTheory §3.12; StableHomotopyKTheory §3.30; StableHomotopyKTheory §§1.30, 1.32; AlgebraicTopology Stage 8; GeneralAlgebraicKTheory §§3.2 and 3.14.
 
 ### 4.2 The normalised classical-to-plus comparison
 
@@ -1278,7 +1278,7 @@ Provide the following API.
 - `{a,1-a}` maps to zero, and `{-1,-1}` maps to the classical symbol under the K2 comparison.
 - In degree three, for `F=Q` the integral component is injective `Z/2->Z/48` and is not onto; this computation (Weibel VI.5.2.1) is a test, not a target of this roadmap.
 
-*Needs:* §5.4; §7.2; GeneralAlgebraicKTheory §7.4; GeneralAlgebraicKTheory Layer 3; KTheoryLowDegrees §8.1.
+*Needs:* §5.4; §7.2; §8.1; GeneralAlgebraicKTheory §§7.4 and 7.6; GeneralAlgebraicKTheory §§3.2 and 3.14; KTheoryLowDegrees §8.1.
 
 ### 8.3 Degree-two identification with the classical Matsumoto map
 
@@ -2485,7 +2485,7 @@ Let `R` be a Dedekind domain with fraction field `F` and, for each nonzero prime
 - `coker ∂` is not zero in general: for the Dedekind domain `ℝ[x, y]/(x² + y² − 1)` it is the nonzero `SK_1` of K-book Example III.1.5.4, although every tame symbol is onto.
 - No second localisation sequence is built: the all-degree Dedekind sequence of the downstream consumer ArithmeticKTheory (§2.1) restricts in degrees at most two to this one.
 
-*Needs:* §4.1; §9.13; §11.1; GeneralAlgebraicKTheory §4.14; GeneralAlgebraicKTheory §4.8; GeneralAlgebraicKTheory §4.6; GeneralAlgebraicKTheory §7.7; Mathlib `IsDedekindDomain.HeightOneSpectrum`; GeneralAlgebraicKTheory Layers 4, 7 and 8.
+*Needs:* §4.1; §9.13; §11.1; GeneralAlgebraicKTheory §4.14; GeneralAlgebraicKTheory §4.8; GeneralAlgebraicKTheory §4.6; GeneralAlgebraicKTheory §7.7; Mathlib `IsDedekindDomain.HeightOneSpectrum`; GeneralAlgebraicKTheory Layer 7; GeneralAlgebraicKTheory §8.12.
 
 ### 11.3 The product map intertwines higher residues with the signed localization boundary
 
@@ -2500,7 +2500,7 @@ Let `R` be a discrete valuation ring with fraction field `F`, residue field `k` 
 - All-unit symbols have zero boundary. `δ₂` and `D₂` have the same kernel and inverse values, but their map equality is never asserted.
 - Transport through `θ₂` carries `ε` explicitly. A finite-field `K₂=0` test cannot determine that sign.
 
-*Needs:* §5.10; §8.1; §8.2; §8.3; §9.11; §11.1; GeneralAlgebraicKTheory §8.12; GeneralAlgebraicKTheory §8.13; GeneralAlgebraicKTheory §7.4; GeneralAlgebraicKTheory Layers 4, 7 and 8; GeneralAlgebraicKTheory Layer 7.
+*Needs:* §5.10; §8.1; §8.2; §8.3; §9.11; §11.1; GeneralAlgebraicKTheory §8.12; GeneralAlgebraicKTheory §8.13; GeneralAlgebraicKTheory §7.4; GeneralAlgebraicKTheory §§4.6, 4.8 and 4.14; GeneralAlgebraicKTheory Layer 7.
 
 ### 11.4 Package the finite-support family as a total Milnor residue homomorphism
 
@@ -2590,7 +2590,7 @@ Let `R` be the discrete valuation ring, with fraction field `F`, valuation `v` a
 - On `{5,5}`, both degree-two normalizations give `−1`, which is 4 in `𝔽_5`; diagonal tests alone do not detect inversion.
 - For finite integral closure S/R, both the Milnor and Quillen norm/residue squares have residue-field norms and no extra `e_w` factor. The restriction square has `e_w` instead.
 
-*Needs:* §4.1; §7.2; §8.2; §9.5; §9.8; §9.16; §11.1; §11.2; §11.6; §11.7; KTheoryLowDegrees §8.1; GeneralAlgebraicKTheory §3.12; GeneralAlgebraicKTheory §3.14; GeneralAlgebraicKTheory §8.12; GeneralAlgebraicKTheory §8.13; GeneralAlgebraicKTheory Layers 4, 7 and 8; GeneralAlgebraicKTheory Layer 7.
+*Needs:* §4.1; §7.2; §8.2; §9.5; §9.8; §9.16; §11.1; §11.2; §11.6; §11.7; KTheoryLowDegrees §8.1; GeneralAlgebraicKTheory §3.12; GeneralAlgebraicKTheory §3.14; GeneralAlgebraicKTheory §8.12; GeneralAlgebraicKTheory §8.13; GeneralAlgebraicKTheory §§4.6, 4.8 and 4.14; GeneralAlgebraicKTheory Layer 7.
 
 ### Examples
 

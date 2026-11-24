@@ -38,7 +38,7 @@ Define `bilinearFactorSet` as follows. Construct `α_B(x,y)=B(x,y)`, viewed mult
 
 `R` is a commutative ring; `W` and `C` are additive commutative groups and R-modules. `B:W×W→C` is a native R-bilinear map. Write `E_B` for the existing FactorSet.Extension of the bilinear factor set.  Coordinates are (t,w), coefficient first; identity is (0,0). The coefficient action is the native trivial action.
 
-(Kudla96, I.1, p.3).
+(Kudla96, I.1, p.3). *Needs:* Tau Ceti `TauCeti.FactorSet`, `TauCeti.FactorSet.Extension`, `TauCeti.FactorSet.inl`, `TauCeti.FactorSet.groupExtension` and `TauCeti.trivialMulDistribMulAction`.
 
 - The additive value of `α_B(x,y)` is `B(x,y)`.
 - The coefficient coordinate of pq is `t+s+B(x,y)`.
@@ -220,7 +220,7 @@ Prove `heisenberg_haar`: For `C=F`, `W=F^{2n}`, `B` continuous bilinear, the pro
 
 `F` is a nondiscrete local field; for symplectic invariance `ω` is nondegenerate.
 
-(Weil64, I.§§2–4, printed147–149 (dual Haar measures, the module of an automorphism, module one for symplectic automorphisms, the group `A(G)`); Kudla96, I.2 pp.6–10 (measure conventions on `X` and `Y`)). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measure, local Fourier inversion).
+(Weil64, I.§§2–4, printed147–149 (dual Haar measures, the module of an automorphism, module one for symplectic automorphisms, the group `A(G)`); Kudla96, I.2 pp.6–10 (measure conventions on `X` and `Y`)). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (self-dual Haar measure, local Fourier inversion).
 
 ### 0.15 Schrödinger representation
 
@@ -228,7 +228,7 @@ Define `schroedinger` as follows. For `W=X⊕Y` with X,Y Lagrangian, define on `
 
 `F` is a nondiscrete local field of characteristic different from two; `ψ` is nontrivial continuous unitary; the polarization identifies `Y` with the algebraic dual of `X` by `ω`.
 
-(Kudla96, I.2 Lemma2.2, PDF7, translation and phase action). *Needs:* 0.13, 0.5, 0.9a; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space, self-dual measures).
+(Kudla96, I.2 Lemma2.2, PDF7, translation and phase action). *Needs:* 0.13, 0.5, 0.9a; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Schwartz–Bruhat space, self-dual measures).
 
 - `schroedinger_apply`: Evaluation is the displayed translation and modulation formula.
 - `schroedinger_center`: `ρψ(0,t)φ=ψ(t)φ`.
@@ -266,7 +266,7 @@ Define `hilbertSchroedinger` as follows. Extend translation and modulation to un
 
 `F` is a local field of characteristic different from two; `X` is finite dimensional; `ψ` is continuous unitary.
 
-(Weil64, I.§4, printed149; I.§10 Théorème1, printed157). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
+(Weil64, I.§4, printed149; I.§10 Théorème1, printed157). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Schwartz–Bruhat space).
 
 - `hilbertSchroedinger_norm`: Every `ρψ(h)` preserves the `L²` norm.
 - `hilbertSchroedinger_schwartz`: The `Schwartz-to-L²` dense inclusion intertwines the two actions.
@@ -390,7 +390,7 @@ Define `weilIndex` as follows. For a nondegenerate quadratic form q on `F^d`, de
 
 `F` is a nondiscrete local field of characteristic different from two, `ψ` continuous nontrivial unitary, q nondegenerate, Bq its full polar form.
 
-(Weil64, I.§14 Théorème2, printed161–162; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(Weil64, I.§14 Théorème2, printed161–162; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion).
 
 - `weilIndex_distribution`: The Fourier transform identity above characterizes `γψ(q)`.
 - `weilIndex_norm`: `|γψ(q)|=1`.
@@ -508,7 +508,7 @@ Prove `weil_generators`: In the polarized nonarchimedean model, the scalar-norma
 
 `F` is nonarchimedean, `char≠2`, b symmetric; the self-dual measure is fixed. `χV,ψ` depends on m parity and the signed discriminant. Source right-action matrices are used consistently.
 
-(Kudla96, I.2 pp.8–10; II.4 pp.35–39). *Needs:* 2.4c, 2.1, 2.2; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(Kudla96, I.2 pp.8–10; II.4 pp.35–39). *Needs:* 2.4c, 2.1, 2.2; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion).
 
 ### 2.5a Fock model of the real Weil representation
 
@@ -543,7 +543,7 @@ Prove `metaplectic_compactSplitting`: For a nonarchimedean odd-residue local fie
 
 The lattice is integral self-dual for the specified `ψ-pairing`; no assertion of this splitting over every dyadic maximal compact.
 
-(Weil64, III.§36, printed186–187). *Needs:* 2.4b, 2.5; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(Weil64, III.§36, printed186–187). *Needs:* 2.4b, 2.5; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion).
 
 **Checks.**
 
@@ -565,7 +565,7 @@ Prove `weil_quadraticUncertainty`: Let (V,q) be a positive-dimensional nondegene
 
 `dim_F V>0`. Let `q(x)=(x,x)/2`, `V^int={x | val_F(q(x))≥0}` and `V^int_+={x | val_F(q(x))>0}`, with `val_F(0)=∞`. `F` is nonarchimedean of characteristic `≠2` (residue characteristic 2 is allowed); `ψ` has conductor `O_F` and the Fourier kernel is `ψ((x,y))` with self-dual measure. `φ` is locally constant and compactly supported, supp `φ⊆V^int_+`, supp `φ̂⊆V^int`. Positive dimension is necessary for the null cone to have empty interior; the zero space is excluded.
 
-(LZ22, Proposition8.1.2, Corollary8.1.4 PDF56–57). *Needs:* 2.5, 2.6; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(LZ22, Proposition8.1.2, Corollary8.1.4 PDF56–57). *Needs:* 2.5, 2.6; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion).
 
 ### Examples
 
@@ -645,7 +645,7 @@ Prove `weil_hermitianUncertainty`: For a positive-dimensional nondegenerate Herm
 
 `dim_E V>0`; nonarchimedean `F` of characteristic `≠2` and the quadratic Hermitian extension/datum of Li–Zhang §8.1. Conductor-zero `ψ`, locally constant compactly supported `φ`, `val_F(0)=∞` and exactly the strict/non-strict support cones above.
 
-(LZ22, Proposition8.1.6 PDF57–58). *Needs:* 2.8, 3.3; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(LZ22, Proposition8.1.6 PDF57–58). *Needs:* 2.8, 3.3; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion).
 
 ### 3.3b Hermitian oscillator normalizations
 
@@ -653,7 +653,7 @@ Prove `weil_hermitianNormalizations`: Compare the Hermitian Weil operators in Li
 
 Even dimension where descent is asserted; exact quadratic determinant versus polar determinant; each source’s w and group action converted before comparing signs.
 
-(LL22, §§2.1,3.1 PDF11,43–44; LZ22, §§1.7,8.1,12.3 PDF8–9,56,78–79; DL24, §4.1 H7. PDF40–41; Z21, §11.1 PDF70–71 and AppendixA PDF108–109). *Needs:* 2.5, 2.2, 3.3; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion); AutomorphicLFunctionsAndLocalFactors AL.1 (local epsilon factors and Gauss sums).
+(LL22, §§2.1,3.1 PDF11,43–44; LZ22, §§1.7,8.1,12.3 PDF8–9,56,78–79; DL24, §4.1 H7. PDF40–41; Z21, §11.1 PDF70–71 and AppendixA PDF108–109). *Needs:* 2.5, 2.2, 3.3; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion); AutomorphicLFunctionsAndLocalFactors §§AL.1.3.1 and AL.1.3.4 (local epsilon factors and Gauss sums).
 
 ### 3.3c Quaternionic type-I oscillator and doubling inputs
 
@@ -1222,7 +1222,7 @@ Prove `theta_coefficientRationality`: For relevant `π`, let `U_π` be the finit
 
 Exact coefficient field L and embeddings; finite nonsymmetric set so the subgroup is open; class-field construction is imported.
 
-(DL24, Lemma4.5 and (4.2) arXiv PDF42). *Needs:* 3.43, 2.7; AutomorphicLFunctionsAndLocalFactors AL.0 (change of additive character).
+(DL24, Lemma4.5 and (4.2) arXiv PDF42). *Needs:* 3.43, 2.7; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (change of additive character).
 
 ### Examples
 
@@ -1238,7 +1238,7 @@ Within this roadmap: Layers 0–2. From other roadmaps: RepresentationTheory/Cla
 
 Prove `metaplectic_goodLattices`: For a symplectic datum over a global field of characteristic different from two and a nontrivial adelic additive character, choose integral lattices whose localizations are self-dual with conductor-zero character and odd residue characteristic at all but finitely many places. At these places use the distinguished local splitting of 2.6a in the restricted product.
 
-(Weil64, III.§36, printed186–187). *Needs:* 2.6a; AdelicAlgebraicGroups §§1.2, 1.5; AutomorphicLFunctionsAndLocalFactors AL.0 and AL.3, *Curve additive analysis*.
+(Weil64, III.§36, printed186–187). *Needs:* 2.6a; AdelicAlgebraicGroups §§1.2, 1.5; AnalyticNumberTheoryPartII §5.3h (number-field adelic additive characters); AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*).
 
 **Checks.**
 
@@ -1250,7 +1250,7 @@ Prove `metaplectic_goodLattices`: For a symplectic datum over a global field of 
 
 Construct `functionFieldVectorPoisson`. For `F=𝔽_q(X)`, `char F≠2`, take the completion-valued adeles, residue character associated to a nonzero rational differential, local Schwartz–Bruhat spaces and scalar self-dual measures and Poisson theorem from AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*. For every finite-dimensional rational space A, construct `S(A(𝔸_F))` as the locally constant compactly supported carrier, its coordinatewise Fourier transform into the dual space, and its restricted tensor realization with good lattice indicators. Prove basis independence, Fourier inversion, rational-lattice covolume one for the self-dual measures, and vector-space Poisson summation. Extend the scalar theorem by finite products, using that locally constant compactly supported functions on the finite product are finite sums of product functions. Transport it to a specified perfect rational pairing and prove compatibility with partial Fourier transforms and rational linear changes of variables. Use these adelic and measure carriers in 4.2–4.4 for function fields; AL.0 supplies the number-field versions.
 
-(Weil64, II.§30 Proposition5 and III.§§37–40; AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*, its residue-character and Poisson normalization.) *Needs:* AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*; AdelicAlgebraicGroups §§0.2–0.3.
+(Weil64, II.§30 Proposition5 and III.§§37–40; AutomorphicLFunctionsAndLocalFactors AL.3, *Curve additive analysis*, its residue-character and Poisson normalization.) *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*); AdelicAlgebraicGroups §§0.2–0.3.
 
 **Checks.**
 
@@ -1282,7 +1282,7 @@ Prove `weilIndex_productFormula`: For a nondegenerate quadratic form q over a gl
 
 `F` has `char≠2`; every dyadic and archimedean factor included. Character is trivial on `F` and Haar measures are globally compatible.
 
-(Weil64, II.§30 Proposition5, printed179–180). *Needs:* 2.1, 4.1a for function fields; AutomorphicLFunctionsAndLocalFactors AL.0 (number-field vector-space Poisson summation) and AL.3, *Curve additive analysis* (function-field scalar Poisson); QuadraticFormInvariants §6C.
+(Weil64, II.§30 Proposition5, printed179–180). *Needs:* 2.1, 4.1a for function fields; AnalyticNumberTheoryPartII §5.3h (number-field vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*, function-field scalar Poisson); QuadraticFormInvariants §6C.
 
 ### 4.4 Rational symplectic splitting
 
@@ -1290,7 +1290,7 @@ Define `rationalMetaplecticSplitting` as follows. The product formula gives a ca
 
 Global `ψ` trivial on `F`; rational symplectic space and a compatible adelic Schrödinger realization.
 
-(Weil64, III.§40, printed190–193; §41 rational invariance). *Needs:* 4.2, 4.3, 2.4, 4.1a for function fields; AutomorphicLFunctionsAndLocalFactors AL.0 (number-field vector-space Poisson summation) and AL.3, *Curve additive analysis* (function-field scalar Poisson).
+(Weil64, III.§40, printed190–193; §41 rational invariance). *Needs:* 4.2, 4.3, 2.4, 4.1a for function fields; AnalyticNumberTheoryPartII §5.3h (number-field vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 (*Curve additive analysis*, function-field scalar Poisson).
 
 - `rationalSplitting_projection`: Projection of the rational lift is the diagonal adelic symplectic element.
 - `rationalSplitting_mul`: The rational lift is a group homomorphism.
@@ -1308,7 +1308,7 @@ Define `adelicWeil` as follows. Construct the global oscillator action on `S(X(A
 
 Number field, global `ψ`, finite-dimensional rational `X` and compatible polarizations/measures. The archimedean space is the joint Schwartz space, not merely the span of products over individual real/complex places.
 
-(Weil64, III.§§38–39, printed188–190). *Needs:* 4.2, 4.4, 2.4c; ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space and partial Fourier transforms); AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
+(Weil64, III.§§38–39, printed188–190). *Needs:* 4.2, 4.4, 2.4c; ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AnalyticNumberTheoryPartII §5.3h (vector-space and partial Fourier transforms); AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Schwartz–Bruhat space).
 
 - `adelicWeil_pureTensor`: On a factorizable vector, each local operator acts on its own factor.
 - `adelicWeil_central`: The single adelic central `−1` acts as scalar `−1`.
@@ -1382,7 +1382,7 @@ Define `thetaKernel` as follows. For a rational polarized symplectic space `W` w
 
 Number field, characteristic-zero source, compatible `ψ` and self-dual measures; actual joint archimedean Schwartz functions. For a dual pair its splitting characters are fixed.
 
-(Weil64, III.§41 Théorème6, printed193–194). *Needs:* 4.5, 4.4; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation).
+(Weil64, III.§41 Théorème6, printed193–194). *Needs:* 4.5, 4.4; AnalyticNumberTheoryPartII §5.3h (vector-space Poisson summation).
 
 - `thetaKernel_apply`: The kernel is the rational sum of the transformed Schwartz function.
 - `thetaKernel_rational`: The sum is invariant under an element whose action on the same function representation reindexes by an explicit bijection; the canonical rational lift must be identified with this action.
@@ -1438,7 +1438,7 @@ Define `metaplecticWhittaker` as follows. For a continuous genuine automorphic f
 
 `U(F)\U(A)` compact; `η` trivial on rational points; f smooth for derivative assertions. Fourier expansion requires the appropriate abelian `U` and the supplier’s convergence topology.
 
-(Weil64, III.§41 Théorème6, printed193 (theta realization); AdelicAlgebraicGroups §§2.2–2.3 and AutomorphicFormsOnReductiveGroups §4.1 supply the quotient integrals). *Needs:* 5.3, 5.4; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (standard additive character).
+(Weil64, III.§41 Théorème6, printed193 (theta realization); AdelicAlgebraicGroups §§2.2–2.3 and AutomorphicFormsOnReductiveGroups §4.1 supply the quotient integrals). *Needs:* 5.3, 5.4; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2–2.3; AnalyticNumberTheoryPartII §§5.3g and 5.3h (standard additive character).
 
 - `metaplecticWhittaker_trivial`: The trivial-character coefficient equals the constant term.
 - `metaplecticWhittaker_right`: Coefficient extraction commutes with right translation.
@@ -1697,7 +1697,7 @@ Define `ikedaMap` as follows. For `V=H^{r−r′}⊕V′` in the same Witt tower
 
 `0≤r″≤r′≤r`; fixed isotropic splitting and source measures.
 
-(GQT, §2.7 `equation(2.1)`, PDF12; equivariance PDF13). *Needs:* 4.5, 6.2; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion); ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space and partial Fourier transforms).
+(GQT, §2.7 `equation(2.1)`, PDF12; equivariance PDF13). *Needs:* 4.5, 6.2; AutomorphicLFunctionsAndLocalFactors §AL.0.3.1 (local Fourier inversion); ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AnalyticNumberTheoryPartII §5.3h (vector-space and partial Fourier transforms).
 
 - `ikedaMap_apply`: The map integrates `φ(x,a,0)` in x.
 - `ikedaMap_comp`: Fubini identifies successive integrals with the product-measure integral under SFinite and joint Integrable hypotheses for the displayed function.
@@ -1814,7 +1814,7 @@ Define `doublingSchwartz` as follows. Let `dim_E U_n=n` and choose a polarizatio
 
 Here and in 6.10a–6.14 n means `dim_E U_n`, while `dim_E W_n=2n` and `dim_E Y_n=n`. Thus the doubled section has `s_{m,n}=(m−n−ε₀)/2`, and its factor is `L(s+1/2,π⊗χV)`, evaluated at `s=(m−n−ε₀)/2`. The ranges `d(n)<m≤2d(n)` and `r≤n` use this undoubled dimension n. Compatible self-dual measures, doubled polarization and GQT §11.3 splitting convention are fixed.
 
-(GQT, §11.3, unnumbered doubled-space and `δ` displays, PDF52). *Needs:* 4.5, 2.7, 6.2; AutomorphicLFunctionsAndLocalFactors AL.0 (partial Fourier transform).
+(GQT, §11.3, unnumbered doubled-space and `δ` displays, PDF52). *Needs:* 4.5, 2.7, 6.2; AnalyticNumberTheoryPartII §§5.3g and 5.3h (local and adelic partial Fourier transforms).
 
 - `doublingSchwartz_eval_zero`: `δ(φ₁⊗conjugate φ₂)(0)=⟨φ₁,φ₂⟩`.
 - `doublingSchwartz_equivariant`: `δ` intertwines the doubled action with the stipulated `χV` determinant twist.
@@ -1833,7 +1833,7 @@ Construct `standardDoublingFactors` for the GQT datum of §§2.1–2.2: orthogon
 
 Compute the unramified denominator `d_v(s,χV,v)` as the explicit product of Hecke factors of Lapid–Rallis p.334 Remark3, so a standard spherical section gives `Z_v=L_v/d_v`. For a number-field cuspidal π construct the partial Euler product, the ramified and infinity factors and the completed standard L-function; prove convergence in a right half-plane and meromorphic continuation from the global doubling integral and its functional equation. With the same unscaled spherical sections prove the convergence of `∏_v Z_v*` on `Re s>0` used in 6.12–6.13, with GQT's good-section and factorizability hypotheses. AL.1–AL.2 supply the Hecke and `GLₙ` factors in the denominators and Levi/rank-one comparisons; the classical and metaplectic standard factors are constructed here.
 
-(GQT, §11.6 PDF54, local GCD, normalized quotients and (11.3); LapidRallis05, Theorem4 and p.334 Remark3; Yamana14, local good-section GCD theorem cited in GQT §11.6; Gan12, §§5–6, pp.76–80, metaplectic factors and unramified comparison.) *Needs:* 5.16, 6.2, 6.10; AutomorphicLFunctionsAndLocalFactors AL.1–AL.2 (Hecke and `GLₙ` comparisons); SmoothRepresentationsOfLocalGroups §SR.2.2; AutomorphicSpectralTheory §§2.1–2.6.
+(GQT, §11.6 PDF54, local GCD, normalized quotients and (11.3); LapidRallis05, Theorem4 and p.334 Remark3; Yamana14, local good-section GCD theorem cited in GQT §11.6; Gan12, §§5–6, pp.76–80, metaplectic factors and unramified comparison.) *Needs:* 5.16, 6.2, 6.10; AutomorphicLFunctionsAndLocalFactors §§AL.1.3.1, AL.1.4.2 and AL.2.1.5 (Hecke and `GLₙ` comparisons); AnalyticNumberTheoryPartI §2.3a (Hecke continuation for the global denominators); SmoothRepresentationsOfLocalGroups §SR.2.2; AutomorphicSpectralTheory §§2.1–2.6.
 
 **Checks.**
 
@@ -1865,7 +1865,7 @@ Prove `thetaPairing_factorization`: In a proved convergence chamber, unfold a pu
 
 Pure-tensor input; all integrability/unfolding hypotheses proved; compatible local measures and good-place reference vectors.
 
-(GQT, Proposition11.1 and §11.3, PDF52–54). *Needs:* 5.6, 6.10, 6.11; AdelicAlgebraicGroups §0.3; ArithmeticGaloisRepresentations §2.7, *Global inputs* (pure tensors in the scalar adelic Schwartz–Bruhat space), with AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space partial Fourier transforms).
+(GQT, Proposition11.1 and §11.3, PDF52–54). *Needs:* 5.6, 6.10, 6.11; AdelicAlgebraicGroups §0.3; ArithmeticGaloisRepresentations §2.7, *Global inputs* (pure tensors in the scalar adelic Schwartz–Bruhat space), with AnalyticNumberTheoryPartII §5.3h (vector-space partial Fourier transforms).
 
 ### 6.13 Rallis inner product formula
 

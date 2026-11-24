@@ -618,7 +618,7 @@ abelian quotient; Lang's theorem for the connected group `U₀*` (ReductiveGroup
 `|G^F|/|U₀^F| = |G^F|_{p'}` by 0.1. For `GL_n`, conjugation by `diag(t₁, …, t_n)` multiplies `a_i` by
 `t_i/t_{i+1}`.
 
-*Needs:* 0.1; ReductiveGroups §7i.1 (Layer 9E for Steinberg endomorphisms), Layers 7a, 7C, 9; InductionRestriction Layer 2.
+*Needs:* 0.1; ReductiveGroups §7i.1 (Layer 9E for Steinberg endomorphisms), Layers 7a, 7C; ReductiveGroups §9B (root subgroup maps and their commutator relations); InductionRestriction Layer 2.
 
 **Checks.**
 - `SU₃(𝔽_q)` (type `²A₂`): the two simple roots `α, β` form one `F`-orbit and `α + β` is a root, so

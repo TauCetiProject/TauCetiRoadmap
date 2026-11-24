@@ -1,171 +1,56 @@
-import TauCeti.Geometry.Manifold.Instances.OnePoint.Basic
-import TauCeti.Geometry.Manifold.Instances.Quotient
-import TauCeti.Geometry.Manifold.Gluing.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Geometry.Manifold.Instances.Quotient
-import Mathlib.Geometry.Manifold.LocalDiffeomorph
-import Mathlib.Geometry.Manifold.VectorBundle.Pullback
-import Mathlib.LinearAlgebra.Complex.Orientation
-import Mathlib.Topology.Compactification.OnePoint.ProjectiveLine
-import Mathlib.Topology.Gluing
+import Mathlib
 
 /-!
-# Complex manifolds, quotients, bundles, and gluing: target signatures
+# Complex manifolds — transport, quotients, bundles, and gluing: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These declarations suggest Lean forms for representative load-bearing interfaces.
-The roadmap also requires the full basic API, compatibility, and naturality described there.
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
+and Tau Ceti, the roadmap's headline theorems that the pinned libraries do not already prove.
 
-Missing compatibility conditions are not represented by empty `Prop` wrappers. In particular,
-the open-gluing theorem will state compatibility directly in Mathlib's structure-groupoid
-vocabulary once its input signature is implemented.
+Every headline theorem of the roadmap that is statable at the pins is proved there, and the README
+cites each by name instead of restating it here, so this file states no theorem:
+
+* realification (Milestone 1): a complex manifold is a real manifold on the same charts,
+  `IsManifold.restrictScalars`, and holomorphic maps and biholomorphisms are smooth maps and
+  diffeomorphisms of it, `ContMDiff.restrictScalars` and `Diffeomorph.restrictScalars`, with
+  `modelWithCornersSelf_restrictScalars` identifying the realification of `𝓘(ℂ, E)` with `𝓘(ℝ, E)`;
+  atlas transport along homeomorphisms, `Homeomorph.pullback_isManifold`;
+* the canonical orientation (Milestone 2): `TauCeti.complexManifoldOrientation`, in the shared carrier
+  `TauCeti.Manifold.Orientation` of the DifferentialGeometry roadmap, preserved by every
+  biholomorphism, `Diffeomorph.isOrientationPreservingAt_complexManifoldOrientation`; the canonical
+  orientation of a complex vector space is `TauCeti.complexOrientation`;
+* the Riemann sphere (Milestone 3): `OnePoint.instIsManifold` on Mathlib's `OnePoint ℂ`, with every
+  Möbius transformation holomorphic, `OnePoint.instContMDiffConstSMul`;
+* quotients (Milestone 4): `TauCeti.instIsManifoldQuotient`, the orbit projection as a local
+  diffeomorphism `TauCeti.isLocalDiffeomorph_quotientMk` (over `𝓘(ℂ, E)` at `∞`, for an action
+  every element of which is holomorphic, a local biholomorphism), and holomorphic descent
+  `TauCeti.contMDiff_orbitRelQuotientLift_iff`;
+* compatible open gluing (Milestone 5): `TopCat.GlueData.IsCompatible.isManifold`, unique by
+  `TopCat.GlueData.IsCompatible.maximalAtlas_chartedSpace_eq`;
+* glued-space topology and proper maps (Milestone 6): the Hausdorff criterion per pair of pieces,
+  `TopCat.GlueData.t2Space_iff_isClosed_chartRel`, and for the whole gluing relation on the
+  disjoint union, Mathlib's `t2Space_iff_of_isOpenQuotientMap` applied to the open quotient map
+  `TopCat.GlueData.isOpenQuotientMap_sigma_ι`; `TopCat.GlueData.secondCountableTopology`,
+  `TopCat.GlueData.connectedSpace_iff_reflTransGen`, `TauCeti.t2Space_doubleGlueData_iff` and
+  `TopologicalSpace.IsOpenCover.isProperMap_iff_restrictPreimage`;
+* holomorphic bundles (Milestone 7): the trivial-line criterion
+  `ContMDiffVectorBundle.exists_trivialization_baseSet_eq_univ_iff_exists_ne_zero`, cocycle
+  isomorphisms `VectorBundleCore.CoordinateHom.exists_diffeomorph_iff`, and the holomorphic normal
+  bundle of an embedding `TauCeti.SmoothEmbedding.normalSpaceContMDiffVectorBundle`.
+
+Three headline theorems of Milestone 7 are not statable at the pins:
+
+* the holomorphic structure of tensor, tensor-power, exterior-power and determinant bundles and of
+  the canonical line bundle as the determinant of the cotangent bundle (§§7.2 and 7.5): their
+  smooth carriers are targets of the SmoothBundlesConnections roadmap (§B2.1) and are not at the
+  pins;
+* the isomorphism between the normal bundle of a complex hypersurface and the line bundle glued
+  from transverse coordinates (§7.4): that transition-cocycle model is a construction of §7.4,
+  with no carrier at the pins;
+* the theorem that on a compact connected Hausdorff complex manifold with a free action of a finite
+  group by biholomorphisms the line bundle associated to a nontrivial character is nontrivial
+  (§7.6): the associated line bundle of a character is not a carrier at the pins.
 -/
 
 namespace TauCetiRoadmap.ComplexManifolds
-
-open Topology
-open scoped ContDiff Manifold
-
-/-! ## Existing carriers which the roadmap extends -/
-
-/-- Open gluing keeps Mathlib's glued carrier and canonical inclusions. -/
-example (D : TopCat.GlueData) (i : D.J) : IsOpenEmbedding (D.toGlueData.ι i) :=
-  D.ι_isOpenEmbedding i
-
-/-- Free properly discontinuous quotients keep Mathlib's standard orbit quotient. -/
-noncomputable example {M G H : Type*} [TopologicalSpace M] [Group G] [MulAction G M]
-    [ProperlyDiscontinuousSMul G M] [ContinuousConstSMul G M] [IsCancelSMul G M]
-    [T2Space M] [LocallyCompactSpace M] [TopologicalSpace H] [ChartedSpace H M] :
-    ChartedSpace H (MulAction.orbitRel.Quotient G M) :=
-  inferInstance
-
-/-! ## Named atlas transport -/
-
-/-- Pull a charted-space structure back along a homeomorphism. The roadmap develops this in the
-shape of mathlib4#42847 and proves composition, inverse, and groupoid-transport laws. -/
-@[instance_reducible]
-noncomputable def pullbackChartedSpace {H M N : Type*} [TopologicalSpace H]
-    [TopologicalSpace M] [TopologicalSpace N] [ChartedSpace H N] (e : M ≃ₜ N) :
-    ChartedSpace H M where
-  atlas := (e.transOpenPartialHomeomorph ·) '' atlas H N
-  chartAt x := e.transOpenPartialHomeomorph (chartAt H (e x))
-  mem_chart_source x := mem_chart_source H (e x)
-  chart_mem_atlas x := ⟨_, chart_mem_atlas _ (e x), rfl⟩
-
-@[simp]
-theorem pullbackChartedSpace_chartAt {H M N : Type*} [TopologicalSpace H]
-    [TopologicalSpace M] [TopologicalSpace N] [ChartedSpace H N] (e : M ≃ₜ N) (x : M) :
-    @chartAt H _ M _ (pullbackChartedSpace e) x = e.transOpenPartialHomeomorph (chartAt H (e x)) :=
-  rfl
-
-/-- A manifold structure transports with the named atlas. Use this through a local or scoped
-instance when a carrier supports more than one transported atlas. -/
-theorem pullback_isManifold {𝕜 E H M N : Type*} {n : ℕ∞} [NontriviallyNormedField 𝕜]
-    [NormedAddCommGroup E] [NormedSpace 𝕜 E] [TopologicalSpace H]
-    (I : ModelWithCorners 𝕜 E H) [TopologicalSpace M] [TopologicalSpace N] [ChartedSpace H N]
-    [IsManifold I n N] (e : M ≃ₜ N) :
-    @IsManifold 𝕜 _ E _ _ H _ I n M _ (pullbackChartedSpace e) := by
-  sorry
-
-/-! ## Restriction of scalars and canonical orientation -/
-
-/-- Complex differentiability implies smoothness for the realified models on the same carriers. -/
-theorem contMDiff_real_of_complex {E F M N : Type*} [NormedAddCommGroup E]
-    [NormedSpace ℂ E] [NormedAddCommGroup F] [NormedSpace ℂ F] [TopologicalSpace M]
-    [TopologicalSpace N] [ChartedSpace E M] [ChartedSpace F N]
-    (f : M → N) (hf : ContMDiff 𝓘(ℂ, E) 𝓘(ℂ, F) ∞ f) :
-    ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, F) ∞ f := by
-  sorry
-
-/-- The canonical orientation of a finite-dimensional complex model, expressed in Mathlib's
-existing real `Orientation` carrier. The manifold construction transports this through charts and
-then compares it literally with the shared manifold-orientation API. -/
-noncomputable def complexModelOrientation (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E]
-    [FiniteDimensional ℂ E] : Orientation ℝ E (Fin (2 * Module.finrank ℂ E)) := by
-  sorry
-
-/-! ## The Riemann sphere on `OnePoint ℂ` -/
-
-/-- The two-chart complex atlas on Mathlib's existing one-point compactification. -/
-@[instance_reducible]
-noncomputable def riemannSphereChartedSpace : ChartedSpace ℂ (OnePoint ℂ) :=
-  OnePoint.instChartedSpace
-
-/-- The named atlas is an integrable one-dimensional complex-manifold atlas. -/
-theorem riemannSphere_isManifold :
-    letI := riemannSphereChartedSpace
-    IsManifold 𝓘(ℂ, ℂ) ∞ (OnePoint ℂ) := by
-  infer_instance
-
-/-! ## Complex quotients by biholomorphic actions -/
-
-section ComplexQuotient
-
-variable {E M G : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
-  [TopologicalSpace M] [Group G] [MulAction G M] [ProperlyDiscontinuousSMul G M]
-  [ContinuousConstSMul G M] [IsCancelSMul G M] [T2Space M] [LocallyCompactSpace M]
-  [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
-
-/-- After consuming Mathlib's quotient-manifold structure, the orbit projection is a local
-biholomorphism. This is not a theorem about a separate projection from the quotient to an unrelated
-base. -/
-theorem quotientMk_isLocalBiholomorph
-    (_holo : ∀ g : G, ContMDiff 𝓘(ℂ, E) 𝓘(ℂ, E) ∞ fun x : M ↦ g • x) :
-    IsLocalDiffeomorph 𝓘(ℂ, E) 𝓘(ℂ, E) ∞
-      (Quotient.mk (MulAction.orbitRel G M)) := by
-  let : ContMDiffConstSMul 𝓘(ℂ, E) ∞ G M := ⟨_holo⟩
-  exact TauCeti.isLocalDiffeomorph_quotientMk
-
-end ComplexQuotient
-
-/-! ## Compatible open gluing -/
-
-/-- The architecture-defining gluing target keeps `TopCat.GlueData.glued`. The two hypotheses say
-that the chosen atlas on every overlap is compatible with both adjacent piece atlases: first along
-`D.f i j`, then along the canonical right inclusion `x ↦ D.f j i (D.t i j x)`. Merely requiring
-`D.t i j` to be smooth between independently chosen overlap atlases would not imply this. -/
-@[instance_reducible]
-noncomputable def gluedChartedSpace {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
-    [TopologicalSpace H] (I : ModelWithCorners ℂ E H) (D : TopCat.GlueData)
-    [∀ i, ChartedSpace H (D.U i)] [∀ i, ChartedSpace H (D.V i)]
-    (_left : ∀ i j, IsLocalDiffeomorph I I ∞ (D.f i j))
-    (_right : ∀ i j, IsLocalDiffeomorph I I ∞
-      (fun x : D.V (i, j) ↦ D.f j i (D.t i j x))) :
-    ChartedSpace H D.toGlueData.glued :=
-  TauCeti.chartedSpaceOfIsOpenEmbedding (fun i ↦ D.ι_isOpenEmbedding i)
-    D.ι_jointly_surjective
-
-/-- Hausdorffness is controlled by the closedness of the full equivalence relation `D.Rel` on
-the disjoint union, not by separate closed-graph tests for the generating overlaps. -/
-theorem glued_t2Space_of_isClosed_rel (D : TopCat.GlueData)
-    [∀ i, T2Space (D.U i)]
-    (_hrel : IsClosed {p : (Σ i, D.U i) × (Σ i, D.U i) | D.Rel p.1 p.2}) :
-    T2Space D.toGlueData.glued := by
-  sorry
-
-/-! ## Holomorphic vector bundles -/
-
-/-- A holomorphic vector bundle uses Mathlib's existing fixed-fibre vector-bundle carrier. Over a
-complex model its transition maps are holomorphic exactly when it is a complex `C^∞` vector
-bundle. Finite-rank operations add `[FiniteDimensional ℂ F]` at their declarations. -/
-abbrev HolomorphicVectorBundle {EB HB B F : Type*} [NormedAddCommGroup EB] [NormedSpace ℂ EB]
-    [TopologicalSpace HB] (IB : ModelWithCorners ℂ EB HB) [TopologicalSpace B]
-    [ChartedSpace HB B] [NormedAddCommGroup F] [NormedSpace ℂ F]
-    (V : B → Type*) [∀ x, AddCommMonoid (V x)] [∀ x, Module ℂ (V x)]
-    [∀ x, TopologicalSpace (V x)] [TopologicalSpace (Bundle.TotalSpace F V)] [FiberBundle F V]
-    [VectorBundle ℂ F V] : Prop :=
-  ContMDiffVectorBundle ∞ F V IB
-
-/-- The normal fibre of a complex submanifold is the quotient by the image of its complex-linear
-differential. The roadmap promotes this fibrewise construction to a holomorphic quotient bundle. -/
-abbrev complexNormalFiber {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
-    (T : Submodule ℂ E) := E ⧸ T
-
-/-- Injectivity of the character-to-Picard map is the public hypothesis which upgrades divisibility
-of the associated bundle's tensor order to exactness. -/
-theorem associatedBundle_hasExactOrder_of_injective {C P : Type*} [Group C] [Group P]
-    (associated : C →* P) (hassociated : Function.Injective associated) (χ : C) (m : ℕ)
-    (hm : orderOf χ = m) : orderOf (associated χ) = m := by
-  sorry
 
 end TauCetiRoadmap.ComplexManifolds

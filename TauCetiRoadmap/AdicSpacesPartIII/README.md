@@ -1313,7 +1313,7 @@ with both projections to the original formal schemes (EGA I 10.7.4, pp. 193–19
 *colimit-of-thickenings*; *thickening-colimit-finite-ideal-type*;
 *morphisms-as-compatible-systems-finite-ideal-type*; *spf-morphism-correspondence*;
 *formal-fibre-product*; *formal-completion*; *coherent-as-inverse-system*;
-SchemeAndStackFoundations Layer 4 (§4.7, §4.8; `Formal.AdicThickeningSystem`,
+SchemeAndStackFoundations §§4.7 and 4.8 (`Formal.AdicThickeningSystem`,
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`); Mathlib
 `AlgebraicGeometry.IsClosedImmersion`,
 `CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. The comparison needs
@@ -2158,8 +2158,8 @@ Lem. 30.2.4), compatibly with the transitions; so the cohomology towers built fr
 *grothendieck-existence* below are §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso`
 (indices shifted by one) and §4.10's `Formal.grothendieck_existence` with its
 full-faithfulness clause for the completion along `IO_X`, whose support is the closed fibre. *Needs:* *formal-completion*;
-*coherent-as-inverse-system*; *formal-scheme-carrier-comparison*; SchemeAndStackFoundations Layer 4,
-§4.7–§4.10 (`Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`,
+*coherent-as-inverse-system*; *formal-scheme-carrier-comparison*;
+SchemeAndStackFoundations §§4.7–4.10 (`Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`,
 `Formal.Scheme.completionFunctor`, `Scheme.Modules.Cohomology.formalFunctionsIso`,
 `Formal.grothendieck_existence`); Tau Ceti `Scheme.Modules.globalSectionsSmul`,
 `Scheme.Modules.baseRingToGlobalSections`, `Scheme.Modules.cohomologyMapBaseLinear`. The
@@ -2224,7 +2224,7 @@ there is one `d₀ : ℕ` such that `H^j(X, F_k ⊗ L^{⊗d})` is zero for every
 the finiteness clause requires no ample sheaf.
 *Needs:*
 *projective-bundles-ample-serre*; StableReduction layer 2; JacobianChallenge layer C;
-SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); Tau Ceti
+SchemeAndStackFoundations §2.6 (`ample_serre_vanishing`); Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`; Mathlib
 `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.IsProper.isStableUnderBaseChange`,
@@ -2280,8 +2280,8 @@ sheaves, the instance in Tau Ceti `AlgebraicGeometry/Cohomology/Flasque.lean` th
 is Mathlib `CategoryTheory.Sheaf.H` of the Zariski site of `X`. For `X` a point, `H^i = 0` for
 `i > 0` and the statement reduces to `H^0(lim F_k) = lim H^0(F_k)`; on a noetherian formal scheme
 `𝔛` with ideal of definition `𝒥` and a coherent `F`, the system `F_k = F/𝒥^{k+1}F` on the affine
-formal basis satisfies (i)–(iii). *Needs:* DerivedModuleAlgebra §§1.T.1 and 1.1; SchemeAndStackFoundations
-Layer 2 (§2.5, `godementResolution`); Mathlib `CategoryTheory.Sheaf.H`, `TopCat.Presheaf.IsFlasque`,
+formal basis satisfies (i)–(iii). *Needs:* DerivedModuleAlgebra §§1.T.1 and 1.1; SchemeAndStackFoundations §2.5
+(`godementResolution`); Mathlib `CategoryTheory.Sheaf.H`, `TopCat.Presheaf.IsFlasque`,
 `CategoryTheory.Functor.IsMittagLeffler`; Tau Ceti `TauCeti.AlgebraicGeometry.Cohomology.Flasque`
 (the flasque-acyclicity instance).
 
@@ -2330,7 +2330,7 @@ of EGA III₁ 4.1.4.2, pp. 124–125.
 *Needs:*
 *cohomology-of-mittag-leffler-limit*; *formal-functions-affine*; *theorem-on-formal-functions*;
 *completion-of-morphism*; *completion-of-coherent-sheaf*; *coherent-as-inverse-system*;
-SchemeAndStackFoundations Layer 2 (§2.6, `qcoh_higherDirectImages`); StableReduction layer 2;
+SchemeAndStackFoundations §2.6 (`qcoh_higherDirectImages`); StableReduction layer 2;
 Mathlib `CategoryTheory.Sheaf.H`; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`.
 
@@ -3577,7 +3577,7 @@ non-complete `ℤ_(p)` with the `p`-adic topology is microbial but has no `Spf`)
 admits non-noetherian formal models over non-discrete valuation rings and whose text covers
 microbial valuation rings; Conrad-MR §3.1, Def. 3.1.1, p. 16: `FS_C` consists of locally noetherian
 formal schemes, hence of type (S)(a)). *Needs:* *admissible-formal-scheme*;
-*topologically-finitely-presented-algebra*; *locally-noetherian-formal-scheme*, Tau Ceti `TauCeti.IsAdicRing`; *adic-ring-homomorphism* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.IsStronglyNoetherian`,
+*topologically-finitely-presented-algebra*; *locally-noetherian-formal-scheme*, Tau Ceti `TauCeti.IsAdicRing`; *adic-ring-homomorphism* (AdicSpacesPartII §R0.1); Tau Ceti `TauCeti.Huber.IsStronglyNoetherian`,
 `TauCeti.Huber.IsTateRing`.
 
 **Checks.**
@@ -3663,7 +3663,8 @@ R0)) and `toAdicSpace_locallyOfFiniteType_iff` (`f` is locally of finite type (E
 of Prop. 4.1, point (1), p. 539, the centre map on points; Huber94 §4, Prop. 4.2(i), p. 540).
 *Needs:* *locally-noetherian-formal-scheme*, *formal-spectrum*, *adic-morphism-of-formal-schemes*,
 *formal-morphism-finite-type* (layer F0); *locally-noetherian-adic-space*, *adic-morphism*,
-*finite-type-morphism-classes*, *noetherian-type-stably-sheafy* (AdicSpacesPartII layer R0); Tau Ceti
+*finite-type-morphism-classes*, *noetherian-type-stably-sheafy*, *adic-valuation-rings-and-centres*
+(AdicSpacesPartII §§R0.2, R0.6 and R0.11); Tau Ceti
 `TauCeti.ValuationSpectrum.spa`.
 
 The representing pair is `FormalScheme.TData X`: its `space` is a
@@ -3805,7 +3806,7 @@ of 1.9.1, p. 97: the plus ring in case (b) is the integral closure of `A`, not `
 §8, after Def. 8.5, p. 38; Hübner §8, Ex. 8.7, p. 39, the fibre `{|p| ≠ 0}` of `t(Spf ℤ_p[[T]])`
 over `Spa(ℚ_p, ℤ_p)` is the non-quasi-compact open disc). *Needs:* *formal-schemes-of-type-S*;
 *noetherian-formal-scheme-as-adic-space*; *admissible-formal-scheme*; *adic-morphism*,
-*noetherian-type-stably-sheafy* (AdicSpacesPartII layer R0); AdicSpaces layer 4; Tau Ceti
+*noetherian-type-stably-sheafy* (AdicSpacesPartII §§R0.2 and R0.6); AdicSpaces layer 4; Tau Ceti
 `TauCeti.ValuationSpectrum.spa`, `TauCeti.ValuationSpectrum.spaAnalytic`,
 `TauCeti.ValuationSpectrum.spa_integralClosure`, `TauCeti.Huber.Pair`; Mathlib `integralClosure`.
 
@@ -3994,7 +3995,7 @@ Checks:
   the generic fibre of the completed extension with `d(Spf O')`.
 
 *Needs:* *generic-fibre-functor-d*; *raynaud-generic-fibre*; *admissible-formal-scheme*;
-*completed-tensor-product*, *affinoid-fibre-product*, *fibre-products-existence* (AdicSpacesPartII layer R0).
+*completed-tensor-product*, *affinoid-fibre-product*, *fibre-products-existence* (AdicSpacesPartII §§R0.3 and R0.7).
 
 ### R2.4 specialisation, tubes and rig-points
 
@@ -4152,8 +4153,8 @@ Ex. 3.3.13, p. 34, tubes as preimages under `sp` in rigid geometry; Conrad-MR Ap
 the proof of Lem. A.1.4, p. 38, the tubes of a closed point and of its open complement do not form
 an admissible covering). *Needs:* *specialisation-map*; *generic-fibre-functor-d*;
 *admissible-formal-scheme*; *fractional-valuation-bound*; *rigid-adic-comparison-functor*,
-*rigid-analytic-space* (AdicSpacesPartII layer R1); *affinoid-maximum-modulus* (AdicSpacesPartII layer R0); Tau Ceti
-`TauCeti.ValuationSpectrum.rationalSubset`.
+*rigid-analytic-space* (AdicSpacesPartII layer R1); *affinoid-maximum-modulus*, *adic-valuation-rings-and-centres*
+(AdicSpacesPartII §§R0.9 and R0.11); Tau Ceti `TauCeti.ValuationSpectrum.rationalSubset`.
 
 The open–closed presentation is independent of all choices:
 `tube_open_inter_closed X U Z hU hZ` identifies `tube X (U ∩ Z)` with
@@ -4265,7 +4266,7 @@ locally tfp formal schemes over non-discrete `R`). Rig-points of `Spf O_K⟨T⟩
 orbits of `c ∈ K̄` with `|c| ≤ 1`; for `c ∈ O_K`, `u` is `Spf O_K → Spf O_K⟨T⟩`, `T ↦ c`. *Needs:*
 *admissible-formal-scheme*; *topologically-finitely-presented-algebra*; *raynaud-generic-fibre*;
 *admissible-blow-up*; *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1); *affinoid-residue-fields-finite*
-(AdicSpacesPartII layer R0); Mathlib `ValuationRing`, `integralClosure`.
+(AdicSpacesPartII §R0.9); Mathlib `ValuationRing`, `integralClosure`.
 
 The carrier `RigPoint O ϖ s` fixes the structural morphism `s : X → Spf O`.
 Its sheaf kernel represents the isomorphism class of the closed immersion; the
@@ -4423,7 +4424,7 @@ partie, §5.3, Rem. 5.3.2, p. 38, strict transforms as quotients by sections van
 *Needs:* *admissible-formal-scheme*; *tfp-algebra-coherent*; *flat-tft-is-tfp*;
 *saturated-submodule-finitely-generated*; *tfp-locality*; *colimit-of-thickenings*,
 *formal-scheme-gluing*, *morphisms-as-compatible-systems-finite-ideal-type* (layer F0);
-*submodule-blow-up* (AdicSpacesPartII layer R0); Tau Ceti `affineBlowupι`, `iSup_opensRange_affineBlowupι`; Mathlib
+*submodule-blow-up* (AdicSpacesPartII §R0.2); Tau Ceti `affineBlowupι`, `iSup_opensRange_affineBlowupι`; Mathlib
 `reesAlgebra`, `AlgebraicGeometry.IsProper`.
 
 The carrier is `AdmissibleBlowup O ϖ s J`: the construction and projection
@@ -4783,7 +4784,7 @@ separated in the sense of *separated-morphism* (AdicSpacesPartII layer R0). For 
 the formal open `Spf O_K⟨T, T⁻¹⟩`) is not separated, and its generic fibre (two closed discs glued
 along the annulus `{|T| = 1}`) is not separated either. *Needs:* *generic-fibre-fibre-products*;
 *rig-point*; *saturated-submodule-finitely-generated*; *raynaud-generic-fibre*; *separated-morphism*
-(AdicSpacesPartII layer R0); *proper-separated-comparisons*, *rigid-analytic-space* (AdicSpacesPartII layer R1).
+(AdicSpacesPartII §R0.10); *proper-separated-comparisons*, *rigid-analytic-space* (AdicSpacesPartII layer R1).
 
 **Separatedness, properness and partial properness of a formal model versus its generic fibre (Huber
 1996 Remark 1.3.18).** (*formal-rigid-properness-comparison*) Let `K` be complete of rank one,
@@ -4814,7 +4815,7 @@ generic fibre `G_m^{ad}`, as (iii) predicts. *Needs:* *formal-model-separatednes
 *raynaud-generic-fibre*; *specialisation-map*; *admissible-formal-scheme*;
 *proper-separated-comparisons*, *rigid-analytic-space* (AdicSpacesPartII layer R1);
 *universally-closed-and-proper-morphism*, *partially-proper-morphism*,
-*separated-proper-partially-proper* (AdicSpacesPartII layer R0); Mathlib `AlgebraicGeometry.IsProper`.
+*separated-proper-partially-proper* (AdicSpacesPartII §§R0.10 and R0.11); Mathlib `AlgebraicGeometry.IsProper`.
 
 **The fibres of a formal model bound the fibres of its generic fibre (Conrad-MR Theorem A.2.1).**
 (*formal-model-fibre-comparison*) Let `K` be complete of rank one, discreteness not assumed, and
@@ -5015,7 +5016,7 @@ locally constant fibre rank, and conversely under the stated hypotheses; over a 
 applies it to show that the multiplication maps defining canonical subgroups over the Hasse loci are
 finite (Conrad-MR, proof of Thm 4.1.3). *Needs:* *fibral-finiteness-scheme-lemma*;
 *formal-model-separatedness*; *quasi-finite-formal-model*; *flattening-by-blow-up*; *rig-point*;
-*raynaud-theorem*; *finite-morphism*, *separated-morphism* (AdicSpacesPartII layer R0);
+*raynaud-theorem*; *finite-morphism*, *separated-morphism* (AdicSpacesPartII §§R0.10 and R0.13);
 *rigid-adic-comparison-functor*, *rigid-analytic-space*, *rigid-adic-quasi-separated-equivalence*
 (AdicSpacesPartII layer R1).
 
@@ -5033,7 +5034,7 @@ imports [BGR 6.1.1/4, 7.3.5/3, 9.5.3/5], which are cited, not re-derived. For in
 recognised on reduced spaces, and Conrad uses this with Theorem A.1.2 in the canonical subgroup
 construction. *Needs:* *rigid-analytic-space*, *rigid-adic-comparison-functor*,
 *rigid-adic-quasi-separated-equivalence*, *gerritzen-grauert* (AdicSpacesPartII layer R1); *finite-morphism*,
-*closed-adic-subspaces-and-embeddings* (AdicSpacesPartII layer R0).
+*closed-adic-subspaces-and-embeddings* (AdicSpacesPartII §§R0.8 and R0.13).
 
 ### R2.7 the proof of flattening
 
@@ -5641,7 +5642,7 @@ be dropped: for `B = A⟨ζ⟩/(ζ² − a)` (finite flat over `A = O_K⟨a⟩`,
 not smooth along `a = 0` and with geometrically reducible fibres over `a ≠ 0` in `T_0`) and `p = (a
 − ϖ²)`, `B/pB = O_K⟨ζ⟩/((ζ − ϖ)(ζ + ϖ))` is not a domain. *Needs:*
 *rig-ideal-of-coefficients-existence*; *content-ideal-product*; *ideal-of-coefficients*;
-*affinoid-jacobson* (AdicSpacesPartII layer R0); *rig-point*; *flat-tft-is-tfp*; *smooth-formal-scheme*;
+*affinoid-jacobson* (AdicSpacesPartII §R0.9); *rig-point*; *flat-tft-is-tfp*; *smooth-formal-scheme*;
 *admissible-formal-scheme*; *raynaud-generic-fibre*.
 
 **Associated primes of B are generic points of fibres over the generic fibre.**
@@ -6083,7 +6084,7 @@ dimension at a point; BL II §4, after Thm 4.1, p. 419, rig-flatness in dimensio
 after Prop. 3.11, p. 417, Propositions 3.10–3.11 are not needed). *Needs:* *rig-point*;
 *raynaud-generic-fibre*; *admissible-formal-scheme*; *admissible-blow-up*;
 *generic-fibre-inverts-admissible-blow-ups*; *rigid-local-ring-completion* (RigidAnalyticGeometry Layers 3–4);
-*flat-morphism* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`; Mathlib
+*flat-morphism* (AdicSpacesPartII §R0.16); Tau Ceti `TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`; Mathlib
 `Module.Flat`, `ringKrullDim`.
 
 The pointwise predicates use `FormalScheme.RigPoint`, including its defining ideal;
@@ -6368,7 +6369,7 @@ A`, and nothing is blown up. *Needs:* *smooth-geometrically-irreducible-generic-
 *rig-ideal-of-coefficients-existence*; *ideal-of-coefficients*; *content-ideal-smul*;
 *formal-fitting-ideal*; *fitting-ideal-invertible-locally-free*; *partition-by-admissible-blow-up*;
 *formal-flat-locus-open*; *flat-in-dimension*; *rig-flat-in-dimension*; *admissible-blow-up*;
-*saturated-submodule-finitely-generated*; *affinoid-jacobson* (AdicSpacesPartII layer R0); *smooth-formal-scheme*.
+*saturated-submodule-finitely-generated*; *affinoid-jacobson* (AdicSpacesPartII §R0.9); *smooth-formal-scheme*.
 
 **Torsion in extensions of a module of small support by a free module.** (*devissage-torsion-lemma*)
 Let `T = Spf A` be affine admissible and `h : Z = Spf B → T` affine, smooth and surjective with
@@ -6827,8 +6828,8 @@ class of formal schemes; proof of Thm 3.1.5, p. 17, `Spf(C[[q]])^rig` is the ope
 `k` is discretely valued and `C = R` the functor recovers de Jong's [deJ, 7.2.4, 7.2.6]. *Needs:*
 *locally-noetherian-formal-scheme* (layer F0); *formal-spectrum* (layer F0); *rigid-analytic-space*
 (AdicSpacesPartII layer R1); *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1); *raynaud-generic-fibre*;
-*noetherian-formal-scheme-as-adic-space*; *raynaud-theorem*; *affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer
-R0); *specialisation-map* (R2.4); *adic-valuation-rings-and-centres* (AdicSpacesPartII layer R0).
+*noetherian-formal-scheme-as-adic-space*; *raynaud-theorem*; *affinoid-power-bounded-iff-sup* (AdicSpacesPartII
+§R0.9); *specialisation-map* (R2.4); *adic-valuation-rings-and-centres* (AdicSpacesPartII §R0.11).
 
 For `rigOfFSC_powerSeries`, the topology on `C[[q]]` is explicitly `(I,q)`-adic,
 where `I` defines the topology on `C`. The continuous coefficient map has image in `R`;
@@ -6907,8 +6908,8 @@ formal schemes exist and are unique, by `Algebra.FormallyEtale.iff_comp_bijectiv
 (BL II §1, Def. 1.1, p. 404, smooth and étale formal morphisms; after Lem. 1.2, p. 404, elementary
 étale neighbourhoods; Conrad-MR §3.1, proof of Thm 3.1.6, p. 17, the local structure and the rank of
 `Ω¹`; TT §2.2, p. 12, smooth formal schemes over `W(κ)` and their adic generic fibres). *Needs:*
-*admissible-formal-scheme*; *tfp-locality*; *formal-etale-site-invariance*; *smooth-morphism* (AdicSpacesPartII layer
-R0); *locally-huber-standard* (AdicSpacesPartII layer R0); *differentials-unramified-smooth-etale* (AdicSpacesPartII layer R0); *continuous-differentials* (AdicSpacesPartII layer R0);
+*admissible-formal-scheme*; *tfp-locality*; *formal-etale-site-invariance*; *smooth-morphism* (AdicSpacesPartII
+§R0.16); *locally-huber-standard* (AdicSpacesPartII §R0.6); *differentials-unramified-smooth-etale* (AdicSpacesPartII §R0.16); *continuous-differentials* (AdicSpacesPartII §R0.15);
 Mathlib `AlgebraicGeometry.Smooth`, `Algebra.Smooth`, `KaehlerDifferential`, `Algebra.Etale`.
 
 **Checks.**
@@ -7026,7 +7027,7 @@ AdicEtaleGeometry A2.9a uses these facts to construct the continuous functor fro
   `Spec 𝔽_{p²} → Spec 𝔽_p`.
 
 *Needs:* *admissible-formal-scheme*; *generic-fibre-functor-d*;
-*generic-fibre-fibre-products*; *specialisation-map*; AdicSpacesPartII R0
+*generic-fibre-fibre-products*; *specialisation-map*; AdicSpacesPartII §§R0.16 and R0.17
 (*differentials-unramified-smooth-etale*, *etale-local-structure*);
 *colimit-of-thickenings*, *adic-systems-equivalence-finite-ideal-type* (layer F0);
 SchemeAndStackFoundations §§0.23–0.23a; Mathlib `AlgebraicGeometry.Etale`,
@@ -8203,7 +8204,7 @@ p. 525 for the generality, the two noetherian types and finitely generated modul
 Def. 1.1, p. 259 for the rigid form, where a sheaf of modules is associated with the finite
 `A`-module `M` when on affinoid subdomains `Sp(B)` it is `B ↦ M ⊗_A B`). *Needs:*
 *locally-noetherian-adic-space*, *noetherian-rod-sheafy*, *noetherian-rod-module-complete* (all
-AdicSpacesPartII layer R0); Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.rationalSubset`,
+AdicSpacesPartII §§R0.2 and R0.6); Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.rationalSubset`,
 `Huber.PairOfDefinition.completionLocObj`, `Huber.IsStronglyNoetherian`,
 `Huber.PairOfDefinition.isStronglyNoetherian_completion`, `Huber.IsTateRing.isModuleTopology`,
 `TauCeti.Huber.isClosed_of_isNoetherian`, `ValuationSpectrum.spaLocalizationHomeomorph`,
@@ -8332,7 +8333,7 @@ has a closed non-analytic point and the theorem still applies (Huber94 §2, proo
 Case I, pp. 525–529, by Raynaud-type blow-up arguments; Huber94 §2, (1.5), p. 529, the existence
 of a refinement with exact strict Čech complex; Huber94 §2, Lem. 2.6, p. 531, the refinement lemma
 by standard rational coverings). *Needs:* *associated-module-sheaf*; *noetherian-rod-sheafy*,
-*noetherian-rod-module-complete* (AdicSpacesPartII layer R0); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti
+*noetherian-rod-module-complete* (AdicSpacesPartII §R0.2); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti
 `TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`. Lean: the exactness of
 `0 → M → B₁ ⊗ M × B₂ ⊗ M → B₁₂ ⊗ M → 0` on a simple Laurent cover, `Huber.laurent_exact_of_finite`,
 whose hypothesis `TauCeti.Huber.IsNoetherianType` covers this case; the sheaf and
@@ -8812,7 +8813,7 @@ noetherian Tate affinoids, `IsCoherent F ↔ SheafOfModules.IsFinitePresentation
 associated with finite modules, the adic definition replacing admissible coverings by open
 coverings; Kiehl-AB §2, Def. 2.1.2, p. 270, Serre's definition of coherence, shown equivalent to
 local association in 2.1.3–2.1.4; Huber96 §1.3, Rem. 1.3.17, p. 59, coherent `𝒪_X`-modules on
-locally noetherian adic spaces). *Needs:* *locally-noetherian-adic-space* (AdicSpacesPartII layer R0);
+locally noetherian adic spaces). *Needs:* *locally-noetherian-adic-space* (AdicSpacesPartII §R0.6);
 *associated-module-sheaf*; *tate-acyclicity-finite-modules*;
 *noetherian-rod-acyclicity-finite-modules*; Mathlib `SheafOfModules`,
 `SheafOfModules.IsFinitePresentation`, `SheafOfModules.IsFiniteType`.
@@ -8966,7 +8967,7 @@ type and finite-type kernels, the definition under which kernels and cokernels s
 Kiehl-E §0, p. 197, base change of coherent sheaves along a field extension, an instance of
 pullback; Conrad-RA Ex. 2.2.11, p. 13, pullback along the flat analytification map preserves
 coherence in the rigid setting). *Needs:* *coherent-sheaf*; *tate-kiehl-affinoid*;
-*associated-module-sheaf*; *fibre-products-existence* (AdicSpacesPartII layer R0); *rigid-adic-comparison-functor*
+*associated-module-sheaf*; *locally-noetherian-adic-space*, *fibre-products-existence* (AdicSpacesPartII §§R0.6 and R0.7); *rigid-adic-comparison-functor*
 (AdicSpacesPartII layer R1); Mathlib `SheafOfModules.pullback`; Tau Ceti `Huber.PairOfDefinition.flat_toCompletionLoc`.
 
 Multiplication by a global function is `AdicSpace.unitMul`; `unitMul_app` fixes its value
@@ -9012,7 +9013,7 @@ gives `Spa(K[T]/(T²))`, both with support `{0}`, and the Zariski closure of the
 coherent ideals and carry the induced analytic structure, with the closed embedding attached to a
 coherent ideal; Huber96 §1.4, (1.4.1), p. 60, Huber's closed adic subspaces). *Needs:*
 *tate-kiehl-affinoid*; *coherent-sheaf*; *tate-acyclicity-finite-modules*;
-*closed-adic-subspaces-and-embeddings* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.isClosed_of_isNoetherian`,
+*closed-adic-subspaces-and-embeddings* (AdicSpacesPartII §R0.8); Tau Ceti `TauCeti.Huber.isClosed_of_isNoetherian`,
 `IsOpenQuotientMap.isStronglyNoetherian`, `Huber.Pair.Hom.isClosedEmbedding_spaComap_quotientHom`,
 `Huber.Pair.Hom.range_spaComap_quotientHom`.
 
@@ -9035,7 +9036,7 @@ module) corresponds to `∅ → X`, and `𝒜 = 𝒪_X` to the identity (Conrad-
 rigid-analytic form; Conrad-RA
 proof of Thm 3.1.5, p. 21, where the equivalence is applied in the GAGA-for-finite-covers argument
 of *gaga-finite-covers*). *Needs:* *finite-morphism*, *finite-algebra-over-affinoid*,
-*completed-tensor-rational-localisation*, *finite-algebra-tensor-complete* (all AdicSpacesPartII layer R0);
+*completed-tensor-rational-localisation*, *finite-algebra-tensor-complete* (all AdicSpacesPartII §§R0.3 and R0.13);
 *tate-kiehl-affinoid*; *coherent-sheaf*.
 
 The coherent comparison uses the actual ring sheaf on each space. `AdicSpace.modulePushforward`
@@ -9396,7 +9397,7 @@ morphisms are included; global sections and `vectorBundleEquivalence` relate it 
 The quadratic calculation is `finiteProjective_descent_quadratic`; the
 Check *finiteProjective_descent_quadratic_two* asserts étaleness and rank two over `ℚ₂`. *Needs:*
 *sheafy-tate-acyclicity-and-kiehl-gluing*; *affinoid-fibre-product*,
-*finite-algebra-over-affinoid* (AdicSpacesPartII layer R0); Mathlib `Algebra.Etale`, `Module.Projective`,
+*finite-algebra-over-affinoid* (AdicSpacesPartII §§R0.7 and R0.13); Mathlib `Algebra.Etale`, `Module.Projective`,
 `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`,
 `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`.
 
@@ -9434,7 +9435,7 @@ weaker than the norm equivalence (b) in general, and by (iii) agrees with (a)–
 `α_d`). `K⟨T⟩` with the Gauss norm is uniform; `K[ε]/(ε²)` with any Banach norm is not, since
 every `aε` (`a ∈ K`) squares to `0`, so `A° ⊇ K·ε` is unbounded; for `K = ℚ_p` with `|·|'` as in
 (iv), `|p|'·|p⁻¹|' = 1 + log p > 1`, so (iii) does not apply. *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
-*spectral-seminorm*, *spectral-topology* (AdicSpacesPartII layer R0); Tau Ceti `Huber.IsTateRing`,
+*spectral-seminorm*, *spectral-topology* (AdicSpacesPartII §R0.4); Tau Ceti `Huber.IsTateRing`,
 `Huber.IsUniform`, `TauCeti.Huber.isUniform_iff`, `Huber.IsUniform.of_normedDivisionRing`; Mathlib
 `smoothingSeminorm`, `isPowMul_smoothingFun`. Lean: (i) is `Huber.isUniform_tfae`, for a complete
 normed commutative ring (the norm is equivalent to a power-multiplicative seminorm; it is bounded by a
@@ -9473,7 +9474,7 @@ Its topological `A`-linear splitting is the specialization `R = K`, `Rt = L`,
 The sheafiness implication is owned by AdicSpaces layer 4.2; this layer owns the
 split descent criterion. *Needs:* *uniform-iff-power-bound*;
 *completed-tensor-product*, *completed-tensor-rational-localisation*,
-*completed-tensor-banach-module* (AdicSpacesPartII layer R0); *tate-ring-norm*
+*completed-tensor-banach-module* (AdicSpacesPartII §§R0.3 and R0.5); *tate-ring-norm*
 (PadicFunctionalAnalysis §0.4); Tau Ceti `Huber.IsStablyUniform`.
 
 Prove the behaviour of spectral norms of uniform rings under isometric maps
@@ -9503,7 +9504,7 @@ spectral seminorms and real suprema; it also includes the zero ring. The surject
 consequence follows from it. For rings carrying their spectral norm these are precisely the
 isometry assertions above.
 *Needs:* *gelfand-spectrum-banach-ring* (the Gel'fand spectrum and Berkovich's maximum formula);
-*uniform-iff-power-bound*; *spectral-seminorm* (AdicSpacesPartII layer R0).
+*uniform-iff-power-bound*; *spectral-seminorm* (AdicSpacesPartII §R0.4).
 
 ### R3.6 the sheaf of continuous differentials and Kiehl's proper mapping theorem
 
@@ -9685,7 +9686,7 @@ sheaf is coherent). *Needs:* *coherent-sheaf*; *associated-module-sheaf*;
 *smooth-local-structure*, *differential-criterion-morphism*, *smooth-morphism*,
 *differentials-unramified-smooth-etale*, *etale-local-open-finite-etale-factorisation*,
 *fibre-products-existence*, *fibre-product-along-finite-type*, *smooth-etale-base-change* (all
-AdicSpacesPartII layer R0); *analytic-kahler-differentials*, *analytification-of-modules* (AdicSpacesPartII layer R1);
+AdicSpacesPartII §§R0.6, R0.7, R0.15, R0.16 and R0.17); *analytic-kahler-differentials*, *analytification-of-modules* (AdicSpacesPartII layer R1);
 R3.1a `analytification.modules_chartSections` for the associated-sheaf comparison; Mathlib
 `SheafOfModules`, `SheafOfModules.pullback`, `Derivation`, `ExteriorAlgebra.exteriorPower`.
 
@@ -9806,7 +9807,7 @@ convergence is unchanged under equivalent norms. The scalar depends on the compa
 not on the approximant; the finite generating set may depend on the approximant. Thus the
 lattice condition is an equivalent characterization of this predicate. *Needs:*
 CompactOperators §0.1, finite-image approximation and the normalized scalar lattice comparison;
-PadicFunctionalAnalysis §0.4 (*tate-ring-norm*); Part II *completed-tensor-banach-module*; Tau Ceti `Huber.IsTateRing`;
+PadicFunctionalAnalysis §0.4 (*tate-ring-norm*); AdicSpacesPartII §R0.5 (*completed-tensor-banach-module*); Tau Ceti `Huber.IsTateRing`;
 Mathlib continuous linear maps and their operator norm.
 
 Prove `isStrictlyCompletelyContinuous_tsum` as an extension of that same predicate: over a
@@ -9887,7 +9888,7 @@ by its basis and supremum norm. Require the coefficient unit ball to equal the i
 the Gauss unit ball of the chosen presentation, and preserve this equality in the lattice
 comparison. *Needs:* *completely-continuous-map*; *almost-noetherian-integral-affinoid-modules*;
 PadicFunctionalAnalysis §§2.1–2.2, model-space quotients;
-Part II *completed-tensor-banach-module*, including `c₀(I,A)`.
+AdicSpacesPartII §R0.5 (*completed-tensor-banach-module*), including `c₀(I,A)`.
 
 **Checks.** For `N = G` the subtype is the identity; for `N = 0` the map and all approximants
 are zero; for `N = T·K⟨T⟩ ⊆ G = K⟨T⟩` the conclusion holds without choosing a complement.
@@ -9991,8 +9992,8 @@ proved for Kiehl-proper maps, hence the need for the comparison, and the compari
 than proves: for general `K`, Kiehl-properness is an explicit hypothesis). For `X = P^{1,an}_K` take
 `U_i = {|x_j| ≤ |ϖ|⁻¹|x_i|}` and `V_i = {|x_j| ≤ |x_i|}` (`i ≠ j ∈ {0, 1}`): both families cover
 `X` and `V_i ⋐_K U_i` (the unit disc inside the disc of radius `|ϖ|⁻¹` in the chart `x_j/x_i`).
-*Needs:* *universally-closed-and-proper-morphism*, *separated-proper-partially-proper* (AdicSpacesPartII layer
-R0); *proper-separated-comparisons* (AdicSpacesPartII layer R1); *relatively-compact-affinoid*.
+*Needs:* *universally-closed-and-proper-morphism*, *separated-proper-partially-proper*
+(AdicSpacesPartII §§R0.10 and R0.11); *proper-separated-comparisons* (AdicSpacesPartII layer R1); *relatively-compact-affinoid*.
 
 Prove strict complete continuity of relatively compact restriction
 (*restriction-strictly-completely-continuous*): let `V = Spa(B)` and `U = Spa(C)` be affinoid over
@@ -10130,7 +10131,7 @@ section and projection on pure tensors. It therefore transports the supplied con
 splitting and strict exactness to `K' ⊗̂_K (−)` on Part II's carrier
 (BGR §2.7, countable-type Banach spaces; KL15, Lemma 2.2.9, pp. 30–31).
 *Needs:* PadicFunctionalAnalysis §2.4, countable type and strict splitting; Tau Ceti `TauCeti.Huber.BanachModule.CompletedTensor`;
-Part II *completed-tensor-banach-module*, *banach-completed-tensor-field-exactness*.
+AdicSpacesPartII §§R0.5 and R0.18 (*completed-tensor-banach-module*, *banach-completed-tensor-field-exactness*).
 
 Checks: `F = 0` gives complement `E`; `F = E` gives the zero complement; in
 `c₀(ℕ,K)`, the subspace of sequences with first coordinate zero has complement `K e₀`
@@ -10165,7 +10166,7 @@ fields, that the natural map `A' ⊗_A Hⁱ(X, F) → Hⁱ(X', F')` is an isomor
 `X' = X ⊗̂_K K'`. Prove invertibility of this
 natural map using the strict finite Čech complex (Conrad-RA Appendix A.1, Theorem A.1.2,
 p. 39). *Needs:* *proper-affinoid-cohomology-finite*; *affinoid-completed-field-extension*;
-Part II *banach-completed-tensor-field-exactness*.
+AdicSpacesPartII §R0.18 (*banach-completed-tensor-field-exactness*).
 
 Checks: the identity extension gives the identity; zero coefficients give zero on both
 sides; `P¹_K` with `O(−2)` has `H¹ = K`, and the comparison carries its Čech generator
@@ -10176,7 +10177,7 @@ Proper coherent cohomology commutes with finite flat base change of affinoids
 `S = Spa(A, A°)`, coherent `F` on `X` and a finite flat `g : T = Spa(B, B°) → S`, that the map
 `B ⊗_A Hⁱ(X, F) → Hⁱ(X ×_S T, F_T)` induced by pullback is an isomorphism for every `i`. Prove this using the finite
 flat scalar extension of the affinoid Čech complex (Scholze13 §9, proof of Proposition 9.2,
-p. 54). *Needs:* *proper-affinoid-cohomology-finite*; Part II *finite-algebra-tensor-complete*;
+p. 54). *Needs:* *proper-affinoid-cohomology-finite*; AdicSpacesPartII §R0.13 (*finite-algebra-tensor-complete*);
 Mathlib flat tensor exactness.
 
 Checks: identity base change gives the identity; `B = A × A` gives the pair of pullback
@@ -10201,7 +10202,7 @@ the statement is Kiehl's Satz 3.5; for `T = S ⊔ S` it is `Hⁱ(X ⊔ X) = Hⁱ
 *kiehl-proper-mapping-theorem*, *proper-cohomology-affinoid-subdomain*,
 *proper-cohomology-finite-flat-base-change* (R3.6); *etale-flat-unramified*,
 *differentials-unramified-smooth-etale*, *base-change-stability*,
-*etale-affinoid-finite-etale-embedding* (AdicSpacesPartII layer R0).
+*etale-affinoid-finite-etale-embedding* (AdicSpacesPartII §§R0.7, R0.16 and R0.17).
 
 **Checks:** `proper_cohomology_baseChange_identity` computes `a ⊗ m ↦ a • m`
 for identity scalar extension using `TensorProduct.lid`;
@@ -10442,7 +10443,7 @@ and *projective-bundles-ample-serre* (layer F0); the analytic computation is new
 Tate affinoids it is applied only to the twists `𝒪(m)^an`, which are coherent as line bundles);
 *tate-acyclicity-finite-modules*;
 *analytic-projective-space-proper* (AdicSpacesPartII layer R1); *projective-bundles-ample-serre* (layer F0);
-SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
+SchemeAndStackFoundations §2.6 (`projectiveSpace_cohomology`); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 **Checks for projective bundles and twists.** Each Check carries the indicated name.
 
@@ -10588,7 +10589,7 @@ characteristic, `P¹` over an algebraically closed field being simply connected)
 *Needs:* *finite-morphism-coherent-algebra-equivalence*; *proper-gaga-coherent-equivalence*
 (R3.7); *analytification-finite*,
 *analytification-reflects-finite-closed-immersion* (AdicSpacesPartII layer R1);
-*finite-morphism* (AdicSpacesPartII layer R0).
+*finite-morphism* (AdicSpacesPartII §R0.13).
 
 ### R3.7a analytic algebraisation and Hasse loci for generalised elliptic curves
 
@@ -11145,7 +11146,7 @@ isomorphism carries `g*Tr_π` to `Tr_{π'}`), `finiteTrace_comp` (`Tr_{π ∘ π
 locus being empty; by *etale-iff-trace-pairing-perfect*) (Stacks Tag 0BVH, §49.3, the
 scheme-theoretic trace of a finite locally free morphism and its local description). *Needs:*
 *finite-locally-free-algebra-trace*; *algebra-trace-base-change*; *algebra-trace-transitivity*;
-SchemeAndStackFoundations Layer 2 (§2.19, §2.21, `trace`); Mathlib `AlgebraicGeometry.IsFinite`,
+SchemeAndStackFoundations §§2.19 and 2.21 (`trace`); Mathlib `AlgebraicGeometry.IsFinite`,
 `AlgebraicGeometry.Flat`, `AlgebraicGeometry.LocallyOfFinitePresentation`,
 `AlgebraicGeometry.Scheme.Modules`, `Scheme.Hom.finrank`.
 
@@ -11220,7 +11221,7 @@ is analytic and has stably sheafy charts)
 and their traces; KL15 §2.4, Rem. 2.4.2, p. 38, finite étale algebras over affinoids as the main
 examples, finite projective by KL15 §1.2). *Needs:* *finite-morphism*,
 *differentials-unramified-smooth-etale*, *fibre-products-existence*,
-*finite-algebra-tensor-complete* (AdicSpacesPartII layer R0); *locally-free-sheaf*;
+*finite-algebra-tensor-complete* (AdicSpacesPartII §§R0.7, R0.13 and R0.16); *locally-free-sheaf*;
 *sheafy-tate-acyclicity-and-kiehl-gluing*; *analytification-finite* (AdicSpacesPartII layer R1).
 
 `AdicSpace.finiteDegree f hf y` is the rank of the stalk at `y` of `f_* O_X`.
@@ -11357,7 +11358,7 @@ Lem. 49.3.1, base change of the trace; Stacks Tag 02DV, Exercise 111.22.7, base 
 level of algebras, where Stacks sets up `B′ = B ⊗_A A′` for the norm, the trace being the same
 argument stated in 0BVH). For `z ↦ z² ↦ z⁴` on discs, `Tr(1) = 4 = Tr_h(Tr_f(1)) = Tr_h(2)`.
 *Needs:* *analytic-trace-finite-locally-free*; *algebra-trace-base-change*;
-*algebra-trace-transitivity*; *fibre-products-existence*, *affinoid-fibre-product* (AdicSpacesPartII layer R0).
+*algebra-trace-transitivity*; *fibre-products-existence*, *affinoid-fibre-product* (AdicSpacesPartII §R0.7).
 
 The analytic section formula is `AdicSpace.finiteTrace_baseChange`: for a cartesian
 square and opens `W ⊆ g⁻¹(U)`, it equates the trace of the restricted pullback of a section
@@ -11384,7 +11385,7 @@ number of geometric points in each fibre; over the full disc the discriminant `4
 `0`, the pairing is not perfect and `f` is not étale. *Needs:*
 *analytic-trace-finite-locally-free*; *etale-iff-trace-pairing-perfect*;
 *trace-geometric-point-formula*; *algebra-trace-base-change*; *finite-locally-free-morphism*;
-*differentials-unramified-smooth-etale*, *locally-huber-standard* (AdicSpacesPartII layer R0).
+*differentials-unramified-smooth-etale*, *locally-huber-standard* (AdicSpacesPartII §§R0.6 and R0.16).
 
 On a Tate affinoid, `AdicSpace.finiteTrace_perfect_iff_etale` expresses perfection
 without choosing a basis: every linear functional is uniquely `t ↦ Tr(b t)`.
@@ -11546,7 +11547,7 @@ spectral seminorm) (Berkovich
 Thm 1.2.1, the nonempty compact spectrum; Berkovich Thm 1.3.1, the spectral-seminorm formula;
 KL15 §2.3, Def. 2.3.2 and Thm 2.3.4, p. 34;
 Thm 2.3.10, p. 35; Rem. 2.3.11(b), p. 36). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
-*spectral-seminorm* (AdicSpacesPartII layer R0). Lean: `Huber.GelfandSpectrum` with its topology,
+*spectral-seminorm* (AdicSpacesPartII §R0.4). Lean: `Huber.GelfandSpectrum` with its topology,
 `GelfandSpectrum.compactSpace_nonempty` (compact, Hausdorff, and nonempty for `A ≠ 0`) and
 `GelfandSpectrum.smoothingFun_eq_sSup`; functoriality and the Checks are specified in this README
 only. DiamondsAndVStacks cites the Checks *GelfandSpectrum.test_padic* and

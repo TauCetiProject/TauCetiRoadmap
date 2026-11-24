@@ -937,6 +937,14 @@ Schoof, §7, pp. 858–859, gives the equation, the surjective `S₃`
 action on `J₀(11)[2]` and its simplicity; Mathlib’s Weierstrass invariants give the displayed
 computations.
 
+*Needs:* ArithmeticGaloisRepresentations §§1.1–1.7 for continuous representations, scalar extension,
+restriction, finite images and absolute irreducibility; ArithmeticGaloisRepresentations §§2.1–2.3
+for inertia, unramifiedness, tameness and the kernel-field Galois correspondence;
+ArithmeticGaloisRepresentations §§4.1–4.4 for oddness and images; ClassFieldTheory Layer 13 for the
+small abelian fields; Mathlib `ContinuousMonoidHom`, `Representation.IsIrreducible`,
+`IntermediateField.fixedField`, `IntermediateField.adjoin`, cyclotomic extensions and Weierstrass
+invariants.
+
 ### 2.1 Level-one residual representations
 
 Define `IsLevelOneResidual p ρ̄` for a continuous homomorphism `ρ̄:G_ℚ → GL₂(F)`, with F finite of characteristic p. Its three conditions are absolute
@@ -1033,6 +1041,15 @@ composition of coefficient embeddings composes the changes, and a field extensio
 kernel field. The trivial character fixes a twist, a pair of twists multiplies the characters, and
 twisting multiplies the determinant by the square of the character. Those checks pin the direction
 and the power in the determinant formula.
+
+*Needs:* §2.0 for the residual carrier, its predicates and the curve `X₀(11)`;
+ArithmeticGaloisRepresentations §§1.1, 1.2, 1.4 and 1.7 for continuous representations, coefficient
+extension and twists, finite images and absolute irreducibility; ArithmeticGaloisRepresentations
+§§2.1–2.3 for inertia, Frobenius and the cyclotomic character; ArithmeticGaloisRepresentations
+§§4.1–4.4 for oddness and images; ClassFieldTheory Layer 13 for the small abelian fields; Mathlib
+`Field.absoluteGaloisGroup`, `ContinuousMonoidHom`, `Matrix.GeneralLinearGroup`,
+`Representation.IsIrreducible`, `DiscreteTopology`, `modularCyclotomicCharacter`,
+`WeierstrassCurve.Affine.Point.map`, `AddSubgroup.torsionBy` and `Matrix.GeneralLinearGroup.toLin'`.
 
 ### 2.2 Determinant and the tame case
 
@@ -1840,6 +1857,10 @@ dihedral-failure criterion used in §5.6. General
 restriction and image theory is supplied by ArithmeticGaloisRepresentations §§1.7, 4.6–4.7. Source:
 Snowden, §3.1, p. 6; Khare, Lemma 5.1, pp. 20–21.
 
+*Needs:* §2.0 for residual representations and `cyclotomicSubfield`; ArithmeticGaloisRepresentations
+§§1.2 and 1.7 for coefficient extension and absolute irreducibility; ArithmeticGaloisRepresentations
+§§4.6–4.7 for dihedral images, restriction and large image.
+
 **Checks.**
 
 - A reducible diagonal representation fails the condition.
@@ -2092,6 +2113,19 @@ and proof, pp. 15–18, and the proofs of Theorem 4.3, pp. 19–21; version of r
 244–245, and proof of Theorem 5.4, pp. 247–248. The terminal case at five also retains the
 crystalline or weight-two Steinberg member selected in Dieulefait–Pacetti, §2, Paso 6, p. 14.
 
+*Needs:* §§2.1 and 5.0a for level-one residual representations and condition (A1); §5.7 for the
+residual weight and ordinarity alternatives; AlgebraicModularFormsAndSerreWeights §§4.1–4.5 for the
+Serre weight; AlgebraicModularFormsAndSerreWeights §6.2 for the classical attachments that carry
+modularity between members; ArithmeticGaloisRepresentations §§1.1, 1.2, 1.5, 1.6, 1.7, 1.9 and 1.10
+for continuous representations, their operations, coefficient fields, lattices, semisimplicity,
+reduction and Teichmüller lifts; ArithmeticGaloisRepresentations §§2.2–2.4 and 2.6 for Frobenius
+polynomials, ramification, the cyclotomic character and Weil–Deligne parameters with monodromy;
+ArithmeticGaloisRepresentations §4.1 for oddness; ArithmeticGaloisRepresentations §§5.1 and 5.3 for
+recognition by Frobenius polynomials; ArithmeticGaloisRepresentations §6.1 for the elliptic Tate
+system; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P5, R07.P5a, R07.P7.1 and R07.3.0 for the
+de Rham, crystalline, semistable and labelled-weight predicates; GL2AutomorphicRepresentationsAndTransfer
+§§R17.6.17–R17.6.19 for the transfer comparisons.
+
 #### 5.0e Ordinary modularity and exact level
 
 Apply LocalGaloisDeformationRings §0.3 / `RankTwoOrdinaryEndpoints` and §§5.4–5.5 to the
@@ -2123,6 +2157,15 @@ AlgebraicModularFormsAndSerreWeights §R15.5A.2. Include the latter, at the resi
 this target. Sources: Khare–Wintenberger, proof of Theorem 5.4, pp. 247–248, and the ordinary
 argument of Dieulefait–Pacetti, §2, Paso 6, p. 14. This makes level one a theorem with local
 hypotheses, rather than a consequence of modularity alone.
+
+*Needs:* LocalGaloisDeformationRings §§0.3, 5.4 and 5.5 for the ordinary and endpoint local
+alternatives; AlgebraicModularFormsAndSerreWeights §§4.1–4.5 for the residual inertia characters and
+the weight normalization; AlgebraicModularFormsAndSerreWeights §6.2 for the classical attachments;
+GL2AutomorphicRepresentationsAndTransfer §R17.6.4 for the conductor away from p;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P5, R07.P7.1 and R07.3.0 for the crystalline and
+semistable predicates and labelled weights; ArithmeticGaloisRepresentations §§1.7 and 1.9 for
+irreducibility and residual semisimplification; ArithmeticGaloisRepresentations §§2.2 and 2.3 for
+ramification and inertia characters; ArithmeticGaloisRepresentations §4.1 for oddness.
 
 ### 5.1 Abelian varieties of GL₂-type
 
@@ -2185,6 +2228,15 @@ The supplied `traceDegreeSubfield` theorem gives equal multiplicities of the K-e
 freeness of rank `2 dim A / [K:ℚ] = 2`; its hypotheses include a unital K-action. Isogeny transport
 uses the invertibility of an isogeny in the rational endomorphism category, whose underlying notion
 is `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
+
+*Needs:* §5.0c for the correspondence action on the modular Jacobian `J₀(23)`; ModularCurves Layer 10
+and JacobianChallenge §§E.1–E.7 for that curve and its Jacobian; Tau Ceti
+`TauCeti.AlgebraicGeometry.AbelianVariety`, its `dim` and `End`, and
+`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`; AbelianSchemesAndArithmeticModuli §§A6.1, A6.8
+and A6.10–A6.12 for quasi-inverses of isogenies, the rational endomorphism algebra, its Tate action
+and `traceDegreeSubfield`; ArithmeticGaloisRepresentations §§1.1 and 1.2 for continuous
+representations, coefficient extension and restriction; ArithmeticGaloisRepresentations §6.4 /
+`TateModule.lambdaTateModule`.
 
 **Checks.**
 
@@ -2417,6 +2469,13 @@ vanishing is at exactly the terminal weights `2,4,6,8,14` on the pinned cusp-for
 Dieulefait–Pacetti, Paso 6, p. 14, for the 3-adic cases, and Khare–Wintenberger, the proof of
 Theorem 4.3, pp. 20–21 of the arXiv version, for the three `p+1` cases. This argument is independent
 of residual irreducible modularity.
+
+*Needs:* §5.0e for the Skinner–Wiles statement and the exact level; §2.1 for the mod-p cyclotomic
+character and `1 ⊕ ω_p`; AlgebraicModularFormsAndSerreWeights §4.12 for the Fontaine–Laffaille
+residual characters; Mathlib `NumberField.abs_discr_gt_two` and
+`NumberField.not_dvd_discr_iff_isUnramifiedIn` for the absence of everywhere-unramified characters,
+and `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `ModularForm.dimension_level_one` and
+`ModularForm.rank_eq_one_add_rank_cuspForm` for the cusp-form dimensions.
 
 ### 5.8 Excluding weight two
 

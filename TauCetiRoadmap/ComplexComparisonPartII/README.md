@@ -329,7 +329,7 @@ Define `completedAnalyticStalkComparison` for a complex scheme `X` locally of fi
 - At the origin of `xy=0`, both completions are `ℂ[[x,y]]/(xy)`, and both tangent spaces have dimension two.
 - Choosing another étale point chart gives the same canonical comparison after the common-refinement identifications, rather than a chart-dependent power-series substitution.
 
-*Needs:* §C-1.1; AlgebraicModuliForArithmeticGeometry Layer 3 and §§7.6.1/7.7 (algebraic-space atlases and ringed étale sites); SchemeAndStackFoundations Layer 1 (étale relations and descent), and Noetherian local completion and flatness criteria.
+*Needs:* §C-1.1; AlgebraicModuliForArithmeticGeometry Layer 3 and §§7.6.1/7.7 (algebraic-space atlases and ringed étale sites); SchemeAndStackFoundations §§1.1, 1.3, 1.5–1.10 (descent, algebraic spaces and étale atlases, étale equivalence relations and their quotients, points, fibre products and étale-local properties, local separatedness and separatedness, the small étale site), and Noetherian local completion and flatness criteria.
 
 ### C-1.3 Complex space analytification and local comparison
 
@@ -781,7 +781,9 @@ algebraic spaces, under which étale morphisms become local isomorphisms; SGA 1,
 pp. 239–242, and §3, 3.1 (iii), 3.2 (i) and Remark 3.3 a), printed pp. 244–247, for étale and
 surjective morphisms of schemes; the effective descent of coherent modules along the surjective
 local biholomorphism `U^an → X^an` is sheaf gluing on the analytic side and is proved here). *Needs:* §C-1.2 `complexSpaceAnalytification`;
-`CoherentAnalytification`; `coherentAnalytification_faithful`; SchemeAndStackFoundations Layer 1;
+`CoherentAnalytification`; `coherentAnalytification_faithful`; SchemeAndStackFoundations §§1.1, 1.3,
+1.6, 1.8, 1.9 and 1.11 (descent, étale presentations, fibre products, local separatedness and
+quasi-coherent modules on algebraic spaces with `QCoh.presentationEquiv`);
 AlgebraicModuliForArithmeticGeometry Layer 3.
 
 The functor preserves tensor, coherent internal Hom, open restriction and closed
@@ -1240,7 +1242,7 @@ The comparison maps in (i) and (ii) are the canonical ones of Layer C0.
 
 For the proof, in order: (1) twist cohomology over a parameter base: the question in (i) is local on `S^an`, so take `V` a closed analytic subspace of a polydisc in an ambient chart of `S^an`; the charts `U_i×V` of `P^r×V` and all their intersections are closed subspaces of products of `ℂ^a×(ℂ^*)^b` with polydiscs, hence strongly 1-complete (by the closed-subspace, product, polydisc and torus-product laws of `StronglyOneComplete`), so by `cartanTheoremB` the Čech complex of this cover computes `H^q(P^r×V,O(n))`; expanding sections in convergent Laurent series in the fibre coordinates with coefficients holomorphic on `V`, as in `analyticTwistCohomology`, identifies it with `H^q(P^r,O(n))⊗_ℂ O(V)`, which is the analytification of the algebraic computation AlgebraicModuliForArithmeticGeometry Layer 1 `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, so `θ^q` is an isomorphism for `F=O(n)`; (2) locally on `S` every coherent `F` has an algebraic presentation `O(−b)^m→O(−a)^n→F→0` (`relativeSerre`); analytification is exact (`completedAnalyticStalkComparison` (exact analytification)), both sides vanish for `q>r`, and descending induction on `q` with the five lemma gives (i); (3) for (ii), (i) applied to the coherent Hom sheaves and their cohomology, with local Ext compared through the flat stalk map, gives full faithfulness; for essential surjectivity push an analytic coherent module to `P^r_an`, take a presentation `O(−b)^m→O(−a)^n→F→0` by `twistPresentations`, identify the analytic twists with analytified algebraic twists (the analytification law of `AnalyticTwist`), and use full faithfulness to make the presentation matrix algebraic; `F` is the analytification of the algebraic cokernel, supported on `X`.
 
-*Needs:* ComplexComparisonPartII C0 (`CoherentAnalytification`, `HigherImageComparison`), ComplexComparisonPartII C1.5 (`StronglyOneComplete`, `cartanTheoremB`), ComplexComparisonPartII C1.7 (`projectiveLerayCover`, `AnalyticTwist`, `analyticTwistCohomology`), ComplexComparisonPartII C1.8 (`twistPresentations`), §C-1.2 `completedAnalyticStalkComparison`, AlgebraicModuliForArithmeticGeometry Layer 1 `relativeSerre`, AlgebraicModuliForArithmeticGeometry Layer 1 `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, SchemeAndStackFoundations §2.6.
+*Needs:* ComplexComparisonPartII C0 (`CoherentAnalytification`, `HigherImageComparison`), ComplexComparisonPartII C1.5 (`StronglyOneComplete`, `cartanTheoremB`), ComplexComparisonPartII C1.7 (`projectiveLerayCover`, `AnalyticTwist`, `analyticTwistCohomology`), ComplexComparisonPartII C1.8 (`twistPresentations`), §C-1.2 `completedAnalyticStalkComparison`, AlgebraicModuliForArithmeticGeometry §1.2 `relativeSerre`, AlgebraicModuliForArithmeticGeometry §1.2 `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`, SchemeAndStackFoundations §2.6.
 
 **Checks.**
 
@@ -1762,7 +1764,7 @@ The isomorphism `O_T→(f_T)_*O_{X_T}` (universal functions) is required after e
 
 For the proof, fppf locally on `B` obtain sections by covering from `X` and use the rigidified Picard stack; then universal functions kills its rigidified automorphisms, so the stack is an algebraic space and agrees with the relative class sheaf by the prior splitting theorem; then descend algebraic-space representability and local finite presentation; use the diagonal description for quasi-separatedness.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardSheaf`, AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardBaseChange`, AlgebraicModuliForArithmeticGeometry §7.6.1a `sectionPicardSplit`, §C3.2d.1 `picard_stack_algebraic`, AlgebraicModuliForArithmeticGeometry §7.3 `rigidification_gm_torsor`, SchemeAndStackFoundations Layer 1.
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardSheaf`, AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardBaseChange`, AlgebraicModuliForArithmeticGeometry §7.6.1a `sectionPicardSplit`, §C3.2d.1 `picard_stack_algebraic`, AlgebraicModuliForArithmeticGeometry §7.3 `rigidification_gm_torsor`, SchemeAndStackFoundations §1.2 `spaceFppfDescent`, SchemeAndStackFoundations §§1.3, 1.8 and 1.9 (algebraic spaces, local finite presentation, quasi-separatedness), SchemeAndStackFoundations §1.20 `setoid_criterion`.
 
 **Checks.**
 
@@ -1780,7 +1782,7 @@ The separatedness statement requires integral geometric fibres and does not add 
 
 For the proof, express the diagonal as the locus of relative equality of line-bundle classes, computed by sections of `L` and `L⁻¹`; then use perfect pushforward and rank loci for its immersion and quasi-compactness; then for a valuation-ring test, two positive section spaces on an integral fibre force a line bundle generically trivial and relatively equal to zero; conclude the properness of the diagonal.
 
-*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations Layer 1.
+*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, EnhancedDerivedSheaves E1.9 `perfect_proper_pushforward`, SchemeAndStackFoundations §§1.8 and 1.9 (immersions and quasi-compactness of morphisms of spaces, local separatedness and separatedness), SchemeAndStackFoundations §1.20 (properness from DVR lifts).
 
 **Checks.**
 
@@ -1846,7 +1848,7 @@ Here `P` is a group algebraic space locally of finite presentation over `B`, and
 
 Its API: `Pic⁰` includes naturally into the relative Picard sheaf as a subgroup; for every `B′→B`, the pullback of this subfunctor is canonically the identity-component subfunctor of `P_B′`, naturally in test schemes; the neutral component of a fibre is geometrically connected because it has the identity point; on geometric fibres the sheaf is exactly the identity component, with its full structure; a section of `P` and proofs that all its geometric values lie in the identity components determine a section of `Pic⁰`; membership is equivalent to the identity-component condition at every geometric point of `T`; addition, zero and inverses are specified from `P` and preserve the fibrewise identity-component condition; sections are equal exactly when their images in `P` are equal; no reduction of the represented component is used.
 
-*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, SchemeAndStackFoundations §1.13, SchemeAndStackFoundations Layer 1.
+*Needs:* §C3.2d.2 `relative_picard_algebraicSpace`, SchemeAndStackFoundations §1.13, SchemeAndStackFoundations §§1.3, 1.7 and 1.8 (algebraic spaces, points and connected components of fibres, fibre products and local finite presentation).
 
 **Checks.**
 
@@ -1858,7 +1860,7 @@ Its API: `Pic⁰` includes naturally into the relative Picard sheaf as a subgrou
 
 Prove `picardZeroCriterion`. Assume `B` is locally Noetherian and `P` is the quasi-separated relative Picard group algebraic space locally of finite presentation over `B`. If its geometric identity components are smooth of locally constant dimension, `picardZeroSheaf` is represented by an open group subspace `P⁰` of finite type over `B`. It is smooth over reduced `B`. Over a nonreduced `B`, formal smoothness of `P` along `P⁰` is an additional sufficient hypothesis for smoothness. If the geometric identity components are proper and `P` is separated over `B`, `P⁰` is proper over `B` and closed in `P`. Formation of `P⁰` commutes with arbitrary base change, including nonreduced new bases. For scheme-represented `P` this is the group subscheme criterion. ([Steven L. Kleiman](https://arxiv.org/pdf/math/0504020), Proposition 5.20 and proof, pp. 47–48; the algebraic-space extension is AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`.)
 
-*Needs:* §C3.2f.1 `picardZeroSheaf`, §C3.2d.3 `relative_picard_separated`, AlgebraicModuliForArithmeticGeometry §7.3 `picard_infinitesimal_lifting`, AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`, SchemeAndStackFoundations Layer 1, JacobianChallenge Layer D.
+*Needs:* §C3.2f.1 `picardZeroSheaf`, §C3.2d.3 `relative_picard_separated`, AlgebraicModuliForArithmeticGeometry §7.3 `picard_infinitesimal_lifting`, AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`, SchemeAndStackFoundations §§1.7, 1.8, 1.9 and 1.13 (open subspaces, smooth, finite-type and base-changed morphisms of spaces, separatedness and properness, group spaces), JacobianChallenge Layer D.
 
 
 Apply AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`, including its étale descent, reduced-base flatness and nonreduced-base formal-smoothness argument, to the identity section. Translation gives the group subspace and its finite-type and properness conclusions.
@@ -2023,7 +2025,7 @@ makes it birational on components, and the flat local comparison identifies the 
 printed pp. 13–15). This is the second step of the definable-Chow route of Bakker–Klingler–Tsimerman
 (Theorem 4.12, printed p. 933), whose first step — making a nonproper graph algebraic by o-minimal definability — is outside
 this roadmap. *Needs:* §C-1.2 `completedAnalyticStalkComparison`; `coherentAnalytification_faithful`; AlgebraicModuliForArithmeticGeometry
-Layer 2; SchemeAndStackFoundations Layer 1.
+Layer 2; SchemeAndStackFoundations §1.1 (faithfully flat descent of modules and morphisms).
 
 Prove `familyMorphismInterface`: (1) if `X → S` and `Y → S` are morphisms of schemes of finite type over
 `ℂ` with `X` proper over `ℂ` and `Y` separated, every holomorphic `S^an`-morphism `X^an → Y^an` is the
@@ -2264,8 +2266,8 @@ freeness of each term does not bound it in general. Its API: the displayed formu
 IHÉS 29 (1966), notation (1)–(4), printed pp. 95–96; Stacks, §10.132, tag 0FKF;
 Deligne, *Équations différentielles à points
 singuliers réguliers*, LNM 163 (1970), I.2.20.3–2.21, printed pp. 13–14). *Needs:*
-DerivedDeRhamCohomology Layer 2 §§2.1–2.19 (`DeRham.complex`, `DeRham.complexMap`,
-`DeRham.d_squared`, `DeRham.d_leibniz`); Mathlib `KaehlerDifferential.D`,
+DerivedDeRhamCohomology §§2.10, 2.11, 2.12 and 2.19 (`DeRham.d_squared`, `DeRham.d_leibniz`,
+`DeRham.complex`, `DeRham.complexMap`); Mathlib `KaehlerDifferential.D`,
 `exteriorPower.ιMulti`; TauCetiRoadmap.AlgebraicVectorBundles (L0C exterior powers of locally free
 sheaves); Mathlib `DerivedCategory` (hypercohomology of a bounded-below complex of sheaves of
 `ℂ`-vector spaces on the Zariski site, as morphisms from the constant sheaf in the derived category).
@@ -2736,7 +2738,8 @@ constructing
 *Needs:* CrystallineCohomology CR.1.3, “Modules with integrable connection and their de Rham complexes”; `CoherentAnalytification`;
 `coherentPullbackOperations`; `completedAnalyticStalkComparison` (flatness); Mathlib
 `Module.Flat.of_flat_tensorProduct`, `Module.free_of_flat_of_isLocalRing`;
-SchemeAndStackFoundations Layer 0 (localization and affine gluing).
+SchemeAndStackFoundations §0.9 (spreading out to a finitely generated subfield), SchemeAndStackFoundations
+§0.11 (descent along field extensions); Mathlib localization and affine gluing.
 
 **Checks.**
 
@@ -2759,7 +2762,7 @@ pp. 199–201, §2, Theorem 1 and proof, pp. 201–204, and §3, sequence (13), 
 filtration construction and integrability; Deligne 1970, II.7.7, printed p. 117, for
 `horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; CrystallineCohomology CR.1.3's ordinary connection carrier; `coherentFlatConnection_locallyFree`;
 `relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
-`boundedOperatorHyperGaga`; SchemeAndStackFoundations Layer 2.
+`boundedOperatorHyperGaga`; SchemeAndStackFoundations §2.1 `Sheaf.higherDirectImage`, SchemeAndStackFoundations §2.6 (quasi-coherent and coherent higher direct images).
 
 **Checks.**
 
@@ -2823,7 +2826,7 @@ through this finite filtration proves the augmentation over `A`. Apply
 dimension), then `nonempty_sheafSingularComparison` with coefficients in the additive group of `A`.
 Finite-dimensional coefficient extension gives the final tensor isomorphism and the length
 formula (Deligne 1968, Lemma (5.5.3) and equation (5.5.4), printed p. 124).
-*Needs:* DerivedDeRhamCohomology Layer 2 (`DeRham.complex`, `DeRham.complexMap`);
+*Needs:* DerivedDeRhamCohomology §§2.12 and 2.19 (`DeRham.complex`, `DeRham.complexMap`);
 §§C-1.1–C-1.2 and C1.9 (`ComplexAnalyticSpace`,
 `complexSchemeAnalytification`, its nilpotent and étale comparisons, `properSchemeGagaPushforward`);
 `DifferentialOperatorAnalytification`; `boundedOperatorHyperGaga`; `holomorphicPoincare`;
@@ -2946,7 +2949,7 @@ Hodge structure of `Y^an` restricts (Deligne 1968, Proposition 5.3, printed pp. 
 supplies only the linear algebra; no geometric theorem is attributed to it. *Needs:*
 `kaehlerHodgeDecomposition`; `properDeRhamBetti`; `multiplicativePeriodInterface` (trace);
 AlgebraicModuliForArithmeticGeometry Layer 2 (`devissageViaChow`);
-ResolutionOfSingularitiesCharacteristicZero Layers 1–6 (resolution and SNC compactification);
+ResolutionOfSingularitiesCharacteristicZero §§5.2, 5.5 and 6.2 (embedded and local-isomorphism resolution, SNC compactification);
 SchemeAndStackFoundations §§2.19–2.20 (coherent duality, trace and Serre duality), §4.12
 (Chow's lemma); Tau Ceti `TauCeti.Hodge.HodgeStructureOn`.
 
@@ -3341,8 +3344,9 @@ cuts by divisors (Demailly, V.9.2–9.5, pp. 264–265; V.13.2–13.9, pp. 271�
 and V.15.12 and proofs, pp. 279–281). *Needs:*
 `AnalyticCycleIntegration`; `semipositiveWedge`; `lelongPoincareSection`; ComplexKahlerGeometry K4's Chern connection (C1.3 conventions);
 `integralLineBundleChernClass`; `multiplicativePeriodInterface`;
-`projectiveChowNonreduced`; SchemeAndStackFoundations Layer 5 (degrees and intersection products);
-AlgebraicModuliForArithmeticGeometry Layer 1.
+`projectiveChowNonreduced`; SchemeAndStackFoundations §§5.1–5.3 and 5.6 (cycles, degrees, first Chern
+classes and intersection products); AlgebraicModuliForArithmeticGeometry §1.1 (projective spaces and
+`O(1)`).
 
 Prove `dghIntegrationApplication`: in the setting of Dimitrov–Gao–Habegger, Proposition 4.2, the volume
 estimate on an analytic component is obtained as follows: represent the line bundle on the product of
@@ -3986,7 +3990,7 @@ monoid `P` this is a monoid homomorphism `P → (A, ·)`, not an additive map an
 Morphisms commute with the structure maps. Its API: multiplicative, `α(1) = 1`; morphisms of monoid sheaves compatible with `α`; and restriction to opens (Kato, *Logarithmic structures of Fontaine–Illusie*,
 in *Algebraic Analysis, Geometry, and Number Theory* (1989), §1.1, printed p. 192). *Needs:*
 CrystallineCohomology CR.5:log-algebra.1, “Prelog rings” and “Étale log structures”
-(prelog rings); SchemeAndStackFoundations Layer 1 (sites of schemes);
+(prelog rings); SchemeAndStackFoundations §1.10 (étale sites of schemes);
 Mathlib monoid homomorphisms and sheaves of monoids.
 
 **Checks.**
@@ -4293,7 +4297,7 @@ on a Hodge-type Shimura variety to make horizontal Hodge tensors algebraic).
 *Needs:* `CanonicalLogExtension`; `analyticFlatConnectionLocalSystem`; `relativePoincare`;
 `DifferentialOperatorAnalytification`;
 §C1.9 `properSchemeGagaEquivalence`; ResolutionOfSingularitiesCharacteristicZero §6.2 (SNC compactification);
-SchemeAndStackFoundations Layer 1.
+SchemeAndStackFoundations §1.1 (gluing of sheaves and quasi-coherent modules along open covers).
 
 Prove `regularSingularDeRhamComparison`: for a smooth variety `U` of finite type over `ℂ` and a regular
 singular integrable connection `(E, ∇)` with local system `V = (E^an)^∇`, `H^q_dR(U, (E, ∇)) ≅ H^q(U^an, V)`
@@ -4644,7 +4648,7 @@ finite/étale analytification.
 *Needs:* §C-1.1; §§C6.0–C6.1; §C4.5 `analyticConnectednessComparison`;
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
 `VanishingCycles.constructibleEtale`; UniversalCovers Stages 0–2; the coherent algebraization tools
-of C0–C4 for the finite-cover analytic algebraization constructed in this target.
+of C0–C2 and C4 for the finite-cover analytic algebraization constructed in this target.
 
 **Checks.**
 

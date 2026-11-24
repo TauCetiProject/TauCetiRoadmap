@@ -4720,7 +4720,8 @@ presentation of Γ. Construct this scheme once over ℤ[1/p]; its
 ℤ_ℓ models are base changes, not independent schemes. The expected fiber dimension is dim(Ĥ over
 the base), while the total dimension over ℤ[1/p] includes the base dimension ([DHKM2] §1.2 and
 §2.1–2.2, pp. 4–6 and 10–11). *Needs:* *crossed-cocycles*, *finite-wild-discretization*;
-ReductiveGroups layer 9.
+ReductiveGroups §§9B and 9B.1 (the pinned split group over `ℤ` and its base change; its finite
+presentation, smoothness and relative dimension from the integral charts).
 
 The coordinate ring is a commutative algebra characterized by a natural equivalence of its points with crossed cocycles on the convolution points of a coordinate Hopf algebra. The contravariant action and the scalar functoriality of points are fixed, and evaluation is characterized on every coefficient algebra. Finite presentation applies to a finitely presented source group, while for the actual finite-wild quotient finite presentation, flatness and the fiber dimension are supplied together. Scalar extension is identified on the evaluation generators. The associated affine scheme is Spec of this algebra.
 

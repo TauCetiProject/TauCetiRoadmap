@@ -823,7 +823,7 @@ For the proof, use local smooth embeddings of affine finite-type charts; then th
 
 ### 5.6 Relative embedded resolution with an initial boundary
 
-*Needs:* §§5.2–5.5; Layers 1–4; StableReduction Layer 4; SchemeAndStackFoundations §§0.8, 0.28, 4.17.
+*Needs:* §§5.2–5.5; §§1.1, 1.3, 1.5, 1.6, 1.8 and 1.9 (coordinates, ordered SNC boundaries, permissible centres, transforms and normalized orders); §§2.1, 2.7, 2.13 and 2.14 (contact, Hilbert–Samuel functions and their semicoherent strata); Layers 3–4; StableReduction Layer 4; SchemeAndStackFoundations §§0.8, 0.28, 4.17.
 
 State relative embedded resolution for a reduced closed finite-type characteristic-zero subscheme X of a smooth separated ambient scheme M, and a finite ordered SNC divisor E, with no component of E containing a component of X. The output is a finite tower of blowups with smooth centres permissible for the transforms of E; the strict transform `X′` is smooth and simultaneous-SNC with the transformed initial boundary and the accumulated exceptional divisor. The map is an isomorphism on the open locus where X was already smooth and simultaneous-SNC with E. This differs from the boundary-free theorem, whose isomorphism locus is all `Reg(X)`.
 
@@ -1011,7 +1011,7 @@ Prove local/formal reduction: to resolve a reduced noetherian quasi-excellent �
 
 The intended signatures are rig-regularity on the locally noetherian affine-chart systems above, locally principal formal pairs with ideal-preserving regular maps, and reduction from resolving these pairs to resolving reduced noetherian quasi-excellent ℚ-schemes. Use the supplier’s quotient-scheme sheaves, transition maps and open gluing. Construct the supported completed blowup towers and their chart comparisons in §§7.3–7.4 by completing ordinary blowups and retaining the specified ideal of definition; blowing up each quotient independently is not the formal blowup construction. The restriction, change-of-generator and regular-pullback comparisons are asserted for this same system carrier.
 
-*Needs:* SchemeAndStackFoundations §§0.15, 0.21, 0.28, 4.7–4.8, 4.11; StableReduction Layer 4; Layer 1 order and ideal-transform conventions.
+*Needs:* SchemeAndStackFoundations §§0.15, 0.21, 0.28, 4.7–4.8, 4.11; StableReduction Layer 4; §§1.2 and 1.6 (order and ideal-transform conventions); Layers 5–6 for resolving the field model in weak resolution.
 
 **Checks.**
 
@@ -1036,7 +1036,7 @@ For the weak-resolution prerequisite of §7.2, first establish these algebraizat
 
 The intended outputs are an algebraic model with an isomorphism of its completion to 𝔛, and an algebraization equivalence for closed-fibre-supported marked blowup sequences. Prove the model’s quotient comparisons, the induced blowup-completion isomorphisms, preservation of supports, and naturality for regular maps preserving the closed fibre.
 
-*Needs:* §7.2; SchemeAndStackFoundations §§0.12–0.15, 0.21, 0.28, 4.7–4.8; StableReduction Layer 4; Layers 1–5 for resolving the algebraic model.
+*Needs:* §7.2; SchemeAndStackFoundations §§0.12–0.15, 0.21, 0.28, 4.7–4.8; StableReduction Layer 4; §3.7 and Layer 5 (the field existence theorems) for resolving the algebraic model.
 
 **Checks.**
 
@@ -1110,7 +1110,7 @@ For the proof, use the pair version of Temkin’s local reduction, the local/for
 
 State quasi-excellent total-transform monomialization as a separate companion in the source-supported form: for a reduced closed Z in a noetherian quasi-excellent ℚ-scheme X, with Z nowhere dense in every component of X, one can make X′ regular and its total inverse image of Z a monomial Cartier divisor, with strict-SNC reduced support, preserving the semi-strict pair locus. A literal strict transform of Z along a blowup supported on Z may be empty; it is not the strict transform of an embedded resolution preserving the whole `Reg(Z)`. The full smooth strict-transform and relative resolved-pair assertions, with centres avoiding `Reg(Z)` or the initially resolved pair, are the field targets in Layer 5. The 2011 non-embedded paper supplies no boundary theorem; its introduction explicitly assigns that problem to a separate work.
 
-*Needs:* §§7.2–7.5; Layers 1–6 for the field input; SchemeAndStackFoundations §§0.21, 0.28, 4.11, 4.13, 4.17; StableReduction Layer 4.
+*Needs:* §§7.2–7.5; §3.7 and Layers 5–6 for the field input; SchemeAndStackFoundations §§0.21, 0.28, 4.11, 4.13, 4.17; StableReduction Layer 4.
 
 **Checks.**
 

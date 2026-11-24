@@ -2554,7 +2554,7 @@ of `GLₙ(ℂ)`, so that the two analytic maps are inverse; contractibility and 
 connectedness of `U⁺(ℂ)` are the pinned theorem above applied to the realization. This uses no
 Bruhat, Iwasawa or highest-weight classification theorem. Do not use this characteristic-zero
 argument for arbitrary unipotent groups in characteristic `p`.
-*Needs:* Layers 2–5; `TauCeti.smoothCommHopfAlgProperty_of_charZero`; Mathlib `IsNilpotent.exp`
+*Needs:* Layers 0, 2, 3, 4 and 5; §§3A.5c and 3A.5e (complex points and the complex Lie group `G(ℂ)`); `TauCeti.smoothCommHopfAlgProperty_of_charZero`; Mathlib `IsNilpotent.exp`
 and `IsNilpotent.exp_add_of_commute`; Tau Ceti's `IsNilpotent.log`,
 `TauCeti.UpperUnitriangular.expCoordinateEquiv` and the unipotent
 matrix-group theorems of the supplier contracts.
@@ -2575,7 +2575,7 @@ matrix-group theorems of the supplier contracts.
 
 ### Dependencies
 
-Layers 2–5; the supplied characteristic-zero smoothness theorem; Mathlib's finite
+Layers 0, 2, 3, 4 and 5; §§3A.5c and 3A.5e for the complex points; the supplied characteristic-zero smoothness theorem; Mathlib's finite
 exponential of a nilpotent element; Tau Ceti's finite logarithm, exponential coordinates on
 `Uₙ` and the unipotent matrix-group theorems (supplier contracts).
 
@@ -3210,7 +3210,7 @@ connected semisimple predicate (supplier contracts).
 
 ### Dependencies
 
-Layers 2–5 and §§3A.1–3A.5 (the pinned orbit theorems and the complex charts); Layer 7C for the
+Layers 2, 3, 4 and 5 and §§3A.1–3A.5 (the pinned orbit theorems and the complex charts); Layer 7C for the
 ordered coordinates of the cells; Tau Ceti's Tits systems, normalizer points and finite root-system API and Weyl Coxeter presentation (supplier contracts); Tau Ceti's Lie–Kolchin theorem and its Borel, reductive and dynamic interfaces; Mathlib's root pairings
 and Coxeter groups.
 
@@ -3519,7 +3519,7 @@ contracts); SchemeAndStackFoundations §1.1 (fpqc descent) and §1.15 (torsors u
 
 ### Dependencies
 
-Layers 0 and 3 for the point comparison and subgroup hypotheses; the pinned closed orbits of Layer 3A and SchemeAndStackFoundations §0.7 for
+Layers 0 and 3 for the point comparison and subgroup hypotheses; the pinned closed orbits of §3A.4 and SchemeAndStackFoundations §0.7 for
 the proof of Lang's theorem; Layer 7 for the reductive examples and for §§7a.1–7a.2; Layer 7C for
 the products of root subgroups of §7a.1; Layer 2's tangent spaces and
 SchemeAndStackFoundations §§1.1 and 1.15 for §7a.3.
@@ -5852,7 +5852,7 @@ precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes
   are distinguished by their full lattices. *Needs:*
   Layer 7's root data; §§8.1–8.2's split data and pinnings; for the central kernels `D_S(M)`, the
   pinned `TauCeti.DiagonalizableGroup.groupScheme` and this layer's multiplicative-type theory
-  over `S` (below); Layer 9's split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
+  over `S` (below); §§9B, 9B.0, 9B.2 and 9B.3 for the split models over `ℤ`, their central quotients and pinned comparison; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
   `TauCeti.HasCartanType.of_base` and `TauCeti.nonempty_equiv_of_hasCartanType` for the
   Dynkin classification.
 - **Relative reductive groups over an arbitrary affine base.** For `S=Spec R`, `R`
@@ -5966,9 +5966,9 @@ precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes
   Theorem 5.3.1, pp. 160–161, for the derived group; Theorems 3.2.6 and 5.2.11, pp. 94–95 and
   157–158, for the schemes of maximal tori and of Borels;
   Theorems 6.1.16–6.1.17, pp. 196–197, for the relative isogeny and isomorphism theorems.)
-  *Needs:* Layer 0's dictionaries and base change; Layers 3–4 for the field-level
+  *Needs:* Layer 0's dictionaries and base change; Layers 3 and 4 for the field-level
   comparisons; Layers 5–7 for the geometric radicals, the reductivity predicate over fields and
-  root-datum extraction on the fibres; Layer 9's split integral models;
+  root-datum extraction on the fibres; §§9B and 9B.0–9B.4 for the split integral models;
   SchemeAndStackFoundations §0.9 for the finite-presentation comparison, §1.1 for descent and
   gluing along open covers, §§1.13–1.16 and ModularCurves §0E. For the multiplicative-type
   theory over `S`: the pinned
@@ -6128,7 +6128,7 @@ lattices; Layer 3's closed subgroups and quotients; the pinned Weil restriction 
 
 ### Dependencies
 
-Layers 0, 3, 4, 5, 6, 7, 8.1–8.2 and 9; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §§0.9, 1.1 and
+Layers 0, 3, 4, 5, 6, 7 and 8.1–8.2; §§9B and 9B.0–9B.4; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §§0.9, 1.1 and
 1.13–1.16; ModularCurves §0E; EtaleCohomologyFoundations F.0.1–F.0.2; Tau Ceti's diagonalizable
 group schemes and multiplicative-type theory, pseudo-reductive theory and Weil restriction of
 `𝔾_m` (supplier contracts).

@@ -535,8 +535,8 @@ decomposing their K-classes into open-support classes.
   `p₁ = d/dx` and `p₂ = 2 d/dx` it is `φψ d/dx`, of order 1 where `φψ ≠ 0` and not compact
   `H¹ → L²`, so the common-principal-part hypothesis is not removable.
 
-*Needs:* Layers 2.1–2.3; GeometricTopology Layer 1 gluing and collars; ComplexKahlerGeometry
-K5a; PseudodifferentialOperators P4 properly supported quantization.
+*Needs:* Layers 2.1–2.3; GeometricTopology §§1.1 and 1.3 (collars and full-boundary gluing); ComplexKahlerGeometry
+§5.4 (*The compact-bundle Sobolev scale*, Rellich); PseudodifferentialOperators P4 properly supported quantization.
 
 ### 2.6 The norm closure of the order-zero algebra (I2.6)
 
@@ -615,7 +615,7 @@ base; extension preserves the compact support of each class.
 - Two metric splittings of `TM → TN|M` differ by a map into the normal bundle and are joined by
   the linear path of splittings.
 
-*Needs:* GeometricTopology Layer 1 tubular neighbourhoods; HopfRinow Layer 1; SmoothBundlesConnections
+*Needs:* GeometricTopology §1.5 (tubular neighbourhoods); HopfRinow Layer 1; SmoothBundlesConnections
 B3–B4.
 
 ### 3.2 The cotangent pushforward (I3.2)
@@ -956,7 +956,7 @@ transformation at infinity and its symbol orientation through the local excision
 - `κ` reverses the sign of every fibre coordinate, so on `ℝⁿ ⊗ ℂ` it multiplies the wedge class by
   `(−1)^n det`, which is `−sgn` for `n = 1`.
 
-*Needs:* TopologicalKTheory T7.5; ComplexKahlerGeometry K5; Layer 2.5.
+*Needs:* TopologicalKTheory T7.5; ComplexKahlerGeometry §§5.5 and 5.7 (de Rham cohomology and the real Hodge theorem); Layer 2.5.
 
 ### 5.2 The O(1) Bott class through the circle Toeplitz operator (I5.2)
 
@@ -1213,7 +1213,7 @@ series. In dimension 4 verify `sign(M) = ⟨p₁(TM)/3, [M]⟩`.
 - `S²` (dimension `4·0 + 2`): the middle pairing on `H¹ = 0` is alternating and the chiral index
   is 0; on `S⁴`, `σ = 0 = p₁/3`.
 
-*Needs:* Layers 6.1–6.3; SpinGeometry G2; ComplexKahlerGeometry K5; CharacteristicClasses C5.
+*Needs:* Layers 6.1–6.3; SpinGeometry G2; ComplexKahlerGeometry §§5.1, 5.5 and 5.7 (complex Hodge star, de Rham pairing and the real Hodge theorem); CharacteristicClasses C5.
 
 ### 7.3 The Dolbeault operator and Hirzebruch–Riemann–Roch (I7.3)
 

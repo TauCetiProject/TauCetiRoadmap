@@ -1087,7 +1087,7 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   `200 ≤ x ≤ x₁`, `44 ≤ x ≤ x₁`; and the values `θ(x₁)` and `π_r(x₁)`, `r ∈ {2, 3, 4, 5}`, that
   enter the constants `C₀` (`deleglise-nicolas-2019-landau` lines 706–750, 758–762, 771, 785–787).
 
-*Needs:* the carriers of Layer 0; Mathlib `Nat.nth Nat.Prime`.
+*Needs:* §0.3a (`li`); §0.4 (Büthe's constant `A` and transfer); AnalyticNumberTheoryPartI §0.8 (the constant `E`); Tau Ceti `TauCeti.LFunctions.mertensConstant`; Mathlib `Nat.nth Nat.Prime`.
 
 ### 1.4 Prime-gap verifications
 

@@ -1,133 +1,213 @@
 import Mathlib
 import TauCeti.GroupTheory.Coxeter.Poincare
-import TauCeti.LinearAlgebra.RootSystem.Positive
-import TauCeti.LinearAlgebra.RootSystem.Weyl.Group
+import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
+import TauCeti.LinearAlgebra.RootSystem.HighestRoot
+import TauCeti.RepresentationTheory.Pseudoreflection
+import TauCeti.RepresentationTheory.SymmetricAlgebra.Basic
+import TauCeti.RepresentationTheory.SymmetricAlgebra.HilbertIdeal
 
 /-!
-# Reflection invariants: selected concrete signatures and conventions
+# Reflection invariants: target signatures
 
-This file is advisory target material, not the specification; see `README.md`. It exhibits the
-actual polynomial, action, fixed-subalgebra, evaluation, and quotient carriers. The theorems remain
-construction targets; a signature and an admitted body do not prove the README.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each admitted, on the native carriers: the
+polynomial functions `SymmetricAlgebra K (Module.Dual K V)` with the contragredient action
+`ρ.dual`, the invariant subalgebra `Representation.symmetricAlgebraInvariants`, the
+pseudoreflection subgroup `Representation.pseudoreflectionSubgroup`, the Hilbert ideal
+`Representation.symmetricAlgebraHilbertIdeal`, Mathlib's root pairings and Weyl groups, and the
+Coxeter system `TauCeti.weylCoxeterSystem` of a Weyl group.
+
+The forward direction of the Shephard–Todd theorem is proved in Tau Ceti, in greater generality
+(`Representation.exists_bijective_aeval_symmetricAlgebraInvariants_dual_of_pseudoreflectionSubgroup_eq_top`);
+it is stated below only inside the equivalence `shephard_todd_target`, whose converse direction
+the pinned libraries do not prove.
+
+Two headline theorems are not statable at the pins.
+
+* The Coxeter presentation of a finite real reflection group by the reflections in the walls of a
+  chamber, and the identity `Hilb(C_W, t) = Σ_w t^ℓ(w)` for its length function: the pinned
+  libraries have no chambers of a real hyperplane arrangement and no Coxeter system on a general
+  finite real reflection group. The identity is stated for Weyl groups, through
+  `TauCeti.weylCoxeterSystem`, as `poincarePolynomial_weylCoxeterSystem_eq_prod`.
+* The Poincaré polynomial of the flag manifold `G/T` of a compact connected Lie group: the pinned
+  libraries have no maximal tori of compact Lie groups and no cohomology of their flag manifolds.
 -/
 
 namespace TauCetiRoadmap.ReflectionInvariantTheory
 
-/-- The polynomial algebra on the dual of the actual representation space. -/
-abbrev PolynomialCarrier (K : Type*) [CommSemiring K] (V : Type*) [AddCommMonoid V]
-    [Module K V] := SymmetricAlgebra K (Module.Dual K V)
+open TauCeti.SymmetricAlgebra
 
-/-- Extend the degree-one contragredient map `φ ↦ φ ∘ ρ(g⁻¹)` multiplicatively to the symmetric
-algebra. The representation and acting element remain explicit inputs. -/
-def polynomialActionAlgHom
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) (g : G) :
-    PolynomialCarrier K V →ₐ[K] PolynomialCarrier K V :=
-  SymmetricAlgebra.lift
-    ((SymmetricAlgebra.ι K (Module.Dual K V)).comp
-      (((ρ (g⁻¹)).dualMap).toLinearMap))
+/-- `f₁, …, fₙ` is a **system of basic invariants** of `ρ`, of degrees `d₁, …, dₙ`: each `fᵢ` is a
+homogeneous invariant polynomial function on `V` of degree `dᵢ`, and `Xᵢ ↦ fᵢ` is an isomorphism
+from the polynomial ring `K[X₁, …, Xₙ]` onto the invariant ring `Sym(V*)^G`. -/
+def IsBasicInvariants {K G V : Type*} [Field K] [Group G] [AddCommGroup V] [Module K V]
+    (ρ : Representation K G V) {n : ℕ} (f : Fin n → ρ.dual.symmetricAlgebraInvariants)
+    (d : Fin n → ℕ) : Prop :=
+  (∀ i, (f i : SymmetricAlgebra K (Module.Dual K V)) ∈
+      homogeneousSubmodule K (Module.Dual K V) (d i)) ∧
+    Function.Bijective (MvPolynomial.aeval (R := K) f)
 
-/-- The actual action on the polynomial carrier is defined by the multiplicative extension above.
-Only the group-action laws remain proof targets; the algebra map laws follow from `lift`. -/
-noncomputable def contragredientPolynomialAction
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) : MulSemiringAction G (PolynomialCarrier K V) where
-  smul g p := polynomialActionAlgHom ρ g p
-  one_smul p := by
-    change polynomialActionAlgHom ρ 1 p = p
-    sorry
-  mul_smul g h p := by
-    change polynomialActionAlgHom ρ (g * h) p =
-      polynomialActionAlgHom ρ g (polynomialActionAlgHom ρ h p)
-    sorry
-  smul_zero g := (polynomialActionAlgHom ρ g).map_zero
-  smul_add g p q := (polynomialActionAlgHom ρ g).map_add p q
-  smul_one g := (polynomialActionAlgHom ρ g).map_one
-  smul_mul g p q := (polynomialActionAlgHom ρ g).map_mul p q
+/-- `c` is a **Coxeter element** for the base `b`: the product, in some order, of the simple
+reflections of `b`, each taken once. -/
+def IsCoxeterElement {ι R M N : Type*} [CommRing R] [AddCommGroup M] [Module R M]
+    [AddCommGroup N] [Module R N] {P : RootPairing ι R M N} (b : P.Base) (c : P.weylGroup) :
+    Prop :=
+  ∃ l : List ι, l.Nodup ∧ (∀ i, i ∈ l ↔ i ∈ b.support) ∧
+    c = (l.map (RootPairing.weylGroup.ofIdx P)).prod
 
-/-- The actual fixed subalgebra of the polynomial carrier for the action induced by `ρ`. -/
-noncomputable def invariantSubalgebra
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) :
-    Subalgebra K (PolynomialCarrier K V) := by
-  letI : MulSemiringAction G (PolynomialCarrier K V) := contragredientPolynomialAction ρ
-  letI : SMulCommClass G K (PolynomialCarrier K V) := by
-    refine ⟨?_⟩
-    intro g k p
-    change polynomialActionAlgHom ρ g (k • p) = k • polynomialActionAlgHom ρ g p
-    exact (polynomialActionAlgHom ρ g).toLinearMap.map_smul k p
-  exact FixedPoints.subalgebra K (PolynomialCarrier K V) G
+/-! ## Layer 2: pseudoreflection groups and the Shephard–Todd theorem -/
 
-/-- A chosen family of invariant polynomials is evaluated by the native multivariate evaluation
-hom. The family remains an explicit input to the evaluation map. -/
-noncomputable def evaluateInvariantFamily
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) (n : ℕ)
-    (f : Fin n → invariantSubalgebra ρ) :
-    MvPolynomial (Fin n) K →ₐ[K] invariantSubalgebra ρ := by
-  exact MvPolynomial.aeval f
-
-/-- The Hilbert ideal generated by augmentation-zero invariants, with the action and its fixed
-subalgebra retained in the carrier. -/
-noncomputable def positiveInvariantIdeal
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) :
-    Ideal (PolynomialCarrier K V) := by
-  let A := PolynomialCarrier K V
-  let R := invariantSubalgebra ρ
-  exact Ideal.span (Set.range fun p : {r : R // SymmetricAlgebra.algebraMapInv (r.1 : A) = 0} =>
-    (p.1 : A))
-
-/-- The reflection coinvariant quotient is the quotient by the positive-invariant ideal. This is
-not the Hopf-ideal coordinate-ring coinvariant subalgebra. -/
-noncomputable def reflectionCoinvariantAlgebra
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) :=
-    PolynomialCarrier K V ⧸ positiveInvariantIdeal ρ
-
-/-- The concrete subgroup-generation condition for the complex branch. -/
-def generatedByPseudoreflections
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] [FiniteDimensional K V] (ρ : G →* (V ≃ₗ[K] V)) : Prop :=
-    Subgroup.closure {g : G | g ≠ 1 ∧
-      Module.finrank K (LinearMap.ker ((ρ g).toLinearMap - LinearMap.id)) + 1 =
-        Module.finrank K V} = ⊤
-
-/-- A polynomial presentation of the actual fixed subalgebra by a finite-dimensional polynomial
-algebra and its native evaluation map. -/
-def HasPolynomialInvariantPresentation
-    {K : Type*} [Field K] {G : Type*} [Group G] {V : Type*} [AddCommGroup V]
-    [Module K V] (ρ : G →* (V ≃ₗ[K] V)) : Prop :=
-    ∃ (n : ℕ) (f : Fin n → invariantSubalgebra ρ),
-      Function.Bijective (evaluateInvariantFamily ρ n f)
-
-/-- Both directions of the complex Shephard--Todd target retain faithfulness, the actual
-representation, and the actual fixed algebra. -/
-theorem shephard_todd_target
-    {K : Type*} [Field K] [IsAlgClosed K] [CharZero K] {G : Type*} [Group G] [Fintype G]
-    {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    (ρ : G →* (V ≃ₗ[K] V)) (hfaithful : Function.Injective ρ) :
-    generatedByPseudoreflections ρ ↔ HasPolynomialInvariantPresentation ρ := by
+/-- **The Shephard–Todd theorem.** Let `K` be an algebraically closed field of characteristic
+zero and `G` a finite group acting faithfully and linearly on a finite-dimensional `K`-vector
+space `V`. Then `G` is generated by pseudoreflections, the elements whose fixed space is a
+hyperplane, if and only if the invariant polynomial functions `Sym(V*)^G` form a polynomial
+algebra. -/
+theorem shephard_todd_target {K : Type*} [Field K] [IsAlgClosed K] [CharZero K]
+    {G : Type*} [Group G] [Finite G] {V : Type*} [AddCommGroup V] [Module K V]
+    [FiniteDimensional K V] (ρ : Representation K G V) (hρ : Function.Injective ρ) :
+    ρ.pseudoreflectionSubgroup = ⊤ ↔
+      ∃ (n : ℕ) (f : Fin n → ρ.dual.symmetricAlgebraInvariants),
+        Function.Bijective (MvPolynomial.aeval (R := K) f) := by
   sorry
 
-/-- The degree lists keep the full permutation representation separate from its trace-zero
-reflection representation. -/
-def symmetricGroupFullDegrees (n : ℕ) : List ℕ := (List.range n).map (fun i => i + 1)
-def symmetricGroupTraceZeroDegrees (n : ℕ) : List ℕ := (List.range (n - 1)).map (fun i => i + 2)
-example : symmetricGroupFullDegrees 4 = [1, 2, 3, 4] := by decide
-example : symmetricGroupTraceZeroDegrees 4 = [2, 3, 4] := by decide
+/-! ## Layer 3: finite real reflection groups -/
 
-def e8Exponents : List ℕ := [1, 7, 11, 13, 17, 19, 23, 29]
-example : e8Exponents.length = 8 := by decide
+/-- **The product of the degrees is the order of the group.** For a finite group `G` acting
+faithfully on a finite-dimensional vector space over a field of characteristic zero and generated
+by pseudoreflections, the degrees `d₁, …, dₙ` of any system of basic invariants satisfy
+`d₁ ⋯ dₙ = |G|`. A finite real reflection group is the case of the field `ℝ`. -/
+theorem prod_degrees_eq_card {K G V : Type*} [Field K] [CharZero K] [Group G] [Finite G]
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V] (ρ : Representation K G V)
+    (hρ : Function.Injective ρ) (hG : ρ.pseudoreflectionSubgroup = ⊤) {n : ℕ}
+    (f : Fin n → ρ.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants ρ f d) :
+    ∏ i, d i = Nat.card G := by
+  sorry
 
-/-- H3 is outside the crystallographic coprime-exponent theorem. -/
-def h3Exponents : Finset ℕ := {1, 5, 9}
-example : Nat.Coprime 3 10 ∧ 3 ∉ h3Exponents := by norm_num [h3Exponents]
-example : Nat.Coprime 7 10 ∧ 7 ∉ h3Exponents := by norm_num [h3Exponents]
+/-- **The sum of the degrees counts the pseudoreflections.** For a finite group `G` acting
+faithfully on a finite-dimensional vector space over a field of characteristic zero and generated
+by pseudoreflections, the degrees `d₁, …, dₙ` of any system of basic invariants satisfy
+`d₁ + ⋯ + dₙ = n + N`, where `N` is the number of pseudoreflections of `G`, the elements whose
+fixed space is a hyperplane. For a finite real reflection group these are its reflections. -/
+theorem sum_degrees_eq_add_card_reflections {K G V : Type*} [Field K] [CharZero K] [Group G]
+    [Finite G] [AddCommGroup V] [Module K V] [FiniteDimensional K V] (ρ : Representation K G V)
+    (hρ : Function.Injective ρ) (hG : ρ.pseudoreflectionSubgroup = ⊤) {n : ℕ}
+    (f : Fin n → ρ.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants ρ f d) :
+    ∑ i, d i = n + Nat.card {g : G // Module.finrank K (V ⧸ (ρ g).fixedSubmodule) = 1} := by
+  sorry
 
-/-!
-The ungraded regular-module conclusion and the graded fake-degree character are distinct README
-targets; the code makes no claim to have proved either.
--/
+/-- **The Hilbert series of the coinvariant algebra.** For a finite group `G` generated by
+pseudoreflections of a finite-dimensional vector space `V` over a field of characteristic zero,
+with basic invariants of degrees `d₁, …, dₙ`, the coinvariant algebra
+`C = Sym(V*) ⧸ (Sym(V*)^G₊ · Sym(V*))` has Hilbert series `∏ᵢ (1 + t + ⋯ + t^(dᵢ - 1))`: its
+degree-`k` part, the image of the degree-`k` polynomial functions, has dimension the coefficient
+of `t^k`. -/
+theorem poincareSeries_coinvariants_eq_prod {K G V : Type*} [Field K] [CharZero K] [Group G]
+    [Finite G] [AddCommGroup V] [Module K V] [FiniteDimensional K V] (ρ : Representation K G V)
+    (hG : ρ.pseudoreflectionSubgroup = ⊤) {n : ℕ}
+    (f : Fin n → ρ.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants ρ f d) :
+    PowerSeries.mk (fun k ↦ (Module.finrank K
+        ((homogeneousSubmodule K (Module.Dual K V) k).map
+          (Ideal.Quotient.mkₐ K ρ.dual.symmetricAlgebraHilbertIdeal).toLinearMap) : ℤ)) =
+      ∏ i, ∑ j ∈ Finset.range (d i), (PowerSeries.X : PowerSeries ℤ) ^ j := by
+  sorry
+
+/-- **The coinvariant algebra is the regular representation.** For a finite group `G` acting
+faithfully on a finite-dimensional vector space over a field `K` of characteristic zero and
+generated by pseudoreflections, the coinvariant algebra `C`, with the action of `G` induced from
+the polynomial functions, is isomorphic as an ungraded representation of `G` to the left regular
+representation `K[G]`. -/
+theorem exists_linearEquiv_coinvariants_monoidAlgebra {K G V : Type*} [Field K] [CharZero K]
+    [Group G] [Finite G] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    (ρ : Representation K G V) (hρ : Function.Injective ρ) (hG : ρ.pseudoreflectionSubgroup = ⊤) :
+    ∃ e : (SymmetricAlgebra K (Module.Dual K V) ⧸ ρ.dual.symmetricAlgebraHilbertIdeal) ≃ₗ[K]
+        MonoidAlgebra K G,
+      ∀ (g : G) (p : SymmetricAlgebra K (Module.Dual K V)),
+        e (Ideal.Quotient.mk _ (ρ.dual.symmetricAlgebra g p)) =
+          MonoidAlgebra.of K G g * e (Ideal.Quotient.mk _ p) := by
+  sorry
+
+/-! ## Layer 4: the crystallographic Weyl/Coxeter dictionary -/
+
+/-- **The length polynomial of a Weyl group is the product of the degree polynomials.** For a
+finite reduced crystallographic root pairing over a field of characteristic zero, with base `b`,
+the length-generating polynomial `Σ_w t^ℓ(w)` of the Weyl group with its simple reflections is
+`∏ᵢ (1 + t + ⋯ + t^(dᵢ - 1))`, for the degrees `dᵢ` of any system of basic invariants of the
+Weyl group acting on the weight space. -/
+theorem poincarePolynomial_weylCoxeterSystem_eq_prod {ι K M N : Type*} [Field K] [CharZero K]
+    [AddCommGroup M] [Module K M] [AddCommGroup N] [Module K N] [FiniteDimensional K M]
+    [Finite ι] (P : RootPairing ι K M N) [P.IsCrystallographic] [P.IsReduced]
+    [Finite P.weylGroup] (b : P.Base) {n : ℕ}
+    (f : Fin n → P.weylGroupRootRep.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants P.weylGroupRootRep f d) :
+    TauCeti.poincarePolynomial (TauCeti.weylCoxeterSystem P b) =
+      ∏ i, ∑ j ∈ Finset.range (d i), (Polynomial.X : Polynomial ℤ) ^ j := by
+  sorry
+
+/-- **The Coxeter number.** For an irreducible reduced crystallographic finite root pairing over a
+field of characteristic zero, with at least one root, every Coxeter element `c` has order
+`h = |Φ| / r`, where `r` is the number of simple roots: `|Φ| = r · ord(c)`. -/
+theorem card_eq_card_support_mul_orderOf {ι K M N : Type*} [Field K] [CharZero K]
+    [AddCommGroup M] [Module K M] [AddCommGroup N] [Module K N] [Finite ι] [Nonempty ι]
+    (P : RootPairing ι K M N) [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible]
+    (b : P.Base) (c : P.weylGroup) (hc : IsCoxeterElement b c) :
+    Nat.card ι = b.support.card * orderOf c := by
+  sorry
+
+/-- **The height of the highest root.** For an irreducible reduced crystallographic finite root
+pairing over a field of characteristic zero, with at least one root, the highest root `θ` has
+height `h - 1`, where `h` is the order of any Coxeter element. -/
+theorem height_highestRoot_add_one_eq_orderOf {ι K M N : Type*} [Field K] [CharZero K]
+    [AddCommGroup M] [Module K M] [AddCommGroup N] [Module K N] [Finite ι] [Nonempty ι]
+    (P : RootPairing ι K M N) [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible]
+    (b : P.Base) (c : P.weylGroup) (hc : IsCoxeterElement b c) :
+    b.height b.highestRoot + 1 = (orderOf c : ℤ) := by
+  sorry
+
+/-- **Kostant's height partition.** For a reduced crystallographic finite root pairing over a
+field of characteristic zero with finite Weyl group, irreducible or not, and every `j ≥ 1`, the
+number of roots of height `j` equals the number of exponents `eᵢ = dᵢ - 1` with `eᵢ ≥ j`, the
+`dᵢ` being the degrees of any system of basic invariants of the Weyl group acting on the weight
+space; a fixed direction contributes the exponent `0`, which no `j ≥ 1` counts. -/
+theorem card_height_eq_card_degrees {ι K M N : Type*} [Field K] [CharZero K]
+    [AddCommGroup M] [Module K M] [AddCommGroup N] [Module K N] [FiniteDimensional K M]
+    [Finite ι] (P : RootPairing ι K M N) [P.IsCrystallographic] [P.IsReduced]
+    [Finite P.weylGroup] (b : P.Base) {n : ℕ}
+    (f : Fin n → P.weylGroupRootRep.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants P.weylGroupRootRep f d) (j : ℕ) (hj : 1 ≤ j) :
+    Nat.card {i : ι // b.height i = j} = (Finset.univ.filter fun k ↦ j < d k).card := by
+  sorry
+
+/-- **The coprime exponents.** For an irreducible reduced crystallographic finite root pairing
+over a field of characteristic zero, with at least one root, and a Coxeter element of order `h`,
+every integer `e` with `1 ≤ e < h` and `gcd(e, h) = 1` is an exponent: `e + 1` is the degree of
+some member of any system of basic invariants of the Weyl group acting on the weight space. -/
+theorem exists_degree_eq_of_coprime {ι K M N : Type*} [Field K] [CharZero K]
+    [AddCommGroup M] [Module K M] [AddCommGroup N] [Module K N] [FiniteDimensional K M]
+    [Finite ι] [Nonempty ι] (P : RootPairing ι K M N) [P.IsCrystallographic] [P.IsReduced]
+    [P.IsIrreducible] (b : P.Base) (c : P.weylGroup) (hc : IsCoxeterElement b c) {n : ℕ}
+    (f : Fin n → P.weylGroupRootRep.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants P.weylGroupRootRep f d) (e : ℕ) (he : 1 ≤ e)
+    (heh : e < orderOf c) (hcop : e.Coprime (orderOf c)) :
+    ∃ k, d k = e + 1 := by
+  sorry
+
+/-- **The eigenvalues of a Coxeter element.** For an irreducible reduced crystallographic finite
+root pairing over `ℂ`, with at least one root, a Coxeter element `c` of order `h` acts on the
+weight space with characteristic polynomial `∏ᵢ (X - exp(2πi eᵢ / h))`, where `eᵢ = dᵢ - 1` runs
+over the exponents of any system of basic invariants of the Weyl group acting on the weight
+space. -/
+theorem charpoly_coxeterElement_eq_prod {ι M N : Type*} [AddCommGroup M] [Module ℂ M]
+    [AddCommGroup N] [Module ℂ N] [FiniteDimensional ℂ M] [Finite ι] [Nonempty ι]
+    (P : RootPairing ι ℂ M N) [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible]
+    (b : P.Base) (c : P.weylGroup) (hc : IsCoxeterElement b c) {n : ℕ}
+    (f : Fin n → P.weylGroupRootRep.dual.symmetricAlgebraInvariants) (d : Fin n → ℕ)
+    (hf : IsBasicInvariants P.weylGroupRootRep f d) :
+    LinearMap.charpoly (P.weylGroupRootRep c) =
+      ∏ i, (Polynomial.X - Polynomial.C
+        (Complex.exp (2 * Real.pi * Complex.I * ((d i : ℂ) - 1) / (orderOf c : ℂ)))) := by
+  sorry
 
 end TauCetiRoadmap.ReflectionInvariantTheory

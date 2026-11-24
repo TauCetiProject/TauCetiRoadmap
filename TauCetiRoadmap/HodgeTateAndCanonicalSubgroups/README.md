@@ -105,7 +105,7 @@ On affine charts `S=Spec R`, write `H(L)` for the supplied `FiniteFlat.points H 
 
 Sources: [FAR10], §9.2, Def. 17, p. 25; [SW13], §5.1, Prop. 5.1.6 and its proof, pp. 49–50; [AIP15], §3.2, the Hodge–Tate map, p. 12.
 
-*Needs:* §0.1; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`; `TauCeti.Bialgebra.cotangentMap_mul`; `IsGroupLikeElem`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.24a (points and Galois models); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `GroupLike`; `CategoryTheory.Grp`; §0.21.
+*Needs:* §0.1; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`; `TauCeti.Bialgebra.cotangentMap_mul`; `IsGroupLikeElem`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.24a (points and Galois models); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.7 (p divisible cartier dual); `GroupLike`; `CategoryTheory.Grp`; §0.21.
 
 ### 0.3 Functoriality, endomorphisms and polarisations of the Hodge–Tate map
 
@@ -120,7 +120,7 @@ Use `AbelianSchemesAndArithmeticModuli` A3’s Weil-pairing sign; reversing it c
 
 Sources: [FAR10], §9.2, Def. 17, p. 25.
 
-*Needs:* §0.2; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `AbelianSchemesAndArithmeticModuli` A3.5; `AbelianSchemesAndArithmeticModuli` A3.7; `AbelianSchemesAndArithmeticModuli` A4.5.
+*Needs:* §0.2; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.7 (p divisible cartier dual); `AbelianSchemesAndArithmeticModuli` A3.5; `AbelianSchemesAndArithmeticModuli` A3.7; `AbelianSchemesAndArithmeticModuli` A4.5.
 
 ### 0.4 The Hodge–Tate map of a p-divisible group and its completed linearisation
 
@@ -146,7 +146,7 @@ Use R07.1.8's Tate module with finite levels `FiniteFlat.points G[p^n] C` from R
 
 Sources: [SW13], §5.1, Prop. 5.1.6 and its proof, pp. 49–50.
 
-*Needs:* §0.2; §0.3; §0.1; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible tate module); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `PadicInt`; `PadicComplex`; `IsAdicComplete`; §0.25; §0.23.
+*Needs:* §0.2; §0.3; §0.1; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.8 (p divisible tate module); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.7 (p divisible cartier dual); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.24a (points and Galois models); `PadicInt`; `PadicComplex`; `IsAdicComplete`; §0.25; §0.23.
 
 ### 0.5 Fargues's bound on the cokernel of the Hodge–Tate map
 
@@ -162,7 +162,7 @@ The finite flat conclusion is stated as `HodgeTate.farguesHodgeTateCokernel_fini
 
 Sources: [FAR10], §9, Thm. 7 and its proof, p. 26 (author copy; `p≠2`); [FAR11], §5.3.2, Thm. 2 and its proof, pp. 24–25, and §5.4, Thm. 3, p. 25, whose proof uses Thm. 1, p. 23, stated for `p≠2`; [SW20], §12.1, Thm. 12.1.1, p. 98 (exactness over C); [CDM12], Thm. 4.13 and Rem. 4.14, pp. 27–28; [PIL20], §14.1, proof of Lem. 14.1.1, p. 92.
 
-*Needs:* §0.2; §0.4; §0.25; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible group); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (oort tate classification); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.40; §0.22.
+*Needs:* §0.2; §0.4; §0.25; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.5 (p divisible group levels); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.6 (p divisible group); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.34 (oort tate classification); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.40; §0.22.
 
 ### 0.6 Fargues's degree of a finite flat group scheme
 
@@ -186,7 +186,7 @@ Let K be henselian rank one of characteristic zero, `v(p)=1`, and G finite local
 
 Sources: [FAR10], §2, Def. 3, p. 7; §3, Def. 4, p. 9; Introduction, p. 2; [PIL20], §7.4.2, proof of Prop. 7.4.2.1, p. 48.
 
-*Needs:* §0.1; `Valuation`; `ValuationSubring`; `Module.length`; §0.24; §0.26; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible group).
+*Needs:* §0.1; `Valuation`; `ValuationSubring`; `Module.length`; §0.24; §0.26; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.5 (p divisible group levels); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.6 (p divisible group).
 
 ### 0.7 Additivity, duality and extreme values of the degree
 
@@ -200,7 +200,7 @@ For finite flat commutative p-power groups over `O_K` as in 0.6, prove additivit
 
 Sources: [FAR10], §2, Lem. 1, p. 7; §3, Lem. 4, p. 9; §3, Exemple 2, p. 9.
 
-*Needs:* §0.6; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible dimension); `AbelianSchemesAndArithmeticModuli` A4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.40; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.11; §0.26; `AbelianSchemesAndArithmeticModuli` A4.3.
+*Needs:* §0.6; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.7 (p divisible cartier dual); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.14 (p divisible dimension); `AbelianSchemesAndArithmeticModuli` A4.5 (Barsotti–Tate groups); `AbelianSchemesAndArithmeticModuli` A4.5a (truncated Barsotti–Tate groups); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.40; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.11; §0.26; `AbelianSchemesAndArithmeticModuli` A4.3.
 
 ### 0.8 The degree increases along generic isomorphisms
 
@@ -304,7 +304,7 @@ On supplied henselian formal/Raynaud charts, take dimension-g semi-abelian G wit
 
 Sources: [SCH15], §3.3, Prop. 3.3.1 (arXiv v2, III.3.1), p. 54; [PIL20], §12.2.1, p. 74.
 
-*Needs:* §0.2; §0.11; `ShimuraCompactifications` §6.1; `ShimuraCompactifications` §6.14; `ShimuraCompactifications` §6.11; `ShimuraCompactifications` §6.7; `ShimuraCompactifications` §6.4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (finite part of quasi finite group); `ShimuraCompactifications` Layer 6; §0.23.
+*Needs:* §0.2; §0.11; `ShimuraCompactifications` §6.1; `ShimuraCompactifications` §6.14; `ShimuraCompactifications` §6.11; `ShimuraCompactifications` §6.7; `ShimuraCompactifications` §6.4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.3 (finite part of quasi finite group); `ShimuraCompactifications` §6.12 (the Tate curve); §0.23.
 
 ### 0.14 The Hasse invariant of a semi-abelian scheme
 
@@ -382,7 +382,7 @@ Let K be a complete discretely valued extension of `ℚ_p`, C the completion of 
 
 Sources: [SCH15], §3.3, Prop. 3.3.1 (arXiv v2, III.3.1), p. 54.
 
-*Needs:* §0.4; §0.3; §0.13; `NeronModelsAndSemistableAbelianVarieties` §3.13; `NeronModelsAndSemistableAbelianVarieties` §3.14; `NeronModelsAndSemistableAbelianVarieties` §3.10; `NeronModelsAndSemistableAbelianVarieties` Layer 3.
+*Needs:* §0.4; §0.3; §0.13; `NeronModelsAndSemistableAbelianVarieties` §3.13; `NeronModelsAndSemistableAbelianVarieties` §3.14; `NeronModelsAndSemistableAbelianVarieties` §3.10.
 
 ### 0.19 The Harder–Narasimhan filtration of a finite flat group scheme
 
@@ -494,7 +494,7 @@ The argument also works over p-adically complete local rings where R07.1’s tru
 
 Sources: [FAR11], §2.2.1, p. 7; [FAR10], §3, Exemple 2, p. 9.
 
-*Needs:* §0.1; §0.21; §0.22; §0.24; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.11; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.15; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible group); `IsAdicComplete`.
+*Needs:* §0.1; §0.21; §0.22; §0.24; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.11; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.15; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.5 (p divisible group levels); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.6 (p divisible group); `IsAdicComplete`.
 
 ### 0.26 The co-Lie complex of a finite locally free group scheme
 
@@ -761,7 +761,7 @@ Let C be a complete algebraically closed extension of `ℚ_p` and G a p-divisibl
 
 Sources: [CDM12], Thm. 4.13, pp. 27–28; [SW13], §4.3, Prop. 4.3.6, p.39.
 
-*Needs:* §0.4; §0.5; §0.3; §0.25; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible tate module); `ClassicalAdicEtaleCohomology` §§1.1–1.4, 8.2, 11.1–11.2 (tate twists); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.
+*Needs:* §0.4; §0.5; §0.3; §0.25; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.8 (p divisible tate module); `ClassicalAdicEtaleCohomology` §§1.1–1.4, 8.2, 11.1–11.2 (tate twists); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.7 (p divisible cartier dual).
 
 ### 2.5 The Hodge–Tate sequence of an abelian variety
 

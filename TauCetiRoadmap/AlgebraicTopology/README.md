@@ -1794,7 +1794,7 @@ sequences for complete inverse cochain filtrations.
 their naturality and cofinal comparisons, and `TauCeti.ModuleTower.homotopyLimitFunctor`
 (supplier contracts); Mathlib `CochainComplex.mappingCone`, `Homotopy` and
 `HomologicalComplex.extend`. The topological adapters also need Layers 2–3 relative
-singular chains and Layer 4 cellular complexes; the homotopy-square maps need nothing
+singular chains and §§4.1–4.3 cellular chains, differentials and their comparison with singular chains; the homotopy-square maps need nothing
 topological. The direct local-system version is constructed in §6.1 from its raw
 cochains before its cohomology comparison.
 
@@ -4127,7 +4127,7 @@ trivial monodromy.
 
 ### 8.13 Smooth representatives in codimensions one and two
 
-*Needs:* §8.7's finite CW type of compact smooth manifolds, §§8.10 and 8.12 for the circle classifying map, GeometricTopology Layer 1 tubular neighbourhoods, Mathlib's Whitney embedding and relative smooth approximation, and Tau Ceti's slice-chart implicit function theorem and flat Morse–Sard theorem (supplier contracts).
+*Needs:* §8.7's finite CW type of compact smooth manifolds, §§8.10 and 8.12 for the circle classifying map, GeometricTopology §1.5 (tubular neighbourhoods), Mathlib's Whitney embedding and relative smooth approximation, and Tau Ceti's slice-chart implicit function theorem and flat Morse–Sard theorem (supplier contracts).
 
 This section owns the differential-topology targets behind the representation of
 low-codimension homology classes by embedded submanifolds: the smoothing of maps into
@@ -4186,8 +4186,8 @@ Hausdorff M and smoothness of f on a neighbourhood of A); the ball is
 convex, so the segment from f(x) to g̃(x) stays in W. Then g=r∘g̃, and r
 applied to that segment is the homotopy relative to A. *Needs:* Mathlib
 `exists_embedding_euclidean_of_compact` and
-`Continuous.exists_contMDiff_approx_and_eqOn`; GeometricTopology Layer 1
-tubular neighbourhoods. Checks: for f already smooth and A=M the target
+`Continuous.exists_contMDiff_approx_and_eqOn`; GeometricTopology §1.5
+(tubular neighbourhoods). Checks: for f already smooth and A=M the target
 returns g=f; a smooth g homotopic to f has the degree of f, so for
 P=M=Circle the constant map at 1 yields a g of degree 0, never the
 identity; for the compact targets Circle, RP^N and CP^N the route's data are

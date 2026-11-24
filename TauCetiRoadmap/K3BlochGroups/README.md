@@ -328,7 +328,7 @@ The source locators for these statements are Weibel, K-book, Proposition VI.4.3.
 - Over Ω=𝔽̄₂ with m=5, the normalized degree-four coefficient generator maps to a nonzero order-five torsion class, and Frobenius acts by 4 modulo 5, not 2.
 - Over Ω=𝔽̄₂ at m=2, both K₄(Ω;ℤ/2) and K₃(Ω)[2] vanish. This does not extend to K₀(Ω;ℤ/2)=ℤ/2.
 
-*Needs:* §2.1; Layer 1; K2SymbolsBrauer §§5.13–5.14 and Layer 9; KTheoryFiniteLocalFields §§3.0, 3.0a, 5.17, 6.5a and 6.10; ArithmeticKTheory §5.2; SchemeKTheoryOperations §3.6.
+*Needs:* §2.1; Layer 1; K2SymbolsBrauer §§5.13–5.14; K2SymbolsBrauer §9.11 (*Higher tame symbols and specialisation maps*); KTheoryFiniteLocalFields §§3.0, 3.0a, 5.17, 6.5a and 6.10; ArithmeticKTheory §5.2; SchemeKTheoryOperations §3.6.
 
 ### 2.3 Real places and the decomposable subgroup
 
@@ -1121,7 +1121,7 @@ The source locators for these statements are Suslin 1984, §2 definitions, Lemma
 - The distinct vectors e₁ and 2e₁ in Q² are not a degree2 generator. Distinctness alone is insufficient.
 - For n=m=1 over Q, the block (1 0;1 1) sends the degree-one frame (1,0) to (1,1). A trivial action on the lower coordinates fails.
 
-*Needs:* Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.3 Scalar acyclicity and affine stabilizers
 
@@ -1135,7 +1135,7 @@ Here n,m≥1; F infinite; scalar containment in at least one block; M stable.
 
 The source locators for these statements are Suslin 1984, Corollary1.8, p191; Suslin 1984, Theorem1.9 and proof, p191.
 
-*Needs:* Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.4 Top frame coinvariants
 
@@ -1166,7 +1166,7 @@ The source locators for these statements are Suslin 1984, §2.3–2.5, pp192–1
 - Under S₂(F)≅K₂ᴹ(F)⊕Z, ⟨1,1⟩ maps to (0,1), so S₂ is not just K₂ᴹ and this class is nonzero.
 - ⟨a⟩·⟨b⟩=⟨a,b⟩−⟨1,b⟩−⟨a,1⟩+⟨1,1⟩; the Milnor retraction sends it to {a,b}.
 
-*Needs:* §4.2, §4.3; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §4.2, §4.3; Layers 1 and 2; K2SymbolsBrauer §5.4; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.5 Connecting homomorphisms and ordered Milnor symbols
 
@@ -1212,7 +1212,7 @@ The source locators for these statements are Suslin 1984, §2.6 and Lemma2.6.1, 
 - The ordered torus product [a]×[1−a]×[b] has zero class modulo im H₃(GL₂), for a≠0,1 and b≠0.
 - Over R, {-1,-1,-1} maps to a nonzero quotient class of order2. An erroneous multiplication-by-2 normalization would kill it.
 
-*Needs:* §4.2, §4.4; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §4.2, §4.4; Layers 1 and 2; K2SymbolsBrauer §§5.4 and 7.2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.6 Splitting the frame algebra
 
@@ -1222,7 +1222,7 @@ Here F infinite; use the normalized Milnor section θ through δ and the Milnor 
 
 The source locators for these statements are Suslin 1984, 2.7.4, 3.3.1–3.3.5, pp196–198.
 
-*Needs:* §4.4, §4.5; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §4.4, §4.5; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.7 Diagonal and monomial subgroups
 
@@ -1247,7 +1247,7 @@ The source locators for these statements are Weibel, K-book, Before Theorem VI.5
 - For n = 2 and F = F_3, M_2 is a proper subgroup of GL_2(F_3), of order 8 against 48.
 - For n = 1, T_1 = M_1 = GL_1(F) = F^×.
 
-*Needs:* Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.8 Frame degeneration and the Milnor quotient
 
@@ -1267,7 +1267,7 @@ Here F infinite; all homology integral; order of factors fixed.
 
 The source locators for these statements are Suslin 1984, §3.1–3.2 and Theorem3.4(a–d), pp196–198; Suslin 1984, Theorem3.4(d), p198.
 
-*Needs:* HomologicalStabilityOfGeneralLinearGroups §§1.3 and 2.3; §4.2, §4.3, §4.5, §4.6, §4.7; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* HomologicalStabilityOfGeneralLinearGroups §§1.3 and 2.3; §4.2, §4.3, §4.5, §4.6, §4.7; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.10 Projective configuration coinvariants
 
@@ -1277,7 +1277,7 @@ Here F is a field (any field: the computation also holds for F_2, where C_3 = 0 
 
 The source locators for these statements are Weibel, K-book, Lemma VI.5.6 and its proof (PDF p. 498).
 
-*Needs:* §3.2, §3.3, §3.4, §4.0; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.2, §3.3, §3.4, §4.0; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.11 The rank-two spectral sequence
 
@@ -1332,7 +1332,7 @@ The additive equivalence rankTwoBoundarySplit alt records this change of splitti
 
 The source locators for these statements are Weibel, K-book, (5.8) and the paragraph after Theorem VI.5.7 (PDF p. 498); Weibel, K-book, Proof of Theorem VI.5.7 (PDF p. 499); Weibel, K-book, Paragraph after Theorem VI.5.7 (PDF p. 498); Weibel, K-book, Lemma VI.5.8.1 (PDF p. 499); Weibel, K-book, Exercise VI.5.2(iii) (PDF p. 508).
 
-*Needs:* §3.1, §3.5, §4.1, §4.3, §4.7, §4.10; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.1, §3.2, §3.5, §4.1, §4.3, §4.7, §4.10; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.12 The rank-two Bloch map
 
@@ -1358,7 +1358,7 @@ The source locators for these statements are Weibel, K-book, Paragraph after The
 - For F = ℚ the image is a proper subgroup of P(ℚ): [2] is not in B(ℚ), since its boundary 2 ∧ (−1) is nonzero in ∧̃²(ℚ^×).
 - ψ vanishes on the image of H_3(T_2, ℤ).
 
-*Needs:* §3.5, §4.1, §4.7, §4.10, §4.11; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.5, §4.1, §4.7, §4.10, §4.11; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.13 General position, rotations and the cone
 
@@ -1404,7 +1404,7 @@ The source locators for these statements are Weibel, K-book, Example VI.5.9.1 (P
 - D_0 = C^a_1, and d(x, y) = d^a x − N y on D_1 = C^a_2 ⊕ C_1.
 - t_n⁽ⁿ⁺¹⁾ = 1 and ∂_0 t_n = ∂_n on injective tuples; for X = {x, y}, t_1(x, y) = (y, x).
 
-*Needs:* §4.0; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.2, §4.0; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.14 The rank-three comparison and coefficient change
 
@@ -1439,7 +1439,7 @@ The source locators for these statements are Weibel, K-book, Before Lemma VI.5.1
 - ψ′ ∘ d^a vanishes on every general-position 6-tuple (p_1, p_2, q, r, s, p_3).
 - ψ′ does not take values in B(F): ψ′([2; x]) = [2] ∉ B(ℚ). Only the induced map on H_3 lands in B(F) (Proposition 5.12).
 
-*Needs:* §3.2, §3.3, §3.4, §3.6, §4.1, §4.7, §4.8, §4.10, §4.12, §4.13; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.2, §3.3, §3.4, §3.5, §3.6, §4.1, §4.7, §4.8, §4.10, §4.12, §4.13; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.15 Permutation classes and the monomial sequence
 
@@ -1491,7 +1491,7 @@ The matrix permutationSylowBasis records Γ over ℤ, with entrywise specializat
 
 The source locators for these statements are Weibel, K-book, Exercise VI.5.5 (PDF p. 508); Weibel, K-book, Lemma VI.5.14 (PDF p. 502); Weibel, K-book, Proof of Lemma VI.5.14 (PDF p. 503); Weibel, K-book, Proposition VI.5.13 and its proof (PDF p. 502); Weibel, K-book, Proposition VI.5.15 (PDF p. 503) and its proof (PDF p. 504); Weibel, K-book, Theorem VI.5.16 (PDF p. 504).
 
-*Needs:* §1.5, §2.1, §3.2, §3.3, §3.4, §3.6, §4.7, §4.8, §4.0, §4.12, §4.14; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §1.5, §2.1, §3.2, §3.3, §3.4, §3.5, §3.6, §4.3, §4.7, §4.8, §4.0, §4.12, §4.14; StableHomotopyKTheory §6.3; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.16 Indecomposable monomial homotopy
 
@@ -1523,7 +1523,7 @@ The source locators for these statements are Weibel, K-book, After Theorem VI.5.
 - For F=𝔽₄, the enhanced term is ℤ/3 and π₃^ind(BM⁺)≅ℤ/3⊕ℤ/12 has order 36 and exponent 12; replacing this direct sum by a cyclic group of order 36 fails.
 - For F = ℚ, π_3^ind(BM^+) ≅ ℤ/4 ⊕ ℤ/12.
 
-*Needs:* §1.5’s stable Hopf normalization; §2.1, §4.7, §4.15; StringOrientation S2.3; TangentialBordism §8.3 (B3.3); StableHomotopyKTheory §§7.1 and 7.27; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §1.5’s stable Hopf normalization; §2.1, §3.5, §4.7, §4.15; StringOrientation S2.3; TangentialBordism §8.3 (B3.3); StableHomotopyKTheory §§7.1 and 7.27; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.17 Cyclic Chern classes, doubling and Bocksteins
 
@@ -1535,7 +1535,7 @@ Here Ω algebraically closed; m invertible; finite-level coefficient tensor prod
 
 The source locators for these statements are Weibel, K-book, Lemma VI.5.18 (PDF p. 506); Suslin 1991, Lemma5.7 proof, p236; Weibel, K-book V, Exercise11.5, p89.
 
-*Needs:* §4.7, §4.16; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §4.7, §4.16; KTheoryFiniteLocalFields §1.8; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.18 Detecting ordinary Tor in an algebraic closure
 
@@ -1569,7 +1569,7 @@ The source locators for these statements are Weibel, K-book VI, Definition2.1 p6
 - For the actual power-two endomorphism of C₇, the induced H₃ map multiplies by4, and its detector image is multiplied by4 rather than2. The example does not assume this homology calculation as a hypothesis.
 - For a divisible torsion root group µ, the ordinary tensor product of its underlying additive group with itself is zero. The detector target therefore must be the Tate twist/ordinary Tor, not this tensor product.
 
-*Needs:* §2.1, §2.2, §2.4, §4.16, §4.17; ArithmeticKTheory §5.2; KTheoryFiniteLocalFields §§5.17 and 6.5a; the positive-characteristic torsion target of §2.2; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §2.1, §2.2, §2.4, §4.16, §4.17; ArithmeticKTheory §5.2; KTheoryFiniteLocalFields §§1.8, 5.17 and 6.5a; the positive-characteristic torsion target of §2.2; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.19 Enhanced torsion and its root-group model
 
@@ -1615,7 +1615,7 @@ The source locators for these statements are Weibel, K-book, Proposition VI.5.17
 - For char F ≠ 2 the extension does not split: μ̃(ℚ) = μ_4 is not ℤ/2 ⊕ ℤ/2.
 - For F = ℚ, Tor_1^ℤ(μ(ℚ), μ(ℚ)) ≅ ℤ/2 has order two, while μ̃(ℚ) has order four.
 
-*Needs:* §4.16, §4.17, §4.18; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §3.5, §4.16, §4.17, §4.18; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.20 The natural infinite-field Suslin sequence
 
@@ -1631,7 +1631,7 @@ Since T̃(F) is torsion, tensoring with ℚ gives the natural isomorphism suslin
 
 The source locators for these statements are Weibel, K-book, Theorem VI.5.2 (PDF p. 495); Weibel, K-book, Proof of Theorem VI.5.2 (PDF p. 507); Weibel, K-book, VI.5.16 proof and VI.5.12.1 (PDF pp. 502, 504-505).
 
-*Needs:* §1.2, §2.1, §3.5, §4.8, §4.14, §4.16, §4.18, §4.19; Layers 1–3; the group-homology, spectral-sequence and stable-homotopy contracts.
+*Needs:* §1.2, §2.1, §3.5, §4.8, §4.14, §4.16, §4.18, §4.19; Layers 1 and 2; the group-homology, spectral-sequence and stable-homotopy contracts.
 
 ### 4.21 Rigidity under purely transcendental extension and the rational-curve presentation
 
@@ -1655,7 +1655,7 @@ Here F is a field (every field for the first assertion, infinite or finite of ca
 
 The source locators for these statements are Weibel, K-book VI, Exercise 5.8, chapter p.35; Weibel, K-book V, Theorem 6.7 and Corollary 6.7.1, PDF pp.418–419; Goncharov 1995, §1.9, Proposition 1.22 and its proof, p.225.
 
-*Needs:* §3.2, §3.4, §3.6, §3.12, §4.20; K2SymbolsBrauer §§10.5 and 11.3 and Layer 9; SchemeKTheoryOperations §§3.6, 4.7 and 5.2.
+*Needs:* §3.2, §3.3, §3.4, §3.5, §3.6, §3.12, §4.20; K2SymbolsBrauer §§9.11, 10.5 and 11.3; SchemeKTheoryOperations §§3.6, 4.7 and 5.2.
 
 ### 4.22 The Bloch–Wigner sequences over rings
 
