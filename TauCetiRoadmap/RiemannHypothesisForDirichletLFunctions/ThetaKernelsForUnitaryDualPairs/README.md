@@ -875,7 +875,8 @@ and `Θ′` are the theta quotients of 3.47, the coinvariants of the polynomial 
 *Status.* In the displayed range the formal proof gives an irreducible common quotient of `Θ` and `Θ′` with scalar
 endomorphisms (FormalProof, `Development/WeilBound/CoreStatements/GaussianSeminormBounds/RealSeminormFiltration/KRealAsmOne.lean`
 (`PositivityTheory.KRealA.onePlace`)), that is (iv) and the existence part of (ii); (i) beyond its last sentence (`La` occurs once and
-generates), (iii) and (v) are this roadmap's own and are not on the path of the formal proof.
+generates) and (iii) are this roadmap's own, and they and (v), adapted from the works named in *Origin*, are not on the
+path of the formal proof.
 
 The hypothesis is used as follows: `L_± > 0` (for (i)) is `−κ > |(P − Q) − (P′ − Q′)|`, and the Casimir gap below (for (ii)
 and (iv)) is `−κ > |(P − Q) + (P′ − Q′)|`; together they are the condition `−κ > |P − Q| + |P′ − Q′|` of the Remark, which
@@ -1037,8 +1038,8 @@ locus where they are independent a unipotent of the mirabolic subgroup of column
 column operation up to a nontrivial factor of `ψ`); likewise column `i₂ = μ` times column `i₁`; the
 first column law with `ρ` supported in position `i₂` must then act trivially but shifts `μ` by
 `ρ_{i₂}/λ`, on which `l` is equivariant by `ψ`: a contradiction. 3, decompose by the valuation `e` of column
-`i₀`, `−j ≤ e ≤ j − c`; the `e`-th term is a constant times the `e`-th power of one number. No publication is cited
-for these lemmas: the route above is their proof.
+`i₀`, `−j ≤ e ≤ j − c`; the `e`-th term is a constant times the `e`-th power of one number. *Origin* names the
+general theory of which these lemmas are special cases; the route above proves them directly.
 Lemma 1 follows from the formal proof, `Development/WeilBound/ThetaLifts/LatticeBasics/PairsStable.lean`
 (`GlobalTheory.ThK.Dbl.LocDist`), and lemma 2 from the formal proof,
 `Development/WeilBound/ThetaLifts/EigenvalueEndgame/CuspidalAverages/KeyThree.lean`
@@ -1405,7 +1406,8 @@ such as the integral where it converges, vanishes when no polynomial Fock vector
 `|m_{W,v}| > d ≥ |r′ − s′|`. In `Sym((X₊ ⊗ W₊)^∨) ⊗ Sym(X₊ ⊗ W₋)` a vector of `U(X₊)`-weight `det^{−ℓ}`, `ℓ > 0`, needs
 `r ≤ r′`, and one of weight `det^{ℓ}` needs `r ≤ s′`; likewise for `X₋` (the computation of 3.47b(i)). So a fixed vector
 needs `r ≤ r′` and `s ≤ s′` when `m_{W,v} > d`, and `r ≤ s′` and `s ≤ r′` when `m_{W,v} < −d`; `min(r′, s′) < min(r, s)`
-excludes both. No publication is cited for (i)–(iv): the route above is their proof.
+excludes both. (i), (ii) and (iv) are adapted from the works named in *Origin* and (iii) is particular to this
+proof; the route above proves all four.
 The decay of the theta kernel and the conclusions on `I_{X,W}` in (i) follow from the formal proof,
 `Development/AbelianVarietyTheory/Definitions/Divisors/CTSmallCone.lean` (`GlobalTheory.ThK.SoDecay`),
 `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/WeilTensorModels.lean`
