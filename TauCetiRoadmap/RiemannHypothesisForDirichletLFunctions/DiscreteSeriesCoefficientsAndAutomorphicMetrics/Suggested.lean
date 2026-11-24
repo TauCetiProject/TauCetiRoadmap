@@ -48,8 +48,9 @@ Chern classes.
   `(G, X)` with a neat level and a smooth projective toroidal compactification with simple normal
   crossings boundary, the invariant metric on the automorphic vector bundle of a representation of
   the parabolic subgroup stabilising a point of the compact dual, trivial on its unipotent radical
-  and unitary on the stabiliser `K_∞` of a point of `X`, is good relative to the canonical
-  extension, and every top-degree Chern number of canonical extensions of such bundles is `κ_K`
+  and unitary on the stabiliser `K_∞¹` of a point of `X` in the subgroup `G(ℝ)¹` of `G(ℝ)` on
+  which every character of `G` defined over `ℚ` has absolute value one, is good relative to the
+  canonical extension, and every top-degree Chern number of canonical extensions of such bundles is `κ_K`
   times the corresponding Chern number of the homogeneous bundles on the compact dual. It lacks
   Shimura data and Shimura varieties, toroidal compactifications, automorphic vector bundles with
   their canonical extensions and invariant metrics, good metrics, compact duals, Chern classes and
