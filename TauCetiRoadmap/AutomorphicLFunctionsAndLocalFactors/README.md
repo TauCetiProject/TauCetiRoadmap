@@ -52,6 +52,8 @@ For function fields put `z=q⁻ˢ` and use `z^(deg v)` in the v-factor. Rational
 
 ### AL.0.1 Annihilators and compact-open Fourier identities
 
+*Needs:* §§AL.0.1.1–AL.0.1.13.
+
 #### AL.0.1.1 Annihilator for a bilinear character pairing
 
 Construct `U⊥={w∈W | ψ(L(u,w))=1 for every u∈U}` as an `AddSubgroup W`. It is generally not an R-submodule. Its data is exactly this carrier and the inherited additive subgroup operations.
@@ -271,6 +273,8 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 ### AL.0.3 Scalar action and distributions on local Schwartz–Bruhat spaces
 
+*Needs:* §AL.0.3.1 (*The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions*), §AL.0.3.6 (*Tempered distributions supported at a point*) and §AL.0.3.7 (*Domination for Schwartz parameter integrals*).
+
 #### AL.0.3.1 The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions
 
 For F nonarchimedean, `S(F)` is SmoothRepresentationsOfLocalGroups SR.1.1's space `C_c^∞(F, ℂ)` of locally constant compactly supported functions, and `S(F)′` is its algebraic dual. For `F = ℝ, ℂ`, `S(F)` is Mathlib's `SchwartzMap` and `S(F)′ = 𝓢′(F, ℂ)` is Mathlib's `TemperedDistribution`. For a finite-dimensional F-vector space V and F nonarchimedean, `S(V)` is likewise SR.1.1's `C_c^∞(V, ℂ)`. At completions of number fields these are AnalyticNumberTheoryPartII §5.3g's local Schwartz–Bruhat spaces. `F^×` acts by `r(a)f(x) = f(xa)` and on distributions by `⟨r′(a)λ, f⟩ = ⟨λ, r(a^{−1})f⟩`. `δ₀` is `⟨δ₀, f⟩ = f(0)`.
@@ -372,6 +376,8 @@ Work under the following hypotheses. Complex power uses the real logarithm of po
 Take `K=𝔽_q(X)`, places, completions, differential residues and canonical divisors from **AlgebraicCurves**, layers 0, 4, 5, 9 and 12. Construct the completion-valued restricted-product adeles with integral local subrings, their topology and integral-volume-one product Haar measure; distinguish them from layer 4’s K-valued repartitions. Identify the curve places, completions and local units with those of ArithmeticGaloisDuality §R02.3.2. Prove the topological group isomorphism between `𝔸_Kˣ` and the idele group `J_K` of ArithmeticGaloisDuality §R02.3.2’s *Function-field places, ideles and S-units*, with Mathlib’s topology on units controlling both a unit and its inverse, and compatibility with local embeddings, the rational diagonal `K×` and the idele-class quotients. The valuation divisor `Σ_v ord_v(a_v)[v]` has degree equal to the supplied idele degree; its quotient by principal divisors identifies `C_K/∏_v O_v×` with `Pic(X)`, respecting degree. Use the supplied degree-surjectivity and compact degree-zero class theorems. From the principal-parts exact sequence and Riemann–Roch prove the rational diagonal is discrete and cocompact and its quotient has volume `q^(g−1)`. Use successive additive root coordinates to construct compact rational unipotent quotients and prove integration in stages, with the invariant quotient measure independent of coordinates. For nonzero `ω` and a nontrivial `ψ₀:𝔽_q→Circle`, define `ψ_v(a)=ψ₀(Tr_(k(v)/𝔽_q) res_v(aω))`. The residue theorem makes its product trivial on diagonal K. Prove its conductor is `P_v^(−n_v), n_v=ord_v(ω)`; the existing canonical-divisor degree gives `Σ_v n_v deg(v)=2g−2`. Apply the finite-level Fourier proof to these completions and prove the self-dual normalization and Schwartz/Poisson comparisons from this adelic topology and existing Riemann–Roch quotient identities. Compare the integral local Haar measures and quotient volume with these self-dual measures. The self-dual measures and global character are compatible with `ω↦aω, a∈K×`.
 
 The curve additive analysis API supplies the scaling law of the residue character under `ω↦aω`, the annihilator of a fractional ideal, the conductor-degree sum, the global residue product formula and Poisson summation. **Checks.** on `ℙ¹, dt` has divisor `−2∞` and the conductor-degree sum is `−2`; two simple poles have opposite traced residues, giving a trivial product phase on diagonal constants; `ω↦tω` changes each `n_v` by `ord_v(t)`, whose weighted sum is zero; a uniformizer idele at a degree-d point maps to `[v]` and has supplied degree d; a rational unit maps to a principal divisor and has degree zero; `∏_v O_v×` is the kernel of the valuation-divisor map. Prerequisites: ArithmeticGaloisDuality §R02.3.2 for the multiplicative carriers, degree and compact degree-zero quotient; AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3 for restricted Haar products and quotient measures, AlgebraicCurves’s cited layers, SchemeAndStackFoundations, layer 3, the existing restricted-product APIs, and AL.0's compact-open Fourier proof specialized to residue characters. Sources: Lafforgue, VI §1a–§1b, pp.152–157, Theorems VI.1, VI.2, VI.6 and VI.8; Yu, §5.3.1, pp.36–38; Conrad, §§2–3, pp.2–4, divisor/Picard and class-field comparison.
+
+*Needs:* AlgebraicCurves Layers 0, 4, 5 and 9 (places, completions, repartitions, Riemann–Roch, canonical divisors and residues); AlgebraicCurves §§12A and 12D (closed points as places, and divisors and classes compared with `Pic(X)`); ArithmeticGaloisDuality §R02.3.2 (function-field places, ideles and S-units, the idele degree and the compact degree-zero quotient); AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3 (restricted Haar products and quotient measures); SchemeAndStackFoundations Layer 3; SmoothRepresentationsOfLocalGroups §SR.1.1 (locally constant compactly supported functions); §AL.0.1 (*Annihilators and compact-open Fourier identities*); §AL.0.3.1 (*The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions*), for the conductor of an additive character and the self-dual measures in positive characteristic; Mathlib `RestrictedProduct`.
 
 ### Examples
 
@@ -1277,6 +1283,8 @@ Work under the following hypotheses. Use fixed compact-picture Fréchet carrier;
 
 ### AL.3.2 Unequal-rank and equal-rank integrals
 
+*Needs:* §AL.3.2.1 (*The local Rankin–Selberg integrals*), §AL.3.2.2 (*Local convergence and continuity*) and §AL.3.2.3 (*The Rankin–Selberg local L-factor*).
+
 #### AL.3.2.1 The local Rankin–Selberg integrals
 
 For generic `π_n,π_m` with `n>m≥1`, opposite Whittaker models and `0≤j≤n−m−1, Ψ_j(s,W,W′)=∫_{N_m\GL_m}∫_{Mat_{j,m}}W([[g,0,0],[x,I_j,0],[0,0,I_{n−m−j}]])W′(g)|det g|^(s−(n−m)/2)dx dg`. For `n=m` use `Ψ(s,W,W′,Φ)=∫_{N_n\GL_n}W(g)W′(g)Φ(e_ng)|det g|^s dg`.
@@ -1345,6 +1353,8 @@ The theorems `AL3.rankinSelbergLocal` (unequal ranks) and `AL3.rankinSelbergLoca
 *Needs:* The local Rankin–Selberg integrals (AL.3.2.1); **SmoothRepresentationsOfLocalGroups**, SR.3; Archimedean GLₙ parameters (AL.R.2); Local uniqueness: dim S′(ω) = 1 (AL.1.2.5); Local convergence and continuity (AL.3.2.2); Local Whittaker uniqueness (AL.3.1.1).
 
 ### AL.3.3 Induction, functional equations and test realization
+
+*Needs:* §AL.3.3.1 (*Nonarchimedean factors under normalized induction*), §AL.3.3.2 (*The local Rankin–Selberg functional equation*), §AL.3.3.3 (*Archimedean realization of holomorphic multiples*), §AL.3.3.5 (*Generic finite-place newforms*), §AL.3.3.6 (*The unramified Rankin–Selberg test*), §AL.3.3.7 (*A ramified Godement–Jacquet test vector*) and §AL.3.3.8 (*The Jacquet–Shalika Satake bound*).
 
 #### AL.3.3.1 Nonarchimedean factors under normalized induction
 
@@ -1558,7 +1568,7 @@ Work under the following hypotheses. K is a number field. The function-field rat
 
 (Source: Cogdell, Fields lectures, Lecture 9 §4, printed pp.71–72 (PDF pp.75–76); §6, Theorems 9.1–9.2, printed p.74 (PDF p.78).)
 
-*Needs:* The local Rankin–Selberg functional equation (AL.3.3.2); Global Rankin–Selberg unfolding (AL.3.5.3); Continuation and the Rankin–Selberg pole criterion (AL.3.6.1); AL.1 Explicit local `ε`-factors (AL.1.3.5) and The normalized-distribution epsilon comparison (AL.1.6.1), including additive-character conductors.
+*Needs:* §AL.3.3.2 (*The local Rankin–Selberg functional equation*); §AL.3.5.3 (*Global Rankin–Selberg unfolding*); §AL.3.6.1 (*Continuation and the Rankin–Selberg pole criterion*); §AL.1.3.5 (*Explicit local `ε`-factors*) and §AL.1.6.1 (*The normalized-distribution epsilon comparison*), including additive-character conductors.
 
 #### AL.3.6.3 Rankin–Selberg nonvanishing on the boundary
 
