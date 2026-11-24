@@ -190,8 +190,8 @@ The positions and the types: [FormalProof],
 *Origin:* particular to this proof: the host property (ii), the integrality at an inert prime, in Lubin–Tate
 coordinates along an orthonormal basis, of `exp(Σ_iφ(T_i))` times a `p`-integral combination of Fock translates of
 `Θ^{CM}_{L,L′}` by torsion points of order prime to `p`; the model (i) of the CM curve is classical and is cited with the
-route; nearest published result: Bannai and Kobayashi (2010), the integrality of the reduced theta function of one CM
-curve and of its torsion translates at ordinary primes.
+route; nearest published result: Bannai and Kobayashi (2010), Corollary 2.16 in the numbering of arXiv:math/0610163v4,
+the integrality of the reduced theta function of one CM curve and of its torsion translates at ordinary primes.
 
 *Method of the formal proof:* for one copy of the trace lattice, four copies of its Hermitian form are isometric to the
 standard form with index prime to `p`, so the fourth tensor power of its theta function is a product of one-variable
@@ -646,7 +646,7 @@ statement: `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts
 *Origin:* particular to this proof: the bound for the loss of the periods of the chain at the type primes, through a jet
 bound for theta functions of powers of the CM curve with a finite datum on half of the `ℓ`-torsion at a split prime
 `ℓ = ππ̄`, a jet of order `|m|` having denominator at most `π̄^{|m|}·ℓ^n`, with no factor `ℓ^n` at the places above `π`;
-nearest published result: Finis (2006), for one CM curve and for values, the functional equation of its theta function
+nearest published result: Finis (2006), Lemmas 3.8 and 3.9, for one CM curve and for values, the functional equation of its theta function
 under multiplication by the unitary scalar, which writes it as a sum of Heisenberg translates by torsion points, with the
 same asymmetry of integrality between the two primes above `ℓ`.
 
@@ -749,7 +749,7 @@ follows from [FormalProof],
 
 *Origin:* adapted from Rallis (1982) and Mínguez (2008): the compatibility of the local theta correspondence with the
 spherical Hecke algebras (Rallis, for orthogonal–symplectic pairs) and the type-II correspondence in Langlands
-parameters, which gives the relation of Satake parameters (Mínguez); here the integral statements: the one-step relation
+parameters, which gives the relation of Satake parameters (Mínguez, Théorème 1, proved as Corollaire 6.3); here the integral statements: the one-step relation
 (a) as an identity of operators on the forms of Gross's `p`-adic model, Hida's normalisation (b) at hyperspecial level for
 the Weyl and the dual Weyl lattices (for the dual Weyl lattices this roadmap's own formulation), and the frame lemma (c),
 (c1)–(c3).
@@ -1810,6 +1810,16 @@ valuation ring with uniformiser `ϖ`; lengths are lengths of `R`-modules.
 
 *Check.* `R = ℤ_p`, `M = ℚ_p`, `S = ℤ_p`, `P = M`, `B = p^{−1}ℤ_p`, `b = 1`, `U = p`, `D = 1`, `e = 1`: the left side is
 `length(ℤ_p/p²ℤ_p) = 2`, the right side `length(p^{−1}ℤ_p/pℤ_p) + 1 = 3`.
+
+[FormalProof] states (a) as `Formalism.LogVandermondeBounds.product_first_zeroth_parts.length_quot_le_of_pow_smul`
+(`Formalism/LogVandermondeBounds/LogVandermondeProofs/LengthQuotientLeOfLatticeSandwich.lean`) and (b) as
+`Formalism.HermitianLattices.RamifiedHeckeModels.LemmaC_twist_ram` (`Formalism/GL3MeanSquares/RationalMatrixPrimeOrderBound.lean`),
+proved as `Formalism.HermitianLattices.RamifiedHeckeModels.lemma_c_twist_ramified`
+(`Formalism/GL3MeanSquares/HookFormulaTorsion/LemmaCTwistRamified.lean`), both over any discrete valuation ring; it
+applies (b) at the level prime (4.16c) as `Formalism.MainNotions.product_first_zeroth_parts.LemmaC_core`, and states (c),
+for modules over any commutative ring, as `Formalism.MainNotions.product_first_zeroth_parts.len_comp_le`,
+`Formalism.MainNotions.product_first_zeroth_parts.len_list_le` and `Formalism.MainNotions.product_first_zeroth_parts.len_pow_le`
+(these four in `Formalism/SharpRestriction/GlobalSchurBounds/FiniteModelOfAdmissibleTransports.lean`).
 
 *Needs:* Mathlib `Module.length`, `Module.Basis.SmithNormalForm`.
 
