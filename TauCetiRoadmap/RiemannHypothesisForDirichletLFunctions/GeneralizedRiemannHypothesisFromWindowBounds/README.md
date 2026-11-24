@@ -916,7 +916,8 @@ trivial character of `ℚ` the window bound at every `1/2 + ε` is `RiemannHypot
 ### Dependencies
 
 Layers 0 and 2; RiemannHypothesisStatementsAndConsequences §§8.4a, 9.2–9.6, 10.3;
-FrobeniusRestrictedRieszSums §0.5; PositivityOfDirichletSeriesWithKernels §6.9; ZerosOfLFunctions §§7.5, 7.6.
+FrobeniusRestrictedRieszSums §0.5; PositivityOfDirichletSeriesWithKernels §6.9; ZerosOfLFunctions §§7.5, 7.6;
+AnalyticNumberTheoryPartI §1.6, for the deduction of 3.4.
 
 ## Layer 4: cyclic families and the Riemann hypothesis
 
@@ -965,9 +966,10 @@ arithmetic part of the proof.
 *Method of the formal proof:* the windowed Landau theorem is proved once for every finite set of
 primitive Dirichlet characters that contains `1` and is closed under inversion, with weight `1` on
 the trivial character and `1/(3o + 1)` on the others (and `1` on at most one distinguished real odd
-member; a cyclic family has none), by rewriting the set as a positively weighted family; it is
-applied to the cyclic family of `ψ` with `o` the order of `ψ`, the window inequality at the
-exponents `1/2 + Cε` coming from the arithmetic part, and `ψ` is a member of its own family.
+member; applied to a cyclic family, no member is distinguished), by rewriting the set as a
+positively weighted family; it is applied to the cyclic family of `ψ` with `o` the order of `ψ`,
+the window inequality at the exponents `1/2 + Cε` coming from the arithmetic part, and `ψ` is a
+member of its own family.
 
 `forall_exists_windows_cyclicFamily_iff`: let `ψ` be a primitive Dirichlet
 character. The following are equivalent:
@@ -1246,7 +1248,8 @@ nothing here uses them.
   `−1` at `1` (for 0.6); §§7.5, 7.6: the count of the zeros of `L(s, ψ)` in `0 < Re s < 1`, for
   every character `ψ` of `K`, and its corollary that they are infinitely many (for the Checks of
   3.3); §8.6a: the explicit formula for the first Riesz mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` for every
-  primitive finite-order ray-class character `ψ` (for the bound `C′ y` of 0.4).
+  primitive finite-order ray-class character `ψ` (for the bound `C′ y` of 0.4, and for the
+  deduction of 0.6).
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family
 
