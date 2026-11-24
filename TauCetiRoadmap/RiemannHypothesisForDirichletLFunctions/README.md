@@ -200,7 +200,7 @@ its heading.
 A section may carry a third line, `*Corollary of:*`, which names a general theorem, the section of a
 general roadmap that states it, and the clauses it covers. The general theorem is proved in that
 roadmap, and what the line covers is deduced from it. The proof of the Riemann hypothesis for
-Dirichlet L-functions needs only that case, not the general theorem in full; the method label says
+Dirichlet L-functions needs no more of the general theorem than that case; the method label says
 how the formal proof proves it, and for which form of the statement when that proof has a narrower
 one. Each roadmap states these conventions in its own Conventions.
 
