@@ -39,10 +39,10 @@ order.
 
 The roadmap also proves the rule for the transform of a derivative, with no condition on
 `Re s`, and Landau's theorem: the Laplace integral of a function that is nonnegative for large
-argument is singular at the real point of its abscissa of convergence, with its Mellin form. For
-complex coefficients with a simple pole at `1` and continuous boundary values, it
-proves smoothed and interval forms of Wiener–Ikehara, under a growth bound and a majorant
-respectively.
+argument is singular at the real point of its abscissa of convergence when that abscissa is
+finite, with its Mellin form. For complex coefficients with a simple pole at `1` and continuous
+boundary values, it proves smoothed and interval forms of Wiener–Ikehara, under a growth bound
+and a majorant respectively.
 
 At `k = 0` the counting theorems are special cases of the parent's Wiener–Ikehara theorems. The
 model transform `k!/(s − a)^(k+1)` of `e^(at) t^k` comes from AnalyticNumberTheoryPartII.
@@ -85,7 +85,7 @@ Gamma–Laplace supplier ─> integer model ────────────
 §4.2, §4.4 ─> §5.1 divisor sums;   §0.2 ─> §5.2 dyadic counterexample
 §0.1 ─> §0.1a derivative rule;   Tau Ceti Wiener–Ikehara modules ─> §2.2a smoothed and interval forms
 §0.1 ─> §0.1b Landau's theorem
-§4.1, §0.1b ─> §4.1a coefficients of any sign
+§4.1 ─> §4.1a coefficients of any sign
 ```
 
 ## Conventions
@@ -261,14 +261,16 @@ space; the boundary-term argument of the proof sketch supplies it.
 Throughout, `g : ℝ → ℝ` is cast to `ℂ` in `HasLaplace`, the measure is the default one, and a property
 holds *for large `u`* when it holds for almost every `u > u₀`, for some `u₀ ≥ 0`.
 
-**Landau's theorem.** Let `A` be real, let `g(u) ≥ 0` for large `u`, and let `HasLaplace g s (F s)` for
-every `s` with `A < Re s`. If there are `r > 0` and `H : ℂ → ℂ` analytic on `Metric.ball (A : ℂ) r` with
-`F s = H s` for every `s` in that ball with `A < Re s`, then there is a real `A′ < A` such that
+**`hasLaplace_landau` (Landau's theorem).** Let `A` be real, let `g(u) ≥ 0` for large `u`, and let
+`HasLaplace g s (F s)` for every `s` with `A < Re s`. If there are `r > 0` and `H : ℂ → ℂ` analytic
+on `Metric.ball (A : ℂ) r` with `F s = H s` for every `s` in that ball with `A < Re s`, then there is
+a real `A′ < A` such that
 `t ↦ e^(−A′t) g(t)` is integrable on `(0, ∞)`; so `HasLaplace g s` holds for every `s` with
 `A′ < Re s`, with a value analytic in `s` that equals `F s` for `A < Re s`. In classical terms: when the
 abscissa of convergence `σ_c` of the Laplace integral of a function that is nonnegative for large `u`
 is finite, the transform is analytic on `Re s > σ_c` and singular at the real point `σ_c`. For a
-Dirichlet series with nonnegative coefficients this is Completed/ArithmeticDirichletSeries §8.1.
+Dirichlet series with nonnegative coefficients this is Completed/ArithmeticDirichletSeries §8.1,
+which Tau Ceti proves as `TauCeti.LSeries.landau` (`TauCeti/NumberTheory/LSeries/Landau.lean`).
 
 **Mellin form.** For `G : ℝ → ℝ` and `g(u) = G(e^u)`, the substitution `y = e^u` gives
 `∫_1^∞ G(y) y^(−s−1) dy = ∫₀^∞ g(u) e^(−su) du`, either side converging absolutely when the other does,
@@ -286,13 +288,14 @@ absolutely; on `(u₀, ∞)` every integrand is nonnegative, so by Tonelli its s
 for `Re s ≥ b`; take `A′ = b`, the value being analytic by differentiation under the integral sign and
 equal to `F` on `Re s > A` by uniqueness of the value (§0.1). The Mellin form is the change of variables
 `y = e^u` on `(0, ∞)`. *Needs:* §0.1; Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
-`DifferentiableOn.hasFPowerSeriesOnBall`, `MeasureTheory.lintegral_tsum`.
+`DifferentiableOn.hasFPowerSeriesOnBall`, `MeasureTheory.lintegral_tsum`,
+`MeasureTheory.integral_comp_exp_Ioi`, `MeasureTheory.integrableOn_comp_exp_Ioi`.
 
 *Source.* Landau (1905), §4, p. 548, for the theorem in its Mellin form (integrals `∫ φ(x) x^(−s−1) dx`
 with `φ ≥ 0` from some point on), with the proof sketched above (pp. 547–548), and §2, pp. 536–537, for
 Dirichlet series whose coefficients are nonnegative from some point on; the Laplace form is the change of
-variables `x = e^u`. Ingham (1932), chapter V, and Montgomery–Vaughan (2007), chapter 15, Lemma 15.1,
-state the theorem and apply it to one-sided bounds for prime sums.
+variables `x = e^u`. Montgomery–Vaughan (2007), chapter 15, Lemma 15.1, states the theorem and applies
+it to one-sided bounds for prime sums.
 
 **Checks.**
 
@@ -1012,12 +1015,19 @@ nonnegative coefficients these are part of §4.1.
 and `F = F₁ − F₂ + i(F₃ − F₄)`. §4.1 gives `HasLaplace` of `S_(c_j)(eᵗ)` with value `F_j(s)/s`. The
 counting function is additive in the coefficients, `S_c = S_(c₁) − S_(c₂) + i(S_(c₃) − S_(c₄))`, so
 additivity and scalar multiplication of `HasLaplace` (§0.1) give the first identity. The second is the
-substitution `y = eᵗ` of the Mellin form of §0.1b, applied to the real and imaginary parts of `S_c`.
-*Needs:* §§0.1, 0.1b, 4.1; Mathlib `LSeriesHasSum`, `summable_norm_iff`; Tau Ceti `TauCeti.summatory`.
+substitution `y = eᵗ` on `(0, ∞)` applied to `y ↦ S_c(y) y^(−s−1)`: `MeasureTheory.integral_comp_exp_Ioi`
+gives the value and `MeasureTheory.integrableOn_comp_exp_Ioi` the absolute convergence.
+*Needs:* §§0.1, 4.1; Mathlib `LSeriesHasSum`, `summable_norm_iff`, `MeasureTheory.integral_comp_exp_Ioi`,
+`MeasureTheory.integrableOn_comp_exp_Ioi`; Tau Ceti `TauCeti.summatory`.
 
-*Source.* Montgomery and Vaughan (2007), chapter 1: a Dirichlet series as `s` times the Mellin integral of its
-summatory function. The form at a single point of absolute convergence is obtained in the proof sketch from §4.1 by
-linearity.
+*Source.* Mathlib's `LSeries_eq_mul_integral` (with `LSeries_eq_mul_integral'` and
+`LSeries_eq_mul_integral_of_nonneg`) proves the value `F(s) = s ∫₁^∞ S_c(y) y^(−s−1) dy` when, besides
+absolute convergence at `s`, the partial sums are `O(n^r)` for some `0 ≤ r < Re s`; it asserts no
+integrability, and where the bound holds it is a route to the value. Without the bound it does not apply:
+for `c n = n^(−1/2)/(log n)²` (`n ≥ 2`, `c 1 = 0`) at `s = 1/2` the series converges absolutely, since
+`∑ 1/(n (log n)²) < ∞`, while `S_c(N)` is of order `√N/(log N)²`, which is not `O(N^r)` for any `r < 1/2`.
+The form here, at a single point of absolute convergence with no growth bound, is obtained in the proof
+sketch from §4.1 by linearity.
 
 **Checks.**
 
@@ -1477,6 +1487,16 @@ supplier contracts*.
   function): the derivative rule of §0.1a.
 - `DifferentiableOn.hasFPowerSeriesOnBall` (`Mathlib/Analysis/Complex/CauchyIntegral.lean`) and
   `MeasureTheory.lintegral_tsum`: Landau's theorem of §0.1b.
+- `MeasureTheory.integral_comp_exp_Ioi` and `MeasureTheory.integrableOn_comp_exp_Ioi`
+  (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`): the substitution `y = eᵗ`,
+  `∫_(a,∞) eᵗ g(eᵗ) dt = ∫_(e^a,∞) g(y) dy`, with `t ↦ eᵗ g(eᵗ)` integrable on `(a, ∞)` exactly when
+  `g` is integrable on `(e^a, ∞)`: the Mellin forms of §0.1b and §4.1a.
+- `LSeries_eq_mul_integral`, `LSeries_eq_mul_integral'` and `LSeries_eq_mul_integral_of_nonneg`
+  (`Mathlib/NumberTheory/LSeries/SumCoeff.lean`):
+  `LSeries f s = s ∫_(1,∞) (∑_{1≤k≤⌊t⌋} f k) t^(−(s+1)) dt` for `0 ≤ r < Re s`, assuming
+  `LSeriesSummable f s` (absolute convergence) and partial sums of `f` that are `O(n^r)`, or partial
+  sums of `‖f‖`, or of a nonnegative real `f`, that are `O(n^r)`; integrability of the integrand is not
+  asserted. These are special cases of the value in §4.1a, which needs no growth bound.
 - `HasCompactSupport.toSchwartzMap` (`Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean`),
   Fourier inversion `FourierTransform.fourier_fourierInv_eq` on `𝓢(ℝ, ℂ)`
   (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`) and
@@ -1573,12 +1593,9 @@ excludes zero; the natural exponent has no branch ambiguity (Delange 1954, Lemma
   [EuDML](https://eudml.org/doc/158244).
   §4, p. 548: Landau's theorem on the integrals `∫ φ(x) x^(−s−1) dx` of functions `φ ≥ 0` from some point
   on, with its proof, pp. 547–548; §2, pp. 536–537: the theorem for Dirichlet series (§0.1b).
-- A. E. Ingham, *The Distribution of Prime Numbers*, Cambridge Tracts in Mathematics and Mathematical
-  Physics **30** (1932), chapter V. Landau's theorem and its use for one-sided bounds (§0.1b).
 - H. L. Montgomery and R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge
   Studies in Advanced Mathematics **97** (2007), chapter 15, Lemma 15.1. Landau's theorem and its use for
   one-sided bounds (§0.1b).
-  Chapter 1: a Dirichlet series as `s` times the Mellin integral of its summatory function (§4.1a).
 - A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, file
   `PrimeNumberTheoremAnd/Wiener.lean` at revision `2667e414c38e5a5dc9aa1946f16f13001e5cd3ed`
   (2026, Apache-2.0),
