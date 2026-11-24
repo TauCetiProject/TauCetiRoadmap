@@ -152,10 +152,10 @@ the route written here, except at the steps that the route names as not given, w
 range recorded at the target (3.1d, 3.3).
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
-`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 2.2, 2.2a and 2.9–2.9c carry the first
-label only. Parts of the statements of 2.3a, 2.4 (a), 2.5 (a), 3.1, 3.1a, 3.1b and 3.7, and 3.1d and 3.3 for the hosts
-other than those of FrobeniusRestrictedRieszSums §0.4, are not statements of [FormalProof]; the labels of these
-sections say which.
+`*Method of the formal proof:*` how [FormalProof] proves it. Sections 2.2, 2.2a and 2.9–2.9c carry the first label
+only; in 2.2, 2.2a and 2.9a it gives the origin of the lemma as well as of the definitions. Parts of the statements of
+2.3a, 2.4 (a), 2.5 (a), 3.1, 3.1a, 3.1b, 3.5 and 3.7, 3.3 (v), and 3.1d and 3.3 for the hosts other than those of
+FrobeniusRestrictedRieszSums §0.4, are not statements of [FormalProof]; the labels of these sections say which.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
@@ -419,7 +419,8 @@ formula: `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor
 
 ### 2.2 The spaces of the chain
 
-*Origin:* definitions and conventions.
+*Origin:* definitions and conventions; the lemma is elementary, with (c) and (e) from the local classification of
+Hermitian spaces and the Hasse principle (HermitianFormsAndLattices §§2.1, 2.3, 3.1).
 
 *Construction and lemma.* Let the host be as in the introduction of this layer, `(k, m, t)`
 ranks of 2.1, and `T = N_{K/ℚ}(π_T)` with `π_T ∈ 𝒪_K`, `T > 0`. All spaces are `E^n` with diagonal Hermitian forms
@@ -488,7 +489,9 @@ NumberFieldArithmetic (Completed; the different in towers).
 ### 2.2a The normal form of a step
 
 *Origin:* definitions and conventions; the normal form of a step, in which a step keeps the Harish-Chandra parameters of
-the earlier steps, is particular to this proof.
+the earlier steps, is particular to this proof; the lemma reads off, for these pairs, the Weil representation of
+ThetaKernelsForUnitaryDualPairs §4.4a and the dictionaries of ThetaLiftsForDefiniteUnitaryGroups §2.5 and
+ThetaKernelsForUnitaryDualPairs §3.46a, with the conjugate datum (b) this roadmap's formulation and (c) a convention.
 
 *Definition (the normal form of a step) and lemma.* Let the host be as in the introduction
 of this layer, `S`, `T` Hermitian spaces over `E` (conjugate-linear in the first variable) and `δ ∈ ℚ_{>0}·δ_T` (2.2(f);
@@ -1476,7 +1479,8 @@ the kernel is `θ̄(·; Φ) = conj θ(·; conj Φ)` (2.2a(c)); the kernel `conj 
 
 ### 2.9a Levels at the type primes
 
-*Origin:* definitions and conventions.
+*Origin:* definitions and conventions; the lemma is elementary, with the smallness of the levels in (d) from
+HermitianFormsAndLattices §5.2(d)(ii).
 
 *Definitions and lemma (the type primes).* At `v | g ∈ {g₀, g₁}` (split in `E`; through the
 place `w_v` of 2.4(b), `U(V)(F_v) ≅ GL_n(ℚ_g)` for `V` of rank `n`), with a nontrivial additive character `ψ_g` of `𝔽_g`, the
