@@ -835,6 +835,12 @@ so their higher cohomology cannot be discarded merely because the covering chart
 restated here; D0.18, D0.21, D2.3, D2.5, D2.8 and D5.15 cite those supplier targets of
 SchemeAndStackFoundations §§2.1–2.2 through this subsection.
 
+*Needs:* SchemeAndStackFoundations §§2.1 and 2.2 (higher direct images, `cech_to_cohomology`,
+`leray_spectral_sequence`); D2.1; D2.2; D0.23; PerfectoidSpaces §P2.15 (affinoid perfectoid fibre
+products); PerfectoidSpaces §P3.18 (the étale site of a perfectoid space); PerfectoidSpaces §P0.29
+(*almost-cech-acyclicity-criterion*); Mathlib `CategoryTheory.Sheaf.cohomologyPresheaf`,
+`CategoryTheory.Functor.sheafPushforwardContinuous`.
+
 **Checks.**
 
 - `s0_19_affinoid_basis` — over an affinoid perfectoid `X₀`, an affinoid covering refinement has
@@ -1508,8 +1514,8 @@ closed subset is not in general a perfectoid subspace, and the perfectoid struct
 for the pro-constructible generalizing subsets of D1.5) ([ECD] §7, Def. 7.1, p. 29). The component
 projection to the profinite set `π₀(X)`, the description of its fibres as `Spa(K, K⁺)`, the converse
 characterisation and affinoidness are the statements of D1.3 and are not listed here. *Needs:*
-AdicSpacesPartII R0.0; D1.2; PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting);
-Mathlib `SpectralSpace`, `ConnectedComponents`, `Profinite`.
+AdicSpacesPartII R0.0; D1.2; PerfectoidSpaces §§P2.10 and P2.11 (perfectoid spaces, open subspaces
+and glued tilting); Mathlib `SpectralSpace`, `ConnectedComponents`, `Profinite`.
 
 **Checks.**
 
@@ -1661,9 +1667,9 @@ These statements are `IsTotallyDisconnectedPerfectoid.pi0`,
 `Geometry.ComponentModel p X z` for every component `z`. This is definitionally the open-cover
 predicate of D1.1. For `Spa(K, K⁺)` the space is its own unique component; for `X = S × Spa(C, O_C)`
 the projection is the first projection. *Needs:* D1.2; AdicSpacesPartII R0.19.1; D0.6;
-PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting; completed residue fields);
-PerfectoidSpaces layer P4 (the injection of residue-field points); Mathlib `ConnectedComponents`,
-`Profinite`, `SpectralSpace`.
+PerfectoidSpaces §§P2.5, P2.9, P2.10 and P2.11 (completed residue fields; affinoid perfectoid
+spaces, perfectoid spaces and glued tilting); PerfectoidSpaces §P4.5 (the injection of
+residue-field points); Mathlib `ConnectedComponents`, `Profinite`, `SpectralSpace`.
 
 Lean: none; the affinoidness statement ([ECD] Lemma 7.5) needs perfectoid spaces, absent at the
 pins, and this subsection is specified in the README only (no Lean declaration).
@@ -1692,9 +1698,10 @@ components the generalizing subsets `Spa(C, C⁺_𝔭)` of the components `Spa(C
 algebraically closed) and `IsStrictlyTotallyDisconnected.splitting_etale` (for an étale covering
 family `f_i : U_i → X`, every map `g : Y → X` lifts through `⨿ U_i → X`; the identity gives a
 section) ([ECD] §7, Def. 7.15 and Prop. 7.16 with proof, p. 36). *Needs:* D1.3; D1.1;
-PerfectoidSpaces layer P5 (finite-stage descent of qcqs étale objects); PerfectoidSpaces layer P3
-(étale-site tilting and étale almost acyclicity); PerfectoidSpaces layer P2 (completed residue
-fields); PerfectoidSpaces layer P6 (`prodProfinite`); Mathlib `ConnectedComponents`.
+PerfectoidSpaces §P5.12 (finite-stage descent of qcqs étale objects); PerfectoidSpaces §§P3.7,
+P3.14, P3.15 and P3.18 (finite extensions of perfectoid fields, finite étale and étale morphisms,
+the étale and finite étale sites); PerfectoidSpaces §P2.5 (completed residue fields);
+PerfectoidSpaces §P6.8 (`prodProfinite`); Mathlib `ConnectedComponents`.
 
 **Checks.**
 
@@ -1752,8 +1759,8 @@ The generalizing hypothesis is essential: a pro-constructible subset that is not
 of this form. The quasicompact-open consequence enters almost every later argument, and the lemma
 itself is the input to D1.10 and to the spatial arguments of the later layers ([ECD] Lem. 7.19,
 Prop. 10.5, Prop. 11.30 and Prop. 13.12). *Needs:* AdicSpacesPartII R0.19.2; D1.3; PerfectoidSpaces
-layer P2 (rational localization of perfectoid affinoids); PerfectoidSpaces layer P5 (cofiltered
-limits of affinoid perfectoid spaces); Mathlib `Topology.IsConstructible`,
+§P2.3 (rational localization of perfectoid affinoids); PerfectoidSpaces §§P5.3 and P5.4 (cofiltered
+limits of affinoid perfectoid spaces and their underlying spaces); Mathlib `Topology.IsConstructible`,
 `StableUnderGeneralization`.
 
 **Checks.**
@@ -1812,9 +1819,10 @@ criterion, and faithful flatness is tested at maximal ideals using the topologic
 the residue-field fibres, the last step being the identification of the points of `Spa(K, K⁺)` with
 `Spec(K⁺/ϖ)` for `K` a perfectoid field with `K⁺` an open bounded valuation subring ([ECD] §7, proof
 of Prop. 7.23, p. 38). Every v-descent statement of this roadmap rests on this result (it is the
-input to [ECD] Thm 8.7, Prop. 8.8 and Prop. 9.3). *Needs:* D1.3; PerfectoidSpaces layer P2
-(perfectoid spaces and glued tilting; completed residue fields); PerfectoidSpaces layer P4 (the
-injection of residue-field points); Mathlib `Module.Flat`, `Module.FaithfullyFlat`,
+input to [ECD] Thm 8.7, Prop. 8.8 and Prop. 9.3). *Needs:* D1.3; PerfectoidSpaces §§P2.5, P2.9,
+P2.10 and P2.11 (completed residue fields; affinoid perfectoid spaces, perfectoid spaces and glued
+tilting); PerfectoidSpaces §P4.5 (the injection of residue-field points); Mathlib `Module.Flat`,
+`Module.FaithfullyFlat`,
 `ValuationSubring`, `PrimeSpectrum.comap_surjective_of_faithfullyFlat`,
 `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`.
 
@@ -1877,7 +1885,7 @@ closed points is closed and its restriction of `ConnectedComponents.mk` is a hom
 `ConnectedComponents |X|`; [BS15] Lemma 2.1.4, p. 6; its topological half is the Lean theorem
 `IsWLocalSpace.isHomeomorph_connectedComponentsMk`) and
 `IsWStrictlyLocalPerfectoid.isStrictlyTotallyDisconnected` (a w-strictly local space is strictly
-totally disconnected). *Needs:* D1.1; D1.4; PerfectoidSpaces layer P2 (completed residue fields);
+totally disconnected). *Needs:* D1.1; D1.4; PerfectoidSpaces §P2.5 (completed residue fields);
 Mathlib `SpectralSpace`, `IsClosed`.
 
 **Checks.**
@@ -1998,9 +2006,10 @@ topology, and the component over `x` is the localization of `|X|` at `x`),
 a quasicompact open embedding, and quasicompact open covers induce open covers) and
 `Perfectoid.wLocalization.surjective` (the adjunction map is surjective, hence a v-cover). *Needs:*
 AdicSpacesPartII R0.19.4; AdicSpacesPartII R0.19.6; D1.7; D0.6; AdicSpacesPartII R0.19.9;
-PerfectoidSpaces layer P5 (cofiltered limits of affinoid perfectoid spaces); PerfectoidSpaces layer
-P2 (rational localization of perfectoid affinoids); Mathlib `SpectralSpace`,
-`WithConstructibleTopology`, `UniformSpace.Completion`.
+PerfectoidSpaces §§P5.3 and P5.4 (cofiltered limits of affinoid perfectoid spaces and their
+underlying spaces); PerfectoidSpaces §P2.3 (rational localization of perfectoid affinoids);
+PerfectoidSpaces §§P6.6 and P6.7 (affinoid pro-étale and pro-étale morphisms); Mathlib
+`SpectralSpace`, `WithConstructibleTopology`, `UniformSpace.Completion`.
 
 **Checks.**
 
@@ -2190,10 +2199,11 @@ cardinal). The map is surjective and universally open, and therefore a v-cover t
 after base change, which is what the later descent arguments need ([ECD] Prop. 9.7 and Prop. 11.24)
 and the w-localization does not supply; in the strictly totally disconnected case D1.10 then gives
 that a quasicompact separated map over `X̃` is affinoid pro-étale when its rank-one fibres satisfy
-the profinite-fibre criterion of D1.10. *Needs:* D0.23; D0.24; D1.4; PerfectoidSpaces layer P5
-(cofiltered limits of affinoid perfectoid spaces; finite-stage descent of qcqs étale objects);
-PerfectoidSpaces layer P6 (`κ`-small perfectoid spaces and affinoid approximation); Mathlib
-`Cardinal`.
+the profinite-fibre criterion of D1.10. *Needs:* D0.23; D0.24; D1.4;
+PerfectoidSpaces §§P5.3, P5.7 and P5.12 (cofiltered limits of affinoid perfectoid spaces and their
+cardinal bounds; finite-stage descent of qcqs étale objects);
+PerfectoidSpaces §§P6.1, P6.4, P6.5 and P6.6 (`κ`-small perfectoid spaces and their closure
+properties, affinoid approximation, affinoid pro-étale maps); Mathlib `Cardinal`.
 
 **Checks.**
 
@@ -2256,8 +2266,10 @@ records on the topological side ([ECD] §7, Lem. 7.19 with proof, p. 37). For `X
 affinoid pro-étale spaces over `X` are exactly the `X × S` with `S` profinite, the base case
 recorded in [ECD] after Def. 7.8; the lemma is the engine of the topological classification of D1.11
 and of the later spatial results ([ECD] Prop. 11.30). *Needs:* D1.4; D1.5; AdicSpacesPartII R0.19.2;
-PerfectoidSpaces layer P4 (the valuative criterion for separatedness; morphisms of affinoid
-perfectoid spaces are separated); PerfectoidSpaces layer P6 (`prodProfinite`); Mathlib `Profinite`.
+PerfectoidSpaces §§P4.2, P4.19 and P4.20 (quasicompact morphisms; the valuative criterion for
+separatedness; morphisms of affinoid perfectoid spaces are separated);
+PerfectoidSpaces §§P6.6, P6.7 and P6.8 (affinoid pro-étale and pro-étale morphisms,
+`prodProfinite`); Mathlib `Profinite`.
 
 **Checks.**
 
@@ -2887,9 +2899,10 @@ pro-étaleness and the quasicompact image condition) ([ECD] §8, Def. 8.1(i), p.
 after Def. 8.1, p. 39, which draws the comparison with the fpqc condition and is the reason
 Mathlib's quasi-compact precoverage for schemes is the right model). *Needs:* Mathlib
 `CategoryTheory.GrothendieckTopology`, `CategoryTheory.Pretopology`, `CategoryTheory.Precoverage`,
-`AlgebraicGeometry.Scheme.qcPrecoverage`, `AlgebraicGeometry.Scheme.proetalePrecoverage`;
-PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting); PerfectoidSpaces layer P6
-(pro-étale maps, pro-étale stability and limits, `κ`-small perfectoid spaces).
+`AlgebraicGeometry.Scheme.qcPrecoverage`, `AlgebraicGeometry.Scheme.proetalePrecoverage`; D0.23;
+D1.11; PerfectoidSpaces §§P2.9 and P2.10 (affinoid perfectoid spaces and perfectoid spaces);
+PerfectoidSpaces §§P6.1–P6.4 (`κ`-small perfectoid spaces); PerfectoidSpaces §§P6.7, P6.9 and P6.13
+(pro-étale maps, the pro-category equivalence, pro-étale stability and limits).
 
 **Checks.**
 
@@ -3037,8 +3050,9 @@ compatibly with the inclusion) ([ECD] §8, Def. 8.1(ii) and (iii), p. 39; [ECD] 
 uses the qcqs hypothesis. `Perfectoid.proEtaleSite` is the category of objects pro-étale over `X`.
 Define `Perfectoid.proEtaleSite.topology` by restricting the big pro-étale topology along its
 inclusion. *Needs:* Mathlib `CategoryTheory.GrothendieckTopology`, `CategoryTheory.Pretopology`,
-`CategoryTheory.Over`, `AlgebraicGeometry.Scheme.qcPrecoverage`; D2.1; PerfectoidSpaces layer P6
-(pro-étale maps, pro-étale stability and limits, `κ`-small perfectoid spaces).
+`CategoryTheory.Over`, `AlgebraicGeometry.Scheme.qcPrecoverage`; D2.1; PerfectoidSpaces §§P6.1–P6.4
+(`κ`-small perfectoid spaces); PerfectoidSpaces §§P6.7 and P6.13 (pro-étale maps, pro-étale
+stability and limits).
 
 **Checks.**
 
@@ -3185,8 +3199,10 @@ with proof, pp. 39–40; [ECD] §8, after Prop. 8.2, p. 40, for the practical sm
 *Needs:* Mathlib `CategoryTheory.Sheaf`, `CategoryTheory.presheafToSheaf`,
 `CategoryTheory.Functor.sheafPushforwardContinuous`, `CategoryTheory.IsFiltered`; D0.23; D0.18;
 SchemeAndStackFoundations §2.2 (`cech_to_cohomology`, cited in D0.19); D2.1; D2.2; PerfectoidSpaces
-layer P5 (cofiltered limits of affinoid perfectoid spaces); PerfectoidSpaces layer P6 (pro-étale
-maps, pro-étale stability and limits, `κ`-small perfectoid spaces).
+§§P5.3, P5.5 and P5.6 (cofiltered limits of affinoid perfectoid spaces, `ω₁`-cofiltered limits
+without completion, approximation by countably generated affinoids); PerfectoidSpaces §§P6.1–P6.4
+(`κ`-small perfectoid spaces); PerfectoidSpaces §§P6.7 and P6.13 (pro-étale maps, pro-étale
+stability and limits).
 
 **Checks.**
 
@@ -3296,9 +3312,10 @@ object is quasicompact, `X → ∗` quasicompact implies `X` quasicompact; the o
 predicates are not interchangeable. [ECD] leaves the proof to the reader; the content is the
 verification (a)–(c) of the axioms of an algebraic topos for the affinoid basis ([ECD] §8, Prop.
 8.3, p. 41; [ECD] §8, Convention 8.4, p. 41). *Needs:* Mathlib `CategoryTheory.Sheaf`,
-`CategoryTheory.Precoherent`; AdicSpacesPartII R0.19.10; D2.1; D2.2; D2.3; PerfectoidSpaces layer P2
-(fibre products of perfectoid spaces); PerfectoidSpaces layer P4 (Zariski closed subsets of affinoid
-perfectoid spaces are affinoid perfectoid).
+`CategoryTheory.Precoherent`; AdicSpacesPartII R0.19.10; D2.1; D2.2; D2.3; PerfectoidSpaces
+§§P2.15, P2.16 and P2.18 (fibre products of perfectoid spaces, absolute products in Perf);
+PerfectoidSpaces §§P4.12 and P4.14 (Zariski closed subsets of affinoid perfectoid spaces are
+affinoid perfectoid); PerfectoidSpaces §P4.18 (*diagonal-of-perfectoid-map*).
 
 **Checks.**
 
@@ -3357,11 +3374,13 @@ so a failure of exact vanishing would have to come from a wildly ramified cover 
 with proof, pp. 41–42; [ECD] §8, proof of Prop. 8.5, p. 42, for the smallness argument). *Needs:*
 Mathlib `CategoryTheory.Functor.sheafPushforwardContinuous`,
 `CategoryTheory.Sheaf.cohomologyPresheaf`; D2.2; D2.3; SchemeAndStackFoundations §2.2
-(`cech_to_cohomology`, `leray_spectral_sequence`, cited in D0.19); PerfectoidSpaces layer P3
-(étale-site tilting and étale almost acyclicity); PerfectoidSpaces layer P2 (the sheaf theorem and
-almost acyclicity); PerfectoidSpaces layer P5 (finite-stage descent of qcqs étale objects);
-PerfectoidSpaces layer P0 (almost modules over a perfectoid base); PerfectoidSpaces layer P6
-(pro-étale maps, pro-étale stability and limits, `κ`-small perfectoid spaces).
+(`cech_to_cohomology`, `leray_spectral_sequence`, cited in D0.19); PerfectoidSpaces §§P3.18 and
+P3.22 (the étale site, étale-site tilting and étale almost acyclicity); PerfectoidSpaces §P2.8 (the
+sheaf theorem and almost acyclicity); PerfectoidSpaces §P5.12 (finite-stage descent of qcqs étale
+objects); PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a perfectoid base);
+PerfectoidSpaces §P0.29 (almost sheaf cohomology); PerfectoidSpaces §§P6.1–P6.4 (`κ`-small
+perfectoid spaces); PerfectoidSpaces §§P6.6, P6.7 and P6.13 (affinoid pro-étale and pro-étale maps,
+pro-étale stability and limits).
 
 **Checks.**
 
@@ -3484,7 +3503,8 @@ without surjectivity the equalizer statement fails (for `Y = ∅ → X ≠ ∅`,
 equalizer is `0 ≠ R`), which is why the finite quasicompact image condition, not merely
 pro-étaleness or flatness, is the covering condition. *Needs:* Mathlib
 `CategoryTheory.GrothendieckTopology.Subcanonical`, `Module.FaithfullyFlat`; D1.6; D1.8; D2.6; D2.2;
-PerfectoidSpaces layer P0 (almost modules over a perfectoid base); PerfectoidSpaces layer P2 (the
+PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a perfectoid base); PerfectoidSpaces §P2.7
+(*almost-exactness-from-reduction-mod-pseudouniformizer*); PerfectoidSpaces §P2.13 (the
 completed-tensor plus-ring almost formula).
 
 **Checks.**
@@ -3559,8 +3579,9 @@ Pro-étale disconnected refinements and the acyclic-basis comparison of SchemeAn
 the Čech-to-sheaf cohomology spectral sequence is used twice ([ECD] §8, Prop. 8.8 with proof, p. 43;
 [ECD] §1, Thm 1.2, p. 3, the packaged form that this target and D2.7 together prove). *Needs:*
 Mathlib `CategoryTheory.Sheaf.cohomologyPresheaf`; D1.6; D1.8; SchemeAndStackFoundations §2.2
-(`cech_to_cohomology`, cited in D0.19); D2.7; D2.5; PerfectoidSpaces layer P0 (almost modules over a
-perfectoid base); PerfectoidSpaces layer P2; D0.18; D2.4.
+(`cech_to_cohomology`, cited in D0.19); D2.7; D2.5; PerfectoidSpaces §§P0.5 and P1.9 (almost
+modules over a perfectoid base); PerfectoidSpaces §§P0.27 and P0.29 (`lim` and `lim¹` of almost
+zero modules, almost sheaf cohomology); PerfectoidSpaces layer P2; D0.18; D2.4.
 
 **Checks.**
 
@@ -3901,7 +3922,9 @@ height, with the specialisation map of §R2.4 lifting the required field-valued 
 `K = O_C/C°°`, and `X(O_C) → X(K)` is surjective by properness over the valuation ring `O_C` of a
 quasi-projective closure ([ECD] §9, Lem. 9.5 with proof, pp. 46–47). *Needs:* Mathlib
 `ValuationSubring`, `LinearMap.charpoly`, `Module.Free`, `IsAlgClosed`; D1.5; AdicSpacesPartII
-R0.19.2; D1.3; PerfectoidSpaces layer P2 (rational localization of perfectoid affinoids);
+R0.19.2; D1.3; PerfectoidSpaces §P2.3 (rational localization of perfectoid affinoids);
+PerfectoidSpaces §§P2.9 and P2.15 (affinoid perfectoid spaces and their fibre products);
+PerfectoidSpaces §P1.30 (the perfectoid ball as a perfected Tate algebra);
 AdicSpacesPartIII §R2.1 (*flat-tft-is-tfp*) and §R2.4 (*specialisation-map*).
 
 **Checks.**
@@ -3981,9 +4004,13 @@ reconstruction of PerfectoidSpaces P1.26/P1.28 supplies these component calculat
 general-base reconstruction and base-change comparison are targets here. Write the reconstruction
 as `Geometry.reconstructAlmostPerfectoid`, with its reduction comparison
 `Geometry.reconstructAlmostPerfectoid_mod` and completed-base-change comparison
-`Geometry.reconstructAlmostPerfectoid_baseChange`. *Needs:* D1.3; D1.6; PerfectoidSpaces P0
-(almost faithfully flat descent and almost deformation theory), P1.26/P1.28 (field-scope flat
-lifting and the almost-integral dictionary), P2 (completed tensor products), P5 (completed limits).
+`Geometry.reconstructAlmostPerfectoid_baseChange`. *Needs:* D1.3; D1.6; PerfectoidSpaces §P0.25
+(almost faithfully flat descent); PerfectoidSpaces §§P0.20, P0.22 and P0.23 (almost deformation
+theory: the almost cotangent complex, flat square-zero deformations and lifting of morphisms);
+PerfectoidSpaces §§P0.2, P0.8 and P0.11 (the root setup, almost algebras and almost flatness);
+PerfectoidSpaces §§P1.26 and P1.28 (field-scope flat lifting and the almost-integral dictionary);
+PerfectoidSpaces §P2.13 (completed tensor products); PerfectoidSpaces §§P5.1 and P5.2 (completed
+limits).
 
 **Checks.**
 
@@ -4014,9 +4041,9 @@ and the Frobenius isomorphism established as above; the ring of integral element
 descending the integral subring). Effectivity is not claimed without the totally disconnected
 hypothesis on the base — the proof uses it through D1.6 and [ECD] gives no counterexample — and for
 non-affinoid `Y` the statement proved is the separated pro-étale one of D3.4. *Needs:* Mathlib
-`Module.FaithfullyFlat`; D1.6; D1.1; D3.1; D3.2; PerfectoidSpaces layer P0 (almost modules over a
-perfectoid base; almost faithfully flat descent); the reconstruction target above;
-PerfectoidSpaces layer P1 (the tilting equivalence and the explicit tilt).
+`Module.FaithfullyFlat`; D1.6; D1.1; D3.1; D3.2; PerfectoidSpaces §§P0.5 and P1.9 (almost modules
+over a perfectoid base); PerfectoidSpaces §P0.25 (almost faithfully flat descent); the
+reconstruction target above; PerfectoidSpaces §P1.27 (*tilting-equivalence-and-explicit-tilt*).
 
 **Checks.**
 
@@ -4129,8 +4156,11 @@ on the target with `X` affinoid, then locally on the source with `Y` affinoid; m
 affinoids are separated. These three implications are the representable case of the v-local tests of
 D3.9 and the inputs of its proof, which does not restate them; they are what make the definitions of
 D3.6 work. *Needs:* Mathlib `CategoryTheory.Pseudofunctor.IsStack`; D3.4; D1.9; D1.11; D0.9;
-AdicSpacesPartII R0.19.4; PerfectoidSpaces layer P5 (finite-stage descent of qcqs étale objects);
-PerfectoidSpaces layer P3 (the almost purity theorem).
+AdicSpacesPartII R0.19.4; PerfectoidSpaces §§P5.11 and P5.12 (finite-stage descent of qcqs étale
+objects, with descent data in the quasicompact separated case); PerfectoidSpaces §P3.13 (the almost
+purity theorem); PerfectoidSpaces §§P3.14 and P3.15 (finite étale and étale morphisms of perfectoid
+spaces); PerfectoidSpaces §P4.19 (separated morphisms); PerfectoidSpaces §P6.7 (pro-étale
+morphisms).
 
 **Checks.**
 
@@ -4232,8 +4262,9 @@ Mathlib's `relative_map_iff` and, on affinoids, `Geometry.finiteEtalePair_iff` f
 `PerfectoidSpace.IsFiniteEtale p`) ([ECD] §10, Prop. 10.3 and Prop. 10.4, p. 50). *Needs:* Mathlib
 `CategoryTheory.Sheaf`, `CategoryTheory.MorphismProperty`,
 `CategoryTheory.MorphismProperty.presheaf`, `CategoryTheory.Functor.IsRepresentable`; D1.4; D2.1;
-D3.5; PerfectoidSpaces layer P6 (pro-étale maps, pro-étale stability and limits, `κ`-small
-perfectoid spaces), specifically P6.13 (base change of pro-étale maps).
+D3.5; PerfectoidSpaces §P6.7 (pro-étale maps); PerfectoidSpaces §P6.13 (stability of pro-étale
+maps: composition, cancellation and base change); PerfectoidSpaces §§P3.14 and P3.15
+(`PerfectoidSpace.IsFiniteEtale` and `PerfectoidSpace.IsEtale`).
 
 **Checks.**
 
@@ -4717,7 +4748,7 @@ ordered open subgroups of `G` also have `Small.{0}` total arrow type. *Needs:* M
 `ContinuousMap`, `ContinuousMap.yonedaPresheaf`, `equalizerCondition_yonedaPresheaf`,
 `ProfiniteGrp`, `TotallyDisconnectedSpace`; D3.9; D3.6; D2.2; AdicSpacesPartII R0.19.4; D1.11;
 PerfectoidSpaces P5.3 (affinoid limits formed with `Small.{0}` diagrams); SchemeAndStackFoundations
-§§1.15 and 2.3; PerfectoidSpaces layer P6 (`prodProfinite`).
+§§1.15 and 2.3; PerfectoidSpaces §P6.8 (`prodProfinite`).
 
 **Checks.**
 
@@ -5040,8 +5071,9 @@ also uses this v-topology. The pro-étale quotient of [ECD] Definition 11.1 is r
 comparison theorem in D4.4, which identifies the two sheafifications of
 `coequalizer (yoneda.map s) (yoneda.map t)` and preserves their quotient maps. *Needs:* Mathlib
 `CategoryTheory.Sheaf`, `CategoryTheory.GrothendieckTopology`,
-`CategoryTheory.Functor.IsRepresentable`; D2.1; D2.3; D3.6; PerfectoidSpaces layer P1 (perfectoid
-Tate rings and algebras); PerfectoidSpaces layer P2 (fibre products of perfectoid spaces).
+`CategoryTheory.Functor.IsRepresentable`; D2.1; D2.3; D3.6; PerfectoidSpaces §P1.1 (perfectoid
+Tate rings and algebras); PerfectoidSpaces §P2.10 (`Perf`); PerfectoidSpaces §§P2.16 and P2.18
+(fibre products of perfectoid spaces and absolute products in `Perf`).
 
 **Checks.**
 
@@ -5163,8 +5195,10 @@ makes `s` and `t` separated. The independence of the atlas is what makes `|Y|` a
 invariants well defined. Immediately after, prove that binary products and fibre products exist in
 the category of diamonds, by choosing compatible presentations and using that the diagonal of a
 representable map is pro-étale ([ECD] §11, Prop. 11.4 with proof, p. 55). *Needs:* D4.1; D3.4; D3.9;
-D3.6; D0.26; PerfectoidSpaces layer P2 (fibre products of perfectoid spaces); PerfectoidSpaces layer
-P6 (pro-étale maps, pro-étale stability and limits, `κ`-small perfectoid spaces).
+D3.6; D0.26; PerfectoidSpaces §§P2.16 and P2.18 (fibre products of perfectoid spaces and absolute
+products in `Perf`); PerfectoidSpaces §P6.7 (pro-étale maps); PerfectoidSpaces §P6.13 (stability of
+pro-étale maps: composition, cancellation and base change); PerfectoidSpaces §P4.19 (maps between
+affinoids are separated).
 
 `Perf.Diamond.Presentation.atlas_quasiProEtale` applies to the specified
 presentation atlas, as the quasi-pro-étale conclusion of `Perf.Diamond.quasiProEtale_atlas`
@@ -5230,7 +5264,7 @@ isomorphism, since the identity of `ℤ_p` is a continuous function `|ℤ_p̲ ×
 is not locally constant; it is not quasicompact. The criterion quantifies over algebraically closed
 `K` only, which is a weaker requirement than a bijection on all `(K, K⁺)`-points. This criterion is
 the one applied in [ECD] Lem. 11.27, Prop. 11.30, Lem. 12.5 and Prop. 13.12. *Needs:* D4.3; D3.4;
-D3.7; D2.7; D1.5; PerfectoidSpaces layer P4 (the valuative criterion for separatedness,
+D3.7; D2.7; D1.5; PerfectoidSpaces §§P4.19 and P4.20 (the valuative criterion for separatedness,
 separatedness of maps of affinoid perfectoid spaces).
 
 **Checks.**
@@ -5309,7 +5343,9 @@ space the construction returns the usual underlying topological space) and
 `Perf.Diamond.isOpenImmersion_iff` (for a map between diamonds, the sectionwise open condition is
 equivalent to `(Geometry.openImm p true).presheaf f.hom`, the representable base-change condition of
 [ECD] Definition 10.7(i), p. 51). *Needs:* D4.1; D4.2; AdicSpacesPartII R0.19.4; D3.9; D2.2;
-PerfectoidSpaces layer P2 (completed residue fields); PerfectoidSpaces layer P4 (the injection of
+PerfectoidSpaces §P2.5 (completed residue fields); PerfectoidSpaces §P2.15 (points of affinoid
+perfectoid fibre products surject onto compatible pairs); PerfectoidSpaces §P4.1 (affinoid
+perfectoid fields and `(K, K⁺)`-valued points); PerfectoidSpaces §P4.5 (the injection of
 residue-field points).
 
 The intrinsic construction in `Perf.Diamond.space` is the colimit of
@@ -5543,9 +5579,10 @@ of `T̲ × Spa(K, O_K)` is `T`, so it can be far from spectral: for `T` the unit
 connected and Hausdorff and so not spectral (a Hausdorff spectral space is profinite), this is a
 diamond whose underlying space is not spectral. This is one of the required tests of the layer; it
 is what shows that the underlying space of a diamond need not be spectral, and it is why spatiality
-(layer D5) is a genuine restriction. *Needs:* D0.16; D4.1; D4.2; D3.10; D4.5; PerfectoidSpaces layer
-P5 (cofiltered limits of affinoid perfectoid spaces); PerfectoidSpaces layer P6 (`prodProfinite`);
-Mathlib `Continuous.isClosedMap`, `Topology.IsClosedMap.isQuotientMap`.
+(layer D5) is a genuine restriction. *Needs:* D0.16; D4.1; D4.2; D3.10; D4.5; PerfectoidSpaces
+§P5.3 (cofiltered limits of affinoid perfectoid spaces); PerfectoidSpaces §P6.8 (`prodProfinite`);
+PerfectoidSpaces §P2.11 (`PerfectoidSpace.globalSections`); Mathlib `Continuous.isClosedMap`,
+`Topology.IsClosedMap.isQuotientMap`.
 
 **Checks.**
 
@@ -5788,8 +5825,9 @@ among maps from small v-sheaves whose underlying spaces factor continuously thro
 equivalently `Y' ≅ Y ×_{|Y|̲} |Y'|̲`, the fibre product of `Y` with the sheaf `|Y'|̲` over the sheaf
 `|Y|̲` attached to the topological spaces `|Y'|` and `|Y|` ([ECD] §12, Prop. 12.15 with proof, pp.
 72–73). The last identification is the form used in [ECD] Prop. 11.20 and Prop. 13.12. *Needs:*
-D4.4; D4.7; D4.8; D3.7; D3.10; PerfectoidSpaces layer P4 (the valuative criterion for separatedness,
-separatedness of maps of affinoid perfectoid spaces).
+D4.4; D4.7; D4.8; D3.7; D3.10; PerfectoidSpaces §§P4.19 and P4.20 (the valuative criterion for
+separatedness, separatedness of maps of affinoid perfectoid spaces); PerfectoidSpaces §§P4.6 and P4.7
+(the isomorphism and injection criteria for perfectoid spaces on field-valued points).
 
 `Perf.VStack.isEquivalence_iff_fieldPoints` requires
 `Geometry.stackQuasicompact` and `Geometry.stackQuasiseparated`; its conclusion
@@ -6329,8 +6367,9 @@ finite open gluing. These comparisons are what make the iterated constructions o
 open presentation (D5.4) and of the spatial v-sheaf criterion (D5.11) terminate ([ECD] §11, Lem.
 11.22 with proof, pp. 63–64, the limit statement with its smallness clause; [ECD] §11, Prop. 11.23
 and Lem. 12.17, pp. 64, 73–74, the finite-stage comparisons in the diamond and in the small v-sheaf
-case). *Needs:* D5.1; D5.2; AdicSpacesPartII R0.19.6; D0.23; D3.5; D4.7; PerfectoidSpaces layer P5
-(finite-stage descent of qcqs étale objects); D0.14.
+case). *Needs:* D5.1; D5.2; AdicSpacesPartII R0.19.6; D0.23; D3.5; D4.7; PerfectoidSpaces §P5.12
+(finite-stage descent of qcqs étale objects); PerfectoidSpaces §P5.3 (cofiltered limits of affinoid
+perfectoid spaces); D0.14.
 
 **Checks.**
 
@@ -6589,7 +6628,7 @@ spatial diamonds, with `f` a quasi-pro-étale surjection and `h` pro-étale, whi
 separated at one point. The proof is a careful reduction to the case of a connected strictly totally
 disconnected base. The statement is used in the fibre criterion of D5.12 to characterise
 quasi-pro-étale maps by their geometric fibres ([ECD] §11, Prop. 11.30 with proof, pp. 68–69).
-*Needs:* D5.5; D5.4; D4.4; D3.8; D1.10; D1.5; PerfectoidSpaces layer P4 (residue-field point
+*Needs:* D5.5; D5.4; D4.4; D3.8; D1.10; D1.5; PerfectoidSpaces §P4.5 (residue-field point
 injection).
 
 **Checks.**
@@ -7210,9 +7249,9 @@ by `changeNormalization` (a map of adic spectra sends the rank-one generalisatio
 generalisation), that `ofSpa` is a quotient map, these three README only, and
 `nonempty_t2Quotient_spa_homeomorph` (`BerkovichSpectrum R ϖ` is compact Hausdorff and
 `T2Quotient (Spa(R, R⁺)) ≃ₜ BerkovichSpectrum R ϖ`, the universal property) ([ECD] §13, Def. 13.7,
-Rem. 13.8 and Prop. 13.9 with proof, p. 79). *Needs:* AdicSpacesPartIII layer R3
+Rem. 13.8 and Prop. 13.9 with proof, p. 79). *Needs:* AdicSpacesPartIII §R3.9
 (*gelfand-spectrum-banach-ring*: `GelfandSpectrum`, its compactness and Hausdorffness, and the
-induced map `M(B) → M(A)`) and AdicSpacesPartII layer R0 (`tateNorm`); Mathlib `MulRingSeminorm`,
+induced map `M(B) → M(A)`) and AdicSpacesPartII §R0.4 (`tateNorm`); Mathlib `MulRingSeminorm`,
 `IsTopologicallyNilpotent`, `Valuation.RankOne.hom`, `Continuous.isClosedMap`,
 `Topology.IsClosedMap.isQuotientMap`, `T2Quotient`, `T2Quotient.lift`; Tau Ceti
 `TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition`,
@@ -7474,7 +7513,7 @@ theorem alone do not provide the comparison, and both inputs precede the cohomol
 §13, Prop. 13.13 with proof, p. 81, the cohomological comparison). *Needs:*
 *minimal-plus-quotient-extension*; D5.14; D5.12; D5.5; D5.4; D3.10; D3.8; SchemeAndStackFoundations
 §2.2 (`cech_to_cohomology`, `leray_spectral_sequence`, cited in D0.19); AdicSpacesPartII R0.19.3;
-D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field point injection).
+D0.20; D5.8; PerfectoidSpaces §P4.5 (residue-field point injection).
 
 **Checks.**
 
@@ -7923,12 +7962,14 @@ v-cover must induce a quotient map on underlying spaces, whereas these two discr
 recover the specialization from the generic to the closed point. ([ECD] §15, Lem. 15.1 with proof,
 pp. 89–90; [ECD] §15, proof of Lem. 15.1, p. 89, for the absence of automorphisms; [ECD] §15, Lem.
 15.2 with proof, p. 90, for the perfectoid case). *Needs:* Mathlib `WittVector`; D2.7; D2.8; D4.1;
-D4.4; PerfectoidSpaces layer P1 (Fontaine's `θ` and the primitive kernel, untilts classified by
-primitive ideals, the tilt of a perfectoid Tate ring); PerfectoidSpaces layer P2 (perfectoid spaces
-and glued tilting); PerfectoidSpaces layer P0 (almost modules over a perfectoid base);
-PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.5 (finite étale
-effective descent along a tower); AdicEtaleGeometry layer A1 (the generalised étale site, the finite
-étale site, Yoneda and adic fibre products).
+D4.4; D6.6 (`PreAdic.Spd`, `PreAdic.MarkedMap`, `PreAdic.diamond_isVSheaf`); PerfectoidSpaces
+§§P1.4, P1.18, P1.21 and P1.22 (the tilt of a perfectoid Tate ring, Fontaine's `θ` and the
+primitive kernel, untilts classified by primitive ideals, marked untilts); PerfectoidSpaces
+§§P2.10, P2.11 and P2.12 (perfectoid spaces and glued tilting, the tilting slice equivalence);
+PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a perfectoid base); PerfectoidSpaces
+P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.5 (finite étale effective descent
+along a tower); AdicEtaleGeometry §§A1.9 and A1.16 (the generalised étale site, the finite étale
+site, Yoneda and adic fibre products).
 
 **Checks.**
 
@@ -8014,11 +8055,12 @@ passes through the almost category; the exact descent of `O` and `O⁺` (D2.7) i
 The uniqueness of the untilt is what makes `Spd ℤ_p` a sheaf and not a stack, and is what glues
 `Spd(A, A⁺)` in D6.4 ([ECD] §15, proof of Lem. 15.1, pp. 89–90, the start of the computation; [ECD]
 §15, proof of Lem. 15.1, p. 90, its conclusion). *Needs:* Mathlib `WittVector`; D2.7; D2.8;
-PerfectoidSpaces layer P1 (Fontaine's `θ` and the primitive kernel, untilts classified by primitive
-ideals); PerfectoidSpaces layer P0 (almost modules over a perfectoid base); PerfectoidSpaces
-P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.5 (finite étale effective descent
-along a tower); AdicEtaleGeometry layer A1 (the generalised étale site, the finite étale site,
-Yoneda and adic fibre products).
+PerfectoidSpaces §§P1.18, P1.21 and P1.22 (Fontaine's `θ` and the primitive kernel, untilts
+classified by primitive ideals, marked untilts); PerfectoidSpaces §P2.12 (the tilting slice
+equivalence and its affinoid form); PerfectoidSpaces §§P0.5 and P1.9 (almost modules over a
+perfectoid base); PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry
+A4.5 (finite étale effective descent along a tower); AdicEtaleGeometry §§A1.9 and A1.16 (the
+generalised étale site, the finite étale site, Yoneda and adic fibre products).
 
 `Perf.SpdZp.untiltDescent` takes two characteristic-`p` affinoids, a single-map v-cover
 between their `Geometry.affine` spaces, and an untilt in `Geometry.Affinoid p false` of
@@ -8085,11 +8127,12 @@ therefore carry its group-size hypothesis. For `(A, A⁺)` perfectoid the statem
 Lem. 15.2. The identification of the underlying space is the reason the functor preserves all
 topological information, and is what the étale-site comparison of D6.5 uses ([ECD] §15, Lem. 15.3
 with proof, p. 90, for the tower; [ECD] §15, Prop. 15.4 with proof, pp. 90–91, for the statement).
-*Needs:* Mathlib `ProfiniteGrp`; D6.1; D5.4; D3.10; D5.3; D5.1; D4.5; PerfectoidSpaces layer P1
-(perfectoid Tate rings and algebras); PerfectoidSpaces layer P5 (cofiltered limits of affinoid
-perfectoid spaces); PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry
-A4.5 (finite étale effective descent along a tower); AdicEtaleGeometry layer A1 (the generalised
-étale site, the finite étale site, Yoneda and adic fibre products).
+*Needs:* Mathlib `ProfiniteGrp`; D6.1; D5.4; D3.10; D5.3; D5.1; D4.5; PerfectoidSpaces §P1.1
+(perfectoid Tate rings and algebras); PerfectoidSpaces §P1.32 (perfectoid uniform completion);
+PerfectoidSpaces §P5.3 (cofiltered limits of affinoid perfectoid spaces); PerfectoidSpaces
+P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.3 (`FiniteEtaleTorsorTower`);
+AdicEtaleGeometry A4.5 (finite étale effective descent along a tower); AdicEtaleGeometry §§A1.9 and
+A1.16 (the generalised étale site, the finite étale site, Yoneda and adic fibre products).
 
 `Perf.Spd.pair p P` defines this functor for any Tate Huber pair `P : Huber.Pair A`, without
 completeness or separatedness assumptions. A `Perf.Spd.MarkedPairMap` consists of an
@@ -8220,10 +8263,11 @@ lifts. This specifies the homeomorphism on all affine marked representatives.
 `PreAdic.diamond_finiteEtale` handles complete Tate pairs with topologically nilpotent `p`, finite
 étale ring map and the integral closure as the target plus ring; its conclusion is
 `Geometry.sheafFiniteEtale` for the induced diamond map ([ECD] Lemma 15.6, p. 91). *Needs:* D6.3;
-D6.1; D4.5; D3.8; D5.1; PerfectoidSpaces layer P2 (rational localisation of perfectoid affinoids,
-perfectoid spaces and glued tilting); PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation);
-AdicEtaleGeometry A4.5 (finite étale effective descent along a tower); AdicEtaleGeometry layer A1
-(the generalised étale site, the finite étale site, Yoneda and adic fibre products).
+D6.1; D4.5; D3.8; D5.1; PerfectoidSpaces §§P2.2, P2.3, P2.10 and P2.11 (the tilting homeomorphism
+`spaTiltHomeomorph`, rational localisation of perfectoid affinoids, perfectoid spaces and glued
+tilting); PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.5
+(finite étale effective descent along a tower); AdicEtaleGeometry §§A1.9 and A1.16 (the generalised
+étale site, the finite étale site, Yoneda and adic fibre products).
 
 **Checks.**
 
@@ -8272,11 +8316,11 @@ derived left-completion comparison of the étale cohomology of diamonds. Package
 locally spatial diamonds, `Y ↦ Y^◇`, satisfying the étale-site equivalence; the cases that exercise
 it are `Spd ℚ_p`, a rigid analytic disc, a perfectoid disc, a finite étale cover and a rational
 open, the checks of D6.1 and D6.4 ([ECD] §15, Lem. 15.6 with proof, p. 91; [ECD] §1, Thm 1.5, p. 4,
-the packaged form). *Needs:* D6.4; D6.3; D5.7; D5.3; D3.10; D4.5; PerfectoidSpaces layer P3
-(étale-site tilting and étale almost acyclicity); PerfectoidSpaces P6.16–P6.17 (perfectoid cover
-presentation); AdicEtaleGeometry A4.5 (finite étale effective descent along a tower);
-AdicEtaleGeometry layer A1 (the generalised étale site, the finite étale site, Yoneda and adic fibre
-products).
+the packaged form). *Needs:* D6.4; D6.3; D5.7; D5.3; D3.10; D4.5; PerfectoidSpaces §§P3.18 and
+P3.22 (the étale and finite étale sites of a perfectoid space, étale-site tilting and étale almost
+acyclicity); PerfectoidSpaces P6.16–P6.17 (perfectoid cover presentation); AdicEtaleGeometry A4.5
+(finite étale effective descent along a tower); AdicEtaleGeometry §§A1.9 and A1.16 (the generalised
+étale site, the finite étale site, Yoneda and adic fibre products).
 
 On the diamond side, `Geometry.etaleSite p F` is the full subcategory of `Over F`
 selected by `Geometry.sheafEtale`; `Geometry.finiteEtaleSite p F` uses
@@ -8374,10 +8418,10 @@ restriction uses Mathlib's Cartesian lift of `S' → S ← U♭`, and its map to
 followed by `U → X`. Isomorphic lift choices determine the same quotient class; characteristic-`p`
 perfectoid spaces, perfectoid spaces over `ℤ_p` with the tilt, and pre-adic spaces over
 `Spa(ℤ_p, ℤ_p)` give the geometric instance. `PreAdic.diamond_isVSheaf` asserts its v-sheaf property
-under these geometric hypotheses, by Lemma 18.1.1. *Needs:* D6.2; D2.7; PerfectoidSpaces layer P1
-(marked untilts); PerfectoidSpaces layer P2 (the tilting slice equivalence); AdicSpacesPartIII layer
-F0 (the formal spectrum); AdicEtaleGeometry §A1.16 (the complete-pair and Yoneda-adic carriers);
-Mathlib `CategoryTheory.Functor.IsFibered`.
+under these geometric hypotheses, by Lemma 18.1.1. *Needs:* D6.2; D2.7; PerfectoidSpaces §P1.22
+(marked untilts); PerfectoidSpaces §§P2.11 and P2.12 (the glued tilt, the tilting slice equivalence);
+AdicSpacesPartIII layer F0 (the formal spectrum); AdicEtaleGeometry §A1.16 (the complete-pair and
+Yoneda-adic carriers); Mathlib `CategoryTheory.Functor.IsFibered`.
 
 **Checks.**
 
@@ -8834,7 +8878,9 @@ sections. D6.9 owns the following calculations as well as their passage to this 
 
 *Needs:* AdicEtaleGeometry A1.12 (the site, base change and `ν`); PerfectoidSpaces P7.16
 (the basis, completed pairs and coordinate-root objects); D2.7 (v-descent of functions);
-AdicSpacesPartII R0–R1 (affinoid tensor products and smooth torus charts). The toric and scalar
+AdicSpacesPartII §§R0.3, R0.4, R0.5, R0.16 and R0.17 (affinoid and uniform completed tensor
+products, smooth morphisms and smooth torus charts); AdicSpacesPartII layer R1 (rigid spaces over a
+fixed field). The toric and scalar
 calculations in this target are independent of PerfectoidTowers P9.12.
 
 **Checks.**
@@ -8959,8 +9005,9 @@ completed pro-étale structural sheaf, with its analytic hypothesis supplied by 
 layer R0, and which is not the perfectoid-affinoid Rem. 3.7.7; [HK] §2.2, rigid-analytic diamond
 conventions and seminormal full faithfulness, p. 15). *Needs:* D6.4; D6.5; D2.9; the seminormal
 structure-sheaf comparison above (AdicEtaleGeometry A1.12; PerfectoidSpaces P7.16, the affinoid
-perfectoid basis); AdicSpacesPartII layer R0 (affinoid algebras and étale morphisms of Huber pairs);
-the seminormalisation construction below ([KL16] Remark 3.7.3), with D6.9's local affine targets
+perfectoid basis); AdicSpacesPartII §§R0.9, R0.16 and R0.17 (affinoid algebras and étale
+morphisms of Huber pairs); the seminormalisation construction below ([KL16] Remark 3.7.3), with
+D6.9's local affine targets
 (seminormal-ring, normal-ring-check, seminormalization-ring, subintegral-unit and
 fixed-rings-and-restriction).
 
