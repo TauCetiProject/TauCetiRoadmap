@@ -23,20 +23,17 @@ Ceti module states. Among them:
   Wilf, Nikiforov, Nosal and Hofmeister, Hoffman's polynomial `J = h(A)` of a connected regular
   graph, and the adjacency spectrum of the complement of a regular graph;
 - walk counts from main angles, and the number of main eigenvalues, which is `1` exactly for
-  regular graphs and at most the number of orbits of the automorphism group;
-- the characteristic polynomial of an equitable compression divides that of the matrix.
+  regular graphs and at most the number of orbits of the automorphism group.
 
-The roadmap rests on Mathlib's adjacency and Laplacian matrices and its spectral theorem, and on
-Tau Ceti's Perron–Frobenius and Courant–Fischer theorems. It consumes the adjacency bounds of
-SpectralGraphBounds (sorted eigenvalues, Rayleigh bounds, `|θᵢ| ≤ θ₁ ≤ k_max`, induced
-interlacing), the Laplacian theory of LaplacianEigenvaluesOfGraphs (zero eigenvalues and
-components, the complement), the bipartiteness criteria of PeriodicNonnegativeMatrices, the
-equitable-partition calculus of EquitableOperatorReduction, the eigenvalues and spectral
-projectors of the standard graphs in SpectralQuantumWalks, the primitive idempotents of the
-Johnson scheme in AssociationSchemes and the Kneser graph of TopologicalCombinatorics. Later
-roadmaps on Laplacian spectra and spanning trees, characteristic polynomials and star
-complements, strongly regular and distance-regular graphs, Cayley graphs, expanders, line systems
-and colourings build on it and cite it by section.
+The roadmap rests on Mathlib's adjacency and Laplacian matrices and its spectral theorem, and on Tau
+Ceti's Perron–Frobenius and Courant–Fischer theorems. It consumes the adjacency bounds of
+SpectralGraphBounds (sorted eigenvalues, Rayleigh bounds, `|θᵢ| ≤ θ₁ ≤ k_max`, induced interlacing),
+the Laplacian theory of LaplacianEigenvaluesOfGraphs (zero eigenvalues and components, the
+complement), the bipartiteness criteria of PeriodicNonnegativeMatrices, the primitive idempotents of
+the Johnson scheme in AssociationSchemes and the Kneser graph of TopologicalCombinatorics. Later
+roadmaps on Laplacian spectra and spanning trees, characteristic polynomials and star complements,
+strongly regular and distance-regular graphs, Cayley graphs, expanders, line systems and colourings
+build on it and cite it by section.
 
 ## How to read the build
 
@@ -49,16 +46,13 @@ multiset spectrum of a decomposition into orthogonal idempotents. Every later la
 Layer 2 defines the Hamming, Johnson and Petersen graphs and gives them, with the Kneser graph,
 their basic API, together with the degrees of complete multipartite graphs, the Laplacian
 spectrum of the path, the spectra of line graphs and the multiset spectra of the standard
-graphs. It needs Layer 1, and for the multiset spectra the projectors of SpectralQuantumWalks,
-Layer 7, and of AssociationSchemes 5.1.
+graphs. It needs Layer 1, and for the multiset spectra of the Johnson and Kneser graphs the
+primitive idempotents of AssociationSchemes 5.1.
 
 Layer 3 is Perron–Frobenius theory and the index: distinct eigenvalues and the diameter,
 Perron–Frobenius for connected graphs (3.2), on which the rest of the layer rests, degree bounds,
 monotonicity and extremes of the index, the clique bounds, Hoffman's polynomial, bipartiteness of
 regular graphs, the complement, and main eigenvalues.
-
-Layer 4 is a single section on equitable compressions: divisibility of characteristic
-polynomials. It needs only the definitions of EquitableOperatorReduction and Mathlib.
 
 ## Conventions
 
@@ -87,11 +81,6 @@ polynomials. It needs only the definitions of EquitableOperatorReduction and Mat
 - **Edge sums.** A sum over edges is `∑ e ∈ G.edgeFinset, Sym2.lift ⟨f, hf⟩ e` for a symmetric
   `f`. The edge matrices `edgeLapMatrix R e` and `edgeSignlessLapMatrix R e` are defined for every
   `e : Sym2 V` and are the zero matrix on a diagonal `e`, which is never an edge.
-- **Partitions.** A partition is a cell map `cell : V → I` with `I` finite, in the sense of
-  EquitableOperatorReduction, Layers 1–2 (local copies in `Suggested.lean`): equitability
-  requires a surjective cell map with constant row sums into each cell, for a complex matrix, and
-  the compression is `EᴴAE` for the normalized cell embedding `E`. A real matrix enters through
-  its image over `ℂ`.
 - **Standard graphs.** `⊤ : SimpleGraph V` is `K_n`; `pathGraph n` is `Pₙ`; `cycleGraph n` is
   `Cₙ`; `completeEquipartiteGraph r t` is `K_{r×t}` (`r` parts of size `t`);
   `hypercube d = hammingGraph d Bool`. The Johnson graph `johnsonGraph α k` and the Kneser graph
@@ -112,7 +101,9 @@ The definitions are `signlessLapMatrix`, `signlessLapEigenvalues`, `adjSpectrum`
 `edgeSignlessLapMatrix`; the enumerations of `A` and `L` are those of SpectralGraphBounds 1.1 and
 LaplacianEigenvaluesOfGraphs 1.1 (Conventions). The symmetry of `Q` over `ℝ`
 (`isHermitian_signlessLapMatrix`) is proved with the definitions, since `signlessLapEigenvalues`
-needs it.
+needs it. The entries of `Q` are sanity checks of the definition (`signlessLapMatrix_apply_self`,
+`signlessLapMatrix_apply_of_ne`, `isSymm_signlessLapMatrix`, `signlessLapMatrix_mulVec_one`):
+`Q_{ii} = d(i)`, `Q_{ij} = A_{ij}` for `i ≠ j`, `Q` is symmetric over any ring, and `Q𝟙 = 2d`.
 
 *Depends on:* Mathlib; Tau Ceti Courant–Fischer; RandomMatrices 1.2 (min–max for
 `eigenvalues₀`); SpectralGraphBounds 1.1 and LaplacianEigenvaluesOfGraphs 1.1–1.2 (sorted
@@ -120,9 +111,6 @@ eigenvalues, component count).
 
 ### 1.1 Quadratic forms, edge decompositions and incidence
 
-- **Entries of `Q`** (`signlessLapMatrix_apply_self`, `signlessLapMatrix_apply_of_ne`,
-  `isSymm_signlessLapMatrix`, `signlessLapMatrix_mulVec_one`). `Q_{ii} = d(i)`, `Q_{ij} = A_{ij}`
-  for `i ≠ j`, `Q` is symmetric over any ring, and `Q𝟙 = 2d`.
 - **Quadratic forms** (`dotProduct_mulVec_adjMatrix_self`, `dotProduct_mulVec_lapMatrix_self`,
   `dotProduct_mulVec_signlessLapMatrix_self`, `posSemidef_signlessLapMatrix`). Over any
   commutative ring, `uᵀAu = 2∑_{xy∈E} u_x u_y`, `uᵀLu = ∑_{xy∈E}(u_x - u_y)²` and
@@ -135,8 +123,6 @@ eigenvalues, component count).
   `L_{xy} = bbᵀ` with `b = e_x - e_y` and `Q_{xy} = bbᵀ` with `b = e_x + e_y`; `L = ∑_e L_e`,
   `Q = ∑_e Q_e` over the edges; and for every `e : Sym2 V` both edge matrices are positive
   semidefinite.
-- **Regular graphs** (`IsRegularOfDegree.lapMatrix_eq`). If `G` is `k`-regular, `L = kI - A` and
-  `Q = kI + A`, over any ring [BH, §1.3.1, p. 4].
 - **Unsigned incidence** (`unsignedIncMatrix_mul_transpose`). For `U = G.unsignedIncMatrix R`
   (Mathlib's `incMatrix` with columns restricted to the edges), `UUᵀ = Q` over any semiring
   [BH, §1.1, p. 1; Ba, introduction to Chapter 7, p. 87].
@@ -150,6 +136,9 @@ eigenvalues, component count).
 
 Hence `L` and `Q` of a bipartite graph are similar and, by 1.2, cospectral [CRS, Proposition
 7.8.4, p. 217]; this corollary is stated in prose only.
+
+If `G` is `k`-regular, `L = kI - A` and `Q = kI + A` over any ring [BH, §1.3.1, p. 4]; this
+unfolds `degMatrix` and is not a separate target.
 
 **Suggested proof:** expand `uᵀDu ± uᵀAu` and pair the two darts of each edge, as in Mathlib's
 `SimpleGraph.lapMatrix_toLinearMap₂'`; the edge decompositions are the same computation
@@ -177,10 +166,9 @@ component `u` is determined by one value and is nonzero only if the component ha
 
 - **Membership** (`mem_adjSpectrum_iff`, `mem_lapSpectrum_iff`, `mem_signlessLapSpectrum_iff`).
   `θ ∈ G.adjSpectrum ↔ θ ∈ spectrum ℝ (G.adjMatrix ℝ)`, and likewise for `L` and `Q`.
-- **Characteristic polynomial** (`charpoly_adjMatrix_eq_prod`, `adjSpectrum_eq_roots_charpoly`,
-  `adjSpectrum_eq_roots`). `χ_A = ∏_{θ ∈ adjSpectrum} (X - θ)`; each of the three spectra is the
-  root multiset of the real characteristic polynomial of its matrix; and the adjacency spectrum
-  is the root multiset of the integer characteristic polynomial mapped to `ℝ`.
+- **Characteristic polynomial** (`charpoly_adjMatrix_eq_prod`, `adjSpectrum_eq_roots`).
+  `χ_A = ∏_{θ ∈ adjSpectrum} (X - θ)`, and the adjacency spectrum is the root multiset of the
+  integer characteristic polynomial mapped to `ℝ`.
 - **Multiplicity** (`count_adjSpectrum`). `count θ = dim ker(A - θI)`.
 - **Regular graphs** (`IsRegularOfDegree.lapEigenvalues_eq`). If `G` is `k`-regular,
   `ν_{i+1} = k - θ_{n-i}` at the reversed index `i.rev` and `q_{i+1} = k + θ_{i+1}` at the same
@@ -190,7 +178,9 @@ component `u` is determined by one value and is nonzero only if the component ha
 The monotonicity of the enumerations is Mathlib's `Matrix.IsHermitian.eigenvalues₀_antitone`,
 each spectrum has `n` elements by `simp`, the algebraic connectivity is `ν_{n-1}` for `n ≥ 2` by
 definition, and `νᵢ ≥ 0`, `νₙ = 0` on a nonempty vertex type are LaplacianEigenvaluesOfGraphs
-1.1; these are not separate targets.
+1.1. That each of the three spectra is the root multiset of the real characteristic polynomial of
+its matrix is `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀`. These are not separate
+targets.
 
 **Suggested proof:** `Matrix.IsHermitian.charpoly_eq` and
 `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀` give the characteristic polynomial; for
@@ -220,13 +210,13 @@ LaplacianEigenvaluesOfGraphs 1.1.
 
 ### 1.3 Trace identities
 
-- **Closed walks** (`trace_adjMatrix_pow`). Over any semiring, `tr Aʰ` is the number of closed
-  walks of length `h` [BH, Proposition 1.3.1, p. 4; B, Lemma 2.5, p. 9].
 - **Triangles** (`sum_cube_adjSpectrum`). `∑ θᵢ³ = 6t` with `t = #G.cliqueFinset 3`
   [BH, Proposition 1.3.1, p. 4; B, 2h, pp. 12–13].
 - **Laplacian traces** (`sum_lapSpectrum`). `∑ νᵢ = ∑ qᵢ = 2m` [BH, §1.3, p. 4].
 
-The spectral form `∑ θᵢʰ = tr Aʰ` is Tau Ceti's
+Over any semiring, `tr Aʰ` is the number of closed walks of length `h` [BH, Proposition 1.3.1,
+p. 4; B, Lemma 2.5, p. 9], Mathlib's `SimpleGraph.adjMatrix_pow_apply_eq_card_walk` summed over
+the diagonal; it is not a separate target. The spectral form `∑ θᵢʰ = tr Aʰ` is Tau Ceti's
 `Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow`; `∑ θᵢ = 0` and `∑ θᵢ² = 2m` are
 SpectralGraphBounds 1.1, and the count of homomorphisms from the `k`-cycle as `∑ θᵢᵏ` is
 QuasirandomGraphs 4.1.
@@ -247,14 +237,13 @@ For the Laplacians, the trace is `∑ d(v) = 2m` (Mathlib's
 
 ### 1.4 Row sums and degrees
 
-- **Regularity through `𝟙`** (`isRegularOfDegree_iff_adjMatrix_mulVec_one`). `G` is `k`-regular
-  if and only if `A𝟙 = k𝟙` [BH, §1.3.1, p. 4]. Mathlib has the forward direction
-  (`SimpleGraph.adjMatrix_mulVec_const_apply`).
 - **Degree bound for the Laplacians** (`lapEigenvalues_le_two_mul_maxDegree`). `νᵢ ≤ 2k_max`
   and `qᵢ ≤ 2k_max`. The adjacency bound `|θᵢ| ≤ θ₁ ≤ k_max` is SpectralGraphBounds 1.2–1.3.
 
-**Suggested proof:** for the converse, compare entries of `A𝟙` with
-`SimpleGraph.adjMatrix_mulVec_const_apply`. The bounds are Gershgorin's discs (Mathlib's
+`G` is `k`-regular if and only if `A𝟙 = k𝟙` [BH, §1.3.1, p. 4]: both sides say `d(x) = k` at
+every `x`, by `SimpleGraph.adjMatrix_mulVec_const_apply`; this is not a separate target.
+
+**Suggested proof:** the bounds are Gershgorin's discs (Mathlib's
 `eigenvalue_mem_ball`): the disc of row `x` has centre `d(x)` and radius `d(x)`.
 
 **Checks.**
@@ -298,12 +287,13 @@ and specialize.
 - **Irreducibility** (`isIrreducible_adjMatrix_iff`). On a vertex type with at least two
   elements, `G.adjMatrix ℝ` is irreducible (Mathlib's `Matrix.IsIrreducible`) if and only if `G`
   is connected [BH, §3.1, p. 33; CRS, §1.3, p. 15].
-- **Positive entries of powers** (`adjMatrix_pow_apply_pos_iff`). `(Aʰ)_{xy} > 0` if and only if
-  there is a walk of length `h` from `x` to `y` [BH, Proposition 1.3.1, p. 4].
 
-**Suggested proof:** `SimpleGraph.adjMatrix_pow_apply_eq_card_walk` gives the second; for the
-first, use `Matrix.isIrreducible_iff_exists_pow_pos`, and note that with two vertices in a
-connected graph every vertex lies on an edge, so `x` reaches `x` by a walk of length `2`.
+That `(Aʰ)_{xy} > 0` if and only if there is a walk of length `h` from `x` to `y`
+[BH, Proposition 1.3.1, p. 4] is `SimpleGraph.adjMatrix_pow_apply_eq_card_walk`; it is not a
+separate target.
+
+**Suggested proof:** use `Matrix.isIrreducible_iff_exists_pow_pos`, and note that with two vertices
+in a connected graph every vertex lies on an edge, so `x` reaches `x` by a walk of length `2`.
 
 **Checks.**
 - `K₂`: `A = [[0,1],[1,0]]` is irreducible; `A² = I`.
@@ -341,9 +331,9 @@ connected graph every vertex lies on an edge, so `x` reaches `x` by a walk of le
 
 ### 1.8 Spectra from spectral decompositions
 
-SpectralQuantumWalks, Layers 1 and 7, and AssociationSchemes 5.1 give eigenvalues together with
-spectral projectors or primitive idempotents. This section turns such a decomposition into a
-multiset spectrum (the spectral decomposition of an adjacency matrix is [B, 2j, p. 13]).
+AssociationSchemes 5.1 gives eigenvalues together with primitive idempotents, and 2.6 builds such
+systems from explicit eigenvectors. This section turns such a decomposition into a multiset
+spectrum (the spectral decomposition of an adjacency matrix is [B, 2j, p. 13]).
 
 - **Spectrum from orthogonal idempotents** (`Matrix.map_eigenvalues₀_eq_sum_replicate_rank`).
   Let `M` be a Hermitian matrix over `ℝ` or `ℂ` and let `E : ι → Matrix V V 𝕜` be a finite indexed
@@ -367,9 +357,11 @@ one (`Matrix.charpoly_map`).
 **Checks.**
 - `K₂`: `A = 1 · E₊ - 1 · E₋` with `E± = (I ± A)/2`, idempotents of rank and trace `1`;
   spectrum `{1, -1}`.
-- Repeated values: a `6 × 6` real matrix `1.5 E₁ - 2 E₂ + 1.5 E₃` with orthogonal projections of
-  ranks `2, 1, 3` has spectrum `1.5⁵, -2`, the multiset sum; conjugating the `Eᵢ` by an
-  invertible matrix (oblique idempotents) leaves it unchanged, and their traces stay `2, 1, 3`.
+- Repeated values: on `Fin 6`, `M = 1.5 E₁ - 2 E₂ + 1.5 E₃` with `E₁, E₂, E₃` the coordinate
+  projections onto `{0, 1}`, `{2}` and `{3, 4, 5}` has spectrum `1.5⁵, -2`, the multiset sum.
+  With `N` the matrix unit at `(0, 3)`, the oblique idempotents `E₁ - N`, `E₂`, `E₃ + N` are
+  again complete and orthogonal, not symmetric, with the same `M`, the same spectrum and traces
+  `2, 1, 3`.
 - Negative control: completeness `∑ Eᵢ = I` is needed. The zero matrix on two vertices is
   `0 · E` for the single idempotent `E = diag(1, 0)`, of rank `1`, but `E ≠ I`; the formula gives
   `{0}`, while the spectrum is `{0, 0}`.
@@ -381,23 +373,19 @@ one (`Matrix.charpoly_map`).
 
 ## Layer 2: standard graphs and line graphs
 
-SpectralQuantumWalks, Layer 7, proves for paths, cycles, complete and complete multipartite
-graphs, hypercubes, Hamming graphs and Cayley graphs of finite abelian groups "its adjacency
-formula, spectrum/projectors or character diagonalization", and Layer 5 there treats Cartesian
-products as Kronecker sums; AssociationSchemes 5.1 gives the eigenvalues and primitive idempotents
-of the Johnson scheme, whose classes `1` and `k` are the Johnson and Kneser graphs, and
-DelsarteTheoryOfCodesAndDesigns 2.1 those of the Hamming scheme. None of them fixes the spectrum
-as a multiset with multiplicities. This layer gives the standard graphs their basic API, computes
-the Laplacian spectrum of the path and the spectra of line graphs, and derives from those
-projectors, by 1.8, the multiset spectra (2.6).
+AssociationSchemes 5.1 gives the eigenvalues and primitive idempotents of the Johnson scheme,
+whose classes `1` and `k` are the Johnson and Kneser graphs, and DelsarteTheoryOfCodesAndDesigns
+2.1 those of the Hamming scheme; neither fixes the spectrum as a multiset with multiplicities.
+This layer gives the standard graphs their basic API, computes the Laplacian spectrum of the path
+and the spectra of line graphs, and derives by 1.8 the multiset spectra (2.6), from explicit
+eigenvectors [BH, §1.4, pp. 8–10] and from those idempotents.
 
 The definitions are `hammingGraph`, `hypercube`, `johnsonGraph` and `petersenGraph`, with their
 `DecidableRel` instances; the Kneser graph is the local copy of TopologicalCombinatorics 3.1.
 That `hammingGraph d Q` relates `x` and `y` exactly when `hammingDist x y = 1` holds by
 definition.
 
-*Depends on:* 1; SpectralQuantumWalks, Layers 5 and 7, and AssociationSchemes 5.1 (for 2.6);
-TopologicalCombinatorics 3.1.
+*Depends on:* 1; AssociationSchemes 5.1 (for 2.6); TopologicalCombinatorics 3.1.
 
 ### 2.1 Complete multipartite graphs
 
@@ -457,8 +445,9 @@ number of `true` coordinates.
 - **Kneser graphs** (`kneserGraph_two_eq_compl`). `K(n, 2)` is the complement of `J(n, 2)`. The
   regularity of `K(n, k)` of degree `C(n-k, k)` for `k ≥ 1` and `K(n, 1) ≅ Kₙ` are
   TopologicalCombinatorics 3.1.
-- **The Petersen graph** (`petersenGraph_card`). It has 10 vertices, is 3-regular and has 15
-  edges [BH, §1.4.5, p. 10].
+
+That the Petersen graph has 10 vertices, is 3-regular and has 15 edges [BH, §1.4.5, p. 10] is
+a sanity check of the definition (`petersenGraph_card`).
 
 **Suggested proof:** count the neighbours of `s`: choose the element of `s` to drop and the
 element of `sᶜ` to add. For the distance, exchanging one element of `s ∖ t` for one of `t ∖ s` is
@@ -509,8 +498,9 @@ at `y` other than `xy`, `2(k - 1)` choices. A `2`-subset of `α` is an edge of `
 
 ### 2.6 Multiset spectra of the standard graphs
 
-Each spectrum below is obtained from the eigenvalues and projectors of its owner by 1.8; the
-targets are the multisets, with multiplicities.
+Each spectrum below is obtained by 1.8 from a complete system of orthogonal idempotents, built
+from explicit eigenvectors or taken from AssociationSchemes 5.1; the targets are the multisets,
+with multiplicities.
 
 - **Complete graphs** (`adjSpectrum_top`). For `n ≥ 1`, `Kₙ` has spectrum `n - 1, (-1)^{n-1}`
   [BH, §1.4.1, p. 8].
@@ -523,9 +513,8 @@ targets are the multisets, with multiplicities.
 - **Complete equipartite graphs** (`adjSpectrum_completeEquipartiteGraph`). For `r, t ≥ 1`,
   `K_{r×t}` (Mathlib's `completeEquipartiteGraph r t`) has spectrum `t(r - 1)`, `0` with
   multiplicity `r(t - 1)` and `-t` with multiplicity `r - 1`.
-- **Hamming graphs and hypercubes** (`adjSpectrum_hammingGraph`, `adjSpectrum_hypercube`). For
-  nonempty `Q` with `q` elements, `H(d, q)` has the eigenvalue `d(q - 1) - qi` with multiplicity
-  `C(d, i)(q - 1)^i`, `i = 0, …, d`; in particular `Q_d` has `d - 2i` with multiplicity `C(d, i)`
+- **Hamming graphs** (`adjSpectrum_hammingGraph`). For nonempty `Q` with `q` elements, `H(d, q)`
+  has the eigenvalue `d(q - 1) - qi` with multiplicity `C(d, i)(q - 1)^i`, `i = 0, …, d`
   [BH, §1.4.6, p. 10, and §12.4.1, p. 178].
 - **Johnson graphs** (`adjSpectrum_johnsonGraph`). For `2k ≤ n`, `J(n, k)` has the eigenvalue
   `(k - j)(n - k - j) - j` with multiplicity `C(n, j) - C(n, j - 1)`, `j = 0, …, k`, the
@@ -533,32 +522,35 @@ targets are the multisets, with multiplicities.
 - **Kneser graphs** (`adjSpectrum_kneserGraph`). For `1 ≤ k` and `2k ≤ n`, the Kneser graph of
   TopologicalCombinatorics 3.1 has the eigenvalue `(-1)^j C(n - k - j, k - j)` with the same
   multiplicities (from AssociationSchemes 5.1; [BH, §12.4.2, p. 179] defines `K(n, k)`).
-- **The Petersen graph** (`adjSpectrum_petersenGraph`). `3, 1⁵, (-2)⁴` [BH, §1.4.5, p. 10].
 
-**Suggested proof:** in each case the owner supplies the eigenvalues `θᵢ` and a complete system of
-orthogonal idempotents `Eᵢ` with `A = ∑ θᵢ Eᵢ`, and 1.8 turns them into the multiset once the
-ranks are known. For `Kₙ`: `A = (n - 1) · J/n + (-1)(I - J/n)`, ranks `1` and `n - 1`. For
-cycles (SpectralQuantumWalks, Layer 7) the projectors are the rank-one projections onto the
-characters, one per `j`, with eigenvalue `2cos(2πj/n)`; 1.8 needs no distinctness, so coinciding
-values at `j` and `n - j` are added. For paths, the projectors are rank one onto
-`x ↦ sin(πj(x + 1)/(n + 1))`. For `K_{a,b}`, the projectors onto the constant vectors on the
-parts, split by the quotient (EquitableOperatorReduction, Layer 2), and their complement. For
+The hypercube `Q_d` has `d - 2i` with multiplicity `C(d, i)` [BH, §1.4.6, p. 10], the case
+`Q = Bool` of the Hamming graphs, and the Petersen graph has `3, 1⁵, (-2)⁴` [BH, §1.4.5, p. 10],
+the case `K(5, 2)` of the Kneser graphs; these are not separate targets.
+
+**Suggested proof:** in each case write `A = ∑ θᵢ Eᵢ` with complete orthogonal idempotents
+`Eᵢ`, and 1.8 turns this into the multiset once the ranks are known. For `Kₙ`:
+`A = (n - 1) · J/n + (-1)(I - J/n)`, ranks `1` and `n - 1`. For cycles, the rank-one projections
+`u_j u_jᴴ/n` onto the characters `u_j(x) = ζ^{jx}`, `ζ = e^{2πi/n}`, one per `j`, with eigenvalue
+`ζ^j + ζ^{-j} = 2cos(2πj/n)` [BH, §1.4.3, pp. 8–9]; 1.8 needs no distinctness, so coinciding
+values at `j` and `n - j` are added. For paths, the rank-one projections onto
+`x ↦ sin(πj(x + 1)/(n + 1))`, an eigenvector with eigenvalue `2cos(πj/(n + 1))` by the
+addition formula, since the sine vanishes at `x = -1` and `x = n` [BH, §1.4.4, p. 9]; the `n`
+eigenvalues are distinct, so the projections are orthogonal. For `K_{a,b}` with parts `X` and
+`Y`, the rank-one projections onto `√b 𝟙_X ± √a 𝟙_Y`, with eigenvalues `±√(ab)`, and the
+projection onto their complement, the vectors with sum zero on each part, which `A` maps to `0`. For
 `K_{r×t}`, `A = J - B` with `B` the block-diagonal matrix of the `r` all-ones blocks of size `t`:
 the projections `J/n`, `B/t - J/n` and `I - B/t`, of ranks `1`, `r - 1` and `r(t - 1)`, carry the
-eigenvalues `t(r - 1)`, `-t` and `0`. For `H(d, q)`, Cartesian powers of `K_q`
-(SpectralQuantumWalks, Layers 5 and 7): the products of the projectors of `K_q`, grouped by the
-number `i` of factors of rank `q - 1`. For
-the Johnson and Kneser graphs, the primitive idempotents `E_j` of AssociationSchemes 5.1, whose
-eigenvalues on classes `1` and `k` are its Eberlein values `(k - j)(n - k - j) - j` and
-`(-1)^j C(n - k - j, k - j)`, and whose ranks `C(n, j) - C(n, j - 1)` are the differences of the
-traces `tr(E_0 + ⋯ + E_j) = C(n, j)` given there; a general `α` with `n` elements is reached
-through `α ≃ Fin n` and 1.7. The Petersen graph is `K(5, 2)`.
-
+eigenvalues `t(r - 1)`, `-t` and `0`. For `H(d, q)`: `H(d + 1, q) ≅ H(d, q) □ K_q` (2.3), and
+`A(G □ H) = A(G) ⊗ I + I ⊗ A(H)` entrywise from the definition of `SimpleGraph.boxProd` [BH, §1.4.6,
+p. 10], so Kronecker products of idempotents of the factors are complete orthogonal idempotents of
+the product, with the sums of the eigenvalues; for `H(d, q)` the products of `J/q` and `I - J/q`
+with `i` factors `I - J/q`, grouped by `i`, have total rank `C(d, i)(q - 1)^i` and eigenvalue
+`(d - i)(q - 1) - i = d(q - 1) - qi`. For the Johnson and Kneser graphs, the primitive idempotents
+`E_j` of AssociationSchemes 5.1, whose eigenvalues on classes `1` and `k` are its Eberlein values
+`(k - j)(n - k - j) - j` and `(-1)^j C(n - k - j, k - j)`, and whose ranks `C(n, j) - C(n, j - 1)`
+are the differences of the traces `tr(E_0 + ⋯ + E_j) = C(n, j)` given there; a general `α` with `n`
+elements is reached through `α ≃ Fin n` and 1.7. The Petersen graph is `K(5, 2)`.
 **Checks.**
-- All formulas agree with a numerical diagonalization: `Kₙ` for `n ≤ 8`, `Cₙ` for
-  `3 ≤ n ≤ 10`, `Pₙ` for `n ≤ 11`, `K_{a,b}` for `a, b ≤ 4`, `K_{r×t}` for `r ≤ 4`, `t ≤ 3`,
-  `H(d, q)` for `d ≤ 3`, `q ≤ 4`, `Q_d` for `d ≤ 5`, and `J(n, k)`, `K(n, k)` for `n ≤ 8`,
-  `2k ≤ n`.
 - `K₄ = K_{4×1}`: `3, (-1)³` from both formulas; `C₄ = K_{2,2} = K_{2×2} = Q₂`: `2, 0, 0, -2`
   from all four.
 - `J(5, 2)`: `6, 1⁴, (-2)⁵` (`j = 0, 1, 2`, multiplicities `1, 5 - 1, 10 - 5`); `K(5, 2)`:
@@ -572,8 +564,7 @@ through `α ≃ Fin n` and 1.7. The Petersen graph is `K(5, 2)`.
   vertex with spectrum `{0}`, while the bipartite formula gives `±0`, two elements; hence
   `a, b ≥ 1`.
 
-*Needs:* 1.7, 1.8, 2.3, 2.4; SpectralQuantumWalks, Layers 5 and 7; AssociationSchemes 5.1;
-EquitableOperatorReduction, Layer 2.
+*Needs:* 1.7, 1.8, 2.3, 2.4; AssociationSchemes 5.1; Mathlib `SimpleGraph.boxProd`.
 
 ## Layer 3: Perron–Frobenius and the index
 
@@ -585,8 +576,7 @@ about `0`" are PeriodicNonnegativeMatrices 3.2 and 3.3. This layer applies them 
 enumeration is that of SpectralGraphBounds 1.1 (Conventions).
 
 *Depends on:* 1, 2; Tau Ceti Perron–Frobenius; SpectralGraphBounds 1.1–1.4;
-PeriodicNonnegativeMatrices 3.2; LaplacianEigenvaluesOfGraphs 1.2; EquitableOperatorReduction,
-Layer 5.
+PeriodicNonnegativeMatrices 3.2; LaplacianEigenvaluesOfGraphs 1.2.
 
 ### 3.1 Distinct eigenvalues
 
@@ -672,31 +662,56 @@ at a vertex where the positive Perron vector (3.2) is maximal and propagate equa
 - **Extremes for connected graphs** (`Connected.largestEigenvalue_bounds`). A connected graph on
   `n` vertices has `2cos(π/(n+1)) ≤ θ₁ ≤ n - 1`, with equality on the left only for `Pₙ` and on
   the right only for `Kₙ` [St, (2.1), p. 28].
-- **Trees** (`IsTree.largestEigenvalue_le`). A tree on `n` vertices has `θ₁ ≤ √(n - 1)`, with
-  equality only for the star `K_{1,n-1}` [St, (2.59), p. 53; CRS, Theorem 8.1.17, p. 236].
+- **Grafting pendant paths.** Let `G(k, l)` be obtained from a connected graph `G` with at least
+  two vertices by attaching pendant paths with `k` and `l` edges at the same vertex. If
+  `k ≥ l ≥ 1`, then `θ₁(G(k, l)) > θ₁(G(k + 1, l - 1))` [CRS, Theorem 8.1.20, p. 238; St,
+  Lemma 1.29(i), p. 20].
+- **Trees: the lower bound** (`IsTree.le_largestEigenvalue`). A tree on `n` vertices has
+  `θ₁ ≥ 2cos(π/(n+1))`, with equality only for the path `Pₙ` [St, Theorem 2.67, p. 71; CRS,
+  Theorem 8.1.17, p. 236].
+- **Trees: the upper bound** (`IsTree.largestEigenvalue_le`). A tree on `n` vertices has
+  `θ₁ ≤ √(n - 1)`, with equality only for the star `K_{1,n-1}` [St, (2.59), p. 53; CRS, Theorem
+  8.1.17, p. 236].
 
 **Suggested proof:** for monotonicity, take the Perron vector of `H` extended by zero as a test
 vector in the Rayleigh bound of SpectralGraphBounds 1.1; strictness from 3.2 (a nonnegative vector
-with Rayleigh quotient `θ₁(G)` is a positive eigenvector, which forces all vertices and edges).
-For the lower bound, a connected graph contains a spanning tree, and among trees the path has the
-least index (its index `2cos(π/(n+1))` is the largest value of the path spectrum, 2.6); the
-equality cases follow from strictness, as the source states only that the bounds are attained.
-The upper bounds: `θ₁ ≤ k_max ≤ n - 1`, and for trees Hong's bound (3.5) with `m = n - 1`.
+with Rayleigh quotient `θ₁(G)` is a positive eigenvector, which forces all vertices and edges). For
+grafting [CRS, proof of Theorem 8.1.20, pp. 238–239], the recursion
+`χ_{G(k,l)} = Xχ_{G(k,l-1)} - χ_{G(k,l-2)}` of the characteristic polynomial at a pendant vertex
+reduces the difference `χ_{G(k+1,l-1)} - χ_{G(k,l)}` to `χ_H - χ_{G(k-l,0)}` with `H` a proper
+spanning subgraph of `G(k - l, 0)`, which is positive beyond `θ₁(G(k - l, 0))` [CRS, Lemma 8.1.19,
+p. 237]. For the lower bound on trees [St, proof of Theorem 2.67, p. 71]: root a tree that is not a
+path at a leaf and take a deepest vertex `w` of degree at least `3`. Each branch at `w` away from
+the root is a pendant path, and the rest of the tree, which contains the root and `w`, is a
+connected graph with at least two vertices; grafting one pendant path at `w` onto another, `l`
+times, strictly lowers `θ₁`, keeps a tree on `n` vertices and lowers `∑_x max(d(x) - 2, 0)`, so
+repetition ends at `Pₙ`; the index of `Pₙ` is `2cos(π/(n+1))`, the largest value of its spectrum
+(2.6). For connected graphs, a spanning tree and monotonicity give the lower bound, and strictness
+gives equality only when `G` is itself a tree, hence `Pₙ`. The upper bounds: `θ₁ ≤ k_max ≤ n - 1`,
+with equality only for `Kₙ` by strictness; for trees, Hong's bound (3.5, which does not use this
+section) with `m = n - 1`.
 
 **Checks.**
 - `P₄`: `θ₁ = 2cos(π/5) = 1.618…` (equality on the left); `K₄`: `θ₁ = 3`.
 - `K_{1,3}`: `θ₁ = √3 = √(n-1)`; `P₄` is a tree with `1.618… < √3`.
+- Grafting with `G = K₂`: `G(1, 1) = K_{1,3}` with `θ₁ = √3 = 1.732…` and `G(2, 0) = P₄` with
+  `θ₁ = 1.618…`. Negative control: with `G = K₁`, `G(1, 1)` and `G(2, 0)` are both `P₃`, with
+  the same `θ₁ = √2`; hence at least two vertices.
+- The trees on `5` vertices: `P₅` with `θ₁ = √3 = 2cos(π/6)` (equality), the tree with degrees
+  `3, 2, 1, 1, 1` with `θ₁ = √(2 + √2) = 1.848…`, and `K_{1,4}` with `θ₁ = 2`. Negative control:
+  the forest `2K₂ ⊕g K₁` on `5` vertices has `θ₁ = 1 < √3`; hence a tree.
 - Negative control: `K₃ ⊕g K₁` contains `K₃` missing a vertex with the same index `2`;
   strictness needs connectivity of `G`.
-- Exhaustive over connected graphs with at most 7 vertices: the bounds hold with the stated
-  equality cases, and deleting any edge or vertex lowers `θ₁` strictly.
 
-*Needs:* 2.6 (the path), 3.2, 3.5; SpectralGraphBounds 1.1–1.3; Mathlib `SimpleGraph.Copy`,
-`IsTree`.
+*Needs:* 1.2, 2.6 (the path), 3.2, 3.5 (Hong's bound); SpectralGraphBounds 1.1–1.3; Mathlib
+`SimpleGraph.Copy`, `IsTree`.
 
 ### 3.5 Index, edges and cliques
 
 With `m` edges and clique number `ω = G.cliqueNum`, on a nonempty vertex type:
+- **Motzkin–Straus** (`dotProduct_mulVec_adjMatrix_le_cliqueNum`). Every nonnegative `v` has
+  `vᵀAv = ∑_{xy∈E} 2v_xv_y ≤ (1 - 1/ω)(∑v_x)²`, and the maximum of `vᵀAv` over the simplex
+  `v ≥ 0`, `∑v_x = 1` is `1 - 1/ω` [CRS, Lemma 3.10.4, p. 89].
 - **Stanley** (`largestEigenvalue_le_stanley`). `θ₁ ≤ (√(8m+1) - 1)/2`, with equality if and only
   if `G` is a complete graph on some set of vertices together with isolated vertices [CRS, Remark
   8.1.27, p. 241; St, Corollary 2.21, p. 45].
@@ -710,14 +725,25 @@ With `m` edges and clique number `ω = G.cliqueNum`, on a nonempty vertex type:
 - **Hofmeister** (`sqrt_sum_sq_degree_le_largestEigenvalue`). `θ₁ ≥ √(∑_x d(x)²/n)`
   [St, (2.4), pp. 31–32; CRS, Theorem 8.1.25, p. 240].
 
-**Suggested proof:** Rayleigh-quotient arguments with a unit eigenvector `v` for `θ₁`, which can
-be taken nonnegative. Stanley and Hong bound `θ₁²v_x² = ((Av)_x)²` by Cauchy–Schwarz over the
+**Suggested proof:** for Motzkin–Straus, the uniform vector on a largest clique attains `1 - 1/ω`;
+for the upper bound, induct on `n`: a maximizer on the face `v_x = 0` is one for `G - x`, and a
+maximizer with all entries positive has equal partial derivatives (Lagrange), so for non-adjacent
+`x, y` the mass of `v_x` can be moved to `y` without changing `vᵀAv`, reaching that face, while for
+complete `G` Cauchy–Schwarz gives `(∑v_x)² - ∑v_x² ≤ (1 - 1/n)(∑v_x)²` [CRS, proof of Lemma 3.10.4,
+p. 89]. The other bounds are Rayleigh-quotient arguments with a unit eigenvector `v` for `θ₁`, which
+can be taken nonnegative. Stanley and Hong bound `θ₁²v_x² = ((Av)_x)²` by Cauchy–Schwarz over the
 neighbourhood of `x` and sum over `x`, using `∑θᵢ² = 2m` (SpectralGraphBounds 1.1); Wilf and
-Nikiforov apply the Motzkin–Straus inequality `∑_{xy∈E} 2v_xv_y ≤ (1 - 1/ω)(∑v_x)²` to `v` and to
-the vector `(v_x²)`; Nosal bounds `θ₁²v_x = ∑_{y∼x}∑_{z∼y} v_z` using that the neighbourhood of
-`x` is independent; Hofmeister is the Rayleigh quotient of `A²` at `𝟙`, `𝟙ᵀA²𝟙 = ∑ d(x)²`.
+Nikiforov apply Motzkin–Straus to `v`, with `(∑v_x)² ≤ n`, and to the vector `(v_x²)`, after
+Cauchy–Schwarz over the `2m` ordered adjacent pairs,
+`θ₁² = (∑_{xy∈E} 2v_xv_y)² ≤ 2m ∑_{xy∈E} 2v_x²v_y²`; Nosal bounds `θ₁²v_x = ∑_{y∼x}∑_{z∼y} v_z`
+using that the neighbourhood of `x` is independent; Hofmeister is the Rayleigh quotient of `A²` at
+`𝟙`, `𝟙ᵀA²𝟙 = ∑ d(x)²`.
 
 **Checks.**
+- Motzkin–Straus on `C₅` (`ω = 2`): the uniform vector gives `vᵀAv = 10/25 = 0.4 ≤ 1/2`, and
+  `v = (1/2, 1/2, 0, 0, 0)` on an edge gives `1/2`, the maximum. On `K₃`, `v = 𝟙/3` gives
+  `2/3 = 1 - 1/3`. Negative control: on `K₂ ⊕g K₁`, `v = (1, 1, -2)` has `vᵀAv = 2` and
+  `(1 - 1/2)(∑v_x)² = 0`; hence `v ≥ 0`.
 - `K₄`: `m = 6`, `(√49 - 1)/2 = 3 = θ₁` (Stanley equality); Hong `√(12 - 4 + 1) = 3` (equality).
 - `K_{1,3}`: Hong `√(6 - 4 + 1) = √3 = θ₁` (equality); Stanley `(√25 - 1)/2 = 2 > √3`.
 - `C₅`: `ω = 2`, Wilf `(1/2)·5 = 2.5 ≥ 2`; Nosal `√5 ≥ 2`.
@@ -815,16 +841,12 @@ eigenvector basis with eigenvalue `θ`; and `walkCount h = 𝟙ᵀAʰ𝟙`, coun
   the number of orbits of the automorphism group [CRS, Corollaries 3.9.10 and 3.9.12,
   pp. 86–87].
 
-The spectral projectors of a general Hermitian matrix (orthogonality, completeness, matrix
-elements) are SpectralQuantumWalks, Layer 1; `adjEigenspaceProjection` is their real adjacency
-case.
-
 **Suggested proof:** the eigenvectors of eigenvalue `θ` in the orthonormal basis span the
 eigenspace, so `∑ vᵢvᵢᵀ` is the orthogonal projection onto it. Expand `𝟙` in an eigenbasis for
 the walk counts. A single main eigenvalue `θ` puts `𝟙` in its eigenspace, so `A𝟙 = θ𝟙` and `G` is
-regular (1.4); conversely `𝟙` is an eigenvector of a regular graph. For orbits, the orbit
-partition is equitable (EquitableOperatorReduction, Layer 5; [CRS, §3.9, p. 84]) and the main
-eigenvectors `P_θ𝟙` are fixed by every automorphism, so constant on orbits; distinct eigenvalues
+regular (1.4); conversely `𝟙` is an eigenvector of a regular graph. For orbits, an
+automorphism commutes with `A`, hence with every `P_θ`, and fixes `𝟙`, so the main eigenvectors
+`P_θ𝟙` are fixed by every automorphism and constant on orbits; distinct eigenvalues
 give orthogonal, hence independent, vectors in the space of orbit-constant vectors.
 
 **Checks.**
@@ -834,53 +856,8 @@ give orthogonal, hence independent, vectors in the space of orbit-constant vecto
 - `C₄`: one main eigenvalue `2`, `β = 1`; `N_h = 4·2ʰ`.
 - Negative control: `P₃` has main eigenvalues `±√2`, two of them, and is not regular; the main
   angle of `0` is `0`, since its eigenvector `(1, 0, -1)` is orthogonal to `𝟙`.
-- Exhaustive over graphs with at most 7 vertices (orbit bound up to 6): the walk counts for
-  `h ≤ 5`, "one main eigenvalue iff regular" and the orbit bound hold.
 
-*Needs:* 1.2, 1.4; EquitableOperatorReduction, Layer 5; Mathlib `Submodule.starProjection`.
-
-## Layer 4: equitable compressions
-
-Equitable partitions, normalized cell embeddings, the compression `EᴴAE`, eigenvector lifting,
-quotient spectral inclusion and interlacing for orthogonal compressions are
-EquitableOperatorReduction, Layers 1, 2 and 5. This layer adds the divisibility of
-characteristic polynomials for an arbitrary complex matrix.
-
-*Depends on:* the definitions of EquitableOperatorReduction, Layers 1–2; Mathlib.
-
-### 4.1 Divisibility of characteristic polynomials
-
-- **Divisibility** (`Matrix.charpoly_compressed_dvd`). For any complex matrix `A` and a cell map
-  that is equitable for `A` in the sense of EquitableOperatorReduction (surjective, constant row
-  sums into each cell), the characteristic polynomial of the normalized compression `EᴴAE`
-  divides that of `A`: its spectrum is contained in that of `A` with algebraic multiplicities.
-  The compression is diagonally similar to the raw quotient (divisor) matrix, so this is
-  [CRS, Theorem 3.9.5, p. 85] for a matrix that need not be symmetric or nonnegative.
-
-EquitableOperatorReduction, Layer 2, states the inclusion of spectra and the lifting of
-eigenvectors for Hermitian `A`; this statement needs no symmetry.
-
-**Suggested proof:** as in the source, equitability gives `AE = E(EᴴAE)` (the forward direction
-of EquitableOperatorReduction, Layer 2, which holds without symmetry), so the column space of `E`
-is `A`-invariant. Extend the columns of `E` to a basis of `V → ℂ`; in that basis `A` is block upper
-triangular with the compression as its first diagonal block, and
-`Matrix.charpoly_fromBlocks_zero₂₁` with `LinearMap.charpoly_toMatrix` gives the factorization.
-The characteristic polynomial of the restriction of a map to an invariant subspace dividing that
-of the map is formalized in later Tau Ceti; it is not at the pin and is not used.
-
-**Checks.**
-- `P₃` with cells `{1}` (centre) and `{0, 2}`: equitable, raw quotient `B = [[0, 2], [1, 0]]`,
-  `χ_B = X² - 2` divides `χ_A = X³ - 2X`; the compression is `[[0, √2], [√2, 0]]`, with the same
-  characteristic polynomial.
-- `P₄` with cells `{0, 3}`, `{1, 2}`: `B = [[0, 1], [1, 1]]`, `χ_B = X² - X - 1`, a factor of
-  `χ_{P₄} = (X² - X - 1)(X² + X - 1)`.
-- Negative control: `P₃` with cells `{0, 1}`, `{2}` is not equitable: `B = [[1, 1/2], [1, 0]]`,
-  `χ_B = X² - X - 1/2` with roots `(1 ± √3)/2`, which are not eigenvalues of `P₃`.
-- Random integer matrices, not symmetric, with prescribed constant block row sums: the raw and
-  normalized quotients have the same characteristic polynomial, which divides that of `A`.
-
-*Needs:* the local copies of EquitableOperatorReduction; Mathlib
-`Matrix.charpoly_fromBlocks_zero₂₁`, `LinearMap.charpoly_toMatrix`.
+*Needs:* 1.2, 1.4; Mathlib `Submodule.starProjection`.
 
 ## Downstream consumers
 
@@ -890,11 +867,10 @@ Later roadmaps of algebraic and spectral graph theory cite this one by section:
   1.7, the path of 2.2 and the degree bounds of 3.3.
 - Characteristic polynomials, graph operations and star complements: the integer characteristic
   polynomial of 1.2, disjoint unions of 1.7, Hamming graphs of 2.3, the multiset spectra of 2.6,
-  the complement of 3.8, main angles of 3.9 and the divisibility of 4.1.
+  the complement of 3.8 and main angles of 3.9.
 - Distance-regular graphs, codes and polygons, and strongly regular graphs and designs: the
   Hamming, Johnson and Kneser graphs of 2.3–2.4 and their spectra in 2.6.
-- Graph symmetry and Cayley graphs: the eigenspace projections and orbit bound of 3.9 and the
-  equitable compressions of 4.1.
+- Graph symmetry and Cayley graphs: the eigenspace projections and orbit bound of 3.9.
 - Cocliques, colourings and theta: the Kneser and Petersen graphs of 2.4 and the index bounds of
   Layer 3.
 - Line systems and switching: the spectra of 1.7 and 2.6 and the monotonicity of 3.4.
@@ -924,12 +900,7 @@ Owned here:
 - the distinct-eigenvalue theorems, the degree, monotonicity, extreme and clique bounds on the
   index, Hoffman's polynomial, the regular bipartiteness criterion, the adjacency spectrum of the
   complement of a regular graph, the eigenspace projections, main angles, walk counts and the
-  number of main eigenvalues;
-- divisibility of characteristic polynomials by equitable compressions.
-
-The divisibility of the characteristic polynomial of a map by that of its restriction to an
-invariant subspace is formalized in later Tau Ceti, not at the pin; 4.1 is routed through
-Mathlib's block-triangular characteristic polynomial instead.
+  number of main eigenvalues.
 
 Consumed, not restated (see the supplier contracts for the hypotheses):
 - RandomMatrices 1.2: min–max and max–min for `eigenvalues₀`.
@@ -943,26 +914,24 @@ Consumed, not restated (see the supplier contracts for the hypotheses):
   the zero eigenvalue, the component count and "connected iff the algebraic connectivity is
   positive", the Laplacian spectrum of the complement.
 - PeriodicNonnegativeMatrices 3.2 and 3.3: the bipartiteness criteria.
-- EquitableOperatorReduction, Layers 1, 2 and 5: equitable partitions and their quotient
-  calculus, and orbit partitions.
-- SpectralQuantumWalks, Layers 1, 5 and 7: spectral projectors, Kronecker sums for Cartesian
-  products, and the eigenvalues and spectral projectors (or character diagonalizations) of the
-  standard graphs, from which 2.6 derives the multiset spectra.
 - QuasirandomGraphs 4.1: `∑θᵢᵏ` as a count of homomorphisms from the `k`-cycle.
 - TopologicalCombinatorics 3.1: the Kneser graph, `K(n, 1) ≅ Kₙ` and its regularity.
 - AssociationSchemes 5.1: the eigenvalues and primitive idempotents of the Johnson scheme, from
   which 2.6 derives the multiset spectra of the Johnson and Kneser graphs.
 
-The boundary with SpectralQuantumWalks, Layer 7, is this: it owns the eigenvalues and spectral
-projectors of the standard families, and 2.6 here derives from those projectors, through 1.8,
-the multiset spectra with their multiplicities.
+The boundary with SpectralQuantumWalks, Layers 1 and 7, is this: it owns the spectral projectors
+of Hermitian matrices and the eigenvalues and spectral projectors of the standard families, and
+2.6 here owns the multiset spectra with their multiplicities, derived through 1.8 from explicit
+eigenvectors; 2.6 does not use its statements.
 
 Not owned here, and owned by later roadmaps: the coefficients of the characteristic polynomial
-and vertex deletion, spectra of graph products and joins, energy and star complements; the
+and vertex deletion, divisibility of characteristic polynomials by equitable quotients, spectra
+of graph products and joins, energy and star complements; the
 matrix-tree theorems, the oriented incidence matrix and further results on `ν_{n-1}` and `ν₁`;
 cospectrality, generalized line graphs and root systems; vertex- and edge-transitivity and
 Cayley graphs of nonabelian groups; expansion; cores, fractional and vector colourings. Owned by
-other open roadmaps and not used here: the spectra of strongly regular graphs
+other open roadmaps and not used here: equitable partitions and their quotient matrices
+(EquitableOperatorReduction), the spectra of strongly regular graphs
 (StronglyRegularAndMooreGraphs), the Hamming scheme (DelsarteTheoryOfCodesAndDesigns), the signed
 adjacency matrix and the matching polynomial (MatchingPolynomial, 2.1 for the signed adjacency
 matrix), effective resistance and
@@ -1000,14 +969,13 @@ matrices and general matrix theory:
 - idempotents: `CompleteOrthogonalIdempotents` (each member idempotent, distinct members with
   product `0`, sum `1`), `Matrix.rank`, `Matrix.trace`; used in 1.8;
 - characteristic polynomials and blocks: `Matrix.charpoly_map`, `Matrix.charpoly_reindex`,
-  `Matrix.charpoly_fromBlocks_zero₁₂`, `Matrix.charpoly_fromBlocks_zero₂₁`,
-  `Matrix.charpoly_mul_comm'`, `Matrix.fromBlocks`, `LinearMap.charpoly_toMatrix`,
-  `Equiv.sumCongr`; used in 1.2, 1.7, 2.5, 4.1;
+  `Matrix.charpoly_fromBlocks_zero₁₂`, `Matrix.charpoly_mul_comm'`, `Matrix.fromBlocks`,
+  `Equiv.sumCongr`; used in 1.2, 1.7, 2.5;
 - `Submodule.starProjection` (the orthogonal projection onto a subspace); used in 3.9.
 
 ### From Tau Ceti
 
-At the pin, Tau Ceti has no statement about graph spectra; it supplies general matrix theory:
+Tau Ceti has no statement about graph spectra; it supplies general matrix theory:
 - `Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow`: `tr Aʰ = ∑ λᵢʰ` for Hermitian `A`; used
   in 1.3.
 - `Matrix.PosSemidef.eigenvalues₀_nonneg`: the eigenvalues of a positive semidefinite matrix are
@@ -1063,28 +1031,6 @@ The roadmap PeriodicNonnegativeMatrices, for `G : SimpleGraph V` with Mathlib's 
   root multiplicity in the characteristic polynomial of `G.adjMatrix ℝ`. Cited in the
   introduction to Layer 3; not a dependency.
 
-### From EquitableOperatorReduction
-
-The roadmap EquitableOperatorReduction, over `ℂ`, with surjective cell maps `cell : V → I`:
-equitability of `A` for `cell` (constant row sums into each cell), the normalized cell embedding
-`E` with `EᴴE = 1` and the compression `EᴴAE` (Layer 1, with the equitability predicate, the
-embedding and the compression copied verbatim in `Suggested.lean`); the equivalence of
-equitability with `AE = E(EᴴAE)`, the diagonal similarity of `EᴴAE` with the raw quotient
-matrix, eigenvector lifting and spectral inclusion, and interlacing for orthogonal compressions
-(Layer 2); the `SimpleGraph` and orbit-partition adapters (Layer 5). Used in 2.6, 3.9 (orbit
-partitions) and 4.1.
-
-### From SpectralQuantumWalks
-
-The roadmap SpectralQuantumWalks, for Hermitian matrices over `ℂ` and spectral projectors by
-distinct eigenvalue: Layer 1 (spectral projectors of a Hermitian matrix), Layer 5 (the adjacency
-matrix of a Cartesian product as a Kronecker sum), and Layer 7 (for paths, cycles, complete and
-complete multipartite graphs, hypercubes and Hamming graphs, abelian Cayley and circulant graphs,
-and Cartesian products: the adjacency formula, the eigenvalues with their spectral projectors or
-the character diagonalization). It fixes no multiset spectrum. Used in 2.6, where each graph's
-projectors are fed to 1.8; a complex projector of the real adjacency matrix is admitted, since 1.8
-is stated over `ℝ` and `ℂ`.
-
 ### From AssociationSchemes
 
 The roadmap AssociationSchemes, 5.1 (the eigenmatrix of the Johnson scheme), for `2k ≤ n`: the
@@ -1135,10 +1081,10 @@ The roadmap QuasirandomGraphs, 4.1: for `k ≥ 2`, the number of homomorphisms f
   §§12.2–12.4.2, pp. 178–179; Chapter 15, pp. 221–224.
 - [CRS] D. Cvetković, P. Rowlinson, S. Simić, *An Introduction to the Theory of Graph Spectra*,
   LMS Student Texts 75, Cambridge University Press, 2010: §1.3, Theorems 1.3.5–1.3.6,
-  pp. 15–17; §2.6, p. 47; Theorems 3.2.1, 3.2.4, pp. 55–56; §3.9, Theorem 3.9.5, Corollaries
-  3.9.10, 3.9.12, pp. 84–87; Theorem 3.10.5, p. 90; Exercise 4.2, p. 133; Theorem 7.8.1,
-  Corollary 7.8.2 and Proposition 7.8.4, p. 217; Theorems 8.1.17, 8.1.25–8.1.26 and Remark
-  8.1.27, pp. 236–241.
+  pp. 15–17; §2.6, p. 47; Theorems 3.2.1, 3.2.4, pp. 55–56; §3.9, Corollaries 3.9.10, 3.9.12,
+  pp. 86–87; Lemma 3.10.4, p. 89; Theorem 3.10.5, p. 90; Exercise 4.2, p. 133;
+  Theorem 7.8.1, Corollary 7.8.2 and Proposition 7.8.4, p. 217; Theorem 8.1.17, Lemma 8.1.19,
+  Theorems 8.1.20, 8.1.25–8.1.26 and Remark 8.1.27, pp. 236–241.
 - [St] Z. Stanić, *Inequalities for Graph Eigenvalues*, LMS Lecture Note Series 423, Cambridge
-  University Press, 2015: (2.1), p. 28; (2.4) and Corollary 2.6, pp. 31–32; Corollaries 2.21,
-  2.22, p. 45; (2.59), p. 53; Theorem 2.38, p. 55.
+  University Press, 2015: Lemma 1.29, p. 20; (2.1), p. 28; (2.4) and Corollary 2.6, pp. 31–32;
+  Corollaries 2.21, 2.22, p. 45; (2.59), p. 53; Theorem 2.38, p. 55; Theorem 2.67, p. 71.

@@ -1,26 +1,6 @@
 module
 
-public import Mathlib.Combinatorics.SimpleGraph.Acyclic
-public import Mathlib.Combinatorics.SimpleGraph.Bipartite
-public import Mathlib.Combinatorics.SimpleGraph.Clique
-public import Mathlib.Combinatorics.SimpleGraph.CompleteMultipartite
-public import Mathlib.Combinatorics.SimpleGraph.Copy
-public import Mathlib.Combinatorics.SimpleGraph.CycleGraph
-public import Mathlib.Combinatorics.SimpleGraph.Diam
-public import Mathlib.Combinatorics.SimpleGraph.IncMatrix
-public import Mathlib.Combinatorics.SimpleGraph.LapMatrix
-public import Mathlib.Combinatorics.SimpleGraph.LineGraph
-public import Mathlib.Combinatorics.SimpleGraph.Prod
-public import Mathlib.Combinatorics.SimpleGraph.Sum
-public import Mathlib.Combinatorics.SimpleGraph.Walk.Counting
-public import Mathlib.Analysis.InnerProductSpace.Projection.Basic
-public import Mathlib.Analysis.Matrix.Spectrum
-public import Mathlib.Analysis.SpecialFunctions.Pow.Real
-public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-public import Mathlib.InformationTheory.Hamming
-public import Mathlib.LinearAlgebra.Matrix.Gershgorin
-public import Mathlib.LinearAlgebra.Matrix.Irreducible.Defs
-public import Mathlib.RingTheory.Idempotents
+public import Mathlib
 public import TauCeti.Analysis.InnerProductSpace.CourantFischer
 public import TauCeti.Analysis.Matrix.Eigenvalues.Basic
 public import TauCeti.Analysis.Matrix.Spectrum
@@ -48,9 +28,8 @@ Results consumed from other roadmaps are not restated (README, Scope and ownersh
 definitions of other roadmaps that the statements need are verbatim local copies, each in a
 section labelled with its owner and section: the sorted adjacency eigenvalues and the largest
 and smallest eigenvalue of SpectralGraphBounds 1.1, the sorted Laplacian eigenvalues and the
-algebraic connectivity of LaplacianEigenvaluesOfGraphs 1.1, the Kneser graph of
-TopologicalCombinatorics 3.1, and equitability and the normalized compression of
-EquitableOperatorReduction, Layers 1–2.
+algebraic connectivity of LaplacianEigenvaluesOfGraphs 1.1, and the Kneser graph of
+TopologicalCombinatorics 3.1.
 -/
 
 @[expose] public section
@@ -119,33 +98,8 @@ def kneserGraph (α : Type*) (k : ℕ) : _root_.SimpleGraph {s : Finset α | s.c
 
 end TopologicalCombinatorics
 
-/-! ## Local copy: EquitableOperatorReduction, Layers 1–2 -/
-
-namespace EquitableOperatorReduction
-
-variable {V I : Type*} [Fintype V] [DecidableEq V] [Fintype I] [DecidableEq I]
-
-/-- Sum of a row of `A` into target cell `j`. -/
-def branchSum (A : Matrix V V ℂ) (cell : V → I) (x : V) (j : I) : ℂ :=
-  ∑ y, if cell y = j then A x y else 0
-
-/-- Exact equitability, with empty quotient cells excluded. -/
-def IsEquitableFor (A : Matrix V V ℂ) (cell : V → I) : Prop :=
-  Function.Surjective cell ∧
-    ∀ ⦃x y : V⦄, cell x = cell y → ∀ j, branchSum A cell x j = branchSum A cell y j
-
-/-- The normalized cell-indicator embedding. -/
-noncomputable def cellEmbedding (cell : V → I) : Matrix V I ℂ := fun x i =>
-  if cell x = i then ((Real.sqrt (Fintype.card {y : V // cell y = i}) : ℂ))⁻¹ else 0
-
-/-- Orthogonal compression to normalized cell indicators. -/
-noncomputable def compressed (A : Matrix V V ℂ) (cell : V → I) : Matrix I I ℂ :=
-  (cellEmbedding cell)ᴴ * A * cellEmbedding cell
-
-end EquitableOperatorReduction
-
 open TauCetiRoadmap.GraphSpectra SpectralGraphBounds LaplacianEigenvaluesOfGraphs
-  TopologicalCombinatorics EquitableOperatorReduction
+  TopologicalCombinatorics
 
 /-! ## Layer 1: vocabulary and basic API -/
 
@@ -239,22 +193,25 @@ section Layer1
 
 /-! ### 1.1 Quadratic forms, edge decompositions and incidence -/
 
-/-- The diagonal of the signless Laplacian is the degree sequence. (README 1.1) -/
+/-- Sanity check of the definition: the diagonal of the signless Laplacian is the degree
+sequence. (README 1.1) -/
 theorem signlessLapMatrix_apply_self {R : Type*} [AddMonoidWithOne R] (i : V) :
     G.signlessLapMatrix R i i = G.degree i := by
   sorry
 
-/-- Off the diagonal the signless Laplacian agrees with the adjacency matrix. (README 1.1) -/
+/-- Sanity check of the definition: off the diagonal the signless Laplacian agrees with the
+adjacency matrix. (README 1.1) -/
 theorem signlessLapMatrix_apply_of_ne {R : Type*} [AddMonoidWithOne R] {i j : V} (h : i ≠ j) :
     G.signlessLapMatrix R i j = G.adjMatrix R i j := by
   sorry
 
-/-- The signless Laplacian is symmetric over any ring. (README 1.1) -/
+/-- Sanity check of the definition: the signless Laplacian is symmetric over any ring.
+(README 1.1) -/
 theorem isSymm_signlessLapMatrix (R : Type*) [AddMonoidWithOne R] :
     (G.signlessLapMatrix R).IsSymm := by
   sorry
 
-/-- `Q 𝟙 = 2d`. (README 1.1) -/
+/-- Sanity check of the definition: `Q 𝟙 = 2d`. (README 1.1) -/
 theorem signlessLapMatrix_mulVec_one {R : Type*} [NonAssocSemiring R] :
     G.signlessLapMatrix R *ᵥ (fun _ ↦ 1) = fun i ↦ 2 * (G.degree i : R) := by
   sorry
@@ -320,12 +277,6 @@ theorem posSemidef_edgeLapMatrix (e : Sym2 V) :
     (edgeLapMatrix ℝ e).PosSemidef ∧ (edgeSignlessLapMatrix ℝ e).PosSemidef := by
   sorry
 
-/-- For a `k`-regular graph, `L = kI - A` and `Q = kI + A`. (README 1.1) -/
-theorem IsRegularOfDegree.lapMatrix_eq {R : Type*} [Ring R] {k : ℕ} (hG : G.IsRegularOfDegree k) :
-    G.lapMatrix R = (k : R) • (1 : Matrix V V R) - G.adjMatrix R ∧
-      G.signlessLapMatrix R = (k : R) • (1 : Matrix V V R) + G.adjMatrix R := by
-  sorry
-
 /-- **`U Uᵀ = Q`** for the unsigned incidence matrix. (README 1.1) -/
 theorem unsignedIncMatrix_mul_transpose (R : Type*) [NonAssocSemiring R] :
     G.unsignedIncMatrix R * (G.unsignedIncMatrix R)ᵀ = G.signlessLapMatrix R := by
@@ -373,13 +324,6 @@ theorem charpoly_adjMatrix_eq_prod :
     (G.adjMatrix ℝ).charpoly = (G.adjSpectrum.map fun θ ↦ X - C θ).prod := by
   sorry
 
-/-- Each spectrum is the root multiset of the real characteristic polynomial. (README 1.2) -/
-theorem adjSpectrum_eq_roots_charpoly :
-    G.adjSpectrum = (G.adjMatrix ℝ).charpoly.roots ∧
-      G.lapSpectrum = (G.lapMatrix ℝ).charpoly.roots ∧
-      G.signlessLapSpectrum = (G.signlessLapMatrix ℝ).charpoly.roots := by
-  sorry
-
 /-- The adjacency spectrum is the multiset of roots of the integer characteristic polynomial.
 (README 1.2) -/
 theorem adjSpectrum_eq_roots :
@@ -406,11 +350,6 @@ theorem signlessLapEigenvalues_nonneg (i : Fin (Fintype.card V)) :
 
 /-! ### 1.3 Trace identities -/
 
-/-- `tr Aʰ` is the number of closed walks of length `h`, over any semiring. (README 1.3) -/
-theorem trace_adjMatrix_pow {R : Type*} [Semiring R] (h : ℕ) :
-    ((G.adjMatrix R) ^ h).trace = ∑ v, ((G.finsetWalkLength h v v).card : R) := by
-  sorry
-
 /-- **Triangles.** `∑ θᵢ³ = 6t` with `t` the number of triangles. (README 1.3) -/
 theorem sum_cube_adjSpectrum :
     (G.adjSpectrum.map fun θ ↦ θ ^ 3).sum = 6 * ((G.cliqueFinset 3).card : ℝ) := by
@@ -423,12 +362,6 @@ theorem sum_lapSpectrum :
   sorry
 
 /-! ### 1.4 Row sums and degrees -/
-
-/-- **Regularity through the all-ones vector.** `G` is `k`-regular if and only if
-`A 𝟙 = k 𝟙`. (README 1.4) -/
-theorem isRegularOfDegree_iff_adjMatrix_mulVec_one (k : ℕ) :
-    G.IsRegularOfDegree k ↔ G.adjMatrix ℝ *ᵥ (fun _ ↦ 1) = fun _ ↦ (k : ℝ) := by
-  sorry
 
 /-- The Laplacian eigenvalues are bounded by twice the maximum degree: `νᵢ ≤ 2Δ`,
 `qᵢ ≤ 2Δ`. (README 1.4) -/
@@ -452,12 +385,6 @@ theorem isLeast_algebraicConnectivity (h : 2 ≤ Fintype.card V) :
 and only if `G` is connected. (README 1.6) -/
 theorem isIrreducible_adjMatrix_iff [Nontrivial V] :
     (G.adjMatrix ℝ).IsIrreducible ↔ G.Connected := by
-  sorry
-
-/-- `Aʰ` has a positive entry at `(x, y)` exactly when there is a walk of length `h` from `x`
-to `y`. (README 1.6) -/
-theorem adjMatrix_pow_apply_pos_iff (h : ℕ) (x y : V) :
-    0 < ((G.adjMatrix ℝ) ^ h) x y ↔ ∃ w : G.Walk x y, w.length = h := by
   sorry
 
 /-! ### 1.7 Disjoint unions, isomorphisms and components -/
@@ -609,7 +536,8 @@ theorem nonempty_iso_johnsonGraph_one (α : Type*) [DecidableEq α] :
     Nonempty (johnsonGraph α 1 ≃g (⊤ : _root_.SimpleGraph α)) := by
   sorry
 
-/-- The Petersen graph has 10 vertices, is 3-regular and has 15 edges. (README 2.4) -/
+/-- Sanity check of the definition: the Petersen graph has 10 vertices, is 3-regular and has
+15 edges. (README 2.4) -/
 theorem petersenGraph_card :
     Fintype.card {s : Finset (Fin 5) | s.card = 2} = 10 ∧ petersenGraph.IsRegularOfDegree 3 ∧
       petersenGraph.edgeFinset.card = 15 := by
@@ -694,13 +622,6 @@ theorem adjSpectrum_hammingGraph (d : ℕ) (Q : Type*) [Fintype Q] [DecidableEq 
         ((d : ℝ) * (Fintype.card Q - 1) - Fintype.card Q * i) := by
   sorry
 
-/-- **The hypercube.** `Q_d` has the eigenvalue `d - 2i` with multiplicity `C(d, i)`.
-(README 2.6) -/
-theorem adjSpectrum_hypercube (d : ℕ) :
-    (hypercube d).adjSpectrum =
-      ∑ i ∈ Finset.range (d + 1), Multiset.replicate (d.choose i) ((d : ℝ) - 2 * i) := by
-  sorry
-
 /-- **The Johnson graph.** For `2k ≤ n`, `J(n, k)` has the eigenvalue `(k - j)(n - k - j) - j`
 with multiplicity `C(n, j) - C(n, j - 1)`, `j = 0, …, k` (multiplicity `1` at `j = 0`).
 (README 2.6) -/
@@ -723,12 +644,6 @@ theorem adjSpectrum_kneserGraph (α : Type*) [Fintype α] [DecidableEq α] {k : 
         ∑ j ∈ Finset.range k,
           Multiset.replicate ((Fintype.card α).choose (j + 1) - (Fintype.card α).choose j)
             ((-1) ^ (j + 1) * ((Fintype.card α - k - (j + 1)).choose (k - (j + 1)) : ℕ)) := by
-  sorry
-
-/-- **The Petersen graph** has spectrum `3, 1⁵, (-2)⁴`. (README 2.6) -/
-theorem adjSpectrum_petersenGraph :
-    petersenGraph.adjSpectrum =
-      (3 : ℝ) ::ₘ Multiset.replicate 5 1 + Multiset.replicate 4 (-2) := by
   sorry
 
 end Layer2
@@ -825,7 +740,25 @@ theorem IsTree.largestEigenvalue_le [Nonempty V] (hG : G.IsTree) :
         Nonempty (G ≃g completeBipartiteGraph Unit (Fin (Fintype.card V - 1)))) := by
   sorry
 
+/-- **Trees: the lower bound.** A tree on `n` vertices has `2 cos(π/(n+1)) ≤ θ₁`, with
+equality only for the path `Pₙ`. (README 3.4) -/
+theorem IsTree.le_largestEigenvalue [Nonempty V] (hG : G.IsTree) :
+    2 * Real.cos (Real.pi / (Fintype.card V + 1)) ≤ largestEigenvalue G ∧
+      (largestEigenvalue G = 2 * Real.cos (Real.pi / (Fintype.card V + 1)) ↔
+        Nonempty (G ≃g pathGraph (Fintype.card V))) := by
+  sorry
+
 /-! ### 3.5 Index, edges and cliques -/
+
+/-- **The Motzkin–Straus inequality.** With `ω` the clique number, every nonnegative `v` has
+`vᵀ A v ≤ (1 - 1/ω) (∑ v)²`, and equality holds for some nonnegative `v` with `∑ v = 1`.
+(README 3.5) -/
+theorem dotProduct_mulVec_adjMatrix_le_cliqueNum [Nonempty V] :
+    (∀ v : V → ℝ, 0 ≤ v →
+      v ⬝ᵥ (G.adjMatrix ℝ *ᵥ v) ≤ (1 - 1 / (G.cliqueNum : ℝ)) * (∑ x, v x) ^ 2) ∧
+    ∃ v : V → ℝ, 0 ≤ v ∧ ∑ x, v x = 1 ∧
+      v ⬝ᵥ (G.adjMatrix ℝ *ᵥ v) = 1 - 1 / (G.cliqueNum : ℝ) := by
+  sorry
 
 /-- **Stanley's bound.** `θ₁ ≤ (√(8m+1) - 1)/2`, with equality exactly for a complete
 graph together with isolated vertices. (README 3.5) -/
@@ -962,25 +895,9 @@ end Layer3
 
 end SimpleGraph
 
-/-! ## Layer 4: equitable quotients -/
-
-namespace Matrix
-
-variable {V I : Type*} [Fintype V] [DecidableEq V] [Fintype I] [DecidableEq I]
-
-/-! ### 4.1 Divisibility of characteristic polynomials -/
-
-/-- For a cell map that is equitable for an arbitrary complex matrix `A` (all cells nonempty),
-the characteristic polynomial of the normalized compression divides that of `A`. (README 4.1) -/
-theorem charpoly_compressed_dvd {A : Matrix V V ℂ} {cell : V → I}
-    (h : IsEquitableFor A cell) : (compressed A cell).charpoly ∣ A.charpoly := by
-  sorry
-
-end Matrix
-
 end TauCetiRoadmap.GraphSpectra
 
-/-! ## Supplier declarations named in the README -/
+/-! ## Library declarations consumed -/
 
 -- Mathlib
 #check @SimpleGraph.lapMatrix_toLinearMap₂'
@@ -1022,10 +939,8 @@ end TauCetiRoadmap.GraphSpectra
 #check @Matrix.charpoly_map
 #check @Matrix.charpoly_reindex
 #check @Matrix.charpoly_fromBlocks_zero₁₂
-#check @Matrix.charpoly_fromBlocks_zero₂₁
 #check @Matrix.charpoly_mul_comm'
 #check @Matrix.fromBlocks
-#check @LinearMap.charpoly_toMatrix
 #check @Matrix.isIrreducible_iff_exists_pow_pos
 #check @eigenvalue_mem_ball
 #check @Equiv.sumCongr
