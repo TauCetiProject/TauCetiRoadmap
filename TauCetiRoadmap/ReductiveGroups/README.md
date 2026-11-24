@@ -3,7 +3,7 @@
 **Summary.** Build the general theory of reductive algebraic groups from native
 Hopf algebras, schemes and comodules: orbit geometry, structure and classification,
 pinned integral groups, the complex representations of the finite groups of rational points
-(Harish-Chandra series, Gelfand–Graev representations and Deligne–Lusztig induction), rational
+(Harish-Chandra series and Gelfand–Graev representations), rational
 highest weights, and regular-semisimple spectral
 monodromy. The library includes nonsmooth finite-type groups where appropriate and
 retains every characteristic in its integral and reductive structure theorems.
@@ -52,16 +52,8 @@ an algebraic closure of a field of characteristic zero (the reductivity of `C_G(
 connectedness of `C_G(s)` for a simply connected derived group and the torus criterion for a
 commutative `C_G(s)`) and is a consumer of §7.1, not a second supplier. Layers 7h and 7i own the
 Harish-Chandra series and the Gelfand–Graev representations of `G^F` for every connected reductive
-`G`, and Layer 9F owns Deligne–Lusztig induction: the varieties, characters and Green functions, the
-character and inner product formulas, the compatibility with Harish-Chandra functors, the Steinberg
-character, degrees, geometric conjugacy and Lusztig series, cuspidality, the Green functions at
-regular unipotent elements and the pairing with Gelfand–Graev characters. The theory special to
-`GL_n(𝔽_q)` (Green's characters and their parametrization, the type-A endomorphism algebras, Shintani
-descent) is RepresentationTheory/CharacterTheory's, which consumes these layers; the Lefschetz
-numbers of finite-order automorphisms used by Layer 9F are EtaleDualityAndPerverseSheaves'.
-SmoothRepresentationsOfLocalGroupsPartII SRU.4.1 *finite-steinberg* states the irreducibility and the
-degree of the Steinberg character for split `G` and the `q`-Frobenius, the split case of §9F.6 (a),
-(b), and is a consumer of §9F.6, not a second supplier. The unitary groups of Hermitian and
+`G`; Deligne–Lusztig induction and the characters of `GL_n(𝔽_q)` are DeligneLusztigTheory's, which
+consumes these layers. The unitary groups of Hermitian and
 skew-Hermitian spaces over a quadratic field extension in characteristic other than two are
 §9D.1's. Layer 1.1 owns rational
 cohomology over flat commutative Hopf algebras, the comparison of comodule invariants with
@@ -669,11 +661,6 @@ prove them equivalent** rather than committing.
   (`TauCeti/Topology/Homotopy/SerreFibration/FiberBundle.lean`) makes the projection of every
   fibre bundle a Serre fibration, with no paracompactness hypothesis; the connecting maps and
   exactness of the homotopy sequence are not part of it.
-- **Class functions and virtual characters.** `TauCeti.ClassFunction` (the functions constant on
-  conjugacy classes, with `TauCeti.ClassFunction.equivConjClasses`), the pairing
-  `TauCeti.ClassFunction.characterPairing` and the virtual characters `TauCeti.virtualCharacters`,
-  recorded as Tau Ceti declarations in RepresentationTheory/CharacterTheory Layers 0 and 3, are the
-  class functions, pairing and virtual characters of Layer 9F.
 
 ### Native unipotent radical
 
@@ -1258,31 +1245,13 @@ them for the field points of `Spin(q)` and its comparison with `SO(q)`.
 ### From TauCetiRoadmap.EtaleCohomologyFoundations
 
 Sections F.0.1–F.0.2 supply étale module sheaves, their stalks, the étale fundamental group and its
-monodromy equivalence, used by Layer 9D. Sections F.2.5 (compactly supported cohomology and its
-localization sequence), F.2.5a (the compactly supported cohomology of a quotient by a finite group,
-compatibly with commuting automorphisms), F.2.7 (Künneth with compact supports), F.3 (finiteness and
-cohomological dimension) and F.4.5 (rational realization and `ℚ̄_ℓ` coefficients) supply the ℓ-adic
-cohomology of Layer 9F.
-
-### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
-
-§7.6, *Lefschetz numbers of finite-order automorphisms*, supplies to Layer 9F: lefschetzIntegrality
-(`Lef(γ, X)` is a rational integer independent of `ℓ`, and `Lef(γ, X) = Lef(γ⁻¹, X)`);
-lefschetzDevissage (additivity over a decomposition into finitely many stable locally closed pieces
-whose initial unions are closed, the value `|X(k)^γ|` on a finite scheme, the Künneth formula, the
-quotient formula for an automorphism commuting with the finite group, and the vanishing of
-`Lef(γ, X)` for a free action and `γ` of order not a power of `p`); lefschetzJordanFormula
-(`Lef(g, X) = Lef(g_p, X^{g_{p′}})`); and lefschetzGroupActions (the trivial action of a connected
-linear algebraic group on compactly supported cohomology, the torus fixed-point formula and the
-cohomology of Zariski-locally trivial fibrations in affine spaces). It states Lefschetz numbers and
-these actions; the module statements of Layer 9F come from EtaleCohomologyFoundations §§F.2.5,
-F.2.5a and F.2.7 or are cited with the published proofs.
+monodromy equivalence, used by Layer 9D.
 
 ### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
 Layer 0 (induction in stages) is used by §7c.1 and Layer 7i; Layer 2 (induced representations and
 characters, Frobenius reciprocity) and Layers 3–4 (the Mackey decomposition and intertwining
-numbers) by Layers 7i and 9F.
+numbers) by Layer 7i.
 
 ### From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
 
@@ -1348,8 +1317,7 @@ structure theory, and Layer 8 specifies split data and pinnings. Layer 9 constru
 integral pinned models before Layer 9D proves classification and relative extensions.
 Layer 9E then applies the explicit §9B carriers to Steinberg fixed points.
 Layers 7h and 7i, after the finite-field Layers 7a–7f, develop the Harish-Chandra series and the
-Gelfand–Graev representations of the finite groups `G^F`; Layer 9F, after 9E, constructs
-Deligne–Lusztig induction for the `q`-Frobenius and for every Steinberg endomorphism.
+Gelfand–Graev representations of the finite groups `G^F`.
 Within representation theory the order is §9C distributions and Frobenius section →
 §10A rational integration → §10A.1 contraction; §9C does not use integration.
 Layer 11 constructs spectral monodromy.
@@ -4019,26 +3987,20 @@ three coordinates), for `TauCeti.lineStabilizer` and `TauCeti.hyperplaneStabiliz
 the Layer 7e isomorphism, through this layer's adapter, reproduces the pinned almost-conjugacy;
 it does not replace the general theorem.
 
-#### References for Layers 7a–7f, 7h, 7i, 9E and 9F
+#### References for Layers 7a–7f, 7h, 7i and 9E
 
 - O. Dudas and J. Michel, *Lectures on finite reductive groups and their representations*
-  (2015), §§7–15, especially Theorem 7.3, Proposition 7.5, Lemma 7.6, Proposition 7.7,
+  (2015), §§7–11, especially Theorem 7.3, Proposition 7.5, Lemma 7.6, Proposition 7.7,
   Corollary 7.8, Propositions 7.10 and 7.12, Propositions 8.7, 8.9 and 8.10, Proposition 9.5,
   Lemmas 9.9–9.11, Theorem 9.6, Theorem 10.1, Definition 10.2, Lemma 10.3, Propositions 10.6
-  and 10.8, Theorem 10.11, (11.7) and Lemma 11.8, Corollary 13.2, Definition 14.2,
-  Propositions 14.3, 14.8, 14.9 and 14.13, Conjecture-Theorem 14.4, Theorem 14.5, Corollary
-  14.6, Definition 14.7, Definition 15.1, Lemma 15.2, Corollary 15.3, Proposition 15.6,
-  Remark 15.7, Proposition 15.10 and Corollary 15.11:
+  and 10.8, Theorem 10.11, (11.7) and Lemma 11.8:
   <https://webusers.imj-prg.fr/~jean.michel/papiers/lectures_beijing_2015.pdf>.
 - R. B. Howlett and G. I. Lehrer, “On Harish-Chandra induction and restriction for modules
   of Levi subgroups,” *Journal of Algebra* 165 (1994), 172–183.
 - R. Dipper and J. Du, “Harish-Chandra vertices,” *Journal für die reine und angewandte
   Mathematik* 437 (1993), 101–130.
 - R. W. Carter, *Finite Groups of Lie Type: Conjugacy Classes and Complex Characters*,
-  §1.17 (Frobenius fixed points and finite groups of Lie type); Theorem 7.2.8† (the character
-  formula), Theorem 7.3.4† (the inner product formula), 7.5.1† and 7.5.2† (the degree), §§8.1†
-  and 8.4† (the Gelfand–Graev character; regular and semisimple characters) and §12.1†
-  (geometric conjugacy).
+  §1.17 (Frobenius fixed points and finite groups of Lie type).
 - S. Lang, “Algebraic groups over finite fields,” *Amer. J. Math.* 78 (1956), 555–563;
   R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, Memoirs AMS 80 (1968); Theorem
   8.1† (the centralizers of semisimple elements of a simply connected semisimple group are
@@ -4046,13 +4008,9 @@ it does not replace the general theorem.
 - J.-P. Serre, *Linear Representations of Finite Groups*, §§2.3 and 3.3; F. Gassmann,
   “Bemerkungen zur vorstehenden Arbeit von Hurwitz,” *Math. Z.* 25 (1926), 665–675.
 - P. Deligne and G. Lusztig, “Representations of reductive groups over finite fields,” *Ann.
-  of Math.* 103 (1976), 103–161: §1† (rational maximal tori; Deligne–Lusztig varieties),
-  Theorem 4.2†, Theorems 6.2† and 6.8†, §7† (Theorem 7.1†, 7.5†, Corollary 7.7†), §8†
-  (Theorem 8.3†), Theorem 9.16†, §10† (Theorem 10.7†).
-- P. Deligne and G. Lusztig, “Duality for representations of a reductive group over a finite
-  field. II,” *J. Algebra* 81 (1983), 540–545†.
+  of Math.* 103 (1976), 103–161: §1† (rational maximal tori).
 - F. Digne and J. Michel, *Representations of Finite Groups of Lie Type*, London Mathematical
-  Society Student Texts 21 (1991), 11.13†, 12.14† and Chapter 14†; second edition, London
+  Society Student Texts 21 (1991), Chapter 14†; second edition, London
   Mathematical Society Student Texts 95, Cambridge University Press (2020)†, the exposition
   being made for Frobenius roots.
 - F. Digne, G. I. Lehrer and J. Michel, “The characters of the group of rational points of a
@@ -4067,9 +4025,6 @@ it does not replace the general theorem.
 - I. M. Gelfand and M. I. Graev, “Construction of irreducible representations of simple
   algebraic groups over a finite field,” *Dokl. Akad. Nauk SSSR* 147 (1962), 529–532.
 - R. Steinberg, *Lectures on Chevalley Groups*, Yale University (1968).
-- C. W. Curtis, “The Steinberg character of a finite group with a (B,N)-pair,” *J. Algebra* 4
-  (1966), 433–441.
-- L. Solomon, “The orders of the finite Chevalley groups,” *J. Algebra* 3 (1966), 376–393.
 
 ## Layer 7h: Harish-Chandra series of finite reductive groups
 
@@ -6247,326 +6202,6 @@ discharge the Steinberg fixed-point and representation-theory targets. *Needs:* 
 
 Layers 7a–7f, 7h, 7i and 9A–9D.
 
-## Layer 9F: Deligne–Lusztig induction
-
-Let `k` be an algebraic closure of a finite field of characteristic `p`, `G` a connected reductive group over `k`, and
-`F : G → G` either the `q`-Frobenius of an `F_q`-structure `G₀` (Layer 7a) or a Steinberg endomorphism (Layer 9E); in
-the second case `q` is the positive real number with `F^m` the `q^m`-Frobenius of an `F_{q^m}`-structure.
-§§9F.1–9F.9 are targets for both; §§9F.10 and 9F.11 are stated for the `q`-Frobenius. The sources are Deligne–Lusztig
-1976 and Carter for the Frobenius of an `F_q`-structure; the lectures of Dudas and Michel (2015), whose §14 works with
-an isogeny some power of which is a Frobenius and whose §15 with a Frobenius endomorphism; and, for Frobenius roots,
-which include the Suzuki and Ree groups, the second edition of Digne–Michel, cited as a whole†; each section names the
-locators of the other sources.
-
-*Notation.* "Rational" means `F`-stable. `(T₀, B₀ = T₀ ⋉ U₀)` is a rational Borel pair (§7a.1), `W = N_G(T₀)/T₀` with its
-action of `F`, simple reflections `S`, length function `ℓ` and `|Φ⁺|` positive roots, `T_w` a rational maximal torus of
-type `w` (§7a.2), and `L_J` the standard rational Levi subgroup of an `F`-stable `J ⊂ S`, with `|J/F|` the number of
-`F`-orbits in `J`. A *rational Levi subgroup* is a rational Levi complement of a rational parabolic subgroup; `R_L^G` and
-`*R_L^G` are the Harish-Chandra functors of Layer 7c with `Λ = ℂ`, independent of the parabolic subgroup by Layer 7e,
-and also denote the maps they induce on class functions (`R_L^G = Ind_{P^F}^{G^F} ∘ Inf_{L^F}^{P^F}`). Every `g ∈ G^F`
-is `g = su = us` with `s` semisimple and `u` unipotent in `G^F` (Layer 4's Jordan decomposition). For semisimple
-`s ∈ G^F`, `C°(s) = C_G(s)°` (§7.1) is a rational connected reductive subgroup: `F(C_G(s)°) = C_G(F(s))°`.
-
-*Cohomology.* `ℓ ≠ p` is a prime and `H^i_c(X) = H^i_c(X, ℚ̄_ℓ)` is the compactly supported `ℓ`-adic cohomology of a
-quasi-projective `k`-scheme `X` (EtaleCohomologyFoundations §§F.2.5, F.3 and F.4.5). A group acting on `X` acts on
-`H^i_c(X)` by `γ ↦ (γ⁻¹)^*`, and `Lef(γ, X) = Σ_i (−1)^i tr(γ | H^i_c(X))` is the Lefschetz number of an automorphism
-`γ` of finite order, a rational integer independent of `ℓ` (EtaleDualityAndPerverseSheaves §7.6, *Lefschetz numbers of
-finite-order automorphisms*). `ℚ̄_ℓ` is compared with `ℂ` through a field isomorphism `ι : ℚ̄_ℓ ≅ ℂ`, with no continuity
-condition; every statement in which `ℓ` or `ι` appears is independent of both.
-
-*Characters.* Characters of finite groups are complex. Class functions, the pairing
-`⟨f₁, f₂⟩ = |G^F|⁻¹ Σ_g f₁(g) f₂(g⁻¹)` and virtual characters are Tau Ceti's `TauCeti.ClassFunction`,
-`TauCeti.ClassFunction.characterPairing` and `TauCeti.virtualCharacters` (supplier contracts); a *constituent* is an
-irreducible character with nonzero pairing. `|G^F|_p` and `|G^F|_{p′}` are the `p`-part and the prime-to-`p` part of
-`|G^F|`, and `conj(z)` is the complex conjugate of `z ∈ ℂ`.
-
-*Signs.* For a rational maximal torus `T`, `F` acts on `X*(T) ⊗ ℝ` as `q·φ_T` with `φ_T` of finite order (`F^m`
-restricted to `T` is the `q^m`-Frobenius of an `F_{q^m}`-structure on `T`, so `F^m = q^m·ρ` on `X*(T)` with `ρ` of
-finite order); put `r(T) = dim (X*(T) ⊗ ℝ)^{φ_T}`. For a rational connected reductive subgroup `H`, `r(H) = r(T_H)` for a
-rational maximal torus `T_H` of `H` contained in a rational Borel subgroup of `H`, and `ε_H = (−1)^{r(H)}`. For the
-`q`-Frobenius of an `F_q`-structure, `r(H)` is the `F_q`-rank of `H`, the dimension of a maximal `F_q`-split torus.
-
-### 9F.1 Deligne–Lusztig varieties
-
-Let `T` be a rational maximal torus, `B = T ⋉ U ⊃ T` a Borel subgroup, not necessarily rational, and `w` the relative
-position of `B` and `F(B)`. The variety
-
-    Y_U = {gU ∈ G/U : g⁻¹F(g) ∈ U·F(U)}
-
-is smooth, quasi-projective and of pure dimension `ℓ(w)`; `G^F` acts on it by left and `T^F` by right multiplication,
-and `Y_U → X_B = {gB ∈ G/B : g⁻¹F(g) ∈ B·F(B)}` is a `T^F`-torsor.
-
-*Route.* `ℒ⁻¹(U·F(U))` is étale over the smooth variety `U·F(U)`, an orbit of `U × F(U)` acting by `(u, v)·x = uxv⁻¹`
-(§7a.3), and it is stable under right multiplication by `U`, since `ℒ(gu) = u⁻¹ℒ(g)F(u)`; `Y_U` is its image in `G/U`,
-the quotient by this free action, and its dimension is the length of `w` by the Bruhat cell of `(B, F(B))`. The
-`T^F`-torsor: `F(B) = ṅBṅ⁻¹` with `ṅ ∈ N_G(T)`, and the torus coordinate `τ(x)`, the `a ∈ T` of an expression
-`x = uav ∈ B·F(B)` with `u ∈ U`, `v ∈ F(U)`, is a well-defined morphism `B·F(B) → T` (the cell coordinates of Layer 7C,
-transported to `(T, B)`); `φ(gU) = τ(g⁻¹F(g))` is a morphism from the preimage of `X_B` in `G/U` to `T`, with
-`Y_U = φ⁻¹(1)` and `φ(gtU) = φ(gU)·t⁻¹F(t)` for `t ∈ T`. Over an open subset of `X_B` on which `G/U → G/B` has a section,
-`Y_U` is therefore the pullback of the Lang torsor of `T` (§7a.3 for `T`), and being a torsor is local on the base.
-For `Ỹ = {g ∈ G : g⁻¹F(g) ∈ F(U)}`, the map `Ỹ → Y_U`, `g ↦ gU`, used in §§9F.4, 9F.5 and 9F.8, is a torsor under
-`U ∩ F(U)`, an affine space, and is Zariski-locally trivial because `G → G/U` is.
-(Deligne–Lusztig 1976, §1†; Dudas–Michel 2015, Definition 14.2 and the models after it, p. 61.)
-*Needs:* §7a.3 for `G` and for `T` (with Layer 9E for Steinberg endomorphisms); Layer 7's Bruhat decomposition; Layer
-7C's cell coordinates; SchemeAndStackFoundations §§1.1 and 1.15.
-
-### 9F.2 Deligne–Lusztig characters and Green functions
-
-For a character `θ` of `T^F`, the class function
-
-    R_T^G(θ)(g) = |T^F|⁻¹ Σ_{t∈T^F} θ(t)⁻¹ Lef((g, t), Y_U),
-
-where `(g, t)` acts by `y ↦ g·y·t`, is the alternating sum of the `θ`-isotypic parts, under `T^F`, of the
-`G^F`-modules `H^i_c(Y_U)`; it is a virtual character of `G^F` and does not depend on `ℓ` or on `ι`. The **Green
-function** `Q_T^G(u) = R_T^G(1)(u)`, for unipotent `u ∈ G^F`, is integer valued, and `R_T^G(θ)(u) = Q_T^G(u)` for every
-`θ`.
-
-*Route.* Integrality and independence of `ℓ` and `ι` from those of Lefschetz numbers; virtuality from the decomposition
-of the `H^i_c(Y_U)` under `G^F × T^F`. At unipotent `u`, `(u, t)` has semisimple part `(1, t)`; `T^F` acts freely on
-`Y_U` and its elements have order prime to `p`, so the Jordan decomposition formula for Lefschetz numbers and their
-vanishing for free actions give `Lef((u, t), Y_U) = 0` for `t ≠ 1`. (Deligne–Lusztig 1976, §§1† and 4†; Carter;
-Dudas–Michel 2015, Definition 14.2 (i), p. 61, Definition 14.7 and Proposition 14.8, p. 63, and Corollary 13.2, p. 58.)
-*Needs:* §9F.1; EtaleDualityAndPerverseSheaves §7.6 (*lefschetzIntegrality*, the vanishing for free actions in
-*lefschetzDevissage* (d) and its value on a finite scheme in (a), *lefschetzJordanFormula*); Tau Ceti's virtual
-characters.
-
-### 9F.3 The character formula
-
-For `g = su ∈ G^F`,
-
-    R_T^G(θ)(su) = |C°(s)^F|⁻¹ Σ_{x∈G^F, x⁻¹sx∈T} θ(x⁻¹sx)·Q^{C°(s)}_{xTx⁻¹}(u).
-
-In particular, for regular semisimple `s` with `T′ = C°(s)`,
-`R_T^G(θ)(s) = Σ_{x ∈ T′^F\{x∈G^F : x⁻¹T′x = T}} θ(x⁻¹sx)`, which vanishes unless `T` and `T′` are `G^F`-conjugate.
-
-*Route.* By the Jordan decomposition formula, `Lef((su, t), Y_U) = Lef((u, 1), Y_U^{(s,t)})`. A point `gU` is fixed by
-`(s, t)` exactly when `g⁻¹sg ∈ t⁻¹U`, so the fixed-point set is empty unless `t⁻¹` is conjugate to `s`, and it is a
-disjoint union, indexed by the `x ∈ G^F` with `x⁻¹sx = t⁻¹` taken modulo `C°(s)^F`, of translates of the
-Deligne–Lusztig varieties of `C°(s)` for the tori `xTx⁻¹` (which lie in `C°(s)`, §7.1 (b)); summing over `t` with the
-weight `θ(t)⁻¹ = θ(x⁻¹sx)` gives the formula. For regular `s`, `C°(s) = T′` and `Q^{T′}_{T′}(1) = 1`.
-(Deligne–Lusztig 1976, Theorem 4.2†; Carter, Theorem 7.2.8†; Dudas–Michel 2015, Proposition 14.9 (i), p. 63;
-Digne–Michel 2020†.)
-*Needs:* §§9F.2, 7.1; EtaleDualityAndPerverseSheaves §7.6 (*lefschetzJordanFormula*; *lefschetzDevissage* (a), the value
-on a finite scheme).
-
-### 9F.4 The inner product formula
-
-Put `N_{G^F}(T, T′) = {n ∈ G^F : nTn⁻¹ = T′}` and
-`W_{G^F}(T, θ) = {n ∈ N_{G^F}(T) : θ(n⁻¹tn) = θ(t) for all t ∈ T^F}/T^F`. Then
-
-    ⟨R_T^G(θ), R_{T′}^G(θ′)⟩ = |{n ∈ N_{G^F}(T, T′)/T^F : θ′(ntn⁻¹) = θ(t) for all t ∈ T^F}|
-
-for any choice of Borel subgroups `B ⊃ T`, `B′ ⊃ T′` defining the two sides. Hence `R_T^G(θ)` does not depend on `B`;
-`R_T^G(θ)` and `R_{T′}^G(θ′)` are orthogonal unless `(T, θ)` and `(T′, θ′)` are `G^F`-conjugate; and
-`⟨R_T^G(θ), R_T^G(θ)⟩ = |W_{G^F}(T, θ)|`. `θ` is in **general position** when `W_{G^F}(T, θ) = 1`.
-
-*Route.* By `Lef(h, X) = Lef(h⁻¹, X)` and the Künneth and quotient formulas, the pairing is
-`|T^F|⁻¹|T′^F|⁻¹ Σ_{t,t′} θ(t)⁻¹θ′(t′)·Lef((t, t′), G^F\(Y_U × Y_{U′}))`. With `Ỹ = {g ∈ G : g⁻¹F(g) ∈ F(U)}` and `Ỹ′`
-likewise, `Ỹ × Ỹ′ → Y_U × Y_{U′}` is an equivariant fibration in affine spaces (§9F.1), and §7a.3 identifies
-`G^F\(Ỹ × Ỹ′)` with `Z = {(x, x′, y) ∈ F(U) × F(U′) × G : xF(y) = yx′}`, on which `(t, t′)` acts by
-`(x, x′, y) ↦ (t⁻¹xt, t′⁻¹x′t′, t⁻¹yt′)`. Let `N_G(T′, T) = {n ∈ G : nT′n⁻¹ = T}`. The Bruhat decomposition
-`G = ⊔ BnB′`, `n ∈ N_G(T′, T)/T′`, gives a filtered stratification of `Z` (a decomposition into finitely many locally
-closed pieces, each stable under the automorphisms considered, numbered so that the union of the first `j` pieces is
-closed for every `j`), with pieces `Z_n` on which the closed subgroup
-`H_n = {(s, s′) ∈ T × T′ : F(s′)s′⁻¹ = F(n)⁻¹·F(s)s⁻¹·F(n)}` acts, extending the action of `T^F × T′^F`; the torus
-fixed-point formula reduces `Lef((t, t′), Z_n)` to the fixed points of `H_n°`, the finite set `G^F ∩ nT′`, and summing
-gives `Lef((t, t′), Z) = #{m ∈ N_{G^F}(T′, T) : m⁻¹tm = t′}`. Only the fixed points of `H_n°` enter: the pieces
-themselves are not fibred in affine spaces over tori. Independence of `B`: for two choices `B, B₁ ⊃ T` the three
-pairings of the two characters are all `|W_{G^F}(T, θ)|`, so their difference has norm zero.
-(Deligne–Lusztig 1976, Theorem 6.8† and its proof; Carter, Theorem 7.3.4†; Dudas–Michel 2015, Corollary 14.6, p. 63;
-Digne–Michel 2020†.)
-*Needs:* §§9F.1, 9F.2, 7a.3; Layer 7's Bruhat decomposition; EtaleDualityAndPerverseSheaves §7.6 (*lefschetzIntegrality*;
-*lefschetzDevissage*: additivity over filtered stratifications, the value on a finite scheme, the Künneth and quotient
-formulas; *lefschetzGroupActions*: the torus fixed-point formula and fibrations in affine spaces);
-EtaleCohomologyFoundations §§F.2.5, F.2.5a and F.2.7.
-
-### 9F.5 Harish-Chandra compatibility
-
-(a) If `T ⊂ L` with `L` a rational Levi subgroup, then `R_L^G ∘ R_T^L = R_T^G`; in particular `R_T^G(θ) = Ind_{B^F}^{G^F} θ`
-(inflated through `B^F → T^F`) when `T` lies in a rational Borel subgroup `B`.
-(b) (Mackey formula.) For a rational Levi subgroup `L` and a rational maximal torus `T`,
-`*R_L^G(R_T^G(θ)) = Σ_x R^L_{xTx⁻¹}(ad(x)θ)`, the sum over `x ∈ L^F\{x ∈ G^F : xTx⁻¹ ⊂ L}/T^F`, with
-`(ad(x)θ)(t′) = θ(x⁻¹t′x)` on `(xTx⁻¹)^F`.
-(c) `⟨R_T^G(θ), 1_{G^F}⟩` is `1` if `θ = 1` and `0` otherwise.
-(d) If `f` is a class function on `G^F` with `f(su) = f(s)` for every Jordan decomposition `g = su`, then
-`⟨f, R_T^G(θ)⟩ = |T^F|⁻¹ Σ_{t∈T^F} f(t)·conj(θ(t))` for every rational maximal torus `T` and every `θ`.
-
-*Route.* (a) By §9F.4 choose `B = B_L U_P` with `B_L ⊃ T` a Borel subgroup of `L`, `P = L ⋉ U_P`. For `gU ∈ Y_U`,
-`g⁻¹F(g) ∈ P`, so `gU ↦ gP` maps `Y_U` `G^F`-equivariantly onto `(G/P)^F = G^F/P^F` (Lang's theorem for `P`); its fibre
-over `P` is the variety `Y_{U_L}` of `L`, on which `U_P^F` acts trivially. Hence `Y_U ≅ G^F/U_P^F ×_{L^F} Y_{U_L}`. That
-`H^*_c(Y_U)` is then `ℚ̄_ℓ[G^F/U_P^F] ⊗_{L^F} H^*_c(Y_{U_L})`, the functor `R^G_{L⊂P}`, is a statement on modules;
-(a) is cited (Dudas–Michel 2015, Proposition 14.3, p. 62). (b) By the definition of `*R_L^G` on class functions,
-`*R_L^G(R_T^G(θ))(l) = |U_P^F|⁻¹ Σ_{u∈U_P^F} R_T^G(θ)(lu)`, a combination of the numbers `Lef((lu, t), Y_U)`; stratify
-`Y_U` by the relative position of `gB` to `P`, the preimage of the finitely many `P`-orbits on `G/B`, a filtered
-stratification (§9F.4) whose pieces are stable under every `(lu, t)`, and compute these Lefschetz numbers piece by
-piece on `Y_U` itself; the published proof is cited (Deligne and Lusztig 1983† and Digne–Michel 1991, 11.13†, to which
-Dudas–Michel 2015, Conjecture-Theorem 14.4, p. 62, attributes this case). (c) The map `g ↦ gU` from
-`Ỹ = {g ∈ G : g⁻¹F(g) ∈ F(U)}` onto `Y_U` is an equivariant fibration in affine spaces (§9F.1), and the Lang map
-identifies `G^F\Ỹ` with the affine space `F(U)`, on which `t ∈ T^F` acts by conjugation; conjugation by the connected
-`T`, which normalizes `F(U)`, extends this action, so `T^F` acts trivially on `H^*_c(F(U))`, and `⟨R_T^G(θ), 1⟩` is the
-alternating dimension of its `θ`-isotypic part. (d) For every rational maximal
-torus `T′` of a connected reductive `C`, `Σ_u Q_{T′}^C(u) = |C^F|/|T′^F|` over the unipotent `u ∈ C^F` (by (c), §9F.2 and
-§9F.3); summing §9F.3 over the unipotent `u ∈ C°(s)^F` gives `Σ_u R_T^G(θ)(su) = |T^F|⁻¹ Σ_{x : x⁻¹sx ∈ T} θ(x⁻¹sx)`, and
-the pairs `(s, x)` correspond to the pairs `(t, x) ∈ T^F × G^F` through `s = xtx⁻¹`. (Dudas–Michel 2015, Proposition
-14.3, p. 62, for (a); Conjecture-Theorem 14.4, p. 62, for (b), in the case where one Levi subgroup is a maximal torus,
-attributed there to Deligne and Lusztig 1983 and to Digne–Michel 1991, 11.13†; Proposition 14.13 (iii), p. 65, for (c)
-and (d). Deligne–Lusztig 1976, §8†, for the induction from a rational parabolic subgroup. Digne–Michel 2020†.)
-*Needs:* §§9F.1–9F.4, 7c.1; Layers 7a, 7b, 7c and 7e; EtaleDualityAndPerverseSheaves §7.6 (*lefschetzGroupActions*:
-connected groups act trivially on `H^*_c`, fibrations in affine spaces; *lefschetzDevissage*: additivity over filtered
-stratifications); EtaleCohomologyFoundations §§F.2.5 and F.2.5a (the cohomology of a quotient by a finite group as a
-module, for (c)); RepresentationTheory/InductionRestriction Layer 2 (induced characters).
-
-### 9F.6 The Steinberg character and the two averages
-
-Let `St_G = Σ_J (−1)^{|J/F|} R_{L_J}^G(1)`, the sum over the `F`-stable subsets `J ⊂ S`. Then:
-(a) `St_G` is an irreducible character;
-(b) `St_G(1) = |G^F|_p`, `St_G(s) = ε_G ε_{C°(s)} |C°(s)^F|_p` for semisimple `s`, and `St_G(g) = 0` when `g` is not
-semisimple;
-(c) `⟨R_T^G(1), St_G⟩ = ε_G ε_T` for every rational maximal torus `T`;
-(d) `1_{G^F} = |W|⁻¹ Σ_{w∈W} R_{T_w}^G(1)` and `St_G = |W|⁻¹ Σ_{w∈W} ε_G ε_{T_w} R_{T_w}^G(1)`.
-
-*Route*, in the order (a), (c), (d), (b). (a) By the Mackey theorem for Harish-Chandra functors (Layer 7d) and the
-rational Bruhat decomposition (§7a.1), `⟨St_G, St_G⟩ = Σ_{J,K}(−1)^{|J/F|+|K/F|}·#(W_J\W/W_K)^F`, the double cosets
-counted being the `F`-fixed ones, and Solomon's identity in its twisted form gives `1`; and `St_G(1) = |G^F|_p > 0` by
-the first step of (b), which uses only §7a.1. (c) When `F` acts trivially on `W`: by §9F.5 (b), (c) and §7a.2,
-`⟨R_{T_w}^G(1), R_{L_J}^G(1)⟩` is the number `N_J(w)` of cosets `vW_J` with `v⁻¹wv ∈ W_J`, and Solomon's alternating sum
-over the parabolic subgroups of the Coxeter group `W` gives `Σ_J (−1)^{|J|} N_J(w) = (−1)^{ℓ(w)}`, which is
-`ε_Gε_{T_w}` (Dudas–Michel 2015, Remark 15.7, p. 69). For a non-trivial action of `F` on `W`, (c) is cited: the
-published proof goes through the duality functor `Σ_J (−1)^{|J/F|} R_{L_J}^G ∘ *R_{L_J}^G`, which gives (c)
-(Dudas–Michel 2015, Theorem 14.5, p. 63, Proposition 14.13 (iii), p. 65, and Definition 15.1, p. 67, for a Frobenius
-endomorphism; Digne–Michel 2020† for Frobenius roots). (d) The two averages have norm one by §9F.4 (the twisted
-classes of `W` and their centralizers, §7a.2), and
-pair to `1` with `1_{G^F}` (§9F.5 (c)) and with `St_G` (by (c)). (b) `St_G` restricts to the regular character of the
-Sylow `p`-subgroup `U₀^F` (the Mackey decomposition over `U₀^F\G^F/P_J^F`, in which the coefficient of every `w ≠ w₀`
-is a product of factors `1 − 1`), which gives `St_G(1)` and the vanishing at unipotent `u ≠ 1`; at `su`, (d), §9F.3
-and the rewriting of a Weyl average as a sum over all rational maximal tori give
-`St_G(su) = ε_Gε_{C°(s)}St_{C°(s)}(u)`. (Curtis 1966 for (a), from the Tits system `(B₀^F, N_{G^F}(T₀))` with Weyl
-group `W^F`, and for the restriction to `U₀^F`; Solomon 1966 for `F` trivial on `W`; Deligne–Lusztig 1976, §7†;
-Dudas–Michel 2015, Lemma 15.2 and Corollary 15.3, pp. 67–68, and Proposition 15.10, p. 70, for a Frobenius
-endomorphism; Digne–Michel 2020†.)
-*Needs:* §§9F.3–9F.5, 7a.1, 7a.2, 7.1, 7c.1; Layers 7b–7d; RepresentationTheory/InductionRestriction Layer 3 (the
-Mackey decomposition).
-
-### 9F.7 Degree, sign and irreducibility
-
-(a) `R_T^G(θ)(1) = ε_G ε_T |G^F|_{p′}/|T^F|`.
-(b) For `θ` in general position, `ε_G ε_T R_T^G(θ)` is an irreducible character.
-
-*Route.* (a) Induction on `dim G`, a torus giving `R_T^T(θ) = θ`. Pair `R_T^G(1)` with `St_G`, using §9F.6 (b), which
-vanishes off the semisimple elements, and §9F.3 at semisimple `s`: for non-central `s`, `C°(s)` is a proper connected
-reductive group and the induction hypothesis gives `Q^{C°(s)}_{xTx⁻¹}(1)`, while the central `s` contribute
-`|Z^F|·|G^F|_p·R_T^G(1)(1)`; §9F.6 (c) then forces the value, and §9F.2 removes `θ`. (b) Norm one (§9F.4) and positive
-degree after the sign (a). (Deligne–Lusztig 1976, Theorem 7.1† and its corollaries; Carter, 7.5.1† and 7.5.2†;
-Dudas–Michel 2015, Proposition 15.6, p. 68, and Remark 15.7, p. 69, for a Frobenius endomorphism; Digne–Michel 2020†.)
-*Needs:* §§9F.2–9F.6, 7a.2, 7.1.
-
-### 9F.8 Geometric conjugacy, Lusztig series and exhaustion
-
-Pairs `(T, θ)` and `(T′, θ′)` of rational maximal tori and characters of their rational points are **geometrically
-conjugate** if some `g ∈ G` with `gTg⁻¹ = T′` satisfies `θ′∘N_{F^m/F}∘ad(g) = θ∘N_{F^m/F}` on `T^{F^m}` for some `m`
-with `g ∈ G^{F^m}`, where `N_{F^m/F}(t) = t·F(t)⋯F^{m−1}(t)`. If `R_T^G(θ)` and `R_{T′}^G(θ′)` have a common
-constituent, the pairs are geometrically conjugate; every irreducible character of `G^F` is a constituent of some
-`R_T^G(θ)`; and
-
-    reg_{G^F} = |G^F|_{p′} |W|⁻¹ Σ_{w∈W} ε_G ε_{T_w} |T_w^F|⁻¹ Σ_θ R_{T_w}^G(θ).
-
-The **Lusztig series** `E(G^F, κ)`, the constituents of the `R_T^G(θ)` with `(T, θ)` in the geometric conjugacy class
-`κ`, therefore partition the irreducible characters of `G^F`.
-
-*Route.* Disjointness: a common constituent `χ` occurs in some `H^i_c(Y_U)_θ`, and `conj(χ)` in some
-`H^j_c(Y_{U′})_{θ′⁻¹}` (as `Lef(h, X) = Lef(h⁻¹, X)`); so, by the Künneth formula and the cohomology of a quotient by a
-finite group as modules (EtaleCohomologyFoundations §§F.2.7 and F.2.5a), the `θ ⊠ θ′⁻¹`-part of
-`H^*_c(G^F\(Y_U × Y_{U′}))` is nonzero. That it is then nonzero on some piece `Z_n` of the filtered stratification of
-§9F.4, through the fibration in affine spaces of §9F.4, is a statement on isotypic parts, and this step is the
-published proof's, cited (Deligne–Lusztig 1976, proof of Theorem 6.2†). On `Z_n` the action of `T^F × T′^F` extends to
-that of `H_n`, whose identity component acts trivially on cohomology. For `m` with `F^m(ṅ) = ṅ`, the homomorphism
-`x ↦ (N_{F^m/F}(x), N_{F^m/F}(F(ṅ)⁻¹xF(ṅ)))` maps the connected `T` into `H_n°`, and triviality on its rational values
-is geometric conjugacy by `g = ṅ⁻¹` (Deligne–Lusztig 1976, proof of Theorem 6.2†). The regular character:
-`Σ_θ R_T^G(θ)` vanishes off the unipotent elements and is `|T^F|·Q_T^G` on them (§9F.3), so the right side is supported
-on the unipotent elements, where it is `|G^F|_{p′}·St_G` (§9F.6 (d)), which is `|G^F|` at `1` and `0` at the other
-unipotent elements (§9F.6 (b)). Exhaustion: `χ(1) = ⟨χ, reg_{G^F}⟩ ≠ 0`. (Deligne–Lusztig 1976, Theorem 6.2†, 7.5† for
-the regular character, Corollary 7.7† for exhaustion and §10† for geometric conjugacy; Carter, §12.1†; Digne–Michel
-1991, 12.14†, for the regular character; Dudas–Michel 2015, Corollary 15.11, p. 70, for a Frobenius endomorphism;
-Digne–Michel 2020†.)
-*Needs:* §§9F.2–9F.7; EtaleCohomologyFoundations §§F.2.5, F.2.5a (cohomology of a quotient by a finite group) and F.2.7
-(Künneth, compatibly with automorphisms); EtaleDualityAndPerverseSheaves §7.6 (*lefschetzIntegrality*;
-*lefschetzGroupActions* (a), (c): the action of connected groups, fibrations in affine spaces).
-
-### 9F.9 Cuspidality
-
-If `T` lies in no proper rational Levi subgroup, then `*R_L^G(R_T^G(θ)) = 0` for every proper rational Levi subgroup `L`;
-hence for `θ` in general position `ε_G ε_T R_T^G(θ)` is an irreducible cuspidal character (§7h.1).
-
-*Route.* The Mackey formula §9F.5 (b), whose index set is empty, and §9F.7 (b). (Deligne–Lusztig 1976, Theorem 8.3†;
-Carter; Digne–Michel 2020†.)
-*Needs:* §§9F.5, 9F.7, 7h.1.
-
-### 9F.10 Green functions at regular unipotent elements
-
-Let `F` be the `q`-Frobenius of an `F_q`-structure. For every rational maximal torus `T` and every regular unipotent
-`u ∈ G^F` (7C.6), `Q_T^G(u) = 1`.
-
-*Route.* By the quotient formula for Lefschetz numbers, `Q_T^G(u) = |T^F|⁻¹ Σ_t Lef((u, t), Y_U) = Lef(u, X_B)` with
-`X_B = Y_U/T^F` (§9F.1), and Deligne and Lusztig compute this Lefschetz number at a regular unipotent element to be `1`.
-(Deligne–Lusztig 1976, Theorem 9.16†.)
-*Needs:* 7C.6; §§9F.1, 9F.2; EtaleDualityAndPerverseSheaves §7.6 (the quotient formula of *lefschetzDevissage*).
-
-### 9F.11 Gelfand–Graev characters and Lusztig series
-
-Let `F` be the `q`-Frobenius of an `F_q`-structure, assume that `Z(G)` is connected, and let `Γ_ψ` be a Gelfand–Graev
-representation of `G^F` (Layer 7i; by §7i.2 it does not depend on the regular character `ψ`). For every rational
-maximal torus `T` and every `θ`, `⟨Γ_ψ, R_T^G(θ)⟩ = ε_G ε_T`; and every Lusztig series contains exactly one constituent
-of `Γ_ψ`, which occurs in `Γ_ψ` once.
-
-*Route.* Induction on the semisimple rank. With the degenerate Gelfand–Graev representations
-`Γ_{ψ,J} ≅ R_{L_J}^G(Γ^{L_J})` of §7i.3 (`J` an `F`-stable set of simple roots, identified with a subset of `S`), the
-class function `D = Σ_J (−1)^{|J/F|} Γ_{ψ,J}` is supported on the regular unipotent elements, since
-`Σ_J (−1)^{|J/F|} ψ_J = ∏_O (1 − ψ_O)` vanishes on the elements of `U₀^F` with a trivial component in some `U_O^F`
-(§7i.1); there `R_T^G(θ) = 1` (§9F.10), so `⟨D, R_T^G(θ)⟩ = ⟨D, 1⟩ = 1`. For `J ≠ S`, adjunction, the Mackey formula
-§9F.5 (b), the induction hypothesis for `L_J`, whose centre is connected (§7i.3), and `ε_{L_J} = ε_G` give
-`⟨Γ_{ψ,J}, R_T^G(θ)⟩ = ε_Gε_T·⟨R_T^G(1), R_{L_J}^G(1)⟩`, and §9F.6 (c) leaves `⟨Γ_ψ, R_T^G(θ)⟩ = ε_Gε_T`. The second
-statement combines the first with §§7i.2, 9F.4 and 9F.8: the projection of `Γ_ψ` to the span of the `R_T^G(θ)` with
-`(T, θ)` in one geometric class has norm `Σ 1/|W_{G^F}(T, θ)|` over the rational classes in it, which is `1` when
-`Z(G)` is connected, so every series contains a constituent of `Γ_ψ`; and `⟨Γ_ψ, Γ_ψ⟩`, the number of double cosets
-supporting `End(Γ_ψ)` (§7i.2), is the number of geometric conjugacy classes of pairs, so that no series contains two.
-(Deligne–Lusztig 1976, §10†, Theorem 10.7†, under a connected centre; Carter, §§8.1† and 8.4†; Digne–Michel 2020†.)
-*Needs:* §§7i.1–7i.3, 7C.6, 9F.4–9F.10.
-
-### Examples
-
-**Checks.**
-- (9F.1, 9F.2) If `B` is rational, `w = 1`, `Y_U = G^F/U^F` is finite and `R_T^G(θ) = Ind_{B^F}^{G^F} θ`, inflated
-  through `B^F → T^F`: `Lef((g, t), Y_U)` counts the `xU^F` with `x⁻¹gx ∈ t⁻¹U^F`. With `θ(t)` in place of `θ(t)⁻¹` the
-  formula would give `Ind θ⁻¹`; this pins the convention. For `G = T`, `Y_U = T^F` and `R_T^T(θ) = θ`.
-- (9F.4) `SL₂` over `F₂` and `T = T′` the non-split torus (`T^F ≅ μ₃`): the formula gives
-  `⟨R_T(θ), R_T(θ′)⟩ = [θ′ = θ] + [θ′ = θ⁻¹]`, which is `2` for `θ = 1`.
-- (9F.5) (a) for `G = L = T = 𝔾_m` over `F_3` (`P = G`, `U = U_P = 1`): `Y_U = T^F` has two points, the base `G^F/P^F`
-  one and the fibre `T^F` two; a fibration over `G^F/U_P^F = T^F` with fibre `Y_{U_L}` would have four points.
-- (9F.5) (b) for `GL₂` and `L = T₁` the diagonal torus: the index set is `T₁^F\N_{G^F}(T₁)/T₁^F = W`, of order two, and
-  `(Ind_{B^F} 1)^{U^F}` is two copies of the trivial character of `T₁^F`.
-- (9F.5) (d) needs its hypothesis: for `f = St_G` on `GL₂` (`St(1) = q`, `St(u) = 0` at unipotent `u ≠ 1`) and
-  `T = T₁`, `⟨St, R_{T₁}(1)⟩ = 1` by §9F.6 (c), while `|T₁^F|⁻¹ Σ_t St(t) = (q − 1)^{−2}((q − 1)q + (q − 1)(q − 2)) = 2`.
-- (9F.6) `GL₂`: `St = Ind_{B^F} 1 − 1`, of degree `q`; `½(R_{T₁}(1) + R_{T_s}(1)) = 1` and `½(R_{T₁}(1) − R_{T_s}(1)) = St`.
-- (9F.6) `U₃(F_q)`: the two simple roots form one `F`-orbit, the `F`-stable `J` are `∅` and `S`, and
-  `St = Ind_{B^F} 1 − 1`, of degree `q³ = |G^F|_p`. The sign `(−1)^{|J|}` would give `Ind_{B^F} 1 + 1`, of degree
-  `q³ + 2`, which is not irreducible. In (a) the `F`-fixed double cosets give `⟨St, St⟩ = 2 − 1 − 1 + 1 = 1`, while all
-  of `W_J\W/W_K` would give `6 − 1 − 1 + 1 = 5`.
-- (9F.6) (b) for `GL₃` at `s = diag(a, a, b)`, `a ≠ b`: `C°(s) = GL₂ × GL₁`, `ε_Gε_{C°(s)} = 1` and `St(s) = q`;
-  directly, `s` fixes `3(q + 1)` complete flags, `q + 2` planes and `q + 2` lines, and `3(q + 1) − 2(q + 2) + 1 = q`.
-- (9F.7) `GL₂`: `R_{T₁}^G(1) = 1 + St` and `R_{T_s}^G(1) = 1 − St`, of degree `−(q − 1) = ε_Gε_{T_s}(q² − 1)(q − 1)/(q² − 1)`.
-  For `T` in a rational Borel subgroup, `ε_Gε_T = 1` and `|G^F|_{p′}/|T^F| = [G^F : B^F]`, the degree of
-  `Ind_{B^F}^{G^F} θ`.
-- (9F.10) `GL₂`: `Q_{T₁}(u) = (Ind_B 1)(u) = 1` (one fixed point on `ℙ¹(F_q)`) and `Q_{T_s}(u) = (1 − St)(u) = 1`.
-- (9F.11) `GL₂`: `⟨Γ_ψ, Ind_{B^F}(α ⊗ β)⟩ = 1` for all characters `α, β` of `F_q^×` (the irreducible principal series,
-  or the twisted Steinberg constituent when `α = β`), and `⟨Γ_ψ, R_{T_s}(θ)⟩ = −1` for every `θ`.
-
-### Dependencies
-
-Layers 4, 7, 7C, 7a–7e, 7h, 7i and 9E, with §§7.1, 7a.1–7a.3, 7c.1 and 7C.6; SchemeAndStackFoundations §§1.1 and 1.15;
-EtaleCohomologyFoundations §§F.2.5, F.2.5a, F.2.7, F.3 and F.4.5; EtaleDualityAndPerverseSheaves §7.6 (Lefschetz
-numbers of finite-order automorphisms); Tau Ceti's class functions, character pairing and virtual characters (supplier
-contracts); RepresentationTheory/InductionRestriction Layers 2–3.
-
 ## Layer 10: rational representations, highest weights and regular functions
 
 #### 10A. The rational category and actual torus lattice
@@ -7507,8 +7142,8 @@ GeometricTopology Layer 4.2.8 and InverseGaloisAndArithmeticFundamentalGroups IG
 identification.
 
 
-RepresentationTheory/CharacterTheory consumes Layers 7a–7e, 7h, 7i and 9F for the characters of
-`GL_n(𝔽_q)`.
+DeligneLusztigTheory consumes Layers 4, 7, 7C, 7a–7e, 7h, 7i and 9E for Deligne–Lusztig induction
+and the characters of `GL_n(𝔽_q)`.
 
 The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
 for IntegralHeckeAndGaloisDeterminants §0.7.

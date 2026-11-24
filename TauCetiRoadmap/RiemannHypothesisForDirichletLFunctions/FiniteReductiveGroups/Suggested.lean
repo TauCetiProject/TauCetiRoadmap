@@ -57,7 +57,7 @@ The other headline theorems are not statable at the pins.
 * Green's parametrisation and degree formula (5.5), the characters of the squarefree labels of
   `GL_n(𝔽_q)` and the multiplicativity of labels over every prime field (5.4), and the
   Gelfand–Graev weights (5.8): the irreducible characters `χ_λ` of 5.5 are those of
-  RepresentationTheory/CharacterTheory §9a.6, defined by the characteristic map `ch_m`, which sends
+  DeligneLusztigTheory §2.6, defined by the characteristic map `ch_m`, which sends
   power sums to the virtual characters `R_T^G(θ)`; without these the parametrisation is only a
   bijection with Green data carrying the degree formula, a weaker statement. The statements of 5.4
   concern Harish-Chandra products of cuspidal characters, and the series idempotents `z_m` of the
