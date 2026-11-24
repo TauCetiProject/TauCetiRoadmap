@@ -5373,12 +5373,12 @@ continuous, so that it is a Hilbert space; the same holds for every bounded open
 semicontinuous `φ : B → [−∞, ∞)`, the case C7.13 uses. Indeed `φ` is bounded above, by `M_K` say, on the compact
 `r`-neighbourhood of a compact `K ⊂ B`, `r > 0`, and `|f|²` is subharmonic, so for `f` holomorphic and `z ∈ K`,
 `|f(z)|² ≤ (πⁿr^{2n}/n!)^{−1}·e^{M_K}·∫_{B(z,r)}|f|²e^{−φ}dλ`. Hence `L²(e^{−φ}dλ)`-Cauchy sequences in `H(B, φ)`
-converge locally uniformly on `B`, and their limits are holomorphic. When `B ⊆ ℂⁿ` is a bounded pseudoconvex open set
-and `φ` is plurisubharmonic on `B`, prove moreover that `H(B, φ)` is separable and that, for every orthonormal basis
-`(σ_k)` of `H(B, φ)` and every `z ∈ B` with `φ(z) > −∞`, the reproducing kernel of `H(B, φ)` on the diagonal is the
+converge locally uniformly on `B`, and their limits are holomorphic. In the same generality (`B ⊆ ℂⁿ` bounded open,
+`φ` upper semicontinuous), prove moreover that `H(B, φ)` is separable and that, for every orthonormal basis
+`(σ_k)` of `H(B, φ)` and every `z ∈ B`, the reproducing kernel of `H(B, φ)` on the diagonal is the
 squared norm of evaluation at `z`: `Σ_k|σ_k(z)|² = sup{|f(z)|² : f ∈ H(B, φ), ‖f‖ ≤ 1}`, so that the sum does not
 depend on the basis. Given the continuity of evaluation, both are Hilbert-space theory. C7.13 uses them on a bounded
-pseudoconvex domain `Ω` with the weight `mφ`.
+pseudoconvex domain `Ω` with the plurisubharmonic weight `mφ`.
 
 *Route.* Fix `C` with `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` near `B̄`. Then `φ̃ = φ + C|z|²` is plurisubharmonic on `B` and differs from
 `φ` by a bounded smooth function, so it has the same multiplier ideal and the same weighted `L²` spaces on `B`
