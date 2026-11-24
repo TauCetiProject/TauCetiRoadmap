@@ -73,8 +73,9 @@ Representations are Mathlib's `FDRep ℂ (GL (Fin n) F)`, the irreducible ones t
   The file states `σ_θ` through its values, which determine it, and Green's degree formula as a
   bijection from the irreducible characters onto the Green data carrying the degrees; the bijection
   `λ ↦ χ_λ` itself needs `ch_κ`.
-* §2.5: `End_G(R_L^G σ)` and the Iwahori–Hecke algebras `H_m(a)` of TypeAHeckeAlgebras need
-  Harish-Chandra induction and those algebras, neither at the pins.
+* §2.5: `End_G(R_L^G σ)` needs the Harish-Chandra induction of a cuspidal representation, which is
+  not at the pins. The Iwahori–Hecke algebras `H_m(a)` are at the pins: Tau Ceti's
+  `TauCeti.TypeAHeckeAlgebra` at the parameter `√a` with `T_s ↦ √a·T_s` (TypeAHeckeAlgebras §1.1).
 * §§2.6 and 2.8: the characteristic maps `ch_κ`, uniformity, the expansions in the `R_T^G(θ)`, the
   Green functions and the identification of Green's `J_n(θ̃)` (defined by a recursion through
   Harish-Chandra products) all need Deligne–Lusztig characters or Harish-Chandra induction.
