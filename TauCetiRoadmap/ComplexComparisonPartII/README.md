@@ -42,12 +42,14 @@ sheaves of Λ-modules with constructible cohomology sheaves, the canonical map f
 cohomology of K to the cohomology of its analytification is an isomorphism. No smoothness,
 properness or separatedness is assumed.
 
-A companion Lean file states seven of the results, with proofs left open: Montel's theorem in several
+A companion Lean file states nine of the results, with proofs left open: Montel's theorem in several
 variables, Schwartz's finiteness theorem for Fréchet spaces, the two analytic steps of the de
-Rham comparison in forms the libraries allow, and, on open subsets of ℂⁿ, Skoda's division theorem,
-the Ohsawa–Takegoshi extension theorem and the strong openness of multiplier ideals. The others need
-objects missing from the libraries it is written against, such as analytic spaces, coherent analytic
-sheaves, Kähler manifolds and `∂̄` on forms with distribution coefficients; the layers specify them.
+Rham comparison in forms the libraries allow, and, on open subsets of ℂⁿ, Hörmander's `L²` theorem
+for `∂̄u = g` with `g` a `(0,1)`-form, its form with the datum measured by the Levi form of a smooth
+weight, Skoda's division theorem, the Ohsawa–Takegoshi extension theorem and the strong openness of
+multiplier ideals. The others need objects missing from the libraries it is written against, such as
+analytic spaces, coherent analytic sheaves, Kähler manifolds and forms of every bidegree with
+distribution coefficients; the layers specify them.
 
 The roadmap builds on ComplexKahlerGeometry, which supplies Weierstrass preparation, local Dolbeault
 theory and holomorphic bundles. RealAnalyticGeometry supplies the weighted `L²` estimate for `∂̄` and
@@ -178,16 +180,17 @@ Each layer ends with its checks and dependencies.
   `TauCetiRoadmap.ComplexComparisonPartII`, except for the explicitly supplied APIs.
   `Suggested.lean` states `montelTheorem` and `schwartzFiniteness` (C1.6),
   `holomorphicPoincare` in its stalkwise positive-degree form on Tau Ceti's smooth forms,
-  `nonempty_sheafSingularComparison` (C5.1), and, on open subsets of `ℂⁿ`, `skodaDivision` (C7.6),
+  `nonempty_sheafSingularComparison` (C5.1), and, on open subsets of `ℂⁿ`, `hormanderL2` and
+  `hormanderL2_strict` (C7.1), `hormanderL2_leviNorm` (C7.2), `skodaDivision` (C7.6),
   `ohsawaTakegoshi` (C7.7) and `strongOpenness` (C7.12), with the definitions `IsPlurisubharmonicOn`
-  (C5.4a) and `IsPseudoconvex` (C7.1), against the pinned libraries. The geometric comparison
-  targets require complex analytic spaces, analytification, algebraic-space derived
+  (C5.4a), `IsPseudoconvex` and `dbarDistribution` (C7.1), against the pinned libraries. The geometric
+  comparison targets require complex analytic spaces, analytification, algebraic-space derived
   categories, sheaf complexes of algebraic and holomorphic forms, connection complexes,
   locally constant sheaves of local systems or constructible étale coefficients
-  that are not available at the pins, and the other headline targets of C7 require `∂̄` on forms with
-  distribution coefficients, Kähler manifolds and coherent analytic sheaves; their statements are
-  specified in this README, and the module docstring of `Suggested.lean` names, target by target,
-  the carrier each lacks.
+  that are not available at the pins, and the other headline targets of C7 require `∂̄` on forms of
+  every bidegree with distribution coefficients, Kähler manifolds and coherent analytic sheaves;
+  their statements are specified in this README, and the module docstring of `Suggested.lean`
+  names, target by target, the carrier each lacks.
 - **Universes.** Schemes are `X : Scheme.{u}` over `Spec (CommRingCat.of (ULift.{u} ℂ))`, and
   finite coefficient rings are `Λ : Type u`. Analytic spaces, the analytification `X^an` and its
   underlying space `T_X`, a `TopCat.{u}`, live in the same universe `u`. Étale sheaves in
@@ -5009,15 +5012,19 @@ An open set `Ω ⊆ ℂⁿ` is *pseudoconvex* if it has a continuous plurisubhar
 whose sublevel sets are relatively compact in `Ω` (`IsPseudoconvex`, for open subsets of finite-dimensional complex
 normed spaces). In this section and in C7.2, pointwise norms of forms on open
 subsets of `ℂⁿ` are those of the Kähler form `i∂∂̄|z|² = iΣⱼ dzⱼ ∧ dz̄ⱼ`, so that `|dz̄ⱼ| = 1`; `dλ` is Lebesgue measure,
-and `∂̄` acts in the sense of distributions.
+and `∂̄` acts in the sense of distributions. With coordinates `zⱼ = xⱼ + iyⱼ`, the operator
+`∂T/∂z̄ⱼ = ½(∂T/∂xⱼ + i∂T/∂yⱼ)` on complex-valued distributions `T` on an open `Ω ⊆ ℂⁿ` is built from Mathlib's
+distributional derivatives along the real directions `eⱼ` and `ieⱼ` (`dbarDistribution`). For a `(0,1)`-form
+`g = Σⱼ gⱼ dz̄ⱼ` with locally integrable coefficients, `∂̄u = g` means `∂u/∂z̄ⱼ = gⱼ` for every `j`, and `∂̄g = 0`
+means `∂gⱼ/∂z̄_k = ∂g_k/∂z̄ⱼ` for all `j, k`.
 
 Prove: let `Ω ⊆ ℂⁿ` be pseudoconvex and `φ` plurisubharmonic on `Ω`.
 
 (a) For every `(0,1)`-form `g` with `∂̄g = 0` and `∫_Ω |g|² e^{−φ} dλ < ∞` there is `u` with `∂̄u = g` and
-`∫_Ω |u|² e^{−φ}(1 + |z|²)^{−2} dλ ≤ ∫_Ω |g|² e^{−φ} dλ`.
+`∫_Ω |u|² e^{−φ}(1 + |z|²)^{−2} dλ ≤ ∫_Ω |g|² e^{−φ} dλ` (`hormanderL2`).
 
-(b) If `i∂∂̄φ ≥ c·i∂∂̄|z|²` as currents for a constant `c > 0`, the same holds with
-`∫_Ω |u|² e^{−φ} dλ ≤ (1/c)∫_Ω |g|² e^{−φ} dλ`.
+(b) If `i∂∂̄φ ≥ c·i∂∂̄|z|²` as currents for a constant `c > 0`, that is, if `φ − c|z|²` is plurisubharmonic on `Ω`,
+the same holds with `∫_Ω |u|² e^{−φ} dλ ≤ (1/c)∫_Ω |g|² e^{−φ} dλ` (`hormanderL2_strict`).
 
 The same holds for `(p,q)`-forms, `q ≥ 1`, with the constant `1/(qc)` in (b). ((a): Hörmander 1965; Hörmander, *An
 Introduction to Complex Analysis in Several Variables*, chapter IV. (b), for `(n,q)`-forms and hence for
@@ -5033,7 +5040,13 @@ weighted `L²` spaces, with monotone convergence for the decreasing weights, giv
 `2 log(1 + |z|²)` to `φ`: its Levi form is at least `2(1 + |z|²)^{−2}·i∂∂̄|z|²`.
 
 *Needs:* C5.4a (plurisubharmonic functions and their regularisation); C1.4 (`weightedDolbeaultEstimate`); C1.5 (the
-complete Kähler metric of an exhaustion); RealAnalyticGeometry R3.1.
+complete Kähler metric of an exhaustion); RealAnalyticGeometry R3.1; Mathlib `Distribution`,
+`Distribution.lineDerivCLM` and `Distribution.ofFun` (`dbarDistribution` and the equation `∂̄u = g`).
+
+**Checks.**
+
+- On `ℂ`, `∂z̄/∂z̄ = ½(1 + i·(−i)) = 1` and `∂z/∂z̄ = ½(1 + i·i) = 0`. The operator `½(∂/∂x − i∂/∂y)`, which is
+  `∂/∂z`, gives `0` and `1` instead, and dropping the factor `½` gives `2` and `0`.
 
 ### C7.2 The estimate with the datum measured by the Levi form
 
@@ -5044,11 +5057,12 @@ C7.1.
 
 Prove: let `Ω ⊆ ℂⁿ` be pseudoconvex (C7.1) and `φ` a smooth plurisubharmonic function on `Ω`. Let `v` be a
 `(0,1)`-form with `L²_loc` coefficients, `∂̄v = 0` and `∫_Ω |v|²_{i∂∂̄φ} e^{−φ} dλ < ∞`. Then there is `u` with `∂̄u = v`
-and `∫_Ω |u|² e^{−φ} dλ ≤ ∫_Ω |v|²_{i∂∂̄φ} e^{−φ} dλ`, and the solution of least norm in `L²(Ω, e^{−φ}dλ)` is one. No
-lower bound for `i∂∂̄φ` is assumed, only the finiteness of the right side (Hörmander 1965). For a square-integrable
-datum this is the case of the trivial line bundle with weight `φ` of Demailly's estimate for semipositive bundles on a
-manifold carrying a complete Kähler metric (Demailly, VIII.6.1, p. 376); for `L²_loc` data it is Demailly 1982,
-Théorème 5.1, p. 475.
+and `∫_Ω |u|² e^{−φ} dλ ≤ ∫_Ω |v|²_{i∂∂̄φ} e^{−φ} dλ`, and the solution of least norm in `L²(Ω, e^{−φ}dλ)` is one
+(`hormanderL2_leviNorm`; for `θ = i∂∂̄φ`, `Σ_{j,k} θ_{jk̄} ξⱼ ξ̄_k` is the value at `(ξ, ξ)` of Tau Ceti's
+`TauCeti.leviForm φ z`). No lower bound for `i∂∂̄φ` is assumed, only the finiteness of the right side (Hörmander
+1965). For a square-integrable datum this is the case of the trivial line bundle with weight `φ` of Demailly's
+estimate for semipositive bundles on a manifold carrying a complete Kähler metric (Demailly, VIII.6.1, p. 376); for
+`L²_loc` data it is Demailly 1982, Théorème 5.1, p. 475.
 
 *Route.* As for C7.1, without regularising `φ`. Take a relatively compact pseudoconvex `Ω_k ⋐ Ω` with a smooth
 strictly plurisubharmonic exhaustion. Use the weight `φ_ε = φ + ε|z|²`, whose Levi form is `≥ ε·i∂∂̄|z|²`; the
@@ -5063,8 +5077,8 @@ C1.4 gives `∫_{Ω_k} |u|² e^{−φ_ε} dλ ≤ ∫_{Ω_k} |v|²_{i∂∂̄φ_
 inequality holds because the dual norm decreases when the form increases. Weak limits as `δ → 0`, `k → ∞` and
 `ε → 0` give a solution on `Ω`, and the solution of least norm has no larger norm.
 
-*Needs:* C7.1 (pseudoconvex open sets); C5.4a; C1.4 (`weightedDolbeaultEstimate`); C1.5; RealAnalyticGeometry
-R3.1.
+*Needs:* C7.1 (pseudoconvex open sets, `dbarDistribution`); C5.4a; C1.4 (`weightedDolbeaultEstimate`); C1.5;
+RealAnalyticGeometry R3.1; Tau Ceti `TauCeti.leviForm`.
 
 **Checks.**
 
@@ -6158,13 +6172,15 @@ as explained in C5.1); the two names denote the same target.
   `circleIntegral.integral_sub_inv_of_mem_ball` (`∮ (z − w)⁻¹ = 2πi`), Lebesgue measure on `ℂ`,
   `Matrix.PosSemidef`, `Matrix.det`, `UpperSemicontinuous` and `EReal` (functions with values in `[−∞, ∞)`,
   C5.4a–C5.4j); `Real.circleAverage` (the circle means of `IsPlurisubharmonicOn`, C5.4a) and `EReal.exp` (the weights
-  `e^{−φ}` with values in `[0, ∞]` of C7.6, C7.7 and C7.12); `HilbertBasis` (weighted Bergman spaces, C7.9–C7.13) and
+  `e^{−φ}` with values in `[0, ∞]` of C7.1, C7.6, C7.7 and C7.12); `HilbertBasis` (weighted Bergman spaces, C7.9–C7.13) and
   `MeasureTheory.Lp` (Layer C7).
   `TestFunction` has the locally convex inductive-limit
   topology of compactly supported smooth functions; `Distribution Ω F ⊤` is the compact-convergence
   continuous real-linear dual of real-valued test functions, with values in `F`.
   `Distribution.lineDerivCLM`, `Distribution.ofFun` and `Distribution.delta` supply the
   chartwise derivative, locally integrable coefficients and Dirac distribution for `CurrentCalculus`;
+  the first two also give C7.1's `dbarDistribution` and the equations `∂̄u = g` of C7.1–C7.2, the
+  complex scalars acting on `Distribution Ω ℂ ⊤` through the values;
   `Distribution.delta a` is real-valued (in `𝓓'^{n}(Ω, ℝ)`), and the `ℂ`-valued chart
   coefficients of C5.4 use its complexification, its image under `Distribution.mapCLM` along
   `Complex.ofRealCLM`.
@@ -6377,7 +6393,7 @@ as explained in C5.1); the two names denote the same target.
   the Cartier dual of the pullback along `Spec R′ ⟶ Spec R` is the pullback of the Cartier dual).
   These are affine statements; their globalization to an arbitrary base scheme is ModularCurves
   §0B's construction, and to an algebraic-space base it is part of C3.2d.5.
-- Levi forms, used by C5.4a: `TauCeti.leviForm` in `TauCeti.Analysis.Complex.LeviForm` (the Levi form of a real
+- Levi forms, used by C5.4a and C7.2: `TauCeti.leviForm` in `TauCeti.Analysis.Complex.LeviForm` (the Levi form of a real
   function on a complex normed space, the sesquilinear form built from its second real derivative) and
   `TauCeti.manifoldLeviForm` with `TauCeti.IsManifoldStrictlyPlurisubharmonicAt` in
   `TauCeti.Geometry.Manifold.Complex.LeviForm` (the Levi form in the preferred chart of a complex manifold, chart
