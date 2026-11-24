@@ -1121,7 +1121,9 @@ Theorem 3.3.1 as used there; Blasius §§4.1–4.6 for the `GL₃` construction.
 - For the symmetric-square input after the norm conversion of §3.12,
   `a=−2,b=0` gives degrees 2,0,1. These are the symmetric square of degrees 0,1.
 
-*Needs:* PELModuli M0–M4; EndoscopicTransferAndUnitaryTraceComparison
+*Needs:* PELModuli §§M1.7, M1.13, M2.8, M2.9, M4.3 and M5.5 (the moduli problem,
+Hecke action, smooth good models, universal family, canonical generic fibre and
+unitary data with prescribed signatures); EndoscopicTransferAndUnitaryTraceComparison
 §§13.1–13.4; EtaleCohomologyFoundations §§F.4–F.7;
 AutomorphicGaloisRepresentationsPartII AG2.P, geometric period comparison,
 and AG2.0, algebraic-character avatars;
@@ -3177,10 +3179,10 @@ labels. These adapters describe the same representation; duality changes it.
 For models with a marked abelian realization, use its §5.1 isogeny and base-change
 transports of the chosen coefficient action before identifying `λ`-factors.
 
-*Needs:* SmallRamificationAndAbelianVarietyBaseCases §§5.0d–5.1, raw carrier, operations, convention adapters and marked transports; AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”, compatibility predicates and preservation; ArithmeticGaloisRepresentations Layers 1–2, continuous semisimple
-carriers, local WD functors and their tensor/dual laws; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3,
+*Needs:* SmallRamificationAndAbelianVarietyBaseCases §§5.0d–5.1, raw carrier, operations, convention adapters and marked transports; AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”, compatibility predicates and preservation; ArithmeticGaloisRepresentations §§1.1, 1.2, 1.5, 1.7 and 1.12, continuous semisimple
+carriers, coefficient fields, operations and restriction; ArithmeticGaloisRepresentations Layer 2, local WD functors and their tensor/dual laws; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3,
 labelled period functors; AutomorphicGaloisRepresentationsPartII AG2.0,
-algebraic-character avatars; Layer 3's geometric-character theorem.
+algebraic-character avatars; §3.13, the geometric-character theorem.
 
 - The raw compatible-system carrier supplied by SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 - The weak and strict compatibility predicates supplied by AG2.P on that same carrier.
