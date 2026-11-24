@@ -35,9 +35,9 @@ Layer 1, after ReductiveGroups Layers 7a–7e, 7h, 7i and 9E, constructs Deligne
 for the `q`-Frobenius and for every Steinberg endomorphism. Layer 2 builds on Layer 1, on
 RepresentationTheory/CharacterTheory Layers 0–3 and 9 and on the finite reductive groups of
 ReductiveGroups, applied to `GL_n` with the standard Frobenius. Each layer ends with its Examples
-and Dependencies. `Suggested.lean` states the headline statements of Layer 2 that can be stated
-with Mathlib alone and says, section by section, which statements of either layer cannot be
-stated at the pins and why.
+and Dependencies. `Suggested.lean` states the headline theorems of Layer 2 that can be stated
+with the pinned Mathlib and Tau Ceti and says, section by section, which headline theorems of
+either layer cannot be stated at the pins and why.
 
 ## Conventions
 
@@ -385,28 +385,31 @@ and Shintani descent. Harish-Chandra functors, Harish-Chandra series, Gelfand–
 Deligne–Lusztig characters of a finite reductive group are ReductiveGroups' (Layers 7c–7e, 7h and 7i) and Layer 1's, applied
 to `GL_n` over an algebraic closure `F̄` of `F` with the standard Frobenius `Fr` (raising every entry to the `q`-th
 power), the `q`-Frobenius of the `𝔽_q`-structure `GL_n`, whose group of fixed points is `G` (ReductiveGroups
-Layer 7a); the theorems of this layer are proved from them.
+Layer 7a); the theorems of this layer are proved from them. The sections of this layer are numbered
+2.1, 2.2 and 2.4–2.12; there is no §2.3.
 
 Notation for this layer.
 
 - **Fields.** `𝔽_{q^m} ⊂ F̄` is the subfield with `q^m` elements (`𝔽_q = F`); `N` and `Tr` are the norm and the
   trace between such subfields.
-- **Subgroups and functors.** `B`, `T`, `U` are the upper triangular, diagonal and upper unitriangular subgroups,
-  `U_m` that of `GL_m(F)`; `P_n ⊂ G` is the mirabolic subgroup of matrices with last row `(0, …, 0, 1)`. A standard
-  Levi subgroup is a block diagonal `GL_{n₁} × ⋯ × GL_{n_r}`, its standard parabolic subgroup the block upper
-  triangular one. `R_L^G` and `*R_L^G` are the Harish-Chandra induction and restriction of ReductiveGroups Layer 7c
-  (for a standard parabolic `P = L ⋉ U_P`, `R_L^G = Ind_P^G ∘ Inf_L^P` and `*R_L^G` takes `U_P`-invariants),
+- **Subgroups and functors.** `B`, `T`, `U` are the upper triangular, diagonal and upper unitriangular subgroups
+  (`U` is Tau Ceti's `TauCeti.upperUnitriangularGroup`), `U_m` that of `GL_m(F)`; `P_n ⊂ G` is the mirabolic
+  subgroup of matrices with last row `(0, …, 0, 1)` (`IsMirabolic`). A standard Levi subgroup is a block diagonal
+  `GL_{n₁} × ⋯ × GL_{n_r}`, its standard parabolic subgroup the block upper triangular one. `R_L^G` and `*R_L^G`
+  are the Harish-Chandra induction and restriction of ReductiveGroups Layer 7c (for a standard parabolic `P = L ⋉ U_P`, `R_L^G = Ind_P^G ∘ Inf_L^P` and `*R_L^G` takes `U_P`-invariants),
   independent of `P` by its Layer 7e. For representations or class functions `π₁` of `GL_a(F)` and `π₂` of `GL_b(F)`,
   `π₁ × π₂ = R_{GL_a × GL_b}^{GL_{a+b}}(π₁ ⊠ π₂)`, with `⊠` the external tensor product of RepresentationTheory/CharacterTheory §3.6. An irreducible
   representation is **cuspidal** if `*R_L^G` kills it for every proper standard Levi subgroup `L` (ReductiveGroups
-  §7h.1).
+  §7h.1); `IsCuspidal` says this of a representation of `G` through the unipotent radicals `U_P`: no nonzero vector
+  is fixed by `U_P` for a proper standard parabolic subgroup `P`.
 - **Gelfand–Graev.** `ψ₀` is a fixed nontrivial character of `(F, +)` and `ψ(u) = ψ₀(u_{12} + u_{23} + ⋯ + u_{n−1,n})`
-  the standard regular character of `U`; `Γ_n = Ind_U^G ψ` is the Gelfand–Graev representation. An irreducible `π` is
-  **generic** if `Hom_U(π, ψ) ≠ 0`.
+  the standard regular character of `U` (`stdChar`); `Γ_n = Ind_U^G ψ` is the Gelfand–Graev representation, with
+  character `gelfandGraevCharacter`. An irreducible `π` is **generic** if `Hom_U(π, ψ) ≠ 0` (`IsGeneric`).
 - **Combinatorics.** Partitions are Mathlib's `Nat.Partition`; `ℓ(μ)` is the number of parts, `n(μ) = Σ_i (i−1)μ_i`,
-  `H̃_μ(t) = ∏_{boxes} (t^{h(box)} − 1)` with `h` the hook length, `f^μ` the number of standard tableaux, and `z_μ` the
-  order of the centraliser in `S_{|μ|}` of a permutation of cycle type `μ`. Put `ϖ_m(t) = ∏_{i=1}^m (t^i − 1)`,
-  `ϖ₀ = 1`. The unipotent class of Jordan type `μ` is `u_μ`; `u_{(n)}` is regular unipotent and `u_{(1^n)} = 1`.
+  `H̃_μ(t) = ∏_{boxes} (t^{h(box)} − 1)` with `h` the hook length (Tau Ceti's `YoungDiagram.hookLength`), `f^μ` the
+  number of standard tableaux, and `z_μ` the order of the centraliser in `S_{|μ|}` of a permutation of cycle type
+  `μ`. Put `ϖ_m(t) = ∏_{i=1}^m (t^i − 1)`, `ϖ₀ = 1`. The unipotent class of Jordan type `μ` is `u_μ`; `u_{(n)}` is
+  regular unipotent and `u_{(1^n)} = 1`.
   `Λ_ℂ` is the ring of symmetric functions with complex coefficients of RepresentationTheory/SchurWeyl §7.5, with its Hall inner product,
   power sums `p_μ`, complete and elementary functions `h_m`, `e_m` and Schur functions `s_μ`; `χ^μ` is the irreducible
   character of `S_{|μ|}` of RepresentationTheory/SchurWeyl Layer 4, `χ^{(m)}` the trivial one.
@@ -476,6 +479,10 @@ the number `q^n − q^{n−1}` of semisimple classes is recorded with it in Fulm
 of pairs is equivalent, by the inner product formula (§1.4), to the uniformity of all class
 functions of `G` (§2.8 (a)), which follows from Lusztig–Srinivasan 1977 (Geck 2017, Example 2.13); it is proved
 directly in the route.)
+
+In `Suggested.lean`: `exists_equiv_conjClasses_GL` (the parametrisation, `μ(f)` being read off from
+`dim ker f(g)^k = deg f · Σ_i min(μ(f)_i, k)`), `card_semisimple_conjClasses_GL` (the semisimple classes) and
+`coeff_card_conjClasses_GL_mul_prod` (the generating function, coefficient by coefficient).
 
 **Checks.**
 - `c₁ = q − 1`, `c₂ = q² − 1`, `c₃ = q³ − q`, read off the product to order `t³`.
@@ -555,6 +562,10 @@ constituents and their degrees: Howlett–Lehrer 1980, Theorem 3.18 (i) with Exa
 Brundan–Dipper–Kleshchev, (2.4a), (2.5.2), (2.5.3) and Theorem 2.5d (v) for the generic one; the restriction to
 `P_{2d}` follows from (a) and (b).)
 
+In `Suggested.lean`: from (b), `isGeneric_and_finrank_of_isCuspidal` (a cuspidal irreducible representation is
+generic of degree `ϖ_{n−1}(q)`) and `isCuspidal_iff_character_mirabolic` (the criterion by the restriction to `P_n`,
+compared through characters); (c) is `character_unipotent_of_isCuspidal`.
+
 **Checks.**
 - `n = 2`: `P₂ ≅ F ⋊ F^×`; its irreducible representations are the `q − 1` characters (`i = 1`, `Ψ⁺` of the characters
   of `GL₁`) and the one of degree `q − 1` (`i = 2`, `Φ⁺Ψ⁺(1)`), matching `(q−1)·1² + (q−1)² = q(q−1) = |P₂(F)|`.
@@ -603,6 +614,10 @@ maximal tori); Mathlib `GaloisField`.
 (Green 1955, the characters, their degree and their values; his Lemma 6.3 for the orbit criterion. Deligne–Lusztig
 1976 for the form through `R_T^G(θ)`. Cuspidality: S. I. Gelfand 1970, Theorem 6.1.)
 
+In `Suggested.lean`: `HasCuspidalValues` (the values of `σ_θ` at every `su` displayed above, for a character `θ` of
+the units of an extension of `F` of degree `n`, which determine a class function) and `exists_cuspidal_of_regular`
+(for regular `θ`, an irreducible cuspidal representation with these values).
+
 **Checks.**
 - `n = 1`: `σ_θ = θ`.
 - `n = 2`: the degree `q − 1` and the `½q(q−1)` Frobenius orbits of regular characters of `𝔽_{q²}^×` are those of the
@@ -644,8 +659,8 @@ cuspidal representations); TypeAHeckeAlgebras §§1.1, 1.2.
 
 (Howlett–Lehrer 1980: the two constituents and the presentation by the `T_w` are Theorems 3.18 (i) and 4.14
 (pp. 48, 56–57), and `L = GL_d^m` is their Example 4.15 (pp. 57–58). Iwahori 1964 for `L = T`, `σ = 1`. Dudas–Michel 2015,
-§11.1, Lemmas 11.8–11.10 and Theorem 11.11: the products when lengths add, the quadratic relation from a Levi
-subgroup of relative rank one, explicit in the dimensions of the two summands.)
+§11.1 (the case `L = T`) and §11.3, Lemmas 11.8–11.10 and Theorem 11.11, pp. 48–50: the products when lengths add,
+the quadratic relation from a Levi subgroup of relative rank one, explicit in the dimensions of the two summands.)
 
 **Checks.**
 - `GL₂`, `σ = 1`: `Ind_B^G 1 = 1 + St`, of degrees `1` and `q`, so `a = q`; `T_s` acts by `q` on the `B`-fixed line of the
@@ -753,6 +768,12 @@ formula); RepresentationTheory/SchurWeyl Layer 4 and Layer 7 (Schur functions, t
 of classes. Macdonald, *Symmetric functions and Hall polynomials*, second edition, Ch. I §3, Examples 1–2 (the
 `q`-hook formula), and Ch. IV. Restated in Brundan–Dipper–Kleshchev, (2.3.5)–(2.3.7) and the opening of §2.4 (cuspidal
 characters).)
+
+In `Suggested.lean`: `exists_regular_of_isCuspidal` (every irreducible cuspidal character has the values
+`HasCuspidalValues` of `σ_θ` for a regular `θ`) and `exists_equiv_irreducibleCharacters_GL` (the degree formula, as a
+bijection from the irreducible characters onto the Green data in the labelled form, indexed by the monic irreducible
+polynomials `f ≠ X` with `q_f = q^{deg f}`, under which each character has the degree of its datum; the bijection
+`λ ↦ χ_λ` itself is defined through `ch_κ` and is not stated there).
 
 **Checks.**
 - `λ = (n)` at the orbit of `1` gives degree `1` (the trivial character); `λ = (1^n)` there gives `q^{n(n−1)/2}`, the
@@ -867,6 +888,9 @@ Zelevinsky, LNM 869; S. I. Gelfand 1970; Brundan–Dipper–Kleshchev, Theorem 2
 the case of Green's formula (Green 1955) for a column and a row. `⟨Γ_n, Γ_n⟩ = q^n − q^{n−1}`: Brundan–Dipper–Kleshchev,
 Theorem 2.5d (ii), (iii), after I. M. Gelfand–Graev and S. I. Gelfand; Zelevinsky, LNM 869, Proposition 9.4.)
 
+In `Suggested.lean`: `gelfandGraevCharacter_pairing_self` (`⟨Γ_n, Γ_n⟩ = q^n − q^{n−1}`) and
+`ncard_generic_characters_GL` (the number of generic irreducible characters).
+
 **Checks.**
 - The unipotent label `(X − 1)^n` has generic character `St` (degree `q^{n(n−1)/2}`) and semisimple character `1`.
 - `GL₂`: the generic characters are the twisted Steinberg characters, the irreducible principal series and the
@@ -890,6 +914,9 @@ lower bound counts the semisimple classes (§2.1); the upper bound is Maslen–R
 (Green 1955, Lemma 7.7 and Theorem 13, for the cuspidal count. The generating function: Feit–Fine 1960 and
 Macdonald 1981. The two-sided bound: Fulman–Guralnick, Proposition 3.5 (2), the lower bound by counting semisimple
 classes, the upper bound after Maslen–Rockmore 1997; stated there for prime powers `q`.)
+
+In `Suggested.lean`: `card_conjClasses_GL_bounds` (the two-sided bound), `ncard_cuspidal_characters_GL` (the
+cuspidal count), `ncard_generic_characters_GL` (§2.9) and, with §2.1, `coeff_card_conjClasses_GL_mul_prod`.
 
 **Checks.**
 - `c₃(q) = q³ − q` and `q³ − q² ≤ q³ − q ≤ q³`; `N*_q(3) = (q³ − q)/3`.
@@ -921,6 +948,9 @@ its `d` roots, gives `(−1)^{n−1}|G|·g_n(θ)/(q^n − 1)`, and `|G| = q^{n(n
 
 (Kondo, *On Gaussian sums attached to the general linear groups over finite fields*, 1963, the Theorem of the
 Introduction, p. 245, proved in §2.2, in the case of a cuspidal character.)
+
+In `Suggested.lean`: `gaussSum_of_hasCuspidalValues`, for a representation whose character has the values
+`HasCuspidalValues` of `σ_θ` (§2.4).
 
 **Checks.**
 - `n = 1`: `σ_θ = θ` and `w(θ) = g_1(θ)`.
@@ -992,6 +1022,11 @@ ClassicalArithmeticCompletion §3.56 (the rational canonical form).
 Corollary; (c) Lemmas 2-8 and 2-9; (d) Lemmas 1-1 to 1-4, Definition 2-5 and Lemma 2-10 (Green's theorem), Lemma 2-11,
 Lemma 2-7, Theorem 1.)
 
+In `Suggested.lean`: `frobGL` (`Fr`) and `normGL` (`Nm`); (a) is `norm_isConj_bijective` with
+`card_norm_fiber_mul_card`, (b) is `shintaniLift_isometry` with `shintaniLift_det`, and (d) is
+`exists_shintaniCorrespondence`, with the extension `ρ̃` given by the operator `A = ρ̃(Fr)`, which satisfies
+`A ρ(g) = ρ(Fr(g)) A` and `A^d = 1`, so that `χ_{ρ̃}(δ·Fr) = tr(ρ(δ)A)`.
+
 **Checks.**
 - `n = 1`: `Sh_d(ω) = ω∘N_{F′/F}`, and every element of `F^×` is a norm from `F′^×`.
 - (a) for `GL₂(𝔽₂) ⊂ GL₂(𝔽₄)`: the classes of sizes `1, 3, 2` have fibres `30, 90, 60` in `G′` (`|G′| = 180`).
@@ -1021,9 +1056,12 @@ ClassicalArithmeticCompletion §§3.56, 3.59; Mathlib `GaloisField`, `Matrix.cha
 
 ## Downstream consumers
 
-- **SmoothRepresentationsOfLocalGroupsPartII** SRU.4.1 *finite-steinberg*: the irreducibility and
-  the degree of the Steinberg character for split `G` and the `q`-Frobenius, the split case of
-  §1.6 (a), (b).
+- **FiniteReductiveGroups**: Layer 1 for its Layer 4 and its 5.2, 5.5, 5.6 and 5.11; Layer 2 for
+  its 0.4, 1.4, 2.4, 2.7, Layers 4 and 5 and 6.3.
+- **BaseChangeAndGaloisRepresentationsForUnitaryGroups**: §§2.6 (d) and 2.9, the Harish-Chandra
+  series of a label of `GL_n` over a finite field, for its 10.33d, 10.34 and 14.2.
+- **OrbitMeasuresOnAdelicGroups**: the notation of Layer 1, `F(C_G(s)°) = C_G(s)°` for a
+  semisimple `s` fixed by a Frobenius or Steinberg endomorphism `F`, for its 4.1.
 
 ## Scope and ownership
 
@@ -1044,9 +1082,14 @@ This roadmap owns:
   characters, generic and semisimple characters, the counts, the Gauss sums of cuspidal
   characters, and Shintani descent (Layer 2).
 
-SmoothRepresentationsOfLocalGroupsPartII SRU.4.1 *finite-steinberg* states the irreducibility and
-the degree of the Steinberg character for split `G` and the `q`-Frobenius, the split case of
-§1.6 (a), (b), and is a consumer of §1.6, not a second supplier.
+SmoothRepresentationsOfLocalGroupsPartII §§4.1 and 4.9 (*finite-steinberg*,
+*coxeter-contraction-inputs*) state the split case of §1.6 (a) and of `St_G(1) = |G^F|_p`, and own
+it: for a split connected reductive group over `𝔽_q` with its `q`-Frobenius,
+`Σ_J (−1)^{|J|} Ind_{P_J^F}^{G^F} 1` is the character of an irreducible representation of degree
+`q^{|Φ⁺|}`, and there `R_{L_J}^G(1) = Ind_{P_J^F}^{G^F} 1`, `|J/F| = |J|` and `|G^F|_p = q^{|Φ⁺|}`.
+§1.6 differs in its generality: every connected reductive group with the `q`-Frobenius of an
+`𝔽_q`-structure, `F` acting on `W` trivially or not, and every Steinberg endomorphism, with the
+values of `St_G`, its pairings with the `R_T^G(1)` and the two averages.
 
 It does not own, and consumes by name:
 
@@ -1076,13 +1119,14 @@ It does not own, and consumes by name:
 
 | Use here | Exact declarations |
 |---|---|
-| finite fields, polynomials, partitions, power series and Gauss sums (Layer 2) | `GaloisField`, `Matrix.GeneralLinearGroup`, `Matrix.charpoly`, `Polynomial.Monic`, `Irreducible`, `Nat.Partition`, `PowerSeries`, `AddChar`, `MulChar`, `gaussSum` |
+| finite fields, polynomials, partitions, power series and Gauss sums (Layer 2) | `GaloisField`, `Matrix.GeneralLinearGroup`, `Matrix.charpoly`, `Polynomial.Monic`, `Irreducible`, `Nat.Partition`, `YoungDiagram.ofPartition`, `PowerSeries`, `AddChar`, `MulChar`, `gaussSum`, `Algebra.trace` |
 
 ### From Tau Ceti
 
 | Use here | Exact declarations |
 |---|---|
 | class functions, the pairing and virtual characters (Layers 1 and 2), recorded in RepresentationTheory/CharacterTheory Layers 0 and 3 | `TauCeti.ClassFunction`, `TauCeti.ClassFunction.equivConjClasses`, `TauCeti.ClassFunction.characterPairing`, `TauCeti.virtualCharacters` |
+| the upper unitriangular group `U` of `GL_n(𝔽_q)` and hook lengths (Layer 2) | `TauCeti.upperUnitriangularGroup`, `YoungDiagram.hookLength` |
 
 ### From `TauCetiRoadmap.ReductiveGroups`
 
@@ -1193,8 +1237,8 @@ F.2.5a and F.2.7 or are cited with the published proofs.
   [webusers.imj-prg.fr/~jean.michel/papiers/lectures_beijing_2015.pdf](https://webusers.imj-prg.fr/~jean.michel/papiers/lectures_beijing_2015.pdf):
   Corollary 13.2, Definition 14.2, Propositions 14.3, 14.8, 14.9 and 14.13, Conjecture-Theorem
   14.4, Theorem 14.5, Corollary 14.6, Definition 14.7, Definition 15.1, Lemma 15.2, Corollary
-  15.3, Proposition 15.6, Remark 15.7, Proposition 15.10 and Corollary 15.11 (Layer 1); §11.1,
-  Lemmas 11.8–11.10, Theorem 11.11 (§2.5).
+  15.3, Proposition 15.6, Remark 15.7, Proposition 15.10 and Corollary 15.11 (Layer 1); §11.1 and
+  §11.3, Lemmas 11.8–11.10, Theorem 11.11 (§2.5).
 - R. W. Carter, *Finite Groups of Lie Type: Conjugacy Classes and Complex Characters*, John
   Wiley and Sons (1985): Theorem 7.2.8† (the character formula), Theorem 7.3.4† (the inner
   product formula), 7.5.1† and 7.5.2† (the degree), §§8.1† and 8.4† (the Gelfand–Graev
