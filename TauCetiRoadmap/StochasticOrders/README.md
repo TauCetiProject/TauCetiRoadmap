@@ -177,17 +177,21 @@ Marshall–Olkin–Arnold, 17.A.5, p. 696; Shaked–Shanthikumar, Thm 6.B.1, p. 
 
 - `⇐`: for an upper set `s`, `z.1 ∈ s` implies `z.2 ∈ s` on the support of `π`, so
   `μ s = π (fst ⁻¹ s) ≤ π (snd ⁻¹ s) = ν s`.
-- `⇒`, compact case: the set of couplings is weak-* compact and convex, and the support
-  functional of `{π | π (z.1 ≤ z.2) = 1}` is computed by a Hahn–Banach separation in which the
-  hypothesis on upper sets is the dual condition (Liggett's proof); closedness of the order makes
-  the constraint set closed.
-- `⇒`, Polish case: approximate `μ, ν` by laws on compact sets with masses kept ordered on upper
-  sets (inner regularity of a Polish space), take ordered couplings, and pass to a limit with
-  `TauCeti.exists_isCoupling_tendsto_of_isTightMeasureSet`; the portmanteau inequality for the
-  closed set `{z.1 ≤ z.2}` keeps the limit carried by it.
+- `⇒` (Rachev–Rüschendorf's proof, through duality): the cost `c = 1` off the closed set
+  `R = {z | z.1 ≤ z.2}` and `0` on it is lower semicontinuous with values in `[0, 1]`, so an
+  optimal coupling exists (`TauCeti.exists_isOptimalCoupling`), and its cost is the least upper
+  bound of `∫ φ dμ + ∫ ψ dν` over bounded continuous `φ, ψ` with `φ(x) + ψ(y) ≤ c(x, y)`
+  (`TauCeti.isLUB_ofReal_kantorovichDualValue_boundedContinuous_of_lowerSemicontinuous`). Every
+  such pair has value at most `0`. For `t ∈ ℝ` and a compact `K ⊆ {φ ≥ t}`, the upper hull
+  `{y | ∃ x ∈ K, x ≤ y}` is closed, since `K` is compact and `R` closed; on it `ψ ≤ −t`, since
+  `φ(x) + ψ(y) ≤ 0` for `x ≤ y`. So `μ K ≤ ν {ψ ≤ −t}` by the hypothesis on that upper set, and
+  inner regularity gives `μ {φ ≥ t} ≤ ν {−ψ ≥ t}` for every `t`. Integrating over `t` (both
+  functions are bounded) gives `∫ φ dμ ≤ ∫ (−ψ) dν`. Hence the optimal coupling has cost `0` and
+  is carried by `R`.
 
-*Needs:* 2.1; `TauCeti.IsCoupling`; Prokhorov's theorem
-(`isCompact_closure_of_isTightMeasureSet`); OptimalTransport §3.7 for the line, where the quantile
+*Needs:* 2.1; `TauCeti.IsCoupling`, `TauCeti.exists_isOptimalCoupling`,
+`TauCeti.isLUB_ofReal_kantorovichDualValue_boundedContinuous_of_lowerSemicontinuous` (Kantorovich
+duality, OptimalTransport §1.5 and §2.4); OptimalTransport §3.7 for the line, where the quantile
 coupling is explicit.
 
 ### 2.3 Sequential construction and products
@@ -672,7 +676,7 @@ empirical laws.
   order.
 - The uniform law on `(0, 1)` is below the law of `U²` in the star order: `Q` is `u` and `u²`,
   with ratio `u`. Their Lorenz curves are `u²` and `u³`, `1/4` and `1/8` at `u = 1/2`, and their
-  Gini indices `1/3` and `1/2`; the mean differences `E|X − X'| = 1/3` and `E|Y − Y'| = 2/3`
+  Gini indices `1/3` and `1/2`; the mean differences `E|X − X'| = 1/3` and `E|Y − Y'| = 1/3`
   divided by `2 · 1/2` and `2 · 1/3` give the same values.
 - The exponential law has Lorenz curve `u + (1 − u) log (1 − u)`, equal to
   `(1 − log 2)/2 ≈ 0.15343` at `u = 1/2`, and Gini index `1/2`.
@@ -747,8 +751,10 @@ Owned here:
   Strassen's theorem for laws on a compact convex subset of `ℝ^d`, consumed in 4.2, and §6.3
   owns monotone likelihood ratio families of densities for testing (Karlin–Rubin); the
   likelihood-ratio order between two laws here is a different object and is not stated there.
-- [OptimalTransport](../OptimalTransport/README.md) §3.7 owns the quantile coupling on the line;
-  couplings and their compactness are in Tau Ceti's `MeasureTheory/OptimalTransport/` files.
+- [OptimalTransport](../OptimalTransport/README.md) §3.7 owns the quantile coupling on the line,
+  and §1.5 and §2.4 own primal attainment and Kantorovich duality, consumed in 2.2; couplings,
+  their compactness, attainment and duality are in Tau Ceti's `MeasureTheory/OptimalTransport/`
+  files.
 - Monotone coupling of Markov chains and the Peskun order of transition kernels belong with
   Markov chain roadmaps; they compare kernels, not laws.
 
@@ -805,6 +811,11 @@ Owned here:
 - `TauCeti.IsCoupling` (`TauCeti/MeasureTheory/OptimalTransport/Coupling.lean`) and
   `TauCeti.exists_isCoupling_tendsto_of_isTightMeasureSet`
   (`TauCeti/MeasureTheory/OptimalTransport/Compactness.lean`): couplings and their limits.
+- `TauCeti.exists_isOptimalCoupling` (`TauCeti/MeasureTheory/OptimalTransport/Existence/Basic.lean`)
+  and `TauCeti.isLUB_ofReal_kantorovichDualValue_boundedContinuous_of_lowerSemicontinuous`
+  (`TauCeti/MeasureTheory/OptimalTransport/Duality/LowerSemicontinuous.lean`): optimal couplings
+  for a lower semicontinuous cost on Polish spaces, and Kantorovich duality over bounded
+  continuous potentials. Used in 2.2.
 - `TauCeti.Probability.one_sub_cdf_eq_mul_exp_neg_integral`,
   `TauCeti.Probability.intervalIntegrable_div_one_sub_cdf_of_eq_withDensity`,
   `TauCeti.Probability.one_sub_cdf_eq_exp_neg_integral_of_eq_withDensity`
@@ -834,6 +845,8 @@ Owned here:
   continuous convex test functions, giving a Markov kernel with barycentre the identity. Used in
   4.2.
 - [OptimalTransport](../OptimalTransport/README.md) §3.7: the quantile coupling. Used in 1.1, 2.3.
+  §1.5 and §2.4: primal attainment and Kantorovich duality for lower semicontinuous costs on
+  Polish spaces, through the Tau Ceti declarations above. Used in 2.2.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 

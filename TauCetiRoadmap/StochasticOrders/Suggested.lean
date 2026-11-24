@@ -7,6 +7,8 @@ public import TauCeti.Probability.Quantile.Map
 public import TauCeti.Analysis.Convex.LogConcave
 public import TauCeti.Probability.Process.EmpiricalMeasure
 public import TauCeti.MeasureTheory.OptimalTransport.Compactness
+public import TauCeti.MeasureTheory.OptimalTransport.Duality.LowerSemicontinuous
+public import TauCeti.MeasureTheory.OptimalTransport.Existence.Basic
 
 /-!
 # Stochastic orders: target signatures
@@ -57,16 +59,16 @@ def ConvexOrderLE (μ ν : Measure ℝ) : Prop :=
 
 variable {M : Type*} [AddCommMonoid M] [LinearOrder M]
 
-/-- Local copy of MeansMajorizationAndDiscreteInequalities §4.1 (owner), in the shape of Mathlib
-PR #41898: the largest sum of `i` coordinates of `a`. -/
+/-- Local copy of MeansMajorizationAndDiscreteInequalities §4.1 (owner): the largest sum of `i`
+coordinates of `a`. -/
 def maxSubsetSum (i : Fin (Fintype.card ι)) (a : ι → M) : M :=
   (Finset.univ.powersetCard i).sup'
     (Finset.powersetCard_nonempty.mpr (by rw [Finset.card_univ]; exact i.isLt.le))
     (fun s ↦ ∑ j ∈ s, a j)
 
 /-- Local copy of MeansMajorizationAndDiscreteInequalities §4.1 (owner): majorization `a ≺ b`,
-"`a` is majorized by `b`", in the shape of Mathlib PR #41898: equal total sums, and every largest
-`i`-coordinate sum of `a` is at most that of `b`. -/
+"`a` is majorized by `b`": equal total sums, and every largest `i`-coordinate sum of `a` is at
+most that of `b`. -/
 structure Majorizes (a b : ι → M) : Prop where
   sum : ∑ j, a j = ∑ j, b j
   sums : ∀ i : Fin (Fintype.card ι), maxSubsetSum i a ≤ maxSubsetSum i b
@@ -441,9 +443,9 @@ theorem starOrderLE_iff_dispersiveLE_map_log (hμ : μ (Iic 0) = 0) (hν : ν (I
     StarOrderLE μ ν ↔ DispersiveLE (μ.map Real.log) (ν.map Real.log) := by
   sorry
 
-/-- 5.3: the Lorenz curve is convex on `[0, 1]`. -/
+/-- 5.3: the Lorenz curve is convex on `[0, 1]`, with value `0` at `0` and `1` at `1`. -/
 theorem convexOn_lorenzCurve (hμ : Integrable id μ) (hpos : 0 < ∫ x, x ∂μ) :
-    ConvexOn ℝ (Icc 0 1) (lorenzCurve μ) := by
+    ConvexOn ℝ (Icc 0 1) (lorenzCurve μ) ∧ lorenzCurve μ 0 = 0 ∧ lorenzCurve μ 1 = 1 := by
   sorry
 
 /-- 5.3: the Lorenz order is the convex order of the laws scaled to mean one. -/
@@ -532,6 +534,8 @@ Every Mathlib or Tau Ceti name that the README writes in code font is pinned her
 #check @TauCeti.IsCoupling
 #check @TauCeti.IsCoupling.cdf_le_of_ae_fst_le_snd
 #check @TauCeti.exists_isCoupling_tendsto_of_isTightMeasureSet
+#check @TauCeti.exists_isOptimalCoupling
+#check @TauCeti.isLUB_ofReal_kantorovichDualValue_boundedContinuous_of_lowerSemicontinuous
 #check @TauCeti.Probability.one_sub_cdf_eq_mul_exp_neg_integral
 #check @TauCeti.Probability.absolutelyContinuousOnInterval_cdf_of_eq_withDensity
 #check @TauCeti.Probability.ae_hasDerivAt_cdf_of_eq_withDensity
