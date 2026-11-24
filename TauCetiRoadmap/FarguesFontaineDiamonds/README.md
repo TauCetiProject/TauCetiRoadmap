@@ -209,7 +209,7 @@ Checks: `p` inverse maps to the actual inverse in each `B^I`. A nonempty charact
 
 Prove the chart-morphism interface: The imported maps `U_n,V_n → Y`, `q:Y→X`, and the isomorphisms `U_n ≅ q(U_n)`, `V_n ≅ q(V_n)` are morphisms in the analytic adic category used by D6. The comparison with analytic Yoneda-adic spaces is fully faithful on these sheafy objects, preserves these open restrictions, and computes the analytic fibre products needed for `q`’s relation.
 
-*Needs:* F0, the `ℚ_p` structural factorization; AdicSpaces, Layer 6; AdicEtaleGeometry, Layer A1 (adic spaces in yoneda adic spaces); AdicEtaleGeometry, Layer A1 (yoneda adic fibre products).
+*Needs:* F0, the `ℚ_p` structural factorization; AdicSpaces, Layer 6; AdicEtaleGeometry, §A1.16 (adic spaces in yoneda adic spaces); AdicEtaleGeometry, §A1.16 (yoneda adic fibre products).
 
 Use the supplier’s fully faithful embedding on sheafy analytic adic spaces. Transport the AdicSpaces construction’s actual locally valued ringed-space isomorphisms, not just their topological homeomorphisms. Compute products in the sheaf category and retain comparison maps to sheafy local charts.
 
@@ -239,7 +239,7 @@ proved before the affinoid calculation is glued into a `v`-sheaf isomorphism.
 
 Prove the bounded Witt–`θ` correspondence: Let `T=Spa(A,A^+)` be a characteristic-`p` affinoid perfectoid test space with marked `ℚ_p`-untilt `T^♯=Spa(A^♯,A^{♯,+})`. Continuous bounded maps `W(O_F)→A^{♯,+}` whose `[ϖ]` image is a unit of `A^♯` are naturally in bijection with continuous bounded maps `O_F→A^+` whose `ϖ` image is a unit of `A`. In the forward construction from `f`, the map is `θ_{A^♯} ∘ W(f)`, using the marking `A^+ ≅ (A^{♯,+})^♭`. Both sides require the specified `(p,[ϖ])`-adic/source and untilt-plus topologies. The inverse uses compatible `p`-power roots and reduction modulo `p`; it is not an assertion about all algebraic ring homomorphisms.
 
-*Needs:* F0, the `ℚ_p` structural factorization; PerfectoidSpaces, Layer P1 (witt vectors of perfect plus ring); PerfectoidSpaces, Layer P1 (fontaine theta comparison with mathlib); PerfectoidSpaces, Layer P1 (rings of integral elements under tilting); Mathlib `WittVector.map`; Mathlib `WittVector.fontaineTheta`; Mathlib `WittVector.fontaineTheta_teichmuller`.
+*Needs:* F0, the `ℚ_p` structural factorization; PerfectoidSpaces, §P1.16 (witt vectors of perfect plus ring); PerfectoidSpaces, §P1.17 (fontaine theta comparison with mathlib); PerfectoidSpaces, §P1.18 (rings of integral elements under tilting); Mathlib `WittVector.map`; Mathlib `WittVector.fontaineTheta`; Mathlib `WittVector.fontaineTheta_teichmuller`.
 
 Use perfectness of `O_F` for the continuous Witt lifting property, and the supplier’s topological `θ` and integral-tilt identification. On a nonzero untilt ring use P1's nonunit-`p` hypothesis on the integral ring for the Mathlib `θ` comparison; on the zero ring use the unique ring map. Check `p` and `[ϖ]` are sent to topologically nilpotent elements of the plus ring, and that `θ(W(f)([x]))=f(x)^♯`. Use preservation of units by sharp and the marking to translate the open-locus condition. Construct the inverse and verify equality on all Teichmuller expansions by separated completeness.
 
@@ -251,7 +251,7 @@ Checks: The map on `[x]` is `f(x)^♯`, not an additive sharp map. Invertibility
 
 Construct the affinoid untilt-product bijection. For every affinoid characteristic-`p` perfectoid `T`, construct `α_T:Y^◇(T) ≃ Hom_Perf(T,S) × Spd(ℚ_p)(T)`. The forward map sends the isomorphism class of `((T^♯,ι),h:T^♯→Y)` to (the tilted `O_F`-map recovered by the bounded Witt–`θ` correspondence, `(T^♯,ι)` with its induced `ℚ_p` structure). The inverse composes `W(f)` with `θ` and factors through the actual open `Y`. This respects isomorphisms of marked untilts.
 
-*Needs:* F1, the bounded Witt–`θ` correspondence; DiamondsAndVStacks, Layer D6 (spd of a tate pair); DiamondsAndVStacks, Layer D6 (gluing and the diamond functor); PerfectoidSpaces, Layer P1 (marked untilt).
+*Needs:* F1, the bounded Witt–`θ` correspondence; DiamondsAndVStacks, Layer D6 (spd of a tate pair); DiamondsAndVStacks, Layer D6 (gluing and the diamond functor); PerfectoidSpaces, §P1.22 (marked untilt).
 
 Construct the two functions from the preceding theorem; retain the untilt marking throughout. Use equality of bounded ring maps and the supplier’s morphism/affinoid dictionary to verify both composites.
 
@@ -281,7 +281,7 @@ The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formul
 
 Prove naturality of the point bijections: For every morphism `g:T′→T` of characteristic-`p` perfectoid test spaces, `α_T′(g^*z)=(f∘g,g^*u)` when `α_T(z)=(f,u)`. This includes rational restrictions and arbitrary test spaces after gluing. Untilts are pulled back in the perfectoid slice category, with the induced marking. The affinoid formulas agree on overlaps and are invariant under isomorphic presentations of the untilt.
 
-*Needs:* F1, the affinoid untilt-product bijection; PerfectoidSpaces, Layer P2 (tilting slice equivalence); PerfectoidSpaces, Layer P2 (perfectoid spaces and glued tilting); DiamondsAndVStacks, Layer D6 (untilt descent along v covers).
+*Needs:* F1, the affinoid untilt-product bijection; PerfectoidSpaces, §P2.12 (tilting slice equivalence); PerfectoidSpaces, §P2.11 (perfectoid spaces and glued tilting); DiamondsAndVStacks, Layer D6 (untilt descent along v covers).
 
 Use functoriality of Witt maps and `θ` in the plus-ring dictionary. Pull back the marked untilt via the supplier slice equivalence; do not assert arbitrary adic fibre products are perfectoid. Check on affinoid covers of both tests, then apply sheaf descent to equality of maps.
 
@@ -332,7 +332,7 @@ For `F=completion(𝔽_p((t^{1/p^∞})))` and its Kummer untilt, choose the mark
 
 ### Dependencies
 
-F0; PerfectoidSpaces §§P1.16–P1.22 and Layer P2; DiamondsAndVStacks §§D6.1–D6.5.
+F0; PerfectoidSpaces §§P1.16–P1.22, P2.11 and P2.12; DiamondsAndVStacks §§D6.1–D6.5.
 
 ## Layer F2: Frobenius and the effective quotient
 
@@ -362,7 +362,7 @@ Checks: For `ϖ`, the value is `f(ϖ^p)^♯`, not `f(ϖ^(1/p))^♯`. The `Spd �
 
 Prove the adic Frobenius graph relation: The map `⨿_{n∈ℤ}Y → Y×_X Y`, on the `n`-th component `y↦(y,φ_Y^n(y))`, is an isomorphism in the analytic Yoneda-adic category. Locally on both factors it is the coproduct of the actual graph isomorphisms between wandering charts. The cocycle composition is addition of integer exponents.
 
-*Needs:* F0, the chart-morphism interface; AdicSpaces, Layer 6; AdicEtaleGeometry, Layer A1 (yoneda adic fibre products).
+*Needs:* F0, the chart-morphism interface; AdicSpaces, Layer 6; AdicEtaleGeometry, §A1.16 (yoneda adic fibre products).
 
 For wandering charts `W,W′`, use the actual chart isomorphisms to decompose `W×_X W′` as `⨿_{k∈ℤ}(W∩φ_Y^(−k)(W′))`, mapping `y` to `(y,φ_Y^k(y))` on the `k`-th component. Freeness makes the integer label unique on each component; the entire pullback can have several components. Glue the componentwise graph isomorphisms along chart restrictions.
 
@@ -398,7 +398,7 @@ Checks: The images `q(U₀)^◇` and `q(V₀)^◇` cover `X^◇` (underlying cov
 
 Prove effectiveness of the quotient sheaf: `q^◇` is the effective quotient of the Frobenius graph relation: for every `v`-sheaf `Z`, composition with `q^◇` identifies `Hom(X^◇,Z)` with the morphisms `h:Y^◇→Z` such that `h∘φ_Y^◇=h`. The quotient is the sheaf quotient; an arbitrary pointwise orbit presheaf need not satisfy this universal property before sheafification.
 
-*Needs:* F2, the diamond Frobenius graph relation; F2, the local-isomorphism cover; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products); DiamondsAndVStacks, Layer D4 (atlas characterisation of diamonds).
+*Needs:* F2, the diamond Frobenius graph relation; F2, the local-isomorphism cover; DiamondsAndVStacks, §D0.26 (groupoid quotients and two fibre products); DiamondsAndVStacks, §D4.3 (atlas characterisation of diamonds).
 
 Use effective epimorphism descent in the `v`-sheaf topos for `q^◇`. Its Cech relation is the preceding graph relation. Descent on all graph components is exactly invariance under the generator.
 
@@ -410,7 +410,7 @@ Checks: Invariant maps descend uniquely as morphisms of sheaves. Local integer l
 
 Construct the quotient comparison. Construct `β_F:X^◇ ≅ (S×Spd(ℚ_p))/(φ_S^ℤ×id)` as the unique isomorphism induced by `α_F` between the two effective quotient sheaves. If `π:S×Spd(ℚ_p)→Q_F` is the quotient map, `β_F∘q^◇=π∘α_F`. The action is on `S`; `Q_F` is an imported quotient sheaf, not a newly defined curve carrier.
 
-*Needs:* F2, Frobenius equivariance; F2, effectiveness of the quotient sheaf; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
+*Needs:* F2, Frobenius equivariance; F2, effectiveness of the quotient sheaf; DiamondsAndVStacks, §D0.26 (groupoid quotients and two fibre products).
 
 Use equivariance to descend `π∘α_F`; descend `α_F` inverse in the reverse direction. Check both composites after the respective covers and use uniqueness of effective descent.
 
@@ -448,7 +448,7 @@ At a rank-one point with `κ=1`, positive Witt Frobenius gives radius `p`, not `
 
 ### Dependencies
 
-F0–F1; AdicSpaces §§6.2–6.4; AdicEtaleGeometry Layer A1; DiamondsAndVStacks Layers D0, D4 and D6.
+F0–F1; AdicSpaces §§6.2–6.4; AdicEtaleGeometry §A1.16; DiamondsAndVStacks §§D0.26 and D4.3; DiamondsAndVStacks Layer D6.
 
 ## Layer F3: Étale sites and Frobenius descent
 
@@ -476,7 +476,7 @@ Checks: Restricting twice along nested rational charts agrees with direct restri
 
 Construct Frobenius descent of étale sheaves. For any coefficient category for which étale sheaf descent is defined (in particular sets and modules over a discrete commutative ring), construct the equivalence between sheaves on `X^◇_et` and pairs `(M,c)` with `M` a sheaf on `Y^◇_et` and `c:φ_Y^{◇,*}M≅M`. The induced `c_n:φ_Y^{◇,n,*}M≅M` satisfy `c₀=id` and `c_{m+n}=c_n∘φ^{n,*}(c_m)`, with the chosen pullback associators. Morphisms intertwine `c`. Use D0’s graph-relation Cech descent category, specialized to the étale-sheaf pseudofunctor specified above. Its quotient-stack API alone does not establish that the étale-sheaf pseudofunctor is a stack.
 
-*Needs:* F2, the diamond Frobenius graph relation; F2, the local-isomorphism cover; F3, chart restriction of the site equivalence; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products); Mathlib `CategoryTheory.Equivalence`.
+*Needs:* F2, the diamond Frobenius graph relation; F2, the local-isomorphism cover; F3, chart restriction of the site equivalence; DiamondsAndVStacks, §D0.26 (groupoid quotients and two fibre products); Mathlib `CategoryTheory.Equivalence`.
 
 Establish étale sheaf descent along the surjective étale map `q^◇`. Identify the Cech relation by its integer-indexed graphs, with composition `n+m`. Recover all `c_n` from the generator and inverse. Transport to the product description through `α_F`, where pullback is on the `S` factor.
 
@@ -500,7 +500,7 @@ The API is used by F3 finite covers to describe descent of finite étale covers 
 
 Prove finite étale Frobenius descent: The analogous equivalence for finite étale covers identifies covers of `X^◇` with finite étale covers `Z→Y^◇` carrying a Frobenius isomorphism and its cocycle. Via `η_f` this is the descent description of finite étale covers of the adic `X`. For a finite étale cover, its represented sheaf descends to the sheaf represented by the descended cover.
 
-*Needs:* DiamondsAndVStacks §D6.5 (the étale-site comparison); F3, Frobenius descent of étale sheaves; DiamondsAndVStacks, Layer D3 (v local nature of morphism classes); DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
+*Needs:* DiamondsAndVStacks §D6.5 (the étale-site comparison); F3, Frobenius descent of étale sheaves; DiamondsAndVStacks, §D3.9 (v local nature of morphism classes); DiamondsAndVStacks, §D0.26 (groupoid quotients and two fibre products).
 
 First descend the represented sheaf through the effective cover; the `v`-local finite étale criterion of ECD 10.11(iii) proves that its morphism is finite étale. Check the finite-cover comparison on wandering charts, where `q` is an isomorphism; glue through the graph relation.
 
@@ -514,7 +514,7 @@ For the split two-sheeted cover, a generator cocycle can permute the sheets. Its
 
 ### Dependencies
 
-F2; DiamondsAndVStacks §§D6.4–D6.5 and Layers D0, D3–D4.
+F2; DiamondsAndVStacks §§D0.26, D3.9, D6.4 and D6.5.
 
 ## Layer F4: Marked untilts as analytic Cartier divisors
 
@@ -585,7 +585,7 @@ rational restriction (SW Remark 5.3.9, p.40).
 
 Construct the section–untilt bijection. Construct the natural bijection between sections of `Y^◇→S`, morphisms `S→Spd ℚ_p`, and isomorphism classes of marked `ℚ_p`-untilts `(S^♯,ι)`. A section corresponding to `u` is `α_F` inverse composed with the graph `(id_S,u)`. The projection `Y^◇→S` is available here; no structural map `X^◇→S` is asserted.
 
-*Needs:* F1, the diamond product isomorphism; PerfectoidSpaces, Layer P1 (marked untilt); PerfectoidSpaces, Layer P1 (untilts classified by primitive ideals); PerfectoidSpaces, Layer P1 (primitive degree one ideals).
+*Needs:* F1, the diamond product isomorphism; PerfectoidSpaces, §P1.22 (marked untilt); PerfectoidSpaces, §P1.21 (untilts classified by primitive ideals); PerfectoidSpaces, §P1.16 (primitive degree one ideals).
 
 Use the product isomorphism and the ordinary graph/section universal property. Use the imported definition and classification of marked untilts to identify the second set. Do not re-prove the primitive-kernel classification here.
 
@@ -609,7 +609,7 @@ The API is used by FS II.1.18 to provide the map of the untilt into the generic 
 
 Prove the primitive equation: For a marked `ℚ_p`-untilt of `S`, import the surjective bounded `θ:W(O_F)→O_{F^♯}` and principal primitive kernel. After choosing a suitable pseudouniformizer `ϖ` with `ϖ^♯` dividing `p`, choose `a∈W(O_F)` with `θ(a)=p/ϖ^♯` and use a primitive generator `ξ=p−a[ϖ]`, up to an allowed unit multiple. The `θ` map induces `i:S^♯→Y` because `p` and `θ([ϖ])` are units in `F^♯`. This statement specifies the equation and map, not yet a closed Cartier divisor.
 
-*Needs:* F4, the section–untilt bijection; F1, the bounded Witt–`θ` correspondence; PerfectoidSpaces, Layer P1 (fontaine theta and primitive kernel).
+*Needs:* F4, the section–untilt bijection; F1, the bounded Witt–`θ` correspondence; PerfectoidSpaces, §P1.18 (fontaine theta and primitive kernel).
 
 Use the imported primitive-kernel theorem and `θ` surjectivity to choose `a`; verify the prescribed primitive generator and equality of its ideal with `ker θ`. Apply the actual open-locus factorization. Transport to any original `ϖ` by AdicSpaces §6.4 choice transport.
 
@@ -633,7 +633,7 @@ Checks: The retraction sends 1 to 1. On a pure tensor `b⊗x` it is `b·σ(x)`, 
 
 Prove that the root annuli are perfectoid: On the `n=1` integral chart of the auxiliary analytic domain `D([ϖ])`, put `C=W(O_F)⊗_{ℤ_p}O_{K_∞}` using the algebraic tensor product. Take compatible `v_m=[ϖ^{1/p^m}]`, and form the subring `C[s_m:m≥0]` of `C[1/[ϖ]]`, where `s_m=p_m/v_m`, so `s_{m+1}^p=s_m`. Let `A₀^+` be its `[ϖ]`-adic completion and `A=A₀^+[1/[ϖ]]`. Identify `A`, with its integral-closure plus ring, with the completed scalar extension of the actual `n=1` auxiliary chart, using the ring-of-definition topology. Establish `[ϖ]`-torsion freeness and the integral perfectoid criterion, then `A` is perfectoid. Its tilt is the chart `F⟨t₁^{1/p^∞}⟩` with `t₁^♯=p/[ϖ]`; the coordinate in the perfect open disc is `t=ϖ·t₁`, so the chart is `|t|≤|ϖ|≠0`. Rational subannuli of this chart, and their Frobenius translates, which together cover `Y`, inherit this perfectoid frame. The roots are quotients of compatible roots, not arbitrarily chosen roots with missing relations.
 
-*Needs:* F4, the split root-extension frame; PerfectoidSpaces, Layer P1 (perfectoid tate ring from integral perfectoid); PerfectoidSpaces, Layer P2 (rational localization of perfectoid affinoids); PerfectoidSpaces, Layer P2 (tilting homeomorphism and rational subsets); PerfectoidSpaces §P1.24 (integral Frobenius criterion).
+*Needs:* F4, the split root-extension frame; PerfectoidSpaces, §P1.20 (perfectoid tate ring from integral perfectoid); PerfectoidSpaces, §P2.3 (rational localization of perfectoid affinoids); PerfectoidSpaces, §P2.2 (tilting homeomorphism and rational subsets); PerfectoidSpaces §P1.24 (integral Frobenius criterion).
 
 Use the algebraic tensor and the explicit `[ϖ]`-adic ring of definition to construct the auxiliary scalar extension and its comparison with the actual chart; the integral map `ℤ_p→W(O_F)` is not an adic scalar map for R0.3. The separate generic `ℚ_p` base extension remains that of the split root-extension frame. Compute the quotients `A₀^+/(π)` and `A₀^+/(π^p)`, with `π=v₁`, using compatible relations `p_m=v_m s_m` as in FS II.1.1. Verify the nonzerodivisor and Frobenius quotient criterion using PerfectoidSpaces §P1.24 with `π=v₁` and its integral/Tate dictionary. Use the root `π=v₁` as pseudouniformizer: `π^p=[ϖ]` divides `p` by the `s₀` relation; do not require `[ϖ]^p` to divide `p`. Identify the tilt coordinate and its sharp image, then rationally localize to the generic annuli. Use only the auxiliary frame, not a reconstruction of the AdicSpaces construction’s sheafiness or the general relative curve.
 
@@ -658,7 +658,7 @@ and the power equations `0²=0` hold, but `2²=0≠2`. The actual period chart i
 
 Prove the boundary supremum: For a sufficiently small affinoid neighborhood `U_n={|ξ|≤|[ϖ]|^n}` of the untilt locus, normalize rank-one residue norms by `|[ϖ]|=p⁻¹`. For every `b∈O(U_n)`, the spectral supremum norm equals its supremum over boundary points where `|ξ|=|[ϖ]|^n`. The same norm detection holds after the split root extension. Geometric-fiber reduction, tilting and approximation by finite root levels must preserve this equality. The required classical one-variable input is the maximum-modulus boundary theorem for affinoid subdomains of the open disc without isolated components. Proving that input and its approximation and fiber passages is part of this target.
 
-*Needs:* F4, the perfectoid root annuli; PerfectoidSpaces, Layer P1 (spectral norm under sharp); PerfectoidSpaces, Layer P2 (tilting homeomorphism and rational subsets).
+*Needs:* F4, the perfectoid root annuli; PerfectoidSpaces, §P1.7 (spectral norm under sharp); PerfectoidSpaces, §P1.3 (spectral gauge); PerfectoidSpaces, §P2.2 (tilting homeomorphism and rational subsets).
 
 Reduce rank-one points to complete algebraically closed residue-field fibers. After root extension pass to the perfect disc tilt; approximate functions and affinoid domains by finite root levels with compatible spectral norms. Apply P1.3 to `π=v₁` and its tilt parameter `π♭=ϖ^{1/p}`. The supplied gauges give `g_π(π)=g_{π♭}(π♭)=1/2`; power-multiplicativity gives `g_π([ϖ])=g_{π♭}(ϖ)=2^−p`. Take the `1/p` power of both gauges to obtain `|[ϖ]|=|ϖ|=1/2`, then raise both to `log(p)/log(2)` to obtain `|[ϖ]|=|ϖ|=1/p`. Equivalently, raise the supplied gauges directly to `log(p)/(p log(2))`. These simultaneous positive powers preserve P1.7's sharp compatibility. Apply the classical boundary theorem and identify the boundary via specializations leaving `U_n`. Prove the classical boundary theorem for these affinoid domains and the finite-level norm passage as part of this target. Principality of the `θ` kernel does not establish either input.
 
@@ -686,7 +686,7 @@ Checks: For `b=1` on `U_n` the bound has the factor `p^−n`, not `p^n`. A zero 
 
 Prove rational strict exactness: For every rational affinoid `U=Spa(B,B^+)⊂Y`, multiplication by `ξ` on `B` is injective and has closed image; `B/ξ B` is its separated complete quotient. If `V=U×_Y S^♯` is nonempty it is affinoid perfectoid and `B/ξ B ≅ O(V)` as topological rings, with plus ring the integral closure of the image of `B^+`. If `V` is empty the quotient is zero. These identifications commute with further rational restrictions.
 
-*Needs:* F4, the multiplication lower bound; F4, the primitive equation; PerfectoidSpaces, Layer P2 (rational localization of perfectoid affinoids); AdicSpacesPartII §R0.8 (closed adic subspaces and embeddings).
+*Needs:* F4, the multiplication lower bound; F4, the primitive equation; PerfectoidSpaces, §P2.3 (rational localization of perfectoid affinoids); AdicSpacesPartII §R0.8 (closed adic subspaces and embeddings).
 
 The normed-ring step is supplied by Mathlib: in a complete normed commutative
 ring `B`, the bound `c·‖b‖≤‖ξ b‖` for every `b`, with `c>0`, makes multiplication
@@ -768,7 +768,7 @@ Construct the untilt-quotient section bijection: For `S=Spa(F,O_F)`, with `F` a 
 
 On the left `n` acts by `u↦u∘φ_S^n`; on the right the quotient is in `v`-sheaves. The comparison sends `[u]` to `π∘u`. Every section on the right has a global lift `u`, and `π∘u=π∘v` holds exactly when `v=u∘φ_S^n` for some `n∈ℤ`. No algebraic-closedness hypothesis on `F` is imposed.
 
-*Needs:* F4, the section–untilt bijection; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
+*Needs:* F4, the section–untilt bijection; DiamondsAndVStacks, §D0.26 (groupoid quotients and two fibre products).
 
 Use the untilt-specific identification of the `v`-sheaf quotient with the quotient for the topology of open covers (FS, paragraph after Definition II.1.19, p.56). Its sections have open-local lifts, and equality of two lifts is open-locally an integer Frobenius shift. Since `O_F` is the rank-one valuation ring, `|S|` is a single point. An open cover therefore contains `S` itself, and a locally constant integer on `S` is constant. This proves global liftability and the equality-of-lifts clause, hence the displayed bijection. The generic quotient construction remains D0's; this target supplies its fixed-field section comparison.
 
@@ -798,7 +798,7 @@ For `F=C^♭` and the marked untilt `C`, `θ` gives the quotient `O_C` before in
 
 ### Dependencies
 
-F0–F2; PerfectoidSpaces §§P1.16–P1.24 and Layer P2; AdicSpacesPartII §§R0.3, R0.5 and R0.8; AdicSpacesPartIII §R3.5; DiamondsAndVStacks Layer D0.
+F0–F2; PerfectoidSpaces §§P1.3, P1.7, P1.16–P1.24, P2.2 and P2.3; AdicSpacesPartII §§R0.3, R0.5 and R0.8; AdicSpacesPartIII §R3.5; DiamondsAndVStacks §D0.26.
 
 ## Layer F5: Enhanced derived and adic coefficients
 
