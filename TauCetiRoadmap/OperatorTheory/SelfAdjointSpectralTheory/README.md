@@ -59,9 +59,10 @@ and the spectral measures of representations of `C(K)` with the first main theor
 closed partial operators (domains, reducing subspaces, transport, graph cores, relative bounds,
 Sylvester equations, form bounds) and the second main theorem. Part D develops the resolvent,
 spectrum and Cayley transform of a partial operator. Part E brings these together: the third and
-fourth main theorems, spectral subspaces and truncations, and Yosida approximation. Parts A, C and
-D rest on Mathlib and Tau Ceti; Part B also on VonNeumannAlgebras; Part E on Parts A–D and
-VonNeumannAlgebras' Cayley-transform construction.
+fourth main theorems, spectral subspaces and truncations, and Yosida approximation. All Parts rest
+on Mathlib and Tau Ceti. Part A needs nothing more; Part B needs VonNeumannAlgebras, and
+BanachSpaceTheory §5.4 for B.6; Part C needs SA-B32–SA-B33, SA-D01–SA-D02 and BanachAlgebras §8.1;
+Part D needs SA-A21; Part E needs Parts A–D and VonNeumannAlgebras' Cayley-transform construction.
 
 Each item carries a label `SA-` followed by its Part letter and number; other roadmaps cite the
 items by these labels, and the milestones of each Part list them in build order. An item that the
@@ -590,7 +591,11 @@ homomorphism from `C(K, ℂ)` to the bounded operators on `H`, unital unless B.7
   `∫ f d(g · μ) = ∫ f g dμ` for every bounded Borel `f` (first for simple `f`, then by uniform
   approximation); `(g h) · μ = g · (h · μ)`, `c · μ` is the constant multiple, and `g · μ` depends only on
   the `|μ|`-almost-everywhere class of `g`.
-  *Supplied by:* VonNeumannAlgebras V2.BorelCalculus.
+
+  *Needs:* SA-B39, SA-B81, SA-B83; Mathlib `MeasureTheory.VectorMeasure.withDensity`,
+  `MeasureTheory.VectorMeasure.variation_withDensity`,
+  `MeasureTheory.VectorMeasure.variation_transpose_eq`,
+  `MeasureTheory.VectorMeasure.withDensity_congr`.
 - **SA-B79 — Representation commutant comparison.** A bounded operator `T` commutes with every
   `π(f)`, `f` continuous, exactly when it commutes with every projection `P_π(B)`, exactly when it
   commutes with every `∫ f dP_π`, `f` bounded Borel. The route compares `μ_(ξ, T ψ)` with
@@ -872,10 +877,10 @@ SA-B54–SA-B57 and SA-B73–SA-B78, after B3.
 ### Dependencies
 
 - B.1 needs B.2–B.5 and VonNeumannAlgebras V2.BorelCalculus; B.2 needs Tau Ceti's
-  projection-valued measures; B.3 needs B.2, B.4 and B.5; B.4 needs B.2 and B.11; B.5 needs B.4 and
-  B.11; B.6 needs B.5 and BanachSpaceTheory §5.4; B.7–B.9 need B.5; B.10 needs B.8; B.11 needs Mathlib
-  only; B.12 needs B.5, B.9 and VonNeumannAlgebras V4.0.Multiplication. Part B needs nothing from
-  Parts A, C, D and E.
+  projection-valued measures; B.3 needs B.2, B.4 and B.5; B.4 needs B.2 and B.11, and its items
+  SA-B54–SA-B57 also need B.1, B.3 and B.5; B.5 needs B.4 and B.11; B.6 needs B.5 and
+  BanachSpaceTheory §5.4; B.7–B.9 need B.5; B.10 needs B.8; B.11 needs Mathlib only; B.12 needs B.5,
+  B.9 and VonNeumannAlgebras V4.0.Multiplication. Part B needs nothing from Parts A, C, D and E.
 
 ## Part C: Closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -959,7 +964,8 @@ constructions.
 - **SA-C20 — Pullback by a continuous linear equivalence.** For a continuous linear equivalence
   `e : E ≃ F` and a partial operator `A` on `F`, the pullback `e⁻¹ A e` is the partial operator on `E`
   with domain `e⁻¹(dom A)` and action `x ↦ e⁻¹(A(e x))`. For a linear isometric equivalence it is the
-  unitary conjugate of SA-C25 by `e⁻¹`.
+  unitary conjugate of SA-C25 by `e⁻¹`, an operator unitarily equivalent to `A` (Teschl2009, (3.30),
+  p. 92, line 3781).
 - **SA-C21 — Pullback-domain characterization.** `x ∈ dom(e⁻¹ A e)` exactly when `e x ∈ dom A`.
 - **SA-C22 — Pullback action.** `(e⁻¹ A e) x = e⁻¹(A(e x))` on the pullback domain.
 - **SA-C23 — Density under pullback.** If `A` is densely defined, so is `e⁻¹ A e`.
@@ -995,17 +1001,26 @@ The graph norm measures ambient and image size together on `dom A`. Sequential g
 package the two convergences used to extend identities through closedness.
 
 - **SA-C34 — Graph norm.** On `dom A`, `‖x‖_A = √(‖x‖² + ‖A x‖²)`, the norm of `(x, A x)` in the
-  Hilbert product `WithLp 2 (E × F)`.
+  Hilbert product `WithLp 2 (E × F)` (Teschl2009, p. 64, line 2606).
 - **SA-C35 — Nonnegativity of the graph norm.** `0 ≤ ‖x‖_A` for every `x ∈ dom A`.
 - **SA-C36 — Graph-norm square identity.** `‖x‖_A² = ‖x‖² + ‖A x‖²` for every `x ∈ dom A`.
 - **SA-C37 — Ambient norm controlled by graph norm.** `‖x‖ ≤ ‖x‖_A` for every `x ∈ dom A`.
 - **SA-C38 — Image norm controlled by graph norm.** `‖A x‖ ≤ ‖x‖_A` for every `x ∈ dom A`.
 - **SA-C39 — Graph core.** A subspace `D ⊆ dom A` is a graph core of `A` when every `x ∈ dom A` is the
   limit of a sequence `x_n ∈ D` with `A x_n → A x`, that is, when `D` is dense in `dom A` for the graph
-  norm.
+  norm. For closed `A` this is Mathlib's `LinearPMap.HasCore A D`, which asks that the closure of the
+  restriction of `A` to `D` be `A`. For closable `A` that is not closed that closure is closed, so
+  `HasCore A D` holds for no `D`.
   *In Mathlib:* `LinearPMap.HasCore`.
-- **SA-C40 — Full domain as graph core.** `dom A` is a graph core of `A`.
-  *In Mathlib:* `LinearPMap.HasCore`.
+
+  **Checks.**
+
+  - On `ℓ²` let `A` be the identity restricted to the finitely supported sequences. Its domain is a
+    graph core (SA-C40), but `A` is closable with closure the identity on all of `ℓ²`, so the
+    closure of the restriction of `A` to `dom A` is not `A` and `HasCore A (dom A)` fails.
+- **SA-C40 — Full domain as graph core.** `dom A` is a graph core of `A`, by constant sequences. In
+  the sense of `HasCore`, `dom A` is a core of the closure of `A` (Mathlib
+  `LinearPMap.closureHasCore`), so of `A` itself when `A` is closed.
 - **SA-C41 — Closed-graph characterization.** For a partial operator `A`, the following are
   equivalent: `A` is closed; its graph is closed in `E × F`; whenever `x_n ∈ dom A`, `x_n → x` and
   `A x_n → y`, then `x ∈ dom A` and `A x = y`.
@@ -1014,6 +1029,8 @@ package the two convergences used to extend identities through closedness.
 - **SA-C42 — Extension from a graph core.** If `D` is a graph core of `A` and the graph of `A`
   restricted to `D` lies in a closed set (for instance the graph of a closed operator `B`), the whole
   graph of `A` lies in it: an operator identity valid on a graph core extends to the whole domain.
+  The graph of `A` lies in the closure of the graph of the restriction; for closed `A` the
+  declarations below give the statement through `HasCore` (SA-C39).
   *In Tau Ceti:* `LinearPMap.HasCore.graph_subset_of_isClosed`, `LinearPMap.HasCore.of_graph_subset_closure`.
 - **SA-C43 — Bounded graph-norm equivalence.** For a bounded total operator `T`,
   `‖x‖ ≤ ‖x‖_T ≤ √(1 + ‖T‖²) ‖x‖` for every `x`.
@@ -1208,8 +1225,10 @@ bounded operator `T` on an inner product space over `𝕜`, a subspace `U` and r
 
 - **SA-C87 — Finite Euclidean operator norms.** For a complex `n × n` matrix `T` acting on `ℂⁿ` with
   the Euclidean norm, `n ≥ 1`, `‖T‖² = max σ(T* T)`, and a unit eigenvector of `T* T` for its largest
-  eigenvalue attains the norm; for `n = 0`, `‖T‖ = 0`. This is the Euclidean operator norm, not the
-  entrywise matrix norm, and it uses Mathlib's finite-dimensional spectral theory, not SA-C86.
+  eigenvalue attains the norm; for `n = 0`, `‖T‖ = 0`. Since `‖T x‖² = ⟪x, T* T x⟫`, the first claim
+  is the formula for the top of the spectrum of the self-adjoint `T* T` (Teschl2009, Theorem 2.19,
+  (2.91), p. 77, line 3183). This is the Euclidean operator norm, not the entrywise matrix norm, and
+  it uses Mathlib's finite-dimensional spectral theory, not SA-C86.
 
   **Checks.**
 
@@ -1530,9 +1549,11 @@ Let `P = P_A`.
   `A ≥ c` exactly when `σ(A) ⊆ [c, ∞)`, with the remark after Theorem 3.8, p. 97, line 4030). The route
   uses the quadratic form `⟪x, A x⟫ = ∫ s dμ_x(s)` (SA-E05).
 - **SA-E12 — Upper form bound from spectral support.** For real `c`, `Re ⟪x, A x⟫ ≤ c ‖x‖²` for every
-  `x` in the domain exactly when `P((c, ∞)) = 0`.
+  `x` in the domain exactly when `P((c, ∞)) = 0` (Teschl2009, Theorem 2.18, p. 77, line 3170, applied
+  to `−A`, with the remark after Theorem 3.8, p. 97, line 4030).
 - **SA-E13 — Two-sided form bounds on a spectral range.** If `B ⊆ [β, α]`, then
-  `β ‖x‖² ≤ Re ⟪x, A x⟫ ≤ α ‖x‖²` for every `x` in the range of `P(B)`.
+  `β ‖x‖² ≤ Re ⟪x, A x⟫ ≤ α ‖x‖²` for every `x` in the range of `P(B)`: such `x` lie in the domain,
+  `μ_x` is carried by `B`, and `⟪x, A x⟫ = ∫ s dμ_x(s)` (Teschl2009, (3.50), p. 97, line 3996).
 
 For bounded self-adjoint `T` these are SA-B32–SA-B33, the two measures agreeing by SA-E45; the
 invariant-subspace forms are SA-C84–SA-C85, and the laws of form bounds under change of constant
@@ -1684,13 +1705,16 @@ inverses and reassembly translate local spectral support into quantitative opera
   `s ↦ (s − c) 1_B(s)`.
 - **SA-E37 — Spectral cut bounds, domain, and action.** Under SA-E36, `‖C_{B,c}‖ ≤ r`; the range of
   `P(B)` lies in the domain of `A`, since `|s| ≤ |c| + r` on `B`; `C_{B,c} y = A y − c y` for `y` in that
-  range; and `C_{B,c}` commutes with every `P(B′)` and every `R(z)`.
+  range; and `C_{B,c}` commutes with every `P(B′)` and every `R(z)`. The bound holds because the
+  integral has norm one (Teschl2009, Theorem 3.1, p. 90, line 3687).
 - **SA-E38 — Spectral-gap inverse.** For `δ > 0`, `G_δ` is the integral of the bounded symbol
   `s ↦ 1_{|s| ≥ δ}(s) s⁻¹`, the operator of Teschl2009, proof of Theorem 3.8, p. 97, lines 4025–4029, at
   `λ₀ = 0`, `ε = δ`.
 - **SA-E39 — Spectral-gap inverse equation.** For every `ξ`, `G_δ ξ` lies in the domain of `A` and
-  `A G_δ ξ = P({|s| ≥ δ}) ξ`; if `μ_ξ((−δ, δ)) = 0`, then `A G_δ ξ = ξ`.
-- **SA-E40 — Spectral-gap inverse norm bound.** `‖G_δ‖ ≤ δ⁻¹`, so `‖G_δ ξ‖ ≤ δ⁻¹ ‖ξ‖`.
+  `A G_δ ξ = P({|s| ≥ δ}) ξ` (Teschl2009, proof of Theorem 3.8, p. 97, line 4028); if
+  `μ_ξ((−δ, δ)) = 0`, then `A G_δ ξ = ξ`.
+- **SA-E40 — Spectral-gap inverse norm bound.** `‖G_δ‖ ≤ δ⁻¹`, so `‖G_δ ξ‖ ≤ δ⁻¹ ‖ξ‖`, since the
+  symbol of `G_δ` is bounded by `δ⁻¹` (Teschl2009, Theorem 3.1, p. 90, line 3687).
 - **SA-E41 — Reassembly of block lower bounds.** Let `(Q_i)_{i ∈ I}` be bounded operators on a
   complex inner product space and `c ∈ [0, ∞]`. If `Σ'_i ‖Q_i f‖ₑ² = ‖f‖ₑ²` for every `f` and
   `c ‖Q_i x‖ₑ ≤ ‖Q_i y‖ₑ` for every `i`, then `c ‖x‖ₑ ≤ ‖y‖ₑ`.
@@ -1791,8 +1815,8 @@ This roadmap owns, and states in its Parts above, every item labelled `SA-` exce
   measure with regular diagonal measures, the Borel bidual embedding and Goldstine comparison,
   degenerate representations, regular pushforward and naturality, unitary transport, reducing
   restriction and direct sums, Hilbert direct sums of operators, planar reduction and
-  concentration, scalar integration against scalar measures, and the examples SA-B75–SA-B78
-  (Part B);
+  concentration, scalar integration against scalar measures, weighted regular measures, and the
+  examples SA-B75–SA-B78 (Part B);
 - domain relations, reducing restrictions, transport constructions, graph norms and cores,
   relative boundedness, perturbations and Kato–Rellich, real spectral separation, rectangular
   Sylvester equations, quadratic-form bounds, the compact normal spectral theorem and finite
@@ -1820,10 +1844,10 @@ Left to named owners and consumed by section:
 
 - [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) owns the bounded Borel calculus and
   projection-valued measure of a unital representation of `C(K)` and of a normal operator, with
-  the essential norm, weighted measures and commutant law (V2.BorelCalculus: SA-B03–SA-B13,
-  SA-B26–SA-B30, the normal form of SA-B35, SA-B48, SA-B54, SA-B55, SA-B57, SA-B59–SA-B61, SA-B64,
-  SA-B79); the cyclic multiplication models, control measures, measurable multiplicity, essentially
-  bounded symbol quotient and the classification of representations of `C(K)` and `C₀(X)`
+  the essential norm and commutant law (V2.BorelCalculus: SA-B03–SA-B13, SA-B26–SA-B30, the
+  normal form of SA-B35, SA-B48, SA-B54, SA-B55, SA-B57, SA-B59–SA-B61, SA-B79); the cyclic
+  multiplication models, control measures, measurable multiplicity, essentially bounded symbol
+  quotient and the classification of representations of `C(K)` and `C₀(X)`
   (V4.0.Multiplication: SA-B85–SA-B86); and the construction of the spectral measure of a
   self-adjoint partial operator from its Cayley transform with the multiplier-form description of
   the operator (V10.ClosedOperators: SA-E01–SA-E02). These items are stated above in the form this
@@ -1870,6 +1894,10 @@ Owned by roadmaps that build on this one, and not used here:
   `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` (locally finite
   measures on σ-compact pseudometrizable spaces are regular), `RealRMK.rieszMeasure`,
   `MeasureTheory.Measure.support`, `MeasureTheory.SimpleFunc.approxOn`, `MeasureTheory.Lp`.
+- `MeasureTheory.VectorMeasure.withDensity` (a vector measure with a density through a bilinear
+  pairing), `MeasureTheory.VectorMeasure.variation_withDensity` (its variation when the pairing
+  multiplies norms), `MeasureTheory.VectorMeasure.variation_transpose_eq` and
+  `MeasureTheory.VectorMeasure.withDensity_congr`, for SA-B64.
 - `lp`, `lp.single`, `IsHilbertSum`, `NormedSpace.inclusionInDoubleDual`, `NormedSpace.exp`,
   `NormedSpace.map_exp` (a continuous ring homomorphism commutes with the exponential),
   `NormedSpace.exp_add_of_commute`, `hasDerivAt_exp_smul_const`.
@@ -1912,7 +1940,7 @@ Consumed besides:
   for compact Hausdorff `K` and a unital star homomorphism `π : C(K, ℂ) →⋆ₐ[ℂ] (H →L[ℂ] H)`, a
   projection-valued measure `P_π` on `K`, assumed on the carrier `TauCeti.ProjValMeasure K H`,
   whose diagonal measures are the regular Riesz measures of `f ↦ ⟪ξ, π(f) ξ⟫` and whose integral
-  extends `π`; its essential norm, weighted measures and commutant law; and for normal bounded `a`
+  extends `π`; its essential norm and commutant law; and for normal bounded `a`
   the case `K = σ(a)`, `π = cfcHom`, with `a = ∫ z dP_a`.
 - V4.0.Multiplication: the cyclic multiplication models, control measures and multiplicity of
   SA-B85 and the essentially bounded symbols of SA-B86, assumed on the same carriers.
@@ -1938,13 +1966,15 @@ least `ε` for each `ε > 0`, each with a finite-dimensional eigenspace.
 
 - Teschl2009: G. Teschl, *Mathematical Methods in Quantum Mechanics, with Applications to
   Schrödinger Operators*, 2009. The separability convention, p. 42, line 1780; multiplication
-  operators (2.21), p. 59, line 2424, and their resolvents (2.72), p. 74, line 3056; Theorem 2.18
-  (self-adjointness, lower bounds and the spectrum), p. 77, lines 3170–3172; Theorem 2.23 (direct
+  operators (2.21), p. 59, line 2424, and their resolvents (2.72), p. 74, line 3056; the graph norm,
+  p. 64, line 2606; Theorem 2.18 (self-adjointness, lower bounds and the spectrum), p. 77, lines
+  3170–3172, and Theorem 2.19 (the ends of the spectrum), p. 77, line 3183; Theorem 2.23 (direct
   sums), p. 79, line 3257; Problems 2.24 and 2.26, p. 80, lines 3311 and 3314; projection-valued
   measures and strong σ-additivity, p. 88, line 3587, and the example (3.7), line 3605; Theorem 3.1
-  (the bounded integral), p. 90, line 3687; Theorem 3.7 (spectral theorem), p. 96, line 3983; the
-  Borel transform (3.40), p. 94, line 3881; unitary equivalence, p. 97, lines 4009–4012; Theorem 3.8
-  (spectrum as support), p. 97, line 4015, with its proof, lines 4025–4029, and the remark at line
+  (the bounded integral), p. 90, line 3687; unitarily equivalent operators (3.30), p. 92, line 3781;
+  the Borel transform (3.40), p. 94, line 3881; Theorem 3.7 (spectral theorem), p. 96, line 3983;
+  the quadratic form (3.50), p. 97, line 3996; unitary equivalence, p. 97, lines 4009–4012; Theorem
+  3.8 (spectrum as support), p. 97, line 4015, with its proof, lines 4025–4029, and the remark at line
   4030; Corollary 3.9, p. 97, line 4031; (3.65)–(3.67), pp. 100–101, lines 4183–4194; Theorem 3.21
   (Stieltjes inversion), p. 108, line 4497; Lemma 4.5 and Corollary 4.6, p. 116, lines 4926 and 4945;
   Theorems 5.1 and 5.2 (Stone), pp. 123–124, lines 5183 and 5232, with the proof of Theorem 5.1 at
