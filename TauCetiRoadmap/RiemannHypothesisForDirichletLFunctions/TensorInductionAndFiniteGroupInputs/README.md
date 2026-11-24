@@ -124,11 +124,13 @@ Layer 6.
 
 ### 6.2 Virtual characters of norm one on a coset of a normal subgroup of prime index
 
-*Origin:* adapted from Isaacs (1976), Clifford theory over a cyclic quotient (the extensions of an invariant irreducible
-character), for (a), and from Shintani (1976), the argument of Lemma 2-11, the virtual characters of norm one on the
-coset of the Frobenius in `GL_n` over a finite field extended by the Frobenius, for (b): here for a finite group with a
-normal subgroup of prime index. (c), the detection of `τ₀` in an `x`-stable character `Y` with `l ∤ ⟨X|_H, Y⟩_H`, is
-particular to this proof; (b′) is this roadmap's own formulation.
+*Origin:* adapted from Isaacs (1976), Corollary 11.22 (an invariant irreducible character of a normal subgroup with cyclic
+quotient extends) and Corollary 6.17 (Gallagher's theorem: the irreducible characters lying over an extendible irreducible
+character are the products of one extension with the irreducible characters of the quotient), for (a), and from
+Shintani (1976), the argument of Lemma 2-11, the virtual characters of norm one on the coset of the Frobenius in `GL_n`
+over a finite field extended by the Frobenius, for (b): here for a finite group with a normal subgroup of prime index.
+(c), the detection of `τ₀` in an `x`-stable character `Y` with `l ∤ ⟨X|_H, Y⟩_H`, is particular to this proof; (b′) is
+this roadmap's own formulation.
 
 *Method of the formal proof:* for `Ĝ = H ⋊ ⟨x⟩` with `x^l = 1`: on the coset `Hx` a virtual character of norm one is a
 combination, with coefficients in `ℤ[ζ]` whose squared moduli sum to `1`, of pairwise orthogonal extensions, so a single
@@ -299,7 +301,7 @@ This layer states identities for the quantum minors of `u + E`, where the entrie
 
 ### 9.1 Quantum minors of `u + E` for `𝔤𝔩_n`
 
-*Origin:* adapted from Molev, Nazarov and Olshanski (1996), Molev (2003) and Molev (2007), the quantum minors and the
+*Origin:* adapted from Molev, Nazarov and Olshanski (1996) and Molev (2003), the quantum minors and the
 quantum determinant of the Yangian of `𝔤𝔩_n`: in (a) and (b) the antisymmetry, the two forms and the Laplace expansions
 of the quantum minors; in (c) the centrality of the quantum determinant, its image in `U(𝔤𝔩_n)` and its value on a
 highest weight vector; in (d) the quantum comatrix; in (e) the quantum Sylvester theorem for two rows and two columns;
@@ -512,10 +514,9 @@ Layer 0: the projection formula (6.2 (a)). Layer 2: induction from a subgroup of
 - Roger Howe, *Remarks on classical invariant theory*, Trans. Amer. Math. Soc. 313 (1989): the `(GL_n, GL_m)`-duality (7.1).
 - Roger Howe, *Perspectives on invariant theory*, Israel Math. Conf. Proc. 8 (1995), §2.1: the `(GL_n, GL_m)`-duality (7.1).
 - A. Molev, M. Nazarov, G. Olshanski, *Yangians and classical Lie algebras*, Russian Math. Surveys 51 (1996), arXiv:hep-th/9409025 (numbering of v2), cited as MNO: Propositions 2.4, 2.5 and 2.7 and Theorem 2.10 (the quantum determinant of the Yangian and its centrality), Remark 2.11 (its evaluation in `U(𝔤𝔩_N)`) (9.1 (c), (j)).
-- A. Molev, *Yangians and their applications*, Handbook of Algebra, vol. 3 (M. Hazewinkel, ed.), Elsevier (2003), 907–959, arXiv:math/0211288: §2.6 (quantum minors, their two forms and their skew-symmetry), Definition 2.26 and Proposition 2.27 (the quantum comatrix), Proposition 2.35 and Theorem 2.36 (the quantum Sylvester theorem) (9.1 (a), (d), (e)).
-- A. Molev, *Yangians and classical Lie algebras*, AMS Mathematical Surveys and Monographs 143 (2007), chapter 1: quantum minors and the quantum determinant of the Yangian of `𝔤𝔩_n` (9.1 (a), (b), (d), (e)).
+- A. Molev, *Yangians and their applications*, Handbook of Algebra, vol. 3 (M. Hazewinkel, ed.), Elsevier (2003), 907–959, arXiv:math/0211288: §2.6 (quantum minors, their two forms and their skew-symmetry; expanded along the first or the last factor, the two forms give the Laplace expansions), Definition 2.26 and Proposition 2.27 (the quantum comatrix), Proposition 2.35 and Theorem 2.36 (the quantum Sylvester theorem), §4.1, formula (4.1) (the Harish-Chandra image `(u + l_1)⋯(u + l_n)`, `l_i = λ_i − i + 1`, of the Capelli determinant, which is the value of `qdet(u)` on a highest weight vector) (9.1 (a)–(e)).
 - Gluck and Isaacs, *Tensor induction of generalized characters and permutation characters*, Illinois J. Math. 27 (1983), 514–518: the tensor induction of generalized characters (6.1).
 - T. Shintani, *Two remarks on irreducible characters of finite general linear groups*, J. Math. Soc. Japan 28 (1976), 396–414: Lemma 1-4, the character of a tensor-induced representation in the semidirect case (6.1); the argument of Lemma 2-11, the virtual characters of norm one on the coset of the Frobenius (6.2 (b)).
-- I. M. Isaacs, *Character theory of finite groups*, Academic Press (1976): Clifford theory over a cyclic quotient, the extensions of an invariant irreducible character (6.2 (a)).
+- I. M. Isaacs, *Character theory of finite groups*, Academic Press (1976): Corollary 11.22 (an invariant irreducible character of a normal subgroup with cyclic quotient extends) and Corollary 6.17 (Gallagher's theorem), the extensions of an invariant irreducible character across a cyclic quotient (6.2 (a)).
 - **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the source of the identities of the quantum minors of 9.1, of Jordan's theorem on primitive groups containing a cycle of prime length named in Scope and ownership, and of 6.1 and 6.2 in the split case, in the form given in Layer 6 (*The form of the formal proof*).
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
