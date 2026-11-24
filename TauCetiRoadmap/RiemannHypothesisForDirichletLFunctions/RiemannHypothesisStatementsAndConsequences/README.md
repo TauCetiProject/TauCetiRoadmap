@@ -104,7 +104,7 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 [FormalProof].
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
-`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 9.2 and 10.3 carry
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 10.3 carry
 the first label only. The statements of 3.2a, 8.4b, 8.8, 9.5–9.9 and 11.1 are not statements of
 [FormalProof]: 3.2a and 8.8 state, in the form used here, published theorems whose homes are
 AnalyticNumberTheoryPartIII §8.2a and ZerosOfLFunctions §8.7a; 8.4b, 9.5, 9.7, 9.8, 9.9 and 11.1
@@ -578,7 +578,19 @@ modulo `q` is `GRHMod q` of ExplicitNumberFields §0.5, and that for every Diric
 
 ### 9.2 Zero-free half-planes
 
-*Origin:* definitions and conventions.
+*Origin:* this roadmap's own formulation: the predicate is that of QuasiRiemannHypothesis §1.1, and
+the four clauses this section adds (the limit form of monotonicity, the converse product clause,
+the symmetries and the change of level) follow from its definition, from properties of meromorphic
+orders and, for the change of level, from the Euler factors of
+`DirichletCharacter.LFunction_changeLevel`.
+
+*Method of the formal proof:* only the change of level from `χ` to `χ.primitiveCharacter`, in
+value and order form: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/DirichletLZerosEqPrimitiveCharacterZeros.lean`
+(`GlobalTheory.Lin.zeros_eq_zeros_primitiveCharacter`), proves that at every `s` with `Re s > 0`,
+the pole of the principal character excepted, `L(·, χ)` and `L(·, χ.primitiveCharacter)` vanish
+together and with the same analytic order, the missing Euler factors being analytic and nonzero
+there.
 
 `ZeroFreeRightOf σ f`, for `σ : ℝ` and `f : ℂ → ℂ`, is the predicate of QuasiRiemannHypothesis
 §1.1: `meromorphicOrderAt f s ≤ 0` for every `s` with `σ < Re s`; in prose, *`f` is zero-free right
