@@ -962,6 +962,40 @@ Text.
         for u, v in (("Fam.3.1", "Fam.6.2"), ("Fam.3.1", "Fam.6.4")):
             assert reach(v, u), (u, v)
 
+    def test_a_needs_paragraph_goes_on_past_a_wrapped_italic_title(self) -> None:
+        # a wrapped line that opens with an italic title is part of the list; an italic label
+        # with a colon (`*Source:*`) opening a line ends the paragraph
+        root = self.other_tree("wrapped", {
+            "Fam": "# Roadmap: f\n\n- [Wrapped](FamWrapped/README.md)\n",
+            "Fam/FamWrapped": """# Roadmap: wrapped
+
+### 1.1 A list wrapped before an italic title
+
+*Needs:* Alpha §1.2 (*Base* and
+*Base, once more*); Gamma §2.1.
+*Source:* Gamma §1.1.
+""",
+            **{k: SUPPLIERS[k] for k in ("Alpha", "Gamma", "Delta")}})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        needs = self.items_of(root)["FamWrapped.1.1"]["needs"]
+        assert needs == ["Alpha.1.2", "Gamma.2.1"], needs
+
+    def test_a_list_goes_on_after_a_parenthetical(self) -> None:
+        root = self.other_tree("aside", {
+            "Fam": "# Roadmap: f\n\n- [Aside](FamAside/README.md)\n",
+            "Fam/FamAside": """# Roadmap: aside
+
+### 1.1 Titles in parentheses between the ids of one list
+
+*Needs:* Alpha §2.1 (*First*), 2.2 (*Second*) and 2.3.
+""",
+            **{k: SUPPLIERS[k] for k in ("Alpha", "Gamma", "Delta")}})
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        needs = self.items_of(root)["FamAside.1.1"]["needs"]
+        assert needs == ["Alpha.2.1", "Alpha.2.2", "Alpha.2.3"], needs
+
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"
         # `Aα1` loses its `α` in a slug and would become the slug of `A1`

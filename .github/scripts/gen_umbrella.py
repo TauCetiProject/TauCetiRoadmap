@@ -1281,7 +1281,9 @@ def read_tree(root: pathlib.Path) -> tuple[dict[str, Roadmap], dict[str, Roadmap
 NEEDS_LABEL = re.compile(r"(?:\*(?:Needs|Prerequisites):\*|\*\*(?:Needs|Prerequisites):\*\*)(?=\s|$)")
 NEXT_LABEL = re.compile(r"\s\*{1,2}[A-Z][\w ’'-]{0,40}:\*{1,2}")
 BLOCK_START = re.compile(r"\s*(?:#|[-*+]\s|\d+\.\s|```|~~~|>|\|)")
-LINE_LABEL = re.compile(r"\s*(?:[-*+]\s+|\d+\.\s+)?\*{1,2}[^\s*]")     # a line that opens with a label
+# a line that opens with a label: bold (`**Checks.**`) or an italic word with a colon (`*Source:*`);
+# a wrapped line of a list that opens with an italic title (`*Dagger spaces*;`) goes on
+LINE_LABEL = re.compile(r"\s*(?:[-*+]\s+|\d+\.\s+)?(?:\*\*[^\s*]|\*[A-Z][\w ’'-]{0,40}:\*)")
 # Where a reading of local ids stopped by an outside name resumes: `;`, a blank line, the start
 # of a list item, a table's row or cell, and the end of a sentence (a full stop followed by white space and a capital,
 # `§`, a backtick, `*`, `(` or the end; never the full stop of an id such as `1.2`, nor that of an
@@ -1383,7 +1385,7 @@ SENTENCE_OPENERS = frozenset((
     "At", "To", "When", "Where", "If", "Any", "Some", "Then", "Thus", "Hence", "There", "Their", "Our", "We",
     "Together", "Via", "Over", "Under", "After", "Before", "Once", "While", "Since", "But", "Or",
 ))
-ASIDE = re.compile(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)")       # an aside, over a line break but not a paragraph
+ASIDE_SPAN = re.compile(r"\((?:[^()\n]|\n(?![ \t]*\n))*\)")  # an aside, over a line break but not a paragraph
 ITALIC = re.compile(r"(?<!\*)\*(?!\*)(?:[^*\n]|\n(?![ \t]*\n))+?(?<!\*)\*(?!\*)")
 
 
@@ -1415,7 +1417,7 @@ def _prepared(text: str, names: set[str]) -> str:
     prev = None
     while prev != text:
         prev = text
-        text = ASIDE.sub(_blank, text)
+        text = ASIDE_SPAN.sub(_blank, text)
     return re.sub(r"\[[^\]\n]*\]|[()]", lambda m: "\x00" + " " * (len(m.group(0)) - 1), text)
 
 
@@ -1426,7 +1428,7 @@ def _cue_text(text: str) -> str:
     prev = None
     while prev != text:
         prev = text
-        text = ASIDE.sub(_blank, text)
+        text = ASIDE_SPAN.sub(_blank, text)
     return ITALIC.sub(_blank, text)
 
 
