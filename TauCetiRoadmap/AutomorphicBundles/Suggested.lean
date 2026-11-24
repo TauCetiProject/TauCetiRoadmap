@@ -30,8 +30,11 @@ The other headline results require objects absent from the pinned libraries:
 * Layers 3 and 4's automorphic bundle and realization comparisons need those principal bundles,
   arithmetic coefficient local systems and filtered de Rham realizations.
 * Layers 5 and 6's canonical extensions, fan independence and logarithmic comparisons need
-  toroidal models, degeneration charts and automorphic boundary sheaves. Layer 7's splitting-model
-  compactification and cusp detection additionally need the ramified Hilbert moduli spaces.
+  toroidal models, degeneration charts and automorphic boundary sheaves; Layer 5's goodness of
+  invariant metrics and Hirzebruch–Mumford proportionality (5.3a, 5.3b) also need hermitian metrics
+  good along a normal crossings divisor and Chern classes of holomorphic vector bundles. Layer 7's
+  splitting-model compactification and cusp detection additionally need the ramified Hilbert moduli
+  spaces.
 * Layer 8's ordinary and compact-support period comparisons need logarithmic adic spaces,
   pro-Kummer-étale coefficient systems and period sheaves. Layer 9's relative resolution and geometric
   dual BGG comparison need algebraic `GSp₄` coefficient modules and relative parabolic complexes,

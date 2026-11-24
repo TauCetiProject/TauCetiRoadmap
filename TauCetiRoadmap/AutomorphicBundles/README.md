@@ -1593,7 +1593,7 @@ ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.sm
 ### 5.3a Invariant metrics are good relative to the canonical extension
 
 Prove `invariantMetricGoodness`. Let `K` be neat, and let `S_Σ` be a smooth projective toroidal model of `S`, as in 5.3,
-whose boundary `D` is a divisor with simple normal crossings (ShimuraCompactifications Layer 2 with a smooth projective
+whose boundary `D` is a divisor with normal crossings (ShimuraCompactifications Layer 2 with a smooth projective
 `Σ`). Let `J` be a finite-dimensional algebraic representation of `P_Hᶜ` over `L ↪ ℂ` on which the unipotent radical of
 `P_Hᶜ` acts trivially (the inflation of a representation of the Levi quotient, `compactDualCoefficient_inflate` of
 0.5), and whose restriction to the stabiliser `K_∞` of a point of `X` is unitary. A `K_∞`-invariant inner product on
@@ -1617,16 +1617,17 @@ The route is Mumford's estimate.
   coordinates (a Siegel domain of the third kind fibred over the boundary component). In these charts the canonical
   frames of 5.1 are the holomorphic frames invariant under `U(F)_ℂ`, the complexified centre of the unipotent radical of
   the normaliser of the boundary component `F`.
-- The invariant metric in these frames is computed from the action of the parabolic subgroup. Its entries, and those
-  of its inverse, are polynomials in `log|q_j|` with bounded coefficients.
+- The invariant metric in these frames is computed from the action of the parabolic subgroup. Its entries, and the
+  inverse of its determinant, are bounded by `C·(Σ_j |log|q_j||)^m`.
 - The connection forms are combinations of `dq_j/(q_j log|q_j|)` and smooth forms, which have Poincaré growth.
 - Uniqueness of the extension is ArakelovGeometryAndAbelianHeights §5.1c.
 - For `Ω¹`, the frames `dq_j/q_j` of `Ω¹(log D)` have norms of logarithmic growth. For PEL data the identification of
   the canonical extension of `Ω¹` with `Ω¹(log D)` is also the logarithmic Kodaira–Spencer isomorphism of
   ShimuraCompactifications §7.12.
 
-*Source:* [Mumford77], Main Theorem 3.1, p.256, and Proposition 3.4 a), p.264 (for `Ω¹(log D)`); [Harris89]
-(canonical extensions).
+*Source:* [Mumford77], Main Theorem 3.1, p.256, and Proposition 3.4 a), p.264 (for `Ω¹(log D)`); [Milne90], V §6,
+Theorem 6.1 and its proof, pp.90–91 (the canonical extension functor is characterised by its restriction, tensor
+and differential-operator properties, and for irreducible `J` it gives Mumford's extension).
 
 *Needs:* 0.7 (`analyticCoefficient`); 3.2 (`automorphicAnalyticComparison`); 5.1 (`boundaryCoefficientChart`); 5.2
 (`canonicalExtensionGluing`); 5.3 (`canonicalExtension`); ShimuraCompactifications Layer 1 (§§1.1, 1.3: the boundary
@@ -5817,7 +5818,3 @@ independent `qcqsSectionsColimit` (11.19) and coefficient trace
 - **Mumford77.** D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977), 239–272. Locators use its theorem and page numbering. [Mumford77]
 
 [Mumford77]: https://eudml.org/doc/142502
-
-- **Harris89.** M. Harris, *Functorial properties of toroidal compactifications of locally symmetric varieties*, Proc. London Math. Soc. (3) 59 (1989), 1–22. [Harris89]
-
-[Harris89]: https://doi.org/10.1112/plms/s3-59.1.1
