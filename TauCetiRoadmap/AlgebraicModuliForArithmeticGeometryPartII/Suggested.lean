@@ -1,11 +1,19 @@
 module
 
 import Mathlib
+import TauCeti.AlgebraicGeometry.Cohomology.EulerCharacteristic
 import TauCeti.AlgebraicGeometry.IntersectionNumber.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Ample
+import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.LineBundle.Degree
+import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
+import TauCeti.AlgebraicGeometry.LineBundle.NonvanishingLocus
 import TauCeti.AlgebraicGeometry.LineBundle.Pullback
+import TauCeti.AlgebraicGeometry.LineBundle.TensorProduct
+import TauCeti.AlgebraicGeometry.Modules.Differentials.Rank
 import TauCeti.AlgebraicGeometry.PicardFunctor.Fppf
+import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.ProjectiveOver
+import TauCeti.AlgebraicGeometry.VectorBundle.Determinant.Basic
 
 /-!
 # Algebraic moduli for arithmetic geometry, Part II: target signatures
@@ -32,6 +40,16 @@ specialization lacks the relative projective-morphism and bigness interfaces. Ca
 vertical descent lacks ℚ-Cartier ℚ-divisor classes with their ℚ-linear equivalence and the
 relative Cartier pullback theory. Independence and transformation of AHK rank lack exceptional
 prime divisor data and resolution comparison.
+The Angehrn–Siu separation of points by adjoint bundles on a smooth projective complex variety
+(§6.8) is stated. It needs two definitions: the intersection numbers `(L^d · Z)`, which
+`PointSeparation.selfIntersection` computes as the `d`-th difference of `m ↦ χ(Z, L^m)`, and the
+canonical bundle `det Ω_{X/k}`, `PointSeparation.canonicalBundle`. Layer 6's theorems on pairs,
+namely Nadel vanishing for pairs (§6.3), the isolated non-klt centre theorem (§6.5), and Kollár's
+global generation and two-point separation for klt pairs (§§6.6–6.7), need the canonical divisor
+of a normal variety, the `ℚ`-Cartier condition with pullback along proper birational morphisms,
+discrepancies over all normal birational models, nef and big `ℚ`-Cartier divisors and the
+multiplier ideal of a pair. The pins have Mathlib's `ℚ`-valued algebraic cycles and Tau Ceti's
+Weil and Cartier divisors, but none of these.
 These headlines have no substitute declarations here.
 -/
 
@@ -451,5 +469,60 @@ theorem isAmple_iff_isAmple_specialFibre
     a.IsAmple ↔ (TauCeti.AlgebraicGeometry.LineBundleClass.pullback
       (pullback.fst x (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)))) a).IsAmple := by
   sorry
+
+/-! ## Layer 6: pairs, multiplier ideals of pairs and point separation -/
+
+namespace PointSeparation
+
+open AlgebraicGeometry CategoryTheory TauCeti.AlgebraicGeometry
+
+/-- The intersection number `(a^r · X)` of a line-bundle class `a` on a scheme `X` over a field `K`
+with `X` itself (README §6.8), as the `r`-th difference
+`Σ_{j=0}^{r} (−1)^{r−j} binom(r, j) χ(X, a^j)` of the Euler characteristic, `χ` being Tau Ceti's
+`Scheme.Modules.eulerCharBelow` truncated at `r + 1`. For `X` projective over `K` of dimension `r`
+the cohomology vanishes above degree `r`, `m ↦ χ(X, a^m)` is a polynomial of degree at most `r`,
+and this difference is `r!` times its coefficient of `m^r`, which is the degree of `c_1(a)^r ∩ [X]`
+(Stacks, Definition 33.45.3, tag 0BEP). For `r = 1` it is `χ(a) − χ(O_X)`. -/
+noncomputable def selfIntersection (K : Type u) [Field K] (X : Scheme.{u}) [X.Over (Spec (.of K))]
+    (r : ℕ) (a : LineBundleClass X) : ℤ :=
+  ∑ j ∈ Finset.range (r + 1), (-1 : ℤ) ^ (r - j) * (r.choose j : ℤ) *
+    LineBundleClass.lift (fun L ↦ Scheme.Modules.eulerCharBelow K X L.obj (r + 1))
+      (fun _ _ ⟨e⟩ ↦ Scheme.Modules.eulerCharBelow_congr K e (r + 1)) (a ^ j)
+
+/-- The canonical bundle `K_X = det Ω_{X/k}` of a scheme `X` smooth of relative dimension `n` over
+a field `k` (README §6.8): the determinant of the locally free sheaf of relative differentials,
+of rank `n`. It is not Tau Ceti's `TauCeti.AlgebraicGeometry.InvertibleSheaf.canonicalBundle`, a
+line bundle on a curve built from the divisor of a Weil differential. -/
+noncomputable def canonicalBundle (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
+    (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of k))] : InvertibleSheaf X :=
+  haveI := SmoothOfRelativeDimension.smooth n (X ↘ Spec (.of k))
+  (FiniteLocallyFreeSheaf.determinant X n).obj
+    ⟨FiniteLocallyFreeSheaf.relativeDifferentials k X,
+      (FiniteLocallyFreeSheaf.isConstantRank_iff _ n).2
+        fun x ↦ FiniteLocallyFreeSheaf.rank_relativeDifferentials_apply k n x⟩
+
+/-- **Separation of points for adjoint bundles** (Angehrn–Siu 1995, Theorem 0.3; README §6.8).
+Let `X` be a smooth projective variety over `ℂ` of dimension `n`, `L` an ample line bundle on `X`
+and `x_1, …, x_ℓ` distinct closed points of `X`. If `(L^d · Z) > (½n(n + 2ℓ − 1))^d` for every
+closed integral subscheme `Z` of `X` of dimension `d ≥ 1` (`Z = X` included), then for every `i`
+the adjoint bundle `K_X ⊗ L` has a global section that is nonzero at `x_i` and vanishes at every
+`x_j` with `j ≠ i`. As every residue field `ℂ(x_i)` is `ℂ`, this is the surjectivity of
+`H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L) ⊗ ℂ(x_i)`. -/
+theorem angehrnSiuPointSeparation (X : Scheme.{0}) [X.Over (Spec (.of ℂ))] [IsIntegral X]
+    [X.IsProjectiveOver ℂ] (n : ℕ) [SmoothOfRelativeDimension n (X ↘ Spec (.of ℂ))]
+    (L : InvertibleSheaf X) (hL : (LineBundleClass.mk L).IsAmple)
+    (ℓ : ℕ) (x : Fin ℓ → X) (hx : Function.Injective x) (hcl : ∀ i, IsClosed ({x i} : Set X))
+    (hZ : ∀ (Z : Scheme.{0}) [Z.Over (Spec (.of ℂ))] [IsIntegral Z] (ι : Z ⟶ X)
+      [IsClosedImmersion ι] [ι.IsOver (Spec (.of ℂ))] (d : ℕ), 1 ≤ d →
+      topologicalKrullDim Z = d →
+      ((n * (n + 2 * ℓ - 1) : ℚ) / 2) ^ d <
+        selfIntersection ℂ Z d (LineBundleClass.pullback ι (LineBundleClass.mk L))) :
+    ∀ i, ∃ s : Γ((InvertibleSheaf.tensorProduct (canonicalBundle ℂ X n) L).obj, ⊤),
+      x i ∈ (InvertibleSheaf.tensorProduct (canonicalBundle ℂ X n) L).obj.nonvanishingLocus s ∧
+      ∀ j, j ≠ i →
+        x j ∉ (InvertibleSheaf.tensorProduct (canonicalBundle ℂ X n) L).obj.nonvanishingLocus s := by
+  sorry
+
+end PointSeparation
 
 end TauCetiRoadmap.AlgebraicModuliForArithmeticGeometryPartII
