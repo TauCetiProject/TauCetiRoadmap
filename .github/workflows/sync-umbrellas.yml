@@ -1,0 +1,85 @@
+name: Sync umbrellas
+
+# The umbrellas in umbrellas/ and their target lists are generated from the
+# roadmaps' READMEs by .github/scripts/gen_umbrella.py. A merge that changes a
+# roadmap can change what an umbrella's goal needs, so this regenerates them and
+# commits the result straight to main, as sync-roadmap-dropdowns does for the
+# issue-template dropdowns.
+#
+# It runs once a day, not after every roadmap merge: a push to main outside the
+# merge queue makes the queue rebuild every candidate, and roadmaps merge many
+# times a day. It also runs at once when an umbrella's own files or the
+# generator change on main, so a new umbrella or a change of the generator takes
+# effect without waiting, and on demand.
+#
+# The commit goes to a protected branch, so it runs as the same dedicated GitHub
+# App as sync-roadmap-dropdowns, with Contents:write and a place in the bypass
+# list of main's ruleset. Its id and private key live in the SYNC_BOT_APP_ID
+# variable and the SYNC_BOT_APP_PRIVATE_KEY secret. Setup is in
+# .github/scripts/README.md.
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "umbrellas/**"
+      - ".github/scripts/gen_umbrella.py"
+      - ".github/workflows/sync-umbrellas.yml"
+  # Run on demand, e.g. to bring the umbrellas up to date before the daily run.
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+# Never let two syncs race to push to main; the latest state wins.
+concurrency: sync-umbrellas
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint app token
+        id: app-token
+        # v3.1+ deprecates app-id in favour of a distinct client ID; this installation currently
+        # stores its app ID, so use the Node-24 v3.0 release until that credential is migrated.
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        with:
+          app-id: ${{ vars.SYNC_BOT_APP_ID }}
+          private-key: ${{ secrets.SYNC_BOT_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Regenerate the umbrellas, and push
+        run: |
+          set -euo pipefail
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          # Regenerate against the freshest main each attempt, so a merge that
+          # races us just gets folded into the next regeneration rather than
+          # causing a non-fast-forward push or leaving drift behind.
+          for attempt in 1 2 3 4 5; do
+            git fetch --quiet origin main
+            git reset --hard --quiet origin/main
+            python3 .github/scripts/gen_umbrella.py --fix
+            # Staged before the comparison, so that the target list of a new
+            # umbrella, a file git does not track yet, counts as a change.
+            git add umbrellas
+            if git diff --cached --quiet; then
+              echo "The umbrellas already match the roadmaps; nothing to do."
+              exit 0
+            fi
+            # [skip ci] so this generated commit neither runs a build nor
+            # re-triggers this workflow.
+            git commit --quiet -m "chore: sync umbrellas [skip ci]"
+            if git push origin HEAD:main; then
+              echo "Pushed sync commit (attempt $attempt)."
+              exit 0
+            fi
+            echo "main moved under us; regenerating and retrying (attempt $attempt)."
+          done
+          echo "Could not push the sync after several retries." >&2
+          exit 1
