@@ -29,6 +29,7 @@ body:
         - AdicSpacesPartV
         - AffineLieAlgebras
         - AffineMorseLefschetz
+        - AlgebraicCircuitsAndValiantsClasses
         - AlgebraicCurves
         - AlgebraicKTheory
         - AlgebraicModularFormsAndSerreWeights
@@ -64,6 +65,7 @@ body:
         - ArithmeticStatisticsPartV
         - ArithmeticStatisticsPartVI
         - ArithmeticStatisticsPartVII
+        - ArtinRepresentations
         - AsymptoticExpansions
         - AutomorphicBundles
         - AutomorphicFormsOnReductiveGroups
@@ -79,6 +81,7 @@ body:
         - BelyiMaps
         - BernoulliPercolation
         - BianchiModularForms
+        - BooleanFunctionAnalysis
         - BordismFormalGroups
         - BorelEquivalenceRelations
         - BorelRegulators
@@ -167,6 +170,7 @@ body:
         - EllipticCurveModularityImaginaryQuadraticPartII
         - EllipticCurveModularityPartII
         - EllipticCurveModularityTotallyReal
+        - EllipticCurvePeriodsAndModularParametrizations
         - EllipticCurves
         - EllipticIntegrals
         - EllipticKTheory
@@ -212,6 +216,7 @@ body:
         - FormalLaurentPuiseux
         - FourManifolds
         - FourierDeligneTransform
+        - FractalGeometry
         - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
@@ -224,6 +229,7 @@ body:
         - GanGrossPrasadUnitaryGroups
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
+        - GaussianLinearModels
         - GeneralAlgebraicKTheory
         - GeneralizedCohomology
         - GenericDoublePointInterpolation
@@ -248,6 +254,7 @@ body:
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
         - HamiltonianFloerOperations
+        - HanfNumbers
         - HeckeStacksAndLocalShtukas
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
@@ -320,6 +327,7 @@ body:
         - MathematicalStatisticsHighDimensional
         - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
+        - MatroidOptimization
         - McKaySkewGroup
         - MetaplecticAutomorphicForms
         - MetaplecticAutomorphicFormsPartII
@@ -423,6 +431,7 @@ body:
         - QuasiregularMaps
         - QuaternionArithmetic
         - QuaternionicAnalysis
+        - QuaternionicModularForms
         - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
         - RandomGraphs

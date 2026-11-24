@@ -1,59 +1,47 @@
-<!--tauceti-status:v1 {"roadmap":"TaubesGromov","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-status:v1 {"roadmap":"TaubesGromov","to_sha":"afdb5315ed242f286fba37760118c20786373352","ts":"2026-11-24T12:11:44Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"orientation transport for the actual operators on a closed four-manifold, the Spinc conjugation isomorphism, the convention comparison","state":"partial"},{"id":"Layer 1","remaining":"embedded normal operators of actual curves, count-admissible J, multiplicities","state":"partial"},{"id":"Layer 2","remaining":"four-twist labels from determinant signs of actual normal operators","state":"partial"},{"id":"Layer 3","remaining":"bounded-window compactness, the good-curve structure theorem, the weighted count Gr_J at fixed J","state":"partial"},{"id":"Layer 4","remaining":"smooth structure on the quotient and smooth equivalence with Sym^m C; parameter derivatives of the weighted estimates","state":"partial"},{"id":"Layer 5","remaining":"forward bounds for actual solutions without hypotheses, global canonical connection, Hermitian curvature theorem","state":"partial"},{"id":"Layer 6","remaining":"reconstruction of curves from limits, bad-class vanishing, point cutdowns","state":"partial"},{"id":"Layer 7","remaining":"vortex insertion, the Banach norms and the finite-dimensional reduction","state":"partial"},{"id":"Layer 8","remaining":"exhaustiveness and uniqueness, the constrained count, the universal divisor line","state":"partial"},{"id":"Layer 9","state":"untouched"},{"id":"Layer 10","remaining":"integral pullback and empty neighbourhoods (10.3), the full wall application","state":"partial"},{"id":"Layer 11","remaining":"actual orbit-torus normal operators, the Wang orientation comparison, count localization and the zeta identity (11.3)","state":"partial"}],"readme_sha":"0744753e32eb7007baa54d3de40f6d393742de451aba57fd0552dcba1de0f5b3","roadmap":"TaubesGromov","to_sha":"afdb5315ed242f286fba37760118c20786373352"}-->
 # Status: TaubesGromov
 
-This file documents the status of the TaubesGromov roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
+This file documents the status of the TaubesGromov roadmap up until `afdb531` (2026-11-24T12:11:44Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Two results about plane vortices are proved: Taubes's classification, with moduli Sym^mℂ, and the Fredholm property of the deformation operator with index 2m. TG4 still lacks the smooth quotient and the compact-window families. Taubes's large-parameter estimates are proved, but only with the projected Weitzenböck inequalities as hypotheses. Nothing yet produces a large-r Seiberg–Witten solution, the count Gr_J, or SW = Gr.
+**At a glance.** Plane vortices (Layer 4) are nearly complete: the classification, the index theorem, a homeomorphism of the moduli space with Sym^mℂ and smooth compact-window families are proved, but the quotient has no smooth structure yet. Layers 0–3, 5–8, 10 and 11 are partial, much of it conditional or at the level of model operators. Layer 9 (SW = Gr) has not begun. Nothing yet produces a large-r Seiberg–Witten solution or the count Gr_J.
 
 ### Named results
 
-- **Taubes's classification of plane vortices.** Every effective divisor of degree m is the zero divisor of a smooth framed vortex ([`framedVortexDivisor_surjective`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Existence.html#TauCeti.Vortex.framedVortexDivisor_surjective)), and the divisor determines the vortex up to framed gauge. The moduli space is therefore [Sym^mℂ as a set](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Existence.html#TauCeti.Vortex.framedVortexModuliEquiv), and the same holds [on the Sobolev scale](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/Moduli.html#TauCeti.Vortex.sobolevVortexModuliEquiv).
-- **Taubes's index theorem for plane vortices.** At a smooth framed degree-m vortex the gauge-fixed operator H¹ → L² is Fredholm and onto, and its kernel has dimension exactly 2m. Its [index is 2m](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Index.html#TauCeti.Vortex.index_sobolevGaugeFixedOperator_eq_two_mul).
-- **Taubes's coarse pointwise bounds.** On a closed manifold, the projected Weitzenböck inequalities give [|α|² + |β|² ≤ 1 + O(1/r)](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/PointwiseBounds.html#TauCeti.SeibergWitten.norm_sq_add_norm_sq_le_one_add_div), |β|² ≤ (C/r)(1 − |α|²) + O(r⁻²) and the [gradient bound](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/GradientBound.html#TauCeti.SeibergWitten.norm_sq_add_mul_norm_sq_le). Those inequalities are still hypotheses.
-- **Horizontal curves cover orbit tori.** A nonconstant pseudoholomorphic horizontal curve in S¹ × Y_φ lies over a closed orbit of φ and maps onto its orbit torus ([`exists_surjective_orbitTorus_comp_eq_of_isPseudoholomorphicAt`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Manifold/Suspension/Leaf.html#TauCeti.SmoothMappingTorus.exists_surjective_orbitTorus_comp_eq_of_isPseudoholomorphicAt)).
-- **The closed orbits give the orbit zeta function.** For an area-preserving surface diffeomorphism nondegenerate in every period, the orbit-torus series labelled by the return maps multiply to the [orbit zeta function](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/OrbitTorus/ClosedOrbit.html#TauCeti.SmoothMappingTorus.orbitZeta_closedOrbitHomologyClass_eq_mapRingHom_tprod_fixedPointDerivative). The labels come from dynamics, not yet from determinant signs.
+- **Taubes's classification of plane vortices** — every effective divisor of degree m is the zero divisor of a framed vortex ([`framedVortexDivisor_surjective`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Coupling.html#TauCeti.Vortex.framedVortexDivisor_surjective)), unique up to framed gauge, and the moduli space is [homeomorphic to Sym^mℂ](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Moduli/Topology.html#TauCeti.Vortex.framedVortexModuliHomeomorph), collisions included.
+- **Taubes's index theorem for plane vortices** — at a framed degree-m vortex the gauge-fixed operator is Fredholm and onto with [index 2m](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Index.html#TauCeti.Vortex.index_sobolevGaugeFixedOperator_eq_two_mul), and its complex orientation [matches that of Sym^mℂ](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Orientation.html#TauCeti.Vortex.isComplexPositiveDetLine_sobolevGaugeFixedOperator_iff).
+- **Taubes's coarse pointwise bounds** — on a closed manifold, [|α|² + |β|² ≤ 1 + O(1/r)](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/PointwiseBounds.html#TauCeti.SeibergWitten.norm_sq_add_norm_sq_le_one_add_div), with the β and [gradient](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/GradientBound.html#TauCeti.SeibergWitten.norm_sq_add_mul_norm_sq_le) bounds. The projected Weitzenböck inequalities they assume are now [derived from a vector equation](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/LargeParameter/ProjectedWeitzenbock.html#TauCeti.SeibergWitten.neg_laplaceBeltrami_norm_sq_div_two_add_le_canonical), but not yet from actual solutions.
+- **Confined flat limits are plane vortices** — a smooth solution of the flat limiting equations with confined zeros is a [pulled-back plane vortex up to gauge](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/ConfinedLimit.html#TauCeti.SeibergWitten.exists_vortex_norm_eq_one_and_eq_normalConnection_sub_phaseForm), and blown-up large-r limits [solve those equations](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/Rescaling.html#TauCeti.SeibergWitten.sum_sum_covariantDeriv_smul_eq_zero_and_add_hodgeStar_eq_of_tendsto_rescale).
+- **Determinant signs of orbit-torus operators** — with the orientation transported from the complex-linear reference, the model operator has sign [sgn det(1 − P)](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/OrbitTorus/PeriodicOrientation.html#TauCeti.sign_detLineEquivOfBijective_periodicTorusOperator_eq_sign_det), and sgn det(1 + P) when twisted along the orbit. These are the labels the orbit zeta assembly needs.
 
 ### Notable definitions and infrastructure
 
-- **The Sobolev gauge group as a manifold.** Through its [exponential charts](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/Chart.html#TauCeti.Vortex.gaugeChart), G_s is an analytic Banach manifold, and the vortex equation is an [analytic map](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/EquationMap.html#TauCeti.Vortex.sobolevEquation) between Sobolev spaces. With the index theorem, they make slice charts possible.
-- **Taubes's complex-linear deformation operator** [`complexDeformationOperator`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/ComplexDeformation.html#TauCeti.SeibergWitten.complexDeformationOperator) δ_ω. It is homotopic to δ₀ through operators with one elliptic symbol. The [naturality of orientation transport](https://taucetiproject.org/docs/TauCeti/Analysis/Fredholm/DeterminantLine/Naturality.html#TauCeti.detLineOrientationTransport_map_detLineCongr) for Fredholm families is the tool for carrying its complex orientation along that homotopy.
-- **The weighted counts** [`configurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/ConfigurationCount.html#TauCeti.configurationCount) and [`pointConfigurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/PointConfigurationCount.html#TauCeti.pointConfigurationCount). These are the finite sums Gr_J will be. Their candidates and weights are still inputs.
+- **The Sobolev gauge group as a Lie group.** G_s is an [analytic Lie group](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/LieGroup.html#TauCeti.Vortex.SobolevTopologicalGaugeGroup.instLieGroup) with a [slice theorem](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/Slice.html#TauCeti.Vortex.SobolevFieldSpace.exists_isOpen_isOpenEmbedding_smul_and_quotientMk_coulombSlice), which gives the vortex moduli [charts into ℝ^(2m)](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/OrbitChart.html#TauCeti.Vortex.SobolevFieldSpace.exists_openPartialHomeomorph_vortexModuli).
+- **Taubes's complex-linear deformation operator** [`complexDeformationOperator`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/ComplexDeformation.html#TauCeti.SeibergWitten.complexDeformationOperator). Orientation transport [preserves canonical orientations under compact perturbation](https://taucetiproject.org/docs/TauCeti/Analysis/Fredholm/DeterminantLine/CompactPerturbation.html#TauCeti.detLineOrientationTransport_canonicalDetLineOrientation), which is the tool for carrying its complex orientation to δ₀.
+- **The weighted counts** [`configurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/ConfigurationCount.html#TauCeti.configurationCount) and [`pointConfigurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/PointConfigurationCount.html#TauCeti.pointConfigurationCount). These are the finite sums Gr_J will be, with [vanishing in bad classes](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/ConfigurationCount.html#TauCeti.prod_eq_zero_of_mem_compatibleConfigurations_of_apply_lt_neg_one). Their candidates and weights are still inputs.
 
 ### Roadmap coverage
 
-**TG4 is partial.** Done:
+**Layer 4 is partial.** §4.1–§4.3 are done, as is §4.4 except the smooth equivalence of the quotient with Sym^mℂ. The §4.5 kernel projections and right inverses are smooth over compact windows. The weighted estimates of §4.6 are uniform over windows, but without parameter derivatives. **Layer 5 is partial**: the forward bounds still rest on hypotheses, and there is no global canonical connection or Hermitian curvature theorem. **Partial, with only some pieces:**
 
-- existence, uniqueness and the set-level and Sobolev moduli;
-- decay, the bootstrap and Fredholmness with index 2m;
-- gauge-group charts and the analytic equation map;
-- the translation and rotation laws, uniform decay over compact windows, and the weighted right inverse at one vortex.
+- Layer 0: δ_ω, orientation transport and the charge-conjugation sign parity, none yet on the manifold.
+- Layers 1–3: the normal linearization, the adjunction genus bound, and the weight and count algebra with bifurcation identities, but no compactness and no Gr_J.
+- Layer 6: disc charges, slice measures and raw-cycle algebra, but no reconstruction.
+- Layers 7–8: the normal model, the confined-limit classification, the contraction and Lyapunov–Schmidt tools and local degree, but no vortex insertion or exhaustiveness.
+- Layer 10: chamber arithmetic, energy identities and mapping-torus cohomology, with §10.3 untouched.
+- Layer 11: the zeta assembly, orbit-torus kernels and signs, Wang torsion and Hamiltonian twists, with §11.3 untouched.
 
-Missing: the smooth quotient, smooth compact-window families of kernel projections and right inverses, and the full cluster estimates.
-
-**TG5 is partial.** The pointwise, gradient, L², L¹-defect, mass, cone and monotonicity estimates are all conditional on the projected Weitzenböck inequalities. Only a pointwise identity D_{A₀}u₀ = 0 exists, and there is no global A₀.
-
-**Other started layers:**
-
-- TG6.1 has disc charges and density bounds, but no reconstruction.
-- TG0.1 has δ₀, δ_ω and general orientation transport, but no transport along the actual homotopy.
-- TG0.2 has only conjugate-linear sign laws.
-- TG1 has only the normal linearization.
-- TG2, TG3 and TG6.2 have the weight and count algebra, area bounds and fold and pitchfork models, but no compactness and no Gr_J.
-- TG7 and TG8 have only generic tools: a parametrised contraction lemma, the flat-limit identification with vortices, and homological local degree.
-- TG10.1 and TG10.4 have cohomological algebra and a large-r wall gap, and TG10.2 has energy identities.
-- TG11.1, TG11.2 and TG11.4 have the zeta assembly, normal-operator kernels, Wang torsion, twisted-ODE signs and Hamiltonian twists.
-
-**Untouched:** TG6.3, TG9, TG10.3 and TG11.3.
+**Untouched:** Layer 9.
 
 ## The frontier
 
-- **Smooth vortex moduli (TG4).** Use the index theorem and the gauge-group charts to build slice charts. That makes the quotient a smooth 2m-manifold over Sym^mℂ. Then make kernel projections and right inverses smooth over compact divisor windows, collisions included.
-- **Coarse bounds from the equations (TG5).** Build A₀ globally and derive the projected Weitzenböck inequalities for actual solutions. This makes the conditional estimates unconditional, and needs the SeibergWittenTheory supplier.
-- **Canonical orientation (TG0.1).** Apply the new orientation-transport naturality to the homotopy from δ_ω to δ₀ and to the rescaling,.
-- **Four-twist labels from normal operators (TG2, TG11.1–TG11.2).** Show that the return-map labels in the zeta assembly agree with the determinant signs of the actual orbit-torus normal operators.
-- **Weighted count at fixed J (TG3).** Instantiate the configuration candidates from actual curves. This needs bounded-window compactness, AnalyticStableMaps and the TG1 normal operators.
+- **Smooth vortex moduli (Layer 4).** Show that the slice charts have smooth transitions. This makes the quotient a smooth 2m-manifold, smoothly equivalent to Sym^mℂ through the homeomorphism already proved.
+- **Coarse bounds from the equations (Layer 5).** Show that actual large-r solutions satisfy the vector equation behind the projected Weitzenböck inequalities, and build the canonical connection A₀ globally. Needs the SeibergWittenTheory supplier.
+- **Labels from actual normal operators (Layers 2 and 11).** Identify the normal operators of actual orbit tori with the model operators whose signs are now known. Then prove h_can = sgn det(I − P) h_prod against the Wang orientation.
+- **Canonical orientation on the manifold (§0.1).** Transport the complex orientation of δ_ω along the homotopy to δ₀ and the rescaling to T on a closed four-manifold.
+- **Weighted count at fixed J (Layer 3).** Instantiate the configuration candidates from actual curves. This needs bounded-window compactness and AnalyticStableMaps.
