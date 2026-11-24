@@ -994,13 +994,24 @@ Text.
 
 *Needs:* Alpha §§2.1, 2.2
 and 2.3.
+
+### 1.3 A title attached to an id, over a line break
+
+*Needs:* Alpha §§2.1(*First
+part*), 2.2 and 2.3.
+
+### 1.4 An `and` that opens a quote ends the list
+
+*Needs:* Alpha §§2.1
+> and 2.2.
 """,
             **{k: SUPPLIERS[k] for k in ("Alpha", "Gamma", "Delta")}})
         code, output = self.run_script("--fix", root=root)
         assert code == 0, output
         items = self.items_of(root)
-        for slug in ("FamAside.1.1", "FamAside.1.2"):
+        for slug in ("FamAside.1.1", "FamAside.1.2", "FamAside.1.3"):
             assert items[slug]["needs"] == ["Alpha.2.1", "Alpha.2.2", "Alpha.2.3"], (slug, items[slug])
+        assert items["FamAside.1.4"]["needs"] == ["Alpha.2.1"], items["FamAside.1.4"]
 
     def test_slugs_that_would_collide_stop_the_generator(self) -> None:
         clash = self.root / "clash"

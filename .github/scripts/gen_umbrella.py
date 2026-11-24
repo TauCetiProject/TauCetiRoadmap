@@ -134,9 +134,11 @@ HYPH = r"[A-Z]{1,4}-[A-Z]{0,2}\d+[a-z]?(?:\.\d+[a-z]?)*(?![\w-]|\.\w)"   # `OI-B
 SIGNED_TOK = r"[0-9A-Za-z](?:[\w.]*[0-9A-Za-z])?" + COLON   # an id after a section sign
 GAP = r"[ \t]*(?:\n[ \t>]*)?"                           # spaces, at most one line break
 CLAUSE = re.compile(r"[ \t]?\((?:[a-z]|[ivx]{1,5}|\d{1,2}|[a-z]?\d?′{1,2}|[a-z]\d)\)")   # (a) (ii) (3)
-ASIDE = re.compile(r"[ \t]?\([^()\n]{0,240}\)")         # a descriptive parenthetical inside a list
-LIST_SEP = re.compile(r"(?:," + GAP + r"(?:and" + GAP + r")?|(?:[ \t]+|[ \t]*\n[ \t>]*)and" + GAP
-                      + r"|[ \t]*&[ \t]*)")   # `and` may open a wrapped line
+# a descriptive parenthetical inside a list, attached or after a space, over a line break but not a
+# paragraph
+ASIDE = re.compile(r"[ \t]?\((?:[^()\n]|\n(?![ \t]*\n))*\)")
+LIST_SEP = re.compile(r"(?:," + GAP + r"(?:and" + GAP + r")?|(?:[ \t]+|[ \t]*\n[ \t]*)and" + GAP
+                      + r"|[ \t]*&[ \t]*)")   # `and` may open a wrapped line, not a quote
 RANGE_SEP = re.compile(r"(?:[ \t]*–" + GAP + r"|-)")
 SIGN = re.compile(r"§§?[ \t]?")
 LAYER_WORD = re.compile(r"[Ll]ayers?[ \t]+")
