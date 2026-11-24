@@ -2149,28 +2149,26 @@ for fixed `σ`: the implied constants and thresholds may depend on `σ`. This is
 of `ζ` in the critical strip in place of `σ`; the hypothesis says that `Θ ≤ σ`. Ingham's main term
 `li x` differs from `Li x` by the constant `li 2` (8.9's Checks), which the error absorbs.
 
-Route. `ψ = TauCeti.primePsi ℚ Set.univ` and `π(x) = TauCeti.primeCount ℚ Set.univ x`, through
-`Rat.HeightOneSpectrum.primesEquiv` and `Rat.HeightOneSpectrum.absNorm_asIdeal`, as in 8.7. Apply
-8.3 at `K = ℚ` (`chebyshevPsi_explicitFormula`) at height `T = x ≥ 2`; its error is then
-`O(log² x)`. Every zero `ρ` of `Λ_ℚ = completedRiemannZeta` in its sum lies in the open strip
-`0 < Re ρ < 1` (5.6a, 6.5), where `Gammaℝ` is analytic and nonzero (Conventions, gamma factors), so
-`ρ` is a zero of `ζ` with the same multiplicity, and the hypothesis gives `Re ρ ≤ σ`, hence
-`‖x^ρ‖ ≤ x^σ`. The zero sum is therefore at most `x^σ ∑_{|Im ρ| ≤ x} m_ρ/‖ρ‖ = O(x^σ log² x)` by
-4.5, the finitely many zeros with `|Im ρ| < 1` lying at a positive distance from `0` (6.5). The
-remaining terms, `c_ℚ = −log 2π` and `−½ log(1 − x^(−2))`, are `O(1)`, and at a prime power the
-jump of `ψ` is at most `log x`. For `π`, as in 8.5: `ψ(x) − ϑ(x)` is
-`TauCeti.higherPrimePowerTheta ℚ x ≤ √x log² x/(2 log 2)` for `x ≥ 1`, which is `O(x^σ log² x)`
-because `σ ≥ 1/2`, so `ϑ(x) = x + O(x^σ log² x)`; the Abel identity
-`π(x) = ϑ(x)/log x + ∫_2^x ϑ(t)/(t log² t) dt` and
-`x/log x + ∫_2^x (log t)^(−2) dt = Li x + 2/log 2` then give
-`π(x) − Li x = O(x^σ log x) + O(∫_2^x t^(σ−1) dt) = O(x^σ log x)`.
+Route. Apply 8.3 at `K = ℚ` (`chebyshevPsi_explicitFormula`, stated on `Chebyshev.psi`) at height
+`T = x ≥ 2`; its error is then `O(log² x)`. Every zero `ρ` of `Λ_ℚ = completedRiemannZeta` in its
+sum lies in the open strip `0 < Re ρ < 1` (5.6a, 6.5), where `Gammaℝ` is analytic and nonzero
+(Conventions, gamma factors), so `ρ` is a zero of `ζ` with the same multiplicity, and the hypothesis
+gives `Re ρ ≤ σ`, hence `‖x^ρ‖ ≤ x^σ`. The zero sum is therefore at most
+`x^σ ∑_{|Im ρ| ≤ x} m_ρ/‖ρ‖ = O(x^σ log² x)` by 4.5, the finitely many zeros with `|Im ρ| < 1`
+lying at a positive distance from `0` (6.5). The remaining terms, `c_ℚ = −log 2π` and
+`−½ log(1 − x^(−2))`, are `O(1)`, and at a prime power the jump of `ψ` is at most `log x`. For `π`,
+with `ϑ = Chebyshev.theta`:
+`|ψ(x) − ϑ(x)| ≤ 2 √x log x` for `x ≥ 1` (`Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`), which is
+`O(x^σ log² x)` because `σ ≥ 1/2`, so `ϑ(x) = x + O(x^σ log² x)`; the Abel identity
+`π(x) = ϑ(x)/log x + ∫_2^x ϑ(t)/(t log² t) dt` for `x ≥ 2`
+(`Chebyshev.primeCounting_eq_theta_div_log_add_integral`) and
+`x/log x + ∫_2^x (log t)^(−2) dt = Li x + 2/log 2` (`TauCeti.Real.logIntegral_eq_div_log_sub_add`)
+then give `π(x) − Li x = O(x^σ log x) + O(∫_2^x t^(σ−1) dt) = O(x^σ log x)`.
 
-*Needs:* 8.3 at `K = ℚ` (`chebyshevPsi_explicitFormula`), 4.5, 5.6a, 6.5; 8.5 for the passage
-from `ψ` to `π`, with Arithmetic Dirichlet Series §§5.2, 6.1–6.2 and 10.1–10.2
-(`TauCeti.primePsi_sub_primeTheta`, `TauCeti.higherPrimePowerTheta_le`,
-`TauCeti.primeCount_eq_primeTheta_div_log_add_integral`, `TauCeti.Real.logIntegral`,
-`TauCeti.Real.logIntegral_eq_div_log_sub_add`); Mathlib `Rat.HeightOneSpectrum.primesEquiv` and Tau
-Ceti `Rat.HeightOneSpectrum.absNorm_asIdeal`, as in 8.7; Conventions (gamma factors) with Mathlib
+*Needs:* 8.3 at `K = ℚ` (`chebyshevPsi_explicitFormula`), 4.5, 5.6a, 6.5; for the passage from `ψ`
+to `π`, Mathlib `Chebyshev.theta`, `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log` and
+`Chebyshev.primeCounting_eq_theta_div_log_add_integral`, and Arithmetic Dirichlet Series §6.2
+`TauCeti.Real.logIntegral_eq_div_log_sub_add`; Conventions (gamma factors) with Mathlib
 `Complex.Gammaℝ_ne_zero_of_re_pos` and `riemannZeta_def_of_ne_zero`; for the statement, Mathlib
 `riemannZeta`, `meromorphicOrderAt`, `Chebyshev.psi`, `Nat.primeCounting` and Tau Ceti
 `TauCeti.Real.logIntegral`.
@@ -2325,6 +2323,13 @@ primitive Dirichlet character `κ ≠ 1` modulo `q` has the `L`-function of `κ`
 conductor `(q)` for even, `(q)∞` for odd `κ`, the second formula is the formula for `L′/L(1, κ)`, with
 the term `F₁/2` for even and `F₃/2` for odd `κ`.
 
+For every `K` the first formula is `dedekindZeta_rieszMeanExplicitFormula`, stated on
+`TauCeti.meromorphicContinuation 1 (NumberField.dedekindZeta K)`, the continued `ζ_K`, with `EK(K)`
+the limit of `logDeriv ζ_K s + 1/(s − 1)` as `s → 1`, `s ≠ 1`; the second is
+`heckeLFunction_rieszMeanExplicitFormula`, stated for `χ = ψ.character` with `ψ ≠ 1`. In both,
+`m_ρ` is the positive part of the divisor at the points of the open strip `Ioo 0 1 ×ℂ univ`, and the
+sum over `𝔑𝔞 ≤ x` runs over the nonzero ideals of `𝓞 K`, its terms with `𝔑𝔞 > x` set to `0`.
+
 Route. Write `S_{K,χ}(x) = ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞) χ(𝔞)(x/𝔑𝔞 − 1)` for real `x`, so that
 `Φ_{K,χ}(x) = S_{K,χ}(x)/(x − 1)` and `S_{K,χ}(x) = 0` for `x ≤ 2`. The inversion: for `x > 0` and
 `c > 1`, `S_{K,χ}(x) = (2πi)⁻¹ ∫_{c−i∞}^{c+i∞} (−L′/L)(s, χ) x^s ds/(s(s − 1))`, absolutely convergent.
@@ -2382,9 +2387,10 @@ real places, the readings of `m_ρ` and of `χ(𝔞)`, the reflection, and the A
 `K = ℚ`, for the Dirichlet reading); L-functions Layer 3 (`dedekindZetaC` and its simple pole at `1`),
 Layer 5 (`heckeLFunctionC`, `heckeData`) and Layer 8 (`TauCeti.hasSum_idealTerm_vonMangoldt`); Mathlib
 `Real.eulerMascheroniConstant`, `NumberField.discr`; for the statement, Tau Ceti
-`TauCeti.IdealArithmeticFunction.vonMangoldt`,
+`TauCeti.meromorphicContinuation`, `TauCeti.IdealArithmeticFunction.vonMangoldt`,
 `TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight`,
 `TauCeti.LFunctions.PrimitiveRayClassCharacter` and `TauCeti.LFunctions.heckeLFunctionC`, and Mathlib
+`NumberField.dedekindZeta`, `logDeriv`, `MeromorphicOn.divisor`, `Ideal.absNorm`,
 `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.InfinitePlace.nrComplexPlaces`.
 
 **Checks.**
@@ -2597,17 +2603,15 @@ dictionary forces, so that the Artin class is a singleton. Every integral ideal 
 a product of such primes, the two induced characters agree on the classes of all integral ideals
 prime to `𝔐` (`idealClass_mul`), and these classes are all of `RayClassGroup 𝔐`
 (`idealClass_surjective`), so the induced characters are equal. A character and its induction to a
-multiple of its modulus have the same primitive source, by the universal property of the conductor
-(`RayClassCharacter.conductor_dvd_iff`) and the induction of a character from its primitive
-character at its conductor (`RayClassCharacter.induced_primitiveCharacter`); so `ψ ∘ Φ`, `ψ ∘ Φ′`
-and their common induction to `𝔐` have one primitive source.
+multiple of its modulus have the same primitive source (Tau Ceti
+`TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`), so
+`of (ψ ∘ Φ) = of ((ψ ∘ Φ).induced) = of ((ψ ∘ Φ′).induced) = of (ψ ∘ Φ′)`, the inductions to `𝔐`,
+with `of_induced` for the outer two equalities.
 
 *Needs:* Number Field Arithmetic §2.3 `NumberField.artinSymbol`; Global Number Fields Layer 2
 `RayClassGroup`, `idealClass`, `idealClass_mul` and `idealClass_surjective`, and Layer 9
-`RayClassCharacter.induced` and the conductor of a ray-class character, with its universal property
-`RayClassCharacter.conductor_dvd_iff` and `RayClassCharacter.induced_primitiveCharacter` (as
-L-functions Layer 5 consumes them); L-functions Layer 5 `PrimitiveRayClassCharacter.of`; Mathlib
-`ConjClasses`.
+`RayClassCharacter.induced`; L-functions Layer 5 `PrimitiveRayClassCharacter.of` and Tau Ceti
+`PrimitiveRayClassCharacter.of_induced`; Mathlib `ConjClasses`.
 
 **Checks.**
 
@@ -2754,8 +2758,9 @@ the real parities of Hecke characters and the infinite part of the conductor
 `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff` (8.6), ray-class reciprocity
 `TauCeti.ClassFieldTheory.rayClassArtinMap` (Class Field Theory Layer 12; 8.8) and
 `TauCeti.Real.logIntegral_eq_div_log_sub_add` (Arithmetic Dirichlet Series §6.2; 8.9). Mathlib
-`ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div` (8.4a) and `Nat.primeCounting`
-(8.5a).
+`ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div` (8.4a), and `Nat.primeCounting`,
+`Chebyshev.theta`, `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log` and
+`Chebyshev.primeCounting_eq_theta_div_log_add_integral` (8.5a).
 
 ## Layer 9: certified zeros
 
@@ -3120,10 +3125,14 @@ the two differ exactly at the ordinates.
   level), for 3.4 and 7.5 at `K = ℚ`; `ConjClasses`, for 8.8;
 - `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `NumberField.dedekindZeta` (the Dirichlet
   series of `ζ_K`, a junk value off `Re s > 1`), `NumberField.dedekindZeta_residue`,
-  `NumberField.discr`, `Ideal.absNorm`, `IsAbelianGalois`;
+  `NumberField.discr`, `Ideal.absNorm`, `IsAbelianGalois`; `logDeriv` (`deriv f/f`; in 8.6a
+  its value at `s = 1`);
   `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div` (the Dirichlet series of
-  `−ζ'/ζ` on `Re s > 1`, for 8.4a) and `Nat.primeCounting` (the number of primes `p ≤ x`, for
-  8.5a).
+  `−ζ'/ζ` on `Re s > 1`, for 8.4a), and `Nat.primeCounting` (the number of primes `p ≤ x`),
+  `Chebyshev.theta` (the sum of `log p` over the primes `p ≤ x`),
+  `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log` (`|ψ x − θ x| ≤ 2 √x log x` for `x ≥ 1`) and
+  `Chebyshev.primeCounting_eq_theta_div_log_add_integral` (for `x ≥ 2`,
+  `π ⌊x⌋₊ = θ x/log x + ∫ t in 2..x, θ t/(t log² t)`), for 8.5a.
 
 ### From Tau Ceti
 
@@ -3223,7 +3232,8 @@ roadmap that planned them:
 - presented Hecke L-functions, L-functions Layers 2 and 5 in part
   (`NumberTheory/LFunctions/Hecke/Primitive.lean`, `Hecke/Basic.lean`,
   `DedekindZeta/PartialZeta.lean`): `TauCeti.LFunctions.PrimitiveRayClassCharacter` (fields
-  `conductor`, `character`, `isPrimitive`), `PrimitiveRayClassCharacter.of`, its unit `1` of
+  `conductor`, `character`, `isPrimitive`), `PrimitiveRayClassCharacter.of` with
+  `PrimitiveRayClassCharacter.of_induced` (`of (χ.induced h) = of χ`, for 8.7a), its unit `1` of
   conductor `Modulus.one K` (`PrimitiveRayClassCharacter.conductor_one`) and its inverse `ψ⁻¹`
   at the same conductor (`PrimitiveRayClassCharacter.character_inv`,
   `PrimitiveRayClassCharacter.of_inv`);
@@ -3352,9 +3362,8 @@ roadmap that planned them:
   `infinitePart`, a finite set of real places), `Modulus.support`, `Modulus.one` and
   `integralIdealsPrimeTo` (`Modulus.lean`), `RayClassGroup` and `idealClass` (`Basic.lean`),
   `finite_rayClassGroup` (`Finite.lean`), `RayClassCharacter` (`Character/Basic.lean`),
-  `RayClassCharacter.conductor_dvd_iff` and `RayClassCharacter.induced_primitiveCharacter`
-  (`Character/Conductor.lean`: the conductor of a ray-class character is the least modulus
-  from which it is induced, and the character is induced from its primitive character at it),
+  `RayClassCharacter.induced` (`Character/Basic.lean`: the induction of a character to a multiple
+  of its modulus), `idealClass_mul` (`Basic.lean`) and `idealClass_surjective` (`Integral.lean`),
   for 8.7a, and
   `rayClassIdealMainTerm` with `rayClassIdealMainTerm_eq` (`MainTerm.lean`), whose Euler factors
   belong to the all-ideal count, not the prime count; the ideal-class map has domain the nonzero

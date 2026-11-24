@@ -43,13 +43,15 @@ Stated here:
   depending on the degree only, and for primitive Dirichlet characters with one constant;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi` and the Weil explicit formula for
   `ζ` (8.3–8.4 at `K = ℚ`), the Weil explicit formula for `ζ_K` (8.4) and for a nontrivial
-  primitive ray-class character (8.6), the effective prime ideal theorem (8.5), the effective
+  primitive ray-class character (8.6), the explicit formula for the first Riesz mean of
+  `Λ_K(𝔞) χ(𝔞)/𝔑𝔞` (8.6a), at the trivial character with the Euler–Kronecker constant and at a
+  nontrivial primitive ray-class character, the effective prime ideal theorem (8.5), the effective
   prime count in a ray class (8.7) with its `K = ℚ` case, and the effective abelian Chebotarev
   count (8.8).
 
-The counts of 7.5 and the Weil formulas 8.4 and 8.6 over a general field run over the open strip
-`0 < Re s < 1`, where the zeros of the continued functions are those of their completions with the
-same multiplicities; this leaves out the trivial zeros at `s = 0`.
+The counts of 7.5, the Weil formulas 8.4 and 8.6 over a general field and the formulas of 8.6a run
+over the open strip `0 < Re s < 1`, where the zeros of the continued functions are those of their
+completions with the same multiplicities; this leaves out the trivial zeros at `s = 0`.
 
 Not stated here:
 
@@ -70,7 +72,7 @@ Not stated here:
 namespace TauCetiRoadmap.ZerosOfLFunctions
 
 open Complex Filter Asymptotics Set NumberField
-open scoped Real ContDiff nonZeroDivisors
+open scoped Real ContDiff nonZeroDivisors Topology
 
 /-- **Layer 0.1, the order predicate.** `f` has order at most `A`: for every `A' > A`,
 `f(s) = O(exp ‖s‖^{A'})` as `‖s‖ → ∞`. Entirety is a hypothesis of the theorems that use the
@@ -438,6 +440,77 @@ theorem heckeLFunction_weilExplicitFormula (K : Type*) [Field K] [NumberField K]
                     (𝔞 : Ideal (NumberField.RingOfIntegers K))) *
                   φ ((Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℝ))⁻¹ /
                     (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℂ)) :=
+  sorry
+
+/-- **Layer 8.6a at the trivial character, Ihara's explicit formula for the first Riesz mean.**
+Let `K` be a number field with `r₁` real and `r₂` complex places, `ζ_K` the continued Dedekind
+zeta function, and `m_ρ` the multiplicity of `ρ` as a zero of `ζ_K` in the open strip
+`0 < Re ρ < 1`. Then `∑_ρ m_ρ/‖ρ(1 − ρ)‖ < ∞`; the Euler–Kronecker constant `EK(K)`, the constant
+term of `logDeriv ζ_K` at its simple pole (`logDeriv ζ_K s = −1/(s − 1) + EK(K) + O(s − 1)`), is
+the limit of `logDeriv ζ_K s + 1/(s − 1)` as `s → 1`; and for every real `x > 1`,
+`EK(K) + 1 = log x − Φ_K(x) + (x − 1)⁻¹ ∑_ρ m_ρ (x^ρ − 1)/(ρ(1 − ρ)) + (r₁/2) F₁(x) + r₂ F₂(x)`,
+where `Φ_K(x) = (x − 1)⁻¹ ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞) (x/𝔑𝔞 − 1)` over the nonzero ideals `𝔞` of `𝓞 K`,
+`F₁(x) = log ((x + 1)/(x − 1)) + (2/(x − 1)) log ((x + 1)/2)` and
+`F₂(x) = log (x/(x − 1)) + (log x)/(x − 1)` (Ihara 2006, (1.2.1) with (1.4.1); Ihara–Murty–Shimura
+2009, §2.2, Theorem 1, (2.2.1), at the trivial character). At `K = ℚ`, `EK(ℚ) = γ_E`, and at
+`x = 2`, where `Φ_ℚ(2) = 0`, the zero sum is `γ_E + 1 − log 2 − F₁(2)/2 ≈ −0.0707`. -/
+theorem dedekindZeta_rieszMeanExplicitFormula (K : Type*) [Field K] [NumberField K] :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ ρ).toNat :
+          ℝ) / ‖ρ * (1 - ρ)‖) ρ) ∧
+      ∃ EK : ℂ,
+        Tendsto (fun s ↦ logDeriv (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) s +
+          (s - 1)⁻¹) (𝓝[≠] 1) (𝓝 EK) ∧
+        ∀ x : ℝ, 1 < x →
+          EK + 1 = (Real.log x : ℂ) -
+            ((x : ℂ) - 1)⁻¹ * ∑' 𝔞 : (Ideal (𝓞 K))⁰,
+              (if (Ideal.absNorm (𝔞 : Ideal (𝓞 K)) : ℝ) ≤ x then
+                TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+                  ((x / Ideal.absNorm (𝔞 : Ideal (𝓞 K)) - 1 : ℝ) : ℂ) else 0) +
+            ((x : ℂ) - 1)⁻¹ * ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+              ((MeromorphicOn.divisor (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ
+                ρ).toNat : ℂ) * ((x : ℂ) ^ ρ - 1) / (ρ * (1 - ρ))) ρ +
+            (((NumberField.InfinitePlace.nrRealPlaces K : ℝ) / 2 *
+                (Real.log ((x + 1) / (x - 1)) + 2 / (x - 1) * Real.log ((x + 1) / 2)) +
+              (NumberField.InfinitePlace.nrComplexPlaces K : ℝ) *
+                (Real.log (x / (x - 1)) + Real.log x / (x - 1)) : ℝ) : ℂ) :=
+  sorry
+
+/-- **Layer 8.6a at a nontrivial character, the explicit formula of Ihara, Murty and Shimura.**
+Let `ψ ≠ 1` be a primitive finite-order ray-class character of a number field `K` with `r₁` real
+and `r₂` complex places, of conductor `𝔣` with set `𝔣_∞` of real places, `a′ = #𝔣_∞` the number of
+real places at which `ψ` is ramified and `a = r₁ − a′`, and `m_ρ` the multiplicity of `ρ` as a zero
+of `L(ψ, s) = heckeLFunctionC ψ.character` in the open strip `0 < Re ρ < 1`. Then
+`∑_ρ m_ρ/‖ρ(1 − ρ)‖ < ∞`, and for every real `x > 1`,
+`L′/L(1, ψ) = −Φ_{K,ψ}(x) + (x − 1)⁻¹ ∑_ρ m_ρ (x^ρ − 1)/(ρ(1 − ρ))`
+`+ (a/2) F₁(x) + (a′/2) F₃(x) + r₂ F₂(x)`, where
+`Φ_{K,ψ}(x) = (x − 1)⁻¹ ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞) ψ(𝔞) (x/𝔑𝔞 − 1)` over the nonzero ideals of `𝓞 K`,
+with `ψ(𝔞) = 0` for `𝔞` not prime to the finite part of `𝔣`, `F₁` and `F₂` are as in
+`dedekindZeta_rieszMeanExplicitFormula`, and
+`F₃(x) = log (x²/(x² − 1)) + (2/(x − 1)) log (2x/(x + 1))` (Ihara–Murty–Shimura 2009, §2.2,
+Theorem 1, (2.2.1)). `L(·, ψ)` is entire with `L(1, ψ) ≠ 0` (6.5), so `logDeriv` at `1` is the
+value of `L′/L`. -/
+theorem heckeLFunction_rieszMeanExplicitFormula (K : Type*) [Field K] [NumberField K]
+    (ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K) (hψ : ψ ≠ 1) :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ ρ).toNat :
+          ℝ) / ‖ρ * (1 - ρ)‖) ρ) ∧
+      ∀ x : ℝ, 1 < x →
+        logDeriv (TauCeti.LFunctions.heckeLFunctionC ψ.character) 1 =
+          -(((x : ℂ) - 1)⁻¹ * ∑' 𝔞 : (Ideal (𝓞 K))⁰,
+            (if (Ideal.absNorm (𝔞 : Ideal (𝓞 K)) : ℝ) ≤ x then
+              TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+                ψ.character.toMultiplicativeIdealWeight (𝔞 : Ideal (𝓞 K)) *
+                ((x / Ideal.absNorm (𝔞 : Ideal (𝓞 K)) - 1 : ℝ) : ℂ) else 0)) +
+          ((x : ℂ) - 1)⁻¹ * ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+            ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ
+              ρ).toNat : ℂ) * ((x : ℂ) ^ ρ - 1) / (ρ * (1 - ρ))) ρ +
+          (((NumberField.InfinitePlace.nrRealPlaces K - ψ.conductor.infinitePart.card : ℕ) / 2 *
+              (Real.log ((x + 1) / (x - 1)) + 2 / (x - 1) * Real.log ((x + 1) / 2)) +
+            (ψ.conductor.infinitePart.card : ℝ) / 2 *
+              (Real.log (x ^ 2 / (x ^ 2 - 1)) + 2 / (x - 1) * Real.log (2 * x / (x + 1))) +
+            (NumberField.InfinitePlace.nrComplexPlaces K : ℝ) *
+              (Real.log (x / (x - 1)) + Real.log x / (x - 1)) : ℝ) : ℂ) :=
   sorry
 
 /-- **Layer 8.7, the effective prime count in a ray class.** For each degree `n` there is
