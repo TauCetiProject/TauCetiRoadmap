@@ -741,11 +741,11 @@ Let `O` be a discrete valuation ring, not necessarily complete and of any charac
 
 `θ(a;M) := length_O(M/aM) = v(det_E(a|M⊗_O E))`.
 
-This is the determinant form, for the lattice `M` and its image `aM⊆M`. It follows that
+This determinant form is Tau Ceti's `Matrix.length_quotient_range_mulVecLin_eq_ord_det` read in a basis of `M`, with Mathlib's `Ring.ord_eq_addVal`; Stacks 02MI is its form for the lattice `M` and its image `aM⊆M`. The target of this section is the expression of `θ(a;M)` by primes,
 
 `θ(a;M) = Σ_P length_(B_P)(M_P)·v(N_(κ(P)/E)(ā))`,
 
-since `v(det_E(a|·))` is additive along a composition series of `M⊗_O E` whose factors are the `κ(P)`, each occurring `length_(B_P)(M_P)` times, and `det_E(ā)=N_(κ(P)/E)(ā)` on `κ(P)`. The sum runs over the finitely many primes `P` of `B` in the support of `M` with `P∩O=0`. Their residue fields `κ(P)` are finite over `E`, and `ā` is the image of `a` in `κ(P)`.
+which holds since `v(det_E(a|·))` is additive along a composition series of `M⊗_O E` whose factors are the `κ(P)`, each occurring `length_(B_P)(M_P)` times, and `det_E(ā)=N_(κ(P)/E)(ā)` on `κ(P)`. The sum runs over the finitely many primes `P` of `B` in the support of `M` with `P∩O=0`. Their residue fields `κ(P)` are finite over `E`, and `ā` is the image of `a` in `κ(P)`.
 
 **Checks.**
 
@@ -755,12 +755,12 @@ since `v(det_E(a|·))` is additive along a composition series of `M⊗_O E` whos
 The route is as follows.
 
 - `B` acts on `M` through `B̄:=B/Ann_B(M)`, a subalgebra of `End_O(M)` that is finite over `O`.
-- For `M` free over `O` the first equality is Smith normal form.
+- In a basis of `M` over `O`, `a` acts by a square matrix `A` over `O` with `det A=det_E(a|M⊗_O E)`, nonzero because `a` is injective on `M⊗_O E`. `Matrix.length_quotient_range_mulVecLin_eq_ord_det` gives `length_O(M/aM)=Ring.ord O (det A)`, which `Ring.ord_eq_addVal` identifies with `v(det A)`, finite since `det A≠0`. The element `a` is injective on `M` because `M` embeds in `M⊗_O E`.
 - `B̄⊗_O E⊆End_E(M⊗E)` is finite-dimensional over `E`, hence Artinian. `B⊗E` itself need not be: take `B=O[X]` and `M=O` with `XM=0`.
 - `M⊗E` is a module of finite length over `B̄⊗_O E`, with a composition series whose factors are the `κ(P)`, `P` as above, each occurring `length_(B_P)(M_P)` times. The primes of `B̄⊗E` are those of `B` that contain `Ann_B(M)` and meet `O` in `0`.
 - On `κ(P)`, `det_E(ā)=N_(κ(P)/E)(ā)`.
 
-Source: Stacks, Algebra, Lemma 10.121.7, tag 02MI, for the determinant form for lattices; see also W. Fulton, *Intersection Theory*, Appendix A. The sum over primes is an elementary adapter, proved from the determinant form by the route above. Needs: native `Module.length` with its additivity in short exact sequences, `LinearMap.det`, `Algebra.norm` and the Smith normal form over a principal ideal domain.
+Source: Stacks, Algebra, Lemma 10.121.7, tag 02MI, for the determinant form for lattices. The sum over primes is an elementary adapter, proved from the determinant form by the route above. Needs: Tau Ceti `Matrix.length_quotient_range_mulVecLin_eq_ord_det`; Mathlib `Ring.ord_eq_addVal`, `Module.length` with its additivity in short exact sequences, `LinearMap.det` and `Algebra.norm`.
 
 ### 3.13 Parameters and initial-form inequalities
 
@@ -866,7 +866,7 @@ The DVR computes every shift in local duality and separates intrinsic from ambie
 
 ### Dependencies
 
-Layer 1; the depth, CM, Serre and excellence contracts of SchemeAndStackFoundations; PadicLocalLanglandsForGL2Qp §0.5's Hilbert–Samuel polynomial and multiplicity; ModularCurves §4D; the supplied native Koszul and module tensor/Hom/completion interfaces; native projective resolutions, Ext, local cohomology, finite length, determinants and field norms; Tau Ceti injective envelopes, Artin–Rees and the pinned regular-local results.
+Layer 1; the depth, CM, Serre and excellence contracts of SchemeAndStackFoundations; PadicLocalLanglandsForGL2Qp §0.5's Hilbert–Samuel polynomial and multiplicity; ModularCurves §4D; the supplied native Koszul and module tensor/Hom/completion interfaces; native projective resolutions, Ext, local cohomology, finite length, determinants, orders of vanishing and field norms; Tau Ceti injective envelopes, Artin–Rees, the cokernel length of a square matrix over a principal ideal domain and the pinned regular-local results.
 
 ## Layer 4: Finiteness, integral points and completed local coordinates
 
@@ -1915,7 +1915,7 @@ The rest of these folders is outside this roadmap. Abstract deformation categori
 
 ## Scope and ownership
 
-This is Part I. It owns coefficient-category adapters, relative local presentations and their relation spaces; the commutative algebra needed to use finite actions; canonical CM duals and explicit duality comparisons; graded Hilbert series and multiplicity comparisons on the shared Hilbert–Samuel polynomial, and the order of an element on a module free of finite rank over a discrete valuation ring; the algebraic finiteness and point arguments for complete local rings; balanced module patching; component and specialization comparisons; finite-order approximation and coefficient comparisons; and the simultaneous patching and support arguments themselves.
+This is Part I. It owns coefficient-category adapters, relative local presentations and their relation spaces; the commutative algebra needed to use finite actions; canonical CM duals and explicit duality comparisons; graded Hilbert series and multiplicity comparisons on the shared Hilbert–Samuel polynomial, and the expression by primes of the order of an element on a module free of finite rank over a discrete valuation ring (§3.12a; its determinant form is Tau Ceti's); the algebraic finiteness and point arguments for complete local rings; balanced module patching; component and specialization comparisons; finite-order approximation and coefficient comparisons; and the simultaneous patching and support arguments themselves.
 
 The following boundaries are part of the specification. They prevent two constructions with the same mathematical meaning from acquiring incompatible APIs.
 
@@ -1938,7 +1938,7 @@ The following boundaries are part of the specification. They prevent two constru
 
 ### From Mathlib
 
-At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, use `Ideal`, `Submodule`, quotient maps, `Localization.AtPrime`, `PrimeSpectrum`, `Module.support`, associated primes, `Module.length` and finite-length additivity. Section 3.12a also uses `LinearMap.det` and `Algebra.norm`. The intended carriers are the native modules, ideals and spectra; set-theoretic support is not replaced by a new spectrum.
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, use `Ideal`, `Submodule`, quotient maps, `Localization.AtPrime`, `PrimeSpectrum`, `Module.support`, associated primes, `Module.length` and finite-length additivity. Section 3.12a also uses `LinearMap.det`, `Algebra.norm`, `Ring.ord` (the length of `O/dO`) and `Ring.ord_eq_addVal` (in `Mathlib.RingTheory.OrderOfVanishing.Noetherian`), which on a discrete valuation ring identifies `Ring.ord` with the normalized valuation `IsDiscreteValuationRing.addVal`. The intended carriers are the native modules, ideals and spectra; set-theoretic support is not replaced by a new spectrum.
 
 `RingTheory.Sequence.IsWeaklyRegular`, `RingTheory.Sequence.IsRegular`, their flat-base-change API, `Module.Flat`, `Module.FaithfullyFlat`, `Module.Projective`, `Module.Free`, `IsRegularLocalRing`, `ringKrullDim`, and `CategoryTheory.projectiveDimension` supply the basic predicates. `ModuleCat.exists_isRegular_tfae` already identifies regular sequences in an ideal with the corresponding finite-module Ext vanishings under `IM<M`; its two directional theorems in `RingTheory.Depth.Rees` are used rather than replanned. In particular `ModuleCat.projectiveDimension_quotSMulTop_eq_succ_of_isSMulRegular` and `ModuleCat.projectiveDimension_quotient_eq_length` are already available; only the missing local comparisons and end formulas are built here.
 
@@ -1950,7 +1950,7 @@ Use native `Ultrafilter`, germs, localization, finite products and cofiltered fi
 
 ### From Tau Ceti
 
-At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`, use `TauCeti.ArtinRees.exists_controlled_lift`, the finite-length comparisons in `TauCeti.RingTheory.Length`, finite integral dimension comparison `TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul`, and `TauCeti.RingTheory.MvPowerSeries.Evaluation` for adic evaluation bounds. `TauCeti.IsInjectiveEnvelope` and `TauCeti.IsInjectiveEnvelope.exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic` supply the injective-envelope predicate and uniqueness used when selecting the residue injective hull. `TauCeti.fittingIdeal` in `TauCeti.RingTheory.FittingIdeal.Basic` supplies Fitting ideals of finite modules; `TauCeti.fittingIdeal_baseChange` in `TauCeti.RingTheory.FittingIdeal.BaseChange` supplies arbitrary scalar extension. Their presentation and base-change calculus is consumed in §9.1. `TauCeti.linearHomComplexEnrichedCategory` supplies the linear Hom-complex enrichment and its actual composition signs.
+At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`, use `TauCeti.ArtinRees.exists_controlled_lift`, the finite-length comparisons in `TauCeti.RingTheory.Length`, finite integral dimension comparison `TauCeti.ringKrullDim_eq_of_isIntegral_of_faithfulSMul`, and `TauCeti.RingTheory.MvPowerSeries.Evaluation` for adic evaluation bounds. `TauCeti.IsInjectiveEnvelope` and `TauCeti.IsInjectiveEnvelope.exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic` supply the injective-envelope predicate and uniqueness used when selecting the residue injective hull. `TauCeti.fittingIdeal` in `TauCeti.RingTheory.FittingIdeal.Basic` supplies Fitting ideals of finite modules; `TauCeti.fittingIdeal_baseChange` in `TauCeti.RingTheory.FittingIdeal.BaseChange` supplies arbitrary scalar extension. Their presentation and base-change calculus is consumed in §9.1. `TauCeti.linearHomComplexEnrichedCategory` supplies the linear Hom-complex enrichment and its actual composition signs. `Matrix.length_quotient_range_mulVecLin_eq_ord_det` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm.Length` supplies, over a principal ideal domain, the length of the cokernel of a square matrix with nonzero determinant as `Ring.ord` of its determinant; §3.12a reads it in a basis of `M`.
 
 Tau Ceti also supplies `TauCeti.IsRegularLocalRing.isDomain`, `TauCeti.IsRegularLocalRing.quotient_span_singleton`, `TauCeti.IsRegularLocalRing.quotient_span_singleton_iff`, and `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one` in `RingTheory.RegularLocalRing.Basic`. Their hypotheses include regular locality, and the quotient equivalence requires a nonzero element in `m`. These are supplier statements, including the regular-parameter example, rather than new goals.
 
@@ -2014,7 +2014,6 @@ Page numbers below refer to the versions specified here. Stacks tags are the sta
 - L. Avramov and O. Veliche, [*Stable cohomology over local rings*](https://arxiv.org/pdf/math/0508021v3), arXiv:math/0508021v3, §§1.3–2.1, pp. 4–7, and §5.1, pp. 15–16, especially Lemma 5.1.7 and Theorem 5.1.8 with its proof.
 - L. Avramov, *Infinite free resolutions*, printed pp. 56–63 and 95–99; Construction 6.3.1, Lemma 6.3.3, Theorems 6.3.5, 7.1.3 and 10.2.1. The odd-square addition rule in Remark 10.1.2(3) uses plus signs.
 - M. Nagata, *The theory of multiplicity in general local rings*, *Proceedings of the International Symposium on Algebraic Number Theory, Tokyo & Nikko, 1955* (1956), pp. 191–226, especially Lemmas 5.3–5.4, Theorem 1 and Proposition 5, pp. 204–205; Lemmas 8.1–8.2 and Theorem 6 with proof, pp. 214–216; Theorem 9 and Corollary 1, pp. 219–220.
-- W. Fulton, *Intersection Theory*, Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 2, Springer, Berlin, 1984, Appendix A.
 - Y. André, [*La conjecture du facteur direct*](https://www.numdam.org/item/10.1007/s10240-017-0097-9.pdf), Publ. Math. IHÉS 127 (2018), 71–93, §0.1 and §3.4, pp. 72, 84.
 - B. Bhatt, [*On the direct summand conjecture and its derived variant*](https://arxiv.org/pdf/1608.08882v2), arXiv:1608.08882v2, Lemma 5.3, pp. 9–10.
 - B. Bhatt, L. Ma, Z. Patakfalvi, K. Schwede, K. Tucker, J. Waldron and J. Witaszek, [*Globally +-regular varieties and the minimal model program for threefolds in mixed characteristic*](https://arxiv.org/pdf/2012.15801v3), arXiv:2012.15801v3, §2.1, pp. 10–11.
