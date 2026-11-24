@@ -269,15 +269,6 @@ theorem charpoly_adjMatrix_of_degree_eq_zero (R : Type*) [CommRing R] {v : V}
     (G.adjMatrix R).charpoly = X * ((G.induce ({v}ᶜ : Set V)).adjMatrix R).charpoly := by
   sorry
 
-/-- **The leaf recurrence.** If `v` has degree `1` and neighbour `u`,
-`p_G = t p_{G-v} - p_{G-u-v}`. (README 1.3) -/
-theorem charpoly_adjMatrix_of_leaf (R : Type*) [CommRing R] {u v : V} (huv : G.Adj u v)
-    (hv : G.degree v = 1) :
-    (G.adjMatrix R).charpoly =
-      X * ((G.induce ({v}ᶜ : Set V)).adjMatrix R).charpoly -
-        ((G.induce ({u, v}ᶜ : Set V)).adjMatrix R).charpoly := by
-  sorry
-
 end Layer1
 
 /-! ## Layer 2: nullity and determinant of forests -/
@@ -382,7 +373,7 @@ def energy : ℝ := (G.adjSpectrum.map abs).sum
 
 /-- **Energy bounds.** `2√m ≤ E ≤ √(2mn)` and `E ≥ √(2m + n(n-1)|det A|^{2/n})`.
 (README 3.3) -/
-theorem energy_bounds [Nonempty V] :
+theorem energy_bounds :
     2 * √(#G.edgeFinset) ≤ G.energy ∧
       G.energy ≤ √(2 * #G.edgeFinset * Fintype.card V) ∧
       √(2 * #G.edgeFinset + Fintype.card V * (Fintype.card V - 1) *
@@ -505,8 +496,10 @@ theorem hypercubeSigning_spectrum {d : ℕ} (hd : 1 ≤ d) :
         Multiset.replicate (2 ^ (d - 1)) √d + Multiset.replicate (2 ^ (d - 1)) (-√d) := by
   sorry
 
-/-- **The sensitivity theorem.** For `d ≥ 1`, every induced subgraph of the `d`-cube on
-`2^{d-1} + 1` vertices has maximum degree at least `√d`. (README 4.4) -/
+/-- **The sensitivity theorem, graph form.** For `d ≥ 1`, every induced subgraph of the `d`-cube
+on `2^{d-1} + 1` vertices has maximum degree at least `√d`: Huang's theorem of
+DecisionTreeComplexity 5.1, which owns it, translated to `hypercube d` and `maxDegree`.
+(README 4.4) -/
 theorem sqrt_le_maxDegree_induce_hypercube {d : ℕ} (hd : 1 ≤ d) (s : Finset (Fin d → Bool))
     (hs : s.card = 2 ^ (d - 1) + 1) :
     √d ≤ ((hypercube d).induce (s : Set (Fin d → Bool))).maxDegree := by
@@ -514,24 +507,11 @@ theorem sqrt_le_maxDegree_induce_hypercube {d : ℕ} (hd : 1 ≤ d) (s : Finset 
 
 end SimpleGraph
 
-/-! ### 1.3 The derivative of a characteristic polynomial -/
-
-namespace Matrix
-
-variable {V : Type*} [Fintype V] [DecidableEq V]
-
-/-- **The derivative of a characteristic polynomial**, for any square matrix over a commutative
-ring: `χ_M' = ∑_v χ_{M[V-v]}`. (README 1.3) -/
-theorem derivative_charpoly {R : Type*} [CommRing R] (M : Matrix V V R) :
-    derivative M.charpoly =
-      ∑ v : V, (M.submatrix (Subtype.val : {x // x ≠ v} → V) Subtype.val).charpoly := by
-  sorry
-
-end Matrix
-
 end TauCetiRoadmap.CharacteristicPolynomialsAndStarComplements
 
-/-! ## Library declarations consumed -/
+/-! ## Library declarations consumed
+
+Pinned library declarations named in the supplier contracts of `README.md`. -/
 
 -- Mathlib
 #check @Matrix.charpoly
@@ -544,9 +524,7 @@ end TauCetiRoadmap.CharacteristicPolynomialsAndStarComplements
 #check @Matrix.charpoly_coeff_eq_sum_minors
 #check @Matrix.det_apply'
 #check @Matrix.twoBlockTriangular_det
-#check @Matrix.det_succ_row_zero
-#check @Matrix.det_succ_column_zero
-#check @Polynomial.derivative_prod_finset
+#check @hammingDist
 #check @Polynomial.rootMultiplicity_eq_natTrailingDegree'
 #check @Polynomial.eq_rootMultiplicity_map
 #check @Matrix.kronecker

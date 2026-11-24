@@ -15,10 +15,9 @@ The headline theorems are these.
   their cycles; the coefficient of `t^{n-j}` in `p_G` is the same sum over the elementary
   subgraphs on `j` vertices. For `n ≥ 3` the coefficients of `t^{n-1}`, `t^{n-2}` and `t^{n-3}`
   are `0`, minus the number of edges and minus twice the number of triangles.
-- *Vertex deletion.* For every square matrix over a commutative ring, the derivative of the
-  characteristic polynomial is the sum of the characteristic polynomials of the principal
-  submatrices of order `n - 1`; for graphs `p_G' = Σ_v p_{G-v}`, and a leaf `v` with neighbour `u`
-  gives `p_G = t p_{G-v} - p_{G-u-v}`.
+- *Vertex deletion.* With the derivative `p_G' = Σ_v p_{G-v}` and the leaf recursion
+  `p_G = t p_{G-v} - p_{G-u-v}` of GraphSpectra 1.2, an isolated vertex `v` gives
+  `p_G = t p_{G-v}`.
 - *Forests.* For a forest with matching number `ν`, the eigenvalue `0` has multiplicity `n - 2ν`,
   and `det A` is `(-1)^{n/2}` if the forest has a perfect matching and `0` otherwise.
 - *Operations and complements.* The adjacency spectrum of the tensor product `G × H` is the
@@ -34,24 +33,26 @@ The headline theorems are these.
   the graph is determined by its star complement and the edges leaving `X`, and for
   `θ ∉ {-1, 0}` a star complement with `t` vertices forces `n ≤ t(t+1)/2`, unless `θ = 1` and `G`
   is `K₂` or `2K₂` (Bell and Rowlinson).
-- *Sensitivity.* For `d ≥ 1`, every induced subgraph of the hypercube `Q_d` on `2^{d-1} + 1`
-  vertices has a vertex of degree at least `√d` (Huang).
+- *Sensitivity.* Huang's signing of the hypercube `Q_d` squares to `dI` and has the eigenvalues
+  `±√d`, each with multiplicity `2^{d-1}`; with Huang's theorem of DecisionTreeComplexity 5.1,
+  every induced subgraph of `Q_d` on `2^{d-1} + 1` vertices has maximum degree at least `√d`.
 
 The roadmap builds on GraphSpectra for the spectra as root multisets of characteristic
 polynomials, disjoint unions, the hypercube, the spectral decomposition of 1.8 there,
 Perron–Frobenius, main angles and walk counts. MatchingPolynomial supplies the matching polynomial
 and the theorem that it is the characteristic polynomial exactly for forests, MatchingTheory the
 matching number and TuttePolynomialAndArrangements the component count of an edge set.
-[RandomMatrices](../RandomMatrices/README.md) supplies Cauchy interlacing, and SpectralGraphBounds
+GraphSpectra 1.2 supplies the derivative of the characteristic polynomial and the leaf recursion,
+DecisionTreeComplexity Huang's theorem on induced subgraphs of the cube, and SpectralGraphBounds
 the trace identities `Σθᵢ = 0` and `Σθᵢ² = 2m`.
 
 ## How to read the build
-
 Layer 1 is the combinatorial calculus of the characteristic polynomial: elementary edge sets and
-their component and cycle counts (1.1), Harary's determinant formula and Sachs's coefficient
-theorem (1.2), and vertex deletion (1.3), which is independent of 1.1–1.2 and holds for every
-square matrix. Layer 2 proves the nullity of forests from the lowest term of the matching
-polynomial and computes the determinant of a forest from Harary's formula.
+their component and cycle counts (1.1), Harary's determinant formula and Sachs's coefficient theorem
+(1.2), and the isolated-vertex case of vertex deletion (1.3), which is independent of 1.1–1.2 and
+adds to the vertex-deletion identities of GraphSpectra 1.2. Layer 2 proves the nullity of forests
+from the lowest term of the matching polynomial and computes the determinant of a forest from
+Harary's formula.
 
 Layer 3 is independent of Layers 1 and 2 and rests on GraphSpectra, Layers 1 and 3: the spectra
 of tensor products and joins (3.1), the characteristic polynomial of the complement through main
@@ -59,8 +60,8 @@ angles and the walk generating function (3.2), and energy (3.3).
 
 Layer 4 is independent of Layers 1–3. It names the interlacing patterns (4.1), proves that tight
 interlacing forces invariance of the compressed subspace (4.2), develops star sets and star
-complements (4.3), and proves the sensitivity theorem by Cauchy interlacing for a signing of the
-hypercube (4.4).
+complements (4.3), and gives Huang's signing of the hypercube with its spectrum and the graph form
+of Huang's theorem on induced subgraphs of the cube, which DecisionTreeComplexity 5.1 owns (4.4).
 
 ## Conventions
 
@@ -96,7 +97,8 @@ hypercube (4.4).
   categorical product; `G ⊗ H` in [BH]) and the join `join G H` are defined here; `hypercube d`
   is GraphSpectra's `hammingGraph d Bool` (2.3 there).
 - **Junk values.** Main angles divide by `√n`, which is `0` only for the empty type, where every
-  sum is empty. `x ^ (2 / n)` in the energy bound is `Real.rpow`, applied to `|det A| ≥ 0`. The
+  sum is empty. `x ^ (2 / n)` in the energy bound is `Real.rpow`, applied to `|det A| ≥ 0`; on the
+  empty type `2 / n = 0` and `det A = 1`, and the term `n(n-1)|det A|^{2/n}` is `0`. The
   inverse `(θI - C)⁻¹` of 4.3 is Mathlib's `Matrix.inv`, the zero matrix on a singular argument;
   every statement that uses it either assumes or concludes that `θ` is not an eigenvalue of `C`.
 
@@ -176,44 +178,26 @@ minor to `Fin 1`, `Fin 2` and `Fin 3`.
 
 ### 1.3 Vertex deletion
 
-- **Derivative of a characteristic polynomial** (`Matrix.derivative_charpoly`). For any square
-  matrix `M` over a commutative ring, `χ_M' = ∑_v χ_{M[V∖v]}`, the sum of the characteristic
-  polynomials of the principal submatrices of order `n - 1` (for graphs: [CRS, Theorem 2.3.1,
-  p. 35; B, Additional result 2d, p. 11; BH, Proposition 5.1.1(vii), p. 84, for trees]).
-- **Graphs.** `p_G' = ∑_v p_{G-v}`. This is the matrix statement at `G.adjMatrix R`, since the
-  principal submatrix at `V ∖ v` is the adjacency matrix of `G - v`
-  (`SimpleGraph.Embedding.submatrix_adjMatrix`); it is not a separate target.
-- **An isolated vertex** (`charpoly_adjMatrix_of_degree_eq_zero`). If `v` has degree `0`,
-  `p_G = t p_{G-v}`.
-- **Leaf recurrence** (`charpoly_adjMatrix_of_leaf`). If `v` has degree `1` with neighbour `u`,
-  `p_G = t p_{G-v} - p_{G-u-v}` [B, Additional result 2a, p. 11].
-- **Sparse expansion.** For a square matrix `M` over a commutative ring indexed by `Fin (k + 2)`
-  whose row `0` and column `0` vanish beyond their first two entries,
-  `det M = M₀₀ det M[≥1] - M₀₁ M₁₀ det M[≥2]`, where `M[≥i]` deletes the rows and columns below
-  `i`.
+The derivative of the characteristic polynomial of a square matrix over a commutative ring,
+`χ_M' = ∑_v χ_{M[V∖v]}` [CRS, Theorem 2.3.1, p. 35], the pendant-vertex recursion
+`p_G = t p_{G-v} - p_{G-u-v}` for a vertex `v` of degree `1` with neighbour `u` [B, Additional
+result 2a, p. 11], and the sparse expansion of a determinant on its route are GraphSpectra 1.2.
+For graphs the derivative reads `p_G' = ∑_v p_{G-v}`, since the principal submatrix at `V ∖ v`
+is the adjacency matrix of `G - v` (`SimpleGraph.Embedding.submatrix_adjMatrix`); this is not a
+separate target.
 
-**Suggested proof:** expand `det(tI - M)` by Leibniz and differentiate each product
-(`Polynomial.derivative_prod_finset`); the sum regroups as the sum over `v` of the determinants
-of `tI - M` with column `v` replaced by `e_v`, and each of these is block triangular
-(`Matrix.twoBlockTriangular_det`) with diagonal blocks `1` and `tI - M[V∖v]`. For an isolated
-vertex the matrix `tI - A` is block diagonal with the block `t` at `v`. The sparse expansion is
-`Matrix.det_succ_row_zero` followed by `Matrix.det_succ_column_zero` on the one surviving minor.
-For the leaf, reindex `V` as `Fin (k + 2)` with `v ↦ 0` and `u ↦ 1` and apply the sparse
-expansion to `tI - A`.
+- **An isolated vertex** (`charpoly_adjMatrix_of_degree_eq_zero`). If `v` has degree `0`,
+  `p_G = t p_{G-v}` over any commutative ring.
+
+**Suggested proof:** the matrix `tI - A` is block triangular for the predicate `· = v`
+(`Matrix.twoBlockTriangular_det`), with the block `t` at `v` and the block `tI - A(G - v)`.
 
 **Checks.**
-- `K₂`: `(t² - 1)' = 2t = t + t`.
-- `P₃` with leaf `0`, neighbour `1`: `p = t³ - 2t = t(t² - 1) - t`.
 - `K₂ ⊕g K₁` at the isolated vertex: `t³ - t = t (t² - 1)`.
-- `K₃`: `(t³ - 3t - 2)' = 3t² - 3 = 3(t² - 1)`.
-- `M = [[a]]` over any commutative ring: `(t - a)' = 1`, the characteristic polynomial of the
-  empty matrix.
-- Negative control: the leaf recurrence needs degree `1`; at the centre `v` of `K_{1,2} = P₃`
-  with neighbour `u` a leaf, `t p_{G-v} - p_{G-u-v} = t · t² - t = t³ - t`, while `p = t³ - 2t`.
+- `K₁`: `t = t · 1`, with the characteristic polynomial `1` of the empty graph.
+- Negative control: the degree must be `0`; at a vertex of `K₂`, `t · t = t² ≠ t² - 1`.
 
-*Needs:* Mathlib `Matrix.det_apply'`, `Polynomial.derivative_prod_finset`,
-`Matrix.twoBlockTriangular_det`, `Matrix.det_succ_row_zero`, `Matrix.det_succ_column_zero`,
-`SimpleGraph.induce`.
+*Needs:* GraphSpectra 1.2; Mathlib `Matrix.twoBlockTriangular_det`, `SimpleGraph.induce`.
 
 ## Layer 2: nullity and determinant of forests
 
@@ -350,7 +334,7 @@ at `-(t+1)/t` [CRS, p. 28].
 ### 3.3 Energy
 
 Definition: `energy G = ∑|θᵢ|`.
-- **Bounds** (`energy_bounds`). On a nonempty vertex type, `2√m ≤ E ≤ √(2mn)` and
+- **Bounds** (`energy_bounds`). `2√m ≤ E ≤ √(2mn)` and
   `E ≥ √(2m + n(n-1)|det A|^{2/n})` [BH, Exercise 3.10, p. 65; CRS, Proposition 9.2.2, p. 270, for
   `E ≤ √(2mn)`]. [St, Theorem 8.14, p. 244] prints `4m` in place of `2m` in the last bound, which
   fails on `K₂`.
@@ -361,7 +345,8 @@ Definition: `energy G = ∑|θᵢ|`.
 `E² = ∑θᵢ² + ∑_{i≠j}|θᵢθⱼ| ≥ 2m + |∑_{i≠j}θᵢθⱼ| = 2m + |0 - 2m| = 4m`. The upper bound is
 Cauchy–Schwarz (`Finset.sum_mul_sq_le_sq_mul_sq`): `E² ≤ n∑θᵢ² = 2mn`. For the determinant bound,
 AM–GM (`Real.geom_mean_le_arith_mean_weighted`) on the `n(n-1)` terms `|θᵢθⱼ|`, `i ≠ j`, whose
-product is `|det A|^{2(n-1)}` (`Matrix.IsHermitian.det_eq_prod_eigenvalues`). For integrality,
+product is `|det A|^{2(n-1)}` (`Matrix.IsHermitian.det_eq_prod_eigenvalues`); for `n ≤ 1` the
+factor `n(n-1)` is `0` and the bound is `√(2m) ≤ 2√m ≤ E`. For integrality,
 `E` is twice the sum of the positive eigenvalues; each is a root of the monic integer
 characteristic polynomial (GraphSpectra 1.2), hence integral over `ℤ` (`IsIntegral`), so their
 sum is (`IsIntegral.add`), and a rational number integral over `ℤ` is an integer
@@ -373,6 +358,8 @@ sum is (`IsIntegral.add`), and a rational number integral over `ℤ` is an integ
 - `K_{1,3}`: `E = 2√3 = 2√m` (equality), `√24 ≥ 2√3`.
 - `C₄`: `E = 4 = 2√4`, `det A = 0`, and the determinant bound reads `√8 ≤ 4`.
 - Negative control: the printed `√(4m + n(n-1)|det A|^{2/n})` fails on `K₂`: `√6 > 2`.
+- The empty vertex type: `E = m = n = 0` and `det A = 1`; the bounds read `0 ≤ 0 ≤ √0` and
+  `√(0 + 0 · (-1) · 1) = 0 ≤ 0`, with `2/0 = 0` in `ℝ`, so no hypothesis is needed.
 
 *Needs:* GraphSpectra 1.2; SpectralGraphBounds 1.1.
 
@@ -380,9 +367,10 @@ sum is (`IsIntegral.add`), and a rational number integral over `ℤ` is an integ
 
 Cauchy interlacing and the min–max form for `eigenvalues₀` are RandomMatrices 1.2, and
 interlacing for induced subgraphs is SpectralGraphBounds 1.1; this layer adds the tight case for
-compressions, star complements and the sensitivity theorem.
+compressions, star complements, and Huang's signing of the hypercube.
 
-*Depends on:* GraphSpectra 1.2, 2.3 and 3.2; RandomMatrices 1.2; Tau Ceti Courant–Fischer.
+*Depends on:* GraphSpectra 1.2, 2.3 and 3.2; DecisionTreeComplexity 5.1; Tau Ceti
+Courant–Fischer.
 
 ### 4.1 Interlacing predicates
 
@@ -484,28 +472,31 @@ and only `K₂` fails. Components contribute independent forms, which leaves `rK
 ### 4.4 The sensitivity theorem
 
 Definition: `hypercubeSigning d`, a signed adjacency matrix of `Q_d`, whose entry for the edge
-from `x` flipping coordinate `i` is `(-1)^{#{j < i : x_j = 1}}`. [N–P, Exercise 2.4.6,
-pp. 80–81] defines a signing of the same pattern by the block recursion
-`A_d = [[A_{d-1}, I], [I, -A_{d-1}]]`.
+from `x` flipping coordinate `i` is `(-1)^{#{j < i : x_j = 1}}`. Huang defines a signing of the
+same pattern by the block recursion `A_d = [[A_{d-1}, I], [I, -A_{d-1}]]` [H, Lemma 2.2, p. 4;
+N–P, Exercise 2.4.6, pp. 80–81].
 - **Pattern** (`abs_hypercubeSigning`). `|B_{xy}| = A_{xy}` with `A` the adjacency matrix of
   `hypercube d`.
-- **Square** (`hypercubeSigning_mul_self`). `B² = dI`.
+- **Square** (`hypercubeSigning_mul_self`). `B² = dI` [H, Lemma 2.2, p. 4].
 - **Spectrum** (`hypercubeSigning_spectrum`). For `d ≥ 1`, `B` is symmetric with eigenvalues
-  `±√d`, each of multiplicity `2^{d-1}`.
-- **Sensitivity** (`sqrt_le_maxDegree_induce_hypercube`). For `d ≥ 1`, every induced subgraph of
-  `Q_d` on `2^{d-1} + 1` vertices has maximum degree at least `√d` [N–P, Exercise 2.4.6,
-  pp. 80–81].
+  `±√d`, each of multiplicity `2^{d-1}` [H, Lemma 2.2, p. 4].
+- **Sensitivity, graph form** (`sqrt_le_maxDegree_induce_hypercube`). For `d ≥ 1`, every induced
+  subgraph of `Q_d` on `2^{d-1} + 1` vertices has maximum degree at least `√d` [H, Theorem 1.1,
+  p. 1; N–P, Exercise 2.4.6, pp. 80–81]. This is Huang's theorem of DecisionTreeComplexity 5.1,
+  which owns it, translated to `hypercube d` and `SimpleGraph.maxDegree`.
 
 **Suggested proof:** `B` is symmetric, since flipping coordinate `i` leaves the coordinates below
 `i` unchanged. For `B² = dI`, the two paths between vertices at distance 2 that differ in
 coordinates `i < k` have opposite signs, since flipping `i` changes the sign attached to `k`, and
 each vertex has `d` neighbours. The eigenvalues are `±√d` by `B² = dI`, and `tr B = 0` gives the
-multiplicities. Cauchy interlacing (RandomMatrices 1.2, applied to `B` and its principal
-submatrix on `s`) gives that submatrix the eigenvalue `λ₁ ≥ λ_{2^{d-1}}(B) = √d`. By Gershgorin
-(Mathlib's `eigenvalue_mem_ball`, zero diagonal), `λ₁` is at most the largest absolute row sum of
-the submatrix, which by the pattern is the largest degree of the induced subgraph
-(`SimpleGraph.maxDegree`). Mathlib's `Archive/Sensitivity.lean`, which is outside the library,
-proves the theorem for its own model of the cube.
+multiplicities. For the graph form, apply DecisionTreeComplexity 5.1 to `s`: for `d ≥ 1`,
+`2^d < 2(2^{d-1} + 1)`, so some `x ∈ s` has `√d ≤ #{i | x^i ∈ s}`. The vertices `x^i` are the
+neighbours of `x` in `hypercube d` (Hamming distance `1`, one for each `i`), so that count is the
+degree of `x` in the induced subgraph, which is at most `SimpleGraph.maxDegree`. Huang's own proof
+[H, proof of Theorem 1.1, pp. 4–5] uses Cauchy interlacing (RandomMatrices 1.2) for `B` and its
+principal submatrix on `s`, and his row-sum bound [H, Lemma 2.3, p. 4]; DecisionTreeComplexity
+5.1 replaces the interlacing by a dimension count. Mathlib's `Archive/Sensitivity.lean`, which is
+outside the library, proves the theorem for its own model of the cube.
 
 **Checks.**
 - `d = 1`: `B = [[0, 1], [1, 0]]`, `B² = I`; two vertices of `Q₁` induce `K₂`, degree `1 ≥ 1`.
@@ -517,24 +508,22 @@ proves the theorem for its own model of the cube.
 - Negative control: the `2^{d-1}` even-weight vertices of `Q_d` are independent (degree `0`); the
   size `2^{d-1} + 1` cannot be lowered.
 
-*Needs:* GraphSpectra 2.3; RandomMatrices 1.2; Mathlib `eigenvalue_mem_ball`,
-`SimpleGraph.maxDegree`.
+*Needs:* GraphSpectra 2.3; DecisionTreeComplexity 5.1; Mathlib `SimpleGraph.maxDegree`,
+`hammingDist`.
 
 ## Scope and ownership
 
 The roadmap is complete when Tau Ceti proves every target above. `Suggested.lean` states the
 headlines that carry a Lean name, each with every conclusion the README attaches to it; it is not
 an exhaustive acceptance test, and the other headlines (the meaning of the counts in 1.1, the
-small principal minors of 1.2, the sparse expansion of 1.3, the perfect matchings of a forest in
-2.2 and the equality statement of 4.2) are targets of the same standing, stated in prose.
+small principal minors of 1.2, the perfect matchings of a forest in 2.2 and the equality
+statement of 4.2) are targets of the same standing, stated in prose.
 
 Owned here:
 - edge degrees and supports of edge sets, elementary edge sets with their component and cycle
   counts, Harary's determinant formula, Sachs's coefficient theorem and the first three
   coefficients, and the principal minors of orders `1`, `2` and `3` of an adjacency matrix;
-- the derivative of the characteristic polynomial of a square matrix, the vertex-deletion
-  identity for graphs, the isolated-vertex and leaf recurrences, and the sparse expansion of a
-  determinant;
+- the isolated-vertex recurrence;
 - the lowest term of the matching polynomial, the nullity and the determinant of a forest, the
   uniqueness of its perfect matching and the criterion for nonsingular trees;
 - the tensor product and the join of graphs, the adjacency spectrum of a tensor product, the
@@ -543,18 +532,22 @@ Owned here:
   function;
 - the energy of a graph, its bounds and its integrality;
 - the interlacing predicates, equality on an eigenvector span, tight interlacing for compressions,
-  star sets, star complements and the Bell–Rowlinson bound, Huang's signing of the hypercube and
-  the sensitivity theorem.
+  star sets, star complements and the Bell–Rowlinson bound, Huang's signing of the hypercube with
+  its pattern, square and spectrum, and the translation of Huang's theorem to the maximum degree
+  of an induced subgraph of `hypercube d`.
 
 Consumed, not restated (see the supplier contracts for the hypotheses):
 - GraphSpectra 1.2, 1.7, 1.8, 2.3, 2.6 (in Checks), 3.2 and 3.9: spectra and characteristic
-  polynomials, disjoint unions, spectra from orthogonal idempotents, the hypercube,
-  Perron–Frobenius, main angles and walk counts.
+  polynomials, the derivative of the characteristic polynomial, the leaf recurrence and the
+  sparse expansion, disjoint unions, spectra from orthogonal idempotents, the hypercube,
+  Perron–Frobenius, main angles and walk counts; 1.7 and 3.8 are cited in the introduction to
+  Layer 3.
+- DecisionTreeComplexity 5.1: Huang's theorem on induced subgraphs of the cube.
 - MatchingPolynomial 1.1 and 2.2; MatchingTheory 1.1; TuttePolynomialAndArrangements 4.1.
 - SpectralGraphBounds 1.1 and LaplacianEigenvaluesOfGraphs 1.1: the sorted eigenvalues, the trace
   identities and induced interlacing.
-- [RandomMatrices](../RandomMatrices/README.md) 1.2: Cauchy interlacing. Cauchy interlacing for
-  principal submatrices of Hermitian matrices is formalized in Tau Ceti as well.
+- [RandomMatrices](../RandomMatrices/README.md) 1.2: Cauchy interlacing, cited in the
+  introduction to Layer 4 and in 4.4.
 
 Owned by other roadmaps and not used here: equitable partitions, their quotient matrices and
 compressions (EquitableOperatorReduction), and spectral projectors, Kronecker sums of Cartesian
@@ -579,14 +572,11 @@ states it.
 - `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`: `Matrix.charpoly_coeff_eq_sum_minors` (for
   `k ≤ n`, the coefficient of `t^{n-k}` in `M.charpoly` is `(-1)^k` times the sum of the
   principal minors of order `k`). Used in 1.2.
-- Determinants: `Matrix.det_apply'` (the Leibniz expansion), `Matrix.det_succ_row_zero` and
-  `Matrix.det_succ_column_zero` (Laplace expansion along the first row and column),
-  `Matrix.twoBlockTriangular_det` (the determinant of a block triangular matrix). Used in 1.2,
-  1.3.
-- Polynomials: `Polynomial.derivative_prod_finset` (1.3);
-  `Polynomial.rootMultiplicity_eq_natTrailingDegree'` (the multiplicity of the root `0` is the
-  trailing degree) and `Polynomial.eq_rootMultiplicity_map` (an injective ring map preserves root
-  multiplicities) (2.2).
+- Determinants: `Matrix.det_apply'` (the Leibniz expansion), used in 1.2;
+  `Matrix.twoBlockTriangular_det` (the determinant of a block triangular matrix), used in 1.3.
+- Polynomials: `Polynomial.rootMultiplicity_eq_natTrailingDegree'` (the multiplicity of the root `0`
+  is the trailing degree) and `Polynomial.eq_rootMultiplicity_map` (an injective ring map preserves
+  root multiplicities) (2.2).
 - `Matrix.kronecker` and `Matrix.trace_kronecker` (3.1);
   `Matrix.det_add_replicateCol_mul_replicateRow` (the matrix determinant lemma, 3.2);
   `Matrix.det_fromBlocks₂₂` and `Matrix.fromBlocks_eq_of_invertible₂₂` (Schur complements, 4.3).
@@ -596,12 +586,12 @@ states it.
   `IsIntegrallyClosed.isIntegral_iff`.
 - Spectral theory: `Matrix.IsHermitian.eigenvalues₀` (nonincreasing) and
   `Matrix.isHermitian_conjTranspose_mul_mul` (a compression of a Hermitian matrix is Hermitian),
-  used in 4.2 and 4.4; `eigenvalue_mem_ball` (Gershgorin), used in 4.4;
+  used in 4.2; `eigenvalue_mem_ball` (Gershgorin), used in Huang's route in 4.4;
   `Submodule.starProjection`, in the definition of main angles and in 4.3.
 - Graphs: `SimpleGraph.adjMatrix`, `SimpleGraph.lapMatrix`, `SimpleGraph.fromEdgeSet`,
   `SimpleGraph.induce`, `SimpleGraph.Embedding.submatrix_adjMatrix`, `SimpleGraph.cliqueFinset`,
   `SimpleGraph.sum` (written `G ⊕g H`), `completeBipartiteGraph`, `SimpleGraph.boxProd`,
-  `SimpleGraph.maxDegree`, `SimpleGraph.IsAcyclic`, `SimpleGraph.IsTree`,
+  `SimpleGraph.maxDegree`, `hammingDist`, `SimpleGraph.IsAcyclic`, `SimpleGraph.IsTree`,
   `SimpleGraph.Subgraph.IsMatching` and `SimpleGraph.Subgraph.IsPerfectMatching`.
 
 ### From Tau Ceti
@@ -618,6 +608,10 @@ sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances fo
 `adjEigenspace`, `onesVec`, `mainAngle` and `walkCount` (3.9).
 - 1.2: the adjacency spectrum is the root multiset of the integer characteristic polynomial cast to
   `ℝ`, and `count θ` is the dimension of the `θ`-eigenspace. Used in 2.2, 3.3 and 4.3.
+- 1.2: for a square matrix `M` over a commutative ring, `χ_M' = ∑_v χ_{M[V∖v]}`; for a vertex
+  `v` of degree `1` with neighbour `u`, `p_G = t p_{G-v} - p_{G-u-v}` over any commutative ring,
+  with `G - v` and `G - u - v` the induced graphs on `{v}ᶜ` and `{u, v}ᶜ`; the sparse expansion
+  of a determinant. Cited in 1.3.
 - 1.7: spectra and characteristic polynomials of disjoint unions. Cited in the introduction to
   Layer 3.
 - 1.8: for a Hermitian `M = ∑ θᵢEᵢ` with complete orthogonal idempotents `Eᵢ` over `ℝ` or `ℂ`, the
@@ -625,6 +619,9 @@ sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances fo
 - 2.3: the Hamming graphs and the hypercube. Used in 4.4.
 - 2.6: the multiset adjacency spectra of the standard families, among them `Cₙ` for `n ≥ 3`.
   Used in the Checks of 3.1.
+- 3.8: for a `k`-regular graph on a nonempty vertex type, the adjacency spectrum of the
+  complement is `n - k - 1` together with `-1 - θ` for the spectrum of `G` with one copy of `k`
+  removed. Cited in the introduction to Layer 3.
 - 3.2: a connected graph has a positive eigenvector for `θ₁`. Used in 4.3.
 - 3.9: the eigenspace projections and `N_h = n ∑_θ β_θ² θʰ`. Used in 3.1 and 3.2.
 
@@ -664,7 +661,14 @@ sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances fo
 
 [RandomMatrices](../RandomMatrices/README.md) 1.2: Cauchy interlacing for a principal submatrix
 of a Hermitian matrix on `m` of its `n` indices, `λᵢ(A) ≥ λᵢ(B) ≥ λ_{n-m+i}(A)` for
-`Matrix.IsHermitian.eigenvalues₀`. Used in 4.4, at `hypercubeSigning d`.
+`Matrix.IsHermitian.eigenvalues₀`. Cited in the introduction to Layer 4 and in 4.4 (Huang's own
+route); not a dependency.
+
+### From DecisionTreeComplexity
+
+DecisionTreeComplexity 5.1 (Huang's theorem on induced subgraphs of the cube): for every `n`, a
+set `H` of points of `Fin n → Bool` with `2ⁿ < 2|H|` contains a point `x` with
+`√n ≤ #{i | x^i ∈ H}`, where `x^i` is `x` with coordinate `i` flipped. Used in 4.4.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -681,20 +685,21 @@ of a Hermitian matrix on `m` of its `n` indices, `λᵢ(A) ≥ λᵢ(B) ≥ λ_{
 ## References
 
 - [B] N. Biggs, *Algebraic Graph Theory*, 2nd ed., Cambridge Mathematical Library, Cambridge
-  University Press, 1993: Proposition 2.3, p. 8; Additional results 2a, 2d, p. 11;
+  University Press, 1993: Proposition 2.3, p. 8; Additional result 2a, p. 11;
   Definition 7.1, Propositions 7.2 and 7.3, pp. 44–46.
 - [Ba] R. B. Bapat, *Graphs and Matrices*, 2nd ed., Universitext, Springer, 2014: Theorem 3.27,
   p. 40; Lemma 3.32 and its proof, p. 42.
 - [BH] A. E. Brouwer, W. H. Haemers, *Spectra of Graphs*, Universitext, Springer, 2012:
   §1.4.2, p. 8; §§1.4.6–1.4.7, p. 10; §2.5, Theorem 2.5.1, Corollary 2.5.4, pp. 26–27;
-  Exercise 3.10, p. 65; Proposition 5.1.1(vii), p. 84.
+  Exercise 3.10, p. 65.
 - [CRS] D. Cvetković, P. Rowlinson, S. Simić, *An Introduction to the Theory of Graph Spectra*,
   LMS Student Texts 75, Cambridge University Press, 2010: Proposition 2.1.3, p. 25; (2.14),
   pp. 28–29; Theorem 2.3.1, p. 35; Theorem 2.3.2, Corollary 2.3.3, p. 36; Theorem 3.9.5, p. 85;
   §5.1, Proposition 5.1.1, Theorem 5.1.7, pp. 136–141; §5.2, Theorems 5.3.1–5.3.2, pp. 150–152;
   §7.1, Theorem 7.1.9, pp. 184–188; Proposition 9.2.2, p. 270.
 - [H] H. Huang, Induced subgraphs of hypercubes and a proof of the sensitivity conjecture,
-  *Ann. of Math.* 190 (2019), 949–955.
+  *Ann. of Math.* 190 (2019), 949–955; arXiv:1907.00847, whose pages are cited: Theorem 1.1,
+  p. 1; Lemmas 2.2 and 2.3 and the proof of Theorem 1.1, pp. 4–5.
 - [N–P] K. Naderi, K. Pankrashkin, *Introduction to Spectral Graph Theory*, Compact Textbooks in
   Mathematics, Birkhäuser, 2025: Exercise 2.4.6, pp. 80–81.
 - [St] Z. Stanić, *Inequalities for Graph Eigenvalues*, LMS Lecture Note Series 423, Cambridge
