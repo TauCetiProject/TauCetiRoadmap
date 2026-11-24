@@ -228,10 +228,10 @@ The inversion: with `b(n) = a(n)/n` and `s = w + 1`, `LSeries a s = LSeries b w`
 The normalization:
 `n a(n) (y/n − 1) = y a(n) (1 − n/y)`.
 
-**(b) The remainder of a primitive character.** Define the *Euler–Kronecker constant*
-*NumberField.eulerKroneckerConstant* `K`, written `EK(K)`, by
-`logDeriv (dedekindZetaC K) s = −1/(s − 1) + EK(K) + O(s − 1)` at `s = 1` (the pole of `ζ_K` is
-simple, LFunctions Layer 3); `EK(ℚ)` is Euler's constant `γ`. For
+**(b) The remainder of a primitive character.** Write `EK(K)` for the Euler–Kronecker constant
+of `K` (ZerosOfLFunctions §8.6a: the constant term of `logDeriv (dedekindZetaC K)` at its simple
+pole `s = 1`, so that `logDeriv (dedekindZetaC K) s = −1/(s − 1) + EK(K) + O(s − 1)` there);
+`EK(ℚ)` is Euler's constant `γ`. For
 `ψ : PrimitiveRayClassCharacter K` write `L_ψ = heckeLFunctionC ψ.character` and `a_ψ` for the
 norm coefficients of `𝔞 ↦ Λ_K(𝔞) ψ(𝔞)`, `Λ_K` the ideal von Mangoldt function; they are the
 coefficients of `−logDeriv L_ψ` on `Re s > 1` (ArithmeticDirichletSeries §2.3). Define
@@ -1688,7 +1688,7 @@ normalized comparison at conductor one, are LFunctions Layer 8, and the inversio
 8.4a (a) is a case of ExplicitZetaBounds §6.1a. Hadamard's three-circles theorem, of which 3.2a
 states the form 9.7 uses, is AnalyticNumberTheoryPartIII §8.2a. The explicit formula for the first
 Riesz mean, of which the explicit formula of 8.4a is a corollary, is ZerosOfLFunctions §8.6a, which
-defines the Euler–Kronecker constant as 8.4a (b) does; Selberg's formula for `ζ′/ζ`, the case `ζ`
+defines the Euler–Kronecker constant that 8.4a (b) uses; Selberg's formula for `ζ′/ζ`, the case `ζ`
 of 8.4b, is ZerosOfLFunctions §8.4a; the independence of the primitive characters from the reciprocity
 dictionary, which 8.8 states in the form used here, is ZerosOfLFunctions §8.7a; and the prime
 counts at `ℚ` for a fixed `σ`, which 9.9 gives with a constant independent of `σ`, are
