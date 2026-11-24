@@ -1,94 +1,93 @@
-import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.PowerSeries.WellKnown
-import Mathlib.Tactic.NormNum
+import Mathlib
+import TauCeti.Analysis.PDE.Vortex.Deformation
+import TauCeti.Analysis.PDE.Vortex.FramedGauge
 
 /-!
-These are suggested forms, not an exhaustive checklist. README.md is the
- definitive specification.
+# Taubes–Gromov theory: target signatures
 
-Local four-twist multiplicity factors in the native integral power-series ring.
-The Bool parameter is true for a positive determinant sign, false for a negative
-sign; Fin 4 records the number of negative nontrivial twists. This file constructs
-only series data and coefficient identities, with no geometric regularity or
-curve-count interpretation assumed. It introduces no Novikov completion.
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
+and Tau Ceti, the headline theorems of the roadmap that are statable at the pins, each with
+`sorry`, and the two definitions they need.
+
+The statable headline is Taubes's classification of framed plane vortices (README §4.4): a
+smooth framed degree-`m` vortex has a zero divisor of degree `m`, every effective divisor of
+degree `m` on `ℂ` is the zero divisor of one, and two with the same divisor differ by a smooth
+framed gauge transformation. It is stated on Tau Ceti's plane-vortex carriers: the field
+`x = (b₁, b₂, p, q)` of `TauCeti.Vortex.equation`, representing the connection
+`a = i (b₁ ds + b₂ dt)` and the section `α = 2 (p + i q)`, with the equations
+`∂̄_a α = 0` and `*iF_a = (1 - |α|²) / 8`.
+
+The other headline theorems are not statable at the pins:
+
+* the Fredholm property of the gauge-fixed vortex operator `d₀* ⊕ d₁` at a degree-`m` vortex,
+  with zero cokernel and index `2m` (README §4.3): Tau Ceti has this operator only as a
+  pointwise differential expression on smooth fields, and as a bounded operator between Sobolev
+  spaces only at the vacuum;
+* the point-insertion equality `SW⁰_X(s_ω ⊗ E) = Gr_(J,ω)(PD c₁(E))` for `b₂⁺ > 1` (README §9.1),
+  the bad-class vanishing (README §6.2) and the equality in the large-parameter chamber of a
+  minimal symplectic product `S¹ × Y_φ` (README §9.4): the pins have neither the Seiberg–Witten
+  invariant of a closed four-manifold (no `Spinᶜ` structure on a manifold, Dirac operator or
+  monopole moduli space) nor Taubes's weighted count `Gr`, which needs the moduli spaces of
+  embedded pseudoholomorphic curves;
+* the coarse large-parameter bounds, the refined Hermitian curvature bound and the defect
+  monotonicity for Seiberg–Witten solutions (README Layer 5): they are statements about
+  solutions of the Seiberg–Witten equations on a manifold, which the pins cannot write;
+* the coefficientwise identity of the point series of `S¹ × Y_φ` with the orbit zeta function
+  (README §11.3): it needs `Gr`.
 -/
 
-noncomputable section
-open scoped BigOperators
+open Filter MeasureTheory Topology
+open scoped ContDiff
+
 namespace TauCetiRoadmap.TaubesGromov
 
-/-- The four positive factors, in the order 0,1,2,3. Division is by a unit. -/
-def positiveFactor (i : Fin 4) : PowerSeries ℤ :=
-  if i = 0 then PowerSeries.mk 1
-  else if i = 1 then 1 + PowerSeries.X
-  else if i = 2 then
-    (1 + PowerSeries.X) * PowerSeries.invOfUnit (1 + PowerSeries.X ^ 2) 1
-  else
-    (1 + PowerSeries.X) * (1 - PowerSeries.X ^ 2) *
-      PowerSeries.invOfUnit (1 + PowerSeries.X ^ 2) 1
+/-- A **framed degree-`m` plane vortex**: a smooth field `x = (b₁, b₂, p, q)` on `ℂ` solving the
+plane vortex equations `∂̄_a α = 0` and `*iF_a = (1 - |α|²) / 8` everywhere, with finite energy
+`∫ (|F_a|² + |d_a α|² + (1 - |α|²)²) < ∞`, whose section `α` times the inverse winding phase
+`(z / |z|)^(-m)` tends to one at infinity (Taubes, *Gr ⇒ SW*; README §4.1). The finite-energy
+clause follows from the others, since the section then has modulus tending to one
+(`TauCeti.Vortex.integrable_energyDensity`); it is kept to match the definition of README §4.1. -/
+def IsFramedVortex (m : ℕ) (x : ℂ → EuclideanSpace ℝ (Fin 4)) : Prop :=
+  ContDiff ℝ ∞ x ∧ (∀ z, TauCeti.Vortex.equation x z = 0) ∧
+    Integrable (TauCeti.Vortex.energyDensity x) ∧
+    Tendsto (fun z ↦ TauCeti.Vortex.sectionValue x z * ((z / (‖z‖ : ℂ)) ^ m)⁻¹)
+      (cocompact ℂ) (𝓝 1)
 
-theorem constantCoeff_positiveFactor (i : Fin 4) :
-    PowerSeries.constantCoeff (positiveFactor i) = 1 := by
-  by_cases h0 : i = 0
-  · simp [positiveFactor, h0, PowerSeries.constantCoeff_mk]
-  by_cases h1 : i = 1
-  · simp [positiveFactor, h0, h1, PowerSeries.constantCoeff_X]
-  by_cases h2 : i = 2 <;>
-    simp [positiveFactor, h0, h1, h2, PowerSeries.constantCoeff_X]
+/-- The section `α` of the field `x` has **zero divisor** `D`: at every point `z` it vanishes to
+order exactly `D.count z`, that is, near `z` it is `(w - z) ^ D.count z` times a function
+continuous at `z` and nonzero there. The order is determined by `α`, so a field has at most one
+zero divisor (README §4.4). -/
+def HasZeroDivisor (x : ℂ → EuclideanSpace ℝ (Fin 4)) (D : Multiset ℂ) : Prop :=
+  ∀ z, ∃ v : ℂ → ℂ, ContinuousAt v z ∧ v z ≠ 0 ∧
+    ∀ᶠ w in 𝓝 z, TauCeti.Vortex.sectionValue x w = (w - z) ^ D.count z * v w
 
-/-- A specific unit, using the native inverse recurrence with constant unit 1. -/
-def positiveUnit (i : Fin 4) : (PowerSeries ℤ)ˣ where
-  val := positiveFactor i
-  inv := PowerSeries.invOfUnit (positiveFactor i) 1
-  val_inv := PowerSeries.mul_invOfUnit _ _ (by simpa using constantCoeff_positiveFactor i)
-  inv_val := PowerSeries.invOfUnit_mul _ _ (by simpa using constantCoeff_positiveFactor i)
+/-- **The zero divisor of a framed vortex has degree `m`.** The section of a framed degree-`m`
+plane vortex has finitely many zeros, of total multiplicity `m` (Taubes, *SW ⇒ Gr*,
+Proposition 4.1(3)(i)–(ii); README §4.2 and §4.4). -/
+theorem exists_hasZeroDivisor_of_isFramedVortex {m : ℕ} {x : ℂ → EuclideanSpace ℝ (Fin 4)}
+    (hx : IsFramedVortex m x) :
+    ∃ D : Multiset ℂ, Multiset.card D = m ∧ HasZeroDivisor x D := by
+  sorry
 
-theorem isUnit_positiveFactor (i : Fin 4) : IsUnit (positiveFactor i) :=
-  ⟨positiveUnit i, rfl⟩
+/-- **Existence of plane vortices with prescribed zeros.** Every effective divisor `D` of degree
+`m` on `ℂ` is the zero divisor of a framed degree-`m` plane vortex, repeated points included
+(Taubes, *Arbitrary N-vortex solutions to the first order Ginzburg–Landau equations*; Taubes,
+*SW ⇒ Gr*, Proposition 4.1(3)(iii); README §4.4). -/
+theorem exists_isFramedVortex_hasZeroDivisor (D : Multiset ℂ) :
+    ∃ x : ℂ → EuclideanSpace ℝ (Fin 4),
+      IsFramedVortex (Multiset.card D) x ∧ HasZeroDivisor x D := by
+  sorry
 
-/-- Negative-sign weights use the inverse of the actual positive unit. -/
-def negativeFactor (i : Fin 4) : PowerSeries ℤ := ↑((positiveUnit i)⁻¹)
-
-theorem constantCoeff_negativeFactor (i : Fin 4) :
-    PowerSeries.constantCoeff (negativeFactor i) = 1 := by
-  simp [negativeFactor, positiveUnit]
-
-theorem positive_mul_negative (i : Fin 4) :
-    positiveFactor i * negativeFactor i = 1 :=
-  (positiveUnit i).val_inv
-
-theorem negative_mul_positive (i : Fin 4) :
-    negativeFactor i * positiveFactor i = 1 :=
-  (positiveUnit i).inv_val
-
-/-- Finite sign/index data select the local factor; no geometric label is assumed. -/
-def localFactor (positive : Bool) (i : Fin 4) : PowerSeries ℤ :=
-  if positive then positiveFactor i else negativeFactor i
-
-/-- The integer multiplicity coefficient of the specified native series. -/
-def multiplicityWeight (positive : Bool) (i : Fin 4) (m : ℕ) : ℤ :=
-  PowerSeries.coeff m (localFactor positive i)
-
-theorem coefficient_convolution (s t : Bool) (i j : Fin 4) (n : ℕ) :
-    PowerSeries.coeff n (localFactor s i * localFactor t j) =
-      ∑ p ∈ Finset.antidiagonal n,
-        multiplicityWeight s i p.1 * multiplicityWeight t j p.2 :=
-  PowerSeries.coeff_mul n _ _
-
-theorem positiveZero_mul_one_sub_X :
-    positiveFactor 0 * (1 - PowerSeries.X) = 1 := by
-  simpa [positiveFactor] using PowerSeries.mk_one_mul_one_sub_eq_one ℤ
-
-theorem two_positiveZero_tori_degreeTwo :
-    PowerSeries.coeff 2 (positiveFactor 0 * positiveFactor 0) = 3 := by
-  change PowerSeries.coeff 2
-    ((PowerSeries.mk 1 : PowerSeries ℤ) * PowerSeries.mk 1) = 3
-  calc
-    _ = PowerSeries.coeff 2 ((PowerSeries.mk 1 : PowerSeries ℤ) ^ (1 + 1)) := by
-      simp [pow_two]
-    _ = PowerSeries.coeff 2
-        (PowerSeries.mk fun n => (Nat.choose (1 + n) 1 : ℤ)) :=
-      congrArg (PowerSeries.coeff 2) (PowerSeries.mk_one_pow_eq_mk_choose_add ℤ 1)
-    _ = 3 := by norm_num [PowerSeries.coeff_mk]
+/-- **Uniqueness of plane vortices with prescribed zeros.** Two framed degree-`m` plane vortices
+with the same zero divisor differ by a smooth framed gauge transformation, a smooth circle-valued
+map tending to one at infinity, acting by `(a, α) ↦ (a - u⁻¹ du, u α)` (Taubes, *Arbitrary
+N-vortex solutions to the first order Ginzburg–Landau equations*; Taubes, *SW ⇒ Gr*, Proposition
+4.1(3)(iii); README §4.4). -/
+theorem exists_mem_framedGaugeGroup_eq_gaugeTransform {m : ℕ}
+    {x y : ℂ → EuclideanSpace ℝ (Fin 4)} {D : Multiset ℂ}
+    (hx : IsFramedVortex m x) (hy : IsFramedVortex m y)
+    (hxD : HasZeroDivisor x D) (hyD : HasZeroDivisor y D) :
+    ∃ u ∈ TauCeti.Vortex.framedGaugeGroup, y = TauCeti.Vortex.gaugeTransform u x := by
+  sorry
 
 end TauCetiRoadmap.TaubesGromov
