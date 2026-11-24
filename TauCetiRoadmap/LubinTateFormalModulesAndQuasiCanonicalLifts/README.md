@@ -170,10 +170,10 @@ content as follows; the former layer `LT.k` is Layer `k` for `k = 0, …, 9`.
   satisfying Honda's condition (F) of §4.1, `q` is the power of `p` in (F) and need not be the
   residue cardinality, the residue field may be infinite, and the fraction field `K` need be neither
   complete nor finite over `ℚ_p`; §4.2a works over the rings `S ⊂ Q` stated there, and in its
-  Checks `K` is a field of characteristic zero with a nonarchimedean absolute value of residue
-  characteristic `p` and `O` is its valuation ring; §4.2b works over `ℤ_p`, and §4.3a over the
-  coefficient rings stated there, its clause (ii) over `W(𝔽̄_p)`; Layers 2, 3, 5 and 6
-  and §§7.1–7.2 allow either characteristic
+  Checks and in §4.2b `K` is a field of characteristic zero with a nonarchimedean absolute value
+  of residue characteristic `p` and `O` is its valuation ring; §4.3a works over the coefficient
+  rings stated there, its clause (ii) over the integers of `K̂^ur` for a finite extension `K/ℚ_p`;
+  Layers 2, 3, 5 and 6 and §§7.1–7.2 allow either characteristic
   and assume `K/ℚ_p` or `F₀/ℚ_p` finite only in the clauses that say so (all of §5.5); in §§0.3–0.4,
   4.3–4.4 and 7.3–7.6 and in Layers 8–9, `K` has characteristic zero, so `K/ℚ_p` is finite with
   ramification index `e` and residue degree `f`.
@@ -1246,8 +1246,9 @@ Frobenius lift in the type operator is data, never suppressed notation. Over the
 recognition statement of §1.3 it shows that the formal group of a supersingular elliptic curve with
 scalar Frobenius is a Lubin–Tate module. Sections 4.2a and 4.2b carry the functional-equation
 integrality to several variables and state the Dieudonné–Dwork integrality criterion in several
-variables, and §4.3a describes the Dieudonné module of a formal group by quasi-logarithms, with an
-explicit basis for the laws of §4.3. These results hold for every prime `p`.
+variables with a Frobenius lift, and §4.3a describes the Dieudonné module of a formal group by
+quasi-logarithms, with an explicit basis for the standard formal `O_K`-modules of every height,
+among them the laws of the logarithms of §4.3. These results hold for every prime `p`.
 
 ### 4.1 Honda type operators
 
@@ -1387,26 +1388,42 @@ the proof of the lemma).
 
 ### 4.2b The Dieudonné–Dwork lemma in several variables
 
-Let `p` be a prime, `X = (X_1, …, X_n)` and `X^p = (X_1^p, …, X_n^p)`. Prove: a series
-`γ ∈ ℚ_p[[X]]` with constant term `1` lies in `ℤ_p[[X]]` if and only if
-`γ(X^p)/γ(X)^p ∈ 1 + p·ℤ_p[[X]]`; equivalently, for `ϑ ∈ ℚ_p[[X]]` with `ϑ(0) = 0`,
-`exp(ϑ) ∈ ℤ_p[[X]]` if and only if `ϑ(X^p) − p·ϑ ∈ p·ℤ_p[[X]]` (KR11, Lemma 1; the exponential
-form is the first step of the proof of Lemma 2, Section 4; in one variable this is the lemma of
-Dieudonné and Dwork, Lan80, chapter 14, p.76). A proof route: the two forms are equivalent, because
-`exp(ϑ)(X^p)/exp(ϑ)^p = exp(ϑ(X^p) − p·ϑ)` and, for integral series `y`, `z` without constant term,
-`exp(p·y) ∈ 1 + p·ℤ_p[[X]]` and `log(1 + p·z) ∈ p·ℤ_p[[X]]`, since `v_p(p^k/k!) ≥ 1` and
-`v_p(p^k/k) ≥ 1` for `k ≥ 1`. If `γ` is integral, then `γ(X)^p ≡ γ(X^p) (mod p)` and `γ(X)^p` is
-a unit, which gives one direction; the converse is proved coefficient by coefficient, by induction
-on the total degree, as in one variable.
+Let `p` be a prime, `K` a field of characteristic zero with a nonarchimedean absolute value of
+residue characteristic `p`, `O` its valuation ring, and `σ` a ring endomorphism of `K` with
+`σ(O) ⊂ O` and `σ(a) ≡ a^p (mod pO)` for `a ∈ O`, as in the first Check of §4.2a. Let
+`X = (X_1, …, X_n)`, `X^p = (X_1^p, …, X_n^p)`, and for `γ ∈ K[[X]]` let `γ^σ` be the series with
+`σ` applied to the coefficients. Prove: a series `γ ∈ K[[X]]` with constant term `1` lies in
+`O[[X]]` if and only if `γ^σ(X^p)/γ(X)^p ∈ 1 + p·O[[X]]`; equivalently, for `ϑ ∈ K[[X]]` with
+`ϑ(0) = 0`, `exp(ϑ) ∈ O[[X]]` if and only if `ϑ^σ(X^p) − p·ϑ ∈ p·O[[X]]` (Haz79, §3, p.75, which
+derives it from (2.6)–(2.7) of §2 in one variable over the integers of the completion of the maximal
+unramified extension of `ℚ_p` with its Frobenius; for `O = ℤ_p` and `σ = id` it is KR11, Lemma 1,
+whose exponential form is the first step of the proof of Lemma 2, Section 4; in one variable over
+`ℤ_p` it is the lemma of Dieudonné and Dwork, Lan80, chapter 14, p.76). A proof route: the two forms
+are equivalent, because `exp(ϑ)^σ(X^p)/exp(ϑ)^p = exp(ϑ^σ(X^p) − p·ϑ)` and, for series `y`, `z` over
+`O` without constant term, `exp(p·y) ∈ 1 + p·O[[X]]` and `log(1 + p·z) ∈ p·O[[X]]`, since `p^k/k!`
+and `p^k/k` lie in `p·ℤ_(p)` for `k ≥ 1`. For the first form apply §4.2a with `S = O`, `Q = K`,
+`𝔞 = pO`, `τ = σ`, `q = p`, `s_1 = p^(−1)`, `s_i = 0` for `i ≥ 2`, and `f = log(1 + X)` in one
+variable: `D(f) = log(1 + X) − p^(−1)·log(1 + X^p)` has coefficients in `ℤ_(p)`, its coefficient at
+`X^(pm)` being `0` for odd `p` and, for `p = 2`, `0` for even `m` and `−1/m` for odd `m`. For `γ`
+with constant term `1`, `f(γ − 1) = log γ` and `D(log γ) = −p^(−1)·log(γ^σ(X^p)/γ^p)`. If `γ` is
+integral, §4.2a (iii) with `h = γ − 1` makes `D(log γ)` integral, so `log(γ^σ(X^p)/γ^p) ∈ p·O[[X]]`
+and the quotient lies in `1 + p·O[[X]]`; conversely, if the quotient lies in `1 + p·O[[X]]`, then
+`D(log γ)` is integral, and §4.2a (ii) with `f̄ = log γ` makes `f^(−1)(log γ) = γ − 1` integral.
 
 **Checks.**
 
-- `ϑ = X_1`: `ϑ(X^p) − p·ϑ = X_1^p − pX_1 ∉ p·ℤ_p[[X]]`, and `exp(X_1)` is not integral (its
-  coefficient of `X_1^p` is `1/p!`).
-- `ϑ = Σ_(e≥0) X_1^(p^e)/p^e`: `ϑ(X^p) − p·ϑ = −pX_1`, so the Artin–Hasse exponential `exp(ϑ)` is
-  integral.
+- `ϑ = X_1`, which `σ` fixes: `ϑ^σ(X^p) − p·ϑ = X_1^p − pX_1 ∉ p·O[[X]]`, and `exp(X_1)` is not
+  integral (its coefficient of `X_1^p` is `1/p!`, of absolute value `|p|^(−1) > 1`).
+- `ϑ = Σ_(e≥0) X_1^(p^e)/p^e`, which `σ` fixes: `ϑ^σ(X^p) − p·ϑ = −pX_1`, so the Artin–Hasse
+  exponential `exp(ϑ)` is integral.
+- The Frobenius lift cannot be dropped. Over `O = W(𝔽_(p²))` with `σ` its Frobenius, let `ζ` be
+  a root of unity of order `p² − 1`, so that `σ(ζ) = ζ^p ≢ ζ (mod p)`, and `γ = 1 + ζX_1`, which
+  is integral. Since `(1 + ζX_1)^p ≡ 1 + ζ^pX_1^p (mod p)`, the quotient
+  `γ^σ(X^p)/γ^p = (1 + ζ^pX_1^p)/(1 + ζX_1)^p` lies in `1 + p·O[[X]]`, whereas `γ(X^p)/γ^p` is
+  `1 + (ζ − ζ^p)X_1^p` modulo `p` and degree `p + 1`, so it does not: the criterion with
+  `σ = id` rejects an integral series.
 
-*Needs:* Mathlib `PowerSeries.exp`, `MvPowerSeries`, `MvPowerSeries.subst`, `PadicInt`.
+*Needs:* §4.2a; Mathlib `PowerSeries.exp`, `MvPowerSeries`, `MvPowerSeries.subst`, `PadicInt`.
 
 ### 4.3 The unramified Honda–Lubin–Tate comparison
 
@@ -1475,25 +1492,27 @@ of the Cartier dual of the connected `p`-divisible group of `F`
 (K81, (5.3.1)–(5.3.2) and Theorem 5.3.3, for `p`-divisible formal Lie groups of any dimension `d`
 over `ℤ`-flat `p`-adically complete rings, where the quotient has rank `h − d`);
 
-(ii) let `p` be a prime, `s ∈ {1, −1}`, `ℓ_s = Σ_(j≥0) (sp)^(−j) X^(p^(2j))` the logarithm of
-§4.3, and `F_s = ℓ_s^(−1)(ℓ_s(X) + ℓ_s(Y))`. Over `ℤ_p` with `σ = id` (condition (F1) of §4.2),
-`ℓ_s` has type `p − sT²`, since `p·ℓ_s − s·ℓ_s(X^(p²)) = pX` (§4.3); so `F_s` and the series
-`[a] = ℓ_s^(−1)(a·ℓ_s)`, `a ∈ ℤ_p`, are integral (§4.2; for `[a]` take `t = a` in its criterion),
-and `F_s` with this action is the standard formal `ℤ_p`-module of height two for the uniformizer
-`sp`, whose logarithm is `Σ_(i≥0) X^(p^(2i))/(sp)^i`. Write `W(𝔽̄_p)` for the integers of the
-completion of the maximal unramified extension of `ℚ_p`, and regard `F_s` as a formal
-`ℤ_p`-module over `W(𝔽̄_p)`. Then `g₀ = ℓ_s(X^p)/p` is a quasi-logarithm of it, and the classes
-of `ℓ_s` and `g₀` form a basis of the `W(𝔽̄_p)`-module `QLog(F_s/W(𝔽̄_p))`: every
-quasi-logarithm over `W(𝔽̄_p)` is `α·g₀ + β·ℓ_s + r` with `α, β ∈ W(𝔽̄_p)` and
-`r ∈ X·W(𝔽̄_p)[[X]]` (BW16, Lemma 2.5, which attributes it to HG94, Proposition 13.8). A proof
-route: (i) is K81, Theorem 5.3.3, read through the explicit description of §5.1 there; over a
-local ring a locally free module of finite rank is free. (ii) is the case `K = ℚ_p`, `n = 2`,
-`π = sp` of BW16, Lemma 2.5 (HG94, Proposition 13.8): for a finite extension `K/ℚ_p` with
-uniformizer `π` and residue cardinality `q`, and the standard formal `O_K`-module of height `n`
-over the integers of the completion of the maximal unramified extension of `K`, whose logarithm
-is `log(X) = Σ_(i≥0) X^(q^(in))/π^i`, the classes of `log(X)`, `π^(−1)·log(X^q)`, …,
-`π^(−1)·log(X^(q^(n−1)))` form a basis of the quasi-logarithms modulo integral series. Here
-`log = ℓ_s` and `π^(−1)·log(X^p) = (sp)^(−1)·ℓ_s(X^p) = s·g₀`, `s` being a unit.
+(ii) let `K/ℚ_p` be a finite extension with uniformizer `π` and residue field of cardinality `q`,
+let `n ≥ 1`, and let `H` be the standard formal `O_K`-module of height `n`: the law
+`log_H^(−1)(log_H(X) + log_H(Y))` with the action `[a] = log_H^(−1)(a·log_H)`, `a ∈ O_K`, where
+`log_H = Σ_(i≥0) X^(q^(in))/π^i`. Over `O_K` with `σ = id` and the `q` of (F) equal to the residue
+cardinality, `log_H` has type `π − T^n`, since `π·log_H − log_H(X^(q^n)) = πX`; so the law and every
+`[a]` are integral (§4.2; for `[a]` take `t = a` in its criterion). Regard `H` as a formal
+`O_K`-module over the integers `O_(K̂^ur)` of `K̂^ur`. Then the classes of `log_H`,
+`π^(−1)·log_H(X^q)`, …, `π^(−1)·log_H(X^(q^(n−1)))` form a basis of the `O_(K̂^ur)`-module
+`QLog(H/O_(K̂^ur))` of quasi-logarithms of `H` as a formal `O_K`-module (BW16, Lemma 2.5, which
+attributes it to HG94, Proposition 13.8). In particular, for `s ∈ {1, −1}` let
+`ℓ_s = Σ_(j≥0) (sp)^(−j) X^(p^(2j))` be the logarithm of §4.3 and `F_s = ℓ_s^(−1)(ℓ_s(X) + ℓ_s(Y))`.
+For `K = ℚ_p`, `n = 2` and `π = sp`, `log_H = ℓ_s`, so `H` is `F_s` with the action
+`[a] = ℓ_s^(−1)(a·ℓ_s)`, `a ∈ ℤ_p`, and `π^(−1)·log_H(X^p) = (sp)^(−1)·ℓ_s(X^p) = s·g₀` with
+`g₀ = ℓ_s(X^p)/p`. Write `W(𝔽̄_p)` for the integers of the completion of the maximal unramified
+extension of `ℚ_p`. As `s` is a unit, `g₀` is a quasi-logarithm of `F_s` over `W(𝔽̄_p)`, and the
+classes of `ℓ_s` and `g₀` form a basis of the `W(𝔽̄_p)`-module `QLog(F_s/W(𝔽̄_p))`: every
+quasi-logarithm over `W(𝔽̄_p)` is `α·g₀ + β·ℓ_s + r` with `α, β ∈ W(𝔽̄_p)` and `r ∈ X·W(𝔽̄_p)[[X]]`.
+A proof route: (i) is K81, Theorem 5.3.3, read through the explicit description of §5.1 there; over
+a local ring a locally free module of finite rank is free. (ii) is BW16, Lemma 2.5 (HG94,
+Proposition 13.8), and its case `K = ℚ_p`, `n = 2`, `π = sp` is the basis `ℓ_s`, `s·g₀`, which spans
+the same module as `ℓ_s`, `g₀`.
 
 **Checks.**
 
@@ -1511,7 +1530,8 @@ is `log(X) = Σ_(i≥0) X^(q^(in))/π^i`, the classes of `log(X)`, `π^(−1)·l
   plus an integral series, with `c ∈ ℤ_p`.
 
 *Needs:* §§0.1, 4.2, 4.3; Tau Ceti `FormalGroup.log`; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-§§R07.1.7, R07.1.12–R07.1.15; Mathlib `PowerSeries.derivative`, `PadicInt`, `WittVector`.
+§§R07.1.7, R07.1.12–R07.1.15; RamificationOfCompleteDiscretelyValuedFields §4a.3 (`K̂^ur`); Mathlib
+`PowerSeries.derivative`, `PadicInt`, `WittVector`.
 
 ### 4.4 The supersingular elliptic comparison
 
@@ -1561,6 +1581,7 @@ Over `W(𝔽_(p²))` choose the Honda model of the Lubin–Tate module for `−p
 ### Dependencies
 
 §§0.1, 1.3; EllipticCurves Layers 1 and 3; ModularCurves §§7C, 7E;
+RamificationOfCompleteDiscretelyValuedFields §4a.3;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.1, R07.1.7, R07.1.12–R07.1.15, R07.2.8; Tau
 Ceti's elliptic formal group, its multiplication series `FormalGroup.zsmulSeries`, logarithm,
 homomorphisms and strict isomorphisms; Mathlib `WittVector`, `GaloisField`, Weierstrass curves,
@@ -2783,8 +2804,9 @@ complete for a discrete valuation with `e(K̂^ur/K) = 1` and residue field an al
 `k_K`, the equivalence between finite separable extensions of `K^ur` and of `K̂^ur`, and the
 identification `G_(K̂^ur) ≅ I_K` of its absolute Galois group with the inertia group of `K`. These
 are assumed with the hypotheses stated there. Sections 2.5–2.6 use `K̂^ur` as the base over which
-Lubin–Tate modules of different uniformizers become isomorphic, and §6.6 uses `F̂^ur` for Gross's
-formulation of the field of moduli.
+Lubin–Tate modules of different uniformizers become isomorphic, §4.3a uses the integers of `K̂^ur`
+as the base of the standard formal `O_K`-modules, and §6.6 uses `F̂^ur` for Gross's formulation of
+the field of moduli.
 
 ## References
 
