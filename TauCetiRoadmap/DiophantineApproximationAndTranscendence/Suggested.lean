@@ -54,8 +54,10 @@ some of them from this file under the names of this roadmap; those names are abb
 Tau Ceti definitions, not second definitions.
 
 The adelic heights `H_A` of vectors and of subspaces of README §2.5a, for an adelic matrix `A` over
-a number field `K`, are written out below over every finite extension of `K`, with their value at
-`A = 1` on `K`-subspaces and their value `|det A|_𝔸` on the whole space.
+a number field `K`, are written out below over every finite extension of `K` (`adelicHeight`,
+`adelicSubspaceHeight`). The two theorems about them, their value at `A = 1` on `K`-subspaces and
+their value `|det A|_𝔸` on the whole space, are not headline theorems: they are sanity checks that
+these two definitions are the heights of README §2.5a.
 
 Headline theorems that the pinned Tau Ceti already proves are not restated: they are pinned below
 by `#check`. These are bounded-degree Northcott finiteness, Kronecker's theorem on Mahler measure
