@@ -13,7 +13,14 @@ theorems with that assumption removed. It
 begins with three statements that the main theorems give for further L-functions: the hypothesis
 for the completed L-functions of primitive Dirichlet characters, the extended Riemann hypothesis for
 the Dedekind zeta function of every number field abelian over `ℚ`, and the Riemann hypothesis for
-every Hecke character of such a field whose class field is abelian over `ℚ`.
+every Hecke character of such a field whose class field is abelian over `ℚ`. The classical
+consequences it then states with no hypothesis include Lindelöf's bound `ζ(σ + it) = O_ε(|t|^ε)` for
+`σ ≥ 1/2` and `|t| ≥ 2`; Littlewood's bounds `(log log q)⁻¹ ≪ |L(1, χ)| ≪ log log q` for every
+primitive character `χ` modulo `q ≥ 3`, and with them `h(D) ≫ √|D|/log log |D|` for every
+fundamental discriminant `D < −4`; von Koch's `π(x) = Li x + O(√x log x)`; for every `q ≥ 1` and
+`a` prime to `q`, `ψ(x; a, q) = x/φ(q) + O(√x log² x)`; the count
+`(T/2π) log(T/(2πe)) + 7/8 + O(log T/log log T)` of the zeros of `ζ` with `0 < Im ρ ≤ T`; and the
+positivity of Li's coefficients and of Weil's quadratic form.
 
 Each target is a statement of another roadmap, the *conditional theorem* named in its heading,
 with the hypotheses that the main theorems give removed and every other hypothesis kept and named.
@@ -592,8 +599,11 @@ RiemannHypothesisStatementsAndConsequences §9.8.
 bound for `S(T)` under the Riemann hypothesis of RiemannHypothesisStatementsAndConsequences §9.8,
 with its hypothesis supplied by the main theorems; the bound is derived here through 1.2.
 
-There is `C` with
-`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ C log T/log log T` for every `T ≥ 16`.
+`abs_sum_zetaZeroMult_sub_le`: there is `C` with
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ C log T/log log T` for every `T ≥ 16`. The statement writes
+`N(T)` as the sum of `zetaZeroMult ρ` over the `ρ` with `0 < Im ρ ≤ T`, a finite sum: off the real
+axis the zeros of the completed zeta function are the zeros of `ζ`, with the same multiplicities
+(WeilPositivityAndLiCriterion §1.1).
 
 Route: by ExplicitZetaBounds §2.9, `N(T) = ϑ(T)/π + 1 + S(T)` for `T > 0` not an ordinate, at an
 ordinate `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right, and
@@ -603,7 +613,7 @@ continuous on `T ≥ 16`, so the limit from the right obeys the same bound. The 
 with the constant `C + 1`, since `1/(40T) < log T/log log T` for `T ≥ 16`.
 
 *Needs:* GeneralizedRiemannHypothesisFromWindowBounds §5.2 (through 1.2); 1.2; ExplicitZetaBounds
-§2.9.
+§2.9; WeilPositivityAndLiCriterion §1.1 (`zetaZeroMult`, for the form of the statement).
 
 ### 1.4 Zero-free regions, zero densities and `1/ζ` near the line one (ExplicitZetaBounds §§7.2–7.6, 7.10, 8.1, 8.3–8.5)
 
@@ -737,13 +747,17 @@ direction from the Riemann hypothesis (WeilPositivityAndLiCriterion §§3.2, 4.2
 hypothesis supplied by the main theorems; the strict positivity of the Weil form is proved here by
 counting zeros.
 
-`0 < liCoeff n` for every `n ≥ 1`; every Li Gram matrix of
-§4.2 is positive definite; `0 < Re (weilForm g g)` for every nonzero test function
-`g` of §5.2.
+`liCoeff_pos`: `0 < liCoeff n` for every `n ≥ 1`; `liGramMatrix_posDef`: every Li Gram matrix
+`liGramMatrix N` of §4.2 is positive definite; `re_weilForm_pos`: `0 < Re (weilForm g g)` for every
+nonzero test function `g` of §5.2 (smooth, with compact support in `(0, ∞)`). The zero
+multiplicities `zetaZeroMult`, the Li coefficients `liCoeff`, the Li Gram matrices and Weil's form
+`weilForm` are those of WeilPositivityAndLiCriterion §§1.1, 3.1, 4.2 and 5.1.
 
-Route: GeneralizedRiemannHypothesisFromWindowBounds §5.2 in `liCoeff_pos_of_riemannHypothesis` and
-`liGramMatrix_posDef_of_riemannHypothesis`. The positivity of the Weil form is proved here. By
-GeneralizedRiemannHypothesisFromWindowBounds §5.2 every `ρ` with `zetaZeroMult ρ ≠ 0` has
+Route: GeneralizedRiemannHypothesisFromWindowBounds §5.2 in
+`TauCetiRoadmap.WeilPositivityAndLiCriterion.liCoeff_pos_of_riemannHypothesis` and
+`TauCetiRoadmap.WeilPositivityAndLiCriterion.liGramMatrix_posDef_of_riemannHypothesis`. The
+positivity of the Weil form is proved here. By GeneralizedRiemannHypothesisFromWindowBounds §5.2
+every `ρ` with `zetaZeroMult ρ ≠ 0` has
 `Re ρ = 1/2` (WeilPositivityAndLiCriterion §1.1, the bridge), so `1 − conj ρ = ρ` and the summable
 family of §5.1 has the terms `zetaZeroMult ρ |ĝ(ρ)|² ≥ 0`; `Re (weilForm g g)` is at least each of
 them, and it suffices to find one zero `ρ` with `ĝ(ρ) ≠ 0`. Let `g ≠ 0` vanish off
@@ -769,7 +783,8 @@ them, and it suffices to find one zero `ρ` with `ĝ(ρ) ≠ 0`. Let `g ≠ 0` v
   So `ĝ(ρ) ≠ 0` at some zero `ρ`.
 
 *Needs:* GeneralizedRiemannHypothesisFromWindowBounds §5.2; 1.3; WeilPositivityAndLiCriterion §§1.1,
-3.2, 4.2, 5.1, 5.2; Mathlib `polynomialFunctions_closure_eq_top`, `AnalyticOnNhd.sum_divisor_le`.
+3.1, 3.2, 4.2, 5.1, 5.2; Mathlib `polynomialFunctions_closure_eq_top`,
+`AnalyticOnNhd.sum_divisor_le`.
 
 **Checks.**
 
@@ -1240,9 +1255,10 @@ ExplicitZetaBounds §§0.4, 5.2 (Rosser's zero count).
 
 *Origin:* published: the short intervals containing a prime of Schoenfeld (1976), Ramaré and
 Saouter (2003), Kadiri and Lumley (2014), Cully-Hugill and Lee (2022), Dudek (2016), Cully-Hugill
-(2023) and Cully-Hugill–Johnston (ExplicitPrimeCounting §§7.1–7.3, 7.5), with its hypothesis
-supplied by the main theorems; the intervals are derived here from the intervals of Dudek (2015) and
-of Carneiro, Milinovich and Soundararajan (2019) under the Riemann hypothesis (2.8).
+(2023) and Cully-Hugill and Johnston (2023) (ExplicitPrimeCounting §§7.1–7.3, 7.5), with its
+hypothesis supplied by the main theorems; the intervals are derived here from the intervals of
+Dudek (2015) and of Carneiro, Milinovich and Soundararajan (2019) under the Riemann hypothesis
+(2.8).
 
 Every statement below except the zero inputs of §7.5 is given *Dudek's hypotheses*,
 `PrimeGapLogSquareVerified` and Rosser's zero count, under which 2.8 states Dudek's theorem (for
@@ -1594,7 +1610,7 @@ hypothesis supplied by the main theorems; the class-number bound is derived here
 `h(D) ≥ c √|D|/log log |D|` for every fundamental discriminant `D < −4`, `h(D)` the class number of
 the imaginary quadratic field of discriminant `D`. It is the lower bound for `L(1, χ)` of
 Littlewood's bounds in 1.1(ii) read through the class number formula. The bound implies
-ImaginaryQuadraticClassNumber H2.4 (`imaginary_classNumber_lower_bound`, `h(D) ≥ C_ε |D|^{1/2−ε}`).
+ImaginaryQuadraticClassNumber §2.4 (`imaginary_classNumber_lower_bound`, `h(D) ≥ C_ε |D|^{1/2−ε}`).
 
 Route: let `K` be the imaginary quadratic field of discriminant `D` and `χ_D` its quadratic
 character, primitive of conductor `|D| ≥ 7` (Tau Ceti
@@ -1765,8 +1781,8 @@ ClassicalArithmeticCompletion §§5.0, 5.1b, 5.1c; Tau Ceti
 
 *Origin:* published: the estimate of Schoenfeld (1976) for the sum of the reciprocals of the primes
 under the Riemann hypothesis, the Mertens lemma and the two-sided bound for `κ_K` of Garcia and Lee
-(2022), the explicit Duke short-sum theorem and the von Mangoldt–log sum (ExplicitNumberFields
-§§3.5, 3.6), with its hypothesis supplied by the main theorems.
+(2022), the explicit Duke short-sum theorem, and the von Mangoldt–log sum of Garcia, Grenié, Lee and
+Molteni (2026) (ExplicitNumberFields §§3.5, 3.6), with its hypothesis supplied by the main theorems.
 
 Write `M` for the Meissel–Mertens constant `TauCeti.LFunctions.mertensConstant ℚ` (the constant `B`
 of ExplicitPrimeCounting §4.7); *SchoenfeldMertensSmallRange* for the proposition that
@@ -1912,6 +1928,9 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   characters, and the clauses of `ZeroFreeRightOf` on germs, products and presented characters:
   QuasiRiemannHypothesis §§1.1, 5.4, 5.4a;
 - the negativity of `ζ` on `(0, 1)`: ExplicitZetaBounds §0.3, its case `q = 1`;
+- the zero multiplicities of the completed zeta function, the Li coefficients, the Li Gram matrices
+  and Weil's form: WeilPositivityAndLiCriterion §§1.1, 3.1, 4.2, 5.1, whose four definitions
+  `Suggested.lean` repeats with the same bodies so that 1.3 and 1.6 can be stated;
 - the statements that the targets cite, in their form under the hypothesis that the main theorems
   prove: the roadmap named in each heading.
 
@@ -1956,6 +1975,8 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   `ArithmeticFunction.vonMangoldt.residueClass` (3.1); `MulChar.IsQuadratic`;
   `CyclotomicField`, `IsAbelianGalois` (0.2);
 - `NumberField.classNumber`, `NumberField.discr`, `NumberField.IsTotallyComplex` (4.1);
+- `completedRiemannZeta`, `MeromorphicOn.divisor`, `finsum` (1.3, 1.6); `mellin`, `Matrix.PosDef`,
+  `ContDiff`, `HasCompactSupport`, `tsupport` (1.6);
 - `polynomialFunctions_closure_eq_top` (Weierstrass approximation on `[a, b]`) and
   `AnalyticOnNhd.sum_divisor_le` (Jensen's inequality: the zeros, with multiplicity, of a function
   analytic on a closed disc, bounded by `M ≥ 1` on its boundary and nonzero at its centre) (1.6).
@@ -2153,12 +2174,15 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 
 ### From TauCetiRoadmap.WeilPositivityAndLiCriterion
 
-- §§3.2, 4.2: `liCoeff_pos_of_riemannHypothesis`, `liGramMatrix_posDef_of_riemannHypothesis`,
-  discharged in 1.6.
-- §§1.1, 5.1, 5.2: `zetaZeroMult` and the bridge between `RiemannHypothesis` and the zeros (its
-  §1.1); the test functions, `ĝ = mellin g`, `weilForm` and the summability of its family (its
-  §5.1); the statement of `weilForm_pos_of_riemannHypothesis` (its §5.2), which 1.6 proves with a
-  route of its own.
+- §§3.2, 4.2: `TauCetiRoadmap.WeilPositivityAndLiCriterion.liCoeff_pos_of_riemannHypothesis` and
+  `TauCetiRoadmap.WeilPositivityAndLiCriterion.liGramMatrix_posDef_of_riemannHypothesis`, discharged
+  in 1.6.
+- §§1.1, 3.1, 4.2, 5.1, 5.2: `zetaZeroMult` and the bridge between `RiemannHypothesis` and the
+  zeros (its §1.1); `liCoeff` (its §3.1) and the Li Gram matrices (its §4.2); the test functions,
+  `ĝ = mellin g`, `weilForm` and the summability of its family (its §5.1); the statement of
+  `TauCetiRoadmap.WeilPositivityAndLiCriterion.weilForm_pos_of_riemannHypothesis` (its §5.2), which
+  1.6 proves with a route of its own. The definitions of `zetaZeroMult`, `liCoeff`, the Li Gram
+  matrices and `weilForm` are repeated in `Suggested.lean` with the same bodies (1.3, 1.6).
 
 ## References
 
@@ -2175,7 +2199,8 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - A. E. Ingham, *The Distribution of Prime Numbers*, Cambridge Tracts in Mathematics and
   Mathematical Physics 30 (1932), chapters III–IV: the bound for `ψ(x) − x` under a zero-free
   half-plane, which GeneralizedRiemannHypothesisFromWindowBounds §3.2 adapts to the remainder of a
-  weighted family of characters (0.5).
+  weighted family of characters (0.5); at the half-plane `Re s > 1/2`, von Koch's theorem
+  `π(x) = Li x + O(√x log x)` (2.1, through RiemannHypothesisStatementsAndConsequences §9.9).
 - E. C. Titchmarsh, *The Theory of the Riemann Zeta-Function*, second edition, revised by
   D. R. Heath-Brown, Oxford University Press (1986), chapter II: the functional equation and the
   symmetry of the zeros about the critical line (0.5, through
@@ -2225,6 +2250,10 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   Riemann zeta-function* (2022–2026), arXiv:2208.06141v5, preprint: Theorem 1.1 (6) and Lemma 4.3,
   bounds for `1/ζ` (1.4, through ExplicitZetaBounds §7.10); Theorem 2.2, the bound for the Mertens
   function (2.7, through ExplicitMultiplicativeFunctions §1.9).
+- N. Leong, *Explicit estimates for the logarithmic derivative and the reciprocal of the Riemann
+  zeta function*, J. Number Theory 285 (2026), 230–261; arXiv:2405.04869v5, whose numbering is
+  cited: Corollaries 3 and 4, the bounds for `ζ′/ζ` and for `1/ζ` from a verified height (1.4,
+  through ExplicitZetaBounds §7.10; 2.7, through ExplicitMultiplicativeFunctions §1.9).
 - Xian-Jin Li, *The positivity of a sequence of numbers and the Riemann hypothesis*, J. Number
   Theory 65 (1997): Li's criterion (1.6, through WeilPositivityAndLiCriterion §3.2).
 - A. Weil (1952): the positivity criterion (1.6, through WeilPositivityAndLiCriterion §5.2).
@@ -2296,6 +2325,12 @@ is a conditional theorem with the hypotheses that the main theorems give removed
 - M. Cully-Hugill, *Primes between consecutive powers*, J. Number Theory 247 (2023), arXiv
   2107.14468, Theorem 1: primes between consecutive cubes and between consecutive `155`-th powers,
   and the density *CullyHugillDensity* (2.9, through ExplicitPrimeCounting §7.5).
+- M. Cully-Hugill and D. R. Johnston, *On the error term in the explicit formula of Riemann–von
+  Mangoldt*, Int. J. Number Theory 19 (2023); arXiv:2111.10001v5, whose numbering and statements
+  are cited: Theorem 1.2 with its Table 4, the truncated explicit formula and the rows of
+  *CullyHugillJohnstonTable*, among them
+  `(40, 1/2, 0.48, 6.431)` (Conventions, through ExplicitPrimeCounting §2.1); Theorem 1.3, a prime
+  between consecutive `140`-th powers (2.9, through ExplicitPrimeCounting §7.5).
 - O. Ramaré and R. Rumely, *Primes in arithmetic progressions*, Math. Comp. 65 (1996), Theorem 1 and
   Table 1: the general theorem for a modulus and its tabulated rows (3.2, through
   ExplicitPrimeCounting §6.1).
@@ -2318,6 +2353,11 @@ is a conditional theorem with the hypotheses that the main theorems give removed
   and Dedekind zeta residues*, J. Number Theory 237 (2022), Lemma 3, Theorem 1 and Corollary 2: the
   Mertens lemma, the explicit Duke short-sum theorem and the two-sided bound for `κ_K` (4.6,
   through ExplicitNumberFields §§3.5, 3.6).
+- S. R. Garcia, L. Grenié, E. S. Lee and G. Molteni, *Explicit conditional bounds for the residue
+  of a Dedekind zeta-function at `s = 1`*, J. Number Theory (2026), doi:10.1016/j.jnt.2026.08.010,
+  arXiv:2506.17416, Theorem 2.1: the von Mangoldt–log sum
+  `|Σ_{2 ≤ m ≤ x} Λ(m)/(m log m) − log log x − γ| ≤ 3(log x + 2)/(8π√x)` for `x ≥ e` under the
+  Riemann hypothesis (4.6, through ExplicitNumberFields §3.6).
 - L. Grenié and G. Molteni, *An explicit Chebotarev density theorem under GRH*, J. Number Theory 200
   (2019) 441–485, arXiv:1709.07609, Theorem 1.1 and Corollary 1.2: the bounds for `ψ_C` and `π_C`
   (4.7, through ExplicitNumberFields §7.2).
