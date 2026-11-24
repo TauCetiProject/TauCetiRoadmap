@@ -34,11 +34,10 @@ the order of any one of them: one theorem on homogeneous kernels yields Hardy's 
 inequalities for integrals, and the series forms, Carleman's inequality and the weighted theory
 are built on top.
 
-The nearest roadmaps and library areas are these. Tau Ceti's Schur test and Young inequality for
-integral kernels are the analytic engine of Layers 1–3, and Tau Ceti's weighted Hardy inequalities
-for real interpolation already give the non-strict integral inequalities with power weights; this
-roadmap adds the strict forms, the best constants, the series forms and everything else listed
-above. [UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) §4.8 uses the case
+The nearest roadmaps and library areas are these. Tau Ceti's Schur test for integral kernels is
+the analytic engine of Layers 1–3; the weighted Hardy inequalities with power weights, in their
+non-strict and strict forms with best constants, are targets of §2.2.
+[UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) §4.8 uses the case
 `p = 2` of the half-line Hardy inequality for Sturm–Liouville operators and owns that case with its
 sharpness on smooth compactly supported functions.
 [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md) §2.9 and
@@ -141,10 +140,12 @@ almost everywhere measurable on `(0, ∞)`.
 and evaluate each factor by homogeneity: `∫₀^∞ K(x, y) (x/y)^(1/q) dy = k` for each `x > 0`, by
 the scaling `y = x t` (`Real.map_volume_mul_left`) and §1.1. The operator form follows from the
 bilinear form by duality in `L^p`, or directly from Tau Ceti's Schur test
-`TauCeti.lintegral_rpow_lintegral_mul_le` for the kernel `K(x, y) (x/y)^(1/p)` against the
-measure with density `x⁻¹`, whose row and column integrals are both `k`. Strictness: equality in
-Hölder forces `f(x)^p` to be proportional to `x^(-1)` on a set of positive measure, which
-contradicts `‖f‖_p < ∞` (Hardy–Littlewood–Pólya, p. 230, equation (9.3.1)).
+`TauCeti.lintegral_rpow_lintegral_mul_le`: the substitution `f(x) = x^(-1/p) φ(x)` turns it into
+the bound for the kernel `L(x, y) = K(x, y) x^(1/q) y^(1/p)` on `L^p(dx/x)`, and with the measure
+`dx/x` in both variables `∫ L(x, y) dx/x = ∫₀^∞ K(t, 1) t^(-1/p) dt = k` and
+`∫ L(x, y) dy/y = ∫₀^∞ K(1, t) t^(-1/q) dt = k` by §1.1, so the test gives `k^(p − 1) k = k^p`.
+Strictness: equality in Hölder forces `f(x)^p` to be proportional to `x^(-1)` on a set of positive
+measure, which contradicts `‖f‖_p < ∞` (Hardy–Littlewood–Pólya, p. 230, equation (9.3.1)).
 
 *Needs:* §1.1; Mathlib's Hölder inequality and Tonelli; Tau Ceti's Schur test.
 
@@ -225,8 +226,10 @@ measure; Tau Ceti's Schur test.
 - Target in prose: for a fixed multiset of values, `∑ φ(A_n/n)` with `φ` increasing is largest
   for the decreasing arrangement (Hardy–Littlewood–Pólya, Theorem 333, p. 248).
 - Target in prose: for `0 < p < 1` and `∑ aₙ^p < ∞` with `a ≠ 0`,
-  `∑' (aₙ + aₙ₊₁ + ⋯)^p > (p/(1 − p))^p ∑ aₙ^p`, where `∑'` multiplies the first term by
-  `1 + 1/(1 − p)`; the constant is best possible (Hardy–Littlewood–Pólya, Theorem 338, p. 252).
+  `∑'ₙ ((aₙ + aₙ₊₁ + ⋯)/(n + 1))^p > (p/(1 − p))^p ∑ aₙ^p`, where `∑'` multiplies the term
+  `n = 0` by `1 + 1/(1 − p)`; the constant is best possible (Hardy–Littlewood–Pólya, Theorem 338,
+  p. 252, with indices from `1` and the divisor `n` there). Without that factor the inequality
+  fails for `p > 1/2` (same place, footnote on p. 253).
 
 *Proof route.* Finite sections, Elliott's proof (Hardy–Littlewood–Pólya, pp. 240–241): with
 `αₙ = Aₙ/(n + 1)`, `αₙ^p − (p/(p − 1)) αₙ^(p−1) aₙ ≤ (1/(p − 1)) (n αₙ₋₁^p − (n + 1) αₙ^p)` by
@@ -235,19 +238,25 @@ telescopes, and Hölder (`Real.inner_le_Lp_mul_Lq`) gives the bound. Strictness:
 Hölder forces `aₙ = αₙ` for all `n`, so `a` is constant, contradicting `∑ aₙ^p < ∞`. Best
 constant: `aₙ = (n + 1)^(-1/p)` for `n < N` and `0` beyond, as `N → ∞` (p. 241). Weighted series:
 Elliott's argument with `αₙ = Aₙ/Wₙ` (p. 247). Copson: duality with the finite-section form of
-Hardy's inequality, as in Hardy–Littlewood–Pólya, pp. 246–247.
+Hardy's inequality, as in Hardy–Littlewood–Pólya, pp. 246–247. Reversed series inequality:
+Theorem 337 applied to the step function equal to `aₙ` on `[n + 1, n + 2)` and `0` on `(0, 1)`
+(Hardy–Littlewood–Pólya, p. 252); on `[n + 1, n + 2)` the average `(1/x) ∫ₓ^∞ f` is at most
+`(aₙ + aₙ₊₁ + ⋯)/(n + 1)`, and `(0, 1)` contributes `(1/(1 − p)) (a₀ + a₁ + ⋯)^p`.
 
 *Needs:* `Real.geom_mean_le_arith_mean_weighted`, `Real.inner_le_Lp_mul_Lq`,
 `NNReal.inner_le_Lp_mul_Lq_tsum`.
 
 ### 2.2 Integrals
 
-The non-strict inequality
-`∫₀^∞ (∫₀ˣ f)^p x^(p(ε − 1)) dx ≤ (1 − 1/p − ε)^(-p) ∫₀^∞ f^p x^(εp) dx` for `ε < 1 − 1/p`, and its
-tail form for `ε > 1 − 1/p`, are formalized in Tau Ceti (see *Scope and ownership*); they are the
-case `θ = 1 − 1/p − ε`, `q = p` of the weighted Hardy inequalities on `(0, ∞)` with the measure
-`dt/t`. The targets here are the strict forms, the best constants and the other operators.
-
+- **Weighted inequality** (`hardy_rpow_weight_le`): for `p > 1`, `ε < 1 − 1/p` and every
+  almost everywhere measurable `f ≥ 0`,
+  `∫₀^∞ (∫₀ˣ f)^p x^(p(ε − 1)) dx ≤ (1 − 1/p − ε)^(-p) ∫₀^∞ f^p x^(εp) dx`
+  (Balinsky–Evans–Lewis, Theorem 1.2.1, (1.2.1), p. 3; Hardy–Littlewood–Pólya, Theorem 330,
+  pp. 245–246).
+- **Weighted tail inequality** (`hardy_tail_rpow_weight_le`): for `p > 1`, `ε > 1 − 1/p` and
+  every almost everywhere measurable `f ≥ 0`,
+  `∫₀^∞ (∫ₓ^∞ f)^p x^(p(ε − 1)) dx ≤ (ε − 1 + 1/p)^(-p) ∫₀^∞ f^p x^(εp) dx`
+  (Balinsky–Evans–Lewis, Theorem 1.2.1, (1.2.2), p. 3).
 - **Strict weighted inequality** (`hardy_rpow_weight_lt`): for `p > 1`, `ε < 1 − 1/p` and
   `0 < ∫₀^∞ f^p x^(εp) < ∞`, `∫₀^∞ (∫₀ˣ f)^p x^(p(ε − 1)) dx < (1 − 1/p − ε)^(-p) ∫₀^∞ f^p x^(εp)`
   (Balinsky–Evans–Lewis, Theorem 1.2.1, p. 3; Hardy–Littlewood–Pólya, Theorem 330, pp. 245–246).
@@ -271,12 +280,14 @@ case `θ = 1 − 1/p − ε`, `q = p` of the weighted Hardy inequalities on `(0,
   `(p/(1 − p))^p ∫₀^∞ f^p < ∫₀^∞ ((∫ₓ^∞ f)/x)^p dx` (Hardy–Littlewood–Pólya, Theorem 337, p. 251).
   Target in prose: the constant is best possible (same place).
 
-*Proof route.* Strict weighted inequality: the substitution `h = x^ε f` turns it into the
-operator form of §1.2 for the kernel `K(x, y) = y^(ε − 1) x^(-ε) 1_{x ≤ y}`, homogeneous of degree
-`-1`, whose constant is `∫₀¹ x^(-ε − 1/p) dx = (1 − 1/p − ε)⁻¹`; strictness by the equality
-analysis of Hardy–Littlewood–Pólya, p. 244 (equality forces `f` to be a power of `x` near `0`) or
-the integration by parts of Balinsky–Evans–Lewis, pp. 3–4. Best constant: `f = x^(-1/p + α)` on
-`(0, a)` and `0` beyond, with `α ↓ −ε`; the ratio is
+*Proof route.* Weighted inequality and its tail form: when the right-hand side is `0` then `f = 0`
+almost everywhere and both sides vanish, when it is `⊤` there is nothing to prove, and otherwise
+they are the strict forms below. Strict weighted inequality: the substitution `h = x^ε f` turns
+it into the operator form of §1.2 for the kernel `K(x, y) = y^(ε − 1) x^(-ε) 1_{x ≤ y}`,
+homogeneous of degree `-1`, whose constant is `∫₀¹ x^(-ε − 1/p) dx = (1 − 1/p − ε)⁻¹`;
+strictness by the equality analysis of Hardy–Littlewood–Pólya, p. 244 (equality forces `f` to be
+a power of `x` near `0`) or the integration by parts of Balinsky–Evans–Lewis, pp. 3–4. Best
+constant: `f = x^(-1/p + α)` on `(0, a)` and `0` beyond, with `α ↓ −ε`; the ratio is
 `(α + 1/p')^(-p) (1 + (α + ε)/(1/p' − ε))` (Balinsky–Evans–Lewis, p. 4). Tail form: the same with
 the transposed kernel (Theorem 1.2.1, (1.2.2)). Riemann–Liouville: §1.2 for
 `K(x, y) = Γ(r)⁻¹ (y − x)^(r − 1) y^(-r) 1_{x < y}`, whose constant is
@@ -300,7 +311,8 @@ Hardy–Littlewood–Pólya, pp. 251–252, with the reversed Hölder inequality
 *Proof route.* For `0 < a < x`, `F(x) − F(a) = ∫_a^x F'`
 (`AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`);
 let `a → 0⁺` to get `|F(x)| ≤ ∫₀ˣ |F'|`, then apply the case `ε = 0` of the weighted inequality of
-§2.2 (in its non-strict Tau Ceti form) to `|F'|`. The companion is the tail form with `ε = 1`.
+§2.2 (`hardy_rpow_weight_le`) to `|F'|`. The companion is the tail form with `ε = 1`
+(`hardy_tail_rpow_weight_le`).
 
 *Needs:* §2.2; `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`.
 
@@ -310,8 +322,10 @@ let `a → 0⁺` to get `|F(x)| ≤ ∫₀ˣ |F'|`, then apply the case `ε = 0`
   `∑ 1/(n + 1)² = π²/6 ≈ 1.6449 < 4`.
 - Negative control for the index convention: with the denominator `n` in place of `n + 1`, the
   term at `n = 0` for `a = (1, 0, 0, …)` is `1/0 = ⊤` in `ℝ≥0∞`, and the inequality fails.
-- `tsum_hardy_sharp` at `p = 2`: for `aₙ = (n + 1)^(-1/2)`, `n < N`, the ratio of the two sides is
-  `2.683` at `N = 10³` and `3.157` at `N = 10⁵`, increasing to `4` slowly.
+- `tsum_hardy_sharp` at `p = 2`: for `aₙ = (n + 1)^(-1/2)` for `n < N` and `0` beyond, the ratio
+  of the left side of `tsum_hardy_sharp` (all `n`, including the averages beyond `N`) to
+  `∑ aₙ²` is `3.1931` at `N = 10³` and `3.4868` at `N = 10⁵`, increasing to `4` slowly; the ratio
+  of the two sides of `sum_range_hardy_le` at the same `N` is `2.6831` and `3.1575`.
 - `tsum_copson_lt` at `a = (1, 0, 0, …)`: the left side is `1` and the right side is `p^p`.
 - `hardy_rpow_weight_sharp` at `p = 2`, `ε = −1/2`: the sharp constant is `1`, and the extremal
   family `x^(α − 1/2) 1_{(0,1)}` gives the ratios `0.6667`, `0.9091`, `0.9901` at
@@ -322,6 +336,17 @@ let `a → 0⁺` to get `|F(x)| ≤ ∫₀ˣ |F'|`, then apply the case `ε = 0`
 - `hardy_reverse_lt` at `p = 1/2`, `f = e^(-x)`: the right side is
   `∫₀^∞ x^(-1/2) e^(-x/2) dx = √(2π) ≈ 2.5066`
   and the left side is `1 · ∫₀^∞ e^(-x/2) dx = 2`.
+- The reversed series inequality (Theorem 338) at `a = (1, 0, 0, …)`: the left side is
+  `1 + 1/(1 − p)` and the right side `(p/(1 − p))^p`; at `p = 3/4` they are `5` and
+  `3^(3/4) ≈ 2.2795`.
+- Negative control for the factor `1 + 1/(1 − p)`: without it the left side at `a = (1, 0, 0, …)`
+  is `1`, below `3^(3/4) ≈ 2.2795` at `p = 3/4`.
+- Negative control for the divisor `n + 1`: without it every tail dominates its first term, so the
+  left side is at least `∑ aₙ^p` and the constant `1` would hold, while `(p/(1 − p))^p` is
+  `(1/3)^(1/4) ≈ 0.7598 < 1` at `p = 1/4`; that constant could not be best possible.
+- `hardy_deriv_le` at `p = 2` has the constant `(p/(p − 1))^p = 4`, the reciprocal of the `¼` in
+  `∫|u′|² ≥ ¼ ∫|u/r|²` of UnboundedOperators §4.8; for `F(x) = x e^(-x)` the left side is
+  `∫₀^∞ e^(-2x) dx = 1/2` and the right side `4 ∫₀^∞ (1 − x)² e^(-2x) dx = 1`.
 
 ### Dependencies
 
@@ -394,9 +419,12 @@ comparison, or duality from `hilbert_tsum_le`. Weighted form: the step functions
 *Proof route.* Hardy–Littlewood–Pólya, pp. 253–254: split the double sum at the diagonal and
 treat the part with `n ≤ m` (the other part is the same with `p` and `q` exchanged). There
 `(m + n)^(-λ) ≤ m^(-λ)`, so the inner sum is at most `m^(-λ) Bₘ` with `Bₘ = b₁ + ⋯ + bₘ`; by
-Hölder in `m` (equation (9.14.1)) it suffices to bound `∑ (m^(-λ) Bₘ)^(p')` by a multiple of
-`(∑ bₙ^q)^(p'/q)` (equation (9.14.2)). Since `p' ≥ q`, this follows from Hardy's inequality
-(`tsum_hardy_lt`, in its non-strict form) for the exponent `q` and the inclusion `ℓ^q ⊂ ℓ^(p')`.
+Hölder in `m` (Theorem 13) the bound (9.14.1) follows from a bound of `∑ (m^(-λ) Bₘ)^(p')` by a
+multiple of `B^(p'/q)`, `B = ∑ bₙ^q` (equation (9.14.2)). Write
+`(m^(-λ) Bₘ)^(p') = (Bₘ/m)^q Bₘ^(p' − q) m^(q − p'λ)` with `p' ≥ q`, and bound
+`Bₘ ≤ m^(1/q') B^(1/q)` by Hölder; the powers of `m` cancel, since `(p' − q)/q' + q − p'λ = 0`,
+and Hardy's inequality for the exponent `q` (the non-strict inequality of §2.1) bounds
+`∑ (Bₘ/m)^q` by `(q/(q − 1))^q B` (Hardy–Littlewood–Pólya, p. 254).
 
 *Needs:* §2.1.
 
@@ -627,9 +655,9 @@ other layer.
 - UnboundedOperators §4.8 (UO-D07) uses the half-line Hardy inequality for `p = 2` for
   inverse-square potentials; `hardy_deriv_le` contains that inequality for every `p > 1` and every
   locally absolutely continuous function vanishing at `0`.
-- Real interpolation in Tau Ceti (Lorentz spaces and the `K`-method) uses the weighted Hardy
-  inequalities on `(0, ∞)`; the best constants of §2.2 and the Muckenhoupt criterion of Layer 5 are
-  the general forms of the bounds it needs.
+- Real interpolation (Lorentz spaces and the `K`-method) uses the weighted Hardy inequalities on
+  `(0, ∞)`; the best constants of §2.2 and the Muckenhoupt criterion of Layer 5 are the general
+  forms of the bounds it needs.
 - Uniqueness theorems for ordinary differential equations with non-Lipschitz right-hand sides use
   Osgood's criterion of §6.2.
 
@@ -644,9 +672,9 @@ Owned here:
 - the constant `kernelConstant` of a kernel homogeneous of degree `-1` and the integral, series,
   multilinear and reversed theorems of Layer 1;
 - Hardy's inequality for series in finite-section, strict, weighted and tail (Copson) form with
-  best constants, and for integrals the strict forms with power weights, the best constants, the
-  Riemann–Liouville form, the reversed inequality for `0 < p < 1` and the form with derivatives
-  (Layer 2);
+  best constants, and for integrals the non-strict and strict forms with power weights, the best
+  constants, the Riemann–Liouville form, the reversed inequality for `0 < p < 1` and the form with
+  derivatives (Layer 2);
 - Hilbert's inequality for the kernel `1/(x + y)`, for integrals and for series, strict and with
   best constant, its operator and weighted forms and the inequality with two exponents (Layer 3);
 - Carleman's inequality with Pólya's bound and best constant, and Knopp's integral form (Layer 4);
@@ -660,17 +688,13 @@ Owned here:
 - Formalized in Tau Ceti and consumed, not restated: Schur's test and Young's inequality for
   integral kernels (`TauCeti/MeasureTheory/Integral/SchurTest.lean`), Minkowski's integral
   inequality, and Euler's second beta integral (see *Exact supplier contracts*).
-- Formalized in Tau Ceti and not restated: the non-strict weighted Hardy inequalities on `(0, ∞)`
-  for the prefix and tail operators with the measure `dt/t` and every exponent `1 ≤ q ≤ ∞`
-  (`TauCeti/MeasureTheory/Integral/Hardy.lean`), which contain the non-strict cases of
-  Hardy–Littlewood–Pólya, Theorems 327, 328 and 330, and of Balinsky–Evans–Lewis, Theorem 1.2.1;
-  the sharpness of the constant `θ⁻¹` for the `K`-method space `(L¹, L^∞)_{θ, ∞}`
-  (`TauCeti/Analysis/Normed/Interpolation/Lorentz.lean`), a different statement from the best
-  constants of §2.2; the bilinear form of Schur's test and its counting-measure case for
-  convolution kernels on countable groups (in the same Schur test file); and the integral Grönwall
-  inequality with an integrable kernel (`TauCeti/Analysis/ODE/Gronwall/Integrable.lean`), which is
-  the linear case of §6.2. Mathlib owns the differential Grönwall inequality
-  `le_gronwallBound_of_liminf_deriv_right_le` and a discrete Grönwall inequality.
+- Formalized in Tau Ceti and not restated: the integral Grönwall inequality with a constant
+  coefficient, `TauCeti.le_mul_exp_of_le_add_mul_integral` (`TauCeti/Analysis/ODE/Gronwall.lean`),
+  which for nonnegative functions is the case `w(s) = s` with constant `f` of §6.2. Mathlib owns
+  the differential Grönwall inequality `le_gronwallBound_of_liminf_deriv_right_le` and a discrete
+  Grönwall inequality. The non-strict weighted Hardy inequalities that §2.3 consumes are targets
+  of §2.2 here; later library work on real interpolation may supply them in the form with the
+  measure `dt/t`, which is not used here.
 - [UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) §4.8 (UO-D07) owns the
   half-line Hardy inequality `∫|u′|² ≥ ¼ ∫|u/r|²` with its sharpness for `u ∈ C_c^∞(0, ∞)`, as an
   input to its Sturm–Liouville theory. This roadmap owns the inequality for all `p > 1` and
@@ -688,7 +712,7 @@ Owned here:
   inequalities of Hölder and Minkowski with their equality cases, and majorization; it names the
   inequalities of this roadmap as outside its scope.
 - Rearrangements and symmetrisation belong to [Isoperimetry](../Isoperimetry/README.md) Layer 2,
-  which uses Tau Ceti's Schwarz rearrangement with its Hardy–Littlewood inequality; Theorem 333 of
+  which uses the Schwarz rearrangement with its Hardy–Littlewood inequality; Theorem 333 of
   §2.1 is the only rearrangement statement here, for sequences.
 
 ## Exact supplier contracts
@@ -738,12 +762,16 @@ Owned here:
 - `TauCeti.integral_rpow_mul_one_add_rpow` (`TauCeti/Analysis/SpecialFunctions/Beta.lean`,
   imported): `∫ x in Ioi 0, x ^ (a − 1) * (1 + x) ^ (-(a + b)) = beta a b` for `a, b > 0`. Used in
   §3.1.
+- `TauCeti.le_mul_exp_of_le_add_mul_integral` (`TauCeti/Analysis/ODE/Gronwall.lean`, imported):
+  for `φ` continuous on `[a, b]`, `K ≥ 0` and `φ t ≤ c + K ∫ₐᵗ φ`, `φ t ≤ c exp(K (t − a))`. Named
+  in *Scope and ownership*; not used by a route.
 
 ### From other roadmaps
 
 - [UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) §4.8 (UO-D07): the case
   `p = 2` of §2.3 for smooth compactly supported functions, with its sharpness, is owned there and
-  is the reference for the comparison Check of §2.3; nothing else is consumed.
+  is the reference for the comparison Check of Layer 2 (`hardy_deriv_le` at `p = 2`); nothing
+  else is consumed.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -774,8 +802,8 @@ Owned here:
   `e`. They are the starting point for §§2.1, 3.1, 3.2 and 4.1, with the statements here moved to
   `ℝ≥0∞` and strengthened to strict inequalities. Coverage of the entries 11.32–11.42 of its
   synopsis file SYNOPSIS11.md (Hardy, Hilbert and differential inequalities): 11.32 (§2.1),
-  11.33–11.34 (§2.2, non-strict forms in Tau Ceti), 11.35 (Layer 5), 11.37 (Layer 3), 11.38 (§4.1),
-  11.39 (§4.2), 11.40 (Tau Ceti, linear case of §6.2), 11.41 (§6.2), 11.42 (§6.1).
+  11.33–11.34 (§2.2), 11.35 (Layer 5), 11.37 (Layer 3), 11.38 (§4.1), 11.39 (§4.2), 11.40 (linear
+  case of §6.2), 11.41 (§6.2), 11.42 (§6.1).
 
 ## References
 

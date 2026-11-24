@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.MeasureTheory.Integral.SchurTest
 public import TauCeti.MeasureTheory.Integral.MinkowskiIntegral
 public import TauCeti.Analysis.SpecialFunctions.Beta
+public import TauCeti.Analysis.ODE.Gronwall
 
 /-!
 # Hardy, Hilbert and Carleman inequalities: target signatures
@@ -150,6 +151,22 @@ theorem tsum_copson_lt {p : ℝ} (hp : 1 < p) {a : ℕ → ℝ≥0∞}
     (ha : ∑' n : ℕ, (((n : ℝ≥0∞) + 1) * a n) ^ p ≠ ⊤) (ha0 : a ≠ 0) :
     ∑' n : ℕ, (∑' k, a (n + k)) ^ p <
       ENNReal.ofReal (p ^ p) * ∑' n : ℕ, (((n : ℝ≥0∞) + 1) * a n) ^ p := by
+  sorry
+
+/-- 2.2: Hardy's integral inequality with a power weight, `ε < 1 - 1/p`, for every `f`. -/
+theorem hardy_rpow_weight_le {p ε : ℝ} (hp : 1 < p) (hε : ε < 1 - p⁻¹) {f : ℝ → ℝ≥0∞}
+    (hf : AEMeasurable f (volume.restrict (Ioi 0))) :
+    ∫⁻ x in Ioi 0, (∫⁻ t in Ioc 0 x, f t) ^ p * ENNReal.ofReal (x ^ (p * (ε - 1))) ≤
+      ENNReal.ofReal ((1 - p⁻¹ - ε) ^ (-p)) *
+        ∫⁻ x in Ioi 0, f x ^ p * ENNReal.ofReal (x ^ (ε * p)) := by
+  sorry
+
+/-- 2.2: the tail form of the weighted Hardy inequality, `ε > 1 - 1/p`, for every `f`. -/
+theorem hardy_tail_rpow_weight_le {p ε : ℝ} (hp : 1 < p) (hε : 1 - p⁻¹ < ε) {f : ℝ → ℝ≥0∞}
+    (hf : AEMeasurable f (volume.restrict (Ioi 0))) :
+    ∫⁻ x in Ioi 0, (∫⁻ t in Ici x, f t) ^ p * ENNReal.ofReal (x ^ (p * (ε - 1))) ≤
+      ENNReal.ofReal ((ε - 1 + p⁻¹) ^ (-p)) *
+        ∫⁻ x in Ioi 0, f x ^ p * ENNReal.ofReal (x ^ (ε * p)) := by
   sorry
 
 /-- 2.2: Hardy's integral inequality with a power weight, `ε < 1 - 1/p`, strict for nonzero `f`
@@ -466,5 +483,6 @@ The Mathlib and Tau Ceti declarations named in the README. -/
 #check @AbsolutelyContinuousOnInterval.integral_deriv_eq_sub
 #check @le_gronwallBound_of_liminf_deriv_right_le
 #check @tsum_comm
+#check @TauCeti.le_mul_exp_of_le_add_mul_integral
 
 end TauCetiRoadmap.HardyHilbertAndCarlemanInequalities
