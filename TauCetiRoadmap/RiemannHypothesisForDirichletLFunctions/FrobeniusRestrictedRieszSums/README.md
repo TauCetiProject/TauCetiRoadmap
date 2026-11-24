@@ -1023,10 +1023,10 @@ real zeros in `(1 − c_ex, 1)` that (a) states.
 - On the host of 0.4 for `ψ = 1`, `n = 2`, `(q, d) = (3, 71)`, the real characters of `G` are the eight
   `ρ·(·/3)^i(·/71)^j` with `ρ ∈ {1, (2/·)}`. The twists of `ρ = 1` alone would leave out `(2/·)(·/3)`, `(2/·)(·/71)`
   and `(2/·)(·/3)(·/71)`.
-- If the bound of AnalyticNumberTheoryPartI §0.34 holds (`(1 − β) log q ≥ c_LS` for every real zero `β` of every
-  primitive real `L(s, χ)` of conductor `q ≥ 3`), it gives the conclusion of (b) for every finite abelian `E/ℚ` without
-  the box hypothesis, with another absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the
-  box hypothesis, which assumes no such bound, is the one [FormalProof] uses.
+- AnalyticNumberTheoryPartI §0.34 (`(1 − β) log q ≥ c_LS` for every real zero `β` of every primitive real `L(s, χ)` of
+  conductor `q ≥ 3`) gives the conclusion of (b) for every finite abelian `E/ℚ` without the box hypothesis, with another
+  absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the box hypothesis, which assumes no
+  such bound, is the one [FormalProof] uses.
 
 *Sources:* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
 `Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`),
