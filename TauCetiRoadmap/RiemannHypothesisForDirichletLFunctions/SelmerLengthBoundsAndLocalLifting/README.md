@@ -28,7 +28,7 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 `*Method of the formal proof:*` label describes the proof of a part or of another form of a section's statement (3.22 (1),
 3.25b, 3.26, 4.9a, 4.10b), it says which part or form; where the route written in a section is not that proof's (3.24 (4c),
 3.25b, 4.9a, 4.9b, 4.10b), the label ends with a sentence that says so; where a section records a wider or sharper form as
-this roadmap's own (3.25, 3.25a (2′), 3.25b (1), 3.26, 4.9d (2), 4.10a, 4.10c–4.10e), the `*Origin:*` label names that form
+this roadmap's own (3.24 (4c), 3.25, 3.25a (2′), 3.25b (1), 3.26, 4.9d (2), 4.10a, 4.10c–4.10e), the `*Origin:*` label names that form
 as this roadmap's own formulation.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
@@ -47,7 +47,7 @@ This layer works with the Selmer data of 3.22: a Galois lattice over a number fi
 ### 3.22 Selmer presentations over group rings, and tame anticyclotomic characters
 
 *Origin:* adapted from Gras and Munnier (1998), Théorème 1.1, and from Mazur and Rubin (2005), building on Nekovář
-(2006): (1) a cyclic extension of degree `p^M`, totally ramified at one place and unramified elsewhere, exists exactly when
+(2006), §6.1 and Theorem 7.8.6: (1) a cyclic extension of degree `p^M`, totally ramified at one place and unramified elsewhere, exists exactly when
 the place splits completely in a governing field; here anticyclotomic characters trivial on the decomposition groups
 above `p`, with the governing field `𝒢_M`; (2)–(3) Selmer modules presented by a square matrix; here over the finite group
 ring `Λ`, for an abstract balanced saturated condition above `p`, naturally in the coefficient module and with a universal
@@ -242,8 +242,9 @@ above `p` is the image of `ℒ_v ⊗ B` for every `B`, so it is the same for `T 
 
 *Origin:* particular to this proof: auxiliary places in two halves, paired by the values of anticyclotomic characters on
 their Frobenius elements, for which the bilinear form `B` of (4c) on `Sel_∅(T̄) × Sel_∅(T̄^†)` has left kernel of dimension at
-most `1` (at most `0` when `T̄ ≇ T̄ ⊗ χ̄_cyc^t`); nearest published result: Bertolini and Darmon (1994), Chebotarev choices of
-auxiliary primes that prescribe the localisation of Selmer classes.
+most `1` (at most `0` when `T̄ ≇ T̄ ⊗ χ̄_cyc^t`); nearest published result: Bertolini and Darmon (1994), Lemma 2.21 with
+Definition 2.22 and Lemma 2.23, Chebotarev choices of auxiliary primes that prescribe the localisation of Selmer classes.
+The form of (4c) for even `r` is this roadmap's own formulation.
 
 *Method of the formal proof:* on the subgroup `L`, on which the classes restrict to equivariant homomorphisms, a lemma of
 linear algebra writes a prescribed bilinear form on `Sel_∅(T̄) × Sel_∅(T̄^†)` as a combination of the forms
@@ -949,9 +950,9 @@ number of negative weights summed over the embeddings above `v`, and the right s
 *Origin:* particular to this proof: an explicit power of `p`, in terms of the set `U` of Hodge–Tate weights and its bounds
 `M₀`, `h₀`, the level `s`, the twist `e` and the degree `[K_s : K]`, after which the pushout to `V_e/L_e` of the class of
 an extension of `O` by `Y`, crystalline over `K₀(μ_{p^s})`, is finite, and its form over abelian bases (2); nearest
-published results: Iovita and Marmora (2015), finite classes preserved without loss for small weights and small
+published results: Iovita and Marmora (2015), Theorem 4.1.6 and Corollary 4.1.12, finite classes preserved without loss for small weights and small
 ramification, and Cherbonnier and Colmez (1999), Théorème IV.2.1, dual exponentials of de Rham classes over the
-cyclotomic levels, and, for (D2) and the abelian bases of (2), Benois and Nguyen Quang Do (2002), the local Tamagawa
+cyclotomic levels, and, for (D2) and the abelian bases of (2), Benois and Nguyen Quang Do (2002), Théorème 2.1, the local Tamagawa
 numbers of the motives `ℚ(m)` over an abelian field.
 
 *Method of the formal proof:* the extension cocycle with coefficients `A_inf/ξ^{e+1}` is torsion, with torsion bounded on
@@ -1146,7 +1147,7 @@ Tate's theorems, which are PadicPeriodRings §§1.3–1.4. *Needs:* SelmerIwasaw
 
 *Origin:* particular to this proof: admissible classes are the finite classes, for lattices of any rank `r`, with any
 finite coefficient module `X`, for weights of size about `p²/4` under the position hypotheses; nearest published results:
-Gee, Liu and Savitt (2014), Lemma 9.3, and (2015), and Chang and Diamond (2011), the same identification, by the same
+Gee, Liu and Savitt (2014), Lemma 9.3, and (2015), the proof of Theorem 5.4.1, and Chang and Diamond (2011), Theorem 7.8 with Theorems 7.12 and 7.15, the same identification, by the same
 comparison of admissible classes with finite ones through a residual count, for extensions of two characters with weights
 up to `p`. The form for an `E` containing only the images of the embeddings of `K` is this roadmap's own formulation.
 
@@ -1255,7 +1256,7 @@ annihilator is `F_W` (SelmerIwasawaCohomology §2.17). *Needs:* SelmerIwasawaCoh
 
 *Origin:* particular to this proof: lifting of finite classes along a surjection of crystalline lattices over an
 unramified base up to `p^e`, `e ≤ 23·(2 + H/p + log_p(H + 1))`, for weights in intervals containing `0`, with `H` as in
-WachLatticesOverTheCyclotomicTower §6.10; nearest published results: Bloch and Kato (1990), surjectivity without loss in
+WachLatticesOverTheCyclotomicTower §6.10; nearest published results: Bloch and Kato (1990), Lemmas 4.4 and 4.5, surjectivity without loss in
 the Fontaine–Laffaille range, and, for the representatives of (2), Abhinandan (2024), Theorem 1.2, a complex of the Wach
 module computing `H¹_f` after inverting `p`, made integral for one-sided weights by Čoupek, Gazaki and Marmora (2026),
 Corollary 3.16. The count of (1) for every finite `K`, the refinement `e°` of (3) and the form of (3) for an `E` containing
@@ -1724,11 +1725,11 @@ PhiGammaModulesAndIwasawaCohomology §3.6; WachLatticesOverTheCyclotomicTower §
 *Origin:* for (0), adapted from Pham (2023), §4.5, Definition 4.17 and Proposition 4.18: there the prismatic `F`-crystal
 of a lattice is evaluated on the cyclotomic prism of finite level and its value is identified with the module of Kisin
 and Ren (2009), Theorem 0.1 and §2.2, which, read for the multiplicative group, classify such lattices by another
-construction for `K` unramified over some `ℚ_p(μ_{p^n})`; for unramified `K`, Abhinandan (2024b) identifies the value on
+construction for `K₀ ⊆ K ⊆ K₀(μ_{p^n})` for some `n`; for unramified `K`, Abhinandan (2024b), Theorem 1.2, identifies the value on
 the `q`-de Rham prism with the Wach module; here the same construction, with the pointwise statements (H)_s, (E)_s and
 (Sen)_s. For (1)–(3), particular to this proof: lifting of finite classes with a loss linear in `Hs` over `K₀(μ_{p^s})`,
 over its subfields and the abelian bases, and a finer statement over tamely ramified bases; nearest published result:
-Min (2026), congruences of first syntomic cohomology groups. The descent (2) for a finite `K/K′` that is not Galois and
+Min (2026), Theorem 1.1 with Theorem 1.10, congruences of first syntomic cohomology groups. The descent (2) for a finite `K/K′` that is not Galois and
 the form of (3) for an `E` containing only the images of the embeddings of `K` are this roadmap's own formulation.
 
 *Method of the formal proof:* the argument of 4.10c is run at level `s` with the variables `X = φ^{s−1}(π)` and
@@ -2068,7 +2069,7 @@ supplies the inequalities the component statements need. *Needs:* SelmerIwasawaC
 
 ### 4.10g Pushouts of finite classes under a lifting exponent
 
-*Origin:* adapted from Bloch and Kato (1990), after Fontaine and Laffaille (1982): in the Fontaine–Laffaille range,
+*Origin:* adapted from Bloch and Kato (1990), Lemmas 4.4 and 4.5, after Fontaine and Laffaille (1982), Théorèmes 3.3 and 6.1: in the Fontaine–Laffaille range,
 where the lifting exponent is `0`, the classes pushed out from the finite classes of crystalline lattices are finite;
 here with the loss `p^e`, for every pair of representations with a lifting exponent `e`, through a graph lattice and
 local duality.
@@ -2252,24 +2253,24 @@ Layers 10 and 14: every conjugacy class of a finite Galois quotient of `G_F` is 
 - **BS23-FCRYS** — Bhargav Bhatt and Peter Scholze, [Prismatic F-crystals and crystalline Galois representations](https://arxiv.org/abs/2106.14735v2), arXiv:2106.14735v2: Theorem 1.2 (Theorem 5.6 in the body; the equivalence, for every prime `p`), through PrismaticCohomologyPartIII §7.22, in 4.10e (0) (evaluation on the cyclotomic prism; no statement on Breuil–Kisin prisms is used there) and 4.10f (evaluation on a Breuil–Kisin prism).
 - **Gras–Munnier 1998** — Gras and Munnier, *Extensions cycliques T-totalement ramifiées*, Publ. Math. Besançon (1998), 1–17: Théorème 1.1, a cyclic extension of degree `p^e`, totally ramified at a given set of primes and unramified elsewhere, exists exactly when a relation holds among the Frobenius elements of these primes in a governing field; for one prime, exactly when it splits completely there (3.22 (1)).
 - **Mazur–Rubin 2005** — B. Mazur and K. Rubin, *Organizing the arithmetic of elliptic curves*, Advances in Mathematics 198 (2005), 504–546: a square skew-Hermitian matrix over an Iwasawa algebra presenting the Selmer modules of the layers (3.22 (2)).
-- **Nekovář 2006** — J. Nekovář, *Selmer complexes*, Astérisque 310 (2006): Selmer complexes, on which the construction of Mazur–Rubin 2005 builds (3.22 (2)).
-- **Bertolini–Darmon 1994** — M. Bertolini and H. Darmon, *Derived heights and generalized Mazur–Tate regulators*, Duke Mathematical Journal 76 (1994): Chebotarev choices of auxiliary primes (3.24); Theorems 3.18 and 3.21, with Lemma 3.19 and Proposition 3.9, the order of vanishing of a determinant over the group ring of a group of order `p` through derived pairings (3.25).
+- **Nekovář 2006** — J. Nekovář, *Selmer complexes*, Astérisque 310 (2006): §6.1 and Theorem 7.8.6, Selmer complexes and their Euler–Poincaré characteristic, on which the construction of Mazur–Rubin 2005 builds (3.22 (2)).
+- **Bertolini–Darmon 1994** — M. Bertolini and H. Darmon, *Derived heights and generalized Mazur–Tate regulators*, Duke Mathematical Journal 76 (1994): Lemma 2.21, with Definition 2.22 and Lemma 2.23, Chebotarev choices of auxiliary primes (3.24); Theorems 3.18 and 3.21, with Lemma 3.19 and Proposition 3.9, the order of vanishing of a determinant over the group ring of a group of order `p` through derived pairings (3.25).
 - **Kurihara 2014** — M. Kurihara, *Refined Iwasawa theory for p-adic representations and the structure of Selmer groups*, Münster Journal of Mathematics 7 (2014): a square relation matrix of the Selmer module built from Chebotarev primes (3.25).
 - **Cherbonnier–Colmez 1999** — F. Cherbonnier and P. Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the American Mathematical Society 12 (1999), 241–268: Théorème IV.2.1, dual exponentials of de Rham classes over the cyclotomic levels (4.9c).
-- **Iovita–Marmora 2015** — A. Iovita and A. Marmora, *On the continuity of the finite Bloch–Kato cohomology*, Rendiconti del Seminario Matematico della Università di Padova 134 (2015), 239–271: finite classes preserved without loss for small weights and small ramification (4.9c).
-- **Benois–Nguyen Quang Do 2002** — D. Benois and T. Nguyen Quang Do, *Les nombres de Tamagawa locaux et la conjecture de Bloch et Kato pour les motifs ℚ(m) sur un corps abélien*, Annales scientifiques de l'École normale supérieure 35 (2002), 641–672: the local Tamagawa numbers of the motives `ℚ(m)` over an abelian field (4.9c).
+- **Iovita–Marmora 2015** — A. Iovita and A. Marmora, *On the continuity of the finite Bloch–Kato cohomology*, Rendiconti del Seminario Matematico della Università di Padova 134 (2015), 239–271: Theorem 4.1.6 and Corollary 4.1.12, finite classes preserved without loss for small weights and small ramification (4.9c).
+- **Benois–Nguyen Quang Do 2002** — D. Benois and T. Nguyen Quang Do, *Les nombres de Tamagawa locaux et la conjecture de Bloch et Kato pour les motifs ℚ(m) sur un corps abélien*, Annales scientifiques de l'École normale supérieure 35 (2002), 641–672: Théorème 2.1, the local Tamagawa numbers of the motives `ℚ(m)` over an abelian field (4.9c).
 - **Tate 1967** — J. Tate, *p-divisible groups*, Proceedings of a Conference on Local Fields (Driebergen, 1966), Springer (1967), 158–183: `H⁰(K, ℂ_p(j)) = 0` for `j ≠ 0` (4.9d).
 - **Ozeki 2023** — Y. Ozeki, *Explicit bounds on torsion of CM abelian varieties over p-adic fields with values in Lubin–Tate extensions*, arXiv:2303.13725 (2023): Theorem 2.3, an explicit bound for characters (4.9d).
 - **Gee–Liu–Savitt 2014** — T. Gee, T. Liu and D. Savitt, *The Buzzard–Diamond–Jarvis conjecture for unitary groups*, Journal of the American Mathematical Society 27 (2014): Lemma 9.3, admissible classes of extensions of two characters are the finite ones (4.10a).
-- **Gee–Liu–Savitt 2015** — T. Gee, T. Liu and D. Savitt, *The weight part of Serre's conjecture for GL(2)*, Forum of Mathematics, Pi 3 (2015): the same comparison for extensions of two characters (4.10a).
-- **Chang–Diamond 2011** — S. Chang and F. Diamond, *Extensions of rank one (φ, Γ)-modules and crystalline representations*, Compositio Mathematica 147 (2011): the same comparison for extensions of two characters (4.10a).
+- **Gee–Liu–Savitt 2015** — T. Gee, T. Liu and D. Savitt, *The weight part of Serre's conjecture for GL(2)*, Forum of Mathematics, Pi 3 (2015): the proof of Theorem 5.4.1 (numbered as in arXiv:1309.0527v2), the same comparison for extensions of two characters (4.10a).
+- **Chang–Diamond 2011** — S. Chang and F. Diamond, *Extensions of rank one (φ, Γ)-modules and crystalline representations*, Compositio Mathematica 147 (2011): Theorem 7.8, with Theorems 7.12 and 7.15 (numbered as in arXiv:0910.2371v2), the same comparison for extensions of two characters (4.10a).
 - **Abhinandan 2024** — Abhinandan, *Crystalline part of the Galois cohomology of crystalline representations*, arXiv:2405.17012 (2024): Theorem 1.2, a complex of the Wach module computing `H¹_f` after inverting `p` (4.10c).
 - **Čoupek–Gazaki–Marmora 2026** — P. Čoupek, E. Gazaki and A. Marmora, *Exactness property of Breuil–Kisin functors and Bloch–Kato Selmer groups*, arXiv:2603.26035 (2026): Corollary 3.16, that complex made integral for one-sided weights (4.10c).
 - **Pham 2023** — D. Pham, *Prismatic F-crystals and E-crystalline Galois representations*, arXiv:2306.13205 (2023): §4.5, Definition 4.17 and Proposition 4.18, the value of a prismatic `F`-crystal on the cyclotomic prism of finite level, identified with the module of Kisin–Ren 2009 (4.10e (0)).
-- **Kisin–Ren 2009** — Kisin and Ren, *Galois representations and Lubin–Tate groups*, Documenta Mathematica 14 (2009): Theorem 0.1 and §2.2, which, read for the multiplicative group, classify these lattices for `K` unramified over some `ℚ_p(μ_{p^n})` (4.10e (0)).
-- **Abhinandan 2024b** — Abhinandan, arXiv:2405.18245 (2024): for unramified `K`, the value of a prismatic `F`-crystal on the `q`-de Rham prism as the Wach module (4.10e (0)).
-- **Min 2026** — Y. Min, *Congruences of first syntomic cohomology groups*, arXiv:2605.09987 (2026) (4.10e).
+- **Kisin–Ren 2009** — Kisin and Ren, *Galois representations and Lubin–Tate groups*, Documenta Mathematica 14 (2009): Theorem 0.1 and §2.2, which, read for the multiplicative group, classify these lattices for `K₀ ⊆ K ⊆ K₀(μ_{p^n})` for some `n`, `K₀` the maximal unramified subfield of `K` (4.10e (0)).
+- **Abhinandan 2024b** — Abhinandan, arXiv:2405.18245 (2024): Theorem 1.2 (Theorem 5.5 in the body), for unramified `K`, the value of a prismatic `F`-crystal on the `q`-de Rham prism as the Wach module (4.10e (0)).
+- **Min 2026** — Y. Min, *Congruences of first syntomic cohomology groups*, arXiv:2605.09987 (2026): Theorem 1.1, with Theorem 1.10 (4.10e).
 - **Caraiani–Emerton–Gee–Savitt 2022** — A. Caraiani, M. Emerton, T. Gee and D. Savitt, *Components of moduli stacks of two-dimensional Galois representations*, arXiv:2207.05237 (2022): §3.1, extensions of Breuil–Kisin modules with tame descent data (4.10f).
-- **Fontaine–Laffaille 1982** — Jean-Marc Fontaine and Guy Laffaille, *Construction de représentations p-adiques*, Annales scientifiques de l’École normale supérieure 15 (1982), 547–608: the range of weights in which the lifting exponent is `0` (4.10g).
+- **Fontaine–Laffaille 1982** — Jean-Marc Fontaine and Guy Laffaille, *Construction de représentations p-adiques*, Annales scientifiques de l’École normale supérieure 15 (1982), 547–608: Théorèmes 3.3 and 6.1, the range of weights in which the lifting exponent is `0` (4.10g).
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, which carries the submitted Lean source unmodified, with a Comparator setup (the code is also distributed as an archive in fourteen parts, footnote 1 of [Announcement]). The files and declarations of [FormalProof] named in this README are those of the first commit of that repository, the source as published, with the file paths relative to its directory `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. It is the source of the presentation of Selmer functors over group rings with a universal cocycle, the residual determinant bounds, the determinant bound under a congruence `T ≡ T ⊗ χ_cyc^t` (a dual class by counting and the determinant after adding a place), and twist selection (3.22–3.26); of the bound for the classes cut out by a character and the killing exponent for invariants modulo a lattice, with their forms over abelian bases (4.9c, 4.9d); of the local theorem beyond the Fontaine–Laffaille range (4.10a); of the lifting theorems with loss along surjections of crystalline lattices (4.10c–4.10f) and, for the lattices at a finite level of the cyclotomic tower (their construction is that of Pham 2023), of the statements on them that 4.10e (0) records as statements of [FormalProof]: (U)_s, (H)_s, (E)_s, the exactness clauses of (S)_s, and the converse half and the clause on poles of (Herr)_s; and of the pushouts of finite classes under a lifting exponent (4.10g).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
