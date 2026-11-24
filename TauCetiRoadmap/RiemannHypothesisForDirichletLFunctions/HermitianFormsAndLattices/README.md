@@ -307,8 +307,8 @@ characteristic `≠ 2`); Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGr
 *Origin:* published for a field `E` of characteristic `≠ 2`: Platonov and Rapinchuk (1994), second edition with
 I. Rapinchuk (2023), §2.3.3 and Proposition 2.35 (3), the clauses of the structure of `U(V)` and `SU(V)` that
 ReductiveGroups §9D.1 states (named in the `*Corollary of:*` line). This roadmap's own formulation: the other clauses
-of the structure (the word outer, absolute almost simplicity for `n ≥ 2`), the whole structure for `E = F × F` and in
-characteristic two, the homomorphic section `s_x` of `det` attached to a vector with `h(x, x) ≠ 0`, the existence of
+of the structure (the word outer, absolute almost simplicity for `n ≥ 2`), the whole structure for `E = F × F`, the
+homomorphic section `s_x` of `det` attached to a vector with `h(x, x) ≠ 0`, the existence of
 such a vector (an elementary lemma), and the centre of `U(V)`.
 
 *Method of the formal proof:* on groups of points, over number fields, their completions and their adeles: the
@@ -320,11 +320,11 @@ is a scalar: it commutes with the Cayley transforms of all skew-adjoint matrices
 written here finds the vector `x` through the nondegeneracy of the trace form of `E`, in every characteristic, and
 reads the centre off `GL_E(V)` after base change.
 
-*Corollary of:* ReductiveGroups §9D.1 (for a separable quadratic field extension in characteristic `≠ 2` and a
+*Corollary of:* ReductiveGroups §9D.1 (for a separable quadratic field extension and a
 nondegenerate Hermitian or skew-Hermitian space of dimension `n ≥ 1`: `U(V)` is connected reductive and a form of
 `GL_n` split by `E`, `SU(V)` is a simply connected semisimple form of `SL_n`, `det` is smooth and surjective with
 kernel `SU(V)`, and `X^*(U(V)) = X^*(U(1)) ≅ ℤ` with the nontrivial element of `Gal(E/F)` acting by `−1`), for these
-clauses when `E` is a field of characteristic `≠ 2`.
+clauses when `E` is a field.
 
 Let `n ≥ 1`. Prove that `U(V)` is connected reductive, with centre `U(1)` embedded
 as scalars; for a field `E`
@@ -4252,7 +4252,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 included (its decomposition and isometry group in characteristic `≠ 2` are consumed from
 MetaplecticAutomorphicForms §3.2a), and their base change (Layer 1); the group schemes `U(V)`, `SU(V)` of an
 arbitrary Hermitian space, their reductive structure, the section of `det` and the centre of `U(V)` (Layer 0; for a
-field `E` of characteristic `≠ 2` the clauses of the structure that ReductiveGroups §9D.1 states are corollaries of
+field `E` the clauses of the structure that ReductiveGroups §9D.1 states are corollaries of
 it) and the integral models of lattice stabilizers (4.6); the forms
 stated in Layers 2–3 of the classification of Hermitian spaces over nonarchimedean local fields and over number
 fields, of Landherr's theorem in both directions, of the coherence criterion in dimension one and of the Hasse
@@ -4504,7 +4504,7 @@ measures on a `G`-stable open subvariety of a fibre `Φ^{−1}(t)`, all for `G` 
 ### From TauCetiRoadmap.ReductiveGroups
 
 Layer 6: reductive, semisimple and simply connected groups. §9D.1: the unitary group `U(V)` of a nondegenerate
-Hermitian or skew-Hermitian space over a separable quadratic field extension in characteristic `≠ 2` is a connected
+Hermitian or skew-Hermitian space over a separable quadratic field extension is a connected
 reductive form of `GL_n`, `SU(V)` a simply connected semisimple form of `SL_n`, `det` smooth and surjective with
 `X^*(U(V)) ≅ ℤ` and the Galois action by `−1`; used in 0.2 (its `*Corollary of:*` line), in 2.5(d), in the
 Conventions and in the routes of 6.0b and 6.5.
