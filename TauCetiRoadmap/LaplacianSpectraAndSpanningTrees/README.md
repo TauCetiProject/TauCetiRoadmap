@@ -71,10 +71,10 @@ degree bounds for the index; on LaplacianEigenvaluesOfGraphs for the sorted Lapl
 the complement formula, Fiedler's vertex-cut bound, the bounds `Δ + 1 ≤ ν₁ ≤ max(d(x) + d(y))` and
 the unit network of a graph; on ElectricalNetworksAndRandomWalks, whose networks and effective
 resistance receive here their spanning-tree formulas; on KernelsAndSpectralMethods for weighted
-graphs, the normalized Laplacian and its spectral gap; on SurfaceTopology for minors of simple
-graphs; on [RandomMatrices](../RandomMatrices/README.md) for the min–max formulas of sorted
-eigenvalues; and on Tau Ceti's orientations, Serre-graph incidence boundary, Cauchy–Binet, cokernel
-orders, Ky Fan, Perron–Frobenius and connectivity invariants.
+graphs, the normalized Laplacian and its spectral gap; on
+[RandomMatrices](../RandomMatrices/README.md) for the min–max formulas of sorted eigenvalues; and on
+Tau Ceti's orientations, Serre-graph incidence boundary, Cauchy–Binet, cokernel orders, Ky Fan,
+Perron–Frobenius and connectivity invariants.
 
 ## How to read the build
 
@@ -97,10 +97,10 @@ orders, Ky Fan, Perron–Frobenius and connectivity invariants.
   the case `Kₙ` of 7.2 may use 6.4.
 - **Generalizations (Layers 11–12).** Layer 11 defines generalized Laplacians and proves the nodal
   domain theorem for them (11.1), defines the strong Arnold hypothesis and the Colin de Verdière
-  invariant with its values (11.2), and proves its minor monotonicity with minors from
-  SurfaceTopology (11.3). Layer 12 describes the standard Laplacian of a metric graph through its
-  eigenfunctions and compares the equilateral case with the normalized Laplacian. Both are
-  independent of the earlier layers.
+  invariant with its values (11.2), and defines minors of simple graphs by branch sets, with their
+  basic API, and proves the minor monotonicity of the invariant (11.3). Layer 12 describes the
+  standard Laplacian of a metric graph through its eigenfunctions and compares the equilateral case
+  with the normalized Laplacian. Both are independent of the earlier layers.
 
 Each section rests only on the sections and roadmaps named in its *Needs:* line.
 
@@ -161,8 +161,10 @@ Each section rests only on the sections and roadmaps named in its *Needs:* line.
 - **Generalized Laplacians.** A real symmetric matrix `M` with `M x y < 0` on edges and
   `M x y = 0` at distinct nonadjacent pairs; the diagonal is arbitrary. Multiplicities of its
   eigenvalues are counted with Mathlib's unordered `Matrix.IsHermitian.eigenvalues`.
-- **Minors.** `G.IsMinor H` says that `H` is a minor of `G`, in the argument order of
-  SurfaceTopology, Layer 10, which owns minors of simple graphs.
+- **Minors.** `G.IsMinor H` says that `H` is a minor of `G`, by branch sets (11.3).
+  [Mathlib pull request #36210](https://github.com/leanprover-community/mathlib4/pull/36210)
+  defines a minor as a contraction of a subgraph, with the two graphs in the opposite order; it is
+  prior art for 11.3.
 - **Metric graphs.** An orientation `O` of `G` and lengths `ℓ : O.carrier → ℝ`; the oriented edge
   `e` from `e.fst` to `e.snd` is the interval `[0, ℓ e]`, and an edge function is a real function
   on `ℝ` vanishing off `[0, ℓ e]`. The equilateral metric graph has `ℓ = 1`.
@@ -186,7 +188,8 @@ sums to `0` and has two nonzero entries; `Bᵀ𝟙 = 0`.
 
 **Suggested proof:** entrywise, `(BBᵀ)_{xy} = ∑_d B_{xd} B_{yd}`; the dart over `xy` contributes
 `-1` off the diagonal and every dart at `x` contributes `1` on it. The bridge and the cut vectors
-are entrywise computations from the definitions.
+are entrywise computations from the definitions; their Lean statements are sanity checks of the
+definitions.
 
 **Checks.**
 - `K₂` with the dart `0 → 1`: `B = (1, -1)ᵀ`, `BBᵀ = [[1, -1], [-1, 1]] = L`.
@@ -238,10 +241,12 @@ invariant under isomorphism and monotone under adding edges.
 - **Existence** (`numSpanningTrees_pos_iff`). A graph on a nonempty vertex type has a spanning tree
   if and only if it is connected (Mathlib's `SimpleGraph.Connected.exists_isTree_le`).
 
-**Suggested proof:** `L_w = B diag(w) Bᵀ` is entrywise as in 1.1, and `xᵀ B diag(w) Bᵀ x =
-∑_d w(d)(Bᵀx)_d² ≥ 0`. A forest rooted at `{q}` joins every vertex to `q`, so it is connected and
-acyclic. A spanning tree of `G` is a tree `T ≤ G`, and conversely the edge set of such a `T`
-lies in `spanningTrees G`.
+The Lean statements of the first two bullets are sanity checks of the definitions.
+
+**Suggested proof:** `L_w = B diag(w) Bᵀ` is entrywise as in 1.1, and
+`xᵀ B diag(w) Bᵀ x = ∑_d w(d)(Bᵀx)_d² ≥ 0`. A forest rooted at `{q}` joins every vertex to `q`, so
+it is connected and acyclic. A spanning tree of `G` is a tree `T ≤ G`, and conversely the edge set
+of such a `T` lies in `spanningTrees G`.
 
 **Checks.**
 - `K₃`: `N = 3`; `C₄`: `N = 4`; `K₄`: `N = 16`. `Kₙ` for `n = 1, …, 5`: `1, 1, 3, 16, 125`,
@@ -328,7 +333,7 @@ effective resistance are those of ElectricalNetworksAndRandomWalks 1.1 and 2.1, 
 
 - **Networks as weighted graphs** (`laplacian_eq_laplacian_weightMatrix`). The Laplacian of a
   network is `laplacian (N.graph.weightMatrix N.edgeCond)`; loops enter neither side. So Layer 2
-  applies to the Laplacian of a network.
+  applies to the Laplacian of a network. A sanity check of the copied definitions.
 - **Kirchhoff's formula** (`effResistance_eq_sum_rootedForests_div`). For `a ≠ z`,
   `R(a ↔ z) = (∑_{F rooted at {a, z}} ∏_{e ∈ F} c(e)) / ∑_T ∏_{e ∈ T} c(e)`: the weight of the
   spanning forests with two components, one containing `a` and the other `z`, over the weight of
@@ -434,10 +439,11 @@ infinite.
 ### 4.2 Cut and flow lattices
 
 Definitions: for an orientation, `integerPoints`, `cutLattice G O = Bᵀℤⱽ` and
-`flowLattice G O = ker B ∩ ℤ^O` inside `ℚ^O`; `dualLattice Λ = {x ∈ span_ℚ Λ : x ⬝ y ∈ ℤ for
-y ∈ Λ}`, Mathlib's `LinearMap.BilinForm.dualSubmodule` of the dot product cut down to
-`span_ℚ Λ`. Basic API, not separate targets: `Λ ≤ dualLattice Λ` for an integral lattice; the
-flow lattice is Tau Ceti's `TauCeti.SerreGraph.cycleLattice` through the bridge of 1.1.
+`flowLattice G O = ker B ∩ ℤ^O` inside `ℚ^O`;
+`dualLattice Λ = {x ∈ span_ℚ Λ : x ⬝ y ∈ ℤ for y ∈ Λ}`, Mathlib's
+`LinearMap.BilinForm.dualSubmodule` of the dot product cut down to `span_ℚ Λ`. Basic API, not
+separate targets: `Λ ≤ dualLattice Λ` for an integral lattice; the flow lattice is Tau Ceti's
+`TauCeti.SerreGraph.cycleLattice` through the bridge of 1.1.
 
 - **Lattice descriptions** (`nonempty_criticalGroup_addEquiv_dual`). For connected `G`,
   `K(G) ≅ C*/C ≅ F*/F` for the cut lattice `C` and the flow lattice `F` [GR, §14.8, pp. 319–320,
@@ -473,8 +479,9 @@ neighbour closer to `r`.
 **Suggested proof:** column `r` of `Δ` is `x ↦ dist(x, r)`; at `x ≠ r` one neighbour is closer to
 `r` and `d(x) - 1` are farther, so `(LΔ)_{xr} = 2 - d(x)`; at `x = r` every neighbour is farther,
 giving `-d(r) = τ_r - 2`. For `Δτ` at `x`, count each edge `yz` by its end nearer to `x`: every
-vertex `y ≠ x` is the farther end of exactly one edge, so `∑_y d(y) dist(x, y) =
-2∑_y dist(x, y) - (n - 1)`, and `(Δτ)_x = 2∑_y dist(x, y) - ∑_y d(y) dist(x, y) = n - 1`.
+vertex `y ≠ x` is the farther end of exactly one edge, so
+`∑_y d(y) dist(x, y) = 2∑_y dist(x, y) - (n - 1)`, and
+`(Δτ)_x = 2∑_y dist(x, y) - ∑_y d(y) dist(x, y) = n - 1`.
 
 **Checks.**
 - `P₃`: `Δ = [[0, 1, 2], [1, 0, 1], [2, 1, 0]]`, `τ = (1, 0, 1)`, `Δτ = (2, 2, 2)`.
@@ -659,11 +666,12 @@ case of unit weights).
   pp. 213–214]. KernelsAndSpectralMethods 2.1 owns `λ₁ ≤ n/(n - 1)`.
 
 **Suggested proof:** the diagonal of `𝓛` is `1`. For nonadjacent `s ≠ t`, the vector
-`g = e_s/d_s - e_t/d_t` has `∑ dᵢ gᵢ = 0` and Rayleigh quotient `(1/d_s + 1/d_t)/(1/d_s + 1/d_t)
-= 1`, which bounds `λ₁` by the definition of `fiedlerValue` (KernelsAndSpectralMethods 2.1). For
-`Kₙ`, `𝓛 = (n/(n - 1))(I - J/n)`, computed directly, or by 6.4, since `Kₙ` is `(n - 1)`-regular
-with `ν_{n-1} = n`. The eigenvalue `0` occurs (KernelsAndSpectralMethods 1.3), and the other
-`n - 1` eigenvalues sum to `n`, so the largest is at least their mean.
+`g = e_s/d_s - e_t/d_t` has `∑ dᵢ gᵢ = 0` and Rayleigh quotient
+`(1/d_s + 1/d_t)/(1/d_s + 1/d_t) = 1`, which bounds `λ₁` by the definition of `fiedlerValue`
+(KernelsAndSpectralMethods 2.1). For `Kₙ`, `𝓛 = (n/(n - 1))(I - J/n)`, computed directly, or by 6.4,
+since `Kₙ` is `(n - 1)`-regular with `ν_{n-1} = n`. The eigenvalue `0` occurs
+(KernelsAndSpectralMethods 1.3), and the other `n - 1` eigenvalues sum to `n`, so the largest is at
+least their mean.
 
 **Checks.**
 - `K₃`: `tr 𝓛 = 3`, `λ₁ = 3/2 = n/(n - 1)`.
@@ -921,8 +929,10 @@ Definitions:
 
 Basic API, not separate targets: invariance under isomorphism; `colinDeVerdiereMatrices G` is
 nonempty for `n ≥ 1` (a nonsingular matrix satisfies the strong Arnold hypothesis trivially;
-shift `-A` by a constant on each component, below the Perron value of exactly one component and
-above it on the others, avoiding the spectrum); `μ(G) ≤ n - 1`.
+shift `-A` by a constant `c` on each component: on exactly one component `c` lies strictly
+between its second largest adjacency eigenvalue and its Perron value, which is simple on a
+connected graph (any `c < 0` on a single vertex), and on the others `c` exceeds the Perron value;
+then `-A + c` is nonsingular with exactly one negative eigenvalue); `μ(G) ≤ n - 1`.
 
 - **Complete and edgeless graphs** (`colinDeVerdiere_top_bot`). `μ(Kₙ) = n - 1` (take `M = -J`),
   and `μ = 1` for an edgeless graph on `n ≥ 2` vertices [BH, §7.3, p. 102].
@@ -951,6 +961,9 @@ nonzero at every pair of leaves.
 
 **Checks.**
 - `μ(K₁) = 0`, `μ(K₂) = 1`, `μ(K₃) = 2`, `μ(K₄) = 3`; `μ(2K₁) = 1`.
+- The shift of the basic API on `K₃` (adjacency eigenvalues `2, -1, -1`): `c = 0` gives `-A` with
+  eigenvalues `-2, 1, 1`, one negative. Negative control: `c = -2`, below the Perron value but
+  not above the second eigenvalue, gives `-4, -1, -1`, three negative.
 - Negative control: for `K₂` the matrix `M = [[0, -1], [-1, 0]]` has eigenvalues `-1, 1` and
   corank `0`, while `-J` has eigenvalues `-2, 0` and corank `1`, so `μ(K₂) ≥ 1`.
 - Negative control: for `2K₁`, `M = diag(-1, 0)` has corank `1`; `diag(-1, 0, 0)` for `3K₁`
@@ -962,13 +975,20 @@ nonzero at every pair of leaves.
 
 ### 11.3 Minors
 
-Definitions (stand-in): `MinorModel G H`: branch sets `B_w ⊆ V`, `w ∈ W`, pairwise disjoint,
-each inducing a connected subgraph of `G`, with an edge of `G` between `B_w` and `B_{w'}`
-whenever `w ~ w'` in `H`; `G.IsMinor H` is `Nonempty (MinorModel G H)`. Minors of simple graphs
-and their basic API (deletion, contraction, transitivity, invariance under isomorphism) are
-SurfaceTopology, Layer 10, which defines a minor as a contraction of a subgraph; the branch-set
-form is the local stand-in, and identifying the two is part of consuming that layer.
+Definitions: `MinorModel G H`: branch sets `B_w ⊆ V`, `w ∈ W`, pairwise disjoint, each
+inducing a connected (so nonempty) subgraph of `G`, with an edge of `G` between `B_w` and
+`B_{w'}` whenever `w ~ w'` in `H`; `G.IsMinor H` is `Nonempty (MinorModel G H)`, and says that
+`H` is a minor of `G`. The sources define a minor as a graph obtained by a sequence of edge
+deletions, edge contractions and deletions of isolated vertices [BH, §7.2, p. 102]; [NP,
+Definition 1.1.25 (c), p. 11]; the second bullet below identifies the two on finite graphs.
 
+- **Subgraphs and transitivity** (`IsMinor.of_injective`, `IsMinor.trans`). An injective
+  homomorphism `H →g G` makes `H` a minor of `G`; in particular every subgraph of `G`, and every
+  graph isomorphic to `G`, is a minor of `G`. A minor of a minor of `G` is a minor of `G`.
+- **Minors in steps.** For finite `V`, `G.IsMinor H` holds exactly when a graph isomorphic to `H`
+  is obtained from `G` by finitely many steps, each the deletion of an edge, the deletion of an
+  isolated vertex or the contraction of an edge [BH, §7.2, p. 102]; [NP, Definition 1.1.25 (c),
+  p. 11]. A target stated in prose.
 - **Two minor facts.** `K₃` is a minor of `G` if and only if `G` has a cycle, and `K_{1,3}` is a
   minor of `G` if and only if some vertex has degree at least `3`. Targets stated in prose.
 - **Minor monotonicity** (`IsMinor.colinDeVerdiere_le`) [BH, Theorem 7.3.1, p. 102];
@@ -977,27 +997,40 @@ form is the local stand-in, and identifying the two is part of consuming that la
   paths, that is, a forest with maximum degree at most `2` [BH, Theorem 7.3.2(i), p. 103];
   [NP, Exercises 4.4.2 and 4.4.4, pp. 172–173].
 
-**Suggested proof:** for the minor facts, a cycle `v₁ ⋯ v_k` has the branch sets `{v₁}`, `{v₂}`
-and `{v₃, …, v_k}` of a `K₃` minor, and conversely the three connected branch sets of a `K₃` minor,
-joined pairwise by edges, contain a cycle through the three joining edges. A vertex of degree at
-least `3` is the centre of a `K_{1,3}` subgraph; conversely, a graph of maximum degree at most `2`
-is a disjoint union of paths and cycles, where a connected vertex set has at most two edges
-leaving it, while the branch set of the centre of a `K_{1,3}` minor needs three. For
-monotonicity follow
-[NP, §4.8, pp. 187–194]: deletion of an isolated vertex, deletion of an edge and contraction of
-an edge are treated separately, and in each a Colin de Verdière matrix of the minor is perturbed,
-using the strong Arnold hypothesis as a transversality condition (Mathlib's implicit function
-theorem), into one of the graph with at least the same corank. For linear forests, a generalized
-Laplacian of a path is tridiagonal with nonzero off-diagonal, so its kernel has dimension at most
-`1`; then disjoint unions (11.2). Conversely a graph that is not a linear forest has `K₃` or
-`K_{1,3}` as a minor, and `μ(K₃) = μ(K_{1,3}) = 2` (11.2).
+**Suggested proof:** for an injective homomorphism `f`, the branch sets are the singletons `{f w}`.
+For transitivity, the branch set of a vertex `u` of the third graph is the union of the branch sets
+in `G` of the vertices of its branch set in `H`; it is connected because that branch set is
+connected in `H` and adjacent vertices of `H` have branch sets joined by an edge of `G`. For the
+steps, each step gives a minor model (singletons for a deletion, the pair `{x, y}` for the
+contraction of `xy`), so a sequence gives one by transitivity. Conversely, given a model, delete
+every edge except those of a spanning tree of each `G[B_w]` and one chosen edge between `B_w` and
+`B_{w'}` for each edge `ww'` of `H`; delete the vertices outside the branch sets, now isolated;
+contract the tree edges one at a time. The result is isomorphic to `H`. For the minor facts, a cycle
+`v₁ ⋯ v_k` has the branch sets `{v₁}`, `{v₂}` and `{v₃, …, v_k}` of a `K₃` minor, and conversely the
+three connected branch sets of a `K₃` minor, joined pairwise by edges, contain a cycle through the
+three joining edges. A vertex of degree at least `3` is the centre of a `K_{1,3}` subgraph;
+conversely, a graph of maximum degree at most `2` is a disjoint union of paths and cycles, where a
+connected vertex set has at most two edges leaving it, while the branch set of the centre of a
+`K_{1,3}` minor needs three. For monotonicity follow [NP, §4.8, pp. 187–194]: deletion of an
+isolated vertex, deletion of an edge and contraction of an edge are treated separately, and in each
+a Colin de Verdière matrix of the minor is perturbed, using the strong Arnold hypothesis as a
+transversality condition (Mathlib's implicit function theorem), into one of the graph with at least
+the same corank. For linear forests, a generalized Laplacian of a path is tridiagonal with nonzero
+off-diagonal, so its kernel has dimension at most `1`; then disjoint unions (11.2). Conversely a
+graph that is not a linear forest has `K₃` or `K_{1,3}` as a minor, and `μ(K₃) = μ(K_{1,3}) = 2`
+(11.2).
 
 **Checks.**
 - `K_{1,3}` is a subgraph, hence a minor, of `K₄`; `K₃` is a minor of `C₅` (contract two edges).
+- Transitivity: `C₅` is a subgraph of the Petersen graph (its outer cycle), so `K₃` is a minor of
+  the Petersen graph; the model has the branch sets `{v₁}`, `{v₂}`, `{v₃, v₄, v₅}` on that cycle.
+- Negative control for `IsMinor.of_injective`: the `2`-colouring of `C₆` is a homomorphism
+  `C₆ →g K₂`, not injective, and `C₆` is no minor of `K₂`, which has fewer vertices.
 - `μ(Pₙ) = 1` for `n ≥ 2`; `μ(C₄) ≥ μ(K₃) = 2`, through the `K₃` minor.
 - Negative control: `K₃` is not a minor of any tree, and `K_{1,3}` is not a minor of `C₅`.
 
-*Needs:* 11.2; SurfaceTopology, Layer 10 (minors); Mathlib's implicit function theorem.
+*Needs:* 11.2; Mathlib `SimpleGraph.Hom`, `SimpleGraph.induce`, `SimpleGraph.Connected` and
+the implicit function theorem.
 
 ## Layer 12: equilateral metric graphs
 
@@ -1009,9 +1042,9 @@ Definitions (for an orientation `O` of `G` and lengths `ℓ : O.carrier → ℝ`
   and `ContDiffOn`), vanishes off it; the endpoint values agree at each vertex (continuity), and
   at each vertex the sum of outgoing derivatives vanishes: `u'(0)` at the tail of `e`,
   `-u'(ℓ e)` at its head (Kirchhoff).
-- `standardEigenspace G O ℓ λ`, the span of the standard eigenfunctions; `standardMultiplicity
-  G O ℓ λ`, its dimension; `standardCount G O ℓ Λ`, the dimension of the sum of the eigenspaces
-  for `λ ≤ Λ`.
+- `standardEigenspace G O ℓ λ`, the span of the standard eigenfunctions;
+  `standardMultiplicity G O ℓ λ`, its dimension; `standardCount G O ℓ Λ`, the dimension of the sum
+  of the eigenspaces for `λ ≤ Λ`.
 
 These describe the eigenvalues and eigenfunctions of the self-adjoint standard Laplacian of
 [Ku, Chapters 3–4] without constructing the operator; the identification with the operator is in
@@ -1143,8 +1176,10 @@ Owned here:
   spectrum of threshold graphs (Layer 10);
 - generalized Laplacians, strong and weak nodal domain counts and the nodal domain theorem for
   generalized Laplacians, the strong Arnold hypothesis, the Colin de Verdière invariant, its
-  values on complete, edgeless and disjoint-union graphs and on `K_{1,3}`, the two minor facts,
-  its minor monotonicity and the characterization of `μ ≤ 1` (Layer 11);
+  values on complete, edgeless and disjoint-union graphs and on `K_{1,3}`, minors of simple graphs
+  by branch sets with their basic API (subgraphs, transitivity, the reduction to single
+  deletions and contractions), the two minor facts, the minor monotonicity of the invariant and
+  the characterization of `μ ≤ 1` (Layer 11);
 - metric graphs with positive edge lengths, the eigenspaces of the standard Laplacian, the
   correspondence between generic eigenvalues on an equilateral metric graph and the normalized
   Laplacian, the exceptional eigenvalues, and Weyl's law on equilateral graphs (Layer 12).
@@ -1185,7 +1220,6 @@ Consumed, not restated (see the supplier contracts for the hypotheses):
 - ElectricalNetworksAndRandomWalks 1.1 and 2.1: networks, voltages and effective resistance; its
   3.3 (Foster) is quoted in a Check. It leaves the spanning-tree expression of effective
   resistance and random spanning trees to other roadmaps; Layer 3 states them for its networks.
-- SurfaceTopology, Layer 10: minors of simple graphs, planarity and Wagner's theorem.
 - [RandomMatrices](../RandomMatrices/README.md) 1.2: the min–max and max–min formulas for
   `Matrix.IsHermitian.eigenvalues₀`, which apply to `G.lapMatrix ℝ` at every index.
 - [GeometricTopology](../GeometricTopology/README.md) 4.4.5: the weighted matrix-tree identity for
@@ -1223,13 +1257,15 @@ Boundaries with neighbouring roadmaps, none of which is a supplier:
 - [FreeGroupsAndLimitGroups](../FreeGroupsAndLimitGroups/README.md), 2.2a, owns finite cycle
   spaces and independent cycles of graphs; SurfaceTopology owns the cellular homology of its
   Layer 7. This roadmap keeps the real and integral linear algebra of `B` that Layers 2 and 4 use.
+- SurfaceTopology owns planarity and Wagner's theorem (Layer 10); neither is used here, and
+  minors of simple graphs are defined and developed here (11.3).
 - [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) owns vertex and edge
   connectivity of multigraphs (1.5) and the Whitney inequalities (6.1); the simple-graph
   invariants used here are the Tau Ceti declarations listed below.
 
-Outside the scope: the all-minors matrix-tree theorem for non-principal minors; deletion and
-contraction of edges; Wilson's algorithm and other sampling procedures; directed graphs; infinite
-graphs; and Laplacians of simplicial complexes.
+Outside the scope: the all-minors matrix-tree theorem for non-principal minors; the
+deletion–contraction recurrence for spanning-tree counts; Wilson's algorithm and other sampling
+procedures; directed graphs; infinite graphs; and Laplacians of simplicial complexes.
 
 ## Exact supplier contracts
 
@@ -1329,12 +1365,6 @@ graphs; and Laplacians of simplicial complexes.
   `R = 0` on a disconnected network. Copied verbatim into `Suggested.lean` and used in Layer 3;
   3.3 (Foster) is quoted in a Check of 3.2.
 
-### From SurfaceTopology
-
-- Layer 10: minors of simple graphs, with the argument order "`G.IsMinor H`: `H` is a minor of
-  `G`", and their basic API. That roadmap states the minor predicate without a body;
-  `Suggested.lean` stands in for it with minor models (`MinorModel`, `IsMinor`). Used in 11.3.
-
 ### From RandomMatrices and GeometricTopology
 
 - [RandomMatrices](../RandomMatrices/README.md) 1.2: the min–max and max–min formulas for
@@ -1366,11 +1396,11 @@ graphs; and Laplacians of simplicial complexes.
   Corollary 4.10, p. 53; Theorem 4.12, p. 54; Corollary 4.14, p. 55; Corollary 8.17, p. 111;
   Theorem 9.2, p. 116; Lemmas 9.6–9.7, p. 120; Lemma 9.8, p. 121; Theorem 9.9, p. 122;
   Lemma 9.15, p. 125; (10.3), p. 133.
-- [BH] A. E. Brouwer, W. H. Haemers, *Spectra of Graphs*, Universitext, Springer, 2012:
-  Proposition 1.3.4, pp. 5–6; Proposition 3.9.1, p. 50; Corollary 3.9.2 and Proposition 3.9.3,
-  p. 51; §§3.10–3.11, pp. 51–53, with §3.11.1 and Proposition 3.11.1, p. 53; §5.3,
-  Proposition 5.3.1, p. 86, and Remark (ii), p. 87; §7.3, p. 102, Theorem 7.3.1, p. 102,
-  Theorem 7.3.2 and Proposition 7.3.3, p. 103.
+- [BH] A. E. Brouwer, W. H. Haemers, *Spectra of Graphs*, Universitext, Springer, 2012: Proposition
+  1.3.4, pp. 5–6; Proposition 3.9.1, p. 50; Corollary 3.9.2 and Proposition 3.9.3, p. 51;
+  §§3.10–3.11, pp. 51–53, with §3.11.1 and Proposition 3.11.1, p. 53; §5.3, Proposition 5.3.1,
+  p. 86, and Remark (ii), p. 87; §7.2, p. 102; §7.3, p. 102, Theorem 7.3.1, p. 102, Theorem 7.3.2
+  and Proposition 7.3.3, p. 103.
 - [Bi] N. Biggs, *Algebraic Graph Theory*, 2nd ed., Cambridge Mathematical Library, Cambridge
   University Press, 1993: Proposition 6.4, p. 39.
 - [Ch] F. R. K. Chung, *Spectral Graph Theory*, CBMS Regional Conference Series in Mathematics
@@ -1390,11 +1420,11 @@ graphs; and Laplacians of simplicial complexes.
   Algebraic Graph Theory*, Encyclopedia of Mathematics and its Applications 102, Cambridge
   University Press, 2005: Lemma 4.1, p. 123; Corollary 4.2, p. 124.
 - [NP] K. Naderi, K. Pankrashkin, *Introduction to Spectral Graph Theory*, Compact Textbooks in
-  Mathematics, Birkhäuser, 2025: Remark 2.7.4, p. 91; Example 2.7.5 and Remark 2.7.6, p. 92;
-  Definition 3.2.1, p. 117; Definition 3.2.3 and Proposition 3.2.4, p. 118; Definition 3.3.1 and
-  Proposition 3.3.2, p. 122; Lemma 3.3.4, pp. 122–124; Theorem 3.3.5, p. 124, with its proof,
-  pp. 125–128; Definition 4.4.1, p. 168; Definition 4.4.3, p. 169; Theorem 4.4.8, p. 172;
-  Exercises 4.4.1–4.4.4, pp. 172–173; Theorem 4.5.1, p. 173; §4.8, pp. 187–194.
+  Mathematics, Birkhäuser, 2025: Definition 1.1.25 (c), p. 11; Remark 2.7.4, p. 91; Example 2.7.5
+  and Remark 2.7.6, p. 92; Definition 3.2.1, p. 117; Definition 3.2.3 and Proposition 3.2.4, p. 118;
+  Definition 3.3.1 and Proposition 3.3.2, p. 122; Lemma 3.3.4, pp. 122–124; Theorem 3.3.5, p. 124,
+  with its proof, pp. 125–128; Definition 4.4.1, p. 168; Definition 4.4.3, p. 169; Theorem 4.4.8,
+  p. 172; Exercises 4.4.1–4.4.4, pp. 172–173; Theorem 4.5.1, p. 173; §4.8, pp. 187–194.
 - [Sp] D. A. Spielman, *Spectral and Algebraic Graph Theory*, author manuscript, 2025:
   Theorem 3.2.1, p. 32; Theorem 13.4.1, p. 124; Theorem 13.5.1, p. 126.
 - Attributions without a cited locator, whose proofs are the routes above: V. Chvátal and

@@ -34,9 +34,8 @@ section labelled with its owner and section: the sorted Laplacian eigenvalues, t
 the algebraic connectivity and the unit network of LaplacianEigenvaluesOfGraphs 1.1 and 7.1, the
 signless Laplacian of GraphSpectra 1.1, the weighted graphs, normalized Laplacian and spectral gap
 of KernelsAndSpectralMethods 1.1, 1.2 and 2.1, and the networks and effective resistance of
-ElectricalNetworksAndRandomWalks 1.1 and 2.1. SurfaceTopology, Layer 10, states the minor
-predicate of simple graphs without a body; a stand-in with minor models takes its place, in its
-argument order.
+ElectricalNetworksAndRandomWalks 1.1 and 2.1. Minors of simple graphs are this roadmap's own
+definitions, by minor models (branch sets), with `G.IsMinor H` saying that `H` is a minor of `G`.
 -/
 
 @[expose] public section
@@ -228,7 +227,7 @@ theorem orientedIncMatrix_mul_transpose (R : Type*) [CommRing R] :
   sorry
 
 /-- **Bridge to Tau Ceti's incidence boundary**: the boundary of a chain of chosen darts of the
-Serre graph of `G` is `-(B c)`. (README 1.1) -/
+Serre graph of `G` is `-(B c)`. (README 1.1) Sanity check of the definitions. -/
 theorem incidenceBoundary_eq_neg_mulVec (R : Type*) [CommRing R] (c : O.carrier → R) :
     ⇑(G.toSerreGraph.incidenceBoundary O.carrier R
         ((Finsupp.equivFunOnFinite (α := O.carrier) (M := R)).symm c)) =
@@ -237,7 +236,7 @@ theorem incidenceBoundary_eq_neg_mulVec (R : Type*) [CommRing R] (c : O.carrier 
 
 omit [DecidableRel G.Adj] [Fintype O.carrier] in
 /-- **Cut vectors**: `Bᵀ 𝟙_S` is `1` on a chosen dart leaving `S`, `-1` on one entering `S`,
-and `0` otherwise. (README 1.1) -/
+and `0` otherwise. (README 1.1) Sanity check of the definitions. -/
 theorem transpose_orientedIncMatrix_mulVec_indicator (R : Type*) [CommRing R] (S : Finset V)
     (d : O.carrier) :
     ((orientedIncMatrix G O R)ᵀ *ᵥ fun x ↦ if x ∈ S then 1 else 0) d =
@@ -287,7 +286,7 @@ def forestWeight (w : Sym2 V → ℝ) (F : Finset (Sym2 V)) : ℝ := ∏ e ∈ F
 def weightMatrix (w : Sym2 V → ℝ) : Matrix V V ℝ :=
   fun x y ↦ if G.Adj x y then w s(x, y) else 0
 
-/-- **`L_w = B diag(w) Bᵀ`**. (README 2.1) -/
+/-- **`L_w = B diag(w) Bᵀ`**. (README 2.1) Sanity check of the definitions. -/
 theorem orientedIncMatrix_mul_diagonal_mul_transpose
     (O : TauCeti.DoubledQuiver.Orientation G) [Fintype O.carrier] (w : Sym2 V → ℝ) :
     orientedIncMatrix G O ℝ * Matrix.diagonal (fun d : O.carrier ↦ w d.1.edge) *
@@ -295,12 +294,14 @@ theorem orientedIncMatrix_mul_diagonal_mul_transpose
       laplacian (G.weightMatrix w) := by
   sorry
 
-/-- Nonnegative weights give a positive semidefinite Laplacian. (README 2.1) -/
+/-- Nonnegative weights give a positive semidefinite Laplacian. (README 2.1) Sanity check of the
+definitions. -/
 theorem posSemidef_laplacian_weightMatrix {w : Sym2 V → ℝ} (hw : ∀ e ∈ G.edgeSet, 0 ≤ w e) :
     (laplacian (G.weightMatrix w)).PosSemidef := by
   sorry
 
-/-- The forests rooted at a single vertex are the spanning trees. (README 2.1) -/
+/-- The forests rooted at a single vertex are the spanning trees. (README 2.1) Sanity check of
+the definitions. -/
 theorem rootedForests_singleton (q : V) : G.rootedForests {q} = G.spanningTrees := by
   sorry
 
@@ -344,7 +345,7 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 
 open Classical in
 /-- The Laplacian of a network is the weighted Laplacian of its graph with the edge
-conductances as weights; loops enter neither side. (README 3.1) -/
+conductances as weights; loops enter neither side. (README 3.1) Sanity check of the definitions. -/
 theorem laplacian_eq_laplacian_weightMatrix (N : Network V) :
     N.laplacian = laplacian (N.graph.weightMatrix N.edgeCond) := by
   sorry
@@ -730,13 +731,9 @@ theorem colinDeVerdiere_sum {W : Type*} [Fintype W] [DecidableEq W]
     (G ⊕g H).colinDeVerdiere = max G.colinDeVerdiere H.colinDeVerdiere := by
   sorry
 
-/-! ### Stand-in: SurfaceTopology, Layer 10
+/-! ### 11.3 Minors -/
 
-SurfaceTopology, Layer 10, states `SimpleGraph.IsMinor` without a body, in the order "`G.IsMinor H`:
-`H` is a minor of `G`". The two definitions below stand in for it with minor models, in that
-order. -/
-
-/-- Stand-in: a **minor model** of `H` in `G`: disjoint connected branch sets, one for each
+/-- A **minor model** of `H` in `G`: disjoint connected (so nonempty) branch sets, one for each
 vertex of `H`, with an edge of `G` between the branch sets of adjacent vertices of `H`.
 (README 11.3) -/
 structure MinorModel {W : Type*} (G : _root_.SimpleGraph V) (H : _root_.SimpleGraph W) where
@@ -746,10 +743,20 @@ structure MinorModel {W : Type*} (G : _root_.SimpleGraph V) (H : _root_.SimpleGr
   connected : ∀ w, (G.induce (branch w)).Connected
   exists_adj : ∀ w w', H.Adj w w' → ∃ x ∈ branch w, ∃ y ∈ branch w', G.Adj x y
 
-/-- Stand-in for `SimpleGraph.IsMinor` of SurfaceTopology, Layer 10: `G.IsMinor H` says that `H`
-is a minor of `G`. (README 11.3) -/
+/-- `G.IsMinor H` says that `H` is a minor of `G`: it has a minor model in `G`. (README 11.3) -/
 def IsMinor {W : Type*} (G : _root_.SimpleGraph V) (H : _root_.SimpleGraph W) : Prop :=
   Nonempty (MinorModel G H)
+
+/-- **Subgraphs are minors**: an injective homomorphism `H →g G` makes `H` a minor of `G`; in
+particular subgraphs of `G` and graphs isomorphic to `G` are minors of `G`. (README 11.3) -/
+theorem IsMinor.of_injective {W : Type*} {H : _root_.SimpleGraph W} (f : H →g G)
+    (hf : Function.Injective f) : G.IsMinor H := by
+  sorry
+
+/-- **Transitivity**: a minor of a minor of `G` is a minor of `G`. (README 11.3) -/
+theorem IsMinor.trans {W U : Type*} {H : _root_.SimpleGraph W} {K : _root_.SimpleGraph U}
+    (h₁ : G.IsMinor H) (h₂ : H.IsMinor K) : G.IsMinor K := by
+  sorry
 
 /-- **Minor monotonicity** of the Colin de Verdière invariant. (README 11.3) -/
 theorem IsMinor.colinDeVerdiere_le {W : Type*} [Fintype W] [DecidableEq W]
@@ -865,6 +872,8 @@ end TauCetiRoadmap.LaplacianSpectraAndSpanningTrees
 #check @SimpleGraph.interedges
 #check @SimpleGraph.IsEdgeConnected
 #check @SimpleGraph.induce
+#check @SimpleGraph.Hom
+#check @SimpleGraph.Connected
 #check @SimpleGraph.ConnectedComponent
 #check @SimpleGraph.IsTree
 #check @SimpleGraph.IsAcyclic
@@ -892,7 +901,6 @@ end TauCetiRoadmap.LaplacianSpectraAndSpanningTrees
 #check @Matrix.PosSemidef
 #check @Matrix.IsHermitian.eigenvalues₀
 #check @Matrix.IsHermitian.eigenvalues
-#check @Matrix.IsTotallyUnimodular
 #check @ContinuousLinearMap.orthogonal_range
 #check @derivWithin
 #check @ContDiffOn
