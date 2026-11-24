@@ -398,7 +398,8 @@ real case `Complex.integral_cpow_mul_exp_neg_mul_Ioi`.
 
 ### 4.1a Holomorphy of the Laplace integral and its derivatives
 
-Widder (1941), Chapter II; for piecewise continuous `q` of exponential growth, DLMF §1.14(iii).
+Widder (1941), Chapter II; for piecewise continuous `q` of exponential growth, DLMF 1.14.18–1.14.19
+(analyticity) and 1.14.23 (derivatives).
 Let `c ∈ ℝ` and let `q : ℝ → ℂ` be such that `t ↦ e^{−σt} q(t)` is integrable on `(0, ∞)` for
 every real `σ > c`, so that `Q(z) = ∫₀^∞ e^{−zt} q(t) dt` converges absolutely on `Re z > c`. No
 differentiability or continuity of `q` is assumed. Prove:
@@ -414,7 +415,14 @@ measurable kernels on `Re z > 0` to every kernel `q` as above. Route: induction 
 differentiating under the integral sign (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`) on
 the disc of radius `r = (Re z₀ − c)/2` about `z₀`; on it
 `|t^{k+1} e^{−zt} q(t)| ≤ C_k e^{−(c + r/2)t} |q(t)|`, which is integrable, and
-`d/dz (t^k e^{−zt}) = −t^{k+1} e^{−zt}`. The case `k = 0` is the holomorphy.
+`d/dz (t^k e^{−zt}) = −t^{k+1} e^{−zt}`. The case `k = 0` is the holomorphy. Mathlib proves the
+case `q ≥ 0` in the same way: with `X t = −t` and `μ` the measure of density `q` on `(0, ∞)`, the
+hypothesis puts `(c, ∞)` in `ProbabilityTheory.integrableExpSet X μ`,
+`ProbabilityTheory.complexMGF X μ = Q` on `Re z > c`, and
+`ProbabilityTheory.differentiableOn_complexMGF`, `ProbabilityTheory.iteratedDeriv_complexMGF` and
+`ProbabilityTheory.integrable_pow_mul_cexp_of_re_mem_interior_integrableExpSet` give both claims.
+A complex `q` is `q₁ − q₂ + i(q₃ − q₄)` with `0 ≤ q_j ≤ |q|` (the positive and negative parts of
+`Re q` and `Im q`), so 4.1a also follows from them by linearity.
 
 **Checks.**
 
@@ -424,7 +432,10 @@ the disc of radius `r = (Re z₀ − c)/2` about `z₀`; on it
 - `q(t) = e^{it}`, `c = 0`: `Q(z) = 1/(z − i)`, and `Q(z̄) = 1/(z̄ − i)` differs from
   `conj Q(z) = 1/(z̄ + i)`: the symmetry needs `q` real-valued.
 
-*Needs:* Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
+*Needs:* Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; for the reduction to `q ≥ 0`,
+Mathlib `ProbabilityTheory.differentiableOn_complexMGF`,
+`ProbabilityTheory.iteratedDeriv_complexMGF` and
+`ProbabilityTheory.integrable_pow_mul_cexp_of_re_mem_interior_integrableExpSet`.
 
 ### 4.2 Watson's lemma in a sector
 
@@ -518,9 +529,9 @@ for `j ≤ m`, then `q(t) = f(t) + o(t^{−m} e^{ct})`.
 
 Layers 1 and 3; Mathlib `Complex.Gamma`, the identity theorem, the Riemann–Lebesgue lemma
 `tendsto_integral_exp_inner_smul_cocompact`, the unbounded-rectangle Cauchy theorems, and
-differentiation under the integral sign `hasDerivAt_integral_of_dominated_loc_of_deriv_le`
-(for 4.1a); Tau Ceti's `TauCeti/Analysis/Complex/LaplaceTransform.lean` (the bounded case that
-4.1a extends).
+differentiation under the integral sign `hasDerivAt_integral_of_dominated_loc_of_deriv_le` or the
+holomorphy of `ProbabilityTheory.complexMGF` (for 4.1a); Tau Ceti's
+`TauCeti/Analysis/Complex/LaplaceTransform.lean` (the bounded case that 4.1a extends).
 
 ## Layer 5: Laplace's method and saddle points
 
@@ -1389,7 +1400,7 @@ Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
 
 ### 13.6a The meromorphic case
 
-Flajolet and Sedgewick (2009), Chapter IV, §IV.5 (rational and meromorphic functions).
+Flajolet and Sedgewick (2009), Theorem IV.10, p. 258.
 Let `r > 0`, let `z_1, …, z_K` be distinct points with `0 < |z_i| < r`, and let `f` be holomorphic
 on `|z| < r` except at the `z_i`, where it is meromorphic (`MeromorphicAt`) with a pole of order
 `m_i ≥ 1` and principal part `∑_{j=1}^{m_i} c_{i,j} (z − z_i)^{−j}`. Let `g` be the sum of these
@@ -1542,7 +1553,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
     (DLMF 2.7.20–2.7.34 and 2.8.1–2.8.13).
 12. **Difference equations** (DLMF 2.9.1–2.9.13).
 13. **Sums and sequences** (DLMF 2.10.1–2.10.32), with the coefficient asymptotics of
-    meromorphic functions (Flajolet and Sedgewick, Chapter IV, §IV.5).
+    meromorphic functions (Flajolet and Sedgewick, Theorem IV.10).
 
 The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 
@@ -1590,7 +1601,8 @@ consume them (see [Downstream consumers](#downstream-consumers)).
 [Excluded material](#excluded-material) lists these with their owners.
 
 **The boundary in one sentence:** this roadmap owns the general asymptotic methods of the DLMF
-subsections listed at the top (all within §§2.1–2.10), stated for arbitrary functions under
+subsections listed at the top (all within §§2.1–2.10), with the holomorphy of the Laplace integral
+(4.1a) and the meromorphic case of Darboux's method (13.6a), stated for arbitrary functions under
 explicit hypotheses; it consumes the Gamma asymptotics of ZerosOfLFunctions and the residue
 theory of ContourIntegration, and it excludes expansions of named special functions, uniform
 expansions in special functions, and the remainder and Stokes-phenomenon theory of §2.11.
@@ -1662,6 +1674,12 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 - `PowerSeries.subst`, `PowerSeries.binomialSeries`, `PowerSeries.substInvOfIsUnit` and
   `descPochhammer`.
 - The Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
+- `ProbabilityTheory.complexMGF X μ z = ∫ e^{z X} dμ`
+  (`Mathlib/Probability/Moments/ComplexMGF.lean`), for real `X` and every measure `μ`, is
+  holomorphic where `Re z` lies in the interior of
+  `ProbabilityTheory.integrableExpSet X μ` (`ProbabilityTheory.differentiableOn_complexMGF`), with
+  `k`-th derivative `∫ X^k e^{z X} dμ` (`ProbabilityTheory.iteratedDeriv_complexMGF`). With
+  `X t = −t` and `μ = q(t) dt` on `(0, ∞)` this is 4.1a for `q ≥ 0`.
 - `circleIntegral`, the Cauchy integral formula and the unbounded-rectangle Cauchy theorems of
   `Mathlib/Analysis/Complex/CauchyIntegral.lean`.
 - `Finset.sum_range_by_parts`.
@@ -1709,4 +1727,4 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 - D. V. Widder, *The Laplace Transform*, Princeton University Press, 1941. Chapter II
   (analyticity of the Laplace integral and differentiation under the integral sign).
 - P. Flajolet and R. Sedgewick, *Analytic Combinatorics*, Cambridge University Press, 2009.
-  Chapter IV, §IV.5 (coefficient asymptotics of rational and meromorphic functions).
+  Theorem IV.10, p. 258 (coefficient asymptotics of meromorphic functions).
