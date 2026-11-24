@@ -1,763 +1,1733 @@
-# Khovanov homology of classical links
+# Roadmap: Khovanov homology of classical links
 
-Construct ordinary integral Khovanov cohomology as a usable invariant of oriented classical
-links: actual resolution circles and saddle maps, a finite bigraded complex, Reidemeister chain
-homotopy equivalences, coefficient and based-link APIs, certified computations, and
-boundary-fixed cobordism maps with their overall sign ambiguity. Its graded Euler characteristic
-recovers the Jones polynomial with the normalization specified below.
+**Summary.** Khovanov homology assigns to an oriented link diagram `D` with `n` crossings a
+bigraded group `Khⁱʲ(D)`. Each of the `2ⁿ` ways of smoothing the crossings leaves a finite set of
+circles; each circle carries a copy of the rank-two Frobenius algebra `ℤ[X]/(X²)`, the vertex
+modules are their tensor products, and merging or splitting circles along the edges of the cube of
+smoothings, with signs, gives a cochain complex. This roadmap constructs this ordinary integral
+theory for classical links, with coefficients in every commutative ring, and makes it a usable
+invariant: actual resolution circles and saddle maps, a finite bigraded complex, Reidemeister
+chain homotopy equivalences, coefficient, duality and based-link theory, computations with
+integral torsion, and maps induced by link cobordisms. Diagrams are planar oriented PD-codes, and
+the grading is Bar-Natan's: a state with `|S|` crossings smoothed the second way sits in cochain
+degree `|S| − n₋` with quantum shift `|S| + n₊ − 2n₋`, and `X` has quantum degree `−1`.
 
-The definitive specification is this README. `Suggested.lean` suggests interfaces and is not an
-exhaustive checklist.
+The headline theorems are these.
 
-## Scope, conventions, and suppliers
+- *Invariance.* If two planar oriented diagrams are related by Reidemeister moves, then for every
+  commutative ring `R` and every quantum degree `j` their Khovanov complexes are chain homotopy
+  equivalent. Through generic projections the same holds for ambient isotopic smooth links in `ℝ³`.
+- *Euler characteristic.* For a nonempty diagram, the graded Euler characteristic of `Kh(D; ℤ)` is
+  `(q + q⁻¹)` times the Jones polynomial at `t^(1/2) = −q`; at `q = 1` it equals `2^c` for a
+  `c`-component link, so `Kh(D; ℤ)` is never zero.
+- *Integral computations.* The positive torus link `T(2, m)`, `m ≥ 2`, has integral homology `ℤ`
+  in explicit bidegrees and `ℤ/2` in the bidegrees `(2r + 1, m + 4r)` with `1 ≤ r ≤ (m − 1)/2`; for
+  the right-handed trefoil, `ℤ/2` sits in `(3, 7)`. An adequate diagram with `n` crossings has the
+  fewest crossings among all diagrams of its link.
+- *Functoriality.* A link cobordism `Σ ⊂ ℝ³ × [0, 1]` induces a map `Kh(L₀) → Kh(L₁)` of
+  bidegree `(0, χ(Σ))`, well defined up to one overall sign on boundary-fixed isotopy classes and
+  compatible with composition; in characteristic two the sign disappears.
 
-The diagram input is the existing `TauCeti.OrientedPDCode n`, with native `PDCode.IsPlanar` for
-the classical planar theory. Retain the underlying diagram, crossing order, orientation, and all
-components meeting no crossing. Use the native half-edge and perfect-matching encoding,
-smoothing operations, crossing signs, and `OrientedPDCode.jonesPolynomial`. Construct the actual
-finite circle sets and the saddle correspondences acting on them, with cardinality comparison to
-the native loop counts.
+Alongside these come mirror duality, the universal coefficient and Künneth sequences, orientation
+reversal, the skein exact sequence, and the reduced theory at a marked point with its
+connected-sum formula.
 
-Consume [GeometricTopology Layer
-4](../GeometricTopology/README.md#layer-4-knot-theory-done-properly-owned-here) for geometric link
-and diagram carriers and presentation definitions, and Layer 1 for collars, tubes and gluing. G
-constructs the finite-labelled relative smooth `ℝ³` comparison required here, with parametrizations,
-fixed germs and supported plane-event words. This is the corresponding case and relative
-finite-family extension of Layer 4's geometric-to-diagram hard edge. Its inputs from Layer 4 are the
-carrier and presentation definitions; construct the additional labelled, relative and actual-plane
-comparisons in G. K3 uses the native Jones definition and state weights. GeometricTopology owns
-braid closure and the other Jones algorithms and their agreements; Layer 6 supplies generic
-link-cobordism carriers. This roadmap constructs the Khovanov complexes and maps, formal local
-tangle calculus, relative movie theorem and their specialized geometric adapters. Consume
-[DifferentialGeometry](../DifferentialGeometry/README.md) Layer 2 for manifold, pullback and product
-orientations and Layer 5 for boundary conventions; construct the link/surface/chart sign comparisons
-here. Consume [ConformalMapping](../../Completed/ConformalMapping/README.md) L5 for Jordan separation and
-filled-hull topology and construct the finite polygonal/native-face adapters in G. Khovanov–Seidel
-braid actions belong to ZigzagPreprojective.
+Tau Ceti supplies the floor: PD-codes, planarity, Reidemeister moves and the Jones polynomial;
+the resolution circles and the Frobenius algebra; the signed cube complex; and the normalized
+Khovanov complex with its homology and the Jones comparison. GeometricTopology supplies smooth
+links, diagrams and Reidemeister's theorem (its Layer 4) and collars and tubes (Layer 1); this
+roadmap proves their labelled, relative extension. DifferentialGeometry and ConformalMapping
+supply orientations, flows and Jordan separation for the plane geometry. DGAInfinity supplies the
+DG modules against which the connected-sum tensor product is compared, and AlgebraicTopology
+supplies the cellular Euler characteristic of a cobordism. Foams and DiagrammaticCoherence build on
+the formal surface category and the plane geometry constructed here.
 
-Use native `TauCeti.SmoothLinkEmbedding I M n` for the finite geometric link family, including
-the empty link, and its simultaneous `SmoothAmbientIsotopic` relation. Transport component
-labels and orientations explicitly. Use one simultaneous ambient-isotopy witness for the entire
-finite family. Use `ℝ³` for the classical ambient-isotopy comparisons here. Its inclusion in
-`S³` is an explicit chart comparison, with the avoidance data required in K7.
+## How to read the build
 
-Use Mathlib's `ModuleCat`, `GradedObject`, `HomologicalComplex`, `CochainComplex`, homotopy, cone,
-homology, tensor and finite-module APIs. Consume [DGAInfinity](../DGAInfinity/README.md)'s generic
-cochain infrastructure where its interfaces extend the native library. K5 constructs its ordinary
-bounded-free derived-tensor comparison over every commutative base; compare with DGAInfinity's
-DG-module lane on the hypotheses actually supplied there, without using field-only A∞
-strictification over a general ring. Build the
-finite-cube totalization and diagram-specific adapters here, including the actual resolution cube.
-Generalize the algebraic cube lemmas to additive categories with the finite biproducts they use. K5
-constructs the complex-level universal-coefficient, dual Hom/Ext and Künneth theorems for bounded
-finite free integral cochain complexes in the native abelian/module framework, then their
-quantum-component/scalar-extension adapters. K6 owns the finite free complex/Smith-normal-form
-comparison and certificate interface.
+Layers 1–3 are combinatorial and algebraic. Layer 1 has the circles, components and marks of a
+diagram and the local planar calculus of diagrams with boundary; Layer 2 the Frobenius object,
+circle tensors and the formal category of surfaces modulo the sphere, torus and four-tube
+relations; Layer 3 the signed cube complex, Khovanov homology, its Euler characteristic, and the
+complexes of diagrams with boundary with their closed evaluation. Layer 8, the plane geometry,
+uses only Layer 1 and the differential-topology suppliers; it is placed before Layer 4, the first
+layer that uses it. Layer 8 realizes PD-codes in the plane and in `ℝ³`, builds a common
+finite-dimensional general-position and ambient-extension floor, and proves the relative labelled
+Reidemeister theorem. Layer 4 proves Reidemeister invariance, first for diagrams and then for
+smooth links. Layer 5 proves the coefficient, duality and symmetry theorems, the parity and Euler
+value, and the reduced and connected-sum theory. Layer 6 computes: the homology of finite free
+integral complexes through the Smith normal form, the small links, the torus links `T(2, m)` and
+the crossing-number application. Layer 7 proves the movie
+presentation of link cobordisms and the functoriality theorem. The Jones polynomial enters Layer 3
+through Tau Ceti's state-sum definition, independently of its geometric invariance. Each
+subsection's *Needs:* line lists its inputs, so that a target proved by another route is not
+blocked behind an unrelated section.
 
-| Item | Convention |
-| --- | --- |
-| Complex | Cochains, differential of bidegree `(1,0)`, shape `ComplexShape.up ℤ` |
-| Coefficients | Integral construction; scalar extension to every commutative ring `R` |
-| Quantum generators | `1` has degree `+1`; `X` has degree `−1`; `X²=0` |
-| Quantum shift | `(M⟨k⟩)ⱼ=Mⱼ₋ₖ`; thus `⟨k⟩` raises degrees by `k` |
-| State subset | `S` is the set of B/1 resolutions; native Boolean state is true on its complement |
-| Normalization | State cochain degree `|S|−n₋`; quantum shift `|S|+n₊−2n₋` |
-| Cube sign | At `a∉S`, `(-1)^(#{b∈S : b<a})` |
-| Tensor symmetry | Unsigned on quantum degrees; Koszul signs from cochain degrees |
-| Jones variable | Native `T=√t`; compare by the Laurent substitution `T↦−q` |
-| Empty link | Complex `R` in bidegree `(0,0)` |
-| Unknot | `R` in bidegrees `(0,1)` and `(0,−1)` |
-| Reduced unknot | `R` in bidegree `(0,0)`, with a marked component |
-| Cobordisms | Smooth oriented compact surfaces in `ℝ³×[0,1]`, with marked boundary links and collars |
-| Plane orientation | Standard orientation of `ℝ²`; a crossing-free circle's `true` bit means counterclockwise and `false` clockwise |
-| Surface boundary | Outward-normal-first, `∂Σ=−L₀ ⊔ L₁`; at a regular slice `(u,v)` is positive for a surface tangent vector with `dt(u)>0` |
+The finished roadmap provides the full signed differential and crossing-reordering interface; the
+planarity and circle-set comparisons; all the local Reidemeister homotopies; the Jones identities
+for nonempty and empty diagrams; the integral torsion and reduced examples; the universal
+coefficient, Künneth and mirror Hom/Ext comparisons; and a boundary-fixed projective cobordism
+functor respecting every movie relation.
 
-Native cochain shifts include their differential signs. Prove the dictionary from the explicit
-normalized state formula to those shifts; keep the degreewise sign correction. The original
-paper's braces lower quantum degrees, so its `{k}` is our `⟨−k⟩`. The surface slice convention
-is `(time, link)`; Jacobsson uses `(link, time)`. Translate that reversal explicitly in every
-geometric orientation comparison. The ordinary theory here is the original paper's `c=0`
-coefficient specialization. Its marked-component reduction is constructed in K5. Keep the small
-integral construction in `ModuleCat.{0} ℤ`. For coefficients `R : Type u`, use
-`Z_u=ULift.{u} ℤ` as the integral coefficient ring in `Type u`. Lift the finite integral
-state-module carriers with native `ModuleCat.uliftFunctor ℤ`, then transport their scalar
-action along `ULift.ringEquiv : Z_u ≃+* ℤ`. Perform the large-coefficient tensor, Tor,
-Ext and Hom comparisons in `ModuleCat.{u} Z_u`. The integer action on `R` uses the ring map
-`Z_u→R`. Construct the universe/ring-equivalence transport and its homology, tensor, Tor, Ext
-and coefficient-action comparisons, including compatibility with the original small integral
-model. Native module tensor/Koszul structures are used with ring and module universes matched;
-no native monoidal instance on mismatched `ModuleCat.{u} ℤ` is assumed. After scalar extension,
-use `ModuleCat.{u} R` for the native cochain tensor and braiding.
+In the former numbering of this roadmap, sections K1, K2, K3, K4, K5, K6 and K7 are now Layers 1,
+2, 3, 4, 5, 6 and 7, and section G is now Layer 8.
 
-### K1. Resolution circles and local planar calculus
+## Conventions
 
-For a native state `s`, construct the finite set of crossing-bearing resolved circles as the
-quotient of half-edges by the equivalence relation generated by the native arc matching and
-`smoothingTurn (smoothingChoice s)`. Adjoin `Fin crossinglessComponentCount`. Prove the finite
-and decidable/effective quotient APIs, representative independence, and the equivalence to
-directed `SameCycle(statePerm)` classes modulo reversal. Each undirected circle contributes
-exactly two directed traversal cycles, including degenerate two-edge components; prove the
-reversal action is free using both perfect matchings. Obtain the cardinal identity with
-`stateLoopCount` and reuse its existing positivity results.
+1. **Diagrams.** A diagram is a `TauCeti.OrientedPDCode n` whose underlying code satisfies
+   `TauCeti.PDCode.IsPlanar`. It keeps its crossing order, its orientation and all its
+   crossing-free components, and every statement about circles, merges, splits, complexes or
+   differentials carries the planarity hypothesis. Half-edges, arc matchings, smoothings, crossing
+   signs and the Jones polynomial are Tau Ceti's: `TauCeti.PDCode.smoothingTurn`,
+   `TauCeti.PDCode.smoothingChoice`, `TauCeti.OrientedPDCode.crossingSign` and
+   `TauCeti.OrientedPDCode.jonesPolynomial`.
+2. **Gradings and signs.**
 
-Construct transport under half-edge and crossing relabelling, reading a crossing from another
-slot, mirror, disjoint union, and permutations of isolated-circle labels. Prove identity and
-composition laws. Supply the finite isolated-component bijection in every adapter to an actual
-diagram.
+   | Item | Convention |
+   | --- | --- |
+   | Complex | Cochains, differential of bidegree `(1,0)`, shape `ComplexShape.up ℤ` |
+   | Coefficients | Integral construction; scalar extension to every commutative ring `R` |
+   | Quantum generators | `1` has degree `+1`; `X` has degree `−1`; `X²=0` |
+   | Quantum shift | `(M⟨k⟩)ⱼ=Mⱼ₋ₖ`; thus `⟨k⟩` raises degrees by `k` |
+   | State subset | `S` is the set of B/1 resolutions; native Boolean state is true on its complement |
+   | Normalization | State cochain degree `|S|−n₋`; quantum shift `|S|+n₊−2n₋` |
+   | Cube sign | At `a∉S`, `(-1)^(#{b∈S : b<a})` |
+   | Tensor symmetry | Unsigned on quantum degrees; Koszul signs from cochain degrees |
+   | Jones variable | Native `T=√t`; compare by the Laurent substitution `T↦−q` |
+   | Empty link | Complex `R` in bidegree `(0,0)` |
+   | Unknot | `R` in bidegrees `(0,1)` and `(0,−1)` |
+   | Reduced unknot | `R` in bidegree `(0,0)`, with a marked component |
+   | Cobordisms | Smooth oriented compact surfaces in `ℝ³×[0,1]`, with marked boundary links and collars |
+   | Plane orientation | Standard orientation of `ℝ²`; a crossing-free circle's `true` bit means counterclockwise and `false` clockwise |
+   | Surface boundary | Outward-normal-first, `∂Σ=−L₀ ⊔ L₁`; at a regular slice `(u,v)` is positive for a surface tangent vector with `dt(u)>0` |
 
-Construct the original oriented link's component type as the native `SameCycle` quotient of
-`componentPermOutgoing`, together with `Fin crossinglessComponentCount`. Prove its finite cardinal
-is the native `componentCount`. Decorate the crossing-free labels by a function to `Bool` whose
-multiset is `crossinglessComponents`, and prove independence and permutation transport of that
-choice. Construct actual component bijections for all native moves, including those turning a
-crossing-free circle into a crossing-bearing component, and prove identity/composition. G supplies
-the realized plane geometry, orientation and component data; K4 constructs the comparison words
-between native moves and supported plane events. Retain each generator's parameters in a move-data
-type and finite path words, with a forgetful map to native `IsReidemeisterMove` and
-`ReidemeisterEquiv`. Component and complex transports retain the chosen move data and path. Marks
-may lie on an arc or on a crossing-free labelled circle. Construct their selected resolved circle; G
-supplies the geometric point comparison. Based moves carry their chosen mark with explicit transport
-and slide comparisons, including its position under arc subdivision.
+   At a positive crossing the `A`-smoothing (`true`, the `0`-resolution) is the oriented
+   smoothing, as in Tau Ceti's `TauCeti.OrientedPDCode.seifertState`; at a negative crossing it is the
+   other one.
+3. **Shifts.** Native cochain shifts include their differential signs. The dictionary from the
+   explicit normalized state formula to those shifts keeps the degreewise sign correction
+   `(-1)^(i·n₋)` of Tau Ceti's `TauCeti.OrientedPDCode.khovanovComplexShiftIso`. Khovanov's
+   original braces lower quantum degrees (Khovanov, *A categorification of the Jones polynomial*,
+   §2.1), so his `{k}` is our `⟨−k⟩`, and his `[n]`, with `N[n]ⁱ = Nⁱ⁺ⁿ` and differential sign
+   `(-1)^n` (*loc. cit.*, §3.1), is the native cochain shift by `n`. Bar-Natan's `{k}` is our
+   `⟨k⟩`, and his height shift `[s]`, with `C̄[s]ʳ = C̄ʳ⁻ˢ`, moves degrees as the native cochain
+   shift by `−s`; his normalizing `[−n₋]` is the shift by `n₋` of
+   `TauCeti.OrientedPDCode.khovanovComplexShiftIso` (Bar-Natan, *On Khovanov's categorification*,
+   §3.1, Definitions 3.2–3.3). The ordinary theory here is the specialization `c = 0` of Khovanov's
+   coefficient ring `ℤ[c]` (Khovanov, *A categorification of the Jones polynomial*, §7).
+4. **Surfaces.** The surface slice convention is `(time, link)`; Jacobsson uses `(link, time)`.
+   Every geometric orientation comparison translates this reversal explicitly.
+5. **Universes.** The integral complex lives in `ModuleCat.{0} ℤ`. For coefficients `R : Type u`
+   the integral coefficient ring in `Type u` is `Z_u = ULift.{u} ℤ`: lift the finite integral
+   state modules with Mathlib's `ModuleCat.uliftFunctor` and transport their scalar action along
+   `ULift.ringEquiv : Z_u ≃+* ℤ`. The large-coefficient tensor, `Tor`, `Ext` and `Hom` comparisons
+   are made in `ModuleCat.{u} Z_u`, and the integer action on `R` uses the ring map `Z_u → R`.
+   Native module tensor and Koszul structures are used with ring and module universes matched; no
+   monoidal instance on a mismatched `ModuleCat.{u} ℤ` is assumed. After scalar extension, the
+   cochain tensor and braiding are those of `ModuleCat.{u} R`.
+6. **Names.** A backticked name without a library prefix is declared in `Suggested.lean`, in the
+   namespace `TauCetiRoadmap.KhovanovHomology`; every other target of this roadmap is described in
+   prose. Library declarations are written with their full names.
 
-For adjacent states isolate the four local half-edges, identify the unchanged circle classes,
-and construct the changed-circle correspondence. Prove that smoothing a genus-zero native
-rotation system preserves the required noncrossing condition. Deduce that a classical planar
-cube edge is exactly a merge of two circles or a split of one. Prove the four-endpoint matching
-classification, including the third exterior pairing that gives a one-to-one change for
-nonplanar codes. Derive this noncrossing consequence from the native Euler-characteristic
-definition of `IsPlanar`.
+## Layer 1: resolution circles and local planar calculus
 
-Give this implication a finite combinatorial proof. On each connected ribbon graph, contract a
-spanning tree, retaining its cyclic orders, boundary cycles and inverse vertex-expansion data.
-For the resulting one-vertex chord diagram prove that the maximal boundary-cycle count is
-equivalent to a noninterleaving matching, by recursive chord deletion. In particular, two
-interleaved bands have one boundary cycle, and each additional band raises the count by at
-most 1; an interleaved pair therefore prevents the required `m+1` count for `m` bands. Prove
-these boundary-count lemmas directly. Translate the native Euler equality through these
-contractions, construct its planar disc/band model, and expand the tree again. Prove smoothing
-and the local exterior-matchings dictionary preserve this model. This constructs the
-planar/noncrossing interface by finite disc/band operations.
+### 1.1 Resolution circles of a state
 
-Use the resulting explicit finite PL disc/band models for the local diagram carrier. An open
-model has a finite piecewise-affine realization in an oriented closed disc, with labelled ports
-on its boundary in the specified cyclic order and standard boundary collars. Its arcs meet the
-boundary exactly at those ports. Crossing patches contain exactly their prescribed transverse
-double points with over/under labels; the remaining arc interiors and isolated circles are
-embedded and pairwise disjoint. Prove gluing, relabelling and full-resolution comparisons for
-these actual finite models. The empty-boundary case is the finite PL plane-diagram carrier. G
-constructs the comparison of these models with arbitrary generic smooth diagrams.
+For a state `s : Fin n → Bool` of a PD-code `D`, the crossing-bearing circles are
+`TauCeti.PDCode.CrossingCircle D s`, the quotient of the half-edges by the equivalence relation
+generated by `TauCeti.PDCode.CircleStep D s`, which follows either the arc matching `D.edgePair`
+or the smoothing `D.smoothingTurn (D.smoothingChoice s)`. The resolution circles are
+`TauCeti.PDCode.ResolvedCircle D s`, the crossing-bearing circles together with
+`Fin D.crossinglessComponentCount`, one label for each crossing-free component. The facts used
+below are Tau Ceti's:
 
-Define partial resolution at a selected crossing in this local plane/boundary calculus, with its
-unoriented finite arc and boundary data; prove its compatibility with the native complete state
-smoothing. Prove preservation of the constructed planar model. After every other crossing has
-been resolved, prove the exact four-endpoint consequence: the exterior pairing for this planar
-cube edge is never the opposite-slot pairing. Use this full-resolution hypothesis in the planar
-saddle proof. Construct the separate vertex-resolution operation, which decreases the crossing
-count. For a selected crossing of a `PDCode (n+1)`, construct each resolved `PDCode n` by
-suppressing the degree 2 vertices and counting every newly detached crossing-free circle. Relabel
-the remaining crossings explicitly and prove its planarity, complete state and gluing
-comparisons. K5 owns the separate orientation choices for its oriented skein inputs.
+- the circle type is finite with decidable equality, and two half-edges give the same circle
+  exactly when they are related by the generated relation, independently of the representatives;
+- `TauCeti.PDCode.crossingCircleEquiv` identifies the crossing-bearing circles with the directed
+  traversal classes of `TauCeti.PDCode.statePerm D s` modulo reversal; reversal has no fixed class
+  (`TauCeti.PDCode.isPerfectMatching_stateCycleReversal`, using both perfect matchings), so every
+  circle, the degenerate circles through two half-edges included, carries exactly two directed
+  cycles (`TauCeti.PDCode.two_mul_card_crossingCircle`);
+- the number of resolution circles is the native loop count,
+  `TauCeti.PDCode.card_resolvedCircle : Fintype.card (D.ResolvedCircle s) = D.stateLoopCount s`,
+  and it is at least one when `D` has a crossing (`TauCeti.PDCode.one_le_card_resolvedCircle`).
 
-Build a finite local planar calculus with explicit boundary endpoints, matchings, isolated
-circles, composition by gluing, and arbitrary exterior planar closures. Prove the circle and
-saddle constructions commute with closure and gluing. Classify the two-crossing face
-configurations needed in K3 and the one-, two-, and three-crossing local configurations needed
-in K4. G compares these models with actual smooth plane diagrams, proving each matching and
-cyclic-order dictionary.
+*Needs:* Tau Ceti `TauCeti.PDCode.CircleStep`, `TauCeti.PDCode.CrossingCircle`,
+`TauCeti.PDCode.ResolvedCircle`, `TauCeti.PDCode.crossingCircleEquiv`,
+`TauCeti.PDCode.two_mul_card_crossingCircle`, `TauCeti.PDCode.card_resolvedCircle`,
+`TauCeti.PDCode.one_le_card_resolvedCircle`.
 
-### K2. The rank-two Frobenius object and circle tensors
+**Checks.**
+- For the closure of the positive two-strand braid `σ₁³` (the right-handed trefoil, three
+  positive crossings), the all-`A` state has two circles, each state with one `B`-smoothing has
+  one, each state with two has two, and the all-`B` state has three. A count of directed traversal
+  cycles instead of circles would give four and six at the two extreme states.
+- For the one-crossing kink, the smoothing that cuts off the loop has two circles and the other
+  has one. The cut-off loop meets only two half-edges, joined both by an arc and by the
+  smoothing; both of its directed cycles are fixed points of the state permutation, and it is one
+  circle, not two.
 
-Over a commutative ring `R`, use the underlying native dual-number algebra `TrivSqZeroExt R R`, with
-`1=(1,0)` and `X=(0,1)`. Write `W=DualNumber R`, the same native carrier `TrivSqZeroExt R R`, with
-`X=ε`. Keep the chosen coalgebra on a type synonym or as a local instance, since it is not a
-canonical coalgebra on every native dual-number algebra. Construct it with
+### 1.2 Transport of circles
+
+A transport of resolution circles is Tau Ceti's `TauCeti.PDCode.SmoothingEquiv D s D' s'`: a
+bijection of half-edges intertwining the arc matchings and the smoothings, with a bijection of the
+crossing-free labels. It has identities, inverses and composites
+(`TauCeti.PDCode.SmoothingEquiv.refl`, `.symm`, `.trans`) with their laws, and it induces the
+bijection of resolution circles `TauCeti.PDCode.SmoothingEquiv.resolvedCircleCongr`, compatible
+with identities, inverses and composites and with the circles through each crossing. Its
+instances cover relabelling of half-edges and crossings (`TauCeti.PDCode.SmoothingEquiv.relabel`),
+reading a crossing from another slot (`TauCeti.PDCode.SmoothingEquiv.rotateCrossing`), the mirror,
+which exchanges each state with its complement (`TauCeti.PDCode.SmoothingEquiv.mirror`), and
+permutations of the crossing-free labels (`TauCeti.PDCode.SmoothingEquiv.crossinglessPerm`); the
+same transports for all states at once are `TauCeti.PDCode.ResolutionEquiv`, and disjoint union is
+`TauCeti.PDCode.disjointUnionResolvedCircleEquiv`. Every adapter to an actual diagram in this
+roadmap supplies the bijection of crossing-free circles explicitly, as the structure requires.
+
+*Needs:* Tau Ceti `TauCeti.PDCode.SmoothingEquiv` and its instances listed above,
+`TauCeti.PDCode.ResolutionEquiv`, `TauCeti.PDCode.disjointUnionResolvedCircleEquiv`.
+
+**Checks.**
+- The mirror transport pairs the state `s` of `D` with the complementary state of the mirror. For
+  the trefoil of §1.1, the all-`A` state of `D` (two circles) is carried to the all-`B` state of the
+  mirror, which also has two circles; a transport keeping the state would compare two circles
+  with the three of the mirror's all-`A` state, and no bijection exists.
+
+### 1.3 Link components and words of moves
+
+The components of an oriented PD-code are Tau Ceti's `TauCeti.OrientedPDCode.Component`: the
+classes of outgoing half-edges under `TauCeti.OrientedPDCode.componentPermOutgoing`, together with
+the crossing-free labels; their number is the native component count
+(`TauCeti.OrientedPDCode.card_component`). They are transported by
+`TauCeti.OrientedPDCode.componentEquiv`, with identities and composites, and in particular along
+relabelling and mirror (`TauCeti.OrientedPDCode.relabelComponentEquiv`,
+`TauCeti.OrientedPDCode.mirrorComponentEquiv`). The crossing-free labels are decorated by
+`TauCeti.OrientedPDCode.CrossinglessLabeling`, a function to `Bool` whose multiset is the
+orientation multiset `crossinglessComponents`; such labellings exist, and any two differ by a
+permutation of the labels.
+
+Construct component bijections for every generator of `TauCeti.OrientedPDCode.IsReidemeisterMove`:
+relabelling, reading a crossing from another slot, the first move on an arc
+(`TauCeti.OrientedPDCode.reidemeisterOne`) and on a crossing-free circle
+(`TauCeti.OrientedPDCode.adjoinKink`), the second move between two arcs, an arc and a circle, and
+two circles (`TauCeti.OrientedPDCode.insertClasp`, `TauCeti.OrientedPDCode.insertCircleClasp`,
+`TauCeti.OrientedPDCode.adjoinTwoCircleClasp`), and the third move
+(`TauCeti.OrientedPDCode.reidemeisterThree`). The moves that turn a crossing-free circle into a
+crossing-bearing component carry that circle's label to the new component's traversal class.
+Prove the identity and composition laws.
+
+Define the *move data* of a generator: the generator together with all its parameters (the
+half-edges, Booleans, the clasp's face or component witness, the triangle hypothesis). Define finite
+*move words*, sequences of move data traversed forwards or backwards with matching endpoints, with
+a forgetful map to `TauCeti.OrientedPDCode.IsReidemeisterMove` on each letter and to
+`TauCeti.OrientedPDCode.ReidemeisterEquiv` on each word; prove that every Reidemeister equivalence
+is the image of a word. Component transports, and later the complex transports of Layer 4, are
+defined on words and keep the chosen data and path. Layer 8 supplies the realized plane geometry,
+orientations and component data; Layer 4 constructs the comparison words between native moves and
+supported plane events.
+
+*Needs:* Tau Ceti `TauCeti.OrientedPDCode.Component`, `TauCeti.OrientedPDCode.componentEquiv`,
+`TauCeti.OrientedPDCode.CrossinglessLabeling`, `TauCeti.OrientedPDCode.IsReidemeisterMove` and its
+constructors, `TauCeti.OrientedPDCode.ReidemeisterEquiv`; Mathlib `Relation.EqvGen`.
+
+**Checks.**
+- The first move on a crossing-free circle replaces a crossing-free component by a
+  crossing-bearing one: the component count stays one, while the crossing-free count drops from
+  one to zero. A component bijection that sent crossing-free labels to crossing-free labels
+  would have no target.
+- The trefoil closure of §1.1 has one component and the closure of `σ₁²` (the Hopf link) has two:
+  `TauCeti.OrientedPDCode.componentPermOutgoing` has one and two orbits.
+
+### 1.4 Marks and based moves
+
+A mark on a PD-code is Tau Ceti's `TauCeti.PDCode.Mark D`: an arc, given by a half-edge up to the
+arc matching (`TauCeti.PDCode.Mark.onArc`), or a crossing-free label
+(`TauCeti.PDCode.Mark.onCircle`). In each state it selects the resolution circle through it,
+`TauCeti.PDCode.Mark.resolvedCircle`, compatibly with saddles, transports
+(`TauCeti.PDCode.SmoothingEquiv.markCongr`) and disjoint unions.
+
+Construct *based moves*: move data (§1.3) together with a mark on the source, and the transported
+mark on the target, given explicitly for every generator, including the position of the mark when
+a move subdivides the marked arc (the first move on an arc and the second move cut arcs into
+pieces; the mark goes to a specified piece). Construct the *slide* comparison of two marks on the
+two arcs meeting at a crossing along one strand, as data used by §5.9. Prove the identity and
+composition laws for based words. Layer 8 supplies the comparison of a mark with a point of the
+realized link.
+
+*Needs:* §1.3; Tau Ceti `TauCeti.PDCode.Mark`, `TauCeti.PDCode.Mark.resolvedCircle`,
+`TauCeti.PDCode.SmoothingEquiv.markCongr`.
+
+### 1.5 Adjacent states, merges and splits
+
+For two states `s`, `t` that differ exactly at the crossing `c`, the circles through `c` are
+`TauCeti.PDCode.circlesAt D s c`, at most two of them, two exactly when slots `0` and `2` of `c`
+lie on different circles (`TauCeti.PDCode.card_circlesAt_eq_two_iff`). The circles avoiding `c`
+are identified across the edge by `TauCeti.PDCode.unchangedCircleEquiv`, and the saddle
+correspondence `TauCeti.PDCode.saddleResolvedCircleMap` maps the circles of `s` onto those of `t`.
+Three exterior pairings of the four endpoints at `c` are possible: two circles merge, one circle
+splits, or, for a nonplanar code, one circle becomes one circle; at most three circles pass
+through `c` in the two smoothings together
+(`TauCeti.PDCode.card_circlesAt_add_card_circlesAt_le_three`). For a planar code, defined by the
+Euler characteristic of its ribbon graph, every cube edge is a merge or a split
+(`TauCeti.PDCode.IsPlanar.card_circlesAt_eq_two_or_card_circlesAt_eq_two`), the circle count
+changes by exactly one along it, and the parity of `#B-smoothings + #circles` is the same at every
+vertex (`TauCeti.PDCode.IsPlanar.card_false_add_stateLoopCount_mod_two_eq`). The finite
+combinatorial characterization of planarity is Tau Ceti's as well: a connected code is planar
+exactly when the bands of a spanning-tree contraction of its ribbon graph do not interleave
+(`TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`), from the boundary-count lemmas for
+one-vertex chord diagrams (two interleaved bands have one boundary cycle, and each further band
+raises the count by at most one, so `m` bands with an interleaved pair have fewer than `m + 1`
+boundary cycles).
+
+*Needs:* §1.1; Tau Ceti `TauCeti.PDCode.circlesAt`, `TauCeti.PDCode.unchangedCircleEquiv`,
+`TauCeti.PDCode.saddleResolvedCircleMap`,
+`TauCeti.PDCode.card_circlesAt_add_card_circlesAt_le_three`,
+`TauCeti.PDCode.IsPlanar.card_circlesAt_eq_two_or_card_circlesAt_eq_two`,
+`TauCeti.PDCode.IsPlanar.card_false_add_stateLoopCount_mod_two_eq`,
+`TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`.
+
+**Checks.**
+- The one-crossing code whose two arcs join opposite slots (`0` with `2`, `1` with `3`) has one
+  vertex, two edges and one face, so Euler characteristic `0`, and is not planar. Each of its two
+  states has exactly one circle, so its only cube edge is a one-to-one change: the third exterior
+  pairing, which a definition of the edge maps by "merge if the count drops, split otherwise"
+  would misread as a split.
+- In the trefoil of §1.1 every edge changes the circle count by one, and `#B + #circles` is
+  `0 + 2`, `1 + 1`, `2 + 2`, `3 + 3`, always even.
+
+### 1.6 Disc/band models of planar codes
+
+On each connected component of the ribbon graph of a planar code, contract a spanning tree
+(`TauCeti.PDCode.nonempty_spanningTreeContraction`), retaining the cyclic orders, boundary cycles
+and the inverse vertex-expansion data. The contracted one-vertex chord diagram is noncrossing
+(§1.5); construct its planar *disc/band model*, a disc with untwisted bands attached along
+noninterleaved boundary arcs, and expand the tree again, obtaining a disc/band model of the whole
+code whose boundary cycles are the faces. Prove that smoothing a crossing and the local
+exterior-matching dictionary of §1.5 preserve this model.
+
+These models are the local diagram carriers. An *open model* is a finite piecewise-affine
+realization in an oriented closed disc, with labelled ports on its boundary in a specified cyclic
+order and standard boundary collars; its arcs meet the boundary exactly at the ports, each
+crossing patch contains exactly its prescribed transverse double point with its over/under label,
+and the remaining arc interiors and isolated circles are embedded and pairwise disjoint. Prove
+the gluing, relabelling and full-resolution comparisons for these finite models. The case of
+empty boundary is the finite PL plane-diagram carrier. Layer 8 compares these models with
+arbitrary generic smooth diagrams.
+
+*Needs:* §1.5; Tau Ceti `TauCeti.PDCode.nonempty_spanningTreeContraction`,
+`TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`, `TauCeti.PDCode.toPermutationTriple`;
+Mathlib affine maps and convex hulls in `ℝ²`.
+
+**Checks.**
+- The standard trefoil code is connected with three crossings, so its ribbon graph has three
+  vertices and six edges; a spanning tree has two edges, and the contracted chord diagram has four
+  bands and five boundary cycles, the five faces of the trefoil diagram (`3 − 6 + 5 = 2`). Four
+  bands with an interleaved pair would have at most three boundary cycles.
+
+### 1.7 Partial resolution and vertex resolution
+
+Define partial resolution at a selected crossing in the local calculus of §1.6, with its
+unoriented finite arc and boundary data, and prove its compatibility with the complete state
+smoothing of §1.1 and that it preserves the disc/band model. After every other crossing has been
+resolved, prove the four-endpoint consequence: for a planar code the exterior pairing at a cube
+edge is never the opposite-slot pairing. This is the local form of the merge-or-split theorem of
+§1.5 that the planar saddle constructions use.
+
+The vertex resolution, which removes a crossing, is Tau Ceti's
+`TauCeti.PDCode.resolveCrossing D c t`: for a crossing `c` of a `PDCode (n + 1)` and a smoothing
+`t` it is a `PDCode n`, with the degree-two vertices suppressed, every newly detached
+crossing-free circle counted (`TauCeti.PDCode.detachedCircleCount`), and the remaining crossings
+relabelled by `c.succAbove`; it is planar when `D` is (`TauCeti.PDCode.IsPlanar.resolveCrossing`),
+and its resolution circles are those of the corresponding states of `D`
+(`TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`). Layer 5 owns the orientation choices of the
+oriented skein inputs.
+
+*Needs:* §§1.5–1.6; Tau Ceti `TauCeti.PDCode.resolveCrossing`,
+`TauCeti.PDCode.detachedCircleCount`, `TauCeti.PDCode.IsPlanar.resolveCrossing`,
+`TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`.
+
+### 1.8 The local planar calculus
+
+Build a finite local planar calculus: objects are finite sets of boundary endpoints with a cyclic
+order; a diagram is an open model of §1.6, its crossingless resolutions are matchings of the
+endpoints together with isolated circles; diagrams compose by gluing along matched boundary
+pieces, and a closed diagram arises from an arbitrary exterior planar closure. Prove that the
+circle construction of §1.1 and the saddle correspondences of §1.5 commute with closure and with
+gluing. Prove the gluing comparison of the vertex resolution of §1.7: the vertex resolution of a
+code at a crossing `c` is the closure of the partial resolution of the one-crossing disc around
+`c`. Classify the local configurations used later: the two-crossing face configurations of Layer 3
+and the one-, two- and three-crossing configurations of the Reidemeister moves in Layer 4. Layer 8
+compares these models with actual smooth plane diagrams and proves each matching and cyclic-order
+dictionary.
+
+*Needs:* §§1.5–1.7; Tau Ceti `TauCeti.PDCode.resolveCrossing` for the gluing comparison.
+
+**Checks.**
+- Four endpoints on the boundary of a disc have two crossingless matchings. Closing one of them
+  by the same matching in the exterior disc gives two circles, and closing it by the other gives
+  one: the circles are the cycles of the glued matching. Counting the arcs of one half instead
+  gives two in both cases.
+
+### Examples
+
+- The closure of `σ₁³`, of `σ₁²` and of `σ₁` on two strands: one, two and one components; their
+  cube edges are all merges or splits.
+- The one-crossing nonplanar code of §1.5, whose single cube edge is neither a merge nor a split.
+
+### Dependencies
+
+Tau Ceti: PD-codes and oriented PD-codes, planarity through the Euler characteristic and the
+chord-diagram criterion, resolution circles, their transports, components and marks, the
+adjacent-state analysis and vertex resolution. Mathlib: quotients, finite types, equivalence
+relations generated by a relation, and affine geometry of `ℝ²`.
+
+<a id="k2-the-rank-two-frobenius-object-and-circle-tensors"></a>
+
+## Layer 2: the rank-two Frobenius object, circle tensors and the formal surface category
+
+### 2.1 The Frobenius algebra on the dual numbers
+
+Over a commutative ring `R`, the algebra on each circle is Mathlib's `DualNumber R`, written
+`R[ε]`, the trivial square-zero extension `TrivSqZeroExt R R` with `1 = (1, 0)` and `X = ε =
+(0, 1)`. Its chosen coalgebra structure is Tau Ceti's `TauCeti.Khovanov.coalgebra`, installed only
+as a scoped instance in `TauCeti.Khovanov`, since it is not a canonical coalgebra on every
+dual-number algebra:
 
 ```
-Δ(1)=1⊗X+X⊗1,     Δ(X)=X⊗X,
-ε(1)=0,            ε(X)=1.
+Δ(1) = 1⊗X + X⊗1,     Δ(X) = X⊗X,
+ε(1) = 0,              ε(X) = 1.
 ```
 
-Prove the multiplication table, unit, coassociativity, counitality, cocommutativity, and the
-actual native `Coalgebra.IsFrobenius` instance. Export both Frobenius identities identifying
-`Δ∘m` with the two mixed composites. Construct the rank-two basis and the perfect pairing
-`ε(ab)`, including its dual basis and base-change laws. Retain this chosen Frobenius structure
-throughout.
+It is coassociative, counital and cocommutative (`TauCeti.Khovanov.isCocomm`), and satisfies the
+Frobenius equation (`TauCeti.Khovanov.isFrobenius`, Mathlib's `Coalgebra.IsFrobenius`, whose two
+identities say that `Δ ∘ m` equals both mixed composites). Its Frobenius form `(a, b) ↦ ε(ab)` is
+the perfect trace pairing (`TauCeti.Khovanov.mul_compr₂_counit`), the basis `X, 1` is dual to the
+basis `1, X` (`TauCeti.Khovanov.counit_basis_mul_basis_rev`), the neck-cutting expansion
+`a = ε(Xa)·1 + ε(a)·X` holds for every `a`
+(`DualNumber.khovanov_counit_eps_mul_smul_one_add_counit_smul_eps`), and base change is a coalgebra
+isomorphism `S ⊗ R[ε] ≃ S[ε]` (`TauCeti.Khovanov.baseChangeCoalgEquiv`). This chosen Frobenius
+structure is kept throughout (Khovanov, *A categorification of the Jones polynomial*, §2.2, at
+`c = 0`).
 
-Construct its quantum-graded object `V` in native `GradedObject ℤ (ModuleCat R)` and the
-explicit graded direct-sum/underlying-algebra comparison. Multiplication and coproduct have
-degree `−1`, unit and counit degree `+1`; export these as maps between the appropriately shifted
-graded objects. `W=V⟨−1⟩` has degree-zero unit and multiplication, and `X` degree `−2`. Use
-these degrees when packaging the graded maps on `V`.
+*Needs:* Mathlib `DualNumber`, `TrivSqZeroExt`, `Coalgebra.IsFrobenius`; Tau Ceti
+`TauCeti.Khovanov.coalgebra`, `TauCeti.Khovanov.isFrobenius`,
+`TauCeti.Khovanov.mul_compr₂_counit`, `TauCeti.Khovanov.baseChangeCoalgEquiv`.
 
-For every finite circle set construct the indexed tensor, its empty tensor, insertion and
-deletion of a factor, reindexing equivalences, and coherence under composition and disjoint
-union. Use native graded-object tensor products and their unsigned braiding. Construct the
-finite free enhanced-state basis indexed by labellings with `1` and `X`; its quantum degree is
-the sum of the label degrees. Prove the comparison with Finsupp on labellings and all
-tensor/multiplication/coproduct coefficient formulas.
+**Checks.**
+- The handle operator is `m ∘ Δ`: it sends `1` to `2X` and `X` to `0`, so the closed torus
+  `ε ∘ m ∘ Δ ∘ η` evaluates to `2` and the closed sphere `ε ∘ η` to `ε(1) = 0`.
+- Neck cutting on the basis: `ε(X·1)·1 + ε(1)·X = 1` and `ε(X·X)·1 + ε(X)·X = X`. With the counit
+  `ε(1) = 1, ε(X) = 0` instead, the form `ε(ab)` would vanish on `X` against both basis vectors,
+  so it would be degenerate and the algebra would not be Frobenius for it.
 
-Assign maps to K1's merge/split correspondences by `m`/`Δ` on the affected factors and identity
-on the others. Prove representative, circle-order, and tensor-parenthesization independence.
-Prove the disjoint, associative, coassociative and mixed-saddle relations on actual K1
-configurations, retaining the correspondence on unaffected circles.
+### 2.2 The quantum grading
 
-Construct the integral formal local cobordism category for each finite cyclically ordered, based
-boundary-port set `B`. Its objects are the finite planar crossingless arc-and-circle diagrams
-with boundary `B`, retaining the plane placement and boundary collars. Use finite combinatorial
-abstract surface presentations with these marked boundaries, generated by the fixed planar
-identity, birth, death and untwisted saddle templates. Retain the compatible seam/collar
-orientation data needed to stay in the orientable planar-surgery-generated category. Construct
-composition and planar insertion on presentations; prove that their collar matching preserves
-admissibility and orientability, and that all surfaces used in the resolution cubes and
-elementary movie maps admit such presentations. Retain admissible orientable seam data in its
-evaluation domain. Give each template and composite finite triangle adjacency tables with
-labelled boundary collars. Generate presentation equivalence by marking-preserving combinatorial
-isomorphisms, stellar subdivision of a triangle, subdivision of an edge in its one or two
-incident triangles, the inverse moves, and the two-triangle diagonal flip, with their explicit
-relative-boundary versions. Carry each boundary subdivision through its collar and the matching
-seam marking; keep the prescribed outer collar germ fixed. Prove gluing and planar insertion
-respect this generated equivalence, with compatible finite refinements of matched seams. Prove
-the identity, associativity, collar-rescaling and planar-insertion laws and the unit/counit
-zigzags, saddle associativity/coassociativity, Frobenius and disjoint-interchange identities by
-explicit finite move certificates for the small templates. Retain the triangle orientation and
-matched-seam profiles, prove admissibility is preserved by every operation, and construct these
-profiles for every resolution and movie template. These are two-dimensional surface-presentation
-relations established before the movie theorem.
+The quantum grading of `R[ε]` is Tau Ceti's `TauCeti.Khovanov.quantumGrading`, with `1` in degree
+`1` and `X` in degree `−1`, and `V = TauCeti.Khovanov.quantumGradedObject R` is the corresponding
+object of `GradedObject ℤ (ModuleCat R)`, whose direct sum is `R[ε]`. Multiplication and
+comultiplication have degree `−1` and unit and counit degree `+1`; as degree-zero maps between
+shifted graded objects they are `TauCeti.Khovanov.quantumMul`, `TauCeti.Khovanov.quantumComul`,
+`TauCeti.Khovanov.quantumUnit` and `TauCeti.Khovanov.quantumCounit`. The shifted object
+`W = V⟨−1⟩` has degree-zero unit and multiplication, with `X` in degree `−2`
+(`TauCeti.Khovanov.instGradedAlgebraShiftOne`); these degrees are the ones used when packaging the
+graded maps on `V`.
 
-Define formal `χ` on each surface presentation by its finite cell count. Check invariance under
-every generating subdivision, inverse and flip by its local vertex/edge/triangle counts, and
-prove the seam-gluing formula and connected-component/boundary incidence laws.
+*Needs:* §2.1; Mathlib `GradedObject`; Tau Ceti `TauCeti.Khovanov.quantumGrading`,
+`TauCeti.Khovanov.quantumGradedObject`, `TauCeti.Khovanov.quantumMul`,
+`TauCeti.Khovanov.quantumComul`, `TauCeti.Khovanov.quantumUnit`,
+`TauCeti.Khovanov.quantumCounit`.
 
-Linearize each morphism set over `ℤ` using finite-support formal sums and quotient by the
-composition- and planar-insertion-stable subgroup generated by `S`, `T`, and `4Tu`. Here a
-closed sphere component is zero, a closed torus component is twice the surface with that
-component removed, and `C₁₂+C₃₄=C₁₃+C₂₄` for any four specified pairwise disjoint interior
-discs, including discs on different surface components. Here `Cᵢⱼ` removes discs `i,j` and joins
-their boundaries by the prescribed orientation-compatible untwisted tube; retain all four
-labelled discs and seam profiles in the relation data. Construct the quotient category and prove
-these operations descend. For `|B|=2r`, give a surface morphism quantum degree `χ−r`. Prove
-identity degree zero, vertical/planar degree additivity and homogeneity of the three local
-relations. The abstract-interior formal category, its generated equivalence and this independent
-combinatorial grading precede K3. K7 constructs the separate geometric Euler comparison.
+**Checks.**
+- `V` has graded rank `q + q⁻¹`; `m(1 ⊗ 1) = 1` goes from degree `2` to degree `1` and
+  `Δ(X) = X ⊗ X` from degree `−1` to degree `−2`, both of degree `−1`. With `1` and `X` in degrees
+  `0` and `2`, multiplication would preserve degree and comultiplication would have degree `+2`,
+  so no shift depending only on the height `|S|` would make every cube edge homogeneous.
 
-Construct quantum shifts of formal objects and their graded morphisms, then the subcategory of
-quantum-degree-zero morphisms. Use native `CategoryTheory.Mat_` on that subcategory for the
-finite additive envelope, with `Mat_.embedding`, `Mat_.lift` and its finite biproducts.
+### 2.3 Circle tensors and the enhanced-state basis
 
-### K3. Signed cubes, complexes, and Euler characteristic
+For a finite set `ι` of circles, the circle tensor is Tau Ceti's
+`TauCeti.Khovanov.CircleTensor R ι`, the tensor power of `R[ε]` indexed by `ι`, with the
+enhanced-state basis `TauCeti.Khovanov.circleBasis` indexed by labellings `ι → Bool` (`false` for
+`1`, `true` for `X`) and the quantum grading `TauCeti.Khovanov.circleQuantumGrading` in which a
+labelling has degree `TauCeti.Khovanov.labelingQuantumDegree`, the sum of its label degrees. The
+empty tensor is `R`, reindexing along an equivalence of circle sets maps basis vectors to basis
+vectors, disjoint unions are tensor products (`PiTensorProduct.tmulEquiv`, with its coefficient
+formula), the multiplication along a map of circle sets (`PiTensorProduct.fiberwiseMul`) and the
+comultiplication defined as its adjoint for the Frobenius pairing
+(`TauCeti.Khovanov.fiberwiseSplit`) have explicit coefficient formulas on the basis, and base change
+`TauCeti.Khovanov.circleBaseChange` respects the basis. The comparison with finitely supported
+functions on labellings is the basis itself.
 
-A finite commutative cube is a functor from the native preorder category on the subsets of its
-finite crossing set. Construct its signed height-totalization using finite biproducts and the
-chosen crossing order. Prove the differential squares to zero by pairing the two routes around
-every face. Provide functoriality for cube maps, face restriction, zero-dimensional cubes,
-height shifts, biproducts, and mapping-cone descriptions. Prove the crossing-reordering chain
-isomorphism with subset-permutation signs and its identity/composition laws. Use the height
-totalization to obtain the actual cochain complex.
+Construct the insertion and deletion of a factor, `CircleTensor R ι ⊗ R[ε] ≅ CircleTensor R
+(Option ι)` and its inverse, and prove their coherence with reindexing, composition and disjoint
+union. Compare the graded circle tensor with the iterated native graded-object tensor of `V`
+(`CategoryTheory.GradedObject.Monoidal.tensorObj`) for every finite circle set, with the unsigned braiding of
+the graded tensor acting by reindexing.
 
-Use a quantum-indexed family in `GradedObject ℤ (CochainComplex (ModuleCat R) ℤ)` as the primary
-bigraded complex. Define its underlying ordinary complex using native `GradedObject.total`.
-The enhanced-state `Finsupp` complex is a comparison model: construct `quantumComplexDirectSumIso`
-between it and that total complex, and transport maps, homotopies and homology through this
-isomorphism. `Khⁱʲ` and quantumwise UCT use the component complexes; unreduced ordinary homology
-uses the total, with its stated comparison to `khovanovHomology` in the prototype.
-Use native `GradedObject.Monoidal.tensorObj` for quantum convolution and
-`GradedObject.Monoidal.braiding` over `TauCeti.koszulBraidedCategory R`. Supply their actual
-`HasTensor` and coproduct-preservation hypotheses from module tensors and the cochain totalization,
-with finite quantum support for these complexes. This swaps quantum indices without a quantum
-sign; its underlying factor maps use the native cochain Koszul signs. Construct the
-degree-exchange comparison with a cochain complex of quantum-graded modules, retaining maps,
-shifts, homotopies and totalization. Apply the signed cube construction to K1/K2 for diagrams
-satisfying `PDCode.IsPlanar`; all circle merge/split, complex and differential assertions retain
-that hypothesis. The unnormalized complex has height-`r` term `⊕[|S|=r] V(Circle(S))⟨r⟩`. The
-normalized complex has
+*Needs:* §2.2; Mathlib `PiTensorProduct`, `PiTensorProduct.tmulEquiv`,
+`CategoryTheory.GradedObject.Monoidal.tensorObj`; Tau Ceti `TauCeti.Khovanov.CircleTensor`,
+`TauCeti.Khovanov.circleBasis`, `TauCeti.Khovanov.circleQuantumGrading`,
+`PiTensorProduct.fiberwiseMul`, `TauCeti.Khovanov.fiberwiseSplit`,
+`TauCeti.Khovanov.circleBaseChange`.
+
+**Checks.**
+- Three circles: the graded rank is `(q + q⁻¹)³ = q³ + 3q + 3q⁻¹ + q⁻³`, with the all-`1`
+  labelling alone in degree `3`. A grading that counted `X` labels instead would put the all-`1`
+  labelling in degree `0` and the all-`X` one in degree `3`, giving `1 + 3q + 3q² + q³`, which is
+  not symmetric under `q ↦ q⁻¹` as the mirror duality of §5.4 requires.
+
+### 2.4 Merge and split maps on resolutions
+
+Along a cube edge of a planar code (§1.5) the edge map is Tau Ceti's
+`TauCeti.PDCode.resolutionEdgeMap`: the merge `TauCeti.PDCode.resolutionMergeMap` (multiplication
+on the two merged factors) or the split `TauCeti.PDCode.resolutionSplitMap` (comultiplication on
+the split factor), the identity on the other factors through the unchanged-circle
+correspondence. Both have quantum degree `−1`. Because they are defined along the saddle map of
+circle sets, they do not depend on representatives, circle orders or tensor parenthesizations;
+they are compatible with the transports of §1.2 and with base change; and the two routes around
+every square face of the cube agree, in all merge, split and mixed configurations
+(`TauCeti.PDCode.resolutionEdgeMap_comp_resolutionEdgeMap_comm`), with the unaffected circles
+retained.
+
+*Needs:* §§1.5, 2.3; Tau Ceti `TauCeti.PDCode.resolutionEdgeMap`,
+`TauCeti.PDCode.resolutionMergeMap`, `TauCeti.PDCode.resolutionSplitMap`,
+`TauCeti.PDCode.resolutionEdgeMap_comp_resolutionEdgeMap_comm`.
+
+**Checks.**
+- A merge sends `X ⊗ X` to `0` and `1 ⊗ X` to `X`; a split sends `1` to `1 ⊗ X + X ⊗ 1` and `X` to
+  `X ⊗ X`. Splitting and then merging the same two circles multiplies by the handle operator:
+  `1 ↦ 2X`.
+
+### 2.5 Formal surface presentations
+
+For each finite, cyclically ordered, based set `B` of boundary ports, construct the integral
+*formal local cobordism category*. Its objects are the finite planar crossingless arc-and-circle
+diagrams with boundary `B` (§1.8), with their plane placement and boundary collars. Its morphisms
+are finite combinatorial presentations of abstract surfaces with these marked boundaries,
+generated by the planar identity, birth, death and untwisted saddle templates, and retaining the
+seam and collar orientation data that keep them in the orientable, planar-surgery-generated
+category. Every template and composite carries finite triangle adjacency tables with labelled
+boundary collars.
+
+- Construct composition and planar insertion of presentations, and prove that their collar
+  matching preserves admissibility and orientability.
+- Generate *presentation equivalence* by marking-preserving combinatorial isomorphisms, stellar
+  subdivision of a triangle, subdivision of an edge in its one or two incident triangles, their
+  inverses and the two-triangle diagonal flip, with their relative-boundary versions; carry each
+  boundary subdivision through its collar and the matching seam marking, and keep the prescribed
+  outer collar germ fixed.
+- Prove that gluing and planar insertion respect this equivalence, with compatible finite
+  refinements of matched seams.
+- Prove the identity, associativity, collar-rescaling and planar-insertion laws, the unit/counit
+  zigzags, saddle associativity and coassociativity, the Frobenius relations and the
+  disjoint-interchange identities, by explicit finite sequences of moves on the small templates.
+- Prove that admissibility, the triangle orientation and the matched-seam profiles are preserved
+  by every operation, and construct such profiles for every surface used in the resolution cubes
+  of Layer 3 and the elementary movie maps of Layer 7.
+
+These are two-dimensional relations between surface presentations, established before the movie
+theorem.
+
+*Needs:* §1.8; Mathlib `CategoryTheory.Category`, finite types.
+
+### 2.6 The formal Euler characteristic
+
+Define the formal Euler characteristic `χ` of a surface presentation by its finite cell count
+`#vertices − #edges + #triangles`. Prove its invariance under every generating subdivision, its
+inverse and the flip, by the local vertex, edge and triangle counts. Prove the seam-gluing formula
+and the connected-component and boundary-incidence laws.
+
+*Needs:* §2.5.
+
+**Checks.**
+- The boundary of a tetrahedron presents a sphere with `4 − 6 + 4 = 2`; stellar subdivision of
+  one triangle adds one vertex, three edges and two triangles net, keeping `2`; the diagonal flip
+  changes no count. The birth template (a disc) has `χ = 1`, the saddle between one circle and two
+  (a pair of pants) `χ = −1`.
+
+### 2.7 The relations `S`, `T` and `4Tu`, and the quantum grading
+
+Linearize each morphism set over `ℤ` by finitely supported formal sums, and quotient by the
+subgroup generated by the relations `S`, `T` and `4Tu`, made stable under composition and planar
+insertion: a closed sphere component is zero; a closed torus component is twice the surface with
+that component removed; and `C₁₂ + C₃₄ = C₁₃ + C₂₄` for four specified pairwise disjoint interior
+discs, possibly on different surface components, where `Cᵢⱼ` removes the discs `i`, `j` and joins
+their boundaries by the prescribed orientation-compatible untwisted tube. The relation data keep
+all four labelled discs and their seam profiles. Construct the quotient category and prove that
+composition and planar insertion descend (Bar-Natan, *Khovanov's homology for tangles and
+cobordisms*, §4.1).
+
+For `|B| = 2r`, give a surface morphism the quantum degree `χ − r`. Prove that identities have
+degree zero, that degree is additive under composition and planar insertion, and that the three
+relations are homogeneous. This combinatorial grading, the abstract-interior formal category and
+its generated equivalence come before Layer 3; Layer 7 constructs the separate geometric Euler
+comparison.
+
+*Needs:* §§2.5–2.6; Mathlib `Finsupp`, `CategoryTheory.Preadditive`, quotient categories.
+
+**Checks.**
+- With no boundary (`r = 0`), the birth has degree `1`, the merge and split saddles `−1`, the
+  sphere `2` and the torus `0`, matching the degrees of `η`, `m`, `Δ` in §2.2; the sphere relation
+  is homogeneous because both sides are zero. On four boundary points (`r = 2`) the identity of a
+  crossingless matching is two strips, `χ = 2`, of degree `0`, and the saddle between the two
+  matchings is a disc, `χ = 1`, of degree `−1`.
+- Each `Cᵢⱼ` removes two discs from the same surface and glues in an annulus, so all four terms of
+  `4Tu` have `χ` two less than the original surface and the relation is homogeneous.
+
+### 2.8 Shifts and the additive envelope
+
+Construct quantum shifts of formal objects and graded morphisms, and the subcategory of
+quantum-degree-zero morphisms. Its finite additive envelope is Mathlib's `CategoryTheory.Mat_` of
+that subcategory, with `CategoryTheory.Mat_.embedding`, `CategoryTheory.Mat_.lift` and its finite
+biproducts.
+
+*Needs:* §2.7; Mathlib `CategoryTheory.Mat_`, `CategoryTheory.Mat_.embedding`,
+`CategoryTheory.Mat_.lift`.
+
+### Examples
+
+- On one circle the merge-split composite is multiplication by `2X`; on the empty circle set the
+  circle tensor is `R` in degree `0`.
+- The torus and sphere relations of §2.7 against the closed values of §2.1: the torus is `2`, the
+  sphere `0`, so the evaluation of Layer 3 respects `S` and `T`.
+
+### Dependencies
+
+Layer 1 (§§1.5 and 1.8). Tau Ceti: the Khovanov coalgebra on the dual numbers with its Frobenius
+structure, quantum grading and graded maps, circle tensors with their basis, merge and split, and
+the merge and split maps on resolutions with their face relations. Mathlib: dual numbers,
+coalgebras and the Frobenius class, piecewise tensor products, graded objects and their monoidal
+structure, preadditive and quotient categories, and `CategoryTheory.Mat_`.
+
+<a id="k3-signed-cubes-complexes-and-euler-characteristic"></a>
+
+## Layer 3: signed cubes, complexes and Euler characteristic
+
+### 3.1 Signed cube totalization
+
+A finite commutative cube in a preadditive category `C` with finite biproducts is a functor
+`F : Finset ι ⥤ C` from the subsets of a finite linearly ordered set. Its signed height
+totalization is Tau Ceti's `CategoryTheory.Functor.cubeComplex`, with the vertex `S` in degree
+`|S|` and the edge `S → S ∪ {a}` carrying the sign `(-1)^(#{b ∈ S : b < a})`; its differential
+squares to zero because the two routes around every face carry opposite signs. It is functorial
+and additive in the cube (`CategoryTheory.NatTrans.cubeComplexMap`,
+`CategoryTheory.cubeComplexFunctor`), its degree-zero term is the vertex `∅`
+(`CategoryTheory.Functor.cubeComplexXZeroIso`), and a reordering of the indices gives an
+isomorphism acting on the vertex `S` by the sign of the permutation of `S`
+(`CategoryTheory.Functor.cubeComplexReindexIso`), with its identity and composition laws
+(`CategoryTheory.Functor.cubeComplexReindexIso_refl`,
+`CategoryTheory.Functor.cubeComplexReindexIso_trans`). For a cube indexed by `WithBot ι`, the
+mapping cone of the map between the two faces in the direction of the least index `⊥` is the
+totalization shifted by `⟦1⟧` (`CategoryTheory.Functor.cubeComplexMappingConeIso`); another index
+is first moved to the front by the reordering isomorphism. The dual of a cube of modules is
+`CategoryTheory.Functor.dualCube`.
+
+Construct the restriction of a cube to an arbitrary face `{S : A ⊆ S ⊆ A ∪ B}`, a cube indexed by
+`B`, and identify its totalization, under the native cochain shift by the height `|A|` (which
+multiplies the differential by `(-1)^|A|`), with the signed totalization of that face inside the
+whole cube, the vertex `S` carrying the sign `(-1)^(#{(a, b) : a ∈ A, b ∈ S ∖ A, a > b})`; the
+mapping-cone isomorphism above is the case of a single direction.
+
+*Needs:* Mathlib preadditive categories with finite biproducts, `CochainComplex`; Tau Ceti
+`CategoryTheory.Functor.cubeComplex`, `CategoryTheory.cubeComplexFunctor`,
+`CategoryTheory.Functor.cubeComplexMappingConeIso`,
+`CategoryTheory.Functor.cubeComplexReindexIso`.
+
+**Checks.**
+- For indices `1 < 2`, `A = {2}` and `B = {1}`: the restricted cube has the single edge
+  `{2} → {1, 2}` with sign `+1`, which the shift turns into `−1`, while inside the whole cube that
+  edge adds `1` to `{2}` with sign `+1`; the vertex sign `−1` on `{1, 2}` (the pair `2 > 1`)
+  reconciles them. For `A = {1}`, `B = {2}` the two signs already agree (`−1` both ways) and no
+  vertex sign is needed. A sign counting pairs with `a < b` would get both cases wrong.
+- A square cube `∅ → {1}, {2} → {1, 2}` with all maps the identity of `ℤ` has differential
+  `(1, 1)` out of degree `0` and `(−1, 1)` into degree `2` (the edge `{1} → {1, 2}` has sign `−1`
+  since `1 < 2`); the composite is `−1 + 1 = 0`. Without the sign the composite would be `2`.
+
+### 3.2 The Khovanov bracket and the normalized complex
+
+For a planar code `D`, the cube of resolutions in quantum degree `j` is Tau Ceti's
+`TauCeti.PDCode.resolutionCube D hD R j`: the vertex `S` is the degree `j − |S|` piece of the
+circle tensor of the state `TauCeti.PDCode.cubeState S` (true off `S`), and the edges are the maps
+of §2.4. Its totalization is the unnormalized complex `TauCeti.PDCode.khovanovBracket D hD R`,
+whose height-`r` term is `⊕[|S| = r] V(Circle(S))⟨r⟩`. The normalized complex is
+`TauCeti.OrientedPDCode.khovanovComplex D hD R`, an object of
+`GradedObject ℤ (CochainComplex (ModuleCat R) ℤ)`, the primary bigraded complex of this roadmap,
+with
 
 ```
-Cⁱ(D;R) = ⊕[|S|−n₋=i] V(Circle(S))⟨|S|+n₊−2n₋⟩.
+Cⁱ(D; R) = ⊕[|S|−n₋=i] V(Circle(S))⟨|S|+n₊−2n₋⟩.
 ```
 
-Give explicit evaluation formulas for every differential block on enhanced states and prove
-equivalence of the tensor and finite-free computational models. Establish cochain support in
-`[−n₋,n₊]`, finite quantum support, finite free terms and coefficient base change. Define the
-quantum-component homology `Khⁱʲ(D;R)` through native homology functors. Prove integral finite
-generation, finite-dimensionality over a field, and vanishing outside the finite support. State
-homology finiteness over other rings with the necessary Noetherian hypotheses.
+Tau Ceti supplies its terms as finite biproducts of quantum pieces
+(`TauCeti.OrientedPDCode.khovanovComplexXIso`), the signed saddle differential on each summand
+(`TauCeti.OrientedPDCode.ι_khovanovComplex_d`), the comparison with the native cochain shift of
+the bracket with its sign `(-1)^(i·n₋)` (`TauCeti.OrientedPDCode.khovanovComplexShiftIso`),
+cochain support in `[−n₋, n₊]` (`TauCeti.OrientedPDCode.khovanovComplex_isStrictlyGE` and
+`TauCeti.OrientedPDCode.khovanovComplex_isStrictlyLE`), finite quantum support
+(`TauCeti.PDCode.finite_quantumSupport_khovanovBracket`), finite free terms, and base change of
+the cube of resolutions along a ring map (`TauCeti.PDCode.resolutionCubeBaseChangeIso`). All
+circle, merge, split, complex and differential statements carry the planarity hypothesis.
 
-Define the integral graded Euler polynomial by rational ranks, and the field version by
-dimensions. Prove Euler–Poincaré quantum component by quantum component. For a nonempty diagram,
-prove the exact native comparison
+*Needs:* §§1.5, 2.4, 3.1; Tau Ceti `TauCeti.PDCode.resolutionCube`,
+`TauCeti.PDCode.khovanovBracket`, `TauCeti.OrientedPDCode.khovanovComplex`,
+`TauCeti.OrientedPDCode.khovanovComplexShiftIso`, `TauCeti.OrientedPDCode.ι_khovanovComplex_d`,
+`TauCeti.PDCode.resolutionCubeBaseChangeIso`.
+
+**Checks.**
+- For the right-handed trefoil closure of §1.1 (`n₊ = 3`, `n₋ = 0`) the integral ranks of the
+  cochain modules, summed over quantum degrees, are `4, 6, 12, 8` in degrees `0, 1, 2, 3`: the
+  states with `0, 1, 2, 3` `B`-smoothings have `2, 1, 2, 3` circles, and there are `1, 3, 3, 1` of
+  them. Their alternating sum `4 − 6 + 12 − 8 = 2` is the value at `q = 1` of §5.6.
+- A normalization with cochain degree `|S| + n₋` instead would put the left-handed trefoil
+  (`n₋ = 3`) in degrees `3` to `6`, and the mirror duality of §5.4 would fail.
+
+### 3.3 The total complex and the enhanced-state model
+
+Define the underlying ordinary complex of the bigraded complex as its native total object under
+`CategoryTheory.GradedObject.total` in cochain complexes. Construct the enhanced-state model: the cochain complex
+whose degree-`i` term is the free module on the enhanced states of cochain degree `i` (Tau Ceti's
+`TauCeti.PDCode.EnhancedState`, with degrees `TauCeti.OrientedPDCode.stateCochainDegree` and
+`TauCeti.OrientedPDCode.enhancedQuantumDegree`), with the differential given on each enhanced
+state by an explicit evaluation formula for every block (merge and split coefficients from §2.3,
+the cube sign of §3.1). Prove that this differential preserves quantum degree, construct its
+quantum subcomplexes, and construct the comparison isomorphism between the enhanced-state complex
+and the total complex of `TauCeti.OrientedPDCode.khovanovComplex`, compatible with the inclusions
+of the quantum summands. Transport maps, homotopies and homology along it; the bigraded groups
+and the quantumwise universal coefficients of §5.2 use the quantum components, and the unreduced
+ordinary homology uses the total complex, with its direct-sum decomposition into the bigraded
+homology.
+
+Use the native graded tensor `CategoryTheory.GradedObject.Monoidal.tensorObj` for quantum convolution and
+`CategoryTheory.GradedObject.Monoidal.braiding` over `TauCeti.koszulBraidedCategory R`, supplying their actual
+`CategoryTheory.GradedObject.HasTensor` and coproduct-preservation hypotheses from module tensors and the
+cochain totalization, with finite quantum support for these complexes. This swaps quantum indices
+without a quantum sign; its underlying factor maps use the native cochain Koszul signs. Construct
+the degree-exchange comparison with a cochain complex of quantum-graded modules, compatible with
+maps, shifts, homotopies and totalization.
+
+*Needs:* §3.2; Mathlib `CategoryTheory.GradedObject.total`, `CategoryTheory.GradedObject.Monoidal.tensorObj`,
+`CategoryTheory.GradedObject.Monoidal.braiding`, `CategoryTheory.GradedObject.HasTensor`; Tau Ceti
+`TauCeti.PDCode.EnhancedState`, `TauCeti.OrientedPDCode.enhancedQuantumDegree`,
+`TauCeti.koszulBraidedCategory`.
+
+### 3.4 Khovanov homology and its finiteness
+
+Khovanov homology in bidegree `(i, j)` is Tau Ceti's
+`TauCeti.OrientedPDCode.khovanovHomology D hD R i j`, the cohomology in degree `i` of the quantum
+component `j` of the normalized complex, through Mathlib's homology functors. Prove:
+
+- it vanishes for `i` outside `[−n₋, n₊]` and for `j` outside the finite quantum support;
+- for `R` Noetherian it is a finitely generated `R`-module; in particular over `ℤ` it is a finitely
+  generated abelian group, and over a field it is finite-dimensional;
+- the total homology is the direct sum of the bigraded groups (§3.3).
+
+*Needs:* §§3.2–3.3; Tau Ceti `TauCeti.OrientedPDCode.khovanovHomology`; Mathlib
+`HomologicalComplex.homology`, `IsNoetherianRing`, `Module.Finite`.
+
+### 3.5 The graded Euler characteristic and the Jones polynomial
+
+The graded Euler characteristic is Tau Ceti's `TauCeti.OrientedPDCode.khovanovEulerChar`, whose
+coefficient of `qʲ` is the alternating sum of the ranks of `Khⁱʲ(D; R)` (rational ranks over `ℤ`,
+dimensions over a field). Over a Noetherian ring with the rank-nullity property it is computed
+quantum component by quantum component by Euler–Poincaré
+(`TauCeti.OrientedPDCode.homologyEulerChar_khovanovComplex`) and equals the enhanced state sum
+`TauCeti.OrientedPDCode.enhancedStateSum` (`TauCeti.OrientedPDCode.khovanovEulerChar_eq_enhancedStateSum`).
+For a nonempty diagram, that is `n + crossinglessComponentCount > 0`,
 
 ```
-χ_q Kh(D;ℤ) = (q+q⁻¹) · eval(T↦−q, D.jonesPolynomial).
+χ_q Kh(D; ℤ) = (q+q⁻¹) · eval(T↦−q, D.jonesPolynomial),
 ```
 
-Use native state-weight formulas and prove the crossingwise substitution and all-state product
-identity. The native loop exponent is the truncated `k−1`; justify `k≥1` before multiplying by
-the extra loop factor. Nonempty means `n+crossinglessComponentCount>0`. Prove the separate empty
-comparison `χ=1` and the unlink tensor formula. This state-sum comparison consumes the native
-Jones definition and weights; GeometricTopology owns its other algorithms and polynomial
-invariance. K5 proves the value at `q=1` after constructing the required component-parity and
-mod 2 intersection lemmas.
+which is `TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial` (Khovanov, *A
+categorification of the Jones polynomial*, §4.2, Proposition 9, and §7.2, Proposition 27). The
+comparison runs through the native state weights: the native loop exponent is the truncated
+`k − 1`, and `k ≥ 1` for a nonempty diagram justifies multiplying by the extra loop factor
+`q + q⁻¹`. The empty diagram has `χ = 1` (`TauCeti.OrientedPDCode.khovanovEulerChar_empty`), and a
+crossing-free unlink with `k` components has `(q + q⁻¹)ᵏ`
+(`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`). This comparison uses the native Jones
+definition and weights only; GeometricTopology owns the other Jones algorithms, the geometric
+invariance of the polynomial and its value at `t = 1` (§4.5), from which §5.6 obtains the value at
+`q = 1`.
 
-Construct the finite open-diagram carrier using K1's actual finite PL embeddings in the oriented
-disc, with exactly the marked boundary ports in their given cyclic order, boundary collars and
-specified crossing patches. Retain local crossing signs, component data and the boundary
-marking, and prove the empty-boundary comparison with K1's closed PL carrier. Construct its
-normalized finite formal cube and bounded cochain complex in the native `CochainComplex`
-category of the degree-zero additive envelope, with the existing A-to-B convention, cube signs
-and quantum shifts. Construct planar insertion of these complexes by finite totalization, with
-differential sign `(-1)^(r₁+⋯+rᵢ₋₁)` on the differential in factor `i`, where `r_j` is that
-factor's normalized cochain degree `|S_j|−n₋(T_j)`, not its cube height. For an ordered list of
-crossing blocks, construct the insertion-to-native-cube identification with state sign
-`(-1)^(Σ_(i<j) n₋(T_i)|S_j|)`. Prove its action on maps, shifts and homotopies, and compatibility
-with associativity, boundary relabelling and crossing-order transport. For every event use the
-source and target identifications for that same slot order; their signs change when an event
-changes a block's negative crossing count. Keep the planar-insertion slot order fixed. Raw crossing-block
-permutations use the subset-permutation cube isomorphism. After normalization, comparison with
-the cochain Koszul symmetry includes the constant sign `(-1)^(a b)` for blocks with negative
-crossing counts `a,b`; prove this shift/tensor identity here. For a block permutation the constant
-is `(-1)^(Σ_(inverted pairs i,j) a_i a_j)`. Prove composition and insertion coherence with these
-constants, rather than identifying raw cube reordering with normalized Koszul braiding.
+*Needs:* §3.4; Tau Ceti `TauCeti.OrientedPDCode.khovanovEulerChar`,
+`TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial`,
+`TauCeti.OrientedPDCode.khovanovEulerChar_empty`, `TauCeti.OrientedPDCode.enhancedStateSum`.
+
+**Checks.**
+- For the right-handed trefoil, `J = t + t³ − t⁴` and `T ↦ −q` gives `t ↦ q²`, so
+  `(q + q⁻¹)(q² + q⁶ − q⁸) = q + q³ + q⁵ − q⁹`, which is
+  `TauCeti.enhancedStateSum_rightHandedTrefoilPDCode` and agrees with the ranks of §6.3: `q + q³`
+  in cochain degree `0`, `q⁵` in degree `2` and `−q⁹` in degree `3`.
+- For the positive Hopf link, the closure of `σ₁²`, `J = −t^(1/2) − t^(5/2) = −T − T⁵`; `T ↦ −q`
+  gives `q + q⁵` and `χ_q = 1 + q² + q⁴ + q⁶`, the four free summands of §6.3 in cochain degrees
+  `0, 0, 2, 2`. The substitution `T ↦ q` would give `−(1 + q² + q⁴ + q⁶)`, which no homology
+  concentrated in even cochain degrees has.
+
+### 3.6 Formal complexes of diagrams with boundary
+
+Construct the finite open-diagram carrier from the finite PL embeddings in the oriented disc of
+§1.6: exactly the marked boundary ports in their cyclic order, boundary collars and the specified
+crossing patches, retaining local crossing signs, component data and the boundary marking. Prove
+the empty-boundary comparison with the closed PL carrier of §1.6. Construct its normalized finite
+formal cube and bounded cochain complex in the native `CochainComplex` category of the
+degree-zero additive envelope of §2.8, with the `A`-to-`B` convention, cube signs and quantum
+shifts of the conventions.
+
+Construct planar insertion of these complexes by finite totalization, with differential sign
+`(-1)^(r₁+⋯+rᵢ₋₁)` on the differential in factor `i`, where `rⱼ` is that factor's normalized
+cochain degree `|Sⱼ| − n₋(Tⱼ)`, not its cube height (Bar-Natan, *Khovanov's homology for tangles
+and cobordisms*, §5, Theorem 2). For an ordered list of crossing blocks construct the
+identification of the insertion with the native cube, with state sign
+`(-1)^(Σ_(i<j) n₋(Tᵢ)|Sⱼ|)`. Prove its action on maps, shifts and homotopies, and its
+compatibility with associativity, boundary relabelling and crossing-order transport. For every
+event use the source and target identifications for the same slot order; their signs change when
+an event changes a block's negative crossing count. The planar-insertion slot order is fixed. Raw
+permutations of crossing blocks use the reordering isomorphism of §3.1. After normalization, the
+comparison with the cochain Koszul symmetry includes the constant sign `(-1)^(a b)` for blocks with
+negative crossing counts `a`, `b`; prove this shift/tensor identity here, and for a block
+permutation the constant `(-1)^(Σ_(inverted pairs i,j) aᵢ aⱼ)`. Prove composition and insertion
+coherence with these constants, rather than identifying raw cube reordering with normalized
+Koszul braiding.
+
+*Needs:* §§1.6, 1.8, 2.8, 3.1; Mathlib `CochainComplex`, `HomologicalComplex₂.total`.
+
+**Checks.**
+- Two one-crossing blocks with `n₋ = 1` each, inserted in this order: on the state with both
+  crossings `B`-smoothed (`|S₁| = |S₂| = 1`) the identification sign is `(-1)^(1·1) = −1`, while on
+  the state with only the second crossing `B`-smoothed it is `−1` too and with only the first it
+  is `+1`. A sign depending on cube heights `|Sⱼ|` alone, `(-1)^(|S₁||S₂|)`, would give `+1` on the
+  state with only the second crossing `B`-smoothed.
+
+### 3.7 Closed evaluation by the Frobenius object
 
 For every planar closing exterior, glue first and evaluate the resulting closed formal category
-by the actual K2 Frobenius object. Construct its finite component and incoming/outgoing boundary
-incidence data. On each connected closed-boundary surface presentation prove `g=(2−χ−b)/2` is a
-nonnegative integer, where `b` is its total boundary-circle count. Prove this from the
-admissible oriented template generation, with explicit changes of boundary cycles, components
-and cell counts under the seam gluings. Construct the finite gluing-incidence graph and prove
-that, for each connected gluing graph `Γ`, `g_out=Σg_v+|E(Γ)|−|V(Γ)|+1` and `b_out=Σb_v−2|E(Γ)|`
-when its seams are whole boundary circles. Include the interval-seam/boundary-cycle updates
-needed before closure.
+by the Frobenius object of §2.1. Construct the finite component and incoming/outgoing
+boundary-incidence data of each glued presentation. On each connected surface presentation with
+closed boundary prove that `g = (2 − χ − b)/2` is a nonnegative integer, where `b` is its total
+number of boundary circles, from the admissible oriented template generation of §2.5, with the
+explicit changes of boundary cycles, components and cell counts under the seam gluings. Construct
+the finite gluing-incidence graph `Γ` and prove that, for each connected `Γ`,
+`g_out = Σ g_v + |E(Γ)| − |V(Γ)| + 1` and `b_out = Σ b_v − 2|E(Γ)|` when its seams are whole boundary
+circles, together with the interval-seam and boundary-cycle updates needed before closure.
 
-For a component with `p` incoming and `q` outgoing circles assign `Δ_q ∘ (m∘Δ)^g ∘ m_p`, with
-`m₀=η`, `Δ₀=ε` and the one-factor maps identities. Tensor over components using the marked
-boundary correspondences. Prove invariance under the generated presentation equivalence from its
+To a component with `p` incoming and `q` outgoing circles assign `Δ_q ∘ (m∘Δ)^g ∘ m_p`, with
+`m₀ = η`, `Δ₀ = ε` and the one-factor maps identities, and tensor over components using the marked
+boundary correspondences. Prove invariance under the presentation equivalence of §2.5 from its
 preserved component, boundary and cell-count data. Prove the commutative-Frobenius normal-form
 gluing identity: contract a spanning tree of each incidence graph using the Frobenius, unit and
-counit equations, and show every remaining edge contributes one handle operator `m∘Δ`. This
-proves functoriality, the elementary-template values, permutation coherence and closure/gluing
-compatibility directly from the stated construction. Prove the value has quantum degree `χ`.
-Show it kills `S,T,4Tu` over `ℤ`, using the perfect-pairing neck-cutting identity
-`a=ε(Xa)·1+ε(a)·X` for arbitrary labelled discs. Extend by `Mat_.lift` and cochain totalization,
-identifying the complex, maps and homotopies with the native-PD/enhanced-state construction.
+counit equations, and show that every remaining edge contributes one handle operator `m∘Δ`. This
+proves functoriality, the values on the elementary templates, permutation coherence and the
+closure and gluing compatibility directly from the construction. Prove that the value has quantum
+degree `χ`, and that it kills `S`, `T` and `4Tu` over `ℤ`, using the neck-cutting identity
+`a = ε(Xa)·1 + ε(a)·X` for arbitrary labelled discs. Extend by `CategoryTheory.Mat_.lift` and
+cochain totalization, and identify the resulting complexes, maps and homotopies with the native
+complexes of §3.2 (Bar-Natan, *Khovanov's homology for tangles and cobordisms*, §7, Proposition
+7.2, and §9.1).
 
-### G. Plane geometry, relative extension and smooth link comparison
+*Needs:* §§2.1, 2.5–2.8, 3.2, 3.6; Mathlib `CategoryTheory.Mat_.lift`.
 
-Construct the smooth plane-diagram adapter from K1's finite PL models: a native code with an
-actual finite plane realization of its arcs and crossing patches, compatible with the cyclic
-orders and over/under data. The spatial projection is `(x,y,z)↦(x,y)`; the strand with larger
-`z` is over. Prove the crossing-sign dictionary in these coordinates, including the comparison
-with the geometric presentation interface and the native right-handed trefoil. Require exactly
-the recorded transverse double points, with no additional intersections, triple points or
-tangencies; away from crossing patches the realized arcs and isolated circles are disjoint.
-Prove the equivalence with a generic smooth immersion of the finite oriented circle family after
-the controlled smoothing construction. Construct relative polygonalization and smoothing of
-these finitely many arcs, using compactness and Layer 1 tubular charts, preserving the crossing
-patches, isolated-circle labels and actual complement regions. Use continuous/PL ambient
-isotopies for the polygonal-to-smooth comparison and retain a chosen controlled smooth rounding;
-construct smooth ambient isotopies between such roundings by G's relative extension. Consume
-ConformalMapping L5's Jordan separation and filled-hull API to construct the finite
-polygonal/plane-graph complement dictionary, including PL-disc and boundary-orientation
-comparisons. Construct the finite diagonal/ear triangulations and their effective cell
-refinements using that separation theorem. For a connected crossing-bearing component identify
-native face cycles with its complement regions; for disconnected components retain the
-containing-region and nesting data, rather than identify all individual face cycles with global
-regions. Include bridges, loops, parallel edges and isolated circles. Define a simple oriented
-polygonal circle to be counterclockwise when its signed shoelace sum `Σ det(vᵢ,vᵢ₊₁)` is
-positive in standard oriented `ℝ²`. Prove nonvanishing, the reversal law, cyclic subdivision
-invariance and the boundary-orientation dictionary. Define the counterclockwise convention for
-its controlled smooth roundings by transport and prove independence of the chosen admissible
-rounding. Retain its unbounded region and the relative placement and nesting of split components
-and crossing-free circles. Describe these regions and placements through the realized
-complement, including the empty diagram and its unbounded region. Export the forgetful map to
-the native code, component labels, the outer-face dictionary for crossing-bearing components,
-and transport under actual plane ambient isotopies. Retain the actual ambient-isotopy witness
-when a relabelling or slot rotation is realized geometrically.
+**Checks.**
+- A closed torus has `χ = 0`, `b = 0`, so `g = 1`, and evaluates to `ε ∘ (m∘Δ) ∘ η = 2`; a sphere
+  has `g = 0` and evaluates to `ε(1) = 0`; a closed surface of genus two evaluates to `0`, since
+  `(m∘Δ)²(1) = m∘Δ(2X) = 0`. The pair of pants (`χ = −1`, `b = 3`) has `g = 0`; a formula
+  `g = (2 − χ + b)/2` would give it genus `3`.
+- Cutting the neck of a torus: the identity of `V` is `a ↦ ε(Xa)·1 + ε(a)·X`, whose trace over
+  the basis `1, X` is `ε(X) + ε(X) = 2`, the torus value. The formula with the two counits
+  exchanged, `a ↦ ε(a)·1 + ε(Xa)·X`, sends `1` to `X` and `X` to `1`, so it is not the identity and
+  its trace is `0`.
 
-For every native circle constructor prove the bit translation from its outgoing-slot orientation
-data, local frame and bounded-side placement. In particular, in the arc-left-to-right circle-clasp
-frame with first slot 0 west and second slot 1 west, `o=true` traverses the upper arc left-to-right
-and lower arc right-to-left: the small-lune circle is clockwise, while the enclosing-circle
-placement is counterclockwise. Reverse these conclusions for `o=false`, retaining the placement data
-in every comparison between constructor parameters and plane-adapter bits. Construct the orientation
-translations and component maps needed for each supported geometric event. G owns these frame, bit
-and placement dictionaries; K4 owns their comparison words with native moves. In particular, a raw
-native circle generator need not be a single supported plane R2 event in every chosen realization.
-Retain unaffected component bijections and explicit changed-component incidences in that dictionary.
-Construct explicit geometric comparison movies when changing the outer region or component nesting.
+### Examples
 
-Own a common finite-dimensional relative general-position floor for the one-parameter link
-comparison in G and two-parameter movie comparison in K7. For each fixed finite jet order and
-sheet bound construct finite-jet and multijet evaluation maps for compact smooth families of the
-given link or surface embeddings. The collision strata and normal forms specific to each theorem
-are constructed in its milestone. Build finite polynomial/bump perturbations in one common
-finite-dimensional parameter space for those fixed jet-order and sheet bounds, and prove
-evaluation is a submersion at every distinct-point configuration. Derive the polynomial degree
-bound by finite jet interpolation at those points. Exhaust the critical/failure loci in
-countable configuration charts by compact pieces. Construct each bad-stratum incidence manifold
-and its projection to the common parameter space; prove the equivalence between
-slice-transversality failure and projection criticality. Use native
-`TauCeti.interior_image_criticalPoints_eq_empty` on its finite-dimensional charts, with the
-sufficient regularity bound `dim(source)^2+1` met by smoothness. Compact critical-piece images
-are closed with empty interior and hence nowhere dense. Apply finite-dimensional Baire, via
-`dense_iInter_of_isOpen`, to obtain a single generic parameter in every sufficiently small
-parameter ball. Prove this simultaneous choice for all the configuration charts. Treat
-coincident-point strata and mixed configurations with prescribed collar jets separately,
-checking the corresponding relative transversality conditions. Construct the local
-projection/family adapters against native smooth charts, bump functions, finite-dimensional
-implicit-function and Sard theorems and their actual hypotheses. Construct this entirely
-finite-dimensional floor independently of the Khovanov maps and movie relations.
+- The trefoil: the cochain ranks `4, 6, 12, 8` of §3.2, the Euler characteristic of §3.5, and the
+  homology of §6.3.
+- The empty diagram and the unknot: the complexes `R` in bidegree `(0, 0)` and `R` in `(0, ±1)`.
 
-Own the relative ambient-extension adapter used in these comparisons. Consume the native
-finite-dimensional maximal-integral-curve smoothness, flow-domain openness and escape APIs, with
-DifferentialGeometry Layer 3.2/3.3/3.5 in finite dimensions and GeometricTopology Layer 1 tubular
-neighborhoods. For joint finite-dimensional parameter dependence, adjoin stationary parameter
-coordinates and the evolution-time coordinate to the vector field, retaining its finite-time
-confinement and endpoint extension hypotheses. For compact smooth families of embeddings fixed on
-specified open germs, construct parameter-dependent tubular/slice extensions of their velocity using
-finite local inverse-function charts, partitions of unity and compact cutoffs. Prove one compact
-spatial support and joint smoothness, and construct the time extension from endpoint-constant germs.
-Prove the time-dependent flow exists on the entire compact parameter interval using that support and
-the maximal-flow continuation/escape criterion. Bundle the native `Diffeotopy`, with the original
-velocity equation along every component, and prove identity on fixed germs and simultaneous
-component transport. Construct the jointly smooth inverse by reverse evolution and uniqueness. For
-the suspended field `(1,V)`, prove confinement on each compact time band. Its time component is
-constant; the coordinate preserved by `Diffeotopy` is evolution time, distinct from physical movie
-height. Include the parameter-family version and subdivision/composition laws. K7 constructs the
-separate boundary jet/collar and cylindrical-end adapters before applying this boundaryless flow
-construction.
+### Dependencies
 
-Construct the relative finite-labelled smooth one-parameter projection/Reidemeister theorem in `ℝ³`,
-with the data described above. Its endpoints are realized G plane diagrams with finite component
-labels and orientation-compatible parametrizations. For one simultaneous native smooth ambient
-isotopy, make the parameter constant near its endpoints and use G's relative genericity and
-extension to construct a small generic perturbation preserving those endpoints and any prescribed
-generic fixed germs. Prove the planar-isotopy/R1/R2/R3 local normal forms, with all orientations and
-over-strand possibilities, and a finite event subdivision. Export an actual supported plane-move
-word with component and endpoint transports. Prove the converse by constructing simultaneous smooth
-ambient realizations of those supported moves. Construct generic representatives and chosen
-comparison isotopies for arbitrary finite labelled smooth links, and prove the polygonal-to-smooth
-bridge with its relative parametrization laws. Compare this labelled relative theorem with
-GeometricTopology's geometric and diagram presentation definitions. Export its oriented, framing-forgotten, single-component specialization after forgetting the
-component label, and construct the comparison of its presentations.
+Layers 1 (§§1.5, 1.6, 1.8) and 2. Tau Ceti: the signed cube complex with its mapping-cone,
+reordering and dual constructions; the cube of resolutions, the bracket, the normalized complex,
+its support, base change and homology; the enhanced state sum, the graded Euler characteristic and
+the Jones comparison; the Koszul braiding of cochain complexes. Mathlib: cochain complexes and
+their homology, graded objects with their total object and monoidal structure, and
+`CategoryTheory.Mat_`. The Jones polynomial enters only through Tau Ceti's state-sum definition.
 
-Construct G's chosen smooth geometric closure of every native finite braid word: strands run
-upward in increasing rightward positions, with disjoint nested return arcs on the left. Build
-the corresponding plane diagram and spatial PL realization with crossing heights, then its
-controlled smooth rounding as a finite native `SmoothLinkEmbedding`, retaining the component
-labelling and orientation-compatible parametrizations. Prove its native PD closure comparison,
-including unused strands and the empty-word/empty-strand cases. The single-component case
-admits the subsequent GT knot-presentation comparison; the general closure is a labelled link.
+<a id="g-plane-geometry-relative-extension-and-smooth-link-comparison"></a>
+
+## Layer 8: plane geometry, relative extension and smooth link comparison
+
+This layer uses only Layer 1 and the differential-topology suppliers, and comes before Layer 4 in
+the build. Its smooth links are Tau Ceti's `TauCeti.SmoothLinkEmbedding I M n` (the empty link
+included) with the simultaneous ambient-isotopy relation `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`;
+component labels and orientations are transported explicitly, and one simultaneous
+ambient-isotopy witness serves the whole finite family. The ambient space of the classical
+comparisons is `ℝ³`; its inclusion in `S³` is an explicit chart comparison, with the avoidance data
+of §7.2.
+
+### 8.1 Plane realizations of PD-codes
+
+Construct the smooth plane-diagram adapter from the finite PL models of §1.6: a realized plane
+diagram is a native code together with an actual finite realization of its arcs and crossing
+patches in `ℝ²`, compatible with the cyclic orders and the over/under data. The spatial projection
+is `(x, y, z) ↦ (x, y)`, and at a crossing the strand with larger `z` is over. Prove the
+crossing-sign dictionary in these coordinates (a crossing is positive exactly when the determinant
+of the over-strand and under-strand directions is positive), with its comparison with
+GeometricTopology's presentation interface and with the native `TauCeti.rightHandedTrefoilPDCode`.
+Require exactly the recorded transverse double points, with no other intersections, triple points
+or tangencies; away from the crossing patches the realized arcs and isolated circles are disjoint.
+
+Prove the equivalence of these realizations with generic smooth immersions of the finite oriented
+circle family, after a controlled smoothing. Construct relative polygonalization and smoothing of
+the finitely many arcs, by compactness and GeometricTopology's Layer 1 tubular charts, preserving
+the crossing patches, the isolated-circle labels and the actual complement regions. The
+polygonal-to-smooth comparison uses continuous or PL ambient isotopies and keeps a chosen
+controlled smooth rounding; smooth ambient isotopies between two roundings come from the relative
+extension of §8.5.
+
+*Needs:* §1.6; GeometricTopology Layer 1 (tubular neighbourhoods) and Layer 4 (diagram
+presentations); Tau Ceti `TauCeti.OrientedPDCode`, `TauCeti.OrientedPDCode.crossingSign`,
+`TauCeti.rightHandedTrefoilPDCode`; Mathlib `EuclideanSpace ℝ (Fin 2)`, smooth immersions.
+
+**Checks.**
+- An over-strand along `(1, 0)` at height `z = 1` crossing an under-strand along `(0, 1)` at
+  `z = 0` has determinant `1` and is positive; exchanging the heights makes it negative. A
+  dictionary taking the strand with smaller `z` as over would reverse every sign and realize
+  `TauCeti.rightHandedTrefoilPDCode`, of writhe `3`, as a left-handed trefoil.
+
+### 8.2 Complement regions, faces and orientation
+
+Using ConformalMapping's Layer 5 Jordan separation and filled-hull theory (`TauCeti.filledHull`),
+construct the finite dictionary between a realized polygonal diagram, its plane graph and its
+complement regions, with the PL-disc and boundary-orientation comparisons. Construct finite
+diagonal (ear) triangulations of polygonal regions and their cell refinements from that
+separation theorem. For a connected crossing-bearing component identify the native face cycles
+(`TauCeti.PDCode.face`) with its complement regions; for disconnected diagrams keep the
+containing-region and nesting data instead of identifying individual face cycles with global
+regions. Bridges, loops, parallel edges and isolated circles are included.
+
+A simple oriented polygonal circle with vertices `v₁, …, vₖ` is *counterclockwise* when its signed
+shoelace sum `Σ det(vᵢ, vᵢ₊₁)` is positive in the standard orientation of `ℝ²`. Prove that the sum
+never vanishes, changes sign under reversal, and is invariant under cyclic relabelling and
+subdivision, and prove the boundary-orientation dictionary. Define the counterclockwise convention
+for controlled smooth roundings by transport and prove its independence of the admissible rounding.
+Keep the unbounded region and the relative placement and nesting of split components and
+crossing-free circles, described through the realized complement, the empty diagram and its
+unbounded region included. Export the forgetful map to the native code, the component labels, the
+outer-face dictionary for crossing-bearing components, and transport under actual plane ambient
+isotopies; when a relabelling or a slot rotation is realized geometrically, keep the actual
+ambient-isotopy witness.
+
+*Needs:* §8.1; ConformalMapping Layer 5 (Jordan separation, filled hulls); Tau Ceti
+`TauCeti.filledHull`, `TauCeti.PDCode.face`; Mathlib `Matrix.det`, `Finset.sum`.
+
+**Checks.**
+- The square `(0,0), (1,0), (1,1), (0,1)` has shoelace sum `0 + 1 + 1 + 0 = 2 > 0` and is
+  counterclockwise; reversed, the sum is `−2`. Subdividing the edge from `(1,0)` to `(1,1)` at
+  `(1, ½)` replaces `det((1,0),(1,1)) = 1` by `½ + ½`.
+
+### 8.3 Orientation bits of crossing-free circles
+
+For every native circle constructor (Tau Ceti's `TauCeti.OrientedPDCode.adjoinCircle`, the circle
+moves `TauCeti.OrientedPDCode.adjoinKink`, `TauCeti.OrientedPDCode.insertCircleClasp`,
+`TauCeti.OrientedPDCode.adjoinTwoCircleClasp`, and the braid closure of §8.7), prove the
+translation of its orientation bit from its outgoing-slot orientation data, its local frame and the
+placement of its bounded side. In the arc-left-to-right circle-clasp frame, with the first slot
+`0` west and the second slot `1` west, `o = true` traverses the upper arc left to right and the
+lower arc right to left: the small-lune circle is clockwise, while the enclosing-circle placement
+is counterclockwise; for `o = false` both conclusions are reversed. Every comparison between
+constructor parameters and plane-adapter bits keeps the placement data. Construct the orientation
+translations and component maps for each supported geometric event, keeping the unaffected
+component bijections and the explicit changed-component incidences. This layer owns these frame,
+bit and placement dictionaries; Layer 4 owns their comparison words with native moves. A raw native
+circle generator need not be a single supported plane second-move event in every chosen
+realization. Construct explicit geometric comparison movies for changes of the outer region or of
+the nesting of components.
+
+*Needs:* §§1.3, 8.2; Tau Ceti `TauCeti.OrientedPDCode.adjoinCircle` and the circle-move
+constructors.
+
+### 8.4 Relative general position
+
+Construct a common finite-dimensional relative general-position floor for the one-parameter link
+comparison of §8.6 and the two-parameter movie comparison of §7.5. For each fixed finite jet
+order and sheet bound, construct the finite-jet and multijet evaluation maps for compact smooth
+families of the given link or surface embeddings; the collision strata and normal forms specific to
+each theorem are constructed in its own section. Build finite polynomial and bump perturbations in
+one common finite-dimensional parameter space for those bounds, and prove that evaluation is a
+submersion at every distinct-point configuration, deriving the polynomial degree bound by finite
+jet interpolation at those points (Golubitsky–Guillemin, *Stable Mappings and Their
+Singularities*, §II.4, Theorem 4.13, for multijet transversality).
+
+Exhaust the critical and failure loci in countably many configuration charts by compact pieces.
+Construct each bad-stratum incidence manifold and its projection to the parameter space, and prove
+that failure of slice transversality is equivalent to criticality of the projection. Apply Tau
+Ceti's Morse–Sard theorem `TauCeti.interior_image_criticalPoints_eq_empty` on these
+finite-dimensional charts, with the sufficient regularity bound `dim(source)² + 1`, met by
+smoothness; compact critical pieces then have closed images with empty interior, hence nowhere
+dense. Apply finite-dimensional Baire (`dense_iInter_of_isOpen`) to obtain one generic parameter in
+every sufficiently small parameter ball, simultaneously for all the configuration charts. Treat
+coincident-point strata and mixed configurations with prescribed collar jets separately, checking
+the corresponding relative transversality conditions. Construct the local projection and family
+adapters against native smooth charts, bump functions, and the finite-dimensional implicit-function
+and Sard theorems with their actual hypotheses. This floor is entirely finite-dimensional and
+independent of the Khovanov maps and movie relations.
+
+*Needs:* Tau Ceti `TauCeti.interior_image_criticalPoints_eq_empty`; Mathlib
+`dense_iInter_of_isOpen`, `ContDiffBump`, the implicit-function theorem; DifferentialGeometry
+Layer 3; GeometricTopology Layer 1.
+
+### 8.5 Relative ambient extension
+
+Construct the relative ambient-extension adapter. Consume the finite-dimensional
+maximal-integral-curve smoothness, flow-domain openness and escape results of DifferentialGeometry
+§§3.2, 3.3 and 3.5 and GeometricTopology's Layer 1 tubular neighbourhoods. For joint
+finite-dimensional parameter dependence, adjoin stationary parameter coordinates and the
+evolution-time coordinate to the vector field, keeping its finite-time confinement and endpoint
+extension hypotheses. For compact smooth families of embeddings fixed on specified open germs,
+construct parameter-dependent tubular and slice extensions of their velocity, using finite local
+inverse-function charts, partitions of unity and compact cutoffs. Prove one compact spatial
+support and joint smoothness, and construct the extension in time from endpoint-constant germs.
+Prove that the time-dependent flow exists on the whole compact parameter interval, from that
+support and the maximal-flow continuation and escape criterion.
+
+Bundle the result as Tau Ceti's `TauCeti.Diffeotopy`, with the original velocity equation along
+every component, the identity on the fixed germs and simultaneous component transport. Construct
+the jointly smooth inverse by reverse evolution and uniqueness. For the suspended field `(1, V)`,
+prove confinement on each compact time band; its time component is constant, and the coordinate
+preserved by the diffeotopy is evolution time, distinct from the physical height of a movie.
+Include the parameter-family version and the subdivision and composition laws (Hirsch,
+*Differential Topology*, Ch. 8, §1, Theorems 1.3–1.4). Layer 7 constructs the separate boundary
+jet, collar and cylindrical-end adapters before applying this boundaryless flow construction.
+
+*Needs:* DifferentialGeometry §§3.2, 3.3, 3.5; GeometricTopology Layer 1; Tau Ceti
+`TauCeti.Diffeotopy`; Mathlib smooth partitions of unity and the inverse-function theorem.
+
+### 8.6 The relative labelled Reidemeister theorem
+
+Prove the relative finite-labelled smooth one-parameter projection theorem in `ℝ³`. Its endpoints
+are realized plane diagrams (§8.1) with finite component labels and orientation-compatible
+parametrizations. Given one simultaneous smooth ambient isotopy, make its parameter constant near
+the endpoints and use §§8.4–8.5 to construct a small generic perturbation preserving the endpoints
+and any prescribed generic fixed germs. Prove the local normal forms of planar isotopy and of the
+first, second and third moves, with all orientations and over-strand possibilities, and a finite
+event subdivision. Export an actual supported plane-move word with its component and endpoint
+transports. Prove the converse by constructing simultaneous smooth ambient realizations of the
+supported moves. Construct generic representatives and chosen comparison isotopies for arbitrary
+finite labelled smooth links, and prove the polygonal-to-smooth bridge with its relative
+parametrization laws (Lickorish, *An Introduction to Knot Theory*, Ch. 1, for the PL theorem).
+Compare this labelled relative theorem with GeometricTopology's geometric and diagram presentation
+definitions, and export its oriented, framing-forgotten, single-component specialization after
+forgetting the component label, with the comparison of its presentations.
+
+*Needs:* §§8.1–8.5; GeometricTopology Layer 4 (diagrams and Reidemeister's theorem); Tau Ceti
+`TauCeti.SmoothLinkEmbedding`, `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`.
+
+### 8.7 Geometric braid closures
+
+Construct the chosen smooth geometric closure of every native braid word `TauCeti.BraidWord`:
+strands run upward at increasing rightward positions, with disjoint nested return arcs on the
+left. Build the corresponding plane diagram and spatial PL realization with crossing heights, and
+then its controlled smooth rounding as a finite native `TauCeti.SmoothLinkEmbedding`, keeping the
+component labelling and orientation-compatible parametrizations. Prove its comparison with the
+native PD closure `TauCeti.BraidWord.closure`, including unused strands and the cases of the
+empty word and of no strands. The single-component case admits GeometricTopology's knot
+presentation comparison; the general closure is a labelled link.
+
+*Needs:* §§8.1–8.2; Tau Ceti `TauCeti.BraidWord.closure`, `TauCeti.BraidWord.closure_nil`,
+`TauCeti.SmoothLinkEmbedding`.
+
+**Checks.**
+- The closure of the empty word on `k` strands is `TauCeti.OrientedPDCode.unlink` of `k` copies
+  of `true` (`TauCeti.BraidWord.closure_nil`); geometrically each strand goes up on the right and
+  returns down on the left, so each circle is counterclockwise, which is the meaning of `true` in
+  the conventions. Return arcs on the right would make every bit clockwise.
+
+### 8.8 Reparametrizing circles
 
 For each orientation-preserving smooth diffeomorphism of the standard circle, construct an
-increasing smooth period-one lift `F:ℝ→ℝ`, and interpolate by `(1−ρ(t))x+ρ(t)F(x)` with
-endpoint-constant `ρ`. Prove positive derivative, descent to the native circle and jointly
-smooth inverse by the finite-dimensional inverse-function theorem. Reuse native
-`SmoothEmbedding.compDiffeomorph`. Apply the relative extension to a finite family of these
-embedded circle isotopies simultaneously. Export one ambient `Diffeotopy` satisfying the
-pointwise native `SmoothAmbientIsotopic` equation for all component parameters. Retain the
+increasing smooth period-one lift `F : ℝ → ℝ`, and interpolate by `(1 − ρ(t))x + ρ(t)F(x)` with
+endpoint-constant `ρ`. Prove positive derivative, descent to the native circle and a jointly
+smooth inverse by the finite-dimensional inverse-function theorem, and reuse Tau Ceti's
+`TauCeti.SmoothEmbedding.compDiffeomorph`. Apply the relative extension of §8.5 to a finite family
+of these embedded circle isotopies at once, and export one ambient `TauCeti.Diffeotopy` satisfying
+the pointwise `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic` equation for all component parameters. Keep the
 chosen lifts and paths as comparison data, with component permutations recorded separately.
 
-### K4. Reidemeister chain homotopies and link invariance
+*Needs:* §8.5; Tau Ceti `TauCeti.SmoothEmbedding.compDiffeomorph`, `TauCeti.Diffeotopy`,
+`TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`.
 
-Construct the local formal Reidemeister chain maps, inverses and homotopies in K3's
-quantum-degree-zero additive category, for every oriented first, second and third move, their
-mirrors, placement variants and inverses. Prove the closed Frobenius-evaluation comparison with
-degree `(0,0)` maps and degree `(-1,0)` homotopies on the native-PD complexes. Establish the
-formal homotopy identities before applying closed evaluation. Include crossing-free components,
-relabelling and rotation of local slots. Use the actual native local moves and their
-face/locality hypotheses. Retain the planar locality condition on clasp insertions used as
+### Examples
+
+- The plane realization of `TauCeti.rightHandedTrefoilPDCode`: three positive crossings and five
+  complement regions, one of them unbounded, matching its five faces (`3 − 6 + 5 = 2`).
+- The closure of `σ₁³` on two strands as a smooth knot, and of the empty word on two strands as the
+  two-component unlink with both circles counterclockwise.
+
+### Dependencies
+
+Layer 1 (§§1.3, 1.6). GeometricTopology Layers 1 and 4; DifferentialGeometry Layer 2 and §§3.2,
+3.3, 3.5; ConformalMapping Layer 5. Tau Ceti: smooth links and their ambient isotopy,
+diffeotopies, smooth embeddings and their reparametrization, the Morse–Sard theorem, filled hulls,
+braid closures. Mathlib: Baire category, bump functions, the implicit- and inverse-function
+theorems, and affine geometry of `ℝ²` and `ℝ³`.
+
+## Layer 4: Reidemeister chain homotopies and link invariance
+
+### 4.1 Local formal Reidemeister maps
+
+In the quantum-degree-zero additive category of §2.8, construct the local formal chain maps, their
+inverses and the homotopies for every oriented first, second and third move, their mirrors,
+placement variants and inverses, on the formal complexes of §3.6. Establish the formal homotopy
+identities before applying closed evaluation (Bar-Natan, *Khovanov's homology for tangles and
+cobordisms*, §4.3). Then prove the closed comparison through the Frobenius evaluation of §3.7:
+maps of degree `(0, 0)` and homotopies of degree `(−1, 0)` between the native complexes
+`TauCeti.OrientedPDCode.khovanovComplex` of the two diagrams. Include crossing-free components,
+relabelling and the rotation of local slots. Use the actual native local moves of §1.3 with their
+face and locality hypotheses, and keep the planar locality condition on clasp insertions used as
 second moves.
 
-Construct the planar-restricted native move relation. Prove planarity in both directions for
-every native generator, supplying the arc-insertion first-move and different-rotation-component
-clasp lemmas with the hypotheses needed to restrict the native relation to planar codes. For a
-clasp joining different rotation components retain a placement-chosen planar closure and prove
-its local comparison directly by the formal local surface identities. Cover all eight native
-generators: relabelling, slot rotation, arc first move, circle first move, arc/arc clasp,
-arc/circle clasp, two-circle clasp and triangle third move. For arc first insertion prove face
-count increases by 1 and graph-component count is unchanged. For the different-graph-component
-clasp prove face count is unchanged and graph-component count decreases by 1; reuse native
-`faceCount_insertClasp_of_face_ne` for the face identity and use the two identities in the
-native Euler criterion. Keep graph components separate from link components. Retain the exact
-clasp-side face equation and the full `HasReidemeisterThreeTriangle` hypotheses, including its
-over-strand constraint. For a second move involving two parts of one arc, construct the derived
-kink–clasp–inverse-kink sequence with its local exterior comparison and the native distinct-arc
-hypotheses. Own the dictionary between GeometricTopology's diagram relation, native
-`IsReidemeisterMove`, and the plane-diagram adapter's geometric moves. Include the placement
-hypotheses and actual move words needed to compare their equivalence relations, retaining each
-plane event's geometric witness. For every local plane move retain its actual changing disc, the
-specified diagram inside it and the identification of the unchanged exterior. Require that the
-disc contains no additional split component or isolated circle. Supply this actual empty-disc
-witness in addition to the intrinsic face condition. Separate abstract code planarity from
-admissibility of a move in a fixed plane realization; when only an existence comparison is
+*Needs:* §§1.3, 1.8, 2.7–2.8, 3.6–3.7; Tau Ceti `TauCeti.OrientedPDCode.IsReidemeisterMove` and its
+constructors, `TauCeti.OrientedPDCode.khovanovComplex`; Mathlib `Homotopy`, `HomotopyEquiv`.
+
+### 4.2 The planar move relation
+
+Construct the planar-restricted move relation: the generators of
+`TauCeti.OrientedPDCode.IsReidemeisterMove` between planar codes. Planarity holds in both
+directions for every generator: for relabelling, slot rotation, the first move on an arc and on a
+circle, the three clasps and the third move these are Tau Ceti's `TauCeti.PDCode.isPlanar_relabel`,
+`TauCeti.PDCode.isPlanar_rotateCrossing`, `TauCeti.PDCode.isPlanar_reidemeisterOne`,
+`TauCeti.PDCode.isPlanar_adjoinKink_iff`, `TauCeti.PDCode.isPlanar_insertClasp_iff_face_eq_or_not_mem_orbit`,
+`TauCeti.PDCode.isPlanar_insertCircleClasp_iff`, `TauCeti.PDCode.isPlanar_adjoinTwoCircleClasp` and
+`TauCeti.PDCode.isPlanar_reidemeisterThree_iff`. Deduce that a Reidemeister equivalence between
+planar codes passes through planar codes only, so that the planar relation and
+`TauCeti.OrientedPDCode.ReidemeisterEquiv` agree on planar codes. Graph components of the
+underlying ribbon graph are kept separate from link components throughout; the clasp generator
+keeps its exact clasp-side face equation, and the third move the full
+`TauCeti.PDCode.HasReidemeisterThreeTriangle` hypothesis, including its over-strand constraint.
+
+For a clasp joining two different graph components, keep a placement-chosen planar closure and
+prove its local comparison directly by the formal surface identities of §2.7. For a second move
+between two parts of one arc, construct the derived sequence kink, clasp, inverse kink, with its
+local exterior comparison and the distinct-arc hypotheses of the native clasp.
+
+*Needs:* §§1.3, 2.7; Tau Ceti the planarity lemmas listed above,
+`TauCeti.PDCode.faceCount_insertClasp_of_face_ne`, `TauCeti.PDCode.not_isPlanar_insertClasp_of_face_ne`.
+
+**Checks.**
+- The first move on an arc adds one vertex and two edges and one face, so `V − E + F` is unchanged;
+  a clasp between two different graph components adds two vertices and four edges, keeps the
+  faces and lowers the number of graph components by one, so `V − E + F` drops by `2`, exactly as
+  twice the component count does. A clasp inserted across two different faces of one component
+  keeps the components and lowers `V − E + F` by `2`, so the result is not planar
+  (`TauCeti.PDCode.not_isPlanar_insertClasp_of_face_ne`).
+
+### 4.3 The dictionary of moves
+
+Construct the dictionary between GeometricTopology's diagram relation, the native
+`TauCeti.OrientedPDCode.IsReidemeisterMove` and the geometric moves of the plane-diagram adapter of
+§8.1, with the placement hypotheses and actual move words needed to compare the three equivalence
+relations and the geometric witness of each plane event. Every local plane move keeps its actual
+changing disc, the specified diagram inside it and the identification of the unchanged exterior;
+the disc contains no further split component or isolated circle, and this empty-disc witness is
+supplied in addition to the intrinsic face condition. Abstract planarity of a code is kept separate
+from admissibility of a move in a fixed plane realization; when only an existence comparison is
 required, supply compatible placements and their comparison movies explicitly.
 
-Construct the formal deformation retractions using the local surface relations and native
-homotopy/cone APIs. Prove their closed cancellation comparisons: after Frobenius evaluation the
-first move gives `C(D′)≃C(D)⊕Cone(id)` with its actual grading shifts and surviving summand
-`C(D)`, while the second removes the two contractible summands and retains the closure. For the
-third construct the formal comparison maps and homotopies and prove the compatible
-surviving-complex/cone comparison after evaluation. Use the formal surface identities for formal
-cancellations and the evaluated rank-two module for the separate closed cancellation comparison.
-Prove the equations on generators and all quantum/cochain shifts. Carry every admissible
-exterior K1 closure and its cube maps throughout. Prove each oriented variant and
-crossing-reordering sign with its explicit parameter transport.
+*Needs:* §§4.2, 8.1–8.3; GeometricTopology Layer 4 (the diagram relation).
 
-Deduce homotopy equivalences for finite move sequences and graded homology isomorphisms, then
-invariance under simultaneous smooth ambient isotopy in `ℝ³` using G's theorem and plane-diagram
-dictionary. For a native `SmoothLinkEmbedding` in `ℝ³`, choose a generic realized diagram and a
-simultaneous pointwise ambient comparison, using G's reparametrization theorem when oriented
-component images were initially matched. Define its complex and homology from that presentation
-and prove any two choices give graded chain-homotopy equivalences and graded module
-isomorphisms. Export a chosen generic representative for each native smooth link with chosen
-comparison equivalences. Prove identity and concatenation/composition laws for those specified
-comparison words in the homotopy category, retaining them in the maps. Before K7's
-movie relations, this is invariance of the complex up to homotopy and of homology up to
-isomorphism. K7 constructs the projective comparison-map laws while retaining boundary motions.
+### 4.4 Cancellation and the closed comparisons
 
-### K5. Exact sequences, coefficients, symmetry, and based links
+Construct the formal deformation retractions from the local surface relations of §2.7 and Mathlib's
+homotopy and mapping-cone constructions, and prove their closed cancellation comparisons. After
+Frobenius evaluation, the first move gives `C(D′) ≃ C(D) ⊕ Cone(id)`, with its actual grading
+shifts and surviving summand `C(D)`; the second move removes two contractible summands and keeps
+the closure; for the third move construct the formal comparison maps and homotopies and prove the
+compatible comparison of the surviving complexes and cones after evaluation. The formal
+cancellations use the formal surface identities, and the separate closed cancellation uses the
+evaluated rank-two module. Prove the equations on generators and all quantum and cochain shifts,
+carry every admissible exterior closure of §1.8 and its cube maps, and prove each oriented variant
+and the crossing-reordering signs with explicit parameter transport.
 
-For a selected crossing, put it first in the crossing order and decompose its cube into the 0
-and 1 faces. Prove the unnormalized short exact sequence with 1-face term `C̄(D₁)⟨1⟩[-1]`,
-middle `C̄(D)`, and quotient `C̄(D₀)`, including the shift differential sign. Construct the
-saddle map and the cone comparison with its sign on the 1-face summand. Export the resulting
-long exact sequence and translate every normalized version by the actual `n₊,n₋` of the three
-oriented diagrams. The coherent smoothing inherits the original orientation; choose an
-orientation on every component of the other smoothing. Retain the crossing-free Boolean labels
-as explicit orientation/placement data, derived from G when a geometric realization is used;
-the unnormalized complex does not depend on those choices. For face `r∈{0,1}`, set
-`a_r=n₋(D)−n₋(D_r)−r` and
-`b_r=r+n₊(D)−2n₋(D)−n₊(D_r)+2n₋(D_r)`.
-The normalized face term is `C(D_r)[a_r]⟨b_r⟩`. On a residual state `S′`, its identification
-with the full cube face has sign `(-1)^((n₋(D)−n₋(D_r))|S′|)`: the face differential has
-sign `(-1)^r`, whereas the shifted differential has sign `(-1)^(a_r)`. Prove this signed
-identification, the 1-face inclusion/0-face quotient maps and the resulting connecting-map
-signs for the actual chosen orientations.
+*Needs:* §§3.1, 3.6–3.7, 4.1–4.2; Mathlib `HomotopyEquiv`,
+`CochainComplex.mappingCone`.
 
-Construct the complex-level algebra for bounded finite free `ℤ`-cochain complexes. For an abelian
-group `M`, prove the natural sequences
+**Checks.**
+- For the positive kink, the closure of `σ₁` on two strands (`n₊ = 1`), the complex has integral
+  ranks `4` and `2` in cochain degrees `0` and `1` (two circles, then one); the unknot has rank `2`
+  in degree `0`, and `Cone(id)` of a rank-two module has ranks `2` and `2`, so the ranks agree
+  (`4 = 2 + 2`, `2 = 2`). The homology of both is `ℤ` in `(0, ±1)`.
+
+### 4.5 Invariance for diagrams
+
+Deduce chain homotopy equivalences along finite move words, and the graded homology isomorphisms.
+Prove *Reidemeister invariance*,
+`nonempty_homotopyEquiv_khovanovComplex_of_reidemeisterEquiv`: if `D` and `D'` are planar oriented
+PD-codes with `TauCeti.OrientedPDCode.ReidemeisterEquiv D D'`, then for every commutative ring `R`
+and every quantum degree `j` the complexes `D.khovanovComplex hD R j` and
+`D'.khovanovComplex hD' R j` are chain homotopy equivalent; in particular
+`Khⁱʲ(D; R) ≅ Khⁱʲ(D'; R)` for all `i`, `j` (Khovanov, *A categorification of the Jones
+polynomial*, §4.2, Theorem 1, and §7.1, Theorem 2; Bar-Natan, *Khovanov's homology for tangles and
+cobordisms*, §4.2, Theorem 1). The equivalences are attached to move words (§1.3): prove the
+identity and concatenation laws for the specified comparison words in the homotopy category, and
+keep the words in the maps. Before the movie relations of Layer 7 this is invariance of the
+complex up to homotopy and of homology up to isomorphism; Layer 7 constructs the projective laws of
+the comparison maps.
+
+*Needs:* §§1.3, 4.1–4.4; Tau Ceti `TauCeti.OrientedPDCode.ReidemeisterEquiv`,
+`TauCeti.OrientedPDCode.khovanovComplex`; Mathlib `HomotopyEquiv`,
+`HomotopyEquiv.toHomologyIso`.
+
+**Checks.**
+- The closure of `σ₁σ₁⁻¹` on two strands and the crossing-free two-component unlink are related
+  by a second move; both have integral homology of ranks `1, 2, 1` in bidegrees `(0, −2)`,
+  `(0, 0)`, `(0, 2)`. The positive and negative kinks and the crossing-free unknot all have `ℤ` in
+  `(0, 1)` and `(0, −1)`. Without the normalization shifts of the conventions the positive kink
+  (`n₊ = 1`) would have its homology in quantum degrees `0` and `−2`, the unknot's lowered by
+  `n₊ − 2n₋ = 1`.
+
+### 4.6 Invariance for smooth links
+
+Prove invariance under simultaneous smooth ambient isotopy in `ℝ³`, using the relative labelled
+Reidemeister theorem of §8.6 and the move dictionary of §4.3. For a native
+`TauCeti.SmoothLinkEmbedding` in `ℝ³`, choose a generic realized diagram and a simultaneous
+pointwise ambient comparison, using the reparametrization theorem of §8.8 when the oriented
+component images were matched first. Define the Khovanov complex and homology of the smooth link
+from that presentation, and prove that any two choices give graded chain homotopy equivalences
+and graded module isomorphisms. Export a chosen generic representative for each native smooth link
+with its chosen comparison equivalences, and prove the identity and composition laws for the
+specified comparison words in the homotopy category.
+
+*Needs:* §§4.3, 4.5, 8.6, 8.8; Tau Ceti `TauCeti.SmoothLinkEmbedding`,
+`TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`.
+
+### Examples
+
+- The kink and second-move unknots and unlinks of the Checks above, and the right-handed trefoil
+  presented as the closure of `σ₁³` and as `TauCeti.rightHandedTrefoilPDCode`: two planar
+  three-crossing codes of the same knot, all crossings positive, with the homology of §6.3.
+
+### Dependencies
+
+Layers 1–3 and 8. Tau Ceti: Reidemeister moves and equivalence of oriented PD-codes, the planarity
+lemmas for every generator, the normalized Khovanov complex, smooth links and ambient isotopy.
+GeometricTopology Layer 4 (the diagram relation). Mathlib: homotopy equivalences of complexes,
+mapping cones and their homology.
+
+## Layer 5: exact sequences, coefficients, symmetry and based links
+
+### 5.1 The skein exact sequence
+
+For a selected crossing `c` of a planar code, put `c` first in the crossing order (§3.1) and
+decompose the cube of resolutions into its `0`- and `1`-faces in the direction of `c`. The faces
+are the cubes of the two vertex resolutions `D₀`, `D₁` of §1.7. Prove the unnormalized short exact
+sequence of complexes
+
+```
+0 → C̄(D₁)⟨1⟩[−1] → C̄(D) → C̄(D₀) → 0,
+```
+
+with the differential sign of the shift, construct the saddle map `C̄(D₀) → C̄(D₁)⟨1⟩` and the
+comparison of `C̄(D)` with its mapping cone, with its sign on the `1`-face summand, and export the
+long exact sequence of homology.
+
+Translate every normalized version through the actual `n₊`, `n₋` of the three oriented diagrams.
+The coherent smoothing inherits the orientation of `D`; on the other smoothing choose an
+orientation of every component, keeping the crossing-free Boolean labels as explicit orientation
+and placement data (derived from Layer 8 when a geometric realization is used); the unnormalized
+complex does not depend on these choices. For the face `r ∈ {0, 1}` set
+`a_r = n₋(D) − n₋(D_r) − r` and `b_r = r + n₊(D) − 2n₋(D) − n₊(D_r) + 2n₋(D_r)`. The normalized face
+term is `C(D_r)[a_r]⟨b_r⟩`. On a residual state `S′` its identification with the full cube face has
+the sign `(-1)^((n₋(D) − n₋(D_r))|S′|)`: the face differential has sign `(-1)^r`, whereas the shifted
+differential has sign `(-1)^(a_r)`. Prove this signed identification, the inclusion of the
+`1`-face and the quotient onto the `0`-face, and the resulting signs of the connecting maps for the
+chosen orientations.
+
+*Needs:* §§1.7, 3.1–3.2; Tau Ceti `TauCeti.PDCode.resolveCrossing`,
+`TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`,
+`CategoryTheory.Functor.cubeComplexMappingConeIso`; Mathlib `CochainComplex.mappingCone`,
+`CategoryTheory.ShortComplex.ShortExact.δ`.
+
+**Checks.**
+- For the positive kink (`n₊ = 1`, `n₋ = 0`) resolved at its crossing, `D₀` is the oriented
+  smoothing, a crossing-free two-component unlink, and `D₁` is a crossing-free unknot, so
+  `a₀ = 0`, `b₀ = 1`, `a₁ = −1`, `b₁ = 2`. The `0`-face term `C(D₀)⟨1⟩` has homology of ranks
+  `1, 2, 1` in bidegrees `(0, −1)`, `(0, 1)`, `(0, 3)`; the `1`-face term `C(D₁)[−1]⟨2⟩` has `ℤ` in
+  `(1, 1)` and `(1, 3)`; the connecting map, a merge, is onto the latter, and the long exact
+  sequence leaves `ℤ` in `(0, ±1)`, the homology of the unknot.
+
+### 5.2 Universal coefficients for bounded finite free complexes
+
+For a bounded complex `C` of finite free `ℤ`-modules and an abelian group `M`, the natural short
+exact sequences
 
 ```
 0 → Hⁱ(C)⊗M → Hⁱ(C⊗M) → Tor₁(Hⁱ⁺¹(C),M) → 0,
-0 → Ext¹(H¹⁻ⁱ(C),M) → Hⁱ(Hom(C,M)) → Hom(H⁻ⁱ(C),M) → 0.
+0 → Ext¹(H¹⁻ⁱ(C),M) → Hⁱ(Hom(C,M)) → Hom(H⁻ⁱ(C),M) → 0
 ```
 
-Use native `TauCeti.linearHomComplex` with target the cochain complex concentrated in degree zero at
-`M`, and construct the identification `Hom(C,M)ⁱ=Hom(C⁻ⁱ,M)`. Its differential is `f↦(-1)^(i+1) f
-d_C`; the dual complex is the case `M=ℤ`. When `M` underlies `R`, construct its `R`-action on
-this integral Hom complex through native `linearHomComplexPostcomp` applied to multiplication by
-each scalar; prove that it agrees with the pointwise action and the induced homology action.
-For two bounded finite free integral complexes prove
+are Tau Ceti's theorems for chain complexes, reindexed. Construct the reindexing of bounded
+`ℤ`-indexed cochain complexes as chain complexes (indexed by `ℕ` after a shift, as the Künneth
+sequence requires), with its tensor and Hom signs, and transport both sequences along it.
+
+The Hom complex is Mathlib's `CochainComplex.linearHomComplex` with target the complex concentrated
+in degree zero at `M`; construct the identification `Hom(C, M)ⁱ = Hom(C⁻ⁱ, M)`, with differential
+`f ↦ (−1)^(i+1) f d_C`; the dual complex is the case `M = ℤ`. When `M` underlies a commutative ring
+`R`, construct its `R`-action on this integral Hom complex through Tau Ceti's
+`TauCeti.linearHomComplexPostcomp` applied to multiplication by each scalar, and prove that it
+agrees with the pointwise action and with the induced action on homology.
+
+Over the principal ideal domain `ℤ`, with `Zⁱ = ker dⁱ` and `Bⁱ = im dⁱ⁻¹`, the cycles `Zⁱ` and the
+quotients `Cⁱ/Zⁱ ≅ Bⁱ⁺¹` are free and the inclusions `Zⁱ → Cⁱ` split (Tau Ceti's
+`HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing` and
+`HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing`); they are finite because `ℤ` is
+Noetherian, while the presentations `0 → Bⁱ → Zⁱ → Hⁱ(C) → 0` need not split. The tensor sequence
+is, after interchanging the factors by the symmetry of `⊗`, Tau Ceti's Künneth sequence
+`HomologicalComplex.homologyKunnethShortComplex_shortExact` with first factor `M` in degree zero, on
+which that theorem puts no hypothesis; its term `Tor₁(M, Hⁱ⁺¹(C))` is Mathlib's
+`CategoryTheory.Tor`, read off these presentations by
+`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`. The Hom/Ext sequence is
+`TauCeti.ChainComplex.extToHomology` with `TauCeti.ChainComplex.extToHomology_injective` and
+`TauCeti.ChainComplex.exact_extToHomology_kronecker`, its `Ext¹` term, Mathlib's
+`CategoryTheory.Abelian.Ext`, read off the same presentations by `TauCeti.homCokernelEquivExt`.
+Both sequences split (`HomologicalComplex.homologyKunnethShortComplexSplitting`,
+`TauCeti.ChainComplex.kroneckerSection`), with no natural simultaneous choice of splitting.
+
+The free presentation of `Hⁱ⁺¹(C)` resolves the first variable of the displayed
+`Tor₁(Hⁱ⁺¹(C), M)`: construct its comparison with `CategoryTheory.Tor'` and the finite-resolution
+balancing comparison with `CategoryTheory.Tor`, which derives the second variable, naturally in
+both inputs. For `M` the additive group of a commutative ring `R`, prove that the coefficient and
+Hom/Ext sequences and their chosen splittings are `R`-linear, with the `R`-actions on Mathlib's
+`Tor` and `Ext` defined through functoriality in the coefficient module, and that the comparison
+maps preserve them.
+
+Construct the universe transport of Convention 5: the lift of the finite integral state modules
+from `ModuleCat.{0} ℤ` to `ModuleCat.{u} Z_u`, with `Z_u = ULift.{u} ℤ` acting through
+`ULift.ringEquiv`, and its comparisons for homology, tensor products, `Tor`, `Ext` and the
+coefficient action, compatible with the integral model in `ModuleCat.{0} ℤ`.
+
+Apply these to the finite quantum summands of §3.2: tensor quantum degrees add and dual quantum
+degrees reverse. Export the coefficient sequence for Khovanov homology, with terms
+`Khⁱʲ(D; ℤ) ⊗ R` and `Tor₁(Khⁱ⁺¹ʲ(D; ℤ), R)`, using the base change of §3.2.
+
+*Needs:* §3.2; Mathlib `CochainComplex.linearHomComplex`, `CategoryTheory.Tor`,
+`CategoryTheory.Tor'`, `CategoryTheory.Abelian.Ext`, `Module.Free`; Tau Ceti
+`TauCeti.linearHomComplexPostcomp`, `HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.homologyKunnethShortComplex_shortExact`,
+`HomologicalComplex.homologyKunnethShortComplexSplitting`,
+`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`, `TauCeti.ChainComplex.extToHomology`,
+`TauCeti.ChainComplex.kroneckerSection`, `TauCeti.homCokernelEquivExt`,
+`TauCeti.PDCode.resolutionCubeBaseChangeIso`.
+
+**Checks.**
+- For the right-handed trefoil and `R = 𝔽₂`, the `ℤ/2` in `Kh³'⁷(ℤ)` contributes `𝔽₂` to
+  `Kh³'⁷(𝔽₂)` through the tensor term and to `Kh²'⁷(𝔽₂)` through the `Tor` term, so `Kh(𝔽₂)` has
+  dimension one in each of `(0,1)`, `(0,3)`, `(2,5)`, `(2,7)`, `(3,7)`, `(3,9)`. With `Tor₁(Hⁱ⁻¹)`
+  in place of `Tor₁(Hⁱ⁺¹)` the extra class would land in `(4, 7)`, outside the support `[0, 3]`.
+
+### 5.3 Disjoint union, Künneth and the symmetry of blocks
+
+For two bounded finite free integral complexes the Künneth sequence
 
 ```
 0 → ⊕[p+q=i] Hᵖ(C)⊗Hᑫ(D) → Hⁱ(C⊗D)
-  → ⊕[p+q=i+1] Tor₁(Hᵖ(C),Hᑫ(D)) → 0.
+  → ⊕[p+q=i+1] Tor₁(Hᵖ(C),Hᑫ(D)) → 0
 ```
 
-Construct the canonical comparison maps and prove exactness, naturality and chain-homotopy
-compatibility. Define `Zⁱ=ker dⁱ` and `Bⁱ=im dⁱ⁻¹`, prove these submodules finite free, and split
-`0→Zⁱ→Cⁱ→Bⁱ⁺¹→0` using projectivity of `Bⁱ⁺¹`. Use the resulting decomposition into two-term free
-presentations to prove exactness and existence of splittings. The presentations `0→Bⁱ→Zⁱ→Hⁱ(C)→0`
-need not split. Compare their tensor kernels and Hom cokernels with native derived Tor and
-`CategoryTheory.Abelian.Ext`, using the `ModuleCat` `HasExt` instance and the two-term projective
-presentations. The free presentation resolves the first tensor variable: construct its comparison
-with native `CategoryTheory.Tor'` and the finite-resolution balancing comparison with
-`CategoryTheory.Tor`, which derives the second variable, naturally in both inputs. Prove the
-sequences split without a natural simultaneous choice. For `M` the additive group of a commutative
-ring `R`, prove the coefficient and Hom/Ext sequences and their chosen splittings are `R`-linear.
-Construct the `R`-actions on the native Tor and Ext groups through functoriality of the coefficient
-module, and prove the comparison maps preserve those actions. Apply the construction to finite
-quantum summands; tensor quantum degrees add and dual quantum degrees reverse. Export the
-coefficient sequence with terms `Khⁱʲ(D;ℤ)⊗R` and `Tor₁(Khⁱ⁺¹ʲ(D;ℤ),R)`. Prove the disjoint-union
-cochain tensor equivalence: when the first crossing block precedes the second, its enhanced-state
-sign is `(-1)^(n₋(D₁)·|S₂|)`. Prove the crossing-reordering comparison and bind factor symmetry to
-native `TauCeti.koszulBraiding` and `TauCeti.koszulSymmetricCategory`, with unsigned quantum
-symmetry. More precisely, let `σ₁₂:C(D₁⊔D₂)→C(D₁)⊗C(D₂)` have the displayed state sign,
-let `ρ` reorder the two crossing blocks with subset sign `(-1)^(|S₁||S₂|)`, and let `β` be
-the native cochain braiding. Prove
-`σ₂₁ ρ = (-1)^(n₋(D₁)n₋(D₂)) β σ₁₂`, including the corresponding block-permutation
-coherence from K3. Apply the displayed integral Künneth sequence.
+is Tau Ceti's `HomologicalComplex.homologyKunnethShortComplex_shortExact`: transport it along the
+reindexing of §5.2, with its tensor signs. That theorem is stated for `ℕ`-indexed chain complexes of
+modules over a commutative ring whose second factor has projective cycles and projective quotients
+by its cycles, which over `ℤ` are the instances of §5.2; its first map is the Künneth map
+`HomologicalComplex.homologyKunneth`. The sequence is natural in both complexes
+(`HomologicalComplex.homologyKunneth_naturality`, `HomologicalComplex.homologyToTor_naturality`,
+`HomologicalComplex.homologyKunnethShortComplexMap`), hence compatible with chain homotopies, and it
+splits when the cycles of the first factor split off
+(`HomologicalComplex.homologyKunnethShortComplexSplitting`).
 
-Construct the mirror equivalence with the finite free graded dual complex. Over a field deduce
-`Khⁱʲ(mirror D)≅Kh⁻ⁱ,⁻ʲ(D)ᵛ`. Over `ℤ` give the Hom/Ext exact sequence; the torsion comparison
-reverses cochain degree with the additional `+1`, with both the Hom and Ext terms. Prove full
-orientation reversal and the single-component reversal regrading. With `l` half the original
-signed crossing count between the selected component and all other components, reversing that
-component increases `n₋` by `2l` and decreases `n₊` by `2l`; new bidegrees are old bidegrees
-minus `(2l,6l)`. Construct this integer diagram linking count here: prove that the
-mixed-crossing sum is even by the finite genus-zero native rotation-system mod 2
-cycle/face-boundary calculus. Build the incidence and face-boundary comparison, including loops
-and parallel edges, and prove that the selected union of link components bounds a face 2-chain.
-Translate this to mod 2 plane-curve intersection parity through G's realization dictionary. Prove
-its Reidemeister and relabelling invariance, orientation-reversal law and additivity over the
-other components. Use this explicit diagram invariant and its proved intersection-sign
-normalization in the regrading formula. For disconnected diagrams apply the native face
-calculation componentwise and use G's containing-region data in its geometric comparison.
+Prove the disjoint-union cochain tensor equivalence: when the crossing block of `D₁` precedes that
+of `D₂`, its enhanced-state sign is `(-1)^(n₋(D₁)·|S₂|)`. Prove the crossing-reordering comparison
+and bind the symmetry of factors to Tau Ceti's `TauCeti.koszulBraiding` and
+`TauCeti.koszulSymmetricCategory`, with unsigned quantum symmetry. Precisely, let `σ₁₂ : C(D₁ ⊔ D₂)
+→ C(D₁) ⊗ C(D₂)` have the displayed state sign, `ρ` reorder the two
+crossing blocks with subset sign `(-1)^(|S₁||S₂|)`, and `β` be the native cochain braiding; prove
+`σ₂₁ ρ = (-1)^(n₋(D₁)n₋(D₂)) β σ₁₂`, with the corresponding block-permutation coherence of §3.6.
+Apply the integral Künneth sequence to `Kh(D₁ ⊔ D₂)` (Khovanov, *A categorification of the Jones
+polynomial*, §7.4, Proposition 33 and Corollary 12).
 
-After the planar merge/split floor, construct the oriented Seifert smoothing and its
-outgoing-half-edge permutation. Prove from the native crossing-sign/A/B definitions that it uses
-B precisely at negative crossings. Compare its successor permutation to the original component
-permutation by one outgoing-continuation transposition per crossing, proving `s−n+c` even for
-`s` Seifert circles, `n` crossings and `c` components, including isolated circles. Since
-`|S|+k(S)` has constant parity along every planar cube edge, deduce every quantum degree is
-congruent to `c` modulo 2.
+*Needs:* §§3.2–3.3, 3.6, 5.2; Tau Ceti `TauCeti.OrientedPDCode.disjointUnion`,
+`TauCeti.koszulBraiding`, `TauCeti.koszulSymmetricCategory`,
+`HomologicalComplex.homologyKunneth`, `HomologicalComplex.homologyKunnethShortComplex_shortExact`,
+`HomologicalComplex.homologyKunnethShortComplexMap`,
+`HomologicalComplex.homologyKunnethShortComplexSplitting`; Mathlib `CategoryTheory.Tor`.
 
-Prove the normalized enhanced-state Euler sum `E(D)=Σ_S (−1)^(|S|+n₋) 2^k(S)` equals `2^c`.
-Prove crossing-change invariance by the actual A/B state bijection. Construct the oriented
-planar smoothings and use the proved parity to obtain the normalized recurrence
-`E(D)=−(−1)^c[(-1)^c_A E(D_A)+(-1)^c_B E(D_B)]`. Prove the component-count alternatives: for
-strands on different components both smoothings have `c−1` components, and otherwise their
-counts are `{c,c+1}`. Induct on crossings from the unlink value, explicitly accounting for
-reorientations of the smoothings. Deduce nonvanishing over `ℤ` and `ℚ`, including the empty
-case, before the K6 support-length arguments.
+**Checks.**
+- The two-component crossing-free unlink has `Kh = V ⊗ V`, ranks `1, 2, 1` in quantum degrees
+  `−2, 0, 2`, the tensor square of the unknot's `1, 1` in `−1, 1`. For two right-handed trefoils,
+  the `Tor` term contributes `Tor₁(ℤ/2, ℤ/2) = ℤ/2` in total bidegree `(3 + 3 − 1, 7 + 7) = (5, 14)`.
 
-Construct the quantum-graded algebra `W` as the native graded family with `R` in degrees `0`
-and `−2`, zero elsewhere, generator `X` in degree `−2` and `X²=0`. Its underlying algebra is
-`DualNumber R`, while the Frobenius circle module is `V=W⟨1⟩`. Construct graded `W`-modules as
-quantum-graded `R`-modules with this homogeneous action, the degree-zero balanced graded tensor
-product, unit/associativity and scalar/opposite comparisons. In particular the commutativity
-is unsigned in quantum degrees. These carriers precede the graded periodic resolution and
-the based connected-sum calculation.
+### 5.4 The mirror image
 
-For a mark on an arc or crossing-free labelled circle construct its selected resolution circle
-and the `X` chain action of quantum degree `−2`. Prove its square is zero and its compatibility
-with every saddle. Define the reduced complex as `(X·C)⟨1⟩`, prove its identification with
+Construct the equivalence of the complex of the mirror with the finite free graded dual complex:
+in quantum degree `j` the unnormalized complex of `D.mirror` is the totalization of the dual of the
+degree-`(n − j)` cube of `D` (Tau Ceti's `TauCeti.PDCode.mirrorKhovanovBracketIso`), and the
+normalized form reverses both degrees (Khovanov, *A categorification of the Jones polynomial*,
+§7.3, Proposition 32). Over a field `F` deduce *mirror duality*,
+`nonempty_khovanovHomology_mirror_iso_dual`: for a planar oriented PD-code `D`,
+`Khⁱʲ(D.mirror; F)` is the dual of `Kh⁻ⁱ'⁻ʲ(D; F)`. Over `ℤ` give the Hom/Ext exact sequence of
+§5.2; the torsion comparison reverses the cochain degree with the additional `+1`, in both the
+Hom and the Ext terms (Khovanov, *loc. cit.*, Corollary 11): free summands of `Kh(D; ℤ)` in
+`(i, j)` correspond to free summands of `Kh(D.mirror; ℤ)` in `(−i, −j)`, and torsion summands in
+`(i, j)` to torsion summands in `(1 − i, −j)`.
+
+*Needs:* §§3.2, 5.2; Tau Ceti `TauCeti.OrientedPDCode.mirror`, `TauCeti.PDCode.isPlanar_mirror`,
+`TauCeti.PDCode.mirrorKhovanovBracketIso`, `CategoryTheory.Functor.dualCube`; Mathlib
+`Module.Dual`.
+
+**Checks.**
+- The left-handed trefoil, the closure of `σ₁⁻³`, has integral homology `ℤ` in `(0, −1)`,
+  `(0, −3)`, `(−2, −5)`, `(−3, −9)` and `ℤ/2` in `(−2, −7)`: the right-handed values of §6.3 with
+  free summands negated and the torsion at `(3, 7)` moved to `(1 − 3, −7)`. Negating the torsion
+  bidegree as well would put it at `(−3, −7)`, where the left-handed trefoil has nothing.
+
+### 5.5 Orientation reversal and the linking count
+
+Prove that reversing the orientation of every component leaves the complex unchanged (all
+crossing signs are kept; Tau Ceti's `TauCeti.OrientedPDCode.reverse`), and prove the regrading for
+reversing a single component. Let `l` be half the signed count of the crossings between the
+selected component and all the other components; reversing that component increases `n₋` by `2l`
+and decreases `n₊` by `2l`, so the new bidegrees are the old ones minus `(2l, 6l)` (Khovanov, *A
+categorification of the Jones polynomial*, §7.2, Proposition 28; by his equations (45) and (134)
+its printed `H^{i+2l, j+2l}(L)` should read `H^{i−2l, j−6l}(L)` in his conventions).
+
+Construct this integer diagram linking count. Prove that the sum of the mixed crossing signs is
+even, by the finite mod-2 cycle and face-boundary calculus of a genus-zero native rotation system:
+build the incidence and face-boundary comparison, with loops and parallel edges, and prove that
+the selected union of link components bounds a face 2-chain. Translate this into mod-2 parity of
+plane-curve intersections through the realization dictionary of Layer 8. Prove its Reidemeister
+and relabelling invariance, its law under orientation reversal and its additivity over the other
+components, and use this explicit diagram invariant, with its intersection-sign normalization, in
+the regrading formula. For disconnected diagrams apply the face calculation componentwise and use
+the containing-region data of §8.2 in the geometric comparison.
+
+*Needs:* §§1.3, 1.5, 3.2, 8.2; Tau Ceti `TauCeti.OrientedPDCode.reverse`,
+`TauCeti.OrientedPDCode.crossingSign`, `TauCeti.PDCode.face`.
+
+**Checks.**
+- The positive Hopf link (closure of `σ₁²`, `l = 1`) has `ℤ` in `(0, 0)`, `(0, 2)`, `(2, 4)`,
+  `(2, 6)`. Reversing one component gives the negative Hopf link, with `ℤ` in `(−2, −6)`,
+  `(−2, −4)`, `(0, −2)`, `(0, 0)`: the old bidegrees minus `(2, 6)`. A shift by `(2l, 2l)` would
+  give `(−2, −2)`, where the negative Hopf link has nothing.
+
+### 5.6 Quantum parity and the value at `q = 1`
+
+The parity input is Tau Ceti's: the oriented Seifert smoothing `TauCeti.OrientedPDCode.seifertState`,
+whose value is `A` exactly at positive crossings (`TauCeti.OrientedPDCode.seifertState_eq_true_iff`), so it
+uses `B` exactly at negative ones; the comparison of its successor permutation with the component
+permutation by one transposition per crossing; the parity `s − n + c` even for `s` Seifert circles,
+`n` crossings and `c` components, isolated circles included
+(`TauCeti.OrientedPDCode.even_seifertCircleCount_sub_crossingCount_add_componentCount`); the
+constant parity of `|S| + k(S)` along planar cube edges; and the congruence of every quantum degree
+to `c` modulo two (`TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`; Khovanov, *A
+categorification of the Jones polynomial*, §7.2, Proposition 30).
+
+Prove the *value at `q = 1`*, `eval₂_one_enhancedStateSum`: for a planar oriented PD-code `D` with
+`c` components, the normalized enhanced-state Euler sum `E(D) = Σ_S (−1)^(|S|+n₋) 2^k(S)`, which is
+`TauCeti.OrientedPDCode.enhancedStateSum` at `q = 1`, equals `2^c`. Route: from GeometricTopology
+§4.5's value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link, applied to the
+link that `D` realizes (GeometricTopology §4.2), with `μ = c ≥ 1`. At `q = −1` each enhanced state
+contributes `(−1)^i (−1)^j` with `j ≡ c` modulo two, by the parity above, so the enhanced state sum
+there is `(−1)^c E(D)`; by Tau Ceti's comparison
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial` it is `q + q⁻¹ = −2` times
+the Jones polynomial at `T = −q = 1`, that is `−2·V(1) = (−2)^c`. Hence `E(D) = 2^c`; a diagram
+without components has `E = 1` (`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`). A combinatorial
+route, which does not pass through the realization: prove invariance under changing a crossing by
+the actual `A`/`B` state bijection; construct the oriented planar smoothings `D_A`, `D_B` and use
+the parity above to obtain the normalized recurrence
+`E(D) = −(−1)^c [(−1)^(c_A) E(D_A) + (−1)^(c_B) E(D_B)]`; prove the component-count alternatives
+(for strands on different components both smoothings have `c − 1` components, otherwise their
+counts are `c` and `c + 1`); and induct on crossings from the unlink value, accounting explicitly
+for the reorientations of the smoothings. Deduce that `Kh(D; ℤ)` and `Kh(D; ℚ)` are nonzero, the
+empty diagram included, before the support-length arguments of §6.5.
+
+*Needs:* §§1.5, 1.7, 3.5; GeometricTopology §§4.2 and 4.5 (for the first route); Tau Ceti
+`TauCeti.OrientedPDCode.seifertState`, `TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`,
+`TauCeti.OrientedPDCode.enhancedStateSum`,
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial`,
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`,
+`TauCeti.OrientedPDCode.homologyEulerChar_khovanovComplex`; Mathlib `LaurentPolynomial.eval₂`.
+
+**Checks.**
+- `E` is `2` for every knot diagram computed here (unknot, kinks, trefoils, `T(2, 5)`, `T(2, 7)`)
+  and `4` for the positive and negative Hopf links and the two-component unlink; for the empty
+  diagram it is `1`. For the trefoil, `E = 4 − 6 + 12 − 8 = 2` from §3.2. Without the sign
+  `(−1)^(|S|+n₋)` the sum would be `30`.
+- The recurrence at the positive kink: `D_A` is the two-component unlink (`c_A = 2`, `E = 4`),
+  `D_B` the unknot (`c_B = 1`, `E = 2`), and `−(−1)¹[(−1)²·4 + (−1)¹·2] = 2`.
+- At `q = −1` the trefoil's `q + q³ + q⁵ − q⁹` of §3.5 is `−2 = (−1)¹·2`, and `−2·V(1)` is
+  `−2(1 + 1 − 1) = −2`; the Hopf link's `1 + q² + q⁴ + q⁶` is `4 = (−1)²·4`, and `−2·V(1)` is
+  `−2(−1 − 1) = 4`. Without the factor `(−1)^c` the first route would give `E = −2` for a knot.
+
+### 5.7 Graded `W`-modules and the action at a mark
+
+Construct the quantum-graded algebra `W` as the native graded family with `R` in degrees `0` and
+`−2` and zero elsewhere, with generator `X` in degree `−2` and `X² = 0`; its underlying algebra is
+`DualNumber R`, and the Frobenius circle module is `V = W⟨1⟩` (compare §2.2). Construct graded
+`W`-modules as quantum-graded `R`-modules with a homogeneous action, the degree-zero balanced
+graded tensor product, its unit and associativity comparisons, and the scalar and opposite
+comparisons; its commutativity is unsigned in quantum degrees. These carriers come before the
+graded periodic resolution of §5.9 and the connected sum of §5.11.
+
+For a mark on an arc or on a crossing-free labelled circle (§1.4), its selected resolution circle
+gives an action of `X` on the complex, a chain map of quantum degree `−2` (multiplication by `X` on
+the selected factor). Prove that its square is zero and that it commutes with every saddle.
+
+*Needs:* §§1.4, 2.2, 3.2; Mathlib `GradedObject`, `DualNumber`; Tau Ceti
+`TauCeti.PDCode.Mark.resolvedCircle`.
+
+### 5.8 The reduced complex
+
+Define the reduced complex `C̃ = (X·C)⟨1⟩` at a mark, prove its identification with
 `(C/X·C)⟨−1⟩`, and export the short exact sequence
 
 ```
 0 → C̃⟨−1⟩ → C → C̃⟨1⟩ → 0.
 ```
 
-Prove based Reidemeister invariance and transport of the mark. For a slide across one crossing,
-construct the signed reverse-saddle homotopy `H` of cochain degree `−1` and quantum degree `−2` with
-`X_p+X_q=dH+Hd`. Verify `Δm=X⊗id+id⊗X`, `mΔ=2X`, full signed-cube cancellation with unaffected
-edges, and the additional identities `H²=0` and `H X_p=X_q H`.
+The reduced theory is that of Khovanov, *Patterns in knot cohomology I*, §3, for knots over `ℚ`;
+the integral finite-link construction and the proof by periodic resolutions are this layer's.
 
-Use native `TauCeti.dualNumberProjectiveResolution R` of `dualNumberResidue R` over `W=DualNumber
-R`. Reuse its projectivity and augmentation quasi-isomorphism, its term identifications
-`dualNumberProjectiveResolutionXIso`, and its multiplication-by-`ε` differential and augmentation
-formulas. Construct the quantum-graded lift, reindexing chain degree `n≥0` as cochain degree `−n`
-and assigning its free generator quantum degree `−2n`. Prove the reindexing/forgetful comparison,
-homogeneous differential and exactness by transport from that native resolution. For a dot action
-`a`, its direct-sum total tensor with `C` has terms `m[X]^n` and differential
-`D_a(m[X]^n)=d(m)[X]^n+(-1)^p a(m)[X]^(n−1)` for `m∈C^p`, omitting the second term at `n=0`. Prove
-termwise graded `W`-freeness of `C` via its selected circle and that each total cochain degree uses
-finite sums.
+*Needs:* §5.7.
 
-Set `a=X_p` and `b=−X_q`. Define `K(m[X]^n)=(-1)^p H(m)[X]^(n−1)` for `n>0`, zero for `n=0`. Prove
-`id+K` is a homogeneous chain isomorphism from `D_a` to `D_b`, with inverse `id−K`: its remaining
-equations are `dH+Hd=a−b`, `Ha=−bH` and `K²=0`. Prove the canonical augmentations to `C/aC` and
-`C/bC` are quasi-isomorphisms by the finite filtration of bounded, termwise `W`-free `C`. Prove
-their cones are contractible as bounded-above free `R`-complexes by descending projective
-splittings, quantum component by quantum component. Choose homogeneous homotopy inverses and obtain
-actual reduced chain maps, inverses and homotopies through these augmentations, the
-periodic-resolution isomorphism and the shifted image/quotient identifications. Retain the target
-action twist `X↦−X`. Verify compatibility of the local actions and `H` with each exterior operation,
-and deduce exterior naturality in the homotopy category, where the augmentation inverses are unique.
-Prove identity/concatenation laws for the chosen mark-slide words. Construct comparisons of marks on
-the same component and the reduced/unreduced exact-sequence comparisons, including their
+**Checks.**
+- The reduced unknot is `R` in bidegree `(0, 0)`: `X·V = R·X` in degree `−1`, shifted by `⟨1⟩`.
+  The reduced right-handed trefoil is `ℤ` in `(0, 2)`, `(2, 6)`, `(3, 8)` and zero elsewhere, and
+  has no torsion. The shift `⟨−1⟩` in the definition would move the unknot to `(0, −2)`.
+
+### 5.9 Invariance of the reduced complex and mark slides
+
+Prove based Reidemeister invariance of the reduced complex, with the transport of the mark along
+based words (§1.4). For a slide of the mark across one crossing, from the arc `p` to the arc `q`,
+construct the signed reverse-saddle homotopy `H` of cochain degree `−1` and quantum degree `−2`
+with `X_p + X_q = dH + Hd`, verifying `Δm = X ⊗ id + id ⊗ X`, `mΔ = 2X`, the full signed-cube
+cancellation with the unaffected edges, and the further identities `H² = 0` and `H X_p = X_q H`.
+
+Use Tau Ceti's `TauCeti.dualNumberProjectiveResolution R` of the residue module
+`TauCeti.dualNumberResidue R` over `W = DualNumber R`: its projectivity, its augmentation
+quasi-isomorphism, its term identifications `TauCeti.dualNumberProjectiveResolutionXIso`, and its
+multiplication-by-`ε` differential and augmentation formulas. Construct its quantum-graded lift,
+reindexing chain degree `n ≥ 0` as cochain degree `−n` and placing its free generator in quantum
+degree `−2n`, and prove the reindexing and forgetful comparison, the homogeneity of the
+differential and exactness by transport from the native resolution. For a dot action `a`, the
+direct-sum total tensor with `C` has terms `m[X]^n` and differential
+`D_a(m[X]^n) = d(m)[X]^n + (−1)^p a(m)[X]^(n−1)` for `m ∈ Cᵖ`, the second term omitted at `n = 0`.
+Prove that `C` is termwise graded `W`-free through its selected circle and that each total cochain
+degree involves finite sums only.
+
+Set `a = X_p` and `b = −X_q`, and define `K(m[X]^n) = (−1)^p H(m)[X]^(n−1)` for `n > 0` and `0` for
+`n = 0`. Prove that `id + K` is a homogeneous chain isomorphism from `D_a` to `D_b`, with inverse
+`id − K`; the remaining equations are `dH + Hd = a − b`, `Ha = −bH` and `K² = 0`. Prove that the
+canonical augmentations to `C/aC` and `C/bC` are quasi-isomorphisms, by the finite filtration of
+the bounded termwise `W`-free complex `C`, and that their cones are contractible as bounded-above
+free `R`-complexes by descending projective splittings, one quantum component at a time. Choose
+homogeneous homotopy inverses and obtain actual reduced chain maps, inverses and homotopies
+through these augmentations, the periodic-resolution isomorphism and the shifted image and
+quotient identifications of §5.8, keeping the twist `X ↦ −X` of the target action. Verify that the
+local actions and `H` are compatible with each exterior operation, and deduce exterior
+naturality in the homotopy category, where the augmentation inverses are unique. Prove the
+identity and concatenation laws for mark-slide words, construct the comparisons between marks on
+the same component, and the comparisons of the reduced and unreduced exact sequences, with their
 action-twist signs and commuting homotopies.
 
-Retain the marked component in the invariant of a multicomponent link. Construct oriented based connected sum on the native codes,
-together with G's plane-placement, labelled mark and comparison data. A crossing-bearing mark is
-an actual marked arc, represented by its outgoing half-edge; a crossing-free mark is a labelled
-occurrence of the orientation multiset, not merely a Boolean value. Supply a compatible exposed
-plane placement: the marked arcs/circle portions lie on the specified exterior faces or
-appropriate common complementary region, and a standard untwisted rectangular band is embedded
-in that actual region with oriented ends and empty interior. An intrinsic native face is not by
-itself this band witness. Construct any needed based comparison movies from the original plane
-placements. The operation is parameterized by these data; prove independence through based
-comparison maps with their retained band and outer-region data.
+*Needs:* §§1.4, 4.5, 5.7–5.8; Tau Ceti `TauCeti.dualNumberProjectiveResolution`,
+`TauCeti.dualNumberProjectiveResolutionXIso`, `TauCeti.dualNumberResidue`; Mathlib
+`CategoryTheory.ProjectiveResolution`, `HomotopyEquiv`.
 
-For two crossing-bearing marks, form the native oriented disjoint union, choose the first marked
-outgoing endpoint `p` and the second marked incoming endpoint `q`, and apply native
-`PDCode.reconnect p q`. The unchanged half-edge orientation is compatible because the new pairs
-are outgoing/incoming. Retain the native crossing/over-strand blocks. If exactly one selected
+**Checks.**
+- On `V ⊗ V`: `Δm(1 ⊗ 1) = 1 ⊗ X + X ⊗ 1 = (X ⊗ id + id ⊗ X)(1 ⊗ 1)`,
+  `Δm(1 ⊗ X) = X ⊗ X = (X ⊗ id + id ⊗ X)(1 ⊗ X)` and `Δm(X ⊗ X) = 0`; and `mΔ(1) = 2X`,
+  `mΔ(X) = 0`. So `X_p + X_q` is the null-homotopic composite through the saddle, while, unless
+  `2 = 0` in `R`, `X_p − X_q` is not of this form: on `1 ⊗ 1` it is `X ⊗ 1 − 1 ⊗ X`, which lies in
+  the image of `Δm` only when `2 = 0`, and then `X_p − X_q = X_p + X_q`.
+
+### 5.10 Based connected sum of codes
+
+In a link of several components the marked component is kept as part of the invariant. Construct
+the oriented based connected sum on native codes, with the plane-placement, labelled mark and
+comparison data of Layer 8. A crossing-bearing mark is an actual marked arc, represented by its
+outgoing half-edge; a crossing-free mark is a labelled occurrence of the orientation multiset, not
+merely a Boolean value. Supply a compatible exposed plane placement: the marked arcs or circle
+portions lie on the specified exterior faces or a common complementary region, and a standard
+untwisted rectangular band is embedded in that actual region with oriented ends and empty
+interior; an intrinsic native face is not by itself this band witness. Construct the needed based
+comparison movies from the original plane placements. The operation is parameterized by these
+data; prove its independence through based comparison maps that keep the band and outer-region
+data.
+
+For two crossing-bearing marks, form the oriented disjoint union
+`TauCeti.OrientedPDCode.disjointUnion`, choose the first marked outgoing endpoint `p` and the second
+marked incoming endpoint `q`, and apply the reconnection `TauCeti.OrientedPDCode.reconnect p q`;
+the orientation of the unchanged half-edges is compatible because the new pairs are
+outgoing/incoming, and the crossing and over-strand blocks are kept. If exactly one selected
 component is crossing-free, remove that labelled circle occurrence and lengthen the other marked
-arc, retaining the disjoint-union crossing matching. If both selected components are
-crossing-free, remove the two marked occurrences and insert the one oriented output-circle
-occurrence fixed by the band presentation. Construct the actual occurrence-label bijections,
-output mark and untouched-component maps in every case. Prove planarity for these constructors,
-their comparison with the standard geometric oriented connected sum, component count decrease by
-one, and `n₊,n₋` additivity for the actual input/output codes. Reuse native disjoint-union sign
-and planarity lemmas and construct the oriented reconnection and connected-sum adapters here.
+arc, keeping the crossing matching of the disjoint union. If both are crossing-free, remove the two
+marked occurrences and insert the one oriented output-circle occurrence fixed by the band
+presentation. Construct the occurrence-label bijections, the output mark and the maps of the
+untouched components in every case. Prove planarity of these constructions (from Tau Ceti's
+`TauCeti.PDCode.isPlanar_disjointUnion`), their comparison with the standard geometric oriented
+connected sum, the decrease of the component count by one, and additivity of `n₊` and `n₋` for the
+actual input and output codes.
 
-For every resolution prove the actual circle-set bijection: the selected circle from each input
-is merged to the selected output circle, and all other circles are retained. With native `W=DualNumber R`
-in cochain degree zero and quantum degrees `|1|=0, |X|=−2`, use the graded module and balanced
-tensor carriers constructed above. Each resolution
-module is a finite free graded `W`-module via its selected circle. Prove the actual graded chain
-isomorphism
+*Needs:* §§1.3–1.4, 8.1–8.3; Tau Ceti `TauCeti.OrientedPDCode.disjointUnion`,
+`TauCeti.OrientedPDCode.reconnect`, `TauCeti.PDCode.isPlanar_disjointUnion`.
+
+### 5.11 The connected-sum isomorphism and the derived tensor product
+
+For every resolution prove the actual circle-set bijection: the selected circle of each input is
+merged into the selected output circle, and all other circles are kept. With `W = DualNumber R` in
+cochain degree zero and quantum degrees `|1| = 0`, `|X| = −2`, each resolution module is a finite
+free graded `W`-module through its selected circle (§5.7). Prove the graded chain isomorphism
 
 `(C(D₁) ⊗_W C(D₂))⟨−1⟩ ≅ C(D₁#D₂)`.
 
 Its statewise map multiplies the two selected-circle labels and is the identity on the other
-labelled-circle factors. When the first diagram's crossings precede the second's, include the
-state sign `(-1)^(n₋(D₁)·|S₂|)` comparing the signed normalized cube with the standard cochain
-tensor differential; prove its compatibility with other crossing orders. Prove that the map is
-balanced, invertible, `W`-linear and quantum-degree zero after the displayed shift, including
-every crossing-free case. Under interchange of the two based factors, retain the same
-normalization constant `(-1)^(n₋(D₁)n₋(D₂))` between raw crossing-block reordering and the
-cochain Koszul symmetry on the balanced tensor; prove its compatibility with the connected-sum
+labelled-circle factors. When the crossings of the first diagram precede those of the second,
+include the state sign `(-1)^(n₋(D₁)·|S₂|)` comparing the signed normalized cube with the standard
+cochain tensor differential, and prove compatibility with the other crossing orders. Prove that the
+map is balanced, invertible, `W`-linear and of quantum degree zero after the displayed shift, in
+every crossing-free case as well. Under interchange of the two based factors, keep the same
+normalization constant `(-1)^(n₋(D₁)n₋(D₂))` between raw crossing-block reordering and the cochain
+Koszul symmetry on the balanced tensor product, and prove its compatibility with the connected-sum
 map and the quantum shift.
 
-After forgetting quantum degrees, construct the finite semi-free filtration of these bounded
-complexes of finite free `W`-modules by successive cones of shifted free modules. Prove K-flatness
-and K-projectivity from this filtration, reusing native bounded-above projective-complex
-K-projectivity. Choose the native `HasDerivedCategory.standard (ModuleCat W)` localization,
-with the universe/smallness hypotheses of that declaration. Define the derived tensor of
-bounded-above module complexes there by bounded-above projective/K-projective resolutions.
-Construct its functorial maps and the canonical comparison isomorphisms between choices, unique
-when required to commute with the specified augmentation comparisons; prove unit, composition
-and balanced-tensor laws. For the present bounded free factors, prove explicitly that
-`P₁⊗_W C₂→C₁⊗_W C₂` from an augmentation is a quasi-isomorphism, and its second-variable
-version, by the finite filtration. This identifies their ordinary tensor with the derived
-tensor just constructed. This ordinary-module comparison is owned here over every commutative `R`; it does not
-use an enveloping A∞ algebra or a field-only strictification theorem. Regard `W` as the degree-zero
-ordinary DG algebra using DGAInfinity Layer 1, and construct its `Wᵒᵖ≅W` right/left-module adapter.
-Compare the resulting finite semi-free module and tensor with DGAInfinity Layer 5 on that
-contract's supplied hypotheses. Retain the graded chain isomorphism and its graded homology maps
-as the separately constructed quantum comparison.
+After forgetting quantum degrees, these are bounded cochain complexes of finite free `W`-modules,
+hence K-projective (Mathlib's `CochainComplex.isKProjective_of_projective`) and K-flat (Tau Ceti's
+`CochainComplex.isKFlat_of_bounded_flat`). The derived tensor product over `W` is the bifunctor of
+DerivedModuleAlgebra §0.2, with its laws (`W` is commutative, so that section applies), and that
+section's computation for bounded-above complexes of flat modules identifies the ordinary tensor
+product `C₁ ⊗_W C₂` with it. For a quasi-isomorphism `P₁ → C₁`, the induced map
+`P₁ ⊗_W C₂ → C₁ ⊗_W C₂` is a quasi-isomorphism because `C₂` is K-flat (Tau Ceti's
+`CochainComplex.quasiIso_id_tensorHom`, with the factors interchanged by
+`TauCeti.koszulSymmetricCategory`), and likewise in the second variable. This ordinary-module
+comparison is made here over every commutative `R`, without an enveloping `A∞` algebra or a
+strictification theorem valid only over fields. Regard `W` as a degree-zero ordinary DG algebra
+through DGAInfinity Layer 1, construct its adapter `Wᵒᵖ ≅ W` between right and left modules,
+construct the finite semi-free filtration of these complexes by successive cones of shifted free
+modules, and compare the resulting semi-free module and tensor product with DGAInfinity Layer 5
+under that layer's hypotheses. The graded chain isomorphism and its graded homology maps stay the
+separately constructed quantum comparison.
 
-### K6. Certified computations and applications
+*Needs:* §§5.7, 5.9–5.10; DerivedModuleAlgebra §0.2 (the derived tensor product); Mathlib
+`CochainComplex.mappingCone`, `CochainComplex.isKProjective_of_projective`, `TensorProduct`; Tau
+Ceti `CochainComplex.isKFlat_of_bounded_flat`, `CochainComplex.quasiIso_id_tensorHom`,
+`TauCeti.koszulSymmetricCategory`; DGAInfinity Layers 1 and 5.
 
-Make the circle quotient, finite enhanced-state basis, differential and maps effective.
-Construct integer matrices and a Smith-normal-form certificate API that proves cycles,
-boundaries and the homology invariant factors, with explicit comparison to the abstract complex.
-Compute over fields by certified row reduction and verify coefficient and Euler comparisons.
-Basis permutations and certificate choices must preserve the answer.
+**Checks.**
+- For two crossing-free unknots, `V ⊗_W V = W⟨2⟩` since `V = W⟨1⟩`, and `(V ⊗_W V)⟨−1⟩ = V`, the
+  complex of the unknot, as the connected sum requires. Without the shift `⟨−1⟩` the connected sum
+  of two unknots would have homology in quantum degrees `2` and `0`.
 
-Pin concrete native PD codes or specified braid closures for the empty link, unknots, unlinks,
-the positive and negative Hopf links, and both trefoils; prove their planarity, orientations and
-realization comparisons. Give every nonzero bigraded group and prove all others vanish. In the
-conventions above the positive trefoil has free groups `ℤ` at `(0,1),(0,3),(2,5),(3,9)` and
-torsion `ℤ/2` at `(3,7)`; use native `rightHandedTrefoilPDCode` for this comparison. Its reduced
-groups are `ℤ` at `(0,2),(2,6),(3,8)` and zero elsewhere. The negative trefoil follows with the
-integral mirror torsion shift. The positive two-crossing Hopf closure has free `ℤ` at
-`(0,0),(0,2),(2,4),(2,6)`. Verify these identifications from the actual diagrams and matrices,
-not solely from their Jones polynomials. Include the reduced computations and the tensor/UCT
-tests that distinguish rational ranks from integral torsion.
+### Examples
 
-For `m≥0`, define the native diagram for `T(2,m)` as `TauCeti.BraidWord.closure` of
-`List.replicate m (0,1) : BraidWord 2`; for `m<0` use `|m|` copies of `(0,−1)`.
-Use native `crossingSign_closure`, `writhe_closure` and the `nextCrossing` arc equations:
-for positive word length, `(k,1)` joins `(k+1,0)` and `(k,2)` joins `(k+1,3)`, cyclically.
-Prove planarity by the two-strand strip with positions increasing rightward and strands running
-upward. Put the outside closing arcs on the left, with their explicit nonintersecting nested
-placement; at `m=0` the resulting crossing-free circles are counterclockwise, as required by
-native `closure_nil` and its all-true bits. For every `m`, compare this diagram with G's chosen
-labelled smooth geometric closure, through G's plane-to-spatial PL and controlled smooth
-rounding adapters, retaining orientations and the left closing arcs. When `|m|` is odd,
-construct the native-word/GT presented-braid-word adapter and prove that native `closure`
-agrees with GT's `closes` function and its knot realization. Prove that single-component
-spatial PL/smooth comparison. For even `m`, retain the two-component labelled-link carrier
-of G rather than infer a multi-component GT knot carrier. None of these word, diagram or
-plane/spatial comparisons is a type identification.
-Each crossing swaps the two strand positions; prove the component count is two for even `m`
-and one for odd `m`, using native `closure_nil` separately at `m=0`. Construct the recurrence of
-complexes from K5's crossing cone and K4's cancellation and prove the following unreduced
-integral formula. For `m≥2`, each listed free group is `ℤ`, each listed torsion group is `ℤ/2`,
-and all other groups vanish:
+- The skein sequence at the crossing of a kink (§5.1), the `𝔽₂`-homology of the trefoil (§5.2),
+  the mirror pair of trefoils (§5.4), the two orientations of the Hopf link (§5.5), the values
+  `E = 2^c` (§5.6) and the reduced trefoil (§5.8).
+
+### Dependencies
+
+Layers 1–4 and 8. Tau Ceti: vertex resolution, the mapping cone of a cube, the mirror of the cube
+of resolutions and dual cubes, reversal and disjoint union of oriented codes, reconnection,
+Seifert states and the parity of quantum degrees, the enhanced state sum, marks, the Koszul
+braiding of cochain complexes, the post-composition action on Hom complexes, the Hom/Ext
+universal coefficient and Künneth sequences for chain complexes, free cycles over a principal ideal
+domain, `Tor₁` and `Ext¹` from presentations of length one, K-flat complexes, and the periodic
+projective resolution over the dual numbers. Mathlib: `Tor`, `Ext`, Hom complexes, mapping cones,
+homology sequences,
+projective resolutions and K-projective complexes. GeometricTopology §§4.2 and 4.5;
+DerivedModuleAlgebra §0.2; DGAInfinity Layers 1 and 5.
+
+## Layer 6: integral computations and applications
+
+### 6.1 Integral differentials and the Smith normal form
+
+In the enhanced-state basis of §3.3, each quantum summand of the integral complex is a bounded
+complex of finite free `ℤ`-modules whose differentials are integer matrices, with entries given by
+the merge and split coefficients and the cube signs. For every bounded cochain complex `C` of finite
+free `ℤ`-modules prove
+
+`Hⁱ(C) ≅ ℤ^(rank Cⁱ − rank dⁱ − rank dⁱ⁻¹) ⊕ ⨁ₖ ℤ/eₖ`,
+
+where the `eₖ > 1` are the invariant factors of the matrix of `dⁱ⁻¹`. Apply Mathlib's
+`Submodule.smithNormalForm` to the image `Bⁱ` of `dⁱ⁻¹` in `Cⁱ`; since the quotient of `Cⁱ` by the
+cycles `Zⁱ = ker dⁱ` embeds in `Cⁱ⁺¹`, it is torsion-free, so the torsion of `Cⁱ/Bⁱ` is that of
+`Hⁱ(C) = Zⁱ/Bⁱ`, whose free rank is `rank Zⁱ − rank Bⁱ`.
+
+*Needs:* §§3.2–3.3; Mathlib `Matrix`, `Module.Free`, `Submodule.smithNormalForm`.
+
+**Checks.**
+- In quantum degree `7` the trefoil complex has rank `3` in cochain degrees `2` and `3` (the three
+  states with two `B`-smoothings, each with its two circles labelled `1`, and the all-`B` state
+  with one of its three circles labelled `X`) and nothing in degree `1`. The differential is a
+  `3 × 3` integer matrix of determinant `±2` with Smith form `diag(1, 1, 2)`: it is injective, and
+  its cokernel `ℤ/2` is the torsion in `(3, 7)`. Over `ℚ` it is invertible and nothing survives;
+  over `𝔽₂` it has rank `2`, leaving one class in each of `(2, 7)` and `(3, 7)`.
+
+### 6.2 The small links
+
+Fix concrete native PD-codes or specified braid closures for the empty link, the unknots, the
+crossing-free unlinks, the positive and negative Hopf links and both trefoils, and prove their
+planarity, orientations and realization comparisons (§8.7). Give every nonzero bigraded group and
+prove that all others vanish. For the empty diagram, the crossing-free unknot and the crossing-free
+unlinks these are Tau Ceti's: `R` in `(0, 0)`
+(`TauCeti.OrientedPDCode.khovanovComplexHomologyEmptyIso`), `R` in `(0, ±1)`
+(`TauCeti.OrientedPDCode.khovanovComplexHomologyUnknotIso`), and in cochain degree zero the
+quantum pieces of the circle tensor, of rank the coefficient of `qʲ` in `(q + q⁻¹)ᵏ`
+(`TauCeti.OrientedPDCode.coeff_pow_eq_finrank_homology_khovanovComplex`).
+
+*Needs:* §§3.4, 8.7; Tau Ceti `TauCeti.OrientedPDCode.empty`, `TauCeti.OrientedPDCode.unknot`,
+`TauCeti.OrientedPDCode.unlink`, `TauCeti.BraidWord.closure`.
+
+### 6.3 Trefoils and Hopf links
+
+In the conventions above, the positive trefoil, the native `TauCeti.rightHandedTrefoilPDCode`, has
+integral homology `ℤ` in `(0, 1)`, `(0, 3)`, `(2, 5)`, `(3, 9)` and `ℤ/2` in `(3, 7)`, and zero
+elsewhere; its reduced homology is `ℤ` in `(0, 2)`, `(2, 6)`, `(3, 8)` and zero elsewhere. The
+negative trefoil follows by the integral mirror comparison of §5.4, with its torsion shift. The
+positive two-crossing Hopf closure, of `σ₁²`, has `ℤ` in `(0, 0)`, `(0, 2)`, `(2, 4)`, `(2, 6)` and
+zero elsewhere. Prove these from the integral differentials of §6.1, not from their Jones
+polynomials alone, and include the reduced computations and the tensor and universal-coefficient
+tests that distinguish rational ranks from integral torsion (§5.2).
+
+*Needs:* §§5.2, 5.4, 5.8, 6.1; Tau Ceti `TauCeti.rightHandedTrefoilPDCode`.
+
+**Checks.**
+- The Jones polynomial cannot see the torsion: the rational ranks of the trefoil give
+  `q + q³ + q⁵ − q⁹`, the same Euler characteristic as `ℤ` in `(0,1)`, `(0,3)`, `(2,5)`, `(3,9)`
+  with or without the `ℤ/2`; over `𝔽₂` the torsion appears as the two extra classes of §5.2.
+
+### 6.4 Two-strand torus links
+
+For `m ≥ 0`, the native diagram of `T(2, m)` is `TauCeti.BraidWord.closure` of
+`List.replicate m (0, 1) : BraidWord 2`, with all crossings positive; for `m < 0` it uses `|m|`
+copies of `(0, −1)`. Use `TauCeti.BraidWord.crossingSign_closure`, `TauCeti.BraidWord.writhe_closure`
+and the arc equations of `TauCeti.BraidWord.nextCrossing`: for positive word length, slot `1` of
+crossing `k` is joined to slot `0` of crossing `k + 1`, and slot `2` of crossing `k` to slot `3` of
+crossing `k + 1`, cyclically. Prove planarity from the two-strand strip, with positions increasing
+rightward, strands running upward, and the closing arcs on the left in their explicit
+nonintersecting nested placement; at `m = 0` the crossing-free circles are counterclockwise, as
+required by `TauCeti.BraidWord.closure_nil` and its all-`true` bits. For every `m` compare this
+diagram with the labelled smooth closure of §8.7, through its plane-to-spatial PL and controlled
+smooth rounding adapters, keeping the orientations and the left closing arcs. When `|m|` is odd,
+prove that the native closure agrees with the knot that GeometricTopology §4.2 realizes from it
+(GeometricTopology compares braid closures through that realization, §4.2.3), with the
+single-component spatial PL and smooth comparison; for even `m`, keep the two-component labelled
+link of §8.7 rather than a knot carrier. None of these word, diagram or plane and spatial
+comparisons is an identification of types. Each crossing swaps the two strand positions, so the
+component count is two for even `m` and one for odd `m` (with `TauCeti.BraidWord.closure_nil`
+separately at `m = 0`).
+
+Construct the recurrence of complexes from the skein cone of §5.1 and the cancellation of §4.4, and
+prove *the integral homology of `T(2, m)`*, `khovanovHomology_closure_replicate`: for `m ≥ 2`,
+`Khⁱʲ(T(2, m); ℤ)` is `ℤ` in the bidegrees of `torusLinkFreeBidegrees m`, `ℤ/2` in those of
+`torusLinkTorsionBidegrees m`, and zero elsewhere:
 
 | Condition | Bidegrees |
 | --- | --- |
@@ -766,252 +1736,679 @@ and all other groups vanish:
 | Torsion, `1≤r≤⌊(m−1)/2⌋` | `(2r+1,m+4r)` |
 | Additional free, even `m` | `(m,3m−2)`, `(m,3m)` |
 
-`T(2,1)` is the unknot. `T(2,0)` is the two-component unlink: its free groups have ranks `1,2,1` at
-`(0,−2),(0,0),(0,2)`. For `m<0`, use the proved oriented mirror comparison with `T(2,−m)`: free
-summands at `(i,j)` go to `(−i,−j)` and torsion summands at `(i,j)` go to `(−i+1,−j)`. Prove these
-identifications from the recurrence and matrices, including the separate zero and one-crossing
-cases. The original paper's displayed torus family is left-handed in these conventions; translate
-its specialized integral formula through this mirror comparison. For adequate diagrams define both
-adequacy conditions by the actual extreme-resolution merges and prove nonvanishing at the two
-extreme cochain degrees. Prove homology is nonzero for every link: at `q=1` its Euler characteristic
-is nonzero, including the separate empty case. Define integral cochain support length from `Kh(D;ℤ)`
-as the largest supported cochain degree minus the smallest, using finiteness and this nonemptiness.
-Deduce that this length is bounded by crossing number and an adequate `n`-crossing diagram realizes
-crossing number `n`. Construct the required presentation-minimum adapter: use G's proved
-generic-presentation theorem to define the least crossing count among planar oriented PD codes
-realizing the link, and prove its minimum, isotopy and diagram-comparison laws. Use this
-presentation minimum as the crossing-number definition, retaining the actual realization witnesses.
-Construct these minimum and realization comparisons against the actual native carriers.
+`T(2, 1)` is the unknot, and `T(2, 0)` is the two-component unlink, with free groups of ranks
+`1, 2, 1` in `(0, −2)`, `(0, 0)`, `(0, 2)`. For `m < 0` use the oriented mirror comparison of §5.4
+with `T(2, −m)`: free summands in `(i, j)` go to `(−i, −j)` and torsion summands in `(i, j)` to
+`(−i + 1, −j)`. Prove these identifications from the recurrence and the matrices, the zero- and
+one-crossing cases included. Khovanov's displayed family (*A categorification of the Jones
+polynomial*, §6.2, Proposition 26, and §7.6, Proposition 35) is the left-handed one in these
+conventions; its specialized integral formula is translated through this mirror comparison.
 
-### K7. Movies and projective cobordism maps
+*Needs:* §§4.4, 5.1, 5.4, 6.1, 8.7; Tau Ceti `TauCeti.BraidWord.closure`,
+`TauCeti.BraidWord.crossingSign_closure`, `TauCeti.BraidWord.writhe_closure`,
+`TauCeti.BraidWord.nextCrossing`, `TauCeti.BraidWord.closure_nil`; GeometricTopology §§4.2
+and 4.2.3 (realization of diagrams and braid closures).
 
-The objects of the movie category are realized G plane diagrams, carrying the corresponding
-native labelled smooth links and their orientation-compatible parametrizations. Thus the
-prescribed endpoint projections are already generic. Use G's generic representative and
-comparison-isotopy theorem to compare with arbitrary smooth links, retaining the chosen generic
-endpoints. Construct the marked, collared link-surface adapter to the geometric owner's
-`S³×[0,1]` cobordisms with those objects. Retain boundary parametrizations by the source and
-target native finite link families and product collars matching those parametrizations. Define
-the equivalence by boundary-fixed ambient isotopies preserving the prescribed collar germs.
-Construct identities, collar-compatible composition and its comparison isotopies, retaining
-simultaneous component labels and the incoming/outgoing boundary orientation signs. Prove the
-category laws by collar rescaling and prove composition is well-defined on the isotopy quotient.
-Construct the forgetful comparison with geometric cobordisms using Layer 1 gluing. Construct
-these decorations and relative equivalences against the generic cobordism carrier. Boundary
-markings here are the component-labelled boundary parametrizations; the based-link point of K5
-is separate data. For neat geometric surfaces construct collar straightening rel the marked
-boundary. Use the actual collar coordinates and the transverse normal-coordinate derivative to
-build a boundary-preserving local displacement and its smooth parameter-family extension; prove
-the required inverse-function and cutoff estimates in those coordinates. Construct the
-boundary/collar extension data used by G's ambient extension, including the matching jets and
-open collar coordinate formulas. For a product-collared surface in `ℝ³×[0,1]`, attach constant
-cylindrical ends at both boundary links, constructing a proper smooth boundaryless embedding in
-`ℝ³×ℝ` with closed image. Prove the compact-family version. Extend fixed-collar embedding
-isotopies constantly over the ends, so velocity is zero on open neighborhoods of physical
-heights 0 and 1 and on the tails. Apply the closed-submanifold tube/slice construction to this
-extended surface, and the velocity extension to its compact moving core. Choose its ambient
-compact support away from the fixed hyperplane neighborhoods and extend the field by zero there.
-Apply the native finite-dimensional flow API and DG3.2/3.3/3.5 in boundaryless `ℝ⁴`, prove
-finite-band confinement and construct the smooth
-inverse evolution. Uniqueness fixes the open hyperplane neighborhoods and proves forward and
-inverse evolution preserve the closed slab. Restrict the jointly smooth total maps to the slab's
-product boundary model to bundle the actual native `Diffeotopy`; its generic spatial
-`ModelWithCorners` permits this model. Prove it realizes the original isotopy and fixes the
-marked collars. For isotopies between product-collared surfaces, straighten relative to their
-endpoint collar germs and fixed marked boundary. Prove the relative-family version and compare
-boundary-fixed isotopy with the fixed-collar equivalence, retaining choices and their comparison
-isotopies. Construct the category of compact surfaces in `ℝ³×[0,1]` by affine-chart restriction
-of this adapter. Supply the point at infinity, the chart, and avoidance of its cylinder; prove
-that pullback preserves embeddings, boundary identifications, collars, isotopies, identities and
-gluing. Retain these chart data under composition. Identify the round `S³` with `{(v,w)∈ℝ³×ℝ :
-‖v‖²+w²=1}` in the standard coordinate order and fix infinity `p=(0,0,0,1)`. Use the explicit
-chart `φ(v,w)=v/(1−w)`, with inverse `y↦(2y/(1+‖y‖²),(‖y‖²−1)/(1+‖y‖²))`. Prove the denominators
-are nonzero on the specified domains and construct the restricted smooth diffeomorphism. Compare
-it with Mathlib's `stereographic'` through its actual orthonormal-coordinate identification:
-the comparison is `1/2` times an orthogonal map `U` (native `stereographic` has numerator `2`).
-Construct `U` from the chosen bases and track its determinant; its sign is not fixed by the
-positive scale. Prove the restricted smoothness and inverse laws. Orient `S³` outward-normal-first
-in standard oriented `ℝ⁴` and `ℝ³`
-by its standard basis. Prove this chart preserves orientation: at the south pole the tangent
-basis `(e₀,e₁,e₂)` is positive and the derivative is `1/2` times the identity; extend the sign
-over its connected domain. Transport link and surface orientations through this chart. Fix this
-point and chart for the category. All surface traces avoid its infinity cylinder. Require the
-chosen ambient comparison isotopies to fix a neighborhood of that cylinder, so their
-restrictions are actual affine ambient diffeotopies. Using G's relative velocity extension,
-prove that a compact surface-isotopy trace which avoids the cylinder admits such a witness while
-retaining the boundary and collar conditions.
+**Checks.**
+- `m = 2`: no `r` qualifies, and the table gives `(0, 0)`, `(0, 2)`, `(2, 4)`, `(2, 6)`, the
+  positive Hopf link of §6.3. `m = 3`: `r = 1` gives `(2, 5)`, `(3, 9)` and torsion `(3, 7)`, the
+  trefoil. `m = 4`: `(0, 2)`, `(0, 4)`, `(2, 6)`, `(3, 10)`, `(4, 10)`, `(4, 12)` and torsion
+  `(3, 8)`. `m = 5`: `(0, 3)`, `(0, 5)`, `(2, 7)`, `(3, 11)`, `(4, 11)`, `(5, 15)` and torsion
+  `(3, 9)`, `(5, 13)`. Each was recomputed from the cube of resolutions with these conventions;
+  reading Khovanov's displayed list without the mirror would put the `m = 3` torsion in `(−2, −7)`.
+- The graded Euler characteristic of `T(2, 4)` from the table is `q² + q⁴ + q⁶ + q¹²`, the two
+  degree-`10` classes in cochain degrees `3` and `4` cancelling.
 
-A local event means any R1, R2, R3, birth, death or saddle event in its specified changing disc. Two
-local events are distant when their actual changing discs are disjoint, each modification is
-the identity outside its own disc, and the other disc lies in that unchanged exterior before and
-after the event. Retain the common exterior and boundary identifications.
+### 6.5 Adequate diagrams and the crossing number
 
-Construct finite movies on G's plane-diagram adapter from actual planar isotopies and these local
-events, with explicit source/target diagrams, orientations, boundary markings and composition.
-Construct their realization as geometric cobordisms and prove presentation/completeness:
-boundary-fixed ambient isotopic cobordisms are represented by sequences of the fifteen Carter–Saito
-movie moves, interchanges of distant local events, and the following planar-isotopy relations.
-Include identity/concatenation, stationary reparametrization and homotopy rel endpoints of
-planar-isotopy paths through generic diagrams; every path and homotopy stays stationary on
-the specified endpoint collar neighborhoods. Include conjugating a local event by a planar
-isotopy that transports its changing disc, and shrinking or enlarging that disc through an
-annulus carrying only the unchanged identity strands and no new components, with the same
-supported event and boundary identification. Construct the rel-boundary isotopies of traces witnessing these
-relations and prove their compatibility with collars, markings and composition. A general loop
-of planar isotopies is not identified with the constant path without the stated homotopy or
-another proved trace relation. Use Jacobsson §3.2's numbering, including the
-time reversals, mirror/crossing variants, additional strand-position variants of moves 6 and 15, the
-reductions for move 7, and compatible orientations. Define each relation as a local schema in a
-specified changing disc, over every admissible exterior with that disc empty of additional
-components. Give a pair of explicit finite words in the elementary movie generators with matching
-source/target plane diagrams, collars and boundary identifications. Export the numbered fifteen-type
-classification and all variant transports. Construct the dictionary between Jacobsson's and
-Bar-Natan's numbering and variants, including Jacobsson move 7 versus Bar-Natan MM10 for the
-quadruple-point move. Construct the separate CS1993/CRS1997 word presentation dictionary with its
-precise generator and relation correspondences. Birth and death events specify the actual
-complementary region and local disc; plane-adapter crossing-free bits have the counterclockwise
-meaning fixed above. Use G's placement-sensitive translation of native circle-constructor bits and
-K4's supported move dictionary; retain the unaffected and changed component incidences. Build this
-relative movie theorem using local generic projection/transversality and compactness with fixed
-collars; prove each local normal form, list every oriented and time-reversed movie relation, and
-retain its boundary identification. Prove this presentation theorem for the specified decorated
-geometric category.
+Adequacy is GeometricTopology §4.8.1's: the state graphs of the all-`A` and all-`B` states are
+loopless. State it by the extreme resolutions: a PD-code is `IsAdequate` when, in the all-`A` state
+and in the all-`B` state, the two arcs of the smoothing at every crossing lie on two different
+circles (`TauCeti.PDCode.circlesAt` has two elements, which by
+`TauCeti.PDCode.card_circlesAt_eq_two_iff` says that the crossing is not a loop). Equivalently
+every cube edge out of the all-`A` vertex is a merge and every cube edge into the all-`B` vertex is
+a split. Prove that for an
+adequate planar diagram `Kh(D; ℤ)` is nonzero in the two extreme cochain degrees `−n₋` and `n₊`:
+in degree `−n₋` the labelling of the all-`A` circles by `X` is a cycle that is not a boundary, and in
+degree `n₊` the labelling of the all-`B` circles by `1` is not in the image of any split (Khovanov,
+*A categorification of the Jones polynomial*, §7.7, Proposition 36, with Definitions 3–5 after
+Lickorish–Thistlethwaite and Thistlethwaite). The homology of every link is nonzero, by the value
+at `q = 1` of §5.6, the empty diagram included.
 
-Define the movie Euler count as `#births−#saddles+#deaths`. Prove invariance under every movie
-relation, distant-local-event interchange and actual planar isotopy, and additivity under
-concatenation and disjoint union. Using geometric presentation and completeness, descend this
-count to `χ(Σ)` for the marked surface category, independently of Khovanov maps. Construct the
-finite relative cell model supplied by the movie's 0-,1-,2-handles, prove its comparison with the
-surface and the incoming boundary, and identify the count with the alternating rational homology
-ranks of the compact surface; each boundary link has Euler characteristic 0. Use native
-singular/cellular homology through [AlgebraicTopology](../AlgebraicTopology/README.md)'s Stage 4
-cellular comparison and finite-CW Euler–Poincaré theorem, constructing the movie-handle
-comparison here, obtaining `χ(Σ)` and its handle-count formula. Start from one 0-cell and
-one 1-cell for each incoming circle; prove that each local movie handle attaches the cell of its
-index with the actual attaching map. This relative cell construction uses the movie normal forms
-and Layer 1 gluing.
+Define the integral cochain support length of `Kh(D; ℤ)` as its largest supported cochain degree
+minus its smallest, using finiteness (§3.4) and nonvanishing. Construct the presentation-minimum
+adapter: using the generic-presentation theorem of §8.6, define the crossing number of a smooth
+link as the least crossing count among the planar oriented PD-codes realizing it, and prove its
+minimum, isotopy and diagram-comparison laws, keeping the actual realization witnesses and
+comparing against the native carriers. Deduce that the support length is at most the crossing
+number, and prove *crossing minimality of adequate diagrams*,
+`le_of_isAdequate_of_reidemeisterEquiv`: if `D` is an adequate planar oriented PD-code with `n`
+crossings, every oriented PD-code Reidemeister equivalent to `D` has at least `n` crossings, so an
+adequate `n`-crossing diagram realizes crossing number `n` (Khovanov, *loc. cit.*, Proposition 37
+and Corollary 13, after Thistlethwaite).
 
-Apply G's common relative finite-jet, incidence, Hermite-interpolation, Sard and Baire floor to
-the surface and isotopy families here. Construct all movie-specific bad strata and verify the
-distinct-point, coincident-point and fixed-collar hypotheses. Prove compact-set openness of
-embedding and collar conditions and use G's relative ambient-extension construction for the
-small perturbations, with the fixed infinity cylinder avoided. Prove the codimension estimates,
-finite determinacy and coordinate reductions for every movie normal form. Derive a finite event
-subdivision from those forms and compactness. The two-parameter completeness proof consumes G's
-one-parameter comparison.
+*Needs:* §§3.4, 4.5, 5.6, 8.6; GeometricTopology §4.8.1 (adequacy); Tau Ceti
+`TauCeti.PDCode.circlesAt`, `TauCeti.PDCode.card_circlesAt_eq_two_iff`,
+`TauCeti.OrientedPDCode.ReidemeisterEquiv`.
 
-Births and deaths act by unit and counit, saddles by the K2 maps on resolutions, and Reidemeister
-events by K4's local formal chain maps inserted in the fixed planar-insertion slot order.
-These inserted local maps are the movie generators; construct their compatibility with K4's
-native comparison-word maps through the stated transports and homotopies. Prove they are chain
-maps and compose under movie concatenation.
-Construct the homogeneous map of a planar isotopy from its induced crossing, circle and boundary
-correspondences, with identity and composition laws, and prove independence of the path with that
-fixed correspondence. Prove elementary-event naturality under these planar-isotopy and relabelling
-isomorphisms, including crossing-order signs. Prove maps of every pair of distant local events,
-including Reidemeister-versus-Reidemeister and Reidemeister-versus-Morse pairs, commute exactly
-after canonical raw crossing-reorder identifications and associators in the fixed planar-insertion
-slot order. Here canonical reindexing means the subset-permutation cube transport, not an
-unqualified replacement by the normalized cochain braiding; a change of slot order retains K3/K5's
-`(-1)^(a b)` normalization constants. Transport this interchange law and naturality through
-totalization, arbitrary exteriors and closed evaluation. All these local event maps have cochain
-degree zero, so their disjoint interchange in that fixed order has no additional map-degree
-Koszul sign. Prove the maps descend through every planar-isotopy relation above using path
-homotopy, composition, disc transport and support restriction; keep the stronger fixed-correspondence
-map independence as its own theorem. For a cobordism `Σ`, the induced map has bidegree `(0,χ(Σ))`. For each of the fifteen
-movie-relation schemata and every required oriented, mirrored, time-reversed and strand-placement
-variant, construct its two finite local formal chain maps `F_L,F_R` and an integral finite
-formal-matrix homotopy `H` and one sign `ε∈{−1,1}` satisfying `F_L−εF_R=dH+Hd`. Both maps have the
-same quantum degree `δ`; `H` has cochain degree `−1` and quantum degree `δ`. Equivalently these are
-quantum-degree-zero maps and homotopies into the target shifted by `⟨−δ⟩`. Verify the identities
-from the actual local templates and the two-dimensional formal relations, with coefficient/matrix
-certificates for every schema; the reversible multi-crossing clips are included. Construct the
-explicit homotopy witnesses from the local templates. Prove the identity before gluing an exterior,
-then transport it under every admissible planar insertion, including an arbitrary exterior complex,
-with the totalization homotopy sign `(-1)^(r₁+⋯+rᵢ₋₁)` in the replaced factor, where each
-preceding `r_j` is its normalized cochain degree as in K3. Retain one common
-integral sign for the entire local complex and every exterior closure. Extend the verified integral
-identity to every commutative coefficient ring.
+**Checks.**
+- The standard trefoil is adequate: its all-`A` state has two circles and each crossing meets both,
+  and its all-`B` state has three circles, each crossing meeting two of them; its homology is
+  nonzero in cochain degrees `0` and `3`. The one-crossing kink is not adequate: in one extreme
+  state its crossing meets a single circle, and correspondingly its homology vanishes in one of the
+  cochain degrees `−n₋`, `n₊`.
+- A definition of adequacy by the all-`A` state alone would accept the positive kink, whose
+  homology vanishes in cochain degree `n₊ = 1`, so it would not give a lower bound on the crossing
+  number.
 
-Only after these homogeneous relation homotopies are proved, forget the quantum grading to
-obtain the stated native underlying homotopy-category functor and its quotient by a common sign.
-The induced bigraded homology maps retain their proved degree. The formal `δ` is computed from
-the earlier combinatorial surface grading; the comparison with the actual surface's movie/handle
-Euler count is proved by K7's separate geometric construction. Cite Bar-Natan for this
-chain-level theorem; use Jacobsson for the homology statement and its conventions. For the final
-target use the native homotopy category of underlying `ModuleCat R` cochains, retaining the
-finite quantum grading as object data through the induced-category construction. The final
-target uses underlying cochain homotopy classes; retain the homogeneous local relation witnesses
-in its construction. Form the quotient identifying a morphism with its negative and prove
-composition descends. Construct the quotient as a category with its descended composition.
-Obtain the boundary-fixed functor to this projective homotopy category and its bigraded homology
-maps modulo one global sign. In characteristic 2 the sign ambiguity disappears.
+### Examples
 
-The isotopies in this theorem fix the boundary link data; motions of boundary links act through
-their specified comparison maps. The geometric domain here retains the affine chart,
-equivalently the point at infinity in the `S³` presentation, and its collar throughout.
-Construct the `ℝ³` cobordism functor on this specified affine domain. Prove that every closed
-embedded surface with `χ(Σ)≠0` has zero map, by its quantum degree and the empty-link complex.
-Evaluate the explicitly standard unknotted torus by its Frobenius handle movie as `±2`; retain
-that specified standard embedding in the evaluation theorem. Prove compatibility with disjoint
-union and keep these ordinary-theory evaluations separate from a polynomial-coefficient
+- The table of §6.4 for `m = 2, …, 7`, and the reduced trefoil of §6.3.
+- The figure-eight knot, the closure of `σ₁σ₂⁻¹σ₁σ₂⁻¹` on three strands, an adequate four-crossing
+  diagram: its integral homology is supported in cochain degrees `−2` to `2`, with `ℤ/2` in
+  `(−1, −3)` and `(2, 3)`.
+
+### Dependencies
+
+Layers 3–5 and 8. Tau Ceti: braid words and their closures with crossing signs, writhe and arc
+equations, the trefoil code, the empty, unknot and unlink codes and their homology, and the circles
+through a crossing. GeometricTopology §§4.2 and 4.2.3 (realization of diagrams and braid
+closures). Mathlib: integer matrices, the Smith normal form and finitely generated abelian groups.
+
+## Layer 7: movies and projective cobordism maps
+
+### 7.1 Collared link cobordisms
+
+Construct the carrier of link cobordisms: for smooth links `L₀`, `L₁` (finite families
+`TauCeti.SmoothLinkEmbedding` with component labels and parametrizations), a *link cobordism* is a
+compact smooth oriented surface embedded in `S³ × [0, 1]` (and, through §7.3, in `ℝ³ × [0, 1]`),
+meeting the two ends exactly in `L₀ × {0}` and `L₁ × {1}`, with boundary parametrizations by the
+source and target link families and product collars matching those parametrizations. The boundary
+orientation is outward-normal-first, `∂Σ = −L₀ ⊔ L₁` (Conventions). Define equivalence by
+boundary-fixed ambient isotopies preserving the prescribed collar germs. Construct identities,
+collar-compatible composition and its comparison isotopies, keeping simultaneous component labels
+and the incoming and outgoing boundary orientation signs; prove the category laws by collar
+rescaling and that composition is well defined on the isotopy quotient. Construct the forgetful
+comparison with plain embedded surfaces using GeometricTopology's Layer 1 gluing, and these
+decorations and relative equivalences against that plain carrier. The boundary markings here are
+the component-labelled boundary parametrizations; the based-link point of Layer 5 is separate
+data.
+
+The knot case is Tau Ceti's `TauCeti.KnotCobordism K₀ K₁` in collared form: a connected orientable
+surface embedded in `Sⁿ × ℝ`, compact over `Sⁿ × [0, 1]` and equal near the two ends to the
+cylinders over the images of `K₀` and `K₁`. The carrier here differs in allowing links with
+labelled components and disconnected surfaces, and in recording an orientation of `Σ` and the
+boundary parametrizations. Prove the comparison in `S³`: a Tau Ceti knot cobordism with an
+orientation of its surface inducing `−K₀ ⊔ K₁` restricts over `S³ × [0, 1]` to a link cobordism
+between the two one-component links, and a connected link cobordism between one-component links
+extends along its product collars to a Tau Ceti knot cobordism.
+
+The objects of the movie category of §7.4 are the realized plane diagrams of §8.1, carrying the
+corresponding native labelled smooth links and their orientation-compatible parametrizations, so
+their prescribed endpoint projections are generic; the generic representatives and comparison
+isotopies of §8.6 compare them with arbitrary smooth links, keeping the chosen generic endpoints.
+
+*Needs:* §§8.1, 8.6; GeometricTopology Layer 1 (collars and gluing along the boundary);
+DifferentialGeometry Layer 2 (orientations) and Layer 5 (boundary orientation); Tau Ceti
+`TauCeti.SmoothEmbedding`, `TauCeti.SmoothLinkEmbedding`, `TauCeti.KnotCobordism`.
+
+**Checks.**
+- The product cobordism `L × [0, 1]` with its product collars is the identity, and composing it
+  with any `Σ` and rescaling the collars recovers `Σ` up to the equivalence; with
+  `∂Σ = L₀ ⊔ L₁` instead of `−L₀ ⊔ L₁`, the product cylinder of an oriented knot would not be an
+  oriented cobordism from the knot to itself.
+
+### 7.2 Collars, cylindrical ends and ambient extension
+
+For neat embedded surfaces construct collar straightening relative to the marked boundary: from the
+actual collar coordinates and the transverse normal-coordinate derivative, build a
+boundary-preserving local displacement and its smooth parameter-family extension, proving the
+required inverse-function and cutoff estimates in those coordinates. Construct the boundary and
+collar extension data used by the ambient extension of §8.5, including the matching jets and the
+open collar coordinate formulas.
+
+For a product-collared surface in `ℝ³ × [0, 1]`, attach constant cylindrical ends at both boundary
+links, giving a proper smooth boundaryless embedding in `ℝ³ × ℝ` with closed image, with its
+compact-family version. Extend fixed-collar embedding isotopies constantly over the ends, so that
+the velocity vanishes on open neighbourhoods of the physical heights `0` and `1` and on the tails.
+Apply the closed-submanifold tube and slice construction to the extended surface and the velocity
+extension of §8.5 to its compact moving core; choose its ambient compact support away from the
+fixed hyperplane neighbourhoods and extend the field by zero there. Apply the finite-dimensional
+flow results of DifferentialGeometry §§3.2, 3.3 and 3.5 in boundaryless `ℝ⁴`, prove finite-band
+confinement and construct the smooth inverse evolution. Uniqueness fixes the open hyperplane
+neighbourhoods and shows that forward and inverse evolution preserve the closed slab; restrict the
+jointly smooth total maps to the product boundary model of the slab to obtain an actual
+`TauCeti.Diffeotopy` (its generic spatial model with corners allows this model), and prove that it
+realizes the original isotopy and fixes the marked collars. For isotopies between product-collared
+surfaces, straighten relative to their endpoint collar germs and fixed marked boundary; prove the
+relative-family version, and compare boundary-fixed isotopy with the fixed-collar equivalence,
+keeping the choices and their comparison isotopies.
+
+*Needs:* §§7.1, 8.5; DifferentialGeometry §§3.2, 3.3, 3.5; GeometricTopology Layer 1 (tubular
+neighbourhoods); Tau Ceti `TauCeti.Diffeotopy`.
+
+### 7.3 The affine chart
+
+Construct the category of compact surfaces in `ℝ³ × [0, 1]` by affine-chart restriction of §§7.1–7.2,
+supplying the point at infinity, the chart and the avoidance of its cylinder, and prove that
+pullback preserves embeddings, boundary identifications, collars, isotopies, identities and gluing,
+keeping these chart data under composition. Identify the round `S³` with
+`{(v, w) ∈ ℝ³ × ℝ : ‖v‖² + w² = 1}` in the standard coordinate order and fix the point at infinity
+`p = (0, 0, 0, 1)`. Use the chart `φ(v, w) = v/(1 − w)`, with inverse
+`y ↦ (2y/(1 + ‖y‖²), (‖y‖² − 1)/(1 + ‖y‖²))`; prove that the denominators are nonzero on the specified
+domains and construct the restricted smooth diffeomorphism. Compare it with Mathlib's
+`stereographic'` through its actual orthonormal-coordinate identification: the comparison is `1/2`
+times an orthogonal map `U` (Mathlib's `stereographic` has numerator `2`); construct `U` from the
+chosen bases and track its determinant, whose sign the positive scale does not fix. Prove the
+restricted smoothness and inverse laws.
+
+Orient `S³` outward-normal-first in standard oriented `ℝ⁴`, and `ℝ³` by its standard basis. Prove
+that the chart preserves orientation: at the south pole the tangent basis `(e₀, e₁, e₂)` is
+positive and the derivative is `1/2` times the identity; extend the sign over the connected domain.
+Transport link and surface orientations through this chart. Fix this point and chart for the
+category. All surface traces avoid the infinity cylinder, and the chosen ambient comparison
+isotopies fix a neighbourhood of it, so that their restrictions are actual affine ambient
+diffeotopies. Using the relative velocity extension of §8.5, prove that a compact surface-isotopy
+trace avoiding the cylinder admits such a witness, with the boundary and collar conditions.
+
+*Needs:* §§7.1–7.2, 8.5; Mathlib `stereographic'`, `EuclideanSpace`, `Metric.sphere`;
+DifferentialGeometry Layer 2.
+
+**Checks.**
+- The inverse lands on the sphere: `‖2y‖² + (‖y‖² − 1)² = (1 + ‖y‖²)²`, and
+  `φ` of it is `(2y/(1 + ‖y‖²)) / (2/(1 + ‖y‖²)) = y`. At the south pole `(0, 0, 0, −1)` the chart is
+  `v ↦ v/2` to first order, so its derivative is `½·id`. The chart `v/(1 + w)` would instead send
+  the south pole to infinity.
+
+### 7.4 Local events and movies
+
+A *local event* is a first, second or third Reidemeister move, a birth, a death or a saddle in a
+specified changing disc. Two local events are *distant* when their actual changing discs are
+disjoint, each modification is the identity outside its own disc, and the other disc lies in that
+unchanged exterior before and after the event; the common exterior and boundary identifications
+are kept. Construct finite movies on the plane-diagram adapter of §8.1, from actual planar
+isotopies and these local events, with explicit source and target diagrams, orientations, boundary
+markings and composition. Birth and death events specify the actual complementary region and local
+disc, and the crossing-free bits of the plane adapter have the counterclockwise meaning of the
+conventions; use the placement-sensitive translation of native circle constructors of §8.3 and the
+move dictionary of §4.3, keeping the unaffected and changed component incidences. Construct the
+realization of movies as link cobordisms (§7.1).
+
+*Needs:* §§4.3, 7.1, 8.1–8.3.
+
+### 7.5 The movie presentation theorem
+
+Prove presentation and completeness for the decorated category of §7.1: boundary-fixed ambient
+isotopic cobordisms are represented by movies related by sequences of the fifteen Carter–Saito
+movie moves, interchanges of distant local events, and the following planar-isotopy relations:
+identity and concatenation, stationary reparametrization, and homotopy relative to the endpoints of
+planar-isotopy paths through generic diagrams, every path and homotopy stationary on the specified
+endpoint collar neighbourhoods; conjugation of a local event by a planar isotopy that transports
+its changing disc; and shrinking or enlarging that disc through an annulus carrying only the
+unchanged identity strands and no new components, with the same supported event and boundary
+identification (Carter–Saito, *Reidemeister moves for surface isotopies and their interpretation as
+moves to movies*; Jacobsson, *An invariant of link cobordisms from Khovanov homology*, §4.2, the
+theorem of Carter–Saito as reformulated there). Construct the boundary-relative isotopies of traces
+witnessing these relations and prove their compatibility with collars, markings and composition.
+A general loop of planar isotopies is not identified with the constant path without the stated
+homotopy or another proved trace relation.
+
+Use Jacobsson's numbering (*loc. cit.*, §3.2), with the time reversals, the mirror and crossing
+variants, the additional strand-position variants of moves 6 and 15, the reductions for move 7 and
+compatible orientations. Define each relation as a local schema in a specified changing disc, over
+every admissible exterior with that disc empty of further components, given by a pair of explicit
+finite words in the elementary movie generators with matching source and target plane diagrams,
+collars and boundary identifications. Export the numbered classification into fifteen types and all
+variant transports. Construct the dictionary between Jacobsson's and Bar-Natan's numbering and
+variants, including Jacobsson's move 7 against Bar-Natan's MM10 for the quadruple-point move
+(Bar-Natan, *Khovanov's homology for tangles and cobordisms*, §8.3), and the separate dictionary
+with the word presentation of Carter–Rieger–Saito, with its precise generator and relation
+correspondences. The surface-projection moves are Roseman's, with their height-sensitive movie
+refinements here.
+
+Build this relative movie theorem from local generic projection and transversality and
+compactness with fixed collars. Apply the common relative finite-jet, incidence, interpolation,
+Sard and Baire floor of §8.4 to the surface and isotopy families here; construct all movie-specific
+bad strata and verify the distinct-point, coincident-point and fixed-collar hypotheses. Prove
+compact-set openness of the embedding and collar conditions, and use the relative extension of
+§8.5 for the small perturbations, avoiding the fixed infinity cylinder. Prove the codimension
+estimates, the finite determinacy and the coordinate reductions for every movie normal form, and
+derive a finite event subdivision from those forms and compactness; list every oriented and
+time-reversed movie relation with its boundary identification. The two-parameter completeness
+proof uses the one-parameter comparison of §8.6.
+
+*Needs:* §§7.1–7.4, 8.4–8.6.
+
+### 7.6 The movie Euler count
+
+Define the movie Euler count as `#births − #saddles + #deaths`. Prove its invariance under every
+movie relation, distant interchange and actual planar isotopy, and its additivity under
+concatenation and disjoint union. Using the presentation and completeness of §7.5, descend it to
+`χ(Σ)` on the marked surface category, independently of the Khovanov maps. Construct the finite
+relative cell model given by the 0-, 1- and 2-handles of a movie, starting from one 0-cell and one
+1-cell for each incoming circle, and prove that each local movie handle attaches the cell of its
+index with the actual attaching map, using the movie normal forms and GeometricTopology's Layer 1
+gluing. Prove its comparison with the surface and the incoming boundary, and identify the count
+with the alternating sum of the rational singular homology ranks of the compact surface; each
+boundary link has Euler characteristic `0`. Use Tau Ceti's cellular comparison
+`TauCeti.cellularSingularHomologyIso` and finite-CW Euler–Poincaré theorem
+`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`, as developed in AlgebraicTopology §§4.3
+and 7.1, constructing the movie-handle comparison here and obtaining `χ(Σ)` and its handle-count
+formula.
+
+*Needs:* §§7.4–7.5; AlgebraicTopology §§4.3, 7.1; GeometricTopology Layer 1; Tau Ceti
+`TauCeti.cellularSingularHomologyIso`, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
+
+**Checks.**
+- Birth then death: `1 − 0 + 1 = 2`, the sphere. One saddle from an unknot to a two-component
+  unlink: `0 − 1 + 0 = −1`, the pair of pants. Birth, a splitting saddle, a merging saddle and a
+  death: `1 − 2 + 1 = 0`, the torus. Counting saddles positively would give the torus `4`.
+
+### 7.7 Maps of movies
+
+Births and deaths act by the unit and counit, saddles by the maps of §2.4 on resolutions, and
+Reidemeister events by the local formal chain maps of §4.1 inserted in the fixed planar-insertion
+slot order; these inserted local maps are the movie generators. Construct their compatibility with
+the native comparison-word maps of §4.5 through the stated transports and homotopies; prove that
+they are chain maps and compose under concatenation of movies. Construct the homogeneous map of a
+planar isotopy from its induced crossing, circle and boundary correspondences, with identity and
+composition laws, and prove its independence of the path for a fixed correspondence. Prove
+naturality of elementary events under these planar-isotopy and relabelling isomorphisms, with
+crossing-order signs.
+
+Prove that the maps of every pair of distant local events, Reidemeister against Reidemeister and
+Reidemeister against Morse events included, commute exactly after the canonical raw
+crossing-reordering identifications and associators in the fixed slot order. Canonical reindexing
+here means the subset-permutation cube transport of §3.1, not an unqualified replacement by the
+normalized cochain braiding; a change of slot order keeps the normalization constants `(-1)^(a b)`
+of §§3.6 and 5.3. Transport this interchange law and naturality through totalization, arbitrary
+exteriors and closed evaluation. All local event maps have cochain degree zero, so their disjoint
+interchange in the fixed order has no further Koszul sign. Prove that the maps descend through
+every planar-isotopy relation of §7.5, by path homotopy, composition, disc transport and support
+restriction, keeping the stronger independence for a fixed correspondence as its own theorem. For a
+cobordism `Σ` the induced map has bidegree `(0, χ(Σ))`.
+
+For each of the fifteen movie-relation schemata and every required oriented, mirrored,
+time-reversed and strand-placement variant, construct its two finite local formal chain maps
+`F_L`, `F_R`, an integral finite formal-matrix homotopy `H` and one sign `ε ∈ {−1, 1}` with
+`F_L − εF_R = dH + Hd`. Both maps have the same quantum degree `δ`, and `H` has cochain degree `−1`
+and quantum degree `δ`; equivalently these are quantum-degree-zero maps and homotopies into the
+target shifted by `⟨−δ⟩`. Prove the identities from the actual local templates and the
+two-dimensional formal relations of §2.5 for every schema, the reversible multi-crossing clips
+included, and construct the explicit homotopy witnesses from the local templates. Prove each
+identity before gluing an exterior, then transport
+it under every admissible planar insertion, an arbitrary exterior complex included, with the
+totalization homotopy sign `(-1)^(r₁+⋯+rᵢ₋₁)` in the replaced factor, where each preceding `rⱼ` is
+its normalized cochain degree as in §3.6. Keep one common integral sign for the entire local
+complex and every exterior closure, and extend the integral identity to every commutative
+coefficient ring.
+
+*Needs:* §§2.4–2.7, 3.1, 3.6–3.7, 4.1, 4.5, 5.3, 7.4–7.6.
+
+### 7.8 The projective functor
+
+Only after the homogeneous relation homotopies of §7.7 are proved, forget the quantum grading to
+obtain the native underlying homotopy-category functor and its quotient by a common sign; the
+induced bigraded homology maps keep their proved degree. The formal `δ` is computed from the
+combinatorial surface grading of §2.7, and its comparison with the movie and handle Euler count of
+the actual surface is §7.6. The final target is Mathlib's homotopy category of underlying
+`ModuleCat R` cochain complexes, keeping the finite quantum grading as object data through the
+induced-category construction, with morphisms the underlying cochain homotopy classes and the
+homogeneous local relation witnesses kept in its construction. Form the quotient identifying a
+morphism with its negative, prove that composition descends, and construct the quotient category.
+Obtain the boundary-fixed functor from link cobordisms to this projective homotopy category, and
+its bigraded homology maps modulo one global sign (Bar-Natan, *Khovanov's homology for tangles and
+cobordisms*, §8.1, Theorem 4, for the chain-level statement; Jacobsson, *An invariant of link
+cobordisms from Khovanov homology*, §4.2, Theorem 2, for the homology statement and its
+conventions). In characteristic two the sign ambiguity disappears.
+
+*Needs:* §§7.5–7.7; Mathlib `HomotopyCategory`, `CategoryTheory.InducedCategory`,
+`CategoryTheory.Quotient`.
+
+### 7.9 Boundary motions and closed surfaces
+
+The isotopies in §7.8 fix the boundary link data; motions of boundary links act through their
+specified comparison maps of §4.6. The geometric domain keeps the affine chart, equivalently the
+point at infinity of the `S³` presentation, and its collar throughout. Construct the `ℝ³`
+cobordism functor on this specified affine domain. Prove that every closed embedded surface with
+`χ(Σ) ≠ 0` induces the zero map, by its quantum degree and the complex of the empty link (§3.4).
+Evaluate the explicitly standard unknotted torus, through its Frobenius handle movie, as `±2`,
+keeping that specified standard embedding in the evaluation theorem. Prove compatibility with
+disjoint union, and keep these ordinary-theory evaluations separate from any polynomial-coefficient
 deformation.
 
-## Dependency order and acceptance
+*Needs:* §§2.1, 3.4, 7.6–7.8.
 
-K1 supplies finite circles, components, PL disc/band and local closure calculus. K2 constructs the
-graded Frobenius object and generated formal surface category with independent cell-count grading.
-K3 constructs formal open complexes, normal-form closed evaluation and the native-PD state-sum
-comparison. G constructs actual plane/smooth adapters, consumes CM L5 separation and GT
-carrier/presentation definitions, and proves the common finite-jet/relative extension and relative
-finite-family one-parameter comparison. K4 combines formal Reidemeister homotopies with G for link
-invariance. K5 proves the bounded finite free complex-level coefficient/dual/tensor theorems,
-constructs quantum/parity/linking and based-link adapters, and proves reduced mark comparison by its
-explicit periodic-resolution isomorphism and augmentation homotopies. K6 certifies computations and
-applications. K7 proves the relative two-parameter movie presentation and independent geometric
-Euler comparison, and homogeneous formal relation homotopies, interchange and naturality before
-descending to the projective target. The native Jones definition feeds K3 independently of geometric
-Jones invariance.
+**Checks.**
+- The standard torus movie (birth, split, merge, death) is `ε ∘ m ∘ Δ ∘ η = 2` on the empty link's
+  `R`, of quantum degree `χ = 0`; a sphere (birth, death) has `χ = 2` and is the map `R → R` of
+  quantum degree `2`, necessarily zero since the empty link's homology lives in quantum degree `0`,
+  and indeed `ε(1) = 0`.
 
-Acceptance includes the full signed differential and reordering API; planarity and circle-set
-comparisons; all local Reidemeister homotopies; the nonempty/empty native Jones identities;
-integral torsion and reduced examples; UCT, Künneth and mirror Ext checks; and a boundary-fixed
-projective cobordism functor with every movie relation. Suggested signatures alone do not prove
-any of these targets.
+### Examples
+
+- The cylinder over the unknot (the identity), the saddle from the unknot to the two-component
+  unlink (`χ = −1`, the comultiplication on homology, of degree `−1`), the sphere (`0`) and the
+  standard torus (`±2`).
+
+### Dependencies
+
+Layers 2–5 and 8. GeometricTopology Layer 1; DifferentialGeometry Layer 2, §§3.2, 3.3, 3.5 and
+Layer 5; AlgebraicTopology §§4.3 and 7.1. Tau Ceti: smooth embeddings and links, diffeotopies,
+knot cobordisms, the cellular comparison and the Euler characteristic of finite CW complexes.
+Mathlib: the stereographic projection, homotopy categories, induced and quotient categories.
+
+## Downstream consumers
+
+- [Foams](../Foams/README.md) uses the finite planar calculus of §§1.6 and 1.8, the formal surface
+  category modulo `S`, `T` and `4Tu` of §§2.5–2.8, the closed evaluation of §3.7, and the plane
+  realizations, complement and boundary-orientation dictionaries, controlled smoothing and relative
+  extension of §§8.1, 8.2 and 8.5.
+- [DiagrammaticCoherence](../DiagrammaticCoherence/README.md) uses the relative general-position
+  floor, the relative ambient extension and the labelled smooth projection and Reidemeister
+  comparison of §§8.4–8.6, and the polygonal–smooth bridge of §8.1.
+- [SpectralSequencesAndConvergencePartII](../SpectralSequencesAndConvergencePartII/README.md) uses
+  the universal coefficient and Künneth sequences for bounded finite free `ℤ`-complexes, in the
+  cochain indexing to which §§5.2–5.3 transport Tau Ceti's theorems, and the comparison of
+  `CategoryTheory.Tor'` with `CategoryTheory.Tor` of §5.2.
+
+## Scope and ownership
+
+**This roadmap owns** the ordinary integral Khovanov theory of classical links built on the Tau
+Ceti floor listed below: move words, component bijections and based moves (§§1.3–1.4); the
+disc/band models, PL disc models, partial resolution and local planar calculus (§§1.6–1.8);
+insertion and deletion of circle factors and the comparison with iterated graded tensors (§2.3);
+the formal surface category with its Euler characteristic, relations, grading and additive
+envelope (§§2.5–2.8); face restriction of cubes (§3.1); the total complex, the enhanced-state model
+and the graded tensor structure (§3.3); finiteness of Khovanov homology (§3.4); the complexes of
+diagrams with boundary and their closed evaluation (§§3.6–3.7); all of Layer 8; Reidemeister
+invariance for diagrams and smooth links (Layer 4); the skein sequence, the transport of Tau
+Ceti's universal coefficient, Hom/Ext and Künneth sequences to bounded integral cochain complexes
+with their `Tor'`/`Tor` comparisons and `R`-linearity, block symmetry, mirror duality, orientation
+reversal and the
+diagram linking count, the value at `q = 1`, graded `W`-modules, the action at a mark, the reduced
+complex and its invariance, based connected sum and the connected-sum isomorphism with its derived
+tensor comparison (Layer 5); the Smith-normal-form description of the homology of bounded finite
+free integral complexes, the computations of small links and of `T(2, m)`, and the crossing-number
+application (Layer 6); and the carrier of collared link cobordisms in `S³ × [0, 1]`
+and `ℝ³ × [0, 1]`, the movie presentation, the movie Euler count and the projective cobordism
+functor (Layer 7).
+
+**Already in the library and used by name.** Tau Ceti has, and this roadmap consumes without
+planning again: oriented PD-codes, planarity through the Euler characteristic and its chord-diagram
+criterion, Reidemeister moves and equivalence with the planarity of every generator, the Jones
+polynomial through its state weights, components and crossing-free labellings, resolution circles
+with their count and transports, marks, the adjacent-state analysis and the merge-or-split theorem
+for planar codes, vertex resolution, Seifert states and the parity of quantum degrees (§§1.1–1.2,
+1.5, 1.7, 5.6); the Khovanov coalgebra on the dual numbers with its Frobenius structure, quantum
+grading, graded maps, circle tensors with their basis, merge, split, base change and disjoint union,
+and the merge and split maps on resolutions with their face relations (§§2.1–2.4); the signed cube
+complex with its mapping cone, reordering and dual (§3.1); the cube of resolutions, the bracket, the
+normalized complex with its support, base change and mirror comparison, Khovanov homology, the
+enhanced state sum, the graded Euler characteristic and Khovanov's theorem comparing it with the
+Jones polynomial, and the homology of the empty diagram, the unknot and the crossing-free unlinks
+(§§3.2, 3.4–3.5, 5.4, 6.2); the Koszul braiding of cochain complexes, the post-composition action on
+Hom complexes, the Hom/Ext universal coefficient and Künneth sequences for chain complexes with
+their naturality and splittings, the freeness and splitting of cycles over a principal ideal
+domain, `Tor₁` and `Ext¹` from presentations of length one, the periodic projective resolution over
+the dual numbers, and the K-flatness of bounded complexes of flat modules with the preservation of
+quasi-isomorphisms by tensoring with a K-flat complex (§§3.3, 5.2–5.3, 5.9, 5.11); smooth links and
+their ambient
+isotopy, diffeotopies, reparametrization of smooth embeddings, the Morse–Sard theorem, filled hulls
+and braid closures (Layer 8); collared knot cobordisms (§7.1); and the cellular comparison and
+Euler–Poincaré theorem of finite CW complexes (§7.6). The exact declarations are listed under the
+supplier contracts.
+
+**Owned elsewhere.**
+
+- [GeometricTopology](../GeometricTopology/README.md) owns the geometric link and diagram carriers
+  and presentation definitions, Reidemeister's theorem (§4.2), braid closures (§4.2.3), the other
+  Jones algorithms with their agreements, the geometric invariance of the Jones polynomial and its
+  value at `t = 1` (Layer 4, §4.5; §5.6 here deduces from it the value of the Euler characteristic
+  at `q = 1`), and collars, tubes and gluing (Layer 1). Layer 8 here is the corresponding
+  finite-labelled, relative extension of its geometric-to-diagram comparison: its inputs from
+  GeometricTopology are the carrier and presentation definitions, and the additional labelled,
+  relative and actual-plane comparisons are built here. GeometricTopology §4.8.1 develops adequate
+  diagrams on the Kauffman bracket and proves crossing minimality of adequate knot diagrams through
+  coloured Jones polynomials; §6.5 here differs in proving it for adequate diagrams of links of any number of
+  components through the support of integral Khovanov homology, with adequacy stated through the
+  extreme resolutions, which is GeometricTopology's state-graph condition (a crossing meeting a
+  single circle of an extreme state is a loop of its state graph). GeometricTopology Layer 6 states
+  concordance; the general collared link cobordisms are §7.1's.
+- [DifferentialGeometry](../DifferentialGeometry/README.md) owns manifold, pullback and product
+  orientations (Layer 2), boundary orientation (Layer 5) and flows (§§3.2, 3.3, 3.5); the link,
+  surface and chart sign comparisons are built here.
+- [ConformalMapping](../../Completed/ConformalMapping/README.md) owns Jordan separation and the
+  filled-hull topology (Layer 5); the finite polygonal and native-face adapters are §8.2's.
+- [DGAInfinity](../DGAInfinity/README.md) owns DG algebras and modules (Layer 1) and derived DG
+  modules (Layer 5), with its generic cochain infrastructure where it extends the native library.
+  §5.11 builds the ordinary bounded-free derived-tensor comparison over every commutative base and
+  compares it with DGAInfinity's DG-module theory under the hypotheses supplied there, without a
+  strictification of `A∞` structures valid only over fields.
+- [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) owns the derived tensor product of
+  module complexes over a commutative ring, with its laws (§0.2); §5.11 identifies the ordinary
+  tensor product of the bounded free complexes over the dual numbers with it.
+- [AlgebraicTopology](../AlgebraicTopology/README.md) develops the cellular comparison and the Euler
+  characteristic of finite CW complexes (§§4.3, 7.1); the movie-handle cell model is §7.6's.
+- [ZigzagPreprojective](../ZigzagPreprojective/README.md) owns the Khovanov–Seidel braid actions
+  (its Layer 8).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- *Algebra.* `DualNumber`, `TrivSqZeroExt`, `Coalgebra`, `Coalgebra.IsFrobenius` (the two
+  Frobenius identities `Δ ∘ m = (m ⊗ id) ∘ α ∘ (id ⊗ Δ)` and its mirror), `PiTensorProduct`,
+  `PiTensorProduct.tmulEquiv`, `TensorProduct`, `Module.Free`, `Module.Finite`, `Module.Dual`,
+  `IsNoetherianRing`, `HasRankNullity`, `LaurentPolynomial`, `LaurentPolynomial.eval₂`, `ZMod`,
+  `ULift.ringEquiv`, `Matrix`, `Submodule.smithNormalForm`, `Relation.EqvGen`.
+- *Categories and complexes.* `ModuleCat`, `ModuleCat.uliftFunctor`, `CategoryTheory.GradedObject`
+  with `CategoryTheory.GradedObject.total`, `CategoryTheory.GradedObject.Monoidal.tensorObj`,
+  `CategoryTheory.GradedObject.Monoidal.braiding` and `CategoryTheory.GradedObject.HasTensor`;
+  `CochainComplex`, `ComplexShape.up`, `HomologicalComplex.homology`,
+  `HomologicalComplex.homologyEulerChar`, `HomologicalComplex₂.total`, `Homotopy`, `HomotopyEquiv`
+  (two chain maps with homotopies from their composites to the identities), `HomotopyEquiv.toHomologyIso`,
+  `CochainComplex.mappingCone`, `HomotopyCategory`, `CochainComplex.linearHomComplex`,
+  `CategoryTheory.Tor`, `CategoryTheory.Tor'`, `CategoryTheory.Abelian.Ext`,
+  `CochainComplex.isKProjective_of_projective` (a bounded-above complex of projectives is
+  K-projective), `CategoryTheory.ProjectiveResolution`, `CategoryTheory.Mat_`,
+  `CategoryTheory.Mat_.embedding`,
+  `CategoryTheory.Mat_.lift`, `CategoryTheory.InducedCategory`, `CategoryTheory.Quotient`.
+- *Analysis and topology.* `EuclideanSpace`, `Metric.sphere`, `stereographic'`, `ContDiffBump`,
+  `dense_iInter_of_isOpen` (Baire: a countable intersection of dense open sets is dense).
+
+### From Tau Ceti
+
+- *PD-codes.* `TauCeti.PDCode`, `TauCeti.OrientedPDCode`, `TauCeti.PDCode.IsPlanar` (Euler
+  characteristic of the ribbon graph), `TauCeti.PDCode.face`, `TauCeti.PDCode.toPermutationTriple`,
+  `TauCeti.PDCode.nonempty_spanningTreeContraction`,
+  `TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`, `TauCeti.PDCode.isPlanar_mirror`,
+  `TauCeti.PDCode.isPlanar_disjointUnion`, `TauCeti.PDCode.smoothingTurn`,
+  `TauCeti.PDCode.smoothingChoice`, `TauCeti.PDCode.statePerm`, `TauCeti.PDCode.stateLoopCount`,
+  `TauCeti.OrientedPDCode.crossingSign`, `TauCeti.OrientedPDCode.mirror`,
+  `TauCeti.OrientedPDCode.reverse`, `TauCeti.OrientedPDCode.disjointUnion`,
+  `TauCeti.OrientedPDCode.reconnect`, `TauCeti.OrientedPDCode.adjoinCircle`,
+  `TauCeti.OrientedPDCode.unlink`, `TauCeti.OrientedPDCode.empty`, `TauCeti.OrientedPDCode.unknot`,
+  `TauCeti.OrientedPDCode.jonesPolynomial`, `TauCeti.rightHandedTrefoilPDCode`.
+- *Reidemeister moves.* `TauCeti.OrientedPDCode.IsReidemeisterMove`,
+  `TauCeti.OrientedPDCode.ReidemeisterEquiv`, the constructors
+  `TauCeti.OrientedPDCode.reidemeisterOne`, `TauCeti.OrientedPDCode.adjoinKink`,
+  `TauCeti.OrientedPDCode.insertClasp`, `TauCeti.OrientedPDCode.insertCircleClasp`,
+  `TauCeti.OrientedPDCode.adjoinTwoCircleClasp`, `TauCeti.OrientedPDCode.reidemeisterThree`,
+  `TauCeti.PDCode.HasReidemeisterThreeTriangle`, and the planarity lemmas
+  `TauCeti.PDCode.isPlanar_relabel`, `TauCeti.PDCode.isPlanar_rotateCrossing`,
+  `TauCeti.PDCode.isPlanar_reidemeisterOne`, `TauCeti.PDCode.isPlanar_adjoinKink_iff`,
+  `TauCeti.PDCode.isPlanar_insertClasp_iff_face_eq_or_not_mem_orbit`,
+  `TauCeti.PDCode.isPlanar_insertCircleClasp_iff`, `TauCeti.PDCode.isPlanar_adjoinTwoCircleClasp`,
+  `TauCeti.PDCode.isPlanar_reidemeisterThree_iff`, `TauCeti.PDCode.faceCount_insertClasp_of_face_ne`,
+  `TauCeti.PDCode.not_isPlanar_insertClasp_of_face_ne`.
+- *Circles, components and marks.* `TauCeti.PDCode.CircleStep`, `TauCeti.PDCode.CrossingCircle`,
+  `TauCeti.PDCode.ResolvedCircle`, `TauCeti.PDCode.crossingCircleEquiv`,
+  `TauCeti.PDCode.isPerfectMatching_stateCycleReversal`, `TauCeti.PDCode.two_mul_card_crossingCircle`,
+  `TauCeti.PDCode.card_resolvedCircle`, `TauCeti.PDCode.one_le_card_resolvedCircle`,
+  `TauCeti.PDCode.SmoothingEquiv` with `.refl`, `.symm`, `.trans`, `.resolvedCircleCongr`,
+  `.relabel`, `.rotateCrossing`, `.mirror`, `.crossinglessPerm`, `TauCeti.PDCode.ResolutionEquiv`,
+  `TauCeti.PDCode.disjointUnionResolvedCircleEquiv`, `TauCeti.PDCode.circlesAt`,
+  `TauCeti.PDCode.card_circlesAt_eq_two_iff`, `TauCeti.PDCode.unchangedCircleEquiv`,
+  `TauCeti.PDCode.saddleResolvedCircleMap`,
+  `TauCeti.PDCode.card_circlesAt_add_card_circlesAt_le_three`,
+  `TauCeti.PDCode.IsPlanar.card_circlesAt_eq_two_or_card_circlesAt_eq_two`,
+  `TauCeti.PDCode.IsPlanar.card_false_add_stateLoopCount_mod_two_eq`,
+  `TauCeti.PDCode.resolveCrossing`, `TauCeti.PDCode.detachedCircleCount`,
+  `TauCeti.PDCode.IsPlanar.resolveCrossing`, `TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`,
+  `TauCeti.OrientedPDCode.Component`, `TauCeti.OrientedPDCode.card_component`,
+  `TauCeti.OrientedPDCode.componentPermOutgoing`, `TauCeti.OrientedPDCode.componentEquiv`,
+  `TauCeti.OrientedPDCode.relabelComponentEquiv`, `TauCeti.OrientedPDCode.mirrorComponentEquiv`,
+  `TauCeti.OrientedPDCode.CrossinglessLabeling`, `TauCeti.PDCode.Mark`, `TauCeti.PDCode.Mark.onArc`,
+  `TauCeti.PDCode.Mark.onCircle`, `TauCeti.PDCode.Mark.resolvedCircle`,
+  `TauCeti.PDCode.SmoothingEquiv.markCongr`, `TauCeti.OrientedPDCode.seifertState`,
+  `TauCeti.OrientedPDCode.seifertState_eq_true_iff`,
+  `TauCeti.OrientedPDCode.even_seifertCircleCount_sub_crossingCount_add_componentCount`.
+- *The Frobenius algebra and circle tensors.* `TauCeti.Khovanov.coalgebra` (a scoped instance in
+  `TauCeti.Khovanov`), `TauCeti.Khovanov.isCocomm`, `TauCeti.Khovanov.isFrobenius`,
+  `TauCeti.Khovanov.mul_compr₂_counit`, `TauCeti.Khovanov.counit_basis_mul_basis_rev`,
+  `DualNumber.khovanov_counit_eps_mul_smul_one_add_counit_smul_eps`,
+  `TauCeti.Khovanov.baseChangeCoalgEquiv`, `TauCeti.Khovanov.quantumGrading`,
+  `TauCeti.Khovanov.quantumGradedObject`, `TauCeti.Khovanov.quantumMul`,
+  `TauCeti.Khovanov.quantumComul`, `TauCeti.Khovanov.quantumUnit`,
+  `TauCeti.Khovanov.quantumCounit`, `TauCeti.Khovanov.instGradedAlgebraShiftOne`,
+  `TauCeti.Khovanov.CircleTensor`, `TauCeti.Khovanov.circleBasis`,
+  `TauCeti.Khovanov.circleQuantumGrading`, `TauCeti.Khovanov.labelingQuantumDegree`,
+  `PiTensorProduct.fiberwiseMul`, `TauCeti.Khovanov.fiberwiseSplit`,
+  `TauCeti.Khovanov.circleBaseChange`, `TauCeti.PDCode.EnhancedState`,
+  `TauCeti.PDCode.resolutionMergeMap`, `TauCeti.PDCode.resolutionSplitMap`,
+  `TauCeti.PDCode.resolutionEdgeMap`, `TauCeti.PDCode.resolutionEdgeMap_comp_resolutionEdgeMap_comm`.
+- *Cubes and the Khovanov complex.* `CategoryTheory.Functor.cubeComplex`,
+  `CategoryTheory.NatTrans.cubeComplexMap`, `CategoryTheory.cubeComplexFunctor`,
+  `CategoryTheory.Functor.cubeComplexXZeroIso`, `CategoryTheory.Functor.cubeComplexMappingConeIso`,
+  `CategoryTheory.Functor.cubeComplexReindexIso` with `CategoryTheory.Functor.cubeComplexReindexIso_refl`
+  and `CategoryTheory.Functor.cubeComplexReindexIso_trans`, `CategoryTheory.Functor.dualCube`,
+  `TauCeti.PDCode.cubeState`, `TauCeti.PDCode.resolutionCube`, `TauCeti.PDCode.khovanovBracket`,
+  `TauCeti.PDCode.resolutionCubeBaseChangeIso`, `TauCeti.PDCode.finite_quantumSupport_khovanovBracket`,
+  `TauCeti.PDCode.mirrorKhovanovBracketIso`, `TauCeti.OrientedPDCode.stateCochainDegree`,
+  `TauCeti.OrientedPDCode.enhancedQuantumDegree`, `TauCeti.OrientedPDCode.khovanovComplex` (the
+  normalized complex, an object of `GradedObject ℤ (CochainComplex (ModuleCat R) ℤ)` for a planar
+  code), `TauCeti.OrientedPDCode.khovanovComplexXIso`, `TauCeti.OrientedPDCode.ι_khovanovComplex_d`,
+  `TauCeti.OrientedPDCode.khovanovComplexShiftIso`,
+  `TauCeti.OrientedPDCode.khovanovComplex_isStrictlyGE`,
+  `TauCeti.OrientedPDCode.khovanovComplex_isStrictlyLE`, `TauCeti.OrientedPDCode.khovanovHomology`,
+  `TauCeti.OrientedPDCode.khovanovComplexHomologyEmptyIso`,
+  `TauCeti.OrientedPDCode.khovanovComplexHomologyUnknotIso`,
+  `TauCeti.OrientedPDCode.coeff_pow_eq_finrank_homology_khovanovComplex`,
+  `TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`.
+- *Euler characteristic and the Jones polynomial.* `TauCeti.OrientedPDCode.enhancedStateSum`,
+  `TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`,
+  `TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial` (for a nonempty code),
+  `TauCeti.enhancedStateSum_rightHandedTrefoilPDCode`,
+  `TauCeti.OrientedPDCode.khovanovEulerChar`, `TauCeti.OrientedPDCode.homologyEulerChar_khovanovComplex`,
+  `TauCeti.OrientedPDCode.khovanovEulerChar_eq_enhancedStateSum`,
+  `TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial` (for a nonempty planar
+  code, over a Noetherian ring with the rank-nullity property),
+  `TauCeti.OrientedPDCode.khovanovEulerChar_empty`.
+- *Homological algebra.* `TauCeti.koszulBraiding`, `TauCeti.koszulBraidedCategory`,
+  `TauCeti.koszulSymmetricCategory`, `TauCeti.linearHomComplexPostcomp`,
+  `TauCeti.ChainComplex.extToHomology`, `TauCeti.ChainComplex.extToHomology_injective`,
+  `TauCeti.ChainComplex.exact_extToHomology_kronecker` (the Hom/Ext sequence for a chain complex with
+  split cycle inclusions and projective cycles), `TauCeti.ChainComplex.kroneckerSection` (its
+  splitting), `TauCeti.homCokernelEquivExt` (`Ext¹` from a projective presentation of length one),
+  `HomologicalComplex.homologyKunneth`, `HomologicalComplex.homologyKunneth_naturality`,
+  `HomologicalComplex.homologyKunnethShortComplex_shortExact` (the Künneth sequence for `ℕ`-indexed
+  chain complexes of modules over a commutative ring, the second with projective cycles and
+  projective quotients by its cycles), `HomologicalComplex.homologyToTor_naturality`,
+  `HomologicalComplex.homologyKunnethShortComplexMap`,
+  `HomologicalComplex.homologyKunnethShortComplexSplitting` (when the cycles of the first complex
+  split off), `CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel` (`Tor₁` from a projective
+  presentation of length one), `HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+  `HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing`,
+  `HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing` (over a principal ideal domain,
+  for projective terms), `CochainComplex.isKFlat_of_bounded_flat`,
+  `CochainComplex.quasiIso_id_tensorHom` (tensoring with a K-flat complex preserves
+  quasi-isomorphisms), `TauCeti.dualNumberProjectiveResolution`,
+  `TauCeti.dualNumberProjectiveResolutionXIso`, `TauCeti.dualNumberResidue`.
+- *Braids, smooth links and geometry.* `TauCeti.BraidWord`, `TauCeti.BraidWord.closure`,
+  `TauCeti.BraidWord.crossingSign_closure`, `TauCeti.BraidWord.writhe_closure`,
+  `TauCeti.BraidWord.nextCrossing`, `TauCeti.BraidWord.closure_nil`, `TauCeti.SmoothLinkEmbedding`,
+  `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`, `TauCeti.SmoothEmbedding`, `TauCeti.SmoothEmbedding.compDiffeomorph`,
+  `TauCeti.KnotCobordism` (a connected orientable surface in `Sⁿ × ℝ`, compact over the slab, with
+  cylindrical ends over the images of two knots),
+  `TauCeti.Diffeotopy`, `TauCeti.interior_image_criticalPoints_eq_empty` (Morse–Sard on
+  finite-dimensional charts), `TauCeti.filledHull`, `TauCeti.cellularSingularHomologyIso`,
+  `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
+
+### From TauCetiRoadmap.GeometricTopology
+
+Layer 1 (§§1.1, 1.3 and 1.5: collars, gluing along the boundary, tubular neighbourhoods) and Layer 4
+(§4.2: diagrams, their realization as links and Reidemeister's theorem; §4.2.3: braid closures;
+§4.5: the value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link; §4.8.1:
+adequate diagrams, by loopless state graphs of the all-`A` and all-`B` states). They are consumed
+in §§7.1–7.2 and 7.6 (Layer 1) and in §§4.3, 5.6, 6.4, 6.5 and 8.1–8.6 (Layer 4).
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Layer 2 (orientations of manifolds, pullbacks and products), §§3.2, 3.3 and 3.5 (maximal flows,
+completeness and time-dependent flows in finite dimensions) and Layer 5 (boundary orientation),
+consumed in §§7.1–7.3 and 8.4–8.5.
+
+### From TauCetiRoadmap.ConformalMapping
+
+Layer 5 (Jordan separation and filled hulls of Jordan curves), consumed in §8.2.
+
+### From TauCetiRoadmap.DGAInfinity
+
+Layer 1 (DG algebras and modules, and ordinary algebras as degree-zero DG algebras) and Layer 5
+(derived modules and semi-free modules), consumed in §5.11 under their stated hypotheses.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+§0.2 (the derived tensor product of complexes of modules over a commutative ring, exact in each
+variable and symmetric monoidal with unit the ring in degree zero, computed for a bounded-above
+complex `P` of flat modules by the ordinary tensor product with `P`), consumed in §5.11 over
+`W = DualNumber R`.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+§4.3 (the cellular comparison) and §7.1 (the Euler characteristic of finite CW complexes and its
+Euler–Poincaré theorem), consumed in §7.6 through the Tau Ceti declarations listed above.
 
 ## References
 
 - M. Khovanov, [A categorification of the Jones polynomial](https://arxiv.org/abs/math/9908171),
-  for the Frobenius object, cubes, Reidemeister constructions, ordinary coefficient
-  specialization, examples and adequacy. Translate its grading shifts explicitly.
-- M. Khovanov, [Patterns in knot cohomology I](https://arxiv.org/abs/math/0201306), §3,
-  for the marked-module and reduced construction over `ℚ` for knots. Construct the integral
-  finite-link comparison and its periodic-resolution proof in K5.
+  Duke Math. J. 101 (2000): §2.1 (grading shifts, translated in Convention 3), §2.2 (the Frobenius
+  algebra), §4.2 (Theorem 1 and Proposition 9), §§6.2 and 7.6 (Propositions 26 and 35, the
+  `(2, n)` torus links), §7 (the specialization `c = 0`; Theorem 2, Propositions 27–33 and
+  Corollaries 11–12), §7.7 (adequate diagrams, Propositions 36–37 and Corollary 13).
+- M. Khovanov, [Patterns in knot cohomology I](https://arxiv.org/abs/math/0201306), §3, for the
+  module structure over the dual numbers at a marked point and the reduced theory over `ℚ` for
+  knots; the integral finite-link comparison and its periodic-resolution proof are §5.9's.
 - M. Jacobsson, [An invariant of link cobordisms from Khovanov homology](https://arxiv.org/abs/math/0206303),
-  for the boundary-fixed, overall-sign homology theorem and numbered movie conventions.
-  The chain-level theorem and its local proof floor use Bar-Natan's construction.
+  Algebr. Geom. Topol. 4 (2004), 1211–1251: §3.2 (numbered movie moves), §4.2 (Theorem 2, the
+  boundary-fixed homology statement up to an overall sign, and the reformulated theorem of
+  Carter–Saito). The chain-level theorem and its local proof follow Bar-Natan's construction.
 - D. Bar-Natan, [Khovanov's homology for tangles and cobordisms](https://www.math.toronto.edu/~drorbn/papers/Cobordism/),
-  for local cancellation, cone homotopies and projective homotopy-category functoriality.
+  Geom. Topol. 9 (2005), 1443–1499: §4.1 (the relations `S`, `T`, `4Tu`), §§4.2–4.3 (Theorem 1,
+  invariance, with local cancellation and cone homotopies), §5 (Theorem 2, planar composition), §7
+  (Proposition 7.2, the evaluation), §8 (Theorem 4, projective functoriality, and the movie moves)
+  and §9.1 (neck cutting).
+- D. Bar-Natan, [On Khovanov's categorification of the Jones polynomial](https://arxiv.org/abs/math/0201043),
+  Algebr. Geom. Topol. 2 (2002), 337–370: §3.1, Definitions 3.2–3.3 (the shifts `{k}` and `[s]` and
+  the normalization of the complex).
 - M. Golubitsky and V. Guillemin,
   [Stable Mappings and Their Singularities](https://doi.org/10.1007/978-1-4615-7904-5),
-  §II.4, Theorem 4.13, for multijet transversality. Construct the relative finite-parameter,
-  fixed-collar and collision-stratum adapters in G and K7.
+  §II.4, Theorem 4.13, for multijet transversality; the relative finite-parameter, fixed-collar and
+  collision-stratum adapters are §§7.5 and 8.4.
 - M. W. Hirsch, [Differential Topology](https://doi.org/10.1007/978-1-4684-9449-5),
-  Ch. 8 §1, Theorems 1.3–1.4, for compact-submanifold isotopy extension. Construct G's
-  finite-family support and K7's collar/slab adapters explicitly.
-- W. B. R. Lickorish, *An Introduction to Knot Theory*, Ch. 1, for the PL Reidemeister
-  theorem. G constructs its smooth, labelled, relative comparison.
+  Ch. 8 §1, Theorems 1.3–1.4, for compact-submanifold isotopy extension; the finite-family support
+  and the collar and slab adapters are §§7.2 and 8.5.
+- W. B. R. Lickorish, *An Introduction to Knot Theory*, Ch. 1, for the PL Reidemeister theorem; its
+  smooth, labelled, relative comparison is §8.6.
 - D. Roseman,
   [Reidemeister-type moves for surfaces in four-dimensional space](https://doi.org/10.4064/-42-1-347-380),
-  for the surface-projection moves; K7 includes their height-sensitive movie refinements.
+  for the surface-projection moves; their height-sensitive movie refinements are §7.5's.
 - J. S. Carter and M. Saito,
-  [Reidemeister Moves for Surface Isotopies and Their Interpretation as Moves to
-Movies](https://doi.org/10.1142/S0218216593000167),
-  J. Knot Theory Ramifications 2 (1993), 251–284,
-  for the fifteen geometric movie schemata in Jacobsson's numbering; and
-  *Knotted Surfaces and Their Diagrams* for the geometric presentation.
+  [Reidemeister Moves for Surface Isotopies and Their Interpretation as Moves to Movies](https://doi.org/10.1142/S0218216593000167),
+  J. Knot Theory Ramifications 2 (1993), 251–284, for the fifteen geometric movie schemata in
+  Jacobsson's numbering; and *Knotted Surfaces and Their Diagrams* for the geometric presentation.
 - J. S. Carter, J. H. Rieger and M. Saito,
-  [A combinatorial description of knotted surfaces and their
-isotopies](https://doi.org/10.1006/aima.1997.1618),
-  for the word presentation. Construct its dictionary to the chosen movie schemata;
-  retain the precise generator and relation correspondence.
+  [A combinatorial description of knotted surfaces and their isotopies](https://doi.org/10.1006/aima.1997.1618),
+  for the word presentation; its dictionary with the chosen movie schemata, with the precise
+  generator and relation correspondence, is §7.5's.
