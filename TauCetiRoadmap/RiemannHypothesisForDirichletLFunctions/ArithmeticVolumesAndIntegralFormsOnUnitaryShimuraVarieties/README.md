@@ -539,13 +539,14 @@ ComplexComparisonPartII C1.9, C2.2 (GAGA, through 8.11 (a)); ProjectiveModelsAnd
 
 *Origin:* particular to this proof: an inequality for the degrees of arbitrary sub-bundles of the eigen-parts of the Lie
 algebra of a semi-abelian scheme on a curve in characteristic `ℓ`, under `4|Φ|·M ≤ (ℓ − 2)·g`; nearest published results:
-Yuan (2021), the bound `(ℓ − 1)·m₀ ≤ deg ω` in characteristic `ℓ` for the sub-bundle of `Lie` of largest degree, and Yang
-(2025), nef cones of automorphic line bundles on unitary Shimura varieties in positive characteristic.
+Yuan (2021), the identity `h(A/G) = h(A) − (ℓ − 1)·deg Lie(G)` for a height-one subgroup `G`, flat over a curve in
+characteristic `ℓ` (Theorem 2.9 (2) of arXiv:1808.03960), which with `h ≥ 0` gives `(ℓ − 1)·m₀ ≤ deg ω` over `ℙ¹` for the
+sub-bundle of `Lie` of largest degree (Lemma 2.4 there), and Yang (2025), nef cones of automorphic line bundles on unitary Shimura varieties in positive characteristic.
 
 *Method of the formal proof:* a slope argument on the curve: the Frobenius pull-back of a sub-bundle of largest degree
 `m₀` of the Lie bundle is placed in the de Rham bundle, and counting degrees through the Hodge and conjugate sequences
 gives `(ℓ − 2)·m₀ ≤ deg ω`; conjugate eigen-parts are shown to have equal degree, and an Abel summation with the gap
-condition gives the inequality. The published bound for the sub-bundle of largest degree comes instead from the quotient
+condition gives the inequality. The published bound over `ℙ¹` for the sub-bundle of largest degree comes instead from the quotient
 by a height-one subgroup and the nonnegativity of the height, and the published cones come from Hasse invariants on
 strata rather than from slopes on a curve.
 
@@ -694,6 +695,11 @@ of the antisymmetric polynomials by `Δ·(invariant linear forms)`.
 *Check.* `|Φ| = 1`, `N = 2`, `p = q = 1`: `𝔚` is trivial, `D = 1`, a quadratic form vanishing on `x₀ = x₁` is
 `(x₀ − x₁)(αx₀ + βx₁)`, and the non-homogeneous `(x₀ − x₁)(αx₀ + βx₁ + c)`, `c ≠ 0`, shows that homogeneity is needed.
 
+*Sources:* [FormalProof], `GroundTheory/HeightsAndTheta/Heights/Antisymmetric/Statements.lean`
+(`GroundTheory.Heights₂.Heights.AntisymDivisible.Statement`, divisibility by `Δ` with an invariant linear quotient, from
+vanishing on a relatively open piece of every non-compact wall; `GroundTheory.Heights₂.Heights.AntisymPerturbation.Statement`,
+the quantitative form for `P − v·h` with `h` vanishing on compact pieces `K_τ` of the simple non-compact walls, which at
+`v = 0` is the quantitative form stated here and at `ε = 0` gives the divisibility from the simple walls alone).
 *Needs:* Mathlib (`MvPolynomial`, `MvPolynomial.rename`, `Equiv.Perm.sign`; invariance and antisymmetry
 under `𝔚` are stated through `rename` and the sign, and are not Mathlib notions).
 
@@ -1607,6 +1613,11 @@ between `Z′_ψ` and the translates `ρ(h_i)Z′_ψ` with `t_i s_j = |U|·δ_{i
 decomposition; then monotonicity and transport of indices. The hypothesis "for every `W`" is used for one extremal
 subspace, which can be taken global (HermitianFormsAndLattices §4.0b (a) over the localisation of the ring of integers).
 
+*Sources:* [FormalProof], `Formalism/MirabolicMackeyTheory/StatementL.lean` (`Formalism.EigenvalueLevelCeiling.IdxPsiGood`,
+the inequality stated here with integers `u, δ ≥ 1` in place of `|U|` and `[P : U]`, assuming the bound
+`idx_𝔩(M, M ∩ a⁻¹Th) ≤ r` and the inequality of the route for `M ∩ a⁻¹Th ⊂ M`; `Formalism.EigenvalueLevelCeiling.LemmaGG`,
+the inequality `[P : U]·idx_𝔩(B ∩ Z′_ψ, B′ ∩ Z′_ψ) ≤ idx_𝔩(B, B′) + dim Z′·v_𝔩(|U|)` of the route for `P`-stable lattices
+`B′ ⊂ B` and a Mackey pair).
 *Needs:* HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a)); FiniteReductiveGroups §2.4
 (the mirabolic subgroup).
 
@@ -2552,6 +2563,12 @@ columns, `log|Dt|_σ ≤ −Σ_i a_i(σ) + Σ_j log S_σ(θ_j) + ρ·C_arch + (�
 *Check.* `nn` may be negative; only `nn + ρ·be ≥ 0` holds, so the form with positive parts,
 `Σ_𝔩 (length_𝔩 − ρ·be(𝔩))⁺·ϱ(𝔩) ≤ ρ(B_θ + C_arch + B_deg + ½·log ρ)`, does not follow: it would need the extra term `ρ·Σ_𝔩 be(𝔩)ϱ(𝔩)`.
 
+*Sources:* [FormalProof], `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/Rationality/QCoreSt.lean`
+(`ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.QuotCoreStatement`, the statement, which takes the descent of
+lengths `ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.LenDescentStatement` as a hypothesis),
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/Rationality/GlobSt.lean`
+(`ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.GlobalQuotStatement`, the global half, for a matrix in place of
+`(c_i(θ_j))`, with the term `(ρ/2)·log ρ`).
 *Needs:* Mathlib (`Matrix.det`; the product formula `NumberField.prod_abs_eq_one`); Tau Ceti `OrthonormalBasis.norm_det_le_prod_norm` (Hadamard's inequality).
 
 ### 8.19b Denominators of CM values at every prime
