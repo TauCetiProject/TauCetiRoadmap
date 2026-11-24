@@ -989,9 +989,11 @@ Prove the following.
 (a) *Sub-bundles and quotients.* Define a holomorphic sub-bundle `S ⊂ E` of a holomorphic bundle as a
 subset that meets each fibre in a linear subspace and is spanned, near every point, by part of a
 holomorphic frame of `E`. Construct the holomorphic bundle structures on `S` and on the fibrewise quotient
-`Q = E/S` for which the inclusion and the projection are holomorphic bundle maps, the induced metric on
+`Q = E/S` for which the inclusion and the projection are holomorphic bundle maps; this definition and
+this construction are the standard ones, in this roadmap's formulation. Construct the induced metric on
 `S`, the smooth orthogonal complement `S^⊥`, and the quotient metric on `Q`, for which the projection
-`S^⊥ → Q` is an isometry (Demailly, Chapter V, §14, p. 273). Let `S ⊂ E` be a holomorphic sub-bundle with
+`S^⊥ → Q` is an isometry (Demailly, Chapter V, §14, p. 273, for a given exact sequence of holomorphic
+bundles `0 → S → E → Q → 0`). Let `S ⊂ E` be a holomorphic sub-bundle with
 the induced metric, and `Q = E/S` with the quotient metric, identified with `S^⊥` as a smooth bundle. The
 *second fundamental form* `β` is defined by letting `β(s)` be the `S^⊥`-component of `D_E s` for smooth
 sections `s` of `S`. It is a `(1,0)`-form with values in `Hom(S, Q)`, `β = Σ_j β_j dz_j`. Its adjoint is
@@ -1046,7 +1048,8 @@ values in `W`, so `Θ(S) = −σ* ∧ σ`.
   curvature forms of opposite signs. A formula with `+|β|²` for the sub-bundle would make `O(−1)` positive.
 - `E = O^p` on an open set of `ℂⁿ` with the flat metric, `g = (g_1, …, g_p)` holomorphic without common zero,
   `S = ker(g : O^p → O)`: the quotient `Q = O^p/S ≅ O` (via `g`) has quotient metric `|g|^(−2)`, and
-  `θ_Q = |β*|²` is `|w|²·Σ_(j,k) (∂_j∂̄_k log|g|²) ξ_j ξ̄_k`, positive as (a) requires.
+  `θ_Q = |β*|²` is `|w|²·Σ_(j,k) (∂_j∂̄_k log|g|²) ξ_j ξ̄_k`, nonnegative, as the semipositivity of (a)
+  requires.
 - In (b) the sign of `θ_S` is that of `−k_V` on the image of `σ`: when `k_V` is positive definite on all of `V`,
   (a) applies with `β = σ` and gives `θ_S = −|σ|² ≤ 0`. So when `k_V` is positive somewhere on `S^(⊥k)`,
   `W = S^(⊥k)` is not available, and the hypothesis on `W` is needed.
@@ -3798,7 +3801,7 @@ connection, through P1.0) and HodgeStructures (linear Hodge structures).
   identities and `Δ_d=2Δ_∂=2Δ_∂̄`, (6.8), pp. 306–307, and (6.15), p. 309, for their torsion terms on
   non-Kähler Hermitian manifolds, and Chapter VII, (1.1)–(1.3), pp. 329–330, for the twisted identities
   and the Akizuki–Nakano identity of K6.0; Chapter V, §14, p. 273, Th. 14.3 and 14.5 and
-  (14.6)–(14.7), pp. 273–275, for holomorphic sub-bundles, quotient bundles and their metrics, the
+  (14.6)–(14.7), pp. 273–275, for the induced and quotient metrics of an exact sequence, the
   second fundamental form and the curvature of sub-bundles and quotient bundles in 4.2a; Chapter VII,
   (6.1)–(6.4) and (6.10), pp. 338–340, for the Griffiths and Nakano forms and the curvature formulas
   of 4.2a; Chapter VIII, Lemma 7.3, pp. 382–383, for 3.5a.
