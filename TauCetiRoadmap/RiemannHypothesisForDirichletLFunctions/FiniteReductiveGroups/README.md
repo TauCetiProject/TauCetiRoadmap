@@ -3,9 +3,9 @@
 **Summary.** Let `G` be a connected reductive group over a finite field `𝔽_q` and `F` its Frobenius
 endomorphism. The finite group `G^F` of rational points (`GL_n(𝔽_q)`, `Sp_{2n}(𝔽_q)`, the finite unitary
 groups) has finitely many irreducible complex characters, and two classical machines construct them. Their
-general theory is stated in ReductiveGroups (Layers 7a, 7h, 7i and 9F) and RepresentationTheory/CharacterTheory
-(Layer 9a); this roadmap states the forms for the general linear groups that [FormalProof] has, and cites the general
-theorems of which they are cases. Harish-Chandra induction from Levi subgroups of rational parabolic subgroups
+general theory is stated in ReductiveGroups and RepresentationTheory/CharacterTheory; this roadmap states, for the
+general linear groups, the forms that the family's formal proof uses, and cites the general theorems of which they are
+cases. Harish-Chandra induction from Levi subgroups of rational parabolic subgroups
 sorts the irreducible characters into series, each attached to a cuspidal character of a Levi subgroup.
 Deligne–Lusztig induction attaches to every rational maximal torus `T` and every character `θ` of `T^F`
 a virtual character `R_T^G(θ)`, the alternating sum of the `θ`-isotypic parts of the ℓ-adic cohomology
@@ -49,12 +49,12 @@ cuspidal support of any depth-zero representation as a Harish-Chandra series.
 
 The roadmap builds on [ReductiveGroups](../../ReductiveGroups/README.md), which constructs `G^F`, proves Lang's theorem and owns the
 Harish-Chandra functors with their Mackey formula, and which states in general the rational Borel pairs and tori, Harish-Chandra
-series, Gelfand–Graev representations and Deligne–Lusztig induction (Layers 7a, 7h, 7i and 9F); on the [RepresentationTheory](../../RepresentationTheory/README.md) family ([CharacterTheory](../../RepresentationTheory/CharacterTheory/README.md),
+series, Gelfand–Graev representations and Deligne–Lusztig induction; on the [RepresentationTheory](../../RepresentationTheory/README.md) family ([CharacterTheory](../../RepresentationTheory/CharacterTheory/README.md),
 [InductionRestriction](../../RepresentationTheory/InductionRestriction/README.md) and [SchurWeyl](../../RepresentationTheory/SchurWeyl/README.md)) for characters, induction and symmetric functions, CharacterTheory
-Layer 9a stating Green's theory of the characters of `GL_n(𝔽_q)`; on
-[EtaleCohomologyFoundations](../../EtaleCohomologyFoundations/README.md) for compactly supported ℓ-adic cohomology, and on EtaleDualityAndPerverseSheaves §7.6 for the
+stating Green's theory of the characters of `GL_n(𝔽_q)`; on
+[EtaleCohomologyFoundations](../../EtaleCohomologyFoundations/README.md) for compactly supported ℓ-adic cohomology, and on EtaleDualityAndPerverseSheaves for the
 Lefschetz numbers of finite-order automorphisms; and on [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md)
-for compact induction and Jacquet modules of `p`-adic groups, with the depth-zero representations of its Layer SR.7. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds
+for compact induction and Jacquet modules of `p`-adic groups, with the depth-zero representations of `GL_n`. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds
 [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md)
 (explicit local Langlands parameters of depth-zero supercuspidal representations, through the lift of labels under
 unramified base change of prime degree) and the theta-chain roadmaps, from
@@ -67,7 +67,7 @@ Gelfand–Graev representations and the Harish-Chandra restriction of `Γ_ψ`, a
 subgroup, the derivatives of `Γ_n`, the Bessel-type induced representations and their multiplicities; Layer 3
 develops the facts about compactly supported ℓ-adic cohomology and Lefschetz numbers of finite-order
 automorphisms that Deligne–Lusztig theory needs; Layer 4 is
-Deligne–Lusztig induction, cited from ReductiveGroups Layer 9F with the forms for `GL_n` that [FormalProof] has, in the
+Deligne–Lusztig induction, cited from ReductiveGroups with the forms for `GL_n` that the formal proof uses, in the
 order the Lang map as a `G^F`-torsor and Deligne–Lusztig varieties, inner
 products, Harish-Chandra compatibility, Steinberg character
 and the two averages, degree, disjointness of Lusztig series and exhaustion, cuspidality, Gelfand–Graev
@@ -153,7 +153,7 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof]. Where a section states the form of [FormalProof], or restates a section of another roadmap, what no other
 roadmap states of the wider form is kept beside the statement: in a second statement block headed **Wider form** when a
-route rests on it (2.6, 5.1, 5.7), and otherwise in a *Remark* (1.1, 2.6, 3.2, 4.2, 4.10, 4.11, 5.9); neither is a
+route rests on it (2.6, 5.1), and otherwise in a *Remark* (1.1, 2.6, 3.2, 4.2, 4.10, 4.11, 5.9); neither is a
 statement of [FormalProof].
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and `*Method of the formal proof:*`
@@ -161,20 +161,21 @@ how [FormalProof] proves it. The definitions of 2.1, 5.3 and 6.4 carry the first
 1.4, 3.1, 3.3, 3.4, 4.1–4.3, 4.6, 5.10 and 6.2 are not statements of [FormalProof]: 6.2 is stated with its route, and the
 others restate published theorems through the sections of other roadmaps that state them, with the routes of the clauses
 that no such section states. Of each other section [FormalProof] has a statement, which the second label names. In 0.4,
-1.0–1.3, 2.3, 2.6, 3.2, 4.4, 4.5, 4.7–4.11, 5.1, 5.4, 5.7 and 5.9 the statement is the form that [FormalProof] has, for
-`GL_n` over every finite field or over a prime field as the section says (for proper schemes in 3.2), and the
-`*Corollary of:*` line names the general theorem of which it is a case; in 0.1, 0.3 and 2.2 the statement is the general
-theorem, of which [FormalProof] has the case of `GL_n`. The parts of a section that are this roadmap's own formulations
-are named in the first label.
+1.0–1.3, 2.3, 2.6, 3.2, 4.4, 4.5, 4.7–4.11, 5.1, 5.4, 5.7 and 5.9 the statement is a case of the general theorem that the
+`*Corollary of:*` line names: the form that [FormalProof] has, for `GL_n` over every finite field or over a prime field as
+the section says, except that 3.2 is stated without the étale hypotheses of that form, and that the clauses of 4.8, 5.4
+and 5.7 which [FormalProof] has for prime fields `𝔽_p` with `p ≥ 5` are stated over every finite field. In 0.1, 0.3 and
+2.2 the statement is the general theorem, of which [FormalProof] has the case of `GL_n`. The parts of a section that are
+this roadmap's own formulations are named in the first label.
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
 which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
-the whole section. As long as that general theorem is not in the library, what the line covers is proved as
-[FormalProof] proves it: the `*Method of the formal proof:*` label says how, and for which form of the statement when
-that proof has a narrower one; the route given with the section is that proof's unless the label says that it differs.
-Once the general theorem is in the library, the proof of what the line covers is replaced by the deduction from it, and
-the lemmas that only the first proof uses are removed. The statement does not change. In 4.4, 4.5, 4.7, 4.9 and 4.10 the
-line names, beside the general theorem, RepresentationTheory/CharacterTheory §9a.8 (b), which identifies Green's class
+the whole section. What the line covers is a case of that theorem and is deduced from it; the
+`*Method of the formal proof:*` label records how [FormalProof] argues, and for which form of the statement when that
+proof has a narrower one. Where the route given with the section is not that deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what the route given needs, and the
+deduction needs the section that the `*Corollary of:*` line names. In 4.4, 4.5, 4.7, 4.9 and 4.10 the line names, beside
+the general theorem, RepresentationTheory/CharacterTheory §9a.8 (b), which identifies Green's class
 functions `J_n(θ̃)` with the Deligne–Lusztig characters of the Coxeter torus.
 
 ## Layer 0: finite reductive groups, rational tori and classes
@@ -429,9 +430,10 @@ blocks). Over a prime field this holds exactly when the Harish-Chandra restricti
 `ℂ`.
 
 The general statement, for every `G^F` — the tests by Harish-Chandra restriction and by invariants, on maximal parabolic
-subgroups, the preservation of cuspidality by the contragredient and by twisting with a linear character trivial on
-`U₀^F`, and the cuspidality of every irreducible representation of a torus — is ReductiveGroups §7h.1, extended to
-Steinberg endomorphisms in ReductiveGroups Layer 9E.
+subgroups, the preservation of cuspidality by the contragredient and by twisting with a linear character `χ` of `G^F`
+trivial on `U₀^F`, a condition on a linear character equivalent to triviality on all unipotent elements of `G^F` and to
+`χ` having order prime to `p`, and the cuspidality of every irreducible representation of a torus — is ReductiveGroups
+§7h.1, extended to Steinberg endomorphisms in ReductiveGroups Layer 9E.
 
 *Remark* (this roadmap's own formulation; not a statement of [FormalProof]). Every `α∘det` on `GL_n(𝔽_q)` is trivial on
 the unipotent elements, so twisting by `α∘det` preserves cuspidality (ReductiveGroups §7h.1).
@@ -1155,11 +1157,12 @@ change to a strictly henselian algebra (proper base change, and specialisation a
 of `X` is used); the cone of the Leray–Hirsch map over `Y` is contracted up to a power of `N`; the limit over `ν` and
 inverting `ℓ` give the isomorphism.
 
-*Corollary of:* EtaleCohomologyFoundations §F.2.7 (the Künneth formula with compact supports).
+*Corollary of:* EtaleCohomologyFoundations §F.2.7 (the Künneth formula with compact supports), with §F.4.5 (its form
+with rational coefficients) and `H^*_c = H^*` for proper schemes.
 
-Let `k` be an algebraically closed field, `X` a proper smooth scheme and `Y` a proper scheme over `k`. Under the étale
-inputs that [FormalProof] names as hypotheses, `⊕_a H^a(X, ℚ_ℓ(i)) ⊗ H^{n−a}(Y, ℚ_ℓ) ≅ H^n(X ×_k Y, ℚ_ℓ(i))` for every
-`n`; no group action is considered.
+Let `k` be an algebraically closed field, `ℓ` a prime invertible in `k`, `X` a proper smooth scheme and `Y` a proper
+scheme over `k`. Then `⊕_a H^a(X, ℚ_ℓ(i)) ⊗ H^{n−a}(Y, ℚ_ℓ) ≅ H^n(X ×_k Y, ℚ_ℓ(i))` for every `n` and every `i`; no group
+action is considered.
 
 The general statements, for quasi-projective schemes over `k̄` with finite groups of automorphisms, are in other
 roadmaps: (a) the equivariant localisation sequence `⋯ → H^i_c(V) → H^i_c(X) → H^i_c(Z) → H^{i+1}_c(V) → ⋯` for `Z ⊂ X`
@@ -1190,7 +1193,7 @@ pieces to `X`. The hypothesis cannot be dropped from the route: for two lines `L
 `q_i ∈ L_i ∖ {p}`, the pieces `(L₁ ∖ {p, q₁}) ∪ {q₂}`, `(L₂ ∖ {p, q₂}) ∪ {q₁}`, `{p}` are locally closed and none of them
 is open.
 
-*Needs:* EtaleCohomologyFoundations §§F.2.5 (for the remark) and F.2.7; for the general statements cited,
+*Needs:* EtaleCohomologyFoundations §§F.2.5 (for the remark), F.2.7 and F.4.5; for the general statements cited,
 EtaleCohomologyFoundations §§F.2.5a, F.10.4a and EtaleDualityAndPerverseSheaves §7.6 (*lefschetzDevissage*).
 
 **Checks.**
@@ -1310,6 +1313,11 @@ Layer 9E, where the differential of `F` at `1` is nilpotent; (b) is ReductiveGro
   has two points, differing by an element of `G^F` (by computation).
 - `SL₂` over `𝔽₂`: on `SL₂(𝔽_{2^m})`, `m ≤ 4`, `L(x) = L(y)` iff `yx⁻¹ ∈ SL₂(𝔽₂)`, every nonempty fibre has `6` points, and the image
   has `|SL₂(𝔽_{2^m})|/6` elements (by computation).
+- (b), by computation on `K`-points: `SL₂` over `𝔽₂` (`K = 𝔽₄, 𝔽₁₆, 𝔽₆₄`) and over `𝔽₃` (`K = 𝔽₈₁`) with `T` the nonsplit torus
+  (`g₀⁻¹F(g₀) = [[0, 1], [−1, 0]]`, `T^F ≅ μ_{q+1}`), and `GL₃` over `𝔽₂` (`K = 𝔽₄`) with `g₀⁻¹F(g₀)` the transposition `(12)`, where
+  `U ∩ F(U)` has dimension `2` and `x = uav` is not unique: the torus coordinate `τ` of ReductiveGroups §9F.1 is well defined,
+  `τ((gb)⁻¹F(gb)) = τ(g⁻¹F(g))·t⁻¹F(t)` for every `b = tu ∈ B(K)`, the `K`-points of `Y_U` over each `K`-point of `X_B` are empty or
+  one `T^F`-orbit, the `gtU` with `t⁻¹F(t) = τ(g⁻¹F(g))⁻¹`, and `|X_B(K)| = |K| + 1 − (q + 1)` for `SL₂`.
 
 ### 4.2 Deligne–Lusztig characters and Green functions
 
@@ -1378,7 +1386,7 @@ RepresentationTheory/CharacterTheory §9a.8 (b) (`J_n(θ̃) = R_{T_{(n)}}^G(θ̃
 
 **Green's class functions.** For a homomorphism `θ̃ : k̄^× → ℂ^×` let `b_{θ̃}^{(n)}(x) = Σ_α θ̃(α)`, the sum over the
 eigenvalues `α ∈ k̄^×` of `x ∈ GL_n(𝔽_q)` counted with multiplicity. Green's class functions `J_n(θ̃)` on `GL_n(𝔽_q)`,
-`n ≥ 1`, are defined by the recursion
+`n ≥ 1`, are those of RepresentationTheory/CharacterTheory §9a.8 (b), determined by the recursion
 `b_{θ̃}^{(n)} = Σ_{a=1}^{n} R_{GL_a×GL_{n−a}}^{GL_n}(J_a(θ̃) ⊠ 1_{GL_{n−a}(𝔽_q)})` (the term `a = n` is `J_n(θ̃)`).
 **The inner product.** For homomorphisms `θ̃`, `θ̃′` with restrictions `θ`, `θ′` to `𝔽_{q^n}^×`,
 `⟨J_n(θ̃), J_n(θ̃′)⟩ = ⟨J_n(θ̃), b_{θ̃′}^{(n)}⟩ = #{j < n : θ^{q^j} = θ′}`.
@@ -1396,6 +1404,17 @@ every proper Harish-Chandra restriction (4.5 (b)), and the terms `a < n` of the 
 Harish-Chandra induced.
 
 *Needs:* 4.5 (b), 5.1; ReductiveGroups Layer 7c (adjunction) and §9F.4; RepresentationTheory/CharacterTheory §9a.8 (b).
+
+**Checks.**
+- The general statement for `G = SL₂` over `𝔽₂` and `T = T′` the non-split torus (`T^F ≅ μ₃`), with `Y_U = Y_{U′}` in the model
+  `{v ∈ 𝔸² : det(v, Fv) = 1}`, `G^F = SL₂(𝔽₂)` acting linearly and `T^F` by scalars; here `U ∩ F(U) = 1`, so the pieces `Z_n` of
+  the route of ReductiveGroups §9F.4 are those of `G^F\(Y_U × Y_U)`. The closed piece (`n ∈ T`) is `(G^F\Y_U) × μ₃ ≅ 𝔸¹ × μ₃`, of
+  compactly supported Euler characteristic `3 = |G^F ∩ T|`. On the open piece, for `M = (v | w)` with `c = det M ≠ 0`,
+  `M⁻¹F(M) = [[a, c⁻¹], [c⁻¹, b]]` with `ab = c − c⁻²`, and Lang's map identifies the piece with this surface; it has
+  `4^k + (−2)^k + 1` points over `𝔽_{2^k}`, hence Euler characteristic `3 = |G^F ∩ nT|` (`n ∉ T`), while a fibration in affine
+  spaces over a torus of positive dimension has Euler characteristic `0`. On the open piece `(ζ, ζ′) ∈ μ₃²` has Lefschetz number
+  `3` if `ζζ′ = 1` and `0` otherwise, on the closed piece `3` if `ζ = ζ′` and `0` otherwise (the elements of `G^F ∩ nT` invert
+  `T^F`), and the formula gives `⟨R_T(θ), R_T(θ′)⟩ = [θ′ = θ] + [θ′ = θ⁻¹]`, which is `2` for `θ = 1`.
 
 ### 4.5 Harish-Chandra compatibility
 
@@ -1416,9 +1435,9 @@ route written here is not that proof's: it is the deduction from the general the
 products of cuspidal characters.
 
 (b) For every `θ̃` and `n ≥ 2`, `*R_L^G J_n(θ̃) = 0` for every proper rational Levi subgroup `L` of `GL_n`. Over a prime
-field `𝔽_p`: for cuspidal characters `σ_1, …, σ_r` of total degree `a + b`,
+field `𝔽_p`: for cuspidal characters `σ_i` of `GL_{d_i}(𝔽_p)`, `1 ≤ i ≤ r`, with `Σ_i d_i = a + b`,
 `*R_{GL_a×GL_b}^{GL_{a+b}}(σ_1 × ⋯ × σ_r) = Σ_I (×_{i∈I} σ_i) ⊠ (×_{i∉I} σ_i)`, the sum over the subsets
-`I ⊂ {1, …, r}` with `Σ_{i∈I} deg σ_i = a`, the products taken in the order of the list.
+`I ⊂ {1, …, r}` with `Σ_{i∈I} d_i = a`, the products taken in the order of the list.
 (d) For every `θ̃`, `θ̃′`, with `θ = θ̃|_{𝔽_{q^n}^×}`:
 `⟨b_{θ̃′}^{(n)}, J_n(θ̃)⟩ = (q^n − 1)⁻¹ Σ_{z∈𝔽_{q^n}^×} Σ_{j<n} θ̃′(z^{q^j})·conj(θ(z))` (the eigenvalues of
 `z ∈ T_{(n)}^F ≅ 𝔽_{q^n}^×` are its conjugates). At `θ̃′ = 1` this gives `⟨J_n(θ̃), 1_{G^F}⟩ = 1` if `θ = 1` and `0`
@@ -1440,7 +1459,14 @@ cuspidality. (d) ReductiveGroups §9F.5 (d) for `f = b_{θ̃′}^{(n)}` and `T =
 - For `GL₂` (ReductiveGroups §9F.5 (c), and (d) at `θ̃′ = 1` for the Coxeter torus): `⟨Ind_B 1, 1⟩ = 1`, `⟨1 − St, 1⟩ = 1`,
   and `⟨R_{T_s}(θ), 1⟩ = ⟨−σ_θ, 1⟩ = 0` for regular `θ`.
 - (d): for `GL_n` and `f(x) = Σ_α θ̃(α)` over the eigenvalues (5.6(b)), with `T = T_{(n)}`: `⟨f, R_{T_{(n)}}(θ′)⟩` is the number
-  of `j < n` with `θ̃|_{𝔽_{q^n}^×}^{q^j} = θ′` (checked by computation on `GL₂(𝔽_q)`, `q ≤ 7`, and `GL₃(𝔽_q)`, `q = 2, 3`).
+  of `j < n` with `θ̃|_{𝔽_{q^n}^×}^{q^j} = θ′` (checked by computation on `GL₂(𝔽_q)`, `q ≤ 7`, and `GL₃(𝔽_q)`, `q = 2, 3`). The
+  hypothesis on `f` in the general statement (d) is needed: for `f = St_G` on `GL₂` (not constant along `su`: `St(1) = q`,
+  `St(u) = 0` for `u ≠ 1` unipotent) and `T = T₁`, `⟨St, R_{T₁}(1)⟩ = 1` (4.6(c)), while
+  `|T₁^F|⁻¹ Σ_t St(t) = (q−1)^{−2}((q−1)·q + (q−1)(q−2)) = 2` (4.6(b): `St = q` at the `q − 1` central elements, `1` at the others).
+- The general statement (a) for `G = L = T = 𝔾_m` over `𝔽₃` (`P = G`, `U = U_P = 1`): `Y_U = T^F` has two points, the base
+  `G^F/P^F` one and the fibre `Y_{U_L} = T^F` two; a fibration over `G^F/U_P^F = T^F` with fibre `Y_{U_L}` would have four points.
+- The general statement (b) for `GL₂`, `L = T = T₁`: the index set is `T₁^F\N_{G^F}(T₁)/T₁^F = W`, of order `2`, and indeed
+  `(Ind_{B^F} 1)^{U^F}` is two copies of the trivial character of `T₁^F`.
 
 ### 4.6 The Steinberg character and the two averages
 
@@ -1476,6 +1502,9 @@ This is ReductiveGroups §9F.6 (the Steinberg character and the two averages).
   the route of ReductiveGroups §9F.6): at `w = 1`, `N_∅(1) = 2`, `N_S(1) = 1`, and `2 − 1 = 1 = ε_Gε_{T₁}`; at `w = s`:
   `0 − 1 = −1 = ε_Gε_{T_s}`. For `GL₃` the alternating counts are `6 − 3 − 3 + 1 = 1` at `w = 1`, `0 − 1 − 1 + 1 = −1` at a
   reflection and `0 − 0 − 0 + 1 = 1` at a `3`-cycle, the signs `(−1)^{ℓ(w)}`.
+- (c) for three copies of `SL₂` cycled by `F` (`W = {±1}³`, `F(v) = (v₃, v₁, v₂)`, the `F`-stable `J` being `∅` and `S`), where
+  `N_J(w) = ⟨R_{T_w}^G(1), R_{L_J}^G(1)⟩` is the number of cosets `vW_J` with `v⁻¹wF(v) ∈ W_J`: `N_∅(w)` is `2` if `det w = 1`
+  and `0` otherwise, and `N_S(w) = 1`, so `N_∅(w) − N_S(w) = det(w)`, which is `ε_Gε_{T_w}`.
 - (b) at semisimple elements of `GL₂`: at a split regular `s`, `C°(s) = T₁` and `St(s) = ε_Gε_{T₁}·1 = 1`, which is
   `(Ind_{B^F}1 − 1)(s) = 2 − 1`; at a regular elliptic element `ε_Gε_{T_s}·1 = −1`, matching CharacterTheory Layer 9.
   The two Borel subgroups through `T₁` both contain `s`, while `T₁` has a single parabolic subgroup: the
@@ -1517,6 +1546,8 @@ The general statement, for every rational maximal torus of every `G^F` — `R_T^
 
 **Checks.**
 - `GL₂`: `R_{T₁}^G(1) = 1 + St`, `R_{T_s}^G(1) = 1 − St`, of degree `−(q−1) = ε_Gε_{T_s}(q²−1)(q−1)/(q²−1)`.
+- The general degree formula at `T` in a rational Borel subgroup `B`: `ε_Gε_T = 1` and `|G^F|_{p'}/|T^F| = [G^F : B^F]`, the degree
+  of `Ind_{B^F}^{G^F}θ` (4.5, general statement (a)).
 
 ### 4.8 Geometric conjugacy, Lusztig series and exhaustion
 
@@ -1530,7 +1561,8 @@ such products whose lists are not permutations of each other are orthogonal, by 
 on the length of one list, the argument of Grinberg and Reiner, Lemma 3.2.4, after Springer (1970), Theorem 4.7; and the
 polynomial of a cuspidal character of `GL_d` is recovered from its values at elliptic elements, by a bound on the support of a
 combination of at most `2d` characters of a cyclic group when `p ≥ 5`, and over every finite field from the power sums of
-exponents `1, …, d`. The route written here is not that proof's: it is the deduction from the general theorem.
+exponents `1, …, d`. [FormalProof] states the label clause over prime fields `𝔽_p` with `p ≥ 5`. The route written here is
+not that proof's: it is the deduction from the general theorem.
 
 *Corollary of:* ReductiveGroups §7h.2 (cuspidal support and Harish-Chandra series), for exhaustion and orthogonality;
 RepresentationTheory/CharacterTheory §9a.4 (the orbit criterion) with §9a.7 (every cuspidal character is some `σ_θ`), for
@@ -1539,8 +1571,8 @@ the label.
 For `G = GL_n` over a prime field `𝔽_p`: every irreducible character of `GL_n(𝔽_p)` is a constituent of a Harish-Chandra
 product `σ_1 × ⋯ × σ_r` of cuspidal characters, and two such products whose lists are not permutations of each other are
 orthogonal (both stated in 1.2); a product of pairwise distinct cuspidal characters has norm one (4.7 (c)). So the
-Harish-Chandra series of the products of cuspidal characters partition the irreducible characters of `GL_n(𝔽_p)`. For
-`p ≥ 5` every irreducible character has exactly one label (5.7).
+Harish-Chandra series of the products of cuspidal characters partition the irreducible characters of `GL_n(𝔽_p)`. Over
+every finite field `𝔽_q`, every irreducible character of `GL_n(𝔽_q)` has exactly one label (5.7).
 
 The general statement, for every `G^F` — pairs `(T, θ)`, `(T′, θ′)` are **geometrically conjugate** if some `g ∈ G` with
 `gTg⁻¹ = T′` satisfies `θ′∘N_{F^m/F}∘ad(g) = θ∘N_{F^m/F}` on `T^{F^m}` for some `m` with `g ∈ G^{F^m}`, `N_{F^m/F}` the norm
@@ -1551,7 +1583,9 @@ constituents of the `R_T^G(θ)` with `(T, θ)` in the geometric class `κ`, part
 ReductiveGroups §9F.8.
 
 *Route.* The case `G = GL_n` of ReductiveGroups §7h.2: a rational Levi subgroup is conjugate to a block diagonal one, and
-two cuspidal pairs are conjugate exactly when their lists are permutations of each other.
+two cuspidal pairs are conjugate exactly when their lists are permutations of each other. The label: the list is unique up
+to permutation, and each cuspidal character in it is a `σ_θ` with the Frobenius orbit of `θ` unique
+(RepresentationTheory/CharacterTheory §§9a.7, 9a.4).
 
 *Needs:* 1.2, 4.7 (c), 5.7; ReductiveGroups §7h.2; RepresentationTheory/CharacterTheory §§9a.4, 9a.7.
 
@@ -1679,7 +1713,10 @@ For `GL₂`, `R_{T₁}^G(1) = 1 + St` and `R_{T_s}^G(1) = 1 − St`, of degree `
 
 ### Dependencies
 
-Layers 0–3, with 5.1 and 5.7; ReductiveGroups Layers 7, 7a, 7b, 7c, 7d, 7C and 9E, with §7a.3 (4.1), §§7h.2, 7i.2, 7i.3 (4.8, 4.11) and Layer 9F (4.1–4.11); RepresentationTheory/CharacterTheory Layer 3 and §§9a.2, 9a.4, 9a.5, 9a.7–9a.9 (4.4, 4.5, 4.7–4.11); EtaleCohomologyFoundations §F.2.5a and EtaleDualityAndPerverseSheaves §7.6 (4.1, 4.2).
+Layers 0–3, with 5.1 and 5.7. From Layer 5, 4.4, 4.5, 4.7 and 4.9 use the wider form of 5.1 (the Coxeter torus
+`T_{(n)}`, its normaliser and the absence of a proper rational Levi subgroup containing it), whose route uses nothing of
+Layer 4, and 4.8 uses the definition of a label (5.7), which rests through 5.2 on 4.2–4.4, 4.7 and 4.9 and not on 4.8; so
+item by item the dependencies between the two layers are acyclic. ReductiveGroups Layers 7, 7a, 7b, 7c, 7d, 7C and 9E, with §7a.3 (4.1), §§7h.2, 7i.2, 7i.3 (4.8, 4.11) and Layer 9F (4.1–4.11); RepresentationTheory/CharacterTheory Layer 3 and §§9a.2, 9a.4, 9a.5, 9a.7–9a.9 (4.4, 4.5, 4.7–4.11); EtaleCohomologyFoundations §F.2.5a and EtaleDualityAndPerverseSheaves §7.6 (4.1, 4.2).
 
 ## Layer 5: Green's theory of `GL_n(𝔽_q)`
 
@@ -1859,31 +1896,45 @@ characters.
 of cuspidal characters (4.8), so it is irreducible; it is the only character of its label because a cuspidal character
 is determined by its polynomial; it is generic because the Whittaker dimension is multiplicative (4.11); and its degree
 is the index of the parabolic subgroup times the degrees of the factors. Labels are multiplicative because a constituent
-of a product of two characters is a constituent of the product of two products of cuspidal characters. The route written
-here is not that proof's: it is the deduction from the general theorem.
+of a product of two characters is a constituent of the product of two products of cuspidal characters. [FormalProof] has
+the clauses at a squarefree label over prime fields `𝔽_p` with `p ≥ 5`, and the other two over every prime field. The
+route written here is not that proof's: it is the deduction from the general theorem.
 
 *Corollary of:* RepresentationTheory/CharacterTheory §9a.6 (b)–(d) (`ch_m(⊗_O p_1^{m(O)}) = R_{L_m}^G(σ_m)`, the generic
-character and the Harish-Chandra series of a label), at a squarefree label for the clauses with `p ≥ 5`, with §9a.7 for
-the degree, and for every label for the multiplicativity of labels.
+character and the Harish-Chandra series of a label), at a squarefree label for the clauses on it, with §9a.7 for the
+degree, and for every label for the multiplicativity of labels.
 
-Let `p ≥ 5` be a prime and `m` a squarefree label of degree `n` over `𝔽_p` (`m(O) ≤ 1` for every `O`), with
-`σ_O = σ_{θ_O}` (5.2) for the orbits with `m(O) = 1`, `L_m = ∏_{m(O)=1} GL_{|O|}` and `σ_m = ⊠_{m(O)=1} σ_O`. Then
-`R_{L_m}^G(σ_m)` is an irreducible character; it is the only irreducible character of label `m` (5.7); it is generic; and
-its degree is `ψ_n(p)/∏_{m(O)=1}(p^{|O|} − 1)`. For every prime `p`: if irreducible characters `χ′` of `GL_{n′}(𝔽_p)` and
-`χ″` of `GL_{n″}(𝔽_p)` have labels `m′` and `m″`, every irreducible constituent of `χ′ × χ″` has label `m′ + m″`; and every
+Let `m` be a squarefree label of degree `n` over `𝔽_q` (`m(O) ≤ 1` for every `O`), with `σ_O = σ_{θ_O}` (5.2) for the
+orbits with `m(O) = 1`, `L_m = ∏_{m(O)=1} GL_{|O|}` and `σ_m = ⊠_{m(O)=1} σ_O`. Then `R_{L_m}^G(σ_m)` is an irreducible
+character; it is the only irreducible character of label `m` (5.7); it is generic; and its degree is
+`ψ_n(q)/∏_{m(O)=1}(q^{|O|} − 1)`. For every prime `p`: if irreducible characters `χ′` of `GL_{n′}(𝔽_p)` and `χ″` of
+`GL_{n″}(𝔽_p)` have labels `m′` and `m″`, every irreducible constituent of `χ′ × χ″` has label `m′ + m″`; and every
 Harish-Chandra product of cuspidal characters has a generic irreducible constituent (4.11 (d)).
 
-The characteristic map `ch_m` of every label over every finite field — an isometry onto the span of the `R_T^G(θ)` with
-`(T, θ)` of label `m`, multiplicative for Harish-Chandra products, with `ch_m(⊗_O e_{m(O)})` the unique constituent of
-`Γ_ψ` of label `m` and the irreducible characters `χ_λ = ch_m(⊗_O s_{λ(O)})`, `λ` a Green datum of label `m`, forming the
-Harish-Chandra series of `(∏_O GL_{|O|}^{m(O)}, ⊠_O σ_O^{⊠m(O)})` — is RepresentationTheory/CharacterTheory §9a.6, written
-there with `κ` for `m`.
+The characteristic map of every label over every finite field is RepresentationTheory/CharacterTheory §9a.6, written there
+with `κ` for `m`. For a label `m` of degree `n`, with `σ_O = σ_{θ_O}`, `L_m = ∏_O GL_{|O|}^{m(O)}` and
+`σ_m = ⊠_O σ_O^{⊠m(O)}`, let `Λ_m = ⊗_O Λ^{m(O)}` (the parts of degree `m(O)`, complex coefficients) with the tensor product of
+the Hall inner products; the linear map `ch_m : Λ_m → (class functions on GL_n(𝔽_q))` is defined by
+`ch_m(⊗_O p_{ρ_O}) = (−1)^{n + Σ_O m(O)} R_{T_{m,ρ}}^G(θ_{m,ρ})` (the pairs of 5.1). (a) `ch_m` is an isometry onto the span
+`V_m` of the `R_T^G(θ)` with `(T, θ)` of label `m`, `V_m` is the span of the set `E_m` of irreducible constituents of these
+`R_T^G(θ)`, and the `V_m` are pairwise orthogonal and span all class functions. (b) `ch_{m′+m″}(f′·f″) = ch_{m′}(f′) × ch_{m″}(f″)`,
+in particular `ch_m(⊗_O p_1^{m(O)}) = R_{L_m}^G(σ_m)`. (c) `ch_m(⊗_O e_{m(O)})` is an irreducible character, the unique
+constituent of `Γ_ψ` in `E_m`. (d) For every Green datum `λ` of label `m`, `χ_λ = ch_m(⊗_O s_{λ(O)})` is an irreducible
+character; the `χ_λ` are pairwise distinct, `E_m = {χ_λ : |λ| = m}`, `E_m` is the Harish-Chandra series of `(L_m, σ_m)`, and
+`⟨χ_λ, R_{L_m}^G σ_m⟩ = ∏_O f^{λ(O)}`.
 
 *Route.* RepresentationTheory/CharacterTheory §9a.6 (b), (c), (d) for a squarefree label: `Λ_m` is spanned by
 `⊗_O p_1`, which is also `⊗_O e_1` and `⊗_O s_{(1)}`; the degree from §9a.7. The multiplicativity of labels from §9a.6
 (b), (d); the generic constituent is 4.11 (d).
 
-*Needs:* 4.11; 5.2, 5.7 (the definition of the label); RepresentationTheory/CharacterTheory §§9a.6, 9a.7.
+*Needs:* 4.11; 5.1 (the pairs `(T_{m,ρ}, θ_{m,ρ})`), 5.2, 5.7 (the definition of the label); RepresentationTheory/CharacterTheory
+§§9a.6, 9a.7.
+
+**Checks.**
+- `n = 2`, `m = 2·{1}`: `ch(h₂) = ½(R_{T₁}(1) + R_{T_s}(1)) = 1` and `ch(e₂) = ½(R_{T₁}(1) − R_{T_s}(1)) = St`, the
+  constituent of `Γ_ψ` in the unipotent series.
+- `n = 2`, `m = {θ}` with `|O| = 2`: `ch_m(p₁) = (−1)^{2+1}R_{T_s}(θ) = σ_θ`.
+- The sign `(−1)^{n+Σm(O)}` cannot be dropped: without it `ch_m(p₁)` for an orbit of size `2` is `−σ_θ`.
 
 ### 5.5 Green's parametrisation and degree formula
 
@@ -1892,8 +1943,8 @@ characters (his Lemma 7.7 and Theorem 13); Macdonald (1995), Ch. I §3, Examples
 restated in Brundan, Dipper and Kleshchev (2001), (2.3.5)–(2.3.7).
 
 *Method of the formal proof:* the formal proof has the exhaustion of the cuspidal characters over every finite field
-(5.9), and over prime fields also by a count: the monic polynomials of degree `d` with nonzero constant term inject into the multisets of cuspidal characters of
-total degree `d`, while different multisets have disjoint nonempty sets of generic constituents, of which there are at most
+(5.9), and over prime fields also by a count: the monic polynomials of degree `d` with nonzero constant term inject into the
+multisets of cuspidal characters of groups `GL_{d_i}(𝔽_p)` with `Σ_i d_i = d`, while different multisets have disjoint nonempty sets of generic constituents, of which there are at most
 `q^d − q^{d−1}`; a cuspidal character outside the list would give one multiset too many. The count compares the numbers
 that Brundan, Dipper and Kleshchev (2001), Theorem 2.5d (iii)–(iv), compare, from the other hypothesis. The route written
 here is not that proof's: it obtains the cuspidal characters from the classification by Green data.
@@ -2011,15 +2062,16 @@ equals `⟨R_{T_{(n)}}(θ), R_{T_{(n)}}(θ′)⟩` (ReductiveGroups §9F.4). So 
 ### 5.7 Generic and semisimple characters; labels
 
 *Origin:* published: S. I. Gelfand (1970), Zelevinsky (1981) and Deligne and Lusztig (1976), §10, a generic character in
-every Harish-Chandra series of `GL_n(𝔽_q)`; the idempotents `z_m` are particular to this proof. The wider form is this
-roadmap's own formulation.
+every Harish-Chandra series of `GL_n(𝔽_q)`; the idempotents `z_m` are particular to this proof over prime fields `𝔽_p`
+with `p ≥ 5`, and over every other finite field this roadmap's own formulation.
 
 *Method of the formal proof:* the label of a character is defined through a product of cuspidal characters that contains
 it and is unique by the orthogonality of such products; the idempotent of a label is the sum of the central idempotents
 of its characters, and its laws follow from the orthogonality relations; each product of cuspidal characters contains a
 generic character because the Whittaker dimension is multiplicative and positive on cuspidal characters; and the number
 of generic characters is at most `⟨Γ_ψ, Γ_ψ⟩ = p^n − p^{n−1}`, since each occurs in `Γ_ψ` with a nonzero multiplicity.
-The route written here is not that proof's: it is the deduction from the general theorems.
+[FormalProof] has the first three clauses of the statement over prime fields `𝔽_p` with `p ≥ 5`, and the last two over
+every prime field. The route written here is not that proof's: it is the deduction from the general theorems.
 
 *Corollary of:* RepresentationTheory/CharacterTheory §9a.9 (one generic character for every label; `q^n − q^{n−1}` generic
 characters) with §9a.6 (d) (the characters of a label form one Harish-Chandra series), for every clause but the
@@ -2027,8 +2079,8 @@ idempotents `z_m`.
 
 An irreducible character `χ` of `GL_n(𝔽_q)` **has label** `m` if `χ` is a constituent of a Harish-Chandra product
 `σ_{θ_1} × ⋯ × σ_{θ_r}` of cuspidal characters (5.2) with `m(O) = #{i : θ_i ∈ O}`; in the labelled form the label is the
-monic polynomial `∏_O P_O^{m(O)}` of degree `n` with nonzero constant term. Over a prime field `𝔽_p`, for `p ≥ 5`: every
-irreducible character of `GL_n(𝔽_p)` has exactly one label; the central idempotent `z_m` of `ℂ[GL_n(𝔽_p)]`, the sum of
+monic polynomial `∏_O P_O^{m(O)}` of degree `n` with nonzero constant term. Over every finite field `𝔽_q`: every
+irreducible character of `GL_n(𝔽_q)` has exactly one label; the central idempotent `z_m` of `ℂ[GL_n(𝔽_q)]`, the sum of
 the central idempotents of the characters of label `m`, satisfies `z_m z_{m′} = 0` for `m ≠ m′` and `Σ_m z_m = 1`; and the
 series of a squarefree label has exactly one character (5.4), which is generic. For every prime `p`: every Harish-Chandra
 product of cuspidal characters of `GL_n(𝔽_p)` has a generic irreducible constituent, and the number of generic irreducible characters of
@@ -2036,22 +2088,20 @@ product of cuspidal characters of `GL_n(𝔽_p)` has a generic irreducible const
 
 The general form, over every finite field, is RepresentationTheory/CharacterTheory §9a.9: every irreducible character
 `χ_λ` has exactly one label, its **semisimple label** `|λ| : O ↦ |λ(O)|`, and the characters of label `m` form one
-Harish-Chandra series; `χ_λ` is generic iff every `λ(O)` is a column `(1^{m(O)})`, and is called **semisimple** iff every
+Harish-Chandra series, that of `(L_m, σ_m)` (5.4), and one Lusztig series (§9a.6 (a) with the wider form of 5.1, a label
+being a geometric conjugacy class of pairs); `χ_λ` is generic iff every `λ(O)` is a column `(1^{m(O)})`, and is called **semisimple** iff every
 `λ(O)` is a row `(m(O))`; each label carries exactly one generic character `χ_{gen(m)}` and one semisimple character, there
 are `q^n − q^{n−1}` of each, with degrees `q^{N(m)} ψ_n(q)/∏_O ψ_{m(O)}(q_O)` (generic),
 `N(m) = Σ_O |O|·m(O)(m(O)−1)/2`, and `ψ_n(q)/∏_O ψ_{m(O)}(q_O)` (semisimple); and `Γ_ψ = Σ_m χ_{gen(m)}`.
 
-**Wider form** (this roadmap's own formulation; not a statement of [FormalProof]). Over every finite field `𝔽_q`, the
-central idempotent `z_m` of `ℂ[GL_n(𝔽_q)]` cutting out the characters of label `m` exists, and the `z_m` are orthogonal
-with sum `1`.
-
-*Route.* The case `q = p` of RepresentationTheory/CharacterTheory §9a.9 with §9a.6 (d); for a squarefree label the series
-has one character (5.4). The idempotents, in the statement and in the wider form: sums of the central idempotents of the
+*Route.* RepresentationTheory/CharacterTheory §9a.9 with §9a.6 (d), at `q = p` for the last two clauses; for a squarefree
+label the series has one character (5.4). The idempotents: sums of the central idempotents of the
 characters of each label (CharacterTheory §3.5), the labels partitioning the irreducible characters
 (RepresentationTheory/CharacterTheory §9a.9). The count: labels are monic polynomials of degree `n` with nonzero constant
 term (0.4).
 
-*Needs:* 5.2, 5.4 (for the clause on squarefree labels); 0.4; CharacterTheory §3.5; RepresentationTheory/CharacterTheory §§9a.6, 9a.9.
+*Needs:* 5.2, 5.4 (for the clause on squarefree labels); 0.4; 5.1 (for the Lusztig series); CharacterTheory §3.5;
+RepresentationTheory/CharacterTheory §§9a.6, 9a.9.
 
 **Checks.**
 - The unipotent label `(X − 1)^n` has generic character `St` (degree `q^{n(n−1)/2}`) and semisimple
@@ -2096,8 +2146,7 @@ label `m`. For a squarefree label with orbits of sizes `d₁, …, d_t` and `c_j
 `wt(m)·∏_l(1 + q^{−d_l})`, with equality on the left iff no sum of some of the `d_l` lies in `[1, k]`. The labels that are not
 squarefree have total share at most `3/q` in `Ind_{H_i}^{G^F}ϕ_i`.
 
-*Route.* (a) `Γ_ψ z_m = χ_{gen(m)}` (RepresentationTheory/CharacterTheory §9a.9, with the idempotents of the wider form of
-5.7) and `Γ_ψ(1) = |G^F|/|U^F| = ψ_n(q)` give the formula from the generic degree of §9a.9.
+*Route.* (a) `Γ_ψ z_m = χ_{gen(m)}` (RepresentationTheory/CharacterTheory §9a.9, with the idempotents of 5.7) and `Γ_ψ(1) = |G^F|/|U^F| = ψ_n(q)` give the formula from the generic degree of §9a.9.
 For the bound: squarefree labels have `wt ≥ q^{−n}`, and the number of squarefree monic polynomials of degree `n`
 with nonzero constant term satisfies `S′_n = q^n − q^{n−1} − S′_{n−1} ≥ q^n − 2q^{n−1}` for `n ≥ 2` (splitting off a
 factor `X`, `S′_n + S′_{n−1}` is the number `q^n − q^{n−1}` of all squarefree monic polynomials of degree `n`; and
@@ -2435,9 +2484,10 @@ supercuspidal support is LocalFactorsOfTwistsAndTypes §2.1 (a), which uses only
 ### 6.1 Depth-zero supercuspidal representations from cuspidal characters
 
 *Origin:* published: Carayol (1984), Theorem 4.2 with the complement to Definition 4.1, the compact induction from `F^×K`
-of `Λ_{σ,c}` is irreducible and supercuspidal with `K₁`-invariants `σ`, inequivalent data giving inequivalent
-representations; Moy and Prasad (1996), Propositions 6.6 and 6.8, every depth-zero supercuspidal representation arises so;
-for `n = 2`, Bushnell and Henniart (2006), §11.
+of `Λ_{σ,c}` is irreducible and supercuspidal, inequivalent data giving inequivalent representations; Moy and Prasad
+(1996), Propositions 6.6 and 6.8, every depth-zero supercuspidal representation arises so; for `n = 2`, Bushnell and
+Henniart (2006), §11. The `K₁`-invariants `σ` and the contragredient, which no cited source states in this form, are
+derived from these in SmoothRepresentationsOfLocalGroups SR.7.2.
 
 *Method of the formal proof:* the formal proof has, for every nonarchimedean local field, an irreducible quotient `π` of the
 compact induction containing the inflation of `σ`, its cuspidality and `π^{K₁} = σ`, and, over fields isomorphic to `ℚ_p`,
@@ -2706,37 +2756,34 @@ The roadmap owns, in the forms stated here:
   for `GL_n` the relation of the operators `T_s` of the type-A Hecke algebras to those of the Levi subgroups of relative
   rank one (1.4) (Layer 1);
 - regular characters, Gelfand–Graev representations and their multiplicity one (2.1, 2.2; for `GL_n` the case that
-  [FormalProof] has), the generic representations of `GL_n(𝔽_q)` (2.3), the finite-field theory of derivatives and the
-  mirabolic subgroup of `GL_n` with the cuspidal values at unipotent elements (2.4), the Gelfand–Graev convolution bound
-  (2.5), the Harish-Chandra restriction of the Gelfand–Graev representation of `GL_n(𝔽_p)` to two blocks, the degenerate
+  [FormalProof] has), the generic representations of `GL_n(𝔽_q)` (2.3), the lower bound `ψ_{n−1}(q)` for the degree of a
+  generic representation of `GL_n(𝔽_q)` and the consequence of 2.4 (d) for the operators `T_s` of 1.4 (2.4), the
+  Gelfand–Graev convolution bound (2.5), the Harish-Chandra restriction of the Gelfand–Graev representation of `GL_n(𝔽_p)` to two blocks, the degenerate
   Gelfand–Graev representations of `GL_n(𝔽_q)` with the wider form and the remark of 2.6, and for `GL_n` the
   derivatives of the Gelfand–Graev representation, the Bessel-type induced representations with their decomposition
   into degenerate Gelfand–Graev representations, and their multiplicities in Harish-Chandra induced cuspidal
   representations (2.7, 2.8) (Layer 2);
-- the Künneth isomorphism of [FormalProof] for proper schemes, with the remark of 3.2 (the criteria for filtered
+- the Künneth isomorphism for a proper smooth and a proper scheme (3.2), with the remark of 3.2 (the criteria for filtered
   stratifications and the isotypic form of additivity), the triviality of the action of a connected algebraic group on
   cohomology, the route of the torus fixed-point formula and the finiteness of the stabilisers of a diagonalisable group
   (3.4) (Layer 3);
-- Green's class functions `J_n(θ̃)` of `GL_n(𝔽_q)` with their inner products, Harish-Chandra restrictions, degree,
-  irreducibility, cuspidality and values (4.4, 4.5, 4.7, 4.9, 4.10), the Harish-Chandra restrictions, irreducibility,
+- the inner products, Harish-Chandra restrictions, degree, irreducibility, cuspidality and values of Green's class
+  functions `J_n(θ̃)` of `GL_n(𝔽_q)` (RepresentationTheory/CharacterTheory §9a.8 (b)) (4.4, 4.5, 4.7, 4.9, 4.10), the
+  Harish-Chandra restrictions, irreducibility,
   norms and Whittaker dimensions of the products of cuspidal characters of `GL_n(𝔽_p)` (4.5, 4.7, 4.8, 4.11), and the
   remarks of 4.2, 4.10 and 4.11 (Layer 4);
-- Green's theory of `GL_n(𝔽_q)` in the forms stated here: the counting lemmas of 5.1 with its wider form (the tori of
-  `GL_n`, the Frobenius orbits and the pairs attached to a label), cuspidal characters, their values and their
-  separation by the values at regular elliptic elements, the characteristic map at a squarefree label of `GL_n(𝔽_p)`,
-  `p ≥ 5`, with the multiplicativity of labels, the parametrisation and degree formula with the `q`-hook formula,
-  uniformity and special values of Green functions, Green's virtual characters and the expansion of eigenvalue sums,
-  the labels of `GL_n(𝔽_p)` and their idempotents with the wider form of 5.7, Gelfand–Graev weights, degenerate
-  Gelfand–Graev multiplicities, the shares of labels in the Bessel-type induced representations, the count of cuspidal
-  characters with the remark of 5.9, the separation of the cuspidal representations of `GL₂(𝔽_q)` by their twisted Gauss
-  sums, and Shintani descent for `GL_n` (norm classes and the Shintani lift in every degree, its compatibility with
-  Harish-Chandra induction, and in prime degree the lift of cuspidal characters and of labels) (Layer 5);
-- depth-zero supercuspidal representations of `GL_n(F)` as compact inductions of cuspidal characters, their
-  parametrisation by level-zero characters, labels of depth-zero representations, the class of
-  representations of depth zero up to twist, and the local type statement (Layer 6). For `F` finite over `ℚ_p` the
-  irreducibility and exhaustion of 6.1 are the depth-zero case of SmoothRepresentationsOfLocalGroups SR.5.2
-  *distinguished-cuspidal-types*; 6.1 extends them to every nonarchimedean local field, positive characteristic
-  included.
+- Green's theory of `GL_n(𝔽_q)` in the forms stated here: the counting lemmas (b), (c) of 5.1 with its wider form (the
+  tori of `GL_n`, the Frobenius orbits and the pairs attached to a label), the separation of cuspidal characters by their
+  values at regular elliptic elements (5.2), the characteristic map at a squarefree label of `GL_n(𝔽_q)` with the
+  multiplicativity of labels over prime fields (5.4), the idempotents of the labels of `GL_n(𝔽_q)`, the single character
+  of a squarefree label, and over prime fields the generic constituents of Harish-Chandra products and the bound for the
+  number of generic characters (5.7, 5.9), Gelfand–Graev weights, degenerate Gelfand–Graev multiplicities and the shares
+  of labels in the Bessel-type induced representations (5.8), the remark of 5.9, the separation of the cuspidal
+  representations of `GL₂(𝔽_q)` by their twisted Gauss sums (5.10 (b)), and for Shintani descent the second part of 5.11
+  (c) and, in prime degree, the lift of cuspidal characters and of labels (5.11 (d), (e)) (Layer 5);
+- the parametrisation of the depth-zero supercuspidal representations of `GL_n(F)` by level-zero characters (6.2), labels
+  of depth-zero representations (6.3), the class of representations of depth zero up to twist (6.4), and the local type
+  statement (6.5) (Layer 6).
 
 The general theorems of which the sections carrying a `*Corollary of:*` line are corollaries are owned by their homes:
 ReductiveGroups §§7.1, 7a.1, 7c.1 and Layers 7d, 7h, 7i and 9F (Layers 0, 1, 2 and 4);
@@ -2746,9 +2793,12 @@ SR.7.1 and SR.7.2 (6.0, 6.1, 6.3). The general statements that the sections stat
 sentence (0.4, 1.0–1.3, 2.3, 2.6, 3.2, 4.4, 4.5, 4.7–4.11, 5.1, 5.4, 5.7, 5.9), and those of 0.1, 0.3 and 2.2, are owned
 by the sections named there, among them ReductiveGroups §§7a.1, 7b.1, 7i.2, 7i.3, 9F.4–9F.11,
 RepresentationTheory/CharacterTheory §§9a.1, 9a.6, 9a.9, 9a.10, EtaleCohomologyFoundations §§F.2.5, F.2.5a, F.10.4a and
-EtaleDualityAndPerverseSheaves §7.6. The statements of 0.2, 0.5 (a), (b), 1.4 (the presentation of the endomorphism algebra), 3.1, 3.3, 3.4 (b), (c), 4.1–4.3,
-4.6 and 5.10 (a), which this roadmap restates, are owned by the sections they cite: ReductiveGroups §§7a.2, 7a.3, 7C.6,
-7i.1, 9F.1–9F.3 and 9F.6, RepresentationTheory/CharacterTheory §§9a.5 and 9a.11, and EtaleDualityAndPerverseSheaves §7.6.
+EtaleDualityAndPerverseSheaves §7.6. The statements of 0.2, 0.5 (a), (b), 1.4 (the presentation of the endomorphism
+algebra), 2.4 (a)–(d), 3.1, 3.3, 3.4 (b), (c), 4.1–4.3, 4.6, 5.1 (a), 5.2 but for its separation clause, 5.5, 5.6, the
+uniqueness of the label in 4.8 and 5.7, the count of cuspidal characters in 5.9, 5.10 (a), 5.11 (a), (b) and the first part
+of (c), and 6.1, which this roadmap restates, are owned by the sections they cite: ReductiveGroups §§7a.2, 7a.3, 7C.6,
+7i.1, 9F.1–9F.3 and 9F.6, RepresentationTheory/CharacterTheory §§9a.2, 9a.4, 9a.5 and 9a.7–9a.12,
+CharacterSumsOverFiniteFields §3.1a, EtaleDualityAndPerverseSheaves §7.6 and SmoothRepresentationsOfLocalGroups SR.7.2.
 
 It does not own, and consumes by name:
 
@@ -2879,7 +2929,7 @@ of positive-depth quotients `GL_n(𝒪/ϖ^r)`, `r ≥ 2`.
 | base change for compactly supported direct images (used in 3.4(a)) | §F.2.4 |
 | Künneth with compact supports (3.2) | §F.2.7 |
 | finiteness and cohomological dimension | §F.3 |
-| rational realisation | §F.4.5 |
+| rational realisation, with the Künneth formula for rational coefficients (3.2) | §F.4.5 |
 | the compactly supported cohomology of a quotient by a finite group as a module (cited in 3.2; 4.1) | §F.2.5a |
 | the perfectness of compactly supported cohomology over the group ring of a finite group acting freely on a quasi-projective scheme (cited in 3.2) | §F.10.4a |
 

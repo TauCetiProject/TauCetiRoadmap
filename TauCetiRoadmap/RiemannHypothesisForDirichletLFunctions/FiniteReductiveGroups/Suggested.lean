@@ -31,9 +31,9 @@ The other headline theorems are not statable at the pins.
   restrictions, and for `θ̃|_{𝔽_{q^n}^×}` regular the irreducibility and cuspidality of
   `(−1)^{n−1}J_n(θ̃)`; over a prime field `𝔽_p`, the irreducibility and degree of a Harish-Chandra product
   of pairwise distinct cuspidal characters (4.7 (c)), the partition of the irreducible characters into
-  the Harish-Chandra series of the products of cuspidal characters, and for `p ≥ 5` the uniqueness of
-  the label (4.8). `J_n(θ̃)` is defined by a recursion through Harish-Chandra induction from
-  `GL_a × GL_{n−a}`, and the clauses over `𝔽_p` concern Harish-Chandra products: they lack
+  the Harish-Chandra series of the products of cuspidal characters, and over every finite field the
+  uniqueness of the label (4.8). `J_n(θ̃)` is defined by a recursion through Harish-Chandra induction from
+  `GL_a × GL_{n−a}`, and the clauses over `𝔽_p` and the label concern Harish-Chandra products: they lack
   Harish-Chandra induction from the standard Levi subgroups of `GL_n` (ReductiveGroups Layer 7c), as
   2.8 below does. The character formula (4.3), for a connected reductive group `G` over `𝔽_q` with
   Frobenius `F`, a rational maximal torus `T` and a character `θ` of `T^F`, gives the values of the
@@ -55,7 +55,7 @@ The other headline theorems are not statable at the pins.
   (4.11 (b), (d): the pairing is multiplicative, and every such product has a generic constituent)
   lack Harish-Chandra induction, as 4.7 (c) and 4.8 do.
 * Green's parametrisation and degree formula (5.5), the characters of the squarefree labels of
-  `GL_n(𝔽_p)`, `p ≥ 5`, and the multiplicativity of labels over every prime field (5.4), and the
+  `GL_n(𝔽_q)` and the multiplicativity of labels over every prime field (5.4), and the
   Gelfand–Graev weights (5.8): the irreducible characters `χ_λ` of 5.5 are those of
   RepresentationTheory/CharacterTheory §9a.6, defined by the characteristic map `ch_m`, which sends
   power sums to the virtual characters `R_T^G(θ)`; without these the parametrisation is only a
