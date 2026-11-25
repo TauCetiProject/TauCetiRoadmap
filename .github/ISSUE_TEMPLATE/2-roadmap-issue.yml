@@ -171,6 +171,7 @@ body:
         - EffectiveBoundsPartII
         - EffectiveClassNumbers
         - EffectiveDiophantineMethods
+        - EigenvalueAndSingularValueInequalities
         - EisensteinIdealAndRationalTorsion
         - ElectricalNetworksAndRandomWalks
         - EllipticCohomology
