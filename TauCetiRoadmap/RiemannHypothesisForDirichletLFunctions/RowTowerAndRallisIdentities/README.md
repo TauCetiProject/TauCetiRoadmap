@@ -504,8 +504,8 @@ AutomorphicFormsOnReductiveGroups §§2.1, 2.2, 2.7, 7.5; ArithmeticLocallySymme
 ### 5.2a Projectors of integrable discrete series
 
 *Origin:* published: Barnes (1980), Lemma 1 and Proposition 1, the projector of an integrable discrete series in every
-unitary representation; VonNeumannAlgebras V9.IntegrableDiscreteSeries states it, with its source, in the same
-generality (Barnes proves it without second countability).
+unitary representation; VonNeumannAlgebras V9.IntegrableDiscreteSeries states it, with its source, for every unimodular
+locally compact group, and this section is its case of a second-countable group.
 
 *Method of the formal proof:* the orthogonality relation for the formal degree, a hypothesis of its statement, gives
 `e_σ(g^{−1}) = conj e_σ(g)` and a convolution identity from which `P = ρ(e_σ)` is an orthogonal projection with
@@ -515,7 +515,7 @@ the range is the set of the `T(w)` itself. The route written here differs: it ob
 closure of the `T(w)` from Godement's theorem on functions of positive type and the GNS construction.
 
 *Corollary of:* VonNeumannAlgebras V9.IntegrableDiscreteSeries (for an irreducible unitary representation `σ` of a
-unimodular second-countable locally compact group with a nonzero square-integrable coefficient and `e_σ ∈ L¹`, `e_σ` is a self-adjoint
+unimodular locally compact group with a nonzero square-integrable coefficient and `e_σ ∈ L¹`, `e_σ` is a self-adjoint
 idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of `{T(w) : T ∈ Hom_𝐆(σ, ρ)}` in every unitary
 representation `ρ`).
 
@@ -2637,8 +2637,8 @@ theta functions (5.4, 5.8, 5.10a).
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
 - Layer 9: coefficient maps, Schur orthogonality for square-integrable representations, formal degree. Used in 5.2a.
-- V9.IntegrableDiscreteSeries: for an integrable discrete series `σ` of a unimodular second-countable locally compact
-  group, `e_σ` is a self-adjoint idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of the `T(w)`,
+- V9.IntegrableDiscreteSeries: for an integrable discrete series `σ` of a unimodular locally compact group, `e_σ` is a
+  self-adjoint idempotent and `ρ(e_σ)` is the orthogonal projection onto the closure of the `T(w)`,
   `T ∈ Hom_𝐆(σ, ρ)`, in every unitary representation `ρ`. The general theorem of which 5.2a is a corollary.
 
 ### From TauCetiRoadmap.ShimuraVarieties
