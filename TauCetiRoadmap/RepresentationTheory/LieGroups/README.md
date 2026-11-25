@@ -53,7 +53,8 @@ Bruhat, and the Cartan, Iwasawa and `KAK` decompositions. The next section gives
 ## How to read the build
 
 The layers come in three groups, ordered by their *Needs:* lines: a target uses only its own and earlier
-layers, except that Lie's third theorem (§4.2) uses the universal cover of §5.1.
+layers, except that Lie's third theorem (§4.2) and the counit of the adjunction of §4.3 use the
+construction of the universal cover in §5.1, which does not depend on Layer 4.
 
 - **The Lie functor, from groups to algebras (Layers 0–3).** Layer 0 fixes the Lie algebra, the
   exponential map and one-parameter subgroups; Layer 1 the adjoint representations and the
@@ -650,7 +651,8 @@ DifferentialGeometry 4.3–4.4 (Frobenius and leaves; Tau Ceti `TauCeti.IsInvolu
   subgroup of `iℝ` but whose source is not the circle; the bijection up to isomorphism needs
   injectivity. Dropping connectedness would admit the discrete group `X = SL₂(ℤ)` with
   `K = SL₂(ℤ)`, a countable immersed subgroup with `lieSubalgebraOfSubgroup K = 0`, whose Lie
-  algebra integrates to `{1}`; connectedness is what makes `𝔥 ↦ integralLeafSubgroup 𝔥` injective.
+  algebra integrates to `{1}`; connectedness is what makes a subgroup with given Lie algebra
+  unique, so that `K ↦ lieSubalgebraOfSubgroup K` is injective on immersed subgroups.
   The immersion field is the only smoothness condition: a `ℚ`-linear automorphism of `X = ℝ = G`
   exchanging two Hamel basis vectors is an injective homomorphism of a connected group onto `K = ℝ`
   that is not continuous. For a smooth injective homomorphism the injectivity of the differential
@@ -690,11 +692,105 @@ surjectivity) this is the equivalence `SimplyConnLieGrp ≃ FinDimLieAlg` (Kiril
 copy, Thm. 3.38 and Cors. 3.49–3.50).
 *Needs:* §§3.1–3.2, §4.1; for the second route §3.3's Tau Ceti `TauCeti.lieLocalBCH`.
 
+State the equivalence as a coreflection. `TauCeti.Lie.lieMapEquiv` assumes second-countable
+source and target. Extend it to every target `H` through its identity component `H⁰`: a smooth
+homomorphism out of a connected group lands in `H⁰`, and `H⁰` is second-countable, being connected
+and hence σ-compact. Then define the integration functor
+`Γ : FGLieAlgCat ℝ ⥤ TauCeti.LieGroupCat`, sending `L` to the simply connected group of Lie's third
+theorem (§4.2) and a Lie-algebra homomorphism to its integral `LieHom.integrate`. Prove
+`Γ ⊣ TauCeti.LieGroupCat.lieFunctor`: with a chosen identification `e_L : Lie (Γ L) ≅ L`, the
+hom-set bijection `(Γ L ⟶ H) ≃ (L ⟶ Lie H)` sends `f` to `Lie f ∘ e_L⁻¹`. The unit is an
+isomorphism, so `Γ` is fully faithful with essential image the simply connected groups. The counit
+at `H` is the composite `Γ (Lie H) → H⁰ ↪ H` of the universal covering homomorphism of `H⁰` (§5.1,
+the construction of the cover) with the inclusion. The equivalence of
+`TauCeti.LieGroupCat.isSimplyConnected.FullSubcategory` with `FGLieAlgCat ℝ` is the restriction of
+this adjunction. The integration API takes models in `Type`, so prove the adjunction on
+`TauCeti.LieGroupCat.{0, 0, 0}` and `FGLieAlgCat.{0} ℝ`.
+*Needs:* the morphism theorem above; §4.2 for the objects of `Γ`; §5.1's construction of the
+universal cover, which does not use §4.3, for the counit.
+
 **Checks.**
 - `G = ℝ`, `G' = Circle`, `Lie(Circle) ≅ ℝ` by `circleLieAlgebraEquiv`: the Lie-algebra map
   `x ↦ cx` integrates to `t ↦ Circle.exp (ct)` for every real `c`. For the source `Circle` instead,
   only the integers `c` integrate, since `Circle.exp (c · 2π) = 1` is needed: simple connectedness of
   the source is used.
+
+### 4.4 The Galois coinsertion, naturality and normal subgroups
+
+Throughout this section `G` is second-countable, the hypothesis under which Tau Ceti constructs the
+integral leaf subgroup. Remove it by working in the identity component `G⁰`, which is
+second-countable and contains every connected immersed subgroup. These results refine §4.1 and do
+not use §§4.2–4.3.
+
+*The Galois coinsertion.* Prove `gc_integralLeafSubgroup_lieSubalgebraOfSubgroup`: for every Lie subalgebra
+`𝔥 ≤ 𝔤` and every subgroup `Q ≤ G`, closed or not,
+`integralLeafSubgroup 𝔥 ≤ Q ↔ 𝔥 ≤ lieSubalgebraOfSubgroup Q`, with
+`lieSubalgebraOfSubgroup (integralLeafSubgroup 𝔥) = 𝔥`, and package the two as a
+`GaloisCoinsertion`. Route: `→` is monotonicity of
+`lieSubalgebraOfSubgroup` together with
+`LieSubalgebra.lieSubalgebraOfSubgroup_integralLeafSubgroup`. `←` uses §2.1's
+`mem_lieSubalgebraOfSubgroup_iff`, which puts `lieExp X` in `Q` for every `X ∈ 𝔥`, and the
+generation of the integral leaf subgroup by exponentials
+(`LieSubalgebra.integralLeafSubgroup_eq_closure_lieExp_image`; `Subgroup.closure` is abstract
+generation). The fixed points on the group side are the connected immersed subgroups, which is the
+order isomorphism `TauCeti.Lie.integralLeafSubgroupOrderIso`, and `Q ↦
+integralLeafSubgroup (lieSubalgebraOfSubgroup Q)` is the largest connected immersed subgroup
+contained in `Q`. Read off the lattice operations from the adjunction:
+- the left adjoint preserves joins, so `integralLeafSubgroup (⨆ i, 𝔥 i) = ⨆ i, integralLeafSubgroup
+  (𝔥 i)` in `Subgroup G`. The join of connected immersed subgroups is the abstract subgroup they
+  generate, with no closure taken;
+- the right adjoint preserves meets, so `lieSubalgebraOfSubgroup (⨅ i, Q i) = ⨅ i,
+  lieSubalgebraOfSubgroup (Q i)` for arbitrary subgroups, extending
+  `TauCeti.Lie.lieSubalgebraOfSubgroup_inf` beyond closed ones. The meet of connected immersed `K`
+  and `L` is `integralLeafSubgroup (𝔨 ⊓ 𝔩)`, the largest connected immersed subgroup contained in
+  `K ⊓ L`.
+*Needs:* §2.1, §4.1.
+
+*Naturality.* For a smooth homomorphism `φ : G → G'` and a Lie subalgebra `𝔥 ≤ 𝔤`, prove
+`(integralLeafSubgroup 𝔥).map φ = integralLeafSubgroup (𝔥.map (lieMap φ))`, and for connected
+`G` the range formula `φ.range = integralLeafSubgroup (lieMap φ).range`; for general `G` the
+latter describes `φ(G⁰)`. Route: both sides are generated by exponentials
+(`integralLeafSubgroup_eq_closure_lieExp_image`), `Subgroup.map` commutes with
+`Subgroup.closure`, and `map_lieExp` moves the exponential across `φ`. With the Galois coinsertion,
+for connected immersed `K ≤ G` and an arbitrary subgroup `Q' ≤ G'`,
+`K.map φ ≤ Q' ↔ K ≤ integralLeafSubgroup ((lieSubalgebraOfSubgroup Q').comap (lieMap φ))`, by
+`LieSubalgebra.map_le_iff_le_comap`. For closed `Q'`, the subgroup `φ⁻¹ Q'` is closed, hence
+embedded (§2.2), with Lie algebra the preimage under `lieMap φ` of that of `Q'`. So the right-hand
+side is the identity component of `φ⁻¹ Q'`.
+*Needs:* §§0.3, 3.1, 4.1 and the Galois coinsertion above; §2.2 for the closed-preimage
+identification.
+
+*Normal subgroups.* For connected `G`, prove that a connected immersed subgroup `K` is normal
+exactly when `lieSubalgebraOfSubgroup K` is an ideal; the forward implication needs no
+connectedness of `G`. Route: by naturality for the inner automorphism `MulAut.conj g`
+(`conj_lieExp`, `lieSubalgebraOfSubgroup_map_conj`) and injectivity of the correspondence, `K` is
+normal exactly when `Ad g` preserves `𝔨` for every `g`. If every `Ad (lieExp (t • X))` preserves
+`𝔨`, differentiating at `t = 0` (`hasDerivAt_Ad_lieExp_smul_apply_zero`, with `𝔨` closed as a
+finite-dimensional subspace) gives `⁅X, 𝔨⁆ ⊆ 𝔨`. Conversely,
+`Ad (lieExp X) = exp (ad X)` (`LeftInvariantDerivation.Ad_lieExp`) preserves an ideal, and
+connected `G` is generated by exponentials.
+*Needs:* §§1.1–1.3, §4.1 and naturality above.
+
+**Checks.**
+- `G = (ℝ/ℤ)²` is abelian: every Lie subalgebra is an ideal and every subgroup is normal,
+  including the dense irrational line, which is not closed.
+- `G = SU(2)` and `K` the diagonal circle: `𝔨 = 𝔲(1)` is not an ideal of `𝔰𝔲(2)`, and `K` is not
+  normal.
+- Connectedness of `G` is needed for the reverse implication. In `G = ℝ² ⋊ ℤ/2`, with `ℤ/2`
+  swapping the coordinates, `𝔤 = ℝ²` is abelian, so `𝔨 = ℝ × 0` is an ideal, but `K = ℝ × 0` is
+  not normal: the swap moves it to `0 × ℝ`.
+- Connectedness of the source is needed for the range formula. For `φ = id` on the discrete group
+  `ℤ/2`, the range is the whole group while the integral leaf subgroup of the zero Lie algebra is
+  trivial.
+- The meet is not the intersection. In `(ℝ/ℤ)²` the circles `t ↦ (t, 0)` and `t ↦ (t, 2t)` meet in
+  the two points `(0, 0)` and `(1/2, 0)`, while their Lie algebras meet in `0` and the meet is
+  trivial.
+- The join is not the product set. In the Heisenberg group, the product of the two horizontal
+  one-parameter subgroups is a two-dimensional subset, but the join of their Lie algebras is the
+  whole three-dimensional Heisenberg algebra, and the join of the subgroups is the whole group.
+- The join is not the closure. In `(ℝ/ℤ)³` the lines of slopes `(1, √2, 0)` and `(0, 1, √3)` span
+  a plane meeting `ℤ³` only in `0`, whose image `K ⊔ L` is a dense, non-closed immersed subgroup of
+  dimension two. The closure of `K ⊔ L` is the whole torus, which is strictly larger.
 
 ### Examples
 
@@ -2075,7 +2171,7 @@ and 7), GeometricQuantization (Layers 6, 7 and 8), GeneralizedCohomology (Layer 
 This roadmap owns the targets of the layers above: the derivative of the exponential map (§1.4); the
 Lie algebra of an arbitrary subgroup (§2.1), the transport of the matrix groups to Mathlib's names and
 the simple connectedness of `SU(2)` (§§2.3–2.4); the Baker–Campbell–Hausdorff series (§3.3); the
-integration theorems (§§4.1–4.3, 5.1); centres, adjoint groups and connected integrations (§5.2); the
+integration theorems (§§4.1–4.4, 5.1); centres, adjoint groups and connected integrations (§5.2); the
 nilpotent BCH groups (§5.3); central characters (§5.4); the compact invariant metric (§5A.1); the
 maximal-torus theorems, the compact root system, the rank-one representatives, the Weyl group
 comparison and the Weyl integration formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. Of the lower
