@@ -268,6 +268,7 @@ body:
         - GroupSchemesOverABase
         - HabiroCyclotomicCompletions
         - HalfIntegralWeightModularForms
+        - HamiltonianCycles
         - HamiltonianFloerOperations
         - HanfNumbers
         - HeckeStacksAndLocalShtukas
@@ -300,6 +301,7 @@ body:
         - InverseGaloisAndArithmeticFundamentalGroups
         - InverseGaloisAndArithmeticFundamentalGroupsPartII
         - Isoperimetry
+        - IterativeMethodsForLinearSystems
         - JacobianChallenge
         - JacobianChallengePartII
         - K2SymbolsBrauer
@@ -310,6 +312,7 @@ body:
         - KTheoryFiniteLocalFields
         - KTheoryLowDegrees
         - KacMoody
+        - KalmanFiltering
         - KatoEulerSystems
         - KhovanovHomology
         - KleinianGroups
@@ -417,6 +420,7 @@ body:
         - PolylogarithmFunctions
         - Polylogarithms
         - PolynomialGaloisGroupsPartIII
+        - PolynomialInterpolationAndBestApproximation
         - PopulationDynamics
         - PositiveMass
         - PositiveScalarCurvature
@@ -533,6 +537,7 @@ body:
         - StackPointsAndResidualGerbes
         - StandardDistributions
         - StochasticCalculus
+        - StokesReciprocity
         - StringOrientation
         - Subfactors
         - SubspaceTheorem
