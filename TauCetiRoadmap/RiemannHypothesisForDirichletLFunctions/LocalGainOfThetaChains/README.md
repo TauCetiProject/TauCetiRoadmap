@@ -213,7 +213,7 @@ endomorphisms `[α] = ℓ^{−1}(α·ℓ)`, `α ∈ 𝒪_{K,p}` (LubinTateFormal
 constant for which `|θ(z)|²e^{−π|z|²/area(Λ_K)}` is `Λ_K`-periodic). Then:
 (i) *model:* there are `g₂, g₃ ∈ W` with unit discriminant, the invariants of `ℂ/Λ_K` up to a homothety by a unit, and
 `c ∈ W^×` such that the algebraic parameter `t = −2℘/℘′` of that model, at `z = c·ℓ(T)`, is an integral series in `T`
-with linear term `T` (the formal group of the model is the Lubin–Tate law of `ℓ`; this is LubinTateFormalModulesAndQuasiCanonicalLifts
+with linear term `c·T` (the formal group of the model is the Lubin–Tate law of `ℓ`; this is LubinTateFormalModulesAndQuasiCanonicalLifts
 §§4.3, 4.4 for the model below, with the sign of the route);
 (ii) *host property:* with `φ(T) := −log(θ(cℓ(T))/(cT))`, for self-dual `L ⊂ X_{j−1}`, `L′ ⊂ X_j`, every basis `b_1, …, b_n` of
 the `𝒪_K ⊗ ℤ_(p)`-module `𝔞₀Hom_{𝒪_E}(L, L′) ⊗ ℤ_(p)` orthonormal for the Hermitian form `Tr_{E/K}tr(x^†y)` of ThetaChainsOnDefiniteUnitaryGroups §3.2 (`𝔞₀` is a
