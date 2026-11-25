@@ -391,6 +391,7 @@ body:
         - OneStepMethodsForODEs
         - OperatorAlgebraDynamics
         - OperatorKTheory
+        - OperatorMonotoneFunctionsAndMatrixMeans
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
