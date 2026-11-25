@@ -344,6 +344,7 @@ body:
         - LocallyAnalyticDistributions
         - LocallyAnalyticDistributionsPartII
         - LogicAndDefinabilityInNumberTheory
+        - LovaszThetaFunction
         - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
         - MarkovChainMixing
