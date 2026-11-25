@@ -139,8 +139,8 @@ def effResistance (a z : V) : ℝ := N.voltage a z a
 the voltage at `x` of the unit current from `a` to `z`, grounded at `z`, is
 `(R(a ↔ z) + R(x ↔ z) − R(a ↔ x)) / 2`. No connectivity is assumed: on a disconnected network both
 sides are `0`. The route reads three resistances off the inverse of one grounded Laplacian,
-through ElectricalNetworksAndRandomWalks 2.1 (`effResistance_eq_div`) and 2.5
-(`effResistance_comm`). -/
+through SpectralSparsification 2.1 (`dotProduct_inv_groundedLaplacian_mulVec`) and
+ElectricalNetworksAndRandomWalks 2.5 (`effResistance_comm`). -/
 theorem voltage_eq_effResistance (a z x : V) :
     N.voltage a z x = (N.effResistance a z + N.effResistance x z - N.effResistance a x) / 2 := by
   sorry

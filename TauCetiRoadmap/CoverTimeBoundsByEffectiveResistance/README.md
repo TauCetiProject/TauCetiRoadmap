@@ -24,12 +24,14 @@ The headline theorems are these.
 - *Regular graphs* (Coppersmith, Feige and Shearer). For the simple random walk on a connected
   regular graph on `n` vertices, the mean cover time from every vertex is at most `3n²`.
 
-The roadmap builds on two others. ElectricalNetworksAndRandomWalks supplies the networks, their
+The roadmap builds on three others. ElectricalNetworksAndRandomWalks supplies the networks, their
 walk, voltages and effective resistance, Dirichlet's and Thomson's principles, the commute time
-identity and Foster's theorem. HittingAndCoverTimes supplies mean hitting and cover times, the
-expression of a hitting time through voltages, and Matthews' bounds, which become bounds by the
-largest resistance in the Examples of Layer 2. The results are meant for cover times of expanders
-and of specific families of graphs, where resistance is the quantity one can estimate.
+identity and Foster's theorem. SpectralSparsification supplies effective resistance on a connected
+network as a quadratic form of the inverse of a grounded Laplacian. HittingAndCoverTimes supplies
+mean hitting and cover times, the expression of a hitting time through voltages, and Matthews'
+bounds, which become bounds by the largest resistance in the Examples of Layer 2. The results are
+meant for cover times of expanders and of specific families of graphs, where resistance is the
+quantity one can estimate.
 
 Layer 1 expresses hitting times through resistances and bounds the resistance of an edge from
 below. Layer 2 proves the spanning tree bound and the bound for regular graphs.
@@ -74,9 +76,9 @@ Copy verbatim, from ElectricalNetworksAndRandomWalks 1.1 and 2.1, the structure 
 1.1, `meanHittingTime`.
 
 (a) Prove `voltage_eq_effResistance`: on every network, for all vertices `a`, `z`, `x`,
-`voltage a z x = (R(a ↔ z) + R(x ↔ z) − R(a ↔ x)) / 2` (for connected networks: LP,
-Exercise 2.62 (a), (b), (d), p. 65, for simple networks, and Exercise 2.68, p. 65, in the form of
-a hitting probability). No connectivity is assumed.
+`voltage a z x = (R(a ↔ z) + R(x ↔ z) − R(a ↔ x)) / 2` (LP, Exercise 2.62 (a), (b), (d), p. 65,
+for finite, connected, simple networks; LP, Exercise 2.68, p. 65, for every finite network, in the
+form of a hitting probability). No connectivity is assumed.
 
 (b) Prove, as the consequence of (a) for hitting times,
 `meanHittingTime_walk_eq_sum_effResistance`, Tetali's formula: on a connected network,
@@ -84,8 +86,8 @@ for all vertices `a` and `z`,
 `E_a τ_z = ½ Σ_x c(x) (R(a ↔ z) + R(z ↔ x) − R(x ↔ a))` (LP, Exercise 2.108, p. 69, where the
 weight is written `π(x)`; due to Tetali, 1991).
 
-Route of (a). Write `G` for the inverse of the grounded Laplacian `L_z`, and `g_a` for the function
-`voltage a z` on `V`, equal to `0` at `z` and to `G(y, a)` at `y ≠ z` when `a ≠ z`.
+Route of (a). Write `G` for the inverse of the grounded Laplacian `L_z`, Mathlib's `⁻¹`, which is
+`0` when `L_z` is singular.
 
 1. *The degenerate cases.* If `a = z`, the left side is `0` and the right side is
    `(0 + R(x ↔ z) − R(z ↔ x))/2 = 0` by ElectricalNetworksAndRandomWalks 2.5 (symmetry, no
@@ -100,27 +102,15 @@ Route of (a). Write `G` for the inverse of the grounded Laplacian `L_z`, and `g_
    `Matrix.exists_mulVec_eq_zero_iff`), `G = 0` (`Matrix.nonsing_inv_apply_not_isUnit`), and every
    voltage and every resistance with second argument `z` is `0`; the same holds with grounding at
    `x`. Both sides of (a) are `0`. So let `N` be connected.
-3. *Invertibility.* A vector `f` on `V ∖ {z}` with `L_z f = 0`, extended by `0` at `z`, satisfies
-   `Σ_w c(y, w)(f w − f y) = −(L f)(y) = 0` for `y ≠ z`, so it is harmonic outside `{z}`; by the
-   uniqueness in ElectricalNetworksAndRandomWalks 1.2 (`existsUnique_isHarmonicAt` with
-   `B = {z}` and boundary value `0`) it is `0`. So `det L_z ≠ 0` by
-   `Matrix.exists_mulVec_eq_zero_iff`, and `L_z G = 1` (`Matrix.mul_nonsing_inv`). `L_z` is
-   symmetric because `c` is, so `G` is symmetric (`Matrix.IsSymm.inv`).
-4. *The Laplacian of `g_a`.* Since `g_a(z) = 0`, `(L g_a)(y) = (L_z G)(y, a) = [y = a]` for `y ≠ z`.
-   The columns of `L` sum to `0` (`Σ_y L(y, w) = c(w) − Σ_y c(y, w) = 0` by symmetry), so
-   `Σ_y (L g_a)(y) = 0` and `(L g_a)(z) = −1`. Let `u = g_a − g_x`. Then `L u = δ_a − δ_x` on all of
-   `V`, the terms at `z` cancelling. So `u` is harmonic at every vertex outside `{a, x}`, and
-   `Σ_y c(a, y)(u a − u y) = (L u)(a) = 1`.
-5. *`u a ≠ u x`.* `Σ_y u(y) (L u)(y) = u a − u x`. Expanding `L = diag(c) − c` and using the
-   symmetry of `c`, the same sum is `½ Σ_y Σ_w c(y, w)(u y − u w)²`. If it were `0`, `u` would be
-   constant along every edge, hence constant on the connected `V`, and `L u = 0`, against
-   `(L u)(a) = 1`.
-6. *Three resistances.* ElectricalNetworksAndRandomWalks 2.1 (`effResistance_eq_div`, applied to
-   the pair `a`, `x` and the function `u`) gives
-   `R(a ↔ x) = u a − u x = G(a, a) − G(x, a) − G(a, x) + G(x, x)`, which is
-   `G(a, a) − 2 G(a, x) + G(x, x)` by the symmetry of `G`. By definition `R(a ↔ z) = G(a, a)`,
-   `R(x ↔ z) = G(x, x)` and
-   `voltage a z x = G(x, a)`. Hence `R(a ↔ z) + R(x ↔ z) − R(a ↔ x) = 2 G(x, a)`.
+3. *Connected networks.* By the definitions copied in 1.1, `voltage a z x = G(x, a)`,
+   `R(a ↔ z) = voltage a z a = G(a, a)` and `R(x ↔ z) = G(x, x)`. SpectralSparsification 2.1
+   (`dotProduct_inv_groundedLaplacian_mulVec`, connected), at the grounding `z` and the pair `a`,
+   `x`, where `δ_a − δ_x` with the coordinate `z` deleted is the difference of the unit vectors of
+   `a` and `x`, gives `R(a ↔ x) = G(a, a) − G(a, x) − G(x, a) + G(x, x)`. The Laplacian is
+   symmetric because `c` is, so `L_z` is symmetric (Mathlib `Matrix.IsSymm.submatrix`) and so is
+   `G` (`Matrix.IsSymm.inv`, which has no invertibility hypothesis). Hence
+   `R(a ↔ x) = G(a, a) − 2 G(x, a) + G(x, x)` and
+   `R(a ↔ z) + R(x ↔ z) − R(a ↔ x) = 2 G(x, a) = 2 voltage a z x`.
 
 Route of (b). HittingAndCoverTimes 1.4 (`meanHittingTime_walk_eq_sum`, connected) gives
 `E_a τ_z = Σ_x c(x) voltage a z x` in `ℝ≥0∞` through `ENNReal.ofReal`. Substitute (a) for each
@@ -141,11 +131,11 @@ ElectricalNetworksAndRandomWalks 2.5.
 - Connectivity is needed in (b): on a unit edge `01` together with an isolated vertex `2`,
   `E_0 τ_1 = 1`, while all resistances are the junk value `0` and the right side is `0`.
 
-*Needs:* ElectricalNetworksAndRandomWalks 1.1 and 2.1 (the definitions), 1.2
-(`existsUnique_isHarmonicAt`), 2.1 (`effResistance_eq_div`), 2.5 (`effResistance_comm`);
+*Needs:* ElectricalNetworksAndRandomWalks 1.1 and 2.1 (the definitions) and 2.5
+(`effResistance_comm`); SpectralSparsification 2.1 (`dotProduct_inv_groundedLaplacian_mulVec`);
 HittingAndCoverTimes 1.1 (`meanHittingTime`) and 1.4 (`meanHittingTime_walk_eq_sum`); Mathlib
 `Matrix.exists_mulVec_eq_zero_iff`, `Matrix.nonsing_inv_apply_not_isUnit`,
-`Matrix.mul_nonsing_inv`, `Matrix.IsSymm.inv`. (Proved here.)
+`Matrix.IsSymm.submatrix`, `Matrix.IsSymm.inv`. (Proved here.)
 
 ### 1.2 The resistance of an edge from below
 
@@ -192,9 +182,9 @@ resistances do not see it; stars, where every edge has `R = 1` and the bound of 
 
 ### Dependencies
 
-ElectricalNetworksAndRandomWalks 1.1, 1.2, 2.1, 2.2, 2.5; HittingAndCoverTimes 1.1, 1.4; Mathlib
-`Matrix.exists_mulVec_eq_zero_iff`, `Matrix.nonsing_inv_apply_not_isUnit`,
-`Matrix.mul_nonsing_inv`, `Matrix.IsSymm.inv`.
+ElectricalNetworksAndRandomWalks 1.1, 2.1, 2.2, 2.5; SpectralSparsification 2.1;
+HittingAndCoverTimes 1.1, 1.4; Mathlib `Matrix.exists_mulVec_eq_zero_iff`,
+`Matrix.nonsing_inv_apply_not_isUnit`, `Matrix.IsSymm.submatrix`, `Matrix.IsSymm.inv`.
 
 ## Layer 2: cover times
 
@@ -373,6 +363,10 @@ Left to other roadmaps:
   1.1 and 2.1; Tetali's formula, the spanning tree bound and the bound `3n²` are the items its scope
   leaves out, and the resistance forms of Matthews' bounds in the Examples of Layer 2 are two-line
   consequences of its theorems, not targets.
+- SpectralSparsification owns the expression of effective resistance on a connected network as the
+  quadratic form of the inverse of a grounded Laplacian, for every grounding (its 2.1). The
+  three-point identity 1.1 (a) is the reading of that form at three vertices, together with the
+  cases of coincident vertices and of disconnected networks.
 - GeometricTopology 4.4.5 owns the weighted matrix-tree identity; it is not used here.
 
 Not treated here: uniform spanning trees, transfer currents and the Aldous–Broder theorem;
@@ -399,9 +393,11 @@ through resistance.
 - `Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean`: `SimpleGraph.Connected.mono`
   (a graph above a connected graph on the same vertices is connected).
 - `Mathlib/Combinatorics/SimpleGraph/DegreeSum.lean`: `SimpleGraph.sum_degrees_eq_twice_card_edges`.
-- `Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`: `Matrix.mul_nonsing_inv` (`A * A⁻¹ = 1`
-  when `A.det` is a unit), `Matrix.nonsing_inv_apply_not_isUnit` (`A⁻¹ = 0` otherwise),
-  `Matrix.IsSymm.inv`.
+- `Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`: `Matrix.nonsing_inv_apply_not_isUnit`
+  (`A⁻¹ = 0` when `A.det` is not a unit), `Matrix.IsSymm.inv` (the inverse of a symmetric matrix
+  over a commutative ring is symmetric, with no invertibility hypothesis).
+- `Mathlib/LinearAlgebra/Matrix/Symmetric.lean`: `Matrix.IsSymm.submatrix` (deleting the same rows
+  and columns keeps a matrix symmetric).
 - `Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.lean`: `Matrix.exists_mulVec_eq_zero_iff` (a square
   matrix over a field has a nonzero kernel vector exactly when its determinant is `0`).
 - `Mathlib/Probability/Process/HittingTime.lean`: `MeasureTheory.hittingAfter`.
@@ -431,10 +427,6 @@ through resistance.
 - 1.1 and 2.1: the definitions `Network`, `weight`, `totalWeight`, `graph`, `walkPMF`, `walk`, the
   instance `IsMarkovKernel N.walk`, `laplacian`, `groundedLaplacian`, `voltage`, `effResistance`,
   copied verbatim in 1.1.
-- 1.2 `existsUnique_isHarmonicAt` (connected, `B` nonempty): the Dirichlet problem has exactly one
-  solution. Used in 1.1.
-- 2.1 `effResistance_eq_div` (connected): `R(a ↔ z) = (W a − W z)/Σ_y c(a, y)(W a − W y)` for
-  every `W` harmonic outside `{a, z}` with `W a ≠ W z`. Used in 1.1.
 - 2.2 `isLeast_dirichletEnergy` (connected, `a ≠ z`), with `dirichletEnergy`. Used in 1.2.
 - 2.3 `isLeast_flowEnergy` (connected, `a ≠ z`), with `IsUnitFlow` and `flowEnergy`. Used in 2.1.
 - 2.5 `effResistance_comm` (no hypotheses) and `effResistance_pos` (connected, `a ≠ z`). Used in
@@ -453,11 +445,19 @@ through resistance.
 - 4.2 `meanCoverTime_le` (Matthews' upper bound, every Markov kernel on a finite state space).
   Used in the Examples of Layer 2.
 
+### From TauCetiRoadmap.SpectralSparsification
+
+- `TauCetiRoadmap/SpectralSparsification/Suggested.lean`: 2.1
+  `dotProduct_inv_groundedLaplacian_mulVec` (a connected network `N` and any vertices `z`, `x`,
+  `y`): with `b` the vector `δ_x − δ_y` restricted to the index type `{w // w ≠ z}`,
+  `b ⬝ᵥ ((L_z)⁻¹ *ᵥ b) = R(x ↔ y)`. Its `Network`, `groundedLaplacian` and `effResistance` are the
+  same verbatim copies of ElectricalNetworksAndRandomWalks 1.1 and 2.1. Used in 1.1.
+
 ## References
 
 - R. Lyons and Y. Peres, *Probability on trees and networks*, Cambridge University Press, 2016;
-  the corrected and updated edition on the first author's site: Exercises 2.62 and 2.68, p. 65;
-  Exercise 2.108, p. 69; Exercise 2.132, p. 73.
+  the corrected and updated edition on the first author's site (version of 19 August 2026):
+  Exercises 2.62 and 2.68, p. 65; Exercise 2.108, p. 69; Exercise 2.132, p. 73.
 - D. A. Levin and Y. Peres, with contributions by E. L. Wilmer, *Markov chains and mixing times*,
   second edition, American Mathematical Society, 2017, as made available by the first author:
   §11.4, Theorems 11.5 and 11.6, pp. 154–155.
