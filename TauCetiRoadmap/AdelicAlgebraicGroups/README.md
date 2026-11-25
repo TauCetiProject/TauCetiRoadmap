@@ -1015,13 +1015,14 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
     statement is not always trivial.
 - **Local unimodularity of reductive groups.** For a connected reductive group `G` over a local
   field `E` of characteristic `0`, prove that the locally compact group `G(E)` is unimodular
-  ([Borel], §5.5, p. 20). *Needs:* Mathlib `MeasureTheory.Measure.modularCharacter`;
+  ([Oesterlé], Chapter I, proof of Proposition 5.3 and Corollary 5.4, p. 23).
+  *Needs:* Mathlib `MeasureTheory.Measure.modularCharacter`;
   ReductiveGroupsPartII, RG2.4 (`Decomposition.modularCharacter_eq_one`, nonarchimedean);
   RepresentationTheory/LieGroups, layer 9 (archimedean); AA.1.5.
   *Lean:* none; specified in the README only.
 - **Adelic groups of reductive groups are unimodular.** For a connected reductive group `G` over
-  a number field `F`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are unimodular ([Borel],
-  §5.5, p. 20). *Needs:* AA.1.5; AA.0.3; AA.1.2.
+  a number field `F`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are unimodular ([Oesterlé],
+  Chapter I, Proposition 5.3 and Corollary 5.4, p. 23). *Needs:* AA.1.5; AA.0.3; AA.1.2.
   *Lean:* none; specified in the README only.
 - **Compact open subgroups and product levels.** For finitely generated `H`, prove that every
   compact open subgroup `U ⊂ G(𝔸_{F,f})` contains a product subgroup `∏_v U_v` with
