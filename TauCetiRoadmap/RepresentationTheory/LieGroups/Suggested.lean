@@ -30,14 +30,13 @@ the whole group), and `Ad (lieExp X) = exp (ad X)` on left-invariant derivations
 (`LeftInvariantDerivation.Ad_lieExp`).
 
 Headline theorems of the README that are not statable at the pins, and what each lacks:
-* Layer 4, the coreflection `Γ ⊣ LieGroupCat.lieFunctor` of §4.3: the integration functor `Γ` is
-  data whose objects are the groups of Lie's third theorem, and a `sorry`'d functor would be
-  `sorry`'d data. Its hom-set bijection is the pinned `TauCeti.Lie.lieMapEquiv`.
-
 * Layer 3, the global Baker–Campbell–Hausdorff series and its convergence, remainder and
   functoriality laws: the pins have no carrier for the degreewise Dynkin series (only the local
   germs `TauCeti.lieLocalBCH` and `NormedSpace.localBCH`), and a `sorry`'d function would be
   sorry'd data.
+* Layer 4, the coreflection `Γ ⊣ LieGroupCat.lieFunctor` of §4.3: the pins have neither category
+  nor the Lie functor, and the integration functor `Γ` is data whose objects are the groups of
+  Lie's third theorem, so a `sorry`'d functor would be `sorry`'d data.
 * Layer 6, the identification of the geometric Weyl group `N_G(T)/T` with `RootPairing.weylGroup`
   of the compact real root datum, and the positive-root form `∏ |1 − α(t)⁻¹|²` of the Weyl
   density: no root datum is attached to a compact Lie group at the pins; `TauCeti.Lie.weylDensity`
@@ -146,7 +145,7 @@ section Correspondence
 variable {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
   {G : Type} [TopologicalSpace G] [ChartedSpace H G]
-  [Group G] [LieGroup I ∞ G] [T2Space G] [SecondCountableTopology G]
+  [Group G] [LieGroup I ∞ G] [T2Space G]
 
 -- `LieSubalgebra.integralLeafSubgroup` takes an `IsManifold I (1 + 1) G` instance, which instance
 -- search does not identify with the `IsManifold I 2 G` instance of `LieGroup I ∞ G`.
@@ -158,10 +157,9 @@ theorem map_integralLeafSubgroup
     {E' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
     {H' : Type} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
     {G' : Type} [TopologicalSpace G'] [ChartedSpace H' G'] [Group G'] [LieGroup I' ∞ G']
-    [T2Space G'] [SecondCountableTopology G']
+    [T2Space G']
     (φ : ContMDiffMonoidMorphism I I' ∞ G G')
     (𝔥 : LieSubalgebra ℝ (LeftInvariantDerivation I G)) :
-    haveI : IsManifold I' (1 + 1) G' := inferInstanceAs (IsManifold I' 2 G')
     (𝔥.integralLeafSubgroup (I := I)).map φ.toMonoidHom =
       (𝔥.map (lieMap φ)).integralLeafSubgroup (I := I') := sorry
 
@@ -173,10 +171,16 @@ theorem normal_iff_exists_lieIdeal [ConnectedSpace G] {K : Subgroup G}
       (𝔞 : LieSubalgebra ℝ (LeftInvariantDerivation I G)) =
         TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) K := sorry
 
+/-- **The Lie algebra of the integral leaf subgroup** of `𝔥` is `𝔥`, with no closedness
+assumption: the identity in which the route of §4.1 ends. README, §§4.1 and 4.4. -/
+theorem lieSubalgebraOfSubgroup_integralLeafSubgroup
+    (𝔥 : LieSubalgebra ℝ (LeftInvariantDerivation I G)) :
+    TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) (𝔥.integralLeafSubgroup (I := I)) = 𝔥 := sorry
+
 /-- **The Galois connection**: for every Lie subalgebra `𝔥` and every subgroup `Q`, closed or
 not, `integralLeafSubgroup 𝔥 ≤ Q ↔ 𝔥 ≤ lieSubalgebraOfSubgroup Q`. With
-`lieSubalgebraOfSubgroup (integralLeafSubgroup 𝔥) = 𝔥` it is a Galois coinsertion. Joins of connected immersed subgroups are therefore the abstract
-subgroups they generate. README, §4.4. -/
+`lieSubalgebraOfSubgroup_integralLeafSubgroup` it is a Galois coinsertion. Joins of connected
+immersed subgroups are therefore the abstract subgroups they generate. README, §4.4. -/
 theorem gc_integralLeafSubgroup_lieSubalgebraOfSubgroup :
     GaloisConnection
       (fun 𝔥 : LieSubalgebra ℝ (LeftInvariantDerivation I G) ↦ 𝔥.integralLeafSubgroup (I := I))
