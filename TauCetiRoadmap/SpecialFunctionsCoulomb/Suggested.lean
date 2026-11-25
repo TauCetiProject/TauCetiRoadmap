@@ -11,8 +11,6 @@ acceptance test: the other headlines of the README are targets of the same stand
 prose. Discharging this file finishes neither a layer nor the roadmap.
 
 Headlines of the README without a Lean statement here, and what each lacks:
-- the logarithmic series of `H^±_ℓ` (README 3.2) and of `h` (README 6.4) need the digamma
-  coefficients written out as named sequences, which the README describes but does not name;
 - the real form of the large-`ρ` expansion (README 5.1) needs the sequences `f_k, g_k, f̂_k, ĝ_k`
   as named functions; the expansion of `H⁺_ℓ` itself is stated here;
 - the Whittaker forms of `s` and `c` for `r < 0` (README 6.3) are stated only for `r > 0` here.
@@ -207,6 +205,25 @@ def coulombEnergyCoeff (ε : ℝ) (ℓ : ℕ) : ℕ → ℝ
       -(2 * coulombEnergyCoeff ε ℓ (k + 1) + ε * coulombEnergyCoeff ε ℓ k) /
         (((k + 2) * (k + 2 * ℓ + 3) : ℕ) : ℝ)
 
+/-- The coefficients `γ_k` of the finite part of the series of `h` (README 6.4; DLMF 33.19.4):
+`γ₀ = γ₁ = 1` and `γ_k = γ_{k−1} − ¼ (k − 1)(k − 2ℓ − 2) ε γ_{k−2}`. -/
+def coulombEnergyGammaCoeff (ε : ℝ) (ℓ : ℕ) : ℕ → ℝ
+  | 0 => 1
+  | 1 => 1
+  | k + 2 =>
+      coulombEnergyGammaCoeff ε ℓ (k + 1) -
+        ((k : ℝ) + 1) * ((k : ℝ) - 2 * ℓ) * ε * coulombEnergyGammaCoeff ε ℓ k / 4
+
+/-- The auxiliary coefficients `β_k` of the series of `h` (README 6.4; DLMF 33.19.7):
+`β₀ = β₁ = 0` and `β_k = β_{k−1} − ¼ (k − 1)(k − 2ℓ − 2) ε β_{k−2} − ½ (k − 1) ε γ_{k−2}`. -/
+def coulombEnergyBetaCoeff (ε : ℝ) (ℓ : ℕ) : ℕ → ℝ
+  | 0 => 0
+  | 1 => 0
+  | k + 2 =>
+      coulombEnergyBetaCoeff ε ℓ (k + 1) -
+          ((k : ℝ) + 1) * ((k : ℝ) - 2 * ℓ) * ε * coulombEnergyBetaCoeff ε ℓ k / 4 -
+        ((k : ℝ) + 1) * ε * coulombEnergyGammaCoeff ε ℓ k / 2
+
 /-- The regular Coulomb function `f(ε, ℓ; r)` (README 6.1; DLMF 33.14.4–33.14.5, 33.19.1), entire
 in `(ε, r)`. -/
 def coulombEnergyF (ε : ℝ) (ℓ : ℕ) (r : ℝ) : ℝ :=
@@ -215,6 +232,24 @@ def coulombEnergyF (ε : ℝ) (ℓ : ℕ) (r : ℝ) : ℝ :=
 /-- `A(ε, ℓ) = ∏_{k=0}^{ℓ} (1 + εk²)` (README 6.1; DLMF 33.14.11). -/
 def coulombEnergyA (ε : ℝ) (ℓ : ℕ) : ℝ :=
   ∏ k ∈ Finset.range (ℓ + 1), (1 + ε * (k : ℝ) ^ 2)
+
+/-- The coefficients `δ_k` of the power series part of `h` (README 6.4; DLMF 33.19.5–33.19.6):
+`δ₀ = (β_{2ℓ+1} − 2(ψ(2ℓ + 2) + ψ(1)) A) α₀`, `δ₁ = (β_{2ℓ+2} − 2(ψ(2ℓ + 3) + ψ(2)) A) α₁` and
+`k(k + 2ℓ + 1) δ_k + 2δ_{k−1} + ε δ_{k−2} + 2(2k + 2ℓ + 1) A α_k = 0`, with `A = A(ε, ℓ)`. The
+digamma values are at positive integers, where `Complex.digamma` is real. -/
+def coulombEnergyDeltaCoeff (ε : ℝ) (ℓ : ℕ) : ℕ → ℝ
+  | 0 =>
+      (coulombEnergyBetaCoeff ε ℓ (2 * ℓ + 1) -
+          2 * ((digamma (2 * (ℓ : ℂ) + 2)).re + (digamma 1).re) * coulombEnergyA ε ℓ) *
+        coulombEnergyCoeff ε ℓ 0
+  | 1 =>
+      (coulombEnergyBetaCoeff ε ℓ (2 * ℓ + 2) -
+          2 * ((digamma (2 * (ℓ : ℂ) + 3)).re + (digamma 2).re) * coulombEnergyA ε ℓ) *
+        coulombEnergyCoeff ε ℓ 1
+  | k + 2 =>
+      -(2 * coulombEnergyDeltaCoeff ε ℓ (k + 1) + ε * coulombEnergyDeltaCoeff ε ℓ k +
+          2 * (2 * (k : ℝ) + 2 * ℓ + 5) * coulombEnergyA ε ℓ * coulombEnergyCoeff ε ℓ (k + 2)) /
+        (((k + 2) * (k + 2 * ℓ + 3) : ℕ) : ℝ)
 
 /-- `κ` of DLMF 33.14.6 with the upper sign `κ = iε^{−1/2}` for `ε > 0` (README Conventions).
 Junk at `ε = 0`. -/
@@ -267,6 +302,16 @@ example : coulombEnergyCoeff (-1 / 4) 0 2 = 3 / 4 := by
 would give `1.3`. -/
 example : coulombEnergyA (3 / 10) 2 = 143 / 50 := by
   norm_num [coulombEnergyA, Finset.prod_range_succ]
+
+/-- Sanity check of the definition: `γ_2 = 1.15` at `ε = 0.3`, `ℓ = 1` (README 6.4); with the sign
+of the `γ_{k−2}` term reversed it would be `0.85`. -/
+example : coulombEnergyGammaCoeff (3 / 10) 1 2 = 23 / 20 := by
+  norm_num [coulombEnergyGammaCoeff]
+
+/-- Sanity check of the definition: `β_3 = −0.45` at `ε = 0.3`, `ℓ = 1` (README 6.4); without the
+`γ_{k−2}` term it would be `0`. -/
+example : coulombEnergyBetaCoeff (3 / 10) 1 3 = -9 / 20 := by
+  norm_num [coulombEnergyBetaCoeff, coulombEnergyGammaCoeff]
 
 /-! ## Layer 1: the equation and its standard solutions -/
 
@@ -366,6 +411,31 @@ theorem hasSum_coulombF (ℓ : ℕ) (η ρ : ℝ) :
 theorem tendsto_pow_mul_coulombG (ℓ : ℕ) (η : ℝ) :
     Tendsto (fun ρ : ℝ => (ρ : ℂ) ^ ℓ * coulombG ℓ η ρ) (𝓝[>] 0)
       (𝓝 ((((2 * ℓ + 1 : ℝ) * coulombC ℓ η)⁻¹ : ℝ) : ℂ)) := by
+  sorry
+
+/-- **3.2** The logarithmic series of `H^±_ℓ` at the origin (DLMF 33.6.5 with `Γ(−ℓ ± iη)`), for
+`η ≠ 0` and `ρ > 0`: with `a = ℓ + 1 ± iη` and `z = ∓2iρ`,
+`(2ℓ + 1)! Γ(−ℓ ± iη) e^{∓iθ_ℓ} H^±_ℓ + P(a, z)` is the sum of the `T(a, z, k)`, where
+`T(a, z, k) = (a)_k/((2ℓ + 2)_k k!) z^{a+k} (ln z + ψ(a + k) − ψ(1 + k) − ψ(2ℓ + 2 + k))` and
+`P(a, z) = ∑_{k=1}^{2ℓ+1} (2ℓ + 1)! (k − 1)!/((2ℓ + 1 − k)! (1 − a)_k) z^{a−k}`. -/
+theorem hasSum_coulombH_log (ℓ : ℕ) {η : ℝ} (hη : η ≠ 0) {ρ : ℝ} (hρ : 0 < ρ) :
+    let T : ℂ → ℂ → ℕ → ℂ := fun a z k =>
+      (ascPochhammer ℂ k).eval a / ((ascPochhammer ℂ k).eval (2 * (ℓ : ℂ) + 2) * (k ! : ℂ)) *
+        z ^ (a + k) *
+          (Complex.log z + digamma (a + k) - digamma (1 + k) - digamma (2 * (ℓ : ℂ) + 2 + k))
+    let P : ℂ → ℂ → ℂ := fun a z => ∑ k ∈ Finset.Icc 1 (2 * ℓ + 1),
+      ((2 * ℓ + 1)! : ℂ) * ((k - 1)! : ℂ) /
+        (((2 * ℓ + 1 - k)! : ℂ) * (ascPochhammer ℂ k).eval (1 - a)) * z ^ (a - k)
+    let ap : ℂ := (ℓ : ℂ) + 1 + (η : ℂ) * I
+    let am : ℂ := (ℓ : ℂ) + 1 - (η : ℂ) * I
+    HasSum (T ap (-2 * (ρ : ℂ) * I))
+        (((2 * ℓ + 1)! : ℂ) * Gamma (-(ℓ : ℂ) + (η : ℂ) * I) *
+            cexp (-((coulombTheta ℓ η ρ : ℂ) * I)) * coulombHPlus ℓ η ρ +
+          P ap (-2 * (ρ : ℂ) * I)) ∧
+      HasSum (T am (2 * (ρ : ℂ) * I))
+        (((2 * ℓ + 1)! : ℂ) * Gamma (-(ℓ : ℂ) - (η : ℂ) * I) *
+            cexp ((coulombTheta ℓ η ρ : ℂ) * I) * coulombHMinus ℓ η ρ +
+          P am (2 * (ρ : ℂ) * I)) := by
   sorry
 
 /-- **3.3** At `η = 0`, `F_ℓ(0, ρ) = ρ 𝗃_ℓ(ρ)` (DLMF 33.5.3). -/
@@ -533,6 +603,24 @@ theorem coulombEnergyF_zero_left (ℓ : ℕ) {r : ℝ} (hr : 0 < r) :
       Real.sqrt (2 * r) * Complex.besselJ (2 * ℓ + 1 : ℕ) (Real.sqrt (8 * r)) := by
   sorry
 
+/-- **6.4** The power series of `h` (DLMF 33.19.3 in corrected form: `1/π` on the finite sum and
+`κ = (−ε)^{−1/2}` for `ε < 0` and both signs of `r`), for `ε ≠ 0`, `r ≠ 0`, off the junk values of
+`h` (not `r > 0` with `ε = −1/n²`, `n > ℓ`) and for `A(ε, ℓ) ≠ 0`. Solved for the power series:
+`∑ δ_k r^{k+ℓ+1} = 2 ∑_{k=0}^{2ℓ} (2ℓ − k)! γ_k/k! (2r)^{k−ℓ}
+− A (2 ln|2r/κ| + Re ψ(ℓ + 1 + κ) + Re ψ(−ℓ + κ)) f − 2πh`. -/
+theorem hasSum_coulombEnergyH {ε : ℝ} (hε : ε ≠ 0) (ℓ : ℕ) {r : ℝ} (hr : r ≠ 0)
+    (hεn : ∀ n : ℕ, ℓ < n → 0 < r → ε ≠ -1 / (n : ℝ) ^ 2) (hA : coulombEnergyA ε ℓ ≠ 0) :
+    let κ := coulombKappa ε 1
+    HasSum (fun k : ℕ => coulombEnergyDeltaCoeff ε ℓ k * r ^ (k + ℓ + 1))
+      (2 * ∑ k ∈ Finset.range (2 * ℓ + 1),
+            ((2 * ℓ - k)! : ℝ) * coulombEnergyGammaCoeff ε ℓ k / (k ! : ℝ) *
+              (2 * r) ^ ((k : ℤ) - ℓ) -
+        coulombEnergyA ε ℓ * (2 * Real.log ‖(2 * r : ℂ) / κ‖ +
+            (digamma ((ℓ : ℂ) + 1 + κ)).re + (digamma (-(ℓ : ℂ) + κ)).re) *
+          coulombEnergyF ε ℓ r -
+        2 * π * coulombEnergyH ε ℓ r) := by
+  sorry
+
 /-! ## Layer 7: bound states -/
 
 /-- **7.1** The hydrogenic radial functions as values of `s` at `ε = −1/n²` (DLMF 33.14.14):
@@ -556,7 +644,7 @@ theorem memLp_coulombEnergyF_iff (ε : ℝ) (ℓ : ℕ) :
       ∃ n : ℕ, ℓ < n ∧ ε = -1 / (n : ℝ) ^ 2 := by
   sorry
 
-/-! ## Library declarations consumed -/
+-- Library declarations consumed.
 
 #check @Complex.regularizedHGFun
 #check @Complex.besselJ

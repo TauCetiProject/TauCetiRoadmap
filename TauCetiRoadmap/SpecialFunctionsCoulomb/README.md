@@ -66,7 +66,8 @@ prove; they test the conventions on explicit values.
   `f(ε, ℓ; r)`, `coulombEnergyH ε ℓ r` for `h(ε, ℓ; r)` and `coulombEnergyA ε ℓ` for `A(ε, ℓ)`,
   with the auxiliary `coulombKappa ε r` and `coulombStokesFactor ε r`; `hydrogenRadial n ℓ r` is
   `φ_{n,ℓ}(r)`. The coefficient sequences are `coulombSeriesCoeff` (3.1),
-  `coulombSphericalCoeff` (4.2), `coulombBesselCoeff` (4.3) and `coulombEnergyCoeff` (6.1).
+  `coulombSphericalCoeff` (4.2), `coulombBesselCoeff` (4.3), `coulombEnergyCoeff` (6.1), and
+  `coulombEnergyGammaCoeff`, `coulombEnergyBetaCoeff`, `coulombEnergyDeltaCoeff` (6.4).
 - **Parameters.** `ℓ : ℕ` and `η : ℝ` throughout; complex `ℓ` and `η` are beyond this roadmap.
   The functions of `ρ` are complex valued, `ℝ → ℂ`, with real values proved
   (QuantumFoundations §9.5); `F_ℓ` is defined for all real `ρ` and is real analytic there, while
@@ -264,7 +265,8 @@ Put `R_L = (1 + η²/L²)^{1/2}`, `S_L = L/ρ + η/L`, `T_L = S_L + S_{L+1}`.
   applied to the minimal solution `F_ℓ` and the second ladder relation. In `Suggested.lean` it is
   the limit of the convergents of a `GenContFract ℝ` with head `S_{ℓ+1}`, partial numerators
   `−R²_{ℓ+n+1}` and partial denominators `T_{ℓ+n+1}`. At the zeros of `F_ℓ(η, ·)`, of which there
-  are infinitely many, the left side is undefined and the fraction diverges.
+  are infinitely many, the left side is undefined and the fraction diverges; DLMF, after 33.8.3,
+  says that 33.8.1 converges for all finite `ρ`, in print and online.
 - **Barnett's formulas**, stated in prose: for `ρ > 0` and `F_ℓ(η, ρ) ≠ 0`, with
   `p + iq = H⁺′_ℓ/H⁺_ℓ` and `u = F′_ℓ/F_ℓ`, `F_ℓ = ±(q/((u − p)² + q²))^{1/2}`,
   `G_ℓ = (u − p)F_ℓ/q`, `G′_ℓ = (up − p² − q²)F_ℓ/q` (DLMF 33.8.4–33.8.5, p. 745); these are
@@ -279,7 +281,8 @@ Put `R_L = (1 + η²/L²)^{1/2}`, `S_L = L/ρ + η/L`, `T_L = S_L + S_{L+1}`.
   gives `0.784689045890256`.
 - Negative control for the hypothesis `F_ℓ ≠ 0`: at `η = 0`, `ℓ = 0`, `ρ = π`, where
   `F_0 = sin ρ` vanishes, the approximants of depth 5, 10, 20 are `−1090.09945891328`,
-  `−2.47499339243593·10¹⁰` and `−3.90485668259691·10³⁰`.
+  `−2.47499339243593·10¹⁰` and `−3.90485668249007·10³⁰` (the last needs more than 30 working
+  digits, since its denominator cancels to about `10⁻³⁰`).
 
 *Needs:* 2.1; SpecialFunctionsEiLiErfIncompleteGamma 4.1; Mathlib `GenContFract`,
 `GenContFract.convs`, `Stream'.Seq.ofStream`.
@@ -318,7 +321,7 @@ fixes the first two coefficients up to the normalisation `C_ℓ`.
   `ρ → 0⁺` (DLMF 33.5.2, p. 744).
 - **The derivative**, stated in prose: `G′_ℓ ∼ −ℓρ^{−ℓ−1}/((2ℓ + 1)C_ℓ)` for `ℓ ≥ 1`
   (DLMF 33.5.2).
-- **The logarithmic series of `H^±_ℓ`**, a headline without a Lean name: for `ρ > 0`,
+- **The logarithmic series of `H^±_ℓ`** (`hasSum_coulombH_log`): for `η ≠ 0` and `ρ > 0`,
 
 ```text
 H^±_ℓ = e^{±iθ_ℓ}/((2ℓ + 1)! Γ(−ℓ ± iη)) · ( ∑_{k≥0} (a)_k/((2ℓ + 2)_k k!) (∓2iρ)^{a+k}
@@ -327,8 +330,11 @@ H^±_ℓ = e^{±iθ_ℓ}/((2ℓ + 1)! Γ(−ℓ ± iη)) · ( ∑_{k≥0} (a)_k/
 ```
 
   with `a = ℓ + 1 ± iη` (DLMF 33.6.5, p. 745, with `Γ(−ℓ ± iη)`: the printed handbook has
-  `Γ(−ℓ + iη)` for both signs, which is wrong for the lower sign and is corrected online). It is
-  the logarithmic case of `U` with integer `b = 2ℓ + 2` (SpecialFunctionsConfluent 1.4).
+  `Γ(−ℓ + iη)` for both signs, which is wrong for the lower sign and is corrected online). In
+  `Suggested.lean` each sign is a `HasSum` for the logarithmic sum, with the prefactor and the
+  finite sum on the other side. DLMF 33.6.5 states no condition on `η`, in print and online; at
+  `η = 0` the factor `1/Γ(−ℓ)` is `0` and the denominators `(1 − a)_k = (−ℓ)_k`,
+  `ℓ + 1 ≤ k ≤ 2ℓ + 1`, vanish, so the right side is undefined. The case `η = 0` is 3.3.
 - The real form of `G_ℓ` with `ln 2ρ` and the coefficients of DLMF 33.6.6–33.6.8 is stated in
   prose.
 
@@ -339,9 +345,19 @@ H^±_ℓ = e^{±iθ_ℓ}/((2ℓ + 1)! Γ(−ℓ ± iη)) · ( ∑_{k≥0} (a)_k/
   `H^±_1 = 1.21976098813861 ± 0.657526749516749 i`.
 - Negative control: with the printed `Γ(−ℓ + iη)` for the lower sign the series gives
   `−0.590963432613256 + 1.2533636805927 i` instead of `H⁻_1`.
+- At `η = 10⁻⁶`, `ℓ = 1`, `ρ = 2.3` the series gives `0.456021179244666 + 0.990495436539165 i`,
+  equal to `H⁺_1` from the definition.
+- Negative control for `η ≠ 0`: at `η = 0`, `ℓ = 0`, read with `1/Γ(0) = 0` and `x/0 = 0` as
+  Mathlib does, the right side is `0`, while `H⁺_0(0, ρ) = e^{iρ}`.
 - At `η = 0`, `ℓ = 0`: `G_0 = cos ρ → 1 = 1/C_0(0)`.
 
-*Needs:* 1.1–1.3, 3.1; SpecialFunctionsConfluent 1.4; Mathlib `Complex.digamma`.
+*Suggested proof:* the logarithmic case of `U` with integer `b = 2ℓ + 2`
+(SpecialFunctionsConfluent 1.4) in the definition of `H^±_ℓ`, with `a = ℓ + 1 ± iη` and
+`z = ∓2iρ`; for `η ≠ 0`, `a` is not an integer, so `Γ(a − b + 1) = Γ(−ℓ ± iη)` and the
+`(1 − a)_k` are nonzero.
+
+*Needs:* 1.1–1.3, 3.1; SpecialFunctionsConfluent 1.4; Mathlib `Complex.digamma`,
+`ascPochhammer`.
 
 ### 3.3 The case `η = 0` and small `η`
 
@@ -578,20 +594,17 @@ the sign convention for `κ` does not matter for `f`. For `A`, the functional eq
   `𝒲{h, f} = 2/π` (DLMF 33.14.16, p. 749).
 - **`h` solves the equation** and `𝒲{c, s} = 1/π`, stated in prose (DLMF 33.14.16).
 - **Regularity in `ε`**, stated in prose: for fixed `r ≠ 0`, `h` is real analytic in `ε` on
-  `ε > 0` and on `ε < 0`; for `r > 0` the factor `S(ε, r)` cancels the poles of `Γ(ℓ + 1 − κ)`
-  at `ε = −1/n²`, `n > ℓ`, which are removable singularities of `h` (DLMF 33.14(iii), p. 748).
-  As `ε → 0` from either side, `h` tends to `−(2r)^{1/2} Y_{2ℓ+1}((8r)^{1/2})` for `r > 0` and to
-  `(−1)^ℓ (2/π)(2|r|)^{1/2} K_{2ℓ+1}((8|r|)^{1/2})` for `r < 0` (DLMF 33.20.1–33.20.2, p. 752).
-  It is not analytic at `ε = 0`: there it has only the asymptotic, divergent, expansion of DLMF
-  33.20.7 (p. 753), while `f` has the convergent one of DLMF 33.20.3.
+  `ε > 0` and on `ε < 0`; for `r > 0` the term with `S(ε, r)` cancels the poles of
+  `Γ(ℓ + 1 − κ)` at `ε = −1/n²`, `n > ℓ`, which are removable singularities of `h` (DLMF
+  33.14(iii), p. 748).
+  The limit `ε → 0` is in 6.4.
 
 *Suggested proof:* the Wronskian of `M_{κ,μ}` and `W_{κ,μ}` (SpecialFunctionsConfluent 3.4),
 `𝒲{M_{κ,μ}, W_{κ,μ}} = −Γ(1 + 2μ)/Γ(½ + μ − κ)`, and the chain rule for `z = 2r/κ`; the term in
-`M` does not contribute. For the limit `ε → 0`, the series of 6.4: `A` and the `γ_k`, `δ_k` are
-polynomials in `ε`, and the digamma term tends to `2 ln|2r|`. It is not analytic at `0`: at
-`ℓ = 0`, `ε > 0`, the digamma term minus `2 ln|2r|` is `ln ε + Re ψ(1 + iy) + Re ψ(iy)` with
-`y = ε^{−1/2}`, whose asymptotic series `∑_k (−1)^{k+1} B_{2k} ε^k/k` has radius `0`; a function
-analytic at `0` would have its Taylor series as asymptotic expansion.
+`M` does not contribute. For the regularity: at `κ = n > ℓ` (`ε = −1/n²`, `r > 0`) both
+`W_{n,ℓ+½}` and `M_{n,ℓ+½}` are multiples of the same Laguerre function
+(SpecialFunctionsConfluent 6.4), `S = 2(−1)^n`, and the bracket of the definition vanishes, which
+removes the simple pole of `Γ(ℓ + 1 − κ)`.
 
 **Checks.**
 - `𝒲{h, f} π/2 = 1` to 15 digits at `(ε, ℓ, r) = (0.3, 1, ±2.5)` and `(−0.13, 2, ±3)`.
@@ -602,22 +615,13 @@ analytic at `0` would have its Taylor series as asymptotic expansion.
   `−2.34188134328815 + 2.0646379424582 i`, not the real `h = 0.0525731551201608`.
 - `S(0.3, 1) = 309.741230803103 = 1/S(0.3, −1)`, `S(−1/4, 1) = 2`, `S(−0.13, −1) = 0`; negative
   control: with `S = 0` for `ε < 0`, `r > 0`, the expression at `(−0.13, 1, 1.4)` is
-  `1.36475077522515`, while `h` is `0.728096697899092`, the value of the power series of 6.4.
+  `1.36475077522515`, while `h` is `0.728096697899092`.
 - `𝒲{h, f} π/2 = 1` at `(ε, ℓ, r) = (−1/4, 2, ±1.4)` (`n = 2 ≤ ℓ`), `(−1/4, 0, −1.4)` and
   `(−1/9, 1, −1.4)` (`r < 0`), values that the hypothesis of the Wronskian admits.
 - `h(−1/4 + 10⁻⁶, 0; 1.4) = −0.655687359169131` and `h(−1/4 − 10⁻⁶, 0; 1.4) = −0.655687307842203`:
   the pole at `n = 2 > ℓ` is removed.
-- `h(ε, 0; 1.4)` is `−0.660115045571889` at `ε = 0.001` and `−0.660094332213961` at
-  `ε = −0.0011`, near `−2.8^{1/2} Y_1(11.2^{1/2}) = −0.660105215647171`; at `r = −1.4` it is
-  `0.0283685937605596` and `0.0283343216470722`, near
-  `(2/π) 2.8^{1/2} K_1(11.2^{1/2}) = 0.0283522634891982`.
-- Negative control for analyticity at `0`: at `ε = 0.3`, `ℓ = 0`, the digamma term minus
-  `2 ln|2r|` is `0.0518283934046760`, and the partial sums of its asymptotic series are
-  `0.05, 0.0515, 0.0517143, 0.0517818, 0.0518186, 0.0518494, 0.0518858, 0.0519440`: they pass the
-  value and move away.
 
-*Needs:* 6.1, 6.4 (for the limit `ε → 0`); SpecialFunctionsConfluent 3.4;
-SpecialFunctionsBessel, its Conventions.
+*Needs:* 6.1; SpecialFunctionsConfluent 3.4, 6.4.
 
 ### 6.3 Connection with `F_ℓ`, `G_ℓ` and with Whittaker functions
 
@@ -675,17 +679,40 @@ other forms follow by substitution into the definitions of `s` and `c`.
   `f(0, ℓ; r) = (2r)^{1/2} J_{2ℓ+1}((8r)^{1/2})` (DLMF 33.20.1, p. 752).
 - **`ε = 0`, `r < 0`**, stated in prose:
   `f(0, ℓ; r) = (−1)^{ℓ+1}(2|r|)^{1/2} I_{2ℓ+1}((8|r|)^{1/2})` (DLMF 33.20.2, p. 752).
-- **The power series of `h`**, a headline without a Lean name: with the `γ_k`, `δ_k` of DLMF
-  33.19.3–33.19.7 (p. 752), `κ` as in Conventions for `ε > 0` and `κ = (−ε)^{−1/2}` for `ε < 0`
-  and both signs of `r`,
+- **The coefficients of the series of `h`** (`coulombEnergyGammaCoeff`,
+  `coulombEnergyBetaCoeff`, `coulombEnergyDeltaCoeff`; DLMF 33.19.4–33.19.7, p. 752): `γ₀ = γ₁ = 1`,
+  `β₀ = β₁ = 0`, and for `k ≥ 2`
+
+```text
+γ_k = γ_{k−1} − ¼ (k − 1)(k − 2ℓ − 2) ε γ_{k−2}
+β_k = β_{k−1} − ¼ (k − 1)(k − 2ℓ − 2) ε β_{k−2} − ½ (k − 1) ε γ_{k−2}
+δ₀ = (β_{2ℓ+1} − 2(ψ(2ℓ + 2) + ψ(1)) A) α₀,   δ₁ = (β_{2ℓ+2} − 2(ψ(2ℓ + 3) + ψ(2)) A) α₁
+k(k + 2ℓ + 1) δ_k + 2δ_{k−1} + ε δ_{k−2} + 2(2k + 2ℓ + 1) A α_k = 0
+```
+
+  with `A = A(ε, ℓ)` and the `α_k` of `f`. All are polynomials in `ε`; they have no junk values.
+- **The power series of `h`** (`hasSum_coulombEnergyH`): for `ε ≠ 0` and `r ≠ 0` off the junk
+  values of `h` (not `r > 0` with `ε = −1/n²`, `n > ℓ`), and for `A(ε, ℓ) ≠ 0`, that is
+  `ε ≠ −1/n²` with `1 ≤ n ≤ ℓ`, with `κ` as in Conventions for `ε > 0` and `κ = (−ε)^{−1/2}` for
+  `ε < 0` and both signs of `r`,
 
 ```text
 h = (1/π) ∑_{k=0}^{2ℓ} (2ℓ − k)! γ_k/k! · (2r)^{k−ℓ} − (1/(2π)) ∑_{k≥0} δ_k r^{k+ℓ+1}
     − (A/(2π)) (2 ln|2r/κ| + Re ψ(ℓ + 1 + κ) + Re ψ(−ℓ + κ)) f
 ```
 
-  DLMF 33.19.3 has the factor `1/(2π)` on the finite sum, and its `κ` (of 33.14.6) is
-  `−(−ε)^{−1/2}` for `ε < 0`, `r < 0`; both are wrong, in print and online.
+  (DLMF 33.19.3, p. 752). In `Suggested.lean` it is a `HasSum` for `∑ δ_k r^{k+ℓ+1}`. DLMF 33.19.3
+  has the factor `1/(2π)` on the finite sum, and its `κ` (of 33.14.6) is `−(−ε)^{−1/2}` for
+  `ε < 0`, `r < 0`; both are wrong, in print and online. DLMF states it for `r ≠ 0` only.
+- **The exceptional values of `ε`**, stated in prose: at `ε = −1/n²` with `1 ≤ n ≤ ℓ`, `A = 0`
+  meets the pole of `ψ(−ℓ + κ) = ψ(n − ℓ)`, and the series holds with `A ψ(−ℓ + κ)` read as its
+  limit `Γ(1 + ℓ + κ) κ^{−2ℓ−1} ψ(κ − ℓ)/Γ(κ − ℓ)` (6.1), finite since `ψ/Γ = −(1/Γ)′` is entire.
+  At `ε = −1/n²`, `n > ℓ`, `r > 0`, the series converges to the removable value of `h` of 6.2.
+- **The limit `ε → 0` of `h`**, stated in prose: as `ε → 0` from either side, `h` tends to
+  `−(2r)^{1/2} Y_{2ℓ+1}((8r)^{1/2})` for `r > 0` and to
+  `(−1)^ℓ (2/π)(2|r|)^{1/2} K_{2ℓ+1}((8|r|)^{1/2})` for `r < 0` (DLMF 33.20.1–33.20.2, p. 752).
+  It is not analytic at `ε = 0`: there it has only the asymptotic, divergent, expansion of DLMF
+  33.20.7 (p. 753), while `f` has the convergent one of DLMF 33.20.3.
 - **Large `ℓ`**, stated in prose: `f ∼ (2r)^{ℓ+1}/(2ℓ + 1)!` and `h ∼ (2ℓ)!/(π(2r)^ℓ)` as
   `ℓ → ∞` (DLMF 33.18.1, p. 752).
 
@@ -693,18 +720,57 @@ h = (1/π) ∑_{k=0}^{2ℓ} (2ℓ − k)! γ_k/k! · (2r)^{k−ℓ} − (1/(2π)
 all `ε` by analyticity of `f` in `ε`; or directly from the series. The case `ε = 0` is the series
 of `J_{2ℓ+1}`: `α_k` at `ε = 0` is `2^{ℓ+1}(−2)^k/(k!(2ℓ + 1 + k)!)`.
 
+For the series of `h`, the Frobenius method at the exponents `−ℓ` and `ℓ + 1`, which differ by
+the integer `2ℓ + 1`: substituting the right side into the equation of 6.1 gives the recurrences
+of the `γ_k`, `β_k`, `δ_k` for `k ≥ 2`, so the right side `u` solves the equation for `r ≠ 0`.
+Its leading term `(2ℓ)!(2r)^{−ℓ}/π` against `α₀ r^{ℓ+1}` gives `𝒲{u, f} = 2/π`, so by 6.2
+`u − h = c f` for a constant `c` on each side of `r = 0`. The coefficient of `r^{ℓ+1}` in the
+logarithmic expansion of `W_{κ,ℓ+½}(2r/κ)` (the logarithmic case of `U` with `b = 2ℓ + 2`,
+SpecialFunctionsConfluent 1.4) and of `M_{κ,ℓ+½}(2r/κ)` in the definition of `h` is `δ₀`, which
+gives `c = 0`. For the limit `ε → 0`, the series: `A` and the `γ_k`, `δ_k` are polynomials in
+`ε`, and the digamma term tends to `2 ln|2r|`. It is not analytic at `0`: at `ℓ = 0`, `ε > 0`,
+the digamma term minus `2 ln|2r|` is `ln ε + Re ψ(1 + iy) + Re ψ(iy)` with `y = ε^{−1/2}`, whose
+asymptotic series `∑_k (−1)^{k+1} B_{2k} ε^k/k` has radius `0`; a function analytic at `0` would
+have its Taylor series as asymptotic expansion.
+
 **Checks.**
 - At `ε = 0.3`, `ℓ = 1`, `r = 1.7` the residual of the recurrence is below `10⁻¹⁵`; negative
   control: with `(1 + (ℓ + 1)²ε)` in the last coefficient it is `−0.0830844856265773`.
 - `f(0, 1; 2) = 0.860342947751244 = 2 J_3(4)` and `f(0, 1; −2) = 6.67455155684069 = 2 I_3(4)`;
   `f(0, 0; 0.5) = 0.576724807756873 = J_1(2)`.
+- `γ_k` at `ε = 0.3`, `ℓ = 1` begins `1, 1, 1.15, 1.3`; negative control: with the sign of the
+  `γ_{k−2}` term reversed it begins `1, 1, 0.85, 0.7`, and the series of `h` at
+  `(0.3, 1, 1.4)` gives `0.476853585402393`.
+- `β_k` at `ε = 0.3`, `ℓ = 1` begins `0, 0, −0.15, −0.45`; negative control: without the
+  `γ_{k−2}` term all `β_k` vanish, and the series at `(0.3, 1, 1.4)` gives `0.610686059091332`.
+- At `ℓ = 0`, `δ₀ = 8γ − 4 = 0.617725319212263` for every `ε`, and at `ε = −1/4`,
+  `δ₁ = 9.75 − 8γ = 5.13227468078774` (`γ` Euler's constant); negative control: without the term
+  `2(2k + 2ℓ + 1)Aα_k` the series at `(0.3, 1, 1.4)` gives `0.552586381160363`.
 - The series of `h` at `(ε, ℓ, r) = (0.3, 1, 1.4)` gives `0.596095976270602 = h`; negative
   control: with the printed `1/(2π)` it gives `0.0670194725922587`, and at `(−0.13, 1, −1.4)`
   with `κ = −ν` in the digamma terms it gives `2.5266945158928` instead of
   `−0.0746397658665789`.
+- The series equals `h` at `(−1/4, 0, −1.4)` (`0.0247609509590849`) and `(−1/9, 1, −1.4)`
+  (`−0.0751540107103261`), where `ε = −1/n²` with `n > ℓ` and `r < 0`.
+- Negative control for `A ≠ 0`: at `(−1/4, 2, 1.4)` the definition gives
+  `h = 1.96223692382825`; the series at `ε = −1/4 ± 10⁻⁹` gives `1.96223692483284` and
+  `1.96223692282366`, and the limit reading gives `h`, while the term `A ψ(−ℓ + κ)` read as `0`
+  gives `1.94825275164612`. At `(−1, 1, −0.9)`: `h = −0.143794602353125`, against
+  `−0.428559028300522` with that term read as `0`.
+- At `(−1/4, 0, 1.4)`, a junk value of `h`, the series gives `−0.6556873335057`, between
+  `h(−1/4 ± 10⁻⁹, 0; 1.4) = −0.655687333480036`, `−0.655687333531363`.
+- `h(ε, 0; 1.4)` is `−0.660115045571889` at `ε = 0.001` and `−0.660094332213961` at
+  `ε = −0.0011`, near `−2.8^{1/2} Y_1(11.2^{1/2}) = −0.660105215647171`; at `r = −1.4` it is
+  `0.0283685937605596` and `0.0283343216470722`, near
+  `(2/π) 2.8^{1/2} K_1(11.2^{1/2}) = 0.0283522634891982`.
+- Negative control for analyticity at `0`: at `ε = 0.3`, `ℓ = 0`, the digamma term minus
+  `2 ln|2r|` is `0.0518283934046760`, and the partial sums of its asymptotic series are
+  `0.05, 0.0515, 0.0517143, 0.0517818, 0.0518186, 0.0518494, 0.0518858, 0.0519440`: they pass the
+  value and move away.
 
-*Needs:* 2.1, 6.1–6.3; SpecialFunctionsBessel, its Conventions; Mathlib `Complex.besselJ`,
-`Complex.digamma`.
+*Needs:* 2.1, 6.1–6.3 (6.2, the Wronskian, only for the series of `h`);
+SpecialFunctionsConfluent 1.4; SpecialFunctionsBessel, its Conventions; Mathlib
+`Complex.besselJ`, `Complex.digamma`.
 
 ## Layer 7: bound states
 
@@ -846,14 +912,14 @@ LaguerreJacobi owns the Laguerre polynomials; SpecialFunctionsBessel owns the Be
 
 - Its Conventions and 1.4, 1.6: `kummerUBracket`, `kummerULog`, `kummerU`,
   `regularizedWhittakerM`, `whittakerM`, `whittakerW`, `whittakerWLog`, copied verbatim into
-  `Suggested.lean`; holomorphy in the parameters and in `log z`. For 1.3, 3.2, 6.1–6.3.
+  `Suggested.lean`; holomorphy in the parameters and in `log z`. For 1.3, 3.2, 6.1–6.4.
 - 2.1: Euler's integral (DLMF 13.4.1) and the Laplace integral of `U` (DLMF 13.4.4), and the
   agreement of `kummerU` with the `U` of QuantumFoundations §9.4. For 1.1, 1.3, 4.1.
 - 3.4: the Wronskian of the Whittaker functions. For 6.2.
 - 4.1: the contiguous relations of `M` and `U`. For 2.1.
 - 5.1: the asymptotic expansion of `U` for large argument; 5.2: the growth of `M`. For 5.1, 7.1.
 - 6.2: Kummer's second transformation (DLMF 13.6.9); 6.3: Buchholz's expansion (DLMF
-  13.11.3–13.11.4); 6.4: the Laguerre case of `M` (DLMF 13.18.17). For 3.3, 4.3, 7.1.
+  13.11.3–13.11.4); 6.4: the Laguerre case of `M` (DLMF 13.18.17). For 3.3, 4.3, 6.2, 7.1.
 
 ### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
 
