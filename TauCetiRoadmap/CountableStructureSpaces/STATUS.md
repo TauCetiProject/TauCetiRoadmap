@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"CountableStructureSpaces","to_sha":"522d48f5cf3a7d1e2de29e18281399b335b25833","ts":"2026-11-25T15:07:27Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"finite-cylinder basis, continuum equality case of the cardinality bound, closed range of the graph coding","state":"partial"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","remaining":"locality of satisfaction under the action and measurableSet_setOf_realize_graph","state":"partial"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"}],"readme_sha":"96c50e77ded0aff520ccb75c32fca54576d9fec4cd82e4747d1b19f1acf9786c","roadmap":"CountableStructureSpaces","to_sha":"522d48f5cf3a7d1e2de29e18281399b335b25833"}-->
+# Status: CountableStructureSpaces
+
+This file documents the status of the CountableStructureSpaces roadmap up until `522d48f` (2026-11-25T15:07:27Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The summit is proved. López–Escobar's theorem holds for relational languages of any cardinality, in its set, action and invariant σ-algebra forms, and Layers 1 and 3–6 are done. What remains is a handful of Layer 0 and Layer 2 side targets: the finite-cylinder basis, refinements of the graph coding and cardinality bound, locality of satisfaction, and measurability of graph events.
+
+### Named results
+
+- **López–Escobar's theorem** — on a countable carrier, a class of codes is Borel (for the product σ-algebra) and isomorphism invariant exactly when it is the model class of one Lω₁ω sentence, with no countability assumption on the relation symbols ([`exists_modelsOf_eq_iff`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/LopezEscobar.html#TauCeti.RelationalConfiguration.exists_modelsOf_eq_iff); action form [`lopezEscobar_action_iff`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/LopezEscobar.html#TauCeti.RelationalConfiguration.lopezEscobar_action_iff)).
+- **Invariant analytic separation** — for every language, two disjoint analytic classes, one of them invariant, are separated by an invariant Borel class, through a countable sublanguage that already separates them ([`invariant_analytic_separation`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/Orbit/Separation.html#TauCeti.RelationalConfiguration.invariant_analytic_separation)); the separator can be taken to be one sentence ([`exists_sentence_separating_of_forall_not_isoSetoid`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/LopezEscobar.html#TauCeti.RelationalConfiguration.exists_sentence_separating_of_forall_not_isoSetoid)).
+- **Invariant analytic classes are projective classes** — with countably many relation symbols, an invariant class of codes is analytic exactly when it is the projective class of a single sentence in the language expanded by the witness vocabulary ([`analyticSet_iff_exists_pc`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/AnalyticPC.html#TauCeti.RelationalConfiguration.analyticSet_iff_exists_pc)).
+- **Borel isomorphism is decided at one countable level** — on a Borel class, with countably many relation symbols, isomorphism is Borel exactly when back-and-forth equivalence at some level below ω₁ agrees with it ([`measurableSet_iso_inter_iff_exists_bfLevel`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/BorelIsomorphism.html#TauCeti.RelationalConfiguration.measurableSet_iso_inter_iff_exists_bfLevel)); a uniform bound on the Scott height suffices ([`measurableSet_iso_inter_of_scottHeight_le`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/BorelIsomorphism.html#TauCeti.RelationalConfiguration.measurableSet_iso_inter_of_scottHeight_le)).
+- **Undefinability of the coded well-orders** — an analytic set of coded well-orders has bounded order types, so the well-order class is neither analytic nor Borel, and no Lω₁ω sentence has exactly these codes as models ([`not_exists_modelsOf_eq_wellOrderClass`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/WellOrder.html#TauCeti.RelationalConfiguration.not_exists_modelsOf_eq_wellOrderClass)).
+
+### Notable definitions and infrastructure
+
+- **The query code** ([`queryCode`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/QueryCode.html#TauCeti.RelationalConfiguration.queryCode)) is a closed embedding of the coding space into Cantor space. Through it, every analytic class of codes gets a tree representation ([`exists_tree_of_analyticSet`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/QueryCode.html#TauCeti.RelationalConfiguration.exists_tree_of_analyticSet)), and this feeds the PC sentences and the boundedness arguments.
+- **Bodies of trees and the Kleene–Brouwer order** ([`body`](https://taucetiproject.org/docs/TauCeti/SetTheory/Descriptive/WellFoundedTree.html#Descriptive.Tree.body), [`wellFounded_kbLT_iff`](https://taucetiproject.org/docs/TauCeti/SetTheory/Descriptive/KleeneBrouwer.html#Descriptive.wellFounded_kbLT_iff)) are built in the shape of the Mathlib proposal, ready to be replaced by imports when it lands. The tree rank, together with the existing boundedness theorem for analytic families of well-founded trees with closed node sets, plays the role of the README's tree height.
+- **The PC sentence of a tree** ([`pcSentence`](https://taucetiproject.org/docs/TauCeti/ModelTheory/RelationalConfiguration/PCSentence.html#TauCeti.RelationalConfiguration.pcSentence)) uses a relational witness vocabulary whose numeral axiom forces every model to be countable. It comes with completeness and soundness.
+
+### Roadmap coverage
+
+Layers 1, 3, 4, 5 and 6 are done. This includes the continuous logic action, stabilizers as automorphism groups, and analytic saturations for every language; bodies, Kleene–Brouwer, boundedness and tree representations; the Scott height comparisons and Borel isomorphism; every form of López–Escobar; and the well-order class. The README's `lopez_escobar`, `analytic_treeHeight_bounded` and `analytic_type_bounded` exist under Tau Ceti's own names. Layer 0 is partial: the query code has landed, but the finite-cylinder basis, the continuum equality case of the cardinality bound, and closedness of the graph coding's range have not. Layer 2 is partial: the Gδ model classes of universal and ∀∃ sentences are proved, but locality of satisfaction and the graph-event measurability statement are not.
+
+## The frontier
+
+- **Graph events** — `measurableSet_setOf_realize_graph`, the pullback of `measurableSet_modelsOf` along the measurable graph coding. The decoded-structure identity it needs is already in Tau Ceti.
+- **Locality of satisfaction** — the satisfaction set at a valuation depends only on the free-variable support, and transforms under the action by composing the valuation with σ.
+- **Finite-cylinder basis** — the finite cylinders form a basis of clopen sets of the coding space.
+- **Graph coding and cardinality** — the range of the graph coding is closed, and the coding space has exactly continuum cardinality for an infinite carrier and a relation symbol of positive arity.
