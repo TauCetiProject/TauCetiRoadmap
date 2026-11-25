@@ -169,9 +169,11 @@ theorem card_primes_norm_one_mod_shortInterval_ge :
 /-- Primes that are norms of `α ≡ 1 (mod M)` from `ℚ(√−d)` in short intervals, the form of the
 formal proof (2.9b (iv) (c′)). There are absolute `A, c, c′ > 0` such that for every prime
 `d ≡ 3 (mod 4)` with `d ≥ 100`, the field `K = ℚ(√−d)` (the imaginary quadratic field of
-discriminant `−d`), every integer `M ≥ 3` and `B = d M²`, if `X ≥ 1`, `log B ≤ c √(log X)` and
-`e^(−c √(log X)) ≤ h ≤ 1`, then the number of primes `p ∈ (X, X(1 + h)]` of the form
-`p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K` and `α ≡ 1 (mod M 𝒪_K)` is at least `c′ h X/(B^A log X)`. -/
+discriminant `−d`), every integer `M ≥ 3` and `B = d M²` (the formal proof has `B = 4dM²`; the
+statements are equivalent, for other `A, c, c′`, as 2.9b (iv) (c′) says), if `X ≥ 1`,
+`log B ≤ c √(log X)` and `e^(−c √(log X)) ≤ h ≤ 1`, then the number of primes
+`p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K` and `α ≡ 1 (mod M 𝒪_K)` is at
+least `c′ h X/(B^A log X)`. -/
 theorem card_primes_norm_one_mod_shortInterval_ge_of_discr_eq_neg_prime :
     ∃ A c c' : ℝ, 0 < A ∧ 0 < c ∧ 0 < c' ∧
       ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = 2 →
