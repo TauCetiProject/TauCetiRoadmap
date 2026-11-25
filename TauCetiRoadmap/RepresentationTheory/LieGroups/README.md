@@ -692,24 +692,25 @@ surjectivity) this is the equivalence `SimplyConnLieGrp ≃ FinDimLieAlg` (Kiril
 copy, Thm. 3.38 and Cors. 3.49–3.50).
 *Needs:* §§3.1–3.2, §4.1; for the second route §3.3's Tau Ceti `TauCeti.lieLocalBCH`.
 
-State the equivalence as a coreflection. Neither pin has the categories, so define them here:
-`LieGroupCat`, the category of finite-dimensional real Lie groups and smooth homomorphisms;
-`FGLieAlgCat ℝ`, the category of finite-dimensional real Lie algebras and Lie-algebra
-homomorphisms; and the Lie functor `LieGroupCat.lieFunctor : LieGroupCat ⥤ FGLieAlgCat ℝ`, built
-from §3.1's `lieMap`, `lieMap_id` and `lieMap_comp`. Define the integration functor
-`Γ : FGLieAlgCat ℝ ⥤ LieGroupCat`, sending `L` to the simply connected group of Lie's third theorem
-(§4.2) and a Lie-algebra homomorphism to the smooth homomorphism that `exists_monoidHom_of_lieHom`
-gives, unique by §3.2's `lieMap_injective`. Prove `Γ ⊣ LieGroupCat.lieFunctor`: with a chosen
-identification `e_L : Lie (Γ L) ≅ L`, the hom-set bijection `(Γ L ⟶ H) ≃ (L ⟶ Lie H)` sends `f`
-to `Lie f ∘ e_L⁻¹`, bijective by `exists_monoidHom_of_lieHom` and `lieMap_injective`. A smooth
-homomorphism out of the connected `Γ L` lands in the identity component `H⁰`, so the bijection
-holds for every target `H`. The unit is an isomorphism, so `Γ` is fully faithful with essential
-image the simply connected groups. The counit at `H` is the composite `Γ (Lie H) → H⁰ ↪ H` of the
-universal covering homomorphism of `H⁰` (§5.1, the construction of the cover) with the inclusion.
-The equivalence of the simply connected groups with `FGLieAlgCat ℝ` is the restriction of this
-adjunction. Lie's third theorem as stated in §4.2 produces a group, model and chart space in the
-universe of `L`, so state `Γ` and the adjunction on `FGLieAlgCat.{u} ℝ` and the groups whose
-carrier, model and chart space all lie in universe `u`.
+State the equivalence as a coreflection. Neither pin has the categories, so define them here.
+The names in this paragraph are proposals, and `Suggested.lean` does not state them: a category of
+finite-dimensional real Lie groups and smooth homomorphisms (say LieGroupCat), a category of
+finite-dimensional real Lie algebras and Lie-algebra homomorphisms (say FGLieAlgCat), and the Lie
+functor between them, built from §3.1's `lieMap`, `lieMap_id` and `lieMap_comp`. Define the
+integration functor Γ in the other direction, sending `L` to the simply connected group of Lie's
+third theorem (§4.2) and a Lie-algebra homomorphism to the smooth homomorphism that
+`exists_monoidHom_of_lieHom` gives, unique by §3.2's `lieMap_injective`. Prove that Γ is left
+adjoint to the Lie functor: with a chosen identification `e_L : Lie (Γ L) ≅ L`, the hom-set
+bijection `(Γ L ⟶ H) ≃ (L ⟶ Lie H)` sends `f` to `Lie f ∘ e_L⁻¹`, bijective by
+`exists_monoidHom_of_lieHom` and `lieMap_injective`. A smooth homomorphism out of the connected
+`Γ L` lands in the identity component `H⁰`, so the bijection holds for every target `H`. The unit
+is an isomorphism, so Γ is fully faithful with essential image the simply connected groups. The
+counit at `H` is the composite `Γ (Lie H) → H⁰ ↪ H` of the universal covering homomorphism of `H⁰`
+(§5.1, the construction of the cover) with the inclusion. The equivalence of the simply connected
+groups with the finite-dimensional Lie algebras is the restriction of this adjunction. Lie's third
+theorem as stated in §4.2 produces a group, model and chart space in the universe of `L`, so state
+Γ and the adjunction for Lie algebras in a universe `u` and the groups whose carrier, model and
+chart space all lie in `u`.
 *Needs:* §§3.1–3.2 and the morphism theorem above; §4.2 for the objects of `Γ`; §5.1's
 construction of the universal cover, which does not use §4.3, for the counit.
 
@@ -833,7 +834,7 @@ third theorem and is the input Layer 4 draws on. Prove the refinement of §4.3 t
 for connected `G`, a Lie-algebra homomorphism `f : 𝔤 → 𝔤'` is `lieMap φ` for a smooth `φ : G →* G'`
 if and only if the homomorphism `G̃ → G'` integrating `f ∘ lieMap p` (§4.3) is trivial on `ker p`,
 and then `φ` is unique.
-*Needs:* §4.3; Tau Ceti as named.
+*Needs:* §4.3 for the refinement to connected sources; Tau Ceti as named.
 
 **Checks.**
 - `G = Circle`: `G̃ = ℝ`, `ker p = 2πℤ ≅ π₁(S¹) = ℤ`, and the homomorphism `x ↦ cx` of Lie algebras
@@ -2265,7 +2266,9 @@ are outside this roadmap.
   `Matrix.exp_zsmul`, `Matrix.isUnit_exp`, `Matrix.exp_units_conj`, `Matrix.exp_conj`,
   `Matrix.BlockTriangular.exp`; `Circle`, `Circle.exp`, `Circle.exp_zero`, `Circle.exp_add`, `AddCircle`,
   `AddCircle.haarAddCircle`.
-- Lie algebras: `LieRing`, `LieAlgebra`, `LieHom`, `LieEquiv`, `LieSubalgebra`, `LieIdeal`,
+- Orders: `GaloisConnection`, `GaloisCoinsertion`.
+- Lie algebras: `LieRing`, `LieAlgebra`, `LieHom`, `LieEquiv`, `LieSubalgebra`,
+  `LieSubalgebra.map_le_iff_le_comap`, `LieIdeal`,
   `LieAlgebra.ad` with `LieAlgebra.ad_apply`, `LieDerivation.ad_ker_eq_center`, `LieAlgebra.center`,
   `LieAlgebra.derivedSeries`, `LieRing.IsNilpotent`, `LieAlgebra.IsSemisimple`, `killingForm`,
   `LieAlgebra.IsKilling`, `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.IsKilling.rootSystem`,
@@ -2319,6 +2322,7 @@ recorded with them; "standing" means a finite-dimensional real model and `LieGro
 - *Subgroups* (`Geometry/Lie/Subgroup/`): `TauCeti.Lie.lieSubalgebraOfSubgroup` (the Lie subalgebra
   generated by the directions of one-parameter subgroups in `K`, for every subgroup),
   `TauCeti.Lie.mem_lieSubalgebraOfSubgroup` (closed `K`), `TauCeti.Lie.lieSubalgebraOfSubgroup_top`,
+  `TauCeti.Lie.lieSubalgebraOfSubgroup_mono`, `TauCeti.Lie.lieSubalgebraOfSubgroup_inf`,
   `TauCeti.Lie.lieSubalgebraOfSubgroup_le_comap_Ad_sub_id`; `TauCeti.Lie.EmbeddedLieSubgroupData`,
   `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`,
   `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`,

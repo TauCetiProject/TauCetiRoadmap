@@ -34,9 +34,9 @@ Headline theorems of the README that are not statable at the pins, and what each
   functoriality laws: the pins have no carrier for the degreewise Dynkin series (only the local
   germs `TauCeti.lieLocalBCH` and `NormedSpace.localBCH`), and a `sorry`'d function would be
   sorry'd data.
-* Layer 4, the coreflection `Γ ⊣ LieGroupCat.lieFunctor` of §4.3: the pins have neither category
-  nor the Lie functor, and the integration functor `Γ` is data whose objects are the groups of
-  Lie's third theorem, so a `sorry`'d functor would be `sorry`'d data.
+* Layer 4, the coreflection of §4.3 (integration left adjoint to the Lie functor): the pins have
+  neither category nor the Lie functor, and the integration functor is data whose objects are the
+  groups of Lie's third theorem, so a `sorry`'d functor would be `sorry`'d data.
 * Layer 6, the identification of the geometric Weyl group `N_G(T)/T` with `RootPairing.weylGroup`
   of the compact real root datum, and the positive-root form `∏ |1 − α(t)⁻¹|²` of the Weyl
   density: no root datum is attached to a compact Lie group at the pins; `TauCeti.Lie.weylDensity`
