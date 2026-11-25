@@ -167,7 +167,9 @@ p. 369) remarks that the identity also follows from Philippon's Théorème 2, th
 recursion written here gives such a deduction. Soulé's Théorème 3 and the comparison theorem of Bost, Gillet and Soulé
 are published sources of the identity (References). The form that the family uses follows from [FormalProof],
 `Development/WeilBound/CoreStatements/HomogeneousNonvanishing/VuSelfKnownTheorem.lean`
-(`PositivityTheory.UnitarySelfGeneration.ChowFormHeight`, proved as `ChowFormHeightComparison₂.chow_form_height_bound`), the
+(`PositivityTheory.UnitarySelfGeneration.ChowFormHeight`, proved in
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/HodgeBundleWeights/ChowFormHeightComparison.lean`
+as `ChowFormHeightComparison₂.chow_form_height_bound`), the
 form that its main theorems apply, stated for an integral subvariety with an irreducible Chow form, for the lattice spanned
 by finitely many vectors of `K^{n+1}` and Hermitian norms at every embedding of `K` into `ℂ`, with `Development/AbelianVarietyTheory/Definitions/Divisors/PointHeight.lean`
 (`GlobalTheory.ChowHt.formHeight`) and `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
@@ -338,7 +340,9 @@ properties of the height, are this roadmap's own formulation.
 
 *Method of the formal proof:* for the lattice `O_K^N` with an arbitrary Hermitian metric at each embedding, (b) is
 proved by the induction of 6.1 along hyperplane sections, with the vertical statement and a Crofton formula for that
-metric, so that 6.1 is its case of the standard metrics; the decomposition of (a7) is assembled from the change to the
+metric, so that 6.1 is its case of the standard metrics, and the form for a lattice of `K^N` spanned by `m` vectors
+follows from its case `O_K^m` by the linear substitution that these vectors define in the Chow form; the decomposition
+of (a7) is assembled from the change to the
 standard metrics, the change to the standard lattice and the reduction of `Ō_K^N` to `ℙ^{N−1}` over `ℚ`, and the bound
 of (a7) follows from the density of the points with root-of-unity coordinates, whose height is at most `½·log N`, and
 the upper half of the successive-minima inequality. The route written here for (b) instead reduces to a free lattice
@@ -675,5 +679,5 @@ K7.2: the normalised Fubini–Study form `ω_FS = (i/2π)∂∂̄ log ‖z‖²`
 - A. Chambert-Loir and A. Thuillier, *Mesures de Mahler et équidistribution logarithmique*, Ann. Inst. Fourier 59 (2009), §1 (Théorème 1.4 and the paragraph after it) and §2, in the numbering of arXiv:math/0612556v2: the change-of-metric formula of 5.1 for several bundles, and for the trivial bundle whose section `1` has norm `e^{−f}`, the integral of `f` against the product of the Chern forms of the other factors.
 - A. Chambert-Loir, *Heights and measures on analytic spaces* (2010), in *Motivic Integration and its Interactions with Model Theory and Non-Archimedean Geometry*, vol. II, London Math. Soc. Lecture Note Ser. 384, Cambridge Univ. Press, 2011, cited in the numbering of arXiv:1001.2517v2: 1.2.5 with (1.2.6), (1.3.10) and 1.3.12, the change-of-metric formula of 5.1.
 - M. Sombra, *Minimums successifs des variétés toriques projectives*, J. reine angew. Math. 586 (2005) (arXiv:math/0209195), Théorème 0.1 and §3: the bound `projectiveCycleHeight(ℙ^{N−1}) ≤ (N/2)·log N` of 6.2 (a7), through the points with root-of-unity coordinates and the upper half of the inequality of successive minima.
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 5.1; of 6.1 with (i), (iii), and (ii) for integral `s`; and of 6.2 (a4), (a6), the decomposition and the bound of (a7), and (b) for a free lattice, that the family uses.
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of 5.1; of 6.1 with (i), (iii), and (ii) for integral `s`; and of 6.2 (a4), (a6), the decomposition and the bound of (a7), and (b) for an integral `Z` and a lattice of `K^N` spanned by finitely many vectors, that the family uses.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
