@@ -6,14 +6,14 @@ Mathlib's native minimization vocabulary, with explicit domain membership and
 feasible-instance conditions. The reusable steps are strict comparison,
 feasibility of a minimizer, and exact minimizer correspondence.
 
-## Scope and ownership
+## How to read the build
 
-The carrier and domain are arbitrary. No finiteness, topology, convexity,
-differentiability or attainment assumption is implicit. The scope is real-valued
-unit-gap exactness with a global objective-difference bound. General numerical
-gaps, rescaling, broader scalar types, continuous residual penalties without a
-positive gap, multiplier/error-bound theory, algorithms and QUBO compilation
-are outside this roadmap.
+Layer 1 first compares a feasible point with an infeasible point (1.1), then
+uses a feasible witness to establish feasibility of a penalized minimizer (1.2),
+and combines these with equality of the objectives on the feasible set to obtain
+exact minimizer correspondence (1.3). The examples test the strict threshold,
+feasible-instance and membership conditions. `Suggested.lean` gives an admitted
+signature prototype for the headline 1.3; it is not proof evidence.
 
 ## Conventions
 
@@ -27,31 +27,6 @@ Let `D : Set α`, let `P : α → Prop` express feasibility, and let
 
 The penalized objective is `x ↦ f x + ρ * w x`. Values outside `D` are
 unconstrained. Keep membership explicit alongside native `IsMinOn`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- [`IsMinOn`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L111-L113)
-  compares the value at a candidate with every point of a set; it does not
-  include membership of that candidate.
-- [`isMinOn_iff`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L129-L130)
-  gives the comparison as `∀ y ∈ D, f a ≤ f y`.
-- `Set.Nonempty` supplies a witness belonging to a set. For
-  `F = {x | x ∈ D ∧ P x}`, this means `∃ x ∈ D, P x`.
-- The ordered-field arithmetic of ℝ supplies multiplication monotonicity and
-  the strict and weak order comparisons used below.
-
-These are existing suppliers; no unimplemented roadmap target is required.
-
-## How to read the build
-
-Layer 1 first compares a feasible point with an infeasible point (1.1), then
-uses a feasible witness to establish feasibility of a penalized minimizer (1.2),
-and combines these with equality of the objectives on the feasible set to obtain
-exact minimizer correspondence (1.3). The examples test the strict threshold,
-feasible-instance and membership conditions. `Suggested.lean` gives an admitted
-signature prototype for the headline 1.3; it is not proof evidence.
 
 ## Layer 1: unit-gap penalties
 
@@ -122,6 +97,31 @@ gap and objective-difference bound. A signed-integer squared-residual penalty
 and a sum-absolute-cost bound are motivating instances. Their matrix encodings,
 fixed-coordinate transport and routing predicates remain separate mathematics;
 this roadmap does not specify them or assert their completeness.
+
+## Scope and ownership
+
+The carrier and domain are arbitrary. No finiteness, topology, convexity,
+differentiability or attainment assumption is implicit. The scope is real-valued
+unit-gap exactness with a global objective-difference bound. General numerical
+gaps, rescaling, broader scalar types, continuous residual penalties without a
+positive gap, multiplier/error-bound theory, algorithms and QUBO compilation
+are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- [`IsMinOn`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L111-L113)
+  compares the value at a candidate with every point of a set; it does not
+  include membership of that candidate.
+- [`isMinOn_iff`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L129-L130)
+  gives the comparison as `∀ y ∈ D, f a ≤ f y`.
+- `Set.Nonempty` supplies a witness belonging to a set. For
+  `F = {x | x ∈ D ∧ P x}`, this means `∃ x ∈ D, P x`.
+- The ordered-field arithmetic of ℝ supplies multiplication monotonicity and
+  the strict and weak order comparisons used in Layer 1.
+
+These are existing suppliers; no unimplemented roadmap target is required.
 
 ## References
 
