@@ -91,6 +91,7 @@ body:
         - BordismFormalGroups
         - BorelEquivalenceRelations
         - BorelRegulators
+        - BoundsOnCodes
         - BunGAndNewtonStrata
         - CFSGBasicProperties
         - CFSGStatement
@@ -285,6 +286,7 @@ body:
         - IgusaVarietiesAndTorsionConcentration
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
+        - IncompressibleFluids
         - IndexTheory
         - InductionRestrictionPartII
         - InfinitaryModelExistence
