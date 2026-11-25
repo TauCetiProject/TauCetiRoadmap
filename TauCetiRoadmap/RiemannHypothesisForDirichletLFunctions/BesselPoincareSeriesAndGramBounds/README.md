@@ -806,8 +806,8 @@ fields with relative error `exp(−c·nf log n)`, uniform in the rank, the field
 condition and unipotent support at one prime; close published results: Savin (1989), after DeGeorge and Wallach (1978),
 limit multiplicity along towers of levels with the group fixed; and Shin and Templier (2016), Theorems 9.16 and 9.19, and
 Dalal (2022), Theorem 9.1.1, limit multiplicity with power-saving error terms, in the level and in the weight for discrete
-series packets and in the weight for a single discrete series, for a fixed group and with constants that depend on the
-group in a way not made explicit. Uniformity in the rank and in the field is in none of these, and a single discrete
+series packets and in the weight for a single discrete series, for a fixed group and with implied constants that depend
+on the group in a way not made explicit. Uniformity in the rank and in the field is in none of these, and a single discrete
 series in the level aspect is in neither Shin and Templier nor Dalal.
 
 *Method of the formal proof:* the multiplicity is the integral over a fundamental domain of the diagonal of the kernel of
