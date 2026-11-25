@@ -169,6 +169,7 @@ body:
         - EffectiveClassNumbers
         - EffectiveDiophantineMethods
         - EisensteinIdealAndRationalTorsion
+        - ElectricalNetworksAndRandomWalks
         - EllipticCohomology
         - EllipticCurveModularity
         - EllipticCurveModularityImaginaryQuadratic
@@ -206,6 +207,7 @@ body:
         - FaltingsFinitenessAndIsogenyTheorems
         - FaltingsFinitenessAndIsogenyTheoremsPartII
         - FarguesFontaineDiamonds
+        - FilteredLocalGaloisGroups
         - FinancialMathematics
         - FiniteAffineBoundTightening
         - FiniteFlatGroupsAndIntegralPadicHodgeTheory
@@ -392,6 +394,7 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PadicPeriodRings
         - PainleveEquations
+        - PerfectAndChordalGraphs
         - PerfectoidQuotients
         - PerfectoidQuotientsPartII
         - PerfectoidShimuraVarieties
