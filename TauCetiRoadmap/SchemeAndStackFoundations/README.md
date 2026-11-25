@@ -2374,7 +2374,10 @@ Prove, for such `p` and `D : TauCeti.DescentDatum p X`:
   presentation it reduces to that case: by gluing over the base, `S` may be taken affine; finitely
   many affine opens of `S'` have images covering `S`, since `p` is open (Stacks, Lemma 29.26.10
   (01UA)), and refinement along their disjoint union, over which `X` is still affine, makes `S'`
-  affine and `p` quasi-compact.
+  affine and `p` quasi-compact. With `S`, `S'` and `X` affine, effectiveness is Tau Ceti's
+  `TauCeti.DescentDatum.exists_isAffine_baseChange_hom_isIso`
+  (`TauCeti/AlgebraicGeometry/Descent/Affine.lean:532`, for any flat `p` of affine schemes), so this
+  case does not wait for ModularCurves 0E.
 - *DescentDatum.exists_baseChange_hom_isIso_of_isStable_cover*: **gluing over stable opens
   upstairs.** If `X` is covered by stable opens `W_i` such that each restriction of `D` to `W_i` is
   effective, then `D` is effective (Stacks, Lemma 35.35.13 (0AP4); Stacks states it for `p`
