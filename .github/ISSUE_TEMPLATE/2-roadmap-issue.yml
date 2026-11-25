@@ -65,6 +65,7 @@ body:
         - ArithmeticStatisticsPartV
         - ArithmeticStatisticsPartVI
         - ArithmeticStatisticsPartVII
+        - ArithmeticStatisticsPartVIII
         - ArtinRepresentations
         - AsymptoticExpansions
         - AutomorphicBundles
@@ -250,6 +251,7 @@ body:
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GraphColouring
         - GraphConnectivityAndFlows
         - GroebnerGeometry
         - GromovWittenTheory
@@ -360,6 +362,7 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeAndEquivariantIwasawa
+        - NoncommutativeFlatness
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncompactQuantumSymmetry
