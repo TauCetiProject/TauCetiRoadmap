@@ -507,8 +507,12 @@ pp. 27, 55–56, uncertified). Its API:
   `g` locally integrable with `P[|g|]` finite, `M_∞ P[g](x) ≤ 3 · TauCeti.maximalFunction volume g x`.
   The kernel inequality is Tau Ceti's `TauCeti.halfSpacePoissonKernel_le_mul` at `n = 2` with the poles
   `x′ + iy` and `x + iy` of equal height and `A = √3`, so that `Aⁿ = 3`.
-- Aperture independence: cones `|Re z − x| < α Im z`, `α > 0`, give the same nontangential limits, by
-  the same comparison with `A² = max(2, 1 + 2α²)`, which is `3` for `α = 1`.
+- Wider cones: for `α > 0` let `Γ^α_h(x) = {z ∈ ℂ₊ : |Re z − x| < α Im z, Im z < h}`, so that
+  `Γ^1_h = Γ_h`, and `M^α_h u(x) = sup_{z ∈ Γ^α_h(x)} |u(z)|`. For `x′ + iy ∈ Γ^α_∞(x)`,
+  `|s − x| ≤ |s − x′| + αy` gives `(s − x)² + y² ≤ A²((s − x′)² + y²)` with `A² = max(2, 1 + 2α²)`, which is
+  `3` for `α = 1`; so the same comparison gives `M^α_∞ P[g](x) ≤ A² · TauCeti.maximalFunction volume g x`.
+  For an arbitrary function, a limit through one cone need not persist through a wider one (third Check);
+  for Poisson integrals the limits through all cones exist and agree almost everywhere (§2.4).
 - Localisation: for `h ∈ L¹(Π)` and `R > 0` there is `C_R`, depending only on `R`, with
   `M_1 P[h](x) ≤ 3 · TauCeti.maximalFunction volume (h · 1_{[−R−2, R+2]}) x + C_R ‖h‖_{L¹(Π)}` for `|x| ≤ R`.
 - Weak type: for `R > 0` there is `C′_R`, depending only on `R`, with
@@ -547,6 +551,9 @@ pp. 27, 55–56, uncertified). Its API:
   supremum `(s² + y²)/((s − y)² + y²)` for `s ≥ y`, largest at `s = y(1 + √5)/2` with value
   `((1 + √5)/2)² ≈ 2.618`, not attained; so no constant below `2.618` works, and `3` is not sharp. The
   point `1 + i` lies on the boundary of `Γ_∞(0)`, not in it.
+- Aperture dependence for general functions: the continuous `u(z) = max(0, |Re z|/Im z − 1)` vanishes on
+  `Γ_∞(0)`, so its limit through `Γ_∞(0)` at `0` is `0`. The points `t(3/2 + i)`, `t > 0`, lie in `Γ^2_∞(0)` and
+  `u(t(3/2 + i)) = 1/2`, while `u(it) = 0`, so `u` has no limit through `Γ^2_∞(0)`. Here `A² = max(2, 9) = 9`.
 - `h = 0`: both maximal functions vanish; `h ≡ 1` (in `L¹(Π)`, not in `L¹`): `P[h] ≡ 1` and `M_1 P[h] ≡ 1`.
 - The global maximal function of `h ∈ L¹(Π)` can be infinite (for `h ≡ 1` the averages over
   `B(x, r)` stay `1`, but for `h(x) = |x|^{1/2}` they grow like `√r`), which is why the bound is
@@ -565,10 +572,13 @@ pp. 27, 55–56, uncertified). Its API:
 Let `ν` be Poisson-finite with Lebesgue decomposition `ν = w dx + ν_s`. Prove that for almost every
 `x ∈ ℝ`, `P[ν](z) → w(x)` as `z → x` nontangentially; in particular `P[ν_s] → 0` nontangentially
 almost everywhere, and `P[h] → h(x)` nontangentially at almost every `x` for complex `h ∈ L¹(Π)`
-(mauth2022 Lemmas 4 and 7, line 404–436; garnett2007, Ch. I §§3–5, pp. 16, 30, uncertified). Route:
-at a Lebesgue point of `w` where `ν_s(B(x, r))/2r → 0` (Mathlib
+(mauth2022 Lemmas 4 and 7, line 404–436; garnett2007, Ch. I §§3–5, pp. 16, 30, uncertified). Prove
+also that, off one null set, `P[ν](z) → w(x)` as `z → x` through `Γ^α_∞(x)` for every `α > 0`: for
+Poisson integrals, the nontangential limits through cones of different apertures exist and agree almost
+everywhere. mauth2022 and poltoratski2024 fix `α = 1`. Route: at a Lebesgue point of `w` where `ν_s(B(x, r))/2r → 0` (Mathlib
 `VitaliFamily.ae_tendsto_lintegral_enorm_sub_div` and `VitaliFamily.ae_tendsto_rnDeriv`), split
-`ν − w(x)dx` near and far from `x` and use the cone domination of §2.3.
+`ν − w(x)dx` near and far from `x` and use the cone domination of §2.3, with the constant `A²` of the
+wider-cone bullet for `Γ^α_∞(x)`; these points do not depend on `α`.
 
 *Needs:* §2.1, §2.3; Mathlib `VitaliFamily.ae_tendsto_lintegral_enorm_sub_div`,
 `VitaliFamily.ae_tendsto_rnDeriv`, `MeasureTheory.Measure.rnDeriv`, `MeasureTheory.Measure.singularPart`.
