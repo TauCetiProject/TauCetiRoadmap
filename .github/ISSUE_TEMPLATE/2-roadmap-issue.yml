@@ -257,6 +257,7 @@ body:
         - GeometricTopology
         - GeometryOfNumbersAndQuadraticArithmetic
         - GeometryOfNumbersAndQuadraticArithmeticPartII
+        - GibbsMeasuresAndTheIsingModel
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
