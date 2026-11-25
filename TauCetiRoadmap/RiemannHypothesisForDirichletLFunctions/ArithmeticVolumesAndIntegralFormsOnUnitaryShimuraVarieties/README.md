@@ -939,8 +939,8 @@ HeightsForLogSingularMetrics §16.1; ArakelovGeometryAndAbelianHeights §§4.6�
 ### 8.15d Arithmetic proportionality for flag bundles: the structure theorem
 
 *Origin:* particular to this proof: arithmetic proportionality for the flag bundles of unitary Shimura varieties up to two
-constants, from antisymmetry under the compact Weyl group and vanishing on the non-compact walls; nearest published
-result: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the metrised Hodge bundle on the
+constants, from antisymmetry under the compact Weyl group and vanishing on the non-compact walls; a close precedent:
+Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the metrised Hodge bundle on the
 integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of
 odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions. The statements here are for CM fields
 `E ≠ K`, unramified over `E⁺`, signatures `(p, q)` with `q > 1` allowed, principal level and every dominant weight on the
@@ -1040,9 +1040,10 @@ dominating both (8.15 (a)).
 
 *Origin:* particular to this proof: the two constants of arithmetic proportionality are bounded by testing on the flat
 line and on the Hodge line, with Zhang's theorem of successive minima and a mean bound for the first minimum of a
-Hermitian lattice over the arithmetic quotient; nearest published result: Bruinier and Howard (arXiv:2105.11274),
-Theorem A (8.15d), in whose case the arithmetic volume per unit of complex volume is a sum of logarithmic derivatives of
-L-functions and the logarithm of the discriminant of the imaginary quadratic field, quantities of the kind that bound the
+Hermitian lattice over the arithmetic quotient; a close precedent: Bruinier and Howard (arXiv:2105.11274), Theorem A
+(8.15d), in whose case the arithmetic volume per unit of complex volume is, up to elementary constants, a combination of
+logarithmic derivatives of Dirichlet L-functions and of the logarithms of the discriminant of the imaginary quadratic
+field and of its prime factors, quantities of the kind that bound the
 two constants here.
 
 *Method of the formal proof:* the constants at a cut-off are the limits of the coefficients of 8.15d corrected by the
@@ -1155,10 +1156,11 @@ HeightsForLogSingularMetrics §4.3b (b)); AdelicAlgebraicGroups §4.2 (finite co
 ### 8.17 The average arithmetic volume theorem
 
 *Origin:* particular to this proof: a lower bound, in the mean over the connected components, for the arithmetic volume of
-the automorphic line bundles on the flag bundles, with explicit dependence on the weight and on the field; nearest
-published result: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the Hodge bundle for
-`GU(n − 1, 1)` over an imaginary quadratic field without level structure (8.15d), where the bound here is an inequality
-for every dominant weight, with `|Φ| ≥ 2`.
+the automorphic line bundles on the flag bundles, with explicit dependence on the weight and on the field; a close
+precedent: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the Hodge bundle for
+`GU(n − 1, 1)` over an imaginary quadratic field without level structure (8.15d), where the bound here is an inequality,
+for the dominant weights whose entries at every place are strictly decreasing with a gap in the smaller block, and with
+`|Φ| ≥ 2`.
 
 *Method of the formal proof:* `ℓ_u^{D+1}` is decomposed along the power sums and the exact identity of 8.16 (d) at the
 cut-off `B` is applied term by term, with `ĥ_Fl ≥ 0` on dominant weights, the bound for the remainder, and
@@ -3195,4 +3197,4 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 - X. Yuan, *Positivity of Hodge bundles of abelian varieties over some function fields*, Compositio Math. 157 (2021), pp. 1964–2000; D. Yang, *Positivity of automorphic vector bundles on unitary Shimura varieties*, arXiv:2503.08119 (2025): 8.14a.
 - U. Angehrn and Y.-T. Siu (1995): 8.14, 8.18c; J. Kollár, *Singularities of pairs* (1997) (the two-point separation for klt pairs): 8.14, 8.18c; A. M. Nadel (1990); G. Kempf (descent of linearised bundles); R. Dedekind and G. Frobenius (group determinant): 8.14. M. Koecher, *Zur Theorie der Modulformen n-ten Grades* I, II (1954–1955): Koecher's principle, 8.11–8.19, 8.19a. Y. Kawamata; E. Viehweg: 8.18. L. Hörmander (1965); H. Skoda (1972): 8.18, 8.18a, 8.19a; G. Tian (1990): 8.18, 8.19a. H. Donnelly and C. Fefferman (1983): 8.18a. L. Moret-Bailly (key formula): 8.13, 8.16; M. Kneser (strong approximation): 8.16. G. W. Mackey (irreducibility criterion for induced representations): 8.18b.
 - G. Shimura; R. Damerell, *L-functions of elliptic curves with complex multiplication I*, Acta Arith. 17 (1970), pp. 287–301 (§2, Theorem 1, p. 290; §6, p. 300); E. Hecke: 8.19b–8.19d. C. L. Siegel; H. Klingen: 8.19b. R. Weissauer; S. Böcherer (the basis problem by the doubling method): 8.17a, 8.19a. R. Weissauer, *Stabile Modulformen und Eisensteinreihen*, Lecture Notes in Math. 1219 (1986); S. Böcherer, *On the basis problem for Siegel modular forms of squarefree level*, RIMS Kôkyûroku 1523 (2006), pp. 1–11: 8.17a. N. Katz, *p-adic L-functions for CM fields*, Invent. Math. 49 (1978), pp. 199–297: 8.19b, 8.19c. C. Goldstein and N. Schappacher, *Séries d'Eisenstein et fonctions L de courbes elliptiques à multiplication complexe*, J. reine angew. Math. 327 (1981), pp. 184–218; C. Goldstein, *Valeurs spéciales de fonctions L*, Séminaire de théorie des nombres de Grenoble 10 (1981–1982), exposé 4, pp. 1–14 (Proposition 1.8, Théorèmes 2.1, 2.2, Corollaires 2.5, 2.6); G. Shimura, *On some arithmetic properties of modular forms of one and several variables*, Ann. of Math. 102 (1975); D. Blasius, *On the critical values of Hecke L-series*, Ann. of Math. 124 (1986), pp. 23–63: 8.19c. Published relatives of 8.15–8.17: K. Köhler; J. Burgos Gil, J. Kramer and U. Kühn; P. Hörmann; J. Bruinier, B. Howard, S. Kudla, M. Rapoport and T. Yang.
-- J. H. Bruinier and B. Howard, *Arithmetic volumes of unitary Shimura varieties*, arXiv:2105.11274 (theorem numbers of version 3), Theorem A (Theorem 8.6.1): the exact arithmetic volume of the metrised Hodge bundle on the integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions; a nearest published result for 8.15d, 8.16 and 8.17.
+- J. H. Bruinier and B. Howard, *Arithmetic volumes of unitary Shimura varieties*, arXiv:2105.11274 (theorem numbers of version 3), Theorem A (Theorem 8.6.1): the exact arithmetic volume of the metrised Hodge bundle on the integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions; a close precedent for 8.15d, 8.16 and 8.17.

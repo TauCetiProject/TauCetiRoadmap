@@ -190,7 +190,7 @@ The positions and the types: [FormalProof],
 *Origin:* particular to this proof: the host property (ii), the integrality at an inert prime, in Lubin–Tate
 coordinates along an orthonormal basis, of `exp(Σ_iφ(T_i))` times a `p`-integral combination of Fock translates of
 `Θ^{CM}_{L,L′}` by torsion points of order prime to `p`; the model (i) of the CM curve is classical and is cited with the
-route; nearest published result: Bannai and Kobayashi (2010), in the numbering of arXiv:math/0610163v4: Corollary 2.16,
+route; close published results: Bannai and Kobayashi (2010), in the numbering of arXiv:math/0610163v4: Corollary 2.16,
 the integrality of the reduced theta function of one CM curve and of its torsion translates at ordinary primes; and, at a
 supersingular prime, section 4, which computes for `y² = 4x³ − 4x` and `p = 7` that the two-variable Kronecker theta
 function in the formal parameters is not integral, and announces, without proof, that the theta function there has

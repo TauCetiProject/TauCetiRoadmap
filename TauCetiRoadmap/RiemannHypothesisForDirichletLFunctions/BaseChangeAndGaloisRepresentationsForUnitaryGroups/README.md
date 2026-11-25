@@ -953,7 +953,7 @@ isomorphism when `y` is trivial on the commutators of the Weil group and has `N 
 tame with `N = 0` and satisfies a condition on the multiplicities of its eigenvalues on tame inertia, `N = 0` and the
 characteristic polynomials on inertia. The comparison of the display, with the monodromy, at every `w ∤ ℓ` is also stated
 in [FormalProof] (`GlobalTheory.Published.GaloisRepOfPolarizedPair`); its main theorems do not depend on it.
-In that form the clauses for tame parameters at places `E_w ≅ ℚ_p` (14.2, 15.1) are stated for `n = 1` or `p > 16n²`;
+In the form that the family uses the clauses for tame parameters at places `E_w ≅ ℚ_p` (14.2, 15.1) are stated for `n = 1` or `p > 16n²`;
 [FormalProof] also has them without that bound.
 
 *Route.* AutomorphicGaloisRepresentationsPartII AG2.7 *Polarized Hodge and Weil–Deligne export* with ModularityAndLanglandsExtensions

@@ -889,7 +889,8 @@ Notation. `K` is a number field of degree `n`, `𝔪` a modulus of `K`, `Cl_𝔪
 property, for every prime `d ≡ 3 (mod 4)` with `d ≥ 100`, `K = ℚ(√−d)`, every integer `M ≥ 3` and `B = 4|d_K| M² = 4dM²`
 (with `dM²` in place of `B` the statement is equivalent, for other `A, c, c′`).
 
-- *Polynomial gap.* Every real zero `β ∈ [3/4, 1)` of `L(s, ψ*)`, for a real character `ψ` of `Cl_𝔪`,
+- *Polynomial gap* (in [FormalProof] a statement on the series of an abstract family of class coefficients, not on
+  `L(s, ψ*)`; see below). Every real zero `β ∈ [3/4, 1)` of `L(s, ψ*)`, for a real character `ψ` of `Cl_𝔪`,
   `𝔪 = M𝒪_K`, satisfies `1 − β ≥ c B^(−A)`.
 - *Norms in short intervals* (`card_primes_norm_one_mod_shortInterval_ge_of_discr_eq_neg_prime`). For `X ≥ 1` with
   `log B ≤ c√(log X)` and `e^(−c√(log X)) ≤ h ≤ 1`, the number of primes `p ∈ (X, X(1+h)]` of the form

@@ -4423,12 +4423,14 @@ summed over `e < t` gives at most `C·o_χ·N²·t²·log²(t·o_χ·N)` each. B
 
 *Origin:* particular to this proof: a bound for `V`, the logarithm of the product of the orders of the twisted
 Tate–Shafarevich groups of the host fields over all primes `ℓ` and the twists `1 ≤ e < t`, valid for the scales of windows
-found by a pigeonhole; nearest published result: Soulé (2003), Theorem 3 with Proposition 4, a bound explicit in the
+found by a pigeonhole; a close published result: Soulé (2003), Theorem 3 with Proposition 4, a bound explicit in the
 degree and the discriminant, for every number field `F` and every twist `e`, for the product of the orders of
-`H²(𝒪_F[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [F:ℚ] + 2)`. It excludes `ℓ = 2` and the smaller primes, among
-them every `ℓ` with `μ_ℓ ⊂ F`; the term `exp(x^δ)` here comes from `ℓ = 2` and the primes of `B(χ)` (2.4), at which the
+`H²(𝒪_F[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [F:ℚ] + 2)`. It excludes every prime `ℓ < max(4e + 3, [F:ℚ] + 2)`,
+among them `ℓ = 2` and every `ℓ` with `μ_ℓ ⊂ F`; the term `exp(x^δ)` here comes from `ℓ = 2` and the primes of `B(χ)` (2.4), at which the
 route bounds `Ш¹` over fields containing `μ_ℓ` (1.6). For host fields whose degree is a power of `x`, its bound for the
-product of the orders is a triple exponential, where the bound here is a double exponential.
+product of the orders is a triple exponential, where the bound here is a double exponential. Bayer-Fluckiger, Emery and
+Houriet (2015) remove one exponential from Soulé's bound, for the K-groups only and with the same small primes excluded,
+so that they do not give the bound here either.
 
 *Method of the formal proof:* the window of 2.4 for `ℚ(χ)` and the towers `ℚ(μ_{ℓ f_χ})`, `ℓ ∈ B(χ)`, gives a scale `Y` on
 which the `2`-part and the twist sums on the chosen layers of these towers are at most an exponential of a small power of
@@ -4813,8 +4815,13 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
   761–788: the published K-theoretic bound, compared with BernoulliBoundsForClassGroupEigenspaces Layer 9; Theorem 3 with
   Proposition 4, the product of the orders of `H²(𝒪_F[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [F:ℚ] + 2)`, bounded
   explicitly in the degree and the discriminant for every number field `F`, is a nearest published result for 1.6, 6.1 and
-  7.4; the bound consumed in 1.6, 2.2 and 6.1 is
+  6.2 and a close published result for 7.4; the bound consumed in 1.6, 2.2 and 6.1 is
   BernoulliBoundsForClassGroupEigenspaces §9.7, proved homologically for every prime.
+- E. Bayer-Fluckiger, V. Emery and J. Houriet, *Hermitian lattices and bounds in K-theory of algebraic integers*,
+  Documenta Math., Extra Volume Merkurjev (2015), 71–83, Theorem 1.1 and Corollary 1.2 (numbering of arXiv:1406.5953v3):
+  a bound for the torsion of `K_n(𝒪_F)`, `F ≠ ℚ`, away from small primes, with `log log` of the order bounded linearly in
+  `log |d_F|`, which improves Soulé (2003) by one exponential; compared in 7.4 (and in
+  BernoulliBoundsForClassGroupEigenspaces §9.4).
 - P. Schneider, *Über gewisse Galoiscohomologiegruppen*, Math. Z. 168 (1979), §6, Lemma 1: the origin of 1.1, published for
   odd `ℓ` (IntegralIwasawaTheory §10.5a).
 - M. Kolster and A. Movahhedi, *Galois co-descent for étale wild kernels and capitulation*, Ann. Inst. Fourier 50 (2000), §3:

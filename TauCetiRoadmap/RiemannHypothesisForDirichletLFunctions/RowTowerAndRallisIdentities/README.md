@@ -1898,8 +1898,8 @@ algebraicity of the class sums of the bottom triangle (`GlobalTheory.RowEx.BotFi
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/ClassSumKernelIsAlgebraic.lean`;
 `GlobalTheory.T.bottom_twistedClassSums_algebraic`,
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/BottomTwistedClassSumsAlgebraic.lean`),
-theorems stated under its bundle of named statements `GlobalTheory.FunPr.ThetaLocalInputs`, which it supplies where it
-applies them.
+theorems stated under its bundle of named statements `GlobalTheory.FunPr.ThetaLocalInputs` and under its bundle
+`GlobalTheory.NormSum.Inp` for every datum of the chain, both of which it supplies where it applies them.
 There is a constant `C_F⁰ ≥ 6510`, fixed before `ε`, such that for every `ε` and every `C_F ≥ C_F⁰` there is
 `x_F ≥ x₀` (`x₀` that of 5.8e) for which the following holds. Let `x ≥ x_F` and `Size_□` hold, for the grid of the chain
 with this `C_F` (5.8e); let the weight datum be interlaced (ThetaChainsOnDefiniteUnitaryGroups §2.3) with

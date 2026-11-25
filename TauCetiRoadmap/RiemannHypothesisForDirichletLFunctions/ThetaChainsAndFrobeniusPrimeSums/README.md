@@ -469,12 +469,15 @@ discrete series; Atiyah and Schmid (1977), the same through the `L²`-index theo
 the source.
 
 *Method of the formal proof:* the formal proof has the formula for Harish-Chandra parameters whose gaps exceed an
-explicit threshold, which the parameters of the chain satisfy, and, from it by an induction along a ray of parameters,
+explicit threshold, which the parameters of the chain satisfy, and, from it by a moment argument along a ray of parameters,
 for every Harish-Chandra parameter
 (`Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/FormalDegreeCompactDualIff.lean`
 (`GlobalTheory.Published.FormalDegreeCompactDual`), proved as
 `Development/WeilBound/RepresentationTheoryGL/DiscreteSeries/DiscreteSeriesCovers/FdTopB.lean`
-(`PositivityTheory.RgFd.B.formalDegreeCompactDual`)). To prove the first, an explicit function with values in the endomorphisms of the lowest `K`-type,
+(`PositivityTheory.RgFd.B.formalDegreeCompactDual`)). For a parameter `λ` with `n` entries the ray is `λ + tδ`,
+`t = 0, 1, 2, …`, `δ = (n − 1, …, 1, 0)`: for large `t` the gaps exceed the threshold, the formula there gives the
+integrals of a fixed nonnegative function against the `t`-th powers of a function with values in `[0, 1]`, and these
+integrals, for all large `t`, determine the value at `t = 0`. To prove the first, an explicit function with values in the endomorphisms of the lowest `K`-type,
 positive on the exponential of the non-compact part of the Cartan decomposition (`exp(𝔭)` in the notation of
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3), generates the discrete series (Sun (2007), §7, expresses the
 lowest-`K`-type coefficient as an integral over the maximal compact subgroup of an explicit function and proves its
@@ -487,7 +490,10 @@ orthogonality. On the way to its final theorem the formal proof uses the first f
 the formal degree by which it proves the bounds of 9.4 (c), and the form for every parameter in an upper bound for
 formal degrees at the real place
 (`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FormalDegreeRealPlaceUpperBoundOfHarishChandra.lean`
-(`GlobalTheory.LowRow.formalDegreeUpperC_of_hypotheses`)). The route written here cites the general formula and
+(`GlobalTheory.LowRow.formalDegreeUpperC_of_hypotheses`)) and for the formal degree of the discrete series at the
+parameters `h(τ)` of the statement below
+(`Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsDiscreteSeriesFormalDegreeProduct.lean`
+(`GlobalTheory.Mem.Vol.exists_isDS_isFdeg_trueDsig`)). The route written here cites the general formula and
 specialises it. Harish-Chandra (1966) uses the characters of the discrete series with orbital integrals and the
 Plancherel formula, and Atiyah and Schmid (1977) the `L²`-index theorem.
 

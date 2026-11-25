@@ -3619,7 +3619,11 @@ every unimodular lattice of rank `n` has the mass of `O_E^n`. The first formula 
 `c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two. The first form is [FormalProof],
 `Formalism/GL3MeanSquares/GenusMeanAsymptotics/UnimodularClassRepresentatives/SiegelMassRatioOfLI.lean`
 (`Formalism.HermitianLattices.Ext.L3.massConst_all`), for every CM field unramified over its real subfield at every
-finite place. The form of (c) is [FormalProof],
+finite place; it is stated there under two named statements, that every totally positive element of the real subfield
+is represented over the CM field by every binary diagonal Hermitian form with totally positive coefficients
+(`Formalism.HermitianLattices.Ext.L3.HermRepUnram`) and an identity of local densities at every prime
+(`Formalism.HermitianLattices.Ext.L3.LIStat`), which [FormalProof] proves (`GlobalTheory.Mass.binary_hermitian_represents`,
+`Formalism.HermitianLattices.Ext.L3.liStat`) and supplies where it applies it. The form of (c) is [FormalProof],
 `Formalism/LocalToGlobal/GlobalTheory/GL5/DiscreteSeriesOfFormalDegree.lean`
 (`Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.GenusMassAt`, `Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt`).
 

@@ -1376,9 +1376,11 @@ unitary dual pair over a CM extension `E/F`, `dim X = n ≤ dim W = d`, with spl
   `χ₁∘det_a × χ₂∘det_b` of unitary characters with `(a, χ₁) ≠ (b, χ₂)`
   (`GlobalTheory.CompanionTheory.KCoNarrow.Narrow`, supplied by
   `PositivityTheory.BernsteinRamification.Close.narrowBern`); the statement without the condition `ν ≠ 1`
-  (`PositivityTheory.KCo.IrrSt`, in `RightOnto.lean`) is derived in FormalProof only from a published statement that
-  it takes as a hypothesis (`GlobalTheory.Published.BernsteinUnitaryProductIrreducible`), and its main theorems do not
-  depend on it. The relations among regular vectors are
+  (`PositivityTheory.KCo.IrrSt`, in `RightOnto.lean`) is derived in FormalProof,
+  `Development/WeilBound/CoreStatements/LocallyConstantCoinvariants/ExistsExtZ.lean` (`PositivityTheory.KCo.irrSt_of`),
+  from a published statement that it takes as a hypothesis (`GlobalTheory.Published.BernsteinUnitaryProductIrreducible`)
+  and that the formal proof proves (`PositivityTheory.RgUd.All.bernsteinUnitaryProductIrreducible`); its main theorems
+  do not depend on `PositivityTheory.KCo.IrrSt`. The relations among regular vectors are
   `Development/WeilBound/ThetaLifts/CartanFactorisation/CartanConj.lean` (`PositivityTheory.ThKF.SoCoinv`).
 - (iii) *Archimedean vanishing.* If `X` has signature `(r, s)` and `W^♭` signature `(r′, s′)` at every real place, the
   infinity type `m_{W,v}` of `χ_W` satisfies `|m_{W,v}| > d` at every real place `v`, and `min(r′, s′) < min(r, s)`, then

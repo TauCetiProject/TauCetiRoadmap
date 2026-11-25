@@ -31,7 +31,8 @@ visibly use. A wider or sharper form stated beside it is this roadmap's own, pro
 `*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both labels. The forms stated beside
 those of [FormalProof] that are not statements of [FormalProof] are named in the first label: the congruence module along a
 central idempotent of a general finite algebra (1.7a (1), (2)), the generic form (1) and the form (2) over every residue
-field of 1.8b, the form over every residue field and the clauses (3), (4) of 1.8c, the refinement in 1.8d (3′) and the
+field of 1.8b, the form over every residue field outside the setting of 1.8e and the clauses (3), (4) of 1.8c, the
+refinement in 1.8d (3′) and the
 case `t = 1` of 1.8e (4).
 
 **Corollaries of general theorems.** A section may carry, as a third line under these two labels,
@@ -233,7 +234,8 @@ AInfCohomology §AI.1.3 (diagonal form and `Fitt₀` over a valuation ring).
 the length of a module of extensions, for two blocks, is extended to any number of matrix blocks at one reducible point,
 relative to a set of points, with the lengths of all blocks summed; the vanishing of the determinant of a square array of
 relations at a point where the relations have a nonzero solution is Dasgupta (2023), Lemma 4.5, for `GL₂` and two
-characters. The form over every residue field and (4) are this roadmap's own formulation; (3) is the classical unit case,
+characters. The form over every residue field outside the setting of 1.8e, where [FormalProof] proves it (*The form of
+the formal proof*), and (4) are this roadmap's own formulation; (3) is the classical unit case,
 after Ribet (1976) and Bellaïche and Chenevier (2009).
 
 *Method of the formal proof:* `Y_s` is presented by a relation matrix over `𝒜`; 1.8b (1′) gives one square array of
@@ -343,7 +345,7 @@ rank one, in particular nonzero; at `π`, `ψ_b(E)` is an idempotent of `M_{d_b}
 for `b₀`, so `E(π)` is the projector onto the `χ`-line. (N) is the definition of `Z`. The hypotheses (D) and (E) say that `π`
 lies on the locus where the residually multiplicity-free determinant splits into the blocks `ρ_b`, which is the total
 reducibility locus of the generalized matrix algebra (IntegralHeckeAndGaloisDeterminants §§1.3–1.4); a constituent of
-`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for (1) over a large residue field, (2) and (5).
+`r_π ⊗ K` with reducible reduction, or `χ` not among the constituents, breaks (D). Sources: [Ribet76], §§2–4; [BC09], Sections 1.3–1.5; [FormalProof] for (1) over a large residue field and, in the setting of 1.8e, over every residue field, (2) and (5).
 (2) is a neighbouring form, with cocycles and `K/O` coefficients at one point, of the injection of extension modules into
 extensions of IntegralHeckeAndGaloisDeterminants §1.4 (*GMA extension module*, *Off-diagonal extension injection*; [BC09],
 Section 1.5), whose qualitative rank-two case is *Classical Ribet lattice* in the same section. The two-dimensional

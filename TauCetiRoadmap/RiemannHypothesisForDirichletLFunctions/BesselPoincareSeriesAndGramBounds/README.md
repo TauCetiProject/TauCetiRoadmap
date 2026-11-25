@@ -803,20 +803,20 @@ of the space `Formalism.MainNotions.S.AutInst` (`Formalism/SharpRestriction/Cusp
 
 *Origin:* particular to this proof: limit multiplicity of discrete series of unitary groups of Hermitian spaces over CM
 fields with relative error `exp(−c·nf log n)`, uniform in the rank, the field, the level and the weight, under a gap
-condition and unipotent support at one prime; nearest published results: Savin (1989), after DeGeorge and Wallach (1978),
+condition and unipotent support at one prime; close published results: Savin (1989), after DeGeorge and Wallach (1978),
 limit multiplicity along towers of levels with the group fixed; and Shin and Templier (2016), Theorems 9.16 and 9.19, and
 Dalal (2022), Theorem 9.1.1, limit multiplicity with power-saving error terms, in the level and in the weight for discrete
 series packets and in the weight for a single discrete series, for a fixed group and with constants that depend on the
-group in a way not made explicit. Uniformity in the rank and in the field, and a single discrete series in the level
-aspect, are in none of these.
+group in a way not made explicit. Uniformity in the rank and in the field is in none of these, and a single discrete
+series in the level aspect is in neither Shin and Templier nor Dalal.
 
 *Method of the formal proof:* the multiplicity is the integral over a fundamental domain of the diagonal of the kernel of
 the projector given by the lowest `K`-type coefficient, the identity term giving the main term; the domain is cut by the
 least normalised size in the canonical filtration of the Hermitian lattice and by the type of the canonical flag; near
 terms are unipotent by a congruence on power traces and are counted against measure bounds for the points of each flag
 type, far terms are bounded by the decay of the coefficient, and the deep part by the vanishing of constant terms. The
-proofs of DeGeorge and Wallach and of Savin work along a tower with the group fixed and show that the cusp contribution
-vanishes in the limit, without a uniform error.
+proofs of DeGeorge and Wallach and of Savin work along a tower of levels with the group fixed, without a uniform error;
+Shin and Templier and Dalal give power-saving error terms for a fixed group.
 
 For every `C_ϕ ≥ 0` there is `n₀` with the following property, with `c = 1/16` and `C = 8·10¹⁴(C_ϕ + 4)`. Let
 `E/F` be a CM extension, `f = [F:ℚ]`, `V` a nondegenerate Hermitian space over `E` of dimension `n ≥ n₀` with a self-dual
@@ -1402,7 +1402,7 @@ passage between levels, for test functions of compact support: [FormalProof], `F
 (`Formalism.FourierDecayAlt.P5.ThmPActualCpt`), proved in
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/CutSETopFinal.lean`
 (`Formalism.FourierDecayAlt.P.CutSE.actual_compact_theorem`). The statement without the restriction to compact support
-(`Formalism.FourierDecayAlt.P5.ThmPActual`, in `CompositeFormulaLevelZero.lean`) is derived in [FormalProof] only from
+(`Formalism.FourierDecayAlt.P5.ThmPActual`, in `Formalism/HermitianCurvature/CompositeFormulaLevelZero.lean`) is derived in [FormalProof] only from
 further hypotheses, and its main theorems do not depend on it.
 *Needs:* 5.18a, 5.13b.
 

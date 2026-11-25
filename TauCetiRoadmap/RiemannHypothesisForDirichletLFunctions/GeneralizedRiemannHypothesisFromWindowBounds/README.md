@@ -38,7 +38,7 @@ The headline theorems, besides the Riemann hypothesis itself, are these.
   `w(ψ) > 0` vanishes in `Re s > θ`. The bound is one-sided and is required only on windows of
   scales arbitrarily far out, never for all large `y`. This follows by a short argument from a theorem
   of Kaczorowski and Pintz (1986) on sign changes in every interval `[Y^{1−ε}, Y]` with `Y` large
-  (2.1); the formal proof proves it directly.
+  (2.1); the formal proof proves it directly, for families of Dirichlet characters.
 - *Window bounds are the generalized Riemann hypothesis.* For a weighted family over any number
   field and `σ ∈ [1/2, 1)`: every `L(s, ψ)` with `w(ψ) > 0` is zero-free in `Re s > σ` if and only
   if for every `ε > 0` the window bound of the previous item holds at `θ = σ + ε` for some
@@ -383,7 +383,9 @@ Let `w` be a weighted family and let `Z(w)` be the set of `ρ` with `Re ρ > 0` 
 `L(·, ψ)` has positive order at `ρ` or at `ρ̄` for some member `ψ`. Over `ℚ` the statements below, except the
 formula for the residue, follow from
 [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean`
-(`Deduction.poleData`, `Deduction.poleData_char`), with `Z(w)` the set
+(`Deduction.poleData`, `Deduction.poleData_char`) and, for `Re ρ < 1`,
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean`
+(`Deduction.charFamily_LFunction_ne_zero_of_one_le_re`), with `Z(w)` the set
 `Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean` (`Deduction.zeroSet`). Of the
 residue, these state for one character the coefficient `m/(ρ(1 − ρ))` with an integer `m ≥ 0` that is `0` exactly
 when `L(ρ, ψ) ≠ 0`, not that `m` is the order, and for the family only that the residue is nonzero, and real and
@@ -499,8 +501,11 @@ lower bound and, through the negativity of `ζ` on `(0, 1)`, to `ζ_K` and `ζ`.
 clause for `0 < θ < 1`: for `K = ℚ` and `w = single 1 1`, a lower bound alone gives
 `ZeroFreeRightOf θ riemannZeta` (`Formalism/StatementU.lean` (`Formalism.ZetaLandau`), which takes either sign,
 proved as `Formalism/ZetaNonvanishing/ZetaLandau.lean` (`Formalism.zetaLandau`), from Landau's theorem in the variable
-`x = e^u`, PositivityOfDirichletSeriesWithKernels §6.3); it does not state the alternative for families or the
-convergence.
+`x = e^u`, PositivityOfDirichletSeriesWithKernels §6.3). It also has, as a statement that it does not prove, the
+zero-free conclusion over `ℚ` for the trivial character and one real nonprincipal Dirichlet character `χ`, each with
+weight `1`: under a lower bound for every `y ≥ 1`, if `L(·, χ)` has no zero in `(θ, 1)`, then neither `ζ` nor `L(·, χ)`
+vanishes in `Re s > θ` (`Formalism/Statement.lean` (`Formalism.LandauStep`); with the bound at every exponent above `θ`,
+`Formalism.LandauStepEps`). It does not state the alternative for families or the convergence.
 
 Let `w` be a weighted family of
 characters of `K`, `0 ≤ θ < 1` and `C`, `y₀` real. If `G_w(y) ≥ −C y^θ` for every `y ≥ y₀`, then
@@ -620,10 +625,11 @@ consequences, not statements of [FormalProof].
 
 *Origin:* adapted from Kaczorowski and Pintz (1986), Theorem 1 and Corollary 1, a sign change in every interval
 `[Y^{1−ε}, Y]` with `Y` large for a real function whose Mellin transform is meromorphic a little to the left of the
-boundary of its half-plane of regularity and regular at the real point of that boundary: the one-sided bound is required
+boundary of its half-plane of regularity and, as their proof uses though their statement does not display it, regular at
+the real point of that boundary: the one-sided bound is required
 only on windows `[Y, Y^λ]` with `Y` arbitrarily large, for a family with positive weights, and the statement follows from
 their theorem applied to `G_w − C y^θ` by the short argument of PositivityOfDirichletSeriesWithKernels §6.8, in which the
-positive residues at the real zeros (0.6) take the place of regularity at a real zero on the boundary line; the window
+positive residue at a real zero on the boundary line (0.6) takes the place of regularity at the real point of that line; the window
 form is that of PositivityOfDirichletSeriesWithKernels §6.8. Particular to this proof are its direct proof (method label)
 and the window bounds to which it is applied, proved in ThetaChainsAndFrobeniusPrimeSums §10.11.
 
@@ -788,9 +794,8 @@ occurs, and no predicate names it.
 
 ### 3.1 Window bounds
 
-*Origin:* particular to this proof: bounds are asked only on windows `[Y, Y^λ]` with `Y`
-arbitrarily large, the intervals `[Y^{1−ε}, Y]` of the theorem of Kaczorowski and Pintz (1986) (2.1)
-written from their left end; the properties stated are elementary.
+*Origin:* adapted from Kaczorowski and Pintz (1986) (2.1): bounds are asked only on windows `[Y, Y^λ]` with `Y`
+arbitrarily large, their intervals `[Y^{1−ε}, Y]` written from the left end; the properties stated are elementary.
 
 *Method of the formal proof:* directly from the definition: if `S` has windows and `S′` contains
 every point of `S` beyond a threshold `x₀`, the window of `S` found beyond `max(y, x₀)` is a window

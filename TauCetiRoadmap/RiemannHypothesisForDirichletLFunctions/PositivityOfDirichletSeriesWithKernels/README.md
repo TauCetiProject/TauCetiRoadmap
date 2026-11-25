@@ -468,12 +468,12 @@ converges absolutely in some half-plane, is regular for `Re s > Θ` but in no la
 `Re s ≥ Θ − c₀` for some `c₀ > 0`, changes sign in every interval `[Y^(1−ε), Y]` with `Y` large; their proof also uses
 regularity at the real point `Θ`, which their statement does not display, and part II (1987) allows algebraic and
 logarithmic singularities. In the variable `y = e^u` the form of the formal proof, Landau's theorem with the one-sided
-hypothesis assumed only on windows `[U, (1 + δ)U]` along a sequence, follows from it by a short argument: averaging `g`
-over `[u − 1, u]` turns the hypothesis in mean into a pointwise bound on a slightly shorter window; with `Θ` the supremum of
-the real parts of the poles, a real pole on the line `Re s = Θ`, where the residue is positive, is replaced by two
-conjugate poles on that line, which only lowers the function; and the theorem is applied to the result less `e^(θ′u)`, `θ < θ′ < Θ`. Particular to this proof is the direct
-proof of the method label, through single Taylor coefficients against the Gamma kernels, which treats the hypothesis in
-mean and the real poles at once. The extension, for poles of any finite order with the dichotomy as conclusion, is this
+hypothesis assumed only on windows `[U, (1 + δ)U]` along a sequence, follows from it by a short argument: fix `θ′` with
+`θ < θ′ < Θ`, `Θ` the supremum of the real parts of the poles; the average of `g` over `[u − 1, u]` is at most `e^(θ′u)`
+on a slightly shorter window; if `Θ` is a pole, its residue is positive and the pole is replaced by two conjugate poles on
+the line `Re s = Θ`, which only lowers the function; the theorem is then applied to the result less `e^(θ′u)`. Particular
+to this proof is its direct proof (method label), through single Taylor coefficients against the Gamma kernels, which
+treats the hypothesis in mean and the real poles at once. The extension, for poles of any finite order with the dichotomy as conclusion, is this
 roadmap's own formulation.
 
 *Method of the formal proof:* if there were a pole to the right of `θ`, a centre on the line `Re s = σ` would have exactly
@@ -601,8 +601,8 @@ conclusion, is this roadmap's; it is not proved in [FormalProof].
 ### 6.9 Windows of scales, the Mellin form and the Dirichlet-series form
 
 *Origin:* adapted from Landau's theorem: the windowed theorem of 6.8 in the Mellin variable `y = e^u`, with windows
-`[Y, Y^λ]`, the variable and the intervals of Kaczorowski and Pintz (1986), from whose theorem the form of the formal
-proof of (b) follows as in 6.8, and for Dirichlet series through the counting function, whose transform `F(s)/s` is that of Montgomery and
+`[Y, Y^λ]`, the variable and the intervals of Kaczorowski and Pintz (1986), from whose theorem the form of (b) with the
+hypotheses of the formal proof follows as in 6.8, and for Dirichlet series through the counting function, whose transform `F(s)/s` is that of Montgomery and
 Vaughan (2007), chapter 1 (ArithmeticDirichletSeriesPartII §4.1a); the window form is that of 6.8, and the extension in
 (b) and the Dirichlet-series form (c) are this roadmap's own formulation.
 
