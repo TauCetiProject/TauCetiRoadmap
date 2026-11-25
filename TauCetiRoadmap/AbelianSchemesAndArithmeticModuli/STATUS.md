@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"AbelianSchemesAndArithmeticModuli","to_sha":"522d48f5cf3a7d1e2de29e18281399b335b25833","ts":"2026-11-25T15:07:27Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer A0","remaining":"relative-dimension function (A0.1) and the Picard inputs of A0.3; the field boundary and points API are done","state":"partial"},{"id":"Layer A1","remaining":"rigidity exists only for flat group schemes with universal functions, not applied to AbelianScheme; A1.1 and A1.3 to A1.8 open","state":"partial"},{"id":"Layer A2","state":"untouched"},{"id":"Layer A3","state":"untouched"},{"id":"Layer A4","state":"untouched"},{"id":"Layer A5","remaining":"AbelianLattice for complex abelian varieties, uniqueness of elementary divisors, Appell-Humbert, Hodge equivalence, families, Siegel family","state":"partial"},{"id":"Layer A6","remaining":"only A6.9 Lemma 10.21 is proved; general multiplicative polynomial law and every Hom, degree and Tate-module target are open","state":"partial"}],"readme_sha":"00f7777ba426738f1542e1941b4e821e9f469fa55c176ed1aeaf4a33ad4d6a96","roadmap":"AbelianSchemesAndArithmeticModuli","to_sha":"522d48f5cf3a7d1e2de29e18281399b335b25833"}-->
+# Status: AbelianSchemesAndArithmeticModuli
+
+This file documents the status of the AbelianSchemesAndArithmeticModuli roadmap up until `522d48f` (2026-11-25T15:07:27Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The carrier of Layer A0 is in place: abelian schemes over an arbitrary base and their equivalence with Tau Ceti's abelian varieties over a field. The Riemann-form part of the complex theory (A5.2) is largely built, and the generic Lie-group uniformization is proved but not yet specialized to abelian varieties. Duality, isogenies and torsion, realizations and deformations (A2–A4) have not begun, and the arithmetic of Hom (A6) has only its polynomial lemmas.
+
+### Named results
+
+- **Abelian schemes over a field are abelian varieties** — over `Spec K`, two adapters give an equivalence between abelian schemes and Tau Ceti's abelian varieties that is compatible with extension of fields ([`AbelianScheme.fieldEquivalence`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/AbelianScheme/AbelianVariety.html#TauCeti.AlgebraicGeometry.AbelianScheme.fieldEquivalence)).
+- **Uniformization of commutative complex Lie groups** — a connected commutative complex Lie group is biholomorphic to its tangent space modulo the kernel of the exponential. In the compact case that kernel is a full lattice ([`mulInvariantExpQuotientKerDiffeomorph`](https://taucetiproject.org/docs/TauCeti/Geometry/Lie/Exponential/CommutativeGroup/ComplexTorus.html#TauCeti.mulInvariantExpQuotientKerDiffeomorph)), and it is identified with first singular homology ([`lieExpFirstHomologyEquiv`](https://taucetiproject.org/docs/TauCeti/Geometry/Lie/Exponential/CommutativeGroup/Homology.html#TauCeti.lieExpFirstHomologyEquiv)).
+- **Riemann forms polarize the homological Hodge structure** — for a Riemann form `E`, the form `Q = −E` polarizes the weight `−1` structure on the lattice, whose Weil operator is `−J` ([`IsRiemannForm.isPolarization_homological`](https://taucetiproject.org/docs/TauCeti/Geometry/Hodge/WeightOne/RiemannForm/Homological.html#TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization_homological)). The dual form, scaled by the exponent of the cokernel, polarizes the dual ([`IsPolarization.scaledDualForm`](https://taucetiproject.org/docs/TauCeti/Geometry/Hodge/Dual/Polarization.html#TauCeti.Hodge.IsPolarization.scaledDualForm)).
+- **Elementary divisors of alternating forms** — a nondegenerate alternating form over `ℤ` has a basis with matrix `[[0, D], [−D, 0]]`, where `D = diag(d₁, …, d_g)` with `0 < d₁ ∣ ⋯ ∣ d_g`, and its determinant is `(d₁ ⋯ d_g)²` ([`IsAlt.exists_basis_toMatrix_eq_fromBlocks_pos_of_nondegenerate`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/BilinearForm/ElementaryDivisors.html#LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_fromBlocks_pos_of_nondegenerate)).
+- **Milne's Lemma 10.21** — monic polynomials over `ℚ_ℓ` whose roots give products of equal `ℓ`-adic absolute value under every integral test polynomial are equal ([`Monic.eq_of_forall_norm_prod_aroots_aeval_eq`](https://taucetiproject.org/docs/TauCeti/NumberTheory/Padics/RootProducts.html#Polynomial.Monic.eq_of_forall_norm_prod_aroots_aeval_eq)).
+
+### Notable definitions and infrastructure
+
+- [`AbelianScheme`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/AbelianScheme/Basic.html#TauCeti.AlgebraicGeometry.AbelianScheme): a group object over `S` that is proper and smooth with geometrically connected fibres. It has no commutativity axiom and no fixed dimension, and it comes with base change and the identity scheme. Every later layer is stated on it.
+- [The Tate module of a torus](https://taucetiproject.org/docs/TauCeti/Algebra/Module/Torsion/TateModule/OrbitRelQuotient.html#LinearMap.orbitRelQuotientTateModuleδEquivTensor) as `ℤ_p ⊗ Λ`, built from a general Tate-module-of-a-cokernel computation. This is the algebraic half of identifying `T_ℓ A` with `Λ ⊗ ℤ_ℓ` over `ℂ`.
+- [`RiemannForm.hermitian`](https://taucetiproject.org/docs/TauCeti/Geometry/Hodge/WeightOne/RiemannForm/Hermitian.html#TauCeti.AlmostComplexStructure.RiemannForm.hermitian): the Hermitian form `H(v, w) = E(Jv, w) + i E(v, w)`, which is positive definite for a Riemann form. Appell–Humbert (A5.3) is phrased in terms of it.
+
+### Roadmap coverage
+
+**A0** is partial. The definition, base change, field adapters, points criterion and the README's non-examples are done. Still missing are the relative-dimension function and the Picard inputs of A0.3. **A1** is partial only through existing library rigidity: proper flat group schemes over any base with `π_*O = O_S` are commutative, and their zero-preserving maps are homomorphisms. Nothing applies this to abelian schemes yet, and the seesaw, cube, invariant differentials and elliptic equivalence are open. **A5** is partial. The A5.2 Riemann-form API is essentially complete, and the generic Lie-group steps of A5.1 are proved but not attached to abelian varieties over `ℂ`. A5.4 has only the existence half of its part (1). Appell–Humbert, the polarized Hodge equivalence, families and the Siegel family are open. **A6** is partial at A6.9 only: Lemma 10.21 is proved and a determinant-of-`G(M)` root formula exists, but the general multiplicative polynomial law is not. **A2, A3 and A4** are untouched.
+
+## The frontier
+
+- **The relative-dimension function and Picard inputs (A0.1, A0.3)** — `s ↦ dim A_s`, and `O_S ≅ π_*O_A` universally. The second fact is the one hypothesis that keeps the existing rigidity theorems from applying to abelian schemes.
+- **Relative rigidity and commutativity (A1.2)** — once A0.3 (1) holds, this should follow from the library's rigidity theorems over an arbitrary base. Injectivity of restriction along nilpotent thickenings is separate and still open.
+- **`AbelianLattice` (A5.1)** — attach the Lie-group uniformization, homology and Tate-module results to the analytification of a complex abelian variety. This needs ComplexComparisonPartII's analytification.
+- **Polarization types (A5.4)** — uniqueness of the elementary divisors is not yet proved, and parts (2)–(3) wait on Appell–Humbert (A5.3) and Riemann–Roch for abelian schemes (A2.4).
+- **Multiplicative polynomial laws (A6.9)** — Milne's Lemma 10.22 for a general homogeneous multiplicative law, which is the input to the characteristic polynomial of A6.10.
