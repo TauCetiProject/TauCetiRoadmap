@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.Beta
 public import TauCeti.MeasureTheory.Integral.Gamma
 public import TauCeti.Analysis.Contour.WorkedExamples.HalfDisc.SineIntegral
+public import TauCeti.Probability.Distributions.Dirichlet.Density
 
 /-!
 # The Gamma and Beta functions: target signatures
@@ -72,11 +73,6 @@ def absVandermonde {n : ℕ} (t : Fin n → ℝ) : ℝ :=
   |(Matrix.vandermonde t).det|
 
 /-! ## Layer 1: poles, partial fractions and the derivatives of `ψ` -/
-
-/-- README 1.1: the residue of `Γ` at `−n`. -/
-theorem Complex.tendsto_add_nat_mul_Gamma (n : ℕ) :
-    Tendsto (fun z => (z + n) * Gamma z) (𝓝[≠] (-(n : ℂ))) (𝓝 ((-1) ^ n / n.factorial)) := by
-  sorry
 
 /-- README 1.1: the residue of `ψ` at `−n`. -/
 theorem Complex.tendsto_add_nat_mul_digamma (n : ℕ) :
@@ -515,7 +511,7 @@ theorem Complex.norm_Gamma_add_div_Gamma_add_le {a b : ℝ} (ha : 0 ≤ a) (hab 
 /-- README 8.1; DLMF 5.9.2, Hankel's loop integral, with the contour pinned. -/
 theorem Complex.inv_Gamma_eq_hankel (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
     (Gamma z)⁻¹ =
-      sin (π * z) / π * ∫ r in Ioi ε, exp (-(r : ℂ)) * (r : ℂ) ^ (-z) +
+      sin (π * z) / π * (∫ r in Ioi ε, exp (-(r : ℂ)) * (r : ℂ) ^ (-z)) +
         (ε : ℂ) ^ (1 - z) / (2 * π) *
           ∫ θ in -π..π, exp (ε * exp (θ * I) + I * (1 - z) * θ) := by
   sorry
@@ -529,7 +525,7 @@ theorem Complex.inv_Gamma_eq_temme {z : ℂ} (hz : 0 < z.re) :
 theorem Complex.beta_loop_one {a : ℂ} (ha : 0 < a.re) (b : ℂ) {ε : ℝ} (hε₀ : 0 < ε) (hε₁ : ε < 1) :
     (2 * π * I)⁻¹ *
         ((exp (-I * π * (b - 1)) - exp (I * π * (b - 1))) *
-            ∫ t in (0 : ℝ)..(1 - ε), (t : ℂ) ^ (a - 1) * (1 - (t : ℂ)) ^ (b - 1) +
+            (∫ t in (0 : ℝ)..(1 - ε), (t : ℂ) ^ (a - 1) * (1 - (t : ℂ)) ^ (b - 1)) +
           I * (ε : ℂ) ^ b * ∫ θ in -π..π, (1 + ε * exp (θ * I)) ^ (a - 1) * exp (I * b * θ)) =
       Gamma a * (Gamma (a + b))⁻¹ * (Gamma (1 - b))⁻¹ := by
   sorry
@@ -538,7 +534,7 @@ theorem Complex.beta_loop_one {a : ℂ} (ha : 0 < a.re) (b : ℂ) {ε : ℝ} (h�
 `e^{2πia} − 1`. -/
 theorem Complex.beta_loop_zero {a b : ℂ} (hb : 0 < b.re) (ha : ∀ m : ℕ, a ≠ -m) {ε : ℝ}
     (hε₀ : 0 < ε) (hε₁ : ε < 1) :
-    (exp (2 * π * I * a) - 1) * ∫ t in Ioi ε, (t : ℂ) ^ (a - 1) * (1 + (t : ℂ)) ^ (-a - b) +
+    (exp (2 * π * I * a) - 1) * (∫ t in Ioi ε, (t : ℂ) ^ (a - 1) * (1 + (t : ℂ)) ^ (-a - b)) +
         I * (ε : ℂ) ^ a *
           ∫ θ in (0 : ℝ)..(2 * π), exp (I * a * θ) * (1 + ε * exp (θ * I)) ^ (-a - b) =
       (exp (2 * π * I * a) - 1) * (Gamma a * Gamma b / Gamma (a + b)) := by
@@ -731,5 +727,6 @@ theorem TauCeti.integral_dyson {n : ℕ} (hn : 1 ≤ n) {b : ℂ} (hb : 0 < 1 + 
 #check @TauCeti.integral_abs_rpow_mul_exp_neg_abs_rpow
 #check @TauCeti.integral_rpow_mul_one_add_rpow
 #check @TauCeti.integral_rpow_mul_one_sub_rpow
+#check @TauCeti.Probability.lintegral_dirichletChartPDF_eq_one
 
 end TauCetiRoadmap.SpecialFunctionsGamma

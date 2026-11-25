@@ -23,9 +23,10 @@ Hypergeometric Functions*, Ch. 2), Paris–Kaminski (*Asymptotics and Mellin–B
 sources; see [References](#references).
 
 The roadmap covers:
-- the poles and residues of `Γ` and `ψ`, Gauss's partial-fraction series of `ψ` and `ψ′` off the
-  poles, the polygamma functions with their series, recurrence, reflection, multiplication and
-  values at the integers and half-integers (Layer 1);
+- the residues of `ψ` at its poles (those of `Γ` are SpecialFunctionsParabolicCylinder 6.6(b)),
+  Gauss's partial-fraction series of `ψ` and `ψ′` off the poles, the polygamma functions with
+  their series, recurrence, reflection, multiplication and values at the integers and
+  half-integers (Layer 1);
 - the trigonometric, hyperbolic and algebraic forms of the Beta integral, and the integrals of
   Dirichlet and Liouville over simplices and power simplices (Layer 2);
 - the scaled, split and subtracted forms of Euler's integral, its oscillatory forms, the integral
@@ -150,15 +151,17 @@ Layer 2 ──┬──► Layer 8                               │
 
 ### 1.1 Poles and residues of `Γ` and `ψ`
 
-For every `n : ℕ` (`Complex.tendsto_add_nat_mul_Gamma`, `Complex.tendsto_add_nat_mul_digamma`):
+For every `n : ℕ` (`Complex.tendsto_add_nat_mul_digamma` for the second):
 - `(z + n) Γ(z) → (−1)ⁿ/n!` as `z → −n`, `z ≠ −n`: `Γ` has a simple pole of residue `(−1)ⁿ/n!` at
-  `−n` (Olver, Ch. 2, §1.2, p. 32; Remmert, Ch. 2, §2.1, (2), p. 39; Temme, §3.2.1, p. 44;
-  Andrews–Askey–Roy, (1.1.19), p. 7);
+  `−n`; this is SpecialFunctionsParabolicCylinder 6.6(b), consumed here, not restated (Olver,
+  Ch. 2, §1.2, p. 32; Remmert, Ch. 2, §2.1, (2), p. 39; Temme, §3.2.1, p. 44; Andrews–Askey–Roy,
+  (1.1.19), p. 7);
 - `(z + n) ψ(z) → −1` as `z → −n`, `z ≠ −n`: `ψ` has a simple pole of residue `−1` at `−n`
   (Olver, Ch. 2, §2.1, p. 39).
 
-Route: `(z + n) Γ(z) = Γ(z + n + 1)/(z(z + 1) ⋯ (z + n − 1))` by the recurrence, and the right side
-is continuous at `−n` with the value `Γ(1)/((−n)(−n + 1) ⋯ (−1))`. For `ψ`, the recurrence
+Route (the proof SpecialFunctionsParabolicCylinder 6.6(b) indicates for `Γ`): `(z + n) Γ(z) =
+Γ(z + n + 1)/(z(z + 1) ⋯ (z + n − 1))` by the recurrence, and the right side is continuous at `−n`
+with the value `Γ(1)/((−n)(−n + 1) ⋯ (−1))`. For `ψ`, the recurrence
 `ψ(z) = ψ(z + n + 1) − Σ_{k≤n} 1/(z + k)` off the poles, where `ψ(z + n + 1)` and the terms with
 `k ≠ n` are continuous at `−n`.
 
@@ -325,7 +328,9 @@ For `z : Fin n → ℂ` with `Re z_k > 0`,
 §12.5, p. 258; DLMF 5.14.1–5.14.2).
 
 Route: induction on `n` with Fubini and Euler's Beta integral; the first is the second with
-`z_n = 1`.
+`z_n = 1`. For real `z_k > 0` the second is Tau Ceti's
+`TauCeti.Probability.lintegral_dirichletChartPDF_eq_one`: the Dirichlet density in the chart that
+drops one coordinate has total mass `1`; it is the real case, as an `ℝ≥0∞`-valued integral.
 
 *Needs:* Mathlib `Complex.Gamma_mul_Gamma_eq_betaIntegral`, Fubini on `Fin n → ℝ`
 (`MeasureTheory.measurePreserving_piFinSuccAbove`).
@@ -1400,6 +1405,8 @@ nor the consumed roadmaps provide:
   (SpecialFunctionsHypergeometric 6.3); it consumes them.
 - The product `∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²` (DLMF 5.8.3), its comparison in
   `x` and `|Γ(1 + iy)|² = πy/sinh πy` (SpecialFunctionsParabolicCylinder 6.6(a)); it consumes them.
+- The residue `(z + n) Γ(z) → (−1)ⁿ/n!` at `−n` (SpecialFunctionsParabolicCylinder 6.6(b)); it
+  consumes it in 1.1.
 - The series of `ψ` and `ψ′` on `Re z > 0` (ExplicitNumberFields 1.1a); it consumes them, and 1.2
   extends both to every `z ∉ {0, −1, −2, …}` by the recurrence.
 - The periodic Carlson lemma (SpecialFunctionsHypergeometric 4.2); it consumes it, and 10.1 proves
@@ -1469,6 +1476,7 @@ everything that rests on its remainder, the continued fraction for Binet's funct
 - 6.6(a): for real `x ∉ {0, −1, −2, …}`, `∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²`
   (DLMF 5.8.3), and its comparison in `x`: `|Γ(x + iy)| ≤ Γ(x)/Γ(x′) · |Γ(x′ + iy)|` for
   `0 < x ≤ x′` (7.3); and `|Γ(1 + iy)|² = πy/sinh πy` for `y ≠ 0` (the input DLMF 5.4.3).
+- 6.6(b): for every `n : ℕ`, `(z + n) Γ(z) → (−1)ⁿ/n!` as `z → −n`, `z ≠ −n` (1.1).
 
 ### From [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
 
