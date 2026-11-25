@@ -1590,12 +1590,25 @@ chronological (Minguzzi 2019, §4.2–§4.5); stably causal ⇒ strongly causal 
 chronological (Minguzzi 2019, Proposition 4.18, p. 113); a chronological spacetime has
 `τ(p, p) = 0`.
 
+Define reflective spacetimes, in which `q ∈ closure (J^+(p))` iff `p ∈ closure (J^−(q))`, and
+causally continuous spacetimes, which are distinguishing and reflective (Minguzzi 2019b,
+Definition 2.15 and Proposition 2.16, p. 41, and the list before Theorem 2.47, p. 58; Hawking
+and Sachs introduced the notion through the inclusions of `I^±(p)`). Prove causally simple ⇒
+causally continuous: when `J^±(p)` are closed both sides of the reflectivity condition read
+`q ∈ J^+(p)`. The implication causally continuous ⇒ stably causal, which completes the ladder
+globally hyperbolic ⇒ causally simple ⇒ causally continuous ⇒ stably causal (Minguzzi 2019b,
+Theorem 2.47, p. 59), is proved in §11.3.
+
 **Checks.**
 
 - The Lorentzian cylinder is not chronological.
 - Minkowski space minus a point is stably causal (the time function `t`) and not causally
   simple (`J^+(p)` is not closed, as in §10.3).
 - Minkowski space is causally simple: `J^+(p) = {q | q_t − p_t ≥ |q_x − p_x|}` is closed and `J^+` is antisymmetric.
+- Minkowski space minus a point `o` is causally continuous and not causally simple: a timelike
+  curve can be perturbed off `o`, so `I^±(p)` is the Minkowski set minus `o`, the closures of
+  `J^±(p)` in `M` are the Minkowski cones minus `o`, and both sides of the reflectivity
+  condition are the Minkowski relation.
 
 *Needs:* §8.2–§8.3, §10.1–§10.3.
 
@@ -1610,14 +1623,29 @@ Theorem 4.100, pp. 140–141),
 building its approximation and patching lemmas in this item. This yields stable causality
 without taking the differential of a continuous function.
 
+Prove the converse: a stably causal spacetime has a smooth temporal function (Hawking's
+existence of a time function, 1968; in smooth form Minguzzi 2019b, Theorem 3.11, p. 111, whose
+route through the antisymmetry of the Seifert relation is Theorem 3.4, p. 99). So stable
+causality, the existence of a time function and the existence of a temporal function are
+equivalent. Prove that a causally continuous spacetime is stably causal (Minguzzi 2019b,
+Theorem 2.47, p. 59): for a finite measure `μ` with smooth positive density, the volume
+function `p ↦ μ(I^−(p)) − μ(I^+(p))` does not decrease along future causal curves, strictly
+increases along them because the spacetime is distinguishing, and is continuous because it is
+reflective (Minguzzi 2019b, pp. 41–42, for the continuity of volume functions of reflective
+spacetimes with locally Lipschitz cones), so it is a time function and the smoothing theorem
+applies.
+
 **Checks.**
 
 - `t` is a temporal function on Minkowski space, and `t³` is a time function whose gradient
   vanishes on `{t = 0}`, so it is not temporal.
 - On Minkowski `ℝ^{1+1}`, `t + x/2` is temporal: for future causal `v`, `v_t ≥ |v_x|` and `v_t > 0`, so `v_t + v_x/2 > 0`; `t + x` is not even a time function, being constant along the future null line `s ↦ (s, −s)`.
 - `arctan t` is a temporal function of Minkowski space with values in `(−π/2, π/2)`: `d(arctan t)(v) = v_t/(1 + t²) > 0` for future causal `v`.
+- The Lorentzian cylinder of §11.2 has no time function, since a closed timelike curve would
+  make it strictly increase around a loop; it is not stably causal.
 
-*Needs:* §11.2, §10.1; partitions of unity and the temporal smoothing construction specified here.
+*Needs:* §11.2, §10.1, §10.2 (push-up, for the monotonicity of volume functions); partitions of unity and the temporal smoothing construction specified here;
+Mathlib measures with smooth density for the volume functions.
 
 ### 11.4 Limit curves and length semicontinuity
 
@@ -1646,7 +1674,7 @@ Minguzzi 2008). The Lorentzian length is upper semicontinuous under this converg
 
 ### Examples
 
-- Time separation in Minkowski space and in Minkowski space minus a point (§11.1); the Lorentzian cylinder (§11.2); `t`, `t³`, `t + x/2` and `arctan t` (§11.3); limit curves of `s ↦ (s, s/n)` (§11.4).
+- Time separation in Minkowski space and in Minkowski space minus a point (§11.1); the Lorentzian cylinder and Minkowski space minus a point (§11.2); `t`, `t³`, `t + x/2` and `arctan t`, and the cylinder without a time function (§11.3); limit curves of `s ↦ (s, s/n)` (§11.4).
 
 ### Dependencies
 
@@ -2358,7 +2386,7 @@ chartwise Hölder classes of a metric with `C^{k,α}_loc` of its components.
 LVF6: the density `|det g|^{1/2}`, the divergence of a vector field and integration by parts
 for a nondegenerate metric. §2.5 consumes the divergence for the contracted Bianchi identity.
 
-### From TauCetiRoadmap.RelativisticQuantumFieldTheory
+### From TauCetiRoadmap.RelativisticQuantumFieldTheory (on main)
 
 §1.1: the four-dimensional Minkowski space `Spacetime` with time coordinate first, its form
 `minkowskiSquare` of signature `(+, −, −, −)` and the flat causal sets `causalFuture` and
@@ -2404,6 +2432,14 @@ Theorem and page numbers of a preprint are those of the arXiv version named in i
 - E. Minguzzi, *Lorentzian causality theory*, Living Rev. Relativ. 22 (2019) 3 (open access;
   page numbers of the article).
 - E. Minguzzi, *Limit curve theorems in Lorentzian geometry*, J. Math. Phys. 49 (2008) 092501.
+- E. Minguzzi (2019b), *Causality theory for closed cone structures with applications*, Rev.
+  Math. Phys. 31 (2019) 1930001; [arXiv:1709.06494v4](https://arxiv.org/abs/1709.06494v4)
+  (page numbers of the arXiv version): reflectivity and causal continuity, the causal ladder,
+  stable causality and smooth temporal functions.
+- S. W. Hawking, *The existence of cosmic time functions*, Proc. Roy. Soc. A 308 (1968)
+  433–435.
+- S. W. Hawking, R. K. Sachs, *Causally continuous spacetimes*, Comm. Math. Phys. 35 (1974)
+  287–296.
 - P. T. Chruściel, *Elements of causality theory*, arXiv:1110.6706v1 (printed page numbers).
 - P. T. Chruściel, J. D. E. Grant, *On Lorentzian causality with continuous metrics*, Class.
   Quantum Grav. 29 (2012) 145001; arXiv:1111.0400v3.
