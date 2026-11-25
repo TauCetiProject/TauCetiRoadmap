@@ -19,7 +19,7 @@ intervals `[Y, Y^{3/2}]` (10.10, 10.11). (2) *The Frobenius-restricted inequalit
 large scale `(x, ε)` satisfying the standing hypotheses (10.0), the sum over the tops `τ` and the steps `j` of the
 Frobenius-restricted Riesz sums `ℛ(a_τ, τ, w_{u₀,j})` exceeds the sum of their main terms `𝔐(a_τ, w_{u₀,j})` by at most
 `x^{5ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))` (10.4, 10.5); the exponent `5` is that of the formal proof's chain, and
-the sharper exponent `3` of the remark to 10.5 is this roadmap's own; averaged over the translates, this has the strength of the
+the sharper exponent `3` of the remark to 10.5 is proved by this roadmap only; averaged over the translates, this has the strength of the
 generalized Riemann hypothesis for the cyclic family at the scale `x`.
 (3) *The slope inequality of the chain.* Under the
 Gram bounds for the Bessel–Poincaré series of the words of a word code, which make them a nearly tight frame at one
@@ -1094,7 +1094,9 @@ largest term as long as `e_D ≤ 2`.
 
 *Remark.* By this ledger the route below gives the sharper `𝔈_tot(u₀) ≤ x^{(max(e_D, 2) + 1)ε}·ℰ = x^{3ε}·ℰ` (`e_D = 1`),
 and with 10.4 the inequality above with `x^{3ε}`, which is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9 with
-`C = 3`. This sharper form is this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
+`C = 3`. This sharper form is proved by this roadmap only: [FormalProof] formulates the bound with the exponent `3`, under
+its own size conditions, as a proposition (`Formalism/SizeWindowBrackets/ErrorFormsEventualPowerBound.lean`
+(`Formalism.LFunctionChainParameters.LErr7.ErrorFormsExponentThree`)) and does not prove it; nothing later uses it.
 
 *Route.* With `ℰ ≥ |Φ_top|a ≥ a ≥ b ≥ 1`: `𝔈₁ ≤ 4C_*yℰ` (`A_top ≤ 2|Φ_top|a`, `La ≤ 2y`), `𝔈₂ ≤ 2C_*yℰ`, `𝔈₃ ≤ C_*x^{e_Dε}ℰ`,
 `𝔈₄ ≤ C_*ℰ`, `𝔈₅ ≤ 4C_*yℰ` (`m ≤ k`), `𝔈₆ ≤ C_*ℰ` (`mb ≤ a`), `𝔈₇ ≤ C_*(2 + 2y)ℰ + 1` (`kb′ ≤ a` gives `m²b′ ≤ m²a/k`, and
@@ -1122,7 +1124,7 @@ FrobeniusRestrictedRieszSums §1.8 (i)–(iii) (10.6a): `x^{1/2−ε} ≤ m ≤ 
 units of `|Φ_top|·b`; the per-lift errors of size `B₀ = f·m·b·x^ε` that grow linearly in `m` are on the row side (the
 covolume remainder of the step lattices). The total is `x^{O(ε)}·(x/m + m)`, minimal at `m ≈ √x`, of size `x^{1/2 + O(ε)}`.
 
-[FormalProof] bounds the error terms of 10.4 at every translate by `x^{(e_D + e_L + 3)ε}·ℰ`, where `e_D` is the exponent of the division inequality and `e_L` that of the loss bound (`e_L = 0` in the chain), under size conditions that include `log|W| ≤ (k − 3)·log 2`: `Formalism/SizeWindowBrackets/ErrorFormsWeakWindowsFalse.lean` (`Formalism.LFunctionChainParameters.LErr.ErrText`, `Formalism.LFunctionChainParameters.LErr.CErr`, `Formalism.LFunctionChainParameters.LErr.errorBracketSizeWindows`), `Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean` (`Formalism.LFunctionChainParameters.LChain.errX5at_le`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean` (`Deduction.ch_top`). Its chain has `e_D = 2` and `e_L = 0` (`Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean` (`Formalism.MainNotions.ChainTied`), with the exponents `2` and `0` of `Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean` (`GlobalTheory.Top.link_gl`)), so its exponent is `5`, the `C = 5` above. The exponent `(max(e_D, 2) + 1)ε` of the remark is this roadmap's arithmetic. *Needs:* FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.4.
+[FormalProof] bounds the error terms of 10.4 at every translate by `x^{(e_D + e_L + 3)ε}·ℰ`, where `e_D` is the exponent of the division inequality and `e_L` that of the loss bound (`e_L = 0` in the chain), under size conditions that include `log|W| ≤ (k − 3)·log 2`: `Formalism/SizeWindowBrackets/ErrorFormsWeakWindowsFalse.lean` (`Formalism.LFunctionChainParameters.LErr.ErrText`, `Formalism.LFunctionChainParameters.LErr.CErr`, `Formalism.LFunctionChainParameters.LErr.errorBracketSizeWindows`), `Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean` (`Formalism.LFunctionChainParameters.LChain.errX5at_le`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean` (`Deduction.ch_top`). Its chain has `e_D = 2` and `e_L = 0` (`Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean` (`Formalism.MainNotions.ChainTied`), with the exponents `2` and `0` of `Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean` (`GlobalTheory.Top.link_gl`)), so its exponent is `5`, the `C = 5` above. The exponent `(max(e_D, 2) + 1)ε` of the remark is, for `e_L ≤ 1`, the exponent of [FormalProof] `Formalism/SizeWindowBrackets/ErrorFormsEventualPowerBound.lean` (`Formalism.LFunctionChainParameters.LErr7.CErr7`), in bounds that it formulates there and does not prove. *Needs:* FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.4.
 
 ### 10.6 Explicit parameters
 

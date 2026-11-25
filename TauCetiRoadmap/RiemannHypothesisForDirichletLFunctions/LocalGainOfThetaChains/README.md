@@ -1334,8 +1334,13 @@ weight `κ` of `G`, let `π^G_{κ,S}` be the projector onto the `κ`-isotypic pa
 (iii) `p^{(n(n−1)/2)·⌊log_p(2d_S + n − 1)⌋}·π^G_{κ,S}` maps polynomials with coefficients in `𝒪` to polynomials with coefficients in `𝒪`,
 where `n ∈ {k − 1, k − 2}` is the rank of `G` and `d_S := D·#S` bounds the total degree on the letters of `S`.
 
-*Remark.* The route below gives (iii) with the sharper exponent `(n(n−1)/2)·⌊log_p(d_S + n − 1)⌋`. This sharper form is
-this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
+*Remark.* The route below gives (iii) with the sharper exponent `(n(n−1)/2)·⌊log_p(d_S + n − 1)⌋`. [FormalProof] states
+this exponent over `ℤ_p` only, for the projector onto a set of types of the general linear group of a set of coordinates
+acting on an initial segment of the chain, with the total degree of all the letters of the chain in place of `d_S`:
+`Formalism/ThetaLogCoordinates/TraceIsometryWeights/StatementC.lean` (`Formalism.InvariantFactorPaths.PW.IntP`), proved as
+`Formalism/ThetaLogCoordinates/TraceIsometryWeights/FinalP.lean` (`Formalism.InvariantFactorPaths.PW.Top.intP`). For the
+rings `𝒪` of this section, and with the degree on `S` alone, the sharper form is this roadmap's own, and nothing later
+uses it.
 
 *Route.* (i) For `𝔤𝔩_n` distinct dominant weights have distinct central characters, so `π^G_{κ,S}` is a polynomial in the image of
 the centre of the enveloping algebra acting on the letters of `S`; such an element commutes with the action of `𝔤𝔩_n` on the
@@ -1366,8 +1371,10 @@ after one power `p^{⌈(k−1)²(log_p(8a + k − 1) + 1)⌉}`, and it proves th
 `Formalism/SharpRestriction/GrowthBounds/CountingStatementReduction.lean`: the three commutations as
 `Formalism.MainNotions.G.CountingStatementReduction.chOps_comm3`, and the integrality of a projector onto a set of types,
 on the polynomials of one multidegree, after `p^{(n(n−1)/2)·⌊log_p(2d + n − 1)⌋}`, `d` the degree of the multidegree on
-the letters of `S`, as `Formalism.MainNotions.G.CountingStatementReduction.subOps_int_lat`; (iii) follows, the projector
-preserving the multidegree and `d ≤ d_S`. The exponent `⌊log_p(d_S + n − 1)⌋` of the remark is this roadmap's own.
+the letters of `S`, as `Formalism.MainNotions.G.CountingStatementReduction.subOps_int_lat`; under its hypotheses on `𝒪`
+and `p` (among them `p ≥ 5`), (iii) follows, the projector preserving the multidegree and `d ≤ d_S`. The exponent
+`⌊log_p(d_S + n − 1)⌋` of the remark is stated by [FormalProof] over `ℤ_p` only and with the total degree of the whole
+chain (`Formalism.InvariantFactorPaths.PW.IntP`); in the generality of (iii) it is this roadmap's own.
 *Needs:* 4.14c′; IntegralWeylModulesOfGeneralLinearGroups §§0.1, 0.3a.
 
 ### 4.14g The bad share of a segment is small on average
@@ -1461,17 +1468,17 @@ For `dep, c* ∈ ℤ_{≥0}` (exponents of `√p`), `D ∈ ℕ` (an exponent of 
 `F_i ∈ p^{−dep/2}H(L_i) ∩ ⋂_{e out of L_i}H^{½}(e)`, with `F_i ∈ p^{c*/2}H^{½}(e′)` for the edges `e′ ≠ e_i` out of `L_i`,
 such that the functionals `G ↦ ⟨F_i, G⟩_h` on `B_L := p^{−dep/2}H(L)^∨ ∩ ⋂_{e into L}H^{½}(e)^∨` (the lattice of the arguments `G`,
 which lie in the dual space) contain an identity block `p^D·1` of size `≥ (1 − sh)·dim V_λ` up to an integral recombination of the
-`F_i`: there are `n ≥ (1 − sh)·dim V_λ`, `G_1, …, G_n ∈ B_L` and integral numbers `M_{li}` (`1 ≤ l ≤ n`, `i` running over the
+`F_i`: there are `n ≥ (1 − sh)·dim V_λ`, `G_1, …, G_n ∈ B_L` and numbers `M_{li} ∈ 𝒪` (`1 ≤ l ≤ n`, `i` running over the
 vectors) with `⟨Σ_iM_{li}F_i, G_{l′}⟩_h = p^D·δ_{ll′}`; `B_L^∨`, in the space of the `F_i`, is the target lattice of the
 image argument below. In words: the image of `y_v` on the `∇`-valued forms of level `0` (`ℳ^∨_0`; `H(L)` is
 the dual Weyl lattice) contains `p^{dep+D+1}` (here an exponent of `p`) times a part of corank `≤ sh·rank`. `DepthBound` at `v` does
 not depend on the coefficient rings. `DepthBound(dep, D, sh, c*)` includes the inequality `4(D + 1) ≤ c*` (in the units of the
 definition: `c*` an exponent of `√p`, `D` an exponent of `p`).
 
-*Remark.* The route of the Lemma below gives the clause with the identity block on the vectors themselves, without
-recombination: `G_1, G_2, … ∈ B_L` with `⟨F_i, G_l⟩_h = p^D·δ_{il}` for at least `(1 − sh)·dim V_λ` indices, namely on all the
-vectors of the edge families. This sharper form is this roadmap's own: [FormalProof] does not state it, and nothing later
-uses it.
+*Remark.* Over the discrete valuation ring `𝒪` the clause is equivalent to the one with the identity block on a subfamily
+of the vectors themselves: `G_l ∈ B_L` with `⟨F_i, G_l⟩_h = p^D·δ_{il}` for `i, l` in a set of at least `(1 − sh)·dim V_λ`
+indices; the route of the Lemma below gives this form on all the vectors of the edge families. [FormalProof] does not
+state this form, and nothing later uses it.
 
 *Edge families.* Let `e = (L′ ⊂ L)` be an edge of type `r_H`. An *edge family* at `e` of size `n`, source depth `t_S`, target
 depth `t_T`, Gram exponent `D` and separation `c*` consists of vectors `F_1, …, F_n ∈ p^{−t_S/2}H(L′) ∩ H^{½}(e)`, each lying in

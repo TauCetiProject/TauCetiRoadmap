@@ -188,12 +188,12 @@ is the difference quotient at `1` of the bracket, divided by `s`, and its poles 
 from the local form `m/(s − ρ)` plus an analytic function of a logarithmic derivative at a zero.
 The route written here is that proof's for these clauses, read for a primitive ray-class character
 of a number field; it differs in that it also proves the inversion of (a), from ExplicitZetaBounds
-§6.1a, and the explicit formula of (b) with the bound `C_ψ y`, by the contour shift of
-ZerosOfLFunctions §8.2, which are not in [FormalProof].
+§6.1a, and the explicit formula of (b) with the bound `C′_ψ y` of the remark, by the contour shift of
+ZerosOfLFunctions §8.2, which are not in [FormalProof] (the bound is there only for the trivial character of `ℚ`).
 
 *Corollary of:* ZerosOfLFunctions §8.6a (the explicit formula for the first Riesz mean of
 `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` of a primitive finite-order ray-class character `ψ` of a number field), for the
-explicit formula of (b), with the summability of its zero sum and the bound `C_ψ y`, and, through
+explicit formula of (b), with the summability of its zero sum and the bound `C′_ψ y` of the remark, and, through
 the Mellin transform of (b), for the poles of `Φ_ψ` on `Re s > 0` with their residues; (a), and in
 (b) the conjugation, the Mellin transform, the value at `1` and the bound `C_ψ y²`, are not
 corollaries of it.
@@ -287,11 +287,15 @@ character modulo `N` and branch on `χ = 1`; for the principal character modulo 
   the Riesz sum is at most `[K:ℚ] y` in absolute value, since `‖a_ψ(m)‖ ≤ [K:ℚ] Λ(m) ≤ [K:ℚ] m` and
   `0 ≤ y/m − 1 ≤ y/m`, and the main terms are at most a constant times `y²`. This bound makes the Mellin
   transform of the remainder converge absolutely on `Re s > 2`, and it is the only growth input of the
-  windowed Landau argument. The sharper bound `‖rieszRemainder ψ y‖ ≤ C_ψ y` for `y ≥ 1` also holds, by
-  the explicit formula (`‖y^ρ‖ ≤ y` on the closed strip).
+  windowed Landau argument.
 
 At `K = ℚ` and `ψ = 1`: `rieszRemainder 1 y = ∑_{n ≤ y} Λ(n)(y/n − 1) − y log y + (1 + γ) y` and
 `E(y) = log 2π − ∑_{k ≥ 1} y^(−2k)/(2k(2k + 1))`.
+
+*Remark.* Sharper, there is `C′_ψ` with `‖rieszRemainder ψ y‖ ≤ C′_ψ y` for `y ≥ 1`, by the explicit formula
+(`‖y^ρ‖ ≤ y` on the closed strip). This sharper form is this roadmap's own: [FormalProof] states it only for the trivial
+character of `ℚ` (`Formalism/StatementU.lean` (`Formalism.GzLipschitz`), proved as
+`Formalism/ZetaNonvanishing/GzLipschitz.lean` (`Formalism.zetaPrimeSumErrorLipschitz`)), and no later statement uses it.
 
 Route. The Mellin transform: (a), with `∫_1^∞ y · y^(−s−1) dy = 1/(s − 1)` and
 `∫_1^∞ y log y · y^(−s−1) dy = 1/(s − 1)²`. The bracket vanishes at `s = 1` by the definitions of
@@ -313,7 +317,7 @@ is continuous on `[1, 2]` and the formula holds at `y = 1`. The zero sum converg
 zero lies at `0` or `1` (ZerosOfLFunctions §6.5), finitely many have `|Im ρ| < 1`
 (ZerosOfLFunctions §4.5), and
 `|ρ(1 − ρ)| ≥ (1 + (Im ρ)²)/2` for `|Im ρ| ≥ 1` on the closed strip, so ZerosOfLFunctions §5.6a applies. The size
-bounds: the first termwise, as stated; the sharper one from `‖y^ρ‖ ≤ y` on the closed strip.
+bound: termwise, as stated. The remark: from `‖y^ρ‖ ≤ y` on the closed strip.
 
 *Needs:* 10.3 (`PrimitiveDirichletCharacter`); 11.1 (*toPrimitiveRayClassCharacter*, the
 comparison of its L-functions, and of its cards up to the normal form of the completed function

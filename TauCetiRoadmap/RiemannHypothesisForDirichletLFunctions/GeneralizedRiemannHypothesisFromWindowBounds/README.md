@@ -166,7 +166,7 @@ Over `ℚ`, for families of primitive Dirichlet characters, the transform of a f
 (0.5, 0.6) and the windowed theorem (2.1, 2.2) are statements of [FormalProof], there with the
 transform identified on `Re s > 2` and continued to `Re s > 0`, with the bound `C y²` for the
 remainders, and for `0 < θ < 1`. For a general number field `K`, and in the sharper forms stated
-here (the bound `C y`, the half-plane `Re s > 1`, meromorphy on `ℂ`), they are this roadmap's
+here (the integrability of the remainder for `σ > 1`, the half-plane `Re s > 1`, meromorphy on `ℂ`), they are this roadmap's
 extension: the same argument, applied to the pole structure of 0.6.
 
 ### 0.1 Weighted families
@@ -299,7 +299,9 @@ converges absolutely on `Re s > 2`. Moreover
 PositivityOfDirichletSeriesWithKernels §6.9(b) at `A = 1`.
 
 *Remark.* Sharper, there is `C′_w` with `|G_w(y)| ≤ C′_w y` for every `y ≥ 1`, by the route below. This sharper form is
-this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
+this roadmap's own: [FormalProof] states it only for the trivial character of `ℚ` (`Formalism/StatementU.lean`
+(`Formalism.GzLipschitz`), proved as `Formalism/ZetaNonvanishing/GzLipschitz.lean`
+(`Formalism.zetaPrimeSumErrorLipschitz`)), and nothing later uses it.
 
 Route: `rieszSum` is continuous on `ℝ` (RiemannHypothesisStatementsAndConsequences §8.4a(a)), and so
 are `y ↦ y log y`
@@ -310,7 +312,7 @@ RiemannHypothesisStatementsAndConsequences §8.4a(b),
 the Mellin-transform clause of RiemannHypothesisStatementsAndConsequences §8.4a(a) for the coefficients `‖a_ψ‖`, which
 are `LSeriesSummable` on `σ > 1` (`‖a_ψ(m)‖ ≤ [K:ℚ]Λ(m)`) and whose Riesz sum bounds that of `a_ψ`, and
 `∫_1^∞ (1 + log y)·y^{−σ} dy < ∞` for the other terms of `G_ψ`, multiples of `y` and of `y log y`. The remark: the sharper
-form `‖G_ψ(y)‖ ≤ C′_ψ y` of the size clause, by the explicit formula of ZerosOfLFunctions §8.6a, and the triangle
+form `‖G_ψ(y)‖ ≤ C′_ψ y` of the remark to the size clause, by the explicit formula of ZerosOfLFunctions §8.6a, and the triangle
 inequality with `C′_w = Σ_ψ w(ψ) C′_ψ`.
 
 *Needs:* 0.3; RiemannHypothesisStatementsAndConsequences §8.4a(a)–(b); ZerosOfLFunctions §8.6a;
@@ -1259,14 +1261,16 @@ nothing here uses them.
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family
 
-- §8.4a (a): `rieszSum`, its continuity.
+- §8.4a (a): `rieszSum`, its continuity, and its Mellin-transform clause (for coefficients with `LSeriesSummable a σ` at
+  every `σ > 1`, the function `y ↦ rieszSum a y · y^(−s−1)` is integrable on `(1, ∞)` for `Re s > 1`; for the
+  integrability of 0.4).
 - §8.4a (b): *PrimitiveRayClassCharacter.rieszRemainder* `ψ` and `PrimitiveDirichletCharacter.rieszRemainder`,
   their agreement over `ℚ`; the Euler–Kronecker constant *NumberField.eulerKroneckerConstant*; the
   conjugation
   `rieszRemainder ψ⁻¹ = conj (rieszRemainder ψ)`; the Mellin transform `Φ_ψ` on `Re s > 1`; `Φ_ψ`
   meromorphic on `ℂ`, analytic at `1`, with poles in `Re s > 0` exactly at the zeros of `L(·, ψ)`,
-  simple with residue `m_ρ/(ρ(1 − ρ))`; the size bound `‖rieszRemainder ψ y‖ ≤ C_ψ y²` for `y ≥ 1`, and its sharper
-  form `‖rieszRemainder ψ y‖ ≤ C_ψ y`.
+  simple with residue `m_ρ/(ρ(1 − ρ))`; the size bound `‖rieszRemainder ψ y‖ ≤ C_ψ y²` for `y ≥ 1`, and, for the
+  remark to 0.4, the sharper form of its remark, `‖rieszRemainder ψ y‖ ≤ C′_ψ y`.
 - §9.2: `ZeroFreeRightOf`, the limit form of monotonicity (zero-freeness right of `σ` equivalent to zero-freeness
   right of every `σ′ > σ`), the converse product clause.
 - §9.3: the `ζ` bridge
