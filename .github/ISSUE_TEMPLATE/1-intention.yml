@@ -110,6 +110,7 @@ body:
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
+        - ClassicalErgodicTheory
         - ClassicalSerreModularity
         - ClassifyingSpaces
         - ClusterAlgebras
@@ -527,8 +528,10 @@ body:
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsHypergeometric
+        - SpecialFunctionsLegendre
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
+        - SpecialFunctionsStruve
         - SpecialFunctionsTheta
         - SpectralGraphBounds
         - SpectralManifolds
