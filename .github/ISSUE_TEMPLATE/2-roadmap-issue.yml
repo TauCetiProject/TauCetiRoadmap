@@ -312,6 +312,7 @@ body:
         - KacMoody
         - KalmanFiltering
         - KatoEulerSystems
+        - KernelsAndSpectralMethods
         - KhovanovHomology
         - KleinianGroups
         - LFunctions
