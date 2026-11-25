@@ -375,9 +375,15 @@ an admissible one by `±(h(x, x) − h(y′, y′))` modulo `ϖ^{−2e}𝒪_E`, 
 `ϖ^{−f}𝒪_F` on `ϖ^{−f}𝒪_E`. The admissible corners then form a coset of `T ∩ ϖ^{−f}𝒪_E`, of index `q^f` over `T ∩ 𝒪_E`
 (a saturated rank-one `𝒪_F`-module, in every residue characteristic). *Sum over the radical.* With `e = a⁺ + ⌊j/2⌋`
 and `f = 2a⁺ + j`, `#{u : ℓ(mu) ≤ |a| + ℓ(g₀) + j} = q^{2ℓ(g₀)+2(n−1)a⁺}q^{2N⌊j/2⌋+j}`; Abel summation and
-`Σ_j q^{2N⌊j/2⌋+j}X^j = (1 + qX)/(1 − y²)` give the last formula. (b) is
-[FormalProof], `Development/AbelianVarietyTheory/Proofs/TwistedOperators/HasSumSpherical.lean`
-(`GlobalTheory.InertZeta.hasSum_spherical`).
+`Σ_j q^{2N⌊j/2⌋+j}X^j = (1 + qX)/(1 − y²)` give the last formula. (b) follows from
+[FormalProof]: for the Borel-spherical function `φ_α` it is
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/HasSumSpherical.lean`
+(`GlobalTheory.InertZeta.hasSum_spherical`), a theorem under eleven named statements of the namespace
+`GlobalTheory.InertZeta` (`FracExists`, `Pointwise`, `Count`, `SmallCorner`, `GenFun`, `CosetSurj`, `CosetInj`,
+`LeviExists`, `SphTrans`, `SmallRank`, `Step`: among them the cell lemma (d) and the Iwasawa decomposition used below),
+which are proved and supplied where it is applied,
+`Development/AbelianVarietyTheory/Proofs/TwistedOperators/UnramifiedDoublingIntegralInertPlace.lean`
+(`GlobalTheory.InertZeta.unramDoublingInert`); the passage to `ω_α` is made there.
 Induction on `r`; for `n ≤ 1`, `G_n = K_n` and both
 sides are `1`. For `n ≥ 2` fix a representative `g₀(z)` of every `z ∈ G_N/K_N`; then
 `(a, z, u) ↦ m(ϖ^a, g₀(z))uK_n` is a bijection `ℤ × G_N/K_N × R/(R ∩ K_n) → G_n/K_n` (the Iwasawa decomposition
@@ -587,7 +593,10 @@ characters go to their compositions with a local reciprocity map, depth-zero sup
 and their twists by characters to irreducible tame parameters with prescribed inertial characters and with determinant
 the central character, every other supercuspidal representation to an unramified twist of one fixed wildly ramified
 irreducible parameter, and the other representations by the segment rule; the laws checked are those listed at the end
-of 6.5, and the map is not injective, so it is not `rec`.
+of 6.5, injectivity among them only for the class of representations named there. By this construction the map is not
+injective (the other supercuspidal representations of one rank whose central characters have the same absolute value
+all go to one parameter), so it is not `rec`; this is a consequence of the construction, not a statement of the formal
+proof.
 
 This target extends SmoothRepresentationsOfLocalGroups §SR.5.2 *classical-llc-normalization*, where the classical correspondence
 `rec` is an owned input theorem, not a consequence of reconstruction. This owned input is the local Langlands

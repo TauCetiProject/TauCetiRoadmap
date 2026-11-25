@@ -83,7 +83,9 @@ number theorem in progressions with relative error and exceptional pair, valid f
 is applied to each class once, at `U`, the primes up to `√U` being bounded trivially. The main terms cancel because a
 unit `u ≡ 1 (mod m₀)` with `(u/s) = −1` permutes the classes, and the exceptional term survives only when the
 exceptional character equals `(·/s)` on the class of `1`, which by Page's theorem across moduli and the separation of
-(ii) happens with a zero near `1` for at most one `s`. The route below applies RieszSumsOverPrimesAndExceptionalZeros
+(ii) happens with a zero near `1` for at most one `s`. That prime number theorem, and the lower bound (α) of (iii′), use
+Siegel's bound `β ≤ 1 − c(ε) q^(−ε)` for the real zeros `β` of the real nonprincipal characters modulo `q`
+(RieszSumsOverPrimesAndExceptionalZeros, Scope and ownership). The route below applies RieszSumsOverPrimesAndExceptionalZeros
 §1.7b (ii), in Linnik's range, at `U` and at `√U`.
 
 **(i) Reciprocity on a residue class.** Let

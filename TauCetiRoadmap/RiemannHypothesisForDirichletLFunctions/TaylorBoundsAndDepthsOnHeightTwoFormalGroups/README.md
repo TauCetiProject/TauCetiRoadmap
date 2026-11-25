@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap is local theory at a prime `p`: bounds for the Taylor coefficients of power series built on formal groups of height two, and bounds for the depth of a weight at the points of a unitary PEL moduli problem. The first strand works with the Gauss norms of multivariate power series over a complete non-archimedean field of characteristic `0` at chosen radii; with *letters*, logarithmic coordinates indexed by `ℤ/n′` on a product of Lubin–Tate formal groups of height two; with Hermitian biextension cocycles `β` written in letters, their weights and, for the Lubin–Tate law of height two, their classification; and with a linear programme, the *flow programme*, that prices the monomials of `β` which a derivative can absorb. The second strand defines the *depth* of a weight at a framed point of a unitary PEL moduli problem, the least valuation of a jet, against the harmonic polynomials of that weight, of an integral series times the exponential of a multiple of the polarisation series of an integral chart, and bounds it through flags of characters of the formal group and, along Frobenius orbits, through an abstract *row datum* whose block depth is bounded by the flow programme.
 
-Write `γ_LT(p) = p/(p² − 1)` and `ρ_LT(p) = 1/(p² − 1)`. A function bounded on the Lubin–Tate formal group of height two has its `n`-th derivative at the origin divisible by `p^{γ_LT(p)n − O(log n)}`. The headline theorems are these.
+Write `γ_LT(p) = p/(p² − 1)` and `ρ_LT(p) = 1/(p² − 1)`. A function bounded on the Lubin–Tate formal group of height two has its `n`-th derivative at the origin divisible by `p^{γ_LT(p)n − O(log n)}`; this is published in a sharper form, with a loss of one power of `p` (Bannai and Kobayashi (2016)), and without loss for the functions whose sum over the translates by the `p`-torsion vanishes (Katz (1977, 1981)), and it is the case of (1) without cocycle in one variable (4.5). The headline theorems are these.
 
 (1) *Taylor bounds at weighted radii.* Let `p` be odd, `𝒦` a complete non-archimedean field of characteristic `0` with `|p| = p^{−1}`, `β` a series in the letters that satisfies the cocycle conditions below (coefficients in a discretely valued subfield, invariance under a torus of roots of unity, positive degree in the even and in the odd letters, and an integral exponential of its coboundary in logarithmic coordinates), `U` a series integral in the formal parameters, `g` the compositional inverse of the letter logarithms, `M` an integral matrix compatible with the letters, and radii `σ_i ≥ 0` and an order `κ` such that every bi-power monomial `y_i^{p^α}y_j^{p^{α′}}` of degree at most `κ` whose coefficient in `β_M` has valuation below `1/(p − 1) − ρ_LT(p^α + p^{α′})` satisfies `p^ασ_i + p^{α′}σ_j ≥ 1`. Then for every integer `a ≥ 1` bounding the entries of `κ`, `v_p(κ!·coeff_κ[U(g(My))·exp(±β_M(y))]) ≥ Σ_iκ_i(γ_LT − σ_i) − #ι·(log_p a + 1)`. For a single self-dual formal group the radii `1/(p + 1)` are admissible and the rate is `ρ_LT`, the true order for a CM elliptic curve at an inert prime.
 
@@ -59,7 +59,7 @@ The layer is local theory on formal groups: formal groups of height two, and pol
 
 *Formal groups of height two.* A function that is bounded on the Lubin–Tate formal group of height two (logarithm
 `Σ_e T^{p^{2e}}/p^e`) has its `n`-th derivative at the origin divisible by `p^{γ_LT(p)n − O(log n)}`, with
-`γ_LT(p) = p/(p² − 1) = 1/p + 1/p³ + ⋯`; a deformation of height two over a ramified base need not have this rate. In the logarithmic coordinates of
+`γ_LT(p) = p/(p² − 1) = 1/p + 1/p³ + ⋯`, a bound published in a sharper form (4.5, *Origin*); a deformation of height two over a ramified base need not have this rate. In the logarithmic coordinates of
 two dual isotropic formal groups, a series of the form (bounded series)`·exp(−β)`, `β` a Hermitian biextension cocycle, gains
 at the rate `γ_LT(p)` except for exactly one power of `p` for each bi-power monomial of `β` that a derivative can absorb.
 Two local engines bound that price: weights at radii chosen by a linear programme, the *flow programme* (4.3, 4.5–4.7), and
@@ -337,7 +337,16 @@ Lubin–Tate module of `+7` (LubinTateFormalModulesAndQuasiCanonicalLifts §4.4 
 
 *Origin:* particular to this proof: a bound for the Taylor coefficients of an integral series times the exponential of a
 biextension cocycle in the letters, at radii chosen variable by variable under the bi-power condition; for a single
-self-dual formal group it gives the rate `ρ_LT`, the true order for a CM elliptic curve at an inert prime (Check). The
+self-dual formal group it gives the rate `ρ_LT`, the true order for a CM elliptic curve at an inert prime (Check).
+Nearest published results, for the case without cocycle in one variable (`β = 0`, `σ = 0`, `n′ = 2`, one index), which
+they give in a sharper form: Katz (1977), section V, Corollary 2, announced there for one-parameter formal groups of height
+two over an absolutely unramified base, and Katz (1981), Main Theorem 3.11, its proof for the Lubin–Tate groups of height
+two that occur here: for an integral series `f` whose sum over the translates by the `p`-torsion vanishes,
+`v_p(n!·coeff_{z^n} f(g(z))) ≥ ⌊n·γ_LT⌋`, without loss; and Bannai and Kobayashi (2016), Propositions 3.5 and 5.3, the
+rate `γ_LT` with a loss of `1` for every integral series on the Lubin–Tate group of height two of the unramified
+quadratic extension of `ℚ_p`, against the loss `#ι·(log_p a + 1)` here. Particular to this proof are the factor
+`exp(±β_M)` of the cocycle, the several variables, and the radii `σ_i`, chosen under the bi-power condition, by which the
+rate `γ_LT` is lowered where the cocycle pairs the variables. The
 coefficient formula of the API paragraph for `lt(i) ≠ lt(j)`, with its remark on the Frobenius-twisted pairing modulo
 `p`, is this roadmap's own formulation.
 
@@ -1488,6 +1497,8 @@ programmes).
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J. Lubin and J. Tate, *Formal complex multiplication in local fields*, Ann. of Math. 81 (1965); T. Honda, *On the theory of
   commutative formal groups*, J. Math. Soc. Japan 22 (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.1–4.8c, 4.19.
+- N. M. Katz, *Formal groups and p-adic interpolation*, Astérisque 41–42 (1977), 55–65, section V, Corollary 2 (announced there without proof); N. M. Katz, *Divisibilities, congruences, and Cartier duality*, J. Fac. Sci. Univ. Tokyo Sect. IA Math. 28 (1981), 667–678, Main Theorem 3.11 (its proof for the Lubin–Tate groups of height two): the divisibility of the derivatives of an integral series with vanishing sum over the `p`-torsion translates, the case without cocycle in one variable of 4.5.
+- K. Bannai and S. Kobayashi, *Integral structures on p-adic Fourier theory*, Ann. Inst. Fourier 66 (2016), 521–550, Propositions 3.5 and 5.3: the same rate with a loss of `1` for every integral series on the Lubin–Tate group of height two of the unramified quadratic extension of `ℚ_p`, the case without cocycle in one variable of 4.5.
 - B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974): 4.19, 4.19a, 4.19e.
 - P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967): 4.19, 4.19e.
 - A. Cayley; A. Capelli (the identity `det(∂)det^{s+1} = ∏(s + 1 + c)det^s`): 4.19b.

@@ -1614,7 +1614,9 @@ Route: if some `λ_v` does not occur, every lift vanishes by 2.1. Conversely cho
 for definite unitary groups, with the local components of 2.4 and the weak base change of Labesse (2011); in the form of
 the formal proof, with a threshold `d₀` and local components prescribed at the split places only.
 
-*Method of the formal proof:* the squared norm of the lift is the absolutely convergent integral of matrix coefficients;
+*Method of the formal proof:* the squared norm of the lift is the absolutely convergent integral of matrix coefficients,
+by the doubling identity and the Siegel–Weil formula for the doubled pair with the definite `W` (the value at
+`s₀ = (d − n)/2` of the continued Siegel Eisenstein series);
 with bump vectors at a finite set `S` and lattice vectors outside it, the integral reduces to the integral, over the
 group at the places outside `S`, of the matrix coefficient of the lattice vectors against that of the form, and `S` is
 enlarged until the integral of the `d/2`-th power of the height over the non-integral elements is smaller than the

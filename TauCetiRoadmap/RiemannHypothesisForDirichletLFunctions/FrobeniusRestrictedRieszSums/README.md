@@ -1029,12 +1029,14 @@ real zeros in `(1 − c_ex, 1)` that (a) states.
   such bound, is the one [FormalProof] uses.
 
 *Sources:* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
-`Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`),
+`Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`, `UpperTheory.Top.ThinH`),
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
 (`Formalism.HC.HostRaw.ChebyshevCharacterBound`); the form at the thin scales:
 `Formalism/SharpRestriction/GlobalSchurBounds/ShortIntervalPrimes.lean`
-(`Formalism.MainNotions.ShortIntervalPrimes.Conclusion6`), from the three statements on zeros
-`Formalism/SharpRestriction/GlobalSchurBounds/MainSup.lean` (`Formalism.MainNotions.LitThin`)).
+(`Formalism.MainNotions.ShortIntervalPrimes.PropTwoSixThinScales`, for a family
+`Formalism.MainNotions.ShortIntervalPrimes.FamilyPropTwoSixCongruenceForm`), from the three statements on zeros by
+`Formalism/SharpRestriction/GlobalSchurBounds/MainSup.lean` (`Formalism.MainNotions.LitThin`,
+`Formalism.MainNotions.prop_two_six_congruence_family_of_literature`)).
 *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
 §1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a; AnalyticNumberTheoryPartI §0.34a.
 

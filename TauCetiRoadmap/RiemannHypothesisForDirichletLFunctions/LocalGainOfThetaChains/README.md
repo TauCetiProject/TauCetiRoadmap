@@ -190,8 +190,11 @@ The positions and the types: [FormalProof],
 *Origin:* particular to this proof: the host property (ii), the integrality at an inert prime, in Lubin–Tate
 coordinates along an orthonormal basis, of `exp(Σ_iφ(T_i))` times a `p`-integral combination of Fock translates of
 `Θ^{CM}_{L,L′}` by torsion points of order prime to `p`; the model (i) of the CM curve is classical and is cited with the
-route; nearest published result: Bannai and Kobayashi (2010), Corollary 2.16 in the numbering of arXiv:math/0610163v4,
-the integrality of the reduced theta function of one CM curve and of its torsion translates at ordinary primes.
+route; nearest published result: Bannai and Kobayashi (2010), in the numbering of arXiv:math/0610163v4: Corollary 2.16,
+the integrality of the reduced theta function of one CM curve and of its torsion translates at ordinary primes; and, at a
+supersingular prime, section 4, which computes for `y² = 4x³ − 4x` and `p = 7` that the two-variable Kronecker theta
+function in the formal parameters is not integral, and announces, without proof, that the theta function there has
+radius of convergence exactly `p^{−p/(p²−1)}`.
 
 *Method of the formal proof:* for one copy of the trace lattice, four copies of its Hermitian form are isometric to the
 standard form with index prime to `p`, so the fourth tensor power of its theta function is a product of one-variable
@@ -199,7 +202,8 @@ theta functions of the curve, whose normalised translates are integral; since `�
 exponential under unitary substitutions of the logarithmic coordinates, and a series whose fourth tensor power is
 integral is integral, the normalised theta function is integral, and tensor products with matrix units, weak
 approximation at the places above `p` and pull-back extend this to all pairs of lattices, orthonormal bases and torsion
-translates. The good model of (i) is derived from global Artin reciprocity.
+translates. The existence of the good model of (i) is derived from global Artin reciprocity; the second part of (i), on
+its formal group, is proved for every such model without it.
 
 Let `p ≥ 5` be inert in `K` and
 unramified in `E`, `𝔭 | p` a place of `𝕃`, `W` the ring of integers of the completion of the maximal unramified extension
@@ -252,8 +256,12 @@ from rank `2 × 2`) are not given here.
 Bannai–Kobayashi for one curve at ordinary primes). [FormalProof] states (ii), read in the parameter of a model of
 unit discriminant (its formal logarithm in place of `ℓ`), as `Formalism.L2.KerInert.IntInert`
 (`Formalism/LocalToGlobal/InertKernelTheory/StatementInt.lean`), proved as `Formalism.L2.KerInert.kernels_integral_inert` from the
-good model of (i) (`Formalism.L2.Th1.CM.CM2`), which it derives from global Artin reciprocity as
-`GlobalTheory.Corev.CmTwoClosing.cmGoodModel_of_globalArtinReciprocity`. *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2;
+two parts of (i): the existence of the good model (`Formalism.L2.Th1.CM.CM2`: invariants in `W` with unit discriminant),
+which it derives from global Artin reciprocity as
+`GlobalTheory.Corev.CmTwoClosing.cmGoodModel_of_globalArtinReciprocity`, and, for every such model at an inert `p ≥ 5`, a
+unit `c` of `W` for which `t` at `z = c·ℓ(T)` is an integral series (`Formalism.L2.Th1.CM.CM3`, in
+`Formalism/LocalToGlobal/TorsionIntegrality/CMGoodModels/Statement.lean`), which it proves without Artin reciprocity
+(`Formalism.L2.Th1.CM.cm3`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.6, ThetaChainsOnDefiniteUnitaryGroups §3.1a, ThetaChainsOnDefiniteUnitaryGroups §3.1c, ThetaChainsOnDefiniteUnitaryGroups §3.1d, ThetaChainsOnDefiniteUnitaryGroups §3.2;
 LubinTateFormalModulesAndQuasiCanonicalLifts §§4.3, 4.4 and HodgeTateLatticesAndLubinTateLogarithms §3.6;
 ComplexMultiplicationAndExplicitReciprocity §§4.3, 5.1; NonordinaryCMSpecialValues §§3.4, 3.5; AbelianSchemesAndArithmeticModuli §A1.5;
 ModularCurvesPartII §1.4a.

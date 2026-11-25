@@ -531,8 +531,11 @@ and (f) on the route below. In FormalProof (G) is `Formalism/LocalRingCardinalit
 `Formalism/SharpRestriction/Divisibility/SchurIrreducible.lean` (`Formalism.MainNotions.SchurIrreducible.ArchimedeanRallisFirst`
 to `Formalism.MainNotions.SchurIrreducible.ArchimedeanRallisFifth`), and they are proved in
 `Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ExistsRealDiscreteSeriesDataThetaProperties.lean`
-(`GlobalTheory.RealPlaceTheta.exists_record_theta_all`), from the two published inputs it assumes
-(`GlobalTheory.Published.DiscreteSeriesCover`, `GlobalTheory.Published.HarishChandraModules`).
+(`GlobalTheory.RealPlaceTheta.exists_record_theta_all`, which asserts them for some realisation of the covers with
+their Haar measures, of the Fock modules and of the discrete series of each parameter), from two published statements
+that it takes as hypotheses (`GlobalTheory.Published.DiscreteSeriesCover`, `GlobalTheory.Published.HarishChandraModules`)
+and that the formal proof proves (`CompanionTheory.RgExh.discreteSeriesCover`,
+`PositivityTheory.Stage1.PM.harishChandraModules`).
 The uniqueness of `Φ` in (d) follows from the formal proof,
 `Development/AbelianVarietyTheory/Proofs/TwistedOperators/FockModelJointHarmonicsFormNormalisationUniqueneStatement.lean`
 (`GlobalTheory.T.fockModel_jointHarmonics_form_normalisation_uniqueness`).
@@ -876,7 +879,12 @@ and `Θ′` are the theta quotients of 3.47, the coinvariants of the polynomial 
 endomorphisms (FormalProof, `Development/WeilBound/CoreStatements/GaussianSeminormBounds/RealSeminormFiltration/KRealAsmOne.lean`
 (`PositivityTheory.KRealA.onePlace`)), that is (iv) and the existence part of (ii); (i) beyond its last sentence (`La` occurs once and
 generates) and (iii) are this roadmap's own, and they and (v), adapted from the works named in *Origin*, are not on the
-path of the formal proof.
+path of the formal proof. The archimedean Howe duality for the trivial representation of the first member, of which the
+first assertion of (ii) is a case, is also a statement of the formal proof, for a pair over a CM extension and on the
+polynomial Fock space of all its real places together (FormalProof,
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/HoweDualityReal.lean`
+(`GlobalTheory.Published.HoweDualityReal`), proved as `GlobalTheory.howeDualityReal_holds`); the proof of
+`PositivityTheory.KRealA.onePlace` does not use it.
 
 The hypothesis is used as follows: `L_± > 0` (for (i)) is `−κ > |(P − Q) − (P′ − Q′)|`, and the Casimir gap below (for (ii)
 and (iv)) is `−κ > |(P − Q) + (P′ − Q′)|`; together they are the condition `−κ > |P − Q| + |P′ − Q′|` of the Remark, which
@@ -1359,9 +1367,18 @@ unitary dual pair over a CM extension `E/F`, `dim X = n ≤ dim W = d`, with spl
   subspace. In the comparison of the two theta integrals of a complementary datum these are used at the places split
   completely at which `ν` is unramified with `ν(ϖ) ≠ 1`, together with the statement that at `v₁` a regular vector lying
   in the coinvariant relations is a relation among regular vectors. The vanishing stratum by stratum, and (iv) for
-  every pair, are this roadmap's own, proved by the route below. In FormalProof the second assertion of (ii) and the
-  absence of invariant subspaces are `Development/WeilBound/CoreStatements/LocallyConstantCoinvariants/RightOnto.lean`
-  (`PositivityTheory.KCo.SurjSt`, `PositivityTheory.KCo.IrrSt`), and the relations among regular vectors are
+  every pair, are this roadmap's own, proved by the route below. In FormalProof the second assertion of (ii) is
+  `Development/WeilBound/CoreStatements/LocallyConstantCoinvariants/RightOnto.lean` (`PositivityTheory.KCo.SurjSt`),
+  and the absence of invariant subspaces, for nontrivial `ν`, is
+  `Development/AutomorphicSpectrum/Proofs/BlockDecomposition/KCoinvOfNarrow.lean`
+  (`GlobalTheory.CompanionTheory.KCoNarrow.IrrStNe`), derived there by
+  `GlobalTheory.CompanionTheory.KCoNarrow.irrSt_narrow` from the irreducibility of the induced representations
+  `χ₁∘det_a × χ₂∘det_b` of unitary characters with `(a, χ₁) ≠ (b, χ₂)`
+  (`GlobalTheory.CompanionTheory.KCoNarrow.Narrow`, supplied by
+  `PositivityTheory.BernsteinRamification.Close.narrowBern`); the statement without the condition `ν ≠ 1`
+  (`PositivityTheory.KCo.IrrSt`, in `RightOnto.lean`) is derived in FormalProof only from a published statement that
+  it takes as a hypothesis (`GlobalTheory.Published.BernsteinUnitaryProductIrreducible`), and its main theorems do not
+  depend on it. The relations among regular vectors are
   `Development/WeilBound/ThetaLifts/CartanFactorisation/CartanConj.lean` (`PositivityTheory.ThKF.SoCoinv`).
 - (iii) *Archimedean vanishing.* If `X` has signature `(r, s)` and `W^♭` signature `(r′, s′)` at every real place, the
   infinity type `m_{W,v}` of `χ_W` satisfies `|m_{W,v}| > d` at every real place `v`, and `min(r′, s′) < min(r, s)`, then

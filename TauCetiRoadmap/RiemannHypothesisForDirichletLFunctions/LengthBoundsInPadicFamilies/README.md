@@ -6,7 +6,7 @@ The headline theorems are these.
 
 1. For `Z ⊆ X`, the length `η_Z(M)` of the congruence module of `M` along `Z` satisfies `η_Z(M) ≤ Σ_{π∈Z} mult(π)·v(cc_Z(π))`, where `mult(π)` is the dimension of the `π`-eigenspace of `M ⊗ K` and `cc_Z(π) = {f(π) : f ∈ A, f = 0 on X ∖ Z}` is the relative congruence ideal. More generally, if `S ⊆ X` and for every `π ∈ S` an `O`-linear endomorphism `α_π` of `M` commuting with `A` kills the eigenspaces of the points outside `S` and acts on the `π`-eigenspace by a nonzero scalar `a_π`, then `η_S(M) ≤ Σ_{π∈S} mult(π)·v(a_π)`.
 2. Let `𝒜` be an `O`-algebra, `ψ_b : 𝒜 → M_{d_b}(O)` (`b` in a finite set `B`) surjective `O`-algebra homomorphisms and `Rel ⊆ 𝒜^g` a left `𝒜`-submodule. If an ideal `J ⊆ O` contains every coefficient of the generic determinant `∏_b det ψ_b(Σ_k X_kΘ_k)` for all tuples of arrays `Θ_k` with rows in `Rel`, then `length_O(O/J) ≤ Σ_b length_O Sol_b`, where `Sol_b ⊆ ((K/O)^{d_b})^g` is the module of solutions of the relations through `ψ_b`. When `Rel` is finitely generated and the residue field of `O` has more than `g·Σ_bd_b` elements, one array of relations suffices (1.8b (1′), the form of the formal proof; the generic form is this roadmap's).
-3. Let `O` be complete, `A` local, `G` a profinite group and `r_x : G → GL_n(O)` (`x ∈ X`) continuous representations whose determinants are the specialisations of a determinant `D : A[G] → A` of dimension `n`. Let `π ∈ X` be a point with `r_π ⊗ K ≅ ⊕_b ρ_b ⊗ K`, where the reductions of the `ρ_b : G → GL_{d_b}(O)` are absolutely irreducible and pairwise non-isomorphic and one block is a continuous character `χ`; let `Xs, Z ⊆ X` with `π ∈ Xs ∩ Z`, where `Z` contains every `x ∈ Xs` at which `χ` occurs in `r_x ⊗ K`, and put `c(π) = {f(π) : f ∈ A, f = 0 on Xs ∖ Z}`. If the cut cocycles of every block (cocycles of `G` with values in `ρ_b ⊗ χ^{−1} ⊗ K/O`, cut out by the family) satisfy local conditions `L_{b,v}` at closed subgroups `G_v`, then `length_O(O/c(π)) ≤ Σ_b length_O H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`, a sum of lengths of Selmer groups. The derivation of the hypotheses from `D` (1.8c (3)) and the bound over every residue field are this roadmap's; in [FormalProof] the residue field of `O` has more than `g·n` elements, `g` the number of generators of the module `Y_s` of 1.8c (1.8c, *The form of the formal proof*).
+3. Let `O` be complete, `A` local, `G` a profinite group and `r_x : G → GL_n(O)` (`x ∈ X`) continuous representations whose determinants are the specialisations of a determinant `D : A[G] → A` of dimension `n`. Let `π ∈ X` be a point with `r_π ⊗ K ≅ ⊕_b ρ_b ⊗ K`, where the reductions of the `ρ_b : G → GL_{d_b}(O)` are absolutely irreducible and pairwise non-isomorphic and one block is a continuous character `χ`; let `Xs, Z ⊆ X` with `π ∈ Xs ∩ Z`, where `Z` contains every `x ∈ Xs` at which `χ` occurs in `r_x ⊗ K`, and put `c(π) = {f(π) : f ∈ A, f = 0 on Xs ∖ Z}`. If the cut cocycles of every block (cocycles of `G` with values in `ρ_b ⊗ χ^{−1} ⊗ K/O`, cut out by the family) satisfy local conditions `L_{b,v}` at closed subgroups `G_v`, then `length_O(O/c(π)) ≤ Σ_b length_O H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)`, a sum of lengths of Selmer groups. The derivation of the hypotheses from `D` (1.8c (3)) and the bound over every residue field in general are this roadmap's; in [FormalProof] the residue field of `O` has more than `g·n` elements, `g` the number of generators of the module `Y_s` of 1.8c, except in the setting of 1.8e (one block with absolutely irreducible reduction and the characters `χ, χε^{−1}, χε^{−2}, …` for a character `ε`), where it proves the bound over every residue field by passing to a finite free extension of `O` with a large residue field (1.8c, *The form of the formal proof*).
 
 The roadmap extends [PadicFamilies](../../PadicFamilies/README.md), whose congruence module and congruence ideal of one augmentation are the case of a single point; PadicFamilies §1.7a states the congruence module of a commutative `O`-algebra, finite and free, along an idempotent of `A ⊗ K`, which is the case `M = A` of the congruence module of 1.7a. [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md) provides determinants, Amitsur's formula, Henselian lifting of matrix units and generalized matrix algebras, from which the hypotheses of the third headline are derived; [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) and [ProfiniteCohomology](../../ProfiniteCohomology/README.md) provide Selmer structures and explicit continuous cocycles; and the sub-roadmap [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) of the family [RiemannHypothesisForDirichletLFunctions](../README.md) provides the duality of local defects and the lifting exponents at the places above `p`. In the family, these bounds measure the congruence modules of theta lifts in [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md).
 
@@ -64,11 +64,12 @@ general finite `A`, with (1) and (2), is this roadmap's own formulation.
 the family bound (4′) is proved by induction on `S` for a finitely generated `O`-module stable under the `α_π`, one point `π`
 at a time: the image of the module modulo the eigenspaces of the other points is torsion-free of rank at most `mult(π)`, so
 its quotient by `a_π` has length at most `mult(π)·v(a_π)`, and the part inside the other eigenspaces is treated by the
-induction; this is the filtration of the route. [FormalProof] states (4) as well, for a local `A` and an integer `A_α`, and
-its last sentence for a local `A` (`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.StatCongBoundGood`,
-`Formalism.NG.StatCongBound`)), and proves both by the same induction
-(`Formalism/CharacterColumnKernels/IdempotentNormalForms/LengthQuotSmulRangeFree.lean` (`Formalism.NG.congBoundGood`,
-`Formalism.NG.congBound`)); for a general `A`, (4) is the case of (4′) given in the statement.
+induction; this is the filtration of the route. [FormalProof] states (4) as well, for a local `A` and an integer `A_α`
+(`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.StatCongBoundGood`)), and proves it by the same induction
+(`Formalism/CharacterColumnKernels/IdempotentNormalForms/LengthQuotSmulRangeFree.lean` (`Formalism.NG.congBoundGood`, from
+`Formalism.NG.QuotientPowerLengths.congMod_le`)); the last sentence of (4) is its case `Z′ = Z`, `α = 1`, `A_α = 1`.
+[FormalProof] also states and proves that last sentence separately (`Formalism.NG.StatCongBound`, `Formalism.NG.congBound`);
+its main theorems do not depend on these two. For a general `A`, (4) is the case of (4′) given in the statement.
 
 Let `O` be a discrete valuation ring with fraction field `K` and normalized valuation `v`, `A` a finite `O`-algebra (not
 necessarily commutative or reduced), `M` a finitely generated torsion-free `O`-module with an `O`-linear `A`-action,
@@ -286,8 +287,18 @@ every `m × m` array `Θ` over `𝒜`, the function `x ↦ det Θ(x)` lies in `A
 a finite cover as in (5). In place of (D) it assumes
 that, over `O`, `r_π` is block upper triangular for an ordering of the blocks, with every block map `ψ_b` to a diagonal block
 defined and surjective (`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.CharacterColumnGlobal`)); (D), a
-block sum, is the stronger hypothesis, and (E) refers to the `χ`-line of that sum. The statement for every
-residue field, through (P) with variables and 1.8b (1), is this roadmap's variant. (3) and (4) are this roadmap's. In place of
+block sum, is the stronger hypothesis, and (E) refers to the `χ`-line of that sum. In the setting of 1.8e, for a local
+`A` and with the idempotents `e_B`, `e₁` and an element `s` as in 1.8e (4) as hypotheses, it proves the bound of (1) over
+every residue field, for every finitely generated module in place of `Y_s` with a nonzero homomorphism to `K^n` at every
+point over `X ∖ Z`: it passes to a finite free extension of `O` that keeps the valuation of `O` and has a residue field
+with more than `g·n` elements, over which the lengths are the same
+(`Formalism/WachLatticeTwists/RamifiedBlockRings/LemmaFiveThreeAnyResidueField.lean`
+(`Formalism.RepresentationBoundsCohomology.ringDataObjects.LemmaFiveThreeAnyResidueField`), proved as
+`Formalism.RepresentationBoundsCohomology.ringDataObjects.lemma_five_three_any_residue_field` in
+`Formalism/WachLatticeTwists/RamifiedBlockRings/RamifiedBlockProofs/LemmaFiveThreeExtensionOfModule.lean`). This is the
+form that [FormalProof] applies to the Hecke algebras of the family
+(`Formalism/AdmissibleDesigns/NormalizedRingData.lean` (`Formalism.MainNotions.N.K.normalized_ring_data`)). The
+statement for every residue field in general, through (P) with variables and 1.8b (1), is this roadmap's variant. (3) and (4) are this roadmap's. In place of
 (3), [FormalProof] takes (P), (D) in that triangular form, (N), the idempotents `e_B`, `e₁` and the element of 1.8e (4) as hypotheses and uses no
 idempotent `E` cutting out the `χ`-line, its characters being congruent to one another at small primes; (3) is the classical
 unit case ([Ribet76], [BC09]). In place of (4) it has: if for every `m` and all `a_1, …, a_m ∈ 𝒜` the coefficients of

@@ -194,7 +194,9 @@ Chowla–Selberg); [FormalProof] treats `D > 4`, which contains every host of th
 `Development/AbelianVarietyTheory/Proofs/CubicalLineBundles/OneMulConjFracOneEqInvDifferent.lean`, has one curve for each `D ≥ 7`
 squarefree with `D ≡ 3 (mod 4)`: an elliptic curve with complex multiplication by `𝒪_K` over the ring of integers of a number field
 `M ⊂ ℂ`, with a basis `v` of its Lie algebra such that the mean over the embeddings of `M` of `log(π·H(v, v))` (`H` the Hermitian form of
-the principal polarisation) is `−log Ω_K` (`GlobalTheory.chowla_selberg_lie_lines`); `GlobalTheory.chowla_selberg_of_mean_log` derives
+the principal polarisation) is `−log Ω_K` (`GlobalTheory.chowla_selberg_lie_lines`, which takes the existence of the curve as a
+hypothesis; the existence is `GlobalTheory.T.exists_cmEllipticCurve_withPeriod`,
+`Development/AbelianVarietyTheory/Proofs/UniformizationProofs/ExistsCmEllipticCurveWithPeriodStatement.lean`); `GlobalTheory.chowla_selberg_of_mean_log` derives
 this value from (a) when that mean is minus the class mean of `Per`.
 *Needs:* ComplexMultiplicationAndExplicitReciprocityPartII
 §4.6 (the Faltings height of a CM elliptic curve); ArakelovGeometryAndAbelianHeights §2.9 (the Faltings height of an
@@ -937,7 +939,12 @@ HeightsForLogSingularMetrics §16.1; ArakelovGeometryAndAbelianHeights §§4.6�
 ### 8.15d Arithmetic proportionality for flag bundles: the structure theorem
 
 *Origin:* particular to this proof: arithmetic proportionality for the flag bundles of unitary Shimura varieties up to two
-constants, from antisymmetry under the compact Weyl group and vanishing on the non-compact walls.
+constants, from antisymmetry under the compact Weyl group and vanishing on the non-compact walls; nearest published
+result: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the metrised Hodge bundle on the
+integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of
+odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions. The statements here are for CM fields
+`E ≠ K`, unramified over `E⁺`, signatures `(p, q)` with `q > 1` allowed, principal level and every dominant weight on the
+flag bundles, and give proportionality up to two constants, not a formula; the two have no Shimura variety in common.
 
 *Method of the formal proof:* the summed limit numbers and `vol_tot·ĥ_Fl` are read as polynomials of degree `D + 1` in the
 weight; their difference is antisymmetric under the compact simple reflections and is `O(log B/B)` on a compact piece of
@@ -1033,7 +1040,10 @@ dominating both (8.15 (a)).
 
 *Origin:* particular to this proof: the two constants of arithmetic proportionality are bounded by testing on the flat
 line and on the Hodge line, with Zhang's theorem of successive minima and a mean bound for the first minimum of a
-Hermitian lattice over the arithmetic quotient.
+Hermitian lattice over the arithmetic quotient; nearest published result: Bruinier and Howard (arXiv:2105.11274),
+Theorem A (8.15d), in whose case the arithmetic volume per unit of complex volume is a sum of logarithmic derivatives of
+L-functions and the logarithm of the discriminant of the imaginary quadratic field, quantities of the kind that bound the
+two constants here.
 
 *Method of the formal proof:* the constants at a cut-off are the limits of the coefficients of 8.15d corrected by the
 change of cut-off, which converge because two test classes determine them through a triangular system;
@@ -1145,7 +1155,10 @@ HeightsForLogSingularMetrics §4.3b (b)); AdelicAlgebraicGroups §4.2 (finite co
 ### 8.17 The average arithmetic volume theorem
 
 *Origin:* particular to this proof: a lower bound, in the mean over the connected components, for the arithmetic volume of
-the automorphic line bundles on the flag bundles, with explicit dependence on the weight and on the field.
+the automorphic line bundles on the flag bundles, with explicit dependence on the weight and on the field; nearest
+published result: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the Hodge bundle for
+`GU(n − 1, 1)` over an imaginary quadratic field without level structure (8.15d), where the bound here is an inequality
+for every dominant weight, with `|Φ| ≥ 2`.
 
 *Method of the formal proof:* `ℓ_u^{D+1}` is decomposed along the power sums and the exact identity of 8.16 (d) at the
 cut-off `B` is applied term by term, with `ĥ_Fl ≥ 0` on dominant weights, the bound for the remainder, and
@@ -2635,8 +2648,8 @@ in particular the bound does not depend on `Q`, and at `l ∤ 𝔣·d_E` not on 
 `n(l) = 2sf·c(l) + |κ|·(2c(l) + 1 + [l = 2] + ½[l = D])` at the primes with `c(l) ≠ 0`:
 `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/VpBounds.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.ClassZetaValuationBounds.ToricDenominator`), derived there, from three named
-statements that it takes as hypotheses, by `GlobalTheory.T.toric_denominator_of_zeta_denominators`
-(`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricDenominatorOfZetaDenominatorsStatement.lean`); the smaller exponent above is this
+statements that it takes as hypotheses, by `GlobalTheory.ToricDenomRow.toricDenominator`
+(`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricDenominatorOfZetaDenominators.lean`); the smaller exponent above is this
 roadmap's, by the route. The uses (8.19d (iii)) need only that the exponent does not depend on `Q`.
 
 *Route.* (i): (0) *Reduction to one lattice.* Fix `l` and `Q` prime to `l`. Every class of `Pic(𝒪_𝔠)` contains an idele `y` with
@@ -2759,8 +2772,9 @@ of Hecke `L`-functions of CM fields: Shimura (1975) and Katz (1978) (algebraicit
 for Hecke characters of CM fields).
 
 *Method of the formal proof:* a twisted toric sum divided by the untwisted one, a nonzero Hecke `L`-value, is algebraic; a
-transport statement for single normalised lattice sums, resting on the main theorem of complex multiplication, applied to
-numerator and denominator cancels the periods and the factors depending on the idele and leaves the inverse of the
+transport statement for single normalised lattice sums (which takes as a hypothesis the transport of the Weierstrass data
+of `𝒪_K`, supplied by the main theorem of complex multiplication), applied to numerator and denominator, cancels the
+periods and the factors depending on the idele and leaves the inverse of the
 conjugated character at its class.
 
 Let `E` be a CM field, unramified over its maximal real subfield `F` at all finite places, containing an imaginary quadratic field `K = ℚ(√−D)` (`D > 0` arbitrary), with the CM type `Φ` induced from `K`; let `s`, `κ`, the base conductor `𝔣`, `Q`, `χ`, the class terms, the twisted toric sums and `ϖ_K` be defined as in 8.19b, with all `κ_τ ≥ 1` (that `E` is abelian over `ℚ`, that `D` is prime and that `2` is ramified in `E` is not asked here). Suppose `T(χ; 𝔣) ≠ 0`. Then for every character `ψ` of `Pic(𝒪_{𝔣Q})` the ratio `T(χψ; 𝔣Q)/T(χ; 𝔣)` is algebraic; for every automorphism
@@ -2785,9 +2799,13 @@ in general: `1/2` for one place with `Y = 1`, `N𝔮 = 2`, `s = 1`), whose entri
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsValueTiedOfIsToricElt.lean` (`GlobalTheory.ToricRational.RatioConj`), derived
 there from `GlobalTheory.IndefiniteRowSideFullHecke.ToricSymbols.ToricRatioConjugates` by
 `GlobalTheory.ToricRatioBridge.ratioConj_of_toricRatioConjugates`,
-`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RatioConjOfToricRatioConjugates.lean`. [FormalProof] states it for the
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RatioConjOfToricRatioConjugates.lean`. `RatioConj` is stated for the
 fields of its hosts only (`Formalism.BasicNotions.Host`, `Formalism/LocalRingCardinality/DataHost.lean`: `K = ℚ(√−d)` with `d` a
-prime `≡ 7 (mod 16)`, `E` abelian over `ℚ`); the form for every `E ⊃ K` above is this roadmap's own.
+prime `≡ 7 (mod 16)`, `E` abelian over `ℚ`); `ToricRatioConjugates`, in
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/ToricSymbols.lean`, is the form above for every `E ⊃ K`, with
+`T(χ; 𝔣) ≠ 0` among its conclusions rather than its hypotheses, and [FormalProof] proves it by
+`GlobalTheory.ToricTransport.toricRatioConjugates_of_transport` from the transport statement for twisted toric sums
+(`GlobalTheory.ToricTransport.TwistedTransport`).
 *Needs:* 8.19b (its steps (0)–(4)); ComplexMultiplicationAndExplicitReciprocity §2.2 (the normalized idele and torsion
 dictionary, the main theorem of complex multiplication in adelic form with the arithmetic Artin map, applied to the
 Weierstrass model `y² = 4x³ − g₂x − g₃` of `ℂ/𝒪_K`); the conjugation form of the `q`-expansion principle for families of
@@ -3177,3 +3195,4 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 - X. Yuan, *Positivity of Hodge bundles of abelian varieties over some function fields*, Compositio Math. 157 (2021), pp. 1964–2000; D. Yang, *Positivity of automorphic vector bundles on unitary Shimura varieties*, arXiv:2503.08119 (2025): 8.14a.
 - U. Angehrn and Y.-T. Siu (1995): 8.14, 8.18c; J. Kollár, *Singularities of pairs* (1997) (the two-point separation for klt pairs): 8.14, 8.18c; A. M. Nadel (1990); G. Kempf (descent of linearised bundles); R. Dedekind and G. Frobenius (group determinant): 8.14. M. Koecher, *Zur Theorie der Modulformen n-ten Grades* I, II (1954–1955): Koecher's principle, 8.11–8.19, 8.19a. Y. Kawamata; E. Viehweg: 8.18. L. Hörmander (1965); H. Skoda (1972): 8.18, 8.18a, 8.19a; G. Tian (1990): 8.18, 8.19a. H. Donnelly and C. Fefferman (1983): 8.18a. L. Moret-Bailly (key formula): 8.13, 8.16; M. Kneser (strong approximation): 8.16. G. W. Mackey (irreducibility criterion for induced representations): 8.18b.
 - G. Shimura; R. Damerell, *L-functions of elliptic curves with complex multiplication I*, Acta Arith. 17 (1970), pp. 287–301 (§2, Theorem 1, p. 290; §6, p. 300); E. Hecke: 8.19b–8.19d. C. L. Siegel; H. Klingen: 8.19b. R. Weissauer; S. Böcherer (the basis problem by the doubling method): 8.17a, 8.19a. R. Weissauer, *Stabile Modulformen und Eisensteinreihen*, Lecture Notes in Math. 1219 (1986); S. Böcherer, *On the basis problem for Siegel modular forms of squarefree level*, RIMS Kôkyûroku 1523 (2006), pp. 1–11: 8.17a. N. Katz, *p-adic L-functions for CM fields*, Invent. Math. 49 (1978), pp. 199–297: 8.19b, 8.19c. C. Goldstein and N. Schappacher, *Séries d'Eisenstein et fonctions L de courbes elliptiques à multiplication complexe*, J. reine angew. Math. 327 (1981), pp. 184–218; C. Goldstein, *Valeurs spéciales de fonctions L*, Séminaire de théorie des nombres de Grenoble 10 (1981–1982), exposé 4, pp. 1–14 (Proposition 1.8, Théorèmes 2.1, 2.2, Corollaires 2.5, 2.6); G. Shimura, *On some arithmetic properties of modular forms of one and several variables*, Ann. of Math. 102 (1975); D. Blasius, *On the critical values of Hecke L-series*, Ann. of Math. 124 (1986), pp. 23–63: 8.19c. Published relatives of 8.15–8.17: K. Köhler; J. Burgos Gil, J. Kramer and U. Kühn; P. Hörmann; J. Bruinier, B. Howard, S. Kudla, M. Rapoport and T. Yang.
+- J. H. Bruinier and B. Howard, *Arithmetic volumes of unitary Shimura varieties*, arXiv:2105.11274 (theorem numbers of version 3), Theorem A (Theorem 8.6.1): the exact arithmetic volume of the metrised Hodge bundle on the integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions; a nearest published result for 8.15d, 8.16 and 8.17.

@@ -436,7 +436,7 @@ and every irreducible constituent is induced from a tame character of an unramif
 matching of the weak base change at split places is EndoscopicTransferAndUnitaryTraceComparison §6.29. The explicit
 inertial type in terms of labels (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2) is not used here; 7.9 uses it. The first half of (4): `Π` is unramified at every place above `ℓ`, because `ℓ`
 is not a type prime, the auxiliary prime of `ℓ` is not `ℓ`, and `Q(ψ_𝔭)` has no place above `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.5), so §16.1 gives the crystalline representation with the labelled weights. (5) is the weight
-symmetry (BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.2). (6) is the Jacquet–Shalika bound for unitary generic local components (AutomorphicLFunctionsAndLocalFactors
+symmetry (BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.2). (6) is the Jacquet–Shalika bound for unitary generic unramified local components (AutomorphicLFunctionsAndLocalFactors
 AL.3.3.8), which replaces every use of purity. (7) At a split type place `U(V_j)(F_v) ≅ GL_{r+t}(ℚ_{g_v})` and
 `BC(Π)_w = Π_v` (EndoscopicTransferAndUnitaryTraceComparison §6.29); `Π_v` has a vector of the level of ThetaChainsOnDefiniteUnitaryGroups §2.9a (upper left
 block `≡ 1` modulo `g_v`, the character `χ_{v,j}^{−1}(det of the t-block)`) on which the upper left block acts in the series

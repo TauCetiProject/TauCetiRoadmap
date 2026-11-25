@@ -227,7 +227,9 @@ representations: compatibility with twists by characters
 and with contragredients, property 3 (`det r_n(π) = r_1(ω_π)`), injectivity, tameness of `r_n(π)` when `π` has depth
 zero, and, for `F = ℚ_p`, `r_n(π_θ̃)|_{I_F} ≅ ⊕_{0≤j<n} θ^{p^j}∘t_n` (`t_n` as in 10.34). The form that the family uses is
 [FormalProof], `Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean`
-(`UpperTheory.Zero.LLC.RecTExists`), with
+(`UpperTheory.Zero.LLC.RecTExists`), stated for `F = E_w` the completion of a number field `E` at a finite place `w`,
+the Weil group of `E_w` being taken inside `Gal(Ω/E)` for an algebraic closure `Ω` of `E` and a valuation ring of `Ω`
+above `w`, with
 `Development/AbelianVarietyTheory/PublishedTheorems/AutomorphicForms₂/HasExponentZeroIff.lean`
 (`GlobalTheory.LocLanglands.IsLocalArtin`).
 
@@ -945,6 +947,12 @@ irreducibility premise for `n ≥ 2` is proved by ModularityAndLanglandsExtensio
 [FormalProof], `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean`
 (`UpperTheory.GalStar.Row0b`), with
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/WeightsConj.lean` (`UpperTheory.GalS.PairUAlt`).
+That form does not have the display at every `w ∤ ℓ`. It compares `WD(r_{ℓ,ι}(π)|_{G_{E_w}})` with the image `y` of
+`π_w ⊗ |det|^{(1−n)/2}` under a map with the laws of 10.29a, and asserts at every `w ∤ ℓ` that the dimensions agree, the
+isomorphism when `y` is trivial on the commutators of the Weil group and has `N = 0`, and, when `E_w ≅ ℚ_p` and `y` is
+tame with `N = 0` and satisfies a condition on the multiplicities of its eigenvalues on tame inertia, `N = 0` and the
+characteristic polynomials on inertia. The comparison of the display, with the monodromy, at every `w ∤ ℓ` is also stated
+in [FormalProof] (`GlobalTheory.Published.GaloisRepOfPolarizedPair`); its main theorems do not depend on it.
 In that form the clauses for tame parameters at places `E_w ≅ ℚ_p` (14.2, 15.1) are stated for `n = 1` or `p > 16n²`;
 [FormalProof] also has them without that bound.
 
@@ -999,10 +1007,11 @@ zero up to twist (FiniteReductiveGroups §6.4) with supercuspidal support
 `{χ_i ⊗ π_{θ̃_i}}` (`θ_i` of degree `n_i` on `k_{w,n_i}^×`) whose members are pairwise unlinked:
 `N(r|_{G_{E_w}}) = 0` and `r|_{I_w} ≅ ⊕_i ⊕_{j<n_i} ι⁻¹∘((χ_i∘Art_{E_w}⁻¹|_{I_w}) · (θ_i^{q^j}∘t_{n_i}))`, the field
 isomorphism `ι⁻¹` applied to the whole complex-valued character of `I_w` (the characters `θ_i` take complex values).
-[FormalProof] has the case in which `π_w` has depth zero and either its supercuspidal support consists of pairwise
-unlinked characters, or `E_w ≅ ℚ_p` and the members of rank at least two of the support are pairwise not unramified twists
-of one another; it states the conclusion as `N = 0` together with the characteristic polynomial of every element of
-inertia. The form that the family uses is [FormalProof],
+[FormalProof] has the case in which `π_w` has depth zero, the image of `π_w ⊗ |det|^{(1−n)/2}` under a map with the laws
+of 10.29a has `N = 0`, and either its supercuspidal support consists of pairwise unlinked characters, or `E_w ≅ ℚ_p` and
+the members of rank at least two of the support are pairwise not unramified twists of one another (in this second case
+the support is not assumed pairwise unlinked); it states the conclusion as `N = 0` together with the characteristic
+polynomial of every element of inertia. The form that the family uses is [FormalProof],
 `Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/SphericalGaloisCompatibility/PAdicSplitting/LocalGlobalCompatAtIwahoriFixedPlaces.lean`
 (`UpperTheory.Gal.ToralGalois.R2.LocalGlobalCompatAtIwahoriFixedPlaces`), with
 `Development/AbelianVarietyTheory/Definitions/GaloisGeometry/CyclicStrongAtCusp.lean` (`GlobalTheory.RoadU.PlainTor`).

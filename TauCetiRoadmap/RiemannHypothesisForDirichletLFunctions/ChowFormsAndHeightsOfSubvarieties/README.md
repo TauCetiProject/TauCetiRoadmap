@@ -166,10 +166,15 @@ alternative to that of [FormalProof], which the `*Method of the formal proof:*` 
 p. 369) remarks that the identity also follows from Philippon's Théorème 2, the archimedean statement (iii); the
 recursion written here gives such a deduction. Soulé's Théorème 3 and the comparison theorem of Bost, Gillet and Soulé
 are published sources of the identity (References). The form that the family uses follows from [FormalProof],
-`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
-(`GlobalTheory.Published.FubiniStudyChowHeight`), with `Development/AbelianVarietyTheory/Definitions/Divisors/PointHeight.lean`
+`Development/WeilBound/CoreStatements/HomogeneousNonvanishing/VuSelfKnownTheorem.lean`
+(`PositivityTheory.UnitarySelfGeneration.ChowFormHeight`, proved as `ChowFormHeightComparison₂.chow_form_height_bound`), the
+form that its main theorems apply, stated for an integral subvariety with an irreducible Chow form, for the lattice spanned
+by finitely many vectors of `K^{n+1}` and Hermitian norms at the complex places, with `Development/AbelianVarietyTheory/Definitions/Divisors/PointHeight.lean`
 (`GlobalTheory.ChowHt.formHeight`) and `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
-(`GroundTheory.Heights₂.Heights.ChowHeightMul.Statement`). Of the local statements, (i) is [FormalProof],
+(`GroundTheory.Heights₂.Heights.ChowHeightMul.Statement`). [FormalProof] also states and proves the identity for an
+integral closed subscheme of `ℙ^n_{O_K}` with the standard lattice,
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
+(`GlobalTheory.Published.FubiniStudyChowHeight`), a form that no step of its main theorems applies. Of the local statements, (i) is [FormalProof],
 `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
 (`GroundTheory.Heights₂.Heights.ChowFormSection.Statement`); (ii) follows from [FormalProof],
 `GroundTheory/HeightsAndTheta/Heights/ArithmeticBezout/Statements.lean`
@@ -418,10 +423,13 @@ the identity is 6.1. For `Z ≠ 0`, divided by `(d + 1)·deg Z`:
 `projectiveCycleHeight_J̄(Z)/((d + 1)·deg Z) = ht_J̄(F_Z)/((d + 1)·deg Z) + ½·Σ_{k=1}^{N−1} 1/k`. For a free `M_J` with
 an `O_K`-basis this is the comparison of the height with the Chow form in the coordinates of that basis and with arbitrary
 Hermitian metrics, which is the form the family uses ([FormalProof],
-`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
-(`GlobalTheory.Published.FubiniStudyChowHeight`), with `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/GenIdeal.lean`
+`Development/WeilBound/CoreStatements/HomogeneousNonvanishing/VuSelfKnownTheorem.lean`
+(`PositivityTheory.UnitarySelfGeneration.ChowFormHeight`), the form that its main theorems apply, for an integral `Z` with
+an irreducible Chow form and the lattice spanned by finitely many vectors of `K^N`, with `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/GenIdeal.lean`
 (`ChowFormHeightComparison₂.CF.StMain`) and `Development/WeilBound/CoreStatements/MinimalPrimeDimensions/FormHeightOneEq.lean`
-(`ChowFormHeightComparison₂.CF.D.formHeight_one_eq`)); the case of a lattice that is not free is reduced to it by a finite
+(`ChowFormHeightComparison₂.CF.D.formHeight_one_eq`); for `M_J = O_K^N` it also states
+`Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/FubiniStudyChowHeight.lean`
+(`GlobalTheory.Published.FubiniStudyChowHeight`), which no step of its main theorems applies); the case of a lattice that is not free is reduced to it by a finite
 extension ((a3)).
 
 *Route.* (a1)–(a6) and (b) are proved here, by these routes; (a7), with the value and the bound of the height of

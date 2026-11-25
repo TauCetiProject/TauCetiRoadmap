@@ -399,9 +399,9 @@ For nonzero bundles and a nonzero `φ : E_K → F_K` with image `W`, `μ̂_min(F
 
 ### 2.4 Bost's slope inequality
 
-*Origin:* published: Bost (2001), Proposition 4.5, Gaudron (2008), Lemme 6.4, Bost (1996), Proposition 4.3, and Chen (2010), §9, p. 37, Bost's slope inequality (a)–(d), with heights at all places, and the bound of the height by the finite-place twist; (e) is this roadmap's own formulation.
+*Origin:* published: Bost (2001), Proposition 4.5, Gaudron (2008), Lemme 6.4, Bost (1996), Proposition 4.3, and Chen (2010), §9, p. 37, Bost's slope inequality (a)–(d), with heights at all places, and the bound of the height by the finite-place twist; (e) is particular to this proof.
 
-*Method of the formal proof:* only the forms recorded below, for a totally complex `K` and `φ(E) ⊂ F`, with `h_∞(φ)` in place of `h(φ)`: (a) and, for injective `φ`, the first form of (b). (a) follows from the image form, since the minimal slope of the image is at most its slope, which is at most the maximal slope of the target; for an injective map the degree inequality of 1.4 is applied to every sublattice of the source and its image, which has the same rank, and the characterisation of the maximal slope by all sublattices gives (b); over `O_K` the constant is the mean over the infinite places of the logarithms of the operator norms, reached by the rescaling of 2.3. The route written here restricts the map to the maximal destabilising sub-bundle for (b) and carries the height at all places, with no rescaling.
+*Method of the formal proof:* only the forms recorded below: for a totally complex `K` and `φ(E) ⊂ F`, with `h_∞(φ)` in place of `h(φ)`, (a), (e) and, for injective `φ`, the first form of (b), this last also with the finite-place bound for `φ(E) ⊂ (∏_𝔭 𝔭^(−a_𝔭))·F`; and, over every number field, the first form of (b) for injective `φ` with `φ(E) ⊂ F`, with `max_σ log‖φ‖_σ` in place of `h(φ)`. (a) follows from the image form, since the minimal slope of the image is at most its slope, which is at most the maximal slope of the target; for an injective map the degree inequality of 1.4 is applied to every sublattice of the source and its image, which has the same rank, and the characterisation of the maximal slope by all sublattices gives (b); over `O_K` the constant is the mean over the infinite places of the logarithms of the operator norms, reached by the rescaling of 2.3. (e) combines the degree inequality of 1.4 for `φ` onto the image lattice `φ(E)` with the bound `deĝ_n(F̄) − deĝ_n(φ(E)) ≥ (rk F − rk E)·μ̂_min(F̄)` that the characterisation of the minimal slope by all sublattices gives; the finite-place bound applies (b) to the ideal multiple of `F` that contains `φ(E)`, whose maximal slope exceeds that of `F̄` by `(1/d)·Σ_𝔭 a_𝔭·log N𝔭`. The route written here restricts the map to the maximal destabilising sub-bundle for (b) and carries the height at all places, with no rescaling.
 
 *Corollary of:* ArakelovGeometryAndAbelianHeights §1A.5 (Bost's slope inequality with heights at all places, and the finite-place bound), for (a)–(d) and the finite-place bound; (e) is not covered (§1A.5 (e) is the image form, 2.3 here).
 
@@ -418,7 +418,13 @@ Let `Ē, F̄` be nonzero and `φ : E_K → F_K` a nonzero `K`-linear map.
 [FormalProof], `Formalism/HarderNarasimhan/StatementPl.lean` (`Formalism.HN.SlopeIneqMean`), states for totally complex `K`, with
 `h_∞(φ)` in place of `h(φ)` (there slopes and heights are `2μ̂` and `2h_∞`, which changes no statement, Conventions), the form of
 2.3 in which the image lattice `φ(E)`, with the metrics of `F_K`, has minimal slope at least `μ̂_min(Ē) − h_∞(φ)`, and (a) and,
-for injective `φ`, the first form of (b) for every `F̄` with `φ(E) ⊂ F`.
+for injective `φ`, the first form of (b) for every `F̄` with `φ(E) ⊂ F`. In the same setting it states (e) (`Formalism/MeanHeightDescent/MuMaxMinkowski.lean` (`Formalism.ExtensionFiltration.DescentSlope`)) and, for injective `φ` with
+`φ(E) ⊂ (∏_{𝔭∈T} 𝔭^(−a_𝔭))·F`, `T` finite and the `a_𝔭` integers of either sign, the first form of (b) with
+`h_∞(φ) + (1/d)·Σ_{𝔭∈T} a_𝔭·log N𝔭` in place of `h(φ)` (`Formalism/LocalToGlobal/ExponentGrids/ScaledCoordinatesValuationLemma.lean`
+(`Formalism.AtG.SlopeInequalityDenominators`)). Over every number field it states, for an injective `O_K`-linear map
+`φ : E → F` with `‖φ(x)‖_σ² ≤ c·‖x‖_σ²` at every `σ`, the first form of (b) with `½·log c` in place of `h(φ)`
+(`Development/AutomorphicSpectrum/Proofs/MetricProofs/NormalizedDegreeBoundedMapStatement.lean`
+(`GlobalTheory.T.normalized_degree_bounded_map`)).
 
 Because `h(φ)` contains the finite places, a map with `φ(E_𝔭) ⊂ 𝔭^(−a_𝔭)·F_𝔭` at every `𝔭` (`a_𝔭 ≥ 0`, almost all zero) has `h(φ) ≤ (1/d)·(Σ_σ log‖φ‖_σ + Σ_𝔭 a_𝔭·log N𝔭)`, and (a)–(e) hold with this bound in place of `h(φ)`.
 
@@ -512,7 +518,7 @@ For a nonzero `Ē` and `θ ∈ ℝ` there is a largest subspace `E_{≥θ} ⊂ E
 
 *Origin:* published: Stuhler (1976), Grayson (1984), Bost (1996), Proposition A.1, and Gaudron (2008), Proposition 5.13, the existence and uniqueness of the Harder–Narasimhan filtration of a Hermitian vector bundle, with its first and last slopes.
 
-*Method of the formal proof:* the flag is formed from the values of `θ` at which the step `E_{≥θ}` jumps, finitely many because the rank increases at each jump; the extremal properties of the steps make each subquotient semistable of slope equal to the jump, and the ranks and slopes of the flag are unique because the set of jumps is. The route written here proves the uniqueness of the flag itself, by induction with the extension bounds of 2.2.
+*Method of the formal proof:* for a general bundle [FormalProof] states the steps, the slopes and the polygon (3.1, 3.3) and no flag; it states the flag only for the Hermitian lattices `x_f·L` with the metrics `x_∞` attached to the adelic points `x` of the unitary group of a nondegenerate Hermitian form over a CM field with a self-dual lattice `L`, and only up to the step of normalised size below `½`, the normalised size being a decreasing function of the slope. There the flag is formed from the values of `θ` at which the step `E_{≥θ}` jumps, finitely many because the rank increases at each jump; the extremal properties of the steps make each subquotient semistable of slope equal to the jump, and the ranks and slopes of the flag are unique because the set of jumps is. The route written here proves the uniqueness of the flag itself, by induction with the extension bounds of 2.2.
 
 *Corollary of:* ArakelovGeometryAndAbelianHeights §1B.2 (existence and uniqueness of the Harder–Narasimhan filtration, its members the distinct steps).
 

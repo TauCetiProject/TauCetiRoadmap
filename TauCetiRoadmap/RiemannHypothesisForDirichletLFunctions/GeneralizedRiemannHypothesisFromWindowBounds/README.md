@@ -36,7 +36,9 @@ The headline theorems, besides the Riemann hypothesis itself, are these.
 - *The windowed Landau theorem for families.* Let `0 < θ < 1` and `λ > 1`. If there are
   arbitrarily large `Y` such that `G_w(y) ≤ y^θ` for every `y ∈ [Y, Y^λ]`, then no `L(s, ψ)` with
   `w(ψ) > 0` vanishes in `Re s > θ`. The bound is one-sided and is required only on windows of
-  scales arbitrarily far out, never for all large `y`.
+  scales arbitrarily far out, never for all large `y`. This follows by a short argument from a theorem
+  of Kaczorowski and Pintz (1986) on sign changes in every interval `[Y^{1−ε}, Y]` with `Y` large
+  (2.1); the formal proof proves it directly.
 - *Window bounds are the generalized Riemann hypothesis.* For a weighted family over any number
   field and `σ ∈ [1/2, 1)`: every `L(s, ψ)` with `w(ψ) > 0` is zero-free in `Re s > σ` if and only
   if for every `ε > 0` the window bound of the previous item holds at `θ = σ + ε` for some
@@ -143,8 +145,9 @@ them in that generality.
 
 **Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
 `*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 0.1–0.3 carry the
-first label only. The statements of 1.1–1.3, 2.4, 2.5 and 3.2 are not
-statements of [FormalProof]: 1.1–1.3 apply published theorems, cited with each, to the objects of
+first label only. The statements of 1.3, 2.4, 2.5 and 3.2 are not
+statements of [FormalProof], and of 1.1 and 1.2 it states only the zero-free conclusions in the cases
+named in their labels, on which its main theorems do not depend: 1.1–1.3 apply published theorems, cited with each, to the objects of
 this roadmap; 3.2 adapts a published bound for `ψ(x) − x` to the Riesz remainder; 2.4, 2.5, the
 number-field form of 1.3 and the form of 2.3 over a number field are this roadmap's own
 formulations.
@@ -301,7 +304,7 @@ PositivityOfDirichletSeriesWithKernels §6.9(b) at `A = 1`.
 *Remark.* Sharper, there is `C′_w` with `|G_w(y)| ≤ C′_w y` for every `y ≥ 1`, by the route below. This sharper form is
 this roadmap's own: [FormalProof] states it only for the trivial character of `ℚ` (`Formalism/StatementU.lean`
 (`Formalism.GzLipschitz`), proved as `Formalism/ZetaNonvanishing/GzLipschitz.lean`
-(`Formalism.zetaPrimeSumErrorLipschitz`)), and nothing later uses it.
+(`Formalism.zetaPrimeSumErrorLipschitz`)), and no later section of this roadmap uses it.
 
 Route: `rieszSum` is continuous on `ℝ` (RiemannHypothesisStatementsAndConsequences §8.4a(a)), and so
 are `y ↦ y log y`
@@ -377,10 +380,14 @@ coefficients do not cancel, and the nonvanishing on `Re s ≥ 1` puts the poles 
 `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞`, whose zero sum has the coefficients `m_ρ/(ρ(1 − ρ))`).
 
 Let `w` be a weighted family and let `Z(w)` be the set of `ρ` with `Re ρ > 0` such that
-`L(·, ψ)` has positive order at `ρ` or at `ρ̄` for some member `ψ`. Over `ℚ` the statements below follow from
+`L(·, ψ)` has positive order at `ρ` or at `ρ̄` for some member `ψ`. Over `ℚ` the statements below, except the
+formula for the residue, follow from
 [FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean`
 (`Deduction.poleData`, `Deduction.poleData_char`), with `Z(w)` the set
-`Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean` (`Deduction.zeroSet`).
+`Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean` (`Deduction.zeroSet`). Of the
+residue, these state for one character the coefficient `m/(ρ(1 − ρ))` with an integer `m ≥ 0` that is `0` exactly
+when `L(ρ, ψ) ≠ 0`, not that `m` is the order, and for the family only that the residue is nonzero, and real and
+positive at a real pole.
 
 - In `Re s > 0` the poles of `Φ_w` are exactly the points of `Z(w)`. Every pole is simple, with
   residue `S_w(ρ)/(ρ(1 − ρ))`, where
@@ -438,7 +445,8 @@ special cases of Layer 2, where the bound is needed only on windows; their conve
 are not. 1.1 and 1.2 are corollaries of Landau's theorem for Laplace integrals of functions of one
 sign, ArithmeticDirichletSeriesPartII §0.1b, for the remainders of Layer 0, and 1.3 applies it to
 `ψ_K(x) − x`; all three take it in its one-sided form, PositivityOfDirichletSeriesWithKernels §6.4.
-None of them is a statement of [FormalProof].
+Of them, [FormalProof] states only the zero-free conclusions of 1.1 and 1.2, over `ℚ` and for `0 < θ < 1`, in the
+cases named in their labels, and its main theorems do not depend on these statements.
 
 ### 1.1 Upper bounds for the remainder
 
@@ -446,7 +454,17 @@ None of them is a statement of [FormalProof].
 sign (ArithmeticDirichletSeriesPartII §0.1b), applied to the remainder of a weighted family under an
 upper bound.
 
-*Method of the formal proof:* none; the statement is not in [FormalProof].
+*Method of the formal proof:* its main theorems do not depend on this statement. Over `ℚ` and for
+`0 < θ < 1`, [FormalProof] states, and proves from Landau's theorem in the variable `x = e^u`
+(PositivityOfDirichletSeriesWithKernels §6.3), the zero-free conclusion for a family of primitive Dirichlet characters closed under
+inversion, with the trivial character as a member and positive integer weights
+(`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Landau.lean`
+(`Formalism.HC.Landau.landau_family`)), for the families with the weights of 4.2 and `C = 1`
+(`Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
+(`Formalism.HC.Level.ChebyshevGrowthImpliesZeroFree`), proved as `Formalism.HC.Landau.zero_free_of_Chebyshev_growth`
+in `Landau.lean`), and for `w = single 1 1` (`Formalism/StatementU.lean` (`Formalism.ZetaLandau`), proved as
+`Formalism/ZetaNonvanishing/ZetaLandau.lean` (`Formalism.zetaLandau`)); it does not state the convergence
+conclusion.
 
 Let `w` be a weighted family of characters of `K`,
 `0 ≤ θ < 1` and `C`, `y₀` real. If `G_w(y) ≤ C y^θ` for every `y ≥ y₀`, then every member `ψ`
@@ -477,7 +495,12 @@ PositivityOfDirichletSeriesWithKernels §6.4; RiemannHypothesisStatementsAndCons
 sign (ArithmeticDirichletSeriesPartII §0.1b), applied to the remainder of a weighted family under a
 lower bound and, through the negativity of `ζ` on `(0, 1)`, to `ζ_K` and `ζ`.
 
-*Method of the formal proof:* none; the statement is not in [FormalProof].
+*Method of the formal proof:* its main theorems do not depend on this statement. [FormalProof] states its last
+clause for `0 < θ < 1`: for `K = ℚ` and `w = single 1 1`, a lower bound alone gives
+`ZeroFreeRightOf θ riemannZeta` (`Formalism/StatementU.lean` (`Formalism.ZetaLandau`), which takes either sign,
+proved as `Formalism/ZetaNonvanishing/ZetaLandau.lean` (`Formalism.zetaLandau`), from Landau's theorem in the variable
+`x = e^u`, PositivityOfDirichletSeriesWithKernels §6.3); it does not state the alternative for families or the
+convergence.
 
 Let `w` be a weighted family of
 characters of `K`, `0 ≤ θ < 1` and `C`, `y₀` real. If `G_w(y) ≥ −C y^θ` for every `y ≥ y₀`, then
@@ -595,10 +618,14 @@ consequences, not statements of [FormalProof].
 
 ### 2.1 Pointwise windows
 
-*Origin:* adapted from Landau's theorem: the one-sided bound is required only on windows `[Y, Y^λ]`
-with `Y` arbitrarily large, for a family with positive weights; the window form is that of
-PositivityOfDirichletSeriesWithKernels §6.8; nearest published results: Pintz (1980) and
-Kaczorowski (1984), window theorems for the remainder terms of the prime number theorem.
+*Origin:* adapted from Kaczorowski and Pintz (1986), Theorem 1 and Corollary 1, a sign change in every interval
+`[Y^{1−ε}, Y]` with `Y` large for a real function whose Mellin transform is meromorphic a little to the left of the
+boundary of its half-plane of regularity and regular at the real point of that boundary: the one-sided bound is required
+only on windows `[Y, Y^λ]` with `Y` arbitrarily large, for a family with positive weights, and the statement follows from
+their theorem applied to `G_w − C y^θ` by the short argument of PositivityOfDirichletSeriesWithKernels §6.8, in which the
+positive residues at the real zeros (0.6) take the place of regularity at a real zero on the boundary line; the window
+form is that of PositivityOfDirichletSeriesWithKernels §6.8. Particular to this proof are its direct proof (method label)
+and the window bounds to which it is applied, proved in ThetaChainsAndFrobeniusPrimeSums §10.11.
 
 *Method of the formal proof:* in the variable `u = log y` the remainder has a Laplace transform
 with simple poles at the zeros; for a suitable `σ > 2` and `k` proportional to the logarithm of the
@@ -635,10 +662,10 @@ RiemannHypothesisStatementsAndConsequences §9.2.
 
 ### 2.2 Windows in mean
 
-*Origin:* adapted from Landau's theorem: as for pointwise windows (2.1), with the bound on each window
-required only in mean; the window form is that of PositivityOfDirichletSeriesWithKernels §6.8;
-nearest published results: Pintz (1980) and Kaczorowski (1984), window theorems for the remainder
-terms of the prime number theorem.
+*Origin:* adapted from Kaczorowski and Pintz (1986), Theorem 1 and Corollary 1, as for pointwise windows (2.1), with
+the bound on each window required only in mean, which an average over `[y/e, y]` turns into a pointwise bound on a
+slightly shorter window (PositivityOfDirichletSeriesWithKernels §6.8); the window form is that of
+PositivityOfDirichletSeriesWithKernels §6.8.
 
 *Method of the formal proof:* the same as for the pointwise form: the mean of a majorant of the
 positive part over the window bounds the Taylor coefficients of high order of the Laplace transform
@@ -658,12 +685,13 @@ for `G = G_w`; the rest is 2.1's.
 
 ### 2.3 Large values in every window
 
-*Origin:* particular to this proof: for a finite positively weighted family of Dirichlet
-characters, a zero of a member with real part above `θ` forces the weighted remainder above
-`C·y^θ` somewhere in every far window `[Y, Y^λ]`, for every `λ > 1` and every `C`; nearest
-published results: Pintz (1980), one-sided large values of the remainder of the prime number
-theorem in windows whose length depends on the height of the zero, and Knapowski and Turán (1962)
-for differences between residue classes. The form over a number field other than `ℚ` is this
+*Origin:* adapted from Kaczorowski and Pintz (1986), Theorem 1 and Corollary 1: for a finite positively weighted family
+of Dirichlet characters, a zero of a member with real part above `θ` forces the weighted remainder above
+`C·y^θ` somewhere in every far window `[Y, Y^λ]`, for every `λ > 1` and every `C`. When no member has a real zero at the
+supremum `Θ` of the real parts of the zeros of the members, this is their theorem applied to `G_w − C y^θ`, with large
+values of both signs; otherwise the real zero at `Θ`, where the residue is positive (0.6), is first replaced by two
+conjugate poles, as in PositivityOfDirichletSeriesWithKernels §6.8. Related result: Knapowski and Turán (1962), one-sided
+large values for differences between residue classes. The form over a number field other than `ℚ` is this
 roadmap's own formulation.
 
 *Method of the formal proof:* only the contrapositive is proved, over `ℚ`: a Taylor coefficient of
@@ -761,7 +789,8 @@ occurs, and no predicate names it.
 ### 3.1 Window bounds
 
 *Origin:* particular to this proof: bounds are asked only on windows `[Y, Y^λ]` with `Y`
-arbitrarily large; the properties stated are elementary.
+arbitrarily large, the intervals `[Y^{1−ε}, Y]` of the theorem of Kaczorowski and Pintz (1986) (2.1)
+written from their left end; the properties stated are elementary.
 
 *Method of the formal proof:* directly from the definition: if `S` has windows and `S′` contains
 every point of `S` beyond a threshold `x₀`, the window of `S` found beyond `max(y, x₀)` is a window
@@ -812,7 +841,8 @@ PositivityOfDirichletSeriesWithKernels §6.9(a).
 
 *Origin:* adapted from Landau (1905): the classical equivalence of a zero-free half-plane with
 one-sided bounds for prime sums, by Landau's theorem and, for the converse, the explicit formula
-(3.2), with the bounds required only on windows.
+(3.2), with the bounds required only on windows; in that form the implication from the window
+bounds follows from Kaczorowski and Pintz (1986) through 2.1.
 
 *Method of the formal proof:* only the implication from window bounds, at `σ = 1/2`: for `s` with
 `Re s > 1/2` put `δ = min(Re s − 1/2, 1/2)`, choose `ε` so small that the window bound holds at an
@@ -884,7 +914,10 @@ RiemannHypothesisStatementsAndConsequences §9.4's
 
 *Origin:* adapted from Landau's theorem: the classical equivalence of the Riemann hypothesis with
 one-sided bounds for prime sums, by that theorem and, for the converse, the explicit formula, with
-the bound for the Riesz remainder of `ζ` required only on windows.
+the bound for the Riesz remainder of `ζ` required only on windows; since `ζ` has no real zero in
+`(0, 1)` (ExplicitZetaBounds §0.3), the implication from the window bounds follows, at each
+exponent `1/2 + ε`, from the theorem of Kaczorowski and Pintz (1986) applied to `G − y^{1/2+ε}`,
+with nothing added (2.1).
 
 *Method of the formal proof:* only the implication from the window bound, as a step of the proof
 of 5.2 and not as a separate statement: the windowed criterion (4.2) at the cyclic family `{1}` of
@@ -1405,14 +1438,22 @@ nothing here uses them.
   oscillation over `ℚ` (1.1, 1.2, through ArithmeticDirichletSeriesPartII §0.1b; 1.3).
 - H. Davenport, *Multiplicative Number Theory*, third edition (2000), chapters 5 and 9: primitive
   characters and the functional equation of Dirichlet L-functions (3.4, 5.3).
-- J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions* I and II, Acta
-  Math. Hungar. (1986, 1987); J. Pintz, *On the remainder term of the prime number formula* I and
-  II, Acta Arith. (1980), I in vol. 36, 341–365: localized oscillation theorems, context for
-  Layer 2; Pintz's part I is a nearest published result for 2.1, 2.2 and 2.3.
+- J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions. I*, Acta Math.
+  Hungar. 48 (1986), 173–185, Theorem 1 and Corollary 1 (pp. 175–176): a sign change in every
+  interval `[Y^{1−ε}, Y]` with `Y` large, for a real function whose Mellin transform is regular for
+  `Re s > Θ` but in no larger half-plane and meromorphic a little to the left of `Re s = Θ`, the
+  proof using also regularity at the real point `Θ`; 2.1–2.3, and the implications from window
+  bounds in 3.3 and 3.5, follow from it (through PositivityOfDirichletSeriesWithKernels §6.8).
+- J. Kaczorowski and J. Pintz, *Oscillatory properties of arithmetical functions. II*, Acta Math.
+  Hungar. 49 (1987), 441–453, Theorem (pp. 441–442): the same conclusion for algebraic and
+  logarithmic singularities (Layer 2).
+- J. Pintz, *On the remainder term of the prime number formula* I and II, Acta Arith. (1980), I in
+  vol. 36, 341–365: localized oscillation theorems for the remainder term of the prime number
+  theorem, context for the route of Layer 2 (PositivityOfDirichletSeriesWithKernels §6.8).
 - J. Kaczorowski, *On sign-changes in the remainder-term of the prime-number formula I*, Acta Arith.
   44 (1984), 365–377, sections 3–7: the remainder term localized to a window by iterated averages,
-  with the nearest pole dominant; a nearest published result for 2.1 and 2.2, whose window form is
-  that of PositivityOfDirichletSeriesWithKernels §6.8.
+  with the nearest pole dominant; context for the route of Layer 2 (PositivityOfDirichletSeriesWithKernels
+  §6.8).
 - S. Knapowski and P. Turán, *Comparative prime-number theory* I–III, Acta Math. Acad. Sci. Hungar.
-  13 (1962), 299–364: one-sided large values for differences between residue classes, a nearest
-  published result for 2.3.
+  13 (1962), 299–364: one-sided large values for differences between residue classes, a related
+  result for 2.3.

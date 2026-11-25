@@ -1892,10 +1892,14 @@ and so are the quotients of (L7) for suitable `Ω`, `Ω′`; the set is finite o
 tuples are fixed, and `𝕃` is chosen after the twisting datum (ThetaChainsOnDefiniteUnitaryGroups §2.5, Lemma (iv)). The
 existence of `Ω`, `Ω′` in (L7) is not proved here (it belongs to the rationality of the theta integrals of definite
 triples, ThetaChainsOnDefiniteUnitaryGroups §3.3); [FormalProof] proves it, with the quotients in a number field, from the
-algebraicity of the periods of the bottom triangle (`GlobalTheory.RowEx.BotField.sumsIn_bottom`,
-`Development/AbelianVarietyTheory/Proofs/TwistedOperators/NormalFormBottom.lean`;
-`GlobalTheory.T.bottom_triangle_period_algebraic`,
-`Development/AbelianVarietyTheory/Proofs/TwistedOperators/BottomTrianglePeriodAlgebraicStatement.lean`).
+algebraicity of the class sums of the bottom triangle (`GlobalTheory.RowEx.BotField.sums_mem_bottomField`,
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/BottomFieldIsNumberField.lean`;
+`GlobalTheory.T.bottom_classSums_algebraic`,
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/ClassSumKernelIsAlgebraic.lean`;
+`GlobalTheory.T.bottom_twistedClassSums_algebraic`,
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/LocalTypeDictionary/BottomTwistedClassSumsAlgebraic.lean`),
+theorems stated under its bundle of named statements `GlobalTheory.FunPr.ThetaLocalInputs`, which it supplies where it
+applies them.
 There is a constant `C_F⁰ ≥ 6510`, fixed before `ε`, such that for every `ε` and every `C_F ≥ C_F⁰` there is
 `x_F ≥ x₀` (`x₀` that of 5.8e) for which the following holds. Let `x ≥ x_F` and `Size_□` hold, for the grid of the chain
 with this `C_F` (5.8e); let the weight datum be interlaced (ThetaChainsOnDefiniteUnitaryGroups §2.3) with

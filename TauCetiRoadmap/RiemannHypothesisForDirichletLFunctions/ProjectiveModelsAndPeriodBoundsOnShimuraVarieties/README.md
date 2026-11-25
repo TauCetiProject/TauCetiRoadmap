@@ -91,7 +91,8 @@ family shows (Gram matrix `≍ diag(t, t)`, `t = −log|q|`: squared norm `≍ t
 (b) let `k` be a field of characteristic zero, `C` a smooth projective geometrically connected curve over `k` and `G → C`
 a semi-abelian scheme (ShimuraCompactifications §6.1). Then every locally free subsheaf of `Lie(G/C)` has
 degree `≤ 0`; equivalently every locally free quotient of the Hodge bundle `E = e^*Ω¹_{G/C}` has degree `≥ 0` (`E` is
-nef). The characteristic-zero hypothesis enters through the Hodge metric. (b) follows from [FormalProof],
+nef). In the Route below the characteristic-zero hypothesis enters through the Hodge metric; in [FormalProof], through
+the existence of the formal path with integral coefficients (*Method of the formal proof*). (b) follows from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/SemiAbelianLieSeminegativeBis.lean`
 (`GlobalTheory.Nef.semiAbelianLieSeminegative`), of the statement
 `Development/AbelianVarietyTheory/PublishedTheorems/Divisors₂/InterNumDetNonposSplitTorus.lean`
@@ -578,8 +579,8 @@ pull back. Constants: the ring of integers of `F_L` consists of elements of `L` 
 ring of the normal `Y_L`, so `Y_L` maps to `Spec O_{F_L}`.
 
 *Why (b) does not extend `ℒ_A`.* Once `ℒ_A` is extended to a line bundle on `G`, its rigidification, its symmetry and its cubical
-structure extend with it over the normal locally noetherian `Y` ([FormalProof] `GlobalTheory.T.exists_cubical_rigidified_extension`,
-in `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsCubicalRigidifiedExtensionStatement.lean`). The
+structure extend with it over the normal locally noetherian `Y` ([FormalProof] `GlobalTheory.DenseCubeExt.exists_cubical_extension`,
+in `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsCubicalRigidifiedExtension.lean`). The
 line bundle itself is the obstacle: over a regular base `G` is regular and the closure of a divisor of `ℒ_A` is Cartier, but
 `Y` is only known to be normal, and over a normal base that is not regular a Weil divisor on `G` need not be Cartier.
 [FormalProof] constructs the extension, with its isomorphisms, on its model of (b′)

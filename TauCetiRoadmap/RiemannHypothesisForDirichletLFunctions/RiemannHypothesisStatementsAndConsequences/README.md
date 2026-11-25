@@ -189,7 +189,15 @@ from the local form `m/(s − ρ)` plus an analytic function of a logarithmic de
 The route written here is that proof's for these clauses, read for a primitive ray-class character
 of a number field; it differs in that it also proves the inversion of (a), from ExplicitZetaBounds
 §6.1a, and the explicit formula of (b) with the bound `C′_ψ y` of the remark, by the contour shift of
-ZerosOfLFunctions §8.2, which are not in [FormalProof] (the bound is there only for the trivial character of `ℚ`).
+ZerosOfLFunctions §8.2. Of these [FormalProof] has the inversion of (a), for `y ≥ 1`, for the coefficients
+`Λ(n)χ(n)` of a Dirichlet character `χ` and for `Λ(n)`
+(`Formalism/LandauZeroFreeBounds/ExceptionalZeroBounds/PerronChi.lean` (`Formalism.ZeroFreeDirichlet.perron_formula_character`),
+`Formalism/ZeroFreeRegion/ZetaLogDerivativeBounds/Perron.lean` (`Formalism.ZF.perron_formula`)), the explicit formula
+of (b) in truncated forms for Dirichlet characters, with the zeros near the line `Re s = 1` and an error term
+(`Formalism/GL3MeanSquares/GenusMeanAsymptotics/JacobiCharacterSums/PNTExplMain.lean`
+(`Formalism.HermitianLattices.Ext.PrimesInProgressions.smoothed_explicit_formula`),
+`Formalism/LandauZeroFreeBounds/SiegelWalfiszAPOfSiegelLower.lean` (`Formalism.ZeroFreeDirichlet.smoothChi`)), and
+the bound only for the trivial character of `ℚ`.
 
 *Corollary of:* ZerosOfLFunctions §8.6a (the explicit formula for the first Riesz mean of
 `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` of a primitive finite-order ray-class character `ψ` of a number field), for the
@@ -295,7 +303,8 @@ At `K = ℚ` and `ψ = 1`: `rieszRemainder 1 y = ∑_{n ≤ y} Λ(n)(y/n − 1) 
 *Remark.* Sharper, there is `C′_ψ` with `‖rieszRemainder ψ y‖ ≤ C′_ψ y` for `y ≥ 1`, by the explicit formula
 (`‖y^ρ‖ ≤ y` on the closed strip). This sharper form is this roadmap's own: [FormalProof] states it only for the trivial
 character of `ℚ` (`Formalism/StatementU.lean` (`Formalism.GzLipschitz`), proved as
-`Formalism/ZetaNonvanishing/GzLipschitz.lean` (`Formalism.zetaPrimeSumErrorLipschitz`)), and no later statement uses it.
+`Formalism/ZetaNonvanishing/GzLipschitz.lean` (`Formalism.zetaPrimeSumErrorLipschitz`)), and no later statement of this
+roadmap uses it.
 
 Route. The Mellin transform: (a), with `∫_1^∞ y · y^(−s−1) dy = 1/(s − 1)` and
 `∫_1^∞ y log y · y^(−s−1) dy = 1/(s − 1)²`. The bracket vanishes at `s = 1` by the definitions of

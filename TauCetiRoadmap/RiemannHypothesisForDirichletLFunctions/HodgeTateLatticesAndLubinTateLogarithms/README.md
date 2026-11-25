@@ -586,7 +586,7 @@ On cosets `e_n(s + h, t + h′) = e_n(s, t)·e_n(s, h′)·e_n(h, t)·e_n(h, h�
 
 *Origin:* published: Fargues (2011), Théorème 2, the integral Hodge–Tate sequence of a `p`-divisible group over `O_C` is a complex whose cohomology is killed by `p^{1/(p−1)}`, stated with no hypothesis on `p`, with no printed proof at `p = 2`; (a), the kernel of the Hodge–Tate map as the annihilator of the kernel of the dual map, and (b), its Lagrangian property for a principal quasi-polarisation, are drawn from it.
 
-*Method of the formal proof:* (a) is deduced from a Dieudonné module over `A_inf` (as in 0.5g), finite free of rank the height, with a Frobenius, its base change to `O_C` carrying the Hodge filtration, obtained by splitting the group into its constant part, its multiplicative part and a part that is connected with connected dual and, for the last, taking on the Tate module the periods of a basis of quasi-logarithms lifted to a divided-power frame; from the resulting sandwich, `x` lies in the kernel of the Hodge–Tate map exactly when a nonzero multiple of the Cartier pairing `⟨x, ·⟩` factors through the Hodge–Tate map of the dual. (b) compares the Hodge–Tate map with its transpose through `λ` and counts ranks. The route written here for (a) differs: it argues from the vanishing of the composite of the two Hodge–Tate maps, the cokernel bound of 0.5b and a count of dimensions, then by saturation. Fargues' proof (2011) passes through Faltings's integral comparison between the Tate module and crystalline periods.
+*Method of the formal proof:* the first assertion of (a) is deduced from a Dieudonné module over `A_inf` (as in 0.5g), finite free of rank the height, with a Frobenius, its base change to `O_C` carrying the Hodge filtration, obtained by splitting the group into its constant part, its multiplicative part and a part that is connected with connected dual and, for the last, taking on the Tate module the periods of a basis of quasi-logarithms lifted to the frame `A_inf[X]/(pX − ([ε] − 1), X²)`, `ε` a compatible system of primitive `p`-power roots of unity, in which `x^p ∈ p·ker θ` for every `x ∈ ker θ`; from the resulting sandwich, `x` lies in the kernel of the Hodge–Tate map exactly when a nonzero multiple of the Cartier pairing `⟨x, ·⟩` factors through the Hodge–Tate map of the dual. (b) compares the Hodge–Tate map with its transpose through `λ` and counts ranks. The route written here for (a) differs: it argues from the vanishing of the composite of the two Hodge–Tate maps, the cokernel bound of 0.5b and a count of dimensions, then by saturation. Fargues' proof (2011) passes through Faltings's integral comparison between the Tate module and crystalline periods.
 
 This target extends HodgeTateAndCanonicalSubgroups §2.4. For a `p`-divisible group `G` over `O_C`, that target states that `0 → Lie(G) ⊗ C(1) → T_pG ⊗ C → ω_{G^D} ⊗ C → 0` is exact, the second map being `α_G ⊗ C` and the first the `C`-linearisation of the transpose of `α_{G^D}` through the Cartier pairing `T_pG × T_p(G^D) → ℤ_p(1)`, and that integrally the composite of the two maps is zero. Prove, at every prime `p`, `p = 2` included:
 
@@ -597,10 +597,11 @@ For the principal polarisation of an abelian scheme `A` over `O_C`, `ker f ⊗ C
 `Lie A ⊗ C(1) ⊂ T_pA ⊗ C`, which HodgeTateAndCanonicalSubgroups §2.5 states to be Lagrangian for the Weil pairing; (b) is the
 integral form of that statement.
 
-*Route.* (a) is [FormalProof], `Development/AutomorphicSpectrum/PublishedTheorems/Algebra₂/FarguesExact.lean`
+*Route.* The first assertion of (a), the kernel as the annihilator, is [FormalProof], `Development/AutomorphicSpectrum/PublishedTheorems/Algebra₂/FarguesExact.lean`
 (`GlobalTheory.CompanionTheory.Ar.HT.FarguesExact`),
 `Development/AutomorphicArithmetic/ThetaCorrespondence/PrismaticDieudonne/PrismaticDieudonneHodge.lean`
-(`UpperTheory.Lit.farguesExact`).
+(`UpperTheory.Lit.farguesExact`); the second, that the kernel is saturated of rank `dim G` and over `C` the image of the
+first map, is not part of that statement.
 *The composite is zero.* Integrally `α_G∘(α_{G^D})^∨ = 0`, and the sequence is exact over `C`: HodgeTateAndCanonicalSubgroups §2.4, which states both with no restriction on `p`. *Exactness over `C`* also follows from the vanishing of the composite: by 0.5b (a) applied to `G` and to `G^D`, `α_G ⊗ C` and `α_{G^D} ⊗ C` are onto; so the transpose of `α_{G^D}` has rank `dim G`, the kernel of `α_G ⊗ C` has dimension `ht G − dim G^D = dim G` (HodgeTateAndCanonicalSubgroups §0.25), and a complex with these dimensions is exact. *The kernel.* Over `C` the kernel of `α_G` is the image of the transpose of `α_{G^D}`, which is the annihilator of the kernel of `α_{G^D}`; integrally, `ker(α_G ⊗ 1)` and the annihilator of `ker(α_{G^D} ⊗ 1)` are both saturated in `T_pG ⊗ O_C`, being kernels of maps to torsion-free modules, so they are equal.
 
 (b) is [FormalProof], `Development/AutomorphicSpectrum/Proofs/AlgebraProofs/TateMapDualHomBidual.lean`
@@ -709,7 +710,7 @@ series without constant term; if `h ≃ 0` and `p ∤ N`, then `h/N ≃ 0`.
 
 *Route.* The statement is [FormalProof],
 `Formalism/ThetaLogCoordinates/UniformThetaSubstitution/CyclicPowerClassOfExpEquiv.lean`
-(`Formalism.InvariantFactorPaths.G7.DworkMv`).
+(`Formalism.InvariantFactorPaths.G7.DworkMv`), which does not assume `K` complete.
 Dwork's lemma: `exp(Ψ)^σ(X^p)/exp(Ψ)^p = exp(Ψ^σ(X^p) − pΨ)`, and a series `F = 1 + (higher)` is integral iff the quotient
 `F^σ(X^p)/F^p` of its Frobenius twist by its `p`-th power is `≡ 1 (mod p)` (Dieudonné–Dwork; the one-variable proof works coefficient by
 coefficient in several variables). `≃`: `exp` turns sums into products of integral series, and an integral series without

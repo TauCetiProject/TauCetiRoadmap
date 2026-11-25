@@ -399,9 +399,13 @@ pp. 1–2), up to the elements of order at most `max(n + 1, 2m + 2)`, with `log 
 Soulé 2003; de la Torre Durán 2026, Theorem 4.5, gives bounds of this kind for totally real and CM fields. Emery 2014,
 Theorem 1.1, includes every prime, under the hypothesis that the rational homology vanishes and with constants that
 are not explicit. [FormalProof] proves the bound with all primes for totally complex `L`: for every `N` and `m` in the form of
-9.2 (`UpperTheory.V.KT.tors_le`, `AV/HermiteNormalForms/Assembly.lean`), and in the `log log` form with `c₂ = 49` and the
-factor `m` in place of `m + 1` only for `N = 4e + 4` and `m = 2e`, `e ≥ 1` (`UpperTheory.V.KT.torsBound`, same file, of the
-statement `UpperTheory.V.K.TorsBound`, `AV/GeneratorCountTuples/TorsBoundPow.lean`); and finite generation for totally
+9.2 (`UpperTheory.V.KT.tors_le`, `AV/HermiteNormalForms/Assembly.lean`), and, derived from it, in the form
+`log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ exp((2en)^C·log(2|d_L|))` with an absolute `C`, for all `e ≥ 1`, `1 ≤ N ≤ 4e + 6` and
+`m ≤ 2e + 1` (`UpperTheory.V.ZK.torsAll`, `AV/ModularityArgument/ClassCounting/ExponentLe.lean`), the form that its proof of
+9.7 uses (through `UpperTheory.V.ZK.STors`); it also proves the `log log` form with `c₂ = 49` and the factor `m` in place of
+`m + 1` only for `N = 4e + 4` and `m = 2e`, `e ≥ 1` (`UpperTheory.V.KT.torsBound`, `AV/HermiteNormalForms/Assembly.lean`, of
+the statement `UpperTheory.V.K.TorsBound`, `AV/GeneratorCountTuples/TorsBoundPow.lean`), on which its main theorems do not
+depend; and finite generation for totally
 complex `L` (`UpperTheory.FiniteGenerationAndTorsion.hglFG_of` applied to `UpperTheory.FiniteGenerationAndTorsion.fgShift`,
 `AV/LiteratureResults/KTheoryStability/FinitelyGeneratedTorsion/`). The form stated here, for every `N` and with all primes,
 is that of [FormalProof] for totally complex `L`, which is the case 9.7 uses; for a field with a real place it is this

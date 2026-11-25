@@ -297,9 +297,15 @@ Lemma 7.3.1 (i)). (c):
 [FormalProof], `CompanionTheory/AutomorphicTheory/BesselOrbitBounds/BesselMapUniqueness/BesselMapUniqGap.lean`
 (`CompanionTheory.Bmu.Bounded`); (d): follows from [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/MultiplicityOne/StDiagExists.lean`
-(`ReciprocityTheory.ChartRestriction.DS.Mult1.ThmM`),
-`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/IsDSOfIsDG.lean` (`BranchingSupport.RankOneG`),
-`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/UniqGapOfUniq.lean` (`GlobalTheory.GapIn.UniqGap`).
+(`ReciprocityTheory.ChartRestriction.DS.Mult1.ThmM`: the rank-one form for the standard character, an irreducible unitary
+representation with square-integrable coefficients and a unit vector `w` whose coefficient decays like `‖x‖^{−a}` with
+`a ≥ 4r³`, on the vectors whose coefficient against `w` decays at the same rate),
+`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/IsDSOfIsDG.lean` (`BranchingSupport.RankOneG`: the
+rank-one form on smooth vectors, for the standard character and discrete series with a gap satisfying (G)),
+`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/UniqGapOfUniq.lean` (`GlobalTheory.GapIn.UniqGap`: the
+uniqueness, for the gap `h ≥ 120r³` and every generic character). [FormalProof] also states the multiplicity one theorem,
+for finite-dimensional representations of the smaller group, which contains the case of this section
+(`GlobalTheory.Published.BesselUniquenessReal`); its main theorems do not depend on it.
 *Needs:*
 5.13a, 5.13b; GanGrossPrasadUnitaryGroups §2.6 (multiplicity one); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa,
 and KAK decompositions"; RealSemisimpleLieGroups §4.3 (Langlands decomposition); VonNeumannAlgebras Layer 9 (Schur orthogonality for square-integrable representations).
@@ -797,16 +803,20 @@ of the space `Formalism.MainNotions.S.AutInst` (`Formalism/SharpRestriction/Cusp
 
 *Origin:* particular to this proof: limit multiplicity of discrete series of unitary groups of Hermitian spaces over CM
 fields with relative error `exp(−c·nf log n)`, uniform in the rank, the field, the level and the weight, under a gap
-condition and unipotent support at one prime; nearest published result: Savin (1989), after DeGeorge and Wallach (1978),
-limit multiplicity along towers of levels with the group fixed.
+condition and unipotent support at one prime; nearest published results: Savin (1989), after DeGeorge and Wallach (1978),
+limit multiplicity along towers of levels with the group fixed; and Shin and Templier (2016), Theorems 9.16 and 9.19, and
+Dalal (2022), Theorem 9.1.1, limit multiplicity with power-saving error terms, in the level and in the weight for discrete
+series packets and in the weight for a single discrete series, for a fixed group and with constants that depend on the
+group in a way not made explicit. Uniformity in the rank and in the field, and a single discrete series in the level
+aspect, are in none of these.
 
 *Method of the formal proof:* the multiplicity is the integral over a fundamental domain of the diagonal of the kernel of
 the projector given by the lowest `K`-type coefficient, the identity term giving the main term; the domain is cut by the
 least normalised size in the canonical filtration of the Hermitian lattice and by the type of the canonical flag; near
 terms are unipotent by a congruence on power traces and are counted against measure bounds for the points of each flag
 type, far terms are bounded by the decay of the coefficient, and the deep part by the vanishing of constant terms. The
-published proofs work along a tower with the group fixed and show that the cusp contribution vanishes in the limit,
-without a uniform error.
+proofs of DeGeorge and Wallach and of Savin work along a tower with the group fixed and show that the cusp contribution
+vanishes in the limit, without a uniform error.
 
 For every `C_ϕ ≥ 0` there is `n₀` with the following property, with `c = 1/16` and `C = 8·10¹⁴(C_ϕ + 4)`. Let
 `E/F` be a CM extension, `f = [F:ℚ]`, `V` a nondegenerate Hermitian space over `E` of dimension `n ≥ n₀` with a self-dual
@@ -1249,7 +1259,8 @@ Whittaker functions of general linear groups over `ℝ`.
 vectors, and expansions of the Capelli determinant give a chain step from one level to the next; the exchange relation of
 an upper level is derived from the commutation of the Capelli determinants of the lower level applied to functions
 twisted in the pivot, by separating monomials, with continuity in the parameter for the remaining value; the quantum
-determinant is identified at the last level by a Jacobi identity for bordered quantum minors and carried to all levels.
+determinant is identified at the last level by a Jacobi identity for bordered quantum minors; [FormalProof] also carries it
+to all levels, which its main theorems do not use.
 In the published theory the exchange relation comes from R-matrix or quasi-determinant identities, or from the sites
 through the coproduct.
 
@@ -1336,8 +1347,11 @@ bordered minors this gives `∓` the doubly bordered minor or `0` by antisymmetr
 the second commutator vanishes.
 
 *Sources:* frameworks (Capelli identities; RTT presentation and quantum determinant of the Yangian of `𝔤𝔩₂`: Molev,
-Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev). The exchange relation and the quantum determinant of (b): [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.RTTLevel`,
-`Formalism.FourierDecayAlt.Q.DetLevel`).
+Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev). The exchange relation of (b) at every level, and its quantum determinant at the last level `i = r_S`, the level of the start (c): [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.RTTLevel`;
+`Formalism.FourierDecayAlt.Q.DetAt` at the last level, proved as `Formalism.FourierDecayAlt.P.JacquetIntegral.detCore` in
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/InvariantOperatorUnderJacquet.lean`). The quantum determinant at
+every level is stated and proved there as well (`Formalism.FourierDecayAlt.Q.DetLevel`); the main theorems of
+[FormalProof] do not depend on it.
 *Needs:* 5.13a, 5.13b; ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`);
 ClassicalGroups §§6.3–6.6; TensorInductionAndFiniteGroupInputs §9.1 (b), (h) (the
 border expansions, for (a)), (e), (g), (j) (the quantum determinant, for (b)), (c) (the Capelli eigenvalue), (f) (the commutators
@@ -1384,7 +1398,12 @@ integrating a pivot is the site identity `T^*𝐑[𝐐_{i+1}]T = 𝐑[T^*𝐐_{i
 *Sources:* frameworks (Yang–Baxter equation, fusion and Gauss decomposition of the Yangian of `𝔤𝔩₂`: Molev, Drinfeld).
 The letter steps of (d): [FormalProof], `Formalism/HermitianCurvature/StatementWd.lean`
 (`Formalism.FourierDecayAlt.Wd.LetterPlus`, `Formalism.FourierDecayAlt.Wd.LetterMinus`); the level forms of (e), their positivity and the
-passage between levels: [FormalProof], `Formalism/HermitianCurvature/CompositeFormulaLevelZero.lean` (`Formalism.FourierDecayAlt.P5.ThmPActual`).
+passage between levels, for test functions of compact support: [FormalProof], `Formalism/HermitianCurvature/HerGenC.lean`
+(`Formalism.FourierDecayAlt.P5.ThmPActualCpt`), proved in
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/CutSETopFinal.lean`
+(`Formalism.FourierDecayAlt.P.CutSE.actual_compact_theorem`). The statement without the restriction to compact support
+(`Formalism.FourierDecayAlt.P5.ThmPActual`, in `CompositeFormulaLevelZero.lean`) is derived in [FormalProof] only from
+further hypotheses, and its main theorems do not depend on it.
 *Needs:* 5.18a, 5.13b.
 
 ### 5.18c Archimedean Fourier majorants
@@ -1996,10 +2015,12 @@ term by the last display, its partner by the `L²` bound, and the number of pair
 over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f log b}(C·g^{−(2r_S+1)}k^{−r_S})^{kf/2}·d_u^{all}d_{u′}^{all}/D*`.
 
 Follows from [FormalProof],
-`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopsEv.lean`
-(`Formalism.L2.SG.LoopsEv.RowLoopsEv`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopEvaluationThresholdZero.lean`
+(`Formalism.L2.SG.LoopsTies.loop_evaluation_threshold_zero`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
 (`Formalism.MainNotions.S.Cnt.Hyp`); at the points of the chain:
-`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.LoopRowS`).
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.LoopRowS`),
+proved through `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopRowSOf.lean`
+(`Formalism.L2.SG.LoopsTies.loopRowS_of_raised`).
 *Needs:* 5.15, 5.17a, 5.17, 5.18, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§4.4, 4.10, 4.11, 5.5, 5.7, 5.9, 6.1a, 6.3,
 6.4, 6.4b, 6.4c.
 
@@ -2283,7 +2304,12 @@ from one real place to the tower: [FormalProof], `Formalism/HermitianCurvature/A
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/BuiltBoundsCompact.lean` (`Formalism.FourierDecayAlt.P.built_bounds_compact`);
 `Formalism/HermitianCurvature/StatementC.lean` (`Formalism.FourierDecayAlt.C.HidaSetting`, the kernels and scales of the chain);
 `Formalism/HermitianCurvature/StatementKB.lean` (`Formalism.FourierDecayAlt.KB.WaveLoc`, `Formalism.FourierDecayAlt.KB.LiftLoc`,
-`Formalism.FourierDecayAlt.KB.TopLoc`, `Formalism.FourierDecayAlt.KB.BlockSchur`, `Formalism.FourierDecayAlt.KB.IntAll`);
+`Formalism.FourierDecayAlt.KB.TopLoc`, `Formalism.FourierDecayAlt.KB.IntAll`); the Schur product inequality for positive
+semidefinite block kernels: `Formalism/HermitianCurvature/HermitianCurvatureProofs/PBBLiftV.lean`
+(`Formalism.FourierDecayAlt.P.PBB.block_schur2`) and
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/BlockOfCauchySchwarz.lean`
+(`Formalism.FourierDecayAlt.P.PBA.block_cross_le`, `Formalism.FourierDecayAlt.P.PBA.blockPSD_mul`,
+`Formalism.FourierDecayAlt.P.PBA.blockPSD_prod`);
 `Formalism/HermitianCurvature/StatementJC.lean` (`Formalism.FourierDecayAlt.JC.WaveByPlaces`,
 `Formalism.FourierDecayAlt.JC.LiftBelowTop`, `Formalism.FourierDecayAlt.JC.LiftTopDiag`, `Formalism.FourierDecayAlt.JC.ThresholdsLift`,
 `Formalism.FourierDecayAlt.JC.SumFormConcrete`, `Formalism.FourierDecayAlt.JC.OffDiagonalLiftBoundOfPlaces`);
@@ -2693,7 +2719,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every `*Method of the formal proof:*` label and of every target whose `*Origin:*` is particular to this proof.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - Harish-Chandra, *Discrete series for semisimple Lie groups II*, Acta Math. 116 (1966): 5.13, 5.20a.
-- D. DeGeorge and N. Wallach, *Limit formulas for multiplicities in L²(Γ\G)*, Ann. of Math. 107 (1978); L. Clozel, *On limit multiplicities of discrete series representations in spaces of automorphic forms*, Invent. Math. 83 (1986); G. Savin, *Limit multiplicities of cusp forms*, Invent. Math. 95 (1989); R. P. Langlands, *Dimension of spaces of automorphic forms* (1966): 5.16. W. Banaszczyk, *New bounds in some transference theorems in the geometry of numbers*, Math. Ann. 296 (1993): 5.16.
+- D. DeGeorge and N. Wallach, *Limit formulas for multiplicities in L²(Γ\G)*, Ann. of Math. 107 (1978); L. Clozel, *On limit multiplicities of discrete series representations in spaces of automorphic forms*, Invent. Math. 83 (1986); G. Savin, *Limit multiplicities of cusp forms*, Invent. Math. 95 (1989); R. P. Langlands, *Dimension of spaces of automorphic forms* (1966): 5.16. S. W. Shin and N. Templier, *Sato–Tate theorem for families and low-lying zeros of automorphic L-functions*, Invent. Math. 203 (2016), 1–177, Theorems 9.16 and 9.19 (numbering of arXiv:1208.1945v3); R. Dalal, *Sato–Tate equidistribution for families of automorphic representations through the stable trace formula*, Algebra Number Theory 16 (2022), 59–137, Theorem 9.1.1 (numbering of arXiv:1910.10800v2): limit multiplicity with power-saving error terms for a fixed group, nearest published results for 5.16. W. Banaszczyk, *New bounds in some transference theorems in the geometry of numbers*, Math. Ann. 296 (1993): 5.16.
 - B. Sun and C.-B. Zhu, *Multiplicity one theorems: the Archimedean case*, Ann. of Math. 175 (2012), Theorem B (arXiv 0903.1413v2, p. 2): 5.13c, 5.13; D. Jiang, B. Sun and C.-B. Zhu, *Uniqueness of Bessel models: the Archimedean case*, Geom. Funct. Anal. 20 (2010), Theorem A (arXiv 0908.1728v2, p. 1): 5.13c; H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)*, Invent. Math. 209 (2017), Theorem 0.1 (arXiv 1508.02032v2, p. 3): 5.13d, 5.13; R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean case*, Astérisque 418 (2020), Theorem 12.4.1 (arXiv 1506.01452v3, p. 290): 5.13d, its Lemma 6.5.1, §7.1 and Lemma B.1.1 (the regularised Bessel form, by integrations by parts in a scaling torus): 5.13b, and its Theorem 7.2.1 and Lemma 7.3.1 (the regularised Bessel form is nonzero exactly when a Bessel functional exists; an a priori bound for Bessel functionals): 5.13c, with Lemma 7.3.1 (i) also for 5.13; H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023), Theorem 2.2 (p. 1000), with the reduction to codimension one of Corollary 2.5 (p. 1001): 5.13d. I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975): 5.13c.
 - R. Beuzart-Plessis, *On distinguished square-integrable representations for Galois pairs and a conjecture of Prasad*, Invent. Math. (2018), §3.2 (arXiv 1707.06495): 5.13c. T. Kobayashi and B. Speh, *How does the restriction of representations change under translations? A story for the general linear groups and the unitary groups*, preprint (2025), Lemma 2.7, Theorems 2.5, 3.2 (arXiv 2502.08479): 5.13d; M. Harris, T. Kobayashi and B. Speh, *Translation functors, branching problems, and applications to the restriction of coherent cohomology of Shimura varieties*, preprint (2025), Theorems 5.3, 5.6 (arXiv 2509.17007): 5.13d.
 - R. Godement, *Série de Poincaré et Spitzenformen*, Séminaire Henri Cartan 10 (1957/58), exposé 10, §4, Théorèmes 5 and 5 bis (Poincaré series of integrable functions): 5.14; H. Petersson, *Theorie der automorphen Formen beliebiger reeller Dimension und ihre Darstellung durch eine neue Art Poincaréscher Reihen*, Math. Ann. 103 (1930) (Poincaré series): 5.14, 5.15; H. Jacquet, *Sur un résultat de Waldspurger*, Ann. Sci. ÉNS (4) 19 (1986), §1 (double cosets of tori) and §§7, 9 (the geometric side of a relative trace formula): 5.15; G. Muić, *On a construction of certain classes of cuspidal automorphic forms via Poincaré series*, Math. Ann. 343 (2009): 5.14.

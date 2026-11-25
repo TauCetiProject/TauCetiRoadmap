@@ -19,7 +19,7 @@ uniformly in the layer, the prime and the twist. The fields are the *dyadic host
 set `Q` of auxiliary primes `q ≡ 3 mod 4`; `E_n(χ, Q)` is the host field of `M = ℚ(χ)`, the field cut out by
 a primitive Dirichlet character `χ`, and for `n ≥ 1` its conductor is `N = lcm(2^{n+2}, f_χ) · ∏_{q∈Q} q`.
 The first two headline theorems below are for two auxiliary primes, one `≡ 3 mod 8` and one `≡ 7 mod 16`.
-Nothing is asserted to vanish, but the total size is controlled: an unconditional substitute for
+Nothing is asserted to vanish, but `V`, the logarithm of the product of the orders of the groups `Ш¹`, is controlled: an unconditional substitute for
 Vandiver-type vanishing.
 
 The headline theorems are these. `B(χ)` is a finite set of odd primes and `P(χ)` a number, both explicit in
@@ -94,7 +94,8 @@ theorems and the form in which they are consumed.
   every integer `e`, and 1.1 uses it for every `e ≠ 0`. Lengths are
   `Module.length` over `ℤ_ℓ`, valued in `ℕ∞`. For a coefficient ring `O` (the ring of integers of a
   finite extension `Φ` of `ℚ_ℓ`, ramification index `e_O`) an `O`-length is divided by `e_O`.
-- `V(F, t)` is the total of BernoulliBoundsForClassGroupEigenspaces §6.17. For fixed `e` only finitely many `ℓ`
+- `V(F, t) = Σ_ℓ log ℓ · Σ_{1≤e<t} length_{ℤ_ℓ} Ш¹(F, ℓ, e)` is the total of BernoulliBoundsForClassGroupEigenspaces
+  §6.17 (e): the logarithm of the product of the orders `#Ш¹(F, ℓ, e)` over all primes `ℓ` and all `1 ≤ e < t`. For fixed `e` only finitely many `ℓ`
   contribute, so `V(F, t)` is a nonnegative real number.
 - For a CM field `F` and odd `ℓ`, `Ш⁺(F, ℓ, e)` is the `(−1)^e`-eigenspace of complex conjugation (the
   *plus*, or Vandiver, part) and `Ш⁻(F, ℓ, e)` the `(−1)^{e+1}`-eigenspace (the *minus* part).
@@ -448,8 +449,9 @@ the exceptional sets of 1.4, are those of the single layer `j₀`. For (b), 1.2 
 
 *Origin:* particular to this proof: a two-case bound for every twist, small off the exceptional set and of Soulé type on it,
 from the étale bound of BernoulliBoundsForClassGroupEigenspaces §9.7 at the field `L_{j₀} ⊇ μ_ℓ`; nearest published result:
-Soulé (2003), Theorem 3, a bound for the order of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` at large primes `ℓ`, which exclude the fields
-containing `μ_ℓ`.
+Soulé (2003), Theorem 3 with Proposition 4, a bound explicit in the degree and the discriminant, for every number field `L`,
+for the product of the orders of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [L:ℚ] + 2)`; the small primes
+it excludes include every `ℓ` with `μ_ℓ ⊂ L`, the case used here.
 
 *Method of the formal proof:* a case distinction: off `Exc(Z)` the bound of 1.4; on `Exc(Z)` the growth bound of 1.5 above
 the layer `j₀` and, at `L_{j₀}`, the inequality `length ≤ 2·log #` for a finite `ℓ`-group together with the torsion bound of
@@ -531,7 +533,7 @@ of the two auxiliary primes, obtained by fixing their residue classes modulo `8`
 Ferrero and Washington (1979), and the degree and conductor bookkeeping (b), (c).
 
 *Method of the formal proof:* the theorem of Ferrero and Washington, proved in the formal proof as a bound for `Cl/ℓ` along
-the cyclotomic tower of an abelian field, bounds the everywhere unramified quadratic characters of `M(i)(μ_{2^∞})`; allowing
+the cyclotomic tower of an abelian field containing `μ_ℓ` (`μ₄` if `ℓ = 2`), bounds the everywhere unramified quadratic characters of `M(i)(μ_{2^∞})`; allowing
 ramification at `q` and `q′` multiplies the count by `2` for each orbit of places above them, and each of the two quadratic
 steps squares it, since, for the nontrivial automorphism `σ` of the step, `1 + σ` has square zero on characters with values
 in `ℤ/2`; (b) and (c) are a degree and conductor computation and the bound of length one for the kernel of restriction to a
@@ -4189,8 +4191,9 @@ Layers 0, 3 and 4 above. From this family: BernoulliBoundsForClassGroupEigenspac
 
 *Origin:* particular to this proof: a bound for one character component of `Ш¹`, exponential in a power of the twist and the
 degree, from the étale bound of BernoulliBoundsForClassGroupEigenspaces §9.7 at the field `L ⊇ μ_ℓ`; nearest published
-result: Soulé (2003), Theorem 3, a bound for the order of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` at large primes `ℓ`, which exclude the
-fields containing `μ_ℓ`.
+result: Soulé (2003), Theorem 3 with Proposition 4, a bound explicit in the degree and the discriminant, for every number
+field `L`, for the product of the orders of `H²(𝒪_L[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [L:ℚ] + 2)`; the
+small primes it excludes include every `ℓ` with `μ_ℓ ⊂ L`, the case used here.
 
 *Method of the formal proof:* the component of `ψ` is restricted to the abelian field `L` cut out by `ψ` and `μ_ℓ`, the
 kernel of restriction being bounded by the number of generators of `Gal(L/ℚ)` times a local term; over `L`, `Ш¹` is dual to a
@@ -4389,8 +4392,9 @@ own, from 7.2 and 7.3 as stated here, and is not in [FormalProof], whose bound f
 
 ### 7.3 Polynomial bound away from the bad primes
 
-*Origin:* particular to this proof: a polynomial bound for the total size of the twisted Tate–Shafarevich groups (étale wild
-kernels) of the host fields at all odd primes outside a finite set.
+*Origin:* particular to this proof: a polynomial bound for the logarithm of the product of the orders of the twisted
+Tate–Shafarevich groups (étale wild kernels) of the host fields, over the twists `1 ≤ e < t` and all odd primes outside a
+finite set.
 
 *Method of the formal proof:* (a) the odd primes not dividing `[E : ℚ]` are bounded together, one twist at a time, by the bound
 through generalized Bernoulli numbers, and each of the boundedly many odd primes dividing `[E : ℚ]` by 6.5: a power of `ℓ`
@@ -4417,8 +4421,14 @@ summed over `e < t` gives at most `C·o_χ·N²·t²·log²(t·o_χ·N)` each. B
 
 ### 7.4 The window theorem
 
-*Origin:* particular to this proof: a bound for the total size of the twisted Tate–Shafarevich groups of the host fields over
-all primes, valid for the scales of windows found by a pigeonhole.
+*Origin:* particular to this proof: a bound for `V`, the logarithm of the product of the orders of the twisted
+Tate–Shafarevich groups of the host fields over all primes `ℓ` and the twists `1 ≤ e < t`, valid for the scales of windows
+found by a pigeonhole; nearest published result: Soulé (2003), Theorem 3 with Proposition 4, a bound explicit in the
+degree and the discriminant, for every number field `F` and every twist `e`, for the product of the orders of
+`H²(𝒪_F[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [F:ℚ] + 2)`. It excludes `ℓ = 2` and the smaller primes, among
+them every `ℓ` with `μ_ℓ ⊂ F`; the term `exp(x^δ)` here comes from `ℓ = 2` and the primes of `B(χ)` (2.4), at which the
+route bounds `Ш¹` over fields containing `μ_ℓ` (1.6). For host fields whose degree is a power of `x`, its bound for the
+product of the orders is a triple exponential, where the bound here is a double exponential.
 
 *Method of the formal proof:* the window of 2.4 for `ℚ(χ)` and the towers `ℚ(μ_{ℓ f_χ})`, `ℓ ∈ B(χ)`, gives a scale `Y` on
 which the `2`-part and the twist sums on the chosen layers of these towers are at most an exponential of a small power of
@@ -4799,8 +4809,11 @@ Layer 1 (`NumberField.classNumber_le_bound`, `h_F ≤ |d_F|·4^{[F:ℚ]}`), in s
 - [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths given at the targets are relative to the directory `src/` of the first commit of that repository, the source as published: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>. Its window bound on twisted wild kernels and its case analysis are stated as targets in Layers 1–7.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>. It describes the bound as the "weakening of Vandiver" of its argument.
 - C. Soulé, *K-théorie des anneaux d'entiers de corps de nombres et cohomologie étale*, Invent. Math. 55 (1979): finiteness.
-- C. Soulé, *A bound for the torsion in the K-theory of algebraic integers*, Documenta Math., Extra Volume Kato (2003): the
-  published K-theoretic bound, compared with BernoulliBoundsForClassGroupEigenspaces Layer 9; the bound consumed in 1.6, 2.2 and 6.1 is
+- C. Soulé, *A bound for the torsion in the K-theory of algebraic integers*, Documenta Math., Extra Volume Kato (2003),
+  761–788: the published K-theoretic bound, compared with BernoulliBoundsForClassGroupEigenspaces Layer 9; Theorem 3 with
+  Proposition 4, the product of the orders of `H²(𝒪_F[1/ℓ], ℤ_ℓ(e + 1))` over the primes `ℓ ≥ max(4e + 3, [F:ℚ] + 2)`, bounded
+  explicitly in the degree and the discriminant for every number field `F`, is a nearest published result for 1.6, 6.1 and
+  7.4; the bound consumed in 1.6, 2.2 and 6.1 is
   BernoulliBoundsForClassGroupEigenspaces §9.7, proved homologically for every prime.
 - P. Schneider, *Über gewisse Galoiscohomologiegruppen*, Math. Z. 168 (1979), §6, Lemma 1: the origin of 1.1, published for
   odd `ℓ` (IntegralIwasawaTheory §10.5a).

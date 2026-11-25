@@ -2978,8 +2978,9 @@ summing over `t` (absolute convergence) gives `I = E`.
 dimension through the stabilizer of a vector, which has the Tamagawa number of the group; (c) is the orbit statement
 that this induction uses for an isotropic vector.
 
-*Method of the formal proof:* for a CM extension, a family of Haar measures on the adelic unitary groups compatible
-with every passage to the stabilizer of a vector of nonzero norm: starting from any basis-invariant family, each step
+*Method of the formal proof:* none for (a) and (b), which are not in [FormalProof]: it has no statement on the Tamagawa
+number of `U(V)`. In their place it has, for a CM extension, a family of Haar measures on the adelic unitary groups compatible
+with every passage from a unitary group of dimension at least `3` to the stabilizer of a vector of nonzero norm: starting from any basis-invariant family, each step
 from a unitary group to the stabilizer of a vector defines a positive scaling constant; these constants satisfy a square
 relation, proved by unfolding two chains of steps over the pairs that span a plane, and a lemma in the manner of Witt's
 chain equivalence (a third splitting adjacent to two given ones, chosen off the zero sets of three quadratic functions)
@@ -3049,7 +3050,8 @@ nonzero reduction, that is `(1 − q_v^{2−2n′})·2/(q_v^{n′−1} + 1)` of 
 Every other point `y` has `y_v` in `G(F_v)·x` at every place (`x` lies in the open orbit at the split
 places) and in `U(L_v)x` at almost all, so it lies in `G(𝔸)·x`.
 
-For a CM extension unramified at every finite place, the quotient of `τ_G` by `τ_H` in the route of (a), `t ≠ 0`: [FormalProof],
+For a CM extension unramified at every finite place, the quotient in the route of (a), for `t ≠ 0` and `n′ ≥ 3`, with
+the Haar measures of the family described next in place of `τ_G` and `τ_H`: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsIsGaugeOfIsCMExt.lean` (`GlobalTheory.GaugeEx.exists_isGauge`).
 For a CM extension the formal proof builds a compatible family of Haar measures rank by rank, independent of the chain of
 vectors chosen (two chains of two vectors of nonzero norm with the same orthogonal complement, `n′ ≥ 4`)
@@ -3614,7 +3616,10 @@ integral: there is a constant `c_1 > 0` depending only on `E` such that, for eve
 integral lattices `M` in the form `mass(M) = c·∏_{v ∈ S_odd(V)}(q_v^n − (−1)^n)/(q_v + 1)` with a constant `c > 0` that
 it does not determine (the mass of the unimodular lattices of rank `n` when `V` contains one), and (c) in the form:
 every unimodular lattice of rank `n` has the mass of `O_E^n`. The first formula implies the first form, with
-`c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two. The form of (c) is [FormalProof],
+`c_1 = 2·|d_F|^{1/2}(2π)^{−d}L(1, η)`; (b) and (c) imply the other two. The first form is [FormalProof],
+`Formalism/GL3MeanSquares/GenusMeanAsymptotics/UnimodularClassRepresentatives/SiegelMassRatioOfLI.lean`
+(`Formalism.HermitianLattices.Ext.L3.massConst_all`), for every CM field unramified over its real subfield at every
+finite place. The form of (c) is [FormalProof],
 `Formalism/LocalToGlobal/GlobalTheory/GL5/DiscreteSeriesOfFormalDegree.lean`
 (`Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.GenusMassAt`, `Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt`).
 
@@ -3926,7 +3931,7 @@ its specialization to definite lattices, published for positive Hermitian forms 
 field by Braun (1941), Satz V, after Siegel (1935–1937) for quadratic forms. The clause of (d) on the stabilizer of a
 flag and an anisotropic vector is particular to this proof.
 
-*Method of the formal proof:* (a) and (d) for a CM extension and `2k < n` (the form recorded below), by induction on
+*Method of the formal proof:* (a) and (d) for a CM extension and `2k < n` (the first form recorded below), by induction on
 the size of `T`: the tuples with Gram matrix `t ⊕ T_1` are fibred over their first vector, the sum over the remaining
 vectors is replaced by its mean over the quotient of the stabilizer (unfolding and refolding), the induction hypothesis
 evaluates that mean, and the one-vector identity of 6.0a is applied to the resulting function, the local fibre measures
@@ -3991,8 +3996,11 @@ Haar measures of `N(F_v)` at every place, so that the image of a product of Haar
 `(n, h) ↦ nh` is a Haar measure of `S`, over `F_v`, over `𝔸_f` and over `𝔸`; and that `N(F)\N(𝔸)` is compact, so that `N(𝔸)`
 has exactly one Haar measure with `vol(N(F)\N(𝔸)) = 1`.
 
-*The form of the formal proof:* it uses (a), and (d), for a CM extension `E/F` and `2k < n` only, with `Φ_∞` smooth of
-compact support; these are cases of (a) and (d).
+*The form of the formal proof:* it uses (a), and (d), for a CM extension `E/F` and `2k < n`, with `Φ_∞` smooth of
+compact support; for a CM extension it also has (a) for `k + 2 ≤ n`, and for `k = n − 1` when `V` is anisotropic, with
+`Φ_∞` a Schwartz function, the case `k + 2 ≤ n` also as an identity of measures (the mean value of the orbit sums, as a
+measure in `Φ`, is the restricted product of the local fibre measures); and (b) for `k = 1`, `E/F` unramified at every
+finite place and `L` integral, with the constant `c_{n−1}` of 6.3 left undetermined. These are cases of (a), (b) and (d).
 
 Route: Weil's mean-value identity. If `X_T(F) = ∅`, then `X_T(F_v) = ∅` for some `v` (3.5(a)) and both
 sides vanish. Otherwise `X_T(F)` is one `U(V)(F)`-orbit and `X_T(F_v)` one `U(V)(F_v)`-orbit at every
