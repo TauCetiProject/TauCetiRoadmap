@@ -31,7 +31,8 @@ needs constructions the pins do not have, listed below, and nothing is stated in
   cocycles satisfy local conditions `L_{b,v}`, then `length_O(O/c(π))` is at most the sum over the
   blocks of the lengths of the Selmer groups `H¹_𝒮(G, ρ_b ⊗ χ^{−1} ⊗ K/O)` (the formal proof
   assumes there a residue field with more than `g·n` elements, `g` the number of generators of
-  the module `Y_s` of 1.8c). Its cohomology is at
+  the module `Y_s` of 1.8c, except in the setting of 1.8e, where it proves the bound over every
+  residue field). Its cohomology is at
   the pins: Mathlib's `continuousCohomology` of a `TopRep` over `O` is an `O`-module, with the
   restriction maps `ContinuousCohomology.map` along continuous homomorphisms; Tau Ceti has the
   continuous inhomogeneous `1`-cocycles and their classes (`TauCeti.ContCohomology.Z1`,
