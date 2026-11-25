@@ -81,6 +81,7 @@ body:
         - BelyiMaps
         - BernoulliPercolation
         - BianchiModularForms
+        - BochnerSpaces
         - BooleanFunctionAnalysis
         - BordismFormalGroups
         - BorelEquivalenceRelations
