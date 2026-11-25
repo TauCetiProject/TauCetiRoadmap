@@ -48,7 +48,8 @@ criteria, and the theorems of Lovász and Müller derived from them.
 - **Copies.** `G.copyCount F` (Mathlib; host first) is the number of subgraphs of `G`, vertex set
   and edge set, isomorphic to `F`; isolated vertices of `F` count, and `G.copyCount ⊥ = 1` for the
   edgeless graph `⊥` on `V`. `G.labelledCopyCount F` is the number of `SimpleGraph.Copy F G`, the
-  injective homomorphisms from `F` to `G` (Tau Ceti `card_injective_hom_eq_labelledCopyCount`).
+  injective homomorphisms from `F` to `G` (Tau Ceti
+  `SimpleGraph.card_injective_hom_eq_labelledCopyCount`).
   For `F` on `V` itself an injective self-map of `V` is a permutation, so
   `G.labelledCopyCount F` is the number of permutations `σ` with `F ≤ G.comap σ`; this is the
   number `|F → G|` of Bondy and Murty.
@@ -306,7 +307,7 @@ clause of 2.1, applied to `X` as a graph on `V`, makes the term `0`. For `X = G`
 `H.comap σ` is isomorphic to `H` (`SimpleGraph.Iso.comap`), so `e(H.comap σ) = e(H) = e(G)`, and
 `G ≤ H.comap σ` then forces `G = H.comap σ`, which would make `σ` an isomorphism `G ≃g H`; with
 `G` in place of `H` the permutations counted are exactly the automorphisms of `G`. With
-`e(G) − e(X) = e(G) − e(F)` at `X = G` this is the claim.
+`e(X) − e(F) = e(G) − e(F)` at `X = G` this is the claim.
 
 **Checks.**
 
