@@ -95,14 +95,14 @@ deformation theory. Forgetting the O_K-action keeps the Lie algebra, so the unde
 group has the same dimension as the strict object. The relative dual of
 §0.1 depends on the chosen uniformizer and is not the Cartier dual. For a hermitian Hom pairing
 h(x,y) the first argument is L-linear and the second conjugate-linear. GeometryOfNumbersAndQuadraticArithmetic
-§§2.7 and 2.9 write forms conjugate-linear in the first argument; every result imported from them is
-applied to the transposed form H(x,y)=h(y,x), which equals ε times the conjugate of h(x,y) when h is
+§§2.7 and 2.9 and HermitianFormsAndLattices §§3.1–3.2 write forms conjugate-linear in the first argument; every
+result imported from them is applied to the transposed form H(x,y)=h(y,x), which equals ε times the conjugate of h(x,y) when h is
 ε-hermitian (ε=±1). H is conjugate-linear in x, linear in y and ε-hermitian for the same ε. H and h
 have the same isometries and the same adjoint of endomorphisms (h(ax,y)=h(x,a*y) exactly when
 H(ax,y)=H(x,a*y)); since O_L is stable under conjugation they have the same dual lattice
 {x : h(x,Λ)⊆O_L}={x : H(x,Λ)⊆O_L}, hence the same invariant factors; and their Gram matrices on a
 basis are transposes of each other, so their Gram determinants are equal and define the same
-determinant class. Exact preservation of a
+determinant class; and H(x,x)=h(x,x), so for ε=1 they have the same signature at every real place. Exact preservation of a
 polarization, preservation up to an O_K-unit, and a common rational scalar on a pair are three
 separately specified arrow conventions.
 
@@ -164,16 +164,17 @@ Strict formal O-modules, their O-displays and relative duality; a representabili
 
 ### 0.1 Strict formal modules, O-displays and relative duality
 
-Let K be a finite extension of ℚ_p with ring of integers O, uniformizer π and residue field 𝔽_q. Over an O-algebra R in which π is nilpotent, a strict O-module is a p-divisible group X with a strict O-action ι:O→End(X) in the sense of HilbertModularVarietiesAndShimuraCurves §R18.5.4, that is, O acts on Lie X by the structure map O→R; it is formal when X is a formal group. The Witt O-frame of an O-algebra R is (W_O(R),I_O(R),F,V): W_O(R) is the ring of relative O-Witt vectors of R with respect to π, with ghost components w_n; F is the ring endomorphism given by universal integral polynomials and characterized by `w_n(Fx)=w_{n+1}(x)` over π-torsion-free O-algebras; V is the additive map (x₀,x₁,…)↦(0,x₀,x₁,…), so that w_0(Vx)=0 and `w_n(Vx)=π·w_{n−1}(x)` for n≥1; and `I_O(R)=V W_O(R)` is the kernel of w_0:W_O(R)→R. Then FV=π, and V depends on π. An O-display over R is a window over this frame, and strict formal O-modules over R are equivalent to nilpotent O-displays, compatibly with base change; the relative height of X is the rank of its O-display P and its dimension is the rank of P/Q. Over k=𝔽̄_q, regarded as an O-algebra, `W_O(k)[1/π]` is K̆ and the rational O-display (P[1/π],F) of a strict formal O-module X over k is a K-isocrystal, the relative isocrystal of X; its K̆-dimension is the relative height of X. A strict formal O-module is biformal when its dual O-display is again nilpotent; its relative dual X^∨ is the strict O-module of that dual display, and it depends on π; over k=𝔽̄_q, X is biformal exactly when the slopes 0 and 1 do not occur in its relative isocrystal. A polarization (resp. principal polarization) is an isogeny (resp. isomorphism) λ:X→X^∨ with λ^∨=−λ. The relative crystal D_X on O-divided-power thickenings carries the Hodge filtration; deformations along such thickenings correspond to lifts of the filtration, and for principally polarized biformal X to Lagrangian lifts for the perfect alternating pairing on D_X. For a finite totally ramified extension O⊂O′, strict formal O′-modules are equivalent to nilpotent windows over the Lubin–Tate O′-frame, compatibly with duality after rescaling the pairing by a unit of the frame. For a finite unramified extension O⊂O′ of degree f and an O′-algebra R in which π is nilpotent, `A_{O′/O}(R)=(W_O(R),I_O(R),F^f,F^{f−1}V⁻¹)` is an O′-frame, whose windows are the f-O-displays; the map `W_O(R)→W_{O′}(R)` is a strict morphism of O′-frames from it to the Witt O′-frame, so base change δ from f-O-displays to O′-displays is compatible with duality, and the Z/f-grading of the O-display of a strict formal O′-module gives a functor γ from strict formal O′-modules to nilpotent f-O-displays. For noetherian R, γ and δ are equivalences, δ on nilpotent windows. (Mih19, Part III: §10, p. 40; (11.2), Lemma 11.2 and Definition 11.6, pp. 41–42; Definitions 11.7–11.9, Remark 11.11, the crystal paragraph and footnote 8, p. 43; Proposition 12.11, pp. 47–48; §13, Definition 13.1 and Proposition 13.2 with its proof, pp. 48–49.)
+Let K be a finite extension of ℚ_p with ring of integers O, uniformizer π and residue field 𝔽_q. Over an O-algebra R in which π is nilpotent, a strict O-module is a p-divisible group X with a strict O-action ι:O→End(X) in the sense of HilbertModularVarietiesAndShimuraCurves §R18.5.4, that is, O acts on Lie X by the structure map O→R; it is formal when X is a formal group. An O-frame (S,I,σ,σ̇) is an O-algebra S with an ideal I such that I+πS lies in the Jacobson radical of S, an O-algebra endomorphism σ of S lifting the q-power Frobenius of S/πS, and a σ-linear map σ̇:I→S whose image generates S; then σ(a)=θσ̇(a) for a∈I and a unique θ∈S, the frame constant. A window over it is (P,Q,F,Ḟ) with P a finitely generated projective S-module, IP⊆Q⊆P with P/Q projective over S/I, and σ-linear maps F:P→P and Ḟ:Q→P such that Ḟ(ax)=σ̇(a)F(x) for a∈I and x∈P and Ḟ(Q) generates P. For a unit u of S′, a u-morphism to (S′,I′,σ′,σ̇′) is an O-algebra map α:S→S′ with α(I)⊆I′, ασ=σ′α and u·(α∘σ̇)=σ̇′∘α; it is strict when u=1, and windows base change along strict morphisms. The dual window has `P^∨=Hom_S(P,S)` and `Q^∨={φ∈P^∨ : φ(Q)⊆I}`, with the operators defined through a normal decomposition, so that `P^∨/Q^∨` has the rank of Q/IP and `Q^∨/IP^∨` that of P/Q. The Witt O-frame of an O-algebra R is (W_O(R),I_O(R),F,V): W_O(R) is the ring of relative O-Witt vectors of R with respect to π, with ghost components w_n; F is the ring endomorphism given by universal integral polynomials and characterized by `w_n(Fx)=w_{n+1}(x)` over π-torsion-free O-algebras; V is the additive map (x₀,x₁,…)↦(0,x₀,x₁,…), so that w_0(Vx)=0 and `w_n(Vx)=π·w_{n−1}(x)` for n≥1; and `I_O(R)=V W_O(R)` is the kernel of w_0:W_O(R)→R. Then FV=π, and V depends on π; when π is nilpotent in R this is an O-frame with σ=F, σ̇=V⁻¹ and frame constant π. An O-display over R is a window over this frame, and strict formal O-modules over R are equivalent to nilpotent O-displays, compatibly with base change; the relative height of X is the rank of its O-display P and its dimension is the rank of P/Q. These are not the polarized O-displays of PELModuli §M2.15, which are polarized displays over W(R) with an action of a ℤ_p-algebra O with involution. A strict formal O-module X of relative height h and dimension d has both: its display over W(R) with the strict O-action, of rank [K:ℚ_p]·h with P/Q of rank d, and its O-display, of rank h with P/Q of rank d; sending the first to the second is an equivalence from nilpotent displays over R with strict O-action to nilpotent O-displays over R, natural in R. Over k=𝔽̄_q, regarded as an O-algebra, `W_O(k)[1/π]` is K̆ and the rational O-display (P[1/π],F) of a strict formal O-module X over k is a K-isocrystal, the relative isocrystal of X; its K̆-dimension is the relative height of X. A strict formal O-module is biformal when its dual O-display is again nilpotent; its relative dual X^∨ is the strict O-module of that dual display, and it depends on π; over k=𝔽̄_q, X is biformal exactly when the slopes 0 and 1 do not occur in its relative isocrystal. A polarization (resp. principal polarization) is an isogeny (resp. isomorphism) λ:X→X^∨ with λ^∨=−λ. The relative crystal D_X on O-divided-power thickenings carries the Hodge filtration; deformations along such thickenings correspond to lifts of the filtration, and for principally polarized biformal X to Lagrangian lifts for the perfect alternating pairing on D_X. For a finite totally ramified extension O⊂O′ with uniformizer π′, an O′-algebra R in which π is nilpotent and a unit κ of `O′⊗_O W_O(R)`, the Lubin–Tate O′-frame `L_{O′/O,κ}(R)` has ring `O′⊗_O W_O(R)`, ideal J the kernel of its map to R, σ=id⊗F, and as σ̇ the unique σ-linear map J→`O′⊗_O W_O(R)` with image generating that agrees with ξ↦V⁻¹(ξ)σ̇(V(1)) on `O′⊗_O I_O(R)` and takes the value κ at `π′⊗1−1⊗[π′]`; strict formal O′-modules over R are equivalent to nilpotent windows over it, compatibly with duality after rescaling the pairing by a unit of the frame. For a finite unramified extension O⊂O′ of degree f and an O′-algebra R in which π is nilpotent, `A_{O′/O}(R)=(W_O(R),I_O(R),F^f,F^{f−1}V⁻¹)` is an O′-frame, whose windows are the f-O-displays; the map `W_O(R)→W_{O′}(R)` is a strict morphism of O′-frames from it to the Witt O′-frame, so base change δ from f-O-displays to O′-displays is compatible with duality, and the Z/f-grading of the O-display of a strict formal O′-module gives a functor γ from strict formal O′-modules to nilpotent f-O-displays. For noetherian R, γ and δ are equivalences, δ on nilpotent windows. (Mih19, Part III: §10, (10.1)–(10.2), p. 40; §11.1, Definition 11.1, (11.2), Lemma 11.2 and Definition 11.6, pp. 41–42; Definitions 11.7–11.9, Remark 11.11, the crystal paragraph and footnote 8, p. 43; Proposition 12.3 and Definition 12.7, pp. 44–46; Proposition 12.11, pp. 47–48; §13, Definition 13.1 and Proposition 13.2 with its proof, pp. 48–49.)
 
-Here K, O, π and q are as stated. The Witt O-frame is defined over every O-algebra R, displays and strict modules over O-algebras R in which π is nilpotent, and duals and polarizations for biformal objects only; the equivalences γ and δ of the unramified case are asserted over noetherian O′-algebras R in which π is nilpotent.
+Here K, O, π and q are as stated. W_O(R) with F, V and I_O(R) is defined over every O-algebra R; it is an O-frame, and displays and strict modules are defined, over O-algebras R in which π is nilpotent; duals and polarizations are defined for biformal objects only; the equivalences γ and δ of the unramified case are asserted over noetherian O′-algebras R in which π is nilpotent.
 
-*Route.* Take the ring W_O(R), its ghost map and its functoriality in R from VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”. Define on it, for every O-algebra R, the Frobenius F and the Verschiebung V by the ghost identities above and put `I_O(R)=V W_O(R)=ker w_0`; over a perfect 𝔽_q-algebra these F and V are that layer's Frobenius and Verschiebung. This is the Witt O-frame, whose windows are the O-displays (Mih19 Definition 11.7). Over 𝔽̄_q identify `W_O(k)[1/π]` with K̆ and its Frobenius with σ by VectorBundlesAndIsocrystals Layer 1, “Mixed-characteristic supplier comparison”, so that (P[1/π],F) is a K-isocrystal of that layer's “Finite isocrystals over the completed maximal unramified coefficient field”; its slopes are those of “Dieudonné–Manin classification of finite isocrystals” (Mih19 footnote 8). Deduce the equivalence of strict formal O-modules with nilpotent O-displays from the equivalence between nilpotent displays and formal p-divisible groups (gap:zink-display-equivalence) by the Ahsendorf–Cheng–Zink construction recalled in Mih19 §11.2. Define duals of biformal objects through the dual window, polarizations by λ^∨=−λ, and the relative crystal and Hodge filtration (Mih19 Definitions 11.6, 11.9 and §11.2); prove the Lubin–Tate frame equivalence and its duality compatibility (Mih19 Proposition 12.11 and Lemma 11.2). For O⊂O′ unramified of degree f, the unique lift O′→W_O(R) of the structure map grades the O-display P of a strict formal O′-module as `P_0⊕…⊕P_{f−1}`, strictness puts `P_1,…,P_{f−1}` inside Q, and γ(P) is P_0 with Q_0 and the f-fold composite Frobenius; δ is base change along the strict frame morphism, compatible with duals by (11.2). The composite δ∘γ is the O′-display functor of the first clause for O′ (Mih19 §13, p. 49, recalling Ahsendorf), hence an equivalence on nilpotent objects; the quasi-inverse of γ built from an O′-stable normal decomposition in the proof of Mih19 Proposition 13.2 makes γ, and therefore δ, an equivalence for noetherian R.
+*Route.* Take the ring W_O(R), its ghost map and its functoriality in R from VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and coefficient changes”. Define on it, for every O-algebra R, the Frobenius F and the Verschiebung V by the ghost identities above and put `I_O(R)=V W_O(R)=ker w_0`; over a perfect 𝔽_q-algebra these F and V are that layer's Frobenius and Verschiebung. This is the Witt O-frame, whose windows are the O-displays (Mih19 Definition 11.7). When π is nilpotent in R it is an O-frame: F lifts the q-power Frobenius modulo π, V⁻¹ is σ-linear by the projection formula, and I_O(R)+πW_O(R) lies in the Jacobson radical, its image in every truncation of W_O(R) being a nil ideal. Over 𝔽̄_q identify `W_O(k)[1/π]` with K̆ and its Frobenius with σ by VectorBundlesAndIsocrystals Layer 1, “Mixed-characteristic supplier comparison”, so that (P[1/π],F) is a K-isocrystal of that layer's “Finite isocrystals over the completed maximal unramified coefficient field”; its slopes are those of “Dieudonné–Manin classification of finite isocrystals” (Mih19 footnote 8). By the equivalence between nilpotent displays and formal p-divisible groups (gap:zink-display-equivalence), strict formal O-modules are equivalent to nilpotent displays with strict O-action; the Ahsendorf–Cheng–Zink construction recalled in Mih19 §10 and §11.2 passes from these to nilpotent O-displays, which gives the equivalence with strict formal O-modules. Define duals of biformal objects through the dual window, polarizations by λ^∨=−λ, and the relative crystal and Hodge filtration (Mih19 Definitions 11.6, 11.9 and §11.2); prove the Lubin–Tate frame equivalence and its duality compatibility (Mih19 Proposition 12.11 and Lemma 11.2). For O⊂O′ unramified of degree f, the unique lift O′→W_O(R) of the structure map grades the O-display P of a strict formal O′-module as `P_0⊕…⊕P_{f−1}`, strictness puts `P_1,…,P_{f−1}` inside Q, and γ(P) is P_0 with Q_0 and the f-fold composite Frobenius; δ is base change along the strict frame morphism, compatible with duals by (11.2). The composite δ∘γ is the O′-display functor of the first clause for O′ (Mih19 §13, p. 49, recalling Ahsendorf), hence an equivalence on nilpotent objects; the quasi-inverse of γ built from an O′-stable normal decomposition in the proof of Mih19 Proposition 13.2 makes γ, and therefore δ, an equivalence for noetherian R.
 
 **API.**
 
 - For every O-algebra R, F is a ring endomorphism of W_O(R) and V an additive endomorphism, both natural in R, with FV=π, the projection formula V(F(a)·x)=a·V(x) and `I_O(R)=V W_O(R)=ker w_0`.
 - The O-display of a strict formal O-module and its quasi-inverse, natural in the base.
+- Over O-algebras R in which π is nilpotent, passing from the display of a strict formal O-module, with its strict O-action, to its O-display is an equivalence from nilpotent displays over R with strict O-action to nilpotent O-displays over R, natural in R; it keeps P/Q, which is Lie X on both sides, and divides the rank by [K:ℚ_p].
 - The rank of P is the O-relative height of X of HilbertModularVarietiesAndShimuraCurves §R18.5.4 (rank X[π]=q^(rank P)); by the formula there it is the p-height divided by [K:ℚ_p].
 - Over 𝔽̄_q the relative isocrystal (P[1/π],F) is a K-isocrystal of K̆-dimension the relative height; X↦(P[1/π],F) is a fully faithful functor from strict formal O-modules up to quasi-isogeny to K-isocrystals (an F-equivariant map of rational displays, multiplied by a power of π, preserves the lattices P and Q=πF⁻¹P), and the slopes avoid 0 and 1 exactly for biformal X.
 - For biformal X the relative dual X^∨, depending on the chosen uniformizer, with biduality.
@@ -184,6 +185,7 @@ Here K, O, π and q are as stated. The Witt O-frame is defined over every O-alge
 **Checks.**
 
 - For O=ℤ_p the strictness condition is automatic and an O-display is a display: `μ_{p^∞}` over a perfect field has P of rank 1 with P/Q of rank 1, while the étale ℚ_p/ℤ_p has P/Q=0 and is not a nilpotent display.
+- An O-frame lifts the q-power Frobenius, not the p-power one. For `O=W(𝔽_{p²})`, so π=p and q=p², the Witt O-frame of 𝔽_q is (O,pO,id,σ̇) with σ̇(px)=x: the identity lifts the q-power Frobenius of 𝔽_q, which is the identity, so this is an O-frame with frame constant p, but it lifts no p-power Frobenius and is not a frame in the sense of FiniteFlatGroupsAndIntegralPadicHodgeTheoryPartII §0.3. Conversely (O,pO,φ,φ₁) with φ the Frobenius automorphism of O and φ₁(px)=φ(x) is a frame there but not an O-frame: φ is not O-linear and reduces to x↦x^p, not to the identity x↦x^q of 𝔽_q.
 - For K=ℚ_p(√p) the Lubin–Tate group is a strict O_K-module of relative height 1; precomposing its action with the nontrivial automorphism of K makes √p act on Lie by −√p, so over R=O_K/(p), where √p≠−√p because p is odd, the twisted module is not strict.
 - A strict O-module of relative height 1 and dimension 1 has dual of dimension 0, hence étale, so it is not biformal and has no polarization in this sense; the rank-one sources of Layer 1, Layer 3 and Layer 5 have relative height 2 and dimension 1 and are biformal.
 - The first two ghost components are x₀ and `x₀^q+π·x₁`. For O=ℤ_p, π=p they are Mathlib's p-typical ghost components, and F and V are Mathlib's Frobenius and Verschiebung; for K=ℚ_p(√p), π=√p, q=p the second is `x₀^p+√p·x₁`. Over R=𝔽_p, W_O(𝔽_p)=O_K, F is the identity and V is multiplication by √p, with image `I_O(𝔽_p)=(√p)`. Replacing π by −√p replaces V by −V: the coordinate change x_i↦(−1)^i x_i matches the two ghost maps because q is odd, while `w_1(Vx)=π·x₀` changes sign; this is why the dual O-display depends on π (Mih19 Remark 11.11). A Verschiebung normalized with p in place of π would be multiplication by p on O_K, with image (p)=(√p)²⊊(√p), so it would not be invertible onto `I_O(𝔽_p)` and gives no frame.
@@ -1469,9 +1471,9 @@ Under the same special inert and neat coefficient hypotheses, fix the standard d
 
 ### 8.3 Almost self-dual generic comparison
 
-Choose an indefinite Hermitian V′ with the distinguished signature, an away-p isometry j:V°⊗𝔸_f^p≅V′⊗𝔸_f^p and a p-adic lattice Λ′_p of V′ that is almost self-dual at 𝔭, with Λ′_𝔭^♯/Λ′_𝔭 of length one, and self-dual at the other primes of F⁺ above p, with its stabilizer K′_p. The generic fibre of the almost self-dual model is Sh(V′,jK^pK′_p)×(T_p)_η. This comparison depends on the uniformization datum (V′,j,Λ′_p); changing it gives the corresponding transported comparison. Its existence uses gap:hermitian-local-global and the two-place invariant change. (LTXZZ22, Definition 5.2.6 and formula (5.2), pp. 192–193.)
+Choose an indefinite Hermitian V′ with the distinguished signature, an away-p isometry j:V°⊗𝔸_f^p≅V′⊗𝔸_f^p and a p-adic lattice Λ′_p of V′ that is almost self-dual at 𝔭, with Λ′_𝔭^♯/Λ′_𝔭 of length one, and self-dual at the other primes of F⁺ above p, with its stabilizer K′_p. The generic fibre of the almost self-dual model is Sh(V′,jK^pK′_p)×(T_p)_η. This comparison depends on the uniformization datum (V′,j,Λ′_p); changing it gives the corresponding transported comparison. Its existence uses Landherr's existence theorem for F/F⁺ (HermitianFormsAndLattices §3.2) and the two-place invariant change. (LTXZZ22, Definition 5.2.6 and formula (5.2), pp. 192–193.)
 
-*Route.* Use gap:hermitian-local-global to obtain V′ with the prescribed archimedean and p-adic invariants. Compare the rational Hom-Tate and polarization datum with its stabilizer lattices. Apply the canonical PEL comparison, retaining the independent CM level point.
+*Route.* Use HermitianFormsAndLattices §3.2, in its form with prescribed localizations, to obtain V′ with the localizations of V° at every place except the distinguished real place and 𝔭, where the signature and the determinant class are switched. Compare the rational Hom-Tate and polarization datum with its stabilizer lattices. Apply the canonical PEL comparison, retaining the independent CM level point.
 
 **API.**
 
@@ -1486,7 +1488,7 @@ Choose an indefinite Hermitian V′ with the distinguished signature, an away-p 
 - Replacing Λ′_p by a self-dual lattice changes the generic level comparison.
 - For two different CM level points the product comparison retains two separate components.
 
-*Needs:* §8.2; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8; ShimuraVarieties §6.7; PELModuli §§M3.1–M3.2; gap:hermitian-local-global.
+*Needs:* §8.2; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8; ShimuraVarieties §6.7; PELModuli §§M3.1–M3.2; HermitianFormsAndLattices §3.2.
 
 ### 8.4 Almost self-dual local equations
 
@@ -1571,9 +1573,9 @@ The neat smooth unitary model is a smooth quasi-projective scheme over T_p of re
 
 Within this roadmap: Layer 2 (§2.1, §2.4); Layer 6 (§6.3, §6.6, §6.7); Layer 7 (§7.2, §7.5, §7.6).
 
-Suppliers: PELModuli §M0.10, §M0.18, §M1.3, §M1.6, §M2.8, §M2.12, §M1.1, §M3.8, §§M3.1–M3.2, §M1.13, §M2.14, §§M4.7–M4.8; AbelianSchemesAndArithmeticModuli §A4.7, §A6.13, §A4.3; SchemeAndStackFoundations Layer 4; ShimuraCompactifications §§7.3, 7.5, 7.18; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; ShimuraVarieties §6.7, §1.7, §§2.5–2.7; IgusaVarietiesAndTorsionConcentration §0.31.
+Suppliers: PELModuli §M0.10, §M0.18, §M1.3, §M1.6, §M2.8, §M2.12, §M1.1, §M3.8, §§M3.1–M3.2, §M1.13, §M2.14, §§M4.7–M4.8; AbelianSchemesAndArithmeticModuli §A4.7, §A6.13, §A4.3; SchemeAndStackFoundations Layer 4; ShimuraCompactifications §§7.3, 7.5, 7.18; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; ShimuraVarieties §6.7, §1.7, §§2.5–2.7; IgusaVarietiesAndTorsionConcentration §0.31; HermitianFormsAndLattices §3.2.
 
-Supplier contracts: gap:bad-prime-projectivity, gap:hermitian-local-global (see Exact supplier contracts).
+Supplier contracts: gap:bad-prime-projectivity (see Exact supplier contracts).
 
 ## Layer 9: Basic-locus formal uniformization
 
@@ -1627,9 +1629,9 @@ The first theorem assumes 𝔐, Γ and (i)–(ii) as stated. The algebraic-space
 
 ### 9.3 Nearby unitary framing datum
 
-For the global unitary V and distinguished nonsplit finite place v₀, use the hermitian local–global existence of gap:hermitian-local-global to choose V′, definite at all real places, with the invariant at v₀ switched and all other finite local spaces unchanged. Fix the away-v₀ isometry and a basic CM pair realizing these local data. Identify its exact-polarization quasi-isogeny group with U(V′) and the rational-similitude pair group with `G̃′=Z^ℚ×_{𝔾_m}G′^ℚ`. A framing choice selects an isogeny component; the full basic locus requires the Hasse/principal-homogeneous-space partition, rather than assuming every basic point is in that component. (Zhang21, §7.3, equations (7.3)–(7.4) and footnote 3, pp. 908–909; RZ96 Theorems 6.27 and 6.30, pp. 292–293.)
+For the global unitary V and distinguished nonsplit finite place v₀, use Landherr's existence theorem for F/F⁺ (HermitianFormsAndLattices §3.2) to choose V′, definite at all real places, with the invariant at v₀ switched and all other finite local spaces unchanged. Fix the away-v₀ isometry and a basic CM pair realizing these local data. Identify its exact-polarization quasi-isogeny group with U(V′) and the rational-similitude pair group with `G̃′=Z^ℚ×_{𝔾_m}G′^ℚ`. A framing choice selects an isogeny component; the full basic locus requires the Hasse/principal-homogeneous-space partition, rather than assuming every basic point is in that component. (Zhang21, §7.3, equations (7.3)–(7.4) and footnote 3, pp. 908–909; RZ96 Theorems 6.27 and 6.30, pp. 292–293.)
 
-*Route.* Obtain V′ from gap:hermitian-local-global with the invariants at v₀ and at the distinguished real place switched, not merely from the classification of a generic PEL datum. Use §9.1 to identify the self-quasi-isogenies with the Hermitian isometry group. Check the signatures, all finite signs and the CM component; retain the partition if the group Hasse kernel is nontrivial.
+*Route.* Obtain V′ from HermitianFormsAndLattices §3.2, unique up to isometry by its §3.1, with the invariants at v₀ and at the distinguished real place switched, not merely from the classification of a generic PEL datum. Use §9.1 to identify the self-quasi-isogenies with the Hermitian isometry group. Check the signatures, all finite signs and the CM component; retain the partition if the group Hasse kernel is nontrivial.
 
 **API.**
 
@@ -1644,7 +1646,7 @@ For the global unitary V and distinguished nonsplit finite place v₀, use the h
 - At an inert principal place V′_v₀ is nonsplit; at an inert almost self-dual place it is split.
 - Choosing a different admissible global framing class must retain its component label until the Hasse comparison is proved.
 
-*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8; §6.1; §6.8; §1.5; §2.3; §3.6; §5.9; §9.1; PELModuli §§M3.1–M3.2; gap:hermitian-local-global.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8; §6.1; §6.8; §1.5; §2.3; §3.6; §5.9; §9.1; PELModuli §§M3.1–M3.2; HermitianFormsAndLattices §§3.1–3.2.
 
 ### 9.4 Banal and CM local factors
 
@@ -1769,9 +1771,7 @@ The completion of the corrected mixed integral isogeny model at its chosen basic
 
 Within this roadmap: Layer 0 (§0.1, §0.2, §0.5, §0.7); Layer 1 (§1.1, §1.5); Layer 2 (§2.1, §2.3, §2.4, §2.5); Layer 3 (§3.6); Layer 4 (§4.6); Layer 5 (§5.3, §5.9); Layer 6 (§6.1, §6.3, §6.4, §6.5, §6.6, §6.8); Layer 7 (§7.1, §7.2, §7.3, §7.4, §7.9); Layer 8 (§8.5, §8.6).
 
-Suppliers: EndoscopicTransferAndUnitaryTraceComparison §§8.3, 8.10; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.17, §R07.2.10; AbelianSchemesAndArithmeticModuli §§A4.1, A6.10–A6.11, §A4.9, §A4.8; AdicSpacesPartIII Layer F0; SchemeAndStackFoundations Layer 1; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8, §§M3.1–M3.2, §M3.2.
-
-Supplier contracts: gap:hermitian-local-global (see Exact supplier contracts).
+Suppliers: EndoscopicTransferAndUnitaryTraceComparison §§8.3, 8.10; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.17, §R07.2.10; AbelianSchemesAndArithmeticModuli §§A4.1, A6.10–A6.11, §A4.9, §A4.8; AdicSpacesPartIII Layer F0; SchemeAndStackFoundations Layer 1; GeometryOfNumbersAndQuadraticArithmetic §§2.7, 2.9; PELModuli §M3.8, §§M3.1–M3.2, §M3.2; HermitianFormsAndLattices §§3.1–3.2.
 
 ## Downstream consumers
 
@@ -1800,8 +1800,9 @@ intersection numbers themselves are not constructed here.
 
 ## Scope and ownership
 
-This roadmap owns: the Witt O-frame over an arbitrary O-algebra, O-displays of strict formal
-O-modules, the relative isocrystal of a strict formal O-module, relative duality, the Lubin–Tate frame
+This roadmap owns: O-frames and their windows, the Witt O-frame (F, V and `I_O(R)` over an arbitrary
+O-algebra), O-displays of strict formal O-modules and their passage from displays with strict O-action,
+the relative isocrystal of a strict formal O-module, relative duality, the Lubin–Tate frame
 comparison and the f-O-display comparison for an unramified extension (§0.1); representability of EL
 framed functors and of polarized PEL framed functors for an arbitrary self-dual periodic multichain, and
 the representability criterion that Layers 1–5 apply to their relative unitary framed functors (§0.2); principal hermitian
@@ -1820,7 +1821,19 @@ It leaves to other roadmaps, by section:
 
 - Zink displays over rings of characteristic p and the functor BT to formal p-divisible groups are
   PELModuli §M2.15; their definition over every ring in which p is nilpotent, with base change and
-  duals, and the equivalence there are the contract gap:zink-display-equivalence.
+  duals, and the equivalence there are the contract gap:zink-display-equivalence. The polarized
+  O-displays of PELModuli §M2.15 are polarized displays over W(R) with an action of a ℤ_p-algebra O;
+  they are not the O-displays of §0.1, which are windows over W_O(R), and §0.1 states the passage
+  from displays over W(R) with a strict action of the ring of integers of a p-adic field to O-displays.
+- Frames with a lift of the p-power Frobenius, Dieudonné displays over Zink's ring Ŵ(R) in the
+  contravariant normalization, their base change along strict frame maps and their anti-equivalence
+  with p-divisible groups over complete noetherian local rings with perfect residue field are
+  FiniteFlatGroupsAndIntegralPadicHodgeTheoryPartII §§0.3 and 0.11–0.13. §0.1 uses none of them: its
+  O-frames lift the q-power Frobenius modulo π, its Witt O-frame is built on W_O(R) over every
+  O-algebra R in which π is nilpotent, and its displays are covariant, the dimension being the rank of
+  P/Q. For O=ℤ_p and π=p an O-frame is a frame in the sense of that §0.3 and a strict morphism of
+  O-frames is a strict map there; the normalization there, in which the dimension is the rank of
+  M₁/Î_R M, is that of the dual window here, window duality exchanging the ranks of P/Q and Q/IP.
 - The strict O_K-action on a p-divisible group (O_K acting on Lie through the structure map), its
   O_K-relative height h, characterized by rank X[π]=q^h, the relative height of an O_K-linear
   quasi-isogeny, and the formula height_p=[K:ℚ_p]·h are HilbertModularVarietiesAndShimuraCurves
@@ -1852,8 +1865,10 @@ It leaves to other roadmaps, by section:
   R07.1 and §§R07.2.10, R07.2.17, R07.2.20, R07.2.26; Grothendieck–Messing, effectivity of polarized
   formal lifts and Serre–Tate with structures are AbelianSchemesAndArithmeticModuli §§A4.7–A4.9.
 - Hermitian lattices and local hermitian forms are GeometryOfNumbersAndQuadraticArithmetic §§2.7 and
-  2.9, the forms of a unitary datum and the Hasse principle are PELModuli §§M3.1–M3.2; the existence of
-  a global hermitian space with prescribed local invariants is the contract gap:hermitian-local-global.
+  2.9, the forms of a unitary datum and the Hasse principle are PELModuli §§M3.1–M3.2; Landherr's
+  theorem for a CM extension F/F⁺, that a global hermitian space with prescribed determinant classes at
+  the finite nonsplit places, almost all trivial, and signatures at the real places exists exactly when
+  the product formula holds and is then unique up to isometry, is HermitianFormsAndLattices §§3.1–3.2.
 - Smoothness of the automorphism group scheme of a polarized unitary lattice multichain is the
   contract gap:unitary-multichain-stabilizer.
 - Quasi-projectivity and properness of PEL moduli at good primes are ShimuraCompactifications §§7.3,
@@ -1948,7 +1963,7 @@ from a CM object); §§M4.3, M4.5–M4.8 (canonical models, normalized models at
 at primes unramified in F); §M5.5 (unitary PEL data with prescribed signatures). These are assumed
 as stated there, in particular only over a base of good primes where PELModuli says so.
 
-What PELModuli must provide (gap:zink-display-equivalence): For every ring R in which p is nilpotent, define displays over R with their base change and duals and the functor BT to formal p-divisible groups over R (§M2.15 defines them over rings of characteristic p), and prove that BT is an equivalence from nilpotent displays over R to formal p-divisible groups over R, compatible with base change and with duality of biformal objects.
+What PELModuli must provide (gap:zink-display-equivalence): For every ring R in which p is nilpotent, define displays over R with their base change and duals and the functor BT to formal p-divisible groups over R (§M2.15 defines them over rings of characteristic p), and prove that BT is an equivalence from nilpotent displays over R to formal p-divisible groups over R, compatible with base change and with duality of biformal objects. PELModuli §M2.15 already states the equivalence over complete noetherian local rings with perfect residue field, and FiniteFlatGroupsAndIntegralPadicHodgeTheoryPartII §0.13 classifies all p-divisible groups over such rings by Dieudonné displays over Zink's ring Ŵ(R), in the contravariant normalization; what the contract adds is the covariant theory over W(R) for every ring in which p is nilpotent, whether or not it is noetherian and local.
 
 ### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
 
@@ -2032,11 +2047,17 @@ varieties and good reduction).
 (torus canonical models); §5.10 (main theorem of complex multiplication); §6.7 (canonical models of
 abelian type).
 
-### From TauCetiRoadmap.AdelicAlgebraicGroups
+### From TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.HermitianFormsAndLattices
 
-§4.1 (weak approximation and torsors) is the section that receives the following contract.
-
-What AdelicAlgebraicGroups must provide (gap:hermitian-local-global): For a CM extension F/F⁺, prove that a global F/F⁺-hermitian space with prescribed real signatures and finite local invariants exists exactly when the invariants satisfy the product formula, and is unique up to isometry.
+§3.1 (Landherr's Hasse principle: two hermitian spaces over a quadratic extension of number fields are
+isometric exactly when they are isometric at every place) and §3.2 (Landherr's existence theorem: given
+determinant classes at the finite nonsplit places, almost all trivial, and signatures at the real places
+inert in the extension, a hermitian space with these invariants exists exactly when the product formula
+holds; equivalently, a family of local hermitian spaces, almost all of trivial determinant class, is the
+family of localizations of a global space exactly when the product formula holds). They are applied to
+the CM extension F/F⁺, at whose real places F is inert, in §§8.3 and 9.3. Their forms are
+conjugate-linear in the first argument; they are applied to the transposed form H of the Conventions,
+which has the same isometries, determinant classes and real signatures as h.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
