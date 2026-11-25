@@ -344,10 +344,11 @@ value is at most `2q·log rd_E·Σ_τ|w_τ|`.
 `S_bad` and the degree `Σ_τ w_τ·c_τ − q·(log rd_E − log d_K)·Σ_τ w_τ = −((p − q)/2)·log Ω·Σ_τ w_τ`, `c_τ` the negative of the
 degree of 8.11 (c), with the change of degree under such a section,
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspFormSupLatticeDegreeTwistLowerBound.lean`
-(`GlobalTheory.FlatTw.degOn_add_rank_mul_degLo_le`). [FormalProof] states the first bound of (b) with the lower bound
+(`GlobalTheory.FlatTw.degOn_add_rank_mul_degLo_le`). [FormalProof] states the first bound of (b), in its case `m = 0` (it
+also twists by a natural number `m`, with a further term in `m` in the lower bound), with the lower bound
 `Σ_τ w_τ·c_τ − q·log rd_E·Σ_τ|w_τ|` of that degree in place of its value, so with terms in `q` and `rd_E`:
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlatLineThetaRootTwistTwistingSection.lean`
-(`GlobalTheory.FlatRootTwist.flat_root_twist`).
+(`GlobalTheory.FlatRootTwist.flat_root_twist`, which takes one named statement as a hypothesis).
 *Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7; RowTowerAndRallisIdentities §5.1.
 
 ### 8.13 The definite step
