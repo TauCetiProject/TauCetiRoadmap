@@ -1592,8 +1592,8 @@ chronological (Minguzzi 2019, Proposition 4.18, p. 113); a chronological spaceti
 
 Define reflective spacetimes, in which `q ∈ closure (J^+(p))` iff `p ∈ closure (J^−(q))`, and
 causally continuous spacetimes, which are distinguishing and reflective (Minguzzi 2019b,
-Definition 2.15 and Proposition 2.16, p. 41, and the list before Theorem 2.47, p. 58; Hawking
-and Sachs introduced the notion through the inclusions of `I^±(p)`). Prove causally simple ⇒
+Definition 2.15 and Proposition 2.16, p. 41, and the list before Theorem 2.47, p. 58; the notion
+is due to Hawking and Sachs, §2.8, p. 41). Prove causally simple ⇒
 causally continuous: when `J^±(p)` are closed both sides of the reflectivity condition read
 `q ∈ J^+(p)`. The implication causally continuous ⇒ stably causal, which completes the ladder
 globally hyperbolic ⇒ causally simple ⇒ causally continuous ⇒ stably causal (Minguzzi 2019b,
@@ -1624,8 +1624,8 @@ building its approximation and patching lemmas in this item. This yields stable 
 without taking the differential of a continuous function.
 
 Prove the converse: a stably causal spacetime has a smooth temporal function (Hawking's
-existence of a time function, 1968; in smooth form Minguzzi 2019b, Theorem 3.11, p. 111, whose
-route through the antisymmetry of the Seifert relation is Theorem 3.4, p. 99). So stable
+existence of a time function, 1968; in smooth form Minguzzi 2019b, Theorem 3.11, p. 111; stable
+causality is the antisymmetry of the Seifert relation by Theorem 3.4, p. 98). So stable
 causality, the existence of a time function and the existence of a temporal function are
 equivalent. Prove that a causally continuous spacetime is stably causal (Minguzzi 2019b,
 Theorem 2.47, p. 59): for a finite measure `μ` with smooth positive density, the volume
