@@ -52,11 +52,14 @@ The roadmap covers:
   Lamé functions (Layer 6).
 
 The roadmap rests on Mathlib, Tau Ceti, the roadmap
-[EllipticIntegrals](../EllipticIntegrals/README.md) on main, and four open roadmaps:
-SpecialFunctionsMathieu (Hill's equation), SpecialFunctionsHeun (the algebraic form and Heun
-polynomials), SpecialFunctionsJacobiElliptic (the Jacobi functions of a complex variable and their
-relation to `℘`) and SpecialFunctionsLegendre (Ferrers functions and spherical harmonics, for the
-limits).
+[EllipticIntegrals](../EllipticIntegrals/README.md),
+[AsymptoticExpansions](../AsymptoticExpansions/README.md) and
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md) (the
+recessive solution of a three-term recurrence and Pincherle's theorem, for the continued fraction),
+and four further roadmaps: SpecialFunctionsMathieu (Hill's equation), SpecialFunctionsHeun (the
+algebraic form and Heun polynomials), SpecialFunctionsJacobiElliptic (the Jacobi functions of a
+complex variable and their relation to `℘`) and SpecialFunctionsLegendre (Ferrers functions and
+spherical harmonics, for the limits).
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Lame/`.
 
@@ -91,10 +94,12 @@ lamePotential ν k x                : ℝ → ℝ → ℝ → ℝ     Q(x) = −
 lameScale k                        : ℝ → ℝ             (2K/π)²
 lameHillPotential ν k x            : ℝ → ℝ → ℝ → ℝ     (2K/π)² Q(2Kx/π)
 lameA ν k j, lameB ν k j           : ℝ → ℝ → ℕ → ℝ     a^j_ν(k²), b^j_ν(k²)
+lameEcRaw ν k j x, lameEsRaw ν k j x : ℝ → ℝ → ℕ → ℝ → ℝ  unnormalized eigenfunctions
 lameEc ν k j x, lameEs ν k j x     : ℝ → ℝ → ℕ → ℝ → ℝ Ec^j_ν(x, k²), Es^j_ν(x, k²)
 lameAlpha ν k p, lameBeta k p, lameGamma ν k p : ℝ     α_p, β_p, γ_p of 29.3.11–29.3.12
 lameUMatrix ν k n                  : Matrix (Fin (n+1)) (Fin (n+1)) ℝ   M of 29.15.2
 lameTypeFactor k s c d z           : ℝ                 sn^s cn^c dn^d, s c d : Bool
+lameTypeDegree s c d               : ℕ                 s + c + d
 IsLamePolynomial n k h s c d P     : Prop              sn^s cn^c dn^d P(sn²) solves (ν = n)
 IsLameWeierstrassSolution L n B Λ U : Prop             Λ″ = (n(n + 1)℘ + B) Λ on U
 IsLameProductSolution L n B X      : Prop              X‴ − 4(n(n+1)℘ + B)X′ − 2n(n+1)℘′X = 0
@@ -136,8 +141,8 @@ b^{2m+2}_ν = nthLeast {h | w_II(K; h) = 0} m          w(0) = 0,  w(K) = 0
   `∫₀^K dn(x) E(x)² dx = π/4`, with `Ec^j_ν(K) > 0` and `Es^j_ν′(K) < 0` (DLMF 29.3.18 and the
   sentence after it, p. 686). In `φ = π/2 − am z` the weight is `dφ = −dn dz`, so the normalization
   is `∫₀^{π/2} E² dφ = π/4`. `lameEc` and `lameEs` are built from the real parts of `hillWI`,
-  `hillWII` at real `h`, which are real solutions; `Real.sign` makes the signs, and the value at a
-  junk eigenvalue is junk.
+  `hillWII` at real `h` (the unnormalized `lameEcRaw`, `lameEsRaw`), which are real solutions;
+  `Real.sign` makes the signs, and the value at a junk eigenvalue is junk.
 - **Lamé polynomials.** A Lamé polynomial of order `n` is `sn^s cn^c dn^d P(sn²)` with
   `s, c, d ∈ {0, 1}`, `P ≠ 0` and `2 deg P + s + c + d = n`, solving Lamé's equation with `ν = n`.
   DLMF's eight names (Table 29.12.1, p. 691) are the types `u` (`000`), `s`, `c`, `d`, `sc`, `sd`,
@@ -145,18 +150,20 @@ b^{2m+2}_ν = nthLeast {h | w_II(K; h) = 0} m          w(0) = 0,  w(K) = 0
   (`s + c + d` = 0, 1, 2, 3), and Dassios's classes `K, L, M, N` (§3.1, (3.11)–(3.15), p. 51) by the
   factors `cn` (`L`), `dn` (`M`) and both (`N`), with `sn` absorbed into the parity in `x`.
 - **The Weierstrass form.** For a period pair `L`, Lamé's equation is `Λ″ = (n(n + 1)℘_L(u) + B)Λ`,
-  Whittaker–Watson's form (§23.4, p. 555). DLMF 29.2.9 writes `w″ + (g − ν(ν + 1)℘(η))w = 0`, so
-  `B = −g`. Gesztesy–Holden write `−y″ + n(n + 1)℘ y = z y` (Example 1.32, p. 63), so `B = −z`. In
-  1.3 and 5.2 the lattice is `UpperHalfPlane.periodPair τ` with `τ = iK′/K`, whose periods are `τ`
-  and `1`; the variable is `u = (z − iK′)/(2K)` and `B = (2K)²(ν(ν + 1)(1 + k²)/3 − h)`.
+  Whittaker–Watson's form (§23.4, pp. 554–555). DLMF 29.2.9 writes `w″ + (g − ν(ν + 1)℘(η))w = 0`,
+  so `B = −g`. Gesztesy–Holden write `−y″ + n(n + 1)℘ y = z y` (Example 1.32, p. 63), so `B = −z`.
+  In 1.3 and 5.2 the lattice is `UpperHalfPlane.periodPair τ` with `τ = iK′/K`, whose periods are
+  `τ` and `1`; the variable is `u = (z − iK′)/(2K)` and `B = (2K)²(ν(ν + 1)(1 + k²)/3 − h)`.
 - **Hermite's invariant.** `lameHermitePoly L n B` is the monic polynomial `F` of degree `n` for
   which `X = F(℘)` solves the product equation (5.1), and `0` (junk) if there is none; 5.1 proves
   that there is exactly one. `lameHermiteInvariant L n B` evaluates
   `X′² − 2XX″ + 4(n(n + 1)℘ + B)X²` at `u = ω₁/2`, which is off the lattice; 5.1 proves the
-  expression constant off the lattice. In Whittaker–Watson's notation (p. 572) it is `4Θ²`, with `Θ`
-  the constant of the Wronskian of the two Hermite solutions. Gesztesy–Holden normalize `F` to be
-  monic in the spectral parameter `z = −B` ((1.12)–(1.14), p. 23); their `F_n` is `((2n − 1)!!)²`
-  times `F(℘)` at `B = −z`, and their monic `R_{2n+1}(z)` is `−((2n − 1)!!)⁴/4` times the invariant.
+  expression constant off the lattice. In Whittaker–Watson's notation (pp. 571–572) it is `4ℭ²`,
+  where the Gothic `ℭ` is half the Wronskian of their two solutions `Λ₁`, `Λ₂`
+  (`Λ₁Λ₂′ − Λ₂Λ₁′ = 2ℭ`, p. 571); their `Θ` of §23.71 is Jacobi's theta function. Gesztesy–Holden
+  normalize `F` to be monic in the spectral parameter `z = −B` ((1.12)–(1.14), p. 23); their `F_n`
+  is `((2n − 1)!!)²` times `F(℘)` at `B = −z`, and their monic `R_{2n+1}(z)` is `−((2n − 1)!!)⁴/4`
+  times the invariant.
 - **The integral-equation kernel.** In DLMF 29.8.2 and 29.8.5 the kernel `P_ν` is the function
   `F(−ν, ν + 1; 1; (1 − x)/2)`, analytic for `x ∉ (−∞, −1]`; its argument ranges over an interval
   containing `1` (in 29.8.6, `y = dn(z) dn(z₁)/k′ ∈ [k′, 1/k′]`). On `(−1, 1)` it is the Ferrers
@@ -180,8 +187,9 @@ Prove:
 - in the complex `z`-plane the equation has regular singular points at `2pK + (2q + 1)iK′`,
   `p, q ∈ ℤ`, with exponents `−ν` and `ν + 1`, and no other singular points (DLMF §29.2(i)).
 
-Periodicity is Tau Ceti's `jacobiSn_antiperiodic` (antiperiod `2K`), `jacobiSn_neg`, and
-`sn(K − x) = sn(K + x)`, which follows from the antiperiodicity and oddness. The Hill normalization
+The sanity check `lamePotential_zero_modulus` records `Q = 0` at `k = 0`. Periodicity is Tau
+Ceti's `jacobiSn_antiperiodic` (antiperiod `2K`), `jacobiSn_neg`, and `sn(K − x) = sn(K + x)`,
+which follows from the antiperiodicity and oddness. The Hill normalization
 is the chain rule. The singular points are the poles of `sn` (SpecialFunctionsJacobiElliptic 2.3),
 where `k² sn²(z) = (z − z₀)⁻² + O(1)`, so the indicial equation is `ρ(ρ − 1) = ν(ν + 1)`.
 
@@ -219,7 +227,8 @@ last is `h₂²(h − ν(ν + 1)k² sn²)E`. Dassios's App. E gives the Jacobian
 
 **Checks.**
 - Symbolically, `h₂² E_zz` equals the first two terms of (2.63) for `x = h₃ sn`, `k = h₃/h₂`, and
-  `−ν(ν + 1)x² + B = h₂²(h − ν(ν + 1)k² sn²)` with `h = B/h₂²` (verified with sympy).
+  `−ν(ν + 1)x² + B = h₂²(h − ν(ν + 1)k² sn²)` with `h = B/h₂²`, as identities of rational functions
+  of `sn`, `cn`, `dn` modulo `cn² = 1 − sn²`, `dn² = 1 − k² sn²`.
 - `ν = 0`, `B = 0`: `E = 1` solves (2.63) and `w = 1` solves Lamé's equation with `h = 0`.
 - Negative control: the modulus is `h₃/h₂`, not `h₃²/h₂²`; with `k = h₃²/h₂²` the coefficient of
   `sn²` would be `ν(ν + 1)h₃⁴/h₂⁴` instead of `ν(ν + 1)h₃²/h₂²`.
@@ -228,7 +237,7 @@ last is `h₂²(h − ν(ν + 1)k² sn²)E`. Dassios's App. E gives the Jacobian
 
 ### 1.3 The Weierstrass form
 
-Sources: DLMF 29.2.6–29.2.12, p. 685; Whittaker–Watson §23.4, p. 555; Gesztesy–Holden Vol. I,
+Sources: DLMF 29.2.6–29.2.12, p. 685; Whittaker–Watson §23.4, pp. 554–555; Gesztesy–Holden Vol. I,
 Example 1.32, (1.147), p. 63.
 
 Let `τ = iK′/K`, `L = UpperHalfPlane.periodPair τ` (periods `τ` and `1`) and `e₁ = (2K)²(2 − k²)/3`,
@@ -377,13 +386,15 @@ conditions of each family.
 ### 3.2 Fourier series and continued fractions
 
 Sources: DLMF §29.6(i), 29.6.1–29.6.7, pp. 688–689, and §29.3(iii), 29.3.9–29.3.12, p. 685;
-Whittaker–Watson §23.5, p. 564 (the `φ`-forms).
+AsymptoticExpansions §12.1 (recessive solutions); SpecialFunctionsEiLiErfIncompleteGamma §4.1
+(Pincherle's theorem).
 
 With `φ = π/2 − am(z, k)` and `H = 2a^{2m}_ν − ν(ν + 1)k²` (29.6.2), prove:
 - **the Fourier series** (`lameEc_even_fourier`): `Ec^{2m}_ν = ½A₀ + Σ_{p≥1} A_{2p} cos 2pφ`, the
   coefficients satisfy `(β₀ − H)A₀ + α₀A₂ = 0` and `γ_pA_{2p−2} + (β_p − H)A_{2p} + α_pA_{2p+2} = 0`
-  with `α_p, β_p, γ_p` of 29.3.11–29.3.12, `½A₀² + Σ A_{2p}² = 1`, `½A₀ + Σ A_{2p} > 0`, and, unless
-  `ν = 2n` with `m ≤ n`, `A_{2p+2}/A_{2p} → k²/(1 + k′)²`;
+  with `α_p, β_p, γ_p` of 29.3.11–29.3.12, `½A₀² + Σ A_{2p}² = 1`, `½A₀ + Σ A_{2p} > 0`, and, for
+  `ν ≥ −½` unless `ν = 2n` with `m ≤ n`, `A_{2p+2}/A_{2p} → k²/(1 + k′)²` (DLMF 29.6.7 under the
+  standing `ν ≥ −½` of §29.2(i));
 - the continued fraction 29.3.10: `H` satisfies it for every `p ≥ 0`, and conversely a real root `H`
   of 29.3.10 for which the recessive solution of the recurrence (29.6.4) with `p ≥ 1` also satisfies
   (29.6.3) gives an eigenvalue `a^{2m}` by 29.3.9;
@@ -392,12 +403,25 @@ With `φ = π/2 − am(z, k)` and `H = 2a^{2m}_ν − ν(ν + 1)k²` (29.6.2), p
 The series: `Ec^{2m}` is even and `π`-periodic as a function of `φ` (2K-periodic and even in `z`),
 and analytic in `φ` on a strip, so its cosine series converges absolutely; inserting it in the
 trigonometric form 29.2.4 gives the recurrence. Parseval in `φ` with `dφ = dn dz` gives the
-normalization, and the sign is `Ec(K) > 0` at `φ = 0`. The ratio limit is Perron's theorem for the
-three-term recurrence (AsymptoticExpansions §12.1, as consumed by SpecialFunctionsMathieu 7.3):
-divided by `p²` the coefficients tend to `γ ~ −2k²`, `β ~ 4(2 − k²)`, `α ~ −2k²`, the characteristic
-equation `k²t² − 2(2 − k²)t + k² = 0` has the roots `(1 ± k′)²/k²`, and the recessive solution takes
-the smaller, `(1 − k′)²/k² = k²/(1 + k′)²`. The continued fraction follows from the recessive
-solution as in SpecialFunctionsMathieu 7.3. The corresponding series for `Ec^{2m+1}`, `Es^{2m+1}`,
+normalization, and the sign is `Ec(K) > 0` at `φ = 0`. The ratio limit: divided by `α_p`, the
+recurrence is `A_{2p+2} + f(p)A_{2p} + g(p)A_{2p−2} = 0` with `f(p) = (β_p − H)/α_p` and
+`g(p) = γ_p/α_p` rational in `p`, so with Poincaré expansions in `p⁻¹`, and `α_p ≠ 0`, `γ_p ≠ 0`
+for large `p`. From `α_p, γ_p ~ −2k²p²` and `β_p ~ 4(2 − k²)p²`, `f₀ = −2(2 − k²)/k²` and `g₀ = 1`;
+the characteristic equation `t² + f₀t + g₀ = 0` has the distinct roots `(1 ± k′)²/k²`, so
+AsymptoticExpansions §12.1 (in its tail form) gives a recessive solution, unique up to a factor,
+with ratio tending to the smaller root `(1 − k′)²/k² = k²/(1 + k′)²`, while every other solution
+has ratio tending to the larger, which exceeds `1`. The Fourier coefficients are square-summable,
+so they are the recessive solution, and the limit holds once they are not eventually `0`. If
+`A_{2p} = A_{2p+2} = 0` and `γ_q ≠ 0` for `1 ≤ q ≤ p`, the recurrence run backwards makes every
+coefficient `0`; `γ_q = ½(ν − 2q + 2)(ν + 2q − 1)k²` vanishes for some `q ≥ 1` only at `ν = 2n`
+(`q = n + 1`) or at `ν = −2n − 1` (`q = n + 1`), the latter below `−½`. For `ν = 2n` and `m > n`
+a terminating series would make `Ec^{2m}` a Lamé polynomial of type `u`, whose eigenvalue is some
+`a^{2j}_{2n}` with `j ≤ n` (4.1), not `a^{2m}`. At `ν = 2n` with `m ≤ n` the series terminates
+(29.6.7), and at `ν = −2n − 1`, the same equation, it can as well (Checks). The
+continued fraction: a recessive solution of a recurrence with `g(p) ≠ 0` is minimal in the sense
+of SpecialFunctionsEiLiErfIncompleteGamma §4.1, and its Pincherle theorem gives the convergence
+of the tail of 29.3.10 to the ratio of consecutive coefficients; 29.6.3 at `p = 0` closes it. The
+corresponding series for `Ec^{2m+1}`, `Es^{2m+1}`,
 `Es^{2m+2}` (DLMF §29.6(ii), online only) are targets of the same form; their recurrences follow by
 inserting `cos(2p + 1)φ`, `sin(2p + 1)φ`, `sin(2p + 2)φ` in 29.2.4.
 
@@ -410,12 +434,17 @@ inserting `cos(2p + 1)φ`, `sin(2p + 1)φ`, `sin(2p + 2)φ` in 29.2.4.
   of 29.3.10 with `p = 0` equals it to `10⁻¹⁵`; `k²/(1 + k′)² = 0.17157 28753`.
 - Negative control: replacing `α₀ = (ν − 1)(ν + 2)k²` by the `p ≥ 1` formula at `p = 0`
   (`½(ν − 1)(ν + 2)k²`) gives the wrong value `0.90342 76823` for `a⁰_{1.5}`.
+- Negative control for `ν ≥ −½`: at `ν = −1`, `m = 0`, any `0 < k < 1`, `ν(ν + 1) = 0`, so
+  `a⁰ = 0`, `H = 0`, `Ec⁰ = 2^{−1/2}`, `A₀ = √2` and `A_{2p} = 0` for `p ≥ 1`; the recurrence
+  (`β₀ = 0`, `γ₁ = 0`), `½A₀² = 1` and the sign hold, `ν = −1` is not of the form `2n`, but
+  `A_{2p+2}/A_{2p}` is `0/0 = 0` for `p ≥ 1`, not `k²/(1 + k′)² > 0`.
 
-*Needs:* 2.1, 3.1, 1.2; AsymptoticExpansions §12.1 (through SpecialFunctionsMathieu 7.3).
+*Needs:* 2.1, 3.1, 1.2, and 4.1 for `ν = 2n`, `m > n`; AsymptoticExpansions §12.1;
+SpecialFunctionsEiLiErfIncompleteGamma §4.1.
 
 ### 3.3 The limits `k → 0` and `k → 1`
 
-Sources: DLMF §29.5, 29.5.1–29.5.7, p. 688; EllipticIntegrals 2.1 and 3.1 (on main).
+Sources: DLMF §29.5, 29.5.1–29.5.7, p. 688; EllipticIntegrals 2.1 and 3.1.
 
 Prove:
 - **at `k = 0`** (`lame_modulus_zero`): `a^j_ν(0) = j²`, `b^j_ν(0) = j²` (`j ≥ 1`), and the
@@ -484,7 +513,8 @@ Lean statement.
 
 ### Dependencies
 
-Layers 1–2; SpecialFunctionsMathieu 3.1, 4.1, 7.3; EllipticIntegrals 2.1, 3.1;
+Layers 1–2, and 4.1 in 3.2; SpecialFunctionsMathieu 3.1, 4.1; EllipticIntegrals 2.1, 3.1;
+AsymptoticExpansions §12.1; SpecialFunctionsEiLiErfIncompleteGamma §4.1;
 SpecialFunctionsJacobiElliptic 3.5; SpecialFunctionsLegendre 1.1, 4.3.
 
 ## Layer 4: Lamé polynomials
@@ -509,6 +539,7 @@ Throughout, `n ∈ ℕ` and `ν = n`. Prove:
 - Lamé polynomials extend to doubly periodic meromorphic functions of `z` with the real and
   imaginary periods of Table 29.12.1 (with SpecialFunctionsJacobiElliptic 2.2).
 
+`lameTypeDegree s c d` is `s + c + d`, with the sanity check `lameTypeDegree_scd` for type `scd`.
 The count per type: inserting `sn^s cn^c dn^d P(sn²)` in the algebraic form gives a three-term
 recurrence for the coefficients of `P` whose truncation is an eigenproblem of size
 `(n − s − c − d)/2 + 1` for `h`; for type `u` this is SpecialFunctionsHeun 4.1 with `α = −n/2`, and
@@ -578,7 +609,8 @@ Prove:
   `(0, 1) ∪ (1, k⁻²)`; those in `(0, 1)` are as many as the zeros of the Lamé polynomial in
   `(0, K)`; and the zeros satisfy Stieltjes' equations 29.12.13 with `ρ = s/2`, `σ = c/2`,
   `τ = d/2`;
-- the remaining `deg P − m` zeros correspond to zeros on the segment from `K` to `K + iK′`;
+- the remaining zeros of `P`, `deg P` minus the number in `(0, 1)`, correspond to the zeros of the
+  Lamé polynomial on the open segment from `K` to `K + iK′`, where `sn² ∈ (1, k⁻²)`;
 - the function `g` of 29.12.11 on the region 29.12.12 attains its maximum exactly at the zeros
   (29.12.10–29.12.12), the electrostatic interpretation.
 
@@ -616,17 +648,26 @@ Prove:
 - **the duality** (`lame_eigenvalue_duality`): for `ν = n`, `a^m_n(k) + a^{n−m}_n(k′) = n(n + 1)`,
   `0 ≤ m ≤ n`, and `b^m_n(k) + b^{n−m+1}_n(k′) = n(n + 1)`, `1 ≤ m ≤ n` (29.3.7–29.3.8).
 
-The duality follows from the imaginary transformation applied to Lamé polynomials, which are entire
-in `z` off the poles, with the zero counts of 4.3: the `m` zeros in `(0, K)` and the `n − m` on the
-segment from `K` to `K + iK′` exchange roles.
+The duality follows from the imaginary transformation applied to Lamé polynomials, which are
+meromorphic in `z`, with the zero counts of 4.3. For the polynomial of `a^m_n` (resp. `b^m_n`),
+`r = ⌊m/2⌋` (resp. `⌊(m − 1)/2⌋`) zeros lie in `(0, K)` and `deg P − r` on the open segment from `K`
+to `K + iK′`; `z ↦ z′` exchanges the two intervals, and it exchanges the type factors `sn` and `dn`
+and fixes `cn` up to constants: `sn(z, k) = dn(z′, k′)/k`, `cn(z, k) = −ik′ cn(z′, k′)/k`,
+`dn(z, k) = k′ sn(z′, k′)` (SpecialFunctionsJacobiElliptic 2.1 and 4.1). The transformed function is
+the Lamé polynomial of modulus `k′` with `deg P − r` zeros in `(0, K′)` and the exchanged type,
+which by Table 29.12.1 is the one of `a^{n−m}_n(k′)` (resp. `b^{n−m+1}_n(k′)`), with eigenvalue
+`h′`.
 
 **Checks.**
 - `n = 2, 3`, `k² = 0.3`: all the sums of 29.3.7–29.3.8 equal `6` and `12` to `10⁻¹⁰`.
-- `n = 1`: `a⁰(k) + a¹(k′) = k² + (1 + k′²) = 2` and `b¹(k) + b¹(k′) = 1 + 1 = 2`.
+- `n = 1`: `a⁰(k) + a¹(k′) = k² + (1 + k′²) = 2` and `b¹(k) + b¹(k′) = 1 + 1 = 2`. The function
+  of `a⁰_1(k)` is `dn`, of type `d`, with no zero in `(0, K)` and none on the open segment
+  (`dn(K + it, k) = k′ cn(t, k′)/dn(t, k′)`); it goes to a multiple of `sn(z′, k′)`, type `s`,
+  the function of `a¹_1(k′)`.
 - Negative control: `a⁰_2(k) + a⁰_2(k′) = 2.44472 22331` at `k² = 0.3`, not `6`; the index must be
   `n − m`.
 
-*Needs:* 4.1, 4.3; SpecialFunctionsJacobiElliptic 4.1.
+*Needs:* 4.1, 4.3; SpecialFunctionsJacobiElliptic 2.1, 4.1.
 
 ### Examples
 
@@ -636,7 +677,7 @@ segment from `K` to `K + iK′` exchange roles.
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsHeun 4.1–4.3; SpecialFunctionsJacobiElliptic 2.2, 4.1.
+Layers 1–3; SpecialFunctionsHeun 4.1–4.3; SpecialFunctionsJacobiElliptic 2.1, 2.2, 4.1.
 
 ## Layer 5: Hermite's solution and the finite-gap property
 
@@ -655,8 +696,8 @@ Throughout, `L` is any period pair and `n ∈ ℕ`. Prove:
 - the product of any two solutions of the Weierstrass form on an open set solves the product
   equation, and for two independent solutions with product `X` the constant is `W(Λ₁, Λ₂)²`
   (Gesztesy–Holden (1.293)–(1.294), p. 107);
-- **the Hermite–Halphen solutions**: if `R(B) ≠ 0`, with `Θ² = R(B)/4`, the functions
-  `Λ_± = √X exp(±Θ ∫ du/X)` are independent solutions, and with `℘(a_r) = ξ_r` the zeros of `F`,
+- **the Hermite–Halphen solutions**: if `R(B) ≠ 0`, with `ℭ² = R(B)/4`, the functions
+  `Λ_± = √X exp(±ℭ ∫ du/X)` are independent solutions, and with `℘(a_r) = ξ_r` the zeros of `F`,
   `Λ_± = Π_r σ(u ± a_r)/(σ(u)σ(a_r)) · exp(∓u Σ_r ζ(a_r))` for a choice of signs of the `a_r`
   (Whittaker–Watson pp. 571–572); in Jacobi form, Hermite's `Π H(α + a_r)/Θ(α) · e^{ρα}` (§23.71).
 
@@ -677,8 +718,7 @@ and `σ(u)/u → 1`.
 - `n = 2`: `F = ℘² − (B/3)℘ + B²/9 − g₂/4` and `R(B) = (B² − 3g₂)(4B³ − 9g₂B + 27g₃)/81`, with
   leading coefficient `4/81 = 4/3⁴`; its roots are `±√(3g₂)` and `−3e_i`, Gesztesy–Holden's band
   edges `E = −B` (p. 62).
-- `n = 3, 4`: `R` has degree `7` and `9` and leading coefficient `4/15⁴` and `4/105⁴` (sympy,
-  exact).
+- `n = 3, 4`: `R` has degree `7` and `9` and leading coefficient `4/15⁴` and `4/105⁴`, exactly.
 - Negative control: Gesztesy–Holden's `R_{2n+1}` is monic in `z = −B`; reading the leading
   coefficient as `4` for all `n` (WW's monic-in-`℘` normalization of `F` does not make `R` monic)
   fails already at `n = 2`.
@@ -715,7 +755,8 @@ product `E · E`), so `R(B) = 0`. There are `2n + 1` distinct such `h` (4.1), an
 ### 5.3 Coexistence
 
 Sources: DLMF 29.3.5–29.3.6, p. 685; Whittaker–Watson §23.7, pp. 571–572; Gesztesy–Holden Vol. I,
-§1.6, p. 114 (Ince's theorem of 1940).
+§1.6, p. 115 (Ince's result of 1940, that the Lamé potential is finite-band exactly for integer
+order).
 
 Prove:
 - **coexistence and the sign of the gaps** (`lame_coexistence`): for `n ∈ ℕ` and `m > n`,
@@ -732,21 +773,22 @@ periodic or antiperiodic and every solution is; then `h` is a double root of `Δ
 both families, so `a^m_n = b^m_n` by 2.2.
 
 The sign 29.3.6 is an adaptation; DLMF states it without proof, and the route here has three steps.
-(i) *No other coexistence* (Ince's theorem, recorded in Gesztesy–Holden, p. 114): if `ν ∉ ℤ`,
-`a^m_ν ≠ b^m_ν` for every `m ≥ 1`. In the complex plane the coefficient `k² sn²` has the periods
-`2K` and `2iK′` and one singular point `iK′` per period cell (1.1), with exponents `−ν` and `ν + 1`.
-The loop around the puncture of the punctured torus is the commutator of the two period loops, so if
-the monodromy along `2K` is `±1` (coexistence), the local monodromy at `iK′` is the identity; but
-its eigenvalues are `e^{∓2πiν}`, which are `1` only for `ν ∈ ℤ`. For `ν = n` and `1 ≤ m ≤ n`,
-`a^m_n ≠ b^m_n` because both are polynomial eigenvalues and 4.1 makes them distinct. (ii) Hence, for
-fixed `ν ≥ −½` outside `{0, …, m − 1}`, `a^m_ν − b^m_ν` has no zero in `0 < k < 1`, and its sign
-does not depend on `k`. (iii) The sign at small `k`: at `k = 0`, `a^m = b^m = m²` (3.3), and
-degenerate perturbation theory in the basis `cos mφ`, `sin mφ` of the trigonometric form 29.2.4
-splits the pair at order `k^{2m}` by `c_m k^{2m} ∏_{i<m} (ν − i)(ν + i + 1)` with `c_m > 0` (the
-product of the `m` off-diagonal couplings over the unperturbed gaps, as for Mathieu's `a_m − b_m` in
-SpecialFunctionsMathieu 7.1–7.2); for `ν ≥ −½` the factors `ν + i + 1` are positive. This step also
-uses the strict ordering being decided at the first order where the pair splits, which is where
-`ν ≥ −½` enters.
+(i) *No other coexistence*: if `ν ∉ ℤ`, `a^m_ν ≠ b^m_ν` for every `m ≥ 1`. DLMF 29.3.6 contains it;
+Gesztesy–Holden, p. 115, record only Ince's weaker statement that for `ν ∉ ℤ` the potential is not
+finite-band, so that infinitely many of the gaps are open. In the complex plane the coefficient
+`k² sn²` has the periods `2K` and `2iK′` and one singular point `iK′` per period cell (1.1), with
+exponents `−ν` and `ν + 1`. The loop around the puncture of the punctured torus is the commutator of
+the two period loops, so if the monodromy along `2K` is `±1` (coexistence), the local monodromy at
+`iK′` is the identity; but its eigenvalues are `e^{∓2πiν}`, which are `1` only for `ν ∈ ℤ`. For
+`ν = n` and `1 ≤ m ≤ n`, `a^m_n ≠ b^m_n` because both are polynomial eigenvalues and 4.1 makes them
+distinct. (ii) Hence, for fixed `ν ≥ −½` outside `{0, …, m − 1}`, `a^m_ν − b^m_ν` has no zero in
+`0 < k < 1`, and its sign does not depend on `k`. (iii) The sign at small `k`: at `k = 0`,
+`a^m = b^m = m²` (3.3), and degenerate perturbation theory in the basis `cos mφ`, `sin mφ` of the
+trigonometric form 29.2.4 splits the pair at order `k^{2m}` by
+`c_m k^{2m} ∏_{i<m} (ν − i)(ν + i + 1)` with `c_m > 0` (the product of the `m` off-diagonal
+couplings over the unperturbed gaps, as for Mathieu's `a_m − b_m` in SpecialFunctionsMathieu
+7.1–7.2); for `ν ≥ −½` the factors `ν + i + 1` are positive. This step also uses the strict ordering
+being decided at the first order where the pair splits, which is where `ν ≥ −½` enters.
 
 **Checks.**
 - `ν = 2`, `k² = ½`: `a³ − b³ = 6 · 10⁻¹⁴` and `a⁴ − b⁴ = 0` to the same accuracy; `ν = 3`:
@@ -764,8 +806,8 @@ uses the strict ordering being decided at the first order where the pair splits,
 
 ### 5.4 Stability and the finite-gap property
 
-Sources: DLMF §29.9, p. 690; Gesztesy–Holden Vol. I, §1.6, (1.295), p. 111, and p. 114 (Ince's
-theorem); SpecialFunctionsMathieu 2.5.
+Sources: DLMF §29.9, p. 690; Gesztesy–Holden Vol. I, §1.6, (1.295), p. 111, and p. 115 (Ince's
+result); SpecialFunctionsMathieu 2.5.
 
 Prove:
 - **the instability intervals** (`lame_stability`): for `ν ∉ ℤ`, the equation has an unbounded
@@ -944,7 +986,9 @@ inputs, not targets:
   `PeriodPair.derivWeierstrassP_sq`; Weierstrass's `ζ`: Tau Ceti `PeriodPair.weierstrassZeta`;
   consumed in Layer 5;
 - the spectral theorem for Hermitian matrices (Mathlib `Matrix.IsHermitian.eigenvalues`) and the
-  Legendre polynomials (Mathlib `Polynomial.shiftedLegendre`), consumed in 4.2 and 6.3.
+  Legendre polynomials (Mathlib `Polynomial.shiftedLegendre`), consumed in 4.2 and 6.3;
+- recessive solutions of three-term recurrences and Pincherle's theorem: AsymptoticExpansions §12.1
+  and SpecialFunctionsEiLiErfIncompleteGamma §4.1, consumed in 3.2.
 
 **Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
 consumed roadmap provides in this form:
@@ -971,6 +1015,9 @@ consumed roadmap provides in this form:
   (its 1.1, 3.3, 4.3); 3.3, 3.4 and 6.1 consume them.
 - *Mathieu functions.* `ce_m`, `se_m` belong to SpecialFunctionsMathieu (its 4.1); 3.3 consumes them
   in the Mathieu limit.
+- *Three-term recurrences.* Recessive solutions belong to AsymptoticExpansions (its §12.1) and
+  minimal solutions with Pincherle's theorem to SpecialFunctionsEiLiErfIncompleteGamma (its §4.1);
+  3.2 applies them to the Fourier recurrence.
 - *Spectral theory of Schrödinger operators.* The spectrum of `−d²/dx² + V` on `L²(ℝ)` for periodic
   `V` is not defined here; 5.4 states the finite-gap property through boundedness of solutions.
 
@@ -980,11 +1027,12 @@ polynomials with their counts, matrices and zeros, Hermite's product and invaria
 finite-gap property, ellipsoidal harmonics with their orthogonality, and the integral equations; it
 consumes Hill's equation from SpecialFunctionsMathieu, Heun's equation from SpecialFunctionsHeun,
 the complex Jacobi functions and `℘` relation from SpecialFunctionsJacobiElliptic, Ferrers functions
-and spherical harmonics from SpecialFunctionsLegendre, and `K` from EllipticIntegrals.
+and spherical harmonics from SpecialFunctionsLegendre, `K` from EllipticIntegrals, and the
+recurrence theory from AsymptoticExpansions and SpecialFunctionsEiLiErfIncompleteGamma.
 
 ## Exact supplier contracts
 
-### From SpecialFunctionsMathieu (open)
+### From SpecialFunctionsMathieu
 
 - Conventions and 1.1: `IsHillSolution Q λ w`, `hillWI Q λ`, `hillWII Q λ` for any `Q : ℝ → ℝ`;
   `nthLeast` (Conventions, 3.1), copied with their bodies.
@@ -997,10 +1045,9 @@ and spherical harmonics from SpecialFunctionsLegendre, and `K` from EllipticInte
 - 3.3: `realRootCount`, `hillPeriodicEigenvalue`, `hillAntiperiodicEigenvalue` (copied), and the
   interlacing theorem and the eigenvalue enumeration, with hypotheses `Continuous Q` and
   `Function.Periodic Q π`, applied to `lameHillPotential ν k` with 1.1.
-- 4.1 and 7.3: `ce_m`, `se_m` (in prose, for 3.3) and the continued fraction from the recessive
-  solution (for 3.2).
+- 4.1: `ce_m`, `se_m` (in prose, for 3.3).
 
-### From SpecialFunctionsHeun (open)
+### From SpecialFunctionsHeun
 
 - 2.4: Lamé's equation is Heun's with `a = k⁻²`, `q = −ah/4`, `α = −ν/2`, `β = (ν + 1)/2`,
   `γ = δ = ε = ½`, under `ξ = sn²(z, k)` with Tau Ceti's real `sn` on `(0, K)`.
@@ -1008,7 +1055,7 @@ and spherical harmonics from SpecialFunctionsLegendre, and `K` from EllipticInte
 - 4.2: the reality of the polynomial eigenvalues (hypotheses real `a > 1`, `δ > 0`, `β > 0`).
 - 4.3: the eight classes and the F-homotopic reduction.
 
-### From SpecialFunctionsJacobiElliptic (open)
+### From SpecialFunctionsJacobiElliptic
 
 Its Conventions apply: `sn`, `cn`, `dn` are meromorphic functions of `u` for complex `k` with the
 junk values of its Conventions, and `k`, `k′` come from the theta functions; for real `0 < k < 1`
@@ -1023,11 +1070,24 @@ its 3.4 reconciles them with Tau Ceti's real functions.
   `L = UpperHalfPlane.periodPair τ`, with the half-period values `(2 − k²)/3`, `(2k² − 1)/3`,
   `−(1 + k²)/3`.
 
-### From SpecialFunctionsLegendre (open)
+### From SpecialFunctionsLegendre
 
 - 1.1: the Ferrers function `𝖯^μ_ν` on `(−1, 1)` and the Legendre function `P^μ_ν` off `(−∞, 1]`.
 - 3.3: spherical harmonics as harmonic polynomials.
 - 4.3: the hypergeometric forms in other variables (for 29.5.5–29.5.6 and the kernel of 3.4).
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- §12.1 in its tail form: for `w(n + 2) + f(n)w(n + 1) + g(n)w(n) = 0` with Poincaré expansions of
+  `f`, `g` in `n⁻¹`, `g₀ ≠ 0` and distinct characteristic roots `|ρ₁| < |ρ₂|`, a recessive solution
+  exists, is unique up to a factor and has `w(n + 1)/w(n) → ρ₁`; every independent solution has
+  ratio `→ ρ₂` (for 3.2).
+
+### From SpecialFunctionsEiLiErfIncompleteGamma
+
+- §4.1: minimal solutions of a three-term recurrence with nonzero `a n`, and Pincherle's theorem:
+  the continued fraction converges to `−f(1)/f(0)` for the minimal solution `f` with `f(0) ≠ 0`
+  (for 3.2).
 
 ### From [EllipticIntegrals](../EllipticIntegrals/README.md)
 
@@ -1070,7 +1130,7 @@ its 3.4 reconciles them with Tau Ceti's real functions.
   402–404.
 - F. Gesztesy and H. Holden, *Soliton Equations and Their Algebro-Geometric Solutions*, Vol. I,
   Cambridge Studies in Advanced Mathematics 79, Cambridge University Press, 2003: §1.2, p. 23;
-  Example 1.32, pp. 61–63; §1.6, pp. 107–108, 111 and 114.
+  Example 1.32, pp. 61–63; §1.6, pp. 107–108, 111 and 115.
 - G. Kristensson, *Second Order Differential Equations: Special Functions and Their Classification*,
   Springer, 2010, Problem 2.4, p. 26, and §8.6.1, p. 159.
 - NIST *Digital Library of Mathematical Functions*, Release 1.2.8 (2026-09-15), Chapter 29,

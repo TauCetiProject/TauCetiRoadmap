@@ -20,6 +20,13 @@ The real theory (Layers 1–4 and 6) is stated with Tau Ceti's real Jacobi funct
 (README 1.3) is prose, because it needs the complex Jacobi functions of
 SpecialFunctionsJacobiElliptic.
 
+Other headlines of the README have no statement here because their carriers are not at the pins:
+the eigenfunction limits of 3.3 need the Ferrers functions of SpecialFunctionsLegendre and the
+Mathieu functions `ce_m`, `se_m` of SpecialFunctionsMathieu; the integral equations of 3.4 need
+the Ferrers and Legendre functions `P_ν` of non-integer degree; the Hermite–Halphen form of 5.1
+needs Weierstrass's `σ`, a target of the README; and the ellipsoidal coordinates and harmonics of
+6.1 need ellipsoidal coordinates on `ℝ³`, which are not defined.
+
 `nthLeast`, `IsHillSolution`, `hillWI`, `hillWII`, `hillDiscriminant`, `realRootCount`,
 `hillPeriodicEigenvalue` and `hillAntiperiodicEigenvalue` are local copies of the definitions of
 SpecialFunctionsMathieu, with that roadmap's bodies; in Tau Ceti they live in the namespace
@@ -136,7 +143,7 @@ theorem lame_dassios_form {h₂ h₃ : ℝ} (h₃pos : 0 < h₃) (h₃₂ : h₃
   sorry
 
 /-- README 1.3: Lamé's equation in Weierstrass form, `Λ″ = (n(n + 1) ℘(u) + B) Λ` on `U`
-(Whittaker–Watson §23.4, p. 555; DLMF 29.2.9 with `B = −g`). -/
+(Whittaker–Watson §23.4, pp. 554–555; DLMF 29.2.9 with `B = −g`). -/
 def IsLameWeierstrassSolution (L : PeriodPair) (n : ℕ) (B : ℂ) (Λ : ℂ → ℂ) (U : Set ℂ) : Prop :=
   DifferentiableOn ℂ Λ U ∧
     ∀ u ∈ U, deriv (deriv Λ) u = ((n * (n + 1) : ℂ) * L.weierstrassP u + B) * Λ u
@@ -270,8 +277,9 @@ def lameGamma (ν k : ℝ) (p : ℕ) : ℝ :=
 
 /-- README 3.2: the Fourier series of `Ec^{2m}_ν` in `cos 2pφ`, `φ = π/2 − am(z, k)`, with
 `A p = A_{2p}`: the three-term recurrence (29.6.3)–(29.6.4) for `H = 2a^{2m}_ν − ν(ν + 1)k²`,
-the normalization (29.6.5), the sign (29.6.6), and the ratio limit (29.6.7) off the polynomial
-case. -/
+the normalization (29.6.5), the sign (29.6.6), and the ratio limit (29.6.7) for `ν ≥ −½` off the
+polynomial case. At `ν = −1`, `m = 0` the coefficients are `√2, 0, 0, …` and the ratio tends to
+`0`, so `ν ≥ −½` cannot be dropped. -/
 theorem lameEc_even_fourier {k : ℝ} (hk : k ∈ Ioo (0 : ℝ) 1) (ν : ℝ) (m : ℕ) :
     let H := 2 * lameA ν k (2 * m) - ν * (ν + 1) * k ^ 2
     ∃ A : ℕ → ℝ,
@@ -282,7 +290,7 @@ theorem lameEc_even_fourier {k : ℝ} (hk : k ∈ Ioo (0 : ℝ) 1) (ν : ℝ) (m
         lameAlpha ν k p * A (p + 1) = 0) ∧
       HasSum (fun p : ℕ => if p = 0 then A 0 ^ 2 / 2 else A p ^ 2) 1 ∧
       0 < A 0 / 2 + ∑' p : ℕ, A (p + 1) ∧
-      ((∀ n : ℕ, ν = 2 * n → n < m) →
+      (-1 / 2 ≤ ν → (∀ n : ℕ, ν = 2 * n → n < m) →
         Tendsto (fun p => A (p + 1) / A p) atTop
           (𝓝 (k ^ 2 / (1 + Real.sqrt (1 - k ^ 2)) ^ 2))) := by
   sorry
@@ -396,8 +404,9 @@ def lameHermitePoly (L : PeriodPair) (n : ℕ) (B : ℂ) : Polynomial ℂ :=
       IsLameProductSolution L n B (fun u => F.eval (L.weierstrassP u)) then h.choose
   else 0
 
-/-- README 5.1: the invariant `X′² − 2XX″ + 4(n(n + 1)℘ + B) X²` of `X = F(℘)` (which is `4Θ²` in
-Whittaker–Watson's notation, p. 572), evaluated at `u = ω₁/2`. -/
+/-- README 5.1: the invariant `X′² − 2XX″ + 4(n(n + 1)℘ + B) X²` of `X = F(℘)` (which is `4ℭ²` in
+Whittaker–Watson's notation, pp. 571–572, with `2ℭ` the Wronskian of their `Λ₁`, `Λ₂`), evaluated
+at `u = ω₁/2`. -/
 def lameHermiteInvariant (L : PeriodPair) (n : ℕ) (B : ℂ) : ℂ :=
   let X : ℂ → ℂ := fun u => (lameHermitePoly L n B).eval (L.weierstrassP u)
   let u₀ := L.ω₁ / 2
