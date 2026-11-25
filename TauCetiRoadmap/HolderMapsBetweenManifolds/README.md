@@ -163,7 +163,8 @@ inequality `norm_image_sub_le_of_norm_fderivWithin_le`.
 For `0 < β < α ≤ 1` and any bounded `v : S → V`,
 `[v]_{β,S} ≤ 2^{1−β/α} (sup_S ‖v‖)^{1−β/α} [v]_{α,S}^{β/α}`: this is Mathlib's
 `HolderOnWith.interpolate` applied to the `α`-Hölder bound and to the exponent-`0` bound
-`‖v(x) − v(y)‖ ≤ 2 sup_S ‖v‖`, with weights `β/α` and `1 − β/α`. Prove the consequence that is
+`‖v(x) − v(y)‖ ≤ 2 sup_S ‖v‖`, with weights `β/α` and `1 − β/α` (interpolation of Hölder
+norms, dLO §3). Prove the consequence that is
 used in Layers 4 and 5: on a compact `K`, a sequence (or filter) of `C^k` functions that is bounded
 in the `C^{k,α}(K)` norm and converges in `C^k(K)` converges in `C^{k,β}(K)` for every `β < α`.
 
@@ -403,7 +404,7 @@ compactness.
   vanishes at the interior point `0`, and its inverse, the real cube root, is `C^{0,1/3}` and not
   differentiable at `0`: the invertibility hypotheses of §3.2 cannot be dropped.
 
-*Needs:* Layer 2; §1.3; Mathlib `Diffeomorph`, `PartialDiffeomorph`, `Subgroup.closure`,
+*Needs:* Layer 2, without the comparisons of §2.2; §1.3; Mathlib `Diffeomorph`, `PartialDiffeomorph`, `Subgroup.closure`,
 `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`, `ContinuousLinearMap.inverse`; Tau Ceti
 `TauCeti.Diff`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`, `TauCeti.Manifold.riemannianExp`,
 `TauCeti.Manifold.riemannianLog`, `TauCeti.Manifold.IsNormalDomain`; SmoothBundlesConnections B6.0
@@ -451,7 +452,9 @@ operators), is injective (a uniform radius on which `h` is injective with a unif
 `dist (h a) (h b) / dist a b` in charts persists under `C^1`-small perturbation, and points farther
 apart than that radius have images apart by `C^0`-closeness), and is surjective (its image is open
 by the inverse function theorem and closed by compactness, and meets every component of `N`
-because it is `C^0`-close to `h`). §3.2 item 2 then gives the Hölder inverse.
+because it is `C^0`-close to `h`). §3.2 item 2 then gives the Hölder inverse. The `C^1` statement
+is Hirsch, *Differential Topology*, Chapter 2, Theorem 1.6 (diffeomorphisms are open in the strong
+`C^r` topology, `r ≥ 1`, which on compact `M` is the weak one).
 
 ### 4.3 The `C^{k,α}` topology on `Diff^{k,α}(M)` is not a group topology
 
@@ -464,7 +467,8 @@ hence `HolderDiff I M k α` with this topology is not a topological group
 supported in the chart and equal to the coordinate field `∂₁` near a point has a flow `φ_t` with
 `φ_t → 1` in `TauCeti.Diff I M ∞` and so in this topology, and `f = id + εξ`, with `ξ` supported in
 the chart and `∂₁^k ξ₁` having an `α`-cusp as in the Check of §1.1 at that point, satisfies
-`[D^k(f ∘ φ_t − f)]_α ≥ 2ε` near the point for all small `t`.
+`[D^k(f ∘ φ_t − f)]_α ≥ 2ε` near the point for all small `t` (the Euclidean form of this
+discontinuity of composition in the inner factor is among the examples of dLO §6).
 
 ### 4.4 The group topology
 
@@ -496,7 +500,8 @@ allowed:
 - *Dimension zero.* For `M` a point or empty, `HolderDiff I M k α` is trivial and both topologies
   agree, so the non-group statement of §4.3 needs a nonempty `M` of positive dimension.
 
-*Needs:* Layers 1–3; Tau Ceti `ContMDiffMap.manifoldWeakWhitneyTopology`,
+*Needs:* Layers 1–3 (Layer 2 without the comparisons of §2.2); Tau Ceti
+`ContMDiffMap.manifoldWeakWhitneyTopology`,
 `ContMDiffMap.tendsto_manifoldWeakWhitney_iff`, `Diffeomorph.weakWhitneyTopology`,
 `Diffeomorph.continuous_symm`, `Diffeomorph.isTopologicalGroup`.
 
@@ -515,8 +520,10 @@ finite-atlas spaces of §2.2; `F` is a complete normed space over `ℝ` or `ℂ`
    `C^{k,α'}`.
 2. `C^{k+1}_A(M, F) → C^{k,1}_A(M, F)` is continuous, and for nonempty `M` of positive dimension
    and `F ≠ 0` it is not onto: as in the Checks of §2.5, the map equal in a chart to
-   `ψ(z) ℓ(z − z₀)^k |ℓ(z − z₀)| v` and to `0` elsewhere, for `z₀` interior to `Set.range I`, a
-   smooth cutoff `ψ` equal to `1` near `z₀` with support in a small ball around `z₀`, a nonzero
+   `ψ(z) ℓ(z − z₀)^k |ℓ(z − z₀)| v` and to `0` elsewhere, for `z₀` in the chart's target and
+   interior to `Set.range I` (such points exist, the target being a nonempty relatively open
+   subset of the convex set `Set.range I`, which has nonempty interior), a smooth cutoff `ψ` equal
+   to `1` near `z₀` with support in a small ball around `z₀` inside the target, a nonzero
    linear form `ℓ` on `E` and `v ≠ 0` in `F`, lies in the second space and not the first.
 3. For real `r ≥ 0`, define `C^r_A(M, F)` as `C^k_A(M, F)` when `r = k` is a natural number and as
    `C^{⌊r⌋, r − ⌊r⌋}_A(M, F)` otherwise. The inclusions `C^r_A(M, F) → C^{r'}_A(M, F)` for
@@ -568,7 +575,8 @@ boundaryless here.
   the `n`th unit vector have `C^{k,α}_A` norm `1` and pairwise `C^k_A` distance `√2`, so no
   subsequence converges: the compactness in §5.1 needs finite-dimensional `F`.
 
-*Needs:* Layers 1–2, with the finite-atlas spaces of §2.2; Tau Ceti `TauCeti.HolderSpace`,
+*Needs:* Layers 1–2, with the finite-atlas spaces of §2.2 and without its comparisons; Tau Ceti
+`TauCeti.HolderSpace`,
 `TauCeti.MetricSpace.ofRiemannianMetric`; Mathlib smooth partitions of unity
 (`SmoothPartitionOfUnity`), convolution (`MeasureTheory.convolution`) and the Arzelà–Ascoli theorem
 (`BoundedContinuousFunction.arzela_ascoli₂`).
@@ -691,6 +699,8 @@ every tangent ball of that radius; §3.4 uses it on the compact `M`.
   of composition and the examples `|x|^α` showing it is sharp), §6 (continuity of composition in
   each factor, the set of exponents of continuity, examples of discontinuity outside it, and the
   theorem on joint continuity and differentiability of composition).
+- **Hirsch** M. W. Hirsch, *Differential Topology*, Graduate Texts in Mathematics 33, Springer
+  (1976), Chapter 2, §1, Theorem 1.6 (openness of diffeomorphisms in the strong topology).
 - **DKRH** D. Dolgopyat, A. Kanigowski and F. Rodriguez Hertz, *Exponential mixing implies
   Bernoulli*, Ann. of Math. 199 (2024), no. 3, https://doi.org/10.4007/annals.2024.199.3.5;
   arXiv:2106.03147v1. §1.1, (1.1) and Theorem 1.1 (setting and exponential mixing for the `C^r`
