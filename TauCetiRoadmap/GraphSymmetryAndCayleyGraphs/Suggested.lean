@@ -240,13 +240,6 @@ theorem adjMatrix_pow_eq_sum_adjEigenspaceProjection (h : ℕ) :
       ∑ θ ∈ (adjSpectrum G).toFinset, θ ^ h • adjEigenspaceProjection G θ := by
   sorry
 
-/-- **2.1 (Cvetković–Rowlinson–Simić, *Eigenspaces*, §4.1 and (4.2.5)).** A graph is
-walk-regular exactly when every spectral projection has constant diagonal. -/
-theorem isWalkRegular_iff_adjEigenspaceProjection :
-    IsWalkRegular G ↔
-      ∀ (θ : ℝ) (x y : V), adjEigenspaceProjection G θ x x = adjEigenspaceProjection G θ y y := by
-  sorry
-
 /-! ### 2.2 Vertex-deleted subgraphs -/
 
 /-- **2.2 (Cvetković–Rowlinson–Simić, *Eigenspaces*, (4.2.8)).** The characteristic polynomial
@@ -258,20 +251,7 @@ theorem eval_charpoly_submatrix_compl (x : V) {t : ℝ} (ht : t ∉ adjSpectrum 
         ∑ θ ∈ (adjSpectrum G).toFinset, adjEigenspaceProjection G θ x x / (t - θ) := by
   sorry
 
-/-- **2.2 (Godsil, *Algebraic Combinatorics*, Chapter 5, §3).** A graph is walk-regular exactly
-when all vertex-deleted subgraphs have the same characteristic polynomial. -/
-theorem isWalkRegular_iff_charpoly_submatrix :
-    IsWalkRegular G ↔ ∀ x y : V,
-      ((G.adjMatrix ℤ).submatrix (Subtype.val : {z // z ≠ x} → V) Subtype.val).charpoly =
-        ((G.adjMatrix ℤ).submatrix (Subtype.val : {z // z ≠ y} → V) Subtype.val).charpoly := by
-  sorry
-
 /-! ### 2.3 Vertex-transitive and regular graphs -/
-
-/-- **2.3** Vertex-transitive graphs are walk-regular. -/
-theorem IsVertexTransitive.isWalkRegular {G : _root_.SimpleGraph V} [DecidableRel G.Adj]
-    (h : IsVertexTransitive G) : IsWalkRegular G := by
-  sorry
 
 /-- **2.3** Walk-regular graphs are regular (closed walks of length `2`). -/
 theorem IsWalkRegular.exists_isRegularOfDegree {G : _root_.SimpleGraph V} [DecidableRel G.Adj]
@@ -469,7 +449,8 @@ theorem two_mul_succ_le_three_mul_vertexConnectivity (hG : G.Connected)
 
 /-! ### 6.2 Matchings -/
 
-/-- **6.2 (Godsil–Royle, Theorem 3.5.1).** In a connected vertex-transitive graph with an odd
+/-- **6.2 (Godsil–Royle, §3.5, the remark before Theorem 3.5.1).** In a connected
+vertex-transitive graph with an odd
 number of vertices, every vertex is missed by a matching that covers all the other vertices. -/
 theorem exists_isMatching_verts_eq_compl_singleton (hG : G.Connected)
     (hvt : IsVertexTransitive G) (hodd : Odd (Fintype.card V)) (v : V) :

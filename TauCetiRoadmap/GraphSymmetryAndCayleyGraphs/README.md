@@ -8,9 +8,9 @@ side of algebraic graph theory. This roadmap builds the theory of vertex-, edge-
 - Automorphisms are the permutations commuting with the adjacency matrix; they permute each
   eigenspace, and if every eigenvalue is simple the automorphism group is an elementary abelian
   `2`-group.
-- A graph is walk-regular exactly when every spectral projection has constant diagonal, exactly
-  when all vertex-deleted subgraphs have the same characteristic polynomial; vertex-transitive
-  graphs are walk-regular.
+- The powers of the adjacency matrix expand as `Aʰ = ∑_θ θʰ P_θ` over the spectral projections,
+  the characteristic polynomial of the graph with a vertex `x` deleted is
+  `p_Γ(t) ∑_θ (P_θ)_{xx} / (t - θ)` off the spectrum, and walk-regular graphs are regular.
 - Sabidussi's theorem: a graph on a nonempty vertex set is a Cayley graph exactly when its
   automorphism group contains a subgroup acting regularly. Every finite vertex-transitive graph
   on a nonempty vertex set is a retract of a Cayley graph, and the Petersen graph, with
@@ -28,8 +28,8 @@ side of algebraic graph theory. This roadmap builds the theory of vertex-, edge-
 - A finite `s`-arc-transitive graph of minimum degree at least `3` has girth at least `2s - 2`,
   and Tutte's theorem bounds `s ≤ 5` for connected cubic graphs.
 - Whitney's theorems: connected graphs with isomorphic line graphs are isomorphic apart from
-  `K₃` and `K_{1,3}`, and apart from four small graphs every automorphism of the line graph comes
-  from exactly one automorphism of the graph.
+  `K₃` and `K_{1,3}`, and apart from four small graphs every automorphism of the line graph of a
+  connected graph comes from exactly one automorphism of the graph.
 - Frucht's theorem: every finite group is the automorphism group of a finite cubic graph; and
   almost all graphs, labelled or up to isomorphism, have no nontrivial automorphism.
 
@@ -49,8 +49,10 @@ Layer 1 is the foundation: the three notions of transitivity, automorphisms and 
 matrix, and the transitivity of Kneser graphs. Every later
 layer uses it.
 
-Layer 2 treats walk-regular graphs through the spectral decomposition of the powers of `A` and
-the vertex-deleted characteristic polynomials. Layer 3 treats Cayley graphs and regular actions,
+Layer 2 defines walk-regular graphs and states the spectral decomposition of the powers of `A`
+and the vertex-deleted characteristic polynomial; the spectral characterizations of
+walk-regularity are recorded there in prose, as the all-vertex case of the cospectrality theory
+of SpectralQuantumWalks. Layer 3 treats Cayley graphs and regular actions,
 up to Sabidussi's theorem; Layer 4 the retraction of a vertex-transitive graph onto a Cayley graph
 and the Petersen graph; Layer 5 Cayley spectra, first for commutative groups through characters
 and then for arbitrary finite groups through irreducible representations. Layer 6 proves the
@@ -250,8 +252,10 @@ Hamming graphs and of the Kneser graphs. These are targets of the same standing,
 ### 2.1 Walk counts and spectral projections
 
 Definition: `IsWalkRegular G`: for every `h ≥ 0` the number of closed walks of length `h` at `x`
-(Mathlib's `SimpleGraph.finsetWalkLength h x x`) does not depend on `x` [CRS-E, §4.1, p. 79;
-G, Chapter 5, §3, p. 81].
+(Mathlib's `SimpleGraph.finsetWalkLength h x x`) does not depend on `x` [CRS-E, §4.1, p. 79].
+[G, Chapter 5, §3, p. 81] defines walk-regularity by the vertex-deleted characteristic
+polynomials (2.2) and derives from it that the closed-walk generating functions do not depend on
+the vertex.
 
 - **Walk counts** (`isWalkRegular_iff_adjMatrix_pow`). Over a commutative semiring of
   characteristic zero, `G` is walk-regular exactly when every power `Aʰ` has constant diagonal.
@@ -261,16 +265,20 @@ G, Chapter 5, §3, p. 81].
   `h ≥ 0`, `Aʰ = ∑_θ θʰ P_θ` over the distinct eigenvalues `θ` (the elements of
   `(adjSpectrum G).toFinset`); at `h = 0` the projections sum to the identity [CRS-E, (4.2.4),
   p. 81; B, 2j, p. 13].
-- **Spectral projections** (`isWalkRegular_iff_adjEigenspaceProjection`). `G` is walk-regular
-  exactly when every spectral projection `P_θ` has constant diagonal [CRS-E, §4.2, (4.2.5),
-  p. 81, where `(P_θ)_{xx}` is the square of the angle at `x`; G, Chapter 5, Exercise 4, p. 88].
+
+Not a target here: `G` is walk-regular exactly when every spectral projection `P_θ` has constant
+diagonal [CRS-E, §4.2, (4.2.5), p. 81, where `(P_θ)_{xx}` is the square of the angle at `x`;
+G, Chapter 5, Exercise 4, p. 88]. Two vertices with equal local multiplicities `(P_θ)_{xx}` for
+every `θ` are cospectral, and walk-regularity is cospectrality of every pair of vertices;
+SpectralQuantumWalks (Layer 1) owns cospectrality with its closed-walk-count formulation. The
+proof is the Vandermonde argument below. No statement of this roadmap rests on it.
 
 **Suggested proof:** for the decomposition, Mathlib's `Matrix.IsHermitian.spectral_theorem`
 writes `A = U D Uᵀ` with the orthonormal eigenvector basis as columns of `U`, so
 `Aʰ = U Dʰ Uᵀ = ∑ᵢ λᵢʰ vᵢvᵢᵀ`; group the indices by eigenvalue and use the definition of
-`adjEigenspaceProjection`. For the characterization, the diagonal entry `(Aʰ)_{xx}` is
-`∑_θ θʰ (P_θ)_{xx}`; the Vandermonde matrix of the distinct eigenvalues is invertible, so the
-diagonals of the powers determine those of the projections and conversely.
+`adjEigenspaceProjection`. For the characterization recorded above, the diagonal entry
+`(Aʰ)_{xx}` is `∑_θ θʰ (P_θ)_{xx}`; the Vandermonde matrix of the distinct eigenvalues is
+invertible, so the diagonals of the powers determine those of the projections and conversely.
 
 **Checks.**
 - `C₅` is walk-regular; `(Aʰ)_{xx}` is the number of closed walks of length `h`, `2` at `h = 2`,
@@ -290,17 +298,20 @@ diagonals of the powers determine those of the projections and conversely.
   `p_{Γ - x}(t) = p_Γ(t) ∑_θ (P_θ)_{xx} / (t - θ)`, the sum over the distinct eigenvalues, where
   `p_{Γ - x}` is the characteristic polynomial of the principal submatrix of `A` on `V ∖ {x}`
   [CRS-E, §4.2, (4.2.7)–(4.2.8), pp. 82–83].
-- **Vertex-deleted subgraphs** (`isWalkRegular_iff_charpoly_submatrix`). `G` is walk-regular
-  exactly when all the vertex-deleted characteristic polynomials over `ℤ` coincide; this is the
-  definition of walk-regularity in [G, Chapter 5, §3, p. 81].
+
+Not a target here: `G` is walk-regular exactly when all the vertex-deleted characteristic
+polynomials over `ℤ` coincide. This is the definition of walk-regularity in [G, Chapter 5, §3,
+p. 81]: "A graph G is walk-regular if φ(G\i, x) is the same for all vertices i." For two vertices
+it is the deleted-characteristic-polynomial formulation of cospectrality, owned by
+SpectralQuantumWalks (Layer 1). No statement of this roadmap rests on it.
 
 **Suggested proof:** Cramer's rule gives `((tI - A)⁻¹)_{xx} = p_{Γ-x}(t) / p_Γ(t)`, through
 Mathlib's `Matrix.adjugate_fin_succ_eq_det_submatrix` after reindexing `V` to `Fin n` with `x`
 first (`Matrix.adjugate_submatrix_equiv_self`); the spectral decomposition of 2.1 gives
-`(tI - A)⁻¹ = ∑_θ P_θ / (t - θ)`. For the characterization, the polynomials agree for `x` and `y`
-exactly when the rational functions `∑_θ (P_θ)_{xx} / (t - θ)` and `∑_θ (P_θ)_{yy} / (t - θ)`
-agree, that is, when the diagonals of the `P_θ` agree; transfer from `ℝ` to `ℤ` by injectivity of
-the cast of polynomials (`Matrix.charpoly_map`).
+`(tI - A)⁻¹ = ∑_θ P_θ / (t - θ)`. For the characterization recorded above, the polynomials agree
+for `x` and `y` exactly when the rational functions `∑_θ (P_θ)_{xx} / (t - θ)` and
+`∑_θ (P_θ)_{yy} / (t - θ)` agree, that is, when the diagonals of the `P_θ` agree; transfer from
+`ℝ` to `ℤ` by injectivity of the cast of polynomials (`Matrix.charpoly_map`).
 
 **Checks.**
 - `P₃`: `p_{P₃ - end}(t) = t² - 1` and `p_{P₃ - middle}(t) = t²`, consistent with `P₃` not being
@@ -318,19 +329,21 @@ the cast of polynomials (`Matrix.charpoly_map`).
 
 ### 2.3 Vertex-transitive and regular graphs
 
-- **Vertex-transitive implies walk-regular** (`IsVertexTransitive.isWalkRegular`) [G, Chapter 5,
-  §3, p. 81].
 - **Walk-regular implies regular** (`IsWalkRegular.exists_isRegularOfDegree`) [G, Chapter 5,
   §3, p. 81; BH, §15.1, p. 222]. Supply also that every vertex of a walk-regular graph lies in
   the same number of triangles (`h = 3`).
 
-**Suggested proof:** an automorphism `φ` maps closed walks at `x` bijectively onto closed walks
-at `φ x` of the same length (Mathlib's `SimpleGraph.Walk.map`). For regularity, take `h = 2`,
-where `(A²)_{xx}` is the degree of `x`.
+Not a target here: vertex-transitive graphs are walk-regular [G, Chapter 5, §3, p. 81], since an
+automorphism `φ` maps closed walks at `x` bijectively onto closed walks at `φ x` of the same
+length (Mathlib's `SimpleGraph.Walk.map`). It is the transitive case of the cospectrality of
+vertices in one automorphism orbit, owned by SpectralQuantumWalks (Layer 1).
+
+**Suggested proof:** take `h = 2`, where `(A²)_{xx}` is the degree of `x`, and `h = 3`, where it
+is twice the number of triangles at `x`.
 
 **Checks.**
 - The cycles, complete graphs, the Petersen graph and `Q₃` are vertex-transitive, hence
-  walk-regular.
+  walk-regular (the prose fact above) and regular, of degrees `2`, `n - 1`, `3` and `3`.
 - Negative control: the Chang graph obtained from `L(K₈)` by switching with respect to the four
   edges of a perfect matching of `K₈` is strongly regular with parameters `(28, 12, 6, 4)`, hence
   walk-regular, and is not vertex-transitive: walk-regularity is strictly weaker.
@@ -687,7 +700,12 @@ lemmas.
   vertex-transitivity, and `1`-arc-transitivity is arc-transitivity [GR, §4.1, p. 59].
 - **Monotonicity** (`IsSArcTransitive.of_succ`). If every vertex has degree at least `2`, an
   `(s + 1)`-arc-transitive graph is `s`-arc-transitive. [GR, §4.1, p. 59] states this without
-  the degree condition, which is needed (Checks).
+  the degree condition ("If s ≥ 1, then it is both obvious and easy to prove that an s-arc
+  transitive graph is also (s − 1)-arc transitive"), for the definition used here, transitivity
+  on `s`-arcs; for it the condition is needed (Checks). The second definition of [GR, §4.1,
+  p. 60], a transitive group whose vertex stabilizer is transitive on the `s`-arcs starting at
+  the vertex, builds in vertex-transitivity, and for it no degree condition is needed: a
+  vertex-transitive graph is regular, and in degree `1` it has no `2`-arcs.
 
 Supply also the bridge between `s`-arcs and Mathlib walks of length `s` that do not backtrack
 (through `SimpleGraph.Walk.getVert`), the action of `G ≃g G` on `s`-arcs, and the shunting
@@ -846,8 +864,9 @@ spread over classes of size `n!`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
-- **Weiss's theorem.** A finite connected `s`-arc-transitive graph of minimum degree at least `3`
-  has `s ≤ 7` and `s ≠ 6` [BW, Praeger, Theorem 6.2 and the paragraph after it, p. 190; R. Weiss,
+- **Weiss's theorem.** A finite connected graph of minimum degree at least `3` is not
+  `8`-arc-transitive, and if it is `s`-arc-transitive but not `(s + 1)`-arc-transitive then
+  `s ≤ 5` or `s = 7` [BW, Praeger, Theorem 6.2 and the paragraph after it, p. 190; R. Weiss,
   *The nonexistence of 8-transitive graphs*, Combinatorica 1 (1981), 309–311]. The proof uses the
   classification of the finite doubly transitive permutation groups, which rests on the
   classification of the finite simple groups. A roadmap for it would start from the statement of
@@ -883,8 +902,9 @@ Owned here:
   transitivity of the Kneser, Johnson and Hamming graphs;
 - the matrix criterion for automorphisms and eigenspace invariance;
 - automorphisms of graphs with simple spectrum;
-- walk-regular graphs, the spectral decomposition of the powers of `A` in terms of the
-  projections of GraphSpectra 3.9, and the spectral characterizations of walk-regularity;
+- walk-regular graphs and their regularity, the spectral decomposition of the powers of `A` in
+  terms of the projections of GraphSpectra 3.9, and the vertex-deleted characteristic polynomial
+  `p_{Γ - x}(t) = p_Γ(t) ∑_θ (P_θ)_{xx} / (t - θ)`;
 - Cayley graphs of arbitrary groups: regularity, connectivity, the regular left action,
   Sabidussi's theorem, normal Cayley graphs, and circulants as abelian Cayley graphs;
 - retractions of vertex-transitive graphs onto Cayley graphs, the automorphism group of the
@@ -920,6 +940,12 @@ Not owned here, and not used:
   the case of the Petersen graph directly;
 - the arc-transitivity and character eigenvectors of Paley graphs: PaleyGraphsAndCharacterSums
   1.4 and 2.1;
+- cospectral vertices, their formulations by local multiplicities, vertex-deleted characteristic
+  polynomials and closed-walk counts, and the cospectrality of vertices in one automorphism
+  orbit: SpectralQuantumWalks, Layer 1. Walk-regularity is cospectrality of every pair of
+  vertices; 2.1–2.3 record its spectral characterizations and the vertex-transitive case in
+  prose, with their locators, and state nothing that rests on them. The two identities of 2.1
+  and 2.2 for a single graph and a single vertex are stated here;
 - character diagonalizations in the setting of quantum walks: SpectralQuantumWalks, Layer 7. The
   boundary is this: 5.1 here owns the eigenvector statement and the characteristic polynomial of
   the Cayley graph of a finite commutative group as a `SimpleGraph`, proved from its definition,
