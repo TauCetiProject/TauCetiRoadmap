@@ -1025,7 +1025,9 @@ support meets it in `ξ₀` alone); the parity statement is `ω(−1, 1)` acting
 
 *Origin:* adapted from Mínguez (2008), the explicit theta correspondence for `(GL_n, GL_d)` in Langlands parameters,
 which gives the relation of Satake parameters on eigenforms, and from Rallis (1982), the homomorphism of spherical Hecke
-algebras compatible with the Weil representation for orthogonal–symplectic pairs: here the homomorphism `ξ_w` and the
+algebras compatible with the Weil representation for orthogonal–symplectic pairs (its explicit matching of unramified
+representations is restated, for even-dimensional quadratic spaces, as Kudla (1996), Chapter VI, Proposition 3.2):
+here the homomorphism `ξ_w` and the
 Hecke equivariance of the lift of a definite pair at a split place, in every residue characteristic and for every
 conductor of `ψ_v`.
 
@@ -1671,7 +1673,8 @@ Layers 0–3; ThetaKernelsForUnitaryDualPairs §3.9a; MetaplecticAutomorphicForm
 
 ### 5.1 The theta integral of a definite pair
 
-*Origin:* definitions: the theta integral of Weil (1965), here for a definite pair; its class-set and lattice forms, the
+*Origin:* definitions: the theta integral of Weil (1965) (for a split `W`, with Weil's convergence criterion: Gan, Qiu
+and Takeda (2014), §3.1, who give `[U(V)]` volume 1), here for a definite pair; its class-set and lattice forms, the
 condition at the real places and its Hecke eigenvalues are this roadmap's own formulation, read from 1.2, 1.3, 2.1
 and 2.2.
 
@@ -1803,7 +1806,8 @@ LFunctions Layer 7; AutomorphicLFunctionsAndLocalFactorsPartII §2.3.
 ### 5.4 Genus theta series as theta integrals
 
 *Origin:* adapted from Siegel's main theorem for positive definite Hermitian forms over an imaginary quadratic field
-(Braun (1941), Satz V) and its mean-value form for unitary groups (Weil (1965), for `2k < n`), with the Siegel–Weil
+(Braun (1941), Satz V) and its mean-value form for unitary groups (Weil (1965), for `2k < n`, as Gan, Qiu and Takeda
+(2014), §7.1, attribute it), with the Siegel–Weil
 formula for an
 anisotropic space at `s₀` (Gan, Qiu and Takeda (2014), Theorem 7.1) for every `k`: here the genus theta series of a
 totally positive definite Hermitian lattice as the theta integral of its lattice vector on `U(k, k)`, with the
@@ -1920,7 +1924,8 @@ identity.
 
 ### 6.1 Complementary triples
 
-*Origin:* adapted from the complementary spaces of Kudla and Rallis (1994): a pair of Hermitian spaces `V`, `V′` with
+*Origin:* adapted from the complementary spaces of Kudla and Rallis (1994) (in a Witt tower, for a split `W`: Gan, Qiu
+and Takeda (2014), §2.6): a pair of Hermitian spaces `V`, `V′` with
 `W^♭ ≅ V ⊕ V′(−1)` for a skew-Hermitian `W` that need not be split, with the place conditions used in this layer.
 
 *Method of the formal proof:* at the places where the data ramify the test vectors are indicator functions of small
@@ -2073,7 +2078,8 @@ partners exist because `p′_v` is onto.
 
 ### 6.3 Theta integrals of a triple and the difference space
 
-*Origin:* adapted from Weil's convergence criterion for theta integrals (Weil (1965)): the square-integrability of the
+*Origin:* adapted from Weil's convergence criterion for theta integrals (Weil (1965); for a split `W`, as Gan, Qiu and
+Takeda (2014), §3.1, state it): the square-integrability of the
 theta integrals of a triple, in Weil's range and for test vectors of full rank at a split place; the invariant extension
 of `I_{V′}` from the regular test vectors and its independence of `v₁` are this roadmap's own formulation.
 
@@ -2213,8 +2219,10 @@ AutomorphicSpectralTheory §§3.2, 3.4.
 ### 6.3a Factorisation through the matched quotients, and injectivity
 
 *Origin:* adapted from the factorisation of square-integrable theta integrals through irreducible quotients in the
-standard argument attributed to Kudla and Rallis: both theta integrals of a triple factor through the matched quotients
-and are injective on pure tensors.
+standard argument of Kudla and Rallis (1994), Corollary 7.1.3 (by Howe duality, the global theta lift of an
+irreducible cuspidal representation, when nonzero and square-integrable, is irreducible and the restricted tensor
+product of the local theta lifts): both theta integrals of a triple factor through the matched quotients and are
+injective on pure tensors.
 
 *Method of the formal proof:* with the other components fixed, the `L²` pairing of two values of the theta integral is
 an invariant positive semidefinite Hermitian form on the theta quotient at one place; at a finite place the quotient is
@@ -2596,7 +2604,8 @@ each stage. For `q = 0` the same with `V′` (`ε_v = +1`, `χ_W = α/β`, `ε_v
 
 ### 6.7 Orthogonal cuspidal differences vanish
 
-*Origin:* adapted from the closing step of the first term identity of Kudla and Rallis (1994): a cuspidal difference of
+*Origin:* adapted from the closing step of the first term identity of Kudla and Rallis (1994) (the identity, with its
+extensions to other dual pairs, for a split `W`: Gan, Qiu and Takeda (2014), Theorem 7.3): a cuspidal difference of
 theta integrals orthogonal to every theta integral of the triple is zero.
 
 *Method of the formal proof:* the two theta integrals are square-integrable, so their difference `f` is; subtracting the
@@ -2844,7 +2853,8 @@ and `D = 0`.
 
 *Origin:* particular to this proof: an identity, up to a nonzero constant, between the theta integrals of two
 complementary Hermitian spaces on the unitary group of a skew-Hermitian space that is not split; nearest published
-result: Kudla and Rallis (1994), the first term identity.
+result: Kudla and Rallis (1994), the first term identity (with its extensions to other dual pairs, for a split `W`: Gan,
+Qiu and Takeda (2014), Theorem 7.3).
 
 *Method of the formal proof:* strong induction on `p + q` with the compact case as base: a hyperbolic plane is removed
 from `V′` and `W` if `q ≥ 1`, from `V` and `W` if `q = 0`, the constant-term formulas and the descent of matching fix
@@ -3492,7 +3502,9 @@ Boundaries:
   corollary, p. 351 (the constant terms of lifts, hence the tower property): 6.6.
 - S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982), for
   orthogonal–symplectic pairs: 2.2 (the homomorphism of spherical Hecke algebras compatible with the Weil
-  representation).
+  representation). Its explicit matching of unramified representations, for even-dimensional quadratic spaces, is
+  restated, with credit to Rallis, in S. Kudla, *Notes on the local theta correspondence* (1996), Chapter VI,
+  Proposition 3.2: 2.2.
 - I. Piatetski-Shapiro, S. Rallis, *L-functions for the classical groups*, Lecture Notes in Math.
   1254 (1987), for symplectic and orthogonal groups: 3.2, 4.3.
 - J.-S. Li, *Nonvanishing theorems for the cohomology of certain arithmetic quotients*, J. reine
@@ -3507,14 +3519,19 @@ Boundaries:
 - J.-P. Labesse, *Changement de base CM et séries discrètes*, in *On the stabilization of the trace
   formula*, International Press (2011): 2.4, 4.3.
 - S. Kudla, S. Rallis, *A regularized Siegel–Weil formula: the first term identity*, Ann. of Math.
-  140 (1994): 6.4 (constant terms of theta integrals along a Witt tower); 6.1, 6.3a, 6.7, 6.11 (the complementary
-  spaces and the argument of the first term identity).
+  140 (1994): 6.4 (constant terms of theta integrals along a Witt tower); Corollary 7.1.3 (the global theta lift of an
+  irreducible cuspidal representation, when nonzero and square-integrable, is irreducible and the restricted tensor
+  product of the local theta lifts): 6.3a; 6.1, 6.7, 6.11 (the complementary spaces and the argument of the first term
+  identity; for a split `W`, the spaces are GQT §2.6 and the identity, with its extensions to other dual pairs, is GQT
+  Theorem 7.3).
 - [GQT] W. T. Gan, Y. Qiu, S. Takeda, *The regularized Siegel–Weil formula (the second term identity) and
   the Rallis inner product formula*, Invent. Math. 198 (2014), cited in the numbering of arXiv:1207.4709v3:
   Theorem 7.1, §7.1 (the Siegel–Weil formula for an anisotropic target, with the constant `c`): 3.1, 5.4; Theorem 1.3
   (the Rallis inner product formula for `n < m ≤ 2n`): 3.2, 5.3; Theorem 1.2 (ii) (the second term identity): the
   boundary of Layer 6; §1.7 (the works cited for the inner product formula in Weil's convergent range): 3.3, 4.2; §11.2
-  (the global theta lift): 1.1, 1.5.
+  (the global theta lift): 1.1, 1.5; §2.6 (complementary spaces): 6.1; §3.1 (the theta integral and Weil's convergence
+  criterion): 5.1, 6.3; Theorem 7.3, §7.2 (the first term identity, which GQT credit to Kudla–Rallis among others):
+  6.7, 6.11.
 - A. Ichino, *On the Siegel–Weil formula for unitary groups*, Math. Z. 255 (2007): 3.1 (the anisotropic case for
   `n < d ≤ 2n`, as GQT §7.1 attributes it).
 - S. Yamana, *L-functions and theta correspondence for classical groups*, Invent. Math. 196 (2014):
@@ -3526,7 +3543,9 @@ Boundaries:
   field).
 - A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965): 5.1 (the theta
   integral), 5.4 (Siegel's
-  formula for the classical groups over number fields), 6.3 (the convergence criterion for theta integrals).
+  formula for the classical groups over number fields), 6.3 (the convergence criterion for theta integrals); for a
+  split `W`, the theta integral and the convergence criterion are restated in GQT §3.1, and GQT §7.1 attributes to Weil
+  the anisotropic Siegel–Weil formula in Weil's range (`2k < n` in 5.4).
 - A. Zelevinsky, *Induced representations of reductive p-adic groups II*, Ann. Sci. ÉNS 13 (1980): Theorem 4.2,
   p. 184 (a product of the representations of segments is irreducible exactly when no two segments are linked): 6.5,
   6.8 (through ThetaKernelsForUnitaryDualPairs §§3.47, 5.7d).
