@@ -324,6 +324,7 @@ body:
         - LaguerreJacobi
         - LangevinAndHamiltonianMonteCarlo
         - LanglandsParameterStacks
+        - LargeDeviations
         - LatticePackingsAndPerfectForms
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
@@ -583,6 +584,7 @@ body:
         - WeilPositivityAndLiCriterion
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
+        - YoungIntegrationAndRoughPaths
         - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
