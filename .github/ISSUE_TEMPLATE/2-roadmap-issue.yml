@@ -397,6 +397,7 @@ body:
         - OcneanuRigidity
         - OddOrderTheorem
         - OneStepMethodsForODEs
+        - OnlineConvexOptimization
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorMonotoneFunctionsAndMatrixMeans
@@ -502,6 +503,7 @@ body:
         - RobustnessCertificates
         - RootSystemsPartII
         - SNumbers
+        - SamplingAndDiscreteFourierAnalysis
         - SatoTateGroups
         - ScatteringDiagrams
         - SchemeAndStackFoundations
