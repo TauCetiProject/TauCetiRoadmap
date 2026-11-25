@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap proves the divisibility that a chain of theta lifts between definite unitary groups gains at the primes inert in the imaginary quadratic subfield `K` of an abelian CM host `E`, and bounds the colength of the sublattice of automorphic forms on which the gain holds. The objects are those of [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md): the lattices `ℳ^{int}_j` of integral algebraic forms on the unitary groups `U(X_j)` of the column spaces (values in the Weyl lattices), the step operators `K_j(ξ)` of a tuple `ξ` of twisting characters (theta lifts written as class-set operators with CM theta kernels), the chain lift `col_ξ`, the source lattice `M_u` of a word `u`, and the top period `P̃_ξ(φ, F)` against row forms `F`. At a prime `p ≥ 5` inert in `K` and unramified in `E`, the theta kernel of a step, read in the logarithmic coordinates of the Lubin–Tate formal groups of height two at the places above `p`, is an integral series times `exp(−β)` with `β` a Hermitian biextension cocycle, and the Taylor bounds of [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md) turn the large top entry `a_τ`, which stays in every weight of the chain, into an explicit power of `p` at every step.
 
-The headline theorems are these. (1) *The gain of a step and of the chain lift* (4.10, 4.11). Under the size conditions of 4.10, let `p ≥ 5` be a prime inert in `K`, unramified in `E`, with `p ≤ X″` and of split type (complex conjugation is not a power of `Frob_p`), `𝔭 | p` a place of the field `𝕃`, and `ξ` the base tuple or a tuple used at some place, unramified above `p`. Then every step maps `ℳ^{int}_{j−1}` into `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, where `g⁰_j` is the operator-free gain, `F_j` the bulk and `E_{u,j}` the cost of the ledger of 4.9e–4.9f; hence `col_ξ(ℳ^{int}_0) ⊂ p^{Σ_j(g⁰_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)}·ℳ^{int}_m` locally at `𝔭`, and, for the base tuple and the tuples used at some place, the periods of row forms have valuation at least `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋` at `𝔭`. (2) *The refined gain on the Hecke image and its colength* (4.14, 4.15c). Let `𝒱` be a set of places above such a `p` with Hecke types and `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})`, the `y_v` being Hida-normalised Hecke operators at the places above `p`. On `𝒴·ℳ^{int}_0` the chain gains `Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)` with the refined gain `g_j`: a top at an even position gains `γ_LT(p)·α_s` and a top at an odd position its whole ramp sum, at the price `P_j(v)` and the logarithmic loss `dl_v` per step. If moreover the depth property `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` holds at every `v ∈ 𝒱`, `m·Σ_v sh_v ≤ 1/2`, `p^e·ℳ^∨_0 ⊂ ℳ^{int}_0` and the standing conditions of 4.15c hold, then `𝒴·ℳ^{int}_0 ∩ p^τ·ℳ^{int}_0` has colength at most `e_R·rank·(τ + 2S·m·Σ_v sh_v)` in `ℳ^{int}_0`, with `τ = e + Σ_{v∈𝒱} m(⌈dep_v⌉ + D_p + 1)` and `S ≥ max_v 𝔵_v`. (3) *The gain sublattice* (4.16). Given served data with the depth property and `InertFreeUpTo 4`, the sublattice `N_u ⊂ M_u` cut out by these local conditions satisfies `N_u ⊂ p^{τ_N(𝔭)}M_u` and `length_{𝒪_𝔭}(M_u/N_u)_𝔭 ≤ e_𝔭·d^{all}_u·(τ_N(𝔭) + 𝔦(𝔭))` at every `𝔭` not above the level prime `T(u)`, and, under the hypotheses of 4.10 and 4.10a, for every `φ ∈ N_u` and every row form `F` the period `P̃_{ξ_𝔭}(φ, F)` is `0` or has valuation at least `⌊e_𝔭·𝔊_u(𝔭)⌋` at `𝔭`, `𝔊_u` being the net exponent of the ledger. (4) *The gain inequality* (4.17a). With the data of 4.17, at every `𝔭` above a prime `p ≤ X″` inert in `K` and not in `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and `Σ_j Σ_{τ∈Φ_top(𝔭)} (V_{j,τ}(p) − ℒ(p)) − m·ℒ_f(p) ≤ Σ_j g_j(𝔭) − τ_N(𝔭)`, where `V_{j,τ}(p) = Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊` is the ramp sum of a top and `ℒ`, `ℒ_f` are explicit losses: summed over the primes `p ≤ X″` with weight `log p`, `ℒ` gives at most a constant times `b` and `ℒ_f` at most `C·f·X″·(N_m²·log 2a + log²2a)` (4.17b); `Φ_top(𝔭)` consists of all tops, except at the primes `p < X′` inert in `K` and in `ℚ(√−q)`, where it consists of the tops on served orbits. `Drop` contains every prime inert in `K` and in `ℚ(√−q)` below `(1 + ρ_B)X′` that has short orbits or that is at least `p₀` and has a power in the band, the candidates with a large share, the primes of odd conjugate type and the primes above `X″`. Under two properties of the host, for the top weights of 4.17c and the selection of 4.17d, the ask of the excluded tops, summed with the weights `log p` over any set of primes inert in `K` and in `ℚ(√−q)` of split or conjugate type, is at most `3m·a·|Φ_top|·(x^{−1} + x^{−h_A+ε} + x^{−c_io} + x^{−2+ε})`.
+The headline theorems are these. (1) *The gain of a step and of the chain lift* (4.10, 4.11). Under the size conditions of 4.10, let `p ≥ 5` be a prime inert in `K`, unramified in `E`, with `p ≤ X″` and of split type (complex conjugation is not a power of `Frob_p`), `𝔭 | p` a place of the field `𝕃`, and `ξ` the base tuple or a tuple used at some place, unramified above `p`. Then every step maps `ℳ^{int}_{j−1}` into `p^{g⁰_j(𝔭) + F_j(𝔭) − E_{u,j}(𝔭) + [j=1]·v_p(D_Γ)}·ℳ^{int}_j` locally at `𝔭`, where `g⁰_j` is the operator-free gain, `F_j` the bulk and `E_{u,j}` the cost of the ledger of 4.9e–4.9f; hence `col_ξ(ℳ^{int}_0) ⊂ p^{Σ_j(g⁰_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)}·ℳ^{int}_m` locally at `𝔭`, and, for the base tuple and the tuples used at some place, the periods of row forms have valuation at least `⌊e_𝔭·Σ_j(g⁰_j + F_j − E_{u,j})(𝔭)⌋` at `𝔭`. (2) *The refined gain on the Hecke image and its colength* (4.14, 4.15c). Let `𝒱` be a set of served places above such a `p` (4.9e (c)) and `𝒴 = ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})`, the `y_v` being Hida-normalised Hecke operators at the places above `p`. On `𝒴·ℳ^{int}_0` the chain gains `Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)` with the refined gain `g_j`: a top at an even position gains `γ_LT(p)·α_s` and a top at an odd position its whole ramp sum, at the price `P_j(v)` and the logarithmic loss `dl_v` per step. If moreover the depth property `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` holds at every `v ∈ 𝒱`, `m·Σ_v sh_v ≤ 1/2`, `p^e·ℳ^∨_0 ⊂ ℳ^{int}_0` and the standing conditions of 4.15c hold, then `𝒴·ℳ^{int}_0 ∩ p^τ·ℳ^{int}_0` has colength at most `e_R·rank·(τ + 2S·m·Σ_v sh_v)` in `ℳ^{int}_0`, with `τ = e + Σ_{v∈𝒱} m(⌈dep_v⌉ + D_p + 1)` and `S ≥ max_v 𝔵_v`. (3) *The gain sublattice* (4.16). Given served data with the depth property and `InertFreeUpTo 4`, the sublattice `N_u ⊂ M_u` cut out by these local conditions satisfies `N_u ⊂ p^{τ_N(𝔭)}M_u` and `length_{𝒪_𝔭}(M_u/N_u)_𝔭 ≤ e_𝔭·d^{all}_u·(τ_N(𝔭) + 𝔦(𝔭))` at every `𝔭` not above the level prime `T(u)`, and, under the hypotheses of 4.10 and 4.10a, for every `φ ∈ N_u` and every row form `F` the period `P̃_{ξ_𝔭}(φ, F)` is `0` or has valuation at least `⌊e_𝔭·𝔊_u(𝔭)⌋` at `𝔭`, `𝔊_u` being the net exponent of the ledger. (4) *The gain inequality* (4.17a). With the data of 4.17, at every `𝔭` above a prime `p ≤ X″` inert in `K` and not in `Drop`, `0 ≤ g_j(𝔭) ≤ 4|Φ_top|a/p` and `Σ_j Σ_{τ∈Φ_top(𝔭)} (V_{j,τ}(p) − ℒ(p)) − m·ℒ_f(p) ≤ Σ_j g_j(𝔭) − τ_N(𝔭)`, where `V_{j,τ}(p) = Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊` is the ramp sum of a top and `ℒ`, `ℒ_f` are explicit losses: summed over the primes `p ≤ X″` with weight `log p`, `ℒ` gives at most a constant times `b` and `ℒ_f` at most `C·f·X″·(N_m²·log 2a + log²2a)` (4.17b); `Φ_top(𝔭)` consists of all tops, except at the primes `p < X′` inert in `K` and in `ℚ(√−q)`, where it consists of the tops on served orbits. `Drop` contains every prime inert in `K` and in `ℚ(√−q)` below `(1 + ρ_B)X′` that has short orbits or that is at least `p₀` and has a power in the band, the candidates with a large share, the primes of odd conjugate type and the primes above `X″`. Under two properties of the host, for the top weights of 4.17c and the selection of 4.17d, the ask of the excluded tops, summed with the weights `log p` over any set of primes inert in `K` and in `ℚ(√−q)` of split or conjugate type, is at most `3m·a·|Φ_top|·(x^{−1} + x^{−h_A+ε} + x^{−c_io} + x^{−2+ε})`.
 
 The roadmap builds on [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md), which supplies the chain, its integral forms, step operators and periods; on [TaylorBoundsAndDepthsOnHeightTwoFormalGroups](../TaylorBoundsAndDepthsOnHeightTwoFormalGroups/README.md), the first part of the same layer, which supplies the Taylor bounds on height-two formal groups and the depth of a weight; on [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) for the hosts, their Frobenius data and the tops; on [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) for the sandwich exponent between Weyl and dual Weyl lattices and the integral invariant projectors; and on [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) and [SmoothRepresentationsOfLocalGroups](../../SmoothRepresentationsOfLocalGroups/README.md) for Gross's models of algebraic modular forms and the Satake transform. Within the family [RiemannHypothesisForDirichletLFunctions](../README.md), the gain sublattice and the gain inequality feed the division inequality and the Frobenius-restricted inequality of the later theta-chain roadmaps.
 
@@ -392,17 +392,31 @@ Define `r⁰_j(v) := (Σ_{s∈𝔗_v}Σ_{e odd, e∉Dist_v(s)}(α̂_s/p^e − ĉ
 The formulas `r⁰`, `r^H` of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8 increase with `α` and decrease with `c`, so every bound of
 TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.12 and 4.13 stated with the diagram data holds with `(α̂, ĉ)`; with these data
 `r⁰_j(v)`, `r^H_j(v)` do not depend on the word.
-For a *Hecke type* `r_H` with `1 ≤ r_H ≤ k/2`, the *price* is
-`P_j(v) := Σ_{s odd}(r_H·w_j(τ_s) + r_H·c_G − [s ∈ 𝔗_v]·(a⁻_{τ_s} + c_G)) + (n′/2)·r_H·j(t+1)`; it does not depend on the
-word, is an integer `≥ 1`, and bounds the exact exponent of 4.13:
-`P^{ex}_j(v) := Σ_{s odd}(r_H·w̃_j(τ_s) + Σ_{a=k−r_H}^{k−1}λ_a(τ_s)) + (n′/2)·r_H·j(t+1) ≤ P_j(v)` (at an odd top
-`λ_{k−1} = −a⁻` and the other entries are `≤ Sc + (k−1)/2 ≤ c_G`). [FormalProof] takes a larger price in its ledger: for
-`r_H = 1`, `Σ_{s∈𝔗_v odd}(w̃_j(τ_s) − a⁻_{τ_s}) + C_P·n′·(w″ + ϑ + c_G + N_m)` with a constant `C_P ≥ 0` that the data of its
-main theorems fix at `C_P = 1`, and for `r_H = r_G`,
-`r_G·(|𝔗_v|·(2b′ + c_G) + n′·(w″ + ϑ + c_G + N_m))`; at a served place `P_j(v)` is at most these, so the gain of this
-roadmap is at least that of [FormalProof]. The *excess* is
+For a *Hecke type* `r_H` with `1 ≤ r_H ≤ k/2`, the *exact exponent* of 4.13 is
+`P^{ex}_j(v) := Σ_{s odd}(r_H·w̃_j(τ_s) + Σ_{a=k−r_H}^{k−1}λ_a(τ_s)) + (n′/2)·r_H·j(t+1)`, and
+`P^{ex}_j(v) ≥ (n′/2)·r_H·j(t+1) ≥ 1` (`r_H·w̃_j + Σ_{a≥k−r_H}λ_a ≥ r_H·(w̃_1 + λ_{k−1}) > 0`). The *price* is defined for the
+Hecke types `1` and `r_G` (`r_G` of 4.17): for `r_H = 1`,
+`P_j(v) := Σ_{s∈𝔗_v odd}(w̃_j(τ_s) − a⁻_{τ_s}) + n′·(w″ + ϑ + c_G + N_m)`, and for `r_H = r_G`,
+`P_j(v) := r_G·(|𝔗_v|·(2b′ + c_G) + n′·(w″ + ϑ + c_G + N_m))`; it does not depend on the word.
+*Lemma (the price bounds the exact exponent).* Let `p ≥ 5` be of split type and inert in `K` and in `ℚ(√−q)`, `v | p` a
+place whose positions lie in `A`, `r_H ∈ {1, r_G}` a Hecke type, the weights those of an adapted datum
+(ThetaChainsOnDefiniteUnitaryGroups §2.3b) and `x ≥ 4`. Then `P^{ex}_j(v) ≤ P_j(v)` for every step `j`; in particular
+`P_j(v) ≥ 1`. *Route.* The `n′/2` odd positions are tops or thin places: they lie in `A`, and the thick places `cσ_du₀𝒯`
+lie in the coset `cσ_dA`, which is not `A` (4.9, Checks). `w̃_j ≤ w_j` (`κ_j > 0`); at a top `λ_{k−1} = −a⁻`, and at every
+place the entries `λ_a`, `1 ≤ a ≤ k − 1`, other than that one are `≤ Sc + (k−1)/2 ≤ c_G` (the entries `u_a ∈ [0, Sc]`,
+`u_{k−1} < v_{k−2} ≤ Sc`); the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b give `w_j ≤ w″ + ϑ` at a thin place and
+`w_j ≤ 3b′/2 + b′/x + b′/4 ≤ 2b′` at a top; and `j(t+1) ≤ N_m`. For `r_H = 1` an odd top contributes `w̃_j − a⁻`, an odd
+thin place at most `w″ + ϑ + c_G`, and the last term is at most `(n′/2)·N_m`; for `r_H = r_G` an odd top contributes at
+most `r_G·(2b′ + c_G)`, an odd thin place at most `r_G·(w″ + ϑ + c_G)`, and the last term is at most `r_G·(n′/2)·N_m`.
+*Remark.* The price `P′_j(v) := Σ_{s odd}(r_H·w_j(τ_s) + r_H·c_G − [s ∈ 𝔗_v]·(a⁻_{τ_s} + c_G)) + (n′/2)·r_H·j(t+1)`, defined for
+every Hecke type, bounds `P^{ex}_j(v)` at every place (at an odd top `λ_{k−1} = −a⁻` and the other entries are
+`≤ Sc + (k−1)/2 ≤ c_G`), and at the places of the lemma it is at most `P_j(v)` (the same estimates, with `κ_j ≤ N_m`). This
+form is this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
+The *excess* is
 `𝔵_v := ⌈Σ_{j=1}^m (r^H_j(v) − P_j(v) − r⁰_j(v))₊⌉`. `r⁰_j(v) ≥ 0`, and `r^H_j(v)` may be negative.
-(c) *Gain.* Given a set `𝒱_p` of places above `p` (the *served* places) with Hecke types, empty unless `p` is of split type, put,
+(c) *Gain.* Given a set `𝒱_p` of places above `p` (the *served* places) with Hecke types, empty unless `p` is of split type
+and inert in `ℚ(√−q)`, with Hecke type `1` if `p ≥ p₀` and `r_G` if `p < p₀` (`p₀` of 4.17), and with `P^{ex}_j(v) ≤ P_j(v)`
+at every served place and step, put,
 for `p ≥ 5` of split type with `p ≤ X″`:
 `g_j(𝔭) := Σ_{v ∈ 𝒱_p} max(r^H_j(v) − P_j(v), r⁰_j(v)) + Σ_{v ∉ 𝒱_p} r⁰_j(v)`; `g_j(𝔭) := 0` otherwise (in particular at
 the primes of conjugate and of odd conjugate type). The *operator-free gain* `g⁰_j(𝔭)` is the value for `𝒱_p = ∅`. Given
@@ -428,9 +442,22 @@ type the gain is `0`.
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.g0`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.gU`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.dl`).
-The price of [FormalProof] in (b), with `C_P` its constant `Pr1`: [FormalProof],
-`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Pr`); `C_P = 1`: the field
-`fixed` of `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.FamP`).
+The price of (b): [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Pr`), with a constant factor
+`Pr1` on the term `n′·(w″ + ϑ + c_G + N_m)` for `r_H = 1`, which the data of its main theorems fix at `1` (the field `fixed`
+of `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.FamP`)), and with its window size `η_s`
+(ThetaChainsOnDefiniteUnitaryGroups §2.3c, where the construction takes `η_s := ϑ`) in place of `ϑ`; there the Hecke type
+is `1` for `p ≥ p₀` and `r_G` for `p < p₀` (`Formalism.MainNotions.G.LatTied`, same file). The lemma of (b): follows from
+[FormalProof], under its size conditions and at the primes of `Formalism.BasicNotions.GIdx`,
+`Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PriceBoundLargePrimes.lean`
+(`Formalism.MainNotions.FormalGroupSystem.Pf.price_bound_large_primes`),
+`Formalism/SharpRestriction/GrowthBounds/MultisetValuation/PriceLinearCombinationLe.lean`
+(`Formalism.MainNotions.FormalGroupSystem.Pf.price_bound_small_primes`); it is the third clause of
+`Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean` (`Formalism.MainNotions.FormalGroupSystem.SmallResidueCharComparison`),
+proved as `Formalism/SharpRestriction/GrowthBounds/ProofLW.lean`
+(`Formalism.MainNotions.FormalGroupSystem.Pf.numeric_comparison_of_constants`). `𝔵_v` and `g_j(𝔭)` of (b), (c) with this
+price: [FormalProof], `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Sv`,
+`Formalism.MainNotions.G.gainP`).
 `𝔖(p)`, `τ_N(𝔭)` and `𝔦(𝔭)` of (f): [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Sig`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.tauP`);
@@ -890,7 +917,7 @@ place `v` of `F` above `p` and `1 ≤ j ≤ m`:
 `Z_j := Σ_{l=0}^{r_H}(−1)^l c_{j,l}·T̃^{(j)}_{r_H−l,v}` (`T̃_0 = 1`),
 `c_{j,l} := p^{h_{r_H}(Λ_j) − h_{r_H−l}(Λ_j)}·(N𝔓_v)^{l(N_j − 2r_H + l)/2}·𝗁_l(𝔪̂_{j,a}(N𝔓_v)^{(t−2x)/2} : 1 ≤ a ≤ j, 0 ≤ x ≤ t)`,
 `𝔪̂_{j,a} := 𝔪_a·U_j/U_{a−1}` (the step characters rescaled by the units of the later steps),
-`𝗁_l` the complete homogeneous symmetric polynomial, and `P^{ex}_j(v) ≤ P_j(v)` the exact exponent of 4.9e (b). Every
+`𝗁_l` the complete homogeneous symmetric polynomial, and `P^{ex}_j(v)` the exact exponent of 4.9e (b). Every
 `c_{j,l}` is integral,
 `v_p(c_{j,r_H}) ≥ A^{ev}_v`, and therefore
 `Z_j∘K_j(ℳ^{int}_{j−1}) ⊂ p^{r^H_j(v) + Σ_{v′≠v}r⁰_j(v′) + 𝔟_j}·ℳ^{int}_j` (`𝔟_j` as in 4.12(c)).
@@ -928,8 +955,8 @@ the operator-free exponent at that step; the commutation of 4.13 moves `P_{B_{m�
 operators `Z_v`, the joint frame bound of 4.12 (c3) gives the exponent of the step, and the places left out are paid in
 advance by their excess.
 
-In the setting of 4.13, let `𝒱` be a set of places above `p` with Hecke
-types, and `𝒴 := ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})` the product of ideals of the commutative algebra generated by the `y_v`.
+In the setting of 4.13, let `𝒱` be a set of served places above `p` (4.9e (c)),
+and `𝒴 := ∏_{v∈𝒱}(y_v^m, p^{𝔵_v})` the product of ideals of the commutative algebra generated by the `y_v`.
 (a) For `x ∈ 𝒴·ℳ^{int}_0`, `chain_m(x) ∈ p^{Σ_j(g_j + F_j − E_{u,j})(𝔭) + v_p(D_Γ)}·ℳ^{int}_m` locally at `𝔭`, with
 `g_j` computed with `𝒱_p := 𝒱`; and `𝔵_v ≤ mγ_LTΣ_{s∈𝔗_v}α_s`.
 (b) Through 4.12(o) this is a statement about the chain of the tuple `ξ`: for `x ∈ M_u ∩ 𝒴·ℳ^{int}_0`, `col_ξ(x)`
@@ -946,14 +973,18 @@ with the ledger data `(α̂, ĉ)` by monotonicity, 4.9e (b)): one factor `y_v` b
 `v` at one step. A generator of `𝒴·ℳ^{int}_0` is `∏_{v∈B}y_v^m(F₀)` with `F₀ ∈ p^{Σ_{𝒱∖B}𝔵_v}ℳ^{int}_0`; take
 `B_j := {v ∈ B : r^H_j − P_j ≥ r⁰_j}`; the places of `𝒱 ∖ B` receive `𝔵_v ≥ Σ_j(r^H_j − P_j − r⁰_j)₊` in advance.
 `𝔵_v ≤ mγ_LTΣα_s`: since `r⁰_j ≥ 0` and `r^H_j ≤ γ_LTΣα̂_s ≤ γ_LTΣα_s`, each term `(r^H_j − P_j − r⁰_j)₊` is at most
-`(γ_LTΣα_s − P_j)₊`, which is `0` when `γ_LTΣα_s ≤ P_j` and at most `γ_LTΣα_s − 1` otherwise (`P_j ≥ 1`); so the sum is `0`
+`(γ_LTΣα_s − P_j)₊`, which is `0` when `γ_LTΣα_s ≤ P_j` and at most `γ_LTΣα_s − 1` otherwise (`P_j ≥ P^{ex}_j ≥ 1`, 4.9e (b)); so the sum is `0`
 when `γ_LTΣα_s ≤ 1`, and otherwise at most `mγ_LTΣα_s − m`, and the ceiling adds less than `1`. (b): the local model of 4.12 (o) is the chain of the tuple read at the places above `p`; that
 comparison (the identification of the forms and of the kernels at the places above `p`) is not given here (4.12, route).
 
 [FormalProof] states (a) for the local model of 4.12, with the data of the diagrams, the exact exponent `P^{ex}_j(v)` in
 place of `P_j(v)`, its own logarithmic losses in `r⁰` and `r^H`, the excess without the ceiling, and no bulk or cost besides
 the stabiliser term, as `Formalism.MainNotions.FormalGroupSystem.Conclusion5` (`Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean`), proved,
-under the hypotheses `Formalism.MainNotions.FormalGroupSystem.admitted`, as part of `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`; the bound
+under the hypotheses `Formalism.MainNotions.FormalGroupSystem.admitted`, as part of `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`; with a
+price `≥ P^{ex}_j(v)` in place of the exact exponent as `Formalism.MainNotions.FormalGroupSystem.LowTermBound` (same file), proved, under its local hypotheses, as
+`Formalism.MainNotions.FormalGroupSystem.Pf.lift_bound_of_integrality` (`Formalism/SharpRestriction/GrowthBounds/MultisetValuation/LiftBoundOfIntegrality.lean`),
+which its chain applies with the price of 4.9e (b) in `Formalism.MainNotions.G.Joints.UAt_of`
+(`Formalism/SharpRestriction/GrowthBounds/JointsTw.lean`); the bound
 on the excess, without the ceiling, is `Formalism.MainNotions.FormalGroupSystem.RelativePresentationLiterature`, proved as
 `Formalism.MainNotions.FormalGroupSystem.Pf.relative_presentation_of_d7`. (b) follows from [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean` (`Formalism.MainNotions.WeilJacquetShalikaLaw.Conclusion1`);
@@ -1561,7 +1592,7 @@ finite classes to the exceptional vectors, the length bound and the clauses on s
 in a separate lemma; the route written here instead bounds the length through elementary divisors in an adapted basis,
 and moves the statement to the integral forms by comparing elementary divisors of nested lattices.
 
-Setting of 4.15. Let `𝒱` be a set of places above `p` with Hecke types and `D_p ∈ ℕ`. Assume that `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` (4.15)
+Setting of 4.15. Let `𝒱` be a set of served places above `p` (4.9e (c)) and `D_p ∈ ℕ`. Assume that `DepthBound(⌈dep_v⌉, D_p, sh_v, c*_p)` (4.15)
 holds for every `v ∈ 𝒱`, that the level-`0` stabilisers are trivial and the classes finite, that
 `ℳ^∨_0` is the full lattice of `∇`-valued forms of the level and `ℳ^{int}_0` the full lattice of integral forms (ThetaChainsOnDefiniteUnitaryGroups §3.1), and that
 `e ≥ 0` is an integer with `p^e·ℳ^∨_0 ⊂ ℳ^{int}_0` locally at `𝔭` (*sandwich exponent*); put `P := 𝒴·ℳ^{int}_0` (`𝒴` as in
@@ -2098,7 +2129,9 @@ every such prime in `[X′, (1 + ρ_B)X′)`);
 No condition on linked places enters: an unlinked prime of (a) or (b) is dropped as well. A candidate without a good
 place is not in `Drop` (`𝒱_p = ∅`, and it keeps its operator-free gain). So a prime `p < X′` inert in `K` and in `ℚ(√−q)`
 that is not in `Drop` is a candidate with `𝔖(p) ≤ x^{−ε}`. These
-data satisfy the hypotheses of 4.16; at every prime of `Drop`, `𝒱_p = ∅`, so `g^D_j = 0` and `τ_N = 𝔦 = 0` there. Put
+data satisfy the hypotheses of 4.16; in particular the price condition of 4.9e (c) holds by the lemma of 4.9e (b), the
+served places being good places, with positions in `A`, above candidates, which are of split type and inert in `K` and in
+`ℚ(√−q)`, with the Hecke types `1` for `p ≥ p₀` and `r_G` below. At every prime of `Drop`, `𝒱_p = ∅`, so `g^D_j = 0` and `τ_N = 𝔦 = 0` there. Put
 `V_{j,τ}(p) := Σ_{i odd}(a_τ/p^i − w_j(par_τ(Frob_p^i)))₊`, `ℒ_f(p) := C·fN_m²·lg_p(2a) + C·f·lg_p(2a)²`, and the loss per
 top and step
 `ℒ(p) := C(Sc + k + ϑ)·lg_p(2a) + [p < p₀]·C·r_G·b′·log x + [p₀ ≤ p < X′]·(C(b′/x + ϑ + Sc + (w″ + t)·log x/δ_top) + b^{1/2}) + [p < X′]·C·log x·(Λ_log·a/(pk) + a·p^{−ℓ(p)}[p < p₀] + (a/p²)[p ≥ p₀])`, the bracketed terms only at primes inert in `K` and
@@ -2157,9 +2190,10 @@ thin place, which is why these primes are in `Drop` up to `X″`. At a served pl
 `V_{j,τ_s} + Mn_j(s) = γ_LTα̂_s` (up to the replacement cost) with `Mn_j(s) := Σ_{e odd}min(α̂_s/p^e, ĉ_j(s+e))`, so
 `Σ_{s∈𝔗_v}V_{j,τ_s} ≤ r^H_j(v) + dl_v − Σ_{s even}Mn_j(s) + (shifts)`. The main term of the depth is paid by the even tops: the
 matching lemma with `W = w_j ≥ a⁻` at tops gives `dep°_v ≤ Σ_{s even}Mn_j(s)`. The price `P_j` of 4.9e (b) is small: for `r_H = 1` its summand at an odd top is
-`w_j(τ_s) − a⁻_{τ_s} ≤ b′/x + ϑ` (the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), at an odd position that is not a top (all positions lie in `A` at a
-prime inert in `K` and in `ℚ(√−q)`, so it is thin) `w_j + c_G ≤ w″ + ϑ + 4Sc`, and `(n′/2)r_Hj(t+1) ≤ n′N_m`; a good orbit has at least `n′δ_top/(C log x)` tops (the definition of good orbits); with
-`r_H = r_G` below `p₀` the price per top is at most `C·r_G·b′·log x`. The depth remainders are `R°_v/|𝔗_v|` (4.15f) or the
+`w̃_j(τ_s) − a⁻_{τ_s} ≤ b′/x + ϑ` (the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), and its last term is `n′(w″ + ϑ + 4Sc + N_m)`; a good orbit has
+at least `n′δ_top/(C log x)` tops (the definition of good orbits), so the last term costs at most `C(w″ + ϑ + 4Sc + N_m)·log x/δ_top` per
+top; with `r_H = r_G` below `p₀` the price per top is `r_G(2b′ + 4Sc)` plus at most `C·r_G(w″ + ϑ + 4Sc + N_m)·log x/δ_top`, in all
+at most `C·r_G·b′·log x` (`w″ ≤ b′δ_top`, and `ϑ`, `Sc`, `N_m` are at most `b′`). The depth remainders are `R°_v/|𝔗_v|` (4.15f) or the
 threshold of 4.15e over `|𝔗_v|`, and `D_p + 1` per place, all within `ℒ(p)` by the choice of the data; the sandwich exponent,
 the summand `e_p` of `τ_N`, satisfies `e_p ≤ f·(k(k−1)/2)·lg_p(2a) ≤ ℒ_f(p)`: `|Φ| = f`; by ThetaChainsOnDefiniteUnitaryGroups §2.3b (f) and ThetaChainsOnDefiniteUnitaryGroups §2.1, for `x ≥ x₀(ε)`,
 `Λ_0(τ)_0 − Λ_0(τ)_{k−1} ≤ 3a` at every `τ` (at a top place it is `a_τ + a⁻_τ ≤ a(1 + θ_a) + 3b′/2`, elsewhere at most `2(C_c + 1)·Sc + k − 1`) and
