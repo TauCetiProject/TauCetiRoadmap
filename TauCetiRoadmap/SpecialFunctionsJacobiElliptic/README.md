@@ -499,8 +499,10 @@ Proof: as 4.2, `w(u) = k₁′ sd(u/k₁′, k₁)` solves the equation of `sn(�
   Armitage–Eberlein §4.8, pp. 99–101; Magnus–Oberhettinger–Soni §10.3, table, p. 385;
   DLMF 22.7.1–22.7.4). The two denominators vanish together: `1 + k₁ − dn² = k₁(1 + k₁ sn²)` by
   1.2, and `k₁ ≠ 0`.
-- In the modulus form, for either root `k′` of `k′² = 1 − k²` with `k′ ≠ −1`
-  (DLMF §22.17(ii)).
+- In the modulus form, for either root `k′` of `k′² = 1 − k²` with `k′ ≠ −1`, and `k ≠ 0` for
+  the third law (DLMF §22.17(ii)). At `k = 0` (`k′ = 1`, `k₁ = 0`) the third law reads `0/0`;
+  the form `dn(u, k) = (1 − k₁ sn²)/(1 + k₁ sn²)`, equal to it where `k₁ ≠ 0` (cancel `k₁` after
+  `dn² = 1 − k₁² sn²`, 1.2), holds there too.
 
 The theta constants of SpecialFunctionsTheta 2.4, `θ₃²(0|τ) = θ₃²(0|2τ) + θ₂²(0|2τ)` and
 `θ₄²(0|τ) = θ₃²(0|2τ) − θ₂²(0|2τ)`, give `k₁ = (1 − k′)/(1 + k′)` and `(1 + k₁)K(2τ) = K(τ)`, so
@@ -509,9 +511,10 @@ The theta constants of SpecialFunctionsTheta 2.4, `θ₃²(0|τ) = θ₃²(0|2τ
 `sc(u|τ) = (1 + k₁) sn/(cn dn)` at `(w|2τ)`. With 1.2, `nc² = 1 + sc²` makes `cn²(u|τ)` the square
 of the right side of the second law; two meromorphic functions with equal squares agree up to a
 constant sign, which is `+` at `u = 0`. The first law is `sc · cn`, and the third follows from
-`dn² = 1 − k² sn²` in the same way. The modulus form: the two roots
-`k′` correspond to two values of `τ` with the same `λ` but different `λ(2τ)`, and 3.2 applies to
-each.
+`dn² = 1 − k² sn²` in the same way. The modulus form: for `k² ∉ {0, 1}` the two roots `k′`
+correspond to two values of `τ` with the same `λ` but different `λ(2τ)`, and 3.2 and 3.4 apply
+to each; at `k = 0` and `k² = 1` no `τ` exists, and the laws are identities between the circular
+and the hyperbolic rows of 3.4.
 
 **Checks.**
 - `k(2τ) = (1 − k′(τ))/(1 + k′(τ))` and `(1 + k₁)K(2τ) = K(τ)` at `τ = 0.3 + 0.8i`, `−1.2 + 0.5i`,
@@ -520,6 +523,11 @@ each.
   side to `10⁻²⁹`.
 - `1 + k₁ − dn²(w|2τ) = k₁(1 + k₁ sn²(w|2τ))` at `u = 0.37 + 0.21i` and the three test values of
   `τ`, to `10⁻³⁰`.
+- `k = 1` (`k′ = 0`, `k₁ = 1`, `w = u/2`) at `u = 0.37 + 0.21i`: `tanh u` and
+  `2 tanh w/(1 + tanh² w)` are `0.36797 86209 4 + 0.18537 82149 8 i`; `sech u`,
+  `sech² w/(1 + tanh² w)` and `sech² w/(2 − sech² w)` are `0.95084 36782 2 − 0.07174 17820 2 i`.
+- Negative control: at `k = 0` the third law reads `1 = (1 − 1)/(1 + 0 − 1)`, which is `0` with
+  `x / 0 = 0`; the form `(1 − k₁ sn²)/(1 + k₁ sn²)` gives `1`.
 
 ### 4.5 Gauss's transformation
 
@@ -529,9 +537,10 @@ each.
   `dn(u|τ) = (1 − k₂′)(dn² + k₂′)/(k₂² dn)`, the functions on the right at `(w|τ/2)`
   (Whittaker–Watson §22.42, pp. 507–508, with Example 2; Lawden (3.9.25)–(3.9.29), p. 80;
   Magnus–Oberhettinger–Soni §10.3, table, p. 385; DLMF 22.7.5–22.7.8).
-- In the modulus form, for `k ≠ −1`, with `k₂ = 2k^{1/2}/(1 + k)` for either root `k^{1/2}`, and
-  `k₂′ = (1 − k)/(1 + k)`, the quotient of DLMF 22.7.5; the other root of `1 − k₂²` fails
-  (Checks).
+- In the modulus form, for `k ≠ −1`, and `k ≠ 0` for the second and third laws (there `k₂ = 0`),
+  with `k₂ = 2k^{1/2}/(1 + k)` for either root `k^{1/2}`, and `k₂′ = (1 − k)/(1 + k)`, the
+  quotient of DLMF 22.7.5; the other root of `1 − k₂²` fails (Checks). At `k² ∉ {0, 1}` by 3.2
+  and 3.4 as in 4.4; at `k = 0` and `k = 1` by the circular and hyperbolic rows of 3.4.
 
 The first pair of quotients of SpecialFunctionsTheta 4.4 at `τ/2`,
 `θ₁(z|τ/2)θ₂(z|τ/2)/θ₁(2z|τ) = θ₃(z|τ/2)θ₄(z|τ/2)/θ₄(2z|τ)`, at `z = w/θ₃²(0|τ/2)` gives the first
@@ -548,6 +557,12 @@ is the first law with `τ/2` in place of `τ`, and their `k₁ = (1 − k′)/(1
 - The modulus form at `k = −0.6`, `−3`, `−0.7 + 0.9i`, both roots `k^{1/2}`, to `10⁻³⁰`; at
   `k = −1`, `x / 0 = 0` gives `k₂ = k₂′ = 0`, and the first law would read
   `tanh u = sin u cos u`.
+- `k = 0` (`k₂ = 0`, `k₂′ = 1`, `w = u/2`): the first law is `sin u = 2 sin(u/2) cos(u/2)`, both
+  `0.36961 83984 0 + 0.19723 09662 7 i` at `u = 0.37 + 0.21i`. Negative control: the second law
+  has the denominator `k₂² dn = 0` and would read `cos u = 0`, while
+  `cos u = 0.95296 08247 0 − 0.07649 86261 5 i`.
+- `k = 1` (`k₂ = 1`, `k₂′ = 0`, `w = u`): the three laws read `tanh = tanh sech/sech` and
+  `sech = sech²/sech`.
 
 ### Examples
 
