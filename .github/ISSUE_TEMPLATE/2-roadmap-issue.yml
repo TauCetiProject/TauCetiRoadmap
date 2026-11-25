@@ -344,6 +344,7 @@ body:
         - MathematicalStatisticsAsymptotic
         - MathematicalStatisticsFoundations
         - MathematicalStatisticsHighDimensional
+        - MathematicalStatisticsHigherOrderAndResampling
         - MathematicalStatisticsNonparametric
         - MathematicalStatisticsSemiparametric
         - MatroidOptimization
