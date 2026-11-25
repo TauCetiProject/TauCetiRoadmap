@@ -12,13 +12,12 @@ import all TauCetiRoadmap.GaussianIsoperimetryAndClusters.Suggested
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 This file prototypes the diffusion triple of Layer 1, the fundamental identity of §1.2, the
-iterated carré du champ and its integrated identity on the test algebra (Layer 4), and the
-Poincaré inequality of a triple (Layer 7), the Bobkov inequality of a triple and the
-Gaussian isoperimetric inequalities of Gibbs measures (Layer 10), each with `sorry`. Full
-triples, the extended algebra and the curvature-dimension condition, which is defined on
-`A₀` and extended to the extended algebra on every triple equipped with one, are specified in `README.md`,
-Layer 4; the local Bobkov inequalities,
-which need the semigroup, are specified in `README.md`, Layer 10.
+iterated carré du champ, its integrated identity and the curvature-dimension condition on the
+test algebra (Layer 4), the Poincaré inequality of a triple (Layer 7), the Bobkov inequality
+of a triple and the Gaussian isoperimetric inequalities of Gibbs measures (Layer 10); the
+theorems carry `sorry`. Full triples and the extended algebra, to which `CD(ρ, n)` extends,
+are specified in `README.md`, Layer 4; the local Bobkov inequalities, which need the
+semigroup, are specified in `README.md`, Layer 10.
 -/
 open MeasureTheory Filter
 open scoped ENNReal NNReal Topology
@@ -40,13 +39,17 @@ def IsExhaustion (μ : Measure E) (A₀ : NonUnitalSubalgebra ℝ (E → ℝ)) (
   (∀ n, u n ∈ A₀) ∧ (∀ n, u n ≤ᵐ[μ] u (n + 1)) ∧
     ∀ᵐ x ∂μ, Tendsto (fun n => u n x) atTop (𝓝 1)
 
-/-- Good measure (BGL §1.14, D1): the σ-algebra is countably generated up to `μ`-null sets. -/
+/-- Good measure (BGL §1.14, D1), weakened: the σ-algebra is countably generated up to `μ`-null
+sets. BGL's good measure spaces also require the measure-decomposition and bi-measure
+theorems; this specification never uses them, so they are dropped. -/
 def IsGoodMeasure (μ : Measure E) : Prop :=
   ∃ 𝒢 : Set (Set E), 𝒢.Countable ∧ (∀ s ∈ 𝒢, MeasurableSet s) ∧
     ∀ s, MeasurableSet s → ∃ t, MeasurableSet[MeasurableSpace.generateFrom 𝒢] t ∧
       μ (symmDiff s t) = 0
 
-/-- A diffusion Markov triple (BGL Defs. 3.1.1, 3.1.3, 3.1.8; hypotheses D1–D8 of §3.4.1).
+/-- A diffusion Markov triple (BGL Defs. 3.1.1, 3.1.3, 3.1.8; properties D1–D9 of §3.4.1: the
+fields cover D1–D3, D5, D6 and D8, D4 is a theorem, and D7 and D9 are the constructions of
+`README.md`, Layer 2).
 `Γ` and `L` are total functions, constrained only on the test algebra `A₀`; equalities between
 functions are `μ`-a.e., membership statements are literal. The fundamental identity, the chain
 rule for `L`, the linearity of `L` and the `L²` continuity D4 are theorems, not fields. -/
@@ -105,8 +108,8 @@ theorem fundamentalIdentity (T : DiffusionTriple E) {f g : E → ℝ}
   sorry
 
 /-- Iterated carré du champ `Γ₂(f,g) = ½ (L Γ(f,g) − Γ(f, Lg) − Γ(Lf, g))` (BGL Def. 3.3.12).
-Meaningful on `A₀` (stable under `Γ` and `L`); on a full triple the specification uses the
-extended algebra `A` and its carré du champ. -/
+Meaningful on `A₀` (stable under `Γ` and `L`); on a triple with an extended algebra the
+specification also uses it on `A`. -/
 noncomputable def gammaTwo (T : DiffusionTriple E) (f g : E → ℝ) : E → ℝ :=
   fun x => (T.L (T.Γ f g) x - T.Γ f (T.L g) x - T.Γ (T.L f) g x) / 2
 
@@ -117,17 +120,25 @@ theorem integral_gammaTwo (T : DiffusionTriple E) {f : E → ℝ} (hf : f ∈ T.
     ∫ x, T.gammaTwo f f x ∂T.μ = ∫ x, T.L f x * T.L f x ∂T.μ := by
   sorry
 
+/-- Curvature-dimension condition `CD(ρ, n)` on the test algebra (BGL Def. 3.3.14, stated there
+on the extended algebra, to which it extends by BGL Remark 3.3.15; `README.md`, Conventions).
+The term `(Lf)²/n` is `(n⁻¹).toReal * (Lf)²`, which vanishes for `n = ∞`; `1 ≤ n` is part of
+the predicate. -/
+def CD (T : DiffusionTriple E) (ρ : ℝ) (n : ℝ≥0∞) : Prop :=
+  1 ≤ n ∧ ∀ f ∈ T.A₀,
+    (fun x => ρ * T.Γ f f x + (n⁻¹).toReal * T.L f x ^ 2) ≤ᵐ[T.μ] T.gammaTwo f f
+
 /-- Poincaré inequality `P(C)` on the test algebra (BGL Def. 4.2.1). Elements of `A₀` are
 bounded and in every `Lᵖ`, so no integrability side conditions are needed; the extension to
 the Dirichlet domain is a theorem (density of `A₀` in the form domain). As in Tau Ceti's
 `MeasureTheory.Measure.PoincareInequality`, `C` carries no sign condition. -/
-def PI (T : DiffusionTriple E) (C : ℝ) : Prop :=
+def PoincareInequality (T : DiffusionTriple E) (C : ℝ) : Prop :=
   IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, ProbabilityTheory.variance f T.μ ≤ C * ∫ x, T.Γ f f x ∂T.μ
 
 /-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ > 0` and `I` the
 Gaussian isoperimetric profile `gaussianIsoperimetricProfile` of GaussianIsoperimetryAndClusters §1.1:
-`√ρ I(∫ f dμ) ≤ ∫ √(ρ I(f)² + Γ(f)) dμ` for `f ∈ A₀` with values in `[0, 1]`. Under `CD(ρ, ∞)`
+`√ρ I(∫ f dμ) ≤ ∫ √(ρ I(f)² + Γ(f)) dμ` for `f ∈ A₀` with values in `[0, 1]`. Under `CD ρ ⊤`
 with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4). The
 condition `0 < ρ` is part of the predicate: for `ρ ≤ 0`, `Real.sqrt ρ = 0` would make it
 trivially true. -/
