@@ -2197,7 +2197,8 @@ on `B`. For `m ∈ A ∩ B`, `α(m)U_m` fixes `Σ_{y∈S_B}α(y)U_yθ` (the semi
 under `Λ`), so `Θ⟨s + m⟩ = Θ⟨s⟩` for `s ∈ A`; and `α(x)U_xΘ⟨s⟩ = Θ⟨s − x⟩` for `x, s ∈ A` (the semicharacter law on `A`).
 By (a) the term of `x ∈ S_Λ` in `Θ[Ψ]` is `Σ_{t∈S_A}Ψ(t − x)Θ⟨t − x⟩`; as `(x, t)` runs over `S_Λ × S_A`, `t − x` runs
 over a set of representatives of `A` modulo `Λ ∩ A ∩ B = A ∩ B`, and the summand depends only on the class of `t − x`,
-which gives (b).
+which gives (b). Of (S1)–(S3) the route uses only the inclusion `A ∩ B ⊂ Λ` drawn from the first half of (S3); the three
+conditions are the hypotheses under which [FormalProof] states (a) and (b).
 
 (a), (b): [FormalProof], `Formalism/LocalToGlobal/KernelLattices/XiIndCClass.lean` (`Formalism.L2.Ker.XiExpandS`,
 `Formalism.L2.Ker.XiExpandL`), with `Ψ̂`, `Θ_S[Ψ]`, `Θ[Ψ]`, `Θ⟨s⟩`, the hypotheses and the functions of the finite data
