@@ -860,7 +860,9 @@ lattice count of (a), over any discrete valuation ring in which `p` is a uniform
 given by their valuations, as `Formalism.MainNotions.FormalGroupSystem.Pf.heckeCondition_of_adm`, (b) for the Weyl lattices `Δ`
 as `Formalism.MainNotions.FormalGroupSystem.Pf.restWeylEdge`, and (c) as `Formalism.MainNotions.FormalGroupSystem.Pf.formB`; (c1) and (c2)
 with `−δ_j` in place of `𝔟_j`, `δ_j` a bound for `v_p|Stab(c, L)|` over the representatives `(c, L)` of the source of `K_j`
-(so without the bulk and the other costs), are
+(so without the bulk and the other costs), and with `r^H_j(v)` and `r⁰_j(v′)` formed from the diagram values `α_s` and the
+diagram caps `cap_j` of 4.10 in place of `α̂_s` and `ĉ_j`, with the loss of the second engine of the note in 4.10 in place of
+`dl_v` and without the outer floor at `0`, are
 `Formalism.MainNotions.FormalGroupSystem.MassRatio₂` and `Formalism.MainNotions.FormalGroupSystem.PointsLemma`, proved as part of
 `Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`. (b) for the dual Weyl lattices `∇` is proved for one factor as
 `Formalism.MainNotions.G.LatticeSystems.lb_pos` (`Formalism/SharpRestriction/GrowthBounds/LatticeSystems.lean`), and, in
