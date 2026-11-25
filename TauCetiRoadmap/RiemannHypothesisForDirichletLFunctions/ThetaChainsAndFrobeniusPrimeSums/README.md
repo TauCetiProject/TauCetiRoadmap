@@ -314,7 +314,8 @@ absolute value at most `|λ⁰|·log k + log c_{λ⁰}`, and the maximal slope o
 of the dual class lattices, which a transference theorem of the geometry of numbers provides (9.1). Dividing by the gains raises the slope by the sum of the local gains, up to the
 colengths of the gain sublattice (9.2). The level prime is fixed by rank matching, an exact identity between masses,
 formal degrees and Weyl dimensions in which the factorials cancel, and whose logarithm carries the mass formula with a
-factor opposite to the one in `log Ω` (9.3, 9.4). A code of words gives the redundancy (9.5), and the slope inequality
+factor opposite to the one in `log Ω` (9.3, 9.4); a bound for the Vandermonde quotients at one place enters the size of
+its logarithm (9.4a). A code of words gives the redundancy (9.5), and the slope inequality
 for nearly tight frames bounds the mean of `μ(N′_u) − h_u` over the words of one translate by the slope of the target
 (9.6).
 
@@ -590,6 +591,49 @@ has order `g^{r(r−1)/2 − k}` on the row side and `U_k(𝔽_g)` order `g^{k(k
 
 *Sources:* (Siegel; Shimura; Gan–Hanke–Yu; Harish-Chandra; Weyl). (c), the two words: follows from [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/ThresholdCubicInequalitySignPattern.lean` (`Formalism.MainNotions.Sizes3b`), `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/SzHypFam.lean` (`Formalism.L2.SG.Pf.SzHypFam.aSz`); (d), the lower bounds: follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean` (`Formalism.MainNotions.Lnk.Count_at`); (d), the upper bound with `C_T = 25`: [FormalProof], `Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/TraceUpperBoundAllMembers.lean` (`GlobalTheory.LevelPrimeUpper.tr_le_of`, `GlobalTheory.LevelPrimeUpper.eventually_trace_le`); (c), the upper bound with the constant `max(11, 16 + 3C₁)`, under the hypotheses of (c) with `log g₀, log g₁ ≤ C₁·x^ε`, `44 ≤ m ≤ k` and `m²x^ε ≤ k`: [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeOfExplicitAndCompact.lean` (`Formalism.MainNotions.StandardLattice.part_five_all_of_explicit`), `Formalism/SharpRestriction/GlobalSchurBounds/TheoremThreeFamilyOfFormalDegreeInput.lean` (`Formalism.MainNotions.StandardLattice.HarishChandraReduction.tuSize_min`, `Formalism.MainNotions.StandardLattice.HarishChandraReduction.cTmin`). *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.8,
 ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 9.3; HermitianFormsAndLattices §§6.0b, 6.1, 6.2, 6.3, 6.4; AdelicAlgebraicGroups §2.4.
+
+### 9.4a A Vandermonde bound at a place
+
+*Origin:* particular to this proof: an explicit lower bound for the logarithm of the quotient of the Vandermonde product
+of a row parameter by that of an interlacing source parameter at one place, in terms of the nodes.
+
+*Method of the formal proof:* the route written here: the Vandermonde product of `h` is at least that of `v` times
+`∏_j e′_j^{k−1}`, every cross factor `v_l + e′_j` being at least `e′_j`; every difference of two entries of `u` is at most
+`8a`, and the interlacing bounds `Vand(u)` by `(8a)^{2k−3}·Vand(v)`.
+
+*Statement.* Let `ε > 0` and `x ≥ 1`, put `b := e^{x^ε}` and `a := x·b` (the numbers of ThetaChainsOnDefiniteUnitaryGroups
+§2.1), and let `k ≥ 2` and `m ≥ 1` be integers, `Δ ≥ 1` a real number, and `u_0, …, u_{k−1}`, `v_0, …, v_{k−2}`,
+`e′_0, …, e′_{m−1}`, `e_0, …, e_{m−1}` real numbers with:
+(i) `0 ≤ v_l ≤ 4kΔ` for `l ≤ k − 2`, and `v_l − v_{l+1} = 4Δ` for `l ≤ k − 3`;
+(ii) `u_0 > v_0 > u_1 > v_1 > ⋯ > v_{k−2} > u_{k−1} > −e′_0`;
+(iii) `u_0 ≤ 2a` and `u_{k−1} ≥ −a`, or `4kΔ ≤ u_0 − v_0 ≤ 8kΔ` and `u_{k−1} = v_{k−2} − ½`;
+(iv) `e′_j < e_j ≤ e′_j + e′_j/x` for `j ≤ m − 1`, and `e_j < e′_{j+1}` and `e′_{j+1} − e′_j ≥ 1` for `j ≤ m − 2`;
+(v) `4kΔ ≤ e′_0/x` and `e_{m−1} ≤ 2b`.
+Let `h := (v_0, …, v_{k−2}, −e′_0, …, −e′_{m−1})` and `Vand` be as in 9.3 (the entries of `u` and of `h` are strictly
+decreasing, so `Vand` is the product of the differences `y_i − y_j`, `i < j`). Then `Vand(u) > 0`, `Vand(h) > 0` and
+
+`log Vand(h) − log Vand(u) ≥ (k − 1)·Σ_{j=0}^{m−1} log e′_j − 2k·log(8a) − 2k·(1 + log k)`.
+
+[FormalProof] applies it at every place `τ` to the type `u(τ)` of a word, `v(τ)`, the nodes `e′_j(τ)` and the step weights
+`e_j(τ) = w_{j+1}(τ)` of ThetaChainsOnDefiniteUnitaryGroups §2.3, with `Δ = Δ_w`, under hypotheses that contain (i)–(v),
+for the lower bound of 9.4 (c); `h` is then the parameter `h(τ)` of 9.3.
+
+*Route.* By (i), (ii), (iv) and (v) the entries of `u` and of `h` are strictly decreasing (`v_{k−2} ≥ 0 > −e′_0`, and the
+`e′_j` are positive and increasing), so both products are positive. The factors of `Vand(h)` are those of `Vand(v)`, the
+`k − 1` factors `v_l + e′_j ≥ e′_j` for each `j`, and the factors `e′_j − e′_i ≥ 1` (`i < j`); so
+`Vand(h) ≥ Vand(v)·∏_j e′_j^{k−1}`. Every difference `u_i − u_j` (`i < j`) is at most `u_0 − u_{k−1} ≤ 8a`: in the first case
+of (iii) it is at most `3a`; in the second, `u_0 − u_{k−1} ≤ 8kΔ + v_0 + ½ ≤ 12kΔ + ½ ≤ 3e′_0/x + ½ ≤ 3e_{m−1} + ½ ≤ 6b + ½`,
+and `b ≤ a`, `a ≥ 1`. For `1 ≤ i < j ≤ k − 2`, (ii) gives `u_i − u_j < v_{i−1} − v_j`, which matches these factors of
+`Vand(u)` with the factors of `Vand(v)` of entries that are not adjacent; the remaining `2k − 3` factors of `Vand(u)`
+(`i = 0` or `j = k − 1`) are at most `8a`, and the factors `v_l − v_{l+1} = 4Δ` of `Vand(v)` are at least `1`; so
+`Vand(u) ≤ (8a)^{2k−3}·Vand(v)`. Hence `log Vand(h) − log Vand(u) ≥ (k − 1)·Σ_j log e′_j − (2k − 3)·log(8a)`, which gives the
+bound since `log(8a) ≥ 0` and `log k ≥ 0`.
+
+The statement: [FormalProof], `Formalism/LogVandermondeBounds/VandPlace.lean`
+(`Formalism.LogVandermondeBounds.StandardLattice.VandPlace`), with (i)–(v), `Vand` and `h` in
+`Formalism/LogVandermondeBounds/LogRatioLowerBound.lean` (`Formalism.LogVandermondeBounds.StandardLattice.PlaceData`,
+`Formalism.LogVandermondeBounds.StandardLattice.vandN`, `Formalism.LogVandermondeBounds.StandardLattice.rowPar`).
+*Needs:* 9.3.
 
 ### 9.5 The word code
 
@@ -1885,7 +1929,8 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns Layers 9 and 10 of the chain of theta lifts: the slope bounds for the source lattices and for the
 divided sources (9.1, 9.2), the formal degrees of the row discrete series and rank matching with the size of the level
-prime (9.3, 9.4), the word code (9.5), the slope inequality of the chain (9.6), chain data and their standing hypotheses
+prime (9.3, 9.4), the Vandermonde bound at a place (9.4a), the word code (9.5), the slope inequality of the chain
+(9.6), chain data and their standing hypotheses
 (10.0), the Frobenius-restricted sums of the gains and the loss bound (10.1, 10.2), the key identity, the
 Frobenius-restricted inequality and its error budget (10.3–10.5), the explicit parameters and their size conditions
 (10.6–10.6d), hosts on windows (10.7), nonvanishing at the parameters (10.8), chain data at every scale of the windows
@@ -2096,10 +2141,10 @@ sums `Σ_{n≤y}Λ(n)/n` and their progression constants ExplicitPrimeCounting �
 ### From ThetaChainsOnDefiniteUnitaryGroups, a sub-roadmap of this family
 
 - §2.1: the ranks, the scale with its numbers and the size predicates (`Size(x, ε)`, `SizeDep`, `SizeInert`, `SizeQD`). Used
-  in 9.2, 9.4, 9.5, 9.6 and Layer 10.
+  in 9.2, 9.4, 9.4a, 9.5, 9.6 and Layer 10.
 - §2.2: the Hermitian spaces of the chain. Used in 9.4, 10.0, 10.9.
 - §2.3, §2.3a, §2.3b, §2.3c: weight data and words, adapted and separated data, `SizeSc`, `SizeGap`, `SizeSep`. Used in 9.1,
-  9.3, 9.4, 9.5 and Layer 10.
+  9.3, 9.4, 9.4a, 9.5 and Layer 10.
 - §2.4: the Hecke characters, the splitting character and the auxiliary characters. Used in 10.0, 10.6, 10.6d, 10.7, 10.9.
 - §2.5: twisting data and the conditions (T1), (T2). Used in 9.2, 10.0, 10.6, 10.9.
 - §2.6: the coefficient field `𝕂` and the field of places `𝕃`, with their size conditions. Used in 9.6, 10.0, 10.6, 10.6d,

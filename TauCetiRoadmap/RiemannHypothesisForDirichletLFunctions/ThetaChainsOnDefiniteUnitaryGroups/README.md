@@ -11,7 +11,7 @@ The headline theorems are these.
 
 The hosts and their predicates come from [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md); the classification of Hermitian spaces, class sets and masses from [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md); the dictionary of the theta lift of a definite pair from [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md), and the global Weil representation of a unitary pair from [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md); integral branching from [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md); slopes from [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md). The later roadmaps of the chain in the family [RiemannHypothesisForDirichletLFunctions](../README.md), from [LocalGainOfThetaChains](../LocalGainOfThetaChains/README.md) to [ThetaChainsAndFrobeniusPrimeSums](../ThetaChainsAndFrobeniusPrimeSums/README.md), work with these data, the chain lift, its source lattices and its top period.
 
-Layer 2 constructs the setting: the ranks, scales and named size predicates (2.1); the column, row and model spaces (2.2) and the normal form of the pairs they form, with its conjugate datum and the conventions for lifts and descents (2.2a); weight data and words, adapted and separated data and their existence (2.3–2.3c); the Hecke characters of the chain and the twisting characters (2.4, 2.5); the coefficient field `𝕂`, explicit and of polynomial size, and the field of places `𝕃` (2.6), with the behaviour of lattices, their indices and twisting data when `𝕃` is enlarged (2.6a); the type and auxiliary primes and the level prime of each word, chosen so that the sources nearly have the dimension of the target (2.7, 2.8); and the level structures at the unramified places, the type primes, the level primes and the twist places (2.9–2.9c). Layer 3 builds the column chain: chain forms with their integral structures (3.1), a family of theta functions of CM abelian varieties with its integrality at every prime (3.1a–3.1d), the step operator and its identification with a class-set theta lift (3.2–3.4), the chain lift and its integrality (3.5, 3.6), the operators at the level prime (3.7), the source lattices (3.8), and the top period with its integrality (3.9, 3.10).
+Layer 2 constructs the setting: the ranks, scales and named size predicates (2.1); the column, row and model spaces (2.2) and the normal form of the pairs they form, with its conjugate datum and the conventions for lifts and descents (2.2a); weight data and words, adapted and separated data and their existence (2.3–2.3c); the Hecke characters of the chain and the twisting characters (2.4, 2.5); the coefficient field `𝕂`, explicit and of polynomial size, and the field of places `𝕃` (2.6), with the behaviour of lattices, their indices and twisting data when `𝕃` is enlarged (2.6a); the type and auxiliary primes and the level prime of each word, chosen so that the sources nearly have the dimension of the target (2.7, 2.8); and the level structures at the unramified places, the type primes, the level primes and the twist places (2.9–2.9c). Layer 3 builds the column chain: chain forms with their integral structures (3.1), a family of theta functions of CM abelian varieties with its integrality at every prime (3.1a–3.1d), the composition of the normalised isogeny operators and the theta functions of finite data in a split model (3.1e, 3.1f), the step operator and its identification with a class-set theta lift (3.2–3.4), the chain lift and its integrality (3.5, 3.6), the operators at the level prime (3.7), the source lattices (3.8), and the top period with its integrality (3.9, 3.10).
 
 ## Conventions
 
@@ -1711,7 +1711,8 @@ FrobeniusRestrictedRieszSums §§0.1, 0.3, 0.4, 0.6, 0.8a, 0.9; HermitianFormsAn
 ## Layer 3: The column chain on definite unitary groups
 
 Forms of the weights of 2.3 on the definite groups `U(X_j)`, written as functions of frames; a family of theta
-functions of CM abelian varieties attached to pairs of self-dual lattices; the step operators, defined as class sums of
+functions of CM abelian varieties attached to pairs of self-dual lattices, the composition of the isogeny operators
+between them and the theta functions of finite data in a split model; the step operators, defined as class sums of
 jets of these theta functions, and identified with class-set theta lifts for a definite pair in the homomorphism model;
 the chain lift, its level structure at `T(u)`, its integral structures and its period against forms on `U(X^h)`.
 Throughout, `𝕎_j := Hom_E(X_{j−1}, X_j)`, `𝕃` is the field of places of 2.6 read in `ℂ` through `σ₀`, Hermitian
@@ -2089,6 +2090,121 @@ follows from [FormalProof], `Formalism/SharpRestriction/GlobalSchurBounds/Taylor
 (`Formalism.MainNotions.TaylorLogMetric.th22`), `Formalism/LocalToGlobal/KernelLattices/LateralTheory.lean`
 (`Formalism.L2.Ker.Base.ThP`). *Needs:* FrobeniusRestrictedRieszSums §0.3,
 2.1, 2.2, 2.3, 2.6, 3.1a, 3.1b, 3.1c; AbelianSchemesAndArithmeticModuli A5.3–A5.4; ComplexMultiplicationAndExplicitReciprocity §1.2.
+
+### 3.1e The composition of the normalised isogeny operators
+
+*Origin:* particular to this proof: for self-dual lattices with a common semicharacter, the normalised isogeny operator
+of 3.1d (b) followed by the operator back is the identity, and two such operators in succession are a scalar multiple
+of the direct one, the scalar being an explicit finite sum.
+
+*Method of the formal proof:* the route written here: the operators are expanded over sets of coset representatives,
+the composites are evaluated with the commutation rule of Fock translations and with character sums over self-dual
+lattices, and for (b) the composite is carried back to `Λ₁` by the operator from `Λ₃`, evaluated there, and carried
+forward again by (a).
+
+*Definitions and theorem.* Let `V` be a complex vector space and `H` a Hermitian form on `V`, linear in the first
+variable, with `H(y, x) = conj H(x, y)` (no positivity is assumed), and for `y ∈ V` and `F : V → ℂ` let
+`(U_yF)(z) := F(z + y)e^{−πH(z, y) − (π/2)H(y, y)}` be the Fock translation of 3.1a. A subgroup `Λ ⊂ V` is *self-dual*
+if `Λ = {x ∈ V : Im H(x, y) ∈ ℤ for all y ∈ Λ}`, and a function `α : V → ℂ` is a *semicharacter on `Λ`* if
+`α(x) ∈ {±1}` and `α(x + y) = α(x)α(y)e^{πi·Im H(x, y)}` for all `x, y ∈ Λ`. For subgroups `Λ, Λ′ ⊂ V` with
+`[Λ′ : Λ ∩ Λ′]` finite, `α` a semicharacter on `Λ′`, and `F : V → ℂ` with `α(x)·U_xF = F` for all `x ∈ Λ`, put
+
+`I_{Λ,Λ′}F := [Λ′ : Λ ∩ Λ′]^{−1/2}·Σ_{y∈Λ′/(Λ∩Λ′)} α(y)·U_yF`
+
+(the summand depends only on the class of `y`). For the period lattices `𝔙`, `𝔙′` of two lines of 3.1d (b) and `α` the
+semicharacter `(−1)^{Q_A}` of 3.1a, given by one formula on all period lattices and with values `±1`, `I_{𝔙,𝔙′}` is the
+normalised isogeny operator `I` of 3.1d (b).
+
+(a) *Inverse.* Let `Λ₁, Λ₂ ⊂ V` be self-dual, `α` a semicharacter on `Λ₁` and on `Λ₂`, and `[Λ₁ : Λ₁ ∩ Λ₂]` and
+`[Λ₂ : Λ₁ ∩ Λ₂]` finite. Then `I_{Λ₂,Λ₁}I_{Λ₁,Λ₂}F = F` for every `F : V → ℂ` with `α(x)·U_xF = F` for all `x ∈ Λ₁`.
+(b) *Composition.* Let `Λ₁, Λ₂, Λ₃ ⊂ V` be self-dual, `α` a semicharacter on each of them, and `[Λ_j : Λ_i ∩ Λ_j]`
+finite for all `i ≠ j`; let `S₂ ⊂ Λ₂` be a set of representatives of `Λ₂` modulo `Λ₁ ∩ Λ₂`, and `S₃ ⊂ Λ₃` one of `Λ₃`
+modulo `Λ₂ ∩ Λ₃`. Then for every `F : V → ℂ` with `α(x)·U_xF = F` for all `x ∈ Λ₁`
+
+`I_{Λ₂,Λ₃}I_{Λ₁,Λ₂}F = ς·I_{Λ₁,Λ₃}F`,  `ς := ([Λ₃ : Λ₁ ∩ Λ₃]/([Λ₂ : Λ₁ ∩ Λ₂]·[Λ₃ : Λ₂ ∩ Λ₃]))^{1/2}·Σ_{z∈S₃} Σ_{y∈S₂, z+y∈Λ₁} α(z)α(y)α(z + y)e^{−πi·Im H(z, y)}`;
+
+the scalar `ς` does not depend on `F`.
+
+Route. (a) With representatives `S₁ ⊂ Λ₁` of `Λ₁` modulo `Λ₁ ∩ Λ₂` and `S₂` as in (b),
+`I_{Λ₁,Λ₂}F = [Λ₂ : Λ₁ ∩ Λ₂]^{−1/2}Σ_{y∈S₂}α(y)U_yF`, which is invariant under `α(x)U_x` for `x ∈ Λ₂`, and
+`I_{Λ₂,Λ₁}` is the same sum over `S₁` (another choice of representatives changes no summand, by the invariance of the
+function under the first lattice and the semicharacter law on the second). Since `U_xU_y = e^{−2πi·Im H(x, y)}U_yU_x` and `α(x)U_xF = F` for `x ∈ Λ₁`, the composite is
+`([Λ₁ : Λ₁ ∩ Λ₂][Λ₂ : Λ₁ ∩ Λ₂])^{−1/2}Σ_{y∈S₂}(Σ_{x∈S₁}e^{−2πi·Im H(x, y)})·α(y)U_yF`. For `y ∈ Λ₂` the inner sum is the
+sum of a character of `Λ₁/(Λ₁ ∩ Λ₂)` (`Λ₂` being self-dual), trivial exactly when `y ∈ Λ₁` (`Λ₁` being self-dual): it
+is `|S₁| = [Λ₁ : Λ₁ ∩ Λ₂]` at the representative `y₀ ∈ S₂ ∩ Λ₁` and `0` at the others. The double sum over `S₁ × S₂`,
+summed in the other order, gives `[Λ₁ : Λ₁ ∩ Λ₂] = [Λ₂ : Λ₁ ∩ Λ₂]`, so the composite is `α(y₀)U_{y₀}F = F`. (b) Put
+`G := I_{Λ₂,Λ₃}I_{Λ₁,Λ₂}F = ([Λ₂ : Λ₁ ∩ Λ₂][Λ₃ : Λ₂ ∩ Λ₃])^{−1/2}Σ_{z∈S₃}Σ_{y∈S₂}α(z)α(y)U_zU_yF`; then
+`α(x)U_xG = G` for `x ∈ Λ₃`. For `x ∈ Λ₁` the commutation rule gives `α(x)U_x(U_zU_yF) = e^{−2πi·Im H(x, z + y)}U_zU_yF`;
+over a set `R` of representatives of `Λ₁` modulo `Λ₁ ∩ Λ₂ ∩ Λ₃`, `x ↦ e^{−2πi·Im H(x, z + y)}` is a character of
+`Λ₁/(Λ₁ ∩ Λ₂ ∩ Λ₃)` (self-duality of `Λ₂` and `Λ₃`), trivial exactly when `z + y ∈ Λ₁` (self-duality of `Λ₁`), and for
+`z + y ∈ Λ₁`, `U_zU_y = e^{−πi·Im H(z, y)}U_{z+y}` and `α(z + y)U_{z+y}F = F` give
+`α(z)α(y)U_zU_yF = α(z)α(y)α(z + y)e^{−πi·Im H(z, y)}F`. Since `α(x)U_xG` depends only on `x` modulo `Λ₁ ∩ Λ₃`, summing
+over `R` and dividing by `[Λ₁ ∩ Λ₃ : Λ₁ ∩ Λ₂ ∩ Λ₃]` gives, with the equality of indices of (a) for `(Λ₁, Λ₃)`,
+`I_{Λ₃,Λ₁}G = ς·F`; and (a) for `(Λ₃, Λ₁)` gives `G = I_{Λ₁,Λ₃}I_{Λ₃,Λ₁}G = ς·I_{Λ₁,Λ₃}F`.
+
+(a): [FormalProof], `Formalism/LocalToGlobal/TorsionIntegrality/QuadraticSemicharacters/LineTransport.lean`
+(`Formalism.L2.Th1.H.InterInv`); (b): [FormalProof],
+`Formalism/LocalToGlobal/TorsionIntegrality/QuadraticSemicharacters/GaussDegenerate.lean` (`Formalism.L2.Th1.H.TripleFormula`,
+with the scalar `Formalism.L2.Th1.H.tripleMu`); the operators `I_{Λ,Λ′}`:
+`Formalism/LocalToGlobal/TorsionIntegrality/QuadraticSemicharacters/IsSemiChar.lean` (`Formalism.L2.Th1.H.inter`).
+[FormalProof] uses (a) and (b) for the consistency 3.1d (o). *Needs:* 3.1a, 3.1d.
+
+### 3.1f Theta functions of finite data in a split model
+
+*Origin:* particular to this proof: in a model of the theta functions of a lattice by two complementary self-dual
+lattices, the function attached to a finite datum through its finite Fourier transform is the combination, with the
+values of the datum as coefficients, of the translates of the function attached to the indicator of the intersection of
+the two lattices.
+
+*Method of the formal proof:* the route written here: the finite Fourier transform of the indicator of `B` is constant
+on `B`, so that each translate `Θ⟨s⟩` is, by the commutation rule of Fock translations, a combination of the `α(y)U_yθ`
+with the characters `e^{2πi·Im H(s, y)}` as coefficients, which reassembles the transform of `Ψ`; for (b) the translates
+depend only on `s` modulo `A ∩ B`, and the double sum over `S_Λ` and `S_A` is a sum over representatives of `A` modulo
+`A ∩ B`.
+
+*Definitions and theorem.* Let `V`, `H`, `U_y`, self-duality and semicharacters be as in 3.1e. Let `A, B, Λ ⊂ V` be
+subgroups and `α : V → ℂ` a function such that `A` and `B` are self-dual (`Λ` need not be), `α` is a semicharacter on
+`A`, on `B` and on `Λ`, and
+(S1) `Λ ⊂ (Λ ∩ A) + (Λ ∩ B)`;
+(S2) if `a ∈ A`, `b ∈ B` and `a + b ∈ Λ`, then `a ∈ Λ`;
+(S3) every `a ∈ A` with `Im H(a, b) ∈ ℤ` for all `b ∈ B ∩ Λ` lies in `Λ`, and every `b ∈ B` with `Im H(a, b) ∈ ℤ` for all
+`a ∈ A ∩ Λ` lies in `Λ`.
+Let `S_A ⊂ Λ ∩ A`, `S_B ⊂ B`, `S_Λ ⊂ A` and `S_{A/B} ⊂ A` be finite sets of representatives of `Λ ∩ A` modulo `B`, of
+`B` modulo `Λ`, of `A` modulo `Λ` and of `A` modulo `B` (each a set of elements of the first group, pairwise incongruent
+modulo the second and meeting every class), let `θ : V → ℂ` satisfy `α(x)·U_xθ = θ` for all `x ∈ Λ`, and let `v` be a
+real number, with `c_v := √v` for `v > 0` and `c_v := 0` for `v ≤ 0`. For `Ψ : V → ℂ` put
+
+`Ψ̂(y) := c_v·|S_A|^{−1}·Σ_{t∈S_A} Ψ(t)·e^{2πi·Im H(t, y)}`,  `Θ_S[Ψ] := Σ_{y∈S_B} Ψ̂(y)·α(y)·U_yθ`,  `Θ[Ψ] := Σ_{x∈S_Λ} α(x)·U_xΘ_S[Ψ(· − x)]`,
+
+and for `s ∈ V` put `Θ⟨s⟩ := α(s)·U_{−s}Θ_S[𝟙_B]`, `𝟙_B` the indicator of `B`. Then:
+(a) `Θ_S[Ψ] = Σ_{s∈S_A} Ψ(s)·Θ⟨s⟩` for every `Ψ : V → ℂ`;
+(b) if `Ψ(t + m) = Ψ(t)` for all `t ∈ A` and `m ∈ A ∩ B`, then `Θ[Ψ] = Σ_{s∈S_{A/B}} Ψ(s)·Θ⟨s⟩`.
+So the function `Θ[Ψ]` of a finite datum `Ψ`, a function on `A` modulo `A ∩ B`, is the combination of the translates
+`Θ⟨s⟩` with the values of `Ψ` as coefficients. [FormalProof] uses these functions (with `v = 1`, and with `v` a ratio of
+indices at the primes of `S` below) for `Λ` the period lattice `𝔙(L, L′)` of 3.1a, `θ` satisfying the functional equation
+of that lattice, `α` the semicharacter of 3.1a, and `A`, `B` the lattices obtained from `𝔙(L, L′)` by multiplying its
+localisations at the primes of a finite set `S` of primes of `E`, no two of them conjugate (so all split over `F`), by
+`c^{−1}` and those at their conjugates by `c` (for `A`; inversely for `B`), `c` a positive integer; it applies (b) to the
+indicators of cosets of `c` times the period lattice at the primes of `S`, in the theta functions of the finite data of
+3.2.
+
+Route. (a) For `y ∈ B` the transform of `𝟙_B` is `c_v|S_A|^{−1}`: of the `t ∈ S_A` only the representative `t₀` of the
+class `Λ ∩ A ∩ B` lies in `B`, and `e^{2πi·Im H(t₀, y)} = 1` because `B` is self-dual. So
+`Θ_S[𝟙_B] = c_v|S_A|^{−1}Σ_{y∈S_B}α(y)U_yθ`. For `s ∈ S_A ⊂ Λ`, `α(s)U_{−s}θ = θ` (a semicharacter has `α(−s) = α(s)`)
+and `U_{−s}U_y = e^{2πi·Im H(s, y)}U_yU_{−s}`, so `Θ⟨s⟩ = c_v|S_A|^{−1}Σ_{y∈S_B}e^{2πi·Im H(s, y)}α(y)U_yθ`; multiplying
+by `Ψ(s)` and summing over `S_A` gives `Σ_{y∈S_B}Ψ̂(y)α(y)U_yθ = Θ_S[Ψ]`. (b) `A ∩ B ⊂ Λ` by (S3), `Im H` being integral
+on `B`. For `m ∈ A ∩ B`, `α(m)U_m` fixes `Σ_{y∈S_B}α(y)U_yθ` (the semicharacter law on `B` and the invariance of `θ`
+under `Λ`), so `Θ⟨s + m⟩ = Θ⟨s⟩` for `s ∈ A`; and `α(x)U_xΘ⟨s⟩ = Θ⟨s − x⟩` for `x, s ∈ A` (the semicharacter law on `A`).
+By (a) the term of `x ∈ S_Λ` in `Θ[Ψ]` is `Σ_{t∈S_A}Ψ(t − x)Θ⟨t − x⟩`; as `(x, t)` runs over `S_Λ × S_A`, `t − x` runs
+over a set of representatives of `A` modulo `Λ ∩ A ∩ B = A ∩ B`, and the summand depends only on the class of `t − x`,
+which gives (b).
+
+(a), (b): [FormalProof], `Formalism/LocalToGlobal/KernelLattices/XiIndCClass.lean` (`Formalism.L2.Ker.XiExpandS`,
+`Formalism.L2.Ker.XiExpandL`), with `Ψ̂`, `Θ_S[Ψ]`, `Θ[Ψ]`, `Θ⟨s⟩`, the hypotheses and the functions of the finite data
+with `v = 1` in the same file (`Formalism.L2.Ker.hatS`, `Formalism.L2.Ker.xiS`, `Formalism.L2.Ker.xiL`,
+`Formalism.L2.Ker.xiInd`, `Formalism.L2.Ker.SplitHyp`, `Formalism.L2.Ker.thC`), and (S1)–(S3) in
+`Formalism/LocalToGlobal/PairingIndexBounds/ModelLatticeMoves/GoodLat.lean` (`Formalism.L2.PairingIndexBounds.Mv.GoodLat`).
+*Needs:* 3.1a, 3.1e.
 
 ### 3.2 The step of the chain
 
@@ -2738,7 +2854,7 @@ The later roadmaps of the chain in the family use this roadmap as follows.
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns Layers 2 and 3 above: the ranks, scales and size predicates of the chain; its column, row and model spaces and the normal form of the pairs they form, with the conjugate datum, the conventions for lifts and descents and the reading of a step at a real place; weight data, words, adapted and separated data and their existence; the existence criterion for Hecke characters of a CM field with prescribed restriction, local data and infinity type, and the Hecke characters of the chain; anticyclotomic twisting characters and twisting data; the coefficient field `𝕂` with its size bound and the field of places `𝕃`; the type, auxiliary and level primes; the level structures at the unramified places, the type primes, the level primes and the twist places; chain forms and their integral structures; the theta data, the character `χ_D`, the reduced theta function of `ℂ/Λ_K` with its integrality and the CM theta family; the step operator, its identification with a class-set theta lift and its weights; the chain lift and its integrality; the operators at the level prime; the source lattices; the top period and its integrality.
+This roadmap owns Layers 2 and 3 above: the ranks, scales and size predicates of the chain; its column, row and model spaces and the normal form of the pairs they form, with the conjugate datum, the conventions for lifts and descents and the reading of a step at a real place; weight data, words, adapted and separated data and their existence; the existence criterion for Hecke characters of a CM field with prescribed restriction, local data and infinity type, and the Hecke characters of the chain; anticyclotomic twisting characters and twisting data; the coefficient field `𝕂` with its size bound and the field of places `𝕃`; the type, auxiliary and level primes; the level structures at the unramified places, the type primes, the level primes and the twist places; chain forms and their integral structures; the theta data, the character `χ_D`, the reduced theta function of `ℂ/Λ_K` with its integrality and the CM theta family; the composition of the normalised isogeny operators and the theta functions of finite data in a split model; the step operator, its identification with a class-set theta lift and its weights; the chain lift and its integrality; the operators at the level prime; the source lattices; the top period and its integrality.
 
 Not owned here. Abelian CM hosts, their predicates, the cyclic hosts, tops and thick sets are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Unitary groups and Hermitian forms over quadratic étale algebras, their local and global classification, unimodular lattices, class sets, stabilisers and masses are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 2–6. The dictionary of the theta lift of a definite homomorphism pair, its lattice vectors, theta kernels, class-set lifts and Hecke relations are [ThetaLiftsForDefiniteUnitaryGroups](../ThetaLiftsForDefiniteUnitaryGroups/README.md) Layers 0–2; the global Weil representation of a unitary pair and the archimedean correspondence of discrete series are [ThetaKernelsForUnitaryDualPairs](../ThetaKernelsForUnitaryDualPairs/README.md) §§4.4a, 3.46a. Integral branching for `GL_N ↓ GL_{N−1}` is [IntegralWeylModulesOfGeneralLinearGroups](../IntegralWeylModulesOfGeneralLinearGroups/README.md) §1.1; slopes of Hermitian vector bundles and their base change are [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md); prime ideals of a ray class in short intervals and Linnik's theorem are [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) §§1.7b, 2.9b; class-set integration, the perfect pairing of lattices of forms and kernel operators are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) Layer 7 with [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§7.5a, 7.5b, and the formal degree of a discrete series is DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3; the Gelfand–Graev and Bessel-type pairs of `GL_n(𝔽_q)` and the tame labelled form are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md); global class field theory is [ClassFieldTheory](../../ClassFieldTheory/README.md); Hecke characters are [GlobalNumberFields](../../../Completed/GlobalNumberFields/README.md); the Serre tensor construction and canonical Gross characters are ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.3. The route of 2.6 takes the bound for the different from NumberFieldArithmetic §6.4, Minkowski's bound from Mathlib (`NumberField.exists_ideal_in_class_of_norm_le`), and the action of the automorphisms fixing `K(n)` on `ℂ/𝒪_K` with its level structure of level `n` from ShimuraVarieties §5.9. The root discriminants of composita and of Kummer steps, and the values of algebraic Hecke characters in a Kummer field, are used by that route and are stated by no roadmap on main.
 
