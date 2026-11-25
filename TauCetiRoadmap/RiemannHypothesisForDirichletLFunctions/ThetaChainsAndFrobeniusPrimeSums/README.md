@@ -1508,7 +1508,7 @@ unramified in `K` (`d` being a large prime) and not inert by (H2) (inert-free up
 so `gcd(15, g₀g₁) = 1`. *The depth hypothesis and the comparisons of CongruenceModulesOfThetaLifts §§7.10a, 7.10c.* `N_m − r = m·t + 1 > 0`; `r ≤ 2k` by (R1); `D_* ≥ k|A|²x^ε` by its definition (ThetaChainsOnDefiniteUnitaryGroups §2.3c);
 `r/ℓ_A = r·m·δ_th/(k·x^ε) ≤ 2m/x^ε`; `ℓ_A ≤ x^C`; `j := ⌈log_{10}(k·x^{2ε}/m)⌉` has `(ℓ − 1)^j ≥ 10^j ≥ k·x^{2ε}/m ≥ ℓ_A` for every prime `ℓ ≥ 11` (as
 `δ_th ≥ x^{−ε}`) and `2j + 2 ≤ L_th` by the choice of `L_th` in 10.6; that choice gives
-`L_th ≤ 4050·log x + 60/ε + 34 ≤ C_L·log x` for `x ≥ x₀(ε)`, as `C_L > 4050`. *The sizes of the rows.* `η_s = ϑ` (ThetaChainsOnDefiniteUnitaryGroups §2.3c), `t` and `Sc` are polynomial in `x`
+`L_th ≤ 4050·log x + 60/ε + 34 ≤ C_L·log x` for `x ≥ x₀(ε)`, as `C_L > 4050`. *The sizes of the rows.* `η_s = ϑ` (ThetaChainsOnDefiniteUnitaryGroups §2.3c), so the top bound of CongruenceModulesOfThetaLifts §7.6 (a) is the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3b; `t` and `Sc` are polynomial in `x`
 and `b = e^{x^ε}`, so `b ≥ 100` and `2(η_s + t + 1) + Sc ≤ b/10` (kind (K1)); `w_max ≤ 2b′ = 2x·b/X′` (CongruenceModulesOfThetaLifts §7.8a), so
 `20·max(w_max, η_s + t + 1, Sc) ≤ b` (kind (K3)). *`SizeThin`.* `ℓ* = m·b/D_*` with `D_* ≤ x^C`, so
 `σ⁺ ≤ 2D_*/m`, `Sc`, `η_s`, `t` and `r` are polynomial in `x`, while `w″ = b/(X′|A|)`: kind (K3). *The logarithmic size `L = x^ε`.*

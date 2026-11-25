@@ -402,7 +402,7 @@ Hecke types `1` and `r_G` (`r_G` of 4.17): for `r_H = 1`,
 place whose positions lie in `A`, `r_H ∈ {1, r_G}` a Hecke type, the weights those of an adapted datum
 (ThetaChainsOnDefiniteUnitaryGroups §2.3b) and `x ≥ 4`. Then `P^{ex}_j(v) ≤ P_j(v)` for every step `j`; in particular
 `P_j(v) ≥ 1`. *Route.* The `n′/2` odd positions are tops or thin places: they lie in `A`, and the thick places `cσ_du₀𝒯`
-lie in the coset `cσ_dA`, which is not `A` (4.9, Checks). `w̃_j ≤ w_j` (`κ_j > 0`); at a top `λ_{k−1} = −a⁻`, and at every
+lie in the coset `cσ_dA`, which is not `A` (FrobeniusRestrictedRieszSums §0.6(ii)). `w̃_j ≤ w_j` (`κ_j > 0`); at a top `λ_{k−1} = −a⁻`, and at every
 place the entries `λ_a`, `1 ≤ a ≤ k − 1`, other than that one are `≤ Sc + (k−1)/2 ≤ c_G` (the entries `u_a ∈ [0, Sc]`,
 `u_{k−1} < v_{k−2} ≤ Sc`); the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b give `w_j ≤ w″ + ϑ` at a thin place and
 `w_j ≤ 3b′/2 + b′/x + b′/4 ≤ 2b′` at a top; and `j(t+1) ≤ N_m`. For `r_H = 1` an odd top contributes `w̃_j − a⁻`, an odd
@@ -462,7 +462,7 @@ price: [FormalProof], `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZer
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Sig`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.tauP`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.ioP`).
-*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §3.1, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9; IntegralWeylModulesOfGeneralLinearGroups §0.3.
+*Needs:* FrobeniusRestrictedRieszSums §0.6, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §3.1, TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.8, 4.9; IntegralWeylModulesOfGeneralLinearGroups §0.3.
 
 ### 4.9f Definitions: the bulk, the cost and the ledger
 
@@ -2193,7 +2193,9 @@ matching lemma with `W = w_j ≥ a⁻` at tops gives `dep°_v ≤ Σ_{s even}Mn_
 `w̃_j(τ_s) − a⁻_{τ_s} ≤ b′/x + ϑ` (the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3), and its last term is `n′(w″ + ϑ + 4Sc + N_m)`; a good orbit has
 at least `n′δ_top/(C log x)` tops (the definition of good orbits), so the last term costs at most `C(w″ + ϑ + 4Sc + N_m)·log x/δ_top` per
 top; with `r_H = r_G` below `p₀` the price per top is `r_G(2b′ + 4Sc)` plus at most `C·r_G(w″ + ϑ + 4Sc + N_m)·log x/δ_top`, in all
-at most `C·r_G·b′·log x` (`w″ ≤ b′δ_top`, and `ϑ`, `Sc`, `N_m` are at most `b′`). The depth remainders are `R°_v/|𝔗_v|` (4.15f) or the
+at most `C·r_G·b′·log x` (`w″ ≤ b′δ_top`, and `ϑ`, `Sc`, `N_m` are at most `b′δ_top` for `x ≥ x₀(ε)`: `ϑ ≤ w″` by `SizeTheta`
+(`m(t + 1)ϑ ≤ w″`), and `Sc ≤ x^{C_S}` (`SizeSc`) and `N_m = k + m(t + 1)` are at most a power of `x` by `SizeK`, `SizeM`, `SizeT`,
+ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.3b). The depth remainders are `R°_v/|𝔗_v|` (4.15f) or the
 threshold of 4.15e over `|𝔗_v|`, and `D_p + 1` per place, all within `ℒ(p)` by the choice of the data; the sandwich exponent,
 the summand `e_p` of `τ_N`, satisfies `e_p ≤ f·(k(k−1)/2)·lg_p(2a) ≤ ℒ_f(p)`: `|Φ| = f`; by ThetaChainsOnDefiniteUnitaryGroups §2.3b (f) and ThetaChainsOnDefiniteUnitaryGroups §2.1, for `x ≥ x₀(ε)`,
 `Λ_0(τ)_0 − Λ_0(τ)_{k−1} ≤ 3a` at every `τ` (at a top place it is `a_τ + a⁻_τ ≤ a(1 + θ_a) + 3b′/2`, elsewhere at most `2(C_c + 1)·Sc + k − 1`) and

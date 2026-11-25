@@ -1364,8 +1364,8 @@ such twisting data.
 
 Assume that the twisting datum is good and that every `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < t`) is finite; chain data (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3, with the good labels and model lifts of
 RowTowerAndRallisIdentities Layer 5) with `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1; its
-host predicate `SizeInert` makes every prime inert in `K` at least `13`), `SizeSc`, the separation (W7), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c) and
-`SizeThin` (7.6(a)), the thresholds `ℓ*`, `ℓ_A` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` and `SizeG`) and a
+host predicate `SizeInert` makes every prime inert in `K` at least `13`), `SizeSc`, the separation (W7), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c),
+`SizeThin` and the bound `w_j(τ) ≤ a⁻_τ + b′/x + η_s` at the top places (7.6(a)), the thresholds `ℓ*`, `ℓ_A` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` and `SizeG`) and a
 thick set (FrobeniusRestrictedRieszSums §0.8a) whose length `L_th` satisfies the *depth hypothesis*: for every prime `ℓ ≥ 11` some
 `j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`; `x ≥ x₀`. For a twisted prime
 `ℓ ∉ {g₀, g₁}`, a twisted `𝔭 | ℓ` and `π ∈ Z_good`,

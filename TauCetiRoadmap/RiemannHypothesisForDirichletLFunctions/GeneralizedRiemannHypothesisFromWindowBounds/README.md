@@ -316,7 +316,8 @@ form `‖G_ψ(y)‖ ≤ C′_ψ y` of the remark to the size clause, by the expl
 inequality with `C′_w = Σ_ψ w(ψ) C′_ψ`.
 
 *Needs:* 0.3; RiemannHypothesisStatementsAndConsequences §8.4a(a)–(b); ZerosOfLFunctions §8.6a;
-Mathlib `Real.continuous_mul_log`, `Continuous.measurable`.
+Mathlib `Real.continuous_mul_log`, `Continuous.measurable`, `ArithmeticFunction.LSeriesSummable_vonMangoldt`,
+`integrableOn_Ioi_rpow_of_lt`.
 
 ### 0.5 The transform of a family
 
@@ -1241,7 +1242,8 @@ nothing here uses them.
 - `meromorphicOrderAt`; `Finsupp`, `Finsupp.sum`, `Finsupp.mapDomain`,
   `Finsupp.mapDomain_apply_of_injective`, `Finsupp.indicator`, `Finsupp.indicator_apply`,
   `Finsupp.filter`, `Finsupp.sum_add_index'`, `Finsupp.sum_smul_index'`; `Chebyshev.psi`;
-  `Real.continuous_mul_log`, `Continuous.measurable` (0.4).
+  `Real.continuous_mul_log`, `Continuous.measurable`, `ArithmeticFunction.LSeriesSummable_vonMangoldt`,
+  `integrableOn_Ioi_rpow_of_lt` (0.4).
 
 ### From Tau Ceti
 
