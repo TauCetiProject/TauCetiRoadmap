@@ -18,6 +18,7 @@ body:
         - AbelianSchemesAndArithmeticModuli
         - AbelianSchemesAndArithmeticModuliPartII
         - AbhyankarLemma
+        - AdaptiveTimeSteppingForODEs
         - AdelicAlgebraicGroups
         - AdelicImagesAndModularCurves
         - AdicCoefficientsAndComparisons
@@ -131,6 +132,7 @@ body:
         - ComputationalNumberTheory
         - ConformalMappingPartII
         - CongruenceSpectralGap
+        - ConvexAnalysisAndDuality
         - ConvexLifting
         - CooperativeGames
         - CountableModelCounting
@@ -532,6 +534,7 @@ body:
         - StableReductionPartII
         - StackPointsAndResidualGerbes
         - StandardDistributions
+        - StatisticalLearningTheory
         - StochasticCalculus
         - StokesReciprocity
         - StringOrientation
@@ -550,6 +553,7 @@ body:
         - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalCombinatorics
+        - TopologicalDataAnalysis
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TorsionCohomologyInfrastructure
