@@ -575,7 +575,8 @@ almost everywhere, and `P[h] → h(x)` nontangentially at almost every `x` for c
 (mauth2022 Lemmas 4 and 7, line 404–436; garnett2007, Ch. I §§3–5, pp. 16, 30, uncertified). Prove
 also that, off one null set, `P[ν](z) → w(x)` as `z → x` through `Γ^α_∞(x)` for every `α > 0`: for
 Poisson integrals, the nontangential limits through cones of different apertures exist and agree almost
-everywhere. The sources fix `α = 1`. Route: at a Lebesgue point of `w` where `ν_s(B(x, r))/2r → 0` (Mathlib
+everywhere. mauth2022 and poltoratski2024 fix `α = 1`; garnett2007, Ch. I §§4–5 (uncertified),
+works with the cones `|x − t| < α y` for every `α > 0`. Route: at a Lebesgue point of `w` where `ν_s(B(x, r))/2r → 0` (Mathlib
 `VitaliFamily.ae_tendsto_lintegral_enorm_sub_div` and `VitaliFamily.ae_tendsto_rnDeriv`), split
 `ν − w(x)dx` near and far from `x` and use the cone domination of §2.3, with the constant `A²` of the
 wider-cone bullet for `Γ^α_∞(x)`; these points do not depend on `α`.
