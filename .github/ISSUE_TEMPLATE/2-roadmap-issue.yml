@@ -46,6 +46,7 @@ body:
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
         - AnalyticToricGeometryPartII
+        - ApproximationGuarantees
         - ArakelovGeometryAndAbelianHeights
         - ArakelovGeometryAndAbelianHeightsPartII
         - ArcTopologyAndDescent
@@ -115,6 +116,7 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - CompactQuantumMetricSpaces
+        - ComparisonSortingAndSelection
         - CompletedCohomologyAndLocalGlobalCompatibility
         - CompletedCohomologyPartII
         - ComplexComparisonPartII
@@ -280,6 +282,7 @@ body:
         - Hyperfunctions
         - HypergeometricMotives
         - IgusaVarietiesAndTorsionConcentration
+        - IharaZetaFunction
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
         - IncompressibleFluids
@@ -447,6 +450,7 @@ body:
         - QuaternionicModularForms
         - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
+        - RamseyNumbers
         - RandomGraphs
         - RandomMatrices
         - RandomizedSmoothing
