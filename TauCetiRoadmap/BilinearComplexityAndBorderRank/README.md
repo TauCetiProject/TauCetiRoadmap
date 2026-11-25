@@ -142,8 +142,8 @@ Route.
   cyclic convention is what makes the rotation clause a statement about parties.
 
 *Needs:* AsymptoticSpectra 3.1 (`CoordTensor`, its instances, `restrictLE`, `tensorRank`) and
-3.3 (`mmTensor`); Mathlib `finProdFinEquiv`, `Equiv.prodProdProdComm`, `Fin.divNat`,
-`Fin.modNat`.
+3.3 (`mmTensor`); Mathlib `finProdFinEquiv`, `Equiv.prodProdProdComm`; Batteries
+`Fin.divNat`, `Fin.modNat`.
 
 ### 1.2 Multiplicative complexity and rank
 
@@ -639,11 +639,13 @@ asymptotic spectra beyond the statements of AsymptoticSpectra used above.
 - `Finset.prod_univ_sum` (a product of sums is a sum over choice functions,
   `Mathlib/Algebra/BigOperators/Ring/Finset.lean`): 2.1, 3.2, 3.3.
 - `finProdFinEquiv` (`Mathlib/Logic/Equiv/Fin/Basic.lean`), `Equiv.prodProdProdComm`
-  (`Mathlib/Logic/Equiv/Prod.lean`), `Fin.divNat`, `Fin.modNat`: 1.1, 2.1, 3.2.
+  (`Mathlib/Logic/Equiv/Prod.lean`), `Fin.divNat`, `Fin.modNat` (declared in Batteries,
+  `Batteries/Data/Fin/Basic.lean`): 1.1, 2.1, 3.2.
 - `Nat.sInf_mem` (a nonempty set of natural numbers contains its infimum), `Nat.sInf_le`
   (`Mathlib/Order/Lattice/Nat.lean`): 2.1, 3.1; `csInf_le` (a member of a set bounded below is at
   least its infimum; `Mathlib/Order/ConditionallyCompleteLattice/Defs.lean`): 2.4.
-- `Nat.clog` (`Mathlib/Data/Nat/Log.lean`), `Real.logb`, `Real.rpow_natCast`,
+- `Nat.clog` (`Mathlib/Data/Nat/Log.lean`), `Real.logb`
+  (`Mathlib/Analysis/SpecialFunctions/Log/Base.lean`), `Real.rpow_natCast`,
   `Real.rpow_le_rpow_left_iff` (base `> 1`), `Real.mul_rpow` (nonnegative factors)
   (`Mathlib/Analysis/SpecialFunctions/Pow/Real.lean`): 2.4, 3.1, 3.3.
 - `Nat.ceil`, `Nat.le_ceil`, `Nat.ceil_lt_add_one` (nonnegative argument;
@@ -664,8 +666,8 @@ asymptotic spectra beyond the statements of AsymptoticSpectra used above.
 - 3.1 `CoordTensor`, its `Zero`, `One`, `Add`, `Mul` instances, `restrictLE`, `tensorRank`
   (copied verbatim): every layer.
 - 3.1 `isStrassenPreorder_restrictLE` (`2 ≤ Fintype.card ι`; here three parties): 2.4, 3.1, 3.3.
-- 3.1 `abstractRank_restrictLE` (any finite set of parties: `t ≤ ⟨r⟩` exactly when
-  `R(t) ≤ r`): 3.1.
+- 3.1 `abstractRank_restrictLE` (any finite set of parties: the least `r` with `t ≤ ⟨r⟩` is
+  `R(t)`): 3.1.
 - 3.2 `flatRank` (copied verbatim): 2.2, 2.3, 3.2, 3.3; `flatRank_mem_asymptoticSpectrum`
   (`S` nonempty and not everything): 3.3.
 - 3.3 `mmTensor`, `matMulExponent` (copied verbatim) and `matMulExponent_spec` (over every
@@ -685,7 +687,8 @@ asymptotic spectra beyond the statements of AsymptoticSpectra used above.
   p. 26; Remark 6.2 and Thm 6.3, p. 27; Lemma 6.4, Remark 6.5, Thm 6.6, Cor. 6.7, p. 28;
   Lemma 7.1, p. 29; p. 30; Thm 7.5, p. 31; Lemma 7.7, p. 32; pp. 32–34; Cor. 7.8, p. 34.
 - A. Wigderson and J. Zuiddam, *Asymptotic spectra: theory, applications and extensions*, Bull.
-  Amer. Math. Soc., final version 2025 from A. Wigderson's page; pages of that PDF. Used:
+  Amer. Math. Soc., final version 2025 from A. Wigderson's page (the PDF in the Bulletin's
+  format, created 23 August 2025); pages of that PDF. Used:
   Thm 4.12 and footnote 51, p. 53.
 - A. Shpilka and A. Yehudayoff, *Arithmetic circuits: a survey of recent results and open
   questions*, Foundations and Trends in Theoretical Computer Science 5 (2010), authors' PDF
