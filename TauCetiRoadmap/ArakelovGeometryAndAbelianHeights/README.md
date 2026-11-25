@@ -646,7 +646,7 @@ The archimedean terms are `Σ_v mult(v) log max_i |x_i|_v`, matching `NumberFiel
 
 For the Fubini–Study metric, the finite-place factor of `TauCeti.arakelovMulHeight_eq` is the same `∏ᶠ_𝔭 max_i |x_i|_𝔭 = N(𝔟)^{-1}`, and its archimedean factor `∏_w (Σ_i |x_i|²_w)^{mult(w)/2}` is the product over the `[K:ℚ]` embeddings of the Fubini–Study norms of the coordinate vector, so the degree is `TauCeti.arakelovLogHeight x` with no change of normalisation. The two-sided comparison with the sup degree is the cited pair of pinned theorems, not a target here.
 
-The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, Lemma 3 and its proof, p. 356; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.7, p. 29; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Corollaire, p. 14.
+The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, p. 354; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.7, p. 29; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Corollaire, p. 14.
 
 *Needs:* §1.7; §1.12; Mathlib `Height.logHeight`; Mathlib `Projectivization.logHeight`; Mathlib `NumberField.mulHeight_eq`; Mathlib `NumberField.absNorm_mul_finprod_finitePlace_eq_one`; Tau Ceti `TauCeti.arakelovLogHeight`, `TauCeti.arakelovMulHeight_eq`, `TauCeti.logHeight_le_arakelovLogHeight` and `TauCeti.arakelovLogHeight_le_mul_log_natCard_add_logHeight`; Tau Ceti `TauCeti.absoluteProjectiveTupleHeight` (absolute tuple and scalar heights).
 
