@@ -557,6 +557,7 @@ body:
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TorsionCohomologyInfrastructure
+        - TracesOnCStarAlgebras
         - TropicalAndBerkovichArithmetic
         - TypeAHeckeAlgebras
         - VStackSheavesAndLisseCategories
