@@ -5,16 +5,12 @@ real box: branch membership, scaled bounds, zero and positive weights, exact con
 and compactness of the displayed lift. The same cone carriers occur in branches and lifts.
 Empty branches are allowed. Closedness is needed only for compactness and the closed hull.
 
-## Scope and ownership
+## How to read the build
 
-There is a finite branch index, a finite original-space dimension, branch-dependent finite
-residual dimensions, and finite coordinate bounds. The index, individual branches and union
-may be empty. Exactness uses carriers of `PointedCone ℝ (Y i)`; compactness uses arbitrary
-closed sets. Neither salience, solidness, properness nor feasibility is assumed.
-
-Unbounded unions, common-summand theorems, general extended-valued perspectives, unrestricted
-epigraph heights, whole-GDP ideality, algorithms and solver performance are outside this
-bounded roadmap. No optimization objective or minimizer interface is required.
+Read the layers in order: Layer 1 constructs the branch and lift interfaces, Layer 2 identifies
+the convex hull, and Layer 3 establishes compactness and the closed hull. The README is the
+definitive specification; `Suggested.lean` gives definitions and selected headline signatures,
+with intentional admissions rather than proofs. The basic API and all checks are also targets.
 
 ## Conventions
 
@@ -36,34 +32,6 @@ Mathlib's [`PointedCone`](https://github.com/leanprover-community/mathlib4/blob/
 is a submodule over nonnegative scalars: its carrier contains zero and is closed under
 addition and nonnegative scaling. It does not mean salient; the whole space is allowed.
 Use this interface without introducing a second conic predicate.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
-
-| Supplier | Contract consumed here |
-| --- | --- |
-| `PointedCone`, `Submodule.zero_mem`, `PointedCone.convex`, `PointedCone.smul_mem`, `PointedCone.smul_mem_iff` | Zero membership, convexity, nonnegative scaling and cancellation of positive scaling. |
-| `Set.Icc`, pointwise function order, `LinearMap` | Coordinate boxes and branch-dependent affine residuals. |
-| `Convex.sum_mem`, `subset_convexHull`, `convexHull_min`, `convex_convexHull` | Finite convex combinations and the smallest convex superset. |
-| `Finset.sum_subset`, `Finset.single_le_sum` | Restriction to positive support and bounds for simplex weights. |
-| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Continuity and closedness of the affine residual and box constraints. |
-| `isCompact_Icc`, `IsCompact.prod`, `IsCompact.of_isClosed_subset`, `IsCompact.image`, `IsCompact.isClosed` | Compact boxes, closed subsets, continuous images and closedness. |
-
-### From Tau Ceti
-
-No Tau Ceti declaration is consumed. At `2fd255d997f47c0b5d834ee416c7015d55444ce5`,
-`ConvexOn.antitoneOn_mul_map_div` in `TauCeti/Analysis/Convex/Perspective.lean` is a scalar
-perspective inequality; it is not used by these targets.
-
-## How to read the build
-
-Read the layers in order: Layer 1 constructs the branch and lift interfaces, Layer 2 identifies
-the convex hull, and Layer 3 establishes compactness and the closed hull. The README is the
-definitive specification; `Suggested.lean` gives definitions and selected headline signatures,
-with intentional admissions rather than proofs. The basic API and all checks are also targets.
 
 ## Layer 1: scaled boxes and branch interfaces
 
@@ -335,6 +303,38 @@ A finite disjunctive model with coordinate bounds can use the membership and ima
 exchange its convex hull for the displayed lift. Empty-branch elimination uses the zero-weight
 and zero-block interface. Clients with closed `K i` obtain compactness of the displayed system and
 closedness of its projection.
+
+## Scope and ownership
+
+There is a finite branch index, a finite original-space dimension, branch-dependent finite
+residual dimensions, and finite coordinate bounds. The index, individual branches and union
+may be empty. Exactness uses carriers of `PointedCone ℝ (Y i)`; compactness uses arbitrary
+closed sets. Neither salience, solidness, properness nor feasibility is assumed.
+
+Unbounded unions, common-summand theorems, general extended-valued perspectives, unrestricted
+epigraph heights, whole-GDP ideality, algorithms and solver performance are outside this
+bounded roadmap. No optimization objective or minimizer interface is required.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
+
+| Supplier | Contract consumed here |
+| --- | --- |
+| `PointedCone`, `Submodule.zero_mem`, `PointedCone.convex`, `PointedCone.smul_mem`, `PointedCone.smul_mem_iff` | Zero membership, convexity, nonnegative scaling and cancellation of positive scaling. |
+| `Set.Icc`, pointwise function order, `LinearMap` | Coordinate boxes and branch-dependent affine residuals. |
+| `Convex.sum_mem`, `subset_convexHull`, `convexHull_min`, `convex_convexHull` | Finite convex combinations and the smallest convex superset. |
+| `Finset.sum_subset`, `Finset.single_le_sum` | Restriction to positive support and bounds for simplex weights. |
+| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Continuity and closedness of the affine residual and box constraints. |
+| `isCompact_Icc`, `IsCompact.prod`, `IsCompact.of_isClosed_subset`, `IsCompact.image`, `IsCompact.isClosed` | Compact boxes, closed subsets, continuous images and closedness. |
+
+### From Tau Ceti
+
+No Tau Ceti declaration is consumed. At `2fd255d997f47c0b5d834ee416c7015d55444ce5`,
+`ConvexOn.antitoneOn_mul_map_div` in `TauCeti/Analysis/Convex/Perspective.lean` is a scalar
+perspective inequality; it is not used by these targets.
 
 ## References
 
