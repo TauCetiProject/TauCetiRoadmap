@@ -343,7 +343,7 @@ they give in a sharper form: Katz (1977), section V, Corollary 2, announced ther
 two over an absolutely unramified base, and Katz, *Divisibilities, congruences, and Cartier duality* (1981), Main
 Theorem 3.11, its proof for the Lubin–Tate groups of height
 two that occur here: for an integral series `f` whose sum over the translates by the `p`-torsion vanishes,
-`v_p(n!·coeff_{z^n} f(g(z))) ≥ ⌊n·γ_LT⌋`, without loss; and Bannai and Kobayashi (2016), Propositions 3.5 and 5.3, the
+`v_p(n!·coeff_{z^n} f(g(z))) ≥ ⌊n·γ_LT⌋`, without loss; and Bannai and Kobayashi (2016), Proposition 3.5 (and the proof of Proposition 5.3), the
 rate `γ_LT` with a loss of `1` for every integral series on the Lubin–Tate group of height two of the unramified
 quadratic extension of `ℚ_p`, against the loss `#ι·(log_p a + 1)` here. Particular to this proof are the factor
 `exp(±β_M)` of the cocycle, the several variables, and the radii `σ_i`, chosen under the bi-power condition, by which the
@@ -1499,7 +1499,7 @@ programmes).
 - J. Lubin and J. Tate, *Formal complex multiplication in local fields*, Ann. of Math. 81 (1965); T. Honda, *On the theory of
   commutative formal groups*, J. Math. Soc. Japan 22 (1970); M. Hazewinkel, *Formal groups and applications* (1978); N. Katz, *Crystalline cohomology, Dieudonné modules and Jacobi sums* (1981); D. Mumford, *Bi-extensions of formal groups* (1969); L. Breen, *Fonctions thêta et théorème du cube* (1983): 4.1–4.8c, 4.19.
 - N. M. Katz, *Formal groups and p-adic interpolation*, Astérisque 41–42 (1977), 55–65, section V, Corollary 2 (announced there without proof); N. M. Katz, *Divisibilities, congruences, and Cartier duality*, J. Fac. Sci. Univ. Tokyo Sect. IA Math. 28 (1981), 667–678, Main Theorem 3.11 (its proof for the Lubin–Tate groups of height two): the divisibility of the derivatives of an integral series with vanishing sum over the `p`-torsion translates, the case without cocycle in one variable of 4.5.
-- K. Bannai and S. Kobayashi, *Integral structures on p-adic Fourier theory*, Ann. Inst. Fourier 66 (2016), 521–550, Propositions 3.5 and 5.3: the same rate with a loss of `1` for every integral series on the Lubin–Tate group of height two of the unramified quadratic extension of `ℚ_p`, the case without cocycle in one variable of 4.5.
+- K. Bannai and S. Kobayashi, *Integral structures on p-adic Fourier theory*, Ann. Inst. Fourier 66 (2016), 521–550, Proposition 3.5 (and the proof of Proposition 5.3): the same rate with a loss of `1` for every integral series on the Lubin–Tate group of height two of the unramified quadratic extension of `ℚ_p`, the case without cocycle in one variable of 4.5.
 - B. Mazur and W. Messing, *Universal extensions and one dimensional crystalline cohomology*, LNM 370 (1974): 4.19, 4.19a, 4.19e.
 - P. Cartier, *Modules associés à un groupe formel commutatif. Courbes typiques*, C. R. Acad. Sci. Paris 265 (1967): 4.19, 4.19e.
 - A. Cayley; A. Capelli (the identity `det(∂)det^{s+1} = ∏(s + 1 + c)det^s`): 4.19b.
