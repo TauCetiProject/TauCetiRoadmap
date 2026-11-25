@@ -326,6 +326,7 @@ body:
         - LaguerreJacobi
         - LangevinAndHamiltonianMonteCarlo
         - LanglandsParameterStacks
+        - LaplacianEigenvaluesOfGraphs
         - LargeDeviations
         - LatticePackingsAndPerfectForms
         - LefschetzPencilsAndVanishingCycles
@@ -349,6 +350,7 @@ body:
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
         - MassFormula
+        - MatchingPolynomial
         - MatesDoubleCategories
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
@@ -424,6 +426,7 @@ body:
         - PerfectoidSpaces
         - PerfectoidSpacesPartII
         - PerfectoidTowers
+        - PeriodicNonnegativeMatrices
         - PeriodsAndSpecialValues
         - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
@@ -554,6 +557,7 @@ body:
         - StochasticCalculus
         - StokesReciprocity
         - StringOrientation
+        - StronglyRegularAndMooreGraphs
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
