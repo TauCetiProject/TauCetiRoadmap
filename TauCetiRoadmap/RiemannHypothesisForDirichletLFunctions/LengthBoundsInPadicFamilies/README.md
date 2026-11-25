@@ -283,9 +283,12 @@ parameter: on `Xs = X`, `c(π) = cc_Z(π)` of 1.7a; for smaller `Xs` it is the i
 number of generators of the `𝒜`-module `Y_s` (as in the route), and with (P) in the form without variables (for every `m` and
 every `m × m` array `Θ` over `𝒜`, the function `x ↦ det Θ(x)` lies in `A`), through 1.8b (1′):
 `Formalism/CharacterColumnKernels/IdempotentNormalForms/GlobalConcreteOf.lean` (`Formalism.NG.globalConcrete`), stated over
-a finite cover as in (5). The statement for every
+a finite cover as in (5). In place of (D) it assumes
+that, over `O`, `r_π` is block upper triangular for an ordering of the blocks, with every block map `ψ_b` to a diagonal block
+defined and surjective (`Formalism/CharacterColumnKernels/StatementN.lean` (`Formalism.NG.CharacterColumnGlobal`)); (D), a
+block sum, is the stronger hypothesis, and (E) refers to the `χ`-line of that sum. The statement for every
 residue field, through (P) with variables and 1.8b (1), is this roadmap's variant. (3) and (4) are this roadmap's. In place of
-(3), [FormalProof] takes (P), (D), (N), the idempotents `e_B`, `e₁` and the element of 1.8e (4) as hypotheses and uses no
+(3), [FormalProof] takes (P), (D) in that triangular form, (N), the idempotents `e_B`, `e₁` and the element of 1.8e (4) as hypotheses and uses no
 idempotent `E` cutting out the `χ`-line, its characters being congruent to one another at small primes; (3) is the classical
 unit case ([Ribet76], [BC09]). In place of (4) it has: if for every `m` and all `a_1, …, a_m ∈ 𝒜` the coefficients of
 `x ↦ det(Σ_iX_ia_i(x))` lie in `A`, then (P) holds in the form without variables

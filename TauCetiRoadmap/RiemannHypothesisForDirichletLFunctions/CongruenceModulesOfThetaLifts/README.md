@@ -1597,9 +1597,11 @@ host of layer `n` with `2^n ≥ 4f_ψ`, as there `2^n` divides `|A|` and `f_E �
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^P_j(𝔭) ≤ d^{Z,P}_j·( C·f·m·b·L² + V(E, t) )`. *The form of the formal proof.* At the base level this is
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·f·m·b·L² + V(E, t) )`. [FormalProof] states the base-level sum with the further
 nonnegative term `(log x)²·N_c` in the bracket (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1):
-`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·(f·m·b·L² + (log x)²·N_c) + V(E, t) )`; its congruence lengths are those of the
-base-level lattice and its factor is `D_0` ([FormalProof],
-`Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.aux₃`)). The
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ d^{Z,P_0}_j·( C·(f·m·b·L² + (log x)²·N_c) + V(E, t) )`; its congruence lengths are those of the
+base-level lattice and its factor is the base-level dimension `d^{Z,P_0}_j` ([FormalProof],
+`Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.aux₃`)), which
+equals `D_0` on the family by a separate statement ([FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
+(`Formalism.MainNotions.SmallLevelRankEq`)). The
 form without that term and the form with `d^Z_j` (the whole lattice, `P = 1`) are this roadmap's, by the route below; the route
 of 7.11 compares the two forms.
 

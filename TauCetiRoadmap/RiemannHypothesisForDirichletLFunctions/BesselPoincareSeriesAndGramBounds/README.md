@@ -751,7 +751,7 @@ orthonormal basis `T_1, …, T_D` of isometric intertwiners whose values are cus
 over a fundamental domain `𝔉`, the kernel on the diagonal being `Σ_i|F_i(x)|²` for an orthonormal basis of the range;
 the term `γ = 1` integrates to `D*(π_∞, ϕ)`. (b) For `x ∈ U(V)(𝔸)` let `Λ_x` be the Hermitian lattice `x_fL` with the
 metrics `x_∞`; its canonical filtration (SlopesOfHermitianVectorBundles §3.2) gives `least(x)`, the least normalised size
-of a nonzero sublattice; split `𝔉` into the *moderate* part `least(x) ≥ τ*` (`τ* = (nf·rd_E·g_ϕ·b)^{−Cq_V}`) and the *deep*
+of a nonzero sublattice; split `𝔉` into the *moderate* part `least(x) ≥ τ*` (`τ* = (nf·rd_E·g_ϕ·b)^{−11q_V}`) and the *deep*
 part. (c) *Short flags are rare:* the measure of `{least < ½}` is at most `exp(−nf log n/3)·vol(𝔉)` when `q_V² ≤ n`, by
 unfolding over the parabolic of the flag (Iwasawa integration, covolumes of unipotent radicals, volumes of `GL_j(E)`,
 mass ratios of unitary groups of smaller rank, and the residue bound AnalyticNumberTheoryPartI §2.15,

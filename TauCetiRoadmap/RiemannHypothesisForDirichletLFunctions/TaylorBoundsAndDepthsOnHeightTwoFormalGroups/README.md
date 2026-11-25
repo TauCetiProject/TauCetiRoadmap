@@ -607,7 +607,7 @@ box (the odd top's if `b < i`, the even top's if not), and so does every top–l
 
 *Needs:* 4.1, 4.4; Mathlib (determinants, multinomial coefficients).
 
-*In [FormalProof]:* EntryStar, with EntryExcessBound (J1), EntryCappedBound (J2) and EntryB (J3) (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementE.lean`), for `p` odd and the series of the class with the explicit `𝔥` of 4.4 (iii).
+*In [FormalProof]:* EntryStar, with EntryExcessBound (J1), EntryCappedBound (J2) and EntryB (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementE.lean`), for `p` odd and the series of the class with the explicit `𝔥` of 4.4 (iii). EntryB weights the jet by a power of `p` fixed by an arbitrary set `J` of columns; (J3), with its threshold `i`, is GaussBK (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementGK.lean`), proved from EntryB with `J = {b : b < i}` as GaussBK_of (`Formalism/ThetaLogCoordinates/UniformThetaSubstitution/FrobeniusLiftNorms/EGaussK.lean`). The loss is explicit there: in place of `lg` it is `Σ_s(N′·⌈log_p(α_s + 1)⌉ + NN′·⌈log_p(d_s + 1)⌉) + Σ_{s∈𝔗}⌈log_p(α_s + 1)⌉²`, `d_s` the degree of `Q` at the letter `s` (deLoss and lgN, `Formalism/ThetaLogCoordinates/UniformThetaSubstitution/StatementAB.lean`; `⌈log_p(y + 1)⌉` is `0` at `y = 0`).
 
 ### 4.8a Jets of a Gaussian against products of minors
 

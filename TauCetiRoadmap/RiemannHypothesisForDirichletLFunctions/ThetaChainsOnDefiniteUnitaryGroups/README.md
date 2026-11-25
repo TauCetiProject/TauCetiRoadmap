@@ -1328,8 +1328,8 @@ while `log Y ≥ 8x^ε`), and then
 `p_δ, p′_δ ≡ 1 (mod 2o_δ f_E)`, both `≤ (2o_δ f_E)^{L_2}` with `L_2` absolute; they split completely in `E`, are different
 from `d`, and under `SizeN` they are `< X′` (so `< X″`) and smaller than the type primes for `x ≥ x₀(ε)`.
 
-Route: (a) is RieszSumsOverPrimesAndExceptionalZeros §2.9b(iv)(c′) at `h = 1` for the modulus `M` (`B = dM²`, the count
-`c₂hX/(B^{A_gap} log X)` for `X ≥ 1`): it counts primes `p = N(α)`, `α ≡ 1 (mod M𝒪_K)`, in `(Y, 2Y]` with the
+Route: (a) is RieszSumsOverPrimesAndExceptionalZeros §2.9b(iv)(c′) at `h = 1` for the modulus `M` (`B = 4dM²`, the count
+`c₂hX/(B^{A_gap} log X)` for `X ≥ 1`; the factor `4` goes into `c₁` and `c₂`, as `log(4dM²) ≤ 2·log(dM²)`): it counts primes `p = N(α)`, `α ≡ 1 (mod M𝒪_K)`, in `(Y, 2Y]` with the
 polynomial bound for a possible exceptional zero. `π ≡ 1 (mod M𝒪_K)` gives `ππ̄ ≡ 1 (mod M𝒪_K ∩ ℤ = Mℤ)`; a prime `≡ 1 (mod f_E)`
 splits completely in `ℚ(ζ_{f_E}) ⊃ E`. Disjointness: for each `e` the primes `ℓ` with `ℓ^{4v_ℓ(g′^e − 1)} > g′^e` have
 `ℓ^{v_ℓ} > g′^{e/4}` and their product divides `g′^e − 1`, so there are at most three; for `ℓ ∈ 𝔅(N, g′)` a prime `g ≠ ℓ` with
@@ -1874,7 +1874,7 @@ axis ideal is `𝔩_τ = τ(𝔞₀𝔇_{E/K})𝒪_M = τ(𝔞̄₀)^{−1}𝒪_
 
 Route. `Im H_A` is integral and unimodular on `𝔙(L, L′)` because `𝔞₀Hom_{𝒪_E}(L, L′)` is self-dual for `Tr_{E/ℚ}(δ_T·h)`
 (`h(x, y) = tr(x^†y)`): its dual is `δ_T^{−1}𝔞̄₀^{−1}𝔇_{E/ℚ}^{−1}·Hom(L, L′) = 𝔞₀Hom(L, L′)` by 2.2(f); `Q_A` is integral because
-`d ≡ 3 (mod 4)` and the ranks are even; the polarisation is principal, and an `𝒪_E`-module decomposition gives the product of
+`d ≡ 3 (mod 4)`, by the same self-duality (the parity of the ranks is not used); the polarisation is principal, and an `𝒪_E`-module decomposition gives the product of
 CM elliptic curves (AbelianSchemesAndArithmeticModuli A5.3–A5.4 for the line). The integral coordinates:
 AbelianSchemesAndArithmeticModuli A1.3a, A4.7a (the Serre tensor and its Lie realization), specialised in
 ComplexMultiplicationAndExplicitReciprocity §1.2 (Serre's construction), and the good model of `𝒞` (2.6). The axis ideal: for a
@@ -2803,7 +2803,7 @@ The roadmaps of the family named under Downstream consumers above use these stat
 ### From RieszSumsOverPrimesAndExceptionalZeros, a sub-roadmap of this family
 
 - §1.7b (iii): `r` primes `≡ 1 (mod M)` below `M^{L_r}`. Used in 2.7.
-- §2.9b (iv)(c′): for `K = ℚ(√−d)` with `d` a prime, `d ≡ 3 (mod 4)`, `d ≥ 100`, an integer `M ≥ 3` and `B = dM²`, with absolute `A_gap, c, c′ > 0` (the exponent is written `A` there; `A` is a group here): (polynomial gap) every real zero `β ∈ [3/4, 1)` of `L(s, ψ*)`, `ψ` a real character of `Cl_{M𝒪_K}`, has `1 − β ≥ c·B^{−A_gap}`; (short intervals) for `X ≥ 1` with `log B ≤ c·√(log X)` and `e^{−c√(log X)} ≤ h ≤ 1`, at least `c′·hX/(B^{A_gap}·log X)` primes `p ∈ (X, (1 + h)X]` are norms `N_{K/ℚ}(α)` of `α ∈ 𝒪_K` with `α ≡ 1 (mod M𝒪_K)`. (The ranges of `X`, `B` and `h` are part of the statement: for `h < 1/X` the interval may contain no integer.) Used in 2.7, 2.8.
+- §2.9b (iv)(c′): for `K = ℚ(√−d)` with `d` a prime, `d ≡ 3 (mod 4)`, `d ≥ 100`, an integer `M ≥ 3` and `B = 4dM²`, with absolute `A_gap, c, c′ > 0` (the exponent is written `A` there; `A` is a group here): (polynomial gap) every real zero `β ∈ [3/4, 1)` of `L(s, ψ*)`, `ψ` a real character of `Cl_{M𝒪_K}`, has `1 − β ≥ c·B^{−A_gap}`; (short intervals) for `X ≥ 1` with `log B ≤ c·√(log X)` and `e^{−c√(log X)} ≤ h ≤ 1`, at least `c′·hX/(B^{A_gap}·log X)` primes `p ∈ (X, (1 + h)X]` are norms `N_{K/ℚ}(α)` of `α ∈ 𝒪_K` with `α ≡ 1 (mod M𝒪_K)`. (The ranges of `X`, `B` and `h` are part of the statement: for `h < 1/X` the interval may contain no integer.) Used in 2.7, 2.8.
 
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 

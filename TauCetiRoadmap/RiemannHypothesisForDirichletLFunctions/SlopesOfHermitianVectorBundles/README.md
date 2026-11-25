@@ -1029,7 +1029,10 @@ In [FormalProof] the first three inequalities of 5.6 form one hypothesis,
 `Formalism/SizeWindowBrackets/FrameTraceRatioFinEquiv.lean` (`Formalism.LFunctionChainParameters.MatrixLatticeEstimates.InputSG`),
 and 5.6 and this compression are combined with 5.5 in
 `Formalism/SizeWindowBrackets/FrameTraceRatioFinEquiv.lean` (`Formalism.LFunctionChainParameters.MatrixLatticeEstimates.JointARam`),
-which gives the last form of 5.5 (ii) with `5ϖ + 3·√ϑ` and `2e₀` in place of `η` and `e`, and with `log|I|` subtracted from `s`.
+which gives the last form of 5.5 (ii) with `5ϖ + 3·√ϑ` and `2e₀` in place of `η` and `e`, and with `log|I|` subtracted from `s`;
+under the same hypotheses [FormalProof] also proves that form without `log|I|`, as the second conjunct of
+`Formalism/SizeWindowBrackets/ChainSlopeWindows/JointDModelAppliesUnitLattice.lean`
+(`Formalism.LFunctionChainParameters.MatrixLatticeEstimates.ramification_condition_holds`), whose first conjunct is JointARam.
 
 *Route.* With `Q′` the new frame operator, `0 ≤ Q′ ≤ Q` in the Loewner order, so `tr Q′² ≤ tr Q²`. The trace drops by `Σ_i tr(P_i K_i P_i) ≤ R(ϑ + √(ϑe))` (5.3, step (4)), so `tr Q′ ≥ (1 − κ) tr Q` using `R ≤ tr Q/(1 − √e)`. The compressions `K′_i − 1` of `K_i − 1` have no larger Hilbert–Schmidt norm, and `R′ ≥ (1 − ϑ) R`. For the special case put `x = √ϑ ≤ 1/2`; since `√e ≤ 1/40`, `κ = x(x + √e)/(1 − √e) ≤ (40/39)·x(x + 0.025) ≤ 0.539·x ≤ 0.27`; then `(1 − κ)^(−2) − 1 ≤ 2κ/(1 − κ)² ≤ 3.76·κ`, and `η′ = η + (1 + η)((1 − κ)^(−2) − 1) ≤ 5ϖ + 1.25 · 3.76 · 0.539·x ≤ 5ϖ + 2.6·√ϑ`, using that `η′` increases with `η` and `1 + η ≤ 1.25`. Finally `e′ = e/(1 − ϑ) ≤ (4/3)·e ≤ 1/4 < 1`, as the frame data of this layer require.
 

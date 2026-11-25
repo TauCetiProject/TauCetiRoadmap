@@ -397,7 +397,8 @@ For a *Hecke type* `r_H` with `1 ≤ r_H ≤ k/2`, the *price* is
 word, is an integer `≥ 1`, and bounds the exact exponent of 4.13:
 `P^{ex}_j(v) := Σ_{s odd}(r_H·w̃_j(τ_s) + Σ_{a=k−r_H}^{k−1}λ_a(τ_s)) + (n′/2)·r_H·j(t+1) ≤ P_j(v)` (at an odd top
 `λ_{k−1} = −a⁻` and the other entries are `≤ Sc + (k−1)/2 ≤ c_G`). [FormalProof] takes a larger price in its ledger: for
-`r_H = 1`, `Σ_{s∈𝔗_v odd}(w̃_j(τ_s) − a⁻_{τ_s}) + n′·(w″ + ϑ + c_G + N_m)`, and for `r_H = r_G`,
+`r_H = 1`, `Σ_{s∈𝔗_v odd}(w̃_j(τ_s) − a⁻_{τ_s}) + C_P·n′·(w″ + ϑ + c_G + N_m)` with a constant `C_P ≥ 0` that the data of its
+main theorems fix at `C_P = 1`, and for `r_H = r_G`,
 `r_G·(|𝔗_v|·(2b′ + c_G) + n′·(w″ + ϑ + c_G + N_m))`; at a served place `P_j(v)` is at most these, so the gain of this
 roadmap is at least that of [FormalProof]. The *excess* is
 `𝔵_v := ⌈Σ_{j=1}^m (r^H_j(v) − P_j(v) − r⁰_j(v))₊⌉`. `r⁰_j(v) ≥ 0`, and `r^H_j(v)` may be negative.
@@ -427,6 +428,9 @@ type the gain is `0`.
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.g0`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.gU`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.dl`).
+The price of [FormalProof] in (b), with `C_P` its constant `Pr1`: [FormalProof],
+`Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Pr`); `C_P = 1`: the field
+`fixed` of `Formalism/SharpRestriction/ParConsts.lean` (`Formalism.MainNotions.FamP`).
 `𝔖(p)`, `τ_N(𝔭)` and `𝔦(𝔭)` of (f): [FormalProof],
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.Sig`);
 `Formalism/SharpRestriction/GrowthBounds/IsResidueClassZero.lean` (`Formalism.MainNotions.G.tauP`);
@@ -623,7 +627,7 @@ side `0` of each pair the place in `A`) bounds every jet against products of min
 
 [FormalProof] states the operator-free part of (i) at the places of the local model of 4.12 (for each place the ramp
 sum of the diagram data, the terms `(s, e)` with `e ∈ Dist_v(s)` omitted, less the loss of the second engine in the diagram
-data `Σ_s(N_j·lg_p α_s + N_{j−1}N_j·lg_p(|ν_j(τ_s)| − α_s)) + Σ_{s∈𝔗_v}lg_p(α_s)²`, summed over the places and not floored at
+data `Σ_s(N_j·lg_p α_s + N_{j−1}N_j·lg_p(|ν_j(τ_s)| − α_s)) + Σ_{s∈𝔗_v}lg_p(α_s)²` with `0` in place of `lg_p(0) = 1`, summed over the places and not floored at
 `0`, less the stabiliser term, without the bulk and the other costs; the floor at `0` and the comparison of these numbers
 with `r⁰_j(v)`, where `dl_v` and `(α̂, ĉ)` enter, are separate statements of [FormalProof]) as `Formalism.MainNotions.FormalGroupSystem.Conclusion2`
 (`Formalism/SharpRestriction/GrowthBounds/FormalGroupSystem.lean`), proved, under hypotheses `Formalism.MainNotions.FormalGroupSystem.admitted` that include step (6)
@@ -751,7 +755,7 @@ follows from [FormalProof],
 spherical Hecke algebras (Rallis, for orthogonal–symplectic pairs) and the type-II correspondence in Langlands
 parameters, which gives the relation of Satake parameters (Mínguez, Théorème 1, proved as Corollaire 6.3); here the integral statements: the one-step relation
 (a) as an identity of operators on the forms of Gross's `p`-adic model, Hida's normalisation (b) at hyperspecial level for
-the Weyl and the dual Weyl lattices (for the dual Weyl lattices this roadmap's own formulation), and the frame lemma (c),
+the Weyl and the dual Weyl lattices, and the frame lemma (c),
 (c1)–(c3).
 
 *Method of the formal proof:* the one-step relation is proved as an identity of lattice counts valid on all forms: the
@@ -789,9 +793,9 @@ being equal; the infinity type of ThetaChainsOnDefiniteUnitaryGroups §2.4(b)); 
 tuple by the root of unity `ξ(ϖ_{𝔓_v})^{s_j}`, which does not change its valuation. In terms of Satake parameters: an
 eigenform with parameter `α` at `𝔓_v` goes to one with parameter `α` together with the segment of the displayed numbers.
 (b) *Hida's normalisation.* For an edge `L″ ⊂ L_v` of type `i` and a weight `λ` of the tuple,
-`p^{h_i(λ)}·Δ(L with L_v replaced by L″) ⊂ Δ(L)`, and the same inclusion for the dual Weyl lattices `∇` (the inclusion
-for `∇` is this roadmap's own; [FormalProof] proves the one for `Δ` and takes as a hypothesis of its colength statement
-that `y_v` preserves `ℳ^∨_0`), `h_i(λ)` := the sum over the positions of the `i` largest entries of the
+`p^{h_i(λ)}·Δ(L with L_v replaced by L″) ⊂ Δ(L)`, and the same inclusion for the dual Weyl lattices `∇` ([FormalProof]
+proves the one for `Δ`, and the one for `∇` for one factor at every type and for the tuple at the type `r_H` of `y_v`; from
+them it proves that `y_v` preserves `ℳ^{int}_0` and `ℳ^∨_0`, which its colength statement takes as a hypothesis), `h_i(λ)` := the sum over the positions of the `i` largest entries of the
 weight there (contragredient at odd positions). Hence `y_v := p^{h_{r_H}(Λ_0)}T^{(0)}_{r_H,v}` preserves `ℳ^{int}_0` and `ℳ^∨_0`,
 the `y_v` commute, and `T̃^{(j)}_{i,v} := p^{h_i(Λ_j)}T^{(j)}_{i,v}` preserves `ℳ^{int}_j` for `1 ≤ i ≤ r_H` and `1 ≤ j ≤ m`, with
 `h_i(Λ_j) = Σ_{s even}Σ_{a<i}λ_a(τ_s) + i·Σ_{s odd}w̃_j(τ_s)` (the uniform shift `−j(t+1)/2` of the first block of `Λ_j`
@@ -854,9 +858,15 @@ model of (o) as `Formalism.MainNotions.FormalGroupSystem.Sys` with the hypothese
 lattice count of (a), over any discrete valuation ring in which `p` is a uniformiser, as
 `Formalism.MainNotions.FormalGroupSystem.Pf.countLoc`, the one-step relation of (a), with the units `un_j` and the values `𝔪_j`
 given by their valuations, as `Formalism.MainNotions.FormalGroupSystem.Pf.heckeCondition_of_adm`, (b) for the Weyl lattices `Δ`
-as `Formalism.MainNotions.FormalGroupSystem.Pf.restWeylEdge`, and (c) as `Formalism.MainNotions.FormalGroupSystem.Pf.formB`; (c1) and (c2) are
+as `Formalism.MainNotions.FormalGroupSystem.Pf.restWeylEdge`, and (c) as `Formalism.MainNotions.FormalGroupSystem.Pf.formB`; (c1) and (c2)
+with `−δ_j` in place of `𝔟_j`, `δ_j` a bound for `v_p|Stab(c, L)|` over the representatives `(c, L)` of the source of `K_j`
+(so without the bulk and the other costs), are
 `Formalism.MainNotions.FormalGroupSystem.MassRatio₂` and `Formalism.MainNotions.FormalGroupSystem.PointsLemma`, proved as part of
-`Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`.
+`Formalism.MainNotions.FormalGroupSystem.Pf.stmt_proved`. (b) for the dual Weyl lattices `∇` is proved for one factor as
+`Formalism.MainNotions.G.LatticeSystems.lb_pos` (`Formalism/SharpRestriction/GrowthBounds/LatticeSystems.lean`), and, in
+`Formalism/LocalToGlobal/GroupLattices/FockModels/OperatorsPreserveLattices.lean`, for the tuple as
+`Formalism.L2.G.Model.steps_gen` and the preservation of `ℳ^∨_0` and `ℳ^{int}_0` by `y_v` (the hypothesis
+`Formalism.MainNotions.FormalGroupSystem.adm12`) as `Formalism.L2.G.Model.operators_preserve_lattices`.
 
 ### 4.13 Hecke commutation along the chain
 
