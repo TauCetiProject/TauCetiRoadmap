@@ -2719,7 +2719,7 @@ Use [Embedded inner action formula](#embedded-inner-action-formula); [Joint cont
 
 **Invariant orbit transport.** For a surjective continuous equivariant `f:U→V` and `c∈Z1(G,U)`, let `K_c` be the kernel in the inner twist and `A_c=H0(G,V_{f∘c})`. Transport the parent `A_c`-action along its named-kernel or embedded-kernel H1 equivalence E, defining `v·a=E−1(v·E(a))`. E is orbit-equivariant and induces an equivalence of orbit quotients with the fibre `f_*−1([f∘c])`; its representative maps to `[g↦i(d(g))c(g)]`. Inclusion squares, stabilizers and conjugate actions under change of c commute. No equality of kernel classes is claimed when only invariant orbits agree.
 
-Parent action, orbit-fibre equivalence and kernel homeomorphisms embedded i retains its given topology f surjective.
+The parent action and the orbit-fibre equivalence are taken under (H22), the named-kernel homeomorphism and its `H¹` comparison under (H20), and the embedded-kernel homeomorphism and its `H¹` comparison under (H25), where A keeps its given topology and i is a topological embedding; f is surjective throughout.
 
 Use the parent E and its inverse to transport the action and prove the action laws. Use E equivariance for orbit and stabilizer equivalences and the parent inclusion triangle for the fibre map. For a representative change `c′=u·c`, conjugation by u identifies the two twists, kernels and invariant groups; compare representatives with the gauge law.
 
@@ -2727,7 +2727,7 @@ Use the parent E and its inverse to transport the action and prove the action la
 
 - Transported stabilizers equal stabilizers; the orbit of the neutral kernel class maps to [c], which can be nonneutral.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2005), Section 1, twisting and nonabelian exactness, printed pp. 4–6.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2005), Section 1, twisting and nonabelian exactness, printed pp. 4–7 and 9.
 
 Use [Twisted kernel invariant action](#twisted-kernel-invariant-action); [Twisted kernel orbits and the original fibre](#twisted-kernel-orbits-and-the-original-fibre); [`Continuous H¹` comparison for the named kernel](#continuous-h¹-comparison-for-the-named-kernel); [Comparison with the ambient inclusion](#comparison-with-the-ambient-inclusion); [`Continuous H¹` of an abstract embedded kernel](#continuous-h¹-of-an-abstract-embedded-kernel); [Comparison of the two `H¹` inclusions](#comparison-of-the-two-h¹-inclusions).
 
@@ -7980,7 +7980,7 @@ The API has the following requirements.
 - Transport acts on the source side with the convention inherited from Layer 2.
 - Changing a torsor representative does not change the mixed-extension isomorphism class.
 
-The construction and its conventions follow [Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Muller, Jan Tuitman and Jan Vonk](#reference-bdmtv), §3.4, definition of `A_Z(b,x)`, pp. 906–907; [Jennifer S. Balakrishnan and Netan Dogra](#reference-bdii), §3.1, pp. 12–14.
+The construction and its conventions follow [Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Muller, Jan Tuitman and Jan Vonk](#reference-bdmtv), §3.4, definition of `A_Z(b,x)`, pp. 906–907; [Jennifer S. Balakrishnan and Netan Dogra](#reference-bdii), §§3.2–3.3, pp. 12–14.
 
 Use [Depth-two height module](#63-the-height-representation); [Torsors under U with compatible G-action are classified by `H¹(G, U)`](#torsors-under-u-with-compatible-g-action-are-classified-by-h¹g-u); [Twisting by a cocycle](#08-twisting-by-a-cocycle); [Tensor paths](#tensor-paths); [Mixed extensions with graded pieces `ℚ_p`, V, `ℚ_p(1)`](#61-mixed-extensions-and-nekovářs-p-adic-heights).
 
@@ -8651,7 +8651,7 @@ F of characteristic zero; D finite étale over F and nonempty; for (c), V′ smo
 - For `n=2` and X a proper curve of genus g, `H²(X²)` has dimension `1+4g²+1` and the summand `H¹⊗H¹` has dimension `4g²`: the other two summands `H²⊗H⁰` and `H⁰⊗H²` are not part of `H¹^⊗2`.
 - For `F′/F` quadratic and `V′=P¹`, `H⁰(Res V′)=ℚ_p` has dimension 1, whereas `Ind H⁰(V′)` has dimension 2. The induced-summand assertion requires `i≥1`; it cannot count the identical degree-zero summand once for each factor. In degree 2 the two factor classes are distinct and give the asserted 2-dimensional induced summand.
 
-The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Lemma 59.69.3 (Tag 03RR) and Lemma 59.97.9 (Tag 0F13).
+The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Lemma 59.69.3 (Tag 03RR) and Lemma 59.97.9 (Tag 0F1P).
 
 Use [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§0.9–0.11, F.6 (cycle and Chern classes, localization, purity and Gysin maps); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§0.11, F.5–F.6 (trace, Poincaré duality and purity); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.2.6 (`VanishingCycles.etaleKunneth`), with the [prime-field specialization](#künneth-for-prime-field-coefficients); [ReductiveGroupsPartII](../ReductiveGroupsPartII/README.md) §RG2.0a.1 (Weil restriction and its adjunction).
 
