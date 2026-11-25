@@ -17,6 +17,7 @@ body:
         - AInfCohomology
         - AbelianSchemesAndArithmeticModuli
         - AbelianSchemesAndArithmeticModuliPartII
+        - AbelianVarietiesOverFiniteFields
         - AbhyankarLemma
         - AdaptiveTimeSteppingForODEs
         - AdelicAlgebraicGroups
