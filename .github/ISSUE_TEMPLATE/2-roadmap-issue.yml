@@ -333,6 +333,7 @@ body:
         - LieHighestWeightPartII
         - LinearAlgebraMethodInCombinatorics
         - LinearFormsInLogarithms
+        - LinearSystemsAndControl
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
         - LocalPurity
@@ -356,6 +357,7 @@ body:
         - MathematicalStatisticsSemiparametric
         - MatroidOptimization
         - McKaySkewGroup
+        - MeansMajorizationAndDiscreteInequalities
         - MetaplecticAutomorphicForms
         - MetaplecticAutomorphicFormsPartII
         - MixedHodgeModulesAndIrregularHodgeTheory
