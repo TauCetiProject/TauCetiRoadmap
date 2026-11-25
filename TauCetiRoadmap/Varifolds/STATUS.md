@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"Varifolds","to_sha":"58174b5fcdf1ac017fecf4e3c64a05b1c92a4fe2","ts":"2026-11-25T12:15:24Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"weight and restriction on (M, g), the GeometricCurrents G6 comparison, and the isometry and change-of-metric homeomorphisms of the Grassmann bundle","state":"partial"},{"id":"Layer 2","remaining":"the rectifiability criterion and its converse, chart comparison, rectifiable and integral varifolds v(Γ, θ), and the varifold of a C¹ submanifold","state":"partial"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","remaining":"derivative of mass along flows, the Riemannian first variation, gluing 4.2 on M, the Riesz decomposition 4.4 and the two-metric comparison 4.5","state":"partial"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","remaining":"monotonicity formulas, a.e. existence and semicontinuity of densities, the constancy theorem and the convex hull property; only density notions exist","state":"partial"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","remaining":"regular and singular sets, isometry invariance, the GeometricCurrents G6 comparison and the acceptance statements; locality holds only for weights, convergence and densities","state":"partial"}],"readme_sha":"0bf1b46a5575204facf5adf83409376d0d8d3318645982431d07405158feb54c","roadmap":"Varifolds","to_sha":"58174b5fcdf1ac017fecf4e3c64a05b1c92a4fe2"}-->
+# Status: Varifolds
+
+This file documents the status of the Varifolds roadmap up until `58174b5` (2026-11-25T12:15:24Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The Euclidean groundwork is in place: Grassmannians, varifold convergence and compactness, the first variation and stationarity. Approximate tangent spaces and densities have begun. The Riemannian theory has no varifolds yet beyond the Grassmann bundle itself. Push-forward, rectifiable varifolds, the Riesz decomposition, monotonicity and everything from Allard's rectifiability theorem on have not started.
+
+### Named results
+
+- **Compactness of varifolds** — a sequence of varifolds whose masses are bounded on each compact set has a subsequence that converges against compactly supported continuous functions ([`TauCeti.exists_subseq_varifoldTendsto`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Varifold/Convergence.html#TauCeti.exists_subseq_varifoldTendsto)).
+- **Lower semicontinuity of the total first variation** — if V_j → V, then ‖δV‖(U) ≤ lim inf ‖δV_j‖(U), so limits of stationary varifolds are stationary (Simon 40.7(1); [`Euclidean.firstVariationMass_le_liminf`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Varifold/Stationary.html#Euclidean.firstVariationMass_le_liminf), [`Euclidean.IsStationary.of_varifoldTendsto`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Varifold/Stationary.html#Euclidean.IsStationary.of_varifoldTendsto)).
+- **The vertical lift is not of bounded first variation** — a line carrying the perpendicular plane at every point has positive density but unbounded first variation, the roadmap's standard non-example ([`Euclidean.not_exists_abs_firstVariation_verticalLift_le`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Varifold/LineVarifold.html#Euclidean.not_exists_abs_firstVariation_verticalLift_le)).
+- **Riesz representation for vector fields** — a real-linear functional on vector-valued test functions with locally finite mass is integration of ⟨η, φ⟩ against its mass measure, with η a unit field, unique almost everywhere ([`Distribution.apply_eq_integral_inner_polarVector`](https://taucetiproject.org/docs/TauCeti/Analysis/Distribution/Mass/Polar/Vector.html#Distribution.apply_eq_integral_inner_polarVector)).
+- **Uniqueness of approximate tangent spaces** — a locally finite measure has at most one approximate tangent plane and multiplicity at a point, and the multiplicity is the k-dimensional density there ([`MeasureTheory.Measure.HasApproxTangentSpace.unique`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/ApproximateTangentSpace.html#MeasureTheory.Measure.HasApproxTangentSpace.unique)).
+
+### Notable definitions and infrastructure
+
+- **The first variation** δV(X) = ∫ tr(P ∘ DX) dV, a continuous linear functional on C¹ test fields that passes to varifold limits. Stationarity and locally bounded first variation are defined through it ([`Euclidean.firstVariation`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Varifold/FirstVariation.html#Euclidean.firstVariation)).
+- **The Grassmann bundle in projection form**, for any vector bundle with inner-product fibres. It is locally trivial with Grassmannian fibre and a proper, open projection, which is what makes varifolds on a Riemannian manifold Radon measures on a locally compact space ([`TauCeti.grassmannBundle`](https://taucetiproject.org/docs/TauCeti/Topology/VectorBundle/GrassmannBundle.html#TauCeti.grassmannBundle)).
+- **k-dimensional densities** on any extended metric space: the density ratio, upper and lower densities, and existence of the density. They come with Simon's density bounds against Hausdorff measure and the vanishing of the upper density on null sets ([`MeasureTheory.Measure.HasDensity`](https://taucetiproject.org/docs/TauCeti/Geometry/MeasureTheory/Density.html#MeasureTheory.Measure.HasDensity)).
+
+### Roadmap coverage
+
+Layer 1 is done for Euclidean space. That covers the Grassmannian with its complement map, the isometry and image-plane maps and the comparison with the finite Grassmannian, the weight and restriction of a varifold, and convergence with compactness and locality. What remains in Layer 1 is the Riemannian side: the weight and restriction on (M, g), the comparison with GeometricCurrents G6, and the Grassmann bundle homeomorphisms induced by isometries and by a change of metric. Layer 2 is partial: approximate tangent spaces exist, but there is no rectifiability criterion and no rectifiable or integral varifolds. Layer 4 is partial. Sections 4.1 and 4.3 are done in Euclidean space, except the derivative of mass along flows. The Euclidean Riesz representation of 4.2 is proved, but its gluing on M is not, and 4.4–4.5 are untouched. Layer 6 has only its density notions and their basic calculus. In Layer 9, only locality statements for notions of Layers 1 and 6 exist. Layers 3, 5, 7 and 8 are untouched.
+
+## The frontier
+
+- **The Riesz decomposition (4.4)** — apply the vector Riesz representation to δV, then take the Lebesgue decomposition of ‖δV‖ against ‖V‖ to get the mean curvature H_V and the boundary measure σ_V. This also needs the extension of δV to continuous fields when the first variation is locally bounded.
+- **The Euclidean monotonicity identity (6.1)** — it needs only 4.4 on top of what exists. With it come the stationary density formula and the a.e. existence of densities (6.3).
+- **Rectifiable and integral varifolds (2.1–2.2)** — the rectifiability criterion from approximate tangent spaces, and then v(Γ, θ). This waits on GeometricMeasureTheory G2's approximate tangent planes and area formula.
+- **Push-forward and varifold blow-ups (3.1–3.2)** — define f_#V with the Jacobian J_S f, using the image-plane map that already exists. Varifold tangents (7.2) and tangent spaces (3.3) depend on this.
+- **The Riemannian layer** — the weight, first variation and stationarity on grassmannBundle. These need the Levi-Civita divergence and the gluing of local Riesz representations over a cover of M.
