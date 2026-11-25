@@ -430,6 +430,7 @@ body:
         - PhiGammaModulesAndIwasawaCohomology
         - PivotalSpherical
         - Poincare3D
+        - PoissonApproximation
         - PolylogarithmFunctions
         - Polylogarithms
         - PolynomialGaloisGroupsPartIII
