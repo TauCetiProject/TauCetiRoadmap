@@ -453,8 +453,8 @@ operators), is injective (a uniform radius on which `h` is injective with a unif
 apart than that radius have images apart by `C^0`-closeness), and is surjective (its image is open
 by the inverse function theorem and closed by compactness, and meets every component of `N`
 because it is `C^0`-close to `h`). §3.2 item 2 then gives the Hölder inverse. The `C^1` statement
-is Hirsch, *Differential Topology*, Chapter 2, Theorem 1.6 (diffeomorphisms are open in the strong
-`C^r` topology, `r ≥ 1`, which on compact `M` is the weak one).
+is in Hirsch, *Differential Topology*, Chapter 2 (diffeomorphisms are open in the strong `C^r`
+topology, `r ≥ 1`, which on compact `M` is the weak one).
 
 ### 4.3 The `C^{k,α}` topology on `Diff^{k,α}(M)` is not a group topology
 
@@ -700,7 +700,8 @@ every tangent ball of that radius; §3.4 uses it on the compact `M`.
   each factor, the set of exponents of continuity, examples of discontinuity outside it, and the
   theorem on joint continuity and differentiability of composition).
 - **Hirsch** M. W. Hirsch, *Differential Topology*, Graduate Texts in Mathematics 33, Springer
-  (1976), Chapter 2, §1, Theorem 1.6 (openness of diffeomorphisms in the strong topology).
+  (1976), Chapter 2 (the weak and strong topologies, openness of diffeomorphisms in the strong
+  topology).
 - **DKRH** D. Dolgopyat, A. Kanigowski and F. Rodriguez Hertz, *Exponential mixing implies
   Bernoulli*, Ann. of Math. 199 (2024), no. 3, https://doi.org/10.4007/annals.2024.199.3.5;
   arXiv:2106.03147v1. §1.1, (1.1) and Theorem 1.1 (setting and exponential mixing for the `C^r`
