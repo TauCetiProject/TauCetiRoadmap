@@ -511,8 +511,8 @@ pp. 27, 55–56, uncertified). Its API:
   `Γ^1_h = Γ_h`, and `M^α_h u(x) = sup_{z ∈ Γ^α_h(x)} |u(z)|`. For `x′ + iy ∈ Γ^α_∞(x)`,
   `|s − x| ≤ |s − x′| + αy` gives `(s − x)² + y² ≤ A²((s − x′)² + y²)` with `A² = max(2, 1 + 2α²)`, which is
   `3` for `α = 1`; so the same comparison gives `M^α_∞ P[g](x) ≤ A² · TauCeti.maximalFunction volume g x`.
-  For an arbitrary function, limits through cones of different apertures need not agree (third Check);
-  for Poisson integrals they agree almost everywhere (§2.4).
+  For an arbitrary function, a limit through one cone need not persist through a wider one (third Check);
+  for Poisson integrals the limits through all cones exist and agree almost everywhere (§2.4).
 - Localisation: for `h ∈ L¹(Π)` and `R > 0` there is `C_R`, depending only on `R`, with
   `M_1 P[h](x) ≤ 3 · TauCeti.maximalFunction volume (h · 1_{[−R−2, R+2]}) x + C_R ‖h‖_{L¹(Π)}` for `|x| ≤ R`.
 - Weak type: for `R > 0` there is `C′_R`, depending only on `R`, with
