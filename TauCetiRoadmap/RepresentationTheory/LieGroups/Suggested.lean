@@ -142,9 +142,9 @@ end Integration
 
 section Correspondence
 
-variable {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  {H : Type} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  {G : Type} [TopologicalSpace G] [ChartedSpace H G]
+variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+  {G : Type w} [TopologicalSpace G] [ChartedSpace H G]
   [Group G] [LieGroup I ∞ G] [T2Space G]
 
 -- `LieSubalgebra.integralLeafSubgroup` takes an `IsManifold I (1 + 1) G` instance, which instance
@@ -154,9 +154,9 @@ local instance : IsManifold I (1 + 1) G := inferInstanceAs (IsManifold I 2 G)
 /-- **Naturality of the correspondence**: a smooth homomorphism maps the integral leaf subgroup of
 `𝔥` onto the integral leaf subgroup of the image of `𝔥` under its Lie map. README, §4.4. -/
 theorem map_integralLeafSubgroup
-    {E' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
-    {H' : Type} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
-    {G' : Type} [TopologicalSpace G'] [ChartedSpace H' G'] [Group G'] [LieGroup I' ∞ G']
+    {E' : Type u'} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    {H' : Type v'} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
+    {G' : Type w'} [TopologicalSpace G'] [ChartedSpace H' G'] [Group G'] [LieGroup I' ∞ G']
     [T2Space G']
     (φ : ContMDiffMonoidMorphism I I' ∞ G G')
     (𝔥 : LieSubalgebra ℝ (LeftInvariantDerivation I G)) :
