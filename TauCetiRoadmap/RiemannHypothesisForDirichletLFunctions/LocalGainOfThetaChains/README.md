@@ -1311,7 +1311,7 @@ ClassicalGroups §5.1 (Weyl's dimension formula), ClassicalGroups §6.1 (branchi
 *Origin:* adapted from Knapp (2002), Corollary 9.6, the isotypic projector of a unitary representation of a compact
 group (RepresentationTheory/CompactGroups §6.4), with range the isotypic component: here for the projectors of `GL_{k−1}`
 and `GL_{k−2}` on chains of letters, which of them commute (i), their self-adjointness for the Fock pairing (ii), and a
-bound (iii) for their denominators; the exponent of (iii) is this roadmap's own formulation.
+bound (iii) for their denominators.
 
 *Method of the formal proof:* the isotypic parts for the diagonal action on a set of letters are pairwise orthogonal for
 the Fock form, which is contravariant, and the projectors are the projections of the resulting decomposition; commutation
@@ -1331,8 +1331,11 @@ weight `κ` of `G`, let `π^G_{κ,S}` be the projector onto the `κ`-isotypic pa
 `π^G_{κ′,S}`; for initial segments `S ⊆ S′`, `π^{GL_{k−1}}_{κ,S}` commutes with `π^{GL_{k−1}}_{κ′,S′}` and with `π^{GL_{k−2}}_{μ,S′}`, and
 `π^{GL_{k−2}}_{μ,S}` with `π^{GL_{k−2}}_{μ′,S′}`; `π^{GL_{k−2}}_{μ,S}` and `π^{GL_{k−1}}_{κ,S′}` need not commute when `S ⊊ S′` (Check);
 (ii) these projectors are self-adjoint for the Fock pairing `Fock(P, P′) := Σ_mP_mP′_m·m!`;
-(iii) `p^{(n(n−1)/2)·⌊log_p(d_S + n − 1)⌋}·π^G_{κ,S}` maps polynomials with coefficients in `𝒪` to polynomials with coefficients in `𝒪`,
+(iii) `p^{(n(n−1)/2)·⌊log_p(2d_S + n − 1)⌋}·π^G_{κ,S}` maps polynomials with coefficients in `𝒪` to polynomials with coefficients in `𝒪`,
 where `n ∈ {k − 1, k − 2}` is the rank of `G` and `d_S := D·#S` bounds the total degree on the letters of `S`.
+
+*Remark.* The route below gives (iii) with the sharper exponent `(n(n−1)/2)·⌊log_p(d_S + n − 1)⌋`. This sharper form is
+this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
 
 *Route.* (i) For `𝔤𝔩_n` distinct dominant weights have distinct central characters, so `π^G_{κ,S}` is a polynomial in the image of
 the centre of the enveloping algebra acting on the letters of `S`; such an element commutes with the action of `𝔤𝔩_n` on the
@@ -1352,7 +1355,7 @@ the same power of `p` maps `π^G_{κ,S}(M)` into `(dim V_κ)·M ⊂ M`.
 one in the last variable of the first letter do not commute: on `e_1 ⊗ e_2` one composite is `0` and the other `½·e_2 ⊗ e_1`. The total
 degree on the letters, not the degree in each letter, governs the denominator: for `p = 5` and `5^5` letters of degree one,
 `π^{GL_2}_{(5^5,0)}` is the symmetriser, which sends a tensor with one `e_2` to the mean of its `5^5` placements (denominator `5^5`); the
-exponent of (iii) is `⌊log_5(5^5 + 1)⌋ = 5`, exact, while an exponent `4·lg_5(D + k) = 4` in terms of the degree `D = 1` of each letter
+exponent of (iii) is `⌊log_5(2·5^5 + 1)⌋ = 5`, exact, while an exponent `4·lg_5(D + k) = 4` in terms of the degree `D = 1` of each letter
 fails. `k = 3`, one vector letter of degree `δ ≤ D`: `GL_2` acts irreducibly on the polynomials of degree `δ` in two variables, so the
 only nonzero projector is the identity, and `GL_1` acts on the last variable by its degree: the projectors are those onto the monomials
 of given degree in that variable, integral without denominator.
@@ -1363,8 +1366,8 @@ after one power `p^{⌈(k−1)²(log_p(8a + k − 1) + 1)⌉}`, and it proves th
 `Formalism/SharpRestriction/GrowthBounds/CountingStatementReduction.lean`: the three commutations as
 `Formalism.MainNotions.G.CountingStatementReduction.chOps_comm3`, and the integrality of a projector onto a set of types,
 on the polynomials of one multidegree, after `p^{(n(n−1)/2)·⌊log_p(2d + n − 1)⌋}`, `d` the degree of the multidegree on
-the letters of `S`, as `Formalism.MainNotions.G.CountingStatementReduction.subOps_int_lat`. The exponent of (iii), with the
-bound `d_S` in place of `2d`, is this roadmap's own.
+the letters of `S`, as `Formalism.MainNotions.G.CountingStatementReduction.subOps_int_lat`; (iii) follows, the projector
+preserving the multidegree and `d ≤ d_S`. The exponent `⌊log_p(d_S + n − 1)⌋` of the remark is this roadmap's own.
 *Needs:* 4.14c′; IntegralWeylModulesOfGeneralLinearGroups §§0.1, 0.3a.
 
 ### 4.14g The bad share of a segment is small on average
@@ -1387,7 +1390,7 @@ lattice (margin `μ`) is `≤ C(t + 1)s_max/Y`.
 
 *Route.* (1) Reduce to one block and one level `(j, j_+)`: the isotypic projectors of `GL_{k−1}` and `GL_{k−2}` on initial segments
 of the chain of letters are self-adjoint for the Fock pairing, commute when they are taken in the commuting family of 4.14f′ (i) (those of `GL_{k−1}` on the initial segments and
-those of `GL_{k−2}` on segments containing them), and are integral after multiplication by `p^{((k−1)(k−2)/2)·⌊log_p(d + k − 2)⌋}`,
+those of `GL_{k−2}` on segments containing them), and are integral after multiplication by `p^{((k−1)(k−2)/2)·⌊log_p(2d + k − 2)⌋}`,
 `d ≤ 8(s + 2)a` the total degree of the letters of a segment (4.14f′ (iii)); summed over the at most `2(s + 2)` projectors used, the loss
 is at most `C·s·k²·lg_p(8a + k)` in the exponent (`s ≤ s_max ≤ a`). (2) On a level lattice the form is `Fock(φ·, ·)/∏deg!` with `φ` a
 composite of one *tie operator* per contraction `E_i`, `E_+`. For the last tie: on a family orthogonal for the form without it
@@ -1457,12 +1460,18 @@ For `dep, c* ∈ ℤ_{≥0}` (exponents of `√p`), `D ∈ ℕ` (an exponent of 
 `DepthBound(dep, D, sh, c*)` holds at `v` if for every lattice `L` there are edges `e_i = (L_i ⊂ L)` of type `r_H` and vectors
 `F_i ∈ p^{−dep/2}H(L_i) ∩ ⋂_{e out of L_i}H^{½}(e)`, with `F_i ∈ p^{c*/2}H^{½}(e′)` for the edges `e′ ≠ e_i` out of `L_i`,
 such that the functionals `G ↦ ⟨F_i, G⟩_h` on `B_L := p^{−dep/2}H(L)^∨ ∩ ⋂_{e into L}H^{½}(e)^∨` (the lattice of the arguments `G`,
-which lie in the dual space) contain an identity block `p^D·1` of size `≥ (1 − sh)·dim V_λ`: there are `G_1, G_2, … ∈ B_L` with
-`⟨F_i, G_l⟩_h = p^D·δ_{il}` for at least `(1 − sh)·dim V_λ` indices; `B_L^∨`, in the space of the `F_i`, is the target lattice of the
+which lie in the dual space) contain an identity block `p^D·1` of size `≥ (1 − sh)·dim V_λ` up to an integral recombination of the
+`F_i`: there are `n ≥ (1 − sh)·dim V_λ`, `G_1, …, G_n ∈ B_L` and integral numbers `M_{li}` (`1 ≤ l ≤ n`, `i` running over the
+vectors) with `⟨Σ_iM_{li}F_i, G_{l′}⟩_h = p^D·δ_{ll′}`; `B_L^∨`, in the space of the `F_i`, is the target lattice of the
 image argument below. In words: the image of `y_v` on the `∇`-valued forms of level `0` (`ℳ^∨_0`; `H(L)` is
 the dual Weyl lattice) contains `p^{dep+D+1}` (here an exponent of `p`) times a part of corank `≤ sh·rank`. `DepthBound` at `v` does
 not depend on the coefficient rings. `DepthBound(dep, D, sh, c*)` includes the inequality `4(D + 1) ≤ c*` (in the units of the
 definition: `c*` an exponent of `√p`, `D` an exponent of `p`).
+
+*Remark.* The route of the Lemma below gives the clause with the identity block on the vectors themselves, without
+recombination: `G_1, G_2, … ∈ B_L` with `⟨F_i, G_l⟩_h = p^D·δ_{il}` for at least `(1 − sh)·dim V_λ` indices, namely on all the
+vectors of the edge families. This sharper form is this roadmap's own: [FormalProof] does not state it, and nothing later
+uses it.
 
 *Edge families.* Let `e = (L′ ⊂ L)` be an edge of type `r_H`. An *edge family* at `e` of size `n`, source depth `t_S`, target
 depth `t_T`, Gram exponent `D` and separation `c*` consists of vectors `F_1, …, F_n ∈ p^{−t_S/2}H(L′) ∩ H^{½}(e)`, each lying in
@@ -1473,7 +1482,7 @@ integral coefficients, one of them a unit, there is a functional `G ∈ p^{−t_
 *Lemma (from edge families to the depth property at a lattice).* Let `L` be a lattice, `E` a finite set of edges of type `r_H`
 into `L`, each carrying an edge family of size `n_e` with source and target depths at most `dep`, Gram exponent at most `D` and
 separation `c*`, with `2(D + 1) ≤ c*` and `Σ_{e∈E}n_e ≥ (1 − sh)·dim V_λ`. Then the clause of `DepthBound(dep, D, sh, c*)` holds
-at `L`, with the identity block `p^D·1` on all the `Σ_en_e` vectors of the families. Moreover the clause at one lattice implies
+at `L`, for the `Σ_en_e` vectors of the families. Moreover the clause at one lattice implies
 it at every lattice, and a lattice has at least `Q^{r_H(k−r_H)}` edges of type `r_H` into it (`Q = N𝔓_v`).
 
 *Route.* The three lattices at a vertex satisfy `dual ⊂ base ⊂ ball`, `p^{dep/2}ball ⊂ base`, `p^{dep/2}base ⊂ dual`,
@@ -1493,8 +1502,8 @@ linear group of the local field permutes the lattices transitively and the claus
 nor is the count of the edges.
 
 [FormalProof] defines `DepthBound` as `Formalism.MainNotions.G.LPprime`
-(`Formalism/SharpRestriction/GrowthBounds/UnramifiedQuadraticSetting.lean`), with the identity block `p^D·1` up to an integral recombination of the
-`F_i`; it proves that the clause at one lattice gives it at every lattice as `Formalism.L2.G.Model.lPOneEvery`
+(`Formalism/SharpRestriction/GrowthBounds/UnramifiedQuadraticSetting.lean`), in the form above, the identity block `p^D·1` up to an
+integral recombination of the `F_i` being `Formalism.MainNotions.G.GoodRankK` there; it proves that the clause at one lattice gives it at every lattice as `Formalism.L2.G.Model.lPOneEvery`
 (`Formalism/LocalToGlobal/GroupLattices/FockModels/LoBlockActComp.lean`) and the count of the edges into the standard lattice as
 `Formalism.MainNotions.Pf14.manyEdges` (`Formalism/SharpRestriction/GrowthBounds/ScaleEdges/ColSpanMap.lean`). *Needs:* 4.12, 4.14b;
 ArithmeticLocallySymmetricSpaces ALS.F.7; Mathlib `Module.Basis.SmithNormalForm`.
@@ -2328,7 +2337,7 @@ These examples are worked in the Checks above.
 - *The local exponents in the smallest orbit* (4.9e). For `n′ = 2` and `𝔗_v = {0}`, `r^H_j(v) = γ_LT·α̂_0 − dl_v` and `r⁰_j(v) = (Σ_{e odd}(α̂_0/p^e − ĉ_j(1))₊ − dl_v)₊`; at a prime split in `K` and at a prime of conjugate or odd conjugate type the gain is `0`.
 - *The diagrams of a step* (4.9f (d)). For `(k, m, t) = (6, 2, 13)`, `e′ = (10, 26)`, `e = (18, 34)`, `v = (−5, …, −9)` and `j = 1`, the two diagrams are `a⁺ = (1⁶)` and `a⁻ = (1)`, while the expression `s⁻_c + w_j − (q_j − c − 1) − (t + 1)/2` equals `−15`.
 - *A twisted column* (4.14c). For `r = 1`, two vector letters `x` (position `0`) and `v` (position `d`) and a column of height `2`, `K^σ = x_0^{p^d}v_c − x_c^{p^d}v_0`, with one costly step, order `1` and leading term `w·x_0^{p^d}v_c`.
-- *Isotypic projectors* (4.14f′). For `k = 3` and two letters of degree one, `π^{GL_2}_{(2,0),{1,2}} = (1 + (12))/2` and the projector of `GL_1` onto degree one in the last variable of the first letter do not commute; for `p = 5` and `5^5` letters of degree one the symmetriser has denominator `5^5`, and the exponent `⌊log_5(5^5 + 1)⌋ = 5` of (iii) is exact.
+- *Isotypic projectors* (4.14f′). For `k = 3` and two letters of degree one, `π^{GL_2}_{(2,0),{1,2}} = (1 + (12))/2` and the projector of `GL_1` onto degree one in the last variable of the first letter do not commute; for `p = 5` and `5^5` letters of degree one the symmetriser has denominator `5^5`, and the exponent `⌊log_5(2·5^5 + 1)⌋ = 5` of (iii) is exact.
 - *The exchange lemma* (4.15a). For `R = ℤ_p`, `M = ℚ_p`, `S = ℤ_p`, `P = M`, `B = p^{−1}ℤ_p`, `b = 1`, `U = p`, `D = 1`, `e = 1`, the left side of (b) is `2` and the right side `3`.
 - *The sandwich exponent for `GL_2`* (4.17). For `λ = (n, 0)` the least exponent is `⌊log_p(n + 1)⌋ − v_p(n + 1)`, so the bound `⌊log_p(n + 1)⌋` of IntegralWeylModulesOfGeneralLinearGroups §0.3 (b) is attained exactly when `p ∤ n + 1`.
 

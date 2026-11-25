@@ -1895,7 +1895,13 @@ the columns at the places of the inert class would be of size `f·m·k·b`, abov
 
 The inequality is the seventh clause of [FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
 (`Formalism.MainNotions.LinkDIV_at`), whose main term is `Formalism/LocalRingCardinality/DataParams₂.lean`
-(`Formalism.BasicNotions.SizeData₂.MAIN`).
+(`Formalism.BasicNotions.SizeData₂.MAIN`) and whose per-lift error is `C·m·(B₀ + N_c)·x^{eε}` for an exponent `e` that
+is a parameter of the clause. [FormalProof] bounds the per-lift terms by `C·m·(B₀ + N_c)·x^ε` and proves the clause for
+every `e ≥ 1` (`Formalism/LocalToGlobal/Divisibility/RecBridge.lean` (`Formalism.L2.DIV.rhs_le_record`),
+`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/Wire4F.lean`
+(`Formalism.L2.Top4Wire2.wire4F_alt`)), so with `e_D = 1`; its chain uses the clause with `e = 2`
+(`Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/WireSel.lean`
+(`GlobalTheory.Top.wire_sel_alt`)).
 *Needs:* 8.9, 8.10, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18c, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.18f, ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.19, 8.20, 8.20b, 8.21; ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.5, ThetaChainsOnDefiniteUnitaryGroups §2.8, LocalGainOfThetaChains §4.9f.
 
 ### 8.23 The cost of the type primes

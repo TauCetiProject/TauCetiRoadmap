@@ -283,8 +283,8 @@ Mathlib `Finsupp.sum`, `Finsupp.sum_add_index'`, `Finsupp.sum_smul_index'`.
 
 *Origin:* adapted from Ihara, Murty and Shimura (2009): the explicit formula for the first Riesz
 mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞`, for every primitive finite-order ray-class character `ψ` of a number field
-(ZerosOfLFunctions §8.6a), bounds the remainder `G_ψ` by `C′ y`; here the remainder of a weighted
-family, with its continuity and the bounds `C y²` and `C′ y`. Its continuity and the integrability
+(ZerosOfLFunctions §8.6a), bounds the remainder `G_ψ` by `C′ y`, the sharper bound of the remark; here the
+remainder of a weighted family, with its continuity and the bound `C y²`. Its continuity and the integrability
 of `|G_w(y)| y^{−σ−1}` on `[1, ∞)` for `σ > 1` are this roadmap's own formulation.
 
 *Method of the formal proof:* over `ℚ`, for a family of Dirichlet characters with positive weights,
@@ -294,18 +294,24 @@ from the size of each term of the Riesz sum.
 For a weighted family `w`, `G_w : ℝ → ℝ` is continuous on `ℝ`, hence measurable, and there is
 `C_w` with `|G_w(y)| ≤ C_w y²` for every `y ≥ 1`: with measurability, the hypotheses on `G` of
 PositivityOfDirichletSeriesWithKernels §6.9(b) in the form of the formal proof, under which the Mellin integral of `G_w`
-converges absolutely on `Re s > 2`. Sharper, there is `C′_w` with `|G_w(y)| ≤ C′_w y` for every `y ≥ 1`. Hence
+converges absolutely on `Re s > 2`. Moreover
 `∫_1^∞ |G_w(y)| y^{−σ−1} dy < ∞` for every real `σ > 1`: with measurability, the hypotheses on `G` of the extension of
 PositivityOfDirichletSeriesWithKernels §6.9(b) at `A = 1`.
+
+*Remark.* Sharper, there is `C′_w` with `|G_w(y)| ≤ C′_w y` for every `y ≥ 1`, by the route below. This sharper form is
+this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
 
 Route: `rieszSum` is continuous on `ℝ` (RiemannHypothesisStatementsAndConsequences §8.4a(a)), and so
 are `y ↦ y log y`
 (Mathlib `Real.continuous_mul_log`) and `y ↦ y`; so each `G_ψ`, its real part and the finite
 sum `G_w` are continuous, and measurable (`Continuous.measurable`). The size clause of
 RiemannHypothesisStatementsAndConsequences §8.4a(b),
-`‖G_ψ(y)‖ ≤ C_ψ y²`, termwise, and its sharper form `‖G_ψ(y)‖ ≤ C′_ψ y`, by the explicit formula
-of ZerosOfLFunctions §8.6a; the triangle
-inequality with `C_w = Σ_ψ w(ψ) C_ψ` and `C′_w = Σ_ψ w(ψ) C′_ψ`; and `∫_1^∞ y^{−σ} dy = 1/(σ − 1)`.
+`‖G_ψ(y)‖ ≤ C_ψ y²`, termwise, and the triangle inequality with `C_w = Σ_ψ w(ψ) C_ψ`. The integrability:
+the Mellin-transform clause of RiemannHypothesisStatementsAndConsequences §8.4a(a) for the coefficients `‖a_ψ‖`, which
+are `LSeriesSummable` on `σ > 1` (`‖a_ψ(m)‖ ≤ [K:ℚ]Λ(m)`) and whose Riesz sum bounds that of `a_ψ`, and
+`∫_1^∞ (1 + log y)·y^{−σ} dy < ∞` for the other terms of `G_ψ`, multiples of `y` and of `y log y`. The remark: the sharper
+form `‖G_ψ(y)‖ ≤ C′_ψ y` of the size clause, by the explicit formula of ZerosOfLFunctions §8.6a, and the triangle
+inequality with `C′_w = Σ_ψ w(ψ) C′_ψ`.
 
 *Needs:* 0.3; RiemannHypothesisStatementsAndConsequences §8.4a(a)–(b); ZerosOfLFunctions §8.6a;
 Mathlib `Real.continuous_mul_log`, `Continuous.measurable`.
@@ -1248,7 +1254,7 @@ nothing here uses them.
   `−1` at `1` (for 0.6); §§7.5, 7.6: the count of the zeros of `L(s, ψ)` in `0 < Re s < 1`, for
   every character `ψ` of `K`, and its corollary that they are infinitely many (for the Checks of
   3.3); §8.6a: the explicit formula for the first Riesz mean of `Λ_K(𝔞) ψ(𝔞)/𝔑𝔞` for every
-  primitive finite-order ray-class character `ψ` (for the bound `C′ y` of 0.4, and for the
+  primitive finite-order ray-class character `ψ` (for the bound `C′ y` of the remark to 0.4, and for the
   deduction of 0.6).
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family

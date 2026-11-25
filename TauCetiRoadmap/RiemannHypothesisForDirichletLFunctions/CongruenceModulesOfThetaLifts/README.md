@@ -781,8 +781,8 @@ from them, and the three uses here need `SizeThin` only.) For a step `j` and `τ
 Hodge–Tate weights of `χ_1^{−1}r_x` at `τ` (7.4(4), 7.5(1)) are the block `{0, …, t − 1}`, the `m` *lows*
 `(t − 1)/2 + w_j(τ) − e′_a(τ)` (`0 ≤ a < m`) and the `k − 1` *cloud weights* `(t − 1)/2 + w_j(τ) + v_a(τ)` (`0 ≤ a < k − 1`), and
 at `τ∘c` their images under `q ↦ t − 1 − q`. Let `Exc` be the set of primes `ℓ > ℓ*` dividing an integer `n` with
-`|n − W₀| ≤ Sc + 2η_s + 2σ⁺ + 4` for one of the base sizes `W₀` of ThetaChainsOnDefiniteUnitaryGroups §2.3b (`η_s` of ThetaChainsOnDefiniteUnitaryGroups §2.3c). Then
-`#Exc ≤ (|Φ_top| + 2)·(2Sc + 4η_s + 4σ⁺ + 9)`, every element of `Exc` is at most `3b`, and for every prime `ℓ > ℓ*` not in
+`W₀ − η_s − 2σ⁺ − 3 ≤ n ≤ W₀ + Sc + 2η_s + 2σ⁺ + 4` for one of the base sizes `W₀` of ThetaChainsOnDefiniteUnitaryGroups §2.3b (`η_s` of ThetaChainsOnDefiniteUnitaryGroups §2.3c). Then
+`#Exc ≤ (|Φ_top| + 2)·(Sc + 3η_s + t + 8b/ℓ* + 9)`, every element of `Exc` is at most `3b`, and for every prime `ℓ > ℓ*` not in
 `Exc` and not a type prime: `ℓ > t + 1`, `ℓ` is unramified in `E`, and at every place `w | ℓ` of `E` the following data are
 position data in position in the sense of WachLatticesOverTheCyclotomicTower §6.9. Index the embeddings `emb_i` of `E_w`
 by `i ∈ ℤ/n` as in WachLatticesOverTheCyclotomicTower §6.4 (in its setting: coefficients containing the images of the
@@ -797,11 +797,16 @@ character `χ_1` (cut out of a lattice in `⊕_x χ_1^{−1}r_x`), restricted to
 finite classes with torsion coefficients up to coboundaries; for the blocks `χ_cχ_1^{−1}`, `2 ≤ c ≤ t`, coboundaries; for
 the trivial block, unramified homomorphisms.
 
+*Remark.* The route gives the count `(|Φ_top| + 2)·(2Sc + 4η_s + 4σ⁺ + 9)`, which has no term in `t`, for the larger set of
+the primes `ℓ > ℓ*` dividing an integer `n` with `|n − W₀| ≤ Sc + 2η_s + 2σ⁺ + 4` for a base size `W₀`, and so for `Exc`:
+each of these windows contains at most `2Sc + 4η_s + 4σ⁺ + 9` integers. This form is this roadmap's own: [FormalProof]
+does not state it, and nothing later uses it.
+
 *Route.* (a) `ℓ > ℓ*` gives `ℓ > t + 1` (`SizeSep`: `t < ℓ*`) and `ℓ ∤ f_E` (every prime dividing `f_E` is `< ℓ*`, ThetaChainsOnDefiniteUnitaryGroups §2.3c).
 The Hodge–Tate multiset of `χ_1^{−1}r_x` is that of 7.4(4) for the coefficient weight of RowTowerAndRallisIdentities §5.7. (W7) and the bound `η_s` place every low at distance between `2b/ℓ* + t/2 + 3` and `η_s` from the centre of
 the block, which gives (P2) and (P4); the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b place the cloud within `Sc + η_s + 1` of a base size beyond the
 centre, so `h ≤ b + 2Sc + 2η_s + 3` and `σ_i ≤ h/(ℓ − 1) ≤ 2b/ℓ*` (the series `Σ_{j≥0} h/ℓ^{j+1}` sums to `h/(ℓ − 1)`) by the first size condition of ThetaChainsOnDefiniteUnitaryGroups §2.3c; (P3)
-is the second size condition; (P5) is `ℓ ∉ Exc`. The count: each window contains at most `2Sc + 4η_s + 4σ⁺ + 9` integers, all positive (`SizeThin` gives `Sc + 2η_s + 2σ⁺ + 4 < w″ ≤ W₀`) and at
+is the second size condition; (P5) is `ℓ ∉ Exc`. The count: each window contains at most `Sc + 3η_s + 4σ⁺ + 8 ≤ Sc + 3η_s + t + 8b/ℓ* + 9` integers (`σ⁺ ≤ 2b/ℓ*`), all positive (`SizeThin` gives `Sc + 2η_s + 2σ⁺ + 4 < w″ ≤ W₀`) and at
 most `3b`; an integer `≤ 3b` has at most one prime factor `> ℓ*` because `ℓ*² > 8b` (ThetaChainsOnDefiniteUnitaryGroups §2.3c); there are `|Φ_top| + 2` base sizes.
 Without a positive lower end the window may contain `0`, which every prime divides: then (P5) fails at every prime. (b) The cut cocycles come from a lattice in `⊕_xχ_1^{−1}r_x` by the construction of the module `Y`
 there; every `r_x` is crystalline at `w` with the same Hodge–Tate weights and the same residual characteristic polynomial
@@ -818,9 +823,11 @@ the Fontaine–Laffaille comparison of SelmerIwasawaCohomology §4.10. (ii) A da
 
 (a), the weights: [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/AdmissibleParameterJ.lean` (`Formalism.MainNotions.AdmissibleParameterJ.cloudJ`);
-(a), the set `Exc`: follows from [FormalProof],
+(a), the set `Exc`, its count and the bound `3b`: follows from [FormalProof],
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/BaseSizes.lean` (`GlobalTheory.IndefiniteRowSideFullHecke.BaseSizes.Exc`),
-`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.ExcOK`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.ExcOK`), proved for
+`Exc` under the size conditions of [FormalProof] as
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExcludedPrimesFewAndSmallAlongFamily.lean` (`GlobalTheory.NLink.ExcBound.excOK_at`),
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.StarE`);
 (a), the position data off `Exc`: follows from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsLocalSlotDataOffExceptionalPrimesStatement.lean` (`GlobalTheory.T.exists_localPositionData_off_exceptional_primes`),

@@ -18,8 +18,8 @@ arbitrarily large, `G_χ` the Riesz remainder of `χ`. In its uniform form, the 
 intervals `[Y, Y^{3/2}]` (10.10, 10.11). (2) *The Frobenius-restricted inequality.* For chain data of length `m` at a
 large scale `(x, ε)` satisfying the standing hypotheses (10.0), the sum over the tops `τ` and the steps `j` of the
 Frobenius-restricted Riesz sums `ℛ(a_τ, τ, w_{u₀,j})` exceeds the sum of their main terms `𝔐(a_τ, w_{u₀,j})` by at most
-`x^{3ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))` (10.4, 10.5); the exponent `3` is the arithmetic of 10.5 with the per-lift
-exponent `e_D = 1`, and any exponent up to `5` serves 10.10; averaged over the translates, this has the strength of the
+`x^{5ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))` (10.4, 10.5); the exponent `5` is that of the formal proof's chain, and
+the sharper exponent `3` of the remark to 10.5 is this roadmap's own; averaged over the translates, this has the strength of the
 generalized Riemann hypothesis for the cyclic family at the scale `x`.
 (3) *The slope inequality of the chain.* Under the
 Gram bounds for the Bessel–Poincaré series of the words of a word code, which make them a nearly tight frame at one
@@ -1076,13 +1076,14 @@ explicit multiple of `1 + c_H`.
 `A_top ≤ 2|Φ_top|a`, `m·b ≤ a`, `m ≤ k`, `k·b′ ≤ a`, `X″ ≤ a`, `log(1 + x^{c_H}) ≤ (1 + c_H)y`, `(1 − δ_bad)^{−1} ≤ 2`,
 `(η_frame + 4√e_frame)·x^{c_H} ≤ 6`, and `200(1 + C_*)(1 + c_H) ≤ y` for the constant `C_*` of 10.4. Then
 
-`𝔈_tot(u₀) ≤ x^{(max(e_D, 2) + 1)ε}·ℰ = x^{3ε}·( |Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c) )`  (`e_D = 1`).
+`𝔈_tot(u₀) ≤ x^{(e_D + e_L + 3)ε}·ℰ ≤ x^{5ε}·( |Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c) )`  (`e_D = 1`, and `e_L = 0` the
+exponent of `x^ε` in the loss bound of 10.2; the second inequality holds for every `e_D ≤ 2`).
 
 Consequently, with 10.4, for every translate `u₀ ∈ A₀` (and so on average over `u₀ ∈ A₀`)
 
-`Σ_{τ∈Φ_top}Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{3ε}·( |Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c) )`,
+`Σ_{τ∈Φ_top}Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{5ε}·( |Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c) )`,
 
-which, at every `u₀ ∈ A₀`, is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9 with `C = 3` (the top weights of ThetaChainsOnDefiniteUnitaryGroups §2.3 satisfy `|a_τ/b − x| ≤ 1`, and
+which, at every `u₀ ∈ A₀`, is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9 with `C = 5` (the top weights of ThetaChainsOnDefiniteUnitaryGroups §2.3 satisfy `|a_τ/b − x| ≤ 1`, and
 the budgets of ThetaChainsOnDefiniteUnitaryGroups §2.1 are `B₀ = f·m·b·x^ε = 2|A|·m·b·x^ε` and `N_c = |𝒯|·k·b·x^{2ε}/|A|²`, the bounds of
 FrobeniusRestrictedRieszSums §1.9 with `f = 2|A|`). The ledger of the exponent: the per-lift error of the
 division inequality is `C·m·(B₀ + N_c)·x^{e_Dε}` (GluedTargetAndDivisionInequality §8.22, from the target bound GluedTargetAndDivisionInequality §§8.20–8.21: Gram and exponent terms, the
@@ -1091,12 +1092,16 @@ covolume remainder, the passage from the base tuple), which is `C·x^{ε}·ℰ` 
 spread `U_F`, one from `log(1 + x^{c_H})`); one more factor `x^ε` absorbs the constants. So the division error is not the
 largest term as long as `e_D ≤ 2`.
 
+*Remark.* By this ledger the route below gives the sharper `𝔈_tot(u₀) ≤ x^{(max(e_D, 2) + 1)ε}·ℰ = x^{3ε}·ℰ` (`e_D = 1`),
+and with 10.4 the inequality above with `x^{3ε}`, which is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9 with
+`C = 3`. This sharper form is this roadmap's own: [FormalProof] does not state it, and nothing later uses it.
+
 *Route.* With `ℰ ≥ |Φ_top|a ≥ a ≥ b ≥ 1`: `𝔈₁ ≤ 4C_*yℰ` (`A_top ≤ 2|Φ_top|a`, `La ≤ 2y`), `𝔈₂ ≤ 2C_*yℰ`, `𝔈₃ ≤ C_*x^{e_Dε}ℰ`,
 `𝔈₄ ≤ C_*ℰ`, `𝔈₅ ≤ 4C_*yℰ` (`m ≤ k`), `𝔈₆ ≤ C_*ℰ` (`mb ≤ a`), `𝔈₇ ≤ C_*(2 + 2y)ℰ + 1` (`kb′ ≤ a` gives `m²b′ ≤ m²a/k`, and
 `X″ ≤ a`); so `𝔈₁ + ⋯ + 𝔈₇ ≤ C_*x^{e_Dε}ℰ + 17(1 + C_*)yℰ`. `U_F ≤ C_*(12y + 5)ℰ + 1 ≤ 13C_*yℰ + 1` (`C_*·A_top·log k ≤ 2C_*yℰ`, `y ≥ 5`), so
 `U_F + b ≤ 15(1 + C_*)yℰ` and `𝔈₈ ≤ 2·4·(1 + c_H)y·(U_F + b) ≤ 120(1 + C_*)(1 + c_H)y²ℰ`; `𝔈₉ ≤ 12b ≤ 12ℰ`. With
 `Q := (1 + C_*)(1 + c_H)` the total is at most `C_*x^{e_Dε}ℰ + 150Q·y²ℰ`, and `200Q ≤ y` gives
-`𝔈_tot(u₀) ≤ (y^{e_D+1}/200 + 3y³/4)ℰ ≤ x^{(max(e_D, 2)+1)ε}ℰ`.
+`𝔈_tot(u₀) ≤ (y^{e_D+1}/200 + 3y³/4)ℰ ≤ x^{(max(e_D, 2)+1)ε}ℰ`, and `max(e_D, 2) + 1 ≤ e_D + e_L + 3`.
 
 The budget, term by term (sizes after division by the normaliser `|Φ_top|·m·b·δ_th/2` of FrobeniusRestrictedRieszSums §1.7, with the sizes
 FrobeniusRestrictedRieszSums §1.8 (i)–(iii) (10.6a): `x^{1/2−ε} ≤ m ≤ x^{1/2+ε/2}`, `xm ≤ k ≤ |A|²x^{1/2−ε}`, `|Φ_top| ≥ x^{−ε/8}|A|/2`, `δ_th ≥ x^{−ε}`):
@@ -1117,7 +1122,7 @@ FrobeniusRestrictedRieszSums §1.8 (i)–(iii) (10.6a): `x^{1/2−ε} ≤ m ≤ 
 units of `|Φ_top|·b`; the per-lift errors of size `B₀ = f·m·b·x^ε` that grow linearly in `m` are on the row side (the
 covolume remainder of the step lattices). The total is `x^{O(ε)}·(x/m + m)`, minimal at `m ≈ √x`, of size `x^{1/2 + O(ε)}`.
 
-[FormalProof] bounds the error terms of 10.4 at every translate by `x^{(e_D + e_L + 3)ε}·ℰ`, where `e_D` is the exponent of the division inequality and `e_L` that of the loss bound (`e_L = 0` in the chain), under size conditions that include `log|W| ≤ (k − 3)·log 2`: `Formalism/SizeWindowBrackets/ErrorFormsWeakWindowsFalse.lean` (`Formalism.LFunctionChainParameters.LErr.ErrText`, `Formalism.LFunctionChainParameters.LErr.CErr`, `Formalism.LFunctionChainParameters.LErr.errorBracketSizeWindows`), `Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean` (`Formalism.LFunctionChainParameters.LChain.errX5at_le`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean` (`Deduction.ch_top`). The exponent `(max(e_D, 2) + 1)ε` above is this roadmap's arithmetic. *Needs:* FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.4.
+[FormalProof] bounds the error terms of 10.4 at every translate by `x^{(e_D + e_L + 3)ε}·ℰ`, where `e_D` is the exponent of the division inequality and `e_L` that of the loss bound (`e_L = 0` in the chain), under size conditions that include `log|W| ≤ (k − 3)·log 2`: `Formalism/SizeWindowBrackets/ErrorFormsWeakWindowsFalse.lean` (`Formalism.LFunctionChainParameters.LErr.ErrText`, `Formalism.LFunctionChainParameters.LErr.CErr`, `Formalism.LFunctionChainParameters.LErr.errorBracketSizeWindows`), `Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean` (`Formalism.LFunctionChainParameters.LChain.errX5at_le`), `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean` (`Deduction.ch_top`). Its chain has `e_D = 2` and `e_L = 0` (`Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean` (`Formalism.MainNotions.ChainTied`), with the exponents `2` and `0` of `Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/LinkGl.lean` (`GlobalTheory.Top.link_gl`)), so its exponent is `5`, the `C = 5` above. The exponent `(max(e_D, 2) + 1)ε` of the remark is this roadmap's arithmetic. *Needs:* FrobeniusRestrictedRieszSums §1.8, FrobeniusRestrictedRieszSums §1.9, ThetaChainsOnDefiniteUnitaryGroups §2.1, 10.4.
 
 ### 10.6 Explicit parameters
 
@@ -1205,7 +1210,7 @@ and the constant of `Λ_log`, and before the thresholds of `c_Δ` and `c_h`.
 
 *The order of the choices.* (1) The constants above, among them `C_F ≥ C_F⁰`: the depth constant is chosen before `ε`.
 (2) `ε`, and with it `A_n = 2 + 8ε`. (3) The window constant `J` (which
-depends on `ψ`, `ε` and the constants of (1) only), the threshold `x₁(ψ, 3, 4, ε)` of FrobeniusRestrictedRieszSums §1.9, the exponent `c_H ≥ c_H⁰` (9.6 (b): `c_H⁰`
+depends on `ψ`, `ε` and the constants of (1) only), the threshold `x₁(ψ, 5, 4, ε)` of FrobeniusRestrictedRieszSums §1.9, the exponent `c_H ≥ c_H⁰` (9.6 (b): `c_H⁰`
 may depend on `ε` and on these constants); then the band constant `C_ρ` (it depends on `ε`); then the exponent `c_Δ ≥ c_Δ⁰`
 of the letter step (`c_Δ⁰` depends on `ε`, on
 the constants of (1) and on `c_H`), and with it the exponent `C_S` of `SizeSc` (ThetaChainsOnDefiniteUnitaryGroups §2.3b);
@@ -1753,8 +1758,8 @@ for every `u₀`; they satisfy (ii) and (iii) of 10.2, and (i) of 10.2 by LocalG
 
 Consequently the standing hypotheses (H1)–(H6) of 10.0 hold for `𝒞𝒟(u₀)` ((H1) with the conclusion of LocalGainOfThetaChains §4.17a (ii); (H3) for the twisting
 datum of (c)); so, for `x` beyond the thresholds of 10.4 and 10.6d, 10.4–10.5 give, for every `u₀ ∈ A₀`,
-`Σ_{τ∈Φ_top}Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{3ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`;
-this is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9, at every translate `u₀ ∈ A₀`, with `C = 3` (10.5).
+`Σ_{τ∈Φ_top}Σ_{j=1}^m (ℛ − 𝔐)(a_τ, τ, w_{u₀,j}) ≤ x^{5ε}·(|Φ_top|·a·(1 + m²/k) + m·(B₀ + N_c))`;
+this is hypothesis (i) of FrobeniusRestrictedRieszSums §1.9, at every translate `u₀ ∈ A₀`, with `C = 5` (10.5).
 
 *Route.* The objects of the chain are constructed where they are defined (ThetaChainsOnDefiniteUnitaryGroups §2.2 explicit spaces; ThetaChainsOnDefiniteUnitaryGroups §§2.4–2.6 characters and
 coefficient field; ThetaChainsOnDefiniteUnitaryGroups §2.7 type and auxiliary primes; ThetaChainsOnDefiniteUnitaryGroups §2.8 one level prime for each word; the forms, lifts, descents and
@@ -1845,14 +1850,14 @@ make a choice of step (3) of 10.6. By 10.7 (b) the scales `x` at which a host wi
 wild-kernel budget exists have windows of exponent `3/2`. At every such scale beyond the thresholds of 10.4 and
 10.6a–10.6d, take the data of steps (5) and (6) of 10.6 and the twisting datum of 10.9 (c): by 10.9 the chain data `𝒞𝒟(u₀)`
 satisfy (H1)–(H6), and 10.9 gives the inequality with error
-`x^{3ε}·(|Φ_top|a(1 + m²/k) + m(B₀ + N_c))` at every translate `u₀ ∈ A₀`, which is hypothesis (i)
-of FrobeniusRestrictedRieszSums §1.9 with `C = 3` (10.5); hypothesis (ii) of FrobeniusRestrictedRieszSums §1.9 and the thin-scale saving of FrobeniusRestrictedRieszSums §1.7 are 10.7 (a)(i)–(ii);
+`x^{5ε}·(|Φ_top|a(1 + m²/k) + m(B₀ + N_c))` at every translate `u₀ ∈ A₀`, which is hypothesis (i)
+of FrobeniusRestrictedRieszSums §1.9 with `C = 5` (10.5); hypothesis (ii) of FrobeniusRestrictedRieszSums §1.9 and the thin-scale saving of FrobeniusRestrictedRieszSums §1.7 are 10.7 (a)(i)–(ii);
 the sizes (FrobeniusRestrictedRieszSums §1.8 (i)–(iv), the precision `η_top ≤ x^{−1+ε}`, the cost conditions of FrobeniusRestrictedRieszSums §1.7) are 10.6a. FrobeniusRestrictedRieszSums §1.9 with the tops of FrobeniusRestrictedRieszSums §0.7 for the coset law
 `ν(A₀) = 4/(3o + 1)`, `ν(αA₀) = 3/(3o + 1)` for the other cosets (the law at `ω₀ = 3/4`; so `ν̂(1) = 1` and
-`ν̂(χ) = 1/(3o + 1)` for `χ ≠ 1`) gives `Σ_{χ∈𝒦(ψ)} w_ψ(χ) Re G_χ(x) ≤ x^{1/2+(3+4)ε} ≤ x^{1/2+9ε}` for every
-`x ≥ x₁(ψ, 3, 4, ε)` in the window set. The set of such `x` contains the windows beyond `x₁`, hence has windows of exponent `3/2`
-(PositivityOfDirichletSeriesWithKernels §6.9 (a): windows beyond a threshold). `e_W = 9` is at least `3 + 4`, the exponent
-`C = 3` of the per-translate inequality (10.5) plus the loss `4` of FrobeniusRestrictedRieszSums §§1.8–1.9.
+`ν̂(χ) = 1/(3o + 1)` for `χ ≠ 1`) gives `Σ_{χ∈𝒦(ψ)} w_ψ(χ) Re G_χ(x) ≤ x^{1/2+(5+4)ε} = x^{1/2+9ε}` for every
+`x ≥ x₁(ψ, 5, 4, ε)` in the window set. The set of such `x` contains the windows beyond `x₁`, hence has windows of exponent `3/2`
+(PositivityOfDirichletSeriesWithKernels §6.9 (a): windows beyond a threshold). `e_W = 9` is `5 + 4`, the exponent
+`C = 5` of the per-translate inequality (10.5) plus the loss `4` of FrobeniusRestrictedRieszSums §§1.8–1.9.
 
 *Checks.* `ω₀ = 3/4`: `w_ψ(χ) = 1/(3o + 1)` for the members `χ ≠ 1`, and `w_ψ(1) = 1`. `ψ = 1`: `𝒦(1) = {1}`, `o = 1`,
 `w_1(1) = 1`, and the statement concerns `G_1` alone (the quotient `A/A₀` has one coset, and `ω₀` plays no role).
