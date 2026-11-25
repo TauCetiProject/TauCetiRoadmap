@@ -212,6 +212,7 @@ body:
         - FaltingsFinitenessAndIsogenyTheorems
         - FaltingsFinitenessAndIsogenyTheoremsPartII
         - FarguesFontaineDiamonds
+        - FieldOfNorms
         - FilteredLocalGaloisGroups
         - FinancialMathematics
         - FiniteAffineBoundTightening
@@ -277,6 +278,7 @@ body:
         - HermitianKTheoryOfPoincareCategories
         - HiddenMarkovModels
         - HilbertModularForms
+        - HilbertModularSurfaces
         - HilbertModularVarietiesAndShimuraCurves
         - HilbertModules
         - HodgeTateAndCanonicalSubgroups
