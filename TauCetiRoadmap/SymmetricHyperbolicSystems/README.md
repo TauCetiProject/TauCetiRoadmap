@@ -267,8 +267,9 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
 
   This is §2.1 integrated over `[0,t] × ℝⁿ`; the divergence terms `∂ⱼ⟪Aʲu, u⟫` integrate to `0`
   because `u(s,·)` has compact support. No bound on the `Aʲ` is needed, and no hypothesis on `F`:
-  on the open slab `F = S.apply u`, which is continuous and vanishes where `u` does, and the
-  values of `F` at `t = 0` and `t = T` do not enter the integrals. In `Suggested.lean` this
+  on the open slab `F = S.apply u`, which is continuous and vanishes outside the same bounded
+  set as `u` (the time derivative is taken at fixed `x`), and the values of `F` at `t = 0` and
+  `t = T` do not enter the integrals. In `Suggested.lean` this
   is `integral_dotProduct_A0_sub_eq`, and the estimate below is `integral_dotProduct_A0_le`.
 - **Energy estimate** (Lax 2006, Theorem 4.3, pp. 41–42, for `A⁰ = 1` and `F = 0`; p. 45 notes
   the extension to a positive symmetric `A⁰`; compare John
