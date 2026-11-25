@@ -497,6 +497,7 @@ body:
         - SpecialFunctionsAiry
         - SpecialFunctionsAppell
         - SpecialFunctionsBessel
+        - SpecialFunctionsConfluent
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsHypergeometric
@@ -533,6 +534,7 @@ body:
         - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
+        - TopologicalCombinatorics
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TorsionCohomologyInfrastructure
