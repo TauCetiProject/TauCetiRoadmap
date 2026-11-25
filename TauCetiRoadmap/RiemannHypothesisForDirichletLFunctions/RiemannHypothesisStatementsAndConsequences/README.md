@@ -2007,5 +2007,5 @@ admissible modulus, `TauCeti.ClassFieldTheory.IsAdmissibleModulus.mem_support_of
   of the first commit of that repository, the source as published, with the file paths relative to its directory
   `src/`: <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005/src>.
   The form it has of each statement of
-  8.4a, 8.8a, 9.3, 9.4, 10.2 and 10.3 that cites it is recorded at that statement.
+  8.4a, 8.8a, 9.2, 9.3, 9.4, 10.2 and 10.3 that cites it is recorded at that statement.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
