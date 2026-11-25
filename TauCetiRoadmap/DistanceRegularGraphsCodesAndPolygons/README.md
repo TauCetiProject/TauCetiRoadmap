@@ -18,8 +18,8 @@ consequences of the integrality of multiplicities. Among its theorems:
   distance-regular exactly when the average number of vertices at distance `D` equals the value
   at the degree of the `D`-th predistance polynomial;
 - Lloyd's theorem for perfect sets in any symmetric association scheme, and its Krawtchouk form
-  for perfect codes in Hamming spaces, where the Lloyd polynomial of a perfect code of radius `t`
-  has `t` zeros among `1, …, n`;
+  for perfect codes in Hamming spaces, where the Lloyd polynomial of a perfect code of radius
+  `t ≤ n` has `t` zeros among `1, …, n`;
 - Moore graphs are distance-regular; the bipartite Moore bound and its equality case;
   generalized polygons, their orders and point graphs, the Feit–Higman theorem, generalized
   quadrangles and Higman's inequality; the symmetric designs as the bipartite distance-regular
@@ -71,8 +71,9 @@ the cometric and `Q`-polynomial schemes, needs only the scheme theory.
   there is no such pair; it uses no choice, so it has a determined value on every graph (on a
   disconnected graph the junk distance `0` puts pairs in different components into class `0`).
   `G.intersectionB i`, `G.intersectionA i` and `G.intersectionC i` are `b_i`, `a_i` and `c_i`,
-  the counts at `j = i + 1`, `i` and `i − 1`; so `c_0 = 0`, because `0 − 1 = 0` in `ℕ` and no
-  neighbour of `y` is at distance `0` from `y`. They are defined for every graph and
+  the counts at `j = i + 1`, `i` and `i − 1`; so `c_0 = 0` on a connected graph, because
+  `0 − 1 = 0` in `ℕ` and no neighbour of `y` is at distance `0` from `y` (on two disjoint edges
+  the junk distance gives `c_0 = 1`). They are defined for every graph and
   meaningful for a distance-regular one, whose degree is `k = b_0`.
 - **Sphere sizes and distance matrices.** `G.sphereCount i` is `k_i`, the number of ordered
   pairs at distance `i` divided by `|V|` (natural division, exact for a distance-regular graph).
@@ -591,7 +592,7 @@ orthogonal polynomials with this normalisation gives `v_i = p_i`.
 
 The definitions are `Scheme.IsPerfectSet` and `IsPerfectCode` (Conventions).
 
-*Depends on:* Layer 2; AssociationSchemes 2.1 and 4.1; DelsarteTheoryOfCodesAndDesigns 2.1;
+*Depends on:* Layer 2; 4.1; AssociationSchemes 2.1 and 4.1; DelsarteTheoryOfCodesAndDesigns 2.1;
 BoundsOnCodes 1.2 and 5.1 (definitions); Tau Ceti `TauCeti.krawtchouk`.
 
 **Checks of the definitions.**
