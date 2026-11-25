@@ -531,8 +531,8 @@ Generalize the existing warped-product API to a semi-Riemannian base `(B, g_B)` 
 For strong smooth data on Banach factors generalize Tau Ceti's warped-product Levi-Civita
 formula and RiemannianGeometry R1.3's uncontracted curvature formulas. In finite dimensions
 generalize R1.3's Ricci formulas, with metric traces and signed orthonormal contractions (for
-semi-Riemannian factors, Barzen–Leymann, Lemmas 34–36, pp. 61–62, whose curvature tensor has
-the opposite sign; O'Neill, Ch. 7, Propositions 35 and 42 and Corollary 43). The Riemannian formulas
+semi-Riemannian factors, Barzen–Leymann, Lemmas 34–36, pp. 61–62, whose Lemma 35 (iii)–(v)
+gives the warping terms the signs of the opposite curvature convention; O'Neill, Ch. 7, Propositions 35 and 42 and Corollary 43). The Riemannian formulas
 and the Lorentzian-base/Riemannian-fibre formulas are specializations. Particular Lorentzian models use these same formulas in §7.2.
 
 **Checks.**
@@ -722,9 +722,10 @@ flow or exponential is defined and then compared to the locally Lipschitz one.
 ### 3.4 Normal domains and Gauss lemmas
 
 For a `C¹` connection on a Banach tangent bundle: every point has a normal neighbourhood
-(image of a star-shaped open set on which `exp_p` is a diffeomorphism). In finite dimensions
+(image of a star-shaped open set on which `exp_p` is a `C¹` diffeomorphism). In finite dimensions
 prove a basis of convex neighbourhoods `U` (normal neighbourhoods of each of their points, so any two points of `U`
-are joined by a unique geodesic in `U`, depending smoothly on the endpoints) (Kobayashi–Nomizu,
+are joined by a unique geodesic in `U`, depending `C¹` on the endpoints, `C^r` for a `C^r`
+connection by §3.3, and smoothly for a smooth one) (Kobayashi–Nomizu,
 Vol. I, §III.8; Minguzzi 2019, Theorem 2.4, pp. 26–27). For a smooth strong metric, or a weak metric with a supplied
 smooth compatible torsion-free connection, prove the
 semi-Riemannian Gauss lemma `g(d(exp_p)_v(v), d(exp_p)_v(w)) = g(v, w)` and that the position
@@ -1585,8 +1586,8 @@ of every point contains a causally convex neighbourhood), stably causal (some co
 Lorentzian metric `g'` with strictly wider cones, `g'(v, v) < 0` for every nonzero `g`-causal
 `v`, is causal), causally simple (causal with `J^±(p)` closed for all `p`) spacetimes, and
 prove the implications: causally simple ⇒ strongly causal ⇒ distinguishing ⇒ causal ⇒
-chronological (Minguzzi 2019, §4.2–§4.5); stably causal ⇒ strongly causal (Chruściel,
-*Elements of causality theory*, Proposition 2.7.4, p. 40); compact spacetimes are not
+chronological (Minguzzi 2019, §4.2–§4.5); stably causal ⇒ strongly causal (Minguzzi 2019b,
+Definition 2.13 and Theorem 2.29, p. 40, applied to the wider cones of `g′`); compact spacetimes are not
 chronological (Minguzzi 2019, Proposition 4.18, p. 113); a chronological spacetime has
 `τ(p, p) = 0`.
 
@@ -1754,8 +1755,7 @@ Define `IsGloballyHyperbolic` (causal with compact `J^+(p) ∩ J^−(q)`, Minguz
 Definition 4.117 (b), p. 146). Prove:
 
 - equivalence with the strongly causal form (Bernal–Sánchez 2007; Minguzzi 2019, proof of
-  Definition 4.117, p. 146, with Chruściel, *Elements of causality theory*, Proposition 2.7.4,
-  p. 40);
+  Definition 4.117, p. 146, with Minguzzi 2019b, Theorem 2.29, p. 40);
 - globally hyperbolic implies causally simple (proof of Definition 4.117, p. 146); `τ` is
   finite and continuous (Minguzzi 2019, Theorem 4.124, p. 148); for `q ∈ J^+(p)`, `q ≠ p`,
   there is a future causal geodesic from `p` to `q` of length `τ(p, q)` (Avez–Seifert;
@@ -2159,7 +2159,7 @@ Layer 5; Layer 9; Layer 10 (§10.1); Layer 12 (§12.2–§12.3).
   constructing particular mapping spaces or Fréchet manifolds is outside this roadmap.
 - Geometric PDE and nonsmooth geometry can use §3.2's locally Lipschitz connection flow
   and §3.4’s `C^{1,1}` metric normal-neighbourhood theory. Distributional, Finsler and Fréchet
-  developments consume these interfaces under the scope boundary above.
+  developments consume these interfaces under the scope boundary below.
 
 ## Scope and ownership
 
@@ -2269,11 +2269,11 @@ theorems are also outside this roadmap.
   the Banach inverse-function and Picard–Lindelöf APIs. The existing manifold theorem
   `exists_isMIntegralCurveAt_of_contMDiffAt` requires `CompleteSpace E`, not finite dimension
   (`Mathlib/Geometry/Manifold/IntegralCurve/ExistUnique.lean`). Use these suppliers for
-  §2.1 and §3.3/§3.2; the finite-dimensional Peano lemma is a target of §2.4.
+  §2.1 and §3.3/§3.2; the finite-dimensional Peano lemma is a target of §3.2.
 - Quantitative local inversion: `HasStrictFDerivAt.toOpenPartialHomeomorph`,
   `HasStrictFDerivAt.localInverse`, and the Lipschitz and antilipschitz estimates for
   `ApproximatesLinearOn` (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/`). These
-  already apply in Banach spaces; §3.2 supplies the strict derivative and approximation
+  already apply in Banach spaces; §3.4 supplies the strict derivative and approximation
   estimates for the exponential map before applying them.
 - Riemannian distance: `Manifold.pathELength`, `Manifold.riemannianEDist`,
   `EMetricSpace.ofRiemannianMetric`, `IsRiemannianManifold`.
@@ -2334,7 +2334,7 @@ finite-dimensional public interfaces.
   used for the spherical factors of §7.2.
 - Riemannian geodesics: `TauCeti.Manifold.IsGeodesicCurveOn`, `TauCeti.Manifold.geodesicSpray`,
   `TauCeti.Manifold.expDomain`, `TauCeti.Manifold.riemannianExp` and
-  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/`), as
+  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/`),
   whose implementations are generalized to the common connection-level API in Layer 3.
 - `TauCeti.nonempty_contMDiffRiemannianMetric`
   (`TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`): auxiliary Riemannian
