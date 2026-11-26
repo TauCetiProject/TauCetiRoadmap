@@ -890,8 +890,11 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    [X,Gr_k∞(𝕜)]≃Vect_k(X), [f]↦[f*γ_k] for the universal tautological bundle
    γ_k, and its naturality is the composite-pullback isomorphism
    (f∘g)*γ_k≅g*(f*γ_k).
-   *Needs:* T1.1, T1.4, the fixed-rank classification and universal bundle
-   above; AlgebraicTopology Stage 4.7.
+   *Needs:* T1.1; T1.2's pullback with its identity and composition
+   isomorphisms; T1.4; the fixed-rank carrier with its CW structure, the
+   fixed-rank classification and the universal bundle above;
+   AlgebraicTopology Stage 4.7; Mathlib `TopCat`, `CategoryTheory.Quotient`,
+   `ContinuousMap.Homotopic`, `CategoryTheory.Functor.RepresentableBy`.
 
    **Checks.**
    - In rank one, Gr_1∞(ℝ)=RP∞ has one cell in each degree and
