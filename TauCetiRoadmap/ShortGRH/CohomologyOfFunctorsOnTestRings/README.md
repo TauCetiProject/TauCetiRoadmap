@@ -20,23 +20,30 @@ correspondences act through their local terms. This roadmap supplies that cohomo
 compares it with `p`-adic periods; the Hodge–Tate maps `λ_h` that Layer 7 uses are built there.
 
 The theory is defined here, not borrowed. A *test ring* is a reduced ring in which every monic polynomial of positive
-degree has a root and in which any two elements become comparable for divisibility after splitting the ring along an
-idempotent; its local rings are valuation rings of algebraically closed fields. For a functor `Y` from rings to sets
-and an abelian group `Λ`, the cohomology `Hⁿ_Λ(Y)` is `Extⁿ(ℤ[Y], LC_Λ)` in the category of functors from test rings to
-abelian groups, where `LC_Λ(A)` is the group of locally constant functions `Spec A → Λ`; `ℓ`-adic cohomology takes the
-Witt vectors of `LC_{𝔽_ℓ}` as coefficients. The Hodge cohomology of a functor `X` on `k`-algebras is `Ext^q` from
-`(A, M) ↦ ℤ[X(A ⊕ M)]` to `(A, M) ↦ ⋀_A M` in functors on pairs of a `k`-algebra and a finite free module. These stand in
-for étale cohomology with coefficients `ℤ/ℓ` and `ℤ_ℓ` and for the groups `H^q(X, Ω^p)`; no comparison with them is
-stated or used, and every property is proved for these theories directly. Where another roadmap states the classical
-theorem for étale or Dolbeault cohomology, the section names it in a closing sentence; that theorem does not apply to
-the theories of this roadmap.
+degree has a root and in which any two elements become comparable for divisibility once the ring is split along a
+suitable idempotent; its local rings are valuation rings of algebraically closed fields. For a functor `Y` from rings
+to sets and an abelian group `Λ`, the cohomology `Hⁿ_Λ(Y)` is `Extⁿ(ℤ[Y], LC_Λ)` in the category of functors from test
+rings to abelian groups, where `LC_Λ(A)` is the group of locally constant functions `Spec A → Λ`; `ℓ`-adic cohomology
+takes the Witt vectors of `LC_{𝔽_ℓ}` as coefficients. The Hodge cohomology of a functor `X` on `k`-algebras is `Ext^q`
+from `(A, M) ↦ ℤ[X(A ⊕ M)]` to `(A, M) ↦ ⋀_A M` in functors on pairs of a `k`-algebra and a finite free module.
+
+What this roadmap claims, and what it does not. It states the cohomology theories that [ShortProof] defines, and the
+properties of them that the route uses. In the argument these groups do the work of étale cohomology with
+coefficients `ℤ/ℓ` and `ℤ_ℓ` and of the coherent groups `H^q(X, Ω^p)`, but no section of this roadmap identifies them
+with those groups, and no comparison theorem is stated or used: every property below is stated and proved for the
+theories defined here. The standard theories belong to other roadmaps: étale cohomology of schemes is
+EtaleCohomologyFoundations, the cohomology of quasi-coherent sheaves on schemes, of which `H^q(X, Ω^p)` is a case, is
+SchemeAndStackFoundations Layer 2 (§2.6); Dolbeault cohomology of complex manifolds is ComplexKahlerGeometry (§2.4),
+and its holomorphic Lefschetz formula on compact manifolds is IndexTheory (§§8.1–8.3). Where one of them states the
+classical counterpart of a result here, the section names it in a closing sentence; that theorem does not apply to the
+theories of this roadmap.
 
 The headline theorems are these.
 
 (1) *Proper base change* (4.3). Let `A` be a valuation ring of an algebraically closed field, `ℓ` a prime invertible in
 `A`, and `Y` a functor on rings that is proper over `A` (a closed diagonal and a valuative criterion, 1.4). Restriction
 from `Y` to its closed fibre is bijective on `Hⁿ_{ℤ/ℓ}` for every `n`. Consequences: a class over a valuation ring is
-determined on the residue fibre, cohomology does not change under an extension of algebraically closed fields, and the
+determined on the residue fibre, enlarging an algebraically closed base field leaves the cohomology unchanged, and the
 primes of a test ring at which a class vanishes form an open set.
 
 (2) *The projective line formula* (5.5). Let `A` be a valuation ring of an algebraically closed field with `ℓ ∈ A^×` and
@@ -49,9 +56,10 @@ that of `S`, for every functor `S`; here `ℙ¹` is the functor of rows `(1 + uv
 charts étale over tori). Then `Hⁿ_{ℤ/ℓ}(Y_A) → Hⁿ_{ℤ/ℓ}(Y_Ω)` is bijective for every `n`. `Y` need not be proper.
 
 (4) *The fixed point formula* (6.6). Over a field of characteristic `0`, for `X` with an atlas of dimension `d`, there
-is a Hodge class `δ` of degree `d` on `X × X` such that for maps `u, c : W → X` with reduced coincidences, the pull-back
-of `δ` along the graph of `(u, c)` twisted by a scaling `t` of tangent directions is `Σ_w n_w(t)·cl(w)` over the
-coincidences `w`, with `n_w(t) = det((t·du − dc)(du − dc)⁻¹)` and `cl(w)` the class of the point `w`.
+is a Hodge class `δ` of degree `d` on `X × X` such that for a separated `W` whose field points lie in charts of
+dimension `d`, and maps `u, c : W → X` whose coincidences are reduced and listed by a finite set of rational points, the
+pull-back of `δ` along the graph of `(u, c)` twisted by a scaling `t` of tangent directions is `Σ_w n_w(t)·cl(w)` over
+the coincidences `w`, with `n_w(t) = det((t·du − dc)(du − dc)⁻¹)` and `cl(w)` the class of the point `w`.
 
 (5) *Woods Hole, vanishing half* (7.5). Let `R ⊆ E → k ⊆ ℚ̄_p` with `E` a field of characteristic `0` and `k`
 algebraically closed, `Y` proper and `W` projective over `R`, both with atlases of dimension `d`, `u_i : W → Y` maps and
@@ -66,8 +74,8 @@ formal tools for Ext groups of functors: dévissage and the Leray–Hirsch map, 
 along limits, the local-to-global principle and density criteria, `ℓ`-adic cohomology with its Galois action, and the
 transfer for Galois coverings. Layer 4 proves proper base change through spaces of places of a field. Layer 5 builds
 the first Chern class of `O(1)`, proves the projective line formula and deduces smooth base change. Layer 6 is Hodge
-cohomology up to the fixed point formula. Layer 7 shows that the Hodge–Tate map keeps classes of points independent
-and deduces the Woods Hole formula.
+cohomology up to the fixed point formula. Layer 7 proves that distinct point classes have linearly independent images
+under the Hodge–Tate map and deduces the Woods Hole formula.
 
 ## Conventions and notation
 
@@ -79,8 +87,10 @@ and deduces the Woods Hole formula.
   `A`, `h_A := Hom(A, −)` is the functor represented by `A` (the functor of points of `Spec A`); by the Yoneda lemma a
   point `y ∈ Y(A)` is the same as a map `h_A → Y`. A scheme `X` over a ring `R` is read through its functor of points:
   on rings, `B ↦` the pairs of a ring map `R → B` and a morphism `Spec B → X` over `Spec R`, with its map to `h_R`; on
-  `k`-algebras, for an `R`-algebra `k`, `B ↦ X(B)`, the morphisms `Spec B → X` over `Spec R`. Questions of size are
-  ignored: the categories of test objects below are small enough for the Ext groups to exist.
+  `k`-algebras, for an `R`-algebra `k`, `B ↦ X(B)`, the morphisms `Spec B → X` over `Spec R`.
+- *Sizes.* Rings and algebras are taken in the smallest universe, so the categories of test objects below have small
+  sets of maps; functors on them take values in sets and abelian groups of the next universe, and the Ext groups lie
+  in the universe above that.
 - *Projective schemes and homogeneous coordinates.* A scheme `Y` over a ring `R` is *projective* over `R` if it has a
   closed immersion over `Spec R` into the projective space `ℙ^ι_R = ℙ^ι_ℤ × Spec R` for some finite set `ι`; where
   homogeneous coordinates are used, one such immersion `j` is fixed. For a point `y` of `Y` with values in a ring `A`, a
@@ -127,8 +137,9 @@ examples.
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* definitions. The Ext groups are those of an abelian category with enough projectives; the
-additive Yoneda lemma makes `ℤ[h_A]` projective; `ℤ[⊔ Y_i] = ⊕ ℤ[Y_i]` turns a disjoint union into a product.
+*Method of the formal proof:* definitions; the groups are Mathlib's Ext groups of the abelian category `Fun(C, Ab)`. Of
+the facts, (f) is the additive form of the Yoneda lemma, (g) holds because `ℤ` sends a disjoint union of functors to the
+direct sum of their free functors, and (h) because kernels and cokernels of functors are formed object by object.
 
 Let `C` be a category. For a functor `Y : C → Sets`, `ℤ[Y]` is the functor `c ↦` free abelian group on `Y(c)`. For
 functors `N, F : C → Ab` put `Hⁿ(N, F) := Extⁿ(N, F)`, computed in `Fun(C, Ab)`, and `Hⁿ(Y, F) := Hⁿ(ℤ[Y], F)`, the
@@ -169,11 +180,13 @@ sequence of functors is exact if it is exact at every object.
 algebraically closed fields: here, the class of rings on which the cohomology of this roadmap is computed, with its
 stability properties.
 
-*Method of the formal proof:* roots of monic polynomials and comparability of two elements are checked componentwise
-for products, on numerators for localisations and quotients, and at one stage of a filtered colimit, where a nilpotent
-also dies. At a prime of a test ring every idempotent becomes `0` or `1` in the local ring, so of any two elements one
-divides the other; the local ring is reduced, hence a domain, hence a valuation ring of its fraction field, which is
-algebraically closed because the ring is aic.
+*Method of the formal proof:* (a) takes `e = 1` or `e = 0` according to which element divides the other. In (b) the
+three conditions of a test ring are verified on each construction directly: factor by factor for a product, after
+clearing denominators for a localisation, on representatives for a quotient (reducedness being the radical
+hypothesis), and inside a single member of the diagram for a filtered colimit; `A/(e)` is reduced, being isomorphic to
+the factor `(1 − e)A` of `A`. (c) applies (b) to the local ring `A_𝔭`, in which (iii) becomes total divisibility since
+`0` and `1` are its only idempotents; the fraction field and the residue field are algebraically closed, being aic as
+a localisation and a quotient (ArcTopologyAndDescent §0.1).
 
 A ring `A` is a *test ring* if (i) `A` is aic, (ii) `A` is reduced, and (iii) for all `a, b ∈ A` there is an
 idempotent `e ∈ A` with `a | e·b` and `b | (1 − e)·a`. `Test` is the full subcategory of rings formed by the test rings.
@@ -264,18 +277,15 @@ these notions (1.5).
 *Origin:* adapted from the published theory of the valuative criterion of properness and of étale coordinates on
 smooth schemes: here, the properties of 1.4 for the functors of points of schemes.
 
-*Method of the formal proof:* for (a), the locus where two points agree is the preimage of the diagonal, a closed
-immersion because `X` is separated, so it is cut out by an ideal. For the valuative criterion, the disjoint union of a
-finite affine open cover of `X` is one affine scheme `Spec T → X` through which every point with values in a ring of
-the kind of 1.2 (iii) factors (cut `Spec` of the ring by idempotents into pieces that land in single members of the
-cover), valuation rings in particular; a point over `K` whose structure map sends `R` into `O` extends to an `O`-point
-by the valuative criterion of the proper morphism. (b) is the ideal of (a) read on `k`-algebras. For (c), every point of
-the base change has an affine open neighbourhood étale over affine `d`-space, which is a chart, and the base change is
-quasi-compact. For (d), at a field point of a chart shift by `1` the coordinates that vanish there (over a Noetherian
-ring they remain étale coordinates) and invert the product of the new coordinates: finitely many charts with unit
-coordinates then contain every field point, and their union is the charting subfunctor. It is Zariski-locally
-everything, and it lies in the closed classes by 2.4 (c), the intersection of two charts being a chart because `X` is
-separated.
+*Method of the formal proof:* the closed diagonal of (a), and (b), come from the separatedness of `X`: two points agree
+exactly after a map that factors through the diagonal, a closed immersion, hence after a map that kills an ideal. The
+universal point of the valuative criterion is the morphism to `X` from the spectrum of the product of the rings of a
+finite affine open cover; any point with values in a ring satisfying 1.2 (iii), such as a valuation ring, factors
+through it after `Spec` of the ring is cut into pieces along idempotents, and properness of `X → Spec R` supplies the
+extension from `K` to `O`. (c) is the local form of smooth morphisms (étale over affine space) together with
+quasi-compactness. (d) replaces the charts of the atlas by finitely many charts étale over tori that still contain all
+field points (shift some coordinates by `1`, then invert the product of the coordinates); their union is charting by
+2.4 (c), as two charts of the separated `X` meet in a chart.
 
 Let `R` be a ring and `X` a scheme with a proper morphism `X → Spec R`.
 (a) The functor of points of `X` on rings, with its map to `h_R`, is proper over `R` (1.4 (a)).
@@ -302,14 +312,15 @@ formula and their behaviour on closed loci.
 
 ### 2.1 Dévissage from representable functors, and the Leray–Hirsch map
 
-*Origin:* adapted from the published theory of the Leray–Hirsch theorem and of dévissage for δ-functors: here, an
-abstract form for Ext groups of functors and finitely many classes, with no bundle and no local triviality.
+*Origin:* adapted from the published theory of the Leray–Hirsch theorem (Hatcher, *Algebraic Topology*, Theorem 4D.1;
+for the projective bundle formula, SGA 5, Exposé VII) and of dévissage for δ-functors: here, an abstract form for Ext
+groups of functors and finitely many classes, with no bundle and no local triviality.
 
-*Method of the formal proof:* every functor `S` is a quotient of a sum of representables `ℤ[⊔_i h_{c_i}]`; along
-`0 → K → ℤ[⊔_i h_{c_i}] → S → 0`, the four and five lemmas give the conditions "injective in degree 0, surjective in
-degree 0, injective in degree 1, …" one at a time, for all functors at once. The Leray–Hirsch map is a map of
-δ-functors in `S` that commutes with truncation by total degree; on a disjoint union of representables both sides are
-products (1.1 (g)), and a representable functor has cohomology in degree `0` only.
+*Method of the formal proof:* (a) is dimension shifting along presentations of functors as quotients of functors
+`ℤ[⊔_i h_{c_i}]`, with property (i) of the statement as the step. (b) applies (a) to the Leray–Hirsch map, restricted
+to bounded total degree. At a disjoint union of representables both sides are products of their values at the
+representables (1.1 (g)), the finiteness of `I` letting the sum over `I` commute with the product, and a representable
+functor has cohomology in degree `0` only (1.1 (f)).
 
 (a) *Dévissage.* Let `D` be a category and `f : A → B` a morphism of contravariant cohomological δ-functors on
 `Fun(D, Ab)` (natural in the functor and compatible with the connecting maps of short exact sequences). If `f` is
@@ -339,10 +350,11 @@ arbitrary index set `I` the map and the notion of a Leray–Hirsch basis are def
 *Origin:* adapted from the published theory of Yoneda and cup products of Ext groups: here, for functors to abelian
 groups, with external products on functors with flat values.
 
-*Method of the formal proof:* the Yoneda composition extends biadditively to the direct sums; the long exact sequence
-of a short exact sequence in the first variable is exactness at the three vertices of the triangle formed with its
-extension class; the external product of `x` and `y` is `M ⊗ y` followed by `x ⊗ G`, the functors `M ⊗ −` and `− ⊗ G`
-being exact because the values of `M` and `G` are flat.
+*Method of the formal proof:* the products are Mathlib's composition of Ext classes, extended over all degrees; (a) is
+Mathlib's long exact sequence in the first variable, read in every degree at once. For (b), tensoring with a functor of
+flat values is exact and so acts on Ext classes, which defines the product; its naturality, and (c), hold because
+restriction along a functor and the maps of functors involved commute with tensor products and with composition of
+classes.
 
 For `N, F : C → Ab` put `H*(N, F) := ⊕_{n ≥ 0} Extⁿ(N, F)`. Yoneda composition gives `H*(M, N) × H*(N, F) → H*(M, F)`,
 `(x, y) ↦ x·y`, and an exact functor `Φ` between categories of functors gives `H*(N, F) → H*(ΦN, ΦF)` compatibly with
@@ -373,10 +385,13 @@ along `N∘Θ′ → N∘Θ∘φ` and of `y` along `N′∘Θ′ → N′∘Θ�
 *Origin:* adapted from the published theory of Čech descent for cohomology: here, for Ext groups of functors to sets
 and for comparison maps between such groups.
 
-*Method of the formal proof:* the free abelian groups on the fibre powers of `p : E → Y` resolve `ℤ[im p]`; the four
-lemma along the short exact pieces of this resolution gives (a), one condition of bijectivity at a time. Testing on
-fibres is Čech descent along the map from the disjoint union of all points `h_A → E`; a universal point makes the fibre
-representable with the same coefficients, where the additive Yoneda lemma applies.
+*Method of the formal proof:* (a) uses that the Čech complex of `p`, formed by the free functors on the fibre powers, is
+a resolution of `ℤ[im p]`; cutting it into short exact sequences and comparing long exact sequences gives the
+conditions of bijectivity in order, as in 2.1 (a). (b) holds because an objectwise onto map has the whole functor as
+image. (c) is (a) for the cover of `E` by all of its points, a disjoint union of representables. In (d) the universal
+points make each fibre representable with matching coefficients, so 1.1 (f) applies, and (e) is the case where they
+come from the unit of the adjunction. In (f) inserting a fixed witness in front of the others contracts the complex
+wherever a witness exists, and the universal class is the splice of its short exact pieces.
 
 Let `(φ, β)` be a comparison from `F` on `C` to `F′` on `C′`.
 (a) *Čech descent.* Let `f` be a morphism of contravariant cohomological δ-functors on `Fun(C, Ab)` as in 2.1 (a), and
@@ -415,10 +430,12 @@ of cocycles are carried along exact functors.
 *Origin:* adapted from the published theory of Mayer–Vietoris sequences and Zariski descent: here, for dense
 subfunctors of functors to sets, with coefficients that split along idempotents.
 
-*Method of the formal proof:* (a) is exactness at each object; density is tested over points and moves along
-preimages, and (c) is an induction on the number of members by (a). Over a point `h_A`, the maps that kill `e` and those
-that kill `1 − e` are represented by the two factors of a partition, on which `F` is a product; comparability of any two
-elements after a cut along an idempotent then reduces a cover by basic open sets to partitions.
+*Method of the formal proof:* (a) is checked at each object (1.1 (h)). Density is a condition over each point, so it
+passes to preimages and to larger subfunctors, and the remaining rules of (b) compare inclusions over a point; (c) is an
+induction on the number of members with (a). For (d), the map `Σ_i c_i·ℤ[f_i]` vanishes on `ℤ[W_c]`. For (e), over a
+point `h_A` the two halves of the partition are represented by the two factors of `ι(A)`, on which `F` is a product,
+and the divisibility hypothesis refines a cover by basic open sets to such partitions. (g) checks the two conditions
+of 1.1 (e) defining partitions for locally constant functions.
 
 (a) *Mayer–Vietoris.* For subfunctors `U, V ⊆ Y`, the sequence `0 → ℤ[U ∩ V] → ℤ[U] ⊕ ℤ[V] → ℤ[U ∪ V] → 0`, with maps
 `x ↦ (x, −x)` and `(x, y) ↦ x + y`, is exact.
@@ -452,11 +469,11 @@ functors that is injective at every object and such that for all `a, b ∈ κ(A)
 *Origin:* adapted from the published theory of relative cohomology, excision and transfer: here, for the relative
 groups `Hⁿ(V, U; F)` of subfunctors, with density in place of covering conditions.
 
-*Method of the formal proof:* for (a), write `N` as a quotient of `ℤ[N]/ℤ[0]`, which is acyclic because the zero section
-is dense, with a kernel that is again locally zero, and induct on the degree along the long exact sequence. The transfer
-is built on the quotient `Q` of `ℤ[V′]` by the differences of the two points of a permuted pair, through which both
-`ℤ[p]` and `Σ_i ℤ[f_i]` factor. Excision and enlargement come from the exact sequence of a triple and 2.4 (b); gluing is
-an induction on the number of pieces by Mayer–Vietoris, using the vanishing below `d`.
+*Method of the formal proof:* (a) is dimension shifting from `ℤ[N]/ℤ[0]`, which has no cohomology because the zero
+section is dense (2.4 (b)); the second claim follows by factoring `α` through its image. (b) takes for `Q` the quotient
+of `ℤ[V′]` by the differences of the permuted pairs, and `l` is an equivalence by (a), the two density conditions
+making its kernel and cokernel locally zero. (c) and (d) come from the exact sequence of a triple with 2.4 (b). (e)
+glues over `W_1 ∪ ⋯ ∪ W_r` by Mayer–Vietoris (2.4 (a)), using the vanishing below `d`, and passes to `V` by (d).
 
 (a) *Locally zero functors.* Call `s ∈ N(A)` *locally zero* for `F` if the maps out of `A` that kill `s` form a
 subfunctor of `h_A` dense for `F`. If every section of `N` is locally zero, `Hⁿ(N, F) = 0` for all `n`. A map `α` of
@@ -492,10 +509,10 @@ every `B ∈ S` and `n < d`. Let `W_1, …, W_r ∈ S` with `W_1 ∪ ⋯ ∪ W_r
 every functor (used for the products with the first Chern class of 5.1, whose coefficients need not have flat values),
 and the computation of the cohomology of a space over `X` on the category of points of `X`.
 
-*Method of the formal proof:* cover `N` twice by sums of representables, so that `ξ` is the product of two extension
-classes with a map; the two short exact sequences have flat terms and stay exact after restricting and tensoring with
-any `S`, which defines the new classes. For (b) and (c), the tautological point of `X` on its category of points has
-universal points in the sense of 2.3 (d).
+*Method of the formal proof:* (a) rests on expressing `ξ` through extension classes of short exact sequences all of
+whose terms have flat values (two steps of a presentation of `N` by free functors on representables), since such
+sequences stay exact after restriction along `φ` and tensoring with any `S`; `ξ_{φ,S}` is built from the classes they
+then give. (b) and (c) are 2.3 (d): the tautological point of `X` over `∫X` has universal points.
 
 (a) Let `N, K : C → Ab` have flat values and `ξ ∈ Ext²(N, K)`. There is a family of classes
 `ξ_{φ,S} ∈ Ext²(S ⊗ N∘φ, S ⊗ K∘φ)`, one for every functor `φ : D → C` and every `S : D → Ab`, such that (i) for every
@@ -517,14 +534,14 @@ isomorphism `H*(N ⊗ ℤ[X], F) → H*(N∘π, F∘π)`.
 ### 2.7 `ℓ`-torsion coefficients, theories and closed loci
 
 *Origin:* adapted from the published theory of cohomology with supports and of `ℤ/ℓ`-coefficients on closed
-subschemes: here, a formal set-up on tests over an aic local ring in which `ℓ` is invertible, with closed loci cut out
-by families of ideals.
+subschemes (for the setting, Milne, *Étale Cohomology*, Chapter VI): here, a formal set-up on tests over an aic local
+ring in which `ℓ` is invertible, with closed loci cut out by families of ideals.
 
-*Method of the formal proof:* the maps out of a test that kill an ideal are the maps through its quotient by the radical,
-a test ring (1.2 (b)), along which locally constant functions lift; a locally constant function is constant near each
-prime. For (b) the kernel and the cokernel of the map have locally zero sections (2.5 (a)): a multiple `n` of the
-generator dies where the ideals are the unit ideal and, elsewhere, where `n ≡ 0 (mod ℓ)`, and a locally constant function
-is a constant near each maximal ideal. For (c), apply (b) to the zero family of ideals, whose unit locus is empty.
+*Method of the formal proof:* in (a), restriction to `Z_I` is restriction to the quotient modulo the radical of `I`,
+again a test ring (1.2 (b)), and the locally constant functions on its spectrum all come from the test; Zariski
+descent is 2.4 (g), and the last condition is the local constancy of a section near a maximal ideal. (b) is 2.5 (a):
+kernel and cokernel of the map have locally zero sections, by the same local constancy at each maximal ideal. (c) is
+(b) for the zero family of ideals, whose unit locus is empty.
 
 Let `A` be an aic local domain in which the prime `ℓ` is invertible, `C` a category and `g : C → Test_A` a functor; write
 `LC(c)` for the locally constant functions `Spec g(c) → ℤ/ℓ`.
@@ -558,20 +575,25 @@ has Zariski descent for the rings `g(φ(c′))`. Moreover the quotient of a theo
 This layer proves what is particular to test rings: representable functors of test rings have no higher cohomology and
 continuity holds along filtered colimits (3.1); continuity along cofiltered limits of affine maps, and its descent
 along covers (3.2); the local-to-global principle and the density criteria that proper base change uses (3.3);
-`ℓ`-adic cohomology with its Galois action (3.4); and the transfer for Galois coverings (3.5). Together they replace
-descent of torsion étale cohomology along v-covers, with excision, transfer and limits.
+`ℓ`-adic cohomology with its Galois action (3.4); and the transfer for Galois coverings (3.5). With Layer 2 they give
+the cohomology of 1.3 the descent, excision, transfer and continuity properties that the published theory proves for
+torsion étale cohomology through v-covers.
 
 ### 3.1 Test rings are acyclic, continuity along their colimits, and envelopes
 
-*Origin:* adapted from the published theory of descent for torsion étale cohomology along v-covers: here, the
-acyclicity of test rings for locally constant coefficients and the continuity of their cohomology, proved from the
-definition of 1.3.
+*Origin:* adapted from the published theory of descent for torsion étale cohomology along v-covers (Scholze,
+*Berkovich motives*, Theorem 4.1 and Lemmas 4.7, 4.8; Bhatt and Mathew, *The arc-topology*, Proposition 5.2 and
+Theorem 5.4; Stacks Project, Tag 09YQ; Scholze, *Étale cohomology of diamonds*, 7.15–7.16): here, the acyclicity of
+test rings for locally constant coefficients and the continuity of their cohomology, proved from the definition of
+1.3.
 
-*Method of the formal proof:* for a test ring `B`, the functor `h_B` on test rings is represented inside the category,
-so the additive Yoneda lemma gives (a). Locally constant functions on the spectrum of a filtered colimit come from one
-stage, through idempotents. The envelope `E(S)` is the product, over all maps from `S` to the rings of a fixed small
-family of test rings, of these rings; the family consists of the quotients of polynomial rings over the `R_o` that are
-test rings, and every map from `R_o` to a test ring factors through one of them.
+*Method of the formal proof:* (a) is the additive Yoneda lemma (1.1 (f)), `h_B` being representable inside the
+category of test rings; the spectrum of a domain is connected. In (b) only degree `0` matters, by (a), and there the
+idempotents of the colimit, which describe its locally constant functions, already live in one member of the diagram.
+In (c), every map from some `R_o` to a test ring factors through a subring of its target that contains a solution of
+each equation of 1.2 (i) or (iii) with coefficients in it that is solvable in the target; such a subring is a test
+ring and a quotient of a polynomial ring over `R_o` in a fixed set of variables. `E(A)` takes one factor for each map
+from `A` to a test ring of this kind (a product of test rings, 1.2 (b)).
 
 (a) Let `B` be a test ring and `q : T → h_B` a map of functors on test rings that is bijective at every test ring. Then
 pull-back along `q` identifies `LC_Λ(B)` with `H⁰(T, LC_Λ)`, and `Hⁿ(T, LC_Λ) = 0` for `n > 0`. On the spectrum of a
@@ -593,14 +615,15 @@ domain the locally constant functions are the constants; so if `q : T → h_B` a
 ### 3.2 Continuity along cofiltered limits of affine maps
 
 *Origin:* adapted from the published theory of continuity of étale cohomology along limits of qcqs schemes with affine
-transition maps: here, for the cohomology of 1.3, proved by Čech descent along covers by representable functors of test
-rings.
+transition maps (the sources named in 3.1): here, for the cohomology of 1.3, proved by Čech descent along covers by
+representable functors of test rings.
 
-*Method of the formal proof:* continuity is a sequence of conditions (injective in degree `0`, surjective in degree `0`,
-injective in degree `1`, …); (a) is Čech descent (2.3 (a)) for the map between the two δ-functors "colimit over the
-system" and "value at the limit". For (c), cover each member of the system by an affine map from the functor of a test
-ring with dense image and induct on the level with (a), using 3.1 (b) for the sources and the fibre powers, which are
-again affine.
+*Method of the formal proof:* (a) is the Čech descent of 2.3 (a), applied to the comparison between the colimit of
+the groups of the members and the group of the limit, level by level. (b) applies the definition to systems that are
+again affine over `Y`. For (c), pulling a system affine over `Y` back along `q` gives, member by member, affine covers
+with dense image by functors represented by test rings (3.1 (c)). Continuity along these covers is 3.1 (b); their
+fibre powers are again systems affine over `Y`, so an induction on the level, over all such systems simultaneously,
+gives the lower level along them, and (a) carries continuity to the system itself.
 
 Say that cohomology with coefficients `F` is *continuous along* a cone `c` over a cofiltered system `(D_j)` of functors
 to sets if the maps `colim_j Hⁿ(D_j, F) → Hⁿ(c, F)` are bijective; at *level `r`* if the first `r` of the conditions
@@ -631,16 +654,19 @@ in §3.10, the arc-descent criterion in §4.6). Those sections do not apply to t
 
 ### 3.3 The local-to-global principle and density criteria
 
-*Origin:* adapted from the published theory of detection of v-covers on valuation rings of algebraically closed fields:
-here, density criteria for the cohomology of 1.3 tested on points with values in such valuation rings, and a
-local-to-global principle over the connected pieces of `Spec R`.
+*Origin:* adapted from the published theory of detection of v-covers on valuation rings of algebraically closed fields
+(the sources named in 3.1): here, density criteria for the cohomology of 1.3 tested on points with values in such
+valuation rings, and a local-to-global principle over the connected pieces of `Spec R`.
 
-*Method of the formal proof:* for (a), by Zorn's lemma and continuity along chains of ideals (3.2) it suffices to pass
-from bijectivity over all `U(b)`, `b ⊋ a`, to bijectivity over `U(a)`; if `a` is not connected, an idempotent splits
-`U(a)` into `U(a + (e))` and `U(a + (1 − e))`. For (b), by (a) one compares over the zero locus of a connected ideal,
-where every point factors through a local ring of the test ring, a valuation ring over which `p` is onto. For (d), the
-universal point of the source is again a universal point of the target, which is separated, and it factors through
-`c`; (e) applies (c) to the closed loci where prescribed pairs of the maps agree.
+*Method of the formal proof:* (a) applies Zorn's lemma to the ideals `a` of `R`, with continuity along chains
+(3.2 (b) (iii)) and, where `a` leaves an idempotent undecided, the density hypothesis. (b) applies (a) over each
+point `h_A`, the local rings of `A` being valuation rings of algebraically closed fields (1.2 (c)), on whose points `p`
+is onto. For (c), over a point `h_A` the `V_i` with `V_i|_Test ⊆ U` are represented by rings under `A`; (b) applies to
+the map from the functor of their product, and Zariski descent (2.4 (g)) finishes. (d) is (b) for the map `h_T → Z`
+given by `c(a)`, `a` the universal point of `Y` (1.4 (a)): properness of `Y` and `Z`, with the surjectivity of `c` on
+field points, makes this map affine and onto on points in valuation rings, and its image lies in that of `c`. (e)
+applies (c) to the finitely many loci, affine because `Z` has a closed diagonal, on which a given pattern of equalities
+`P_i = P_j` holds.
 
 Let `Λ` be an abelian group. A *zero-locus family* on a functor on rings `Y`, for a ring `R`, is a family of
 subfunctors `U(a) ⊆ Y`, `a` an ideal of `R`, with affine inclusions, such that `U(Σ_i a_i) = ⋂_i U(a_i)` and `U(R)` has
@@ -671,11 +697,11 @@ algebraically closed field `k` and every `z ∈ Y(k)`, `U` contains every point 
 *Origin:* adapted from the published theory of `ℓ`-adic cohomology as the limit of torsion cohomology: here, defined
 with the coefficients `W(LC_{𝔽_ℓ})` on test rings, with finiteness and bijectivity read off from coefficients `𝔽_ℓ`.
 
-*Method of the formal proof:* at a test ring the Witt vectors of the `𝔽_ℓ`-algebra `LC_{𝔽_ℓ}(A)` are `ℓ`-torsion-free and
-`ℓ`-adically complete, with truncations the locally constant functions to `W_k(𝔽_ℓ)`; so the coefficient sequences of
-(b) are exact and the Ext groups are derived `ℓ`-complete. Finite generation is then solved by successive approximation
-from a finite set of lifts of a basis modulo `ℓ`, and bijectivity follows from bijectivity modulo `ℓ` for derived
-complete groups.
+*Method of the formal proof:* `LC_{𝔽_ℓ}(A)` is a perfect `𝔽_ℓ`-algebra, so its Witt vectors are `ℓ`-torsion-free and
+`ℓ`-adically complete, with truncations `LC_{W_k(𝔽_ℓ)}(A)`; this gives (a), and (b) by
+PadicComparisonForFunctorCohomology §3.2 (a) with §3.1 (e). (c) is successive approximation (§3.1 (a)), starting from
+finitely many lifts of a basis modulo `ℓ`, with (a) for `k = 1` and §3.2 (b). (d) is the adic step §3.2 (c) for the
+element `ℓ`, followed by `ℚ_ℓ ⊗ −`.
 
 The coefficient *`ℤ_ℓ`* on test rings sends `A` to the ring of `ℓ`-typical Witt vectors `W(LC_{𝔽_ℓ}(A))`, a
 `ℤ_ℓ`-module. For a ring `R`, an `R`-algebra `Ω′` and a scheme `X` over `R`, put `Vⁿ(X) := ℚ_ℓ ⊗_{ℤ_ℓ} Hⁿ(X_{Ω′}|_Test, ℤ_ℓ)`;
@@ -696,19 +722,21 @@ is multiplication by `ℓ^k`; for `k = 1` the last term is `LC_{𝔽_ℓ}`.
 `New.Variety.exists_ellAdicCoeff_modShortExact_pow`, `New.Variety.exists_ellAdicCoeff_modShortExact`,
 `New.Variety.finite_H_ellAdicCoeff`, `New.Variety.IsCohomEquiv.bijective_ellAdicPull`)
 
-The library has the telescope predicate of derived completeness for modules with its first closure properties (see the
-closing section); the statements (b)–(d) on Ext groups are not there.
+The libraries pinned here have no derived completeness. Tau Ceti's main branch, later than the revision pinned here,
+has the telescope predicate for modules with its first closure properties (closing section); the statements (b)–(d)
+on Ext groups are in neither.
 
 ### 3.5 Transfer for Galois coverings
 
 *Origin:* adapted from the published theory of the transfer for finite Galois coverings in étale cohomology: here, for
 the `ℓ`-adic cohomology of 3.4 and coverings that are simply transitive on points over fields of characteristic `0`.
 
-*Method of the formal proof:* (a) is the coincidence criterion 3.3 (e) for the proper functor `W ×_Y W`: at a geometric
-point the two components differ by some `d ∈ Δ`, and `δ ↦ δd` permutes `Δ`. The transfer of 2.5 (b) for the maps `a(δ)`
-factors `c = l∘m` and `Σ_δ a(δ) = ν∘m` with `c∘ν = |Δ|·l` on free abelian functors; by (a) and the density of the image
-of `c`, `l*` is bijective modulo `ℓ`, hence on `V` (3.4 (d)). Then `N := |Δ|⁻¹ν*` has `N∘c* = l*`, and `m*∘N` is the
-average over `Δ`.
+*Method of the formal proof:* (a) is the coincidence criterion 3.3 (e), for the proper `W` and the maps
+`W ×_Y W → W` that follow a projection by some `a(δ)`: at a point over an algebraically closed field the two
+components differ by one element of `Δ`, by simple transitivity. (b) is the transfer 2.5 (b) for the family
+`(a(δ))_δ`: its map `l` is an equivalence for `ℤ/ℓ` by (a) and 3.3 (d), hence after `ℚ_ℓ ⊗ −` by 3.4 (d), and as `|Δ|`
+is invertible in `ℚ_ℓ` the relations of 2.5 (b) make `c*` injective and let the average over `Δ`, which fixes the
+invariant classes, factor through `c*`.
 
 Let `R` be a ring with a map to `Ω`, and `c : W → Y` a morphism of proper `R`-schemes with a finite group `Δ` acting on
 `W` by automorphisms `a(δ)` over `Y`, such that `c` is surjective and, for every field `K` of characteristic `0`, `Δ`
@@ -726,20 +754,21 @@ its image.
 
 ## Layer 4: Proper base change
 
-Proper base change is proved by covering a proper functor by points with values in valuation rings (4.1), and by an
-induction over the aic subrings of an algebraically closed field, split along the two charts of a line (4.2). 4.3 is
-the theorem and its consequences, and 4.4 the detection of classes at points that the projective line formula uses.
+4.1 attaches to a point of a proper functor its space of places, a proper functor built from valuation rings; 4.2 is
+the splitting step of an induction over the aic subrings of an algebraically closed field. From these, 4.3 proves
+proper base change by Čech descent and draws its consequences, and 4.4 derives the detection of classes at points
+that the projective line formula uses.
 
 ### 4.1 The space of places of a point and its properness
 
 *Origin:* adapted from the published theory of Riemann–Zariski spaces of places and of the reduction of proper base
-change to spaces of places: here, a functor on rings attached to a point of a proper functor, with its properness.
+change to spaces of places (Scholze, *Étale cohomology of diamonds*, Theorem 19.2 and Lemma 19.4, after Huber
+(1993)): here, a functor on rings attached to a point of a proper functor, with its properness.
 
-*Method of the formal proof:* two classes are equal exactly when the points of `Z` and all the ratios agree, which gives
-the closed diagonal. A point of the space of places in a local ring determines the subring of `κ(q)` on which its ratios
-are finite, a valuation ring; for the valuative criterion, a point over a field comes from a local map out of the
-valuation ring of a place, and the preimage of the given valuation ring is a smaller valuation ring over `D` that gives
-the lift.
+*Method of the formal proof:* the closed diagonal of (a) combines that of `Z` with the conditions that the ratios agree,
+each of which is cut out by an ideal. (b) reads off, from a point with values in a local ring, a prime `q` and the
+valuation ring of `κ(q)` on which its ratios are bounded. The valuative criterion of (a) follows from (b), by pulling
+`O` back along the local map that (b) gives.
 
 Let `Z` be proper over `D` (1.4 (a)), `P` a `D`-algebra that is absolutely flat (every `t ∈ P` has `y` with `y·t² = t`)
 and whose residue fields are algebraically closed, and `ξ ∈ Z(P)`. A *place* of `P` is a prime `q` of `P` with a
@@ -767,12 +796,10 @@ of `T → O ⊆ O′ → L`.
 two affine charts: here, a Mayer–Vietoris splitting step for an induction over the aic subrings of an algebraically
 closed field, with locally constant `ℤ/ℓ`-valued functions modulo an ideal.
 
-*Method of the formal proof:* choose `t ∈ K` with `t, t⁻¹ ∉ B`, of a suitable kind; `B_1`, `B_2` are the integral
-closures of `B[t]` and `B[t⁻¹]` and `B_3` the ring they generate, the two charts of a line and their overlap. The spectra
-of `B_1/J`, `B_2/J` cover that of `B/J`, which gives exactness on the left; compatible clopen sets of the charts come
-from the base, which gives it in the middle; and a locally constant function on the overlap is a difference of functions
-from the charts, by Kummer theory with `ℓ` invertible and a case distinction on the line modulo the ideal, which gives
-it on the right.
+*Method of the formal proof:* the three rings play the parts of the two standard charts of the projective line over
+`B` and of their overlap: for a suitable `t ∈ K` with `t, t⁻¹ ∉ B`, `B_1` and `B_2` are the integral closures in `K` of `B[t]`
+and `B[t⁻¹]`, aic, being integrally closed in the algebraically closed field `K`. The sequence is Mayer–Vietoris for
+this cover; its right end rests on Kummer theory, `ℓ` being invertible.
 
 Let `K` be an algebraically closed field, `D` a ring in which of any two elements one divides the other, `γ : D → K` a
 ring map, `J` an ideal of `D` and `ℓ` a prime invertible in `D`. For an aic subring `B ⊆ K` containing `γ(D)` write
@@ -790,18 +817,21 @@ are aic subrings `B_1, B_2, B_3` of `K` containing `γ(D)`, with `B ⊊ B_1`, `B
 
 ### 4.3 Proper base change over aic valuation rings
 
-*Origin:* adapted from the published theory of proper base change in étale cohomology: here, for the cohomology of 1.3
-with coefficients `ℤ/ℓ`, `ℓ` invertible, over a valuation ring of an algebraically closed field, for functors that are
-proper in the sense of 1.4 (a); with the comparison with the closed fibre and three consequences.
+*Origin:* adapted from the published theory of proper base change in étale cohomology (Artin, SGA 4, Exposé XII,
+5.1, 5.4, 5.5; Stacks Project, Tag 095S; for the reduction to spaces of places, the sources named in 4.1): here, for
+the cohomology of 1.3 with coefficients `ℤ/ℓ`, `ℓ` invertible, over a valuation ring of an algebraically closed field,
+for functors that are proper in the sense of 1.4 (a); with the comparison with the closed fibre and three
+consequences.
 
-*Method of the formal proof:* induction on the degree for all proper `Y` at once, by Čech descent (2.3 (a)) along the
-cover of `Y` by spaces of places (4.1), which has dense image (3.3) and proper fibre powers; the closed fibre of a fibre
-power is the fibre power of the cover of the closed fibre. On spaces of places the question concerns the valuation rings
-of a single algebraically closed field, where Zorn's lemma over the aic subrings and the splitting 4.2 with
-Mayer–Vietoris conclude. For (b), restriction to the closed fibre factors through `W_{κ_A}`. For (c), classes on `W_T`
-come from finitely generated `S`-subalgebras of `T` (continuity, 3.2), which have `S`-points by the Nullstellensatz.
-For (d), the elements `b` such that `x` vanishes where `b` is invertible form an ideal, whose zero locus is the
-complement of the zero set.
+*Method of the formal proof:* (a) is reduced, by Čech descent (2.3 (a)) along the spaces of places of 4.1, which have
+dense image (3.3 (d)), to these spaces. There 3.3 (a) and continuity (3.2 (b)) turn the claim into one about the aic
+subrings of an algebraically closed field, proved by Zorn's lemma with the splitting 4.2 and Mayer–Vietoris (2.4 (a))
+as the step. (b) follows from (a), the inclusion of the closed fibre factoring through `W_{κ_A}`. (c) uses continuity
+(3.2 (b) (ii)) to pass to the subalgebras of `T` of finite type over `S`, Hilbert's Nullstellensatz to give them
+`S`-points, and (b), over a valuation ring of `T`, to compare a class with its pull-back through such a point. (d)
+describes the zero set as `Spec T ∖ V(J)` for the ideal `J` of those `b` over whose unit locus `x` vanishes: that `J`
+is an ideal rests on 1.2 (iii) and Mayer–Vietoris (2.4 (a)), and the description on (b) for the local rings of `T`
+and continuity (3.2 (b) (iii)).
 
 Let `ℓ` be a prime.
 (a) *Proper base change.* Let `A` be an aic local domain in which of any two elements one divides the other, with
@@ -830,8 +860,9 @@ do not apply to the cohomology of 1.3, and the proof here avoids the general the
 detected at the residue fields of a test and do not change under extensions of fields, with a criterion for
 coefficients that are `ℤ/ℓ` on a closed locus of a proper space.
 
-*Method of the formal proof:* the locus `I = 0` is proper over `A`; over a test `c` the cohomology with coefficients `F`
-is that of the corresponding base change of this locus with coefficients `ℤ/ℓ`, to which 4.3 (c) and (d) apply.
+*Method of the formal proof:* (i) and (ii) are 4.3 (d) and 4.3 (c) for the locus `I = 0`, which is proper over `A` as
+a closed part of `X × h_A`; the density hypothesis is what identifies the cohomology with coefficients `F` over a test
+with the `ℤ/ℓ`-cohomology of that locus.
 
 Let `A` be an aic local domain with `ℓ ∈ A^×`, `D` a category and `g : D → Test_A`. For a test `c` over `A` and a prime
 `𝔭` of `c`, `κ(𝔭)` is again a test over `A` (1.2 (c)). A coefficient `F` on `D` is *detected at points* if (i) for every
@@ -859,15 +890,15 @@ smooth base change, with the duality on products of projective lines from PadicC
 
 ### 5.1 The Kummer sequence and the first Chern class of `O(1)`
 
-*Origin:* adapted from the published theory of the Kummer sequence and of the first Chern class of a line bundle: here,
-for the projective line as a functor on the tests of a functor `g : C → Test_A`, with the Tate module of `G_m` and an
-action of it on `ℓ`-torsion coefficients.
+*Origin:* adapted from the published theory of the Kummer sequence and of the first Chern class of a line bundle (the
+sources named in 5.5): here, for the projective line as a functor on the tests of a functor `g : C → Test_A`, with the
+Tate module of `G_m` and an action of it on `ℓ`-torsion coefficients.
 
-*Method of the formal proof:* evaluation at `1` is onto because every unit of an aic ring has a compatible system of
-roots. The section `ε` comes from a compatible system of roots of unity in `A` with a primitive `ℓ`-th root at `1/ℓ`;
-`x ↦ x ⊗ ε` is an isomorphism Zariski-locally on `S` killed by `ℓ`, hence an equivalence for coefficients with Zariski
-descent. The class `η` of an `ℓ`-torsion coefficient `M` is `M ⊗ η` (by 2.6 (a), `M` need not have flat values)
-followed by the action of `𝕋`.
+*Method of the formal proof:* in (a) only the surjectivity on the right needs an argument: in an aic ring every unit
+has roots of all orders, which can be chosen compatibly. In (b), `ε` is built from compatible roots of unity in `A`;
+for `S` killed by `ℓ` the map `x ↦ x ⊗ ε` is an isomorphism near every maximal ideal, so Zariski descent (1.1 (e))
+makes it an equivalence, and `μ_M` is the resulting inverse. (c) holds because the cocycle of `O(1)` is trivial on that
+chart. (d) is a definition, made possible by 2.6 (a), which tensors `η` with coefficients whose values need not be flat.
 
 Let `A` be a ring and `g : C → Test_A` a functor; `G_m(c) := g(c)^×`. `ℙ¹` is the functor on rings that sends `B` to the
 pairs `(u, v) ∈ B²` modulo `(u, v) ~ (u′, v′)` when `(1 + uv)·v′ = v·(1 + u′v′)`, that is, the rows `(1 + uv, v)` up to
@@ -902,15 +933,15 @@ tautological point of `ℙ¹`, followed by `μ_M`. `M` satisfies the *projective
 
 ### 5.2 Leray–Hirsch bases from residue fields
 
-*Origin:* adapted from the published theory of the Künneth formula for torsion cohomology over a field: here, in
-Leray–Hirsch form over the special fibre of an aic local domain, passing from residue fields to tests.
+*Origin:* adapted from the published theory of the Künneth formula for torsion cohomology over a field (SGA 4,
+Exposé XVII, 5.4.3; Milne, *Étale Cohomology*, VI.8): here, in Leray–Hirsch form over the special fibre of an aic
+local domain, passing from residue fields to tests.
 
-*Method of the formal proof:* for (b), at each prime of `c` a class has unique coefficients in `ℤ/ℓ` by the
-Leray–Hirsch property at the residue field; detection at points makes these coefficients locally constant, so they form
-the unique preimage. For (c), the values at `1` of the homogeneous classes span the cohomology of the point, a vector
-space over `ℤ/ℓ` (2.7 (c)), and `b` indexes a basis among them; a test kills `𝔪_A` exactly when it receives a map, then
-unique, from the residue field `k₀` of `A`, so `h_{k₀}` is the dense locus and (b) applies. (a) is 4.4 for `ℙ¹`, which is
-proper over `ℤ`.
+*Method of the formal proof:* (a) is 4.4 for `ℙ¹`, proper over `ℤ`. (b) is the hypothesis at the residue fields of
+`c`, made global by detection at points (4.4): the coefficients found at each prime form locally constant functions on
+`Spec c`, and only the zero class is zero at all primes. (c) compares with the point: by (b) only fields `k` over the
+special fibre matter, and for them the density hypothesis and detection at points make `h_k` and the point equivalent
+for `M`; `b` is a set of classes whose values at `1` are a basis of `H*(ℤ, M)`, which these values span by 2.7 (c).
 
 Let `A` be an aic local domain with `ℓ ∈ A^×`, `g : D → Test_A` and `LC` the locally constant `ℤ/ℓ`-valued functions.
 (a) The coefficient `LC` on the category of pairs `(B, x)`, `B` a test over `A` and `x ∈ ℙ¹(B)`, is detected at points
@@ -935,9 +966,14 @@ For étale cohomology of schemes over a separably closed field, the Künneth for
 *Origin:* adapted from the published theory of the perfectoid projective line and of its cover by two perfectoid discs:
 here, on `p`-adic tests through their tilts, as a gluing map of free abelian functors whose cokernel has no cohomology.
 
-*Method of the formal proof:* all cohomology is in degree `0`, where the gluing map is the splitting of a Laurent
-polynomial with exponents in `ℚ` into the parts of non-negative and of negative exponent; acyclicity of perfect
-algebras for the coefficients and flat base change give the higher degrees.
+*Method of the formal proof:* for `ψ = c^♭ ⊗ −` the four functors are represented, through the tilt, by perfect
+`O^♭`-algebras, so the acyclicity hypothesis concentrates their cohomology in degree `0`, where it is the value of the
+coefficient at these algebras; there the gluing map is bijective because a Laurent polynomial with exponents in `ℚ`
+splits uniquely into its parts of exponent `≥ 0` and `< 0`. Flat base change comes from
+PadicComparisonForFunctorCohomology §1.3 (c). The coefficients `S ↦ S[1/p]` are reached from the coefficients of
+§2.1 (c), acyclic there, through §5.4 (a) for the period ring pair `(O_C, ℂ_p)` (§5.1 (i)) and the identification
+§6.1 (d). (a) is a computation on monomials, and (c) follows from the hypothesis by the dévissage 2.1 (a) in `S`,
+`S ⊗ gluing` being, at a sum of representable functors, a sum of gluing maps of the kind in the hypothesis.
 
 Let `p` be a prime; `p`-adic tests, the rings `O_C`, `O^♭`, tilts `S^♭` and generic fibres `S[1/p]` are those of
 PadicComparisonForFunctorCohomology §1.1. The *two discs* are the functors `S ↦ Hom(ψ(O^♭[ℚ≥0]), S^♭)` (two copies), the
@@ -955,8 +991,8 @@ every `p`-adic test `c`, the gluing map formed with `ψ = c^♭ ⊗ −` induces
 (c) If the gluing map with `ψ = c^♭ ⊗ −` is an equivalence for `F` for every test `c`, then `S ⊗ coker(gluing)`, the
 gluing map taken with `ψ = id`, has no cohomology with coefficients `F`, for every `S` with flat values.
 
-*Needs:* 1.1, 2.2, 2.4; PadicComparisonForFunctorCohomology §§1.1, 1.2, 1.3, 2.1, 6.1 (tests, tilts, flat base change,
-acyclicity).
+*Needs:* 1.1, 2.1, 2.2, 2.4; PadicComparisonForFunctorCohomology §§1.1, 1.2, 1.3, 2.1, 5.1, 5.4, 6.1 (tests, tilts,
+flat base change, acyclicity, period coefficients, generic rings).
 
 [ShortProof], `Lib/Cohomology/ProjectiveLine/PerfectLine` (`New.Variety.PerfectLine.gluing`,
 `New.Variety.PerfectLine.oneSub_comp_gluing`, `New.Variety.PerfectLine.isCohomEquiv_gluing_tilt`,
@@ -968,10 +1004,13 @@ acyclicity).
 with acyclic cokernel, and the projective line formula for the tilted theory of PadicComparisonForFunctorCohomology,
 proved on the cover of the perfect projective line by two discs.
 
-*Method of the formal proof:* the line formula at `S` follows from two properties of the product with `η`, injectivity
-and a description of its image (b). On the perfect line, the Kummer sequence and the cocycle of `O(1)` restricted to the
-two discs and the torus give a square to which (a) applies, with `ε` at the origin; 5.3 makes the cokernel of the
-gluing acyclic, which gives both properties.
+*Method of the formal proof:* (a) is a diagram chase with extension classes (2.2), `ω` being the class of a four-term
+exact sequence through the pushout of `i` and `δ′`. For (b), the cohomology over the points of `ℙ¹` (read through
+2.6 (c)) splits into the part pulled back from the base and the image of the product with `η`; the two conditions make
+the Leray–Hirsch map of `(1, η)` bijective. (c) feeds the perfect projective line of 5.3 into (a): the gluing map
+commutes with the operators `1 − Δ` (5.3 (a)), the two sequences are the Kummer sequence and the extension of `O(1)`
+restricted to the discs and the torus, and the cokernel of the gluing is acyclic by 5.3 (c); (a) then yields both
+conditions of (b).
 
 (a) *Cancellation.* Let `0 → S₁ → S₂ → S₃ → 0` and `0 → T₁ → T₂ → T₃ → 0` be short exact, `i : W′ → W` a monomorphism
 with `δ′ : W′ → W′`, `δ : W → W`, `δ∘i = i∘δ′`, `z : Z₀ → W` with `δ∘z = 0`, and maps `f : W → S₂`, `α : W′ → T₂`,
@@ -990,7 +1029,8 @@ every perfect `O^♭`-algebra is acyclic for `b ↦ b ⊗ N`. The tilted theory 
 PadicComparisonForFunctorCohomology §5.1 (b) (along `S ↦ S[1/ℓ]`, with coefficients `S ↦ S^♭ ⊗_{O^♭} N`), satisfies the
 projective line formula.
 
-*Needs:* 2.1, 2.2, 2.6, 2.7, 5.1, 5.3; PadicComparisonForFunctorCohomology §§2.1, 5.1 (acyclicity, the tilted theory).
+*Needs:* 2.1, 2.2, 2.6, 2.7, 5.1, 5.3; PadicComparisonForFunctorCohomology §§1.1, 2.1, 5.1 (`ℓ`-adic tests, acyclicity,
+the tilted theory).
 
 [ShortProof], `Lib/Cohomology/ProjectiveLine/TiltedLineFormula` (`New.Variety.IsTodaCancellation`,
 `New.Variety.exists_isTodaCancellation`, `New.Variety.isLerayHirschBasis_lineBasis_of_injective`,
@@ -999,16 +1039,20 @@ projective line formula.
 ### 5.5 The projective line formula for `ℤ/ℓ` coefficients
 
 *Origin:* adapted from the published theory of the projective bundle formula in torsion étale cohomology with the Kummer
-first Chern class: here, for the trivial bundle of rank two, over tests over a valuation ring of an algebraically closed
-field that embeds in `ℂ_ℓ`, for locally constant `ℤ/ℓ` coefficients.
+first Chern class (SGA 4½, [Cycle]; SGA 5, Exposé VII (Jouanolou); Milne, *Étale Cohomology*; Scholze, *p-adic Hodge
+theory for rigid-analytic varieties*): here, for the trivial bundle of rank two, over tests over a valuation ring of an
+algebraically closed field that embeds in `ℂ_ℓ`, for locally constant `ℤ/ℓ` coefficients.
 
-*Method of the formal proof:* by restriction of scalars (universal points, 2.3 (d)) the formula reduces to tests over
-algebraically closed fields `k` over `A`; there a basis from 5.2 is a basis on the point and, by dévissage from the
-affine cover, on `ℙ¹`, and it contains `η` unless `η·1 = 0` over `k`. That vanishing would spread to the generic point of
-`A` and kill `y·η` for every class `y` of `M`. For (c), apply (b) to the tilted theory of 5.4 on `ℓ`-adic tests with
-coefficients `S ↦ S^♭ ⊗ N ⊗ 𝔪`, `N = O^♭/π` for a non-zero non-unit `π` of `O^♭` and `𝔪` the maximal ideal of `O^♭`: the
-non-zero elements of `A` are units in `ℂ_ℓ`, hence in the rings `S[1/ℓ]`; if `η` killed every class of the point, the
-line formula for this theory would make the cohomology of the point trivial, but by acyclicity it is `𝔪/π𝔪 ≠ 0`.
+*Method of the formal proof:* (a) checks the two conditions of 5.4 (b) by expanding classes in the basis `θ`, read on
+the points of `ℙ¹` through 2.6 (c). By 2.1 (b), 5.2 (b) and the universal points of restriction of scalars
+(2.3 (d)), (b) has only to be checked over algebraically closed fields `k` over `A`, where 5.2 (c) supplies a family
+as in (a) once `η·1 ≠ 0` over `k`; that non-vanishing is the hypothesis on `M`, read at the fraction field of `A`
+through 2.7 (c) and carried to `k` by the detection of 5.2 (a). (c) checks the hypothesis of (b) with the tilted
+theory of 5.4 (c) for the module `𝔪/ℓ^♭𝔪`, acyclic by PadicComparisonForFunctorCohomology §2.1 (c), with
+`𝔪 ⊂ O^♭` the maximal ideal and `ℓ^♭ ∈ O^♭` the element `p♭` of PadicComparisonForFunctorCohomology (Conventions)
+for the prime `ℓ`. The embedding `A → ℂ_ℓ` makes the non-zero elements of `A` units on the `ℓ`-adic tests, and the
+cohomology of the point is the non-zero group `𝔪/ℓ^♭𝔪`, so the product with `η`, injective by 5.4 (c), cannot vanish
+on it.
 
 Let `A` be an aic local domain in which of any two elements one divides the other, with `ℓ ∈ A^×`.
 (a) Let `Θ` be a theory along `g` and `θ` a family of classes on `∫ℙ¹_g` containing `η_Θ`. If `θ` is a Leray–Hirsch
@@ -1019,7 +1063,7 @@ functions on `Test_A` satisfies the projective line formula.
 (c) If there is an injective ring map `A → ℂ_ℓ`, `LC` on `Test_A` satisfies the projective line formula: for every
 functor `S` on `Test_A`, every class of `H*(S∘π, LC∘π)` is `π*(a) + π*(b)·η` for unique `a, b ∈ H*(S, LC)`.
 
-*Needs:* 2.1, 2.3, 2.7, 5.1, 5.2, 5.4.
+*Needs:* 2.1, 2.3, 2.6, 2.7, 5.1, 5.2, 5.4; PadicComparisonForFunctorCohomology §2.1 (acyclicity of perfect algebras).
 
 [ShortProof], `Lib/Cohomology/ProjectiveLine/ConstantLineFormula` (`New.Variety.isLerayHirschBasis_lineBasis_of_basis`,
 `New.Variety.hasUniversalPoints_structurePt`, `New.Variety.hasLineFormula_of_lerayHirsch_ne_zero`,
@@ -1030,16 +1074,18 @@ that section does not apply to the cohomology of 1.3, and the proof here needs o
 
 ### 5.6 Smooth base change from a valuation ring of `Ω` to `Ω`
 
-*Origin:* adapted from the published theory of smooth base change in étale cohomology: here, the restriction from a
+*Origin:* adapted from the published theory of smooth base change in étale cohomology (Artin, SGA 4, Exposés XV 2.1
+and XVI 1.2; Stacks Project, Tag 0EYQ; for the route through the class of the diagonal, Zavyalov, *Poincaré duality in
+abstract 6-functor formalisms*, and Li, Reinecke and Zavyalov, arXiv 2410.08200): here, the restriction from a
 valuation ring of `Ω` to `Ω`, for coefficients `ℤ/ℓ` with `ℓ` invertible and for schemes charted by pieces étale over
 tori, not assumed proper.
 
-*Method of the formal proof:* compare the cohomology on tests over `A` with that on tests over `Ω`. The functors on which
-this comparison is bijective form a closed class (2.3), which contains the point, both rings being domains (3.1 (a)).
-This bijectivity is equivalent to the vanishing of the cohomology relative to the part off the closed fibre, and the
-duality on products of projective lines of PadicComparisonForFunctorCohomology, with the projective line formula 5.5
-over `A ⊆ Ω ⊆ ℂ_ℓ`, carries that vanishing from the point to charts étale over tori, hence to `Y` by the definition of
-charted (1.4 (d)). The cohomology of `Y_A` is that of the points of `Y` on tests over `A`.
+*Method of the formal proof:* (a) is a universal-point statement (2.3 (d)): a point of `Y_A` over a test ring carries a
+map from `A`, which makes the ring a test over `A`. Through (a), (b) asks that passing from the tests over `A` to the
+tests over `Ω` among them be bijective on cohomology, that is, that the cohomology relative to the part off the closed
+fibre vanish. The functors with this property form a closed class (2.3) containing the point (3.1 (a)), and
+PadicComparisonForFunctorCohomology §4.3 (e), for `LC` with the projective line formula of 5.5 (`A ⊆ Ω ⊆ ℂ_ℓ`), puts
+`Y` in it (1.4 (d)).
 
 (a) For a scheme `Y` over `R` and an `R`-algebra `A`, the cohomology of `Y_A` on test rings agrees, for every coefficient
 on test rings, with the cohomology of the functor of points of `Y` on tests over `A`.
@@ -1066,9 +1112,9 @@ formula (6.4) and the class of the diagonal (6.5) give the fixed point formula (
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* definitions; the localisation property is the universal property of `A[1/g]`, and the
-universal point of a chart is the unique lift of `R → R` along `R ⊕ R^d → R` that sends `x_i` to `(x_i, e_i)`, which
-exists because `R` is étale over `k[X_1, …, X_d]`.
+*Method of the formal proof:* definitions. (a) is the universal property of `A[1/g]`, the free module keeping its index
+set. In (b), `R` is étale over `k[X_1, …, X_d]`, so maps out of `R` lift uniquely along the square-zero extension
+`R ⊕ R^d → R` once the images of the `x_i` are prescribed; the lift with `x_i ↦ (x_i, e_i)` is the representing point.
 
 Let `k` be a ring. A *Hodge pair* over `k` is a `k`-algebra `A` with a finite ordered set `ι`, standing for the pair
 `(A, A^ι)`; a morphism `(A, A^ι) → (B, B^κ)` is a `k`-algebra map `a : A → B` with an `a`-semilinear map `A^ι → B^κ`.
@@ -1101,9 +1147,11 @@ the functor `(A, M) ↦ Hom_k(R, A ⊕ M)` on Hodge pairs.
 *Origin:* adapted from the published theory of local cohomology and depth: here, for Hodge cohomology of a
 representable pair relative to the locus where one of finitely many functions is a unit.
 
-*Method of the formal proof:* an abstract induction on a regular sequence: the groups are torsion for the ideal and
-an element regular on the module stays regular on the groups once the lower groups of the quotient vanish. For the unit
-ideal the relative groups vanish in every degree, which is Zariski descent.
+*Method of the formal proof:* (a) is an induction on `n`, using the elements of the regular sequence one after the
+other. (b) is (a) for the relative groups computed on flat `A`-algebras through `B ↦ (B, B^ι)`, as modules over `A`;
+when the `f_i` generate the unit ideal these groups vanish in all degrees. (c) is (b) for the differences of the
+coordinates, a regular sequence of length `d` in a ring étale over `k[X_1, …, X_{2d}]`, and (d) is the unit-ideal case
+of (b).
 
 (a) *Depth vanishing.* Let `A` be a ring, `I` an ideal, and `M ↦ Hⁿ(M)` a family of maps from `A`-modules to `A`-modules
 such that every element of every `Hⁿ(M)` is killed by a power of each element of `I`, and such that an element `r`
@@ -1124,14 +1172,15 @@ functions `x_i − x_{d+i}` vanishes in degrees below `d`.
 
 ### 6.3 Grothendieck's symbol and classes of points
 
-*Origin:* adapted from the published theory of Grothendieck's residue symbol and of cycle classes of points in Hodge
-cohomology: here, the symbol as a class of a cocycle on tuples of linear forms, its transformation law and
-multiplicativity, and the class of a rational point of a separated functor with charts.
+*Origin:* adapted from the published theory of Grothendieck's residue symbol (Hartshorne, *Residues and Duality*,
+III.9) and of cycle classes of points in Hodge cohomology: here, the symbol as a class of a cocycle on tuples of linear
+forms, its transformation law and multiplicativity, and the class of a rational point of a separated functor with
+charts.
 
-*Method of the formal proof:* the symbol is the class (2.3 (f)) of the cocycle `(v, l_1, …, l_d) ↦ det(l)·dT_1 ∧ ⋯ ∧ dT_d`
-for the relation "`l_j(v) = 1`", whose witnesses exist on unimodular vectors. The transformation law is a computation
-with this cocycle modulo the ideal of the functions; multiplicativity compares the cocycles on `𝔸^d × 𝔸¹`. For point
-classes, excision (2.5 (d)) to a chart and Mayer–Vietoris over finitely many points.
+*Method of the formal proof:* the symbol is an instance of 2.3 (f), for the relation `l_j(v) = 1`, which has witnesses
+exactly over unimodular vectors. (a) and (b) are computations with the defining cocycle, (a) modulo the ideal of the
+functions and (b) on `𝔸^d × 𝔸¹`. In (c), excision (2.5 (d)) brings a class supported at one point into a chart, and
+Mayer–Vietoris (2.4 (a)) passes to finitely many points.
 
 Let `k` be a field. `𝔸^d` is the functor `A ↦ A^d` on `k`-algebras and `𝔸^d ∖ 0` its subfunctor of unimodular vectors
 (entries generating the unit ideal). Elements `g_1, …, g_d` of a `k`-algebra `R` *cut out* a locus `P` at a point
@@ -1139,7 +1188,7 @@ Let `k` be a field. `𝔸^d` is the functor `A ↦ A^d` on `k`-algebras and `�
 - *The symbol.* `[dT/T] ∈ H^d_Hdg(𝔸^d, 𝔸^d ∖ 0)` is the class of the cocycle `(v, l_1, …, l_d) ↦ det(l_1, …, l_d)·dT_1 ∧ ⋯ ∧ dT_d`
   on tuples of linear forms with `l_j(v) = 1`. For `g ∈ R^d`, `[dg/g]` is its pull-back.
 - *Multiplicity.* Let `X` be separated with étale charts of dimension `d`, `z ∈ X(k)`, and `X ∖ z` the subfunctor of
-  points none of whose values in fields comes from `z`. A class `ξ ∈ H^d_Hdg(X, X ∖ s)` (`s` a set of `k`-points) has
+  the points whose values in fields never come from `z`. A class `ξ ∈ H^d_Hdg(X, X ∖ s)` (`s` a set of `k`-points) has
   *multiplicity `n(z)`* at `z ∈ s` if some chart contains `z` and has functions `g` cutting out `z` on it such that `ξ`
   restricts there to `n(z)·[dg/g]`.
 (a) *Transformation law.* Let `(A, A^ι)` be a pair, `v ∈ A^d`, and `f, g ∈ (A ⊕ A^ι)^d` with first components `v` and
@@ -1163,13 +1212,13 @@ maps to `Σ_{z∈s} n(z)·cl(z)`.
 
 ### 6.4 The Künneth formula
 
-*Origin:* adapted from the published theory of the Künneth formula for coherent cohomology: here, in the weak form that
-cross products span the Hodge cohomology of `X × X`, for `X` with an atlas over a field of characteristic `0`.
+*Origin:* adapted from the published theory of the Künneth formula for coherent cohomology (Stacks Project, Tag 0BEC):
+here, in the weak form that cross products span the Hodge cohomology of `X × X`, for `X` with an atlas over a field
+of characteristic `0`.
 
-*Method of the formal proof:* replace `X` by the dense subfunctor `U` read on pairs from a subfunctor built from the
-charts (dense by Zariski descent, 6.2 (d)). The charts are represented on Hodge pairs (6.1 (b)), so by dévissage (2.1)
-the Leray–Hirsch map of a basis of the classes of each degree on `U`, applied in one factor and then in the other, writes
-every class on `U × U` as a sum of products.
+*Method of the formal proof:* `X` is replaced by its charting subfunctor (1.5 (d)), dense by 6.2 (d), on which the
+Leray–Hirsch map (2.1 (b)) of a basis of Hodge classes, formed with the cross products of 2.2 (b), is shown to be
+bijective; by dévissage (2.1 (a)) this reduces to the charts, which are representable on Hodge pairs (6.1 (b)).
 
 Let `k` be a field of characteristic `0` and `X` a functor on `k`-algebras with an atlas of dimension `d`. Every class of
 `Hⁿ_Hdg(X × X)` is a finite sum of cross products `x × y` with `x ∈ H^a_Hdg(X)`, `y ∈ H^b_Hdg(X)`, `a + b = n`.
@@ -1183,9 +1232,9 @@ Let `k` be a field of characteristic `0` and `X` a functor on `k`-algebras with 
 *Origin:* adapted from the published theory of the cycle class of the diagonal in Hodge cohomology: here, for a functor
 with an atlas, as a relative class glued from Grothendieck symbols of differences of chart coordinates.
 
-*Method of the formal proof:* each chart gives a chart of `X × X` near the diagonal on which the differences of the
-coordinates cut out the diagonal; their symbols agree on overlaps by the transformation law (6.3 (a)), and they glue by
-2.5 (e), the relative groups vanishing below `d` by 6.2 (c).
+*Method of the formal proof:* `δ` is glued by 2.5 (e), with the vanishing of 6.2 (c), from the symbols (6.3) of the
+coordinate differences on charts of `X × X` near the diagonal, which agree on overlaps by the transformation law
+6.3 (a).
 
 Let `k` be a field of characteristic `0` and `X` with an atlas of dimension `d`, and let `X × X ∖ Δ` be the subfunctor
 of pairs whose values in every field are distinct. There is `δ ∈ H^d_Hdg(X × X, X × X ∖ Δ)` such that every point `z` of
@@ -1202,13 +1251,19 @@ the symbol of the differences of the coordinates: every point of `O` is a pair `
 ### 6.6 The fixed point formula in Hodge cohomology
 
 *Origin:* adapted from the published theory of the holomorphic Lefschetz fixed point formula and of Gysin maps in Hodge
-cohomology: here, an identity of Hodge classes over a field of characteristic `0` for the coincidences of two maps, with
-local terms the Jacobian ratios given by Grothendieck symbols; no trace occurs.
+cohomology (Stacks Project, Tags 0BEC and 0G82; Chatzistamatiou and Rülling (2011), sections 2–3; Srinivas (1993);
+for the symbol, Hartshorne, *Residues and Duality*, III.9): here, an identity of Hodge classes over a field of
+characteristic `0` for the coincidences of two maps, with local terms the Jacobian ratios given by Grothendieck
+symbols; no trace occurs.
 
-*Method of the formal proof:* near a coincidence `w` the pull-back of `δ` along the scaled graph is the symbol of the
-differences `t·du − dc` read in the chart; the transformation law (6.3 (a)) turns it into `det N` times the symbol of
-`du − dc`, which cuts out `w` because the coincidence is reduced; 6.3 (c) adds the points. A tangent polynomial gives the
-matrix `N` from the endomorphism `A` with `du = dc∘A`.
+*Method of the formal proof:* (a) is linear algebra on the tangent space at `w`: `P(1) ≠ 0` makes `1 − A` invertible,
+which excludes non-constant first-order coincidences and expresses `t·du − dc` through `du − dc` in the coordinates of
+a chart. (b) is commutative algebra in the ring `R` of each chart: the coincidences are the zeros of an ideal `J` of
+`R` (`X` separated, 1.4 (b)), and reducedness, through Nakayama's lemma, makes every minimal prime of `J` the maximal
+ideal of a `k`-point (Hilbert's Nullstellensatz); these points, finitely many as `R` is Noetherian, list the
+coincidences. (c) determines the class of 6.5, pulled back along the scaled graph, by its multiplicities at the
+points of `s` (6.3 (c)), each given by the transformation law 6.3 (a). (d) combines excision on a product of charts
+with 6.3 (b).
 
 Let `k` be a field and `W`, `X` functors on `k`-algebras, `u, c : W → X`. A *coincidence* is a point `x` with
 `c(x) = u(x)`. The coincidences are *reduced* if every coincidence with values in `k[ε]` is constant (comes from its base
@@ -1256,11 +1311,11 @@ the non-vanishing on projective space (7.3), and deduces the vanishing half of t
 *Origin:* adapted from the published theory of Noether normalisation: here, by linear forms for a point of a cone over a
 field of characteristic `0`, with a Galois closure and spreading out of points with given homogeneous coordinates.
 
-*Method of the formal proof:* start from the coordinate forms, which have no non-trivial common zero on the cone of `g`;
-while their values at `g` satisfy a homogeneous relation, a linear change over the infinite field `k` lets one form be
-dropped. For the Galois closure take `t` transcendental over `L`: the values `Λ_j(t·g)` are algebraically independent,
-so they embed `k[X_0, …, X_d]` in an algebraically closed field over which `t·g` is integral, and `B` is a Galois hull
-of `t·g`, the `b_σ` being its conjugates. Spreading out uses the homogeneous relations of the coordinates.
+*Method of the formal proof:* (a) is the classical elimination argument for Noether normalisation by linear forms
+over the infinite field `k`, started from the coordinate forms. (b) takes for `B` a Galois hull over `k[X_0, …, X_d]`
+of the tuple `g` scaled by an element transcendental over `L`, for `G` its Galois group and for the `b_σ` the
+conjugates of the scaled tuple. (c) is a spreading-out argument over the `k`-algebra generated by the coordinates of
+`ξ`, modulo their homogeneous relations.
 
 Let `k` be a field, `L` a field over `k` and `g ∈ L^ι` (`ι` finite). A tuple `v` (in any `k`-algebra) *lies on the cone of
 `g`* if every homogeneous polynomial over `k` vanishing at `g` vanishes at `v`. Linear forms `Λ_0, …, Λ_d` over `k` are a
@@ -1290,19 +1345,21 @@ vector of a point of the open subfunctor.
 `New.Variety.IsCoordsWithUnit.exists_mem_open_of_isUnit`,
 `New.Variety.IsCoordsWithUnit.exists_app_eq_algebraMap_of_isHomogeneousSolution`)
 
-The library has a linear Noether normalisation over infinite fields (closing section); the homogeneous form with
-`Λ_0(g) ≠ 0` for all `u·g`, the Galois closure and the spreading out are not there.
+Mathlib has Noether normalisation for finitely generated algebras over a field, not by linear forms, and Tau Ceti's
+main branch, later than the revision pinned here, has a linear Noether normalisation over infinite fields (closing
+section); the homogeneous form with `Λ_0(g) ≠ 0` for all `u·g`, the Galois closure and the spreading out are in
+neither.
 
 ### 7.2 Projective space, and injective pull-back along a Noether normalisation
 
-*Origin:* adapted from the published theory of transfer for finite surjective maps: here, injectivity of pull-back along
-the projection to `ℙ^d` of a subfunctor of `Y × ℙ^d` that contains the graph of a Noether normalisation, for the
-cohomology of `p`-adic tests with coefficients `S ↦ S[1/p]`.
+*Origin:* adapted from the published theory of transfer for finite surjective maps (Suslin and Voevodsky (1996),
+§§4–6): here, for the cohomology of `p`-adic tests with coefficients `S ↦ S[1/p]`, injectivity of pull-back from
+`ℙ^d` to any subfunctor `O` of `Y × ℙ^d` that holds the graph of the projection given by a Noether normalisation.
 
-*Method of the formal proof:* points of the Galois cover of the cone of `g` (7.1 (b)) map to `O` once for each `σ ∈ G`,
-over one point of `ℙ^d`. The transfer of 2.5 (b) gives `ℤ[π]∘ν = |G|·l`, and `l` is an equivalence once the image of
-the cover is dense in `ℙ^d` and the pairs with permuted tuples are dense, which is checked near each maximal ideal of a
-test by Zariski descent; `|G|` is invertible in `S[1/p]`.
+*Method of the formal proof:* (a) is a computation with coordinates over a local ring. (b) is the transfer 2.5 (b) for
+the `|G|` maps to `O` given by the Galois closure of 7.1 (b), `|G|` being a unit for the coefficients `S[1/p]`; its two
+density conditions hold Zariski-locally on each test (PadicComparisonForFunctorCohomology §§5.1, 6.1, the rings of the
+tests being test rings by §1.2 (a)).
 
 `ℙ^d` over a field `k` is the functor on `k`-algebras `A ↦` unimodular vectors in `A^{d+1}` modulo `A^×` (the points of
 the scheme `ℙ^d` with trivial line bundle; no sheafification is made). In this layer `ℙ¹` is `ℙ^1` in this sense, not the
@@ -1317,7 +1374,8 @@ point of `Y` over a field `F ⊇ k` with coordinates `g`, and `Λ` a Noether nor
 (having a unit entry) on the cone of `g` with `Λ(v)` unimodular. Then pull-back along `O → ℙ^d` is injective on the
 cohomology, on `p`-adic tests, of the functors `S ↦ ℤ[O(S[1/p])]` and `S ↦ ℤ[ℙ^d(S[1/p])]` with coefficients `S ↦ S[1/p]`.
 
-*Needs:* 1.4, 2.4, 2.5, 7.1; PadicComparisonForFunctorCohomology §§1.1, 5.1, 6.1 (`p`-adic tests, generic fibres).
+*Needs:* 1.4, 2.4, 2.5, 7.1; PadicComparisonForFunctorCohomology §§1.1, 1.2, 5.1, 6.1 (`p`-adic tests and their rings,
+partitions, generic fibres).
 
 [ShortProof], `Lib/Cohomology/PointClass/ProjectiveSpace` (`New.Variety.projSpace`, `New.Variety.projSpace.stdChart`,
 `New.Variety.projSpace.hasAtlas`, `New.Variety.projSpace.lineProductMap`,
@@ -1326,14 +1384,19 @@ cohomology, on `p`-adic tests, of the functors `S ↦ ℤ[O(S[1/p])]` and `S ↦
 
 ### 7.3 Point classes of projective space survive the Hodge–Tate map
 
-*Origin:* adapted from the published theory of the compatibility of the Hodge–Tate comparison with cycle classes: here,
-only the non-vanishing of `λ_d` on the class of a point of `ℙ^d`, computed through Grothendieck's symbol.
+*Origin:* adapted from the published theory of the compatibility of the Hodge–Tate comparison with cycle classes
+(Faltings (1988)): here, only the non-vanishing of `λ_d` on the class of a point of `ℙ^d`, computed through
+Grothendieck's symbol.
 
-*Method of the formal proof:* `λ_1[dT/T]` is the product of the boundary class of `(𝔸¹, 𝔸¹ ∖ 0)` with the class of the
-extension `0 → T → B^× → T^× → 0`, `T = S[1/p]` and `B = W(S^♭)[1/p]/(ker θ)²`, whose first map is `t ↦ 1 − μt` with
-`μ = [ε] − 1`. On `ℙ¹` this gives a degree-two class `η` lifting `λ_1` of the class of `[1 : 0]`, whose product is
-injective on flat functors. Induction on `d`: pull the class of a point back along `ℙ^d × ℙ¹ → ℙ^{d+1}` (6.6 (d)); in the
-product rule for `λ_{d+1}` only the term of weight `d` survives, and `x ∪ η = 0` forces `x = 0`.
+*Method of the formal proof:* in (a), `T = S[1/p]` and `B = W(S^♭)[1/p]/(ker θ)²` as in
+PadicComparisonForFunctorCohomology §6.1, and the first map is `t ↦ 1 − μt` with `μ = [ε] − 1`. The formula for
+`λ_1[dT/T]` is the definition of `λ_1` (§6.3), read on `𝔸¹ ∖ 0` after the boundary map of the pair `(𝔸¹, 𝔸¹ ∖ 0)`.
+(b) is the cancellation 5.4 (a) for the gluing of the perfect discs of 5.3 into the two charts of `ℙ¹`, with the
+extension of (a) as one of its two sequences. (c) is an induction on `d` along the map `ℙ^d × ℙ¹ → ℙ^{d+1}` of
+7.2 (a): the class of a point pulls back to a positive multiple of a product of point classes (a sum over the points
+of 7.2 (a), each term a product by 6.6 (d)), the product rule of §6.3 (b) leaves a single term, a non-zero multiple
+of the product of `λ_d(cl(z))` with `λ_1(cl([1 : 0]))`, and (b) shows that this term vanishes only if `λ_d(cl(z))`
+does.
 
 Let `k` be a field embedded in `ℚ̄_p`.
 (a) On `p`-adic tests, `0 → T → B^× → T^× → 0` is exact. `λ_1[dT/T]` is the image, in the target of the Hodge–Tate maps,
@@ -1344,8 +1407,8 @@ image is `λ_1(cl([1 : 0]))`, and such that for every functor `N` on `p`-adic te
 is injective on `Hⁿ(N, S ↦ S[1/p])`.
 (c) For every `z ∈ ℙ^d(k)`, `λ_d(cl(z)) ≠ 0`.
 
-*Needs:* 2.2, 6.3, 6.6, 7.2; PadicComparisonForFunctorCohomology §§1.1, 6.1, 6.2, 6.3 (Hodge–Tate maps, square-zero
-thickening).
+*Needs:* 2.2, 5.3, 5.4, 6.3, 6.6, 7.2; PadicComparisonForFunctorCohomology §§1.1, 6.1, 6.2, 6.3 (Hodge–Tate maps,
+square-zero thickening).
 
 [ShortProof], `Lib/Cohomology/PointClass/ProjectiveNonvanishing` (`New.Variety.thickeningOver.oneSubMu`,
 `New.Variety.thickeningOver.shortExact_oneSubMu`, `New.Variety.hodgeTateMap_symbolClass`,
@@ -1354,14 +1417,15 @@ thickening).
 ### 7.4 Linear independence of point classes under the Hodge–Tate map
 
 *Origin:* adapted from the published theory of the compatibility of the Hodge–Tate comparison with cycle classes and
-traces: here, only the linear independence of the images of the distinct classes of rational points, without duality or
-a trace map.
+traces (Faltings (1988); for the transfer, Suslin and Voevodsky (1996), §§4–6): here, only the linear independence of
+the images of the distinct classes of rational points, without duality or a trace map.
 
-*Method of the formal proof:* for a point `z₀` and finitely many others, take a generic chart of the component of `z₀`
-and a Noether normalisation (7.1); the linear projection to `ℙ^d` is étale over a suitable point `Q`, and its fibre there
-consists of points with the class of `z₀`. Pull-back along the projection is injective (7.2) and `λ_d(cl(Q)) ≠ 0` (7.3),
-so an open part `j` of the graph of the projection kills the classes different from that of `z₀` and keeps
-`λ_d(cl(z₀))` non-zero.
+*Method of the formal proof:* in (a), the forms of a Noether normalisation (7.1) project the component of `z₀` to
+`ℙ^d`, and `W` is an open subfunctor of the graph of this projection that avoids every `z ∈ T` with `cl(z) ≠ cl(z₀)`,
+so that `j*` kills their classes; `λ_d(j*cl(z₀)) ≠ 0` comes from `λ_d(cl(Q)) ≠ 0` (7.3 (c)) for a `k`-point `Q` of
+`ℙ^d` over which the projection is étale and all points have the class of `z₀`, pull-back from `ℙ^d` being injective
+(7.2 (b)). For (b), a linear relation among the images is pulled back along the `j` of (a) for one of its classes,
+which leaves a single non-zero term.
 
 Let `k` be an algebraically closed field embedded in `ℚ̄_p`, `R` a ring with a map `R → k`, and `Y` a projective scheme
 over `R` whose functor of points on `k`-algebras has an atlas of dimension `d`.
@@ -1378,15 +1442,16 @@ there is a `k`-linear form `φ` on the target of `λ_d` with `φ(λ_d(cl(z))) = 
 
 ### 7.5 The Woods Hole formula, vanishing half
 
-*Origin:* adapted from the published theory of the holomorphic Lefschetz fixed point formula for correspondences:
-here, an implication from the vanishing of a combination of maps on Hodge classes under the Hodge–Tate
-map `λ_h` to the vanishing of the sum of the local terms of weight `h` at simple coincidences; no trace is computed.
+*Origin:* adapted from the published theory of the holomorphic Lefschetz fixed point formula for correspondences
+(Atiyah and Bott (1968); Kondyrev and Prikhodko (2022); SGA 5, Exposé III, 6.12): here, an implication from the
+vanishing of a combination of maps on Hodge classes under the Hodge–Tate map `λ_h` to the vanishing of the sum of the
+local terms of weight `h` at simple coincidences; no trace is computed.
 
-*Method of the formal proof:* pull the diagonal class `δ` of 6.6 back along `(u_i∘s_t, c)`, apply `φ∘λ_d` with `φ` the
-form of 7.4 (b), take the coefficient of `t^h` with a linear form on the functions `k → k` that reads off coefficients of
-polynomial functions (`k` is infinite), and sum with the weights `b_i`. By 6.6 this is the sum of the local terms; by the
-Künneth formula (6.4) `δ` is a sum of cross products, on which the product and scaling rules of `λ` isolate the terms
-`λ_h(u_i* x)`, `deg x ≤ d`, whose weighted sum vanishes by hypothesis (and which do not occur if `h > d`).
+*Method of the formal proof:* one quantity is computed in two ways: the `b_i`-weighted coefficient of `t^h` in the
+pull-backs of the class `δ` of 6.6 (c) along the scaled graphs of the `(u_i, c)`, read through `φ∘λ_d` with `φ` the
+form of 7.4 (b). By 6.6 (a)–(c) it equals the sum of the local terms; by the Künneth formula 6.4 and the scaling and
+product rules of PadicComparisonForFunctorCohomology §6.3 (a), (b) it involves only the classes `λ_h(u_i* x)` with
+`deg x ≤ d` (none if `h > d`), and so it vanishes by hypothesis.
 
 Let `E` be a field of characteristic `0`, `R ⊆ E` a subring, `k` an algebraically closed field embedded in `ℚ̄_p`
 with a map `E → k`, and `W`, `Y` schemes over `R`, `Y` proper and `W`
@@ -1412,9 +1477,9 @@ cohomology of 6.1.
 - Derived completeness for a principal ideal: Ext groups of functors with complete torsion-free coefficients are derived
   complete, and a comparison that is bijective modulo `π` is bijective (used in 3.4):
   PadicComparisonForFunctorCohomology §§3.1, 3.2.
-- `p`-adic tests, their tilts and generic fibres, `O_C`, `O^♭`, acyclicity of perfect algebras, flat base change, and
-  the tilted theory on `ℓ`-adic tests (used in 5.3, 5.4, 7.2, 7.3): PadicComparisonForFunctorCohomology §§1.1, 1.2, 1.3,
-  2.1, 5.1, 6.1.
+- `p`-adic tests, their tilts and generic fibres, `O_C`, `O^♭`, acyclicity of perfect algebras, flat base change, the
+  passage from almost coefficients to period coefficients, and the tilted theory on `ℓ`-adic tests (used in 5.3–5.5,
+  7.2, 7.3): PadicComparisonForFunctorCohomology §§1.1, 1.2, 1.3, 2.1, 5.1, 5.4, 6.1.
 - Compared cohomology theories and duality on products of projective lines (used in 5.6): PadicComparisonForFunctorCohomology
   §§4.1, 4.2, 4.3.
 - The Hodge–Tate maps `λ_h` with their naturality, scaling rule and product rule (used in 7.3–7.5):
@@ -1431,13 +1496,50 @@ cohomology of 6.1.
   `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₁'`,
   `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₂'`,
   `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₃'`.
+- The condition "of any two elements one divides the other", which is condition (iii) of 1.2 for a ring without
+  non-trivial idempotents: Mathlib `PreValuationRing`. Absolutely integrally closed rings and test rings (1.2) are not
+  in the libraries pinned here.
+- Noether normalisation of a finitely generated algebra over a field, by a finite injective map from a polynomial ring
+  (not by linear forms, so 7.1 (a) is not a case of it): Mathlib `exists_finite_inj_algHom_of_fg`.
+
+On Tau Ceti's main branch, later than the revision pinned here:
+
 - Absolutely integrally closed rings as in ArcTopologyAndDescent §0.1 (condition (i) of 1.2), with quotients,
   localisations, products and the case of fields: `TauCeti.IsAbsolutelyIntegrallyClosed`,
   `TauCeti.IsAbsolutelyIntegrallyClosed.quotient`, `TauCeti.IsAbsolutelyIntegrallyClosed.localization`,
-  `TauCeti.IsAbsolutelyIntegrallyClosed.pi`, `TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed`. The
-  condition "of any two elements one divides the other" is Mathlib `PreValuationRing`. Test rings (1.2) are not there.
+  `TauCeti.IsAbsolutelyIntegrallyClosed.pi`, `TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed`.
 - Derived completeness of modules by the telescope map `x ↦ (x_n − f·x_{n+1})`, with products and "adically complete
   implies derived complete" (the predicate of 3.4, for every element of an ideal): `TauCeti.IsDerivedComplete`,
   `TauCeti.IsDerivedComplete.of_isAdicComplete`, `TauCeti.IsDerivedComplete.pi`.
 - Linear Noether normalisation over an infinite field, by linear combinations of given generators (to build 7.1 (a)
   on): `TauCeti.exists_linear_normalization`.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/Cohomology`, with
+  `src/Lib/General/Geometry/EtaleCharts` and `src/Lib/General/Geometry/PointsOfProperSchemes`, and uses
+  `src/Lib/General/Algebra/LongExactSequences` in 1.1.
+- Artin, SGA 4, Exposés XII, XV and XVI (1973).
+- M. F. Atiyah, R. Bott, *A Lefschetz fixed point formula for elliptic complexes II*, Ann. of Math. 88 (1968).
+- Bhatt, Mathew, *The arc-topology*, Duke Math. J. 170 (2021).
+- A. Chatzistamatiou, K. Rülling, *Higher direct images of the structure sheaf in positive characteristic*, Algebra &
+  Number Theory 5 (2011).
+- Faltings, *p-adic Hodge theory*, J. Amer. Math. Soc. 1 (1988).
+- Hartshorne, *Residues and Duality* (1966).
+- Hatcher, *Algebraic Topology*.
+- Huber, Math. Ann. 295 (1993).
+- G. Kondyrev, A. Prikhodko, *Holomorphic Atiyah–Bott formula for correspondences*, Arnold Math. J. (2022).
+- Li, Reinecke, Zavyalov, arXiv 2410.08200.
+- Milne, *Étale Cohomology*.
+- Scholze, *Berkovich motives*, arXiv 2412.03382 (2024).
+- Scholze, *Étale cohomology of diamonds* (2017).
+- Scholze, *p-adic Hodge theory for rigid-analytic varieties*.
+- SGA 4, Exposé XVII.
+- SGA 4½, [Cycle].
+- SGA 5, Exposé III.
+- SGA 5, Exposé VII (Jouanolou).
+- V. Srinivas, *Gysin maps and cycle classes for Hodge cohomology*, Proc. Indian Acad. Sci. Math. Sci. 103 (1993).
+- The Stacks Project, Tags 095S, 09YQ, 0BEC, 0EYQ, 0G82.
+- Suslin, Voevodsky, *Singular homology of abstract algebraic varieties*, Invent. Math. 123 (1996).
+- Zavyalov, *Poincaré duality in abstract 6-functor formalisms*, arXiv 2301.03821.
