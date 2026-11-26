@@ -10,7 +10,9 @@ import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Transvection
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 It states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with
-`sorry`, together with the few definitions needed to state them; the forms are suggestions.
+`sorry`, together with the few definitions needed to state them; the forms are suggestions. The
+transformation formula `expSum_autMatrix` is proved here, because the definition of `autToGL`
+depends on it.
 
 Stated here: Nielsen's generation theorem and its four-generator form (§1.4); the
 abelianization representation, its transformation formula, its surjectivity and the inner
@@ -99,15 +101,6 @@ noncomputable def autToGL : MulAut (FreeGroup ι) →* GL ι ℤ :=
         ext i j
         have := congrFun (expSum_autMatrix γ (δ (FreeGroup.of j))) i
         simpa [autMatrix, Matrix.mul_apply, Matrix.mulVec, dotProduct] using this }
-
-theorem coe_autToGL (γ : MulAut (FreeGroup ι)) : (autToGL γ : Matrix ι ι ℤ) = autMatrix γ :=
-  rfl
-
-/-- The transformation formula, read through `autToGL` (§2.2). -/
-theorem expSum_apply (γ : MulAut (FreeGroup ι)) (w : FreeGroup ι) :
-    Multiplicative.toAdd (expSum (γ w)) =
-      (autToGL γ : Matrix ι ι ℤ) *ᵥ Multiplicative.toAdd (expSum w) :=
-  expSum_autMatrix γ w
 
 /-- `B` is surjective (§2.3). -/
 theorem autToGL_surjective : Function.Surjective (autToGL (ι := ι)) := by
