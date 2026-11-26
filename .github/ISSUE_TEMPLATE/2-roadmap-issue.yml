@@ -164,6 +164,7 @@ body:
         - DeformationAndDerivedPatchingAlgebraPartII
         - DeligneWeightsAndPurity
         - DeligneWeightsAndPurityPartII
+        - DelsarteTheoryOfCodesAndDesigns
         - DenoisingDiffusion
         - DerivedDeRhamCohomology
         - DerivedModuleAlgebra
@@ -207,6 +208,7 @@ body:
         - EnhancedDerivedSheaves
         - EnriquesSurfaces
         - EnriquesSurfacesAndIntegralNonexistence
+        - EquiangularLinesAndTwoGraphs
         - Equidistribution
         - EquivariantIntersectionTheory
         - ErdosProgressionPowers
@@ -508,6 +510,7 @@ body:
         - QuaternionicAnalysis
         - QuaternionicModularForms
         - QuiverRepresentationsPartII
+        - RamanujanGraphs
         - RamificationOfCompleteDiscretelyValuedFields
         - RamseyNumbers
         - RandomGraphs
@@ -604,6 +607,7 @@ body:
         - StackPointsAndResidualGerbes
         - StandardDistributions
         - StatisticalLearningTheory
+        - SteinsMethodForNormalApproximation
         - StochasticCalculus
         - StokesReciprocity
         - StringOrientation
