@@ -20,7 +20,7 @@ analytic at two singular points; orthogonality and integral equations rest on bo
 forms and the reductions to the hypergeometric function close the roadmap. The content is drawn from
 Ronveaux (ed.), *Heun's Differential Equations* (Part A by Arscott and others, and the confluent
 parts), Kristensson (*Second Order Differential Equations*, Chs. 3, 4 and 8), Haraoka (*Linear
-Differential Equations in the Complex Domain*, Chs. 4 and 7), Iwasaki–Kimura– Shimomura–Yoshida
+Differential Equations in the Complex Domain*, Chs. 4 and 7), Iwasaki–Kimura–Shimomura–Yoshida
 (*From Gauss to Painlevé*, Chs. 1–2), Olver (*Asymptotics and Special Functions*, Ch. 5),
 Whittaker–Watson (§§10.6–10.8 and Ch. XXIII), Maier's papers on the automorphisms and the
 hypergeometric reductions, and the NIST *Digital Library of Mathematical Functions* (DLMF), and each
@@ -442,7 +442,8 @@ tuples are computed and compared; the third follows from 3.1's uniqueness.
   `384` elements: the swap is not one of the `192`.
 - Kummer's `24` solutions of the hypergeometric equation (SpecialFunctionsHypergeometric 5.3) are
   `6` classes of `4`, the case `n = 3` of Maier's `2n` classes of `2^{n−2}(n − 1)!` (`8` classes of
-  `24` for `n = 4`); Whittaker–Watson (Ex. 10, p. 577) count `192` and record that Heun's own list
+  `24` for `n = 4`), not `4` classes of `6` as the closing sentence of DLMF §31.3(iii) says
+  (release 1.2.8); Whittaker–Watson (Ex. 10, p. 577) count `192` and record that Heun's own list
   has `48`.
 
 *Needs:* 2.1–2.2; 3.1.
@@ -1208,8 +1209,16 @@ The exponents are `μ_j = −(f₁λ_j + g₁)/(f₀ + 2λ_j)` (2.7.10): `μ₁ 
 ### Examples
 
 - Mathieu's equation `w″ + (a − 2q cos 2x)w = 0` is a confluent Heun equation in `z = cos² x`
-  (Ronveaux Part A, (2.4.13), p. 23; Kristensson §8.6.3, p. 161), and the spheroidal wave equation
-  is one in `z = (1 + x)/2` (Kristensson §8.6.2, pp. 160–161).
+  (Ronveaux Part A, (2.4.13), p. 23; Kristensson §8.6.3, p. 161): with no change of the unknown it
+  is 31.12.1 with `γ = δ = ½`, `ε = 0`, `α` equal to Mathieu's `q` and accessory parameter
+  `(a + 2q)/4`.
+- The spheroidal wave equation `(1 − x²)w″ − 2xw′ + (λ + c²(1 − x²) − μ²/(1 − x²))w = 0` is a
+  confluent Heun equation only after a change of the unknown (DLMF §31.12, after 31.12.1;
+  Kristensson §8.6.2, pp. 160–161, with the factor `(1 − x²)^{μ/2}` and his form (8.18)): in
+  `z = (1 + x)/2` the unknown `v` of `w = e^{κz}(z(1 − z))^{μ/2} v`, with `κ² = −4c²`, solves
+  31.12.1 with `γ = δ = μ + 1`, `ε = 2κ`, `α = 2κ(μ + 1)` and `q = κ(μ + 1) + λ − μ(μ + 1)`.
+  Without the exponential the coefficient of `w` tends to `4c²` at `∞`, and the characteristic roots
+  there are `±2ic`, not the `0` and `−ε` of 7.4.
 - The confluent equation with `δ = 0` and `q = α` is `zw″ + (γ + εz)w′ + αw = 0`, for `ε ≠ 0`
   Kummer's equation `ζu″ + (b − ζ)u′ − a′u = 0` in `ζ = −εz` with `b = γ`, `a′ = α/ε` (for
   `ε = −1`, `ζ = z` and `a′ = −α`). With `δ = 0` alone it is not: the coefficient
@@ -1262,20 +1271,27 @@ Prove:
   and `|z| < √2 − 1`, `Hl(2, αβ; α, β, γ, α + β − 2γ + 1; z) = F(α/2, β/2; γ; 1 − (1 − z)²)`;
 - **the cubic reduction** (`heunLocal_four_eq_ordinaryHypergeometric`): for `|z| < 1/3`,
   `Hl(4, αβ; α, β, ½, 2(α + β)/3; z) = F(α/3, β/3; ½; 1 − (1 − z)²(1 − z/4))`;
-- 31.7.4: near `0`, `Hl(½ + i√3/2, αβ(½ + i√3/6); α, β, (α + β + 1)/3, (α + β + 1)/3; z)` equals
+- **the cubic reduction at a sixth root of unity** (`heunLocal_sixthRoot_eq_ordinaryHypergeometric`,
+  31.7.4): for `(α + β + 1)/3 ∉ {0, −1, −2, …}` and `|z| < 1/7`,
+  `Hl(½ + i√3/2, αβ(½ + i√3/6); α, β, (α + β + 1)/3, (α + β + 1)/3; z)` equals
   `F(α/3, β/3; (α + β + 1)/3; 1 − (1 − (3/2 − i√3/2)z)³)`;
 - each identity extends, by the identity theorem, to the connected component of `0` in the set where
   both sides are defined by 3.1 and by the Gauss series.
 
 The radii keep the arguments in the unit disc: `|2z − z²| ≤ 2r + r² < 1` for `r < √2 − 1`, and
-`|(9/4)z − (3/2)z² + z³/4| < 1` for `|z| < 1/3`. Both sides solve Heun's equation (the right side by
-pulling back the hypergeometric equation along the polynomial map, which sends the singular points
-of Heun's equation to `0, 1, ∞` with the right ramification) and are `1` at `0`.
+`|(9/4)z − (3/2)z² + z³/4| < 1` for `|z| < 1/3`; with `b = 3/2 − i√3/2`, `|b| = √3`,
+`|3bz − 3b²z² + b³z³| ≤ 3√3 r + 9r² + 3√3 r³ < 0.95` for `r = |z| < 1/7`. Both sides solve Heun's
+equation (the right side by pulling back the hypergeometric equation along the polynomial map,
+which sends the singular points of Heun's equation to `0, 1, ∞` with the right ramification) and
+are `1` at `0`.
 
 **Checks.**
 - At `(α, β, γ, z) = (0.3, 1.1, 0.8, 0.3)` each of 31.7.2–31.7.4 holds to `10⁻³⁰`.
 - Negative control: in 31.7.2 with `δ = α + β − γ + 1` (one `γ` instead of `2γ`) the two sides
   differ by `3.42 · 10⁻³` at the same point.
+- 31.7.4 at `(α, β, z) = (0.3, 1.1, 0.13)`, inside `|z| < 1/7`: both sides are
+  `1.02769 50269 − 0.01708 58224 i` (to `10⁻⁴⁰`). Negative control: with the conjugate root
+  `½ − i√3/2` in place of `a` (and `q`, `b` unchanged) the two sides differ by `0.0579` there.
 
 *Needs:* 8.1; SpecialFunctionsHypergeometric 1.3.
 
@@ -1291,7 +1307,8 @@ Layer 3; SpecialFunctionsHypergeometric.
 
 - Lamé functions and ellipsoidal harmonics, whose equation is the case `γ = δ = ε = ½` of 2.4
   (Whittaker–Watson Ch. XXIII).
-- Mathieu and spheroidal wave functions, solutions of confluent Heun equations (7.4, Examples).
+- Mathieu and spheroidal wave functions, solutions of confluent Heun equations (Layer 7,
+  Examples).
 - PainleveEquations, whose classification of the Painlevé III and V equations in its 7.2 cites
   Heun-class equations; the isomonodromic side stays there.
 
@@ -1308,7 +1325,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 7. **Confluent forms** (7.1–7.4).
 8. **Reductions to the Gauss function** (8.1–8.2).
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the README
 attaches to it; it is not an exhaustive acceptance test, and the other headlines are targets of the
 same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer are statements to

@@ -30,8 +30,11 @@ not have, and what each lacks:
   (README 7.3–7.4) need AsymptoticExpansions' rank-one theory in logarithmic coordinates, which
   this file does not copy.
 
-Other headlines are left in prose although the pin has what they need, for example the Jacobi form
-of README 2.4 (with Tau Ceti's real Jacobi elliptic functions and complete elliptic integral).
+The other headlines without a Lean name are left in prose although the pin has what they need:
+the unnamed bullets of README 1.1–1.4, 2.1, 2.2, 3.1, 3.3, 3.4, 4.1, 4.3, 5.1, 5.2, 6.1 (the
+Lagrange identity), 6.3, 7.1, 7.2, 7.4 (the expansions of `f` and `g`), 8.1 and 8.2 (the extension
+by the identity theorem), and the Jacobi form and Lamé's equation of README 2.4 (with Tau Ceti's
+real Jacobi elliptic functions and complete elliptic integral).
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins; in Tau Ceti
 they live in the namespace `TauCeti`. They have their intended bodies, so that the conventions
@@ -517,6 +520,15 @@ theorem heunLocal_two_eq_ordinaryHypergeometric {α β γ z : ℂ} (hγ : ∀ n 
 theorem heunLocal_four_eq_ordinaryHypergeometric {α β z : ℂ} (hz : ‖z‖ < 1 / 3) :
     heunLocal 4 (α * β) α β (1 / 2) (2 * (α + β) / 3) z =
       ordinaryHypergeometric (α / 3) (β / 3) (1 / 2) (1 - (1 - z) ^ 2 * (1 - z / 4)) := by
+  sorry
+
+/-- **The cubic reduction at a sixth root of unity** (README 8.2; DLMF 31.7.4): `a = e^{iπ/3}`. -/
+theorem heunLocal_sixthRoot_eq_ordinaryHypergeometric {α β z : ℂ}
+    (hγ : ∀ n : ℕ, (α + β + 1) / 3 ≠ -n) (hz : ‖z‖ < 1 / 7) :
+    heunLocal (1 / 2 + Real.sqrt 3 / 2 * I) (α * β * (1 / 2 + Real.sqrt 3 / 6 * I)) α β
+        ((α + β + 1) / 3) ((α + β + 1) / 3) z =
+      ordinaryHypergeometric (α / 3) (β / 3) ((α + β + 1) / 3)
+        (1 - (1 - (3 / 2 - Real.sqrt 3 / 2 * I) * z) ^ 3) := by
   sorry
 
 /-! ## Mathlib and Tau Ceti declarations named in README.md -/
