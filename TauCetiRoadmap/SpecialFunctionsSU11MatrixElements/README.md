@@ -20,8 +20,9 @@ The nearest roadmaps are SpecialFunctionsGroupModels, which builds the function-
 `SU(1,1)`, the general matrix elements and their addition theorem, and which this roadmap reads in
 explicit functions; SpecialFunctionsSU2MatrixElements, the compact analogue, whose functions
 `d^j` are the analytic continuation of the `𝔓^ℓ` at integral and half-integral degree;
-SpecialFunctionsLegendre, which owns the functions `P^μ_ν` that the first column of `𝔓^τ`
-reproduces; [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) and
+[SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md), which owns the functions
+`P^μ_ν` that the first column of `𝔓^τ` reproduces;
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) and
 [LaguerreJacobi](../LaguerreJacobi/README.md), which supply the Gauss function and the Jacobi
 polynomials; and [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md), which owns
 the unitary dual and the Plancherel theorem of `SL(2, ℝ)` from which the Mehler–Fock transform is
@@ -57,7 +58,7 @@ Layer 5 is the hardest: the Mehler–Fock transform restricts the Plancherel the
 NoncompactQuantumSymmetry M4.P to one `K`-type. Within the layers: 1.2 uses 1.1; 1.3 and 1.4 use
 1.1–1.2; 1.5 uses 1.1–1.2 and 1.4; 2.1 uses 1.1, 1.3 and 1.4; 2.2 uses 1.1–1.2 and 1.4; 3.1 uses
 1.1, 3.2 uses 1.3 and 3.1, and 3.3 uses 1.1 and 1.5; 4.1 uses 1.1–1.2 and 1.5, and 4.2 uses 1.4 and
-4.1; 5.1 uses 1.1; 5.2 uses 1.1, 1.3, 1.4, 2.1 and 4.2, and 5.3 uses 1.1, 1.3, 4.2 and 5.2.
+4.1; 5.1 uses 1.1; 5.2 uses 1.1, 1.3, 1.4, 2.1 and 4.2, and 5.3 uses 1.1, 1.3, 2.1, 4.2 and 5.2.
 
 ## Conventions
 
@@ -672,7 +673,7 @@ decay from the equation of 4.2 at `n = 0`, which in `t` reads
 - Negative control: the kernel `P^{−1}_{−1/2+iρ}` with the density `ρ tanh(πρ)`, without the factor
   `|Γ(1/2 + iρ)/Γ(1/2 + iρ − m)|²`, gives `0.02467` at `m = 1`.
 
-*Needs:* 1.1, 1.3, 4.2, 5.2; NoncompactQuantumSymmetry M4.P.
+*Needs:* 1.1, 1.3, 2.1, 4.2, 5.2; NoncompactQuantumSymmetry M4.P.
 
 ## Worked examples
 
@@ -737,9 +738,10 @@ Not owned:
 - the representation theory of `SL(2, ℝ)`: irreducibility, equivalence, the classification and
   the Plancherel theorem (NoncompactQuantumSymmetry);
 - the functions `P^μ_ν` and `Q^μ_ν` and their analytic theory, including Laplace's integral and the
-  addition theorem for general degree (SpecialFunctionsLegendre); its scope leaves the Mehler–Fock
-  transformation to this roadmap, and this roadmap states its results through `𝔓^τ_{mn}` and
-  records the agreement with `P^μ_ν` in prose;
+  addition theorem for general degree
+  ([SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md)); its scope leaves the
+  Mehler–Fock transformation to this roadmap, and this roadmap states its results through
+  `𝔓^τ_{mn}` and records the agreement with `P^μ_ν` in prose;
 - the Jacobi functions `φ^{(α,β)}_λ` in general, the Harish-Chandra `c`-function and the Jacobi,
   Abel and Fourier transforms on hyperbolic spaces (SpecialFunctionsRankOneSymmetricSpaces).
 
@@ -797,9 +799,9 @@ naming the owner and the section, and imports no other roadmap.
 
 ### From SpecialFunctionsLegendre
 
-- 1.1: `P^μ_ν` on `(1, ∞)`, in 1.3; 1.4: the contiguous relations, in 4.1; 4.5: the behaviour at
-  infinity, in 2.1; 8.2: Laplace's first integral, in 1.3; 10.2: the addition theorem for general
-  degree, in 3.1.
+- [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) 1.1: `P^μ_ν` on `(1, ∞)`, in
+  1.3; 1.4: the contiguous relations, in 4.1; 4.5: the behaviour at infinity, in 2.1; 8.2:
+  Laplace's first integral, in 1.3; 10.2: the addition theorem for general degree, in 3.1.
 
 ### From LaguerreJacobi
 
