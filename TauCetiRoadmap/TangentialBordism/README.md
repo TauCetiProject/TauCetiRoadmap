@@ -3503,12 +3503,11 @@ theorems that consume it.
 
 - R. Thom, *Quelques propriétés globales des variétés différentiables*,
   Commentarii Math. Helv.28(1954),17–86,
-  [primary paper](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Thom1954.pdf),
   Théorèmes III.2–III.4, p.59, Corollaire III.7, p.62, and III.9 with the
   L⁷×L⁷ example, pp.62–63, for geometric realization; Théorème IV.12 and the low unoriented groups
   after it, pp.79–80, and Théorème IV.13, p.81, for the low oriented groups.
 - C. T. C. Wall, *Determination of the Cobordism Ring*, Annals of Math.
-  72(1960),292–311, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/cobord.pdf).
+  72(1960),292–311.
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Springer GTM218,
   2013, Chapter 6 for Sard's theorem, Whitney approximation and parametric
   transversality, and Theorems 21.10 and 21.13 for the quotient manifold theorem.
@@ -3544,12 +3543,12 @@ theorems that consume it.
   computations of the mod p cohomology of Eilenberg–MacLane spaces.
 - R. E. Stong, *Notes on Cobordism Theory*, Princeton University Press,1968;
   J. Milnor and J. Stasheff, *Characteristic Classes*, Princeton,1974,
-  [institutional TeXromancers edition](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/milnor-stasheff2.pdf),
+  TeXromancers edition,
   Problems 16-C–F, pp.203–204 of that edition, for the complex-to-real
   Newton comparison and the real/complex incidence hypersurfaces;
   Chapter 17 for bordism and Chapter 18 for the classical Thom comparison.
 - H. Miller, *Notes on Cobordism*, MIT lecture notes, version December 5, 2001,
-  [institutional copy](https://rezk.web.illinois.edu/miller-lecture-notes.pdf), for the spectral MO
+  for the spectral MO
   computation and the distinction between additive splitting and ring proof;
   Chapter 1, §4, Theorem 4.2 with the remark after it, p.10, for unoriented
   bordism of spaces as a homology theory.

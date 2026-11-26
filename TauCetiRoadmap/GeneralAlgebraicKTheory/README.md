@@ -3128,23 +3128,23 @@ Use its right-projective category over Rᵒᵖ as `P(R)`, with the native `finit
 In locators, T/P/D/C/E/L mean theorem/proposition/definition/corollary/exercise/lemma; numbers retain the source numbering. Page numbers prefixed I, II, III, IV or V refer to the author’s separately paginated chapter PDFs. Page numbers without a chapter prefix refer to the combined 2013 K-book, unless the reference explicitly identifies another paper or a preprint. Quillen and Waldhausen locators use the printed proceedings pages. A PDF-page locator is used for Karoubi’s scanned thesis, whose copy has several pagination systems.
 
 - Weibel, [The K-book](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf), combined draft dated 29 August 2013; separately paginated chapters [I](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.I.pdf), [II](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.II.pdf), [III](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.III.pdf), [IV](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.IV.pdf), [V](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.V.pdf).
-- Quillen, [Higher algebraic K-theory I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf), LNM 341 (1973), 85–147.
+- Quillen, Higher algebraic K-theory I, LNM 341 (1973), 85–147.
 - Quillen, [On the cohomology and K-theory of the general linear groups over a finite field](https://annals.math.princeton.edu/1972/96-3/p07), Annals of Mathematics 96 (1972), 552–586.
 - Atiyah, [Characters and cohomology of finite groups](https://www.numdam.org/item/PMIHES_1961__9__23_0/), Publications mathématiques de l’IHÉS 9 (1961), 23–64.
 - Evens–Friedlander, On K∗(ℤ/p²ℤ) and related homology groups, Transactions of the AMS 270 (1982), 1–46; Aisbett–Lluis-Puebla–Snaith, On K∗(ℤ/n) and K∗(F_q[t]/(t²)), Memoirs of the AMS 57, no.329 (1985). The specialized inputs are those cited in Schlichting 2002, §1.6, with the p>3 scope of Dugger–Shipley, Remark 4.9.
-- Waldhausen, [Algebraic K-theory of spaces](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kspaces.pdf), LNM 1126 (1985), 318–419.
+- Waldhausen, Algebraic K-theory of spaces, LNM 1126 (1985), 318–419.
 - Bühler, [Exact categories](https://arxiv.org/pdf/0811.1480v2), version 2.
 - May, [A concise course in algebraic topology](https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf), revised author PDF, Chapters 22 and 25.
-- Thomason–Trobaugh, [Higher algebraic K-theory of schemes and of derived categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/tt.pdf), Grothendieck Festschrift III (1990), 247–435.
+- Thomason–Trobaugh, Higher algebraic K-theory of schemes and of derived categories, Grothendieck Festschrift III (1990), 247–435.
 - Thomason, [The classification of triangulated subcategories](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/8FA43E2F659E004A21FE2F0652743CE8/S0010437X97000067a.pdf/div-class-title-the-classification-of-triangulated-subcategories-div.pdf), Compositio 105 (1997), 1–27.
 - Balmer–Schlichting, [Idempotent completion of triangulated categories](https://www.math.ucla.edu/~balmer/Pubfile/IdempCompl.pdf), Journal of Algebra 236 (2001), 819–834; locators use the revised preprint of 14 June 2000.
-- Schlichting 2003, [Negative K-theory of derived categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlneg.pdf), 16 June 2003 preprint; its numbering differs from the published article.
-- Schlichting 2002, [A note on K-theory and triangulated categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlk.pdf), Inventiones 150, 111–116.
+- Schlichting 2003, Negative K-theory of derived categories, 16 June 2003 preprint; its numbering differs from the published article.
+- Schlichting 2002, A note on K-theory and triangulated categories, Inventiones 150, 111–116.
 - Dugger–Shipley, [A curious example of two model categories and some associated differential graded algebras](https://www.math.uic.edu/~bshipley/dugger.shipley.curious.example.pdf), Algebraic & Geometric Topology 9 (2009), 135–166, Remark 4.9.
 - Karoubi 1970, [Foncteurs dérivés et K-théorie](https://webusers.imj-prg.fr/~max.karoubi/Publications/07.pdf), LNM 136, 107–186.
 - Karoubi 1971, [La périodicité de Bott en K-théorie générale](https://webusers.imj-prg.fr/~max.karoubi/Publications/09.pdf), Annales ENS 4, 63–95.
 - Cárdenas–Pedersen, [On the Karoubi filtration of a category](https://archive.mpim-bonn.mpg.de/547/1/preprint_1995_16.pdf), MPIM preprint 1995-16; locators use this preprint.
-- Carlsson–Pedersen, [Controlled algebra and the Novikov conjectures for K- and L-theory](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/carlped.pdf), Topology 34 (1995), 731–758.
+- Carlsson–Pedersen, Controlled algebra and the Novikov conjectures for K- and L-theory, Topology 34 (1995), 731–758.
 - Ranicki, [The algebraic theory of finiteness obstruction](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/finite.pdf), Math. Scand. 57 (1985), 105–126.
 - Clausen–Mathew–Morrow, [K-theory and topological cyclic homology of henselian pairs](https://arxiv.org/pdf/1803.10897v2), version 2; locators use its preprint pages.
 - Neeman, [A counterexample to vanishing conjectures for negative K-theory](https://arxiv.org/pdf/2006.16536v2), version 2.

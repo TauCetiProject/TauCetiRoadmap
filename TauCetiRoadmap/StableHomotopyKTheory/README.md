@@ -2856,10 +2856,10 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 ## References
 
 - Niles Johnson and Angélica M. Osorno, [Modeling Stable One-Types](https://arxiv.org/abs/1201.2686v3), arXiv:1201.2686v3 (2012), Prop. 3.4 and Remark 3.5, pp. 10–11 (JO).
-- Daniel Quillen, [Higher algebraic K-theory: I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf), Lecture Notes in Mathematics 341 (1973), pp. 85–147; locators use printed LNM pages.
+- Daniel Quillen, Higher algebraic K-theory: I, Lecture Notes in Mathematics 341 (1973), pp. 85–147; locators use printed LNM pages.
 - Charles A. Weibel, [The K-book: An introduction to algebraic K-theory, Chapter IV: Definitions of higher K-theory](https://www.math.rutgers.edu/~weibel/Kbook/Kbook.IV.pdf), online Chapter IV; chapter page numbers.
 - Charles A. Weibel, [The K-book: An introduction to algebraic K-theory, Chapter V: The fundamental theorems of higher K-theory](https://www.math.rutgers.edu/~weibel/Kbook/Kbook.V.pdf), online Chapter V; chapter page numbers.
-- Gunnar Carlsson; volume editors Eric M. Friedlander and Daniel R. Grayson, [Deloopings in algebraic K-theory (Handbook of K-theory, vol. 1, chapter I.1)](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/carldeloop.pdf), Handbook of K-theory I (2005), pp. 3–37; locators use printed pages.
+- Gunnar Carlsson; volume editors Eric M. Friedlander and Daniel R. Grayson, Deloopings in algebraic K-theory (Handbook of K-theory, vol. 1, chapter I.1), Handbook of K-theory I (2005), pp. 3–37; locators use printed pages.
 - Allen Hatcher, [Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), author’s online edition; printed pages and numbering of the 2002 edition.
 - Stefan Schwede, [Symmetric spectra (book project)](https://www.math.uni-bonn.de/~schwede/SymSpec-v3.pdf), preliminary version 3.0, 12 April 2012; printed pages.
 - Mark Hovey, Brooke Shipley, Jeff Smith, [Symmetric spectra](https://arxiv.org/abs/math/9801077v2), arXiv:math/9801077v2; manuscript pages.
@@ -2879,9 +2879,9 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 - A. K. Bousfield and E. M. Friedlander, [Homotopy theory of Γ-spaces, spectra, and bisimplicial sets](https://ncatlab.org/nlab/files/BousfieldFriedlanderSpectra.pdf), Lecture Notes in Mathematics 658 (1978), pp. 80–130; printed pages.
 - J. P. May, [Weak equivalences and quasifibrations](https://math.uchicago.edu/~may/PAPERS/67.pdf), 1990, pp. 91–101.
 - O. Randal-Williams, [Group-completion, local coefficient systems and perfection](https://www.dpmms.cam.ac.uk/~or257/notes/GCrem.pdf), 2013.
-- F. Waldhausen, [Algebraic K-theory of spaces](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kspaces.pdf), 1985, §§1.1–1.5.
+- F. Waldhausen, Algebraic K-theory of spaces, 1985, §§1.1–1.5.
 - C. Weibel, [The K-book, Chapter III](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.III.pdf), §1.3 and §§5.3–5.4.
-- J. M. Boardman, [Conditionally convergent spectral sequences](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/boardman-SS.pdf), 1999, §0, pp. 2–4, Def. 5.10 and Thms. 7.1, 8.2.
+- J. M. Boardman, Conditionally convergent spectral sequences, 1999, §0, pp. 2–4, Def. 5.10 and Thms. 7.1, 8.2.
 - D. Pavlov and J. Scholbach, [Symmetric operads in abstract symmetric spectra](https://arxiv.org/abs/1410.5699), 2018 manuscript, Thms. 4.1, 4.6 and 4.9, pp. 17–19.
 - J. F. Adams, A periodicity theorem in homological algebra, Proc. Cambridge Philos. Soc. 62 (1966), pp. 365–377, Thm. 2.1.
 - R. W. Thomason, Homotopy colimits in the category of small categories, Math. Proc. Cambridge Philos. Soc. 85 (1979), pp. 91–109, Thm. 1.2.

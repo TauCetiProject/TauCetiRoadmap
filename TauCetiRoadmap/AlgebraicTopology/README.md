@@ -5681,7 +5681,7 @@ lists what each of them takes.
   27 (1973), 1–23, §§1–4, Theorem 4.2 and Corollary 4.9.
 - Michael H. Freedman and Frank Quinn, *Topology of 4-Manifolds*, Princeton University Press,
   1990, §7.7.
-- John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Theorem 2, p.273, for the n-ad CW-type comparison, and Theorem 3 and Corollary 3, p.276, for function-space and based-loop CW type; its countable class W₀ is distinct from the general class W used here.
+- John Milnor, On Spaces Having the Homotopy Type of a CW-Complex, Theorem 2, p.273, for the n-ad CW-type comparison, and Theorem 3 and Corollary 3, p.276, for function-space and based-loop CW type; its countable class W₀ is distinct from the general class W used here.
 - John R. Klein, Cary Malkiewich and Maxime Ramzi, [*On the multiplicativity of the Euler
   characteristic*](https://arxiv.org/abs/2211.04992v2), arXiv:2211.04992v2 (2023),
   Introduction, pp.1–2, for fibration sequences of finite complexes, and Theorem A, p.2, for

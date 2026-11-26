@@ -2560,7 +2560,7 @@ The mathematical hypotheses above define the scope of each target. `Suggested.le
 
 - [Geometric invariants for real quadratic fields](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p08-p.pdf), William Duke, Özlem Imamoğlu and Árpád Tóth. Annals 184 (2016), 949–990; published PDF.
 
-- [Heegner points and derivatives of L-series](https://wstein.org/papers/bib/Gross-Zagier_Heegner_points_and_derivatives_of_Lseries.pdf), Benedict H. Gross and Don B. Zagier. Inventiones 84 (1986), 225–320; published scan.
+- Heegner points and derivatives of L-series, Benedict H. Gross and Don B. Zagier. Inventiones 84 (1986), 225–320; published scan.
 
 - [Test vectors for nonarchimedean Godement–Jacquet zeta integrals](https://arxiv.org/pdf/1903.02031v2), Peter Humphries. arXiv:1903.02031v2.
 

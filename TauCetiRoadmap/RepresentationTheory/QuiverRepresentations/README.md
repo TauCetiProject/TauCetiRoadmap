@@ -1058,12 +1058,10 @@ for basicness is assumed.
 - **ASS:** I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of
   Associative Algebras, Volume 1*, Cambridge, 2006. Exact locators are attached to each target;
   right-module formulas are adapted explicitly to left modules.
-  [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Assem%2C%20Simson%2C%20Skowronski%20-%20Elements%20of%20the%20representation%20theory%20of%20associative%20algebras.pdf).
 - **ARS:** M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*,
   Cambridge Studies in Advanced Mathematics 36, Cambridge, 1995. Cited for the arbitrary-field
   (Artin algebra) forms II.2.6, II.3 with II.4.1(c) and II.4.6, and V.1.14–1.15, and for the
   Auslander–Reiten formula as an equality of lengths, IV.4.1 and IV.4.6.
-  [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Auslander,%20Reiten,%20Smalo%20-%20Representation%20Theory%20of%20Artin%20Algebras.pdf).
 - **BGP:** I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's
   theorem*, Russian Mathematical Surveys 28:2 (1973), 17–32. Theorem 1.1, Lemma 2.3 and
   Theorem 3.1. [Author-hosted English translation](https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/BGG-CoxeterF-Usp.pdf).

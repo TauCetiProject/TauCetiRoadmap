@@ -371,7 +371,7 @@ The affine signature `TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
 
 Prove pointwise Hilbert–Samuel stabilization, the pointwise consequence of `hsLexStabilization`. Fix n. For ideals `I_j⊆K[[X₁,…,Xₙ]]`, if `H_{I_j}(ℓ)≥H_{I_{j+1}}(ℓ)` for every j,ℓ, then there is `j₀` such that all `H_{I_j}` with `j≥j₀` coincide. The statement concerns functions realized by formal ideals in fixed embedding dimension, not arbitrary natural-number-valued functions.
 
-([Edward Bierstone and Pierre D. Milman](https://www.researchgate.net/publication/255647609_Uniformization_of_Analytic_Spaces), Theorem 5.2.1 and proof, pp. 820–821).
+(Edward Bierstone and Pierre D. Milman, Theorem 5.2.1 and proof, pp. 820–821).
 
 For the proof, replace each ideal by its finite-vertex initial diagram. In a strictly decreasing subsequence, successive finite vertex prefixes can be fixed on infinite subsequences because Hilbert counts bound their degrees; then diagonalize these prefixes. Dickson finite generation forces the limit diagram to have finitely many vertices, contradicting continuing strict decreases.
 

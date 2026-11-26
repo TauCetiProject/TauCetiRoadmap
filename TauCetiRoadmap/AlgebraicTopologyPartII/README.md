@@ -1757,7 +1757,7 @@ The BW locators below and throughout the build refer to arXiv:1801.00872v3, whos
 - **DIMCA.** Alexandru Dimca. [Monodromy and Betti numbers of weighted complete intersections](https://doi.org/10.1016/0040-9383(85)90009-6). Topology 24 (1985), 369–374; Lemma 4 (uncertified locator).
 - **BRUMFIEL.** G. W. Brumfiel. [A Hopf fixed point theorem for semi-algebraic maps](https://doi.org/10.1007/BFb0084616). Lecture Notes in Mathematics 1524 (1992), 163–169 (uncertified locator).
 - **SCHEIDERER.** Claus Scheiderer. [Real and étale cohomology](https://doi.org/10.1007/BFb0074269). Lecture Notes in Mathematics 1588 (1994); Corollary 18.11 (uncertified locator).
-- **MILNOR-STASHEFF.** John W. Milnor; James D. Stasheff. [Characteristic Classes](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnstas.pdf). Annals of Mathematics Studies 76 (1974); Corollary 11.12, p.130, and Theorem 11.14, pp.132–133.
+- **MILNOR-STASHEFF.** John W. Milnor; James D. Stasheff. Characteristic Classes. Annals of Mathematics Studies 76 (1974); Corollary 11.12, p.130, and Theorem 11.14, pp.132–133.
 
 - **GM.** Mark Goresky; Robert MacPherson. [Stratified Morse Theory](https://www.math.ias.edu/~goresky/pdf/SMT.pdf). Ergebnisse der Mathematik, 3. Folge 14 (1988); Part II introduction p.148, §1.1* p.152, and Chapter 4 p.177; author-hosted scan.
 

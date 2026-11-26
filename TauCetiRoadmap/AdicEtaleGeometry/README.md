@@ -1983,8 +1983,8 @@ not replaced.
 **Non-sheafy controls.** The witnesses for *strongSheafy_nonSheafy*,
 *yoneda_nonSheafy*, and *yoneda_finite_nonSheafy* are cited, not constructed.
 For a complete non-sheafy Tate pair use the completion of the example in
-[Buzzard–Verberkmoes, *Stably uniform affinoids are sheafy*, arXiv:1404.7020v1,
-§4.1, Proposition 12, pp. 7–8](https://math.stanford.edu/~conrad/Perfseminar/refs/buzzardsheaf.pdf#page=7):
+Buzzard–Verberkmoes, *Stably uniform affinoids are sheafy*, arXiv:1404.7020v1,
+§4.1, Proposition 12, pp. 7–8:
 the nonzero global section represented by `Z` restricts to zero on both rational
 members `|T| ≤ 1` and `|T| ≥ 1`. For a **uniform** non-sheafy example use their
 §4.6, pp. 10–11. When formalised, the three controls retain a non-sheafiness hypothesis;
