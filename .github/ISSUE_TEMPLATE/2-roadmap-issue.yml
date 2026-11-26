@@ -585,6 +585,7 @@ body:
         - TracesOnCStarAlgebras
         - TropicalAndBerkovichArithmetic
         - TypeAHeckeAlgebras
+        - UniversalApproximation
         - VStackSheavesAndLisseCategories
         - VStackSheavesAndLisseCategoriesPartII
         - VariationalMethods
