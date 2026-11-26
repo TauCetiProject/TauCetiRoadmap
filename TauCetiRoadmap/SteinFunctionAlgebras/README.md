@@ -6,9 +6,9 @@ topology on its character space. Every unital complex-algebra homomorphism `O(X)
 evaluation at a unique point of `X`; for Stein `X` and `Y`, every unital complex-algebra
 homomorphism `O(Y) → O(X)` is composition with a unique holomorphic map `X → Y`. It proves the
 general Remmert–Narasimhan embedding theorem on which these statements rest: a Stein manifold of
-complex dimension `n` embeds properly and holomorphically into `ℂ^N` with `N ≤ 2n + 1`. It also proves the multiplicative Cousin problem (Cousin II) on Stein
-manifolds: a Cousin II datum is solvable exactly when the first Chern class of its associated
-holomorphic line bundle vanishes.
+complex dimension `n` embeds properly and holomorphically into `ℂ^N` with `N ≤ 2n + 1`. It also
+proves the multiplicative Cousin problem (Cousin II) on Stein manifolds: a Cousin II datum is
+solvable exactly when the first Chern class of its associated holomorphic line bundle vanishes.
 
 The hard analytic input is built elsewhere. RealAnalyticGeometry supplies the Stein criterion,
 Oka–Weil approximation, Cartan's theorems A and B for coherent analytic sheaves, the scalar Cousin I
@@ -287,7 +287,7 @@ because every holomorphic function extends across it.
   complex submanifold of positive dimension in `ℂ^N` is impossible by the maximum principle. This
   is consistent with `ℙ^1` not being Stein.
 - The graph of an entire function `g : ℂ → ℂ` is a closed complex submanifold of `ℂ^2` and is
-  Stein; the identity embedding has `N = 2 ≤ 5`.
+  Stein; the identity embedding has `N = 2 ≤ 3`.
 
 ### Dependencies
 
