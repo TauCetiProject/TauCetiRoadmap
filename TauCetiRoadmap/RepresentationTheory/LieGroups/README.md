@@ -1061,6 +1061,29 @@ equality `C_G(T) = T` of §6.7.
 - The character criterion on the circle: `t = e^{2πiθ}` generates a dense subgroup iff `θ` is
   irrational, iff `tⁿ ≠ 1` for every `n ≠ 0`, the characters of the circle being `z ↦ zⁿ`.
 
+*Tori and lattices.* Prove that `T ↦ ker(exp_T)` is an equivalence from compact connected
+commutative Lie groups to finitely generated free ℤ-modules. Neither pin has the categories; take
+the full subcategory of §4.3's category of Lie groups on the compact connected commutative groups,
+and the full subcategory of `ModuleCat ℤ` on the finitely generated free modules. The functor sends
+`T` to `(TauCeti.lieExpAddMonoidHom).ker.toIntSubmodule`, a full lattice in `𝔱`
+(`TauCeti.isZLattice_ker_lieExpAddMonoidHom`), and a homomorphism `f` to the restriction of its Lie
+map, which carries kernel into kernel by `ContinuousMonoidHom.map_lieExp`. Full faithfulness is
+`existsUnique_continuousMonoidHom_lieMap_ker`: every additive map of exponential kernels is the
+restriction of `lieMap f` for exactly one continuous homomorphism `f`. Route: uniqueness is
+`ContinuousMonoidHom.lieMap_injective`, as the kernel spans `𝔱`
+(`TauCeti.span_ker_lieExpAddMonoidHom_eq_top`); for existence extend the map `ℝ`-linearly, a Lie
+map since both algebras are abelian, and descend it through
+`TauCeti.lieExpQuotientKerContinuousAddEquiv`. Essential surjectivity: `ℤⁿ` is the kernel of the
+`n`-fold product of circles (Mathlib's `Prod.instLieGroup`; the one-point group for `n = 0`).
+*Needs:* §§3.1–3.2, §4.3's category of Lie groups; Tau Ceti as named.
+
+**Checks** for the lattice equivalence.
+- `Circle`, with `Lie(Circle) ≅ ℝ` by `circleLieAlgebraEquiv`, goes to the kernel `2πℤ ≅ ℤ`, and
+  `z ↦ z²` goes to multiplication by `2`.
+- Connectedness is needed: the finite group `ℤ/2` and the trivial group both have kernel `0`, and
+  the identity and the trivial endomorphism of `ℤ/2` have the same restriction.
+- Compactness is needed: `ℝ` has kernel `0`, and every `t ↦ ct` restricts to the zero map.
+
 ### 6.2 Homogeneous-space floor
 
 For a closed Lie subgroup `H ≤ G`, the free proper right action of `H` gives the smooth quotient
@@ -1305,7 +1328,7 @@ For `SU(2)` this recovers CompactGroups §E.4 (Tau Ceti `TauCeti.SU2.weyl_integr
 
 ### Dependencies
 
-Layers 0–5A; §2.4 and §4.3 for §6.6. CompactGroups §§0.1, 6.2 and E.1–E.4.
+Layers 0–5A; §4.3 for §6.1's lattice equivalence; §2.4 and §4.3 for §6.6. CompactGroups §§0.1, 6.2 and E.1–E.4.
 SmoothBundlesConnections B1.1 and B1.4. DifferentialGeometry 10.2–10.5. RootSystems through Tau
 Ceti's chamber theorems. Mathlib root pairings, Killing Lie algebras and Haar measure.
 
@@ -2183,10 +2206,10 @@ Lie algebra of an arbitrary subgroup (§2.1), the transport of the matrix groups
 the simple connectedness of `SU(2)` (§§2.3–2.4); the Baker–Campbell–Hausdorff series (§3.3); the
 integration theorems (§§4.1–4.4, 5.1); centres, adjoint groups and connected integrations (§5.2); the
 nilpotent BCH groups (§5.3); central characters (§5.4); the compact invariant metric (§5A.1); the
-maximal-torus theorems, the compact root system, the rank-one representatives, the Weyl group
-comparison and the Weyl integration formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. Of the lower
-analytic dictionary of §7.9 it owns the reductive part: the central torus, the derived subgroup and
-the central multiplication.
+equivalence of tori with their exponential lattices and the maximal-torus theorems, the compact
+root system, the rank-one representatives, the Weyl group comparison and the Weyl integration
+formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. Of the lower analytic dictionary of §7.9 it
+owns the reductive part: the central torus, the derived subgroup and the central multiplication.
 
 **Already in the library.** The following are proved at the pins and are used above by name (the
 exact declarations are in the supplier contracts below):

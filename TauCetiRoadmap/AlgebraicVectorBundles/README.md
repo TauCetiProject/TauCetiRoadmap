@@ -48,8 +48,8 @@ sequence from here. AdicSpacesPartIII uses the first two layers on formal scheme
 
 Layer 1 computes the stalks of a pulled-back module and proves the tensor theorem. Layer 2 proves
 exactness of flat pullback and the base change of internal Hom. Layer 3 treats powers and the
-determinant of an extension, and Layer 4 proves the recognition theorem. Layers 2 and 3 build on
-Layer 1; Layer 4 is independent of the others. The section that follows lists the labels under
+determinant of an extension, and Layer 4 proves the recognition theorem and makes relative Spec a
+right adjoint. Layers 2 and 3 build on Layer 1; Layer 4 is independent of the others. The section that follows lists the labels under
 which other roadmaps cite this one.
 
 ## How to read the build
@@ -71,7 +71,8 @@ label, with Tau Ceti paths relative to `TauCeti/AlgebraicGeometry/`:
   and RelativeSpec/UniversalProperty.lean; its `pullbackQuasicoherentAlgebra` is Tau Ceti's
   `QuasicoherentAlgebra.pullback`.
 - L1B (the relative-Spec anti-equivalence) is Tau Ceti's RelativeSpec/Equivalence.lean and
-  RelativeSpec/BaseChange.lean.
+  RelativeSpec/BaseChange.lean, with §4.2 for relative Spec as a right adjoint on quasi-compact
+  quasi-separated schemes over the base.
 - L2A (structured linear schemes) is Layer 4 for the module-scheme recognition; graded algebras,
   graded relative Spec and `QCoh(X)ᵒᵖ ≌ LinearSch(X)` are Tau Ceti's
   Modules/Quasicoherent/GradedAlgebra/, Modules/GradedAlgebra/, RelativeSpec/Graded.lean and
@@ -92,8 +93,9 @@ the stalks of symmetric and exterior powers, proves that these powers commute wi
 module sheaves, constructs the exterior multiplication of sheaf exterior powers and, on schemes,
 the determinant of a short exact sequence of vector bundles, with the direct sum and its sign as the
 split case, and compares the sheaf determinant with the graded-line determinant on affine opens.
-Layer 4 constructs the weight grading of an affine scheme with an action of `𝔸¹_X` and recognises
-linear schemes among module schemes. The layers are independent of one another except where a
+Layer 4 constructs the weight grading of an affine scheme with an action of `𝔸¹_X`, recognises
+linear schemes among module schemes, and proves relative Spec right adjoint to the function
+algebra on quasi-compact quasi-separated schemes over `X`. The layers are independent of one another except where a
 `*Needs:*` line says otherwise.
 
 ## Conventions
@@ -611,6 +613,28 @@ scheme is determined by its action, as the unique graded comultiplication restri
   neither action-preserving nor grading-preserving, consistently with the morphism
   correspondence.
 
+### 4.2 Relative Spec as a right adjoint
+
+Let `QcqsOver X` (a proposed name) be the full subcategory of `Over X` on the schemes `q : T → X`
+with `q` quasi-compact and quasi-separated. For such `q` the algebra `q_* 𝒪_T` is quasi-coherent
+(`Scheme.Modules.isQuasicoherent_pushforward`), so `overFunctions X` restricts to a functor
+`(QcqsOver X)ᵒᵖ ⥤ QuasicoherentAlgebra X`; affine morphisms are quasi-compact and
+quasi-separated, so `relativeSpec X` lands in `QcqsOver X`. Prove that `relativeSpec X` into
+`QcqsOver X` is right adjoint to the opposite of this function-algebra functor, with hom-set
+bijection the components of `relativeSpecHomIso`, whose naturality gives that of the adjunction.
+The counit at `A` is the canonical map from `A` to the function algebra of `Spec_X A`, invertible by
+`relativeSpecEquiv`, so `AffineSchemeOver X` is a reflective subcategory of `QcqsOver X` with
+reflector `T ↦ Spec_X(q_* 𝒪_T)`, and the unit at `T` is an isomorphism exactly when `q` is affine.
+*Needs:* Tau Ceti `relativeSpecHomIso`, `overFunctions`, `relativeSpecEquiv`,
+`Scheme.Modules.isQuasicoherent_pushforward`; Mathlib `Adjunction.mkOfHomEquiv`.
+
+**Checks.**
+- Quasi-compactness is needed: for `T` the disjoint union of countably many copies of
+  `X = Spec ℤ`, `q_* 𝒪_T = ∏ 𝒪_X` is not quasi-coherent, since over `D(p)` its sections are
+  `∏ ℤ[1/p]`, which contains `(p⁻ⁿ)ₙ`, and this lies outside `(∏ ℤ)[1/p]`.
+- `ℙ¹_k → Spec k` is quasi-compact and quasi-separated, with `q_* 𝒪 = k`; its reflection is
+  `Spec k`, and the unit `ℙ¹_k → Spec k` is not an isomorphism.
+
 ### Examples
 
 - `𝔸¹_X` itself, with addition and the multiplication action, is `linearSpec 𝒪_X`, and its weight
@@ -618,7 +642,8 @@ scheme is determined by its action, as the unique graded comultiplication restri
 
 ### Dependencies
 
-Tau Ceti linear schemes, graded symmetric algebras and the module structure on `Spec_X Sym F`.
+Tau Ceti linear schemes, graded symmetric algebras and the module structure on `Spec_X Sym F`;
+for §4.2, Tau Ceti relative Spec and quasi-coherence of qcqs pushforward.
 
 ## Downstream consumers
 
@@ -661,8 +686,9 @@ The roadmap owns:
   naturality, associativity and pullback compatibility, the direct sum with its Koszul sign as the
   split case, and the comparison on affine opens of the sheaf determinant with the ring-level
   determinant of PadicMeasuresIwasawaAlgebras §5.1 as graded lines (Layer 3);
-- the weight grading of an affine scheme with an action of the multiplicative monoid `𝔸¹_X`, and
-  the recognition of linear schemes among module schemes over `𝔸¹_X` (Layer 4).
+- the weight grading of an affine scheme with an action of the multiplicative monoid `𝔸¹_X`, the
+  recognition of linear schemes among module schemes over `𝔸¹_X`, and relative Spec as a right
+  adjoint to the function algebra on quasi-compact quasi-separated schemes over `X` (Layer 4).
 
 Already at the pins, and consumed rather than restated (Tau Ceti at `2fd255d9`; paths relative
 to `TauCeti/AlgebraicGeometry/`):

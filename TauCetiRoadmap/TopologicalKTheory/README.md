@@ -877,6 +877,22 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    stable bundle and pullback classification; BO/BU denote these connected
    Grassmannian models.
 
+   **Grassmannian as a representing object (part of T1.6a).** Let HoPara be
+   the homotopy category of paracompact Hausdorff spaces: Mathlib's
+   `CategoryTheory.Quotient` of the full subcategory of `TopCat` on these
+   spaces by `ContinuousMap.Homotopic`. By T1.4's homotopy invariance,
+   X↦Vect_k(X), the set of isomorphism classes of rank-k numerable 𝕜-bundles
+   on X in T1.1's small model with pullback of classes, is a functor
+   HoParaᵒᵖ⥤Type. Prove Gr_k∞(𝕜) an object of HoPara, being a Hausdorff CW
+   complex (AlgebraicTopology Stage 4.7's paracompactness), and package the
+   fixed-rank classification above as a `Functor.RepresentableBy` of this
+   functor by Gr_k∞(𝕜), lifted to the universe of the bases: its bijection is
+   [X,Gr_k∞(𝕜)]≃Vect_k(X), [f]↦[f*γ_k] for the universal tautological bundle
+   γ_k, and its naturality is the composite-pullback isomorphism
+   (f∘g)*γ_k≅g*(f*γ_k).
+   *Needs:* T1.1, T1.4, the fixed-rank classification and universal bundle
+   above; AlgebraicTopology Stage 4.7.
+
    **Checks.**
    - In rank one, Gr_1∞(ℝ)=RP∞ has one cell in each degree and
      Gr_1∞(ℂ)=CP∞ one in each even degree; the universal line restricted to
@@ -893,6 +909,11 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
      point is recovered only by the ℤ factor of BO×ℤ, with [pt,BO×ℤ]=ℤ; a
      disjoint union of the fixed-rank carriers in place of the colimit would
      give ℕ and admit no inverse as in T7.0.
+   - The representing object needs the homotopy category: over X=[0,1]
+     every rank-k bundle is trivial, so Vect_k([0,1]) is a point, while
+     C([0,1],Gr_k∞(𝕜)) has more than one element for k≥1. Over X=S¹,
+     [S¹,RP∞] has two elements, the free homotopy classes, as π₁(RP∞)=ℤ/2
+     is abelian, matching the trivial and the Möbius line.
 
    **T1.6b. Actual BO/BU sum and coherent coordinate homotopies.** Define
    the finite-stage block sum by interleaving: i↦2i on the first ambient

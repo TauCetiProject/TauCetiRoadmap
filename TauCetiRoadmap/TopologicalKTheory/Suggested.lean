@@ -34,8 +34,10 @@ place:
 * the (1,1)-periodicity of Real K-theory (T7.1): no KR-group of a space with involution;
 * the eightfold stable Bott equivalence `ℤ × BO → Ω⁸(ℤ × BO)` (T7.1): no stable
   Grassmannian `BO`;
-* numerable `BU(n)`/`BO(n)` classification (T1.6a): no stable Grassmannian colimit carriers
-  `Gr_k∞(𝕜)`, `BO` and `BU`.
+* numerable `BU(n)`/`BO(n)` classification (T1.6a), and its packaging as a representation of
+  the rank-`k` bundle functor on the homotopy category of paracompact Hausdorff spaces by
+  `Gr_k∞(𝕜)`: no stable Grassmannian colimit carriers `Gr_k∞(𝕜)`, `BO` and `BU`, no
+  variable-rank bundle category, and no homotopy category of unpointed spaces.
 
 The finite Grassmannian carriers, the finite trivial embedding and complement, the gap
 partition of unity, the finite oriented carriers and the principal-bundle class that T1.3,

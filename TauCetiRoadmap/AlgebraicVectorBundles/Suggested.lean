@@ -50,7 +50,11 @@ Headline theorems of the roadmap that are not statable at the pins:
 * the recognition of linear schemes as the module schemes over `𝔸¹_X` whose coordinate algebra
   is free in degree one (Layer 4): the grading of the coordinate algebra of an affine scheme over
   `X` induced by an action of the multiplicative monoid `𝔸¹_X`, and the category of such module
-  schemes, are missing.
+  schemes, are missing;
+* relative Spec as a right adjoint to the function algebra on quasi-compact quasi-separated schemes
+  over `X` (Layer 4, §4.2): the function-algebra functor into `QuasicoherentAlgebra X` on that
+  subcategory of `Over X` is missing, and it is data; its hom-set bijection is Tau Ceti's
+  `relativeSpecHomIso`.
 -/
 
 namespace TauCetiRoadmap.AlgebraicVectorBundles

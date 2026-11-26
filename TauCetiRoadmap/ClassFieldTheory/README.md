@@ -1151,6 +1151,21 @@ The norm-subgroup and existence interface consists of the following laws:
   `π = 2` this is `U(K,1)·⟨2⟩ = ℚ₂ˣ`. Both theorems on the class field of `U(K,n)·⟨π⟩` assume
   `[CharZero K]`.
 
+Prove the **norm-subgroup Galois insertion**, which extends the characteristic-zero
+correspondence from abelian layers to every open normal subgroup `V` of `G_K`: for
+`N : LocalNormSubgroups K`, `localNormOpenSubgroup K V ≤ N ↔ V ≤ (localClassField N).1`
+(`localClassField_galoisConnection`), and with `localClassField_normSubgroup` the pair is a Galois
+insertion. On fields: a finite Galois extension `L/K` contains the class field of `N` exactly when
+`N_{L/K}(Lˣ) ≤ N`. The induced closure operator is the maximal abelian sublayer,
+`(localClassField (localNormOpenSubgroup K V)).1 = V.maximalAbelianLayer`
+(`localClassField_localNormOpenSubgroup`). Prove the same in the prime-to-`p` scope, with `V`
+ranging over layers of degree prime to `p`. *Route:* rewrite `N` by `localClassField_normSubgroup`
+and apply `localNormSubgroup_le_iff_of_isAbelian`; the closure equation is
+`localClassField_unique` with `localNormSubgroup_maximalAbelianLayer`. *Needs:* those names and
+`isAbelianClassFieldLayer_maximalAbelianLayer`. *Checks:* the insertion is not an order
+isomorphism. For `p ≡ 2 mod 3` let `V` cut out `ℚ_p(ζ₃, p^{1/3})`, with group `S₃`; then
+`V < V.maximalAbelianLayer`, which cuts out the quadratic subfield `ℚ_p(ζ₃)`.
+
 One proof route is: norm subgroups first define the normic topology and its
 completion; norm limitation precedes `localAbelianExistence_primeToResidueCharacteristic`; the
 Layer 5 Kummer theory then gives `localAbelianExistence` in characteristic zero, after which

@@ -102,7 +102,8 @@ Items map to sections as follows.
   §4.9 is the realization of a product of simplicial sets, and §4.10 is connected maps,
   weak equivalences and CW approximation.
 - Stage 5 items 1–7 are §§5.1–5.7; the Serre-fibration predicate used by item 5 is Tau
-  Ceti's (supplier contracts). §5.0 is the spectral sequence of a filtered complex.
+  Ceti's (supplier contracts). §5.0 is the spectral sequence of a filtered complex, and §5.8
+  the equivalence of pointed connected covers with subgroups of the fundamental group.
 - Stage 6 items 0–5 are §§6.0–6.5; of item 0, the generic tower algebra other than the
   homotopy-square maps is Tau Ceti's `TauCeti.ModuleTower` (supplier contracts). §6.6 is
   the product-ball intersection theorem `productBallImages_intersect` with its
@@ -1292,10 +1293,11 @@ homotopy sequence and the Serre spectral sequences are §5.5's. §5.0 is homolog
 algebra on native filtered complexes and consumes no topology; Layer 6.0's lim¹ sequence
 supplies its complete-convergence form.
 
-This layer consumes Layers 2--4, with one exception: the product maps of item 1 (the
+This layer consumes Layers 2--4, with two exceptions: the product maps of item 1 (the
 Alexander--Whitney and Eilenberg--Zilber maps, the shuffle map, and the chain homotopies between
 them) consume only Layer 2 and can proceed alongside Layers 3 and 4.  The Kunneth spectral
-sequence and theorems of item 1, and items 2--7, consume all of Layers 2--4.
+sequence and theorems of item 1, and items 2--7, consume all of Layers 2--4. Item 8, pointed
+covers and subgroups, consumes only Tau Ceti's covering-space classification.
 
 ### 5.0 Spectral sequence of a filtered complex
 
@@ -1771,6 +1773,36 @@ Eilenberg--Zilber and Eilenberg--Mac Lane's acyclic-model proof, Hatcher Section
 mapping-torus calculation follows the mapping-cone derivation of the Wang sequence; transfer
 follows Hatcher Section 3.G, and the bundle filtration follows Serre's skeletal construction.
 
+### 5.8 Pointed covers and subgroups
+
+*Needs:* Tau Ceti's pointed lifting criterion and classification by recovered subgroups
+(`IsCoveringMap.exists_continuousMap_comp_eq_iff_range_le`,
+`IsCoveringMap.exists_homeomorph_comp_eq_iff_range_eq`), the subgroup covers
+`TauCeti.UniversalCover.subgroupCover` with `TauCeti.UniversalCover.range_mapOfEq_subgroupQuotientProj`,
+and the degree-`n` carriers `TauCeti.ConnectedPointedCover`, `TauCeti.ConnectedPointedCoverClass`
+with `TauCeti.ConnectedPointedCoverClass.mk_eq_mk_of_range_eq`, from the completed
+universal-covers roadmap. No homology is used, so this item can proceed alongside Layers 2–4.
+
+Let X be path-connected, locally path-connected and semilocally simply connected, with base point
+x₀. Connected covers of X with a chosen lift of x₀, and maps over X carrying lift to lift, form a
+category with at most one map between two objects. Prove that the recovered subgroup
+p_*π₁(E, e₀) is an equivalence of this category with the poset `Subgroup (FundamentalGroup X x₀)`
+regarded as a category (Hatcher, Theorem 1.38): unique lifting gives faithfulness, the lifting
+criterion gives fullness, and the subgroup cover gives essential surjectivity. For n ≠ 0 derive the
+index-n slice, a bijection from `TauCeti.ConnectedPointedCoverClass x₀ n` onto the subgroups of
+index n sending a class to its recovered subgroup (`exists_connectedPointedCoverClass_equiv_index`
+in `Suggested.lean`; the degree is the index, Hatcher, Proposition 1.32). For the thrice-punctured
+sphere, prove that the pinned `TauCeti.MarkedIsoClass.subgroupEquiv` is this slice composed with
+the inverse of `TauCeti.ConnectedPointedCoverClass.markedClassEquiv`.
+
+**Checks.**
+
+- The universal cover is initial (subgroup ⊥) and the identity cover is terminal (subgroup ⊤).
+- Connectedness is needed: over X = S¹, the cover S¹ ⊔ S¹ → S¹ given by the identity on each
+  component, pointed in the first, recovers all of π₁(S¹), like the identity cover, but is not
+  isomorphic to it.
+- n ≠ 0 is needed: over S¹ the trivial subgroup has infinite index, so `Subgroup.index` is 0,
+  while `TauCeti.ConnectedPointedCover x₀ 0` is empty, its fibre containing the chosen point.
 
 ### Examples
 
@@ -1778,7 +1810,7 @@ The two-sheet point cover sends a generator to the two lifted generators; projec
 
 ### Dependencies
 
-*Needs:* Layer 2 for product chain maps; Layers 3–4 for filtrations and cellular comparisons; Tau Ceti's Serre-fibration API for bundle lifting.
+*Needs:* Layer 2 for product chain maps; Layers 3–4 for filtrations and cellular comparisons; Tau Ceti's Serre-fibration API for bundle lifting; for §5.8 only Tau Ceti's covering-space classification.
 ## Layer 6: cohomology, products, and manifold duality
 
 The homotopy-square maps, topological tower adapters, raw cochain, coefficient and cup
@@ -4602,6 +4634,7 @@ supplement or the categorical Lusternik–Schnirelmann supplement unless named e
 | 4.10 connected maps/weak equivalences/CW approximation | 2--4, Tau Ceti's homotopy groups, weak-equivalence invariance and CW approximation of path-connected spaces, and 4.5's mapping-cylinder/cofibration API | 1 |
 | 5.0 filtered-complex spectral sequence | Tau Ceti's filtered-complex spectral sequence; 6.0's Milnor/lim¹ sequence for complete convergence | 1--4, 6.0 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
+| 5.8 pointed covers and subgroups | Tau Ceti's pointed covering classification and subgroup covers only | 1--4, 6--8 |
 | 5 bundles/covers/finite covers | 2--4; Tau Ceti Serre-fibration API; homotopy LES, path fibrations and homology SS from 1–4, 4.10 and 5.0; cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 homotopy-square maps | Tau Ceti tower algebra and Mathlib mapping cones only | 1–5, 7–8 |
 | 6.0 topological tower adapters | 2–4; Tau Ceti tower algebra; 6.0 homotopy-square maps | 5, 7–8 |
@@ -4625,7 +4658,8 @@ supplement or the categorical Lusternik–Schnirelmann supplement unless named e
 | 8.14–8.16 applications | 4.1 lifted CW structures, 6.1 universal coefficients, 6.3 noncompact top-degree vanishing and Tau Ceti's compact-manifold vanishing, 8.1–8.8 and 8.10; 8.14 additionally ClassifyingSpaces items 1.1 and 1.2 for its case n=1; 8.16 additionally 4.4, 6.5 and 5.5's homotopy lifting for Serre fibrations | 7 and 8.13 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
-Layer 5, except that Layer 2 alone feeds the product maps of Layer 5 item 1; and every layer from
+Layer 5, except that Layer 2 alone feeds the product maps of Layer 5 item 1 and §5.8 needs none
+of them; and every layer from
 2 through 6 feeds Layer 7.  No implementation may reverse one of these arrows by assuming a
 downstream comparison theorem as input.
 ## Worked examples
@@ -4718,7 +4752,9 @@ stated coefficient generality.
    cellular-approximation, and skeletal-induction APIs make those comparisons usable.
 4. Mapping tori, finite covers, finite open covers, and fibre bundles have reusable chain-level
    tools: Wang and transfer sequences, coefficient-sensitive Kunneth theorems, Cartan--Leray and
-   Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex.
+   Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex;
+   pointed connected covers form a category equivalent to the subgroups of the fundamental
+   group.
 5. Singular cohomology, cup and cap products, twisted relative fundamental
    classes, both local-coefficient Poincare--Lefschetz forms and their oriented
    integral corollaries, and Euler characteristic are available with naturality.
@@ -5567,7 +5603,8 @@ named in this section is cited as it is at those revisions.
 
 Universal-cover construction, deck transformations, quotient covers, basepoint change
 and the induced maps on homotopy groups (the completed roadmap). Layer 8 consumes the
-induced-map and basepoint API with its path-connectedness hypotheses; nothing here
+induced-map and basepoint API with its path-connectedness hypotheses; §5.8 consumes the pointed
+classification of connected covers by recovered subgroups and the subgroup covers; nothing here
 constructs another universal cover.
 
 ### From TauCetiRoadmap.GeometricTopology

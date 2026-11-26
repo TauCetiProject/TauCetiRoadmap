@@ -745,6 +745,19 @@ API:
   `FDRep.cliffordSum`;
 - `e` is the number of copies of `V` in `Res_N W`; when `V` has scalar endomorphisms it is
   `finrank k (V ⟶ Res_N W)`, and in general that dimension is `e · finrank k (V ⟶ V)`.
+- the action behind the orbit statement: package `TauCeti.Representation.conjSubrep` as an action
+  of `G` on the `N`-subrepresentations of `Res_N W` by order automorphisms, with value
+  `TauCeti.Representation.conjSubrepOrderIso g` at `g` (laws `conjSubrep_one` and
+  `conjSubrep_conjSubrep`), and the induced action `g · c = ρ(g)(c)` on the isotypic components of
+  `Res_N W`. Prove that the action on components is transitive, that the stabilizer of the
+  component of a simple constituent `σ` is `TauCeti.inertia` of `σ`, and that
+  `Representation.isotypicComponentsEquivQuotientInertia` is `G`-equivariant for left
+  multiplication on `G ⧸ T`, hence is the orbit–stabilizer bijection
+  `MulAction.orbitEquivQuotientStabilizer`. *Needs:* `TauCeti.Representation.isAtom_conjSubrep_iff`,
+  `TauCeti.Representation.isotypicComponents_eq_range` (transitivity),
+  `Representation.mem_inertia_fdRepOf_toRepresentation_iff` (stabilizer). *Check:* over `ℂ`, the
+  two-dimensional simple representation of `S₃` restricts to `A₃` as `λ ⊕ λ²`; a transposition
+  swaps the two components, so `T = A₃` and `G ⧸ T` has two elements.
 
 *Route.* Tau Ceti proves over every field that the isotypic components of `Res_N W` form one orbit
 under `G` (`TauCeti.Representation.exists_isAtom_forall_nonempty_linearEquiv_conjSubrep`), that
@@ -1508,6 +1521,9 @@ consume the following.
   `FDRep.cliffordSum` and `FDRep.finrank_cliffordSum`; `FDRep.LiesOver`;
   `TauCeti.Representation.exists_isAtom_forall_nonempty_linearEquiv_conjSubrep`,
   `Representation.isotypicComponentsEquivQuotientInertia`,
+  `TauCeti.Representation.conjSubrepOrderIso`, `conjSubrep_one`, `conjSubrep_conjSubrep`,
+  `isAtom_conjSubrep_iff`, `isotypicComponents_eq_range`,
+  `Representation.mem_inertia_fdRepOf_toRepresentation_iff`,
   `Representation.exists_forall_finrank_linearMap_eq` and
   `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype` (every field);
   `Subgroup.resFDRep`; `FDRep.clifford_restrict_iso` (algebraically closed),

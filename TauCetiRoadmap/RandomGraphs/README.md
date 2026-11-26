@@ -39,7 +39,7 @@ and with its dependencies.
 | 6 | Exact witness laws and quantitative extension-failure bounds | 0, 4; native Bernoulli/binomial probability |
 | 7 | Finite FO limits, uniform rank bounds and joint almost-sure stabilization | 5–6; Borel–Cantelli |
 | 8 | Rooted logical limits and worked asymptotic graph properties | 3–7; native connectivity/clique APIs |
-| 9 | Infinite random graphs, graphon compatibility and invariant-event laws | 0, 4–7; DenseGraphLimits and Exchangeability |
+| 9 | Infinite random graphs, graphon compatibility, invariant-event laws and the mixture correspondences as measurable and topological isomorphisms | 0, 4–7; DenseGraphLimits and Exchangeability |
 | 10 | Actual infinitary comparison and nonconvergence examples | 4, 7, 9; InfinitaryLogic syntax |
 | 11 | A reusable Poisson criterion; sparse triangles and a graphon FO counterexample | 0, 6, 9; finite counting, integration, native Poisson law |
 
@@ -1223,6 +1223,38 @@ do not claim invariance under all relabelings.
 - For the Rado graph it is `2/3` at `n = 3`: of the pairs in `{0, 1, 2}`, `{0, 1}` and `{1, 2}`
   are edges and `{0, 2}` is not.
 
+### 9.5 The mixture correspondences as structured isomorphisms
+
+*Needs:* Exchangeability and DenseGraphLimits through Tau Ceti `TauCeti.Probability.deFinettiEquiv`,
+`MeasureTheory.Measure.deFinettiBarycenter`, `TauCeti.DenseGraphLimits.mixtureExchangeableLawEquiv`,
+`TauCeti.DenseGraphLimits.mixtureExchangeableLaw_law`,
+`TauCeti.MeasureTheory.probabilityMeasureCode_injective`; Mathlib
+`Measurable.measurableEmbedding` and the compactness of `ProbabilityMeasure` over a compact space.
+
+Upgrade the two pinned mixture bijections. For a standard Borel state space `α`, prove that
+`deFinettiEquiv` and its inverse are measurable for the Giry measurable spaces
+(`measurable_deFinettiEquiv`, `measurable_deFinettiEquiv_symm`), and package them as a
+`MeasurableEquiv`. *Route:* the barycenter `π ↦ ∫ P^{⊗ℕ} dπ(P)` is the Giry join composed with
+the measurable map `P ↦ P^{⊗ℕ}`, measurable on cylinders. For the inverse, show that the Giry space
+of a standard Borel space is standard Borel (give `α` a Polish topology; the weak topology is
+Polish with the Giry σ-algebra as its Borel σ-algebra) and apply Lusin–Souslin through
+`Measurable.measurableEmbedding`, the target being countably separated by
+`TauCeti.MeasureTheory.probabilityMeasureCode_injective`. The pins lack that standard Borel
+instance.
+
+Give `ExchangeableGraphLaw` the topology induced by its finite marginal masses `L.law k {G}`, and
+prove that `mixtureExchangeableLawEquiv` is a homeomorphism; on sequences and filters this is
+`tendsto_iff_tendsto_mixtureExchangeableLaw`. *Route:* each marginal mass is the integral of an
+induced density, continuous on `GraphonSpaceI`, so the map is continuous; its source is compact
+and the target Hausdorff, since the marginals determine the law.
+
+**Checks.**
+
+- The point mass at the constant graphon with value `p` has `L.law 2 {⊤} = p`, continuous in `p`,
+  as the homeomorphism requires; at `p = 1/2` its triangle mass `L.law 3 {⊤}` is `1/8`.
+- The half-empty/half-complete mixture also has `L.law 2 {⊤} = 1/2`, but `L.law 3 {⊤} = 1/2`.
+  Marginals of a single size do not separate mixing measures, so the topology uses every `k`.
+
 ### Examples
 
 - The half-empty/half-complete mixture gives the sentence "there exists an edge" probability
@@ -1235,7 +1267,8 @@ do not claim invariance under all relabelings.
 ### Dependencies
 
 Layers 0 and 4–7; DenseGraphLimits for the samplers, their consistency, sampling convergence and
-mixtures; Exchangeability for the ergodic array theory. Layers 10–11 use the infinite laws.
+mixtures, including `mixtureExchangeableLawEquiv`; Exchangeability for the ergodic array theory and
+the de Finetti correspondence `deFinettiEquiv`. Layers 10–11 use the infinite laws.
 
 ## Layer 10 — Infinitary distinctions with actual sentences
 
@@ -1604,7 +1637,7 @@ The following are suppliers, not requests to rebuild their objects.
 | [Tau Ceti `ModelTheory/RelationalConfiguration/ModelsOf.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/RelationalConfiguration/ModelsOf.lean) and [`Combinatorics/SimpleGraph/RelationalConfiguration.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Combinatorics/SimpleGraph/RelationalConfiguration.lean) at `2fd255d99`, with [`ModelTheory/RelationalConfiguration/Structure.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/RelationalConfiguration/Structure.lean) | `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`: on a countable carrier, the configurations realizing an infinitary formula with countable branching, at fixed free- and bound-variable assignments, form a measurable set; `RelationalConfiguration.toStructure_ofStructure` (in `Structure.lean`); the graph coding `SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and, on a countable carrier, `SimpleGraph.measurableEmbedding_toRelationalConfiguration`. They do not state that the coding decodes to `G.structure`; that identity is CountableStructureSpaces' target `toStructure_toRelationalConfiguration`, and the resulting graph events, at fixed assignments included, are CountableStructureSpaces' Layer 2 |
 | CountableStructureSpaces, Layers 0 and 2 | `toStructure_toRelationalConfiguration` (Layer 0): the decoded structure of `G.toRelationalConfiguration` is `G.structure`. The graph events (Layer 2): `measurableSet_setOf_realize_graph`, every Lω₁ω sentence defines a measurable set of graphs on `ℕ`, and the same pullback of `measurableSet_setOf_realize` at fixed free- and bound-variable assignments. Consumed in 0.3 for the fixed-assignment graph events and in Layer 9 for the sentence events on `SimpleGraph ℕ` |
 | [DenseGraphLimits, Layers 9a–c](../../Completed/DenseGraphLimits/README.md) | Finite and infinite graphon sampling, finite restrictions, exchangeable graph laws, dissociation, mixtures and sampling convergence |
-| [Exchangeability, array layers](../../Completed/Exchangeability/README.md) | Generic array exchangeability, dissociation and ergodic/extreme-measure machinery |
+| [Exchangeability, array layers](../../Completed/Exchangeability/README.md) | Generic array exchangeability, dissociation and ergodic/extreme-measure machinery; the de Finetti correspondence `TauCeti.Probability.deFinettiEquiv` (9.5) |
 | [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) | Vertex connectivity `SimpleGraph.IsVertexConnected` (Tau Ceti `Combinatorics/SimpleGraph/Connectivity/VertexConnectivity.lean`; `k : ℕ∞`, more than `k` vertices and connected after deleting fewer than `k`), deletion, separators and their graph interfaces |
 | [StandardDistributions](../StandardDistributions/README.md) | Bernoulli/binomial/Poisson laws and their ordinary distribution API |
 

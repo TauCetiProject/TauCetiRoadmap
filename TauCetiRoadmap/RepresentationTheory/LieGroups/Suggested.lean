@@ -9,6 +9,8 @@ import TauCeti.Geometry.Lie.Subgroup.Torus
 import TauCeti.Geometry.Lie.Subgroup.Weyl.Density
 import TauCeti.Algebra.Group.NormalizerQuotient.Basic
 import TauCeti.Analysis.Matrix.Normed
+import TauCeti.Geometry.Lie.Exponential.CommutativeGroup.Basic
+import TauCeti.Geometry.Lie.ContinuousFunctor
 
 /-!
 # Lie groups and the Lie algebra correspondence: target signatures
@@ -37,6 +39,9 @@ Headline theorems of the README that are not statable at the pins, and what each
 * Layer 4, the coreflection of §4.3 (integration left adjoint to the Lie functor): the pins have
   neither category nor the Lie functor, and the integration functor is data whose objects are the
   groups of Lie's third theorem, so a `sorry`'d functor would be `sorry`'d data.
+* Layer 6, the equivalence `T ↦ ker(exp_T)` of §6.1 from compact connected commutative Lie groups
+  to finitely generated free `ℤ`-modules: the pins have neither category, and the functor is data;
+  its full faithfulness is stated (`existsUnique_continuousMonoidHom_lieMap_ker`).
 * Layer 6, the identification of the geometric Weyl group `N_G(T)/T` with `RootPairing.weylGroup`
   of the compact real root datum, and the positive-root form `∏ |1 − α(t)⁻¹|²` of the Weyl
   density: no root datum is attached to a compact Lie group at the pins; `TauCeti.Lie.weylDensity`
@@ -237,6 +242,33 @@ theorem lieExp_surjective_of_isNilpotent [ConnectedSpace G]
 end Covers
 
 /-! ## Layer 6: maximal tori, the Weyl group, and Weyl integration -/
+
+section Tori
+
+variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {G : Type w} [TopologicalSpace G] [ChartedSpace H G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
+  [IsMulCommutative G] [CompactSpace G] [ConnectedSpace G]
+  {E' : Type u'} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  {H' : Type v'} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+  {G' : Type w'} [TopologicalSpace G'] [ChartedSpace H' G']
+  [Group G'] [LieGroup I' ∞ G'] [T2Space G'] [BoundarylessManifold I' G']
+  [IsMulCommutative G'] [CompactSpace G'] [ConnectedSpace G']
+
+/-- **Tori and their exponential lattices** (full faithfulness): for compact connected
+commutative Lie groups `G` and `G'`, every additive map between the kernels of their exponentials
+is the restriction of the Lie map of exactly one continuous homomorphism `G →ₜ* G'`. With
+essential surjectivity onto finitely generated free `ℤ`-modules this is the equivalence
+`T ↦ ker(exp_T)` of the README, §6.1; for `Circle` the kernel is `2πℤ`, and `z ↦ z²` restricts to
+multiplication by `2`. -/
+theorem existsUnique_continuousMonoidHom_lieMap_ker
+    (g : (TauCeti.lieExpAddMonoidHom (I := I) (G := G)).ker →+
+      (TauCeti.lieExpAddMonoidHom (I := I') (G := G')).ker) :
+    ∃! f : G →ₜ* G', ∀ X : (TauCeti.lieExpAddMonoidHom (I := I) (G := G)).ker,
+      ContinuousMonoidHom.lieMap (I := I) (I' := I') f X = g X := sorry
+
+end Tori
 
 section Structure
 

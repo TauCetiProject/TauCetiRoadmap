@@ -769,6 +769,22 @@ theorem isIrreducible_iff_discriminated {X : Type*} [Finite X]
         ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) (MonoidHom.id G) := by
   sorry
 
+/-- Isomorphism of algebraic sets is isomorphism of coordinate groups (§5.12 (4)), for an
+arbitrary coefficient homomorphism `ι`, empty algebraic sets included: the coordinate groups are
+isomorphic under `G` exactly when there are mutually inverse word maps between the algebraic
+sets. It follows from the anti-equivalence `Γ` of §5.12 (4), since a fully faithful functor
+reflects isomorphisms. -/
+theorem coordGroup_iso_iff_wordMap_iso {X Y H : Type*} [Group H] (ι : G →* H)
+    (S : Set (GX G X)) (T : Set (GX G Y)) :
+    (∃ e : CoordGroup ι T ≃* CoordGroup ι S, ∀ g : G,
+        e (QuotientGroup.mk (Monoid.Coprod.inl g)) = QuotientGroup.mk (Monoid.Coprod.inl g)) ↔
+      ∃ (w : Y → GX G X) (w' : X → GX G Y),
+        Set.MapsTo (fun v y ↦ evalAt ι v (w y)) (algSet ι S) (algSet ι T) ∧
+        Set.MapsTo (fun u x ↦ evalAt ι u (w' x)) (algSet ι T) (algSet ι S) ∧
+        (∀ v ∈ algSet ι S, (fun x ↦ evalAt ι (fun y ↦ evalAt ι v (w y)) (w' x)) = v) ∧
+        ∀ u ∈ algSet ι T, (fun y ↦ evalAt ι (fun x ↦ evalAt ι u (w' x)) (w y)) = u := by
+  sorry
+
 /-- The radical of `x²` over a free group is the normal closure of `x`, not of `x²` (§5.2). -/
 theorem rad_sq :
     radical (MonoidHom.id (FreeGroup (Fin 2))) {Monoid.Coprod.inr (FreeGroup.of ()) ^ 2} =

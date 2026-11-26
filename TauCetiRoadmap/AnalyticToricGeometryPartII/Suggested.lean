@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Geometry.Toric.Analytic.Fan.Orbit.Basic
 
 /-!
 # Analytic toric geometry, Part II: target signatures
@@ -39,10 +40,33 @@ one of the substantial constructions specified in the roadmap:
   Corollary 8.8 (Layer 6), need the preceding intersection theory, algebraic zero
   loci, analytification and the toric projection.
 
+* The orbit–cone correspondence as an order isomorphism from the cones of a
+  regular fan onto the order dual of the torus orbits of its complex analytic
+  realization, ordered by `O ≤ O'` when `O ⊆ closure O'` (§0.7), is data and
+  needs that partial order on `MulAction.orbitRel.Quotient`, which the pins lack.
+  Its one missing order axiom, antisymmetry, is stated below.
+
 All remain headline targets in README.md. There are no weakened substitute
 statements, data axioms or API and boundary-case declarations here.
 -/
 
 namespace TauCetiRoadmap.AnalyticToricGeometryPartII
+
+universe u
+
+open Set
+
+/-! ## Layer 0: §0.7 The orbit–cone correspondence as an order isomorphism -/
+
+/-- **The closure order on torus orbits is antisymmetric.** For a regular fan, two torus orbits
+of the analytic realization each contained in the closure of the other are equal. With
+reflexivity and transitivity of `O ⊆ closure O'` this makes the closure relation a partial order
+on the orbits, the order of §0.7. -/
+theorem orbit_eq_of_subset_closure_of_subset_closure {N V : Type u} [AddCommGroup N]
+    [AddCommGroup V] [Module ℝ V] {i : N →+ V} (Φ : TauCeti.Toric.Fan i) (hΦ : Φ.IsRegular)
+    (q q' : MulAction.orbitRel.Quotient (TauCeti.Toric.ComplexTorus N)
+      (Φ.analyticRealization hΦ))
+    (h : q.orbit ⊆ closure q'.orbit) (h' : q'.orbit ⊆ closure q.orbit) : q = q' := by
+  sorry
 
 end TauCetiRoadmap.AnalyticToricGeometryPartII

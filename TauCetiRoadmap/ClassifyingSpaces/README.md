@@ -68,8 +68,10 @@ the target give the map, and the homotopy extension property of the `0`-skeleton
 point and, in the uniqueness clause, makes two maps agree on the `0`-skeleton so that the pinned
 one-skeleton criterion applies. An arbitrary base point is then reduced to a vertex along a path,
 through the homotopy extension property of a point, which item 1.1 proves from pinned NDR data
-in the skeleton of the cell containing the point. The last item of Layer 1 upgrades the pinned
-uniqueness up to base-point change to pointed uniqueness, by Whitehead's theorem. Layer 2
+in the skeleton of the cell containing the point. Item 1.3 upgrades the pinned
+uniqueness up to base-point change to pointed uniqueness, by Whitehead's theorem, and item 1.4
+packages items 1.1 and 1.2 for the target `BG` as an adjunction between the fundamental group and
+the pinned classifying-space functor. Layer 2
 defines the comparison of the (co)homology of an arbitrary Hausdorff CW `K(G, 1)` with group
 (co)homology by pulling the pinned comparison for Milnor's model back along the pointed
 comparison map of Layer 1, proves that the result depends only on the chosen identification of
@@ -470,6 +472,32 @@ The two are related by the pinned comparison of the models: `c_X` is pointed hom
   definition that chose the base-point-changed equivalence of
   `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` without the correction of 1.1
   would not be pointed.
+
+### 1.4 The fundamental group is left adjoint to the classifying space
+
+In one universe `u`, let 𝒞 be the full subcategory of the pinned `TauCeti.PointedHomotopyCat` on
+the path-connected Hausdorff CW complexes with an arbitrary base point, the sources of items 1.1
+and 1.2. The pinned `TauCeti.classifyingSpaceHomotopyFunctor` lands in 𝒞
+(`TauCeti.instPathConnectedSpaceClassifyingSpace`, `TauCeti.instCWComplexClassifyingSpace`,
+`TauCeti.instT2SpaceClassifyingSpace`). Prove that the restriction of
+`TauCeti.PointedHomotopyCat.fundamentalGroupFunctor` to 𝒞 is left adjoint to B : GrpCat ⥤ 𝒞. The
+hom-equivalence `(π₁(X, x) →* G) ≃ [X, BG]_*` sends `φ` to the class inducing
+`(classifyingSpaceFundamentalGroupMulEquiv G).symm ∘ φ`, a bijection by items 1.1 and 1.2 with
+`Y = BG`, aspherical by `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`; the counit is the
+pinned `TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso`. As the counit is
+an isomorphism, B is fully faithful.
+
+*Needs:* (1.1), (1.2); Tau Ceti `TauCeti.PointedHomotopyCat`,
+`TauCeti.PointedHomotopyCat.fundamentalGroupFunctor`, `TauCeti.classifyingSpaceHomotopyFunctor`,
+`TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso`; Mathlib
+`CategoryTheory.Adjunction`, `CategoryTheory.ObjectProperty.FullSubcategory`.
+
+**Checks.**
+- `G = 1`: `BG` is contractible and the adjunction says that `[X, BG]_*` is a point.
+- The CW hypothesis on the source is needed: the Warsaw circle `W` has trivial fundamental group,
+  so `Hom(π₁(W), ℤ)` is a point, but the map `W → S¹` collapsing its limit segment to a point is not
+  null-homotopic, and composing it with the pinned `TauCeti.circleToClassifyingSpace` gives a
+  pointed map to Milnor's model of `ℤ` that is not pointed homotopic to the constant map.
 
 ### Examples
 
@@ -899,6 +927,8 @@ with no finiteness, countability, presentation or torsion hypothesis.
    the pointed form is owned here,
    together with its corollary that any Hausdorff CW `K(G, 1)` is pointedly homotopy equivalent to
    both pinned models, compatibly with the identifications of the fundamental groups.
+   On path-connected Hausdorff CW complexes the fundamental group is left adjoint to the pinned
+   classifying-space functor to the pointed homotopy category (Layer 1, item 1.4).
 3. **(Co)homology of any Hausdorff CW `K(G, 1)`** (Layer 2). The comparison of its singular
    homology and cohomology with `groupHomology` and `groupCohomology`, with trivial coefficients
    (items 2.1 and 2.2) and with the local system of a representation of `G` (item 2.3), fixed by

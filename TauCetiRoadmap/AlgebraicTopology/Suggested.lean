@@ -12,7 +12,9 @@ public import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
 public import TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz
 public import TauCeti.AlgebraicTopology.SerreClass.PowerTorsion
 public import TauCeti.AlgebraicTopology.SerreClass.Torsion
+public import TauCeti.AlgebraicTopology.SemilocallySimplyConnected.Basic
 public import TauCeti.AlgebraicTopology.Singular.Relative
+public import TauCeti.AlgebraicTopology.UniversalCover.Classification.NumberedFiber
 public import TauCeti.Topology.CWComplex.Classical.CWType
 public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
 public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
@@ -24,7 +26,8 @@ public import TauCeti.Topology.Homotopy.SerreFibration.Basic
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are CW approximation of
 an arbitrary space (§4.10); the relative form of the homotopy sequence of a Serre fibration
-(§5.5); the cup-length bound
+(§5.5); the index-`n` slice of the classification of pointed connected covers (§5.8); the
+cup-length bound
 for the Lusternik–Schnirelmann count; Poincaré duality by cap with a fundamental class and its
 twisted, boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection
 theorem (§6.6); the bundle formula for the Euler characteristic; absolute Hurewicz in every
@@ -80,7 +83,10 @@ Whitehead needs compactly supported singular cohomology with pullback along prop
 carrier of its hypothesis, which neither pinned library has. Of the smooth-manifold CW-type
 headlines, the boundary-pair and marked-point forms need a homotopy equivalence of pairs, and the
 countable locally finite CW type of a noncompact manifold needs a local-finiteness predicate on
-CW models. These constructions remain README targets, not admitted data here.
+CW models. The equivalence of §5.8 between pointed connected covers and the poset of subgroups
+of the fundamental group needs a category of pointed connected covers, which the pins lack; its
+index-`n` slice is stated below. These constructions remain README targets, not admitted data
+here.
 -/
 
 public section
@@ -93,7 +99,8 @@ universe u v
 
 noncomputable section
 
-/-! ## Layers 4 and 5: CW approximation and the homotopy sequence of a Serre fibration -/
+/-! ## Layers 4 and 5: CW approximation, the homotopy sequence of a Serre fibration and pointed
+covers -/
 
 /-- **CW approximation of an arbitrary space** (§4.10; Hatcher, Proposition 4.13): every space
 is the target of a weak homotopy equivalence from a space of CW type. The path-connected case is
@@ -117,6 +124,21 @@ theorem relHomotopyGroup_map_bijective_of_mem_serreFibrations {E B : TopCat.{u}}
       (Y := ⟨TopPair.ofSubset (X := B) {b}, ⟨b, rfl⟩⟩)
       ⟨TopPair.ofSubsetMap p (fun _ hx => hx),
         Subtype.ext ((TopPair.ofSubsetMap_snd_apply p _ _).trans he)⟩) := by
+  sorry
+
+/-- **The index-`n` slice of the pointed classification of covers** (§5.8; Hatcher, Theorem 1.38
+and Proposition 1.32): over a path-connected, locally path-connected, semilocally simply
+connected base, for `n ≠ 0`, the classes of pointed connected covers of degree `n` correspond to
+the subgroups of index `n` of `π₁(X, x₀)`, each class going to its recovered subgroup. -/
+theorem exists_connectedPointedCoverClass_equiv_index (X : TopCat.{u}) [PathConnectedSpace X]
+    [LocallyPathConnectedSpace X] [TauCeti.SemilocallySimplyConnectedSpace X] (x₀ : X) (n : ℕ)
+    [NeZero n] :
+    ∃ e : TauCeti.ConnectedPointedCoverClass x₀ n ≃
+        {H : Subgroup (FundamentalGroup X x₀) // H.index = n},
+      ∀ c : TauCeti.ConnectedPointedCover x₀ n,
+        (e (TauCeti.ConnectedPointedCoverClass.mk c)).1 =
+          (FundamentalGroup.mapOfEq ⟨c.cover.proj, c.cover.isCoveringMap_proj.continuous⟩
+            c.e.2).range := by
   sorry
 
 /-! ## Layer 6: the LS bound and manifold duality -/

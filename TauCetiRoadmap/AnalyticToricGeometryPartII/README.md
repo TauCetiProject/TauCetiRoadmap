@@ -12,7 +12,7 @@ The approximation theorems take Σ complete and regular, K perfectoid, Y⊂XΣ,K
 
 This is the second part of AnalyticToricGeometry, which stops at the algebraic and complex analytic geometry of finite regular fans. It builds on ShimuraCompactifications for the toric scheme over every commutative ring, and on PerfectoidSpaces for tilting, limits of perfectoid towers and the perfectoid étale site. DeligneWeightsAndPurityPartII uses π, the cohomology comparison and the approximation theorems.
 
-Layer 0 builds the section modules and presents the class group by the fan, identically over every field. Layer 1 constructs AΣ,K and the power maps. Layer 2 builds the perfected charts and a perfectoid graded algebra of sections. Layers 3 and 4 prove the comparison and cohomology theorems. Layer 5 approximates an equation of Y from the tilt, with coefficients in k₀, and clears p-power denominators. Layer 6 computes intersection numbers from the fan and the invariant divisors alone, hence identically over every field; their positivity forces the approximating hypersurfaces to meet. Each subsection ends by listing the sections, roadmaps and library declarations it needs.
+Layer 0 builds the section modules and presents the class group by the fan, identically over every field, and orders the torus orbits of the complex realization by closure. Layer 1 constructs AΣ,K and the power maps. Layer 2 builds the perfected charts and a perfectoid graded algebra of sections. Layers 3 and 4 prove the comparison and cohomology theorems. Layer 5 approximates an equation of Y from the tilt, with coefficients in k₀, and clears p-power denominators. Layer 6 computes intersection numbers from the fan and the invariant divisors alone, hence identically over every field; their positivity forces the approximating hypersurfaces to meet. Each subsection ends by listing the sections, roadmaps and library declarations it needs.
 
 ## Conventions
 
@@ -163,13 +163,26 @@ One proof route is the following. Use the invariant-representative theorem for s
 
 *Needs:* §0.4; §0.1; §0.5; `TauCeti.AlgebraicGeometry.WeilDivisor.OrderSystem.ofScheme`; SchemeAndStackFoundations §§0.7, 0.17–0.18, 3.4 and 4.13, including gap:split-torus-divisors.
 
+### 0.7 The orbit–cone correspondence as an order isomorphism
+
+For a regular fan Σ, order the torus orbits of its complex analytic realization by O≤O′ when O⊆closure O′, and prove that the pinned orbit–cone bijection `TauCeti.Toric.Fan.coneEquivOrbitRelQuotient` is an order isomorphism from the cones of Σ onto the order dual of the orbits: τ≤σ exactly when O(σ)⊆closure O(τ). Reflexivity and transitivity are immediate; antisymmetry is `orbit_eq_of_subset_closure_of_subset_closure`. The order isomorphism is then the pinned bijection with `TauCeti.Toric.Fan.analyticConeOrbit_subset_closure_iff` and `TauCeti.Toric.Fan.orbit_coneEquivOrbitRelQuotient`. AnalyticToricGeometry Layer 4, item 2, asks for this order-reversing equivalence; the library realizes it as a bijection with the closure criterion, and this section supplies the order structure. (Fulton, *Introduction to Toric Varieties*, §3.1; Cox–Little–Schenck, *Toric Varieties*, Theorem 3.2.6.)
+
+One proof route for antisymmetry is the following. Write both orbits as cone orbits and apply `TauCeti.Toric.Fan.analyticConeOrbit_subset_closure_iff` twice; antisymmetry of cone inclusion finishes. Without the fan, antisymmetry follows when orbits are locally closed (`TauCeti.Toric.Fan.isLocallyClosed_analyticConeOrbit`): O is open in closure O=closure O′, and O′ is dense there, so O′ meets O and the orbits coincide.
+
+**Checks.**
+
+- For the fan of ℙ¹ the zero cone gives the open orbit ℂ×, and each ray gives a fixed point, 0 or ∞, lying below ℂ× in the closure order; the two fixed points are incomparable, as the two rays are.
+- Antisymmetry is not formal: for ℝ acting on the real torus ℝ²/ℤ² by an irrational linear flow every orbit is dense, so any two orbits lie in each other's closures, yet they are distinct.
+
+*Needs:* AnalyticToricGeometry Layer 4; `TauCeti.Toric.Fan.coneEquivOrbitRelQuotient`, `TauCeti.Toric.Fan.orbit_coneEquivOrbitRelQuotient`, `TauCeti.Toric.Fan.analyticConeOrbit_subset_closure_iff`, `TauCeti.Toric.Fan.isLocallyClosed_analyticConeOrbit`.
+
 ### Examples
 
 On ℙ¹, D=dD₋ gives the basis 1,t,…,tᵈ for d≥0, no sections for d<0, and character class map u↦(u,−u). Over k[ε]/ε² the degree-zero sections retain ε; over the zero ring the entire module is zero. The zero-cone rank-one fan has no boundary divisors and admits every Laurent character.
 
 ### Dependencies
 
-Mathlib monoid algebras, modules and tensor products; Tau Ceti toric and Weil-divisor modules; AnalyticToricGeometry Layer 0; ShimuraCompactifications §0.1 and §§0.4–0.7 (orbit ideals, stratum quotients and their coefficient change), §0.9 and §§0.16–0.18; SchemeAndStackFoundations §3.4, gap:split-torus-divisors; AdicSpacesPartIII R2.2 and R2.10 for integral completion.
+Mathlib monoid algebras, modules and tensor products; Tau Ceti toric and Weil-divisor modules, and for §0.7 the orbit–cone correspondence in `TauCeti/Geometry/Toric/Analytic/Fan/Orbit/Basic.lean`; AnalyticToricGeometry Layer 0, and Layer 4 for §0.7; ShimuraCompactifications §0.1 and §§0.4–0.7 (orbit ideals, stratum quotients and their coefficient change), §0.9 and §§0.16–0.18; SchemeAndStackFoundations §3.4, gap:split-torus-divisors; AdicSpacesPartIII R2.2 and R2.10 for integral completion.
 
 ## Layer 1: unit toric formal generic fibres
 
@@ -679,7 +692,7 @@ On ℙ¹×ℙ¹, the ray balance rows are (1,0,−1,0) and (0,1,0,−1). The vec
 
 ## Scope and ownership
 
-AnalyticToricGeometry stops at algebraic and complex analytic geometry of finite regular fans. Its Layer 0, the algebraic supplier, and the pinned Tau Ceti toric modules own integral lattices, rational salient cones, primitive rays, dual semigroups, Gordan finite generation and the complex fan scheme. This Part II extends that direction to arbitrary coefficient rings for divisor modules and to nonarchimedean and perfectoid geometry; singular finite fans remain admitted wherever regularity is not stated. Classification of all toric varieties and Sumihiro's theorem are outside this fan-parametrized scope.
+AnalyticToricGeometry stops at algebraic and complex analytic geometry of finite regular fans. Its Layer 0, the algebraic supplier, and the pinned Tau Ceti toric modules own integral lattices, rational salient cones, primitive rays, dual semigroups, Gordan finite generation and the complex fan scheme. This Part II extends that direction to arbitrary coefficient rings for divisor modules and to nonarchimedean and perfectoid geometry; singular finite fans remain admitted wherever regularity is not stated. Classification of all toric varieties and Sumihiro's theorem are outside this fan-parametrized scope. §0.7 is complex analytic and completes Part I's Layer 4 orbit–cone correspondence; it sits here because Part I is completed, and it only adds the order structure to the pinned bijection.
 
 The following objects are already in the library or stated by their named suppliers and are not constructions of this roadmap: Mathlib's monoid algebras, continuous functions vanishing at infinity and bounded linear extension from a dense subspace; Tau Ceti's scheme Weil divisors, orders, linear equivalence and divisorial sheaves; its native adic-space category and open restrictions; arbitrary-ring toric charts, ordinary face localization and finite-fan gluing in ShimuraCompactifications §0.9 and §§0.16–0.18; general analytification in AdicSpacesPartII R1; formal completion, generic fibres and section domains in AdicSpacesPartIII R2.2–R2.4, R2.8 and R2.10; perfected polydisc and Laurent algebras and homogeneous polydisc approximation in PerfectoidSpaces P1.30 and P2.1; and general tilting, tilde-limits, étale sites, cohomology, Chow groups and refined Gysin maps in the supplier sections below. The field-fibre, cone-algebra, homogeneous-cone, split-torus, operational-Chow, ample-cut and geometric-morphism extensions have the exact required supplier contracts below. Only the toric specialization, its character formulas and the comparisons on those actual spaces belong here. In particular, the power map extends the complex toric map to the common integral model and its completed tower; it does not introduce another monoid-algebra map.
 
@@ -707,7 +720,7 @@ The carrier for geometric constructions is `TauCeti.AdicSpace`, with `TauCeti.Pr
 
 ### From TauCetiRoadmap.AnalyticToricGeometry
 
-Layer 0, “the algebraic supplier”, supplies dual semigroups, face localization, fans and primitive rays on the pinned toric carriers. Its complex scheme and toric-map comparison fix the complex specialization of the common integral model. In particular, its regular-coordinate theorem identifies a regular cone monoid with the product of a free positive monoid and a lattice. No complex manifold or general complex analytification is needed by this roadmap.
+Layer 0, “the algebraic supplier”, supplies dual semigroups, face localization, fans and primitive rays on the pinned toric carriers. Its complex scheme and toric-map comparison fix the complex specialization of the common integral model. In particular, its regular-coordinate theorem identifies a regular cone monoid with the product of a free positive monoid and a lattice. No complex manifold or general complex analytification is needed by this roadmap. Its Layer 4 orbit–cone correspondence, realized by `TauCeti.Toric.Fan.coneEquivOrbitRelQuotient` on the complex analytic realization, is the input of §0.7.
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 

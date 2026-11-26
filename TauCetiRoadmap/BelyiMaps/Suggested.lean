@@ -6,9 +6,10 @@ import TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction
 
 This file is not the roadmap; the roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, as far as the pinned carriers make
-them statable (Layer 13.5 is the one that is), and declares the two group-theoretic lemmas of
-README §Pinned conventions that the PeripheralActions roadmap consumes by name
-(`conjugation_transfer` and `opposite_third_peripheral`).
+them statable (Layer 13.5 is the one that is), states the induction adjunction of Layer 6.2,
+and declares the two group-theoretic lemmas of README §Pinned conventions that the
+PeripheralActions roadmap consumes by name (`conjugation_transfer` and
+`opposite_third_peripheral`).
 
 ## Headline theorems proved in Tau Ceti
 
@@ -54,6 +55,11 @@ Tau Ceti revision `2fd255d997f4`, the revision README §Exact supplier contracts
   maximal extension of `ℚ̄(t)` unramified outside the three marked places, nor for the outer
   Galois action on it; each is a construction of the roadmap (README 12.5, 12.8), not a simple
   definition.
+* Layer 2.4's equivalence of the category of finite bipartite ribbon graphs with
+  `Action FintypeCat (FreeGroup (Fin 2))`. It is data, and the pinned
+  `TauCeti.BipartiteRibbonGraph` has `Hom` with identities and composition but no `Category`
+  instance; the bijections it refines, `TauCeti.BipartiteRibbonGraph.isoClassEquiv` and
+  `TauCeti.BipartiteRibbonGraph.autEquivAutomorphismGroup`, are Tau Ceti's.
 * Layers 13.3 and 13.4 (the outer Galois action on the free pro-`ℓ` group of rank two is
   peripheral of cyclotomic exponent). They need the descended outer action of Layer 13.1, which
   rests on the carriers of Layers 12.5 and 12.8.
@@ -87,6 +93,16 @@ theorem conjugation_transfer {G : Type u} [Group G] (φ : G ≃* G) (pow : G →
     simp [map_mul, map_inv, hx]
   rw [h, hpow]
   group
+
+/-! ## Layer 6: finite covers and their triples -/
+
+/-- **Layer 6.2, induction of `π₁`-sets.** For a subgroup `K` of a group `G`, restriction of
+`G`-sets to `K`-sets has a left adjoint, the balanced product `G ×_K Z` of `TauCeti.BalancedProduct`
+with `K` acting on `G` by right translation; the hom-equivalence sends a `G`-map `f` out of
+`G ×_K Z` to `z ↦ f ⟦1, z⟧`. -/
+theorem isRightAdjoint_res_subtype {G : Type u} [Group G] (K : Subgroup G) :
+    (Action.res (Type u) K.subtype).IsRightAdjoint := by
+  sorry
 
 /-! ## Layer 13: the pro-`ℓ` peripheral theorem and faithfulness -/
 

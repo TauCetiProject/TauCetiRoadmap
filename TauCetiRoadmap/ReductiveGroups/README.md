@@ -1701,6 +1701,23 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   and the pinned geometrically reduced case; Layer 1's faithful representations (the quotient
   is constructed inside a representation); SchemeAndStackFoundations §§1.13–1.15 for torsors;
   ModularCurves §0E's affine faithfully flat descent for the base-change statement.
+- **Takeuchi correspondence:** for a commutative Hopf algebra `A = O(G)` of finite type over a
+  field, `B ↦ A·B⁺` (with `B⁺ = B ∩ ker ε`; the pinned
+  `TauCeti.CommHopfAlgCat.kernelHopfIdeal (hopfSubalgebraι hB)`, normal by
+  `isNormal_kernelHopfIdeal`) and `I ↦ A^{co A/I}` (`TauCeti.HopfIdeal.coinvariants`, a Hopf
+  subalgebra by `IsNormal.isHopfSubalgebra_coinvariants`) form a Galois connection between Hopf
+  subalgebras and normal Hopf ideals, both ordered by inclusion: `A·B⁺ ≤ I ↔ B ≤ A^{co A/I}` is
+  the pinned `TauCeti.HopfIdeal.forall_hom_mem_coinvariants_iff` for the inclusion of `B`. Package
+  it, and prove it is an order isomorphism (Takeuchi 1972): `kernelHopfIdeal_coinvariantsι` and
+  `coinvariants_kernelHopfIdeal_hopfSubalgebraι`. Geometrically it is the order-reversing
+  bijection between normal closed subgroups and quotients of `G`. *Route:* the first identity is
+  the scheme kernel of `q` in the quotient item above; the second is faithfully flat descent along
+  `B → A`, using that `A` is faithfully flat over each Hopf subalgebra (Milne, Theorem 3.31,
+  p. 73), which the monomorphism item above also needs. *Needs:* this section's quotient and
+  monomorphism items. *Checks:* `I = 0 ↔ B = k`; `I = A⁺ ↔ B = A`;
+  for `μ_p ⊂ μ_{p²}`, `I = (t^p − 1) ↔ B = k[t^p]`. Normality is needed: for the constant group
+  `S₃` and the non-normal `⟨(12)⟩`, the coinvariants are the 3-dimensional algebra of functions on
+  `S₃/⟨(12)⟩`, which is not a Hopf subalgebra, since `S₃` has no normal subgroup of order 2.
 - **Identity component `G°` and component group `π₀(G)`:** `G°` is the connected
   component of the identity; it is an open and closed normal subgroup scheme with the
   inherited scheme structure, its formation commutes
@@ -6724,6 +6741,8 @@ sections. OrthogonalTamagawaAndLatticeMass §0.1 sets `Spin` of rank zero to be 
   arXiv math/0409205v2, §§1.1–1.2, pp. 4–5, and p. 69.
 - R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell
   and L. Neuwirth, *Configuration spaces*, Math. Scand. 10 (1962), 111–118, §II.
+- M. Takeuchi, *A correspondence between Hopf ideals and sub-Hopf algebras*, Manuscripta Math.
+  **7** (1972), 251–270.
 - W. C. Waterhouse, *Introduction to Affine Group Schemes*, Graduate Texts in Mathematics,
   Springer (1979): Hopf algebras, comodules, closed subgroups, the unipotent radical; Chapters
   1–3, pp. 3–27, for affine group schemes as representable functors and Hopf algebras and for

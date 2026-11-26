@@ -72,7 +72,8 @@ branched covers by their unbranched parts (7.7), analytic Riemann existence for 
 covers (8.6), Belyi's polynomial lemma (10.3), the existence of a Belyi map on a function field
 over an algebraic extension of `ℚ` (10.4), and the polynomial form of faithfulness (13.5).
 `Suggested.lean` states the headline theorems that remain, as far as the carriers of the Tau Ceti
-revision in `lake-manifest.json` make them statable; Layer 13.5 is the one that is, and the
+revision in `lake-manifest.json` make them statable; Layer 13.5 and the induction adjunction of
+6.2 are the ones that are, and the
 file's docstring names the headlines Tau Ceti proves and, for each of the others, what is
 missing.
 
@@ -80,12 +81,13 @@ What remains is:
 
 - in Layers 0–7: Layer 1.6's label semantics in degrees `6` to `11` and the `6T6` group
   certificate of 14.6, both behind the supplier gap
-  `gap:transitive-groups-degree-six-to-eleven`; Layer 3.5's comparison of the
+  `gap:transitive-groups-degree-six-to-eleven`; the equivalence of categories of ribbon graphs
+  with finite `FreeGroup (Fin 2)`-sets in 2.4; Layer 3.5's comparison of the
   degree-at-most-four table with the database records; in Layer 5, the edge cases and the chart
   description of `D∞*` in 5.1, and the examples, edge cases and general pullback of
   `monodromyHom` in 5.3; in Layer 6, the items 6.2 owns (finiteness of the fiber, functoriality
   of the associated cover with its natural isomorphism and coproducts, the examples and edge
-  cases), and in 6.3 naturality in maps of covers, the pullbacks along the four composite
+  cases, induction of `π₁`-sets), and in 6.3 naturality in maps of covers, the pullbacks along the four composite
   anharmonic maps, the pointed counts `13, 71, 461`, and the conjugation orbit relation on
   subgroups with its comparison to the supplier's conjugacy predicate; in Layer 7, the items its
   *Tau Ceti:* lines list as remaining;
@@ -617,7 +619,9 @@ is the one remaining headline with a native statement, `FaithfulSMul` of
 `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
 `TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`; the file states it as
 `faithfulSMul_absoluteGaloisGroup_isoClass` and imports
-`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` for the action.
+`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` for the action. The induction adjunction
+of 6.2, a supplementary target rather than a headline, is stated as
+`isRightAdjoint_res_subtype`.
 
 ### Layer 0: permutation triples
 
@@ -1112,7 +1116,28 @@ dessins reduces along this bijection to Layer 3.
 
 *Tau Ceti:* `TauCeti.PermutationTriple.toPermutationTriple_ribbonGraph`,
 `TauCeti.BipartiteRibbonGraph.isoRibbonGraph`, `isoClassEquiv`, `connectedIsoClassEquiv` and
-`autEquivAutomorphismGroup`.
+`autEquivAutomorphismGroup`. The equivalence of categories below remains.
+
+**The equivalence of categories.** Make finite bipartite ribbon graphs, with their `Hom`, a
+category, and prove that the edge functor, sending `Γ` to `Γ.E` with the generators `0` and `1`
+of `FreeGroup (Fin 2)` acting by `rotB` and `rotW`, is an equivalence onto Mathlib's
+`Action FintypeCat (FreeGroup (Fin 2))`, hence also of the groupoids of isomorphisms. It is
+faithful by `TauCeti.BipartiteRibbonGraph.Hom.ext`; it is full because the vertices are the
+cycles of the rotations (`blackEnd_eq_blackEnd_iff`, `whiteEnd_eq_whiteEnd_iff`), so an
+equivariant edge map induces the vertex maps; it is essentially surjective by the construction of
+2.2 applied to any finite action, the empty one included. Then `isoClassEquiv` is the induced
+bijection on isomorphism classes, through the actions of `FreeGroup (Fin 2)` on `Fin n` up to
+relabeling (the triples of Layer 0.2), and `autEquivAutomorphismGroup` is its effect on
+automorphism groups; connected graphs correspond to nonempty transitive actions.
+
+*Prerequisites:* Layers 2.1–2.4; Mathlib `Action`, `FintypeCat`, `FreeGroup`.
+
+**Checks.**
+- The empty graph goes to the empty action, and the graph with one edge, one black and one
+  white vertex to the one-point action.
+- The surjectivity fields of 2.1 are needed: a graph with no edges and one black vertex would
+  have the same image as the empty graph but admit no morphism to it, so the functor would not
+  be full.
 
 #### 2.5 Genus of a dessin
 
@@ -2457,18 +2482,28 @@ supplied. Owned here, each a target of this milestone:
   that triple.
 - *Edge cases.* `S` empty, where the cover is empty; `S` with a non-transitive action, where
   the cover is disconnected and decomposes as the coproduct over the orbits.
+- *Induction of `π₁`-sets.* For a subgroup `K` of a group `G` (here `G = π₁(X, x)`), the
+  balanced product `G ×_K Z`, the pinned `TauCeti.BalancedProduct` with `K` acting on `G` by right
+  translation `h • g = g h⁻¹` through a type synonym and `G` acting on the left factor, is a
+  functor `Action (Type u) K ⥤ Action (Type u) G` left adjoint to Mathlib's restriction
+  `Action.res (Type u) K.subtype` (`isRightAdjoint_res_subtype` in `Suggested.lean`). The
+  hom-equivalence sends a `G`-map `f` to `z ↦ f ⟦1, z⟧`, with inverse `ι ↦ (⟦g, z⟧ ↦ g • ι z)`.
+  Tau Ceti main, after the pin, has the right-translation synonym and this bijection for one `Z`;
+  the functor, the naturality and the adjunction remain. *Checks:* `Z` a point gives `G ⧸ K`;
+  `Z = K` by left translation gives `G` by left translation; `K = G` gives `Z` back, the unit
+  `z ↦ ⟦1, z⟧` being then a bijection.
 - *Downstream interfaces.* Layers 6.3, 6.5, 7.2.
 
 *Prerequisites:* Layers 5.3, 5.6; Tau Ceti `TauCeti.UniversalCover.ActionCover`,
 `TauCeti.UniversalCover.isCoveringMap_actionCoverProj`, `TauCeti.UniversalCover.actionCoverFiberEquiv`,
 `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`,
 `IsCoveringMap.pathConnectedSpace_iff` (UniversalCovers milestones 3, 5, 8); Mathlib
-`IsQuotientCoveringMap`, `MulAction`, `LocallyPathConnectedSpace`.
+`IsQuotientCoveringMap`, `MulAction`, `LocallyPathConnectedSpace`, `Action.res`.
 
 *Tau Ceti:* the supplier API above, and the finite corollary as the existence statement
 `TauCeti.ConnectedFiberNumberedCover.exists_permCongrHom_comp_monodromyPerm_eq`. The items owned
 here, finiteness of the fiber, functoriality with the natural isomorphism and coproducts, the
-examples and the edge cases, remain.
+examples, the edge cases and induction, remain.
 
 #### 6.3 The classification, at three levels of rigidification
 
