@@ -176,7 +176,9 @@ group elements at which a bilinear minor `det(A₁ᵀ π(s) A₀)` vanishes.
 *Method of the formal proof:* the number of `y` in the left kernel of `Z = A₁ᵀπ(s)A₀` is at least `q` when `det Z = 0`,
 and it is the mean over `v` of `∑_y ψ(yᵀZv)` for a primitive additive character `ψ`. Summing against `Θ` first, the terms
 with `y = 0` or `v = 0` give `Θ(G)`; for `y, v ≠ 0` the sum `∑_s ψ(x·π(s)z)Θ(s)` is an inner product of two vectors of
-`ℂ^{k^d} ⊗ H` whose squared norms are `#G` times the `Θ`-masses of the two stabilisers, bounded by `Y`.
+`ℂ^{𝔽^d} ⊗ H`, where `H` is a complex inner product space with vectors `u_a` such that `Θ(a⁻¹b) = ⟨u_a, u_b⟩` and the
+coordinates of `ℂ^{𝔽^d}` are indexed by the vectors of `𝔽^d`; their squared norms are `#G` times the `Θ`-masses of the
+two stabilisers, bounded by `Y`.
 
 Let `G` be a finite group, `𝔽` a finite field with `q` elements, `π : G → GL_d(𝔽)` a homomorphism and
 `π′(s) = (π(s)ᵀ)⁻¹`. Let `A₀, A₁` be `d × e` matrices over `𝔽`, let `Θ ≥ 0` be of positive type on `G`, and let `Y ≥ 0`.
@@ -370,9 +372,11 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
 - `c_G = vol U(k)/vol U(r) · 2π^k/(k − 1)!`, with `vol U(j) = ∏_{i=1}^{j} 2π^i/(i − 1)!` as in the Conventions
   (**Normalisations**).
 - Discrete series: for signs `ε` with `pᴴ J₁ p = diag(ε)` for a fixed unitary matrix `p`, and a doubled Harish-Chandra
-  parameter `l = 2λ` for `ε`, `c_λ` is the coefficient of the discrete series of parameter `λ` on `U(diag ε)` and on `G₁`
-  through `p`, and `deg(λ) = (∫|c_λ|²)⁻¹` its formal degree (the second background result of the
-  *Needs:* line). `l` has *large gap `A`* if its entries are distinct, of the parity of `r − 1`,
+  parameter `l = 2λ` for `ε`, `c_λ` is the function on `U(diag ε)`, and on `G₁` through `p`, that Flensted-Jensen's
+  integral for the lowest `K`-type of `λ` defines (the second background result of the *Needs:* line gives the
+  formula). It is the matrix coefficient of the discrete series of parameter `λ` at one unit vector, a highest
+  weight vector of the lowest `K`-type, and not the trace over that `K`-type; `deg(λ) = (∫|c_λ|²)⁻¹` is the formal
+  degree. `l` has *large gap `A`* if its entries are distinct, of the parity of `r − 1`,
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
   `(F ∗ φ)(y) = ∫ φ(a⁻¹)F(ya) da`.
 
@@ -381,10 +385,25 @@ mass one on the compact group `U(r)`; the Haar measures of `𝖴` and `𝖴⁰` 
 entries, both unimodular; [ShortProof] `Lib/DiscreteSeries/Haar/CayleyChart.lean` (`New.haarU`, `New.volU`),
 `Lib/DiscreteSeries/Haar/TotalMass.lean` (`New.isProbabilityMeasure_haarU`),
 `Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean` (`New.RealPlace.measurePreserving_freeEntries_besselHaar`,
-`New.RealPlace.measurePreserving_freeEntries_besselHaar₀`)); ShortGRH background (the function `c_λ` on `U(diag ε)`
-defined by Flensted-Jensen's integral over the maximal compact subgroup for the lowest `K`-type of `λ`, its formal
-degree `(∫|c_λ|²)⁻¹` and the kernel `deg(λ)·c̄_λ`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
-(`New.HCParam.dsCoeff`, `New.HCParam.formalDegree`, `New.HCParam.dsKernel`, `New.HCParam.HasLargeGap`)).
+`New.RealPlace.measurePreserving_freeEntries_besselHaar₀`)); ShortGRH background (the definition of the function
+`c_λ` on `U(diag ε)`: for an integer vector `w`, `m_w(g)` is the product over the integers `t` of the principal minor
+of `g` on `{i : t ≤ w_i}`, divided by `det g` for `t ≤ 0`; with `Λ = λ + ρ − 2ρ_c` the highest weight of the lowest
+`K`-type and `K` the maximal compact subgroup with total mass `1`, Flensted-Jensen's integral is
+`Ξ(g, z) = ∫_K m_Λ(gk)·conj(m_Λ(k))/m_{−λ−ρ}(k^*zk) dk / ∫_K |m_Λ|²`, and `c_λ(g) = Ξ(a, a⁻¹g)` for the part `a` of
+`g` that keeps the entries at coordinates of equal sign; its formal degree `(∫|c_λ|²)⁻¹` for `μ_{G₁}` and the kernel
+`deg(λ)·c̄_λ`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean` (`New.weightMinors`,
+`New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`, `New.HCParam.formalDegree`,
+`New.HCParam.dsKernel`, `New.HCParam.HasLargeGap`)).
+
+*Relation to the library.* For the real place, `R = 𝖴H` with the character `ψ` is the Bessel datum of
+GanGrossPrasadUnitaryGroups §1.2 for `F = ℝ`, `E = ℂ`, the flag `⟨e₁⟩ ⊂ ⋯ ⊂ ⟨e₁, …, e_ϱ⟩`, the line `⟨z⟩`,
+`W = X₀` and the additive character `x ↦ exp(x − x̄)` of `ℂ`: `𝖴` is the unipotent radical `N` there, `H` the image
+of `U(W)`, `σ` on `𝖴` the additive map `b` in the coordinates of the basis (up to the choice of the conjugate-linear
+variable of the form), and `ψ = ν` on `𝖴`. That section builds the
+datum for group schemes over a general field; the definitions above are its real points in matrix coordinates, with
+the Haar measures and the lengths that it does not treat, and it is not cited as a supplier.
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (b) states the coefficients of the lowest `K`-type of a gapped
+discrete series of `U(p, q)` by an integral formula, in another normalisation of the gap.
 
 [ShortProof], `New/Spanning/Bessel/Basic.lean` (`New.besselLength`, `New.frameBox`, `New.frameDisc`,
 `New.RealPlace.gramDiscReal`, `New.Shape.openCellConst`, `New.scaledBesselLength`); `New/Spanning/Bessel/Average.lean`
@@ -980,8 +999,9 @@ every `v` and `a`, then `gf = f`.
 `b^{6n+2}R₀` and lies in `B(ρ)` at every place, and the frame vectors of any two of these points differ by an element of a
 real subspace `V`. Then the images `γf`, `γ ∈ A`, take at most `(b^{6n²}R₀²)^{dim V}` values.
 
-(c) If weights `w_p ≥ 0` on terms `γ_p` over `(c, s, k_p)` (with `p ↦ (k_p, γ_p)` injective) satisfy the hypotheses of (b)
-on their support and `w_p ≤ t·β_{k_p}(γ_{p,∞}⁻¹y)`, then `∑_p w_p ≤ (b^{6n²}R₀²)^{dim V}·t`.
+(c) Let `E` contain a primitive root of unity of order `5040`. If weights `w_p ≥ 0` on terms `γ_p` over `(c, s, k_p)`
+(with `p ↦ (k_p, γ_p)` injective) satisfy the hypotheses of (b) on their support and `w_p ≤ t·β_{k_p}(γ_{p,∞}⁻¹y)`,
+then `∑_p w_p ≤ (b^{6n²}R₀²)^{dim V}·t`.
 
 *Needs:* 3.2, 4.1, 4.2, 4.4
 
@@ -1443,7 +1463,7 @@ polynomials and the bad share)
 
 ## Downstream consumers
 
-- OneSidedPrimeSumBoundsAndAdmissibleData §5.3 (Theorem B) uses 1.3 (few translates span almost all) and 5.7 (the
+- OneSidedPrimeSumBoundsAndAdmissibleData §5.4 (Theorem B) uses 1.3 (few translates span almost all) and 5.7 (the
   second moment of the Poincaré map and one good translate).
 - DeterminantsOfThetaLiftChains uses 2.1a, 2.3 (equality of multiplicities: the good forms on every `W_j` have
   dimension `d_T`) and 2.4 (the Rallis operator has the same determinant on the good forms of `Y₀` and of `W_j`).
@@ -1507,6 +1527,17 @@ polynomials and the bad share)
   5.6.
 - AutomorphicFormsOnReductiveGroups §7.5 (forms of a level with trivial stabilisers), for 5.1 and 5.6.
 
+### From Tau Ceti
+
+- `ContinuousLinearMap.hilbertSchmidtNorm` (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`): the
+  Hilbert–Schmidt norm of the Conventions, on which Layer 1 is stated.
+- `ContinuousLinearMap.hilbertSchmidtEnergy_starProjection_comp_add_orthogonal`
+  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Pythagoras.lean`): `‖pr A‖² + ‖(1 − pr)A‖² = ‖A‖²` for an
+  orthogonal projection `pr` of the target, for 1.2 (b).
+- `ContinuousLinearMap.hilbertSchmidtNorm_isometry_comp_coisometry`
+  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Isometry.lean`): invariance of the norm under unitary maps on
+  both sides, for 1.2 (c).
+
 ## References
 
 - `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
@@ -1526,6 +1557,3 @@ polynomials and the bad share)
   Poincaréscher Reihen*, Math. Ann. 103 (1930).
 - L. R. Welch, *Lower bounds on the maximum cross correlation of signals*, IEEE Trans. Inform. Theory 20 (1974).
 - L. A. Wolsey, *An analysis of the greedy algorithm for the submodular set covering problem*, Combinatorica 2 (1982).
-
-The sources are those named in the heads of the files of `[ShortProof]` that this roadmap covers; its `REFERENCES.md`
-says which citations were compared with their sources.
