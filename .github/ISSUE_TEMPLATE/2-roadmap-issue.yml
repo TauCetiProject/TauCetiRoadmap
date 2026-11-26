@@ -146,6 +146,7 @@ body:
         - ComputationalNumberTheory
         - ConformalMappingPartII
         - CongruenceSpectralGap
+        - ContinuousTimeMarkovChains
         - ConvexAnalysisAndDuality
         - ConvexLifting
         - CooperativeGames
@@ -289,6 +290,7 @@ body:
         - GraphConnectivityAndFlows
         - GraphSpectra
         - GraphSymmetryAndCayleyGraphs
+        - GraphicalModelsAndConditionalIndependence
         - GroebnerGeometry
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
@@ -523,6 +525,7 @@ body:
         - RandomizedSmoothing
         - Rank24LatticeConstructions
         - RationalHomotopyModels
+        - ReLUNetworkExpressivity
         - RealAnalyticGeometry
         - RealSemisimpleLieGroups
         - ReductiveGroups
