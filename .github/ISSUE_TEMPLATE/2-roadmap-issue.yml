@@ -161,6 +161,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DeRhamCohomologyAndDuality
+        - DecisionTreeComplexity
         - DeformationAndDerivedPatchingAlgebra
         - DeformationAndDerivedPatchingAlgebraPartII
         - DeligneWeightsAndPurity
@@ -384,6 +385,7 @@ body:
         - MarkovDecisionProcesses
         - MassFormula
         - MatchingPolynomial
+        - MatchingTheory
         - MatesDoubleCategories
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
