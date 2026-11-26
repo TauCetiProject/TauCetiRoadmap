@@ -6,8 +6,8 @@ Tau Ceti library states in the form needed. They are independent of one another 
 
 The argument of the family runs as follows: a one-sided bound for a sum over primes gives a half-plane free of zeros
 of Dirichlet L-functions, and the one-sided bound comes from comparing an upper and a lower bound for the covolume of
-a lattice of theta lifts (OneSidedPrimeSumBoundsAndAdmissibleData). The results here enter at scattered places of
-that comparison and of its background:
+a lattice of theta lifts (OneSidedPrimeSumBoundsAndAdmissibleData). The formal proof uses the results here at
+scattered places of that comparison and of its background:
 
 - Amitsur's theorem (1.1) puts the characteristic polynomials of a matrix representation over the base ring in
   Ribet's method (CongruencesOfTwistedThetaLifts, congruences to first order).
@@ -27,15 +27,16 @@ that comparison and of its background:
   (RemainingAndMainTermsOfSecondMoments).
 
 There are three layers. Layer 1 is algebra (1.1–1.3), Layer 2 linear algebra and Hecke operators (2.1, 2.2), Layer 3
-analysis (3.1, 3.2). The two closing sections list the auxiliary results of the shorter proof that the library
-already provides, and those that other roadmaps state.
+analysis (3.1, 3.2). The two sections before the references list the auxiliary results of the shorter proof that
+other roadmaps state, and those that the library already provides.
 
 ## Conventions and notation
 
 - *Labels.* Under each section heading, `*Origin:*` says where its statement comes from and `*Method of the formal
   proof:*` how [ShortProof] proves it. [ShortProof] is the shorter formal proof of the family `ShortGRH`; the line
   "[ShortProof], `path` (`declarations`)" at the end of a section names the file (under `src/`) and the declarations
-  where it proves the statement. The names of [ShortProof] occur only on that line.
+  where it proves the statement. The names of [ShortProof] occur only on that line, and every name on that line is
+  a declaration of [ShortProof], also where it lies outside its namespace `New` (such as `Matrix.IsAccretive` in 3.1).
 - *Modest statements.* Where a general section of another roadmap also implies a statement here, the section says so
   in a closing sentence. The statement here is the case that the family uses, and it has a proof that does not pass
   through the general theorem.
@@ -62,14 +63,18 @@ already provides, and those that other roadmaps state.
 
 ### 1.1 Amitsur's theorem on characteristic polynomials over the base ring
 
-*Origin:* adapted from the published theory of the characteristic polynomial of a sum of matrices (Amitsur's
-theorem): here, the integrality consequence for a homomorphism of an algebra to matrices, tested on a spanning set.
+*Origin:* adapted from Amitsur's theorem on the characteristic polynomial of a sum of matrices (Amitsur, *On the
+characteristic polynomial of a sum of matrices*, 1980; Chenevier, *The p-adic analytic space of pseudocharacters of a
+profinite group and pseudorepresentations over arbitrary rings*, 2014, (1.5)): here, the integrality consequence for a
+homomorphism of an algebra to matrices, tested on a spanning set.
 
-*Method of the formal proof:* (a) is the Cayley–Hamilton theorem for `ρ(w)`, read through a polynomial over `B`
-that lifts the characteristic polynomial. For (b) the proof fixes the degree `k` in question, works in the
-truncated polynomial ring `A[t]/(t^e)` over the image of `B[t]`, and shows by descending induction on the power of
-`t` that adding `t^j·γ` to an element `β` keeps `det(1 − t·ρ(β))` in that image; the coefficient sought is a
-coefficient of the reversed characteristic polynomial `det(1 − t·ρ(w))`.
+*Method of the formal proof:* for (a), a polynomial `Q` over `B` lifting the characteristic polynomial of `ρ(−w)`
+gives, through the Cayley–Hamilton theorem, `F = Q(0)` and `v` as the value at `−w` of `(Q − Q(0))/X`. For (b), the
+coefficients of `χ_{ρ(w)}` are those of the reversed polynomial `det(1 − t·ρ(w))`, so it suffices that this
+determinant, taken in `A[t]` modulo a power of `t` beyond the coefficient wanted, comes from `B[t]`. Writing `w` as a
+combination of spanning elements `s`, the matrix `1 − t·ρ(w)` is a product of matrices `1 − t^j·c·ρ(s)` (`j ≥ 1`,
+`c` from `B[t]`), whose determinants come from `B[t]`, up to corrections of higher order in `t`; a downward induction
+on that order disposes of the corrections.
 
 Let `B` be a commutative ring, `A` a commutative `B`-algebra, `Λ` a `B`-algebra (associative and unital, not
 necessarily commutative) and `ρ : Λ → M_n(A)` a homomorphism of `B`-algebras. Call `w ∈ Λ` *integral for `ρ`* if every
@@ -98,17 +103,20 @@ coefficients, IntegralHeckeAndGaloisDeterminants §0.5.
 
 ### 1.2 Multiplicative functions of finite modules that are trivial on projective modules
 
-*Origin:* adapted from the published theory of the Cartan map of a group algebra in positive characteristic (its
-cokernel is finite): here, a form for functions with values in `ℚ_{≥0}` that are multiplicative in exact sequences,
-on the finite modules killed by `ℓ` on which a central element fixes no non-zero vector, with projectivity read
-through Higman's criterion.
+*Origin:* adapted from the finiteness of the cokernel of the Cartan map of a group algebra in positive
+characteristic (Serre, *Linear Representations of Finite Groups*, 1977, Theorem 35): here, a form for functions with
+values in `ℚ_{≥0}` that are multiplicative in exact sequences, on the finite modules killed by `ℓ` on which a central
+element fixes no non-zero vector, with projectivity read through Higman's criterion.
 
-*Method of the formal proof:* the proof uses neither Brauer characters nor induction from cyclic subgroups. It
-passes to the quotient `Δ̄` of `Δ` by a normal subgroup of order prime to `ℓ` that contains a power of `z`, and to
-the modules of `M`-valued functions on finite `Δ̄`-sets with the diagonal action, which stay in the class. Their
-values of `φ` are multiplicative along decompositions into orbits. Comparing the functions on the hyperplane of
-sum `0` in `(ℤ/ℓ)^{Δ̄}` with those on the parallel hyperplane of sum `1`, whose function modules satisfy Higman's
-criterion, gives `φ = 1` on the functions on every orbit `Δ̄/H`, and the orbit `Δ̄/Δ̄` gives `φ(M) = 1`.
+*Method of the formal proof:* a dévissage through permutation modules, in place of Brauer characters and of the
+induction from cyclic subgroups by which Milne, *Arithmetic Duality Theorems*, I 2.10–2.12, treats the local Euler
+characteristic. The group is first replaced by its quotient `Δ̄` by the subgroup generated by a power of `z` whose
+order is prime to `ℓ`, a normal subgroup as `z` is central. For a finite `Δ̄`-set `Y`, the module of maps `Y → M`
+with the diagonal action again lies in `𝒞`, and `φ` of it is the product over the orbits of `Y`. The two affine
+hyperplanes of `(ℤ/ℓ)^{Δ̄}` on which the coordinates sum to `0` and to `1` carry the same linear part of the action,
+so their function modules have the same value of `φ`; those of the second satisfy Higman's criterion. An induction
+over the subgroups `H` of `Δ̄` then gives `φ = 1` on the maps from every orbit `Δ̄/H`, and `M` is the module of maps
+from a point.
 
 Let `Δ` be a finite group, `z ∈ Δ` a central element, `ℓ` a prime and `R` a commutative ring. Let `𝒞` be the class of
 the finite `R[Δ]`-modules `M` with `ℓM = 0` on which `z` fixes no non-zero vector; if `0 → M′ → M → M″ → 0` is an
@@ -130,7 +138,7 @@ representatives of `G/U`; this is the statement above for `Δ = G/U`. The librar
 The statement also follows from the non-singularity of the Cartan matrix over a splitting field,
 RepresentationTheory/ModularCharactersAndBlocks §3.1, applied to the composition factors.
 
-*Needs:* Mathlib `QuotientGroup.mk` (quotients of groups), `Sylow`, `Representation` (`R[Δ]`-modules), `ZMod`.
+*Needs:* Mathlib `QuotientGroup.mk` (quotients of groups), `Representation` (`R[Δ]`-modules), `ZMod`.
 
 [ShortProof], `Lib/General/Algebra/CartanMap` (`New.DiscreteModule.IsHigmanProjective`,
 `New.DiscreteModule.FiniteKilledFixedInj`, `New.DiscreteModule.IsMultiplicative`,
@@ -138,25 +146,30 @@ RepresentationTheory/ModularCharactersAndBlocks §3.1, applied to the compositio
 
 ### 1.3 The weighted Combinatorial Nullstellensatz with multiplicity
 
-*Origin:* adapted from the published theory of the Combinatorial Nullstellensatz and its forms with multiplicity:
-here, with a weight `1/κ_u` for each variable, total degree replaced by the weighted degree, and in place of a grid
-any set of at least `∏ κ_u` points at which each `X_u^{κ_u}` agrees with a polynomial of weighted degree below `1`.
+*Origin:* adapted from the Combinatorial Nullstellensatz and its forms with multiplicity (Alon, *Combinatorial
+Nullstellensatz*, 1999; Ball and Serra, *Punctured combinatorial Nullstellensätze*, 2009): here, with a weight `1/κ_u`
+for each variable, total degree replaced by the weighted degree, and in place of a grid any set of at least `∏ κ_u`
+points at which each `X_u^{κ_u}` agrees with a polynomial of weighted degree below `1`.
 
-*Method of the formal proof:* put `ψ_u = X_u^{κ_u} − g_u`, which vanishes at the points. Division by the `ψ_u`, by
-well-founded induction on the cost, shows that the products `X^α ψ^γ` with `α_u < κ_u` for all `u` and `|γ| < d`
-span, modulo the polynomials whose jets of order below `d` vanish at all the points, every polynomial of cost below
-`d`. These products are at most as many as the jet conditions, which they span, so they are independent modulo that
-kernel; a polynomial of cost below `d` whose jets vanish is therefore `0`.
+*Method of the formal proof:* a dimension count for jets. The polynomials `ψ_u = X_u^{κ_u} − g_u` vanish at every
+`z_t`, and replacing `X_u^{κ_u}` by `ψ_u + g_u` lowers the cost; so, by well-founded induction on the cost, every
+polynomial of cost `< d` is a linear combination of products `X^α·ψ^γ` with all `α_u < κ_u` and `|γ| < d`, and
+every polynomial at all is such a combination plus one whose jets of order `< d` vanish at all the `z_t`. By the
+Chinese remainder theorem the jets of order `< d` at the `#T` distinct points take all values, and since
+`#T ≥ ∏ κ_u` there are at least as many jet coordinates as products. Hence the jets of the products are linearly
+independent, and a polynomial of cost `< d` whose jets vanish is `0`.
 
 Let `K` be a field, `ι` a finite set, `κ : ι → ℤ_{>0}` and `cost(α) = cost_κ(α) = Σ_{u∈ι} α_u/κ_u` for exponents
-`α ∈ ℕ^ι`. Let `(z_t)_{t∈T}` be a finite family of pairwise distinct points of `K^ι` with `#T ≥ ∏_{u∈ι} κ_u`, and for each
-`u ∈ ι` let `g_u ∈ K[X_u : u ∈ ι]` be a polynomial all of whose monomials have cost `< 1`, with
-`g_u(z_t) = (z_t)_u^{κ_u}` for every `t ∈ T`. Let `d ≥ 0` be an integer and let `f ≠ 0` be a polynomial with `f ∈ 𝔪_{z_t}^d` for every
-`t ∈ T`. Then some monomial `X^α` with non-zero coefficient in `f` has `cost(α) ≥ d`.
+`α ∈ ℕ^ι`. Let `(z_t)_{t∈T}` be a finite family of pairwise distinct points of `K^ι` with `#T ≥ ∏_{u∈ι} κ_u`, and for
+each `u ∈ ι` let `g_u ∈ K[X_u : u ∈ ι]` be a polynomial all of whose monomials have cost `< 1`, with
+`g_u(z_t) = (z_t)_u^{κ_u}` for every `t ∈ T`. Let `d ≥ 0` be an integer and let `f ≠ 0` be a polynomial with
+`f ∈ 𝔪_{z_t}^d` for every `t ∈ T`. Then some monomial `X^α` with non-zero coefficient in `f` has `cost(α) ≥ d`.
 
-For a grid `∏_u S_u` with `#S_u = κ_u` one may take `g_u = X_u^{κ_u} − ∏_{s∈S_u}(X_u − s)`. Mathlib has the
-multiplicity-free theorem on grids (`MvPolynomial.combinatorial_nullstellensatz_exists_eval_ne_zero`), which does not
-give this statement.
+The hypotheses force `#T = ∏ κ_u`: modulo the ideal generated by the polynomials `X_u^{κ_u} − g_u`, which vanish at
+all the `z_t`, every polynomial is congruent to a combination of the monomials with all `α_u < κ_u`, and evaluation at
+distinct common zeros is onto `K^T` on that quotient. For a grid `∏_u S_u` with `#S_u = κ_u` one may take
+`g_u = X_u^{κ_u} − ∏_{s∈S_u}(X_u − s)`. Mathlib has the multiplicity-free theorem on grids
+(`MvPolynomial.combinatorial_nullstellensatz_exists_eval_ne_zero`), which does not give this statement.
 
 *Needs:* Mathlib `MvPolynomial`, `Finsupp.weight` (weighted degree of an exponent), `MvPolynomial.vanishingIdeal`.
 
@@ -169,10 +182,11 @@ give this statement.
 *Origin:* adapted from the published theory of Auerbach bases of finite-dimensional normed spaces: here, for a
 compact family of linear forms over any field, measured through a ring homomorphism into a normed field.
 
-*Method of the formal proof:* choose indices `a_1, …, a_n` that maximise `‖φ(det(ℓ_{a_k}(b_j)))‖` for a basis `(b_j)`;
-the maximum exists by compactness and continuity and is non-zero because the forms span the dual space. Let `(z_k)`
-be the basis dual to `(ℓ_{a_k})`; by Cramer's rule `ℓ_a(z_k)` is the determinant with `a_k` replaced by `a`, divided
-by the maximal one.
+*Method of the formal proof:* the classical argument by a determinant of largest size. Against a fixed basis of
+`U`, the norm of `φ` of the determinant of `n` forms of the family is a continuous function of their indices on the
+compact space `𝒜^n`; it attains its maximum, which is positive because the forms span the dual space. The forms at a
+maximising tuple are a basis of the dual space, and `z` is the basis dual to it. Cramer's rule expresses each value
+`ℓ_a(z_k)` as a quotient of two such determinants whose denominator is the largest one, so the bound follows.
 
 Let `U` be a vector space of finite dimension `n` over a field `K`, `𝒜` a compact topological space and
 `(ℓ_a)_{a∈𝒜}` a family of linear forms on `U` whose only common zero is `0`. Let `φ : K → L` be a ring homomorphism
@@ -191,16 +205,18 @@ fields.
 
 ### 2.2 Gelfand's trick for `GL_n` over a valuation ring
 
-*Origin:* adapted from the published theory of spherical Hecke algebras (Gelfand's trick, by the transpose): here,
-for `GL_n` over any field with a valuation ring, as operators on fixed vectors of any representation over a
-commutative semiring.
+*Origin:* adapted from the commutativity of the spherical Hecke algebra of `GL_n` (Gelfand's trick, by the
+transpose; Tits, *Reductive groups over local fields*, Corvallis 1979, 3.3.3; Tamagawa, *On the zeta functions of a
+division algebra*, 1963): here, for `GL_n` over any field with a valuation ring, as operators on fixed vectors of any
+representation over a commutative semiring.
 
-*Method of the formal proof:* row and column operations over `O` bring every invertible matrix over `F` to diagonal
-form (a Smith normal form over a valuation ring: of two elements one divides the other), so `g` and `ᵗg` lie in the
-same double coset, which is (a). For (b) the inverse transpose permutes the cosets `gK` and serves as the system of
-representatives for the adjoint. For (c) both composites are operators of convolutions, `T_{f′}T_f = T_{f′∗f}` on
-`W^K`, and the bijection of cosets built from (a) and the inverse transpose exchanges the two convolutions term by
-term.
+*Method of the formal proof:* everything rests on the automorphism `g ↦ ᵗg⁻¹` of `G`, which preserves `K`. For (a),
+elimination with pivots over `O` (for non-zero `a, b ∈ F`, `a/b` or `b/a` lies in `O`) gives `g = k·D·k′` with
+`k, k′ ∈ K` and `D` diagonal, and `D` is its own transpose. By (a) the automorphism carries each double coset `KgK`
+to `Kg⁻¹K`; it also permutes the cosets `gK`, and reindexing the sum that defines `T′_{f^∨}` along it, together with
+the invariance of `β`, gives (b). For (c), each composite of two Hecke operators acts on `W^K` as the operator of a
+convolution of `f` and `f′`, and a bijection of `G/K` made from the same automorphism matches the terms of the two
+convolutions.
 
 Let `F` be a field, `O` a valuation ring of `F`, `n ≥ 1`, `G = GL_n(F)` and `K = GL_n(O)`. Let `A` be a commutative
 semiring, `π` a representation of `G` by `A`-linear maps of an `A`-module `W`, and `W^K` the vectors fixed by `K`. Call
@@ -220,11 +236,12 @@ representation of `G` on an `A`-module `W′`, with Hecke operators `T′`, and 
 Over a non-archimedean local field and with `A = ℂ`, (c) also follows from the commutativity of the spherical Hecke
 algebra, AutomorphicFormsOnReductiveGroups §3.5, through the Satake transform. The library has the abstract
 criterion that a Hecke ring is commutative when an anti-involution fixes every double coset
-(`HeckeCosetModule.mul_comm_of_antiInvolution`), with the instance `GL_n(ℤ) ⊂ GL_n(ℚ)`
-(`HeckeRing.GLn.mul_comm_fullHeckeRing`) and the Smith normal form over a discrete valuation ring
-(`Matrix.exists_smith_normal_form_of_isDiscreteValuationRing`); its Hecke pairs ask finite coset decompositions of the
-double cosets, which a general valuation ring does not give, so the local instance and the passage to operators on
-fixed vectors are missing.
+(`HeckeCosetModule.mul_comm_of_antiInvolution`), with its instance for `SL_n(ℤ)` and the integral matrices of
+positive determinant in `GL_n(ℚ)` (`HeckeRing.GLn.commSemiringHeckeRing`), and the Smith normal form over a discrete
+valuation ring (`Matrix.exists_smith_normal_form_of_isDiscreteValuationRing`); its Hecke pairs ask finite coset
+decompositions of the double cosets, which a general valuation ring does not give, so the local instance and the
+passage to operators on fixed vectors are missing. On Tau Ceti's main branch, later than the revision pinned here:
+the instance for `GL_n(ℤ) ⊂ GL_n(ℚ)` (`HeckeRing.GLn.mul_comm_fullHeckeRing`).
 
 *Needs:* Mathlib `ValuationSubring`, `Matrix.GeneralLinearGroup`, `Representation`.
 
@@ -239,10 +256,12 @@ fixed vectors are missing.
 *Origin:* adapted from the published theory of Gaussian integrals on `ℂ^n`: here, for a matrix with positive definite
 hermitian part, not necessarily hermitian, and a shift on one side of the quadratic form.
 
-*Method of the formal proof:* (a) is the Ostrowski–Taussky inequality applied to `H = A + Aᴴ`. For (b), a congruence
-diagonalises an accretive matrix: `A = Pᴴ·diag(d)·P` with `P` invertible and `Re d_i > 0`. The change of variables
-`y = Px`, whose real Jacobian is `|det P|²`, turns the integrand into a product of one-variable Gaussians, each of
-integral `π/d_i`.
+*Method of the formal proof:* (a) comes from the Ostrowski–Taussky inequality for `H = A + Aᴴ`. (b) is reduced to
+one complex variable. Writing `A + Aᴴ = CᴴC` and diagonalising the skew-hermitian part of `A` by a matrix that is
+unitary for the inner product of `A + Aᴴ` makes `A` congruent to a diagonal matrix: `A = Pᴴ·diag(d)·P` with `P`
+invertible and `Re d_i > 0`. After the linear substitution by `P`, whose real Jacobian is `|det P|²`, the integral
+splits into `n` integrals over `ℂ`, each a Gaussian integral on `ℝ²` with value `π/d_i`, and
+`det A = |det P|²·∏ d_i`.
 
 Let `A ∈ M_n(ℂ)` be accretive, that is, `A + Aᴴ > 0`.
 
@@ -251,12 +270,13 @@ Let `A ∈ M_n(ℂ)` be accretive, that is, `A + Aᴴ > 0`.
 (b) For every `a ∈ ℂ^n` the function `x ↦ exp(−x*A(x − a))` is integrable on `ℂ^n` and
 `∫_{ℂ^n} exp(−x*A(x − a)) dx = π^n·(det A)⁻¹`.
 
-The library has the integral for a hermitian positive definite matrix in the form of the density of a proper complex
-Gaussian distribution (`TauCeti.Probability.integral_properComplexGaussianPDFReal_eq_one`), with a shift on both sides
-and a real integrand, which does not give (b) for a matrix that is not hermitian.
+Part (a) also has a direct proof: if `Ax = 0`, then `x*(A + Aᴴ)x = 2·Re(x*Ax) = 0`, so `x = 0`. The library has
+the integral for a hermitian positive definite matrix in the form of the density of a proper complex Gaussian
+distribution (`TauCeti.Probability.integral_properComplexGaussianPDFReal_eq_one`), with a shift on both sides and a
+real integrand, which does not give (b) for a matrix that is not hermitian.
 
-*Needs:* EigenvalueAndSingularValueInequalities §4.2 (the Ostrowski–Taussky inequality), for (a); Mathlib
-`GaussianFourier.integral_cexp_neg_mul_sum_add` (the Gaussian integral on `ℝ²`),
+*Needs:* EigenvalueAndSingularValueInequalities §4.2 (the Ostrowski–Taussky inequality), only for (a) along the route
+of the formal proof; Mathlib `GaussianFourier.integral_cexp_neg_mul_sum_add` (the Gaussian integral on `ℝ²`),
 `MeasureTheory.Measure.map_linearMap_addHaar_eq_smul_addHaar` (Lebesgue measure under linear maps),
 `MeasureTheory.integral_fintype_prod_volume_eq_prod` (products of integrals).
 
@@ -265,18 +285,20 @@ and a real integrand, which does not give (b) for a matrix that is not hermitian
 
 ### 3.2 Hua's bound for integrals of negative powers of determinants
 
-*Origin:* adapted from the published theory of Hua's integrals over the classical domains: here, an upper bound, not
-an evaluation, with an affine change of the rows.
+*Origin:* adapted from Hua's integrals over the classical domains (Hua, *Harmonic Analysis of Functions of Several
+Complex Variables in the Classical Domains*, AMS, 1963): here, an upper bound, not an evaluation, with an affine change
+of the rows.
 
-*Method of the formal proof:* induction on the number of rows. For one row `w = vS + a`, write `M = CᴴC`; the
-substitution `vS + a = yC` changes the measure by `|det C/det S|²`, and the matrix determinant lemma gives
-`|det(M + wᴴw)| = |det C|²(1 + |y|²)`. Since `r ≥ k`, `(1 + |y|²)^{−(r+1)} ≤ (1 + |y|²)^{−(k+1)}`, whose integral over
-`ℂ^k` is `π^k/k!`: write `(1 + |y|²)^{−(k+1)} = (1/k!)·∫_0^∞ t^k e^{−t(1 + |y|²)} dt` and integrate the Gaussian in `y`
-first. In the induction the integrated row is absorbed into `M`, and the exponent `r` grows by one. (b) is (a) for all
-rows with `S = 1`, `a = 0`, `r = #κ`, followed by the change of variables `X ↦ SX + c`, whose real Jacobian is
-`|det S|^{2#κ}`, and `π^k/k! ≤ 1` for `k ≥ 7`.
+*Method of the formal proof:* (a) peels off one row at a time, by induction on `s`. Fixing one row and integrating
+over the others first, the fixed row joins `M`, which stays positive definite, and `r` goes up by one, so the
+induction hypothesis bounds the inner integral by a constant times `|det(M + wᴴw)|^{−(r+1)}`. This leaves an integral
+over one row: with `M = CᴴC` and the linear substitution that turns `w` into `yC`, the matrix determinant lemma gives
+`|det(M + wᴴw)| = |det C|²·(1 + |y|²)`, and since `r ≥ k` the integrand is at most a constant times
+`(1 + |y|²)^{−(k+1)}`, whose integral over `ℂ^k` is `π^k/k!` by the Gamma integral and the Gaussian integral. (b)
+applies (a) to all the rows with `S = 1`, `a = 0` and `r = #κ`, after the linear change of variables `X ↦ SX + c`
+(real Jacobian `|det S|^{2#κ}`), and uses `π^k/k! ≤ 1` for `k ≥ 7`.
 
-(a) Let `k ≥ 1`, `M ∈ M_k(ℂ)` with `M > 0`, `S ∈ M_k(ℂ)` invertible, `γ ≥ 0` and `r ≥ k` an integer. Let `s` be a finite
+(a) Let `k ≥ 0`, `M ∈ M_k(ℂ)` with `M > 0`, `S ∈ M_k(ℂ)` invertible, `γ ≥ 0` and `r ≥ k` an integer. Let `s` be a finite
 set and `(a_i)_{i∈s}` row vectors in `ℂ^k`, and for row vectors `y_i ∈ ℂ^k` put `w_i = y_iS + a_i`. Then
 
 `∫_{(ℂ^k)^s} γ·|det(M + Σ_{i∈s} w_iᴴw_i)|^{−(#s + r)} ∏_{i∈s} dy_i ≤ γ·(π^k/(k!·|det S|²))^{#s}·|det M|^{−r}`.
@@ -287,6 +309,9 @@ set and `(a_i)_{i∈s}` row vectors in `ℂ^k`, and for row vectors `y_i ∈ ℂ
 `∫_{M_{ι×κ}(ℂ)} γ·|det(G + (SX + c)ᴴ(SX + c))|^{−(#κ + #ι)} dX ≤ γ·|det S|^{−2#κ}·|det G|^{−#κ}`,
 
 `dX` Lebesgue measure on `M_{ι×κ}(ℂ) = ℂ^{ι×κ}`.
+
+The bound `#κ ≥ 7` in (b) cannot be dropped: for one row (`#ι = 1`), `G = 1`, `S = 1` and `c = 0` the integral in (b)
+is `γ·π^{#κ}/#κ!`, which exceeds `γ` when `γ > 0` and `1 ≤ #κ ≤ 6` (at `#κ = 6`, `π^6/6! ≈ 1.34`).
 
 *Needs:* Mathlib `MeasureTheory.Measure.map_linearMap_addHaar_eq_smul_addHaar` (Lebesgue measure under linear maps),
 `Real.integral_rpow_mul_exp_neg_mul_Ioi`, `Real.Gamma_nat_eq_factorial` (the Gamma integral),
@@ -312,15 +337,16 @@ set and `(a_i)_{i∈s}` row vectors in `ℂ^k`, and for row vectors `y_i ∈ ℂ
   polynomials over a finite extension of `ℚ_ℓ` that contains their coefficients, with the multiplicativity of the
   Gauss norm of RestrictedPowerSeries §1.1.
 - The identity `Σ_{U≤W} (−X)^{dim U} q^{dim U(dim U−1)/2} = ∏_{l<dim W}(1 − q^lX)` over the subspaces of a subspace
-  `W` of `𝔽_q^n`, which combines the `q`-binomial theorem with the number of subspaces of a given dimension (both
-  ingredients are in the library, see the next list): ArithmeticStatisticsPartIV §3.2.
+  `W` of `𝔽_q^n`, which combines the `q`-binomial theorem with the number of subspaces of a given dimension:
+  ArithmeticStatisticsPartIV §3.2, which states both ingredients (both are on Tau Ceti's main branch, see the end of
+  the next list).
 - For an integral scheme with a projective embedding over a field and its base change to a noetherian ring, the
   monomials of degree `m` span the sections of the `m`-th power of the line bundle for all large `m`: GroebnerGeometry
   §4.10, on the library's projective schemes and line bundles.
 - Embeddings into `ℂ` extending an embedding of a countable ring, and isomorphisms `ℂ ≅ L` for algebraically closed
   `L` of the cardinality of `ℂ` matching two embeddings: DeligneWeightsAndPurity §0.5 (i), (ii), through the fraction
   field.
-- The index of a product of subgroups in a finite product of groups is the product of the indices:
+- For finitely many groups `G_v` with subgroups `H_v`, the index of `∏_v H_v` in `∏_v G_v` is `∏_v [G_v : H_v]`:
   AdelicAlgebraicGroups §4.4 (index of product subgroups), with Mathlib's `Subgroup.index_pi` for one ambient group.
 - Absolutely integrally closed rings: the definition, fields, quotients and localisations: ArcTopologyAndDescent §0.1.
 - Polar decomposition `g = kz` in the unitary group of a diagonal sign form (existence): RepresentationTheory/LieGroups
@@ -331,40 +357,71 @@ set and `(a_i)_{i∈s}` row vectors in `ℂ^k`, and for row vectors `y_i ∈ ℂ
 ## What the library already provides
 
 - The mean value property of holomorphic functions on a disc, and entire functions determined by their Taylor
-  series at `0`: `DiffContOnCl.circleAverage`, `Complex.taylorSeries_eq_of_entire'`, `TauCeti.taylorSeries_inj`.
+  series at `0`: `DiffContOnCl.circleAverage`, `Complex.taylorSeries_eq_of_entire'`.
 - Dirichlet's `S`-unit theorem and a class number bound stronger than `h ≤ (2^n·|d|)^{n+1}`:
   `TauCeti.finrank_sUnits_numberField`, `Set.unit_fg_of_units`, `NumberField.classNumber_le_bound`.
-- Line bundles on schemes, their Picard group, triviality over local rings, and fpqc descent of sections and of
-  morphisms into quasi-coherent modules: `TauCeti.AlgebraicGeometry.LineBundleClass`,
-  `TauCeti.AlgebraicGeometry.LineBundleClass.subsingleton_spec_of_isLocalRing`,
-  `AlgebraicGeometry.Scheme.Modules.isSheaf_bigPresheaf_fpqcTopology`,
-  `TauCeti.AlgebraicGeometry.Descent.existsUnique_pullback_map_eq_of_mem_fpqcTopology`.
+- Line bundles on schemes, their Picard group and triviality over local rings:
+  `TauCeti.AlgebraicGeometry.LineBundleClass`,
+  `TauCeti.AlgebraicGeometry.LineBundleClass.subsingleton_spec_of_isLocalRing`.
 - The chain rule for substitution in multivariate power series, and Legendre's bounds for `v_p(n!)` and `‖n!‖`:
   `MvPowerSeries.pderiv_subst`, `Nat.Prime.sub_one_mul_multiplicity_factorial`, `Padic.rpow_neg_div_le_norm_factorial`.
-- Divisibility of a multivariate power series by a constant, degree against order, and continuity of partial
-  derivatives for the coefficientwise topology: `MvPowerSeries.C_dvd_iff_dvd_coeff`,
-  `MvPowerSeries.degree_le_order_prod_pow`, `MvPowerSeries.WithPiTopology.continuous_pderiv`.
+- Degree against order for multivariate power series, and continuity of partial derivatives for the coefficientwise
+  topology: `MvPowerSeries.degree_le_order_prod_pow`, `MvPowerSeries.WithPiTopology.continuous_pderiv`.
 - The Frobenius on power series in characteristic `p` and `(Σ f_i)^{p^n} = Σ f_i^{p^n}`: `PowerSeries.map_frobenius_expand`,
   `sum_pow_char_pow`.
-- The bialternant formula for Schur polynomials: `TauCeti.diagramSchurPoly_mul_alternant`; the `q`-binomial theorem and
-  the count of subspaces: `TauCeti.prod_one_add_pow_mul_eq_sum_gaussianBinomial`,
-  `TauCeti.card_submodule_finrank_eq_gaussianBinomial`.
+- The bialternant formula for Schur polynomials: `TauCeti.diagramSchurPoly_mul_alternant`.
 - Extension of scalars of commutative algebras is left adjoint to restriction: `CommAlgCat.extendRestrictScalarsAdj`.
-- Fitting ideals of finite modules and their base change: `TauCeti.fittingIdeal_baseChange`; their product formula
-  for special exact sequences: `TauCeti.fittingIdeal_eq_mul_of_exact`.
+- Fitting ideals of finite modules and their base change: `TauCeti.fittingIdeal_baseChange`.
 - The length of the cokernel of a square matrix over a noetherian domain of dimension at most one is the order of
   its determinant: `Matrix.length_quotient_range_mulVecLin_eq_ord_det`.
 - Gauss's lemma for polynomials: `Polynomial.gaussNorm_mul`; the maximum principle for restricted power series:
   `MvPowerSeries.exists_norm_restrictedEval₂_eq_norm`.
-- `log ∘ exp` and `exp ∘ log` for power series, and the coefficient bound for `exp(xX)` over extensions of `ℚ_p`:
-  `PowerSeries.logOf_subst_exp`, `PowerSeries.subst_exp_logOf`, `PowerSeries.norm_coeff_rescale_exp_mul_pow_le`.
+- `log ∘ exp` and `exp ∘ log` for power series: `PowerSeries.logOf_subst_exp`, `PowerSeries.subst_exp_logOf`.
 - The étale criterion for a ring with a finite group action (Chase–Harrison–Rosenberg): `TauCeti.MulSemiringAction.etale`;
   isomorphisms of algebraically closed fields extending a given one: `IsTranscendenceBasis.exists_ringEquiv_comp_algebraMap`.
-- Stone–Weierstrass for star subalgebras, Fourier inversion on the circle, and decay of Fourier transforms from
-  bounds on derivatives: `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`,
-  `has_pointwise_sum_fourier_series_of_summable`, `TauCeti.one_add_norm_pow_mul_norm_fourier_le_of_tsupport_subset`.
+- Stone–Weierstrass for star subalgebras and Fourier inversion on the circle:
+  `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`,
+  `has_pointwise_sum_fourier_series_of_summable`.
 - Teichmüller representatives in adically complete rings and in local fields: `Perfection.teichmuller`,
   `TauCeti.eq_teichmullerLift_iff`.
 - Jacobi's formula for the derivative of the determinant and `det(exp A) = exp(tr A)`: `Matrix.hasFDerivAt_det`,
   `Matrix.det_exp`; Fischer's and Hadamard's inequalities: the files `TauCeti/Analysis/InnerProductSpace/Gram/Fischer.lean`
   and `TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`.
+
+On Tau Ceti's main branch, later than the revision pinned here:
+
+- Uniqueness of Taylor expansions, two functions analytic at a point with the same Taylor series there agreeing near
+  it: `TauCeti.taylorSeries_inj`.
+- fpqc descent of sections and of morphisms into quasi-coherent modules:
+  `AlgebraicGeometry.Scheme.Modules.isSheaf_bigPresheaf_fpqcTopology`,
+  `TauCeti.AlgebraicGeometry.Descent.existsUnique_pullback_map_eq_of_mem_fpqcTopology`. Descent of quasi-coherent
+  modules along fpqc coverings is SchemeAndStackFoundations §1.1; at the pins the library has the pseudofunctor of
+  quasi-coherent modules (`TauCeti.AlgebraicGeometry.Descent.qcohPseudofunctor`).
+- Divisibility of a multivariate power series by a constant: `MvPowerSeries.C_dvd_iff_dvd_coeff`; at the pins the
+  library has the one-variable form (`PowerSeries.C_dvd_iff_dvd_coeff`).
+- The `q`-binomial theorem and the count of the subspaces of `𝔽_q^n` of a given dimension:
+  `TauCeti.prod_one_add_pow_mul_eq_sum_gaussianBinomial`, `TauCeti.card_submodule_finrank_eq_gaussianBinomial`; both
+  are stated in ArithmeticStatisticsPartIV §3.2.
+- The product formula for the Fitting ideals of an extension whose quotient is quadratically presented:
+  `TauCeti.fittingIdeal_eq_mul_of_exact`, stated in PadicMeasuresIwasawaAlgebras §6.6.
+- The coefficient bound for `exp(xX)` over extensions of `ℚ_p`: `PowerSeries.norm_coeff_rescale_exp_mul_pow_le`.
+- Decay of Fourier transforms from bounds on derivatives:
+  `TauCeti.one_add_norm_pow_mul_norm_fourier_le_of_tsupport_subset`.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers results of `src/Lib/General` in the files
+  `Algebra/CartanMap`, `Algebra/MultivariatePolynomials`, `Analysis/GaussianIntegral`, `Analysis/HolomorphicIntegrals`,
+  `LinearAlgebra/Eigenvalues`, `LinearAlgebra/IntegralLattices` and `LinearAlgebra/MatrixNormBounds`.
+- N. Alon, *Combinatorial Nullstellensatz* (1999).
+- S. A. Amitsur, *On the characteristic polynomial of a sum of matrices*, Linear and Multilinear Algebra 8 (1980),
+  no. 3, 177–182.
+- S. Ball, O. Serra, *Punctured combinatorial Nullstellensätze* (2009).
+- G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group and pseudorepresentations over
+  arbitrary rings*, LMS Lecture Note Ser. 414 (2014).
+- Hua, *Harmonic Analysis of Functions of Several Complex Variables in the Classical Domains*, AMS (1963).
+- J. Milne, *Arithmetic Duality Theorems*.
+- J.-P. Serre, *Linear Representations of Finite Groups* (1977).
+- T. Tamagawa, *On the zeta functions of a division algebra*, Ann. Math. 77 (1963).
+- J. Tits, *Reductive groups over local fields*, Corvallis 1979.

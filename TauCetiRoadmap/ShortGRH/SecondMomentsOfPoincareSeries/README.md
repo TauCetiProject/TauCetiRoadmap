@@ -299,9 +299,10 @@ with the indicator of the principal level at the `w_i`, is cuspidal at `w_x` in 
 (1999)): here, in this form, the equality of the dimensions of the Hecke eigenparts of the good forms on `V` and on `V′`,
 for the spherical Hecke operators away from `M`, under the gap `Δ`.
 
-*Method of the formal proof:* finitely many eigensystems occur on `V` and `V′`; the operator of 2.1a (d) projects both
-onto their `q`-parts, its trace on the good forms is the dimension of the good `q`-part, and 2.2 equates the traces. For
-the dimension of the target take `T = 1`.
+*Method of the formal proof:* (a) is 2.2 for one projector. Only finitely many eigenparts are nonzero on `V` or `V′`
+(2.1a (c)), so 2.1a (d) yields an element of `𝓗^M` that acts on both spaces as the projection onto the `q`-eigenpart.
+On the good forms it projects onto their part in `V_q`, so its trace there is the dimension of that part, and 2.2 makes
+these traces equal on `V` and `V′`. (b) is 2.2 for the identity, on `Y₀` and `W_j`.
 
 Under the hypotheses of 2.2:
 
@@ -390,7 +391,7 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
   `(F ∗ φ)(y) = ∫ φ(a⁻¹)F(ya) da`.
 
-*Needs:* HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.4, 2.6 (the Haar measure of `U(J)` given by the Cayley chart, as in the Conventions, which has
+*Needs:* HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.2, 1.4, 2.6 (the Haar measure of `U(J)` given by the Cayley chart, as in the Conventions, which has
 mass one on the compact group `U(r)`; the Haar measures of `𝖴` and `𝖴⁰` as images of Lebesgue measure under the free
 entries, both unimodular); HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (the definition of the function
 `c_λ` on `U(diag ε)`: for an integer vector `w`, `m_w(g)` is the product over the integers `t` of the principal minor
@@ -513,11 +514,12 @@ the same Gram matrix are carried to one another by an element of the unitary gro
 *Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups (GanGrossPrasadUnitaryGroups
 §1.2): here, a one-sided integration formula over the open cell, with the weight `c_G 𝗀(Z)^{k−1}`.
 
-*Method of the formal proof:* a frame whose products with `f` form the matrix `Z` is `y′Z` for a family `y′` dual to the
-frame; `𝖴⁰` acts on the first `ϱ` members of `y′`, and the `X₀`-component of the last one ranges over a sphere. In these
-coordinates the distribution of `s γ_Z f` under the weighted measure is computed and bounded by the fibre measure of the
-Gram map over the Gram matrix of `f`, which is then compared with Haar measure; only upper bounds by fibre measures are
-used, never their values.
+*Method of the formal proof:* two steps. First, `(Z, s) ↦ s γ_Z`, with `Z ∈ Ω` and `s ∈ R⁰`, carries
+`𝗀(Z)^{k−1} dZ ds`, up to a constant factor, to a measure on `G₁`, and this measure is shown to be below the fibre
+measure of the Gram map at the frame `f` (in the sense of the background results of the *Needs:* line); this is a
+computation in explicit coordinates on the frames with prescribed products with `f`, made of a family dual to `f`, on
+which `𝖴⁰` acts, and a point of a sphere in `X₀`. Second, the bound of HolomorphicDiscreteSeriesOfUnitaryGroups
+§2.7 (b) for the convolution with `ds` turns this into a comparison with Haar measure on `G₁`. Fibre measures enter only as upper bounds; their values are never computed.
 
 For every measurable `F ≥ 0` on `G₁`,
 
@@ -527,7 +529,7 @@ with `dZ` Lebesgue measure on complex `n × n` matrices and `ds` the measure `du
 
 *Needs:* 3.1, 3.4; HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.6, 2.7 (a measure `l` on a space `X` is at most the fibre measure `dμ/dν` of a map
 `π : X → B` over `b` if, for every lower semicontinuous `K ≥ 0` and every `C`, the bounds `∫_{π⁻¹S} K dμ ≤ C·ν(S)` for
-all sufficiently small open `S ∋ b` give `∫ K dl ≤ C`; for a tuple `E` of vectors, a measure `m` on `U(J)` is below
+every open `S ⊆ O`, `O` some neighbourhood of `b`, give `∫ K dl ≤ C`; for a tuple `E` of vectors, a measure `m` on `U(J)` is below
 the fibre measure of the Gram map at `E` if its image under `g ↦ gE` is at most the fibre measure, over the Gram matrix
 of `E`, of Lebesgue measure on tuples with respect to Lebesgue measure on Gram matrices; for a basis with Gram matrix
 `J`, `J` of size `r`, the measure `vol U(r)/2^r` times the Haar measure of the Conventions is below the fibre measure;
@@ -774,11 +776,11 @@ representation of `GL(X₀)` of the weight of the source forms at `v`;
 DeterminantsOfThetaLiftChains §5.4 (a) (the parameters are steep); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the
 target parameter and its gap), §2.8 (the weight of the source forms); OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the
 sizes); DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3 (the formal degree of a discrete series, for the measure that
-corresponds to mass one on the compact dual, is the value of Weyl's dimension polynomial at its parameter); ShortGRH
-background (for a parameter `l = 2λ` of gap at least `500r³ + 10r⁵`, the formal degree `deg(λ) = (∫|c_λ|²)⁻¹`,
-taken with the measure `μ_{G₁}` of the Conventions, is the value at `l` of Weyl's dimension polynomial: the product
-of `λ_i − λ_j` over the pairs with `λ_j < λ_i`, divided by `∏_{i<r} i!`; [ShortProof]
-`Lib/DiscreteSeries/Character/FormalDegree.lean` (`New.Orbital.formalDegree_eq_weylDimensionPoly`))
+corresponds to mass one on the compact dual, is the value of Weyl's dimension polynomial at its parameter);
+HolomorphicDiscreteSeriesOfUnitaryGroups §7.4 (a) (for a parameter `l = 2λ` of gap at least `500r³ + 10r⁵`, the
+formal degree `deg(λ) = (∫|c_λ|²)⁻¹`, taken with the compact-dual measure of its §1.1, which is `μ_{G₁}` of the
+Conventions, is the value at `l` of Weyl's dimension polynomial: the product of `λ_i − λ_j` over the pairs with
+`λ_j < λ_i`, divided by `∏_{i<r} i!`)
 
 [ShortProof], `New/Spanning/Bessel/FillingData.lean` (`New.Data.exists_besselSystem`);
 `New/Spanning/Bessel/LargeFunction.lean` (`New.Filling.IsDiscreteSeriesBessel`)
@@ -998,8 +1000,8 @@ Let `𝔉` be admissible, `R₀ ≥ 1`, `ρ = b^{37n}R₀`.
 every `v` and `a`, then `gf = f`.
 
 (b) Let `A` be a set of terms over `(c, ·, ·)` such that for `γ ∈ A` the point `γ_∞⁻¹y` has Bessel length at most
-`b^{6n+2}R₀` and lies in `B(ρ)` at every place, and the frame vectors of any two of these points differ by an element of a
-real subspace `V`. Then the images `γf`, `γ ∈ A`, take at most `(b^{6n²}R₀²)^{dim V}` values.
+`b^{6n+2}R₀` and lies in `B(ρ)` at every place, and for all `γ, γ′ ∈ A` the difference of the frame vectors of `γ_∞⁻¹y`
+and `γ′_∞⁻¹y` lies in a real subspace `V`. Then the images `γf`, `γ ∈ A`, take at most `(b^{6n²}R₀²)^{dim V}` values.
 
 (c) Let `E` contain a primitive root of unity of order `5040`. If weights `w_p ≥ 0` on terms `γ_p` over `(c, s, k_p)`
 (with `p ↦ (k_p, γ_p)` injective) satisfy the hypotheses of (b) on their support and `w_p ≤ t·β_{k_p}(γ_{p,∞}⁻¹y)`,
@@ -1340,11 +1342,11 @@ Poincaré map of ThetaLiftChainsAndTheSeesawIdentity §2.19 at `(g, t)`, `𝒫^{
 representatives. The Poincaré map `𝒫` of the data is `𝒫_{g,t}` for such a choice.
 
 *Needs:* 5.1, 5.2, 5.5; ThetaLiftChainsAndTheSeesawIdentity §2.19 (the Poincaré map as the Riesz representative of the
-Bessel period); DivisibilityOfThetaDerivatives §1.4 (the Weil data of `E` and its element `ȷ`); ShortGRH background
-(moving a quotient from one variable to the other: for a subgroup `R` of `G` with left invariant measures, a countable
-group `Λ` mapping to `R` and a weight on `G` whose `Λ`-translates add up to one, `∫_{Λ\G}∫_R F = ∫_{Λ\R}∫_G F` for `F`
-on `R × G` measurable, invariant under the diagonal action of `Λ` and integrable; [ShortProof]
-`Lib/Adelic/QuotientMeasure/MovingTheQuotient.lean` (`New.integral_cutoff_swap`))
+Bessel period); DivisibilityOfThetaDerivatives §1.4 (the Weil data of `E` and its element `ȷ`);
+AdelicUnitaryGroupsAndAlgebraicModularForms §1.1 (e) (moving a quotient from one variable to the other: for a subgroup
+`R` of `G` with left invariant measures, a countable group `Λ` mapping to `R` and a weight `β` on `G` whose
+`Λ`-translates add up to one, `∫_{Λ\G}∫_R F = ∫_{Λ\R}∫_G F` for `F` on `R × G` measurable, invariant under the
+diagonal action of `Λ`, with `β(s)F(s, x)` integrable on `R × G`)
 
 [ShortProof], `New/Spanning/Unfolding/SeriesPeriod.lean` (`New.Filling.Fits.exists_dotProduct_besselFn_eq_integral`,
 `New.Filling.Fits.exists_integral_besselMeasure_eq_sum`, `New.Filling.Fits.exists_integral_poincareSeries_eq_period`,
@@ -1505,9 +1507,11 @@ polynomials and the bad share)
 - The local bounds at `ℂ` for cut Bessel functions, steep parameters and the lower bound for periods:
   PairsOfFramesAtOnePlace.
 - The series of Rallis' inner product formula and the steepness of the parameters: DeterminantsOfThetaLiftChains.
-- Discrete series coefficients with a large gap, the comparison of traces for a test function cuspidal at a split
-  place, and the other entries marked ShortGRH background: stated in the form used on the *Needs:* lines, and not
-  targets of this roadmap.
+- The compact-dual Haar measures, measures below the Gram fibre, discrete series coefficients with a large gap, their
+  kernels and their formal degrees: HolomorphicDiscreteSeriesOfUnitaryGroups.
+- Moving a quotient from one variable to the other, the finiteness of the forms of given parameters and level,
+  formal degrees on the compact groups, and the comparison of traces for a test function cuspidal at a split place:
+  AdelicUnitaryGroupsAndAlgebraicModularForms.
 
 ## Exact supplier contracts
 
@@ -1523,6 +1527,14 @@ polynomials and the bad share)
 - RemainingAndMainTermsOfSecondMoments: §6.1 (sieve systems), for 3.3; §3.6 (b), §5.5 (c), (d), for 4.13; §8.1 and
   §5.5 (d), for 4.14; §8.2 (c), for 5.7.
 - PairsOfFramesAtOnePlace: §8.1, §8.5, §8.6, for 3.9; §4.3, for 3.14.
+- HolomorphicDiscreteSeriesOfUnitaryGroups: §§1.1, 1.2, 1.4, 2.6 (Haar measures) and §4.1 (`c_λ` and its formal
+  degree), for 3.1; §§1.1, 1.6, 2.7 (measures below the Gram fibre), for 3.5; §6.1 (the kernel `e_λ`), for 3.6 and
+  3.8; §5.4 (decay and Schur orthogonality), for 3.8 and 3.10; §1.5 (covering bounds for norm balls), for 3.10;
+  §7.4 (a) (the formal degree), for 3.14; §2.6 (the Haar measures of `𝖴` and `𝖴⁰`), for 4.8; §§7.1, 7.4 (Weyl's
+  dimension formula and the formal degree on the compact group), for 5.6.
+- AdelicUnitaryGroupsAndAlgebraicModularForms: §§5.2, 5.4 (finiteness of the forms of given parameters and level),
+  for 2.1; §7.2, §7.13 (cuspidal test functions and the comparison of traces), for 2.2; §1.1 (e) (moving the
+  quotient), for 5.3; §6.2 (formal degrees), for 5.6.
 
 ### From other roadmaps
 

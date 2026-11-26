@@ -93,7 +93,7 @@ function `Φ` on matrices over `O_E/𝔪`, and a real vector `v`, the datum `(v,
 through the frames) at the primes dividing `𝔪`, and the characteristic function of the standard lattice elsewhere. An
 edge from a type `e` to a type `e′` is a real datum whose theta lift carries forms of type `e` to forms of type `e′` and
 whose transposed lift carries forms of type `ē′` to forms of type `ē`; the Fock vector of a joint harmonic polynomial
-of two corresponding parameters is an edge between their types (the background entry of 3.1).
+of two corresponding parameters is an edge between their types (the background entry of 2.1).
 
 **Matched functions.** Let `R` be a commutative ring, `χ` a multiplicative character of `R`, and `σ : b ⊔ a ≃ n` a
 splitting of an index set. For `k ∈ GL_n(R)` let `y_k` be the columns of `k` indexed by `b` and `x_k` the rows of `k⁻¹`
@@ -113,8 +113,9 @@ of `G₀` given by the good families of labels, the good forms are `𝒢(Y) = e�
 `Q(ϑ)` of finite places, prime to `M·N` and disjoint from its conjugate; `Nm Q(ϑ) = ∏_{v∈Q(ϑ)} q_v`. A twist is a tame
 character whose tame part is nontrivial at every place of `Q(ϑ)`; an `m`-fold twist is one whose tame part has
 nontrivial `n`-th power at every place of `Q(ϑ)` for `1 ≤ n ≤ m`; `1` is the trivial twist. `μ_j⁰` is the character of
-lift `j` at the trivial twist (weight `−κ_j`, tame part `ω^j` for a fixed family `ω` of residue characters, trivial off the
-chosen places and of order above `8m` at them); lift `j` of the chain at the twist `ϑ` carries `μ_j⁰·ϑ^j`. The single lift
+lift `j` at the trivial twist (weight `−κ_j` and tame part `ω^j`, where `ω` is a fixed family of characters of the
+residue fields whose member at each chosen place has order exceeding `8m` and whose other members are trivial); lift `j`
+of the chain at the twist `ϑ` carries `μ_j⁰·ϑ^j`. The single lift
 `Θ_{j,ϑ} : 𝒜(W_j) → 𝒜(V_j)` is the theta lift of the descent pair `(W_j, V_j)` of lift `j` with the twist `ϑ`
 (ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.18 (the descent pairs `(W_j, V_j)` of the chain); the
 lift of a descent pair is that of 2.1), where `𝒜(V_j)` denotes the
@@ -701,13 +702,12 @@ function `L^S(x, ν)` of `x ≥ 1` extends to an analytic function of real `x > 
 [ShortProof] `Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean` (`New.Exchange.exists_zetaIntegral`, with the unfolding
 `New.Exchange.exists_planeConstantTerm_eq_integral`), `Lib/SiegelWeil/Tower/FunctionalEquation.lean`
 (`New.Exchange.exists_analytic_extension_functional_equation`, `New.Exchange.exists_analytic_extension_ne_zero`));
-AdelicUnitaryGroupsAndAlgebraicModularForms §3.5, WeilRepresentationsOnBanachSpacesOfData §5.1 (every isotropic frame of a hermitian space `V` over the CM field is part of a splitting: a rational
-`n × p` matrix `k` with a left inverse and `k^H J k = 0` is the isotropic frame of a splitting of `V` into dual
-isotropic frames and a complement `V₀`; and if `i` is an isometric embedding of a given space `V₀` such that the
-orthogonal complement of the span of `k` is that span plus `iV₀`, then the splitting can be taken over `V₀` with
-embedding `i`. Every splitting has adapted points: for each `t ∈ GL_p(𝔸_E)` there is a point `γ` of the adelic group
-such that `γ⁻¹` carries the frames, scaled by `t`, to a matrix with orthonormal columns at the infinite places and
-integral entries at the finite places).
+AdelicUnitaryGroupsAndAlgebraicModularForms §3.5, WeilRepresentationsOnBanachSpacesOfData §5.1 (every isotropic frame
+of a hermitian space `V` over the CM field is part of a splitting: a rational `n × p` matrix `k` with a left inverse and
+`k^H J k = 0` is the isotropic frame of a splitting of `V` into dual isotropic frames and a complement `V₀`. Every
+splitting has adapted points: for each `t ∈ GL_p(𝔸_E)` there is a point `γ` of the adelic group such that `γ⁻¹`
+carries the frames, scaled by `t`, to a matrix with orthonormal columns at the infinite places and integral entries at
+the finite places).
 
 [ShortProof], `New/Determinant/Exchange/ConeImage.lean` (`New.Exchange.exists_thetaLarge_cone_eq_mul`);
 `New/Determinant/Exchange/RemovingPlanes.lean` (`New.Exchange.exists_rowColExchangeIdentity_removing_planes`,
@@ -1028,8 +1028,8 @@ spaces `S`, `T` of ranks `n`, `n′` there is a complex `c` of modulus `1` such 
 `(S, T)` with characters `(a, b)` on `(Ψ, P)` at `(g, h)` is `c` times the kernel of `(S⁻, T)` with characters
 `(a⁻¹υ₁^n, b⁻¹υ₁^{n′})` on `(Ψ′, P̄)` at `(g, h)`, where `S⁻` has the negated form, `Ψ′(x)` is the conjugate of
 `Ψ(u⁻¹x)` for a fixed unit `u` of `O_E/𝔪` that is the reduction of an element of norm `−1`, and `P̄` has the conjugate
-coefficients); ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and
-parameters of the grids; the parameters of every step correspond).
+coefficients); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the grids of spaces with their index sets, signs and
+parameters, and the correspondence of the parameters of consecutive nodes).
 
 [ShortProof], `New/Determinant/Chain/TriangleLifts.lean` (`New.Data.triangleLift`,
 `New.Data.exists_hasSum_inner_triangleFirstLift`, `New.Exchange.IsEdgeFamily.exists_inner_modLift_eq_inner_modTransposedLift`,
@@ -1097,12 +1097,12 @@ of 2.2 on the forms on `Y₀`, which preserves `𝒯`. Prove:
 (c) there is an integer `e` such that for every `m`-fold twist `ϑ`: `Z(ϑ) > 0`, `Z_j(ϑ) > 0` for `1 ≤ j ≤ m`, and
 `Z(ϑ)/Z(1) = (Nm Q(ϑ)^{e/2}·∏_{1≤i<j≤m} R^quo_{ij}(ϑ))^d·∏_{j=1}^{m} Z_j(ϑ)/Z_j(1)`;
 
-(d) the range of `Θ_{j,ϑ}` on `𝒢(W_j)` is spanned by the lifts of good Hecke eigenforms whose lifts lie in the range of
-the idempotent of a good family of labels.
+(d) the range of `Θ_{j,ϑ}` on `𝒢(W_j)` is spanned by the forms `Θ_{j,ϑ} y` with `y` a good Hecke eigenform for which
+`Θ_{j,ϑ} y` lies in the image of the idempotent attached to some good family of labels.
 
 *Needs:* 1.1, 1.2, 2.2, 4.1, 4.2, 4.3; SecondMomentsOfPoincareSeries §2.3 (equality of multiplicities: the
-good forms on every `W_j` have dimension `d`), §2.4 (the Rallis series preserves the good forms and has the same
-determinant on `𝒢(Y₀)` and on `𝒢(W_j)`).
+good forms on every `W_j` have dimension `d`), §2.4 (the Rallis series maps good forms to good forms, and its
+determinants on `𝒢(Y₀)` and on `𝒢(W_j)` are equal).
 
 [ShortProof], `New/Determinant/Chain/NormOfChain.lean` (`New.Data.exists_adjoint_chain_comp_eq_smul_rallisProduct`,
 `New.Data.exists_normDet_goodLift_sq_eq`, `New.Data.exists_chainDeterminant_pos_and_div_chainDeterminant_one_eq`,
@@ -1241,12 +1241,15 @@ restriction is `r ↦` its value at `r ⊕ 1` on `∏_τ U(V_τ)`, which is inte
 `C(A, α, ω) = ∏_τ (2(‖α_τ‖·‖ω_τ‖)²)^A·16^A·vol{r ∈ U(V_τ) : ‖r − 1‖ ≤ 1}`, with operator norms of matrices and the Haar
 measure of `U(V_τ)` normalised as in SecondMomentsOfPoincareSeries (Conventions, **Normalisations**).
 
-*Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients); AdelicUnitaryGroupsAndAlgebraicModularForms §4.2 (the
-first minimum cut at `1`. For a hermitian space `V` over a CM field with point `x`, and a point `g` of the adelic
-unitary group, the lattice at `g` is the set of rational vectors `y` for which `(xg)⁻¹y` has integral finite part, the
-length of `y` is the Euclidean norm of the archimedean components of `(xg)⁻¹y`, and `λ(g)` is the minimum of `1` and of
-the least length of a nonzero vector of the lattice. Then `0 < λ(g) ≤ 1`; `λ = 1` at every point if `V` is definite; and
-for the block sum of points `g`, `h` of two spaces, `min(λ_V(g), λ_W(h)) ≤ λ_{V⊕W}(g ⊕ h)`).
+*Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients);
+AdelicUnitaryGroupsAndAlgebraicModularForms §4.2 (the first minimum cut at `1`. For a hermitian space `V` over a CM
+field with point `x`, and a point `g` of the adelic unitary group, the lattice at `g` is the set of rational vectors `y`
+for which `(xg)⁻¹y` has integral finite part, the length of `y` is the Euclidean norm of the archimedean components of
+`(xg)⁻¹y`, and `λ(g)` is the minimum of `1` and of the least length of a nonzero vector of the lattice, so that
+`λ(g) ≤ 1`); ShortGRH background (if `V` is definite, `λ = 1` at every point; for the block sum of points `g`, `h` of
+two spaces `V`, `W`, `min(λ_V(g), λ_W(h)) ≤ λ_{V⊕W}(g ⊕ h)`; [ShortProof]
+`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.one_le_firstMinimum`,
+`New.Space.firstMinimum_move_eq_one`, `New.Rows.inf_le_firstMinimum_sum`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean` (`New.Data.exists_isSteep`,
 `New.Exchange.norm_poincare_period_sub_le`)
@@ -1281,8 +1284,8 @@ bounded by its oscillation under small real translations. Let `V` be a hermitian
 with `f` infinite places and root discriminant `rd`, let `N ≠ 0` be a natural number in the different of `E`, and
 `C_cusp = 8fn·rd + 48n⁶f²N + 1`. Let `F` be a form on `V` whose type is a cusp kernel, right invariant under the
 principal level of a natural number `M ≠ 0`, let `0 < δ ≤ 1`, and let `g` be a point whose first minimum, cut at `1` as
-in the background entry of 5.4, is less than `(δ/(M·C_cusp²))^n`. If `|F(g·x) − F(g)| ≤ C` for every real point `x` at
-distance at most `δ` from `1`, then `|F(g)| ≤ C`).
+in AdelicUnitaryGroupsAndAlgebraicModularForms §4.2, is less than `(δ/(M·C_cusp²))^n`. If `|F(g·x) − F(g)| ≤ C` for
+every real point `x` at distance at most `δ` from `1`, then `|F(g)| ≤ C`).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelVanishing.lean`
 (`New.Exchange.eq_zero_of_petersson_translate_eq_zero`, `New.Exchange.exists_forall_eq_zero_of_petersson_restrict_eq_zero`,
@@ -1495,17 +1498,19 @@ automorphism `σ` of `ℂ` and every finite point, the squared norm of the `σ`-
 `Θ_1 y` is at most `exp(x^202 b²)`.
 
 *Needs:* 5.3, 5.7, 5.9, 5.10; CompositeThetaLiftsAndShortForms §5.6 (algebraic forms of a principal level are spanned by
-forms integral at every prime with conjugates of bounded squared norm); AdelicUnitaryGroupsAndAlgebraicModularForms §§6.3, 6.6 (on the definite standard
-space of rank `n`, with its Weyl module of a weight: the `p`-adic gauge of a vector `ξ` at a finite point `g`, for a
-prime `p` and an embedding `ℂ → ℂ_p`, is the largest `p`-adic absolute value of a coordinate of the image of `g⁻¹ξ`, and
-the squared norm of the `σ`-conjugate of `ξ`, for an automorphism `σ` of `ℂ`, is that of `σ∘ξ`. Let `K` be a level
-inside the stabiliser of the standard lattice, with finitely many classes, and `χ` a character of `K` with values of
-finite order, trivial near `1`. The delta form at a finite point `x` made from a vector `v` is the form of level
-`(K, χ)` supported on the class of `x` whose value at `y` is the sum of `χ(x⁻¹γy)·γ⁻¹v` over the rational `γ` with
-`x⁻¹γy ∈ K`. At every point its gauge is at most the gauge of `v` at `x`, and the squared norm of the `σ`-conjugate of
-its value is at most `#Aut(x)²` times that of `σ∘v`, where `Aut(x)` is the group of rational points that stabilise the
-coset `xK`. For additive functionals `L_g` with `L_{γxk}(χ(k)·γv) = L_x(v)` for all rational `γ` and `k ∈ K`, the class
-sum of `g ↦ L_g(value of the delta form at g)` is `L_x(v)`).
+forms integral at every prime with conjugates of bounded squared norm); AdelicUnitaryGroupsAndAlgebraicModularForms
+§6.6 (on the definite standard space of rank `n`, with its Weyl module of a weight: the `p`-adic gauge of a vector `ξ`
+at a finite point `g`, for a prime `p` and an embedding `ℂ → ℂ_p`, is the largest `p`-adic absolute value of a
+coordinate of the image of `g⁻¹ξ`, and the squared norm of the `σ`-conjugate of `ξ`, for an automorphism `σ` of `ℂ`, is
+that of `σ∘ξ`. Let `K` be a level inside the stabiliser of the standard lattice, with finitely many classes, and `χ` a
+character of `K` with values of finite order, trivial near `1`. The delta form at a finite point `x` made from a vector
+`v` is the form of level `(K, χ)` supported on the class of `x` whose value at `y` is the sum of `χ(x⁻¹γy)·γ⁻¹v` over
+the rational `γ` with `x⁻¹γy ∈ K`. At every point its gauge is at most the gauge of `v` at `x`, and the squared norm of
+the `σ`-conjugate of its value is at most `#Aut(x)²` times that of `σ∘v`, where `Aut(x)` is the group of rational
+points that stabilise the coset `xK`); ShortGRH background (in this setting, for additive functionals `L_g` with
+`L_{γxk}(χ(k)·γv) = L_x(v)` for all rational `γ` and `k ∈ K`, the class sum of `g ↦ L_g(value of the delta form at g)`,
+in which the term of the class of `g` is divided by `#Aut(g)`, is `L_x(v)`; [ShortProof]
+`Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.classSum_deltaForm`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/SpanningForms.lean` (`New.Data.exists_mul_lastPathPeriod_mem_embValRing`,
 `New.Data.norm_lastPathPeriod_le`, `New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod`,

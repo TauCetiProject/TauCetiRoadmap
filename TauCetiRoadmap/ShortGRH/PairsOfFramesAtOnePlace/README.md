@@ -145,8 +145,8 @@ The two cases in view: at a real place, `A_(i) = {x : |x| ≤ L^i}` for a fixed 
 ### 1.2 Lengths at a point, induced lengths and balanced frame vectors
 
 *Origin:* particular to this proof: lengths of vectors read at a point of the group through a size, on the quotients
-of the isotropic flag of the frame; a short dual stands for a lower bound on the length at a real place and for
-primitivity at the finite places.
+of the isotropic flag of the frame; asking for a short dual amounts, at a real place, to bounding lengths from below,
+and, at the finite places, to asking for primitive vectors.
 
 *Method of the formal proof:* definitions; the quotient of two Weyl elements is computed on the basis.
 
@@ -190,9 +190,9 @@ read at `g`, agrees modulo `ρ` up to size `i` with a lift of its class in `Y^(a
 
 ### 1.3 Comparing the lengths at two points; minors and heads
 
-*Origin:* particular to this proof: if the lengths at two points differ little on `Y^(l)`, and `e_{l−1}` has short lifts
-at both points and a short dual that looks nearly the same from both, then they differ little on `Y^(l−1)`; over a
-head such duals come from determinants of blocks of the isometries.
+*Origin:* particular to this proof: the comparison of the lengths at two points descends from `Y^(l)` to `Y^(l−1)`
+when `e_{l−1}` is short at both points and has a dual that is short and almost the same at both (a), (b); over a
+head, minors of the isometries supply these duals (d), (e).
 
 *Method of the formal proof:* a vector of `Y^(l−1)` is split along `e_{l−1}` and its dual; the component in `Y^(l)` is
 compared by hypothesis and the coefficient through the dual. Over a head, Cramer's rule writes the duals as quotients
@@ -231,11 +231,13 @@ R^(j)`, and
 
 ## Layer 2: Place data, floor measures, correlations and quadrics
 
-A place datum fixes a level, a compact set of the group and a basis adapted to the frame; the measure of the group is
-built floor by floor from measures on quadrics and on Heisenberg groups. A gauge collects the few facts about a place
-that the estimates use. A correlation is a kernel on pairs of points with a character law; integrating it over the
-floors from `l` on gives the partial correlations. The equation of a quadric is solved in a block of orthonormal
-coordinates, and Plancherel's formula acts on the orthonormal coordinates off two such blocks.
+A place datum (2.2) fixes a level, a compact set of the group and a basis adapted to the frame, and the measure of
+the group is assembled floor by floor from measures on quadrics and on Heisenberg groups (2.1, 2.2). The estimates
+see a place only through a gauge (2.3 (a)), a short list of properties of a scale. The kernels to be estimated are
+functions on pairs of points subject to a character law; their integrals over the floors from `l` upwards are the
+partial correlations (2.3 (c)). On a quadric, the coordinates of a block of orthonormal basis vectors carry its
+equation while the others are free (2.4), and Plancherel's formula is applied in the orthonormal coordinates outside
+two such blocks (2.5).
 
 ### 2.1 Places, floor groups and the measures of the floors
 
@@ -290,12 +292,14 @@ elements disintegrates a measure `μ` along the form if `∫ f dl_β` is finite 
 `f ≥ 0` of compact support, and `∫ f(⟨y, y⟩, y) dμ(y) = ∬ f(δ⁻¹β, y) dl_β(y) dβ` for measurable `f ≥ 0`; the quadric
 of `c` carries `l_{δc}`, and the continuity makes the family unique at every `β`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; HolomorphicDiscreteSeriesOfUnitaryGroups §§2.3, 3.1, 3.4, 3.5 (for the floor groups of the
-Conventions over a place: every element of `N_a` is some `ν(v, β)`, and `u ↦ ue*_a` maps `N_a` bijectively onto the
-isotropic vectors `y` of `V_a` with `⟨e_a, y⟩ = 1`; two families of measures that disintegrate one measure along a
-hermitian form, in the sense of 2.1 (c), agree at every skew element; for a hyperbolic basis the quadric measures of
+*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; HolomorphicDiscreteSeriesOfUnitaryGroups §§2.3, 3.4, 3.5 (for the
+floor groups of the Conventions over a place: every element of `N_a` is some `ν(v, β)`, and `u ↦ ue*_a` maps `N_a`
+bijectively onto the isotropic vectors `y` of `V_a` with `⟨e_a, y⟩ = 1`; for a hyperbolic basis the quadric measures of
 floor `b` disintegrate the volume of `V_b` along `⟨y, y⟩`; and Plancherel's inequality at a place: for a unit `η` and
-`f` measurable and integrable on `A^ι`, `∫ |∫ ψ(η·Σ_i v̄_i w_i) f(w) dw|² dv ≤ (c_P/|η|)^{#ι}·∫ |f|²`).
+`f` measurable and integrable on `A^ι`, `∫ |∫ ψ(η·Σ_i v̄_i w_i) f(w) dw|² dv ≤ (c_P/|η|)^{#ι}·∫ |f|²`); ShortGRH
+background (at a place `A`, two families of measures on `A^ι` that disintegrate one measure along a hermitian form, in
+the sense of 2.1 (c), agree at every skew element; [ShortProof] `Lib/General/Measure/QuadricDisintegration.lean`
+(`New.Floors.Place.IsDisintegration.unique`)).
 
 [ShortProof], `Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`);
 `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`);
@@ -375,9 +379,9 @@ that: `m ≤ 9n`; `c_P ≥ 1`; `M`, the hyperbolic basis, `τδ⁻¹` and the el
 size
 `i + 2` makes `(cω₁, cω₂)` a close pair for all vectors `ω₁, ω₂` of size `i`; a unit of size `j` has modulus at most
 `Λ^j`;
-`vol A_(j) ≤ Λ^{j+1}`; `2p ≤ #ι`; the volume of `A^p` disintegrates along the standard form into an s-finite kernel each
-measure of which gives mass at most `Λ^{p(j+1)}` to the vectors of size `j`; and for every `g ∈ K`, every position `z`
-and
+`vol A_(j) ≤ Λ^{j+1}`; `2p ≤ #ι`; some s-finite kernel disintegrates the volume of `A^p` along the standard form and
+gives, under every one of its measures, mass at most `Λ^{p(j+1)}` to the set of vectors of size `j`; and for every
+`g ∈ K`, every position `z` and
 every `ϱ` linear forms `v` on `X′`, there is a common bound for the set `W` of the vectors of `X′` killed by `v` and
 short
 from `g` and `gz`: a measurable `φ ≥ 0` on `X′` with `φ(u) ≥ 1/vol⟨u, W⟩`, with `φ(u)` at least the volume of the
@@ -427,10 +431,11 @@ plane: here in a block of orthonormal coordinates, uniformly for a gauge, and fo
 
 Let `Γ` be a gauge for `F`. Prove:
 
-(a) let `ρ` be the volume of `V_b` or the quadric measure of floor `b`. In the coordinates of the basis of `V_b`, `ρ` is
-solved
-in every block of `p` distinct orthonormal basis vectors: the other coordinates are free, and over each of their
-values the points of the block with all coordinates of size `j` have mass at most `Λ^{p(j+1)}`;
+(a) let `ρ` be the volume of `V_b` or the quadric measure of floor `b`, written in the coordinates of the basis of
+`V_b`, and fix a block of `p` distinct orthonormal basis vectors. Then `ρ` is solved in the block: to each value `w` of
+the coordinates outside the block belongs a measure `ζ_w` on the block coordinates, of mass at most `Λ^{p(j+1)}` on the
+points all of whose coordinates have size `j`, and `ρ` is the integral over `w`, for the volume, of `ζ_w` placed over
+`w`;
 
 (b) for `ρ` as in (a) and measurable `φ ≥ 0` on `X′` with integral at most `B` over the vectors of size `j + 4`, the
 `ρ`-integral of `φ(y_X)` over the vectors `y` of size `j` is at most `Λ^{99n(j+6)}·B`;
@@ -458,13 +463,13 @@ most `B` over the vectors of size `j + 5`, the integral of `φ(y_X)` over the po
 ### 2.5 Plancherel's formula on quadrics and along Heisenberg groups
 
 *Origin:* adapted from Plancherel's formula for the Fourier transform on a locally compact abelian group: here an
-inequality for a Fourier kernel between two quadrics, by Cauchy–Schwarz in the fibres and Plancherel's formula in the
-orthonormal coordinates off two blocks.
+inequality for a Fourier kernel between two quadrics, with the Cauchy–Schwarz inequality for the coordinates of two
+blocks that carry the equations, and Plancherel's formula for the orthonormal coordinates outside both.
 
 *Method of the formal proof:* both quadrics are moved into one space and their equations solved in two disjoint
 blocks (2.4 (a)); Plancherel's inequality of the place acts on the coordinates of `X′`, which lie off both blocks.
-Along `N_a` a partial correlation is a Fourier transform in the next frame vector, by the character law of a pairing
-kernel.
+For (b), the character law of the pairing kernel (2.3 (c)) writes the partial correlation at `ν(ω, β)` as an integral
+over floor `a + 1` against a character of `⟨ω, σ⁻¹f_{a+1}⟩`, that is, as a Fourier transform in `ω`.
 
 Let `Γ` be a gauge for `F`. Prove:
 
@@ -500,12 +505,14 @@ over the
 
 ## Layer 3: Depth, densities, one frame, two frames and shells
 
-For a cut Bessel function `W` and two heads `p`, `q`, the form of floor `j` is a density times an integral, over a
-position and two frames, of a weighted product of two correlations. This layer proves the descent of the forms from
-one floor to the next and the bounds for them: deep vectors are rare; after Cauchy–Schwarz each frame is paired with
-itself and integrated along its Heisenberg groups; a weight made of depths separates the two frames; at a fixed
-position the form gains from a frequency, from two different heads, or from a deep vector; and the positions are cut
-into shells by their height, the gain of a deep vector paying for the loss on the high shells.
+The form of floor `j` of a cut Bessel function `W` for two heads `p`, `q` (3.2) integrates, over a position and two
+frames, the product of two correlations and a weight, and multiplies by the head density. This layer relates the
+forms of consecutive floors (3.2 (e)) and bounds them. Large depth occurs only on a set of small mass (3.1). The
+Cauchy–Schwarz inequality, with a weight built from depths, splits a form into one factor for each frame (3.4 (a)),
+and each factor is bounded by integrating along the Heisenberg groups of its frame (3.3). At one position a form saves
+a factor through a frequency, through heads with different entries, or through a vector of large depth
+(3.4 (b)–(d)). Finally the positions are sorted into shells of growing height (3.5): covering a shell by position balls
+loses a power of its height, and on the high shells the saving from large depth outweighs that loss.
 
 Throughout, `F` is a place datum for `G` over a place `A`, `Γ` a gauge for `F` with loss `Λ`, `n = ϱ + 1`, `s` the
 volume
@@ -513,9 +520,11 @@ exponent, and `𝖬` is assumed to be a Haar measure of `G` where a statement sa
 
 ### 3.1 Depth
 
-*Origin:* particular to this proof: for a fixed position few frame vectors are deep, for a fixed frame vector few
-translates of the position leave it shallow; a position far from `1` has a deep vector, and a head keeps the first
-vectors shallow.
+*Origin:* particular to this proof: bounds for the depth of the frame vectors in both directions. For a fixed position
+the positive powers of the depth have bounded mass over a floor (a) and over the Heisenberg groups of the lower floors
+(c); the negative powers have bounded mass over the translates of the position along the Heisenberg groups (b), (c); a
+bound for all depths confines the position near `1` (d); and over two heads of length `j` the first `j` frame vectors
+have bounded depth (e).
 
 *Method of the formal proof:* depths are read on the common vectors of `X′`, which look the same from the two points;
 the common bound of the gauge (2.3 (a)) bounds the depth by `φ(y_X)`, and 2.4 (b), (d) integrate `φ^s` over a quadric or
@@ -627,8 +636,9 @@ integral is `t·𝓘_a(p, q; x ↦ φ(⟨f_a, x f_a⟩))`. In particular this ho
 
 ### 3.3 One frame
 
-*Origin:* particular to this proof: the second moment of one frame, the square of a partial correlation integrated
-over the position ball along the Heisenberg groups of the frame, is bounded by the squared `L²` norm of the kernel.
+*Origin:* particular to this proof: the squared `L²` norm of the kernel bounds the integral over the position ball of
+the second moment of one frame (2.3 (e)), itself an integral of weighted squares of partial correlations against the
+floor measures.
 
 *Method of the formal proof:* a step below the pivot uses up one factor of the depth weight through 3.1 (b); a step
 above it adds a frame vector by Parseval's inequality along the Heisenberg group (2.5 (c)); the top floor, where only
@@ -662,8 +672,9 @@ twist `1` and the second moment at `x` from floor `j` of its correlation with tw
 
 ### 3.4 Two frames: separation, and the gains at one position
 
-*Origin:* particular to this proof: a weight made of depths separates the two frames, and at a fixed position the
-form gains from a frequency, from two different heads, or from a deep vector.
+*Origin:* particular to this proof: the two frames are decoupled by the Cauchy–Schwarz inequality with a weight built
+from depths (a), and at one position the form saves a factor through a frequency (b), through heads with different
+entries (c), or through a vector of large depth (d).
 
 *Method of the formal proof:* Cauchy–Schwarz with the depth weight and its inverse, whose integrals are 3.1 (c),
 separates the frames (a). For (b) and (c) the two correlations carry characters on `N_j` that differ by the frequency
@@ -706,9 +717,9 @@ at `x` is at most `σ^s·V²·Π_j(p, q; x)`.
 
 ### 3.5 The sum over the shells
 
-*Origin:* particular to this proof: the positions are cut into shells by their height; on one shell the bound for
-one frame loses a power of the height, and above a threshold every position has a deep vector, whose gain pays for the
-loss.
+*Origin:* particular to this proof: a sum over shells, sets of positions of bounded height. Applied on the position
+balls that cover a shell, 3.3 (b) loses a power of its height; beyond a threshold height the definition of a shell
+gives every position a vector of large depth, and the saving it brings (3.4 (d)) exceeds that loss.
 
 *Method of the formal proof:* a shell is covered by few position balls, on each of which 3.3 (b) applies after a
 translation; on the shells of height `2^i` above the threshold, 3.4 (d) with the depth forced by the height gives a
@@ -791,11 +802,16 @@ over the lifts; the real depth of `e_a` at `(g, g′)` is the infimum, over the 
 squares of the induced lengths of `ζ` on `Y^(a)` at `g` and at `g′`. Prove: `𝔡_a(x, y)` is a disc, and `depth_a(x, y)`
 is the real depth of `e_a` at `(x, xy)` divided by `π`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; HolomorphicDiscreteSeriesOfUnitaryGroups §§3.2, 3.6 (polar coordinates on `ℂ^κ`:
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; HolomorphicDiscreteSeriesOfUnitaryGroups §§2.7, 3.2,
+3.6, 3.7 (polar coordinates on `ℂ^κ`:
 `∫ g(ω) dω = ∫₀^∞ π^k r^{k−1}/(k − 1)!·∫_{U(k)} g(h(√r·x)) dh dr` for a basis vector `x`; the Cartan decomposition
 `σ = h·w(c)·h′` of an isometry `σ` of `X₀ ⊕ ℂz` with `|h(z, σz)| = |c| > 1`, with `h, h′ ∈ U(X₀)` and `w(c)` a boost;
 and, for `k > 1`, measures on the hyperboloids `h(v, v) = t` that disintegrate Lebesgue measure of `X₀ ⊕ ℂz` along
-`h(v, v)`).
+`h(v, v)`; and, for the bound in (c) on the image of `𝖬` under inversion: half the quadric measure of floor `b`, and
+half the image of `η_a` under `u ↦ ue*_a`, lie below the fibre measures of the map that records the products of a
+vector with the basis vectors of the lower floors (and with `e_a`, for `η_a`) and its norm; a measure below the fibre
+of the Gram map at the basis vectors outside `X₀`, convolved with `μ_H`, is at most `vol U(r)/(vol U(k)·2^{2ϱ+1})`
+times Haar measure; and inversion reverses convolutions and fixes `η_l` and `μ_H`).
 
 [ShortProof], `New/Spanning/Frames/RealPlaceGauge.lean` (`New.Floors.ascConv_heisenbergMeasure_eq_besselHaar`,
 `New.Floors.dualColumnGaussian`, `New.Floors.RealPlaceSizes`, `New.Floors.RealPlaceSizes.complexData`,
@@ -882,10 +898,10 @@ This is the statement that SecondMomentsOfPoincareSeries §3.14 uses for the cut
 
 ## Layer 5: The finite places
 
-A finite place in the sense of 2.1 (a) may be a finite set of finite places read as one ring. This layer supplies the
-place datum and the gauges at such a place from the lattice of integral vectors, constructs the finite Bessel vector
-of a group between the principal congruence subgroup and the integral points, and proves the bound for the forms of
-the floors and for the mass integral.
+The finite places of 2.1 (a) include the product of the completions at several finite places, taken as one ring. At
+such a place this layer builds the place datum and its gauges out of the integral vectors (5.1), defines the finite
+Bessel vector of any group lying between the principal congruence subgroup and the integral points (5.2), describes
+depth at these places (5.3), and bounds the forms of the floors and the mass integral (5.4).
 
 ### 5.1 Lattice data and large lattice data
 
@@ -925,18 +941,22 @@ and `⟨z, z⟩ = −N`, written in the lattice basis of SecondMomentsOfPoincare
 `O` have
 volume at most `1/B`, then `𝖬(K) ≥ 2^{−n}`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; SiegelWeilAndRallisFormulasOnUnitaryGroups §§3.6, 3.7, 3.8 (at a finite place `A` with
-integers `O`: for a unit `u`, `vol{x : ux ∈ O} = |u|⁻¹`, and `|u| ≤ 1` if `u ∈ O`; the integral vectors of `A^ι` are
-open and compact of volume `1`; the congruence subgroups `K(g)` of a unitary group are open and `K(1)` is compact; a
-matrix of `GL_ι(O)` has determinant of modulus `1`; for the content index of a vector `p` at `i`, the volume of
-`{c : cp integral}` if `p_i` is a unit and `∞` otherwise: if `ζ_O(μ) ≤ 2`, `V ∈ GL_ι(O)`, `β` is a unit and `s + k`
-coordinates of `V^*w` are singled out, with `k ≥ μ`, then the integral of the `s`-th power of their content index over
-the `w` with `βw` integral is at most `ζ_O(μ)·|β|^{−(#ι−s)}`; the unfolding
-`(η∗θ)(K(g)c⁻¹) = η(K(g))·θ(U_(<j)K(g)c⁻¹)` for `η = η₀∗⋯∗η_{j−1}`, an s-finite measure `θ` and `c ∈ G`; and the
-one-sided form of Fourier inversion for the fibre integrals of a hermitian form `J`: if measures `l_β` disintegrate the
-volume along `x ↦ x^*Jx`, in the sense of 2.1 (c), and `ψ` is trivial on traces, then for continuous `f ≥ 0` of compact
-support and skew `t`, `|∫∫ f(x)·ψ(τβ(x^*Jx − δ⁻¹t)) dx dβ| ≤ ∫ f dl_t`, the left side being `0` if the outer integral
-does not converge).
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (at a finite place `A` (2.1 (a))
+with integers `O`: for a unit `u`, `vol{x : ux ∈ O} = |u|⁻¹`, and `|u| ≤ 1` if `u ∈ O`; the integral vectors of `A^ι`
+are open and compact of volume `1`; for the content index of a vector `p` at `i`, the volume of `{c : cp integral}` if
+`p_i` is a unit and `∞` otherwise: if `ζ_O(μ) ≤ 2`, `V ∈ GL_ι(O)`, `β` is a unit and `s + k` coordinates of `V^*w` are
+singled out, with `k ≥ μ`, then the integral of the `s`-th power of their content index over the `w` with `βw` integral
+is at most `ζ_O(μ)·|β|^{−(#ι−s)}`; the congruence subgroups `K(g)` of a unitary group are open and `K(1)` is compact; a
+matrix of `GL_ι(O)` has determinant of modulus `1`; and the unfolding `(η∗θ)(K(g)c⁻¹) = η(K(g))·θ(U_(<j)K(g)c⁻¹)` for
+`η = η₀∗⋯∗η_{j−1}`, an s-finite measure `θ` and `c ∈ G`; [ShortProof] `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean`
+(`New.Floors.IntegralPlace.volume_setOf_mul_mem`, `New.Floors.IntegralPlace.modulus_le_one`,
+`New.Floors.IntegralPlace.isOpen_isCompact_volume_intVectors`, `New.Floors.IntegralPlace.contentIndex`,
+`New.Floors.IntegralPlace.lintegral_contentIndex_pow_le`, `New.Floors.IntegralPlace.unitaryLevel_open_compact`,
+`New.Floors.IntegralPlace.modulus_det_eq_one`, `New.Floors.IntegralPlace.ascConv_mconv_unfolding`)); ShortGRH background
+(at a finite place `A` with integers `O` and with `ψ(x + x̄) = 1` for all `x`: if `ζ_O(μ) ≤ 2` and `r ≥ 2μ + 1`, some
+s-finite kernel `(l_β)` disintegrates the volume of `A^{r+1}` along `x ↦ x^*x`, in the sense of 2.1 (c), and for every
+unit `u` each `l_β` gives mass at most `ζ_O(μ)·|u|^{−r}` to `{y : u·y_i ∈ O for all i}`; [ShortProof]
+`Lib/SiegelWeil/OneVector/StandardQuadrics.lean` (`New.Floors.IntegralPlace.exists_kernel_isDisintegration_le`)).
 
 [ShortProof], `New/Spanning/Frames/StandardLevel.lean` (`New.Floors.PlaceData.congruenceSubgroup`,
 `New.Floors.IntegralPlace.IsLatticeData`, `New.Floors.IntegralPlace.exists_isLatticeData`,
@@ -1003,8 +1023,9 @@ squared
 
 ### 5.3 Depth, heads and far positions at the finite places
 
-*Origin:* particular to this proof: at the finite places the sets `𝔡_a` are ideals, the heads of a nonvanishing form
-have integral leading products, and a position far from the identity forces a small ideal.
+*Origin:* particular to this proof: what is special to the finite places: at a near point each set `𝔡_a` is an ideal
+(a); a form that does not vanish forces the leading products of both heads to be integral (b); and when the position
+is far from `1`, some `𝔡_i` has small volume (c).
 
 *Method of the formal proof:* the stable vectors at a near point form a lattice, so their products with `e_a` form
 an ideal; a nonzero majorant makes both points near after the Weyl elements, and 1.3 (d) bounds the leading minors,
@@ -1189,8 +1210,8 @@ open embedding: the units are open in `A` and inversion is continuous on them (a
 
 Prove:
 
-(a) `FP_Z(p, q)` agrees on the last vector quadric with a compactly supported function that is invariant under small
-translations and under `H ∩ K(M)`;
+(a) there is a function `Φ` of compact support, with `Φ(x + v) = Φ(x)` for all `x` and all `v` near `0` and
+`Φ(kx) = Φ(x)` for all `x` and all `k ∈ H ∩ K(M)`, that coincides with `FP_Z(p, q)` on the last vector quadric;
 
 (b) `J^Z_top(p, q)` is continuous in `(p, q)`;
 
@@ -1410,10 +1431,15 @@ and
 H. He (2017), the Gan–Gross–Prasad conjecture for `U(p, q)`): here a lower bound for the modulus of the period by the
 volume of a ball, with losses that are powers of a bound `β` for the ranks and the weights.
 
-*Method of the formal proof:* by 8.3 (c) and 8.2 (b) the values of `θ` lie in a cone about the positive real axis up to
-an exponentially small error, because the phases cancel against `exp(−φ)`; so `|∫θ| ≥ ∫ Re θ` up to that error, and
-`Re θ` is bounded below on the ball where both components are near `1`; the decay 8.2 (a) makes `θ` integrable and
-compares the large ball with the small one.
+*Method of the formal proof:* for (a), at an argument where the noncompact parts of the two components are jointly
+small, 8.2 (b) moves the argument close to `1` without changing `θ`, and there 8.3 (c) writes each coefficient as its
+explicit phase times a number near `[0, 1]`; the two phases are cancelled by `exp(−φ)`, so the value of `θ` makes a
+bounded angle with the positive reals, apart from an error exponentially small in `T`; at any other argument the
+decay 8.2 (a), with the large gap, bounds `|θ|` itself by `exp(−100T)`. For (b), the integral of `Re θ` then bounds
+`|∫θ|` from below up to that error, and `Re θ` is bounded below on the ball where both components are near `1`; the
+decay 8.2 (a), with HolomorphicDiscreteSeriesOfUnitaryGroups §1.5 (b), gives the integrability of `θ`, and the
+covering bound of §1.5 (a) relates the set where both components have operator norm at most `β + 1` to that small
+ball.
 
 Let `(l, k, j, τ, B, e, φ)` be a Laplace datum with `B ≥ 1` and with `n` and `m` nonempty, `l` and `k` of large gap `h`
 with entries of modulus at most `L`, and `N = #n + #m`. Prove:
@@ -1425,7 +1451,11 @@ with entries of modulus at most `L`, and `N = #n + #m`. Prove:
 measure on `S` finite on compact sets. If `β ≥ 10¹²`, `N + L ≤ β` and `h ≥ 10³⁰(N² log β)³`, then `θ` is integrable and
 `ν{s : ‖g‖_op ≤ β + 1, ‖g′‖_op ≤ β + 1} ≤ β^{20N²}·|∫_S θ dν|`.
 
-*Needs:* 8.1, 8.2, 8.3.
+*Needs:* 8.1, 8.2, 8.3; HolomorphicDiscreteSeriesOfUnitaryGroups §1.5 (a), (b) (for a right-invariant measure `ν` on a
+group `S`, a `d × d` hermitian matrix `Q` with `Q² = 1`, `d ≥ 1`, and a homomorphism `s ↦ u_s` from `S` to `U(Q)`, with
+operator norms: if `D, R ≥ 1` and `K ≥ 3DR²`, then `ν{s : ‖u_s‖ ≤ R} ≤ K^{2d²}·ν{s : ‖u_s − 1‖ ≤ 1/D}`; and if `S` is a
+topological group, `ν` is finite on compact sets and `s ↦ u_s` is proper, then `s ↦ (2/‖u_s‖)^c` is integrable for
+every integer `c > 8d²`, with integral at most `16^c·ν{s : ‖u_s − 1‖ ≤ 1}`; here `u_s = g ⊕ g′`).
 
 [ShortProof], `New/Appendix/DiscreteSeries/Periods.lean`
 (`New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_mul_re_add`,

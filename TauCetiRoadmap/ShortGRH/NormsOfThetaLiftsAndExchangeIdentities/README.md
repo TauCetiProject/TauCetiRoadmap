@@ -426,8 +426,11 @@ subfield `E⁺` of `E` (the extension `E/E⁺` is unramified at the finite place
 `‖φ_X‖² = C·∏_{w ∈ 𝒞_X}(q_w − 1)·∏_τ ρ(τ)!·dim ρ_O·L^{S}(k, μ_X⁻¹)·(∏_{w ∈ Q_X} q_w)^{2k−1}`,
 with `S` the set of level places of `X` and `L^S` as in the Conventions.
 
-*Needs:* 2.1, 2.2; DeterminantsOfThetaLiftChains §2.2; SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the Rallis inner product formula for sharp
-finite data by doubling, with unramified integrals as a sum over cosets).
+*Needs:* 2.1, 2.2; DeterminantsOfThetaLiftChains §2.2; SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the Rallis
+inner product formula for sharp finite data by doubling, with unramified integrals as a sum over cosets), §1.5 (c) (that
+sum on the constant `1`, the vacuum sum, for a source of rank one, a target of rank `2k ≥ 4` and the character
+`ν·υ₁^k`, `ν` with tame part trivial off a finite set `S`: the partial L-value `L^S(k, ν⁻¹)` divided by the Euler
+product of `ζ_{E⁺}(2k)` without the factors below `S`).
 
 [ShortProof], `New/OneLift/HeckeValues/CharacterLiftNorm.lean` (`New.LValueData.blockMeanSquare`,
 `New.LValueData.isSharp_blockDatum`, `New.LValueData.inner_thetaLift_constForm_self`,
@@ -439,8 +442,11 @@ finite data by doubling, with unramified integrals as a sum over cosets).
 action of automorphisms of `ℂ` on the Taylor coefficients of theta functions of CM lattices
 (DivisibilityOfThetaDerivatives §4.7): here on the lift of a character from `U(1)` without twist places.
 
-*Method of the formal proof:* the semilinear map that conjugates Taylor series of theta functions is moved past the
-Weil operators; on the block datum it acts by a central element, which only permutes the classes of `U(1)`.
+*Method of the formal proof:* the `σ`-semilinear map of ThetaLiftChainsAndTheSeesawIdentity §1.3 turns jets into their
+conjugates and, by its part (b), takes the block datum of `X` to a multiple of that of `Y` moved by a fixed norm-one
+idele. Passing it through the Weil action costs the factors of the statement and turns the kernel of `X` at a point `g`
+of `U(1)` into that of `Y` at a translate of `g` by that idele. As `φ_X` and `φ_Y` are class sums over `U(1)`, this
+translation only reorders their terms.
 
 Let `(q₀, d)` be parameters and `E = K(ζ)` a field of the tower of OneSidedPrimeSumBoundsAndAdmissibleData §2.2, with
 its Weil data, the number `Ω` and the scale `t₀` of Taylor series (DivisibilityOfThetaDerivatives §4.2). Let `S` be
@@ -859,13 +865,15 @@ characters `υ₁^j` and `ν″`, and `ζ` formed with the short basis at the cl
 ### 3.6 The first factors are integral away from the twist and small at the trivial twist
 
 *Origin:* adapted from the published integrality of theta series with integral data (Böcherer and Schmidt (2000);
-Harris, Li and Skinner (2005)) and from T. Yang (1997): here for the series `Υ`, a double class sum of products of three
-theta kernels of definite spaces, with one constant for all choices and all twists.
+Harris, Li and Skinner (2005)) and from T. Yang (1997): here for the series `Υ` of 3.5 (e), built from three definite
+theta kernels summed over the classes of two groups, with a single constant that serves every choice and every twist.
 
-*Method of the formal proof:* each value of `Υ` is a double class sum of products of three theta kernels of definite
-spaces; their jets are integral away from the modulus and their conjugates bounded
-(ThetaLiftChainsAndTheSeesawIdentity §1.5, §1.7), the map `ζ` has the denominator and size of 3.5, the class sums have
-denominators dividing the common multiple of the stabiliser orders, and `Nm Q(ϑ)·M^c` lies in the modulus.
+*Method of the formal proof:* the three kernels in `Υ` (that of `((I_j)⁻, V″)`, that of `(W^add, V″)`, and that of
+`(I_m, I_{3m})` inside `𝖺_{χ′}`) are kernels of definite pairs, and ThetaLiftChainsAndTheSeesawIdentity §1.5 and §1.7
+give for each a nonzero constant after which it is integral and has bounded conjugates. The polynomial map `ζ` enters
+with the denominator and size of 3.5 (c), (d); the two class sums add only denominators that divide `n_GL`
+(ThetaLiftChainsAndTheSeesawIdentity §2.10); and since the modulus contains `Nm Q(ϑ)·M^c` (3.4 (c)), the finite data
+stay integral at every prime not dividing `Nm Q(ϑ)`. The constant `c″` collects these factors.
 
 A vector `y` of weight `μ⁺` on `V″` is integral and small at `(ϑ, h)`, `h ∈ U(V″)(𝔸_f)`, if for every prime `p` not
 dividing `Nm Q(ϑ)` and every embedding `ℂ → ℂ_p` the `p`-adic gauge of `y` at `h` is at most `1`, and, when `Q(ϑ) = ∅`,
@@ -882,10 +890,11 @@ every `h`.
 
 ## Layer 4: Three exchanges, and products span
 
-The exchange identity is applied three times, until only a number is left of the twist: a multiple of the theta series
-of the first factors on `U(W_j)` is the twist-free function `𝖥_i`, and the squared modulus of the multiplier is a
-constant divided by a product `Γ_j(ϑ)` of Hecke values. The second half of the layer proves that products span: a good
-form on `W_j` that is orthogonal to all products of the `𝖥_i` with the theta kernels of `(W_j, V°)` is zero.
+This layer removes the twist from the theta series of the first factors. Two uses of the exchange identity express the
+carrier through a class sum of twisted kernels (4.2); a third shows that a scalar multiple of that series on `U(W_j)` is
+the function `𝖥_i`, in which no twist appears, the scalar being `c′_ϑ/c″` with `c″` the scale of 3.6 and `|c′_ϑ|²` equal
+to a constant over the product `Γ_j(ϑ)` of Hecke values of 4.1 (4.3). Sections 4.4 to 4.6 then show that products span:
+no nonzero good form on `W_j` is orthogonal to every product of an `𝖥_i` with a theta kernel of `(W_j, V°)`.
 
 ### 4.1 The pairs of the three exchanges and the product `Γ_j`
 
@@ -912,10 +921,10 @@ OneSidedPrimeSumBoundsAndAdmissibleData
 
 ### 4.2 The first two exchanges: the carrier as a class sum of twisted kernels
 
-*Origin:* adapted from the Rallis inner product formula at equal rank for a character (Yamana (2014); T. Yang (1997)),
-whose central value folds by the functional equation into Hecke L-values at `1, …, e`, and from J.-S. Li (1992) for
-the nonvanishing and holomorphy of the theta lift of a character in the stable range: here with ramified data computed
-explicitly, as two applications of the exchange identity.
+*Origin:* adapted from the Rallis inner product formula for a character at equal rank (Yamana (2014); T. Yang (1997)),
+in which the functional equation turns the central value into a product of Hecke L-values at the points `1, …, e`, and
+from J.-S. Li (1992), the nonvanishing and holomorphy of theta lifts of characters in the stable range: here as two
+applications of the exchange identity, with the ramified data treated explicitly.
 
 *Method of the formal proof:* (a) is the exchange identity (DeterminantsOfThetaLiftChains §3.10) for the pair
 `(I_m, I_m)` with determinant data, where the side with the trivial group is the constant `1`. (b) applies the exchange
@@ -942,8 +951,8 @@ level, `𝖺_c` and the carrier `φ°` as in 3.4 (b).
 of
 `E` the carrier is continuous, left invariant under the rational points of `U(S)`, right invariant under the principal
 congruence subgroup of level `N` and rapidly decreasing; and for some numbering of the basis of `S` with the positive
-vectors first, it is holomorphic of weight `(0; 3m)` at every infinite place: each left translate, restricted to the
-real group, extends analytically to the products `hb` with `b` invertible and triangular for the numbering.
+vectors first, it is holomorphic of weight `(0; 3m)` at every infinite place: on the real group, every left translate
+of the carrier has an analytic continuation to the products `hb`, `b` invertible and triangular for that numbering.
 
 *Needs:* 3.1, 3.4; DeterminantsOfThetaLiftChains §3.1, §3.10.
 
@@ -953,9 +962,9 @@ real group, extends analytically to the products `hb` with `b` invertible and tr
 
 ### 4.3 The third exchange: the twist survives only as a number
 
-*Origin:* particular to this proof: for every twist, an explicit theta series on `U(W_j)` times a number is a
-twist-free function, and the squared modulus of the number is a constant divided by a product of squared Hecke
-L-values and powers of norms of places.
+*Origin:* particular to this proof: the twist enters the theta series `Ξ^ex_{ϑ,i}` on `U(W_j)` only through a scalar.
+Multiplied by `c′_ϑ`, the series becomes `𝖥_i`, which does not depend on `ϑ`, and `|c′_ϑ|²` is a fixed constant over
+`Γ_j(ϑ)`, a product of powers of the norms of the places of the modulus and of squared Hecke L-values.
 
 *Method of the formal proof:* substitute 4.2 (b) for the carrier in `𝖥_i` and exchange the integral over `[U(S)]`
 against the class sum over `U(V″)` by 3.1 (b), with the additive character `ψ_Λ` made invariant by summing over
@@ -1042,7 +1051,7 @@ Let `D` be the data, `n_* = 2f·t³`, `s` signs on `n` indices with `1 ≤ n ≤
 first. A weight `u = (u_τ)` is admissible here if each `u_τ` is dominant within each sign block and its entries at the
 signs `−1` exceed those at the signs `+1` by at least `300n_*`. `m_u(h) = ∏_τ (quotient of principal minors of weight
 u_τ)(h_τ)` is the basic holomorphic function on the real group `G_∞ = ∏_τ U(diag s)`, `‖h‖` the largest operator norm
-at a place, and a peak of a bounded function is a point where its modulus exceeds half of its supremum.
+at a place, and a bounded function `F` has a peak at `g` if `|F(g)| > sup|F|/2`.
 
 (a) Prove: for admissible `u`, `u′` with `|u_τ(i)| ≤ 5b`: `∫_{G_∞}|m_u|² > 0`, the function `|m_{u′}(h)|·‖h‖^{6n_*}` is
 integrable, and `∫_{G_∞}|m_{u′}(h)|·‖h‖^{6n_*} dh ≤ b^{n_*}·∫_{G_∞}|m_u|²`.
@@ -1071,9 +1080,10 @@ where `deg_λ > 0` is the inverse of `∫|c_λ|²`).
 
 ### 4.6 Products span
 
-*Origin:* adapted from the basis problem, the spanning of a space of forms by theta series (Eichler (1973);
-Waldspurger (1978/79); Böcherer (1989)) and from J.-S. Li (1992): here a good form on `U(W_j)` orthogonal to all
-products of the twist-free theta forms `𝖥_i` with the theta kernels of the complementary block `V°` is zero.
+*Origin:* adapted from the basis problem, whether theta series generate a given space of modular forms (Eichler (1973);
+Waldspurger (1978/79); Böcherer (1989)), and from J.-S. Li (1992): here the products of the functions `𝖥_i`, which do
+not depend on the twist, with the theta kernels of `(W_j, V°)` leave no nonzero good form on `U(W_j)` orthogonal to
+all of them.
 
 *Method of the formal proof:* suppose `y ≠ 0`; its peaks are not deep in a cusp. Four steps. (1) The integral `𝖥^g` of
 the carrier times a kernel on `(S, W̃)` times a basic function over the real group of `S` is a combination of the
@@ -1124,24 +1134,24 @@ the peaks are not deep in a cusp).
 
 ## Layer 5: Periods of false lifts
 
-A false lift on the definite space `V = I_n` of a descent pair is killed by the descent to `W`, by the hyperplane sums
-at
-the chosen places and by one Hecke polynomial at the test value. This layer shows that all its theta descents vanish,
-first to `W` for all data, then up a tower `W ⊕ ℍ^N` of hyperbolic planes, and deduces that its periods over the second
-block of a splitting `I_n = I_N ⊕ I_l` against theta kernels of `(W, I_l)` vanish. This is what makes the glued forms of
-Layer 7 orthogonal to the false lifts.
+Three operators vanish on a false lift on the definite space `V = I_n` of a descent pair: the descent to `W`, the
+hyperplane sums at the chosen places, and the Hecke polynomial of one split place at its test value. From this the
+layer derives the vanishing of all its theta descents, to `W` for every datum that is the vacuum off the level (5.1) and
+then to `W ⊕ ℍ^N` for `N` hyperbolic planes (5.2, 5.3), and from these the vanishing of its periods against theta
+kernels of `(W, I_l)` over the second summand of a splitting `I_n = I_N ⊕ I_l` (5.4). Layer 7 uses the periods to show
+that the glued forms are orthogonal to the false lifts.
 
 ### 5.1 The bottom of the tower: from the block datum to all data
 
 *Origin:* particular to this proof: a form on a definite group whose descents with the block datum vanish, and which
 the hyperplane sums at the chosen places annihilate, has vanishing descents for all data unramified off the level.
 
-*Method of the formal proof:* it suffices to treat the indicator of a small class around each point `x`, modulo `i!`
-for large `i`. If `x` has an integral block ratio at every level place, the mean of the translates of this indicator
-under the level group is a multiple of a translate of the block datum under `U(W)`. Otherwise an annihilating row at a
-place where `x` has no integral block ratio gives integral elements that fix the components of `x` at the level places
-and whose sum annihilates `y`. The passage from the polynomial of the highest vector to all polynomials uses the
-equivariance of the descent for the real group.
+*Method of the formal proof:* for (b), WeilRepresentationsOnBanachSpacesOfData §8.10 (a) reduces the claim to data
+`v_P ⊗ Ψ ⊗ vac`, and, as in §5.3 (a) there, `Ψ` may be taken to be the indicator of a coset of `i!` times the integral
+matrices, `i` large. Two cases, according to the centre `x` of the coset: if `x` has an integral block ratio at every
+level place, averaging over the level group gives a multiple of a `U(W)`-translate of the block datum, covered by the
+hypothesis; if not, the hyperplane sums at a place where it has none supply the vanishing. For (a), the equivariance of
+the descent under the real group carries the vanishing from the polynomial of the highest vector to every polynomial.
 
 Let `O` be a descent pair with `W` of rank `r ≥ 1` and `V = I_n`, and `S_O` the set of the level places and their
 conjugates. For a hermitian space `W′`, a character `a` of `[U(1)]`, and a function `Y` on `U(V)(𝔸)`, "the descents of
@@ -1214,8 +1224,8 @@ the slice `φ ↦ φ[x]`, for an adelic matrix `x`, is a continuous map from the
 `Hom(W, V)`, and `φ[0]` is the zero term of `φ` along the isotropic frame; for a Levi element with components
 `m ∈ GL_p(𝔸)` and `g₀ ∈ U(W)(𝔸)`, `(ω_{aυ₁^p,b}(g, h)φ)[x] = χ_V(det m)⁻¹·|det m|^{n′/2}·ω_{a,b}(g₀, h)(φ[h⁻¹xm])`, with
 `n′` the rank of `V` and `χ_V(y) = b(y/ȳ)υ(y)^{−n′}`; an element `u` of the unipotent radical acts on the slices by
-`(ω(u, 1)φ)[x] = c(u, x)·ϱ(y(u, x))(φ[x])` with a number `c(u, 0) = 1` and a translation `y(u, 0) = 0`; every adelic
-point of `U(W′)` is a product of an element of the radical, a Levi element and an element of the stabiliser of the
+`(ω(u, 1)φ)[x] = c(u, x)·ϱ(y(u, x))(φ[x])` with a number `c(u, 0) = 1` and a translation `y(u, 0) = 0`; the Iwasawa
+decomposition `U(W′)(𝔸) = N·M·K`, with `N` the unipotent radical, `M` the Levi elements and `K` the stabiliser of the
 lattice that is unitary at the infinite places; and, for spaces `S`, `T` of ranks `n` and `m = n + k`, a split place
 `w` of norm `q`, characters `a`, `b` whose base changes are unramified at `w̄`, a datum `f` on `Hom(S, T)` that is the
 vacuum at `w̄`, and an automorphic function `y` of rapid decay on `U(T)(𝔸)` that is spherical at `w`, the transposed
@@ -1238,9 +1248,10 @@ required by 5.2 (a), which is applied once with `N` planes.
 
 Prove: let `O` be a descent pair with `r ≥ 1`, `l₀` a parameter on `W` that fits `O`, and suppose that the tame parts
 are
-nontrivial at the twist places. Let `Ξ ∈ 𝒜(O)` be killed by the hyperplane sums at the chosen places, by the normalised
-descent, and by `H_w(X_*(w))` for one split place `w` off the level. If `2r + 2N + 3 < n`, then for every vector `ζ` of
-the weight the descents to `W ⊕ ℍ^N`, twisted by `ν_W·υ₁^N`, of the conjugate of `h ↦ ⟨ζ, Ξ(h)⟩_ρ` vanish off `S_O`.
+nontrivial at the twist places. Let `Ξ ∈ 𝒜(O)` lie in the kernels of the normalised descent and of `H_w(X_*(w))` for
+one split place `w` off the level, and let the hyperplane sums at the chosen places annihilate it (5.1). If
+`2r + 2N + 3 < n`, then for every vector `ζ` of the weight the descents to `W ⊕ ℍ^N`, twisted by `ν_W·υ₁^N`, of the
+conjugate of `h ↦ ⟨ζ, Ξ(h)⟩_ρ` vanish off `S_O`.
 
 *Needs:* 1.3, 5.1, 5.2.
 
@@ -1248,10 +1259,9 @@ the weight the descents to `W ⊕ ℍ^N`, twisted by `ν_W·υ₁^N`, of the con
 
 ### 5.4 Periods of false lifts over a block vanish
 
-*Origin:* adapted from the published principle that the vanishing of lifts in a theta tower kills theta periods on a
-subgroup (C. Wu (2021); Ginzburg, Jiang and Soudry (2009)): here for a form on a definite `U(I_N ⊕ I_l)` and periods
-over
-`U(I_l)` against theta kernels of `(W, I_l)`, written as class sums.
+*Origin:* adapted from the published principle that theta periods over a subgroup vanish once the theta lifts along a
+tower vanish (C. Wu (2021); Ginzburg, Jiang and Soudry (2009)): here for a form on a definite `U(I_N ⊕ I_l)`, with
+periods over `U(I_l)` against theta kernels of `(W, I_l)` written as class sums.
 
 *Method of the formal proof:* the product of the kernel of `(W, I_l)` with the kernel of `(W, I_N)` at a fixed point is
 a kernel of `(W, I_n)` restricted to the block; a Fourier coefficient of the descent to `W ⊕ ℍ^N` along the planes, with
@@ -1656,9 +1666,9 @@ SecondMomentsOfPoincareSeries §2.3 (b) (`dim 𝒢(W_j) = d_T`), §5.7 (c) (`d_T
 
 ### 7.4 The comparison operator
 
-*Origin:* adapted from the published method of bounding the norm of a lift by an integral form and a congruence
-denominator, known for one eigenform (Hida (1981); Böcherer, Dummigan and Schulze-Pillot (2012); X. Zhang (2018)): here
-one operator for the whole space of lifts of the good forms.
+*Origin:* adapted from the published method that controls the norm of the lift of a single eigenform by means of an
+integral form and a congruence denominator (Hida (1981); Böcherer, Dummigan and Schulze-Pillot (2012); X. Zhang
+(2018)): here a single operator treats the whole space of lifts of the good forms at once.
 
 *Method of the formal proof:* by 7.3 (a), `⟨Θ_ϑ y′, glue_ϑ glue_ϑ^* Θ_ϑ y⟩ = |c′_ϑ|^{−2}⟨Θ° y′, Θ° y⟩`, and `Θ°` is
 injective.
@@ -1805,11 +1815,12 @@ with determinant data).
 CompositeThetaLiftsAndShortForms §2.1, §2.2 (the numbers at a prime, and the prime sums grouped by primes);
 SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`), §5.7 (c) (`d_T > 0`); FiniteReductiveGroups §5.7
 (idempotents of labels); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set inner products and the
-Petersson product); SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the inner product formula for sharp data);
-HolomorphicDiscreteSeriesOfUnitaryGroups §4.1, §5.4, §5.5, §6.3, §6.4 (products of principal minors, bounds for `c_λ`,
-peaks of holomorphic forms); WeilRepresentationsOnBanachSpacesOfData §5.3, §5.4, §6.9, §8.10, §9.3 (data above a set of
-places, mixed models, vanishing of descents, Hecke polynomials through theta lifts);
-AdelicUnitaryGroupsAndAlgebraicModularForms §3.6 (the Iwasawa decomposition).
+Petersson product); SiegelWeilAndRallisFormulasOnUnitaryGroups §1.5 (c), §4.5 (the vacuum sum in rank one as an
+L-value, the inner product formula for sharp data); HolomorphicDiscreteSeriesOfUnitaryGroups §4.1, §5.4, §5.5, §6.3,
+§6.4 (products of principal minors, bounds for `c_λ`, peaks of holomorphic forms);
+WeilRepresentationsOnBanachSpacesOfData §5.3, §5.4, §6.9, §8.10, §9.3 (data above a set of places, mixed models,
+vanishing of descents, Hecke polynomials through theta lifts); AdelicUnitaryGroupsAndAlgebraicModularForms §3.6 (the
+Iwasawa decomposition).
 
 ## References
 

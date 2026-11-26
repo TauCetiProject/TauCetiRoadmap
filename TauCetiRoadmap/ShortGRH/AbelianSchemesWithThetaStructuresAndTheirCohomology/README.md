@@ -14,8 +14,10 @@ a Galois representation for each Hecke eigensystem that occurs.
 The construction avoids a moduli problem. The base is the reduced closure of the theta values of the level points of
 complex tori in a product of projective spaces, in the manner of the theta-null embedding; the family on it is built from
 dense complex points, its smoothness comes from an upper bound for first-order deformations, and its good reduction from
-an analytic multiplicativity property of theta functions at torsion points. The cohomology is the theory of
-CohomologyOfFunctorsOnTestRings, which is not compared with étale cohomology. Along the way the roadmap states the
+an analytic multiplicativity property of theta functions at torsion points. PELModuli builds the moduli problem of
+unitary PEL data and its smooth models; this roadmap does not use it, and 3.2, 6.1, 7.4, 7.5, 8.1 and 8.2 say how their
+objects relate to those of PELModuli. The cohomology is the theory of CohomologyOfFunctorsOnTestRings, which is not
+compared with étale cohomology. Along the way the roadmap states the
 classical theory of theta functions on complex tori that the route uses elsewhere: Frobenius' dimension formula with the
 irreducibility of the translations by the dual lattice, Schur orthogonality for theta translates, Riemann's theta
 relation, and the existence half of the Appell–Humbert theorem.
@@ -28,8 +30,9 @@ dual lattice `L^⊥` span its endomorphisms.
 
 (2) *The universal theta family* (7.4). For PEL data `D` over a CM field `E` and a localisation `R` of `𝓞_E` all of whose
 maximal ideals lie over primes good for `D`, there is an abelian scheme with `𝓞_E`-action, theta coordinates and level
-points over a projective `R`-scheme that is smooth of relative dimension `n − 1`, whose fibres at a dense set of complex
-points are the theta tori of all analytic families.
+points over a smooth projective `R`-scheme of relative dimension `n − 1`, together with a dense family of complex
+points of the base, one for each analytic family of theta tori (5.5) and each parameter, at which the fibre is modelled
+on the theta torus of that family at that parameter.
 
 (3) *The model and its congruence relation* (8.4). From such a family, at a neat level, one obtains a tower of reduced
 projective covers of the base with Hecke legs, finite deck groups, complex points described by linear algebra, the
@@ -67,7 +70,11 @@ Galois representations.
   standard object, and the statements are made on the standard one.
 - *Complex tori.* `V` is a finite-dimensional complex vector space and `L ⊂ V` a full lattice (a discrete subgroup that
   spans `V` over `ℝ`). A *form* `B` on `V` is a map `V × V → ℂ` that is `ℝ`-linear in the first and `ℂ`-linear in the
-  second variable; it need not be hermitian. `e(t) = exp(2πit)`.
+  second variable; it need not be hermitian. `e(t) = exp(2πit)`. AbelianSchemesAndArithmeticModuli §§A5.2–A5.3 write
+  the line bundle of a hermitian form `H` (linear in the first variable) and a semicharacter `α` through the factor of
+  automorphy `α(λ)·exp(π H(z, λ) + π H(λ, λ)/2)`, with Riemann form `E = Im H`; the same bundle has here the type
+  `(B, χ)` with `B(u, v) = π H(v, u)` and `χ = α`, so that `E_B = −E`. Thus `E_B` (1.1) is the first Chern class, which
+  §A5.3 identifies with `−E`, and positivity of `E_B` (1.1) is positivity of `H`.
 - *The CM field.* `E` is a CM field with complex conjugation `a ↦ ā`, together with a CM type `Φ` (an embedding
   `Φ_v : E → ℂ` for each infinite place `v`) and a base infinite place `v₀`; `E` has at least two infinite places, and
   `f` is their number. Where a section says so, `E` contains an imaginary quadratic field `K₀ = ℚ(√−d₀)` with
@@ -150,9 +157,11 @@ Let `(B, χ)` be Appell–Humbert data for `L`.
 
 ### 1.2 Frobenius' dimension formula and irreducibility
 
-*Origin:* adapted from the published theory of theta functions on complex tori (Frobenius' dimension formula and the
-irreducibility of the theta group): here basis-free and for a form `B` that need not be hermitian, as
-`(dim Θ)² = [L^⊥ : L]`, together with the statement that the twisted translations by `L^⊥` span all endomorphisms.
+*Origin:* adapted from Frobenius' dimension formula and the irreducibility of the theta group (G. Frobenius, *Über die
+Grundlagen der Theorie der Jacobischen Functionen*, Crelle 97 (1884); Birkenhake–Lange, *Complex Abelian Varieties*,
+3.2.7, 4.1.5, 6.4; a survey of proofs in D. Bump, A. Pekker, Proc. Amer. Math. Soc. 130 (2002), 3473–3481): no
+symplectic basis enters the statement, which reads `(dim Θ)² = [L^⊥ : L]`; the form `B` is not assumed hermitian; and
+the spanning of `End_ℂ(Θ)` by the twisted translations by `L^⊥` is stated with it.
 
 *Method of the formal proof:* subtracting from `B` its part that is complex-linear in the first variable gives a form
 `B + T` with the same Riemann form and `Re (B + T)(x, x) = π E_B(x, ix) > 0`; a Poincaré series for `B + T`, which
@@ -172,12 +181,13 @@ nonzero `f ∈ Θ` contains `Θ`; an endomorphism of `Θ` that commutes with all
 
 *Needs:* 1.1.
 
-The library has the case of dimension one only, for the classical factor of automorphy:
-`TauCeti.finrank_thetaSections` (dimension `k` of the level-`k` theta functions on `ℂ/(ℤ + τℤ)`), which does not give
-the statement. Among the roadmaps, SpecialFunctionsTheta §7.4 has the dimension `N^g` of the theta functions of order
-`N` for a period matrix `Ω ∈ 𝔥_g` (the principal type), and AbelianSchemesAndArithmeticModuli §A5.4 (2) has
-`h⁰(L) = d` and `deg λ = d²` for a polarised complex abelian variety, from Riemann–Roch; the statement here is on the
-space of theta functions itself, for every type and for a form `B` that need not be hermitian, and includes (b) and (d).
+Among the roadmaps, SpecialFunctionsTheta §7.4 has the dimension `N^g` of the theta functions of order `N` for a period
+matrix `Ω ∈ 𝔥_g` (the principal type), and AbelianSchemesAndArithmeticModuli §A5.4 (2) has `h⁰(L) = d` and
+`deg λ = d²` for a polarised complex abelian variety, from Riemann–Roch; the statement here is on the space of theta
+functions itself, for every type and for a form `B` that need not be hermitian, and includes (b) and (d).
+On Tau Ceti's main branch, later than the revision pinned here: the case of dimension one for the classical factor of
+automorphy, `TauCeti.finrank_thetaSections` (dimension `k` of the level-`k` theta functions on `ℂ/(ℤ + τℤ)`), which
+does not give the statement. `Suggested.lean` states (a) and (c) on Mathlib's carriers.
 
 [ShortProof], `Lib/Shimura/ComplexTheta/DimensionFormula` (`New.IsAppellHumbert.summable_and_analyticAt_tsum`,
 `New.IsAppellHumbert.exists_mem_thetaSpace_ne_zero`, `New.IsAppellHumbert.finite_thetaSpace`,
@@ -209,9 +219,9 @@ is `χ_b(x) = exp(πi E_B(bx, x))`, `x ∈ V`. Then `(B, χ_b)` are Appell–Hum
 
 ### 1.4 Schur orthogonality for theta translates
 
-*Origin:* particular to this proof: an orthogonality relation for the twisted translates of theta functions by an
-orbit of the dual lattice, and its integral consequence over a valuation ring of `ℂ`; the nearest published result is
-Schur orthogonality for the irreducible representation of the theta group.
+*Origin:* adapted from Schur orthogonality for the irreducible representation of the theta group: here it is an identity
+for the twisted translates of theta functions by an orbit of the dual lattice, proved without building the theta group,
+with an integral consequence over a valuation ring of `ℂ`.
 
 *Method of the formal proof:* for fixed `w` the left side of (a), as a function of `g`, defines an endomorphism of `Θ`
 that commutes with the translations by `L^⊥`, hence a scalar by 1.2 (d); its trace is computed with 1.2 (c). (b) follows
@@ -359,10 +369,13 @@ units, are coprime to `c̄`, divide a power of `p`, and have `v(det F(c̄)) = 1`
 
 ### 2.3 Integral normal generation under good reduction
 
-*Origin:* adapted from the published theory of projective normality of abelian varieties and its persistence under good
-reduction: here for theta functions on a complex torus, for the degrees `r^j` only, over the valuation ring of a
-valuation of `ℂ` with good reduction in the sense of 2.1, where the balls of the theta norm play the part of integral
-sections; no cohomology and no vanishing theorem occur.
+*Origin:* adapted from the theorems on projective normality of abelian varieties and on its persistence under good
+reduction (S. Koizumi, *Theta relations and projective normality of abelian varieties*, Amer. J. Math. 98 (1976);
+T. Sekiguchi, J. Math. Soc. Japan 29 (1977), in characteristic `p`; G. Kempf, *Multiplication over abelian varieties*,
+Amer. J. Math. 110 (1988)). The version here is analytic: theta functions on a complex torus, the valuation ring of a
+valuation of `ℂ` at which the torus has good reduction in the sense of 2.1 in place of a base, balls of the theta norm in
+place of integral sections, and only the degrees `r^j`; the proof rests on 1.4 (b) and the multiplicative norm, not on
+cohomology.
 
 *Method of the formal proof:* the multiplicative norm gives `Ball(f)^r ⊂ Ball(f^r)`; for the converse, 1.4 (b) and the
 translations by the dual lattice of `L₀ ⊃ r⁻¹L` show that `Ball(f^r)` is generated by products, and induction on `j`
@@ -454,6 +467,13 @@ of every maximal ideal of `R`. Write `T[r]` for the `r`-torsion of `T`.
 
 *Needs:* 3.1.
 
+Relation to PELModuli §M5.5 (unitary PEL data): `ξ` plays the part of `δ` there (`ξ̄ = −ξ` and `Im Φ_v(ξ) > 0` for every
+`v`), and for a matrix `β_Y` with a frame `g` (3.3) the form `Tr_{E/ℚ}(ξ·zᴴβ_Y y)` on `Eⁿ` is the scalar form `ψ` of
+§M5.5 for the hermitian form `(y, z) ↦ zᴴβ_Y y`; for a theta torus this form has signature `(1, n − 1)` at `Φ_{v₀}` and is
+positive definite at the other places of the CM type. PEL data in the sense here fix no hermitian space, since the
+frames and the matrices `β_Y` vary, and they add to the field, the CM type and `ξ` the level `𝔑`, the group `T` with its
+Lagrangian `Λ` and the numerical conditions of the construction. No target of this roadmap compares the two further.
+
 [ShortProof], `Lib/Shimura/ThetaModuli/PELThetaTori` (`New.PEL`, `New.Variety.HasPadding`, `New.PEL.levelTorsion`,
 `New.PEL.IsGoodAt`, `New.PEL.rTorsion`); `Lib/Shimura/ThetaModuli/FlatClosure` (`New.Variety.ThetaNull.IsCutDegree`,
 `New.Variety.ThetaNull.thetaRanks`); `Lib/Shimura/ThetaModuli/UniversalFamily` (`New.Variety.ThetaNull.IsGoodOver`)
@@ -509,7 +529,10 @@ of unity.
 
 *Origin:* particular to this proof: theta tori have good reduction in the analytic sense of 2.1 at every valuation of
 `ℂ` over a prime good for `D`, and `#T` is a unit there; the nearest published result is the good reduction of unitary
-PEL abelian varieties with many endomorphisms (properness of PEL moduli spaces in the compact case).
+PEL abelian varieties with many endomorphisms (properness of PEL moduli spaces in the compact case: K.-W. Lan,
+*Elevators for degenerations of PEL structures*, Math. Res. Lett. 18 (2011); R. Kottwitz, *Points on some Shimura
+varieties over finite fields*, J. Amer. Math. Soc. 5 (1992), §5; in the CM case B. Conrad, *Semistable reduction for
+abelian varieties* (notes), Prop. 6.3, after Serre and Tate, Ann. of Math. 88 (1968)).
 
 *Method of the formal proof:* averaging `B` over multiplication by `i` gives a positive hermitian form with the same
 Riemann form, for which `𝓞_E` with `β` is a hermitian action, so 1.5 applies; 2.2 (d) is applied with `c = ā`, where
@@ -530,9 +553,13 @@ and `v(#T) = 1`.
 
 ### 3.5 Riemann's theta relation
 
-*Origin:* adapted from the published theory of Riemann's theta formula: here a relation of degree `r` in one variable
-for the theta coordinates of a theta torus, with multipliers in `𝓞_E` in place of the orthogonal matrix with entries
-`±1/2`, proved from Schur orthogonality.
+*Origin:* adapted from Riemann's theta formula and its generalisations (C.-L. Chai, *Riemann's theta formula* (2014),
+Theorem 1.2; A. Nagano, *On Riemann type relations for theta functions on bounded symmetric domains of type I*, arXiv
+2301.09243 (2023), Theorem 1.1; D. Mumford, *On the equations defining abelian varieties I*, Invent. Math. 1 (1966), §3;
+G. Kempf, *Linear systems on abelian varieties*, Amer. J. Math. 111 (1989), 65–94). The identity here is derived from
+1.4; its coefficients `a_k, b_k` are integers of `E`, where the classical formula has an orthogonal matrix with entries
+`±1/2`; and it links products of theta coordinates of one theta torus taken at the points `a_k z + b_k w`, of total
+degree `r` in the sense that `Σ ā_k a_k = r`.
 
 *Method of the formal proof:* the product `P(μ; z)` transforms under the twisted translations of degree `rB` like a theta
 function whose index is shifted by `Σ āμ`, by the theta law 3.3 (d); the relation is then 1.4 (a) applied in degree
@@ -554,10 +581,10 @@ both products taken at the same `w`, where `(μ − a·s)_k = μ_k − a_k s`.
 
 ### 3.6 The reduced theta vectors are cut out by the level points
 
-*Origin:* particular to this proof: at a valuation of good reduction, the forms of degree `r^j` in the theta coordinates
-with integral coefficients are a ball of theta functions, and the ideal of the reduced theta vectors is cut out, in the
-degrees `r^j`, by the reduced theta vectors of the level points with the expected ranks; the nearest published results
-are the equations of abelian varieties in theta coordinates.
+*Origin:* particular to this proof: when the torus has good reduction at the valuation, the values of the integral forms
+of degree `r^j` in the theta coordinates fill exactly a ball of the theta norm, and the ideal of the reduced theta
+vectors is cut out, in the degrees `r^j`, by the reduced theta vectors of the level points with the expected ranks; the
+nearest published results are the equations of abelian varieties in theta coordinates.
 
 *Method of the formal proof:* (a) from 2.3 (a), the coordinates being translates of one function by representatives of
 the dual lattice; (b) from the theta law and the multiplicativity of the norm; (c) from 2.3 (c), (d), the level points
@@ -602,7 +629,7 @@ self-annihilating subgroup; `ξ` is chosen with the prescribed signs, and the pa
 satisfied by taking `r` and `i` large (FlatClosure's finiteness of degree bounds); the integer `N` collects the bad
 primes.
 
-Let `d ≡ 3 (mod 4)`, let `E ⊃ ℚ(√−d)` be a CM field that contains a primitive root of unity of order `5040`, `n ≥ 1`,
+Let `d ≡ 3 (mod 4)`, let `E ⊃ ℚ(√−d)` be a CM field containing the `5040`-th roots of unity, `n ≥ 1`,
 `σ : E → ℂ` an embedding and `B` a finite set of finite places of `E`. Then there are a CM type with base place `v₀` with
 `Φ_{v₀} = σ` and `Φ_v|_{ℚ(√−d)} ≠ Φ_{v₀}|_{ℚ(√−d)}` for `v ≠ v₀`, and an integer `N ≥ 1` lying in no place of `B`, such
 that for every `𝔑 ≠ 0` in `𝓞_E` divisible by `N` there are PEL data of rank `n` and level `𝔑` with `β = β₀` (for
@@ -631,9 +658,12 @@ affine base change.
 A *commutative group scheme* over `S` is a commutative group object of schemes over `S`, written additively; an *action*
 of a commutative ring `O` on it is a ring homomorphism from `O` to its endomorphisms. An *abelian scheme* over `S` is a
 commutative group scheme that is smooth and proper over `S` and on which multiplication by every integer `m ≠ 0` is
-surjective. (This is the usual notion: surjectivity of every `[m]` forces connected geometric fibres.
-AbelianSchemesAndArithmeticModuli §A0.1 defines abelian schemes with geometrically connected fibres in place of the
-surjectivity of every `[m]`, and without commutativity in the structure.) A
+surjective. (This is the usual notion. AbelianSchemesAndArithmeticModuli §A0.1 defines abelian schemes with
+geometrically connected fibres in place of the surjectivity of every `[m]`, and without commutativity in the structure;
+the two definitions give the same objects. A geometric fibre that is not connected has a nontrivial finite group of
+components, which `[m]` kills for `m` its order, so surjectivity of every `[m]` forces connected geometric fibres;
+conversely an abelian scheme of §A0.1 is commutative by §A1.2 (2), and on it `[m]`, `m ≠ 0`, is finite locally free of
+positive rank by §A3.2 (1), hence surjective.) A
 *homomorphism* is a morphism compatible with addition; an *isogeny* is a homomorphism that is finite, flat and
 surjective. For a class `c ∈ Pic(A)` and `T`-points `x, y` of `A`, `x^*c ∈ Pic(T)` and
 `⟨x, y⟩_c = (x + y)^*c − x^*c − y^*c + 0^*c ∈ Pic(T)`; `c` satisfies the *parallelogram law* if
@@ -675,6 +705,12 @@ quasi-compact, `a, a′` morphisms from `A₁`, `b, b′` homomorphisms from `A�
 
 *Needs:* 4.1.
 
+Relation to AbelianSchemesAndArithmeticModuli §A1.5 (the theorem of the cube): there `[n]^*L ≅ L^{n²}` is proved for a
+symmetric rigidified `L` on an abelian scheme over any base, and the sum–difference statement of §A1.5 is the
+parallelogram law for such `L`. Here the last assertion of (b) and (c) assume the parallelogram law instead and hold for
+every commutative group scheme. On an abelian scheme over a local base the two agree: a class with the parallelogram
+law is symmetric (take `x = 0`), every class is rigidified there, and (c) is then the symmetric case of §A1.5.
+
 [ShortProof], `Lib/Shimura/AbelianScheme/Pairings` (`New.Variety.locallyQuasiFinite_of_pull_picClass`,
 `New.Variety.pairing_comm`, `New.Variety.pairing_comp`, `New.Pic.ParallelogramLaw.pairing_nsmul_left`,
 `New.Pic.ParallelogramLaw.nsmul_pairing_eq_pairing_nsmul`, `New.Variety.pull_nsmul_eq_sq_smul`,
@@ -682,8 +718,10 @@ quasi-compact, `a, a′` morphisms from `A₁`, `b, b′` homomorphisms from `A�
 
 ### 4.3 Quasi-finite surjective homomorphisms of abelian schemes are isogenies
 
-*Origin:* adapted from the published theory of isogenies of abelian schemes: here over a local base, with
-quasi-finiteness as the hypothesis.
+*Origin:* adapted from the theory of isogenies of abelian schemes (B. Edixhoven, G. van der Geer, B. Moonen, *Abelian
+Varieties* (draft), ch. IV §3, (5.1)–(5.2), ch. VI §1; The Stacks project, Section 0BF9; EGA IV; S. Bosch,
+W. Lütkebohmert, M. Raynaud, *Néron Models* (1990), 7.3, 8.1): here over a local base, with quasi-finiteness as the
+hypothesis.
 
 *Method of the formal proof:* properness and local quasi-finiteness give finiteness (Zariski's main theorem, in
 Mathlib); flatness is proved by descent along the fpqc cover `(a, d) ↦ f(a) + u(d)` of `B`, for a flat map `u` from a
@@ -715,8 +753,8 @@ through étale coordinates evaluated on points that vanish modulo a square-zero 
 condition for an action of a ring.
 
 *Method of the formal proof:* étale coordinates come from the local structure of smooth morphisms; on infinitesimal
-points the coordinates are additive and the action is linear; (f) the ideal of the locus where the section vanishes
-satisfies `I ⊂ I²` by (e), so `I = 0` by Nakayama's lemma.
+points the coordinates are additive and the action is linear; for (f), (e) applied to the section along its zero locus
+shows that the ideal `I` of that locus is contained in `I²`, and Nakayama's lemma gives `I = 0`.
 
 A *square-zero extension* is a surjective ring homomorphism `ψ : C → C′` whose kernel has square zero; a `C`-point `y` of
 a group scheme `A` is *infinitesimal for `ψ`* if its image in `A(C′)` is `0`. For regular functions `z_1, …, z_g` on an
@@ -750,7 +788,8 @@ with `mx = 0` that vanishes at some point `Spec K → Spec R`, `K ≠ 0`, is zer
 
 ### 4.5 Lifts of translations and rigidity of theta structures
 
-*Origin:* adapted from the published theory of theta groups and theta structures on abelian schemes: here the lift of a
+*Origin:* adapted from the theory of theta groups and theta structures on abelian varieties (D. Mumford, *On the
+equations defining abelian varieties I*, Invent. Math. 1 (1966), §§1–2): here the lift of a
 translation to the sections of a linear system exists exactly over `K([N])`, a theta structure is a linear system whose
 coordinates are permuted by lifts of `y ↦ ±y + η(s)` up to characters, and theta structures are rigid along
 homomorphisms.
@@ -781,6 +820,13 @@ which global functions are constant on the fibres over `R′`; lifts compose.
 (d) Under the hypotheses of (c), if `N` is a projective embedding and `t_y` lifts to `N`, then `#H·y = 0`.
 
 *Needs:* 4.1, 4.2.
+
+Relation to AbelianSchemesAndArithmeticModuli §A3.6 (theta groups): for an abelian scheme over a local ring `R` and a
+line bundle `L` (rigidified, as every line bundle is over `R`), `K([L])` here is the group of `R`-points of the kernel
+`K(L)` of the Mumford map there, and a lift of `t_z` is the action on `H⁰(A, L)` of an element of the theta group `G(L)`
+over `z`; so (b) is, for abelian schemes, the case `T = Spec R` of §A3.6 (1), where lifts exist Zariski locally on `T`.
+Here (a) is stated for arbitrary schemes and (b) for every commutative group scheme over `R`, and the theta structures
+with their rigidity, (c) and (d), have no counterpart there.
 
 [ShortProof], `Lib/Shimura/ThetaGroup` (`New.Variety.IsSectionLift`, `New.Variety.IsTranslationLift`,
 `New.Variety.coordSection`, `New.Variety.exists_isSectionLift`, `New.Variety.IsSectionLift.picClass_eq`,
@@ -845,15 +891,15 @@ constant `c`. Without the frame condition, an `L`-invariant section `w` of `N �
 ### 5.2 The exponential of a compact commutative group, and uniformisation of complex abelian varieties
 
 *Origin:* adapted from the published theory of compact commutative Lie groups and the uniformisation of complex abelian
-varieties: here for a compact commutative topological group with one chart at `0` in which addition is analytic, the
-exponential obtained without solving a differential equation, and the uniformisation of an abelian variety embedded by
-a linear system.
+varieties (for the latter, D. Mumford, *Abelian Varieties*, §§1–2): here for a compact commutative topological group
+with one chart at `0` in which addition is analytic, the exponential obtained without solving a differential equation,
+and the uniformisation of an abelian variety embedded by a linear system.
 
-*Method of the formal proof:* the value of the exponential at `v` is the limit of `n·ψ(v/n)` along an ultrafilter on
-`ℕ`, which exists by compactness; analyticity of addition in the chart gives a homomorphism with derivative the
-identity; its image is open, hence of finite index, and its kernel discrete and cocompact. Holomorphic charts at
-complex points of a smooth scheme come from étale coordinates (4.4); compactness of the complex points of a projective
-variety from the unit sphere.
+*Method of the formal proof:* for (a), `e(v)` is defined as a limit, along an ultrafilter on `ℕ`, of the `n`-fold sum of
+`ψ(v/n)`; such limits exist because `G` is compact, and the analyticity of addition in the chart makes `e` additive with
+derivative the identity at `0`. Its image is then an open subgroup, of finite index as `G` is compact, and its kernel
+is discrete and cocompact. (b) takes the étale coordinates of 4.4 (a) as the chart; (c) bounds homogeneous coordinates
+on the unit sphere; (d) applies (a) to `A(ℂ)`, which is compact by (c), with the chart of (b).
 
 (a) Let `G` be a compact commutative topological group, `V` a finite-dimensional complex space, and `φ : G → V`,
 `ψ : V → G` with `φ(0) = 0`, `ψ∘φ = id` near `0`, `φ∘ψ = id` near `0`, `φ` continuous near `0`, `ψ` continuous at `0`,
@@ -871,50 +917,69 @@ the directions where `γ` is constant to first order at `w`.
 
 *Needs:* 4.1, 4.4, 5.1.
 
-The library has the exponential of a commutative Lie group with lattice kernel in the compact case and its holomorphy
-(`TauCeti.lieExpAddMonoidHom`, `TauCeti.isZLattice_ker_lieExpAddMonoidHom`,
-`TauCeti.mdifferentiable_mulInvariantExp_complex`); using it would need a Lie group structure on `A(ℂ)`, which (b)
-does not provide. AbelianSchemesAndArithmeticModuli §A5.1 states the lattice uniformisation `V/Λ ≅ A^an` through the
-analytification of `A` and its Lie group structure; (d) is the same theorem in the form of 5.1, on complex points
-without analytification.
+The library has the exponential of a commutative Lie group with lattice kernel in the compact case
+(`TauCeti.lieExpAddMonoidHom`, `TauCeti.isZLattice_ker_lieExpAddMonoidHom`); using it would need a Lie group structure
+on `A(ℂ)`, which (b) does not provide. On Tau Ceti's main branch, later than the revision pinned here: the holomorphy of
+that exponential for a complex Lie group, `TauCeti.mdifferentiable_mulInvariantExp_complex`.
+
+Relation to AbelianSchemesAndArithmeticModuli §A5.1 (lattice uniformisation): §A5.1 gives `V/Λ ≅ A^an` for an abelian
+variety `A` over `ℂ`, through the analytification of `A` and its Lie group structure, with holomorphic homomorphisms
+described by linear maps. It implies (d) once an abelian scheme over `ℂ` in the sense of 4.1 is identified with an
+abelian variety (4.1) and a family of complex points that is holomorphic in the sense of 5.1 with a holomorphic map to
+`A^an`: the exponential of §A5.1 is then a surjective holomorphic homomorphism and a local isomorphism, with kernel a
+full lattice, and it is a uniformisation in the sense of 5.1 once every homomorphism `W → V/Λ` that is holomorphic at
+`0` is lifted to `V` through the covering `V → V/Λ`, a step that §A5.1 does not state. The route proves (d) directly on
+complex points, without analytification.
 
 [ShortProof], `Lib/Shimura/Uniformisation/LieExponential` (`New.exists_lie_exponential`, `New.exists_holomorphic_chart`,
 `New.LineBundle.IsProjEmbedding.compactSpace_complexPoint`, `New.LineBundle.IsProjEmbedding.nonempty_uniformisation`)
 
 ### 5.3 Projective embeddings are given by theta functions
 
-*Origin:* adapted from the published theory of line bundles on complex tori (the Appell–Humbert theorem): here only its
-existence half, for one projective embedding whose class satisfies the parallelogram law, on a group with a given
-uniformisation.
+*Origin:* adapted from the Appell–Humbert theorem on line bundles on complex tori (D. Mumford, *Abelian Varieties*,
+§§1–2; L. Breen, *Fonctions thêta et théorème du cube*, LNM 980 (1983)): here only its existence half, for one
+projective embedding whose class satisfies the parallelogram law, on a group with a given uniformisation.
 
-*Method of the formal proof:* the parallelogram law gives a frame on `A × A`, whose values define a function `c`; after
-multiplying `c` by `exp q(z, z)` for a suitable quadratic form `q`, the doubling equation `σ(2z) = σ(z)⁴c(z)` is solved
-near `0` and continued to `V` by halving; `σ` trivialises the pull-back of `N` to `V`, and 1.1 (f) gives the form `B`.
+*Method of the formal proof:* the route trivialises the pull-back of `N` to `V` by a nowhere vanishing function `σ`
+subject to a doubling equation `σ(2z) = σ(z)⁴·c(z)`. The function `c` comes from the parallelogram law for `[N]` (4.1),
+read on `A × A`, corrected by the exponential of a quadratic form; the equation is solved by an analytic function near
+`0`, which is extended to all of `V` by halving. Then 1.1 (f), applied to `σ`, yields the form `B`.
 
 Let `A` be a commutative group scheme over `ℂ`, `e : V → A(ℂ)` a uniformisation with kernel `L` (5.1), and `N` a
 projective embedding of `A` with finitely many coordinates whose class satisfies the parallelogram law (4.1). Then there
 are a form `B` with positive Riemann form, `χ`, and `θ` such that `(B, χ)` are Appell–Humbert data for `L` and `N` has
 theta coordinates `θ` of type `(B, χ)` along `e`.
 
-*Needs:* 1.1, 4.1, 5.1. The general theorem, AbelianSchemesAndArithmeticModuli §A5.3 (the Appell–Humbert
-classification), also implies this statement, after the identification of `N` with a holomorphic line bundle on `V/L`.
+*Needs:* 1.1, 4.1, 5.1.
+
+Relation to AbelianSchemesAndArithmeticModuli §A5.3 (the Appell–Humbert classification): once `V/L` is identified with
+`A^an` (§A5.1, as in 5.2) and `N` with a holomorphic line bundle on it, §A5.3 gives `N ≅ L(H, α)` with `H` positive, and
+the coordinates of `N` become theta functions of type `(B, χ)` with `B(u, v) = π H(v, u)` and `χ = α` (Conventions, so
+`E_B = −E`). Thus §A5.3 implies this statement without the hypothesis of the parallelogram law, which the route needs to
+build the factor of automorphy on complex points without analytification.
 
 [ShortProof], `Lib/Shimura/Uniformisation/AppellHumbert` (`New.Uniformisation.appell_humbert`,
 `New.exists_analyticAt_double_eq`, `New.exists_extension_double`, `New.induction_on_double`)
 
 ### 5.4 Homomorphisms of theta-polarised tori extend over an arc
 
-*Origin:* adapted from the published theory of extension of homomorphisms and line bundles of abelian schemes from the
-generic fibre: here for maps of complex tori with theta coordinates that multiply a theta polarisation by an integer,
-whose kernel is killed by a unit of the ring, over any valuative arc (not Noetherian, any rank), the homomorphism and the
-identity of line bundle classes extending together.
+*Origin:* adapted from the theorems that homomorphisms of abelian schemes, and identities between line bundle classes,
+extend from the generic fibre to the whole base (S. Bosch, W. Lütkebohmert, M. Raynaud, *Néron Models* (1990), 1.2/8
+and 4.4/1; G. Faltings, C.-L. Chai, *Degeneration of Abelian Varieties* (1990), I.2.7; L. Moret-Bailly, *Pinceaux de
+variétés abéliennes*, Astérisque 129 (1985), II.3.5). Here the base is a valuative arc, of any rank and possibly not
+Noetherian; the maps are maps of complex tori with theta coordinates that pull one theta polarisation back to an integer
+multiple of the other, with `m·L^⊥ ⊂ L` for a unit `m` of the arc; and the homomorphism and the identity of classes are
+extended at once.
 
-*Method of the formal proof:* sections of `N` are read as functions on `V` through the theta coordinates; lifts of
-translations act by multiples of twisted translations, and their commutators are given by the Riemann form (the Weil
-pairing); one scalar puts a finite family of theta functions into an `O`-module of sections stable under these lifts
-(1.4 (b)), which gives a section of the graph in `A × A′` over `O`; points of the generic fibre extend by properness. The
-library has the extension of points: a morphism from the generic point extends uniquely to a section over a base with
-valuation local rings (`AlgebraicGeometry.Scheme.Hom.existsUnique_section_of_valuationRing`).
+*Method of the formal proof:* (a) and (b) compare sections of `N` with functions on `V` by dividing by the theta
+coordinates: a lift of a translation by `e(a)` becomes a multiple of `U_a`, and the commutation rule 1.1 (b) of the
+`U_a` gives (b). For (c), 1.4 (b) supplies one scalar after which a finite family of theta functions lies in an
+`O`-module of sections stable under the lifts of 4.5; this gives a section over `O` of the graph in `A × A′`, and points
+of the generic fibre extend over `O` by the valuative criterion of properness. The pinned Mathlib has that criterion
+(`AlgebraicGeometry.IsProper.eq_valuativeCriterion`, with `AlgebraicGeometry.ValuativeCriterion.existence` and
+`AlgebraicGeometry.ValuativeCriterion.uniqueness`). On Tau Ceti's main branch, later than the revision pinned here: the
+extension of a morphism from the generic point to a unique section over a base whose local rings are valuation rings,
+`AlgebraicGeometry.Scheme.Hom.existsUnique_section_of_valuationRing`.
 
 Let `O` be a valuative arc, `A` an abelian scheme over `O`, `e : V → A(O)` a uniformisation with lattice `L` (5.1),
 and `N` a projective embedding of `A` with theta coordinates of type `(B, χ)` along `e`, `B` with positive Riemann form.
@@ -933,6 +998,12 @@ projective embedding of `A′` with theta coordinates of type `(μB, χ^μ)` alo
 
 The formal proof proves (c) through a section of a homomorphism `π : A′ → A` built on the graph, under a hypothesis on
 classes that the parallelogram law supplies.
+
+Relation to AbelianSchemesAndArithmeticModuli §§A3.5–A3.7 (Weil pairings and theta groups): the lifts in (b) act as
+elements of the theta group `G(N^{⊗m})` of §A3.6 (see 4.5), and `ΦΨ = c·ΨΦ` takes the commutator in the order of
+§A3.6 (2), so `c` is the commutator pairing of `G(N^{⊗m})` at `e(a)`, `e(b)`; for `a, b ∈ L^⊥` these points are killed
+by `m`, and then by §A3.6 (2) the pairing is `e_m(e(a), φ_N(e(b)))`, with `e_m` of §A3.5 (the polarised pairing of
+§A3.7 for `λ = φ_N`). (b) computes it through the Riemann form, which §§A3.5–A3.7 do not do.
 
 [ShortProof], `Lib/Shimura/ArcExtension` (`New.Variety.isSeparatingFamily_atGeneric_of_surjective`,
 `New.HasThetaCoords.holomorphicAt`, `New.Variety.thetaEval`, `New.Variety.exists_theta_evaluation`,
@@ -1026,6 +1097,16 @@ pairings of the line bundle classes and the level points. Then `x₁ = x₂`, an
 
 *Needs:* 3.2, 4.1, 4.2, 4.4, 4.5.
 
+Relation to PELModuli §§M1.4–M1.7: a theta family is a family of abelian schemes with `𝓞_E`-action and a polarisation
+class `[N]`, but it is not asked to be, and is not shown to be, the pull-back of the universal object of PELModuli; its
+level points are sections at the classes killed by `𝔑` only. A full level structure here is an injective labelling of
+torsion sections by the whole `𝓞_E`-module `T_n ≅ (E/𝓞_E)ⁿ`, with the Weil pairing
+(read through commutators of lifts, 4.5) prescribed by `ψ_f(ε·m·ξ·zᴴy)` at every complex embedding; over `ℂ` it plays
+the part of a full Tate trivialisation of §M1.4 for the lattice `𝓞_Eⁿ` with the trace form of `ξ` and no excluded
+primes, whereas the level structures of §§M1.5–M1.6 are orbits of such trivialisations under an open compact subgroup,
+away from the primes in `□`, over any locally Noetherian scheme over the good-prime base `S₀` of §M0.10. No target of
+this roadmap identifies the two notions.
+
 [ShortProof], `Lib/Shimura/ThetaModuli/ThetaFamilyRigidity` (`New.ThetaFamily`, `New.ThetaObject`,
 `New.ThetaObject.FullLevelStructure`, `New.ThetaObject.FullLevelStructure.exists_pullback`,
 `New.ThetaObject.HasSpanningCoords`, `New.ThetaObject.HasSpanningCoords.eq_zero_of_pairing_eq_zero`,
@@ -1096,9 +1177,12 @@ class of `my` for an adelic matrix `m`, and with `e^{−1}(0) ⊂ Q(Eⁿ)`, some
 
 ### 6.4 The sections of the theta line bundle are spanned by the coordinates
 
-*Origin:* adapted from the published theorem that the sections of an ample line bundle on an abelian variety are spanned
-by theta functions: here for the coordinates of an object with a model, on every pull-back of a geometric fibre to a
-Noetherian local ring, proved by reduction from `ℂ` rather than by Riemann–Roch.
+*Origin:* adapted from the theorem that theta functions span `H⁰` of every ample line bundle on an abelian variety
+(D. Mumford, *On the equations defining abelian varieties I*, Invent. Math. 1 (1966), §§1–2; S. W. Shin, *Abelian
+varieties and Weil representations*, Algebra Number Theory 6 (2012), Prop. 2.12, over a base; M. Bolognesi,
+A. Massarenti, Comment. Math. Helv. 91 (2016), Lemma 4.1, for odd type). Here the spanning is deduced from the count
+over `ℂ` (5.4 (a), 1.2 (c)), with no Riemann–Roch theorem, and it is asserted for the coordinate sections of an object
+that has a model, after any pull-back of a geometric fibre to a Noetherian local ring.
 
 *Method of the formal proof:* over `ℂ`, the sections are theta functions (5.4 (a)) and their number is `#T` by 1.2 (c);
 the lattice of sections over `O` is stable under lifts of translations by the dual lattice (6.2 (c)), so by 1.4 (b) and
@@ -1151,9 +1235,9 @@ to a geometric point over which the fibre of `𝒜` is reduced.
 
 ### 6.6 Linear systems and group laws by density
 
-*Origin:* particular to this proof: line bundles, group laws and actions on a flat proper scheme over a reduced base are
-obtained from their values at a dense family of complex points; the nearest published results are the extension of
-identities by density and the rigidity of group laws.
+*Origin:* particular to this proof: on a flat proper scheme over a reduced base, line bundles, group laws and actions are
+constructed from what they are at the members of a dense set of complex points; the nearest published results are the
+extension of identities by density and the rigidity of group laws.
 
 *Method of the formal proof:* (a): the transition functions `w_j/w_i` are regular because the families are local
 combinations of each other, and they agree with those of `M` up to a cocycle that is trivial; (b): a morphism is
@@ -1234,8 +1318,9 @@ map and a parameter whose powers cut out the torsion sections.
 
 *Method of the formal proof:* (a) a finite flat subgroup scheme in characteristic zero is reduced, so a function
 vanishing at all geometric points vanishes; (b) the torsion sections are the complex points of the kernel, dense by
-(a); (c) the signature condition (6.1 (iii)) gives the line; (d) a function detecting tangent vectors along the line is a
-parameter, and counting the sections through the closed point gives the exponent.
+(a); (c) the signature condition (6.1 (iii)) gives the line; (d) a regular function whose differential is nonzero on
+the line of (c) serves as a local parameter, and the exponent is the number of torsion sections through the closed
+point.
 
 Let `𝒳` be a theta family, `V ⊂ ℂ` a valuation subring, `y` an object over `V` with a full level structure `ε`, `k` a
 field, `φ : V → k`, `x` the pull-back of `y` to `k`, and `w` the kernel of the structure map `𝓞_E → k`.
@@ -1281,16 +1366,20 @@ that (a) `f` is natural in `C`; (b) `f_{k[ε]}` vanishes on the points that redu
 
 ### 7.3 Drinfeld lifting and the tangent bound
 
-*Origin:* adapted from the published theory of deformations of abelian varieties with `𝓞_E`-action (Drinfeld's lifting
-lemma, and the dimension of the deformation space of a unitary PEL object of signature `(1, n − 1)`): here only the upper
-bound `n − 1` for first-order deformations without constant direction, at every prime good for `D` (`p = 2` and
-primes ramified in `E` included), working on the `w`-torsion with Drinfeld's lemma, without `p`-divisible groups or
-crystals.
+*Origin:* adapted from the deformation theory of abelian varieties with `𝓞_E`-action: Drinfeld's lifting lemma
+(N. Katz, *Serre–Tate local moduli*, LNM 868 (1981), §1; J. Lubin, J. Tate, *Formal moduli for one-parameter formal
+Lie groups*, Bull. SMF 94 (1966)) and the dimension of the deformation space of a unitary PEL object of signature
+`(1, n − 1)` (M. Harris, R. Taylor, *The Geometry and Cohomology of Some Simple Shimura Varieties* (2001), III.4.1).
+Here Drinfeld's lemma is applied to the finite group of `w`-torsion points (7.1, 7.2), so that `p`-divisible groups and
+crystals do not enter, and the argument covers every prime good for `D`, `p = 2` and primes ramified in `E`; of the
+dimension of the deformation space only the inequality `≤ n − 1` for first-order deformations with no constant
+direction is stated.
 
-*Method of the formal proof:* (a) multiplication by `c` on the reduction lifts because `c` kills the infinitesimal
-points of `x′`, by 4.3 and the factorisation through an isogeny; (b) such a lift is linear and its kernel modulo `ε` is
-controlled, and a deformation gives, through the lift and the tangent line 7.1 (c), natural semilinear functions on the
-`w`-torsion, and 7.2 bounds their number; the rigidity of `x₀` (6.4, 6.1 (c)) excludes constant directions.
+*Method of the formal proof:* (a) is the factorisation through an isogeny (with 4.3) applied to
+multiplication by `c`, which is possible because `c` kills the points of `x′` that vanish modulo `ε`. For (b), the lift
+of (a) is compared with the tangent line of 7.1 (c): a deformation in the direction `l` produces natural maps on the
+`w`-torsion that are semilinear for the structure map, 7.2 bounds the space of such maps by `n − 1`, and rigidity of
+`x₀` (6.4, 6.1 (c)) rules out constant directions.
 
 Let `𝒳` be a theta family and `k` a field.
 (a) (*Drinfeld's lemma*) Let `x, x′` be objects over `k[ε]` reducing to `x₀`, and `c ∈ 𝓞_E` kill every point of `A_{x′}`
@@ -1310,16 +1399,18 @@ PELModuli §M2.12 gives the bound only at primes `p > 2` unramified in `E`, whic
 
 ### 7.4 The universal theta family
 
-*Origin:* particular to this proof: existence of a theta family over a projective scheme smooth of relative dimension
-`n − 1` over a localisation of `𝓞_E`, whose fibres at a dense set of complex points are the theta tori of all analytic
-families, with no moduli property; the nearest published result is Mumford's construction of moduli of abelian
-varieties by theta-null values.
+*Origin:* particular to this proof: a theta family over a smooth projective base of relative dimension `n − 1` over a
+localisation of `𝓞_E`, with a dense family of complex points of the base, one for each analytic family of theta tori and
+each parameter, at which the fibre is modelled on the corresponding theta torus; no moduli property is claimed. The
+nearest published result is Mumford's construction of moduli of abelian varieties from theta-null values (D. Mumford,
+*On the equations defining abelian varieties II*, Invent. Math. 3 (1967), 75–135).
 
-*Method of the formal proof:* the base is the reduced closure, in a product of projective spaces, of the theta
-coordinates of the level points of the theta tori of all analytic families; 3.6 (c) at good primes and 6.5 give
-flatness, 6.7 puts a theta family on it, and near every arc whose closed point lies over a good prime the base is smooth
-of relative dimension `n − 1`, because the analytic families immerse at the generic point (7.6) and the tangent space at
-the closed point has dimension at most `n − 1` (7.3).
+*Method of the formal proof:* the base `S` is the smallest reduced closed subscheme of a product of projective spaces,
+one factor for each level point, that contains the vectors of theta coordinates of the level points of every theta
+torus of 5.5. Flatness over the good primes comes from 3.6 (c) and 6.5, and 6.7 builds the theta family on `S`.
+Smoothness of relative dimension `n − 1` is checked along arcs whose closed point lies over a good prime: the analytic
+families give `n − 1` independent directions at the generic point (7.6), and 7.3 bounds the tangent space at the closed
+point by `n − 1`.
 
 Let `D` be PEL data and `R ⊂ E` an `𝓞_E`-subalgebra. A *universal family* `𝒰` for `D` over `R` consists of: `R` a
 Dedekind domain; an `R`-scheme `S` with a projective embedding over `R`, smooth of relative dimension `n − 1`; a theta
@@ -1332,6 +1423,15 @@ Let `R` be the localisation of `𝓞_E` at a submonoid of non-zero-divisors, and
 family for `D` over `R` exists.
 
 *Needs:* 3.4, 3.6, 5.5, 6.5, 6.7, 7.3, 7.6.
+
+Relation to PELModuli §§M2.8–M2.9: for the unitary data of §M5.5 and a neat level, those sections give a smooth separated
+algebraic space of finite type with a universal object, which represents the moduli problem `M_H` of §M1.7, over the
+integers of the reflex field with the primes outside a set of good primes inverted (the good primes divide neither the
+discriminant of the order, nor the index of the lattice in its dual, nor the level). A universal family here has a
+projective base, theta coordinates and the dense family of modelled points, at the primes good for `D` in the sense of
+3.2, which may divide the discriminant of `𝓞_E`, and it has no moduli property. Neither statement implies the other;
+whether the base here, with its theta family, is a union of components of `M_H` for the corresponding datum and level
+is stated in neither roadmap.
 
 [ShortProof], `Lib/Shimura/ThetaModuli/UniversalFamily` (`New.Variety.ThetaNull.ThetaClosure.exists_smooth_near_arc`,
 `New.Variety.ThetaNull.nonempty_universalFamily`); `Lib/Shimura/IntegralModel/UniversalFamily`
@@ -1361,6 +1461,13 @@ closure, in the product of fibre powers, of the tuples `([a·g_j]_{𝔪_j})_j`; 
 point attached to `a` depends only on the class of `a` at some level `K(𝔪)`.
 
 *Needs:* 3.1, 6.1, 6.2, 6.4, 7.4.
+
+Relation to PELModuli §M3.4 (complex points of PEL moduli): (a), with 6.3 and 7.6 (d), describes complex points by
+moduli points (adelic frames with a reflection and marked vectors) up to rational isomorphism at a principal level, where
+§M3.4 uses the double cosets `G^{(i)}(ℚ)∖(X × G(𝔸_f)/K)`; the reflection plays the part of the point of `X`, and the
+frames, which are frames for varying matrices `β`, run through the forms that §M3.4 indexes by `ker¹(ℚ, G)`. The two
+descriptions concern different spaces (the fibre powers over the base here, `M_K^ad(ℂ)` there) and are not compared in
+either roadmap.
 
 [ShortProof], `Lib/Shimura/IntegralModel/UniversalFamily` (`New.ThetaFamily.IsPointOf`,
 `New.Variety.UniversalFamily.datumPoint`, `New.ThetaFamily.IsPointOf.eq_iff`,
@@ -1410,11 +1517,12 @@ neighbours (8.3), and the model exists (8.4).
 
 ### 8.1 Hecke elements, safe places, local terms and neat levels
 
-*Origin:* adapted from the published theory of Hecke operators on unitary similitude groups and of neat levels: here the
-Hecke algebra of `K(𝔑)` realised inside the group ring, the elements `τ_{w,j}` at safe split places, which act on
-`K(𝔑)`-fixed vectors as the Hecke operators of `GL_n(E_w)` up to a central scalar, the local terms of fixed points, and
-the neatness of levels inside all but finitely many places, from the triviality of automorphisms of signed frames
-congruent to `1` modulo an ideal of large norm.
+*Origin:* adapted from the published theory of Hecke operators on unitary similitude groups (for the Hecke algebra of a
+pair, G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions* (1971), ch. 3 and 7–8) and of neat
+levels: here the Hecke algebra of `K(𝔑)` realised inside the group ring, the elements `τ_{w,j}` at safe split places,
+which act on `K(𝔑)`-fixed vectors as the Hecke operators of `GL_n(E_w)` up to a central scalar, the local terms of fixed
+points, and the neatness of levels inside all but finitely many places, which rests on (c): a rational automorphism of a
+signed frame that is trivial modulo an ideal of large enough norm is `1`.
 
 *Method of the formal proof:* (b) by the coset decomposition of the double coset of `diag(ϖ1_j, 1)`; (c) an automorphism
 of a signed frame scales a form that is definite at a place `w ≠ v₀`, so its eigenvalues have absolute value `1` at
@@ -1459,6 +1567,13 @@ The library has the Hecke ring of a pair as the double-coset ring with its opera
 (`HeckeRing`, `HeckeCosetModule.instRingHeckeRing`, `HeckeCoset.heckeSum`), in another model; identifying the group-ring
 subalgebra `𝓗(𝔑)` with it is not done.
 
+Relation to PELModuli §§M2.2–M2.3 (neat subgroups): neatness here is a condition on `𝔑` alone, that the rational
+automorphisms of signed frames at level `K(𝔑)` be trivial, which is what §M2.3 derives from neatness in the sense of
+§M2.2 (Pink's condition on eigenvalues) for the objects of `M_H`. Neatness of `K(𝔑)` in the sense of §M2.2 implies
+neatness of `𝔑` here: the eigenvalues of such an automorphism `y` are algebraic integers, as `x^{−1}yx ∈ GL_n(Ô)`, and
+by (c), with `c = 1`, all their conjugates have absolute value `1`; so they are roots of unity, hence `1` under §M2.2;
+and `y`, being unitary for the definite form `Φ_w(β)` at a place `w ≠ v₀`, is then `1`. The converse is not asserted.
+
 [ShortProof], `Lib/Shimura/HeckeTower/HeckeData` (`New.Variety.fixedToEigen`, `New.Variety.heckeAlgebra`,
 `New.Variety.IsSafe`, `New.Variety.SafePlace`, `New.Variety.invHeckeIsogeny`, `New.Variety.heckeSum`,
 `New.Variety.IsRegularHecke`, `New.Variety.localTerm`, `New.Variety.markedReflection`, `New.Variety.IsNeat`,
@@ -1473,7 +1588,9 @@ subalgebra `𝓗(𝔑)` with it is not done.
 of `𝓞_E`, given by the list of properties that the point counts and the cohomology use (legs indexed by cosets, deck
 groups, complex points, tangent polynomials at fixed points, the congruence relation), and the commuting action of the
 Hecke elements on any contravariant functor with descent; the nearest published objects are the Kuga–Sato varieties
-over compact unitary Shimura varieties of signature `(1, n − 1)` with their Hecke correspondences.
+over compact unitary Shimura varieties of signature `(1, n − 1)` with their Hecke correspondences (for the action of the
+Hecke algebra of a pair by correspondences, G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*
+(1971), ch. 3 and 7–8).
 
 *Method of the formal proof:* the operator `t(w, j)` is defined on the image of the pull-back along the leg of `1` by
 summing the pull-backs along the legs over `τ_{w,j}`; the sum is invariant under the deck group, so it descends; the
@@ -1520,7 +1637,10 @@ element of `k′[GL_n(𝔸_f)]` supported on `GU⁺`, acts through the legs as t
 
 *Needs:* 3.1, 8.1.
 
-Only a semigroup acts, and only far enough up the tower.
+The operators come from elements supported on the monoid `GU⁺`, not on a group, and the identities between them are
+obtained on deep levels of the tower only. PELModuli §M1.13 defines Hecke correspondences on the rational moduli
+problem for every element of `G(𝔸^{∞,□})`; here the Hecke elements act through the legs of a model, on the functor `F`,
+and no comparison with §M1.13 is made.
 
 [ShortProof], `Lib/Shimura/HeckeTower/Model` (`New.Variety.Model`, `New.Variety.Model.IsHeckeAction`,
 `New.Variety.Model.exists_isHeckeAction`); `Lib/Cohomology/Etale/Basic` (`New.Variety.IsTangentPoly`,
@@ -1528,9 +1648,11 @@ Only a semigroup acts, and only far enough up the tower.
 
 ### 8.3 The pointwise congruence relation at a split place
 
-*Origin:* adapted from the published theory of the Eichler–Shimura congruence relation for unitary Shimura varieties of
-signature `(1, n − 1)` at split places: here only its geometric step at each geometric point of the special fibre,
-without the ordinary locus, for the points of the universal family.
+*Origin:* adapted from the Eichler–Shimura congruence relation for unitary Shimura varieties of signature `(1, n − 1)`
+at split places (Wedhorn, *Congruence relations on some Shimura varieties*, J. reine angew. Math. 524 (2000), 43–71;
+the method follows Katz–Mazur (1985), ch. 13, and M. Harris, R. Taylor (2001), III.4). What is stated is the geometric
+input of that relation, one geometric point of the special fibre at a time and for the points of the universal family;
+the ordinary locus plays no part.
 
 *Method of the formal proof:* the `w`-torsion of `T_n` is `k_wⁿ`, compatibly with integral matrices, and the Hecke
 neighbour attached to `A` is the target of an isogeny `ψ_A` of multiplier `q_w^{dim A}` acting on torsion by `g_A^{−1}`
@@ -1553,15 +1675,17 @@ subspace `W ⊂ k_wⁿ` such that the reduction of `α_A` twisted by `t ↦ t^{l
 
 ### 8.4 Existence of the model
 
-*Origin:* particular to this proof: from a universal family at a neat level with `β = β₀`, good at all safe places, a
-model (8.2) over `R` for every `ν ≥ 1`, whose base is a closure of theta values and whose covers are reduced projective
-closures of tuples of isogenous points; the nearest published result is the existence of integral Kuga–Sato models with
-level covers for unitary Shimura varieties of signature `(1, n − 1)` and their congruence relation.
+*Origin:* particular to this proof: a model in the sense of 8.2 over `R`, for every `ν ≥ 1`, built from a universal
+family at a neat level with `β = β₀` that is good at all safe places; its base is the fibre power of 7.5 (b) over the
+theta closure of 7.4, and its level covers are the graph closures of 7.5 (c). The nearest published result is the
+existence of integral Kuga–Sato models with level covers for unitary Shimura varieties of signature `(1, n − 1)`, with
+their congruence relation (M. Harris, R. Taylor, *The Geometry and Cohomology of Some Simple Shimura Varieties* (2001),
+III.4; R. Kottwitz, *Points on some Shimura varieties over finite fields*, J. Amer. Math. Soc. 5 (1992), §5).
 
 *Method of the formal proof:* `Z` is the fibre power of 7.5 (b) and `W_i` the graph closures of 7.5 (c); the legs are
 projections, the deck groups come from the levels (8.1 (e)), and the complex points from 7.6 (d). The tangent
-polynomial at a fixed point comes from the ball family 5.5 (d): the tangent space at the point of `a` is the parameter
-space, embedded by the universal jet, and `z` acts on it by `K`. For the congruence relation, a field point of `C` is
+polynomial at a fixed point comes from the ball family 5.5 (d): through the universal jet, its parameters give the
+tangent vectors at the point of `a`, on which `z` acts through `K`. For the congruence relation, a field point of `C` is
 the centre of an arc (7.6 (c)); along the arc 8.3 applies with a line `W`, and the formal sum over subspaces `A` cancels
 because the twisted reductions depend only on `A + W`: for `U ⊃ W` of dimension `u`, the `A` with `A + W = U` are `U`
 and the `q^{u−1}` hyperplanes of `U` not containing `W`, whose weights `(−1)^u q^{u(u−1)/2}` and
@@ -1591,9 +1715,11 @@ local properties (9.7, 9.8).
 
 ### 9.1 The congruence relation in cohomology, and unramified cohomology
 
-*Origin:* adapted from the published theory of smooth proper reduction (unramified ℓ-adic cohomology) and of the
-Eichler–Shimura argument: here for the cohomology `Vⁿ` of CohomologyOfFunctorsOnTestRings over the valuation ring of a
-place of `Ω`, with the passage from a relation between Frobenius twists of points to a relation on cohomology.
+*Origin:* adapted from the theorems that smooth proper reduction makes ℓ-adic cohomology unramified and that Frobenius
+relations pass to cohomology in the Eichler–Shimura argument (the Stacks project, Tags 0GKD (SGA4 XVI 2.2) and 03SN
+(SGA5 XV); Deligne, *Formes modulaires et représentations ℓ-adiques*, Sém. Bourbaki 355 (1969)): here the cohomology
+is `Vⁿ` of CohomologyOfFunctorsOnTestRings, the base is a valuation ring of `Ω`, and the relation on points to be carried
+to cohomology is a congruence relation in the sense of 8.2.
 
 *Method of the formal proof:* a class on `Y_Ω` extends to `Y_A` by smooth base change and restricts to the special
 fibre; on the special fibre the absolute Frobenius acts trivially (c), and a formal combination of morphisms that cancels
@@ -1655,8 +1781,9 @@ acts by `χ`, in every representation.
 
 ### 9.3 The trace on definite forms as a sum over marked triples
 
-*Origin:* adapted from the published theory of simple trace formulas for algebraic modular forms on definite unitary
-groups: here
+*Origin:* adapted from the simple trace formula and its form for algebraic modular forms (J. Arthur, L. Clozel, *Simple
+algebras, base change and the advanced theory of the trace formula* (1989), ch. 1 §2, after Deligne and Kazhdan;
+Dummigan, *A simple trace formula for algebraic modular forms*, Exp. Math. 22 (2013)), on definite unitary groups: here
 an abstract weighted trace formula for right translations on equivariant functions, the finiteness of classes of signed
 frames, and the trace of a regular Hecke element on definite forms at a neat level as a finite sum over classes of
 triples.
@@ -1691,7 +1818,13 @@ cosets `GL_n(E)\GL_n(𝔸_f)/K(𝔑)` of definite frames. If moreover `f` is reg
 `tr ξ(y^{−1}) = Σ_{i ∈ n} ω(char y, i)` whenever `char y` is separable, then the definite count terms of `(f, ω)` have
 finite support and `tr(f | definite forms) = Σ` of the definite count terms over all orbits.
 
-*Needs:* 3.1, 8.1; AdelicUnitaryGroupsAndAlgebraicModularForms §4.3 (reduction theory, bounded dual bases).
+*Needs:* 3.1, 8.1; ShortGRH background (the Mahler–Godement criterion for frames of varying forms: for every compact
+`C₀ ⊂ GL_n(𝔸)` (`𝔸` the adele ring of `E`, AdelicUnitaryGroupsAndAlgebraicModularForms §2.1) there are a finite set
+`F ⊂ M_n(E)` and compact sets `C ⊂ M_n(𝔸)`, `C_f ⊂ GL_n(𝔸_f)` such that for every invertible `J ∈ M_n(E)` and every
+`y ∈ GL_n(𝔸)` with `yᴴJy ∈ C₀` there are a basis `Y` of `Eⁿ` and a set `s` of its vectors spanning a `J`-isotropic
+subspace for which the `J`-dual basis `W` of `Y` has `W⁻¹y` in `C_f` at the finite places and, `Z` being `W` with its
+vectors in `s` replaced by `0`, `y⁻¹Z ∈ C` and `ZᴴJZ ∈ F`; [ShortProof] `Lib/Adelic/Reduction/FiniteVolume`
+(`New.exists_isBoundedDualBasis`)).
 
 [ShortProof], `Lib/Shimura/TraceFormula/DefiniteTrace` (`New.trace_eq_weighted_sum`,
 `New.Variety.finite_isSignedFrame_classes`, `New.Variety.definiteForms`, `New.Variety.finite_definiteForms`,
@@ -1706,12 +1839,16 @@ finite support and `tr(f | definite forms) = Σ` of the definite count terms ove
 *Origin:* particular to this proof: for a regular Hecke element with a cuspidal type at a split place, in an odd number
 of variables, the sums of the marked and of the definite count terms are equal, with no spectral side; the nearest
 published result is the comparison of simple trace formulas for inner forms of unitary groups that differ at a real
-place.
+place, and the vanishing of the non-elliptic terms of a simple trace formula (J. Arthur, L. Clozel, *Simple algebras,
+base change and the advanced theory of the trace formula* (1989), ch. 1 §2, after Deligne and Kazhdan; Dummigan, *A
+simple trace formula for algebraic modular forms*, Exp. Math. 22 (2013)).
 
-*Method of the formal proof:* for a reducible separable characteristic polynomial, an idempotent polynomial in the local
-automorphism gives a unipotent radical whose orbits cut the triples into blocks; translating along it multiplies the
-terms by `χ(j)^{−1} ≠ 1`, so each block sums to `0`. For an irreducible characteristic polynomial and `|n|` odd, a change
-of the signs at the infinite places (whose product is `1`) gives a bijection of marked onto definite classes.
+*Method of the formal proof:* the two sums are compared class by class, according to the characteristic polynomial of
+`y`. If it is separable and reducible, an idempotent polynomial in the component of `y` at `w₀` defines a unipotent
+group; translation along it permutes the triples of a class and multiplies each term by a value `χ(j)^{−1} ≠ 1` of the
+cuspidal type, so the terms of each of its orbits add up to `0`, for the marked and for the definite count alike. If it
+is irreducible and `|n|` is odd, the change of signs of AdelicUnitaryGroupsAndAlgebraicModularForms §7.9, for sign
+patterns of product `1`, matches the marked classes with the definite ones.
 
 Let `𝔑` be neat, `|n|` odd, `f ∈ 𝓗(𝔑)` regular, `(J, χ)` a cuspidal type at a split place `w₀` (9.2) such that `f` maps
 `K(𝔑)`-fixed vectors to vectors on which `j_{w₀}(J)` acts by `χ`, in every representation, and `ω` any weight.
@@ -1737,10 +1874,11 @@ terms weighted by the coefficients of `X^h` of the local terms being zero; the n
 holomorphic Lefschetz fixed-point formula and the counting of fixed points of Hecke correspondences on Shimura
 varieties.
 
-*Method of the formal proof:* the fixed points of `m_α∘p_g` and `π_i` on `W_i` are grouped by their marked pair; each
-group has `(number of solutions modulo the lattice)·#Δ_i` points (Galois covering, 8.2), the number of solutions being
-`[B^{−1}Λ : Λ] = Π_σ σ(det B)` for `B = 1 − 2αz`, which is the value at `1` of the local term and cancels the
-denominator; the tangent polynomials are the local terms by the tangent field of the model.
+*Method of the formal proof:* (c) is a count of the coincidences of `m_α∘p_g` and `π_i` on `W_i`. Each coincidence
+determines a marked pair, using (a); by the Galois covering of 8.2 the
+coincidences over one marked pair number `#Δ_i` times the lattice index `[B^{−1}Λ : Λ]` of (b), `B = 1 − 2αz`. That index
+equals the value at `1` of the local term, so it cancels the denominator `P(1)` in the definition of a null family; the
+tangent polynomials themselves are the local terms, by the tangent condition of 8.2.
 
 For maps `u_i : W → Z` of `R`-schemes, weights `a ∈ k^{(I)}` (`k` a field over `R`), a rank `d` and a degree `h`, the
 `u_i` form a *null family* if they satisfy the conclusion of CohomologyOfFunctorsOnTestRings §7.5 with the weights `a`:
@@ -1771,7 +1909,10 @@ the maps `m_α∘p_q : W_i → Z`, `q ∈ GL_n(𝔸_f)/K(𝔑)`, with weights `b
 *Origin:* particular to this proof: the Hecke eigenvalues at the safe places of a definite form that is a test vector at
 two split places occur, in the sense of 9.5, in each of the weights given by its coefficient system, in an odd number of
 variables; the nearest published result is the transfer of eigensystems between unitary groups that differ at a real
-place, by a comparison of trace formulas.
+place, by a comparison of trace formulas (Harris, Labesse, *Conditional base change for unitary groups*, Asian J. Math.
+8 (2004), Thm 2.1.2; J.-P. Labesse, *Changement de base CM et séries discrètes* (2011), Thm 5.4), with fixed points
+counted as in Goresky and MacPherson, *The topological trace formula* (2003), and Shimura, *On the trace formula for
+Hecke operators*, Acta Math. 132 (1974).
 
 *Method of the formal proof:* if every `b·p(τ)` were `h`-null, the coefficient of `X^h` in the local terms, summed over
 the Lagrange basis, would reproduce the character of `ξ` (a computation with the bialternant of Schur polynomials), so
@@ -1846,8 +1987,12 @@ is a finite combination `c = Σ_L c_L L` of words in the `s` with `Σ_L c_L Π_{
 *Origin:* particular to this proof: for a Hecke eigensystem at the safe places that occurs in a set of weights, a
 continuous representation of `Gal(Ω/E)`, cut out of the cohomology of the base of the model by the eigensystem,
 unramified and crystalline at the safe places, with the Hecke polynomial killing Frobenius and the weights among its
-Hodge–Tate jumps at the base embedding; no rank, semisimplicity or characteristic polynomial is asserted. The nearest published results are the constructions of Galois representations in the
-cohomology of Kuga–Sato varieties over unitary Shimura varieties (with the Eichler–Shimura relation).
+Hodge–Tate jumps at the base embedding; its dimension, its semisimplicity and its characteristic polynomials are left
+open. The nearest published results are the constructions of Galois representations in the cohomology of Kuga–Sato
+varieties over unitary Shimura varieties, with the Eichler–Shimura relation (Deligne, *Formes modulaires et
+représentations ℓ-adiques*, Sém. Bourbaki 355 (1969), Thm 4.9; M. Harris, R. Taylor, *The Geometry and Cohomology of
+Some Simple Shimura Varieties* (2001), ch. VII; Wedhorn, *Congruence relations on some Shimura varieties*, J. reine
+angew. Math. 524 (2000)).
 
 *Method of the formal proof:* 8.2 applied to `Vⁿ` (descent by the transfer for the finite covers) gives the Hecke
 operators, and 9.7 (a) the eigenquotient: `ρ` is the largest quotient of `ℚ̄_ℓ ⊗ ⊕_k V^k(Z)` on which the Hecke
@@ -1887,14 +2032,17 @@ The representation may be zero when `J` is empty; its dimension is not controlle
   scheme-theoretic kernel is a small bridge).
 - A proper, locally quasi-finite morphism is finite (in 4.3): `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`
   (Mathlib).
-- A morphism from the generic point of a base whose local rings are valuation rings extends uniquely to a section of a
-  universally closed, separated morphism locally of finite type (in 5.4):
-  `AlgebraicGeometry.Scheme.Hom.existsUnique_section_of_valuationRing`.
+- The valuative criterion of properness, which extends points of the generic fibre over a valuative arc (in 5.4):
+  `AlgebraicGeometry.IsProper.eq_valuativeCriterion`, `AlgebraicGeometry.ValuativeCriterion.existence`,
+  `AlgebraicGeometry.ValuativeCriterion.uniqueness` (Mathlib).
+
+On Tau Ceti's main branch, later than the revision pinned here: the extension of a morphism from the generic point of a
+base whose local rings are valuation rings to a unique section of a universally closed, separated morphism locally of
+finite type (in 5.4), `AlgebraicGeometry.Scheme.Hom.existsUnique_section_of_valuationRing`.
 
 ## Results taken from other roadmaps
 
-- The projective line formula for `ℤ/ℓ` coefficients, with the class of degree two the Chern class of `O(1)` from the
-  Kummer sequence: CohomologyOfFunctorsOnTestRings §5.5.
+- Tangent polynomials of a pair of maps at a point (8.2): CohomologyOfFunctorsOnTestRings §6.6.
 - The cohomology `Vⁿ` with its Galois action and functoriality, smooth and proper base change, transfer for Galois
   coverings, the fixed point formula of Woods Hole type, and the charting of smooth proper schemes over a Noetherian
   ring (9.1, 9.8): CohomologyOfFunctorsOnTestRings §§1.3, 1.5, 3.4, 3.5, 4.3, 5.6, 7.5.
@@ -1904,8 +2052,8 @@ The representation may be zero when `J` is empty; its dimension is not controlle
   CrystallineRepresentationsAndKisinModules §3.1.
 - Hecke polynomials, local data and weights with their jumps (9.6, 9.8):
   GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3.
-- Adeles, Hecke operators of `GL_n` at a place, reduction theory by bounded dual bases, and the change of signs of
-  elliptic similitudes (3.1, 8.1, 9.3, 9.4): AdelicUnitaryGroupsAndAlgebraicModularForms §§2.1, 3.1, 4.3, 7.9.
+- Adeles, Hecke operators of `GL_n` at a place, and the change of signs of elliptic similitudes (3.1, 8.1, 9.4):
+  AdelicUnitaryGroupsAndAlgebraicModularForms §§2.1, 3.1, 7.9.
 - The single cosets of the Hecke operators of `GL_n` at a place, indexed by subspaces (8.1):
   WeilRepresentationsOnBanachSpacesOfData §9.1.
 - Iwahori–Hecke operators, their injectivity and twisted conjugacy, and polynomial representations of `GL_a` with their
@@ -1913,3 +2061,49 @@ The representation may be zero when `J` is empty; its dimension is not controlle
 - Weyl's character formula for `U(n)` (9.6): HolomorphicDiscreteSeriesOfUnitaryGroups §7.1.
 - Isogenies over a base and the factorisation through an isogeny (4.3, 7.3): AbelianSchemesAndArithmeticModuli §A3.1.
 - The Appell–Humbert classification, which implies 5.3: AbelianSchemesAndArithmeticModuli §A5.3.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/Shimura`, with the definitions of tangent
+  polynomials, congruence relations, Galois coverings and null families in `src/Lib/Cohomology/Etale/Basic`.
+- J. Arthur, L. Clozel, *Simple algebras, base change and the advanced theory of the trace formula* (1989), ch. 1 §2,
+  after Deligne and Kazhdan.
+- Birkenhake–Lange, *Complex Abelian Varieties*, 3.2.7, 4.1.5, 6.4.
+- M. Bolognesi, A. Massarenti, Comment. Math. Helv. 91 (2016), Lemma 4.1.
+- S. Bosch, W. Lütkebohmert, M. Raynaud, *Néron Models* (1990), 1.2/8, 4.4/1, 7.3, 8.1.
+- L. Breen, *Fonctions thêta et théorème du cube*, LNM 980 (1983).
+- D. Bump, A. Pekker, Proc. Amer. Math. Soc. 130 (2002), 3473–3481 (a survey of proofs).
+- C.-L. Chai, *Riemann's theta formula* (2014), Theorem 1.2.
+- B. Conrad, *Semistable reduction for abelian varieties* (notes), Prop. 6.3.
+- Deligne, *Formes modulaires et représentations ℓ-adiques*, Sém. Bourbaki 355 (1969), Thm 4.9.
+- Dummigan, *A simple trace formula for algebraic modular forms*, Exp. Math. 22 (2013).
+- B. Edixhoven, G. van der Geer, B. Moonen, *Abelian Varieties* (draft), ch. IV §3, (5.1)–(5.2), ch. VI §1.
+- EGA IV.
+- G. Faltings, C.-L. Chai, *Degeneration of Abelian Varieties* (1990), I.2.7.
+- G. Frobenius, *Über die Grundlagen der Theorie der Jacobischen Functionen*, Crelle 97 (1884).
+- Goresky and MacPherson, *The topological trace formula* (2003).
+- Harris, Labesse, *Conditional base change for unitary groups*, Asian J. Math. 8 (2004), Thm 2.1.2.
+- M. Harris, R. Taylor, *The Geometry and Cohomology of Some Simple Shimura Varieties* (2001), III.4, III.4.1, ch. VII.
+- Katz–Mazur (1985), ch. 13.
+- N. Katz, *Serre–Tate local moduli*, LNM 868 (1981), §1.
+- G. Kempf, *Multiplication over abelian varieties*, Amer. J. Math. 110 (1988).
+- G. Kempf, *Linear systems on abelian varieties*, Amer. J. Math. 111 (1989), 65–94.
+- S. Koizumi, *Theta relations and projective normality of abelian varieties*, Amer. J. Math. 98 (1976).
+- R. Kottwitz, *Points on some Shimura varieties over finite fields*, J. Amer. Math. Soc. 5 (1992), §5.
+- J.-P. Labesse, *Changement de base CM et séries discrètes* (2011), Thm 5.4.
+- K.-W. Lan, *Elevators for degenerations of PEL structures*, Math. Res. Lett. 18 (2011).
+- J. Lubin, J. Tate, *Formal moduli for one-parameter formal Lie groups*, Bull. SMF 94 (1966).
+- L. Moret-Bailly, *Pinceaux de variétés abéliennes*, Astérisque 129 (1985), II.3.5.
+- D. Mumford, *Abelian Varieties*, §§1–2.
+- D. Mumford, *On the equations defining abelian varieties I*, Invent. Math. 1 (1966), 287–354, §§1–2, §3.
+- D. Mumford, *On the equations defining abelian varieties II*, Invent. Math. 3 (1967), 75–135.
+- A. Nagano, *On Riemann type relations for theta functions on bounded symmetric domains of type I*, arXiv 2301.09243
+  (2023), Theorem 1.1.
+- T. Sekiguchi, J. Math. Soc. Japan 29 (1977).
+- Serre and Tate, Ann. of Math. 88 (1968).
+- Shimura, *On the trace formula for Hecke operators*, Acta Math. 132 (1974).
+- G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions* (1971), ch. 3 and 7–8.
+- S. W. Shin, *Abelian varieties and Weil representations*, Algebra Number Theory 6 (2012), Prop. 2.12.
+- The Stacks project, Section 0BF9; Tags 0GKD (SGA4 XVI 2.2) and 03SN (SGA5 XV).
+- Wedhorn, *Congruence relations on some Shimura varieties*, J. reine angew. Math. 524 (2000), 43–71.

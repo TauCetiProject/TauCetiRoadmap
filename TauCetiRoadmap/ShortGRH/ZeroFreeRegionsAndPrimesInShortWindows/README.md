@@ -84,12 +84,12 @@ and every statement of this layer holds for imprimitive characters, with its uni
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the definitions distinguish the principal character, using Mathlib's entire
-continuation of `(s − 1)L(s, χ₀)`. (a) is Mathlib's non-vanishing of `L(s, χ)` on `Re s ≥ 1` together with the
-non-vanishing of the continuation at `1`; (b) is the Dirichlet series of `χΛ` as `−L′/L`, the factor `s − 1` adding
-`1/(s − 1)` for the principal character; (c) writes `E_χ(z) = (z − s)^n g(z)` near `s` with `g(s) ≠ 0`, the order `n`
-being finite because `E_χ(1) ≠ 0`; (d) takes a non-residue `a` modulo `d` and `n ≡ 1 (mod q)`, `n ≡ a (mod d)`, at
-which the twist is `−1`.
+*Method of the formal proof:* the definitions split on whether `χ` is principal; for `χ₀` they take Mathlib's entire
+continuation of `(s − 1)L(s, χ₀)`. (a) and (b) come from Mathlib: the non-vanishing on `Re s ≥ 1`, the value of the
+continuation at `1`, and the Dirichlet series of `−L′/L`, to which the logarithmic derivative of `s − 1` contributes the
+term `δ_χ/(s − 1)`. (c) is the local factorisation of an analytic function at a point where it has finite order, which
+holds everywhere for `E_χ` because `E_χ` is entire and `E_χ(1) ≠ 0`. (d) evaluates the twist at an integer chosen by the
+Chinese remainder theorem to be `1` modulo `q` and a quadratic non-residue modulo `d`; the value there is `−1`.
 
 Let `χ` be a Dirichlet character modulo `q ≥ 1`.
 
@@ -120,16 +120,17 @@ These have the following properties.
 
 ### 1.2 Reflection of the zeros for every character
 
-*Origin:* adapted from Davenport (2000), chapters 5, 9 and 14: primitive characters and the functional equation; here
-for every Dirichlet character, primitive or not, at every point off the line `Re s = 0`, for zeros without their
-multiplicities, and with the poles of the gamma factor as the alternative.
+*Origin:* adapted from Montgomery and Vaughan, *Multiplicative Number Theory I* (2007), Corollaries 10.3 and 10.8, the
+symmetry of the zeros that the functional equation gives: here for every Dirichlet character, primitive or not, at
+every point off the line `Re s = 0`, for zeros without their multiplicities, and with the poles of the gamma factor as
+the alternative.
 
-*Method of the formal proof:* let `ψ` be the primitive character modulo the conductor that induces `χ`; it has the
-parity of `χ`, hence the same gamma factor. `L(s, χ)` is `L(s, ψ)` times the factors `1 − ψ(p)p^{−s}` over the primes
-`p ∣ q`; a factor vanishes only where `|p^s| = 1`, that is on `Re s = 0`, so `L(s, ψ) = 0`. If `s + j` is not a pole of
-`Γ_ℝ`, the completed function of `ψ` vanishes at `s`; the functional equation of `ψ` makes the completed function of
-`ψ̄`, which is primitive of the same conductor, vanish at `1 − s`; dividing by the gamma factor gives `L(1 − s, ψ̄) = 0`,
-and `L(1 − s, χ̄)` is `L(1 − s, ψ̄)` times Euler factors.
+*Method of the formal proof:* a reduction to the primitive character `ψ` inducing `χ`, for which Mathlib has the
+functional equation of the completed L-function; `ψ̄` is primitive of the same conductor. Inducing does not change the
+parity, so `χ` and `ψ` share the gamma factor, and off the line `Re s = 0` none of the deleted Euler factors at the
+primes dividing `q` vanishes, since each would need `|p^s| = 1`. So a zero of `L(·, χ)` at `s` is one of `L(·, ψ)`;
+away from the poles of `Γ_ℝ(s + j)` it is a zero of the completed function of `ψ`, the functional equation moves it to
+a zero at `1 − s` of the completed function of `ψ̄`, and this is a zero of `L(·, ψ̄)` and then of `L(·, χ̄)`.
 
 Let `χ` be a Dirichlet character modulo `q ≥ 1`, primitive or not, of parity `j`, and let `s ∈ ℂ` with `Re s ≠ 0` and
 `s ≠ 1`. If `L(s, χ) = 0`, then `s + j ∈ {0, −2, −4, …}` (a pole of the gamma factor `Γ_ℝ(s + j)`) or `L(1 − s, χ̄) = 0`.
@@ -148,18 +149,19 @@ the method above. It has nothing for `Re s < 0`, and that part is the one used a
 
 ### 1.3 Growth near the line `Re s = 1`
 
-*Origin:* adapted from the published theory of the growth of Dirichlet L-functions near the line `Re s = 1`: here for
-every character, primitive or not, with the pole removed by the factor `(s − 1)/s`, with the square of the logarithmic
-scale `l` in place of its first power, uniformly for moduli `q ≤ e^l`.
+*Origin:* adapted from Montgomery and Vaughan, *Multiplicative Number Theory I* (2007), Lemma 10.15, which bounds
+`L(s, χ)` by a multiple of `log(q|s|)` near the line `Re s = 1`, away from the pole: here for every character, primitive
+or not, with the pole removed by the factor `(s − 1)/s`, with the square of the logarithmic scale `l` in place of its
+first power, uniformly for moduli `q ≤ e^l`.
 
-*Method of the formal proof:* (a) by partial summation. Write `Σ_{n≤t} χ(n) = κt + r(t)`, where `κ` is the mean of `χ`
-over the classes modulo `q` (`0` unless `χ` is principal) and `|r(t)| ≤ 2q`, since the sums of `χ − κ` over `q`
-consecutive integers vanish. For `Re s > 1` this gives `f_χ(s) = κ + (s − δ_χ)∫_1^∞ r(t)t^{−s−1}dt`, and both sides are
-holomorphic on `Re s > 0`; the integral is at most `2q/Re s`, and `|s − δ_χ| ≤ |s|` for `Re s ≥ 1/2`. (b) by the
-three-lines theorem, applied to `f_χ(z)/(z − s + 2)` on the vertical strip of width `1/3` whose right edge is the line
-`Re z = Re s + 2/l ≥ 1 + 1/l`: on the left edge (a) bounds it by `e^{3l}`, on the right edge comparison with
-`ζ(1 + 1/l)` bounds it by `1 + l`, and the left edge has weight `6/l` at `s`, so that `|f_χ(s)| ≤ 2·3^{18}(1 + l)`.
-(c) is Cauchy's estimate on circles of radius `1/(2l)`.
+*Method of the formal proof:* (a) is partial summation against the partial sums of `χ`, which stay within `2q` of `t`
+times the mean value of `χ` over the residue classes (a mean that is `0` unless `χ` is principal); the integral formula
+it gives for `f_χ` on `Re s > 1` extends to `Re s > 0` by analytic continuation and bounds `|f_χ|` linearly in `q|s|`
+on `Re s ≥ 1/2`. (b) interpolates by the three-lines theorem, on a vertical strip of width `1/3` with `s` at distance
+`2/l` from its right edge (so that this edge lies in `Re z ≥ 1 + 1/l`), between (a) on the left edge, of size
+`e^{O(l)}`, and the comparison of the Dirichlet series with `ζ(Re z) ≤ 1 + l` on the right edge; the left edge has
+weight `O(1/l)` at `s`, which reduces `e^{O(l)}` to a constant, and a linear factor in the denominator keeps the
+function bounded on the strip. (c) follows from (b) by Cauchy's estimate on circles of radius `1/(2l)`.
 
 Let `χ` be a Dirichlet character modulo `q ≥ 1`, primitive or not.
 
@@ -168,13 +170,14 @@ Let `χ` be a Dirichlet character modulo `q ≥ 1`, primitive or not.
 - (c) If `l ≥ 10¹⁰` and `q ≤ e^l`, then `|f_χ′(s)| ≤ 2l³` for every `s` with `Re s ≥ 1 − 1/(2l)` and `|s| ≤ 2e^l`.
 
 Any fixed powers of `l` in place of `l²` and `2l³` serve 1.4, provided they hold uniformly for all characters of
-modulus at most `e^l`. The library's `DirichletCharacter.norm_LFunction_le` gives
-`|L(s, χ)| ≤ q(|s − 1|^{−1} + 1 + |s|/Re s)` for `Re s > 0` (`s ≠ 1` if `χ` is principal). For the principal character,
-multiplication by `(s − 1)/s` turns it into a bound of the shape of (a) on `Re s ≥ 1/2`, with other constants; for the
-other characters it has that shape only where `|s − 1|` is bounded below. ExplicitZetaBounds §3.2 (Rademacher's
-convexity bound) gives a bound of the order of `l` in the range of (b) for primitive characters; for imprimitive
-characters it needs in addition a bound for the deleted Euler factors `∏_{p∣q}(1 + p^{−σ})` by a fixed power of `l`, for
-`q ≤ e^l` and `σ ≥ 1 − 1/l`.
+modulus at most `e^l`. For `χ ≠ χ₀` the pinned Tau Ceti has
+`DirichletCharacter.norm_LFunction_le_level_mul_norm_div_re`, `|L(s, χ)| ≤ q|s|/Re s` for `Re s > 0`, which gives (a)
+for these characters. On Tau Ceti's main branch, later than the revision pinned here:
+`DirichletCharacter.norm_LFunction_le`, `|L(s, χ)| ≤ q(|s − 1|^{−1} + 1 + |s|/Re s)` for `Re s > 0` and every `χ`
+(`s ≠ 1` if `χ` is principal); for the principal character, multiplication by `(s − 1)/s` turns it into a bound of the
+shape of (a) on `Re s ≥ 1/2`, with other constants. ExplicitZetaBounds §3.2 (Rademacher's convexity bound) gives a
+bound of the order of `l` in the range of (b) for primitive characters; for imprimitive characters it needs in addition
+a bound for the deleted Euler factors `∏_{p∣q}(1 + p^{−σ})` by a fixed power of `l`, for `q ≤ e^l` and `σ ≥ 1 − 1/l`.
 
 *Needs:* 1.1; Mathlib `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'` (the three-lines
 theorem), `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le` (Cauchy's estimate).
@@ -184,19 +187,21 @@ theorem), `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le` (Cauchy's estimat
 
 ### 1.4 A zero-free region with a bound for the logarithmic derivative
 
-*Origin:* adapted from the published theory of the classical zero-free region of Dirichlet L-functions through the
-inequality `|L(σ, χ₀)³L(σ + it, χ)⁴L(σ + 2it, χ²)| ≥ 1` for `σ > 1`: here the crude region `Re s ≥ 1 − l^{−25}`,
-`|s| ≤ e^l`, with a bound for `E_χ′/E_χ` on it, for every character, uniformly in the modulus once real characters are
-bounded below near `1`, and for one character at a time otherwise.
+*Origin:* adapted from Montgomery and Vaughan, *Multiplicative Number Theory I* (2007), chapter 11, the classical
+zero-free region of Dirichlet L-functions: here the crude region `Re s ≥ 1 − l^{−25}`, `|s| ≤ e^l`, that the inequality
+`|L(σ, χ₀)³L(σ + it, χ)⁴L(σ + 2it, χ²)| ≥ 1` for `σ > 1` gives directly, with a bound for `E_χ′/E_χ` on it, for every
+character, uniformly in the modulus once real characters are bounded below near `1`, and for one character at a time
+otherwise.
 
-*Method of the formal proof:* to the right of the line, at `Re s = 1 + η` with `0 < η ≤ 1`, the inequality above at the
-points `Re s`, `s` and `Re s + 2i Im s`, with `|L(Re s, χ₀)| ≤ 2/η`, with `|L(s, χ)| ≤ 2l|f_χ(s)|` (valid away from `1`
-for the principal character) and with 1.3 (b) for `χ²`, gives `η³ ≤ 256 l⁷ |f_χ(s)|⁴` when `χ²` is not principal or
-`|s − 1| ≥ 1/l`. At `η = l^{−25}` this gives `|f_χ| ≥ 12/l²²` on `Re s ≥ 1 + l^{−25}`; near `1` for a real `χ` the
-hypothesis gives `|f_χ| ≥ 1/l` instead. The derivative bound 1.3 (c) carries the lower bound a horizontal distance
-`2l^{−25}` to the left: `|f_χ(s)| ≥ 8/l²²`, so `|f_χ′/f_χ| ≤ l^{25}/4`, and the factor `s` of the principal character
-adds at most `2`. For a fixed `χ`, (a) follows from `f_χ(1) ≠ 0` and continuity, and (c) from (a) and (b), the moduli
-condition `q ≤ e^l` holding for large `l`. No Hadamard product is used, and no exceptional zero occurs.
+*Method of the formal proof:* a lower bound for `|f_χ|` just to the right of `Re s = 1`, transported to the left by the
+derivative bound, without a Hadamard product and without an exceptional zero. On `Re s ≥ 1 + η`, `0 < η ≤ 1`, the
+inequality above, with `|L(Re s, χ₀)| ≤ 2/η`, with `|L(s, χ)| ≤ 2l|f_χ(s)|` and with 1.3 (b) applied to `χ²`, gives
+`η³ ≤ 256l⁷|f_χ(s)|⁴` unless `χ²` is principal and `s` is within `1/l` of `1`, where the hypothesis of (b) gives
+`|f_χ(s)| ≥ 1/l` instead. Taking `η = l^{−25}` gives `|f_χ| ≥ 12l^{−22}` on `Re s ≥ 1 + l^{−25}`; 1.3 (c) changes `f_χ`
+by at most `4l^{−22}` over a horizontal step of `2l^{−25}`, so `|f_χ| ≥ 8l^{−22}` on the whole region, and 1.3 (c)
+divided by this bounds `f_χ′/f_χ`; the factor `s` that separates `f_χ` from `E_χ` for `χ₀` adds at most `2`. For one
+fixed `χ`, (a) is `f_χ(1) ≠ 0` and continuity, and (c) is (b) at every `l` large enough for `q ≤ e^l` and for the
+radius `1/l` in (a).
 
 Let `χ` be a Dirichlet character modulo `q ≥ 1`, primitive or not.
 
@@ -226,18 +231,21 @@ one modulus keeps the real characters those of a fixed modulus.
 
 ### 2.1 A Tauberian theorem with a rate
 
-*Origin:* adapted from the published theory of the passage from a zero-free region to the error term of the prime
-number theorem: here an abstract Tauberian theorem for a function that is Lipschitz on `[0, ∞)`, whose Laplace
-transform continues with polylogarithmic growth to the regions `Re s ≥ 1 − l^{−A}`, `|s| ≤ e^l`; the conclusion is
-decay faster than every power. No L-function occurs.
+*Origin:* adapted from Montgomery and Vaughan, *Multiplicative Number Theory I* (2007), Section 6.2, which derives the
+prime number theorem with an error term from a zero-free region by a contour integral: here an abstract Tauberian
+theorem for a function that is Lipschitz on `[0, ∞)`, whose Laplace transform continues with polylogarithmic growth to
+the regions `Re s ≥ 1 − l^{−A}`, `|s| ≤ e^l`, with decay faster than every power as its conclusion and one Taylor
+coefficient in place of the contour integral. No L-function occurs.
 
-*Method of the formal proof:* fix a large `u`, take `k + 1 ≈ u^{2B+4}` and `H = (k + 1)/u`, and read the normalised
-`k`-th Taylor coefficient of `g(s) = (F(s) − F(1))/(s − 1)` at the point `1 + H` in two ways. First, it is the mean of `R`
-against the Gamma density `H^{k+1}v^k e^{−Hv}/k!` on `(0, ∞)`, which has mean `u` and variance `u²/(k + 1)`; the Lipschitz
-bound puts it within `O(L·u^{−B−1})` of `R(u)`. Second, Cauchy's estimate on the disc of radius `H + η` about `1 + H`,
-with `η = l^{−A}` and `l = (2B + 5)log u`, bounds it by `4l^{2A}H·(H/(H + η))^{k+1}`, since `|s − 1| ≥ η` on the boundary
-circle; the disc reaches to `Re s = 1 − η` and lies in the region of the hypothesis, and
-`(H/(H + η))^{k+1} ≤ e^{−u/(2l^A)} ≤ e^{−√u/2}` makes the coefficient `O(u^{−B−1})` as well.
+*Method of the formal proof:* for large `u` the proof takes `k = ⌊u^{2B+4}⌋` and `H = (k + 1)/u`, so that `H > 1` and
+`H ≤ 2u^{2B+4}`, and writes `|R(u)| ≤ |c| + |c − R(u)|` with `c = (−H)^k H g^{(k)}(1 + H)/k!`, where
+`g(s) = (F(s) − F(1))/(s − 1)`; both terms are `O(u^{−B−1})`. By the hypothesis on the transform, `c` is an average of
+`R` over `(0, ∞)` against the Gamma distribution with density proportional to `v^k e^{−Hv}`, of mean `u` and variance
+`u²/(k + 1)`, so the Lipschitz condition gives `|c − R(u)| = O(L·u^{−B−1})`. For `|c|`, let `l = (2B + 5)log u` and
+`η = l^{−A}`. On the closed disc `|s − 1 − H| ≤ H + η` one has `Re s ≥ 1 − η` and, for large `u`, `|s| ≤ e^l`, so `F`
+is holomorphic there with `|F| ≤ l^A`; where `|s − 1 − H| = H + η`, also `|s − 1| ≥ η`, so `|g(s)| ≤ 2l^A/η`. Cauchy's
+estimate for `g^{(k)}` on that circle then gives `|c| ≤ 4l^{2A}H(1 + η/H)^{−k−1}`, and
+`(1 + η/H)^{−k−1} ≤ e^{−u/(2l^A)} ≤ e^{−√u/2}` for large `u`, so this bound is `O(u^{−B−1})` too.
 
 Let `R : ℝ → ℝ` be measurable, and let `L` be real with `|R(v) − R(u)| ≤ L(v − u)` whenever `0 ≤ u ≤ v ≤ u + 1`. Let
 `F : ℂ → ℂ` satisfy
@@ -262,25 +270,24 @@ derivatives), `hasDerivAt_integral_of_dominated_loc_of_deriv_le` (differentiatio
 
 ### 2.2 Primes `≡ 1` modulo powers of a fixed modulus in logarithmic windows
 
-*Origin:* adapted from the published theory of primes in arithmetic progressions to moduli at most a power of the
-logarithm (the range of the Siegel–Walfisz theorem): here one prime `p ≡ 1 (mod m^k)`, for the powers of one fixed `m`
-divisible by `4`, with `log p` in a window `[U, U + W]`, uniformly for `m^k ≤ W^A` and `W ≤ U ≤ W^A`; there is no count,
-and no exceptional zero has to be controlled.
+*Origin:* adapted from the theory of primes in arithmetic progressions to moduli at most a power of the logarithm, the
+range of the Siegel–Walfisz theorem (Montgomery and Vaughan, *Multiplicative Number Theory I* (2007), Corollary 11.19):
+here one prime `p ≡ 1 (mod m^k)`, for the powers of one fixed `m` divisible by `4`, with `log p` in a window
+`[U, U + W]`, uniformly for `m^k ≤ W^A` and `W ≤ U ≤ W^A`; there is no count, and no exceptional zero has to be
+controlled.
 
-*Method of the formal proof:* (a) when `4 ∣ m`, every unit `u ≡ 1 (mod m²)` is a square modulo `m^k`: write
-`u = 1 − 4m·m′t` with `4m′ = m`, solve `c² + c = −m·m′t` by Newton's iteration, the right side being nilpotent modulo
-`m^k`, and take `u = (1 + 2c)²`. So a character with `χ²` principal is trivial on these units. (b) A character `χ`
-modulo `m^k` with `χ²` principal is induced from a character `χ₁` modulo `m²`, and `f_χ = f_{χ₁}`, the two moduli
-having the same prime divisors; 1.4 (a) for the finitely many characters modulo `m²` gives the lower bound near `1` that
-1.4 (b) asks, and 1.4 (b) with `l = (A + 1)log X` gives the disc. (c) Put `W = X²`, `n = m^k`, and let `F(z)/z` be the
-Dirichlet series of `Λ` restricted to `n′ ≡ 1 (mod n)` at `1 + z`; by orthogonality
-`F(z) = (1 − z Σ_χ E_χ′(1 + z)/E_χ(1 + z))/φ(n)`, the sum over the characters modulo `n`, and (b) with `2A` in place of
-`A` bounds `|F|` by `2` on `|z| ≤ 1/X`. Let `P(z)` be the part of the series with `n′ < e^U`. If the window contained no
-prime `≡ 1 (mod n)`, then on the circle `|z| = 1/X` the function `F(z) − zP(z)` would be at most `3U` times
-`|exp(2 − Uz − X(1 + Xz)²/4)|`, because the Gaussian factor moves the cut-off at `U` to a point `U + t` of the window,
-`0 ≤ t ≤ X²`, and the prime powers that are not primes form a Dirichlet series absolutely convergent at `3/4`
-(`ψ − θ = O(√x)`). At `z = 0` the quotient of the two is `e^{X/4−2}/φ(n)`, which exceeds `3U` for large `X` because
-`n, U ≤ X^{2A}`: a contradiction, by the maximum principle.
+*Method of the formal proof:* (a): for `4 ∣ m`, every unit `u` modulo `m^k` with `u ≡ 1 (mod m²)` is `(1 + 2c)²` for a
+root `c` of `c² + c = (u − 1)/4`; the right side is divisible by `m`, hence nilpotent modulo `m^k`, and Newton's method
+from `c = 0` finds the root. So a character whose square is principal is trivial on these units. (b): such a character
+`χ` comes from a character `χ₁` modulo `m²` with `f_χ = f_{χ₁}`, as `m^k` and `m²` have the same prime factors; 1.4 (a)
+for the finitely many characters modulo `m²` supplies the hypothesis of 1.4 (b) near `1`, and 1.4 (b) at
+`l = (A + 1)log X` gives (b). (c): put `X = √W` and `n = m^k`. By orthogonality and 1.1 (b), the Dirichlet series of `Λ`
+on the class of `1` modulo `n` at `1 + z` is expressed through the `E_χ′/E_χ(1 + z)` of the characters modulo `n`, and
+(b), with `2A` for `A`, controls it on the disc `|z| ≤ 1/X`. If no prime `p ≡ 1 (mod n)` had `log p` in the window, `z`
+times the part of that series beyond `e^U`, divided by a Gaussian factor in `z`, would be at most `3U` on the circle
+`|z| = 1/X`, since the terms in the window would come only from prime powers that are not primes, whose series converges
+absolutely at `3/4` (`ψ − θ = O(√x)`); at `z = 0` it equals `e^{X/4−2}/φ(n)`, larger than `3U` once `X` is large, as
+`n, U ≤ X^{2A}`. The maximum principle excludes this.
 
 Let `m ≥ 1` with `4 ∣ m`.
 
@@ -309,12 +316,13 @@ concerned; so does RieszSumsOverPrimesAndExceptionalZeros §1.7b (iii) (Linnik's
 
 ## Layer 3: quadratic twists without zeros in a box
 
-Fix a modulus `q` and a class `a` modulo `q` whose primes are `≡ 7 (mod 8)` and prime to `q`. For such a prime `d`,
-reciprocity turns the coefficients `ξ(n)(n/d)` of a twist into `ξ(n)(−d/n°)`: as a function of `d` they are Jacobi
-symbols in the numerator. A zero of a twist in a box right of `1/2` forces a theta tail integral to be large (3.3), and
-the mean of these integrals over all numerators `v ≤ T²` is small (3.4), so few `d` are bad (3.5). The theta series
-are short sums in effect, of length about `1/u ≤ T`, which is why the Pólya–Vinogradov inequality replaces a large sieve
-for real characters.
+The layer works with a modulus `q` and a class `a` modulo `q` all of whose primes `d` satisfy `d ≡ 7 (mod 8)` and
+`gcd(d, q) = 1`. For these `d`, quadratic reciprocity rewrites the coefficient `ξ(n)(n/d)` of a twist as `ξ(n)(−d/n°)`,
+so that `d` enters through the numerator of a Jacobi symbol and can be averaged over. 3.3 shows that a zero of a twist
+in a box to the right of `1/2` makes a tail integral of theta series large; 3.4 shows that these integrals are small on
+average over all numerators `v ≤ T²`; 3.5 combines the two into a count of the bad `d`. At scale `u ≥ 1/T` the weight
+`w_j(nu)` limits the theta series to `n` of order at most `T`, so the character sums that occur are short enough for the
+Pólya–Vinogradov inequality, and no large sieve for real characters is used.
 
 ### 3.1 Theta series and the tail integral
 
@@ -341,20 +349,22 @@ for real characters.
 
 ### 3.2 The theta series of a character: transformation in absolute value and Mellin transform
 
-*Origin:* adapted from the published theory of the theta series of a Dirichlet character (Poisson summation, the
-transformation formula and the representation of `L(s, χ)` as a Mellin transform): here the transformation formula in
-absolute value only, so that only `|τ(χ)| = √q` and no root number enters; the Mellin representation on all of
-`Re s > 0` with absolute convergence, for imprimitive characters too; and the folding identity it gives.
+*Origin:* adapted from Davenport, *Multiplicative Number Theory*, and Montgomery and Vaughan, *Multiplicative Number
+Theory I* (2007), chapter 10, on the theta series of a Dirichlet character (Poisson summation, the transformation
+formula and the representation of `L(s, χ)` as a Mellin transform): here the transformation formula in absolute value
+only, so that only `|τ(χ)| = √q` and no root number enters; the Mellin representation on all of `Re s > 0` with
+absolute convergence, for imprimitive characters too; and the folding identity it gives.
 
-*Method of the formal proof:* Poisson summation for `w_j`, applied in each class modulo `q` (the theta kernels of one
-class and their inversion formulas, which Mathlib has in even and odd form) and summed against `χ`, gives for every
-`χ ≠ χ₀` of parity `j` and every `t > 0` the identity `t·|Σ_{n≥1}χ(n)w_j(nt)| = |Σ_{n≥1}χ̂(n)w_j(n/(qt))|`, where
-`χ̂(n) = q^{−1}Σ_{b mod q} χ(b)e^{2πibn/q}`; both `χ` and `χ̂` have parity `j` and vanish at `0`, so each sum over `ℤ`
-is twice the sum over `n ≥ 1`. For primitive `χ`, `χ̂ = q^{−1}τ(χ)χ̄` with `|τ(χ)| = √q`, which gives (a). The same
-identity, with `|χ̂| ≤ 1`, gives `|Σ_{n≥1}χ(n)w_j(nt)| ≤ 3e·q·e^{−t}` for every `t > 0`, so the integral of (b)
-converges absolutely and is holomorphic on `Re s > 0`. On `Re s > 1` termwise integration gives (d), and (b) follows on
-`Re s > 0` by the identity theorem. (c) is the substitution `u ↦ 1/(qu)`, which preserves `du/u` and, by (a), `|θ_χ|`,
-and exchanges `(0, q^{−1/2})` and `(q^{−1/2}, ∞)`; (e) is the substitution `x² = y`.
+*Method of the formal proof:* everything rests on one consequence of Poisson summation. Mathlib's functional equations
+for the even and odd theta kernels of a residue class, applied class by class modulo `q` and combined with the weights
+`χ(b)`, compare `Σ_{n≥1}χ(n)w_j(nt)` with the sum at `1/(qt)` whose coefficients are the finite Fourier transform
+`χ̂(n) = q^{−1}Σ_{b mod q} χ(b)e^{2πibn/q}`; in absolute value, `t·|Σ_{n≥1}χ(n)w_j(nt)| = |Σ_{n≥1}χ̂(n)w_j(n/(qt))|` for
+`χ ≠ χ₀` of parity `j` and `t > 0`. For primitive `χ`, `χ̂` is `τ(χ)/q` times `χ̄`, and `|τ(χ)| = √q` turns the identity
+into (a). For any `χ ≠ χ₀`, the bound `|χ̂| ≤ 1` turns it, for `t ≤ 1`, into `|Σ_{n≥1}χ(n)w_j(nt)| ≤ 3e·q·e^{−t}`,
+which the bound of 3.1 gives for `t ≥ 1`; this makes the integral in (b) absolutely convergent and holomorphic on
+`Re s > 0`, and (b) then follows from (d) by analytic continuation. (d) is integration term by term on `Re s > 1`; (c)
+splits the integral at `q^{−1/2}`, the fixed point of `u ↦ 1/(qu)`, and maps one half onto the other with (a); (e) is a
+change of variable in the integral defining `Γ_j`.
 
 Let `j ∈ {0, 1}`.
 
@@ -387,14 +397,15 @@ LFunctions §§5.4, 6.8 the Mellin representation on `Re s > 1`; they do not giv
 `Re s ≥ 1/2 + 9δ` in a box of fixed height forces the tail integral `J_j(χ, T)` above `T^{2δ}`, for every primitive
 `χ` of conductor at most `T²`.
 
-*Method of the formal proof:* let `𝓜(s) = ∫_{1/T}^∞ θ_{χμ}(u)u^{s−1/2} du/u`, the integral of 3.2 (d) for
-`Γ_j(s)/L(s, χ)` cut off below `1/T`; it is holomorphic on `Re s > 0` and bounded on `1/2 ≤ Re s ≤ 2`. Put
-`Ψ = Γ_j·L(·, χ)·𝓜 − Γ_j²`. On `Re s = 2` the missing piece over `(0, 1/T]` is at most `3/T` and `|Γ_j L| ≤ 3`, so
-`|Ψ| ≤ 9/T`. On `Re s = 1/2`, `|u^{s−1/2}| = 1` gives `|𝓜| ≤ J_j(χ, T)`, and 3.2 (b), (c) with `q^{−1/2} ≥ 1/T` give
-`|Γ_j(s)L(s, χ)| ≤ ∫_0^∞|θ_χ| du/u = 2∫_{q^{−1/2}}^∞|θ_χ| du/u ≤ 2J_j(χ, T)`. At a zero `s` of `L(·, χ)`,
-`Ψ(s) = −Γ_j(s)²`. If `J_j(χ, T) ≤ T^{2δ}`, the three-lines theorem on `1/2 ≤ Re z ≤ 2`, where the right line has weight
-at least `6δ` at `s`, gives (a). For (b), `|Γ_j|` is bounded below by a positive constant on the compact box
-`1/2 ≤ Re s ≤ 1`, `|Im s| ≤ H` (3.2 (e)), and `L(s, χ)` has no zero with `Re s > 1`.
+*Method of the formal proof:* the three-lines theorem applied to a mollified product. The mollifier `𝓜` is the integral
+of 3.2 (d) for `Γ_j(s)/L(s, χ)` with the range `u ≤ 1/T` left out, `𝓜(s) = ∫_{1/T}^∞ θ_{χμ}(u)u^{s−1/2} du/u`; it is
+holomorphic on `Re s > 0` and bounded on `1/2 ≤ Re s ≤ 2`. The function `Γ_j·L(·, χ)·𝓜 − Γ_j²` takes the value
+`−Γ_j(s)²` at a zero `s` of `L(·, χ)`. On the line `Re z = 2` it is `O(1/T)`, by 3.2 (d) and the bound of 3.1 on the
+omitted range. On the line `Re z = 1/2`, where `|u^{z−1/2}| = 1`, both `|𝓜|` and, by 3.2 (b), (c) and `q^{−1/2} ≥ 1/T`,
+`|Γ_j L(·, χ)|/2` are at most `J_j(χ, T)`, so the function is `O(T^{4δ})` when `J_j(χ, T) ≤ T^{2δ}`. As
+`Re s ≥ 1/2 + 9δ` gives the line `Re z = 2` a weight of at least `6δ` at `s`, the three-lines theorem on
+`1/2 ≤ Re z ≤ 2` then yields (a). (b) follows from (a), since `|Γ_j|` is bounded below by a positive constant on the
+compact box `1/2 ≤ Re s ≤ 1`, `|Im s| ≤ H` (3.2 (e)), and `L(·, χ)` has no zero with `Re s > 1`.
 
 Let `j ∈ {0, 1}`. In (a) and (b), `χ ≠ χ₀` runs over the primitive Dirichlet characters of parity `j` modulo `q ≥ 1`,
 and `J_j(χ, T)` is the tail integral of `n ↦ χ(n)`.
@@ -415,18 +426,19 @@ theorem).
 
 ### 3.4 A mean square of theta series twisted by Jacobi symbols
 
-*Origin:* adapted from the published theory of mean values of real character sums: here a mean square, over the
-numerators `1 ≤ v ≤ T²`, of theta series whose coefficients are twisted by the Jacobi symbols `(−v/n°)`, at every scale
-`u ≥ 1/T`, with the off-diagonal terms bounded by the Pólya–Vinogradov inequality.
+*Origin:* adapted from the theory of mean values of real character sums, of Jutila, *On mean values of Dirichlet
+polynomials with real characters* (1975), and Heath-Brown, *A mean value estimate for real character sums* (1995): here
+a mean square, over the numerators `1 ≤ v ≤ T²`, of theta series whose coefficients are twisted by the Jacobi symbols
+`(−v/n°)`, at every scale `u ≥ 1/T`, with the off-diagonal terms bounded by the Pólya–Vinogradov inequality.
 
-*Method of the formal proof:* expand the square. As the Jacobi symbol is multiplicative in the denominator, the pair
-`(n, n′)` contributes `α(n)·conj α(n′)·u·w_j(nu)w_j(n′u)·Σ_{1≤v≤T²}(−v/(nn′)°)`. If `(nn′)°` is a square, `nn′` is a
-square or twice a square; the inner sum is at most `T²`, and `u·|w_j(nu)w_j(n′u)| ≪ u^{−2δ}(nn′)^{−1/2−δ}` is summable over
-these pairs (write `nn′` as `(abc)²` or `2(abc)²`). Otherwise `(nn′)°` is an odd non-square, `v ↦ (v/(nn′)°)` is a
-nonprincipal character modulo `(nn′)°`, and the Pólya–Vinogradov inequality bounds the inner sum by
-`2√(nn′)(1 + log nn′) ≪_δ (nn′)^{1/2+δ/2}`; the decay of `w_j` and `u^{−2} ≤ T²` give the summable bound
-`≪ T²u^{−2δ}(nn′)^{−1−δ/2}`. (b) follows from (a) by Cauchy–Schwarz over `v` and integration of `u^{−δ−1}` over
-`u > 1/T`, applied to `α` and to `αμ`.
+*Method of the formal proof:* (a) multiplying out `|θ_{α_v}(u)|²` and summing over `v` first leaves, for each pair
+`(n, n′)`, `α(n)·conj α(n′)` times the weight `u·w_j(nu)w_j(n′u)` times the character sum `Σ_{1≤v≤T²}(−v/(nn′)°)`, by
+multiplicativity of the Jacobi symbol in its denominator. When `(nn′)°` is a perfect square, so that `nn′` is a square
+or twice one, the character sum is at most `T²` and the weights of all such pairs add up to `O(u^{−2δ})`. Otherwise
+`(nn′)°` is odd and not a square, `v ↦ (v/(nn′)°)` is a nonprincipal character modulo `(nn′)°`, and
+ExplicitCharacterSumsAndSieves §3.2 bounds the character sum by `2√(nn′)(1 + log nn′)`; the decay of `w_j` together with
+`u ≥ 1/T` again gives a total of `O(T²u^{−2δ})`. (b) applies (a) to `α` and to `αμ`, the Cauchy–Schwarz inequality over
+`v`, and integration over `u > 1/T`.
 
 Let `j ∈ {0, 1}` and `δ > 0`. There is `C`, depending only on `j` and `δ`, with the following property. Let `T > 0`,
 and let `α : ℕ → ℂ` with `|α(n)| ≤ 1` for every `n`. For each integer `v ≥ 1` let `α_v(n) = α(n)·(−v/n°)` for `n ≥ 1`,
@@ -444,23 +456,27 @@ steps `New.dirichletCharacter_jacobiSym_ne_one`, `New.norm_sum_jacobiSym_le`,
 
 ### 3.5 Zero density for quadratic twists over the primes of a class, and the choice of `d`
 
-*Origin:* adapted from Jutila (1977), Theorem 1, the log-free zero-density estimate (AnalyticNumberTheoryPartI §1.7),
-by whose count all but few primitive characters of bounded conductor have a zero-free box: here, by a different method
-(a mean square of theta series twisted by Jacobi symbols, bounded with the Pólya–Vinogradov inequality), a weak density
-count for the quadratic twists `ξ·(·/d)` of the characters `ξ` of one modulus, over the primes `d ≡ 7 (mod 8)` of one
-class, in the box `Re s ≥ 1/2 + 9δ`, `|Im s| ≤ H`, and from it the choice of one prime `d` whose twists have no zero in
-`Re s ≥ β`, `|Im s| ≤ H`, for a given `β > 1/2`.
+*Origin:* adapted from the zero-density estimates for quadratic twists obtained from mean values over real characters,
+of Jutila, *On mean values of Dirichlet polynomials with real characters* (1975), and Heath-Brown, *A mean value
+estimate for real character sums* (1995): here, through a mean square of theta series twisted by Jacobi symbols and
+bounded with the Pólya–Vinogradov inequality (3.4), a weak density count for the quadratic twists `ξ·(·/d)` of the
+characters `ξ` of one modulus, over the primes `d ≡ 7 (mod 8)` of one class, in the box `Re s ≥ 1/2 + 9δ`, `|Im s| ≤ H`,
+and from it the choice of one prime `d` whose twists have no zero in `Re s ≥ β`, `|Im s| ≤ H`, for a given `β > 1/2`.
 
-*Method of the formal proof:* for a prime `d ≡ 7 (mod 8)` and `n ≥ 1`, `(2/d) = 1` and reciprocity give
-`(n/d) = (−d/n°)`. Let `ψ` be a primitive character modulo `q′` and `d ∤ q′`; then `ψ·(·/d)` is primitive of conductor
-`q′d`, has the parity opposite to that of `ψ` (as `(−1/d) = −1`), and its coefficients are `ψ(n)(−d/n°)`, which are the
-`α_d(n)` of 3.4 for `α = ψ`. So by 3.3 (b) each such `d` with `q′d ≤ T²` whose twist has a zero in the box has
-`J_j(α_d, T) > T^{2δ}`, while 3.4 (b) bounds the sum of `J_j(α_v, T)` over all `v ≤ T²` by `C T^{2+δ}`: there are
-`O(T^{2−δ})` such `d`. A character `ξ` modulo `q` is induced by a primitive `ψ` modulo some `q′ ∣ q`, and `L(s, ξ·(·/d))`
-is `L(s, ψ·(·/d))` times Euler factors that do not vanish on `Re s > 0`; taking `T² = qX` and adding over the `ξ` gives
-(a). For (b), one may take `β < 1` and `β = 1/2 + 9δ`. If every prime of the class were bad, (a) would make the primes
-of the class up to `X` number `O(X^{1−δ/2})`, so `Σ_{p≡a} (log p)/p` would converge; it diverges for an invertible
-class. So the prime number theorem in progressions is not needed.
+*Method of the formal proof:* (a) combines 3.3 (b) and 3.4 (b) for one primitive `ψ` at a time. As `d ≡ 7 (mod 8)`,
+`2` is a square modulo `d` and `d ≡ 3 (mod 4)`; so for `n ≥ 1` the powers of `2` drop out of `(n/d)`, and the
+reciprocity law for Jacobi symbols turns `(n°/d)` into `(−d/n°)`. Hence, if `ψ` is primitive modulo `q′` and `d ∤ q′`,
+the coefficients of `ψ·(·/d)` are the `α_d(n)` of 3.4 with `α = ψ`. This twist is primitive of conductor `q′d`
+(ClassicalArithmeticCompletion §§1.5–1.6), and its parity is opposite to that of `ψ` because `(−1/d) = −1`, so one
+parity `j` serves every `d`. By 3.3 (b) every `d` with `q′d ≤ T²` whose twist vanishes in the box contributes more than
+`T^{2δ}` to the sum of 3.4 (b), which is `O(T^{2+δ})`; with `T² = qX` this leaves `O(X^{1−δ/2})` such `d ≤ X`. For a
+character `ξ` modulo `q` induced by the primitive `ψ` modulo `q′ ∣ q`, the twist `ξ·(·/d)` is induced by `ψ·(·/d)`,
+and Mathlib's `DirichletCharacter.LFunction_changeLevel` writes `L(s, ξ·(·/d))` as `L(s, ψ·(·/d))` times deleted
+Euler factors, which have no zero on `Re s > 0`; there are finitely many `ξ`. (b): it suffices to treat
+`1/2 < β < 1`, and then `β = 1/2 + 9δ` with `δ > 0`. By (a) and partial summation, the series `Σ (log d)/d` over the
+`d` bad for `(β, H)` converges, whereas `Σ (log p)/p` over all primes `p ≡ a (mod q)` diverges for invertible `a`
+(Mathlib's `ArithmeticFunction.vonMangoldt.not_summable_residueClass_prime_div`); hence not every prime `d ≡ a (mod q)`
+is bad for `(β, H)`.
 
 Let `q ≥ 1`, and let `a` be a class modulo `q` such that every prime `d ≡ a (mod q)` satisfies `d ≡ 7 (mod 8)` and
 `gcd(d, q) = 1` (for instance `8 ∣ q` and `a ≡ 7 (mod 8)` prime to `q`). For real `β` and `H`, call a prime
@@ -501,8 +517,9 @@ These sections cite this roadmap:
 
 [ShortProof] uses three more results of this roadmap in proofs of sections that cite existing roadmap sections, Mathlib
 or the library for them: 1.1 (b)–(d) in OneSidedPrimeSumBoundsAndAdmissibleData §0.2, for the transform of the remainder
-of the prime sum and its residues; 1.2 in the open strip in OneSidedPrimeSumBoundsAndAdmissibleData §6.3; and 1.1 (d),
-for the twist by `(·/d)` of the character modulo `1`, in ThetaFunctionsAndUnitsOfCMLattices §5.4.
+of the prime sum and its residues; 1.2 in the open strip in OneSidedPrimeSumBoundsAndAdmissibleData §6.4 (b), the strip
+form on the critical line; and 1.1 (d), for the twist by `(·/d)` of the character modulo `1`, in
+ThetaFunctionsAndUnitsOfCMLattices §5.4.
 
 ## What the library already provides
 
@@ -513,13 +530,11 @@ for the twist by `(·/d)` of the character modulo `1`, in ThetaFunctionsAndUnits
 - For primitive `χ` and `Re s ≤ 0`, the zeros of `L(s, χ)` are the poles of the gamma factor (`s = 0` at modulus `1`
   excepted): Mathlib `DirichletCharacter.LFunction_eq_zero_iff_of_re_nonpos`.
 - `L(s, χ)` of an induced character as the primitive one times the deleted Euler factors: Mathlib
-  `DirichletCharacter.LFunction_changeLevel`; their non-vanishing on `Re s > 0`: Tau Ceti
-  `DirichletCharacter.prod_one_sub_mul_prime_cpow_ne_zero`.
+  `DirichletCharacter.LFunction_changeLevel`.
 - `|τ(χ)| = √q` for a primitive character modulo `q`: Mathlib `DirichletCharacter.norm_gaussSum_stdAddChar`; Tau Ceti
   `DirichletCharacter.IsPrimitive.norm_gaussSum`.
-- The Pólya–Vinogradov inequality `√q(1 + log q)` for primitive `χ ≠ χ₀` on every interval: Tau Ceti
-  `DirichletCharacter.norm_sum_range_add_le`.
-- A bound for `L(s, χ)` linear in the modulus and the height on `Re s > 0`: Tau Ceti `DirichletCharacter.norm_LFunction_le`.
+- A bound for `L(s, χ)` linear in the modulus and the height on `Re s > 0`, for `χ ≠ χ₀`: Tau Ceti
+  `DirichletCharacter.norm_LFunction_le_level_mul_norm_div_re`.
 - Landau's theorem for Dirichlet series with nonnegative coefficients: Tau Ceti `TauCeti.LSeries.landau`.
 - The theta kernels of one residue class and their inversion formulas, and the Mellin transform of a sum of Gaussians:
   Mathlib `HurwitzZeta.evenKernel_functional_equation`, `HurwitzZeta.oddKernel_functional_equation`,
@@ -527,13 +542,24 @@ for the twist by `(·/d)` of the character modulo `1`, in ThetaFunctionsAndUnits
 - The divergence of `Σ_{p≡a (mod q)} (log p)/p` for an invertible class `a`: Mathlib
   `ArithmeticFunction.vonMangoldt.not_summable_residueClass_prime_div`.
 
+On Tau Ceti's main branch, later than the revision pinned here:
+
+- The non-vanishing of the deleted Euler factors on `Re s > 0`:
+  `DirichletCharacter.prod_one_sub_mul_prime_cpow_ne_zero`.
+- The Pólya–Vinogradov inequality `√q(1 + log q)` for primitive `χ ≠ χ₀` on every interval:
+  `DirichletCharacter.norm_sum_range_add_le`.
+- The bound `|L(s, χ)| ≤ q(|s − 1|^{−1} + 1 + |s|/Re s)` on `Re s > 0`, for every `χ` (`s ≠ 1` if `χ` is principal):
+  `DirichletCharacter.norm_LFunction_le`.
+
 ## Results taken from other roadmaps
 
 - The Pólya–Vinogradov inequality for every nonprincipal character, in particular
   `|Σ_{1≤v≤X} χ(v)| ≤ 2√q(1 + log q)` for `χ ≠ χ₀` modulo `q`: ExplicitCharacterSumsAndSieves §3.2 (used in 3.4). The
   bound in this form also follows from the reduction to the primitive character, ExplicitCharacterSumsAndSieves §0.6,
-  with the library's bound for primitive characters and `2^{ω(r)} ≤ 2√r`, where `r` is the product of the primes that
-  divide `q` but not the conductor of `χ`, and `ω(r)` is the number of distinct primes dividing `r`.
+  with the bound `√q*(1 + log q*)` for a primitive character of conductor `q*` and `2^{ω(r)} ≤ 2√r`, where `r` is the
+  product of the primes that divide `q` but not `q*`, and `ω(r)` is the number of distinct primes dividing `r`. That
+  bound for primitive characters is on Tau Ceti's main branch, later than the revision pinned here
+  (`DirichletCharacter.norm_sum_range_add_le`).
 - Landau's theorem in one-sided form: a measurable `g` with `g(u) ≤ e^{βu}` for large `u`, whose transform
   `∫_0^∞ g(u)e^{−su} du` continues meromorphically with positive leading coefficients at its real poles right of `β`,
   has no pole in `Re s > β`: PositivityOfDirichletSeriesWithKernels §6.4 (b). Used by OneSidedPrimeSumBoundsAndAdmissibleData
@@ -544,10 +570,11 @@ for the twist by `(·/d)` of the character modulo `1`, in ThetaFunctionsAndUnits
 
 ## References
 
-- [ShortProof] The shorter Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
-  L-functions, by the same method as the formal proof that the family RiemannHypothesisForDirichletLFunctions states;
-  paths are relative to its directory `src/`.
-- H. Davenport, *Multiplicative Number Theory*, 3rd ed. rev. H. L. Montgomery, GTM 74 (2000), chapters 5, 9 and 14:
-  primitive characters and the functional equation (1.2).
-- Matti Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), 45–62: Theorem 1, the log-free zero-density estimate
-  cited in AnalyticNumberTheoryPartI §1.7 (3.5).
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/Analytic` (whose files `Landau` and
+  `PolyaVinogradov` prove results that it takes from other roadmaps) and the definitions `New.entireL` and
+  `New.quadTwist` in `src/Lib/General/NumberTheory/ImaginaryQuadraticField`.
+- Davenport, *Multiplicative Number Theory*.
+- D. R. Heath-Brown, *A mean value estimate for real character sums*, Acta Arith. 72 (1995).
+- M. Jutila, *On mean values of Dirichlet polynomials with real characters*, Acta Arith. 27 (1975).
+- H. L. Montgomery, R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory* (2007).

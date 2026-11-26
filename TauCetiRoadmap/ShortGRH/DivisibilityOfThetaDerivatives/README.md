@@ -52,7 +52,8 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
 - *Labels.* Under each section heading, `*Origin:*` says where its statement comes from and `*Method of the formal
   proof:*` how [ShortProof] proves it. [ShortProof] is the shorter formal proof of the family `ShortGRH`; the line
   "[ShortProof], `path` (`declarations`)" at the end of a section names the file (under `src/`) and the declarations
-  where it proves the statement. The names of [ShortProof] occur only on that line.
+  where it proves the statement. Elsewhere the names of [ShortProof] occur only in entries of *Needs:* lines, which
+  name the file and the declarations of [ShortProof] that prove the result used.
 - *Primes and valuations.* `p` is a prime and `ι_p : ℂ → ℂ_p` a ring embedding; the statements hold for every choice
   of `ι_p`. `v` is the valuation of `ℂ_p` with `v(p) = 1`, written also `v_p`, `‖x‖ = p^{−v(x)}`, and `𝒪` is the
   valuation ring of `ℂ_p`. A series over `ℂ_p` is *integral* if its coefficients lie in `𝒪`; a complex number `c` is
@@ -220,17 +221,18 @@ idele classes of `E` with `υ(x̄) = υ(x)^{−1}` and `υ(x) = ∏_τ x_τ/|x_�
 purely imaginary `ȷ ∈ E` with `Im τ(ȷ) > 0` for every `τ` of the CM type and `(1 − ȷ^{−1})/2` an algebraic integer; and a
 finite idele `α` with `v_w(ȷαᾱ) = −v_w(𝔇_E)` at every finite place `w`; for a field `E` that contains a primitive root
 of unity of order `5040`. Every splitting character of such a field is `−1` at the chosen uniformiser of every finite
-place `w = w̄` (the first background result below); the formal proof records this among the Weil data, but it is a
-consequence and not a further condition. The elements `ȷ`, `α` above and some splitting character `υ` are Weil data
-for `E`.
+place `w = w̄` (IdelicReciprocityCountsAndCyclotomicClassGroups §7.2 (b)); the formal proof records this among the
+Weil data, but it is a consequence and not a further condition. The elements `ȷ`, `α` above and some splitting
+character `υ` are Weil data for `E`.
 (d) Let `s₀` be the principal `f`-th root of `υ(α)^{−1}·|α|^{1/2}`, `|α|` the idele norm. Some positive power of `s₀`
 lies in `K`, `|α| = ∏_{v∈Φ} |P'(ζ)|_v`, and `|σ(s₀)|² = rd_E/√d` for every automorphism `σ` of `ℂ` over `K`.
 
-*Needs:* 1.1, 1.2; IdelicReciprocityCountsAndCyclotomicClassGroups §7.2, WeilRepresentationsOnBanachSpacesOfData §3.1 (a splitting character exists on a CM field that contains a primitive
-`5040`-th root of unity and in which every root of unity is `δ/δ̄` for a unit `δ` of norm `1` to the product of the
-embeddings of the CM type; and every splitting character of a CM field that contains a primitive `5040`-th root of
-unity has the value `−1` at the chosen uniformiser of every finite place `w = w̄`); Tau Ceti `TauCeti.GlobalNumberFields.ideleNorm` (the idele norm `|x|` of an idele of `E`, the
-product of the squares of the absolute values at the infinite places and of the normalised absolute values at the
+*Needs:* 1.1, 1.2; IdelicReciprocityCountsAndCyclotomicClassGroups §7.2 (a splitting character exists on a CM field
+that contains a primitive `5040`-th root of unity and in which every root of unity is `δ/δ̄` for a unit `δ` of norm `1`
+to the product of the embeddings of the CM type; and every splitting character of a CM field that contains a primitive
+`5040`-th root of unity has the value `−1` at the chosen uniformiser of every finite place `w = w̄`);
+WeilRepresentationsOnBanachSpacesOfData §3.1 (the definitions of splitting characters and of Weil data); Tau Ceti
+`TauCeti.GlobalNumberFields.ideleNorm` (the idele norm `|x|` of an idele of `E`, the product of the squares of the absolute values at the infinite places and of the normalised absolute values at the
 finite places, a positive real number; a finite idele is read as the idele with component `1` at every infinite
 place, which defines its norm; [ShortProof] `Lib/Adelic/Adeles/IdeleModulus.lean` (`New.ideleAbs`,
 `New.ideleAbs_nonneg_and_ne_zero`, `New.finIdeleAbs`)); IdelicReciprocityCountsAndCyclotomicClassGroups §7.5 (for Weil data on `E`, with
@@ -277,7 +279,8 @@ weights `−a·w₀` and the tame parts `ω^n`; the finiteness of pairs is parti
 
 *Method of the formal proof:* an element `γ` of `E` with `γγ̄ = 1` that is integral is a power of `ζ`, and
 `∏_v v(ζ^k)^{w₀(v)} = 1` because `w₀(v) ≡ Δ/2 (mod q₁)` at every place (the weights `κ(v)` are multiples of `q₁`)
-and `N_{E/K}(ζ) = 1`; by 1.5, `ω` is trivial on the reductions of the powers of `ζ`. The background existence theorem then gives the characters. A pair is determined by its
+and `N_{E/K}(ζ) = 1`; by 1.5, `ω` is trivial on the reductions of the powers of `ζ`. The existence theorem of
+IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (c) then gives the characters. A pair is determined by its
 character, and the characters with given weight and tame part are finite in number; the weights and the tame parts at
 the finitely many chosen places range over finite sets.
 
@@ -293,11 +296,11 @@ tame part `ω^n`: `μ(γ) = ∏_v γ_v^{−a·w₀(v)}·∏_w ω_w(γ mod w)^n` 
 chosen places, together with an integer `z` with `1 ≤ z ≤ t` and `z ≤ c(v) ≤ 4b` at every `v ∈ Φ`. There are finitely
 many pairs.
 
-*Needs:* 1.5; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weights `κ`, the gap `Δ`, `t`, `b`); ShortGRH
-background (characters of `U(1)(𝔸_{E⁺})` trivial on `U(1)(E⁺)` with a given weight `e` and a given tame part `ψ` supported
-on a finite set of places: one exists when `∏_v γ_v^{e(v)}·∏_w ψ_w(γ mod w) = 1` for every `γ ∈ U(1)(E⁺)` integral at all
-finite places, and there are finitely many for each `(e, ψ)`; [ShortProof] `Lib/ClassField/HeckeCharacter/Basic.lean`
-(`New.AutChar.HasWeight`, `New.AutChar.exists_hasWeight_of_prod_eq_one`, `New.AutChar.finite_setOf_hasWeight`)).
+*Needs:* 1.5; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weights `κ`, the gap `Δ`, `t`, `b`);
+IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (c), (d) (characters of `U(1)(𝔸_{E⁺})` trivial on `U(1)(E⁺)` with a
+given weight `e` and a given tame part `ψ` supported on a finite set of places: one exists when
+`∏_v γ_v^{e(v)}·∏_w ψ_w(γ mod w) = 1` for every `γ ∈ U(1)(E⁺)` integral at all finite places, and there are finitely
+many for each `(e, ψ)`).
 
 [ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Data.exists_zeta_pow_eq_of_isIntegral`,
 `New.Data.prod_phi_zeta_pow_pow_liftWeight_zero_eq_one`, `New.Data.exists_char_hasWeight`, `New.Data.chiZero`,
@@ -412,10 +415,11 @@ of `θ`; its *torsion values* are the numbers `(T^m_uf)(0)`, `u ∈ ℚΛ`, and 
 a section of degree `kN` of `C`, with integral torsion values if `g` has them. (iii) An even section `f` of degree `m`
 with integral torsion values is `θ^m·R(x)`, as power series over `ℂ_p`, for a polynomial `R` with `2·deg R ≤ m` and
 coefficients integral under `ι_p`. (iv) `x ∈ 𝒪[[y]]`. (v) The coefficients of a series of `𝒪[[y]]` in the degrees
-below `q_p` are integral); AdelicUnitaryGroupsAndAlgebraicModularForms §3.1 (for a
-power series `G` in one variable over `ℂ_p` with `G(0) = 0`, `c ∈ ℂ_p` with `v(c) ≥ 1/(p − 1)` and `l ≥ 0`: if `c`
-divides the coefficients of `G` in the degrees below `l`, then `c` divides the coefficients of `exp(G) − 1` in the
-degrees below `l`).
+below `q_p` are integral); ShortGRH background (for a power series `G` in one variable over `ℂ_p` with `G(0) = 0`,
+`c ∈ ℂ_p` with `v(c) ≥ 1/(p − 1)` and `l ≥ 0`: if `c` divides the coefficients of `G` in the degrees below `l`, then
+`c` divides the coefficients of `exp(G) − 1` in the degrees below `l`; and, for `c ≠ 0`, a series `T = z + O(z²)` and
+`H ∈ 𝒪[[T]]`, if `exp(cG) = 1 + cH`, then `G ∈ 𝒪[[T]]`; [ShortProof] `Lib/General/Algebra/SeriesBounds.lean` (`New.norm_coeff_expSubst_sub_one_le`,
+`New.IsSeriesGenerator.mem_of_expSubst_smul_eq`)).
 
 [ShortProof], `New/Derivatives/FormalGroup/FrobeniusCongruence` (`New.CMLattice.exists_rescale_theta_eq_pow_mul_aeval`,
 `New.CMLattice.exists_rescale_theta_eq_pow_mul_one_add_smul`, `New.CMLattice.exists_negLogTheta_frobenius_congruence`,
@@ -447,9 +451,11 @@ for `e ≥ 1`, with `λ ∈ 𝒪`.
 
 *Needs:* 2.1, 2.2; ThetaFunctionsAndUnitsOfCMLattices §4.3 (for a CM lattice, `d` a prime `≡ 7 (mod 8)` and any prime `p`: there is `ϖ` of
 valuation `ρ_p` with `T(ϖz) = ϖY`, `Y` integral, `Y − Y^{q_p} ≡ z` and `Y ≡ Σ_j z^{q_p^j} (mod π_p)`; a series of
-`𝒪[[y]]` is integral after `z ↦ ϖz` when `v(ϖ) ≥ ρ_p`; if `G(0) = 0` and `exp(G)^m ∈ 𝒪[[T]]` with `m` prime to `p`, then
-`exp(G) ∈ 𝒪[[T]]`; for `m ≠ 0` and a primitive `m`-th root of unity `ζ` of `ℂ_p`, the part of a series `f` in the
-degrees `≡ r (mod m)` is the mean over `i < m` of the series `η^{−r}·f(ηz)` with `η = ζ^i`).
+`𝒪[[y]]` is integral after `z ↦ ϖz` when `v(ϖ) ≥ ρ_p`; for `m ≥ 1`, the part of a series `f` in the degrees
+`≡ r (mod m)` is `(1/m)·Σ_η η^{−r}·f(ηz)`, the sum over the `m`-th roots of unity `η` of `ℂ_p`); ShortGRH background
+(for a series `T = z + O(z²)` over `ℂ_p`, `m` prime to `p` and `G` with `G(0) = 0`: if `exp(G)^m ∈ 𝒪[[T]]`, then
+`exp(G) ∈ 𝒪[[T]]`; [ShortProof] `Lib/General/Algebra/SeriesBounds.lean`
+(`New.IsSeriesGenerator.expSubst_mem_of_pow_mem`)).
 
 [ShortProof], `New/Derivatives/FormalGroup/Exponent` (`New.CMLattice.exists_rescale_theta_eq_mul_expSubst`,
 `New.CMLattice.norm_coeff_exponentSeries_eq_one`, `New.CMLattice.exists_eq_exponentSeries_dvd_sub_tsum_of_inert`,
@@ -486,12 +492,13 @@ integral.
 maximal ideal of `𝒪`, `∂Ξ_λ/∂z_y` has only the monomials `z_x^{p^e}` with `e ∈ S` and `y = (pr_e x₁, x₂)`, and the
 coefficient of `z_x^{p^e}` in `∂Ξ_λ/∂z_{(pr_e x₁, x₂)}` is `λ_{e0}`.
 
-*Needs:* Mathlib (`MvPowerSeries`, substitution and its continuity); AdelicUnitaryGroupsAndAlgebraicModularForms §3.1 (the exponential `exp(G)` of
+*Needs:* Mathlib (`MvPowerSeries`, substitution and its continuity); ShortGRH background (the exponential `exp(G)` of
 a power series `G` without constant term in any number of variables over `ℂ_p`, with `exp(G + G′) = exp(G)·exp(G′)`;
-and, for `l ≥ 0`, if the coefficients of `G` of total degree at most `l` have valuation at least `1/(p − 1)`, then the
-coefficients of `exp(G)` of total degree at most `l` are integral;
-[ShortProof] `Lib/General/Algebra/IntegralPowerSeries.lean` (`New.expSubst`, `New.expSubst_add`),
-`Lib/General/Algebra/SeriesBounds.lean` (`New.norm_coeff_expSubst_le_one`)).
+[ShortProof] `Lib/General/Algebra/IntegralPowerSeries.lean` (`New.expSubst`, `New.expSubst_add`));
+TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1 (c) (for series in finitely many variables, at radius `0`, read up
+to each exponent of total degree at most `l`: for `l ≥ 0`, if `G(0) = 0` and the coefficients of `G` of total degree
+at most `l` have valuation at least `1/(p − 1)`, then the coefficients of `exp(G)` of total degree at most `l` are
+integral).
 
 [ShortProof], `New/Derivatives/Divisibility/NormalForm` (`New.coupling`, `New.couplingSum`, `New.HasNormalForm`,
 `New.HasNormalForm.rescale`, `New.HasNormalForm.exists_of_norm_eq`, `New.HasNormalForm.exists_subst_eq_mul_expSubst`,
@@ -746,7 +753,7 @@ For `x ∈ 𝔸_{E,f}^n`, `finVec(x)` is the adelic vector with finite part `αx
 
 *The Weil model.* For a hermitian space `V` over `E` of rank `n` with signs at the infinite places and an adelic
 point, `𝒮(V)` is the space of the adelic Weil representation of `V` built from the Weil data (the model of
-[ShortProof] named on the *Needs:* line), with the vacuum `vac_V` (the
+WeilRepresentationsOnBanachSpacesOfData cited on the *Needs:* line), with the vacuum `vac_V` (the
 Gaussian at the infinite places times the twisted indicator of the standard lattice), the Heisenberg translations
 `ϱ(y)`, the operators `ϱ_f(x) := semi(x)·ϱ(finVec(x))` of finite adelic vectors, with `semi(x)` the *semicharacter*
 of `x` (WeilRepresentationsOnBanachSpacesOfData §3.1), the Weil operators
@@ -783,7 +790,7 @@ projection, the function `Θ_f` is entire).
 
 *Relation to the library.* The global Weil representation of a unitary pair, on a Schrödinger model with splitting
 characters, is stated in ThetaKernelsForUnitaryDualPairs §4.4a. That section does not give the model above, its vacuum
-scaled by `α`, or the entire function `Θ_f`, so the background entry stands.
+scaled by `α`, or the entire function `Θ_f`, so the *Needs:* line cites WeilRepresentationsOnBanachSpacesOfData for them.
 
 [ShortProof], `New/Derivatives/Vacuum/TightFrames` (`New.IsTightFrame.mul_left`), `New/Derivatives/Vacuum/ShortVectors`
 (`New.IsTightFrame.sumElim`, `New.IsTightFrame.join_family`, `New.IsTightFrame.replace_pairs`); the model, `finVec`,
@@ -897,9 +904,10 @@ relations of the data, among them the bounds of (c) for `|δ_E|_v`).
 theta values of the vector tensored with polynomial Fock vectors, and a vector of the finite part is determined by its
 jet series.
 
-*Method of the formal proof:* the integral formula for `Θ_f` (background; it applies because the real vacuum projection
-fixes the finite part, 4.1) restricts to a line: `Θ_f(ct·v)` is an integral of `exp(t·L(w))` against a Gaussian density
-times `f(w)`, for the conjugate-linear form `L(w) = c·Σ_p v_p·w̄_p`. Expansion of the exponential under the integral,
+*Method of the formal proof:* the integral formula for `Θ_f` (WeilRepresentationsOnBanachSpacesOfData §4.1 (c); it
+applies because the real vacuum projection fixes the finite part, 4.1) restricts to a line: `Θ_f(ct·v)` is an
+integral of `exp(t·L(w))` against a Gaussian density times `f(w)`, for the conjugate-linear form
+`L(w) = c·Σ_p v_p·w̄_p`. Expansion of the exponential under the integral,
 dominated by an integrable function of the form `exp(C‖w‖ − |w|²/2)`, gives its Taylor coefficients as the integrals of
 `L(w)^k`, which are theta values of
 Fock vectors; a vector of the finite part whose theta function vanishes on every line through `0` vanishes, since it is
@@ -918,14 +926,15 @@ Lebesgue measure divided by `π` to the number of coordinates: the Fock vectors 
 polynomials `Q`, where `ζ(w) = w̄` when all signs are `+1`; the integrated action `v ⊗ f = ∫ v(w)·ϱ(w)f dw` of a Fock
 vector on `f ∈ 𝒮(V)`, with `θ_V(v ⊗ f) = ∫ v(w)·f(w) dw`; the series with coefficient `c^{|k|}/k!·θ_V(v_{z^k} ⊗ f)` at
 `z^k`, whose jet along a polynomial `Q` is `θ_V(v_{Q(c·)} ⊗ f)`; if all signs are `+1` and `f` is fixed by the real
-vacuum projection, `Θ_f(y) = ∫ exp(Σ_p y_p·w̄_p)·exp(−|w|²/2)·f(w) dw`; the function `exp(C‖w‖ − |w|²/2)` is integrable
-for every real `C`, `‖w‖` the maximum norm; and a vector of `𝒮(V)` whose values at all real vectors vanish is `0`;
-[ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.integrated`), `Lib/Weil/Fock/Basic.lean`
-(`New.Fock.polyVector`, `New.Fock.integrable_exp_mul_realVac`), `Lib/Weil/Construction/ThetaJets.lean`
+vacuum projection, `Θ_f(y) = ∫ exp(Σ_p y_p·w̄_p)·exp(−|w|²/2)·f(w) dw`; and a vector of `𝒮(V)` whose values at all
+real vectors vanish is `0`; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.integrated`),
+`Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/Construction/ThetaJets.lean`
 (`New.Space.jetSeries`, `New.Space.jet_jetSeries_eq_theta`), `Lib/Weil/MixedModel/RealTheta.lean`
 (`New.Space.theta_integrated`, `New.Space.entireTheta_eq_integral`,
-`New.Space.eq_zero_of_apply_realVec_eq_zero`)). The restriction of the integral formula to a line, the derivatives of
-that integral at `0`, and (b) to (d) are proved in this section.
+`New.Space.eq_zero_of_apply_realVec_eq_zero`)); ShortGRH background (`∫_{ℂ^m} exp(C‖w‖ − |w|²/2) dw < ∞` for every
+real `C`, where `‖w‖ = max_i |w_i|` and `|w|² = Σ_i |w_i|²`; [ShortProof] `Lib/Weil/Fock/Basic.lean`
+(`New.Fock.integrable_exp_mul_realVac`)). The restriction of the integral
+formula to a line, the derivatives of that integral at `0`, and (b) to (d) are proved in this section.
 
 *Relation to the library.* The Fock model of a real symplectic space, with its Bargmann transform, is stated in
 ThetaKernelsForUnitaryDualPairs §3.45; the integrated action on the adelic model above is not stated there.
@@ -961,12 +970,10 @@ Taylor series of the translated sections at the forms `c·L_{(i,k)}`;
 *Needs:* 4.1, 4.2, 4.4; ThetaFunctionsAndUnitsOfCMLattices §§1.3, 1.5, 3.1 (sections of a CM lattice, `d` a prime `≡ 7 (mod 8)`: the monomials
 `θ^r(σ²)^{t′}G^u` are sections of degree `r + 2t′ + 3u`, that is theta functions for `Λ`, the form `mH` and the `m`-th
 power of the multiplier of `θ`, and their values at torsion points, with the exponential factor of the degree, are
-integral at every prime); ShortGRH background
-(Fourier inversion in the model of 4.1: an entire function that is a theta function for a lattice `𝔟·𝔞₀^n`, `𝔟` a nonzero
-ideal, is `Θ_F` for some `F` of the finite part, and the translates of `Θ_F` by rational vectors are the theta
-functions of the translates of `F`; [ShortProof] `Lib/Weil/Construction/FourierInversion.lean`
-(`New.Space.exists_entireTheta_eq_of_isThetaFunction`), `Lib/Weil/Construction/ThetaJets.lean`
-(`New.entireTheta_translate_finiteImage`)).
+integral at every prime); WeilRepresentationsOnBanachSpacesOfData §§4.2 (c), 4.4 (c) (in the model of 4.1, for standard
+`V`: if `δ ∈ E` is integral at every finite place and `δδ̄ = N ≠ 0`, every theta function for `δ̄𝔞₀^n` is `Θ_F` for
+some `F ∈ 𝒮_f(V)`; and for `f ∈ 𝒮(V)` and `γ ∈ E^n` with real image `u`,
+`Θ_{ϱ(finVec(α^{−1}γ))f}(z) = exp(Σ_x conj(u_x)z_x − |u|²/2)·Θ_f(z − u)`).
 
 [ShortProof], `New/Derivatives/Vacuum/TightFrames` (`New.Parameters.resolutionLinearForm`,
 `New.Parameters.IsResolutionProduct`, `New.Parameters.IsResolutionProduct.theta_translate`,
@@ -1015,13 +1022,15 @@ multiplication for theta functions, without the reciprocity law, for `d` a prime
 `Ω₀𝒪_K` and `σ` is an automorphism of `ℂ` over `K`, there are `Ω`, a nonzero ideal `𝔠` and a finite adele `β` of `K`
 such that the conjugate lattice is `Ω𝔠²/N(𝔠)`, of area `|Ω|²√d/2`, some positive integer multiple of `Ω` is a period,
 and for `x ∈ K` and `x′ ∈ K` close to `βx` in the finite adeles `σ` maps the Taylor series of `T^1_{xΩ₀}θ` to that of
-`T^1_{x′Ω}θ` of the conjugate lattice); ShortGRH background
+`T^1_{x′Ω}θ` of the conjugate lattice); WeilRepresentationsOnBanachSpacesOfData §4.4 (a), (c), (d)
 (Fourier inversion in the model of 4.1: for standard `V` of rank `n`, `δ ∈ E` integral at every finite place with
 `δδ̄ = N ≠ 0`, and `F ∈ 𝒮(V)` whose theta function is a theta function for `δ̄𝔞₀^n`, there are finitely many `y_i ∈ E^n`
 with `δy_i ∈ 𝔞₀^n`, a family of `N^{f·n}` vectors `γ_j ∈ 𝔞₀^n` and numbers `c_i` such that
 `Σ_i c_i·ϱ(finVec(α^{−1}y_i))vac_V = N^{f·n}·F` and, for every `i`,
-`c_i·vac_V = Σ_j ϱ_f(α^{−1}γ_j)ϱ(finVec(−α^{−1}y_i))F`; [ShortProof]
-`Lib/Weil/Construction/FourierInversion.lean` (`New.Space.exists_fourier_coefficients`)).
+`c_i·vac_V = Σ_j ϱ_f(α^{−1}γ_j)ϱ(finVec(−α^{−1}y_i))F`; and the integrality that it gives, for any `V`, `φ ∈ 𝒮(V)` and
+prime `p` with `ι_p`: if the values of `φ` at the points `finVec(x)`, `x ∈ 𝔸_{E,f}^n`, are integral at `p` and
+`c·vac_V = Σ_j ϱ_f(a_j)ϱ(finVec(b))φ` for finitely many finite adelic vectors `a_j` and one `b`, then the values of
+`c·vac_V` at the points `finVec(x)` are integral at `p`).
 
 [ShortProof], `New/Derivatives/Vacuum/IntegralVacuum` (`New.Parameters.exists_norm_gal_torsion_value_le`,
 `New.Parameters.exists_smul_vac_eq_sum`, `New.Parameters.IsThetaProduct`,
@@ -1158,7 +1167,7 @@ prime; `𝒪[[y]]` is stable under `d/dz`).
 *Relation to the library.* ThetaChainsOnDefiniteUnitaryGroups §3.1c states the integrality of the second logarithmic
 derivative for the lattice `Λ_K` of that roadmap, a Weierstrass model of unit discriminant and the theta function
 `σ_W·exp(−s₂z²/2)` translated by a point of order two. The form used here is for every CM lattice in the normalisation
-above, so the background entry stands.
+above, so the *Needs:* line cites ThetaFunctionsAndUnitsOfCMLattices §3.5 for it.
 
 [ShortProof], `New/Derivatives/Vacuum/JetIntegrality` (`New.norm_jet_le_one_of_pderiv_mem`,
 `New.CMLattice.smul_derivative_derivative_negLogTheta_mem`, `New.CMLattice.jetRing`,
@@ -1167,9 +1176,9 @@ above, so the background entry stands.
 
 ### 4.11 Divisibility of standard data at a prime that does not split in `K`
 
-*Origin:* particular to this proof: at a prime that does not split in `K`, the Taylor series of standard data of level
-one has the normal form of 2.4, so its jets along products of minors and along the entries of Schur matrices have the
-predicted divisibility `D_p(κ)` of Layer 3.
+*Origin:* particular to this proof: the normal form of 2.4, at a prime that does not split in `K`, for Taylor series of
+level-one standard data, and the predicted divisibility `D_p(κ)` of Layer 3 that follows for their jets along products
+of minors and along the entries of Schur matrices.
 
 *Method of the formal proof:* such a prime does not divide `q₁`, so `α^{−1}u` integral above `p` makes `u` integral above
 `p` (as `q₁α` is integral), `𝔣_E` is a unit at `p` (4.2 (b)), and 4.9 (d) with `δ = 1` and 2.6 (d) give the normal form at
@@ -1252,8 +1261,8 @@ Let `C` be a CM lattice and `p` a prime.
 squares in `ℤ_p`. For linear forms `μ_j` and `Θ = ∏θ(μ_jz)^{m_j}` there are `δ_0 = 1, δ_1, …, δ_5 ∈ ℤ_p` such that
 `∏_{c<6} Θ(δ_cz)` has constant term `1` and is a unit of `𝒪[[y(μz)]]`.
 (c) If one of the forms, `μ_{j₀}`, has unit coefficients, then `val₆(ν) ≤ γ_p·|ν| − Σ_x v(ν_x!)` for every `ν`.
-(d) If integral combinations of the forms give the coordinates up to a unit, that is `Σ_j a_{xj}μ_j(z) = s·z_x` with
-`a_{xj} ∈ 𝒪` and `|s| = 1`, then `val₆(ν) ≤ 0` for every `ν`.
+(d) If there are `a_{xj} ∈ 𝒪` and `s` with `|s| = 1` such that `Σ_j a_{xj}μ_j(z) = s·z_x` for every variable `z_x`,
+then `val₆(ν) ≤ 0` for every `ν`.
 
 *Needs:* 2.1, 5.1; ThetaFunctionsAndUnitsOfCMLattices §§3.6, 4.3 (for a CM lattice, `d` a prime `≡ 7 (mod 8)`: `y(z₀ + z₁)` is an integral
 series in `y(z₀)` and `y(z₁)`; and the scaled formal parameter of 2.3, `T(ϖz)/ϖ ≡ Σ_j z^{q_p^j} (mod π_p)` with
@@ -1371,12 +1380,18 @@ that does not split in `K`; `ι_p(𝔣_Eπ_M)` is a unit at every such prime; `|
 datum on `12 × 1` matrices has valuation at most `S_p + v_p(t)` at every prime `p`, for one number `t ≠ 0`
 whose conjugates are bounded.
 
-*Method of the formal proof:* the twelve series `∏_iy(μ_iz)^{e_{b,i}}·Θ` of 5.1 (c) are, together, the jet series of
-a vector `F` on `Hom(E, E^{12})` with integral values whose theta function is a theta function for `π_M𝔞₀^{12}` (4.5, with
-the monomial sections `θ^{c_i−3e}(yθ³)^{e}` and `δ = π̄_M`); Fourier inversion writes `M^{12f}F` as a combination of
-translates of the vacuum with coefficients that are integral after multiplication by a value of the vacuum, and each
-translate is a sum of indicator data times roots of unity; an ultrametric choice selects one indicator datum. Then
-`t := M^{12f}·θ°(finVec(y))·∏_τB_τ(l_τ)²` for a point with `θ°(finVec(y)) ≠ 0` (4.6 (c)), and 5.5 bounds `val₁₂`.
+*Method of the formal proof:* (a) is 4.5 for `δ = π̄_M`, `a = Ω₀` and the frame `w`, with the monomial section
+`θ^{c_i−3e_{b,i}}(yθ³)^{e_{b,i}}`, of degree `c_i`, at the frame index `i` in the copy `b`: at the scale `π_M𝔱_E` the
+forms of 4.5 are the `μ_i`, so 4.5 (a) gives the product, and 4.5 (b), (c) give the integral values and the theta
+function for `π_M𝔞₀^{12}`. For (b), Fourier inversion along this sublattice
+(WeilRepresentationsOnBanachSpacesOfData §4.4 (c), (d)) expresses `M^{12f}F` through translates of the vacuum by points
+`u` with `π̄_Mu` integral, with coefficients that are integral once multiplied by `vac(finVec(y))`; each of these
+translates is a combination of the `Ψ_{𝔪,y₀}` over the classes `y₀` with root-of-unity coefficients, and the
+ultrametric inequality, at a class `y₀` where `|ι_pL(Ψ_{𝔪,y₀})|` is largest, gives (b). (c) puts into (a) the twelve
+series that 5.1 (c) gives for `val₁₂(l) ≤ r` (monomials of degree at most `|l|`, so `3e_{b,i} ≤ c_i`) and applies (b)
+to `f ↦ c_vac^{12}·coeff_γ J(f)`. (d) follows from the bound of 4.6 (c) for the conjugates of `θ°` and the sizes of the
+data. For (e), the frame is that of 4.3a, `t` is `M^{12f}·θ°(finVec(y))·∏_τB_τ(l_τ)²` at a point `y` with
+`θ°(finVec(y)) ≠ 0` (4.6 (c)), and 5.5 bounds `val₁₂(l)`.
 
 Let `D` be admissible data, `V₁₂ := Hom(E, E^{12})` with its standard form, `𝔪` a modulus of `E` (a nonzero ideal of
 `𝒪_E` that no prime divides together with its complex conjugate) with ideal `(π_M)`,
@@ -1460,13 +1475,13 @@ relations), §4.1 (the total local prime sum `S_p`).
 - the parameters, the field `E` with its places, the admissible data and their sizes, the constant `C_P`, and the local
   prime sums `s_p` with their total `S_p`: OneSidedPrimeSumBoundsAndAdmissibleData §§2.1–2.3, 3.1–3.3, 4.1;
 - the standard bideterminant basis of dual Weyl modules: IntegralWeylModulesOfGeneralLinearGroups §0.1;
-- Legendre's bound for the valuation of a factorial: TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1;
+- Legendre's bound for the valuation of a factorial, and the integrality of the exponential of a series whose
+  coefficients have valuation at least `1/(p − 1)`: TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1;
 - the Chowla–Selberg formula in class-mean form: ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5;
 - the results named `ShortGRH background (…)` on the *Needs:* lines, which [ShortProof] proves in its folder `src/Lib`
-  (the sigma function and the sections of a CM lattice with their integrality, the formal parameter, complex
-  multiplication for theta functions, the Chowla–Selberg formula with a unit, the adelic Weil model with its Fourier
-  inversion, characters of `U(1)` of given weight and tame part, Schur matrices): each names the form used and the
-  declaration of [ShortProof], and is not a target of this roadmap.
+  (the exponential of a power series over `ℂ_p` with its additivity and its divisibility and root criteria, and the
+  integrability of `exp(C‖w‖ − |w|²/2)`): each names the form used and the declaration of [ShortProof], and is not a
+  target of this roadmap.
 
 ## Exact supplier contracts
 
@@ -1483,7 +1498,9 @@ and its total `S_p`).
 
 IntegralWeylModulesOfGeneralLinearGroups §0.1 (the standard bideterminants are a basis of the dual Weyl module over an
 integral domain; used in 3.4 over the residue field of `𝒪`); TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1
-(`v_p(κ!) ≥ |κ|/(p − 1) − #ι·(⌊log_p max(|κ|, 1)⌋ + 1)`; used in 3.3);
+(`v_p(κ!) ≥ |κ|/(p − 1) − #ι·(⌊log_p max(|κ|, 1)⌋ + 1)`; used in 3.3; and (c) at radius `0` in its form up to `κ`:
+the coefficients of `exp(B)` up to `κ` are integral when `B(0) = 0` and those of `B` up to `κ` have valuation at least
+`1/(p − 1)`; used in 2.4);
 ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (a) (the class mean of the logarithmic periods of the
 ideal classes of `K` is `γ + log(2π/√d) − (L′/L)(1, χ_K)`; 4.2 uses the form with a unit, which [ShortProof] deduces from
 Kronecker's limit formula summed over the class group).

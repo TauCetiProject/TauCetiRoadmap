@@ -11,20 +11,20 @@ Taylor–Wiles operators that the argument draws on.
 
 "Attached" is weak here: a continuous semisimple representation whose characteristic polynomials are `ℓ`-adically
 close to the Hecke polynomials at most Frobenius elements, in the sense of a filter on Frobenius data (1.2, 1.5).
-Local polynomials *kill* Frobenius or inertia elements and need not be their characteristic polynomials, and no
-Weil–Deligne representation is built. The construction does not pass through base change to `GL_n`: odd rank comes
-from the cohomology of PEL models (AbelianSchemesWithThetaStructuresAndTheirCohomology §9.8), cut down to the right
-rank by a criterion on free Hodge–Tate weights, then reaches all weights by `ℓ`-adic limits, all stably unramified CM
-fields by quadratic base change between definite unitary groups, and every rank by theta lifts to odd rank followed by
-the cancellation of strings of characters.
+At a place, what is recorded is a polynomial that annihilates the image of a Frobenius or inertia element (on the
+periods, above `ℓ`), not its characteristic polynomial; Weil–Deligne representations do not appear. The construction
+does not pass through base change to `GL_n`: odd rank comes from the cohomology of PEL models
+(AbelianSchemesWithThetaStructuresAndTheirCohomology §9.8), cut down to the right rank by a criterion on free
+Hodge–Tate weights, then reaches all weights by `ℓ`-adic limits, all stably unramified CM fields by quadratic base
+change between definite unitary groups, and every rank by theta lifts to odd rank followed by the cancellation of
+strings of characters.
 
 The headline statements are these.
 
-(1) *Every rank* (7.3). Let `E` be a CM field with Weil data, `ℓ` a prime and `ι : ℂ ≃ ℚ̄_ℓ`. Every eigenform of any
-weight on the standard definite unitary group of rank `n ≥ 1` over `E` has an attached `ℓ`-adic representation of rank
-`n`; at every finite place where the form is spherical, every attached representation is unramified, or crystalline
-above `ℓ`, with the Hodge–Tate jumps of the weight, and at a split such place the Hecke polynomial kills geometric
-Frobenius.
+(1) *Every rank* (7.3). Let `E` be a CM field with Weil data, `ℓ` a prime, `ι : ℂ ≃ ℚ̄_ℓ` and `n ≥ 1`. To every
+eigenform on `U(n)` over `E`, whatever its weight, some `ℓ`-adic representation of rank `n` is attached; at every
+finite place where the form is spherical, every attached representation is unramified, or crystalline above `ℓ`, with
+the Hodge–Tate jumps of the weight, and at a split such place the Hecke polynomial kills geometric Frobenius.
 
 (2) *Local–global compatibility at split places* (8.2, 8.4). At a split place where the form is a pro-`p` Iwahori
 eigenvector, or has a depth-zero type given by a label, every attached representation is of finite type, has the
@@ -143,7 +143,8 @@ open `V ⊆ G_E` contains a nonempty open `O` such that, for all but finitely ma
 datum `(w, A, s)` with `s ∈ O`. Then:
 (a) these sets form a filter on Frobenius data, the filter of *most Frobenii*; for `g ∈ G_E`, *most Frobenii at `g`*
 is its meet with the condition `s → g`;
-(b) a property of all but finitely many places holds at the place of most Frobenius data;
+(b) if all but finitely many finite places of `E` have a property, then so does the place `w` of most Frobenius data
+`(w, A, s)`;
 (c) if `φ : G_E → G_F` is an open embedding, `π` a map from finite places of `E` to those of `F`, and `X` contains most
 Frobenii over `E`, then for most Frobenius data `y` over `F`, every datum `x` over `E` whose place and Frobenius
 element are carried by `π` and `φ` to those of `y` lies in `X`;
@@ -191,9 +192,9 @@ IdelicReciprocityCountsAndCyclotomicClassGroups §§1.1, 1.3 (places of `Ω`; em
 
 ### 1.4 Local conditions pass to retracts
 
-*Origin:* particular to this proof: the local conditions of 1.3 pass from a representation to one that embeds in it
-near the identity, after conjugation by an automorphism of `Ω`; this covers subrepresentations, restriction to open
-subgroups and conjugate fields.
+*Origin:* particular to this proof: the local conditions of 1.3 are inherited by a representation that is, on a
+neighbourhood of `1` and up to an automorphism of `Ω`, a retract of another one; subrepresentations, restrictions to
+open subgroups and conjugate fields are special cases.
 
 *Method of the formal proof:* away from `ℓ` by the intertwining matrix and its left inverse; above `ℓ` by carrying each
 local datum along the automorphism and using that potential crystallinity, killing polynomials and Hodge–Tate jumps
@@ -306,13 +307,16 @@ equivalence of semisimplicity with the non-degeneracy of the trace form.
 
 ### 2.2 Stable lattices and spanning families
 
-*Origin:* adapted from the published theory of lattices in `ℓ`-adic representations of compact groups: here with a
-descent to every large enough ring of coefficients, and with uniqueness up to scalars under the hypothesis that the
-lattice spans the matrix algebra.
+*Origin:* adapted from the published theory of lattices in `ℓ`-adic representations of compact groups (for this section
+and 2.3 together, `[ShortProof]` names Taylor, *Galois representations associated to Siegel modular forms of low
+weight* (1991), Rouquier, *Caractérisation des caractères et pseudo-caractères* (1996), and K. Conrad's note *Compact
+subgroups of GL_n(Q̄_p)*): here with a descent to every large enough ring of coefficients, and with uniqueness up to
+scalars under the hypothesis that the lattice spans the matrix algebra.
 
 *Method of the formal proof:* (a) Auerbach's lemma conjugates `r` to a bounded representation; by Baire's theorem its
 entries lie in one finite extension on a nonempty open set, and finitely many translates cover `G`. (b) matrix units.
-(c) all products of an entry of `a⁻¹` with an entry of `a` are integral; divide by an entry of largest norm. (d) modulo
+(c) the products `(a⁻¹)_{ij}·a_{kl}` are all integral, so scaling `a` by the inverse of an entry of maximal absolute
+value lands in `GL_n(O)`. (d) modulo
 the maximal ideal `R(γ)` has the eigenvectors `φ^j v` with distinct eigenvalues; a Vandermonde argument and Nakayama's
 lemma.
 
@@ -338,9 +342,10 @@ The library has stable lattices for a continuous representation of a compact gro
 
 ### 2.3 A function obeying every trace identity is a trace
 
-*Origin:* adapted from the published theory of pseudocharacters: here every polynomial identity among traces of
-`n`-dimensional representations is assumed, not only the pseudocharacter identities, so that no invariant theory is
-needed.
+*Origin:* adapted from the theory of pseudocharacters (Taylor, *Galois representations associated to Siegel modular
+forms of low weight* (1991), Theorem 1; Rouquier, *Caractérisation des caractères et pseudo-caractères* (1996)): the
+hypothesis here is the whole set of polynomial relations satisfied by the traces of `n`-dimensional representations,
+which is stronger than the pseudocharacter relations and lets the reconstruction proceed without invariant theory.
 
 *Method of the formal proof:* extend `T` linearly to the group algebra `k[G]` and divide by the kernel of the pairing
 `(x, y) ↦ T(xy)`; trace identities show that the quotient is finite-dimensional and semiprime and that `T` takes
@@ -390,13 +395,16 @@ continuous semisimple `R : G → GL_n(K)` with `(tr R(g), (tr r_x(g))_x) ∈ N` 
 
 ## Layer 3: Congruences that change the weight
 
-A form is an `ℓ`-adic uniform limit of combinations of forms with a prescribed character on a level and weights that are
-free at chosen infinite places. No completed cohomology and no congruences modulo powers of `ℓ` are used: the density
-comes from an ultrametric Stone–Weierstrass theorem.
+The `ℓ`-adic model of a form is approximated uniformly by combinations of models of forms that have a prescribed
+character on a level and free weights at chosen infinite places (3.3). This is a density statement, obtained from an
+ultrametric Stone–Weierstrass theorem (3.1) applied to matrix coefficients of free weights (3.2); it is not derived from
+congruences modulo powers of `ℓ` or from completed cohomology.
 
 ### 3.1 The ultrametric Stone–Weierstrass theorem for modules
 
-*Origin:* adapted from the published non-archimedean Stone–Weierstrass theorem: here for a module of continuous
+*Origin:* adapted from the non-archimedean Stone–Weierstrass theorem (Dieudonné (1944); Kaplansky, *The Weierstrass
+theorem in fields with valuations* (1950)), in its form for modules (Prolla, *Approximation of Vector Valued Functions*
+(1977), and *Topics in Functional Analysis over Valued Division Rings* (1982)): here for a module of continuous
 functions and its ring of multipliers, over an ultrametric field that need not be complete.
 
 *Method of the formal proof:* if `φ` stays at distance more than `ε` from `N`, a maximal ideal of the ring of bounded
@@ -438,9 +446,11 @@ matrices).
 
 ### 3.3 `ℓ`-adic models of forms: a Hecke contraction, and density of free weights of a given type
 
-*Origin:* adapted from the published theory of the density of algebraic vectors and of congruences between algebraic
-automorphic forms of different weights: here for definite unitary groups of any rank, keeping a level and a character
-on it, with density already from the weights that are free at a chosen set of infinite places.
+*Origin:* adapted from the density of algebraic vectors and congruences between algebraic automorphic forms of
+different weights (Emerton and Paškūnas, *On the density of supercuspidal points of fixed regular weight* (2020);
+Fintzen and Shin, *Congruences of algebraic automorphic forms and supercuspidal representations* (2021)): here on
+definite unitary groups of any rank, with a character on a fixed level kept throughout, and with only weights that are
+free at a chosen set `T` of infinite places used in the approximation.
 
 *Method of the formal proof:* (a) the coset representatives of `T_{w,j}` act on the model through matrices whose
 entries are bounded; dividing by the entry of largest norm gives a norm-contracting operator. (b) on each double coset
@@ -474,15 +484,19 @@ representations for the several complex embeddings have been combined into one m
 
 ### 4.1 Free weights force the rank and identify the characteristic polynomials
 
-*Origin:* particular to this proof: a representation killed at most Frobenius elements by monic polynomials of degree
-`n`, whose image spans the diagonal matrices and whose Zariski closure near `1` contains a torus with `n` free exponents,
-has rank `n`, and the polynomials are its characteristic polynomials.
+*Origin:* adapted from the published results that read the characteristic polynomials of a Galois representation off
+polynomial relations satisfied by its Frobenius elements (Boston, Lenstra and Ribet (1991); Nekovář, *Eichler–Shimura
+relations and semisimplicity* (2018); Fayad and Nekovář (2019); Harris and Taylor, *The geometry and cohomology of some
+simple Shimura varieties* (2001), VII.1.8): here a representation of any rank, killed at most Frobenius elements by
+monic polynomials of degree `n`, whose image spans the diagonal matrices and whose Zariski closure near `1` contains a
+torus with `n` free exponents, has rank `n`, and the polynomials are its characteristic polynomials.
 
-*Method of the formal proof:* the minors of order `m` of the matrix whose columns list the entries of `y⁰, …, y^{m−1}`
-vanish exactly when `1, y, …, y^{m−1}` are dependent; vanishing is a closed condition, so it passes from Frobenius
-elements to open sets and, through the torus hypothesis, to `diag(T^κ)` times a conjugate of `r(x)`; freeness of the
-exponents then forces the blocks of the inverse to be scalar, so the rank is at most `n`, and a factor of the
-characteristic polynomial of degree less than `n` cannot kill `r(Frob)`.
+*Method of the formal proof:* linear dependence of the first powers of a matrix is a Zariski-closed condition on its
+entries (vanishing of minors). It passes from the Frobenius elements, which are dense (1.2 (d)), to a neighbourhood of
+`1`, and by the torus hypothesis to the torus; there, comparing the coefficients of the powers of `T`, the freeness of
+the `e_i`, with the hypothesis on diagonal matrices (which excludes a repeated exponent), gives `N = n`. Since no
+factor of the characteristic polynomial of degree below `n` kills `r(s)` at most Frobenius data, the monic `P_v` of
+degree `n` is the characteristic polynomial.
 
 Let `E` be a number field inside `Ω`, `K ⊆ k` normed fields, and `r : G_E → GL_N(K)` continuous with every diagonal matrix
 in the `K`-span of `r(G_E)`. Suppose that for most Frobenius data `v` a monic `P_v ∈ K[X]` of degree `n ≥ 1` has
@@ -497,9 +511,10 @@ Frobenius data `v`.
 
 ### 4.2 The Hodge–Tate cocharacter in coordinates
 
-*Origin:* adapted from the published theory of the Hodge–Tate cocharacter and its membership in the algebraic monodromy
-group: here stated on coordinates in `ℂ_p`, as the vanishing along the one-parameter torus of a polynomial that
-vanishes at the cyclotomically twisted Galois translates of a point.
+*Origin:* adapted from the theorem that the Hodge–Tate cocharacter lies in the algebraic monodromy group (Serre,
+*Groupes algébriques associés aux modules de Hodge–Tate* (1979), §1; Sen (1973)): here for finitely many coordinates
+`x_i ∈ ℂ_p`, as the statement that a polynomial relation satisfied by `(χ(g)^{−κ_i}·g(x_i))_i` for all `g` near `1` is
+also satisfied by `(T^{κ_i}x_i)_i`, `T` an indeterminate.
 
 *Method of the formal proof:* the coefficient vectors of polynomials that vanish at the twisted translates form a space
 stable under the twisted Galois action; by the Hodge–Tate decomposition of such stable spaces it suffices to treat
@@ -509,9 +524,10 @@ Let `p` be a prime, `χ` the `p`-adic cyclotomic character of `Gal(ℚ̄_p/ℚ_p
 set, and `F` a polynomial over `ℂ_p` in variables indexed by `i`. If `F((χ(g)^{−κ_i}·g(x_i))_i) = 0` for every
 `g ∈ Gal(ℚ̄_p/ℚ_p)` near `1`, then `F((T^{κ_i}x_i)_i) = 0` in `ℂ_p[T, T⁻¹]`.
 
-Sen's theorem that the Sen operator of a Hodge–Tate representation lies in the Lie algebra of its image (used in
-`PadicHodgeTheory §4.4`) is the corresponding statement for representations; the passage from it to arbitrary points of
-`ℂ_p^n` is not part of that section.
+`PadicHodgeTheory §4.4` uses Sen's theorem relating the Sen operator of a representation to the Lie algebra of the image
+of inertia (the operator lies in the `ℂ_p`-span of that Lie algebra, which is the least subspace with this property);
+that is the corresponding statement for representations, and the passage from it to arbitrary points of `ℂ_p^n` is not
+part of that section.
 
 *Needs:* CrystallineRepresentationsAndKisinModules §1.6 (b) (Hodge–Tate elimination).
 
@@ -522,9 +538,10 @@ Sen's theorem that the Sen operator of a Hodge–Tate representation lies in the
 *Origin:* particular to this proof: a character of the first congruence subgroup that is nontrivial on every unipotent
 radical, and principal congruence levels inside a given open subgroup with prescribed prime divisors.
 
-*Method of the formal proof:* the character is `k ↦ exp(2πi·u(tr(b(k − 1))))` for an integral matrix `b` whose
-characteristic polynomial is irreducible modulo `w` and an additive character `u` of `E_w/ϖ_w²` nontrivial at `ϖ_w`;
-the levels come from compactness of the image of `K₀ ∖ H` in the components at the places of `B`.
+*Method of the formal proof:* (a) is explicit: `θ(k) = exp(2πi·u(tr(b(k − 1))))`, where the reduction of the integral
+matrix `b` modulo `w` has irreducible characteristic polynomial and `u` is an additive character of `E_w/ϖ_w²𝒪_w` with
+`u(ϖ_w) ≠ 0`; (b) follows from the compactness of the image of `K₀ ∖ H` in the product of the components at the places
+of `B`.
 
 Let `w` be a finite place, `N ≥ 1`, and `K¹ = 1 + ϖ_wM_N(𝒪_w)`. A character `θ` of `K¹` is a *cuspidal type*, as in
 AbelianSchemesWithThetaStructuresAndTheirCohomology §9.2, if for every idempotent matrix `ε ≠ 0, 1` it is nontrivial on
@@ -547,9 +564,10 @@ AbelianSchemesWithThetaStructuresAndTheirCohomology §§3.1, 9.2 (principal leve
 jumps at its own embedding, combine into one representation whose image spans the diagonal matrices and which has all
 the prescribed jumps.
 
-*Method of the formal proof:* a semisimple representation with the trace of the sum is obtained by 2.4 (b) for a
-constant family, and inherits the local clauses by the limit theorem for crystalline representations; its distinct
-irreducible constituents, each taken once, form a retract (1.4) in which all jumps still occur.
+*Method of the formal proof:* 2.4 (b), applied to a constant family, gives a semisimple representation whose trace is
+that of the direct sum of the `ρ_τ`, and CrystallineRepresentationsAndKisinModules §6.4 gives it the local conditions;
+keeping one copy of each isomorphism class of irreducible summand gives a retract of it (1.4) that keeps all the
+prescribed jumps.
 
 Let `F` be a filter on the finite places of `E`, `J(τ)` a multiset of integers for each `τ : E → ℂ`, and `P_w ∈ ℚ̄_ℓ[X]`.
 Suppose that for each `τ` some continuous `ℓ`-adic representation `ρ_τ`, of any rank, is at `F`-almost all `w` spherical
@@ -596,9 +614,10 @@ stabilisation. Hilbert 90 in several forms supplies the local and global descent
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* matching is stated one characteristic polynomial at a time, through a polynomial `z` such
-that `a = z(γ)z(γ)^{*−1}` has twisted norm `γ` (a root of the norm inside the algebra generated by `γ`); the places
-concerned are selected by an idempotent finite adele.
+*Method of the formal proof:* the definitions avoid orbital integrals and stabilisation: an element of twisted norm
+`γ` is produced as `z(γ)z(γ)^{*−1}`, inside the algebra generated by `γ`, from a polynomial `z` attached to the
+characteristic polynomial of `γ`, and matching compares `f` at `γ` with `φ` at such elements; an idempotent finite
+adele `u` records the places at which this is required.
 
 - A *step* `E′/E` with character `μ`: `E` is a CM field containing a primitive `5040`-th root of unity, `E′` is a CM field
   Galois over `E` of prime degree `p`, some integer of `E′` has trace `1` to `E`, and `μ` is a character of the finite
@@ -649,14 +668,18 @@ concerned are selected by an idempotent finite adele.
 
 ### 5.2 Hilbert 90 for `GL_n` and for units under tame actions
 
-*Origin:* adapted from the published theory of Hilbert's theorem 90 for Galois actions on rings and of the surjectivity
-of norms on units: here for one ring endomorphism of finite order, tame at a level `m`, on Artinian, finite or profinite
-commutative rings, with cocycles, coboundaries and norms congruent to `1` modulo `m`.
+*Origin:* adapted from Hilbert's theorem 90 and the surjectivity of norms on units, as in Speiser (1919), Serre,
+*Corps locaux* (1962), Ch. X §1, Prop. 3 and Ch. V §2, and Chase, Harrison and Rosenberg, *Galois theory and Galois
+cohomology of commutative rings* (1965), with norms on `O[γ]` after Scholze, *The Langlands–Kottwitz approach for some
+simple Shimura varieties* (2013), Lemma 2.2: here the group is generated by one ring endomorphism of finite order that
+is only tame at a level `m` (5.1), the commutative ring is Artinian, finite or profinite, and every element involved is
+congruent to `1` modulo `m`.
 
-*Method of the formal proof:* over an Artinian ring, among the fixed points `≡ 1 mod m` of the semilinear map
-`v ↦ c·σ(v)` take one whose determinant lies outside a maximal set of primes; if the determinant were not a unit, a repair
-at a maximal ideal containing it would enlarge that set. The profinite case is solved in the finite quotients `R/N!R` and
-passed to the limit along the ultrafilter; norms on units by counting in the finite case.
+*Method of the formal proof:* a profinite ring is reduced to the finite rings `R/N!R`, which are Artinian, by limits
+along the ultrafilter of 5.1. For Artinian `R`, `k` in (a) is an invertible matrix among the fixed points of the
+`σ`-semilinear map `v ↦ c·σ(v)` that are congruent to `1` modulo `m`, found by an extremal choice: of these, one whose
+determinant lies in the fewest maximal ideals lies in none, as a correction at one of them would give a better choice.
+For finite `R`, (c) is a count, with (b) describing the kernel of the norm on the units `≡ 1 mod m`.
 
 Let `R` be a commutative ring and `σ` a ring endomorphism tame at level `m` with exponent `p`.
 (a) If `R` is Artinian or profinite and `c ∈ GL_n(R)` has `c ≡ 1 mod m` and `N_σ(c) = 1` (`σ` on entries), then
@@ -669,10 +692,11 @@ Let `R` be a commutative ring and `σ` a ring endomorphism tame at level `m` wit
 `σ² = 1`, `x − σ(x)` is a unit for some `x` and `σ(m) = m`, then `σ` is tame at level `m` with exponent `2`.
 
 The library has Hilbert 90 for the units of a finite Galois extension of fields, in Noether's and in cyclic form
-(`groupCohomology.isMulCoboundary₁_of_isMulCocycle₁_of_aut_to_units`, `TauCeti.exists_smul_div_eq_iff_norm_eq_one`),
+(`groupCohomology.isMulCoboundary₁_of_isMulCocycle₁_of_aut_to_units`, `TauCeti.exists_smul_div_eq_of_norm_eq_one`),
 Galois descent of modules along a free action of a finite group on a commutative ring
 (`TauCeti.MulSemiringAction.baseChangeInvariantsEquiv`), and surjectivity of the norm on units of finite fields
-(`FiniteField.unitsMap_norm_surjective`); none has a level or `GL_n` over a ring.
+(`FiniteField.unitsMap_norm_surjective`); none has a level or `GL_n` over a ring. On Tau Ceti's main branch, later than
+the revision pinned here: the cyclic form as an equivalence, `TauCeti.exists_smul_div_eq_iff_norm_eq_one`.
 
 *Needs:* 5.1.
 
@@ -680,13 +704,15 @@ Galois descent of modules along a free action of a finite group on a commutative
 
 ### 5.3 Hilbert 90 for unitary groups over profinite rings, and for finite ideles
 
-*Origin:* adapted from the published theory of Hilbert's theorem 90 for unitary groups and for ideles: here for a
+*Origin:* adapted from Hilbert's theorem 90, with the sources of 5.2, for unitary groups and for ideles: here for a
 profinite ring with involution and a tame endomorphism, with a congruence modulo `m`, and for the finite ideles of a
 number field and one automorphism.
 
-*Method of the formal proof:* (a) and (b) by a twisted square root of the hermitian matrix inside the algebra generated
-by it, built from fixed units of `O[X]/Q` and 5.2; (c) by Galois descent for the semilinear map `x ↦ u·σ(x)` on finite
-adeles, together with the fact that two of its fixed points have a common divisor that is again fixed.
+*Method of the formal proof:* (a) and (b): the hermitian matrix has a `τ`-fixed twisted square root that is a polynomial
+in it, obtained from `τ`-fixed units of `O[X]/Q` supplied by 5.2. (c): the solutions of `x = u·σ(x)` in the finite
+adeles are closed under the place-by-place choice of the coordinate of larger absolute value, which divides both; as
+Galois descent, from `Π σ^i(u) = 1`, writes `1` as an `L`-linear combination of finitely many solutions, a solution
+dividing all of these divides `1` and is the finite idele `c`.
 
 Let `O` be a profinite commutative ring with an involution `*`, and `τ` an endomorphism commuting with `*`, tame at
 level `0` with exponent `p`, fixing some `c` with `c − c*` a unit.
@@ -737,9 +763,10 @@ is a retract at `{w}`, `ι_u(GL_n(E′_u))` one at the places above `w, w̄`, an
 pair are norm roots, and functions bi-invariant at one place of each pair give a set of matching pairs that is stable
 under the Hecke operators at those places.
 
-*Method of the formal proof:* at a matched place the places above are permuted freely by `Gal(E′/E)`, so a twisted norm
-can be solved one place at a time; choosing one place above each conjugate pair, the pairs `(F ∘ bc, 1_K·F)` with `F`
-bi-invariant there match, and `T_{w,j}` composed with `bc` is `T_{u,j}` at a place `u` above `w`.
+*Method of the formal proof:* (a) is checked place by place. (b) fix one place of `E′` above each pair `{w, w̄}`; since
+`Gal(E′/E)` acts freely on the places above a matched place, the polynomial equal to `X` at the fixed places and to `1`
+elsewhere satisfies the hypotheses of (a). Take the functions `F` bi-invariant at the fixed places, pair `F ∘ bc` with
+`1_K·F`, and use that pulling `T_{u,j}` back along `bc` gives `T_{w,j}`.
 
 Let `E′/E` be a step with character `μ`, `σ ≠ 1` in `Gal(E′/E)` and `p = [E′ : E]`.
 (a) Let `T` be a set of places of `E` at which `μ` is trivial on `E_w^×`, containing no place together with its
@@ -756,13 +783,14 @@ each `w ∈ S` and some `u | w`, is stable under `(f, φ) ↦ (T_{w,j}f, T_{u,j}
 
 ### 5.6 The Hasse principle for ideles of a CM field, and global norm roots
 
-*Origin:* particular to this proof: an adelic root of a norm for a `σ`-fixed characteristic polynomial is rational up
-to a coboundary, through a Hasse principle for ideles in a single CM field.
+*Origin:* particular to this proof: a norm root with coefficients in the finite adeles can be replaced, up to a
+coboundary, by one with rational coefficients; the input is the Hasse principle of (a) and (b) for the ideles of one CM
+field.
 
 *Method of the formal proof:* (a) take `y = (z + xz̄)^*` for `z` with `z + xz̄` invertible; (b) the norm of `u` to the
 fixed field of `g` is, by class field theory and Hasse's norm theorem, a norm up to elements of the fixed field, and
-Hilbert 90 for ideles (5.3 (c)) gives `c`; (c) work in the CM fields `E′[X]/(q)` for the prime factors `q` of `P`, which
-`σ` permutes, apply (b) along the orbits and glue.
+Hilbert 90 for ideles (5.3 (c)) gives `c`; (c) `σ` permutes the prime factors of `P`; for each orbit, (b) is applied in
+the CM field `E′[X]/(q)` of one of its factors `q`, and the results are assembled into `w` and `c`.
 
 Let `E′/E` be a step with character `μ`.
 (a) Let `L` be a CM field and `w` a finite adele of `L` with `w = x·w̄` for some `x ∈ L`. Then `y·w` is self-adjoint for some
@@ -785,7 +813,9 @@ Hasse norm theorem); IdelicReciprocityCountsAndCyclotomicClassGroups §§2.2, 2.
 
 ### 5.7 Matching at principal congruence levels and at unramified places
 
-*Origin:* adapted from Kottwitz (1986), the matching of the unit elements (the case `f = 1`): here the indicator
+*Origin:* adapted from the local matching for cyclic base change after Scholze, *The Langlands–Kottwitz approach for
+some simple Shimura varieties* (2013), Proposition 2.1 (norms inverted inside `O[γ]`), and Labesse, *Fonctions
+élémentaires et lemme fondamental pour le changement de base stable* (1990): here, for unit elements, the indicator
 functions of principal congruence levels of unitary groups over a profinite ring with a tame action, and levels of base
 change below any open subgroup that are maximal at the step-unramified places.
 
@@ -812,14 +842,16 @@ every `K_u` lie in `H`; and `K_u = GL_n(𝒪_{E′,u})` above every step-unramif
 
 ### 5.8 The twisted trace identity
 
-*Origin:* adapted from the published theory of the twisted trace formula and its comparison with the trace formula for
-cyclic base change: here for the definite unitary groups over `E` and `E′`, where both traces are finite sums, and
-matching is the matching of 5.1, with no stabilisation.
+*Origin:* adapted from the comparison of the twisted trace formula with the trace formula for cyclic base change
+(Arthur and Clozel, *Simple algebras, base change, and the advanced theory of the trace formula* (1989); Labesse,
+*Cohomologie, stabilisation et changement de base* (1999), and *Changement de base CM et séries discrètes* (2011)):
+here for the definite unitary groups over `E` and `E′`, where both traces are finite sums, and matching is the matching
+of 5.1, with no stabilisation.
 
-*Method of the formal proof:* both traces are expanded as weighted sums over finite sets of pairs (an element of the
-finite adelic group modulo the level and a rational element); norm roots make every rational twisted class correspond
-to a rational ordinary class (5.6), the twisted character of the base-changed weight equals the character at the norm,
-and a bijection between the pairs matches values and the numbers of moves.
+*Method of the formal proof:* each trace is a finite weighted sum indexed by pairs of a coset of the level and a
+rational element; through the global norm roots of 5.6, rational twisted classes over `E′` correspond to rational
+classes over `E`, the twisted character of `κ_{E′}` is the character of `κ` at the norm, and a bijection between the
+two index sets that respects the summands and their multiplicities gives the identity.
 
 Let `E′/E` be a step with character `μ` and `σ ≠ 1`, `κ` a weight of `E`, and `L ≤ K ≤ K₀(E′)` with `L` open and
 `σ`-stable, such that every `s ∈ K` with `N_σ(s) = 1` is `t·σ(t)⁻¹` with `t ∈ K`. Then there are `c ≠ 0` and an operator `t`
@@ -837,9 +869,11 @@ AbelianSchemesWithThetaStructuresAndTheirCohomology §9.3 (b) (weighted trace fo
 
 ### 5.9 A weak base change eigenform
 
-*Origin:* adapted from the published theory of cyclic base change of prime degree for unitary groups: here from the
-definite unitary group over `E` to the one over `E′`, for eigenforms, existence only, with Hecke polynomials matched at
-split matched places and prescribed eigenvalues of matching local operators.
+*Origin:* adapted from cyclic base change of prime degree for unitary groups (Labesse, *Changement de base CM et séries
+discrètes* (2011), Corollary 5.3; Labesse, *Cohomologie, stabilisation et changement de base* (1999); Arthur and
+Clozel, *Simple algebras, base change, and the advanced theory of the trace formula* (1989)): here the target is the
+definite unitary group over `E′` rather than `GL_n`, only the existence of an eigenform is asserted, Hecke polynomials
+are compared at split matched places, and eigenvalues of matching local operators can be prescribed.
 
 *Method of the formal proof:* a level is chosen at which the base change levels of 5.7, the Hecke-stable matching pairs
 of 5.5 and the given local data combine; the commuting families of 5.4 act on the fixed forms on both sides; the
@@ -896,15 +930,17 @@ level, twisted conjugacy, degrees).
 
 ### 5.11 Inert places: base change carries a label to its Shintani lift
 
-*Origin:* adapted from Kottwitz (1986), the matching of the unit elements (the case `f = 1`): here every function
-inflated from a class function on `GL_n(k_w)`, with the Shintani lift on the twisted side, at a split place of `E` that
-is inert in a step; the relation between Shintani base change and restriction of tame parameters is Silberger and Zink
-(2008).
+*Origin:* adapted from the local matching for cyclic base change after Scholze, *The Langlands–Kottwitz approach for
+some simple Shimura varieties* (2013), Proposition 2.1, and Labesse, *Fonctions élémentaires et lemme fondamental pour
+le changement de base stable* (1990): here every function inflated from a class function on `GL_n(k_w)` (the constant
+function giving the unit element), with its Shintani lift (IntegralRepresentationsOfGeneralLinearGroups §5.1) on the
+twisted side, at a split place of `E` that is inert in a step.
 
-*Method of the formal proof:* the operator of an inflated class function on forms of principal level is the action of
-an element of the group algebra of the finite group; twisted classes of `GL_n(k_u)` correspond to classes of `GL_n(k_w)`
-under the norm, so the inflations of a class function and of a function that descends to it match; the label gives the
-nonzero trace that 5.9 asks for, and the base change lies in the image of the lifted operator.
+*Method of the formal proof:* on forms of principal level at `w`, respectively `u`, an inflated class function acts
+through the group algebra of `GL_n(k_w)`, respectively `GL_n(k_u)`. The norm matches twisted conjugacy classes of
+`GL_n(k_u)` with conjugacy classes of `GL_n(k_w)`, so the inflation of `Ξ` and that of a function descending to it are
+matching local data (a). In (b) the label supplies the nonzero trace required by 5.9, and the form that 5.9 produces
+lies in the image of the operator of the lift `Ξ′`.
 
 Let `E′/E` be a step with character `μ`, `E′` stably unramified, `w` split with `μ` trivial on `E_w^×`, and `u` the only
 place of `E′` above `w`, split, with `[k_u : k_w] = [E′ : E]`.
@@ -970,11 +1006,12 @@ AbelianSchemesWithThetaStructuresAndTheirCohomology §8.1 (`K₀ = ℚ(√−d�
 embedding has a continuous representation with its Hecke polynomials as characteristic polynomials at most Frobenius
 elements, spherical with exactly the jumps of the weight at a further split place.
 
-*Method of the formal proof:* the form is extended to a function on `GL_a(𝔸_f)` supported on the definite frames, with
-a central character; for each complex embedding its Hecke eigenvalues occur in the Hodge cohomology of a PEL model of
-signature `(1, a − 1)` at that embedding, whose `ℓ`-adic cohomology gives a representation killed by the Hecke
-polynomials with the jumps at that embedding occurring; a twist by an algebraic Hecke character removes the central
-character; 4.5 combines them.
+*Method of the formal proof:* the route passes to the general linear group: `f` gives a definite form on `GL_a(𝔸_f)`
+with a central character (AbelianSchemesWithThetaStructuresAndTheirCohomology §9.3), whose eigensystem occurs, for each
+complex embedding, in the weights that AbelianSchemesWithThetaStructuresAndTheirCohomology §9.6 provides; §9.8 there
+gives a representation killed by the Hecke polynomials in which the jumps at that embedding occur. After a twist by an
+algebraic Hecke character that removes the central character (IdelicReciprocityCountsAndCyclotomicClassGroups §9.2),
+4.5 merges the representations for the various embeddings into one of rank `a`.
 
 Let `E` be a CM field containing `K = ℚ(√−d)` (`d ≡ 3 mod 4`) and a primitive `5040`-th root of unity, `a` odd, and `f` a
 form of weight `κ` on `U(a)`, spherical off a finite set `S` with polynomials `P`. Let `w₀ ∈ S` lie over a place of `K` split
@@ -992,9 +1029,9 @@ data `(w, A, s)`, and (b) if `w′, w̄′ ∉ S`, `r` spherical above `w′` wi
 
 ### 6.3 The split case
 
-*Origin:* particular to this proof: in odd rank over a CM field containing `ℚ(√−D)` with `ζ_5040`, every eigenform has an
-attached representation, compatible at a spherical place `u`, when `u` and the places above `ℓ` lie over split primes of
-`ℚ(√−D)`; the limit passes through approximating monoids.
+*Origin:* particular to this proof: (c), the case of `SphCompat` in odd rank in which `E` contains `ℚ(√−D)` and
+`ζ_5040` and the places of `ℚ(√−D)` below `u` and below every place of `E` above `ℓ` are split prime to the discriminant;
+by (a) and (b), the representation is obtained from seed representations (6.2) by the limit of traces of 2.4.
 
 *Method of the formal proof:* choose auxiliary split places `v`, `x` apart from `u` and from each other, a cuspidal type
 at `v` (4.3) and a level of that type inside the stabiliser of `f` away from `v, x`; by 3.3 (b) the `ℓ`-adic model of `f`
@@ -1022,15 +1059,17 @@ place such that `u` and every place above `ℓ` lie over places of `ℚ(√−D)
 
 ### 6.4 Odd rank: descent along a step and gluing
 
-*Origin:* adapted from Guerberoff (2011), Theorem 2.3 and its proof, with Theorem 2.2, after Labesse (2011): here the
-Galois representations of eigenforms on the definite unitary group of odd rank over a stably unramified CM field, in the
-weak sense of 1.5, with compatibility at every place where the form is spherical, built by quadratic base change and
-gluing instead of base change to `GL_n`.
+*Origin:* adapted from Chenevier and Harris, *Construction of automorphic Galois representations II* (2013), Theorem
+3.2.3, with Labesse, *Changement de base CM et séries discrètes* (2011), Corollary 5.3, and Barnet-Lamb, Gee, Geraghty
+and Taylor, *Potential automorphy and change of weight* (2014), Theorem 2.1.1: here in odd rank over a CM field
+containing a primitive `5040`-th root of unity, with attachment in the sense of 1.5 and compatibility at every place
+where the form is spherical; the representations come from quadratic steps between definite unitary groups and are
+glued on open subgroups, with no base change to `GL_n`.
 
 *Method of the formal proof:* for `T ∈ ℕ` a quadratic step (6.1 (b)) over `n_T = ℓ·(T + q_w + max_{v∈S} q_v)!` puts the places
 over `n_T` above split primes of an imaginary quadratic field; the base change of `f` (5.9) has a representation by the
 split case (6.3); its restriction to the open subgroup `N_T` is attached to the polynomials of `f` (a); these restrictions
-are glued by (c), and the local clauses descend from one step by (b).
+are glued by (c), and (b), applied to a single step, gives the compatibility at `w`.
 
 (a) Let `χ : G_E → ℚ/ℤ` be continuous, `E′` the fixed field of `g ↦ χ(g) + χ(cgc)`, with `E′/E` a step for the idele character
 of `χ`, and `N = Gal(Ω/E′) ∩ ker χ`. Let `f, f′` be eigenforms for `P, P′` over `E`, `E′`, with `f′` a weak base change of `f`
@@ -1061,9 +1100,14 @@ lifts, twisted, have the Hecke polynomials of the form times two disjoint string
 
 ### 7.1 Theta lift to a larger definite unitary group
 
-*Origin:* adapted from Li (1992): nonvanishing theta lifts with prescribed local components in the stable range; here
-for the standard definite spaces of ranks `n` and `n + s` with `s > n`, with explicit weights, sphericity at every finite
-place where the form is spherical, and the Hecke polynomials at split places.
+*Origin:* adapted from the passage to odd rank by endoscopic transfer (Blasius and Rogawski, *Motives for Hilbert
+modular forms* (1993); Shin (2011)), done here by a theta lift along a varying character as in Harris, Soudry and Taylor
+(1993): here for the standard definite spaces of ranks `n` and `n + s` with `s > n`, with explicit weights, sphericity
+at every finite place where the form is spherical, and the Hecke polynomials at split places. That the lift is nonzero
+is an input, stated in SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5: the inner product formula for sharp data and
+the injectivity of the theta lift when the target rank is more than twice the source rank, after Rallis, *Injectivity
+properties of liftings associated to Weil representations* (1984), and Li, *Non-vanishing theorems for the cohomology
+of certain arithmetic quotients* (1992).
 
 *Method of the formal proof:* the lift is the theta lift by a datum made of joint harmonics at the real places and a
 sharp finite datum at a level fixing `f`; the Rallis inner product formula shows that it is nonzero, and the unramified
@@ -1114,10 +1158,11 @@ IdelicReciprocityCountsAndCyclotomicClassGroups §§7.1, 7.5, 8.5 (characters of
 
 ### 7.3 Attached representations in every positive rank
 
-*Origin:* adapted from Guerberoff (2011), Theorem 2.3 and its proof, with Theorem 2.2, after Labesse (2011): here every
-rank `n ≥ 1` over a CM field with Weil data, every `ℓ`, attachment in the weak sense of 1.5, and at every place where the
-form is spherical, split or not, unramified or crystalline with the jumps of the weight, with the Hecke polynomial killing
-geometric Frobenius at split places, above `ℓ` included.
+*Origin:* adapted from Chenevier and Harris, *Construction of automorphic Galois representations II* (2013), Theorem
+3.2.3, with Labesse, *Changement de base CM et séries discrètes* (2011), Corollary 5.3, and Barnet-Lamb, Gee, Geraghty
+and Taylor, *Potential automorphy and change of weight* (2014), Theorem 2.1.1: here in every rank `n ≥ 1`, over a CM
+field with Weil data and for every `ℓ`, with attachment in the sense of 1.5; at every place where the form is spherical,
+split or not, every attached representation is compatible with the form in the sense of 1.5, above `ℓ` included.
 
 *Method of the formal proof:* with `t = n + 1`, lift `f` to rank `2n + 1` along `μ_0` and `μ_1` of 7.2 (a) (7.1); each lift has
 a representation by 6.4 (d), twisted by the avatar of `θ_{t,t}(μ_i)` (7.2 (b)); it is attached to `P_w` times the string of
@@ -1236,10 +1281,11 @@ IntegralRepresentationsOfGeneralLinearGroups §§4.1, 4.2, 4.4, 5.3, 5.4 (parabo
 
 ### 8.2 Iwahori eigencharacters
 
-*Origin:* adapted from Caraiani (2012), local–global compatibility away from `ℓ` with monodromy, and from the
-local–global compatibility at `ℓ` of Barnet-Lamb, Gee, Geraghty and Taylor (2014) and of Caraiani (2014): here at a split
-place for a pro-`p` Iwahori eigencharacter of a form on a definite unitary group, as polynomials that kill Weil elements,
-away from `ℓ` and above `ℓ` in one statement.
+*Origin:* adapted from local–global compatibility away from `ℓ` (Harris and Taylor, *The geometry and cohomology of
+some simple Shimura varieties* (2001); Taylor and Yoshida (2007)) and at `ℓ` (Barnet-Lamb, Gee, Geraghty and Taylor,
+*Local-global compatibility for l = p, II* (2014), Theorem 1.1): here at a split place for a pro-`p` Iwahori
+eigencharacter of a form on a definite unitary group, as polynomials that kill Weil elements, away from `ℓ` and above
+`ℓ` in one statement.
 
 *Method of the formal proof:* by induction on the index of a subgroup on which the characters are trivial: a step of prime
 degree in which `w` has one place above and the characters factor through the norm reduces the index (5.10, with 6.4
@@ -1268,7 +1314,8 @@ IntegralRepresentationsOfGeneralLinearGroups §§6.1, 6.5, 6.6, 6.7 (exponents, 
 
 *Origin:* particular to this proof: for a form fixed by the pro-`p` Iwahori group on which a parahoric subgroup acts by
 scalars, the matrices of Frobenius and inertia under the representation of its isotypic space satisfy explicit
-polynomial relations, and the Hecke operator of `diag(ϖ, 1, …, 1)` acts like Frobenius on the image of inertia minus `1`.
+polynomial relations, and on the image of `T − 1`, for an inertia matrix `T`, Frobenius and the Hecke operator of
+`diag(ϖ, 1, …, 1)` satisfy a common trace identity.
 
 *Method of the formal proof:* the eigencharacters of the Iwahori Hecke operators on the span of the form are tamely
 ramified characters read off the scalars; 8.2 applied to the products `s·τ^b` gives the relations; the identity of traces
@@ -1286,21 +1333,25 @@ zero on `y`, such that `Π_i (X − ι(θ_i(ϖ)d_i^b))` kills `F·T^b` for every
 `diag(ϖ, 1, …, 1)`, then
 `tr((T − 1)M)·G(U)y = tr(G(F)(T − 1)M)·y` (through `ι`) for every complex polynomial `G` and every matrix `M`.
 
-*Needs:* 7.4, 8.2; IntegralRepresentationsOfGeneralLinearGroups §§6.1, 6.7 (parahoric subgroups, exponents, eigenspaces).
+*Needs:* 7.4, 8.2; IdelicReciprocityCountsAndCyclotomicClassGroups §2.1 (local Artin map at a place);
+IntegralRepresentationsOfGeneralLinearGroups §§6.1, 6.7 (parahoric subgroups, exponents, eigenspaces).
 
 [ShortProof], `Lib/GaloisRep/LocalGlobal/IwahoriCompatibility` (`New.Patching.IsParahoricCompatible`, `New.Patching.isParahoricCompatible_galRep`, `New.Patching.hecke_eq_frob_on_parahoricEigenspace`)
 
 ### 8.4 Labelled forms
 
-*Origin:* adapted from Caraiani (2012), local–global compatibility away from `ℓ` with monodromy, read through the explicit
-parameters at depth zero, and from the local–global compatibility at `ℓ` of Barnet-Lamb, Gee, Geraghty and Taylor (2014)
-and of Caraiani (2014): here at split places, for depth-zero types given by a product label, stated as polynomials that kill
-inertia elements, without the local Langlands correspondence.
+*Origin:* adapted from local–global compatibility at tame level, away from `ℓ` (Harris and Taylor, *The geometry and
+cohomology of some simple Shimura varieties* (2001); Taylor and Yoshida (2007)) and at `ℓ` (Barnet-Lamb, Gee, Geraghty
+and Taylor, *Local-global compatibility for l = p, II* (2014), Theorem 1.1): here at a split place, for a
+form whose type there is the depth-zero type of a product label (8.1), and for the action of inertia only; the
+conclusion is that polynomials built from the roots of the label annihilate inertia elements, which requires no
+description of local parameters.
 
-*Method of the formal proof:* base changes of prime degree in which `w` is inert carry the label to its Shintani lift (5.11),
-until the polynomial of the label splits into linear factors over the residue field; there the form is a pro-`p` Iwahori
-eigenvector with tamely ramified characters, and 8.2 applied to local units gives the polynomial; tame exponents are
-compared with the local Artin map.
+*Method of the formal proof:* by induction over steps of prime degree in which `w` is inert: each step replaces the
+label by its Shintani lift over a larger residue field (5.11), and after finitely many steps the polynomial of the label
+is a product of linear factors. Then the form is an Iwahori eigenvector whose characters are tamely ramified, and 8.2,
+applied to units of `E_w`, yields the killing polynomial; the passage from local Artin symbols of units to tame
+exponents (IdelicReciprocityCountsAndCyclotomicClassGroups §§1.4, 2.1) puts it in the stated form.
 
 For a place `A` of `Ω` over `w`, `h ≥ 1` and a faithful character `T` of the multiplicative group of an algebraically closed
 extension of `k_w` (as in 8.1), `s ∈ G_E` has *tame exponent* `a` at level `h` if `s ∈ I_A` and, for a uniformiser `π ∈ E` at
@@ -1330,9 +1381,11 @@ integral operators at auxiliary places, and it counts cocycles rather than cohom
 
 ### 9.1 Taylor–Wiles places, the integral Hecke algebra and Higman operators
 
-*Origin:* adapted from the published Taylor–Wiles method at auxiliary primes: here for integral forms of principal level
-on a definite unitary group, with any finite subgroup of the product of the residual general linear groups at the
-auxiliary places, and freeness replaced by one Higman operator up to a common multiple of the stabiliser orders.
+*Origin:* adapted from the freeness at auxiliary primes in the Taylor–Wiles method (Taylor and Wiles (1995); Clozel,
+Harris and Taylor (2008), §3): here the forms are complex forms on the standard definite unitary group with an
+integrality condition through `ι`, the auxiliary places carry principal level, the acting group is an arbitrary finite
+subgroup `Δ` of `Π_j GL_n(k_{w_j})`, and freeness over `Δ` is weakened to the existence of one operator `Ψ` whose sum of
+conjugates under `Δ` is a fixed integer `c`.
 
 *Method of the formal proof:* the forms of principal level at the auxiliary places are functions on a finite set of
 double cosets; a weight on the orbits of `Δ`, equal to `c` divided by the order of a stabiliser, defines `Ψ`, and its
@@ -1389,8 +1442,9 @@ Let `O` be a commutative ring, `ρ : G_E → M_n(O)`, `B` an `O`-module, `S` a s
   places over `ℓ`, vanishing on the inertia groups above `ℓ` if `e = 0` and on the elements of the decomposition groups above
   `ℓ` with trivial cyclotomic character if `e ≠ 0`, and odd under `g ↦ cgc` (`c` a fixed complex conjugation) if `e ≠ 0`.
 - Over `ℚ`, for `Υ = cyc^e·ψ` with `ψ` a Dirichlet character modulo `N`, the *component* of `Υ` is the module of locally
-  constant cocycles for `Υ⁻¹` on `Gal(Ω/ℚ)` with values in `O/l^ν` vanishing at `c` and at the elements of `Gal(Ω/ℚ(μ_N))` in an
-  inertia group at a place prime to `l` or in the local set above `l` for `e = 1`.
+  constant cocycles for `Υ⁻¹` on `Gal(Ω/ℚ)` with values in `O/l^ν` vanishing at `c` and at every element of
+  `Gal(Ω/ℚ(μ_N))` that belongs to the inertia group of some place not above `l`, or that belongs to the decomposition
+  group of some place above `l` and has trivial `l`-adic cyclotomic character.
 - A Galois character `χ` *comes from* `U(1)` (for sets `S`, `I` of places) if it is locally constant and `χ(Art x) = η(x/x̄)`
   for a character `η` of the finite ideles, trivial on `E^×` and on the ideles that are units off `S ∪ S̄` and congruent to `1`
   at the places of `I` off `S ∪ S̄`.
@@ -1401,11 +1455,15 @@ Let `O` be a commutative ring, `ρ : G_E → M_n(O)`, `B` an `O`-module, `S` a s
 
 ### 9.3 Torsion and divisible coefficients
 
-*Origin:* particular to this proof: the Selmer module of cocycles with coefficients `O/a` is the `a`-torsion of the one with
-coefficients `Frac(O)/O`, so its length is bounded by the length with divisible coefficients.
+*Origin:* adapted from the published theory of Selmer groups in Galois cohomology, which compares the Selmer group with
+coefficients `O/a` with the `a`-torsion of the one with coefficients `Frac(O)/O`: here for the Selmer modules of
+cocycles of 9.2, where the module with coefficients `O/a` is the `a`-torsion of the one with coefficients `Frac(O)/O`,
+so its length is bounded by the length with divisible coefficients.
 
-*Method of the formal proof:* composing cocycles with the injection `O/a → Frac(O)/O` onto the `a`-torsion; immediate
-because cocycles are counted, not classes.
+*Method of the formal proof:* the conditions of 9.2 (the cocycle relation, local constancy, vanishing on inertia, the
+relations of `L`) are conditions on the functions themselves, preserved and reflected by an injective map of
+coefficients; so composition with `O/a → Frac(O)/O` identifies the module with coefficients `O/a` with the `a`-torsion
+of the one with coefficients `Frac(O)/O`.
 
 Let `O` be a discrete valuation ring, `ρ : G_E → M_n(O)`, `S` a set of places, `L` a set of relations and `a ≠ 0`. For an
 injective `f : O/a → B` onto the `a`-torsion of `B`, composition with `f` maps the Selmer module with coefficients `O/a` onto the
@@ -1419,12 +1477,17 @@ length*.
 
 ## What the library already provides
 
-- Chebotarev's density theorem in the existence form used in 1.2 (every conjugacy class of a finite Galois extension of
-  number fields is the Frobenius class of infinitely many unramified primes of residue degree one over `ℚ`):
-  `NumberField.Chebotarev.infinite_frobeniusPrimeSet_inter_setOf_inertiaDeg_eq_one`, with the density theorem
-  `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`; the passage to open subsets of `G_E` and to places of `Ω` is
-  small.
-- The Hecke polynomial of `GL_n` of 1.1, as a polynomial in the Hecke eigenvalues: `TauCeti.glnHeckePolynomial`.
+- Chebotarev's density theorem, `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`, and its consequence that
+  every conjugacy class of a finite Galois extension of number fields is the Frobenius class of infinitely many
+  unramified primes, `NumberField.Chebotarev.infinite_frobeniusPrimeSet`. The existence form used in 1.2 asks in
+  addition for residue degree one over `ℚ`; the passage to open subsets of `G_E` and to places of `Ω` is small.
+
+On Tau Ceti's main branch, later than the revision pinned here:
+
+- the existence form used in 1.2 (every conjugacy class of a finite Galois extension of number fields is the Frobenius
+  class of infinitely many unramified primes of residue degree one over `ℚ`):
+  `NumberField.Chebotarev.infinite_frobeniusPrimeSet_inter_setOf_inertiaDeg_eq_one`;
+- the Hecke polynomial of `GL_n` of 1.1, as a polynomial in the Hecke eigenvalues: `TauCeti.glnHeckePolynomial`.
 
 ## Results taken from other roadmaps
 
@@ -1433,3 +1496,47 @@ length*.
   and the image of the units in inertia (8.2, 8.3, 8.4): `ClassFieldTheory §6.1`, `ClassFieldTheory §7.1`, read at
   places of `Ω` through IdelicReciprocityCountsAndCyclotomicClassGroups §2.1.
 - Global reciprocity and the cyclic Hasse norm theorem (5.6): `ClassFieldTheory §11.1`, `ClassFieldTheory §13.1`.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/GaloisRep`.
+- J. Arthur, L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Ann. of Math.
+  Studies 120 (1989).
+- T. Barnet-Lamb, T. Gee, D. Geraghty, R. Taylor, *Local-global compatibility for l = p, II* (2014).
+- T. Barnet-Lamb, T. Gee, D. Geraghty, R. Taylor, *Potential automorphy and change of weight* (2014).
+- D. Blasius, J. Rogawski, *Motives for Hilbert modular forms*, Invent. Math. 114 (1993).
+- Boston, Lenstra, Ribet (1991), cited without title.
+- S. Chase, D. Harrison, A. Rosenberg, *Galois theory and Galois cohomology of commutative rings*, Mem. AMS 52 (1965).
+- G. Chenevier, M. Harris, *Construction of automorphic Galois representations II*, Camb. J. Math. 1 (2013).
+- L. Clozel, M. Harris, R. Taylor, Publ. IHES 108 (2008).
+- K. Conrad, *Compact subgroups of GL_n(Q̄_p)* (note).
+- J. Dieudonné (1944), cited without title.
+- M. Emerton, V. Paškūnas, *On the density of supercuspidal points of fixed regular weight*, J. Éc. polytech. Math. 7
+  (2020).
+- Fayad, Nekovář (2019), cited without title.
+- J. Fintzen, S. W. Shin, *Congruences of algebraic automorphic forms and supercuspidal representations*, Camb. J. Math.
+  9 (2021).
+- M. Harris, D. Soudry, R. Taylor, Invent. Math. 112 (1993).
+- M. Harris, R. Taylor, *The geometry and cohomology of some simple Shimura varieties* (2001).
+- I. Kaplansky, *The Weierstrass theorem in fields with valuations* (1950).
+- J.-P. Labesse, *Fonctions élémentaires et lemme fondamental pour le changement de base stable*, Duke Math. J. 61
+  (1990).
+- J.-P. Labesse, *Cohomologie, stabilisation et changement de base*, Astérisque 257 (1999).
+- J.-P. Labesse, *Changement de base CM et séries discrètes*, in *On the stabilization of the trace formula* (2011).
+- J.-S. Li, *Non-vanishing theorems for the cohomology of certain arithmetic quotients*, J. reine angew. Math. 428
+  (1992).
+- Nekovář, *Eichler–Shimura relations and semisimplicity* (2018).
+- J. B. Prolla, *Approximation of Vector Valued Functions* (1977).
+- J. B. Prolla, *Topics in Functional Analysis over Valued Division Rings* (1982).
+- S. Rallis, *Injectivity properties of liftings associated to Weil representations*, Compositio Math. 52 (1984).
+- R. Rouquier, *Caractérisation des caractères et pseudo-caractères*, J. Algebra 180 (1996).
+- P. Scholze, *The Langlands–Kottwitz approach for some simple Shimura varieties* (2013).
+- Sen, Ann. of Math. 97 (1973).
+- J.-P. Serre, *Corps locaux* (1962).
+- J.-P. Serre, *Groupes algébriques associés aux modules de Hodge–Tate*, Astérisque 65 (1979).
+- S. W. Shin, Ann. of Math. 173 (2011).
+- A. Speiser (1919), cited without title.
+- R. Taylor, *Galois representations associated to Siegel modular forms of low weight*, Duke Math. J. 63 (1991).
+- R. Taylor, A. Wiles, Ann. of Math. 141 (1995).
+- Taylor, Yoshida, J. Amer. Math. Soc. 20 (2007).

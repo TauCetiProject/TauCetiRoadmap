@@ -127,19 +127,20 @@ translations are defined in `Lib/Shimura/ComplexTheta/AppellHumbertData` (`New.R
 
 ### 1.2 The sigma function of a lattice: addition and duplication
 
-*Origin:* adapted from the published theory of the Weierstrass sigma function: here `σ` is defined as the odd theta
-function of degree one for `(H, ε)` with derivative `1` at `0`, with the dimension of the theta spaces in one variable,
-its zeros, the theta functions of degree two, and its addition and duplication formulas.
+*Origin:* adapted from the theory of the Weierstrass sigma function (Silverman, *The Arithmetic of Elliptic Curves*,
+VI, and *Advanced Topics in the Arithmetic of Elliptic Curves*, I.5; Weil, *Elliptic Functions according to Eisenstein
+and Kronecker*): here `σ` is defined as the odd theta function of degree one for `(H, ε)` with derivative `1` at `0`,
+with the dimension of the theta spaces in one variable, its zeros, the theta functions of degree two, and its addition
+and duplication formulas.
 
-*Method of the formal proof:* the dimension is Frobenius's formula: the square of the dimension of `Th_m(Λ, χ)` is the
-index of `Λ` in the dual lattice of `mH`, which is `(1/m)Λ`. A nonzero `f ∈ Th_1(Λ, ε)` gives the odd function
-`f(z) − f(−z)`, nonzero because a nonzero theta function for `ε` is not even; its derivative at `0` is nonzero
-because the zeros are simple, so normalising gives `σ`. If `f ∈ Th_1(Λ, χ)` vanishes at `0`, then `f²` and `℘f²` lie in
-`Th_2(Λ, χ)`, are independent and so span it; since the theta functions of degree two have no common zero, `f` vanishes
-exactly on `Λ` and simply. For fixed `v`, `z ↦ σ(z + v)σ(z − v)` lies in `Th_2(Λ, ε)`, hence is `(a℘ + b)σ²`, and the
-values at `0` and `v` give `a`, `b`; differentiating the addition formula in `v` at `v = z` gives the duplication. The
-library's `PeriodPair.weierstrassSigma` is the classical product, a different function; passing to it would need
-Legendre's relation, which the library does not have.
+*Method of the formal proof:* (a) is AbelianSchemesWithThetaStructuresAndTheirCohomology §1.2 (c) for the data
+`(mH, χ^m)`: the dual of `Λ` for the Riemann form `mE` is `(1/m)Λ`, of index `m²`. (c) comes before (b): `f²` and
+`℘f²` are independent in the two-dimensional space `Th_2(Λ, χ)`, so they span it, and as that space has no base point
+(AbelianSchemesWithThetaStructuresAndTheirCohomology §1.3 (a)), a zero of `f` off `Λ` or a multiple zero is impossible.
+For (b), the odd part of a nonzero element of `Th_1(Λ, ε)` is not zero (by (c), applied to a translate by a half-period,
+no nonzero element is even), and its simple zero at `0` allows the normalisation; uniqueness is (a) for `m = 1`. In (d)
+both sides, as functions of `u`, lie in `Th_2(Λ, ε)`, so by (c) the left side is `σ(u)²` times a polynomial of degree
+one in `℘(u)`, whose two coefficients are found by evaluation; (e) is the derivative of (d) in `v` at `v = u`.
 
 Let `Λ` be a lattice, with `H`, `E`, `ε` of 1.1.
 (a) For every Appell–Humbert multiplier `χ` for `H` and every `m ≥ 1`, `dim_ℂ Th_m(Λ, χ) = m`.
@@ -150,6 +151,10 @@ the points of `Λ`, all simple, and `Th_2(Λ, χ)` is spanned by `f²` and `℘f
 In particular `σ(z) = 0` exactly for `z ∈ Λ`.
 (d) *Addition.* `σ(u + v)σ(u − v) = (℘(v) − ℘(u))·σ(u)²σ(v)²` for `u, v ∉ Λ`.
 (e) *Duplication.* `σ(2z) = −℘′(z)·σ(z)⁴` for `z ∉ Λ`.
+
+The libraries at the pins have no sigma function. On Tau Ceti's main branch, later than the revision pinned here:
+`PeriodPair.weierstrassSigma`, the classical product, a different function; passing from it to `σ` needs Legendre's
+relation between the periods and the quasi-periods (`η(ω₁)ω₂ − η(ω₂)ω₁ = 2πi`), which neither library has.
 
 *Relation to the sigma functions of other roadmaps.* `σ_Λ(z) = σ_W(z)·exp(−s₂z²/2)`, with `σ_W` the Weierstrass
 product of `Λ` (`latticeSigma` of ModularCurvesPartII §1.4a) and `s₂ = s₂(Λ)` the constant with
@@ -214,13 +219,15 @@ comparison and nothing below uses it.
 `θ` of `σ` by a point of order two of a normalised pointed lattice, the model `y² + a₁xy = x³ + x` with origin at that
 point, its discriminant `a₁⁴ − 64`, an addition formula for `θ` and the section `G = yθ³`.
 
-*Method of the formal proof:* `θ²` is `θ(−z)θ(z)`, which the addition formula 1.2 (d) at `t` and `z` evaluates; the
-cubic for `℘` at the point `t`, where `℘′(t) = 0`, gives `g₃`, and with the normalisations the discriminant and the
-differential equation of `x`; the elliptic function `xθ²/σ²` has at most double poles on `Λ`, so it is `a℘ + K`, and
-`x(0) = 0` forces `a = 0` (in the proof: `xθ²` is a twisted translate of `(℘ − ℘(t))σ²`, and `Th_2(Λ, ε)` is spanned by
-`℘σ²` and `σ²`); comparing the terms of lowest degree at `0` gives `K = 1`.
-The addition formula for `θ` is 1.2 (d) at `z + t` and `w`. Identities between entire functions are checked off the
-countable set `t + Λ`. Taylor series inherit the identities, coefficient by coefficient.
+*Method of the formal proof:* (a) carries 1.2 (a)–(c) over to `θ` by the twisted translation by `t`; `θ` is even
+because `σ` is odd and the transformation law of `σ` at the period `2t` has the sign `ε(2t) = −1`. In (b), the first
+identity is 1.2 (d) at the pair `(t, z)`, using that `θ` is even. For `σ² = xθ²`: `xθ²` is entire (the double poles
+of `x` on `t + Λ` meet double zeros of `θ²`) and lies in `Th_2(Λ, ε)`, so 1.2 (c) writes it as a combination of `σ²`
+and `℘σ²`; the value `0` at `0` removes the term with `℘`, and second derivatives at `0` show that the constant is `1`.
+Since `℘′(t) = 0`, the cubic equation of `℘` at `t` gives `g₃` in (c), and (d) follows from the differential equation
+of `℘` with the normalisations `℘″(t) = 2`, `a₁² = 12℘(t)`. (e) is 1.2 (d) at `z + t` and `w`, rewritten with (b).
+Identities between entire functions are proved off a countable set and extended by continuity; (f) passes them to the
+Taylor series at `0`.
 
 Let `C = (Λ, t, a₁)` be a normalised pointed lattice.
 (a) `θ ∈ Sect_1(C)`, `θ(0) = 1`, `θ` is even, `Sect_1(C) = ℂθ`, and `T¹_lθ = χ_C(l)·θ` for `l ∈ Λ`. The zeros of `θ` are
@@ -252,12 +259,18 @@ series of `M_e` is `θ^{deg e}·x^b·y^c`.
 *Origin:* particular to this proof: the sections of a normalised pointed lattice, their pull-back along isogenies of CM
 lattices and their division by translates of `θ`, and their spanning by the monomials `θ^aσ^{2b}G^c` with `c ≤ 1`.
 
-*Method of the formal proof:* for a CM lattice, `ω̄l ∈ Λ` makes `E(ω̄l, l) = |l|²√d/(2A)` an integer, and the multiplier
-at `l` is the canonical one, `exp(πi·E(ω̄l, l))`; along an isogeny of degree `N` the form `H` is multiplied by `N`, so the
-multipliers match. Division: `f/g`, completed by `f′/g′` at the simple zeros of `g`, is entire and has the transformation
-law of degree `k`. Spanning, by induction on `m` in steps of two: the monomial of degree `m + 2` without the factor `θ`
-does not vanish at `−t`; subtracting a multiple of it gives a section vanishing on the zeros of `θ`, which is `θ` times a
-section of degree `m + 1`.
+*Method of the formal proof:* (a) unwinds the definition of `Th_m` in 1.1; a section of degree `0` is a periodic
+entire function, hence constant. For (b), the values at `ωl` and `ω̄l` come first. For `a = ω` or `ω̄`, the definition
+of `χ_C` and the Appell–Humbert property of `ε` (1.1) give `χ_C(al) = −ε(2t + al)`, which is `1` unless
+`t + al/2 ∈ Λ`; that point cannot lie in `Λ`, since then so would `āt = (1 − a)(t + al/2) − (aā/2)·l`, `Λ` being
+stable under `𝒪_K` and `aā = (1 + d)/4` being even, against `ωt, ω̄t ∉ Λ`. The Appell–Humbert rule for the sum
+`l = ωl + ω̄l`, both of whose terms have multiplier `1`, then gives `χ_C(l) = exp(πi·E(ω̄l, ωl)) = exp(πi·n(l))`, where
+`n(l) = E(ω̄l, l)` (as `Im ω = √d/2`) is an integer because `ω̄l ∈ Λ`. In (c), the pull-back along `z ↦ az`
+multiplies the form `H` by the degree `N`, and with (b) the multipliers agree, as `n(al) = N·n(l)`; (d) follows from (c)
+and the composition of twisted translations. For (e), the simple zeros of `g` (1.4 (a)) make `f/g` entire, with the
+quotient of the two transformation laws. For (f), induction on `m`, starting from `m = 0` ((a)) and `m = 1` (1.4 (a)):
+a monomial of degree `m + 2` without the factor `θ` is nonzero at the zeros of `θ` (1.4 (d) at `−t`), so a multiple of
+it can be subtracted from a section of degree `m + 2` to leave one that vanishes there, which (e) divides by `θ`.
 
 Let `C`, `C′`, `D` be normalised pointed lattices, `A` the area of `Λ = Λ_C`.
 (a) `f ∈ Sect_m(C)` if and only if `f` is entire and `T^m_lf = χ_C(l)^m·f` for all `l ∈ Λ`. `Sect_0(C)` consists of the
@@ -289,12 +302,14 @@ by the `M_e` with `c ≤ 1` and `deg e = m`.
 
 ### 1.6 Duplication formulas for `θ` and `σ`
 
-*Origin:* adapted from the published theory of the duplication formulas for theta and sigma functions: here for `θ` and
-`σ` of a normalised pointed lattice, in the polynomial form that gives the quartic forms of doubling.
+*Origin:* adapted from the classical formulas for theta and sigma functions at twice the argument (NIST DLMF, Chapters
+20 and 23): here for `θ` and `σ` of a normalised pointed lattice, in the polynomial form that gives the quartic forms of
+doubling.
 
-*Method of the formal proof:* `θ(2z)` is the addition formula 1.4 (e) at `w = z` with `σ² = xθ²`; `σ(2z)` is the
-duplication formula 1.2 (e) at `z + t`, where the exponential factors cancel, the period `2t` gives a sign, and
-`c₀⁴ = 1`, which comes from `x(z)x(z + t) = 1`; squaring and the differential equation of `x` give the third formula.
+*Method of the formal proof:* in (a), `c₀⁴ = 1` follows by translating `σ² = xθ²` by `t` and using `x(z)x(z + t) = 1`
+(1.4 (b)); the other identities are the composition of twisted translations and 1.1. (b) is 1.4 (e) with `w = z`,
+rewritten by 1.4 (b). (c) is the duplication formula 1.2 (e) at the point `z + t`, written in terms of `θ` with (a).
+(d) is the square of (c) with `x′²` replaced by the cubic of 1.4 (d).
 
 Let `C = (Λ, t, a₁)` be a normalised pointed lattice, and `c₀ := (T¹_tσ)(0)`.
 (a) `c₀⁴ = 1`, `T¹_tσ = c₀θ` and `c₀·T¹_tθ = −σ`; multiplication by `2` is an isogeny of degree `4` from `Λ` to `Λ`.
@@ -317,20 +332,24 @@ discriminant is `c⁴ − 64`.
 
 A CM lattice is a complex multiple of a fractional ideal of `K`, and each ideal has normalised multiples (2.1). The
 numbers `s(u) = 288℘(u)²/℘″(u) − 64` at the three points of order two of any lattice have sum `−48` and product
-`−2¹²`, and isogenies of degree two relate them; following these isogenies around the class group shows that the
-discriminant `a₁⁴ − 64` of every CM lattice is a unit at every prime, `2` included (2.2). The scaling `℘″(t) = 2` leaves
-finitely many CM lattices, which bounds the values of translates of `θ` uniformly (2.3).
+`−2¹²`, and isogenies of degree two relate them; chains of such isogenies close up in the finite class group, and this
+forces `a₁⁴ − 64`, the discriminant of a CM lattice, to be a unit at every prime, `2` included (2.2). The scaling
+`℘″(t) = 2` leaves finitely many CM lattices, which bounds the values of translates of `θ` uniformly (2.3).
 
 ### 2.1 CM lattices and ideals
 
-*Origin:* adapted from the published theory of complex multiplication of elliptic curves (a lattice stable under `𝒪_K`
-is a complex multiple of a fractional ideal): here for the normalised CM lattices of 1.3, with the existence of a
-normalised multiple of every ideal, the area, and the classes of CM lattices.
+*Origin:* adapted from the theory of complex multiplication of elliptic curves (Silverman, *Advanced Topics in the
+Arithmetic of Elliptic Curves*: a lattice stable under `𝒪_K` is a complex multiple of a fractional ideal): here for the
+normalised CM lattices of 1.3, with the existence of a normalised multiple of every ideal, the area, and the classes of
+CM lattices.
 
-*Method of the formal proof:* writing `ω·ω₂ = mω₁ + nω₂` for a basis `ω₁, ω₂` shows `Λ = ω₁·𝔞` with `𝔞` the
-`𝒪_K`-module generated by `1` and `m/(ω − n)`. For an ideal `𝔠`, neither `ω/2` nor `ω̄/2` preserves `𝔠`, so some `t = l/2`, `l ∈ 𝔠`, has
-`ωt, ω̄t ∉ 𝔠`; then `℘″(t) ≠ 0`, and rescaling `𝔠` makes `℘″(t) = 2`. The area is computed in the basis `1, ω` of
-`𝒪_K`. Since the class number is odd, every class is a square, and `w𝔠²` represents the class of `Λ`.
+*Method of the formal proof:* (a): in a basis `ω₁, ω₂` of `Λ`, `ωω₂` is an integral combination of `ω₁` and `ω₂`, so
+`ω₂/ω₁` lies in `K` and `ω₁^{−1}Λ` is a fractional ideal. (b): the points `l/2`, `l ∈ 𝔠`, killed by `ω` form a proper
+subgroup modulo `𝔠`, since `ω/2 ∉ 𝒪_K`, and likewise for `ω̄`; a point `t` outside both has `℘″(t) ≠ 0`, because `℘(t)`
+is a simple root of `4X³ − g₂X − g₃`, and a complex scaling makes `℘″(t) = 2`. (c) is a determinant in the basis `1, ω`
+of `𝒪_K`. (d): `h` is odd (see Needs), so the class of `𝔞` is a square. (e) assembles (a) and (b); for its last
+clause, with `Λ_C = c𝔞` and `Λ_D = c′𝔞′`, the ideal `𝔟𝔞/𝔞′` has trivial class, so it is principal, and with a
+generator `γ`, `Λ_D = (c′/(cγ))·𝔟·Λ_C`.
 
 Let `C` be a CM lattice, `𝔞`, `𝔠`, `𝔟` nonzero fractional ideals of `K`.
 (a) `Λ_C = u𝔞` for some `u ∈ ℂ^×` and some `𝔞`.
@@ -342,14 +361,16 @@ CM lattice `D` with `Λ_D = u·𝔠·Λ_C`.
 lattice, and there is a family `(D_𝒞)_{𝒞∈Cl(K)}` of CM lattices, `D_𝒞` in the class `𝒞`, with `D_𝒞 = C` for the class of
 `C`. If `C` lies in `𝒞` and `D` in `𝒞·[𝔟]`, then `Λ_D = u·𝔟·Λ_C` for some `u ∈ ℂ^×`.
 
-The library has the correspondence between homothety classes of lattices with complex multiplication by an imaginary
-quadratic order and the Picard group of the order (`TauCeti.BinaryQuadraticForm.cmHomothetyClassEquivPic`), in the model
-`QuadraticAlgebra ℚ (−n) 0` with the hypothesis on the multiplier ring; (a) can be built on it after the comparison of the
-two models of `K`, its integers and `ClassGroup`. (b)–(e) are not in the library.
+On Tau Ceti's main branch, later than the revision pinned here: the correspondence between homothety classes of lattices
+with complex multiplication by an imaginary quadratic order and the Picard group of the order
+(`TauCeti.BinaryQuadraticForm.cmHomothetyClassEquivPic`), in the model `QuadraticAlgebra ℚ (−n) 0` with the hypothesis
+on the multiplier ring; (a) can be built on it after the comparison of the two models of `K`, its integers and
+`ClassGroup`. The libraries at the pins do not have this correspondence, and (b)–(e) are in neither.
 
 *Needs:* 1.3; Tau Ceti `TauCeti.Multiquadratic.twoRank_eq_ncard_ramifiedPrimes_sub_one`, Tau Ceti
-`TauCeti.Multiquadratic.ramifiedPrimes_eq_singleton`, Tau Ceti `ClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`,
-Tau Ceti `TauCeti.card_elementaryTwoQuotient_eq_index_square` (the class number is odd); Tau Ceti
+`TauCeti.Multiquadratic.ramifiedPrimes_eq_singleton`, Tau Ceti
+`TauCeti.ClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`, Tau Ceti
+`TauCeti.card_elementaryTwoQuotient_eq_index_square` (the class number is odd); Tau Ceti
 `TauCeti.BinaryQuadraticForm.cmHomothetyClassEquivPic`.
 
 [ShortProof], `Lib/CM/GoodReduction` (`New.CMLattice.latticeModule`, `New.QuadField.scaledIdeal`,
@@ -360,19 +381,20 @@ Tau Ceti `TauCeti.card_elementaryTwoQuotient_eq_index_square` (the class number 
 
 ### 2.2 The discriminant of a CM lattice is a unit at every prime
 
-*Origin:* adapted from the published theory of Siegel units and Weber's class invariants: here the unit property at
-every prime, `2` included, of the discriminant `a₁⁴ − 64` of a CM lattice normalised at its point `t` of order two (the
-case of the point `t`, whose annihilator is `(2)`), and the integrality of `a₁`.
+*Origin:* adapted from the theory of Siegel units (Kubert and Lang, *Modular Units*) and of Weber's class invariants
+(Birch, *Weber's class invariants*, 1969): here the unit property at every prime, `2` included, of the discriminant
+`a₁⁴ − 64` of a CM lattice normalised at its point `t` of order two (the point killed by `2` and by neither prime of `K`
+above `2`), and the integrality of `a₁`.
 
-*Method of the formal proof:* (a) and (b) are identities between the values of `℘` at the points of order two, the roots
-of `4X³ − g₂X − g₃`, and the lattice sums `Σ(l − u)^{−4}` (`℘″(u) = 6Σ_l(l − u)^{−4}`) over the two cosets that make up the
-lattice `L′`. For (c), fix `b = ω` or `ω̄`: the isogeny of degree two with kernel generated by `bt` multiplies the
-ideal class by a fixed class `𝔤` (that of the fractional ideal `(1, b/2)`, the inverse of a prime above `2`). On each
-lattice (a) gives `s(bt) + s((1 − b)t) + s(t) = −48`, and (b) gives, for `C` in `𝒞` and `D` in `𝔤𝒞`,
-`s_C(bt)·s_D((1 − b)t) = 2¹²` and `s_D(bt)·s_D(t) = −s_C(bt)`; going around the cycle
-`𝒞, 𝔤𝒞, 𝔤²𝒞, …` of the finite class group, an ultrametric argument bounds all these numbers, and multiplying the last
-relation over the classes gives the product of the `s(t)`. A product of integral numbers that is `±1` consists of
-units, which is (d); `a₁⁴ = (a₁⁴ − 64) + 64` gives the integrality of `a₁`.
+*Method of the formal proof:* (a) is algebra in the three roots `℘(u_i)` of `4X³ − g₂X − g₃`, with `℘″(u_i)` written
+through them. For (b), `℘″` at a point of order two is the lattice sum `6Σ_l(l − u)^{−4}`, and the sum over `L′` splits
+into two sums over `L`. For (c), take `b = ω` or `ω̄`: the isogeny of degree two whose kernel is generated by `bt` leads
+from a CM lattice in a class `𝒞` to one in the class `𝔤𝒞`, for a fixed class `𝔤` (that of the fractional ideal
+`(1, b/2)`, the inverse of a prime above `2`). On each lattice (a), and between consecutive lattices (b), give relations
+among the numbers `s(bt)`, `s((1 − b)t)`, `s(t)`. As the class group is finite, the classes `𝒞, 𝔤𝒞, 𝔤²𝒞, …` return to
+`𝒞`, and along this closed chain the ultrametric inequality bounds all the `|ι(s)|` by `1`; multiplying one of the
+relations over all classes leaves `∏_𝒞 s(t_𝒞) = (−1)^h`. (d) follows, since integral numbers with a unit product are
+units, and `a₁⁴ = (a₁⁴ − 64) + 64` is then integral.
 
 For a lattice `L` and a point `u` of order two of `ℂ/L` put `s_L(u) := 288℘(u)²/℘″(u) − 64` (here `℘″(u) ≠ 0`); if `L`
 is scaled so that `℘″(u) = 2`, then `s_L(u)` is the discriminant `Δ(L)`. For a normalised pointed lattice,
@@ -387,11 +409,13 @@ at `ι`, and `∏_{𝒞} s(t_𝒞) = (−1)^h`.
 (d) For every CM lattice `C`, every prime `p` and every ring homomorphism `ι : ℂ → ℂ_p`: `|ι(a₁⁴ − 64)| = 1` and
 `|ι(a₁)| ≤ 1`.
 
-The library has Weber's cubic for the level-two Siegel functions, whose roots have the same sum `−48` and product `−2¹²`
-(`TauCeti.ModularForm.prod_X_sub_C_siegelFunction_pow_twelve`), and the integrality of their values when `j(τ)` is
-integral; it does not have the integrality of `j` at CM points, nor any unit statement. The integrality of `a₁` in (d)
-also follows from ImaginaryQuadraticClassNumber §3.2 (the last item of its list of targets: the values of the Siegel
-functions at CM points are integral) together with Weber's cubic; the unit property at the primes above `2` does not.
+The library has Weber's cubic for the level-two Siegel functions, `(X + 16)³ − jX`, whose roots, the twelfth powers of
+those functions, have the same sum `−48` and product `−2¹²`
+(`TauCeti.ModularForm.prod_X_sub_C_siegelFunction_pow_twelve`); as the cubic is monic over `ℤ[j]`, its roots are
+integral wherever `j(τ)` is. It does not have the integrality of `j` at CM points, nor any unit statement. The
+integrality of `a₁` in (d) also follows from ImaginaryQuadraticClassNumber §3.2 (the last item of its list of targets:
+the values of the Siegel functions at CM points are integral) together with Weber's cubic; the unit property at the
+primes above `2` does not.
 
 *Needs:* 1.4, 2.1.
 
@@ -408,12 +432,13 @@ functions at CM points are integral) together with Weber's cubic; the unit prope
 and of `θ` on the lattice alone, and a bound for the values at `0` of the translates of `θ`, uniform in the CM lattice
 and in the point.
 
-*Method of the formal proof:* two CM lattices in one class have lattices `Λ_C = cΛ_D`, and the scaling
-`℘″(t) = 6Σ_l(l − t)^{−4} = 2` at both marked points gives `c⁴ = 1`; so the lattices are `c` times one lattice in each of
-the `h` classes. Two CM lattices with one lattice have the same area by 2.1 (c), and their `θ` are two elements of the
-line `Sect_1` with value `1` at `0`. For one lattice `|(T¹_uθ)(0)| = exp(−π|u|²/(2A))·|θ(u)|` is continuous and
-`Λ`-periodic in `u` (as `θ ∈ Sect_1(C)` and `|χ_C| = 1`, a shift of `u` by `l ∈ Λ` multiplies `(T¹_uθ)(0)` by a number of
-absolute value one), hence bounded.
+*Method of the formal proof:* (a): `z ↦ cz` carries the marked point of `C` to that of `D` modulo `Λ_D` (of the three
+points of order two of a CM lattice, exactly one is killed by neither `ω` nor `ω̄`), and `℘″` at it, the sum
+`6Σ_l(l − t)^{−4}`, is multiplied by `c^{−4}`; both values are `2`. With 2.1 (e) this gives (b): each lattice of a CM
+lattice is a fourth root of unity times one of `h` fixed lattices. (c) is 2.1 (c) for the area, and 1.4 (a) for `θ`:
+`Sect_1` is a line, and `θ` is its element with value `1` at `0`. (d): on one lattice `u ↦ |(T¹_uθ)(0)|` is continuous
+and invariant under `Λ`, since the multiplier has absolute value one, hence bounded; by (b) and (c) finitely many
+lattices occur.
 
 Let `C`, `D` be CM lattices.
 (a) If `cΛ_C = Λ_D` with `c ≠ 0`, then `c⁴ = 1`. If `C` and `D` lie in the same class, `Λ_C = cΛ_D` with `c⁴ = 1`.
@@ -421,8 +446,9 @@ Let `C`, `D` be CM lattices.
 (c) If `Λ_C = Λ_D`, then `area(Λ_C) = area(Λ_D)` and `θ_C = θ_D`.
 (d) There is `M = M(d)` with `|(T¹_uθ_C)(0)| ≤ M` for every CM lattice `C` and every `u ∈ ℂ`.
 
-The library's correspondence of 2.1 counts the homothety classes (`TauCeti.BinaryQuadraticForm.nat_card_cmHomothetyClass`);
-the statements on the normalised lattices are not in the library.
+On Tau Ceti's main branch, later than the revision pinned here: the correspondence of 2.1 counts the homothety classes
+(`TauCeti.BinaryQuadraticForm.nat_card_cmHomothetyClass`). The statements on the normalised lattices are in neither
+library.
 
 *Needs:* 1.4, 1.5, 2.1.
 
@@ -435,25 +461,31 @@ the statements on the normalised lattices are not in the library.
 
 Everything here is at one prime `p` and one ring homomorphism `ι : ℂ → ℂ_p`, for CM lattices. Doubling acts on the
 pair `(θ[u]², σ[u]²)` of normalised values at a torsion point by the quartic forms of 1.6, which have good reduction
-because the discriminant is a unit; as the orbit of a torsion point under doubling is finite, the pair has norm one
-(3.1). At the points `t/2^i` this gives units, which serve as interpolation nodes: a section with integral values at
-torsion points has integral coefficients in the monomials, and its Taylor series lies in `θ^m·𝒪[[y]]` (3.2, 3.3).
+because the discriminant is a unit; since the doubles of a torsion point repeat modulo the lattice, the pair has norm
+one (3.1). At the points `t/2^i` this gives units, which serve as interpolation nodes: a section with integral values at
+torsion points is an integral combination of the monomials, with Taylor series in `θ^m·𝒪[[y]]` (3.2, 3.3).
 Isogenies act integrally (3.4); so does multiplication by elements of `𝒪_K` on `−log θ`, which gives the integrality of
 `√−d·g″(0)` (3.5). The group law is integral in `y` (3.6).
 
 ### 3.1 Torsion values
 
-*Origin:* adapted from Bannai and Kobayashi (2010): algebraic and `p`-adic properties of reduced theta functions of
-abelian varieties with complex multiplication, at ordinary primes; here, for a CM lattice and every prime `p`
-(`2` and `d` included), the integrality of the normalised values of `σ`, `θ` and the monomials at every torsion point,
-the statement that `σ[u]`, `θ[u]` are not both non-units, and units at the points `t/2^i`.
+*Origin:* adapted from the theory of Siegel units (Kubert and Lang, *Modular Units*: the values of Siegel functions at
+torsion points are integral, and units when two distinct primes divide the annihilator of the point) and of Weber's
+class invariants, integral for `d ≡ 7 (mod 8)` (Birch, *Weber's class invariants*): here, for a CM lattice and every
+prime `p` (`2` and `d` included), the integrality of the normalised values of `σ`, `θ` and the monomials at every
+torsion point, the statement that `σ[u]`, `θ[u]` are not both non-units, and units at the points `t/2^i`.
 
-*Method of the formal proof:* the rules (a) are the transformation laws of the twisted translations. By (b), with 2.2 (d)
-and the good reduction of `F_{a₁}`, `|w(2^ju)| = |w(u)|^{4^j}` for `w(u) := (θ[u]², σ[u]²)`; two of the points `2^iu` are
-congruent modulo `Λ`, and translation by a period multiplies `w` by roots of unity, so `|w(u)|` is a root of `1` among
-positive reals. For (e): if `F^j(w)` is `(0, ∗)` of norm `1` and `F^j(w′)` is `(∗, 0)`, the reductions of `w`, `w′` to the
-projective line over the residue field are distinct, so `det(w, w′)` is a unit; this is applied with `2^{i+1}t_{i+1} = t`
-(where `θ` vanishes) and `2^i·t_i = t`, `2t ∈ Λ` (where `σ` vanishes).
+*Method of the formal proof:* (a) comes from the composition of twisted translations and from 1.5 (c); (b) restates
+1.6 (b), (d) for torsion values. For (c): by (a), `|w(u)|` depends only on the class of `u` modulo `Λ`, and for a
+torsion point `u` there are `i < j` with `2^iu ≡ 2^ju (mod Λ)`. By (b) and `|F_{ι(a₁)}(w)| = |w|⁴` (from 2.2 (d), see
+Needs), `|w(2^ku)| = |w(u)|^{4^k}` for every `k`, so `|w(u)|^{4^i} = |w(u)|^{4^j}`; as `w(u) ≠ 0` (`θ` and `σ` have no
+common zero), `|w(u)| = 1`. (d) follows from (a) and (c), and for `G` from its quadratic equation. (e) uses a criterion
+for two pairs of norm one: if the same number of doublings takes one to the form `(0, ∗)` and the other to the form
+`(∗, 0)`, their reductions are distinct points of `ℙ¹` over the residue field, so their determinant is a unit. Repeated
+doubling takes `t_{i+1}` to `t`, where `θ` vanishes, and then into `Λ`, where `σ` vanishes; the criterion, applied to
+the pairs `w` at the points `t_i`, `t` and `2t`, gives the units `θ[t_{i+1}]`, `σ[t_i]` and the differences of the
+`x(t_{i+1})`, and 1.6 (c) gives `x′(t_{i+1}) = σ[t_i]/θ[t_{i+1}]⁴`. (f) divides the relations `σ² = xθ²` and `G = yθ³`
+of 1.4 (b) by the unit `θ[u]`.
 
 Let `C` be a normalised pointed lattice. For a function `G` *of degree `n`* (that is, read with the twisted translations
 of degree `n`) and `u ∈ ℂ`, the *torsion value* is `G[u] := (T^n_uG)(0) = exp(−nπ|u|²/(2A))·G(u)`. `G` *has integral
@@ -494,13 +526,16 @@ From here on `C` is a CM lattice and `p` any prime.
 ### 3.2 The ring `𝒪[[y]]`
 
 *Origin:* particular to this proof: the ring of integral series in a parameter `T = z + ⋯` over `ℂ_p`, and, for a CM
-lattice, that the ring `𝒪[[y]]` of integral series in the coordinate `y` contains `x` and is stable under `d/dz`.
+lattice, that `x` lies in the ring `𝒪[[y]]` of integral series in the coordinate `y`, which `d/dz` maps into itself.
 
-*Method of the formal proof:* the general facts are manipulations of substitution in `𝒪[[Z]]` (a series `Z′ = Z + ⋯`
-with integral coefficients has a compositional inverse with integral coefficients). The cubic `y² + a₁xy = x³ + x` says
-that `x` is a root of `X³ + (1 − a₁y)X − y²`; Hensel's lemma in `𝒪[[Z]]` gives a root `r ∈ Z·𝒪[[Z]]` of
-`X³ + (1 − a₁Z)X − Z²`, it uses only `|ι(a₁)| ≤ 1`, and `r(y) = x` because over a local ring two roots that are
-congruent and simple modulo the maximal ideal agree. Then `d/dz G(y) = G′(y)·y′` with `y′ = 1 + 3x² − a₁y`.
+*Method of the formal proof:* (a) is algebra of substitution in `𝒪[[Z]]`, resting on the fact that a series `Z + ⋯`
+with coefficients in `𝒪` has a compositional inverse with coefficients in `𝒪`. For (b), the equation of 1.4 (f) makes
+`x` a zero of a monic cubic in `X` whose coefficients are polynomials in `y` and `a₁`, and `a₁` is integral by 2.2 (d).
+With `y` replaced by a variable `Z`, the cubic has coefficients in `𝒪[[Z]]` and reduces modulo `Z` to `X³ + X`, with
+the simple zero `0`; Hensel's lemma for `𝒪[[Z]]` and the ideal `(Z)` lifts it to a zero in `Z·𝒪[[Z]]`. Substituting `y`
+for `Z` in this zero gives a zero of the first cubic in `ℂ_p[[z]]` without constant term, and the uniqueness of the lift
+of a simple zero in the complete local ring `ℂ_p[[z]]` makes it equal to `x`. Stability under `d/dz` is the chain rule
+with `y′ = 1 + 3x² − a₁y` (1.4 (f)).
 
 For `T ∈ ℂ_p[[z]]` with `T = z + O(z²)` let `𝒪[[T]] := {G(T) : G ∈ 𝒪[[Z]]}`, a subring of `ℂ_p[[z]]`.
 (a) The map `G ↦ G(T)` is injective. `𝒪[[T]]` contains `T`, is closed under multiplication by elements of `𝒪` and under
@@ -523,17 +558,18 @@ coefficientwise limits; the constant and linear coefficients of its elements are
 
 ### 3.3 The integrality principle
 
-*Origin:* adapted from Bannai and Kobayashi (2010): algebraic and `p`-adic properties of reduced theta functions of
-abelian varieties with complex multiplication, at ordinary primes; here, for a CM lattice and every prime `p`, the
-structure of the sections with integral torsion values: integral coefficients in the monomials and Taylor series in
-`θ^m·𝒪[[y]]`.
+*Origin:* adapted from Bannai and Kobayashi, *Algebraic theta functions and the p-adic interpolation of
+Eisenstein–Kronecker numbers* (2010), who expand theta functions of CM elliptic curves integrally at ordinary primes
+`p ≥ 5`: here, for a CM lattice and every prime `p`, the structure of the sections with integral torsion values:
+integral coefficients in the monomials and Taylor series in `θ^m·𝒪[[y]]`.
 
-*Method of the formal proof:* `f/θ^m` is an elliptic function with poles of order at most `m` on `t + Λ`, hence a
-polynomial in `x` and `y`; evenness kills the odd part, since `y(z) − y(−z) = x′(z)` is odd. At the torsion points `t_{i+1}`
-the values `f[t_{i+1}]/θ[t_{i+1}]^m = P₀(x(t_{i+1})) + y(t_{i+1})P₁(x(t_{i+1}))` are integral (3.1 (e), (f)); the even and
-odd parts are separated by `u ↦ −u`, and `x′(t_{i+1})` is a unit; Lagrange interpolation at the nodes `x(t_{i+1})`, whose
-differences are units, makes the coefficients integral. The Taylor series of a monomial is `θ^m·x^b·y^c` (1.4 (f)), and
-`x ∈ 𝒪[[y]]` (3.2).
+*Method of the formal proof:* (a) rewrites the spanning 1.5 (f) with `M_e = θ^{deg e}x^by^c`; for even `f`, comparing
+`f(z)` with `f(−z)` gives `x′·P₁(x) = 0`, as `x` is even and `y(z) − y(−z) = x′(z)` (1.4 (d)), so `P₁ = 0`. For (b),
+the values of `P₀(x) + yP₁(x)` at the points `±t_{i+1}` are quotients of torsion values of `f` and of `θ^m`, hence
+integral by 3.1 (e), (f). Their difference is `x′(t_{i+1})·P₁(x(t_{i+1}))`, with `x′(t_{i+1})` a unit (3.1 (e)), so
+the values of `P₁` at the nodes `x(t_{i+1})` are integral, and then so are those of `P₀`, as `y(t_{i+1})` is integral
+(3.1 (f)). The nodes have unit differences (3.1 (e)), so Lagrange interpolation makes the coefficients of `P₀` and `P₁`
+integral. (c) follows from (b), 1.4 (f) and `x ∈ 𝒪[[y]]` (3.2 (b)).
 
 Let `C = (Λ, t, a₁)` be a normalised pointed lattice and `f ∈ Sect_m(C)`.
 (a) There are polynomials `P₀`, `P₁` with `2·deg P₀ ≤ m` and `2·deg P₁ + 3 ≤ m` such that
@@ -554,14 +590,16 @@ monomials `M_e` with `c ≤ 1` and `deg e = m`. If `f` is even, `f = Σ_{i ≤ m
 
 ### 3.4 Isogenies act integrally
 
-*Origin:* adapted from the published theory of formal groups of elliptic curves with good reduction (an isogeny acts on
-the formal groups by an integral power series): here for isogenies between CM lattices, in the parameter `y`, with the
-pull-back of sections and of translates of `θ`.
+*Origin:* adapted from the theory of formal groups of elliptic curves with good reduction (Silverman, *The Arithmetic of
+Elliptic Curves*; on the formal groups an isogeny is a power series with integral coefficients): here for isogenies
+between CM lattices, in the parameter `y`, with the pull-back of sections and of translates of `θ`.
 
-*Method of the formal proof:* the degree `N` comes from the Riemann form of `Λ′` at `aω₁`, `aω₂`, an integer. The
-pull-back of a section with integral torsion values is a section of `C` with integral torsion values (1.5 (c), 3.1 (a)),
-so 3.3 applies. For `y`: `G = yθ³` gives `y_{C′}(az)·θ_{C′}(az)³ ∈ θ_C^{3N}·𝒪[[y_C]]` and `θ_{C′}(az) ∈ θ_C^N·𝒪[[y_C]]`
-with constant term `1`, so the quotient is integral; the linear coefficient of `y_{C′}(az)` is `ι(a)`.
+*Method of the formal proof:* (a): `N` is the value of the Riemann form of `Λ′` (1.1) at the images under `a` of a
+positive basis of `Λ`, an integer. (b): by 1.5 (c) and 3.1 (a), `G(az)` is a section of `C` of degree `Nn` with integral
+torsion values, and 3.3 (c) applies. (c): (b) for `θ_{C′}` and for `G_{C′} = y_{C′}θ_{C′}³` (3.1 (c), (d)); dividing
+the second by the cube of the first is allowed in `𝒪[[y_C]]` because the integral factor of `θ_{C′}(az)` has constant
+term `1` (3.2 (a)). (d) reads off the linear coefficient `ι(a)` of `y_{C′}(az) ∈ 𝒪[[y_C]]` (3.2 (a)). (e) is (b) for the
+section of 1.5 (d), whose torsion values are integral by 3.1 (a), (c).
 
 Let `C`, `C′` be CM lattices, `p` a prime, and `a ∈ ℂ` with `aΛ_C ⊂ Λ_{C′}`.
 (a) There is `N ∈ ℕ` such that `a` is an isogeny of degree `N` from `C` to `C′`; this holds for any two lattices.
@@ -571,7 +609,8 @@ Let `C`, `C′` be CM lattices, `p` a prime, and `a ∈ ℂ` with `aΛ_C ⊂ Λ_
 (e) If `δ ≠ 0`, multiplication by `δ̄` is an isogeny of degree `N` from `Λ_C` to itself, and `δv ∈ Λ_C`, then the Taylor
 series of `z ↦ (T¹_vθ_C)(δ̄z)` lies in `θ_C^N·𝒪[[y_C]]`.
 
-The library has, over a field, the homomorphism of formal groups induced by an isogeny of Weierstrass curves
+The libraries at the pins have no formal series of an isogeny. On Tau Ceti's main branch, later than the revision pinned
+here: over a field, the homomorphism of formal groups induced by an isogeny of Weierstrass curves
 (`TauCeti.Isogeny.formalGroupHom`), without integrality and in the parameter `−x/y` at infinity.
 
 *Needs:* 1.5, 3.1, 3.2, 3.3.
@@ -583,16 +622,17 @@ The library has, over a field, the homomorphism of formal groups induced by an i
 
 ### 3.5 The logarithm of `θ`
 
-*Origin:* adapted from Bannai and Kobayashi (2010): algebraic and `p`-adic properties of reduced theta functions of
-abelian varieties with complex multiplication, at ordinary primes; here, for a CM lattice and every prime `p`, the
-identity `g″ = g″(0) + x` for `g = −log θ`, the integrality of `θ(αz)/θ(z)^{αᾱ}` in `𝒪[[y]]` for `α ∈ 𝒪_K` and its
-`p`-adic limits, and the integrality of `√−d·g″(0)`.
+*Origin:* adapted from the classical identity `(σ′/σ)′ = −℘` for the Weierstrass sigma function: here, for a CM
+lattice and every prime `p`, the identity `g″ = g″(0) + x` for `g = −log θ`, the integrality of
+`θ(αz)/θ(z)^{αᾱ}` in `𝒪[[y]]` for `α ∈ 𝒪_K` and its `p`-adic limits, and the integrality of `√−d·g″(0)`.
 
-*Method of the formal proof:* differentiating the addition formula 1.4 (e) twice in `w` at `w = 0` gives
-`θ′² = θθ″ + (−θ″(0) + x)θ²`, which is (a) multiplied by `θ²`. For `α ∈ 𝒪_K`, multiplication by `α` is an isogeny of degree
-`αᾱ` of `Λ` to itself, so 3.4 (c) gives (b) for `α`; the ring `𝒪[[y]]` is closed under coefficientwise limits, and both
-series depend continuously on `(δ, s)`. The coefficient of `z²` of `exp(αᾱ·g(z) − g(αz))`, which starts in degree two, is
-`ι(α(ᾱ − α))·g″(0)/2`; its difference at `α = ω̄` and `α = ω` is `ι(√−d)·g″(0)/2`.
+*Method of the formal proof:* (a) is the second derivative in `w`, at `w = 0`, of the addition formula 1.4 (e), divided
+by `θ(z)²`; it is an identity of complex functions and passes to the series over `ℂ_p`. For (b), multiplication by
+`α ∈ 𝒪_K` is an isogeny of degree `αᾱ` from a CM lattice to itself, so 3.4 (c) applies; the general `(δ, s)` follow
+because both series depend continuously, coefficient by coefficient, on `(δ, s)` and `𝒪[[y]]` is closed under such
+limits (3.2 (a)). For (c), the series of (b) for `α` is `1` plus terms of degree at least two, with coefficient
+`ι(α(ᾱ − α))·g″(0)/2` in degree two, integral by 3.2 (a); the difference of these coefficients for `α = ω̄` and `α = ω`
+is `ι(√−d)·g″(0)/2`.
 
 Let `C` be a normalised pointed lattice and `p` a prime. Put `g := −log θ ∈ ℂ_p[[z]]`, the formal logarithm of the Taylor
 series of `θ` read through `ι` (constant term `1`), so `g(0) = 0`, the linear coefficient of `g` vanishes, and
@@ -603,8 +643,9 @@ Let now `C` be a CM lattice.
 the closure of `{(ι(α), ι(αᾱ)) : α ∈ 𝒪_K}`: `y(δz) ∈ 𝒪[[y]]` and `exp(s·g(z) − g(δz)) ∈ 𝒪[[y]]`.
 (c) `ι(α(ᾱ − α))·g″(0)/2 ∈ 𝒪` for every `α ∈ 𝒪_K`, and `ι(√−d)·g″(0) ∈ 𝒪`.
 
-The library has the classical `(σ′/σ)′ = −℘` for the Weierstrass product (`PeriodPair.hasDerivAt_logDeriv_weierstrassSigma`);
-(a) is stated for the `σ` of 1.2 and as an identity of series over `ℂ_p`.
+On Tau Ceti's main branch, later than the revision pinned here: the classical `(σ′/σ)′ = −℘` for the Weierstrass
+product (`PeriodPair.hasDerivAt_logDeriv_weierstrassSigma`). (a) is stated for the `σ` of 1.2 and as an identity of
+series over `ℂ_p`.
 
 The nearest existing statement to (c) is ThetaChainsOnDefiniteUnitaryGroups §3.1c (a). By the comparison of 1.2,
 `g″(0) = ℘(t) + s₂(Λ_C) = s₂ + b₂/12`, with `b₂ = a₁²` the coefficient of the model `y² + a₁xy = x³ + x`. For the
@@ -628,13 +669,16 @@ the closure is `New.normPairClosure` of `Lib/General/NumberTheory/PadicLimitsVal
 
 ### 3.6 The group law is integral in `y`
 
-*Origin:* adapted from the published theory of the formal group law of a Weierstrass curve (its coefficients lie in the
-ring of definition): here for the cubic of a CM lattice, in the parameter `y` at the image of the point `t`, through the
-complex uniformisation.
+*Origin:* adapted from the theory of the formal group of a Weierstrass curve, whose group law has its coefficients in
+the ring of definition (Silverman, *The Arithmetic of Elliptic Curves*, IV.1 and IV.2): here for the cubic of a CM
+lattice, in the parameter `y` at the image of the point `t`, through the complex uniformisation.
 
-*Method of the formal proof:* Euler's addition formula for the cubic writes an explicit element of
-`𝒪[[y(z₀), y(z₁)]]` (the factor `1 − x(z₀)x(z₁)` has constant term `1`, hence is invertible there); it equals `y(z₀ + z₁)`
-because both are killed by `∂/∂z₀ − ∂/∂z₁` and agree at `z₀ = 0`.
+*Method of the formal proof:* (a) is algebra of substitution in several variables, as in 3.2 (a). For (b): over `ℂ_p`
+a series in `z₀`, `z₁` is determined by its restriction to `z₀ = 0` and its image under `∂/∂z₀ − ∂/∂z₁`, and for
+`y(z₀ + z₁)` these are `y(z₁)` and `0`. A second series with the same restriction and image comes from Euler's addition
+formula on the cubic `y² + a₁xy = x³ + x` (the check uses the equation and the differential equations of 1.4 (f)); it is
+formed by sums and products from `a₁`, the series `x(z_i)`, `y(z_i)` and `1/(1 − x(z₀)x(z₁))`, whose denominator has
+constant term `1`, so by 3.2 (b) and (a) it lies in `𝒪[[y(z₀), y(z₁)]]`.
 
 Let `C` be a CM lattice and `p` a prime. For linear forms `μ_1, …, μ_k` over `ℂ_p` in variables `z_1, …, z_n` let
 `𝒪[[y(μz)]] := {G(y(μ_1z), …, y(μ_kz)) : G ∈ 𝒪[[Y_1, …, Y_k]]}`.
@@ -658,8 +702,8 @@ is integral, and the identification of the analytic addition with the formal gro
 ## Layer 4: The formal group at a prime
 
 At a prime `p` the multiplication by `π_p` (`√−d` at `d`, `p` otherwise) acts on the parameter `y` by an integral series
-whose reduction has order at most `q_p` (4.2, a bound for the height of the formal group in the spirit of Deuring's
-criterion, here at every prime). The part `T` of `y` in the degrees `≡ 1 (mod q_p − 1)` is then a Lubin–Tate parameter:
+whose reduction has order at most `q_p` (4.2; as in Deuring's criterion, this limits the height of the formal group, here
+at every prime). The part `T` of `y` in the degrees `≡ 1 (mod q_p − 1)` is then a Lubin–Tate parameter:
 `T(π_pz) = π_pT + b₁T^{q_p} + ⋯` with a unit `b₁`, and after the scaling `ϖ^{q_p−1} = −π_p/b₁` the series `T(ϖz)/ϖ` is
 congruent to `Σ_j z^{q_p^j}` modulo `π_p` (4.3).
 
@@ -667,8 +711,8 @@ congruent to `Σ_j z^{q_p^j}` modulo `π_p` (4.3).
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* definitions; the values are computations with the splitting of `p` in `K`, and the sum for
-`γ_p` is a geometric series.
+*Method of the formal proof:* definitions; (a), (c) and (d) are computations from the decomposition of `p` in `K`, and
+(b) sums geometric series.
 
 For a prime `p`:
 - `π_p := √−d` if `p = d`, and `π_p := p` otherwise; `v(π_p) := 1/2` if `p = d` and `1` otherwise;
@@ -699,18 +743,22 @@ Facts:
 
 ### 4.2 The inseparable degree
 
-*Origin:* adapted from the published theory of the reduction of isogenies of elliptic curves (the inseparable degree of
-the reduction is at most the degree; Deuring's criterion): here for the multiplications by elements of `𝒪_K` on a CM
+*Origin:* adapted from the theory of the reduction of isogenies of elliptic curves (the inseparable degree of the
+reduction is at most the degree; Deuring's criterion: Deuring, *Die Typen der Multiplikatorenringe elliptischer
+Funktionenkörper*; Blake, *A Deuring criterion for abelian varieties*, Theorem 1.1; Bluher, *Formal groups, elliptic
+curves, and some theorems of Couveignes*, 3.2 and 6.1): here for the multiplications by elements of `𝒪_K` on a CM
 lattice, as the order modulo `𝔪` of `y(αz)` in the parameter `y`, at every prime.
 
-*Method of the formal proof:* the order modulo `𝔪` is multiplicative under products and substitution, because the residue
-ring of `𝒪` is a field. For `α ≠ 0` of norm `ν`, `t/α` is a torsion point, `σ(αz)²` is a section of degree `2ν` with
-integral torsion values, and 3.3 writes it as `θ^{2ν}·R(x)` with `R` integral of degree at most `ν`; evaluating at
-the torsion point `t/α`, where the torsion value is `σ[t]²`, a unit by 3.1 (e), gives a unit coefficient of `R` in a
-degree at most `ν`; since `θ(αz) = θ^ν·v` with `v ∈ 𝒪[[y]]` of constant term `1`,
-`x(αz)·v² = R(x)`, and the orders give `2o(α) ≤ 2ν`. At a split prime `p^h = αᾱ` with `ᾱ` a unit, so
-`o(p)^h = o(α) ≤ p^h`. The split element is a generator of a power of the prime of `K` that `ι` induces, which is
-principal because the class group is finite.
+*Method of the formal proof:* (a): over the residue field of `𝒪` orders add under products and multiply under
+substitution (Tau Ceti `PowerSeries.order_subst`); the cubic of 1.4 (f) reads `y² = x·(1 + x² − a₁y)` with a unit
+second factor, so `ord(x) = 2`; and the linear coefficient of `y(αz)` is `ι(α)`. (b): for `ν := αᾱ`, the even section
+`σ(αz)²` of degree `2ν` (1.5 (c)) has integral torsion values (3.1), so by 3.3 (b) its series is `θ^{2ν}R(x)` with
+`R` integral and `deg R ≤ ν`. Its torsion value at `t/α` is that of `σ²` at `t` (3.1 (a)), a unit (3.1 (e)), so some
+coefficient of `R` in degree at most `ν` is a unit. By 3.4 (c), `θ(αz)` is `θ^ν` times a unit of `𝒪[[y]]`, so
+`x(αz) = σ(αz)²/θ(αz)²` is a unit times `R(x)`, and comparing orders gives `2o(α) ≤ 2ν`. (c): a power of the prime of
+`K` above `p` selected by `ι` is principal (the class group is finite), and its generator `α` has the required
+properties. (d) is (b) for `π_p` if `p` does not split (4.1 (d)); if `p` splits, (a)–(c) give
+`o(p)^h = o(α)·o(ᾱ) = o(α) ≤ p^h`.
 
 Let `C` be a CM lattice, `p` a prime. For `f ∈ 𝒪[[y]]` write `f = G(y)` with `G ∈ 𝒪[[Z]]` (3.2 (a)) and let `ord(f)` be the
 order of the reduction of `G` modulo `𝔪` (`∞` if it is `0`). For `α ∈ 𝒪_K`, `y(αz) ∈ 𝒪[[y]]` (3.4 (c)); put
@@ -721,9 +769,10 @@ and `o(α) = 1` if `ι(α)` is a unit.
 (c) If `p` splits in `K`, there are `h ≥ 1` and `α ∈ 𝒪_K` with `αᾱ = p^h` and `|ι(ᾱ)| = 1`.
 (d) `o(π_p) ≤ q_p`.
 
-The library has, over a field, that the order of the formal series of an isogeny is its inseparable degree
-(`TauCeti.Isogeny.order_formalSeries`, with `TauCeti.Isogeny.separableDegree_mul_inseparableDegree`); it has no
-reduction of isogenies with control of the degree.
+The library has, over a field, the inseparable degree of an isogeny (`TauCeti.Isogeny.inseparableDegree`, with
+`TauCeti.Isogeny.separableDegree_mul_inseparableDegree`), but no formal series of an isogeny and no reduction of
+isogenies with control of the degree. On Tau Ceti's main branch, later than the revision pinned here: over a field, the
+order of the formal series of an isogeny is its inseparable degree (`TauCeti.Isogeny.order_formalSeries`).
 
 *Needs:* 3.1, 3.2, 3.3, 3.4, 4.1; Tau Ceti `PowerSeries.order_subst`.
 
@@ -737,19 +786,23 @@ reduction of isogenies with control of the degree.
 
 ### 4.3 The formal parameter and multiplication by `π_p`
 
-*Origin:* adapted from the published theory of Lubin–Tate formal groups (the functional equation `Y(πz) = πG(Y)` and the
-congruence `[π](Z) ≡ Z^q`): here, at every prime `p` (split, inert and `p = d`), for the part `T` of the coordinate `y` of
-a CM lattice in the degrees `≡ 1 (mod q_p − 1)`, with the exact scaling `ϖ` of valuation `ρ_p`.
+*Origin:* adapted from Lubin and Tate, *Formal complex multiplication in local fields* (the functional equation
+`Y(πz) = πG(Y)` and the congruence `[π](Z) ≡ Z^q`): here, at every prime `p` (split, inert and `p = d`), for the part
+`T` of the coordinate `y` of a CM lattice in the degrees `≡ 1 (mod q_p − 1)`, with the exact scaling `ϖ` of valuation
+`ρ_p`.
 
-*Method of the formal proof:* (a) solves the functional equation degree by degree: in degree `n` it gives
-`(π^{n−1} − 1)·Y_n` in terms of lower coefficients, and `π^{n−1} − 1` is a unit; modulo `π` the equation reduces to
-`Y(πz) ≡ 0`, which gives `Y − Y^q ≡ z`, and in characteristic `p` the equation `S − S^q = z` determines `S = Σ_j z^{q^j}`.
-(c) The approximants of `(ζ, ζ^{p+1})` are `α^{q_p^n}` for an `α ∈ 𝒪_K` that lifts the residue of `ζ` while `ᾱ` lifts that
-of `ζ^p`. (d) `T` is the mean of `ζ^{−1}y(ζz)` over the `(q_p − 1)`-th roots of unity `ζ`, which lie in `𝒪[[y]]` by (c) and
-3.5 (b); so `𝒪[[T]] = 𝒪[[y]]`. Writing `T(π_pz) = g(T)` with `g ∈ 𝒪[[Z]]`, `g` has only the degrees `≡ 1 (mod q_p − 1)`
-because `T` and `T(π_pz)` do; if `b₁` were not a unit, the order of `g` modulo `𝔪` would exceed `q_p`, against 4.2 (d).
-(e) Take `ϖ^{q_p−1} = −π_p/b₁`; then `Y := T(ϖz)/ϖ` satisfies `Y(π_pz)/π_p = Y − Y^{q_p} + π_pE(Y)` with `E` integral of
-order at least two, and (a) applies.
+*Method of the formal proof:* (a): the coefficient of `z^n` in `Y(πz) = πG(Y)` determines the `n`-th coefficient of
+`Y`, multiplied by the unit `π^{n−1} − 1`, from the lower ones, which gives integrality by induction; reducing the
+equation modulo `π` gives the congruence for `Y − Y^q`, and over the residue ring, of characteristic `p`, the series
+`Σ_j z^{q^j}` is the only `S` with `S(0) = 0` and `S − S^q = z`. (b) is the orthogonality of the `m`-th roots of unity.
+(c): if `α ∈ 𝒪_K` reduces under `ι` to the residue of `ζ` and `ᾱ` to that of `ζ^p`, then the pairs belonging to the
+powers `α^{q_p^n}` converge to `(ζ, ζ^{p+1})`, and 3.5 (b) applies. (d): by (b), `T` is the mean of the series
+`ζ^{−1}y(ζz)` over the `(q_p − 1)`-th roots of unity, which lie in `𝒪[[y]]` by (c); as `T = z + O(z²)`, 3.2 (a) gives
+`𝒪[[T]] = 𝒪[[y]]`. By 3.5 (b) and 3.2 (a), `T(π_pz)` is an integral series `g_p` in `T`, and by (b) only degrees
+`≡ 1 (mod q_p − 1)` occur in it; if `b₁` were not a unit, the reduction of `g_p` modulo `𝔪` would have order greater
+than `q_p`, against 4.2 (d). (e): with `ϖ^{q_p−1} = −π_p/b₁`, the series `T(ϖz)/ϖ` satisfies an equation of the form
+of (a) for `π = π_p` and `q = q_p`, and `|ϖ| = p^{−ρ_p}` by 4.1 (d). (f) follows from (e), and for the low degrees
+from `T ≡ z` modulo `z^{q_p}`.
 
 Let `p` be a prime, `ι : ℂ → ℂ_p` a ring homomorphism, and `q > 1` an integer.
 (a) *A functional equation.* Let `π ∈ 𝒪` with `0 < |π| < 1`, `G ∈ 𝒪[[Z]]` with `G = Z + O(Z²)`, and `Y ∈ ℂ_p[[z]]` with
@@ -792,19 +845,23 @@ Taylor series of `x`, `y`, `θ` are the conjugates (5.2); sections and isogenies
 for the lattice `Ω₀𝒪_K`, the action of `σ` on the Taylor series of the translates of `θ` by points of `KΩ₀` through one
 finite adele, without the reciprocity law (5.3). Summing Kronecker's formula over the classes and comparing with
 `ζ(s)L(s, χ_K)` gives the Chowla–Selberg class mean (5.4); with the unit discriminant and the transport of isogenies,
-one number `u`, a unit at every prime, scales every conjugate lattice to the area of the mean (5.5).
+the conjugates of a single number `u`, of absolute value one at every prime, rescale each conjugate lattice to the area
+that the mean gives (5.5).
 
 ### 5.1 Kronecker's first limit formula
 
-*Origin:* adapted from the published theory of Kronecker's first limit formula: here a one-sided real expansion at
-`s = 1` for every lattice, with the constant written through the area and the discriminant `g₂³ − 27g₃²`, without
-analytic continuation.
+*Origin:* adapted from Kronecker's first limit formula (Siegel, *Lectures on Advanced Analytic Number Theory*, Chapter I,
+Theorem 1; a proof along the same lines: Chamizo, *A simple evaluation of a theta value, the Kronecker limit formula and
+a formula of Ramanujan*, Prop. 3.1): here a one-sided real expansion at `s = 1` for every lattice, with the constant
+written through the area and the discriminant `g₂³ − 27g₃²`, without analytic continuation.
 
-*Method of the formal proof:* writing `Λ = a(ℤτ + ℤ)`, each row `Σ_n |mτ + n|^{−2s}`, `m ≥ 1`, is compared by the mean
-value theorem with the integral `∫|mτ + u|^{−2s}du`, a beta factor times `|m·Im τ|^{1−2s}`; the errors sum to a function
-continuous on `[1, 2]`, the integrals to a multiple of `ζ(2s − 1)` with its simple pole at `s = 1`. At `s = 1` the
-partial fractions of the cotangent express the sum of the errors through `log|∏_{n≥1}(1 − q^n)|`, `q = e^{2πiτ}`, and the
-product expansion of the discriminant `(2π/a)^{12}Δ(τ)` gives `log|Δ(Λ)|`.
+*Method of the formal proof:* the lattice is written `a(ℤτ + ℤ)` with `Im τ > 0` (see Needs), and the sum is taken
+row by row. For `m ≥ 1` the sum over `n` of `|mτ + n|^{−2s}` is replaced by the integral of `|mτ + u|^{−2s}` over
+`u ∈ ℝ`, a beta factor times `|m·Im τ|^{1−2s}`; summed over `m`, these integrals give a multiple of `ζ(2s − 1)`, whose
+pole at `s = 1` produces the main term, while the differences between sums and integrals, bounded with the mean value
+theorem, add up to a function continuous for `1 ≤ s ≤ 2`. Its value at `s = 1` is computed from the partial fraction
+expansion of the cotangent, which brings in `log|∏_{n≥1}(1 − q^n)|`, `q = e^{2πiτ}`; the product formula
+`Δ(Λ) = (2π/a)^{12}Δ(τ)`, with `Δ(τ) = q∏_{n≥1}(1 − q^n)^{24}`, turns this into `log|Δ(Λ)|`.
 
 Let `Λ` be a lattice of area `A` and `Δ = Δ(Λ) = g₂³ − 27g₃²`, and let `k > 0`. There is `F : ℝ → ℝ` with
 `F(s) = (s − 1)·Σ_{0≠l∈Λ} (|l|²/(kA))^{−s}` for `1 < s < 2` (the series converges), `F(1) = πk`, and right derivative at
@@ -821,18 +878,23 @@ Tau Ceti `UpperHalfPlane.g₃_periodPair`, Tau Ceti `UpperHalfPlane.weierstrassC
 
 ### 5.2 Conjugate CM lattices
 
-*Origin:* adapted from Shimura (1976), theta functions with complex multiplication and the algebraicity of their values:
-here, for one variable, the existence of a CM lattice with conjugate `a₁`, the conjugation of the Taylor series of `x`,
-`y`, `θ` and of the sections, and the transport of isogenies, all without the reciprocity law.
+*Origin:* adapted from the main theorem of complex multiplication for elliptic curves (see 5.3): here the existence of
+a CM lattice with conjugate `a₁`, the conjugation of the Taylor series of `x`, `y`, `θ` and of the sections, and the
+transport of isogenies, all without the reciprocity law.
 
-*Method of the formal proof:* `x`, `y` vanish at `0` and solve the system `x′ = 2y + a₁x`, `y′ = 1 + 3x² − a₁y`, which
-determines their coefficients from `a₁`. A point `z` of the conjugate lattice gives the point `σ^{−1}(x(z), y(z))` of the
-cubic of `C`, which by uniformisation is `(x(u), y(u))`; the monomials transport, and they span the sections (1.5 (f)).
-The conjugate lattice is the lattice with invariants `σ(g₂)`, `σ(g₃)` (uniformisation), with `t` a point where
-`℘ = σ(℘(t_C))`. For the theta functions, `q := θ_D/σ(θ_C)` satisfies `q(ωz) = q^{ωω̄}` (transport of the isogeny `ω`); if
-`q − 1` had a lowest term `cz^n`, then `ω^n = ωω̄`, forcing `n = 2` and `ω` real. For isogenies, the sections of `C′`
-corresponding to `σ_D(az)²` and `θ_D(az)` have the quotient `σ_{D′}²/θ_{D′}²` at `σ(a)z`, and their zeros locate the
-periods.
+*Method of the formal proof:* (a): by 1.4 (f), `x` and `y` are the solution without constant terms of a system of
+differential equations whose coefficients are polynomials in `a₁` with integer coefficients, and the system fixes all
+their coefficients. (b): the monomials `M_e` have the series `θ^{deg e}x^by^c` (1.4 (f)), so (a) transports them, and
+they span the sections (1.5 (f)); the point `u` is obtained by uniformisation (see Needs) from the preimage under `σ` of
+the point of the cubic of `C′` with coordinates `x(z)`, `y(z)`. (c): `g₂` and `g₃` are polynomials in `a₁` (1.3,
+1.4 (c)), so uniformisation gives a lattice with the conjugate invariants, and on any such lattice the point of order
+two at which `℘` takes the conjugate value of `℘(t)` gives a normalised pointed lattice `C′` with
+`a₁(C′) = σ(a₁(C))`. It is a CM lattice by (d), whose proof does not use (c), applied with `D = C` and `D′ = C′` to
+the multiplications by the elements `a` of `𝒪_K`, for which `σ(a) = a`: they map `Λ_{C′}` into itself, and
+`at_{C′} ∈ Λ_{C′}` would give `at_C ∈ Λ_C`, so `ωt_{C′}, ω̄t_{C′} ∉ Λ_{C′}`. (d): by (b), the sections `σ_D(az)²` and
+`θ_D(az)` of `C` (1.5 (c)) correspond to sections of `C′` whose quotient is `σ_{D′}(σ(a)z)²/θ_{D′}(σ(a)z)²`, and their
+zeros (1.2 (c), 1.4 (a)) locate the periods. (e): by (b), applied to the isogeny `z ↦ ωz` (1.5 (c)), `Q(ωz) = Q(z)^{ωω̄}`;
+a lowest term of `Q − 1` in degree `n` would force `ω^n = ωω̄`, impossible since `|ω| > 1` and `ω` is not real.
 
 Let `σ` be a field automorphism of `ℂ`.
 (a) If `C`, `C′` are normalised pointed lattices with `a₁(C′) = σ(a₁(C))`, the Taylor series at `0` of `x_{C′}`, `y_{C′}`
@@ -866,17 +928,24 @@ series of every monomial of `D` is the conjugate of that of `C`.
 
 ### 5.3 Complex multiplication for translates of `θ`
 
-*Origin:* adapted from Shimura (1976), theta functions with complex multiplication and the algebraicity of their values:
-here, for `K = ℚ(√−d)` and the lattice `Ω₀𝒪_K`, the action of an automorphism of `ℂ` over `K` on the Taylor series of
-the translates of `θ` by the points of `KΩ₀`, through one finite adele of `K`, with the conjugate lattice `Ω′𝔠²/N(𝔠)`;
-the adele is not identified with an Artin symbol.
+*Origin:* adapted from the main theorem of complex multiplication for elliptic curves (Shimura, *Introduction to the
+Arithmetic Theory of Automorphic Functions*, Thm 5.4; Milne, *Complex Multiplication*, 9.17): here, for `K = ℚ(√−d)`
+and the lattice `Ω₀𝒪_K`, the action of an automorphism of `ℂ` over `K` on the Taylor series of the translates of `θ`
+by the points of `KΩ₀`, through one finite adele of `K`, with the conjugate lattice `Ω′𝔠²/N(𝔠)`; the adele is not
+identified with an Artin symbol.
 
-*Method of the formal proof:* for a finite `S ⊂ K` take `n ≠ 0` with `nS ⊂ 𝒪_K` and write `Ω₀ = 2n²w`; transporting
-(5.2 (b)) from `D` back to `C`, a point `w′` of `D` matches `w`, and `v := 2n²w′`. The transport of `(T¹_{sv}θ_D)(nz)`
-vanishes at the zeros of `(T¹_{sΩ₀}θ_C)(nz)`, so it is a constant multiple of it (1.5 (e)), and comparing values gives the
-constant `1`. For (b), the numbers `b_S` with `v = Ω′b_S` lie in the compact set `e^{−1}Ô` of finite adeles and have a
-cluster point `β`; a translate of `θ` by `x′Ω′` depends only on `x′` modulo `2me·𝒪_K` when `mx` is integral, which turns
-the finite approximations into a neighbourhood of `βx`. The lattice of `C^σ` is `w𝔠²` by 2.1 (d), and `Ω′ := wN(𝔠)`.
+*Method of the formal proof:* (a): after a multiplication `z ↦ nz` that makes `nS` integral, the translates of `θ_C` by
+the points `sΩ₀` become sections of `C` (1.5 (d)). The transport 5.2 (b) between `C` and `D` (with `Q = 1` by 5.2 (e))
+matches a point of `Λ_D` with `Ω₀` and so defines `v`; the transported sections and the corresponding translates of `θ_D`
+have the same zeros, so by the division 1.5 (e) they differ by a constant factor. To see that it is `1`, the proof
+evaluates at the points where `nz` is `−sΩ₀/2` (for `C`) and `−sv/2` (for `D`), which the transport matches: there a
+translate by `sΩ₀`, resp. `sv`, has the value of `θ_C` at `sΩ₀/2`, resp. of `θ_D` at `sv/2`, and the transport of
+`θ_C(nz)`, which is `θ_D(nz)` by 5.2 (e), relates these two values in the same way; so the factor is `1` unless
+`θ_C(sΩ₀/2) = 0`, and in that case the values at `0`, which are `−1` on both sides, give it. (b): by 2.1 (d) the
+lattice of `C^σ` is `w𝔠²` for an integral ideal `𝔠`, and `Ω′ := wN(𝔠)`. For growing finite sets `S`, the points `v` of
+(a) are `Ω′` times elements of a fixed compact set of finite adeles (see Needs), and the adele `β` is a cluster point.
+Since a translate of `θ_{C^σ}` by `x′Ω′` does not change when `x′` moves by a suitable multiple of `𝒪_K` (1.4 (a)), the
+finite approximations give the neighbourhoods of `βx`.
 
 Let `C` be a CM lattice with `Λ_C = Ω₀𝒪_K`, `Ω₀ ∈ ℂ^×`, and `σ` an automorphism of `ℂ` over `K`.
 (a) If `D` is a CM lattice with `a₁(D) = σ(a₁(C))`, then for every finite `S ⊂ K` there is `v ∈ Λ_D` such that for all
@@ -904,15 +973,17 @@ action on the Taylor coefficients of translates of `θ`, which is what is used.
 
 ### 5.4 The Chowla–Selberg formula as a class mean
 
-*Origin:* adapted from Chowla and Selberg (1967), the class mean of the logarithmic periods, read off the constant terms
-at `s = 1` through Kronecker's limit formula: here for `K = ℚ(√−d)` with `d` a prime `≡ 7 (mod 8)`, with the period
-written through the area and the discriminant `g₂³ − 27g₃²`.
+*Origin:* adapted from Selberg and Chowla, *On Epstein's zeta-function* (1967), and Gross, *On the periods of abelian
+varieties*: the class mean of the logarithmic periods, read off the constant terms at `s = 1` through Kronecker's limit
+formula, with the factorisation of the Dedekind zeta function of `K` and its splitting over the ideal classes
+(Neukirch, *Algebraic Number Theory*, VII.5 and VII.10): here for `K = ℚ(√−d)` with `d` a prime `≡ 7 (mod 8)`, with the
+period written through the area and the discriminant `g₂³ − 27g₃²`.
 
-*Method of the formal proof:* for lattices `u_𝒞𝔞_𝒞`, `|l|²√d/(2A_𝒞) = N(y)/N(𝔞_𝒞)` for `l = u_𝒞y`, and grouping the
-ideals by classes (each nonzero integral ideal `I` is `(y)𝔞_𝒞^{−1}` for `w` values of `y` in exactly one class) gives
-(a) from the Euler product `ζ_K(s) = ζ(s)L(s, χ_K)`. Multiplying (a) by `s − 1`, comparing value and right derivative at
-`s = 1` with the sum over the classes of Kronecker's formula 5.1 at `k = 2/√d`, and using `Δ(Λ_𝒞) = a₁⁴ − 64` for CM
-lattices, gives (b).
+*Method of the formal proof:* (a): by 2.1 (c), the term of `l = u_𝒞y` is `N(y𝔞_𝒞^{−1})^{−s}`, a power of the norm of an
+integral ideal; every nonzero integral ideal arises in this way from exactly one class and from `w` elements `y`, so
+the left side is `w·ζ_K(s)`, and `ζ_K = ζ·L(·, χ_K)` (see Needs). (b): Kronecker's formula 5.1 with `k = 2/√d`, summed
+over the classes, gives the value and the right derivative at `s = 1` of `s − 1` times the left side of (a); computing
+the same two numbers from `w·ζ(s)L(s, χ_K)` and comparing gives (b). For CM lattices, `Δ = a₁⁴ − 64` (1.4 (c)).
 
 Let `d` be a prime `≡ 7 (mod 8)`, `w = 2` the number of units of `𝒪_K`, and for each class `𝒞 ∈ Cl(K)` a lattice
 `Λ_𝒞 = u_𝒞𝔞_𝒞` with `u_𝒞 ∈ ℂ^×` and `[𝔞_𝒞] = 𝒞`, of area `A_𝒞`.
@@ -938,15 +1009,16 @@ a target with this route so that the family does not depend on the heights of th
 
 ### 5.5 Chowla–Selberg for the conjugates of one CM lattice
 
-*Origin:* particular to this proof: one number `u`, a unit at every prime, whose conjugates scale every conjugate lattice
-of a CM lattice to the area `π·exp(γ − (L′/L)(1, χ_K))·2π/√d` that the Chowla–Selberg class mean gives.
+*Origin:* particular to this proof: a single number `u`, of absolute value one at every prime, such that for each
+automorphism `σ` of `ℂ` over `K` the conjugate lattice of a CM lattice, rescaled by `σ(u)`, has the area
+`π·exp(γ − (L′/L)(1, χ_K))·2π/√d` that the Chowla–Selberg class mean gives.
 
-*Method of the formal proof:* choose ideals `𝔠_𝒞`, one in each class, with `∏_𝒞 𝔠_𝒞 = (1)`, and CM lattices `D_𝒞` with
-`Λ_{D_𝒞} = μ_𝒞·𝔠_𝒞·Λ_C` (2.1 (b)); the product of the `|ι(μ_𝒞)|` is `1` at every `p`, as each `μ_𝒞` and its inverse
-times the ideal multiply lattices into lattices (3.4 (d)). Let `u` be a `12h`-th root of
-`∏_𝒞 μ_𝒞^{12}·(a₁(D_𝒞)⁴ − 64)`; it is a unit at every `p` by 2.2 (d). For `σ` over `K` the lattices of the `(D_𝒞)^σ` are
-`σ(μ_𝒞)·𝔠_𝒞·Λ_{C^σ}` (5.2 (d)), so they represent every class once, and the product of
-`area·|a₁⁴ − 64|^{1/6}` over them is `(area(Λ_{C^σ})·|σ(u)|²)^h`; 5.4 (b) gives its value.
+*Method of the formal proof:* fix fractional ideals `𝔠_𝒞`, one in each class, with `∏_𝒞 𝔠_𝒞 = (1)`, and by 2.1 (b) CM
+lattices `D_𝒞` with `Λ_{D_𝒞} = μ_𝒞·𝔠_𝒞·Λ_C`. By 3.4 (d), `μ_𝒞c` is integral at every prime for `c ∈ 𝔠_𝒞`, and so is
+`μ_𝒞^{−1}c′` for `c′ ∈ 𝔠_𝒞^{−1}`; as the product of the ideals is `(1)`, `∏_𝒞 μ_𝒞` is a unit at every prime. With
+2.2 (d), a `12h`-th root `u` of `∏_𝒞 μ_𝒞^{12}·(a₁(D_𝒞)⁴ − 64)` is then a unit at every prime. For `σ` over `K`, 5.2 (d)
+gives the lattices `σ(μ_𝒞)·𝔠_𝒞·Λ_{C^σ}` for the conjugates of the `D_𝒞`, one in each class; their areas (2.1 (c)) and
+discriminants, inserted in 5.4 (b), give the area of `Λ_{C^σ}` times `|σ(u)|²`.
 
 Let `d` be a prime `≡ 7 (mod 8)` and `C` a CM lattice. There is `u ∈ ℂ` such that `|ι(u)| = 1` for every prime `p` and
 every ring homomorphism `ι : ℂ → ℂ_p`, and such that for every automorphism `σ` of `ℂ` over `K`
@@ -970,17 +1042,14 @@ area of each conjugate lattice separately.
   formula `TauCeti.Multiquadratic.twoRank_eq_ncard_ramifiedPrimes_sub_one` with
   `TauCeti.Multiquadratic.ramifiedPrimes_eq_singleton` (one ramified prime, so 2-rank `0`), and the statements for a
   commutative group `G`, applied to `G = Cl(K)`, `TauCeti.card_elementaryTwoQuotient_eq_two_pow_twoRank` (its form for
-  class groups, with the 2-rank `ClassGroup.twoRank` of the formula, is
-  `ClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`) and `TauCeti.card_elementaryTwoQuotient_eq_index_square`.
+  class groups, with the 2-rank `TauCeti.ClassGroup.twoRank` of the formula, is
+  `TauCeti.ClassGroup.card_elementaryTwoQuotient_eq_two_pow_twoRank`) and
+  `TauCeti.card_elementaryTwoQuotient_eq_index_square`.
 - `ζ_K(s) = ζ(s)·L(s, χ_K)` for a quadratic field and `Re s > 1`:
-  `TauCeti.NumberField.dedekindZeta_eq_riemannZeta_mul_LFunction` (continued:
-  `TauCeti.LFunctions.dedekindZetaC_eq_riemannZeta_mul_LFunction`); the Dirichlet series of the ideal classes sum to
+  `TauCeti.NumberField.dedekindZeta_eq_riemannZeta_mul_LFunction`; the Dirichlet series of the ideal classes sum to
   `ζ_K`: `TauCeti.LFunctions.sum_LSeries_rayClassCoeff_one`.
-- Uniformisation: every `(a, b)` with `a³ − 27b² ≠ 0` is `(g₂, g₃)` of a lattice: `PeriodPair.exists_g₂_g₃_eq`.
-- `℘″ = 6℘² − g₂/2`: `PeriodPair.deriv_derivWeierstrassP`; `℘′(z) = 0` if and only if `2z ∈ Λ`:
-  `PeriodPair.derivWeierstrassP_eq_zero_iff`; every point of the cubic of a lattice is the image of some `z`:
-  `PeriodPair.weierstrassPoint_surjective` (with `PeriodPair.exists_weierstrassP_eq`); `Δ(Λ) ≠ 0`:
-  `PeriodPair.weierstrassCurve_Δ_ne_zero`.
+- Every point of the cubic of a lattice is the image of some `z`: `PeriodPair.weierstrassPoint_surjective` (with
+  `PeriodPair.exists_weierstrassP_eq`); `Δ(Λ) ≠ 0`: `PeriodPair.weierstrassCurve_Δ_ne_zero`.
 - Every lattice is `a(ℤτ + ℤ)` with `τ` in the upper half-plane: `PeriodPair.exists_lattice_eq_smul_periodPair`; `g₂`,
   `g₃`, `Δ` through `E₄(τ)`, `E₆(τ)`, `Δ(τ)`: `UpperHalfPlane.g₂_periodPair`, `UpperHalfPlane.g₃_periodPair`,
   `UpperHalfPlane.weierstrassCurve_Δ_periodPair`.
@@ -994,9 +1063,42 @@ area of each conjugate lattice separately.
 - The integral finite adeles `Ô` of a number field are compact:
   `IsDedekindDomain.FiniteAdeleRing.isCompact_integralAdeles`.
 
+On Tau Ceti's main branch, later than the revision pinned here:
+
+- `ζ_K(s) = ζ(s)·L(s, χ_K)` continued to `s ≠ 1`: `TauCeti.LFunctions.dedekindZetaC_eq_riemannZeta_mul_LFunction`.
+- Uniformisation: every `(a, b)` with `a³ − 27b² ≠ 0` is `(g₂, g₃)` of a lattice: `PeriodPair.exists_g₂_g₃_eq`.
+- `℘″ = 6℘² − g₂/2`: `PeriodPair.deriv_derivWeierstrassP`; `℘′(z) = 0` if and only if `2z ∈ Λ`:
+  `PeriodPair.derivWeierstrassP_eq_zero_iff`.
+
 ## Results taken from other roadmaps
 
 - Good reduction of the duplication map on the `x`-coordinate: for a Weierstrass curve with unit discriminant the
   homogenised `(Φ₂, ΨSq₂)` have unit resultant, and a lift with unit resultant multiplies the maximum norm by the power
   `4`. ArithmeticDynamics §6.3 (the resultant bullet) and ArithmeticDynamics §2.32; used in 3.1 for the forms `F_c` of
   1.6 and the curve `y² + a₁xy = x³ + x` over `ℂ_p`.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/CM`.
+- Bannai, Kobayashi, *Algebraic theta functions and the p-adic interpolation of Eisenstein–Kronecker numbers*, Duke
+  Math. J. 153 (2010), 229–295 (3.3).
+- Birch, *Weber's class invariants* (1969) (2.2, 3.1).
+- Blake, *A Deuring criterion for abelian varieties*, arXiv 1311.5454, Theorem 1.1 (4.2).
+- Bluher, *Formal groups, elliptic curves, and some theorems of Couveignes*, ANTS-III, LNCS 1423 (1998), 3.2 and 6.1, in
+  the numbering of arXiv math/9708215 (4.2).
+- F. Chamizo, *A simple evaluation of a theta value, the Kronecker limit formula and a formula of Ramanujan*, Ramanujan
+  J. (2022), Prop. 3.1 (5.1).
+- Deuring, *Die Typen der Multiplikatorenringe elliptischer Funktionenkörper* (4.2).
+- NIST DLMF, Chapters 20 and 23 (1.6).
+- B. Gross, *On the periods of abelian varieties*, arXiv 2005.04194 (5.4).
+- Kubert, Lang, *Modular Units* (2.2, 3.1).
+- Lubin, Tate, *Formal complex multiplication in local fields* (4.3).
+- J. Milne, *Complex Multiplication* (2020), 9.17 (5.3).
+- J. Neukirch, *Algebraic Number Theory* (1999), VII.5 and VII.10 (5.4).
+- A. Selberg, S. Chowla, *On Epstein's zeta-function*, J. reine angew. Math. 227 (1967), 86–110 (5.4).
+- G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions* (1971), Thm 5.4 (5.3).
+- C. L. Siegel, *Lectures on Advanced Analytic Number Theory* (1961), Chapter I, Theorem 1 (5.1).
+- J. Silverman, *The Arithmetic of Elliptic Curves*: VI (1.2); IV.1 and IV.2 (3.6); without a place (3.4).
+- J. Silverman, *Advanced Topics in the Arithmetic of Elliptic Curves* (1994): I.5 (1.2); without a place (2.1).
+- A. Weil, *Elliptic Functions according to Eisenstein and Kronecker* (1976) (1.2).

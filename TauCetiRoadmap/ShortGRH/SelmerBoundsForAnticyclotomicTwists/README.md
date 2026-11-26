@@ -96,9 +96,10 @@ sizes of complex numbers occur.
 A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c`, with tame part trivial off the chosen places, and an
 integer `1 ≤ z ≤ t` with `z ≤ c(v) ≤ 4b` at every infinite place `v` (DivisibilityOfThetaDerivatives §1.6 (b)); it is
 *ramified* if its tame part is nontrivial exactly at the chosen places (DeterminantsOfThetaLiftChains §1.1 (a)). Its *ratio* at a tame character `ϑ` and a sign `s` is
-`|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, the Euler factors at the chosen places, in the numerator also at the modulus of
-`ϑ`, and at their conjugates being omitted (DeterminantsOfThetaLiftChains §1.1 (b)). Tame characters of `U(1)`, twists and
-`m`-fold twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
+`|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, a quotient of partial `L`-values (DeterminantsOfThetaLiftChains §1.1 (b)): with
+`𝒞` the set of chosen places and `Q_ϑ` the modulus of `ϑ`, the denominator is taken without the Euler factors over
+`𝒞 ∪ 𝒞̄`, and the numerator without those over `𝒞 ∪ Q_ϑ ∪ 𝒞̄ ∪ Q̄_ϑ`. Tame characters of `U(1)`, twists and `m`-fold
+twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
 
 ## Layer 1: Selmer data and the descent
 
@@ -157,7 +158,7 @@ places of `E` and `g₀ ∈ G_E`.
 
 *Needs:* IdelicReciprocityCountsAndCyclotomicClassGroups §§1.1, 1.4, 2.1, 2.2 (the Artin map of a number field `K`, in the geometric normalisation: the continuous
 homomorphism `Art` from the finite ideles of `K` to the abelianised Galois group of `Ω/K` such that, for every
-continuous character `χ` of that group with values in `ℚ/ℤ` and every finite idele `a`, `χ(Art(a))` is the product over
+continuous character `χ` of that group with values in `ℚ/ℤ` and every finite idele `a`, `χ(Art(a))` is the finite sum over
 the finite places `v` of the values of `χ` at the local Artin symbols of the components `a_v`; the local Artin map at
 `v` sends a uniformiser to the class of the inverse of a Frobenius element and a unit to the class of an element of
 the inertia group, at the chosen place of `Ω` above `v`. At a place `A` of `Ω` above a finite place `w` of `K`: the
@@ -193,10 +194,14 @@ Let `E` be a CM field, `ℓ` a prime, `N ≥ 0`, `S` a finite set of finite plac
 data `(φ, γ, λ)` with `λ : G_E → ℤ/ℓ^N`, such that `φ ∈ W`, `λ(φ) = 0`, and the data are auxiliary prime data at `P` for
 `ℓ^N` relative to every set `T′ ⊆ S ∪ {w | ℓ}`.
 
-*Needs:* 1.1; IdelicReciprocityCountsAndCyclotomicClassGroups §2.3 (Chebotarev's density theorem in its existence form: the Frobenius elements at
-primes of degree one outside a finite set are dense in the absolute Galois group; the existence theorem of class
-field theory for a totally complex field: a continuous homomorphism from the finite ideles to a `T₁` group that is
-trivial on the principal ideles factors through the Artin map).
+*Needs:* 1.1; ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem for the Frobenius elements above a
+set of places of Dirichlet density one, applied to the places of prime norm: for every nonempty open set `W ⊆ G_E`
+and every finite set `S` of finite places, some place `v ∉ S` of prime norm has a place `A` of `Ω` above it all of
+whose arithmetic Frobenius elements lie in `W`); Tau Ceti `TauCeti.hasDirichletDensity_compl_higherDegreePrimes` (the
+places of residue degree one over `ℚ`, that is of prime norm, have Dirichlet density one);
+IdelicReciprocityCountsAndCyclotomicClassGroups §2.3 (c) (existence, for the totally complex field `E`: if a continuous
+homomorphism `θ` of the finite ideles into a `T₁` group kills `E^×`, then `θ(x) = μ(g)` whenever `g` represents
+`Art(x)`, for some continuous homomorphism `μ` on `G_E`).
 
 [ShortProof], `New/Congruences/Selmer/AuxiliaryPrimes.lean` (`New.Selmer.exists_isAuxPrimeDataAt`,
 `New.Selmer.exists_anticyclotomicChar_of_frob_fixes_roots`)
@@ -402,8 +407,9 @@ Let `E` be a CM field, `ℓ` a prime, `S₀` a finite set of finite places and `
   character for `Q`, and `φ` is a Frobenius element at a place above `P`.
 - The *number* of `Y` is `β_Y = v(1(Θ_∅)) + 2r·v(ϑ(g₀) − 1)`; it is finite.
 
-*Needs:* 1.1; GaloisRepresentationsOfUnitaryEigenforms §5.3 (the Artin map on finite ideles, and Hilbert's Theorem 90 for the finite ideles of a
-CM field: a finite idele of norm one to the totally real subfield is `x/x̄`).
+*Needs:* 1.1; IdelicReciprocityCountsAndCyclotomicClassGroups §2.2 (the Artin map on finite ideles);
+GaloisRepresentationsOfUnitaryEigenforms §5.3 (Hilbert's Theorem 90 for the finite ideles, applied to the conjugation
+of a CM field: a finite idele of norm one to the totally real subfield is `x/x̄`).
 
 [ShortProof], `New/Congruences/Selmer/StickelbergerSystems.lean` (`New.Selmer.StickelbergerSystem`,
 `New.Selmer.StickelbergerSystem.β`, `New.Selmer.U1ClassGroup`, `New.Selmer.groupRingEval`, `New.Selmer.eulerFactor`)
@@ -448,13 +454,17 @@ radius `r` with `s₀r < 1` and all large `N`, auxiliary primes with characters 
 polynomial that controls its twists at `ℓ^N`-th roots of unity and has, at a point of radius `r`, valuation at most
 `β + s₀r`.
 
-*Method of the formal proof:* apply the descent (1.5) to all data at once, with the Frobenius element of the first prime
-so close to `g₀` that `ρ_i(φ_{P₀}^{±})` agrees with `ρ_i(g₀^{±})` modulo `ℓ^M` and `ϑ_k(φ_{P₀}) ≡ ϑ_k(g₀)` modulo a high
-power of `ℓ`. For a datum take `P = P⁰·P¹`. Here `P⁰` is a polynomial sharp at `0` (2.1 (d)) for the module tied at
-`J ∖ {P₀}`, restricted to the line; its value at `0` has valuation at most `β_T` by 2.2 (b) and the descent. `P¹` is the
-polynomial of 2.2 (a), whose Gauss valuation of radius `r` is at most `2n·#J·r`. The point is taken on the line at a
-parameter that is generic for both. For a system, take 2.4 (c). Since `M > β_T + 1`, a bound below `β_T + 1` for the module
-modulo `ℓ^M` bounds the module with divisible coefficients.
+*Method of the formal proof:* a single descent (1.5), run for all the Selmer data together, supplies the tied primes;
+its neighbourhood `W` of `g₀` is taken so small that, at the first prime, `ρ_i(φ_{P₀}^{±})` is congruent to
+`ρ_i(g₀^{±})` modulo `ℓ^M` and `ϑ_k(φ_{P₀})` to `ϑ_k(g₀)` modulo a large power of `ℓ`. For a datum, two polynomials in
+the parameter `Y` of the line of 2.2 are formed. By 2.2 (b) and the bound of the descent, the module with ties at
+`J ∖ {P₀}` has length at most `β_T` modulo `ℓ^M`; `P⁰` is a polynomial of 2.1 (d) for that module attaining this length
+at the origin, read on the line. `P¹` is the polynomial of 2.2 (a), whose Gauss valuation at radius `r` is at most
+`2n·#J·r`. Choose `y` with `v(y) ≥ r` such that `P⁰(y)` and `P¹(y)` have the valuations that the Gauss valuations
+predict, and let `x⁰` be the point of the line with parameter `y`. The polynomial `P` of the datum is a polynomial of
+2.1 (d) for the module that carries no ties, exact at `x⁰`; the bound of 2.1 (d) for the tied module and 2.2 (a) give
+`v(P(x⁰)) ≤ v(P⁰(y)) + v(P¹(y))`, which is at most `β_T + s₀r`. For the systems, 2.4 (c) gives the polynomial and the
+point. As `M > β_T + 1`, a length below `β_T + 1` modulo `ℓ^M` bounds the length with divisible coefficients as well.
 
 Let `E`, `ℓ`, `S₀`, `g₀` be as in 1.5, `O` a coefficient ring, `T_i` (`i` in a finite set) Selmer data for `(S₀, g₀)` over
 `O`, and `Y_k` (`k` in a finite set) Stickelberger systems for `(S₀, g₀)`. Let `M` be a *torsion level*:
@@ -825,7 +835,7 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    unramified and every `U_{S′}(i)` lies in `[−η, 0]`. Then the pairing gives a scaled cup coboundary of exponent `H` at
    `(c, c′)` for every `H ≥ 3(κ + (48(a + η + W) + 4)d)`.
 
-*Needs:* 3.1, 3.2; CrystallineRepresentationsAndKisinModules §§5.6, 5.7, 5.8, 5.9 (Kisin modules of a lattice `L` that is crystalline over `Γ′`, over a Kummer
+*Needs:* 3.1, 3.2; CrystallineRepresentationsAndKisinModules §§2.3, 5.6, 5.7, 5.8, 5.9 (Kisin modules of a lattice `L` that is crystalline over `Γ′`, over a Kummer
 chart with ring `Λ[[z]]`, in the notation of 3.3a. Let `a ≥ 0` be least such that the jumps of `L` over `Γ′` lie in
 `[−a, a]`; let `N_A(L)` be the `A_inf`-module of the `x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L` and with
 `μ(φ^n x) ∈ B_dR^+` for all `n ≥ 1` and all forms `μ`, and `N(L)` the `Λ[[z]]`-module of the `x ∈ N_A(L)` with
@@ -984,7 +994,7 @@ such that `K(s, ·)` is a tame type for `(p, r, N)` for every `s` with `j(s)` in
 `K′(s, Q) = K(s^{−1}, Q)`, and let every `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
-*Needs:* 3.1, 3.2, 3.3a (i); CrystallineRepresentationsAndKisinModules §5.9 (the membership criterion for the Kisin module of a lattice `L`
+*Needs:* 3.1, 3.2, 3.3a (i); CrystallineRepresentationsAndKisinModules §§2.3, 5.9 (the membership criterion for the Kisin module of a lattice `L`
 crystalline over `Γ′`, over a Kummer chart, in the notation of 3.3a: with `N(L)` the `Λ[[z]]`-module of the
 `x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L`, with `μ(φ^n x) ∈ B_dR^+` for `n ≥ 1` and `μ(x) ∈ 𝒦₀` for
 all forms `μ`, an `x ∈ M(L)` lies in `N(L)` exactly when a power of `τ` multiplies it into `A_inf ⊗ L` and, for some
@@ -1233,8 +1243,12 @@ Prove:
    every member of `𝓡`, restricted to the decomposition group at `w`.
 
 *Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts §1.1 (the local conditions: finite type, jumps and killing polynomials
-at a place), §1.2 (conjugate self-dual representations of given level); CrystallineRepresentationsAndKisinModules §2.4 (Teichmüller lifts in the
-Witt vectors of a finite field, embedded in `ℚ̄_ℓ`: every root of `y^{ℓ^a − 1} = 1` is one).
+at a place), §1.2 (conjugate self-dual representations of given level); CrystallineRepresentationsAndKisinModules §2.4 (the
+Witt vectors `W(𝔽_{ℓ^a})` embedded injectively in `ℚ̄_ℓ`); ShortGRH background (Teichmüller lifts under that embedding:
+every root of `y^{ℓ^a − 1} = 1` in `ℚ̄_ℓ` is the image of the Teichmüller lift of an element of `𝔽_{ℓ^a}`, and
+`W(𝔽_{ℓ^a})` is free of rank `a` over `ℤ_ℓ`; [ShortProof] `Lib/PadicHodge/Kisin/KummerChartExistence.lean`
+(`New.Lift.exists_flatFq_teichmuller_eq`), `Lib/PadicHodge/Kisin/Modules.lean`
+(`New.Lift.KummerChart.JumpLattice.finrank_wittFq`)).
 
 [ShortProof], `New/Congruences/LocalLoss/LocalLattices.lean` (`New.Selmer.isTameType_of_roots`,
 `New.Selmer.hasJumps_and_inClass_localLattice`, `New.Selmer.IsConjSelfDualOfLevel.inClass_localLattice`)
@@ -1291,9 +1305,9 @@ Let `D` be the data and `(ν, z)` a ramified pair. Prove:
    `u_a ∈ U(1)(𝔸)` and coefficients `c_a ∈ ℂ`, integral at every prime `l` not dividing the norm of `Q` under every
    embedding `ℂ → ℂ_l`, with `F(ϑ′) = Σ_a c_a ϑ′(u_a)` for all `ϑ′` of modulus `Q`; for `v` not in the modulus `Q_ϑ` of `ϑ`
    and `ϑ′` equal to `ϑ` with `v` added to the modulus, `F(ϑ′) = F(ϑ)·∏_{k∈I} ∏_{δ=±1}(1 − (νϑ)_v(ϖ_v)^δ/Nv^k)`, the base
-   change of `νϑ` read at a uniformiser at `v`; and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·r(ϑ)^{m₀+1}` at every twist `ϑ`, with
-   `N(Q_ϑ) = ∏_{w∈Q_ϑ} Nw` and `r` the ratio of the pair. Here `(I, m₀) = ({z}, 0)` for `z ≥ 2` and `({0, 1}, 1)` for
-   `z = 1`;
+   change of `νϑ` read at a uniformiser at `v`; and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·(|L(z, (νϑ)^{−1})|/|L(z, ν^{−1})|)^{m₀+1}`
+   at every twist `ϑ`, with `N(Q_ϑ) = ∏_{w∈Q_ϑ} Nw` and the quotient the ratio of the pair at `ϑ` and the sign `+1`
+   (Conventions). Here `(I, m₀) = ({z}, 0)` for `z ≥ 2` and `({0, 1}, 1)` for `z = 1`;
 2. (b) for an auxiliary set `Q` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `Q` is, for some tame
    character `τ` of modulus `Q`, the `ℓ`-adic avatar of the base change of `τ^{−1}` to `E`.
 
@@ -1323,17 +1337,18 @@ Let `D` be the data, `ι : ℂ ≅ ℚ̄_ℓ`, `δ = ±1`, `(ν, z)` a ramified 
 generator. Prove that there is a Stickelberger system `Y` for (the bad places, `g₀`) with:
 
 1. (a) `β_Y ≤ v(1(Θ_∅)) + 4v(Nw − 1)`;
-2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose inverse avatar `ψ`, the `ℓ`-adic avatar of the base change of `ξ^{−1}` to `E`, is a
-   character for `Q`: `|ψ(Θ_Q)| = |1(Θ_∅)|·|ι(r)|^i`, where `r = |L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|` is the ratio of the pair
-   at `ξ^δ`, and `i = 2` if `z = 1`, `i = 1` otherwise;
-3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies `v(ι(r)) ≤ 4v(Nw − 1) + c`.
+2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose inverse avatar `ψ`, the `ℓ`-adic
+   avatar of the base change of `ξ^{−1}` to `E`, is a character for `Q`:
+   `|ψ(Θ_Q)| = |1(Θ_∅)|·|ι(|L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|)|^i`, the quotient being the ratio of the pair at `ξ` and
+   `δ` (Conventions, with `Q_ξ = Q`), and `i = 2` if `z = 1`, `i = 1` otherwise;
+3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies
+   `v(ι(|L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|)) ≤ 4v(Nw − 1) + c`.
 
 *Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains
-§1.1 (ramified pairs and the ratio of a pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists); ShortGRH
-background (the `ℓ`-adic avatar of an algebraic Hecke character: a continuous character of `G_E` whose value at most
-geometric Frobenius elements is `ι` of the value of the Hecke character at a uniformiser, and which is given on the
-image of the Artin map by the Hecke character; [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`,
-`New.AlgHeckeChar.avatar_apply_of_artinMap_eq`, `New.AlgHeckeChar.eventually_avatar_frob`)).
+§1.1 (ramified pairs and the ratio of a pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists);
+IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic avatar of an algebraic Hecke character: a
+continuous character of `G_E` whose value at most geometric Frobenius elements is `ι` of the value of the Hecke
+character at a uniformiser, and which is given on the image of the Artin map by the Hecke character).
 
 [ShortProof], `New/Congruences/Selmer/LValueSystems.lean` (`New.Selmer.exists_stickelbergerSystem_β_le_and_norm_eq`,
 `New.Selmer.exists_stickelbergerSystem_ellVal_ratio_le`, `New.Data.CriticalPair.stickelbergerChar`)
@@ -1361,8 +1376,8 @@ Let `D` be the data, `ℓ` a prime, `ι : ℂ ≅ ℚ̄_ℓ`, and `R_i` (`i` in 
    lattice over `O` on whose twist by `ψ` the element `γ` acts by the scalar `ζ`, with `ζ − 1` a unit. For the twisted
    lattice, the module of locally constant cocycles with values in `Frac(O)/O` that are unramified outside `ℓ p₀ p₁`, `Q`,
    `Q̄`, obey the crystalline relations of the twisted lattice above `ℓ` and vanish at `γ` has `len_ℓ ≤ e'_ℓ`;
-3. (c) for every ramified pair `(ν, z)` and every sign `s`, `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`, the Euler
-   factors at the chosen places, in the numerator also at `Q`, and at their conjugates being omitted.
+3. (c) for every ramified pair `(ν, z)` and every sign `s`, its ratio at `ξ` and `s` (Conventions, with `Q_ξ = Q`)
+   satisfies `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`.
 
 *Needs:* 2.7, 5.1, 5.2, 5.3; CongruencesOfTwistedThetaLifts §1.3 (main summands), §1.5 (the crystalline Selmer length with
 divisible coefficients; the number `e'_ℓ`), §4.1 (auxiliary twists);
@@ -1401,10 +1416,15 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 - Conjugate self-dual representations of a level, main summands, Ribet cocycles, twisted lattices and Selmer lengths
   with divisible coefficients, and the use of the bounds of this roadmap in Ribet's method:
   CongruencesOfTwistedThetaLifts.
-- The results named `ShortGRH background` on the *Needs:* lines: the Artin map, Chebotarev's theorem and the existence
-  theorem, global duality with relations at split primes, lengths of kernels by maximal minors, Gauss valuations,
-  the period ring `B_max` and crystalline cocycles, Kummer charts and Kisin modules, the rank formula, local Tate
-  duality for crystalline cocycles, and avatars. Each entry names the form used and where `[ShortProof]` proves it.
+- The background results cited on the *Needs:* lines: places of `Ω`, Frobenius elements, tame generators, the Artin
+  map and the existence theorem, global duality with relations at split primes, local Tate duality for crystalline
+  cocycles and avatars (IdelicReciprocityCountsAndCyclotomicClassGroups); Selmer modules and Hilbert's Theorem 90 for
+  finite ideles (GaloisRepresentationsOfUnitaryEigenforms); the period ring `B_max` and crystalline cocycles, Kummer
+  charts and Kisin modules, and the rank formula (CrystallineRepresentationsAndKisinModules); Chebotarev's theorem
+  (ArithmeticGaloisRepresentations §5.1, with the density of the places of prime norm from Tau Ceti).
+- The results named `ShortGRH background` on the *Needs:* lines: lengths of kernels by maximal minors, Gauss
+  valuations, and Teichmüller lifts in the Witt vectors of a finite field with the rank of those Witt vectors. Each
+  entry names the form used and where `[ShortProof]` proves it.
 - Twist selection and the local bounds in the forms of SelmerLengthBoundsAndLocalLifting, which owns them for the route
   of RiemannHypothesisForDirichletLFunctions. That roadmap states results with the same purpose as four sections here,
   in other forms; none of them is cited as a supplier, and the sections here are not restatements of them.
@@ -1436,18 +1456,25 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 
 §1.1 (the local conditions at a place: finite type, jumps, killing polynomials; bad places); §1.2 (conjugate
 self-dual representations of a level); §1.3 (main summands); §1.5 (Selmer lengths with divisible coefficients, twisted
-lattices, the twist allowance `e′_ℓ`); §3.1 (2) (Ribet cocycles).
+lattices, the twist allowance `e′_ℓ`); §3.1 (2) (Ribet cocycles); §4.1 (auxiliary twists).
 
 ### From OneSidedPrimeSumBoundsAndAdmissibleData
 
-§2.1, §2.2 (the parameters, the field, its infinite places and CM type); §3.2, §3.3 (the data and their sizes); §3.4
-(tame characters, twists and `m`-fold twists).
+§2.1, §2.2 (the parameters, the field, its infinite places and CM type); §3.1 (sparse sets of places); §3.2, §3.3 (the
+data and their sizes); §3.4 (tame characters, twists and `m`-fold twists).
 
 ### From other roadmaps
 
 DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains §1.1 (ramified
 pairs and ratios); NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (`L`-values as squared norms and integral
-measures); ThetaLiftChainsAndTheSeesawIdentity §2.10 (the order `n_GL`).
+measures); ThetaLiftChainsAndTheSeesawIdentity §2.10 (the order `n_GL`); IdelicReciprocityCountsAndCyclotomicClassGroups
+§§1.1, 1.4, 2.1, 2.2 (places of `Ω`, Frobenius elements, tame generators, the Artin map), §2.3 (the existence theorem),
+§4.5 (global duality with relations at split primes), §5.2 (local Tate duality for crystalline cocycles), §9.1 (the
+`ℓ`-adic avatar); GaloisRepresentationsOfUnitaryEigenforms §5.3 (Hilbert's Theorem 90 for finite ideles), §9.2 (Selmer
+modules); CrystallineRepresentationsAndKisinModules §1.3 (the period rings), §§2.3, 2.4 (the ring `S_B` as a commutant,
+Kummer charts, the Witt vectors of a finite field in `ℚ̄_ℓ`), §§3.1, 3.4, 3.7 (admissibility, jumps, the linear
+Frobenius), §4.2 (the rank of crystalline cocycles), §§5.6, 5.7, 5.8, 5.9 (Kisin modules);
+ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem).
 
 ## References
 

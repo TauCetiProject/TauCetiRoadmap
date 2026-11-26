@@ -39,9 +39,9 @@ function converges, has moderate growth, depends continuously on `φ`, and its P
 full rank decays rapidly in the height of the corresponding group, uniformly for real data of bounded moments.
 
 (4) *Lifts between discrete-series types* (7.2, 7.3). For Harish-Chandra parameters in the block relation with large
-gaps, the product of joint harmonics is an *edge*: with any finite datum, theta lifts carry bounded automorphic
-functions fixed by the projector kernel of one type to functions fixed by that of the other, in both directions,
-without Howe duality.
+gaps, the product of joint harmonics is an *edge*: with any finite datum it defines a lift from the bounded automorphic
+functions of the discrete-series type of one parameter to those of the type of the other, whose Petersson adjoint maps
+the second type back to the first; neither multiplicity one nor Howe duality is used.
 
 (5) *Seesaw, unfolding and periods* (7.4, 8.8, 8.9, 8.10). Proportionality of weighted sums of periods passes from
 lifts to transposed lifts; one step of the unfolding of a Bessel or Fourier–Jacobi period of a theta lift; Fourier
@@ -271,9 +271,9 @@ comparison with them is used.
 ### 2.1 The Fock model of `U(ε)` and the triviality of its cocycle
 
 *Origin:* adapted from Bargmann (1961), the Fock space, and Kashiwara and Vergne (1978) and Howe (1989), the Fock model
-of the oscillator representation: here the `L¹` space of functions on `ℂ^ι` reproduced by the Gaussian, for the group
-`U(ε)` of a sign vector in place of the metaplectic group, with the multiplier `conj det(u₋₋)` and its trivial
-cocycle.
+of the oscillator representation (as cited in ThetaKernelsForUnitaryDualPairs §3.45): here the `L¹` space of functions
+on `ℂ^ι` reproduced by the Gaussian, for the group `U(ε)` of a sign vector in place of the metaplectic group, with the
+multiplier `conj det(u₋₋)` and its trivial cocycle.
 
 *Method of the formal proof:* the identity of the vacuum and the cocycle identity are Gaussian integrals over `ℂ^ι` and
 `ℂ^ι × ℂ^ι`, computed by completing the square; a translate of the vacuum is `e(x)e(y)exp(Σ_i conj ζ(y)_i ζ(x)_i)`, so
@@ -311,9 +311,9 @@ on polynomials in variables indexed by `ι`.
 
 ### 2.2 Polynomial vectors: the Fischer pairing, density and the derivative
 
-*Origin:* adapted from Bargmann (1961) and Kashiwara and Vergne (1978) and Howe (1989) (ThetaKernelsForUnitaryDualPairs
-§3.45): here on the Fock space of 2.1: the inner product of polynomial vectors as the Fischer pairing, density of the
-polynomial vectors for the `L¹` norm, and the derivative of `ω_ε` on polynomial vectors.
+*Origin:* adapted from Bargmann (1961) and Kashiwara and Vergne (1978) and Howe (1989) (as cited in
+ThetaKernelsForUnitaryDualPairs §3.45): here on the Fock space of 2.1: the inner product of polynomial vectors as the
+Fischer pairing, density of the polynomial vectors for the `L¹` norm, and the derivative of `ω_ε` on polynomial vectors.
 
 *Method of the formal proof:* differentiating `ω(u)ϱ(x) = ϱ(ux)ω(u)` along `x` gives commutation rules that move `A_j`
 and `B_j` across `ω(u)`; with `u = 1` they make `X_i` adjoint to `∂_i`; density follows from 1.2 (b) and the
@@ -372,9 +372,9 @@ has *finite moments* if `M_N(v) < ∞` for all `N`.
 ### 2.4 Harmonic matrix coefficients and oscillator pairs on matrices
 
 *Origin:* adapted from Kashiwara and Vergne (1978) and Howe (1989), the Fock model of the oscillator representation and
-its dual pairs (ThetaKernelsForUnitaryDualPairs §3.45): here on the Fock space of 2.1: the coefficients between
-polynomial vectors killed by the mixed second derivatives, their positivity at positive definite elements, and the two
-commuting determinant-twisted actions on matrices with their growth and derivatives.
+its dual pairs (as cited in ThetaKernelsForUnitaryDualPairs §§3.45, 3.46): here on the Fock space of 2.1: the
+coefficients between polynomial vectors killed by the mixed second derivatives, their positivity at positive definite
+elements, and the two commuting determinant-twisted actions on matrices with their growth and derivatives.
 
 *Method of the formal proof:* Euler's identity and 2.2 (b) give an induction on the degree that reduces
 `⟨v_Q, ω(u)v_P⟩` to `Q = 1`, which 2.2 (a) and the substitution by `C(u)` evaluate; positivity at a positive definite
@@ -487,18 +487,20 @@ elements).
 ### 3.3 The finite cocycle is a Gauss sum and is trivial
 
 *Origin:* adapted from Kudla (1994) and Harris, Kudla and Sweet (1996), the splittings of the Weil representation over
-unitary groups (ThetaKernelsForUnitaryDualPairs §4.4a): here at all finite places at once, as the triviality of the
-cocycle of the multiplier `Δ_f` of 3.2 on the lattice vacuum, for CM fields with a primitive `5040`-th root of unity.
+unitary groups (as cited in ThetaKernelsForUnitaryDualPairs §4.4a): here at all finite places at once, as the
+triviality of the cocycle of the multiplier `Δ_f` of 3.2 on the lattice vacuum, for CM fields with a primitive
+`5040`-th root of unity.
 
 *Method of the formal proof:* the double integral of the cocycle is, after multipliers, a Gauss sum over a finite
 `Ô`-module; the cocycle has modulus one and is `1` when one argument lies in `K₀`; the `s` with `c_f(·, s) = 1` form a
 subgroup containing `K₀`, and `G_f` is generated by `K₀` and the elements that are `1` outside a pair `{w, w̄}`. At a
 split place every term of the Gauss sum is `1` and the ratio of multipliers is nonnegative. At an inert place
-`q_w = r²` with `r ≡ 3 (mod 4)` by (d), the multipliers are powers of `−r`, and a lemma on sums of roots of unity over orbits
-of size four (multiplication by a fourth root of unity) fixes the sign by a congruence modulo `4`. For (d): `E` contains
-`√−1` and an algebraic integer of trace `1` and norm `2` over `E⁺`, so a place `w = w̄` does not lie above `2`, and
-conjugation induces on its residue field an automorphism of order two that moves `√−1`; hence `q_w = r²` and `−1` is
-not a square in the field with `r` elements.
+`q_w = r²` with `r ≡ 3 (mod 4)` by (d), and each multiplier is a power of `−r`. The Gauss sum is real, and its terms
+away from `0` fall into sets of four permuted by a fourth root of unity, which makes it `1` modulo `4` among algebraic
+integers; the cocycle is then real of modulus one, and since `−r ≡ 1 (mod 4)` the identity of (a) read modulo `4`
+excludes `−1`. For (d): `E` contains `√−1` and an algebraic integer of trace `1` and norm `2` over `E⁺`, so a place
+`w = w̄` does not lie above `2`, and conjugation induces on its residue field an automorphism of order two that moves
+`√−1`; hence `q_w = r²` and `−1` is not a square in the field with `r` elements.
 
 Let `E` carry Weil data. For `g, s ∈ G_f` put
 `c_f(g, s) = Δ_f(g)Δ_f(s)Δ_f((gs)⁻¹)·∫∫ e_f(sx)·e_f(gsy)·β_f(x, y)·e_f(x + y) dλ(x) dλ(y)`.
@@ -556,8 +558,8 @@ Schwartz model is used.
 ### 3.5 The adelic Weil representation
 
 *Origin:* adapted from Kudla (1994) and Harris, Kudla and Sweet (1996), the global Weil representation of a unitary
-group assembled from local splittings (ThetaKernelsForUnitaryDualPairs §4.4a): here for one unitary group of a
-hermitian space over a CM field with Weil data, on the space of data of 3.4, built without a polarisation and
+group assembled from local splittings (as cited in ThetaKernelsForUnitaryDualPairs §4.4a): here for one unitary group
+of a hermitian space over a CM field with Weil data, on the space of data of 3.4, built without a polarisation and
 normalised by its coefficient against the vacuum.
 
 *Method of the formal proof:* the cocycle of `Δ` is the product of the real cocycle, trivial by 2.1 (b), and the
@@ -587,10 +589,10 @@ needs only one unitary group over these CM fields, on the space of data, and obt
 
 ### 3.6 Theta functionals
 
-*Origin:* adapted from Weil (1964) and Mumford (1966, 1983), the theta distribution of the lattice model and the
-unitarity of the theta functional (ThetaLiftsForDefiniteUnitaryGroups §1.8): here on the space of data of 3.4:
-existence and uniqueness up to a scalar, the summation formula over rational vectors, and the reading of a vector as its
-theta function.
+*Origin:* adapted from Weil (1964), Mumford (1966) and Mumford's *Tata lectures on theta I*, the theta distribution of
+the lattice model and the unitarity of the theta functional (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.8): here
+on the space of data of 3.4: existence and uniqueness up to a scalar, the summation formula over rational vectors, and
+the reading of a vector as its theta function.
 
 *Method of the formal proof:* the characters `x ↦ β_s(x, γ)²`, `γ ∈ Λ_V`, form a separating family of characters of
 the compact group `𝔸^n/Λ_V`; for two forms invariant under `ϱ(Λ_V)` the coefficients `⟨f′, ϱ(γ)f⟩` are summable over
@@ -691,9 +693,10 @@ block-diagonal elements by 2.1 (d) and 3.2 (b).
 
 ### 3.9 The tame local Gauss sum
 
-*Origin:* adapted from the published theory of Gauss sums of tamely ramified characters of local fields: here over a
-finite product of non-archimedean local fields, for the modulus of the Gauss sum only, obtained from the Gauss sum of a
-character of the determinant over a finite ring.
+*Origin:* adapted from Tate (1950), §2.5, the local Gauss sum of a character of a local field, with Lamprecht (1953)
+for primitive characters of finite rings and Kondo (1963) for the analogue on `GL_n` over finite fields: here over a
+finite product of non-archimedean local fields, for the modulus of the Gauss sum only, obtained from the Gauss sum of
+a character of the determinant over a finite ring.
 
 *Method of the formal proof:* the integral over `O` is a finite sum over `R = O/ϖO` against the primitive additive
 character `ψ_R(x mod ϖ) = ψ(ϖ⁻¹x)` of `R`, that is, a Gauss sum `Σ_{u∈R} η(u)ψ_R(yu)` of `η` over the finite ring `R`.
@@ -730,10 +733,10 @@ writes the theta functions of a sublattice `δ̄𝔞₀^n` through translates of
 
 ### 4.1 Real data and the entire theta function
 
-*Origin:* adapted from Bargmann (1961, 1967), the Bargmann transform and the Fock pairing of a polynomial as a Taylor
-coefficient (ThetaLiftsForDefiniteUnitaryGroups §1.7): here on the space of data: insertion of a Fock vector at the
-real places, the theta value of such a vector as an integral, and the entire theta function of a vector fixed by
-`pr_∞`.
+*Origin:* adapted from Bargmann (1961), the Bargmann transform and the Fock pairing of a polynomial as a Taylor
+coefficient (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.7): here on the space of data: insertion of a Fock
+vector at the real places, the theta value of such a vector as an integral, and the entire theta function of a vector
+fixed by `pr_∞`.
 
 *Method of the formal proof:* the insertion is a Bochner integral of Heisenberg translates, so bounded maps pass inside
 it; the inner product factors by 1.4 (a); a vector whose values vanish at all real points vanishes, by the
@@ -762,9 +765,10 @@ Let `V` be a hermitian space of signature `s` on `n`, `v, w` in the Fock space `
 
 ### 4.2 Jet series and translation by rational vectors
 
-*Origin:* adapted from Weil (1964) and Mumford (1966, 1983), the translates of the theta function of a lattice vector
-(ThetaLiftsForDefiniteUnitaryGroups §1.8, clause *Translates*): here on the space of data of a standard space, with the
-jet series of a vector defined through the theta values of polynomial vectors.
+*Origin:* adapted from Weil (1964), Mumford (1966) and Mumford's *Tata lectures on theta I*, the translates of the
+theta function of a lattice vector (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.8, clause *Translates*): here on
+the space of data of a standard space, with the jet series of a vector defined through the theta values of polynomial
+vectors.
 
 *Method of the formal proof:* the identity for jets is the definition of the jet series, read through the Fischer
 pairing; for a standard space a rational vector is the sum of its real image and its finite image in the coordinates of
@@ -800,9 +804,11 @@ because the model differs and no comparison is used.
 
 ### 4.3 The theta dictionary for the standard lattice
 
-*Origin:* adapted from Weil (1964) and Mumford (1966, 1983), the theta line of a self-dual lattice
-(ThetaLiftsForDefiniteUnitaryGroups §1.8, clauses *Sections* and *Translates*): here for the one self-dual lattice
-`𝔞₀^n` of a standard space, with theta functions defined by signed translations, on the space of data.
+*Origin:* adapted from Weil (1964), Mumford (1966) and Mumford's *Tata lectures on theta I*, the theta line of a
+self-dual lattice (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.8, clauses *Sections* and *Translates*), and from
+Beauville, *Theta functions, old and new*, Theorem 3.5, theta functions of a principal polarisation, unique up to a
+scalar: here for the one self-dual lattice `𝔞₀^n` of a standard space, with theta functions defined by signed
+translations, on the space of data.
 
 *Method of the formal proof:* the translations compose with the phase of the Riemann form, which the product formula
 for `ψ` identifies with `ψ₀`; self-duality of `𝔞₀^n` comes from that of `Ô` (3.2 (a)); the real images of `𝔞₀^n` form a
@@ -827,8 +833,10 @@ for every `γ ∈ Y`.
 
 ThetaLiftsForDefiniteUnitaryGroups §1.8 states (d) for every self-dual lattice of a definite pair through
 `h⁰(L(H, α)) = 1` for every principal polarisation (AbelianSchemesAndArithmeticModuli A5.4, a deep result); the route
-needs the one lattice `𝔞₀^n`. The library has the dimension of theta sections on a one-dimensional complex torus
-(`TauCeti.finrank_thetaSections`); missing are higher dimensions, CM lattices and the link with the space of data.
+needs the one lattice `𝔞₀^n`. The pinned libraries have no spaces of theta functions. On Tau Ceti's main branch, later
+than the revision pinned here: the dimension of theta sections on a one-dimensional complex torus
+(`TauCeti.finrank_thetaSections`). Missing there too are higher dimensions, CM lattices and the link with the space of
+data.
 
 *Needs:* 3.2, 3.6, 3.7, 4.1, 4.2; AbelianSchemesWithThetaStructuresAndTheirCohomology §1.2 (c) (Frobenius' dimension
 formula).
@@ -844,15 +852,16 @@ formula).
 
 ### 4.4 Fourier inversion for theta functions of a sublattice
 
-*Origin:* adapted from Weil (1964) and Mumford (1966, 1983), the theta functions of a polarised lattice and their
-translates (ThetaLiftsForDefiniteUnitaryGroups §1.8): here the theta functions for `δ̄𝔞₀^n` are written through the
-`N^r` translates of `Θ_vac` by Fourier inversion over finite groups, on the space of data, with the integrality of the
-coefficients.
+*Origin:* adapted from Weil (1964), Mumford (1966) and Mumford's *Tata lectures on theta I*, the theta functions of a
+polarised lattice and their translates (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.8): here the theta functions
+for `δ̄𝔞₀^n` are written through the `N^r` translates of `Θ_vac` by Fourier inversion over finite groups, on the space of
+data, with the integrality of the coefficients.
 
 *Method of the formal proof:* for `F` a theta function for `δ̄𝔞₀^n` and `y ∈ δ⁻¹𝔞₀^n`, the average of `S_{−γ}T_yF` over
-`γ ∈ 𝔞₀^n/δ̄𝔞₀^n` is a theta function for `𝔞₀^n`, hence `c_yΘ_vac` by 4.3 (d); orthogonality of the characters of the
-finite group `δ⁻¹𝔞₀^n/𝔞₀^n` (dual to `𝔞₀^n/δ̄𝔞₀^n` by 4.3 (a)) inverts the averages; injectivity (4.3 (b)) transfers the
-identities to vectors; integrality because each value of `c_y·vac` is a sum of values of `φ` times roots of unity.
+`γ ∈ 𝔞₀^n/δ̄𝔞₀^n` is a theta function for `𝔞₀^n`, hence `c_yΘ_vac` by 4.3 (d); `F` is recovered from these averages by
+Fourier analysis on the finite group `δ⁻¹𝔞₀^n/𝔞₀^n`, whose dual is `𝔞₀^n/δ̄𝔞₀^n` by 4.3 (a); injectivity (4.3 (b))
+transfers the identities to vectors; integrality because `ϱ_f(a_j)` and `ϱ(finVec(b))` shift the argument of `φ` and
+multiply by values of `ψ₀`, which have finite order, and the `p`-adic absolute value is ultrametric.
 
 Let `V` be standard of rank `n`, `δ ∈ E` integral at every finite place with `δδ̄ = N ∈ ℕ`, `N ≠ 0`, and `r = |Φ|·|n|`.
 
@@ -868,8 +877,8 @@ Let `V` be standard of rank `n`, `δ ∈ E` integral at every finite place with 
 
 ThetaLiftsForDefiniteUnitaryGroups §1.8, read whole with `h⁰ = 1` for the principal polarisation and Fourier inversion
 on the finite group, implies (a)–(c); the route avoids the general dimension formula for sublattices and needs only
-4.3 (d). The library has an explicit basis of level-`k` theta sections on a one-dimensional torus
-(`TauCeti.thetaSectionsBasis`); nothing in higher dimension.
+4.3 (d). On Tau Ceti's main branch, later than the revision pinned here: an explicit basis of level-`k` theta sections
+on a one-dimensional torus (`TauCeti.thetaSectionsBasis`); nothing in higher dimension.
 
 *Needs:* 3.7, 4.2, 4.3.
 
@@ -889,10 +898,9 @@ functional is invariant under all rational points.
 
 ### 5.1 Isotropic splittings, parabolic elements and adapted points
 
-*Origin:* adapted from Scharlau (1985), Chapter 7, and Knus (1991), the Witt decomposition of a Hermitian space over a
-field with involution (HermitianFormsAndLattices §1.2): here a rational Witt decomposition along an isotropic frame of
-any rank with its adelic frames, the Levi and unipotent elements of the stabiliser of the frame, and points adapted to
-the decomposition.
+*Origin:* adapted from Knus (1991), the Witt decomposition of a Hermitian space over a field with involution (as cited
+in HermitianFormsAndLattices §1.2): here a rational Witt decomposition along an isotropic frame of any rank with its
+adelic frames, the Levi and unipotent elements of the stabiliser of the frame, and points adapted to the decomposition.
 
 *Method of the formal proof:* coordinates in the frames `(l, ι, k)` give the Levi decomposition by block computations;
 adapted points from Sylvester's law of inertia and Gram–Schmidt at the infinite places and integral bases at the finite
@@ -1079,11 +1087,11 @@ Let `D` be a splitting of `V` over `V₀` along `p` (5.1).
 
 ### 5.6 Parabolic laws, invariance of the theta functional and its normalisation
 
-*Origin:* adapted from Kudla (1994), Theorem 3.1, and Gan and Ichino (2014), §7.4, the Levi and unipotent formulas on a
-Siegel parabolic subgroup (ThetaKernelsForUnitaryDualPairs §3.3b), and from Kudla (1994) and Harris, Kudla and Sweet
-(1996), the invariance of the theta functional under rational points (ThetaKernelsForUnitaryDualPairs §4.4a): here on
-the space of data, for the zero term and the slices along a Witt decomposition with any `p` and any core, proved rather
-than taken as a definition, and the invariance of `θ_V` under `U(J)(E)` for one unitary group.
+*Origin:* adapted from Kudla (1994) and Gan and Ichino (2016), §7.4, the Levi and unipotent formulas on a Siegel
+parabolic subgroup (as cited in ThetaKernelsForUnitaryDualPairs §3.3b), and from Kudla (1994) and Harris, Kudla and
+Sweet (1996), the invariance of the theta functional under rational points (as cited in ThetaKernelsForUnitaryDualPairs
+§4.4a): here on the space of data, for the zero term and the slices along a Witt decomposition with any `p` and any
+core, proved rather than taken as a definition, and the invariance of `θ_V` under `U(J)(E)` for one unitary group.
 
 *Method of the formal proof:* the zero term of `ω(g)f`, for `g` preserving the span of `k`, is a bounded map
 intertwining the Heisenberg operators of the core, hence a multiple of `ω₀(g₀)ev_D` by Schur's lemma; the scalar is read
@@ -1241,9 +1249,9 @@ Let `S`, `T`, `a`, `b` be as in 6.1.
 
 ### 6.3 Finite action, sums, negation and moved points
 
-*Origin:* adapted from Harris, Kudla and Sweet (1996), Appendix, Corollary A.3, the compatibility of the splittings with
-orthogonal sums (ThetaKernelsForUnitaryDualPairs §3.3b, *Orthogonal sums*): here for the pair representation of 6.1 on
-the space of data: the action of finite points on named data, the factorisation over orthogonal sums, negation of the
+*Origin:* adapted from Harris, Kudla and Sweet (1996), §1, the compatibility of the splittings with orthogonal sums
+(as cited in ThetaKernelsForUnitaryDualPairs §3.3b, *Orthogonal sums*): here for the pair representation of 6.1 on the
+space of data: the action of finite points on named data, the factorisation over orthogonal sums, negation of the
 source space and the change of frames.
 
 *Method of the formal proof:* finite points supported at `A ∪ Ā` by 5.4 (b) and 3.2 (c); orthogonal sums by 3.8 (a)
@@ -1275,10 +1283,9 @@ Let `A` be conjugation-free and `Ψ` Schwartz–Bruhat above `A` on `M_{n′×n}
 
 ### 6.4 Growth of theta kernels and convergence of theta lifts
 
-*Origin:* adapted from Rallis (1984), *Injectivity properties of liftings associated to Weil representations*, §1, the
-adjoint of a theta lift (ThetaLiftsForDefiniteUnitaryGroups §1.4): here for an abstract theta kernel on a Banach space,
-on unitary groups of any signature: moderate growth of the kernel in a complete norm, convergence, continuity and
-moderate growth of lifts of rapidly decreasing functions, transposition and adjointness.
+*Origin:* adapted from the adjoint of a theta lift (ThetaLiftsForDefiniteUnitaryGroups §1.4): here for an abstract
+theta kernel on a Banach space, on unitary groups of any signature: moderate growth of the kernel in a complete norm,
+convergence, continuity and moderate growth of lifts of rapidly decreasing functions, transposition and adjointness.
 
 *Method of the formal proof:* the Banach–Steinhaus theorem bounds `ω` on compact sets; reduction theory writes
 `g = γ·c·r` with `γ` rational, `c` in a compact set and real factors of norm at most `ht(g)`, so
@@ -1348,10 +1355,9 @@ heights).
 
 ### 6.6 Rapid decay of theta kernels under support conditions
 
-*Origin:* adapted from the regularisation of theta integrals of Kudla and Rallis (1994) and Ichino (2004)
-(ThetaKernelsForUnitaryDualPairs §5.7b (i)): here on the space of data, for data `v ⊗ Ψ ⊗ vac` with `Ψ` supported on
-maps of full rank after a ring homomorphism from `𝔸_f`, with real data of finite moments, by short pairs of rational
-vectors instead of Siegel sets.
+*Origin:* adapted from the regularisation of theta integrals of Kudla and Rallis (1994) (ThetaKernelsForUnitaryDualPairs
+§5.7b (i)): here on the space of data, for data `v ⊗ Ψ ⊗ vac` with `Ψ` supported on maps of full rank after a ring
+homomorphism from `𝔸_f`, with real data of finite moments, by short pairs of rational vectors instead of Siegel sets.
 
 *Method of the formal proof:* at a point of large height there is a short isotropic vector (6.5 (a)); with a short
 vector on the other side it gives a *short pair*, along which the kernel functional either kills the datum (6.5 (b),
@@ -1390,8 +1396,8 @@ functions.
 
 ### 6.7 Theta kernels modulo an ideal: formal laws
 
-*Origin:* adapted from Harris, Kudla and Sweet (1996), Appendix, Corollary A.3, the compatibility of the splittings with
-orthogonal sums (ThetaKernelsForUnitaryDualPairs §3.3b, *Orthogonal sums*): here for the kernels modulo `𝔪` of 6.1, with
+*Origin:* adapted from Harris, Kudla and Sweet (1996), §1, the compatibility of the splittings with orthogonal sums
+(ThetaKernelsForUnitaryDualPairs §3.3b, *Orthogonal sums*): here for the kernels modulo `𝔪` of 6.1, with
 the laws of twisting, translation by the lattice stabiliser, products over orthogonal sums, conjugation and change of
 modulus.
 
@@ -1722,8 +1728,8 @@ definite groups the lift is a class sum whose kernel is the matrix of jets of a 
 ### 7.1 Products of minors are jointly highest vectors
 
 *Origin:* adapted from Howe (1989), joint harmonics of compact dual pairs, and Kashiwara and Vergne (1978), the lowest
-`K`-types (ThetaKernelsForUnitaryDualPairs §3.46): here an explicit product of powers of nested minors that is a joint
-highest vector of the Fock dual pair of a definite and an indefinite unitary group, with its two weights.
+`K`-types (as cited in ThetaKernelsForUnitaryDualPairs §3.46): here an explicit product of powers of nested minors that
+is a joint highest vector of the Fock dual pair of a definite and an indefinite unitary group, with its two weights.
 
 *Method of the formal proof:* each minor is killed by the raising operators of both actions and is termwise harmonic
 because its columns of one sign are taken in one block; powers and products keep these properties, and the weights add.
@@ -1798,8 +1804,7 @@ kernels).
 
 ### 7.3 Arrows: lifts of forms, transposition and adjointness
 
-*Origin:* adapted from Li (1990) (ThetaKernelsForUnitaryDualPairs §3.46a) and from Rallis (1984), *Injectivity
-properties of liftings associated to Weil representations*, §1, the adjoint of a theta lift
+*Origin:* adapted from Li (1990) (ThetaKernelsForUnitaryDualPairs §3.46a) and from the adjoint of a theta lift
 (ThetaLiftsForDefiniteUnitaryGroups §1.4): here the global consequences of 7.2 for the pair representation of 6.1:
 lifts of forms of a type, their equivariance, the Petersson products of lifts by polynomial vectors, transposition and
 adjointness, for groups of any signature.
@@ -1833,10 +1838,9 @@ decreasing and `L_φy` is a form of type `e′`.
 
 ### 7.4 Edge families and the seesaw for periods
 
-*Origin:* adapted from Kudla (1984), the seesaw identity of global theta lifts (SeesawForThetaChains §6.3): here the
-transfer of proportionality of weighted sums of periods from lifts to transposed lifts, for families of characters with
-common weights over an edge and data modulo ideals, when the theta kernels of the two pairs agree up to moderate weights
-on a spanning set of polynomials.
+*Origin:* adapted from Kudla (1984), the seesaw identity of global theta lifts (SeesawForThetaChains §6.3): here in a
+weak form made for the families of the route, in which the two kernels need not be equal and are compared only through
+the matching condition (ii) of (c).
 
 *Method of the formal proof:* by Fubini (6.4 (d)) a period of a transposed lift is a period of a lift against the
 other kernel; the hypothesis replaces that kernel by the first one for matched polynomials, the real convolution of
@@ -1878,9 +1882,10 @@ edge from `k(d)` to `k′(d)` for the weights `γ`, `γ′`. Write `L_{i,Ψ}` fo
 ### 7.5 The jet kernel of a definite pair
 
 *Origin:* adapted from Gross (1999), algebraic modular forms on a group compact at infinity and kernels between them
-(ThetaLiftsForDefiniteUnitaryGroups §1.2), with Bargmann (1961, 1967), the Fock pairing of a polynomial as a Taylor
-coefficient (ThetaLiftsForDefiniteUnitaryGroups §1.7): here the kernel between algebraic forms on `U(I_n)` and
-`U(I_{n′})` written as the matrix of jets, along the entries of a Schur matrix, of the theta function of a finite datum.
+(ThetaLiftsForDefiniteUnitaryGroups §1.2), with Bargmann (1961), the Fock pairing of a polynomial as a Taylor
+coefficient (as cited in ThetaLiftsForDefiniteUnitaryGroups §1.7): here the kernel between algebraic forms on `U(I_n)`
+and `U(I_{n′})` written as the matrix of jets, along the entries of a Schur matrix, of the theta function of a finite
+datum.
 
 *Method of the formal proof:* the real pair action transforms the Schur coefficient polynomials `A*S_κ(z)ξ` by the
 Weyl representations (6.2 (b)); with 4.2 (a) the theta value of such a polynomial vector is a matrix coefficient of the
@@ -2009,10 +2014,10 @@ Statements:
 
 ### 8.2 The lattice of a finite point of a graded space
 
-*Origin:* adapted from O'Meara (1963), §82, double duality of lattices over a Dedekind domain (HermitianFormsAndLattices
-§4.0a): here for the self-dual `Ô`-lattices of finite points, all finite places at once, with the duality of
-intersection and projection for the complement of `X` and the conjugacy under `U(X)` of lattices with the same
-intersection.
+*Origin:* adapted from O'Meara, *Introduction to Quadratic Forms*, double duality of lattices over a Dedekind domain
+(HermitianFormsAndLattices §4.0a): here for the self-dual `Ô`-lattices of finite points, all finite places at once, with
+the duality of intersection and projection for the complement of `X` and the conjugacy under `U(X)` of lattices with
+the same intersection.
 
 *Method of the formal proof:* `Λ_x` has an orthonormal `Ô`-basis, the columns of the frame times `x`, which gives
 self-duality and the criterion for equality; the duality of intersection and projection is the definition of the dual
@@ -2030,9 +2035,10 @@ form `⟨y, z⟩ = y*Jz`. For a grading of `V` let `Λ⁻_x = Λ_x ∩ X^⊥` an
   `Λ_{a·x} = Λ_{x′}`.
 
 HermitianFormsAndLattices §4.0a (b) gives the duality (c) place by place over a Dedekind domain; (d) is not stated there.
-The library has the duality of projection and intersection for `ℤ`-lattices in Euclidean space
-(`ZLattice.dual_map_orthogonalProjectionOnto`) and Witt extension for quadratic forms over a field
-(`QuadraticMap.IsometryEquiv.exists_extension`); missing are both statements for hermitian `Ô`-lattices.
+The pinned library has Witt extension for quadratic forms over a field (`QuadraticMap.IsometryEquiv.exists_extension`).
+On Tau Ceti's main branch, later than the revision pinned here: the duality of projection and intersection for
+`ℤ`-lattices in Euclidean space (`ZLattice.dual_map_orthogonalProjectionOnto`). Missing are both statements for
+hermitian `Ô`-lattices.
 
 *Needs:* 8.1; AdelicUnitaryGroupsAndAlgebraicModularForms §3.4 (c) (Witt's theorem over `Ô`).
 
@@ -2045,13 +2051,14 @@ The library has the duality of projection and intersection for `ℤ`-lattices in
 
 ### 8.3 Iwasawa decomposition for the flag of the grades
 
-*Origin:* adapted from the published theory of the Iwasawa decomposition of unramified unitary groups: here for the
+*Origin:* adapted from Tits (1979), 3.3.2, the Iwasawa decomposition of unramified unitary groups: here for the
 parabolic subgroup of the flag of the grades of a graded space, at all finite places at once, in the form that every
 lattice of a finite point is moved to a graded lattice by an element of `U`.
 
-*Method of the formal proof:* a Hermite normal form over `Ô` gives a basis of the lattice that does not lower grades;
-Witt's theorem over `Ô` corrects it by an integral unipotent matrix so that its Gram matrix is that of its degree-zero
-part; the correcting element then lies in `U`.
+*Method of the formal proof:* lattice theory over `Ô` in place of buildings. (a) is an echelon reduction over `Ô`
+ordered by the grades. (b) applies Witt's theorem over `Ô` (AdelicUnitaryGroupsAndAlgebraicModularForms §3.4 (c)) to
+the basis of (a) and to the part `b₀` of it between equal grades. In (c), the change of basis from `b₀` to the
+corrected basis `bm` preserves the form and is unipotent for the grading, which is the element of `U` sought.
 
 Let `Y` be a grading of `V` and `E` contain a primitive `5040`-th root of unity (except in (a)).
 
@@ -2071,9 +2078,10 @@ group, by Bruhat–Tits theory; the route needs only (c).
 
 ### 8.4 Finitely many lattices under the bounds
 
-*Origin:* particular to this proof: finiteness of the intersections `Λ⁻_x` that lie between two multiples of `Λ⁻_1`, their
-independence of the components of `x` away from the places of the bound, and finitely many representatives of the
-double cosets `R_f\·/K₀` of points with a bounded orbit.
+*Origin:* adapted from O'Meara, *Introduction to Quadratic Forms*, §81, the finiteness of the set of lattices squeezed
+between two lattices and the local determination of a lattice: here the finiteness of the intersections `Λ⁻_x` that lie
+between two multiples of `Λ⁻_1` and their independence of the components of `x` away from the places of the bound;
+particular to this proof, finitely many representatives of the double cosets `R_f\·/K₀` of points with a bounded orbit.
 
 *Method of the formal proof:* the `Λ⁻` between `q̄^kΛ⁻_1` and `q^{−k}Λ⁻_1` are submodules of a finite quotient; membership
 splits into the parts at a set of places and off it; 8.2 (d) and 8.2 (b) turn equality of `Λ⁻` into a double coset.
@@ -2089,8 +2097,8 @@ Let `Y` be a grading of `V`, `q ∈ 𝔸_f^×`, `k ∈ ℕ`, and say `x` *satisf
   outside `Q ∪ Q̄` such that for every `x` having some `r ∈ R_f` with `Λ_{rx}` graded and `rx` satisfying the bounds,
   some `r′ ∈ R_f` has `r′x` in that finite set times `K₀`.
 
-The library has that a lattice over a Dedekind domain is determined by its completions
-(`TauCeti.eq_iff_forall_baseChange_adicCompletionIntegers_eq`); the finiteness statements are missing.
+On Tau Ceti's main branch, later than the revision pinned here: a lattice over a Dedekind domain is determined by its
+completions (`TauCeti.eq_iff_forall_baseChange_adicCompletionIntegers_eq`). The finiteness statements are missing.
 
 *Needs:* 8.1, 8.2.
 
@@ -2202,15 +2210,16 @@ matrix agrees with an explicit matrix on the columns of positive weight.
 
 ### 8.8 One step of the seesaw unfolding
 
-*Origin:* adapted from Wang (2025), Theorem 4.5, and Furusawa and Morimoto (2025), Proposition 3.1, the unfolding of a
-unipotent period of a global theta lift (SeesawForThetaChains §6.2a): here one step for unitary pairs and strings of
-lengths `s` and `s − 1` with a definite complement, Bessel and Fourier–Jacobi cases together, against any equivariant
-function on the whole Bessel group, with absolute convergence.
+*Origin:* adapted from Wang (2025), Theorem 4.5, and Furusawa and Morimoto (2025), §3, the unfolding of a unipotent
+period of a global theta lift (SeesawForThetaChains §6.2a): here one step of it, as the identities (a) and (b) below,
+for the gradings of 8.1 and any equivariant `W` of 8.6.
 
-*Method of the formal proof:* expand the theta functional over rational classes by 8.7 (b); the classes stable under
-`R(E)` whose representatives do not survive integrate to zero against `W` (a twist by an element of `U` multiplies the
-term by a constant `≠ 1`); the surviving classes are the rational translates of the classes that agree with `T`
-(8.5 (d)), each contributing one value of `unfoldStep`; 6.4 (a), (d) give absolute convergence.
+*Method of the formal proof:* the kernel is written as the sum of its constant terms over rational classes of maps
+(8.7 (b)), and the integral over `[R_Y]` is taken class by class, which the bounds of 6.4 (a), (d) allow. By 8.5 (d)
+there are two kinds of classes. If no map of a class survives, 8.7 (c) gives an element of `U` that multiplies the
+integrand by a constant different from `1` without changing the integral, so the class contributes nothing. The
+others are the classes of the maps `δw` with `δ ∈ U(V′)(E)` and `w` agreeing with `T`, and their contributions are the
+values of `unfoldStep` summed in (a).
 
 Let `Y` grade `V` by `(X, s, N)`, `Y′` grade `V′` by `(X′, s − 1, N)`, `Φ ∈ 𝒮(Hom(V, V′))`, characters for the pair as in
 6.1 (depending on the ranks), and `W` equivariant on `R_Y`.
@@ -2232,11 +2241,11 @@ with two transformation conditions; the route needs the form above.
 
 ### 8.9 Fourier coefficients of theta lifts along the centre of a unipotent radical
 
-*Origin:* adapted from Wang (2025), Theorem 4.5, and Furusawa and Morimoto (2025), Proposition 3.1, the Fourier
-coefficient of a theta lift along the open orbit (SeesawForThetaChains §6.2a): here the coefficient along the centre of
-the unipotent radical of the stabiliser of an isotropic subspace of any dimension, over a core, at any hermitian
-matrix, as a sum over rational frames, and, for an invertible matrix, as one integral over the quotient by the rational
-stabiliser of a frame.
+*Origin:* adapted from Walls (2015), Proposition 2.1.1, and Rallis (1984), *On the Howe duality conjecture*, the
+Fourier coefficients of a theta lift as periods over stabilisers, and from the Fourier coefficient of a theta lift along
+the open orbit (SeesawForThetaChains §6.2a): here the coefficient along the centre of the unipotent radical of the
+stabiliser of an isotropic subspace of any dimension, over a core, at any hermitian matrix, as a sum over rational
+frames, and, for an invertible matrix, as one integral over the quotient by the rational stabiliser of a frame.
 
 *Method of the formal proof:* expand the kernel over rational matrices (6.12); the term of `x` transforms under the
 centre by the character of the Gram matrix of `x` (6.9 (c)), so the coefficient keeps the terms with Gram matrix `β`;
@@ -2335,10 +2344,10 @@ missing are the decomposition over a completion `E_w`, its indexing by subspaces
 
 ### 9.2 Hecke operators and Hecke polynomials at split places
 
-*Origin:* adapted from the published theory of the spherical Hecke operators of `GL_n` over a local field: here on any
-representation of the finite unitary group of a CM field, at places split over `E⁺`, with duality between `w` and `w̄`,
-adjointness for invariant pairings, commutation on vectors spherical at two places, joint eigenvectors in unitary
-representations, and Hecke polynomials.
+*Origin:* adapted from the published theory of the spherical Hecke operators of `GL_n` over a local field, whose
+commutativity is in Tamagawa (1963) and Tits (1979), 3.3.3: here on any representation of the finite unitary group of
+a CM field, at places split over `E⁺`, with duality between `w` and `w̄`, adjointness for invariant pairings,
+commutation on vectors spherical at two places, joint eigenvectors in unitary representations, and Hecke polynomials.
 
 *Method of the formal proof:* at a split place `G_f` contains `GL_n(E_w)` through `w`, and 9.1 applies; the operator at `w̄`
 is that of the inverse coset at `w`; adjointness by the change of variables `g ↦ g⁻¹`; commutation on vectors spherical
@@ -2366,9 +2375,11 @@ and `P_w(X)v = p(X)v` for all `X`.
   `P_w(X)`; for each function `p` there are `t_i` with `T_{w,i}y = t_iy` for every `y` with Hecke polynomial `p`; and a
   `σ`-semilinear map equivariant for the elements supported at `{w, w̄}` carries `P_w(X)` to `P_w(σX)`.
 
-The library has an abstract commutativity criterion for Hecke rings (`HeckeCosetModule.mul_comm_of_antiInvolution`) with
-its instance for `GL_n(ℤ) ⊂ GL_n(ℚ)`, and the formal Hecke polynomial of `GL_n` (`TauCeti.glnHeckePolynomial`); missing
-are the local operators on representations of `G_f` and their laws.
+The pinned library has an abstract commutativity criterion for Hecke rings
+(`HeckeCosetModule.mul_comm_of_antiInvolution`) with its instance for `SL_n(ℤ)` and the integral matrices of positive
+determinant in `GL_n(ℚ)` (`HeckeRing.GLn.commSemiringHeckeRing`). On Tau Ceti's main branch, later than the revision
+pinned here: the formal Hecke polynomial of `GL_n` (`TauCeti.glnHeckePolynomial`). Missing are the local operators on
+representations of `G_f` and their laws.
 
 *Needs:* 9.1; AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (c) (commutation of spherical Hecke operators);
 AdelicUnitaryGroupsAndAlgebraicModularForms §§3.1, 3.2 (b) (`G_f`, `K₀`, `ι_w`, supports).
@@ -2382,9 +2393,9 @@ AdelicUnitaryGroupsAndAlgebraicModularForms §§3.1, 3.2 (b) (`G_f`, `K₀`, `ι
 ### 9.3 Hecke polynomials pass through theta lifts
 
 *Origin:* adapted from Rallis (1982) and Mínguez (2008), Théorème 1, the split case of the unramified theta
-correspondence (ThetaKernelsForUnitaryDualPairs §3.21a): here as an identity of Hecke polynomial operators of the two
-groups at a split place on a datum of the space of data that is the vacuum at that place, for spaces of any signature,
-transported to equivariant pairings, theta lifts and transposed lifts.
+correspondence (as cited in ThetaKernelsForUnitaryDualPairs §3.21a): here as an identity of Hecke polynomial operators
+of the two groups at a split place on a datum of the space of data that is the vacuum at that place, for spaces of any
+signature, transported to equivariant pairings, theta lifts and transposed lifts.
 
 *Method of the formal proof:* on a datum fixed by `P^{w}`, both Hecke polynomials are sums over the subspaces of the
 residue spaces (9.1 (b)) of operators that act on named data by substitution (6.3 (a)); the two sums are compared by the
@@ -2412,8 +2423,8 @@ characters of `U(1)` with `x ↦ a(x/x̄)` and `x ↦ b(x/x̄)` unramified at `w
 
 ThetaKernelsForUnitaryDualPairs §3.21a (ii)–(iii), split case, gives the relation of Satake parameters for the
 Schwartz model through Howe's theorem on spherical vectors; the route needs only the operator identity above, on the
-space of data. The library has the formal Hecke polynomial of `GL_n` (`TauCeti.glnHeckePolynomial`) and no statement on
-theta correspondences.
+space of data. The pinned libraries have no statement on theta correspondences. On Tau Ceti's main branch, later than
+the revision pinned here: the formal Hecke polynomial of `GL_n` (`TauCeti.glnHeckePolynomial`).
 
 *Needs:* 3.7, 5.4, 6.1–6.4, 7.3, 9.1, 9.2; ArithmeticStatisticsPartIV §3.2 (subspace count, `q`-binomial theorem).
 
@@ -2428,9 +2439,13 @@ theta correspondences.
 
 Nothing in this roadmap is in Tau Ceti or in Mathlib in a form that replaces a section: there is no Weil representation,
 Heisenberg representation on functions, theta functional, theta kernel or theta lift in either. The partial neighbours
-that a contributor should start from are named in the sections that use them: scalar Gauss sums (3.9), theta sections on
-a one-dimensional torus (4.3, 4.4), duality of `ℤ`-lattices and Witt extension over a field (8.2), local determination of
-lattices over a Dedekind domain (8.4), Hecke rings of `GL_n` over `ℤ` and the formal Hecke polynomial (9.1–9.3).
+that a contributor should start from are named in the sections that use them: in the pinned libraries, scalar Gauss
+sums (3.9), Witt extension for quadratic forms over a field (8.2), and the Hecke ring of `GL_n` over `ℤ` with its
+double cosets and its commutativity (9.1, 9.2).
+
+On Tau Ceti's main branch, later than the revision pinned here: theta sections on a one-dimensional torus (4.3, 4.4),
+duality of `ℤ`-lattices under projection and intersection (8.2), local determination of lattices over a Dedekind domain
+(8.4), and the formal Hecke polynomial of `GL_n` (9.2, 9.3).
 
 ## Results taken from other roadmaps
 
@@ -2448,3 +2463,47 @@ lattices over a Dedekind domain (8.4), Hecke rings of `GL_n` over `ℤ` and the 
   AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (c) (commutation of spherical operators);
   DivisibilityOfThetaDerivatives §4.4 (b) (jet series along lines); SiegelWeilAndRallisFormulasOnUnitaryGroups §6.1 (a)
   (line terms, used in 6.11).
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/Weil`, with
+  `src/Lib/General/NumberTheory/FrobeniusOrbits` (3.3) and `src/Lib/General/Analysis/FiniteFourier` (3.9).
+- Beauville, *Theta functions, old and new*, Theorem 3.5 (4.3).
+- M. Furusawa, K. Morimoto, Math. Ann. 391 (2025), §3 (8.8).
+- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93 (7.5, 7.6).
+- Harris, Kudla, Sweet, *Theta dichotomy for unitary groups*, J. Amer. Math. Soc. 9 (1996), §1 (6.7).
+- R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989) (7.1).
+- M. Kashiwara, M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44
+  (1978), 1–48 (6.14).
+- T. Kondo, *On Gaussian sums attached to the general linear groups over finite fields*, J. Math. Soc. Japan 15 (1963),
+  244–255 (3.9).
+- S. Kudla, *Seesaw dual reductive pairs*, in *Automorphic forms of several variables* (Katata 1983), Progr. Math. 46,
+  Birkhäuser (1984), 244–268 (7.4).
+- S. Kudla, *Splitting metaplectic covers of dual reductive pairs*, Israel J. Math. 87 (1994), 361–401 (3.3, 3.5, 5.6).
+- S. Kudla, S. Rallis, *A regularized Siegel–Weil formula: the first term identity*, Ann. of Math. 140 (1994) (6.6).
+- E. Lamprecht, Math. Nachr. 9 (1953); see K. Conrad, *Gauss and Jacobi sums on finite fields and Z/mZ*, §4 (3.9).
+- J.-S. Li, *Theta lifting for unitary representations with nonzero cohomology*, Duke Math. J. 61 (1990) (7.2, 7.3).
+- D. Mumford, *Tata lectures on theta I* (4.4).
+- O. T. O'Meara, *Introduction to Quadratic Forms* (8.2), §81 (8.4).
+- S. Rallis, *Langlands' functoriality and the Weil representation* (1982) (9.3).
+- S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984), 333–399 (8.9).
+- T. Tamagawa, *On the zeta functions of a division algebra*, Ann. of Math. 77 (1963) (9.2).
+- J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, thesis (1950), §2.5 (3.9).
+- J. Tits, *Reductive groups over local fields*, Proc. Sympos. Pure Math. 33 (1979), part 1: 3.3.2 (8.3) and 3.3.3
+  (9.2).
+- P. Walls, *The theta correspondence, periods of automorphic forms and special values of standard automorphic
+  L-functions*, arXiv:1501.01565 (2015), Proposition 2.1.1 (8.9).
+- B. Wang Peng Jun, *Global theta lifting and automorphic periods associated to nilpotent orbits*, J. Number Theory 271
+  (2025), 122–149, Proposition 3.2 and Theorem 4.5 (8.8).
+- A. Weil, *Sur certains groupes d'opérateurs unitaires*, Acta Math. 111 (1964), n° 16–19, Theorem 4, and n° 41,
+  Theorem 6 (3.6, 4.2).
+
+In each entry the sections in parentheses are those for which [ShortProof] names the work, in its `INDEX.md` or
+`REFERENCES.md`. The other attributions on the Origin lines are those of the roadmap cited beside the work, whose
+reference list names the work for the section cited: from ThetaKernelsForUnitaryDualPairs, Bargmann (1961) (2.1, 2.2),
+Gan and Ichino (2016) (5.6), Harris, Kudla and Sweet (3.3, 3.5, 5.6, 6.3), Howe (2.1, 2.2, 2.4), Kashiwara and Vergne
+(2.1, 2.2, 2.4, 7.1) and Mínguez (2008) (9.3); from ThetaLiftsForDefiniteUnitaryGroups, Bargmann (1961) (4.1, 7.5),
+Mumford, *On the equations defining abelian varieties I* (1966) (3.6, 4.2–4.4), Mumford's *Tata lectures on theta I*
+(3.6, 4.2, 4.3) and Weil (1964) (4.3, 4.4); from HermitianFormsAndLattices, Knus (1991) (5.1). The `REFERENCES.md` of
+[ShortProof] says which of its citations were compared with their sources.

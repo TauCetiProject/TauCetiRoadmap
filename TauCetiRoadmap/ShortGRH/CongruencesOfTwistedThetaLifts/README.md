@@ -13,12 +13,13 @@ The headline theorems are these. (1) *Regular families of twists* (7.3): for all
 `m`-fold twist `θ_ι`, of modulus prime to `ℓ`, for each prime `ℓ` and each `ι : ℂ ≃ ℚ̄_ℓ`, such that for every ramified
 pair the inverse ratios of `L`-values at the first `m` powers of the twists and their inverses have height at most `x₁`,
 and for each `1 ≤ j ≤ m` the denominators of the projections to the lifts at `θ_ι^j` are bounded by numbers `γ_ℓ`
-whose sum over the primes is at most `f·a·(log b)³/(m·k)`. (2) *The bound for denominators* (6.9): if a twist `ϑ` has
-small ramification and the space `Z` is spanned by lifts whose twisted main summands have short Selmer groups with
-divisible coefficients, then an operator on `Z` whose determinant has `ℓ`-adic norm at least
-`ℓ^(−dim Z·r_O·β_ℓ)` (`r_O` the rank of the smaller space of the descent pair) takes the projection to `Z` of every integral form orthogonal to the false lifts to an integral
-form, where `β_ℓ` is a sum of explicit local losses, the twist allowance, an error term (class number and odd classes)
-and `v_ℓ` of the order of the chosen general linear groups; the orders of the even classes do not enter. (3) *Ribet's
+whose sum over the primes is at most `f·a·(log b)³/(m·k)`. (2) *The bound for denominators* (6.9): for a twist `ϑ` of
+small ramification and a space `Z` spanned by lifts, each with a twisted main summand of small divisible Selmer length
+(1.5), the projection to `Z` has bounded denominators on the integral forms `y` orthogonal to the false lifts: a single
+operator `Λ` on `Z`, whose determinant has `ℓ`-adic norm at least `ℓ^(−dim Z·r_O·β_ℓ)` (`r_O` the rank of the smaller
+space of the descent pair), makes every `Λ(pr_Z y)` integral. The exponent `β_ℓ` is made up of explicit local losses,
+the twist allowance, an error term (class number and odd classes) and `v_ℓ` of the order of the chosen general linear
+groups; no order of a group of even classes occurs in it. (3) *Ribet's
 element* (6.5): for finitely many conjugate self-dual `ℓ`-adic representations, some of which have the trace of a
 twisted main summand plus `t′` powers of the inverse cyclotomic character, there is one Hecke-side element, a
 polynomial in tie variables at auxiliary places, that multiplies every `det(1 − u(g))` into the ideal of tied traces,
@@ -549,11 +550,14 @@ by `ψ_O⁻¹` of the determinant of the `W`-block of the reduction. Then for ev
 `Q(ϑ) ∪ Q(ϑ)̄`, `R` is of finite type at `A` and `(X − ψ_ϑ(s))(X − 1)` kills every `s ∈ I_A`; and the normalised
 representation `u = R ⊗ χ_O` satisfies `(u(g) − ψ_ϑ(g))(u(g) − 1) = 0` for all `g ∈ I_{Q(ϑ)}`.
 
-*Needs:* 1.1, 1.4, 2.1; GaloisRepresentationsOfUnitaryEigenforms §8.4 (attached representations at depth-zero places, restricted to inertia: if an
-eigenform has at a split place a type induced from a label and characters, every attached representation is, at the
-places of `Ω` over it, of finite type with the jumps of the weight, and each inertia element is killed by the polynomial
-whose roots are the images of the roots of the label and of the characters under the tame exponent of the element;
-[ShortProof] `Lib/GaloisRep/LocalGlobal/LabelCompatibility.lean` (`New.GaloisRep.Attached.isLabelledAt`,
+*Needs:* 1.1, 1.4, 2.1; GaloisRepresentationsOfUnitaryEigenforms §8.1 (a form with a parahoric type at a
+split place has a product label there, under conditions on the label of the first block and the distinct characters of
+the others; [ShortProof] `Lib/GaloisRep/LocalGlobal/LocalFormTypes.lean` (`New.HasParahoricType.hasProductLabel`)),
+§8.4 (attached representations at depth-zero places, restricted to inertia: if an eigenform has at a split place a
+type induced from a label and characters, every attached representation is, at the places of `Ω` over it, of finite
+type with the jumps of the weight, and each inertia element is killed by the polynomial whose roots are the images of
+the roots of the label and of the characters under the tame exponent of the element; [ShortProof]
+`Lib/GaloisRep/LocalGlobal/LabelCompatibility.lean` (`New.GaloisRep.Attached.isLabelledAt`,
 `New.GaloisRep.exists_isTameExponent`)); IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic avatar of an algebraic Hecke character: a
 continuous character of `G_E` whose value at most geometric Frobenius elements is `ι` of the value of the Hecke
 character at a uniformiser).
@@ -987,11 +991,22 @@ with coefficients in `K_O/O` bounds the length at every finite level).
 data in a prescribed set, chosen in triangular order so that each new place sees a new Kummer map and the reciprocity
 laws remove the even classes up to a bounded power of `ℓ`.
 
-*Method of the formal proof:* the places are indexed by an exponent and a test point and chosen one after another:
-a new Kummer map and an element killed by the earlier maps, at which the new map takes a given product (4.2 (c));
-Chebotarev's theorem gives a place whose Frobenius has twice these values under the maps and at which the even
-classes take twice their value at the test point; the reciprocity law of each Kummer map at its own place and the
-later ones gives the triangle.
+*Method of the formal proof:* `J` is the set of pairs `(e, g)` with `0 < e < t′` and `g ∈ s`, ordered lexicographically
+with `e` first, and `ty(e, g) = e`. Here `s ⊂ ker cyc` is the set of IdelicReciprocityCountsAndCyclotomicClassGroups
+§10.6 (b) for `g₀ = γ⁻¹`: it gives the detection clause of 4.1 (3), and when `ℓ ≤ y′²` its bound `#s ≤ y′²⁰` gives
+`(#J + #s + 1)·y′h ≤ y′²²h` (trivial if `h = 0`). The Kummer maps `ψ_j` and the Frobenius data `(w_j, A_j, φ_j)` are
+chosen by recursion on `j = (e, g)`. By 4.2 (c), for the `w_i` with `i < j` and `ty(i) = e`, some Kummer map `ψ_j` of
+exponent `e` has its reduction modulo `ℓ` outside the span of the reductions of these `ψ_i`. So some `σ_j ∈ G_ν` has
+`ψ_i(σ_j) = 0` for all `i < j` and `ψ_j(σ_j) = ∏_{k ≠ e, k < t′}(u^e − u^k)`, `u = cyc(γ)` (from this independence
+and 4.2 (a)). With `δ` given by the hypothesis on `W` for `g·g^c·σ_j·(σ_j^c)⁻¹`, near `δ^{ℓ^ν}·g·g^c·σ_j·(σ_j^c)⁻¹`
+every Kummer map takes twice its value at `σ_j` (4.2 (a)) and every `z ∈ Ev_e(O, ∅, ν)` twice its value at `g`. Most
+Frobenii near that element form a proper filter, to which belong `W` and, for each finite set of primes, the data
+whose places avoid it (GaloisRepresentationsOfUnitaryEigenforms §1.2 (b), (d)). This gives a `ν`-split datum in `W`,
+above a prime of `F` not used before and outside the sets `T` of the `ψ_i` with `i ≤ j`, with `ψ_i(φ_j) = 0` for
+`i < j`, `z(φ_j) = 2z(g)`, and `2ψ_j(φ_j) = 4ψ_j(σ_j)`, which divides `ℓ^{y′h}` since `4` and each `u^e − u^k` divide
+`ℓ^h` and `t′ < y′`. For the condition on `z(τ_j)` in 4.1 (3): such a `z` is unramified at the `w_i` with `i < j`
+(4.1 (b)), and 4.2 (b), for `ψ_j` and the `w_i` with `i ≥ j`, where `ψ_j(φ_i) = 0` for `i > j`, gives
+`ℓ^{y′h}·z(τ_j) = 0`.
 
 Let `E` have at least four infinite places and lie in the cyclotomic field of level `N′ > 0`, let `t′ ≥ 0`, `y′` with
 `N′ + t′ < y′`, `γ ∈ G_E` a topological generator modulo `ker cyc`, `h ≥ 0` with `cyc(γ)^a − 1 | ℓ^h` for `0 < a < t′`,
@@ -1002,7 +1017,11 @@ data at places `w_j`, no two equal or conjugate, with `ℓ^ν | q_{w_j} − 1`),
 `(ν, w, τ, φ, γ⁻¹, t′, ty, y′h, y′²²h)`, `τ_j` the tame generators and `φ_j` the Frobenius elements.
 
 *Needs:* 4.1, 4.2; GaloisRepresentationsOfUnitaryEigenforms §1.2 (the filter of most Frobenius data of a number field and its refinement near a
-group element, which is not the trivial filter by Chebotarev's density theorem); ShortGRH background
+group element, which is not the trivial filter by Chebotarev's density theorem);
+IdelicReciprocityCountsAndCyclotomicClassGroups §10.6 (b) (few elements detect the cocycles unramified outside `ℓ`: for
+`E ⊂ ℚ(μ_{N′})` and `g₀` generating `G_E` modulo `ker cyc` there is a finite set `s ⊂ ker cyc`, with `#s ≤ y^{20}`
+whenever `N′ ≤ y` and `ℓ ≤ y²`, such that for all `O`, `ν`, `e` a locally constant cocycle `G_E → (O/ℓ^ν)(−e)`
+unramified outside `ℓ` is zero as soon as it vanishes at `g₀` and on `s`); ShortGRH background
 (Taylor–Wiles places of level `ℓ^ν`: a family of Frobenius data at places `w_j` of prime norm with `ℓ^ν | q_{w_j} − 1`,
 no two equal or conjugate; [ShortProof] `Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.TaylorWilesPlaces`)).
 
@@ -1160,8 +1179,10 @@ the systems of level `L` are the isotypic spaces that contain a nonzero form of 
 are the forms whose values at the points integral above `ℓ` have coordinates that `ι` sends to `ℓ`-adic integers; and
 the Hecke algebra is the algebra of the functions `t` on the systems of level `L` whose operator, the multiplication of
 the forms of each system `x` by `ι⁻¹(t(x))`, preserves the integral forms of level `L`); GaloisRepresentationsOfUnitaryEigenforms §9.1 (Taylor–Wiles places of level `ℓ^ν`: a family of Frobenius
-data at places `w_j` of prime norm with `ℓ^ν | q_{w_j} − 1`, no two equal or conjugate); AdelicUnitaryGroupsAndAlgebraicModularForms §3.1, GaloisRepresentationsOfUnitaryEigenforms §8.3 (attached representations at a
-place of pro-`p` Iwahori level prime to `ℓ`: let `w ≠ w̄` be a place not above `ℓ`, `A` a place of `Ω` over `w`, `ϖ` a
+data at places `w_j` of prime norm with `ℓ^ν | q_{w_j} − 1`, no two equal or conjugate);
+AdelicUnitaryGroupsAndAlgebraicModularForms §3.1 (the Hecke operators `T_{w,j}` at a split place, acting through
+`ι_w`); GaloisRepresentationsOfUnitaryEigenforms §8.3 (attached representations at a place of pro-`p` Iwahori level
+prime to `ℓ`: let `w ≠ w̄` be a place not above `ℓ`, `A` a place of `Ω` over `w`, `ϖ` a
 uniformiser whose local Artin image is the inverse of a Frobenius element at `A`, `u` a unit whose local Artin image
 lies in the inertia group, and `y` a form of an isotypic space fixed by the pro-`p` Iwahori subgroup at `w`; write `F`
 for the matrix of the Artin image of `ϖ` and `T` for that of the Artin image of `u` in the representation of the
@@ -1316,7 +1337,7 @@ is block diagonal with summands `T` and `O(−e)`, `T` agreeing above `ℓ` with
 
 *Needs:* 1.1, 1.3, 1.4, 3.1, 6.1; SelmerBoundsForAnticyclotomicTwists §3.1 (classes of local lattices and dual defects),
 §4.8 (the class of a lattice read at a place above `ℓ`), §4.7 (the colength of the crystalline relations, by the dual
-defect), §4.6 (the defect of the dual of a summand at a place above `ℓ`).
+defect), §4.6 (the bound for the dual defect of each summand at a place above `ℓ`).
 
 [ShortProof], `New/Congruences/FirstOrder/TraceRelations` (`New.Selmer.exists_blockDiagonal_lattice`, `New.Selmer.exists_blockDiagonal_lattices`, `New.Selmer.crystallineColength_le_sum_dualDefect`, `New.Selmer.eventually_exists_inClass_sum_dualDefect_le`)
 
@@ -1453,8 +1474,8 @@ systems that are not weak lifts.
 
 ### 6.8 Lift generators and projections orthogonal to the false lifts
 
-*Origin:* particular to this proof: a form orthogonal to the false lifts differs from its projection to a space of
-lifts, in each type, only on systems that are not weak lifts.
+*Origin:* particular to this proof: for `y` orthogonal to the false lifts and `Z` a space of lifts, each type
+projection of `y − pr_Z y` lies in the sum of the systems that are not weak lifts.
 
 *Method of the formal proof:* the space of lifts and its complement are Hecke stable (5.2 (c)); in a system that is a
 weak lift and not in the space of lifts, the false lifts fill the complement, so the component of a form orthogonal to
@@ -1666,9 +1687,9 @@ scale `x₁`), §3.4 (`m`-fold twists).
 
 §3.1 (lattices over a local Galois group, Hodge–Tate jumps, crystalline cocycles, classes of local lattices and dual
 defects); §4.1 (main
-summand weights, the crystalline relations, the defect bound `B_ℓ`); §4.6 (the defect of the dual of a summand at a
-place above `ℓ`); §4.7 (the colength of the crystalline relations); §4.8 (the class of a lattice read at a place above
-`ℓ`); §5.4 (the twisting theorem for finitely many main summands).
+summand weights, the crystalline relations, the defect bound `B_ℓ`); §4.6 (the bound for the dual defect of each
+summand at a place above `ℓ`); §4.7 (the colength of the crystalline relations); §4.8 (the class of a lattice read
+at a place above `ℓ`); §5.4 (the twisting theorem for finitely many main summands).
 
 ### From DeterminantsOfThetaLiftChains
 

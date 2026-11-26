@@ -319,8 +319,8 @@ library and from other roadmaps.
 - [**Zero-free regions and primes in short windows**](ZeroFreeRegionsAndPrimesInShortWindows/README.md):
   the analytic number theory used: growth and zero-free region with a bound for the logarithmic
   derivative, a Tauberian theorem with a rate, primes in a progression in a window uniformly in the
-  modulus, Pólya–Vinogradov and zero symmetry for all characters, the theta series of a character,
-  zero density for quadratic twists, Landau's lemma for measures.
+  modulus, zero symmetry for all characters, the theta series of a character, zero density for
+  quadratic twists and a prime twist without zeros in a box.
 - [**Theta functions and units of CM lattices**](ThetaFunctionsAndUnitsOfCMLattices/README.md):
   complex multiplication as used: CM lattices and their classes, the sigma and theta functions of a
   CM lattice, the Galois action on their Taylor coefficients, the formal group and its Lubin–Tate
@@ -358,7 +358,7 @@ library and from other roadmaps.
   only results that are targets in their own right, not routine lemmas.
 - [**p-adic comparison for the cohomology of functors on test rings**](PadicComparisonForFunctorCohomology/README.md):
   the p-adic comparison statements that the route proves for its own cohomology in place of the
-  primitive, crystalline and Hodge–Tate comparison theorems, with the Ax–Sen–Tate inputs.
+  primitive, crystalline and Hodge–Tate comparison theorems.
 - [**Crystalline representations and Kisin modules**](CrystallineRepresentationsAndKisinModules/README.md):
   the p-adic Hodge theory used: crystalline representations defined through B_max, period rings as
   used, Kisin modules over Kummer charts and frames, the limit theorem for crystalline

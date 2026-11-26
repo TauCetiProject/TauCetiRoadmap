@@ -9,18 +9,20 @@ algebraic modular forms on definite groups, and forms of a discrete-series type 
 This roadmap states the background that the argument uses about these groups and these forms, in the form the
 shorter proof needs. It is used by the roadmaps of the argument and by background roadmaps, among them
 WeilRepresentationsOnBanachSpacesOfData, SiegelWeilAndRallisFormulasOnUnitaryGroups and
-GaloisRepresentationsOfUnitaryEigenforms. It cites HolomorphicDiscreteSeriesOfUnitaryGroups (the real unitary groups and
-their discrete series), IntegralRepresentationsOfGeneralLinearGroups (the weight representations and Green's
-characters), WeilRepresentationsOnBanachSpacesOfData (Weil data, isotropic splittings, Hecke operators at split places),
-GaloisRepresentationsOfUnitaryEigenforms (Hecke eigenforms), IdelicReciprocityCountsAndCyclotomicClassGroups (class
-field theory of CM fields) and SecondMomentsOfPoincareSeries (where Layer 7 is used), and from earlier roadmaps
-HermitianFormsAndLattices, GeometryOfNumbersAndQuadraticArithmetic and DiscreteSeriesCoefficientsAndAutomorphicMetrics.
+GaloisRepresentationsOfUnitaryEigenforms; Layer 7 is used in SecondMomentsOfPoincareSeries. It cites
+HolomorphicDiscreteSeriesOfUnitaryGroups (the real unitary groups and their discrete series),
+IntegralRepresentationsOfGeneralLinearGroups (the weight representations and Green's characters),
+WeilRepresentationsOnBanachSpacesOfData (Weil data, isotropic splittings, Hecke operators at split places) and
+GaloisRepresentationsOfUnitaryEigenforms (Hecke eigenforms), and from earlier roadmaps HermitianFormsAndLattices,
+GeometryOfNumbersAndQuadraticArithmetic, AdelicAlgebraicGroups, DiscreteSeriesCoefficientsAndAutomorphicMetrics and
+RepresentationTheory/CompactGroups.
 
-Layer 1 is integration over quotients: the quotient integral is realised by a weight of total mass one on each orbit,
-which also serves for actions that do not come from a subgroup; it includes unfolding, quotients in stages, Iwasawa
-coordinates, and the weighted class sums `∑ f(g)/#(Γ ∩ gKg⁻¹)` that replace integrals on definite groups. Layer 2 is
-the adeles of a totally complex field with the normalisations used: covolume one and self-duality of `E`, strong
-approximation omitting finite places, a one-sided Poisson inequality, and the scaling of Haar measure by `GL_n`.
+Layer 1 is integration over quotients: an integral over an orbit space is taken on the whole space against a weight
+whose integral along every orbit is one, also for actions that do not come from a subgroup; it includes unfolding,
+quotients in stages, Iwasawa coordinates, and the weighted class sums `∑ f(g)/#(Γ ∩ gKg⁻¹)` that replace integrals
+on definite groups. Layer 2 is the adeles of a totally complex field with the normalisations used: covolume one and
+self-duality of `E`, strong approximation omitting finite places, a one-sided Poisson inequality, and the scaling of
+Haar measure by `GL_n`.
 Layer 3 is hermitian spaces that are standard at every finite place and their adelic unitary groups: Landherr's
 theorem in that case, Witt's theorem over the integral finite adeles, splittings along isotropic frames, the
 Iwasawa decomposition, weak approximation and congruence levels. Layer 4 is reduction theory: adelic Minkowski
@@ -31,6 +33,12 @@ Hecke eigenforms, their identification with forms on the standard definite space
 the `p`-adic gauge. Layer 7 is the comparison of traces of Hecke-type operators on forms of two unitary groups that
 differ only in their signs at the real places; it gives the equality of multiplicities used for the spanning theorem
 (SecondMomentsOfPoincareSeries §2.3).
+
+The headline theorems are the comparison of traces for test functions cuspidal at a split place (7.13); the
+cuspidality, rapid decay and finite dimension of the forms of a cusp kernel (5.4); Landherr's theorem for spaces with
+adelic frames (3.3 (a)); Mahler's criterion and the integral over a definite quotient as a class sum (4.4); and the
+identification of algebraic modular forms with the forms of a discrete-series type on the standard definite space
+(6.4 (a)).
 
 ## Conventions and notation
 
@@ -84,16 +92,19 @@ class with infinite stabiliser has weight zero.
 **Origin and method.** Every section that states something carries `*Origin:*` (`published:`, `adapted from`,
 `particular to this proof:`, `this roadmap's own formulation:`, or `definitions and conventions`) and
 `*Method of the formal proof:*`, which says how the shorter formal proof proves it; `[ShortProof]` names the file and
-declaration of that proof. A contribution may state a result more generally or prove it otherwise.
+declaration of that proof. A contribution may state a result more generally or prove it otherwise. The names `New.…`
+after `[ShortProof]` are declarations of that proof, at the repository and commit given in the family index, not of
+Mathlib or Tau Ceti.
 
 ## Layer 1: Integration over quotients and class sums
 
 ### 1.1 Quotient integrals by cutoffs
 
-*Origin:* adapted from the published theory of invariant integration on quotients (Weil's formula) and unfolding:
-here the integral over a quotient is a weighted integral on the space itself, for measurable actions that need not
-come from a subgroup, with existence of the weight and independence of it in place of existence and uniqueness of a
-quotient measure.
+*Origin:* adapted from invariant integration on quotients (Weil's formula) and unfolding, in the form of Kallenberg
+(2007), as cited in Gentner and Last (2011), §2, and, classically, Bourbaki, *Intégration* VII (1963): here the
+integral over a quotient is a weighted integral on the space itself, for measurable actions that need not come from a
+subgroup, with existence of the weight and independence of it in place of existence and uniqueness of a quotient
+measure.
 
 *Method of the formal proof:* (a) is Tonelli's theorem for the defining identity of a cutoff. (b) follows by unfolding
 twice: both distributions are computed from `μ` through (a). For a proper action a cutoff is the quotient of a
@@ -138,9 +149,11 @@ discrete cocompact subgroup. If `F ∈ L¹(B)` and `G` is continuous and `B₀`-
 `G(x) = ∑_{γ∈B₀} F(γ + x)` for all `x`, then the mean of `G` over `B/B₀` (Haar probability measure) is
 `vol(B₀\B)⁻¹ ∫_B F dμ`.
 
-AnalyticNumberTheoryPartII §5.3k states Weil's formula and the unfolding for closed subgroups with an invariant
-measure on the orbit space; after identifying the two kinds of quotient integral it gives (d), not (a)–(c) for actions
-that are not subgroups of a group acting on itself.
+AnalyticNumberTheoryPartII §5.3k states Weil's formula for a closed subgroup on whose points the modular characters
+agree, with the quotient measure it determines, and the unfolding over a discrete subgroup of a unimodular group.
+Once its quotient measure is identified with the quotient integral here, it gives the identity of (d) when `G` is
+unimodular; it gives neither the second sentence of (d) nor (a)–(c), which concern actions that need not come from a
+subgroup acting on its group.
 
 *Needs:* Mathlib `MeasureTheory.Measure.IsHaarMeasure`, `MeasureTheory.lintegral_prod` (Tonelli),
 `MeasureTheory.integral_prod` (Fubini).
@@ -153,7 +166,7 @@ that are not subgroups of a group acting on itself.
 
 ### 1.2 Quotients in stages and two vanishing criteria
 
-*Origin:* adapted from the published theory of invariant integration on quotients (quotients in stages): here for the
+*Origin:* adapted from invariant integration on quotients in stages (Bourbaki, *Intégration* VII (1963)): here for the
 quotient integrals of 1.1, with two criteria for the vanishing of the integral of an invariant function.
 
 *Method of the formal proof:* (a) by uniqueness of Haar measure for the push-forward of the quotient integral; (b) by
@@ -255,10 +268,10 @@ For `K` compact and `H ⊂ G` open, `vol(H ∩ K)·[K : H ∩ K] = vol(K)` for e
 
 ### 1.5 Change of level for class sums, and means over compact subgroups
 
-*Origin:* adapted from Gross (1999), §§4–8, the class set with its finite stabilisers, the mass, the inner product
-weighted by the inverse stabiliser orders and the Hecke operators with their adjoints: here for an abstract
-topological group with subgroups `Γ` and `K`, for functions with values in a `ℚ`-vector space, with the means over
-compact subgroups.
+*Origin:* adapted from the sums over double cosets weighted by the inverse orders of the stabilisers, in the theory of
+abstract Hecke operators (Shimura (1971), ch. 3) and of algebraic modular forms (Gross (1999); Greenberg and Voight
+(2014)): here for an abstract topological group with subgroups `Γ` and `K`, for functions with values in a
+`ℚ`-vector space, with the means over compact subgroups.
 
 *Method of the formal proof:* double counting of the fibres of `Γ\G/K′ → Γ\G/K`: over the class of `g`, the classes of
 `K′` are the `Γ_g`-orbits on `K/a⁻¹K′a`, and the orbit-stabiliser count gives the index. The compact mean is an average
@@ -307,8 +320,8 @@ on a CM field `E` is that `E` contains a primitive root of unity of order `5040`
 
 ### 2.2 The field is a self-dual lattice of covolume one in its adeles
 
-*Origin:* adapted from the published theory of the additive duality between a number field and its adeles: here for a
-totally complex field with the normalisations of 2.1, with an explicit fundamental domain.
+*Origin:* adapted from the additive self-duality of a number field in its adeles, Tate (1950), Theorem 4.1.4: here
+for a totally complex field with the normalisations of 2.1, with an explicit fundamental domain.
 
 *Method of the formal proof:* a fundamental domain `F × Ô` for `E` acting on `ℂ^Φ × 𝔸_f`, with `F` a fundamental
 parallelotope of `𝓞_E` in the Minkowski embedding, whose volume `2^{−r₂}√|d_E|` cancels that of `Ô`. For duality: an
@@ -327,9 +340,12 @@ whose common kernel is `E`; the same holds for `a ∈ M_{n×m}(E) ↦ (x ↦ ψ(
 (c) For CM `E`, `ψ(½(x + x̄)) = ψ(x)` for `x ∈ 𝔸`, and `ψ_f(½(x + x̄)) = ψ_f(x)` for `x ∈ 𝔸_f`.
 
 AnalyticNumberTheoryPartII §5.3h, a general theorem on Schwartz–Bruhat functions and Poisson summation over every
-number field, also implies (a) and (b). The standard character of AnalyticNumberTheoryPartII §5.3g is `x ↦ ψ(−x)` for
-the `ψ` of 2.1 (it is `e(2 Re z)` at a complex place and `e(−Tr_{E/ℚ} a)` at `a ∈ E` in the finite adeles), and its
-self-dual measure on `𝔸` is the measure of 2.1; (a) and (b) are the same statements for `ψ` and for `ψ(−·)`.
+number field, applied to `V = E`, `E^n` and `M_{m×n}(E)` with the trace pairing, gives (b) and, of (a), the
+discreteness of `E`, the compactness of `𝔸/E` and its volume one; what (a) adds is the fundamental domain inside
+`B(0, R) × Ô`. The standard character of AnalyticNumberTheoryPartII §5.3g is `x ↦ ψ(−x)` for the `ψ` of 2.1 (it is
+`e(2 Re z)` at a complex place and `e(−Tr_{E/ℚ} a)` at `a ∈ E` in the finite adeles; for `E = ℚ(i)`, `ψ_f(1/5)` is
+`e(2/5)` here and `e(−2/5)` there), and its self-dual measure on `𝔸` is the measure of 2.1; (a) and (b) are the same
+statements for `ψ` and for `ψ(−·)`.
 
 *Needs:* 2.1; Tau Ceti `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
 `TauCeti.GlobalNumberFields.compactSpace_quotient_principalSubgroup`.
@@ -342,10 +358,10 @@ self-dual measure on `𝔸` is the measure of 2.1; (a) and (b) are the same stat
 
 ### 2.3 Strong approximation omitting finite places, and a one-sided Poisson inequality
 
-*Origin:* adapted from the published theory of strong approximation for the additive group and of Poisson summation in
-the adeles: here strong approximation omits a nonempty set of finite places and keeps the infinite places, and Poisson
-summation is an inequality for nonnegative integrable functions that are lower semicontinuous at finitely many
-rational points.
+*Origin:* adapted from strong approximation for the additive group (Cassels (1967), ch. II §15) and from Poisson
+summation in the adeles (Tate (1950)): here the places left out form a nonempty set of finite places, the infinite
+places being kept, and the summation formula becomes a one-sided bound, for a nonnegative integrable function that
+need only be lower semicontinuous at the finitely many rational points on the left.
 
 *Method of the formal proof:* (a) by duality: the closure of `E + 𝔸_S` is a closed subgroup containing `E`; a
 character of `𝔸/E` trivial on it is `ψ(r·)` with `r ∈ E` (2.2 (b)), and `ψ(r·)` trivial on `𝔸_S` forces `r = 0`. The
@@ -356,21 +372,22 @@ inversion on the compact group `𝔸/E` with the dual family of 2.2 (b) bounds t
 Let `E` be totally complex. For a set `S` of finite places, `𝔸_S ⊂ 𝔸` is the set of adeles that vanish at the infinite
 places and at the finite places outside `S`.
 
-(a) If `S` is nonempty, `E + 𝔸_S` is dense in `𝔸`. For CM `E`, every `x ∈ GL_n(𝔸)` and every `m`, the set
-`{x⁻¹ξ + u : ξ ∈ M_{n×m}(E), u ∈ M_{n×m}(𝔸_S)}` is dense in `M_{n×m}(𝔸)`.
+(a) If `S` is nonempty, `E + 𝔸_S` is dense in `𝔸` (recalled from AdelicAlgebraicGroups §4.2, below). For CM `E`,
+every `x ∈ GL_n(𝔸)` and every `m`, the set `{x⁻¹ξ + u : ξ ∈ M_{n×m}(E), u ∈ M_{n×m}(𝔸_S)}` is dense in
+`M_{n×m}(𝔸)`.
 
 (b) Let `F : 𝔸 → ℝ` be integrable with `F ≥ 0`, `T ⊂ E` finite with `F` lower semicontinuous at every point of `T`,
 and `S ≥ 0` such that `∑_{ξ∈Y} |∫_𝔸 ψ(−ξx)F(x) dx| ≤ S` for every finite `Y ⊂ E` (Haar measure of 2.1). Then
 `∑_{t∈T} F(t) ≤ S`.
 
-AdelicAlgebraicGroups §4.2 (strong approximation for unipotent groups: rational points are dense away from every
-nonempty set of places, which need not be finite nor contain the infinite places) states the first sentence of (a),
-for the additive group over every number field, once `𝔸` is identified with the adele ring of `E` (2.1); the second
-sentence follows from it for the vector group `M_{n×m}`, because `M_{n×m}(𝔸_S)` is stable under `GL_n(𝔸)`. The
-equality of Poisson summation for Schwartz–Bruhat functions is AnalyticNumberTheoryPartII §5.3h; (b) is an inequality
-for functions that need not be of that class.
+The first sentence of (a) is the case of the additive group of `E` of AdelicAlgebraicGroups §4.2 (strong approximation
+for unipotent groups: rational points are dense away from every nonempty set of places, which need not be finite nor
+contain the infinite places), once `𝔸` is identified with the adele ring of `E` (2.1); the second sentence follows from
+it for the vector group `M_{n×m}`, because `M_{n×m}(𝔸_S)` is stable under `GL_n(𝔸)`. The formal proof proves the
+first sentence by the duality above instead. The equality of Poisson summation for Schwartz–Bruhat functions is
+AnalyticNumberTheoryPartII §5.3h; (b) is an inequality for functions that need not be of that class.
 
-*Needs:* 1.1, 2.1, 2.2.
+*Needs:* 1.1, 2.1, 2.2; AdelicAlgebraicGroups §4.2 (strong approximation for unipotent groups).
 
 [ShortProof], `Lib/Adelic/Adeles/StrongApproximation.lean` (`New.strong_approximation`,
 `New.Exchange.denseRange_rat_matrix_add`, `New.IsDualFamily.sum_le_of_fourier`)
@@ -383,8 +400,12 @@ matrices over the adeles by `GL_n`, through the determinant, with idelic generat
 *Method of the formal proof:* the local scaling `‖a‖_v` of Haar measure on `E_v` by `a ∈ E_v^×`, the product over the
 places of the restricted product, and the passage to `GL_n` through the factor `|det|` of a general element of
 `GL_n` acting on a Haar measure. The module as a continuous homomorphism on the ideles and the product formula are in
-the library (`TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`); the local
-Haar character is `IsDedekindDomain.HeightOneSpectrum.distribHaarChar_adicCompletion`.
+the library (`TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`,
+`TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`). Mathlib has the Haar character of a distributive action
+(`MeasureTheory.distribHaarChar`), but at the pinned revisions its value on `E_w^×` is not computed; that local
+computation is part of (a). On Tau Ceti's main branch, later than the revision pinned here:
+`IsDedekindDomain.HeightOneSpectrum.distribHaarChar_adicCompletion` (the Haar character of a unit of `E_w` is its
+norm).
 
 Let `E` be a number field, totally complex where `𝔸` occurs.
 
@@ -481,13 +502,13 @@ element of `G(s)`.
 ### 3.3 Landherr's theorem for locally standard spaces, and the Hasse principle for unitary cocycles
 
 *Origin:* adapted from Landherr (1936), the Hasse principle for Hermitian forms over a quadratic extension of number
-fields, as stated in Kirschmer (2016), Theorem 2.4.1: here for spaces that are isometric to the standard form at
-every finite place, with the same signs at all infinite places, over a CM field with the 5040 condition; with the
-representation of `1` by a possibly degenerate form and the Hasse principle for unitary cocycles of a cyclic
-extension of prime degree.
+fields, and from Kneser (1969), §5.5: here for spaces that are isometric to the standard form at every finite place,
+with the same signs at all infinite places, over a CM field with the 5040 condition; with the representation of `1`
+by a possibly degenerate form and the Hasse principle for unitary cocycles of a cyclic extension of prime degree.
 
-*Method of the formal proof:* Hasse's norm theorem and strong approximation (2.3) in place of the Hasse–Minkowski
-theorem. A totally positive element of `E⁺` that is locally a sum of two squares in a quadratic algebra is a global norm;
+*Method of the formal proof:* the route does not pass through quadratic forms over `E⁺`: its global inputs are the
+cyclic Hasse norm theorem and strong approximation (2.3). A totally positive element of `E⁺` that is locally a sum of
+two squares in a quadratic algebra is a global norm;
 this gives (b), representing `1` over `E` one column at a time, and an induction on the columns gives a rational
 orthogonal frame with the prescribed signs, which is (a). For (c), Hilbert's theorem 90 for `GL_n` gives a rational
 splitting, which (a) corrects to a unitary one. The library has Hasse's norm theorem for cyclic extensions
@@ -506,8 +527,11 @@ Let `E` be a CM field with the 5040 condition.
 with `s·σ(s)·…·σ^{[E′:E]−1}(s) = 1`. If `s = uσ(u)⁻¹` for some `u` in the finite adelic unitary group `U(1_n)(𝔸_{E′,f})`,
 then `s = gσ(g)⁻¹` for some `g ∈ U(1_n)(E′)`.
 
-HermitianFormsAndLattices §3.1 (Landherr's theorem for every quadratic extension of number fields) also implies (a);
-(b) for invertible `K` is a case of HermitianFormsAndLattices §3.5.
+HermitianFormsAndLattices §3.1 (Landherr's theorem for every quadratic extension of number fields) also implies (a),
+without the 5040 condition: two spaces with adelic frames of the same signs are isometric to the standard form at
+every finite place and have the same signature at every real place of `E⁺`, so `a` exists, and `g = x⁻¹ax′` then lies
+in `G(s)` by 3.2 (c). For invertible `K`, (b) is HermitianFormsAndLattices §3.5 (a) with `U = ⟨1⟩`; the degenerate
+case is not covered there.
 
 *Needs:* 2.1, 2.3, 3.1, 3.2; Tau Ceti `TauCeti.ClassFieldTheory.cyclicHasseNorm`.
 
@@ -517,12 +541,10 @@ HermitianFormsAndLattices §3.1 (Landherr's theorem for every quadratic extensio
 
 ### 3.4 Witt's theorem over the integral finite adeles
 
-*Origin:* adapted from Kirschmer (2016), Theorem 3.3.3, Proposition 3.3.5 and Theorem 3.3.6, after Jacobowitz (1962)
-and Shimura (1964), the unimodular Hermitian lattices at split, unramified and ramified nondyadic places, their
-conjugacy and their diagonal unit bases, and from Scharlau (1985), Chapter 7, Witt's theorems for trace-valued
-ε-Hermitian forms over a field with involution: here over the integral finite adeles of a CM field with the 5040
-condition, at all finite places at once, with Witt's extension theorem for primitive frames of equal, possibly
-degenerate, Gram matrix.
+*Origin:* adapted from Witt's extension theorem over semiperfect rings, First (2015), Corollary 4.9 (over a field,
+Dieudonné (1955); for lattices, Jacobowitz (1962)): here over the integral finite adeles of a CM field with the 5040
+condition, at all finite places at once, with orthonormal bases of unimodular forms and Witt's extension theorem for
+primitive frames of equal, possibly degenerate, Gram matrix.
 
 *Method of the formal proof:* the 5040 condition gives a skew unit `z ∈ Ô` (`z − z̄` invertible) and makes every unit
 of `Ô` fixed by conjugation a norm. An orthonormal frame is built column by column from these norms; Witt's theorem is
@@ -549,9 +571,9 @@ and `ς` with `ς + ς̄ = h(u, u)`, the Eichler map `v ↦ v + h(u, v)x − h(x
 
 ### 3.5 Splittings along isotropic frames
 
-*Origin:* adapted from Scharlau (1985), Chapter 7, and Knus (1991), the Witt decomposition of a Hermitian space over a
-field with involution: here along an isotropic frame of a space with an adelic frame, with a complement that is again
-standard at every finite place.
+*Origin:* adapted from the Witt decomposition of a Hermitian space over a field (HermitianFormsAndLattices §1.2) and
+Witt's extension theorem (Dieudonné (1955); First (2015), Corollary 4.9): here along an isotropic frame of a space
+with an adelic frame, with a complement that is again standard at every finite place.
 
 *Method of the formal proof:* dual isotropic vectors are found over `E`; the complement has the right local invariants,
 and Landherr's theorem (3.3) and Witt's theorem over `Ô` (3.4) give it an adelic frame.
@@ -573,9 +595,9 @@ the 5040 condition.
 
 ### 3.6 The Iwasawa decomposition of the adelic unitary group
 
-*Origin:* adapted from the published theory of the Iwasawa decomposition of reductive groups over local fields and
-over the adeles: here for the adelic unitary group of a space with an adelic frame, its maximal compact subgroup
-`K_∞K₀` and the stabilisers of isotropic flags of a splitting.
+*Origin:* adapted from the Iwasawa decomposition of reductive groups over local fields, Tits (1979), part 1, 3.3.2
+and 3.8.1: here for the adelic unitary group of a space with an adelic frame, its maximal compact subgroup `K_∞K₀` and
+the stabilisers of isotropic flags of a splitting.
 
 *Method of the formal proof:* the abstract step: if every left invertible frame can be made block triangular by
 `GL_p` and any two isotropic frames of the admissible kind are carried to each other by the compact group, then
@@ -602,8 +624,8 @@ admissible there is not used.
 
 ### 3.7 Smooth local sections of the isotropic orbit
 
-*Origin:* adapted from Scharlau (1985), Chapter 7, Witt's theorems for trace-valued ε-Hermitian forms over a field with
-involution: here over `ℂ`, for one isotropic vector, with an isometry depending smoothly on the target vector.
+*Origin:* adapted from Witt's extension theorem for Hermitian forms over a field (HermitianFormsAndLattices §1.1 (b)):
+here over `ℂ`, for one isotropic vector, with an isometry depending smoothly on the target vector.
 
 *Method of the formal proof:* explicit isometries (quasi-reflections and Eichler maps, 3.4 (d)) whose coefficients are
 smooth functions of the target vector near the base point.
@@ -643,9 +665,10 @@ space; the formal proof uses the infinite places as well.
 
 ### 3.9 Congruence levels
 
-*Origin:* adapted from Borel (1963), the stabilizers of lattices in the local and in the finite adelic points of a linear
-algebraic group are compact open: here for the finite adelic unitary group of the identity form, with principal
-levels, levels cut out by reductions at places pairwise non-conjugate, and their indices.
+*Origin:* adapted from congruence subgroups and levels in adelic groups (Platonov and Rapinchuk (1994), ch. 3 and 5;
+Gross (1999)): here for the finite adelic unitary group of the identity form, with the levels of a global modulus, the
+levels given by subgroups of the reductions at finitely many places with no two equal or conjugate, and their
+indices.
 
 *Method of the formal proof:* openness and the neighbourhood basis from the topology of `Ô`; surjectivity of reduction
 from 3.2 (b) and the surjectivity of `GL_n(𝒪_w) → GL_n(k_w)`; the index from surjectivity; the bound from
@@ -681,9 +704,9 @@ which `K_H` acts through `χ ∘ red`.
 
 ### 4.1 Adelic Minkowski theorems
 
-*Origin:* adapted from Bombieri and Vaaler (1983): Minkowski's second theorem over a number field for bodies that are
-products over the infinite places (Theorem 3, the upper bound): here for the lattice of an adelic frame over a CM field,
-with the first theorem as a count and the explicit constants below.
+*Origin:* adapted from Minkowski's second theorem over a number field, Bombieri and Vaaler (1983) (the upper bound):
+here for the lattice of an adelic frame over a CM field, with the first theorem as a count and the explicit constants
+below.
 
 *Method of the formal proof:* the first theorem by integrating the number of rational points of `y⁻¹(B × Ô)^n + v` over
 `v` (covolume one, 2.2) and scaling (2.4); the second by successive minima, applying the first theorem to a box without
@@ -713,8 +736,9 @@ other constants.
 
 ### 4.2 First minimum, height and short bases
 
-*Origin:* adapted from the published theory of the reduction of lattices (short bases from transference): here for the
-lattices of hermitian spaces with an adelic frame, with explicit constants.
+*Origin:* adapted from the transference theorem between the covering radius of a lattice and the first minimum of its
+dual, Lagarias, Lenstra and Schnorr (1990), and its use for short bases: here for the lattices of hermitian spaces
+with an adelic frame, with explicit constants.
 
 *Method of the formal proof:* the dual of the image of `Λ_V` in `ℂ^{Φ×n}` (for the real part of the hermitian pairing)
 contains the image of `(2/d)Λ_V` up to the different (self-duality, 2.2); transference
@@ -751,14 +775,15 @@ spaces that are not definite.
 
 ### 4.3 Reduction theory, finite volume and a weak form of Weil's convergence criterion
 
-*Origin:* adapted from Weil (1965), §§V–VI, the convergence criterion for theta integrals of classical groups: here for
-unitary groups of hermitian spaces with an adelic frame over a CM field, for the count of rational `n × t` matrices in a
-compact set when `2t < n`, with finite volume (`t = 0`) and a reduction theory for `GL_n` over the adeles by dyadic
-profiles.
+*Origin:* adapted from Weil (1965), Proposition 8, the convergence criterion for theta integrals of classical groups,
+and from the reduction theory and finite volume of adele groups, Borel (1963), 4.5–5.8: here for unitary groups of
+hermitian spaces with an adelic frame over a CM field, for the count of rational `n × t` matrices in a compact set
+when `2t < n`, with finite volume (`t = 0`) and a reduction theory for `GL_n` over the adeles by dyadic profiles.
 
-*Method of the formal proof:* every adelic frame has a rational basis that is reduced in a fixed compact set after
-scaling its columns by powers of `2` at infinity (a profile), from Minkowski's theorems (4.1); the integral over the
-quotient is bounded by a sum over profiles, which converges by the counts of 4.1 (c) when `2t < n`.
+*Method of the formal proof:* (a) comes from Minkowski's theorems (4.1), which bound a rational basis of the lattice of
+`y` once its columns are rescaled at the infinite places by suitable powers of `2`, the dyadic profile `x`. For (b) the
+quotient integral (1.1) is dominated by a sum over profiles of counts of rational matrices in rescaled boxes, and the
+counts of 4.1 (c) make this sum converge when `2t < n`; (c) is the case `t = 0`.
 
 Let `E` be a CM field, `D(x) = diag(2_∞^{x_1}, …, 2_∞^{x_n})` for `x ∈ ℤ^n`.
 
@@ -770,10 +795,12 @@ compact `Ω ⊂ M_{n×t}(𝔸)` with `2t < n`, `∫_{U(J)(E⁺)\U(J)(𝔸)} #{ξ
 
 (c) `Γ_V\G(s)` has finite volume.
 
-AdelicAlgebraicGroups §3.4 (finite volume of `G(F)\G(𝔸)^1` for connected linear algebraic groups) and
-ThetaKernelsForUnitaryDualPairs §5.7a (Weil's convergence criterion for unitary pairs) also imply (b) and (c), once the
-group and the quotient integral here are identified with `U(V)(𝔸)` and its quotient measure; they are general
-theorems that the formal proof avoids.
+AdelicAlgebraicGroups §3.4 (finite volume of `G(F)\G(𝔸)^1` for connected linear algebraic groups) gives (c), as
+`U(V)` has no characters over `E⁺` and so `U(V)(𝔸)^1 = U(V)(𝔸)`. ThetaKernelsForUnitaryDualPairs §5.7a (Weil's
+convergence criterion for unitary pairs), for a split `W` of dimension `2t`, gives (b) through its bound for majorants
+at `h = 1`; its hypothesis holds because `2t < n` and the Witt index of `V` is at most `n/2`. Both need `G(s)` and the
+quotient integral of 1.1 identified with `U(V)(𝔸)` and its quotient measure; they are general theorems that the formal
+proof avoids.
 
 *Needs:* 1.1, 2.2, 2.4, 3.1, 4.1.
 
@@ -783,14 +810,14 @@ theorems that the formal proof avoids.
 
 ### 4.4 Mahler's criterion, and integrals over definite quotients as class sums
 
-*Origin:* adapted from Gross (1999), §§4–8, the class set with its finite stabilisers, the mass, the inner product
-weighted by the inverse stabiliser orders and the Hecke operators with their adjoints: here the integral over the
-quotient of a definite unitary group with an adelic frame as a class sum, with Mahler's compactness criterion (one
-direction) for the adelic unitary group of any signs.
+*Origin:* adapted from the reduction theory of adele groups, Borel (1963), 4.5–5.8, with the compactness criterion of
+Mahler and Godement in one direction: here for the adelic unitary group of a space with an adelic frame of any signs,
+and, for definite signs, the integral over the quotient written as a class sum.
 
-*Method of the formal proof:* short bases (4.2) have Gram matrices in a finite set once the height is bounded, which
-gives (a) through the bounded dual bases of 4.3; equal signs bound the height, which gives (b). For (d) the quotient is
-cut into the finitely many classes `Γ_{V,f}gK`, each unfolded by 1.1 (d).
+*Method of the formal proof:* for (a), when the height is bounded the short bases of 4.2 can only have finitely many
+Gram matrices, and the bounded dual bases of 4.3 then place `g` in `Γ_V·C`. For (b), equal signs force a bound on the
+height, so (a) applies. For (d), the quotient is the union of the finitely many classes `Γ_{V,f}gK`, and 1.1 (d)
+unfolds the integral over each of them.
 
 Let `E` be a CM field and `V` a space with an adelic frame of signs `s`.
 
@@ -852,9 +879,10 @@ Let `E` be a CM field and `V` a space with an adelic frame of signs `s`.
 
 ### 5.2 Convolution over the real points, cusp kernels and projected Poincaré series
 
-*Origin:* adapted from Barnes (1980), Lemma 1 and Proposition 1, the projector of an integrable discrete series in every
-unitary representation: here as right convolution over `G_∞(s)` with an idempotent kernel on bounded automorphic
-functions, with the reproducing identities of cusp kernels and Poincaré series projected to forms.
+*Origin:* adapted from the published theory of cusp forms, in which convolution with a matrix coefficient of an
+integrable discrete series projects onto its isotypic part: here as right convolution over `G_∞(s)` with an idempotent
+kernel on bounded automorphic functions, with the reproducing identities of cusp kernels and Poincaré series projected
+to forms.
 
 *Method of the formal proof:* (a) is the product over the infinite places of the idempotence, decay and moment of the
 discrete-series kernels of HolomorphicDiscreteSeriesOfUnitaryGroups §§5.4, 6.1 under the gap. (b) continuity of translation in
@@ -893,12 +921,13 @@ level `K`.
 
 ### 5.3 Constant terms along unipotent radicals vanish
 
-*Origin:* adapted from the published theory of cusp forms (constant terms of functions reproduced by a cusp kernel):
-here for bounded functions fixed by right convolution with a cusp kernel on adelic unitary groups.
+*Origin:* adapted from the theorem that matrix coefficients of integrable discrete series are cusp forms (Godement
+(1947); Wallach, *Real Reductive Groups I* (1988), ch. 7; closest to the formal proof, Barnes (1980)): here for
+bounded functions fixed by right convolution with a cusp kernel on adelic unitary groups.
 
-*Method of the formal proof:* the constant term along `N_a` is again fixed by convolution with `e` and is invariant
-under the real points of the radical; integrating `e` against such a function along a noncompact unipotent direction
-gives `0` by the moment and decay of a cusp kernel.
+*Method of the formal proof:* the constant term along `N_a` is bounded, continuous, fixed by `R(e)` and invariant under
+the real points of the radical; the vanishing theorem for minimal idempotent kernels
+(HolomorphicDiscreteSeriesOfUnitaryGroups §6.2 (a)), with the dilations of its (b) at each infinite place, kills it.
 
 Let `E` be a CM field, `e` a cusp kernel of order `B` on `G_∞(s)`, `W` a space with an adelic frame of signs `s`, and
 `a ∈ M_n(𝔸)` with `a*·σ_s·a = 0` (`σ_s` the form `diag(s)` at infinity and `1_n` at the finite places) and `a_w ≠ 0` at
@@ -910,7 +939,8 @@ left invariant under `Γ_W ∩ N_a`, then `∫_{(Γ_W∩N_a)\N_a} F(g·v·(y, 1)
 
 (b) `(Γ_W ∩ N_a)\N_a` has finite volume if `N_a ⊂ (Γ_W ∩ N_a)·C` for some compact `C`.
 
-*Needs:* 1.1, 3.1, 5.1.
+*Needs:* 1.1, 3.1, 5.1; HolomorphicDiscreteSeriesOfUnitaryGroups §6.2 (a), (b) (minimal idempotent kernels kill bounded
+radical-invariant functions; dilations along isotropic columns).
 
 [ShortProof], `Lib/Adelic/AutomorphicForms/UnipotentRadical.lean` (`New.unipotentRadical`,
 `New.IsCuspKernel.integral_mul_eq_zero`, `New.Space.integral_unipotentRadical_eq_zero`,
@@ -919,15 +949,18 @@ left invariant under `Γ_W ∩ N_a`, then `∫_{(Γ_W∩N_a)\N_a} F(g·v·(y, 1)
 
 ### 5.4 Forms of a cusp kernel are cuspidal, decay rapidly and are finite in number at each level
 
-*Origin:* adapted from the published properties of spaces of cusp forms of a given type and level (finite dimension
-and rapid decay): here for bounded functions reproduced by a cusp kernel on adelic unitary groups of hermitian spaces
+*Origin:* adapted from the published properties of spaces of cusp forms of a given type and level, finite dimension
+and rapid decay (Borel, *Automorphic forms on reductive groups* (Park City lectures, 2007); Godement (1966); Miller
+and Schmid (2012)): here for bounded functions reproduced by a cusp kernel on adelic unitary groups of hermitian spaces
 with an adelic frame, with cuspidality proved and not assumed, and with an explicit depth in the cusp.
 
-*Method of the formal proof:* at a point with a short lattice vector, the shortest vectors of a sorted Minkowski basis
-(4.1, 4.2) span a rational isotropic subspace whose radical is covered by its rational points times a small real ball
-and a principal level; the mean along the radical vanishes (5.3), so the form is bounded by its oscillation, which the
-reproducing identity of 5.2 (d) makes small; iterating gives rapid decay, and rapid decay with the reproducing identity
-gives finite dimension (compactness of the unit ball in `L²`).
+*Method of the formal proof:* (a) is reduction theory: below the stated bound for `λ(V)`, the first vectors of a
+length-sorted short basis (4.1, 4.2) give the isotropic subspace `A`, and an explicit rational element of the radical
+brings each point of `N_A` close to `1`. (b) is 5.3 for the rational isotropic subspaces, on whose radicals the
+rational points are cocompact. In (c), the vanishing mean of `F` along the radical of the subspace given by (a) leaves
+only the variation of `F` over small real translations. (d) applies (c) again and again, the variation being bounded
+through the reproducing identity of 5.2 (d); and (e) follows from (d) and that identity, which together make the unit
+ball of `𝒜(V, e, K)` compact.
 
 Let `E` be a CM field, `V` a space with an adelic frame of signs `s`, `e` a cusp kernel of order `B` on `G_∞(s)`, and
 `κ(N) = 8fn·rd_E + 48n⁶f²N + 1` for an integer `N ≥ 1` with `N ∈ 𝔇`. A function `F` is *cuspidal* if it is continuous,
@@ -1014,13 +1047,18 @@ of the (irreducible) coefficient representation, the component at `τ` has highe
 
 ### 6.2 The invariant pairing, Harish-Chandra parameters and formal degrees
 
-*Origin:* adapted from Gross (1999), §§4–8, the inner product weighted by the inverse stabiliser orders: here the
-pairing of algebraic forms on definite unitary groups by the class integral of 1.4; with, for the compact group
-`U(n)^Φ`, the cyclicity of the highest vector, its coefficient, and the dimension as a product of formal degrees.
+*Origin:* adapted from Gross (1999), algebraic modular forms and their invariant pairing: here the pairing of
+algebraic forms on definite unitary groups by the class integral of 1.4; with, for the compact group `U(n)^Φ`, the
+cyclicity of the highest vector, its coefficient, and the dimension as a product of formal degrees.
 
-*Method of the formal proof:* (a) by 1.5 (a); (b) the translates of the highest vector span an invariant subspace of an
-irreducible representation; (c) combinatorics of the decreasing positions of a parameter, and the coefficient and
-formal degree of HolomorphicDiscreteSeriesOfUnitaryGroups §§4.1, 5.3 for signs `(1, …, 1)`.
+*Method of the formal proof:* (a) by 1.5 (a). (b) Schur orthogonality (IntegralRepresentationsOfGeneralLinearGroups
+§2.4 (c)) with `a = c = v⁺`, of length one by §2.4 (d), gives `∫ ℓ(ρ(z)v⁺)·⟨v⁺, ρ(z⁻¹)u⟩ dz = (dim W)⁻¹·ℓ(u)` for
+every linear form `ℓ` and every `u ∈ W`; so no nonzero linear form vanishes at all the `ρ(z)v⁺`, and no nonzero `u` has
+`⟨v⁺, ρ(z)u⟩ = 0` for all `z`. (c): the first clause is combinatorics of the positions in a parameter; the coefficient
+of `v⁺` is the product of principal minors of IntegralRepresentationsOfGeneralLinearGroups §2.4 (d), which is `c_λ` on
+`U(n)` by HolomorphicDiscreteSeriesOfUnitaryGroups §5.3 (a) for signs `(1, …, 1)`; and Schur orthogonality
+(IntegralRepresentationsOfGeneralLinearGroups §2.4 (c)) gives `∫|∏_τ c_{l_τ}|² = (dim W)⁻¹`, the product of the inverse
+formal degrees of HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (d).
 
 Let `V` be a definite space and `(κ, e)` a weight.
 
@@ -1034,7 +1072,8 @@ and so do the linear forms `⟨v⁺_l, ρ(z)·⟩`, `z ∈ U(n)^Φ`.
 decreasing order of `l_τ`; `⟨v⁺, ρ(z)v⁺⟩ = ∏_τ conj c_{l_τ}(z_τ)` for `z ∈ U(n)^Φ` (`v⁺ = v⁺_l`); and
 `∏_τ d(l_τ) = dim W`.
 
-*Needs:* 1.4, 1.5, 4.4, 6.1; HolomorphicDiscreteSeriesOfUnitaryGroups §§4.1, 5.3 (`c_λ` and formal degree on `U(n)`).
+*Needs:* 1.4, 1.5, 4.4, 6.1; HolomorphicDiscreteSeriesOfUnitaryGroups §§4.1, 5.3 (`c_λ` and formal degree on `U(n)`);
+IntegralRepresentationsOfGeneralLinearGroups §2.4 (c), (d) (Schur orthogonality, the highest coefficient).
 
 [ShortProof], `Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.smoothPairing`,
 `New.smoothPairing_formTranslation`, `New.highestVector_cyclic`, `New.IsHCParam.eq_hcParameter`,
@@ -1043,13 +1082,20 @@ decreasing order of `l_τ`; `⟨v⁺, ρ(z)v⁺⟩ = ∏_τ conj c_{l_τ}(z_τ)`
 
 ### 6.3 Finiteness and Hecke eigenforms
 
-*Origin:* adapted from Gross (1999): the forms as the invariants of the finite stabilisers over the class set; here
-finiteness at every open level with a character, an invariant positive definite form, and spanning by Hecke eigenforms.
+*Origin:* adapted from the description of algebraic modular forms by their values on the class set, in the invariants
+of the finite stabilisers (AutomorphicFormsOnReductiveGroups §7.5, `S(J, M) ≅ ⊕_i M^{Γ_i}`): here finiteness at every
+open level with a character, an invariant positive definite form, and spanning by Hecke eigenforms.
 
 *Method of the formal proof:* (a) a form is determined by its values at representatives of the finitely many classes,
 each in the invariants of a finite stabiliser. (b) the class integral of the invariant inner product of `W` (6.2 (a)).
-(c) the Hecke operators at split places off `S` commute and are normal for the form of (b) (their adjoints are the
-operators of the inverse double cosets, 1.5), so they are simultaneously diagonalisable on `M`.
+(c) an element of `K₀` outside `H` has some component `g_w ≠ 1`, an open condition, and `K₀ ∖ H` is compact, so
+finitely many places `w` suffice and form an `S`; for a minimal `S`, the splitting `g = ab` of 3.2 (b) along `{w, w̄}`
+shows that `w, w̄ ∉ S` when `K₀,w ⊂ H`; the second sentence follows, as `K₀,w` is trivial at `S` when `w, w̄ ∉ S`.
+(d) the Hecke operators at split places off `S` commute and are normal for the form of (b), the adjoint of `T_{w,j}`
+being `T_{w̄,j}`, the operator of the inverse double coset (WeilRepresentationsOnBanachSpacesOfData §9.2 (a)); so `M`
+is spanned by joint eigenvectors (WeilRepresentationsOnBanachSpacesOfData §9.2 (b)), which are Hecke eigenforms off
+`S`. For the class-set inner product, the adjointness of the operators of `KgK` and `Kg⁻¹K` is also the Hecke-adjoint
+clause of DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a.
 
 (a) Let `G` be a topological group, `Γ → G` an injective homomorphism, `K ⊂ G` a subgroup with `(Γ, K)` of finite type,
 `χ` a character of `K` that is trivial on a neighbourhood of `1`, and `ρ` a representation of `Γ` on a
@@ -1072,8 +1118,9 @@ every `j`. Then `M` is spanned by Hecke eigenforms off `S` (6.1) lying in `M`.
 When all stabilisers `Γ ∩ gKg⁻¹` are trivial, the dimension in (a) is `#(Γ\G/K)·dim W`; for adelic groups this is
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5c.
 
-*Needs:* 1.4, 1.5, 3.1, 3.9, 4.4, 6.1, 6.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5c (dimension for trivial
-stabilisers).
+*Needs:* 1.4, 1.5, 3.1, 3.2, 4.4, 6.1, 6.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5c (dimension for
+trivial stabilisers); WeilRepresentationsOnBanachSpacesOfData §9.2 (a), (b) (adjoints and commutation of the Hecke
+operators at split places, joint eigenvectors).
 
 [ShortProof], `Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.deltaForm`, `New.freeLevelEquiv`,
 `New.finite_levelSpace_smoothFormRep`, `New.finrank_levelSpace_smoothFormRep`, `New.Space.exists_isUnitary_formTranslation`,
@@ -1082,10 +1129,10 @@ stabilisers).
 
 ### 6.4 Forms on the standard definite space are algebraic forms
 
-*Origin:* adapted from Gross (1999), §§4–8, the class set with its finite stabilisers, the mass, the inner product
-weighted by the inverse stabiliser orders and the Hecke operators with their adjoints: here the explicit comparison of
-algebraic forms with the forms of type `e_l` on the standard definite unitary group through the highest vector, at all
-levels at once, with the integration formula for products with a kernel built on the highest vector.
+*Origin:* adapted from Gross (1999), algebraic modular forms on a definite group read as functions on its adelic
+points: here the explicit comparison of algebraic forms with the forms of type `e_l` on the standard definite unitary
+group through the highest vector, at all levels at once, with the integration formula for products with a kernel built
+on the highest vector.
 
 *Method of the formal proof:* Schur orthogonality on the compact group `U(n)^Φ` with the cyclic highest vector (6.2),
 and the formula of 4.4 (d) for the integral over the quotient.
@@ -1103,8 +1150,11 @@ right `K`-invariant. Then `∫_{Γ\G} Φ·φ♮ = (d·[K₀ : K])⁻¹·S_{Γ_f,
 (c) If a level `K` acts on the right on `φ` and on `φ′` by the same unitary character of finite order, then
 `S_{Γ_f,K}(g ↦ ⟨φ(g), φ′(g)⟩) = d·[K₀ : K]·⟨φ♮, φ′♮⟩`, the Petersson product of 5.1.
 
-AutomorphicFormsOnReductiveGroups §7.5 (automorphic realisation) and DiscreteSeriesCoefficientsAndAutomorphicMetrics
-§7.5a (integration formula, comparison) state related general forms; they do not give the explicit map of (a).
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a gives (b), by its integration formula and Schur orthogonality on
+`U(n)^Φ`, and, for the trivial character, (c), as its comparison clause for the unit vector `⟨v⁺, ·⟩` with
+`vol(G_∞K) = [K₀ : K]⁻¹` (4.4 (c)) and `dim W = d`; both once the automorphic realisation of
+AutomorphicFormsOnReductiveGroups §7.5 is identified with `φ ↦ φ♮` and the quotient integral of 1.1 with its quotient
+measure. That identification, the explicit map of (a) with its inverse, is stated in neither section.
 
 *Needs:* 1.4, 1.5, 4.4, 5.1, 6.1, 6.2; RepresentationTheory/CompactGroups §4.1 (Schur orthogonality).
 
@@ -1119,8 +1169,9 @@ AutomorphicFormsOnReductiveGroups §7.5 (automorphic realisation) and DiscreteSe
 unitary group, of an automorphic function built on a vector of a representation of `U(m)` times the restriction of an
 algebraic form, written as a class sum through multiplicity one of the branching from `U(m + 1)` to `U(m)`.
 
-*Method of the formal proof:* the archimedean integral is an intertwiner from `ρ` restricted to `U(m)^Φ` to `ρ₀`, hence a
-multiple of the given branching matrix; the rest is 6.4 (b).
+*Method of the formal proof:* integrating over `U(m)^Φ` produces a linear map `W_{κ,e} → W_{κ₀,e₀}` that commutes with
+`U(m)^Φ`, which by the hypothesis on `A` (IntegralRepresentationsOfGeneralLinearGroups §3.4 (c)) is `C·A`; the finite
+part is the class-sum formula 6.4 (b).
 
 Let `E` be a CM field, `X` an index set of size `m + 1` identified with `{1, …, m} ⊔ {∗}`, `V` the standard space of rank
 `m`, `(κ, e)` a weight for rank `m + 1` with representation `ρ` and `(κ₀, e₀)` a weight for rank `m` with representation
@@ -1225,9 +1276,11 @@ Let `E` be a CM field, `n ≥ 1`.
 cuspidality of the idempotent of an irreducible label, inflated to a test function on the finite adelic unitary group
 that is cuspidal at a split place.
 
-*Method of the formal proof:* Green's class function of an irreducible label has mean zero on every proper coordinate
-unipotent radical, so the coefficients of its idempotent sum to zero over each coset; on `K₀` the test function is the
-inflation of the idempotent through the reduction, and outside `K₀` it vanishes.
+*Method of the formal proof:* the input is the cuspidality of Green's function `τ_P` of the irreducible member
+(IntegralRepresentationsOfGeneralLinearGroups §4.4 (a)), read on the label idempotent of
+IntegralRepresentationsOfGeneralLinearGroups §5.3 (e) as the vanishing of its coefficient sums over the cosets of
+`N_T`. The test function lives on `K₀`, where it is the idempotent pulled back through the reduction of 3.9 (c), and
+the cuspidality of 7.1 at `w_x` is that vanishing read at the place `w_x`.
 
 Let `w_1, …, w_r` be finite places as in 3.9 (c), `c = (c_i)` with `c_i ∈ k_{w_i}[X]`, and suppose `c_x` is an
 irreducible label of degree `n` (monic, irreducible, `c_x(0) ≠ 0`) for some index `x`. Let `e_c ∈ ℂ[∏_i GL_n(k_{w_i})]`
@@ -1243,9 +1296,9 @@ places `w_i, w̄_i` (3.9 (c)), and `K(⊥)` the kernel of the reduction. Then fo
 
 ### 7.3 Kernel bounds and convergence of the geometric side
 
-*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (Kottwitz, Clozel,
-Harris and Taylor, Labesse): here the bound of the kernel sum by a power of the height, and the convergence of the
-geometric side for kernels of polynomial decay on adelic unitary groups.
+*Origin:* adapted from the convergence arguments of the simple trace formula (Flicker and Kazhdan (1988)): here the
+bound of the kernel sum by a power of the height, and the convergence of the geometric side for kernels of polynomial
+decay on adelic unitary groups.
 
 *Method of the formal proof:* the rational points `g⁻¹γx` with finite part in the support of `φ` are counted in dyadic
 shells of the archimedean norm by a measure comparison with disjoint translates of a level box (Minkowski, 4.1), with a
@@ -1279,12 +1332,14 @@ uniformly in `x`.
 
 ### 7.4 Descent of invariant distributions to a slice
 
-*Origin:* adapted from the published theory of invariant distributions (descent to a slice): here for an abstract
-totally disconnected group acted on by conjugation, with the slice given as a hypothesis and no reductive structure.
+*Origin:* adapted from Harish-Chandra's descent of invariant distributions to a slice: here for an abstract totally
+disconnected group acted on by conjugation, with the slice given as a hypothesis and no reductive structure.
 
-*Method of the formal proof:* integration over the fibres of `(γ, y) ↦ j(γ)yj(γ)⁻¹` carries test functions on `Γ × G` to
-test functions on the closed set `C`; an invariant distribution on `C` pulls back to a distribution on `Γ × X` that is
-invariant under translations in `Γ`, hence a multiple of the Haar integral in `Γ`.
+*Method of the formal proof:* the map `(γ, y) ↦ j(γ)yj(γ)⁻¹` from `Γ × X` onto `C` has the `H`-orbits as fibres, so
+averaging along them sends a test function `Ψ` to a function `f` as in the statement. Pulled back along this map, `I`
+becomes a distribution on `Γ × X` invariant under translations of the `Γ`-variable, hence, in that variable, a multiple
+of Haar measure on `Γ`; the hypothesis `∫_Γ Ψ(γ, y) dγ = 0` then gives `I(f) = 0`. On the way, `I` is unchanged by the
+compact means (1.5 (b)) of a test function under conjugation by a compact open subgroup of `Γ`.
 
 Let `G` be a Hausdorff, weakly locally compact, totally disconnected topological group, `Γ` a topological group with a
 compact open subgroup acting on `G` by conjugation through a continuous homomorphism `j`, `H ⊂ Γ` a closed subgroup, with
@@ -1302,9 +1357,9 @@ of `(γ, y)`) for `γ ∈ Γ`, `y ∈ X`, then `I(f) = 0`. For every test functi
 
 ### 7.5 Invariant distributions on classes with coprime factors
 
-*Origin:* adapted from the published theory of the simple trace formula (vanishing of invariant distributions supported
-on classes with reducible characteristic polynomial for test functions cuspidal at a split place): here on the finite
-adelic unitary group, at one split place.
+*Origin:* adapted from the simple trace formula, after Deligne and Kazhdan (vanishing of invariant distributions
+supported on classes with reducible characteristic polynomial for test functions cuspidal at a split place): here on
+the finite adelic unitary group, at one split place.
 
 *Method of the formal proof:* the elements whose component at `w` has characteristic polynomial `AB` with `A, B` coprime
 are conjugate to block diagonal elements; the block diagonal locus is a slice (7.4) with stabiliser the Levi subgroup,
@@ -1320,9 +1375,9 @@ vanishing on `{g ∈ G_f : χ(g_w) = AB}`. Then `I(φ) = 0` for every test funct
 
 ### 7.6 The geometric side, polynomial by polynomial
 
-*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (Kottwitz, Clozel,
-Harris and Taylor, Labesse): here the decomposition of the geometric side by characteristic polynomials and the
-vanishing of the reducible ones under cuspidality at a split place and a simple zero at a second place.
+*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (the works cited at
+7.10): here the decomposition of the geometric side by characteristic polynomials and the vanishing of the reducible
+ones under cuspidality at a split place and a simple zero at a second place.
 
 *Method of the formal proof:* (b) by 7.3 (d) and dominated convergence. (d): the reducible `R` with coprime factors at
 `w` are removed by 7.5 (the term is an invariant distribution in `φ`); a power of an irreducible polynomial cannot be the
@@ -1354,13 +1409,15 @@ stabiliser of that subspace does not change its characteristic polynomial.
 
 ### 7.7 Traces on forms as the geometric side, and unfolding of orbital integrals
 
-*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (Kottwitz, Clozel,
-Harris and Taylor, Labesse): here the trace of an operator on forms of a cusp kernel and a level, written as the
-integral of the kernel on the diagonal, and the unfolding of the irreducible terms into orbital integrals.
+*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (the works cited at
+7.10): here the trace of an operator on forms of a cusp kernel and a level, written as the integral of the kernel on
+the diagonal, and the unfolding of the irreducible terms into orbital integrals.
 
-*Method of the formal proof:* the kernel of `e ⊗ 1_K` is a form in each variable (5.2 (e)); expanding it in an orthonormal
-basis of the finite-dimensional space `𝒜(V, e, K)` (5.4 (e)) and integrating on the diagonal gives the trace; for an
-irreducible polynomial the sum over a conjugacy class is unfolded by 1.3 (3).
+*Method of the formal proof:* (a) is 5.2 (e) for the sum over `Γ_V`, which 7.3 (b) bounds. For (b), each `k_x` lies in
+the finite-dimensional `𝒜(V, e, K)` (5.4 (e)); writing the kernel of `T` through an orthonormal basis of that space and
+integrating it along the diagonal over `Γ_V\G` gives `vol(K)·tr T`, and the same integral is the geometric side. For
+(c), the class of `γ` is indexed by `U(J)(E⁺)` modulo the centraliser, and 1.3 (3) unfolds it. For (d), a cutoff
+(1.1) depending only on the finite component separates the archimedean and the finite variables of `I_γ`.
 
 Let `V` be a space with an adelic frame of signs `s`, `e` a cusp kernel of order `B` on `G_∞(s)`, `K` a level.
 
@@ -1389,9 +1446,10 @@ counting measure: `I_γ(e_l ⊗ φ) = ∏_w ∫_{U(diag s)} e_{l_w}(h⁻¹t_wh) 
 
 ### 7.8 The Selberg principle for cusp kernels
 
-*Origin:* adapted from the published theory of discrete series (the vanishing of orbital integrals of cusp forms at
-non-elliptic elements): here for a cusp kernel inside the adelic orbital integral of a rational point whose
-characteristic polynomial is irreducible with a root off the unit circle.
+*Origin:* adapted from the Selberg principle of the theory of discrete series, the vanishing of orbital integrals of
+cusp forms at non-elliptic elements (Harish-Chandra (1966), Theorem 11): here for a cusp kernel at the infinite places
+of an adelic orbital integral, at a rational element whose irreducible characteristic polynomial has a root off the
+unit circle at some infinite place.
 
 *Method of the formal proof:* the centraliser of such a `γ` contains, at some infinite place, a noncompact torus along
 which the orbital integrand is a convolution of the cusp kernel with a function invariant in a noncompact direction;
@@ -1434,6 +1492,11 @@ with `∏_{w,i} η_{μ,w,i} = 1`, there is a permutation `e` of the `GL_n(E)`-or
 type `(ε, ν, F)`; (b) `U` commutes with every `z ∈ GL_n(E)` that commutes with `y`; (c) `e` maps the orbit of `(qK, y, μ)`
 to that of `(UqK, y, μ)`.
 
+HermitianFormsAndLattices §3.2 with `n = 1`, for `L` over its maximal totally real subfield `L⁺`, with the trivial
+class at every finite place and the prescribed signs at the real places of `L⁺`, gives the element `a` of the
+background result below: it lies in `L⁺` and is a norm from `L` locally at every finite place. It does not state the
+idele `z`, a choice at each finite place of a solution of `z_v z̄_v = a⁻¹` that is a unit at almost all places.
+
 *Needs:* 2.1, 3.1; ShortGRH background (class field theory for a CM field `L` over its totally real subfield: for
 signs at the infinite places of `L` with product one, there are an `a ∈ L^×` with `φ(a)` real of the prescribed sign
 for every complex embedding `φ`, and a finite idele `z` of `L` with `a·z·z̄ = 1`; [ShortProof]
@@ -1445,10 +1508,12 @@ for every complex embedding `φ`, and a finite idele `z` of `L` with `a·z·z̄ 
 
 ### 7.10 Comparison of traces under a simple-zero condition
 
-*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (Kottwitz, Clozel,
-Harris and Taylor, Labesse): here for two hermitian spaces with adelic frames that differ only in their signs at the real
-places, with idempotent discrete-series kernels at the real places, a test function cuspidal at a split place with a
-simple zero at a second place, and the conclusion an equality of traces on spaces of forms of a level.
+*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups: Labesse (2011),
+Theorems 5.4 and 5.5 and their proofs; Arthur and Clozel (1989), ch. 1, Lemmas 2.4–2.6; Knightly and Li (2006);
+Flicker and Kazhdan (1988); Harris and Labesse (2004), Proposition 1.10.5: here for two hermitian spaces with adelic
+frames that differ only in their signs at the real places, with idempotent discrete-series kernels at the real places,
+a test function cuspidal at a split place with a simple zero at a second place, and the conclusion an equality of
+traces on spaces of forms of a level.
 
 *Method of the formal proof:* by 7.7 (b) `vol(K)·tr T` is the geometric side, a sum over polynomials (7.6 (b)); reducible
 polynomials vanish (7.6 (d)); irreducible ones with a root off the unit circle vanish (7.8); for the others the orbital
@@ -1495,7 +1560,8 @@ the line `k_w e_i` modulo `ϖ_w`. For a complex representation `ρ` of `GL_n(E_w
 double cosets `J diag(ϖ_w, 1, …, 1)^{±1} J` (with `ϖ_w` in the `i`-th position) on `ρ^J`, and `e_sph` the mean over lifts
 of `GL_n(k_w)` (the compact mean of 1.4 for `GL_n(𝒪_w)`).
 
-(a) `T⁺T⁻y = q^{n−2}(y + (q^n − 1)·e_sph y)` for `y ∈ ρ^J`.
+(a) `T⁺T⁻y = q^{n−2}(y + (q^n − 1)·e_sph y)` for `y ∈ ρ^J`. For the trivial representation both sides are `q^{2n−2}`:
+`T⁺` and `T⁻` each have degree `q^{n−1}`.
 
 (b) If `ρ` is unitary, `⟨T⁺x, y⟩ = ⟨x, T⁻y⟩` for `x, y ∈ ρ^J`.
 
@@ -1513,14 +1579,21 @@ zero at `w` for every `k ∈ J`.
 *Origin:* particular to this proof: traces on the fixed vectors of a maximal level are recovered from traces of products
 with powers of a raising operator at the level of the stabiliser of a line.
 
-*Method of the formal proof:* (a) Newton's identities for the traces of powers; then the relation `T⁺T⁻ = d(1 + c·e)`
-expresses `tr(A e)` through the traces of `A^l T⁺^i`. (b) is (a) for the relation of 7.11 (a) on the fixed vectors of
-the cut level, with `e = e_sph` the projector onto the vectors fixed by the maximal level at `v`; (c) is bookkeeping of
-supports at `v`.
+*Method of the formal proof:* (a) `e = c⁻¹(d⁻¹T⁺T⁻ − 1)` commutes with `A` as `T⁺` and `T⁻` do, so all three
+preserve each generalised eigenspace `M_α` of `A`, and the hypotheses hold on it. For `X` commuting with `A`,
+`tr(A^l X) = ∑_α α^l·tr(X|M_α)`, and distinct `α` give linearly independent sequences `l ↦ α^l`; so the given traces
+fix `tr((T⁺)^i|M_α)` for `α ≠ 0` and `i ≥ 1`. On `M_α`, `|det T⁺|² = det(T⁺T⁻) = d^{dim M_α}(1 + c)^{r_α}` with `r_α`
+the rank of `e` there, so `T⁺` is invertible there, and the same independence argument, applied to `T⁺`, shows that
+the traces of its positive powers fix its characteristic polynomial; its degree is `dim M_α` and its constant term
+gives `|det T⁺|`, hence `r_α`. Then `tr(Ae)` is the sum of `α·r_α` over the `α ≠ 0`. The last sentence of (a) is the
+same argument for the traces of `A^l`, which give the dimensions of the `M_α`, the multiplicities of the roots. (b) is
+(a) for the relation of 7.11 (a) on the fixed vectors of the cut level, with `e = e_sph` the projector onto the vectors
+fixed by the maximal level at `v`; (c) is bookkeeping of supports at `v`.
 
 (a) Let `M` be a finite-dimensional complex inner product space, `T⁺`, `T⁻ = (T⁺)*`, `e` an idempotent and `A` an
-operator commuting with `T⁺` and `T⁻`, with `T⁺T⁻ = d(1 + c·e)` for real `d, c > 0`. Then the traces of `A^l (T⁺)^i`,
-`l, i ≥ 1`, determine `tr(Ae)`. Over `ℂ`, the traces of all powers of an operator determine its characteristic polynomial.
+operator commuting with `T⁺` and `T⁻`, with `T⁺T⁻ = d(1 + c·e)` for real `d, c > 0`. For two such systems on `M` and
+`M′` with the same `d` and `c`, equal traces of `A^l (T⁺)^i` for all `l, i ≥ 1` give equal `tr(Ae)`. Over `ℂ`, the
+traces of all powers of an operator determine its characteristic polynomial.
 
 (b) Let `ρ`, `ρ′` be unitary representations of `G_f`, `v` a split place, `K` a level containing `ι_v(GL_n(𝒪_v))`, and
 `K′ = {g ∈ K : g_v ∈ J}` with `J` the stabiliser of the line of `e_i` modulo `ϖ_v` (7.11), with `ρ^{K′}`, `ρ′^{K′}`
@@ -1542,14 +1615,14 @@ function supported at `v` in `Σ·J`.
 
 ### 7.13 Comparison of traces for cuspidal test functions
 
-*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (Kottwitz, Clozel,
-Harris and Taylor, Labesse): here the comparison of 7.10 without the condition at a second place, for test functions
-cuspidal at one split place.
+*Origin:* adapted from the comparison of simple trace formulas for inner forms of unitary groups (the works cited at
+7.10): here the comparison of 7.10 for test functions cuspidal at one split place, with no condition at a second place.
 
-*Method of the formal proof:* an auxiliary split place `v`, different from `w` and `w̄`, at which `K` is maximal and `a` is
-integral, is chosen; the level is cut at `v` to the stabiliser of a line, where the positive powers of `T⁺` force the
-simple zero (7.11 (c)), so 7.10 (b) applies to `(T⁺)^{m+1}(a′)^{l+1}`, and 7.12 (b) returns to the level `K`. The spaces
-at the cut level are finite-dimensional by 5.4 (e).
+*Method of the formal proof:* a split place `v ∉ {w, w̄}` is chosen with `ι_v(GL_n(𝒪_v)) ⊂ K` (6.3 (c)) and with the
+components at `v` of the elements in the support of `a` integral. With the level `K′` of 7.12 (b) at `v`, the operator
+`(T⁺)^{m+1}(a′)^{l+1}` has a test function that is cuspidal at `w` and has a simple zero at `v` on its support (7.12 (c),
+7.11 (c)); 7.10 (b) compares its traces for `V` and `V′`, the spaces of level `K′` being finite-dimensional (5.4 (e)),
+and 7.12 (b) passes back to `K`.
 
 Let `E` be a CM field with the 5040 condition and an even number of infinite places, `n ≥ 2`, `V`, `V′` spaces with adelic
 frames of signs `s`, `s′`, and `l` with each `l_w` of gap `500n³ + 10n⁵` for `s` and for `s′`. Let `K` be a level, `a ∈ 𝔄(K)`
@@ -1569,6 +1642,21 @@ frames of signs `s`, `s′`, and `l` with each `l_w` of gap `500n³ + 10n⁵` fo
   GeometryOfNumbersAndQuadraticArithmetic §4.4 (item 4.4.14).
 - The dimension of spaces of algebraic modular forms when all stabilisers are trivial (the number of classes times the
   dimension of the coefficients): DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5c.
+- Strong approximation for unipotent groups, in the case of the additive group: AdelicAlgebraicGroups §4.2 (2.3 (a)).
+- Schur orthogonality for one irreducible representation of a compact group: RepresentationTheory/CompactGroups §4.1
+  (6.4).
+- Measures on the real unitary groups, the coefficients `c_λ` with their formal degrees and the gap condition:
+  HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.4, 4.1 (Conventions, 3.1, 5.1); idempotence, decay and moments of
+  `e_λ`: its §§5.4, 6.1 (5.2); the vanishing theorem for minimal idempotent kernels: its §6.2 (5.3); `c_λ` on `U(n)`:
+  its §5.3 (6.2); Weyl characters and elliptic orbital integrals: its §§7.1, 7.4 (7.10).
+- The weight representations in the model of products of minors, with the integral Gram matrix, irreducibility, Schur
+  orthogonality and the highest coefficient: IntegralRepresentationsOfGeneralLinearGroups §§1.1–1.3, 2.1, 2.3 (c), 2.4
+  (Conventions, 6.1, 6.2, 6.6); integral branching with multiplicity one: its §3.4 (6.5); Green's cuspidal functions,
+  labels and their idempotents: its §§4.4, 5.3 (Conventions, 7.2).
+- Weil data of a CM field: WeilRepresentationsOnBanachSpacesOfData §3.1 (Conventions); splittings along isotropic
+  frames: its §5.1 (3.5); the Hecke operators `T_{w,j}` at split places, their adjoints and joint eigenvectors: its §9.2
+  (3.1, 6.3).
+- Hecke eigenforms off a finite set of places: GaloisRepresentationsOfUnitaryEigenforms §1.1 (6.1).
 
 ## What the library already provides
 
@@ -1581,10 +1669,57 @@ frames of signs `s`, `s′`, and `l` with each `l_w` of gap `500n³ + 10n⁵` fo
 - The norm map on ideles preserves the module: `TauCeti.GlobalNumberFields.ideleNorm_ideleNormMap`, with the norm map of
   finite adeles `TauCeti.GlobalNumberFields.finiteAdeleNorm`.
 - The module of an idele as a continuous homomorphism and the product formula:
-  `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`,
-  `NumberField.FiniteAdeleRing.unitEmbedding_norm_eq_inv_abs_norm`.
+  `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`,
+  `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`, `NumberField.FiniteAdeleRing.unitEmbedding_norm_eq_inv_abs_norm`.
+- The Haar character of a distributive action, not computed on completions at the pins: `MeasureTheory.distribHaarChar`.
 - A number field is discrete and cocompact in its adeles: `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
   `TauCeti.GlobalNumberFields.compactSpace_quotient_principalSubgroup`.
 - Hasse's norm theorem for cyclic extensions of number fields: `TauCeti.ClassFieldTheory.cyclicHasseNorm`.
 - An operator commuting with a group commutes with its group algebra, and the group-algebra map is compatible with
   push-forward: `Representation.commute_asAlgebraHom_of_forall_commute`, `MonoidAlgebra.lift_mapDomain`.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/Adelic`, with single declarations from
+  `src/Lib/General/Measure`, `src/Lib/GaloisRep/Main` and `src/Lib/Weil/Unramified`.
+- Arthur and Clozel (1989), cited in `[ShortProof]` with chapter and lemmas but without a title.
+- B. Barnes, Proc. Edinburgh Math. Soc. 23 (1980), cited in `[ShortProof]` without a title.
+- E. Bombieri, J. Vaaler, *On Siegel's lemma*, Invent. Math. 73 (1983).
+- A. Borel, *Some finiteness properties of adele groups over number fields*, Publ. IHES 16 (1963).
+- A. Borel, *Automorphic forms on reductive groups* (Park City lectures), IAS/Park City Math. Ser. 12 (2007).
+- N. Bourbaki, *Intégration* VII (1963).
+- J. W. S. Cassels, *Global Fields*, in Cassels–Fröhlich, *Algebraic Number Theory* (1967), ch. II.
+- Deligne and Kazhdan, and Harish-Chandra for the descent of invariant distributions: `[ShortProof]` names these
+  authors for 7.5 and 7.4 without a work.
+- Dieudonné, *La géométrie des groupes classiques* (1955).
+- U. A. First, *Witt's extension theorem for quadratic spaces over semiperfect rings*, J. Pure Appl. Algebra 219
+  (2015).
+- Flicker and Kazhdan (1988), cited in `[ShortProof]` without a title.
+- D. Gentner, G. Last, Math. Z. 267 (2011), §2, where Kallenberg (2007) is cited.
+- R. Godement, C. R. Acad. Sci. Paris 225 (1947) 521–523, 657–659, cited in `[ShortProof]` without a title.
+- R. Godement, *The spectral decomposition of cusp forms*, Proc. Sympos. Pure Math. 9 (1966) 225–234.
+- J. A. Green, *The characters of the finite general linear groups*, Trans. AMS 80 (1955).
+- M. Greenberg, J. Voight, *Lattice methods for algebraic modular forms on classical groups*, arXiv:1209.2460 (2014).
+- B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93.
+- Harish-Chandra, *Discrete series II*, Acta Math. 116 (1966).
+- Harris and Labesse, *Conditional base change for unitary groups* (2004).
+- Jacobowitz, Amer. J. Math. 84 (1962), cited for lattices; `[ShortProof]` elsewhere cites Jacobowitz, *Hermitian
+  forms over local fields* (1962).
+- O. Kallenberg, *Invariant measures and disintegrations with applications to Palm and related kernels*, Probab.
+  Theory Related Fields 139 (2007), 285–310.
+- M. Kneser, *Lectures on Galois cohomology of classical groups*, TIFR 47 (1969).
+- Knightly and Li, *Traces of Hecke operators* (2006).
+- Labesse, *Changement de base CM et séries discrètes* (2011).
+- J. C. Lagarias, H. W. Lenstra, C. P. Schnorr, *Korkin–Zolotarev bases and successive minima of a lattice and its
+  reciprocal lattice*, Combinatorica 10 (1990).
+- W. Landherr, *Äquivalenz Hermitescher Formen über einem beliebigen algebraischen Zahlkörper*, Abh. Math. Sem.
+  Hamburg 11 (1936), 245–248.
+- S. Miller, W. Schmid, *On the rapid decay of cuspidal automorphic forms*, Adv. Math. 231 (2012).
+- V. Platonov, A. Rapinchuk, *Algebraic Groups and Number Theory* (1994).
+- G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions* (1971).
+- J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, thesis (1950), in Cassels–Fröhlich,
+  *Algebraic Number Theory* (1967), ch. XV.
+- J. Tits, *Reductive groups over local fields*, Proc. Sympos. Pure Math. 33 (1979), part 1.
+- N. Wallach, *Real Reductive Groups I* (1988).
+- A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965).

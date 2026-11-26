@@ -58,10 +58,10 @@ of the shorter formal proof. That roadmap's fields (`K = ℚ(√−d)`, the CM f
 roadmap every statement is for general number fields.
 
 **Fields and Galois groups.** `Ω` is one fixed algebraic closure of `ℚ`; every number field `K` is a subfield of `Ω`
-and `G_K = Gal(Ω/K)`, a profinite group. Several statements are made for an abstract profinite group `Γ` acting on `Ω`
-as the Galois group of `Ω/K` with open stabilisers; this covers `G_K` and its closed subgroups over their fixed fields
-at once. A *character* of `Γ` is a continuous homomorphism `χ : Γ → ℚ/ℤ` (`ℚ/ℤ` discrete); it factors through the
-topological abelianisation `Γ^ab = Γ/[Γ,Γ]⁻`. `c` is a fixed complex conjugation of `Ω` (an automorphism acting as
+and `G_K = Gal(Ω/K)`, a profinite group. Several statements are made for a profinite group `Γ` that acts on `Ω` with
+open stabilisers as the Galois group of `Ω/K`; both `G_K` and each closed subgroup of `G_K`, over the fixed field of
+that subgroup, are of this kind. A *character* of `Γ` is a continuous homomorphism `χ : Γ → ℚ/ℤ` (`ℚ/ℤ` discrete); it
+factors through the topological abelianisation `Γ^ab = Γ/[Γ,Γ]⁻`. `c` is a fixed complex conjugation of `Ω` (an automorphism acting as
 complex conjugation under some embedding `Ω → ℂ`). For a CM field `E`, `E⁺` is its maximal totally real subfield,
 `x ↦ x̄` the conjugation (on `E`, its adeles and its places), `Φ` a CM type, given as one embedding `Φ_w : E → ℂ` for
 each infinite place `w`, and `g ↦ g^c = cgc` the conjugation of `G_E`. `χ_N : Γ → (ℤ/N)^×` and `χ_ℓ : Γ → ℤ_ℓ^×` are the
@@ -127,9 +127,9 @@ a place of `Ω` (1.4), and the finite ideles (1.5).
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* a Galois group is an abstract profinite group acting on `Ω` with open stabilisers, so
-that closed subgroups are Galois groups over their fixed fields; places are valuation subrings of `Ω`, and
-decomposition groups are their stabilisers.
+*Method of the formal proof:* definitions. The Galois correspondence of (5) is transferred from Mathlib's infinite
+Galois theory (`InfiniteGalois`) along the map `Γ → Gal(Ω/K)`, which is continuous by the compatibility clause of (5)
+and onto because its image is a closed subgroup with fixed field `K`.
 
 Let `Γ` act on `Ω` as the Galois group of `Ω/K`, with open stabilisers.
 
@@ -165,8 +165,9 @@ correspondence), `ValuationSubring`.
 
 ### 1.2 Places above a prime and embeddings into `p`-adic fields
 
-*Origin:* adapted from the published theory of the decomposition of primes in Galois extensions of number fields:
-here for valuation subrings of one fixed algebraic closure, with the extension of embeddings to finite adeles.
+*Origin:* adapted from the theory of the decomposition of primes in Galois extensions of number fields (Neukirch
+(1999); Serre (1979); Stacks Project, tag 09EE): here for valuation subrings of one fixed algebraic closure, with the
+extension of embeddings to finite adeles.
 
 *Method of the formal proof:* a valuation subring dominating the local ring at `v` lies over `v`; transitivity is the
 usual argument with the integral closure of `𝒪_K` in `Ω`; almost all primes are unramified in the finite extension
@@ -206,9 +207,9 @@ CM field, `v_{σ∘conj} = v̄_σ` and `σ_𝔸` is compatible with conjugation.
 
 ### 1.3 Decomposition groups as absolute Galois groups of completions
 
-*Origin:* adapted from the published theory of decomposition groups and completions: here for the infinite extension
-`Ω/K`, with the decomposition group of a valuation subring of `Ω` identified with `Gal(ℚ̄_p/K_v)` through an embedding
-`Ω → ℚ̄_p`.
+*Origin:* adapted from the theory of decomposition groups and completions (Neukirch (1999); Serre (1979); Stacks
+Project, tag 09EE): here for the infinite extension `Ω/K`, with the decomposition group of a valuation subring of `Ω`
+identified with `Gal(ℚ̄_p/K_v)` through an embedding `Ω → ℚ̄_p`.
 
 *Method of the formal proof:* every place above `p` is the pull-back of the integers of `ℚ̄_p` along some embedding,
 because all such places are conjugate (1.2 (b)); restriction along the embedding maps the open subgroup of
@@ -247,14 +248,15 @@ is the transfer through which the library's local theory applies at places of `�
 
 ### 1.4 Frobenius, inertia, roots of unity and tame inertia at a place of `Ω`
 
-*Origin:* adapted from the published theory of Frobenius elements and tame ramification of local fields: here for
-henselian local fields inside `Ω` and at places of `Ω` above primes of a number field.
+*Origin:* adapted from the theory of Frobenius elements and tame ramification of local fields (Neukirch (1999); Serre
+(1979); Stacks Project, tag 09EE): here for henselian local fields inside `Ω` and at places of `Ω` above primes of a
+number field.
 
-*Method of the formal proof:* the residue field of `Ω` is an algebraic closure of the finite residue field, which
-gives a Frobenius; distinct roots of unity of order prime to the residue characteristic stay distinct modulo `𝔪_A`,
-which gives the cyclotomic character at Frobenius and inertia; inertia acts transitively on the roots of an Eisenstein
-polynomial, in particular on the `n`-th roots of a uniformiser, which gives the tame structure; the extension of `ℚ_p`
-by `p`-power roots of unity is totally ramified.
+*Method of the formal proof:* (a) lifts a Frobenius of the residue field of `Ω`, which is an algebraic closure of the
+finite residue field. (b) compares `σ(ζ)` with `ζ^{q′}` modulo `𝔪_A`, reduction modulo `𝔪_A` being injective on the
+roots of unity whose order is a unit at `A`; its last clause uses that `ℚ_p(μ_{p^∞})/ℚ_p` is totally ramified. (c) rests
+on the transitivity of inertia on the roots of an Eisenstein polynomial, applied to `X^n − π`. (d) is (c) for the
+henselian field `k_A` of 1.3 (c), in which uniformisers of `K` at `w` stay uniformisers.
 
 Let `(k, A)` be a henselian local field datum with residue field of order `q` (1.1).
 
@@ -296,8 +298,8 @@ the tame quotient in `TauCeti/NumberTheory/LocalField/Tame/Quotient.lean`); at p
 
 ### 1.5 Finite ideles and the class group
 
-*Origin:* adapted from the published theory of ideles and the ideal class group: here for finite ideles only, with
-total positivity in place of the archimedean components.
+*Origin:* adapted from the theory of ideles and the ideal class group (Neukirch (1999); Serre (1979); Stacks Project,
+tag 09EE): here for finite ideles only, with total positivity in place of the archimedean components.
 
 *Method of the formal proof:* the divisor map from the finite ideles to fractional ideals; its composite with the map
 to the class group has kernel generated by the principal ideles and the integral unit ideles; finiteness of the class
@@ -343,8 +345,8 @@ assembled from the finite layers, which 2.2 has to do.
 
 ### 2.1 The local Artin map at a place of `Ω`
 
-*Origin:* adapted from the published theory of local class field theory: here at a place `A` of `Ω`, with values in
-the abelianised decomposition group of `A`, in the geometric normalisation.
+*Origin:* adapted from local class field theory (Serre (1979); Milne (2020)): here at a place `A` of `Ω`, with values
+in the abelianised decomposition group of `A`, in the geometric normalisation.
 
 *Method of the formal proof:* the shorter proof builds the invariant `ℚ/ℤ ≅ H²(D_A, Ω^×)` from its own cocycles and
 pins the local Artin map down by a cup-product formula with cyclic classes, then reads its properties in `ℚ̄_p` through
@@ -390,15 +392,16 @@ with `Art_A(u)` the class of the tame generator `γ_A` of 1.4 (d).
 
 ### 2.2 The global Artin map on finite ideles
 
-*Origin:* adapted from the published theory of global class field theory (Artin reciprocity): here on finite ideles,
-with values in `G_K^ab` of the fixed closure, in the geometric normalisation, with the real places handled by total
-positivity.
+*Origin:* adapted from global class field theory and Artin reciprocity (Milne (2020); Tate (1967); for reciprocity
+from the sum formula, Hasse (1933)): here on finite ideles, with values in `G_K^ab` of the fixed closure, in the
+geometric normalisation, with the real places handled by total positivity.
 
-*Method of the formal proof:* the shorter proof proves the second inequality from densities of primes of degree one
-(8.1, 8.4), Albert–Brauer–Hasse–Noether from it with Tate's index formula for `S`-units, and Artin's reciprocity law
-from cyclotomic characters of prime conductor. The library's global Artin map is defined for each finite Galois
-extension `L/K`, on the idele class group, with values in `Gal(L/K)^ab` (ClassFieldTheory §11.1, `globalArtinMap`); it
-has no map into `G_K^ab`. With the library, `Art_K` is therefore the inverse limit over the finite Galois `L/K` in `Ω` of
+*Method of the formal proof:* the shorter proof builds global class field theory itself: a bound for the index of
+norm subgroups by comparing the densities of 8.1 and 8.4 at the primes of degree one; from that bound and a count of
+`S`-units, the local–global principle for Brauer classes; and the reciprocity law by reduction to the cyclotomic
+characters of prime conductor. The library's global Artin map is defined for each finite Galois extension `L/K`, on
+the idele class group, with values in `Gal(L/K)^ab` (ClassFieldTheory §11.1, `globalArtinMap`); it has no map into
+`G_K^ab`. With the library, `Art_K` is therefore the inverse limit over the finite Galois `L/K` in `Ω` of
 these maps (compatible in towers by ClassFieldTheory §11.1), restricted to the ideles with archimedean components `1`
 and composed with inversion. Its local components are those of 2.1 by `globalArtinMap_local`, the reciprocity law (b)
 comes from `globalArtinMap_principal` with the archimedean symbols of ClassFieldTheory §10.1 (`infiniteArtinAt`,
@@ -445,17 +448,18 @@ places outside `S`, then `z = 0`.
 
 ### 2.3 Norm groups, Hasse's norm theorem, the existence theorem, Kummer characters and detecting points
 
-*Origin:* adapted from the published theory of the norm and existence theorems of global class field theory: here on
-finite ideles, for totally positive elements, and with existence only for totally complex fields.
+*Origin:* adapted from the norm and existence theorems of global class field theory (Milne (2020); Tate (1967)): here
+on finite ideles, for totally positive elements, and with existence only for totally complex fields.
 
-*Method of the formal proof:* the shorter proof deduces Hasse's theorem from Albert–Brauer–Hasse–Noether and the
-cyclic symbols, and existence by Kummer theory when `K` contains `μ_n`, passing otherwise to a cyclic extension inside
-`K(μ_n)` and composing with the norm; the detecting points are Artin symbols of representatives of a finite quotient of
-the ideles. With the library, (a) and (b) are the library's norm index (ClassFieldTheory §12.1,
-`card_ideleClassNormQuotient`) and cyclic Hasse norm theorem (ClassFieldTheory §13.1, `cyclicHasseNorm`) read at
-finite ideles, total positivity accounting for the real places; (c) is not the library's existence theorem but a
-deduction from it (ClassFieldTheory §12.1, `globalAbelianExistence`, for the open subgroups of finite index) together
-with the surjectivity of `Art_K` and the separation of the points of `G_K^ab` by characters.
+*Method of the formal proof:* in the shorter proof, (b) applies the local–global principle for Brauer classes, proved
+with 2.2, to the cyclic class of `x`; (c) is first proved over fields that contain `μ_n`, where the Kummer characters
+of (d) describe the abelian extensions of exponent dividing `n`, and the general case is reduced to that one through a
+cyclic subextension of `K(μ_n)/K` and the norm compatibility 2.2 (c); the detecting points are Artin symbols of
+representatives of a finite quotient of the ideles. With the library, (a) and (b) are the library's norm index
+(ClassFieldTheory §12.1, `card_ideleClassNormQuotient`) and cyclic Hasse norm theorem (ClassFieldTheory §13.1,
+`cyclicHasseNorm`) read at finite ideles, total positivity accounting for the real places; (c) is not the library's
+existence theorem but a deduction from it (ClassFieldTheory §12.1, `globalAbelianExistence`, for the open subgroups of
+finite index) together with the surjectivity of `Art_K` and the separation of the points of `G_K^ab` by characters.
 
 Let `K` be a number field.
 
@@ -494,11 +498,15 @@ it vanishes at every `p_i`.
 
 ### 2.4 Galois descent from a subgroup of finite index
 
-*Origin:* adapted from the published theory of Galois descent for semilinear actions (Speiser's lemma): here relative
-to a subgroup of finite index that is the fixer of its own fixed field.
+*Origin:* adapted from Galois descent for semilinear actions (Speiser's lemma) and Hilbert's Theorem 90 (Serre
+(1997); Neukirch, Schmidt and Wingberg (2008); Atiyah and Wall (1967)): here relative to a subgroup of finite index
+that is the fixer of its own fixed field.
 
-*Method of the formal proof:* the traces over the finitely many cosets of the vector times fixed scalars are invariant
-vectors, and Dedekind's independence of characters shows that their span contains the vector.
+*Method of the formal proof:* for a scalar `a` fixed by `U`, summing `τ(g)(a y)` over representatives `g` of the
+cosets of `j⁻¹(U)` gives a vector fixed by `Γ`; the cosets act on `F^U` by pairwise distinct automorphisms, which are
+linearly independent over `F` (Dedekind), so some `F`-combination of these sums, for suitable `a`, equals `y`. For
+Hilbert 90, `Ω` with the action twisted by the cocycle has a nonzero invariant vector `x` by the first statement, and
+the cocycle is the coboundary of `x⁻¹`.
 
 Let a group `G` act on a field `F` by automorphisms, `j : Γ → G` a homomorphism, `U ⊂ G` a subgroup of finite index that
 is the fixer of its own fixed field `F^U`, and `τ` a representation of `Γ` on an `F`-vector space `V` that is
@@ -548,12 +556,13 @@ functions on decomposition groups or linear relations among values.
 
 ### 3.2 Cocycles at tamely ramified places
 
-*Origin:* adapted from the published theory of tame ramification: here for locally constant cocycles of a matrix
-representation, with values killed by a power of `ℓ` prime to the place.
+*Origin:* adapted from the theory of tame ramification (Neukirch (1999); Serre (1979); Stacks Project, tag 09EE): here
+for locally constant cocycles of a matrix representation, with values killed by a power of `ℓ` prime to the place.
 
-*Method of the formal proof:* the structure of tame inertia (1.4 (d)) applied to the affine action `u ↦ c(g) + ρ(g)u`
-of the Galois group on `Bⁿ`, which is a homomorphism to a finite group of exponent prime to the place on a small
-open subgroup of inertia.
+*Method of the formal proof:* the cocycle makes `G_E` act on `Bⁿ` by the affine maps `u ↦ c(g) + ρ(g)u`. This
+homomorphism to the permutations of `Bⁿ` satisfies the hypotheses of 1.4 (d) with exponent `mℓ^M`, which is prime to
+the place: it is trivial on the elements of `I_A` near `1`, and its values on all of `I_A` have order dividing `mℓ^M`.
+By 1.4 (d) the action of each element of `I_A` is then a power of that of `γ_A`.
 
 Let `E` be a number field, `ρ : G_E → M_n(O)` multiplicative, `B` an `O`-module killed by `ℓ^M`, `A` a place of `Ω` above a
 finite place `P` of `E`, `c : G_E → Bⁿ` locally constant with `c(gh) = c(g) + ρ(g)c(h)`.
@@ -585,9 +594,12 @@ Frobenius `φ` at `A`, then `c` vanishes on `D_{A′}`.
 *Origin:* adapted from the published theory of the Hermite–Minkowski finiteness theorem: here as finiteness of
 continuous cocycles, proved by class field theory.
 
-*Method of the formal proof:* on an open subgroup that acts trivially and contains no complex conjugation a cocycle is
-a homomorphism; unramified outside `S` it is determined by its restrictions to the decomposition groups at a finite set
-of places (2.2 (f)), and a cocycle is determined by these and its values at coset representatives.
+*Method of the formal proof:* class field theory takes the place of a bound for discriminants. Choose an open normal
+subgroup `U` with trivial action on `V` and no complex conjugation in it. The restriction of a cocycle to `U` is a
+homomorphism, and by 2.2 (f) over the fixed field of `U` such a homomorphism, if unramified outside `S`, is known
+once its restrictions to the decomposition groups above finitely many places are known; each of these ranges over a
+finite set by the local statement at the end. The cocycle itself is then fixed by its values at representatives of
+`G/U`.
 
 Let `G` act on `Ω` as the Galois group over a number field `K`, `V` a finite discrete `G`-module and `S` a finite set of
 finite places. Only finitely many continuous cocycles `G → V` vanish on `I_A` for every place `A` above a place outside
@@ -650,9 +662,11 @@ Let `K` be a number field, `m, N ≥ 1`, `U` an open normal subgroup of `G_K`, `
 field of an open normal subgroup, with linearly independent equivariant logarithms indexed by orbits of places, and the
 count of equivariant maps to projective modules.
 
-*Method of the formal proof:* the `S`-unit theorem and the logarithmic embedding indexed by places; for the count, the
-averaging projector of a Higman-projective module lifted to an integral matrix, whose characteristic polynomial is read
-over `ℝ` through the logarithms.
+*Method of the formal proof:* (a) is the `S`-unit theorem, with the logarithms at the places above `N` and infinity
+grouped by `Q`-orbits. (b) compares two lattices with an action of `Δ`, `A` modulo torsion and the permutation
+lattice on `Z`. For `V` satisfying Higman's criterion, the number of equivariant maps from a lattice to `V` is fixed by
+the characteristic polynomial of an integral matrix built from the action on the lattice and the map `τ` of the
+criterion (4.1 (5)); the forms `Λ_z` identify the two lattices after tensoring with `ℝ`, so the two polynomials agree.
 
 (a) Let `Q` be an open normal subgroup of `G_K` and `X` the set of `Q`-orbits of places of `Ω` above `N` and infinity.
 Then `E_N(Q)` is finitely generated; there are additive maps `Λ_x : E_N(Q) × ℤ → ℝ`, `x ∈ X`, permuted by `G_K/Q` (acting
@@ -676,8 +690,10 @@ theorem).
 among the values of trivialised cocycles at tame generators, and over a totally complex field every solution of these
 relations is realised by a trivialised cocycle.
 
-*Method of the formal proof:* Kummer characters of the `N`-units (2.3 (d)) and the product formula for the Artin map
-(2.2 (e)); trivialised cocycles are built from data at one point per orbit and moved by corestriction.
+*Method of the formal proof:* `b` comes from the Kummer characters of the `N`-units (2.3 (d)), and (b) from the
+product formula 2.2 (e). For (c), a cocycle that is a coboundary on the stabiliser of one place in each orbit extends
+to a trivialised cocycle, and trivialised cocycles of an open subgroup of finite index give trivialised cocycles of
+`G_K` by corestriction.
 
 Let `s` be split places for `(m, N, I, U, ι)`, `γ_i` a tame generator of order `m` at `A_i`, and `V` a discrete
 `ℤ/m`-module on which `U` acts trivially. There is an additive map `b : E_N(U) → (ℤ/m)^ι` such that:
@@ -708,10 +724,15 @@ trivialised cocycle of `C` lifts to `B` and `#Triv(A) = #A^k`.
 a totally complex field, with the vanishing of the dual Selmer group replaced by an element central modulo `U` without
 fixed vectors and by Frobenius elements that detect roots.
 
-*Method of the formal proof:* for a module killed by a prime `l`, fixed by `U` and Higman-projective over `G_K/U`, the
-count is compared with the equivariant maps from `E_N(U) × ℤ` to `V` (4.2, 4.3); over an open subgroup normalising an
-`l`-Sylow subgroup modulo `U` every module killed by `l` is filtered by projective ones, so cocycles lift along exact
-sequences and, by corestriction, over the whole group; a dévissage by `l`-torsion ends the proof.
+*Method of the formal proof:* in (a) the trivialised cocycles are compared, through the relations of 4.3, with the
+equivariant maps from `E_N(U) × ℤ` to `V` counted in 4.2 (b). For (b), the modules `W` in play are those satisfying
+`(l, U, z, 1)` (4.1 (5)). The proof first works over an open subgroup containing `z` whose image in `G_K/U` normalises
+a Sylow `l`-subgroup `P/U`, both indices prime to `l`. There (a), applied after filtering by the invariants of `P`,
+bounds every such `W`, and (a) gives equality for the Higman-projective ones; embedding `W` in a Higman-projective
+module and using the last statement of 4.3, trivialised cocycles lift along exact sequences over that subgroup, and
+corestriction carries the lifting to `G_K`. Only then, over `G_K`, is `#Triv(W)/#W^{#ι+1}` multiplicative in exact
+sequences (4.3); it is `1` on Higman-projective modules by (a), hence `1` throughout by
+AuxiliaryAlgebraAndAnalysisForThetaLifts §1.2. A filtration of `V` by modules killed by `l` gives the bound.
 
 Let `K` be a number field, `N ≥ 1` and `l` a prime.
 
@@ -725,7 +746,9 @@ satisfying `(l^r, U, z, 1)` with `χ_l(z) = 1` and
 `[z, g] ∈ U` for every `g ∈ G_K`, and suppose that the Frobenius elements of `s` detect roots. Then
 `0 < #Triv(V) ≤ #V^{#ι+1}`.
 
-*Needs:* 4.1, 4.2, 4.3; Mathlib `Sylow.nonempty`, `Sylow.not_dvd_index` (on the finite quotient `G_K/U`).
+*Needs:* 4.1, 4.2, 4.3; AuxiliaryAlgebraAndAnalysisForThetaLifts §1.2 (multiplicative functions trivial on the
+modules that satisfy Higman's criterion); Mathlib `Sylow.nonempty`, `Sylow.not_dvd_index` (on the finite quotient
+`G_K/U`).
 
 [ShortProof], `Lib/ClassField/GreenbergWiles/CocycleCounts` (`New.IsLargeLevel.SplitPlaces.card_trivialised_of_isHigmanProjective`,
 `New.IsLargeLevel.SplitPlaces.hasFewCocycles_of_isHigmanProjective`,
@@ -734,13 +757,14 @@ satisfying `(l^r, U, z, 1)` with `χ_l(z) = 1` and
 
 ### 4.5 Relations at split primes and the Greenberg–Wiles inequality
 
-*Origin:* adapted from the published theory of the Greenberg–Wiles formula: here an inequality in which the dual
-Selmer group is replaced by the module of relations, with no local or global duality.
+*Origin:* adapted from the published theory of the Greenberg–Wiles formula: here only an inequality, with relations
+standing for the dual Selmer group and without local or global duality.
 
-*Method of the formal proof:* choose a level `q` and one split prime for each coset of an open normal subgroup fixing
-the `m`-th roots of the `q`-units fixed by `U`; then every linear form killing the values of the cocycles at the tame
-generators is read off a relation; the count of 4.4 bounds the cocycles ramified at the split primes, which bounds the
-annihilator of their values.
+*Method of the formal proof:* in (b) the level `q` is large, and for an open normal subgroup acting trivially on the
+`m`-th roots of the `U`-invariant `q`-units, Chebotarev's theorem gives split primes whose Frobenius elements meet each
+of its cosets that meets `U`; a linear form that vanishes on the values at the tame generators of all cocycles in
+`Z({v_i})` is then given by a relation. In (c) the count of 4.4 bounds the cocycles that may ramify at the split primes, and
+through them the group of linear forms that annihilate their values; (d) puts (b) and (c) together.
 
 Let `K` be a number field and `M` a finite discrete `G_K`-module. A *relation setting* `D` for `M` and `m ≥ 1`: `m M = 0`;
 an open normal subgroup `U` fixing `M` and `μ_m` and containing no complex conjugation; complex conjugations act
@@ -774,7 +798,7 @@ with `#Z(∅)·#M^{#S + r_∞} ≤ #(relations off T)·#M·∏_{v∈S} #A_v`.
 The Greenberg–Wiles formula (ArithmeticGaloisDuality §R02.5.1) together with Poitou–Tate duality gives bounds of this
 kind through the restriction of dual Selmer cocycles to `U`; the route needs only the inequality.
 
-*Needs:* 3.1, 3.3, 4.1, 4.3, 4.4.
+*Needs:* 3.1, 3.3, 4.1, 4.3, 4.4; ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem).
 
 [ShortProof], `Lib/ClassField/GreenbergWiles/Relations` (`New.SplitPrime`, `New.RelationSetting`,
 `New.RelationSetting.IsRelation`, `New.RelationSetting.relations`, `New.RelationSetting.finite_relations`,
@@ -788,9 +812,9 @@ kind through the restriction of dual Selmer cocycles to `U`; the route needs onl
 *Origin:* particular to this proof: a lower bound for the number of reductions modulo `ℓ` of relations, for a module
 whose `ℓ`-torsion has order `ℓ`, using only four infinite places.
 
-*Method of the formal proof:* forms on `M[ℓ]` are lifted to relations by 4.5 (b); the cocycles killed by `ℓ` are bounded
-by the projective count of 4.4 (a) for `M[ℓ]` over the kernel of the action on `M[ℓ]` and on `μ_ℓ`, which has index
-prime to `ℓ`, the procyclic image of `κ` supplying the central element.
+*Method of the formal proof:* by 4.5 (b), linear forms on the group `M[ℓ]` of order `ℓ` come from relations; against
+this, 4.4 (a) applies to `M[ℓ]` over the open subgroup acting trivially on `M[ℓ]` and on `μ_ℓ`, whose index is prime to
+`ℓ`, with the central element taken in the procyclic image of `κ`, and bounds the cocycles killed by `ℓ`.
 
 Let `D` be a relation setting for `M` and `m` (4.5) with `ℓ | m`, `#M[ℓ] = ℓ`, and `K` with at least four infinite places.
 Let `κ : G_K → ℤ_ℓ^×` be a continuous character with values `≡ 1 mod 4`, `c ∈ G_K` with `g ∈ U` or `gc ∈ U` whenever
@@ -798,7 +822,7 @@ Let `κ : G_K → ℤ_ℓ^×` be a continuous character with values `≡ 1 mod 4
 `v`. Then for some finite `T ⊃ S` the reductions modulo `ℓ` of the relations off `T` form a group of order at least
 `ℓ^{k+1}`, `k` the number of places of `S` not above `ℓ`.
 
-*Needs:* 4.4, 4.5.
+*Needs:* 4.4, 4.5; ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem).
 
 [ShortProof], `Lib/ClassField/GreenbergWiles/RelationsModL` (`New.RelationSetting.reductions`,
 `New.RelationSetting.exists_pow_le_card_reductions`, `New.RelationSetting.exists_hasFewCocycles_torsion`,
@@ -814,9 +838,12 @@ are those of CrystallineRepresentationsAndKisinModules §3.1 (defined through `B
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* a class of lattices is given by admissibility along a filter, allowed Hodge–Tate jumps
-and polynomials killing inertia; the closure properties come from the stability of admissibility under subobjects,
-tensor products and twisted duals.
+*Method of the formal proof:* membership in a class is a conjunction of three conditions, so (a)–(c) follow from the
+behaviour of admissibility (CrystallineRepresentationsAndKisinModules §3.6) and of jumps (§3.4, and the Hodge frames of
+§3.3 for tensor products) under subobjects, twisted duals and tensor products; (e) is §3.2 (a) with §3.4 (d). For (d),
+the linear Frobenius of `s` on `Y ⊗ L` is the tensor product of those on `Y` and on `L` (§3.7 (c)), which `q` and `r`
+kill; so it is killed by the monic polynomial over `ℤ_p` of degree `deg q·deg r` whose roots are the products of a
+root of `q` and a root of `r`, and §3.7 (e) passes this to `s⁻¹` on the Tate dual.
 
 Let `p` be a prime, `O` a `ℤ_p`-algebra, `Γ` a group with a homomorphism to `G_{ℚ_p} = Gal(ℚ̄_p/ℚ_p)`, `χ` the cyclotomic
 character.
@@ -844,8 +871,8 @@ monic polynomial of degree at most `deg q·deg r` over `ℤ_p` kills `s⁻¹` on
 `Γ` acts through `χ^c` is in the class `(F, ∅, {−c})`; (f) the dual defect vanishes exactly when all crystalline cocycles
 are cup-orthogonal.
 
-*Needs:* CrystallineRepresentationsAndKisinModules §§3.1, 3.4, 3.6, 3.7 (definitions, jumps, admissibility, linear
-Frobenius).
+*Needs:* CrystallineRepresentationsAndKisinModules §§3.1, 3.2, 3.3, 3.4, 3.6, 3.7 (definitions, Tate twists, Hodge
+frames, jumps, admissibility, linear Frobenius).
 
 [ShortProof], `Lib/ClassField/LocalDuality/CrystallineDuality` (`New.Lift.GalLattice`, `New.Lift.GalLattice.tateDual`,
 `New.Lift.InClass`, `New.Lift.Pairing`, `New.Lift.cupOrthogonal`, `New.Lift.dualDefect`, `New.Lift.HasCupExponent`,
@@ -855,17 +882,18 @@ Frobenius).
 
 ### 5.2 Local duality for crystalline cocycles
 
-*Origin:* adapted from Bloch and Kato (1990), Proposition 3.8: the finite classes of a lattice and of the discrete
-quotient of its dual are exact annihilators under local Tate duality; here one divisibility, for groups of crystalline
+*Origin:* adapted from local Tate duality (Serre (1997); Milne (2006)): here one divisibility, for groups of crystalline
 cocycles modulo `ℓ^m` of potentially crystalline lattices in perfect duality, with the sizes of the cocycle groups.
 
-*Method of the formal proof:* the sizes of the crystalline cocycles come from the duality of Hodge–Tate jumps and the
-rank formula for crystalline cocycles; the divisibility comes from an inequality of local duality for orthogonal
-groups of cocycles, proved by Kummer theory and dévissage when the group acts by elements of `ℓ`-power order and
-descended from an open subgroup of index prime to the order of the module; neither perfectness nor the Euler
-characteristic formula is used. The library's perfect local duality pairing and Euler characteristic
-(`TauCeti.ClassFieldTheory.tateDualityPairing_perfect`, `TauCeti.ClassFieldTheory.natCard_H1_eq_mul`), transferred by 1.3,
-also give the inequality of local duality used here.
+*Method of the formal proof:* (a) adds the rank formula of CrystallineRepresentationsAndKisinModules §4.2 for `L` and
+for `L′`, whose jumps correspond under `u ↦ −u − 1` (§3.4 (e)). (b) and (c) rest on (d), a count of cocycles: when
+the group acts on `M` through elements of `ℓ`-power order, the count of Kummer cocycles at the end of (d) and an
+induction on `M` give the inequality, and in general one restricts to an open subgroup of index prime to `#M`, from
+which the annihilators descend. No perfect pairing and no Euler characteristic formula enter. At the pins, the
+library's perfect duality pairing and Euler characteristic formula (`TauCeti.ClassFieldTheory.tateDualityPairing_perfect`,
+`TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`), transferred by 1.3, also give the inequality (d). On Tau Ceti's
+main branch, later than the revision pinned here: `TauCeti.ClassFieldTheory.natCard_H1_eq_mul` (the Euler
+characteristic formula for the cohomology of a finite discrete module).
 
 Let `ℓ` be a prime, `Γ` a topological group with an open embedding into `G_{ℚ_ℓ}`, of index `n` (so `Γ` is the absolute
 Galois group of a finite extension of `ℚ_ℓ` of degree `n`), `O` as in the Conventions, `L`, `L′` potentially crystalline
@@ -908,14 +936,15 @@ at the places of non-prime norm.
 
 ### 6.1 Grunwald's theorem in prime exponent, with the unit clause
 
-*Origin:* adapted from the published theory of the Grunwald–Wang theorem: here in prime exponent over a totally
-complex field, for characters of the finite ideles not assumed trivial on `K^×`, with the additional conclusion on the
-units at every place of non-prime norm.
+*Origin:* adapted from the Grunwald–Wang theorem (Artin and Tate (1968), ch. X; Wang (2014)): here in prime exponent
+over a totally complex field, for characters of the finite ideles not assumed trivial on `K^×`, with the additional
+conclusion on the units at every place of non-prime norm.
 
-*Method of the formal proof:* enlarge `S` so that the principal ideles and the ideles that are units outside it
-generate; for each class of `S`-units modulo `p`-th powers that `ψ` does not kill, Chebotarev gives a place of prime norm
-where it is not a local `p`-th power; then `ψ` kills the principal ideles in an open subgroup of ideles that are `p`-th
-powers at these places, and the existence theorem (2.3 (c)) applies.
+*Method of the formal proof:* `χ` comes from the existence theorem 2.3 (c), applied on an open subgroup of finite
+ideles: those that are units outside a suitably enlarged `S` (1.5 (b)) and `p`-th powers at finitely many auxiliary
+places of prime norm. Chebotarev's theorem (ArithmeticGaloisRepresentations §5.1) provides these places, one for each
+class of units outside the enlarged set, modulo `p`-th powers, on which `ψ` is nontrivial, chosen so that the class is
+not a local `p`-th power there; this makes `ψ` trivial on the principal ideles of the subgroup.
 
 Let `K` be a totally complex number field, `p` a prime, `S` a finite set of finite places and `ψ` a character of the
 finite ideles with values in `ℚ/ℤ`, open kernel and `pψ = 0` (not assumed trivial on `K^×`). There is a character `χ` of
@@ -928,19 +957,21 @@ if the norm `q_u` is not a prime number.
 
 ### 6.2 Steps of prime degree with prescribed local behaviour
 
-*Origin:* particular to this proof: CM extensions `E′/E` of prime degree cut out by the symmetrisation of a Galois
-character, carrying Weil data, with a prescribed tame character at one split place.
+*Origin:* particular to this proof: CM extensions `E′/E` of prime degree, fixed fields of the symmetrisation `χ^{sym}`
+of a Galois character, that carry Weil data and have a prescribed tame character at one split place.
 
-*Method of the formal proof:* the symmetrised character `g ↦ χ(g) + χ(g^c)` cuts out a CM field; with a primitive
-`5040`-th root of unity in `E` and inertia above `p` in its kernel the extension is a step; Weil data descend along the
-norm, a new idele absorbing the relative different; for the prescribed local character, Grunwald (6.1) is applied at
-the split place and its conjugate, the unit clause controlling the auxiliary ramification at the places fixed by
-conjugation.
+*Method of the formal proof:* for (a), `χ^{sym}` is invariant under conjugation by `c`, and its fixed field is CM; the
+norm condition of a step is 2.3 (a) applied to `χ^{sym}`, and the vanishing on inertia above `p` gives the integer of
+trace `1` that a step requires. For (b), the Weil data of `L` are made from those of `E`: the same `ȷ`, the splitting
+character composed with the norm, and a finite idele corrected by the relative different. For (c), Grunwald's theorem
+(6.1) is applied at `w` and `w̄`; its unit clause keeps the auxiliary ramification away from the places fixed by
+conjugation, so that (a) and (b) apply.
 
 Let `E` be a CM field with CM type `Φ`. For a character `χ` of `G_E`, let `χ^{sym}(g) = χ(g) + χ(g^c)`; its value at
 `Art_E(a)` is `χ(Art_E(a)) + χ(Art_E(ā))`. Let `E_χ` be the fixed field of `ker χ^{sym}`. A *step* `E′/E` with a character
 `μ` of the finite ideles of `E` is as in GaloisRepresentationsOfUnitaryEigenforms §5.1 (`E′/E` CM, Galois of prime
-degree, `E` containing a primitive `5040`-th root of unity, `μ(z z̄) = 1` exactly when `z ∈ E^×·N_{E′/E}(𝔸_{E′,f}^×)`).
+degree, `E` containing a primitive `5040`-th root of unity, some integer of `E′` of trace `1` to `E`, `μ` with open
+kernel and trivial on `E^×`, `μ(z z̄) = 1` exactly when `z ∈ E^×·N_{E′/E}(𝔸_{E′,f}^×)`).
 *Weil data* `(ȷ, α, υ)` on `E` are as in WeilRepresentationsOnBanachSpacesOfData §3.1 (`E` containing a primitive
 `5040`-th root of unity, `α` a finite idele, `υ` a splitting character (7.2) with `υ(ϖ_w) = −1` at the finite places
 `w = w̄`).
@@ -958,7 +989,7 @@ divides the relative different, then `L` has Weil data.
 `G_E` and a place `u` of `E′ = E_ν` such that `E′/E` is a step of degree `p` with Weil data; `u` is split, lies below `A` and
 is the only place of `E′` above `w`; and `ν(Art_w(x)) = 0` and `ν^{sym}(Art_w(x)) = λ(x)` for all `x ∈ E_w^×`.
 
-*Needs:* 2.1, 2.2, 6.1, 7.2; WeilRepresentationsOnBanachSpacesOfData §3.1 (Weil data);
+*Needs:* 2.1, 2.2, 2.3, 6.1, 7.2; WeilRepresentationsOnBanachSpacesOfData §3.1 (Weil data);
 GaloisRepresentationsOfUnitaryEigenforms §5.1 (steps of prime degree).
 
 [ShortProof], `Lib/ClassField/Grunwald` (`New.QZChar.abelianLift_symmetrise`, `New.QZChar.stepField`,
@@ -973,9 +1004,9 @@ every conjugate and every `p`-adic embedding. Throughout, `E` is a CM field with
 
 ### 7.1 Characters of `U(1)` with given weight and tame part
 
-*Origin:* adapted from Barnet-Lamb, Gee, Geraghty and Taylor (2014), Lemma A.2.4, and Weil (1955): Hecke characters of a
-CM field with prescribed restrictions to units and prescribed infinity type; here for characters of the norm-one adeles,
-with existence under a condition on the integers of norm one, finiteness and conjugation.
+*Origin:* adapted from the theory of Hecke characters of type `A₀` (Weil (1956); Raghuram, arXiv:2207.03399, §4):
+Hecke characters of a CM field with prescribed restrictions to units and prescribed infinity type; here for characters
+of the norm-one adeles, with existence under a condition on the integers of norm one, finiteness and conjugation.
 
 *Method of the formal proof:* the character is first written on the open subgroup of points with integral finite part
 and extended to `U(1)(𝔸_E)` trivially on the rational points, using divisibility of the circle; integers of norm one are
@@ -999,14 +1030,16 @@ integer `u` of `E` with `u ū = 1`, there is a character of weight `e` and tame 
 
 (d) The characters of weight `0` with tame part trivial outside `S` are exactly the characters of the class group of
 level `S`; they are finitely many and take roots of unity as values; for every `e` and `ψ` there are finitely many
-characters of weight `e` and tame part `ψ`. Weights and tame parts multiply.
+characters of weight `e` and tame part `ψ`. The product of characters of weights `e`, `e′` and tame parts `ψ`, `ψ′`
+has weight `e + e′` and tame part `ψψ′`.
 
 (e) For `u` with archimedean part `1` there are `n > 0` and `γ ∈ E`, `γγ̄ = 1`, with `u^n γ` a unit at every finite place and
 `μ(u)^n = ∏_w Φ_w(γ)^{e(w)}`. For an automorphism `σ` of `ℂ` with `σ∘Φ_w = Φ_{π(w)}` for a permutation `π`, some character
 has weight `e∘π⁻¹`, tame part `σ∘ψ` and agrees with `σ∘μ` on the points with archimedean part `1`.
 
-ThetaChainsOnDefiniteUnitaryGroups §2.4 (a) with `n_η = 0` gives an existence criterion for the base changes of these
-characters with prescribed units at split places; (c) is the form the route uses, for all tame parts.
+ThetaChainsOnDefiniteUnitaryGroups §2.4 (a) with `n_η = 0`, for `E/E⁺` unramified at every finite place, gives an
+existence criterion for the base changes of these characters with prescribed units at split places; (c) is the form
+the route uses, for every CM field and all tame parts.
 
 *Needs:* 1.5, 2.4.
 
@@ -1020,14 +1053,16 @@ characters with prescribed units at split places; (c) is the form the route uses
 
 ### 7.2 Splitting characters: existence and restriction to the real subfield
 
-*Origin:* adapted from Barnet-Lamb, Gee, Geraghty and Taylor (2014), Lemma A.2.4, and Weil (1955): Hecke characters of a
-CM field with prescribed restriction to the ideles of the totally real subfield and prescribed infinity type; here the
-everywhere unramified character of weight one extending the quadratic character, under a condition on roots of unity.
+*Origin:* adapted from the theory of Hecke characters of type `A₀` (Weil (1956); Raghuram, arXiv:2207.03399, §4):
+Hecke characters of a CM field with prescribed restriction to the ideles of the totally real subfield and prescribed
+infinity type; here the everywhere unramified character of weight one extending the quadratic character, under a
+condition on roots of unity.
 
-*Method of the formal proof:* the phase `∏_w x_w/|x_w|` on the ideles with unit finite part is extended trivially on the
-group of the `y·b·b̄`, `y ∈ E^×`, once it is `1` on the intersection, which the condition on roots of unity gives;
-on the ideles fixed by conjugation the character is computed by writing them as `a·z·z̄` with `a = ā` and comparing
-signs, by class field theory for `E/E⁺`.
+*Method of the formal proof:* for (a), the character is prescribed as `∏_w x_w/|x_w|` on the ideles whose finite
+part is a unit and as `1` on the products `y·b·b̄` (`y ∈ E^×`, `b` an idele); the two prescriptions agree where both
+apply because of the hypothesis on roots of unity, and the result extends to all ideles since the circle group is
+divisible. For (b), class field theory for `E/E⁺` (2.2, 2.3) decides which ideles fixed by conjugation have the form
+`a·z·z̄` with `a = ā`, and the values of `υ` and `η` are compared through the signs at the infinite places.
 
 A *splitting character* of `E` is as in WeilRepresentationsOnBanachSpacesOfData §3.1, for any CM field `E`: a unitary
 Hecke character `υ` with `υ(x̄) = υ(x)⁻¹` that equals `∏_w x_w/|x_w|` on the ideles whose finite part is a unit of `Ô_E`.
@@ -1043,7 +1078,8 @@ finite idele with components `1` outside `w`, fixed by conjugation, on which `η
 
 ThetaChainsOnDefiniteUnitaryGroups §2.4 (a) with `n_η = 1` also gives (a), through its condition `(★)`, which the
 hypothesis of (a) implies: every `x` with `(x) = 𝔞_x𝒪_E` is then a unit `δ` times an element of `E⁺`, where `(★)` is the
-product formula.
+product formula. Its hypothesis that `E/E⁺` is unramified at every finite place holds here, since `E` contains a
+primitive `5040`-th root of unity.
 
 *Needs:* 1.5, 2.2, 2.3, 7.1; WeilRepresentationsOnBanachSpacesOfData §3.1 (splitting characters).
 
@@ -1056,8 +1092,8 @@ product formula.
 ### 7.3 Base change from `U(1)` and splitting characters of rank `k`
 
 *Origin:* this roadmap's own formulation: the parametrisation of the splitting characters of rank `k`, relative to one
-splitting character, by characters of `[U(1)]`, through Hilbert's Theorem 90; the splitting condition is that of Kudla
-(1994), §1, and Harris, Kudla and Sweet (1996), §1.
+splitting character, by characters of `[U(1)]`, through Hilbert's Theorem 90; the splitting condition is that of
+Harris, Kudla and Sweet (1996), §1.
 
 *Method of the formal proof:* a Hecke character trivial on the ideles fixed by conjugation factors through `y ↦ y/ȳ`,
 which is onto the norm-one ideles with kernel the ideles fixed by conjugation; only the fact that `υ` has order at
@@ -1092,11 +1128,12 @@ quadratic extension; it does not state the parametrisation (b).
 
 ### 7.4 Galois characters coming from the norm-one torus
 
-*Origin:* adapted from the published theory of class field theory for CM fields: here three properties of a Galois
-character whose value at the Artin symbol of `x` is a character of `x/x̄`.
+*Origin:* adapted from global class field theory (Milne (2020); Tate (1967)), for a CM field: here three properties of
+a Galois character whose value at the Artin symbol of `x` is a character of `x/x̄`.
 
-*Method of the formal proof:* complex conjugation is compatible with the Artin map, with places, with Frobenius elements
-and with inertia; the properties follow from 2.1 and 2.2 applied to `x ↦ η(x/x̄)`.
+*Method of the formal proof:* the facts listed after (c) come first, from the definitions of 1.1 and the formula for
+`Art_E` in 2.2. Then (a) is `η(x̄/x) = η(x/x̄)⁻¹`, and (b), (c) follow from 2.2 (d), because `η(x/x̄) = 1` when `x` is
+supported at a place of `S`, or is a unit supported at a place outside `I ∪ Ī`.
 
 Let `S`, `I` be sets of finite places of `E` and `χ : G_E → C` a homomorphism to an abelian group that comes from `U(1)`
 for `S`, `I` as in GaloisRepresentationsOfUnitaryEigenforms §9.2 (`χ(Art_E(x)) = η(x/x̄)` for a suitable character `η` of
@@ -1120,11 +1157,13 @@ and Frobenius elements at `A` to their conjugates at `cA`; `g ∈ I_A` if and on
 
 ### 7.5 Values of algebraic Hecke characters
 
-*Origin:* adapted from the published theory of algebraic Hecke characters: here the power relation with an element of
-the field, the absolute values at every conjugate and every `p`-adic embedding, and conjugate characters.
+*Origin:* adapted from Weil (1956), the values of algebraic Hecke characters (of type `A₀`): here the power relation
+with an element of the field, the absolute values at every conjugate and every `p`-adic embedding, and conjugate
+characters.
 
-*Method of the formal proof:* `K^×·(ker θ ∩ Ô_K^×)` has finite index in the finite ideles, so a power of every finite
-idele is a principal idele times a unit in the kernel; the absolute values follow from the product formula.
+*Method of the formal proof:* by 1.5 (c) the subgroup `K^×·(ker θ ∩ Ô_K^×)` is open of finite index, so some power
+`y^N` lies in it, which gives (a); the absolute values in (b), (d) and (e) then follow from the product formula for
+the element `γ` of (a).
 
 An *algebraic Hecke character* of a number field `K` is a pair `(θ, n)` of a character `θ` of the finite ideles with open
 kernel and an integer `n_τ` for each embedding `τ : K → ℂ`, with `θ(x) = ∏_τ τ(x)^{−n_τ}` for every `x ∈ K^×`.
@@ -1169,8 +1208,11 @@ not in it.
 non-split places, the characters tamely ramified on a set of places disjoint from its conjugate, and their values on
 determinants of the stabiliser of the standard lattice.
 
-*Method of the formal proof:* the defining formula of 7.1 at integral points; reduction of the stabiliser of the
-standard lattice modulo a modulus is onto, with lifts supported at the places of the modulus and their conjugates.
+*Method of the formal proof:* (a) and the values on determinants in (d) evaluate the defining formula of 7.1 at
+integral points, and (b) follows from the defining properties of a splitting character (7.2). The surjectivity in
+(d) uses only that the places dividing `𝔪` are split (`𝔪` is prime to `𝔪̄`): at each of them an integral lift of the
+residue matrix is carried into `K₀` by the map `ι_w` of AdelicUnitaryGroupsAndAlgebraicModularForms §3.1, and the
+product of these elements is the required lift.
 
 Let `μ` have weight `e` and tame part `ψ` (7.1).
 
@@ -1211,16 +1253,19 @@ The formal proof proves (b), and `υ_1(det k) = 1` in (d), for the splitting cha
 ## Layer 8: Hecke `L`-functions on the real line
 
 The route needs Hecke `L`-functions only for real `s ≥ 1`: continuity, analyticity at `s = 1`, non-vanishing for
-characters with `ψ² ≠ 1`, and the mean of the values at primes of degree one. The shorter proof continues them to a
-neighbourhood of `1` from a finite-place Tate integral and an idelic Riemann sum, without Poisson summation.
+characters with `ψ² ≠ 1`, and the mean of the values at primes of degree one. In the shorter proof the continuation to
+a neighbourhood of `1` uses only the finite places of Tate's integral (8.2) and the estimate of 8.3; Poisson summation
+does not occur.
 
 ### 8.1 Euler products over primes and densities at primes of degree one
 
-*Origin:* adapted from the published theory of Euler products and Dirichlet densities of primes: here for real `s > 1`,
-with coefficients of modulus at most one and densities over the primes of degree one with bounded error.
+*Origin:* adapted from the theory of Euler products and Dirichlet densities of primes (Tate (1950); Milne (2020)):
+here for real `s > 1`, with coefficients of modulus at most one, and with densities measured at the primes of degree
+one up to a bounded term.
 
-*Method of the formal proof:* the logarithm of the product is the sum over primes of `a_v q_v^{−s}` up to a bounded
-error coming from the primes of degree above one and from the squares; the density is the order of the pole or zero.
+*Method of the formal proof:* `log P(a, s)` and `∑_{q_v prime} a_v q_v^{−s}` differ by the terms of order at least two
+of the logarithms and by the terms at the places whose norm is not prime, and these are bounded in terms of `[K : ℚ]`;
+this gives (a) for `s ≥ 2`, and (b) because a factor `(s − 1)^l` contributes `−l·log(1/(s − 1))` to the logarithm.
 
 Let `K` be a number field and `a` a function on the finite places with `|a_v| ≤ 1`. For real `s > 1` put
 `P(a, s) = ∏_v (1 − a_v q_v^{−s})^{−1}`, and at `s = 1` its limit from the right when it exists. For a character `ψ` of the
@@ -1249,11 +1294,12 @@ has density `c`.
 
 ### 8.2 The finite Tate integral
 
-*Origin:* adapted from the published theory of Tate's zeta integrals: here only the finite places, for a function of
+*Origin:* adapted from Tate's zeta integrals (Tate (1950), §4.4–4.5): here only the finite places, for a function of
 the finite ideles determined at `S` and equal on the unit ideles to an indicator times `ψ⁻¹`.
 
-*Method of the formal proof:* split the finite ideles by their divisor; on the ideles of divisor `𝔞` the integrand is
-`χ(𝔞)N(𝔞)^{−s}` times a translate of the indicator of `Ô^× ∩ V`; summing gives the Euler product (8.1 (a)).
+*Method of the formal proof:* Tate's computation, at the finite places only: the integral is unfolded over the fibres
+of the divisor map of 1.5 (a), and the Dirichlet series that results is identified with `L^S(s, ψ)` by the last
+statement of 8.1 (a).
 
 Let `ψ` be a character of the finite ideles of `K` with open kernel and `ψ(x)∏_w (Φ_w(x)/|Φ_w(x)|)^{n_w} = 1` on `K^×`, for
 integers `n_w`, where `Φ_w : K → ℂ` is a chosen embedding inducing the infinite place `w` (a Hecke character *of type
@@ -1274,8 +1320,9 @@ integers `n_w`, where `Φ_w : K → ℂ` is a chosen embedding inducing the infi
 *Origin:* particular to this proof: the theta sum of an adelic tent over a coset of the principal ideles depends, up to
 an error that is a power of the module times a larger theta sum, only on the module of the idele.
 
-*Method of the formal proof:* the theta sum is a Riemann sum over the image of `K` in a box of the adeles, whose volume
-is computed from the module; comparing two radii controls the error.
+*Method of the formal proof:* `Θ_r(b)` weights the points of `K` lying in a box of the adeles whose volume depends only
+on the module of `b`, so it approximates an integral that depends on the module alone; the boundary terms of the sum at
+radius `r/3` are bounded by the sum at radius `r`.
 
 Ideles are pairs of a unit of `K ⊗ ℝ` and a finite idele; the principal ideles are the diagonal image of `K^×`, a
 discrete subgroup; the *module* of an idele is `|N_{K⊗ℝ/ℝ}(x_∞)|·|x_f|`. For a finite idele `d` and `r > 0` the *tent* is
@@ -1292,8 +1339,10 @@ coset of `b` modulo the principal ideles. For `0 < r < 1` there are `δ > 0` and
 
 ### 8.4 Continuation to `s = 1`, non-vanishing and prime densities
 
-*Origin:* adapted from the published theory of Hecke `L`-functions: here only real `s`, analyticity near `1` for
-nontrivial characters of integral angular type, non-vanishing for `ψ² ≠ 1`, and densities over the primes of degree one.
+*Origin:* adapted from the theory of Hecke `L`-functions (Tate (1950); Milne (2020), VI 4.8–4.9, for characters of
+finite order; Lang, *Algebraic Number Theory*, for the non-vanishing; Titchmarsh, §2.11, for a continuation by a
+Riemann sum over `ℚ`): here for real `s` only, with an analytic continuation near `1` when the character is
+nontrivial with integral angular exponents, non-vanishing when `ψ² ≠ 1`, and densities over the primes of degree one.
 
 *Method of the formal proof:* Tate's integral (8.2) of `ψ` against a tent is unfolded over the principal ideles; the
 Riemann-sum estimate (8.3) shows that the remaining integral over the module is analytic at `s = 1` when `ψ ≠ 1`; the
@@ -1324,9 +1373,9 @@ Hecke characters that are not norm twists; the route needs only the real half-li
 
 ### 8.5 `L`-functions and algebraic characters of base changes from `U(1)`
 
-*Origin:* adapted from the published theory of Hecke characters of CM fields: here non-vanishing on `[1, ∞)` of the
-`L`-functions of base changes of characters of `U(1)` of nonzero weight, their symmetry under inversion, and the
-algebraic characters made from them.
+*Origin:* adapted from the theory of Hecke characters of CM fields (Weil (1956); for the `L`-functions, the works
+cited in 8.4): here non-vanishing on `[1, ∞)` of the `L`-functions of base changes of characters of `U(1)` of nonzero
+weight, their symmetry under inversion, and the algebraic characters made from them.
 
 *Method of the formal proof:* a base change of nonzero weight has angular exponents `2e ≠ 0`, so its square is
 nontrivial and 8.4 (c) applies; inversion exchanges the factors at `v` and `v̄`, which are paired in the product.
@@ -1359,14 +1408,19 @@ those of GaloisRepresentationsOfUnitaryEigenforms §1.3.
 
 ### 9.1 The `ℓ`-adic avatar and its local behaviour
 
-*Origin:* adapted from the published theory of `ℓ`-adic characters attached to algebraic Hecke characters: here for a
-totally complex field, through the Artin map on finite ideles, with local behaviour at every finite place, those above
-`ℓ` included, for CM fields containing a primitive `5040`-th root of unity.
+*Origin:* adapted from the theory of `ℓ`-adic characters attached to algebraic Hecke characters (Serre (1968), II–III;
+for the crystalline case, Conrad, *Lifting global representations with local properties*, App. B): here for a totally
+complex field, through the Artin map on finite ideles, with local behaviour at every finite place, those above `ℓ`
+included, for CM fields containing a primitive `5040`-th root of unity.
 
-*Method of the formal proof:* the avatar is the factorisation through `Art_K` (2.3 (c)) of an explicit continuous
-character of the finite ideles; for the local behaviour, a base change to a step of prime degree in which `w` becomes
-split (6.2), where the character is the product of the character of a rank-one eigenform and a character of type `0` at
-the embeddings inducing `w`; the clauses descend to `E`.
+*Method of the formal proof:* (a) is the existence theorem 2.3 (c) applied to the character
+`x ↦ ι(θ(x))·∏_τ (ι∘τ)_𝔸(x)^{n_τ}` of the finite ideles, which is continuous and trivial on `K^×`. For (b), a step `L/E`
+of GaloisRepresentationsOfUnitaryEigenforms §6.1 (b) (built with 6.2) is chosen so that the place of `L` below `A` is
+split with the same residue order as `w`; by the last statement of (a), `r_θ` restricted to `G_L` is the avatar of
+`θ∘N_{L/E}`, and (b) over `L` implies (b) over `E`. At a split place, `θ` is the product of the character of a
+rank-one eigenform from (c), whose attached representation has the required local behaviour, and a character whose
+infinity type vanishes at the embeddings that induce `w`, to which CrystallineRepresentationsAndKisinModules §4.4
+applies.
 
 Let `K` be a totally complex number field, `ℓ` a prime and `ι : ℂ ≅ ℚ̄_ℓ` fixed.
 
@@ -1384,13 +1438,15 @@ killing `s` (above `ℓ`: on the potentially crystalline periods, through the li
 (c) For `E` a CM field containing a primitive `5040`-th root of unity, every split place `w` of `E` and every weight,
 there is an eigenform of that weight on the definite unitary group of rank one, spherical at `w`.
 
-AutomorphicGaloisRepresentationsPartII, Layer AG2.0 (the `l`-adic character of an algebraic Hecke character), gives
-(a) and the local components away from `ℓ` for every number field; it does not give potential crystallinity and the
-action of inertia and Frobenius on the periods above `ℓ`.
+AutomorphicGaloisRepresentationsPartII, Layer AG2.0 (the `l`-adic character of an algebraic Hecke character), gives,
+for every number field, the character of the first statement of (a) with its local components away from `ℓ` and its
+Hodge–Tate numbers; it states neither the restriction to `G_L` in (a) nor potential crystallinity and the action of
+inertia and Frobenius on the periods above `ℓ`.
 
-*Needs:* 1.2, 2.1, 2.2, 2.3, 6.2, 7.5; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3, 1.5, 1.6, 6.4 (local
-conditions; rank-one attached representations); AdelicUnitaryGroupsAndAlgebraicModularForms §§6.1, 6.3 (algebraic forms,
-Hecke eigenforms).
+*Needs:* 1.2, 2.1, 2.2, 2.3, 6.2, 7.5; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 6.1,
+6.4 (local conditions; density of most Frobenii; passage to retracts; quadratic steps; rank-one attached
+representations); AdelicUnitaryGroupsAndAlgebraicModularForms §§6.1, 6.3 (algebraic forms, Hecke eigenforms);
+CrystallineRepresentationsAndKisinModules §§4.4, 4.5 (characters trivial on inertia near `1`; twists by characters).
 
 [ShortProof], `Lib/PadicHodge/Characters` (`New.exists_avatar`, `New.AlgHeckeChar.avatar`, `New.GaloisRep.AvatarCompatAt`);
 `Lib/ClassField/Avatar/LocalGlobalCompatibility` (`New.GaloisRep.avatar_baseChange`, `New.GaloisRep.exists_eigenform_rank_one`,
@@ -1403,9 +1459,11 @@ Hecke eigenforms).
 an avatar shifts its Hodge–Tate jumps and rescales its Hecke polynomial at the places where the character is unramified
 and of parallel type.
 
-*Method of the formal proof:* the twist is by `χ_ℓ^d·r`, `r` the avatar of `ω|·|^{−d}`, whose type vanishes at the
-embeddings inducing `w`; the local clauses of 9.1 for a rank-one representation of finite image on inertia multiply
-with those of `ρ`.
+*Method of the formal proof:* `ρ′` is `ρ` multiplied by `χ_ℓ^d·r`, with `r` the avatar (9.1) of `ω·|·|^{−d}`. At the
+places of the statement `ω·|·|^{−d}` is unramified and has type `0` at the embeddings inducing `w`, so the local clauses
+of `r` come from CrystallineRepresentationsAndKisinModules §4.4, and under multiplication by a character
+(CrystallineRepresentationsAndKisinModules §4.5) being unramified or crystalline is kept, the jumps are shifted and the
+Hecke polynomial is rescaled by `c`.
 
 Let `E` be a CM field, `ω = (θ, n)` an algebraic Hecke character and `d ∈ ℕ`. For every continuous `ℓ`-adic representation
 `ρ` of `G_E` there is a continuous `ρ′` (a twist of `ρ`) such that at every finite place `w` where `θ` is unramified and
@@ -1415,7 +1473,9 @@ all complex `t_0, …, t_a`) killing geometric Frobenius, where
 `c = θ(ι_w(ϖ_w))`, then `ρ′` has the same property with jump data `J(τ) − n_τ` and Hecke polynomial
 `∑_{j≤a} (−1)^j q^{j(j−1)/2} ι(t_j) X^{a−j}`.
 
-*Needs:* 9.1; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3 (Hecke polynomials; spherical above a place).
+*Needs:* 9.1; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3 (Hecke polynomials; spherical above a place);
+CrystallineRepresentationsAndKisinModules §§3.2, 3.4, 3.7, 4.4, 4.5 (Tate twists; characters trivial on inertia near
+`1`; twists by characters).
 
 [ShortProof], `Lib/ClassField/Avatar/HeckeBaseChange` (`New.Variety.exists_twist_algHeckeChar`, `New.scalarRep`,
 `New.isGoodAt_scalarRep_cyclotomicCharIn_pow_mul`, `New.hasJumpsAt_scalarRep_cyclotomicCharIn_pow_mul`,
@@ -1432,8 +1492,8 @@ all twisted Stickelberger ideals.
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the modules are modules of cocycles with explicit vanishing conditions, not of classes;
-no comparison with Tate–Shafarevich groups is made.
+*Method of the formal proof:* definitions. The route works with these cocycle modules directly and never identifies
+them with Tate–Shafarevich groups or with classes in Galois cohomology.
 
 Let `ℓ` be a prime and `O` as in the Conventions.
 
@@ -1459,13 +1519,16 @@ Let `ℓ` be a prime and `O` as in the Conventions.
 
 ### 10.2 Voronoi's congruence and a nonzero integer in all Stickelberger ideals
 
-*Origin:* adapted from the published theory of Voronoi's congruence for Bernoulli numbers: here twisted by a Dirichlet
-character, modulo `f²`, and used to produce one integer with the Stickelberger property of explicit size.
+*Origin:* adapted from Voronoi's congruence for Bernoulli numbers (Ireland and Rosen (1990); for the untwisted
+congruence, Eberl (2024)): here twisted by a Dirichlet character, modulo `f²`, and used to produce one integer with the
+Stickelberger property of explicit size.
 
-*Method of the formal proof:* Voronoi's congruence links the Stickelberger sums at level `Nm` to the twisted Bernoulli
-sums at level `N`; `X` is the product of the two factors of (i) and the absolute determinant of an integer matrix over
-the units modulo `N` whose eigenvalues are the corrected twisted Bernoulli sums `2∑ψ(t)β(t) + (−1)^e + ψ(−1)`; these are
-nonzero by the trivial zeros of Dirichlet `L`-functions and Hurwitz's formula.
+*Method of the formal proof:* (a) comes from a congruence for sums of powers along an arithmetic progression. For (c),
+one integer matrix indexed by the units modulo `N` has as eigenvalues, one for each character `ψ` modulo `N`, the sums
+`2∑ψ(t)β(t) + (−1)^e + ψ(−1)`; these are nonzero by (b) and Hurwitz's formula, so the determinant is a nonzero multiple
+of each of them, and its size is bounded by expanding `B_{e+1}` in a Fourier series. `X` is the absolute value of this
+determinant times the two factors of (i), and (a) carries divisibility by the Bernoulli sums at level `N` over to the
+Stickelberger sums at level `Nm` in (ii).
 
 Let `N ≥ 1` and `e ≥ 1`.
 
@@ -1480,8 +1543,11 @@ integer, and values in a ring without additive torsion:
 (c) There is an integer `0 < X ≤ 2^{(N+e+3)^6}` with the Stickelberger property for `(N, e)`.
 
 The library has the Bernoulli and Hurwitz inputs (Mathlib `HurwitzZeta.hurwitzZeta_neg_nat`; the library's
-`DirichletCharacter.generalizedBernoulli`) and, for primitive characters, the absence of zeros of the completed function
-on `Re s ≤ 0` (`TauCeti.LFunctions.dirichletData_entireCompletion_ne_zero_of_re_nonpos`).
+`DirichletCharacter.generalizedBernoulli`) and, for primitive characters, the zeros of `L(χ, s)` on `Re s ≤ 0`, which
+are those of the gamma factor except `s = 0` for the trivial character (Mathlib
+`DirichletCharacter.LFunction_eq_zero_iff_of_re_nonpos`). On Tau Ceti's main branch, later than the revision pinned
+here: `TauCeti.LFunctions.dirichletData_entireCompletion_ne_zero_of_re_nonpos` (no zero of the completed function of a
+primitive character on `Re s ≤ 0`).
 
 *Needs:* 10.1; ZeroFreeRegionsAndPrimesInShortWindows §1.2 (reflection of the zeros); Mathlib
 `DirichletCharacter.LFunction`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`, `HurwitzZeta.hurwitzZeta_neg_nat`,
@@ -1493,14 +1559,17 @@ on `Re s ≤ 0` (`TauCeti.LFunctions.dirichletData_entireCompletion_ne_zero_of_r
 
 ### 10.3 Jacobi-type quotients of Gauss sums over prime fields
 
-*Origin:* adapted from Kolyvagin (1990) and Rubin (1991), the Euler system of Gauss sums for the minus parts of the
-class groups of cyclotomic fields: here a family of quotients of Gauss sums over `𝔽_p`, indexed by torsion points of
-`ℚ/ℤ`, with exact Galois equivariance, its orders at a place above `p`, a distribution relation up to roots of unity and
-a congruence at the primes dividing `p − 1`.
+*Origin:* adapted from Stickelberger's theorem on Gauss sums and the product relation of Davenport and Hasse
+(Washington (1997), 6.2 and Thm 15.1; Davenport and Hasse (1935)), in the form that the Euler system of Gauss sums
+of 10.4 uses: here a family of quotients of Gauss sums over `𝔽_p`, indexed by torsion points of `ℚ/ℤ`, with exact
+Galois equivariance, its orders at a place above `p`, a distribution relation up to roots of unity and a congruence at
+the primes dividing `p − 1`.
 
-*Method of the formal proof:* a weak form of Stickelberger's theorem ties the orders of the Gauss sums at a place above
-`p` to an injective homomorphism `ℤ/(p − 1) → ℚ/ℤ`; the quotients `j(x) = g(χ_x)^c/g(χ_x^c)` and `J(x) = j(x)/j(−x)` inherit
-their properties from those of Gauss sums and Hermite's identity for integer parts.
+*Method of the formal proof:* (a) is the part of Stickelberger's theorem that the route needs: the `𝔓`-adic orders of
+the Gauss sums of a cyclic family of characters depend additively and injectively on the character. For (b),
+`J(x) = j(x)/j(−x)` with `j(x) = g(χ_x)^c/g(χ_x^c)`; the Galois action, the absolute values and the congruence come
+from the corresponding properties of Gauss sums, the order at `𝔓` from (a), and the distribution relation from
+Hermite's identity for the integer parts that make up `m_c`.
 
 Let `p` be a prime, `𝔓` a place of `Ω` above `p`, `ψ₀` a nontrivial additive character of `𝔽_p` and `c ≥ 1`.
 
@@ -1515,9 +1584,10 @@ prime to `c`, `∏_{b mod r} J(x + b/r)/J(rx)` is a root of unity; and for a pri
 modulo every place above `q`.
 
 The library has the exact valuations of Gauss sums over every finite field (`TauCeti.stickelberger_congruence`,
-`TauCeti.intValuation_gaussSum_inv_pow`), which give (a), and Stickelberger's relation (`Ideal.span_stickelbergerPhi`); the
-family `J` is not in it. BernoulliBoundsForClassGroupEigenspaces §10.1 (c1)–(c2) states the same Euler system in another
-arrangement, for each level separately and for `b` below the level.
+`TauCeti.intValuation_gaussSum_inv_pow`), which give (a); the family `J` is not in it. On Tau Ceti's main branch, later
+than the revision pinned here: Stickelberger's relation `Ideal.span_stickelbergerPhi`.
+BernoulliBoundsForClassGroupEigenspaces §10.1 (c1)–(c2) states the same Euler system in another arrangement, for each
+level separately and for `b` below the level.
 
 *Needs:* 1.2, 10.1; Mathlib `gaussSum`.
 
@@ -1526,13 +1596,15 @@ arrangement, for each level separately and for `b` below the level.
 
 ### 10.4 Kolyvagin's derivative cocycles
 
-*Origin:* adapted from Kolyvagin (1990) and Rubin (1991), the Euler system of Gauss sums for the minus parts of the
-class groups of cyclotomic fields: here derivative cocycles of `G_ℚ` with values in `O/ℓ^n` for the character
+*Origin:* adapted from Kolyvagin's derivative classes for the Euler system of Gauss sums (Rubin (1991); with a Tate
+twist, Banaszak and Gajda (1996)): here derivative cocycles of `G_ℚ` with values in `O/ℓ^n` for the character
 `χ_ℓ^{e+1}ψ`, for one finite set of auxiliary primes, with vanishing on inertia at the primes of the conductor.
 
-*Method of the formal proof:* take an `ℓ^n`-th root `y(x)` of the family `J` of 10.3; `κ_S(g)` is the derivative sum over
-`S` of the exponents of the roots of unity `γy(x)/(gγg⁻¹)y(x)`; the relation between Frobenius and inertia comes from the
-congruence of 10.3 (b) at the primes of `S`, and the link with the Stickelberger sum from the order of `J` at `𝔓`.
+*Method of the formal proof:* the cocycles are of Kummer type for the family `J` of 10.3: for an `ℓ^n`-th root `y` of a
+value of `J` and `g ∈ G_ℚ`, the images of `y` under `γ` and `gγg⁻¹` differ by a root of unity, and `κ_S(g)` is formed
+from the exponents of these roots of unity with Kolyvagin's operators for the primes in `S`
+(EulerSystemsAndKolyvaginSystems §3.1), weighted by `a^e ψ(a)`. (b) uses the congruence of 10.3 (b) at `q`, and (c)
+the order of `J` at `𝔓`.
 
 Let `ℓ` be a prime, `O` a `ℤ_ℓ`-algebra, `ψ` a Dirichlet character modulo `N` with values in `O`, `e, n, c ≥ 0`,
 `Υ = χ_ℓ^{e+1}ψ`, `γ ∈ G_ℚ`, `P` a finite set of primes `≡ 1 mod cNℓ^n`, `p` a prime `≡ 1 mod Nℓ^n∏_{q∈P} q` and `𝔭` a place
@@ -1556,16 +1628,18 @@ the vanishing on inertia at the places above the primes dividing `N` in (a).
 
 ### 10.5 Reciprocity at auxiliary primes; annihilation and detection of odd components
 
-*Origin:* adapted from Kolyvagin (1990) and Rubin (1991), the Euler system of Gauss sums for the minus parts of the
-class groups of cyclotomic fields: here, with an integer `X` having the Stickelberger property in place of a Bernoulli
-number, an annihilator `4X²` of the odd component at every prime and, for large primes, `v_ℓ(X) + 1` elements of `G_ℚ`
-that detect its cocycles.
+*Origin:* adapted from the Stickelberger annihilation of Coates and Sinnott (1974) and from the bound obtained with the
+Euler system of Gauss sums (Rubin (2000), III.4, Thm 4.6): here, with an integer `X` having the Stickelberger property
+in place of a Bernoulli number, an annihilator `4X²` of the odd component at every prime and, for large primes,
+`v_ℓ(X) + 1` elements of `G_ℚ` that detect its cocycles.
 
-*Method of the formal proof:* Artin's reciprocity law over `ℚ(μ_{Nm})` (2.2 (e)) pairs a cocycle of the component with
-an element whose valuations are controlled, only the places above an auxiliary prime contributing; applied to Jacobi
-sums it shows that the Stickelberger sums kill the values at Frobenius elements, which gives the annihilator with
-Chebotarev; applied modulo `ℓ` to Kolyvagin's cocycles (10.4) at primes chosen by Chebotarev it bounds their
-ramification, and the descent forces `ℓ^{v_ℓ(X)+1} | X` unless `v_ℓ(X) + 1` points detect.
+*Method of the formal proof:* (a) is the product formula 2.2 (e) over `ℚ(μ_{Nm})`, in which `q` splits completely,
+for the character given by `x` and the element `y`; the hypotheses on `y` leave only the terms at the places above
+`q`. For (b), `y` is taken among the values of the family `J` of 10.3, whose orders give the Stickelberger sums, so these
+sums kill the values of `x` at Frobenius elements; Chebotarev's theorem spreads this to all of `G_ℚ`, and the
+Stickelberger property turns it into the annihilator `4X²`. For (c), the reciprocity modulo `ℓ` of (a) is applied to
+the cocycles of 10.4 at auxiliary primes chosen by Chebotarev's theorem, and controls their ramification; Kolyvagin's
+descent then forces `ℓ^{v_ℓ(X)+1} | X` unless `v_ℓ(X) + 1` suitable points detect.
 
 Let `N ≥ 1`, `e ≥ 1`, `X` with the Stickelberger property for `(N, e)` (10.1), `ℓ` a prime, `O` as in the Conventions and `ψ`
 a Dirichlet character modulo `N` with values in `O` such that `χ_ℓ^e ψ` is odd (value `−1` at `c`).
@@ -1575,9 +1649,9 @@ killed by `m`, `a ≡ 1 mod N` prime to `ℓ`, and `y ∈ Ω^×` fixed by `Gal(�
 either `y` is a unit times an `m`-th power of an element fixed by inertia there, or `x` vanishes on the decomposition group.
 With `s_u ∈ G_ℚ` acting on `μ_{Nm}` by `u`, and `k_u = ord_𝔅 s_u(y)`: `(∑_u k_u u^e ψ(u))·2(a^e − 1)·x(φ) = 0`. Modulo `ℓ`: if
 `ℓ x = 0`, `ℓ κ = 0` for a `χ_ℓ^{e+1}ψ`-cocycle `κ` with values in a finite `O`-module, vanishing on the inertia over
-`ℚ(μ_N)` at places above neither `ℓ` nor a
-prime of a finite set `T`, `q ≡ 1 mod Nℓ`, `φ(Nℓ)` is a unit in `O`, every place prime to `q` lies above no prime of `T`
-or has its decomposition group killed by `x`, and `2(a^e − 1)x(φ) ≠ 0`, then `κ` vanishes on `I_𝔅`.
+`ℚ(μ_N)` at places above neither `ℓ` nor a prime of a finite set `T`, `q ≡ 1 mod Nℓ`, `φ(Nℓ)` is a unit in `O`, every
+place prime to `q` lies above no prime of `T` or has its decomposition group killed by `x`, and `2(a^e − 1)x(φ) ≠ 0`,
+then `κ` vanishes on `I_𝔅`.
 
 (b) *Annihilation.* `4X²` kills `C(ℓ, e, ψ, ν)` for every prime `ℓ`, `2` included, and every `ν`.
 
@@ -1594,13 +1668,15 @@ numbers for odd `ℓ` prime to the degree; the route needs (b) at every prime an
 
 ### 10.6 Few elements detect cocycles unramified outside `ℓ`
 
-*Origin:* particular to this proof: a cocycle analogue, with the crude bound `y^{20}`, of the bound for the number of
-generators of the Galois group of the maximal pro-`ℓ` extension unramified outside `ℓ`.
+*Origin:* particular to this proof: a polynomial number of elements of `G_E`, at most `y^{20}`, on which every cocycle
+unramified outside `ℓ` with values in a Tate twist is tested; for homomorphisms this is a crude, explicit form of the
+finite generation of the largest pro-`ℓ` quotient of `G_E` unramified outside `ℓ`.
 
-*Method of the formal proof:* put `M = Nℓ²` and `F = ℚ(μ_M)`; the points are representatives of the cosets of `G_F` in `G_E`
-and the detecting points of 2.3 (f) for `F`, whose number is bounded through the class number of `ℚ(μ_M)` and the index of
-local powers; a cocycle killed by `M` is a homomorphism on `G_F`, and an induction on the power of `ℓ` killing it reduces
-to that case.
+*Method of the formal proof:* with `M = Nℓ²`, the field `F = ℚ(μ_M)` contains `E`, and `G_F` acts trivially on the
+coefficients of a cocycle killed by `M`, so that such a cocycle is a homomorphism on `G_F`. The set `s` consists of
+coset representatives of `G_F` in `G_E` together with the points of 2.3 (f) for `F`, whose number (c) bounds through
+the class number of `ℚ(μ_M)` and the index of local `M`-th powers; cocycles killed by higher powers of `ℓ` are reduced
+to this case by induction on the exponent.
 
 Let `E ⊂ ℚ(μ_N)` be a number field and `ℓ` a prime.
 
@@ -1621,13 +1697,14 @@ vanishing at `g₀` and on `s` is zero.
 
 ### 10.7 One integer bounding the odd classes of a cyclotomic CM field at every prime
 
-*Origin:* particular to this proof: one integer of explicit size whose valuation bounds the length of the odd classes
-of a CM field inside a cyclotomic field at every prime, `2` included, for all twists below a bound.
+*Origin:* particular to this proof: for a CM field contained in a cyclotomic field, a bound for the length of its odd
+classes at every prime `ℓ`, `2` included, and for all Tate twists below a given bound, by the valuation of a single
+nonzero integer of explicit size.
 
-*Method of the formal proof:* for `e > 0` the odd classes split into components indexed by Dirichlet characters, and
-10.5 (b) gives the annihilator `4φ(N)·4X²`; the length is at most the valuation of a power of the annihilator, the
-exponent being the number of detecting points: those of 10.6 for `ℓ ≤ y²`, those of 10.5 (c) for `ℓ > y²`; for `e = 0` the
-everywhere unramified homomorphisms are bounded by the class number.
+*Method of the formal proof:* for `e = 0` the odd classes are unramified homomorphisms, and (a) is the bound by the
+class number. For `e > 0` they decompose into the components of 10.1 (2), one for each Dirichlet character modulo `N`,
+and 10.5 (b) gives (b). In (c) an annihilator `m` and `k` detecting points give `v_O(m^k)`; the points are those of
+10.6 when `ℓ ≤ y²` and those of 10.5 (c) when `ℓ > y²`, and `X` gathers these bounds over all `e < t`.
 
 Let `E ⊂ ℚ(μ_N)` be a CM field and `t ≥ 0`. There is an integer `X ≠ 0` with `X ≤ 2^{4(N+t+3)^{27}}·h_E` such that for every
 prime `ℓ`, every `O` (Conventions) containing the values of the Dirichlet characters modulo `N`, every `0 ≤ e < t` and every
@@ -1652,8 +1729,10 @@ Tate–Shafarevich groups for odd primes only; the route uses this bound at ever
 
 ## What the library already provides
 
-- Chebotarev's density theorem with primes of residue degree one: `NumberField.Chebotarev.infinite_frobeniusPrimeSet_inter_setOf_inertiaDeg_eq_one`
-  (with `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`); at places of `Ω` through 1.2 and 1.3.
+- Chebotarev's density theorem: `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`, with
+  `NumberField.Chebotarev.infinite_frobeniusPrimeSet`; the primes of residue degree above one have Dirichlet density
+  zero (`TauCeti.hasDirichletDensity_higherDegreePrimes`), so the primes of prime norm carry the density; at places of
+  `Ω` through 1.2 and 1.3.
 - Hilbert 90 for locally constant cocycles: `TauCeti.isMulCoboundary₁_of_isMulCocycle₁_of_isLocallyConstant`.
 - Cup products of explicit 1-cocycles and their anticommutativity: `TauCeti.ContCohomology.explicitCup11`,
   `TauCeti.ContCohomology.explicitCup11_eq_neg_flip`.
@@ -1671,24 +1750,69 @@ Tate–Shafarevich groups for odd primes only; the route uses this bound at ever
   `TauCeti.ClassFieldTheory.geometricArtinMap`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_eq_zero_of_mem_unitFiltration`;
   read at places of `Ω` in 2.1.
 - Local Tate duality and the Euler characteristic for finite modules: `TauCeti.ClassFieldTheory.tateDualityPairing_perfect`,
-  `TauCeti.ClassFieldTheory.natCard_H1_eq_mul`; they give 5.2 (d) through 1.3.
+  `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`; they give 5.2 (d) through 1.3.
 - Frobenius, inertia and unramified characters of complete local fields: `TauCeti.inertiaSubgroup`,
   `TauCeti.exists_isArithFrobeniusLift`, `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`; through 1.3 they give 1.4 (a)–(b).
-- Valuations of Gauss sums over every finite field and Stickelberger's relation: `TauCeti.stickelberger_congruence`,
-  `TauCeti.intValuation_gaussSum_inv_pow`, `Ideal.span_stickelbergerPhi`; they give 10.3 (a).
+- Valuations of Gauss sums over every finite field: `TauCeti.stickelberger_congruence`,
+  `TauCeti.intValuation_gaussSum_inv_pow`; they give 10.3 (a).
 - Values of `L(χ, s)` at negative integers through Hurwitz zeta: Mathlib `HurwitzZeta.hurwitzZeta_neg_nat`, and the library's
   `DirichletCharacter.generalizedBernoulli`.
-- The Kolyvagin derivative operator in a group algebra: `TauCeti.kolyvaginDerivative`.
+
+On Tau Ceti's main branch, later than the revision pinned here:
+`NumberField.Chebotarev.infinite_frobeniusPrimeSet_inter_setOf_inertiaDeg_eq_one` (every Frobenius class contains
+infinitely many primes of residue degree one over `ℚ`), `TauCeti.ClassFieldTheory.natCard_H1_eq_mul` (the Euler
+characteristic formula for the cohomology of a finite discrete module), `Ideal.span_stickelbergerPhi` (Stickelberger's
+relation) and `TauCeti.kolyvaginDerivative` (the Kolyvagin derivative operator in a group algebra).
 
 ## Results taken from other roadmaps
 
 - Chebotarev's density theorem, in the form that the Frobenius elements at places of prime norm outside a finite set meet
-  every nonempty open set: ArithmeticGaloisRepresentations §5.1. Used in 6.1 and 10.5.
+  every nonempty open set: ArithmeticGaloisRepresentations §5.1 states that the Frobenius elements above any set of
+  places of Dirichlet density one are dense, and the places of prime norm outside a finite set form such a set, those
+  of residue degree above one having density zero (`TauCeti.hasDirichletDensity_higherDegreePrimes`). Used in 4.5, 4.6,
+  6.1 and 10.5.
 - Corestriction, Shapiro's lemma, cup products in low degrees, Hilbert 90 and Kummer theory for profinite groups:
   ProfiniteCohomology Layers 6–9. Used only through class field theory.
 - Global class field theory: ClassFieldTheory Layers 10–13 (the Brauer sequence and sum of invariants, global
   reciprocity, existence, the norm index and the cyclic Hasse norm theorem). Used in 2.2 and 2.3.
 - Local class field theory and local duality: ClassFieldTheory §§5.1, 6.1, 7.1. Used in 2.1 and 5.2.
-- The `l`-adic character of an algebraic Hecke character, with its local components away from `l`:
-  AutomorphicGaloisRepresentationsPartII, Layer AG2.0. Used in 9.1 for the existence and the places not above `ℓ`.
 - The derivative operator of Kolyvagin and its identity: EulerSystemsAndKolyvaginSystems §3.1. Used in 10.4.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/ClassField` (except
+  `GaloisCohomology/ShapiroCorestriction`, `Local/InvariantMap` and `Global/Chebotarev`) and `src/Lib/Cyclotomic`, with
+  declarations of `src/Lib/PadicHodge/Characters`, `src/Lib/GaloisRep/Main/SelmerModules`,
+  `src/Lib/General/Algebra/CartanMap` and `src/Lib/Weil/Construction/WeilData`.
+- Artin and Tate, *Class Field Theory* (1968), ch. X.
+- Atiyah and Wall, in Cassels–Fröhlich (1967), IV §8.
+- G. Banaszak, W. Gajda, *Euler systems for higher K-theory of number fields*, J. Number Theory 58 (1996).
+- J. Coates, W. Sinnott, *An analogue of Stickelberger's theorem for the higher K-groups*, Invent. Math. 24 (1974).
+- B. Conrad, *Lifting global representations with local properties* (preprint 2011), App. B.
+- H. Davenport, H. Hasse, J. reine angew. Math. 172 (1935).
+- M. Eberl, *Kummer's congruence*, Archive of Formal Proofs (2024).
+- Harris, Kudla, Sweet, *Theta dichotomy for unitary groups*, J. Amer. Math. Soc. 9 (1996), §1.
+- H. Hasse, *Die Struktur der R. Brauerschen Algebrenklassengruppe*, Math. Ann. 107 (1933).
+- K. Ireland, M. Rosen, *A Classical Introduction to Modern Number Theory*, 2nd ed. (1990).
+- S. Lang, *Algebraic Number Theory*.
+- J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed. (2006), I 2.3, 2.8.
+- J. S. Milne, *Class Field Theory* (v4.03, 2020), I and III 2; VI 4.8–4.9; VI 4.9, VII 4–9, VIII 4.
+- J. Neukirch, *Algebraic Number Theory* (1999), I §9, II §§7–9, VI §1.
+- Neukirch, Schmidt, Wingberg, *Cohomology of Number Fields*, 2nd ed. (2008), Ch. I, VI.
+- A. Raghuram, *Notes on the arithmetic of Hecke L-functions*, arXiv:2207.03399, §4.
+- K. Rubin, *Kolyvagin's system of Gauss sums*, Arithmetic Algebraic Geometry (Texel 1989), Progr. Math. 89 (1991),
+  309–324.
+- K. Rubin, *Euler Systems* (2000), III.4, Thm 4.6.
+- J.-P. Serre, *Abelian ℓ-adic representations and elliptic curves* (1968), II–III.
+- J.-P. Serre, *Local Fields* (1979), I §7, IV §2; XII–XIV.
+- J.-P. Serre, *Galois Cohomology* (1997), II §5.2 Thm 2 and §5.7.
+- Stacks Project, tag 09EE.
+- J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions* (1950), in Cassels–Fröhlich, ch. XV,
+  §4.4–4.5.
+- J. Tate, *Global class field theory*, in Cassels–Fröhlich (1967), ch. VII.
+- Titchmarsh, *Theory of the Riemann zeta-function*, §2.11.
+- S. Wang, *Grunwald–Wang theorem, an effective version*, arXiv 1401.0389 (2014).
+- L. Washington, *Introduction to Cyclotomic Fields*, 2nd ed. (1997), 6.2 and Thm 15.1.
+- A. Weil, *On a certain type of characters of the idèle-class group of an algebraic number-field*, Tokyo–Nikko
+  symposium 1955 (1956).

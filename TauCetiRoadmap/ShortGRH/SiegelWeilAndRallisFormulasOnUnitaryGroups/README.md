@@ -189,18 +189,18 @@ above one place `v` of `E⁺` of `1 − ε_w q_w^{−k}` is `1 − q_v^{−2k}`.
 
 ### 1.2 One neighbour step towards the standard lattice
 
-*Origin:* adapted from Kneser (1957), the neighbour method, in the Hermitian form of Kirschmer (2016),
-Definition 5.2.1 and Propositions 5.2.4, 5.2.5: here for the standard lattice `Ô^n` over the integral finite
-adeles and its translates by finite adelic unitary elements, with a finite family of unitary elements at one
-place that carries every neighbour there into `L`, the count of that family, and the drop of the index.
+*Origin:* adapted from Kneser's neighbour method, as in Greenberg and Voight (2014), section 5: here only for the
+standard lattice `L = Ô^n` and the lattices `γL`, `γ ∈ G_f`, with a finite family of unitary elements at one place
+that carries every neighbour there into `L`, the count of that family, and the drop of the index.
 
-*Method of the formal proof:* (c) take a column of `γ` with a pole at some `w` and scale it by a local element so
-that its largest pole has order one. (b) For one neighbour vector a quasi-reflection supported on `{w, w̄}` maps
-its neighbour into `L`; the same element serves every neighbour vector with the same line and the same residue
-of `ϖ_w⟨b, cx − b⟩` against a fixed base vector `b` of the line, after scaling `x` by a local unit `c`. (a) At a
-split place an integral trace `s + s̄` of an adele supported at `w` forces `s` integral; in general, with
-`y ∈ O_E` and `y − ȳ` a unit, `(r, r′) ↦ r + yr′` is injective on `R_w × R_w`. (d) The multiples of `z` by
-representatives of the residue field give `q_w` distinct classes in `(L ∩ (ργ)⁻¹L)/(L ∩ γ⁻¹L)`.
+*Method of the formal proof:* (c) if `γ ∉ K₀`, then at some finite place `w` some column of `γ_w` is not integral; a
+multiple of the corresponding basis vector at `w` alone, by a suitable element of `O_w`, is a `z ∈ L` for which `γz`
+has a pole of order exactly one at `w`. (b) For each neighbour vector a quasi-reflection with components only at `w`
+and `w̄` carries its neighbour into `L`; once `x` is multiplied by a local unit, this quasi-reflection can be chosen to
+depend only on the line of `ϖ_w x_w` and on one residue class in `R_w`, which gives a family indexed by the steps.
+(a) When `w` is split, `s + s̄ ∈ Ô` with `s` supported at `w` already makes `s` integral; at every `w`, the integer
+`y` of the conventions makes `(r, r′) ↦ r + yr′` an injection of `R_w × R_w` into `k_w`. (d) The `q_w` multiples of
+`z` by representatives of `k_w` lie in `L ∩ (ργ)⁻¹L` and are pairwise distinct modulo `L ∩ γ⁻¹L`.
 
 Let `n ≥ 1` and use the notation of 1.1.
 (a) If `w` is split, `R_w` has at most one element. For every finite place `w`, `(#R_w)² ≤ q_w`.
@@ -227,13 +227,14 @@ neighbour vector at `w`.
 *Origin:* particular to this proof: a bound for the sum of the vacuum coefficients over the cosets of a level,
 obtained by counting walks through neighbours with weights that are summable over the places when `M > 2n`.
 
-*Method of the formal proof:* there are at most `q_w^n/(q_w − 1)` lines and, by 1.2 (a), at most `√q_w`
-residues (one at a split place), which gives the bounds on `s_{n,M}(w)`; the residue fields have at least four
-elements because `X² + X + 1` and `X² + 1` have roots in `O_E` but none in the fields with two and three elements.
-By 1.2 (c), (b), (d) every coset other than `K_A` is reached from `K_A` by a walk of steps at places of `A ∪ Ā`,
-each of which multiplies the modulus of the vacuum coefficient by at most `q_w^{−M/2}`; a general lemma on sums
-along walks then bounds the sum over the nontrivial cosets by `ϱ + ϱ² + ⋯ ≤ 1/2` when the weights add up to
-`ϱ ≤ 1/3`.
+*Method of the formal proof:* (a) Roots in `O_E` of `X² + X + 1` and of `X² + 1` reduce to roots in `k_w`; as the
+first polynomial is irreducible over the field with two elements and the second over the field with three, `k_w` is
+neither of these. (b) A step is a line of `k_w^n`, of which there are at most `q_w^n/(q_w − 1)`, and a residue, of
+which there are at most `√q_w`, and at most one at a split place (1.2 (a)); with `2n < M` and (a) this gives the
+bounds. (d) Using 1.2 (c), (b), (d) repeatedly, every coset other than `K_A` is joined to `K_A` by a chain of steps
+at places of `A ∪ Ā`, and along the chain the modulus of the vacuum coefficient drops by a factor of at least
+`q_w^{M/2}` per step; a lemma on weighted sums over such chains then bounds the nontrivial cosets by `ϱ/(1 − ϱ)`,
+which is at most `1/2` for a total step weight `ϱ ≤ 1/3`.
 
 Let `n ≥ 1` and `M ∈ ℕ` with `2n < M`, and let `b` be an automorphic character of `U(1)`.
 (a) `q_w ≥ 4` for every finite place `w`.
@@ -261,16 +262,17 @@ over those of `K_{A₁∪A₂}`.
 ### 1.4 The series of translates: convergence, forms, multiplicativity and injectivity
 
 *Origin:* adapted from the Rallis inner product formula in Weil's convergent range (Rallis (1984), *Injectivity
-properties of liftings associated to Weil representations*, Proposition 1.1, for orthogonal–symplectic pairs;
-Li (1992)) and from Rallis (1984), *Injectivity properties of liftings associated to Weil representations*,
-Theorem 1.6, the injectivity of theta lifts: here the contribution of the unramified places is left as a series
-of translates acting on the bounded functions of a level of a source space of any signature, and its
-injectivity is proved by counting neighbours, with no L-function.
+properties of liftings associated to Weil representations*, for orthogonal–symplectic pairs; Li (1992)) and from
+Rallis (1984), *Injectivity properties of liftings associated to Weil representations*, the injectivity of theta
+lifts: here the contribution of the unramified places is left as a series of translates acting on the bounded
+functions of a level of a source space of any signature, and its injectivity is proved by counting neighbours, with
+no L-function.
 
-*Method of the formal proof:* induction over sets of places: the statements hold for sets of total step weight
-at most `1/3` by 1.3 (d) (for injectivity, the nontrivial cosets change a bounded `y` by at most half its sup
-norm), every pair `{w, w̄}` is such a set by 1.3 (b), so is the set of places outside a finite set because the
-weights are summable, and the statements pass to disjoint unions by multiplicativity (c).
+*Method of the formal proof:* the statements are proved first for sets `A` of total step weight at most `1/3`,
+where 1.3 (d) bounds the coefficients and, for (d), the trivial coset dominates: the other cosets move a bounded `y` by
+at most half of `sup |y|`. A pair `{w, w̄}` is such a set by 1.3 (b), and so is the complement of a large enough
+finite set of places, the step weights being summable; a general `A` is cut into finitely many such pieces, and (c),
+with 1.3 (c), puts the pieces together.
 
 Let `S` be a locally standard space of rank `n` and signs `s`, `m` an integer with `2n < m`, `b` an automorphic
 character of `U(1)`, `A` a set of finite places, and write `mc = mc_{m,b}`, `𝒯_A = 𝒯_{m,b,A}`.
@@ -294,11 +296,10 @@ then for every form `y` of type `e` on `S` that is fixed by `J`, `𝒯_A y` is a
 ### 1.5 The vacuum sum over the places, and its value in rank one
 
 *Origin:* adapted from the Rallis inner product formula (Rallis (1984), *Injectivity properties of liftings
-associated to Weil representations*, Proposition 1.1; Li (1992); Gan, Qiu and Takeda (2014)), in its case of the
-trivial representation of a definite unitary group of rank `2k` lifted from `U(1)`: here the unramified local
-integrals in rank one are sums over cosets, evaluated at every finite place where the character is unramified
-(the places of residue characteristic `2` included) and assembled into a partial Hecke L-value over a partial
-Euler product.
+associated to Weil representations*; Li (1992)), in its case of the trivial representation of a definite unitary
+group of rank `2k` lifted from `U(1)`: here the unramified local integrals in rank one are sums over cosets,
+evaluated at every finite place where the character is unramified (the places of residue characteristic `2`
+included) and assembled into a partial Hecke L-value over a partial Euler product.
 
 *Method of the formal proof:* (a) the vacuum sum is multiplicative over disjoint sets of places on which `b ∘ det`
 is unramified (1.4 (c) applied to the constant `1`; 1.3 (c)), and the sums over `A ∩ (finite sets)` tend to the sum
@@ -374,10 +375,13 @@ ones, and `ev_Λ(f) = f[0]` for every complete splitting with Lagrangian `Λ`.
 quotient): here for the unitary group of a split locally standard hermitian space, with the torus of the Siegel
 parabolic of one complete splitting, in the order `γ·a_x·κ`, with exponents only bounded below.
 
-*Method of the formal proof:* by Mahler's compactness criterion there are, for each `g`, a rational basis of
-`E^n` bounded at `g` whose Gram matrix lies in a finite set; an isotropic frame fixed for each member of that set
-gives a rational Lagrangian with a basis bounded at `g`. The normal form (a), proved from the Iwasawa
-decomposition and Witt's theorem, then bounds the torus exponents on one side.
+*Method of the formal proof:* (a) comes from the Iwasawa decomposition and the reduction theory for `GL_p`
+(`AdelicUnitaryGroupsAndAlgebraicModularForms §§3.6, 4.3`). (b) For a rational Lagrangian `γk`, (a) bounds the torus
+exponents of `g` from below as soon as some rational basis of `γk` has its coordinates at `g` in a compact set that
+does not depend on `g`; so it is enough to produce such a Lagrangian for each `g`. Mahler's compactness criterion
+supplies rational vectors whose coordinates at `g` are bounded and whose Gram matrices take finitely many values; in
+their span an isotropic frame is chosen by a rule fixed in advance for each of the finitely many cases, so its
+coordinates at `g` stay bounded, and by Witt's theorem the frame is the image of `k` under a rational point.
 
 Let `S` be a locally standard space with a complete splitting `P` into `p` hyperbolic planes, with frame `k`.
 (a) There is a compact set `Ω ⊆ M_p(𝔸) × G(S)` such that for every `g ∈ G(S)` and every `γ ∈ Γ_S` there are
@@ -433,9 +437,9 @@ expansion); `AdelicUnitaryGroupsAndAlgebraicModularForms §§3.6, 4.3` (Iwasawa 
 
 ### 2.4 Uniform summability of the zero terms
 
-*Origin:* particular to this proof: the zero terms along all rational Lagrangians, composed with the normalised
-torus, are bounded by one summable function of the Lagrangian when `m > 2p`; at `x = 0` this is the absolute
-convergence of the Eisenstein series of the Siegel–Weil formula, in operator norm.
+*Origin:* particular to this proof: when `m > 2p`, a single majorant, summable over the rational Lagrangians, for the
+operator norms of the zero terms after the normalised torus, uniform along the torus; at `x = 0` it says that the
+Eisenstein series of the Siegel–Weil formula converges absolutely in operator norm.
 
 *Method of the formal proof:* put each Lagrangian in the normal form 2.2 (a) at `g = 1`, with torus exponents
 `d + t(Λ)`, `t(Λ) ∈ ℕ^p`. By 2.3 (b) the term of `Λ` is `O(2^{−f·m·Σt_i})`, while only `O(2^{2f·p·Σt_i})`
@@ -455,11 +459,14 @@ for every Lagrangian `Λ` and every `x ∈ ℕ^p`.
 *Origin:* particular to this proof: a vanishing criterion for `G(T)`-invariant functionals on the data, by a
 maximum principle for a Hecke operator at a split place.
 
-*Method of the formal proof:* it suffices to kill the data `v ⊗ ϱ(z)vac` with `v` polynomial and `z` a finite
-adelic vector, which span. Take a split place `w` at which `z` is integral (there are infinitely many split
-places, as places of prime norm split). The Hecke transfer at `w` writes `g ↦ λ·ℓ(ω(g, 1)φ)`, for a scalar `λ`,
-in norm as a weighted sum of translates of total weight less than `|λ|`; the sum of the norms of the zero terms
-of the vacuum is a supersolution of the same inequality, and the maximum principle applies.
+*Method of the formal proof:* by `WeilRepresentationsOnBanachSpacesOfData §3.7 (e)` it is enough that `ℓ` vanishes
+at `φ = v ⊗ ϱ(z)vac` for `v` polynomial and `z` a finite adelic vector. Places of prime norm split, so there are
+infinitely many split places, and one of them, `w`, has `z` integral at `w` and at `w̄`. For data that are vacua at
+`w`, the Hecke transfer of `WeilRepresentationsOnBanachSpacesOfData §9.3` bounds `|λ|·|ℓ(ω(g, 1)f)|`, for a scalar
+`λ`, by finitely many values of `|ℓ(ω(·, 1)f)|` at translates of `g` with weights of total less than `|λ|`, while
+`σ(g) = Σ_Λ |ev_Λ(ω(g, 1)vac)|` satisfies the reverse inequality. The maximum principle of the background entry below,
+applied to `|ℓ(ω(g, 1)f)| − σ(g)`, gives `|ℓ(ω(g, 1)f)| ≤ σ(g)`; as `σ` does not depend on `f`, applying this to
+large multiples of `φ` forces `ℓ(φ) = 0`.
 
 Let `S` be locally standard of rank `2p > 0`, `T` locally standard of rank `m > 2p`, and `ℓ` a continuous linear
 functional on `𝒮(Hom(S, T))` with `ℓ(ω(1, h)f) = ℓ(f)` for all `h ∈ G(T)` and `f`. Suppose that for every `f`
@@ -486,10 +493,11 @@ theta uniform in the datum.
 *Method of the formal proof:* by induction on the rank of `S`. Let `ℓ = vol([U(T)])·Σ_Λ ev_Λ − ∫_{[U(T)]} θ(ω(1, h)·)`,
 a continuous functional invariant under `G(T)` and `Γ_S`, by 2.3 (c) and 2.4. Split off the line spanned by one
 vector `k_ι` of the frame; its complement `S₁` has a complete splitting, and the formula holds for `S₁` by
-induction. As `x_ι → ∞`, uniformly for `f` in compact sets, the theta integral of `A_x f` approaches that of its
-zero term along the line, and the sum of the zero terms behaves in the same way, so `ℓ(A_x f) → 0`. With the
-Siegel sets of 2.2 this bounds `|ℓ(ω(g, 1)f)| − Σ_Λ |ev_Λ(ω(g, 1)vac)|` above, and 2.5 gives `ℓ = 0`. For `S = 0`
-there is one Lagrangian and theta is its zero term.
+induction. When `x_ι` grows, both the theta integral of `A_x f` and the sum of its zero terms come close to the
+corresponding quantities for its zero term along the line, which agree for `S₁`; this holds uniformly for `f` in
+compact sets, and so `ℓ(A_x f) → 0`. With the Siegel sets of 2.2 this bounds
+`|ℓ(ω(g, 1)f)| − Σ_Λ |ev_Λ(ω(g, 1)vac)|` above, and 2.5 gives `ℓ = 0`. The induction starts at `S = 0`, whose only
+Lagrangian is `0` and whose theta functional equals that zero term.
 
 Let `S` be a locally standard space with a complete splitting into `p` hyperbolic planes and `T` a locally standard
 space of rank `m > 2p` (any signs). Then:
@@ -514,19 +522,19 @@ finite volume).
 
 ### 2.7 Constancy of automorphic functions on a unitary group with a hyperbolic plane
 
-*Origin:* adapted from Rapinchuk (2012), Theorem 2.3, strong approximation for a simply connected absolutely
-almost simple group and any nonempty finite set of places (the theorem of Kneser and Platonov), and from weak
-approximation, Platonov and Rapinchuk (1994), Chapter 7: here only the constancy of an automorphic function on
-the full unitary group of an isotropic space, under a level at a nonempty set of places, a level away from it and
-a hypothesis on the torus of a hyperbolic plane, proved without strong approximation for `SU`.
+*Origin:* adapted from strong approximation for a simply connected absolutely almost simple group and any nonempty
+finite set of places (the theorem of Kneser and Platonov), and from weak approximation, Platonov and Rapinchuk
+(1994), Chapter 7: here only the constancy of an automorphic function on the full unitary group of an isotropic
+space, under a level at a nonempty set of places, a level away from it and a hypothesis on the torus of a
+hyperbolic plane, proved without strong approximation for `SU`.
 
-*Method of the formal proof:* `D` takes equal values at points that agree off `S ∪ S̄`; since the rational
-parameters plus parameters supported on `S ∪ S̄` are dense in each unipotent radical (additive strong
-approximation), `D` is left invariant under the radical of every splitting of a hyperbolic plane off `W` with
-complement `W₀`. Quasi-reflections lie in the group generated with the torus, and Witt's theorem in the form
-"a subgroup containing the quasi-reflections contains `U(W₀)(E)`" gives (b). Weak approximation in `U(W₀)` and in
-`U(W)`, and the Iwasawa decomposition for the line of the plane, reduce every point to such Levi elements, on
-which the torus hypothesis makes `D` constant.
+*Method of the formal proof:* by the level hypotheses, `D(g)` depends only on the components of `g` off `S ∪ S̄`. In
+each unipotent radical the rational points together with the points supported on `S ∪ S̄` are dense (additive strong
+approximation), so left translation by the radical of every splitting of `W` over `W₀` along one plane fixes `D`.
+The group generated by these radicals and the torus contains the quasi-reflections of `W₀`, so the form of Witt's
+theorem in the background entry below reaches all of `U(W₀)(E)`; this is (b). For (a), weak approximation in `U(W₀)`
+and in `U(W)` and the Iwasawa decomposition along the line of `k` bring every point to a Levi element, where the torus
+hypothesis makes `D` constant.
 
 Let `W` be a locally standard space with a splitting `W = H ⊥ W₀` off a hyperbolic plane `H` (with isotropic line
 spanned by `k`), `D` a continuous function on `G(W)` left invariant under `Γ_W`, and `S` a nonempty set of finite
@@ -534,18 +542,20 @@ places.
 (a) Suppose that `D` is right invariant under `G_f^S` and under the points of `K₀` with component `1` at every
 place of `S`, and that, if `D` is left invariant under the unipotent radical of the stabiliser of the line of `k`,
 then `D(levi(t, g))` does not depend on `t ∈ GL_1(𝔸)` for `g ∈ G(W₀)`. Then `D` is constant.
-(b) If `D` is left invariant under the radical elements of every splitting of a hyperbolic plane off `W` with
-complement `W₀`, then for every set `R` of finite places and every `γ ∈ U(W₀)(E)` there is `t ∈ GL_1(𝔸)` such
-that `D` is left invariant under the element that agrees with `levi(t, γ)` on `R ∪ R̄` and is `1` elsewhere.
+(b) Suppose that left translation by the radical elements of every splitting of `W` over `W₀` along one hyperbolic
+plane (`WeilRepresentationsOnBanachSpacesOfData §5.1`) fixes `D`. Then for every set `R` of finite places and every
+`γ ∈ U(W₀)(E)` there is `t ∈ GL_1(𝔸)` such that left translation by the element equal to `levi(t, γ)` at the places
+of `R ∪ R̄` and to `1` at all other places fixes `D`.
 
 Strong approximation for `SU` (`HermitianFormsAndLattices §2.5 (d)`) also gives (a): it makes `D` a function of
 the determinant, and the torus hypothesis removes that dependence.
 
 *Needs:* `AdelicUnitaryGroupsAndAlgebraicModularForms §§2.3, 3.6, 3.8` (strong and weak approximation, Iwasawa);
-ShortGRH background (Witt's theorem by quasi-reflections: over a field with a nontrivial involution, let `J` be
-invertible hermitian and `H` a subgroup of `U(J)` that contains every quasi-reflection `x ↦ x − σ⁻¹(v*Jx)v`, `σ` a unit
-with `σ + σ̄ = v*Jv`; then left invertible `X`, `Y` with `X*JX = Y*JY` have `gX = Y` for some `g ∈ H`, so `H = U(J)`;
-[ShortProof] `Lib/Adelic/Witt/WittTheorem.lean` (`New.quasiReflection`, `New.witt_of_quasiReflection_mem`)).
+`WeilRepresentationsOnBanachSpacesOfData §5.1` (splittings, Levi and radical elements); ShortGRH background (Witt's
+theorem by quasi-reflections: over a field with a nontrivial involution, let `J` be invertible hermitian and `H` a
+subgroup of `U(J)` that contains every quasi-reflection `x ↦ x − σ⁻¹(v*Jx)v`, `σ` a unit with `σ + σ̄ = v*Jv`; then
+left invertible `X`, `Y` with `X*JX = Y*JY` have `gX = Y` for some `g ∈ H`, so `H = U(J)`; [ShortProof]
+`Lib/Adelic/Witt/WittTheorem.lean` (`New.quasiReflection`, `New.witt_of_quasiReflection_mem`)).
 
 [ShortProof], `Lib/SiegelWeil/Formula/StrongApproximation.lean`
 (`New.Exchange.IsAutFunction.apply_eq_apply_one`, `New.Exchange.exists_torus_mul_rational_fixes`)
@@ -617,10 +627,10 @@ the other `β ∈ E⁺`, for Lebesgue measure at the infinite places and the mea
 ### 3.3 Siegel's class-sum formula for the vectors of one norm
 
 *Origin:* adapted from Weil (1965), the mean-value form of Siegel's main theorem for the classical groups,
-unitary groups included, and its specialisation to definite lattices, Braun (1941), Satz V, after Siegel
-(1935–1937): here for one vector (`k = 1`), the standard definite form of rank `n ≥ 3` over a CM field with Weil
-data, every level and every nonnegative invariant locally constant test function, with the singular series left
-as one adelic Fourier integral.
+unitary groups included, and its specialisation to definite lattices, Braun (1941), after Siegel (1935): here for
+one vector (`k = 1`), the standard definite form of rank `n ≥ 3` over a CM field with Weil data, every level and
+every nonnegative invariant locally constant test function, with the singular series left as one adelic Fourier
+integral.
 
 *Method of the formal proof:* apply 3.2 (d) to the datum of 3.2 (e) for `Φ₀` and the Gaussian, and compute the
 archimedean integral `∫ exp(−x*x)ψ(z x*x/2) dx` and its integral in `z` by Laplace's integral for `1/Γ`, place by
@@ -646,16 +656,17 @@ quotient).
 
 ### 3.4 Ideal zeta bounds for adelic Gauss sums
 
-*Origin:* particular to this proof: the Gauss sums of the standard form over `Ô`, integrated over the
-frequencies, are bounded at all finite places at once by sorting the frequencies by their conductor ideal and
-summing over the ideals with the ideal zeta sum.
+*Origin:* particular to this proof: a bound, for all finite places at the same time, for the integral over the
+frequencies of the Gauss sums of the standard form over `Ô`, obtained by grouping the frequencies according to their
+conductor ideal and summing over ideals with the ideal zeta sum.
 
 *Method of the formal proof:* (a) cut the domain into the pieces where the bound holds for a given ideal and sum
 `[R : I]^{−μ}`; the countability of the ideals of finite index follows from the finiteness of `ζ_R(μ)`.
 (b) Weyl differencing: the square of the Gauss sum is an integral of a character over a coset of the conductor
 lattice. (c) The frequencies with a given conductor ideal of index `y` lie in at most `y` cosets of the
-codifferent, one for each character of `Ô/I`; then (a). (d) Contraction to `O_E` is injective on the ideals of
-finite index of `Ô` and keeps the index, so `ζ_Ô` is at most the Dedekind zeta value, whose logarithm is small.
+codifferent, one for each character of `Ô/I`; then (a). (d) An ideal of finite index of `Ô` is determined by its
+intersection with `O_E`, which has the same index; so `ζ_Ô(s)` is bounded by the value at `s` of the Dedekind zeta
+function of `E`, and the logarithm of that value is small for these `s`.
 
 (a) Let `R` be a subring of a commutative ring with `ζ_R(μ) ≤ 2`, `ρ` a measure, `f ≥ 0`, `s` a set, and `(S_I)` sets
 indexed by the ideals of `R`. If almost every `x ∈ s` lies in some `S_I` with `I` of finite index and
@@ -673,14 +684,14 @@ finite adeles with the measure of 3.1 (c).
 
 ### 3.5 The masses of the standard lattices in consecutive ranks
 
-*Origin:* adapted from Shimura (1997), Gan, Hanke and Yu (2001) and Kirschmer (2016), Proposition 4.2.7 (3), the
-exact mass formula, of which the ratios of consecutive masses are quotients: here the logarithm of the ratio for
-the standard lattices over a CM field with Weil data, in large rank, up to an explicit error that depends on the
-field only through its degree.
+*Origin:* adapted from Gan, Hanke and Yu (2001) and Kirschmer (2016), 4.2.7 and 4.2.9, the exact mass formula, of
+which the ratios of consecutive masses are quotients: here the logarithm of the ratio for the standard lattices over
+a CM field with Weil data, in large rank, with an explicit error bound in which the field enters only through its
+number of infinite places.
 
 *Method of the formal proof:* (a) the norm-one vectors of the lattice of `g` form the intersection of the
-`Γ`-orbit and the `gK₀`-orbit of the last basis vector, whose stabiliser is the group of rank `j`; Witt's theorem
-identifies the orbits. (b) is 3.3 (a) for the indicator of `Ô^{j+1}` and `α = 1`, with (a). (c) writes the density
+`Γ`-orbit and the `gK₀`-orbit of the last basis vector, which the unitary group in rank `j` stabilises; Witt's
+theorem identifies the orbits. (b) is 3.3 (a) for the indicator of `Ô^{j+1}` and `α = 1`, with (a). (c) writes the density
 as the integral of the Gauss sums of 3.4 (b); the integral frequencies give `vol(Ô)^n`, and the others are bounded
 by 3.4 (c) with 3.4 (d).
 
@@ -738,12 +749,14 @@ limit of normalised counts, equal to an integral of Gauss sums over the frequenc
 inequality, for the fibre measures of a disintegration at a product of finitely many completions, with a Weyl
 differencing bound for the Gauss sum of a class.
 
-*Method of the formal proof:* (b) the class is compact and open, and multiplication by `g` scales the volume by
-`|g|^{#κ}`. (a) Cut the frequencies to `{b : yȳb ∈ R}`: by orthogonality of characters the cut integral is the
-volume of the cut times the mass of `f` on a slab, which is a mean of the masses of the quadrics near `δ⁻¹t`; let
-the unit `y` tend to `0`, using the continuity in `t`. (c) The square of the Gauss sum is the integral over
-`d ∈ gR^κ` of an autocorrelation; up to a phase this is the integral of a character of `gR^κ` that is trivial only
-on `gwR^κ`. (d) is (a) for the indicator of the class.
+*Method of the formal proof:* (b) the class is a translate of `gR^κ`, which is compact and open, and multiplication
+by `g` scales Haar measure by `|g|^{#κ}`. (a) Restrict `b` to the compact open set `{b : yȳb ∈ R}` for a unit `y` and
+integrate over `b` first: orthogonality leaves the volume of that set times the integral of `f` over a thin
+neighbourhood of the quadric of `δ⁻¹t`, which the disintegration writes as an average of `∫ f dl_{t′}` over `t′` near
+`t`; continuity in `t′` gives the limit as `y → 0`. (c) Write `|G_J|²` as a double integral over the class and
+substitute `x′ = x + d` with `d ∈ gR^κ`: for each `d` the integrand is a constant of modulus one times a character of
+`x`, whose integral over the class vanishes unless `d ∈ gwR^κ`, by the hypothesis on `w`. (d) is (a) for the
+indicator of the class.
 
 Let `A`, `R`, `ψ`, `τ`, `δ`, `ν` be as in 3.6, with `ψ(x + x̄) = 1` for all `x ∈ A`, and let `J` be hermitian.
 (a) Let `(l_t)` disintegrate the Haar measure along `x ↦ x*Jx`, let `f ≥ 0` be continuous with compact support on
@@ -842,11 +855,11 @@ the places of `𝔪` and the vacuum elsewhere (`WeilRepresentationsOnBanachSpace
 
 ### 4.2 The doubling identity in Weil's range
 
-*Origin:* adapted from the Rallis inner product formula (Rallis (1984b), for orthogonal–symplectic pairs in
-Weil's range; Piatetski-Shapiro and Rallis (1987); for unitary pairs Ichino (2007), and Li (1992) and Yamana
-(2014), the last two cited for `m > 2n`): here the doubling identity itself, before any local computation, in
-Weil's range, for clean data of the Banach space, with a bound uniform in the data; the boundary orbits are removed
-by the datum rather than by cuspidality.
+*Origin:* adapted from the Rallis inner product formula (Rallis (1987), *L-functions and the oscillator
+representation*; Li (1992); for the unfolding on unitary groups Liu (2011), Proposition 2.3, and Eischen, Harris, Li
+and Skinner, 4.1.4): here the doubling identity itself, before any local computation, in Weil's range, for clean
+data of the Banach space, with a bound uniform in the data; the boundary orbits are removed by the datum rather than
+by cuspidality.
 
 *Method of the formal proof:* the product of the two kernels is the kernel of the doubled pair `(S ⊕ S⁻, T)`,
 `S⁻` being `S` with the form `−J`, at the doubled datum. 2.6 for the split space `S ⊕ S⁻` of rank `2n` turns the
@@ -869,10 +882,11 @@ Let `2n < m`, let `a`, `b` be automorphic characters of `U(1)`, and `g, g′ ∈
 
 ### 4.3 The inner product formula for rapidly decreasing forms
 
-*Origin:* adapted from the Rallis inner product formula (Rallis (1984b); Piatetski-Shapiro and Rallis (1987);
-for unitary pairs Ichino (2007), and Li (1992) and Yamana (2014), cited for `m > 2n`): here in Weil's range for
-automorphic functions of rapid decay on a source group of any signature, which need be neither cuspidal nor
-eigenforms, for clean data, as an integral over the whole adelic group, with no L-value.
+*Origin:* adapted from the Rallis inner product formula (Rallis (1987), *L-functions and the oscillator
+representation*; Li (1992); for the unfolding on unitary groups Liu (2011), Proposition 2.3, and Eischen, Harris, Li
+and Skinner, 4.1.4): here in Weil's range for automorphic functions of rapid decay on a source group of any
+signature, which need be neither cuspidal nor eigenforms, for clean data, as an integral over the whole adelic
+group, with no L-value.
 
 *Method of the formal proof:* integrate 4.2 (a) against `conj y′(g′)·y(g)` over `[U(S)] × [U(S)]` and unfold the
 sum over `Γ_S`; the bound 4.2 (b), the growth of the matrix coefficients in the height and the rapid decay of `y`,
@@ -898,11 +912,16 @@ product); `WeilRepresentationsOnBanachSpacesOfData §6.4` (theta lifts).
 is a constant times the indicator of a level, which turn the inner product formula into the series of translates
 of 1.4.
 
-*Method of the formal proof:* (a) `ω_{1,b}(g, 1)f` is again a vacuum above `A`, and the projection onto the vacua
-above `A` sends `ω_{1,b}(γ, 1)` of a vacuum to the vacuum coefficient times it. (b) On `J` the datum is fixed; if the
-coefficient at `g` is not zero, some `x` and `xg` lie in the support of `Ψ`, which makes `g` integral and then puts
-it in `J` by the matrix `A`; the hypothesis on the signs or on `𝔪` serves only for cleanness. (e) A vacuum
-coefficient at an integral point supported off `S₀` that is not in `J` would contradict the support property.
+*Method of the formal proof:* (a) since `g` is integral at `A`, `ω_{1,b}(g, 1)f` is still a vacuum above `A`, and
+projecting `ω_{1,b}(γ, 1)` of such a vacuum back onto the vacua above `A` multiplies it by the vacuum coefficient of
+`γ`. (b) Let `g` be integral off the places of `𝔪𝔪̄`. If `g ∈ J`, it fixes the datum and the coefficient is `⟨F, F⟩`.
+If `g ∉ J`, the supports of `Ψ` and of its translate `x ↦ Ψ(xg)` do not meet, and the coefficient is `0`: for a
+common point `x`, the matrix `A` of 4.1 (c) makes `x` and `xg` integral with integral left inverses at the places of
+`𝔪`, so `g` is integral there and, being unitary, at the conjugate places; modulo `𝔪` it is then a quotient of two
+reductions of elements of `J`, hence it lies in `J`, which contains `J(𝔪)`. The condition on the signs or on `𝔪`
+gives cleanness (4.1 (a)) and has no other use. (e) For `k ∈ K₀ ∩ G_f^{S₀ᶜ}`, (a) makes the coefficient at `k` its
+vacuum coefficient, of modulus one, times `⟨F, F⟩ ≠ 0`; so `k ∈ J`, and the value `⟨F, F⟩` there forces
+`b(det k) = 1`.
 
 Let `S`, `T` be locally standard of ranks `n`, `m`, and `b` an automorphic character of `U(1)` of weight `γ′` and tame
 part `ψ′`.
@@ -935,18 +954,20 @@ points, real action); `IdelicReciprocityCountsAndCyclotomicClassGroups §§7.1, 
 ### 4.5 The inner product formula for sharp data, and injectivity of the theta lift
 
 *Origin:* adapted from the Rallis inner product formula in Weil's convergent range (Rallis (1984), *Injectivity
-properties of liftings associated to Weil representations*, Proposition 1.1; Li (1992)) and from Rallis (1984),
-*Injectivity properties of liftings associated to Weil representations*, Theorem 1.6, injectivity: here for
-unitary groups over a CM field with target rank more than twice the source rank, a source space of any signature,
-and sharp finite data; the unramified factor is the series of translates of 1.4, the archimedean factor a nonzero
-constant that is not computed, and injectivity holds on the forms of a level with no condition on L-values or
-local integrals.
+properties of liftings associated to Weil representations*; Li (1992)) and from Rallis (1984), *Injectivity
+properties of liftings associated to Weil representations*, injectivity: here for unitary groups over a CM field
+with target rank more than twice the source rank, a source space of any signature, and sharp finite data; the
+unramified factor is the series of translates of 1.4, the archimedean factor a nonzero constant that is not
+computed, and injectivity holds on the forms of a level with no condition on L-values or local integrals.
 
-*Method of the formal proof:* start from 4.3 and integrate first over the finite points: by 4.4 (e) the finite
-integral cuts into cosets of the points integral off `S₀`, and gives `c` times the series of translates. For an
-edge `v` from type `e`, the real integral of `⟨v, Ω(x)v⟩` against the coefficient of the type is a nonzero number
-`Z`, and on forms of type `e` real translates scale the Petersson product by it. If the lift of `y` vanishes, the
-series `z = 𝒯 y`, a form of type `e` by 1.4 (b), satisfies `⟨z, z⟩ = 0`, and 1.4 (d) gives `y = 0`.
+*Method of the formal proof:* in the integral of 4.3 over `G(S)`, carry out the integration over the finite points
+first. By 4.4 (e) the coefficient factors there, and grouping the finite points by cosets of those integral off `S₀`
+turns that integration into `c` times the series of translates of 1.4. By
+`AdelicUnitaryGroupsAndAlgebraicModularForms §5.2 (d)`, `⟨y′, R(x)𝒯y⟩ = (conj e(x)/e(1))·⟨y′, 𝒯y⟩` for forms of type
+`e`; so the integral over `G_∞(S)` is `Z·⟨y′, 𝒯y⟩` with `Z = ∫ ⟨v, Ω(x)v⟩·conj e(x)/e(1) dx`, which is not `0`
+because `v` is an edge (`WeilRepresentationsOnBanachSpacesOfData §7.2`, condition 2). For injectivity, put
+`y′ = 𝒯y`, a form of type `e` by 1.4 (b): a vanishing lift of `y` gives `⟨𝒯y, 𝒯y⟩ = 0`, so `𝒯y = 0`, and 1.4 (d)
+gives `y = 0`.
 
 Let `S`, `T` be locally standard of ranks `n`, `m` with `2n < m`; let `S₀` be a set of finite places, `J ⊆ G_f` a
 subgroup and `F` a datum sharp for `J` off `S₀` with mass `c` relative to `b`, where `a`, `b` are automorphic
@@ -979,30 +1000,34 @@ forms); `AdelicUnitaryGroupsAndAlgebraicModularForms §5.2` (discrete-series typ
 
 ### 4.6 A reproducing formula by theta lifts to a large definite group
 
-*Origin:* adapted from Weissauer (1986) and Böcherer (2006): the basis problem by doubling and the Siegel–Weil
-formula: here as a dual, pointwise identity at one level: the pairing of a rapidly decreasing automorphic
-function of level `N` with a holomorphic discrete series coefficient is, at each point, a finite combination,
-independent of the function, of its pairings with theta kernels to a definite space of rank more than twice
-that of the source; the constants are not computed.
+*Origin:* adapted from Böcherer (1983), *Über die Fourier-Jacobi-Entwicklung Siegelscher Eisensteinreihen*, and Li
+(1992): the basis problem by doubling and the Siegel–Weil formula: here as an identity dual to it, at one level and
+at each point: integrating a rapidly decreasing automorphic function of level `N` against a holomorphic discrete
+series coefficient around a point gives a linear combination of its integrals against theta kernels to a definite
+space of rank more than twice the source rank, with coefficients that depend on the point but not on the function;
+the coefficients are not computed.
 
-*Method of the formal proof:* on the space of rapidly decreasing automorphic functions of level `N` the left side
-is a linear form `ℓ` and the pairings are linear forms `L_i`; by linear algebra it suffices that `ℓ` vanishes
-where all `L_i` vanish. There, by the spanning hypothesis (e) and the equivariance of the lift, the lift by the
-datum of `Q₀` vanishes; the matrix coefficient of the Fock vector of `Q₀` is holomorphic and a multiple of the
-discrete series coefficient (products of minors scale by principal minors under the group), so 4.5 (b) kills the
-convolution of the function with that coefficient.
+*Method of the formal proof:* fix `x`. Both sides are linear in `φ` and the `Θ_{p,i}` are finite in number; so, by
+duality in the space of rapidly decreasing automorphic functions of level `N`, the constants `a_{p,i}` exist as soon
+as the left side is `0` for every `φ` whose integrals against all `Θ_{p,i}` vanish. For such `φ`, the spanning
+hypothesis on the `Q_{p,i}` and the equivariance of theta lifts make the lift of `φ` by the datum built from `Q₀`
+vanish. By `HolomorphicDiscreteSeriesOfUnitaryGroups §6.3 (c)`, the matrix coefficient of the Fock vector of `Q₀`,
+holomorphic of weight `u` with conjugate values at `h` and `h⁻¹`, is a constant multiple of `∏_τ hol_{u_τ}`; and by
+4.5 (b) the convolution of `φ` with it, whose value at `x` is the left side, is `0`. Products of minors of the
+variable matrix, which the group multiplies by principal minors of its elements, give polynomials `Q₀` that meet the
+hypothesis.
 
 Let `S` be locally standard of rank `n` and signs `s`, with the coordinates of sign `+1` ordered first; let
 `𝔪 = (N)` be a modulus with at least one place; let `c`, `b` be automorphic characters of `U(1)` of weights `γ′`, `γ`
 and trivial tame part; let `u` be a weight, `K`-dominant for this order at every infinite place, such that the
-holomorphic discrete series coefficient `h ↦ ∏_τ hol_{u_τ}(h_τ)` (the product over the infinite places of the
-quotients of minors of weight `u_τ`, as in `HolomorphicDiscreteSeriesOfUnitaryGroups §6.3`) is integrable on
-`G_∞(S)`; let `T` be the standard definite space of rank
-`n′ > 2n` and `e : {1..n} ↪ {1..n′}`; let `Q₀ ≠ 0` be a polynomial whose Fock vector has holomorphic matrix
-coefficients of weight `u` for the weights `γ′`, `γ` (`WeilRepresentationsOnBanachSpacesOfData §6.14`);
-and for each class `p` of `U(T)` of level `J(N)` let `Q_{p,1}, …, Q_{p,r}` be polynomials whose Fock vectors span a
-space containing the translates of that of `Q₀` by `G_∞(T)` in the real Weil representation with weight `γ′` on
-`G_∞(T)`. Then for every point `x ∈ G(S)` there are constants `a_{p,i}` such that for every automorphic function `φ` of rapid decay and level `N` on `G(S)`:
+holomorphic discrete series coefficient `h ↦ ∏_τ hol_{u_τ}(h_τ)` (`hol_{u_τ}` the model function `m^hol_{u_τ}` of
+`HolomorphicDiscreteSeriesOfUnitaryGroups §6.3`, a quotient of products of principal minors) is integrable on
+`G_∞(S)`; let `T` be the standard definite space of rank `n′ > 2n` and `e : {1..n} ↪ {1..n′}`; let `Q₀ ≠ 0` be a
+polynomial whose Fock vector has holomorphic matrix coefficients of weight `u` for the weights `γ′`, `γ`
+(`WeilRepresentationsOnBanachSpacesOfData §6.14`); and for each class `p` of `U(T)` of level `J(N)` let
+`Q_{p,1}, …, Q_{p,r}` be polynomials whose Fock vectors span a space containing the translates of that of `Q₀` by
+`G_∞(T)` in the real Weil representation with weight `γ′` on `G_∞(T)`. Then for every point `x ∈ G(S)` there are
+constants `a_{p,i}` such that for every automorphic function `φ` of rapid decay and level `N` on `G(S)`:
 `∫_{G_∞(S)} φ(x·(h, 1))·hol_u(h) dh = Σ_{p,i} a_{p,i}·∫_{[U(S)]} φ(g)·Θ_{p,i}(g) dg`,
 where `Θ_{p,i}(g)` is the theta kernel of `ω_{c,b}` for `(S, T)` at `g` and the class `p`, at the datum built from
 `Q_{p,i}` at the real places and the indicator of the matrix of `e` modulo `𝔪`.
@@ -1091,16 +1116,19 @@ point of `Stab(e)`. If `h` lies in the adelic unipotent radical of the stabilise
 
 ### 5.3 Singular forms are governed by their coefficients at unimodular indices
 
-*Origin:* adapted from the published theory of singular automorphic forms (a singular form is determined by its
-Fourier coefficients at indices of maximal rank): here a vanishing criterion for one Fourier coefficient of an
-automorphic function on an adelic unitary group whose partial means are shear invariant, from the vanishing at the
-points whose normalised index is unimodular at a set of places.
+*Origin:* adapted from the theory of singular automorphic forms of Freitag (1991), *Singular Modular Forms and Theta
+Relations* (see also Li (1997), *Automorphic forms with degenerate Fourier coefficients*): a singular form is
+determined by its Fourier coefficients at indices of maximal rank; here a vanishing criterion for one Fourier
+coefficient of an automorphic function on an adelic unitary group whose partial means are shear invariant, from the
+vanishing at the points whose normalised index is unimodular at a set of places.
 
-*Method of the formal proof:* otherwise, by 5.2 (a), some point whose lattice at `S ∪ S̄` splits along the two
-isotropic lines (a straight point, obtained from a shift of `g` by 5.2 (b)) has `φ⁺ ≠ 0`. Choose one with the least
-denominator of the inverse determinant of `T[γ]`; at it `φ⁺` and `φ⁻` are supported on its lattice up to fixed
-scales, which forces `T[γ]` to be primitive at `S`, and the hypothesis gives a contradiction. A step computes how
-conjugation by `GL_1(𝔸)` scales Haar measure on the hermitian `1 × 1` adelic matrices.
+*Method of the formal proof:* by contradiction. If `f_{D,T}(g) ≠ 0`, then `φ⁺_g ≠ 0` by 5.2 (a), and 5.2 (b) lets
+one replace `g` by a shifted point, still with `φ⁺ ≠ 0`, at which the lattice at the places of `S ∪ S̄` is
+compatible with the two isotropic lines. Among these points one minimises the denominator of `(det T[γ])⁻¹`. There
+`φ⁺` and `φ⁻` vanish outside fixed multiples of the lattice, and the minimality makes `T[γ]` primitive at `S`, so the
+hypothesis applies and contradicts `φ⁺ ≠ 0`. One auxiliary computation is the factor by which conjugation by
+`GL_1(𝔸)` multiplies Haar measure on the hermitian `1 × 1` adelic matrices
+(`AdelicUnitaryGroupsAndAlgebraicModularForms §2.4`).
 
 In the set-up of 5.1 (b), with `A` and `B` adapted, let `S` be a set of finite places with idempotent `e_S` of
 `S ∪ S̄`, `f` automorphic and right invariant under `K₀ ∩ G_f^S`, `T ∈ M_p(E)` with `det T ≠ 0`, and `U` a nonempty set
@@ -1170,15 +1198,18 @@ representation of the pair `(W′, V′)` with weight `0` on `G_∞(W′)` and `
 
 ### 6.2 Products of partial L-values, and Tate's integral at the finite places
 
-*Origin:* adapted from the constant terms of theta integrals of Rallis (1987) and of Kudla and Rallis (1994), with
-Tate (1950) for the integrals along the line: here Tate's integral over the finite ideles of the base change of a
-split tame character against the finite factor of the standard data along the line, and the recursion of the
-products of L-values that the constant terms produce.
+*Origin:* adapted from the tower property of theta lifts for constant terms along an isotropic line (Rallis (1984),
+*On the Howe duality conjecture*, Theorem I.1.1; for unitary groups Wu (2013), *Irreducibility of theta lifting for
+unitary groups*, Proposition 3.1): here Tate's integral over the finite ideles of the base change of a split tame
+character against the finite factor of the standard data along the line, and the recursion of the products of
+L-values that the constant terms produce.
 
-*Method of the formal proof:* (a) the weight of `ν` is nonzero, so `ν̃` is not trivial and its Euler product does
-not vanish on `[1, ∞)`. (b) is a computation. (c) The finite factor satisfies the conditions of Tate's integral for
+*Method of the formal proof:* (a) the weight of `ν` is nonzero, so `ν̃` is a nontrivial Hecke character of nonzero
+type, and `IdelicReciprocityCountsAndCyclotomicClassGroups §§8.4, 8.5` give continuity and non-vanishing of its partial
+Euler product on `[1, ∞)`. (b) is a computation. (c) The finite factor satisfies the conditions of Tate's integral for
 characters of a given type: support, invariance under unit ideles, and local constancy; the integral is then the
-partial L-value. (d) unfolds a sum over `E^×` against the idele classes in either variable of Poisson's formula.
+partial L-value. (d) The sum over `E^×` turns the integral over the idele classes into one over all ideles, which `ρ`
+and the Haar measure of `(ℂ^Φ)^×` split into a product, for either choice of `a′`.
 
 Let `𝔠 = (ν, S)` be a split tame character, and `χ_𝔠` its tame character on `E_S`.
 (a) `L^S(x, ν) ≠ 0` and `L♯(x) > 0` for real `x ≥ 1`, and `x ↦ L^S(x, ν)` is continuous on `[1, ∞)`.
@@ -1195,8 +1226,9 @@ s-finite, `Z` an integrable function on `Y₁ × Y₂ × (ℂ^Φ)^×` (for `m₁
 of the quotient measure of `da` (by the counting measure of `E^×`), `m₁` and `m₂`, and its integral is
 `(∫Z)·(∫ζ dρ)`.
 
-*Needs:* 6.1, 6.4 (d); `IdelicReciprocityCountsAndCyclotomicClassGroups §§8.2, 8.5` (Tate's integral, non-vanishing
-on `[1, ∞)`); `AdelicUnitaryGroupsAndAlgebraicModularForms §§1.1, 2.1, 2.4` (ideles, modules, quotient measures).
+*Needs:* 6.1, 6.4 (d); `IdelicReciprocityCountsAndCyclotomicClassGroups §§8.2, 8.4, 8.5` (Tate's integral, continuity
+and non-vanishing on `[1, ∞)`); `AdelicUnitaryGroupsAndAlgebraicModularForms §§1.1, 2.1, 2.4` (ideles, modules, quotient
+measures).
 
 [ShortProof], `Lib/SiegelWeil/Tower/FiniteTateIntegral.lean` (`New.Exchange.SplitTameChar.L_ne_zero`,
 `New.Exchange.lSharp_pos`, `New.Exchange.continuousOn_L`, `New.Exchange.lValueProd_succ`,
@@ -1205,14 +1237,16 @@ on `[1, ∞)`); `AdelicUnitaryGroupsAndAlgebraicModularForms §§1.1, 2.1, 2.4` 
 
 ### 6.3 The terms along a line: Levi equivariance and Poisson's formula
 
-*Origin:* adapted from the constant terms of theta integrals of Rallis (1987) and of Kudla and Rallis (1994), with
-Tate (1950) for the integrals along the line: here the two families of terms along the line in the two mixed models
-of one hyperbolic plane of `Hom(W′, V′)`, their equivariance under the Levi subgroups, and Poisson's formula between
-them.
+*Origin:* adapted from the tower property of theta lifts for constant terms along an isotropic line (Rallis (1984),
+*On the Howe duality conjecture*, Theorem I.1.1; for unitary groups Wu (2013), *Irreducibility of theta lifting for
+unitary groups*, Proposition 3.1): here the two families of terms along the line in the two mixed models of one
+hyperbolic plane of `Hom(W′, V′)`, their equivariance under the Levi subgroups, and Poisson's formula between them.
 
-*Method of the formal proof:* both sums are the theta value of the zero term of `f` for the splitting of
-`Hom(W′, V′)` off the hyperbolic plane spanned by the lines of `A` and `X`, read in its two mixed models; the
-equivariance is a computation of the zero terms under Levi points.
+*Method of the formal proof:* the lines of `A` and `X` span a hyperbolic plane in `Hom(W′, V′)`. Take the splitting
+of `Hom(W′, V′)` over this plane plus `Hom(W, V)`: each side of (a) is the expansion
+(`WeilRepresentationsOnBanachSpacesOfData §5.5 (c)`), in one of the two mixed models of the plane, of `θ` at the zero
+term of `f` for that splitting, so the two sides agree. (b) follows from the laws of zero terms and slices under Levi
+points (`WeilRepresentationsOnBanachSpacesOfData §6.9 (b), (c)`).
 
 In the set-up of 6.1:
 (a) For `f ∈ 𝒮(Hom(W′, V′))` and either `β`, `Σ_{ξ ∈ E} θ(λ_+(ξ)f) = Σ_{ξ ∈ E} θ(λ_β(ξ)f)`.
@@ -1229,14 +1263,21 @@ that acts by `c⁻¹` on the line of `X` and by `h` on `V`, in `ω_{a·υ₁, a�
 
 ### 6.4 The constant term of a theta integral, unfolded along isotropic lines
 
-*Origin:* adapted from the constant terms of theta integrals of Rallis (1987) and of Kudla and Rallis (1994): here the
-constant term along the line of `A` of a theta integral over `[U(V′)]`, written as a sum over the rational vectors of
-`V′` and unfolded over the one orbit of isotropic lines to an integral in Iwasawa coordinates.
+*Origin:* adapted from the tower property of theta lifts for constant terms along an isotropic line (Rallis (1984),
+*On the Howe duality conjecture*, Theorem I.1.1; for unitary groups Wu (2013), *Irreducibility of theta lifting for
+unitary groups*, Proposition 3.1): here the constant term along the line of `A` of a theta integral over `[U(V′)]`,
+expanded over the rational vectors of `V′` and reduced, through the single orbit of isotropic lines, to an integral
+over the Levi points of the stabiliser of one line, modulo their rational points, and over a maximal compact
+subgroup.
 
-*Method of the formal proof:* integrate the expansion of the kernel along `A` term by term; group the terms by the
-line they span; only the lines in the orbit of the line of `X` contribute (Witt's theorem), so the integral unfolds to
-the stabiliser of that line, and the Iwasawa decomposition of the stabiliser gives the coordinates; the principal
-ideles are discrete, and a majorant on `(ℂ^Φ)^×` is integrable.
+*Method of the formal proof:* (a), (b): expand the kernel over the rational vectors of `V′` and take the mean over
+the radical term by term; only isotropic vectors survive, and the bound on the kernel justifies the exchange with the
+integral over `[U(V′)]`. (c): by Witt's theorem (`HermitianFormsAndLattices §1.1 (b)`) the nonzero isotropic vectors
+lie on lines of one `U(V′)(E)`-orbit, that of the line of `X`; unfolding over this orbit
+(`AdelicUnitaryGroupsAndAlgebraicModularForms §1.3`) leaves the quotient by the rational stabiliser of that line, and
+the Iwasawa decomposition of `G(V′)` along that line (§3.6 there) supplies the variables `(u, h)` and `κ`. (d):
+`E^×` is discrete in the ideles, and the majorant is a product over the infinite places of integrable functions of
+one variable.
 
 Let `W′ = W ⊥ H` be split by `A`, `V′` locally standard of rank `r′`, and `a`, `b` automorphic characters of `U(1)`.
 (a) For `f ∈ 𝒮(Hom(W′, V′))`, the constant term at the identity along the line of `A` of the theta kernel of `f` (its
@@ -1271,9 +1312,12 @@ are partners, and the line terms carry the standard data of the pair `(W′, V�
 of `(W, V)`.
 
 *Method of the formal proof:* (a) if `(s; x)` is `g ∈ GL_n(O)`, take `k = g⁻¹`; the values compare through
-`χ(det k)`. (b) `λ_β` is the slice of a splitting with an explicit adapted frame, so it is computed on a datum that
-factors along that frame; in the resulting product of local integrals one is the Gauss sum of a tame character
-over the residue ring, and all the others equal `1`.
+`χ(det k)`. (b) `WeilRepresentationsOnBanachSpacesOfData §6.10 (b)` applies to `λ_β`: in the adapted frame of the
+splitting behind it, the row datum of `p·I′` is the row datum of `p` times a function of the remaining coordinates,
+the indicator of `O` in each of them except the coordinate of the line, where it is `χ⁻¹` on `O^×` times `χ⁻¹(a_S)`
+(zero unless `a_S` is a unit) and a constant of modulus one. That coordinate contributes the tame Gauss sum of
+`WeilRepresentationsOnBanachSpacesOfData §3.9`, which gives the factor `γ·χ(ϖ·(ā)_S)` and the condition that
+`ϖ·(ā)_S` be a unit; each other coordinate contributes the volume `1` of `O`.
 
 (a) In 6.1 (b), if `s` is integral, the row datum `Φ_s` and the column datum `Ψ_s` are partners for `χ`; if moreover
 `χ` is tame, both are locally constant with compact support (`Ψ_s` supported on matrices with a left inverse).
@@ -1299,10 +1343,11 @@ first `b` columns of some `k ∈ GL_n(O)` exactly when it is integral with an in
 the Fourier coefficients along the centre of a radical of an equivariant lift of local data are linear functionals of
 the datum that transform under shears by an additive character.
 
-*Method of the formal proof:* (a) average over the shears by integral matrices, which does not change the form, and
-compare the averaged data. (b) the coefficient is linear on the space of data; extend it to a functional on all
-functions; the shear of the datum by `z` along the frame at `x` corresponds to a translate by the central element
-`z_H`, which multiplies the coefficient by `ψ(tr(Tz))`.
+*Method of the formal proof:* (a) `Λ` does not change when its argument is replaced by its mean over the shears by
+integral `z`, and `Ψ_s` and its composite with `y ↦ y + u·r·y` have the same mean. (b) The coefficient depends
+linearly on the datum, so it extends from `M` to a linear functional on all functions; a shear of the datum by `z`
+along the frame at `x` amounts to translating by a central element `z_H`, under which the coefficient picks up the
+factor `ψ(tr(Tz))`.
 
 (a) Let `F` be a finite product of local fields with integers `O`, `χ` a character, `s` an integral `b × n` matrix,
 `u` a column and `r` a row with `su = 0` and `ru = 0`, `M` a space of locally constant compactly supported functions,
@@ -1310,8 +1355,8 @@ and `Λ` a linear form on `M` invariant under the shears `Ψ ↦ Ψ(y + u·z·s�
 composite with `y ↦ y + u·r·y` lie in `M`, `Λ` takes the same value on them.
 (b) Let `X` be locally standard of rank `m`, `𝔠 = (ν, S)` a split tame character, and `M` a space of functions of
 `m × b` matrices over `E_S`. A linear map `𝒟` from such functions to functions on `G(X)` is an *equivariant lift on `M`*
-if `M` consists of locally constant functions with compact support in the left invertible matrices, `𝒟Ψ` is
-automorphic for `Ψ ∈ M`, for `g ∈ G_f` supported on `S ∪ S̄` the translate `y ↦ Ψ(g_S y)` lies in `M` and
+if every `Ψ ∈ M` is locally constant with compact support contained in the set of matrices that have a left inverse,
+`𝒟Ψ` is automorphic for `Ψ ∈ M`, for `g ∈ G_f` supported on `S ∪ S̄` the translate `y ↦ Ψ(g_S y)` lies in `M` and
 `𝒟(that translate)(x·g) = 𝒟Ψ(x)/(υ·|·|^{1/2})(det g_S)^b`, and `𝒟Ψ` is right invariant under the points of `K₀` with
 component `1` at `S`. For such `𝒟`, a splitting `H` of `X` with frame of `p` vectors, `T ∈ M_p(E)` and `x ∈ G(X)`, there
 is a linear functional `Λ` on all functions with `Λ(Ψ) = (𝒟Ψ)_{H,T}(x)` for `Ψ ∈ M`; and the shear
@@ -1327,15 +1372,17 @@ is a linear functional `Λ` on all functions with `Λ(Ψ) = (𝒟Ψ)_{H,T}(x)` f
 
 ### 6.7 The real cone integral and the test vector
 
-*Origin:* adapted from the constant terms of theta integrals of Rallis (1987) and of Kudla and Rallis (1994), with
-Tate (1950) for the integrals along the line: here the archimedean Tate integral of a Fock vector over the cone of
-real isotropic vectors of `V′`, its convergence in all moments, and the test vector whose cone integrand is an explicit
-multiple of the vacuum.
+*Origin:* adapted from the tower property of theta lifts for constant terms along an isotropic line (Rallis (1984),
+*On the Howe duality conjecture*, Theorem I.1.1; for unitary groups Wu (2013), *Irreducibility of theta lifting for
+unitary groups*, Proposition 3.1), with Tate (1950) for the integrals along the line: here the integral at the real
+places, after Tate, of the real line terms of a Fock vector against a character of `(ℂ^Φ)^×` and over the maximal
+compact subgroup of `G_∞(V′)`, with finite moments of every order, and a test vector for which the integrand is an
+explicit function times the vacuum.
 
-*Method of the formal proof:* bound the moments of the line terms by powers of `|a|` and of `1 + log²|a|` (6.4 (d)),
-which are integrable for `z > 0`; the test vector is a product of powers of the two positive coordinates of
-`Hom(H, H)`, fixed by the diagonal part of the maximal compact subgroup, and its line term is computed in a frame
-adapted at `1`.
+*Method of the formal proof:* (a) the moments of the real line terms are bounded by powers of `|a|` and of
+`1 + log²|a|`, which are integrable for `z > 0` by 6.4 (d). (b) The monomial and the vacuum are eigenvectors of the
+elements that preserve the lines of each sign, and for the weight `1 − m` their two characters are inverse to each
+other. The line term of `t_m` is evaluated in a frame adapted at the point `1`.
 
 In the set-up of 6.1:
 (a) For `z > 0`, either `β` and a Schwartz vector `v`, the integrand of `cone_β(z, v)` is continuous, integrable in
@@ -1356,18 +1403,22 @@ moments).
 
 ### 6.8 The constant term on the side of the large space
 
-*Origin:* adapted from the constant terms of theta integrals of Rallis (1987) and of Kudla and Rallis (1994), with
-Tate (1950) for the integrals along the line: here, on the standard data of a split tame character, the constant term
-along the new isotropic line is one term, a constant of size `C·L♯(z + 1)` times a theta integral for the pair with
-one plane removed, in both ranges `rk V − rk W/2 ≥ 0` and `< 0`, including the boundary cases, with only values of the
-L-function at real points `≥ 1`.
+*Origin:* adapted from the tower property of theta lifts for constant terms along an isotropic line (Rallis (1984),
+*On the Howe duality conjecture*, Theorem I.1.1; for unitary groups Wu (2013), *Irreducibility of theta lifting for
+unitary groups*, Proposition 3.1), with Tate's integral along the line: here, on the standard data of a split tame
+character, the constant term along the new isotropic line is one term, a constant of size `C·L♯(z + 1)` times a
+theta integral for the pair with one plane removed, in both ranges `rk V − rk W/2 ≥ 0` and `< 0`, including the
+boundary cases, with only values of the L-function at real points `≥ 1`.
 
-*Method of the formal proof:* the plane datum has no source term at `0` along `A`, so by 6.4 the constant term unfolds
-to an integral over the ideles of the line terms; by 6.3 (a) neither side of Poisson's formula on the line has a term
-at `0`, so the resulting integral `𝒵(x)` is analytic on the whole real line. By 6.5 (b) and 6.3 (b) the integrand
-factors into the finite factor of 6.2 (c), the real cone integrand and a theta integral of `(W, V)`; 6.2 (d) and
-6.2 (c) evaluate it for `x > 1`, and continuity in `x` (6.7) extends this to `x ≥ 1`. The case `rk V − rk W/2 < 0`
-uses the other side of Poisson's formula.
+*Method of the formal proof:* the slice at `0` of the plane datum along `A` vanishes, which gives the hypothesis
+`CT_0 = 0` of 6.4 (c); so the constant term is an integral over the idele classes of sums of line terms, the value at
+`x = rk V − n/2 + 1` of a zeta integral `𝒵(x)` in which the idele variable enters through `|a|^x`. Both sums of
+6.3 (a) run over the nonzero points of the line only, which keeps `𝒵` free of poles: it is analytic for every real
+`x`. For `x > 1`, 6.5 (b) and 6.3 (b) factor the integrand into the finite factor of 6.2 (c), the real cone integrand
+and a theta integral of `(W, V)`, and 6.2 (d), (c) evaluate it. Both sides are continuous in `x` on `[1, ∞)`: `𝒵` is
+analytic, `L^S` is continuous by 6.2 (a), and the theta integral at `cone_β(x, v)` is an integral against `|a|^x`
+that converges for every `x > 0` (6.7 (a)), hence is continuous in `x`; so the identity extends to `x ≥ 1`. (c) and
+(d) read (b) at `x = z + 1`, on the two sides of Poisson's formula.
 
 Let `W`, `V`, `W′`, `V′`, `A`, `X` be as in 6.1 with `rk W = n` even and `rk V ≤ n`, let `b = n − rk V ≥ 0` as in
 6.1 (c) (the standard data are attached to a splitting of the `n` coordinates of `W` into `b` and `rk V`; so in (c)
@@ -1401,18 +1452,19 @@ integrals, growth of kernels).
 
 ### 6.9 Continuation to a real half-line and functional equation in absolute values
 
-*Origin:* adapted from the published theory of Hecke L-functions (analytic continuation and functional equation by
-Tate's method): here for the partial L-functions of split tame characters of `U(1)` of positive weight over a CM field
-with Weil data, for real arguments only, on a half-line bounded by the weight, as an identity of absolute values with
-an unspecified positive factor, and with non-vanishing at the integers.
+*Origin:* adapted from Tate (1950), *Fourier analysis in number fields and Hecke's zeta-functions*, §2.5 and Main
+Theorem 4.4.1, the analytic continuation and functional equation of Hecke L-functions: here for the partial
+L-functions of split tame characters of `U(1)` of positive weight over a CM field with Weil data, for real arguments
+only, on a half-line bounded by the weight, as an identity of absolute values with an unspecified positive factor,
+and with non-vanishing at the integers.
 
-*Method of the formal proof:* 6.8 (b) for pairs in which `W` and `V` have rank `0` (one hyperbolic plane on each
-side), where the theta integrals are explicit constants, evaluated at the test vector of 6.7 (b): the zeta integral
-`𝒵` is analytic on
-`ℝ`, and `𝒵(x)` and `𝒵(1 − x)` are, for `x ≥ 1`, the same expression `|κ_E|^x·∏_{w ∈ S} q_w^{x − 1/2}·L^S(x, ν)·Γ_m(x)`
-up to constants of fixed modulus, where `Γ_m(x)` is the archimedean zeta integral of the test function, positive and
-analytic for `x > −k`. Dividing `𝒵` by the factors other than `L` gives the continuation and the equation; the
-non-vanishing at integers `j ≤ 0` follows from the equation and 6.2 (a).
+*Method of the formal proof:* take 6.8 (b) with `W = V = 0`, so that `W′` and `V′` are single hyperbolic planes and
+the theta kernels and theta integrals reduce to constants, and with `v` the test vector of 6.7 (b). Its cone integral
+is then a scalar function of `x`, the archimedean zeta integral `Γ_m(x)` of the test function, positive and real
+analytic for `x > −k`. So for `x ≥ 1` the analytic function `𝒵` of 6.8 (b) is, both at `x` and at `1 − x`, a constant
+of fixed modulus times `|κ_E|^x·∏_{w ∈ S} q_w^{x − 1/2}·L^S(x, ν)·Γ_m(x)`. Dividing `𝒵` by its factors other than
+`L^S` defines `Λ` and gives (a); for (b), the integers `j ≥ 1` are 6.2 (a), and `−k < j ≤ 0` follows from the relation
+of (a) at `z = 1 − j` and 6.2 (a).
 
 Let `μ` be a weight and `k ∈ ℕ` with `k ≤ μ_τ` for every `τ`.
 (a) There is `C : ℝ → ℝ`, positive on `[1, k + 1)`, such that for every split tame character `𝔠 = (ν, S)` of weight `μ`
@@ -1433,28 +1485,51 @@ space).
 
 ## What the library already provides
 
-None of the results of this roadmap is in the Tau Ceti library or in Mathlib in the form needed. Two neighbouring
-results are there, on other objects:
+None of the results of this roadmap is in the Tau Ceti library or in Mathlib in the form needed. One neighbouring
+result is there, on other objects:
 
 - Kneser neighbours of integral quadratic `ℤ`-lattices, the neighbour construction, and that neighbours lie in one
   genus: `TauCeti.IntegralLattice.IsNeighbor`, `TauCeti.IntegralLattice.neighbor`,
   `TauCeti.IntegralLattice.IsNeighbor.sameGenus` (no hermitian lattices; 1.2 does not follow from them).
-- Hecke's functional equation for the completed partial zeta function of an ideal class over any number field:
-  `TauCeti.LFunctions.completedPartialZeta_one_sub` (no character; the L-functions of Hecke characters,
-  `TauCeti.LFunctions.Grossencharacter.lFunctionC`, are defined as the meromorphic continuation when one exists, and
-  its existence is not proved in general). A continuation and functional equation for Hecke characters in the
-  library would imply 6.9 after identifying the base change of a split tame character with a Grössencharacter and its
-  Euler product off `S ∪ S̄`.
+
+On Tau Ceti's main branch, later than the revision pinned here: Hecke's functional equation for the completed partial
+zeta function of an ideal class over any number field, `TauCeti.LFunctions.completedPartialZeta_one_sub` (no
+character); and the L-functions of Hecke characters, `TauCeti.LFunctions.Grossencharacter.lFunctionC`, defined as the
+meromorphic continuation when one exists, whose existence is not proved there in general. A continuation and
+functional equation for Hecke characters in the library would imply 6.9 after identifying the base change of a split
+tame character with a Grössencharacter and its Euler product off `S ∪ S̄`.
 
 ## Results taken from other roadmaps
 
 Witt's extension theorem over a field with involution, in the matrix form used (left invertible `X`, `Y` with
 `X*JX = Y*JY` satisfy `gX = Y` with `g ∈ U(J)`), is taken from `HermitianFormsAndLattices §1.1 (b)` (in 2.2 and
 6.4), as in `AdelicUnitaryGroupsAndAlgebraicModularForms`. No other result of this part is taken whole from another
-roadmap. The sections that state modest forms of general theorems
-name, in a closing sentence, the general section that also implies them: `HermitianFormsAndLattices §2.5 (d)` (2.7),
-`§5.4` (1.2 (c), (d)), `§6.0a` and `§6.5 (b)` (3.2, 3.3), `§6.4 (b)` (3.5 (d)); `AdelicAlgebraicGroups §3.4` (2.2);
-`ThetaKernelsForUnitaryDualPairs §6.4a` (2.6 (c) for Schwartz–Bruhat data and isotropic `T`);
-`AnalyticNumberTheoryPartI §2.3a` (6.9). The objects on which the statements are made (adelic unitary groups, the Weil representation on the Banach space of
-data, Hecke characters of `U(1)`, discrete series coefficients) are those of the sibling roadmaps named on the
-`*Needs:*` lines.
+roadmap. The sections that state modest forms of general theorems name, in a closing sentence, the general section
+that also implies them: `HermitianFormsAndLattices §2.5 (d)` (2.7), `§5.4` (1.2 (c), (d)), `§6.0a` and `§6.5 (b)`
+(3.2, 3.3), `§6.4 (b)` (3.5 (d)); `AdelicAlgebraicGroups §3.4` (2.2); `ThetaKernelsForUnitaryDualPairs §6.4a`
+(2.6 (c) for Schwartz–Bruhat data and isotropic `T`); `AnalyticNumberTheoryPartI §2.3a` (6.9). The objects on which
+the statements are made (adelic unitary groups, the Weil representation on the Banach space of data, Hecke characters
+of `U(1)`, discrete series coefficients) are those of the sibling roadmaps named on the `*Needs:*` lines.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/SiegelWeil`.
+- S. Böcherer, *Über die Fourier-Jacobi-Entwicklung Siegelscher Eisensteinreihen*, Math. Z. 183 (1983).
+- H. Braun, *Zur Theorie der hermitischen Formen*, Abh. Math. Sem. Hamburg 14 (1941).
+- Eischen, Harris, Li, Skinner.
+- E. Freitag, *Singular Modular Forms and Theta Relations*, Lecture Notes in Math. 1487, Springer (1991).
+- W. T. Gan, J. Hanke, J.-K. Yu, *On an exact mass formula of Shimura*, Duke Math. J. 107 (2001).
+- M. Greenberg, J. Voight, *Lattice methods for algebraic modular forms on classical groups* (2014).
+- M. Kirschmer, *Definite quadratic and hermitian forms with small class number* (2016).
+- J.-S. Li, *Non-vanishing theorems for the cohomology of certain arithmetic quotients*, Crelle 428 (1992).
+- J.-S. Li, *Automorphic forms with degenerate Fourier coefficients*, Amer. J. Math. 119 (1997).
+- Y. Liu (2011).
+- V. Platonov, A. Rapinchuk, *Algebraic groups and number theory* (1994).
+- S. Rallis, *On the Howe duality conjecture*, Compositio Math. 51 (1984).
+- S. Rallis, *Injectivity properties of liftings associated to Weil representations*, Compositio Math. 52 (1984).
+- S. Rallis, *L-functions and the oscillator representation*, Lecture Notes in Math. 1245 (1987).
+- C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935).
+- J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions* (thesis, 1950).
+- A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965).
+- C. Wu, *Irreducibility of theta lifting for unitary groups*, J. Number Theory 133 (2013).

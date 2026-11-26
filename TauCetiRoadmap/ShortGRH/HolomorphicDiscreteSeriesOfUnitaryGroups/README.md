@@ -8,26 +8,26 @@ about the real unitary groups `U(p, q)` and their discrete series, at the real p
 They enter in four ways.
 
 - Forms on the unitary groups of the argument are fixed, at each real place, by a kernel `e_λ = deg_λ·conj c_λ` (their
-  *type*). Spaces of such forms must consist of cusp forms, and the kernel must be an idempotent.
+  *type*). Spaces of such forms must consist of cusp forms, and the kernel must be an idempotent (6.1 (a), 6.2).
 - Theta lifts between spaces of different signatures carry forms of one type to forms of another. This is the local
-  theta correspondence of discrete series at the real places.
+  theta correspondence of discrete series at the real places (8.6).
 - The spanning theorem bounds a second moment of Poincaré series. Its archimedean factors are Bessel functions on a
   real unitary group `G₁`. Its unfolding needs the Haar measures of `G₁` and of its unipotent subgroups, fibre
   measures of Gram maps, the big cell of the Bruhat decomposition, and measures on the floors of a tower of
-  subgroups.
+  subgroups (1.2, 1.3, 2.4, 2.6, 2.7 and Layer 3).
 - The comparison of the trace formulas of two inner forms that differ only at the real places needs the formal degree
-  of `e_λ` and the stable sum of its elliptic orbital integrals.
+  of `e_λ` and the stable sum of its elliptic orbital integrals (7.4).
 
 Throughout, the roadmap works with one explicit function: Flensted-Jensen's integral `c_λ` over the maximal compact
 subgroup, an average of products of principal minors. For a parameter whose entries of different signs are far
 apart, it is the coefficient of the lowest `K`-type of a discrete series. The shorter proof never constructs a
 discrete series representation. Instead it does four things:
 
-- it proves the properties of `c_λ` that it uses directly from the integral;
-- it builds the module that `c_λ` generates inside `L²`;
+- it proves the properties of `c_λ` that it uses directly from the integral (5.3–5.5);
+- it builds the module that `c_λ` generates inside `L²` (5.4 (e));
 - it recognises `c_λ` as the coefficient of a `K`-highest vector of the right weight and Casimir value in any unitary
-  representation of polynomial growth (rigidity);
-- it states the local theta correspondence as statements about the operators `π(e_λ)` on a Fock space.
+  representation of polynomial growth (rigidity, 6.1 (e));
+- it states the local theta correspondence as statements about the operators `π(e_λ)` on a Fock space (8.6).
 
 So most sections here are about one function, with explicit gaps and constants, where the literature has theorems
 about representations.
@@ -153,10 +153,13 @@ is below the Gram fibre at `E`* if the image of `m` under `g ↦ gE` is below th
 every hermitian involution, with the normalisation of 1.1 (c) and invariance under all maps `g ↦ agb` between
 unitary groups of two involutions.
 
-*Method of the formal proof:* The Jacobian of the chart is computed from the logarithmic derivative `Φ*J dΦ`, which is
-skew-hermitian. A linear isomorphism that matches two volumes normalised by the same Gaussian integral preserves
-measure. No chart covers almost all of `U(J)` a priori. Instead, multiplying by a generic scalar `e^{it}` moves almost
-every point of any parametrisation into the chart, and this gives the invariance.
+*Method of the formal proof:* (a) inverts the Cayley transform where `g + 1` is invertible. (b) is a change of
+variables between the charts of 1.1 (c) for `J` and `J′`: its Jacobian is computed on tangent vectors, which at both
+ends are skew-hermitian matrices, and it comes from the determinant of a congruence `S ↦ C*SC` of such matrices.
+The charts are not known to have images of full measure; since `e^{it}g + 1` is singular only for the `t`
+(finitely many modulo `2π`) with `−e^{−it}` an eigenvalue of `g`, rotating by a scalar `e^{it}` with generic `t`
+brings almost all of any parametrised piece of the group into a chart, which suffices. (c) is (b) for left and for
+right translations.
 
 Let `J`, `J′` be hermitian involutions of size `n`. Prove that:
 
@@ -169,8 +172,13 @@ permutation matrices, and `U(J) = U(−J)`;
 
 (c) `μ^c_J` is a left and right Haar measure on `U(J)`.
 
-The library has the chart for `J = 1` as algebra: `Matrix.cayley` and `Matrix.IsHermitian.cayley_mem_unitaryGroup`.
-It has no measure, Jacobian or injectivity statement for it.
+The pinned libraries have no Cayley chart on matrices and no measure or Jacobian statement for one. The pinned Tau
+Ceti has the Cayley transform `(A − i)(A + i)⁻¹` of a self-adjoint operator `A` on a complex Hilbert space,
+`LinearPMap.cayley`, with `LinearPMap.mem_graph_iff_exists_cayley` (the transform determines `A`) and
+`IsSelfAdjoint.cayley_mem_unitary`; for `J = 1` this is the chart of 1.1 (c) up to sign,
+`c_1(2iA) = −(A − i)(A + i)⁻¹`, and it gives nothing for an indefinite `J`. On Tau Ceti's main branch, later than the
+revision pinned here: `Matrix.cayley` and `Matrix.IsHermitian.cayley_mem_unitaryGroup`, the chart for `J = 1` as
+algebra.
 
 *Needs:* 1.1.
 
@@ -179,16 +187,17 @@ It has no measure, Jacobian or injectivity statement for it.
 
 ### 1.3 The polar formula for the Gram map on bases
 
-*Origin:* adapted from Weil (1961), the densities as volumes of fibre measures (HermitianFormsAndLattices §6.1 (f)):
-here, at one real place, for bases, in Lebesgue coordinates. The constant is `vol U(r)/2^r` relative to `μ^c_J`, the
-same for every signature.
+*Origin:* adapted from Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935), the
+measure on the tuples of vectors with a prescribed Gram matrix (compare HermitianFormsAndLattices §6.1 (f), the
+densities as volumes of fibre measures): here, at one real place, for bases, in Lebesgue coordinates. The constant is
+`vol U(r)/2^r` relative to `μ^c_J`, the same for every signature.
 
-*Method of the formal proof:* Near `J` the Gram map has a section, by the inverse function theorem applied on the
-slice `1 + JX/2`. For `Y = γσ(T)` the matrix `Y*J dY` has hermitian part `dT/2`. For fixed `T` it is
-`σ*(Jγ⁻¹dγ)σ`, which is skew-hermitian. With the Cayley density of 1.1 this gives the Jacobian. The changes of
-variables needed are: joining blocks of columns, `Y ↦ PYQ` with Jacobian `|det P|^{2m}|det Q|^{2n}`, `T ↦ C*TC`
-on hermitian matrices, the splitting `Z = S + T/2` into skew-hermitian and hermitian parts with
-`dZ = 2^{−n}dS dT`, and cutting a hermitian matrix into blocks.
+*Method of the formal proof:* (a) is the inverse function theorem for the Gram map, restricted to the matrices
+`1 + JX/2`. (b) is the change of variables `Y = γσ(T)`, with `γ ∈ U(J)` read in the chart of 1.1 (c): a variation
+of `Y`, paired with `Y` through `J`, splits into a hermitian part, which records the change of `T`, and a
+skew-hermitian part, which records the change of `γ` moved by `σ`; so the Jacobian is the Cayley density times a power
+of `2`. The bookkeeping uses the Lebesgue Jacobians of `Y ↦ PYQ` and of `T ↦ C*TC`, and the factor `2^{−n}` of the
+decomposition of a square matrix into skew-hermitian and hermitian parts.
 
 Let `J` be a hermitian involution of size `r`. Prove that:
 
@@ -207,13 +216,16 @@ matrices to `M_r(ℂ)`, differentiable on `V`, with invertible values and `σ(T)
 
 ### 1.4 The volume of `U(n)`
 
-*Origin:* adapted from Braun (1941), Shimura (1997) and Siegel (1935–1937), the archimedean densities of positive
-Hermitian forms (HermitianFormsAndLattices §6.1b): here, the density of the Gram map `Y ↦ Y*Y` near the identity in
-Lebesgue coordinates, and the total mass of `U(n)` for `μ^c_1`.
+*Origin:* adapted from the published computations of the volume of `U(n)` (Hua, *Harmonic analysis of functions of
+several complex variables in the classical domains* (1963), ch. III; Macdonald, *The volume of a compact Lie group*,
+Invent. Math. 56 (1980); Gross, *On the motive of a reductive group*, Invent. Math. 130 (1997)); compare the
+archimedean densities of HermitianFormsAndLattices §6.1b: here, the density of the Gram map `Y ↦ Y*Y` near the
+identity in Lebesgue coordinates, and the total mass of `U(n)` for `μ^c_1`.
 
-*Method of the formal proof:* Induction on `n`. One column ranges over a sphere: the law of the squared norm of a
-vector of `ℂ^n` has density `π^n r^{n−1}/(n − 1)!`. The components of the other columns orthogonal to it form a
-square matrix of size `n − 1`. Comparing the result with 1.3 for `J = 1` on a small open set gives the mass.
+*Method of the formal proof:* (a) by induction on `n`, adding one column at a time. A unitary change of coordinates
+puts the new column on a coordinate axis; its squared norm `r` has density `π^n r^{n−1}/(n − 1)!`, and the remaining
+columns fall under the case `n − 1`, up to a matrix of rank one. (b) computes the measure of the matrices whose Gram
+matrix lies in a small neighbourhood of `1` twice, by (a) and by 1.3 (b) for `J = 1`.
 
 Prove that:
 
@@ -232,9 +244,10 @@ of `U(n)`.
 *Origin:* particular to this proof: a covering bound comparing norm balls in a group mapping to `U(J)`, with explicit
 constants, and the resulting bound for the integral of `(2/‖j(s)y‖)^c`.
 
-*Method of the formal proof:* The covering argument takes place in the real space `M_n(ℂ)` of dimension `2n²`. Balls of
-radius `1/(2D)` around points of the norm ball of radius `R` are compared by volume. The integral bound integrates
-the covering bound over the level sets of the norm.
+*Method of the formal proof:* (a) is a packing argument: a maximal separated family among the `s` in question gives
+translates of the small ball that cover the set, and its size is bounded by comparing volumes of disjoint balls in the
+real vector space `M_n(ℂ)` of dimension `2n²`. (b) integrates (a), with `D = 1`, over the values of `‖j(s)y‖`. (c)
+holds because `U(J)` is closed in `M_n(ℂ)`.
 
 Let `J` be a hermitian involution of size `n ≥ 1`, `S` a group with measurable multiplication and a right-invariant
 measure `ν`, and `j : S → U(J)` a homomorphism. Prove that:
@@ -255,14 +268,16 @@ Then for every integer `c > 8n²` and every `y ∈ U(J)` the function `s ↦ (2/
 
 ### 1.6 Measures below the Gram fibre
 
-*Origin:* adapted from Weil (1961), the densities as volumes of fibre measures (HermitianFormsAndLattices §6.1 (f)):
-here, one-sided comparisons at one real place. They are exact for bases. For tuples built by choosing vectors in
-turn they are lower bounds for the fibre measure, and degenerate Gram matrices are allowed.
+*Origin:* adapted from Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, no. 6 (fibre
+measures), and Siegel, *Über die analytische Theorie der quadratischen Formen* (1935) (compare
+HermitianFormsAndLattices §6.1 (f), the densities as volumes of fibre measures): here, one-sided comparisons at one
+real place, exact for bases; for tuples whose vectors are chosen one after another they bound the fibre measure from
+below, and the Gram matrix may be degenerate.
 
-*Method of the formal proof:* For bases, the indicator function of the open set of the `γσ(T)` with `γ` in an open
-set is tested against 1.3, and the outer regularity of Haar measure concludes. For appending, the Gram matrix is cut
-into the Gram matrix of the first columns and the other two blocks. One takes the fibre of the first map, and on it
-the fibre of the second.
+*Method of the formal proof:* (a) compares `m` with `μ^c_J` on open sets through the polar formula 1.3 (b) and passes
+to all sets by outer regularity of `μ^c_J`; that `μ^c_J`, so scaled, is itself below the fibre measure is 1.3 (b)
+again. (b) is a fibration in two steps, the Gram matrix of `E₁` first and the remaining blocks on its fibre, assembled
+with the rules for fibre measures of the background entry below. (c) is (b) for one vector.
 
 Let `J` be a hermitian involution of size `r`. Prove that:
 
@@ -365,15 +380,17 @@ set of `γ ∈ G_T ∩ GL_𝐁(𝒪)` with `g⁻¹(γ − 1)` integral over `�
 
 ### 2.2 Floor groups and the Bessel subgroup
 
-*Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups
-(GanGrossPrasadUnitaryGroups §1.2): here, over a commutative ring with involution. The section gives the tower of floor
+*Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups (Platonov and
+Rapinchuk, *Algebraic groups and number theory* (1994), §7.1; Gan, Gross and Prasad, Astérisque 346 (2012);
+GanGrossPrasadUnitaryGroups §1.2): here, over a commutative ring with involution. The section gives the tower of floor
 groups, the invariance of the leading minors of the frame Gram matrix, the normaliser of `𝖴`, the additive
 functional `σ`, and a coset statement for congruence subgroups.
 
-*Method of the formal proof:* Entry computations in the graded basis. An element of `Q_l` is block triangular on the
-columns of the first `l` frame vectors, so the leading minors of `Z` of order at most `l` do not see it on the right.
-The relation `J s⁻¹ = s*J` moves a factor on the left to the right. An element of `S` is block upper triangular for
-the levels, and conjugation by such a matrix keeps the unitriangular group.
+*Method of the formal proof:* (a), (c), (e) and (f) are computations with the entries in the basis `𝐁`. (b): on the
+span of the first `l` frame vectors an element of `Q_l` acts by a unitriangular matrix, so a right factor from `Q_l`
+changes the leading block of `Z(γ)` by a unitriangular factor and keeps its leading minors; a left factor `s` is
+brought to the right through `s*J = Js⁻¹`. (d): the elements of `S` preserve the filtration by levels, so
+conjugation by them preserves the level-unitriangular group `𝖴`.
 
 Prove that:
 
@@ -439,10 +456,11 @@ with unique factors;
 integrally over a subring. The criterion is the non-vanishing of the leading minors of the frame Gram matrix. The
 factors are unique, and the Levi factor is left as an element fixing the hyperbolic pairs.
 
-*Method of the formal proof:* Induction on the floors. The pivot `h(e_j, σe_j)` is a unit, and two Heisenberg
-elements (2.3) clear its column and its row. Over a field the integral statement is applied to the whole field. For
-uniqueness, the minors of `Z(w_p)` are the products of the first entries of `p` (2.2 (c)), and an element of
-`𝖴 ∩ w_pH_ϱ𝖴w_p⁻¹` is trivial.
+*Method of the formal proof:* (c) is an elimination along the hyperbolic pairs, one pair at a time: the leading minors
+make the next pivot a unit of `𝒪`, and Heisenberg elements of that floor (2.3) remove the rest of its row and column
+without leaving `GL_𝐁(𝒪)`. (a) is (c) for `𝒪 = R`. (b) compares the images of the vectors `e_b` under the two sides,
+which gives `p = q` and then the equality of the factors. (d): by 2.2 (b), (c) the leading minors of `u⁻¹w_pσu′` are
+units of `𝒪`, so (c) gives a decomposition with integral factors, which is the given one by (b).
 
 Let `R` have an element `τ` with `τ + τ̄ = 1`, and let `J_T` be invertible. Prove that:
 
@@ -460,9 +478,10 @@ the first `j` pairs, and `p_a, p_a⁻¹ ∈ 𝒪` for `a < j`;
 (d) under the hypotheses of (c) on `𝒪`: if `u⁻¹w_pσu′ ∈ GL_𝐁(𝒪)` with `u, u′ ∈ 𝖴`, `σ ∈ H_ϱ` and `p_a⁻¹ ∈ 𝒪` for
 `a < ϱ`, then `u`, `σ` and `u′` lie in `GL_𝐁(𝒪)`.
 
-The library has the big cell of `GL_n` over any commutative ring: `Matrix.exists_blockLDU_iff` (a block `LDU`
-factorisation exists iff the leading block minors are units) and `Matrix.eq_of_blockLDU_eq` (uniqueness). The
-statement above is the unitary form, with Weyl elements, and is not deduced there.
+On Tau Ceti's main branch, later than the revision pinned here: `Matrix.exists_blockLDU_iff` (over a commutative
+ring, a block `LDU` factorisation exists iff the leading block minors are units) and `Matrix.eq_of_blockLDU_eq`
+(uniqueness), the big cell of `GL_n`. The statement above is the unitary form, with Weyl elements, and is not deduced
+there.
 
 *Needs:* 2.1–2.3.
 
@@ -472,9 +491,9 @@ statement above is the unitary form, with Weyl elements, and is not deduced ther
 
 ### 2.5 The real group `G₁` and its Bessel subgroups
 
-*Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups
-(GanGrossPrasadUnitaryGroups §1.2): here, the group `G₁` of the split form with `T₁ = diag(1_κ, −1)`, the structure of
-`S` and of the fixer of the frame, and Bessel functions of a type.
+*Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups (Gan, Gross and
+Prasad, Astérisque 346 (2012); GanGrossPrasadUnitaryGroups §1.2): here, the group `G₁` of the split form with
+`T₁ = diag(1_κ, −1)`, the structure of `S` and of the fixer of the frame, and Bessel functions of a type.
 
 *Method of the formal proof:* Explicit matrices. An element of `S` is corrected by an element of `𝖴` with the same
 frame block. An element fixing the frame is moved by an explicit element of `𝖴⁰` into the unitary group of `X₀`.
@@ -505,9 +524,10 @@ unitriangular `(ϱ + 1) × (ϱ + 1)` matrix is the frame block `u_F` of some `u 
 
 ### 2.6 Haar measures on the Bessel unipotent groups
 
-*Origin:* adapted from the published theory of Haar measures on unipotent groups in coordinates: here, explicit
-coordinates on `𝖴⁰ ⊆ 𝖴 ⊂ G₁`, two-sided invariance with cutoffs for the action on `G₁`, dilations, homogeneous
-balls and tubes.
+*Origin:* adapted from the published theory of Haar measures on unipotent groups in coordinates, in the setting of
+Bessel models of real unitary groups (Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J.
+172 (2023); Beuzart-Plessis, Astérisque 418 (2020)): here, explicit coordinates on `𝖴⁰ ⊆ 𝖴 ⊂ G₁`, two-sided
+invariance with cutoffs for the action on `G₁`, dilations, homogeneous balls and tubes.
 
 *Method of the formal proof:* The free entries determine an element of `𝖴` (the other entries are forced by the form).
 In these coordinates left and right translations are affine maps of determinant one. The dilation is
@@ -549,13 +569,15 @@ with `∫ β(uy) du = 1` for every `y`;
 
 ### 2.7 The fibre measure on frames of `G₁`
 
-*Origin:* adapted from Weil (1961), the densities as volumes of fibre measures (HermitianFormsAndLattices §6.1 (f)):
-here, upper bounds by Haar measure of `G₁` for tuples with a definite complement and for the frame. The frame has an
-isotropic part, so its Gram matrix is degenerate.
+*Origin:* adapted from Siegel, *Über die analytische Theorie der quadratischen Formen* (1935), the measure on the
+tuples of vectors with a prescribed Gram matrix (compare HermitianFormsAndLattices §6.1 (f), the densities as volumes
+of fibre measures): here, upper bounds by Haar measure of `G₁` for tuples with a definite complement and for the
+frame. The frame has an isotropic part, so its Gram matrix is degenerate.
 
-*Method of the formal proof:* A tuple with a definite complement is completed to a basis by `k` vectors orthogonal to
-it, which is the definite case of 1.6 (a), and 1.6 (b) assembles the two steps. For the frame, the dual vectors
-`e*_a` are added in the coordinates (c), and the tuple obtained has a definite complement.
+*Method of the formal proof:* (a): the orthogonal complement of `E` is the definite space `X₀`, so a tuple with the
+Gram matrix of `E` becomes a basis once an orthonormal basis of its complement is added; 1.6 (a) for `U(k)` handles
+that second choice and 1.6 (b) combines the two. (c) is a change of variables in the coordinates of 2.6 (a). (b)
+reduces to (a): through (c), choosing the dual vectors `e*_a` turns the frame into the tuple `E`.
 
 Let `μ^c = μ^c_{J₁}` on `G₁` and `dh` the Haar probability measure of `U(k)`, carried to `G₁` by `ι`. Prove that:
 
@@ -578,12 +600,14 @@ orthogonal to `z`. Each is `u(e* + e·T/2)` with `u ∈ 𝖴⁰` and `T` hermiti
 
 *Origin:* adapted from the published theory of Schur's test for integral operators and of Bessel functions on unitary
 groups: here, for convolution by an idempotent kernel on a unimodular group and on a quotient `S\G` with a cutoff,
-and the invariance of the norms of Bessel functions under the Bessel subgroup.
+and the invariance under `S` of the norms of Bessel functions.
 
-*Method of the formal proof:* The inner products of right translates of a vector fixed by an idempotent kernel are
-values of the kernel. Schur's bound for a family of vectors with such Gram matrix gives (b). In (c), the function
-`F ∗ x` lies in the closed span of the right translates of `F`, and the quotient is integrated through the cutoff.
-For (d), `ψ_∞ ∘ σ` is a character on `S` (2.2 (e)).
+*Method of the formal proof:* (a) by an explicit matrix; the term in `u⁻¹` comes from `J_T u = (u⁻¹)*J_T`. (b) is
+Schur's test for the Gram matrix of the family `w`, which the hypothesis expresses through the kernel `ψ`; idempotence
+of `ψ` controls the result. (c) reduces to (b): when `F ⋆ ψ = F`, `ψ` computes the pairings in `L²` of any two
+right translates of `F`, `F ⋆ x` is a limit of combinations of such translates, and the integral over `S\G` is taken
+through the cutoff. (d): `ψ_∞ ∘ σ` is a character of `S` (2.2 (e)), and `S = 𝖴·ι(U(k))` (2.5 (a)) acts on a
+Bessel function through unitary factors that do not depend on `y`.
 
 An *idempotent kernel* on a locally compact group `G` with Haar measure is a continuous integrable `e : G → ℂ` with:
 - `e(g⁻¹) = conj e(g)` and `e(1) ≠ 0`;
@@ -675,14 +699,17 @@ kernel `ψ(ξv*Jy)` multiplies square norms by at most `C` from `(S, ρ)` to `(S
 
 ### 3.2 The complex place, polar coordinates and spheres
 
-*Origin:* adapted from the published theory of polar coordinates and of the invariant measures on spheres: here, the
-radial variable is the squared norm, the angular part is the image of Haar probability measure of `U(m)`, and the
-spheres are the fibres of `y ↦ y*y` in the sense of 3.1 (c).
+*Origin:* adapted from the published theory of polar coordinates and of the invariant measures on spheres (Knapp,
+*Lie groups beyond an introduction*; Helgason, *Groups and geometric analysis*, Ch. I §5): here, the radial variable is
+the squared norm, the angular part is the image of Haar probability measure of `U(m)`, and the spheres are the fibres
+of `y ↦ y*y` in the sense of 3.1 (c).
 
-*Method of the formal proof:* The kernel for (a) is the Gaussian `exp(−|x|²)`, whose integral is `π`. For (b), `g` is
-averaged over `U(m)`, which preserves Lebesgue measure; the average depends only on `|ω|²`, whose law has density
-`π^m r^{m−1}/(m − 1)!`. For (c), the sphere of squared radius `2t` gets the invariant measure of mass
-`2π^k(2t)^{k−1}/(k − 1)!`.
+*Method of the formal proof:* (a): the data are explicit, and `c_ℂ = π²` is attained by a Gaussian `G`, whose
+transform under `ψ` is again a Gaussian. (b): `U(m)` preserves Lebesgue measure and acts transitively on each sphere,
+so averaging over it, for the Haar probability measure of 1.4 (b), reduces `g` to a function of `r = |ω|²`, and the
+law of `r` has the density written in (b). (c): on the level set of `y ↦ y*y` that belongs to `β`, take the
+`U(k)`-invariant measure normalised so that these measures integrate to Lebesgue measure; the box `|y_i| ≤ R` meets
+only the levels up to `kR²`, which gives the bound.
 
 Prove that:
 
@@ -712,9 +739,11 @@ from those statements.
 *Origin:* particular to this proof: the measure of a quadric in a hyperbolic plane plus `T`, solved in a block of
 coordinates where `T` is the identity, at any place.
 
-*Method of the formal proof:* Split `T` as `T₂ ⊕ 1_B`. In the chart of 3.1 (b) the part `z` of the vector in the block is
-free, and the rest lies on a quadric of the plane plus `T₂` whose value is that of the given quadric minus `h(z, z)`.
-The two roles are exchanged by (a), which is Tonelli's theorem and the defining property of disintegrations.
+*Method of the formal proof:* (a) is Tonelli's theorem combined with the defining identity of the two disintegrations
+(3.1 (c)). (b) is the product structure of Haar measure. (c): write `T` as the identity on the block plus the rest,
+`T₂`. The chart of 3.1 (b) describes the quadric as a family, over the block coordinates, of quadrics of the plane
+plus `T₂`; (a) turns this into a family, over the coordinates outside the block, of quadrics of the block for
+`x ↦ x*x`, which is what being solved in the block asks for.
 
 Let `A` be a place. Prove that:
 
@@ -740,11 +769,12 @@ rows of `T` at the indices `blk(B)` are those of the identity. Then for every `�
 inequality at a place with the constant `c_A` of 3.1 (a), and its consequence for kernels between two measures
 solved in disjoint blocks.
 
-*Method of the formal proof:* (a) The integrand is damped by `∏_i G(x̄v_i)`, with the kernel `G` of the place. The
-square is expanded as a double integral and the variable `v` is integrated first. The damping is removed by Fatou's
-lemma as `x → 0` along units. (b) The fibre variables of `v` and `y` are not paired, so the kernel is a Fourier
-kernel in the inner coordinates times phases. Plancherel's inequality is applied there and the Cauchy–Schwarz
-inequality elsewhere, and the outer coordinates are estimated by the volume of the box.
+*Method of the formal proof:* (a): multiply the integrand by a damping factor made from the function `G` of 3.1 (a),
+integrate in `v` before the other variables, and remove the damping with Fatou's lemma. (b): the coordinates of `v`
+and of `y` fall into three groups: those of the blocks, the coordinates `inner(ι)`, and the rest. Because the rows of
+`J` at `inner(ι)` are those of the identity and the blocks do not meet, the kernel restricted to the coordinates
+`inner(ι)` is that of (a) up to factors of modulus one; (a) is used there, the bounds `M`, `M′` on the blocks, the
+volumes of the boxes on the rest, and the Cauchy–Schwarz inequality to combine them.
 
 Let `A` be a place. Prove that:
 
@@ -793,14 +823,16 @@ disintegrate Haar measure of `V_b` along `v ↦ h(v, v)`.
 
 ### 3.6 The top floor at `ℂ`: Cartan decomposition and the hyperboloid
 
-*Origin:* adapted from the published theory of the Cartan decomposition of a unitary group of rank one and of the
-invariant measure of a hyperboloid: here, double cosets of `U(X₀)` in the top floor group of `G₁`, and polar
-coordinates for the hyperboloid `h(v, v) = −1` of `V_ϱ = X₀ ⊕ ℂz`, written in the chart of the floors.
+*Origin:* adapted from the published theory of Cartan decompositions of unitary groups of rank one and of invariant
+measures on hyperboloids (Knapp, *Lie groups beyond an introduction*; Helgason, *Groups and geometric analysis*, Ch. I
+§5): here, the double cosets of `U(X₀)` in the top floor group of `G₁`, and polar coordinates for the level set
+`h(v, v) = −1` in `V_ϱ = X₀ ⊕ ℂz`, written in the chart of the floors.
 
-*Method of the formal proof:* (a) The column of `σ` at `z` is moved by an element of `U(X₀)` to a multiple of
-`x_{k₀}` plus a multiple of `z`, and the boost absorbs it. (b) By uniqueness of disintegrations the floor quadric
-measure of the top floor is the hyperboloid measure. Polar coordinates on `X₀` (3.2 (b)), with `−c` for `c` and
-`h⁻¹` for `h`, give the image of the chart law.
+*Method of the formal proof:* (a): a left factor from `U(X₀)` moves `σz` into the plane of `x_{k₀}` and `z`, where it
+agrees with `w_ϱ(c)z` up to a phase on `x_{k₀}` that `U(X₀)` absorbs; the remaining factor fixes `z` and the
+hyperbolic pairs, so it lies in `ι(U(k))`. (b): the image of the chart law is computed with the polar coordinates of
+3.2 (b) on `X₀`; it disintegrates the same Lebesgue measure along `v ↦ h(v, v)` as the floor quadric measure of
+3.5 (b), and the two agree by the uniqueness of disintegrations (the background entry below).
 
 In `G₁` let the *boost* `b(a)`, for `|a| ≥ 1`, act on the plane spanned by `x_{k₀}` and `z` by the matrix
 `((ā, √(|a|² − 1)), (−√(|a|² − 1), −a))` and fix the other basis vectors. Define the chart `w_l(c)` of floor `l` and
@@ -831,14 +863,19 @@ one form, in the sense of 3.1 (c), agree at every skew element; [ShortProof]
 
 ### 3.7 Floor measures below fibre measures at `ℂ`
 
-*Origin:* adapted from Weil (1961), the densities as volumes of fibre measures (HermitianFormsAndLattices §6.1 (f)):
-here, lower bounds for the fibre measures of the maps that record the products of a vector with the lower basis
-vectors and its norm, by the floor measures of 3.5, in `G₁`.
+*Origin:* adapted from Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, no. 6, fibre measures
+(compare HermitianFormsAndLattices §6.1 (f), the densities as volumes of fibre measures): here, lower bounds for the
+fibre measures of the maps that record the products of a vector with the lower basis vectors and its norm, by the
+floor measures of 3.5, in `G₁`.
 
-*Method of the formal proof:* The linear part of the map is a coordinate projection, whose fibre measure is Haar
-measure of `V_b`. The quadratic part is handled by 3.5 (b). The factor `1/2` comes from `d(h(y, y)/2)`, since the
-measures are quotients by the skew measure `ν`. For the dual vector, a parametrisation by the Heisenberg group
-transfers the bound.
+*Method of the formal proof:* (a): the map is a coordinate projection followed by `y ↦ h(y, y)`; the fibres of the
+projection carry Haar measure of `V_b`, which 3.5 (b) disintegrates along the form, and the rules of the background
+entry below combine the two steps. The factor `1/2` is the change of variable between `h(y, y)` and the skew
+coordinate `β` of 3.1 at `ℂ`, where `h(y, y) = 2t` for `β = it`. (b) takes the same two steps directly, without
+(a), for the vectors `y = e*_a + v + μe_a` with `v ∈ V_{a+1}`. The pairings that the map of (b) records, other than
+the norm, are coordinates of `y`. For the norm, the substitution `μ = β − h(v, v)/2 + s/2`, with `β` skew and `s`
+real, gives `h(y, y) = s`, and over `s = 0` the point is `ν_a(v, β)e*_a` (2.3). (c) is checked on the
+parametrisations of 2.3 and 2.5.
 
 In `G₁` prove that:
 
@@ -1007,13 +1044,20 @@ The library has the first half of (b) for `U(n)`: `Matrix.UnitaryGroup.exists_ex
 
 *Origin:* adapted from Harish-Chandra (1955–1956) and Knapp (1986), Chapter VI, the holomorphic discrete series
 realised on the bounded symmetric domain, whose `K`-finite part is a lowest-weight module
-(DiscreteSeriesCoefficientsAndAutomorphicMetrics §6.8): here, functions on powers of `U(p, q)` that extend
-holomorphically to the group times a Borel subgroup take the place of the bounded domain. No holomorphic discrete
-series is constructed.
+(DiscreteSeriesCoefficientsAndAutomorphicMetrics §6.8): here, on products of copies of `U(p, q)`, holomorphy means
+analytic continuation to the products `hb` with `b` triangular (4.1 (f)), in place of the bounded domain. No
+holomorphic discrete series is constructed.
 
-*Method of the formal proof:* Each element of the group is joined to `1` by an analytic path in the group (4.3 (b)),
-along which the coefficient satisfies a first-order system. Its solution extends analytically to the products `hb`.
-Means over circles in the diagonal torus give the integral against `conj m_w`.
+*Method of the formal proof:* (a): products of minors are analytic on invertible matrices, and they transform under
+triangular factors as in 4.3 (c). (b): the extension is `F′(hb) = ℓ((b_τ^{u_τ}·c_τ(h_τ)x_τ)_τ)`. It is well defined
+because an `o`-triangular element of `G_ε` is diagonal with entries of modulus one, and along the one-parameter
+subgroup through it the coefficient of `x_τ` satisfies a linear differential equation of first order whose
+coefficient is given by the weight `u_τ`. It is complex differentiable, hence analytic, near each `hb`: in a chart
+built from the exponential map, the real derivative of the coefficient of `x_τ` is complex linear, because the `E_ab`
+with `ε′_a = ε′_b` and `o_a < o_b` kill `x_τ`. (c) averages the integrand over left translation by the matrices
+`diag(s^{o_1}, …, s^{o_n})`, `|s| = 1`, which preserves `dk`. At points near `1` the mean over this circle is the value
+at `s = 0` of a function analytic on the closed unit disc, obtained from the continuation of `F`; both sides of the
+resulting identity are analytic along the curves from `1` that 4.3 (b) provides, so it holds at every point of `K`.
 
 Let `o` be injective. Prove that:
 
@@ -1044,14 +1088,18 @@ non-compact unitary group.
 ### 4.5 The filtration of a `K`-highest vector and the vanishing of coefficient maps
 
 *Origin:* adapted from Harish-Chandra (1953), Lemma 34 with §7, `K`-finite vectors are analytic
-(DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.1): here, for `𝔤𝔩_n`-modules with an invariant inner product and a
-Casimir bound. Explicit norm bounds along the filtration of a `K`-highest vector replace analyticity in a vanishing
-criterion for coefficient maps.
+(DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.1): here, for a `𝔤𝔩_n`-module that carries an invariant inner
+product and satisfies the Casimir bound of 4.2 (d). Analyticity is not used: bounds for the norm of the action on the
+steps `M_s` show directly that a bounded coefficient map vanishing at `1` on every step vanishes on the highest vector.
 
-*Method of the formal proof:* Every `g` is a product of two exponentials (4.3 (b)). Along `t ↦ g exp(tY)` the
-function `c(g exp tY)v`, for `v ∈ M_s`, has derivative `c(g exp tY)(Yv)`, with `‖Yv‖ ≤ (n + 1)⁴(R + 1 + s)‖Y‖‖v‖`.
-A downward induction on `s` against a barrier shows that it stays zero. The norm bound comes from the Casimir bound,
-which controls `Σ‖E_abv‖²` on `M_s`.
+*Method of the formal proof:* (a) and (b) are computations in the enveloping algebra, (b) with the invariance of the
+inner product and the Casimir bound. (c): the invariant inner product makes `M_0` finite-dimensional, and each later
+step adds the images of finitely many operators. For the second statement, the commuting `E_aa` have finitely many
+joint eigenvalues on the subspace; a joint eigenvector whose weight `μ` has the largest real part of `Σ_a l_aμ_a` is
+killed by the compact raising operators, which would raise that pairing. (d): along the curves
+`t ↦ g·exp(tY)` of 4.3 (b) the coefficient map satisfies a linear differential system that carries each step `M_s`
+into the next; the Casimir bound controls `Σ_{a,b}‖E_abv‖²` on `M_s`, hence the size of this system on each step, and
+an induction on `s`, from large `s` downwards, keeps the coefficient map zero.
 
 Let `l` have gap `g`. Prove that:
 
@@ -1088,10 +1136,12 @@ decay, Schur orthogonality and model in `L²`, and explicit Lipschitz and tail b
 form of Haar measure on it): here, the integral over `G_ε` of a density on flags becomes an integral over a part of
 `U(n)`, the same rule for every signature, without Haar measure on `GL_n(ℂ)`.
 
-*Method of the formal proof:* The factorisation `y = gb` with `g ∈ G_ε` and `b` triangular with positive diagonal
-ratios is unique. The Cayley chart of 1.1 transports Haar measure of `G_ε` onto the open orbit `G_εB` inside `U(n)`,
-with a Jacobian that the flag density cancels. Real linear forms reduce the complex statement to positive functions.
-The statement for `K_ℂ` is proved block by block by Fubini's theorem.
+*Method of the formal proof:* (a): on the open orbit each invertible matrix factors uniquely as an element of `G_ε`
+times an `o`-triangular matrix with positive diagonal; in the charts of 1.1 (c) this factorisation carries
+`μ^c` to the measure of `U(n)` on the part of the orbit it meets, with a Jacobian that the transformation rule of `F`
+absorbs, and complex-valued `F` reduce to nonnegative ones through real linear forms. (b) is (a) for the compact form,
+with 1.4. (c) is the analogue for the invertible block diagonal matrices `K_ℂ`, one diagonal block after another,
+combined by Fubini's theorem.
 
 Let `o ∈ ℤ^n` be injective. A function `F` on `M_n(ℂ)` is a *density on flags* for `o` if
 `F(yb) = |b^{2ρ(o)}|²·F(y)` for invertible `y` and `o`-triangular `b`. Prove that:
@@ -1114,16 +1164,21 @@ every invertible block diagonal `x`.
 
 ### 5.2 Independence of the splitting, analyticity and the Casimir eigenvalue
 
-*Origin:* adapted from Sun (2007), Theorem 2.1, Proposition 6.1 and formula (26): the integral formula for the
-lowest-`K`-type coefficient of a discrete series of `U(p, q)`, its discrete-series case being credited there to
-Flensted-Jensen (1980) (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a): here, the value of Flensted-Jensen's
-integral for every admissible splitting, its transformation under triangular factors, and the Casimir eigenvalue of
-`c_λ` for every gap.
+*Origin:* adapted from Flensted-Jensen, *Discrete series for semisimple symmetric spaces*, Ann. of Math. 111 (1980),
+and Sun, *Matrix coefficients of cohomologically induced representations*, Compositio Math. 143 (2007), Thm 1.1: the
+integral formula for the lowest-`K`-type coefficient of a discrete series of `U(p, q)` (compare
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a): here, the value of Flensted-Jensen's integral for every
+admissible splitting, its transformation under triangular factors, and the Casimir eigenvalue of `c_λ` for every gap.
 
-*Method of the formal proof:* The integrand is a density on the flag variety of `K_ℂ`. Polarization makes the integral
-locally constant in the block diagonal factor, and the admissible factors form a convex set. Near a point, `c_λ` is an
-average over `k ∈ K` of functions that are lowest weight vectors of weight `λ + ρ` in the basis `kE_abk⁻¹` of
-`𝔤𝔩_n`. The Casimir operator does not depend on the basis.
+*Method of the formal proof:* (a): the integral of the splitting formula is read as an analytic function `I(p, r)` of
+two matrices, with `r` in the place of `q*`. By 5.1 (c), `I(px, x*r) = I(p, r)` for invertible block diagonal `x`;
+as `x ↦ x*` is antilinear, the complex derivative of `I` in `p` alone vanishes in block diagonal directions, so
+`I(a, 1)` is constant on segments in the convex set of admissible `a`. The formula for a splitting `g = pzq*`
+follows. (b) is 4.3 (c) applied inside the integral. (c): the integral is analytic in the matrix. (d) differentiates
+under the integral of (a), with `a = a_g` fixed near `g`. For each `k`, 4.3 (c), applied to the denominator with all
+signs equal, shows that the integrand is `K`-highest of weight `λ + ρ` for the parameter `−l` with all signs equal, in
+the basis `kE_abk⁻¹` of `𝔤𝔩_n`; 4.5 (a) in that basis gives the eigenvalue `κ_λ`, and `Ω` is unchanged by a change
+of basis.
 
 Let `l` have gap `h`, and write `Ω = Σ_{a,b} R_{E_ab}R_{E_ba}` for the Casimir operator acting by right derivatives.
 Prove that:
@@ -1148,10 +1203,11 @@ and `y` and `b′yb` are accretive, then `Ξ_l(1, b′yb) = b′^Λ·b^Λ·Ξ_l(
 
 ### 5.3 First properties of `c_λ` and its `K`-types
 
-*Origin:* adapted from Sun (2007), Theorem 2.1, Proposition 6.1 and formula (26): the integral formula for the
-lowest-`K`-type coefficient of a discrete series of `U(p, q)`, its discrete-series case being credited there to
-Flensted-Jensen (1980) (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a): here, the integral is the
-definition, no discrete series is assumed, and the properties are proved for every gap.
+*Origin:* adapted from Flensted-Jensen, *Discrete series for semisimple symmetric spaces* (1980), Sun, *Matrix
+coefficients of cohomologically induced representations* (2007), Thm 1.1, and Knapp, *Representation theory of
+semisimple groups* (1986), ch. IX: the integral formula for the lowest-`K`-type coefficient of a discrete series of
+`U(p, q)` (compare DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a): here, the integral is the definition, no
+discrete series is assumed, and the properties are proved for every gap.
 
 *Method of the formal proof:* The properties are read off the integral over `K`. Inversion conjugates products of
 minors. The `K`-projections use Schur's relations for `K` in the form of 4.4 (c), applied to the integrand, and the
@@ -1185,16 +1241,17 @@ one explicit function, for every gap.
 
 ### 5.4 Decay, Schur orthogonality and the `L²` model
 
-*Origin:* adapted from Sun (2007), Theorem 2.1, Proposition 6.1 and formula (26): the integral formula for the
-lowest-`K`-type coefficient of a discrete series of `U(p, q)`, its discrete-series case being credited there to
-Flensted-Jensen (1980) (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a): here, polynomial decay with the full
-exponent `h`, Schur orthogonality with `deg_λ = (∫|c_λ|²)⁻¹`, and a unitary model of `U(𝔤)c_λ` in `L²(G)` for a large
-gap. The discrete series is built from `c_λ`, not assumed.
+*Origin:* adapted from Flensted-Jensen, *Discrete series for semisimple symmetric spaces* (1980), and Sun, *Matrix
+coefficients of cohomologically induced representations* (2007), Thm 1.1: the integral formula for the
+lowest-`K`-type coefficient of a discrete series of `U(p, q)` (compare DiscreteSeriesCoefficientsAndAutomorphicMetrics
+§2.4a): here, polynomial decay with the full exponent `h`, Schur orthogonality with `deg_λ = (∫|c_λ|²)⁻¹`, and a
+unitary model of `U(𝔤)c_λ` in `L²(G)` for a large gap. The discrete series is built from `c_λ`, not assumed.
 
-*Method of the formal proof:* Fischer's inequality gives `|c_λ(g)|²·|det a_g|^h ≤ 1`, and `(‖g‖/2)² ≤ |det a_g|`. Every
-element of `U(𝔤)c_λ` is a smearing of `c_λ` by a bump, which carries the decay over. Integrability then follows from
-1.5 (b). Schur orthogonality comes from the two `K`-projections of 5.3 (d), (e) applied to `y ↦ c_λ(xya)`. The model
-in `L²` is `f ↦ √deg_λ·f`.
+*Method of the formal proof:* (a) combines `|c_λ(g)| ≤ |det a_g|^{−h/2}`, from Fischer's inequality for determinants
+of positive definite matrices, with `|det a_g| ≥ (‖g‖/2)²`. (c): a right derivative of a smearing falls on the bump
+(4.1 (e)), so every element of `U(𝔤)c_λ` is a smearing of `c_λ`; it inherits the decay of (a), and 1.5 (b) gives
+integrability. (d) applies the two `K`-projections 5.3 (d), (e) to `y ↦ c_λ(xya)`. (e): the map is `f ↦ √deg_λ·f`,
+with (c) and (d).
 
 Prove that:
 
@@ -1265,22 +1322,24 @@ with `|c_λ ∘ j|²` integrable. Then for `r ≥ 1`:
 ## Layer 6: Rigidity, cusp kernels and the holomorphic chamber
 
 The rigidity of the coefficient `c_λ` and the operators `π(e_λ)`, the vanishing of constant terms for minimal
-idempotent kernels, the model function and the value of `c_λ` in the holomorphic chamber, and Siegel's argument that a
-bounded holomorphic form is large only away from the cusps.
+idempotent kernels, the model function and the value of `c_λ` in the holomorphic chamber, and Siegel's argument
+placing the peaks of bounded holomorphic forms away from the cusps.
 
 ### 6.1 The idempotent `e_λ` and rigidity of the coefficient
 
-*Origin:* adapted from the published theory of the classification of discrete series by their lowest `K`-type and of
-the projectors of integrable discrete series: here, for `U(p, q)` and a large gap, as an equality of matrix
-coefficients in any unitary representation of polynomial growth, with a Casimir bound in place of the absence of
-lower `K`-types. Irreducibility is not assumed.
+*Origin:* adapted from the classification of discrete series by their lowest `K`-type (Parthasarathy, *Classification
+of discrete series by minimal K-type*, Represent. Theory 19 (2015), Thm 1.1; earlier Hotta and Parthasarathy, Invent.
+Math. 26 (1974), Schmid, Ann. of Math. 102 (1975), Vogan and Zuckerman, Compositio Math. 53 (1984), Prop 6.1) and
+from the published theory of the projectors of integrable discrete series: here, for `U(p, q)` and a large gap, an
+identity of matrix coefficients in every unitary representation of polynomial growth. The Casimir hypothesis is on
+the vector, not on the representation: `ι(Ωv) = c·ι(v)` for some `c ≥ κ_λ`; irreducibility is not assumed.
 
-*Method of the formal proof:* The module generated by `ι(v)`, with the inner product given by `B`, and the model of
-5.4 (e) are put in an orthogonal sum, which again has the Casimir bound. There the vector `(ιv, −B(ιv, ιv)·c_λ)` is
-`K`-highest and orthogonal to `(ιv, c_λ)`, hence to all that the latter generates. So the bounded coefficient map
-`(u, w) ↦ B(ιv, π(g)u) − B(ιv, ιv)·w(g)` vanishes at `1` on the filtration, and 4.5 (d) gives the identity for every
-`g`. Integration by parts moves the Casimir operator onto `e_λ` (5.2 (d)), and 5.3 (e) gives the vanishing off the
-root cone.
+*Method of the formal proof:* (e) rests on the vanishing criterion 4.5 (d). The module generated by `ι(v)`, with the
+form `B`, is placed beside the model of 5.4 (e) in an orthogonal sum, which still satisfies the Casimir bound; in that
+sum the bounded coefficient map `(u, w) ↦ B(ιv, π(g)u) − B(ιv, ιv)·w(g)` vanishes at `1` on every step of the
+filtration generated by `(ιv, c_λ)`, because `(ιv, −B(ιv, ιv)·c_λ)` is a `K`-highest vector orthogonal to that
+filtration; 4.5 (d) then gives the identity for every `g`. (b) is an integration by parts that moves the Casimir
+operator onto `e_λ`, where 5.2 (d) applies. (c) uses the vanishing of the `K`-projections in 5.3 (e).
 
 Let `l` have large gap `A`, `n ≥ 1`, `π` a unitary representation of exponent `A` of `G_ε` on a complete normed space
 `X`, with invariant form `B`, and `ρ` the derivative of `π` along `ι : M → X`. Prove that (completeness of `X` is not
@@ -1311,15 +1370,20 @@ needed for (a) and (e)):
 
 ### 6.2 Minimal idempotent kernels kill bounded radical-invariant functions
 
-*Origin:* adapted from the published theory of discrete series coefficients as cusp forms: here, an abstract
-vanishing statement for a minimal idempotent kernel on a locally compact group, tested on bounded continuous functions
-that are invariant under a radical. Its hypothesis on dilations is checked for unitary groups.
+*Origin:* adapted from the theorem that coefficients of integrable discrete series are cusp forms (Godement, C. R.
+Acad. Sci. Paris 225 (1947); Wallach, *Real reductive groups I* (1988), ch. 7; closest to the argument here, Barnes,
+Proc. Edinburgh Math. Soc. 23 (1980), and Valette, Math. Ann. 294 (1992)): here, a general statement about a
+locally compact group and an idempotent kernel of rank one, whose test functions are the bounded continuous functions
+invariant under a radical; (b) verifies the hypothesis on dilations for unitary groups.
 
-*Method of the formal proof:* Let `T` be integration against `e` and `V` the space of bounded continuous functions that
-are fixed by `T` and invariant under the radical. The shift of `H` by `−log|c|` along `D`, with the Lipschitz bound by
-`ℓ`, makes a phase operator on `V` contracting. Then `V = 0`, and `Tf ∈ V`. The dilation is
-`y = 1 + c·p − (c/(1 + c))·q`, with `p` the orthogonal projection onto the span of the columns of `x⁻¹A` and
-`q = JpJ`.
+*Method of the formal proof:* (a): integration against `e` maps every invariant `f` into the space `V` of bounded
+continuous functions that are invariant under the radical and reproduced by `e` (idempotence), so it suffices that
+`V = 0`. Twist the reproducing operator by a phase `exp(i·t·H)`. An element `(r, c)` of `D` with `log|c| ≠ 0`, chosen
+close to `1` after conjugation, acts on `V` by left translation close to the identity and changes the phase by a
+constant factor, so that it anticommutes with a power of the twisted operator (the Lipschitz bound by `ℓ` controls
+the twist). An operator that anticommutes with one so close to the identity vanishes; so that power is `0` on `V`,
+while the twisted operator is injective there. (b): `y` is written down explicitly from the orthogonal projector `p`
+onto the column space of `x⁻¹A` and from `JpJ`.
 
 Prove that:
 
@@ -1354,17 +1418,20 @@ realised on the bounded symmetric domain, whose `K`-finite part is a lowest-weig
 product of quotients of minors, its reproducing property on `G_ε^Φ`, a uniqueness statement, and the identification of
 `c_λ` in the holomorphic chamber.
 
-*Method of the formal proof:* A holomorphic function of weight `u` is recovered from its means over circles of the
-diagonal torus, which gives the reproducing formula. Under `F(g⁻¹) = conj F(g)` the laws for right and left
-translation by the torus combine into the uniqueness statement. For `c_λ`, write `g` near `1` as `x′ax` with `a`
-block diagonal and `x′ − 1`, `x − 1` in the off-diagonal blocks. Neither side sees `x′` or `x`, both agree at `a`, and
-both are analytic.
+*Method of the formal proof:* (a) by 4.4 (a). (b): for a function holomorphic of weight `u`, the weighted means over
+the circles of the diagonal torus equal `F(1)·m^hol_u`; integrating against `conj m^hol_u` gives the formula. (c): the
+transformation laws under the torus on the right and, through `F(g⁻¹) = conj F(g)`, on the left determine `F` from
+`F(1)`. (d): both functions are analytic on `G_ε` (for `c_λ`, 5.2 (c)), so it suffices that they agree near `1`.
+There `c_λ` is `Ξ_l(1, ·)` (5.2 (a)). This function and `m^hol_w` are `1` at `1` (5.3 (a)), are multiplied by the
+same characters under block diagonal triangular factors on the left and on the right (5.2 (b), 4.3 (c)), and do not
+change under factors `x` with `x − 1` in one of the two off-diagonal blocks; near `1`, every matrix is a product of
+such factors.
 
 Let `o` be injective with the indices of sign `+1` first. For `w ∈ ℤ^n` put `c_i = 2Σ_j|w_j|` if `ε_i = 1` and `c_i = 0`
-otherwise. The *model function* is `m^hol_w(g) = m_{w+c}(g)/m_c(g)`. With the indices numbered along `o`, and `w`
-`K`-dominant for `o`, it is the product of the leading minors of size `i` to the powers `w_i − w_{i+1}`, with
-`w_{n+1} = 0`. For `u = (u_τ)` put
-`m^hol_u(h) = ∏_τ m^hol_{u_τ}(h_τ)`. Let each `u_τ` be `K`-dominant for `o`. Prove that:
+otherwise. The *model function* is `m^hol_w(g) = m_{w+c}(g)/m_c(g)`. If `w` is `K`-dominant for `o`, and the indices
+are listed in the order `o` as `1, …, n`, it equals `∏_i Δ_i(g)^{w_i − w_{i+1}}`, where `Δ_i` is the leading principal
+minor of size `i` and `w_{n+1} = 0`. For `u = (u_τ)` put `m^hol_u(h) = ∏_τ m^hol_{u_τ}(h_τ)`. Let each `u_τ` be
+`K`-dominant for `o`. Prove that:
 
 (a) `m^hol_u` is holomorphic of weight `u`;
 
@@ -1385,16 +1452,17 @@ otherwise. The *model function* is `m^hol_w(g) = m_{w+c}(g)/m_c(g)`. With the in
 
 ### 6.4 The peaks of a bounded holomorphic form lie away from the cusps
 
-*Origin:* adapted from the published theory of the location of the maximum of a cusp form (Siegel's argument): here,
-for bounded forms on unitary groups over a CM field, holomorphic of a vector-valued weight with gap one. A point
-where the form exceeds half its supremum takes the place of an attained maximum. The distance from the cusp is the
-first minimum of the lattice, bounded explicitly in the weight and the level.
+*Origin:* adapted from Siegel's argument locating the maximum of a cusp form away from the cusps (Poor and Yuen,
+*Linear dependence among Siegel modular forms*, Math. Ann. 318 (2000), Thm 1.3; Eichler, Math. Ann. 213 (1975)):
+here, the bound `λ(V_g) ≥ (AA′)^{−1/2}` at every peak `g` of a bounded function `F` on the adelic unitary group `G`
+that is holomorphic of weight `u` (4.1 (f)), with `u`, `A`, `A′` and the level as below.
 
-*Method of the formal proof:* If the first minimum at `g` is small, a short lattice vector `v` is isotropic. The
-transvections `n(z) = 1 − p·z·vv*J` fix `F(g ·)`. Completing squares writes them, for `Im z > −1`, as `hb` with `h`
-real and `b` triangular. The factor `b^u` is bounded and tends to `0` as `Im z → ∞`. So `z ↦ F(g·n(z))` extends to a
-bounded holomorphic function of period one that vanishes at `i∞`, and the Schwarz lemma makes `|F(g)|` too small for a
-peak.
+*Method of the formal proof:* Siegel's argument, by contradiction. If the first minimum at `g` were smaller, a
+shortest nonzero lattice vector would be isotropic and would give a one-parameter unipotent subgroup whose integral
+points lie in the level, so that `F(g·)` is periodic along it. Holomorphy of weight `u` (4.1 (f)), with the separation
+of the blocks of `u`, continues this periodic function to a bounded holomorphic function on a half plane that decays
+at `i∞`; the factorisation needed for this is an explicit completion of squares. The Schwarz lemma then bounds `|F(g)|`
+by less than `sup|F|/2`.
 
 Let `E` be a CM field with a CM type `Φ_w` at its infinite places `w`, and `V` a hermitian space over `E` of dimension
 `n ≥ 1` with an adelic point and signs `s ∈ {±1}^n` at every infinite place. `G` is its adelic unitary group, `Γ` the
@@ -1402,7 +1470,7 @@ rational points, and `V_g` the space moved by `g`; all are taken from
 AdelicUnitaryGroupsAndAlgebraicModularForms §3.1 (spaces with an adelic frame, lattices).
 Let `λ(V_g) = min(1, ‖y‖)` over the nonzero vectors `y` of the lattice of `V_g`, with the archimedean length of
 that roadmap: the first minimum, as in AdelicUnitaryGroupsAndAlgebraicModularForms §4.2. A *peak* of a bounded
-function `F` is a point `g` with `|F(g)| > sup|F|/2`.
+function `F` is a point `g` with `|F(g)| > sup|F|/2`; a bounded function that is not identically zero has a peak.
 
 Let `o` be injective with the signs `+1` first, and `u = (u_w)` weights with the following properties:
 - `u_{w,i} + 1 ≤ u_{w,j}` whenever `s_i = 1` and `s_j = −1`;
@@ -1431,14 +1499,15 @@ Harish-Chandra's formulas for the formal degree and the stable orbital integral.
 
 ### 7.1 Weyl's character and dimension formulas for products of unitary groups
 
-*Origin:* adapted from the published theory of Weyl's character and dimension formulas: here, for the class function
-on `K_ε` obtained by averaging a product of principal minors over conjugation, for the dimension as the inverse of
-an `L²` norm on `U(n)`, and for the trace of the Schur matrices of a product of groups `GL_a(ℂ)`.
+*Origin:* adapted from Weyl's character and dimension formulas (Weyl, *The classical groups* (1939), ch. VII; Fulton
+and Harris, *Representation theory* (1991), Lectures 24–25): here, for the class function on `K_ε` obtained by
+averaging a product of principal minors over conjugation, for the dimension as the inverse of an `L²` norm on `U(n)`,
+and for the trace of the Schur matrices of a product of groups `GL_a(ℂ)`.
 
-*Method of the formal proof:* By Schur's lemma the normalised conjugation means of products of minors are traces of
-twisted Schur modules. The formula then follows from the bialternant identity for Schur modules at diagonal matrices.
-The dimension formula is a limit at `1` along two one-parameter subgroups of the torus. The formula at elements with
-distinct eigenvalues follows by diagonalisation.
+*Method of the formal proof:* (a): Schur's lemma identifies `χ_ν` on `K` with the trace of a Schur module twisted by
+powers of the determinants, and the trace of a Schur matrix at a diagonal matrix is a quotient of alternants
+(IntegralRepresentationsOfGeneralLinearGroups §1.3 (d)). (b): let `x` tend to `1` in (a) for the compact form. (c):
+conjugate each `g_v` to a diagonal matrix and apply §1.3 (b), (d) there.
 
 For `ν ∈ ℤ^n` define the continuous class function on `K = K_ε`
 `χ_ν(g) = (∫_K m_ν(y⁻¹gy) dy)/‖m_ν‖²_K`. For `x` in the torus `(S¹)^n` write `diag(x)`. For `l` injective let:
@@ -1480,11 +1549,12 @@ IntegralRepresentationsOfGeneralLinearGroups §1.3 (Schur matrices, character at
 multiplicities, with multiplicity one at `Λ` and zero off `Λ + root cone`, the absolute convergence of its orbital
 integrals on the compact torus with a denominator, and their Laurent property.
 
-*Method of the formal proof:* The multiplicity of the type `ν` is the dimension of the space of `K`-highest vectors of
-weight `ν` in a large step of the filtration of the module of 5.4 (e). This space is finite-dimensional by 4.5 (c).
-Integrating the identity that expresses this over the group gives (a). For (c), `D·Θ` extends to a continuous class
-function on `K`. Its coefficients against the characters of `K` are integers (Brauer's rule and (a)) and
-square-summable, so almost all vanish, and 7.1 turns the finite sum into a Laurent polynomial.
+*Method of the formal proof:* (a) counts highest vectors: in the model of 5.4 (e), those of weight `ν` lying in a
+deep enough step of the filtration span a space of finite dimension (4.5 (c)), and `deg_λ·∫_G R` equals that
+dimension, by integrating over `G` an identity for the projection onto it; 5.3 (d), (e) give the value at `Λ` and the
+vanishing off the cone. (c): `P` is read off, through 7.1 (a), from a finite expansion of `d·Θ` in the characters
+`χ_ν` of 7.1. The expansion is finite because its coefficients are square-summable integers: (b) makes `d·Θ` a
+continuous class function on `K`, and integrality comes from (a) with Brauer's rule.
 
 Let `n ≥ 1`. Prove that:
 
@@ -1512,17 +1582,16 @@ In particular the orbital integral
 
 ### 7.3 Orbital integrals and the open orbit
 
-*Origin:* particular to this proof: at a point `x` of the torus with `diag(ε)·diag(x)` accretive, the orbital integral
-of `c_λ` is, up to a constant of modulus one, a multiple of Weyl's character of `U(n)` of highest weight `λ − ρ`, minus
-an integral over the unitary matrices outside the open orbit `G_εB`. This error decays along rays of positive diagonal
-matrices, so that a Laurent polynomial equal to it times a Laurent polynomial has no monomial of low level in the
-relevant direction.
+*Origin:* particular to this proof: the comparison of the orbital integrals of `c_λ` with the character
+`χ^{U(n)}_{λ−ρ}` (7.1) that 7.4 uses. (a) is an identity on the part of the torus where `J·diag(x)` is accretive, with
+remainder `off_l`; (b) bounds `off_l` at the points `diag(2^{−(s·o_a + e_a)})`; (c) is the resulting vanishing of the
+coefficients of low level of a Laurent polynomial `P` with `P(x) = Q(x)·off_l(J·diag x)`.
 
-*Method of the formal proof:* Both sides are integrals of `y ↦ m_{−(λ−ρ)}(y*Jy)/m_{−(λ+ρ)}(y*Ay)`, a density on flags.
-Over `G_ε` it gives the orbital integral, over `U(n)` the character (5.1 (a)), and the two differ by the integral off
-the open orbit. Lower bounds for products of minors at `u*diag(2^f)u` show that the error is small at
-`diag(2^{−(s·o+e)})` for large `s` (b). For (c), the identity is continued analytically off the torus; along these
-rays the right side is of smaller order than the monomials of `P` of least level for `o`, which therefore cancel.
+*Method of the formal proof:* (a): the orbital integral and the character are integrals, over `G_ε` and over `U(n)`,
+of one density on flags, `y ↦ m_{−(λ−ρ)}(y*Jy)/m_{−(λ+ρ)}(y*Ay)`; by 5.1 (a) the first equals the integral over the
+part of `U(n)` in the open orbit, and the difference is `off_l`. (b): analyticity under the integral sign, and lower
+bounds for products of principal minors at matrices `u*diag(2^f)u` with `u` unitary. (c): continue the identity
+analytically to positive diagonal matrices and compare orders of growth along the rays of (b).
 
 For `A` accretive let `off_l(A) = ∫_{k∈U(n), k∉G_εB_l} m_{−(λ−ρ)}(k*Jk)/m_{−(λ+ρ)}(k*Ak) dk`, with `J = diag ε`. Write
 `χ^{U(n)}_ν` for the function `χ_ν` of 7.1 for the sign vector with all signs `+1` (so `K = U(n)`). Let `l` have gap
@@ -1547,15 +1616,19 @@ the coefficient of `x^γ` in `P` is `0`.
 
 ### 7.4 The formal degree and the stable orbital integral
 
-*Origin:* adapted from Harish-Chandra (1966) and Atiyah and Schmid (1977), the formal degree of a discrete series,
-equal for the Haar measure matched with the compact dual to the dimension of the representation of the compact dual
-with the same infinitesimal character (DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3): here, for `U(p, q)`, a
-large gap and the explicit function `c_λ`. The formal degree is `(∫|c_λ|²)⁻¹`, and the stable sum of the elliptic
-orbital integrals of `e_λ` is computed. No representation occurs.
+*Origin:* adapted from Harish-Chandra, *Discrete series for semisimple Lie groups II: explicit determination of the
+characters*, Acta Math. 116 (1966), Thm 16 (with part I, Acta Math. 113 (1965), Thm 3), and Knapp, *Representation
+theory of semisimple groups* (1986), Thm 12.7: the formal degree of a discrete series, equal for the Haar measure
+matched with the compact dual to the dimension of the representation of the compact dual with the same infinitesimal
+character (DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3): here, for `U(p, q)`, a large gap and the explicit
+function `c_λ`. The formal degree is `(∫|c_λ|²)⁻¹`, and the stable sum of the elliptic orbital integrals of `e_λ` is
+computed. No representation occurs.
 
-*Method of the formal proof:* By 7.2 (c) the orbital integral times a product of roots is a Laurent polynomial. It is
-identified by comparing monomials of low level with 7.3. The constant, and with it the formal degree, is read off
-one coefficient of this comparison.
+*Method of the formal proof:* One Laurent polynomial is described in two ways: 7.2 (c) gives the orbital integral,
+times the products of roots `V_c·D^N`, as a Laurent polynomial whose exponents are controlled by the root cone, and
+7.3 relates the orbital integral to the character of `U(n)` of highest weight `λ − ρ` and kills its monomials of low
+level. The comparison determines the polynomial; one of its coefficients gives `deg_λ`, which 7.1 (b) turns into the
+product formula (a), and (b) is the resulting identity of functions on the torus.
 
 Let `l` have large gap `10n⁵` and `n ≥ 1`, and let `q_ε` be the number of pairs `(a, b)` with `ε_a = 1` and
 `ε_b = −1`. Prove that:
@@ -1644,9 +1717,10 @@ and `π′(h)` commuting. For `v_Φ` write `Φ`.
 parameters, with the shifts by the weights of the splitting characters and a gap `500(n + n′)³`, and its equivalence
 with matching on Fock space.
 
-*Method of the formal proof:* Both sides are symmetric in the two spaces, so one may take `n ≤ n′`. The matched entries
-are then the common ones, and the unmatched entries of the larger side are the points of `(n′ − n − 1)/2 + ℤ` of modulus
-below `(n′ − n)/2`, that is, the block. Only integer vectors are involved.
+*Method of the formal proof:* Combinatorics of integer vectors. The block rule and matching are both unchanged when
+the two spaces are exchanged, which reduces (a) to `n ≤ n′`; then matched pairs are pairs of equal entries `ℓ_c = ℓ′_r`
+with the sign conditions, and the entries of the larger side left over are those of the right parity and of absolute
+value below `n′ − n` (in doubled units), that is, the block `[n′ − n]`. (b) and (c) are checked on the definitions.
 
 For `d ≥ 0` let `[d]` be the doubled block `{d − 1, d − 3, …, 1 − d}` and `e + [d]` its translate by `2e`. For spaces
 `S`, `T` of ranks `n`, `n′` with signs `s`, `t`, doubled parameters `l`, `l′` and integers `γ`, `γ′`, put
@@ -1686,10 +1760,13 @@ a scalar of the joint harmonic of matched parameters of a real dual pair of unit
 space, with one of its two weights sufficing. This is the case of multiplicity one in the `(GL, GL)`-duality that the
 proof uses.
 
-*Method of the formal proof:* The weights relative to the vacuum have the sign of the matching. Both polarisations in
-a raising operator kill a highest harmonic polynomial, so each row carries variables of one sign. Such a polynomial
-does not vanish at the `0`-`1` matrix of the matching, so two of them are proportional. The Fischer decomposition in
-bounded degree (orthogonal complements for `⟨P, Q⟩ = P(∂)Q(0)`) gives the criteria for the Laplacians to vanish.
+*Method of the formal proof:* (a), (b) by a weight count. Measured from the vacuum, the weights of a pre-joint
+harmonic have the signs that the matching prescribes (8.1 (c)); each compact raising operator splits into two
+polarisation operators, and both kill such a polynomial, which forces the variables occurring in one row to have one
+sign. It follows that the polynomial is nonzero at the `0`-`1` matrix of the matching and is determined by its value
+there. (c) reduces to (a): a `P` that is termwise harmonic for `T` and for the swap is killed by the Laplacians of
+both sides, since each term of a Laplacian is, up to sign, one of the second derivatives that termwise harmonicity
+(8.1 (d)) requires to vanish; so a nonzero such `P` is a pre-joint harmonic, as `Φ` is.
 
 Let `l`, `l′` match for `T`. Prove that:
 
@@ -1713,7 +1790,8 @@ then `P = cΦ`. The same holds with rows and columns exchanged.
 ### 8.4 The Casimir operators of an oscillator pair
 
 *Origin:* adapted from the published theory of the correspondence of infinitesimal characters in the theta
-correspondence: here, the identity of the centred Casimir operators of the two actions on the polynomial Fock space,
+correspondence (compare Paul, *First occurrence for the dual pairs (U(p,q), U(r,s))*, Canad. J. Math. 51 (1999),
+Theorem 2.11): here, the identity of the centred Casimir operators of the two actions on the polynomial Fock space,
 and the corresponding relation between matched parameters.
 
 *Method of the formal proof:* The centred Casimir operators are written in normal order in the operators `A_{rc}`,
@@ -1742,12 +1820,12 @@ Paul (1998), the occurring types and lowest `K`-types (ThetaKernelsForUnitaryDua
 the joint harmonic of matched parameters as an explicit product of minors along layers, and a generation statement
 for subspaces stable under the column action, which takes the place of Howe's duality theorem.
 
-*Method of the formal proof:* The matched pairs are arranged in layers, each pairing rows with columns, of total weight
-`Λ(l)`. The joint harmonic is a product of minors along the layers. Howe's argument is an induction on the degree. If
-`G` missed a polynomial of degree at most `j`, the orthogonal complement of `G` in degree at most `j` (for the Fischer
-inner product `⟨P, Q⟩ = P(∂)Q(0)`) would contain a nonzero `Q` that is highest for the columns. The hypotheses (by
-adjunction) make `Q` `K`-highest of weight `Λ(l)` for the rows. Fischer's decomposition makes `Q` killed by the
-Laplacians of both sides. So `Q` is a multiple of `Φ` (8.3), hence lies in `G`, and `Q = 0`.
+*Method of the formal proof:* (a): sort the matched pairs of 8.1 (c) into layers, each layer pairing some rows with
+some columns, so that the weights of the layers add up to `Λ(l)`; the product, over the layers, of the corresponding
+minors of the matrix of variables is a joint harmonic. (b) is Howe's argument, by induction over the degree, for the
+Fischer pairing `⟨P, Q⟩ = P(∂)Q(0)`: in each degree, a vector orthogonal to `G` that is highest for the columns is
+shown, from the hypotheses on `G` by adjunction and from the Fischer decomposition, to be `K`-highest of weight
+`Λ(l)` for the rows and killed by the Laplacians, so by 8.3 it is a multiple of `Φ ∈ G` and hence zero.
 
 Let `l`, `l′` match for `T`. Prove that:
 
@@ -1774,11 +1852,11 @@ entries of absolute value at least `(t + 1)/2` (ThetaKernelsForUnitaryDualPairs 
 operators `π(e_λ)`, `π′(f)` of an oscillator pair on Fock space, for matched parameters of gap `500(n + n′)³`. No
 discrete series representation and no Howe duality theorem are used.
 
-*Method of the formal proof:* (a) is 6.1 (d), with the positivity of an oscillator representation at positive definite
-elements. For (b), the Casimir operators of the two groups agree on `Φ` up to the constant of 8.4. So `π(e_λ)Φ` is
-`K′`-highest of weight `Λ(l′)` for `π′` with Casimir value `κ_{λ′}`, and 6.1 (f) applies to `π′`. For (c), the
-polynomials `P` such that `π(e_λ)v_P` is a smearing of `π(e_λ)Φ` by a bump of the second group form a subspace
-satisfying the hypotheses of Howe's argument (8.5 (b)), by 6.1 (b), (c) and 5.4 (c).
+*Method of the formal proof:* (a) is 6.1 (d); the positivity it asks for is part of the definition of an oscillator
+representation (8.1 (e)). (b): by 8.4, on `Φ` the centred Casimir operator of the second group is that of the first
+plus a constant, so `π(e_λ)Φ` is `K′`-highest of weight `Λ(l′)` for `π′` with Casimir value `κ_{λ′}`; 6.1 (f) for
+`π′` concludes. (c): the polynomials `P` for which `π(e_λ)v_P` is obtained from `π(e_λ)Φ` by a bump of the second
+group form a subspace that meets the hypotheses of 8.5 (b), by 6.1 (b), (c) and 5.4 (c); so it is all of `𝒫`.
 
 Let `R`, `C` be nonempty, `(π, π′)` an oscillator pair for `T`, and `Φ` a joint harmonic of matching parameters `l`,
 `l′`. Write `e_λ`, `e_{λ′}` for the kernels of 4.1 on `G_ε` and `G_{ε′}`. Prove that:
@@ -1807,9 +1885,23 @@ are outside the *Data* of §3.46a.
 
 ## What the library already provides
 
+- The unitary group of the standard form, Mathlib's `Matrix.unitaryGroup`, and the description of its elements as
+  exponentials, `Matrix.UnitaryGroup.exists_expUnitary_eq` (4.3). The unitary group `U(J)` of an indefinite form is not
+  in the pinned libraries.
+- Polar coordinates in the form "sphere times radius":
+  `MeasureTheory.Measure.measurePreserving_homeomorphUnitSphereProd` (Mathlib) and
+  `TauCeti.lintegral_eq_lintegral_toSphere_lintegral_Ioi` (3.2).
+- Characters and dimensions of the Weyl modules of one `GL_n` in characteristic zero,
+  `TauCeti.diagramSchurPoly_mul_alternant`, `TauCeti.char_weylRepOfShape_diagonal_eq_eval_diagramSchurPoly` and
+  `TauCeti.finrank_rationalWeylFDRep`, and Schur orthogonality, `ContRepresentation.schur_orthogonality_self` (7.1).
+
+On Tau Ceti's main branch, later than the revision pinned here:
+
 - The unitary group `U(J)` of a matrix, as the subgroup `{g : g*Jg = J}` of `GL_n`: `Matrix.unitaryGroupOf`. The group
-  `U(diag ε)` after reindexing: `TauCeti.Matrix.indefiniteUnitaryGroup`. The library has their algebra and topology,
+  `U(diag ε)` after reindexing: `TauCeti.Matrix.indefiniteUnitaryGroup`. These come with their algebra and topology,
   not their measures.
+- `Matrix.cayley` and `Matrix.IsHermitian.cayley_mem_unitaryGroup` (1.2); `Matrix.exists_blockLDU_iff` and
+  `Matrix.eq_of_blockLDU_eq` (2.4).
 
 ## Results taken from other roadmaps
 
@@ -1817,3 +1909,56 @@ are outside the *Data* of §3.46a.
   RepresentationTheory/ClassicalGroups §§4.2, 5.1 (used by 7.1, which states the bridge to products of minors).
 - Schur orthogonality for one irreducible representation of a compact group: RepresentationTheory/CompactGroups §4.1
   (used by 7.1).
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/DiscreteSeries`, with the definitions it
+  takes from `src/Lib/General/Groups/BesselGroups`, `src/Lib/General/Measure/FibreMeasure`,
+  `src/Lib/General/Measure/QuadricDisintegration` and `src/Lib/Weil/Fock/OscillatorPair`.
+- B. Barnes, Proc. Edinburgh Math. Soc. 23 (1980) (6.2).
+- R. Beuzart-Plessis, Astérisque 418 (2020) (2.6).
+- M. Eichler, Math. Ann. 213 (1975) (6.4).
+- M. Flensted-Jensen, *Discrete series for semisimple symmetric spaces*, Ann. of Math. 111 (1980) (5.2–5.4).
+- Fulton and Harris, *Representation theory* (1991), Lectures 24–25 (7.1).
+- W. T. Gan, B. Gross, D. Prasad, Astérisque 346 (2012) (2.2, 2.5).
+- Gill, Golub, Murray, Saunders, Math. Comp. 28 (1974): the factorisation used in 6.4.
+- R. Godement, C. R. Acad. Sci. Paris 225 (1947) (6.2).
+- B. Gross, *On the motive of a reductive group*, Invent. Math. 130 (1997) (1.4).
+- Harish-Chandra, *Representations of a semisimple Lie group on a Banach space I*, Trans. Amer. Math. Soc. 75 (1953),
+  Lemma 34 and §7, as cited in DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.1 (4.5).
+- Harish-Chandra, *Representations of semisimple Lie groups IV–VI*, Amer. J. Math. 77 (1955), 78 (1956) (4.4, 6.3).
+- Harish-Chandra, *Discrete series for semisimple Lie groups II: explicit determination of the characters*, Acta Math.
+  116 (1966), Thm 16, with part I, Acta Math. 113 (1965), Thm 3 (7.4).
+- S. Helgason, *Groups and geometric analysis*, Ch. I §5 (3.2, 3.6).
+- Hotta, Parthasarathy, Invent. Math. 26 (1974) (6.1).
+- R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989) (8.3, 8.5).
+- L. K. Hua, *Harmonic analysis of functions of several complex variables in the classical domains* (1963), ch. III
+  (1.4).
+- M. Kashiwara, M. Vergne, *On the Segal–Shale–Weil representations and harmonic polynomials*, Invent. Math. 44 (1978),
+  as cited in ThetaKernelsForUnitaryDualPairs §3.46 (8.3, 8.5).
+- A. Knapp, *Lie groups beyond an introduction* (3.2, 3.6).
+- A. Knapp, *Representation theory of semisimple groups* (1986): Ch. VI (4.4, 6.3, as cited in
+  DiscreteSeriesCoefficientsAndAutomorphicMetrics §6.8), ch. IX (5.3) and Thm 12.7 (7.4).
+- J.-S. Li, *Theta lifting for unitary representations with nonzero cohomology*, Duke Math. J. 61 (1990) (8.2, 8.6).
+- I. G. Macdonald, *The volume of a compact Lie group*, Invent. Math. 56 (1980) (1.4).
+- R. Parthasarathy, *Classification of discrete series by minimal K-type*, Represent. Theory 19 (2015), Thm 1.1 (6.1).
+- A. Paul, *Howe correspondence for real unitary groups*, J. Funct. Anal. 159 (1998), as cited in
+  ThetaKernelsForUnitaryDualPairs §3.46 (8.3, 8.5).
+- A. Paul, *First occurrence for the dual pairs (U(p,q), U(r,s))*, Canad. J. Math. 51 (1999), Theorem 2.11 (8.4).
+- V. Platonov, A. Rapinchuk, *Algebraic groups and number theory* (1994), §7.1 (2.2).
+- C. Poor, D. Yuen, *Linear dependence among Siegel modular forms*, Math. Ann. 318 (2000), Thm 1.3 (6.4).
+- Schmid, Ann. of Math. 102 (1975) (6.1).
+- C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935) (1.3, 1.6, 2.7).
+- B. Sun, *Matrix coefficients of cohomologically induced representations*, Compositio Math. 143 (2007), Thm 1.1
+  (5.2–5.4).
+- A. Valette, Math. Ann. 294 (1992) (6.2).
+- Vogan, Zuckerman, Compositio Math. 53 (1984), Prop 6.1 (6.1).
+- N. Wallach, *Real reductive groups I* (1988), ch. 7 (6.2).
+- A. Weil, *Sur la formule de Siegel dans la théorie des groupes classiques*, Acta Math. 113 (1965), no. 6 (1.6, 3.7).
+- H. Weyl, *The classical groups* (1939), ch. VII (7.1).
+- H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023) (2.6).
+
+The sources are those that the index and the reference list of `[ShortProof]` name for the files this roadmap covers,
+and, where marked, those of the roadmap sections named on the *Origin:* lines; the reference list of `[ShortProof]`
+says which of its citations were compared with their sources.
