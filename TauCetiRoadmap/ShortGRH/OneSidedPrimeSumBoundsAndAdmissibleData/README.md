@@ -2,8 +2,9 @@
 
 This roadmap states the frame of the shorter route [ShortProof] to the Riemann hypothesis for Dirichlet L-functions:
 the analytic step at the start and at the end, the data on which the arithmetic part is built, and the inequality in
-which the arithmetic parts meet. The other roadmaps of the family `ShortGRH` prove the inputs of the three theorems
-that this roadmap states (Layer 5) and refer to its set-up (Layers 1–4) for their data and letters.
+which the arithmetic parts meet. The other roadmaps of the family `ShortGRH` prove the inputs of Theorems A and B,
+which this roadmap states (Layer 5), and Theorem C (DeterminantsOfThetaLiftChains §6.3), and refer to its set-up
+(Layers 1–4) for their data and letters.
 
 The argument has this shape. Fix a positive multiple `q₀` of `18480` and a prime `d ≡ q₀/2 − 1 (mod q₀)`, and let
 `K = ℚ(√−d)` with quadratic character `χ_K = (·/d)`. The remainder `R_{q₀}(y)` is a smoothed sum of
@@ -36,7 +37,8 @@ heights and twisted lattices, and the lower bound for a covolume by a twist for 
 parameters, the field `E` and its group of infinite places. Layer 3 defines admissible data, records their sizes, the
 twists and the characters of the lifts, and proves that admissible data exist at every large integer. Layer 4 defines
 the prime sums and writes the total remainder through `R_{q₀}` and `R₁`. Layer 5 defines the target lattice and the
-normalised Poincaré maps and states Theorems A, B and C. Layer 6 proves the main inequality, the one-sided bound and the
+normalised Poincaré maps, states Theorems A and B, and names Theorem C, which DeterminantsOfThetaLiftChains §6.3
+states and proves. Layer 6 proves the main inequality, the one-sided bound and the
 end theorems in all their forms.
 
 ## Conventions and notation
@@ -44,12 +46,13 @@ end theorems in all their forms.
 **Labels.** Every section that states something carries, under its heading, `*Origin:*` (one of `published:`,
 `adapted from`, `particular to this proof:`, `this roadmap's own formulation:`, `definitions and conventions`) and
 `*Method of the formal proof:*`, how [ShortProof] proves it. The last line of a section names where [ShortProof] proves
-it, as `[ShortProof], path (declaration)`, with the path relative to its directory `src/`. Theorems A, B and C (5.3–5.5)
-are stated here and proved from the sections named on their `*Needs:*` lines. A section of another roadmap of the
-family is cited by number, `<Roadmap> §k.n`.
+it, as `[ShortProof], path (declaration)`, with the path relative to its directory `src/`. Theorems A and B (5.3, 5.4)
+are stated here and proved from the sections named on their `*Needs:*` lines; Theorem C is
+DeterminantsOfThetaLiftChains §6.3. A section of another roadmap of the family is cited by number, `<Roadmap> §k.n`.
 
 **Background.** `ShortGRH background (…)` on a `*Needs:*` line names, in words, a published result that [ShortProof]
-proves among its background results and that no roadmap section states in the form used.
+proves among its background results (its folder `src/Lib`) and that no roadmap section states in the form used; the
+parenthesis gives that form and the declaration of [ShortProof].
 
 **Statements of the formal proof.** The hypotheses, ranges and constants of a target are those of [ShortProof]; where a
 section states more, its last sentence says which case [ShortProof] proves.
@@ -86,6 +89,7 @@ For a Dirichlet character `ψ`, `L(s, ψ)` is Mathlib's `DirichletCharacter.LFun
 | `ξ, Q(ξ), Nm Q(ξ)` | a twist (written `ϑ` in [ShortProof]), its modulus, the product of the norms of the places of the modulus | 3.4 |
 | `μ_j⁰, μ♭, χ, ω, υ` | the character of lift `j`; the characters of weight `−κ₀` and of weight `0` with tame part `ω`; the residue characters at the chosen places; the splitting character on `U(1)` | 3.4; `ω`: DivisibilityOfThetaDerivatives §1.5; `μ♭, χ` (there `χ₀, χ_M`): §1.6 (a); `υ`: §1.4 (c) |
 | `s_fin, s_∞, s_main` | the prime sum at an order and a place, the size of a derivative, the expected value | 4.1 |
+| `s_p(y, σ), S_p` | the local prime sum at a prime `p` and its total `S_p = Σ_σ s_p(κ(σ), σ)` (written `F(p)` in CompositeThetaLiftsAndShortForms) | 4.1 |
 | `h_dir, h_main, rem, u_E` | the direction amount, the main amount `mk·h_dir`, the total remainder, the error unit `f·a·(log b)³` | 4.1 |
 | `X_j, Y_j, W_j, V_j` | the definite and indefinite Hermitian spaces of the chains | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
 | `𝒮, 𝒮_ram, 𝒯, d_T` | the source forms on `X₀` (there `𝒮_X`), the ramified ones, the target forms on `Y₀`, `d_T = dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity §2.8 (`𝒮`, `𝒮_ram`), §2.7 (`𝒯`) |
@@ -158,8 +162,9 @@ character `ψ` modulo `q₀` and every `ρ ≠ 1` with `Re ρ > β`.
 
 *Needs:* 0.1; RiemannHypothesisStatementsAndConsequences §8.4a (the transform of a Riesz sum and its poles at zeros);
 PositivityOfDirichletSeriesWithKernels §6.4 (Landau's theorem in one-sided form); ShortGRH background (for `β > 1/2`,
-`H > 0` and an invertible class modulo `N` all of whose primes are `≡ 7 (mod 8)` and prime to `N`, some prime `d` of
-the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`).
+real `H` and an invertible class modulo `N` all of whose primes are `≡ 7 (mod 8)` and prime to `N`, some prime `d` of
+the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`; [ShortProof]
+`Lib/Analytic/QuadraticTwist.lean` (`New.exists_entireL_quadTwist_ne_zero`)).
 
 [ShortProof], `New/Reduction/Zeros/Criterion` (`New.LFunction_ne_zero_of_primeRemainder_le`);
 `New/Reduction/Zeros/PrimeError` (`New.LSeries_lambdaKResidueClass_eq_add_logDerivMean`,
@@ -204,8 +209,14 @@ integer `0 ≤ l ≤ c`.
   most the length of `O/(z)`. If `y` is onto `M` modulo `p^n` up to colength `c`, the length of `M/(y(M) + p^nM)` is at
   most `l` times the length of `O/(p)` for some integer `0 ≤ l ≤ c`.
 
-*Needs:* ShortGRH background (the Smith normal form of a square matrix over a valuation domain; lengths of quotients of
-modules over a discrete valuation ring).
+*Needs:* ShortGRH background (the Smith normal form of a square matrix over a valuation domain: `A = L·diag(a)·R`
+with `L`, `R` invertible; and, over a discrete valuation ring, the length of `O/(z)` is the valuation of `z`;
+[ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`),
+`Lib/General/Algebra/FittingIdealsAndLengths.lean` (`New.relLength`, `New.length_quot_span_eq_addVal`)).
+
+*Relation to the library.* Tau Ceti `Matrix.exists_smith_normal_form_of_isDiscreteValuationRing` gives the Smith normal
+form over a discrete valuation ring. Item (f) is used over the valuation rings `𝒪_ι`, which are not discrete, so the
+background entry stands.
 
 [ShortProof], `New/Reduction/Lattices/Colength` (`New.ColengthDvd`, `New.ColengthDvd.trans`, `New.ColengthDvd.comap`,
 `New.ColengthDvd.map`, `New.ColengthDvd.comp`, `New.IsOntoUpToColength`, `New.IsOntoUpToColength.prod`,
@@ -240,9 +251,12 @@ every pair `ι`, and `α + Σ_{ℓ∈S} h_ℓ log ℓ ≤ c` for every finite se
 - (f) If the constant family `1` has height at most `c`, then `c ≥ 0`. Consequently, if `z ≠ 0`, the constant family
   `z` has height at most `c` and `|σ(z)| ≤ e^{c′}` for every `σ ∈ Aut(ℂ)`, then `−c ≤ c′`.
 
-*Needs:* ShortGRH background (a complex number whose images under all isomorphisms `ℂ → ℚ̄_2` are bounded is algebraic;
-every embedding of a number field into `ℚ̄_ℓ` extends to an isomorphism `ℂ → ℚ̄_ℓ`); Mathlib `padicNorm`,
-`Algebra.norm_eq_prod_embeddings`.
+*Needs:* ShortGRH background (a complex number whose images under all isomorphisms `ℂ → ℚ̄_ℓ`, for one prime `ℓ`,
+are bounded is algebraic; for a countable ring `K` with injective maps to `ℂ` and to an algebraically closed field `L`
+of the cardinality of `ℂ`, some isomorphism `ℂ → L` carries the first map to the second, so every embedding of a number
+field into `ℚ̄_ℓ` extends to an isomorphism `ℂ → ℚ̄_ℓ`; [ShortProof] `Lib/General/NumberTheory/PadicLimitsValuation.lean`
+(`New.isAlgebraic_of_norm_complexToCp_le`), `Lib/General/Geometry/GaloisCovers.lean` (`New.exists_ringEquiv_extend`));
+Mathlib `padicNorm`, `Algebra.norm_eq_prod_embeddings`.
 
 [ShortProof], `New/Reduction/Lattices/Heights` (`New.PrimePadicIso`, `New.HeightLe`, `New.HeightLe.mono`,
 `New.HeightLe.rpow_mul`, `New.HeightLe.of_mul_le`, `New.HeightLe.inv_const`, `New.HeightLe.mul`, `New.HeightLe.prod`,
@@ -292,8 +306,11 @@ orthonormal basis. Facts:
 - (g) If `y` has covolume at most `c`, then `|σ(det⟨Θ₁y_i, Θ₁y_k⟩)| ≤ e^c` for every `σ ∈ Aut(ℂ)`.
 - (h) `Z(ξ) ≠ 0` if `Θ_ξ` is injective, and `Z(ξ) = det(Θ_ξ^*Θ_ξ)` when `S_ξ` is finite-dimensional.
 
-*Needs:* 1.1; ShortGRH background (Hadamard's and Fischer's inequalities for positive semidefinite Hermitian matrices;
-`|det(a_i^* G b_k)|² ≤ det(a_i^* G a_k)·det(b_i^* G b_k)` for `G` positive semidefinite).
+*Needs:* 1.1; Tau Ceti `Matrix.det_gram_le_prod_norm_sq` (Hadamard's inequality for Gram determinants); ShortGRH
+background (for a positive semidefinite Hermitian matrix: Fischer's inequality `det ≤ det(A)·det(D)` for the diagonal
+blocks `A`, `D`, and `|det(a_i^* G b_k)|² ≤ det(a_i^* G a_k)·det(b_i^* G b_k)`; [ShortProof]
+`Lib/General/LinearAlgebra/MinorProducts.lean` (`New.fischer_det_inequality`, `New.hadamard_det_inequality`),
+`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`, `New.norm_det_pairing_sq_le`)).
 
 [ShortProof], `New/Reduction/Lattices/TwistedLattice` (`New.TwistedLattice`, `New.TwistedLattice.integralVectors`,
 `New.TwistedLattice.IndexLe`, `New.TwistedLattice.normSqAt`, `New.TwistedLattice.CovolumeLe`,
@@ -400,7 +417,7 @@ Fix parameters `P` and `s ≥ 0`, and write `q₁ = q₁(s)`.
 
 ### 2.3 Arithmetic of `E`
 
-*Origin:* adapted from the published theory of cyclotomic extensions of a quadratic field: here the extension of
+*Origin:* adapted from the classical theory of cyclotomic fields (Washington (1997), Chapter 2): here the extension of
 `K = ℚ(√−d)` by the roots of unity of an order prime to `d`, with its infinite places read as its Galois group.
 
 *Method of the formal proof:* (a) embeds `K` in `ℚ(ζ_d)` by a Gauss sum and compares degrees, `[ℚ(ζ_d, ζ_{q₁}) : ℚ] ≥
@@ -528,7 +545,8 @@ For admissible data:
 
 *Needs:* 2.1, 2.3, 3.1, 3.2; DivisibilityOfThetaDerivatives §1.7 (a) (a generator `δ_E` of the different of `E`
 with `|δ_E|_v = A_v·T·√d` and `|log A_v| ≤ C_P` at every infinite place `v`), §1.1 (c) (`∏_v |δ_E|_v = rd_E^f`); ShortGRH
-background (the class number of a number field of degree `n` and discriminant `D_E` is at most `(2^n|D_E|)^{n+1}`).
+background (the class number of a number field of degree `n` and discriminant `D_E` is at most `(2^n|D_E|)^{n+1}`;
+[ShortProof] `Lib/General/NumberTheory/SUnitsAndClassNumber.lean` (`New.classNumber_le`)).
 
 [ShortProof], `New/Reduction/Data/Magnitudes` (`New.Data.HasLogBound`, `New.Data.le_constantBound`,
 `New.Data.scale_inequalities`, `New.Data.le_of_hasLogBound`, `New.Data.ten_thousand_le_m`, `New.Data.r_add_one`,
@@ -577,8 +595,11 @@ Fact: `μ_j⁰` has weight `−κ_j` and tame part `ω^j`; `μ_j⁰ξ` has weigh
 
 *Needs:* 3.2, 3.3; DivisibilityOfThetaDerivatives §1.5 (the chosen places and the residue characters `ω` of order `q₂`
 at them), §1.6 (the characters `μ♭` and `χ`), §1.4 (the splitting character `υ` of the Weil data of `E`); ShortGRH background
-(automorphic characters of `U(1)` of a CM field with given weight and tame part; weights add and tame parts multiply
-under products).
+(automorphic characters of `U(1)` of a CM field with a weight and a tame part in the sense above: weights add and tame
+parts multiply under products and powers, and the restriction to `U(1)` of the splitting character of Weil data has
+weight `1` and trivial tame part; [ShortProof] `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`),
+`Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.WeilData.hasWeight_upsilonU1_zpow`),
+`Lib/Weil/DualPair/Defs.lean` (`New.WeilData.upsilonU1`)).
 
 [ShortProof], `New/Reduction/Data/LevelAndTwists` (`New.Data.targetParameter`, `New.Data.targetParameter_eq`,
 `New.Data.TameChar`, `New.Data.TameChar.pow`, `New.Data.Twist`, `New.Data.MFoldTwist`, `New.Data.MFoldTwist.powTwist`,
@@ -651,8 +672,11 @@ Let `P` be parameters and `0 < ε < 1/100`. For every large integer `x` there ar
 `x^ε ≤ log b ≤ x^ε + 1`.
 
 *Needs:* 2.1, 2.3, 3.1, 3.2, 3.6; AnalyticNumberTheoryPartI §0.32 (primes `≡ 1` modulo a modulus at most a power of
-`log p`, with `log p` in a window of length at least `1`); ShortGRH background (decomposition of a rational prime in
-`ℚ(√−d)` by the Legendre symbol `(·/d)`); Mathlib `NumberField.classNumber`, `Nat.Prime.sq_add_sq`.
+`log p`, with `log p` in a window of length at least `1`); ShortGRH background (for `d` a prime `≡ 7 (mod 8)` and
+`K = ℚ(√−d)`: a rational prime `p` with `(p/d) = 1` is the product of a prime ideal of `𝒪_K` of norm `p` and its
+conjugate, and a principal ideal of norm `n` has a generator `π` with `ππ̄ = n`; [ShortProof]
+`Lib/General/NumberTheory/ImaginaryQuadraticField.lean` (`New.QuadField.prime_inert_or_eq_mul`,
+`New.QuadField.absNorm_span_eq_mul_star`)); Mathlib `NumberField.classNumber`, `Nat.Prime.sq_add_sq`.
 
 [ShortProof], `New/Reduction/Data/Existence` (`New.eventually_exists_data`, `New.Parameters.IsAdmissibleData`,
 `New.Parameters.IsLargeScale.exists_isAdmissibleData`, `New.eventually_exists_data_of_isAdmissibleData`,
@@ -680,16 +704,22 @@ Let `D` be admissible data and `d` its prime; `λ₁(ν) = Λ(ν)(1 − χ_K(ν)
 - `h_dir = Σ_{σ∈Φ} (s_∞(κ(σ)) − s_fin(κ(σ), σ))` and `h_main = m·k·h_dir`.
 - `s_main = a(log a − f^{−1}Σ_{τ∈Φ} log κ(τ) + c₁)` and `rem = Σ_{τ∈Φ_a} (s_fin(a, τ) − s_main)`.
 - `u_E = f·a·(log b)³`, the error unit.
+- For a prime `p`, the *local prime sum* is `s_p(y, σ) = v(π_p)·Σ_{e∈I_p} (y/p^e − κ(−p^eσ))₊` for real `y` and
+  `σ ∈ Φ`, with `v(π_p)` and `I_p` of DivisibilityOfThetaDerivatives §2.1 (`v(π_p) = 1/2` if `p = d` and `1`
+  otherwise; `I_p` is the set of odd `e ≥ 1` if `p` is inert in `K`, of all `e ≥ 1` if `p = d`, and is empty if `p`
+  splits). Its *total* is `S_p = Σ_{σ∈Φ} s_p(κ(σ), σ)`. So `2 log p·s_p(y, σ)` is the sum of the terms of `s_fin(y, σ)`
+  at the powers of `p`, without the bound `ν ≤ a`.
 
 Here `c₁ = −1 − γ + (L′/L)(1, χ_K)`, so `s_main = a(log a − 1 − γ + (L′/L)(1, χ_K) − mean log κ)`, the main term `𝔐(a, κ)`
 of FrobeniusRestrictedRieszSums §1.1; and `s_fin(a, σ)` has the form (iv) of the sum `ℛ(a, σ, κ)` of that section, the
 place `−νσ` playing the part of `par_σ(Frob_ν)`. No section here uses these identifications.
 
-*Needs:* 0.1, 2.1, 3.2.
+*Needs:* 0.1, 2.1, 3.2; DivisibilityOfThetaDerivatives §2.1 (the set `I_p` and the number `v(π_p)` at a prime).
 
 [ShortProof], `New/Reduction/Data/AdmissibleData` (`New.Data.primeSum`, `New.Data.jetSize`, `New.Data.directionAmount`,
 `New.Data.errorUnit`); `New/Reduction/PrimeSums` (`New.Data.mainAmount`, `New.Data.mainPrimeSum`,
-`New.Data.totalRemainder`)
+`New.Data.totalRemainder`); `New/UpperBound/Size/ShortColumns` (`New.Data.localPrimeSum`,
+`New.Data.localPrimeSumTotal`)
 
 ### 4.2 The total remainder and the sizes of the prime sums
 
@@ -724,7 +754,7 @@ Let `D` be admissible data, and `R_q = R_q^{(d)}` for its prime `d`.
 `New.Data.jetSize_sub_primeSum_mem_Icc`, `New.Data.directionAmount_mem_Icc`, `New.Data.le_mainAmount`,
 `New.Data.mainAmount_nonneg`)
 
-## Layer 5: Theorems A, B and C
+## Layer 5: the target lattice and Theorems A and B
 
 The target forms `𝒯` have no integral structure of their own; a target form is integral at `ι` when its chains of lifts
 are, for every `m`-fold twist of modulus prime to `ℓ(ι)` (5.1). The source is the space `𝒮_ram` of ramified source
@@ -732,6 +762,9 @@ forms, carried to the target by the translates `s𝔭` of one normalised Poincar
 the images of short integral forms from above and their index; Theorem B says that few translates span almost all of
 the target; Theorem C bounds from below the covolume plus twice the index of every family that spans almost all of the
 target. The objects of this layer are those of the sections named in the table of symbols.
+
+Theorem C is DeterminantsOfThetaLiftChains §6.3, which states and proves it for the target lattice of 5.1; the letter
+`d` of that section is `d_T`. It is not a section of this roadmap: 6.1 takes it from there.
 
 ### 5.1 The target lattice
 
@@ -761,9 +794,15 @@ Gram norms of the conjugates by `σ` of the values of `Θ₁y`; (d) `Z(ξ) = det
 the chain `Θ_ξ` of `m` lifts on the target forms, there the lower chain, with its level `J_m(ξ)` and character on
 `Y_m`; from §2.10 trivial stabilisers at levels inside the chosen level; from §1.1 the gauge of a vector of a Weyl
 module at an embedding `ℂ → ℂ_ℓ`, through which integrality of an algebraic form is read);
-DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic forms on a definite unitary group: the rational Gram matrix of the
-invariant Hermitian form on a Weyl module in its standard basis and the conjugate norms `‖·‖²_σ`; the Petersson
-product of two forms integral at `ῑ` and at `ι`, at a level with trivial stabilisers, is integral at `ι`).
+DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic
+forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
+classes in the standard basis of the Weyl module; the Gram matrix of the invariant Hermitian form in that basis is
+rational and positive definite and gives the Petersson product and the conjugate norms `‖·‖²_σ`; and `n` times the
+Petersson product of a form integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the
+orders of the stabilisers of the classes; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean`
+(`New.LevelPlaces.LevelForm.valueCoord`, `New.LevelPlaces.LevelForm.valueMetric`,
+`New.LevelPlaces.LevelForm.posDef_valueMetric`, `New.LevelPlaces.LevelForm.inner_eq_valueCoord`,
+`New.LevelPlaces.LevelForm.normSqAt_eq_re_valueCoord`, `New.LevelPlaces.LevelForm.norm_nsmul_inner_le_one`)).
 
 [ShortProof], `New/Reduction/IntegralTargetForms` (`New.Data.targetLattice`,
 `New.Data.mem_integralVectors_targetLattice`, `New.Data.normSqAt_targetLattice`, `New.Data.volume_targetLattice`,
@@ -779,10 +818,9 @@ gain_ℓ − err_ℓ − 1`; (d) uses that `e₀` is central in the group algebr
 
 Let `D` be admissible data. Let `S` be the set of primes `ℓ < x₁` with `χ_K(ℓ) ≠ 1`.
 
-- `gain_ℓ` is the divisibility asked of the chain at `ℓ` (CompositeThetaLiftsAndShortForms §2.1 (c), there `gain(p)`
-  with the local prime sums `s_p`):
-  `gain_ℓ = m(Σ_{τ∈Φ_a} s_ℓ(a, τ) + k Σ_{σ∈Φ} s_ℓ(κ(σ), σ))`, where `2 log ℓ·s_ℓ(y, σ)` is the part of `s_fin(y, σ)` at
-  the powers of `ℓ`. It vanishes when `χ_K(ℓ) = 1` or `ℓ ≥ x₁`.
+- `gain_ℓ` is the divisibility asked of the chain at `ℓ` (CompositeThetaLiftsAndShortForms §2.1 (c), there `gain(p)`):
+  `gain_ℓ = m(Σ_{τ∈Φ_a} s_ℓ(a, τ) + k·S_ℓ)`, with the local prime sums `s_ℓ` and their total `S_ℓ` of 4.1. It vanishes
+  when `χ_K(ℓ) = 1` or `ℓ ≥ x₁`.
 - Fix numbers `err_ℓ ≥ 0` as given by the divisibility of the composite lift (CompositeThetaLiftsAndShortForms §4.9,
   there `err(p)`): `err_ℓ = 0` unless `ℓ = N` or `ℓ ∈ S`, `Σ_{ℓ∈U} err_ℓ log ℓ ≤ u_E` for every finite set `U`, and the
   local statement §4.9 (d), used in 5.3 (b).
@@ -867,31 +905,6 @@ CompositeThetaLiftsAndShortForms §2.11 (`dim 𝒮_ram ≥ (1 − f/(N − 1)) d
 [ShortProof], `New/Reduction/ShortAndEnough` (`New.Data.enough_forms`,
 `New.Data.exists_le_finrank_iSup_range_normalizedPoincare`, `New.Data.five_halves_mul_one_add_log_le`)
 
-### 5.5 Theorem C: integral forms are long
-
-*Origin:* particular to this proof: a lower bound, by `d_T` times the main amount, for the covolume plus twice the index
-of every independent family of target forms that spans almost all of the target.
-
-*Method of the formal proof:* 1.4 in the target lattice: the family is completed to a basis by auxiliary forms, whose
-lifts become integral after multiplication by scalars `γ(ξ)` with `|γ(ξ)|` a power of `Nm Q(ξ)` times ratios of Hecke
-values, and whose conjugate norms are at most `exp(2x₁²b²)`; for each pair `ι` a twist `ξ_ι` from a regular family of
-`m`-fold twists of modulus prime to `ℓ(ι)`, with small ratios. Then `|γ(ξ_ι)|^{−2}` has height at most `b`; `Z(1)/Z(ξ_ι)`
-factors as a power of a scalar of the same kind times the ratios for the `m` single lifts, each of height at most
-`d_T(f·a·(log b)⁴/m − k·h_dir)`, so it has height at most `d_T(b + f·a·(log b)⁴ − h_main)`. The completion costs
-`n′(2x₁²b² + b) ≤ d_T·b`, and `b ≤ f·a·(log b)⁴`.
-
-Let `D` be admissible data, and let `y_1, …, y_n` be linearly independent target forms with `n ≥ (1 − 4/b²)d_T`, of
-index at most `δ` and covolume at most `c` in the target lattice. Then `d_T(h_main − 3f·a·(log b)⁴) ≤ c + 2δ`.
-
-This is the statement of DeterminantsOfThetaLiftChains §6.3, which proves it; it is stated here because 6.1 consumes it
-together with Theorems A and B. The letter `d` of that section is `d_T`.
-
-*Needs:* 1.4, 5.1; DeterminantsOfThetaLiftChains §6.3 (the proof of this statement, from auxiliary forms that span
-the target and from the height of the ratio of the chain determinants along a regular family of twists, which rests
-on the cost of one lift, NormsOfThetaLiftsAndExchangeIdentities §7.5).
-
-[ShortProof], `New/Determinant/Twist/LongForms` (`New.Data.integral_forms_long`)
-
 ## Layer 6: the main inequality and the one-sided bound
 
 ### 6.1 The main inequality
@@ -902,13 +915,15 @@ images, in which the main amount cancels and an upper bound for the total remain
 *Method of the formal proof:* take `t` from Theorem B and, among the forms `s𝔭φ` with `s ∈ t` and `φ` short of Theorem
 A (a), a basis `y_1, …, y_n` of their span, so `n ≥ (1 − 4/b²)d_T`. By Hadamard (1.3 (e)) its covolume is at most
 `n(h_main − m·rem + f·a·(log b)⁴)`; by Theorem A (b) and the count of Theorem B its index is at most
-`d_T·10 log(1 + 2b²)·u_E`. Theorem C bounds `c + 2δ` from below; as `h_main + f·a·(log b)⁴ ≥ 0` and `n ≤ d_T`, the terms
+`d_T·10 log(1 + 2b²)·u_E`. Theorem C (DeterminantsOfThetaLiftChains §6.3) bounds `c + 2δ` from below; as `h_main + f·a·(log b)⁴ ≥ 0` and `n ≤ d_T`, the terms
 `d_T·h_main` cancel and `n·m·rem ≤ d_T·err` with `err = 4f·a·(log b)⁴ + 20 log(1 + 2b²)u_E`. Dividing by
 `n ≥ d_T/2` and `2|err| ≤ f·a·(log b)⁵` gives the inequality.
 
 For all admissible data: `m·rem ≤ f·a·(log b)⁵`.
 
-*Needs:* 1.3, 3.3, 4.2, 5.1, 5.3, 5.4, 5.5.
+*Needs:* 1.3, 3.3, 4.2, 5.1, 5.3, 5.4; DeterminantsOfThetaLiftChains §6.3 (Theorem C: for linearly independent target
+forms `y_1, …, y_n` with `n ≥ (1 − 4/b²)d_T`, of index at most `δ` and covolume at most `c` in the target lattice,
+`d_T(h_main − 3f·a·(log b)⁴) ≤ c + 2δ`).
 
 [ShortProof], `New/Reduction/MainInequality` (`New.star_inequality`)
 
@@ -1021,8 +1036,9 @@ statements are in `Statements`
   NormsOfThetaLiftsAndExchangeIdentities and PairsOfFramesAtOnePlace) take the set-up of Layers 1–4: the parameters,
   the field `E` and its places, the admissible data with their sizes, the twists and the characters of the lifts, the
   prime sums, colengths (1.1), heights (1.2) and twisted lattices (1.3, 1.4).
-- CompositeThetaLiftsAndShortForms §§4.9, 5.4, 5.5, 5.7, SecondMomentsOfPoincareSeries §5.7 and
-  DeterminantsOfThetaLiftChains §6.3 prove the inputs of Theorems A, B and C (5.3–5.5), which 6.1 consumes.
+- CompositeThetaLiftsAndShortForms §§4.9, 5.4, 5.5, 5.7 and SecondMomentsOfPoincareSeries §5.7
+  prove the inputs of Theorems A and B (5.3, 5.4); DeterminantsOfThetaLiftChains §6.3 is Theorem C. 6.1 consumes the
+  three.
 - GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3 state the theorems that 6.3 and 6.4 reach, and draw their
   further forms and consequences.
 
@@ -1035,8 +1051,9 @@ statements are in `Statements`
   a twist for each prime (Layer 1);
 - the parameters, the field `E` with its group of places, the admissible data, their sizes, the row parameter, twists
   and the characters of the lifts, and the existence of admissible data (Layers 2 and 3);
-- the prime sums, the main amount, the total remainder and its expression through `R_{q₀}` and `R₁` (Layer 4);
-- the target lattice, the normalised Poincaré maps, and the statements of Theorems A, B and C (Layer 5);
+- the prime sums, the local prime sums `s_p` with their total `S_p`, the main amount, the total remainder and its
+  expression through `R_{q₀}` and `R₁` (Layer 4);
+- the target lattice, the normalised Poincaré maps, and Theorems A and B (Layer 5);
 - the main inequality, the one-sided bound, the passage to all Dirichlet characters, and the end theorems in their
   value, predicate and strip forms with Mathlib's `RiemannHypothesis` (Layer 6).
 
@@ -1044,9 +1061,10 @@ statements are in `Statements`
 
 - the objects of Layer 5 (spaces, source and target forms, chains of lifts, the Poincaré map, the seesaw identity):
   ThetaLiftChainsAndTheSeesawIdentity;
-- the proofs of the inputs of Theorems A, B and C: CompositeThetaLiftsAndShortForms; SecondMomentsOfPoincareSeries with
-  RemainingAndMainTermsOfSecondMoments and PairsOfFramesAtOnePlace; DeterminantsOfThetaLiftChains with
-  NormsOfThetaLiftsAndExchangeIdentities, CongruencesOfTwistedThetaLifts and SelmerBoundsForAnticyclotomicTwists;
+- the proofs of the inputs of Theorems A and B: CompositeThetaLiftsAndShortForms; SecondMomentsOfPoincareSeries with
+  RemainingAndMainTermsOfSecondMoments and PairsOfFramesAtOnePlace;
+- Theorem C and its proof: DeterminantsOfThetaLiftChains §6.3, with NormsOfThetaLiftsAndExchangeIdentities,
+  CongruencesOfTwistedThetaLifts and SelmerBoundsForAnticyclotomicTwists;
 - the field arithmetic of `E` beyond 2.3 (its integers, its different, the chosen places and their characters):
   DivisibilityOfThetaDerivatives §§1.1–1.7;
 - the transform of a Riesz sum (RiemannHypothesisStatementsAndConsequences §8.4a), Landau's theorem
@@ -1058,11 +1076,12 @@ statements are in `Statements`
 
 - [ShortProof] The shorter Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions, a rewriting by the same method of the formal proof that the family RiemannHypothesisForDirichletLFunctions
-  states; paths are relative to its directory `src/`. It is the reference of every target whose origin is particular to
-  this proof.
+  states: the folder `grh` of github.com/lsernau/grh-lean at commit `72fead1`; paths are relative to its directory
+  `src/`. It is the reference of every target whose origin is particular to this proof.
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905), 527–550: Landau's theorem on Laplace and Mellin
   transforms of functions bounded on one side (0.2, through ArithmeticDirichletSeriesPartII §0.1b and
   PositivityOfDirichletSeriesWithKernels §6.4).
 - F. A. Behrend, *On sets of integers which contain no three terms in arithmetical progression*, Proc. Nat. Acad. Sci.
   USA 32 (1946), 331–332; I. Z. Ruzsa, *Solving a linear equation in a set of integers I*, Acta Arith. 65 (1993),
   259–282: 3.5.
+- L. C. Washington, *Introduction to Cyclotomic Fields*, second edition, Springer (1997), Chapter 2: 2.3.
