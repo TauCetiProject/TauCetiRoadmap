@@ -62,7 +62,8 @@ and of DLMF Chapter 34.
   vector `e_i` of the unitary model of spin `d/2` has weight `m = i - d/2`, as in
   SpecialFunctionsSU2MatrixElements, §1.4. Edmonds's order `m = j, …, -j` is `i = d, …, 0`.
 - An admissible triple (`IsTriad`) satisfies the three triangle inequalities and has
-  `j₁ + j₂ + j` integral [E, (3.1.5), p. 34]; DLMF 34.2.1 states the same condition.
+  `j₁ + j₂ + j` integral [E, (3.1.5), p. 34]; DLMF §34.2 states the same condition, with the
+  triangle inequalities as DLMF 34.2.1.
 - The Clebsch–Gordan coefficient `clebschGordan d₁ d₂ d i₁ i₂ i` is Edmonds's
   `(j₁ m₁ j₂ m₂ | j₁ j₂ j m)` [E, (3.5.1), p. 37], with `j₁ = d₁/2`, `m₁ = i₁ - d₁/2`, and so on.
   It is defined by Racah's closed formula [E, (3.6.11), p. 45], is real, and is `0` unless
@@ -109,7 +110,8 @@ and of DLMF Chapter 34.
 
 ### 1.1 Admissible triples
 
-Sources: [E, (3.1.5), p. 34]; [DLMF 34.2.1]; [VK, §8.1.1, p. 500]; [W, (8.7.2)–(8.7.3), p. 305].
+Sources: [E, (3.1.5), p. 34]; [DLMF §34.2, (34.2.1)]; [VK, §8.1.1, p. 500];
+[W, (8.7.2)–(8.7.3), p. 305].
 
 - **Admissible triples** (`IsTriad`, `isTriad_comm`). `(j₁, j₂, j)` is admissible when
   `|j₁ - j₂| ≤ j ≤ j₁ + j₂` and `j₁ + j₂ + j ∈ ℤ`. The condition is symmetric in all three spins;
@@ -517,15 +519,19 @@ Sources: [DLMF Table 18.19.1]; [VK, §8.5.1, (4)–(7), p. 547; (9), p. 548; §8
 - **Hahn orthogonality** (`sum_hahn_mul_hahn`), with the weight and norm of DLMF Table 18.19.1
   [VK, §8.5.1, (6)–(7), p. 547], multiplied through by `2n + α + β + 1` so that no division by it
   occurs, for real `α, β` with `(α + 1)_n ≠ 0` and `(α + 1)_m ≠ 0`, which keep every denominator
-  nonzero. DLMF's range `α, β > -1`, where the weights are positive, is one case. Route: at
+  nonzero. DLMF's first range `α, β > -1`, where the weights are positive, is one case (its
+  second range is `α, β < -N`). Route: at
   nonnegative integers `α = a`, `β = b` it is §1.4 through §4.1. Both sides, multiplied by
   `(α + 1)_n (α + 1)_m`, are polynomials in `(α, β)` (the left side after clearing the factor
   `(α + 1)_n` in `Q_n` and `(α + 1)_m` in `Q_m`); two polynomials in two variables that agree on
   `ℕ²` agree everywhere.
 - **Dual orthogonality** [VK, §8.5.2, p. 549; DLMF 18.25]. For `α, β > -1` and
   `x, y ∈ {0, …, N}`, `Σ_{n=0}^{N} Q_n(x; α, β, N) Q_n(y; α, β, N)/h_n = δ_{xy}/w_x`, with the
-  weight `w_x = (α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)` and the norm `h_n = Σ_x w_x Q_n(x)²`, which
-  is the right side of `sum_hahn_mul_hahn` divided by `2n + α + β + 1`. Read in `n`, it is the
+  weight `w_x = (α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)` and the norm `h_n = Σ_x w_x Q_n(x)²`. For
+  `2n + α + β + 1 ≠ 0`, `h_n` is the right side of `sum_hahn_mul_hahn` divided by
+  `2n + α + β + 1`; at `n = 0` it is `h_0 = (α + β + 2)_N / N!` (Chu–Vandermonde), which also
+  covers `α + β = -1`, where that quotient is `0/0`. The Hahn row of DLMF Table 18.19.1 prints the
+  norm as the quotient without this exception. Read in `n`, it is the
   orthogonality of the dual Hahn polynomials. Route: by `sum_hahn_mul_hahn` the square matrix
   `(√(w_x/h_n) Q_n(x))` has orthonormal columns, so its rows are orthonormal; at integral
   parameters it is the other orthogonality of §1.4 through §4.1.
@@ -540,9 +546,11 @@ Sources: [DLMF Table 18.19.1]; [VK, §8.5.1, (4)–(7), p. 547; (9), p. 548; §8
   of `sum_hahn_mul_hahn` divided by `2n + α + β + 1 = 3` is
   `(-1) · 3! · 1 · 1/(1 · (-1) · 1 · 3) = 2`.
 - Orthogonality at `N = 2`, `α = 0.3`, `β = 1.7`, `n = 1`, `m = 2`: the weighted sum is `0`.
-- Orthogonality outside DLMF's range, at `N = 2`, `(α, β) = (-5/2, 7/3)`, `n = 1`, `m = 2`: the
-  weighted sum is `0` exactly, although the weights `(α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)` change
-  sign.
+- Orthogonality outside both of DLMF's ranges, at `N = 2`, `(α, β) = (-5/2, 7/3)`, `n = 1`,
+  `m = 2`: the weighted sum is `0` exactly, although the weights
+  `(α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)` change sign.
+- Dual-orthogonality norm at `n = 0`, `N = 2`, `α = β = -1/2`: `h_0 = Σ_x w_x = 1 = (1)_2/2!`,
+  while the right side of `sum_hahn_mul_hahn` and `2n + α + β + 1` are both `0`.
 - Dual orthogonality at `N = 1`, `α = β = 0`: `h_0 = h_1 = 2`, `w_0 = 1`, and
   `Q_0(0)²/2 + Q_1(0)²/2 = 1 = 1/w_0`; without the factor `1/h_n` the sum is `2`.
 - Negative control: the weight `(α + 1)_x (β + 1)_{N-x}` without `1/(x!(N - x)!)` breaks
@@ -929,3 +937,8 @@ orthogonality, sum rules and Legendre product formulas of §§34.3 and 34.5;
 The following misprint of [VK] is corrected where the README uses that formula: [VK, §8.5.4, (2),
 p. 552]: the constant `C` has `(2l₂)!` for `(2l₃)!` and lacks the sign `(-1)^{l₁ + l₂ + l₃ + l}`;
 the correction carries over to (6). The parameters `α, β, γ, δ` printed on p. 553 are correct.
+
+The Hahn row of [DLMF, Table 18.19.1] gives the norm `h_n` as a quotient with the factor
+`2n + α + β + 1` in the denominator, which is `0/0` at `n = 0`, `α + β = -1`, inside its range
+`α, β > -1`; §4.2 reads it there as `h_0 = (α + β + 2)_N / N!`, the quotient with the factor
+cancelled.

@@ -33,7 +33,8 @@ symmetries (§§2.1, 5.3), the `₃F₂` and `₄F₃` forms, the recursions and
 the 3-j symbol (§§2.4, 4.1, 6.1), the inverse Clebsch–Gordan series (§3.1), the product of two
 spherical harmonics and Gaunt's integral (§3.3), which need the spherical harmonics of
 SpecialFunctionsSU2MatrixElements, §6.1, the dual Hahn orthogonality (§4.2), and Racah's `W`
-(§5.4).
+(§5.4). Of these, only the spherical-harmonic headlines of §3.3 need definitions from outside
+this file; the others are statable with the definitions here and are left in prose by choice.
 -/
 
 @[expose] public section
@@ -94,7 +95,7 @@ def jacobi {R : Type*} [CommRing R] [Algebra ℚ R] (α β : R) (n : ℕ) : R[X]
 
 /-! ### 1.1 Admissible triples -/
 
-/-- **Admissible triple** (Edmonds (3.1.5); DLMF 34.2.1): the spins `d₁ / 2`, `d₂ / 2`, `d / 2`
+/-- **Admissible triple** (Edmonds (3.1.5); DLMF §34.2): the spins `d₁ / 2`, `d₂ / 2`, `d / 2`
 satisfy the triangle conditions and `j₁ + j₂ + j` is an integer. -/
 def IsTriad (d₁ d₂ d : ℕ) : Prop :=
   d ≤ d₁ + d₂ ∧ d₁ ≤ d₂ + d ∧ d₂ ≤ d₁ + d ∧ Even (d₁ + d₂ + d)
@@ -478,7 +479,7 @@ theorem clebschGordan_eq_hahn {N n x : ℕ} (a b : ℕ) (hn : n ≤ N) (hx : x �
 /-! ### 4.2 Orthogonality and reflection -/
 
 /-- **Hahn orthogonality** (DLMF Table 18.19.1), multiplied by `2n + α + β + 1`, for real `α, β`
-with `(α + 1)_n ≠ 0` and `(α + 1)_m ≠ 0`; DLMF's range `α, β > -1` is one case. With
+with `(α + 1)_n ≠ 0` and `(α + 1)_m ≠ 0`; DLMF's first range `α, β > -1` is one case. With
 `w_x = (α + 1)_x (β + 1)_{N-x}/(x! (N - x)!)`,
 `(2n + α + β + 1) Σ_x w_x Q_n Q_m = δ_{nm} (-1)^n (n + α + β + 1)_{N+1} (β + 1)_n n! /
 ((α + 1)_n (-N)_n N!)`. -/
