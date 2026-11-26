@@ -689,6 +689,12 @@ PL collars produces a PL manifold, parallel to Layer 1.3.
 
 ### 1.7 Compact smooth surfaces
 
+**Elementary classification comparison.** [SurfaceTopology Layer 8](../SurfaceTopology/README.md#layer-8-the-classification-of-compact-surfaces)
+develops the classical classification of compact surfaces through finite triangles, polygon
+moves and explicit Euler counts, with orientability and boundary count as the other invariants.
+Compare that topological classification with the smooth classification here through compatible
+triangulations and Layer 11.2.1's category comparison.
+
 Consume Layer 11.2.1 for the uniqueness up to isotopy of smooth structures on surfaces, the
 isotopy of homeomorphisms to diffeomorphisms and the two-dimensional Hauptvermutung. Build the
 two-dimensional triangulation/smoothing comparison, the surface prefix of 11.3: finite
@@ -9448,6 +9454,13 @@ into a smooth surface of `ℝ²`, of `D¹ × ℝ` smooth near `∂D¹ × ℝ`, o
 isotopic, fixed away from the core and where already smooth, to one smooth near the core; for
 `0`-handles, pull back to a punctured torus, extend and identify with the standard torus, lift to
 a bounded homeomorphism of `ℝ²` and apply Alexander's trick (§3).
+
+**Comparison of routes.** [PlanarTopology](../PlanarTopology/README.md) Layers 3, 5 and 8
+develop the elementary finite-triangulation route to Radó, the two-dimensional Hauptvermutung
+and compatible PL/smooth structures. [SurfaceTopology](../SurfaceTopology/README.md)'s generalized
+maps provide a complementary dart-based presentation of compact surfaces. Compare these
+constructions using the shared native simplicial realizations and combinatorial-manifold
+vocabulary; the general chart-based PL reconciliation remains Layer 11.3's.
 
 1. **Smoothing.** Prove that every surface admits a smooth structure, and that a smooth structure
    given on an open subset extends to the whole surface (Hatcher, Theorem A, and the refinement

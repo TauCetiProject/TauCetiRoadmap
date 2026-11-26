@@ -1366,6 +1366,12 @@ Layers 2, 3, 5; Tau Ceti `SchwarzChristoffel.*`, `Geometry.Polygon.Simple`; Math
 
 ## Downstream consumers
 
+- [PlanarTopology](../../TauCetiRoadmap/PlanarTopology/README.md), Layer 2, develops an
+  elementary polygonal and crosscut proof of Jordan separation using the shared
+  `TauCeti.IsJordanCurve` and `TauCeti.IsJordanDomain` interfaces. Openness, connectedness,
+  boundedness and the Jordan frontier give the domain predicate, and
+  `TauCeti.IsJordanDomain.isSimplyConnected` supplies simple connectivity. Its geometric
+  Schoenflies proof uses the accompanying accessibility and crosscut results.
 - DifferentialGeometry, 5.6.1, consumes §5.3 (components and filled hull) and §5.5, and extends
   the winding-number comparison to absolutely continuous curves.
 - GeometricMeasureTheory, G6, consumes §5.3 for the Jordan index theorem of an arclength

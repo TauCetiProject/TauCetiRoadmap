@@ -125,7 +125,7 @@ outer-automorphism carrier.
 
 ## Boundaries
 
-Eleven roadmaps supply material to this one. The boundaries are stated once here.
+The supplier boundaries are stated once here.
 
 There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory` or `PeripheralActions`. The
 supply between this roadmap and PeripheralActions runs one way: PeripheralActions consumes from
@@ -195,6 +195,13 @@ route to the fundamental group of the thrice-punctured sphere is AlgebraicTopolo
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
+**Maps on surfaces.** [SurfaceTopology](../SurfaceTopology/README.md) develops the general
+finite theory of maps on compact surfaces, including boundary and non-orientability, their
+realizations, Euler characteristic and classical surface classification. Its Layer 2 supplies
+the conversions between its generalized maps and this roadmap's native permutation triples
+and bipartite ribbon graphs, preserving Euler characteristic and connectedness. Layer 7.7 here
+owns the marked-cover adapter to its general branched-cover theory.
+
 **Compact Riemann surfaces.** The complex-manifold vocabulary and the Riemann sphere belong to
 [ComplexManifolds](../ComplexManifolds/README.md). Finite holomorphic maps between compact
 Riemann surfaces, their local multiplicity and degree, pullback of divisors, topological genus
@@ -256,7 +263,8 @@ What this roadmap supplies to other subjects:
 
 - the Frobenius product-one formula and generating-triple counts (Layer 3), usable by any
   subject that counts covers or factorizations in finite groups;
-- finite bipartite ribbon graphs (Layer 2), reusable for maps and hypermaps on surfaces;
+- finite bipartite ribbon graphs (Layer 2), the dessin case of the oriented maps of
+  [SurfaceTopology](../SurfaceTopology/README.md), which develops their general theory;
 - triangle groups (Layer 4);
 - the Belyi-specific analytic/algebraic comparison (Layer 9);
 - the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem for the Galois action
@@ -2943,6 +2951,17 @@ for **all** `y`. It fails at exactly the branch points, which is the entire cont
 object; the hypothesis is restricted to the complement of `marked` above, and the marked
 fibers are governed by the local power condition and `Σ e = n` instead.
 
+**Comparison with general surface covers.** Use the existing `TauCeti.TopBranchedCover`
+and its native local-degree uniqueness theorem below. This section supplies the adapter to
+[SurfaceTopology Layer 5](../SurfaceTopology/README.md#layer-5-embedded-graphs-and-the-heffteredmondsringel-theorem)'s
+general topological branched-cover predicate, including its source/target and local power-model
+conditions. Use PlanarTopology Layer 0's chart transport to pass from boundaryless complex-plane
+charts to the half-space surface convention. The adapter preserves the map `π`, every local
+exponent and total degree `n`, so the general weighted-degree and Riemann–Hurwitz results apply.
+For `z ↦ z²`, a branch fibre has cardinality one and weight two, while a regular fibre has
+cardinality two and weight two. Completion and classification of marked covers stay in this
+section.
+
 7.2 and 7.3 construct a `TopBranchedCover n` from a connected finite cover of `U`, and 7.4
 says that construction is unique up to a unique isomorphism. Conversely, restricting `π`
 over `markedᶜ`, identified with `U` by 5.1's open embedding, sends a `TopBranchedCover n` to a
@@ -2962,6 +2981,10 @@ because it is purely topological.
   positive cardinality.
 
 *Prerequisites:* Layers 6.1, 7.2–7.5.
+
+The adapter additionally uses [SurfaceTopology](../SurfaceTopology/README.md) Layer 5's
+general branched-cover and degree results and [PlanarTopology](../PlanarTopology/README.md)
+Layer 0's chart transport.
 
 *Tau Ceti:* `TauCeti.TopBranchedCover`, whose covering field is
 `IsCoveringMapOn π markedᶜ` (with `TauCeti.TopBranchedCover.isCoveringMap_restrictPreimage`) and
