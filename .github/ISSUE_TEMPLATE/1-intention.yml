@@ -186,6 +186,7 @@ body:
         - EllipticCurveModularityImaginaryQuadratic
         - EllipticCurveModularityImaginaryQuadraticPartII
         - EllipticCurveModularityPartII
+        - EllipticCurveModularityPartIIGL2TypeAbelianVarieties
         - EllipticCurveModularityTotallyReal
         - EllipticCurvePeriodsAndModularParametrizations
         - EllipticCurves
@@ -333,6 +334,7 @@ body:
         - LaplacianEigenvaluesOfGraphs
         - LargeDeviations
         - LatticePackingsAndPerfectForms
+        - LawOfTheIteratedLogarithm
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
@@ -343,6 +345,7 @@ body:
         - LinearSystemsAndControl
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
+        - LocalLimitTheorems
         - LocalPurity
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
@@ -440,8 +443,10 @@ body:
         - PivotalSpherical
         - Poincare3D
         - PoissonApproximation
+        - PolicyGradientMethods
         - PolylogarithmFunctions
         - Polylogarithms
+        - PolynomialGaloisGroupsPartII
         - PolynomialGaloisGroupsPartIII
         - PolynomialInterpolationAndBestApproximation
         - PopulationDynamics
