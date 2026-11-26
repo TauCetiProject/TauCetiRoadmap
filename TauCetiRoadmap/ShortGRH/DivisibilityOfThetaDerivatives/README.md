@@ -312,19 +312,20 @@ so it has the size of the root discriminant at every infinite place.
 
 *Method of the formal proof:* `P'(ζ)` at `v` is `T·v(ζ)^{T−1}` times the derivative of the cyclotomic polynomial of
 order `q₀` at a primitive `q₀`-th root of unity, with `T = q₁/q₀`, since `q₁/q₀` is divisible only by primes dividing
-`q₀`; the logarithm of the last factor is bounded by the sum over the primitive `q₀`-th roots. The bounds by powers of
-`x` follow from the size relations of the data.
+`q₀`; the logarithm of the last factor is bounded by the sum over the primitive `q₀`-th roots.
 
 (a) At every infinite place `v` of `E`, `|δ_E|_v = A·(q₁/q₀)·√d` for some `A > 0` with `|log A| ≤ C_P`, where `C_P`
 is the constant of the parameters (of which only the term `Σ_ξ |log|Φ′_{q₀}(ξ)||` is used); hence
 `|log|δ_E|_v − log rd_E| ≤ 2C_P`.
-(b) For admissible data: `x^{10} ≤ |δ_E|_v ≤ x^{12}` at every `v ∈ Φ`, and `x^{10} ≤ rd_E ≤ x^{12}`.
 
-*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData §§3.1, 3.2 (from §3.1 the constant `C_P` of the parameters; from
-§3.2 the scale `x` and the size relations of the data).
+The bounds for admissible data that follow from (a) and the scales, `x^{10} ≤ |δ_E|_v ≤ x^{12}` at every infinite
+place and `x^{10} ≤ rd_E ≤ x^{12}`, are OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (c), with the other sizes of the
+data.
+
+*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData §3.1 (the constant `C_P` of the parameters).
 
 [ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Parameters.exists_abs_log_le_and_apply_deltaE_eq`,
-`New.Parameters.abs_log_deltaE_sub_log_rootDiscr_le`, `New.Data.hasLogBound_deltaE`, `New.Data.rootDisc_mem_Icc`)
+`New.Parameters.abs_log_deltaE_sub_log_rootDiscr_le`)
 
 ## Layer 2: The formal group and the exponential factor
 
@@ -695,6 +696,15 @@ puts into the boxes.
 *Needs:* 2.4, 2.6 (a), 3.1, 3.2; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1 (Legendre's bound
 `v_p(κ!) ≥ |κ|/(p − 1) − #ι·(⌊log_p max(|κ|, 1)⌋ + 1)`, the sharper form of (e)).
 
+*Relation to the library.* At a prime `p` inert in `K` the numbers `ρ_p = 1/(p² − 1)` and `γ_p = p/(p² − 1)` of 2.1
+are `ρ_LT(p)` and `γ_LT(p)` of TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1, and §§4.7 and 4.8 of that roadmap
+bound jets along products of minors at the rate `γ_LT(p)` for another class of series: a bounded series times the
+exponential of a biextension cocycle of a formal group of height two, in variables indexed by letters in `ℤ/n′` with
+pairs at odd distances, for `p ≥ 3`. The count is for the series in the normal form of 2.4, in variables indexed by
+the places `Φ` with the partners `−p^e·τ`, with the loss `f·N³·(1 + log_p B)`, and it covers the ramified prime
+`p = d`, which those sections do not treat. Neither statement is deduced from the other here, and §§4.7, 4.8 are not
+suppliers.
+
 [ShortProof], `New/Derivatives/Divisibility/Count` (`New.norm_prod_factorial_le`, `New.norm_jet_le_of_isHomogeneous`,
 `New.norm_jet_columnDetProd_subst`, `New.dvd_subst_coupling_directionSubst_of_charges`,
 `New.Parameters.norm_jet_minorProd_le_of_isChargeExponent`, `New.Parameters.norm_jet_minorProd_le_of_charges`,
@@ -859,7 +869,7 @@ tight frame; replacing the pairs
 `y = 1` and `y = ζ·e_{φ(q₁)−1}` has `|ι_p(𝔣_E·conj(τ(y)))| = 1` for all `τ ∈ Φ`.
 (c) If `v` is a tight frame with multiplicities `1` of a length `h` prime to `q₁`, then for every `m ≥ q₁h + R(q₁ + h)`
 the powers `ζ^i` and the members of `v` form a tight frame of length `m` with multiplicities all at least `R`.
-(d) The frames of the data are stated in 4.3a; the letter (d) is kept for them, so that 4.3 (d) means 4.3a.
+(d) The frames of the data: 4.3a.
 (e) For every prime `p` there are `b′` prime to `p` and a tight frame with multiplicities `1` of length `b′²`.
 
 *Needs:* 1.1, 1.4, 4.1, 4.2.
@@ -874,20 +884,22 @@ the powers `ζ^i` and the members of `v` form a tight frame of length `m` with m
 
 *Origin:* particular to this proof: on admissible data, the tight frame of 4.3 (b) has length at most the weight `b`,
 and there is a tight frame of length `M` with multiplicities at least `6fb` that contains, for every prime, a vector
-whose linear form has unit coefficients there. It is stated apart from 4.3 because the constant `C_P` of the data
-(OneSidedPrimeSumBoundsAndAdmissibleData §3.1) is defined through the integral vacuum of 4.6, which uses 4.3 (a).
+whose linear form has unit coefficients there. The sizes of the data used here rest on the constant `C_P`
+(OneSidedPrimeSumBoundsAndAdmissibleData §3.1), which contains the constant of the integral vacuum of 4.6 (b), and 4.6
+uses 4.3 (a).
 
 *Method of the formal proof:* sizes: the coefficients of the cyclotomic polynomial are at most `2^{q₀}` in absolute
-value, `|β_K| ≤ d`, `j ≤ q₀ + 3s + 10`, and `|τ(P′(ζ))| ≥ 1` for data, so the length `h` of 4.3 (b) is at most `b` by
-the size relations; then 4.3 (c) at the length `M`, which is large enough for the multiplicities `6fb` by the sizes
+value, `|β_K| ≤ d`, `j ≤ q₀ + 3s + 10`, and `|τ(P′(ζ))| = |δ_E|_v/√d ≥ 1` for data (1.1 (b), and `|δ_E|_v ≥ x^{10} ≥ √d`
+by OneSidedPrimeSumBoundsAndAdmissibleData §3.3), so the length `h` of 4.3 (b) is at most `b` by the size relations;
+then 4.3 (c) at the length `M`, which is large enough for the multiplicities `6fb` by the sizes
 of the data.
 
 For admissible data: the length `h` of 4.3 (b) satisfies `1 ≤ h ≤ b`; and there is a tight frame of length `M` with
 multiplicities at least `6fb` containing, for every prime `p` and `ι_p`, a vector `y` with
 `|ι_p(𝔣_E·conj(τ(y)))| = 1` for all `τ`.
 
-*Needs:* 1.7, 4.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weight `b`, the level `M`), §3.3 (the size
-relations of the data).
+*Needs:* 1.1, 4.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weight `b`, the level `M`), §3.3 (the size
+relations of the data, among them the bounds of (c) for `|δ_E|_v`).
 
 [ShortProof], `New/Derivatives/Vacuum/ShortVectors` (`New.Data.le_b_of_eq_dualResolutionFactor`,
 `New.Data.exists_short_isTightFrame_coprime`, `New.Data.exists_isTightFrame`)
@@ -1005,7 +1017,8 @@ sum of `(q₁²)^{f·n}` vectors `ϱ_f(a_j)ϱ(finVec(b))F`, with one `b` and poi
 (b) *The vacuum scale.* There is a constant `C` such that for every level there is `c_vac ≠ 0` with
 `ι_p(c_vac·vac₁(finVec(x)))` integral for every prime `p`, every `ι_p` and every `x ∈ 𝔸_{E,f}`, and
 `|σ(c_vac·vac₁(finVec(x)))| ≤ exp(C·q₁²)` for every automorphism `σ` of `ℂ` over `K` (`vac₁` the vacuum of the
-standard space of rank one). Fix such `c_vac`.
+standard space of rank one). Fix such a `C`, which depends on the parameters `q₀` and `d` only and not on the level,
+and for it such `c_vac` at every level.
 (c) *The integral vacuum.* For standard `V` of rank `n` put `θ° := c_vac^n·vac_V`. Then
 `θ°(finVec(x)) = ∏_i c_vac·vac₁(finVec(x_i))`; these values are integral at every prime; their conjugates under every
 automorphism of `ℂ` are at most `exp(C·q₁²)^n`; and `θ°(finVec(x)) ≠ 0` for some `x`.
@@ -1297,9 +1310,10 @@ Let `pr` be a partner rule on a finite set `Φ`, `Φ₀ ⊂ Φ`, and `e : Φ₀ 
 every `e_τ` is odd and, for `τ, τ₁ ∈ Φ₀` and odd `e′ ≤ e_τ`, `pr_{e′}τ₁ = pr_{e_τ}τ` only for `τ₁ = τ`, `e′ = e_τ`. For
 `j : Φ → ℕ` put `ν′ := Σ_{τ∈Φ₀} p^{e_τ}j_τ·[τ]` and `ν″ := Σ_{τ∈Φ₀} j_τ·[pr_{e_τ}τ]` (degrees in variables `z_τ`), and
 `ν := ν′ + ν″`, `|j| := Σ_{τ∈Φ₀} j_τ`.
-(a) Let `F = W·exp(c₀Ξ_λ)` with `c₀ ∈ ℂ_p`, `W` an integral unit, `Ξ_λ` the coupling series of 2.4 for `S` the odd
-numbers, `λ_{a0}` units for odd `a`, `v(c₀) < 0`, and let `δ_0 = 1, δ_1, …, δ_n` with `∏_cF(δ_cz) = U` integral of constant term `1`. Then
-the coefficient of `z′^{ν′}z″^{ν″}` in `F(δ_0z′ + z″)·∏_{c≠0}F(δ_cz′)` has valuation exactly `|j|·v(c₀) − v(ν″!)`.
+(a) Let `(Φ₀, e)` be a family of couplings and `F = W·exp(c₀Ξ_λ)` with `c₀ ∈ ℂ_p`, `W` an integral unit, `Ξ_λ` the
+coupling series of 2.4 for `S` the odd numbers, `λ_{a0}` units for odd `a`, `v(c₀) < 0`, and let
+`δ_0 = 1, δ_1, …, δ_n` with `∏_cF(δ_cz) = U` integral of constant term `1`. Then, for every `j`, the coefficient of `z′^{ν′}z″^{ν″}` in `F(δ_0z′ + z″)·∏_{c≠0}F(δ_cz′)` has valuation exactly
+`|j|·v(c₀) − v(ν″!)`.
 (b) Let `p > 2` be inert in `K`, `C` a CM lattice, `μ_i` integral forms in the variables `z_τ` and `Θ := ∏θ(μ_iz)^{m_i}`
 with the normal form `(I_p°, pr, ϖ, λ)`, `v(ϖ) = ρ_p`, `λ_{a0}` units for odd `a`. For a family of couplings and every
 `j`: `val₆(ν) ≤ −|j|` and `v(ν′!) + v(ν″!) + val₆(ν) ≤ γ_p·|ν| − |j|`.
@@ -1432,14 +1446,15 @@ relations), §4.1 (the total local prime sum `S_p`).
 ## Downstream consumers
 
 - OneSidedPrimeSumBoundsAndAdmissibleData §3.1 takes the different of `E` (1.1) and the constant of the bound for the
-  integral vacuum (4.6 (b)); its §3.3 takes the size of the different at the infinite places (1.7 (a)) and 1.1 (c); its
+  integral vacuum (4.6 (b)); its §3.3 takes the size of the different at the infinite places (1.7 (a)) and 1.1 (c), and
+  states the bounds for admissible data that follow; its
   §3.4 takes the splitting character (1.4), the chosen places and the residue characters `ω` (1.5) and the characters
   `χ₀`, `χ_M` (1.6).
 - ThetaLiftChainsAndTheSeesawIdentity takes the Weil data (1.4), the scale `𝔱_E` (4.2), the integral vacuum (4.6),
   standard data (4.8), the integrality and the divisibility of their jets (4.10, 4.11), and the predicted divisibility
   `D_p(κ)` (3.1).
-- CompositeThetaLiftsAndShortForms takes the numbers at a prime (2.1), `D_p(κ)` (3.1), standard data (4.8), the
-  divisibility of their jets (4.11) and the sharpness of Layer 5 (5.4–5.6).
+- CompositeThetaLiftsAndShortForms takes the numbers at a prime (2.1), `D_p(κ)` (3.1), standard data (4.8) and the
+  divisibility of their jets (4.11).
 - NormsOfThetaLiftsAndExchangeIdentities takes 1.1, 1.4–1.6, the Weil model (4.1), the scale (4.2), the integral vacuum
   (4.6), the conjugates of jets (4.7), the integrality of jets (4.10) and the valuation bound with its sharpness (5.5,
   5.6).
@@ -1474,7 +1489,7 @@ relations), §4.1 (the total local prime sum `S_p`).
   (the sigma function and the sections of a CM lattice with their integrality, the formal parameter, complex
   multiplication for theta functions, the Chowla–Selberg formula with a unit, the adelic Weil model with its Fourier
   inversion, characters of `U(1)` of given weight and tame part, Schur matrices): each names the form used and the
-  declaration of [ShortProof], and is a result still to be stated as a numbered target.
+  declaration of [ShortProof], and is not a target of this roadmap.
 
 ## Exact supplier contracts
 
@@ -1484,7 +1499,8 @@ relations), §4.1 (the total local prime sum `S_p`).
 field `E`, the group `Φ` of its infinite places, the place `[ν]` of an integer, written `u(ν)` here, and `rd_E`); §3.1
 (sparse sets of places and the constant `C_P`, of which 1.7 (a) uses the cyclotomic term); §3.2 (admissible data: the
 scales, the ranks, the weights, the `b`-places, the level primes and `π̄_M`); §3.3 (their sizes: (a), (b) for `d ≤ k`,
-(e) for `p_i ≡ 1 (mod q₁d)` and `q₂² | p_i − 1`); §4.1 (the local prime sum `s_p(y, σ)` and its total `S_p`).
+(c) for `x^{10} ≤ |δ_E|_v`, (e) for `p_i ≡ 1 (mod q₁d)` and `q₂² | p_i − 1`); §4.1 (the local prime sum `s_p(y, σ)`
+and its total `S_p`).
 
 ### From other roadmaps
 
