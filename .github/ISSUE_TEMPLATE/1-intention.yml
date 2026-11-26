@@ -86,6 +86,7 @@ body:
         - AutomorphicLFunctionsAndLocalFactorsPartII
         - AutomorphicPadicLFunctionsPartII
         - AutomorphicSpectralTheory
+        - AutomorphicSpectralTheoryPartII
         - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
         - BanachSpaceTheory
@@ -152,6 +153,7 @@ body:
         - CrystallineCohomology
         - CrystallineCohomologyPartII
         - CrystallineLocalGlobalCompatibilityCM
+        - CstConjectureForDaggerVarieties
         - CurvesOverFiniteFields
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
@@ -216,6 +218,7 @@ body:
         - EulerSystemsCyclotomicMainConjecture
         - ExceptionalThetaCorrespondencesForG2
         - ExcursionOperatorsAndSpectralActionPartII
+        - ExoticMonoidalStructuresAndAbstractAutomorphicity
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
         - ExplicitNumberFields
@@ -253,6 +256,7 @@ body:
         - GL2AutomorphicRepresentationsAndTransfer
         - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
+        - GaloisSectionsPadicPeriodMaps
         - GanGrossPrasadUnitaryGroups
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
@@ -605,6 +609,7 @@ body:
         - TorsionCohomologyInfrastructure
         - TracesOnCStarAlgebras
         - TropicalAndBerkovichArithmetic
+        - TwistedAutomorphicDescents
         - TypeAHeckeAlgebras
         - UniversalApproximation
         - VStackSheavesAndLisseCategories
