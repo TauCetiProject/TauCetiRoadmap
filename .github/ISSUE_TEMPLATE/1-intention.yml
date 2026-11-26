@@ -452,6 +452,7 @@ body:
         - OrdinaryAutomorphicFormsAndModularityLifting
         - OrthogonalTamagawaAndLatticeMass
         - OverconvergentAutomorphicForms
+        - PACBayesBounds
         - PCurvature
         - PDE
         - PELModuli
