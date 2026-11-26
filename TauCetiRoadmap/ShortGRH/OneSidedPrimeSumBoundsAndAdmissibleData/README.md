@@ -209,10 +209,11 @@ integer `0 ≤ l ≤ c`.
   most the length of `O/(z)`. If `y` is onto `M` modulo `p^n` up to colength `c`, the length of `M/(y(M) + p^nM)` is at
   most `l` times the length of `O/(p)` for some integer `0 ≤ l ≤ c`.
 
-*Needs:* ShortGRH background (the Smith normal form of a square matrix over a valuation domain: `A = L·diag(a)·R`
-with `L`, `R` invertible; and, over a discrete valuation ring, the length of `O/(z)` is the valuation of `z`;
-[ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`),
-`Lib/General/Algebra/FittingIdealsAndLengths.lean` (`New.relLength`, `New.length_quot_span_eq_addVal`)).
+*Needs:* Mathlib `Ring.ord_eq_addVal` (over a discrete valuation ring, the length of `O/(z)` is the valuation of
+`z`; [ShortProof] `Lib/General/Algebra/FittingIdealsAndLengths.lean` (`New.relLength`,
+`New.length_quot_span_eq_addVal`)); ShortGRH background (the Smith normal form of a square matrix over a valuation
+domain: `A = L·diag(a)·R` with `L`, `R` invertible; [ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean`
+(`New.IsValuationPair.smith_normal_form`)).
 
 *Relation to the library.* Tau Ceti `Matrix.exists_smith_normal_form_of_isDiscreteValuationRing` gives the Smith normal
 form over a discrete valuation ring. Item (f) is used over the valuation rings `𝒪_ι`, which are not discrete, so the
@@ -306,11 +307,14 @@ orthonormal basis. Facts:
 - (g) If `y` has covolume at most `c`, then `|σ(det⟨Θ₁y_i, Θ₁y_k⟩)| ≤ e^c` for every `σ ∈ Aut(ℂ)`.
 - (h) `Z(ξ) ≠ 0` if `Θ_ξ` is injective, and `Z(ξ) = det(Θ_ξ^*Θ_ξ)` when `S_ξ` is finite-dimensional.
 
-*Needs:* 1.1; Tau Ceti `Matrix.det_gram_le_prod_norm_sq` (Hadamard's inequality for Gram determinants); ShortGRH
-background (for a positive semidefinite Hermitian matrix: Fischer's inequality `det ≤ det(A)·det(D)` for the diagonal
-blocks `A`, `D`, and `|det(a_i^* G b_k)|² ≤ det(a_i^* G a_k)·det(b_i^* G b_k)`; [ShortProof]
+*Needs:* 1.1; Tau Ceti `Matrix.det_gram_le_prod_norm_sq` (Hadamard's inequality for Gram determinants) and
+`Matrix.PosSemidef.det_fromBlocks_le` (Fischer's inequality: the determinant of a positive semidefinite Hermitian
+matrix in block form is at most `det(A)·det(D)` for the diagonal blocks `A`, `D`; [ShortProof]
 `Lib/General/LinearAlgebra/MinorProducts.lean` (`New.fischer_det_inequality`, `New.hadamard_det_inequality`),
-`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`, `New.norm_det_pairing_sq_le`)).
+`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`)); ShortGRH background (for a positive
+semidefinite Hermitian matrix `G` and two families `(a_i)`, `(b_i)` of vectors with the same finite index set:
+`|det(a_i^* G b_k)|² ≤ |det(a_i^* G a_k)|·|det(b_i^* G b_k)|`; [ShortProof]
+`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_pairing_sq_le`)).
 
 [ShortProof], `New/Reduction/Lattices/TwistedLattice` (`New.TwistedLattice`, `New.TwistedLattice.integralVectors`,
 `New.TwistedLattice.IndexLe`, `New.TwistedLattice.normSqAt`, `New.TwistedLattice.CovolumeLe`,
@@ -544,9 +548,11 @@ For admissible data:
   `20 log b ≤ log(M/Ω) ≤ 23 log b` and `|log(M·rd_E/2π)| ≤ 23 log b`.
 
 *Needs:* 2.1, 2.3, 3.1, 3.2; DivisibilityOfThetaDerivatives §1.7 (a) (a generator `δ_E` of the different of `E`
-with `|δ_E|_v = A_v·T·√d` and `|log A_v| ≤ C_P` at every infinite place `v`), §1.1 (c) (`∏_v |δ_E|_v = rd_E^f`); ShortGRH
-background (the class number of a number field of degree `n` and discriminant `D_E` is at most `(2^n|D_E|)^{n+1}`;
-[ShortProof] `Lib/General/NumberTheory/SUnitsAndClassNumber.lean` (`New.classNumber_le`)).
+with `|δ_E|_v = A_v·T·√d` and `|log A_v| ≤ C_P` at every infinite place `v`), §1.1 (c) (`∏_v |δ_E|_v = rd_E^f`);
+ExplicitNumberFields §5.3 (the third form, which uses no computational hypothesis: a number field of degree `n` and
+discriminant of absolute value `d_E` has `h_E ≤ (2^{n−1}/(n − 1)!)·√d_E·(log d_E)^{n−1}`; as `log d_E ≤ d_E`, this
+gives `h_E ≤ (2^n·d_E)^{n+1}`, the form used; [ShortProof] `Lib/General/NumberTheory/SUnitsAndClassNumber.lean`
+(`New.classNumber_le`)).
 
 [ShortProof], `New/Reduction/Data/Magnitudes` (`New.Data.HasLogBound`, `New.Data.le_constantBound`,
 `New.Data.scale_inequalities`, `New.Data.le_of_hasLogBound`, `New.Data.ten_thousand_le_m`, `New.Data.r_add_one`,
@@ -661,8 +667,8 @@ of `3` with `r ≥ x⁵`, `2^s = m^{22}`, `x₁ = ⌊e^W⌋` and `b` the least m
 come from 3.6 (b) with `L = kt`, so that `T ≤ #Φ_b·W⁶ ≤ #Φ_b log b`. The primes come from windows: for large `W` every
 window `[U, U + W]` with `W ≤ U ≤ W^{n+7}` contains `log p` for a prime `p ≡ 1` modulo `(q₀d)^k`, for each `k > 1`
 with `(q₀d)^k ≤ W^{n+7}`. Taking `h_K + 1` primes `p ≡ 1 (mod q₂²)` in disjoint windows of `[10 log b, 11 log b]`, each
-splits in `K` as `𝔭𝔭̄` (as `(p/d) = 1`), and two of the `𝔭` have the same ideal class, which gives `π̄_M` with norm
-`p_ip_j`. The level `N` is a prime `≡ 1 (mod q₂²)` with `log N` in the window of length `W ≤ √(log b)` at `log N₋`, and
+splits in `K` as `𝔭𝔭′` with both factors of norm `p` (as `p ≡ 1 (mod d)`), and by the pigeonhole principle some
+product `𝔭_i𝔭′_j` with `i ≠ j` is principal, which gives `π̄_M` with norm `p_ip_j`. The level `N` is a prime `≡ 1 (mod q₂²)` with `log N` in the window of length `W ≤ √(log b)` at `log N₋`, and
 `N ≡ 1 (mod 4)` is a sum of two squares `u² + v²`, so `π_N = u + vi` with `i ∈ E`. The inequalities between the scales
 hold for large `x` because `ε < 1/100`.
 
@@ -672,11 +678,14 @@ Let `P` be parameters and `0 < ε < 1/100`. For every large integer `x` there ar
 `x^ε ≤ log b ≤ x^ε + 1`.
 
 *Needs:* 2.1, 2.3, 3.1, 3.2, 3.6; AnalyticNumberTheoryPartI §0.32 (primes `≡ 1` modulo a modulus at most a power of
-`log p`, with `log p` in a window of length at least `1`); ShortGRH background (for `d` a prime `≡ 7 (mod 8)` and
-`K = ℚ(√−d)`: a rational prime `p` with `(p/d) = 1` is the product of a prime ideal of `𝒪_K` of norm `p` and its
-conjugate, and a principal ideal of norm `n` has a generator `π` with `ππ̄ = n`; [ShortProof]
-`Lib/General/NumberTheory/ImaginaryQuadraticField.lean` (`New.QuadField.prime_inert_or_eq_mul`,
-`New.QuadField.absNorm_span_eq_mul_star`)); Mathlib `NumberField.classNumber`, `Nat.Prime.sq_add_sq`.
+`log p`, with `log p` in a window of length at least `1`); ImaginaryQuadraticClassNumber §2.1 (the splitting
+dictionary, for `d` a prime `≡ 7 (mod 8)` and `K = ℚ(√−d)`, of discriminant `D = −d`: `χ_D` is a Dirichlet character
+modulo `d`, so a rational prime `p ≡ 1 (mod d)` has `χ_D(p) = 1`, and `p𝒪_K` is then the product of two prime ideals,
+each of norm `p`; [ShortProof] `Lib/General/NumberTheory/ImaginaryQuadraticField.lean`
+(`New.QuadField.q_eq_iff_chiK_ne_neg_one`, `New.QuadField.prime_inert_or_eq_mul`)); Mathlib
+`Ideal.absNorm_span_singleton` (with the norm `ππ̄` of an element `π` of `K`: a principal ideal `(π)` of `𝒪_K` of norm
+`n` has `ππ̄ = n`; [ShortProof] the same file (`New.QuadField.absNorm_span_eq_mul_star`)),
+`NumberField.classNumber`, `Nat.Prime.sq_add_sq`.
 
 [ShortProof], `New/Reduction/Data/Existence` (`New.eventually_exists_data`, `New.Parameters.IsAdmissibleData`,
 `New.Parameters.IsLargeScale.exists_isAdmissibleData`, `New.eventually_exists_data_of_isAdmissibleData`,
@@ -796,10 +805,12 @@ the chain `Θ_ξ` of `m` lifts on the target forms, there the lower chain, with 
 module at an embedding `ℂ → ℂ_ℓ`, through which integrality of an algebraic form is read);
 DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic
 forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
-classes in the standard basis of the Weyl module; the Gram matrix of the invariant Hermitian form in that basis is
-rational and positive definite and gives the Petersson product and the conjugate norms `‖·‖²_σ`; and `n` times the
-Petersson product of a form integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the
-orders of the stabilisers of the classes; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean`
+classes in the standard basis of the Weyl module; the matrix `G` with one copy, for each class, of the Gram matrix of
+the invariant Hermitian form in that basis is rational and positive definite; if every stabiliser of a class is
+trivial, the Petersson product of `φ`, `φ′` is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
+`(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the Petersson product of a form
+integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the orders of the stabilisers
+of the classes; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean`
 (`New.LevelPlaces.LevelForm.valueCoord`, `New.LevelPlaces.LevelForm.valueMetric`,
 `New.LevelPlaces.LevelForm.posDef_valueMetric`, `New.LevelPlaces.LevelForm.inner_eq_valueCoord`,
 `New.LevelPlaces.LevelForm.normSqAt_eq_re_valueCoord`, `New.LevelPlaces.LevelForm.norm_nsmul_inner_le_one`)).
