@@ -174,7 +174,10 @@ nonzero `f ∈ Θ` contains `Θ`; an endomorphism of `Θ` that commutes with all
 
 The library has the case of dimension one only, for the classical factor of automorphy:
 `TauCeti.finrank_thetaSections` (dimension `k` of the level-`k` theta functions on `ℂ/(ℤ + τℤ)`), which does not give
-the statement.
+the statement. Among the roadmaps, SpecialFunctionsTheta §7.4 has the dimension `N^g` of the theta functions of order
+`N` for a period matrix `Ω ∈ 𝔥_g` (the principal type), and AbelianSchemesAndArithmeticModuli §A5.4 (2) has
+`h⁰(L) = d` and `deg λ = d²` for a polarised complex abelian variety, from Riemann–Roch; the statement here is on the
+space of theta functions itself, for every type and for a form `B` that need not be hermitian, and includes (b) and (d).
 
 [ShortProof], `Lib/Shimura/ComplexTheta/DimensionFormula` (`New.IsAppellHumbert.summable_and_analyticAt_tsum`,
 `New.IsAppellHumbert.exists_mem_thetaSpace_ne_zero`, `New.IsAppellHumbert.finite_thetaSpace`,
@@ -628,7 +631,9 @@ affine base change.
 A *commutative group scheme* over `S` is a commutative group object of schemes over `S`, written additively; an *action*
 of a commutative ring `O` on it is a ring homomorphism from `O` to its endomorphisms. An *abelian scheme* over `S` is a
 commutative group scheme that is smooth and proper over `S` and on which multiplication by every integer `m ≠ 0` is
-surjective. (This is the usual notion: surjectivity of every `[m]` forces connected geometric fibres.) A
+surjective. (This is the usual notion: surjectivity of every `[m]` forces connected geometric fibres.
+AbelianSchemesAndArithmeticModuli §A0.1 defines abelian schemes with geometrically connected fibres in place of the
+surjectivity of every `[m]`, and without commutativity in the structure.) A
 *homomorphism* is a morphism compatible with addition; an *isogeny* is a homomorphism that is finite, flat and
 surjective. For a class `c ∈ Pic(A)` and `T`-points `x, y` of `A`, `x^*c ∈ Pic(T)` and
 `⟨x, y⟩_c = (x + y)^*c − x^*c − y^*c + 0^*c ∈ Pic(T)`; `c` satisfies the *parallelogram law* if
@@ -857,9 +862,9 @@ with `ψ∘φ∘e = e` near `0`, `φ∘e` analytic at `0` with derivative the id
 homomorphism `γ : W → G` from a finite-dimensional complex space, continuous at `0` with `φ∘γ` differentiable at `0`, is
 `e∘F` for a continuous `ℂ`-linear `F`.
 (b) A scheme smooth of relative dimension `d` over `ℂ` has at every complex point `x` a holomorphic chart: maps
-`φ : X(ℂ) → ℂ^d`, `ψ` back, with `φ(x) = 0`, mutually inverse near `x` and `0`, `ψ` a holomorphic family, and `φ∘γ`
-analytic for every holomorphic family `γ` through `x`, with zero derivative in the directions where `γ` is constant to
-first order.
+`φ : X(ℂ) → ℂ^d`, `ψ` back, with `φ(x) = 0`, mutually inverse near `x` and `0`, `ψ` holomorphic at `0`, and, for every
+family `γ` that is holomorphic at a parameter `w` with `γ(w) = x`, `φ∘γ` analytic at `w`, with zero derivative at `w` in
+the directions where `γ` is constant to first order at `w`.
 (c) The complex points of a scheme over `ℂ` with a projective embedding are compact.
 (d) An abelian scheme over `ℂ`, smooth of relative dimension `d`, with a projective embedding, has a uniformisation by
 `ℂ^d` (5.1).
@@ -869,7 +874,9 @@ first order.
 The library has the exponential of a commutative Lie group with lattice kernel in the compact case and its holomorphy
 (`TauCeti.lieExpAddMonoidHom`, `TauCeti.isZLattice_ker_lieExpAddMonoidHom`,
 `TauCeti.mdifferentiable_mulInvariantExp_complex`); using it would need a Lie group structure on `A(ℂ)`, which (b)
-does not provide.
+does not provide. AbelianSchemesAndArithmeticModuli §A5.1 states the lattice uniformisation `V/Λ ≅ A^an` through the
+analytification of `A` and its Lie group structure; (d) is the same theorem in the form of 5.1, on complex points
+without analytification.
 
 [ShortProof], `Lib/Shimura/Uniformisation/LieExponential` (`New.exists_lie_exponential`, `New.exists_holomorphic_chart`,
 `New.LineBundle.IsProjEmbedding.compactSpace_complexPoint`, `New.LineBundle.IsProjEmbedding.nonempty_uniformisation`)
@@ -955,9 +962,10 @@ and `Re B(u, u) > 0` for `u ≠ 0`. For `ν ∈ ℕ`, marked vectors `P ∈ ((E 
 `(b, z) ↦ c(b)·θ_t^{(b)}(z)` is analytic at `(b₀, z)` for all `t ∈ T` and `z`.
 (b) For a hermitian `H` and `u` with `ūᵀHu = a > 0` there are coordinates `ℂⁿ ≅ ℂ × ℂ^{n−1}` with `e(ū) = (1, 0)` in
 which the set of `b` with `Re xᵀHx̄ > 0`, `x = e^{−1}(1, b)`, is star-convex at `0`.
-(c) Let `(g, J)` be a signed frame for `β` with `H = Φ_{v₀}(β)` negative on the complement of the positive line. Then
-some analytic family has as domain this ball, frame `g`, reflections the reflections of `H` at the lines of the ball,
-and an explicit period map.
+(c) Let `e : ℂⁿ ≅ ℂ × ℂ^{n−1}` be linear coordinates for which the ball of (b) (the `b` with `Re xᵀHx̄ > 0`,
+`x = e^{−1}(1, b)`) is connected, and let `(g, J)` be a signed frame for `β` with `H = Φ_{v₀}(β)` negative on the nonzero
+`y` whose conjugate has first coordinate `0` (`ȳᵀHy < 0`). Then some analytic family has as domain this ball, frame `g`,
+reflections the reflections of `H` at the lines of the ball, and an explicit period map.
 (d) Every moduli point `o = (x, J, P)` with `ν` marked vectors has a *ball family*: an analytic family `f` with `0` in
 its domain such that, writing `f(q)` for its point at `q` for the marked vectors `P`: `f(0) = o`; every moduli point
 with `ν` marked vectors and the frame of `o` is the point of `f` for the marked vectors `0` at some `(b, ζ)` with `b` in
@@ -998,7 +1006,7 @@ coordinates indexed by `T`, and an `𝓞_E`-linear map `λ` from the classes kil
 for `T`, the Lagrangian `Λ` and the restriction of `λ` to `T` (4.5); (ii) `[N]` satisfies the parallelogram law,
 `⟨βx, y⟩_{[N]} = ⟨x, (1 − β)y⟩_{[N]}`, and `y^*[N] = ⟨βy, y⟩_{[N]} + 0^*[N]` for all points `x, y`; (iii) for every
 integer `b` and every `Spec B → S` with `B` local there is a Lie chart (4.4) whose matrices satisfy the signature
-condition for the structure map `𝓞_E → B` and the elements `β̄ − b`, `β − b`; (iv) two `B`-points of `S` over the same
+condition for the structure map `𝓞_E → B` and the elements `β̄ − b`, `β − b`; (iv) for every ring `B`, two `B`-points of `S` over the same
 point of `Spec 𝓞_E` at which `N` pulls back to the same linear system along every level point are equal. An *object*
 over `T` is a `T`-point `x` of `S`, with the pulled-back abelian scheme `A_x`, linear system `N_x`, level points and
 structure map `𝓞_E → Γ(T, 𝒪)`. A *full level structure* on an object over a ring `R` is an injective `𝓞_E`-linear map
@@ -1047,7 +1055,7 @@ of type `(B, χ_D)`, and `d = n·f`.
 (c) For `b ∈ Λ_0^⊥`, `#T·b ∈ Λ_0`, and the translation by `e(b)` has a lift to the sections of `N_y` that preserves the
 `O`-span of the coordinates; the multiplier `χ` equals `χ_D` on `Λ_0`, the canonical multiplier of `β`.
 (d) Let `x, x′` have models on `Y`, `Y′` (frames `g, g′`, matrices `ℓ, ℓ′`), and `ψ : A_x → A_{x′}` an `𝓞_E`-linear
-homomorphism with `ψ^*[N_{x′}] = μ[N_x]`, `μ ≠ 0`. Then there is `z ∈ GL_n(E)` with `ψ(e(Q w)) = e′(Q′(zw))` for all
+homomorphism with `ψ^*[N_{x′}] = μ[N_x]`, `μ ≥ 1` an integer. Then there is `z ∈ GL_n(E)` with `ψ(e(Q w)) = e′(Q′(zw))` for all
 `w ∈ (E ⊗ ℝ)ⁿ`, `μ·(polarisation form of β_Y) = polarisation form of zᴴβ_{Y′}z`, and
 `Φ_{v₀}(z) ℓ Φ_{v₀}(z)^{−1} = ℓ′`.
 (e) Conversely, let `z ∈ GL_n(E)` with `Φ_{v₀}(z) ℓ Φ_{v₀}(z)^{−1} = ℓ′` and `k = g′^{−1} z g` integral with `k^{−1}` a
@@ -1262,7 +1270,7 @@ the `q_w^n` torsion sections map onto the `k`-points, so `q_w^{n−d}` pass thro
 coefficients together with the values on `k`-points determine `l ∈ W`, which gives `dim W ≤ d + (n − d − 1)`.
 
 Let `k` be an algebraically closed field, `D` good at `w = ker(𝓞_E → k)`, `x` over `k` the reduction of an object `y`
-over a valuation subring of `ℂ` with a full level structure, and `W` a `k`-vector space. For each local `k`-algebra `C`
+over a valuation subring of `ℂ` with a full level structure, and `W` a finite-dimensional `k`-vector space. For each local `k`-algebra `C`
 let `f_C` be a map from the `w`-torsion `C`-points of `A_x` to `Hom_k(W, C)`, semilinear for the structure map, such
 that (a) `f` is natural in `C`; (b) `f_{k[ε]}` vanishes on the points that reduce to `0`; (c) if `l ∈ W` has
 `f_C(z)(l) = 0` for all finite local `C` and all `z`, then `l = 0`. Then `dim_k W ≤ n − 1`.
@@ -1288,7 +1296,7 @@ Let `𝒳` be a theta family and `k` a field.
 (a) (*Drinfeld's lemma*) Let `x, x′` be objects over `k[ε]` reducing to `x₀`, and `c ∈ 𝓞_E` kill every point of `A_{x′}`
 that vanishes modulo `ε`. Then some homomorphism `F : A_x → A_{x′}` reduces to multiplication by `c` on `A_{x₀}`, and
 `F(y) = c·y′` whenever `y`, `y′` agree modulo `ε`.
-(b) (*tangent bound*) Let `k` be algebraically closed, `M` a `k`-vector space, `x₀` an object over `k` and `x` an object
+(b) (*tangent bound*) Let `k` be algebraically closed, `M` a finite-dimensional `k`-vector space, `x₀` an object over `k` and `x` an object
 over `k ⊕ M^*` (square-zero) reducing to `x₀`, with structure map `𝓞_E → k → k ⊕ M^*`. Assume that `D` is good at the
 kernel of the structure map of `x₀`, that `x₀` is rigid (6.1) and is the reduction of an object over a valuation
 subring of `ℂ` with a full level structure, and that for `l ≠ 0` in `M` the pull-back of `x` along
@@ -1379,7 +1387,7 @@ family `f`. If, for some `b` in the domain of `f`, the uniformised points are ho
 (b) For `𝔪 ≠ 0` there are finitely many analytic families `f_k` such that every moduli point with `ν` marked vectors is
 isomorphic at level `K(𝔪)` to the point of some `f_k`, for the marked vectors `0`, at a parameter `(b, ζ)` with `b` in
 its domain.
-(c) Every point of a graph closure `C`, and every complex point of it, is the centre of an arc (a map from the spectrum
+(c) Every point of a graph closure `C`, and every complex point of it over `R`, is the centre of an arc (a map from the spectrum
 of a valuation subring of `ℂ`) of objects.
 (d) If a morphism from `C` to the fibre power `Z_ν` sends the point of `C` attached to each `a` to `[a]_1`, every complex
 point of `C` over `R` is the point attached to some `a`.
@@ -1505,7 +1513,7 @@ Let `E ⊃ K₀`, `n` a finite set, `𝔑 ∈ 𝓞_E`, `ν ∈ ℕ` and `R ⊂ E
 
 Let `𝓜` be a model, `k` a commutative ring and `F` a contravariant functor from `R`-schemes to `k`-modules such that
 for every level `i` the pull-back `F(π_i)` is injective with image containing the `Δ_i`-invariants of `F(W_i)`, and
-let levels `I(w)` contain all `g_A` for the safe split place `w`. Then there are commuting operators `t(w, j)` on
+let levels `I(w)` be such that `g_A ∈ s_{I(w)}` for every `A`, for each safe split place `w`. Then there are commuting operators `t(w, j)` on
 `F(Z)`, for safe split `w` and `j ∈ ℕ`, such that `F(π_{I(w)})∘t(w, j)` is the sum of the pull-backs along the legs over
 `τ_{w,j}`, and such that, for every commutative ring `k′`, on deep levels every word in the `τ_{w,j}`, multiplied by any
 element of `k′[GL_n(𝔸_f)]` supported on `GU⁺`, acts through the legs as the same word in the `t(w, j)`.
