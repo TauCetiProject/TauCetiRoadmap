@@ -1,29 +1,47 @@
 module
 
 import Mathlib
--- `import all`: the Gaussian isoperimetric profile is a private definition of the owning roadmap's
--- `Suggested.lean`, and the Tau Ceti commit pinned here predates
--- `TauCeti.Probability.gaussianIsoperimetricProfile`. Switch to that public import once the pin
--- moves.
-import all TauCetiRoadmap.GaussianIsoperimetryAndClusters.Suggested
+import TauCeti.Probability.Quantile
 
 /-!
 # Markov diffusion operators: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-This file prototypes the diffusion triple of Layer 1, the fundamental identity of §1.2, the
-iterated carré du champ, its integrated identity and the curvature-dimension condition on the
-test algebra (Layer 4), the Poincaré inequality of a triple (Layer 7), the Bobkov inequality
-of a triple and the Gaussian isoperimetric inequalities of Gibbs measures (Layer 10); the
-theorems carry `sorry`. Full triples and the extended algebra, to which `CD(ρ, n)` extends,
-are specified in `README.md`, Layer 4; the local Bobkov inequalities, which need the
-semigroup, are specified in `README.md`, Layer 10.
+It is the roadmap's acceptance test: it states, against the pinned Mathlib and Tau Ceti, the
+headline theorems that can be stated without the constructions of the roadmap, each with `sorry`,
+together with the definitions those statements need.
+
+Stated here:
+
+* Layer 1: the diffusion triple and the fundamental identity (§1.2);
+* Layer 4: the iterated carré du champ, its integrated identity, the curvature-dimension condition
+  `CD(ρ, n)` on the test algebra and its integrated form;
+* Layer 9: the Poincaré and logarithmic Sobolev inequalities with constant `1/ρ` of a Gibbs measure
+  with `∇²V ≥ ρ > 0`, on compactly supported smooth functions;
+* Layer 10: the Bobkov inequality of a triple implies its logarithmic Sobolev inequality, and the
+  Bobkov inequality and the Gaussian isoperimetric inequalities of uniformly convex Gibbs measures;
+* Layer 11: the Brascamp–Lieb inequality for Gibbs measures with positive-definite Hessian.
+
+Not stated, because each needs the Markov semigroup of Layer 2 and the full triples of Layers 3–4,
+which are constructions of the roadmap: the gradient bounds and mass conservation (Layer 6), the
+extension of `Γ₂` and of the Hessian to the generator domain (Layer 5), the Poincaré and
+logarithmic Sobolev inequalities of a full triple under `CD(ρ, n)` (Layers 7–8), and the local
+Bobkov inequalities and the Bobkov inequality of a full triple (Layer 10). Their Gibbs instances
+are stated.
 -/
 open MeasureTheory Filter
 open scoped ENNReal NNReal Topology
-open TauCetiRoadmap.GaussianIsoperimetryAndClusters (gaussianIsoperimetricProfile)
 
 namespace TauCetiRoadmap.MarkovDiffusionOperators
+
+/-- The Gaussian isoperimetric profile `I = φ ∘ Φ⁻¹` on `(0, 1)`, and `0` elsewhere, owned by
+GaussianIsoperimetryAndClusters §1.1 and implemented on Tau Ceti `main` as
+`TauCeti.Probability.gaussianIsoperimetricProfile`, with the same formula. It is restated here
+because the pinned Tau Ceti does not contain it. -/
+noncomputable def gaussianIsoperimetricProfile (v : ℝ) : ℝ :=
+  if 0 < v ∧ v < 1 then
+    ProbabilityTheory.gaussianPDFReal 0 1 ((ProbabilityTheory.gaussianReal 0 1).quantile v)
+  else 0
 
 variable {E : Type*} [MeasurableSpace E]
 
@@ -128,20 +146,32 @@ def CD (T : DiffusionTriple E) (ρ : ℝ) (n : ℝ≥0∞) : Prop :=
   1 ≤ n ∧ ∀ f ∈ T.A₀,
     (fun x => ρ * T.Γ f f x + (n⁻¹).toReal * T.L f x ^ 2) ≤ᵐ[T.μ] T.gammaTwo f f
 
-/-- Poincaré inequality `P(C)` on the test algebra (BGL Def. 4.2.1). Elements of `A₀` are
-bounded and in every `Lᵖ`, so no integrability side conditions are needed; the extension to
-the Dirichlet domain is a theorem (density of `A₀` in the form domain). As in Tau Ceti's
-`MeasureTheory.Measure.PoincareInequality`, `C` carries no sign condition. -/
-def PoincareInequality (T : DiffusionTriple E) (C : ℝ) : Prop :=
+/-- Integrated curvature-dimension inequality (`README.md`, Layer 4.2): under `CD(ρ, n)`,
+`ρ ℰ(f) + (1/n) ‖Lf‖₂² ≤ ‖Lf‖₂²` for `f ∈ A₀`. Integrate `CD` and use `integral_gammaTwo`; every
+integrand lies in `A₀`, hence is integrable. -/
+theorem CD.integral_le {T : DiffusionTriple E} {ρ : ℝ} {n : ℝ≥0∞} (h : T.CD ρ n) {f : E → ℝ}
+    (hf : f ∈ T.A₀) :
+    ρ * ∫ x, T.Γ f f x ∂T.μ + (n⁻¹).toReal * ∫ x, T.L f x ^ 2 ∂T.μ ≤
+      ∫ x, T.L f x ^ 2 ∂T.μ := by
+  sorry
+
+/-- Logarithmic Sobolev inequality `LS(C)` on the test algebra (BGL Def. 5.1.1):
+`Ent_μ(f²) ≤ 2C ℰ(f)` for `f ∈ A₀`, with `Ent_μ(g) = ∫ g log g dμ − (∫ g dμ) log ∫ g dμ`
+(Mathlib's `Real.log 0 = 0` gives `0 log 0 = 0`). The extension to the Dirichlet domain is a
+theorem (`README.md`, Layer 8). -/
+def LogSobolevInequality (T : DiffusionTriple E) (C : ℝ) : Prop :=
   IsProbabilityMeasure T.μ ∧
-    ∀ f ∈ T.A₀, ProbabilityTheory.variance f T.μ ≤ C * ∫ x, T.Γ f f x ∂T.μ
+    ∀ f ∈ T.A₀,
+      ∫ x, f x ^ 2 * Real.log (f x ^ 2) ∂T.μ -
+          (∫ x, f x ^ 2 ∂T.μ) * Real.log (∫ x, f x ^ 2 ∂T.μ) ≤
+        2 * C * ∫ x, T.Γ f f x ∂T.μ
 
 /-- Bobkov inequality on the test algebra (BGL (8.5.9)), with constant `ρ > 0` and `I` the
-Gaussian isoperimetric profile `gaussianIsoperimetricProfile` of GaussianIsoperimetryAndClusters §1.1:
+Gaussian isoperimetric profile `gaussianIsoperimetricProfile`:
 `√ρ I(∫ f dμ) ≤ ∫ √(ρ I(f)² + Γ(f)) dμ` for `f ∈ A₀` with values in `[0, 1]`. Under `CD ρ ⊤`
-with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4). The
-condition `0 < ρ` is part of the predicate: for `ρ ≤ 0`, `Real.sqrt ρ = 0` would make it
-trivially true. -/
+with `ρ > 0`, a full triple with probability measure satisfies it (BGL Cor. 8.5.4; `README.md`,
+Layer 10). The condition `0 < ρ` is part of the predicate: for `ρ ≤ 0`, `Real.sqrt ρ = 0` would
+make it trivially true. -/
 def Bobkov (T : DiffusionTriple E) (ρ : ℝ) : Prop :=
   0 < ρ ∧ IsProbabilityMeasure T.μ ∧
     ∀ f ∈ T.A₀, (∀ x, f x ∈ Set.Icc (0 : ℝ) 1) →
@@ -149,9 +179,16 @@ def Bobkov (T : DiffusionTriple E) (ρ : ℝ) : Prop :=
         ∫ x, Real.sqrt (ρ * gaussianIsoperimetricProfile (f x) ^ 2 +
           T.Γ f f x) ∂T.μ
 
+/-- The Bobkov inequality implies the logarithmic Sobolev inequality with constant `1/ρ`
+(BGL §8.5.2; `README.md`, Layer 10): apply it to `ε g²` and let `ε → 0`, with the next-order
+asymptotic of `I` at `0`. Only the test algebra is used. -/
+theorem Bobkov.logSobolevInequality {T : DiffusionTriple E} {ρ : ℝ} (h : T.Bobkov ρ) :
+    T.LogSobolevInequality (1 / ρ) := by
+  sorry
+
 end DiffusionTriple
 
-/-! ### Gaussian isoperimetry for Gibbs measures (Layer 10) -/
+/-! ### Gibbs measures (Layers 9–11) -/
 
 section Gibbs
 
@@ -164,6 +201,28 @@ noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
     Measure (EuclideanSpace ℝ (Fin d)) :=
   (ENNReal.ofReal (∫ x, Real.exp (-V x)))⁻¹ •
     volume.withDensity (fun x => ENNReal.ofReal (Real.exp (-V x)))
+
+/-- Bakry–Émery Poincaré inequality `P(1/ρ)` for a Gibbs measure with `∇²V ≥ ρ > 0`
+(`README.md`, Layer 9, from Layer 7), on compactly supported smooth functions, the class of
+Tau Ceti's `MeasureTheory.Measure.poincareInequality_iff_forall_hasCompactSupport`. -/
+theorem gibbs_poincare (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+    (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
+    (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ (⊤ : ℕ∞) f) (hfc : HasCompactSupport f) :
+    ProbabilityTheory.variance f (gibbsMeasure V) ≤
+      (1 / ρ) * ∫ x, ‖fderiv ℝ f x‖ ^ 2 ∂gibbsMeasure V := by
+  sorry
+
+/-- Bakry–Émery logarithmic Sobolev inequality `LS(1/ρ)` for a Gibbs measure with
+`∇²V ≥ ρ > 0` (`README.md`, Layer 9, from Layer 8), on compactly supported smooth functions. -/
+theorem gibbs_logSobolev (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+    (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
+    (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
+    (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ (⊤ : ℕ∞) f) (hfc : HasCompactSupport f) :
+    ∫ x, f x ^ 2 * Real.log (f x ^ 2) ∂gibbsMeasure V -
+        (∫ x, f x ^ 2 ∂gibbsMeasure V) * Real.log (∫ x, f x ^ 2 ∂gibbsMeasure V) ≤
+      2 * (1 / ρ) * ∫ x, ‖fderiv ℝ f x‖ ^ 2 ∂gibbsMeasure V := by
+  sorry
 
 /-- Functional Bobkov inequality for a uniformly convex Gibbs measure (BGL Cor. 8.5.4 on the
 Gibbs triple), for Lipschitz functions with values in `[0, 1]`, the class used in BGL §8.5. Such
@@ -186,7 +245,7 @@ theorem gibbs_bobkov (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ
 theorem gibbs_isoperimetric (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
-    {A : Set (EuclideanSpace ℝ (Fin d))} (hA : IsClosed A) {c : ℝ}
+    {A : Set (EuclideanSpace ℝ (Fin d))} {c : ℝ}
     (hc : c < Real.sqrt ρ * gaussianIsoperimetricProfile ((gibbsMeasure V).real A)) :
     ∀ᶠ r in 𝓝[>] (0 : ℝ),
       c * r ≤ (gibbsMeasure V).real (Metric.thickening r A) - (gibbsMeasure V).real A := by
@@ -198,10 +257,30 @@ then `Φ(a + √ρ r) ≤ μ_V(A_r)` for every `r > 0`. -/
 theorem gibbs_enlargement (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
     (hint : Integrable (fun x => Real.exp (-V x))) {ρ : ℝ} (hρ : 0 < ρ)
     (hconv : ∀ x v, ρ * ‖v‖ ^ 2 ≤ fderiv ℝ (fderiv ℝ V) x v v)
-    {A : Set (EuclideanSpace ℝ (Fin d))} (hA : IsClosed A) {a r : ℝ} (hr : 0 < r)
+    {A : Set (EuclideanSpace ℝ (Fin d))} {a r : ℝ} (hr : 0 < r)
     (ha : ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) a ≤ (gibbsMeasure V).real A) :
     ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) (a + Real.sqrt ρ * r) ≤
       (gibbsMeasure V).real (Metric.thickening r A) := by
+  sorry
+
+/-- The inverse Hessian `(∇²V(x))⁻¹` of `V` at `x`, as an operator on `ℝᵈ`: the derivative of the
+gradient of `V`, inverted (`ContinuousLinearMap.inverse`, junk `0` when not invertible). -/
+noncomputable def invHessian (V : EuclideanSpace ℝ (Fin d) → ℝ) (x : EuclideanSpace ℝ (Fin d)) :
+    EuclideanSpace ℝ (Fin d) →L[ℝ] EuclideanSpace ℝ (Fin d) :=
+  ContinuousLinearMap.inverse (fderiv ℝ (gradient V) x)
+
+/-- Brascamp–Lieb inequality (BGL Thm 4.9.1; Brascamp–Lieb 1976, Theorem 4.1; `README.md`,
+Layer 11): for smooth `V` with positive-definite Hessian and `e^{−V}` integrable, and smooth `f`
+with `f, ‖∇f‖ ∈ L²(μ_V)`, `Var_{μ_V}(f) ≤ ∫ ⟨(∇²V)⁻¹ ∇f, ∇f⟩ dμ_V`. The right side may be
+infinite, so it is a lower integral in `ℝ≥0∞`. -/
+theorem gibbs_brascampLieb (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDiff ℝ (⊤ : ℕ∞) V)
+    (hint : Integrable (fun x => Real.exp (-V x)))
+    (hpos : ∀ x v, v ≠ 0 → 0 < fderiv ℝ (fderiv ℝ V) x v v)
+    (f : EuclideanSpace ℝ (Fin d) → ℝ) (hf : ContDiff ℝ (⊤ : ℕ∞) f)
+    (hf2 : MemLp f 2 (gibbsMeasure V))
+    (hdf2 : MemLp (fun x => ‖fderiv ℝ f x‖) 2 (gibbsMeasure V)) :
+    ENNReal.ofReal (ProbabilityTheory.variance f (gibbsMeasure V)) ≤
+      ∫⁻ x, ENNReal.ofReal (fderiv ℝ f x (invHessian V x (gradient f x))) ∂gibbsMeasure V := by
   sorry
 
 end Gibbs
