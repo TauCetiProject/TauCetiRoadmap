@@ -54,11 +54,15 @@ The open headline theorems stated below are:
 
 * the cyclotomic normalization at a unit for every finite `ℚ_p`-algebra structure, the form that
   `LocalGaloisGroups` consumes, and finite and absolute unit-filtration reciprocity (Layer 7);
-* the norm-subgroup Galois insertion in characteristic zero and its closure operator, the maximal
-  abelian sublayer (Layer 8);
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
+
+It also states the structured form of Tau Ceti's local correspondence in characteristic zero: the
+norm-subgroup Galois insertion and its closure operator, the maximal abelian sublayer (Layer 8).
+Neither is at the pin, but each follows from pinned lemmas in a few lines, so they record the
+Layer 8 target rather than a headline theorem. The prime-to-`p` form of that target is stated in
+the README only.
 
 All open headline theorems are statable at the pins. The absolute upper group needed for
 absolute unit-filtration reciprocity is the intersection of the inverse images of the native

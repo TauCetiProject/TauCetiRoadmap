@@ -43,7 +43,10 @@ conductor of L/K is their lcm, real places included. For ℚ(ζ₈)/ℚ their ex
 The other open theorems are local. For a finite abelian extension L/K of nonarchimedean local
 fields with compatible valuations, in either characteristic, reciprocity carries the unit group
 `U(K,n)` onto the upper ramification group `G^n` of Gal(L/K); an absolute form does the same for
-`Kˣ → G_K^ab`. The last open theorem removes Tau Ceti's hypothesis on valuations from
+`Kˣ → G_K^ab`. In characteristic zero the local correspondence extends to every finite Galois
+L/K as a Galois insertion: L contains the class field of an open subgroup N of finite index in Kˣ
+exactly when `N_{L/K}(Lˣ) ⊆ N`, and the closure replaces L by its largest abelian subextension.
+The last open theorem removes Tau Ceti's hypothesis on valuations from
 `χ_cyc(Art(u)) = N_{F/ℚ_p}(u)⁻¹`, for units u of a local field F that is a finite ℚ_p-algebra.
 
 Finite-group Tate cohomology is Mathlib's, and continuous cohomology comes from
@@ -1156,7 +1159,8 @@ correspondence from abelian layers to every open normal subgroup `V` of `G_K`: f
 `N : LocalNormSubgroups K`, `localNormOpenSubgroup K V ≤ N ↔ V ≤ (localClassField N).1`
 (`localClassField_galoisConnection`), and with `localClassField_normSubgroup` the pair is a Galois
 insertion. On fields: a finite Galois extension `L/K` contains the class field of `N` exactly when
-`N_{L/K}(Lˣ) ≤ N`. The induced closure operator is the maximal abelian sublayer,
+`N_{L/K}(Lˣ) ≤ N` (Milne, *Class Field Theory*, I Corollaries 1.2(b) and 1.5, pp. 20 and 22, with
+III Theorem 3.5, p. 108). The induced closure operator is the maximal abelian sublayer,
 `(localClassField (localNormOpenSubgroup K V)).1 = V.maximalAbelianLayer`
 (`localClassField_localNormOpenSubgroup`). Prove the same in the prime-to-`p` scope, with `V`
 ranging over layers of degree prime to `p`. *Route:* rewrite `N` by `localClassField_normSubgroup`
@@ -2055,7 +2059,7 @@ local formulas of Layer 7 and the global correspondence of Layer 12.
 This roadmap specifies the following constructions and theorems. Tau Ceti implements most of them
 at the pin; that material is consumed under Tau Ceti's names, listed in Exact supplier contracts and in the layer that
 specifies it, and is never rebuilt here. The **open targets** close the items that have them. The
-open headline theorems among them are the theorems stated in `Suggested.lean`. The comparison of
+open headline theorems among them are stated in `Suggested.lean`. The comparison of
 extension of idele classes with extension of ideal classes (item 9, Layer 13) is an open target
 too, but it is a step of the principal ideal theorem's route rather than a headline, and it is
 stated in this README only.
@@ -2084,7 +2088,10 @@ stated in this README only.
 4. Local existence for a finite **abelian** layer, uniqueness of that layer, and the local
    class-field correspondence with its quotient isomorphism and degree equality, in full in
    characteristic zero and in the prime-to-residue-characteristic range in every characteristic
-   (Layer 8): Tau Ceti's. The `p`-primary part in equal characteristic `p` is
+   (Layer 8): Tau Ceti's. **Open target** (Layer 8): the structured form of that correspondence,
+   the norm-subgroup Galois insertion with the maximal abelian sublayer as its closure, in
+   characteristic zero and in the prime-to-`p` range; `Suggested.lean` states the
+   characteristic-zero form. The `p`-primary part in equal characteristic `p` is
    FunctionFieldArithmetic's (see the consumers below).
 5. The local Weil group: its carrier inside `G_K`, the Weil topology, functoriality along finite
    separable extensions embedded in `Kˢ`, the exact sequence `1 → I_K → W_K → ℤ → 1`, and, in
@@ -2411,6 +2418,11 @@ different exponents. For Galois `L/K` this sum is `g_v f_v d_v = g_v δ(L_w/K_v)
 | absolute unit-filtration reciprocity, on the absolute upper filtration of a local field | `localAbsoluteUpperRamificationGroup`, `map_artinMap_unitFiltration_eq_upper` |
 | the principal ideal theorem | `isPrincipal_map_hilbertClassField` |
 | the global conductor–discriminant formula, product and lcm | `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm` |
+
+`Suggested.lean` also states the structured form of Tau Ceti's local correspondence in
+characteristic zero (Layer 8): the Galois connection `localClassField_galoisConnection` and its
+closure equation `localClassField_localNormOpenSubgroup`. Each follows from pinned lemmas in a few
+lines, so they record the Layer 8 target rather than a headline theorem.
 
 `Suggested.lean` is the roadmap's acceptance test. It states these theorems, each with `sorry`,
 against the pinned Mathlib and Tau Ceti. Its one simple definition, with a real body, is
