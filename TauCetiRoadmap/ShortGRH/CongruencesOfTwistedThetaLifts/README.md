@@ -84,8 +84,9 @@ is the valuation of `ℚ̄_ℓ` with `v_ℓ(ℓ) = 1`, with values in `[0, ∞]`
 subgroup fixing the `ℓ^ν`-th roots of unity.
 
 **Representations.** An `ℓ`-adic representation of rank `n` is a homomorphism `R : G_E → GL_n(ℚ̄_ℓ)`; a *lattice* of
-`R` over `O` is a homomorphism `u : G_E → M_n(O)` that is conjugate to `R` over `ℚ̄_ℓ`. A place of `Ω` is a valuation
-subring; for a place `A` over a finite place `w` of `E`, `I_A` is its inertia group, `τ_A` the chosen generator of tame
+`R` over `O` is a homomorphism `u : G_E → M_n(O)` that is conjugate to `R` over `ℚ̄_ℓ`. A place of `Ω` is an
+absolute-value place (IdelicReciprocityCountsAndCyclotomicClassGroups §1.1), finite ones written as valuation
+subrings; for a place `A` over a finite place `w` of `E`, `I_A` is its inertia group, `τ_A` the chosen generator of tame
 inertia, and a *Frobenius datum* is a place `w` of prime norm, a place `A` over it and a geometric Frobenius element
 there. "For most Frobenii" refers to the filter of the formal proof: a set of Frobenius data belongs to it if every
 nonempty open set of `G_E` has a nonempty open part `U` such that, for almost all `w`, it contains every datum with
