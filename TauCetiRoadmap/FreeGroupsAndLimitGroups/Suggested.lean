@@ -91,10 +91,6 @@ theorem exists_maximalRoot (x : FreeGroup α) (hx : x ≠ 1) :
   sorry
 
 /-- Commuting elements are powers of a common element (§1.5). -/
-/- Shared Mathlib interface names (README, Scope and ownership):
-`FreeGroup.centralizer_of_eq_closure`,
-`FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`,
-`FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. -/
 theorem commute_iff_exists_zpow (x y : FreeGroup α) :
     Commute x y ↔ ∃ r : FreeGroup α, ∃ m n : ℤ, x = r ^ m ∧ y = r ^ n := by
   sorry
