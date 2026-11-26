@@ -33,6 +33,7 @@ body:
         - AdicSpacesPartIII
         - AdicSpacesPartIV
         - AdicSpacesPartV
+        - AdmissiblePairsAndPadicHodgeStructures
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCircuitsAndValiantsClasses
@@ -112,6 +113,7 @@ body:
         - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
         - ClassicalErgodicTheory
+        - ClassicalGroupsPartII
         - ClassicalSerreModularity
         - ClassifyingSpaces
         - ClusterAlgebras
@@ -267,6 +269,7 @@ body:
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GlobalShtukasAndFunctionFieldLanglands
         - GraphColouring
         - GraphConnectivityAndFlows
         - GroebnerGeometry
@@ -275,7 +278,9 @@ body:
         - GrothendieckEulerForms
         - GroupActionsOnRiemannSurfaces
         - GroupSchemesOverABase
+        - HabiroCohomologyFoundations
         - HabiroCyclotomicCompletions
+        - HabiroNumberFields
         - HalfIntegralWeightModularForms
         - HamiltonianCycles
         - HamiltonianFloerOperations
