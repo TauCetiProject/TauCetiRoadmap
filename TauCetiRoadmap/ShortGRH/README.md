@@ -283,10 +283,20 @@ lower bound.
   the second part of the spanning theorem: the bound for the remaining terms of the second moment,
   and its main term, through Kloosterman sums, one-sided Poisson summation and a sieve over all
   places.
+- [**Pairs of frames at one place**](PairsOfFramesAtOnePlace/README.md):
+  the local estimates of the spanning theorem, at a real place and at the finite places: place
+  data and the measures of the floors, the forms of two frames and their decay, the finite Bessel
+  vector, the density at the last entry, and groups that fix given vectors; with a supplement on
+  discrete series with a large gap (steep parameters, periods by Laplace's method). It covers the
+  folders `New/Spanning/Frames` and `New/Appendix/DiscreteSeries` of `[ShortProof]`.
 - [**Determinants of theta lift chains**](DeterminantsOfThetaLiftChains/README.md):
   the first half of the lower bound: a twist for each prime, norms of theta lifts, the exchange
   identity, the norm of a chain of lifts and its two determinants, auxiliary forms, and Theorem C,
   integral forms are long.
+- [**Norms of theta lifts and exchange identities for one lift**](NormsOfThetaLiftsAndExchangeIdentities/README.md):
+  one lift of the lower bound: false lifts and denominators of projections, Hecke L-values as
+  squared norms of lifts from `U(1)` and their heights, the three exchanges, the comparison
+  operator, and the cost of one lift. It covers the folder `New/OneLift` of `[ShortProof]`.
 - [**Congruences of twisted theta lifts**](CongruencesOfTwistedThetaLifts/README.md):
   the first half of the congruences of the lower bound: congruences and the choice of twists,
   congruences and Galois representations, and congruences to first order by Ribet's method.
