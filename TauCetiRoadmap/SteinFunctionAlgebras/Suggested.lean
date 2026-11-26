@@ -41,7 +41,7 @@ Not stated here:
 
 The pinned Tau Ceti predates `TauCeti.IsSteinManifold`, so the file defines `IsStein` locally with
 the same three axioms as SF0. When the pin advances, the local definition is replaced by the
-library class and the rest of the file is unchanged.
+library class and the theorem hypotheses are restated with that class.
 -/
 
 noncomputable section
