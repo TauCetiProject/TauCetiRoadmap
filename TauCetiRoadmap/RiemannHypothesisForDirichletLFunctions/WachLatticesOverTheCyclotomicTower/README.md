@@ -4,7 +4,7 @@
 
 The headline theorems are these. (1) If the Hodge–Tate weights `HT_i(V)` lie in `[−a_i, b_i]` with `a_i, b_i ≥ 0`, each `N̄_i` is free of rank `dim V` over `k[[X]]`, with `φ_i^*N̄_{i−1} ⊂ X^{−a_i}N̄_i`, `X^{b_i}N̄_i ⊂ φ_i^*N̄_{i−1}` and `(γ − 1)N̄_i ⊂ XN̄_i`, and the operator `X^{−1}(γ − 1)` on `N̄_i/XN̄_i` has characteristic polynomial `∏_{u∈HT_i(V)}(Y − ū)`. Conversely, if `T` is a stable lattice in any `E`-representation `V` and a finite free `O_E⊗A_F^+`-submodule `N` spanning `D(T)` satisfies `q^{a_i}e_iφ(N) ⊆ N`, `q^{b_i}e_iN ⊆ φ^*N` and `(g − 1)N ⊆ πN` for all `g ∈ Γ_F`, then `V` is crystalline with `HT_i(V) ⊂ [−a_i, b_i]` and `N = N(T)`. (2) Let `ρ` be crystalline of dimension `r` with weights `HT_i(ρ) = U_i` and a stable lattice `T₀`, and let `χ_c = χ_1χ_cyc^{−(c−1)}` (`1 ≤ c ≤ t`) be crystalline characters with `HT_i(χ_c) = {w_i + c − 1}`; call a finite `O_E[G_F]`-module admissible if it is isomorphic to `L₁/L₂` for stable lattices `L₂ ⊂ L₁` in a finite sum of crystalline representations with weights `U_i ⊔ {w_i, …, w_i + t − 1}` and with the characteristic polynomials of `ρ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` modulo `λ`. If the weights satisfy explicit position inequalities relative to `p` (which force `p ≥ 11` but allow weights far above `p`), the classes `z ∈ H¹(G_F, (T₀/λ)(χ̄_1^{−1}))` whose extension of `k(χ̄_1)` by `T₀/λ` is admissible form a subspace of dimension at most `d = Σ_i #{u ∈ U_i : u < w_i}`. (3) For a surjection `f : T₁ ↠ T₂` of stable lattices in crystalline representations with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i ≥ 0`, and `H = max_i(M_i + h_i)`, every cokernel `e_iN(T₂)/f(e_iN(T₁))` is killed by `π^H` and by `p^{e_W}`, `e_W = ⌊Hp/(p − 1)² + 3 + log_p(H + 1)⌋`, and vanishes when `H ≤ p − 2`. (4) If `HT_i(V) = U_i ⊂ [0, h]` and `t ≥ 1` graded pieces of a filtration of `T/λT` by `G_F`-submodules are isomorphic to `k(χ̄_s)` for crystalline characters `χ_s` with `HT_i(χ_s) = {w_{i,s}} ⊂ [0, h]`, the lattices that `N̄(T)` induces on these pieces are `X^{c_s(i)}N̄(O_E(χ_s))_i` for unique integers `c_s(i)`, the carries, with `0 ≤ w_{i,s} + p·c_s(i − 1) − c_s(i) ≤ h` and `(p − 1)|c_s(i)| ≤ h`, and the sum of `w_{i,s} + p·c_s(i − 1) − c_s(i)` over the `t` pieces is at least the sum of the `t` smallest elements of `U_i`.
 
-The roadmap builds on [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md), whose Wach modules, integral étale realization, operator `ψ` and Herr complexes it uses and whose Layer 6 it continues, and on [PadicPeriodRings](../../PadicPeriodRings/README.md) for crystalline representations. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) turns the residual bound into the identification of torsion classes cut out of crystalline lattices with the Bloch–Kato finite ones and uses the cokernel bounds for its lifting theorems with loss, and [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) uses the Sen weights modulo `p` and the carries for weight elimination.
+The roadmap builds on [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md), whose Wach modules, integral étale realization, operator `ψ` and Herr complexes it uses, and whose Layer 6, which it continues, also states Berger's comparison over the open disc, the action of `Γ_F` modulo `φ^{s−1}(q)` and Wach's crystallinity criterion, of which parts of 6.4 and 6.5 are corollaries, and on [PadicPeriodRings](../../PadicPeriodRings/README.md) for crystalline representations. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) turns the residual bound into the identification of torsion classes cut out of crystalline lattices with the Bloch–Kato finite ones and uses the cokernel bounds for its lifting theorems with loss, and [CongruenceModulesOfThetaLifts](../CongruenceModulesOfThetaLifts/README.md) uses the Sen weights modulo `p` and the carries for weight elimination.
 
 The roadmap has one layer, numbered 6 after the layer of PhiGammaModulesAndIwasawaCohomology it continues. Its first two targets reduce Wach lattices modulo `λ` on `Γ_F^{tor}`-invariants, with heights, exact sequences, localisation at `ζ_p − 1` and at all levels, the crystallinity criterion, and the Sen operator with the Sen weights modulo `p`. The next three are semilinear algebra over `k((X))`: lattice families with the same height conditions agree up to a power `X^σ`, a gauge lemma, the operator `ψ` modulo `p` with two polar counts, and the counting theorem for polar Herr pairs. The last three define position data and models of admissible modules and prove the residual bound, bound the cokernel of the Wach lattices of a surjection and the torsion of a truncated Herr complex, and compute the carries of rank-one subquotients.
 
@@ -19,11 +19,50 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both labels.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
+of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when it
+does not cover the whole section. The general theorem is proved in the roadmap that states it, and what the
+line covers is deduced from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that
+case, not the general theorem in full: the `*Method of the formal proof:*` label says how [FormalProof] proves
+it, and for which form of the statement when that proof has a narrower one. Where the route given with the
+section is not the deduction, it is a second proof, [FormalProof]'s unless the label says that it differs; the
+`*Needs:*` line lists what that route needs, and the deduction needs the section that the `*Corollary of:*`
+line names.
+
 ## Layer 6: Wach lattices modulo a uniformizer, Sen weights and carries
 
 This layer continues PhiGammaModulesAndIwasawaCohomology §§6.0–6.3, which construct Wach modules, their base change, good bases and `ψ`-fixed vectors. It reduces Wach lattices modulo `λ` (6.4, 6.5), develops the semilinear algebra of lattice families modulo `p` (6.6–6.8), and applies it to admissible classes (6.9), to surjections of crystalline lattices (6.10) and to rank-one subquotients (6.11).
 
 ### 6.4 Reduction of Wach lattices modulo a uniformizer
+
+*Origin:* particular to this proof: the reduction of Wach lattices modulo `λ` on the `Γ_F^{tor}`-invariants, with its
+heights, `Γ` condition and rank-one case ((1)–(4)). Adapted from Berger (2004), Berger (2008) and Wach (1996): the heights
+of `N(T)` (the first half of (2)), which Berger (2004), Définition III.4.1 and the sentence after it, has with one bound for
+all embeddings and the opposite sign of the weights, here labelled by the embeddings of `F`; the saturation, sums and exact
+sequences of `N(T)` (in (5)), from Berger's equivalence `V ↦ N(V)` and its bijection on lattices (Berger (2004),
+Proposition III.4.2) with `N(T) = N(V) ∩ D(T)` (Lemme II.1.3); Berger's comparison of `N(V)` with `D_cris(V)` after
+inverting `t`, with its regularity at `π = 0` (in (6)); the `Fil⁰` form of the localisations, which Berger (2008) has for the module over the Robba ring at the levels
+beyond a bound, here for the Wach module at the zeros of `φ^{s−1}(q)` for every `s ≥ 1`, with the membership test ((6),
+(7)), which [FormalProof] has one level at a time; and Wach's crystallinity criterion (in (8)), here with heights labelled
+by the embeddings of `F`. The reading of (7) on `N(V)` at the zeros of `φ^{s−1}(q)` is this roadmap's own formulation.
+
+*Method of the formal proof:* the Wach lattice of a crystalline lattice `T` is obtained as the value, on the prism of the
+cyclotomic tower, of a prismatic `F`-crystal realising `T`, whose existence for every crystalline lattice, with the full
+faithfulness of the realisation, is proved first over a perfect prism from a Breuil–Kisin datum and the periods of the
+lattice on a disc; the invariant basis, heights, rank one, saturation and additivity of (1), (2), (4) and (5) are derived
+from this datum. The localisations of (6) and (7) are taken in the coefficientwise and level-by-level forms stated there,
+and of (8) only the conclusion `N = N(T)` for `T` known to be crystalline is proved. The route below is not this proof:
+it takes `N(T)` from its construction inside the étale `(φ,Γ)`-module (PhiGammaModulesAndIwasawaCohomology §6.0) and
+derives the clauses from its uniqueness, its tensor law and twists by crystalline characters, from Berger's comparison and
+from Wach's criterion.
+
+*Corollary of:* PhiGammaModulesAndIwasawaCohomology §6.4 (Berger's comparison: after inverting `t`, `N(V)` and
+`D_cris(V)` span the same module over `B^+_{rig,F}`, compatibly with `φ`, `Γ_F` and `E`), for the comparison in (6);
+PhiGammaModulesAndIwasawaCohomology §6.6 (Wach's crystallinity criterion, with one height bound for all embeddings), for
+(8), through the twist of its route.
 
 **Setting (fixed for 6.4–6.9).** Let `p` be odd, `F/ℚ_p` finite unramified of degree `n` with residue field `k_F`,
 and `E/ℚ_p` finite with valuation ring `O_E`, uniformizer `λ` and residue field `k`, such that `E` contains the images of
@@ -152,11 +191,14 @@ because `p·a ∈ A^+` implies `a ∈ A^+`. So `V ⊗ ψ` is of finite height, a
 bound on the weights rest on the published criterion; [FormalProof] has the last conclusion, `N = N(T)`, for `T` already
 known to be crystalline); its weights are the jumps
 of the filtration of PhiGammaModulesAndIwasawaCohomology §6.0, in `[0, a_i + b_i]` at `i`. Uniqueness (PhiGammaModulesAndIwasawaCohomology §6.0) gives `N ⊗ N(ψ) = N(T ⊗ ψ)`; untwist. Sources:
-Berger-Wach-2004, Proposition II.1.1, and, as the inputs of (6)–(7), Proposition II.2.1 (the inclusion of `D_cris(V)` in
-`B^+_{rig,F} ⊗ N(V)`), Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
-of powers of `φ^{s−1}(q)/p` with the weights as exponents), Proposition III.2.2 (the action of the subgroup of `Γ_F` fixing
-`F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration); Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2) (the
-`Fil⁰` form of the localisations); Wach 1996, Théorème, p. 380, with Remarque a), p. 381 (the criterion of (8)); the facts
+Berger-Wach-2004, Proposition II.1.1; for the comparison of (6), Proposition II.2.1 (the inclusion of `D_cris(V)` in
+`B^+_{rig,F} ⊗ N(V)`) and Propositions II.3.1 and III.2.1 (the elementary divisors of that inclusion, products over `s ≥ 1`
+of powers of `φ^{s−1}(q)/p` with the weights as exponents), with Proposition III.2.2 (the action of the subgroup of `Γ_F`
+fixing `F_s` on `N(V)/φ^{s−1}(q)N(V)`) and Theorem III.4.4 (the filtration). The `Fil⁰` form of the localisations `ι_s` of
+the Wach module at every level `s ≥ 1` and the membership test of (7) are in neither paper: Berger-Wach-2004 has no map to
+`F_s[[t]]` and no `Fil⁰` statement, and Berger-2008, Proposition II.2.5 with Théorème V.2.3 (2), has the `Fil⁰` form for a
+model of the module over the Robba ring on an annulus, at the levels beyond a bound that depends on the annulus
+(PadicHodgeTheory §5.2); Wach 1996, Théorème, p. 380, with Remarque a), p. 381 (the criterion of (8)); the facts
 on `π₀` and `X` follow from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p9`),
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/PowerSeriesOneAddConstMulXMulInv.lean`
@@ -170,7 +212,7 @@ for (4), [FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGaloisD
 known to be crystalline, the last conclusion of (8), `N = N(T)`, follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/DeltaInvariantLattices.lean` (`Formalism.MainNotions.DeltaInvariantLattices.p10`).
 *Needs:* PhiGammaModulesAndIwasawaCohomology §§6.0–6.1; PhiGammaModulesAndIwasawaCohomology §1.0 (integral étale realization and its reduction); PhiGammaModulesAndIwasawaCohomology §3.4 (the
-prime-to-`p` torsion adapter); PadicHodgeTheory §1.5 (localisation maps at every level); PadicPeriodRings §§4.1–4.3.
+prime-to-`p` torsion adapter); PhiGammaModulesAndIwasawaCohomology §6.4 (Berger's comparison, in (6)) and §6.6 (Wach's criterion, in (8)); PadicHodgeTheory §1.5 (localisation maps at every level); PadicPeriodRings §§4.1–4.3.
 
 **API.**
 
@@ -214,6 +256,24 @@ prime-to-`p` torsion adapter); PadicHodgeTheory §1.5 (localisation maps at ever
   surjection with weights `{0, −(p − 1)}` whose Wach lattices have cokernel `O_E[[π]]/(p, π^{p−1})`.
 
 ### 6.5 The Sen operator of a Wach lattice and Sen weights modulo `p`
+
+*Origin:* adapted from Berger (2004): the action of `Γ_F` on a Wach module modulo `q`, here as the integral operator
+`ν = π₀^{−1}(γ − 1)` on the `Γ_F^{tor}`-invariants of each factor, whose eigenvalues modulo `p` are the residues of the
+Hodge–Tate weights, to every order `s` and on polar parts, with the semisimplicity at zero of (3).
+
+*Method of the formal proof:* at one zero `ζ − 1` of `π₀ + p` the lattice is expanded in a coordinate in which `γ`
+rescales the variable by `1 + p`, where by 6.4 it has generators that `γ` multiplies by `(1+p)^{−u}`; the operator `ν` on
+the truncation modulo `(π₀ + p)^s` becomes an explicit operator on truncated power series, diagonalised by eigen-series
+computed coefficient by coefficient, and freeness of the truncation over `O_E` brings the polynomial identity and the
+characteristic polynomial back to the lattice. The same diagonal form is proved between any two powers of `π₀ + p`,
+negative ones included, and (4) follows from it; (2) and (3) are the reductions modulo `λ`. The route below differs from
+this proof in (1): it filters the localised module by the sums of the eigenspaces of `γ`, on whose graded pieces `ν` acts
+by the pairwise distinct scalars `c(m)`, where the proof diagonalises `ν` itself; in (3) it uses an intersection identity
+where the proof uses the trace over `Γ_F^{tor}`.
+
+*Corollary of:* PhiGammaModulesAndIwasawaCohomology §6.5 (for a positive crystalline `V` and `s ≥ 1`, the subgroup of
+`Γ_F` fixing `F_s` acts on `N(V)/φ^{s−1}(q)N(V)` diagonally, by `χ(γ)^{−r}` for the Hodge–Tate weights `r`), for the
+case `s = 1` of (1) after inverting `p`, without the assignment of the weights to the factors `e_i`.
 
 In the setting of 6.4, let `V` be crystalline and put `U_i := HT_i(V)`. Put `ν := π₀^{−1}(γ − 1)` and
 `c(a) := (1 − (1+p)^a)/p ∈ ℤ_p` for `a ∈ ℤ` (so `c(a) ≡ −a` modulo `p`, and `c` is injective). The
@@ -285,6 +345,15 @@ case `s = 1` of (1) after inverting `p`); for (1), [FormalProof],
 
 ### 6.6 Lattice families in étale `(φ,γ)`-modules over `k((X))`
 
+*Origin:* adapted from the comparison of lattices of bounded height in one étale `φ`-module: here for families over
+`k((X))` with the cyclotomic variable, heights labelled by embeddings, and Sen multiplicities; nearest published result:
+Caruso and Liu (2009), maximal and minimal models of torsion Kisin modules.
+
+*Method of the formal proof:* `∇` acts on `X^{a+j}N/X^{a+j+1}N` as `∇ − (a + j)` on `N/XN`, and multiplicities add along
+the chain of graded pieces. For the comparison, the least exponents `m_i` with `X^{m_i}N_i ⊂ N′_i` satisfy
+`p·m_{i−1} ≤ m_i + h_i`, because Frobenius pullback multiplies exponents by `p`; iterating around the cycle of embeddings
+gives `m_i ≤ σ_i`.
+
 Let `k` be a field of characteristic `p`, and let `φ, γ` be commuting `k`-algebra endomorphisms of `k((X))` with
 `φ(X) ∈ X^pk[[X]]^×` and `γ(X) ∈ X − X² + X³k[[X]]` (as in 6.4). An **étale `(φ,γ)`-family** of rank `r` is a family
 `D = (D_i)_{i∈ℤ/n}` of `r`-dimensional `k((X))`-spaces with `φ`-semilinear `φ_i : D_{i−1} → D_i` whose linearizations
@@ -337,6 +406,16 @@ definitions, [FormalProof], `Development/AbelianVarietyTheory/Definitions/NonGal
 - `n = 2`, `h_0 = h_1 = 60`, `p = 41`: `σ_0 = σ_1 = ⌊60/40⌋ = 1`, and (3) reads `2 ≤ 41·2 − 60`.
 
 ### 6.7 Herr pairs on lattice families: the gauge lemma, the operator `ψ` modulo `p`, and two polar counts
+
+*Origin:* adapted from Herr (1998) and Cherbonnier and Colmez (1999), the operator `ψ` and the bijectivity of `γ − 1` on
+`ψ`-zero parts: here a filtered form modulo `p` with exact exponent ranges (3); the gauge lemma (1) and the polar counts
+(2), (4) are particular to this proof.
+
+*Method of the formal proof:* the gauge lemma solves `∇y = g/X` in the window where `∇` is bijective and then uses that
+`1 − φ` is bijective on a family that `φ` maps into `X` times itself; the operator `ψ` comes from the decomposition
+`⊕_j(1+π)^jφ(·)`, on whose summands with `j ≠ 0` the map `γ − 1` is `(1+π)^jγ − 1` and shifts the `π`-adic filtration
+bijectively by one step. For the polar count every element `x` of `F = X^{−v}φ^*N₀` is `X^{−1}φ(ψ(Xx))` plus an element
+of `∇F`, so the cokernel of `∇` on a finite-dimensional quotient, and with it the kernel, has dimension at most the rank.
 
 For an étale `(φ,γ)`-family `D` the **Herr complex** is `∏_iD_i → ∏_iD_i × ∏_iD_i → ∏_iD_i` with
 `d(x) = ((φ_ix_{i−1} − x_i)_i, (γ_ix_i − x_i)_i)` and `d(b, g) = ((γ_i − 1)b_i − φ_ig_{i−1} + g_i)_i`, the family form of
@@ -433,6 +512,14 @@ p. 578 (`ψ`), and Théorème 3.8 (1), p. 584 (`γ − 1` bijective on the `ψ`-
 
 ### 6.8 The counting theorem
 
+*Origin:* particular to this proof: a dimension count for Herr cocycles with prescribed poles on lattice families, by
+Sen weights modulo `p`.
+
+*Method of the formal proof:* each polar pair is changed by a coboundary from the lattice family until its second
+component lies in `X^{σ_i+3}N_i`; the classes of the corrected first components modulo `N_i` are bounded at a low index
+by the kernel of `∇` on `X^{−w_i}N_i/N_i` and at a high index by a count of the cokernel of `∇` obtained from `ψ`; a
+combination whose classes all vanish is a coboundary, so independent pairs inject into a space of dimension at most `d`.
+
 Work over the ring of 6.4 (`p ≥ 3`). Let position data of rank `r` and block length `t` (6.9) be in position, with `σ_i`,
 `d_i` and `d = Σ_id_i` as there, and put `v_i := h_i − w_i`. Let `N` be a lattice family of rank `r` in a cyclotomic étale
 family `D` with the height condition `(w, h − w)` and the `Γ` condition. Assume for every `i`: `N_i` has no Sen weight in
@@ -469,6 +556,15 @@ a coboundary by 6.7 (1b), and `t = 0`. Hence `a ↦ (c_{a,i} mod N_i)_i` is inje
   bound is not asserted.
 
 ### 6.9 Position data, models, and the residual bound for admissible classes
+
+*Origin:* particular to this proof: a bound for the classes cut out of crystalline lattices with Hodge–Tate weights far
+above `p`, under position inequalities relative to `p`, with the position data and models on which it rests; when every
+`h_i ≤ p − 2` it is the count of Fontaine–Laffaille extensions (Checks).
+
+*Method of the formal proof:* every admissible class is represented by a Herr pair built from a lift of the generator of
+the trivial quotient in a model of its extension, the model of a block character being unique by a count of Sen weights
+over a composition series; all models lie in a largest one, whose Sen multiplicities are computed from those of the
+standard lattice by a telescoping identity, and the counting theorem of 6.8 applied to it gives the bound `d`.
 
 **Position data.** In the setting of 6.4, position data of rank `r` and block length `t ≥ 1` consist, for every
 `i ∈ ℤ/n`, of integers `h_i ≥ 2`, `η_i ≥ 1`, `w_i`, a type (low or high) and a multiset `U_i` of `r` integers. The
@@ -639,6 +735,16 @@ finite `p`-primary modules); PadicPeriodRings §§4.1–4.3 (crystalline represe
 
 ### 6.10 Annihilators of the cokernel of Wach lattices, and the truncated Herr complex
 
+*Origin:* adapted from Berger (2004), the comparison of the Wach lattices of congruent crystalline lattices: here
+explicit annihilators for the cokernel of a surjection, a recursion across embeddings, and a torsion exponent for a
+truncated Herr complex.
+
+*Method of the formal proof:* for the cokernel, the ideals of multipliers `I_i = {g : g·e_iN ⊆ e_iN′}` satisfy
+`q^{M_i+h_i}I_i ⊆ φ(I_{i−1})O_E[[π]]` by the unique decomposition on the `(1 + π)^kφ(·)`, and a colon-ideal argument
+modulo the uniformizer forces `π^H ∈ I_i`. The descent applies `γ − 1` to `cX^{j+1}n` and divides by `X`, at the cost of
+`u^{j+1} − 1`; the recursion expands `q = pw + π^{p−1}` binomially; the statement on the truncated complex applies a
+polynomial `R(δ)` in `δ = π₀^{−1}(γ − 1)` and uses `R(0) = R(δ) − δR₁(δ)`.
+
 In the setting of 6.4, let `f : T₁ ↠ T₂` be a surjection of `G_F`-stable `O_E`-lattices in crystalline `E`-representations,
 with `HT_i(T₁) ⊂ [−M_i, h_i]`, `M_i, h_i ≥ 0` (standing convention: `ℚ_p(1)` has weight `−1`); put `H := max_i(M_i + h_i)`,
 `M := max_i M_i`, `c_H := 1 + ⌈log_p(H + 1)⌉`, `C_i := e_iN(T₂)/f(e_iN(T₁))`, and let `s_i` be the least `s` with `π^sC_i = 0`.
@@ -773,6 +879,18 @@ Mathlib `PowerSeries`, `Polynomial`.
 
 ### 6.11 Rank-one subquotients of a reduced Wach lattice: carries
 
+*Origin:* adapted from the analysis of rank-one subquotients of reduced Kisin modules: here for reduced Wach lattices
+with weights beyond `p`, with the carries and a bound on minors; nearest published result: Gee, Liu and Savitt (2012),
+Kisin modules in weights up to `p`.
+
+*Method of the formal proof:* at each zero of `q` the localisation of 6.4 writes the matrix of Frobenius on the invariant
+Wach lattice, in bases, as an invertible matrix times `diag(t^u)` times an invertible matrix, so its `m′ × m′` minors
+vanish there to the order `σ_{m′}(U_i)`, and the order of vanishing descends to divisibility by a power of `π₀ + p`; in
+bases adapted to the filtration the reduced matrices of Frobenius and of `γ` are block triangular, and (2) to (5) are
+read from their diagonal entries at the characters, from the characteristic polynomial of the first-order part of `γ`
+and from the principal minor at the characters. The route below proves (0) otherwise, through the Wach lattice of the
+exterior power and a twist.
+
 In the setting of 6.4, let `V` be crystalline of dimension `r` with `HT_i(V) = U_i ⊂ [0, h]` for every `i`, `T ⊂ V` a stable
 lattice, `0 = A_0 ⊂ A_1 ⊂ ⋯ ⊂ A_m = T/λT` a filtration by `G_F`-submodules, and for a graded piece `G = A_l/A_{l−1}` let
 `N̄^G` be the lattice family induced by `N̄(T)` on `D̄(G) = D̄(A_l)/D̄(A_{l−1})`: intersect with `D̄(A_l)`, then take the image.
@@ -829,7 +947,7 @@ For `F = ℚ_p` and `T = ℤ_p(−a)` with `a ≥ 0`, `N̄` is free on a vector 
 
 ### Dependencies
 
-PhiGammaModulesAndIwasawaCohomology §§0.1, 1.0, 2.2, 2.4, 2.5, 3.1, 3.4, 3.5, 3.6, 6.0 and 6.1; PadicPeriodRings §§4.1–4.3 for crystalline representations; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1 for labelled Hodge–Tate weights; PadicHodgeTheory §1.5 for the localisation maps; PadicLocalLanglandsForGL2Qp §0.2 for crystalline characters of prescribed labelled weights; Mathlib power series, Laurent series, polynomials, generalized eigenspaces, determinants and exterior powers.
+PhiGammaModulesAndIwasawaCohomology §§0.1, 1.0, 2.2, 2.4, 2.5, 3.1, 3.4, 3.5, 3.6, 6.0, 6.1 and 6.4–6.6; PadicPeriodRings §§4.1–4.3 for crystalline representations; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1 for labelled Hodge–Tate weights; PadicHodgeTheory §1.5 for the localisation maps; PadicLocalLanglandsForGL2Qp §0.2 for crystalline characters of prescribed labelled weights; Mathlib power series, Laurent series, polynomials, generalized eigenspaces, determinants and exterior powers.
 
 ## Downstream consumers
 
@@ -839,15 +957,15 @@ In the family RiemannHypothesisForDirichletLFunctions, SelmerLengthBoundsAndLoca
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns, in the setting of 6.4: the reduction of Wach lattices modulo a uniformizer of the coefficients, their behaviour in exact sequences of lattices and the crystallinity criterion by heights and the `Γ` condition, their localisation at `ζ_p − 1` and at all levels, their Sen operator (also on the polar parts) and Sen weights modulo `p` (6.4, 6.5); the semilinear algebra of lattice families in étale `(φ,γ)`-modules over `k((X))`: comparison, gauge lemma, the operator `ψ` modulo `p` with its filtered surjectivity, polar counts and the counting theorem (6.6–6.8); position data and models of admissible modules, and the residual bound for admissible classes (6.9); the annihilators of the cokernel of the Wach lattices of a surjection of crystalline lattices, with the torsion bound for a truncated Herr complex (6.10); and the lattices induced by a reduced Wach lattice on rank-one subquotients of the reduction, with their carries (6.11).
+This roadmap owns, in the setting of 6.4: the reduction of Wach lattices modulo a uniformizer of the coefficients, their behaviour in exact sequences of lattices and the crystallinity criterion in the form with heights labelled by the embeddings of `F`, their localisation at `ζ_p − 1` and at all levels, their Sen operator (also on the polar parts) and Sen weights modulo `p` (6.4, 6.5); the semilinear algebra of lattice families in étale `(φ,γ)`-modules over `k((X))`: comparison, gauge lemma, the operator `ψ` modulo `p` with its filtered surjectivity, polar counts and the counting theorem (6.6–6.8); position data and models of admissible modules, and the residual bound for admissible classes (6.9); the annihilators of the cokernel of the Wach lattices of a surjection of crystalline lattices, with the torsion bound for a truncated Herr complex (6.10); and the lattices induced by a reduced Wach lattice on rank-one subquotients of the reduction, with their carries (6.11).
 
-Not owned here. The theory these statements extend is owned by [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md): Wach modules over `O_E⊗A_F^+` with their `q`-heights, trivial `Γ` action modulo `π`, filtered reduction modulo `π` and uniqueness for a crystalline representation, including Berger's existence theorem, are PhiGammaModulesAndIwasawaCohomology §6.0; their unramified base change, good bases and `ψ`-fixed vectors PhiGammaModulesAndIwasawaCohomology §§6.1–6.3; the integral étale realization and its reduction PhiGammaModulesAndIwasawaCohomology §1.0; linearized Frobenius modules PhiGammaModulesAndIwasawaCohomology §0.1; the module `ψ` PhiGammaModulesAndIwasawaCohomology §§2.2–2.5; Herr complexes and their integral comparison with Galois cohomology PhiGammaModulesAndIwasawaCohomology §§3.1, 3.4–3.6; the cyclotomic localisations of the unfiltered de Rham lattice PhiGammaModulesAndIwasawaCohomology §5.6a; and the Sen operator of a relative Robba module PhiGammaModulesAndIwasawaCohomology §7.2a. Crystalline representations and their period functors are owned by [PadicPeriodRings](../../PadicPeriodRings/README.md): PadicPeriodRings §§4.1–4.3. The final local theorem drawn from these statements (the Bloch–Kato form of the residual bound) and the lifting theorems with loss for finite classes are not stated here: they belong to the consumer named above, [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md), and so do the lattices over ramified bases that its ramified cyclotomic and tame cases need.
+Not owned here. The theory these statements extend is owned by [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md): Wach modules over `O_E⊗A_F^+` with their `q`-heights, trivial `Γ` action modulo `π`, filtered reduction modulo `π` and uniqueness for a crystalline representation, including Berger's existence theorem, are PhiGammaModulesAndIwasawaCohomology §6.0; their unramified base change, good bases and `ψ`-fixed vectors PhiGammaModulesAndIwasawaCohomology §§6.1–6.3; the integral étale realization and its reduction PhiGammaModulesAndIwasawaCohomology §1.0; linearized Frobenius modules PhiGammaModulesAndIwasawaCohomology §0.1; the module `ψ` PhiGammaModulesAndIwasawaCohomology §§2.2–2.5; Herr complexes and their integral comparison with Galois cohomology PhiGammaModulesAndIwasawaCohomology §§3.1, 3.4–3.6; the cyclotomic localisations of the unfiltered de Rham lattice PhiGammaModulesAndIwasawaCohomology §5.6a; the Sen operator of a relative Robba module PhiGammaModulesAndIwasawaCohomology §7.2a; and Berger's comparison of a Wach module with its crystalline module over the open disc, the action of `Γ_F` modulo `φ^{s−1}(q)` and Wach's crystallinity criterion, PhiGammaModulesAndIwasawaCohomology §§6.4–6.6, the general theorems of which the comparison in 6.4 (6), the case `s = 1` of 6.5 (1) after inverting `p` (without the assignment of the weights to the factors `e_i`), and 6.4 (8) are corollaries. Crystalline representations and their period functors are owned by [PadicPeriodRings](../../PadicPeriodRings/README.md): PadicPeriodRings §§4.1–4.3. The final local theorem drawn from these statements (the Bloch–Kato form of the residual bound) and the lifting theorems with loss for finite classes are not stated here: they belong to the consumer named above, [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md), and so do the lattices over ramified bases that its ramified cyclotomic and tame cases need.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
 
-§6.0: for finite unramified `F/ℚ_p`, a crystalline `E`-representation `V` and a `G_F`-stable `O_E`-lattice `T`, the Wach module `N(V)` over `E⊗B_F^+` and the embedded lattice `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+`, finite free, with trivial `Γ` action modulo `π` and the `q`-height bound; existence, uniqueness inside `D(V)` and `D(T)`, the tensor, dual and interval-twist laws, `N(T)[1/p] = N(V)`, and the filtered comparison `D_cris(V) ≅ N(V)/πN(V)` with `Fil^iN(V) = {x ∈ N(V) : φ(x) ∈ q^iN(V)}` (used in 6.4–6.11). §6.1: unramified base and coefficient change (the API of 6.5 and 6.10). §1.0: the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` with its reduction and coefficient algebras, exact (6.4). §0.1: linearized Frobenius modules (6.6). §§2.2, 2.4, 2.5: the module `ψ` from a linearization, the `ψ`-zero projector and period coordinates (6.7). §3.1: native Herr complexes (6.7, 6.10). §3.4: generator change and the prime-to-`p` torsion adapter (6.4, 6.9). §3.5: invertibility of `γ − 1` on `ψ`-zero parts (6.7). §3.6: the integral Galois comparison of Herr cohomology for finite `p`-primary modules (6.9).
+§6.0: for finite unramified `F/ℚ_p`, a crystalline `E`-representation `V` and a `G_F`-stable `O_E`-lattice `T`, the Wach module `N(V)` over `E⊗B_F^+` and the embedded lattice `N(T) = N(V) ∩ D(T)` over `O_E⊗A_F^+`, finite free, with trivial `Γ` action modulo `π` and the `q`-height bound; existence, uniqueness inside `D(V)` and `D(T)`, the tensor, dual and interval-twist laws, `N(T)[1/p] = N(V)`, and the filtered comparison `D_cris(V) ≅ N(V)/πN(V)` with `Fil^iN(V) = {x ∈ N(V) : φ(x) ∈ q^iN(V)}` (used in 6.4–6.11). §6.1: unramified base and coefficient change (the API of 6.5 and 6.10). §1.0: the integral étale realization `T ↦ D(T)` over `O_E⊗A_F` with its reduction and coefficient algebras, exact (6.4). §0.1: linearized Frobenius modules (6.6). §§2.2, 2.4, 2.5: the module `ψ` from a linearization, the `ψ`-zero projector and period coordinates (6.7). §3.1: native Herr complexes (6.7, 6.10). §3.4: generator change and the prime-to-`p` torsion adapter (6.4, 6.9). §3.5: invertibility of `γ − 1` on `ψ`-zero parts (6.7). §3.6: the integral Galois comparison of Herr cohomology for finite `p`-primary modules (6.9). §6.4: Berger's comparison over the open disc: for positive crystalline `V`, with Hodge–Tate weights `r_1, …, r_m` as a `ℚ_p`-representation, `D_cris(V) ⊆ B^+_{rig,F} ⊗ N(V)`, `D_cris(V) = (B^+_{rig,F} ⊗ N(V))^{Γ_F}`, with elementary divisors `(t/π)^{r_1}, …, (t/π)^{r_m}`, and for every crystalline `V` the equality `B^+_{rig,F}[1/t] ⊗ N(V) = B^+_{rig,F}[1/t] ⊗_F D_cris(V)`, compatibly with `φ`, `Γ_F` and `E` (the general theorem of which the comparison in 6.4 (6) is a corollary). §6.5: for positive crystalline `V` and `s ≥ 1`, a basis of `N(V)/φ^{s−1}(q)N(V)` in which every `γ` in the subgroup of `Γ_F` fixing `F_s` acts by `Diag(χ(γ)^{−r_1}, …, χ(γ)^{−r_m})` (the general theorem of which the case `s = 1` of 6.5 (1) after inverting `p`, without the assignment of the weights to the factors `e_i`, is a corollary). §6.6: Wach's crystallinity criterion: if a finite free `O_E⊗A_F^+`-submodule `N ⊆ D(T)` spanning `D(T)` satisfies `φ(N) ⊆ N`, `q^hN ⊆ φ^*N` and `(g − 1)N ⊆ πN` for every `g ∈ Γ_F`, then `V` is crystalline with Hodge–Tate weights in `[0, h]` and `N = N(T)` (the general theorem of which 6.4 (8) is a corollary).
 
 ### From TauCetiRoadmap.PadicPeriodRings
 
@@ -871,11 +989,13 @@ Not owned here. The theory these statements extend is owned by [PhiGammaModulesA
 
 ## References
 
-- **Berger-Wach-2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Propositions II.1.1, II.2.1, II.3.1, III.2.1 and III.2.2 and Theorem III.4.4 (6.4, 6.5); Proposition IV.1.3 and the constant `α(r)` of §IV.1 (6.10).
-- **Berger-2008** — Laurent Berger, *Équations différentielles p-adiques et (φ,N)-modules filtrés*, Astérisque 319 (2008), 13–38: Proposition II.2.5 and Théorème V.2.3 (the `Fil⁰` form of the localisations in 6.4 (6)–(7)).
+- **Berger-Wach-2004** — Laurent Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498: Propositions II.1.1, II.2.1, II.3.1, III.2.1 and III.2.2 and Theorem III.4.4 (6.4, 6.5); Lemme II.1.3, Définition III.4.1 and Proposition III.4.2 (6.4 (2), (5)); Proposition IV.1.3 and the constant `α(r)` of §IV.1 (6.10).
+- **Berger-2008** — Laurent Berger, *Équations différentielles p-adiques et (φ,N)-modules filtrés*, Astérisque 319 (2008), 13–38: Proposition II.2.5 and Théorème V.2.3 (2) (the `Fil⁰` form of the localisations of the module over the Robba ring, on an annulus and at the levels beyond a bound: the nearest published result for the localisations of 6.4 (6)–(7)).
 - Nathalie Wach, *Représentations p-adiques potentiellement cristallines*, Bulletin de la Société Mathématique de France 124 (1996), 375–400: Wach modules and the crystallinity criterion, Théorème, p. 380, with Remarque a), p. 381 (6.4, 6.5).
 - Laurent Herr, *Sur la cohomologie galoisienne des corps p-adiques*, Bulletin de la Société Mathématique de France 126 (1998), 563–600: Herr complexes with torsion coefficients (Théorème 2.1, p. 572), the operator `ψ` on torsion modules (Proposition 3.1, p. 578) and the bijectivity of `γ − 1` on their `ψ`-zero parts (Théorème 3.8 (1), p. 584) (6.7, 6.9, 6.10).
 - Frédéric Cherbonnier and Pierre Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the American Mathematical Society 12 (1999), 241–268: `γ − 1` invertible on `ψ`-zero parts, Proposition I.5.1 (6.7).
 - Jean-Marc Fontaine, *Représentations p-adiques des corps locaux I*, The Grothendieck Festschrift II (1990), 249–309: étale `(φ,Γ)`-modules (6.4).
+- X. Caruso and T. Liu, *Quasi-semi-stable representations*, Bulletin de la Société Mathématique de France (2009); arXiv:0709.2118 (2007): maximal and minimal models of torsion Kisin modules, a nearest published result for 6.6.
+- T. Gee, T. Liu and D. Savitt, *The Buzzard–Diamond–Jarvis conjecture for unitary groups*, Journal of the American Mathematical Society; arXiv:1203.2552 (2012): Kisin modules in weights up to `p`, a nearest published result for 6.11.
 - **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The files and declarations named here are those of the source as published, at the first commit of that repository (<https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005>), with paths relative to its directory `src/` (see the [family index](../README.md)). It is the source of the reduction of Wach lattices modulo `λ`, the comparison and gauge lemmas, the operator `ψ` modulo `p`, the polar counts, the counting theorem, the models and the residual bound (6.4–6.9), of the annihilators of the cokernel of Wach lattices and the truncated Herr complex (6.10), and of the carries of rank-one subquotients (6.11).
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.

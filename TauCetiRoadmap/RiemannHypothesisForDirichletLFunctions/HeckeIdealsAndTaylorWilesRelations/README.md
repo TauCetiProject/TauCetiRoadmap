@@ -5,7 +5,7 @@
 - *The Hecke ideal.* Let `L` be a CM field with `L/L⁺` unramified at every finite place, `l` an odd prime, and `χ̄_1, …, χ̄_n` pairwise distinct characters of `G_{L,S}` with `⊕χ̄_i` isomorphic to its conjugate dual twisted by `ε̄^{1−n}`. Ordinary determinants lifting `det ⊕χ̄_i` are classified by a complete local noetherian ring `B` over the weight algebra `Λ`; the localized big ordinary Hecke algebra `𝕋` carries a unique ordinary determinant, and the classifying map `B → 𝕋` is surjective, with kernel `J` such that `B/J` is finite over `Λ`, `Λ`-torsion-free and reduced. Twisting by a character `γ ≡ 1` as in 3.13a (g) maps `J` into itself.
 - *Patching data.* If moreover `μ_l ⊄ L`, then `J` has automorphic patching data: at every Taylor–Wiles level `N`, modules over the ordinary determinant ring with the Taylor–Wiles places added, comparison maps whose composites are multiplication by a product `f` of differences of ordered Hecke eigenvalues, and Taylor–Wiles relations that, multiplied by `f`, act nilpotently with exponent `n!`, independent of `N`.
 - *Adjoint vanishing.* If `F` is an imaginary CM field, `n ∈ {2, 3}`, and `ρ = r|_{G_F}` is absolutely irreducible on every open subgroup of `G_F` and attached to a regular algebraic cuspidal representation of `GL_n(𝔸_F)` that is polarized (conjugate self-dual up to twist by a character), then `H¹_f(F⁺, ad r) = 0`. For `2 ≤ n ≤ 4` and ordinary `ρ` with residual representation a sum of pairwise distinct characters, `H¹_f(L⁺, ad r) = 0` under the hypotheses of 9.9 (d), among them absolute irreducibility on `G_{L(μ_{p^∞})}` and an element with separable characteristic polynomial in every nonempty open subset of that group.
-- *Kernels with lattice coefficients.* For a number field `F`, a prime `p`, a finite set `S` of places containing those above `p` and the infinite ones, and a `ℤ_p`-lattice `T` with continuous `G_{F,S}`-action, the kernel `Ш²_S(F, T)` of localization on `H²(G_{F,S}, T)` is the Pontryagin dual of `Ш¹_S(F, T^D)`, real places included.
+- *Kernels with lattice coefficients.* For a number field `F`, a prime `p`, a finite set `S` of places containing those above `p` and the infinite ones, and a `ℤ_p`-lattice `T` with continuous `G_{F,S}`-action, the kernel `Ш²_S(F, T)` of localization on `H²(G_{F,S}, T)` is the Pontryagin dual of `Ш¹_S(F, T^D)`, real places included. This is ArithmeticGaloisDuality §D7.6a (b), of which 10.1 (b) is a corollary.
 
 The targets extend PotentialAutomorphyInfrastructurePartII (definite unitary groups, their Hecke algebras and Taylor–Wiles data) and [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) (Poitou–Tate duality). Determinants come from [IntegralHeckeAndGaloisDeterminants](../../IntegralHeckeAndGaloisDeterminants/README.md), the Galois representations of definite unitary groups from [BaseChangeAndGaloisRepresentationsForUnitaryGroups](../BaseChangeAndGaloisRepresentationsForUnitaryGroups/README.md), another sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md), and Newton and Thorne's vanishing theorem from ModularityAndLanglandsExtensions.
 
@@ -35,12 +35,44 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both labels. Parts of three sections are
+not statements of [FormalProof]: 3.13a (f) for every `n ≥ 1` and without (w1) and (w2), 9.9 (a)–(c) and (d′) in its
+generality, and 10.1 beyond the instance recorded there; the second label of these sections concerns the parts that
+[FormalProof] states.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels,
+`*Corollary of:*`, which names a general theorem and the roadmap section that states it, and the
+clauses it covers when it does not cover the whole section. The general theorem is proved in the
+roadmap that states it, and what the line covers is deduced from it. The proof of the Riemann
+hypothesis for Dirichlet L-functions needs only that case, not the general theorem in full: the
+`*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the
+statement when that proof has a narrower one. Where the route given with the section is not the
+deduction, it is a second proof, [FormalProof]'s unless the label says that it differs; the
+`*Needs:*` line lists what that route needs, and the deduction needs the section that the `*Corollary
+of:*` line names.
+
 ## Layer 3: Big ordinary Hecke algebras at a reducible residual determinant
 
 This layer compares the big ordinary Hecke algebra of a definite unitary group, localized at a maximal ideal whose residual
 determinant is that of a sum of pairwise distinct characters, with the universal ring of ordinary determinants.
 
 ### 3.13a The big ordinary Hecke algebra at a reducible residual determinant, in determinant form
+
+*Origin:* adapted from Geraghty (2019), the big ordinary Hecke algebra of a definite unitary group at a non-Eisenstein maximal
+ideal, with the determinants of Chenevier (2014), and from Wake and Wang-Erickson (2017), a ring of ordinary pseudorepresentations
+equal, when the eigenspace `X_θ` of an Iwasawa class group vanishes, to the Eisenstein component of a Hida Hecke algebra in rank two
+(Theorem 4.2.8): here the ring of polarized ordinary determinants in rank `n` and its map onto the big ordinary Hecke algebra at a
+maximal ideal whose residual determinant is that of a sum of pairwise distinct characters.
+
+*Method of the formal proof:* `M` is free over `Λ` and specializes at arithmetic points to classical ordinary forms; at the points
+of each regular weight whose inertial characters have pairwise distinct finite parts, which are Zariski dense, the classical space is
+a sum of Hecke eigenspaces, so these points separate the reduced algebra `𝕋`; `D_𝕋` is glued from the determinants of the Galois
+representations at these points, the characters `ψ^𝕋_{v,i}` are read from the weight character and the `U`-operators through the
+Artin map, the defining relations are checked at these points, and `J` is the kernel of the resulting surjection `B → 𝕋`. (f), for
+`2 ≤ n ≤ 4` and `ρ` automorphic with (w1) and (w2), is proved by local–global compatibility, a comparison of the Weil–Deligne
+characteristic polynomials read off the flag, the irreducibility of unlinked principal series, and descent to `G`, which gives a
+point of the Hecke algebra.
 
 Let `L` be a CM field with `L/L⁺` unramified at every finite place, `l` an odd prime, `n ≥ 1`, `G` the definite unitary group in `n`
 variables for `L/L⁺` (PotentialAutomorphyInfrastructurePartII §3.1), and `S = S_l ∪ S_t ∪ {v₀}` a finite set of places of `L⁺` that split in `L`: `S_l` the places above `l`,
@@ -286,6 +318,23 @@ Taylor–Wiles places.
 
 ### 4.2a Automorphic patching data at a reducible residual determinant
 
+*Origin:* adapted from Thorne (2022), §3 (Lemma 3.7, Proposition 3.8) and §5 (its Taylor–Wiles data and relation (5.1)), where the
+characteristic polynomial of Frobenius is split into two coprime factors at parahoric level, with no condition on the residual
+eigenvalues, the two comparison maps compose to multiplication by the resultant on modules killed by `Nv − 1`, and the relations are
+multiplied by a power of a resultant with exponent `n!`, independent of the level: here the full flag at Iwahori level, for the Hecke
+ideal `J` of 3.13a, with `f` the product over all ordered pairs and its factors `U_{j,i} − Nw_{N,j}·U_{j,i′}` keeping the norm.
+
+*Method of the formal proof:* (L) is applied to the places of the datum at each level `N`: the `U_{j,i}` are the normalized
+double-coset operators of the diagonal matrices on the Iwahori invariants, the trace to Iwahori level is onto with kernel generated
+by the diamond variables because the invariants are projective over the diamond group ring, `M_N` is the summand on which the
+`U_{j,i} − u_{j,i}` and the diamond variables are topologically nilpotent, and the two comparison maps are the inclusion of the
+spherical vectors extended over the polynomial ring in the `U_{j,i}` and the spherical projector applied after an explicit pair of
+dual bases of that ring over its symmetric polynomials, whose composite, the product over `j` and `i < i′` of
+`U_{j,i′} − Nw_{N,j}·U_{j,i}`, divides `f`, one of the maps being multiplied by the cofactor. The relations hold with exponent `n!`
+because the invariants of an irreducible smooth representation under a subgroup of the Iwahori subgroup defined by a subgroup of the
+diagonal residues have dimension at most `n!`, a polynomial in commuting operators vanishing at every joint eigencharacter of a space
+of dimension `d` has `d`-th power zero, and the level module is separated by its classical specializations.
+
 In the setting of 3.13a, assume `μ_l ⊄ L`. A *Taylor–Wiles datum* consists of `q ≥ 0`, elements `σ_1, …, σ_q ∈ G_{L(μ_{l^∞})}`, and
 for each `N ≥ 1` places `w_{N,1}, …, w_{N,q}` of `L`, above pairwise distinct places `v_{N,1}, …, v_{N,q}` of `L⁺` that split in `L`
 and lie outside `S`, of norm `≡ 1 mod l^N`, with Frobenius elements `φ_{N,j}` whose images in `G_{L,S}` satisfy
@@ -461,6 +510,18 @@ rank at most three and for `GSp₄`, and at irreducible ordinary points with reg
 
 ### 9.9 Adjoint vanishing at strongly irreducible points, and at irreducible points with regular elements
 
+*Origin:* published: Thorne (2022), the vanishing of the adjoint Bloch–Kato Selmer group of the Galois representation attached to a
+regular algebraic polarized cuspidal representation over a CM field, when its restriction to the cyclotomic tower is irreducible; (d)
+is a case of it, and (a)–(c) follow from it. Particular to this proof: (d₀) and (d₀′), the two steps into which [FormalProof] divides (d).
+This roadmap's own formulation: (d′) in the generality stated.
+
+*Method of the formal proof:* for (d), through (d₀′) and (d₀): Bloch–Kato classes are shown to be ordinary, and a derivation of the
+ordinary determinant ring that killed the weight variables but not some trace would, together with derivations dual to the weight
+and Taylor–Wiles variables at one level, produce more trace functions of Selmer cocycles modulo a high power of the uniformizer than
+the Greenberg–Wiles formula allows, the dual term being controlled by detection at regular elements. The published proofs of Newton
+and Thorne (2023) and Thorne (2022) pass to a patching limit over Taylor–Wiles levels; [FormalProof] works at a single Taylor–Wiles
+level for each precision and counts trace functions there.
+
 (a) Let `F` be an imaginary CM field, `n ∈ {2, 3}`, and `r : G_{F⁺} → 𝒢_n(O)` with `ρ = r|_{G_F}` attached to a regular algebraic
 cuspidal polarized pair `(Π, χ)` of `GL_n(𝔸_F)` (AutomorphicGaloisRepresentationsPartII §AG2.0: `Π^c ≅ Π^∨ ⊗ (χ ∘ N_{F/F⁺} ∘ det)`
 for a character `χ` of `𝔸_{F⁺}^×/(F⁺)^×` with `χ_v(−1)` independent of `v | ∞`; conjugate self-dual `Π` is the case `χ = 1`),
@@ -476,7 +537,8 @@ representation of `Sp₄` composed with `ρ`.
 of (a) for `n = 2`. Prove `H¹_f(ℚ, ad W) = 0`.
 
 (a), (b) and (c) are statements of this roadmap, consequences of the theorem of Newton and Thorne [NT23]
-(ModularityAndLanglandsExtensions §4.1); they are not statements of [FormalProof].
+(ModularityAndLanglandsExtensions §4.1), by the route below; they follow also, without the bound on the rank, from Thorne's
+theorem [Tho22], Theorem A. They are not statements of [FormalProof].
 
 (d) (*a theorem of [FormalProof]*) Let `p` be odd, `L` a CM field with `L/L⁺` unramified at all finite places, `μ_p ⊄ L`, and every place of
 `L⁺` above `p` split in `L`; let `ρ = r|_{G_L}` be attached to a regular algebraic conjugate self-dual cuspidal representation of
@@ -654,6 +716,23 @@ of the two sets of places.
 
 ### 10.1 Sha kernels with lattice and divisible coefficients
 
+*Origin:* published for `ℤ_p`-lattices and `Σ = S`, clauses (a)–(c): Poitou–Tate duality for finite modules is Milne,
+*Arithmetic duality theorems*, chapter I, §4; its passage to the kernels of a lattice and of its divisible modules has the
+sources given at ArithmeticGaloisDuality §D7.6a; this roadmap's own formulation: the kernels `Ш¹_{S;Σ}` with `Σ ≠ S`,
+`O`-lattices with their lengths, and (d)–(f).
+
+*Method of the formal proof:* for `T = ℤ_p(e+1)`, with vanishing imposed at the places above `p` and `p` odd or `F` totally complex,
+the equality of the lengths of the two kernels is proved by counting: at each level `p^r` the kernels for `ℤ/p^r(e+1)` and its dual
+have the same order by Poitou–Tate duality for finite modules, a uniform bound on the local invariants compares them with the layers
+of the two limit groups, and a finitely generated `ℤ_p`-module and a `p`-primary torsion module whose layers at level `p^r` have the
+same order for all large `r` have the same length. The route written below is not this count: it passes the finite-level pairings
+to the limit and obtains the perfect pairing of (b) for every lattice `T`, of which the equality of lengths is a consequence; it
+also proves the clauses that are not in [FormalProof].
+
+*Corollary of:* ArithmeticGaloisDuality §D7.6a (Poitou–Tate duality for the `Ш` kernels of a `ℤ_p`-lattice with vanishing imposed at
+every place of `S`: their limits, the perfect pairing `Ш¹_S(F, T^D) × Ш²_S(F, T) → ℚ_p/ℤ_p` and their structure, from which (b),
+(c) and the case `Σ = S` of (a) follow).
+
 Let `F` be a number field, `p` a prime, `S` a finite set of places of `F` containing the places above `p` and the
 infinite places, and `Σ ⊂ S`. Let `T` be a finite free `ℤ_p`-module (or `O`-module, `O` the integers of a finite
 extension of `ℚ_p`) with continuous `G_{F,S}`-action, `V = T ⊗ ℚ_p`, `W = V/T`, and `T^D = Hom(T, ℚ_p/ℤ_p)(1)`. For a finite
@@ -773,7 +852,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 It owns 3.13a, 4.2a, 9.9 and 10.1. The theory they extend is owned by PotentialAutomorphyInfrastructurePartII (definite unitary groups, algebraic modular forms and big ordinary Hecke algebras in its Layer 3; Taylor–Wiles data and patching in its Layer 4; adjoint Bloch–Kato Selmer groups in its Layer 9) and by [ArithmeticGaloisDuality](../../ArithmeticGaloisDuality/README.md) (Poitou–Tate duality in its Layers R02.4 and D7). The targets above differ from the nearest statements of their homes as follows.
 
 - 3.13a and 4.2a concern other maximal ideals than PotentialAutomorphyInfrastructurePartII §§3.13 and 4.2. PotentialAutomorphyInfrastructurePartII §3.13 (2) constructs the lift `r_𝔪` over the localized big ordinary Hecke algebra, its ordinarity and the classifying map only for a non-Eisenstein maximal ideal `𝔪`, and PotentialAutomorphyInfrastructurePartII §4.2 uses a residual eigenspace. At the maximal ideals of 3.13a the residual determinant is that of a sum of characters, the Hecke algebra carries a determinant, not a representation, and the comparison with deformation theory is through the universal ordinary determinant ring.
-- 10.1 is not in ArithmeticGaloisDuality. ArithmeticGaloisDuality §R02.3.0d defines `Ш^i_S(K, A)` for finite `A` with vanishing imposed outside `S`; ArithmeticGaloisDuality §R02.4.2 defines `Ш^r_S(K, M) = ker(H^r(G_S, M) → P^r_S(K, M))` for finite `M`, with vanishing imposed at every place of the ramification set `S`, archimedean places included; ArithmeticGaloisDuality §D7.6 has the Poitou–Tate sequences for a lattice `T` and for `V/T`, but no kernel for divisible coefficients, no length, and no kernel in which the ramification set and the set of places where vanishing is imposed differ. 10.1 gives these, for instance for classes unramified outside `p` (ramification set `S_p ∪ S_∞`) that vanish at the places above `p` only.
+- 10.1 extends ArithmeticGaloisDuality §D7.6a. ArithmeticGaloisDuality §R02.3.0d defines `Ш^i_S(K, A)` for finite `A` with vanishing imposed outside `S`; ArithmeticGaloisDuality §R02.4.2 defines `Ш^r_S(K, M) = ker(H^r(G_S, M) → P^r_S(K, M))` for finite `M`, with vanishing imposed at every place of the ramification set `S`, archimedean places included; ArithmeticGaloisDuality §D7.6 has the Poitou–Tate sequences for a lattice `T` and for `V/T`; ArithmeticGaloisDuality §D7.6a has, for a `ℤ_p`-lattice `T`, the kernels `Ш¹_S(F, W)`, `Ш¹_S(F, T^D)` and `Ш²_S(F, T)` with vanishing imposed at every place of `S`, real places included, their limits, their duality and their structure, from which 10.1 (b), (c) and the case `Σ = S` of 10.1 (a) follow, but no length and no kernel in which the ramification set and the set of places where vanishing is imposed differ. 10.1 gives these, for instance for classes unramified outside `p` (ramification set `S_p ∪ S_∞`) that vanish at the places above `p` only.
 - The automorphy statements for residually reducible deformation rings whose routes pass through 3.13a, 4.2a and 9.9, and the machinery of those routes, are not stated here: their residual representations have constituents exchanged by the polarization, there is no Steinberg place, and the functors are representable only after framing. They belong to UniformWildKernelBounds, which uses these targets. PotentialAutomorphyInfrastructurePartII §§7.6–7.19 and 8.1–8.16 state the published analogues under Schur, primitivity and Steinberg hypotheses.
 
 [FormalProof] states 3.13a (1) and (a)–(e), (g) or statements from which they follow, 3.13a (f) for `2 ≤ n ≤ 4` under (w1) and (w2), 4.2a, 9.9 (d), the second conclusion of 9.9 (d′) in rank four under other hypotheses, and an instance of 10.1, each in the form recorded at its target. Of these, the existence of the level modules and comparison maps of 4.2a, and 9.9 (d), rest here on [FormalProof] alone: their routes are outlined at the targets, and the steps not written out are said there to be not given here.
@@ -814,6 +893,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 - §R02.4.4: finiteness of `H²(G_{F,S}, M)` for finite `M`.
 - §R02.5.1: the Greenberg–Wiles formula, used in the outline of 9.9 (d).
 - §D7.6: continuous cohomology with lattice coefficients, the Milnor sequence, and the Poitou–Tate sequences for `T` and `V/T`.
+- §D7.6a: the kernels `Ш¹_S(F, W)`, `Ш¹_S(F, T^D)` and `Ш²_S(F, T)` of a `ℤ_p`-lattice `T`, with vanishing imposed at every place of `S`, real places included, their limits, the perfect pairing `Ш¹_S(F, T^D) × Ш²_S(F, T) → ℚ_p/ℤ_p` and their structure: the general theorem of which 10.1 (b), (c) and the case `Σ = S` of 10.1 (a) are corollaries.
 
 ### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
 
@@ -885,7 +965,7 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 
 ### From BaseChangeAndGaloisRepresentationsForUnitaryGroups, a sub-roadmap of this family
 
-- §16.1: the Galois representations attached to automorphic representations of definite unitary groups, used in the route of 3.13a (d); its hypothesis `[L⁺ : ℚ] ≥ 2` holds in the setting of 3.13a.
+- §16.1: the Galois representations attached to automorphic representations of definite unitary groups, in the form stated there: the standard Hermitian form over a CM extension unramified at every finite place, used in the route of 3.13a (d); its hypothesis `[L⁺ : ℚ] ≥ 2` holds in the setting of 3.13a.
 
 ## References
 
@@ -893,4 +973,8 @@ The users of these targets in this family are UniformWildKernelBounds, Bernoulli
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - [BZ77] I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Annales scientifiques de l'École Normale Supérieure 10 (1977), 441–472, [Numdam](http://archive.numdam.org/article/ASENS_1977_4_10_4_441_0.pdf). The bound `n!` in the route of 4.2a.
 - [Che14] G. Chenevier, *The p-adic analytic space of pseudocharacters of a profinite group and pseudorepresentations over arbitrary rings*, in Automorphic Forms and Galois Representations, vol. 1, LMS Lecture Note Series 414 (2014), 221–285; arXiv:0809.0415v2. [Open preprint](https://arxiv.org/abs/0809.0415v2). Noetherianity of the universal ring of determinants under Mazur's finiteness condition, in the route of 3.13a.
+- [Ger19] D. Geraghty, *Modularity lifting theorems for ordinary Galois representations*, Mathematische Annalen 373 (2019), 1341–1427. The big ordinary Hecke algebra of a definite unitary group at a non-Eisenstein maximal ideal, from which 3.13a is adapted.
+- [Mil] J. S. Milne, *Arithmetic duality theorems*, second edition, 2006, chapter I, §4. Poitou–Tate duality for finite modules, the finite-level case of 10.1 (b), through ArithmeticGaloisDuality §D7.6a.
 - [NT23] J. Newton and J. A. Thorne, *Adjoint Selmer groups of automorphic Galois representations of unitary type*, Journal of the European Mathematical Society 25 (2023), 1919–1967; arXiv:1912.11265v3. [Open preprint](https://arxiv.org/abs/1912.11265v3). The vanishing theorem used in the routes of 9.9 (a)–(c).
+- [Tho22] J. A. Thorne, *On the vanishing of adjoint Bloch–Kato Selmer groups of irreducible automorphic Galois representations*, Pure and Applied Mathematics Quarterly 18 (2022), 2159–2202; arXiv:2207.04925. [Open preprint](https://arxiv.org/abs/2207.04925). Theorem A (Theorem 6.1): the vanishing theorem of which 9.9 (d) is a case and from which 9.9 (a)–(c) follow.
+- [WWE17] Wake and Wang-Erickson, *Ordinary pseudorepresentations and modular forms*, Proceedings of the American Mathematical Society, Series B 4 (2017), 53–71; arXiv:1510.01661. [Open preprint](https://arxiv.org/abs/1510.01661). A ring of ordinary pseudorepresentations equal, when the eigenspace `X_θ` of an Iwasawa class group vanishes, to the Eisenstein component of a Hida Hecke algebra in rank two (Theorem 4.2.8 of arXiv v4), from which 3.13a is adapted.

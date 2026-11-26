@@ -582,7 +582,7 @@ normalizations of 2.3, `LegendreSymbol.QuadraticChar.Quadric` for the quadric ca
 ## Layer 3: the polynomial `L`-series and the Hasse–Davenport relations
 
 This layer isolates one piece of machinery, the `L`-series of a multiplicative function on monic
-polynomials, and uses it three times here and twice more in Layers 4 and 5. Its content is
+polynomials, and uses it four times here and twice more in Layers 4 and 5. Its content is
 Ireland–Rosen's proof of the Hasse–Davenport relation (Ch. 11 §4) written once, generically.
 
 ### 3.1 The `L`-series of a multiplicative function on monic polynomials
@@ -623,6 +623,30 @@ The supporting API comprises:
   from `d₀ = 2` on and `L(λ, T) = 1 + g(χ, ψ) T` has degree `1 < 2`; with `χ = ψ = 1` the degree-`d`
   sum is `(q − 1)q^{d−1}` for `d ≥ 1` and `L = (1 − T)/(1 − qT)`: over `𝔽_3`
   the expansion begins `1 + 2T + 6T²`. Polynomials with zero constant coefficient contribute zero.
+
+### 3.1a The number of monic irreducible polynomials
+
+For `n ≥ 1` let `Π_q(n)` be the number of monic irreducible polynomials of degree `n` in `F[X]`.
+Prove **Gauss's formula** `n·Π_q(n) = ∑_{d ∣ n} μ(n/d) q^d` (Rosen, *Number Theory in Function
+Fields*, Chapter 2) and deduce the lower bound `n·Π_q(n) ≥ q^n − 2q^{n/2}`. With the upper bound
+`n·Π_q(n) ≤ q^n` of `SieveMethodsAndPrimePatterns` §0.10 this reads
+`(q^n − 2q^{n/2})/n ≤ Π_q(n) ≤ q^n/n` (for `F` of prime order: Bary-Soroker–Koukoulopoulos–Kozma,
+Proposition 8.1).
+
+At `λ = 1`, `L(1, T) = (1 − qT)⁻¹`, and the logarithmic derivative identity of 3.1 gives
+`∑_{d ∣ n} d·Π_q(d) = S_n(1) = q^n` (3.1, Checks). Möbius inversion of this identity is Gauss's
+formula. Every divisor `d < n` of `n` satisfies `d ≤ n/2`, so
+`|∑_{d ∣ n, d < n} μ(n/d) q^d| ≤ ∑_{1 ≤ d ≤ n/2} q^d ≤ 2q^{n/2}`. Gauss's formula then gives
+`n·Π_q(n) ≥ q^n − 2q^{n/2}`. *Needs:* 3.1; `SieveMethodsAndPrimePatterns` §0.10 (the upper bound,
+for the two-sided form); Mathlib's `ArithmeticFunction.moebius`.
+
+**Checks.**
+
+- (`q = 2`, `n = 4`) `4·Π_2(4) = μ(4)·2 + μ(2)·4 + μ(1)·16 = 12`, so `Π_2(4) = 3`. The three
+  polynomials are `X⁴ + X + 1`, `X⁴ + X³ + 1` and `X⁴ + X³ + X² + X + 1`, and the bounds read
+  `2 ≤ 3 ≤ 4`. Writing `μ(d) q^d` in place of `μ(n/d) q^d` gives `2 − 4 + 0 = −2`.
+- (`n = 1`) `Π_q(1) = q`: the `q` polynomials `X − a`, including `X`. Gauss's formula reads
+  `1·Π_q(1) = μ(1)·q`, and both bounds hold.
 
 ### 3.2 Lifted sums and the root-power identity
 
@@ -810,7 +834,9 @@ characters and every `m ∣ 12`).
 
 ### Dependencies
 
-3.1–3.2 are polynomial algebra over `F` and need Mathlib only; 3.3–3.5 need Layers 0 (0.6) and 1
+3.1, 3.1a and 3.2 are polynomial algebra over `F`; 3.1 and 3.2 need Mathlib only, and 3.1a needs
+3.1, Mathlib's `ArithmeticFunction.moebius` and `SieveMethodsAndPrimePatterns` §0.10 (the upper
+bound); 3.3–3.5 need Layers 0 (0.6) and 1
 (1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29. 3.6 is background and not a
 target; nothing in this roadmap depends on it.
 
@@ -1044,7 +1070,7 @@ For `y² = x⁴ + x + 1` over `𝔽_p`, `p < 200`, `|N − p| ≤ 0.58 · 3√p`
 ### Dependencies
 
 4.1–4.4 need Mathlib only (Hasse derivatives, `AlgebraicClosure`, power series); 4.5–4.6 need
-3.1–3.2 and 0.3, 0.6; 4.7–4.9 need all of 4.1–4.6 and 3.2. Nothing from another roadmap.
+3.1, 3.2 and 0.3, 0.6; 4.7–4.9 need all of 4.1–4.6 and 3.2. Nothing from another roadmap.
 
 ## Layer 5: Kloosterman and Salié sums over a finite field
 
@@ -1200,7 +1226,7 @@ Over `𝔽_9`: `K(1; 1, b) ∈ {5, 2, 2, 2, −1, −1, −4, −4}` for the eig
 ### Dependencies
 
 5.1 needs 1.1 and `CongruenceSpectralGap` §4.2a; 5.2 needs 0.3; 5.3 needs 3.4, 1.4 and 2.1; 5.4
-needs 3.1–3.2 and 0.6; 5.5 needs 5.4, 4.3 (ii), 4.4 and `CongruenceSpectralGap` §4.2b for the
+needs 3.1, 3.2 and 0.6; 5.5 needs 5.4, 4.3 (ii), 4.4 and `CongruenceSpectralGap` §4.2b for the
 comparison at `χ = 1`; 5.6 needs 5.1.
 
 ## Layer 6: the Teichmüller character, Stickelberger's theorem and the Gross–Koblitz evaluation
@@ -2008,8 +2034,9 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   `p = a² + b²` (Layer 2).
 - The **`L`-series of a completely multiplicative function on monic polynomials**, its Euler
   product, the identity between its logarithmic derivative and the lifted sums over `𝔽_{q^n}`, and
-  the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; the **Hasse–Davenport lifting
-  relation** for Gauss and Jacobi sums, and the sign of
+  the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; Gauss's formula for the number
+  of monic irreducible polynomials of degree `n` and its lower bound (3.1a); the
+  **Hasse–Davenport lifting relation** for Gauss and Jacobi sums, and the sign of
   the quadratic Gauss sum over every `𝔽_q` (Layer 3).
 - **Stepanov's method**: the uniform point-count bounds for `y^d = f(x)`, `y^q − y = f(x)` and
   `y^q − y = a x^d + b x^{−d}`; the power-sum lemma; the polynomiality and degree of the
@@ -2098,6 +2125,8 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
 - From `EllipticLegendreCharacterInterfaces` 5.1: the character-sum point count of a normal-form
   Weierstrass equation over an odd finite field and `symmetric_cubic_trace_zero`, which 2.5 reads
   as the elliptic form of its Jacobsthal sums.
+- From `SieveMethodsAndPrimePatterns` §0.10 (item "Finite-field irreducible counts for the
+  vector sieve"): the upper bound `n·Π_q(n) ≤ q^n`, which 3.1a pairs with its lower bound.
 
 ### Not owned here
 
@@ -2401,12 +2430,18 @@ the statements listed under *Consumed, not redefined*. Consumed in 6.4–6.5.
 `y² = f(x) = x³ + a₂x² + a₄x + a₆` over an odd finite field and `symmetric_cubic_trace_zero`.
 Consumed in 2.5.
 
+### From SieveMethodsAndPrimePatterns
+
+§0.10, item "Finite-field irreducible counts for the vector sieve": the upper bound
+`n·Π_q(n) ≤ q^n`. Consumed in 3.1a.
+
 ## References
 
 **K. Ireland and M. Rosen, *A Classical Introduction to Modern Number Theory*, 2nd ed., GTM 84.**
 - Ch. 8 §§1–3: multiplicative characters, Gauss sums, Jacobi sums (Layers 0–2). §7 and Ch. 10 §3:
   multiple Jacobi sums and diagonal equations (2.4).
-- Ch. 11 §4, Theorem 1: the Hasse–Davenport relation by the monic-polynomial `L`-series (3.1–3.3).
+- Ch. 11 §4, Theorem 1: the Hasse–Davenport relation by the monic-polynomial `L`-series (3.1, 3.2
+  and 3.3).
 - Ch. 14 §§1–4: the Stickelberger relation; §§3–4 contain the congruence
   `g(ω^{−a}) ≡ −π^{s(a)}/∏ a_i!` and the digit-sum valuation, the statements 6.2 consumes; §3 has the Jacobi-sum
   valuation (6.3).
@@ -2422,6 +2457,16 @@ Quadrate*, J. reine angew. Math. 132 (1907), 238–245.**
 - §2, formulas 2), 3) and 5), pp. 240–241: the scaling `φ(e) = (x/p) φ(e x²)`, the two-squares
   identity `p = (φ(r)/2)² + (φ(n)/2)²` and the sign `a ≡ (p − 3)/2 (mod 8)` of `a = φ(−1)/2`
   (2.5).
+
+**M. Rosen, *Number Theory in Function Fields*, Graduate Texts in Mathematics 210, Springer, 2002.**
+- Chapter 2: the number of monic irreducible polynomials of degree `n` over `𝔽_q` and Gauss's
+  formula (3.1a).
+
+**L. Bary-Soroker, D. Koukoulopoulos and G. Kozma, *Irreducibility of random polynomials: general
+measures*, Invent. Math. 233 (2023), 1041–1120, doi:10.1007/s00222-023-01193-6; cited in the
+numbering of arXiv:2007.14567v3 (2 June 2023).**
+- Proposition 8.1, p. 39: the two-sided bound of 3.1a over a prime field, with a reference to
+  Rosen, Proposition 2.1.
 
 **W. M. Schmidt, *Zur Methode von Stepanov*, Acta Arith. 24 (1973), 347–367.**
 - Satz, p. 347: for an absolutely irreducible `F(X, Y)` over `𝔽_Q` of degree `m > 0` in `X` and

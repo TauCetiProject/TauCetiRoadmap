@@ -4,7 +4,7 @@
 
 The headline theorems are these. (1) Let `E` be an abelian CM field of conductor `N` and degree `n`, `ℓ` an odd prime not dividing `n`, `e ≥ 1`, and `ψ` a character of `Gal(E/ℚ)` with `ψ(−1) = (−1)^{e+1}`, with values in the integers `O` of a finite extension of `ℚ_ℓ`. The normalized length of the `ψ`-component of the twisted Tate–Shafarevich group over `ℚ`, with vanishing imposed at `ℓ` and at the primes dividing the conductor of `ψ`, is at most `v_O(N·P_{e+2}·B_{e+1,ψ})`, where `B_{e+1,ψ}` is the generalized Bernoulli number of the primitive character attached to `ψ` and `P_{e+2}` the product of the primes `≤ e + 2`; and `Σ_{ℓ odd, ℓ∤n} log ℓ · length Ш⁻(E, ℓ, e) ≤ n log(16 N^{e+2} (e + 1)!)`. (2) There is an absolute constant `c₂` such that for every number field `L` of degree `n` and discriminant `d_L`, every `N ≥ 1` and every `m ≥ 0`, the group `H_m(GL_N(𝒪_L); ℤ)` is finitely generated and `log log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ c₂(m + 1)(nN)³N · log(2|d_L| n N)` (for totally complex `L` this is the bound of [FormalProof]). (3) There is an absolute constant `C_K ≥ 1` such that for every prime `ℓ`, every totally complex number field `L` containing `μ_ℓ` (and `μ₄` if `ℓ = 2`) and every `E ≥ 1`, the group `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` is finite and `log #H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1)) ≤ (2|d_L|)^{(2E[L:ℚ])^{C_K}}`; and there is an absolute `C` such that for every number field `L` of degree `n` and every `m ≥ 2`, the part of `K_m(𝒪_L)_tors` prime to `R_m` has order at most `exp((2|d_L|)^{(mn)^C})`, where `R_m` is an integer depending only on `m` that kills the kernel of the Hurewicz map `K_m(R) → H_m(GL(R); ℤ)` for every ring `R`. (4) Let `f` be a newform of weight `k ≥ 2`, `K` an abelian field, `λ` a place above `p` of the coefficient field of `f` with `(f, λ)` admissible over `K`, and `1 ≤ r ≤ k − 1` with `r ≠ k/2`; then the Bloch–Kato group `H¹_f(K, V_λ(f)(r))` vanishes. If `f` has no complex multiplication, `(f, λ)` is admissible over every abelian field whenever the restriction of `V_λ(f)` to the decomposition group at `p` is reducible, in particular at every ordinary place.
 
-The roadmap extends four roadmaps. [ArithmeticKTheory](../../ArithmeticKTheory/README.md) supplies the K-groups of rings of integers, their ranks, the étale comparison of the even groups and the wild kernels on which the twisted Tate–Shafarevich groups and the torsion bounds are built. [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md) has the cyclotomic Euler systems and Stickelberger annihilation, which the Bernoulli bound for minus parts complements. [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) has the towers, the unramified Iwasawa modules and the main conjecture for characters that the rank bound and the special-value formula extend. KatoEulerSystems has the admissible pairs and the finiteness of Selmer groups over abelian fields behind the last two statements. The duality of Sha kernels comes from [HeckeIdealsAndTaylorWilesRelations](../HeckeIdealsAndTaylorWilesRelations/README.md), and the perfect forms over rings of integers generalize those of [LatticePackingsAndPerfectForms](../../LatticePackingsAndPerfectForms/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [UniformWildKernelBounds](../UniformWildKernelBounds/README.md) uses the groups, their total, the character components, the étale bound and the Bernoulli bound.
+The roadmap extends four roadmaps. [ArithmeticKTheory](../../ArithmeticKTheory/README.md) supplies the K-groups of rings of integers, their ranks, the étale comparison of the even groups and the wild kernels on which the twisted Tate–Shafarevich groups and the torsion bounds are built. [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md) has the cyclotomic Euler systems and Stickelberger annihilation, which the Bernoulli bound for minus parts complements. [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) has the towers, the unramified Iwasawa modules and the main conjecture for characters that the rank bound and the special-value formula extend. KatoEulerSystems has the admissible pairs, the splitting of Momose's algebra at ordinary places and the finiteness of Selmer groups over abelian fields behind the last two statements. The duality of Sha kernels comes from [HeckeIdealsAndTaylorWilesRelations](../HeckeIdealsAndTaylorWilesRelations/README.md) and ArithmeticGaloisDuality §D7.6a, and the perfect forms over rings of integers generalize those of [LatticePackingsAndPerfectForms](../../LatticePackingsAndPerfectForms/README.md). In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [UniformWildKernelBounds](../UniformWildKernelBounds/README.md) uses the groups, their total, the character components, the étale bound and the Bernoulli bound.
 
 Layer 6 defines `Ш¹(F, ℓ, e)` and its strict form, proves the duality with the cohomological wild kernels, finiteness, the comparison with `H²`, the behaviour under restriction, the finiteness and monotonicity of the total over all primes and twists, and the plus/minus decomposition for CM fields, and decomposes the group over abelian fields into character components. Layer 9 proves explicit torsion bounds by Soulé's method: torsion of cokernels with short relations and of the homology of a group acting on an acyclic complex, perfect forms over a ring of integers and the acyclicity of their nerve, the bound for the homology of `GL_N(𝒪_L)`, values of primitive classes, the additive classes of finite fields with a cycle of prescribed residues, the étale bound and the bounds for K-groups. Layer 10 bounds the minus parts of abelian CM fields by generalized Bernoulli numbers. Layer 11 bounds the ranks of unramified Iwasawa modules in cyclic extensions of degree `p`; Layer 12 extends the special-value formula of Iwasawa theory to finite-order characters of an abelian extension of a totally real field; Layer 13 shows that Momose's quaternion algebra splits at reducible places; Layer 14 proves the vanishing of rational Bloch–Kato groups at non-central twists. The layer and section numbers (Layers 6 and 9–14, sections from 6.17) are this roadmap's own and are cited below without a roadmap name, as in "6.17 (c)"; a section of ArithmeticKTheory, which also has a Layer 6, is always cited with that roadmap's name.
 
@@ -24,11 +24,49 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. [FormalProof] does not prove or use the statements
+of 9.8, 12.1 and 13.1: 9.8 (a), and 12.1 when `[E : F]` is prime to `p`, are published theorems,
+stated in the roadmaps cited with them; 9.8 (b) is this roadmap's own formulation; 12.1 when `p` divides `[E : F]`,
+and 13.1, which extends a published splitting theorem from the ordinary places to the reducible ones, are adapted
+from published theorems (Kolster 2009, Theorem 3.3; Brown and Ghate 2003, Theorem 3.3.1).
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary
+of:*`, which names a general theorem and the roadmap section that states it, and the clauses it covers when
+it does not cover the whole section. The general theorem is proved in the roadmap that states it, and what
+the line covers is deduced from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only
+that case, not the general theorem in full: the `*Method of the formal proof:*` label says how [FormalProof]
+proves it, and for which form of the statement when that proof has a narrower one. Where the route given with
+the section is not the deduction, it is a second proof, [FormalProof]'s unless the label says that it
+differs; the `*Needs:*` line lists what that route needs, and the deduction needs the section that the
+`*Corollary of:*` line names.
+
 ## Layer 6: Twisted Tate–Shafarevich groups and character components
 
 This layer defines the twisted Tate–Shafarevich groups with divisible coefficients `ℚ_ℓ/ℤ_ℓ(−e)`, relates them to the cohomological wild kernels and to `H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, sums their lengths over all primes and twists, and decomposes them over abelian fields into components indexed by Dirichlet characters.
 
 ### 6.17 Twisted Sha groups above `ℓ`, their duality and their total
+
+*Origin:* adapted from Schneider (1979) and Kolster and Movahhedi (2000): Poitou–Tate duality between the
+twisted Tate–Shafarevich group and the étale wild kernel, and the exact sequence of the étale wild kernel with `H²`,
+the local `H²` and the dual of the global `H⁰` (ArithmeticGaloisDuality §D7.6a); here in lengths, with the
+choice-free form (a), the restriction kernels (d), the total `V(F, t)` over all primes and twists (e), the
+plus/minus split (f) and the case `ℓ = 2` with real places.
+
+*Method of the formal proof:* for `ℓ` odd or `F` without real places, the equality
+`length Sha²_{e,ℓ}(F) = length Ш¹(F, ℓ, e)` is obtained by counting at
+each level `ℓ^r` from Poitou–Tate duality for finite modules, and the order identity of (c) by adding lengths along
+the kernel, image and cokernel of the localisation map on `H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`. For a layer of the cyclotomic
+`ℤ_ℓ`-extension the inequality of (d) comes from a descent formula: `length Ш¹` of the `m`-th layer is the length of
+the cokernel of `g^{ℓ^m} − 1` for one operator `g` on a fixed module, and the image of `g^{ℓ^m} − 1` lies in that of
+`g − 1`. The route written below differs in (b)–(d): it passes Poitou–Tate duality and the Poitou–Tate sequence to
+the lattice `ℤ_ℓ(e+1)`, and for a layer of the cyclotomic `ℤ_ℓ`-extension it computes the kernel of restriction
+(`Ĥ⁰ = 0` from the valuation of the norm, and the Herbrand quotient of a finite module).
+
+*Corollary of:* ArithmeticGaloisDuality §D7.6a (Poitou–Tate duality for the `Ш` kernels of a lattice `T`,
+`Ш²_S(F, T) ≅ Ш¹_S(F, T^D)^*`, and the exact sequence that ends the lattice sequence; here `T = ℤ_ℓ(e+1)`), for the
+Pontryagin duality of (b), with the equality of lengths it gives, and for (c); (a), the other statements of (b) and
+(d)–(f) are not deduced from it.
 
 For a number field `F`, a prime `ℓ` and `e ≥ 1`, let `S = S_ℓ ∪ S_∞` and define
 
@@ -124,6 +162,23 @@ ProfiniteCohomology §5.4 (inflation–restriction) and ProfiniteCohomology §§
 
 ### 6.18 Character components for abelian fields
 
+*Origin:* adapted from Kolster (2009), §3: the decomposition into character components of the `H¹` and `H²` of the
+`S`-integers of an abelian field of degree prime to `ℓ`; here for the twisted Tate–Shafarevich groups with their
+local conditions, with the change of the vanishing set (a), the defect bound (c) when `ℓ` divides the degree and
+the going-up bound (d).
+
+*Method of the formal proof:* (b) for `ψ` trivial on an open normal subgroup of index prime to `ℓ`, restriction to
+that subgroup is injective on the Tate–Shafarevich group of the twisted module with image the invariants (restriction
+and corestriction, the index being a unit, local conditions included), and the invariants are the `ψ`-eigenspace;
+(a) dropping the conditions at `p | N` costs at most the classes of the decomposition group that die on inertia,
+which vanish when `ψ` is unramified at `p` (the Frobenius scalar is not `1` on a divisible module) and have length
+at most `v_ℓ(n)·e_O` when `ψ^n = 1`; (c) the length of a sign eigenspace is at most the sum of the lengths of the
+character eigenspaces, each of which exceeds `V_ℓ(ψ, e; ·)` by at most a cokernel of restriction onto invariants
+and kernels of local restrictions, all bounded by multiples of an `H⁰`; (d) the kernel of restriction to `G_L` is
+bounded by evaluating cocycles on lifts of generators of `Gal(L/ℚ)`. The route written below differs in (b) and (c):
+it identifies the components by Shapiro's lemma, with the primes `p | N` treated inside (b), and names only the `H¹`
+of the finite inertia and decomposition quotients as defect in (c).
+
 For a prime `ℓ`, `O` the integers of a finite extension `Φ` of `ℚ_ℓ` (ramification index `e_O`), a Dirichlet character `ψ`
 with values in `O^×` (a character of `G_ℚ` by arithmetic Frobenius), `e ≥ 1` and a finite set `S` of primes containing `ℓ`,
 define `Ш_{ψ,e}(S)` as the classes in `H¹(G_ℚ, (Φ/O)(ψ⁻¹χ_ℓ^{−e}))` unramified at every prime and zero on the decomposition
@@ -182,13 +237,27 @@ For `F = ℚ` and `ℓ = 2`, `V(ℚ, 2) = 0`; over `ℚ(i)`, `Ш¹(ℚ(i), 2, e)
 
 ### Dependencies
 
-ArithmeticKTheory §§6.1, 6.3, 6.7, 6.8, 6.9, 7.4 and Layer 3; HeckeIdealsAndTaylorWilesRelations §10.1; ArithmeticGaloisDuality §D7.6; ProfiniteCohomology §§5.4, 6.2–6.3, 7.2 (inflation–restriction, corestriction, Shapiro's lemma); PadicMeasuresIwasawaAlgebras §6.1.
+ArithmeticKTheory §§6.1, 6.3, 6.7, 6.8, 6.9, 7.4 and Layer 3; HeckeIdealsAndTaylorWilesRelations §10.1; ArithmeticGaloisDuality §§D7.6, D7.6a; ProfiniteCohomology §§5.4, 6.2–6.3, 7.2 (inflation–restriction, corestriction, Shapiro's lemma); PadicMeasuresIwasawaAlgebras §6.1.
 
 ## Layer 9: Explicit torsion bounds for K-groups
 
 Throughout, `L` is a number field of degree `n` and discriminant `d_L`; "absolute" means independent of all data.
 
 ### 9.1 Torsion of a cokernel with short relations
+
+*Origin:* adapted from Soulé (1999), Lemma 1: the bound of the torsion of a cokernel by the product of the
+Euclidean norms of a subfamily of the relations that is a basis of their real span; here in the `ℓ¹` form
+`#(ℤ^ι/⟨Λ₀⟩)_tors ≤ b^{#ι}`.
+
+*Method of the formal proof:* a maximal independent subfamily of `Λ₀` is completed by unit vectors to `#ι`
+independent vectors of `ℓ¹`-norm at most `b`; the index of the lattice they span is the absolute value of a
+determinant, at most the product of the `ℓ¹`-norms of its rows by expansion over permutations, and the torsion of
+`ℤ^ι/⟨Λ₀⟩` has at most as many elements as the quotient by that lattice. Soulé's lemma uses Euclidean norms and
+Hadamard's inequality in the real span of the subfamily; the `ℓ¹` form needs only the permutation expansion.
+
+*Corollary of:* ArithmeticKTheory §9.1 (Gabber's lemma: the torsion of the homology of a based complex of free
+abelian groups of finite rank has order at most `b^a`), applied to the complex `ℤ^{Λ₀} → ℤ^ι`: `Λ₀` is
+finite, its vectors being integral of bounded norm, the Euclidean norms of the boundaries are at most their `ℓ¹`-norms, at most `b`, and `a ≤ #ι`.
 
 For a finite set `ι` and a set `Λ₀ ⊂ ℤ^ι` of vectors of `ℓ¹`-norm at most `b ≥ 1`: `#(ℤ^ι/⟨Λ₀⟩)_tors ≤ b^{#ι}`. This follows from
 the bound of the torsion of the cokernel by the product of the Euclidean norms of a subfamily of `Λ₀` that is a basis of its
@@ -205,12 +274,23 @@ elements as the quotient by that lattice (the saturation of `⟨Λ₀⟩` modulo
 
 ### 9.2 Torsion of the homology of a group acting on an acyclic complex
 
+*Origin:* adapted from Brown (1982), Soulé (1999) and Emery (2014): the cellular chains of a complex as sums of
+permutation modules with Shapiro's lemma (Brown), the bounds for the torsion of a cokernel and of the homology of a
+based complex (Soulé, Lemma 1 and Proposition 3, the latter after Gabber), and the bound at every prime of Emery
+(2014), Theorem 1.1, under the hypothesis that the rational homology vanishes; here with every prime kept, without
+that hypothesis, and with an explicit bound in the number of orbits and the orders of the stabilizers.
+
+*Method of the formal proof:* dimension shifting along the permutation modules of the complex, by induction on the
+degree: in degree zero the coinvariants are a cokernel on the orbit sets, bounded by the cokernel bound; at each step
+a piece of the long exact sequence bounds the torsion by the order of the homology of a permutation module, computed
+orbit by orbit by Shapiro's lemma and the bound `#S^{#S^j}` for `H_j` of a finite group `S`.
+
 Let a group `G` act on sets `X_p`, `p ≥ 0`, with equivariant face maps, the augmented chain complex `⋯ → ℤ[X₁] → ℤ[X₀] → ℤ → 0`
 exact up to degree `m`. If for `p ≤ m` there are at most `A` orbits on `X_p` and all stabilizers have order at most `s`, then
 `H_m(G; ℤ)_tors` is finite of order at most `(m+2)^A · s^{m·A·s^m}`. Also, for a finite group `S` and `j ≥ 1`,
 `#H_j(S; ℤ) ≤ #S^{#S^j}`. For a complex of free modules of finite rank, the torsion of the homology in degree `k` has order
 at most `b^a`, where `b ≥ 1` bounds the Euclidean norms of the boundaries of the basis elements in degree `k + 1` and `a` is
-the smaller of the ranks in degrees `k` and `k + 1` (Gabber's lemma, Soulé 1999, Proposition 3, p. 6); Soulé applies it to `SL_N(ℤ)` acting on a
+the smaller of the ranks in degrees `k` and `k + 1` (Gabber's lemma, ArithmeticKTheory §9.1; Soulé 1999, Proposition 3, p. 6); Soulé applies it to `SL_N(ℤ)` acting on a
 cell complex only modulo the primes `≤ N + 1`, which contain those dividing the orders of the stabilizers (Soulé 1999, proof
 of Theorem 1, pp. 7–8); the bound here includes those primes through the bound for finite groups. [FormalProof] states the
 bound for a group acting on an acyclic complex as `UpperTheory.V.KH.mainFace` (`AV/TorsionBoundsChains/LogLeExp.lean`), the
@@ -231,6 +311,20 @@ exact sequence of `0 → K → ℤ[X₀] → M → 0`, Shapiro's lemma for the p
   weaker than the finite-group bound `#G^{#G^m}`; the acyclic-complex bound is not sharp there.
 
 ### 9.3 Perfect forms over a ring of integers and their nerve
+
+*Origin:* adapted from Koecher (1960) and Braun, Coulangeon, Nebe and Schönnenbeck (2015): Voronoi's theory of
+perfect forms over a number field, (a)–(b); here with the ordered nerve of the cover by perfect domains and its
+acyclicity (c), the common minimal vectors of a simplex (d), the explicit orbit count (e) for every number field and
+the bound (f) in this form; orbits of cells are counted over `ℤ` in Soulé (1999), Propositions 1–2, and for totally
+real and CM fields in de la Torre Durán (2026).
+
+*Method of the formal proof:* the tuples of Hermitian forms of minimum at least one form a locally finite
+polyhedron in the definite cone whose vertices are the perfect forms; the ordered nerve of the cover of the dual
+cone by their normal cones is acyclic by a nerve lemma for convex covers (hyperplane cuts and Mayer–Vietoris); orbits
+of simplices are counted through nonsingular matrices of common minimal vectors with bounded norm of the
+determinant, and finite stabilizers are bounded by reduction modulo `3`. The route written below differs in (f): it
+applies Minkowski's lemma in `GL_{nN}(ℤ)` through a `ℤ`-basis of `𝒪_L` and takes the finiteness of the stabilizers
+of vertices from the automorphism group of the Gram matrix.
 
 For `N ≥ 1` let `V = ∏_{w real} Sym_N(ℝ) × ∏_{w complex} Herm_N(ℂ)`, `q_h(y) = Σ_w y_w^* h_w y_w` for `y ∈ 𝒪_L^N`, and
 `𝓡 = {h : q_h(y) ≥ 1 for all y ≠ 0}`. Prove: (a) `𝓡` is a nonempty, closed, convex, locally finite polyhedron inside the cone of
@@ -270,7 +364,8 @@ LatticePackingsAndPerfectForms §§4.1, 4.9 (the case `L = ℚ`: the
 Ryshkov polyhedron and its tiling by Voronoi domains, of which (a)–(b) are the number-field generalization); Mathlib
 `Matrix.det`, `NumberField.discr`. For `L = ℚ` the count of Voronoi's cells by the size of their minimal vectors is
 Soulé 1999, Propositions 1–2, pp. 3–4; Soulé 2003 and BFEH 2014 use Ash's well-rounded retract (BFEH 2014, Theorem 2.2,
-p. 4) instead of the nerve of (c).
+p. 4) instead of the nerve of (c). For totally real and CM fields de la Torre Durán 2026 bounds the number of orbits of
+the faces of the Voronoi tessellation, the published result nearest to (e).
 
 **Checks.**
 
@@ -279,19 +374,38 @@ p. 4) instead of the nerve of (c).
 
 ### 9.4 Torsion in the homology of `GL_N(𝒪_L)`
 
+*Origin:* particular to this proof: an explicit bound for the whole torsion of `H_m(GL_N(𝒪_L); ℤ)`, every prime
+included, with `log log` of its order linear in `log |d_L|`, for totally complex `L`; nearest published results:
+Bayer-Fluckiger, Emery and Houriet (2014), a bound of the same shape away from small primes that improves Soulé
+(2003), de la Torre Durán (2026), such bounds for totally real and CM fields, and Emery (2014), every prime under
+the hypothesis that the rational homology vanishes, with constants that are not explicit. The form for a field with
+a real place is this roadmap's own formulation.
+
+*Method of the formal proof:* the torsion bound for groups acting on acyclic complexes is applied to `GL_N(𝒪_L)`
+acting on the ordered nerve of the perfect forms: the nerve is acyclic, its orbits of simplices are counted
+explicitly, and the stabilizers are finite of order at most `3^{nN²}`. Soulé (2003) and Bayer-Fluckiger, Emery and
+Houriet (2014) pass from the complex of orbits to the group through the equivariant spectral sequence and discard the
+primes dividing the orders of the stabilizers; here the homology of the finite stabilizers is bounded at every prime.
+
 There is an absolute `c₂` such that for every number field `L`, `N ≥ 1` and `m ≥ 0`:
 `log log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ c₂(m + 1)(nN)³N · log(2|d_L| n N)`; in particular `log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ (2|d_L|)^{(nN(m+1))^{c₃}}`
 for an absolute `c₃`, and `H_m(GL_N(𝒪_L); ℤ)` is finitely generated. All primes are included. The first bound, with the finite generation, is
 `log_log_card_torsion_groupHomology_GL_le` in `Suggested.lean`.
-The published bounds of this kind discard small torsion:
+The unconditional published bounds of this kind discard small torsion:
 Soulé 1999, Theorem 1, p. 7, bounds the torsion of `H_k(SL_N(ℤ); ℤ)`, `k ≤ N(N − 1)/2`, modulo the primes `≤ N + 1` by a
 double exponential in `N`; for rings of integers of fields `L ≠ ℚ`, BFEH 2014, Corollary 2.3 and §§3.1–3.4, pp. 4–6, bound the torsion of the
 homology of `GL_{2m+1}(𝒪_L)` in degree `m`, and with it that of `K_m(𝒪_L)` (their Theorem 1.1 and Corollary 1.2,
 pp. 1–2), up to the elements of order at most `max(n + 1, 2m + 2)`, with `log log` linear in `log |d_L|`, improving
-Soulé 2003. [FormalProof] proves the bound with all primes for totally complex `L`: for every `N` and `m` in the form of
-9.2 (`UpperTheory.V.KT.tors_le`, `AV/HermiteNormalForms/Assembly.lean`), and in the `log log` form with `c₂ = 49` and the
-factor `m` in place of `m + 1` only for `N = 4e + 4` and `m = 2e`, `e ≥ 1` (`UpperTheory.V.KT.torsBound`, same file, of the
-statement `UpperTheory.V.K.TorsBound`, `AV/GeneratorCountTuples/TorsBoundPow.lean`); and finite generation for totally
+Soulé 2003; de la Torre Durán 2026, Theorem 4.5, gives bounds of this kind for totally real and CM fields. Emery 2014,
+Theorem 1.1, includes every prime, under the hypothesis that the rational homology vanishes and with constants that
+are not explicit. [FormalProof] proves the bound with all primes for totally complex `L`: for every `N` and `m` in the form of
+9.2 (`UpperTheory.V.KT.tors_le`, `AV/HermiteNormalForms/Assembly.lean`), and, derived from it, in the form
+`log #H_m(GL_N(𝒪_L); ℤ)_tors ≤ exp((2en)^C·log(2|d_L|))` with an absolute `C`, for all `e ≥ 1`, `1 ≤ N ≤ 4e + 6` and
+`m ≤ 2e + 1` (`UpperTheory.V.ZK.torsAll`, `AV/ModularityArgument/ClassCounting/ExponentLe.lean`), the form that its proof of
+9.7 uses (through `UpperTheory.V.ZK.STors`); it also proves the `log log` form with `c₂ = 49` and the factor `m` in place of
+`m + 1` only for `N = 4e + 4` and `m = 2e`, `e ≥ 1` (`UpperTheory.V.KT.torsBound`, `AV/HermiteNormalForms/Assembly.lean`, of
+the statement `UpperTheory.V.K.TorsBound`, `AV/GeneratorCountTuples/TorsBoundPow.lean`), on which its main theorems do not
+depend; and finite generation for totally
 complex `L` (`UpperTheory.FiniteGenerationAndTorsion.hglFG_of` applied to `UpperTheory.FiniteGenerationAndTorsion.fgShift`,
 `AV/LiteratureResults/KTheoryStability/FinitelyGeneratedTorsion/`). The form stated here, for every `N` and with all primes,
 is that of [FormalProof] for totally complex `L`, which is the case 9.7 uses; for a field with a real place it is this
@@ -301,6 +415,21 @@ roadmap's, by 9.3 in that case. The route below treats the small primes through 
 9.3(f). *Needs:* 9.2, 9.3.
 
 ### 9.5 Values of primitive classes
+
+*Origin:* particular to this proof: a count of the values on cycles of a family of functionals on the homology of
+the groups `GL_n(𝒪_L)` compatible with stabilization and block sums, for totally complex `L` and `j < r₂(L)` with
+`r₂(L)` in place of `ρ_j`; the form with `ρ_j` for every number field is this roadmap's own formulation.
+
+*Method of the formal proof:* a Bockstein reduces the count to integral homology, where the functionals satisfy
+`Φ(ψ^d x) = d·Φ(x)` and hence `ℓ^{j−1}Φ(x) = u·Φ(∏_{t<j−1}(ψ^ℓ − ℓ^{t+2})x)` with `u` a unit modulo `ℓ^ν`; the
+image of this operator has rank at most `r₂(L)` because every real class is detected by invariant differential forms
+on the symmetric space, which are spanned by alternated products of traces whose weight under block sums is the
+number of trace factors, so that only the single traces, one for each complex place, survive the operator. The usual
+derivation takes the rank of the primitive part from Borel's theorem; here the representation of classes by
+invariant forms comes from a Hecke operator at a principal prime that contracts square-integrable functions of mean
+zero (an angle bound for three vertex stabilizers in the building) and is close to the identity on stable cycles.
+The route written below is that usual derivation: it takes the rank of the primitive part from Borel's theorem and
+uses the Hopf algebra of the stable rational homology.
 
 For a prime `ℓ`, `ν ≥ 1`, an odd degree `j`, a `ℤ/ℓ^ν`-module `B`, and a family `Φ = (Φ_n)` of `ℤ/ℓ^ν`-linear maps from the
 `j`-chains of the groups `GL_n(𝒪_L)` with coefficients `ℤ/ℓ^ν` to `B` that vanish on boundaries and satisfy
@@ -326,6 +455,18 @@ compares the torsion at different `n`. *Needs:* ArithmeticKTheory §3.4 (Borel's
 `GL_n`); Polylogarithms §2.2 (the rational homology of `GL(R)` as a Hopf algebra and its primitives); 9.4.
 
 ### 9.6 The additive classes of finite fields and the cycle with prescribed residues
+
+*Origin:* particular to this proof: the additive classes of finite fields with their values on prism cycles (a),
+and cycles in the homology of `GL(𝒪_L)` with prescribed values under the additive classes of the residue fields
+(b), a homological model of the transfer of `b_ζ^E·{α}` in `K_{2E+1}(F; ℤ/q)`.
+
+*Method of the formal proof:* the additive class is an explicit cochain on `k^×` (the carry cocycle of a discrete
+logarithm on consecutive pairs of arguments, times `v` on the last), carried to every `GL(V)` by a transfer over the
+lines of `V`; additivity comes from `ℙ(V ⊕ W) → ℙ(V) ⊔ ℙ(W)` having fibres of cardinality `≡ 1` modulo `q`, and the
+value on prism cycles factors through the determinant because it is a homomorphism killing transvections. The cycle
+with prescribed residues is built on bar complexes from a linear relation among `2E + 2` embeddings of `C_q` in
+`C_q × C_q`, a weight function on `(ℤ/q)²`, lattice isomorphisms of prescribed determinant and a homotopy formula for
+prism chains.
 
 An *additive class* of degree `j` with coefficients in an abelian group `𝒜` over a finite field `k` is a family `θ = (θ_V)` of
 `𝒜`-valued functionals on the `j`-chains of `GL(V)`, for all finite-dimensional `k`-vector spaces `V`, vanishing on boundaries,
@@ -400,6 +541,19 @@ formula.
 
 ### 9.7 The étale bound
 
+*Origin:* particular to this proof: the explicit bound `log #H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1)) ≤ (2|d_L|)^{(2E[L:ℚ])^{C_K}}` for
+every prime `ℓ` and every totally complex `L` containing `μ_ℓ` (`μ₄` if `ℓ = 2`); nearest published result: Soulé
+(2003), Theorem 3, a bound of this kind at large primes, obtained through K-groups. The corestriction form is this
+roadmap's own formulation.
+
+*Method of the formal proof:* Poitou–Tate duality reduces the bound to `Ш¹`; after enlarging the field in its
+cyclotomic tower, a class becomes an eigen-homomorphism on the class group of a cyclotomic layer, and these are
+counted through twisted norms, which are told apart by their residues at primes of degree one (Chebotarev); the
+residues are values of a primitive family of additive classes on explicit cycles of `GL_N(𝒪_L)`, so the count is
+bounded by the torsion of the homology of `GL_N(𝒪_L)`. Soulé's bound for large primes goes through Chern classes on
+`K_{2E}(𝒪_L)`, Borel's finiteness theorem and the Hurewicz map; here the count is made in the homology of
+`GL_N(𝒪_L)`, and cycles built from a divided-power class take the place of the powers of the Bott element.
+
 There is an absolute constant `C_K ≥ 1` such that for every prime `ℓ`, every totally complex number field `L` containing `μ_ℓ`
 (and `μ₄` if `ℓ = 2`), and every `E ≥ 1`, `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` is finite and
 
@@ -414,6 +568,8 @@ the bound being [FormalProof], `Development/AutomorphicArithmetic/AutomorphicVar
 and proves `∃ C_K, LemmaK C_K` by the first route below as `UpperTheory.V.ZK.lemmaK`
 (`AV/ModularityArgument/ClassCounting/LemmaKOfLitN.lean`), from Poitou–Tate duality, local finiteness and local Tate duality
 taken as hypotheses and from the rank bound `UpperTheory.V.ZK.BOdd` of 9.5, which it proves as `UpperTheory.V.ZK.bOdd`. The corestriction form is this roadmap's.
+Soulé 2003, Theorem 3, bounds `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` at large primes `ℓ`, through K-groups as in the second route
+below; the bound here also covers the small primes.
 
 *Route.* (1) `length H² ≤ length Ш¹ + Σ_{v|ℓ} length H⁰(L_v, ℚ_ℓ/ℤ_ℓ(−E))` (6.17(c)), the local terms being small since `ℓ ≤ n + 1`.
 (2) Enlarge `L` inside its cyclotomic `ℤ_ℓ`-tower to `L′` with `2E + 1 < ℓ^{c′} ≤ 2[L′:ℚ]`; restriction `Ш¹(L, ℓ, E) → Ш¹(L′, ℓ, E)` is
@@ -442,8 +598,17 @@ IntegralIwasawaTheory §§0.1–0.3, 10.5; SchemeKTheoryOperations §6.7; Chebot
 
 ### 9.8 K-groups
 
-(a) For every `m ≥ 1` there is a positive integer `R_m`, depending only on `m`, such that for every ring `R` the kernel of the
-Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is killed by `R_m` (Arlettaz 1991, Theorem 1.5). For a ring whose K-groups are
+*Origin:* (a) published: Arlettaz (1991), the kernel of the Hurewicz map of algebraic K-theory is killed by an
+integer depending only on the degree, stated in StableHomotopyKTheory §4.24a; (b) this roadmap's own formulation:
+the bound for the part of `K_m(𝒪_L)_tors` prime to `R_m` and the `ℓ`-part inequalities, from 9.4 and (a).
+
+*Method of the formal proof:* none. [FormalProof] states (a), for commutative `R` and `m ≥ 2`, as the proposition
+`UpperTheory.V.Published.KHurewicz` (`AV/PublishedTheorems/KAcyclicHomology.lean`), a hypothesis that it does not
+prove and on which its main theorems do not depend; it does not state (b).
+
+(a) For every `m ≥ 1` and every ring `R` the kernel of the Hurewicz map `K_m(R) = π_m(BGL(R)^+) → H_m(GL(R); ℤ)` is
+killed by the positive integer `R_m` of StableHomotopyKTheory §4.24a, which depends only on `m`: for
+`m ≥ 2` this is the first clause of that section, and for `m = 1`, where `R_1 = 1`, the map is an isomorphism. For a ring whose K-groups are
 finitely generated, ArithmeticKTheoryPartII §8.3 shows that no odd prime `ℓ ≥ (m + 3)/2` divides the order of this kernel (a comparison, not an input); (a)
 also covers the small primes, for every ring. (b) There is an absolute `C` such that for every number
 field `L` and `m ≥ 2`, the part of `K_m(𝒪_L)_tors` prime to `R_m` has order `≤ exp((2|d_L|)^{(mn)^C})`; for even `m` the same holds for the
@@ -451,25 +616,14 @@ field `L` and `m ≥ 2`, the part of `K_m(𝒪_L)_tors` prime to `R_m` has order
 and `#(K_m(𝒪_L)/ℓ) ≤ h_{L(μ_ℓ)} ℓ^{n(ℓ−1)}`. The form (b), which discards only the primes dividing `R_m`, is this roadmap's,
 from 9.4 and (a); the published bounds discard more: Soulé 1999, Theorem 2, p. 9, bounds `K_m(ℤ)_tors` modulo the primes
 `≤ 2m + 2`, and BFEH 2014, Theorem 1.1 and Corollary 1.2, pp. 1–2, bound `K_m(𝒪_L)_tors` for `L ≠ ℚ` up to the elements of
-order at most `max(n + 1, 2m + 2)`. [FormalProof] does not state (b), and takes (a), for commutative `R` and `m ≥ 2`, as the
-hypothesis `UpperTheory.V.Published.KHurewicz` (`AV/PublishedTheorems/KAcyclicHomology.lean`).
+order at most `max(n + 1, 2m + 2)`. [FormalProof] does not state (b).
 
-*Route.* (a) `BGL(R)^+` is an infinite loop space and the plus construction does not change homology. The Hurewicz map in
-degree `m` factors through the Postnikov section `P_m`, whose homology in degrees `≤ m + 1` is computed from the stable homology of
-the Eilenberg–MacLane objects `K(π_i, i)`, `i ≤ m`; their homology in degrees `≤ m + 1` above the bottom one is killed by an integer
-depending only on `m`, whatever the groups `π_i`. This uniform exponent is a step of this route, stated in no supplier: the
-stable homology of `K(π, i)` in degree `i + t` is `H_t(Hπ; ℤ) ≅ H_t(Hℤ; ℤ) ⊗ π ⊕ Tor(H_{t−1}(Hℤ; ℤ), π)` for the
-Eilenberg–MacLane spectra `Hπ` and `Hℤ`, and `H_t(Hℤ; ℤ)` is finite for `t ≥ 1`. This bounds the kernel; the Hurewicz theorem modulo a Serre class does not
-apply directly, as the lower groups `K_i(R)` need not lie in the class. (b) On the part prime to `R_m` the Hurewicz map is
+*Route.* (a) is StableHomotopyKTheory §4.24a, as above. (b) On the part prime to `R_m` the Hurewicz map is
 injective, so the torsion of `K_m(𝒪_L)` prime to `R_m` embeds in that of `H_m(GL(𝒪_L); ℤ)`, which stabilizes
 (SchemeKTheoryOperations §6.7) and is bounded by 9.4. For even `m` the image of the kernel in `K_m{ℓ}` lies in `K_m[ℓ^{v_ℓ(R_m)}]`, of
 order at most `#(K_m/ℓ)^{v_ℓ(R_m)}`, and `K_m(𝒪_L)/ℓ` injects into `H²(𝒪_L[1/ℓ], μ_ℓ^{⊗(m/2+1)})`, bounded through ArithmeticKTheory §6.1 by the
 class number of `L(μ_ℓ)`. 9.7 does not give (b) directly, because it changes the field with `ℓ`. *Needs:* 9.4; ArithmeticKTheory §§3.1–3.2, 6.1;
-StableHomotopyKTheory §3.12 (the plus construction is an integral homology isomorphism), §§4.21–4.24 (the group completion
-`K₀(R) × BGL(R)⁺` and Segal's connective Ω-spectrum, which makes it an infinite loop space), §§3.18, 3.20 (Postnikov
-sections and towers) and §3.35 (homology of Eilenberg–MacLane spaces); GeneralizedCohomology G2.7 (the Eilenberg–MacLane
-spectra `HA`) and G5.6 (the rational cohomology of `K(ℤ, n)`, which with §3.35 makes `H_t(Hℤ; ℤ)` finite for `t ≥ 1`);
-AlgebraicTopology §8.3 (the Hurewicz map); SchemeKTheoryOperations §6.7.
+StableHomotopyKTheory §4.24a (the integers `R_m` and the exponent of the kernel of the Hurewicz map); SchemeKTheoryOperations §6.7.
 
 ### Examples
 
@@ -477,13 +631,32 @@ For `ι = {1}` and `Λ₀ = {b}` the quotient is `ℤ/b` and the bound `b^{#ι}`
 
 ### Dependencies
 
-Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1; LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.4, 4.9; K3SurfacesAndSymplecticBoundedness §4.5; Polylogarithms §2.2; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); KTheoryFiniteLocalFields §§1.1–1.2; IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §§3.12, 3.18, 3.20, 3.35, 4.21–4.24; GeneralizedCohomology G2.7, G5.6; AlgebraicTopology §8.3; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
+Layer 6 (6.17, in 9.7); ArithmeticKTheory §§2.1–2.3, 3.1, 3.2, 3.4, 6.1, 9.1 (Gabber's lemma, the general theorem of which 9.1 is a corollary; cited in 9.2); LatticePackingsAndPerfectForms §§1.7, 1.8, 4.1, 4.4, 4.9; K3SurfacesAndSymplecticBoundedness §4.5; Polylogarithms §2.2; SchemeKTheoryOperations §6.7; GeneralAlgebraicKTheory §§13.8b–13.8c (Quillen's computation for finite fields); KTheoryFiniteLocalFields §§1.1–1.2; IntegralIwasawaTheory §§0.1–0.3, 10.5; Chebotarev Layer 10; StableHomotopyKTheory §4.24a; Mathlib `Matrix.det`, `LinearIndependent`, `groupHomology`, `NumberField.discr`.
 
 ## Layer 10: Minus parts of twisted Sha groups and Bernoulli numbers
 
 This layer bounds the components of 6.18 for the characters `ψ` of an abelian CM field with `ψ(−1) = (−1)^{e+1}` by generalized Bernoulli numbers, through the Euler system of Jacobi sums and its derivative classes, and sums the bound over these characters and over the odd primes prime to the degree.
 
 ### 10.1 The minus part of twisted Sha groups and Bernoulli numbers
+
+*Origin:* adapted from Kolster (2009), Theorem 3.3, the order of the character parts of `H²` of an abelian field
+through the values `L_S(−e, ψ)` for characters of order prime to `ℓ` (IntegralIwasawaTheory §12.3a), and from
+Kolyvagin (1990) and Rubin (1991), the Euler system of Gauss sums for the minus parts of the class groups of
+cyclotomic fields: here an inequality for the components of 6.18 with vanishing at the primes of the conductor, for
+every conductor and with the explicit constant `N·P_{e+2}` (a), its sum over the odd primes prime to the degree
+(b), and the Euler system of Jacobi sums with its derivative classes for the twists `e ≥ 1` (c).
+
+*Method of the formal proof:* Kolyvagin's induction at finite level: the classes of the dual character are
+derivative classes of an Euler system of Jacobi sums, a reciprocity law at auxiliary primes lets each of them kill
+the localisation of the cocycles being counted, the auxiliary primes come from Chebotarev's theorem, and the first
+class is ramified at one prime to the order of a Stickelberger sum congruent to the generalized Bernoulli number.
+This is the published method for the minus part of class groups (Kolyvagin's system of Gauss sums), carried to the
+twists `e ≥ 1`, to every conductor and to finite level with a uniform constant.
+
+*Corollary of:* IntegralIwasawaTheory §12.3a (the order of the `χ⁻¹`-part of `H²(O_{E,S}, ℤ_p(n))` through
+`L_S(1 − n, χ)`, for a character `χ` of order prime to `p` of a totally real field and an abelian extension `E` of
+degree prime to `p`; here `F = ℚ`, `p = ℓ`, `n = e + 1`), for (a), through 6.17 (b)–(c) and 6.18 (a)–(b), and for
+(b), which follows from (a); the Euler system of Jacobi sums (c) is not a corollary of it.
 
 Let `E` be an abelian CM field of conductor `N` and degree `n`, `ℓ` an odd prime with `ℓ ∤ n`, `e ≥ 1`, `O ⊂ ℚ̄_ℓ` containing the values
 of the characters of `Gal(E/ℚ)`, and `ψ` such a character, a Dirichlet character modulo `N` of order prime to `ℓ`, with
@@ -697,8 +870,9 @@ CyclotomicClassGroupsAndStickelberger §3.1; DirichletPadicLFunctions §0.4; LFu
   `B_{e+1}/(e + 1)`, while `ℓ ≤ e + 2` divides `P_{e+2}`, which makes `N·P_{e+2}·B_{e+1}` integral at `ℓ`.
 - The character is `ψ`, not `ψ⁻¹`: the `ψ⁻¹χ_ℓ^{−e}`-twisted classes see the `ℓ`-adic `L`-function of `ψω^{e+1}`.
 - For `ψ` factoring through `Gal(ℚ(μ_ℓ)/ℚ)`, IntegralIwasawaTheory §12.3 (with `F = ℚ`, `p = ℓ`, `n = e + 1` and its `χ` equal to
-  `ψ`) gives an exact formula for the order of the coinvariants `X_{ψω^{e+1}}(−e−1)_Γ` through `L_S(−e, ψ)`; (a) is an
-  inequality for every conductor.
+  `ψ`) gives an exact formula for the order of the coinvariants `X_{ψω^{e+1}}(−e−1)_Γ` through `L_S(−e, ψ)`, and
+  IntegralIwasawaTheory §12.3a the order of the `ψ⁻¹`-part of `H²` for every `ψ` of order prime to `ℓ`; (a) is an
+  inequality for the groups with vanishing at the primes of the conductor.
 - (b) is the analogue in twist `e ≥ 1` of the relative class number formula of CyclotomicClassGroupsAndStickelberger §3.4 and
   of its bound in CyclotomicClassGroupsAndStickelberger §4.1, where the minus part of the class group is measured by the `B_{1,χ}`.
 - For odd `e`, EulerSystemsCyclotomicMainConjecture §5.3 (c) gives, over `ℚ(μ_{ℓ^∞})^+`, the characteristic ideal of the dual
@@ -711,13 +885,23 @@ For `E = ℚ(i)`, `ψ = 1`, `e = 11` and `ℓ = 691`: `N = 4`, `P₁₃ = 30030`
 
 ### Dependencies
 
-Layer 6 (6.17, 6.18); ArithmeticGaloisDuality §R02.4.3; ClassicalArithmeticCompletion §1.55; CyclotomicClassGroupsAndStickelberger §§2.5, 3.1; EulerSystemsAndKolyvaginSystems §3.1; ProfiniteCohomology §9.6; DirichletPadicLFunctions §0.4; LFunctions Layer 4; ArithmeticKTheory §7.5 (in a Check); Mathlib `jacobiSum`, `Nat.exists_prime_gt_modEq_one`; Tau Ceti `DirichletCharacter.generalizedBernoulli`.
+Layer 6 (6.17, 6.18); ArithmeticGaloisDuality §R02.4.3; IntegralIwasawaTheory §12.3a (the general theorem of which 10.1 (a) is a corollary); ClassicalArithmeticCompletion §1.55; CyclotomicClassGroupsAndStickelberger §§2.5, 3.1; EulerSystemsAndKolyvaginSystems §3.1; ProfiniteCohomology §9.6; DirichletPadicLFunctions §0.4; LFunctions Layer 4; ArithmeticKTheory §7.5 (in a Check); Mathlib `jacobiSum`, `Nat.exists_prime_gt_modEq_one`; Tau Ceti `DirichletCharacter.generalizedBernoulli`.
 
 ## Layer 11: Ranks in cyclic extensions of degree p
 
 This layer bounds the `p`-rank of the Galois group of the maximal unramified abelian pro-`p` extension along cyclic extensions of degree `p`, ramified away from `p`, of fields containing a cyclotomic `ℤ_p`-extension.
 
 ### 11.1 Ranks in cyclic extensions of degree `p`
+
+*Origin:* this roadmap's own formulation: the bound `rank_p X(A′) ≤ p (rank_p X(A) + #P)` for a cyclic extension of
+degree `p` ramified only at places not above `p`, and its iteration along a chain of such extensions; for `p = 2` it
+is the statement of [FormalProof].
+
+*Method of the formal proof:* for `p = 2`, on the characters of order 2 of the subgroup of index 2 the operator
+`1 + σ` has square zero and its kernel consists of the `σ`-invariant characters, which are no more numerous than the
+characters of the larger group, so the count is at most squared; allowing ramification at a prime `q ∤ p` multiplies
+the count by at most `p` for each place above `q`, a character of a tame inertia group being determined by its value
+at a generator.
 
 Let `A` be an algebraic extension of `ℚ` containing the cyclotomic `ℤ_p`-extension of a number field, totally imaginary if
 `p = 2` (so that "unramified" imposes no condition at real places), `A′/A` a cyclic
@@ -774,9 +958,16 @@ IntegralIwasawaTheory §§0.3, 3.5; ClassFieldTheory Layers 8–12; ProfiniteCoh
 
 ## Layer 12: Specialization at finite-order characters of abelian extensions
 
-This layer extends the specialization of the main conjecture at arithmetic weights from `E = F(μ_p)` (IntegralIwasawaTheory §12.3) to the finite-order characters of an arbitrary finite abelian extension `E` of a totally real field `F`.
+This layer extends the specialization of the main conjecture at arithmetic weights from the abelian extensions of degree prime to `p` (IntegralIwasawaTheory §§12.3, 12.3a) to the finite-order characters of an arbitrary finite abelian extension `E` of a totally real field `F`, over `E(μ_p)`.
 
 ### 12.1 Specialization for finite-order characters of an abelian extension
+
+*Origin:* adapted from Kolster (2009), Theorem 3.3: the order of the `χ⁻¹`-part of `H²` and of the twisted
+coinvariants for an abelian extension of degree prime to `p` (IntegralIwasawaTheory §12.3a); here over
+`E′ = E(μ_p)` for every finite abelian `E/F`, also when `p` divides `[E : F]`, with `S` containing the places
+ramified in `E′`.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Let `F` be totally real, `p` odd, `E/F` a finite abelian extension, `E′ = E(μ_p)`, `n ≥ 2`, and `χ` a character of `Gal(E′/F)` of
 order prime to `p` with `χ(c) = (−1)^n` for every complex conjugation `c`; put `ψ = χ ω^n` (even, of order prime to `p`) and
@@ -788,12 +979,14 @@ v_p(#X_ψ(−n)_Γ) = d_χ v_p(L_S(1 − n, χ)) + v_p(#H⁰(E′, ℚ_p/ℤ_p(n
 ```
 
 and that `#X_ψ(−n)_Γ` is the order of the `χ⁻¹`-part of `H²(𝒪_{E′,S}, ℤ_p(n))` (for the natural action of `Gal(E′/F)` on
-cohomology). 12.1 is this roadmap's statement, by the route below; [FormalProof] does not state it.
+cohomology). For `[E : F]` prime to `p`, 12.1 is IntegralIwasawaTheory §12.3a for the field `E′`, which is then abelian
+over `F` of degree prime to `p` and contains `μ_p` (Kolster 2009, Theorem 3.3); the case where `p` divides `[E : F]` is
+this roadmap's statement, by the route below. [FormalProof] does not state it.
 
 *Route.* As in IntegralIwasawaTheory §12.3, with IntegralIwasawaTheory §12.1's character-quotient main conjecture applied to the even character `ψ` of prime-to-`p`
 order (IntegralIwasawaTheory §12.2 for going up from `F` to the field of `ψ`), IntegralIwasawaTheory §10.4 for the Euler quotient and absence of finite submodules, and IntegralIwasawaTheory §10.5
 for the comparison with the finite étale `H²` eigenspace of the correct parity. The case `E = F(μ_p)` is IntegralIwasawaTheory §12.3. *Needs:* IntegralIwasawaTheory §§10.4,
-10.5, 12.1, 12.2, 12.3; LFunctions Layer 5 (finite-order Hecke L-functions).
+10.5, 12.1, 12.2, 12.3, and §12.3a for `[E : F]` prime to `p`; LFunctions Layer 5 (finite-order Hecke L-functions).
 
 **Checks.**
 
@@ -812,7 +1005,7 @@ For `χ = 1` and `E = F(μ_p)`, 12.1 is IntegralIwasawaTheory §12.3. For a CM q
 
 ### Dependencies
 
-IntegralIwasawaTheory §§10.4, 10.5, 12.1, 12.2, 12.3; LFunctions Layer 5.
+IntegralIwasawaTheory §§10.4, 10.5, 12.1, 12.2, 12.3, 12.3a; LFunctions Layer 5.
 
 ## Layer 13: Splitting of quaternion algebras at reducible places
 
@@ -820,10 +1013,19 @@ This layer shows that Momose's quaternion algebra of a newform without complex m
 
 ### 13.1 Splitting at reducible places
 
+*Origin:* adapted from Brown and Ghate (2003), Theorem 3.3.1: Momose's quaternion algebra splits at the places above
+a prime not dividing the level at which the newform is ordinary (KatoEulerSystems §4.1a); here at every place at
+which the restriction of `V_λ(f)` to `G_{ℚ_p}` is reducible, by the characters of inertia, with the admissibility of
+`(f, λ)` over every abelian field.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Let `f` be a non-CM newform of weight `k ≥ 2`, `λ` a place of its coefficient field above `p`, and `λ₀` the place of `F⁰` below it.
 If the restriction of `V_λ(f)` to the decomposition group `G_{ℚ_p}` is reducible, then `B` splits at `λ₀`, and `(f, λ)` is admissible
-over every abelian field. 13.1 is this roadmap's statement, by the route below; [FormalProof] does not state it, and in its
-instance of 14.1 assumes an ordinary newform in place of admissibility (14.1).
+over every abelian field. At a place `λ` above a prime `p` not dividing the level of `f` at which `f` is ordinary, the
+splitting is KatoEulerSystems §4.1a (Brown–Ghate 2003, Theorem 3.3.1); at the other places at which the restriction is
+reducible, and with the admissibility over every abelian field, 13.1 is this roadmap's statement, by the route below.
+[FormalProof] does not state it, and in its instance of 14.1 assumes an ordinary newform in place of admissibility (14.1).
 
 *Route.* By the open-image theorem of Ribet and Momose (KatoEulerSystems §4.1) the image of `H` lies in `B_{λ₀}^×`. Suppose `B_{λ₀}` is a division algebra. An element of a
 quaternion division algebra over `F⁰_{λ₀}` is central or has irreducible reduced characteristic polynomial over `F⁰_{λ₀}`. On a
@@ -835,7 +1037,7 @@ splits over `F⁰_{λ₀}`; hence `ρ_f(τ)` is central, so `χ_p(τ)^{a−b} = 
 So `B` splits at `λ₀`, and the splitting criterion of KatoEulerSystems §4.1 applies; over an abelian field `K`, `G_{K(μ_{p^∞})}` has finite index in
 `G_{ℚ(μ_{p^∞})}`, so its image still contains a nontrivial unipotent. The decomposition group of `ℚ_p` itself is needed: on a line
 stable only under `G_{K′}` for a proper finite extension `K′/ℚ_p` the character is, on inertia, a product `∏_τ τ^{n_τ}∘Art⁻¹` over the
-embeddings of `K′`, whose values need not lie in `ℤ_p`. *Needs:* KatoEulerSystems §4.1; PadicHodgeTheory §3.6 (characters with labelled weights).
+embeddings of `K′`, whose values need not lie in `ℤ_p`. *Needs:* KatoEulerSystems §4.1, and §4.1a at the ordinary places above primes not dividing the level; PadicHodgeTheory §3.6 (characters with labelled weights).
 
 **Checks.**
 
@@ -849,13 +1051,32 @@ A newform ordinary at `λ` satisfies the hypothesis of 13.1, since `V_λ(f)|_{G_
 
 ### Dependencies
 
-KatoEulerSystems §4.1; PadicHodgeTheory §3.6.
+KatoEulerSystems §§4.1, 4.1a; PadicHodgeTheory §3.6.
 
 ## Layer 14: Vanishing of rational Bloch–Kato groups at non-central twists
 
 This layer deduces the vanishing of the Bloch–Kato group with `E_λ`-coefficients from the finiteness of Selmer groups over abelian fields.
 
 ### 14.1 Vanishing of rational Bloch–Kato groups at non-central twists
+
+*Origin:* adapted from Kato (2004), Theorem 14.2: the finiteness of `Sel(K, T)` for `(f, λ)` admissible over an
+abelian field `K` and `1 ≤ r ≤ k − 1`, `r ≠ k/2` (KatoEulerSystems §7.9), read rationally as the vanishing of
+`H¹_f(K, V_λ(f)(r))`; [FormalProof] proves the instance over `ℚ` with `k = 2e + 1` and `r = e` for an ordinary
+newform of level prime to `p`.
+
+*Method of the formal proof:* for the instance over `ℚ` (weight `2e + 1`, twist `e`, an ordinary newform of level
+prime to `p`) the Euler system of zeta elements provides a class `y`, not ordinary at `p`, and tame classes at
+auxiliary primes `w ≡ 1 mod p^n` with norm `P·y`, `P ≡ u·det(W(Frob_w) − 1)`; a nonzero strict Selmer class `z` of
+the dual twist is excluded by cup products with these classes and global reciprocity, one auxiliary prime at a time,
+with `w` chosen by density; the ordinary Selmer group of the dual then vanishes because `y` is not ordinary, that of
+`W` by the Greenberg–Wiles count, and a Bloch–Kato class is unramified outside `p` and ordinary at `p`. Kato's proof
+passes through Iwasawa theory over the cyclotomic tower and the finiteness of Selmer groups; here only the first step
+of Kolyvagin's argument is used, directly over `ℚ` with ordinary local conditions. The route written below is not
+this proof: it deduces the vanishing, for every pair admissible over an abelian field, from the finiteness of
+`Sel(K, T)` (KatoEulerSystems §7.9).
+
+*Corollary of:* KatoEulerSystems §7.9 (Kato's theorem: for `(f, λ)` admissible over an abelian field `K` and
+`1 ≤ r ≤ k − 1`, `r ≠ k/2`, `Sel(K, T)` is finite for every stable lattice `T` of `V_λ(f)(r)`).
 
 Let `f` be a newform of weight `k ≥ 2`, `K` an abelian field, `λ` a place of the coefficient field of `f` above `p` with `(f, λ)`
 admissible over `K`, and `1 ≤ r ≤ k − 1` with `r ≠ k/2`. Prove `H¹_f(K, V_λ(f)(r)) = 0`.
@@ -867,8 +1088,7 @@ characters, and either they are not in ratio `χ_p` on the decomposition group o
 at `p`; no condition is put on the level of `f`);
 `V_λ(f)(e)` has a line stable under the whole decomposition group at `p`, with inertial characters `χ_p^{e}χ` and `χ_p^{−e}χ` for a
 character `χ` of conductor dividing `p`; and `V_λ(f)` is irreducible on `G_{K(μ_{p^∞})}`. The full list is the structure
-`UpperTheory.V.Z.Kato.Used`, the hypothesis of the formal statement `UpperTheory.V.Z.Kato.KatoTwo` of the instance
-(`AV/ModularityArgument/KatoQuadraticCharacters/KatoTwoOfUseN.lean`); among its further fields, `K` is imaginary quadratic,
+`UpperTheory.V.Z.Kato.Used`; among its further fields, `K` is imaginary quadratic,
 the determinant of `V_λ(f)(e)` is the quadratic character of `K`, and `V_λ(f)(e)` is residually reducible. The general
 statement and the criterion 13.1 for admissibility are this roadmap's route to that instance.
 
@@ -933,19 +1153,19 @@ In the family RiemannHypothesisForDirichletLFunctions, UniformWildKernelBounds u
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the statements above: the twisted Tate–Shafarevich groups `Ш¹(F, ℓ, e)` with `ℚ_ℓ/ℤ_ℓ(−e)` coefficients, their duality with the cohomological wild kernels, their comparison with `H²`, their behaviour under restriction, their total over all primes and twists, and their plus/minus and character decompositions (Layer 6); explicit torsion bounds for cokernels with short relations, for the homology of groups acting on acyclic complexes and of `GL_N(𝒪_L)`, for `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` and for K-groups, with the perfect forms over rings of integers and their nerve, the values of primitive classes and the additive classes of finite fields that these bounds use (Layer 9); the per-character bound for the minus parts of abelian CM fields by generalized Bernoulli numbers, with the Euler system of Jacobi sums and its derivative classes (Layer 10); the rank bound for unramified Iwasawa modules in cyclic extensions of degree `p` (Layer 11); the special-value formula for finite-order characters of an abelian extension of a totally real field (Layer 12); the splitting of Momose's quaternion algebra at reducible places (Layer 13); and the vanishing of rational Bloch–Kato groups at non-central twists (Layer 14). The perfect forms over a ring of integers (9.3 (a)–(d)) generalize LatticePackingsAndPerfectForms §4.9, which is the case `L = ℚ`.
+This roadmap owns the statements above: the twisted Tate–Shafarevich groups `Ш¹(F, ℓ, e)` with `ℚ_ℓ/ℤ_ℓ(−e)` coefficients, their duality with the cohomological wild kernels, their comparison with `H²`, their behaviour under restriction, their total over all primes and twists, and their plus/minus and character decompositions (Layer 6); explicit torsion bounds for cokernels with short relations, for the homology of groups acting on acyclic complexes and of `GL_N(𝒪_L)`, for `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` and for K-groups, with the perfect forms over rings of integers and their nerve, the values of primitive classes and the additive classes of finite fields that these bounds use (Layer 9); the per-character bound for the minus parts of abelian CM fields by generalized Bernoulli numbers, with the Euler system of Jacobi sums and its derivative classes (Layer 10); the rank bound for unramified Iwasawa modules in cyclic extensions of degree `p` (Layer 11); the special-value formula for finite-order characters of an abelian extension of a totally real field, over `E(μ_p)` when `p` divides the degree (Layer 12); the splitting of Momose's quaternion algebra at reducible places (Layer 13); and the vanishing of rational Bloch–Kato groups at non-central twists (Layer 14). The perfect forms over a ring of integers (9.3 (a)–(d)) generalize LatticePackingsAndPerfectForms §4.9, which is the case `L = ℚ`.
 
-Not owned here. The theory these statements extend belongs to four roadmaps. [ArithmeticKTheory](../../ArithmeticKTheory/README.md) owns the K-groups of rings of integers and S-integers, their finite generation and Borel's ranks, the even groups in cohomological dimension two, the wild kernels, the cohomological kernels `Sha²_{i,ℓ}(F)` and the Moore sequence, the Bernoulli conventions with the character projectors and Herbrand–Ribet (ArithmeticKTheory §7.3), and the tame kernels of cyclotomic integers. [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md) owns the Euler systems of cyclotomic units, Stickelberger annihilation and the Stickelberger cohomology family (EulerSystemsCyclotomicMainConjecture §§0.29–0.31), and the main conjecture with its finite consequences. [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) owns cyclotomic towers, unramified Iwasawa modules with their rank criteria, Ferrero–Washington, and the main conjecture in its character-quotient form with the specialization at arithmetic weights for `E = F(μ_p)` (IntegralIwasawaTheory §12.3). KatoEulerSystems owns Kato's Euler systems for modular forms, admissible pairs with the open-image theorem of Ribet and Momose (KatoEulerSystems §4.1), and the finiteness of Selmer groups over abelian fields (KatoEulerSystems §7.9). The class groups of cyclotomic fields as Galois modules, with their character components, Stickelberger's theorem and the Herbrand–Ribet theorem, are [CyclotomicClassGroupsAndStickelberger](../../CyclotomicClassGroupsAndStickelberger/README.md). Sha kernels with lattice and divisible coefficients and their duality are HeckeIdealsAndTaylorWilesRelations §10.1. Uniform bounds for the plus part in towers of abelian fields, and the bound for the minus part at the odd primes dividing the degree, belong to UniformWildKernelBounds.
+Not owned here. The theory these statements extend belongs to four roadmaps. [ArithmeticKTheory](../../ArithmeticKTheory/README.md) owns the K-groups of rings of integers and S-integers, their finite generation and Borel's ranks, the even groups in cohomological dimension two, the wild kernels, the cohomological kernels `Sha²_{i,ℓ}(F)` and the Moore sequence, the Bernoulli conventions with the character projectors and Herbrand–Ribet (ArithmeticKTheory §7.3), and the tame kernels of cyclotomic integers. [EulerSystemsCyclotomicMainConjecture](../../EulerSystemsCyclotomicMainConjecture/README.md) owns the Euler systems of cyclotomic units, Stickelberger annihilation and the Stickelberger cohomology family (EulerSystemsCyclotomicMainConjecture §§0.29–0.31), and the main conjecture with its finite consequences. [IntegralIwasawaTheory](../../IntegralIwasawaTheory/README.md) owns cyclotomic towers, unramified Iwasawa modules with their rank criteria, Ferrero–Washington, and the main conjecture in its character-quotient form with the specialization at arithmetic weights for `E = F(μ_p)` (IntegralIwasawaTheory §12.3) and for the characters of order prime to `p` over abelian extensions of degree prime to `p` (IntegralIwasawaTheory §12.3a). KatoEulerSystems owns Kato's Euler systems for modular forms, admissible pairs with the open-image theorem of Ribet and Momose (KatoEulerSystems §4.1), the splitting of Momose's algebra at ordinary places (KatoEulerSystems §4.1a), and the finiteness of Selmer groups over abelian fields (KatoEulerSystems §7.9). The class groups of cyclotomic fields as Galois modules, with their character components, Stickelberger's theorem and the Herbrand–Ribet theorem, are [CyclotomicClassGroupsAndStickelberger](../../CyclotomicClassGroupsAndStickelberger/README.md). Sha kernels with lattice and divisible coefficients and their duality are HeckeIdealsAndTaylorWilesRelations §10.1 and ArithmeticGaloisDuality §D7.6a. Gabber's lemma on the torsion in the homology of a based complex is ArithmeticKTheory §9.1, and the integers `R_m` that kill the kernel of the Hurewicz map of K-theory are StableHomotopyKTheory §4.24a. Uniform bounds for the plus part in towers of abelian fields, and the bound for the minus part at the odd primes dividing the degree, belong to UniformWildKernelBounds.
 
 ## Exact supplier contracts
 
 ### From TauCetiRoadmap.ArithmeticKTheory
 
-Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1).
+Layer 3: finite generation of the K-groups of rings of integers and finiteness of `K_{2e}(𝒪_F)` for `e ≥ 1` (6.17 (e)); §§3.1–3.2: the rank filtration, relative homology and stability (9.8); §3.4: Borel's ranks, for `K_m(𝒪_L)` and for the primitive part of the stable rational homology of `GL(𝒪_L)`, and the vanishing of the rank of the positive even groups (9.5, 9.7). §§2.1–2.3: the localization sequence and the residue transfer (9.6). §6.1: the even groups in cohomological dimension two, with the surjection `K_{2e}(𝒪_F) ⊗ ℤ_ℓ → H²(𝒪_F[1/ℓ], ℤ_ℓ(e+1))`, the finiteness of these `H²` and the Checks over `ℚ` and `ℚ(i)` (6.17, 9.7, 9.8). §6.3: the real dyadic integral table (6.17 (b) at `ℓ = 2`). §6.7: the wild kernel of `K₂(ℚ)` at `ℓ = 2` (a Check of 6.17). §6.8: the Moore sequence and the order identity (6.17 (c)). §6.9: the cohomological kernel `Sha²_{i,ℓ}(F)` and its comparison with `WK^sym_{2i}(F){ℓ}` (6.17 (b)). §7.4: `K_{2e}(ℤ[ζ₃₇]){37} ≠ 0` (a Check of 6.17). §7.5: `K₂₂(ℤ){691} = ℤ/691` (a Check of 10.1). §9.1: Gabber's lemma, the torsion of the homology in degree `k` of a based complex of free abelian groups of finite rank has order at most `b^a`, for `b ≥ 1` bounding the Euclidean norms of the boundaries of the basis elements in degree `k + 1` and `a` the smaller of the ranks in degrees `k` and `k + 1` (the general theorem of which 9.1 is a corollary; cited at 9.2).
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
-§D7.6: continuous cohomology with lattice coefficients and the Poitou–Tate sequence for the lattice `ℤ_ℓ(e+1)` (6.17 (c)). §R02.4.3: Poitou–Tate duality, for the reciprocity law at auxiliary primes (10.1).
+§D7.6: continuous cohomology with lattice coefficients and the Poitou–Tate sequence for the lattice `ℤ_ℓ(e+1)` (6.17 (c)). §D7.6a: for a lattice `T` with `W = V/T` and `T^D = Hom(T, ℚ_p/ℤ_p)(1)`, the kernels `Ш¹_S(F, W)`, `Ш¹_S(F, T^D)` and `Ш²_S(F, T)` with the real places included, the perfect pairing `Ш¹_S(F, T^D) × Ш²_S(F, T) → ℚ_p/ℤ_p`, and the exact sequence `0 → Ш²_S(F, T) → H²(G_{F,S}, T) → ⊕_{v∈S} Ĥ²(F_v, T) → H⁰(G_{F,S}, T^D)^* → 0`, the general theorem of which the duality of 6.17 (b) and 6.17 (c) are corollaries (6.17). §R02.4.3: Poitou–Tate duality, for the reciprocity law at auxiliary primes (10.1).
 
 ### From HeckeIdealsAndTaylorWilesRelations, a sub-roadmap of this family
 
@@ -953,11 +1173,11 @@ Layer 3: finite generation of the K-groups of rings of integers and finiteness o
 
 ### From TauCetiRoadmap.IntegralIwasawaTheory
 
-§§0.1–0.3: cyclotomic extensions, towers and their layers, and ramification and inertia in a procyclic tower (9.7, 11.1). §3.5: the ray-class comparisons, with the `p`-split quotient `X/D_∞` and Chevalley's ambiguous-class formula (11.1). §10.4: arithmetic-character Euler characteristics, for the Euler quotient and the absence of finite submodules (12.1). §10.5: Galois descent of twists, for the injectivity of restriction to the cyclotomic tower on `Ш¹` and the comparison with the finite étale `H²` eigenspace (9.7, 12.1). §12.1: the character-quotient main conjecture; §12.2: inflation, induction and going up; §12.3: the specialization at arithmetic weights for `E = F(μ_p)` (12.1).
+§§0.1–0.3: cyclotomic extensions, towers and their layers, and ramification and inertia in a procyclic tower (9.7, 11.1). §3.5: the ray-class comparisons, with the `p`-split quotient `X/D_∞` and Chevalley's ambiguous-class formula (11.1). §10.4: arithmetic-character Euler characteristics, for the Euler quotient and the absence of finite submodules (12.1). §10.5: Galois descent of twists, for the injectivity of restriction to the cyclotomic tower on `Ш¹` and the comparison with the finite étale `H²` eigenspace (9.7, 12.1). §12.1: the character-quotient main conjecture; §12.2: inflation, induction and going up; §12.3: the specialization at arithmetic weights for `E = F(μ_p)` (12.1). §12.3a: for `p` odd, `n ≥ 2`, a character `χ` of order prime to `p` of a totally real `F` with `χ(c) = (−1)^n` and a finite abelian extension `E/F` of degree prime to `p` containing the field of `χ`, the order of the `χ⁻¹`-part of `H²(O_{E,S}, ℤ_p(n))` through `L_S(1 − n, χ)`, and, when `μ_p ⊂ E`, the vanishing of `X_ψ(−n)^Γ` and the duality of `X_ψ(−n)_Γ` with that part (the general theorem of which 10.1 (a) is a corollary; 12.1 for `[E : F]` prime to `p`).
 
 ### From TauCetiRoadmap.KatoEulerSystems
 
-§4.1: the open-image theorem of Ribet and Momose for a newform `f` without complex multiplication (the group of inner twists, the field `F⁰`, Momose's quaternion algebra `B` over `F⁰`, and an open subgroup `H` of `G_ℚ` with `ρ_f(H) ⊂ B^×`), and the criterion that `(f, λ)` is admissible when `B` splits at the place `λ₀` of `F⁰` below `λ` (13.1). §7.9: for `(f, λ)` admissible over an abelian field `K` and `1 ≤ r ≤ k − 1`, `r ≠ k/2`, the Selmer group `Sel(K, T)` is finite for every stable lattice `T` of `V_λ(f)(r)` (14.1).
+§4.1: the open-image theorem of Ribet and Momose for a newform `f` without complex multiplication (the group of inner twists, the field `F⁰`, Momose's quaternion algebra `B` over `F⁰`, and an open subgroup `H` of `G_ℚ` with `ρ_f(H) ⊂ B^×`), and the criterion that `(f, λ)` is admissible when `B` splits at the place `λ₀` of `F⁰` below `λ` (13.1). §4.1a: `B` splits at `λ₀` when `λ` lies above a prime `p` not dividing the level of `f` at which `a_p(f)` is a `λ`-adic unit (cited at 13.1). §7.9: for `(f, λ)` admissible over an abelian field `K` and `1 ≤ r ≤ k − 1`, `r ≠ k/2`, the Selmer group `Sel(K, T)` is finite for every stable lattice `T` of `V_λ(f)(r)` (14.1).
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -995,17 +1215,9 @@ Layer 3: finite generation of the K-groups of rings of integers and finiteness o
 
 Layer 10: the Chebotarev density theorem in Dirichlet density, for the primes of degree one that separate twisted norms (9.7).
 
-### From TauCetiRoadmap.AlgebraicTopology
-
-§8.3: the absolute Hurewicz map (9.8 (a)).
-
 ### From TauCetiRoadmap.StableHomotopyKTheory
 
-§3.12: the plus construction is an integral homology isomorphism; §§4.21–4.24: `K₀(R) × BGL(R)⁺` as the group completion of the finitely generated projective `R`-modules, and Segal's connective Ω-spectrum with this zeroth space; §§3.18, 3.20: Postnikov sections and the Postnikov towers of abelian spaces; §3.35: the homology of Eilenberg–MacLane spaces in the Serre classes (9.8 (a)).
-
-### From TauCetiRoadmap.GeneralizedCohomology
-
-G2.7: for an abelian group `A`, the Eilenberg–MacLane spectrum `HA`, an Ω-spectrum with `π₀ HA = A` and no other homotopy, whose homology theory is ordinary homology with coefficients in `A`; G5.6: the rational cohomology `H^*(K(ℤ, n); ℚ)`, a polynomial or exterior algebra on one generator of degree `n` (9.8 (a)).
+§4.24a: the integers `R_j` (`R_j = 1` for `j ≤ 1`, `R_j = L₂L₃⋯L_j` for `j ≥ 2`), and, for every ring `R` and `m ≥ 2`, the kernel of the Hurewicz map `K_m(R) → H_m(GL(R); ℤ)` is killed by `R_m`, the map being an isomorphism for `m = 1` (9.8 (a), and through it 9.7).
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -1050,9 +1262,19 @@ Layer 4: Dirichlet L-functions with their completed functions and functional equ
 ## References
 
 - C. Soulé, Perfect forms and the Vandiver conjecture, J. reine angew. Math. 517, 1999, 209–221 (theorem numbers and pages of arXiv:math/9812171v1): for `SL_N(ℤ)` only (the extension to rings of integers is left open, p. 2), Voronoi's cells and their count (Propositions 1–2, pp. 3–4; 9.3), the torsion of a cokernel (Lemma 1, p. 5; 9.1), Gabber's lemma (Proposition 3, p. 6; 9.2), the torsion of `H_k(SL_N(ℤ); ℤ)` modulo the primes `≤ N + 1` (Theorem 1, p. 7; 9.2, 9.4) and of `K_m(ℤ)` modulo the primes `≤ 2m + 2` (Theorem 2, p. 9; 9.8).
-- C. Soulé, A bound for the torsion in the K-theory of algebraic integers, Documenta Math. Extra Volume Kato, 2003, 761–788: bounds for the torsion of `K_m(𝒪_L)` up to small torsion, through the homology of `GL_N(𝒪_L)` and Ash's well-rounded retract, whose bound for `log card` is of size at least `exp(α|d_L|^{1/2})` (Proposition 4, as BFEH 2014, pp. 1–2, describe it; 9.4, 9.8).
-- BFEH 2014: E. Bayer-Fluckiger, V. Emery, J. Houriet, Hermitian lattices and bounds in K-theory of algebraic integers, arXiv:1406.5953, 2014 (numbering and pages of its third version, 2015): the bound for `K_m(𝒪_L)_tors`, `L ≠ ℚ`, up to the elements of order at most `max(n + 1, 2m + 2)`, with `log card` at most `(mn)^α|d_L|^β` (Theorem 1.1 and Corollary 1.2, pp. 1–2), through the homology of `GL_{2m+1}(𝒪_L)` (Corollary 2.3 and §3, pp. 4–6) and Ash's well-rounded retract (Theorem 2.2, p. 4), the alternative to the nerve of 9.3 (9.3, 9.4, 9.8).
+- C. Soulé, A bound for the torsion in the K-theory of algebraic integers, Documenta Math. Extra Volume Kato, 2003, 761–788: bounds for the torsion of `K_m(𝒪_L)` up to small torsion, through the homology of `GL_N(𝒪_L)` and Ash's well-rounded retract, whose bound for `log card` is of size at least `exp(α|d_L|^{1/2})` (Proposition 4, as BFEH 2014, pp. 1–2, describe it; 9.4, 9.8); the bound for `H²(𝒪_L[1/ℓ], ℤ_ℓ(E+1))` at large primes `ℓ`, through K-groups (Theorem 3; 9.7).
+- BFEH 2014: E. Bayer-Fluckiger, V. Emery, J. Houriet, Hermitian lattices and bounds in K-theory of algebraic integers, Documenta Math. Extra Volume Merkurjev, 2015, 71–83; arXiv:1406.5953, 2014 (numbering and pages of its third version, 2015): the bound for `K_m(𝒪_L)_tors`, `L ≠ ℚ`, up to the elements of order at most `max(n + 1, 2m + 2)`, with `log card` at most `(mn)^α|d_L|^β` (Theorem 1.1 and Corollary 1.2, pp. 1–2), through the homology of `GL_{2m+1}(𝒪_L)` (Corollary 2.3 and §3, pp. 4–6) and Ash's well-rounded retract (Theorem 2.2, p. 4), the alternative to the nerve of 9.3 (9.3, 9.4, 9.8).
 - D. Arlettaz, The Hurewicz homomorphism in algebraic K-theory, J. Pure Appl. Algebra 71, 1991, 1–12: the kernel of the Hurewicz map is killed by an integer depending only on the degree (Theorem 1.5; 9.8 (a)).
 - V. A. Kolyvagin, Euler systems, in The Grothendieck Festschrift II, Progr. Math. 87, Birkhäuser, 1990: the derivative classes of 10.1 (c3), (c4).
 - K. Rubin, Kolyvagin's system of Gauss sums, in Arithmetic Algebraic Geometry, Progr. Math. 89, Birkhäuser, 1991: the method for class groups of cyclotomic fields, of which 10.1 (c) is the analogue for the twists `e ≥ 1`.
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions that the family index ([RiemannHypothesisForDirichletLFunctions](../README.md)) names, with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, cited at its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, which the family index names; the file paths and declaration names given at the targets refer to that commit. It is the source of the statements of this roadmap that no work in this list states: Layer 6 for `ℓ` odd or `F` totally imaginary (in the form of lengths), 9.3–9.5 for totally complex number fields, 9.6, 9.7, the forms of 9.2 and 9.4 that discard no prime, Layer 10, and the case `p = 2` of 11.1; it also proves the instance of 14.1 that UniformWildKernelBounds uses. The statements at `ℓ = 2` with real places and the K-theoretic clauses of Layer 6, the extension of 9.3–9.5 to fields with a real place, the corestriction form of 9.7, 9.8 (b), 11.1 for odd `p`, 12.1, 13.1 and the general form of 14.1 are this roadmap's, by the routes given. What a target states beyond the form recorded there is this roadmap's.
+- P. Schneider, Über gewisse Galoiscohomologiegruppen, Math. Z. 168, 1979, 181–205: Poitou–Tate duality for the Tate–Shafarevich kernels with the coefficients `ℤ_p(i)` (6.17).
+- M. Kolster, A. Movahhedi, Galois co-descent for étale wild kernels and capitulation, Ann. Inst. Fourier 50, no. 1, 2000, 35–65: the exact sequence of the étale wild kernel with `H²`, the local `H²` and the dual of the global `H⁰`, for `p` odd (§1; 6.17, through ArithmeticGaloisDuality §D7.6a).
+- M. Kolster, Special values of L-functions at negative integers, lecture notes of the Maine–Québec Number Theory Conference, 2009: the decomposition into character components of the `H¹` and `H²` of the `S`-integers of an abelian field of degree prime to `p` (§3; 6.18), and the order of the `χ⁻¹`-part of `H²` through `L_S(1 − n, χ)` for the characters `χ` of order prime to `p` of a totally real field (Propositions 3.1–3.2 and Theorem 3.3, pp. 13–15; 10.1, 12.1, through IntegralIwasawaTheory §12.3a).
+- K. S. Brown, Cohomology of Groups, Springer GTM 87, 1982: the cellular chains of a complex with a group action as sums of permutation modules, and Shapiro's lemma (III.1, III.10, VII.7–VII.8; 9.2).
+- V. Emery, Torsion homology of arithmetic lattices and K2 of imaginary fields, Math. Z. 277, 2014 (arXiv:1303.6132): a bound for the torsion of the homology of arithmetic groups that includes every prime, under the hypothesis that the rational homology vanishes and with constants that are not explicit (Theorem 1.1; 9.2, 9.4).
+- M. Koecher, Beiträge zu einer Reduktionstheorie in Positivitätsbereichen I, Math. Ann. 141, 1960: Voronoi's theory of perfect forms in positivity domains, which includes the forms over the ring of integers of a number field (9.3).
+- O. Braun, R. Coulangeon, G. Nebe, S. Schönnenbeck, Computing in arithmetic groups with Voronoï's algorithm, J. Algebra 435, 2015: Voronoi's theory of perfect forms over the ring of integers of a number field (Theorem 2.4 and Corollary 2.5; 9.3).
+- A. de la Torre Durán, Perfect forms and torsion bounds in algebraic K-theory over totally real and CM fields, arXiv:2611.06300, 2026: for totally real and CM fields, bounds for the number of orbits of faces of the Voronoi tessellation (9.3) and for torsion in homology and K-theory away from small primes (Theorem 4.5; 9.4).
+- A. F. Brown, E. P. Ghate, Endomorphism algebras of motives attached to elliptic modular forms, Ann. Inst. Fourier 53, 2003, 1615–1676: at the places above a prime not dividing the level at which the newform is ordinary, the crossed-product algebra of its inner twists, which is embedded in the endomorphism algebra of its motive and equal to it in weight two, is a matrix algebra (Theorem 3.3.1; 13.1, through KatoEulerSystems §4.1a, which compares it with Momose's algebra `B`).
+- K. Kato, p-adic Hodge theory and values of zeta functions of modular forms, Astérisque 295, 2004, 117–290: the finiteness of the Selmer groups of modular forms over abelian fields at non-central twists (Theorem 14.2; 14.1, through KatoEulerSystems §7.9).
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions that the family index ([RiemannHypothesisForDirichletLFunctions](../README.md)) names, with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>, cited at its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, which the family index names; the file paths and declaration names given at the targets refer to that commit. It is the source of the statements of this roadmap that no work in this list states: Layer 6 for `ℓ` odd or `F` totally imaginary (in the form of lengths), 9.3 (c)–(f), 9.4 and 9.5 for totally complex number fields, 9.6, 9.7, the forms of 9.2 and 9.4 that discard no prime, Layer 10, and the case `p = 2` of 11.1; it also proves the instance of 14.1 that UniformWildKernelBounds uses. The statements at `ℓ = 2` with real places and the K-theoretic clauses of Layer 6, the extension of 9.3 (c)–(f), 9.4 and 9.5 to fields with a real place, the corestriction form of 9.7, 9.8 (b), 11.1 for odd `p`, 12.1 when `p` divides `[E : F]`, 13.1 away from the ordinary places above primes not dividing the level, and the general form of 14.1 are this roadmap's, by the routes given. What a target states beyond the form recorded there is this roadmap's.

@@ -55,10 +55,10 @@ builds linearised sheaves there itself.
 
 1. In 1.1, 1.2 and 1.4, `S` is a scheme and `G` a flat group scheme of finite presentation over
    `S`, and a closed subgroup `H ⊆ G` is flat of finite presentation with `G → G/H` an fppf
-   `H`-torsor. In 1.3 and in Layers 2 and 3, `S = Spec k` for a field `k`, schemes are separated and
-   of finite type over `k`, and groups are smooth affine group schemes of finite type over `k`. In
-   particular `μ_n` is used only when `n` is invertible in `k`. Witness: over `𝔽₂`, `μ₂` is flat
-   but not smooth, so `Bμ₂` over `𝔽₂` falls under Layer 1 and not under Layer 2.
+   `H`-torsor. In 1.3, 1.5 and in Layers 2 and 3, `S = Spec k` for a field `k`, schemes are
+   separated and of finite type over `k`, and groups are smooth affine group schemes of finite type
+   over `k`. In particular `μ_n` is used only when `n` is invertible in `k`. Witness: over `𝔽₂`,
+   `μ₂` is flat but not smooth, so `Bμ₂` over `𝔽₂` falls under Layer 1 and not under Layer 2.
 2. A `𝔾_m`-action `t · x` on `X = Spec A` is the same as a `ℤ`-grading `A = ⊕_d A_d`, with
    `A_d = {a : a(t · x) = t^d a(x)}`, that is, the coaction `A → A[t, t⁻¹]` sends `a ∈ A_d` to
    `a t^d`. A weighted polynomial ring `k[x_i]` with weights `w_i` is Mathlib's `MvPolynomial`
@@ -315,6 +315,42 @@ action map `U × Y → X` is an isomorphism, `[X/G] ≅ [Y/T]`. *Needs:* 1.1; Sc
   acting on `𝔸¹` by `x ↦ x + b^p` and `Y = {0}`, `Y` meets each orbit once, but `b ↦ b^p` is not
   an isomorphism, and `[𝔸¹/𝔾_a]` is `Bα_p`, not `Y`.
 
+### 1.5 Descent of linearised invertible sheaves to the quotient by a finite group
+
+Let `S = Spec k` for a field `k`, `G` a finite constant group whose order is invertible in `k`,
+acting on a projective `k`-scheme `X`, and `π : X → X/G` the quotient of SchemeAndStackFoundations
+§1.17 (`finiteGroupQuotient_projective`). Prove that a `G`-linearised invertible sheaf `L` on `X`
+is isomorphic, with its linearisation, to `π^*N` for an invertible sheaf `N` on `X/G` if and only
+if, for every closed point `x` of `X`, the inertia group
+`{g ∈ G : gx = x and g acts trivially on κ(x)}` acts trivially on the fibre `L ⊗ κ(x)` (Alper 2013,
+Theorem 10.3, p. 2386, for the coarse space of the tame stack `[X/G]`, which is a good moduli space
+by Remark 4.2, p. 2362, and Example 8.1, p. 2380; over `ℂ`, Drezet–Narasimhan 1989, Théorème 2.3,
+p. 63, stated there for a reductive group acting on an integral variety with a good quotient and
+for vector bundles, with the condition at the closed points whose orbit is closed, and attributed
+to Kempf).
+
+The geometric stabilisers of `[X/G]` are subgroups of `G`, of order invertible in `k`, so `[X/G]` is
+tame (SchemeAndStackFoundations §1.23, `IsTame` and its geometric-fibre criterion); `X/G` is its
+coarse space (§1.23, `finite_quotient_coarse` on the `G`-stable affine opens of §1.17), the
+push-forward to it is exact on quasi-coherent sheaves by tameness, and `O_{X/G} = (π_*O_X)^G`
+(§1.17); so `[X/G] → X/G` is a good moduli space (Alper 2013, Remark 4.2, p. 2362, and Example 8.1,
+p. 2380). The orbits of closed points are closed, and the stabiliser of a geometric point over a
+closed point `x` is the inertia group of `x`. Through `QCoh.presentationEquiv` (1.4) the
+`G`-linearised invertible sheaves on `X` are the invertible objects of `Stacks.QCoh [X/G]`; Alper
+2013, Theorem 10.3, for `[X/G] → X/G` then gives the statement, invertible sheaves being the vector
+bundles of rank one. *Needs:* 1.1, 1.4; SchemeAndStackFoundations §§1.17, 1.22, 1.23.
+
+**Checks.**
+
+- For `k` of characteristic `≠ 2`, `X = ℙ¹` with `G = {±1}` acting by `t ↦ −t`, and `X/G = ℙ¹` with
+  coordinate `t²`: for `L = O([0])` with its natural linearisation, `−1` acts by `−1` on the fibre at
+  the fixed point `0` (the fibre is the tangent line), and `L` does not descend (pull-backs from
+  `X/G` have even degree). For `L = O(2[0])` the action on the fibres at `0` and `∞` is trivial, and
+  `L` is the pull-back of `O(1)`.
+- For `G = ℤ/2` acting trivially on `Spec k` with `2` invertible in `k`, `Pic^G(Spec k) = {±1}`
+  (1.1, Checks) while `Pic(Spec k) = 0`: of the two linearisations of `O`, only the trivial one
+  descends, the other one having stabiliser `ℤ/2` acting by `−1` on the fibre.
+
 ### Examples
 
 - `Pic^{𝔾_m}(𝔸¹) = Pic [𝔸¹/𝔾_m] = ℤ` for the weight-one action, by 1.2 with `A = k[x]`
@@ -323,9 +359,9 @@ action map `U × Y → X` is an isomorphism, `[X/G] ≅ [Y/T]`. *Needs:* 1.1; Sc
 
 ### Dependencies
 
-Layer 0; SchemeAndStackFoundations §§1.13, 1.15, 1.21, 1.22, 2.23, 3.4; Tau Ceti
+Layer 0; SchemeAndStackFoundations §§1.13, 1.15, 1.17, 1.21, 1.22, 1.23, 2.23, 3.4; Tau Ceti
 `TauCeti.AlgebraicGeometry.LineBundleClass`; Mathlib `CommHopfAlgCat`, `AlgebraicGeometry.hopfSpec`.
-Within the layer, 1.1 → 1.2 → 1.3 and 1.1 → 1.4.
+Within the layer, 1.1 → 1.2 → 1.3 and 1.1 → 1.4 → 1.5.
 
 ## Layer 2: equivariant Chow groups
 
@@ -561,16 +597,17 @@ No roadmap on main cites this one.
 This roadmap owns: the degree group of homogeneous units of a `ℤ`-graded ring, the shift classes,
 and the `ℤ`-grading of a localisation at a homogeneous element; the groupoid of `G`-linearised
 invertible sheaves on a scheme with an action of a flat group scheme, the equivariant Picard group
-and its comparison with the Picard group of the quotient stack; equivariant Chow groups of schemes
-with an action of a smooth affine group over a field, their operations, and the comparison with the
-equivariant Picard group; and the computations of Layer 3.
+and its comparison with the Picard group of the quotient stack; the descent of linearised invertible
+sheaves to the quotient of a projective scheme by a finite group of invertible order; equivariant
+Chow groups of schemes with an action of a smooth affine group over a field, their operations, and
+the comparison with the equivariant Picard group; and the computations of Layer 3.
 
 Boundaries with the shared owners:
 
 | Material | Owner | Boundary |
 | --- | --- | --- |
 | Graded algebras, their affine charts and localisation comparisons | AlgebraicVectorBundles L2A; StableReduction's relative Proj consumes it | Layer 0 uses Mathlib's `GradedAlgebra` and `HomogeneousLocalization` and that roadmap's affine graded-ring interface; it defines no graded quasi-coherent carrier. Its own addition is the `ℤ`-grading of `A_f` in all degrees, negative ones included (0.3), which the nonnegatively graded interface does not supply after inversion; 0.3 proves the comparison with that interface on the nonnegative part. |
-| Group spaces and their actions, quotient stacks, torsors, quasi-coherent modules on stacks, Picard groups of schemes, Chow groups of schemes and their operations, equivariant modules for a discrete group, moduli stacks of pointed curves | SchemeAndStackFoundations §§1.13, 1.15, 1.21, 1.22, 2.23, 3.4, 4.15, 5.1–5.6 | Layer 1 constructs the equivariant theory on those objects: linearised sheaves are descent data for `X → [X/G]` through `QCoh.presentationEquiv`, `Pic [X/G]` is the group of isomorphism classes of invertible objects of `Stacks.QCoh [X/G]`, and for a finite constant group the linearised sheaves are the invertible objects of `EquivariantModules`. No second quotient-stack, line-bundle or Chow carrier is introduced. |
+| Group spaces and their actions, quotient stacks, quotients by finite groups, coarse spaces and tame stacks, torsors, quasi-coherent modules on stacks, Picard groups of schemes, Chow groups of schemes and their operations, equivariant modules for a discrete group, moduli stacks of pointed curves | SchemeAndStackFoundations §§1.13, 1.15, 1.17, 1.21, 1.22, 1.23, 2.23, 3.4, 4.15, 5.1–5.6 | Layer 1 constructs the equivariant theory on those objects: linearised sheaves are descent data for `X → [X/G]` through `QCoh.presentationEquiv`, `Pic [X/G]` is the group of isomorphism classes of invertible objects of `Stacks.QCoh [X/G]`, and for a finite constant group the linearised sheaves are the invertible objects of `EquivariantModules`. No second quotient-stack, line-bundle or Chow carrier is introduced. 1.5 uses the quotient of §1.17 and the tame coarse space of §1.23 and introduces no second quotient. |
 | `G`-linearised invertible sheaves on flag varieties | SchubertGeometry S3 (`G/B⁻`, `G/P⁻`) | SchubertGeometry S3 builds the `G/B⁻` case itself, with its root-theoretic statements (dominance, ampleness, Schubert divisors); 1.4 restricted to `G/B⁻` agrees with it. Layer 1 is the producer for an arbitrary scheme with an action: the groupoid with its equivariant isomorphisms and scalar automorphisms, tensor, dual, pullback, base change, the forgetful map to `LineBundleClass`, associated lines `G ×^H χ` and the fibre equivalence on `G/H` (1.4), and the comparison of two linearisations of one line by a character (1.3). |
 
 Out of scope: equivariant cohomology of topological spaces, equivariant K-theory, Chow groups of
@@ -610,8 +647,10 @@ point, is fixed (own example).
 algebras with its localisation comparison (0.3).
 
 **From SchemeAndStackFoundations.** §1.13, `GroupSpace S`, `GroupSpace.ofGroupScheme` and the
-actions `Action G X` (1.1); §1.15, torsors and `Gm S` (1.4); §1.21, `actionQuotient G X` and
-`actionQuotient.torsorEquiv` (1.4); §1.22, `Stacks.QCoh` and `QCoh.presentationEquiv` (1.4);
+actions `Action G X` (1.1); §1.15, torsors and `Gm S` (1.4); §1.17,
+`finiteGroupQuotient_projective` (1.5); §1.21, `actionQuotient G X` and
+`actionQuotient.torsorEquiv` (1.4); §1.22, `Stacks.QCoh` and `QCoh.presentationEquiv` (1.4),
+`QCoh.pushforward` (1.5); §1.23, coarse spaces, `finite_quotient_coarse` and `IsTame` (1.5);
 §2.23, `EquivariantModules X Γ act` (1.1); §3.4, Picard groups and the divisor class comparison
 (1.1, 2.4); §4.15, `StableCurves.Mbar` with its open substack `Mbar.smooth` of smooth curves, for
 `M_{1,1}` and `M_{0,n}` (3.2–3.4); §5.1, `ChowGroup κ X k`, and §§5.2–5.6, proper pushforward,
@@ -647,3 +686,9 @@ Chern classes, Gysin maps and intersection products (Layer 2).
   (2004), no. 3, 647–666, Corollaries 4.2 and 4.7, Theorem 5.1. Zbl 1169.14301; arXiv:math/0301008.
 - D. Edidin, Z. Hu, « The integral Chow rings of the stacks of hyperelliptic Weierstrass
   points », *Michigan Math. J.* (2025), arXiv:2208.00556, Theorem 1.3.
+- J.-M. Drezet, M. S. Narasimhan, « Groupe de Picard des variétés de modules de fibrés
+  semi-stables sur les courbes algébriques », *Invent. Math.* 97 (1989), no. 1, 53–94, §2,
+  Théorème 2.3 (p. 63). Zbl 0689.14012.
+- J. Alper, « Good moduli spaces for Artin stacks », *Ann. Inst. Fourier* 63 (2013), no. 6,
+  2349–2402, Remark 4.2, Example 8.1, Theorem 10.3; pages of the published version.
+  arXiv:0804.2242.

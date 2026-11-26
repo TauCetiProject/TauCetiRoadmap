@@ -51,7 +51,8 @@ Layer 0 treats Frobenius descent and compact cochains. Layer 1 extends the field
 relative and equivariant modules. Layer 2 constructs ψ on modules and analytic coefficient rings for Γ_K.
 Layer 3 forms the Herr comparisons. Layer 4 proves finiteness, first over fields, then perfectness and
 derived base change in families. Layer 5 builds the Iwasawa tower and its comparisons, and an all-level
-exponential-image criterion. Layers 6 and 7 give Wach coordinates and global triangulations. Each result's
+exponential-image criterion. Layers 6 and 7 give Wach coordinates and global triangulations; §§6.4–6.6
+compare Wach modules with `D_cris` over the open disc and prove Wach's crystallinity criterion. Each result's
 Needs clause separates its inputs from later consequences.
 
 ## Conventions
@@ -2422,7 +2423,7 @@ Proposition II.1.1, §§II–III and Proposition III.4.2, with the cited errata;
 Corollary III.4.5, manuscript p.22, for the filtration; LLZ-2011 §2C.  The specialized base changes
 and good-basis coordinates are §§6.1–6.2.
 *Needs:* §§1.0–1.3 integral realization and positive period rings; PadicPeriodRings §§4.1–4.3 crystalline
-periods and invariant functor.
+periods and invariant functor; §6.4 (1)–(2), for the filtered comparison.
 
 **API.**
 
@@ -2604,16 +2605,149 @@ and its normalization; the containment theorem itself has its stated unramified 
 - On a `ψ`-fixed vector `x, ψ((1−φ)x)=x−x=0`. The sign agrees with the image in §5.7, while the generation
   theorem's `φ−1` differs by the unit `−1`.
 
+### 6.4 Berger's comparison over the open disc
+
+Sections 6.4–6.6 continue §6.0 for a finite unramified `F/ℚ_p`: Berger's comparison of a Wach module
+with its crystalline module over the open unit disc (6.4), the action of `Γ_F` modulo `φ^{s−1}(q)`
+(6.5), and Wach's crystallinity criterion (6.6). Throughout §§6.4–6.6, `E/ℚ_p` is finite, `V`, `T`,
+`N(V)`, `N(T)` and `q = φ(π)/π` are as in §6.0, and Hodge–Tate weights are in the standing convention
+(`ℚ_p(1)` has weight `−1`). Write `B_rig,F^+` for the ring of power series in `π` over `F`
+converging on the open unit disc, with the Frobenius `φ` (the Witt Frobenius on coefficients and
+`φ(π) = (1+π)^p − 1`) and the action of `Γ_F` extended from `B_F^+` (for `F = ℚ_p`, `E⊗B_rig,F^+` is
+the ring `B_rig,E^+` of §6.2); put `t = log(1+π) ∈ B_rig,F^+`, so that `t = π∏_{s≥1}φ^{s−1}(q)/p`
+(Berger-Wach-2004, Exemple I.3.3); and `F_s = F(ζ_{p^s})` for `s ≥ 1`. Evaluation at `ζ_{p^s} − 1`
+identifies `B_F^+/φ^{s−1}(q) = B_rig,F^+/φ^{s−1}(q)` with `F_s`, compatibly with `Γ_F`
+(Berger-Wach-2004, Remarque I.3.1).
+
+Let `V` be a positive crystalline `E`-representation of `G_F` (`Fil⁰D_cris(V) = D_cris(V)`, all
+Hodge–Tate weights `≥ 0`) and `0 ≤ r_1 ≤ ⋯ ≤ r_m` its Hodge–Tate weights as a `ℚ_p`-representation,
+`m = [E:ℚ_p]·dim_E V` (for `F = ℚ_p` each weight of §6.2 occurs `[E:ℚ_p]` times). Prove:
+
+1. (*inclusion*) `D_cris(V) ⊆ B_rig,F^+ ⊗_{B_F^+} N(V)` and
+   `D_cris(V) = (B_rig,F^+ ⊗_{B_F^+} N(V))^{Γ_F}`;
+2. (*elementary divisors*) over `B_rig,F^+`, the elementary divisors of
+   `B_rig,F^+ ⊗_F D_cris(V) ⊆ B_rig,F^+ ⊗_{B_F^+} N(V)` are `(t/π)^{r_1}, …, (t/π)^{r_m}`.
+
+Consequently, for every crystalline `V`,
+`B_rig,F^+[1/t] ⊗_{B_F^+} N(V) = B_rig,F^+[1/t] ⊗_F D_cris(V)`, compatibly with `φ`, `Γ_F` and `E`:
+for positive `V` because `(t/π)^{r_j}` divides `t^{r_j}`, in general by the interval twist of §6.0.
+Sources: Berger-Wach-2004 Proposition II.2.1, Propositions II.3.1 and III.2.1.
+The route takes two inputs, proved here with it: for positive crystalline `V`, `D_cris(V) ⊆ D_rig(V)`,
+the Robba realization of §1.2, without inverting `t` (Berger-diffeq Theorem 3.6 and Proposition 3.7, the
+crystalline case); and `B_rig,F^+` has elementary divisors: every square matrix over it is
+`P·Diag(f_1, …, f_n)·Q` with `P`, `Q` invertible and `f_1 ∣ ⋯ ∣ f_n` (Berger-diffeq Proposition 4.12 (5)).
+*Needs:* §6.0 (existence, uniqueness and interval twist of `N(V)` only; the filtered comparison of §6.0
+is deduced from (1) and (2)); §6.2 (the definitions of `B_rig,E^+` and `N_Wach,rig^+(V)`, for `F = ℚ_p`,
+`p` odd); §1.2 the Robba realization `D_rig(V)`; PadicPeriodRings §§4.1–4.3 crystalline periods and
+invariant functor.
+
+**API.**
+
+- The comparison is compatible with direct sums, tensor products and Tate twists of crystalline
+  representations.
+- For `F = ℚ_p` and `p` odd, `(E⊗B_rig,F^+) ⊗_{E⊗B_F^+} N(V)` is the positive analytic Wach module
+  `N_Wach,rig^+(V)` of §6.2.
+
+**Checks.**
+
+- `V = E`: `N(V) = E⊗B_F^+` and `D_cris(V) = E⊗F`; the inclusion of (2) is an equality, all
+  elementary divisors being `1`.
+- (*`t` must be inverted*) `F = ℚ_p`, `V = ℚ_p(−1)` (weight `1`), `d = te_{−1}` spanning
+  `D_cris(V)`: the Wach generator is `πe_{−1} = (π/t)·d` (§6.0's Checks), so
+  `d = (t/π)·πe_{−1}` with `t/π = ∏_{s≥1}φ^{s−1}(q)/p`, the elementary divisor of (2) with exponent
+  `1`. `π/t` has a pole at every `ζ_{p^s} − 1`, `s ≥ 1`: `N(V)` is not contained in
+  `B_rig,F^+ ⊗ D_cris(V)`, and `B_rig,F^+ ⊗ N(V)` has no `Γ_F`-invariant basis, its invariant
+  vectors being the multiples of `d`, where `t/π` vanishes at those points. The comparison holds
+  after `t` is inverted.
+- More generally, for a crystalline character of weight `a ≥ 0` the factor relating the two
+  generators is `(π/t)^a`.
+- (*the divisors are taken over `B_rig,F^+`*) `[F:ℚ_p] = 2`, `E ⊇ F`, a crystalline character with
+  `φ(e_{i−1}e) = u_iq^{k_i}e_ie` (`u_i` units): on the factor `i` of `E⊗B_rig,F^+` the generator of
+  `D_cris(V)` is a unit times `∏_{s≥1}(φ^{s−1}(q)/p)^{k_{i−s+1}}`, for `(k_0, k_1) = (5, 0)` the
+  product over the odd `s` on one factor and over the even `s` on the other, neither a power of
+  `t/π`; over `B_rig,F^+` the divisors are `1` and `(t/π)^5`, each `[E:F]` times, the weights of the
+  underlying `ℚ_p`-representation being `0` and `5`.
+
+### 6.5 The action of `Γ_F` modulo `φ^{s−1}(q)`
+
+Let `V` be a positive crystalline `E`-representation of `G_F`, `s ≥ 1` and `Γ_s ⊆ Γ_F` the subgroup
+fixing `F_s`. Then `N(V)/φ^{s−1}(q)N(V)` is an `F_s`-vector space on which `Γ_s` acts linearly; prove
+that it has a basis in which every `γ ∈ Γ_s` acts by `Diag(χ(γ)^{−r_1}, …, χ(γ)^{−r_m})`, `r_j` as in
+§6.4.
+
+By §6.4 (2) there are bases of `D_cris(V)` and of `B_rig,F^+⊗N(V)` with transition matrix
+`Diag((t/π)^{r_j})·M`, `M` invertible; `Γ_F` fixes `D_cris(V)` and `(t/π)^r/γ((t/π)^r)` takes the
+value `χ(γ)^{−r}` at `ζ_{p^s} − 1` for `γ ∈ Γ_s`, which gives the characteristic polynomial; the
+action is semisimple because `θ∘φ^{−s}` embeds the quotient, `Γ_F`-equivariantly, in `(C⊗V)^{H_F}`,
+and `V` is Hodge–Tate. Sources: Berger-Wach-2004 Propositions III.2.1 and III.2.2.
+*Needs:* §6.4; §6.0 (`N(V) ⊆ D^+(V)`); PadicPeriodRings §§1.1–1.5 (Tate–Sen) and 4.1–4.3.
+
+**Checks.**
+
+- `V = E`: `N(V)/qN(V) = E⊗F_1` with the trivial action, eigenvalue `1 = χ(γ)^0`.
+- `F = ℚ_p`, `V = ℚ_p(−1)`, `n = πe_{−1}`, `γ` fixing `F_1`: `γ(n) = (γ(π)/π)·χ(γ)^{−1}n`, and
+  `γ(π)/π` takes the value `1` at `π = ζ_p − 1`, so `γ` acts on `N(V)/qN(V)` by `χ(γ)^{−1}`, for the
+  weight `1`. The sign `χ(γ)^{r}` would give `χ(γ)`.
+- An element of `Γ_F` not fixing `F_1` acts semilinearly, through `Gal(F_1/F)`, on `E⊗F_1`; the
+  statement is for the subgroup fixing `F_1`.
+
+### 6.6 Wach's crystallinity criterion
+
+Let `T` be a `G_F`-stable `O_E`-lattice in an `E`-representation `V` of `G_F`, not assumed
+crystalline, with étale module `D(T)` over `O_E⊗A_F` (§1.0). Let `N ⊆ D(T)` be a finite free
+`O_E⊗A_F^+`-submodule with `(O_E⊗A_F) ⊗_{O_E⊗A_F^+} N = D(T)`, and suppose that for an integer
+`h ≥ 0`: `φ(N) ⊆ N`, `q^hN ⊆ φ^*N` (the `O_E⊗A_F^+`-span of `φ(N)`), and `(g − 1)N ⊆ πN` for every
+`g ∈ Γ_F`. Prove that `V` is crystalline with Hodge–Tate weights in `[0, h]`, and that `N = N(T)`.
+
+A `φ`-stable finitely generated `O_E⊗A_F^+`-submodule of `D(T)` lies in the positive part
+`D^+(T)`, the `H_F`-invariants of `A^+⊗T`: modulo `p` its coordinates in a basis of `T` have
+valuations bounded below, while `φ` multiplies negative valuations by `p`, and one climbs from `p`
+to `p^k` because `p·a ∈ A^+` implies `a ∈ A^+`. So `V` is of finite height, and `N` is a free
+`φ`- and `Γ_F`-stable lattice of finite `q`-height in `D^+(T)` on which `Γ_F` acts trivially modulo
+`π`: Wach's criterion makes `V` crystalline, its weights being the jumps of the filtration
+`Fil^iN(V) = {x : φ(x) ∈ q^iN(V)}` of §6.0, which lie in `[0, h]`. The uniqueness of §6.0 gives
+`N = N(T)`. Sources: Wach-1996, Théorème, p. 380, with Remarque a), p. 381 (crystallinity of a
+representation of finite height with such an `N`); Berger-Wach-2004 Définition III.4.1 and
+Proposition III.4.2, read with the erratum, and Proposition II.1.1 (the weights and `N = N(T)`).
+*Needs:* §1.0 integral étale realization; §6.0 Wach lattices, uniqueness and filtration; PadicPeriodRings
+§§4.1–4.3 crystalline representations.
+
+**API.**
+
+- Once `V` is known to be crystalline, the identification `N = N(T)` is the uniqueness of §6.0; the
+  criterion supplies the crystallinity and the weight bound.
+
+**Checks.**
+
+- (*the `Γ` condition*) `F = ℚ_p`, `T = O_E`, `N = πO_E[[π]]`: `N` is free and spans `D(T)`,
+  `φ(N) ⊆ qN ⊆ N` and `φ^*N = qN`, so the height hypotheses hold with `h = 1`; but for `γ` with
+  `χ(γ) = 1 + p`, `(γ − 1)π = pπ + ⋯ ∉ π²O_E[[π]]`, and indeed `N ≠ N(O_E) = O_E[[π]]`. Without the
+  `Γ` condition the conclusion `N = N(T)` fails.
+- `T = O_E`, `N = O_E⊗A_F^+`: `h = 0`, `V = E` is crystalline of weight `0`, and `N = N(O_E)`.
+- `F = ℚ_p`, `T = ℤ_p(−1)`, `N = πe_{−1}ℤ_p[[π]]`: `φ(πe_{−1}) = qπe_{−1}`, so `φ(N) ⊆ N` and
+  `φ^*N = qN`, `h = 1`; `γ(πe_{−1}) = (γ(π)/π)χ(γ)^{−1}πe_{−1}` with `γ(π)/π ≡ χ(γ)` modulo `π`, so
+  `Γ_F` is trivial modulo `π`. The weight `1` lies in `[0, 1]`.
+
 ### Examples
 
 Constant basis change gives a computed inverse coordinate factor. A nonconstant basis change explains why
 `φ(B)` appears. The two pole bounds show where the no-trivial-quotient condition enters the Iwasawa interface,
 independently of the existence of a Wach module.
 
+For `F = ℚ_p` and `V = ℚ_p(−1)`, the Wach generator `πe_{−1}` is `π/t` times the crystalline period
+`te_{−1}`: this is why the comparison of §6.4 inverts `t`; for `γ` fixing `F_1`, `γ` acts on it modulo
+`q` by `χ(γ)^{−1}` (§6.5). The lattice `πO_E[[π]]` in `D(O_E)` satisfies the height hypotheses of §6.6
+but not the `Γ` condition.
+
 ### Dependencies
 
 Layers 1,2 and 5; the Wach and crystalline comparisons of §6.0. Good-basis coordinates have the odd-prime
 restriction of their original sources; no dyadic extension is inferred from rational averaging.
+
+Sections 6.4–6.6 use the Wach modules of §6.0 with their existence, uniqueness and interval twist for
+§§6.4–6.5, and their filtration for §6.6 (the filtered comparison of §6.0 is deduced in the source from
+§6.4, so §§6.4–6.5 do not use it); §6.2 for the positive analytic module when `F = ℚ_p` and `p` is odd;
+§§1.0 and 1.2; PadicPeriodRings §§1.1–1.5 and 4.1–4.3.
 
 ## Layer 7: characters, weights and global triangulations
 
@@ -3071,7 +3205,8 @@ This roadmap owns Frobenius-module algebra needed for descent, finite Witt-vecto
 overconvergent lattices, arbitrary-module radius models and cyclotomic equivariant decompletion. It owns
 module `ψ`, the explicit signed comparison and its homotopy, integral and affinoid Herr comparison, analytic
 `Γ` coefficient rings, relative finiteness and derived base change, the comparison with independently defined
-Iwasawa cohomology, specialized Wach coordinates, and relative character classification and triangulation.
+Iwasawa cohomology, specialized Wach coordinates, the open-disc comparison and crystallinity criterion of Wach
+modules, and relative character classification and triangulation.
 
 The underlying completed fields, Fontaine period carriers, their natural topologies and fundamental period
 identity come from PadicPeriodRings §§1–4. NoncommutativeAndEquivariantIwasawa §F.6 stages 1–3 supply the
@@ -3308,7 +3443,8 @@ reported claim.
 - **Berger-intro** — Laurent Berger, *An introduction to the theory of p-adic representations*,
   [arXiv:math/0210184](https://arxiv.org/abs/math/0210184), for period and exponential conventions.
 - **Berger-diffeq** — Laurent Berger, *Représentations p-adiques et équations différentielles*, Inventiones
-  Mathematicae 148 (2002), 219–284, [arXiv:math/0102179](https://arxiv.org/abs/math/0102179), Theorem 5.10.
+  Mathematicae 148 (2002), 219–284, [arXiv:math/0102179](https://arxiv.org/abs/math/0102179), Theorem 3.6,
+  Propositions 3.7 and 4.12, and Theorem 5.10.
 - **Bloch–Kato** — Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The
   Grothendieck Festschrift I (1990), 333–400, Proposition 1.17 and Remark 1.18, pp.340–341, for the
   continuous period-sequence sections and boundary; Lemma 3.8.1, Corollary 3.8.4, Example 3.9 and Definition
@@ -3319,9 +3455,14 @@ reported claim.
   comparison and Appendix A, Theorem A.3, manuscript pp.26–27.
 - **Berger-Wach-2004** — Berger, *Limites de représentations cristallines*, Compositio Mathematica 140
   (2004), 1473–1498, [author manuscript](https://perso.ens-lyon.fr/laurent.berger/articles/article06.pdf),
-  Proposition II.1.1 and §III.4. Read with the author's
+  Exemple I.3.3, Remarque I.3.1, Propositions II.1.1, II.2.1, II.3.1, III.2.1 and III.2.2 and
+  §III.4. Read with the author's
   [errata](https://perso.ens-lyon.fr/laurent.berger/articles/errata.pdf): the rational Wach module becomes
   étale after the correct B_F scalar extension, not an incorrect overconvergent one.
+- **Wach-1996** — Nathalie Wach, *Représentations p-adiques potentiellement cristallines*, Bulletin
+  de la Société Mathématique de France 124 (1996), no. 3, 375–400,
+  [Numdam](https://www.numdam.org/item/BSMF_1996__124_3_375_0/), Théorème, p.380, with Remarque a),
+  p.381.
 - **LLZ-2010** — Antonio Lei, David Loeffler and Sarah Livia Zerbes, *Wach modules and Iwasawa theory for
   modular forms*, Asian Journal of Mathematics 14 (2010), 475–528, [institutional
   manuscript](https://wrap.warwick.ac.uk/id/eprint/38052/1/WRAP_Loeffler_modularforms.pdf), Theorem 3.5 and

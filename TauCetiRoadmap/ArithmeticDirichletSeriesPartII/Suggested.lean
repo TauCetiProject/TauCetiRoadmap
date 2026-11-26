@@ -12,9 +12,10 @@ with finite changes and errors dominated by a lower-order pole. The analytic sta
 the kernel mass and Fourier formula, weight normalisation and shift limit,
 regularised boundary convergence, smoothing, unsmoothing and the logarithmic counting bridge.
 The Gamma model is supplied by AnalyticNumberTheoryPartII §4.5c.
-Layer 0 also states the rule for the transform of a derivative (README §0.1a), and Layer 2 the
-smoothed and interval forms of Wiener–Ikehara at a simple pole for complex coefficients
-(README §2.2a). The final layer states the Dirichlet series of the divisor functions `ζ ^ k` and
+Layer 0 also states the rule for the transform of a derivative (README §0.1a) and, for the
+transform of a function that is nonnegative for large argument, Landau's theorem (README §0.1b);
+Layer 2 states the smoothed and interval forms of Wiener–Ikehara at a simple pole for complex
+coefficients (README §2.2a). The final layer states the Dirichlet series of the divisor functions `ζ ^ k` and
 the leading term of their counts; the dyadic counterexample of README §5.2
 is a negative control (a README target with its Checks) and is not an acceptance theorem here.
 
@@ -84,6 +85,24 @@ theorem hasLaplace_deriv {f f' : ℝ → E} {s : ℂ} {z : E}
   sorry
 
 end LaplaceDeriv
+
+/-- **Landau's theorem** (README §0.1b). Let `g : ℝ → ℝ` be nonnegative almost everywhere on
+`(u₀, ∞)`, with transform `F s` at every `s` with `Re s > A`. If `F` agrees on the right half of a
+disc about `A` with a function analytic on the whole disc, then `exp (-A' t) g t` is integrable
+on `(0, ∞)` for some `A' < A`, and the transform of `g` exists on `Re s > A'` with a value
+analytic there that equals `F` on `Re s > A`. So a finite abscissa of convergence is a
+singularity of the transform. Landau, *Über einen Satz von Tschebyschef* (1905), §4, p. 548, in
+the Mellin form `∫ φ(x) x^(-s-1) dx`. -/
+theorem hasLaplace_landau {g : ℝ → ℝ} {F H : ℂ → ℂ} {A r u₀ : ℝ}
+    (hg : ∀ᵐ u ∂(volume.restrict (Ioi u₀)), 0 ≤ g u)
+    (hF : ∀ s : ℂ, A < s.re → HasLaplace (fun t ↦ (g t : ℂ)) s (F s))
+    (hr : 0 < r) (hH : AnalyticOnNhd ℂ H (Metric.ball (A : ℂ) r))
+    (hFH : ∀ s ∈ Metric.ball (A : ℂ) r, A < s.re → F s = H s) :
+    ∃ A' < A, Integrable (fun t : ℝ ↦ Real.exp (-A' * t) * g t) (volume.restrict (Ioi 0)) ∧
+      ∃ G : ℂ → ℂ, AnalyticOnNhd ℂ G {s : ℂ | A' < s.re} ∧
+        (∀ s : ℂ, A' < s.re → HasLaplace (fun t ↦ (g t : ℂ)) s (G s)) ∧
+        ∀ s : ℂ, A < s.re → G s = F s := by
+  sorry
 
 /-- `PoleBoundary F a k A`: `F` is holomorphic on `Re s > a`; near `a` it equals
 `g s / (s - a) ^ (k + 1)` with `g` holomorphic on a disc about `a` and `g a = A`; and at every

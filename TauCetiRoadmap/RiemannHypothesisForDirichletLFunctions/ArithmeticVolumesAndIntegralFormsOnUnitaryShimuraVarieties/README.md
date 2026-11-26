@@ -109,6 +109,20 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section of this roadmap carries both labels:
+[FormalProof] has a statement of each section; where the form stated here is wider or sharper than the proof's, the
+section or its labels say so, and that form is this roadmap's own formulation.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 8: CM periods, arithmetic volumes and lattices of integral forms
 
 This layer bounds the slopes of the lattices of integral cusp forms on the unitary Shimura varieties of the spaces `W_j` and supplies the CM values that enter the slope test of the chain. The CM period `Ω` of the Conventions is the class mean of the Chowla–Selberg periods (8.5) and the arithmetic degree of the flat line (8.11), whose twists move slopes by an explicit amount (8.12); the definite step is computed at CM points (8.13), and a change of weight by a short section of a power of the Hodge line passes between weights at a controlled loss (8.14). The flag bundles of the Shimura varieties carry models with mixed integral structure (8.14a–8.15), on which arithmetic proportionality holds up to two constants (8.15b–8.16); this gives the average arithmetic volume theorem (8.17). On deep covers the cusp forms are spanned by short theta series (8.17a), the heights of the images of the flag bundles bound the volumes (8.18), and an explicit arithmetic Hilbert–Samuel inequality over the coordinate bundle gives a uniform lower bound for slopes (8.18a–8.18f); descent to the base level gives the slope of the step lattices (8.19). Theta series generate the integral forms uniformly on subspaces (8.19a–8.19a‴). Finally 8.19b–8.19d bound the denominators of CM values at every prime and give the Galois equivariance of toric ratios and Hecke's formula for toric sums with its Euler-factor relation.
@@ -116,6 +130,25 @@ This layer bounds the slopes of the lattices of integral cusp forms on the unita
 Some clauses of this layer are statements whose routes are not given, or not fully given, here: the flag facts (L3), (L4) of the `𝔩`-torsion (8.14b); the criterion that bounded sections are cusp forms (8.18a (f₀)); the statements on translates of the pulled-back theta function (8.19a′ (d), 8.19a″ (b₀)); on the deep covers of the steps, the carrying sections, the sizes other than the two inequalities of `SizeSG` in `err` and `htc`, and the sup norms of integral forms (8.18c (f)); and the two height inequalities of 8.19a (I8). Single steps of the routes of 8.11, 8.15, 8.15c, 8.16, 8.17, 8.18a, 8.18f, 8.19a′, 8.19b and 8.19c are not given; each route says which. All numbers attached to the flag bundles in 8.15–8.19 (limit numbers, volumes, volume slopes) are computed on the models of 8.15 (a), built over the modified base models `Y_B(c)`.
 
 ### 8.5 The CM period: the Chowla–Selberg formula in class-mean form
+
+*Origin:* published: Chowla and Selberg (1967), (a), the class mean of the logarithmic periods, read off the constant
+terms at `s = 1` through Kronecker's limit formula; its second expression, at `s = 0`, follows by the functional equation
+of `L(s, χ_K)` and is not in [FormalProof]; (b) for every curve and every `k ⊃ K` is this roadmap's own formulation.
+
+*Method of the formal proof:* (a) is proved analytically: for `s > 1`, `ζ_K(s)` is written as `½·(2/√D)^s` times the sum
+over the ideal classes of the real-analytic Eisenstein series at a point of the class, Kronecker's first limit formula
+(proved row by row, with dominated convergence and the partial fractions of the cotangent) gives its constant term at
+`s = 1`, with `log(Im τ·|η(τ)|⁴)` in it, and the comparison with `ζ(s)·L(s, χ_K)` to first order gives the class mean;
+for the mean over the embeddings, one curve with unit discriminant is taken for each class over a common field, and that
+mean is identified with the class mean by a double count over classes and embeddings with the product formula. The
+route written here is not that proof's: it deduces (a) from the Faltings height of a CM elliptic curve
+(ComplexMultiplicationAndExplicitReciprocityPartII §4.6, through ArakelovGeometryAndAbelianHeights §2.9) and (b), and
+takes (b) and (c) from the CM dictionary.
+
+*Corollary of:* ComplexMultiplicationAndExplicitReciprocityPartII §4.6 (the classical Chowla–Selberg case: for an
+imaginary quadratic field, here `K`, and either CM type, the Faltings height of that CM type is
+`−(L′/L)(0, χ_K)/2 − log D/4 − log(2π)/2` in the unscaled metric), for (a) and, through (a), for (c); (b) is not a case
+of it.
 
 For a lattice `Λ ⊂ ℂ` put `Per(Λ) := log(area(ℂ/Λ)/π) + (1/6)·log|Δ(Λ)|`
 (the *logarithmic period*), `Δ` the modular discriminant; it is unchanged under `Λ ↦ cΛ`, `c ∈ ℂ^×`, and equals
@@ -155,13 +188,15 @@ of the statement); `−½·1.476336 = −0.738168` is `h(𝓔)` of the route
 for `y² = x³ − x` (the metric `‖α‖² = area/π`); with the metric `‖α‖² = area(Λ)` (that is `(i/2)∫α∧ᾱ`) one subtracts `½·log π`
 and gets `−1.310533`, the classical value of the Faltings height of that curve, which fixes the sign of (a).
 
-*KNOWN* ((a): Chowla–Selberg 1967, §12, p. 109, the constant terms at `s = 1` of their identity (1) between the sum over the classes of the Epstein zeta functions and `w·ζ(s)·L(s, χ_K)`, through Kronecker's limit formula in their form §6, (39), p. 97; their (2), p. 110, is the same identity as a product over the classes, with values of `Γ`). The identity holds for `D = 3, 4` as well (Lerch;
+*Sources:* ((a): Chowla–Selberg 1967, §12, p. 109, the constant terms at `s = 1` of their identity (1) between the sum over the classes of the Epstein zeta functions and `w·ζ(s)·L(s, χ_K)`, through Kronecker's limit formula in their form §6, (39), p. 97; their (2), p. 110, is the same identity as a product over the classes, with values of `Γ`). The identity holds for `D = 3, 4` as well (Lerch;
 Chowla–Selberg); [FormalProof] treats `D > 4`, which contains every host of the family.
 (b) for every curve and every `k ⊃ K` is this roadmap's own. [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CubicalLineBundles/OneMulConjFracOneEqInvDifferent.lean`, has one curve for each `D ≥ 7`
 squarefree with `D ≡ 3 (mod 4)`: an elliptic curve with complex multiplication by `𝒪_K` over the ring of integers of a number field
 `M ⊂ ℂ`, with a basis `v` of its Lie algebra such that the mean over the embeddings of `M` of `log(π·H(v, v))` (`H` the Hermitian form of
-the principal polarisation) is `−log Ω_K` (`GlobalTheory.chowla_selberg_lie_lines`); `GlobalTheory.chowla_selberg_of_mean_log` derives
+the principal polarisation) is `−log Ω_K` (`GlobalTheory.chowla_selberg_lie_lines`, which takes the existence of the curve as a
+hypothesis; the existence is `GlobalTheory.T.exists_cmEllipticCurve_withPeriod`,
+`Development/AbelianVarietyTheory/Proofs/UniformizationProofs/ExistsCmEllipticCurveWithPeriodStatement.lean`); `GlobalTheory.chowla_selberg_of_mean_log` derives
 this value from (a) when that mean is minus the class mean of `Per`.
 *Needs:* ComplexMultiplicationAndExplicitReciprocityPartII
 §4.6 (the Faltings height of a CM elliptic curve); ArakelovGeometryAndAbelianHeights §2.9 (the Faltings height of an
@@ -169,6 +204,17 @@ elliptic curve from its minimal discriminant and its periods); ImaginaryQuadrati
 class-group action on CM `j`-values).
 
 ### 8.11 The flat line and its arithmetic degree
+
+*Origin:* adapted from the Chowla–Selberg formula (Chowla and Selberg (1967); Colmez (1993) for its reading as a height)
+and the CM periods of determinant lines on unitary Shimura varieties (Shimura; Deligne): the line
+`det Lie_τ ⊗ (det Lie_{cτ})^{−1}` has a section of constant norm and valuation, and its arithmetic degree is computed
+exactly for the integral structure of eigen-frames.
+
+*Method of the formal proof:* a horizontal section of the line is obtained on a model with good reduction from resolution
+and the comparison theorem for sections; its norm is constant at every complex embedding and at every finite place, which
+gives the adelic family of its valuations; the degree is evaluated at a CM point, where the frame function is an
+algebraic number times `z₁^p/z₀^q` in the periods of two CM elliptic curves, by the Chowla–Selberg period, the Gram
+determinant of a local basis and the product formula.
 
 For `τ ∈ Φ` let
 `𝓕_τ := det Lie_τ ⊗ (det Lie_{cτ})^{−1}` (equivalently `det(ω_τ)^{−1} ⊗ det(ω_{cτ})`), `Lie_σ` the eigen-submodules of the
@@ -235,8 +281,8 @@ denominator and `q` in the numerator the finite log-norm of the generator at int
 chosen vectors form a local basis); summed with `log‖t‖ + log‖t̄‖ + log‖a‖ = −(p + q)·log‖𝔡_E‖` for the Gram determinant `a`,
 the product formula turns this shape into (b).
 
-*KNOWN* in content (the arithmetic degree of the determinant line on unitary Shimura varieties is a Chowla–Selberg
-period), *NEW* in this normalisation. (a): [FormalProof],
+*Sources:* (the arithmetic degree of the determinant line on unitary Shimura varieties is a Chowla–Selberg
+period). (a): [FormalProof],
 `Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/ExistsConstSectionKroneckerCharStatement.lean`
 (`GlobalTheory.T.exists_const_section_kronecker_char`),
 `Development/AbelianVarietyTheory/Definitions/Foundations/ExistsFlatSecRankZero.lean` (`GlobalTheory.FlatLine.ConstSec`),
@@ -259,6 +305,13 @@ ResolutionOfSingularitiesCharacteristicZero §5.2; ComplexComparisonPartII C1.9,
 ComplexMultiplicationAndExplicitReciprocityPartII §§1.4, 4.6.
 
 ### 8.12 Twisting by the flat line
+
+*Origin:* particular to this proof: multiplication by powers of the flat section shifts parallel weights and moves the
+slopes of the lattices of integral forms by `−(p − q)·log Ω·Σ_τ w_τ`, up to `2·Σ_{ℓ∈S_bad} log ℓ` from the bad primes;
+elementary given the flat line.
+
+*Method of the formal proof:* forms are multiplied by powers of the flat section, whose degree adds to the slope and whose
+valuations are integers outside the bad primes.
 
 Let `Z`, `s_{τ,Z}`, `ρ_{τ,Z}` be as in 8.11, `w ∈ ℤ^Φ` and
 `s^w = ⊗_τ s_{τ,Z}^{−w_τ}`, a section of the line of weight `par(w)`, and let `S_bad` be the set of primes dividing
@@ -285,14 +338,31 @@ valuation may be fractional and rounding costs at most `log ℓ` per prime and u
 8.11 (c) on one side and the Lie lattices on the other would introduce `2q·(log d_K − log rd_E)·Σ_τ w_τ`, whose absolute
 value is at most `2q·log rd_E·Σ_τ|w_τ|`.
 
-*NEW* (elementary). (a): [FormalProof],
+*Sources:* (a): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsTwSecOfConst.lean` (`GlobalTheory.FlatTwisting.twSec_of_flat`),
 `Development/AbelianVarietyTheory/Definitions/Divisors/MulSmulIdemMem.lean` (`GlobalTheory.FlatTw.TwSec`). (b) follows from
-[FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlatLineThetaRootTwistTwistingSection.lean`
-(`GlobalTheory.FlatRootTwist.flat_root_twist`).
+[FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsTwSecOfConst.lean`
+(`GlobalTheory.FlatTwisting.twSec_of_flat`), whose twisting section of weight `par(w)` has integral valuations outside
+`S_bad` and the degree `Σ_τ w_τ·c_τ − q·(log rd_E − log d_K)·Σ_τ w_τ = −((p − q)/2)·log Ω·Σ_τ w_τ`, `c_τ` the negative of the
+degree of 8.11 (c), with the change of degree under such a section,
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspFormSupLatticeDegreeTwistLowerBound.lean`
+(`GlobalTheory.FlatTw.degOn_add_rank_mul_degLo_le`). [FormalProof] states the first bound of (b), in its case `m = 0` (it
+also twists by a natural number `m`, with a further term in `m` in the lower bound), with the lower bound
+`Σ_τ w_τ·c_τ − q·log rd_E·Σ_τ|w_τ|` of that degree in place of its value, so with terms in `q` and `rd_E`:
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/FlatLineThetaRootTwistTwistingSection.lean`
+(`GlobalTheory.FlatRootTwist.flat_root_twist`, which takes one named statement as a hypothesis).
 *Needs:* 8.11; SlopesOfHermitianVectorBundles §§1.2, 1.7; RowTowerAndRallisIdentities §5.1.
 
 ### 8.13 The definite step
+
+*Origin:* adapted from the heights of CM abelian varieties (the Chowla–Selberg formula; the key formula of Moret-Bailly):
+a lower bound for the slope of the lattice of integral forms on a definite unitary group, computed point by point.
+
+*Method of the formal proof:* at each CM point the lattice obtained from the eigen-lattices of the Lie algebra by the Schur
+functors of the `a_τ` and from the `n`-th power of the theta line maps integrally, with full rank, into the forms
+supported at the point; its slope is linear in the weight with the Lie degree of 8.11 as coefficient, minus the
+logarithms of the dimensions, and the degree of the theta line is bounded below through the key formula by
+`½·Σ_τ deg(det ω_{x,τ}) + |Φ|·p·(¼·log 2π − ½·log rd_E)`; a change of level passes to the eigen-lattices of a group acting freely on the points.
 
 Let `q = 0` (a totally definite `W` of dimension `p`). Then `Sh` is a
 finite set of points, each an abelian variety with complex multiplication of signature `(p, 0)` along `Φ`. A *weight* is
@@ -347,7 +417,7 @@ logarithms of the dimensions and the term `n·|Φ|·p·log rd_E` of (a) (`n = r 
 conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1; the logarithm of the mass `Σ_x|Γ_x|^{−1}`, needed only for the product
 of the Conventions, is to be bounded by `C·B₀·log log x` (this roadmap's own step).
 
-*NEW* (form of the bound), *KNOWN* ingredients (algebraic modular forms; CM abelian varieties). (b): [FormalProof],
+*Sources:* ingredients (algebraic modular forms; CM abelian varieties). (b): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/EigenlatticeSlopeLowerBoundDefiniteCaseStatement.lean`
 (`GlobalTheory.T.eigenlattice_slope_lower_bound_definite_case`),
 `Development/AbelianVarietyTheory/Definitions/Divisors/EigLatLe.lean` (`GlobalTheory.DefPt.defBound`).
@@ -356,6 +426,17 @@ ClassicalGroups §5.1 (Weyl dimension); ThetaLiftsForDefiniteUnitaryGroups §1.6
 ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3.
 
 ### 8.14 Change of weight by a short section of a power of the Hodge line
+
+*Origin:* adapted from Bost's slope inequality (Bost (1996)): slopes are compared across a change of weight and a descent
+to an isotypic part by multiplying with a section whose group determinant is nonzero, found by point separation after
+Angehrn and Siu (1995) and Kollár (1997).
+
+*Method of the formal proof:* the inequality is Bost's slope inequality, with quotient term, for the injective integral
+map `f ↦ (tr_ψ(f·γ_h^*ς))_h` into the orthogonal power `B_ψ^{|S|}`, whose height is at most `2P` by (ii) and whose target
+has minimal slope at least `−2Λ` by (iii); injectivity is the group determinant lemma (multiplication by the adjugate);
+the section `ς` comes from separating the points of an orbit on a resolved modification of the quotient, over `ℂ`, by
+sections of the canonical bundle twisted by `m > binom(n + 1, 2)` times a nef and big class (an isolated non-klt centre
+and Nadel vanishing), which makes the group determinant that of a permutation matrix at one point.
 
 Let
 `ω_q := ⊗_{τ∈Φ} det(ω_{cτ})` (the determinant of the Hodge piece of rank `q`; its square is the Hodge line `det Lie(A)^∨` up
@@ -448,7 +529,7 @@ conclusion is the equality `μ(B_ψ) = μ(A_λ) − log|S|`; with `2P₁ = 0` in
 vanishes, the group determinant `ς² − (γ^*ς)²` is `0`, and for trivial `ψ` the function with values `1` at `y` and `−1`
 at `γy` is killed by every `tr_ψ(·γ_h^*ς)`.
 
-*NEW* (this form; Bost's slope method in the descent; the group determinant of Dedekind and Frobenius as a criterion
+*Sources:* (this form; Bost's slope method in the descent; the group determinant of Dedekind and Frobenius as a criterion
 for injectivity of twisted traces; for abelian `S` it factors, up to sign, into the twisted traces `Σ_g ψ(g)γ_g^*ς`
 over the characters `ψ` of `S`, ClassicalArithmeticCompletion §7.5). The inequality: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/HtMapLeOfPoints.lean` (`GlobalTheory.DescentFamily.descent`).
@@ -466,6 +547,19 @@ ResolutionOfSingularitiesCharacteristicZero §5.1; ShimuraCompactifications §§
 ComplexComparisonPartII C1.9, C2.2 (GAGA, through 8.11 (a)); ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §9.1; AutomorphicBundles §§0.5, 5.3.
 
 ### 8.14a Nefness away from the cut-off: a degree inequality on curves
+
+*Origin:* particular to this proof: an inequality for the degrees of arbitrary sub-bundles of the eigen-parts of the Lie
+algebra of a semi-abelian scheme on a curve in characteristic `ℓ`, under `4|Φ|·M ≤ (ℓ − 2)·g`; nearest published results:
+Yuan (2021), the identity `h(A/G) = h(A) − (ℓ − 1)·deg Lie(G)` for a height-one subgroup `G`, flat over a curve in
+characteristic `ℓ` (Theorem 2.9 (2) of arXiv:1808.03960), which with `h ≥ 0` gives `(ℓ − 1)·m₀ ≤ deg ω` over `ℙ¹` for the
+sub-bundle of `Lie` of largest degree (Lemma 2.4 there), and Yang (2025), nef cones of automorphic line bundles on unitary Shimura varieties in positive characteristic.
+
+*Method of the formal proof:* a slope argument on the curve: the Frobenius pull-back of a sub-bundle of largest degree
+`m₀` of the Lie bundle is placed in the de Rham bundle, and counting degrees through the Hodge and conjugate sequences
+gives `(ℓ − 2)·m₀ ≤ deg ω`; conjugate eigen-parts are shown to have equal degree, and an Abel summation with the gap
+condition gives the inequality. The published bound over `ℙ¹` for the sub-bundle of largest degree comes instead from the quotient
+by a height-one subgroup and the nonnegativity of the height, and the published cones come from Hasse invariants on
+strata rather than from slopes on a curve.
 
 Let
 `ℓ > 2` be a prime unramified in `E`, `k₀` a field of characteristic `ℓ` containing the images of the embeddings of `E`,
@@ -501,13 +595,23 @@ entries, where single eigen-pieces of positive degree must be paid for by the ga
 positive degree do occur in characteristic `ℓ`, so the route cannot go through seminegativity of sub-bundles, which holds
 in characteristic zero only.
 
-*NEW* (statement; follows from [FormalProof],
+*Sources:* (statement; follows from [FormalProof],
 `Development/AutomorphicSpectrum/Statements/GeometryStatements/CurveSemiAbelianConjecture.lean`
 (`GlobalTheory.CompanionTheory.Ar.Conj.CurveSemiAbelianConjecture`), proved there without hypotheses as
 `GlobalTheory.T.curveSemiAbelianConjecture`, `Development/AutomorphicSpectrum/Proofs/GeometryProofs/M2CurveEstablishedStatement.lean`). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 (relative Frobenius and
 Verschiebung); ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.9a (conjugate data), assumed in the statement.
 
 ### 8.14b Local facts for the `𝔩`-torsion at a good prime
+
+*Origin:* particular to this proof: the comparison, by type under `𝒪_E`, of the functions on the `𝔩`-torsion that are
+regular modulo `ℓ` and `τ`-linear with the Lie and Hodge–Tate lattices, triangular along a flag with Raynaud's coordinates
+on the diagonal, of which (L1) is known in kind; nearest published result: Fargues (2011), the bound for the cokernel of
+the Hodge–Tate map of a finite flat group scheme and its computation along a flag of subgroups of prime order.
+
+*Method of the formal proof:* (L1), (L2) and (L5) are read off the period matrix of the principally polarised abelian
+scheme and its Riemann relation, which compare the `τ`-linear functions with the functions regular modulo `ℓ`; along the
+flag, inclusions at every step between the ideals of Raynaud's coordinates and those of the forms of `af(χ_τ)`, together
+with an identity of total lengths given by a discriminant, force equality at every step, which gives (L3) and (L4).
 
 Let `ℓ` be an odd prime unramified
 in `E`, `𝔩 | ℓ` a prime of `E`, `F_𝔩 = 𝒪_E/𝔩`, `C` a complete algebraically closed field over `ℚ_ℓ` with ring of integers `𝒪_C`,
@@ -553,9 +657,10 @@ quotients `A[ℓ]/H_i` are generated by their elements additive modulo `ℓ` (Ho
 this, the forms of `af(χ_τ)` vanishing on `T_i` should induce on `T_{i+1}/T_i` exactly the forms of the rank-one piece
 `H_{i+1}/H_i`, whose lattice is `c_{τ,i}𝒪_C` by Raynaud's classification (FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1.27–R07.1.28), and the invariant differentials are additive along the flag (R07.1.17); the passage from the generation
-to the flag statement is the step that is not given here.
+to the flag statement is the step that is not given here. The close published argument, for a flag with Oort–Tate
+pieces, is Fargues (2011), Théorème 3 and the proof of Théorème 4 (Lemme 9, Propositions 7–8).
 
-*NEW* (statement; (L1) KNOWN in kind: the Hopf order of a finite flat group of order `ℓ` is generated by `w`-multiples of
+*Sources:* (statement; (L1): the Hopf order of a finite flat group of order `ℓ` is generated by `w`-multiples of
 characters; (L5) [FormalProof], the period relation known in kind, Fontaine). (L1)–(L4) in the form of the formal proof:
 [FormalProof], `Development/AutomorphicSpectrum/Proofs/GeometryProofs/OrdinaryCurveHodgePrime.lean`
 (`GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.testFacts`),
@@ -569,6 +674,17 @@ hypotheses, by `GlobalTheory.T.family_pos_of_hodge_tate_inputs`
 R07.1.17, R07.1.27, R07.1.28; HodgeTateAndCanonicalSubgroups §0.4 and HodgeTateLatticesAndLubinTateLogarithms §§0.5g, 0.5h, 0.18a.
 
 ### 8.14c Antisymmetric polynomials vanishing on the walls
+
+*Origin:* adapted from the divisibility of a polynomial antisymmetric under a reflection group by the product of the
+linear forms of its reflections: here for the Weyl group `𝔚` of the Levi subgroup, with vanishing on a piece of one
+non-compact wall at each `τ` in place of antisymmetry under the non-compact reflections, and in a quantitative form;
+elementary.
+
+*Method of the formal proof:* antisymmetry gives vanishing on the compact walls, vanishing on an open piece of a wall gives
+vanishing on the wall, and each `x_{τ,a} − x_{τ,b}` is a prime dividing `P`, so `Δ` divides `P` with a linear quotient
+invariant under the block permutations; the quantitative form follows from a linear right inverse of the restriction to
+the compact pieces `K_τ` on the finite-dimensional space of antisymmetric polynomials, and the simple non-compact wall is
+carried to the others by products of two transpositions.
 
 Let `𝔚` be the Weyl
 group of the Levi subgroup `∏_τ(GL_p × GL_q)` of `∏_τ GL_N` (`0 < p < N`, `τ` in a finite set `Φ`), acting on the variables
@@ -590,10 +706,27 @@ of the antisymmetric polynomials by `Δ·(invariant linear forms)`.
 *Check.* `|Φ| = 1`, `N = 2`, `p = q = 1`: `𝔚` is trivial, `D = 1`, a quadratic form vanishing on `x₀ = x₁` is
 `(x₀ − x₁)(αx₀ + βx₁)`, and the non-homogeneous `(x₀ − x₁)(αx₀ + βx₁ + c)`, `c ≠ 0`, shows that homogeneity is needed.
 
-*NEW* (elementary). *Needs:* Mathlib (`MvPolynomial`, `MvPolynomial.rename`, `Equiv.Perm.sign`; invariance and antisymmetry
+*Sources:* [FormalProof], `GroundTheory/HeightsAndTheta/Heights/Antisymmetric/Statements.lean`
+(`GroundTheory.Heights₂.Heights.AntisymDivisible.Statement`, divisibility by `Δ` with an invariant linear quotient, from
+vanishing on a relatively open piece of every non-compact wall; `GroundTheory.Heights₂.Heights.AntisymPerturbation.Statement`,
+the quantitative form for `P − v·h` with `h` vanishing on compact pieces `K_τ` of the simple non-compact walls, which at
+`v = 0` is the quantitative form stated here and at `ε = 0` gives the divisibility from the simple walls alone).
+*Needs:* Mathlib (`MvPolynomial`, `MvPolynomial.rename`, `Equiv.Perm.sign`; invariance and antisymmetry
 under `𝔚` are stated through `rename` and the sign, and are not Mathlib notions).
 
 ### 8.15 Models of the flag bundles with mixed integral structure
+
+*Origin:* particular to this proof: integral models of the flag bundles that use Hodge–Tate lattices at the primes of
+`S(B)` (the small and the bad primes) and Lie lattices at the other primes, so that the weights dominant for `GL_N` at
+each `τ` are nef on the fibres over `S(B)`, and the dominant weights with a gap condition on the other fibres.
+
+*Method of the formal proof:* for each component and each cut-off `B` the model is built in four steps: a finite extension
+of the function field over which the `ℓ⁴`-torsion and the `ℓ⁴`-th roots of unity are rational for `ℓ ∈ S(B)`; a normal
+projective model with smooth generic fibre in coordinates of that field; a common refinement on which the Hodge–Tate
+lattices and their images in the eigen-quotients are vector bundles, unchanged where they already had frames; and the
+bundle of flags of the patched lattices with its lines `x_{τ,i}`, to which the Hodge metrics are transported. (a1) is read
+off the Hodge–Tate sequence modulo `ℓ^{R−2}`, which makes the lines `x_{τ,i}` at `τ` the graded pieces of a full flag of a
+trivial bundle of rank `N` on every component of the fibre.
 
 In the setting above with
 `p, q ≥ 1` and `N ≥ 3` (so `Sh` is not compact), with `Fl`, `x_{τ,i}`, `D` and `ℓ_{λ}` for `λ ∈ ℝ^{Φ×N}` as there. On the
@@ -676,7 +809,7 @@ point). The Hodge metric is that of ProjectiveModelsAndPeriodBoundsOnShimuraVari
 constant makes it the form dual to `π·H_A`, `H_A` the Riemann form: Deligne's normalisation); log-log growth of the lines of
 a flag follows from ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (a) (bounds for the entries of the Gram matrix) through determinants of quotients, and the control
 of the derivatives (connection forms and their exterior derivatives of Poincaré growth) from the goodness of the invariant
-metric relative to the canonical extension (DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a bounds the entries only). The logarithmic gradient bound: at a boundary point, in
+metric relative to the canonical extension (DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1, for the `Lie_σ`, a representation trivial on the unipotent radical, as §10.1 requires; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a bounds the entries only). The logarithmic gradient bound: at a boundary point, in
 coordinates `u_i` of a polydisc in which the boundary is `u_1⋯u_a = 0`, the imaginary part of the period matrix is a bounded
 real-analytic matrix plus `Σ_i(log(1/|u_i|)/2π)·B_i` with positive semidefinite integral `B_i` (the nilpotent orbit theorem in
 weight one: for integral `v`, `exp(2πi·v^tτv)` is single-valued and bounded, hence holomorphic across the boundary), and is
@@ -697,15 +830,23 @@ with base change, and forgetting one step is the bundle of lines of the rank-two
 pulls a simple normal crossings divisor back to one; on the generic fibre the patched lattices are the `Lie_σ` of the
 semi-abelian scheme, whose Hodge form has Gram matrix between `c/r^C` and `C·r^C` in frames near the boundary
 (ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (a)) and whose derivatives are controlled by the goodness of the invariant metric
-(DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1), so the induced metrics of graded pieces of flags are log-log singular along the pulled-back
+(DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1, for the `Lie_σ`, a representation trivial on the unipotent radical, as §10.1 requires), so the induced metrics of graded pieces of flags are log-log singular along the pulled-back
 boundary and involve the flag only up to the step in question.
 
-*NEW*. *Needs:* 8.14a; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a (a), 6.7a, 6.9a, 7.12a, 7.31a (b), (b′) and ShimuraCompactifications §§6.4–6.6, 6.8; HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.5, 0.17; HodgeTateLatticesAndLubinTateLogarithms §§0.5a, 0.5b, 0.5c, 0.17b, 0.18a, 2.4 (the last through HodgeTateLatticesAndLubinTateLogarithms §§0.18a (d), 0.17b); NashBlowups §§1.2–1.4; AlgebraicModuliForArithmeticGeometry
+*Needs:* 8.14a; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §§6.2a (a), 6.7a, 6.9a, 7.12a, 7.31a (b), (b′) and ShimuraCompactifications §§6.4–6.6, 6.8; HodgeTateAndCanonicalSubgroups §§0.2, 0.3, 0.5, 0.17; HodgeTateLatticesAndLubinTateLogarithms §§0.5a, 0.5b, 0.5c, 0.17b, 0.18a, 2.4 (the last through HodgeTateLatticesAndLubinTateLogarithms §§0.18a (d), 0.17b); NashBlowups §§1.2–1.4; AlgebraicModuliForArithmeticGeometry
 §1.3; NeronModelsAndSemistableAbelianVarieties §§3.5, 3.6 (through HodgeTateLatticesAndLubinTateLogarithms §0.18a); SchemeAndStackFoundations §0.14;
 ArakelovGeometryAndAbelianHeightsPartII §0.3 and HeightsForLogSingularMetrics §§0.4 (b), (o), 14.1 (Objects); ResolutionOfSingularitiesCharacteristicZero
 §5.2; AutomorphicBundles §§0.5, 5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.1; PELModuli M1.7, M2.8, M6.1.
 
 ### 8.15b Antisymmetry
+
+*Origin:* particular to this proof: the difference between the limit numbers of the flag bundle and the arithmetic
+intersection numbers of the flag variety of the compact dual changes sign under every compact simple reflection.
+
+*Method of the formal proof:* the reflection relation for a fibre square, which expresses the sum of the intersection
+numbers at `λ` and at `s_αλ` through the polynomial of geometric degrees, is applied to the system of lines on a model of the flag bundle and to the flag variety
+over `ℤ`; the two degree polynomials are proportional with factor the volume, so the difference of the two instances
+shows that `I_c(B, ·) − vol(c)·ĥ_Fl` changes sign under each compact simple reflection.
 
 In the setting of 8.15, for every component `c`, every integer cut-off `B ≥ 2`, every compact simple root
 `α = (τ; a, a + 1)` and every `λ ∈ ℝ^{Φ×N}`:
@@ -727,9 +868,9 @@ is used here. `ℙ(V_α)` has tautological class of fibre degree
 Fubini–Study metric of the Hodge form on the rank-two graded piece; the reflection formula for limit numbers
 (HeightsForLogSingularMetrics §14.1 (c), stated for a line of fibre degree `+2`, with its hypothesis (iv), close `C²`
 regularisations with loss at most `C·log log(1/t)/log(1/t)`, met by those above: it is applied to the dual of the root line, with the change of sign of the right side that HeightsForLogSingularMetrics §14.1 (a) records) expresses the even parts along `α` through geometric degrees, HeightsForLogSingularMetrics §14.1 (a) does the same on the flag variety over `ℤ`, and the geometric degrees are proportional with factor `vol` by Hirzebruch–Mumford proportionality (DiscreteSeriesCoefficientsAndAutomorphicMetrics
-§10.2). The limit numbers of `M_B(c)` are by definition those of its log-smooth model `X′` (HeightsForLogSingularMetrics §0.4 (b)).
+§10.2, for the flag bundle of the `Lie_τ`, `Lie_{cτ}`, representations trivial on the unipotent radical, as §10.2 requires). The limit numbers of `M_B(c)` are by definition those of its log-smooth model `X′` (HeightsForLogSingularMetrics §0.4 (b)).
 
-*NEW*. [FormalProof], `Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/Proportional.lean`
+*Sources:* [FormalProof], `Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/Proportional.lean`
 (`GlobalTheory.CompanionTheory.Ar.Top.RootTower.I8`),
 `Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/FullIntersectionTowerI8IdentityStatement.lean`
 (`GlobalTheory.T.full_intersection_tower_I8_identity`),
@@ -739,6 +880,15 @@ regularisations with loss at most `C·log log(1/t)/log(1/t)`, met by those above
 §7.7 (b)–(d); DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.15c Vanishing on the walls
+
+*Origin:* particular to this proof: on a non-compact wall the limit numbers per unit degree are
+`O(log B/B)`, by both halves of Zhang's theorem of successive minima and logarithmic bounds for the heights of points.
+
+*Method of the formal proof:* a rational weight on the wall is moved off it by `θ = 5|Φ|/B` and by `θ²` times an ample
+class; the regularised self-intersection of the perturbed bundle is squeezed between the two halves of the inequality of
+successive minima, with heights of points `≥ −C·log(B/θ²)` everywhere and `≤ C·log B` on a dense set, against a geometric
+degree of size `O(θ)`; the loss of the regularisation (`O(θ²)`) and the Lipschitz dependence on the weight
+(`O(θ·log B)`) return to the wall, and continuity gives real weights.
 
 In the setting of 8.15:
 for every `c₀ > 0` there are `C`, `B₁`, depending only on `E`, the datum (space, lattice, level) and `c₀`, not on `B` nor on
@@ -777,7 +927,7 @@ Returning to `λ` costs `O(θ log B)` (the coefficients of the normalised number
 
 *Check.* `c_θ = 5` is the value of one construction.
 
-*NEW*; [FormalProof],
+*Sources:* [FormalProof],
 `Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/HeckeSectionsIsotropicCommutatorPairingPower.lean`
 (`GlobalTheory.CompanionTheory.Ar.Top.RootTower.ThmW`),
 `Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/Proportional.lean` (`GlobalTheory.CompanionTheory.Ar.Top.RootTower.PB`),
@@ -787,6 +937,21 @@ SingularHermitianMetricsAndL2Methods §§7.7 (c), 7.8; HeightsRationalPointsAndO
 HeightsForLogSingularMetrics §16.1; ArakelovGeometryAndAbelianHeights §§4.6–4.8.
 
 ### 8.15d Arithmetic proportionality for flag bundles: the structure theorem
+
+*Origin:* particular to this proof: arithmetic proportionality for the flag bundles of unitary Shimura varieties up to two
+constants, from antisymmetry under the compact Weyl group and vanishing on the non-compact walls; a close precedent:
+Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the metrised Hodge bundle on the
+integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of
+odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions. The statements here are for CM fields
+`E ≠ K`, unramified over `E⁺`, signatures `(p, q)` with `q > 1` allowed, principal level and every dominant weight on the
+flag bundles, and give proportionality up to two constants, not a formula; the two have no Shimura variety in common.
+
+*Method of the formal proof:* the summed limit numbers and `vol_tot·ĥ_Fl` are read as polynomials of degree `D + 1` in the
+weight; their difference is antisymmetric under the compact simple reflections and is `O(log B/B)` on a compact piece of
+each simple non-compact wall, so the quantitative lemma on antisymmetric polynomials makes it `Δ·l` up to `O(log B/B)`
+with `l` an invariant linear form, which is rewritten through `S^p_τ` and `S^N_τ`. The label symmetry comes from the
+automorphisms of the moduli scheme that representability attaches to the automorphisms of the CM field, and the
+constants are averaged over this transitive group.
 
 In the
 setting of 8.15: there are `C`, `B₁`, depending only on `E` and the datum, and reals
@@ -816,7 +981,7 @@ metrics agree, and their limit numbers per unit degree are equal by HeightsForLo
 generically finite maps from one log-smooth model). Summing over the components gives the invariance for
 `σ : τ ↦ τ∘g`; these `σ` form a group acting transitively on `Φ`.
 
-*NEW*. The structure theorem: [FormalProof],
+*Sources:* The structure theorem: [FormalProof],
 `Development/AutomorphicSpectrum/Definitions/DivisibilityTowers/HeckeSectionsIsotropicCommutatorPairingPower.lean`
 (`GlobalTheory.CompanionTheory.Ar.Top.RootTower.ThmB`). The label symmetry: [FormalProof],
 `Development/AutomorphicSpectrum/Proofs/DivisibilityProofs/GoodTowerGlobalExtraStatement.lean`
@@ -831,6 +996,16 @@ generically finite maps from one log-smooth model). Summing over the components 
 HermitianFormsAndLattices §4.2 (a).
 
 ### 8.15e Change of cut-off
+
+*Origin:* particular to this proof: the change of the limit numbers when the Lie lattice at a good prime
+is replaced by the Hodge–Tate lattice, as an explicit vertical class.
+
+*Method of the formal proof:* on a normal refinement of the model over a discrete valuation ring above `ℓ`, on which the
+lattices of 8.14b are vector bundles, `h(τ)` is the sum over the diagonal lines of (L3) of their `k`-th local numbers; the
+exact sequence of (L2) with the rule for the power sums of a bundle scaled by `w` gives the difference of the two
+integral structures as `h(τ) − v_k(τ)/(ℓ − 1)`, the Frobenius relation of (L4) gives `ℓ^k·h(τ) = h(φτ) + v_k(φτ)`, and
+iteration along the orbit of `φ` with a geometric series gives `ϰ_k`; the numbers are unchanged under the refinements and
+descend from an extension of the valuation ring that contains the multiplicative lifts.
 
 In the setting of 8.15, let `ℓ` be a good prime (odd,
 unramified in `E`, prime to the level), `φ` its Frobenius permutation of the labels `Φ ⊔ cΦ`, `k ≥ 1` and `Q` of degree
@@ -855,13 +1030,29 @@ dominating both (8.15 (a)).
 `Σ_σ ϰ_k(τ, σ) = (1/ℓ)/(1 − 1/ℓ) − 1/(ℓ − 1) = 0`: first Chern classes see the change of lattice only through the ranks `p`,
 `q` of the labels that Frobenius exchanges.
 
-*NEW*. [FormalProof], `Development/AutomorphicSpectrum/Statements/GeometryStatements/HodgeLatticeFlagBound.lean`
+*Sources:* [FormalProof], `Development/AutomorphicSpectrum/Statements/GeometryStatements/HodgeLatticeFlagBound.lean`
 (`GlobalTheory.CompanionTheory.Ar.HodgeLatticeFlagBound`), derived there from the statement of 8.14b
 (`GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos`) by `GlobalTheory.T.model_on_hodge_from_family`,
 `Development/AutomorphicSpectrum/Proofs/GeometryProofs/ModelOnHodgeFromFamilyStatement.lean`.
 *Needs:* 8.14b, 8.15; DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.16 The two constants
+
+*Origin:* particular to this proof: the two constants of arithmetic proportionality are bounded by testing on the flat
+line and on the Hodge line, with Zhang's theorem of successive minima and a mean bound for the first minimum of a
+Hermitian lattice over the arithmetic quotient; a close precedent: Bruinier and Howard (arXiv:2105.11274), Theorem A
+(8.15d), in whose case the arithmetic volume per unit of complex volume is, up to elementary constants, a combination of
+logarithmic derivatives of Dirichlet L-functions and of the logarithms of the discriminant of the imaginary quadratic
+field and of its prime factors, quantities of the kind that bound the
+two constants here.
+
+*Method of the formal proof:* the constants at a cut-off are the limits of the coefficients of 8.15d corrected by the
+change of cut-off, which converge because two test classes determine them through a triangular system;
+`|p·α_∞ + N·β_∞|` is read on the class
+`p₁(τ)·Q`, a flat line, and the lower bound for `α_∞` on a power of the small Hodge class times the fibre class,
+decomposed along the power sums, with the lower half of the inequality of successive minima on the base, the mean of the
+cusp weight (packing of short isotropic vectors, a scaling law by unfolding, a layer-cake integral) and the height of a
+product of Grassmannians.
 
 In the setting of 8.15 with the transitive symmetry
 of 8.15d, put `Λ_E(B) = log(B·rd_E) + |(L′/L)(1, χ_K)|` and `j′ = min(p, q)`. Prove:
@@ -902,8 +1093,8 @@ degree, summed over the components.
 for every `τ`, every `1 ≤ k ≤ N` and every `Q` of degree `D + 1 − k`, with `rest(B′)` the summed remainders of 8.15e over
 the good primes `ℓ > B′` (they vanish for `k = 1`). They arise from `α(B) − β(B) + Σ_{B′<ℓ≤B, ℓ good} log ℓ/(ℓ − 1)` and
 `β(B) − Σ_{B′<ℓ≤B, ℓ good} κ_ℓ` (`κ_ℓ` the coefficient of `S^N` in 8.15e for `k = 1`): for each `(τ, k, Q)` the identity
-holds with these coefficients at `B` and the remainders up to `B`, up to an error tending to `0` as `B → ∞`. (That the
-two sequences converge is not part of [FormalProof] and is not used: what follows holds for every pair of constants
+holds with these coefficients at `B` and the remainders up to `B`, up to an error tending to `0` as `B → ∞`. (The
+convergence of the two sequences is not used: what follows holds for every pair of constants
 satisfying the identity.) If `B′ ≥ 128` and at most `B′` primes divide `2·disc(E)` and the level, then
 `|p·α_∞ + N·β_∞| ≤ C·N·Λ_E(B′)`; if moreover `B′ ≥ 4|Φ|N²` and at most `4|Φ|N²` primes divide `2·disc(E)` and the level,
 then `α_∞ ≥ −C·Λ_E(B′)`; `C` absolute (`C = 4` in the first bound).
@@ -951,7 +1142,7 @@ property of a tower of models, for every integer `B ≥ max(128, 4|Φ|N²)` with
 the heights on the base (a) and the mean of the cusp weight (b) supposed at every such `B`; for the Shimura varieties (a)
 and (b) are available when at most `4|Φ|N²` primes are bad, which is the hypothesis here.
 
-*NEW*. (a), (b): [FormalProof], `Development/AutomorphicSpectrum/Statements/GeometryStatements/NineGeoU.lean`
+*Sources:* (a), (b): [FormalProof], `Development/AutomorphicSpectrum/Statements/GeometryStatements/NineGeoU.lean`
 (`GlobalTheory.CompanionTheory.Ar.Cusp.NineGeoU`); in [FormalProof] the constants of (a) and (b) are absolute: they are
 chosen before `E` and the datum. (c) follows from [FormalProof],
 `Development/AutomorphicSpectrum/Definitions/GlobalGeometry/HasBaseDegreeSettingStrict.lean`
@@ -963,6 +1154,21 @@ chosen before `E` and the datum. (c) follows from [FormalProof],
 HeightsForLogSingularMetrics §4.3b (b)); AdelicAlgebraicGroups §4.2 (finite covolume, strong approximation).
 
 ### 8.17 The average arithmetic volume theorem
+
+*Origin:* particular to this proof: a lower bound, in the mean over the connected components, for the arithmetic volume of
+the automorphic line bundles on the flag bundles, with explicit dependence on the weight and on the field; a close
+precedent: Bruinier and Howard (arXiv:2105.11274), Theorem A, the exact arithmetic volume of the Hodge bundle for
+`GU(n − 1, 1)` over an imaginary quadratic field without level structure (8.15d), where the bound here is an inequality,
+for the dominant weights whose entries at every place are strictly decreasing with a gap in the smaller block, and with
+`|Φ| ≥ 2`.
+
+*Method of the formal proof:* `ℓ_u^{D+1}` is decomposed along the power sums and the exact identity of 8.16 (d) at the
+cut-off `B` is applied term by term, with `ĥ_Fl ≥ 0` on dominant weights, the bound for the remainder, and
+`α_∞s + β_∞t = α_∞(s − pt/N) + (pα_∞ + Nβ_∞)t/N`; the components have equal volume. The volume slope on a component is
+bounded below by the slope of the limit self-intersection minus a cost `O(log B)·|u|₁`, by counting small sections on the
+model of the flag bundle and carrying them to forms on the cover, with `B = B(u, g)`. The identity of 8.16 (d) is exact
+at every cut-off, so the proof asks no lower bound `B₁` for the cut-off and bounds the volume slope at every shift; the
+route written here covers `B(u, g) ≥ B₁` only.
 
 There are absolute constants `C`, `c_B ≥ 1`, and
 `B₁ ≥ max(128, 4|Φ|N²)` depending on `E` and the datum (that of 8.15d), such that, in the setting of 8.15 with the transitive symmetry of 8.15d, with
@@ -1017,7 +1223,7 @@ of 8.11–8.12: 8.17 carries no main term and is applied only to the weight left
 place of `log B(u, g)` would be wrong: it can be negative, and `log(|Φ|N²)` is not bounded by the other terms.
 `c_B = 4` is the value of one construction, and `128` is the absolute part of the lower bound for `B₁` (`B(u, g) ≥ 128` holds when `|Φ| ≥ 2` and `N ≥ 4`).
 
-*NEW*; the mean of the volume slopes in the form stated (no lower bound for `B(u, g)`, `C` independent of `E` and of the
+*Sources:* the mean of the volume slopes in the form stated (no lower bound for `B(u, g)`, `C` independent of `E` and of the
 datum) is the form of [FormalProof],
 `Development/AutomorphicSpectrum/Proofs/GeometryProofs/AbelianCmCompLawsBoundStatement.lean`
 (`GlobalTheory.T.abelian_cm_comp_laws_bound`, which takes six named statements as hypotheses); on the deep covers of the chain,
@@ -1028,6 +1234,18 @@ datum) is the form of [FormalProof],
 (`GlobalTheory.T.mean_slope_proportional_volume`). *Needs:* 8.15, 8.15e, 8.16; ArakelovGeometryAndAbelianHeightsPartII §0.3 (with (1′)) and HeightsForLogSingularMetrics §§4.3a, 14.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.17a The basis problem in the stable range
+
+*Origin:* adapted from Weissauer (1986) and Böcherer (2006): the basis problem by doubling and the Siegel–Weil formula,
+carried to holomorphic cusp forms on `U(W)` over a CM field at the levels of the setting, in the explicit range
+`n(w) ≥ 4[E:ℚ]·N + 4`, uniformly in the level and with explicit sup-norm bounds for the spanning theta series.
+
+*Method of the formal proof:* a kernel built from pluriharmonic polynomials reproduces bounded holomorphic forms on a thin
+slab of the frame domain; the doubling identity (Eisenstein series on the doubled group restricted to the graph,
+Siegel–Weil formula for definite Hermitian lattices of rank `> 4N`) writes the kernel, weighted by a matrix of class sums
+of inner products of level test functions, as a sum of products of theta series; this matrix is diagonally dominant and
+is inverted by a Neumann series, and unfolding writes every form as a finite combination of theta series. The published
+proofs invert instead through Hecke eigenvalues and the nonvanishing of an `L`-value in the range of convergence, or
+through the injectivity of Hecke operators at the bad places.
 
 In the setting of 8.11–8.19 let `K′ ⊂ K_W` be a level of the kind of the setting (good at every prime) and `𝕂 ⊃ F′` a number field containing the values of the
 characters of the level. A *weight* `w` is a dominant weight `a(w) = (a⁺_τ, a⁻_τ)_τ` of the Levi subgroup `∏_τ GL_p × GL_q`
@@ -1061,10 +1279,32 @@ prime to `3M`, and brought down to level `M` by a section without zeros. It is u
 series formed at the auxiliary primes `p_δ, p′_δ`, and at the deep covers of 8.18 (o), with theta series formed at the level
 of the cover.
 
-*NEW* (this form); *KNOWN* in kind (the basis problem through the doubling method). *Needs:* RowTowerAndRallisIdentities §5.11; ThetaLiftsForDefiniteUnitaryGroups
+*Sources:* (the basis problem through the doubling method). The spanning statement: [FormalProof],
+`Development/AbelianVarietyTheory/Proofs/SiegelThetaTransformation/CuspFormsLeSpanShortThetaSeriesStatement.lean`
+(`GlobalTheory.T.cuspForms_le_span_shortThetaSeries`, the cusp forms of weight `w` lie in the span over `𝕂` of the theta
+series of weight `w` when `n(w) ≥ 4[E:ℚ]·N + 4` and the last entries are positive, at a level with the properties named
+in the route, the theta series being formed at a deeper level `M·p_d`, `p_d` prime to `3M`, and brought down by a section whose
+values in the complex frames have absolute value one) and
+`Development/AbelianVarietyTheory/Proofs/SiegelThetaTransformation/ShortThetaSeriesDominantWeightIsCuspFormStatement.lean`
+(`GlobalTheory.T.short_thetaSeries_dominant_weight_isCuspForm`, these theta series are cusp forms); both take the same
+named statement as a hypothesis.
+*Needs:* RowTowerAndRallisIdentities §5.11; ThetaLiftsForDefiniteUnitaryGroups
 §§3.2–3.3; MetaplecticAutomorphicForms §6.4 and ThetaKernelsForUnitaryDualPairs §6.4a; ThetaChainsOnDefiniteUnitaryGroups §2.4 (b).
 
 ### 8.18 Heights of images on deep covers
+
+*Origin:* particular to this proof: the height of the projective image of the flag bundle under the cusp forms of a
+divided weight is bounded below by the arithmetic volume, through carrying sections and the upper half of the arithmetic
+Hilbert–Samuel count.
+
+*Method of the formal proof:* (a) the height of the image is the height of its Chow form, and every nonzero
+multihomogeneous form of degree `δ_Z` in each of `D + 1` blocks has height at least `−(D + 1)·δ_Z·log Λ` in the
+coordinates of generators of norm at most `Λ`, by induction on the degree through the leading coefficient along one
+generator (Gauss norms at the finite places, a Jensen inequality on spheres at the infinite ones). The route written here
+bounds the height through the points of the image and the inequality of successive minima. (b) Small forms of
+weight `u′` are multiplied into small forms of weight `u₁` by powers of the carrying section and counted on a nef model of
+the image by the Hilbert–Samuel upper bound and the identification of the top self-intersection with
+`(D + 1)·δ_Z·h(u₁, Z)`; (c) is the mean of (b) with 8.17.
 
 Let `1 ≤ j < m`, `W = W_j` with the weights of ThetaChainsOnDefiniteUnitaryGroups §2.3, under the
 size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1; `λ^W_j` the weight whose classical lift is the discrete series of the model lift of step `j` (RowTowerAndRallisIdentities §5.7),
@@ -1109,7 +1349,7 @@ with `w_τ` the entry of `u_{M,j} − κ_can` at the anchor index (`|w_τ| ≤ 3
 value); the flat twists (8.11–8.12) identify the forms of the weights `u_{M,j}` and `wt(T)`, preserve ranks, and move slopes by
 the flat degree. Let `k_c := 8` and `e_c := 3N_j`, `u′ := u₁ − e_c·w_q`, `g > 0` a gap of `u′` in the sense of 8.17, and
 `ρ := 1 − P(u′)/P(u₁)`, `P(λ) := ∏_τ∏_{a<b}(λ_{τ,a} − λ_{τ,b})` the Weyl polynomial; by Hirzebruch–Mumford proportionality
-(DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2) `(1 − ρ)·deg_Z(u₁) = deg_Z(u′)` on every component `Z` for the top self-intersections of the lines of
+(DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2, for the flag bundle of the `Lie_τ`, `Lie_{cτ}`, representations trivial on the unipotent radical, as §10.2 requires) `(1 − ρ)·deg_Z(u₁) = deg_Z(u′)` on every component `Z` for the top self-intersections of the lines of
 `u₁` and `u′` on the flag bundle. A weight is *good* on a cover if its lattice of integral cusp forms is finitely generated and
 spans the cusp forms of that weight.
 
@@ -1172,7 +1412,7 @@ for the count is used) and the identification of `𝒪(1)^{D+1}` on `X_Z` with `
 (ChowFormsAndHeightsOfSubvarieties §6.2 (a), with HeightsRationalPointsAndObstructions §5.9b and ChowFormsAndHeightsOfSubvarieties §6.1) bound the volume of small sections by `δ_Z·(h + t)`;
 divide by `δ_Z` with `(1 − ρ)δ_Z ≤ deg_Z(u′)`. (c) From (b) on each component, `h ≥ (1 − ρ)·s − ρ·c_Λ − c_c − htc·|u′|₁`, with `s`
 the volume slope of `u′`, whose mean 8.17 bounds below by `−C·err(u′, g)` (the degrees of the components being equal up to
-`ρ`: Hirzebruch–Mumford, DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2), and `err ≥ 0`. The mean of the volume
+`ρ`: Hirzebruch–Mumford, DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2, for the flag bundle of the `Lie_τ`, `Lie_{cτ}`, representations trivial on the unipotent radical, as §10.2 requires), and `err ≥ 0`. The mean of the volume
 slopes of 8.17 applies on `Y_j` under the size conditions of ThetaChainsOnDefiniteUnitaryGroups §2.1: `|Φ| = f ≥ 4`,
 `q_j = m − j ≥ 1`, `3q_j + 1 ≤ 3m − 2 ≤ r` by `SizeK`, and the primes dividing `2·disc(E)` and the level `g₀g₁·15^e` are among
 `2`, `3`, `5`, `g₀`, `g₁` and the primes dividing `f_E`, at most `5 + log f_E/log 2 ≤ 4f·r²` of them by `SizeN`.
@@ -1184,7 +1424,7 @@ Without birationality the degree of the
 linear system and the degree of the image differ: `u², v²` on `ℙ¹` has degree `2` and image `ℙ¹` of degree `1`. The cost may be
 negative (the `t_σ` have either sign); the inequality of (b) is asserted only for an upper bound `c_c ≥ 0` of it.
 
-*NEW* (the combination), *KNOWN* ingredients (Zhang; Bost–Gillet–Soulé; Gillet–Soulé). The preamble (`u′`, `ρ`,
+*Sources:* ingredients (Zhang; Bost–Gillet–Soulé; Gillet–Soulé). The preamble (`u′`, `ρ`,
 proportionality): [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/IsHomogeneousCompIdeal.lean`
 (`GlobalTheory.CompHt.uPrime`). (a): [FormalProof],
 `Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/HodgeBundleWeights/HeightAddLogNonneg.lean`
@@ -1215,6 +1455,17 @@ AutomorphicBundles §§0.5, 5.3; ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.3
 ComplexMultiplicationAndExplicitReciprocity §3.2; ClassFieldTheory §13.1.
 
 ### 8.18a From the big cell of the flag domain to the arithmetic quotient
+
+*Origin:* adapted from Poincaré series on bounded symmetric domains and the `L²` methods of Hörmander (1965), Skoda (1972)
+and Donnelly and Fefferman (1983): carried to the flag domain of a product of groups `U(p, q)` through its big cell, with
+interpolation, division and peak sections descended to the arithmetic quotient with explicit constants.
+
+*Method of the formal proof:* for (f), Hörmander's estimate on the big cell, with a cut-off at the frame and weights with
+logarithmic poles at the frame and at the other points of its orbit, gives a holomorphic function equal to `1` at the
+frame and vanishing at the other orbit points, whose Poincaré series is bounded, hence a cusp form by (f₀), with its `L²`
+norm on a fundamental set controlled by unfolding. For (f₀), the constant Fourier–Jacobi coefficient of a bounded section
+is invariant under the complex flow along the isotropic vector, while the invariant norm factor grows along it under the
+hypothesis on the weight, so the coefficient vanishes.
 
 Let `p + q = N`,
 `0 < p < N`, `𝔇` the domain of frames `x = (x_τ)_{τ∈Φ}` of `ℂ^N` whose Gram matrices for the forms of signature `(p, q)` have
@@ -1345,8 +1596,8 @@ dimension in a way that is not specified and whose sections are square integrabl
 the estimate of `u` does not beat `‖G‖`, and the pairing argument gives nothing. `e_𝔇` and the margin of (d) are the values of
 one argument; the exponent of convergence and the sharp gradient constant are not needed.
 
-*KNOWN* in kind (Poincaré series on bounded symmetric domains; the bounded gradient of the Bergman potential, as in
-Donnelly–Fefferman), *NEW* in this form. The weights on `𝔇` and the dictionary: [FormalProof],
+*Sources:* (Poincaré series on bounded symmetric domains; the bounded gradient of the Bergman potential, as in
+Donnelly–Fefferman). The weights on `𝔇` and the dictionary: [FormalProof],
 `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/FundamentalDomains/Signature.lean`
 (`ReciprocityTheory.ChartRestriction.G.FD.bchar`),
 `Development/AbelianVarietyTheory/Definitions/Foundations/IsProbabilityMeasureMuPart.lean`
@@ -1367,6 +1618,18 @@ AdelicAlgebraicGroups §4.2 (finite covolume).
 
 ### 8.18b Averaging lattice indices over a Mackey pair
 
+*Origin:* adapted from Mackey's irreducibility criterion for induced representations: for a subgroup and character
+satisfying it, lattice indices in the isotypic part are bounded by the `[P : U]`-th part of the indices in the whole
+space, up to terms in `v_𝔩(|U|)`.
+
+*Method of the formal proof:* the uniform bound on subspaces is first shown equivalent to one inequality,
+`idx_𝔩(M, M ∩ a⁻¹Th) ≤ r`; then, with `e_ψ = Σ_{u∈U} ψ(u⁻¹)ρ(u)` and representatives `h_i` of `P/U`, the maps
+`s_i = ρ(h_i)` and `t_i = e_ψ∘ρ(h_i)⁻¹` satisfy `t_i s_j = |U|·δ_{ij}` on `Z′_ψ`, because the Mackey property makes `e_ψ`
+vanish on `ρ(h)Z′_ψ` for `h ∉ U`, and a count of lengths on the images gives
+`[P : U]·idx_𝔩(B ∩ Z′_ψ, B′ ∩ Z′_ψ) ≤ idx_𝔩(B, B′) + dim Z′·v_𝔩(|U|)`; monotonicity, scaling and transport of indices
+finish. This is the proof of Mackey's criterion over a field, carried out with lattices and lengths at the cost of
+`v_𝔩(|U|)`.
+
 Let `𝕂′` be a number field, `𝔩` a finite
 place, `Z′` a finite-dimensional `𝕂′`-space with a representation of a finite group `P`, and `(U, ψ)` a subgroup with a
 character such that for every `h ∉ U` there is `u ∈ U ∩ hUh^{−1}` with `ψ(h^{−1}uh) ≠ ψ(u)` (a *Mackey pair*; the mirabolic pair
@@ -1383,10 +1646,26 @@ between `Z′_ψ` and the translates `ρ(h_i)Z′_ψ` with `t_i s_j = |U|·δ_{i
 decomposition; then monotonicity and transport of indices. The hypothesis "for every `W`" is used for one extremal
 subspace, which can be taken global (HermitianFormsAndLattices §4.0b (a) over the localisation of the ring of integers).
 
-*NEW*. *Needs:* HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a)); FiniteReductiveGroups §2.4
+*Sources:* [FormalProof], `Formalism/MirabolicMackeyTheory/StatementL.lean` (`Formalism.EigenvalueLevelCeiling.IdxPsiGood`,
+the inequality stated here with integers `u, δ ≥ 1` in place of `|U|` and `[P : U]`, assuming the bound
+`idx_𝔩(M, M ∩ a⁻¹Th) ≤ r` and the inequality of the route for `M ∩ a⁻¹Th ⊂ M`; `Formalism.EigenvalueLevelCeiling.LemmaGG`,
+the inequality `[P : U]·idx_𝔩(B ∩ Z′_ψ, B′ ∩ Z′_ψ) ≤ idx_𝔩(B, B′) + dim Z′·v_𝔩(|U|)` of the route for `P`-stable lattices
+`B′ ⊂ B` and a Mackey pair).
+*Needs:* HermitianFormsAndLattices §4.0b (the index `idx` and its API, (a)); FiniteReductiveGroups §2.4
 (the mirabolic subgroup).
 
 ### 8.18c Cusp forms on deep covers: goodness, birationality, short generators, multiplication, degrees
+
+*Origin:* adapted from effective point separation (Angehrn and Siu (1995); Kollár (1997)), the basis problem and Bergman
+kernel bounds: goodness, birationality, short generators, a multiplication bound and degree comparisons for cusp forms on
+deep covers, explicit in the field, the level and the weight.
+
+*Method of the formal proof:* for (b), non-vanishing on a component comes from a ball about an orthonormal frame that is
+disjoint from its translates under the arithmetic group of a deep cover, on which a section of the weight is not zero;
+birationality is by contradiction: two embeddings of the function field that agree on the field of ratios give two
+complex points over the generic point, and two-point separation for the nef and big twist `K ⊗ L(u − κ_can)` on a
+toroidal compactification of the flag space, with the number `binom(D + 2, 2)`, gives a cusp form whose values at the
+two points contradict the equality of the ratios.
 
 Let `Y` be a deep cover (8.18 (o)) of the Shimura variety of a unitary group of signature `(p, q)`, `p, q ≥ 1`, in the
 setting of 8.11–8.19 with `[F:ℚ] ≥ 2`, `D` the dimension of its flag bundle, `N = p + q`, `κ_can` the canonical weight (8.18).
@@ -1485,7 +1764,7 @@ by at most `2[𝕃_Y:ℚ]·rk` vectors of norm `≤ max(1, [𝕃_Y:ℚ]⁴·rk·
 (d). (d) A sup-against-`L²` inequality for holomorphic sections on the uniformised component, with an explicit constant
 (SingularHermitianMetricsAndL2Methods §3.7); then `|u(y)|² ≤ β·‖u‖²` pointwise gives the product bound for the Petersson norms
 (probability measures), and the rank is the integral of the Bergman function for the probability measure. (e) (i)
-Hirzebruch–Mumford proportionality (DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2) and the equality of the volumes of the components (8.16 (e))
+Hirzebruch–Mumford proportionality (DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2, for the flag bundle of the `Lie_τ`, `Lie_{cτ}`, representations trivial on the unipotent radical, as §10.2 requires) and the equality of the volumes of the components (8.16 (e))
 make `deg_Z(u₁)`, `deg_Z(u′)` independent of `Z`; the image of a birational linear subsystem has degree at most the top
 self-intersection of the line, and the valuative carrying section bounds `deg_Z(u′)` by the degree of the image; then
 `deg_Z(u′)/δ_Z ≥ 1 − ρ`. (ii) With `n₁ := T + D + 3` and `a := ⌊n₁/(1 − ρ)⌋`: `n₁·deg_Z(u₁) < (a + 1)·δ_Z`, so MultiplierIdealsOfPairsAndPointSeparation §9.13b (b) applies on a modification on which the base ideal of the forms of weight `u₁` is invertible, with `L′` the line of `u₁` (nef), `L` its moving part (`(L^D) = δ_Z` by birationality), `Λ` the line of `λ` and `n = n₁`: the lines of `u₁`, `λ` and `n₁u₁ − λ` are nef because these weights have non-negative gaps (`u₁` is strictly decreasing, `λ` and `n₁u₁ − λ` weakly decreasing), `(L′^D) ≤ deg_Z(u₁)`, and the cusp forms of weight `λ` inject into the sections of the line of `λ`.
@@ -1494,7 +1773,7 @@ self-intersection of the line, and the valuative carrying section bounds `deg_Z(
 input of (b) is `binom(D + 2, 2) = ½(D² + 3D + 2)`, the Angehrn–Siu number for two points in dimension `D`; `(D + 3)² + 2N`
 suffices because the gaps of `κ_can` are at most `2N − 2`.
 
-*NEW* (this form); *KNOWN* ingredients (Kollár's two-point separation; Hirzebruch–Mumford proportionality; the basis
+*Sources:* ingredients (Kollár's two-point separation; Hirzebruch–Mumford proportionality; the basis
 problem). (b), its first clause when all gaps of `u` are `≥ (D + 3)² + 2N`: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/WeightPositivityPrincipalisation.lean`
 (`GlobalTheory.CentreCusp.exists_cusp_genVal_ne_zero'`). *Needs:* 8.11, 8.12, 8.16, 8.17a, 8.18, 8.18a; ProjectiveModelsAndPeriodBoundsOnShimuraVarieties §6.2a (b) and ShimuraCompactifications §§7.12, 7.22; AlgebraicModuliForArithmeticGeometry §§1.6, 9.10, AlgebraicModuliForArithmeticGeometryPartII §§1.5, 1.6, 1.7 (ii) and
@@ -1502,6 +1781,16 @@ MultiplierIdealsOfPairsAndPointSeparation §§9.12a, 9.13b; DiscreteSeriesCoeffi
 ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.3, 2.6, 2.9, 2.9a.
 
 ### 8.18e A uniform lower bound for slopes on deep covers
+
+*Origin:* adapted from the arithmetic Hilbert–Samuel theorem and the heights of Chow forms of Bost, Gillet and Soulé
+(1994): an explicit inequality at one finite degree between the slope of a lattice of cusp forms
+and the height of the projective image, on varieties where the forms have a fixed divisor at the boundary.
+
+*Method of the formal proof:* on a component the abstract Hilbert–Samuel inequality over the coordinate bundle is applied
+to the graded system of forms of the weights `wt(i)`, after the degree and the height of the birational image are
+identified with those of the tuple of sections; the components are then combined by a numerical lemma that turns the
+unweighted mean of the volume slopes into the rank-weighted mean of the degrees, the degrees and the ranks of the
+components agreeing up to the factors `1 − ρ` and `1 − z`.
 
 In the setting of 8.18, for a
 component `Z` of `Y_j` on which the forms of the weights `u₁` and `u₂` define birational maps, let `V_i` (`0 ≤ i ≤ T`) be the cusp
@@ -1585,7 +1874,7 @@ remark on fixed divisors). (*Values.*) `T₀(D) = 3D + 5` is the value of
 one construction; with `q_z = 7(D²/T + Dρ)`, `1 − q_z` is negative for `D = 2`, `T = 11`, `ρ = 0` (`q_z = 28/11`), which is why
 8.18c (e) and (e2) keep the undivided inequality.
 
-*NEW* (the combination), *KNOWN* ingredients (Bost–Gillet–Soulé; Gillet–Soulé; Kawamata–Viehweg). (e1): [FormalProof],
+*Sources:* ingredients (Bost–Gillet–Soulé; Gillet–Soulé; Kawamata–Viehweg). (e1): [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean` (`GlobalTheory.HSShort.Sys.Flat`).
 (e2): [FormalProof] has the inequality of (e2) for an abstract system (SlopesOfHermitianVectorBundles §6.7b (f′);
 [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/HermSysHypOneLeLambdaZero.lean`
@@ -1613,6 +1902,21 @@ for `D ≥ 1`, `T ≥ D + 1` and `n, Λ, β, δ_Z ≥ 1` (these estimates are no
 ShimuraCompactifications §7.12; AlgebraicModuliForArithmeticGeometry §9.10 and MultiplierIdealsOfPairsAndPointSeparation §§9.13, 9.13a; ThetaChainsOnDefiniteUnitaryGroups §2.1.
 
 ### 8.18f Rank growth and short vectors on the deep cover; the maximal slope at the base level; the level group and group determinants
+
+*Origin:* particular to this proof: the rank comparisons, short spanning vectors, bound for the maximal slope and cusp
+forms with nonzero group determinant that the descent from the deep covers requires.
+
+*Method of the formal proof:* (a) on each component the ranks at the shifted weights are compared by upper and lower counts
+of independent forms, the shifted weights being brought back by multiplication with one fixed nonzero form, and two
+inequalities between binomial coefficients give the growth of ranks, in [FormalProof] with the factor `2` at the double
+shift and a factor `1 − D(D + 6)/T` at the single one (`D` the dimension of the flag bundle); the factor `1 + 2q_z` at
+both shifts is this roadmap's own formulation; (b) is Minkowski: a lower bound for the norms of nonzero vectors bounds
+the maximal slope. (d) At a point of each component, an element of the level group that is unipotent modulo a split
+prime of the level and close to the identity is the identity; a ball about the point is therefore disjoint from its
+translates, interpolation gives a cusp form that is nonzero at the point and zero at its other translates, and its
+matrix of translates there is a scalar times a permutation matrix, whose determinant is not zero; the statement of
+[FormalProof] that step (v) of 8.19 uses is the non-vanishing of the group determinant at a point of every component,
+for complex cusp forms.
 
 In the setting of 8.18 and 8.18c, with `q_z` of 8.18c (e):
 
@@ -1680,9 +1984,19 @@ beyond 8.14, and the linear algebra of (2).
 (a parallel twist does not change it); `2q_z ≤ 2b/(P_S·|λ^W_j|₁)` by 8.18c (f) (ii), so (a) is the rank growth that 8.14 (iv) asks with
 `ε_rk := 2q_z ≤ 1`.
 
-*NEW* (this form). *Needs:* 8.12, 8.14, 8.18, 8.18c, 8.18e, 8.19 (a); RowTowerAndRallisIdentities §5.3; SlopesOfHermitianVectorBundles §4.2; ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
+*Needs:* 8.12, 8.14, 8.18, 8.18c, 8.18e, 8.19 (a); RowTowerAndRallisIdentities §5.3; SlopesOfHermitianVectorBundles §4.2; ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
 
 ### 8.19 The slope of the step lattices
+
+*Origin:* particular to this proof: a lower bound for the slope of the lattice of integral cusp forms of each step, whose
+main term is the degree of the flat line and whose error comes from the average arithmetic volume theorem through deep
+covers and descent.
+
+*Method of the formal proof:* an assembly of the earlier sections: on the deep cover the uniform lower bound for slopes and
+the flat twist bound the slope at the shifted weight, the change of weight by a short section transfers the bound to the
+weight of the step with a loss proportional to the rank defect, the descent to the base costs `2·log rd(𝕃_Y)`, and the
+passage from the type part to the good part uses the slope inequality for an idempotent with bounded denominator on a
+non-good part of small relative rank; the comparison of the model norm with the Petersson norm gives the stated form.
 
 For `1 ≤ j ≤ m` let `M_{λ^W_j}` be the lattice of all integral
 cusp forms (integral at every integral framed point) on the Shimura variety of `U(W_j)` (signature
@@ -1785,7 +2099,7 @@ of `M^W_j` with the model norm differs from that with the Petersson norm by `2·
 *Check.* `δ_bad ≤ 3e^{−x^{ε/(7J)}}` is the value that BesselPoincareSeriesAndGramBounds §5.23 (iii) gives at the parameters of one construction; the loss of (v) is
 then `o(b)`, not `O(1)`, which is all that 8.19 needs.
 
-*NEW*. (a): [FormalProof],
+*Sources:* (a): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/CuspFormLatticeSlopeSqGoodCoverLeCoreStatement.lean`
 (`GlobalTheory.T.cuspFormLattice_slope_sq_goodCover_le_core`),
 `Development/AbelianVarietyTheory/Proofs/DivisorProofs/SlopeSqSubLeOfDifferentSmul.lean`
@@ -1810,6 +2124,18 @@ for `j = m` and for `j < m`, in place of `1` and `3/2`:
 §§1.2, 2.1, 2.2, 2.6; ShimuraCompactifications §7.22; AutomorphicBundles §5.3 and DiscreteSeriesCoefficientsAndAutomorphicMetrics §10.2.
 
 ### 8.19a Theta series generate the integral forms, uniformly on subspaces
+
+*Origin:* particular to this proof: at every finite place the lattice of integral cusp forms is generated by products of
+theta series up to a controlled length, uniformly on subspaces, by jets along a generic zero-cycle and an arithmetic
+Bézout bound.
+
+*Method of the formal proof:* at each finite place the uniform bound on subspaces is turned into a bound for a lattice
+index on every subspace, and a descent lemma for lattices, applied over the ring of the generic zero-cycle
+`s_1 = ⋯ = s_n = 0` over the Gauss point of the space of coefficients, bounds that index by `e·dim V′` plus four local
+terms: the index of the restricted short theta series in the integral functions on the zero-cycle and the valuations of
+the boundary form along it, each times `binom(T − 1, n)`, the Gauss content of a determinant of regularity terms, and the
+length of the quotient modulo the deep cusp forms; the sums over the places of these terms are then bounded by the two
+height inequalities of (I8), by (I2) to (I4) with transference, and by (I5).
 
 Fix a step `j`,
 the Shimura variety of `U(W_j)` (signature `(p, q)`, `p + q = r`) with the level of 8.19, its flag bundle, of dimension
@@ -1989,7 +2315,7 @@ bound for `sup|η|` holds for a suitable `C_f` and restricts nothing: the bounda
 second height inequality, with its constant `P_et ≤ P`. For the chain, `C_G = 1041·Z`, `A_G = 2`, `C_f = 200000`, `A_f = 2`,
 `A_L = 2`.
 
-*NEW*. The frame and the conclusion: [FormalProof],
+*Sources:* The frame and the conclusion: [FormalProof],
 `Development/AbelianVarietyTheory/Definitions/HeightFunctions/ConclOfInputs4.lean` (`GlobalTheory.FinalJoin.concl_of_inputs4`),
 `Formalism/SharpRestriction/Divisibility/WeightFamilies.lean` (`Formalism.MainNotions.WeightFamilies.Wt.size`). (N0), the
 number `f_E`: [FormalProof],
@@ -2010,6 +2336,18 @@ AbelianSchemesAndArithmeticModuli A2.4 (for a principal polarisation `π_*L` is 
 SlopesOfHermitianVectorBundles §§1.2, 1.7, 4.1–4.2; GeometryOfNumbersAndQuadraticArithmetic §4.4 (transference).
 
 ### 8.19a′ The depth of the theta lattices
+
+*Origin:* particular to this proof: a valuative bound at every integral point, including points of semi-abelian
+reduction, for some theta rule of a given weight, by a chart depth plus a term `c·φ′_C(y)` from the monodromy form, with
+its input (d) on the translates of the pull-back of the theta function by an element of `𝒪_E`; nearest published result: Pazuki (2012), after Bost and David, the integral spanning of the sections of `L^{⊗r²}` by
+translates of the pull-back of a theta section by `[r]`, with a controlled index.
+
+*Method of the formal proof:* a section with integral expansion on the uniformisation is matched to a given integral germ
+up to a scalar of small valuation, written as an integral combination of translates of the pull-back of the theta
+function by `α` (with `α·ᾱ = N`) by points killed by `ᾱ`, and an ultrametric choice selects one translate whose jet has
+controlled valuation; at the type primes eigenfunctions of translations by torsion are used, and the jet is identified
+with a theta rule times an integral factor. The published integral spanning treats the multiplication by an integer and
+bounds the index globally through slopes, with no jets, no expansion on a uniformisation and no monodromy term.
 
 In the setting of 8.19a:
 
@@ -2094,7 +2432,10 @@ over the copies of the translates by `x_b` of the `a^*s_b` (each multiplied by a
 Over `ℚ̄`, for a principal polarisation by a symmetric ample `L` and an even `r ≥ 2`, the translates of the pull-back by `[r]` of
 a theta section, by representatives of `A[r²]/A[r]`, form a basis of `H⁰(A, L^{⊗r²})` (ArakelovGeometryAndAbelianHeights §5.7);
 (i) and (ii) are forms of this for the pull-back by an element of `𝒪_E`, with valuations, on a uniformised model. Their
-proofs are not given here.
+proofs are not given here. The integral form of the spanning, by the translates of the pull-back by `[r]` with a
+controlled index and with bad reduction allowed, is Pazuki (2012), Proposition 2.5, Theorem 3.4 and Proposition 5.3,
+after Bost and David; it is published for `[r]` only, not for an `α ∈ 𝒪_E` with `α·ᾱ = N`. Valuations of theta functions
+on a uniformisation are studied in Foster, Rabinoff, Shokrieh and Soto (2018).
 
 *Route.* (The comparisons of `φ_C` and `φ′_C`: for a family `(x_b)` spanning a finite-index submodule, `β ↦ Σ_b β(x_b, x_b)` is an
 admissible functional (positive on a nonzero positive semidefinite `β`, whose radical is an `𝒪_E`-submodule), with value
@@ -2147,8 +2488,8 @@ third steps are not given here.
 *Check.* With the route of (c) one has also `v(η)(y) ≥ 2i_η·φ_C(y)` when the classes of the torsion points of every
 monomial span the character lattice modulo `R⁴`; this form is this roadmap's own and is not used.
 
-*NEW* (this quantitative form); *KNOWN* ingredients (the basis by translates over an algebraically closed field, Mumford
-1966, §1; the Weil pairing as a commutator; the cokernel bound of the Hodge–Tate map, Fargues); (d) is *NEW*. (b) (i):
+*Sources:* ingredients (the basis by translates over an algebraically closed field, Mumford
+1966, §1; the Weil pairing as a commutator; the cokernel bound of the Hodge–Tate map, Fargues). (b) (i):
 [FormalProof], `Development/AbelianVarietyTheory/Proofs/JetHarmonics/IInfThetaGeneratorsLeLocalDepthPrimeToLevelStatement.lean`
 (`GlobalTheory.T.iInf_theta_generators_le_local_depth_prime_to_level`); (b) (ii): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/JetHarmonics/ThetaGeneratorsLeastValueOverLevelPrimeStatement.lean`
@@ -2173,6 +2514,16 @@ ArakelovGeometryAndAbelianHeights §5.7 (the classical case of (d), not an input
 §§4.8c, 4.18 (c), 4.19f (o); ThetaChainsOnDefiniteUnitaryGroups §2.1.
 
 ### 8.19a″ Spanning by short theta series and base-point freeness
+
+*Origin:* adapted from the basis problem and from the jet form of Lefschetz's theorem for theta functions: spanning by
+short theta series, at every frame a theta rule that is not zero there, and closure under products, at the levels of the
+chain.
+
+*Method of the formal proof:* for (b₀), products of three translates of `ϑ` generate the jets of order one at a point, as
+in Lefschetz's theorem on the third power of a principal polarisation, and by induction sections of higher powers realise
+every jet of bounded order; so for `3·deg P + 2 ≤ M` a section of the `M`-th power with the quasi-periodicity of `𝔐·L`
+has a nonzero jet against `P`, it is a finite combination of the translates of `∏_b ϑ(z_b)` by points `y` with
+`M·y_b ∈ 𝔐·L`, and by linearity of jets one of these translates has a nonzero jet; (b) follows frame by frame.
 
 In the setting of
 8.19a:
@@ -2205,7 +2556,7 @@ theta sections at the torsion points of level `g₀g₁` against harmonic polyno
 order `DF(w)` of these sections at a point are not all annihilated by a nonzero harmonic polynomial of that degree, by
 (b₀), so some rule is nonzero; a semilinear functional vanishing on the generators vanishes on `Th^{all}(w)`.
 
-*NEW* (this form); *KNOWN* in kind (the basis problem through the doubling method; theta bases). (b): [FormalProof],
+*Sources:* (the basis problem through the doubling method; theta bases). (b): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/ExistsThetaGeneratorReadingNeZeroAllFramesStatement.lean`
 (`GlobalTheory.T.exists_thetaGenerator_reading_ne_zero_all_frames`, which takes one named statement as a hypothesis); (b₀): [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/CuspFormEvaluations/ExistsLevelTranslateJetNeZeroStatement.lean`
@@ -2213,6 +2564,15 @@ order `DF(w)` of these sections at a point are not all annihilated by a nonzero 
 AbelianSchemesAndArithmeticModuli A5.3–A5.4 (the theta function of a principal polarisation at a complex point).
 
 ### 8.19a‴ Lengths of a quotient through functionals with controlled heights
+
+*Origin:* adapted from the product formula for a nonzero determinant with Hadamard's inequality: a bound for the lengths
+of a quotient lattice at all finite places in terms of heights of spanning vectors and of functionals; elementary.
+
+*Method of the formal proof:* the determinant `Dt = det(c_i(θ_j))` is not zero because the common kernel of the `c_i` is
+`𝕂₁ ⊗ W`; at a place `w | 𝔩` the forms shifted by `s_i(w) + e(w|𝔩)·be(𝔩)` are integral on `M`, so the length at `w` of
+`Q/⟨θ⟩` is at most `ord_w Dt + Σ_i s_i(w) + ρ·e(w|𝔩)·be(𝔩)`; lengths descend to `𝔩` and are averaged over `w | 𝔩` with the
+residue degrees; globally the product formula replaces `Σ_w ord_w Dt·log Nw` by the archimedean absolute values of `Dt`,
+which Hadamard's inequality on the columns bounds.
 
 Let
 `𝕂 ⊂ 𝕂₁` be number fields, `V` a finite-dimensional `𝕂`-space, `M ⊂ V` a lattice, `W ⊂ V` a subspace, `Q := M/(M ∩ W)`,
@@ -2236,9 +2596,28 @@ columns, `log|Dt|_σ ≤ −Σ_i a_i(σ) + Σ_j log S_σ(θ_j) + ρ·C_arch + (�
 *Check.* `nn` may be negative; only `nn + ρ·be ≥ 0` holds, so the form with positive parts,
 `Σ_𝔩 (length_𝔩 − ρ·be(𝔩))⁺·ϱ(𝔩) ≤ ρ(B_θ + C_arch + B_deg + ½·log ρ)`, does not follow: it would need the extra term `ρ·Σ_𝔩 be(𝔩)ϱ(𝔩)`.
 
-*NEW* (statement; elementary). *Needs:* Mathlib (`Matrix.det`; the product formula `NumberField.prod_abs_eq_one`); Tau Ceti `OrthonormalBasis.norm_det_le_prod_norm` (Hadamard's inequality).
+*Sources:* [FormalProof], `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/Rationality/QCoreSt.lean`
+(`ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.QuotCoreStatement`, the statement, which takes the descent of
+lengths `ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.LenDescentStatement` as a hypothesis),
+`ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/Rationality/GlobSt.lean`
+(`ReciprocityTheory.ChartRestriction.G.FreeQuotientRank.GlobalQuotStatement`, the global half, for a matrix in place of
+`(c_i(θ_j))`, with the term `(ρ/2)·log ρ`).
+*Needs:* Mathlib (`Matrix.det`; the product formula `NumberField.prod_abs_eq_one`); Tau Ceti `OrthonormalBasis.norm_det_le_prod_norm` (Hadamard's inequality).
 
 ### 8.19b Denominators of CM values at every prime
+
+*Origin:* adapted from the algebraicity theorems of Damerell (1970) and Shimura and the integrality method of Katz (1976)
+and Katz (1978) for CM values of Eisenstein series: an explicit lower bound for the valuations of normalised class terms
+and toric sums at every prime, independent of the auxiliary set `Q`.
+
+*Method of the formal proof:* for (i), a class term is reduced to the lattice sum of one lattice trivial above `l`; its
+derivatives are jets, in the conjugate direction, of the Hilbert–Eisenstein series of a lattice of rank two over `𝒪_F` at
+the diagonal point `ϑ₀`; the conjugate direction is replaced by a holomorphic one built from `G₂` and a Weierstrass value
+at a torsion point of order prime to `l`, at the cost of powers of `W`; on the diagonal the holomorphic jets are values of
+elliptic modular forms with expansions of controlled valuation at `l`, bounded at `ϑ₀` through the integrality of
+`j(ϑ₀)` after division by a power of a twelfth root of `Δ(ϑ₀)`. The usual proofs work on the Hilbert modular variety, with
+nearly holomorphic derivatives or with the splitting of the Hodge filtration at CM points; here the CM type induced from
+`K` puts the CM point on the diagonal and everything is done with elliptic modular forms.
 
 Let `E` be a CM field, abelian over `ℚ`, unramified over its maximal real subfield `F` (`[F:ℚ] = f ≥ 2`) at all finite places, in
 which `2` is ramified, containing `K = ℚ(√−D)` for a prime `D > 4`, with the CM type `Φ` induced from `K` and `∏_{τ∈Φ}τ(ζ) = 1` for
@@ -2271,8 +2650,8 @@ in particular the bound does not depend on `Q`, and at `l ∤ 𝔣·d_E` not on 
 `n(l) = 2sf·c(l) + |κ|·(2c(l) + 1 + [l = 2] + ½[l = D])` at the primes with `c(l) ≠ 0`:
 `Development/AbelianVarietyTheory/BlockTheory/DivisorBase/VpBounds.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.ClassZetaValuationBounds.ToricDenominator`), derived there, from three named
-statements that it takes as hypotheses, by `GlobalTheory.T.toric_denominator_of_zeta_denominators`
-(`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricDenominatorOfZetaDenominatorsStatement.lean`); the smaller exponent above is this
+statements that it takes as hypotheses, by `GlobalTheory.ToricDenomRow.toricDenominator`
+(`Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricDenominatorOfZetaDenominators.lean`); the smaller exponent above is this
 roadmap's, by the route. The uses (8.19d (iii)) need only that the exponent does not depend on `Q`.
 
 *Route.* (i): (0) *Reduction to one lattice.* Fix `l` and `Q` prime to `l`. Every class of `Pic(𝒪_𝔠)` contains an idele `y` with
@@ -2370,7 +2749,7 @@ the denominator `2` where `G₂^*/ϖ_K²` alone has `4`. The isogeny formula of 
 lose. Without the condition on the primes of `𝔣` the units of `𝒪_𝔠` can be larger: for `F = ℚ(√7)`, `E = F(i)` and `𝔣` a prime of
 `F` above `2` split in `E`, `i ∈ 𝒪_𝔣^×`.
 
-*KNOWN* in kind (Damerell 1970, §2, Theorem 1, p. 290: algebraicity of the values of Hecke `L`-functions of an order of an imaginary quadratic field, normalised by the periods; Shimura; Katz); the explicit bound at every prime is *NEW* in shape. *Needs:* 8.5; LFunctions Layer 6 (continuation of the lattice sums); for the functional equation of the partial zeta
+*Sources:* (Damerell 1970, §2, Theorem 1, p. 290: algebraicity of the values of Hecke `L`-functions of an order of an imaginary quadratic field, normalised by the periods; Shimura; Katz). *Needs:* 8.5; LFunctions Layer 6 (continuation of the lattice sums); for the functional equation of the partial zeta
 functions of a totally real field, LFunctions Layer 2 (the partial zeta functions) and Layer 5 (the orthogonality
 reconstruction and the functional equation of a finite-order Hecke character) at the trivial modulus of `F`, and for their
 rationality at `1 − 2s` IntegralIwasawaTheory §6.0 (the Siegel–Klingen rationality, for the Hilbert class field of `F`);
@@ -2385,6 +2764,20 @@ for `G₂^*` (a step of this roadmap not given here, see the route), and Modular
 the partial zeta values of a totally real field at negative integers and the Deligne–Ribet congruences between them).
 
 ### 8.19c Galois equivariance of toric ratios
+
+*Origin:* adapted from Goldstein and Schappacher (1981), as presented in Goldstein (1981–1982), Proposition 1.8,
+Théorèmes 2.1, 2.2 and Corollaires 2.5, 2.6: the action of the automorphisms of `ℂ` on normalised Eisenstein numbers at
+torsion points of CM lattices and on normalised partial Hecke `L`-values of an imaginary quadratic field; here for the
+ratios of twisted toric sums over the class group of an order of a CM field `E ⊃ K` with the CM type induced from `K`,
+the lattice sums of `E` being reduced to values of elliptic modular forms at the CM point of `K`; for the critical values
+of Hecke `L`-functions of CM fields: Shimura (1975) and Katz (1978) (algebraicity), Blasius (1986) (Deligne's conjecture
+for Hecke characters of CM fields).
+
+*Method of the formal proof:* a twisted toric sum divided by the untwisted one, a nonzero Hecke `L`-value, is algebraic; a
+transport statement for single normalised lattice sums (which takes as a hypothesis the transport of the Weierstrass data
+of `𝒪_K`, supplied by the main theorem of complex multiplication), applied to numerator and denominator, cancels the
+periods and the factors depending on the idele and leaves the inverse of the
+conjugated character at its class.
 
 Let `E` be a CM field, unramified over its maximal real subfield `F` at all finite places, containing an imaginary quadratic field `K = ℚ(√−D)` (`D > 0` arbitrary), with the CM type `Φ` induced from `K`; let `s`, `κ`, the base conductor `𝔣`, `Q`, `χ`, the class terms, the twisted toric sums and `ϖ_K` be defined as in 8.19b, with all `κ_τ ≥ 1` (that `E` is abelian over `ℚ`, that `D` is prime and that `2` is ramified in `E` is not asked here). Suppose `T(χ; 𝔣) ≠ 0`. Then for every character `ψ` of `Pic(𝒪_{𝔣Q})` the ratio `T(χψ; 𝔣Q)/T(χ; 𝔣)` is algebraic; for every automorphism
 `g` of `ℂ` fixing `τ(E)` for all `τ ∈ Φ` and the values of `χ_f|·|^s`, with `g|_{K^{ab}} = art_K(t)^{−1}` for a finite idele `t` of
@@ -2404,13 +2797,17 @@ the ratio the periods `ϖ_K, ϖ₁`, the factor `|t|^{−|κ|}` and `χ_f(t)|t|^
 *Check.* `ψ = 1`: the identity says that `g` fixes `T(χ; 𝔣Q)/T(χ; 𝔣)`, the product of the Euler corrections of 8.19d (i) (not `1`
 in general: `1/2` for one place with `Y = 1`, `N𝔮 = 2`, `s = 1`), whose entries are values of `χ`. `g` trivial on `K^{ab}` (`[t] = 1`): the ratio is fixed by every `g` fixing `ψ`'s values.
 
-*KNOWN* (Shimura's reciprocity law, here through the main theorem of complex multiplication of ComplexMultiplicationAndExplicitReciprocity §2.2; the algebraicity of the normalised lattice sums of an order of an imaginary quadratic field is Damerell 1970, §2, Theorem 1, p. 290). [FormalProof],
+*Sources:* (Shimura's reciprocity law, here through the main theorem of complex multiplication of ComplexMultiplicationAndExplicitReciprocity §2.2; the algebraicity of the normalised lattice sums of an order of an imaginary quadratic field is Damerell 1970, §2, Theorem 1, p. 290). [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/IsValueTiedOfIsToricElt.lean` (`GlobalTheory.ToricRational.RatioConj`), derived
 there from `GlobalTheory.IndefiniteRowSideFullHecke.ToricSymbols.ToricRatioConjugates` by
 `GlobalTheory.ToricRatioBridge.ratioConj_of_toricRatioConjugates`,
-`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RatioConjOfToricRatioConjugates.lean`. [FormalProof] states it for the
+`Development/AbelianVarietyTheory/Proofs/DivisorProofs/RatioConjOfToricRatioConjugates.lean`. `RatioConj` is stated for the
 fields of its hosts only (`Formalism.BasicNotions.Host`, `Formalism/LocalRingCardinality/DataHost.lean`: `K = ℚ(√−d)` with `d` a
-prime `≡ 7 (mod 16)`, `E` abelian over `ℚ`); the form for every `E ⊃ K` above is this roadmap's own.
+prime `≡ 7 (mod 16)`, `E` abelian over `ℚ`); `ToricRatioConjugates`, in
+`Development/AbelianVarietyTheory/BlockTheory/DivisorBase/ToricSymbols.lean`, is the form above for every `E ⊃ K`, with
+`T(χ; 𝔣) ≠ 0` among its conclusions rather than its hypotheses, and [FormalProof] proves it by
+`GlobalTheory.ToricTransport.toricRatioConjugates_of_transport` from the transport statement for twisted toric sums
+(`GlobalTheory.ToricTransport.TwistedTransport`).
 *Needs:* 8.19b (its steps (0)–(4)); ComplexMultiplicationAndExplicitReciprocity §2.2 (the normalized idele and torsion
 dictionary, the main theorem of complex multiplication in adelic form with the arithmetic Artin map, applied to the
 Weierstrass model `y² = 4x³ − g₂x − g₃` of `ℂ/𝒪_K`); the conjugation form of the `q`-expansion principle for families of
@@ -2419,6 +2816,19 @@ ComplexMultiplicationAndExplicitReciprocity §2.3, level functions with their se
 weight `w` divided by `ω^w`); ImaginaryQuadraticClassNumber H3.1 (the CM dictionary).
 
 ### 8.19d Toric sums: Hecke's formula, the Euler-factor relation, and the twisted values
+
+*Origin:* adapted from Hecke's formula for the `L`-function of a ring class character as a sum of lattice sums over the
+classes (for an order of an imaginary quadratic field, Damerell (1970), §6): (i) and (ii), with an Euler-factor relation
+when split places are added to the conductor; (iii), the integrality of the partial sums as polynomials in the twisting
+roots of unity, is particular to this proof.
+
+*Method of the formal proof:* for (i), each lattice sum over a class of `Pic(𝒪_𝔠)` is entire in a shift `σ`; for
+`Re(s + σ) > 1` the pairs of a class and a lattice point modulo units correspond to the integral ideles modulo
+`𝒪̂_𝔠^×`, whose generating series is the Euler product with the factor `(1 − Yw)(1 − Y^{−1}w) + (N𝔮 − 1)w²` at the
+places of `Q` above which `χ` is unramified; the identity principle and `σ = 0` give the formula. (ii) follows from (i) for `Q` and for `Q ∖ {𝔮}`,
+and from (i) at `Q = ∅` with the nonvanishing of `Λ(s, χ)`; the relation of (iii) follows from (i) applied to `Q` and to
+`Q` without the pair, after the sum over the fibres of `Pic(𝒪_𝔠) → G_Q` is written as a toric sum of `χ` times the Hecke
+character attached to `ψ` by reciprocity.
 
 For (i) and (ii) let `E` be a CM field, unramified over its maximal real subfield `F` at all finite places, with a CM type `Φ`, and let
 `s ≥ 1`, `κ`, the base conductor `𝔣`, `Q`, `χ`, `𝔠 = 𝔣·∏_{𝔮∈Q}𝔮`, the class terms and the twisted toric sums be defined as in 8.19b (that `E`
@@ -2480,9 +2890,9 @@ with `n − 1 ≡ −1`). These are the data of the second kind of SelmerLengthB
 
 *Checks.* (ii) with `Y = 1`, `N𝔮 = 2`, `w = ½`: the factor is `(½)² + ¼ = ½`; as `s → ∞` the factor tends to `1`. The first kind does not follow when `N₀ > 0`: in one variable `Dd = X² + ℓ` and `g = ℓ^{N₀} − ℓ^{N₀−1}X²` have the properties of the second kind, while `Dd·g = −ℓ^{N₀−1}X⁴ + ℓ^{N₀+1}` has no coefficient of valuation `≤ N₀` on a monomial of degree `≤ 2`.
 
-*KNOWN* (i), (ii) in kind (Hecke: the `L`-function of a ring class character as a sum of Epstein zeta functions; for an order
+*Sources:* (i), (ii) (Hecke: the `L`-function of a ring class character as a sum of Epstein zeta functions; for an order
 of an imaginary quadratic field, the Hecke zeta function as a sum, over the proper ideal classes of the order, of lattice
-sums is Damerell 1970, §6, p. 300), *NEW* (iii).
+sums is Damerell 1970, §6, p. 300).
 (i): [FormalProof], `Development/AbelianVarietyTheory/Proofs/DivisorProofs/ToricSumEqHeckeLValueMulAuxiliaryFactorsStatement.lean`
 (`GlobalTheory.T.toric_sum_eq_hecke_L_value_mul_auxiliary_factors`).
 *Needs:* 8.19b, 8.19c, CongruenceModulesOfThetaLifts §7.8; LFunctions Layer 6 (Grössencharacters); ClassFieldTheory §11.1 (global Artin
@@ -2530,7 +2940,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-- §§0.5, 5.3 (automorphic bundles and their canonical extension). Used in the setting of 8.11–8.19, 8.11, 8.14, 8.15, 8.18, 8.19.
+- §§0.5, 5.3 (automorphic bundles and their canonical extension), used in the setting of 8.11–8.19, 8.11, 8.14, 8.15, 8.18, 8.19; §12.15 (Fourier–Jacobi expansion with vector coefficients: the coefficients, on the abelian torsor over a cusp of a neat PEL toroidal model, of a section of the canonical extension of the bundle of a finite projective representation), used in 8.19a.
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
@@ -2643,7 +3053,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocityPartII
 
-- §1.4 (integral polarised CM families), §4.6 (the Chowla–Selberg formula; the Faltings height of a CM elliptic curve). Used in 8.5, 8.11.
+- §1.4 (integral polarised CM families), §4.6 (the Chowla–Selberg formula; the Faltings height of a CM elliptic curve; the general theorem named in the `*Corollary of:*` line of 8.5, for 8.5 (a) and, through (a), (c)). Used in 8.5, 8.11.
 
 ### From TauCetiRoadmap.LFunctions
 
@@ -2754,7 +3164,7 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ### From DiscreteSeriesCoefficientsAndAutomorphicMetrics, a sub-roadmap of this family
 
-- §6.8a (Poincaré series on products of the domains of `U(p, q)`, with `f = |Φ|`, `n = N`, `s = e_P`), §10.1 (the invariant metric of an automorphic vector bundle is good along the boundary relative to the canonical extension), §10.2 (Hirzebruch–Mumford proportionality, also for flag bundles). Used in 8.11, 8.15, 8.15b, 8.15e, 8.17, 8.18, 8.18a, 8.18c, 8.19.
+- §6.8a (Poincaré series on products of the domains of `U(p, q)`, with `f = |Φ|`, `n = N`, `s = e_P`), §10.1 (the invariant metric of an automorphic vector bundle of a representation trivial on the unipotent radical of the parabolic subgroup stabilising a point of the compact dual and unitary on `K_∞` is good along the boundary relative to the canonical extension), §10.2 (Hirzebruch–Mumford proportionality for such representations, also for flag bundles). Used in 8.11, 8.15, 8.15b, 8.15e, 8.17, 8.18, 8.18a, 8.18c, 8.19.
 
 ### From ThetaKernelsForUnitaryDualPairs, a sub-roadmap of this family
 
@@ -2775,14 +3185,16 @@ It leaves to other roadmaps, by section: slopes, Bost's slope inequality and the
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths cited from it are relative to its directory `src/` (`src/Development/…`, `src/Formalism/…`). The targets marked *NEW* specify its mathematics.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The file paths cited from it are relative to its directory `src/` (`src/Development/…`, `src/Formalism/…`). The targets whose origin is particular to this proof or adapted from published work specify its mathematics.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - G. Shimura; P. Deligne; J. Milne, *Canonical models of (mixed) Shimura varieties and automorphic vector bundles* (1990); M. Harris, *Arithmetic vector bundles and automorphic forms on Shimura varieties I*, Invent. Math. 82 (1985). N. Katz, *p-adic interpolation of real analytic Eisenstein series*, Ann. of Math. 104 (1976); D. Blasius: 8.19b.
 - J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. Graev; I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975); I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977); A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981); D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups* (2011): 8.19.
 - L. Kronecker; M. Lerch, *Sur quelques formules relatives au nombre des classes*, Bull. Sci. Math. 21 (1897); S. Chowla and A. Selberg, *On Epstein's zeta-function*, J. reine angew. Math. 227 (1967), pp. 86–110 (§6, (39), p. 97; §12, pp. 109–110); M. Deuring, *Die Klassenkörper der komplexen Multiplikation* (1958); P. Colmez, *Périodes des variétés abéliennes à multiplication complexe*, Ann. of Math. 138 (1993): 8.5, 8.11.
-- J.-B. Bost, *Périodes et isogénies des variétés abéliennes sur les corps de nombres*, Séminaire Bourbaki 795 (1996); É. Gaudron and G. Rémond (2014): 8.15, 8.16. D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977): 8.15, 8.18. G. Faltings and C.-L. Chai, *Degeneration of abelian varieties* (1990) (the minimal compactification, 8.14); K.-W. Lan, *Arithmetic compactifications of PEL-type Shimura varieties* (2013): 8.11, 8.14, 8.15, the setting of 8.11–8.19.
-- H. Gillet and C. Soulé, *An arithmetic Riemann–Roch theorem*, Invent. Math. 110 (1992); A. Abbes and T. Bouche, *Théorème de Hilbert–Samuel arithmétique*, Ann. Inst. Fourier 45 (1995); S. Zhang, *Positive line bundles on arithmetic varieties*, J. Amer. Math. Soc. 8 (1995): 8.15–8.18. J.-B. Bost, H. Gillet and C. Soulé, *Heights of projective varieties and positive Green forms*, J. Amer. Math. Soc. 7 (1994): 8.18. A. Moriwaki, *Continuity of volumes on arithmetic varieties*, J. Algebraic Geom. 18 (2009); X. Yuan, *Big line bundles over arithmetic varieties*, Invent. Math. 173 (2008): 8.15, 8.17.
-- L. Fargues (2011), the Hodge–Tate map of `p`-divisible groups over `𝒪_C`: 8.15. M. Raynaud, *Schémas en groupes de type (p, …, p)* (1974): 8.15. W. Schmid, *Variation of Hodge structure: the singularities of the period mapping* (1973), the nilpotent orbit theorem: 8.15. P. Scholze and J. Weinstein (moduli of `p`-divisible groups); J. Anschütz and A.-C. Le Bras, *Prismatic Dieudonné theory*.
-- D. Mumford, *On the equations defining abelian varieties. I*, Invent. Math. 1 (1966), pp. 287–354 (§1: Proposition 1, p. 291; Proposition 3 and its proof, pp. 295–296; Theorem 2, p. 297): 8.19a′.
-- U. Angehrn and Y.-T. Siu (1995): 8.14, 8.18c; J. Kollár, *Singularities of pairs* (1997) (the two-point separation for klt pairs): 8.14, 8.18c; A. M. Nadel (1990); G. Kempf (descent of linearised bundles); R. Dedekind and G. Frobenius (group determinant): 8.14. M. Koecher, *Zur Theorie der Modulformen n-ten Grades* I, II (1954–1955): Koecher's principle, 8.11–8.19, 8.19a. Y. Kawamata; E. Viehweg: 8.18. L. Hörmander (1965); H. Skoda (1972); G. Tian (1990): 8.18, 8.19a. H. Donnelly and C. Fefferman (1983): 8.18a. L. Moret-Bailly (key formula); M. Kneser (strong approximation): 8.16.
-- G. Shimura; R. Damerell, *L-functions of elliptic curves with complex multiplication I*, Acta Arith. 17 (1970), pp. 287–301 (§2, Theorem 1, p. 290; §6, p. 300); E. Hecke: 8.19b–8.19d. C. L. Siegel; H. Klingen: 8.19b. R. Weissauer; S. Böcherer (the basis problem by the doubling method): 8.17a, 8.19a. Published relatives of 8.15–8.17: K. Köhler; J. Burgos Gil, J. Kramer and U. Kühn; P. Hörmann; J. Bruinier, B. Howard, S. Kudla, M. Rapoport and T. Yang.
+- J.-B. Bost, *Périodes et isogénies des variétés abéliennes sur les corps de nombres*, Séminaire Bourbaki 795, Astérisque 237 (1996), pp. 115–161 (Proposition 4.3): 8.14, 8.15, 8.16; É. Gaudron and G. Rémond (2014): 8.15, 8.16. D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977): 8.15, 8.18. G. Faltings and C.-L. Chai, *Degeneration of abelian varieties* (1990) (the minimal compactification, 8.14); K.-W. Lan, *Arithmetic compactifications of PEL-type Shimura varieties* (2013): 8.11, 8.14, 8.15, the setting of 8.11–8.19.
+- H. Gillet and C. Soulé, *An arithmetic Riemann–Roch theorem*, Invent. Math. 110 (1992); A. Abbes and T. Bouche, *Théorème de Hilbert–Samuel arithmétique*, Ann. Inst. Fourier 45 (1995); S. Zhang, *Positive line bundles on arithmetic varieties*, J. Amer. Math. Soc. 8 (1995): 8.15–8.18. J.-B. Bost, H. Gillet and C. Soulé, *Heights of projective varieties and positive Green forms*, J. Amer. Math. Soc. 7 (1994): 8.18, 8.18e. A. Moriwaki, *Continuity of volumes on arithmetic varieties*, J. Algebraic Geom. 18 (2009); X. Yuan, *Big line bundles over arithmetic varieties*, Invent. Math. 173 (2008): 8.15, 8.17.
+- L. Fargues (with Y. Tian), *La filtration canonique des points de torsion des groupes p-divisibles*, Ann. Sci. Éc. Norm. Sup. (4) 44 (2011), pp. 905–961 (Théorème 3; Lemme 9, Propositions 7–8 and the proof of Théorème 4), the Hodge–Tate map of `p`-divisible groups over `𝒪_C`: 8.14b, 8.15, 8.19a′. M. Raynaud, *Schémas en groupes de type (p, …, p)*, Bull. Soc. Math. France 102 (1974), pp. 241–280: 8.14b, 8.15. W. Schmid, *Variation of Hodge structure: the singularities of the period mapping* (1973), the nilpotent orbit theorem: 8.15. P. Scholze and J. Weinstein (moduli of `p`-divisible groups); J. Anschütz and A.-C. Le Bras, *Prismatic Dieudonné theory*.
+- D. Mumford, *On the equations defining abelian varieties. I*, Invent. Math. 1 (1966), pp. 287–354 (§1: Proposition 1, p. 291; Proposition 3 and its proof, pp. 295–296; Theorem 2, p. 297): 8.19a′. F. Pazuki, *Theta height and Faltings height*, Bull. Soc. Math. France 140 (2012), pp. 19–49 (Proposition 2.5, Theorem 3.4, Proposition 5.3), after J.-B. Bost and S. David: 8.19a′. T. Foster, J. Rabinoff, F. Shokrieh and A. Soto, *Non-Archimedean and tropical theta functions*, Math. Ann. (2018), arXiv:1705.08212: 8.19a′. Lefschetz (the theorem on the third power of a principal polarisation): 8.19a″.
+- X. Yuan, *Positivity of Hodge bundles of abelian varieties over some function fields*, Compositio Math. 157 (2021), pp. 1964–2000; D. Yang, *Positivity of automorphic vector bundles on unitary Shimura varieties*, arXiv:2503.08119 (2025): 8.14a.
+- U. Angehrn and Y.-T. Siu (1995): 8.14, 8.18c; J. Kollár, *Singularities of pairs* (1997) (the two-point separation for klt pairs): 8.14, 8.18c; A. M. Nadel (1990); G. Kempf (descent of linearised bundles); R. Dedekind and G. Frobenius (group determinant): 8.14. M. Koecher, *Zur Theorie der Modulformen n-ten Grades* I, II (1954–1955): Koecher's principle, 8.11–8.19, 8.19a. Y. Kawamata; E. Viehweg: 8.18. L. Hörmander (1965); H. Skoda (1972): 8.18, 8.18a, 8.19a; G. Tian (1990): 8.18, 8.19a. H. Donnelly and C. Fefferman (1983): 8.18a. L. Moret-Bailly (key formula): 8.13, 8.16; M. Kneser (strong approximation): 8.16. G. W. Mackey (irreducibility criterion for induced representations): 8.18b.
+- G. Shimura; R. Damerell, *L-functions of elliptic curves with complex multiplication I*, Acta Arith. 17 (1970), pp. 287–301 (§2, Theorem 1, p. 290; §6, p. 300); E. Hecke: 8.19b–8.19d. C. L. Siegel; H. Klingen: 8.19b. R. Weissauer; S. Böcherer (the basis problem by the doubling method): 8.17a, 8.19a. R. Weissauer, *Stabile Modulformen und Eisensteinreihen*, Lecture Notes in Math. 1219 (1986); S. Böcherer, *On the basis problem for Siegel modular forms of squarefree level*, RIMS Kôkyûroku 1523 (2006), pp. 1–11: 8.17a. N. Katz, *p-adic L-functions for CM fields*, Invent. Math. 49 (1978), pp. 199–297: 8.19b, 8.19c. C. Goldstein and N. Schappacher, *Séries d'Eisenstein et fonctions L de courbes elliptiques à multiplication complexe*, J. reine angew. Math. 327 (1981), pp. 184–218; C. Goldstein, *Valeurs spéciales de fonctions L*, Séminaire de théorie des nombres de Grenoble 10 (1981–1982), exposé 4, pp. 1–14 (Proposition 1.8, Théorèmes 2.1, 2.2, Corollaires 2.5, 2.6); G. Shimura, *On some arithmetic properties of modular forms of one and several variables*, Ann. of Math. 102 (1975); D. Blasius, *On the critical values of Hecke L-series*, Ann. of Math. 124 (1986), pp. 23–63: 8.19c. Published relatives of 8.15–8.17: K. Köhler; J. Burgos Gil, J. Kramer and U. Kühn; P. Hörmann; J. Bruinier, B. Howard, S. Kudla, M. Rapoport and T. Yang.
+- J. H. Bruinier and B. Howard, *Arithmetic volumes of unitary Shimura varieties*, arXiv:2105.11274 (theorem numbers of version 3), Theorem A (Theorem 8.6.1): the exact arithmetic volume of the metrised Hodge bundle on the integral model, without level structure, of the Shimura variety of `GU(n − 1, 1)` over an imaginary quadratic field of odd discriminant, in terms of logarithmic derivatives of Dirichlet L-functions; a close precedent for 8.15d, 8.16 and 8.17.

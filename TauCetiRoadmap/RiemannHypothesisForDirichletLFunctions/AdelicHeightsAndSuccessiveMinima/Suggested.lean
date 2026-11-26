@@ -1,29 +1,19 @@
 import Mathlib
-import TauCeti.LinearAlgebra.ExteriorPower.Plucker
-import TauCeti.NumberTheory.Height.Arakelov.Subspace.Basic
 import TauCeti.NumberTheory.NumberField.CanonicalEmbedding.MixedImage
-import TauCeti.NumberTheory.NumberField.Global.Adeles.Extension
-import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 
 /-!
 # Adelic heights and successive minima: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Both headlines
-are statable at the pins, and every clause of them that the README's overview states is stated
-here.
+states the roadmap's two headline theorems against the pinned Mathlib and Tau Ceti. Both are
+statable at the pins, and every clause of them that the README's overview states is stated here.
 
-* Adelic heights (2.5a). The height `H_A` is DiophantineApproximationAndTranscendence §2.5's; this
-  roadmap writes it out under two names. For an adelic matrix `A` over a number field `K`, a
-  finite extension `L` of `K` and `x ∈ L^n`, `adelicHeight A x` multiplies the Euclidean norms of
-  `A_{v(w)} x` at the infinite places `w` of `L`, with exponent `mult(w)/[L:ℚ]`, and the max norms
-  at the finite places, with exponent `1/[L:ℚ]`, reading the components of `A` above the places of
-  `L` through Tau Ceti's extension map of adele rings `NumberField.adeleExtension`;
-  `adelicSubspaceHeight A U` is the height, for the action of `A` on Plücker coordinates, of the
-  Plücker vector of a basis of `U`. For `A ∈ GL_n(𝔸_K)` the file states the value at `A = 1` on
-  `K`-subspaces, Tau Ceti's `Submodule.subspaceHeight`, and the value `|det A|_𝔸` on the whole
-  space, the idele norm `TauCeti.GlobalNumberFields.ideleNorm` of `det A` raised to the power
-  `1/[K:ℚ]`.
+* The subspace height of a lattice with a frame over a CM field (2.5b). For a CM field `E`, a CM
+  type `Φ`, a lattice `Λ ⊆ Fin n → E` and a frame `F`, the product over `Φ` of the Gram
+  determinants of the vectors `F_τ⁻¹ τ(z_i)` divided by the index of the `𝓞 E`-span of the `z_i`
+  in `Λ ∩ span_E z`: it depends only on the `E`-span of the independent family `z` of vectors of
+  `Λ`, and it does not change when an automorphism of `Λ` is applied to the frame and to the
+  family together.
 * Minkowski's second theorem over `K` for balanced bodies (3.1). For a finitely generated
   `𝓞 K`-module `Λ ⊆ ι → K` spanning it, read through the mixed image `Submodule.mixedImage` as in
   SubspaceTheorem §4.2, the minima over `K` of SubspaceTheorem §4.2, and a compact convex
@@ -31,70 +21,67 @@ here.
   with the constant `c_K` of an integral basis, when `0` is an interior point of `B` and `B` is
   balanced over the completions.
 
-The theorems of DiophantineApproximationAndTranscendence §2.5 that 2.5a cites are not
-stated: the invariance of both heights under finite extension, the absolute Siegel lemma of Roy
-and Thunder and the dual-height identity. Nor are the elementary clauses of 2.5a that are not
-headlines: the independence of the scalar and of the Plücker vector, the height of vectors at
-`A = 1`, the comparison with the Arakelov height of points, change of basis, the height of a line
-and the case `n = 1`. The attainment of the minima over `K` by one family and their three
-comparisons with the real minima are steps of the route to Minkowski's theorem over `K` and are
-not stated either.
+The adelic heights of 2.5a and their elementary properties are statements of
+DiophantineApproximationAndTranscendence §2.5a and are not restated here; the identity of the
+height of 2.5b with the adelic subspace height raised to the power `[E:ℚ]` is a step of the route
+to 2.5b and is not stated either. The attainment of the minima over `K` by one family and their
+three comparisons with the real minima are steps of the route to Minkowski's theorem over `K` and
+are not stated.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.AdelicHeightsAndSuccessiveMinima
 
-open NumberField IsDedekindDomain Module TauCeti Set.powersetCard
+open NumberField IsDedekindDomain Module Set.powersetCard
 open scoped NNReal Pointwise Matrix
 
 /-! ## Layer 2: Adelic heights of vectors and subspaces -/
 
-/-- The **adelic height** of a vector `x ∈ L^ι` for an adelic matrix `A` over `K` (2.5a), the
-height `H_A` of DiophantineApproximationAndTranscendence §2.5 written out over `L`: the product
-over the infinite places `w` of `L` of the Euclidean norm of `A_{v(w)} x`, with exponent
-`mult(w)/[L:ℚ]`, and over the finite places of `L` of the max norm of `A_{v(w)} x` for the
-ideal-normalised absolute value, with exponent `1/[L:ℚ]`. The component `A_{v(w)}` acts on `L_w`
-through `K_{v(w)} ⊂ L_w`, the image of `A` under the extension map `𝔸_K → 𝔸_L`. For `A = 1` and
-`L = K` this is `TauCeti.height2`. -/
-noncomputable def adelicHeight {K L ι ι' : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [Fintype ι']
-    (A : Matrix ι' ι (AdeleRing (𝓞 K) K)) (x : ι → L) : ℝ :=
-  (∏ w : InfinitePlace L,
-      (∑ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).1 w * (x j : w.Completion)‖ ^ 2) ^
-        ((w.mult : ℝ) / (2 * finrank ℚ L))) *
-    ∏ᶠ v : HeightOneSpectrum (𝓞 L),
-      (⨆ i, ‖∑ j, (adeleExtension (𝓞 K) K (𝓞 L) L (A i j)).2 v *
-        algebraMap L (v.adicCompletion L) (x j)‖) ^ ((1 : ℝ) / finrank ℚ L)
+/-- A **CM type** of a number field `E` (2.5b; the partition condition of a CM type in
+ShimuraVarieties §5.1): a finite set `Φ` of complex embeddings of `E` containing exactly one of
+each pair of complex conjugate embeddings. A field with a real embedding has none. -/
+def IsCMType {E : Type*} [Field E] (Φ : Finset (E →+* ℂ)) : Prop :=
+  ∀ τ : E →+* ℂ, ComplexEmbedding.conjugate τ ∈ Φ ↔ τ ∉ Φ
 
-/-- The **adelic subspace height** of a subspace `U ⊆ L^ι` for an adelic matrix `A` over `K`
-(2.5a): the adelic height, for the matrix `Λ^p A` of the `p × p` minors of `A` acting on Plücker
-coordinates (`p = dim U`), of the Plücker vector of a basis of `U`. The zero subspace has height
-`1`. For `A ∈ GL_n(𝔸_K)` the value does not depend on the basis, by the product formula. -/
-noncomputable def adelicSubspaceHeight {K L ι : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
-    (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (U : Submodule L (ι → L)) : ℝ :=
-  adelicHeight
-    (Matrix.of fun I J : Set.powersetCard ι (finrank L U) ↦
-      (Matrix.of fun a b ↦ A (ofFinEmbEquiv.symm I a) (ofFinEmbEquiv.symm J b)).det)
-    (plucker fun i ↦ (Module.finBasis L U i : ι → L))
+/-- The **subspace height of a lattice with a frame** (2.5b), computed on a family
+`z_1, …, z_p` of vectors of `E^n`: the product over `τ ∈ Φ` of the Gram determinants
+`det(⟨F_τ⁻¹ τ(z_i), F_τ⁻¹ τ(z_j)⟩)` for the standard Hermitian product of `ℂ^n`, divided by the
+index of the `𝓞 E`-span of the `z_i` in `Λ ∩ U`, `U` the `E`-span of the `z_i`. Only the values
+of the frame `F` at `τ ∈ Φ` enter. The empty family has the value `1`. -/
+noncomputable def latticeFrameHeight {E : Type*} [Field E] [NumberField E] {n p : ℕ}
+    (Φ : Finset (E →+* ℂ)) (Λ : Submodule (𝓞 E) (Fin n → E)) (F : (E →+* ℂ) → GL (Fin n) ℂ)
+    (z : Fin p → Fin n → E) : ℝ :=
+  (∏ τ ∈ Φ, (Matrix.of fun i j : Fin p ↦
+      star ((↑(F τ)⁻¹ : Matrix (Fin n) (Fin n) ℂ) *ᵥ fun k ↦ τ (z i k)) ⬝ᵥ
+        ((↑(F τ)⁻¹ : Matrix (Fin n) (Fin n) ℂ) *ᵥ fun k ↦ τ (z j k))).det.re) /
+    ((Submodule.span (𝓞 E) (Set.range z)).toAddSubgroup.relIndex
+      (Λ ⊓ (Submodule.span E (Set.range z)).restrictScalars (𝓞 E)).toAddSubgroup : ℝ)
 
-/-- **Standard data** (2.5a). At `A = 1` the adelic subspace height of a subspace of `K^ι` is its
-absolute Euclidean height `Submodule.subspaceHeight` (DiophantineApproximationAndTranscendence
-§2.5). -/
-theorem adelicSubspaceHeight_one {K ι : Type*} [Field K] [NumberField K] [Fintype ι]
-    [LinearOrder ι] (U : Submodule K (ι → K)) :
-    adelicSubspaceHeight (L := K) (1 : Matrix ι ι (AdeleRing (𝓞 K) K)) U = U.subspaceHeight := by
+/-- **The height of a lattice with a frame is well defined** (2.5b). Let `E` be a CM field with a
+CM type `Φ`, `Λ ⊆ E^n` a lattice (a finitely generated `𝓞 E`-submodule spanning `E^n`) and `F` a
+frame. Two families `z`, `z'` of vectors of `Λ`, each linearly independent over `E`, with the same
+`E`-span, give the same height. -/
+theorem latticeFrameHeight_eq_of_span_eq {E : Type*} [Field E] [NumberField E] [IsCMField E]
+    {n p : ℕ} (Φ : Finset (E →+* ℂ)) (hΦ : IsCMType Φ) (Λ : Submodule (𝓞 E) (Fin n → E))
+    (hΛ : Λ.FG) (hspan : Submodule.span E (Λ : Set (Fin n → E)) = ⊤)
+    (F : (E →+* ℂ) → GL (Fin n) ℂ) (z z' : Fin p → Fin n → E) (hz : LinearIndependent E z)
+    (hz' : LinearIndependent E z') (hzΛ : ∀ i, z i ∈ Λ) (hz'Λ : ∀ i, z' i ∈ Λ)
+    (hzz' : Submodule.span E (Set.range z) = Submodule.span E (Set.range z')) :
+    latticeFrameHeight Φ Λ F z = latticeFrameHeight Φ Λ F z' := by
   sorry
 
-/-- **The whole space** (2.5a). For `A ∈ GL_n(𝔸_K)` and every finite extension `L` of `K`, the
-adelic subspace height of `L^ι` is `|det A|_𝔸 = ∏_v |det A_v|_v^(w_v)`, with `w_v = mult(v)/[K:ℚ]`
-at the infinite and `1/[K:ℚ]` at the finite places: the idele norm of `det A` raised to the power
-`1/[K:ℚ]`. -/
-theorem adelicSubspaceHeight_top {K L ι : Type*} [Field K] [NumberField K] [Field L]
-    [NumberField L] [Algebra K L] [Fintype ι] [LinearOrder ι]
-    (A : GL ι (AdeleRing (𝓞 K) K)) :
-    adelicSubspaceHeight (A : Matrix ι ι (AdeleRing (𝓞 K) K)) (⊤ : Submodule L (ι → L)) =
-      ((GlobalNumberFields.ideleNorm (Matrix.GeneralLinearGroup.det A) : ℝ≥0) : ℝ) ^
-        ((finrank ℚ K : ℝ)⁻¹) := by
+/-- **Automorphisms of the lattice** (2.5b). Let `E`, `Φ`, `Λ` and `F` be as in
+`latticeFrameHeight_eq_of_span_eq`, and `g ∈ GL_n(E)` with `g(Λ) = Λ`. Applying `g` to the
+family and replacing the frame by `G_τ = τ(g)·F_τ` does not change the height:
+`h_{Λ,G}(g(U)) = h_{Λ,F}(U)`. The identity uses only `hg`: `[IsCMField E]`, `hΦ`, `hΛ`, `hspan`,
+`hz` and `hzΛ` are the setting of 2.5b. -/
+theorem latticeFrameHeight_map {E : Type*} [Field E] [NumberField E] [IsCMField E] {n p : ℕ}
+    (Φ : Finset (E →+* ℂ)) (hΦ : IsCMType Φ) (Λ : Submodule (𝓞 E) (Fin n → E)) (hΛ : Λ.FG)
+    (hspan : Submodule.span E (Λ : Set (Fin n → E)) = ⊤) (F : (E →+* ℂ) → GL (Fin n) ℂ)
+    (g : GL (Fin n) E) (hg : ∀ x, (g : Matrix (Fin n) (Fin n) E) *ᵥ x ∈ Λ ↔ x ∈ Λ)
+    (z : Fin p → Fin n → E) (hz : LinearIndependent E z) (hzΛ : ∀ i, z i ∈ Λ) :
+    latticeFrameHeight Φ Λ (fun τ ↦ Matrix.GeneralLinearGroup.map τ g * F τ)
+        (fun i ↦ (g : Matrix (Fin n) (Fin n) E) *ᵥ z i) =
+      latticeFrameHeight Φ Λ F z := by
   sorry
 
 /-! ## Layer 3: Minkowski's second theorem over number fields for balanced bodies -/

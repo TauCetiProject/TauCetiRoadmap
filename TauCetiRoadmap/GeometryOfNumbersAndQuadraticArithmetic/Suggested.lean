@@ -15,9 +15,11 @@ finishes neither a layer nor the roadmap. Each theorem is a proof target marked 
 
 The statements cover the intrinsic covolume identities (Layer 0), the comparison of the real
 successive minima of the real model with the squared-norm successive minima of a positive definite
-integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite
-hermitian embedding counts (Layer 3), Ratner's three theorems, Oppenheim, Duke, Gauss's
-three-square formula, Siegel's three-square lower bound, critical-lattice existence,
+integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2),
+Landherr's theorem for hermitian forms over a quadratic extension of number fields, the Hasse
+principle and the existence of a space with prescribed localizations, in Gram matrices
+(Layer 2a), finite hermitian embedding counts (Layer 3), Ratner's three theorems, Oppenheim,
+Duke, Gauss's three-square formula, Siegel's three-square lower bound, critical-lattice existence,
 Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
 covering transference bound (Layer 4), the LLL short-vector approximation factor (Layer 5), and
 Arf's theorems over a finite field of characteristic two (Layer 6), whose `𝔽₂` instances are
@@ -137,6 +139,64 @@ theorem atomic_normal_form {M : Type*} [AddCommGroup M] [Module R M]
       ∀ x, q x = ∑ i, π ^ exponent i * blocks i ((e x).1 i) := by sorry
 
 end AtomicDVRForms
+
+/-! ## Layer 2a: Hermitian forms over a quadratic extension of number fields -/
+
+section Landherr
+open NumberField IsDedekindDomain TensorProduct Matrix
+
+/-- **Landherr's theorem, the Hasse principle** (2a.1, in Gram matrices). Let `E/K` be a
+quadratic extension of number fields with nontrivial involution `σ`, and `M, M′ ∈ GL_n(E)` with
+`σ(M)ᵀ = M` and `σ(M′)ᵀ = M′`. Then `σ(B)ᵀ M B = M′` for some `B ∈ GL_n(E)` if and only if, at
+every finite and every infinite place `v` of `K`, `(σ ⊗ 1)(B)ᵀ M B = M′` for some
+`B ∈ GL_n(E ⊗_K K_v)`. (Landherr 1936; Kirschmer 2016, Theorem 2.4.1.) -/
+theorem hermitian_congr_iff_forall_place {K E : Type*} [Field K] [NumberField K] [Field E]
+    [NumberField E] [Algebra K E] [Algebra.IsQuadraticExtension K E]
+    (σ : E →ₐ[K] E) (hσ : σ ≠ AlgHom.id K E) {n : ℕ} (M M' : Matrix (Fin n) (Fin n) E)
+    (hM : (M.map σ)ᵀ = M) (hM' : (M'.map σ)ᵀ = M') (hdet : M.det ≠ 0) (hdet' : M'.det ≠ 0) :
+    (∃ B : Matrix (Fin n) (Fin n) E, IsUnit B.det ∧ (B.map σ)ᵀ * M * B = M') ↔
+      (∀ v : HeightOneSpectrum (𝓞 K),
+        ∃ B : Matrix (Fin n) (Fin n) (E ⊗[K] v.adicCompletion K), IsUnit B.det ∧
+          (B.map (Algebra.TensorProduct.map σ (AlgHom.id K (v.adicCompletion K))))ᵀ *
+              M.map (algebraMap E (E ⊗[K] v.adicCompletion K)) * B =
+            M'.map (algebraMap E (E ⊗[K] v.adicCompletion K))) ∧
+      (∀ w : InfinitePlace K,
+        ∃ B : Matrix (Fin n) (Fin n) (E ⊗[K] w.Completion), IsUnit B.det ∧
+          (B.map (Algebra.TensorProduct.map σ (AlgHom.id K w.Completion)))ᵀ *
+              M.map (algebraMap E (E ⊗[K] w.Completion)) * B =
+            M'.map (algebraMap E (E ⊗[K] w.Completion))) := by
+  sorry
+
+/-- **Landherr's theorem, existence with prescribed localizations** (2a.2, in Gram matrices).
+Let `E/K` be a quadratic extension of number fields with nontrivial involution `σ`, `n ≥ 1`, and,
+at every finite place `v` and every infinite place `w` of `K`, a matrix `M_v ∈ GL_n(E ⊗_K K_v)`
+with `(σ ⊗ 1)(M_v)ᵀ = M_v`, such that `det M_v` is a norm `z·(σ ⊗ 1)(z)` for all but finitely
+many finite `v`. Then the `M_v` are, up to `M_v ↦ (σ ⊗ 1)(B)ᵀ M_v B`, the images of one
+`M ∈ GL_n(E)` with `σ(M)ᵀ = M` if and only if the number of places at which `det M_v` is not a
+norm is even: the product formula `∏_v η_v(det M_v) = 1`. (Landherr 1936; Kirschmer 2016,
+Remark 3.4.2 (3).) -/
+theorem exists_hermitian_localizations_iff {K E : Type*} [Field K] [NumberField K] [Field E]
+    [NumberField E] [Algebra K E] [Algebra.IsQuadraticExtension K E]
+    (σ : E →ₐ[K] E) (hσ : σ ≠ AlgHom.id K E) {n : ℕ} (hn : 1 ≤ n)
+    (Mf : ∀ v : HeightOneSpectrum (𝓞 K), Matrix (Fin n) (Fin n) (E ⊗[K] v.adicCompletion K))
+    (Mi : ∀ w : InfinitePlace K, Matrix (Fin n) (Fin n) (E ⊗[K] w.Completion))
+    (hMf : ∀ v, ((Mf v).map (Algebra.TensorProduct.map σ (AlgHom.id K _)))ᵀ = Mf v ∧
+      IsUnit (Mf v).det)
+    (hMi : ∀ w, ((Mi w).map (Algebra.TensorProduct.map σ (AlgHom.id K _)))ᵀ = Mi w ∧
+      IsUnit (Mi w).det)
+    (hfin : {v | ¬ ∃ z, (Mf v).det = z * Algebra.TensorProduct.map σ (AlgHom.id K _) z}.Finite) :
+    (∃ M : Matrix (Fin n) (Fin n) E, (M.map σ)ᵀ = M ∧ M.det ≠ 0 ∧
+      (∀ v, ∃ B : Matrix (Fin n) (Fin n) (E ⊗[K] v.adicCompletion K), IsUnit B.det ∧
+          (B.map (Algebra.TensorProduct.map σ (AlgHom.id K _)))ᵀ *
+              M.map (algebraMap E (E ⊗[K] v.adicCompletion K)) * B = Mf v) ∧
+      (∀ w, ∃ B : Matrix (Fin n) (Fin n) (E ⊗[K] w.Completion), IsUnit B.det ∧
+          (B.map (Algebra.TensorProduct.map σ (AlgHom.id K _)))ᵀ *
+              M.map (algebraMap E (E ⊗[K] w.Completion)) * B = Mi w)) ↔
+      Even ({v | ¬ ∃ z, (Mf v).det = z * Algebra.TensorProduct.map σ (AlgHom.id K _) z}.ncard +
+        {w | ¬ ∃ z, (Mi w).det = z * Algebra.TensorProduct.map σ (AlgHom.id K _) z}.ncard) := by
+  sorry
+
+end Landherr
 
 /-! ## Layer 3: Representation densities, mass and theta coefficients -/
 

@@ -58,11 +58,9 @@ line bundle, or a weighted `L²` space of forms.
   headline, hermitian metrics on holomorphic line bundles, their Chern forms and the Ricci form,
   the Bergman space of `L²` holomorphic sections with its Bergman density, and volume forms.
 
-The one-variable statements of the roadmap are steps, not headlines: the Suita inequality 4.3
-(which lacks, besides the Green function and the logarithmic capacity of a bounded planar domain,
-the Bergman kernel of a planar domain), the sub-mean-value comparison 3.7, and the Checks on the
-disc. The case of a disc in 4.1 is a weaker statement than the headline, and it is not statable
-either: it needs plurisubharmonic weights and pseudoconvex domains.
+The one-variable statements of the roadmap are steps, not headlines: the sub-mean-value comparison
+3.7 and the Checks on the disc. The case of a disc in 4.1 is a weaker statement than the headline,
+and it is not statable either: it needs plurisubharmonic weights and pseudoconvex domains.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.SingularHermitianMetricsAndL2Methods

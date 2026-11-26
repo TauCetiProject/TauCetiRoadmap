@@ -1,6 +1,6 @@
 # Roadmap: quadratic twists selected over primes
 
-**Summary.** For `m₀ ≥ 1`, a residue `a₀` prime to `m₀` and `U ≥ 4`, let `P = P(m₀, a₀; U)` be the set of primes `q ≡ a₀ (mod m₀)` with `√U < q ≤ U`. This roadmap averages Jacobi symbols `(n/q)` over the primes `q ∈ P` against short moduli and uses the averages to select auxiliary primes. Quadratic reciprocity on the class turns `(n/q)`, for `8 ∣ m₀` and `q ∤ n`, into a fixed sign times `(q/s)`, where `s` is the product of the primes `p ∤ m₀` that divide `n` to an odd power, and the prime number theorem in progressions makes the characters `q ↦ (q/s)` nearly orthogonal on `P`. From this follow a mean square of quadratic twists of short weighted prime sums over the prime moduli `q ∈ P`, its maximal form on a whole window of scales, and the selection of the primes `q` whose quadratic twists have a zero-free box near `s = 1`, a bounded logarithmic derivative at `1` and square-root cancellation in their smoothed prime sums. For a nonprincipal Dirichlet character `χ` write `G_χ(y) = Σ_{n≤y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)`.
+**Summary.** For `m₀ ≥ 1`, a residue `a₀` prime to `m₀` and `U ≥ 4`, let `P = P(m₀, a₀; U)` be the set of primes `q ≡ a₀ (mod m₀)` with `√U < q ≤ U`. This roadmap averages Jacobi symbols `(n/q)` over the primes `q ∈ P` against short moduli and uses the averages to select auxiliary primes. Quadratic reciprocity on the class turns `(n/q)`, for `8 ∣ m₀` and `q ∤ n`, into a fixed sign times `(q/s)`, where `s` is the product of the primes `p ∤ m₀` that divide `n` to an odd power, and the prime number theorem in progressions makes the characters `q ↦ (q/s)` nearly orthogonal on `P`. From this follow a mean square of quadratic twists of short weighted prime sums over the prime moduli `q ∈ P`, its maximal form on a whole window of scales, and the selection of the primes `q` whose quadratic twists have a zero-free box near `s = 1`, a bound for the logarithmic derivative at `1` and square-root cancellation in their smoothed prime sums. For a nonprincipal Dirichlet character `χ` write `G_χ(y) = Σ_{n≤y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)`.
 
 The headline theorems are these. (1) There are absolute `L, c, C` such that for `8 ∣ m₀`, `a₀` prime to `m₀` and every odd squarefree `s > 1` prime to `m₀` with `m₀s ≤ U^(1/L)`, `|Σ_{q∈P} (q/s)| ≤ C |P| (e^(−c log U/log(m₀s)) + e^(−c√log U))` and `|P| ≥ U/(3φ(m₀) log U)`; the form that keeps the term of a possible exceptional zero allows one exceptional modulus `s`. The exception-free form is this roadmap's own corollary, through the exclusion of Landau–Siegel zeros, and not a statement of [FormalProof]; the selection below uses only the form with one exceptional modulus. (2) Twist selection: fix `δ₀ ∈ (0, 1/12)`, `K ≥ 1`, `τ, η, ε > 0`, `R ∈ ℕ`, `0 < b < 1/4` and `0 ≤ a < 1/2`. There are `C₁, Y₀` depending only on `(δ₀, K, τ, η, R, a, b)` and `C₂` depending only on `(δ₀, ε)` such that, whenever `Y ≥ Y₀`, `C₁ log Y·(log m₀ + log Y) ≤ log U`, `1 ≤ F ≤ U^(1/2)`, `log(FU) ≤ Y^b` and at most `Y^a` primes `p ≤ Y^(K/δ₀)` divide `m₀`, and `Ξ` is a set of at most `R` primitive Dirichlet characters of conductor `≤ F`, the set `P` is nonempty and all but at most `η|P|` primes `q ∈ P` have the following property for every `ξ ∈ Ξ`: the primitive character `χ` inducing `ξ·(·/q)` has `L(s, χ) ≠ 0` for `Re s > 1 − δ₀` and `|Im s| ≤ FU`, satisfies `|(L′/L)(1, χ)| ≤ ((2 + ε)/δ₀) log log(FU) + C₂`, and satisfies `|G_χ(y)| ≤ y^(1/2+τ)` for every `y ∈ [Y, Y^K]`. (3) Two-step selection: with the same constants, let `Ξ₀` be a set of primitive characters of conductor `≤ N₀`, let `(m₁, a₁, U₁)` satisfy the hypotheses of (2) with a conductor bound `F₁ ≥ N₀`, and for each `q ∈ P(m₁, a₁; U₁)` let `(m₂(q), a₂(q), U₂)` satisfy them with a conductor bound `F₂(q) ≥ N₀q`. Then a proportion at least `1 − η` of the `q`, and for each such `q` a proportion at least `1 − η` of the `d ∈ P(m₂(q), a₂(q); U₂)`, make every twist `ξ·(·/q)^i·(·/d)^j` with `ξ ∈ Ξ₀` and `(i, j) ≠ (0, 0)` satisfy the three conclusions of (2), with box height `F₁U₁` if `j = 0` and `F₂(q)U₂` if `j = 1`.
 
@@ -47,11 +47,46 @@ Notation and conventions not restated here are those of the Conventions of Sieve
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
 visibly use. A wider statement would need its own proof.
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both labels: each contains
+statements of [FormalProof], namely 2.7a (i′), (ii), (iii′), 2.7b (i) (there for `c = c_y`), (ii′), (iv′),
+2.7c (a′)–(c′) and 2.7d (ii′) at its instance. The general statements of 2.7a (i), (iii), 2.7b (ii), (iv), 2.7c,
+2.7d (i), (ii), and 2.7d (ii′) beyond its instance, are not statements of [FormalProof]: they are this roadmap's
+generalisations of these forms; 2.7a (iv) and 2.7b (iii) are this roadmap's own formulations.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 2: Quadratic twists over primes in a progression and twist selection
 
 The sections 2.7a–2.7d average Jacobi symbols over the primes of one residue class: reciprocity on the class and the prime number theorem in progressions give orthogonality, the mean square of short twisted prime sums follows, a Sobolev inequality on dyadic blocks passes from one point to a whole window, and the zero-free boxes of a zero-density estimate complete the selection.
 
 ### 2.7a Jacobi symbols over the primes of a residue class
+
+*Origin:* adapted from Gallagher (1970), Theorem 7, (29), which bounds prime sums over short intervals summed over
+the primitive characters of all moduli up to a bound, the trivial and the exceptional character with their main terms
+subtracted, and from Page's theorem across moduli (AnalyticNumberTheoryPartI §0.17): the prime number theorem in one
+progression, with relative error and the exceptional term (RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii)), read
+through quadratic reciprocity as near-orthogonality of the characters `q ↦ (q/s)` on the primes of one residue class,
+for every short modulus `s` but one. The general forms (i) and (iii) are this roadmap's generalisations of (i′) and
+(iii′), and the exception-free form (iv) is this roadmap's own formulation.
+
+*Method of the formal proof:* reciprocity on the class is checked prime factor by prime factor of `n` for two primes
+of the class larger than `n`; the sum of `(q/s)` over `P` is split along the classes modulo `M = m₀s`, and a prime
+number theorem in progressions with relative error and exceptional pair, valid for `log U ≥ C log M · log(log M + 2)`,
+is applied to each class once, at `U`, the primes up to `√U` being bounded trivially. The main terms cancel because a
+unit `u ≡ 1 (mod m₀)` with `(u/s) = −1` permutes the classes, and the exceptional term survives only when the
+exceptional character equals `(·/s)` on the class of `1`, which by Page's theorem across moduli and the separation of
+(ii) happens with a zero near `1` for at most one `s`. That prime number theorem, and the lower bound (α) of (iii′), use
+Siegel's bound `β ≤ 1 − c(ε) q^(−ε)` for the real zeros `β` of the real nonprincipal characters modulo `q`
+(RieszSumsOverPrimesAndExceptionalZeros, Scope and ownership). The route below applies RieszSumsOverPrimesAndExceptionalZeros
+§1.7b (ii), in Linnik's range, at `U` and at `√U`.
 
 **(i) Reciprocity on a residue class.** Let
 `8 ∣ m₀`, `gcd(a₀, m₀) = 1` and `n ≥ 1`. There is `ε = ε(m₀, a₀, n) ∈ {1, −1}` such that every prime
@@ -199,6 +234,20 @@ depletion.
 
 ### 2.7b Mean squares of quadratic twists of short prime sums, and their maximal form
 
+*Origin:* particular to this proof: mean squares of quadratic twists of short weighted prime sums over prime moduli
+`q` confined to one residue class and far larger than the sums, with one exceptional short modulus `s*` allowed in the
+orthogonality, and their maximal form on a window of lengths by a Sobolev inequality on dyadic blocks; the means
+(expansion of the square, quadratic reciprocity, primes in progressions) are those of the classical mean values of
+real character sums over prime moduli. The general forms (ii) and (iv) are this roadmap's generalisations of (ii′) and
+(iv′), and the lemma (iii) is this roadmap's own formulation.
+
+*Method of the formal proof:* the square is expanded, the sum over `q` of `(n/q)(n′/q)` is turned by reciprocity into
+the sum of `(q/s)` with `s = s_{m₀}(nn′)`, the pairs with `s ∈ {1, s*}` are counted directly and the others by the
+orthogonality of 2.7a. For the window, `S_Z(y; q, κ) − S_Z(Y; q, κ)` is the integral of the step function `D_q`, and
+`v·D_q(v)` is a sum of the same shape with the coefficients `κ·1_{(v,∞)}`, so the mean square, uniform in bounded
+coefficients, also bounds the mean square of `D_q`; Cauchy–Schwarz on each dyadic block, Markov's inequality and a
+geometric series over the blocks finish.
+
 **(i) Algebraic mean-square inequality.** Let `8 ∣ m₀`,
 `gcd(a₀, m₀) = 1`, `N ≥ 1`, `P` a finite set of primes `q ≡ a₀ (mod m₀)` with every `q > N²`, `c : ℕ → [0, ∞)`
 supported on prime powers `≤ N`, `κ : ℕ → ℂ` with `|κ| ≤ 1`, `η ≥ 0`, and `s*` an integer. Suppose
@@ -302,6 +351,27 @@ of (iii) with `M = C`.
 
 ### 2.7c Twist selection
 
+*Origin:* adapted from Jutila (1977), Theorem 1, the log-free zero-density estimate (AnalyticNumberTheoryPartI §1.7),
+by whose count all but few primitive characters of bounded conductor have a zero-free box: here a selection of primes
+of one class whose twists of given characters have a zero-free box, a bound for `(L′/L)(1, χ)` and square-root
+cancellation on a window, the last through a mean square. The general statement is this roadmap's generalisation of
+(a′)–(c′).
+
+*Method of the formal proof:* the primes `q` for which some twist has a zero in the box are counted by a zero-density
+bound proved directly: at a zero the product of a partial sum of the L-series with a Möbius mollifier forces one dyadic
+block of a Dirichlet polynomial to be large, and a duality inequality, whose off-diagonal terms are sums over a dyadic
+interval of one character times the conjugate of another times a complex power of `n`, bounded by the product of the
+conductors times a factor linear in the absolute value of the exponent, shows that at most `C·Q^(1/4)` primitive
+characters of conductor at most `Q` have a zero with `Re s > 1 − 1/400`, `|Im s| ≤ Q`; the primes with a large
+truncated sum somewhere on the window are discarded by the maximal mean square of 2.7b, and for the remaining primes
+the tail bound and the bound for `L′/L(1, χ)` under a zero-free box give the three clauses. The route written below
+differs from this proof in one step: it takes the count of the primes with a zero in the box from
+AnalyticNumberTheoryPartI §1.7.
+
+*Corollary of:* AnalyticNumberTheoryPartI §1.7 (the log-free zero-density estimate for the primitive characters of
+conductor at most `Q`; of the proof of this section it gives one step, the count of the primes `q` whose twists have a
+zero in the box of (a)).
+
 **Twist selection.** Prove `twistSelection`. Fix a box width `δ₀ ∈ (0, 1/12)`, `K ≥ 1`, `τ > 0`,
 `η > 0`, `R ∈ ℕ`, exponents `0 < b < 1/4` and `0 ≤ a < 1/2`, and `ε > 0`. There are `C₁` and `Y₀`, depending only on
 `(δ₀, K, τ, η, R, a, b)`, and `C₂` depending only on `(δ₀, ε)`, such that for every `Y ≥ Y₀`, every `m₀ ≥ 1`, every `a₀`
@@ -386,6 +456,16 @@ count); apply the case `8 ∣ m₀` to each and add.
 *Needs:* 2.7a (iii), 2.7b (iv); RiemannHypothesisStatementsAndConsequences §8.4a (b) (the remainder `G_χ` of (c)); RieszSumsOverPrimesAndExceptionalZeros §1.4e (with its corollary), RieszSumsOverPrimesAndExceptionalZeros §1.4f; AnalyticNumberTheoryPartI §§0.11–0.11a, 1.7; ClassicalArithmeticCompletion §§1.5–1.6.
 
 ### 2.7d Twisting by two primes chosen in succession
+
+*Origin:* particular to this proof: two auxiliary primes chosen in succession, the second in a progression that
+depends on the first, so that every twist by one or both is controlled. The general statements (i) and (ii), and
+(ii′) beyond its instance, are this roadmap's generalisations of the instance of [FormalProof].
+
+*Method of the formal proof:* the selection theorem of 2.7c, in the form (a′)–(c′), is applied once to the primes
+`q ≡ 3 (mod 8)` in `(e^(z/2), e^z]`, `z = Y^(ε/5)`, and, for each good `q`, once to the primes `d` of the class that is
+`7` modulo `16` and `−1` modulo `q` times the odd primes up to `z`, with the primitive characters inducing `ξ` and
+`ξ·(·/q)` as the list of characters and `N₀·e^z` as the bound for their conductors; the two sets of good primes have
+share at least `1 − η`, so a pair exists.
 
 **(i) Two-step selection.** Fix `δ₀, K, τ, η, a, b, ε` as in 2.7c,
 `N₀ ≥ 1`, and let `Ξ₀` be a set of primitive characters of conductor `≤ N₀`. There are `C₁, Y₀` (depending on
@@ -486,7 +566,7 @@ This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is i
 
 This roadmap owns the Jacobi symbols over the primes of a residue class (2.7a–2.7d): reciprocity on the class, orthogonality for all but one short modulus, the mean square of quadratic twists of short weighted prime sums over prime moduli and its maximal form on a window, and the selection of primes whose twists have square-root cancellation on a window together with a zero-free box and a bound for `L′/L(1)`. Its sections extend Layer 2 of [SieveMethodsAndPrimePatterns](../../SieveMethodsAndPrimePatterns/README.md) and are numbered 2.7a–2.7d after that layer's §2.7 (quadratic large sieves and real-character means); these ids are this roadmap's own and name no section of SieveMethodsAndPrimePatterns.
 
-Not owned here. [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) owns Heath-Brown's quadratic large sieve (AnalyticNumberTheoryPartII §5.29); SieveMethodsAndPrimePatterns §2.7 owns its bilinear corollary and the Jutila mean value lemma, Smith's prime Legendre-symbol estimate and the Koymans–Pagano normalized row mean, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11–0.11a, 0.12, 0.34a, 0.17, 0.34, 1.7). [ClassicalArithmeticCompletion](../../ClassicalArithmeticCompletion/README.md) owns the primitivity of the Legendre character and of a product of primitive characters of coprime levels (ClassicalArithmeticCompletion §§1.5–1.6), and [ExplicitPrimeCounting](../../ExplicitPrimeCounting/README.md) the bounds for `Li x − x/log x` (ExplicitPrimeCounting §0.3a). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and Gallagher's prime number theorem in progressions in Linnik's range with its exceptional pair (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii), in the forms 2.7c (a′)–(c′) and 2.7d (ii′) of the formal proof, for the auxiliary primes of its cyclic hosts.
+Not owned here. [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) owns Heath-Brown's quadratic large sieve (AnalyticNumberTheoryPartII §5.29); SieveMethodsAndPrimePatterns §2.7 owns its bilinear corollary and the Jutila mean value lemma, Smith's prime Legendre-symbol estimate and the Koymans–Pagano normalized row mean, which average a real character over many moduli or over a product of two prime sets with power savings; 2.7a–2.7d average Jacobi symbols over the primes of one residue class against short moduli, through the prime number theorem in progressions, and need no quadratic large sieve. The Bombieri–Vinogradov theorem of SieveMethodsAndPrimePatterns Layer 3 is a different average (over moduli, not over the primes of one class). [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) owns Mertens's theorem, the effective gap for real zeros and the identification of real primitive characters with field characters, Page's theorem across moduli, the uniform exclusion of Landau–Siegel zeros and the log-free zero-density estimate (AnalyticNumberTheoryPartI §§0.11–0.11a, 0.12, 0.34a, 0.17, 0.34, 1.7). [ClassicalArithmeticCompletion](../../ClassicalArithmeticCompletion/README.md) owns the primitivity of the Legendre character and of a product of primitive characters of coprime levels (ClassicalArithmeticCompletion §§1.5–1.6), and [ExplicitPrimeCounting](../../ExplicitPrimeCounting/README.md) the bounds for `Li x − x/log x` (ExplicitPrimeCounting §0.3a). [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) owns the control of smoothed twisted prime sums and of `L′/L(1, χ)` by a zero-free box (RieszSumsOverPrimesAndExceptionalZeros §§1.4e–1.4f) and the prime number theorem in progressions in Linnik's range with its exceptional pair, a form for one modulus of Gallagher's theorem (RieszSumsOverPrimesAndExceptionalZeros §1.7b). [RiemannHypothesisStatementsAndConsequences](../RiemannHypothesisStatementsAndConsequences/README.md) owns the Riesz remainder of a primitive character (§8.4a (b)), which is `G_χ` here. Although AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly, 2.7a–2.7d are stated in the form with the exceptional term, which they take from RieszSumsOverPrimesAndExceptionalZeros §1.7b; 2.7a (iv) is the exception-free form through AnalyticNumberTheoryPartI §0.34. In this family, ThetaChainsAndFrobeniusPrimeSums uses 2.7c and 2.7d (ii), in the forms 2.7c (a′)–(c′) and 2.7d (ii′) of the formal proof, for the auxiliary primes of its cyclic hosts.
 
 ## Exact supplier contracts
 
@@ -508,7 +588,7 @@ Not owned here. [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/RE
 
 ### From RieszSumsOverPrimesAndExceptionalZeros, a sub-roadmap of this family
 
-RieszSumsOverPrimesAndExceptionalZeros §1.4e and its corollary (a zero-free box of height `Q` controls `S̃_χ(z(1+η)) − S̃_χ(z) + zη(L′/L)(1,χ)` and the tail of `L′/L(1,χ)` beyond `x^(1/δ₀)`) and RieszSumsOverPrimesAndExceptionalZeros §1.4f (`|(L′/L)(1,χ)| ≤ ((2+ε)/δ₀) log log Q + C` under such a box), in 2.7c. RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii) (Gallagher's prime number theorem in Linnik's range for `π(x;q,a)`, with the exceptional term and relative error, and its exceptional pair modulo `q`) and RieszSumsOverPrimesAndExceptionalZeros §1.7b (iv) (its exception-free form through AnalyticNumberTheoryPartI §0.34), in 2.7a.
+RieszSumsOverPrimesAndExceptionalZeros §1.4e and its corollary (a zero-free box of height `Q` controls `S̃_χ(z(1+η)) − S̃_χ(z) + zη(L′/L)(1,χ)` and the tail of `L′/L(1,χ)` beyond `x^(1/δ₀)`) and RieszSumsOverPrimesAndExceptionalZeros §1.4f (`|(L′/L)(1,χ)| ≤ ((2+ε)/δ₀) log log Q + C` under such a box), in 2.7c. RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii) (the prime number theorem in Linnik's range for `π(x;q,a)`, with the exceptional term and relative error, a form for one modulus of Gallagher's theorem, and its exceptional pair modulo `q`) and RieszSumsOverPrimesAndExceptionalZeros §1.7b (iv) (its exception-free form through AnalyticNumberTheoryPartI §0.34), in 2.7a.
 
 ### From Mathlib
 
@@ -520,6 +600,7 @@ RieszSumsOverPrimesAndExceptionalZeros §1.4e and its corollary (a zero-free box
 
 ## References
 
-- P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339: the prime number theorem in progressions in Linnik's range, with relative error and the exceptional term, that 2.7a uses in the form of RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii).
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It proves the forms stated here as 2.7a (i′), (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′) and 2.7d (ii′) at its instance (box width `1/400`, truncation `Y^(400K)`, size exponent `ε ≤ 1/4`, the bounds `C log Y` and `1000 log log(FU) + C₂`, and in two steps one pair of progressions), as well as 2.7a (ii) and 2.7b (i) (there for `c = c_y`), and the route of the twist-selection theorem (2.7b–2.7d) is that of this formalization (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes). The general statements of 2.7a (i), (iii), 2.7b (ii), (iv), 2.7c and 2.7d are this roadmap's generalisation of these forms, and 2.7a (iv) and 2.7b (iii) are this roadmap's own; their hypotheses and constants are derived in their routes above from the sections those routes cite: `δ₀ < 1/12` makes the bound `C_ε′ (FU)^((8+2ε′)δ₀) ≤ C_ε′ U^((3/2)(8+2ε′)δ₀)` of AnalyticNumberTheoryPartI §1.7 for the primes with a zero in the box small against `|P| ≥ U^(1−o(1))` (2.7c); `b < 1/4` (one choice for every `τ > 0`) and `a < 1/2` are the constraints that the Checks of 2.7c derive from the tail in (c) and from 2.7b (ii); the factor `(2 + ε)/δ₀` in 2.7c (b) is that of RieszSumsOverPrimesAndExceptionalZeros §1.4f at `Q = FU`; and the box heights `F₁U₁` and `F₂(q)U₂` of 2.7d are those of its two applications of 2.7c, with `F = F₁` and `F = F₂(q)`.
+- P. X. Gallagher, *A large sieve density estimate near σ = 1*, Invent. Math. 11 (1970), 329–339: Theorem 7, (29), with the remark after it, which bounds prime sums over short intervals summed over the primitive characters of all moduli up to `Q`, the trivial and the exceptional character with their main terms subtracted, an exceptional zero `1 − δ` lowering the bound by the factor `(δ log Q)²`. The prime number theorem in one progression in Linnik's range, with relative error and the exceptional term, that 2.7a uses is a form for one modulus, which RieszSumsOverPrimesAndExceptionalZeros §1.7b (ii) states and proves directly.
+- Matti Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), 45–62: Theorem 1, the log-free zero-density estimate cited in AnalyticNumberTheoryPartI §1.7, which the route of 2.7c applies at `σ = 1 − δ₀`, `T = Q = FU`.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement], distributed as a Lean archive in fourteen parts on its author's page (footnote 1 of [Announcement]); source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It proves the forms stated here as 2.7a (i′), (iii′), 2.7b (ii′), (iv′), 2.7c (a′)–(c′) and 2.7d (ii′) at its instance (box width `1/400`, truncation `Y^(400K)`, size exponent `ε ≤ 1/4`, the bounds `C log Y` and `1000 log log(FU) + C₂`, and in two steps one pair of progressions), as well as 2.7a (ii) and 2.7b (i) (there for `c = c_y`), and the route of the twist-selection theorem (2.7b–2.7d) is that of this formalization (mean square over prime moduli, maximal form on dyadic blocks, zero-free boxes), except that the route of 2.7c takes the count of the primes with a zero in the box from AnalyticNumberTheoryPartI §1.7, where this formalization proves its own count. The general statements of 2.7a (i), (iii), 2.7b (ii), (iv), 2.7c and 2.7d are this roadmap's generalisation of these forms, and 2.7a (iv) and 2.7b (iii) are this roadmap's own; their hypotheses and constants are derived in their routes above from the sections those routes cite: `δ₀ < 1/12` makes the bound `C_ε′ (FU)^((8+2ε′)δ₀) ≤ C_ε′ U^((3/2)(8+2ε′)δ₀)` of AnalyticNumberTheoryPartI §1.7 for the primes with a zero in the box small against `|P| ≥ U^(1−o(1))` (2.7c); `b < 1/4` (one choice for every `τ > 0`) and `a < 1/2` are the constraints that the Checks of 2.7c derive from the tail in (c) and from 2.7b (ii); the factor `(2 + ε)/δ₀` in 2.7c (b) is that of RieszSumsOverPrimesAndExceptionalZeros §1.4f at `Q = FU`; and the box heights `F₁U₁` and `F₂(q)U₂` of 2.7d are those of its two applications of 2.7c, with `F = F₁` and `F = F₂(q)`.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.

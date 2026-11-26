@@ -66,7 +66,7 @@ limits, and Layer 5 applies them to rigidification and finite correspondences. L
 approximation, Layer 7 Artin's criteria, Picard sheaves and rigidifications, nonarchimedean analytification and the
 arithmetic coefficient comparisons, and Layer 8 the formal deformation comparisons. Layer 9 consumes
 resolution, preservation of the resolved locus and algebraic SNC compactification from
-ResolutionOfSingularitiesCharacteristicZero, then constructs algebraic vanishing and numerical boundedness. Checks are listed under each definition.
+ResolutionOfSingularitiesCharacteristicZero, then constructs algebraic vanishing and numerical boundedness, and on the vanishing theorems and multiplier ideals the Ein–Lazarsfeld global division theorem (§9.12). Checks are listed under each definition.
 
 Where the section order differs from the order of construction, the target-level order is the
 following. In Layer 1, construct `coherentGrassmannian` before `rankOneGrassmannComparison`.
@@ -8354,7 +8354,7 @@ The API provides:
 - For `f≅h∘g` and source objects x,y, `Isom_E`(gx,gy) is the fpqc quotient `Isom_Γ(x,y)`/Kx, compatibly with composition. It is generally only a subfunctor of `Isom_Δ`(fx,fy), not equal to that final-target sheaf.
 - For BG→BH the construction identifies with `B(G/ker f)`→BH.
 
-*Needs:* `canonicalAffineFactorization`, §4.22 (arbitrary affine normal quotients and affine fpqc descent), SchemeAndStackFoundations §§1.18, 1.21, SchemeAndStackFoundations §§1.1, 1.14 and 1.15 (fpqc descent of affine objects, groupoids and their quotients, torsors).
+*Needs:* `canonicalAffineFactorization`, §4.22 (arbitrary affine normal quotients and affine fpqc descent), SchemeAndStackFoundations §§1.18, 1.21, SchemeAndStackFoundations §§1.1, 1.14 and 1.15 (fpqc descent of affine objects, groupoids and their stabilizers, torsors).
 
 **Checks.**
 
@@ -9853,7 +9853,8 @@ the scheme, ideal-sheaf, blowup and SNC conventions used here. They retain the s
 and naturality, including centre ideals and ordered boundary labels. The marked-ideal, Samuel and
 invariant constructions and their finite-sequence existence theorems belong to that supplier.
 The applications constructed here are the algebraic vanishing and numerical boundedness of
-§§9.10–9.11. The comparisons also fix the interfaces for the rigidification and formal-moduli
+§§9.10–9.11 and the Ein–Lazarsfeld global division
+theorem (§9.12). The comparisons also fix the interfaces for the rigidification and formal-moduli
 carriers of Layers 5 and 8 without imposing smoothness on an arbitrary moduli stack.
 
 ### 9.1 Marked ideals, transforms and test equivalence
@@ -10055,7 +10056,7 @@ Lemmas 12.5, 12.7–12.8, pp. 292–295; ResolutionOfSingularitiesCharacteristic
 
 ### 9.10 Algebraic vanishing and numerical inputs
 
-The numerical very-ampleness theorem uses an algebraic route through the algebraic adjoint-vanishing and intersection bounds below. Use basic projective geometry from 1.1–1.5 and the resolution and principalization supplied by ResolutionOfSingularitiesCharacteristicZero through the comparisons in §§9.1–9.7. The vanishing inputs below and the bounds in 9.11 then follow in this order. All varieties in this paragraph are smooth, projective and geometrically integral over a characteristic-zero field unless stated otherwise. Numerical intersections and Serre duality are those of SchemeAndStackFoundations Layer 5 and §2.20; the surface Hodge-index theorem is SchemeAndStackFoundations §5.10's for the mixed-intersection inequality below.
+The numerical very-ampleness theorem uses an algebraic route through the algebraic adjoint-vanishing and intersection bounds below. Use basic projective geometry from 1.1–1.5 and the resolution and principalization supplied by ResolutionOfSingularitiesCharacteristicZero through the comparisons in §§9.1–9.7. The vanishing inputs below and the bounds in 9.11 then follow in this order. All varieties in this paragraph are smooth, projective and geometrically integral over a characteristic-zero field unless stated otherwise. Numerical intersections and Serre duality are those of SchemeAndStackFoundations Layer 5 and §2.20; the surface Hodge-index theorem is SchemeAndStackFoundations §5.10's for the mixed-intersection inequality below. An invertible sheaf `L` on a proper variety `X` is nef when its degree `deg(c_1(L|_C) ∩ [C])` (SchemeAndStackFoundations §5.3) is nonnegative on every integral closed curve `C ⊆ X`, and a divisor `A` with rational coefficients is nef when `O_X(mA)` is for some integer `m ≥ 1` with `mA` integral and Cartier.
 
 Call a reduced divisor `D=ΣD_i` on a smooth k-scheme X SNC relative to k if, étale locally on X, there is an étale map `X→𝔸ⁿ_k` with coordinates `x_1,…,x_n` such that D is `V(x_1⋯x_r)` and each component through the point is one `V(x_i)`; equivalently each scheme-theoretic intersection `D_J` of |J| components is smooth over k of codimension |J|. Over a perfect field this is the absolute SNC condition of SchemeAndStackFoundations §4.17, since a regular finite-type scheme over a perfect field is smooth. If k is a regular Noetherian ring and X is of finite type over k, relative SNC implies that X is a regular Noetherian scheme and that D is absolutely SNC: X is regular because it is smooth over a regular ring, and at a point x of `D_J` the quotient `O_(X,x)/(x_i : i∈J)` is the local ring of `D_J`, regular of dimension `dim O_(X,x)−|J|`, so the images of these `x_i` in `m_x/m_x²` are independent and extend to a regular system of parameters (Stacks, Lemmas 10.163.10 and 10.106.3, tags 07NF and 00NQ; Definition 41.21.1, tag 0BI9). Over such a base the converse fails (the absolute-only check under `logDeRhamComplex` below), and over a singular base relative SNC need not be absolute SNC, nor X regular (the singular-base check there). Define `logDeRhamComplex X D`, for a scheme X smooth and of finite type over a regular Noetherian ring k and a reduced divisor D SNC relative to k, as the log de Rham complex of CrystallineCohomology §CR.5.1 (*Log de Rham complexes*) for the divisorial log structure of D of §CR.5:log-algebra.4 (*Divisorial log structures*) over the trivial log structure on `Spec k`; no second complex is constructed. The regular Noetherian base is what places `(X,D)` inside the regular Noetherian absolute-SNC scope of that constructor, by the implication above. By the presentation of CrystallineCohomology §CR.5.1 (*Logarithmic differentials*) computed on such a relative chart, its degree-one module is free on `dx_i/x_i` for boundary coordinates and `dx_j` for the others, and degree a is its exterior power; in particular every `Ω^a_X(log D)` is locally free of finite rank. The absolute SNC condition alone does not give this: the divisorial log structure exists, but its log differentials can have torsion along D. The differential extends the universal log derivation by the graded Leibniz rule and is k-linear, not `O_X`-linear: `d(f·ω)`=df∧`ω+f·dω`. Changes of SNC coordinates identify these modules and differentials, so this is a complex of k-modules on the small étale site, not a complex depending on one selected chart. Its API gives these modules, the differential, `d²=0` (from the log de Rham differential of CrystallineCohomology §CR.5.1), étale comparison and, added here, the residue along a labelled component. Our residue puts the labelled dlog factor first: `res_x(dlog x∧α)=α`. The last-factor ordering in Esnault–Viehweg is related by the exterior sign `(−1)^(a−1)` in degree a; the two conventions are transported with this sign. For disjoint labelled reduced divisors A,B whose union is SNC relative to k, the compact-boundary complex `logDeRhamComplex.withCompactBoundary A B` is the subcomplex `I_B·Ω•_X(log(A+B))` of `Ω•_X(log(A+B))`, where `I_B` is the ideal of B. It is stable under d because `d(fω)=f`·(dlog `f∧ω+dω`) for a local equation f of B, and dlog f is a section of `Ω¹_X`(log(`A+B`)). By `logDeRhamComplex.compactBoundaryTensor` below its graded module is `Ω•(log(A+B))⊗O(−B)`, and the compact-boundary API is stated through that identification; its differential is the restriction of d, not d tensored with an `O_X`-linear map. In Esnault–Viehweg's notation `Ω•(A,B)=Ω•(log(A+B))(−A)` the twisted divisor is the first label, so this complex is their Ω•`(B,A)`. (CrystallineCohomology §CR.5:log-algebra.4 (*Divisorial log structures*) and §CR.5.1 (*Logarithmic differentials*, *Log de Rham complexes*); Esnault–Viehweg, §2, Definition 2.1, Properties 2.2–2.3, pp. 11–13; Notation 9.16, p. 103; §10, Definitions 10.14 and Theorem 10.16, pp. 114–116.)
 
@@ -10098,7 +10099,7 @@ Here k perfect of characteristic `p>0`; X smooth over k; A,B disjoint with `A+B`
 
 For the proof, `(a)` is the projection formula for the finite flat morphism F. For `(b)`, factor the inclusion through the subcomplexes `I_B^(j+1)·Ω`•⊂`I_B^j·Ω`• for `1≤j≤p−1`; the connection d on `O_X`(−jB) has residue j along every component of B, which is a unit in k for these j, so each inclusion is a quasi-isomorphism by the residue criterion; locally the quotients are the acyclic complexes of the first check. For `(c)`, combine `(a)`, `(b)` and the Cartier isomorphism for `Ω•_X(log D)`.
 
-*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations §0.29 (the relative Frobenius), SchemeAndStackFoundations §2.6 (the projection formula for a finite flat morphism), SchemeAndStackFoundations §2.18 (complexes of modules, quasi-isomorphisms and the derived category).
+*Needs:* `logDeRhamComplex`, `logDeRhamComplex.compactBoundaryTensor`, `logFrobeniusSplitting`, SchemeAndStackFoundations §0.29 (the relative Frobenius), SchemeAndStackFoundations §2.18 (the projection formula, complexes of modules, quasi-isomorphisms and the derived category).
 
 **Checks.**
 
@@ -10131,11 +10132,11 @@ Prove `cyclicCoverEigensummand`: for an invertible L, a nonzero section of `L^N`
 
 Prove `algebraicAdjointVanishing`: if a rational divisor A on a smooth projective characteristic-zero variety is nef and big, with fractional support SNC, then `H^q(X,ω_X⊗O(⌈A⌉))=0` for `q>0`. The integral ample case is Kodaira vanishing; the nef-and-big case is Kawamata–Viehweg vanishing. Clear denominators, write a sufficiently large multiple as an ample divisor plus an effective divisor, resolve their union, apply the cyclic-cover restriction surjection, and kill the source by Serre vanishing and duality. The round-up comes from the dual of the floor in the root-cover summand. The birational comparison retains the higher-direct-image vanishing; a finite quotient chart is reduced to a smooth cover by trace, and the Leray induction proves rationality of that quotient. (Esnault–Viehweg, Corollaries 5.2 and 5.6, pp. 43–46; Corollary 5.12`(c)` and Claim 5.13 with proofs, pp. 48–52.) No unrestricted positive-characteristic vanishing is used: the source's positive-characteristic variant requires a W₂ lift, dimension bound and a root exponent prime to p.
 
-*Needs:* `cyclicCoverEigensummand`, §1.6 (`bigLineBundle`), §9.4 (resolution), SchemeAndStackFoundations §§2.2, 2.6 and 2.20 (Leray, Serre vanishing and higher direct images, Serre duality), SchemeAndStackFoundations §5.3 (nef divisors through intersection numbers).
+*Needs:* `cyclicCoverEigensummand`, §1.6 (`bigLineBundle`), §9.4 (resolution), SchemeAndStackFoundations §§2.2, 2.6 and 2.20 (Leray, Serre vanishing and higher direct images, Serre duality), SchemeAndStackFoundations §5.3 (the degree of `c_1(L)` on curves, by which nefness is stated).
 
 Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth characteristic-zero variety and a nonnegative rational c. On a principalization `π:Y→X`, write `a O_Y=O_Y(−F)` and set `J(a^c)=π_*O_Y(K_(Y/X)−⌊cF⌋)`. Define it as an ideal in `O_X` through the canonical rational-function identification. Common domination, the local root-cover vanishing and the projection formula prove independence of π and vanishing of the positive direct images in this formula. Its API `algebraicMultiplierIdeal.ofPrincipal`, `algebraicMultiplierIdeal.ofUnit`, `algebraicMultiplierIdeal.monotone`, `algebraicMultiplierIdeal.resolutionIndependent`, `algebraicMultiplierIdeal.localVanishing` records the principal SNC formula, the unit ideal, reverse inclusion as c grows, independence and vanishing. If `a⊗M` is globally generated and `L−cM` is nef and big, the same calculation on Y gives `H^q(X,ω_X⊗L⊗J(a^c))=0` for `q>0`. This is the algebraic case of the multiplier-ideal vanishing used in the effective argument. (Demailly, §1, Theorem 1.2 and formula (1.4), pp. 3–5, and the algebraic-use statement at the start of §2, p. 5; the algebraic proof is the preceding root-cover and birational vanishing.)
 
-*Needs:* `algebraicAdjointVanishing`, `cyclicCoverEigensummand`, §9.4 (principalization), SchemeAndStackFoundations §2.6 (the projection formula and higher direct images), SchemeAndStackFoundations §2.20 (relative canonical sheaves).
+*Needs:* `algebraicAdjointVanishing`, `cyclicCoverEigensummand`, §9.4 (principalization), SchemeAndStackFoundations §2.6 (higher direct images), SchemeAndStackFoundations §2.18 (the projection formula), SchemeAndStackFoundations §2.20 (relative canonical sheaves).
 
 **Checks.**
 
@@ -10146,7 +10147,7 @@ Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth cha
 
 Prove `uniformAdjointVeryAmpleness`: `K_X+(n+1)L` is nef for ample L, and there is a positive integer `λ_n` depending only on n such that `m(K_X+(n+2)L)+G` is very ample for every `m≥λ_n` and nef G. One may take `λ_n=max(1, binom(3n+1,n)−2n)` for `n≥1`. For the proof, apply multiplier-ideal vanishing to ideals of algebraic sections, choose sections outside each positive-dimensional multiplier support by the numerical-polynomial root bound, and strictly enlarge its coherent ideal. Noetherianity leaves only a finite support. Jet restrictions then surject by `H¹` vanishing. The descending integer recurrence `b_(k+1)=floor(a(b_k+η)/(a+1))+1` stops at `a(η+1)+1`; with no imposed jets `η=n`, taking `a→∞` proves nefness of `K+(n+1)L`. With two point jets or one first-order jet, take `a=1` and the binomial jet-length bound. This yields the adjoint very-ampleness constant and its stability under nef addition. This proof uses only the algebraic multiplier ideals just constructed, HRR and coherent exact sequences, although the source writes the same ideals using weights of sections. (Demailly, Theorems 2.3 and 2.4 with proofs, pp. 6–10, and Theorem 0.2`(c)`, p. 2.)
 
-*Needs:* `algebraicMultiplierIdeal`, §1.4 (`relativeVeryAmple`), SchemeAndStackFoundations §2.6 (coherent cohomology), SchemeAndStackFoundations §5.3 (nef classes), SchemeAndStackFoundations §5.8 (Hirzebruch–Riemann–Roch).
+*Needs:* `algebraicMultiplierIdeal`, §1.4 (`relativeVeryAmple`), SchemeAndStackFoundations §2.6 (coherent cohomology), SchemeAndStackFoundations §5.3 (the degree of `c_1(L)` on curves, by which nefness is stated), SchemeAndStackFoundations §5.8 (Hirzebruch–Riemann–Roch).
 
 Prove `nefMixedIntersectionBound`: for ample L, nef H and `v=L^n>0`, `H^p L^(n−p)≤(H L^(n−1))^p/v^(p−1)` for `1≤p≤n`. Cut to surfaces by general ample divisors (SchemeAndStackFoundations §4.13), apply the surface Hodge index theorem of SchemeAndStackFoundations §5.10, and use induction for the log-concavity of mixed intersections `(H^p L^(n−p))² ≥ (H^(p−1) L^(n−p+1))(H^(p+1) L^(n−p−1))`; take a limit after adding positive rational ample classes to nef factors. The bound is the telescoped form of log-concavity: the ratios `H^p L^(n−p) / H^(p−1) L^(n−p+1)` are nonincreasing in p and the first is `h/v`. The dimensions zero and one need no surface cutting. This is the specific higher-dimensional inequality needed below, not a new copy of the supplied surface theorem. (Demailly, proof of Theorem 4.7, p. 15, where it is the Khovanskii–Teissier concavity inequality `(L^(n−p)·H^p)^(1/p) (L^n)^(1−1/p) ≤ L^(n−1)·H`, with its references Teissier 1979 and 1982.)
 
@@ -10180,6 +10181,58 @@ For the proof, apply the numerical theorem with `w=0` to get a uniform very ampl
 
 *Needs:* `numericalVeryAmpleness`, `boundedDegreeHilbertPolynomials`, `hilbertPolynomial`.
 
+### 9.12 Global division by sections generating a twisted ideal
+
+Prove `globalDivisionByGenerators`: let `X` be a smooth complex projective variety of dimension `n`, `J ⊆ O_X` a
+nonzero coherent ideal, `L` a line bundle on `X` such that `L ⊗ J` is generated by global sections
+`s_1, …, s_m ∈ H⁰(X, L ⊗ J)`, and `D` a divisor with `O_X(D) ≅ L`. For an integer `ℓ ≥ 0` let `I_ℓ ⊆ O_X` be
+`algebraicMultiplierIdeal` of `J` with exponent `ℓ` (§9.10): on a principalization `f : Y → X` with
+`J·O_Y = O_Y(−F)`, `I_ℓ = f_*O_Y(K_(Y/X) − ℓF)`. For `α ∈ ℕ^m` write `|α| = α_1 + ⋯ + α_m` and
+`s^α = s_1^{α_1} ⋯ s_m^{α_m} ∈ H⁰(X, L^{|α|})`. Let `k ≥ 1` and `ℓ ≥ min(m + k − 1, n + k)` be integers and `A` a
+divisor on `X` such that `A − ℓD` is nef and big. Then multiplication by the `s^α` maps
+`⊕_{|α|=k} H⁰(X, O_X(K_X + A − kD) ⊗ I_{ℓ−k})` onto `H⁰(X, O_X(K_X + A) ⊗ I_ℓ)`. In particular every section of
+`O_X(K_X + A)` whose germs lie in `I_ℓ·O_X(K_X + A)` is `Σ_{|α|=k} s^α·h_α` with
+`h_α ∈ H⁰(X, O_X(K_X + A − kD))`.
+
+(Ein and Lazarsfeld 1999, Proposition 1.2 (ii); its case `k = 1` is Proposition 1.1 (ii). Lazarsfeld 2004, §9.6.)
+
+For the proof, take first `k = 1`. On `Y` write the pullback of the divisor of `s_j` as `F + D′_j`: the effective
+divisors `D′_j` have no common point and lie in the linear system of `N = f^*L ⊗ O_Y(−F)`, which is therefore
+generated by global sections. The Koszul complex of the surjection `⊕_j O_Y(−D′_j) → O_Y` is exact; twist it by
+`O_Y(K_(Y/X) − ℓF) ⊗ f^*O_X(K_X + A)`, with the twist of `O_Y` in degree `0`. For `0 ≤ p ≤ m` the term in degree `p`
+is a sum of copies of `O_Y(K_Y) ⊗ f^*O_X(A − ℓD) ⊗ N^{⊗(ℓ−p)}`. Splitting the complex into short exact sequences,
+the map of global sections from degree `1` to degree `0` is surjective once `H^{p−1}` of the term in degree `p`
+vanishes for `2 ≤ p ≤ m`. For `p ≥ n + 2` this holds because `dim Y = n`. For `2 ≤ p ≤ min(m, n + 1)` the exponent
+`ℓ − p` is nonnegative because `ℓ ≥ min(m, n + 1)`; as `f^*(A − ℓD)` is nef and big and `N` is globally generated,
+hence nef, the line bundle `f^*O_X(A − ℓD) ⊗ N^{⊗(ℓ−p)}` is nef and big, and `H^{p−1}` vanishes by
+`algebraicAdjointVanishing`. By the projection formula and `I_ℓ = f_*O_Y(K_(Y/X) − ℓF)`, this map of global
+sections on `Y` is the map of the statement for `k = 1`. For `k ≥ 2`, apply the case `k = 1` to `(A, ℓ)` and then
+the case `k − 1` to `(A − D, ℓ − 1)`, whose hypotheses hold because `ℓ − 1 ≥ min(m + k − 2, n + k − 1)` and
+`(A − D) − (ℓ − 1)D = A − ℓD`. Each product `s_j·s^β` with `|β| = k − 1` is an `s^α` with `|α| = k`, so the
+first surjection composed with the sum over `j` of copies of the second factors through the map of the statement,
+which is therefore onto.
+
+*Needs:* `algebraicAdjointVanishing`, `algebraicMultiplierIdeal` (§9.10); §9.4 (principalization); Tau Ceti
+`TauCeti.koszulComplex` and `TauCeti.koszulComplex.smul_homology_eq_zero` (every value of the functional
+annihilates the Koszul homology; on an affine open of `Y` that misses some `D′_j` one value is a unit, so the
+complex is exact there, and these opens cover `Y`).
+
+**Checks.**
+
+- `X = ℙ¹`, `J = O_X`, `L = O(1)`, `s_1 = x`, `s_2 = y`, `k = 1`, `ℓ = 2`, `A` of degree `a`. For `a ≥ 3`,
+  `A − 2D` has degree `a − 2 > 0`, and every form of degree `a − 2` is `x·h_1 + y·h_2` with forms `h_i` of degree
+  `a − 3`. For `a = 2`, `A − 2D` is trivial, nef and not big, and the constant `1 ∈ H⁰(O_X(K_X + A))` is not
+  `x·h_1 + y·h_2` with `h_i ∈ H⁰(O(−1)) = 0`: bigness is needed.
+- `X = ℙ¹`, `J` the ideal of a point `P`, `L = O(1)`, `s` a linear form vanishing at `P` (`m = 1`), `k = ℓ = 1`:
+  `I_1 = J` and `I_0 = O_X`, and for `A` of degree `j + 2` with `j ≥ 0` the statement says that a form of degree `j`
+  vanishing at `P` is `s` times a form of degree `j − 1`.
+- Reduced points. Let `J = I_Z` be the ideal of a finite reduced subscheme `Z`, for instance the common zero scheme
+  of `m = n` sections of `L` with simple common zeros. The blow-up of `Z` is a principalization with
+  `K_(Y/X) = (n − 1)F`, so `I_{n−1} = O_X` and `I_ℓ = I_Z^{ℓ+1−n}` for `ℓ ≥ n` (Ein, Lazarsfeld and Smith 2001,
+  proof of Theorem 2.2, the case of a smooth subvariety of codimension `n`). With `m = n` and `ℓ = n + k − 1` the
+  statement divides by the monomials of degree `k` every section of `O_X(K_X + A)` whose germs lie in `I_Z^k`, when
+  `A − (n + k − 1)D` is nef and big.
+
 ### Examples
 
 The unit ideal gives a zero principalization divisor in the multiplier-ideal application. A smooth
@@ -10195,7 +10248,7 @@ applications. CrystallineCohomology §CR.5:log-algebra.4 (*Divisorial log struct
 SNC geometry, for pairs relatively SNC over a regular Noetherian base, which are absolutely SNC on a
 regular Noetherian scheme as that constructor requires. Algebraic adjoint vanishing, multiplier ideals and uniform numerical boundedness are
 constructed here using SchemeAndStackFoundations §§2.19–2.21 (duality) and Layer 5 (intersection
-theory).
+theory). §9.12 uses §9.10, §9.4 and Tau Ceti's Koszul complexes.
 
 ## Downstream consumers
 
@@ -10216,7 +10269,7 @@ of §8.3 and coherent dévissage (§2.3). ResolutionOfSingularitiesCharacteristi
 shared algebraic resolution and SNC compactification interfaces; §§9.4–9.7 retain the
 consumption comparisons of its §§5.5, 5.6 and 6.2 (local-isomorphism resolution, relative
 embedded resolution with an initial boundary and SNC compactification). The algebraic vanishing and numerical boundedness applications
-of §§9.10–9.11 remain exports of this roadmap. FiniteEquivalenceRelations §4.2 states the pure-map
+of §§9.10–9.11, and the division theorem of §9.12, remain exports of this roadmap. FiniteEquivalenceRelations §4.2 states the pure-map
 (Joyal–Tierney) form of module descent and reads its descent data through the dictionary of
 §§3.2–3.3; §3.1 is its faithfully flat case.
 
@@ -10244,9 +10297,9 @@ effectiveness, perfect-complex rank loci on algebraic spaces, universal flatteni
 modules with proper support, Picard stacks as groupoid-valued carriers, Picard sheafification,
 section rigidification and infinitesimal lifting, general group-space components, analytification
 and proper coherent GAGA for algebraic spaces over complete nonarchimedean fields, boundary duality and `K/O` coefficients; framed deformation groupoids,
-formal objects of algebraic stacks and their algebraization; and the applications of supplied
+formal objects of algebraic stacks and their algebraization; the applications of supplied
 characteristic-zero resolution and SNC compactification to algebraic vanishing theorems and uniform
-numerical boundedness.
+numerical boundedness; and the Ein–Lazarsfeld global division theorem (§9.12).
 
 **Supplied elsewhere and cited.** SchemeAndStackFoundations supplies relative Proj of a graded
 quasi-coherent algebra (§0.3), the excellence package and Néron–Popescu desingularization (§§0.15,
@@ -10368,7 +10421,9 @@ affine schemes `TauCeti.AffineInvariantQuotient.quotient`, Cartier duality
 `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, the Zariski tangent space
 `TauCeti.AlgebraicGeometry.ZariskiTangentSpace` with `AlgHom.kernelCotangentLinearEquivZariski`,
 `TauCeti.derivationToTrivSqZeroExtEquivLift`, `MvPolynomial.orderAt`, `Algebra.trace_quotient_pow_mk`,
-`TauCeti.SheafOfModules.IsInvertible`.
+`TauCeti.SheafOfModules.IsInvertible`. Koszul complexes, for §9.12: `TauCeti.koszulComplex` of a linear
+functional and `TauCeti.koszulComplex.smul_homology_eq_zero` (every value of the functional annihilates the
+Koszul homology), in `TauCeti/RingTheory/KoszulComplex/Basic.lean`.
 
 **From roadmaps on main.** AlgebraicVectorBundles L0A–L2B; StableReduction Layers 2 and 4;
 JacobianChallenge Layers A–D; ModularCurves §§0C, 0E, 0F, 0G, 4C, 7B, 7D, 9D and 9E.
@@ -10411,7 +10466,7 @@ here needs one of their carriers, the README states it and the Lean does not.
 | Object | Supplier/export | Contract |
 | --- | --- | --- |
 | Compatible perfect ring-complex systems | DerivedModuleAlgebra §1.E.1 / `perfectInverseSystemEffectivity` | Derived-limit effectivity for surjective inverse ring systems with locally nilpotent transition kernels |
-| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `exists_resolution` (§7.8) and the statements of §§5.6, 6.2 and 6.3 | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 consume the supplier statements by section, and §§9.10–9.11 construct their vanishing and numerical applications |
+| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `exists_resolution` (§7.8) and the statements of §§5.6, 6.2 and 6.3 | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 consume the supplier statements by section, and §§9.10, 9.11 and 9.12 construct their vanishing, numerical and division applications |
 | Matlis duality and completion | DerivedModuleAlgebra §1.M.2 / *Matlis duality and completion inputs* | §7.5 uses the arbitrary-residue-field duality in `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` and `ko_cohomology_cofinite` |
 
 ## References
@@ -10437,6 +10492,8 @@ here needs one of their carriers, the README states it and the Lean does not.
 - Demailly; [Effective Bounds for Very Ample Line Bundles](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/very_ample.pdf).
 - Laura DeMarco, Niki Myrto Mavraki, Hexi Ye; [Bounded geometry for PCF-special subvarieties](https://arxiv.org/pdf/2405.17343v3); arXiv:2405.17343v3, 10 January 2026.
 - Alexander Grothendieck and Jean Dieudonné; [Éléments de géométrie algébrique IV, troisième partie](https://www.numdam.org/item/PMIHES_1966__28__5_0/).
+- Lawrence Ein and Robert Lazarsfeld; [A geometric effective Nullstellensatz](https://arxiv.org/pdf/math/9810004); Inventiones mathematicae 137 (1999), 427–448; arXiv:math/9810004v3, 28 January 1999.
+- Lawrence Ein, Robert Lazarsfeld and Karen E. Smith; [Uniform bounds and symbolic powers on smooth varieties](https://arxiv.org/pdf/math/0005098); Inventiones mathematicae 144 (2001), 241–252; arXiv:math/0005098v3, 4 October 2000.
 - Esnault–Viehweg; [Lectures on Vanishing Theorems](https://page.mi.fu-berlin.de/esnault/books/esvibuch.pdf).
 - Najmuddin Fakhruddin and Vincent Pilloni; [Hecke operators and the coherent cohomology of Shimura varieties](https://arxiv.org/abs/1910.03790v1); arXiv:1910.03790v1, 9 October 2019.
 - James Freitag, Wei Li, Thomas Scanlon; [Differential Chow varieties exist](https://math.berkeley.edu/~scanlon/papers/differential-chow-varieties-22apr15.pdf); Author copy, 22 April 2015.
@@ -10448,6 +10505,7 @@ here needs one of their carriers, the README states it and the Lean does not.
 - Michael Groechenig, Dimitri Wyss and Paul Ziegler; [Geometric stabilisation via p-adic integration](https://arxiv.org/pdf/1810.06739v2); arXiv:1810.06739v2, 28 October 2019 (PDF cover 29 October).
 - The Stacks Project authors; [Groupoids in algebraic spaces](https://stacks.math.columbia.edu/download/spaces-groupoids.pdf).
 - Niles Johnson and Donald Yau; [2-Dimensional Categories](https://arxiv.org/abs/2002.06055).
+- Robert Lazarsfeld; *Positivity in Algebraic Geometry II: Positivity for vector bundles, and multiplier ideals*; Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 49, Springer, Berlin, 2004.
 - James S. Milne; [Étale Cohomology, corrected Chapter IV: The Brauer Group](https://jmilne.org/math/Books/ECpup4.pdf); Author correction dated 23 November 2015, original Princeton 1980 chapter.
 - The Stacks Project Authors; [The Stacks Project: More on Morphisms](https://stacks.math.columbia.edu/download/more-morphisms.pdf).
 - James S. Milne; [Algebraic Groups](https://www.jmilne.org/math/CourseNotes/ALA.pdf).

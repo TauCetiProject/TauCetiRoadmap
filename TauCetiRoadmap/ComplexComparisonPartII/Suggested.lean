@@ -2,6 +2,8 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicTopology.Cohomology.Basic
+public import TauCeti.Analysis.Complex.LeviForm
+public import TauCeti.Analysis.PDE.Perron.Basic
 public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
 public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
 public import TauCeti.Geometry.Manifold.DifferentialForm.Dolbeault.Basic
@@ -25,6 +27,17 @@ manifold: the pins have no complex of sheaves of holomorphic forms, so the quasi
 its degree-zero part being Tau Ceti's `TauCeti.mextDeriv_ofFunction_eq_zero_iff`. The
 sheaf–singular statement asserts existence of an additive isomorphism; the construction of
 the canonical map and its naturality are specified in the README.
+
+From the `L²` theory of C7, on open subsets of `ℂⁿ`, the file states Hörmander's `L²` theorem
+for `(0,1)`-forms with both of its estimates (C7.1 (a), (b)) and with the datum measured by the
+Levi form of a smooth weight (C7.2), Skoda's division theorem (C7.6), the Ohsawa–Takegoshi
+extension theorem with the optimal constant (C7.7) and strong openness (C7.12). They need three
+definitions with real bodies: plurisubharmonic functions (C5.4a), by the sub-mean-value inequality
+on affine discs, pseudoconvex open sets (C7.1), and the operator `∂/∂z̄_j` on Mathlib's
+complex-valued distributions (C7.1), built from the distributional derivatives along the real
+coordinate directions; on `(0,1)`-forms the equation `∂̄u = g` and the condition `∂̄g = 0` are
+equations between these coefficients. The Levi form of C7.2 is Tau Ceti's `TauCeti.leviForm`,
+and the Green function of C7.7 is built from the pinned Perron solution `TauCeti.perronSolution`.
 
 The other headline targets require objects absent from the pins:
 
@@ -98,6 +111,16 @@ The other headline targets require objects absent from the pins:
   computes cohomology with coefficients in the dual system), derived compact-support
   sections through c-soft resolutions, and finite triangulations of `T_X` compatible with a
   constructible stratification.
+* C5.4a–C5.4j and C7: the other headline theorems are Hörmander's `L²` theorem for
+  `(p,q)`-forms (the last clause of C7.1), its extensions C7.3–C7.5, and Nadel's vanishing
+  theorem (C7.17). The `(p,q)` clause needs forms of every bidegree with distribution
+  coefficients and `∂̄` on them, whose coefficients combine derivatives over multi-indices with
+  signs; the pins have `∂̄` only on Tau Ceti's smooth forms. On functions and `(0,1)`-forms, the
+  only degrees that C7.1 (a), (b) and C7.2 involve, `∂̄` is the coefficientwise operator above.
+  C7.3–C7.5 need Kähler manifolds and Hermitian holomorphic bundles with their curvature
+  operators. Nadel vanishing requires singular Hermitian metrics on holomorphic line bundles over
+  compact Kähler manifolds, their multiplier ideal sheaves as coherent analytic sheaves (C5.4g,
+  C7.9) and the cohomology of coherent analytic sheaves.
 
 These missing carriers are constructions specified in the README; none is replaced here
 by a predicate parameter or an arbitrary comparison map.
@@ -107,7 +130,8 @@ by a predicate parameter or an arbitrary comparison map.
 
 namespace TauCetiRoadmap.ComplexComparisonPartII
 
-open CategoryTheory
+open CategoryTheory MeasureTheory Filter Topology
+open scoped ENNReal
 
 universe u
 
@@ -178,6 +202,183 @@ theorem nonempty_sheafSingularComparison (T : TopCat.{u}) (hT : LocallyContracti
       (Sheaf.H.{u}
         ((constantSheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}).obj A) q
         ≃+ T.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) q) := by
+  sorry
+
+/-- C5.4a, on a complex normed space `E`: `u : E → [−∞, ∞]` is *plurisubharmonic* on `Ω` if it
+is upper semicontinuous on `Ω`, never `+∞` there, and for every closed affine disc
+`z ↦ a + z • ξ`, `‖z‖ ≤ 1`, lying in `Ω`, the value `u a` at the centre is at most the mean over
+the unit circle of every continuous majorant of `z ↦ u (a + z • ξ)` on that circle, that is, at
+most the mean of C5.4a of `u` on the boundary circle. In finite dimension this is C5.4a's
+definition in a chart, where affine discs suffice (Demailly, *Complex Analytic and Differential
+Geometry*, I.5.1). -/
+def IsPlurisubharmonicOn {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (u : E → EReal) (Ω : Set E) : Prop :=
+  UpperSemicontinuousOn u Ω ∧ (∀ x ∈ Ω, u x ≠ ⊤) ∧
+    ∀ a ξ : E, (∀ z : ℂ, ‖z‖ ≤ 1 → a + z • ξ ∈ Ω) →
+      ∀ g : ℂ → ℝ, Continuous g → (∀ z : ℂ, ‖z‖ = 1 → u (a + z • ξ) ≤ (g z : EReal)) →
+        u a ≤ ((Real.circleAverage g 0 1 : ℝ) : EReal)
+
+/-! ## Layer C7: L² estimates for ∂̄ with plurisubharmonic weights -/
+
+/-- C7.1: an open subset `Ω` of a finite-dimensional complex normed space is *pseudoconvex* if
+it has a continuous plurisubharmonic exhaustion function: a function `ψ`, continuous and
+plurisubharmonic on `Ω`, each of whose sublevel sets `{z ∈ Ω | ψ z < c}` lies in a compact
+subset of `Ω`. -/
+def IsPseudoconvex {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    (Ω : Set E) : Prop :=
+  IsOpen Ω ∧ ∃ ψ : E → ℝ, ContinuousOn ψ Ω ∧ IsPlurisubharmonicOn (fun z ↦ (ψ z : EReal)) Ω ∧
+    ∀ c : ℝ, ∃ K : Set E, IsCompact K ∧ K ⊆ Ω ∧ {z | z ∈ Ω ∧ ψ z < c} ⊆ K
+
+section Hormander
+
+open scoped Distributions ContDiff
+
+/-- C7.1: the Cauchy–Riemann operator `∂/∂z̄_j = ½(∂/∂x_j + i ∂/∂y_j)` on complex-valued
+distributions on an open subset `Ω` of `ℂⁿ`, with coordinates `z_j = x_j + i y_j`: `∂/∂x_j` and
+`∂/∂y_j` are Mathlib's distributional derivatives along the real directions `e_j` and `i e_j`.
+For a `(0,1)`-form `g = Σ_j g_j dz̄_j` with distribution coefficients, `∂̄u = g` means
+`dbarDistribution j u = g_j` for every `j`, and `∂̄g = 0` means
+`dbarDistribution k g_j = dbarDistribution j g_k` for all `j, k`. On the distributions of `C¹`
+functions it is the Wirtinger derivative: `1` on `z̄_j` and `0` on `z_j`. -/
+noncomputable def dbarDistribution {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (Fin n))}
+    (j : Fin n) (T : 𝓓'(Ω, ℂ)) : 𝓓'(Ω, ℂ) :=
+  (2 : ℂ)⁻¹ • (Distribution.lineDerivCLM (EuclideanSpace.single j 1) T +
+    Complex.I • Distribution.lineDerivCLM (EuclideanSpace.single j Complex.I) T)
+
+/-- C7.1 (a), Hörmander's `L²` theorem: let `Ω ⊆ ℂⁿ` be pseudoconvex and `φ` plurisubharmonic on
+`Ω`. For every `(0,1)`-form `g = Σ_j g_j dz̄_j` with locally integrable coefficients, `∂̄g = 0` in
+the sense of distributions and `∫_Ω |g|²e^{−φ} dλ < ∞`, where `|g|² = Σ_j |g_j|²`, there is a
+locally integrable `u` with `∂̄u = g` and `∫_Ω |u|²e^{−φ}(1 + |z|²)^{−2} dλ ≤ ∫_Ω |g|²e^{−φ} dλ`
+(Hörmander 1965; Hörmander, *An Introduction to Complex Analysis in Several Variables*,
+chapter IV). -/
+theorem hormanderL2 {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (Fin n))}
+    (hΩ : IsPseudoconvex (Ω : Set (EuclideanSpace ℂ (Fin n))))
+    {φ : EuclideanSpace ℂ (Fin n) → EReal} (hφ : IsPlurisubharmonicOn φ Ω)
+    {g : Fin n → EuclideanSpace ℂ (Fin n) → ℂ} (hg : ∀ j, LocallyIntegrableOn (g j) Ω)
+    (hg_closed : ∀ j k, dbarDistribution k (Distribution.ofFun Ω (g j) volume ⊤) =
+      dbarDistribution j (Distribution.ofFun Ω (g k) volume ⊤))
+    (hI : ∫⁻ z in Ω, (∑ j, ‖g j z‖ₑ ^ 2) * EReal.exp (-φ z) < ⊤) :
+    ∃ u : EuclideanSpace ℂ (Fin n) → ℂ, LocallyIntegrableOn u Ω ∧
+      (∀ j, dbarDistribution j (Distribution.ofFun Ω u volume ⊤) =
+        Distribution.ofFun Ω (g j) volume ⊤) ∧
+      ∫⁻ z in Ω, ‖u z‖ₑ ^ 2 * EReal.exp (-φ z) * ENNReal.ofReal ((1 + ‖z‖ ^ 2) ^ (-2 : ℤ)) ≤
+        ∫⁻ z in Ω, (∑ j, ‖g j z‖ₑ ^ 2) * EReal.exp (-φ z) := by
+  sorry
+
+/-- C7.1 (b): if moreover `i∂∂̄φ ≥ c·i∂∂̄|z|²` as currents for a constant `c > 0`, that is, if
+`φ − c|z|²` is plurisubharmonic on `Ω` (which makes `φ` plurisubharmonic), the solution can be
+taken with `∫_Ω |u|²e^{−φ} dλ ≤ (1/c)·∫_Ω |g|²e^{−φ} dλ` (Demailly, *Complex Analytic and
+Differential Geometry*, VIII.6.5 with (6.4), for smooth `φ`; for plurisubharmonic `φ` by
+regularising with convolutions `φ ∗ ρ_ε`, which keep `φ − c|z|²` plurisubharmonic, as in the last
+step of the proof of VIII.6.9). For `Ω = ℂ`, `φ = |z|²`, `c = 1` and `g = dz̄` both sides equal
+`π` for the solution `z̄`. -/
+theorem hormanderL2_strict {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (Fin n))}
+    (hΩ : IsPseudoconvex (Ω : Set (EuclideanSpace ℂ (Fin n))))
+    {φ : EuclideanSpace ℂ (Fin n) → EReal} {c : ℝ} (hc : 0 < c)
+    (hφ : IsPlurisubharmonicOn (fun z ↦ φ z - ((c * ‖z‖ ^ 2 : ℝ) : EReal)) Ω)
+    {g : Fin n → EuclideanSpace ℂ (Fin n) → ℂ} (hg : ∀ j, LocallyIntegrableOn (g j) Ω)
+    (hg_closed : ∀ j k, dbarDistribution k (Distribution.ofFun Ω (g j) volume ⊤) =
+      dbarDistribution j (Distribution.ofFun Ω (g k) volume ⊤))
+    (hI : ∫⁻ z in Ω, (∑ j, ‖g j z‖ₑ ^ 2) * EReal.exp (-φ z) < ⊤) :
+    ∃ u : EuclideanSpace ℂ (Fin n) → ℂ, LocallyIntegrableOn u Ω ∧
+      (∀ j, dbarDistribution j (Distribution.ofFun Ω u volume ⊤) =
+        Distribution.ofFun Ω (g j) volume ⊤) ∧
+      ∫⁻ z in Ω, ‖u z‖ₑ ^ 2 * EReal.exp (-φ z) ≤
+        ENNReal.ofReal c⁻¹ * ∫⁻ z in Ω, (∑ j, ‖g j z‖ₑ ^ 2) * EReal.exp (-φ z) := by
+  sorry
+
+/-- C7.2, Hörmander's estimate with the datum measured by the Levi form: let `Ω ⊆ ℂⁿ` be
+pseudoconvex and `φ` smooth and plurisubharmonic on `Ω`, with Levi form `θ = i∂∂̄φ`, so that
+`θ(ξ, ξ) = Σ_{j,k} ∂²φ/∂z_j∂z̄_k ξ_j ξ̄_k` is the diagonal of `TauCeti.leviForm φ z`. For a
+`(0,1)`-covector `v = Σ_k v_k dz̄_k` put `|v|²_θ = sup_ξ |Σ_k v_k ξ̄_k|²/θ(ξ, ξ) ∈ [0, ∞]`, with
+`0/0 = 0` and `a/0 = ∞` for `a > 0` as division in `[0, ∞]` gives. For every `(0,1)`-form `v`
+with locally integrable coefficients, `∂̄v = 0` and `∫_Ω |v|²_θ e^{−φ} dλ < ∞` there is a locally
+integrable `u` with `∂̄u = v` and `∫_Ω |u|²e^{−φ} dλ ≤ ∫_Ω |v|²_θ e^{−φ} dλ` (Hörmander 1965;
+Demailly 1982, Théorème 5.1). No lower bound for `θ` is assumed. The finiteness makes the
+coefficients `L²_loc`, `θ` being locally bounded, and the solution of least norm in
+`L²(Ω, e^{−φ}dλ)` satisfies the same bound, the solutions there forming a closed affine
+subspace. -/
+theorem hormanderL2_leviNorm {n : ℕ} {Ω : TopologicalSpace.Opens (EuclideanSpace ℂ (Fin n))}
+    (hΩ : IsPseudoconvex (Ω : Set (EuclideanSpace ℂ (Fin n))))
+    {φ : EuclideanSpace ℂ (Fin n) → ℝ} (hφ_smooth : ContDiffOn ℝ ∞ φ Ω)
+    (hφ : IsPlurisubharmonicOn (fun z ↦ (φ z : EReal)) Ω)
+    {v : Fin n → EuclideanSpace ℂ (Fin n) → ℂ} (hv : ∀ j, LocallyIntegrableOn (v j) Ω)
+    (hv_closed : ∀ j k, dbarDistribution k (Distribution.ofFun Ω (v j) volume ⊤) =
+      dbarDistribution j (Distribution.ofFun Ω (v k) volume ⊤))
+    (hI : ∫⁻ z in Ω, (⨆ ξ : EuclideanSpace ℂ (Fin n),
+        ‖∑ k, v k z * starRingEnd ℂ (ξ k)‖ₑ ^ 2 /
+          ENNReal.ofReal (TauCeti.leviForm φ z ξ ξ).re) * ENNReal.ofReal (Real.exp (-φ z)) < ⊤) :
+    ∃ u : EuclideanSpace ℂ (Fin n) → ℂ, LocallyIntegrableOn u Ω ∧
+      (∀ j, dbarDistribution j (Distribution.ofFun Ω u volume ⊤) =
+        Distribution.ofFun Ω (v j) volume ⊤) ∧
+      ∫⁻ z in Ω, ‖u z‖ₑ ^ 2 * ENNReal.ofReal (Real.exp (-φ z)) ≤
+        ∫⁻ z in Ω, (⨆ ξ : EuclideanSpace ℂ (Fin n),
+          ‖∑ k, v k z * starRingEnd ℂ (ξ k)‖ₑ ^ 2 /
+            ENNReal.ofReal (TauCeti.leviForm φ z ξ ξ).re) * ENNReal.ofReal (Real.exp (-φ z)) := by
+  sorry
+
+end Hormander
+
+/-- C7.6, Skoda's division theorem: let `Ω ⊆ ℂⁿ` be pseudoconvex, `φ` plurisubharmonic on `Ω`
+and `≢ −∞` near every point, and `g = (g₁, …, g_p)` holomorphic on `Ω` such that near every
+point of `Ω` some `g_j` does not vanish identically; put `|g|² = Σ_j |g_j|²` and `q = min(n, p − 1)`. For real
+`α > 1` and holomorphic `f` with `I = ∫_Ω |f|²|g|^{−2(αq+1)}e^{−φ} dλ < ∞` there are holomorphic
+`h₁, …, h_p` on `Ω` with `f = Σ_j g_j h_j` and `∫_Ω Σ_j|h_j|²|g|^{−2αq}e^{−φ} dλ ≤ α/(α − 1)·I`
+(Skoda 1972, Théorème 1). The powers of `|g|²` are taken in `[0, ∞]`, so that they are `∞` on
+the common zeros of the `g_j`, a Lebesgue-null set. -/
+theorem skodaDivision {n p : ℕ} {Ω : Set (EuclideanSpace ℂ (Fin n))} (hΩ : IsPseudoconvex Ω)
+    {φ : EuclideanSpace ℂ (Fin n) → EReal} (hφ : IsPlurisubharmonicOn φ Ω)
+    (hφ_ne : ∀ x ∈ Ω, ¬ ∀ᶠ z in 𝓝 x, φ z = ⊥)
+    {g : Fin p → EuclideanSpace ℂ (Fin n) → ℂ} (hg : ∀ j, DifferentiableOn ℂ (g j) Ω)
+    (hg_ne : ∀ x ∈ Ω, ∃ j, ¬ g j =ᶠ[𝓝 x] 0) {α : ℝ} (hα : 1 < α)
+    {f : EuclideanSpace ℂ (Fin n) → ℂ} (hf : DifferentiableOn ℂ f Ω)
+    (hI : ∫⁻ z in Ω, ‖f z‖ₑ ^ 2 * (∑ j, ‖g j z‖ₑ ^ 2) ^ (-(α * (min n (p - 1) : ℕ) + 1)) *
+        EReal.exp (-φ z) < ⊤) :
+    ∃ h : Fin p → EuclideanSpace ℂ (Fin n) → ℂ, (∀ j, DifferentiableOn ℂ (h j) Ω) ∧
+      (∀ z ∈ Ω, f z = ∑ j, g j z * h j z) ∧
+      ∫⁻ z in Ω, (∑ j, ‖h j z‖ₑ ^ 2) * (∑ j, ‖g j z‖ₑ ^ 2) ^ (-(α * (min n (p - 1) : ℕ))) *
+          EReal.exp (-φ z) ≤
+        ENNReal.ofReal (α / (α - 1)) *
+          ∫⁻ z in Ω, ‖f z‖ₑ ^ 2 * (∑ j, ‖g j z‖ₑ ^ 2) ^ (-(α * (min n (p - 1) : ℕ) + 1)) *
+            EReal.exp (-φ z) := by
+  sorry
+
+/-- C7.7, the Ohsawa–Takegoshi extension theorem from a hyperplane with the optimal constant
+(Błocki 2013, Theorem 1; Guan–Zhou 2015): let `D ⊆ ℂ` be a bounded domain containing `0`, and
+`h` the Perron solution on `D` of the boundary datum `ζ ↦ log |ζ|`, so that the Green function of
+`D` with pole `0` is `log |ζ| − h(ζ)` and `c_D(0) = e^{−h(0)}`. Let `Ω ⊆ ℂ^m × D` be a
+pseudoconvex domain, `φ` plurisubharmonic on `Ω`, and `f` holomorphic on the slice
+`Ω ∩ {z_{m+1} = 0}` with `∫ |f|²e^{−φ} dλ_m < ∞` there. Then `f` extends to a holomorphic `F`
+on `Ω` with `∫_Ω |F|²e^{−φ} dλ_{m+1} ≤ (π/c_D(0)²)·∫ |f|²e^{−φ} dλ_m`. On the disc of radius `r`,
+`h ≡ log r` and the constant is `πr²`. -/
+theorem ohsawaTakegoshi {m : ℕ} {D : Set ℂ} (hD : IsOpen D) (hDc : IsConnected D)
+    (hDb : Bornology.IsBounded D) (hD0 : (0 : ℂ) ∈ D)
+    {Ω : Set (EuclideanSpace ℂ (Fin m) × ℂ)} (hΩ : IsPseudoconvex Ω) (hΩc : IsConnected Ω)
+    (hΩD : Ω ⊆ Set.univ ×ˢ D) {φ : EuclideanSpace ℂ (Fin m) × ℂ → EReal}
+    (hφ : IsPlurisubharmonicOn φ Ω) {f : EuclideanSpace ℂ (Fin m) → ℂ}
+    (hf : DifferentiableOn ℂ f {z | (z, (0 : ℂ)) ∈ Ω})
+    (hfint : ∫⁻ z in {z | (z, (0 : ℂ)) ∈ Ω}, ‖f z‖ₑ ^ 2 * EReal.exp (-φ (z, 0)) < ⊤) :
+    ∃ F : EuclideanSpace ℂ (Fin m) × ℂ → ℂ, DifferentiableOn ℂ F Ω ∧
+      (∀ z, (z, (0 : ℂ)) ∈ Ω → F (z, 0) = f z) ∧
+      ∫⁻ w in Ω, ‖F w‖ₑ ^ 2 * EReal.exp (-φ w) ≤
+        ENNReal.ofReal
+            (Real.pi * Real.exp (2 * TauCeti.perronSolution D (fun ζ ↦ Real.log ‖ζ‖) 0)) *
+          ∫⁻ z in {z | (z, (0 : ℂ)) ∈ Ω}, ‖f z‖ₑ ^ 2 * EReal.exp (-φ (z, 0)) := by
+  sorry
+
+/-- C7.12, strong openness, at a point `x` of an open set `Ω ⊆ ℂⁿ`: for `φ` plurisubharmonic on
+`Ω` and `F` holomorphic near `x`, `|F|²e^{−φ}` is integrable on a neighbourhood of `x` iff
+`|F|²e^{−(1+ε)φ}` is integrable on a neighbourhood of `x` for some `ε > 0`. On stalks of the
+multiplier ideals of C5.4g this is `J(φ)_x = ⋃_{ε>0} J((1 + ε)φ)_x`; the implication from left to
+right is Guan and Zhou's theorem (*A proof of Demailly's strong openness conjecture*,
+Theorem 1.1). -/
+theorem strongOpenness {n : ℕ} {Ω : Set (EuclideanSpace ℂ (Fin n))} (hΩ : IsOpen Ω)
+    {φ : EuclideanSpace ℂ (Fin n) → EReal} (hφ : IsPlurisubharmonicOn φ Ω)
+    {x : EuclideanSpace ℂ (Fin n)} (hx : x ∈ Ω) {F : EuclideanSpace ℂ (Fin n) → ℂ}
+    (hF : ∀ᶠ z in 𝓝 x, DifferentiableAt ℂ F z) :
+    (∃ U ∈ 𝓝 x, ∫⁻ z in U, ‖F z‖ₑ ^ 2 * EReal.exp (-φ z) < ⊤) ↔
+      ∃ ε : ℝ, 0 < ε ∧ ∃ V ∈ 𝓝 x,
+        ∫⁻ z in V, ‖F z‖ₑ ^ 2 * EReal.exp (-(((1 + ε : ℝ) : EReal) * φ z)) < ⊤ := by
   sorry
 
 end TauCetiRoadmap.ComplexComparisonPartII

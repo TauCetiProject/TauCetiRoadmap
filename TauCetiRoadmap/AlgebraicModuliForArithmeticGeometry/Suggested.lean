@@ -32,7 +32,9 @@ nonarchimedean analytification and relative coherent cohomology comparisons. Lay
 effectivity, versality and algebraization need framed deformation and formal-object groupoids.
 Layer 9's resolution comparisons, Kawamata–Viehweg vanishing and Kollár–Matsusaka boundedness need
 the supplied resolution/SNC interfaces, logarithmic complexes, nef and big divisors and intersection
-theory. These headlines have no substitute statements here.
+theory. The Ein–Lazarsfeld global division theorem (§9.12) needs the multiplier ideals of an ideal
+and nef and big divisors. The pins have Mathlib's `ℚ`-valued algebraic cycles and Tau Ceti's Weil
+and Cartier divisors, but none of these. These headlines have no substitute statements here.
 -/
 
 namespace TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry

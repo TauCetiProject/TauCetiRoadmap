@@ -1,36 +1,79 @@
 # Roadmap: orbit measures on adelic groups
 
-**Summary.** Let `F` be a number field and `G` a connected linear algebraic group over `F`. The Tamagawa measure `τ_G` of the adelic points `G(𝔸_F)` is the restricted product over the places `v` of the measures `|ω|_v` of an invariant gauge form `ω`, corrected by convergence factors and a power of the discriminant, and the Tamagawa number `τ(G)` is the volume of `G(F)\G(𝔸_F)^1`. [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) builds these for connected reductive groups. This roadmap extends that theory by what the comparison of Tamagawa measures on homogeneous spaces needs: the measure of a nowhere vanishing top form on the points of a smooth variety over a local field, with a fibre formula; the Tamagawa measure and number of a connected group `M ⋉ N` with a unipotent radical; and invariant gauge forms and quotient measures on homogeneous spaces. With them it computes three kinds of Tamagawa numbers, and it adds one statement on reductive groups: the structure of the centralisers of semisimple elements.
+**Summary.** Let `F` be a number field and `G` a connected linear algebraic group over `F`. The Tamagawa measure `τ_G` of the adelic points `G(𝔸_F)` is the restricted product over the places `v` of the measures `|ω|_v` of an invariant gauge form `ω`, corrected by convergence factors and a power of the discriminant, and the Tamagawa number `τ(G)` is the volume of `G(F)\G(𝔸_F)^1`. [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) builds these for connected reductive groups, and its §§2.6 and 3.4a extend them to the measures of top forms, to groups with a unipotent radical and to homogeneous spaces. This roadmap states what the comparison of Tamagawa measures on homogeneous spaces needs: the measure of a nowhere vanishing top form on the points of a smooth variety over a local field, with a fibre formula; the Tamagawa measure and number of a connected group `M ⋉ N` with a unipotent radical; and invariant gauge forms and quotient measures on homogeneous spaces. With them it computes three kinds of Tamagawa numbers, and it adds one statement on reductive groups: the centralisers of the elements of `GL_n` whose characteristic polynomial is separable and of the elements of unitary groups over a quadratic extension of fields of characteristic zero attached to an irreducible polynomial, in part a case of the structure of the centralisers of semisimple elements.
 
-The headline theorems are these. (1) For every number field `F`, `τ(G_m) = 1`; equivalently, the norm-one idele classes `F^×\𝔸_F^1` have volume `κ_F = Res_{s=1} ζ_F(s)` for the measure induced by Tate's measure `d^×x`. (2) Let `G` be a smooth connected affine `F`-group acting on an affine variety, `x` an `F`-point with smooth connected stabilizer `H`, with `G` and `H` unimodular in the algebraic sense (`det Ad = 1` on their Lie algebras), the restriction `X^*(G) → X^*(H)` of geometric characters injective with finite cokernel, and the Tamagawa measures `τ_G`, `τ_H` defined. Then the orbit `X = G·x` carries an `F`-rational `G`-invariant gauge form `ω_X`, and the quotient of `τ_G` by `τ_H` on `H(𝔸)\G(𝔸)` is the restricted product `|d_F|^{−dim X/2} ∏_v |ω_X|_v` of the local measures on the local orbits. If `X` is open in a level set of a `G`-invariant morphism `Φ` between vector spaces, `G` acting linearly with determinant one and `dΦ` onto along `X`, this quotient is the restricted product of the local fibre measures of `Φ`. (3) For a connected group `H = M ⋉ N` with `N` unipotent and `M` connected reductive, `τ(H) = τ(M)`, and `τ(N) = 1`; for a central induced torus `T_1` in a connected reductive group `G_2`, `τ(G_2/T_1) = i·τ(G_2)/τ(T_1)`, where `i` is the index of the image of the restriction `X^*_F(G_2) → X^*_F(T_1)` of rational characters; so `τ(PGL_n) = n·τ(GL_n)`. (4) Let `G` be a connected reductive group over an algebraically closed field and `s ∈ G` semisimple. Then the centraliser `C_G(s)` is smooth, its identity component is reductive, and `C_G(s)` is connected if the derived group of `G` is simply connected (Steinberg).
+The headline theorems are these. (1) For every number field `F`, `τ(G_m) = 1`; equivalently, the norm-one idele classes `F^×\𝔸_F^1` have volume `κ_F = Res_{s=1} ζ_F(s)` for the measure induced by Tate's measure `d^×x`. (2) Let `G` be a smooth connected affine `F`-group acting on an affine variety, `x` an `F`-point with smooth connected stabilizer `H`, with `G` and `H` unimodular in the algebraic sense (`det Ad = 1` on their Lie algebras), the restriction `X^*(G) → X^*(H)` of geometric characters injective with finite cokernel, and the Tamagawa measures `τ_G`, `τ_H` defined. Then the orbit `X = G·x` carries an `F`-rational `G`-invariant gauge form `ω_X`, and the quotient of `τ_G` by `τ_H` on `H(𝔸)\G(𝔸)` is the restricted product `|d_F|^{−dim X/2} ∏_v |ω_X|_v` of the local measures on the local orbits. If `X` is open in a level set of a `G`-invariant morphism `Φ` between vector spaces, `G` acting linearly with determinant one and `dΦ` onto along `X`, this quotient is the restricted product of the local fibre measures of `Φ`. (3) For a connected group `H = M ⋉ N` with `N` unipotent and `M` connected reductive, `τ(H) = τ(M)`, and `τ(N) = 1`; for a central induced torus `T_1` in a connected reductive group `G_2`, `τ(G_2/T_1) = i·τ(G_2)/τ(T_1)`, where `i` is the index of the image of the restriction `X^*_F(G_2) → X^*_F(T_1)` of rational characters; so `τ(PGL_n) = n·τ(GL_n)`. (4) Let `k` be a field and `g ∈ GL_n(k)` an element whose characteristic polynomial is separable. Then every matrix that commutes with `g` is a polynomial in `g`, so the centraliser of `g` in `GL_n(k)` is `k[g]^×` and is commutative. In the unitary group of a Hermitian space of dimension `n` over a quadratic extension `E/F` of fields of characteristic zero, let `γ` be multiplication by the class of `X` on `E[X]/(P)`, carried to the space by an isometry of a trace form with the Hermitian form, for a monic irreducible `P` of degree `n` with `P(X) = c(P(0))^{−1} X^n P^c(1/X)` (`c` the nontrivial automorphism of `E/F`); then on points over every commutative `F`-algebra the centraliser of `γ` is the norm-one torus of `E[X]/(P)`, commutative as well. On points over a field, their commutativity is a case of Steinberg's theorem on the centralisers of semisimple elements, ReductiveGroups §7.1.
 
-The roadmap builds on [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md), which supplies the adelic points of algebraic groups with their integral models, characters, quotient measures, gauge forms, convergence factors, the Tamagawa measure and number of connected reductive groups, and the finiteness of volumes; on [ReductiveGroups](../../ReductiveGroups/README.md), whose structure theory is the setting of the statement on centralisers; on [ReductiveGroupsPartII](../../ReductiveGroupsPartII/README.md) for analytic charts on groups over local fields and Lang's theorem; on [LogicAndDefinabilityInNumberTheory](../../LogicAndDefinabilityInNumberTheory/README.md) for the measures of gauge forms over nonarchimedean local fields and their Fubini formula; and on [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) for Tate's measures, Poisson summation on the adeles and quotient measures in stages. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) uses Layers 2 and 3 for the Tamagawa numbers of unitary groups, local densities as fibre measures and Siegel's main theorem for Hermitian lattices, and [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) uses Layer 4.
+The roadmap builds on [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md), which supplies the adelic points of algebraic groups with their integral models, characters, quotient measures, gauge forms, convergence factors, the Tamagawa measure and number of connected reductive groups, and the finiteness of volumes, and whose §§2.6 and 3.4a state the general theorems of which clauses of 2.6 and 3.4a are corollaries; on [ReductiveGroups](../../ReductiveGroups/README.md), whose §7.1 states the structure of the centralisers of semisimple elements, of which 4.1 is in part a corollary, and whose §9D.1 defines the unitary groups of 4.1; on [ReductiveGroupsPartII](../../ReductiveGroupsPartII/README.md) for analytic charts on groups over local fields and Lang's theorem; on [LogicAndDefinabilityInNumberTheory](../../LogicAndDefinabilityInNumberTheory/README.md) for the measures of gauge forms over nonarchimedean local fields and their Fubini formula; and on [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) for Tate's measures, Poisson summation on the adeles and quotient measures in stages. In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) uses Layers 2 and 3 for the Tamagawa numbers of unitary groups, local densities as fibre measures and Siegel's main theorem for Hermitian lattices.
 
-Layer 2 (target 2.6) constructs the measure of a top form with its fibre formula, the Tamagawa measure of `M ⋉ N`, and invariant gauge forms and quotient measures on homogeneous spaces, over local fields and adelically. Layer 3 (target 3.4a) computes `τ(G_m)` from Tate's zeta integral and the class number formula, the Tamagawa number of `M ⋉ N` with its invariance under restriction of scalars, and the Tamagawa number of a quotient by a central induced torus. Layer 4 (target 4.1) treats the centralisers of semisimple elements over an algebraically closed field. The layer numbers and the ids 2.6 and 3.4a place these statements beside the layers of AdelicAlgebraicGroups that they extend: 2.6 follows AdelicAlgebraicGroups §2.5, and 3.4a follows AdelicAlgebraicGroups §3.4.
+Layer 2 (target 2.6) constructs the measure of a top form with its fibre formula, the Tamagawa measure of `M ⋉ N`, and invariant gauge forms and quotient measures on homogeneous spaces, over local fields and adelically. Layer 3 (target 3.4a) computes `τ(G_m)` from Tate's zeta integral and the class number formula, the Tamagawa number of `M ⋉ N` with its invariance under restriction of scalars, and the Tamagawa number of a quotient by a central induced torus. Layer 4 (target 4.1) treats the centralisers of the elements of `GL_n` over a field whose characteristic polynomial is separable, and of the elements of unitary groups over a quadratic extension of fields of characteristic zero attached to an irreducible polynomial. The layer numbers and the ids 2.6 and 3.4a are those of the sections AdelicAlgebraicGroups §§2.6 and 3.4a, which state the published parts of these targets: 2.6 follows AdelicAlgebraicGroups §2.5, and 3.4a follows AdelicAlgebraicGroups §3.4.
 
 ## Conventions
 
-Notation and conventions not restated here are those of the Conventions of AdelicAlgebraicGroups and of AdelicAlgebraicGroups §§2.1–2.4 in Layers 2 and 3, and those of the Conventions and Layer 7 of ReductiveGroups in Layer 4. In particular:
+Notation and conventions not restated here are those of the Conventions of AdelicAlgebraicGroups and of AdelicAlgebraicGroups §§2.1–2.4 in Layers 2 and 3, and those of ReductiveGroups §§7.1 and 9D.1 in Layer 4. In particular:
 
 - `F` is a number field, `v` a place of `F`, `F_v` the completion, `𝒪_v` the valuation ring and `q_v` the residue cardinality at a finite `v`, `𝒪_{F,S}` the ring of `S`-integers, `d_F` the discriminant, `𝔇_v` the local different and `κ_F = Res_{s=1} ζ_F(s)` the residue of the Dedekind zeta function.
 - Absolute values are normalised (`|z|_ℂ = z̄z` at a complex place); additive Haar measures give `𝒪_v` volume one and are `dx` on `ℝ` and `2 dx dy` on `ℂ`.
 - `X^*(G)` is the Galois module of geometric characters of `G` and `X^*_F(G)` the lattice of `F`-rational characters; `a_G = Hom(X^*_F(G), ℝ)`, `H_G : G(𝔸) → a_G` is the logarithm map, `G(𝔸)^1 = ker H_G`, and `A_G(ℝ)^0` is the positive real part of the split centre (AdelicAlgebraicGroups §2.1).
 - A gauge form on a smooth connected group is a nowhere vanishing invariant top form; `|ω|_v` is its measure on `G(F_v)`, `λ_v` are the convergence factors, `τ_G` is the Tamagawa measure, `τ^1_G` the measure it induces on `G(𝔸)^1`, and `τ(G)` the Tamagawa number (AdelicAlgebraicGroups §2.4). A group `G` is unimodular in the algebraic sense when `det Ad_{Lie G} = 1` on `G`.
 - Tate's measure `d^×x` on the ideles and the self-dual measure on `𝔸_F` are those of AnalyticNumberTheoryPartII §§5.3h and 5.3j; quotient measures on homogeneous spaces are those of AdelicAlgebraicGroups §2.2.
-- The targets 2.6 and 3.4a consist of named statements, each marked by a slug in italics such as *top-form-measure*; "2.6 *top-form-measure*" cites one of them. The other slugs in italics name statements of the roadmaps on main: *convergence-factors*, *Independence of the gauge form*, *quotient-measure*, *rational-characters-free*, *Modular function of `P(𝔸)`*, *Tamagawa number*, *tamagawa-restriction-scalars*, *Finite volume of `G(F)\G(𝔸)^1`*, *Anisotropic groups have compact quotients*, *Parabolic Haar Jacobian* and *The `GL_1` quotient is the idele class group* are statements of AdelicAlgebraicGroups, *smooth-group-analytic-charts*, *z-extension* and *lang-theorem* are statements of ReductiveGroupsPartII, and *smooth-morphism-submersion* is a statement of AdicSpacesPartV.
-- AdelicAlgebraicGroups, AnalyticNumberTheoryPartII, LogicAndDefinabilityInNumberTheory, EndoscopicTransferAndUnitaryTraceComparison, AdicSpacesPartV, GeometryOfNumbersAndQuadraticArithmetic and HeightsRationalPointsAndObstructions are cited by section, ReductiveGroupsPartII by its own labels (`RG2.0`, `RG2.1.5`, `RG2.3.7`), and ReductiveGroups by layer or by item (`3A.5d`, `3A.5f`).
-- In Layers 2 and 3 every field has characteristic zero; Layer 4 holds in every characteristic.
+- The targets 2.6 and 3.4a consist of named statements, each marked by a slug in italics such as *top-form-measure*; "2.6 *top-form-measure*" cites one of them, and the same slug written after the home's name ("AdelicAlgebraicGroups §2.6 *top-form-measure*") cites the statement of that name in AdelicAlgebraicGroups §2.6 or §3.4a. The other slugs in italics name statements of the roadmaps on main: *convergence-factors*, *Independence of the gauge form*, *quotient-measure*, *rational-characters-free*, *Modular function of `P(𝔸)`*, *Tamagawa number*, *tamagawa-restriction-scalars*, *Finite volume of `G(F)\G(𝔸)^1`*, *Anisotropic groups have compact quotients*, *Parabolic Haar Jacobian* and *The `GL_1` quotient is the idele class group* are statements of AdelicAlgebraicGroups, *smooth-group-analytic-charts*, *z-extension* and *lang-theorem* are statements of ReductiveGroupsPartII, and *smooth-morphism-submersion* is a statement of AdicSpacesPartV.
+- AdelicAlgebraicGroups, AnalyticNumberTheoryPartII, LogicAndDefinabilityInNumberTheory, AdicSpacesPartV, GeometryOfNumbersAndQuadraticArithmetic and HeightsRationalPointsAndObstructions are cited by section, ReductiveGroupsPartII by its own labels (`RG2.0`, `RG2.1.5`, `RG2.3.7`), and ReductiveGroups by layer, by item (`3A.5d`, `3A.5f`) or by section (§§7.1, 9D.1).
+- In Layers 2 and 3 every field has characteristic zero; in Layer 4, (a) holds over every field, and in (b) `E/F` is a quadratic extension of fields of characteristic zero, `F` not necessarily a number field, with the unitary groups of ReductiveGroups §9D.1.
 
 **Statements of the formal proof.** Where a target names [FormalProof], the form that proof establishes is recorded at the target: its
 hypotheses, ranges and constants are those of the proof, including restrictions that the route written here does not
-visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
-[FormalProof].
+visibly use. A wider or sharper form stated beside it is proved by the route written here and is not in [FormalProof];
+its `*Origin:*` label says where it comes from.
+
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every section carries both: [FormalProof] has a statement
+of each section, of 2.6 only the form recorded in *homogeneous-gauge-measure* (iv) and of 3.4a only the form recorded
+at *tamagawa-multiplicative-group*. The other statements of 2.6 and 3.4a are not statements of [FormalProof]: they are
+published theorems, cited with each, or adapted from them, and the first label of 2.6 names the part that is this
+roadmap's own formulation.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
+cover the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is
+deduced from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general
+theorem in full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of
+the statement when that proof has a narrower one. Where the route given with the section is not the deduction, it is
+a second proof, [FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route
+needs, and the deduction needs the section that the `*Corollary of:*` line names.
 
 ## Layer 2: Measures of top forms and quotient measures on homogeneous spaces
 
-This layer extends Layer 2 of AdelicAlgebraicGroups, which builds gauge forms and the Tamagawa measure of connected reductive groups, by one target with three named statements: the measure of a top form on a smooth variety over a local field with its fibre formula, the Tamagawa measure of a group with a unipotent radical, and invariant gauge forms with the quotient of Tamagawa measures on homogeneous spaces.
+This layer extends Layer 2 of AdelicAlgebraicGroups, which builds gauge forms and the Tamagawa measure of connected reductive groups, by one target with three named statements: the measure of a top form on a smooth variety over a local field with its fibre formula, the Tamagawa measure of a group with a unipotent radical, and invariant gauge forms with the quotient of Tamagawa measures on homogeneous spaces. AdelicAlgebraicGroups §2.6 states these three in general, except the fibre formula, the comparison of measures for a stabilizer that is not normal and the fibre measures of an invariant morphism; the other clauses of the target are corollaries of it.
 
 ### 2.6 Top forms on varieties, groups with a unipotent radical and homogeneous spaces
+
+*Origin:* published: Weil (1961), Chapter II, §2.4, gauge forms on a group, on a subgroup and on the homogeneous space
+matching algebraically (*homogeneous-gauge-measure* (i)); Oesterlé (1984), the measure of an algebraic top form at a
+nonarchimedean place (Chapter I, 2.3 and Theorem 2.4), the Tamagawa measure of a connected linear group and its modulus
+(Chapter I, Definition 4.7 and Proposition 5.3) and, for a normal subgroup, the comparison of the local measures and of
+the Tamagawa measures of the terms of an exact sequence (Chapter III, 3.1–3.2 and Theorem 3.3); Platonov, Rapinchuk and
+Rapinchuk (2023), Theorem 3.71, the measure of a gauge form on a group. The comparisons (ii) and (iii) of
+*homogeneous-gauge-measure* for a stabilizer that is not normal are adapted from Oesterlé (1984), Chapter III, 3.1–3.2
+and Theorem 3.3: here for the stabilizer of a point, through the fibre formula of *top-form-measure*. Clause (iv) of
+*homogeneous-gauge-measure* is adapted from Weil (1965), Proposition 6 and §§42–43, the residue form `dx/dQ` of a
+quadratic form: here for a `G`-invariant morphism `Φ` between vector spaces, with the fibre measures, their continuity
+in the level and the constants `c_v/c′_v`. The fibre formula of *top-form-measure* over `ℝ` and `ℂ` is this roadmap's
+own formulation.
+
+*Method of the formal proof:* [FormalProof] has, of this section, only the statement recorded in (iv) on a finite
+power `𝔸_F^κ` of the adeles: by uniqueness of Haar measure the given measure is a multiple of the product measure
+`ν^κ`, the product measure has a fundamental domain of mass one for `F^κ`, and two fundamental domains of one lattice
+have equal measure, so the multiple is `1`. The route written here does not prove that statement: in (iv) the
+covolume-one normalisation of the vector groups is a hypothesis, and the section is proved through analytic charts,
+Fubini's theorem for products of Haar measures and integral models.
+
+*Corollary of:* AdelicAlgebraicGroups §2.6 (the measure of a top form on a smooth variety over a local field, the
+Tamagawa measure of `M ⋉ N`, and invariant gauge forms on a homogeneous space with, for a normal stabilizer, the
+comparison of the local and of the Tamagawa quotient measures with the measures of the invariant form), for
+*top-form-measure* without its fibre formula, for *tamagawa-measure-unipotent-radical*, for *homogeneous-gauge-measure*
+(i), and for (ii) and (iii) when `H` is normal in `G`. The fibre formula, (ii) and (iii) for a stabilizer that is not
+normal, and (iv) are not stated there.
 
 In this subsection `k` is a nondiscrete locally compact field of characteristic zero (`ℝ`, `ℂ` or a finite extension
 of some `ℚ_p`), with the additive Haar measures and the normalized absolute value of AdelicAlgebraicGroups §2.4 (`vol(𝒪_k) = 1`, `dx` on
@@ -188,7 +231,9 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
   `H(𝔸)\G(𝔸)` is the restricted product of the local fibre measures on the local orbits `H(F_v)\G(F_v) ⊆ X(F_v)`:
   `μ_X(∏_v C_v) = ∏_v (c_v/c′_v)|ω_X|_v(C_v)` for the boxes of (iii).
   ([Weil], Chapter II, Section 2.4: gauge forms on the group, on the subgroup and on the homogeneous space matching
-  algebraically, and the comparison of the Tamagawa measures; [Weil 1965], Proposition 6, §37, p. 54, and §§42–43,
+  algebraically, as in (i); for a normal stabilizer, the comparison of the local and of the Tamagawa quotient measures
+  with the measures of the invariant form, (ii) and (iii), is AdelicAlgebraicGroups §2.6 *homogeneous-gauge-measure*;
+  [Weil 1965], Proposition 6, §37, p. 54, and §§42–43,
   pp. 60–62, for the residue form `dx/dQ` of a quadratic form, of which (iv) is this roadmap's generalization through
   the fibre formula of *top-form-measure*; the quadratic case `Φ = Q` in rank `m > 4`, with the continuity in the level, is GeometryOfNumbersAndQuadraticArithmetic §3.3
   `quadraticFiberDistribution`.)
@@ -276,13 +321,36 @@ of some `ℚ_p`), with the additive Haar measures and the normalized absolute va
 
 ### Dependencies
 
-AdelicAlgebraicGroups §§0.3, 1.1, 2.1, 2.2 and 2.4 (products of measures; integral models; characters; modular functions and quotient measures; gauge forms, convergence factors and Tamagawa measures); ReductiveGroupsPartII RG2.0 (analytic charts and their change of variables); ReductiveGroups Layers 3A and 6A (orbits of algebraic actions and the smoothness of orbit maps, complex charts and complex orbit maps; Levi complements and the filtration of a unipotent group); AdicSpacesPartV §6.5 (smooth morphisms give submersions over nonarchimedean fields); LogicAndDefinabilityInNumberTheory §§2.7 and 2.12 (measures of gauge forms over nonarchimedean local fields and the Fubini formula for relative top forms); AnalyticNumberTheoryPartII §5.3f (the normalisation of additive Haar measures); Mathlib's implicit function theorem, additive Haar measures and product measures.
+AdelicAlgebraicGroups §§0.3, 1.1, 2.1, 2.2 and 2.4 (products of measures; integral models; characters; modular functions and quotient measures; gauge forms, convergence factors and Tamagawa measures) and §2.6 (the general theorems of which the clauses of 2.6 named in its `*Corollary of:*` line are corollaries); ReductiveGroupsPartII RG2.0 (analytic charts and their change of variables); ReductiveGroups Layers 3A and 6A (orbits of algebraic actions and the smoothness of orbit maps, complex charts and complex orbit maps; Levi complements and the filtration of a unipotent group); AdicSpacesPartV §6.5 (smooth morphisms give submersions over nonarchimedean fields); LogicAndDefinabilityInNumberTheory §§2.7 and 2.12 (measures of gauge forms over nonarchimedean local fields and the Fubini formula for relative top forms); AnalyticNumberTheoryPartII §5.3f (the normalisation of additive Haar measures); Mathlib's implicit function theorem, additive Haar measures and product measures.
 
 ## Layer 3: Tamagawa numbers of tori, unipotent extensions and quotients
 
-This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, compactness of `F^×\𝔸_F^1`) and computes three kinds of Tamagawa numbers, in one target with three named statements.
+This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, compactness of `F^×\𝔸_F^1`) and computes three kinds of Tamagawa numbers, in one target with three named statements. AdelicAlgebraicGroups §3.4a states the first two in general; the target is a corollary of it for those two.
 
 ### 3.4a Tamagawa numbers of `G_m`, of groups with a unipotent radical and of quotients by central induced tori
+
+*Origin:* published: Tate (1950), §§4.3–4.4, the volume `κ_F` of the norm-one idele classes through the residue of
+the zeta integral, with Oesterlé (1984), Chapter I, Example 5.14 (2), for the reading `τ(G_m) = 1`; Weil (1961) and
+Oesterlé (1984), the Tamagawa numbers of unipotent groups and of groups with a unipotent radical, with their
+invariance under restriction of scalars (Oesterlé, Chapter I, Definitions 5.9 and 5.12 and Example 5.14 (1), Chapter
+II, Theorem 1.3, and Chapter III, Theorem 5.3). *tamagawa-central-induced-quotient* is adapted from Sansuc (1981),
+Corollary 10.5, and Oesterlé (1984), Chapter III, Theorem 5.3, the formula for the Tamagawa numbers of the terms of an
+exact sequence: here for the quotient of a connected reductive group by a central induced torus, with the index `i` of
+the restriction of rational characters.
+
+*Method of the formal proof:* [FormalProof] has, of this section, the form recorded at *tamagawa-multiplicative-group*,
+the volume formula for `GL_j` over a totally complex field. It proves it by induction on `j`, rank one being the class
+number formula read from a fundamental cone for the units acting on the slab. The step averages a Gaussian theta sum
+over the lattices of all classes, unfolds the sum over nonzero vectors along the orbits of pairs, which are indexed by
+an ideal and a lattice class of rank `j − 1` and produce `ζ_F(j)`, and closes with Poisson summation and the invariance
+of the average under duality. The route written here differs: it proves `τ(G_m) = 1` over every number field by Tate's
+method, computing the residue at `s = 1` of a zeta integral once by Poisson summation and once by the Euler product,
+and the other two statements by the routes given with them.
+
+*Corollary of:* AdelicAlgebraicGroups §3.4a (`τ(G_m) = 1`; for a group `M ⋉ N` with `N` unipotent and `M` connected
+reductive, `τ(N) = 1` and `τ(M ⋉ N) = τ(M)`, with the invariance under restriction of scalars), for
+*tamagawa-multiplicative-group* and *tamagawa-number-unipotent-radical*. *tamagawa-central-induced-quotient* and the
+volume formula for `GL_j` recorded at *tamagawa-multiplicative-group* are not stated there.
 
 - **The Tamagawa number of `G_m`.** (*tamagawa-multiplicative-group*) For every number field `F`, prove
   `τ(G_m) = 1` for the Tamagawa measure of AdelicAlgebraicGroups §2.4 (convergence factors
@@ -471,91 +539,114 @@ This layer stands beside §3.4 of AdelicAlgebraicGroups (finiteness of volumes, 
 
 ### Dependencies
 
-Layer 2 (2.6); AdelicAlgebraicGroups §§1.1, 1.4, 2.1, 2.4, 2.5, 3.4 and 5.1 (integral models; restriction of scalars; characters and the norm-one subgroup; Tamagawa measures and numbers; *tamagawa-restriction-scalars*; finiteness of volumes and compactness of `F^×\𝔸_F^1`; the idele class group as the quotient of `GL_1`); ReductiveGroups Layer 6A (the filtration of a unipotent group); ReductiveGroupsPartII RG2.3.7 (Lang's theorem); AnalyticNumberTheoryPartII §§5.3h, 5.3j and 5.3k (Poisson summation and the self-dual measure; Tate's measure and the local zeta integrals; quotient measures in stages); Mathlib's Dedekind zeta residue with the class number formula, and its group cohomology (Shapiro's lemma, Hilbert 90); Tau Ceti's Euler product of the Dedekind zeta function.
+Layer 2 (2.6); AdelicAlgebraicGroups §§1.1, 1.4, 2.1, 2.4, 2.5, 3.4 and 5.1 (integral models; restriction of scalars; characters and the norm-one subgroup; Tamagawa measures and numbers; *tamagawa-restriction-scalars*; finiteness of volumes and compactness of `F^×\𝔸_F^1`; the idele class group as the quotient of `GL_1`) and §3.4a (the general theorems of which 3.4a is a corollary for its first two statements); ReductiveGroups Layer 6A (the filtration of a unipotent group); ReductiveGroupsPartII RG2.3.7 (Lang's theorem); AnalyticNumberTheoryPartII §§5.3h, 5.3j and 5.3k (Poisson summation and the self-dual measure; Tate's measure and the local zeta integrals; quotient measures in stages); Mathlib's Dedekind zeta residue with the class number formula, and its group cohomology (Shapiro's lemma, Hilbert 90); Tau Ceti's Euler product of the Dedekind zeta function.
 
-## Layer 4: Centralisers of semisimple elements in reductive groups
+## Layer 4: Centralisers of elements with separable characteristic polynomial
 
-This layer adds to the structure theory of ReductiveGroups Layer 7 one target on the centralisers of semisimple elements, in every characteristic.
+This layer has one target on the centralisers of the elements of `GL_n` whose characteristic polynomial is separable and of the elements of unitary groups over a quadratic extension of fields of characteristic zero attached to an irreducible polynomial, in part a case of the structure of the centralisers of semisimple elements in ReductiveGroups §7.1.
 
-### 4.1 Centralisers of semisimple elements
+### 4.1 Centralisers of elements with separable characteristic polynomial
 
-Let `G` be a connected reductive group over an algebraically closed field
-`k̄`, `s ∈ G(k̄)` semisimple and `T` a maximal torus containing `s`, with roots `Φ` and root subgroups `U_α`. Prove:
-(a) the centraliser `C_G(s)` is smooth, and its identity component `C_G(s)°` is reductive, generated by `T` and the
-`U_α` with `α(s) = 1`; its root system with respect to `T` is `{α ∈ Φ : α(s) = 1}` and its Weyl group
-`W(C_G(s)°, T)` is generated by the reflections `s_α` with `α(s) = 1`;
-(b) every maximal torus of `G` containing `s` lies in `C_G(s)°`, and `C_G(s)` is generated by `C_G(s)°` and the
-`ẇ ∈ N_G(T)` with `w(s) = s`;
-(c) if the derived group of `G` is simply connected, `C_G(s)` is connected (Steinberg);
-(d) `s` is regular (`C_G(s)°` a maximal torus) iff `α(s) ≠ 1` for every root `α`; if `C_G(s)` is abelian, then
-`C_G(s) = C_G(s)°` is a maximal torus;
-(e) for `G` defined over a field `k` and `s ∈ G(k)`, `C_G(s)` and `C_G(s)°` are defined over `k`; for a Frobenius or
-Steinberg endomorphism `F` with `F(s) = s`, `F(C_G(s)°) = C_G(s)°`.
+*Origin:* adapted from Steinberg (1965), 2.7 (a), 2.8 and 2.11, pp. 53–54: for a semisimple element `x` of a
+semisimple group over an algebraically closed field, `C_G(x)°` is reductive, and it is a maximal torus exactly when
+`α(x) ≠ 1` for every root `α`, that is when `x` is regular. Here for `GL_n` and unitary groups, whose regular
+semisimple elements are those with separable characteristic polynomial, on points: the centraliser in `GL_n` is the
+group of units of the polynomials in the element, and in a unitary group the centraliser of the element attached to an
+irreducible polynomial is the norm-one torus of its root field.
 
-In characteristic zero, the reductivity of `C_G(s)°` in (a), statement (c) and the maximal-torus criterion for an abelian `C_G(s)` in (d) are targets of EndoscopicTransferAndUnitaryTraceComparison §1.3, stated there over an algebraic closure of a field of characteristic zero; 4.1 extends these three statements to every characteristic.
+*Method of the formal proof:* linear algebra on points: an endomorphism `g` with separable characteristic polynomial
+has a cyclic vector, a sum of vectors killed by the distinct irreducible factors of the characteristic polynomial, so
+everything commuting with `g` is a polynomial in `g` and the centraliser is commutative. For a unitary group over a CM
+extension `E/F` of number fields, the form of (b) that [FormalProof] has, the centraliser of multiplication by a root of an irreducible polynomial `P` over `E` is identified with the norm-one
+torus of `E[X]/(P)`: a commuting matrix is multiplication by its value at `1`, and the nondegenerate trace form turns
+unitarity into norm one.
 
-The reductivity of `C_G(s)°` in (a) and the connectedness of `C_G(s)` in (c) are stated in `Suggested.lean` as `reductive_identityComponent_centralizer` and `geometricallyConnected_centralizer_of_simplyConnected`, with `G` given by its coordinate Hopf algebra over `k̄` and `C_G(s)` the closed subgroup whose points are the elements of `G(k̄)` that commute with `s`.
+*Corollary of:* ReductiveGroups §7.1 (for a semisimple `s` in a connected reductive group `G` over an algebraically
+closed field: `C_G(s)` is smooth, `C_G(s)°` is reductive and is a maximal torus exactly when `α(s) ≠ 1` for every root
+`α`, and `C_G(s)` is connected when the derived group of `G` is simply connected; for `G` defined over a field `k` and
+`s ∈ G(k)`, `C_G(s)` is defined over `k`), for the commutativity of the centraliser of `g` in `GL_n(k)` in (a), and of
+the centraliser of `γ` in `U(V)(R)` in (b) when `R` is a field, and for their being the points of a maximal torus.
+§7.1 is a theorem over fields: for an `R` that is not a field the commutativity in (b) is not deduced from it, and
+follows from the identification with the norm-one torus. The description by polynomials in `g` and that
+identification are computed here.
 
-*Route.* `Ad(s)` acts on `𝔤 = Lie(T) ⊕ ⊕_α 𝔤_α` by `α(s)` on `𝔤_α`, so the fixed subalgebra is
-`Lie(T) ⊕ ⊕_{α(s)=1} 𝔤_α`; the subgroup `H` generated by `T` and the `U_α` with `α(s) = 1` centralises `s` and has this
-Lie algebra, and `dim C_G(s) ≤ dim 𝔤^{Ad(s)}`, so `C_G(s)` is smooth with identity component `H`. `H` is
-reductive. Its unipotent radical `R` is normalised by `T`, so `RT` is a smooth connected solvable subgroup and lies in a
-Borel subgroup `B′ ⊇ T`; `R` lies in the unipotent radical of `B′`, whose Lie algebra is the sum of the `𝔤_β` over the
-positive system `Φ^+` of `B′` (ReductiveGroups Layers 5 and 7). So the `T`-stable `Lie R` is the sum of the `𝔤_β` over
-a set of roots `β ∈ Φ^+` with `β(s) = 1`. For such a `β`, also `(−β)(s) = 1`, so `H` contains `U_{−β}` and the element
-`n_β = x_β(1)x_{−β}(−1)x_β(1)`, which normalises `T` and acts on it as `s_β` (the rank-one subgroups of ReductiveGroups
-Layer 7 and their root maps in Layer 7C); `n_β` normalises `R` and carries `𝔤_β` to `𝔤_{−β}`, so `−β ∈ Φ^+`,
-which is absurd. Hence `Lie R = 0` and `R = 1`. The roots of `H` with respect to `T` are the nonzero weights of `T` on `Lie H`, that is
-`{α : α(s) = 1}`, and its Weyl group is generated by their reflections (ReductiveGroups Layer 7 for `(H, T)`). A
-maximal torus through `s` is connected and centralises `s`. The component
-group: two maximal tori of `C_G(s)°` are conjugate in it, so `C_G(s) = C_G(s)°·(N_G(T) ∩ C_G(s))`. (c) Write `s = zs′`
-with `z` in the connected centre `Z°` and `s′` a semisimple element of the derived group `G^der` (`G = Z°·G^der`); then
-`C_G(s) = C_G(s′) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected because `G^der` is semisimple and simply
-connected ([Steinberg], Theorem 8.1; see also [Humphreys], §2.11). (d) The first statement from (a). If `C_G(s)` is abelian it
-centralises the maximal torus `T ⊂ C_G(s)°`, so `C_G(s) ⊂ C_G(T) = T ⊂ C_G(s)°`. (e) `C_G(s)` is the fibre over `s` of the
-conjugation morphism, defined over `k`, and `F(C_G(s)) = C_G(F(s))`.
+Let `k` be a field and `g ∈ GL_n(k)` an element whose characteristic polynomial `P` is separable; over an algebraic
+closure `k̄` the eigenvalues of `g` are distinct, so `g` is a regular semisimple element of `GL_n`. Prove:
+(a) every `n × n` matrix over `k` that commutes with `g` is a polynomial in `g` with coefficients in `k`; this holds
+for every `n × n` matrix `g` over `k` with separable characteristic polynomial, invertible or not, and is stated so in
+`Suggested.lean` as `exists_eq_aeval_of_separable_charpoly`; so the centraliser of `g` in `GL_n(k)` is `k[g]^×`, and
+any two matrices that commute with `g` commute with each other. This is [FormalProof], `src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/EqAevalOfCommuteOfSeparable.lean`
+(`GlobalTheory.SepCentralizer.exists_eq_aeval_of_commute`),
+`src/Development/AbelianVarietyTheory/Proofs/DivisorProofs/CommuteOfCommuteSeparableCharpolyStatement.lean`
+(`GlobalTheory.T.commute_of_commute_of_charpoly_separable'`). Consequently, for every subgroup `H` of `GL_n(k)`
+the centraliser of `g` in `H` is `k[g]^× ∩ H` and is commutative;
+(b) let `E/F` be a quadratic extension of fields of characteristic zero with nontrivial automorphism `c`, `(V, h)` a
+nondegenerate Hermitian space of dimension `n` over `E`, and `U(V)` its unitary group over `F` (ReductiveGroups §9D.1). Let `P ∈ E[X]` be
+monic and irreducible of degree `n` with `P(0) ≠ 0` and `P(X) = c(P(0))^{−1} X^n P^c(1/X)`, where `P^c` is `P`
+with `c` applied to its coefficients; let `L = E[X]/(P)`, `α ∈ L` the class of `X`, and `x ↦ x̄` the automorphism
+of `L` that is `c` on `E` and sends `α` to `α^{−1}`. Let `R` be a commutative `F`-algebra, `u` a unit of
+`R ⊗_F L` with `ū = u`, and `φ : R ⊗_F L → R ⊗_F V` an `R ⊗_F E`-linear isomorphism that carries the Hermitian
+form `(y, y′) ↦ Tr_{L/E}(u y ȳ′)` to `h`. Then `γ = φ ∘ (α·) ∘ φ^{−1}` lies in `U(V)(R)`, its characteristic
+polynomial over `R ⊗_F E` is `P`, which is separable, and `t ↦ φ ∘ (t·) ∘ φ^{−1}` is an injective homomorphism
+from `{t ∈ (R ⊗_F L)^× : t t̄ = 1}`, the `R`-points of the norm-one torus of `L`, onto the centraliser of `γ` in
+`U(V)(R)`; so that centraliser is commutative. [FormalProof] has (b) for a CM extension `E/F` of number fields, `c`
+the complex conjugation:
+`src/Development/AbelianVarietyTheory/Proofs/TwistedOperators/TorusElementCharpolyRegularCentralizerStatement.lean`
+(`GlobalTheory.T.torusElement_charpoly_regular_centralizer`).
 
-*Needs:* ReductiveGroups Layer 7 (root datum, root subgroups, Borel subgroups with their positive systems, maximal
-tori); ReductiveGroups Layer 7C (the rank-one root maps and the elements `n_α`); ReductiveGroups Layer 5 (unipotent
-radicals and the structure of connected solvable groups); ReductiveGroups Layer 3 (smoothness and identity
-components); ReductiveGroups Layer 9E for Steinberg endomorphisms; EndoscopicTransferAndUnitaryTraceComparison §1.3
-(in characteristic zero: the reductivity in (a), statement (c) and the torus criterion in (d)).
+The structure of the centraliser of every semisimple element of a connected reductive group over an algebraically
+closed field, in every characteristic, is ReductiveGroups §7.1.
+
+*Route.* (a) Let `P = P_1 ⋯ P_r` be the factorisation of `P` into monic irreducible factors over `k`; they are
+pairwise distinct because `P` is separable. By the Cayley–Hamilton theorem and the Chinese remainder theorem,
+`k^n = ⊕_i V_i` with `V_i = ker P_i(g)`; the characteristic polynomial of `g` on `V_i` is a power of `P_i`, and the
+product of these is `P`, so `V_i` has dimension `deg P_i` and is a line over the field `k[X]/(P_i)`, which acts
+through `g`. For nonzero `v_i ∈ V_i` the vector `v = Σ_i v_i` is cyclic: `k[X] → ∏_i k[X]/(P_i)` is onto, so `k[g]v`
+contains every `v_i`, hence every `V_i`. If `y` commutes with `g`, write `yv = p(g)v` with `p ∈ k[X]`; then
+`y(q(g)v) = q(g)yv = p(g)(q(g)v)` for every `q ∈ k[X]`, so `y = p(g)`. The matrices that commute with `g` therefore
+form the commutative algebra `k[g]`, and an element of `k[g]` that is invertible in `M_n(k)` has its inverse in
+`k[g]` (Cayley–Hamilton), so the centraliser in `GL_n(k)` is `k[g]^×`. (b) A matrix that commutes with `γ` commutes
+with multiplication by every element of `R ⊗_F L`, the powers of `α` being a basis of `L` over `E`; so it is
+multiplication by its value `t` at `1`, and unitarity with the nondegeneracy of the trace form gives `t t̄ = 1`.
+
+*Needs:* ReductiveGroups §9D.1 (the unitary group `U(V)` and its points over an `F`-algebra); Mathlib `Matrix.charpoly`,
+`Polynomial.Separable`.
 
 **Checks.**
-- `GL_n`, `s = diag(a₁, …, a_n)`: `C_G(s) = ∏_a GL_{m_a}` over the distinct eigenvalues, connected, with roots the
-  `e_i − e_j` with `a_i = a_j`.
-- `PGL₂` in characteristic `≠ 2`, `s` the image of `diag(1, −1)`: `C_G(s)°` is the diagonal torus and `C_G(s)` also
-  contains the image of `[[0, 1], [1, 0]]`, so `C_G(s)` is disconnected; `PGL₂` has non-simply-connected derived group,
-  consistently with (c).
-- `SL₂`, `s = −1`: central, `C_G(s) = SL₂`.
-- (d) cannot say more for regular `s` alone: in `PGL₂` the image of `diag(1, −1)` is regular, `C_G(s)°` is the diagonal
-  torus, and `C_G(s)` is not abelian (it contains the image of `[[0, 1], [1, 0]]`, which does not commute with the
-  torus).
+- `g = diag(a₁, …, a_n)` with distinct `a_i`: `P = ∏_i (X − a_i)` is separable, a matrix that commutes with `g` is
+  diagonal, and every diagonal matrix is `p(g)` for the Lagrange interpolation polynomial `p` with `p(a_i)` its `i`-th
+  diagonal entry; the centraliser is the diagonal torus.
+- `k = ℝ`, `g = [[0, −1], [1, 0]]`: `P = X² + 1` is separable and irreducible; the matrices that commute with `g` are
+  `[[a, −b], [b, a]] = a + bg`, and the centraliser is `ℝ[g]^× ≅ ℂ^×`.
+- Separability is needed: for `g = 1` in `GL_2(k)`, `P = (X − 1)²`, and the centraliser is all of `GL_2(k)`, which is
+  not commutative.
+- (b) for `n = 1`: `P = X − α` with `α c(α) = 1`, `L = E`, and `U(1)(R)` is its own centraliser, the norm-one torus
+  of `E/F`.
 
 ### Examples
 
-- In `GL_n` the centraliser of `diag(a₁, …, a_n)` is the product of the `GL_{m_a}` over the distinct eigenvalues, connected, with roots the `e_i − e_j` with `a_i = a_j` (4.1 (a), (c)).
-- In `PGL₂` in characteristic `≠ 2` the image of `diag(1, −1)` is regular, and its centraliser is disconnected and not abelian; the derived group `PGL₂` is not simply connected (4.1 (c), (d)).
-- In `SL₂`, `s = −1` is central and `C_G(s) = SL₂` (4.1).
+- In `GL_n(k)` the centraliser of `diag(a₁, …, a_n)` with distinct `a_i` is the diagonal torus, every diagonal matrix being a polynomial in it by Lagrange interpolation (4.1 (a)).
+- Over `ℝ` the centraliser of `g = [[0, −1], [1, 0]]` is `ℝ[g]^× ≅ ℂ^×`; for `g = 1` in `GL_2(k)`, whose characteristic polynomial `(X − 1)²` is not separable, it is all of `GL_2(k)`, which is not commutative (4.1 (a)).
+- In the unitary group of the standard Hermitian form on `ℚ(i)²` the centraliser of `diag(1, −1)` is the group of the `diag(u₁, u₂)` with `u₁ū₁ = u₂ū₂ = 1` (4.1 (a), for the subgroup `U(V)(ℚ)` of `GL_2(ℚ(i))`).
+- For `n = 1`, `P = X − α` with `α c(α) = 1` and `L = E`: `U(1)(R)` is its own centraliser, the norm-one torus of `E/F` (4.1 (b)).
 
 ### Dependencies
 
-ReductiveGroups Layer 3 (smoothness and identity components), Layer 5 (unipotent radicals and connected solvable groups), Layer 7 (root data, root subgroups, Borel subgroups, maximal tori and Weyl groups), Layer 7C (rank-one root maps) and Layer 9E (Steinberg endomorphisms); EndoscopicTransferAndUnitaryTraceComparison §1.3 (the reductivity of `C_G(s)°`, the connectedness of `C_G(s)` for a simply connected derived group and the torus criterion, in characteristic zero); for the statements of `Suggested.lean`, Tau Ceti's reductive, semisimple and simply connected affine groups in Hopf coordinates, semisimple points, derived subgroups, identity components and closed subgroups cut out by vanishing ideals.
+ReductiveGroups §7.1 (the structure of the centralisers of semisimple elements, the general theorem of which 4.1 is in part a corollary), §9D.1 (unitary groups of Hermitian spaces); Mathlib's characteristic polynomials and separable polynomials.
 
 ## Downstream consumers
 
-In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) and [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) use the statements here:
+In the family [RiemannHypothesisForDirichletLFunctions](../README.md), [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) uses the statements here:
 
 - HermitianFormsAndLattices §6.0 uses 3.4a *tamagawa-multiplicative-group* and *tamagawa-central-induced-quotient* for `τ(U(1)) = 2`; HermitianFormsAndLattices §6.0b uses 2.6 *tamagawa-measure-unipotent-radical* and *homogeneous-gauge-measure* for the stabilizers of vectors, and 3.4a *tamagawa-number-unipotent-radical* for `τ(U(W_0) ⋉ N) = τ(U(W_0))`; HermitianFormsAndLattices §§6.1 (f) and 6.2 use 2.6 *top-form-measure* and *homogeneous-gauge-measure* for the fibre measures of Gram maps and the Tamagawa measure of `U(V)` as a fibre measure; HermitianFormsAndLattices §6.5 uses 2.6 *homogeneous-gauge-measure* for Siegel's main theorem in Weil's form.
-- FiniteReductiveGroups §0.3 uses 4.1, and through it FiniteReductiveGroups §§4.3, 4.6 and 4.7.
 
 ## Scope and ownership
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns: the measure of a nowhere vanishing top form on a smooth quasi-affine variety over `ℝ` and `ℂ`, with its functoriality and fibre formula, and, over every local field of characteristic zero, its scaling, its restriction to open subvarieties and its agreement with the gauge measures of AdelicAlgebraicGroups §2.4; the Tamagawa measure of a connected group `M ⋉ N` with a unipotent radical, with its integration formula, its modular character and its norm-one subgroup; invariant gauge forms on homogeneous spaces, the comparison of local quotient measures with the measure of the invariant form, the comparison of the quotient of Tamagawa measures with the restricted product of the local measures, and residue forms and fibre measures on level sets (2.6); the Tamagawa number of `G_m`, the Tamagawa number of `M ⋉ N` with its invariance under restriction of scalars, and the quotient formula for a central induced torus with the surjectivity of the quotient map on rational, local and adelic points (3.4a); and the structure of the centralisers of semisimple elements in connected reductive groups over algebraically closed fields, with Steinberg's connectedness theorem (4.1); of the three centraliser statements whose characteristic-zero case EndoscopicTransferAndUnitaryTraceComparison §1.3 owns (below), this roadmap owns the extension to positive characteristic.
+This roadmap owns, in the forms stated here: the measure of a nowhere vanishing top form on a smooth quasi-affine variety over `ℝ` and `ℂ`, with its functoriality and fibre formula, and, over every local field of characteristic zero, its scaling, its restriction to open subvarieties and its agreement with the gauge measures of AdelicAlgebraicGroups §2.4; the Tamagawa measure of a connected group `M ⋉ N` with a unipotent radical, with its integration formula, its modular character and its norm-one subgroup; invariant gauge forms on homogeneous spaces, the comparison of local quotient measures with the measure of the invariant form, the comparison of the quotient of Tamagawa measures with the restricted product of the local measures, and residue forms and fibre measures on level sets (2.6); the Tamagawa number of `G_m`, the Tamagawa number of `M ⋉ N` with its invariance under restriction of scalars, and the quotient formula for a central induced torus with the surjectivity of the quotient map on rational, local and adelic points (3.4a); and the centralisers of the elements of `GL_n(k)` whose characteristic polynomial is separable and of the elements of a unitary group over a quadratic extension of fields of characteristic zero attached to an irreducible polynomial (4.1). The general theorems of which clauses of 2.6, 3.4a and 4.1 are corollaries are owned by their homes: AdelicAlgebraicGroups §2.6 (the measure of a top form, the Tamagawa measure of `M ⋉ N`, and invariant gauge forms on homogeneous spaces with, for a normal stabilizer, the comparison of the local and of the Tamagawa quotient measures), AdelicAlgebraicGroups §3.4a (`τ(G_m) = 1`, and the Tamagawa number of `M ⋉ N` with its invariance under restriction of scalars) and ReductiveGroups §7.1 (the structure of the centralisers of semisimple elements in every characteristic). The fibre formula of 2.6 *top-form-measure* over `ℝ` and `ℂ`, the comparisons of 2.6 *homogeneous-gauge-measure* (ii), (iii) for a stabilizer that is not normal, its clause (iv) and 3.4a *tamagawa-central-induced-quotient* are stated in no home.
 
-Not owned here. The theory these statements extend belongs to [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md): adelic points and integral models (Layer 1); characters, the norm-one subgroup, quotient measures, gauge forms, convergence factors, and the Tamagawa measure and number of connected reductive groups with their invariance under restriction of scalars (Layer 2); the finiteness of volumes and the compactness of `F^×\𝔸_F^1` (AdelicAlgebraicGroups §3.4). It belongs as well to [ReductiveGroups](../../ReductiveGroups/README.md): smoothness and identity components (Layer 3), orbits of algebraic actions, complex charts and complex orbit maps (Layer 3A), Levi complements in characteristic zero (Layer 6A), the structure theory of reductive groups (Layer 7) and Steinberg endomorphisms (Layer 9E). Analytic charts on groups over local fields and Lang's theorem are ReductiveGroupsPartII RG2.0 and RG2.3.7. That smooth morphisms give submersions on points over a nonarchimedean field is AdicSpacesPartV §6.5. The measure of a gauge form on an analytic manifold over a nonarchimedean local field, with its invariance under analytic isomorphisms, and the Fubini formula for relative top forms are LogicAndDefinabilityInNumberTheory §§2.7 and 2.12, which 2.6 *top-form-measure* uses at nonarchimedean `k`. The normalised additive measures, Poisson summation with the self-dual measure, Tate's measure with the local zeta integrals, and quotient measures in stages are AnalyticNumberTheoryPartII §§5.3f, 5.3h, 5.3j and 5.3k. GeometryOfNumbersAndQuadraticArithmetic §3.3 constructs, within `quaternionAdjointTamagawa` (`τ(PGL₁(D)) = 2`), `orthogonalTamagawa_stabilizer` (the stabilizers of vectors in `SO(Q)`, an isotropic stabilizer being a case of 3.4a *tamagawa-number-unipotent-radical*) and the fibre measures `quadraticFiberDistribution` of a quadratic form, the cases it uses of 2.6 *homogeneous-gauge-measure* (iii), (iv) and of the three statements of 3.4a; the statements here are their general forms. EndoscopicTransferAndUnitaryTraceComparison §1.3 owns three centraliser statements over an algebraic closure of a field of characteristic zero: the reductivity of `C_G(s)°`, the connectedness of `C_G(s)` for a simply connected derived group, and the maximal-torus criterion for an abelian `C_G(s)`. In characteristic zero these are the reductivity in 4.1 (a), statement 4.1 (c) and the torus criterion in 4.1 (d), which 4.1 takes from §1.3 and extends to every characteristic. The Tamagawa numbers `τ(SO(Q)) = 2`, `τ(PGL₁(D)) = 2` and `τ(U(V)) = 2`, the mass formulas and Siegel's main theorem are not stated here: they belong to GeometryOfNumbersAndQuadraticArithmetic and HermitianFormsAndLattices.
+Not owned here. The theory these statements extend belongs to [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md): adelic points and integral models (Layer 1); characters, the norm-one subgroup, quotient measures, gauge forms, convergence factors, and the Tamagawa measure and number of connected reductive groups with their invariance under restriction of scalars (Layer 2); the finiteness of volumes and the compactness of `F^×\𝔸_F^1` (AdelicAlgebraicGroups §3.4). It belongs as well to [ReductiveGroups](../../ReductiveGroups/README.md): orbits of algebraic actions, complex charts and complex orbit maps (Layer 3A), Levi complements in characteristic zero (Layer 6A), the structure theory of reductive groups with the centralisers of semisimple elements (Layer 7, §7.1) and the unitary groups of Hermitian spaces (§9D.1). Analytic charts on groups over local fields and Lang's theorem are ReductiveGroupsPartII RG2.0 and RG2.3.7. That smooth morphisms give submersions on points over a nonarchimedean field is AdicSpacesPartV §6.5. The measure of a gauge form on an analytic manifold over a nonarchimedean local field, with its invariance under analytic isomorphisms, and the Fubini formula for relative top forms are LogicAndDefinabilityInNumberTheory §§2.7 and 2.12, which 2.6 *top-form-measure* uses at nonarchimedean `k`. The normalised additive measures, Poisson summation with the self-dual measure, Tate's measure with the local zeta integrals, and quotient measures in stages are AnalyticNumberTheoryPartII §§5.3f, 5.3h, 5.3j and 5.3k. GeometryOfNumbersAndQuadraticArithmetic §3.3 constructs, within `quaternionAdjointTamagawa` (`τ(PGL₁(D)) = 2`), `orthogonalTamagawa_stabilizer` (the stabilizers of vectors in `SO(Q)`, an isotropic stabilizer being a case of 3.4a *tamagawa-number-unipotent-radical*) and the fibre measures `quadraticFiberDistribution` of a quadratic form, the cases it uses of 2.6 *homogeneous-gauge-measure* (iii), (iv) and of the three statements of 3.4a; the statements here are their general forms. The Tamagawa numbers `τ(SO(Q)) = 2`, `τ(PGL₁(D)) = 2` and `τ(U(V)) = 2`, the mass formulas and Siegel's main theorem are not stated here: they belong to GeometryOfNumbersAndQuadraticArithmetic and HermitianFormsAndLattices.
 
 ## Exact supplier contracts
 
@@ -570,18 +661,16 @@ Cited by section and by the slugs of its statements, each used as stated there.
 - §2.2 (*Modular function of `P(𝔸)`*, stated for every finite-type group; *quotient-measure*, with its uniqueness): 2.6.
 - §2.4 (gauge forms and their local measures, Weil's volume formula, *convergence-factors*, the Tamagawa measure and its `G_a` case, *Independence of the gauge form*, *Tamagawa number*): 2.6 and 3.4a.
 - §2.5 (*tamagawa-restriction-scalars*): 3.4a *tamagawa-number-unipotent-radical*.
+- §2.6 (*top-form-measure*, without a fibre formula; *tamagawa-measure-unipotent-radical*; *homogeneous-gauge-measure* (i), and (ii), (iii) for a normal stabilizer): the general theorems of which these clauses of 2.6 are corollaries.
 - §3.4 (*Finite volume of `G(F)\G(𝔸)^1`*, *Anisotropic groups have compact quotients*): 3.4a.
+- §3.4a (*tamagawa-multiplicative-group*, *tamagawa-number-unipotent-radical*): the general theorems of which 3.4a is a corollary for these two statements.
 - §5.1 (*The `GL_1` quotient is the idele class group*: `𝔸_F^× = 𝔸_F^1 × ℝ_{>0}` with `ℝ_{>0}` diagonal at the archimedean places, and the compactness of `F^×\𝔸_F^1`): 3.4a *tamagawa-multiplicative-group*.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
-Layer 3 (smoothness of closed subgroups and identity components), Layer 5 (unipotent radicals; a connected solvable group over an algebraically closed field is the semidirect product of a maximal torus and its unipotent radical), Layer 7 (root data, root subgroups, the rank-one subgroups `G_α`, Borel subgroups and the positive systems they determine, maximal tori, Weyl groups), Layer 7C (the rank-one root maps and the central isogeny from `SL_2` onto `G_α`, through which `n_α = x_α(1)x_{−α}(−1)x_α(1)` normalises the maximal torus and acts on it as `s_α`) and Layer 9E (Steinberg endomorphisms): 4.1.
+§7.1 (for a semisimple element `s` of a connected reductive group over an algebraically closed field, in every characteristic: `C_G(s)` is smooth, `C_G(s)°` is reductive, generated by a maximal torus through `s` and the `U_α` with `α(s) = 1`, with those roots and the Weyl group of their reflections, and contains every maximal torus through `s`; `C_G(s)` is connected when the derived group is simply connected; `C_G(s)°` is a maximal torus exactly when `α(s) ≠ 1` for every root `α`; fields of definition): the general theorem of which 4.1 is in part a corollary. §9D.1 (the unitary group `U(V)` of a nondegenerate Hermitian or skew-Hermitian space over a separable quadratic extension `K/k`, a closed subgroup scheme of `GL_k(V)` whose points over a `k`-algebra `R` are the `K ⊗_k R`-linear automorphisms of `V ⊗_k R` that preserve `h`): 4.1 (b), with `K/k = E/F`.
 
 Layer 3A (the orbit theorems of its supplier contract: orbits are locally closed, over every field, and for an affine group in characteristic zero the orbit map onto the orbit is smooth; 3A.5d, the complex charts of a smooth `ℂ`-scheme, under which smooth maps become holomorphic submersions; 3A.5f, the complex orbit map is a holomorphic submersion): 2.6 *top-form-measure* at `k = ℂ` and *homogeneous-gauge-measure*. Layer 6A (Levi complements of smooth connected affine groups in characteristic zero; item 1, the filtration of a normal unipotent subgroup by normal subgroups with vector-group quotients carrying a linear action, and the surjectivity of `U(k) → (U/U_1)(k)`): 2.6 *tamagawa-measure-unipotent-radical*; 3.4a *tamagawa-number-unipotent-radical*.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§1.3 (for a connected reductive group over a field of characteristic zero and a semisimple element, over an algebraic closure: the identity component of its centraliser is reductive, the centraliser is connected when the derived group is simply connected, and an abelian centraliser is a maximal torus): the characteristic-zero case of the reductivity in 4.1 (a), of 4.1 (c) and of the torus criterion in 4.1 (d), used as stated there; 4.1 extends these three statements to every characteristic.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -604,12 +693,11 @@ RG2.0 (*smooth-group-analytic-charts* and its analytic change of variables): 2.6
 - `ImplicitFunctionData.implicitFunction`, `MeasureTheory.Measure.addHaarMeasure` (the Haar measure normalized on a positive compact set, here `𝒪_k`) and `MeasureTheory.Measure.prod`: 2.6 *top-form-measure*.
 - `NumberField.dedekindZeta_residue` and `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`: 3.4a *tamagawa-multiplicative-group*.
 - `groupCohomology.coindIso` (Shapiro's lemma) and `groupCohomology.H1ofAutOnUnitsUnique` (Hilbert 90 for a finite extension): 3.4a *tamagawa-central-induced-quotient*.
-- `Subgroup.centralizer`: the statements of 4.1 in `Suggested.lean`.
+- `Matrix.charpoly` and `Polynomial.Separable`: 4.1; with `Matrix.GeneralLinearGroup` and `Polynomial.aeval`, the statement of 4.1 (a) in `Suggested.lean`.
 
 ### From Tau Ceti
 
 - `TauCeti.dedekindZeta_eulerProduct_hasProd` (the Euler product of the Dedekind zeta function): 3.4a *tamagawa-multiplicative-group*.
-- For the statements of 4.1 in `Suggested.lean`: finite-type commutative Hopf algebras `TauCeti.FiniteTypeCommHopfAlgCat` with their quotients `TauCeti.FiniteTypeCommHopfAlgCat.quotient` and identity components `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent`; reductivity `TauCeti.reductiveCommHopfAlgProperty`, with the semisimplicity of the derived subgroup `TauCeti.reductiveCommHopfAlgProperty.semisimple_derived` cut out by `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`; simple connectedness `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`; semisimple points `TauCeti.HopfAlgebra.IsSemisimplePoint`; the vanishing ideal of a subgroup of points `TauCeti.HopfIdeal.vanishingIdeal`; geometric connectedness `TauCeti.geometricallyConnectedCommHopfAlgProperty`.
 
 ## References
 
@@ -619,7 +707,6 @@ RG2.0 (*smooth-group-analytic-charts* and its analytic change of variables): 2.6
 - **Tate**: John Tate, *Fourier analysis in number fields and Hecke's zeta-functions*. Thesis (1950); in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967), pp. 305–347; sections are those of this printing.
 - **Sansuc**: Jean-Jacques Sansuc, *Groupe de Brauer et arithmétique des groupes algébriques linéaires sur un corps de nombres*. Journal für die reine und angewandte Mathematik 327 (1981), 12–80.
 - **Oesterlé**: J. Oesterlé, *Nombres de Tamagawa et groupes unipotents en caractéristique p*. Inventiones Mathematicae 78 (1984).
-- **Steinberg**: Robert Steinberg, *Endomorphisms of linear algebraic groups*. Memoirs of the American Mathematical Society 80 (1968).
-- **Humphreys**: James E. Humphreys, *Conjugacy classes in semisimple algebraic groups*. Mathematical Surveys and Monographs 43, American Mathematical Society (1995).
-- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It has the forms of `τ(G_m) = 1` over totally complex fields (3.4a *tamagawa-multiplicative-group*), of the covolume-one Haar measure of an adelic vector group (2.6 *homogeneous-gauge-measure* (iv)) and of the normalisation of the additive Haar measures (Conventions) that the family uses.
+- **Steinberg 1965**: Robert Steinberg, *Regular elements of semi-simple algebraic groups*. Publications mathématiques de l'IHÉS 25 (1965), 49–80.
+- **[FormalProof]** Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. The files and declarations named in this roadmap are those of its commit `e2d63d253904023ae299743da96a19ea8cd73fce`. It has the forms of `τ(G_m) = 1` over totally complex fields (3.4a *tamagawa-multiplicative-group*), of the covolume-one Haar measure of an adelic vector group (2.6 *homogeneous-gauge-measure* (iv)) and of the normalisation of the additive Haar measures (Conventions) that the family uses, and 4.1, its clause (b) for a CM extension of number fields.
 - **[Announcement]** Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.

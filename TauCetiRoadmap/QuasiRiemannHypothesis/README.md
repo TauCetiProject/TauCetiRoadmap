@@ -895,6 +895,68 @@ unramified primes in cyclotomic fields (LFunctions Layer 4, cyclotomic factoriza
 characters); Tau Ceti `TauCeti.GlobalNumberFields.RayClassCharacter`, `heckeLFunctionC`; Mathlib
 `DirichletCharacter.LFunction`.
 
+### 5.4a The characters of abelian extensions of `ℚ` as norm-composed characters
+
+Let `K` be abelian over `ℚ` (`[IsAbelianGalois ℚ K]`). For a number field `L ⊇ K` with `L/ℚ` abelian,
+`L/K` is abelian; let `𝔣 = abelianConductor K L`, let
+`Φ_{L/K} = rayClassArtinMap 𝔣 _ : RayClassGroup 𝔣 →* (L ≃ₐ[K] L)` be the ray-class Artin map at the
+conductor (ClassFieldTheory Layer 12: surjective, with the splitting law `rayClassArtinMap_idealClass`),
+and for `φ : (L ≃ₐ[K] L) →* ℂˣ` put `φ̃ = PrimitiveRayClassCharacter.of (φ.comp Φ_{L/K})`.
+
+- (a) For every `m ≥ 1` with `L ⊆ ℚ(ζ_m)` (one exists by `TauCeti.ClassFieldTheory.kroneckerWeber`)
+  there is a Dirichlet character `χ` modulo `m` with `φ̃ = PrimitiveRayClassCharacter.of (χ ∘ N_{K/ℚ})`,
+  `χ ∘ N_{K/ℚ}` the norm-composed character of §5.4; at every prime `𝔭 ∤ m` of `K`,
+  `φ(Frob_𝔭) = χ(N𝔭)`.
+- (b) For every `m ≥ 1` and every Dirichlet character `χ` modulo `m`, `K(ζ_m)` is abelian over `ℚ`, and
+  `PrimitiveRayClassCharacter.of (χ ∘ N_{K/ℚ})` is the `φ̃` of a character `φ` of `Gal(K(ζ_m)/K)`.
+
+As `L` and `φ` vary, the characters `φ̃` are therefore exactly the primitive characters of the
+norm-composed characters of `K`. (a) and (b) are `milnecft2020` Chapter V, Proposition 3.3, p. 157 (for
+an abelian extension and an intermediate field, the Artin maps of the two extensions are compatible with
+the norm), applied to `ℚ(ζ_m)/ℚ` and the intermediate field `K`, with Example 3.2, p. 157 (the Artin map
+of `ℚ(ζ_m)/ℚ`); they are not printed there as a statement. `heilbronn1967` gives the factorization of
+the zeta function of an abelian extension into the `L`-functions of its characters.
+
+Route. (a): inflate `φ` along the restriction `Gal(ℚ(ζ_m)/K) → Gal(L/K)` and extend it from the subgroup
+`Gal(ℚ(ζ_m)/K)` of `Gal(ℚ(ζ_m)/ℚ) ≅ (ℤ/m)ˣ` to a character `χ` of `(ℤ/m)ˣ` (a character of a subgroup of
+a finite abelian group extends, `ℂˣ` being divisible). For a prime `𝔭 ∤ m` of `K` above `p`, of residue
+degree `f`, the Frobenius of `𝔭` in `ℚ(ζ_m)/K` is, as an element of `Gal(ℚ(ζ_m)/ℚ)`, the `f`-th power of
+the Frobenius of `p`, which sends `ζ_m` to `ζ_m^p` (ClassFieldTheory C.6); so it sends `ζ_m` to
+`ζ_m^{N𝔭}`, and its restriction to `L` is `Frob_𝔭`, whence `φ(Frob_𝔭) = χ(N𝔭)`; the primes dividing `𝔣`
+divide `m`, being ramified in `ℚ(ζ_m)`. Hence `φ.comp Φ_{L/K}` and `χ ∘ N_{K/ℚ}`, induced to a common
+multiple `𝔐` of their moduli (`RayClassCharacter.induced`), agree at the class of every prime `𝔭 ∤ 𝔐`
+(the splitting law), hence at the class of every integral ideal prime to `𝔐`, a product of such primes;
+so the two induced characters are equal (`RayClassGroup.hom_ext`), and
+`PrimitiveRayClassCharacter.of_induced` gives the equality of primitive characters. (b): `K(ζ_m)` is the
+compositum of `K` and `ℚ(ζ_m)`, abelian over `ℚ`; restriction embeds `Gal(K(ζ_m)/K)` in
+`Gal(ℚ(ζ_m)/ℚ) ≅ (ℤ/m)ˣ`, sending the Frobenius of `𝔭 ∤ m` to the class of `N𝔭` as in (a); with `φ` the
+composite of this embedding and `χ`, the comparison of (a) gives the equality.
+
+**Checks.**
+
+- `K = L = ℚ`: `Gal(L/K)` is trivial, `φ = 1` and `φ̃ = 1`, the primitive character of `1 ∘ N` at `m = 1`.
+- `K = ℚ`, `L ⊆ ℚ(ζ_q)` the field cut out by a primitive Dirichlet character `κ` modulo `q` (the fixed field
+  of the kernel of `κ` on `Gal(ℚ(ζ_q)/ℚ) ≅ (ℤ/q)ˣ`), `φ` the character of `Gal(L/ℚ)` that `κ` induces: at a
+  prime `p ∤ q`, `φ(Frob_p) = κ(p)`, and `χ = κ` at `m = q`, `N_{ℚ/ℚ}` being the identity.
+- `K = ℚ(i)`, `L = ℚ(i, √−3) = ℚ(ζ_12)`, `φ` the nontrivial character of `Gal(L/K)`: `φ̃` is
+  `(·/3) ∘ N` of modulus `(3)`, of order `2` (the character of §11.2's Checks). The prime `(1 + i)`, of
+  norm `2`, is inert in `L/K`, since `x² + x + 1` is irreducible over `𝔽₂`, and `(2/3) = −1`.
+- `K = ℚ(√−3)` and two cubic residue characters. At every prime `𝔭 ∤ 6`, `(ω/𝔭)_3 = ω^((N𝔭−1)/3)`,
+  which is `χ(N𝔭)` for the cubic Dirichlet character `χ` modulo `9` with `χ(2) = ω²` (the values `ω², ω, 1`
+  at norms `7, 13, 19`); so `(ω/·)_3` is the primitive character of `χ ∘ N_{K/ℚ}`, and its class field
+  `K(ω^(1/3)) = ℚ(ζ_9)` is the `K(ζ_m)` of (b) at `m = 9`. `(2/·)_3` is `ω²` at `1 + 3ω` (modulo it
+  `ω ≡ 2` and `2^((7−1)/3) = 4 ≡ ω²`) and `ω` at `1 + 3ω²` (modulo it `ω ≡ 4`). These two primes of norm
+  `7` are exchanged by complex conjugation, which fixes every `χ ∘ N_{K/ℚ}` and hence its primitive
+  character; so `(2/·)_3` is the primitive character of no `χ ∘ N_{K/ℚ}` and, by (a), the `φ̃` of no `L`
+  abelian over `ℚ`: its class field `ℚ(ω, 2^(1/3))` has group `S_3` over `ℚ`.
+
+*Needs:* §5.4; ClassFieldTheory C.6 (the Artin symbol of `(ℓ)` on `ℚ(ζ_m)` sends `ζ_m` to `ζ_m^ℓ`),
+Layer 12 (`TauCeti.ClassFieldTheory.abelianConductor`, `rayClassArtinMap`, `rayClassArtinMap_surjective`,
+`rayClassArtinMap_idealClass`) and §13.1 (`TauCeti.ClassFieldTheory.kroneckerWeber`); LFunctions Layer 5
+(`PrimitiveRayClassCharacter.of`); Tau Ceti `TauCeti.LFunctions.PrimitiveRayClassCharacter.of_induced`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.induced`, `TauCeti.GlobalNumberFields.RayClassGroup.hom_ext`;
+Mathlib `IsAbelianGalois`.
+
 ### 5.5 The transfer of zero-free half-planes
 
 Let `K` be abelian over `ℚ` (`[IsAbelianGalois ℚ K]`) and `σ₀ ≥ 0`. Suppose `heckeLFunctionC ψ.character`
@@ -939,8 +1001,9 @@ non-abelian `K` the cofactor is an Artin `L`-function whose holomorphy is not kn
 ### Dependencies
 
 ExplicitZetaBounds §3.2; ZerosOfLFunctions §§1.6, 3.1; LFunctions Layers 4–6 and 8; ClassFieldTheory
-§13.1; AnalyticNumberTheoryPartI §§2.18a, 2.42; AnalyticNumberTheoryPartIII §8.2; Mathlib
-Borel–Carathéodory and three-lines; Tau Ceti Hecke `L`-functions and Euler corrections; Layer 1.
+C.6, Layer 12 and §13.1; AnalyticNumberTheoryPartI §§2.18a, 2.42; AnalyticNumberTheoryPartIII §8.2; Mathlib
+Borel–Carathéodory and three-lines; Tau Ceti Hecke `L`-functions and Euler corrections,
+`RayClassCharacter.induced` and `RayClassGroup.hom_ext`; Layer 1.
 
 ## Layer 6: large sieves over number fields
 
@@ -2235,7 +2298,7 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   number field, the norm-composed characters of an abelian field, the `S`-deleted base-change
   factorization over an abelian `K` (AnalyticNumberTheoryPartI §2.18a's induction identity for the
   restriction `σ` of `χ` to `Gal(ℚ̄/K)`, split by `Ind σ = ⊕_{ψ ∈ X(K)} χψ` and read on
-  `heckeLFunctionC` and Mathlib's Dirichlet `L`-functions) and the transfer of zero-free half-planes
+  `heckeLFunctionC` and Mathlib's Dirichlet `L`-functions), the identification of the characters of the abelian extensions of `ℚ` with the primitive norm-composed characters (§5.4a) and the transfer of zero-free half-planes
   to Dirichlet `L`-functions (Layer 5); LFunctions Layer 4 factors
   `ζ_K` itself over quadratic and cyclotomic `K`, and §5.4 here is the factorization of the twist by
   `χ ∘ N_{K/ℚ}` over every abelian `K`;
@@ -2283,7 +2346,7 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   field: [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) §§10.1–10.2, 11.1–11.2; §8.1 here reads
   Kubota's normalization `(c/d)_n` as its `r(N)/n`-th power.
 - Global Artin reciprocity and ray class fields: [ClassFieldTheory](../ClassFieldTheory/README.md)
-  Layers 11 and 13. Moduli, ray class groups and characters, conductors: Tau Ceti
+  C.6 (the Frobenius convention) and Layers 11–13. Moduli, ray class groups and characters, conductors: Tau Ceti
   `TauCeti.GlobalNumberFields` ([GlobalNumberFields](../../Completed/GlobalNumberFields/README.md)
   Layers 2 and 9).
 - Gauss sums over a finite ring: Mathlib `gaussSum`; their absolute value `√q` over a finite field:
@@ -2392,7 +2455,8 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   character at its presentation modulus, `0` if none exists, in meromorphic normal form),
   `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (the presented function has the
   germ of the primitive one times the Euler correction at every point),
-  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character`;
+  `TauCeti.LFunctions.PrimitiveRayClassCharacter` with `.of`, `.conductor`, `.character` and `.of_induced`
+  (a character and the character it induces have the same primitive character; §5.4a);
   `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` with
   `differentiable_eulerCorrection` and `eulerCorrection_ne_zero` (no zero on `Re s > 0`);
   `TauCeti.LFunctions.meromorphicNFOn_heckeLFunctionC` (normal form on the whole plane, also when it
@@ -2400,7 +2464,7 @@ numerical constant of Layer 10 is a closed-form rational inequality stated with 
   `heckeLFunctionC` agrees with its series on `Re s > 1`, that is, that a continuation exists, is
   LFunctions Layer 5.
 - `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `RayClassCharacter`
-  (`RayClassGroup 𝔪 →* ℂˣ`), `idealClass`, `RayClassCharacter.conductor`,
+  (`RayClassGroup 𝔪 →* ℂˣ`), `idealClass`, `RayClassCharacter.induced` and `RayClassGroup.hom_ext` (§5.4a), `RayClassCharacter.conductor`,
   `RayClassCharacter.toMultiplicativeIdealWeight`; column orthogonality for the characters
   `χ : G →* ℂˣ` of a finite commutative group, `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`
   (`Σ_χ χ(σ)⁻¹ χ(g) = |G|` if `g = σ` and `0` otherwise;
@@ -2489,8 +2553,10 @@ the first-row value `[b/a]`.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
+C.6 (the Frobenius convention: the Artin symbol of `(ℓ)` on `ℚ(ζ_m)` sends `ζ_m` to `ζ_m^ℓ`; §5.4a),
 Layer 11 (global Artin reciprocity: the Artin map of a finite abelian extension factors through
-the ray class group of an admissible modulus) and §13.1, as Tau Ceti realizes them (`TauCeti.ClassFieldTheory.rayClassField`,
+the ray class group of an admissible modulus), Layer 12 (`rayClassArtinMap`, `rayClassArtinMap_surjective`,
+`rayClassArtinMap_idealClass`; §5.4a) and §13.1, as Tau Ceti realizes them (`TauCeti.ClassFieldTheory.rayClassField`,
 `TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_le_rayClassField`;
 `TauCeti.ClassFieldTheory.abelianConductor`, the least admissible modulus, with
 `TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor` (it is admissible) and
@@ -2598,8 +2664,11 @@ character attached by global reciprocity), used in §5.4.
   Appendix C.
 - `guthmaynard2026` — L. Guth, J. Maynard, *New large value estimates for Dirichlet polynomials*, Ann. of
   Math. 203 (2026); §13.1.
-- `milnecft2020` — J. S. Milne, *Class Field Theory*, v4.03 (2020); Chapter V, Example 3.2, p. 157,
+- `milnecft2020` — J. S. Milne, *Class Field Theory*, v4.03 (2020); Chapter V, Example 3.2 and Proposition 3.3, p. 157,
   Theorem 3.5 and Remark 3.8, p. 158, and Example 3.10, p. 159; Chapter VIII, 5.3 and 5.5, p. 245.
+- `heilbronn1967` — H. Heilbronn, *Zeta-functions and L-functions*, in J. W. S. Cassels and A. Fröhlich
+  (eds.), *Algebraic Number Theory*, Academic Press (1967), chapter VIII, 204–230; the zeta function of an
+  abelian extension as a product of `L`-functions of its characters (§5.4a).
 - `lamzourilisound2015` — Y. Lamzouri, X. Li, K. Soundararajan, *Conditional bounds for the least
   quadratic non-residue and related problems*, Math. Comp. 84 (2015); Lemma 2.2, Theorem 1.1.
 - `tao2015` — T. Tao, *The Elliott–Halberstam conjecture implies the Vinogradov least quadratic

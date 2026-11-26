@@ -53,7 +53,7 @@ eigensystem and their base change.
 The projector lemma 5.2a, a statement about unitary representations of a unimodular locally compact
 group with an integrable square-integrable matrix coefficient, could be written with Mathlib's Haar
 measure and Bochner integral on continuous unitary representations encoded by hand; it is a step of
-the route (Godement's theorem), not a headline, and it is not stated here. The finite-group
+the route, not a headline, and it is not stated here. The finite-group
 statements inside 5.3 (labels of tuples of polynomials over `𝔽_q`, goodness and joint cuspidality)
 are steps of the route as well.
 -/

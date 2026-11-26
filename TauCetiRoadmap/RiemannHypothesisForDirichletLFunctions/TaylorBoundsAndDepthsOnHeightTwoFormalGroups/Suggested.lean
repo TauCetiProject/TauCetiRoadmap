@@ -80,9 +80,9 @@ theorem flowProgramme_duality (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 �
 
 /-- The bounds of the flow programme (4.6 (b)): for `n′` even, a prime `p ≥ 3` and `D ≥ 0`,
 `ρ_LT·Σ_s D_s ≤ 𝔉_p(D) ≤ γ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)` and `γ_LT(p) = p/(p² − 1)`.
-Follows from [FormalProof],
+The lower bound follows from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/JetHarmonics/FlowProgrammeBoundsAndLowLevelOptimum.lean`
-(`GlobalTheory.FlowProgrammeFacts.main`). -/
+(`GlobalTheory.FlowProgrammeFacts.main`); the upper bound is this roadmap's own formulation. -/
 theorem flowProgramme_bounds (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 ≤ p)
     (hn' : Even n') (D : ZMod n' → ℝ) (hD : ∀ s, 0 ≤ D s) :
     1 / ((p : ℝ) ^ 2 - 1) * ∑ s, D s ≤ flowProgramme p n' D ∧
@@ -93,9 +93,7 @@ theorem flowProgramme_bounds (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 �
 `D ≥ 0` with `max D ≤ p·min D`, `𝔉_p(D) = ρ_LT·Σ_s D_s`, with `ρ_LT(p) = 1/(p² − 1)`.
 Follows from [FormalProof],
 `Development/AutomorphicArithmetic/OrbitLabellings/FnumEqRhoMulSumOfDemandRatioLe.lean`
-(`UpperTheory.fnum_eq_rho_mul_sum_of_demand_ratio_le`),
-`Formalism/LocalToGlobal/CharacterGerms/ValuationChoiceHypothesis.lean`
-(`Formalism.L2.FormalSeriesBounds.LemmaFe`). -/
+(`UpperTheory.fnum_eq_rho_mul_sum_of_demand_ratio_le`). -/
 theorem flowProgramme_eq_of_max_le_mul_min (p n' : ℕ) [NeZero n'] (hp : p.Prime) (hp3 : 3 ≤ p)
     (hn' : Even n') (D : ZMod n' → ℝ) (hD : ∀ s, 0 ≤ D s)
     (hmax : ∀ s t, D s ≤ (p : ℝ) * D t) :

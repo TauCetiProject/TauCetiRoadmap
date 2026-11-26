@@ -14,19 +14,25 @@ says which are.
 
 All three headlines are statable at the pins and are stated: the prime number theorem for the
 Riesz remainder in its exception-free form (1.4i (c)), Linnik's theorem (1.7b (iii)), and the
-count of primes that are norms of `α ≡ 1 (mod M)` from an imaginary quadratic field in short
-intervals (2.9b (iv) (c)). The first and the third are this roadmap's general forms; beside them
-stand the forms that the formal proof [FormalProof] of the README provides: the prime number
-theorem for the Riesz remainder under a zero-free interval (1.4i (c′)) and the count for the
-fields `ℚ(√−d)` (2.9b (iv) (c′)). The form of 1.4i (a) with the exceptional term follows from
-1.4i (c) with AnalyticNumberTheoryPartI §0.34, and the field forms 1.4i (b) and (b′) follow from
-1.4i (c) and (c′) in a few lines; none is restated.
+count of primes that are norms of `α ≡ 1 (mod M)` from the fields `ℚ(√−d)` in short intervals
+(2.9b (iv) (c′)), the statement of 2.9b and the form of the formal proof [FormalProof] of the
+README. The first is this roadmap's own form, except its bound for `G_1`, which is the formal
+proof's; beside it stands the prime number theorem for the Riesz remainder under a zero-free
+interval (1.4i (c′)), also this roadmap's own except for that bound, which the family uses. Of the
+bounds for `G_χ` in 1.4i, the formal proof states only a consequence of 1.4i (b′), written there.
+Beside the third stands the count for every imaginary quadratic field (2.9b (iv) (c)), this
+roadmap's own formulation, stated in the wider form of 2.9b. The form of 1.4i (a) with
+the exceptional term follows from 1.4i (c) with AnalyticNumberTheoryPartI §0.34, and the field
+forms 1.4i (b) and (b′) follow from 1.4i (c) and (c′) in a few lines; none is restated.
 
 The Deuring–Heilbronn repulsion (1.7b (i)) and Gallagher's prime number theorem in Linnik's range
 (1.7b (ii)), on which Linnik's theorem rests, are statements of the formal proof and are stated.
-The character prime number theorem with the exceptional term (1.4g (b)) is statable, but it is a
-corollary of AnalyticNumberTheoryPartI §§0.18 and 0.34; it is a step of the routes and is not
-stated here. The bound for `L′/L(1, χ)` under a zero-free box (1.4f), the power-sum inequality
+The file of AnalyticNumberTheoryPartI states the repulsion and Linnik's theorem in the same form
+(with `χ₁.IsQuadratic` for `χ₁ ^ 2 = 1`), as its §§1.7a and 1.7b, of which 1.7b (i) and (iii) are
+corollaries; they stay here as the record of 1.7b (i) and (iii). The character prime number
+theorem with the exceptional term (1.4g (b)) is statable, but it is
+AnalyticNumberTheoryPartI §1.4e; it is a step of the routes and is not stated here. The bound
+for `L′/L(1, χ)` under a zero-free box (1.4f), the power-sum inequality
 (1.7a) and the bound for ray class numbers in 2.9b are statable as well; they are steps of the
 routes to the headlines or statements that are not headlines, and they are not stated here.
 -/
@@ -43,9 +49,10 @@ of conductor `N` and every `y ≥ 2` the Riesz remainder
 `G_χ(y) = Σ_{n ≤ y} Λ(n) χ(n) (y/n − 1) + y (L′/L)(1, χ)` satisfies
 `|G_χ(y)| ≤ C y (log 3N)^5 exp(−c log y/(√(log y) + log N))`, and the remainder
 `G_1(y) = Σ_{n ≤ y} Λ(n) (y/n − 1) − y log y + (1 + γ) y` of the trivial character satisfies
-`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. This form is this roadmap's: it rests on
-AnalyticNumberTheoryPartI §0.34, which the formal proof does not use, and the family uses
-`norm_rieszRemainder_le_of_no_real_zero` instead. -/
+`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. The bound for `G_χ` is this roadmap's: it
+rests on AnalyticNumberTheoryPartI §0.34 and is not a statement of the formal proof, and the
+family uses `norm_rieszRemainder_le_of_no_real_zero` instead; the bound for `G_1` is the formal
+proof's. -/
 theorem norm_rieszRemainder_le :
     ∃ C c : ℝ, 0 < C ∧ 0 < c ∧
       (∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive → χ ≠ 1 →
@@ -60,12 +67,14 @@ theorem norm_rieszRemainder_le :
           C * y * Real.exp (-(c * √(Real.log y))) := by
   sorry
 
-/-- The prime number theorem for the Riesz remainder under a zero-free interval (1.4i (c′)), the
-form of the formal proof. For every `c₀ > 0` there are `C, c > 0` such that for every primitive
+/-- The prime number theorem for the Riesz remainder under a zero-free interval (1.4i (c′)).
+For every `c₀ > 0` there are `C, c > 0` such that for every primitive
 nonprincipal Dirichlet character `χ` of conductor `N` for which, when `χ` is real, `L(s, χ)` has
 no real zero in `(1 − c₀, 1)`, and every `y ≥ 2`,
 `|G_χ(y)| ≤ C y (log 3N)^5 exp(−c log y/(√(log y) + log N))`; and
-`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. As stated, it follows from
+`|G_1(y)| ≤ C y exp(−c √(log y))` for every `y ≥ 2`. Its bound for `G_χ` is this roadmap's own,
+not a statement of the formal proof, which states in 1.4i the bound for `G_1` and a consequence
+of 1.4i (b′); the family uses this theorem and 1.4i (b′). As stated, it follows from
 `norm_rieszRemainder_le` by discarding the zero-free hypothesis; the target is its proof by the
 route of 1.4i (c′), from 1.4i (a), without AnalyticNumberTheoryPartI §0.34. -/
 theorem norm_rieszRemainder_le_of_no_real_zero (c₀ : ℝ) (hc₀ : 0 < c₀) :
@@ -136,13 +145,13 @@ theorem exists_prime_modEq_le :
 /-! ## Layer 2: Prime ideals in short intervals and Artin L-functions -/
 
 /-- Primes that are norms of `α ≡ 1 (mod M)` from an imaginary quadratic field, in short
-intervals (2.9b (iv) (c)). There are absolute `c, c′, X₀ > 0` such that for every imaginary
-quadratic field `K`, every integer `M ≥ 3` and `B = |d_K| M²`, if `X ≥ X₀`,
+intervals (2.9b (iv) (c), the wider form). There are absolute `c, c′, X₀ > 0` such that for
+every imaginary quadratic field `K`, every integer `M ≥ 3` and `B = |d_K| M²`, if `X ≥ X₀`,
 `log B ≤ c √(log X)` and `e^(−c √(log X)) ≤ h ≤ 1`, then the number of primes
 `p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K` and `α ≡ 1 (mod M 𝒪_K)` is at
 least `c′ h X/(B² log X)`. This form, for every imaginary quadratic field and with the exponent
-`2`, is this roadmap's; the form of the formal proof is
-`card_primes_norm_one_mod_shortInterval_ge_of_discr_eq_neg_prime`. -/
+`2`, is this roadmap's, stated in the wider form of 2.9b; the statement of 2.9b, the form of the
+formal proof, is `card_primes_norm_one_mod_shortInterval_ge_of_discr_eq_neg_prime`. -/
 theorem card_primes_norm_one_mod_shortInterval_ge :
     ∃ c c' X₀ : ℝ, 0 < c ∧ 0 < c' ∧ 0 < X₀ ∧
       ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = 2 →
@@ -160,9 +169,11 @@ theorem card_primes_norm_one_mod_shortInterval_ge :
 /-- Primes that are norms of `α ≡ 1 (mod M)` from `ℚ(√−d)` in short intervals, the form of the
 formal proof (2.9b (iv) (c′)). There are absolute `A, c, c′ > 0` such that for every prime
 `d ≡ 3 (mod 4)` with `d ≥ 100`, the field `K = ℚ(√−d)` (the imaginary quadratic field of
-discriminant `−d`), every integer `M ≥ 3` and `B = d M²`, if `X ≥ 1`, `log B ≤ c √(log X)` and
-`e^(−c √(log X)) ≤ h ≤ 1`, then the number of primes `p ∈ (X, X(1 + h)]` of the form
-`p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K` and `α ≡ 1 (mod M 𝒪_K)` is at least `c′ h X/(B^A log X)`. -/
+discriminant `−d`), every integer `M ≥ 3` and `B = d M²` (the formal proof has `B = 4dM²`; the
+statements are equivalent, for other `A, c, c′`, as 2.9b (iv) (c′) says), if `X ≥ 1`,
+`log B ≤ c √(log X)` and `e^(−c √(log X)) ≤ h ≤ 1`, then the number of primes
+`p ∈ (X, X(1 + h)]` of the form `p = N_{K/ℚ}(α)` with `α ∈ 𝒪_K` and `α ≡ 1 (mod M 𝒪_K)` is at
+least `c′ h X/(B^A log X)`. -/
 theorem card_primes_norm_one_mod_shortInterval_ge_of_discr_eq_neg_prime :
     ∃ A c c' : ℝ, 0 < A ∧ 0 < c ∧ 0 < c' ∧
       ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = 2 →

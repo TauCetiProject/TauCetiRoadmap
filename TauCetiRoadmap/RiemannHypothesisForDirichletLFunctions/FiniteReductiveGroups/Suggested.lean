@@ -15,7 +15,7 @@ bodies: `IsCuspidal` (no nonzero vector fixed by the unipotent radical of a stan
 parabolic subgroup, which is cuspidality by 1.1), `HasCuspidalValues` (the character values of
 Green's cuspidal character `σ_θ`, 5.2, at every element `su`), and the Bessel-type character
 `besselCharacter` and the characters `degenerateCharacter` of the degenerate Gelfand–Graev
-representations (2.6 (c), 2.7 (b)). Stated here:
+representations (2.6, 2.7 (b)). Stated here:
 
 * Green's cuspidal characters (5.2): `exists_cuspidal_of_regular`.
 * Every irreducible cuspidal character is some `σ_θ` (5.5): `exists_regular_of_isCuspidal`. As
@@ -25,11 +25,19 @@ representations (2.6 (c), 2.7 (b)). Stated here:
 
 The other headline theorems are not statable at the pins.
 
-* The Deligne–Lusztig package (4.4, 4.7, 4.8, 4.9, 4.3): for a connected reductive group `G` over
-  `𝔽_q` with Frobenius `F`, a rational maximal torus `T` and a character `θ` of `T^F`, the inner
-  product formula for the virtual characters `R_T^G(θ)`, their degree `ε_Gε_T|G^F|_{p'}/|T^F|`,
-  irreducibility and cuspidality for `θ` in general position, the disjointness of Lusztig series,
-  exhaustion and the character formula through Green functions. It lacks compactly supported
+* The Deligne–Lusztig package in the forms for `GL_n` (4.4, 4.7, 4.8, 4.9) and the character formula
+  (4.3). For Green's class functions `J_n(θ̃)` of `GL_n(𝔽_q)`, attached to the homomorphisms
+  `θ̃ : 𝔽̄_q^× → ℂ^×`: their inner products, their degree, the vanishing of their proper Harish-Chandra
+  restrictions, and for `θ̃|_{𝔽_{q^n}^×}` regular the irreducibility and cuspidality of
+  `(−1)^{n−1}J_n(θ̃)`; over a prime field `𝔽_p`, the irreducibility and degree of a Harish-Chandra product
+  of pairwise distinct cuspidal characters (4.7 (c)), the partition of the irreducible characters into
+  the Harish-Chandra series of the products of cuspidal characters, and over every finite field the
+  uniqueness of the label (4.8). `J_n(θ̃)` is defined by a recursion through Harish-Chandra induction from
+  `GL_a × GL_{n−a}`, and the clauses over `𝔽_p` and the label concern Harish-Chandra products: they lack
+  Harish-Chandra induction from the standard Levi subgroups of `GL_n` (ReductiveGroups Layer 7c), as
+  2.8 below does. The character formula (4.3), for a connected reductive group `G` over `𝔽_q` with
+  Frobenius `F`, a rational maximal torus `T` and a character `θ` of `T^F`, gives the values of the
+  virtual characters `R_T^G(θ)` through Green functions. It lacks compactly supported
   `ℓ`-adic cohomology of varieties over `𝔽̄_p` with the action of finite groups
   (EtaleCohomologyFoundations §F.2.5), hence the Deligne–Lusztig varieties and the characters
   `R_T^G(θ)`, and the rational maximal tori of `G` with their types (ReductiveGroups Layers 7, 7a).
@@ -37,19 +45,24 @@ The other headline theorems are not statable at the pins.
   and identifies their Frobenius-fixed points with their rational points
   (`TauCeti.FiniteField.rationalPointsMulEquiv`), which gives the finite group `G^F`, but no
   `ℓ`-adic cohomology.
-* Gelfand–Graev multiplicity one (2.2) and the pairing `⟨Γ_ψ, R_T^G(θ)⟩ = ε_Gε_T` (4.11) for every
-  connected reductive `G`: besides `R_T^G(θ)`, it lacks a rational Borel subgroup `B₀ = T₀U₀` of `G`
-  with the root subgroups of `U₀` (ReductiveGroups Layers 7C, 9), hence the subgroup `U₀*` and the
-  regular characters of `U₀^F`. Tau Ceti has the root subgroups of the split Chevalley groups given by a
-  Kostant integral form (`TauCeti.UniversalEnvelopingAlgebra.kostantRootSubgroupPoints`), but no rational
-  Borel subgroup with its root subgroups for an arbitrary connected reductive group over `𝔽_q`, non-split
-  ones included.
-* Green's parametrisation and degree formula (5.4, 5.5), the uniqueness of the generic constituent of
-  each series (5.4 (c)) and the Gelfand–Graev weights (5.8): the irreducible characters `χ_λ` are
-  defined by the characteristic map `ch_m`, which sends power sums to the virtual characters
-  `R_T^G(θ)` (5.4); without these the parametrisation is only a bijection with Green data carrying
-  the degree formula, a weaker statement, and the series idempotents `z_m` of the weights are
-  defined through it.
+* Gelfand–Graev multiplicity one (2.2) for every connected reductive `G`: it lacks a rational Borel
+  subgroup `B₀ = T₀U₀` of `G` with the root subgroups of `U₀` (ReductiveGroups Layers 7C, 9), hence
+  the subgroup `U₀*` and the regular characters of `U₀^F`. Tau Ceti has the root subgroups of the split
+  Chevalley groups given by a Kostant integral form
+  (`TauCeti.UniversalEnvelopingAlgebra.kostantRootSubgroupPoints`), but no rational Borel subgroup with
+  its root subgroups for an arbitrary connected reductive group over `𝔽_q`, non-split ones included.
+  The Gelfand–Graev pairings of Harish-Chandra products of cuspidal characters of `GL_n(𝔽_p)`
+  (4.11 (b), (d): the pairing is multiplicative, and every such product has a generic constituent)
+  lack Harish-Chandra induction, as 4.7 (c) and 4.8 do.
+* Green's parametrisation and degree formula (5.5), the characters of the squarefree labels of
+  `GL_n(𝔽_q)` and the multiplicativity of labels over every prime field (5.4), and the
+  Gelfand–Graev weights (5.8): the irreducible characters `χ_λ` of 5.5 are those of
+  DeligneLusztigTheory §2.6, defined by the characteristic map `ch_m`, which sends
+  power sums to the virtual characters `R_T^G(θ)`; without these the parametrisation is only a
+  bijection with Green data carrying the degree formula, a weaker statement. The statements of 5.4
+  concern Harish-Chandra products of cuspidal characters, and the series idempotents `z_m` of the
+  weights are defined through the labels of 5.7, which are defined through such products: they lack
+  Harish-Chandra induction, as 4.7 (c) and 4.8 do.
 * The derivatives of the Gelfand–Graev representation (2.7 (a)) and the multiplicities of the
   Bessel-type characters in Harish-Chandra induced cuspidal representations (2.8): they lack the
   mirabolic functors `Φ^±`, `Ψ^±` of 2.4 and Harish-Chandra induction from the standard Levi
@@ -88,7 +101,7 @@ noncomputable def besselCharacter (ψ₀ : AddChar K ℂ) (n k i : ℕ) (g : GL 
     then (g : Matrix (Fin n) (Fin n) K) a b else 0)
 
 /-- The character `ψ_{(j, n − j)}` of the upper unitriangular group defining the degenerate Gelfand–Graev
-representation `Γ_{(j, n − j)}` of 2.6 (c), in `0`-based indices: `g ↦ ψ₀(Σ g_{a, a+1})` over the `a` with `a + 1 ≠ j`.
+representation `Γ_{(j, n − j)}` of 2.6, in `0`-based indices: `g ↦ ψ₀(Σ g_{a, a+1})` over the `a` with `a + 1 ≠ j`.
 For `j = 0` it is the standard regular character `ψ` of the Conventions.
 [FormalProof], `Development/AbelianVarietyTheory/Definitions/Divisors/SplitDoublingNBlock.lean`
 (`GlobalTheory.FinGL.cutEdge`). -/

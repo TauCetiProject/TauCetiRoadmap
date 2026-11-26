@@ -14,11 +14,11 @@ The last layer proves that, for integers `g, D ≥ 1` and real `t`, only finitel
 
 Abelian varieties, their duals and polarizations come from [AbelianSchemesAndArithmeticModuli](../AbelianSchemesAndArithmeticModuli/README.md), and Néron models and semistable reduction from [NeronModelsAndSemistableAbelianVarieties](../NeronModelsAndSemistableAbelianVarieties/README.md). Together they supply the unmetrized Hodge line. PELModuli supplies the moduli spaces. FaltingsFinitenessAndIsogenyTheorems uses the heights with the isogeny, moduli and finiteness results, and itself proves the descent to isomorphism classes over a fixed number field and Shafarevich finiteness.
 
-The six layers take these steps in order; Layer 1 also builds arithmetic divisors with Green functions, and Layer 5 compares the stable height with theta heights.
+The six numbered layers take these steps in order, and Layers 1A and 1B, between Layers 1 and 2, develop the slope theory of hermitian vector bundles over `O_K`: maximal and minimal slopes, Bost's slope inequality and the Harder–Narasimhan filtration; Layer 1 also builds arithmetic divisors with Green functions, and Layer 5 compares the stable height with theta heights.
 
 ## How to read the build
 
-Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. This README is the full specification. `Suggested.lean` is meant to state the headline theorems against the pinned Mathlib and Tau Ceti interfaces; it states none, because arithmetic hermitian bundles, metrized Néron Hodge lines, Faltings heights, integral Siegel compactifications and theta-height constructions are needed to express them.
+Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layers 1A and 1B give the heights of linear maps, the maximal and minimal slopes and Bost's slope inequality (1A), and the canonical filtration and its base change (1B); Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. This README is the full specification. `Suggested.lean` is meant to state the headline theorems against the pinned Mathlib and Tau Ceti interfaces; it states none, because arithmetic hermitian bundles, metrized Néron Hodge lines, Faltings heights, integral Siegel compactifications and theta-height constructions are needed to express them.
 
 ## Conventions
 
@@ -26,7 +26,7 @@ Write `O_K = 𝓞 K` for a number field’s ring of integers and `Σ_K` for all 
 
 Inner products use Mathlib's convention: conjugate-linear in the first argument and linear in the second. Integration formulas for mixed arguments are written in that order; their diagonal values give the stated squared norms. On a scheme with several irreducible components, a rational function used for a principal Cartier divisor is invertible in the total ring of rational functions, and a rational section trivializes the line on every component.
 
-The unnormalized hermitian degree is `deĝ(L̄) = log #(L/O_Ks) − Σ_σ log ‖s‖_σ` for an integral section `s ≠ 0`. Its normalized degree is `deĝ(L̄)/[K:ℚ]`. For higher rank, take the determinant metric first; slope additionally divides by the positive rank. Arithmetic Green functions use `−log ‖s‖²`, so the archimedean arithmetic degree has the factor `½`. Chow groups and the one-cycle pairing have rational coefficients; over `O_K[1/S]` the pairing takes values in `ℝ_S = ℝ/Σ_{p below S} ℚ log p`.
+The unnormalized hermitian degree is `deĝ(L̄) = log #(L/O_Ks) − Σ_σ log ‖s‖_σ` for an integral section `s ≠ 0`. Its normalized degree is `deĝ(L̄)/[K:ℚ]`. For higher rank, take the determinant metric first. Dividing by the positive rank gives the slope `μ^(Ē) = deg^(Ē)/rank Ē` of §1.3 and the normalised slope `μ^_n(Ē) = deg^_n(Ē)/rank Ē = μ^(Ē)/[K:ℚ]` of §1.6a; the normalised slope does not change under finite extension, and Layers 1A and 1B use it throughout. Arithmetic Green functions use `−log ‖s‖²`, so the archimedean arithmetic degree has the factor `½`. Chow groups and the one-cycle pairing have rational coefficients; over `O_K[1/S]` the pairing takes values in `ℝ_S = ℝ/Σ_{p below S} ℚ log p`.
 
 For a `g`-dimensional complex abelian variety the Faltings squared norm is
 
@@ -46,7 +46,7 @@ All abelian varieties and their isogenies here are over characteristic-zero fiel
 
 ## Layer 1: Hermitian bundles, arithmetic divisors and heights
 
-Start from finite projective `O_K`-modules and the product formula. First metrize the bundle operations and define degree; then identify the divisor and Picard descriptions. The Green-function enhancement extends this to arithmetic schemes and stacks, and the normalized pullback degree becomes the point-height interface.
+Start from finite projective `O_K`-modules and the product formula. First metrize the bundle operations, symmetric powers included, and define degree; compute it in arbitrary bases, through adelic presentations and for the standard constructions; then identify the divisor and Picard descriptions. The Green-function enhancement extends this to arithmetic schemes and stacks, and the normalized pullback degree becomes the point-height interface.
 
 ### 1.1 Hermitian vector bundles over the ring of integers
 
@@ -119,6 +119,41 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 - For `E = ℤ²` with the standard metric and `F = ℤ·(1,1)`, the quotient `E/F ≅ ℤ` with the quotient metric has `‖[e₁]‖ = 1/√2`, not 1: the quotient metric is not the metric of a chosen complement lattice.
 - `rank Ē_{O_L} = rank Ē` and `(det Ē)_{O_L} ≅ det(Ē_{O_L})`.
 - The identities are stated as isometries, not just module isomorphisms; `Ō_K ⊗ Ē ≅ Ē`; the dual of `Ō_K` is `Ō_K`.
+
+### 1.2a Symmetric powers of a hermitian bundle
+
+For a hermitian vector bundle `Ē` over `Spec O_K` of rank `r ≥ 1` and an integer `m ≥ 0`, the symmetric power `Sym^m Ē` is the `O_K`-module `Sym^m_{O_K} E` (with `Sym^0 Ē = Ō_K`), the quotient of `E^{⊗m}` by the submodule generated by the differences `x − π·x` of permuted tensors, with the quotient metrics of `Ē^{⊗m}` at every `σ`. (i) `Sym^m E` is projective of rank `binom(m + r − 1, m)` and the kernel of `E^{⊗m} → Sym^m E` is saturated, so the metric is the quotient metric of §1.2 (v); `Sym^1 Ē = Ē`, and `Sym^m L̄ = L̄^{⊗m}` isometrically for a hermitian line bundle `L̄`. (ii) At each `σ` the quotient norm of a class is the norm of the orthogonal projection of any lift onto the symmetric tensors: `1/m!` times the symmetrisation `[x] ↦ Σ_π π·x` is an isometry of `Sym^m E_σ` onto the symmetric tensors `(E_σ^{⊗m})^{S_m}`. For an orthonormal basis of `E_σ` the monomials `e^α` (`α ∈ ℕ^r`, `|α| = m`) are orthogonal with `‖e^α‖²_σ = α!/m!`, where `α! = ∏_j α_j!`. (iii) For a hermitian vector bundle `F̄` and a nonzero `K`-linear map `φ : E_K → F_K`, `Sym^m φ` is nonzero and `‖Sym^m φ‖_σ ≤ ‖φ‖_σ^m` for the operator norms at every `σ`; if `φ(E ⊗ O_𝔭) ⊂ a·(F ⊗ O_𝔭)` for a nonzero prime `𝔭` and some `a ∈ K_𝔭`, where `O_𝔭` is the completion of `O_K` at `𝔭` and `K_𝔭` its fraction field, then `Sym^m φ` maps `Sym^m E ⊗ O_𝔭` into `a^m·(Sym^m F ⊗ O_𝔭)`; if `φ` is injective, so is `Sym^m φ`. (iv) For a finite extension `L/K`, `(Sym^m Ē)_{O_L} ≅ Sym^m(Ē_{O_L})` isometrically, compatibly with composite extensions, and an isometry `Ē ≅ Ē′` induces an isometry `Sym^m Ē ≅ Sym^m Ē′`. (v) For an orthogonal sum `L̄_1 ⊕ ⋯ ⊕ L̄_r` of hermitian line bundles, `Sym^m(⊕_j L̄_j) ≅ ⊕_{|α|=m} (⊗_j L̄_j^{⊗α_j})(½ log(m!/α!))` isometrically, with the rescaling `(c)` of §1.1: an orthogonal sum of lines of normalised degrees `Σ_j α_j·deg^_n(L̄_j) + ½ log(m!/α!)`; and `Σ_{|α|=m} m!/α! = r^m`.
+
+`Ē` has rank `r ≥ 1` and `m ≥ 0`; in (iii) `φ` is nonzero. The symmetric power of a projective module over the Dedekind domain `O_K` is computed locally, where `E` is free.
+
+Provide the following maps and identities.
+
+- `Sym^m Ē`: the module `Sym^m_{O_K} E` with the quotient metrics of `Ē^{⊗m}`; `Sym^0 Ē = Ō_K` and `Sym^1 Ē = Ē`.
+- `rank Sym^m Ē = binom(m + r − 1, m)`, and `Sym^m L̄ ≅ L̄^{⊗m}` for a hermitian line bundle.
+- The scaled symmetrisation `[x] ↦ (1/m!)·Σ_π π·x`, an isometry of `Sym^m E_σ` onto the symmetric tensors of `E_σ^{⊗m}`.
+- `‖e^α‖²_σ = α!/m!` for the monomials in an orthonormal basis of `E_σ`, which are orthogonal.
+- `Sym^m φ` for a `K`-linear `φ`, with `‖Sym^m φ‖_σ ≤ ‖φ‖_σ^m`, the passage of `φ(E ⊗ O_𝔭) ⊂ a·(F ⊗ O_𝔭)` to `m`-th powers, and injectivity for injective `φ`.
+- `(Sym^m Ē)_{O_L} ≅ Sym^m(Ē_{O_L})`, and `Sym^m` of an isometry.
+- `Sym^m(⊕_j L̄_j) ≅ ⊕_{|α|=m} (⊗_j L̄_j^{⊗α_j})(½ log(m!/α!))` for hermitian line bundles `L̄_j`.
+
+The module statements are those of Mathlib and Tau Ceti and are used as they stand: Mathlib's `SymmetricPower`; Tau Ceti’s functoriality `SymmetricPower.map` (with `map_id` and `map_comp`), the basis `Module.Basis.symmetricPower` of a free module with `SymmetricPower.free` and the rank `SymmetricPower.finrank_eq` (`Nat.multichoose r m = binom(m + r − 1, m)`), the symmetrisation `SymmetricPower.toTensorPower` (`[x] ↦ Σ_π π·x`) with `SymmetricPower.mk_comp_toTensorPower`, `SymmetricPower.toTensorPower_comp_map` and `SymmetricPower.toTensorPower_injective` when `m!` is a unit, and extension of scalars `RingHom.extendScalarsSymmetricPowerIso` with its naturality.
+
+(i) `Sym^m` commutes with localisation (`RingHom.extendScalarsSymmetricPowerIso`), and `E ⊗ O_𝔭` is free of rank `r`, so `Sym^m E ⊗ O_𝔭` is free of rank `binom(m + r − 1, m)` (`SymmetricPower.free`, `SymmetricPower.finrank_eq`); hence `Sym^m E` is projective of that rank and torsion-free, which is the saturation of the kernel.
+
+(ii) Permutations act unitarily on `E_σ^{⊗m}`, so the kernel, spanned by the `x − π·x`, is the orthogonal complement of the symmetric tensors, and `toTensorPower` composed with the quotient map is `Σ_π π`, `m!` times the orthogonal projection. The symmetrisation of `e_{i_1} ⊗ ⋯ ⊗ e_{i_m}` is the average of `m!/α!` orthonormal arrangements, of squared norm `α!/m!`.
+
+(iii) At `σ`, `Sym^m φ = SymmetricPower.map φ` is induced by `φ^{⊗m}`, of norm `‖φ‖_σ^m`, and the quotient norm is an infimum over lifts; at `𝔭` the containment passes to `φ^{⊗m}` and to the quotient. Injectivity follows from `toTensorPower_comp_map` and `toTensorPower_injective` over `K`, and non-vanishing from `Sym^m φ(x^m) = φ(x)^m`.
+
+(iv) The module isomorphism is `RingHom.extendScalarsSymmetricPowerIso`, and the metrics are defined place by place. (v) At the finite places `Sym^m` of a direct sum is the direct sum of the tensor products of the symmetric powers of the summands; at `σ` apply (ii) to unit vectors of the lines; the multinomial identity gives the sum.
+
+The source identifications are [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), §3 (the symmetric power with the quotient norm, the symmetrisation and the norms of the monomials in an orthonormal basis; Remarque 3.9) and §7, Lemme 7.3, with the norms of the monomials on p. 84; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A, footnote 4, p. 149; [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), §4.1.2.
+
+*Needs:* §1.1; §1.2; Mathlib `SymmetricPower`; Tau Ceti `SymmetricPower.map`, `Module.Basis.symmetricPower`, `SymmetricPower.free`, `SymmetricPower.finrank_eq`, `SymmetricPower.toTensorPower` (with `SymmetricPower.mk_comp_toTensorPower`, `SymmetricPower.toTensorPower_comp_map` and `SymmetricPower.toTensorPower_injective`) and `RingHom.extendScalarsSymmetricPowerIso`.
+
+**Checks.**
+
+- `Sym²(ℤ²)` with the standard metric: `e₁², e₁e₂, e₂²` are orthogonal of squared norms `1, ½, 1`; the shortest lift of `e₁e₂` is `(e₁⊗e₂ + e₂⊗e₁)/2`, not `e₁ ⊗ e₂`, which has norm `1`. Giving every monomial norm `1` is the wrong metric.
+- (v) for two trivial lines over `ℚ` and `m = 2`: the monomial lines have normalised degrees `0, ½ log 2, 0`.
 
 ### 1.3 The Arakelov degree of a hermitian bundle
 
@@ -204,6 +239,85 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 - Over `ℚ`, trivial lines with generator norms `e^(−a)` and `e^(−b)` have tensor degree `a+b` and dual degrees `−a` and `−b`.
 - For `ℤ ⊂ ½ℤ` with the same absolute-value metric, the degrees are 0 and `log 2`; the quotient has order 2, fixing the sign of the lattice-index term.
 
+### 1.5a Sub-bundles, quotients and the Gram formula
+
+Let `Ē` be a hermitian vector bundle over `Spec O_K` of rank `r`. For a `K`-subspace `V ⊂ E_K` write `Ē_V` for the saturated submodule `V ∩ E` with the restricted metrics (§1.2 (v)), the sub-bundle of `V`, and `Ē/V` for `E/(V ∩ E)` with the quotient metrics. Then `V ↦ Ē_V` is an order-preserving bijection from `K`-subspaces of `E_K` to saturated submodules of `E`, with inverse `F ↦ F_K`, and `rank Ē_V = dim V`. For `W ⊂ V` there are canonical isometries `(Ē_V)_W ≅ Ē_W`, `(Ē/W)_{V/W} ≅ Ē_V/W` and `(Ē/W)/(V/W) ≅ Ē/V`. The sub-bundle of `V ∩ W` is the intersection of the submodules, and the sub-bundle of `V + W` is the saturation of their sum. Base change commutes with both constructions: `(Ē_V)_{O_L} = (Ē_{O_L})_{V⊗L}` and `(Ē/V)_{O_L} = Ē_{O_L}/(V⊗L)`. Degrees are additive, `deg^(Ē) = deg^(Ē_V) + deg^(Ē/V)`, and a submodule `F′ ⊂ E` with `F′_K = V` and the restricted metrics has `deg^(F̄′) = deg^(Ē_V) − log #((V ∩ E)/F′)`; in particular `deg^(F̄′) = deg^(Ē) − log #(E/F′)` when `F′` has full rank. For every `K`-basis `e_1, …, e_r` of `E_K`, let `𝔟` be the fractional ideal of `K` with `det E = 𝔟·(e_1 ∧ ⋯ ∧ e_r)` in `det E_K`. Then
+
+```text
+deg^(Ē) = −log N(𝔟) − ½·Σ_{σ∈Σ_K} log det(h_σ(e_i, e_j))_{i,j}        (Gram formula),
+```
+
+with `N = FractionalIdeal.absNorm` as in §1.3. If the `e_i` lie in `E`, then `−log N(𝔟) = log #(E/⊕_i O_K e_i)`. For two hermitian vector bundles `Ē, Ē′` with `E_K = E′_K`, let `𝔠` be the fractional ideal with `det E′ = 𝔠·det E` in `det E_K`; then, for any `K`-basis `(e_i)` of `E_K`,
+
+```text
+deg^(Ē′) − deg^(Ē) = −log N(𝔠) − ½·Σ_{σ∈Σ_K} log( det h′_σ(e_i, e_j) / det h_σ(e_i, e_j) )        (comparison formula).
+```
+
+`V, W` are `K`-subspaces of `E_K`; in the comparison formula `E` and `E′` are lattices in one `K`-space, each with its own metrics.
+
+Provide the following maps and identities.
+
+- `V ↦ Ē_V`, an order-preserving bijection from `K`-subspaces of `E_K` to saturated submodules, with inverse `F ↦ F_K` and `rank Ē_V = dim V`.
+- `Ē/V` with the quotient metrics, and the canonical isometries `(Ē_V)_W ≅ Ē_W`, `(Ē/W)_{V/W} ≅ Ē_V/W` and `(Ē/W)/(V/W) ≅ Ē/V` for `W ⊂ V`.
+- The sub-bundles of `V ∩ W` and of `V + W`.
+- `(Ē_V)_{O_L} = (Ē_{O_L})_{V⊗L}` and `(Ē/V)_{O_L} = Ē_{O_L}/(V⊗L)`.
+- `deg^(Ē) = deg^(Ē_V) + deg^(Ē/V)`.
+- `deg^(F̄′) = deg^(Ē_V) − log #((V ∩ E)/F′)` for a submodule `F′` with `F′_K = V`.
+- The Gram formula in any `K`-basis of `E_K`, and the comparison formula of two bundles on one `K`-space.
+
+Over the Dedekind domain `O_K` a finitely generated torsion-free module is projective, so `E/(V ∩ E)` is a bundle; the isometries are those of orthogonal complements at each `σ`. Additivity is §1.5, the index formula is its `L ⊂ L′` statement applied to determinants, and base change is §1.2 (vi) with flatness of `O_L` over `O_K`.
+
+The Gram formula is the generic-section formula of §1.3 for `det Ē` with the section `t = e_1 ∧ ⋯ ∧ e_r`: its squared norm at `σ` is the Gram determinant. The comparison formula is the difference of two Gram formulas in one basis, with `𝔠 = 𝔟′·𝔟^{−1}`.
+
+The source identifications are [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemmes 4.4–4.5 (the degree is the degree of the determinant line, computed on any nonzero vector; proof of Lemme 4.5, p. 49), formula (22), p. 47 (the change of degree under a change of the norms by an adelic matrix), and Proposition 4.22; [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), §4.1.1 with (4.1), p. 195 (the degree of a line on any nonzero element of its generic fibre), and Lemma 4.2 (i), p. 196; [Chen, Convergence](https://arxiv.org/abs/0706.2649v1), §1, p. 4 (arXiv v1) (the degree through the Gram determinants of a basis contained in `E`); [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A.2, p. 147.
+
+*Needs:* §1.2; §1.3; §1.5.
+
+**Checks.**
+
+- `ℤ·(1,1) ⊂ ℤ²`: the quotient is `ℤ` with `‖[e₁]‖ = 1/√2`, of degree `½ log 2`, and `0 = deg^(ℤ²) = −½ log 2 + ½ log 2`.
+- The sum `ℤe₁ + ℤ(e₁ + 2e₂)` has index 2 in its saturation `ℤ²`; its degree is `−log 2`, not `0`.
+- Gram formula for `ℤ²` with the basis `e₁ + e₂, e₁ − e₂`: index `2`, Gram determinant `4`, so `deg^ = log 2 − ½ log 4 = 0`; omitting the index term would give `−log 2`.
+- Gram formula with a basis not in `E`: `Ē = ℤ` standard and `e = ½`: `det E = 2·(ℤ·½)`, so `𝔟 = (2)`, and the Gram determinant is `¼`: `deg^ = −log 2 + log 2 = 0`.
+- Comparison formula for `Ē = ℤ` (standard) and `Ē′ = ½ℤ` with the norm `2|·|`, basis `1`: `𝔠 = (½)`, so the ideal term is `+log 2`, the metric term `−½ log 4`, and both bundles have degree `0`; dropping either term gives `±log 2`.
+
+### 1.5b Adelic presentations and the degrees of sub-bundles
+
+Let `Ē` be a hermitian vector bundle of rank `r ≥ 1` over `Spec O_K`. For a nonzero prime `𝔭` let `O_𝔭` be the completion of `O_K` at `𝔭`, `K_𝔭` its fraction field, `|x|_𝔭 = N𝔭^{−v_𝔭(x)}`, `E_𝔭 = E ⊗ O_𝔭`, and for `x ∈ E ⊗ K_𝔭` let `‖x‖_𝔭 = min{|a|_𝔭 : x ∈ a·E_𝔭}`, the lattice norm. Identify `E_K` with `K^r` by a `K`-basis. (i) For every `𝔭` there is `Ξ_𝔭 ∈ GL_r(K_𝔭)` with `E_𝔭 = Ξ_𝔭^{−1}(O_𝔭^r)`, so that `‖x‖_𝔭 = max_i |(Ξ_𝔭 x)_i|_𝔭`, and `Ξ_𝔭 = 1` for all but finitely many `𝔭`; for every infinite place `v` there is `Ξ_v ∈ GL_r(K_v)` with `‖x‖_σ = |Ξ_v σ(x)|` (standard hermitian norm) for an embedding `σ` inducing `v`, the conjugate embedding using the conjugate matrix. The collection `Ξ = (Ξ_v)_v` is an element of `GL_r(𝔸_K)`, integral and invertible at almost every finite place, and conversely every such `Ξ` defines a hermitian vector bundle `Ē_Ξ` with these norms. (ii) For every `K`-subspace `V ⊂ E_K`,
+
+```text
+deg^(Ē_V) = −[K:ℚ]·log H_Ξ(V),        deg^_n(Ē_V) = −log H_Ξ(V),
+```
+
+where `H_Ξ(V)` is the adelic height of `V` for `Ξ` of DiophantineApproximationAndTranscendence §2.5: the height of a Plücker vector of `V` for the exterior powers of the `Ξ_v`, with Euclidean norms and exponent `mult(v)/[K:ℚ]` at the infinite places and max norms and exponent `1/[K:ℚ]` at the finite places. In particular `deg^_n(Ē) = −log |det Ξ|_𝔸`, with the adelic absolute value normalised as in that section, and for `Ē = Ō_K^r` (`Ξ = 1`), `deg^(Ē_V) = −log relativeSubspaceArakelovHeight(V)` and `deg^_n(Ē_V) = −log subspaceHeight(V)`. (iii) `Ē^∨` is presented by `Ξ^{−t}`, the annihilator `V^⊥ ⊂ E_K^∨` satisfies `(Ē^∨)_{V^⊥} ≅ (Ē/V)^∨` isometrically, and the dual-height identity `H_Ξ(V) = |det Ξ|_𝔸·H_{Ξ^{−t}}(V^⊥)` of DiophantineApproximationAndTranscendence §2.5 is the identity `deg^_n((Ē^∨)_{V^⊥}) = deg^_n(Ē_V) − deg^_n(Ē)`.
+
+`r ≥ 1`; sub-bundles and quotients are those of §1.5a. The sum over `Σ_K` in the degree is the sum over infinite places weighted by `mult(v)`, which is the exponent `mult(v)/[K:ℚ]` of `H_Ξ`.
+
+Provide the following maps and identities.
+
+- For a nonzero prime `𝔭`: `|x|_𝔭 = N𝔭^{−v_𝔭(x)}` on `K_𝔭` and the lattice norm `‖x‖_𝔭` on `E ⊗ K_𝔭`.
+- A presentation `Ξ = (Ξ_v)_v ∈ GL_r(𝔸_K)` of `Ē` in a `K`-basis of `E_K`, and the bundle `Ē_Ξ` of such a `Ξ`.
+- `deg^_n(Ē_V) = −log H_Ξ(V)` for every `K`-subspace `V`, and `deg^_n(Ē) = −log |det Ξ|_𝔸`.
+- For `Ē = Ō_K^r`: `deg^(Ē_V) = −log relativeSubspaceArakelovHeight(V)` and `deg^_n(Ē_V) = −log subspaceHeight(V)`.
+- `Ē^∨` presented by `Ξ^{−t}`, and `(Ē^∨)_{V^⊥} ≅ (Ē/V)^∨` isometrically.
+- `deg^_n((Ē^∨)_{V^⊥}) = deg^_n(Ē_V) − deg^_n(Ē)`, the dual-height identity read for bundles.
+
+(i) `E_𝔭` is free over the principal ideal domain `O_𝔭`, and `E` and `O_K^r` are commensurable, so they agree at almost every `𝔭`; at an infinite place take a square root of the positive definite Gram matrix of `h_σ`, the conjugation condition of §1.1 making the choice compatible with `σ̄` and real at real places. Conversely, for `Ξ` as in (i), `E = {x ∈ K^r : Ξ_𝔭 x ∈ O_𝔭^r for every 𝔭}` agrees with `O_K^r` at almost every `𝔭` and has `E_𝔭 = Ξ_𝔭^{−1}(O_𝔭^r)` for every `𝔭`; it is finitely generated and torsion-free, hence projective over `O_K`, its lattice norm at `𝔭` is `max_i |(Ξ_𝔭 x)_i|_𝔭`, and the norms `|Ξ_v σ(x)|` (the conjugate matrix at `σ̄`, a real matrix at a real place) are positive definite hermitian forms compatible with conjugation; this is `Ē_Ξ`.
+
+(ii) A Plücker vector `y` of `V`, of dimension `p`, spans the line `Λ^p V`, and `det(Ē_V)` is the line `K·y ∩ Λ^p E` with the determinant metric. Because `V ∩ E` is saturated, `(V ∩ E)_𝔭` is a direct summand of `E_𝔭`, so the lattice norm of `y` in `det(Ē_V)` at `𝔭` is the max norm of `Λ^p Ξ_𝔭 y`; at an infinite place the determinant norm of `y` is `|Λ^p Ξ_v y|` by the Cauchy–Binet identity for Gram determinants. The adelic form of the degree of a line, `deg^(L̄) = −Σ_𝔭 log‖t‖_𝔭 − Σ_σ log‖t‖_σ` for any nonzero `t ∈ L_K` (the generic-section formula of §1.3), then gives (ii). (iii) is the dual-height identity with §1.2 for duals and §1.5 for exact sequences.
+
+The source identifications are [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), formula (22), p. 47 (the degree of a bundle whose norms are changed by an adelic matrix), the proofs of Lemme 4.5, p. 49, and of Lemme 7.3 (the norms of a hermitian bundle are those of an adelic matrix), Définition 4.11 (the height of a vector as minus the degree of its line), the proof of the finiteness of sub-bundles of bounded slope (slope of a sub-bundle as minus the height of its Plücker vector divided by the dimension), the remark after Proposition 4.23 (`H(E) = exp(−deg^_n)`, after Schmidt and Struppeck–Vaaler), and the proof of Lemme 5.6 (the dual of a quotient inside the dual); [Roy–Thunder](https://doi.org/10.1515/crll.1996.476.1) for the twisted heights `H_Ξ` of `Ξ ∈ GL_r(𝔸_K)`; [Gaudron–Rémond, Minima, pentes](https://arxiv.org/abs/1109.2812v1), §2.1, Définition 2.1, and §2.3 (a Hermitian bundle as a basis with an adelic matrix, and its slope through the determinants).
+
+*Needs:* §1.1; §1.2; §1.3; §1.5; §1.5a; **DiophantineApproximationAndTranscendence** §§2.5–2.5a (the adelic heights `H_Ξ` of vectors and subspaces for `Ξ ∈ GL_r(𝔸_K)` integral and invertible at almost every finite place, their values at `Ξ = 1` and on the whole space, the conjugate Cauchy–Binet identity, the dual-height identity, and Tau Ceti’s `Submodule.subspaceHeight` and `Submodule.relativeSubspaceArakelovHeight`); Mathlib `NumberField.InfinitePlace.mult`.
+
+**Checks.**
+
+- `K = ℚ`, `Ē = ℤ²` with the standard metric, `V = ℚ·(1,1)`: `Ē_V = ℤ·(1,1)` has covolume `√2`, so `deg^(Ē_V) = −½ log 2 = −log subspaceHeight(V)`.
+- `K = ℚ(i)`, `Ē = Ō_K²`, `V = K·(1,1)`: `relativeSubspaceArakelovHeight(V) = (1 + 1)^(2/2) = 2` (one complex place of multiplicity 2), so `deg^(Ē_V) = −log 2` and `deg^_n(Ē_V) = −½ log 2`, the value over `ℚ`. Counting the complex place once would give `deg^(Ē_V) = −½ log 2` and break the invariance of `deg^_n` under extension (§1.6).
+- The non-saturated submodule `ℤ·(2,2) ⊂ ℤ²` has degree `−log(2√2)`, below the degree `−½ log 2` of its saturation; `H_Ξ` measures the saturation, matching `subspaceHeight(ℚ·(2,2)) = √2`.
+- `ℤ²` with Gram matrix `diag(1, e^(−2c))` is presented by `Ξ_∞ = diag(1, e^(−c))`; the line `ℚe₂` has `H_Ξ = e^(−c)` and degree `c`.
+- For `Ē = Ō_K^r` and a line `V = Kx`, `Ē_{Kx}` is the dual of `x̄^*Ō(1)` with the Fubini–Study metric, and `deg^(Ē_{Kx}) = −TauCeti.arakelovLogHeight x` (§1.14).
+
 ### 1.6 Arakelov degree under finite extension
 
 For a finite extension `L/K` of number fields and a hermitian vector bundle `Ē` over `Spec O_K, deg^(Ē_{O_L}) = [L:K]·deg^(Ē)`; hence the normalised degree `deg^(Ē)/[K:ℚ]` does not change under base change. More generally, if `L̄ ⊂ L̄′` are hermitian line bundles over `O_L` with equal metrics and `L = M ⊗_{O_K} O_L` for a hermitian line bundle `M̄` over `O_K`, then `deg^(L̄′) = [L:K]·deg^(M̄) + log #(L′/L)`.
@@ -225,6 +339,40 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 **Checks.**
 
 - For `K = ℚ, L = ℚ(i), M̄ = (ℤ, 2|·|): deg^(M̄) = −log 2` and `deg^(M̄_{O_L}) = −2 log 2`.
+
+### 1.6a Degrees and slopes of the standard constructions
+
+For a hermitian vector bundle `Ē` of positive rank write `μ^_n(Ē) = deg^_n(Ē)/rank Ē = μ^(Ē)/[K:ℚ]` for its normalised slope. For hermitian vector bundles `Ē, F̄` of ranks `r, s ≥ 1`: `μ^_n(Ē^∨) = −μ^_n(Ē)`; `μ^_n(Ē ⊕ F̄) = (r·μ^_n(Ē) + s·μ^_n(F̄))/(r + s)`; `deg^(Ē ⊗ F̄) = s·deg^(Ē) + r·deg^(F̄)`, so `μ^_n(Ē ⊗ F̄) = μ^_n(Ē) + μ^_n(F̄)`, and `Hom(Ē, F̄) ≅ Ē^∨ ⊗ F̄` isometrically for the Hilbert–Schmidt metrics; `μ^_n(Λ^p Ē) = p·μ^_n(Ē)` for `1 ≤ p ≤ r`; for the symmetric powers of §1.2a and `m ≥ 0`,
+
+```text
+μ^_n(Sym^m Ē) = m·μ^_n(Ē) + (1/(2N))·Σ_{|α|=m} log(m!/α!),        N = binom(m + r − 1, m),
+```
+
+the sum running over multi-indices `α ∈ ℕ^r` with `α! = ∏_j α_j!`; `μ^_n(Ē(c)) = μ^_n(Ē) + c`, and multiplying every archimedean squared norm by `c₀ > 0` changes `μ^_n` by `−½ log c₀`; `μ^_n(Ē_{O_L}) = μ^_n(Ē)` for a finite extension `L/K`.
+
+`Ē, F̄` have positive ranks `r, s`; exterior powers carry the induced metrics of §1.2 (iv), symmetric powers the quotient metrics of §1.2a, and `Hom(E, F) = E^∨ ⊗ F` the Hilbert–Schmidt metrics. Unlike `μ^` of §1.3, `μ^_n` does not change under finite extension.
+
+Provide the following maps and identities.
+
+- `μ^_n(Ē) = deg^_n(Ē)/rank Ē = μ^(Ē)/[K:ℚ]` for `Ē` of positive rank.
+- `μ^_n(Ē^∨) = −μ^_n(Ē)` and `μ^_n(Ē ⊕ F̄) = (r·μ^_n(Ē) + s·μ^_n(F̄))/(r + s)`.
+- `deg^(Ē ⊗ F̄) = s·deg^(Ē) + r·deg^(F̄)` and `μ^_n(Ē ⊗ F̄) = μ^_n(Ē) + μ^_n(F̄)`.
+- `Hom(Ē, F̄) ≅ Ē^∨ ⊗ F̄` isometrically for the Hilbert–Schmidt metrics.
+- `μ^_n(Λ^p Ē) = p·μ^_n(Ē)` for `1 ≤ p ≤ r`.
+- `μ^_n(Sym^m Ē) = m·μ^_n(Ē) + (1/(2N))·Σ_{|α|=m} log(m!/α!)`.
+- `μ^_n(Ē(c)) = μ^_n(Ē) + c`; the change `−½ log c₀` under multiplication of every archimedean squared norm by `c₀ > 0`; `μ^_n(Ē_{O_L}) = μ^_n(Ē)`.
+
+In adelic presentations (§1.5b), `Ē ⊗ F̄` is presented by `Ξ ⊗ Ξ′`, `Λ^p Ē` by `Λ^p Ξ`, and `Sym^m Ē` by `Sym^m Ξ` at the finite places and at the infinite places by `Sym^m Ξ_v` composed with the standard quotient metric, in which the monomials are orthogonal with `‖e^α‖² = α!/m!` (§1.2a (ii)). The determinant identities `det(Ξ ⊗ Ξ′) = det(Ξ)^s det(Ξ′)^r`, `det Λ^p Ξ = (det Ξ)^binom(r−1, p−1)` and `det Sym^m Ξ = (det Ξ)^binom(m+r−1, r)` (the last from DiophantineApproximationAndTranscendence §2.5) give the degrees, and `binom(m+r−1, r)/N = m/r`. At each `σ` the Hilbert–Schmidt inner product on `Hom(E_σ, F_σ)` is the tensor metric of `E_σ^∨ ⊗ F_σ`. Duals, sums, rescaling and base change are §§1.3, 1.5 and 1.6.
+
+The source identifications are [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Proposition 5.2 (tensor products), and Lemme 7.3, p. 83, with the norms of the monomials on p. 84 (symmetric powers); [Gaudron–Rémond, Minima, pentes](https://arxiv.org/abs/1109.2812v1), §2.7 (exterior powers); [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), (4.3) and (4.5); [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A.2, p. 147 (base change).
+
+*Needs:* §1.2a; §1.5b; §1.2; §1.3; §1.5; §1.6; **DiophantineApproximationAndTranscendence** §2.5 (the determinant of a symmetric power of an adelic matrix).
+
+**Checks.**
+
+- `Sym²(ℤ²)` with the quotient metric: `e₁², e₁e₂, e₂²` are orthogonal with squared norms `1, ½, 1`, the shortest lift of `e₁e₂` being `(e₁⊗e₂ + e₂⊗e₁)/2`; its degree is `½ log 2` and its normalised slope `(log 2)/6`, the displayed formula with `m = r = 2`, `N = 3`. Giving every monomial norm `1` would give `0`.
+- `(ℤ, e^(−c)|·|) ⊗ (ℤ, e^(−c′)|·|)` has normalised slope `c + c′`; `ℤ²(c)` has normalised slope `c`; multiplying the squared norm of the trivial line by `4` gives `−log 2`, and its dual `+log 2`.
+- Over `K = ℚ(i)` (one complex place, two embeddings): `(O_K, 2|·|)` has `deg^ = −2 log 2` and `μ^_n = −log 2`, and `Ō_K(c)` has `deg^ = 2c` and `μ^_n = c`, whereas `μ^` of §1.3 gives `−2 log 2` and `2c`. Only `μ^_n` takes the same value as over `ℚ`.
 
 ### 1.7 Arakelov divisors on `Spec O_K` and the compactified Picard group
 
@@ -498,7 +646,7 @@ The archimedean terms are `Σ_v mult(v) log max_i |x_i|_v`, matching `NumberFiel
 
 For the Fubini–Study metric, the finite-place factor of `TauCeti.arakelovMulHeight_eq` is the same `∏ᶠ_𝔭 max_i |x_i|_𝔭 = N(𝔟)^{-1}`, and its archimedean factor `∏_w (Σ_i |x_i|²_w)^{mult(w)/2}` is the product over the `[K:ℚ]` embeddings of the Fubini–Study norms of the coordinate vector, so the degree is `TauCeti.arakelovLogHeight x` with no change of normalisation. The two-sided comparison with the sup degree is the cited pair of pinned theorems, not a target here.
 
-The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, Lemma 3 and its proof, p. 356; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.7, p. 29; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Corollaire, p. 14.
+The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, p. 354; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.7, p. 29; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Corollaire, p. 14.
 
 *Needs:* §1.7; §1.12; Mathlib `Height.logHeight`; Mathlib `Projectivization.logHeight`; Mathlib `NumberField.mulHeight_eq`; Mathlib `NumberField.absNorm_mul_finprod_finitePlace_eq_one`; Tau Ceti `TauCeti.arakelovLogHeight`, `TauCeti.arakelovMulHeight_eq`, `TauCeti.logHeight_le_arakelovLogHeight` and `TauCeti.arakelovLogHeight_le_mul_log_natCard_add_logHeight`; Tau Ceti `TauCeti.absoluteProjectiveTupleHeight` (absolute tuple and scalar heights).
 
@@ -556,7 +704,386 @@ Over `ℚ` a line `(ℤ,r|·|)` has degree `−log r`. For the Gaussian ideal `(
 
 ### Dependencies
 
-Mathlib number fields, ideals, projective modules, inner products, product formula and heights; Tau Ceti’s finite locally free sheaves with their tensor products, duals, powers, determinants and affine comparisons, Chow groups, absolute, Euclidean and Northcott heights; SchemeAndStackFoundations §§3.4–3.5 and 5.1; AlgebraicModuliForArithmeticGeometry §3.1 and SchemeAndStackFoundations §§1.19–1.22; ComplexComparisonPartII §§C−1.1, C0.4 and C5.1.
+Mathlib number fields, ideals, projective modules, symmetric powers, inner products, product formula and heights; Tau Ceti’s finite locally free sheaves with their tensor products, duals, powers, determinants and affine comparisons, symmetric powers of modules (§1.2a), Chow groups, absolute, Euclidean and Northcott heights; DiophantineApproximationAndTranscendence §§2.5–2.5a (§§1.5b and 1.6a); SchemeAndStackFoundations §§3.4–3.5 and 5.1; AlgebraicModuliForArithmeticGeometry §3.1 and SchemeAndStackFoundations §§1.19–1.22; ComplexComparisonPartII §§C−1.1, C0.4 and C5.1.
+
+## Layer 1A: Maximal slopes and the slope inequality
+
+A nonzero `K`-linear map between the generic fibres of two hermitian vector bundles over `O_K` has a height: the normalised sum over all places of the logarithms of its operator norms, for the lattice norms at the finite places and the hermitian norms at the infinite places. A map of height `h` changes normalised degrees by at most `h` per rank. The maximal and minimal slopes and Bost's slope inequality for linear maps rest on these two facts.
+
+### 1A.1 Heights of vectors and of linear maps
+
+For hermitian vector bundles `Ē, F̄` of positive rank over `Spec O_K` and a nonzero `K`-linear map `φ : E_K → F_K`, let `‖φ‖_𝔭` and `‖φ‖_σ` be the operator norms of `φ` for the lattice norms at `𝔭` (§1.5b) and for the hermitian norms at `σ`. Then `‖φ‖_𝔭 = 1` for all but finitely many `𝔭`, and the height of `φ` is
+
+```text
+h(φ) = (1/[K:ℚ])·( Σ_𝔭 log‖φ‖_𝔭 + Σ_{σ∈Σ_K} log‖φ‖_σ ).
+```
+
+The height of a nonzero vector `x ∈ E_K` is `h_Ē(x) = h(1 ↦ x)` for the map `Ō_K → Ē`; for a presentation `Ξ` of `Ē` (§1.5b), `h_Ē(x) = log H_Ξ(x)`, the logarithm of the adelic height of `x` of DiophantineApproximationAndTranscendence §2.5. Moreover: `h_{Ē_V}(x) = h_Ē(x)` for `x ∈ V ⊂ E_K`, `x ≠ 0`; `h(aφ) = h(φ)` for `a ∈ K^×`; `h(ψ ∘ φ) ≤ h(ψ) + h(φ)` when `ψ ∘ φ ≠ 0`; `h(φ^∨) = h(φ)`; `h(φ ⊗ 1_{O_L}) = h(φ)` for a finite extension `L/K`; for a subspace `V ⊂ E_K` with `φ|_V ≠ 0`, the restriction `Ē_V → F̄` has height at most `h(φ)`; for subspaces `V′ ⊂ ker φ` and `W ⊃ φ(E_K)`, the induced map `Ē/V′ → F̄_W` has height at most `h(φ)`; if `φ(E) ⊂ F`, then `h(φ) ≤ (1/[K:ℚ])·Σ_σ log‖φ‖_σ`; as a map `Ē(c) → F̄(c′)` between the rescaled bundles of §1.1, `φ` has height `h(φ) + c − c′`; for `φ` viewed as an element of `Ē^∨ ⊗ F̄`, `h(φ) ≤ h_{Ē^∨⊗F̄}(φ)`; and for the symmetric powers of §1.2a, `h(Sym^m φ) ≤ m·h(φ)` for every `m ≥ 0`.
+
+`Ē, F̄` have positive rank and `φ` is nonzero; the zero map has no height, and every statement keeps the hypothesis `φ ≠ 0` (or `ψ ∘ φ ≠ 0`, `φ|_V ≠ 0`). The factor `1/[K:ℚ]` makes the height invariant under finite extension, like `deg^_n`.
+
+Provide the following maps and identities.
+
+- The operator norms `‖φ‖_𝔭` for the lattice norms and `‖φ‖_σ` for the hermitian norms, with `‖φ‖_𝔭 = 1` for almost all `𝔭`.
+- `h(φ)` for a nonzero `K`-linear map, and `h_Ē(x)` for a nonzero vector, with `h_Ē(x) = log H_Ξ(x)` in a presentation `Ξ`.
+- `h_{Ē_V}(x) = h_Ē(x)` for `0 ≠ x ∈ V`.
+- `h(aφ) = h(φ)`, `h(ψ ∘ φ) ≤ h(ψ) + h(φ)`, `h(φ^∨) = h(φ)` and `h(φ ⊗ 1_{O_L}) = h(φ)`.
+- Restrictions `Ē_V → F̄` and induced maps `Ē/V′ → F̄_W` have height at most `h(φ)`.
+- `h(φ) ≤ (1/[K:ℚ])·Σ_σ log‖φ‖_σ` when `φ(E) ⊂ F`.
+- The height of `φ : Ē(c) → F̄(c′)` is `h(φ) + c − c′`.
+- `h(φ) ≤ h_{Ē^∨⊗F̄}(φ)`.
+- `h(Sym^m φ) ≤ m·h(φ)`.
+
+In local bases the matrix of `φ` is integral with a unit entry at almost every `𝔭`. A sub-bundle has the restricted hermitian norms and, being saturated, the restricted lattice norms (`(V ∩ E)_𝔭` is a direct summand of `E_𝔭`), which gives `h_{Ē_V} = h_Ē` on `V`. Invariance under `K^×` is the product formula. Submultiplicativity, the dual, restriction and induced maps are the corresponding facts for operator norms at each place (quotient norms are distances to a subspace). Base change: each `σ` has `[L:K]` extensions with the same operator norm, and the lattice norms at the primes of `L` above `𝔭` are those at `𝔭` with local degrees adding to `[L:K]`. The comparison with `Ē^∨ ⊗ F̄` is "operator norm at most Hilbert–Schmidt norm" at the infinite places, and equality of the lattice norm of `Hom(E_𝔭, F_𝔭)` with the operator norm at the finite places. For `Sym^m φ`, §1.2a (iii) gives `‖Sym^m φ‖_σ ≤ ‖φ‖_σ^m`, and its transfer of `φ(E_𝔭) ⊂ a·F_𝔭` to `m`-th powers gives `‖Sym^m φ‖_𝔭 ≤ ‖φ‖_𝔭^m`.
+
+The source identifications are [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), (4.10) with its footnote (the finite-place norms are the lattice operator norms), p. 199; [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Définition 4.11 (height of a vector) and Définition 6.1, p. 77 (height of a map, with its invariance under scalars and under finite extension), and §3 for symmetric powers.
+
+*Needs:* §1.2a; §1.5a; §1.5b; §1.2; §1.4; §1.6; **DiophantineApproximationAndTranscendence** §§2.5–2.5a (the adelic height of a vector); Mathlib `NumberField.prod_abs_eq_one`.
+
+**Checks.**
+
+- Multiplication by `2` on `Ō_ℚ` has archimedean operator norm `2` and `2`-adic operator norm `1/2`, so `h = 0`; dropping the finite places would give `log 2`.
+- In `ℤ²` with the standard metric, `h_Ē((1,1)) = ½ log 2`, and `h_Ē((2,2)) = ½ log 2` as well.
+- The zero map has no height; the statements requiring `φ ≠ 0` keep that hypothesis.
+
+### 1A.2 Degrees along a linear map
+
+(i) For hermitian line bundles `L̄, M̄` over `Spec O_K` and a nonzero `K`-linear `ψ : L_K → M_K`, `deg^_n(L̄) = deg^_n(M̄) + h(ψ)`; in particular `deg^_n(Ē_{Kx}) = −h_Ē(x)` for every nonzero `x ∈ E_K`. (ii) If `φ : E_K → F_K` is injective and `rank E = rank F = r ≥ 1`, then `deg^_n(Ē) ≤ deg^_n(F̄) + r·h(φ)`. (iii) For a nonzero `φ : E_K → F_K` with kernel `V` and image `W`, `deg^_n(Ē/V) ≤ deg^_n(F̄_W) + dim W·h(φ)`.
+
+`ψ` and `φ` are nonzero; in (ii) `φ` is injective between bundles of the same positive rank, so it is an isomorphism of `K`-spaces, though in general not of lattices. In terms of normalised slopes (§1.6a), (ii) reads `μ^_n(Ē) ≤ μ^_n(F̄) + h(φ)`.
+
+Provide the following maps and identities.
+
+- `deg^_n(L̄) = deg^_n(M̄) + h(ψ)` for hermitian line bundles, and `deg^_n(Ē_{Kx}) = −h_Ē(x)`.
+- `deg^_n(Ē) ≤ deg^_n(F̄) + r·h(φ)` for an injective `φ` between bundles of equal rank `r`.
+- `deg^_n(Ē/ker φ) ≤ deg^_n(F̄_{φ(E_K)}) + dim φ(E_K)·h(φ)` for a nonzero `φ`.
+
+(i) Write both degrees in the adelic form of §1.5b with the sections `t` and `ψ(t)`; in rank one `‖ψ(t)‖_v = ‖ψ‖_v‖t‖_v` at every place. (ii) Apply (i) to `Λ^r φ : det Ē → det F̄`, using `‖Λ^r φ‖_v ≤ ‖φ‖_v^r` at every place: the Hadamard inequality at the infinite places and the ultrametric bound on a determinant at the finite places. (iii) Apply (ii) to the induced isomorphism `Ē/V → F̄_W`, whose height is at most `h(φ)` by §1A.1.
+
+The source identifications are [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemme 6.2, p. 77, for (i), and Lemme 6.3, p. 78, for (ii) in the form `μ^_n(Ē) ≤ μ^_n(F̄) + h(φ)`, with (iii) obtained by applying (ii) to the induced isomorphism, as in the proofs of Lemme 6.4, p. 78, and of Proposition 6.7, p. 80 (passage to the quotient by the kernel); [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), (4.10) and the proof of Proposition 4.5, inequality (4.12), pp. 199–200, for the route of (ii).
+
+*Needs:* §1A.1; §1.5a; §1.5b; §1.6a; **SuccessiveMinima** §0.1 (the Hadamard inequality `orthonormal_coordinate_hadamard`).
+
+**Checks.**
+
+- `φ = 2·id` on `ℤ²`: `h(φ) = 0` and (ii) is the equality `0 ≤ 0`.
+- `φ = diag(1, 2)` on `ℤ²`: `h(φ) = log 2` (archimedean norm `2`, all finite norms `1`), and (ii) gives `0 ≤ 2 log 2`, strict because `‖Λ²φ‖_∞ = 2 < ‖φ‖²_∞ = 4`.
+
+### 1A.3 Maximal and minimal slopes
+
+Let `Ē` be a hermitian vector bundle over `Spec O_K` of rank `r ≥ 1`, with the sub-bundles `Ē_V` and quotients `Ē/V` of §1.5a and the normalised slope `μ^_n` of §1.6a. Its maximal and minimal slopes are
+
+```text
+μ^_{n,max}(Ē) = max{ μ^_n(Ē_V) : V ⊂ E_K, V ≠ 0 },        μ^_{n,min}(Ē) = min{ μ^_n(Ē/V) : V ⊂ E_K, V ≠ E_K },
+```
+
+`V` running over `K`-subspaces; both are attained. `Ē` is semistable if `μ^_{n,max}(Ē) = μ^_n(Ē)`. (i) `μ^_{n,min}(Ē) ≤ μ^_n(Ē) ≤ μ^_{n,max}(Ē)`, with equality throughout in rank one, and `Ē` is semistable if and only if `μ^_{n,min}(Ē) = μ^_n(Ē)`. (ii) For a real `θ`, `μ^_{n,max}(Ē) ≤ θ` if and only if `deg^_n(Ē_V) ≤ θ·dim V` for every `V`, and `θ ≤ μ^_{n,min}(Ē)` if and only if `deg^_n(Ē_V) ≤ deg^_n(Ē) − θ·(r − dim V)` for every `V`. (iii) There is a largest `K`-subspace `V_max ⊂ E_K` with `μ^_n(Ē_{V_max}) = μ^_{n,max}(Ē)`; `Ē_{V_max}` is the maximal destabilising sub-bundle of `Ē`. (iv) `μ^_{n,max}(Ē_V) ≤ μ^_{n,max}(Ē)` for `V ≠ 0`, and `μ^_{n,min}(Ē/V) ≥ μ^_{n,min}(Ē)` for `V ≠ E_K`. (v) For a hermitian line bundle `L̄`, the sub-bundles of `Ē ⊗ L̄` are the `Ē_V ⊗ L̄`, and
+
+```text
+μ^_{n,max}(Ē ⊗ L̄) = μ^_{n,max}(Ē) + μ^_n(L̄),        μ^_{n,min}(Ē ⊗ L̄) = μ^_{n,min}(Ē) + μ^_n(L̄);
+```
+
+in particular both change by `c` under the rescaling `Ē(c) = Ē ⊗ Ō_K(c)` of §1.1, and multiplying every archimedean squared norm of `Ē` by `c₀ > 0`, the module fixed, which gives `Ē(−½ log c₀)`, changes both by `−½ log c₀`. (vi) `−h_Ē(x) ≤ μ^_{n,max}(Ē)` for every nonzero `x ∈ E_K`, with the height of a vector of §1A.1.
+
+`Ē` has positive rank: the zero bundle has no slope, and every statement keeps `r ≥ 1`, `V ≠ 0` for sub-bundles and `V ≠ E_K` for quotients. In rank one the only sub-bundle is `Ē` itself and the only quotient is `Ē/0 = Ē`.
+
+Provide the following maps and identities.
+
+- `μ^_{n,max}(Ē)` and `μ^_{n,min}(Ē)` for `Ē` of positive rank, with a sub-bundle and a quotient attaining them.
+- The predicate that `Ē` is semistable, and its equivalence with `μ^_{n,min}(Ē) = μ^_n(Ē)`.
+- `μ^_{n,min}(Ē) ≤ μ^_n(Ē) ≤ μ^_{n,max}(Ē)`, with equality in rank one.
+- The characterisations of `μ^_{n,max}(Ē) ≤ θ` and of `θ ≤ μ^_{n,min}(Ē)` by the degrees of sub-bundles.
+- The maximal destabilising sub-bundle `Ē_{V_max}`, the largest sub-bundle of maximal slope.
+- `μ^_{n,max}(Ē_V) ≤ μ^_{n,max}(Ē)` and `μ^_{n,min}(Ē/V) ≥ μ^_{n,min}(Ē)`.
+- The twists by a hermitian line bundle and by `Ō_K(c)`, and the change `−½ log c₀` under the multiplication of every archimedean squared norm by `c₀`.
+- `−h_Ē(x) ≤ μ^_{n,max}(Ē)` for `0 ≠ x ∈ E_K`.
+
+Attainment. For a presentation `Ξ` of `Ē`, `deg^_n(Ē_V) = −log H_Ξ(V)` (§1.5b), so DiophantineApproximationAndTranscendence §2.5c gives a real `c(Ξ)` with `deg^_n(Ē_V) ≤ c(Ξ)·dim V` for every `V`, and, for every real `B`, only finitely many `V` with `deg^_n(Ē_V) ≥ B`. So the slopes of the nonzero sub-bundles are bounded above, those at least `μ^_n(Ē)` come from finitely many `V`, and the maximum exists. By additivity (§1.5a), `deg^_n(Ē/V) = deg^_n(Ē) − deg^_n(Ē_V)`; a quotient of slope at most `μ^_n(Ē)` has `deg^_n(Ē_V) ≥ deg^_n(Ē) − (r − dim V)·μ^_n(Ē)`, so again only finitely many `V` occur and the minimum exists. (i), (ii) and the characterisation of semistability are the definitions together with additivity.
+
+(iii) The degree is supermodular on sub-bundles: through §1.5b, the submodularity `H_Ξ(V + W)·H_Ξ(V ∩ W) ≤ H_Ξ(V)·H_Ξ(W)` of DiophantineApproximationAndTranscendence §2.5b reads `deg^_n(Ē_{V+W}) + deg^_n(Ē_{V∩W}) ≥ deg^_n(Ē_V) + deg^_n(Ē_W)`. Put `θ = μ^_{n,max}(Ē)` and `g_θ(V) = deg^_n(Ē_V) − θ·dim V`; then `g_θ ≤ 0`, `g_θ(0) = 0`, and, since `dim(V + W) + dim(V ∩ W) = dim V + dim W`, `g_θ(V + W) ≥ g_θ(V) + g_θ(W) − g_θ(V ∩ W)`. So the subspaces with `g_θ = 0` are closed under sums, and their sum is `V_max`. (iv) The sub-bundles of `Ē_V` are sub-bundles of `Ē`, and the quotients of `Ē/V` are quotients of `Ē`, by the isometries `(Ē_V)_W ≅ Ē_W` and `(Ē/V)/(W/V) ≅ Ē/W` of §1.5a.
+
+(v) `V ↦ V ⊗ L_K` is a bijection from the `K`-subspaces of `E_K` to those of `(E ⊗ L)_K`, with `(V ⊗ L_K) ∩ (E ⊗ L) = (V ∩ E) ⊗ L` because `L` is locally free of rank one; the restricted and quotient metrics are the tensor metrics, and §1.6a adds `μ^_n(L̄)` to every slope. `Ō_K(c)` has `μ^_n = c` (§1.6a). (vi) The line `Kx` gives the sub-bundle `Ē_{Kx}` of rank one, of normalised degree `−h_Ē(x)` (§1A.2 (i)).
+
+The source identifications are [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), §4.1.1, p. 195 (the maximal and minimal slopes, over submodules and over torsion-free quotients), and Lemma 4.2 (ii), p. 196 (the twist by a hermitian line bundle); [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Proposition 5.3, p. 64 (finitely many sub-bundles of slope above a given number), Définition 5.4, p. 64 (the maximal slope), §5.2, p. 68 (the polygon of a sub-bundle lies under that of the bundle, whence (iv) for sub-bundles), Remarque 5.5, p. 65 (the minimal slope, attained), Propriétés 5.7 (1), p. 65 (the twist by a line), and Lemme 6.2, p. 77, applied to the line of `x`, for (vi); [Gaudron–Rémond, Minima, pentes](https://arxiv.org/abs/1109.2812v1), §2.3 (the maximal slope is attained at a unique subspace of largest dimension); [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A.3, after Proposition A.1 (semistability).
+
+*Needs:* §1.1; §1.5a; §1.5b; §1.6a; §1A.1; §1A.2; **DiophantineApproximationAndTranscendence** §§2.5b–2.5c (submodularity and Northcott property of the adelic subspace heights `H_Ξ`).
+
+**Checks.**
+
+- `ℤ ⊕ (ℤ, e^(−c)|·|)` with `c > 0`: `μ^_{n,max} = c`, `μ^_{n,min} = 0`, `μ^_n = c/2`, and `V_max = ℚe₂`.
+- The hexagonal lattice `A₂` spanned by `(1, 0)` and `(½, √3/2)` is semistable: every primitive vector has norm at least `1`, so its lines have slope at most `0`, while the lattice has slope `½ log(2/√3) ≈ 0.0719`. So `μ^_{n,max}` is not the largest slope of a line: here the maximum is attained only in rank two.
+- The trivial line over `ℤ` has `μ^_{n,max} = 0`, and the vector `1` has height `0`.
+
+### 1A.4 Duality and orthogonal sums
+
+For a hermitian vector bundle `Ē` of positive rank,
+
+```text
+μ^_{n,max}(Ē^∨) = −μ^_{n,min}(Ē),        μ^_{n,min}(Ē^∨) = −μ^_{n,max}(Ē),
+```
+
+and `Ē` is semistable if and only if `Ē^∨` is. For hermitian vector bundles `Ē, F̄` of positive rank and their orthogonal sum `Ē ⊕ F̄` (§1.2 (i)),
+
+```text
+μ^_{n,max}(Ē ⊕ F̄) = max( μ^_{n,max}(Ē), μ^_{n,max}(F̄) ),        μ^_{n,min}(Ē ⊕ F̄) = min( μ^_{n,min}(Ē), μ^_{n,min}(F̄) ).
+```
+
+The bundles have positive rank; the dual carries the dual metrics of §1.2 (iii). Some sources define the minimal slope by the first identity; it agrees with the definition by quotients of §1A.3.
+
+Provide the following maps and identities.
+
+- `μ^_{n,max}(Ē^∨) = −μ^_{n,min}(Ē)` and `μ^_{n,min}(Ē^∨) = −μ^_{n,max}(Ē)`.
+- `Ē` is semistable if and only if `Ē^∨` is.
+- `μ^_{n,max}(Ē ⊕ F̄) = max(μ^_{n,max}(Ē), μ^_{n,max}(F̄))` and `μ^_{n,min}(Ē ⊕ F̄) = min(μ^_{n,min}(Ē), μ^_{n,min}(F̄))`.
+
+Duality. `V ↦ V^⊥` is an order-reversing bijection from the `K`-subspaces of `E_K` to those of `E_K^∨`, with `(Ē^∨)_{V^⊥} ≅ (Ē/V)^∨` isometrically (§1.5b (iii)), and §1.6a changes the sign of slopes; so the slopes of the nonzero sub-bundles of `Ē^∨` are the negatives of the slopes of the quotients `Ē/V`, `V ≠ E_K`, which is the first identity. The second is the first for `Ē^∨`, with `Ē^∨∨ ≅ Ē` (§1.2). For semistability use `μ^_n(Ē^∨) = −μ^_n(Ē)` (§1.6a) and §1A.3 (i).
+
+Orthogonal sums. `Ē` and `F̄` are sub-bundles of `Ē ⊕ F̄`, which gives `≥` for the maximal slope (§1A.3 (iv)). Conversely, let `H ⊂ (E ⊕ F)_K` be a nonzero subspace and `H_1 = H ∩ E_K`. Additivity (§1.5a) splits the normalised degree of the sub-bundle of `H` into that of the sub-bundle of `H_1`, at most `dim H_1·μ^_{n,max}(Ē)` (§1A.3 (ii)), and that of the quotient by `H_1`. The second projection `Ē ⊕ F̄ → F̄` maps the lattice into `F` and does not increase the archimedean norms, so its restriction to `H` has height at most `0` (§1A.1); its kernel is `H_1`, and §1A.2 (iii) bounds the degree of the quotient by `H_1` by that of the sub-bundle of its image in `F̄`, hence by `dim(H/H_1)·μ^_{n,max}(F̄)`. So every sub-bundle of `Ē ⊕ F̄` has slope at most the larger of the two maximal slopes. The minimal slopes follow by duality, the dual of an orthogonal sum being the orthogonal sum of the duals.
+
+The source identifications are [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), (4.2), p. 195; [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemme 5.6, p. 65 (duality), and Propriétés 5.7 (2), p. 66, whose proof gives the equality for hermitian bundles (orthogonal sums).
+
+*Needs:* §1A.3; §1.2; §1.5a; §1.5b; §1.6a; §1A.1; §1A.2.
+
+**Checks.**
+
+- `Ē = ℤ ⊕ (ℤ, e^(−c)|·|)` with `c > 0` has `Ē^∨ = ℤ ⊕ (ℤ, e^c|·|)`, whose largest sub-bundle slope is `0` (the line of `e₁^∨`) and whose smallest quotient slope is `−c` (the quotient by that line): `μ^_{n,max}(Ē^∨) = 0 = −μ^_{n,min}(Ē)` and `μ^_{n,min}(Ē^∨) = −c = −μ^_{n,max}(Ē)`. So the definition `μ^_{n,min}(Ē) = −μ^_{n,max}(Ē^∨)` used by some sources agrees here with the definition by quotients.
+
+### 1A.5 Bost's slope inequality
+
+Let `Ē, F̄` be hermitian vector bundles of positive rank and `φ : E_K → F_K` a nonzero `K`-linear map, with the height `h(φ)` of §1A.1.
+
+- (a) `μ^_{n,min}(Ē) ≤ μ^_{n,max}(F̄) + h(φ)`.
+- (b) If `φ` is injective, `μ^_{n,max}(Ē) ≤ μ^_{n,max}(F̄) + h(φ)` and `deg^_n(Ē) ≤ rank Ē·( μ^_{n,max}(F̄) + h(φ) )`.
+- (c) If `φ` is surjective, `μ^_{n,min}(Ē) ≤ μ^_{n,min}(F̄) + h(φ)`.
+- (d) If `μ^_{n,min}(Ē) > μ^_{n,max}(F̄)`, every nonzero `φ` has `h(φ) ≥ μ^_{n,min}(Ē) − μ^_{n,max}(F̄) > 0`; in particular no nonzero `φ` with `φ(E) ⊂ F` has archimedean operator norms all at most `1`.
+- (e) For the image `W = φ(E_K)` and its sub-bundle `F̄_W` (§1.5a), `μ^_{n,min}(F̄_W) ≥ μ^_{n,min}(Ē/ker φ) − h(φ) ≥ μ^_{n,min}(Ē) − h(φ)`.
+
+If `φ(E_𝔭) ⊂ 𝔭^{−a_𝔭}·F_𝔭` at every nonzero prime `𝔭` (`E_𝔭 = E ⊗ O_𝔭` as in §1.5b), with integers `a_𝔭 ≥ 0`, almost all zero, then
+
+```text
+h(φ) ≤ (1/[K:ℚ])·( Σ_{σ∈Σ_K} log‖φ‖_σ + Σ_𝔭 a_𝔭·log N𝔭 ),
+```
+
+and (a)–(e) hold with this bound in place of `h(φ)`.
+
+`Ē, F̄` have positive rank and `φ ≠ 0`, since the zero map has no height; in (b) `φ` is injective, in (c) surjective, and in (e) `Ē/ker φ` has positive rank because `φ ≠ 0`. For a map with `φ(E) ⊂ F` every `‖φ‖_𝔭` is at most `1`, so `h(φ)` is at most its archimedean part `(1/[K:ℚ])·Σ_σ log‖φ‖_σ` (§1A.1); the forms of (b) and (c) with that archimedean part in place of `h(φ)` are weaker.
+
+Provide the following maps and identities.
+
+- (a) for every nonzero `φ`.
+- (b) in both forms, for injective `φ`.
+- (c) for surjective `φ`.
+- (d).
+- (e), the slope inequality for the image.
+- The bound of `h(φ)` for a map with `φ(E_𝔭) ⊂ 𝔭^{−a_𝔭}·F_𝔭` at every `𝔭`, and (a)–(e) with it.
+
+(e) For a `K`-subspace `W′ ⊊ W` let `V′ = φ^{−1}(W′)`, so that `ker φ ⊂ V′ ⊊ E_K`. The map `E_K/V′ → W/W′` induced by `φ` is an isomorphism, and as a map `Ē/V′ → F̄_W/W′` it has height at most `h(φ)` (§1A.1: restriction to the sub-bundle `F̄_W` containing the image, composition with the quotient map, which does not increase norms, and passage to the quotient by a subspace of the kernel). §1A.2 (ii) gives `μ^_n(F̄_W/W′) ≥ μ^_n(Ē/V′) − h(φ)`, and `Ē/V′` is a quotient of `Ē/ker φ` (§1.5a), so `μ^_n(Ē/V′) ≥ μ^_{n,min}(Ē/ker φ)`; minimising over `W′` gives the first inequality, and the second is §1A.3 (iv). (a) is (e) with `μ^_{n,min}(F̄_W) ≤ μ^_n(F̄_W) ≤ μ^_{n,max}(F̄)` (§1A.3 (i), (iv)). (b) Restricted to the maximal destabilising sub-bundle `Ē_{V_max}` (§1A.3 (iii)), `φ` is an isomorphism onto `φ(V_max)`, of height at most `h(φ)` as a map to `F̄_{φ(V_max)}` (§1A.1); §1A.2 (ii) gives `μ^_{n,max}(Ē) ≤ μ^_n(F̄_{φ(V_max)}) + h(φ) ≤ μ^_{n,max}(F̄) + h(φ)`, and the second form follows from `μ^_n(Ē) ≤ μ^_{n,max}(Ē)`. (c) is (e) with `W = F_K`. (d) is (a). The finite-place bound is the definition of the lattice norms (§1.5b): `‖φ‖_𝔭 ≤ N𝔭^{a_𝔭}`.
+
+The source identifications are [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), (4.10), p. 199 (the height at all places, the finite-place norms being the lattice operator norms), and Proposition 4.5, inequality (4.11), p. 199 (the second form of (b)); [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemme 6.4, p. 78 (the first form of (b)); [Chen, Convergence](https://arxiv.org/abs/0706.2649v1), §9, p. 37 (arXiv v1): the three slope inequalities for injective, surjective and nonzero maps with the height at all places, the surjective one from the injective one applied to the dual map and the third from the factorisation through the image; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Proposition 4.3, p. 131 ((b) and (c) for maps with `φ(E) ⊂ F`, with the archimedean part of the height).
+
+*Needs:* §1A.1; §1A.2; §1A.3; §1.5a; §1.5b.
+
+**Checks.**
+
+- Multiplication by `2` on the trivial line: `h = 0` and (a) is `0 ≤ 0`.
+- Injectivity is needed in (b): the projection `p : ℤe₁ ⊕ ℤe₂ → ℤ`, `x ↦ x₂`, with `‖e₁‖ = e^(−c)`, `‖e₂‖ = 1`, `c > 0`, has `h(p) = 0` and `μ^_{n,max}(Ē) = c > 0 = μ^_{n,max}(ℤ)`, while (a) reads `0 ≤ 0`.
+- For `φ = id` both sides of (e) are `μ^_{n,min}(Ē)`.
+- The projection of `ℤ²` onto its first coordinate (height `0`) has image `ℤ`, of minimal slope `0 = μ^_{n,min}(ℤ²)`.
+
+### 1A.6 The filtered slope inequality
+
+Let `Ē` be a hermitian vector bundle of positive rank, `F_K` a finite-dimensional `K`-vector space with a filtration `F_K = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^N ⊇ F^{N+1} = 0` by `K`-subspaces, and, for each `i`, `Ḡ_i` a hermitian vector bundle whose generic fibre is `G_{i,K} = F^i/F^{i+1}`. Let `φ : E_K → F_K` be an injective `K`-linear map, `E^i = φ^{−1}(F^i)` with the sub-bundle `Ē_{E^i}` of §1.5a, and `φ_i : E^i → G_{i,K}` the restriction of `φ` followed by the projection `F^i → F^i/F^{i+1}`. Then
+
+```text
+deg^_n(Ē) ≤ Σ_{i : E^i ≠ E^{i+1}} dim(E^i/E^{i+1})·( μ^_{n,max}(Ḡ_i) + h(φ_i) ),
+```
+
+with `h(φ_i)` the height of `φ_i` as a map `Ē_{E^i} → Ḡ_i` (§1A.1).
+
+Only the subquotients of the filtration carry hermitian structures; `F_K` need not. For `E^i ≠ E^{i+1}` the map `φ_i` is nonzero, its kernel being `E^{i+1}`, and `G_{i,K} ≠ 0`, so `h(φ_i)` and `μ^_{n,max}(Ḡ_i)` are defined; the indices with `E^i = E^{i+1}` contribute nothing.
+
+Provide the following maps and identities.
+
+- The subspaces `E^i = φ^{−1}(F^i)`, their sub-bundles `Ē_{E^i}`, and the maps `φ_i : E^i → G_{i,K}`.
+- The displayed bound of `deg^_n(Ē)`.
+
+Additivity along the flag `0 = E^{N+1} ⊂ E^N ⊂ ⋯ ⊂ E^0 = E_K` (§1.5a) gives `deg^_n(Ē) = Σ_i deg^_n(Ē_{E^i}/E^{i+1})`. For `E^i ≠ E^{i+1}`, `φ_i` vanishes exactly on `E^{i+1}`, so it induces an injective map `Ē_{E^i}/E^{i+1} → Ḡ_i` with the same operator norms at every place, hence of height `h(φ_i)` (§1A.1), and the second form of §1A.5 (b) bounds the corresponding term.
+
+The source identifications are [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), Proposition 4.6, inequality (4.14), p. 200, and its proof; [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Proposition 6.6, p. 79, and its proof for hermitian bundles; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Proposition 4.4, p. 132, with archimedean heights.
+
+*Needs:* §1A.1; §1A.5; §1.5a.
+
+**Checks.**
+
+- `N = 0` is the second form of §1A.5 (b).
+- `Ē = ℤ²`, `F_K = ℚ²`, `φ = id`, `F^1 = ℚe₁`, `Ḡ_0 = (ℤ, e^(−a)|·|)` on `F^0/F^1` (the class of `e₂` going to `1`) and `Ḡ_1 = ℤ` on `F^1`: `h(φ_0) = −a`, `μ^_{n,max}(Ḡ_0) = a`, `h(φ_1) = 0`, and the bound is the equality `0 ≤ 0`.
+
+### Examples
+
+Multiplication by `2` on `Ō_ℚ` has height `0`: its archimedean operator norm `2` and its `2`-adic operator norm `1/2` cancel. In `ℤ²` with the standard metric the vectors `(1,1)` and `(2,2)` both have height `½ log 2`, and `diag(1, 2)` has height `log 2`, while `Λ² diag(1, 2)` has archimedean norm `2 < 4`, so the degree inequality of §1A.2 (ii) is strict for it.
+
+For `ℤ ⊕ (ℤ, e^(−c)|·|)` with `c > 0`, `μ^_{n,max} = c`, `μ^_{n,min} = 0` and `μ^_n = c/2`, the maximal destabilising sub-bundle is `ℚe₂`, and the dual bundle `ℤ ⊕ (ℤ, e^c|·|)` has `μ^_{n,max} = 0` and `μ^_{n,min} = −c` (§§1A.3–1A.4). The hexagonal lattice `A₂` spanned by `(1, 0)` and `(½, √3/2)` is semistable: its lines have slope at most `0`, below its slope `½ log(2/√3)`, so its maximal slope is attained only in rank two. The projection `ℤe₁ ⊕ ℤe₂ → ℤ`, `x ↦ x₂`, with `‖e₁‖ = e^(−c)` and `‖e₂‖ = 1`, has height `0`, and `μ^_{n,max}(Ē) = c > 0 = μ^_{n,max}(ℤ)`: injectivity is needed in §1A.5 (b).
+
+### Dependencies
+
+Layer 1 (§§1.1–1.6 with §§1.2a, 1.5a, 1.5b and 1.6a); DiophantineApproximationAndTranscendence §§2.5–2.5c; SuccessiveMinima §0.1; Mathlib's product formula.
+
+## Layer 1B: The canonical filtration and base change
+
+Every hermitian vector bundle of positive rank over `O_K` has a canonical filtration by sub-bundles whose subquotients are semistable of strictly decreasing slopes (Stuhler, Grayson). Build it from its steps, the largest subspaces of minimal slope at least a given level; then read off its slopes and polygon, show that maps of bounded height respect the steps, and that the filtration commutes with finite extension of `K`.
+
+### 1B.1 Harder–Narasimhan steps
+
+Let `Ē` be a hermitian vector bundle of rank `r ≥ 1`, `θ` a real number, and `g_θ(V) = deg^_n(Ē_V) − θ·dim V` for `K`-subspaces `V ⊂ E_K`. There is a largest `K`-subspace `E_{≥θ} ⊂ E_K` such that `E_{≥θ} = 0` or `μ^_{n,min}(Ē_{E≥θ}) ≥ θ`: the Harder–Narasimhan step of `Ē` at `θ`. It contains every nonzero `V` with `μ^_{n,min}(Ē_V) ≥ θ`, and is the sum of these; it is the largest maximiser of `g_θ`, and for `E_{≥θ} ⊊ V`
+
+```text
+deg^_n(Ē_V) − deg^_n(Ē_{E≥θ}) < θ·( dim V − dim E_{≥θ} );
+```
+
+if `μ^_{n,min}(Ē_V) ≥ θ` and `μ^_{n,min}(Ē_W) ≥ θ`, then `μ^_{n,min}(Ē_{V+W}) ≥ θ`. The map `θ ↦ E_{≥θ}` is non-increasing, equal to `E_K` for `θ ≤ μ^_{n,min}(Ē)` and to `0` for `θ > μ^_{n,max}(Ē)`.
+
+`Ē` has positive rank. The alternative `E_{≥θ} = 0` is needed because the zero bundle has no minimal slope.
+
+Provide the following maps and identities.
+
+- The step `E_{≥θ}` for every real `θ`, with `μ^_{n,min}(Ē_{E≥θ}) ≥ θ` when it is nonzero.
+- `V ⊂ E_{≥θ}` for every nonzero `V` with `μ^_{n,min}(Ē_V) ≥ θ`, and `E_{≥θ}` as the sum of these `V`.
+- `E_{≥θ}` as the largest maximiser of `g_θ`, with the strict inequality for `E_{≥θ} ⊊ V`.
+- Closure under sums of the subspaces of minimal slope at least `θ`.
+- Monotonicity in `θ`, `E_{≥θ} = E_K` for `θ ≤ μ^_{n,min}(Ē)` and `E_{≥θ} = 0` for `θ > μ^_{n,max}(Ē)`.
+
+For a presentation `Ξ` of `Ē`, `deg^_n(Ē_V) = −log H_Ξ(V)` (§1.5b). DiophantineApproximationAndTranscendence §2.5b makes `deg^_n` supermodular on sub-bundles, `deg^_n(Ē_{V+W}) + deg^_n(Ē_{V∩W}) ≥ deg^_n(Ē_V) + deg^_n(Ē_W)`, and, with `dim(V + W) + dim(V ∩ W) = dim V + dim W`, so is `g_θ`; §2.5c bounds `g_θ` above and leaves finitely many `V` with `g_θ(V) ≥ g_θ(0) = 0`, so `g_θ` attains its maximum. Its maximisers are closed under `+` and `∩`, and have a largest element `M`. If `M = 0`, the statement holds through its alternative. Otherwise, for `N ⊊ M`, `g_θ(N) ≤ g_θ(M)` is `μ^_n(Ē_M/N) ≥ θ` (additivity, §1.5a), so `μ^_{n,min}(Ē_M) ≥ θ`. If `μ^_{n,min}(Ē_V) ≥ θ`, then `g_θ(V ∩ M) ≤ g_θ(V)`, so supermodularity makes `V + M` a maximiser and `V ⊂ M`. A maximiser strictly containing `M` cannot exist, which is the strict inequality. Closure under sums: `μ^_{n,min}(Ē_V) ≥ θ` says that `V` maximises `g_θ` among its own subspaces, and two applications of supermodularity pass this to `V + W`. If `θ′ ≥ θ`, `E_{≥θ′}` has minimal slope at least `θ`, so `E_{≥θ′} ⊂ E_{≥θ}`; `E_K` itself qualifies for `θ ≤ μ^_{n,min}(Ē)`, and no nonzero `V` does for `θ > μ^_{n,max}(Ē)`, since `μ^_{n,min}(Ē_V) ≤ μ^_n(Ē_V) ≤ μ^_{n,max}(Ē)` (§1A.3 (i), (iv)).
+
+The source identifications are [Chen, Convergence](https://arxiv.org/abs/0706.2649v1), §9, pp. 36–37 (arXiv v1): the filtration of `E_K` indexed by the reals, and, after Proposition 9.1, its step at a level `s` as the sum of the sub-bundles of minimal slope at least `s`; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A.3 and Proposition A.1, pp. 147–148, and [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemme 5.12, p. 69 (the vertices of the polygon are attained by unique sub-bundles: the maximisers of `g_θ`); [Chen–Moriwaki](https://arxiv.org/abs/1903.10798v1), Corollary 4.3.42 (arXiv v1); the construction is that of [Stuhler](https://doi.org/10.1007/BF01224726) and [Grayson](https://doi.org/10.1007/BF02566369).
+
+*Needs:* §1A.3; §1.5a; §1.5b; **DiophantineApproximationAndTranscendence** §§2.5b–2.5c.
+
+**Checks.**
+
+- `ℤ ⊕ (ℤ, e^(−c)|·|)`, `c > 0`: `E_{≥θ}` is `ℚ²` for `θ ≤ 0`, `ℚe₂` for `0 < θ ≤ c` and `0` for `θ > c`.
+- For a semistable `Ē` the only values are `E_K` (for `θ ≤ μ^_n(Ē)`) and `0`.
+
+### 1B.2 The Harder–Narasimhan filtration
+
+Every hermitian vector bundle `Ē` of positive rank has a unique flag `0 = V_0 ⊊ V_1 ⊊ ⋯ ⊊ V_k = E_K` of `K`-subspaces such that each `Ē_{V_j}/V_{j−1}` (§1.5a) is semistable, of slope `μ_j`, with `μ_1 > μ_2 > ⋯ > μ_k`: the Harder–Narasimhan, or canonical, filtration of `Ē`. Its members are the distinct steps of §1B.1, `E_{≥θ} = V_j` for `μ_{j+1} < θ ≤ μ_j` (`0 ≤ j ≤ k`, with `μ_0 = +∞` and `μ_{k+1} = −∞`); `Ē_{V_1}` is the maximal destabilising sub-bundle of §1A.3, `μ_1 = μ^_{n,max}(Ē)` and `μ_k = μ^_{n,min}(Ē)`; the filtration of `Ē_{V_j}` is `V_0 ⊊ ⋯ ⊊ V_j`, and that of `Ē/V_j` is the image of `V_j ⊊ ⋯ ⊊ V_k`.
+
+`Ē` has positive rank; the subquotients carry the quotient metrics of the restricted metrics (§1.5a).
+
+Provide the following maps and identities.
+
+- The Harder–Narasimhan flag `(V_j)` and its slopes `μ_1 > ⋯ > μ_k`, with semistable subquotients.
+- Uniqueness of such a flag.
+- `E_{≥θ} = V_j` for `μ_{j+1} < θ ≤ μ_j`.
+- `V_1 = V_max`, `μ_1 = μ^_{n,max}(Ē)`, `μ_k = μ^_{n,min}(Ē)`.
+- The filtrations of `Ē_{V_j}` and of `Ē/V_j`.
+
+Existence: take the values of `θ` at which `E_{≥θ}` jumps; the extremal properties of §1B.1 (maximality of the step and the strict inequality) make each subquotient semistable of slope equal to the jump. Uniqueness: let `(V_j)` be a flag with these properties. A quotient of `Ē_{V_j}`, filtered by the images of the `V_i` (`i ≤ j`), has pieces that receive surjective maps from the semistable `Ē_{V_i}/V_{i−1}`, of operator norm at most `1` at every place, so each nonzero piece has slope at least `μ_i ≥ μ_j` (§1A.5 (c) with §1A.3 (i)); hence `μ^_{n,min}(Ē_{V_j}) ≥ μ_j` by additivity, and `V_j ⊂ E_{≥μ_j}`. A sub-bundle of `Ē/V_j`, filtered by the images of the `V_i` (`i > j`), has pieces mapping injectively, with operator norm at most `1` at every place, into the `Ē_{V_i}/V_{i−1}`, so `μ^_{n,max}(Ē/V_j) ≤ μ_{j+1} < μ_j` (§1A.5 (b)); then §1A.5 (a), for the map `E_{≥μ_j} → E_K/V_j` of height at most `0`, forces it to vanish, and `E_{≥μ_j} ⊂ V_j`. For the last assertions, `Ē_{V_max}` is semistable of slope `μ^_{n,max}(Ē)`, which gives `μ_1 = μ^_{n,max}(Ē)` and `V_1 = V_max` (§1A.3 (i), (iii)); `E_{≥θ} = E_K` exactly for `θ ≤ μ^_{n,min}(Ē)` (§1B.1), which gives `μ_k = μ^_{n,min}(Ē)`; and the truncated flags have the same subquotients (§1.5a), so uniqueness applies to them.
+
+The source identifications are [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Proposition A.1, p. 148, and the paragraph after it (the subquotients are semistable of strictly decreasing slopes, and these properties characterise the filtration); [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Lemme 5.12, p. 69, and Proposition 5.13, p. 70, with Lemmes 5.10 and 5.11, pp. 68–69 (the first slope is the maximal slope and, for hermitian bundles, the last is the minimal slope); both after [Stuhler](https://doi.org/10.1007/BF01224726) and [Grayson](https://doi.org/10.1007/BF02566369); [Chen–Moriwaki](https://arxiv.org/abs/1903.10798v1), Propositions 4.3.36 and 4.3.37 (arXiv v1).
+
+*Needs:* §1B.1; §1A.3; §1A.5; §1.5a.
+
+**Checks.**
+
+- `Ē = (ℤ, e^(−c)|·|)² ⊕ ℤ` with `c > 0`: the flag is `0 ⊊ ℚe₁ ⊕ ℚe₂ ⊊ ℚ³` with slopes `c > 0`. The line `ℚe₁` also has slope `c` but is not a member: `V_1` is the largest sub-bundle of slope `μ^_{n,max}`, here of rank two.
+- `ℤ ⊕ (ℤ, e^(−c)|·|)`: the flag is `0 ⊊ ℚe₂ ⊊ ℚ²` with slopes `c > 0`.
+
+### 1B.3 Harder–Narasimhan slopes and the polygon
+
+For a hermitian vector bundle `Ē` of rank `r ≥ 1`, the Harder–Narasimhan slopes `μ^_{n,1}(Ē) ≥ ⋯ ≥ μ^_{n,r}(Ē)` list each slope `μ_j` of §1B.2 with multiplicity `dim V_j/V_{j−1}`. Then (i) `#{j : μ^_{n,j}(Ē) ≥ θ} = dim E_{≥θ}` for every `θ`; (ii) `Σ_j μ^_{n,j}(Ē) = deg^_n(Ē)`, `μ^_{n,1}(Ē) = μ^_{n,max}(Ē)` and `μ^_{n,r}(Ē) = μ^_{n,min}(Ē)`; (iii) the polygon `P_Ē : [0, r] → ℝ`, linear on each `[j − 1, j]` with slope `μ^_{n,j}(Ē)` and with `P_Ē(0) = 0`, is concave, satisfies `deg^_n(Ē_V) ≤ P_Ē(dim V)` for every `V`, with equality on the members of the flag, and is the least concave function on `[0, r]` lying above all the points `(dim V, deg^_n(Ē_V))`; (iv) `Σ_j max(μ^_{n,j}(Ē), 0) = ∫_0^∞ dim E_{≥t} dt`; in the same way, for every real `a`,
+
+```text
+r·a − deg^_n(Ē) ≤ Σ_j ( a − μ^_{n,j}(Ē) )⁺ = ∫_0^∞ ( r − dim E_{≥ a−τ} ) dτ;
+```
+
+(v) `μ^_{n,j}(Ē^∨) = −μ^_{n,r+1−j}(Ē)`; for a hermitian line bundle `L̄`, `μ^_{n,j}(Ē ⊗ L̄) = μ^_{n,j}(Ē) + μ^_n(L̄)` and `(E ⊗ L)_{≥ θ + μ^_n(L̄)} = E_{≥θ} ⊗ L_K` for every `θ`; in particular `μ^_{n,j}(Ē(c)) = μ^_{n,j}(Ē) + c`.
+
+`Ē` has positive rank; `x⁺ = max(x, 0)`.
+
+Provide the following maps and identities.
+
+- The Harder–Narasimhan slopes `μ^_{n,j}(Ē)`, `1 ≤ j ≤ r`, and the count `#{j : μ^_{n,j}(Ē) ≥ θ} = dim E_{≥θ}`.
+- `Σ_j μ^_{n,j}(Ē) = deg^_n(Ē)`, `μ^_{n,1} = μ^_{n,max}`, `μ^_{n,r} = μ^_{n,min}`.
+- The polygon `P_Ē`, its concavity, the bound `deg^_n(Ē_V) ≤ P_Ē(dim V)` with equality on the flag, and its characterisation as the least concave majorant.
+- `Σ_j max(μ^_{n,j}(Ē), 0) = ∫_0^∞ dim E_{≥t} dt`.
+- The positive-part bound and its integral over the coranks of the steps.
+- The slopes of the dual and of a twist by a hermitian line bundle, with the steps of the twist.
+
+(i)–(ii) follow from §1B.2 and additivity. (iii) Concavity is the strict decrease of the `μ_j`. For a subspace `V`, filter it by the `V ∩ V_j`: the graded piece maps injectively, with operator norm at most `1` at every place, into the semistable `Ē_{V_j}/V_{j−1}`, so by §1A.5 (b) its normalised degree is at most `μ_j` times its dimension, and the sum of these bounds is at most `P_Ē(dim V)` because the `μ_j` decrease. (iv) For each `j`, `max(μ^_{n,j}, 0) = ∫_0^∞ 1[μ^_{n,j} ≥ t] dt` and `(a − μ^_{n,j})⁺ = ∫_0^∞ 1[μ^_{n,j} < a − τ] dτ`; sum over `j` and use (i). (v) The dual is §1A.4, §1.6a and the uniqueness in §1B.2. For the twist, the bijection `V ↦ V ⊗ L_K` of §1A.3 (v) satisfies `g_{θ+μ^_n(L̄)}(V ⊗ L_K) = g_θ(V)` for the functions of §1B.1, so it carries the largest maximiser to the largest maximiser.
+
+The source identifications are [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Appendice A.3, p. 147 (the canonical polygon as the boundary of the convex hull of the points `(rank, deg^_n)` of the sub-bundles, and its slopes, decreasing, of sum `deg^_n`); [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), §5.2, Définition 5.9 and Lemme 5.10, pp. 68–69, Lemme 5.11, p. 69, and Propriétés 5.14 (1) (twist) and (2) (dual), p. 70; [Chen, Convergence](https://arxiv.org/abs/0706.2649v1), §9, p. 36 (arXiv v1) (the slopes as the levels of the filtration indexed by the reals); [Chen–Moriwaki](https://arxiv.org/abs/1903.10798v1), Definition 4.3.38, Remark 4.3.39 and Proposition 4.3.40 (arXiv v1), and Proposition 4.3.43, (4.63)–(4.64) (arXiv v1), for the integral of the ranks of the steps in (iv); the form with `a` is the same count for the slopes `a − μ^_{n,j}`.
+
+*Needs:* §1B.1; §1B.2; §1A.3; §1A.4; §1A.5; §1.5a; §1.6a.
+
+**Checks.**
+
+- `ℤ ⊕ (ℤ, e^(−c)|·|)`: slopes `(c, 0)`, polygon vertices `(0, 0)`, `(1, c)`, `(2, c)`.
+- `A₂` has both slopes `½ log(2/√3) ≈ 0.0719`, although it has a basis of vectors of norm `1`, whose lines have slope `0`: slopes read off a reduced basis would give `(0, 0.1438)`, which is not the polygon.
+
+### 1B.4 Functoriality of the steps
+
+(i) Let `φ_i : E_{i,K} → F_K` (`i` in a finite set) be `K`-linear maps from hermitian vector bundles `Ē_i` of positive rank to a hermitian vector bundle `F̄` of positive rank, `θ` a real number, and suppose `μ^_{n,min}(Ē_i) − h(φ_i) ≥ θ` whenever `φ_i ≠ 0`. Then `Σ_i φ_i(E_{i,K}) ⊂ F_{≥θ}`; no bound on the sum map is needed. More generally, `φ(E_{≥θ}) ⊂ F_{≥ θ − h(φ)}` for every nonzero `K`-linear `φ : E_K → F_K`. (ii) Every step `E_{≥θ}` is stable under every endomorphism `φ` of `E_K` with `φ = 0` or `h(φ) ≤ 0`, in particular under every isometric automorphism of `Ē`. (iii) `(E ⊕ F)_{≥θ} = E_{≥θ} ⊕ F_{≥θ}` for the orthogonal sum, and the Harder–Narasimhan slopes of `Ē ⊕ F̄` are the merged lists of those of `Ē` and `F̄`. (iv) `(E^∨)_{≥θ} = (E_{>−θ})^⊥`, where `E_{>t}` is the union of the `E_{≥θ′}` with `θ′ > t` and `⊥` the annihilator in `E_K^∨`. (v) If `F_K` is spanned by nonzero vectors `x` with `h_F̄(x) ≤ B`, then `μ^_{n,min}(F̄) ≥ −B`. (vi) If `F′ ⊂ E` is a submodule of full rank with the restricted metrics, then `F′_{≥θ} ⊂ E_{≥θ}` for every `θ`, `μ^_{n,j}(F̄′) ≤ μ^_{n,j}(Ē)` for every `j`, in particular `μ^_{n,max}(F̄′) ≤ μ^_{n,max}(Ē)` and `μ^_{n,min}(F̄′) ≤ μ^_{n,min}(Ē)`, while `μ^_n(F̄′) = μ^_n(Ē) − log #(E/F′)/([K:ℚ]·rank Ē)`.
+
+All bundles have positive rank and heights are taken of nonzero maps only; the steps are those of §1B.1.
+
+Provide the following maps and identities.
+
+- `Σ_i φ_i(E_{i,K}) ⊂ F_{≥θ}` under the hypothesis of (i), and `φ(E_{≥θ}) ⊂ F_{≥θ−h(φ)}`.
+- Stability of the steps under endomorphisms of height at most `0` and under isometric automorphisms.
+- The steps and slopes of an orthogonal sum.
+- The steps of the dual.
+- `μ^_{n,min}(F̄) ≥ −B` for a bundle spanned by vectors of height at most `B`.
+- The steps and slopes of a submodule of full rank.
+
+(i) §1A.5 (e) gives `μ^_{n,min}(F̄_{φ_i(E_{i,K})}) ≥ θ` for every nonzero `φ_i`, so each image lies in `F_{≥θ}` (§1B.1), and so does their sum. For the general form, apply this to the restriction of `φ` to `Ē_{E≥θ}`, of height at most `h(φ)` (§1A.1), when that restriction is nonzero. (ii) is (i), with the monotonicity of §1B.1; an isometric automorphism has height `0`. (iii) `⊇` because the steps of `Ē` and `F̄` are subspaces of `(E ⊕ F)_K` of minimal slope at least `θ` and these are closed under sums (§1B.1); `⊆` by (i) for the two projections, of height at most `0`; the slopes then follow from §1B.3 (i). (iv) §1B.3 (v) with §1A.4. (v) Apply (i) to the maps `Ō_K → F̄`, `1 ↦ x`, of height `h_F̄(x) ≤ B` from a bundle of minimal slope `0`, with `θ = −B`: their images span, so `F_{≥−B} = F_K`, which is `μ^_{n,min}(F̄) ≥ −B` (§1B.1). (vi) The identity `F̄′ → Ē` is integral at every `𝔭` and isometric at every `σ`, so its height is at most `0`; (i) in its general form gives `F′_{≥θ} ⊂ E_{≥θ−h} ⊂ E_{≥θ}`, §1B.3 (i) turns the inclusions into the inequalities of slopes, and the slope of `F̄′` is §1.5a.
+
+The source identifications are [Chen, Convergence](https://arxiv.org/abs/0706.2649v1), Proposition 9.1, Corollary 9.2 and the remarks after them, p. 37 (arXiv v1) (the step as a sum of sub-bundles; the comparison of polygons along an isomorphism); [Bost, Algebraic leaves](https://www.numdam.org/item/PMIHES_2001__93__161_0/), Lemma 4.1, p. 196 ((v) for spanning vectors of `F` with archimedean norms at most `e^B`); [Chen–Moriwaki](https://arxiv.org/abs/1903.10798v1), Proposition 4.3.41 (arXiv v1); [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Proposition A.3 (isometric automorphisms acting irreducibly give a semistable bundle, a case of (ii)); [Gaudron, Pentes](https://www.numdam.org/item/RSMUP_2008__119__21_0/), Propriétés 5.7 (2), p. 66, and 5.14 (2), p. 70 (sums and duals).
+
+*Needs:* §1B.1; §1B.3; §1A.1; §1A.4; §1A.5; §1.5a.
+
+**Checks.**
+
+- For the projection `p` of the Checks of §1A.5: `p(E_{≥c}) = p(ℚe₁) = 0 ⊂ ℤ_{≥c} = 0`.
+- Multiplication by `a ∈ K^×` has height `0` and preserves every step.
+- (v) for `ℤ ⊕ (ℤ, e^(−c)|·|)` with the spanning vectors `e₁, e₂`, of heights `0, −c`: `B = 0` and `μ^_{n,min} = 0`, an equality. For `A₂` and its basis of norm-one vectors, `μ^_{n,min} = 0.0719 ≥ 0`.
+- (vi) for `2ℤ² ⊂ ℤ²`: the slopes drop from `(0, 0)` to `(−log 2, −log 2)`, and `μ^_n(2ℤ²) = 0 − log 4/2`.
+
+### 1B.5 Base change
+
+For a finite extension `L/K` and a hermitian vector bundle `Ē` of positive rank over `O_K`, with the base change `Ē_{O_L}` of §1.2 (vi),
+
+```text
+(E_{O_L})_{≥θ} = E_{≥θ} ⊗_K L        for every real θ.
+```
+
+Hence the Harder–Narasimhan filtration of `Ē_{O_L}` is the base change of that of `Ē`, the Harder–Narasimhan slopes and the polygon of `Ē_{O_L}` are those of `Ē`, and `μ^_{n,max}(Ē_{O_L}) = μ^_{n,max}(Ē)`, `μ^_{n,min}(Ē_{O_L}) = μ^_{n,min}(Ē)`.
+
+`L/K` is finite and `Ē` has positive rank. The slopes are the normalised ones of §1.6a, which, unlike `μ^` of §1.3, do not change under finite extension.
+
+Provide the following maps and identities.
+
+- `(E_{O_L})_{≥θ} = E_{≥θ} ⊗_K L` for every `θ`.
+- The Harder–Narasimhan filtration, slopes and polygon of `Ē_{O_L}` as those of `Ē`.
+- `μ^_{n,max}(Ē_{O_L}) = μ^_{n,max}(Ē)` and `μ^_{n,min}(Ē_{O_L}) = μ^_{n,min}(Ē)`.
+
+First let `M/K` be Galois with group `G`. `G` acts semilinearly on `E_M = E_K ⊗_K M` through the second factor, preserves `E ⊗_{O_K} O_M`, and permutes the metrics: `‖gx‖_τ = ‖x‖_{τ∘g}`. So it preserves the degree of every sub-bundle of `Ē_{O_M}`, hence the function `g_θ` of §1B.1, hence its largest maximiser `(E_{O_M})_{≥θ}`; by ArithmeticGaloisRepresentations §7.7 (Galois descent of subspaces), `(E_{O_M})_{≥θ} = W ⊗_K M` for a `K`-subspace `W`. For `K`-subspaces `V`, `g_θ(V) = g_θ(V ⊗_K M)`, because base change commutes with sub-bundles (§1.5a) and preserves normalised degrees (§1.6). So `W` maximises `g_θ` over the `K`-subspaces, and every `K`-maximiser `V` has `V ⊗ M` a maximiser over `M`, so `V ⊗ M ⊂ W ⊗ M` and `V ⊂ W`: `W` is the largest maximiser, `W = E_{≥θ}`. For a general finite `L/K`, choose a Galois closure `M ⊃ L` of `L/K` and apply the Galois case to `M/K` and to `M/L` (the bundle `Ē_{O_L}`, with §1.2 for the composite base change): `(E_{O_L})_{≥θ} ⊗_L M = E_{≥θ} ⊗_K M`, and `U ↦ U ⊗_L M` is injective on `L`-subspaces. The statements on the filtration and the slopes follow from §§1B.2–1B.3, and those on `μ^_{n,max}` and `μ^_{n,min}` because `E_{≥θ} ≠ 0` if and only if `θ ≤ μ^_{n,max}(Ē)`, and `E_{≥θ} = E_K` if and only if `θ ≤ μ^_{n,min}(Ē)` (§1B.1).
+
+The source identifications are [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Proposition A.2, pp. 148–149, deduced there from the uniqueness of the canonical filtration; [Gaudron–Rémond, Minima, pentes](https://arxiv.org/abs/1109.2812v1), §§2.3 and 5.1 (the maximal slope is invariant under extension of the field, by uniqueness and the action of a Galois group).
+
+*Needs:* §§1B.1–1B.3; §1.2; §1.5a; §1.6; **ArithmeticGaloisRepresentations** §7.7 (Galois descent of subspaces).
+
+**Checks.**
+
+- `ℤ²` over `ℚ(i)`: the line `ℚ(i)·(1, i)` has `relativeSubspaceArakelovHeight = (1 + 1)^(2/2) = 2`, so normalised degree `−½ log 2 < 0`; the bundle stays semistable of slope `0`.
+- The Gaussian ideal `(1 + i)` with its standard metric has normalised degree `−½ log 2`; over a quadratic extension of `ℚ(i)` the value is unchanged.
+
+### Examples
+
+For `ℤ ⊕ (ℤ, e^(−c)|·|)` with `c > 0`, the step `E_{≥θ}` is `ℚ²` for `θ ≤ 0`, `ℚe₂` for `0 < θ ≤ c` and `0` for `θ > c`; the Harder–Narasimhan flag is `0 ⊊ ℚe₂ ⊊ ℚ²`, with slopes `(c, 0)` and polygon vertices `(0, 0)`, `(1, c)`, `(2, c)`. For `(ℤ, e^(−c)|·|)² ⊕ ℤ` the first member of the flag is `ℚe₁ ⊕ ℚe₂`, of rank two, although the line `ℚe₁` has the same slope `c`. The lattice `A₂` has both Harder–Narasimhan slopes equal to `½ log(2/√3)`, although it has a basis of vectors of norm `1` (§1B.3).
+
+### Dependencies
+
+Layers 1 and 1A; DiophantineApproximationAndTranscendence §§2.5b–2.5c; ArithmeticGaloisRepresentations §7.7 (§1B.5).
 
 ## Layer 2: The Hodge line and the Faltings metric
 
@@ -1234,7 +1761,7 @@ Layers 1–3; AbelianSchemesAndArithmeticModuli A2–A4 and A6; NeronModelsAndSe
 
 ## Layer 5: Logarithmic metrics, moduli and theta heights
 
-A logarithmic metric is allowed to grow like powers of a logarithm relative to a fixed boundary extension. Its height differs from a continuous ample height by a logarithm of that height, enough for Northcott. Apply this to the integral modular line, and then compare with the more explicit theta and elliptic `j`-heights.
+A logarithmic metric is allowed to grow like powers of a logarithm relative to a fixed boundary extension. Along a normal crossings boundary, Mumford's good metrics add bounds on the connection forms, and their Chern forms define currents representing the Chern classes of the extension. Its height differs from a continuous ample height by a logarithm of that height, enough for Northcott. Apply this to the integral modular line, and then compare with the more explicit theta and elliptic `j`-heights.
 
 ### 5.0a Principal Siegel toroidal compactifications and degeneration charts
 
@@ -1316,6 +1843,106 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 - Under the same map, `|q|^(−1/2)` pulls back to `|u|^(−e/2)`; neither norm has logarithmic growth. The constant map `e = 0` would instead give the unit norm upstairs, so the positive-exponent hypothesis is necessary.
 - For the unit norm on `O` over the punctured disc, changing the extension to `O(−[0])` gives frame norm `|q|`. Its pullback frame has norm `|u|^e` on `q^*O(−[0]) = O(−e[0])`, and both fail the logarithmic condition. Replacing this extension by `O` upstairs would change the answer and is excluded.
 - The metric `‖dz‖² = Im τ` on the Hodge line over the `j`-line near the cusp `q = 0: Im τ = −(1/2π) log|q|`, so it has logarithmic singularities along `q = 0`.
+
+### 5.1a Poincaré growth along a normal crossings divisor
+
+Let `X̄` be a smooth projective complex variety of dimension `n`, `D ⊂ X̄` a normal crossings divisor (a reduced hypersurface such that every point of `X̄` has a holomorphic chart to a polydisc in which `D = {z₁⋯z_k = 0}` for some `k`), and `X = X̄ ∖ D`. The Poincaré polydisc is `𝔻*^k × 𝔻^{n−k}` with `𝔻 = {|z| < 1/2}` and `𝔻* = 𝔻 ∖ {0}`; on it the Poincaré form is
+
+```text
+ω_P = Σ_{i≤k} i dz_i ∧ dz̄_i/(|z_i|²(log|z_i|)²) + Σ_{i>k} i dz_i ∧ dz̄_i.
+```
+
+A smooth `p`-form `η` on `X` has Poincaré growth along `D` if at every point of `D`, in a chart to a Poincaré polydisc with `D = {z₁⋯z_k = 0}`, `η` is bounded on smaller polydiscs for the hermitian metric of `ω_P`: `|η(t₁, …, t_p)|² ≤ C·∏_i ω_P(t_i, Jt_i)` for tangent vectors `t_i`, with `J` the complex structure. This condition does not depend on the chart; the forms with Poincaré growth form a graded algebra under the wedge product; and they are integrable near `D` in top degree (`∫ ω_P^n < ∞` on smaller polydiscs), so that every form `η` with Poincaré growth defines a current `[η]` on `X̄`, its extension by zero.
+
+Currents, their degrees and signs are those of ComplexComparisonPartII §C5.4.
+
+Provide the following maps and identities.
+
+- The Poincaré form `ω_P` on the Poincaré polydisc.
+- The predicate that a smooth form on `X` has Poincaré growth along `D`.
+- Independence of the normal crossings chart.
+- Closure under sums and wedge products.
+- Integrability near `D` of top-degree forms with Poincaré growth.
+- The current `[η]` on `X̄` of a form `η` with Poincaré growth, its extension by zero.
+
+Two normal crossings charts differ by a holomorphic map preserving the coordinate hyperplanes, under which `log|z_i|` changes by a bounded amount, so `ω_P` changes to a quasi-isometric form. Wedge products of forms bounded for one hermitian metric are bounded for it. Integrability: `∫_{|z|<1/2} dλ/(|z|²(log|z|)²) < ∞`.
+
+The source identification is Mumford, *Hirzebruch's proportionality theorem in the non-compact case* (References), §1, pp. 240–241 (the definition), and Proposition 1.1, p. 241.
+
+*Needs:* **ComplexKahlerGeometry** Layer 3 (analytic hypersurfaces); **ComplexComparisonPartII** §C5.4 (`CurrentCalculus`).
+
+**Checks.**
+
+- On `𝔻* = {0 < |z| < 1/2}` the form `ω_P = i dz ∧ dz̄/(|z|²(log|z|)²)` has finite area `4π/log 2`.
+
+### 5.1b Good forms
+
+In the situation of §5.1a, a smooth form `η` on `X` is good along `D` if `η` and `dη` both have Poincaré growth along `D`. For a good form the currents satisfy `d[η] = [dη]` on `X̄`: there is no residue along `D`. Good forms are closed under wedge products.
+
+`X̄`, `D` and `X` are as in §5.1a; `d` acts on currents as in ComplexComparisonPartII §C5.4.
+
+Provide the following maps and identities.
+
+- The predicate that a smooth form on `X` is good along `D`.
+- `d[η] = [dη]` on `X̄` for a good form `η`.
+- `η ∧ η′` is good when `η` and `η′` are.
+
+Stokes' theorem on the regions `{|z_i| ≥ ε}`; the boundary integrals tend to zero because a form with Poincaré growth restricted to `{|z_i| = ε}` is `O(1/|log ε|)` in the angular direction. For products, `d(η ∧ η′) = dη ∧ η′ ± η ∧ dη′` and §5.1a.
+
+The source identification is Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, §1, the definition of a good form and Proposition 1.2, pp. 241–242.
+
+*Needs:* §5.1a; **ComplexComparisonPartII** §C5.4 (`CurrentCalculus`).
+
+**Checks.**
+
+- On `𝔻*` the `1`-form `∂ log(−log|z|) = dz/(2z log|z|)` and its `∂̄` have Poincaré growth, so it is good; it is the connection form of the metric `|e|² = −log|z|` on the trivial bundle (§5.1c).
+
+### 5.1c Good metrics and the uniqueness of the extension
+
+In the situation of §5.1a, let `V` be a holomorphic vector bundle of rank `r` on `X̄` and `h` a smooth hermitian metric on `V|_X`. For a local frame `e₁, …, e_r` of `V` on a Poincaré polydisc around a point of `D`, let `H = (h(e_i, e_j))_{i,j}` be its Gram matrix, `h` being conjugate-linear in the first argument (Conventions), so that `θ = H^{−1}∂H` is the matrix of the Chern connection of `h` in this frame (`D′e_j = Σ_i θ_{ij}e_i`). The metric `h` is good relative to `V` if at every point of `D`, for a local frame on a Poincaré polydisc, (i) `|H_{ij}|` and `(det H)^{−1}` are bounded by `C·(Σ_{i≤k}|log|z_i||)^m` for some `C` and `m`, and (ii) the entries of `H^{−1}∂H` are good forms (§5.1b). This condition does not depend on the frame. If `h` is good relative to `V`, then on every Poincaré polydisc `P` around a point of `D` the sections of `V` over `P` are exactly the holomorphic sections `s` of `V|_X` over `P ∖ D` such that, on every smaller polydisc, `h(s, s) ≤ C·(Σ_{i≤k}|log|z_i||)^m` for some `C` and `m`. Consequently, if `h` is good relative to two holomorphic vector bundles `V₁` and `V₂` on `X̄` with `V₁|_X = V₂|_X`, the identity of `V₁|_X` extends to an isomorphism `V₁ ≅ V₂`: a good metric determines the extension.
+
+The condition is relative to the extension `V` across `D`, not only to the bundle `V|_X`. A change of frame `e′_j = Σ_i e_i g_{ij}`, with `g` holomorphic and invertible on the polydisc, gives `H′ = g*Hg`.
+
+Provide the following maps and identities.
+
+- The predicate that `h` is good relative to `V`.
+- Its independence of the local frame.
+- For `h` good relative to `V`: the sections of `V` over a Poincaré polydisc are the sections of `V|_X` off `D` with `h(s, s)` of logarithmic growth on every smaller polydisc.
+- Uniqueness: an isomorphism `V₁ ≅ V₂` extending the identity over `X` when `h` is good relative to both.
+
+Sections of the extension: a section of `V` has `h(s, s)` of logarithmic growth on every smaller polydisc by (i). Conversely write `s = Σ_i a_i e_i` in a frame of `V`; the bounds (i) for `H` and `(det H)^{−1}` bound the smallest eigenvalue of `H` below by a negative power of `Σ_{i≤k}|log|z_i||`, so every `|a_i|` is bounded by a power of it; then `z₁⋯z_k·a_i` is bounded, hence holomorphic across `D` by the Riemann extension theorem (ComplexKahlerGeometry §3.5), so `a_i` is meromorphic with at most simple poles along `D`, and a pole is excluded because `1/|z_i|` is not bounded by a power of `|log|z_i||`. Uniqueness: the sections of `V₁` and of `V₂` over a polydisc are the same sections of `V₁|_X`.
+
+Independence of the frame: with `H′ = g*Hg` and `g` holomorphic, the connection matrix in the frame `e′` is `g^{−1}θg + g^{−1}∂g`; its entries are combinations of the old ones with coefficients holomorphic on the closed polydisc, plus holomorphic `1`-forms. Smooth forms on `X̄` have Poincaré growth (`ω_P ≥ c·ω_eucl` on the Poincaré polydisc), and the product of a good form with a smooth function `u` is good (`d(uη) = du ∧ η + u·dη`, §5.1a), so (ii) is preserved; (i) is preserved because `g` and `g^{−1}` are bounded.
+
+The source identifications are Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, §1, p. 242: the definition of a good metric, required there for every local frame, the uniqueness of the extension, and Proposition 1.3 (the sections of the extension).
+
+*Needs:* §5.1a; §5.1b; **ComplexKahlerGeometry** §3.5 (the Riemann extension theorem) and §§4.1–4.2 (holomorphic bundles and Chern connections).
+
+**Checks.**
+
+- On the punctured disc, the trivial bundle with `|e|² = −log|z|` is good relative to `O`: the connection form `∂ log(−log|z|) = dz/(2z log|z|)` and its `∂̄` have Poincaré growth. The same metric is not good relative to `O(−[0])`: in the frame `z·e`, `|ze|² = |z|²(−log|z|)` violates (i).
+
+### 5.1d Chern forms of good metrics
+
+Let `X̄` be a smooth projective complex variety, `D ⊂ X̄` a normal crossings divisor, `X = X̄ ∖ D`, `V` a holomorphic vector bundle on `X̄` and `h` a smooth hermitian metric on `V|_X` good relative to `V` (§5.1c). Then the Chern forms `c_k(V|_X, h)` of the Chern connection of `h` (CharacteristicClasses §4.2) are good forms on `X` (§5.1b); the currents `[c_k(V|_X, h)]` on `X̄` are closed, and they represent the Chern classes `c_k(V)` in `H^{2k}(X̄, ℝ)`. In particular, for a holomorphic line bundle `L` on a smooth projective curve `X̄` and a metric `h` on `L|_X` good relative to `L`, `∫_X c₁(L|_X, h) = deg L`.
+
+`X̄` is projective. Mumford states the representation of the Chern classes in `H^{2k}(X̄, ℂ)`; the Chern forms are real. The extension `V` is part of the data: by §5.1c a metric is good relative to at most one extension, and the conclusion concerns that one.
+
+Provide the following maps and identities.
+
+- `c_k(V|_X, h)` is a good form on `X` for every `k`.
+- `[c_k(V|_X, h)]` is a closed current on `X̄` representing `c_k(V)`.
+- On a curve, `∫_X c₁(L|_X, h) = deg L` for a line bundle `L` and a metric on `L|_X` good relative to `L`.
+
+Mumford's argument: the curvature matrix `∂̄θ` of a good metric (`θ = H^{−1}∂H` the connection matrix of §5.1c) has Poincaré growth, and so does `d(∂̄θ) = d(θ ∧ θ)` (as `∂θ = −θ ∧ θ`), so the Chern forms are good (§5.1b). Compare with a smooth metric `h₀` on `V` over `X̄` through the transgression form `T` of CharacteristicClasses §4.1, which is a good form on `X` because the difference of the connections has Poincaré growth; then `c_k(V|_X, h) − c_k(V, h₀) = dT` holds as currents on `X̄` by §5.1b, and CharacteristicClasses §4.2 identifies the Chern forms of `h₀` with `c_k(V)`.
+
+The source identification is Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Theorem 1.4, pp. 242–243.
+
+*Needs:* §5.1a; §5.1b; §5.1c; **CharacteristicClasses** §§4.1–4.2 (Chern–Weil forms and their transgression; the Chern forms and their comparison with the Chern classes); **ComplexComparisonPartII** §C5.4 (`CurrentCalculus`).
+
+**Checks.**
+
+- On a compact Riemann surface `C` with a point `p` and a coordinate `z` at `p`, let `h` be a smooth metric on `O(p)|_{C∖p}` equal to `|e|² = −log|z|` near `p`, `e = 1/z` the frame of `O(p)`. It is good relative to `O(p)`, and `∫_{C∖p} c₁(O(p)|_{C∖p}, h) = 1 = deg O(p)`. The same bundle on `C ∖ p` also extends as `O`, with frame `1 = z·e` and `|1|² = −|z|²log|z|`, which violates §5.1c (i); the degree `0` of `O` is not the integral of the curvature. A Chern–Weil statement that did not fix the extension would be false.
 
 ### 5.2 Heights for metrics with logarithmic singularities
 
@@ -1545,7 +2172,7 @@ At `q=0, −log|q|` and its square root satisfy logarithmic bounds, whereas `|q|
 
 ### Dependencies
 
-Layers 1–3; AbelianSchemesAndArithmeticModuli A3/A5; Tau Ceti’s absolute and Euclidean heights; ComplexComparisonPartII §§C−1.1, C0.4 and C5.1; SchemeAndStackFoundations §4.17; PELModuli §§M3.9 and M6.3–M6.10; §§5.0a–5.0b; Mathlib modular discriminant.
+Layers 1–3; AbelianSchemesAndArithmeticModuli A3/A5; Tau Ceti’s absolute and Euclidean heights; ComplexComparisonPartII §§C−1.1, C0.4, C5.1 and C5.4; ComplexKahlerGeometry Layer 3 and §§4.1–4.2 and CharacteristicClasses §§4.1–4.2 (§§5.1a–5.1d); SchemeAndStackFoundations §4.17; PELModuli §§M3.9 and M6.3–M6.10; §§5.0a–5.0b; Mathlib modular discriminant.
 
 ## Layer 6: Finiteness and uniform height bounds
 
@@ -1702,6 +2329,8 @@ Layers 3–5; AbelianSchemesAndArithmeticModuli A2/A3/A6; NeronModelsAndSemistab
 
 FaltingsFinitenessAndIsogenyTheorems, Layers R28.1–R28.2, imports the metric, relative and stable heights, logarithmic Northcott comparison, modular-height identity, isogeny formula and denominator bounds. Its global determinant and descent arguments use these results through §6.6. The local terms along divisible towers are the height side of that argument, not a substitute for its Hodge–Tate input.
 
+FaltingsFinitenessAndIsogenyTheoremsPartII takes from Layers 1A–1B the slope inputs of Bost's proof of the period theorem: the attained maximal slope with the bound `−h_Ē(x) ≤ μ^_{n,max}(Ē)` and the rescaling of the metric (§1A.3), the morphism inequality `μ^_{n,min}(Ē) ≤ μ^_{n,max}(F̄) + h(φ)` with `μ^_{n,min}(Ē) = −μ^_{n,max}(Ē^∨)` (§§1A.4–1A.5), and the invariance of the maximal slope under finite extension (§1B.5).
+
 ShimuraCompactifications imports the semi-abelian family predicate and the homomorphism extension theorem of §2.0 and the principal Siegel compactifications of §§5.0a–5.0b, extends them to general degeneration and PEL data, and proves agreement on the principal Siegel case.
 
 GrossZagierAndArithmeticHeights uses the hermitian degree and arithmetic-divisor pairing, including proper cycles inside a non-proper arithmetic scheme. HilbertModularVarietiesAndShimuraCurves uses the metrized arithmetic Hodge line. CM height developments use the Deligne normalization, the hermitian dual pairing and the integral component-line convention. Period and isogeny bounds use the metric dictionary and degree estimates; uniform Bogomolov applications use the stable height of a Jacobian, whose determinant metric is identified in Szpiro, Lemma 3.2.1, p. 26, and Yuan, Lemma 3.4, pp. 43–44.
@@ -1719,7 +2348,7 @@ The hermitian bundles, arithmetic divisors and metrized heights of §§1.1–1.1
 
 ## Scope and ownership
 
-This roadmap owns hermitian metrics on arithmetic bundles and their degree, the arithmetic divisor/Green-function enhancement of ordinary divisors and Picard groups, and the comparison between metrized degree and ordinary point heights. It owns the Faltings metric, its normalization adapters, relative and stable Faltings heights, isogeny differents and their height identities, logarithmic growth of the Hodge metric, the metrized modular line, theta heights, and the arithmetic height identity for Zarhin’s product. **PadicDifferentialEquationsAndRigidCohomology** §RD.5.116 supplies its principal polarization and dimension formula.
+This roadmap owns hermitian metrics on arithmetic bundles, their degree, the heights of linear maps between them, their slopes, maximal and minimal slopes and Harder–Narasimhan filtration, and Bost's slope inequality, the arithmetic divisor/Green-function enhancement of ordinary divisors and Picard groups, and the comparison between metrized degree and ordinary point heights. It owns the Faltings metric, its normalization adapters, relative and stable Faltings heights, isogeny differents and their height identities, logarithmic growth of the Hodge metric, Mumford's good metrics along a normal crossings divisor and their Chern forms, the metrized modular line, theta heights, and the arithmetic height identity for Zarhin’s product. **PadicDifferentialEquationsAndRigidCohomology** §RD.5.116 supplies its principal polarization and dimension formula.
 
 Ordinary finite locally free bundles are Tau Ceti’s `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf`, and so are their tensor products, duals, symmetric and exterior powers and determinant `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.det`, with their pullback and affine comparisons; this roadmap equips these objects with hermitian metrics. Tau Ceti’s `ZLattice.covolume_sq_eq_det_gram` supplies the generic Gram-determinant calculation, while **DifferentialGeometry**, Layers 0–2 and §5.2, supplies differential forms, wedge products, orientation and integration. The complex period specialization and its arithmetic normalization are the work here.
 
@@ -1753,9 +2382,13 @@ Tau Ceti’s module `TauCeti.AlgebraicGeometry.VectorBundle.FiniteLocallyFree` s
 
 For a finite projective `O_K`-module `P` of rank `r`, `detIsoDeterminant` and `tildeExteriorPowerIso` identify the determinant of the associated sheaf on `Spec O_K` with the sheaf associated with `⋀^r P`: this is how the determinant of a Hodge bundle over `Spec O_K` is the module-level determinant of §1.2.
 
+Mathlib’s `SymmetricPower` and Tau Ceti’s module-level symmetric powers supply the symmetric powers of finite projective `O_K`-modules of §1.2a: `SymmetricPower.map` with `map_id` and `map_comp`, `Module.Basis.symmetricPower`, `SymmetricPower.free`, `SymmetricPower.finrank_eq`, the symmetrisation `SymmetricPower.toTensorPower` with `SymmetricPower.mk_comp_toTensorPower`, `SymmetricPower.toTensorPower_comp_map` and `SymmetricPower.toTensorPower_injective`, and `RingHom.extendScalarsSymmetricPowerIso`. The quotient metrics are the work here.
+
 Tau Ceti’s module `TauCeti.Algebra.Module.ZLattice.Covolume` supplies `ZLattice.covolume_sq_eq_det_gram` for a full discrete lattice in a finite-dimensional real inner-product space with its canonical volume; Mathlib’s `ZLattice.covolume_eq_det_mul_measureReal` supplies the determinant/measure formula. These are the generic covolume results used in §2.2, including the empty basis.
 
 **DifferentialGeometry** Layers 0–2 and §5.2 supplies `SmoothForm`, wedge products, complex-valued forms, orientations and `integralTopForm`, with chartwise change of variables. Section 2.3 specializes this integration theory to finite holomorphic coverings. **ComplexComparisonPartII** §C−1.1 supplies `complexSchemeAnalytification`, its complex points, smooth manifold charts and properness comparison; §C0.4 supplies `CoherentAnalytification`, and §C5.1 supplies the algebraic/analytic differential-form comparison. The new ingredients here are the hermitian metrics and period normalizations.
+
+**ComplexComparisonPartII** §C5.4 supplies `CurrentCalculus`, the currents of §§5.1a–5.1d and the extension by zero of a locally integrable form. **ComplexKahlerGeometry** Layer 3 (analytic hypersurfaces; §3.5, the Riemann extension theorem) and §§4.1–4.2 (holomorphic bundles and their Chern connections) supply the complex-analytic inputs of §§5.1a–5.1c, and **CharacteristicClasses** §§4.1–4.2 (C4.1–C4.2) supplies the Chern–Weil forms, their transgression and the comparison of the Chern forms with the Chern classes used in §5.1d. Poincaré growth, good forms, good metrics and the theorem of §5.1d are the work here.
 
 ### From Tau Ceti: divisors, heights, cycles, minimal discriminants and local duality
 
@@ -1770,6 +2403,14 @@ The module `TauCeti.AlgebraicGeometry.Chow.Basic` supplies, for every scheme `X`
 The module `TauCeti.AlgebraicGeometry.EllipticCurve.MinimalModel.DiscriminantIdeal` supplies `WeierstrassCurve.minimalDiscriminantIdeal O W` for a Dedekind domain `O` with fraction field `K` and an elliptic Weierstrass curve `W` over `K`: the finite product over the height-one primes `𝔭` of `O` of `𝔭^(v_𝔭(Δ_min,𝔭))`, where the exponent `WeierstrassCurve.localMinimalDiscriminantValuation` is the valuation of the discriminant of a `𝔭`-minimal equation; it is invariant under change of variables (`WeierstrassCurve.minimalDiscriminantIdeal_smul`). Section 2.9 uses it with the scaling rule `WeierstrassCurve.variableChange_Δ` of Mathlib.
 
 The module `TauCeti.NumberTheory.ClassFieldTheory.FiniteCohomology.DegreeTwo` supplies `TauCeti.ClassFieldTheory.finite_H`: over a nonarchimedean local field `F`, for `n` invertible in `F` and a finite smooth discrete `ℤ/n`-Galois module `A`, `Hⁱ(F, A)` is finite for `i ≤ 2`. The module `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.Perfect` supplies `TauCeti.ClassFieldTheory.tateDualityPairing_perfect_mixed`: for `F` of characteristic zero, `n ≠ 0`, such an `A` and a chosen identification `H²(F, μ_n) ≅ ℤ/n`, the pairing `Hⁱ(F, A^∨) × H^j(F, A) → ℤ/n` is perfect for `i + j = 2`. The module `TauCeti.NumberTheory.ClassFieldTheory.Local.EulerCharacteristic.Theorem` supplies `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`: for `F` a finite extension of `ℚ_p` and such an `A`, `#H¹(F, A) = #H⁰(F, A)·#H²(F, A)·p^([F:ℚ_p]·v_p(#A))`. These are the finite-module inputs of §4.3.
+
+### From adelic heights of subspaces and Gram determinants
+
+**DiophantineApproximationAndTranscendence** §§2.5–2.5a supplies the adelic heights `H_Ξ` of vectors and subspaces of `K^r` for `Ξ ∈ GL_r(𝔸_K)` integral and invertible at almost every finite place (Euclidean norms at the infinite places and max norms at the finite places, normalised by `[K:ℚ]`, the subspace height through the induced exterior powers), the dual-height identity `H_Ξ(U) = |det Ξ|_𝔸·H_{Ξ^{−t}}(U^⊥)`, the determinant `det(Sym^m Ξ) = (det Ξ)^binom(m+r−1, r)`, the conjugate Cauchy–Binet identity, and Tau Ceti’s `Submodule.subspaceHeight` and `Submodule.relativeSubspaceArakelovHeight`. Sections 1.5b, 1.6a and 1A.1 read them as degrees of sub-bundles and heights of vectors. **SuccessiveMinima** §0.1 supplies the Hadamard inequality `orthonormal_coordinate_hadamard` used in §1A.2. **DiophantineApproximationAndTranscendence** §§2.5b–2.5c supply the submodularity `H_Ξ(V + W)·H_Ξ(V ∩ W) ≤ H_Ξ(V)·H_Ξ(W)` of the adelic subspace heights and their Northcott property (a real `c(Ξ)` with `H_Ξ(V) ≥ exp(−c(Ξ)·dim V)` for every `K`-subspace `V`, and, for every `B`, finitely many `V` with `H_Ξ(V) ≤ B`); Sections 1A.3 and 1B.1 read them through §1.5b as the supermodularity of the degree on sub-bundles and the finiteness of sub-bundles of large degree.
+
+### From Galois descent of subspaces
+
+**ArithmeticGaloisRepresentations** §7.7, Galois descent of subspaces: for a Galois extension `k′/k` and a subspace `W′ ⊆ V ⊗ k′` stable under `1 ⊗ Gal(k′/k)`, `W′ = (W′ ∩ V) ⊗ k′`. Section 1B.5 uses it for finite Galois extensions of number fields.
 
 ### From schemes, stacks and ordinary heights
 
@@ -1863,6 +2504,15 @@ Page numbers below are printed page numbers for published scans and page numbers
 - Lucien Szpiro. [Degrés, intersections, hauteurs](https://www.numdam.org/item/AST_1985__127__11_0/). Astérisque 127 (1985), exposé I, 11–28.
 - Henri Gillet and Christophe Soulé. [Arithmetic intersection theory](https://www.numdam.org/item/PMIHES_1990__72__93_0/). Publ. Math. IHÉS 72 (1990), 93–174.
 - Jean-Benoît Bost. [Périodes et isogénies des variétés abéliennes sur les corps de nombres (d'après D. Masser et G. Wüstholz)](https://www.numdam.org/item/SB_1994-1995__37__115_0/). Séminaire Bourbaki exp. 795 (1994/95), Astérisque 237 (1996), 115–161.
+- Jean-Benoît Bost. [Algebraic leaves of algebraic foliations over number fields](https://www.numdam.org/item/PMIHES_2001__93__161_0/). Publ. Math. IHÉS 93 (2001), 161–221.
+- Éric Gaudron. [Pentes des fibrés vectoriels adéliques sur un corps global](https://www.numdam.org/item/RSMUP_2008__119__21_0/). Rend. Sem. Mat. Univ. Padova 119 (2008), 21–95.
+- Éric Gaudron and Gaël Rémond. [Minima, pentes et algèbre tensorielle](https://arxiv.org/abs/1109.2812v1). Israel J. Math. 195 (2013), 565–591; arXiv:1109.2812v1.
+- Damien Roy and Jeffrey Lin Thunder. [An absolute Siegel's lemma](https://doi.org/10.1515/crll.1996.476.1). J. reine angew. Math. 476 (1996), 1–26; addendum and erratum, J. reine angew. Math. 508 (1999), 47–51.
+- David Mumford. [Hirzebruch's proportionality theorem in the non-compact case](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0042/LOG_0014.pdf). Invent. Math. 42 (1977), 239–272 (GDZ scan).
+- Huayi Chen. [Convergence des polygones de Harder–Narasimhan](https://arxiv.org/abs/0706.2649v1). Mém. Soc. Math. Fr. (N.S.) 120 (2010), 112 pp.; cited in the numbering of its preprint, Convergence of Harder–Narasimhan polygons, arXiv:0706.2649v1.
+- Ulrich Stuhler. [Eine Bemerkung zur Reduktionstheorie quadratischer Formen](https://doi.org/10.1007/BF01224726). Arch. Math. (Basel) 27 (1976), 604–610.
+- Daniel R. Grayson. [Reduction theory using semistability](https://doi.org/10.1007/BF02566369). Comment. Math. Helv. 59 (1984), 600–634.
+- Huayi Chen and Atsushi Moriwaki. [Arakelov geometry over adelic curves](https://arxiv.org/abs/1903.10798v1). Lecture Notes in Mathematics 2258, Springer, Singapore, 2020; cited in the numbering of arXiv:1903.10798v1.
 - Laurent Moret-Bailly. [Pinceaux de variétés abéliennes](https://www.numdam.org/item/AST_1985__129__1_0/). Astérisque 129 (1985).
 - Éric Gaudron and Gaël Rémond. [Théorème des périodes et degrés minimaux d'isogénies](https://arxiv.org/abs/1105.1230v1). Comment. Math. Helv. 89 (2014), 343–403; arXiv:1105.1230v1.
 - Éric Gaudron and Gaël Rémond. [Polarisations et isogénies](https://lmbp.uca.fr/~gaudron/art13.pdf). Duke Math. J. 163 (2014), 2057–2108 (author copy).

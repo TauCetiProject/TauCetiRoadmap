@@ -36,7 +36,11 @@ which supplies the Riesz remainder of a primitive character and the Riesz-sum id
 group, of which 1.2 is the instance for an abelian host; on
 [RieszSumsOverPrimesAndExceptionalZeros](../RieszSumsOverPrimesAndExceptionalZeros/README.md) for the Lipschitz and
 size bounds of the remainders and the prime number theorem with the exceptional term; and on Mathlib's Galois theory of
-cyclotomic fields, its Dirichlet characters and Behrend's construction. In the family
+cyclotomic fields, its Dirichlet characters and Behrend's construction. The statements of 0.2 on the group of characters
+of the host and the bound of 1.4 (b) for the characters `χ ≠ 1` are corollaries of general theorems stated in
+[QuasiRiemannHypothesis](../../QuasiRiemannHypothesis/README.md) §5.4 (the characters of an abelian field) and
+[AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §1.4e (the prime number theorem for a primitive
+Dirichlet character with the term of an exceptional zero). In the family
 [RiemannHypothesisForDirichletLFunctions](../README.md) the hosts, the tops, the thick sets and the implication 1.9 are
 the analytic frame of the chain of theta lifts, whose output is the Frobenius-restricted inequality.
 
@@ -115,6 +119,20 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and `*Method of the formal proof:*`
+how [FormalProof] proves it. The sections of definitions 0.1, 0.3, 0.5, 0.6 and 0.9, with the facts stated in them, carry
+the first label only. [FormalProof] has the statement of 1.5 only at the instance used in 1.7. The statement 0.1 (iv) and
+the dyadic host fields of 0.4 for a general `(M, Q)` are this roadmap's own formulations.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced from
+it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in full:
+the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement when
+that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 0: Abelian CM hosts and their Frobenius data
 
 The host is a finite abelian extension of `ℚ` with an imaginary quadratic subfield `K`; such a field is a CM field, and
@@ -133,6 +151,8 @@ bound inert in `K`, and give hosts with the splitting condition from a layer of 
 valuations on.
 
 ### 0.1 Abelian CM hosts
+
+*Origin:* definitions and conventions.
 
 *Definition.* An *abelian CM host* is a number field `E`, Galois over `ℚ` with abelian
 group `G = Gal(E/ℚ)`, together with an imaginary quadratic subfield `K ⊂ E` and an embedding `ι₀ : E ↪ ℂ`. Its
@@ -166,13 +186,30 @@ Hilbert reciprocity gives `(−1)^f = 1`.
 - (iii) is the case `E₀ = K`, `Φ₀ = {ι₀|_K}` of the CM type induced from a CM subalgebra in ShimuraVarieties §5.1
   (`CMType`): `φ` lies in the induced type iff `φ|_K = ι₀|_K`.
 
-*KNOWN* (elementary; Hilbert reciprocity; (iv) is this roadmap's own, not a statement of [FormalProof]).
+*Sources:* (elementary; Hilbert reciprocity; (iv) is this roadmap's own, not a statement of [FormalProof]).
 *Needs:* Mathlib `NumberField.IsCMField`,
 `NumberField.IsCMField.of_isAbelianGalois`; ClassFieldTheory Layer 7 (`mem_inertiaSubgroup_of_mk_eq_artinMap`,
 `ker_artinMap_eq_iInf`: units are norms from unramified extensions), Layer 14 (`hilbertProductFormula`,
 `TauCeti.hilbertSymbol_productFormula`).
 
 ### 0.2 Frobenius cosets and the primitive character of a character of the host
+
+*Origin:* adapted from Washington, *Introduction to Cyclotomic Fields*, chapters 3 and 14: the theorem of Kronecker and
+Weber with conductor and the characters of an abelian field as primitive Dirichlet characters; here with the inertia
+groups and Frobenius cosets at every prime power, ramified primes included, read through the Artin map of a cyclotomic
+field, and the value of `χ*` at a prime power as the mean of `χ` over its Frobenius coset.
+
+*Method of the formal proof:* the host is given inside a cyclotomic field `ℚ(ζ_N)` with its Artin map; for a prime over
+`p` and `N = p^v N′`, `ζ_N^a ≡ ζ_N^b` modulo the prime exactly when `a ≡ b (mod N′)`, which identifies the inertia group
+with the units `≡ 1 (mod N′)` and the Frobenius coset of `p^i` with the units `≡ p^i (mod N′)`. A character trivial on
+inertia factors through level `N′`, and its mean over the Frobenius coset of `p^i` is the value of the primitive character;
+otherwise both the mean and the value vanish. The route written here reads the inertia groups and the Frobenius cosets
+instead from the factorisation `ℚ(ζ_N) = ℚ(ζ_{p^v})ℚ(ζ_{N′})`.
+
+*Corollary of:* QuasiRiemannHypothesis §5.4 (the group `X(E)` of primitive characters of an abelian field `E`: the
+passage from a character of `Gal(E/ℚ)` to its primitive character is injective, multiplicative and independent of the
+level, with image `X(E)`), for the independence of `χ*` from `N` in (i), the injectivity and multiplicativity in (iv),
+and (v).
 
 *Definitions.* Let `E/ℚ` be a finite abelian extension with group `G` (for
 instance the field of an abelian CM host), `f_E` its conductor, and `N ≥ 1` with `E ⊂ ℚ(ζ_N)`. The *Artin map* is
@@ -231,7 +268,7 @@ conductor of every `χ*` in (iv) (ClassFieldTheory Layer 13, `abelianConductor_e
   `Fr(p^i) = {σ_p^i}` and `χ*(p) = χ(σ_p)`. By (v) the characters of `G` are the four primitive characters of
   conductor dividing `5`; `χ₋₄` is not one of them, as `ℚ(i) ⊄ ℚ(ζ₅)`.
 
-*KNOWN* (Kronecker–Weber with conductor: Washington, *Introduction to Cyclotomic Fields*, ch. 14; characters of
+*Sources:* (Kronecker–Weber with conductor: Washington, *Introduction to Cyclotomic Fields*, ch. 14; characters of
 abelian fields: ibid., ch. 3; (ii), (iii): [FormalProof],
 `Development/AutomorphicArithmetic/PrimitiveCosets/PrimRead.lean` (`UpperTheory.Comparison₂.prim_read`)).
 *Needs:* 0.1; ClassFieldTheory Layer 13 (`kroneckerWeber`, `abelianConductor_eq_lcm`);
@@ -241,6 +278,8 @@ AnalyticNumberTheoryPartI §§0.30, 2.18a; Mathlib `IsCyclotomicExtension.Rat.ga
 `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`, `DirichletCharacter.primitiveCharacter`.
 
 ### 0.3 Split ramification, inert-free hosts and host splitting
+
+*Origin:* definitions and conventions.
 
 *Definitions.* For an abelian CM host and a prime `d`, `SplitRamification d` holds when every prime `p ≠ d` ramified in
 `E` splits in `K`, and `I_d` has order `2` and is not contained in `Φ`; its nontrivial element is written `σ_d`.
@@ -285,11 +324,24 @@ decomposition group of `E/F` at a place above `p` is `D_p ∩ {1, c}`. Under `Sp
 - `E = K = ℚ(i)` satisfies `SplitRamification 2` (`I_2 = G = {1, c}`, `c ∉ Φ = {1}`), and `σ_2 = c`: `E/F` is
   ramified at `2`, as (c) says. It is inert-free up to `2` but not up to `3` (`3` is inert in `ℚ(i)`).
 
-*KNOWN* (elementary; the definitions: [FormalProof],
+*Sources:* (elementary; the definitions: [FormalProof],
 `Development/AutomorphicArithmetic/DedekindLFunctions/SplitInertia.lean` (`Deduction.CH.HostFactsS`)).
 *Needs:* 0.1, 0.2; AnalyticNumberTheoryPartI §0.34a.
 
 ### 0.4 Dyadic host fields and cyclic hosts
+
+*Origin:* particular to this proof: the cyclic hosts, composita of the field of `ψ`, of `ℚ(√−q)` and `ℚ(√−d)` and of a
+layer of the cyclotomic `ℤ₂`-extension; their properties follow from the Galois theory of cyclotomic fields and quadratic
+reciprocity. The dyadic host fields `E_n(M, Q)` for a general `(M, Q)`, with (a)–(g), and the cyclic hosts in the wider
+classes stated after (vi) are this roadmap's own formulation.
+
+*Method of the formal proof:* with `N = lcm(2^{n+2}, f_ψ)·q·d`, an explicit homomorphism from `(ℤ/N)^×` onto a model
+group `(ℤ/2)² × A` is written down (Jacobi symbols modulo `q` and `d`; the class modulo `±1` in `(ℤ/2^{n+2})^×` together
+with the values of the powers of `ψ`), the host field is the fixed field of its kernel in `ℚ(ζ_N)`, and all its arithmetic
+is read off from this map: Frobenius, inertia and decomposition groups are classes modulo the part of `N` prime to the
+prime, the small primes split in `K` because `−d` is a square modulo `lcm(2^{n+2}, f_ψ)·q`, and `c ∉ D_d` because the sign
+at `q` forces an odd power of Frobenius while `d^k ≡ 7 (mod 16)` for odd `k`. The route written here goes instead through
+the characters of `G`, their conductors and composita.
 
 *Definition (dyadic host fields).* Let `M` be a finite abelian extension of `ℚ` with
 conductor `f_M`, `Q` a finite set of primes with `q ≡ 3 (mod 4)` and `q ∤ 2f_M` for every `q ∈ Q`, and `n ≥ 0`. Put
@@ -411,7 +463,7 @@ so `φ^k` is nontrivial on `ℚ_n` for odd `k`. The other primes dividing `f_E` 
   from `n = 3 = v₂(32) − 2` on.
 - (iv) on the first host: `|G| = 16 = 4·|A|`, and the four elements `1, c, σ_d, cσ_d` represent `G/A`.
 
-*KNOWN* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
+*Sources:* (Galois theory of cyclotomic fields; quadratic reciprocity; the dyadic host fields `E_n(M, Q)` for a general
 `(M, Q)` and their API (a)–(f) are this roadmap's own, not statements of [FormalProof], and so is (g), elementary, for
 every `(M, Q)`; the cyclic hosts: [FormalProof],
 `Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean` (`UpperTheory.Top.IsChiField`),
@@ -425,6 +477,8 @@ Multiquadratic Layer 1; Mathlib `IsCyclotomicExtension`,
 `jacobiSym.at_two`, `jacobiSym.at_neg_one`, `IsCyclotomicExtension.Rat.mem_intermediateFieldEquivSubgroupChar_iff_conductor_dvd`.
 
 ### 0.5 The cyclic family and the kept characters
+
+*Origin:* definitions and conventions.
 
 *Definition.* The *cyclic family* `𝒦(ψ)` of a primitive Dirichlet
 character `ψ` of order `o` is the finite set of primitive Dirichlet characters inducing the powers `ψ^l`,
@@ -457,7 +511,7 @@ gives triviality on `σ_d`; 0.2 (iv) (injectivity) identifies the kept character
 - Triviality on `σ_d` does not single out the kept characters: `ψ^l χ_{−q}` is trivial on `σ_d` as well, but it is
   ramified at `q`.
 
-*KNOWN* (elementary; [FormalProof],
+*Sources:* (elementary; [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
 (`Formalism.HC.Level.cyc`, `Formalism.HC.Level.ofSub`),
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean` (`Formalism.HC.HostRaw.Bounded`); (iii)
@@ -468,6 +522,8 @@ follows from [FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/C
 `DirichletCharacter.primitiveCharacter`.
 
 ### 0.6 The partner map, tops, thick places and letters
+
+*Origin:* definitions and conventions.
 
 *Definitions.* (a) For an abelian CM host and `τ ∈ Φ`, the *partner map* is
 `par_τ : G ∖ Φ → Φ`, `g ↦ cgτ`. (b) For a host of 0.4: a set of *tops* is a set `Φ_top ⊂ A`, its elements viewed
@@ -513,11 +569,22 @@ and `g_A ∈ u₀𝒯`. `φ ∉ Φ` means `ε(φ) ∈ {c, σ_d}`, and `(yφ^i)_A
   For `ε(φ) = c` and `h = s′s^{−1}` with `s ≠ s′` in `𝒯`, the letters `y = cσ_du₀s` and `yφ` are both thick
   (`pl(yφ) = cσ_du₀s′`), so consecutive thick letters occur at primes inert in `K` and in `ℚ(√−q)`.
 
-*KNOWN* (definitions; (c): [FormalProof],
+*Sources:* (definitions; (c): [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ZsmulGeneratorEqZeroOfProjection.lean`
 (`Formalism.HC.Frame.placeOf`)). *Needs:* 0.1, 0.3, 0.4; Multiquadratic Layer 1.
 
 ### 0.7 Tops with a prescribed coset law
+
+*Origin:* adapted from the probabilistic method (independent selection, with Chebyshev's and Markov's inequalities): a
+subset with prescribed shares on the cosets of a subgroup and a weighted count of bad elements.
+
+*Method of the formal proof:* for the profile `ω = 1` on `A₀` and `ω = 3/4` on the other cosets, the selection is written
+as a finite sum over all subsets of `A` with the weights of independent selection; the variance identity for these weights
+bounds the mean of the sum over the cosets of the squared deviations of the coset counts, and an exchange of sums bounds
+the mean of the weighted count of bad events. One functional, the sum of these two quantities each divided by a multiple
+of its bound, has mean at most `1`, and at a subset at which it is at most its mean each of the two quantities is at most
+that multiple of its bound, which gives the existence of the subset. The route written here intersects instead the
+events given by Chebyshev's and Markov's inequalities, with a union bound over the cosets.
 
 *Definition.* Let `A` be a finite abelian group and `A₀ ⊂ A` a subgroup of
 index `o`. A *coset law* is a probability `ν` on `A/A₀`; it is *symmetric* if `ν(αA₀) = ν(α^{−1}A₀)`. A set `S ⊂ A`
@@ -558,11 +625,21 @@ once to this weighted sum, bounds it by `4p_bad·n_top·Σ_i λ_i` with probabil
 - For `o > 1` the coset law `ν = δ_{A₀}` (all tops in `A₀`) is not of this form: `ω₀ > 0` is required, and with it the
   selection charges every coset. For `o = 1` there is one coset, and every profile gives `ν = δ_{A₀}`.
 
-*KNOWN* in kind (Bernoulli selection; Chebyshev and Markov inequalities). *Needs:* Mathlib
+*Sources:* (Bernoulli selection; Chebyshev and Markov inequalities). *Needs:* Mathlib
 `ProbabilityTheory.IndepFun.variance_sum`, `ProbabilityTheory.meas_ge_le_variance_div_sq`,
 `MeasureTheory.mul_meas_ge_le_integral_of_nonneg`, `MeasureTheory.Measure.pi`, `PMF.bernoulli`.
 
 ### 0.8 Sets with no relation of length `L`
+
+*Origin:* adapted from Behrend (1946), large sets of integers without three-term arithmetic progressions, and Ruzsa (1993),
+sets without solutions of invariant linear equations: all relations `j(s₂ − s₁) = i(s₃ − s₁)` with `i ≠ j` and
+`0 < |i|, |j| ≤ L` are excluded at once, with a bound uniform in `L`.
+
+*Method of the formal proof:* the points of a largest sphere in `{0, …, D_B − 1}^{r_B}` are written as integers in base
+`4LD_B`; in a relation among three of them every digit combination is smaller than the base in absolute value, so the
+relation holds coordinate by coordinate, and three points `v₁, v₂, v₃` of one sphere cannot satisfy it, since the equal
+sums of squares give `i(i − j)·‖v₃ − v₁‖² = 0`. This is Behrend's construction for three-term progressions with the base
+enlarged from `2D_B − 1` to `4LD_B`, so that all relations with coefficients up to `L` are excluded at once.
 
 *Definition.* For an integer `L ≥ 2`, a set `T ⊂ ℤ` has *no relation of length `L`* if
 there are no pairwise distinct `s₁, s₂, s₃ ∈ T` and integers `i ≠ j` with `0 < |i|, |j| ≤ L` and
@@ -596,7 +673,7 @@ cost of a factor `2`.
 - The bound `|T| ≥ M^{1−o(1)}` (for `log L = o(log M)`) is the density a thick set needs; a random subset of
   `[0, M/(4L))` of that size contains about `|T|³L/M` three-term progressions, far more than one.
 
-*KNOWN* in kind (Behrend 1946 for progressions; Ruzsa 1993 for invariant linear equations; the bound uniform in `L`
+*Sources:* (Behrend 1946 for progressions; Ruzsa 1993 for invariant linear equations; the bound uniform in `L`
 is not a quotation of either; the predicate: [FormalProof], `Formalism/FrobeniusOrbits/HostThickExists.lean`
 (`Formalism.FrobeniusOrbits.NoRel`); the theorem: [FormalProof], `Formalism/FrobeniusOrbits/HostThickExists.lean`
 (`Formalism.FrobeniusOrbits.HostThickExists`), proved in `Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean`
@@ -604,6 +681,14 @@ is not a quotation of either; the predicate: [FormalProof], `Formalism/Frobenius
 `Behrend.exists_large_sphere`, `Behrend.threeAPFree_sphere`, `ThreeAPFree`, `norm_combo_lt_of_ne`.
 
 ### 0.8a Thick sets
+
+*Origin:* adapted from Behrend (1946): the set of 0.8 is carried into a cyclic subgroup, where any `L` consecutive points
+of an orbit contain at most two points of a translate of it.
+
+*Method of the formal proof:* three points of the translate among `L` consecutive points of an orbit give, on eliminating
+the step, a congruence `(i₃ − i₁)(s₂ − s₁) ≡ (i₂ − i₁)(s₃ − s₁)` modulo the order `M` of the cyclic subgroup; both sides
+are smaller than `M/4` in absolute value, so it is an equality of integers, a relation of length `L`. For a step `h` with
+`ord h ≤ 4L`, two points give `M | ord(h)·(s − s′)`, against `0 < |s − s′| < M/(4L)`.
 
 *Definition.* Let `A` be an abelian group containing a cyclic subgroup `A₀` of order `M ≥ 2`
 with generator `α₀`, and `L ≥ 2`. A *thick set of length `L`* is `𝒯 = {α₀^s : s ∈ T}` for a set `T` as in the theorem
@@ -625,11 +710,18 @@ sides of absolute value `< L·M/(4L) = M/4`, hence equality in `ℤ`; the `s_k` 
 - (b) uses the diameter bound `M/(4L)`: for `T` spread over all of `[0, M)`, two of its points may lie in one coset
   of a subgroup of order `≤ 4L`.
 
-*KNOWN* in kind (consequences of 0.8; (a) and (b) on the cyclic hosts: [FormalProof],
+*Sources:* (consequences of 0.8; (a) and (b) on the cyclic hosts: [FormalProof],
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/FrameFacts.lean` (`Formalism.HC.Frame.hostThickOrbit`)).
 *Needs:* 0.4, 0.8.
 
 ### 0.8b Marks along Frobenius orbits and the cluster property
+
+*Origin:* particular to this proof: the positions of the thick letters along a Frobenius orbit and their cluster property,
+elementary consequences of 0.6 and 0.8a.
+
+*Method of the formal proof:* the letters `yφ^i` of the orbit are read through their components in `A` (0.4 (iv),
+0.6 (v)), and 0.8a (a) is applied on an orbit with `ord h > 4L`, `h = φ_A`: three thick letters among `L` consecutive
+ones would give three points of `u₀𝒯` among `L` consecutive points of an orbit in `A`.
 
 *Definition.* For a set of
 *marked* positions in `ℤ/N` (a cyclic word, `N ≥ 1`) and an integer `j′ ≥ 1` with `2j′ < N`, the marks have the
@@ -672,12 +764,14 @@ unmarked; for `ε(φ) = c` and `φ ≠ c` (so `h ≠ 1`), (c) applies with `ord 
 - For `φ = c` (a prime `ℓ` with `Frob_ℓ = c`) and a thick place `τ`, the orbit `{τ, cτ}` consists of two thick
   letters: the case "every letter thick" occurs, and only there.
 
-*KNOWN* in kind (consequences of 0.6 and 0.8a; the bound of (c) for `ord h > 4L`, at most two marks among `L`
+*Sources:* (consequences of 0.6 and 0.8a; the bound of (c) for `ord h > 4L`, at most two marks among `L`
 consecutive positions, for the marks of (d) at every `φ ∈ G`: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/SatakeParameters/AtMostTwoThickInWindowLongOrbit.lean`
 (`GlobalTheory.HTW.LongWindow.main`)). *Needs:* 0.4, 0.6, 0.8a.
 
 ### 0.9 Admissible auxiliary pairs
+
+*Origin:* definitions and conventions.
 
 *Definition.* For real `B ≥ 3` and an integer `a ≥ 3`, a *`(B, a)`-admissible pair* is a pair of
 primes `(q, d)` with `q ≡ 3 (mod 4)`, `d ≡ 7 (mod 8)`, `v₂(q + 1) ≤ a` and `v₂(d + 1) ≤ a`, `q | d + 1`, and `p | d + 1` for
@@ -733,7 +827,7 @@ a `B`-admissible pair has `q ≡ 3 (mod 8)` and `d ≡ 7 (mod 16)` by definition
   `(3, 71)` is admissible only for `B < 5`. The pair `(11, 7)` of 0.4's Checks is admissible for no `B` (`11 ∤ 8`),
   and its host is not inert-free up to `3`.
 
-*KNOWN* (Legendre symbols; Bertrand's postulate). *Needs:* 0.3, 0.4; Multiquadratic Layer 1; Mathlib `legendreSym`,
+*Sources:* (Legendre symbols; Bertrand's postulate). *Needs:* 0.3, 0.4; Multiquadratic Layer 1; Mathlib `legendreSym`,
 `Nat.exists_prime_lt_and_le_two_mul`.
 
 ### Examples
@@ -777,6 +871,12 @@ square-root bound at the scale `x` for the weighted sum of the Riesz remainders 
 
 ### 1.1 The Frobenius-restricted Riesz sum and its main term
 
+*Origin:* particular to this proof: a smoothed sum of `log p` over prime powers whose cut-off `a/w` depends on the
+Frobenius class, with its main term.
+
+*Method of the formal proof:* the sum is defined in the form (iv), for hosts with `SplitRamification d`, and the main term
+`𝔐` as defined here.
+
 *Definitions.* For an abelian CM host,
 `a > 0`, `τ ∈ Φ` and `w : Φ → (0, ∞)`, the *Frobenius-restricted Riesz sum* is
 
@@ -813,12 +913,23 @@ then `(a/n − w₀)₊ = w₀(y/n − 1)₊` and the definitions of `G_1`, `G_�
 - At an unramified prime power `n`, `Λ(n)·𝟙[Fr(n) = {h}]` is the coefficient `Λ_{{h}}(n)` of Chebotarev Layer 11.1 for
   `E/ℚ`; Chebotarev has no term at the ramified prime powers, which `ℛ` keeps through the inertia means of 0.2 (iii).
 
-*NEW* (definition; [FormalProof], `Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean`
+*Sources:* (definition; [FormalProof], `Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean`
 (`Formalism.LFunctionChainParameters.characterSumData.ASK`, in the form (iv), and
 `Formalism.LFunctionChainParameters.characterSumData.MAIN`)). *Needs:* 0.2, 0.3, 0.6;
 RiemannHypothesisStatementsAndConsequences §8.4a.
 
 ### 1.2 The difference as an average of Riesz remainders
+
+*Origin:* adapted from Davenport (2000), chapters 19–20, the passage from primes in residue classes to character sums by
+orthogonality, and from Ihara, Murty and Shimura (2009), the first Riesz mean of one character with its constant
+`(L′/L)(1, χ)` (ZerosOfLFunctions §8.6a): here the identity for the Frobenius-restricted sum of an abelian CM host, with
+the prime powers ramified in the host read through the inertia means of 0.2 (iii) and the exact main term.
+
+*Method of the formal proof:* for a host with `SplitRamification d`, the sum is expanded over the characters of the group:
+the indicator of a class is a mean of characters, and the mean of a character over a Frobenius coset is the value of its
+primitive character at the prime power. Each inner sum is `w·G_{χ*}(a/w)` plus an explicit term by the definition of the
+remainder; summed over the classes outside `Φ`, the constants cancel except for the character of `K`, and the partner
+bijection carries the mean of `log w` to `Φ`.
 
 *Definition.* The *character average* is
 
@@ -854,13 +965,29 @@ partner bijection 0.6(i) turns the mean of `log w(par_τ g)` over `G ∖ Φ` int
   contains the odd powers of `3` (`Frob_3 = c`), which 0.2(iii) reads as the indicator of `Frob_3^i = g`; they are terms
   of the left side, not of a ramified correction. With `N = f_E` the primes of `D_f` are exactly the ramified ones.
 
-*KNOWN* in kind (orthogonality of characters, RiemannHypothesisStatementsAndConsequences §8.8a; [FormalProof] for the
+*Sources:* (orthogonality of characters, RiemannHypothesisStatementsAndConsequences §8.8a; [FormalProof] for the
 case of split ramification, `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChBalance.lean`
 (`Deduction.ch_balance`), with `ℭ` the `Formalism.LFunctionChainParameters.characterSumData.De` of the file cited
 in 1.1). *Needs:* 0.2,
 0.6, 1.1; RiemannHypothesisStatementsAndConsequences §§8.4a, 8.8a.
 
 ### 1.4 Cyclic hosts at the thin scales
+
+*Origin:* adapted from Davenport (2000), chapters 19–20 (de la Vallée Poussin, Landau and Page): the prime number theorem
+for Dirichlet characters, uniform in the conductor, with a possible exceptional zero; here for all the characters of a
+cyclic host and their Riesz remainders, the exceptional zeros kept at distance `c_ex` from `1` by the gap `c_ex(ψ)` and the
+thin-scale box hypothesis.
+
+*Method of the formal proof:* a zero-free region for every character of the field (a zero near `1` is a real zero of a
+real character; the real characters of small conductor are finitely many and do not vanish at `1`, the others are covered
+by the box hypothesis), then the truncated explicit formula at height `exp(√(log u))`, with the count of zeros in unit
+windows, bounds `Σ_{n≤u} Λ(n)χ*(n) − 𝟙[χ = 1]·u`, and
+`G_{χ*}(y) = −y·∫_y^∞ (Σ_{n≤u} Λ(n)χ*(n) − 𝟙[χ = 1]·u)/u² du` turns that bound into the saving, with a constant
+depending on `c_ex` (the form (b′) of RieszSumsOverPrimesAndExceptionalZeros §1.4i).
+
+*Corollary of:* AnalyticNumberTheoryPartI §1.4e (the prime number theorem for a primitive nonprincipal Dirichlet
+character, uniform in the conductor, with the term of a possible exceptional zero), for the bound of (b) at the
+characters `χ ≠ 1`.
 
 *Cyclic hosts at the thin scales.* Let `E` be a host of 0.4
 for `ψ`.
@@ -898,20 +1025,30 @@ real zeros in `(1 − c_ex, 1)` that (a) states.
   and `(2/·)(·/3)(·/71)`.
 - AnalyticNumberTheoryPartI §0.34 (`(1 − β) log q ≥ c_LS` for every real zero `β` of every primitive real `L(s, χ)` of
   conductor `q ≥ 3`) gives the conclusion of (b) for every finite abelian `E/ℚ` without the box hypothesis, with another
-  absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the box hypothesis is the one
-  [FormalProof] uses.
+  absolute constant in place of `c₁` and `y₀` depending on `α` alone; the form with the box hypothesis, which assumes no
+  such bound, is the one [FormalProof] uses.
 
-*KNOWN* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
-`Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`),
+*Sources:* (Landau–Page; Davenport, *Multiplicative Number Theory*, ch. 19–20; [FormalProof],
+`Development/AutomorphicArithmetic/CharacterBoxes/PairGood.lean` (`UpperTheory.Top.RealBox`, `UpperTheory.Top.ThinH`),
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean`
 (`Formalism.HC.HostRaw.ChebyshevCharacterBound`); the form at the thin scales:
 `Formalism/SharpRestriction/GlobalSchurBounds/ShortIntervalPrimes.lean`
-(`Formalism.MainNotions.ShortIntervalPrimes.Conclusion6`), from the three statements on zeros
-`Formalism/SharpRestriction/GlobalSchurBounds/MainSup.lean` (`Formalism.MainNotions.LitThin`)).
+(`Formalism.MainNotions.ShortIntervalPrimes.PropTwoSixThinScales`, for a family
+`Formalism.MainNotions.ShortIntervalPrimes.FamilyPropTwoSixCongruenceForm`), from the three statements on zeros by
+`Formalism/SharpRestriction/GlobalSchurBounds/MainSup.lean` (`Formalism.MainNotions.LitThin`,
+`Formalism.MainNotions.prop_two_six_congruence_family_of_literature`)).
 *Needs:* 0.4; RieszSumsOverPrimesAndExceptionalZeros
 §1.4i; ZerosOfLFunctions §6.3 and RiemannHypothesisStatementsAndConsequences §8.4a; AnalyticNumberTheoryPartI §0.34a.
 
 ### 1.5 Averaging characters over a subgroup
+
+*Origin:* adapted from the orthogonality relations for the characters of a finite abelian group: the mean over the
+translates `u₀ ∈ A₀` of a character sum over `gu₀T`, `T ⊂ A₀`, keeps exactly the characters trivial on `A₀`.
+
+*Method of the formal proof:* only the instance used in 1.7, on the group of a host and at the classes whose partners
+are the thick places: orthogonality of the characters of `A₀`, applied to the sum over the translates `u₀ ∈ A₀`, gives
+the first statement at those classes, and its sum over `s ∈ 𝒯` gives the second, with `c_χ = b·G_{χ*}(y)` for one
+scale `y`.
 
 Let `G` be a finite abelian group, `A₀ ⊂ G` a subgroup, `g ∈ G` and `χ` a
 character of `G`. Then `Σ_{u∈A₀} χ(gu) = |A₀|·χ(g)` if `χ|_{A₀} = 1`, and `0` otherwise. Consequently, for `T ⊂ A₀`
@@ -926,10 +1063,18 @@ partners from the top `τ` are the thick places of `u₀` (0.6(iii)).
 - On a host of 0.4, averaging over all `u₀ ∈ A` instead of `A₀` keeps only the four characters trivial on `A`
   (`1, χ_{−q}, χ_{−d}, χ_{−q}χ_{−d}`) and loses every nontrivial power of `ψ`: the translates must run over `A₀`.
 
-*KNOWN* (orthogonality). *Needs:* Mathlib `sum_hom_units` (a homomorphism from a finite group to a domain sums to the
+*Sources:* (orthogonality). *Needs:* Mathlib `sum_hom_units` (a homomorphism from a finite group to a domain sums to the
 order of the group or to `0`), applied to the restriction of `χ` to `A₀`.
 
 ### 1.6 Character sums over a set with a coset law
+
+*Origin:* adapted from Fourier analysis on a finite abelian group: the sum of a character trivial on `A₀` over a set with
+coset law `ν` differs from `ν̂(χ)` times the size of the set by at most the index times the precision times the size of
+the set.
+
+*Method of the formal proof:* the sum of a character trivial on `A₀` over `S` is rewritten through the counts of `S` on the
+cosets, `Σ_{α∈A} χ(α)·#(S ∩ αA₀) = |A₀|·Σ_{τ∈S} χ(τ)`; the counts are replaced by the prescribed shares, and the error is
+at most the index times the precision times `|S|`.
 
 Let `A₀ ⊂ A` be finite abelian of index `o` and `ν` a coset law on
 `A/A₀` (0.7); put `ν̂(χ) = Σ_{αA₀∈A/A₀} ν(αA₀)χ(α)` for the characters `χ` of `A` trivial on `A₀`, real when `ν` is
@@ -944,10 +1089,19 @@ symmetric, with `ν̂(1) = 1`. If `S ⊂ A` has coset law `ν` with precision `�
   this is `1/(3o + 1)`. The uniform law (`ω₀ = 1`) gives `ν̂(χ) = 0` for every `χ ≠ 1`: tops spread uniformly over the
   cosets of `A₀` would see no character of the family but the trivial one.
 
-*KNOWN* (elementary; [FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/TopsSum.lean`
+*Sources:* (elementary; [FormalProof], `Development/AutomorphicArithmetic/PrimitiveCosets/TopsSum.lean`
 (`UpperTheory.Comparison₂.tops_sum`)). *Needs:* 0.5, 0.7.
 
 ### 1.7 Cyclic host data at a scale
+
+*Origin:* particular to this proof: weights at two scales, an average over the translates of the thick set and a sum over
+the tops turn an upper bound for the Frobenius-restricted sums into one for the weighted Riesz remainders of the cyclic
+family at the single scale `x`.
+
+*Method of the formal proof:* each difference is replaced by the character average; the terms at the places that are not
+thick places are bounded by the saving, the weights at the thick places are replaced by `b` at a Lipschitz cost, the mean
+over the translates removes the characters that are not trivial on `A₀`, and the sum over the tops produces the Fourier
+coefficients of their shares.
 
 *Cyclic host data at a scale.* A host of 0.4 for `ψ`; a nonempty set of tops
 `Φ_top ⊂ A` with the coset law `ν₀`, `ν₀(A₀) = 4/(3o + 1)` and `ν₀(αA₀) = 3/(3o + 1)` on the other cosets, and precision
@@ -1000,7 +1154,7 @@ With `η_top ≤ x^{−1+ε}` and `𝔔_x ≤ log(x + 1) + C_Λ + K_ψ + |C′| 
   `δ_th/2 = |𝒯|/|Φ|` is the proportion of the classes `g ∈ G ∖ Φ` whose
   partner from a given top is a thick place, and the `m` steps contribute `m` identical copies of the thick part.
 
-*NEW* (combination of classical estimates; [FormalProof],
+*Sources:* (combination of classical estimates; [FormalProof],
 `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`
 (`Deduction.CharacterBalanceMoves.core`, `Deduction.CharacterBalanceMoves.one_char`); the law `ν₀`:
 `Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean`
@@ -1008,6 +1162,12 @@ With `η_top ≤ x^{−1+ε}` and `𝔔_x ≤ log(x + 1) + C_Λ + K_ψ + |C′| 
 RieszSumsOverPrimesAndExceptionalZeros §1.4h.
 
 ### 1.8 The error bracket
+
+*Origin:* particular to this proof: the arithmetic of the error terms, which balance when the number `m` of sums is about
+`√x`.
+
+*Method of the formal proof:* each of the four terms of the bracket is divided by the common factor and bounded by a power
+of `x` with the size conditions.
 
 Let `ε > 0`, `C ≥ 0`, `x ≥ 3` with `x^{3ε/8} ≥ 26`, `A` a finite group with subsets `Φ_top` and `𝒯`, `δ_th = |𝒯|/|A|`, an
 integer `m`, and reals `b > 0`, `a ≥ 0`, `k` with: (i) `x^{1/2−ε} ≤ m ≤ x^{1/2+ε/2}`; (ii) `xm ≤ k ≤ |A|²x^{1/2−ε}`;
@@ -1029,10 +1189,16 @@ bracket are at most `a/(mb) ≤ 2x/m ≤ 2x^{1/2+ε}`, `am/(kb) ≤ 2xm/k ≤ 2`
   `x/m`, and their sum is least at `m ≈ √x`, where it is `x^{1/2+O(ε)}`. With `a = xb` and `m = x^{1/3}` the first term alone is `x^{2/3}·mb|Φ_top|`,
   and no square-root bound can follow from 1.9. (Under (iv) alone `a/(mb)` is only bounded above, by `2x/m`.)
 
-*NEW* (elementary; [FormalProof], `Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean`
+*Sources:* (elementary; [FormalProof], `Formalism/SizeWindowBrackets/ChainSlopeWindows/LipschitzWeightAndMinimum.lean`
 (`Formalism.LFunctionChainParameters.ThickSetMeanBounds.proposition_size_bound`)). *Needs:* none beyond the definitions.
 
 ### 1.9 The square-root bound for the cyclic family from the Frobenius-restricted inequality
+
+*Origin:* particular to this proof: the reduction of the square-root bound for the cyclic family at `x` to the
+Frobenius-restricted inequality at every translate.
+
+*Method of the formal proof:* the statement of 1.7 is applied with the right side of the hypothesis as error, and the
+arithmetic of 1.8 concludes; the threshold depends only on the character, the constants and `ε`.
 
 Let `ψ` be a primitive Dirichlet character of order `o`, `C ≥ 0`, `C′` real and `ε > 0`. There is
 `x₁ = x₁(ψ, C, C′, ε) ≥ 3` such that the following holds for every `x ≥ x₁` and all cyclic host data at `x` as in 1.7
@@ -1055,7 +1221,7 @@ or other scales than the conclusion. They are not consequences of 1.4 alone: on 
 auxiliary pair, and the saving follows from 1.4 (b) under the thin-scale box hypothesis of 1.4 (a), a further property
 of the pair, and the bound `log f_E ≤ (log(X′/3))^α`, which bounds the layer and the sizes of `q` and `d` against the
 thin scale (`f_E = lcm(2^{n+2}, f_ψ)·q·d`, 0.4 (c)). The twist selection in the form of the formal proof,
-QuadraticTwistSelectionOverPrimes §2.7c (a′)–(c′) and QuadraticTwistSelectionOverPrimes §2.7d (ii′) (box width `1/400`),
+QuadraticTwistSelectionOverPrimes §2.7c (a′)–(c′) and QuadraticTwistSelectionOverPrimes §2.7d (ii′) at its instance (box width `1/400`),
 supplies (ii) and the box hypothesis with `c_box = 1/400` when it is run for a set of characters containing the members of `𝒦(ψ)`
 and every real primitive character of conductor dividing `8f_ψ`, for instance the primitive characters inducing the
 characters modulo `8f_ψ`; the bound on `f_E` is a condition on the choice of the layer and of the sizes of the pair.
@@ -1075,7 +1241,7 @@ inequality holds once `x^ε ≥ 1 + 4o`. The threshold of 1.7, `x^{3ε/8} ≥ 26
   its weights `1` and `1/(3o + 1)` are positive. With the uniform law (`ω₀ = 1`) the conclusion would concern `G_1`
   alone.
 
-*NEW* ([FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`
+*Sources:* ([FormalProof], `Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean`
 (`Deduction.ch_core`), `Development/AutomorphicArithmetic/PrimitiveCosets/SigALe.lean` (`UpperTheory.Comparison₂.sigA_le`),
 `Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean` (`UpperTheory.Comparison₂.core_gm`)). *Needs:* 0.5, 1.6,
 1.7, 1.8.
@@ -1091,8 +1257,8 @@ inequality holds once `x^ε ≥ 1 + 4o`. The threshold of 1.7, `x^{3ε/8} ≥ 26
 
 ### Dependencies
 
-Layer 0; RiemannHypothesisStatementsAndConsequences §§8.4a, 8.8a (1.1, 1.2, 1.4); ZerosOfLFunctions §6.3 (1.4);
-AnalyticNumberTheoryPartI §0.34a (1.4);
+Layer 0; RiemannHypothesisStatementsAndConsequences §§8.4a, 8.8a (1.1, 1.2, 1.4); ZerosOfLFunctions §6.3 (1.4) and §8.6a
+(the *Origin:* label of 1.2); AnalyticNumberTheoryPartI §0.34a (1.4) and §1.4e (the *Corollary of:* line of 1.4);
 RieszSumsOverPrimesAndExceptionalZeros §§1.4h, 1.4i (1.4, 1.7, 1.9); QuadraticTwistSelectionOverPrimes §§2.7c–2.7d
 (the remark of 1.9); Mathlib's `sum_hom_units` (1.5).
 
@@ -1143,8 +1309,12 @@ primitive characters is AnalyticNumberTheoryPartI §0.34a; the splitting law in 
 `ℤ₂`-extension is IntegralIwasawaTheory §0.2. The bundled primitive Dirichlet character, the Riesz remainder of a
 primitive character and the Riesz-sum identity for a surjection of a ray class group are
 RiemannHypothesisStatementsAndConsequences §§10.3, 8.4a and 8.8a; exceptional
-zeros are ZerosOfLFunctions §6.3; the Lipschitz and size bounds of Riesz remainders and the prime number theorem with
-the exceptional term are RieszSumsOverPrimesAndExceptionalZeros §§1.4h and 1.4i; the twist selection that produces
+zeros are ZerosOfLFunctions §6.3; the explicit formula for the first Riesz mean of a primitive finite-order ray-class
+character, named in the *Origin:* label of 1.2, is ZerosOfLFunctions §8.6a; the prime number theorem for a primitive
+nonprincipal Dirichlet character, uniform in the conductor, with the term of a possible exceptional zero, of which the
+bound of 1.4 (b) for the characters `χ ≠ 1` is a corollary, is AnalyticNumberTheoryPartI §1.4e; the Lipschitz and size
+bounds of Riesz remainders and the prime number theorem with the exceptional term are
+RieszSumsOverPrimesAndExceptionalZeros §§1.4h and 1.4i; the twist selection that produces
 auxiliary pairs with zero-free boxes is QuadraticTwistSelectionOverPrimes §§2.7c–2.7d. The Galois theory of
 cyclotomic fields, Behrend's construction, and Chebyshev's and Markov's inequalities are in Mathlib. The chain of theta
 lifts built on the cyclic hosts, and the choice of the constants left as parameters here, belong to the theta-chain
@@ -1183,6 +1353,11 @@ roadmaps named under Downstream consumers.
   conductor `q` is the Kronecker character of `χ(−1)q`; the only primitive real character of an odd prime-power conductor
   is the Legendre character of conductor `p`, and those of `2`-power conductor are `χ₋₄`, `χ₈` and `χ₋₈`. Used in 0.3 and
   1.4.
+- §1.4e: there are absolute `c, c₁ > 0` such that for every primitive nonprincipal Dirichlet character `χ` of conductor
+  `N ≥ 3` and every sufficiently large `X`,
+  `Σ_{m≤X} χ(m)Λ(m) = −X^{β₁}/β₁ + O(X exp(−c log X/(√(log X) + log N))(log N)^4)`, the term `X^{β₁}/β₁` present only if
+  `χ` is real and `L(s, χ)` has a real zero `β₁ ∈ (1 − c₁/log N, 1)`. The general theorem of which the bound of 1.4 (b)
+  for the characters `χ ≠ 1` is a corollary (its *Corollary of:* line).
 
 ### From TauCetiRoadmap.Multiquadratic
 
@@ -1196,6 +1371,11 @@ roadmaps named under Downstream consumers.
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
 - §6.3 (`IsExceptionalZero`). Used in 1.4.
+- §8.6a: for a primitive finite-order ray-class character `χ` of a number field `K`, the explicit formula for the first
+  Riesz mean `(x − 1)⁻¹ Σ_{𝔑𝔞 ≤ x} Λ_K(𝔞) χ(𝔞)(x/𝔑𝔞 − 1)`, with the constant `(L′/L)(1, χ)` for `χ ≠ 1` and the
+  Euler–Kronecker constant of `K` plus `1` for `χ = 1`, a sum over the zeros with the coefficients `m_ρ/(ρ(1 − ρ))` and
+  the archimedean terms. Named in the *Origin:* label of 1.2, whose Riesz sums and constants `(L′/L)(1, χ)` are those of
+  this formula.
 
 ### From RiemannHypothesisStatementsAndConsequences, a sub-roadmap of this family
 
@@ -1210,7 +1390,7 @@ roadmaps named under Downstream consumers.
   an absolute `C_Λ` and every primitive `χ ≠ 1`:
   (a) `|w·G_χ(a/w) − w′·G_χ(a/w′)| ≤ 3(a/min(w, w′))|w − w′|` (and for `G_1`); (b′) `|G_χ(y) − G_χ(z)| ≤ |y − z|(log max(y, z) + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y) − G_1(z)| ≤ C_Λ|y − z|` for `y, z ≥ 1`; (c′) `|G_χ(y)| ≤ y(log y + C_Λ + |(L′/L)(1, χ)|)`, `|G_1(y)| ≤ C_Λy`
   for `y ≥ 1`. Used in 1.7, 1.9.
-- §1.4i: (c′), the form of the formal proof: for every `c₀ > 0` there are `C, c > 0` with
+- §1.4i: (c′), that roadmap's own statement, not a statement of [FormalProof]: for every `c₀ > 0` there are `C, c > 0` with
   `|G_χ(y)| ≤ C·y·(log 3f_χ)^5·exp(−c·log y/(√(log y) + log f_χ))` for `y ≥ 2` and every primitive `χ ≠ 1` such that, if `χ` is
   real, `L(s, χ)` has no real zero in `(1 − c₀, 1)`, and `|G_1(y)| ≤ Cy·exp(−c√(log y))`; (b) for a finite
   abelian `E/ℚ` and `c_ex ∈ (0, 1/2]` with `1 − β ≥ c_ex` for every exceptional zero of a real `χ*`, `χ ∈ Ĝ`: for every
@@ -1248,7 +1428,8 @@ roadmaps named under Downstream consumers.
   <https://github.com/leanprover-community/riemann-hypothesis>. The files cited are those of the source as published,
   the repository's first commit
   <https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005>, and
-  their paths are relative to its directory `src/`. It is the reference of every *NEW* target.
+  their paths are relative to its directory `src/`. It is the reference of every target whose origin is particular to
+  this proof.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - F. A. Behrend, *On sets of integers which contain no three terms in arithmetical progression*, Proc. Nat. Acad. Sci.
   USA 32 (1946), 331–332; I. Z. Ruzsa, *Solving a linear equation in a set of integers I*, Acta Arith. 65 (1993),
@@ -1257,4 +1438,8 @@ roadmaps named under Downstream consumers.
   fields): 0.2, 0.4.
 - J. Neukirch, *Algebraic Number Theory* (1999), Hilbert's reciprocity law: 0.1.
 - P. L. Chebyshev, *Mémoire sur les nombres premiers* (1852): 0.9 (Bertrand's postulate).
-- H. Davenport, *Multiplicative Number Theory*, ch. 19–20 (de la Vallée Poussin, Landau, Page): 1.4.
+- H. Davenport, *Multiplicative Number Theory*, 3rd ed. revised by H. L. Montgomery (2000), ch. 19–20 (de la Vallée
+  Poussin, Landau, Page; primes in residue classes through character sums by orthogonality): 1.2, 1.4.
+- Y. Ihara, V. K. Murty and M. Shimura, *On the logarithmic derivatives of Dirichlet L-functions at s = 1*, Acta Arith.
+  137 (2009), 253–276, §2.2, Theorem 1, formula (2.2.1), p. 257: the explicit formula for the first Riesz mean of a
+  primitive finite-order ray-class character (1.2, through ZerosOfLFunctions §8.6a).

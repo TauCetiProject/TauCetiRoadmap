@@ -1,19 +1,12 @@
 import Mathlib
-import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
-import TauCeti.Algebra.AlgebraicGroup.Connected.GroupScheme
-import TauCeti.Algebra.AlgebraicGroup.Derived.Semisimple
-import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Vanishing
-import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
-import TauCeti.Algebra.AlgebraicGroup.Representation.SemisimplePoint.Basic
-import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 /-!
 # Orbit measures on adelic groups: target signatures
 
 This file is not the roadmap. The definitive document for this folder is `README.md`. This file
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti. Of the four
-headlines, the first three are not statable at the pins, and the fourth is stated below in two of
-its clauses.
+headlines, the first three are not statable at the pins; of the fourth (4.1), clause (a) is stated
+below and clause (b) is not statable at the pins.
 
 The first three headlines are statements about Tamagawa measures: Haar measures on the adelic
 points `G(𝔸_F)` of a linear algebraic group `G` over a number field `F`, built as restricted
@@ -49,66 +42,33 @@ fixed only up to a scalar does not suffice: the normalisation is the content of 
   `G_2`, `i` being the index of the image of `X^*_F(G_2) → X^*_F(T_1)`. It lacks, besides the
   Tamagawa measure, the norm-one subgroup `G(𝔸)^1` with its measure and the Tamagawa number
   `τ(G)`.
-* Centralisers of semisimple elements (4.1): for a connected reductive group `G` over an
-  algebraically closed field and a semisimple `s ∈ G`, the identity component of `C_G(s)` is
-  reductive, and `C_G(s)` is connected when the derived group of `G` is simply connected. These two
-  clauses are stated below, with `G` given by its coordinate Hopf algebra `H` over the
-  algebraically closed field `k` and `C_G(s)` the closed subgroup cut out by the vanishing ideal of
-  the subgroup of `G(k)` of the elements commuting with `s`. Over `k` this reduced subgroup has the
-  same points and the same underlying space as the scheme-theoretic centraliser, so the
-  connectedness of (c) and the identity component in (a) are the same for both; that the two
-  coincide is the smoothness clause of (a), which is not stated. The scheme-theoretic centraliser
-  of a point is not at the pins: Tau Ceti has the centraliser of a closed diagonalizable subgroup,
-  and using it here would need, as data, the diagonalizable closure of the powers of `s`, whose
-  existence is a theorem.
 
-The root system and the Weyl group of `C_G(s)°` in (a), and the clauses (b), (d) and (e) of 4.1,
-are the structure that the proof of the headline provides, not headline statements, and they are
-not stated. The case `G = GL_n` of 4.1 (the centraliser of a diagonal matrix is a product of
-general linear groups) is statable in Mathlib's `Matrix.GeneralLinearGroup`; it is a special case
-and a Check of 4.1 and is not stated.
+Clause (b) of the fourth headline is the centraliser of a regular element of a unitary group: for
+a nondegenerate Hermitian space `V` over a quadratic extension `E/F` of fields of characteristic
+zero, the element `γ` attached to a monic irreducible `P ∈ E[X]` with
+`P(X) = c(P(0))^{−1} X^n P^c(1/X)` has, on points over every commutative `F`-algebra `R`, the
+norm-one torus of `E[X]/(P)` as its centraliser in `U(V)(R)`. It lacks the unitary group `U(V)`
+as a group functor on commutative `F`-algebras, that is the extension of a Hermitian form to
+`R ⊗_F V` over `R ⊗_F E` and the group of its isometries: Mathlib extends the scalars of bilinear
+forms (`LinearMap.BilinForm.baseChange`) but not of sesquilinear ones, and its
+`Matrix.unitaryGroup` is the group of matrices whose conjugate transpose, for a star ring, is
+their inverse.
 -/
 
 namespace TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups
 
-open TauCeti
+/-! ## Layer 4: Centralisers of elements with separable characteristic polynomial -/
 
-universe u
-
-/-! ## Layer 4: Centralisers of semisimple elements in reductive groups -/
-
-/-- **Centralisers of semisimple elements are reductive** (4.1 (a)). Let `G` be a connected
-reductive group over an algebraically closed field `k`, with coordinate Hopf algebra `H`, and let
-`s ∈ G(k)` be semisimple. Then the identity component `C_G(s)°` of the centraliser of `s` is a
-connected reductive group. Here `C_G(s)` is the closed subgroup of `G` cut out by the functions
-vanishing at every element of `G(k)` that commutes with `s`. -/
-theorem reductive_identityComponent_centralizer {k : Type u} [Field k] [IsAlgClosed k]
-    (H : FiniteTypeCommHopfAlgCat.{u, u} k) (hH : reductiveCommHopfAlgProperty k H)
-    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
-    reductiveCommHopfAlgProperty k
-      (FiniteTypeCommHopfAlgCat.identityComponent
-        (FiniteTypeCommHopfAlgCat.quotient H
-          (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s})))) := by
-  sorry
-
-/-- **Steinberg's connectedness theorem** (4.1 (c)). Let `G` be a connected reductive group over
-an algebraically closed field `k`, with coordinate Hopf algebra `H`, whose derived group is simply
-connected, and let `s ∈ G(k)` be semisimple. Then the centraliser `C_G(s)` is connected. Here the
-derived group is the scheme-theoretic derived subgroup, which is semisimple, and `C_G(s)` is the
-closed subgroup of `G` cut out by the functions vanishing at every element of `G(k)` that commutes
-with `s`. Writing `s = zs′` with `z` in the connected centre `Z°` and `s′` in the derived group,
-`C_G(s) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected by Steinberg's theorem for simply
-connected semisimple groups (Steinberg, *Endomorphisms of linear algebraic groups*, Theorem 8.1). -/
-theorem geometricallyConnected_centralizer_of_simplyConnected {k : Type u} [Field k]
-    [IsAlgClosed k] (H : FiniteTypeCommHopfAlgCat.{u, u} k)
-    (hH : reductiveCommHopfAlgProperty k H)
-    (hder : simplyConnectedSemisimpleCommHopfAlgProperty k
-      ⟨FiniteTypeCommHopfAlgCat.quotient H (CommHopfAlgCat.derivedDefiningIdeal H.obj),
-        hH.semisimple_derived⟩)
-    (s : WithConv (H →ₐ[k] k)) (hs : HopfAlgebra.IsSemisimplePoint s) :
-    geometricallyConnectedCommHopfAlgProperty k
-      (FiniteTypeCommHopfAlgCat.quotient H
-        (HopfIdeal.vanishingIdeal (Subgroup.centralizer {s}))).obj := by
+/-- **Matrices commuting with an element with separable characteristic polynomial** (4.1 (a)).
+Let `k` be a field and `g` an `n × n` matrix over `k`, invertible or not, whose characteristic
+polynomial is separable. Then every `n × n` matrix `y` over `k` that commutes with `g` is a
+polynomial in `g` with coefficients in `k`. So any two matrices that commute with `g` commute with
+each other, and for `g ∈ GL_n(k)` the centraliser of `g` in `GL_n(k)` is the group of units of
+`k[g]`. -/
+theorem exists_eq_aeval_of_separable_charpoly {k : Type*} [Field k] {n : Type*} [Fintype n]
+    [DecidableEq n] (g : Matrix n n k) (hg : g.charpoly.Separable)
+    {y : Matrix n n k} (hy : Commute g y) :
+    ∃ p : Polynomial k, y = Polynomial.aeval g p := by
   sorry
 
 end TauCetiRoadmap.RiemannHypothesisForDirichletLFunctions.OrbitMeasuresOnAdelicGroups

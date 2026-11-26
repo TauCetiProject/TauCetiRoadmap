@@ -6,13 +6,13 @@ The headline theorems are these. (1) *Relative Schur orthogonality* (5.15a): let
 
 The roadmap takes the data of the chain (words, types, type and level primes, levels) from [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) and the row spaces from [RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md); Hermitian lattices, masses and Siegel's theorem from [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md); the coefficients of gapped discrete series and their tensor products from [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md); Laplace's method and stationary phase from [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md); quantum minors from [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md); and Gelfand–Graev theory from [FiniteReductiveGroups](../FiniteReductiveGroups/README.md). It is a sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md).
 
-The roadmap holds the targets 5.13a–5.23 of Layer 5 of the family. They run as follows below: the local Bessel theory at a real place (5.13a–5.13); the Bessel–Poincaré series, the geometric expansion of the Gram operators and relative Schur orthogonality (5.14, 5.15, 5.15a); limit multiplicity (5.16); the non-archimedean side of the sums over pairs of terms, namely the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels, the local model of the chain and the mean value formula (5.17a–5.17); the archimedean side, namely the transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals (5.18a–5.18); an abstract tower inequality, a large sieve with constant one proved one pivot at a time (5.19); the Gram bounds for distinct and for equal words (5.20a–5.21); and the labels at the type primes with the share of the good rows (5.22, 5.23).
+The roadmap holds the targets 5.13a–5.23 of Layer 5 of the family. They run as follows below: the local Bessel theory at a real place (5.13a–5.13); the Bessel–Poincaré series, the geometric expansion of the Gram operators and relative Schur orthogonality (5.14, 5.15, 5.15a); the number of classes of unimodular Hermitian planes, the volume of the adelic quotient of a unitary group and limit multiplicity (5.16a, 5.16b, 5.16); the non-archimedean side of the sums over pairs of terms, namely the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels, the local model of the chain and the mean value formula (5.17a–5.17); the archimedean side, namely the transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals (5.18a–5.18); an abstract tower inequality, a large sieve with constant one proved one pivot at a time (5.19); the Gram bounds for distinct and for equal words (5.20a–5.21); and the labels at the type primes with the share of the good rows (5.22, 5.23).
 
 ## Conventions
 
 Notation and conventions not restated here are those of HermitianFormsAndLattices (its Conventions: the characters `η_v`, `η`, the values `L(k, η^k)`, genera, classes and masses), of ThetaChainsOnDefiniteUnitaryGroups (Layers 2 and 3: the chain data) and of RowTowerAndRallisIdentities (§§5.1–5.3: the row spaces), as cited at each target.
 
-**Fields.** `E` is the host (FrobeniusRestrictedRieszSums §0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `rd_E` the root discriminant of `E`. On the cyclic hosts (FrobeniusRestrictedRieszSums §0.4) `d ≡ 7 (mod 8)`, `K = ℚ(√−d)`, and a second imaginary quadratic field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the *auxiliary pair*. The targets 5.15a, 5.16, 5.17b, 5.17c and 5.19 are stated in the generality they name (any CM extension, any local datum, any field with absolute values).
+**Fields.** `E` is the host (FrobeniusRestrictedRieszSums §0.1): finite abelian over `ℚ` with an imaginary quadratic subfield `K`; `F = E⁺` its maximal totally real subfield, `f = [F:ℚ]`; `c ∈ G` complex conjugation; `rd_E` the root discriminant of `E`. On the cyclic hosts (FrobeniusRestrictedRieszSums §0.4) `d ≡ 7 (mod 8)`, `K = ℚ(√−d)`, and a second imaginary quadratic field `ℚ(√−q) ⊂ E` is used; `(q, d)` is the *auxiliary pair*. The targets 5.15a, 5.16a, 5.16b, 5.16, 5.17b, 5.17c and 5.19 are stated in the generality they name (any CM extension, any local datum, any field with absolute values).
 
 **Primes of the construction.** The *type primes* `g₀, g₁` (ThetaChainsOnDefiniteUnitaryGroups §2.7) carry the depth-zero types; the *auxiliary primes* `p_δ, p′_δ` carry the characters `δ, δ′` (ThetaChainsOnDefiniteUnitaryGroups §2.4, ThetaChainsOnDefiniteUnitaryGroups §2.7); the primes `q, d` form the *auxiliary pair* (FrobeniusRestrictedRieszSums §0.4), and are not called auxiliary primes; the *level prime* `T(u) = N(π_u)` of a word `u` (ThetaChainsOnDefiniteUnitaryGroups §2.8) carries the new forms.
 
@@ -80,6 +80,18 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every target 5.13a–5.23 carries both labels.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not
+cover the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is
+deduced from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general
+theorem in full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of
+the statement when that proof has a narrower one. Where the route given with the section is not the deduction, it is
+a second proof, [FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route
+needs, and the deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 5: Bessel–Poincaré series and the Gram bounds
 
 The rows are forms on `U(Y_0)` of the row type level (RowTowerAndRallisIdentities §5.3). For each word a Bessel–Poincaré series maps the source forms into them, and the unfolded Gram operators are nearly those of subspaces in general position, which makes the images a nearly tight frame and the series nonzero (5.13–5.23).
@@ -90,6 +102,16 @@ The rows are forms on `U(Y_0)` of the row type level (RowTowerAndRallisIdentitie
 - *Levels.* A level at the type primes is written `(P, χ_P)` (ThetaChainsOnDefiniteUnitaryGroups §2.9a): the base level `(P_0, χ_{P_0})` and the row type level `(P_1, χ_{P_1}) = (K₂/K(g), χ₂)`; `(P_b, χ_{P_b})`, `b ∈ {0, 1}`, denotes either.
 
 ### 5.13a Bessel data at a real place and the big cell
+
+*Origin:* adapted from the Bruhat decomposition and the Bessel data of a pair of unitary groups
+(GanGrossPrasadUnitaryGroups §1.2): explicit coordinates and Haar weight on the big cell of the double cosets of two
+Bessel subgroups of `U(p, q_S)`.
+
+*Method of the formal proof:* the sign of `Gr` comes from an inertia count for the Gram matrix of `F ∪ xF′`; the big cell
+is reached one plane at a time, by writing an element with `⟨x e_l, e_l⟩ ≠ 0` uniquely as a product of a Heisenberg
+element, a Weyl element, an element of the smaller group and a Heisenberg element; and the integration formula follows
+from the uniqueness of Haar measure, once the measures with the densities `|c_a|^{2(M_{a−1} − 2)}` on the isotropic cones
+have been checked invariant on these generators, with the invariant measure of the hyperboloid for the rank-one factor.
 
 *Spaces.* 5.13a–5.13d, 5.13 and 5.18a–5.18 are local; 5.14–5.21 and 5.22–5.23 (i)–(iii) concern the space `ℋ` of
 the row type level `(P_1, χ_{P_1})` (RowTowerAndRallisIdentities §5.3), on which the Poincaré series, the Gram operators and the counts live; 5.23 (iv) is
@@ -125,7 +147,7 @@ constant `C > 0` that is uniquely determined by the Haar measures of `G_τ`, `N_
 *Route.* Bruhat decomposition relative to the maximal parabolic of each line `ℂe_l` (Witt's theorem), iterated
 over the planes, with the rank-one case `U(k, 1)` on the hyperboloid `|𝔷|² > T·T′`.
 
-*KNOWN* in kind (Bruhat decomposition: RealSemisimpleLieGroups §3.3). (a), the sign of `Gr` and the invariance of `D_l`, `Gr`:
+*Sources:* (Bruhat decomposition: RealSemisimpleLieGroups §3.3). (a), the sign of `Gr` and the invariance of `D_l`, `Gr`:
 [FormalProof], `Formalism/FormalDegreeBessel/StatementG.lean` (`Formalism.QuantumDeterminants.GNonneg`); the weight `wt(c, 𝔷)`:
 [FormalProof], `Formalism/FormalDegreeBessel/StatementBF.lean` (`Formalism.QuantumDeterminants.bcWeight`); (G): [FormalProof],
 `Formalism/HermitianCurvature/BesselNonvanishingReduction.lean` (`Formalism.FourierDecayAlt.ThreeDimData.GapOK`).
@@ -134,6 +156,20 @@ GanGrossPrasadUnitaryGroups §1.3 (transport of Bessel data); RealSemisimpleLieG
 parabolic double cosets); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa, and KAK decompositions".
 
 ### 5.13b Bessel integral, pairing and majorant
+
+*Origin:* adapted from Beuzart-Plessis (2020): the regularised Bessel form, defined by integrations by parts in the
+dilations of the torus that scales the character; here two-sided, on a class of functions with five decaying derivatives,
+with the explicit majorant `Ξ`, a product of negative powers of Gram determinants of an opposite isotropic frame, in place
+of Harish-Chandra's function, and with adjointness for invariant differential operators.
+
+*Method of the formal proof:* the majorant `Ξ` is a product of negative powers of Gram determinants of the images of an
+isotropic frame; its convolution bound follows from the Iwasawa decomposition and the equivariance of products of powers
+of leading minors, and its integrability against a negative power of the linear form is proved by induction over the
+planes, averaging over rotations and dilations on each Heisenberg group with a sublevel-set estimate for quadratic
+polynomials. The regularised pairing is defined by two integrations by parts in each dilation and identified, against
+test functions of the dilations, with the squared norm of the Bessel integral through one absolutely convergent integral,
+Fatou's lemma and a lemma on two nonnegative sesquilinear forms. The published regularisation controls convergence
+through Harish-Chandra's function and the weak inequality.
 
 In the setting of 5.13a:
 (b) *Bessel integral and pairing.* For `F : G_τ → Hom(V_{π″}, V_{π′})` with all derivatives of order `≤ 5` decaying like
@@ -201,7 +237,7 @@ on `G_τ`, one invariant derivative at a time, and `β^∞` depends on `(F, F′
 remaining space of signature `(k, 1)`), every `n ∈ N_S` acts unitriangularly on the frame, so every `Δ_l(n)` and `Ξ(n)` is constant,
 and `∫_{N_S}(1 + |ℓ(n)|)^{−δ}dn = ∞` along the kernel of `ℓ`.
 
-*NEW*. (b), the class and the continuity of `β`: [FormalProof], `Formalism/HermitianCurvature/WeylElementCommutesLevelOne.lean`
+(b), the class and the continuity of `β`: [FormalProof], `Formalism/HermitianCurvature/WeylElementCommutesLevelOne.lean`
 (`Formalism.FourierDecayAlt.B2.LemmaBNorm`), `Formalism/HermitianCurvature/StatementB.lean` (`Formalism.FourierDecayAlt.B.AB`);
 the adjointness: follows from [FormalProof], `Formalism/HermitianCurvature/StatementB.lean`
 (`Formalism.FourierDecayAlt.B.PairingAdjointness`); (b′): [FormalProof], `Formalism/HermitianCurvature/StatementB.lean`
@@ -210,6 +246,22 @@ the adjointness: follows from [FormalProof], `Formalism/HermitianCurvature/State
 KAK decompositions"; Mathlib (Fourier inversion, Fatou's lemma, Lagrange interpolation, the layer-cake formula).
 
 ### 5.13c Bounded Bessel maps, rank one and uniqueness
+
+*Origin:* adapted from Jiang, Sun and Zhu (2010) and Sun and Zhu (2012), uniqueness of Bessel models for real unitary
+groups; Beuzart-Plessis (2020), Theorem 7.2.1 and the remark after it, the regularised Bessel form of a tempered pair has
+rank at most one and is nonzero exactly when a Bessel functional exists, and Lemma 7.3.1, an a priori bound for Bessel
+functionals; the folding of the reproducing formula along the subgroup is in Beuzart-Plessis (2018), Galois pairs, §3.2, for p-adic
+square-integrable representations. Here (c) is stated for Sobolev-continuous Bessel maps of every unitary
+representation, and (d) for discrete series with a large gap, on lowest `K`-type vectors, with the absolute convergence
+of the unregularised form, which is the Bessel integral of coefficients over the Bessel subgroup, and its explicit
+rank-one form.
+
+*Method of the formal proof:* boundedness of a Bessel map follows by differentiating along a Lie algebra element on which
+the character oscillates fast; the Bessel form of lowest `K`-type coefficients has rank at most one because the pairing
+of coefficients on the open cell is symmetric under an anti-involution, which yields a crossing identity forcing all
+`2 × 2` minors to vanish; uniqueness follows from the reproducing formula of the coefficient folded along the Bessel
+subgroup. The published proofs rest on the multiplicity one theorem of Jiang, Sun and Zhu (2010) and Sun and Zhu (2012),
+proved by the Gelfand–Kazhdan criterion on invariant distributions on all double cosets.
 
 In the setting of 5.13a:
 (c) *Bounded Bessel maps.* For every unitary representation `ρ` of `G_τ`, every Sobolev-continuous linear
@@ -239,20 +291,44 @@ reproducing formula (Schur orthogonality; `B` passes under the integral by trunc
 `S_{z′}` turns it into `be`, so `B = c·l` on the orbit of `w`, which is cyclic. (For `be ≠ 0` the bound `dim ≤ 1` of
 GanGrossPrasadUnitaryGroups §2.6 also gives `B ∈ ℂl`; the reproducing formula is what shows that `B = 0` when `be = 0`.)
 
-*KNOWN* in kind (multiplicity one: GanGrossPrasadUnitaryGroups §2.6, from Sun–Zhu, Theorem B, in codimension one and
-Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Jacquet, Wallach), *NEW*
-(the elementary proofs for gapped discrete series, the identification with the Bessel integral of coefficients). (c):
+*Sources:* (multiplicity one: GanGrossPrasadUnitaryGroups §2.6, from Sun–Zhu, Theorem B, in codimension one and
+Jiang–Sun–Zhu, Theorem A, for the Bessel subgroups of `U(p, q)`; decay of generalised Whittaker functions: Beuzart-Plessis (2020),
+Lemma 7.3.1 (i)). (c):
 [FormalProof], `CompanionTheory/AutomorphicTheory/BesselOrbitBounds/BesselMapUniqueness/BesselMapUniqGap.lean`
 (`CompanionTheory.Bmu.Bounded`); (d): follows from [FormalProof],
 `ReciprocityTheory/ReductiveGroups/DiscreteSeries/MultiplicityOne/StDiagExists.lean`
-(`ReciprocityTheory.ChartRestriction.DS.Mult1.ThmM`),
-`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/IsDSOfIsDG.lean` (`BranchingSupport.RankOneG`),
-`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/UniqGapOfUniq.lean` (`GlobalTheory.GapIn.UniqGap`).
+(`ReciprocityTheory.ChartRestriction.DS.Mult1.ThmM`: the rank-one form for the standard character, an irreducible unitary
+representation with square-integrable coefficients and a unit vector `w` whose coefficient decays like `‖x‖^{−a}` with
+`a ≥ 4r³`, on the vectors whose coefficient against `w` decays at the same rate),
+`CompanionTheory/AutomorphicTheory/PieriRules/ThetaBesselIsometries/IsDSOfIsDG.lean` (`BranchingSupport.RankOneG`: the
+rank-one form on smooth vectors, for the standard character and discrete series with a gap satisfying (G)),
+`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/UniqGapOfUniq.lean` (`GlobalTheory.GapIn.UniqGap`: the
+uniqueness, for the gap `h ≥ 120r³` and every generic character). [FormalProof] also states the multiplicity one theorem,
+for finite-dimensional representations of the smaller group, which contains the case of this section
+(`GlobalTheory.Published.BesselUniquenessReal`); its main theorems do not depend on it.
 *Needs:*
 5.13a, 5.13b; GanGrossPrasadUnitaryGroups §2.6 (multiplicity one); RepresentationTheory/LieGroups, "Layer 9: the Cartan, Iwasawa,
 and KAK decompositions"; RealSemisimpleLieGroups §4.3 (Langlands decomposition); VonNeumannAlgebras Layer 9 (Schur orthogonality for square-integrable representations).
 
 ### 5.13d Nonvanishing of Bessel maps and transfer coefficients
+
+*Origin:* adapted from Xue (2023), Theorem 2.2, with Beuzart-Plessis (2020), Theorem 12.4.1 (for real unitary groups,
+in each tempered Vogan packet exactly one member has a Bessel model, the one labelled by the root numbers named there),
+and, for the codimension-one pair, He (2017), Theorem 0.1 (occurrence exactly under interlacing): here (e), for gapped
+discrete series in the interlacing pattern, in every codimension, the Bessel map is nonzero, and (g), the transfer
+coefficients; for the codimension-one pair the translation step and the walk of unit translations are in Kobayashi and
+Speh (2025) and Harris, Kobayashi and Speh (2025).
+
+*Method of the formal proof:* [FormalProof] proves (e) for a gap above the threshold stated in (e), and the values of
+(g). On a ray of parameters the Bessel form of the highest weight vector is reduced to an integral over the unipotent
+radical whose integrand tends to a Gaussian, and Laplace's method shows that it is nonzero far out on the ray;
+nonvanishing is then transported to the given parameters along a walk of unit steps, which [FormalProof] constructs (it
+raises the negative entries of the ray one at a time, then lowers the first `k` entries) and shows to have no blocked
+step; each step multiplies a coefficient by an invariant linear coordinate and cuts out one constituent by a Capelli
+operator, which multiplies the period by a nonzero multiple of `∏_j(u_j − hc_s ± ½)`. The published existence proofs use
+the local trace formula with endoscopic character relations (Beuzart-Plessis (2020)) or the theta correspondence
+(He (2017); Xue (2023)), and the published translation arguments take their base cases from them and treat the
+codimension-one pair only. The route below gives the base and the step and takes the walk from [FormalProof].
 
 In the setting of 5.13a, with the Bessel map `l` of 5.13c (d):
 (e) *Nonvanishing.* `l ≠ 0`. [FormalProof] proves it when the gap `h` of 5.13a satisfies
@@ -318,9 +394,8 @@ vector in the `s`-th constituent is a column of the Capelli comatrix (TensorIndu
 inclusion and projection for the invariant form and the rank-one form of the two Bessel forms (5.13c (d), first clause,
 for `D` and for `D_s`; no uniqueness statement is used).
 
-*KNOWN* in kind (existence: GanGrossPrasadUnitaryGroups §3.9, from Xue, Theorem 2.2, with Beuzart-Plessis, Theorem 12.4.1, for
-exactly one member with `m = 1` in each tempered Vogan packet; for `r_S = 0` under interlacing: He, Theorem 0.1), *NEW* (the elementary proof for
-gapped discrete series, the transfer coefficients (g)). (e), for a gap above the threshold of the statement: follows from
+*Sources:* (existence: GanGrossPrasadUnitaryGroups §3.9, from Xue, Theorem 2.2, with Beuzart-Plessis, Theorem 12.4.1, for
+exactly one member with `m = 1` in each tempered Vogan packet; for `r_S = 0` under interlacing: He, Theorem 0.1). (e), for a gap above the threshold of the statement: follows from
 [FormalProof], `ReciprocityTheory/ReductiveGroups/DiscreteSeries/LaplaceOperators/ParitySignEqGapSign.lean`
 (`ReciprocityTheory.ChartRestriction.DS.Lap.NVStatement`); (g), the values of `|ϰ_s|` and `|κ_s|²`: [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/JetHarmonics/ProjectorEntryValueUnderLinearFunctionalStatement.lean`
@@ -337,6 +412,17 @@ PositivityOfDirichletSeriesWithKernels §7.1 (Laplace's method in several variab
 clause (d)).
 
 ### 5.13 The Bessel function of a word
+
+*Origin:* adapted from the decay of generalised Whittaker functions (Beuzart-Plessis (2020), Lemma 7.3.1 (i), a bound for
+Bessel functionals of tempered representations): the Bessel function attached to a
+discrete series with a large gap and a type of `U(k)`, with an explicit decay (a domination by an integral of the lowest
+`K`-type coefficient) and an explicit weighted integrability.
+
+*Method of the formal proof:* at each real place a reference function is built by integrating the lowest `K`-type
+coefficient against the character over the Bessel subgroup, its weighted integrability is deduced from that of the
+coefficient by the quotient integral formula, and every other continuous equivariant square-integrable function
+reproduced by the projector is a multiple of it by the uniqueness of Bessel maps; the global statement is the product
+over the real places. The decay is thus read off the explicit decay of a matrix coefficient.
 
 In the setting of 5.13a:
 (f) *The Bessel function.* Up to a scalar of modulus `1` there is exactly one continuous `W : G_τ → V_π` with
@@ -366,7 +452,7 @@ covers it); the weighted bound by `ν(x) ≤ ‖sx‖`, the quotient integral fo
 weighted integrability of the coefficient
 (DiscreteSeriesCoefficientsAndAutomorphicMetrics §2.4a (d), whose hypotheses are the two inequalities for `N` in (f)).
 
-*KNOWN* in kind (decay of generalised Whittaker functions: Jacquet, Wallach), *NEW* (the explicit decay). The chain instance:
+*Sources:* (decay of generalised Whittaker functions: Beuzart-Plessis (2020), Lemma 7.3.1 (i)). The chain instance:
 [FormalProof], `Development/AbelianVarietyTheory/Proofs/FlagMeasures/WuDecayOfGap.lean` (`GlobalTheory.wuDecayOfGap`),
 `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/WuDecay.lean` (`Formalism.L2.SG.WuDecay.WuWeighted`); its hypotheses
 on `h_gap` follow from [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ConcreteSettingExists.lean`
@@ -390,6 +476,18 @@ AnalyticNumberTheoryPartII §5.3k (quotient measures on `S_{z′}\G_τ`).
   pair `(⊖+)` at `u_k, hc′_1` would occur, and `π` would not occur.
 
 ### 5.14 Bessel–Poincaré series
+
+*Origin:* adapted from Poincaré series of integrable functions (Petersson (1930); Godement (1958), §4, Théorèmes 5 and 5 bis;
+in adelic form, for the
+trivial subgroup, Muić (2009)): the series for a Bessel subgroup of a unitary group, built from a Bessel function and an
+algebraic modular form on the definite factor, whose adjoint takes Bessel periods.
+
+*Method of the formal proof:* linearity is read off the summand, the adjoint is obtained by unfolding over a fundamental
+domain built from coset representatives, and convergence follows from an explicit count of rational points: the points
+are sent to matrices in a product of balls, two of them are separated at some real place because their difference maps
+one Hermitian lattice into the other and so has norm product at least `(τ₁(x)τ₁(y))^f`, and a packing bound concludes.
+The count is explicit in the least normalised size of a sublattice, where the usual proof takes the bound from reduction
+theory.
 
 Let `u` be a word, `ℳ_0(u)` the space of ThetaChainsOnDefiniteUnitaryGroups §3.8 of algebraic modular forms
 `T` on `U(X_0)` of weight `λ_u` and level `K_u = U(X_0)(𝔸_f) ∩ x_uK₂x_u^{−1}` with the character induced by `χ₂` (`x_u ∈ U(Y_0)(𝔸_f)`
@@ -447,7 +545,7 @@ the stabiliser of the lattice (any compact open subgroup of it). Then
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.13, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, ThetaChainsOnDefiniteUnitaryGroups §2.9b, ThetaChainsOnDefiniteUnitaryGroups §3.8; GanGrossPrasadUnitaryGroups 1.2, 4.1; AdelicAlgebraicGroups §2.3 (rational quotients),
 §3.5 (algebraic heights); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding);
-SlopesOfHermitianVectorBundles §3.2. *KNOWN* method (Poincaré series of integrable functions; Petersson, Godement), *NEW* in this form.
+SlopesOfHermitianVectorBundles §3.2. *Sources:* method (Poincaré series of integrable functions; Petersson, Godement).
 The linearity of `P_u` and the definition of `Ph_T`: [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedVolumeStatements/UnipotentInLevelSubgroup.lean`
 (`Formalism.L2.SG.Closed.PuLinearC_holds`), `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/PoincareInHH.lean`
@@ -460,6 +558,18 @@ the multiplicity bound of the route: follows from [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/HaarTransversals/ExplicitFormulaBoundHolds.lean` (`Formalism.L2.SG.Count.MultBound`).
 
 ### 5.15 Geometric expansion of the Gram operators
+
+*Origin:* adapted from the unfolding of Poincaré series and the geometric side of a relative trace formula (Petersson
+(1930); Jacquet (1986), §§1, 7, 9): the expansion of the Gram operators of Bessel–Poincaré series over pairs of lattices, with a
+classification of the terms for the unitary group and its Bessel subgroups (identity, degenerate, generic and
+non-generic terms) and of the pairs of terms of one row (their corank, loops and scalar pairs).
+
+*Method of the formal proof:* the inner product of two Poincaré series is unfolded once over a transversal of the double
+cosets `S_u(F)\U(Y_0)(F)/S_{u′}(F)`, each double coset contributing an integral over a fundamental domain of its discrete
+stabiliser; a fundamental domain made of one slab for each class of `U(X_0)`, built by strong approximation for `N_S`,
+sorts the terms by pairs of classes; the identity cell is computed by averaging a rank-one operator over the compact
+group `U(X_0)(F_∞)` acting irreducibly on `V_{λ_u}` together with `∫‖W_u‖² = 1`, and vanishes for `u ≠ u′` by Schur's
+lemma.
 
 For words `u, u′` put
 `c₀(u) = vol(K₂)·vol(Γ_u\N_S(F_∞))·vol(U(X_0)(F_∞))/dim V_{λ_u}`, where `Γ_u = N_S(F) ∩ x_uK₂x_u^{−1}` and `N_S(F_∞)`
@@ -519,8 +629,8 @@ the coordinates `(α, α′)` of a generic term at its row are a function of the
 
 *Needs:* 5.13b, 5.13c, 5.13, 5.14; RepresentationTheory/CompactGroups Layers 2, 4; HermitianFormsAndLattices §§5.1, 5.2 (genus,
 classes, stabilisers); AnalyticNumberTheoryPartII §5.3k (quotient measures, integration in stages, unfolding); Mathlib
-(Haar measure). *KNOWN* in kind (unfolding; geometric side of a relative trace formula of
-Bessel type), *NEW* (the classification for this pair, the pairs). The expansion of (a) and the identity terms of (b): [FormalProof],
+(Haar measure). *Sources:* (unfolding; geometric side of a relative trace formula of
+Bessel type). The expansion of (a) and the identity terms of (b): [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/PoincareConstantEq.lean` (`Formalism.L2.SG.Full.KExpansionC`,
 `Formalism.L2.SG.Full.AbsConvC`, `Formalism.L2.SG.Full.IdCellOffC`, `Formalism.L2.SG.Full.IdCellDiagC`).
 
@@ -533,6 +643,19 @@ Bessel type), *NEW* (the classification for this pair, the pairs). The expansion
   densities of primitive representations `d_𝔭(Z)`) and the corank-one inequality of 5.20b would not be what their routes prove.
 
 ### 5.15a Relative Schur orthogonality
+
+*Origin:* particular to this proof: an orthogonality inequality `∫‖O(γ)‖²_HS dγ ≤ 1/d` over the double cosets of two
+closed unimodular amenable subgroups, for functions equivariant under one of them each and fixed by the projector of a
+square-integrable representation, with equality for coefficients in the chain instance under the gap condition (G);
+nearest published results: Schur orthogonality for square-integrable representations, the case `S = S′ = {1}`, and the
+one-sided relations with the formal degree of Ichino, Lapid and Mao (2017) and Beuzart-Plessis (2018), Plancherel
+formula.
+
+*Method of the formal proof:* the generalised vectors behind the two functions are truncated along Følner sets of the two
+subgroups, Schur orthogonality on the whole group is applied to the truncations, and the limit is taken with Fatou's
+lemma and the disintegration of Haar measure along the double cosets; equality for coefficients uses the regularised
+Bessel pairing and its rank-one form. The published one-sided relations are proved by unfolding with absolute
+convergence.
 
 Let `𝐆` be a unimodular second-countable locally compact group, `σ` an irreducible
 square-integrable unitary representation of formal degree `d`, `w` a unit vector and `e_σ = d·conj⟨w, σ(·)w⟩`; `S, S′ ⊂ 𝐆` closed
@@ -579,7 +702,7 @@ Schur orthogonality); by Schur orthogonality `O(γ) = ⟨b, σ(γ)b′⟩`, and 
 `⟨σ(·)w, b⟩`, conjugate-linear in `σ(·)w`, are not fixed by `R(e_σ)`: for `𝐆 = U(1)` with Haar probability measure, `σ(θ) = e^{inθ}`,
 `n ≠ 0`, `w = b = 1`, it sends `x ↦ e^{−inx}` to `0`. Amenability is used for the truncation only.
 
-*KNOWN* in kind (Schur orthogonality; relative characters), *NEW* (this form). The chain instance: follows from [FormalProof],
+*Sources:* (Schur orthogonality; relative characters). The chain instance: follows from [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/GaugeLatticeShifts/RealObjInInfinityXOfG.lean`
 (`Formalism.L2.SG.Pf.realObj_inInfinityX_ofG`), `Formalism/LocalToGlobal/SiegelLatticeTheory/ClosedLocalOrbits/RealObj.lean`
 (`Formalism.L2.SG.RealObj.InInfinityX`); the equality `β(F, F) = c·|s(F)|²/d(𝒟_τ)` for coefficients: [FormalProof],
@@ -590,7 +713,110 @@ Schur orthogonality); by Schur orthogonality `O(γ) = ⟨b, σ(γ)b′⟩`, and 
 VonNeumannAlgebras Layer 9 (coefficient maps, Schur orthogonality, formal degree); AnalyticNumberTheoryPartII §5.3k
 (quotient measures on `S\𝐆`); Mathlib (`IsFoelner`, Haar measure, Fatou's lemma).
 
+### 5.16a The number of classes of unimodular Hermitian planes
+
+*Origin:* particular to this proof: an explicit bound, a power of the root discriminant times a power of its logarithm,
+for the number of classes of unimodular totally positive definite Hermitian lattices of rank `2` over a CM field `E` with
+`E/E⁺` unramified at every finite place.
+
+*Method of the formal proof:* a vector of small norm splits the lattice, up to a gluing, into two lines with a common
+scale ideal `𝔫` of `𝒪_E`, generated by elements of `F`, with `N𝔫 ≤ rd_E^{2f}`; the classes are then counted by the number
+of such ideals (at most `rd_E^f·(1 + f·log rd_E)^f`), the classes of each of the two lines (at most `2^f·h_E` each), the
+gluings of the two lines (at most `N𝔫`), and Minkowski's bound for the class number of `E`
+(`h_E ≤ rd_E^f·(1 + f·log rd_E)^{2f}`).
+
+*Statement.* Let `E` be a CM field with maximal totally real subfield `F`, `f = [F:ℚ]`, such that `E/F` is unramified at
+every finite place, and `rd_E = |d_E|^{1/(2f)}` its root discriminant. Consider the pairs `(J, Λ)` of a Hermitian matrix
+`J ∈ M_2(E)` (`J^* = J`, `^*` the conjugate transpose for the involution of `E/F`) that is totally positive definite
+(`y^*Jy` is totally positive for every `y ∈ E² ∖ {0}`) and an `𝒪_E`-lattice `Λ ⊂ E²` that is unimodular for the form
+`y^*Jx` (`Λ = {x ∈ E² : y^*Jx ∈ 𝒪_E for all y ∈ Λ}`), two pairs `(J, Λ)`, `(J′, Λ′)` being equivalent when
+`γ^*J′γ = J` and `γΛ = Λ′` for some `γ ∈ GL_2(E)`: the isometry classes of unimodular Hermitian `𝒪_E`-lattices of rank
+`2` in totally positive definite planes over `E`, all planes together. Their number is finite and at most
+
+`4^f·rd_E^{5f}·(1 + f·log rd_E)^{5f}`.
+
+[FormalProof] uses the bound for 5.16b.
+
+*Route.* The count of the method; the vector of small norm and the splitting of the lattice along it, and the counts of
+the ideals of `𝒪_E` generated by elements of `F`, of the classes of lines and of the gluings, are not given here.
+
+The statement: [FormalProof], `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean`
+(`GlobalTheory.FlagMeas.RankTwoClasses`), with the number of classes `GlobalTheory.FlagMeas.defClassNum`
+(`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/DefClassNum.lean`) and the hypothesis on `E`
+`Formalism.HermitianLatticesTheory.IsCMUnram` (`Formalism/HermitianLattices/StatementMass.lean`).
+*Needs:* HermitianFormsAndLattices §5.1; Mathlib `NumberField.exists_ideal_in_class_of_norm_le` (every ideal class of `E`
+contains an integral ideal of norm at most Minkowski's bound, which is at most `√|d_E| = rd_E^f`); AnalyticNumberTheoryPartI
+§2.15a (a number field of degree `d ≥ 2` has at most `τ_d(m)` integral ideals of norm `m`, so at most
+`Σ_{m≤x}τ_d(m) ≤ x(1 + log x)^{d−1}` of norm at most `x`: with `d = 2f`, `x = rd_E^f` and the Mathlib lemma this gives
+`h_E ≤ rd_E^f·(1 + f·log rd_E)^{2f−1}`, and with `d = f` it counts the scale ideals `𝔫` of the method, which are `𝔞𝒪_E` for
+the ideals `𝔞` of `𝒪_F` with `N𝔞 ≤ rd_E^f`; `f ≥ 2`, as `ℚ` has no CM extension unramified at every finite place).
+
+### 5.16b The volume of the adelic quotient in the Hilbert–Schmidt normalisation
+
+*Origin:* particular to this proof: the bound `X^{n²f}` for the volume of `U(V)(F)\U(V)(𝔸)`, for a Hermitian space `V` of
+one signature at every real place with a unimodular lattice, for the Haar measure given by the Hilbert–Schmidt norm at
+the real places and by the stabiliser of the lattice at the finite places, and every `X ≥ 2` with `rd_E ≤ X` and
+`2f·rd_E ≤ X²`.
+
+*Method of the formal proof:* in this normalisation the volumes of a space of rank `M ≥ 3` and of the orthogonal
+complement of a vector of norm `±1` have the ratio `rd_E^{f(M−½)}·L(M, η^M)`, so that, removing directions one at a time
+down to the signature `(2, 0)` (`p ≥ 2` because `q² ≤ n` and `n ≥ 8`), the volume is that of a totally positive definite
+plane with a unimodular lattice times `∏_{M=3}^{n} rd_E^{f(M−½)}·L(M, η^M)`; the volume of the plane is at most
+`vol(U(2))^f` times the number of classes of 5.16a; and an explicit numerical inequality bounds the product by `X^{n²f}`.
+The route written here uses the independence of the signature of HermitianFormsAndLattices §6.2 (c) in place of the
+induction on the signature.
+
+*Statement.* Let `E/F` be a CM extension unramified at every finite place, `f = [F:ℚ]`, `rd_E` the root discriminant of
+`E`, and `V` a Hermitian space over `E` of dimension `n ≥ 8` with a unimodular lattice `L`, of the same signature `(p, q)`
+at every real place of `F` (`q` the number of negative directions), with `q² ≤ n`. At each real place `v`, for an
+embedding `φ_v : E → ℂ` above `v` and a basis of `V ⊗_{E,φ_v} ℂ` in which the Gram matrix is diagonal with entries `±1`,
+let `μ^{HS}_v` be the Haar measure of `U(V)(F_v)` for which `μ^{HS}_v{g : ‖g − 1‖_HS ≤ r}·r^{−n²}` tends, as `r → 0`, to
+the volume of the unit ball of `ℝ^{n²}` (`‖·‖_HS` the Hilbert–Schmidt norm of `n × n` complex matrices in that basis), and
+on `U(V)(𝔸_f)` take the Haar measure for which the stabiliser `K_L` of `L` has volume `1`. Then for every real `X ≥ 2` with
+`rd_E ≤ X` and `2f·rd_E ≤ X²`,
+
+`vol(U(V)(F)\U(V)(𝔸)) ≤ X^{n²f}`,
+
+the volume being the infimum of the measures of the measurable subsets of `U(V)(𝔸)` that meet every orbit of `U(V)(F)`.
+[FormalProof] uses it for the finiteness of `vol([U(V)])` and in the deep part of the route of 5.16 ((f)).
+The condition `q² ≤ n` is that of [FormalProof]; the route below does not use it.
+
+*Route.* By HermitianFormsAndLattices §6.2 (c) the sum over the classes of the covolumes for the compact-dual measure
+`μ^c` is `mass(𝒪_E^n)`, for every signature. At a real place `μ^{HS}_v = vol(U(n))·μ^c`, where
+`vol(U(n)) = 2^{n(n−1)/2}·∏_{l=1}^{n} 2π^l/(l − 1)!` is the volume of `U(n)` for the Hilbert–Schmidt metric: both are Haar
+measures, and at the identity `μ^{HS}_v` has density `1` and `μ^c` has density `vol(U(n))^{−1}` with respect to the measure
+`λ` of the Conventions of HermitianFormsAndLattices, the Lebesgue measure of the Hilbert–Schmidt norm on the Lie algebra.
+So the volume is `vol(U(n))^f·mass(𝒪_E^n)`; with HermitianFormsAndLattices §6.4 (b), `|d_F| = rd_E^f` (`E/F` being
+unramified) and `vol(U(M))/vol(U(M − 1)) = (2π)^M/(M − 1)!`, it is `vol(U(2))^f·mass(𝒪_E^2)·∏_{M=3}^{n} rd_E^{f(M−½)}L(M, η^M)`,
+and `mass(𝒪_E^2)`, a sum of `|U(N)|^{−1}` over the classes `N` of one genus of unimodular planes, is at most the number
+of classes of 5.16a. The numerical comparison of this product with `X^{n²f}` (the bounds for the `L`-values and for
+`(1 + f·log rd_E)^{5f}` under `2f·rd_E ≤ X²`) is not given here.
+
+The statement: [FormalProof], `Development/AbelianVarietyTheory/Statements/CuspFrameWeights/SameKindIsometric.lean`
+(`GlobalTheory.FlagMeas.AbsoluteVolume`), with the volume `GlobalTheory.FlagMeas.gaugeVol`
+(`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/DefClassNum.lean`), the normalisation at the real places
+`GlobalTheory.Count.IsGauge` (`Development/AbelianVarietyTheory/Definitions/SemilocalFrames/LayerProd.lean`) and the data
+of the space `Formalism.MainNotions.S.AutInst` (`Formalism/SharpRestriction/CuspSpanNormBounds/GlobAut.lean`).
+*Needs:* 5.16a; HermitianFormsAndLattices §§6.2, 6.3, 6.4.
+
 ### 5.16 Limit multiplicity with a uniform error
+
+*Origin:* particular to this proof: limit multiplicity of discrete series of unitary groups of Hermitian spaces over CM
+fields with relative error `exp(−c·nf log n)`, uniform in the rank, the field, the level and the weight, under a gap
+condition and unipotent support at one prime; close published results: Savin (1989), after DeGeorge and Wallach (1978),
+limit multiplicity along towers of levels with the group fixed; and Shin and Templier (2016), Theorems 9.16 and 9.19, and
+Dalal (2022), Theorem 9.1.1, limit multiplicity with power-saving error terms, in the level and in the weight for discrete
+series packets and in the weight for a single discrete series, for a fixed group and with implied constants that depend
+on the group in a way not made explicit. Uniformity in the rank and in the field is in none of these, and a single discrete
+series in the level aspect is in neither Shin and Templier nor Dalal.
+
+*Method of the formal proof:* the multiplicity is the integral over a fundamental domain of the diagonal of the kernel of
+the projector given by the lowest `K`-type coefficient, the identity term giving the main term; the domain is cut by the
+least normalised size in the canonical filtration of the Hermitian lattice and by the type of the canonical flag; near
+terms are unipotent by a congruence on power traces and are counted against measure bounds for the points of each flag
+type, far terms are bounded by the decay of the coefficient, and the deep part by the vanishing of constant terms. The
+proofs of DeGeorge and Wallach and of Savin work along a tower of levels with the group fixed, without a uniform error;
+Shin and Templier and Dalal give power-saving error terms for a fixed group.
 
 For every `C_ϕ ≥ 0` there is `n₀` with the following property, with `c = 1/16` and `C = 8·10¹⁴(C_ϕ + 4)`. Let
 `E/F` be a CM extension, `f = [F:ℚ]`, `V` a nondegenerate Hermitian space over `E` of dimension `n ≥ n₀` with a self-dual
@@ -621,7 +847,7 @@ orthonormal basis `T_1, …, T_D` of isometric intertwiners whose values are cus
 over a fundamental domain `𝔉`, the kernel on the diagonal being `Σ_i|F_i(x)|²` for an orthonormal basis of the range;
 the term `γ = 1` integrates to `D*(π_∞, ϕ)`. (b) For `x ∈ U(V)(𝔸)` let `Λ_x` be the Hermitian lattice `x_fL` with the
 metrics `x_∞`; its canonical filtration (SlopesOfHermitianVectorBundles §3.2) gives `least(x)`, the least normalised size
-of a nonzero sublattice; split `𝔉` into the *moderate* part `least(x) ≥ τ*` (`τ* = (nf·rd_E·g_ϕ·b)^{−Cq_V}`) and the *deep*
+of a nonzero sublattice; split `𝔉` into the *moderate* part `least(x) ≥ τ*` (`τ* = (nf·rd_E·g_ϕ·b)^{−11q_V}`) and the *deep*
 part. (c) *Short flags are rare:* the measure of `{least < ½}` is at most `exp(−nf log n/3)·vol(𝔉)` when `q_V² ≤ n`, by
 unfolding over the parabolic of the flag (Iwasawa integration, covolumes of unipotent radicals, volumes of `GL_j(E)`,
 mass ratios of unitary groups of smaller rank, and the residue bound AnalyticNumberTheoryPartI §2.15,
@@ -674,9 +900,9 @@ Chain instance: `𝟙_{K₂,χ₂}` is an admissible idempotent (ThetaChainsOnDe
 §2.4a (c) (explicit lowest-`K`-type coefficients of gapped discrete series and their decay); SlopesOfHermitianVectorBundles §3.2; HermitianFormsAndLattices §§6.0b,
 5.5, 6.4, 6.5; AdelicAlgebraicGroups §3.1 (Iwasawa integration), §3.4 (adelic reduction, finite covolume); GeometryOfNumbersAndQuadraticArithmetic
 §4.4.14 (covering radius and dual minimum); AnalyticNumberTheoryPartI §2.15 (residue bound for Dedekind zeta functions).
-*KNOWN* in kind (limit multiplicities of
+*Sources:* (limit multiplicities of
 discrete series: DeGeorge–Wallach for compact quotients, Clozel and Savin for non-compact ones; rapid decay of cusp
-forms), *NEW* (the error term uniform in rank, field, level and weight). The statement: [FormalProof],
+forms). The statement: [FormalProof],
 `Development/AbelianVarietyTheory/BlockTheory/SiegelWeilLocal/LatticeCountingTheorem.lean`
 (`GlobalTheory.IndefiniteRowSideFullHecke.LatticeCountingTheorem.CountingTheorem`), with its hypotheses in
 `Development/AbelianVarietyTheory/Definitions/SemilocalFrames/LayerProd.lean` (`GlobalTheory.Count.CountHyp`), and unbundled in
@@ -694,6 +920,15 @@ the form at the points of the chain: [FormalProof], `Formalism/SharpRestriction/
   with an error uniform in rank, field, level and weight, and neither statement contains the other.
 
 ### 5.17a The Gelfand–Graev expansion at the type primes
+
+*Origin:* adapted from multiplicity one for the Gelfand–Graev representation (Gelfand and Graev (1962)): the norm of a
+family of terms as a quadratic form in the Gelfand–Graev character at the type primes, with its bound.
+
+*Method of the formal proof:* the inequality is reduced to the positive semidefiniteness of `∏_𝔭(1 + 3/N𝔭)·γ_GG(1)`
+times the identity minus the matrix `(γ_GG(j^{−1}i))`, which follows from multiplicity one of Whittaker functionals
+(Gelfand's trick with the flip across the antidiagonal and a Bruhat decomposition), the lower bound `∏_{i<k}(q^i − 1)`
+for the dimension of a generic representation, and the action of the Gelfand–Graev convolution on irreducible
+representations.
 
 Let `𝔭` run over the primes of `F` above `g₀g₁`; each
 splits in `E`, `U(X_0)(F_𝔭) ≅ GL_k(F_𝔭)`, and the residue field `𝔽_𝔭` has `g₀` or `g₁` elements; assume `#𝔽_𝔭 ≥ 3`. The
@@ -719,7 +954,7 @@ representation with a nonzero Whittaker functional `ℓ` has dimension `≥ ∏_
 translates of `ℓ` by suitable elements of the mirabolic subgroup are linearly independent (the `q^{k−1} − 1` nontrivial
 characters of the last column group separate them); irreducibility is not used.
 
-*KNOWN* ingredients (Gelfand–Graev multiplicity one). The inequality with `((1 + 3/g₀)(1 + 3/g₁))^f`: [FormalProof],
+*Sources:* ingredients (Gelfand–Graev multiplicity one). The inequality with `((1 + 3/g₀)(1 + 3/g₁))^f`: [FormalProof],
 `Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.Terms.GGBound`).
 *Needs:* 5.15, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§2.2, 2.4, 2.5.
 
@@ -731,6 +966,15 @@ characters of the last column group separate them); irreducibility is not used.
 - `q = 2` is excluded: already for `k = 3`, `∏_{i=1}^{2}(1 − 2^{−i})^{−1} = 8/3 > 1 + 3/2`.
 
 ### 5.17b Local kernels of decorated cokernels
+
+*Origin:* particular to this proof: positive semidefinite kernels built from Kloosterman-type sums over Bruhat cells,
+sorted by the class of a decorated cokernel, with support conditions and a Parseval identity in the last pivot.
+
+*Method of the formal proof:* the double sum is regrouped by the isomorphism class of the decorated cokernel, which
+exhibits the kernel as a sum of rank-one forms with nonnegative weights; the support conditions come from a descent along
+the flag of row forms of `Z^{−1}`, in which an integral rank-one column operation permutes each class of matrices while
+multiplying the character by a value `≠ 1`; the Parseval identity in the last pivot comes from an explicit
+parametrisation of the cell of a block of size one and orthogonality of characters of the cokernel and of its dual.
 
 A *local datum* is a commutative Hausdorff topological ring `𝔎`, Artinian and reduced, with a compact
 open subring `𝔒`, a unit `ϖ ∈ 𝔒` such that `𝔎 = ⋃_mϖ^{−m}𝔒`, such that every element of `𝔎` is the sum of a unit and an
@@ -771,7 +1015,7 @@ gives `N^{loc}(1; h, h′; c, c) = Σ_{Z,Z′}ψ(Z)conj ψ(Z′)Σ_{θ,α,β: α
 (`e, e′` the marked vectors, `λ, λ′` the marked forms), and summing over `c` with orthogonality of characters of `coker Z` and of its dual,
 `#coker Z = |det Z|^{−1}`, gives the Parseval identity.
 
-*KNOWN* in kind (Kloosterman sums on Bruhat cells: Friedberg, Stevens, Jacquet–Ye), *NEW* statements. The local datum, `N^{loc}`
+*Sources:* (Kloosterman sums on Bruhat cells: Friedberg, Stevens, Jacquet–Ye). The local datum, `N^{loc}`
 and `𝔰`: [FormalProof], `Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean`
 (`Formalism.FourierDecayAlt.A5.LocalDatum`); (b-i): [FormalProof],
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/KernelQuotientFinite.lean`
@@ -790,6 +1034,17 @@ and `𝔰`: [FormalProof], `Formalism/HermitianCurvature/BlockKernelPropertiesOf
   `coker Z ≅ 𝒞`, the right side of (b-i) would be off by the factor `#Aut(𝒞)²` in each term.
 
 ### 5.17c Germ identity and periodic majorants of the local kernels
+
+*Origin:* particular to this proof: periodic positive semidefinite majorants of the local kernels, obtained from an exact
+germ identity that adapts the germ expansions of Kloosterman integrals (Jacquet and Ye (1999)) by stationary phase over `p`-adic
+fields.
+
+*Method of the formal proof:* the germ identity is a stationary phase computation over the local ring: the sum over the
+cell of `(ℓ, t) ⊕ (1, c)` becomes an integral with the phase `(Σx_k + D′/∏x_k)/t`, which vanishes away from the critical
+points by averaging over small translations and is evaluated at each critical point by a Morse lemma and a Gaussian
+integral; the majorants are built by induction on the block size, applying the germ identity in both arguments at pivots
+shifted by a finite group, inverting the Fourier transform over that group, and passing to a limit over an exhaustion of
+the units.
 
 In the setting of 5.17b: a local datum in which every nonzero integer is invertible is a finite product of finite extensions of
 fields `ℚ_p` with a compact open subring that is its own orthogonal for `ψ`: an Artinian reduced ring is a finite product of
@@ -841,7 +1096,7 @@ different shifts modulo `𝔒` are orthogonal by 5.17b (b-ii)), and its sum over
 `𝔰(h)𝔰(h′)N^{loc}(ℓ; h, h′; t_σ, t_σ) ≤ 𝔰(h)^{ℓ+1}𝔰(h′)^{ℓ+1}K^{loc}(h, h′)` by 5.17b (b-iii) for the last block and by (b-v) for `ℓ`; an exhaustion of
 the units by sets `Ω` and a compactness argument (finitely many classes in the support module, bounded entries) conclude.
 
-*NEW*. (b1): [FormalProof], `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
+(b1): [FormalProof], `Formalism/HermitianCurvature/ThetaExistenceInductiveFromPieces.lean`
 (`Formalism.FourierDecayAlt.A6.GermKernel`); (b-v): [FormalProof],
 `Formalism/HermitianCurvature/BlockKernelPropertiesOfSteps.lean` (`Formalism.FourierDecayAlt.A5.A13`,
 `Formalism.FourierDecayAlt.A5.ThetaExists`, `Formalism.FourierDecayAlt.A5.ThetaProps`).
@@ -849,6 +1104,17 @@ the units by sets `Ω` and a compactness argument (finitely many classes in the 
 `Σx_k + D/∏x_k`); the classification of nondiscrete locally compact fields of characteristic zero.
 
 ### 5.17d The local model of the chain
+
+*Origin:* adapted from local densities of unimodular Hermitian lattices (Siegel (1935); Shimura (1997)): the local model
+of the chain at every prime, its product kernels and a bound for the normalised product of densities.
+
+*Method of the formal proof:* the kernels are products over the primes of the local kernels by construction, and their
+positivity and the domination by the majorants follow from Schur products; the local density of a self-dual lattice is
+reduced by a congruence step to a count over the residue field, which [FormalProof] makes directly: at a split prime as a
+number of independent tuples times the size of a fibre of a linear system, at an inert prime by a recursion on the number
+of vectors; the product over the primes is bounded with at most `f` primes of `F` over each rational prime. The route
+below reaches the same count through one orbit of the finite unitary or general linear group (Witt's theorem) and the
+order of a stabiliser.
 
 Assume `E/F` unramified at every finite place. For a prime `𝔭` of `F` let
 `E_𝔭 = E ⊗_F F_𝔭`, `δ_𝔭 ∈ F_𝔭` a generator of the different, and take the local datum: if `𝔭 ∤ g₀g₁`, the maximal order of `E_𝔭`
@@ -885,13 +1151,23 @@ quotient `α_𝔭(r)/α_𝔭(r − m − c_𝔭)` with `r − m = k − 1` (for 
 `q^{r−1}(q^r − (−1)^r)` times, density `α(r)/α(r − 1)`); then `e^{−2x_𝔭} ≤ α⁰_𝔭 ≤ e^{2x_𝔭}` and `d_𝔭/α⁰_𝔭 ≤ e^{4x_𝔭}` with
 `x_𝔭 = N𝔭^{−(k−2r_S−2)}`, and `Σ_𝔭x_𝔭 ≤ 3f·2^{−(k−2r_S−2)}` since at most `f` primes of `F` lie over a rational prime.
 
-*NEW* (the local model), *KNOWN* in kind (local densities of unimodular Hermitian lattices). The density bound: [FormalProof],
+*Sources:* (local densities of unimodular Hermitian lattices). The density bound: [FormalProof],
 `Formalism/HermitianCurvature/StatementPB.lean` (`Formalism.FourierDecayAlt.PB.PairBound`),
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/TheoremSRecursion.lean`
 (`Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt`).
 *Needs:* 5.17b, 5.17c, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a.
 
 ### 5.17 Mean value formula and comparison for the rows
+
+*Origin:* adapted from Siegel's main theorem and the mass formula with gluing along discriminant forms (Siegel (1935);
+Shimura (1997)): the mean number of generic terms per row, and a positive semidefinite comparison of global
+coefficients with the local kernels.
+
+*Method of the formal proof:* the rows that carry a frame with pairing matrix `Z` are the unimodular lattices meeting the
+span of the two frames in `M_Z`; counting the pairs of a row and a class of terms in two ways turns the mean into a sum
+over these lattices modulo the isometries fixing the span, which is evaluated by gluing along discriminant forms prime by
+prime and the mass of the positive definite complement of rank `k − 1`; the comparison sorts the terms by their families
+of local classes of decorated cokernels and bounds each weight by `d_sup`.
 
 Assume the setting of 5.17d, `m + 3 ≤ k` and `E/F` unramified at every finite place. For a
 pairing matrix `Z = (⟨F′_b, F_a⟩) ∈ M_{r_S+1}(E)` of a rational second frame `F′` (with `⟨z′, z′⟩ = −T(u′)`) against the base frame put
@@ -961,7 +1237,7 @@ mean value formula, refined by classes); hence `Σ_ρc_ρ ⊗ conj c_ρ = Σ_θ(
   determinant `−2T − g²`, a unit, so `c_p = 0`, and the two prescriptions give the different denominators `α_p(k − 2)` and
   `α_p(k − 1)` (for `g = 3`, `T = 1`: determinants `−99` and `−11`).
 
-*NEW* statements, *KNOWN* ingredients (the mass formula; gluing of lattices along discriminant forms). The total weight of the
+*Sources:* ingredients (the mass formula; gluing of lattices along discriminant forms). The total weight of the
 rows: [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DualFamilyCounting/StepsR.lean`
 (`Formalism.L2.SG.Pf.Cnt.RowsMass`); the mean value formula: [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DualFamilyCounting/FormulaExplicitAtOfEta.lean`
@@ -971,6 +1247,22 @@ rows: [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCoun
 ThetaChainsOnDefiniteUnitaryGroups §2.2, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9; HermitianFormsAndLattices §§4.1, 4.8, 4.9, 5.6, 6.1, 6.1a, 6.1d, 6.3, 6.4a.
 
 ### 5.18a The archimedean transfer matrix
+
+*Origin:* particular to this proof: the radial parts of Capelli operators on Bessel coefficients of `U(p, q_S)` as a
+transfer matrix of Toda type with a start from `U(k, 1)`, and a normal form of the start. The exchange relation and the
+quantum determinant of (b), in their algebraic form for bordered quantum minors, are published: they are the quantum
+Sylvester theorem (Krob and Leclerc (1995); Molev (2002), Theorem 1.3). Nearest published result for the transfer
+matrix: Gerasimov, Kharchev and Lebedev (2002), the Capelli generating function as an entry of the Toda monodromy for
+Whittaker functions of general linear groups over `ℝ`.
+
+*Method of the formal proof:* equivariance rules turn the matrix units joining a plane to the smaller space into border
+vectors, and expansions of the Capelli determinant give a chain step from one level to the next; the exchange relation of
+an upper level is derived from the commutation of the Capelli determinants of the lower level applied to functions
+twisted in the pivot, by separating monomials, with continuity in the parameter for the remaining value; the quantum
+determinant is identified at the last level by a Jacobi identity for bordered quantum minors; [FormalProof] also carries it
+to all levels, which its main theorems do not use.
+In the published theory the exchange relation comes from R-matrix or quasi-determinant identities, or from the sites
+through the coproduct.
 
 *Setting.* At a real place, `G_τ`, `F = (e_1, …, e_{r_S}, z′)`, `F′` with `z″`,
 `T = −⟨z′, z′⟩`, `T′ = −⟨z″, z″⟩`, types `π, π′` of `U_{z′}`, `U_{z″}` with parameters `u, u′`, as in 5.13a. For
@@ -1054,16 +1346,28 @@ of the coefficient (with the parameter shifted by one; for `𝔷̄`, unshifted a
 bordered minors this gives `∓` the doubly bordered minor or `0` by antisymmetry, and the doubly bordered minor commutes because
 the second commutator vanishes.
 
-*KNOWN* frameworks (Capelli identities; RTT presentation and quantum determinant of the Yangian of `𝔤𝔩₂`: Molev,
-Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev), *NEW* (the statements in this
-setting). The exchange relation and the quantum determinant of (b): [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.RTTLevel`,
-`Formalism.FourierDecayAlt.Q.DetLevel`).
+*Sources:* frameworks (Capelli identities; RTT presentation and quantum determinant of the Yangian of `𝔤𝔩₂`: Molev,
+Kulish–Reshetikhin–Sklyanin, Drinfeld; Lax matrices of Toda type: Sklyanin, Kharchev–Lebedev). The exchange relation of (b) at every level, and its quantum determinant at the last level `i = r_S`, the level of the start (c): [FormalProof], `Formalism/HermitianCurvature/StatementQ.lean` (`Formalism.FourierDecayAlt.Q.RTTLevel`;
+`Formalism.FourierDecayAlt.Q.DetAt` at the last level, proved as `Formalism.FourierDecayAlt.P.JacquetIntegral.detCore` in
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/InvariantOperatorUnderJacquet.lean`). The quantum determinant at
+every level is stated and proved there as well (`Formalism.FourierDecayAlt.Q.DetLevel`); the main theorems of
+[FormalProof] do not depend on it.
 *Needs:* 5.13a, 5.13b; ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`);
 ClassicalGroups §§6.3–6.6; TensorInductionAndFiniteGroupInputs §9.1 (b), (h) (the
 border expansions, for (a)), (e), (g), (j) (the quantum determinant, for (b)), (c) (the Capelli eigenvalue), (f) (the commutators
 with `𝔷`, `𝔷̄`), (i) (the adjointness of the entries); RepresentationTheory/LieHighestWeight Layer 7; RealSemisimpleLieGroups 3.3.
 
 ### 5.18b Level forms: module algebra and positivity
+
+*Origin:* particular to this proof: a family of nonnegative Hermitian forms on radial restrictions of Bessel integrals,
+built by fusion with Yang's R-matrix from the transfer matrix, with their frames, the positivity of the diagonal factors
+of the frames on a cut and exact passage between levels.
+
+*Method of the formal proof:* letters are added to a matrix with the exchange relation by multiplying with Yang's
+R-matrix in an auxiliary `ℂ²` and inserting the value of the matrix at the point of the letter into the Hermitian form;
+a frame built letter by letter writes the dressed form as `F_𝐬^*·c_𝐬·F_𝐬` up to a positive weight, with `c_𝐬` diagonal;
+on a cut the interlacing of the types makes every entry of `c_𝐬` positive; the top-level form is then the integral of a
+pointwise nonnegative density, and integrating one pivot at a time carries nonnegativity down to every level.
 
 In the setting of 5.18a:
 (d) *Module algebra.* For a `∗`-algebra, a Hermitian `𝐑` and a `2×2` matrix `𝐓(Y)` with the exchange relation, quantum
@@ -1091,13 +1395,27 @@ the class, and a wave translate is the product by a unimodular function, which c
 integrating a pivot is the site identity `T^*𝐑[𝐐_{i+1}]T = 𝐑[T^*𝐐_{i+1}T]` for the transfer matrix of the level,
 `𝐐_i(Y) = (T_i(Ȳ)⋯T_{r_S−1}(Ȳ))^*·𝐐(Y)·T_i(Y)⋯T_{r_S−1}(Y)`, `𝐐` the matrix of the start, 5.18a (c).
 
-*KNOWN* frameworks (Yang–Baxter equation, fusion and Gauss decomposition of the Yangian of `𝔤𝔩₂`: Molev, Drinfeld), *NEW*
-(the frames and positivity in this setting). The letter steps of (d): [FormalProof], `Formalism/HermitianCurvature/StatementWd.lean`
+*Sources:* frameworks (Yang–Baxter equation, fusion and Gauss decomposition of the Yangian of `𝔤𝔩₂`: Molev, Drinfeld).
+The letter steps of (d): [FormalProof], `Formalism/HermitianCurvature/StatementWd.lean`
 (`Formalism.FourierDecayAlt.Wd.LetterPlus`, `Formalism.FourierDecayAlt.Wd.LetterMinus`); the level forms of (e), their positivity and the
-passage between levels: [FormalProof], `Formalism/HermitianCurvature/CompositeFormulaLevelZero.lean` (`Formalism.FourierDecayAlt.P5.ThmPActual`).
+passage between levels, for test functions of compact support: [FormalProof], `Formalism/HermitianCurvature/HerGenC.lean`
+(`Formalism.FourierDecayAlt.P5.ThmPActualCpt`), proved in
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/CutSETopFinal.lean`
+(`Formalism.FourierDecayAlt.P.CutSE.actual_compact_theorem`). The statement without the restriction to compact support
+(`Formalism.FourierDecayAlt.P5.ThmPActual`, in `Formalism/HermitianCurvature/CompositeFormulaLevelZero.lean`) is derived in [FormalProof] only from
+further hypotheses, and its main theorems do not depend on it.
 *Needs:* 5.18a, 5.13b.
 
 ### 5.18c Archimedean Fourier majorants
+
+*Origin:* particular to this proof: bounds for the Fourier transform of the level kernels in a pivot, obtained from the
+action of waves on the sites and interpolation in the spectral parameter.
+
+*Method of the formal proof:* a wave in a pivot conjugates the site by a unipotent matrix; a slice with one more pair of
+letters is a polynomial in the point of the letters whose top coefficient is the frequency times the slice without them,
+and Lagrange interpolation over grids of nodes on the cut extracts it; the Cauchy–Schwarz inequality for the nonnegative
+level forms then bounds the transform of a kernel, multiplied by a power of the frequency, by a convex combination of
+level forms for strings with more letters.
 
 In the setting of 5.18a, with the level forms of 5.18b:
 (f) *Fourier majorants.* Multiplication by `e_s(c) = exp(sc − s̄c̄)` in a pivot conjugates each site by
@@ -1133,11 +1451,20 @@ letters is a polynomial of degree `≤ 2j` in its point whose top coefficient is
 divided difference over `2j+1` nodes extracts it; the size inequality is Cauchy–Schwarz for the nonnegative forms of
 5.18b (e) combined with the letter exchange of 5.18b (d).
 
-*NEW*. The scales: [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean` (`Formalism.FourierDecayAlt.Sz.lamThreshold`,
+The scales: [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean` (`Formalism.FourierDecayAlt.Sz.lamThreshold`,
 `Formalism.FourierDecayAlt.Sz.Glob.N`, `Formalism.FourierDecayAlt.Sz.Glob.lenI`).
 *Needs:* 5.18b; Mathlib (Lagrange interpolation, Fourier inversion).
 
 ### 5.18d Archimedean blocks
+
+*Origin:* adapted from stationary phase and the germ expansions of Kloosterman orbital integrals (Jacquet and Ye (1999)): an
+archimedean block estimate with a rate, and its consequence for the level forms.
+
+*Method of the formal proof:* the orbital integral over the cell is written as an oscillatory integral with phase
+`(Σx_k + D′/∏x_k)/t`, truncated at matrix norm `|t|^{−ε}`, and split by a partition of unity into a region away from the
+critical points, treated by non-stationary phase, and a neighbourhood of each of the `d` critical points, treated by
+stationary phase with the explicit Hessian; the limit of the amplitude on the critical fibre gives the long orbital
+integral.
 
 In the setting of 5.18a:
 (g) *Blocks.* Let `d ≥ 2`, `ψ = ψ_β` with `ψ_β(w) = e^{i Re(βw)}` for some `β ∈ ℂ^×`, every Haar measure on the
@@ -1167,12 +1494,22 @@ constants (`|t|^{d−1}|z|^{d−1}/d` from the Hessian determinant `d·z^{−(d�
 `(d−1) − 2(d−1) + d(d−1) = (d−1)²` for the exponents of `|t|` and `|z|`). Then Poisson summation over a coset and the lift bound
 for the block of size `s − 1`, inducting on `s`.
 
-*KNOWN* in kind (stationary phase; complex Gaussian integrals through Takagi's factorisation), *NEW* (this form). The estimate of `O_blk` in (g):
+*Sources:* (stationary phase; complex Gaussian integrals through Takagi's factorisation). The estimate of `O_blk` in (g):
 [FormalProof], `Formalism/HermitianCurvature/StatementG.lean` (`Formalism.FourierDecayAlt.G.GermRate`). *Needs:*
 5.18b, 5.18c; PositivityOfDirichletSeriesWithKernels §8.1 (b), (c), (d) with `n = d − 1` (non-stationary phase, stationary phase
 at a nondegenerate critical point, the phase `Σx_k + D/∏x_k`); Mathlib (Poisson summation).
 
 ### 5.18e Level zero
+
+*Origin:* particular to this proof: the limit of the level-zero form as the cut-off is removed, by an energy estimate
+with Markov's inequality in the spectral parameter.
+
+*Method of the formal proof:* an energy estimate uniform in the cut-off: with the weight `(Gr/(Gr + ε_c))^σ`, the
+identity "a letter at `Y` multiplies the energy by `|P(Y)|`" holds up to defect terms that are derivatives, in the
+parameter `s` of the conjugation by `Gr^s`, of polynomials of degree at most `r_S + 1`; conjugation by `Gr^s` translates
+the spectral parameter, so Markov's inequality on a long interval bounds the defects by half the supremum of the
+energies, which is absorbed; Fatou's lemma and dominated convergence then give the exact identity, and induction on the
+letters with polynomial dependence on the points gives the limit for every string.
 
 In the setting of 5.18a, with the level forms of 5.18b:
 (h) *Level zero.* In the scalar model of the start (functions `j_ρ` on the orbit coordinates indexed by the types `ρ` of
@@ -1263,12 +1600,22 @@ compactly supported approximants, both sides converging. Then `φ_{ε_c}(x) = χ
 `ε_c`, so the top densities are dominated by `C·n·Gr^{2p₀−L}(Σ_t‖𝒥(Θ_tf)‖)²`, integrable when `L ≤ 2p₀`; dominated convergence
 and locality.
 
-*KNOWN* frameworks (A. Markov's inequality; Gelfand–Tsetlin branching: ClassicalGroups §6.1), *NEW* (the statements in this setting).
+*Sources:* frameworks (A. Markov's inequality; Gelfand–Tsetlin branching: ClassicalGroups §6.1).
 The limit of the level-`0` form in (h): [FormalProof], `Formalism/HermitianCurvature/StatementMA.lean` (`Formalism.FourierDecayAlt.MA.LemmaEModel`).
 *Needs:* 5.18a, 5.18b, 5.13b; TensorInductionAndFiniteGroupInputs §9.1 (f) (commutator of the quantum determinant with a vector operator);
 ClassicalGroups §6.1 (branching `GL_k ↓ GL_{k−1}`, for `U(k) ↓ U(k−1)`).
 
 ### 5.18 Archimedean Gram forms: the pointwise bound
+
+*Origin:* particular to this proof: a pointwise bound for Bessel orbital integrals of discrete series coefficients in
+terms of the Gram determinant, with constants polynomial in the parameters.
+
+*Method of the formal proof:* the diagonal of the level form at a point is bounded one block at a time: for a block of
+size one by Fourier inversion in the pivot with the wave bound, for a larger block by summing the nonnegative diagonal
+over a lattice of pivots, passing to the dual lattice with the block expansion and applying the lift bound; each unit of
+block size costs the square of a scale of 5.18c and `K_♯` letters, and after `r_S + 1` units the level-zero limit
+identifies what is left with the norm of the Bessel integral; the weighted norm bound for discrete series comes from
+tensor products with an exterior power of the standard representation.
 
 In the setting of 5.18a:
 (i) *Pointwise bound.*
@@ -1349,8 +1696,8 @@ frame that scales the isotropic vectors by `κ_a`: it replaces `ψ_τ` by `ψ_�
 between `b^{−2C_hr_S}` and `b^{C_h(4r_S+2)}` (only these two-sided bounds and `T, T′ > 0` are used), at a cost `b^{C(2r_S+2)²}` in
 the Bessel functions and in `Gr`.
 
-*KNOWN* frameworks (stationary phase; tensor products of discrete series with finite-dimensional representations:
-Zuckerman), *NEW* (all the statements in this setting). (i₀), the case `u = u′`: [FormalProof],
+*Sources:* frameworks (stationary phase; tensor products of discrete series with finite-dimensional representations:
+Zuckerman). (i₀), the case `u = u′`: [FormalProof],
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/CptCopy2.lean` (`Formalism.FourierDecayAlt.P.CutBPEq.thmBpAt_eq_NFRCpt`);
 the domination of the approximants in its Route: `Formalism/HermitianCurvature/HermitianCurvatureProofs/CutNFApxDom.lean`
 (`Formalism.FourierDecayAlt.P.CutBP.DominatedL2TruncationBound`); (i₁): [FormalProof],
@@ -1374,6 +1721,16 @@ exterior powers of the standard representation and with its dual, on smooth vect
 - For `r_S = 0` there are no sites: 5.18a (a) is empty and the start 5.18a (c) is the whole transfer matrix on `U(k, 1)`.
 
 ### 5.19 The tower inequality
+
+*Origin:* particular to this proof: an abstract inequality of large sieve type with leading constant one for positive
+semidefinite kernels on towers of points, proved by induction on the pivots.
+
+*Method of the formal proof:* one level of the tower is treated by splitting the points by the size of their last block;
+pairs of distinct last pivots are removed by the Schur test with the lift bound and the lattice sums; on the diagonal the
+kernel is replaced by its periodic majorant and the pivots are grouped into cosets; for blocks of size one the Poisson
+step with the wave bound returns the previous level with the factor `1 + e_i` and a small error, the zero frequency being
+an identity, and for larger blocks the block bound is applied on each coset; the levels are then iterated and the
+cut-off removed.
 
 *Data.* `L ≥ 0`, `f ≥ 1`, `K_♯ ≥ 4`; a field `E` with `f` functions `|·|_v : E → ℝ`; *points of level `i`*:
 finite lists `p = ((s_1, t_1), …, (s_a, t_a))` of blocks, `s_j ≥ 1`, `t_j ∈ E^×`, `Σs_j = i` (a point of level `i` whose last block has
@@ -1435,8 +1792,7 @@ counts in the hypotheses are what keeps every string used within the budget `4K_
 Iterate, let `ε_c → 0` (level zero and top), and use the domination of the coefficients. The constant `1` survives because the
 zero frequency of the Poisson step is an identity.
 
-*Needs:* Mathlib `Matrix.PosSemidef.hadamard` (Schur product theorem); Tau Ceti `TauCeti.lintegral_rpow_lintegral_mul_le` (Schur's test, here for counting measures). *NEW* (a large-sieve inequality with constant `1` for amplitudes of
-geometric terms, proved along a flag one pivot at a time).
+*Needs:* Mathlib `Matrix.PosSemidef.hadamard` (Schur product theorem); Tau Ceti `TauCeti.lintegral_rpow_lintegral_mul_le` (Schur's test, here for counting measures).
 Follows from [FormalProof], `Formalism/HermitianCurvature/StatementTC.lean` (`Formalism.FourierDecayAlt.TC.TheoremAAfter`),
 `Formalism/HermitianCurvature/StatementTB.lean` (`Formalism.FourierDecayAlt.TB.Data`).
 
@@ -1447,6 +1803,14 @@ Follows from [FormalProof], `Formalism/HermitianCurvature/StatementTC.lean` (`Fo
   is asked.
 
 ### 5.20a Standing conditions, dimension formula and critical level
+
+*Origin:* adapted from the mass formula, Weyl's dimension formula and Harish-Chandra's formal degree: the ratio of the
+dimensions of rows and columns, the critical level, and the standing size conditions of the chain.
+
+*Method of the formal proof:* the dimension formula is an algebraic identity: the mass ratios of consecutive ranks are
+multiplied from rank `k + 1` to rank `r`, the factorials cancel against the Vandermonde forms of the formal degree and of
+Weyl's dimension formula, and the quotient of the level indices at the type primes is computed directly; the mass ratios
+and the count of columns enter as inputs.
 
 *Standing conditions.* *(St)* with `L = log b` and absolute constants
 `C′, C_l, C_g, C_u, c_b, C_T` (`C′`, `C_l` larger than bounds that depend on the other constants of (St), on `C₀` and, in
@@ -1528,7 +1892,7 @@ contradiction) is not used.
 `Δ_w = 10⁶`, `rd_E = 2`, nodes `e′_j = 10¹⁵ + j·10³` (`0 ≤ j < m`) and `g₀g₁ = 10¹²`, the logarithm of `T_crit` over the bound is about `−18` for
 `u_1 = v_0 + ½` and from `+1.5` to `+1.9`, depending on the bits of the word, for `u_1 = v_0 + Sc + ½`.
 
-*NEW*. (St): [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean`
+(St): [FormalProof], `Formalism/SharpRestriction/CuspSpanNormBounds/StandingNumericalData.lean`
 (`Formalism.MainNotions.S.StandingHypotheses`); (a): [FormalProof], `Formalism/HermitianCurvature/StatementSz.lean`
 (`Formalism.FourierDecayAlt.Sz.PropA`, `Formalism.FourierDecayAlt.Sz.TcritPow`,
 `Formalism.FourierDecayAlt.Sz.SizeData.MassRatios`); (b), the first bound: follows from [FormalProof],
@@ -1539,6 +1903,15 @@ contradiction) is not used.
 §8.3 (formal degree).
 
 ### 5.20b Loops and non-scalar pairs
+
+*Origin:* particular to this proof: the bound for the pairs of terms of corank at least two and for the non-scalar pairs
+of corank one, by a lattice inequality, mean counts over a genus and the amplitude bounds.
+
+*Method of the formal proof:* the pairs are sorted into nondegenerate pairs of corank `s`, degenerate pairs of corank `s`
+and non-scalar generic pairs of corank one, and each class has a row bound that is a product of a power of `2/g`, a mass
+ratio, a count of sublattices and amplitude bounds; the power of `2/g` comes from a lattice theorem in which the
+determinant of the form `⟨(1 − β)x′, x″⟩` modulo its radicals is a nonzero element of `g^{s−1}𝒪_E` bounded at every
+embedding by Hadamard's inequality; elementary sums over `s` give `ε_L`.
 
 *Lemma (loops and non-scalar pairs).* Let `A ≥ 1` be a constant fixed with the constants of the chain (it may depend on `C₀`;
 it does not depend on `x`, `k` or the words). There is `ε₁ > 0` such that for `ε ≤ ε₁` and the data of the chain at a scale
@@ -1641,15 +2014,26 @@ term by the last display, its partner by the `L²` bound, and the number of pair
 (terms) × (partners): the powers of `n` cancel, and the window for `u′` bounds `√(d_{u′}^{all}/D*)` by `√C₀·Γ₀·d_{u′}^{all}/D*`. Summed
 over the Gram classes the class contributes at most `C^fb^{Cm⁵f}Γ₀e^{Cm⁶f log b}(C·g^{−(2r_S+1)}k^{−r_S})^{kf/2}·d_u^{all}d_{u′}^{all}/D*`.
 
-*NEW*. Follows from [FormalProof],
-`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopsEv.lean`
-(`Formalism.L2.SG.LoopsEv.RowLoopsEv`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
+Follows from [FormalProof],
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopEvaluationThresholdZero.lean`
+(`Formalism.L2.SG.LoopsTies.loop_evaluation_threshold_zero`), with the hypotheses `Formalism/SharpRestriction/CuspSpanNormBounds/CntPartners.lean`
 (`Formalism.MainNotions.S.Cnt.Hyp`); at the points of the chain:
-`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.LoopRowS`).
+`Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmSOwn.lean` (`Formalism.L2.SG.ThmSOwn.LoopRowS`),
+proved through `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RootLatticeThresholds/LoopRowSOf.lean`
+(`Formalism.L2.SG.LoopsTies.loopRowS_of_raised`).
 *Needs:* 5.15, 5.17a, 5.17, 5.18, 5.20a, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§4.4, 4.10, 4.11, 5.5, 5.7, 5.9, 6.1a, 6.3,
 6.4, 6.4b, 6.4c.
 
 ### 5.20c Non-generic pairs
+
+*Origin:* particular to this proof: a weighted sum of orbital integrals over integral Bruhat points and the resulting
+bound for the non-generic pairs.
+
+*Method of the formal proof:* the non-generic pairs of corank one of a row are grouped into classes, so that their sum is
+a sum of squared norms of class sums; each class sum is bounded by a weighted Cauchy–Schwarz inequality over the Bruhat
+points with the weights `w(γ)`; at a point the non-generic amplitude is expanded over the nonempty sets of bad primes,
+each bad prime giving the factor `N𝔭^{−(k−2r_S−5)}` in mean square, and the terms are compared with the generic mass of
+the point; the remaining sum over the points is the global sum (a).
 
 Let `u, u′` be words, equal or not, with the hypotheses of 5.20b, and let `C₄ ≥ 0` be a constant depending on the constants
 of (St) (it comes from the bound of 5.18 (i) through 5.20a (c), and it is at least the constant `C_b` of (a)).
@@ -1684,7 +2068,7 @@ nondegenerate since `Gr ≠ 0`). Then (a): the bad primes off `g₀g₁` are the
 quantity weighted in (a); that the factor `H(γ)^C` is bounded by a power of this quantity times the archimedean sizes weighted by
 `w(γ)` is used; its proof is not given here.
 
-*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmBUseR.lean`
+(a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/ThmBUseR.lean`
 (`Formalism.L2.SG.ThmBUseR.JointNormBoundRotatedUniform`). It is stated in the coordinates of the local model of
 [FormalProof], which are those of the chain conjugated by a fixed diagonal matrix of powers of `i`: there `‖O_τ(γ)‖²`
 for a term is at most the square of the model's orbital integral at the point whose matrix has the entries
@@ -1700,6 +2084,13 @@ the `f_τ` of 5.15 (c).
 *Needs:* 5.15, 5.15a, 5.17a, 5.17d, 5.18, 5.20a, 5.20b; HermitianFormsAndLattices §6.5.
 
 ### 5.20d Degenerate terms of equal words: the type bound
+
+*Origin:* particular to this proof: the bound for the degenerate terms of equal words, sorted by defect and minor label.
+
+*Method of the formal proof:* the type bound is the product of an amplitude bound for each relevant degenerate term,
+obtained from local data at the real places and a tail bound for them, and of a count of the pairs of terms of a row with
+given defects and labels, obtained row by row from data embedded in the positive definite lattice of the row and then
+from the mean over the genus with the mass formula for maximal lattices and the ratios of masses of unimodular lattices.
 
 *Definitions.* Let `u` be a word and `t` a degenerate term of `K(u, u)` (5.15 (b): `Gr(γ) = 0`, `γ` not in the identity
 coset), with base frame `F = (e_1, …, e_{r_S}, z_u)`, `X = ⟨e_1, …, e_{r_S}⟩`, second frame `F′ = γF`, `X′ = γX`, and
@@ -1766,7 +2157,7 @@ relevant terms contribute, and by (b) they have defect `≥ 1`. For fixed defect
 `Nm(δ)^{(j+1)/2} ≤ b^{C·m²·f·(j+1)/2}·Sz_H(δ)^{j+1}`, and `j + 1 − (C_s − C_p)k ≤ −3r_S` because `C_s − C_p ≥ 4` and
 `k ≥ r_S + 1`, so `Σ_δ w_ty(δ) ≤ A(j)` by (c) (`Sz_H ≥ 1`); then sum over `1 ≤ j′, j″ ≤ r_S`.
 
-*NEW*. (a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
+(a): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
 (`Formalism.L2.SG.RowsPos.TypeP`),
 `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RankPointCounts/DimFormC.lean`
 (`Formalism.L2.SG.KappaOffDiagonal.TypeAt`, `Formalism.L2.SG.KappaOffDiagonal.jT`,
@@ -1789,6 +2180,15 @@ inequalities of the route: `Development/AbelianVarietyTheory/Definitions/Semiloc
 ThetaChainsOnDefiniteUnitaryGroups §2.8; HermitianFormsAndLattices §§4.4, 6.3, 6.4.
 
 ### 5.20 The Gram bound for distinct words
+
+*Origin:* particular to this proof: the Gram operators of the Bessel–Poincaré series of two distinct words have squared
+Hilbert–Schmidt norm at most slightly more than the value for subspaces in general position.
+
+*Method of the formal proof:* the operator is split into its generic and non-generic parts, the identity and degenerate
+terms contributing nothing; the squared norm of each part is bounded by `P_g` times a sum over ordered pairs of terms of
+one row, through the Gelfand–Graev expansion and a positive semidefinite comparison; the pairs are split into loops,
+non-scalar pairs, scalar generic pairs and non-generic pairs; the scalar generic pairs give the main term through the
+tower inequality, the others are small, and a triangle inequality with a numerical lemma combines the two parts.
 
 For all constants `C_Δ > 4`, `C_b > 0`, `c_T > 0` with `c_T·C_b > 1` there is `C_n`, depending on the constant `C₄` of
 5.18 (i) and fixed before `ε`, with the following property. Let `u ≠ u′` be words differing at a letter `l`
@@ -1893,7 +2293,7 @@ exponent of `ε_N` is `≤ −(8C_n log 2 − C₄)m⁵fL + (m + 3) log 2`, whic
 
 *Needs:* RowTowerAndRallisIdentities §5.3, 5.14, 5.15, 5.15a, 5.17a, 5.17d, 5.17, 5.18a, 5.18b, 5.18c, 5.18d, 5.18e, 5.18, 5.19, 5.20a, 5.20b, 5.20c, ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §2.9,
 ThetaChainsOnDefiniteUnitaryGroups §3.8; HermitianFormsAndLattices §§5.5, 5.7, 6.0b, 6.2, 6.3, 6.4, 6.5 (d); AnalyticNumberTheoryPartII §5.3k
-(quotient measures, integration in stages); Mathlib (Poisson summation). *NEW*. The size hypotheses: [FormalProof],
+(quotient measures, integration in stages); Mathlib (Poisson summation). The size hypotheses: [FormalProof],
 `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/TheoremSRecursion.lean`
 (`Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt`), `Formalism/HermitianCurvature/StatementPB.lean`
 (`Formalism.FourierDecayAlt.PB.SizeNumbers`); the assembly of the bound with `η_off ≤ b^{−6}`: [FormalProof],
@@ -1904,7 +2304,12 @@ from one real place to the tower: [FormalProof], `Formalism/HermitianCurvature/A
 `Formalism/HermitianCurvature/HermitianCurvatureProofs/BuiltBoundsCompact.lean` (`Formalism.FourierDecayAlt.P.built_bounds_compact`);
 `Formalism/HermitianCurvature/StatementC.lean` (`Formalism.FourierDecayAlt.C.HidaSetting`, the kernels and scales of the chain);
 `Formalism/HermitianCurvature/StatementKB.lean` (`Formalism.FourierDecayAlt.KB.WaveLoc`, `Formalism.FourierDecayAlt.KB.LiftLoc`,
-`Formalism.FourierDecayAlt.KB.TopLoc`, `Formalism.FourierDecayAlt.KB.BlockSchur`, `Formalism.FourierDecayAlt.KB.IntAll`);
+`Formalism.FourierDecayAlt.KB.TopLoc`, `Formalism.FourierDecayAlt.KB.IntAll`); the Schur product inequality for positive
+semidefinite block kernels: `Formalism/HermitianCurvature/HermitianCurvatureProofs/PBBLiftV.lean`
+(`Formalism.FourierDecayAlt.P.PBB.block_schur2`) and
+`Formalism/HermitianCurvature/HermitianCurvatureProofs/BlockOfCauchySchwarz.lean`
+(`Formalism.FourierDecayAlt.P.PBA.block_cross_le`, `Formalism.FourierDecayAlt.P.PBA.blockPSD_mul`,
+`Formalism.FourierDecayAlt.P.PBA.blockPSD_prod`);
 `Formalism/HermitianCurvature/StatementJC.lean` (`Formalism.FourierDecayAlt.JC.WaveByPlaces`,
 `Formalism.FourierDecayAlt.JC.LiftBelowTop`, `Formalism.FourierDecayAlt.JC.LiftTopDiag`, `Formalism.FourierDecayAlt.JC.ThresholdsLift`,
 `Formalism.FourierDecayAlt.JC.SumFormConcrete`, `Formalism.FourierDecayAlt.JC.OffDiagonalLiftBoundOfPlaces`);
@@ -1914,6 +2319,15 @@ from one real place to the tower: [FormalProof], `Formalism/HermitianCurvature/A
 (`Formalism.FourierDecayAlt.P.off_diagonal_lift_bound_of_places`, `Formalism.FourierDecayAlt.P.plane_exponential_bound_of_places`).
 
 ### 5.21 The Gram bound for equal words
+
+*Origin:* particular to this proof: the Gram operator of one word is close to the identity in Hilbert–Schmidt norm, so
+that the Bessel–Poincaré series is nonzero on new forms.
+
+*Method of the formal proof:* for the degenerate terms the Gelfand–Graev expansion bounds the squared norm by `P_g` times
+a sum over ordered pairs of degenerate terms of one row, which the type bound of 5.20d, summed over defects and labels,
+makes at most `d_u^{all}·e^{−kf log k}`; for the other terms the pair expansion of 5.20 is used with the identity cell
+removed, the loops, non-scalar and non-generic pairs being bounded as there and the scalar generic pairs by a crude row
+bound in place of the tower inequality.
 
 Let `u` be a word, `K″(u, u)` the sum of the degenerate non-identity terms of 5.15, and
 `Γ₀ = exp(C_Γm⁵f log b)` the factor of ThetaChainsOnDefiniteUnitaryGroups §2.1 (with `C_Γ ≥ max(C_B, C₄) + 1`, `C₄` the constant of 5.18 (i) and `C_B` that of
@@ -1955,7 +2369,7 @@ as well, and the orthogonality of the terms of different rows bound `‖K″(u, 
 `K(u, u) − 1 = −1`; the new forms have dimension `(1 − δ_old(u))d_u^{all}` (ThetaChainsOnDefiniteUnitaryGroups §3.8). These bounds use neither the seesaw nor any
 rational structure.
 
-*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, 5.13c, 5.13, 5.15, 5.16, 5.17a, 5.17, 5.18, 5.20a, 5.20b, 5.20c, 5.20d, 5.20; HermitianFormsAndLattices §§6.4, 6.5. *NEW*.
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.8, ThetaChainsOnDefiniteUnitaryGroups §3.8, 5.13c, 5.13, 5.15, 5.16, 5.17a, 5.17, 5.18, 5.20a, 5.20b, 5.20c, 5.20d, 5.20; HermitianFormsAndLattices §§6.4, 6.5.
 (i): [FormalProof], `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/RowsPos.lean`
 (`Formalism.L2.SG.RowsPos.DiagLP`), `Formalism/LocalToGlobal/SiegelLatticeTheory/CokernelGLCounts/RowsOther.lean`
 (`Formalism.L2.SG.RowsOther.DiagRow`), `Formalism/SharpRestriction/CuspSpanNormBounds/NonGenericAndKTwoTheorems.lean`
@@ -1976,6 +2390,18 @@ from 5.20d: `Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/R
 
 ### 5.22 Equidistribution of the row labels
 
+*Origin:* particular to this proof: the count (b), by which the number of rows with given labels at a type prime is, up
+to the relative error `ε_C`, the expected dimension `D*` times the Bessel-type weights of the labels; it is of the kind of
+the classical limit multiplicity theorems with prescribed local behaviour. The weights of (a) are an instance of
+FiniteReductiveGroups §5.8 (c).
+
+*Method of the formal proof:* the trace of the Bessel-type idempotent on an irreducible character of `GL_r(𝔽_g)` is
+written as a combination with nonnegative coefficients of Whittaker dimensions of parabolic restrictions of the
+character, the coefficient of the Whittaker dimension of the character itself being `g^k − g^{k−1}`, which gives
+`wt_v ≥ (1 − 1/g)·wt_GG` after division by the values of the idempotents at `1`; the count is the limit multiplicity
+formula of 5.16 for the product of the level idempotent with the central idempotent of the tuples, with the other type
+prime as auxiliary prime.
+
 *Setting.* Let `g = g_i` be a type prime (`i ∈ {0, 1}`), `v | g`, and number the
 coordinates of `GL_r(𝔽_g)` by `1, …, r` in the basis `(e_1, …, e_{r_S}, β_1, …, β_k, z_m, f_{r_S}, …, f_1)` of ThetaChainsOnDefiniteUnitaryGroups §2.9 (the basis
 `b_v` with `z_m` moved behind `β`), the pairings being read on both factors of `E_v = E_w × E_{w̄}`; the *chain* is `{1, …, r_S} ∪ {r_S + k + 1, …, r}` and the *block* is
@@ -1992,7 +2418,7 @@ FiniteReductiveGroups §2.7 (b) for `n = r` and the same `k` (RowTowerAndRallisI
 `Ind_{H_{r_S}}^{GL_r(𝔽_g)}ϕ_{r_S}` (FiniteReductiveGroups §5.8 (c)). Hence for every label `𝔣`,
 `wt_v(𝔣) ≥ (1 − 1/g)·wt_GG(𝔣)`, with equality for every irreducible `𝔣`; the labels that are not squarefree have total
 weight `≤ 3/g`; and `wt_v(𝔣) ≤ ∏_j(1 + g^{−d_j})·wt_GG(𝔣)` for squarefree `𝔣` with factors of degrees `d_j`.
-The equality for irreducible labels, the bound `3/g` and the upper bound with `∏_j(1 + g^{−d_j})` are this roadmap's own, not
+The equality for irreducible labels and the bound `3/g` are this roadmap's own, not
 on the path of [FormalProof], whose form is the lower bound for every label and `wt_v(𝔣) ≤ (1 + 1/g)^r·wt_GG(𝔣)` for
 squarefree `𝔣`; only the lower bound is used.
 (b) *Count.* For every set `S` of label tuples at `g_i`: `dim Π_S·ℋ = (1 ± ε_C)·D*·Σ_{t∈S}∏_{v|g_i} wt_v(t_v)`, under the
@@ -2004,7 +2430,7 @@ hypotheses of the chain instance of 5.16 and `g₁ > 4r` (for `i = 0` the route 
 degrees `d_j` lies in `[1, k]`, which holds for an irreducible label of degree `r > k`), the upper bound, and the total share
 `≤ 3/q` of the labels that are not squarefree; it rests on the decomposition of Bessel-type induced representations (FiniteReductiveGroups §2.7 (b):
 `Ind_{H_i}ϕ_i ≅ Γ_{(k,n−k)} ⊕ ⊕_{j=1}^{k−1}(q^{k−j} − q^{k−j−1})·Γ_{(j,n−j)} ⊕ (q^k − q^{k−1})·Γ_n`, with the degenerate Gelfand–Graev
-representations `Γ_{(j,n−j)}` of FiniteReductiveGroups §2.6 (c); so the multiplicity of every irreducible representation in `Ind_{H_i}ϕ_i` is at
+representations `Γ_{(j,n−j)}` of the wider form of FiniteReductiveGroups §2.6 (c); so the multiplicity of every irreducible representation in `Ind_{H_i}ϕ_i` is at
 least `(q^k − q^{k−1})` times its multiplicity in the Gelfand–Graev representation, with equality for the cuspidal ones, FiniteReductiveGroups
 §2.7 (c)) and on the Gelfand–Graev weights `wt = wt_GG` of FiniteReductiveGroups §5.8 (a). (b) `𝟙_{K₂,χ₂} ∗ Π_S` is an admissible idempotent in the sense of 5.16: in the
 group algebra of `G₀` (the functions bi-invariant under the congruence subgroup) the image of the level idempotent is
@@ -2014,10 +2440,10 @@ group algebra of `G₀` (the functions bi-invariant under the congruence subgrou
 completely in `E`. So 5.16 applies with `g′ = g_{1−i}`, and `D*(𝒟, 𝟙 ∗ Π_S)/D* = (𝟙 ∗ Π_S)(1)/𝟙(1) = Σ_{t∈S}∏_v wt_v(t_v)`.
 Nothing below uses the upper bound of (a).
 
-*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 5.16; FiniteReductiveGroups §2.6 (c) (degenerate Gelfand–Graev representations of
+*Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a, RowTowerAndRallisIdentities §5.3, 5.16; the wider form of FiniteReductiveGroups §2.6 (c) (degenerate Gelfand–Graev representations of
 `GL_n`), §2.7 (b), (c) (the decomposition of Bessel-type induced representations, the multiplicity inequality), §5.7, §5.8 (a), (c)
 (Gelfand–Graev weights; shares of labels in the Bessel-type induced representations).
-(a) is an instance of FiniteReductiveGroups §5.8 (c); *NEW* count (b).
+(a) is an instance of FiniteReductiveGroups §5.8 (c).
 The lower bound of (a) and the Gelfand–Graev weight on squarefree labels: [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/ArithmeticCylinders.lean` (`Formalism.MainNotions.ArithmeticCylinders.admLq`);
 (b): [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/IrreducibleOfCountSizes.lean`
@@ -2034,6 +2460,19 @@ The lower bound of (a) and the Gelfand–Graev weight on squarefree labels: [For
   labels at one place sum to `1` because the `Π_𝔣` sum to `1`.
 
 ### 5.23 Good rows
+
+*Origin:* adapted from the statistics of factorisation types of random polynomials over a finite field (Flajolet and
+Sedgewick (2009), Example I.20, Note I.66 and Example VII.4): the share of the
+rows whose labels are not good is small; the embedding (v) (1) in copies of the regular representation, from a group
+determinant, is particular to this proof.
+
+*Method of the formal proof:* the bad tuples are covered by five events whose probabilities for the product of the
+Gelfand–Graev weights are bounded by a union bound over the places or by the `f`-th power of a one-place probability, and
+the passage to the weights of the level uses only `wt_v ≥ (1 − 1/g)·wt_GG` and Bernoulli's inequality; for (v) (1)
+twisted traces embed `V` equivariantly in copies of the regular representation of `H`, indexed by a basis of the
+`H`-invariants of `V₁`, and the number of copies is bounded through an embedding into `V₂`, both maps being injective
+because the group determinant of `u` is not a zero divisor; for (vi) orbit representatives of the free action identify
+`V` with a sum of copies of the regular representation.
 
 (i) With `W_i = Σ_{t bad at g_i}∏_{v|g_i} wt_v(t_v)` (bad: not good, RowTowerAndRallisIdentities §5.3 (iii)),
 `δ_bad ≤ ((1 + ε_C)/(1 − ε_C))·(W_0 + W_1)` under the hypotheses of the chain instance of 5.16 and `g₁ > 4r`.
@@ -2095,14 +2534,14 @@ representation, and products over the places). (v) (3): by (1) and (2),
 existence of an embedding in `n` copies of the regular representation (the regular representation is unchanged by a twist) nor
 the dimension count, the `λ`-part of `ρ` being the `λχ^{−1}`-part of the untwisted action. (2) is the injectivity of the twisted
 traces `f ↦ (Σ_{h∈H₀}λ(h)^{−1}·h·(f·(g·u₀)))_{g∈H₀}` from `V_m ⊗ ℂ` into `|H₀|` copies of the `λ`-part of `V ⊗ ℂ`: a vector killed
-by the matrix `(hg·u₀)` is killed by its determinant. The proof of (1), which is the new statement (for a non-abelian `H` it
-does not follow from the twisted traces of characters), is not given here. (vi) A free orbit of summands is a representation
+by the matrix `(hg·u₀)` is killed by its determinant. The proof of (1), which is the statement particular to this proof
+(for a non-abelian `H` it does not follow from the twisted traces of characters), is not given here. (vi) A free orbit of summands is a representation
 induced from the trivial subgroup; the proof is not given here.
 A second route to `𝔼 ≠ 0` goes through good forms on the definite inner form `U(W_m)` and the multiplicity
 comparison RowTowerAndRallisIdentities §5.9.
 
-*Needs:* RowTowerAndRallisIdentities §5.3, 5.16, 5.22, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§5.7, 5.8. *NEW* (bookkeeping on *KNOWN*
-inputs: statistics of the factorisation type of a random polynomial, as of the cycle type of a random permutation).
+*Needs:* RowTowerAndRallisIdentities §5.3, 5.16, 5.22, ThetaChainsOnDefiniteUnitaryGroups §2.7, ThetaChainsOnDefiniteUnitaryGroups §2.9, ThetaChainsOnDefiniteUnitaryGroups §2.9a; FiniteReductiveGroups §§5.7, 5.8. *Sources:* (statistics of the factorisation type of a random polynomial, as of
+the cycle type of a random permutation).
 (i): [FormalProof], `Formalism/LocalToGlobal/GlobalTheory/ConcNP.lean` (`Formalism.L2.GlobalTheoryTheory.ConcN.delp_of_allRows`),
 `Formalism/PadicSubsetSums/CentralIdempotents/EigenbasisOfDistinctRoots.lean`
 (`Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.ShareFromCount`); (ii): [FormalProof],
@@ -2147,7 +2586,7 @@ These instances are worked in the Checks of the targets cited.
 
 ### Dependencies
 
-ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §4.5; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.2, 3.3, 4.2, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; AnalyticNumberTheoryPartI §2.15; AnalyticNumberTheoryPartII §5.3k; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.1, 6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
+ThetaChainsOnDefiniteUnitaryGroups §§2.1, 2.2, 2.3, 2.3b, 2.3c, 2.4, 2.7, 2.8, 2.9, 2.9a, 2.9b, 3.8 (the data of the chain); RowTowerAndRallisIdentities §§5.1, 5.2a, 5.3, 5.9 (the row spaces); FrobeniusRestrictedRieszSums §§0.1, 0.4, 0.9 (the hosts and the auxiliary pair); HermitianFormsAndLattices §§4.1, 4.4, 4.8–4.11, 5.1, 5.2, 5.5–5.7, 5.9, 6.0b, 6.1, 6.1a, 6.1d, 6.2–6.5; SlopesOfHermitianVectorBundles §3.2; DiscreteSeriesCoefficientsAndAutomorphicMetrics §§2.4a, 2.4b, 8.3, 9.1; TensorInductionAndFiniteGroupInputs §9.1; PositivityOfDirichletSeriesWithKernels §§7.1, 8.1, 8.2; FiniteReductiveGroups §§2.2, 2.4–2.7, 5.7, 5.8. On main: AutomorphicFormsOnReductiveGroups §2.4; AutomorphicSpectralTheory §4.5; VonNeumannAlgebras Layer 9; RealSemisimpleLieGroups §§3.2, 3.3, 4.2, 4.3; AdelicAlgebraicGroups §§2.3, 3.1, 3.4, 3.5; GeometryOfNumbersAndQuadraticArithmetic §4.4; AnalyticNumberTheoryPartI §§2.15, 2.15a; AnalyticNumberTheoryPartII §5.3k; RepresentationTheory/LieGroups Layer 9; ClassicalGroups §§6.1, 6.3–6.6; RepresentationTheory/CompactGroups Layers 2 and 4; RepresentationTheory/LieHighestWeight Layer 7. Also GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1, Mathlib and Tau Ceti.
 
 ## Downstream consumers
 
@@ -2159,9 +2598,9 @@ ThetaChainsAndFrobeniusPrimeSums §10.6 fixes the order of the quantifiers that 
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns the targets 5.13a–5.23 of Layer 5 of the family: the Bessel theory of gapped discrete series of `U(p, q_S)` at a real place (the big cell, the Bessel integral and its pairing, the majorant, bounded Bessel maps, rank one of the Bessel form and its detection of the Bessel maps, existence of Bessel maps for gapped parameters in the interlacing pattern (the case of GanGrossPrasadUnitaryGroups §3.9 made explicit in Harish-Chandra parameters), the transfer coefficients and the Bessel function of a word); the Bessel–Poincaré series and the geometric expansion of their Gram operators; relative Schur orthogonality; limit multiplicity of discrete series with an error uniform in rank, field, level and weight; the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels with their germ identity and periodic majorants, the local model of the chain and the mean value formula for the rows; the archimedean transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals; the tower inequality; the Gram bounds for distinct and for equal words; and the equidistribution of the row labels with the share of the good rows.
+This roadmap owns the targets 5.13a–5.23 of Layer 5 of the family: the Bessel theory of gapped discrete series of `U(p, q_S)` at a real place (the big cell, the Bessel integral and its pairing, the majorant, bounded Bessel maps, rank one of the Bessel form and its detection of the Bessel maps, existence of Bessel maps for gapped parameters in the interlacing pattern (the case of GanGrossPrasadUnitaryGroups §3.9 made explicit in Harish-Chandra parameters), the transfer coefficients and the Bessel function of a word); the Bessel–Poincaré series and the geometric expansion of their Gram operators; relative Schur orthogonality; the bound for the number of classes of unimodular Hermitian planes and the bound for the volume of the adelic quotient of a unitary group in the Hilbert–Schmidt normalisation; limit multiplicity of discrete series with an error uniform in rank, field, level and weight; the Gelfand–Graev expansion at the type primes, the local kernels of decorated cokernels with their germ identity and periodic majorants, the local model of the chain and the mean value formula for the rows; the archimedean transfer matrices of Capelli operators, the level forms, the Fourier majorants, the blocks, level zero and the pointwise bound for the orbital integrals; the tower inequality; the Gram bounds for distinct and for equal words; and the equidistribution of the row labels with the share of the good rows.
 
-Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum is [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §4.5; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the open big cell, the Bruhat decomposition, the parabolic double cosets and the Langlands decomposition are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.2, 3.3, 4.2, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; the branching rule `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.1, 6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4; the residue bound for Dedekind zeta functions is [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §2.15; quotient measures, integration in stages and unfolding are [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) §5.3k. The Bessel data of a pair of unitary groups and their transport, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1.
+Not owned here. The targets of Layer 5 before these (the row spaces, the row tower, the Rallis identities and the rational structure of the rows) are RowTowerAndRallisIdentities §§5.1–5.12 ([RowTowerAndRallisIdentities](../RowTowerAndRallisIdentities/README.md)); the data of the chain (sizes, words and types, type and level primes, levels, source lattices) are [ThetaChainsOnDefiniteUnitaryGroups](../ThetaChainsOnDefiniteUnitaryGroups/README.md) Layers 2 and 3; the hosts and the auxiliary pair are [FrobeniusRestrictedRieszSums](../FrobeniusRestrictedRieszSums/README.md) Layer 0. Hermitian lattices, genera, masses, local densities, Siegel's main theorem, the volumes of stabilisers and the volume identity `vol([U(V)]) = mass(𝒪_E^n)` in the compact-dual normalisation (§6.2 (c), used for `Y_0` in the Conventions and in 5.20a (a)) are [HermitianFormsAndLattices](../HermitianFormsAndLattices/README.md) Layers 4–6; the canonical filtration is [SlopesOfHermitianVectorBundles](../SlopesOfHermitianVectorBundles/README.md) §3.2; the lowest-`K`-type coefficients of gapped discrete series of `U(p, q)`, their tensor products with the standard representation, the formal degree and trace class on the cuspidal spectrum are [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md) §§2.4a, 2.4b, 8.3, 9.1; the identities of quantum minors are [TensorInductionAndFiniteGroupInputs](../TensorInductionAndFiniteGroupInputs/README.md) §9.1; Laplace's method in several variables and stationary phase over `ℂ^n` and over non-archimedean rings are [PositivityOfDirichletSeriesWithKernels](../PositivityOfDirichletSeriesWithKernels/README.md) §§7.1, 8.1, 8.2; Gelfand–Graev representations, Bessel-type induced representations and the weights of labels of `GL_n(𝔽_q)` are [FiniteReductiveGroups](../FiniteReductiveGroups/README.md) Layers 2 and 5. On main: discrete series of real reductive groups are [AutomorphicFormsOnReductiveGroups](../../AutomorphicFormsOnReductiveGroups/README.md) §2.4; finite multiplicity in the discrete spectrum is [AutomorphicSpectralTheory](../../AutomorphicSpectralTheory/README.md) §4.5; coefficient maps, Schur orthogonality and the formal degree of square-integrable representations are [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) Layer 9; the open big cell, the Bruhat decomposition, the parabolic double cosets and the Langlands decomposition are [RealSemisimpleLieGroups](../../RealSemisimpleLieGroups/README.md) §§3.2, 3.3, 4.2, 4.3; the Cartan, Iwasawa and `KAK` decompositions are [RepresentationTheory/LieGroups](../../RepresentationTheory/LieGroups/README.md) Layer 9; the branching rule `GL_n ↓ GL_{n−1}`, Gelfand–Tsetlin patterns and the Capelli generators are [RepresentationTheory/ClassicalGroups](../../RepresentationTheory/ClassicalGroups/README.md) §§6.1, 6.3–6.6; Schur orthogonality for `U(k)` is [RepresentationTheory/CompactGroups](../../RepresentationTheory/CompactGroups/README.md) Layers 2 and 4; the Harish-Chandra isomorphism is [RepresentationTheory/LieHighestWeight](../../RepresentationTheory/LieHighestWeight/README.md) Layer 7; rational quotients, Iwasawa integration, adelic reduction and algebraic heights are [AdelicAlgebraicGroups](../../AdelicAlgebraicGroups/README.md) §§2.3, 3.1, 3.4, 3.5; the transference bound for the covering radius is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md) §4.4; the residue bound for Dedekind zeta functions and the bound `τ_d(m)` for the number of ideals of norm `m` are [AnalyticNumberTheoryPartI](../../AnalyticNumberTheoryPartI/README.md) §§2.15, 2.15a; quotient measures, integration in stages and unfolding are [AnalyticNumberTheoryPartII](../../AnalyticNumberTheoryPartII/README.md) §5.3k. The Bessel data of a pair of unitary groups and their transport, multiplicity one of Bessel models over a local field, the real tempered theorem of the local Gan–Gross–Prasad conjecture and the global Bessel periods are GanGrossPrasadUnitaryGroups 1.2, 1.3, 2.6, 3.9 and 4.1.
 
 ## Exact supplier contracts
 
@@ -2185,9 +2624,9 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 - §4.1 (Jordan splittings), §4.8 (discriminant forms `A_L`, the invariant `t(L)` of (b)), §4.9 (gluing along discriminant forms). Used in 5.17d, 5.17.
 - §4.4 (maximal lattices), §4.10 (sublattices of given index), §4.11 (integral lattices meeting two orthogonal subspaces), §5.9 (subspaces carrying an integral lattice of given discriminant). Used in 5.20b; §4.4 also in 5.20d.
-- §§5.1, 5.2 (finiteness, stabilisers, Minkowski's bound, sufficiently small levels). Used in 5.15.
+- §§5.1, 5.2 (finiteness, stabilisers, Minkowski's bound, sufficiently small levels). Used in 5.15; §5.1 also in 5.16a.
 - §5.5, §5.6 (c), §5.7 (c) (mass, index formula, dimension of spaces of algebraic modular forms). Used in 5.16, 5.17, 5.20a, 5.20b, 5.20.
-- §6.0b (`τ(U(V)) = 2`), §6.1 (local densities), §6.1a, §6.1d (local densities by discriminant forms), §6.2 ((a) the mass formula; (b) the volume formula for every Hermitian space with the fibre measure; (c) the compact-dual normalisation: for a unimodular lattice, `E/F` unramified at the finite places and one signature at every real place, the sum over the classes of the covolumes for the compact-dual measure is `mass(𝒪_E^n)`, that is `vol([U(V)]) = mass(𝒪_E^n)` for the measures of the Conventions), §6.3 (closed mass formula; (c) the mass of `𝒪_E^n`), §6.4 (ratios of masses), §6.4a (unimodular lattices meeting a subspace in a given lattice), §6.4b (total mass of the integral lattices of given discriminant), §6.4c (subspaces meeting a lattice in a given discriminant), §6.5 (a) (Weil's mean value theorem for one nondegenerate Gram matrix). Used in 5.16, 5.17, 5.20a, 5.20b, 5.20c, 5.20d, 5.20, 5.21.
+- §6.0b (`τ(U(V)) = 2`), §6.1 (local densities), §6.1a, §6.1d (local densities by discriminant forms), §6.2 ((a) the mass formula; (b) the volume formula for every Hermitian space with the fibre measure; (c) the compact-dual normalisation: for a unimodular lattice, `E/F` unramified at the finite places and one signature at every real place, the sum over the classes of the covolumes for the compact-dual measure is `mass(𝒪_E^n)`, that is `vol([U(V)]) = mass(𝒪_E^n)` for the measures of the Conventions), §6.3 (closed mass formula; (c) the mass of `𝒪_E^n`), §6.4 (ratios of masses), §6.4a (unimodular lattices meeting a subspace in a given lattice), §6.4b (total mass of the integral lattices of given discriminant), §6.4c (subspaces meeting a lattice in a given discriminant), §6.5 (a) (Weil's mean value theorem for one nondegenerate Gram matrix). Used in 5.16b, 5.16, 5.17, 5.20a, 5.20b, 5.20c, 5.20d, 5.20, 5.21.
 - §6.5 (d) (volumes of stabilisers: the stabilisers of two tuples with nondegenerate Gram matrices have the same covolume; the stabiliser of a flag and an anisotropic vector is the semidirect product of its unipotent radical and the pointwise stabiliser, with `vol(N(F)\N(𝔸)) = 1` for one Haar measure). Used in 5.20.
 
 ### From SlopesOfHermitianVectorBundles, a sub-roadmap of this family
@@ -2214,7 +2653,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 ### From FiniteReductiveGroups, a sub-roadmap of this family
 
 - §§2.2, 2.4, 2.5: multiplicity one of Gelfand–Graev representations, the mirabolic subgroup, the Gelfand–Graev convolution bound. Used in 5.17a.
-- §2.6 (c), §2.7 (b), (c): degenerate Gelfand–Graev representations of `GL_n`, the Bessel-type induced representations, their decomposition and the multiplicity inequality. Used in 5.22.
+- The wider form of §2.6 (c), §2.7 (b), (c): degenerate Gelfand–Graev representations of `GL_n`, the Bessel-type induced representations, their decomposition and the multiplicity inequality. Used in 5.22.
 - §5.7, §5.8 (a), (c): labels and series idempotents, Gelfand–Graev weights of labels, and the shares of labels in the Bessel-type induced representations. Used in 5.22, 5.23.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
@@ -2253,6 +2692,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
 - §2.15: for a number field `K` of degree `d > 1`, the residue `κ_K` of `ζ_K` at `1` is at most `(e·log D_K/(2(d − 1)))^{d−1}`. Used in 5.16, with `K = E`, `d = 2f`.
+- §2.15a: for a number field `K` of degree `d > 1`, the number `a_K(m)` of integral ideals of `𝒪_K` of norm `m` satisfies `0 ≤ a_K(m) ≤ τ_d(m)`, ramified primes included. Used in 5.16a, with `K = E` and `K = F`.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
@@ -2268,6 +2708,7 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 ### From Mathlib
 
 - Haar measure, `IsFoelner`, Fatou's lemma, Fourier inversion, the layer-cake formula (`MeasureTheory.lintegral_comp_eq_lintegral_meas_lt_mul`), Lagrange interpolation, Poisson summation, the Schur product theorem (`Matrix.PosSemidef.hadamard`), finite modules over discrete valuation rings and characters of finite abelian groups, as named in the targets. Used in 5.13b, 5.15, 5.15a, 5.17b, 5.18c, 5.18d, 5.18, 5.19, 5.20.
+- `NumberField.exists_ideal_in_class_of_norm_le` (`Mathlib/NumberTheory/NumberField/ClassNumber.lean`): every ideal class of a number field `K` of degree `n` with `r₂` complex places contains a nonzero integral ideal of norm at most `(4/π)^{r₂}·(n!/nⁿ)·√|d_K|`. Used in 5.16a.
 
 ### From Tau Ceti
 
@@ -2275,12 +2716,16 @@ Not owned here. The targets of Layer 5 before these (the row spaces, the row tow
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every *NEW* target.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>. It is the reference of every `*Method of the formal proof:*` label and of every target whose `*Origin:*` is particular to this proof.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - Harish-Chandra, *Discrete series for semisimple Lie groups II*, Acta Math. 116 (1966): 5.13, 5.20a.
-- D. DeGeorge and N. Wallach, *Limit formulas for multiplicities in L²(Γ\G)*, Ann. of Math. 107 (1978); L. Clozel, *On limit multiplicities of discrete series representations in spaces of automorphic forms*, Invent. Math. 83 (1986); G. Savin, *Limit multiplicities of cusp forms*, Invent. Math. 95 (1989); R. P. Langlands, *Dimension of spaces of automorphic forms* (1966): 5.16. W. Banaszczyk, *New bounds in some transference theorems in the geometry of numbers*, Math. Ann. 296 (1993): 5.16.
-- B. Sun and C.-B. Zhu, *Multiplicity one theorems: the Archimedean case*, Ann. of Math. 175 (2012), Theorem B (arXiv 0903.1413v2, p. 2): 5.13c, 5.13; D. Jiang, B. Sun and C.-B. Zhu, *Uniqueness of Bessel models: the Archimedean case*, Geom. Funct. Anal. 20 (2010), Theorem A (arXiv 0908.1728v2, p. 1): 5.13c; H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)*, Invent. Math. 209 (2017), Theorem 0.1 (arXiv 1508.02032v2, p. 3): 5.13d, 5.13; R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean case*, Astérisque 418 (2020), Theorem 12.4.1 (arXiv 1506.01452v3, p. 290): 5.13d; H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023), Theorem 2.2 (p. 1000), with the reduction to codimension one of Corollary 2.5 (p. 1001): 5.13d. I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975): 5.13c.
-- R. Godement (square-integrable representations); H. Petersson (Poincaré series): 5.14.
-- A. Molev, *Yangians and classical Lie algebras* (2007); P. Kulish, N. Reshetikhin and E. Sklyanin; V. Drinfeld; E. Sklyanin; S. Kharchev and D. Lebedev; H. Jacquet and Y. Ye (germs): 5.17, 5.18. S. Friedberg; S. Stevens: 5.17b. A. Markov; T. Takagi; G. Zuckerman: 5.18.
-- J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. M. Gelfand and M. Graev; I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977); A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981); D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups* (2011): 5.17, 5.22, 5.23.
-- C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935); G. Shimura, *Euler products and Eisenstein series*, CBMS 93 (1997); W. T. Gan, J. Hanke and J.-K. Yu, *On an exact mass formula of Shimura*, Duke Math. J. 107 (2001); A. Weil, *Adeles and algebraic groups* (1961): 5.17, 5.20a, 5.20.
+- D. DeGeorge and N. Wallach, *Limit formulas for multiplicities in L²(Γ\G)*, Ann. of Math. 107 (1978); L. Clozel, *On limit multiplicities of discrete series representations in spaces of automorphic forms*, Invent. Math. 83 (1986); G. Savin, *Limit multiplicities of cusp forms*, Invent. Math. 95 (1989); R. P. Langlands, *Dimension of spaces of automorphic forms* (1966): 5.16. S. W. Shin and N. Templier, *Sato–Tate theorem for families and low-lying zeros of automorphic L-functions*, Invent. Math. 203 (2016), 1–177, Theorems 9.16 and 9.19 (numbering of arXiv:1208.1945v3); R. Dalal, *Sato–Tate equidistribution for families of automorphic representations through the stable trace formula*, Algebra Number Theory 16 (2022), 59–137, Theorem 9.1.1 (numbering of arXiv:1910.10800v2): limit multiplicity with power-saving error terms for a fixed group, nearest published results for 5.16. W. Banaszczyk, *New bounds in some transference theorems in the geometry of numbers*, Math. Ann. 296 (1993): 5.16.
+- B. Sun and C.-B. Zhu, *Multiplicity one theorems: the Archimedean case*, Ann. of Math. 175 (2012), Theorem B (arXiv 0903.1413v2, p. 2): 5.13c, 5.13; D. Jiang, B. Sun and C.-B. Zhu, *Uniqueness of Bessel models: the Archimedean case*, Geom. Funct. Anal. 20 (2010), Theorem A (arXiv 0908.1728v2, p. 1): 5.13c; H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)*, Invent. Math. 209 (2017), Theorem 0.1 (arXiv 1508.02032v2, p. 3): 5.13d, 5.13; R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean case*, Astérisque 418 (2020), Theorem 12.4.1 (arXiv 1506.01452v3, p. 290): 5.13d, its Lemma 6.5.1, §7.1 and Lemma B.1.1 (the regularised Bessel form, by integrations by parts in a scaling torus): 5.13b, and its Theorem 7.2.1 and Lemma 7.3.1 (the regularised Bessel form is nonzero exactly when a Bessel functional exists; an a priori bound for Bessel functionals): 5.13c, with Lemma 7.3.1 (i) also for 5.13; H. Xue, *Bessel models for real unitary groups: the tempered case*, Duke Math. J. 172 (2023), Theorem 2.2 (p. 1000), with the reduction to codimension one of Corollary 2.5 (p. 1001): 5.13d. I. M. Gelfand and D. Kazhdan, *Representations of the group GL(n, K) where K is a local field* (1975): 5.13c.
+- R. Beuzart-Plessis, *On distinguished square-integrable representations for Galois pairs and a conjecture of Prasad*, Invent. Math. (2018), §3.2 (arXiv 1707.06495): 5.13c. T. Kobayashi and B. Speh, *How does the restriction of representations change under translations? A story for the general linear groups and the unitary groups*, preprint (2025), Lemma 2.7, Theorems 2.5, 3.2 (arXiv 2502.08479): 5.13d; M. Harris, T. Kobayashi and B. Speh, *Translation functors, branching problems, and applications to the restriction of coherent cohomology of Shimura varieties*, preprint (2025), Theorems 5.3, 5.6 (arXiv 2509.17007): 5.13d.
+- R. Godement, *Série de Poincaré et Spitzenformen*, Séminaire Henri Cartan 10 (1957/58), exposé 10, §4, Théorèmes 5 and 5 bis (Poincaré series of integrable functions): 5.14; H. Petersson, *Theorie der automorphen Formen beliebiger reeller Dimension und ihre Darstellung durch eine neue Art Poincaréscher Reihen*, Math. Ann. 103 (1930) (Poincaré series): 5.14, 5.15; H. Jacquet, *Sur un résultat de Waldspurger*, Ann. Sci. ÉNS (4) 19 (1986), §1 (double cosets of tori) and §§7, 9 (the geometric side of a relative trace formula): 5.15; G. Muić, *On a construction of certain classes of cuspidal automorphic forms via Poincaré series*, Math. Ann. 343 (2009): 5.14.
+- A. Ichino, E. Lapid and Z. Mao, *On the formal degrees of square-integrable representations of odd special orthogonal and metaplectic groups*, Duke Math. J. (2017), introduction and §2 (arXiv 1404.2909); R. Beuzart-Plessis, *Plancherel formula for GL_n(F)\GL_n(E) and applications to the Ichino–Ikeda and formal degree conjectures for unitary groups* (2018) (arXiv 1812.00047): 5.15a.
+- A. Molev, *Yangians and classical Lie algebras* (2007); P. Kulish, N. Reshetikhin and E. Sklyanin; V. Drinfeld; E. Sklyanin; S. Kharchev and D. Lebedev: 5.17, 5.18. H. Jacquet and Y. Ye, *Germs of Kloosterman integrals for GL(3)*, Trans. Amer. Math. Soc. 351 (1999), 1227–1255: 5.17c, 5.17, 5.18d, 5.18. S. Friedberg; S. Stevens: 5.17b. A. Markov; T. Takagi: 5.18. G. Zuckerman, *Tensor products of finite and infinite dimensional representations of semisimple Lie groups*, Ann. of Math. 106 (1977): 5.18.
+- A. Molev, *Yangians and transvector algebras*, Discrete Math. 246 (2002), Theorem 1.3 (arXiv math/9811115); D. Krob and B. Leclerc, *Minor identities for quasi-determinants and quantum determinants*, Comm. Math. Phys. 169 (1995); A. Gerasimov, S. Kharchev and D. Lebedev, *Representation theory and the quantum inverse scattering method: the open Toda chain and the hyperbolic Sutherland model* (2002), §§2, 4, 6 (arXiv math/0204206): 5.18a.
+- J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955); I. N. Bernstein and A. V. Zelevinsky, *Induced representations of reductive p-adic groups I*, Ann. Sci. ÉNS 10 (1977); A. Zelevinsky, *Representations of finite classical groups: a Hopf algebra approach*, LNM 869 (1981); D. Ginzburg, S. Rallis and D. Soudry, *The descent map from automorphic representations of GL(n) to classical groups* (2011): 5.17, 5.22, 5.23. I. M. Gelfand and M. I. Graev, *Construction of irreducible representations of simple algebraic groups over a finite field*, Dokl. Akad. Nauk SSSR 147 (1962): 5.17a, 5.17, 5.22, 5.23.
+- C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935); G. Shimura, *Euler products and Eisenstein series*, CBMS 93 (1997): 5.17d, 5.17, 5.20a, 5.20. W. T. Gan, J. Hanke and J.-K. Yu, *On an exact mass formula of Shimura*, Duke Math. J. 107 (2001); A. Weil, *Adeles and algebraic groups* (1961): 5.17, 5.20a, 5.20.
+- P. Flajolet and R. Sedgewick, *Analytic Combinatorics*, Cambridge University Press (2009), Example I.20 and Note I.66 (pp. 90–91), Example VII.4 (pp. 449–450): 5.23.

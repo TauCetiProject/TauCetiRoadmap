@@ -72,15 +72,20 @@ measure-theoretic later is an instance of it. AA.1 takes the adelic points of a 
 with Tau Ceti's point topology, compares them with a restricted product of local groups through
 an integral model, and
 establishes the discrete rational diagonal, Weil restriction, the concrete groups, unimodularity
-and compact open levels. AA.2 separates the positive split centre from the norm-one subgroup
+and compact open levels, with the stabilizers of lattices. AA.2 separates the positive split
+centre from the norm-one subgroup
 through the character lattice, applies the right-Haar quotient integration of
 AnalyticNumberTheoryPartII §5.3k to rational and central quotients, and fixes the Tamagawa normalization through gauge forms and convergence
-factors. AA.3 is reduction theory: rational parabolics and Iwasawa integration, real Siegel
-coordinates for a fixed maximal compact, the primitive `GL_n` and closed-orbit reductions, their
-adelic consequences (finite class sets, finite volume, compactness), heights, cusps and subgroup
-orbit maps. AA.4 is approximation, neatness, level quotients, Hecke maps and the residual
-quotient. AA.5 works the conventions out on `GL_1`, `GL_2` over `ℚ` and definite quaternion
-groups. In *Needs* clauses, `AA.k.n` is a subsection of this roadmap, a slug in italics such as
+factors, and extends them to top forms on varieties, groups with a unipotent radical and
+homogeneous spaces. AA.3 is reduction theory: rational parabolics and Iwasawa integration, real
+Siegel coordinates for a fixed maximal compact, the primitive `GL_n` and closed-orbit reductions,
+their adelic consequences (finite class sets, finite volume, compactness), heights, cusps and
+subgroup orbit maps, with the Tamagawa numbers of `G_m` and of groups with a unipotent radical.
+AA.4 is approximation, neatness, level quotients, Hecke maps and the residual quotient, with
+Ono's formula for tori, strong approximation for finite sets of places that need not contain
+the archimedean ones, and class-set integration on groups compact at infinity. AA.5 works the
+conventions out on `GL_1`, `GL_2` over `ℚ` and definite quaternion groups. In *Needs* clauses,
+`AA.k.n` is a subsection of this roadmap, a slug in italics such as
 *local-haar-character* is the target of that name, and roadmap layers are cited as in the supplier
 contracts.
 
@@ -1010,13 +1015,14 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
     statement is not always trivial.
 - **Local unimodularity of reductive groups.** For a connected reductive group `G` over a local
   field `E` of characteristic `0`, prove that the locally compact group `G(E)` is unimodular
-  ([Borel], §5.5, p. 20). *Needs:* Mathlib `MeasureTheory.Measure.modularCharacter`;
+  ([Oesterlé], Chapter I, proof of Proposition 5.3 and Corollary 5.4, p. 23).
+  *Needs:* Mathlib `MeasureTheory.Measure.modularCharacter`;
   ReductiveGroupsPartII, RG2.4 (`Decomposition.modularCharacter_eq_one`, nonarchimedean);
   RepresentationTheory/LieGroups, layer 9 (archimedean); AA.1.5.
   *Lean:* none; specified in the README only.
 - **Adelic groups of reductive groups are unimodular.** For a connected reductive group `G` over
-  a number field `F`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are unimodular ([Borel],
-  §5.5, p. 20). *Needs:* AA.1.5; AA.0.3; AA.1.2.
+  a number field `F`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are unimodular ([Oesterlé],
+  Chapter I, Proposition 5.3 and Corollary 5.4, p. 23). *Needs:* AA.1.5; AA.0.3; AA.1.2.
   *Lean:* none; specified in the README only.
 - **Compact open subgroups and product levels.** For finitely generated `H`, prove that every
   compact open subgroup `U ⊂ G(𝔸_{F,f})` contains a product subgroup `∏_v U_v` with
@@ -1061,6 +1067,53 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
     belongs to neither.
   - Two distinct places above the same rational prime have independent local factors.
 
+### 1.5a Lattice stabilizers
+
+In this subsection `F` is a number field, `G = Spec H` an affine algebraic group over `F` with `H`
+finitely generated, `V` a finite-dimensional `F`-vector space of dimension `n` and
+`ρ : G → GL(V)` a closed immersion (a faithful algebraic representation). An `𝒪_F`-lattice in `V`
+is a finitely generated `𝒪_F`-submodule spanning `V` (Mathlib `Submodule.IsLattice`); at a finite
+place `v`, an `𝒪_v`-lattice in `V_v = V ⊗_F F_v` is a finitely generated `𝒪_v`-submodule spanning
+`V_v`, and `L_v` is the closure of an `𝒪_F`-lattice `L` in `V_v`. For an `𝒪_v`-lattice `M_v` put
+`Stab_G(M_v) = {g ∈ G(F_v) : ρ(g)M_v = M_v}`; for a family `M = (M_v)_v` of `𝒪_v`-lattices, one at
+every finite place, put `Stab_G(M) = {g ∈ G(𝔸_{F,f}) : ρ(g_v)M_v = M_v for every finite v}`, and
+`Stab_G(L) = Stab_G((L_v)_v)`.
+
+- **Lattice stabilizers are compact open.** (*lattice-stabilizers*) Prove:
+  (a) `Stab_G(M_v)` is compact open in `G(F_v)` (that a compact subgroup of `GL_n(ℚ_p)` preserves
+  a full `ℤ_p`-lattice is *Stable lattices for compact p-adic matrix groups*, AA.4.3);
+  (b) for an `𝒪_F`-lattice `L ⊂ V` and a family `M` of `𝒪_v`-lattices with `M_v = L_v` for all but
+  finitely many `v`, `Stab_G(M)` is a compact open subgroup of `G(𝔸_{F,f})`; in particular
+  `Stab_G(L)` is;
+  (c) for an `𝒪_F`-lattice `L ⊂ V`, every compact open subgroup `U ⊂ G(𝔸_{F,f})` lies in
+  `Stab_G(M)` for a family `M` of `𝒪_v`-lattices with `M_v = L_v` for all but finitely many `v`
+  ([Borel], §2.1, p. 11, for lattices and their completions, and §8.7, pp. 28–29, for the
+  stability groups of the completions of a lattice, which are open and compact, and for the
+  stable lattice obtained as the sum of the finitely many transforms of a lattice under a compact
+  group).
+
+  *Route.* (a) `ρ` gives a closed embedding `G(F_v) → GL(V_v)` (Tau Ceti
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`), and `Stab_G(M_v)` is the preimage
+  of the compact open subgroup `GL(M_v)`, which is `GL_n(𝒪_v)` in an `𝒪_v`-basis of `M_v`.
+  (b) Choose an `F`-basis of `V` and `d ∈ 𝒪_F ∖ 0` with `d·𝒪_F^n ⊆ L ⊆ d^{−1}𝒪_F^n` in that basis;
+  then `M_v = L_v = 𝒪_v^n` for all but finitely many `v`, so `∏_v GL(M_v)` is a compact open
+  subgroup of `GL_n(𝔸_{F,f})` (AA.1.4, *The general linear group*), and `Stab_G(M)` is its preimage
+  under the closed embedding `G(𝔸_{F,f}) → GL_n(𝔸_{F,f})` induced by `ρ`. (c) Let `U_v` be the
+  projection of `U` to `G(F_v)`, a compact subgroup. As `U` is compact and `Stab_G(L)` is open,
+  finitely many cosets `u_j Stab_G(L)` cover `U`, so `U_v ⊆ Stab_G(L_v)` for all but finitely many
+  `v`. Put `M_v = Σ_{c ∈ U_v/(U_v ∩ Stab_G(L_v))} ρ(c)L_v`, a finite sum, stable under `U_v` and
+  equal to `L_v` when `U_v ⊆ Stab_G(L_v)`; then `U ⊆ ∏_v U_v ⊆ Stab_G(M)`.
+  *Needs:* AA.1.2; AA.1.3 (*Functoriality of adelic points*); AA.1.4 (*The general linear
+  group*); AA.1.5 (*Compact open subgroups and product levels*); Tau Ceti
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`; Mathlib `Submodule.IsLattice`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `GL₂/ℚ`, `L = ℤ²` and `U = g GL₂(ℤ̂) g^{−1}` with `g` equal to `diag(p, 1)` at `p` and `1`
+    elsewhere, `U` fixes `M_p = pℤ_p ⊕ ℤ_p` and `M_ℓ = ℤ_ℓ²` for `ℓ ≠ p`, but not `ℤ_p²`: its
+    elements at `p` have the lower-left entry `c/p` for `c ∈ ℤ_p`. The family of (c) need not be
+    that of `L`.
+
 ### Examples
 
 `G_a(𝔸_F)` is `𝔸_F` and `G_m(𝔸_F)` is the idele group, with their finite parts the restricted
@@ -1074,7 +1127,8 @@ over `ℚ` has closed image of infinite index that is not open. `Res_{ℚ(i)/ℚ
 Layer AA.0; Tau Ceti's Hopf-algebra points, point topology, concrete-group comparisons, Weil
 restriction, adelic base change and congruence subgroups; ReductiveGroupsPartII, RG2.1 and RG2.4;
 GlobalNumberFields, layers 4, 5, 6 and 8; RepresentationTheory/LieGroups, layers 2 and 9;
-ReductiveGroups, layers 1 and 7.
+ReductiveGroups, layers 1 and 7; Mathlib's lattices in vector spaces (`Submodule.IsLattice`),
+for AA.1.5a.
 
 ## Layer 2: characters, quotient measures and Tamagawa measures
 
@@ -1083,7 +1137,8 @@ right-Haar quotient integration of AnalyticNumberTheoryPartII §5.3k to rational
 discrete subgroup with a fundamental domain of finite Haar measure forces unimodularity, which is
 the modular-character hypothesis of those quotient measures. Gauge forms
 and convergence factors then fix a global normalization which respects the product formula and
-restriction of scalars.
+restriction of scalars. The same measures extend to top forms on smooth varieties over local
+fields, to groups with a unipotent radical and to homogeneous spaces (AA.2.6).
 
 ### 2.1 Characters, logarithms and the split centre
 
@@ -1870,7 +1925,8 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   `Res_{E/F} G_E(𝔸_F) → G_E(𝔸_E)`, together with the induced character-space map and its
   integral-lattice Lebesgue normalization, transports Tamagawa measures and norm-one quotient
   measures; in particular the Tamagawa numbers agree. The extension to connected nonreductive
-  groups requires the Levi/unipotent integration input of AA.3. This is an owned
+  groups requires the Levi/unipotent integration input of AA.3 (for the Tamagawa numbers of a
+  group with a unipotent radical, AA.3.4a *tamagawa-number-unipotent-radical*). This is an owned
   deduction from the two preceding comparisons; its inputs are the induction identity of
   AnalyticNumberTheoryPartI §2.18a, which equates the Artin `L`-function over `F` of the induced
   character module of `Res_{E/F} G_E` with that over `E` of the character module of `G_E`, so
@@ -1893,6 +1949,240 @@ gauge forms and the global discriminant; these are not supplied by the linear la
     Without the factors `|d|^{−d/2}` the two sides would be multiplied by
     `|d_F|^{[E:F]/2}` and `|d_E|^{1/2}`, which are `1` and `2` for `ℚ(i)/ℚ`.
 
+### 2.6 Top forms on varieties, groups with a unipotent radical and homogeneous spaces
+
+This subsection extends the gauge measures and Tamagawa measures of AA.2.4 to the measure of a top
+form on the points of a smooth variety over a local field, to the Tamagawa measure of a group with
+a unipotent radical, and to invariant gauge forms on a homogeneous space, with the comparison of
+the local and Tamagawa measures when the stabilizer is a normal subgroup. In it `K` is a
+nondiscrete locally compact field of characteristic zero (`ℝ`, `ℂ` or a finite extension of some
+`ℚ_p`), with the additive Haar measures and the normalized absolute value of AA.2.4
+(`vol(𝒪_K) = 1`, `dx` on `ℝ`, `2 dx dy` on `ℂ` with `|z|_ℂ = z̄z`). A group is unimodular in
+the algebraic sense when `det Ad` on its Lie algebra is `1`.
+
+- **The measure of a top form on a smooth variety.** (*top-form-measure*) Let `Y` be a smooth
+  quasi-affine `K`-variety (a smooth locally closed subvariety of an affine space over `K`) of pure
+  dimension `d`, and `ω` a nowhere vanishing algebraic `d`-form on `Y` defined over `K`. `Y(K)` is a
+  `K`-analytic manifold of dimension `d`, with charts given near each point by `d` of the ambient
+  coordinates. Define the measure `|ω|` on `Y(K)`: in a chart in which `ω = f dx_1 ∧ ⋯ ∧ dx_d`, it
+  is `|f|_K` times the additive Haar measure of `K^d`. Prove: chart independence; `|cω| = |c|_K|ω|`
+  for `c ∈ K^×`; `φ^*|ω| = |φ^*ω|` for an isomorphism `φ : Y′ → Y` of smooth quasi-affine
+  varieties (that is, `φ` carries `|φ^*ω|` to `|ω|`); compatibility with restriction to open
+  subvarieties; and, for a smooth affine `K`-group and a gauge form, that `|ω|` is the measure of
+  AA.2.4. For a smooth morphism `π : Y → Y′` of smooth quasi-affine varieties and nowhere vanishing
+  top forms `ω` on `Y`, `ω′` on `Y′`, the relative form `ω/π^*ω′` is the top form on each fibre
+  `Y_y = π^{−1}(y)` with `ω = (ω/π^*ω′) ∧ π^*ω′` along `Y_y` (through
+  `det T^*Y = det T^*Y_y ⊗ π^*det T^*Y′`).
+  ([Weil], Chapter II, §2.2, for the measure of a gauge form on the points of a smooth variety
+  over a local field, archimedean or not. [Oesterlé], Chapter I, 2.3 and Theorem 2.4, p. 18,
+  treats the `𝒪_K`-points of a smooth `𝒪_K`-scheme at a nonarchimedean `K` and computes the
+  density against the canonical measure; for groups, [Platonov–Rapinchuk–Rapinchuk],
+  Theorem 3.71, p. 196, with the construction on pp. 192–196, as in AA.2.4.)
+
+  *Route.* Near a point of `Y ⊆ 𝔸^N`, smoothness and the Jacobian criterion give `N − d` local
+  equations with independent differentials, so the implicit function theorem over the complete
+  field `K` (Mathlib `ImplicitFunctionData.implicitFunction`) makes `d` of the coordinates a chart
+  of `Y(K)` (for `K = ℂ`, a chart of the complex manifold of ReductiveGroups 3A.5d). Transition maps
+  between such charts are `K`-analytic, and the coefficients of `ω` in two charts differ by the
+  Jacobian determinant, whose absolute value is the change-of-variables factor of the additive
+  Haar measure (the analytic change of variables of ReductiveGroupsPartII RG2.0); so the local
+  measures agree on overlaps and glue along a countable cover by compact chart domains. The
+  scaling, functoriality and restriction clauses are the same computation. For a group the charts
+  of RG2.0 *smooth-group-analytic-charts* are charts of this kind, so the measure is that of
+  AA.2.4.
+  *Needs:* AA.2.4; ReductiveGroupsPartII RG2.0 (*smooth-group-analytic-charts* and its analytic
+  change of variables); ReductiveGroups 3A.5d (complex charts), at `K = ℂ`; Mathlib
+  `ImplicitFunctionData.implicitFunction`, `MeasureTheory.Measure.addHaarMeasure` (the Haar measure
+  normalized on a positive compact set; on `𝒪_K` at a nonarchimedean `K`, so that `vol(𝒪_K) = 1`,
+  as AnalyticNumberTheoryPartII §5.3f fixes it).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `Y = G_m ⊂ 𝔸^1` with `ω = dT/T`: `|ω|_p(ℤ_p^×) = 1 − p^{−1}`, the value of AA.2.4.
+  - Replacing `ω` by `2ω` multiplies `|ω|` by `2` over `ℝ`, by `4` over `ℂ` and by `1/2` over `ℚ_2`.
+
+- **Groups with a unipotent radical: the Tamagawa measure.** (*tamagawa-measure-unipotent-radical*)
+  Let `F` be a number field and `G = M ⋉ N` a connected linear algebraic `F`-group with `N`
+  unipotent and normal and `M` connected reductive (a Levi decomposition, given as data; one exists
+  for every smooth connected affine `F`-group by ReductiveGroups Layer 6A). Prove:
+  `X*(G_{F̄}) = X*(M_{F̄})` as Galois modules (geometric characters are trivial on `N`); `G`
+  satisfies the hypotheses of the Tamagawa measure of AA.2.4, with the convergence factors and the
+  leading coefficient of `M`; for gauge forms with `ω_G = ω_M ∧ ω_N` (through `M × N ≅ G`,
+  `(m, n) ↦ mn`), `∫_{G(𝔸)} f dτ_G = ∫_{M(𝔸)} ∫_{N(𝔸)} f(mn) dτ_N(n) dτ_M(m)`, which is a left Haar
+  measure of `G(𝔸)`; the modular character of `G(𝔸)` is `mn ↦ |χ(m)|_𝔸` for the `F`-rational
+  character `χ = det Ad|_{Lie N}` of `M`; and `G(𝔸)^1 = M(𝔸)^1·N(𝔸)`, a closed normal subgroup of
+  `G(𝔸)`, is unimodular: its modular character is the restriction of that of `G(𝔸)`, which is
+  trivial on it. For a parabolic `P = M_P ⋉ N_P` of a connected reductive group, AA.3.1
+  *Parabolic Haar Jacobian* gives this left Haar measure and modular character in the coordinates
+  `(n, m)`.
+  ([Oesterlé], Chapter I, Definition 4.7, p. 22, defines the Tamagawa measure of a connected linear
+  group over a global field, and Proposition 5.3, p. 23, gives the modulus of `G(𝔸)` as
+  `g ↦ |det Ad(g)|_𝔸^{−1}` in Bourbaki's convention, the inverse of the modular character used
+  here; Chapter III, Theorem 3.3, p. 37, compares the Tamagawa measures of the terms of an exact
+  sequence such as `1 → N → G → M → 1`.)
+
+  *Route.* `N` has a filtration `N = N_0 ⊃ N_1 ⊃ ⋯ ⊃ 1` by subgroups normal in `G` (the lower
+  central series) whose quotients are vector groups on which `M` acts linearly (characteristic
+  zero; ReductiveGroups Layer 6A, item 1); a character of `G` is trivial on the unipotent `N`, so
+  `X*(G_{F̄}) = X*(M_{F̄})` and `X*_F(G) = X*_F(M)`. Choose `ω_N` compatible with the filtration and
+  `ω_G = ω_M ∧ ω_N`. Spread `G = M ⋉ N` and the filtration out over `𝒪_{F,S}` (AA.1.1); for almost
+  all `v` the smooth model of `N` is an iterated extension of vector groups, with `q_v^{dim N}`
+  points over `k_v`, so `|ω_N|_v(N(𝒪_v)) = 1` by Weil's volume formula (AA.2.4), and
+  `G(𝒪_v) = M(𝒪_v)N(𝒪_v)` gives `λ_v|ω_G|_v(G(𝒪_v)) = λ_v|ω_M|_v(M(𝒪_v))` with the same `λ_v`
+  (*convergence-factors*): the convergence hypotheses of `τ_G` are those of `τ_M`. In the
+  coordinates `(m, n)` the measure `|ω_M|_v ⊗ |ω_N|_v` is left invariant (left translation by `n′`
+  changes `n` into `(m^{−1}n′m)n`), and the products over `v` give the integration formula (AA.0.3).
+  The modular character is AA.2.2 (*Modular function of `P(𝔸)`*, stated for every finite-type
+  `F`-group): it is the idele norm of `det Ad` on `Lie G = Lie M ⊕ Lie N`, which is `|χ(m)|_𝔸`
+  because `det Ad_{Lie M} = 1` for reductive `M` and `Ad(n)` is unipotent. As `χ` is `F`-rational,
+  it has norm one on `M(𝔸)^1`, and `G(𝔸)^1 = M(𝔸)^1N(𝔸)` because rational characters are trivial
+  on `N`. `G(𝔸)^1` is the kernel of the continuous `H_G`, hence closed and normal; for a closed
+  normal subgroup `C` of a locally compact group `B`, `f ↦ ∫_{B/C} ∫_C f(bc) dc dḃ` is a left Haar
+  measure of `B`, and right translation by `c_0 ∈ C` multiplies it by the modular character of `C`
+  at `c_0`, so the modular character of `C` is the restriction of that of `B`.
+  *Needs:* AA.0.3; AA.1.1; AA.2.1; AA.2.2 (*Modular function of `P(𝔸)`*); AA.2.4 (Weil's volume
+  formula, *convergence-factors*, Tamagawa measure); ReductiveGroups Layer 6A (Levi complements;
+  item 1, the filtration).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The upper triangular Borel subgroup `B = G_m ⋉ G_a` of `SL_2`: `χ(diag(t, t^{−1})) = t²`, so
+    the modular character `|t|_𝔸²` of `B(𝔸)` is nontrivial, while it is `1` on `B(𝔸)^1`;
+    `X*(B_{F̄}) = X*(G_{m,F̄}) = ℤ`.
+  - `M = 1`, `N = G_a`: the statement is the `G_a` clause of AA.2.4, `τ_{G_a} = |d_F|^{−1/2}μ_𝔸`.
+
+- **Gauge forms and quotient measures on homogeneous spaces.** (*homogeneous-gauge-measure*) Let `k`
+  be a field of characteristic zero, `G` a smooth connected affine `k`-group acting on an affine
+  `k`-variety `Y`, `x ∈ Y(k)` with smooth connected stabilizer `H`, `Ξ = G·x ⊆ Y` its orbit (a
+  smooth locally closed subvariety, ReductiveGroups Layer 3A), and `π : G → Ξ`, `π(g) = g^{−1}x`,
+  which identifies the right coset space `H\G` with `Ξ` (`Hg ↦ g^{−1}x`). Assume that `G` and `H`
+  are unimodular in the algebraic sense: `det Ad_{Lie G} = 1` on `G` and `det Ad_{Lie H} = 1` on
+  `H`. This holds for connected reductive groups, for unipotent groups, and for `M ⋉ N` as in
+  *tamagawa-measure-unipotent-radical* when `M` acts on `Lie N` with determinant one; by AA.2.4 it
+  makes every left-invariant gauge form also right-invariant. Prove:
+  (i) `Ξ` carries a `G`-invariant nowhere vanishing top form, unique up to `k^×`; for gauge forms
+  `ω_G`, `ω_H` there is a unique `G`-invariant `ω_Ξ = ω_G/ω_H` such that
+  `ω_G(e) = ω_H(e) ⊗ ω_Ξ(x)` under the isomorphism `det(Lie G)^∨ ≅ det(Lie H)^∨ ⊗ det(T_xΞ)^∨` given
+  by `0 → Lie H → Lie G → T_xΞ → 0` (`dπ_e`), and then the relative form `ω_G/π^*ω_Ξ`
+  (*top-form-measure*) on each fibre `π^{−1}(g^{−1}x) = Hg` is the transport of `ω_H` by
+  `h ↦ hg`;
+  (ii) if `H` is normal in `G`, so that `Ξ` is the quotient group, and `k = K` is `ℝ`, `ℂ` or a
+  nonarchimedean local field of characteristic zero, `Hg ↦ g^{−1}x` is an open embedding of
+  `H(K)\G(K)` into `Ξ(K)` (its image, the orbit `G(K)·x`, may be smaller than `Ξ(K)`), and the
+  quotient of `|ω_G|` by `|ω_H|` (AA.2.2 *quotient-measure*; here both are left and right Haar
+  measures) is the pullback of the restriction of `|ω_Ξ|` (*top-form-measure*):
+  `∫_{G(K)} f |ω_G| = ∫_{H(K)\G(K)} ( ∫_{H(K)} f(hg) |ω_H|(h) ) |ω_Ξ|(g^{−1}x)`;
+  (iii) if `H` is normal in `G`, `k = F` is a number field, the restriction
+  `X*(G_{F̄}) → X*(H_{F̄})` of geometric characters is injective with finite cokernel, and the
+  Tamagawa measures `τ_G`, `τ_H` exist (AA.2.4; for `H` with a unipotent radical,
+  *tamagawa-measure-unipotent-radical*), then, for an integral model of `G` over `𝒪_{F,S}` and the
+  closure of `H` in it, `H(F_v) ∩ G(𝒪_v) = H(𝒪_v)` for almost all `v`; the local orbit maps identify
+  `H(𝔸)\G(𝔸)` with the restricted product of the open sets `H(F_v)\G(F_v) ⊆ Ξ(F_v)` with respect to
+  the compact open images `G(𝒪_v)·x` of the `G(𝒪_v)`; the product of the masses `|ω_Ξ|_v(G(𝒪_v)·x)`
+  converges absolutely to a nonzero limit; and, for every `F`-rational `G`-invariant gauge form
+  `ω_Ξ`, the quotient `μ_Ξ` of `τ_G` by `τ_H` (AA.2.2) is given on boxes: for Borel sets
+  `C_v ⊆ H(F_v)\G(F_v)` of finite `|ω_Ξ|_v`-measure with `C_v = G(𝒪_v)·x` for almost all `v`,
+  `μ_Ξ(∏_v C_v) = |d_F|^{−dim Ξ/2} ∏_v |ω_Ξ|_v(C_v)`, an absolutely convergent product. These boxes
+  generate the Borel σ-algebra of `H(𝔸)\G(𝔸)`, so the formula determines `μ_Ξ`; equivalently,
+  `∫ ⊗_v f_v dμ_Ξ = |d_F|^{−dim Ξ/2} ∏_v ∫ f_v |ω_Ξ|_v` for nonnegative Borel `f_v` with
+  `f_v = 1_{G(𝒪_v)·x}` for almost all `v`. A measure on such a restricted product given on boxes by
+  a product of local measures in this way is called the restricted product of the local measures.
+  Without the hypothesis on characters, if the Tamagawa measure `τ_{G/H}` of the quotient group
+  `G/H = Ξ` exists as well (AA.2.4), the quotient of `τ_G` by `τ_H` is, under the orbit maps, the
+  restriction of `τ_{G/H}` to the open image of `H(𝔸)\G(𝔸)` in `(G/H)(𝔸)`.
+  ([Weil], Chapter II, §2.4, for gauge forms on the group, on the subgroup and on the homogeneous
+  space matching algebraically, as in (i). For a normal subgroup `H`, where `Ξ` is the quotient
+  group, [Oesterlé], Chapter III, 3.1–3.2, pp. 36–37, proves the local comparison (ii) at every
+  place by Fubini's theorem, and Theorem 3.3, p. 37, compares the Tamagawa measures (iii) on the
+  open image of `G(𝔸)`, with the convergence factors of the three groups and no hypothesis on
+  characters.)
+
+  *Route.* (i) The `G`-invariant top forms on `Ξ` correspond to their values at `x`, which must be
+  fixed by `H`; for `h ∈ H`, `h·π(g) = π(gh^{−1}) = π(hgh^{−1})` (as `h^{−1}x = x`), so `H` acts on
+  `T_xΞ = Lie G/Lie H` through `Ad`, hence on `det(T_xΞ)^∨` by
+  `det Ad_{Lie H}/det Ad_{Lie G}|_H = 1`: the invariant forms are a line, and `ω_Ξ(x)` is defined by
+  the displayed isomorphism. Right translation `R_g` carries `H` to `Hg` and satisfies
+  `π ∘ R_g = g^{−1}·π`; it preserves `ω_G` (right invariance, from unimodularity) and `ω_Ξ` is
+  `G`-invariant, so the decomposition at `e` is carried to `g`. (ii) `π`, the orbit map composed
+  with inversion, is smooth (in characteristic zero the orbit map of an affine group onto its
+  orbit is smooth: ReductiveGroups Layer 3A, after base change to `k̄`), so the orbit map
+  `G(K) → Ξ(K)` is a submersion of `K`-analytic manifolds with open image (at every `K`, by the
+  Jacobian criterion and the implicit function theorem over the complete field `K`, in the charts
+  of *top-form-measure*: the differential of a smooth morphism of smooth varieties is onto at
+  every `K`-point; at `K = ℂ` this is also ReductiveGroups 3A.5f), and `H(K)\G(K) → Ξ(K)` is
+  injective, continuous and open. The quotient of `|ω_G|` by `|ω_H|` and the pullback of `|ω_Ξ|`
+  are `G(K)`-invariant Radon measures on `H(K)\G(K)` (`ω_Ξ` is `G`-invariant, and
+  *top-form-measure* is functorial), hence proportional by the uniqueness in AA.2.2
+  *quotient-measure*; for gauge forms matched as in (i) the constant is `1` ([Oesterlé],
+  Chapter III, 3.2, p. 37, by Fubini's theorem).
+  (iii) The local convergence factors and the leading coefficients depend only on the Galois
+  representations `X*(G_{F̄}) ⊗ ℂ` and `X*(H_{F̄}) ⊗ ℂ` (*convergence-factors*), which the
+  restriction identifies (it is injective with finite cokernel), so they agree for `G` and `H`,
+  and the discriminant factors `|d_F|^{−dim/2}` of AA.2.4 divide to `|d_F|^{−dim Ξ/2}`. Spread `G`,
+  `H` and the action out over `𝒪_{F,S}` (AA.1.1): for almost all `v` the closure of `H` is a smooth
+  model of `H`, an `𝒪_v`-point of `G` lying in `H(F_v)` is an `𝒪_v`-point of the closure, and so
+  `H(F_v) ∩ G(𝒪_v) = H(𝒪_v)`; this gives injectivity of `H(𝔸)\G(𝔸) →` the restricted product (if
+  `g′_vg_v^{−1}` lies in `H(F_v)` for all `v` and `g_v, g′_v ∈ G(𝒪_v)` for almost all `v`, then
+  `g′g^{−1} ∈ H(𝔸)`), surjectivity is the lift of local representatives `g_v ∈ G(𝒪_v)` at almost
+  all `v`, and the map is open because each local orbit map is open and carries `G(𝒪_v)` onto
+  `G(𝒪_v)·x`. By (ii) with `f = 1_{G(𝒪_v)}`,
+  `|ω_Ξ|_v(G(𝒪_v)·x) = |ω_G|_v(G(𝒪_v))/|ω_H|_v(H(𝒪_v))`; the corrected volumes
+  `λ_v|ω_G|_v(G(𝒪_v))` and `λ_v|ω_H|_v(H(𝒪_v))`, with the same `λ_v`, have absolutely convergent
+  products with nonzero limits (the hypotheses of AA.2.4), hence so has their quotient. For the box
+  formula, take `S` finite and large: on the open subgroup of `S`-adelic points
+  `∏_{v∈S} G(F_v) × ∏_{v∉S} G(𝒪_v)` (AA.1.2), `τ_G` is `|d_F|^{−dim G/2}ρ_G^{−1}` times the product
+  of the measures `λ_v|ω_G|_v` (AA.0.3), and likewise `τ_H` on the intersection of `H(𝔸)` with this
+  subgroup, `∏_{v∈S} H(F_v) × ∏_{v∉S} H(𝒪_v)`; the image of this subgroup in `H(𝔸)\G(𝔸)` is the
+  open set of points with `v`-component in `G(𝒪_v)·x` for `v ∉ S`, on which `μ_Ξ` is the quotient
+  of these two product measures, which by the uniqueness of AA.2.2 is the product of the local
+  quotients, the measures `|ω_Ξ|_v` of (ii); the factors `λ_v` cancel, the constants divide to
+  `|d_F|^{−dim Ξ/2}`, and every box lies in such an open set. The boxes are a family closed under
+  intersection that generates the Borel σ-algebra of the second countable restricted product, and
+  countably many boxes of finite measure cover it, so they determine `μ_Ξ`. Replacing `ω_Ξ` by
+  `cω_Ξ`, `c ∈ F^×`, changes nothing by the product formula (*Independence of the gauge form*).
+  Without the hypothesis on characters, the sequence
+  `0 → X*((G/H)_{F̄}) ⊗ ℂ → X*(G_{F̄}) ⊗ ℂ → X*(H_{F̄}) ⊗ ℂ → 0` is exact (the restriction has
+  kernel `X*((G/H)_{F̄})` and finite cokernel: [Oesterlé], Appendix 1, A.1.4, p. 81), so the `λ_v`, the leading coefficient and the discriminant factor of
+  `G` are those of `H` times those of `G/H`; for almost all `v`, `G(𝒪_v)` maps onto `Ξ(𝒪_v)`
+  (Lang's theorem on the connected smooth special fibre of the closure of `H`, then Hensel
+  lifting), so the image of the open subgroup of `S`-adelic points of `G` is the open subgroup
+  `∏_{v∈S} G(F_v)·x × ∏_{v∉S} Ξ(𝒪_v)` (by (ii)), and the image of `G(𝔸)` is open ([Oesterlé],
+  Chapter I, 3.6, p. 20); on it the computation above, with these products in place of the
+  cancellation, gives `τ_{G/H}` ([Oesterlé], Chapter III, Theorem 3.3, p. 37).
+  *Needs:* AA.0.3; AA.1.1 (integral models, spreading out); AA.2.2 (*quotient-measure*); AA.2.4
+  (gauge forms, *convergence-factors*, Tamagawa measure, *Independence of the gauge form*);
+  AA.2.6 *top-form-measure*, *tamagawa-measure-unipotent-radical*; ReductiveGroups Layer 3A (orbits
+  and orbit maps) and 3A.5f (complex orbit maps); ReductiveGroupsPartII, RG2.3 (Lang and smooth
+  lifting); Mathlib `ImplicitFunctionData.implicitFunction`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - Unimodularity of `G` is needed. Let `B ⊂ SL_2` be the upper triangular Borel subgroup acting on
+    `G_m` through its character `n(u)a(t) ↦ t` (`n(u)` unipotent, `a(t) = diag(t, t^{−1})`), `x = 1`,
+    so `H = N = {n(u)}` and `Ξ = N\B ≅ G_m`. Here `det Ad_{Lie B}|_N = 1 = det Ad_{Lie N}`, but
+    `det Ad_{Lie B}(a(t)) = t² ≠ 1`. In the coordinates `n(u)a(t)` the left-invariant gauge form of
+    AA.2.4 is `du ∧ dt/t³`, the right-invariant one `du ∧ dt/t`, `ω_N = du`, and the invariant form
+    of `Ξ` is `dt/t`. The left Haar measure `|du ∧ dt/t³|` disintegrates over `N\B` with base
+    measure `|t|^{−3}|dt|`, which is not invariant; only the right-invariant form gives `|dt/t|`.
+  - Unimodularity of `H` is needed. `G = SL_2 × G_m` acts linearly on `Y = 𝔸²` by
+    `(g, s)·y = s^{−1}gy`; the stabilizer of `x = e_1` is `H = {([[s, u], [0, s^{−1}]], s)} ≅ B`,
+    with `det Ad_{Lie H} = s² ≠ 1`, and the orbit is the open set `Ξ = 𝔸² ∖ 0`. An invariant top
+    form `f dy_1 ∧ dy_2` has `f` constant (`SL_2` preserves `dy_1 ∧ dy_2` and is transitive on `Ξ`),
+    and `(1, s)` multiplies `dy_1 ∧ dy_2` by `s^{−2}`: `Ξ` has no `G`-invariant gauge form, as the
+    route of (i) predicts (`H` acts on `det(T_xΞ)^∨` by `det Ad_{Lie H}/det Ad_{Lie G}|_H = s² ≠ 1`).
+  - Without unimodularity there may be no invariant form at all, even when the stabilizer is
+    unimodular: the affine group `G = {y ↦ ay + b}` of the line acting on `Y = 𝔸^1`, `x = 0`, has
+    stabilizer `H = G_m` and orbit `Ξ = 𝔸^1`; `y ↦ ay + b` multiplies `dy` by `a`, so `Ξ` has no
+    invariant gauge form. Here `det Ad_{Lie G}(y ↦ ay + b) = a`, so `G` is not unimodular, and
+    `det Ad_{Lie G}|_H = a ≠ 1 = det Ad_{Lie H}`.
+  - (iii) with a restriction that is not an isomorphism: `GL_2` acting on the affine variety
+    `PGL_2` by left translation, `x = e`, `H` the scalars. `det` restricts to `t ↦ t²`, so
+    `X*(GL_{2,F̄}) = ℤ → X*(H_{F̄}) = ℤ` is injective with cokernel `ℤ/2`; the convergence factors
+    `(1 − q_v^{−1})^{−1}` and the leading coefficients `Res_{s=1}ζ_F` agree, and
+    `|ω_Ξ|_v(PGL_2(𝒪_v)) = (1 − q_v^{−1})(1 − q_v^{−2})/(1 − q_v^{−1}) = 1 − q_v^{−2} = #PGL_2(k_v)q_v^{−3}`:
+    (iii) says that `τ_{GL_2}` is the product of `τ_{G_m}` and the Tamagawa measure
+    `|d_F|^{−3/2}∏_v|ω_Ξ|_v` of `PGL_2`.
+
 ### Examples
 
 for `n ≥ 1`, `X*_F(GL_n) ≃ ℤ`, generated by the determinant, and `a_{GL_n}` is one-dimensional
@@ -1909,18 +2199,19 @@ Layers AA.0 and AA.1; Mathlib's group-like elements, modular character,
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics,
 Euler product, measurable fundamental domains and right translation of regular Haar measures;
-ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII, RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
+ReductiveGroups, layers 3A, 4, 5, 6A and 7; ReductiveGroupsPartII, RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
 AnalyticNumberTheoryPartI §2.18a (finite-image Artin L-functions); AnalyticNumberTheoryPartII
 §5.3f (restricted products of Haar measures, for the Tamagawa measure) and §5.3k (quotient
-measures and the two quotient conventions).
+measures and the two quotient conventions); Mathlib's implicit function theorem, for AA.2.6.
 
 ## Layer 3: reduction and arithmetic quotients
 
 Begin with rational parabolic data, real Siegel coordinates and the primitive `GL_n` and
 closed-orbit reductions. Their adelic consequences give finite class sets, finite volume and
 compactness criteria. Heights quantify growth; the fixed-`K` real theory controls cusps and
-subgroup orbit maps.
+subgroup orbit maps. The finiteness of volumes gives the Tamagawa numbers of `G_m` and of groups
+with a unipotent radical (AA.3.4a).
 
 ### 3.1 Rational parabolics and Iwasawa integration
 
@@ -3060,6 +3351,137 @@ reduced norm `−1` on `diag(−1,1)` is distinguished
 from determinant `1` of left multiplication on `M₂`. The latter determinant
 cannot replace the reduced norm in the defining equation.
 
+### 3.4a Tamagawa numbers of `G_m` and of groups with a unipotent radical
+
+In this subsection `κ_F = Res_{s=1} ζ_F(s)` (Mathlib `NumberField.dedekindZeta_residue`), and `ν_T`
+is Tate's measure on `𝔸_F^×`, the measure `d^×x` of AnalyticNumberTheoryPartII §5.3j, with local
+factors `ν_{T,v}`; it is `|d_F|^{−1/2}` times the measure `d^×x` of AA.0.4.
+
+- **The Tamagawa number of `G_m`.** (*tamagawa-multiplicative-group*) For every number field `F`,
+  prove `τ(G_m) = 1` for the Tamagawa measure of AA.2.4 (convergence factors
+  `(1 − q_v^{−1})^{−1}`, leading coefficient `κ_F`). Equivalently: let `𝔸_F^1` carry the measure
+  `μ^1` with `ν_T = μ^1 ⊗ d|x|/|x|` under `𝔸_F^× = 𝔸_F^1 × ℝ_{>0}` (AA.2.1,
+  *split-centre-decomposition* for `G = G_m`, where `A_{G_m}(ℝ)^0` is `ℝ_{>0}` embedded diagonally
+  at the archimedean places), `|x|` being the idele norm; in the diagonal coordinate `t` the norm
+  is `t^{[F : ℚ]}`, so `d|x|/|x| = [F : ℚ]·dt/t`. This `μ^1` is the measure induced by `ν_T` and
+  the Lebesgue measure on `a_{G_m}` normalized by the lattice `Hom(X*_F(G_m), ℤ) = ℤ`, the
+  logarithm being `H_{G_m}(x) = log|x|`. Then `μ^1(F^×\𝔸_F^1) = κ_F`. Consequently
+  `τ(Res_{E/F}G_m) = 1` for every finite extension `E/F` of number fields.
+  ([Tate], §4.3: the volume `κ_F` of the norm-one idele classes, for the measure with `dt/t` in the
+  coordinate `t = |x|`; §4.4: the residue of the zeta integral; [Oesterlé], Chapter I, Example 5.14
+  (2), p. 25, for the reading `τ(G_m) = 1`; [Oesterlé], Chapter II, Theorem 1.3, p. 27, with
+  Chapter I, Example 5.14 (2), for `τ(Res_{E/F}G_m) = 1`, as in Chapter IV, proof of Theorem 3.2,
+  p. 56.)
+
+  *Route.* Take `f = ⊗_v f_v ∈ S(𝔸_F)` (AnalyticNumberTheoryPartII §5.3h) with `f_v ≥ 0`,
+  `f_v = 1_{𝒪_v}` for almost all `v`, and `f̂(0) = ∫_{𝔸_F} f ≠ 0` for the self-dual measure (for
+  instance the standard Gaussians at the archimedean places and `1_{𝒪_v}` at every finite place).
+  The zeta integral `Z(f, s) = ∫_{𝔸_F^×} f(x)|x|^s dν_T(x)` converges for real `s > 1`, and both
+  computations below are for real `s > 1` only. First, split at `|x| = 1`, write
+  `ν_T = μ^1 ⊗ d|x|/|x|` and apply Poisson summation (AnalyticNumberTheoryPartII §5.3h, for the
+  idele acting by scalars) to `Σ_{ξ∈F} f(ξx)` on `|x| < 1`:
+  `Z(f, s) = I(s) + μ^1(F^×\𝔸_F^1)·(f̂(0)/(s − 1) − f(0)/s)`, where
+  `I(s) = ∫_{|x|≥1} (f(x)|x|^s + f̂(x)|x|^{1−s}) dν_T(x)` converges for every `s` and is continuous
+  in `s`, and the volume is finite because `F^×\𝔸_F^1` is compact (AA.3.4, *Anisotropic groups
+  have compact quotients*); so `(s − 1)Z(f, s) → μ^1(F^×\𝔸_F^1)·f̂(0)` as `s → 1^+`.
+  Second, `Z(f, s) = ∏_v z(f_v, 1, s)` for the local zeta integrals of AnalyticNumberTheoryPartII
+  §5.3j. Let `S` be the finite set of the archimedean places, of the places with `𝔇_v ≠ 𝒪_v` and
+  of those with `f_v ≠ 1_{𝒪_v}`; for `v ∉ S`, `z(1_{𝒪_v}, 1, s) = (1 − q_v^{−s})^{−1}`, so the
+  Euler product (Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`) gives
+  `Z(f, s) = ζ_F(s)·∏_{v∈S} z(f_v, 1, s)L_v(s)^{−1}`, with `L_v(s) = (1 − q_v^{−s})^{−1}` at finite
+  `v` and `L_v = 1` at archimedean `v`. Each of these finitely many factors is holomorphic on
+  `Re s > 0` (AnalyticNumberTheoryPartII §5.3j), and at `s = 1` it is `∫ f_v dx_v` for the
+  self-dual measure (the factor `(1 − q_v^{−1})^{−1}` of `ν_{T,v}` cancels `L_v(1)^{−1}`), while
+  `∫ 1_{𝒪_v} dx_v = 1` for `v ∉ S`. With Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`,
+  `(s − 1)Z(f, s) → κ_F·f̂(0)`. Comparing the two limits, `μ^1(F^×\𝔸_F^1) = κ_F`. Finally,
+  `∏_v λ_v|dx/x|_v` is the measure `d^×x` of AA.0.4 (`λ_v|dx/x|_v` gives `𝒪_v^×` volume one at
+  finite `v`; `dx/|x|` on `ℝ`, `2 dx dy/|z|_ℂ` on `ℂ`), which is `|d_F|^{1/2}ν_T`, so
+  `τ_{G_m} = |d_F|^{−1/2}κ_F^{−1}∏_v λ_v|dx/x|_v = κ_F^{−1}ν_T`; `H_{G_m}` carries the
+  lattice-normalized Lebesgue measure of `a_{G_m}` to `d|x|/|x|`, so the measure induced on
+  `𝔸_F^1` is `κ_F^{−1}μ^1`, and `τ(G_m) = 1`. Over `E`, `τ(G_m) = 1` and AA.2.5
+  *tamagawa-restriction-scalars* give `τ(Res_{E/F}G_m) = 1`.
+  *Needs:* AA.0.4; AA.2.1; AA.2.4; AA.2.5 (*tamagawa-restriction-scalars*); AA.3.4;
+  AnalyticNumberTheoryPartII §§5.3h, 5.3j; Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`;
+  Mathlib `NumberField.dedekindZeta_residue`, `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `F = ℚ`: `κ_ℚ = 1`; `ℚ^×\𝔸_ℚ^1` has the fundamental domain `{1} × ℤ̂^×`, of `μ^1`-measure
+    `∏_p ν_{T,p}(ℤ_p^×) = 1 = κ_ℚ`; and directly, the Tamagawa factors
+    `(1 − p^{−1})^{−1}|dx/x|_p(ℤ_p^×) = 1` give `τ(G_m) = 1`.
+  - `F = ℚ(i)`: `κ_F = 2π·R·h/(w·√|d_F|) = 2π/(4·2) = π/4` (`r_2 = 1`, `R = h = 1`, `w = 4`,
+    `|d_F| = 4`). As `h = 1`, `F^×\𝔸_F^1` is the quotient of `S^1 × ∏_v 𝒪_v^×` by `μ_4`. At the
+    complex place `2 dx dy/|z|_ℂ = dθ ⊗ d|z|_ℂ/|z|_ℂ`, so `μ^1` is `dθ` times the product of the
+    `ν_{T,v}` on the `𝒪_v^×`, of total mass `∏_v N(𝔇_v)^{−1/2} = 1/2`, and
+    `μ^1(F^×\𝔸_F^1) = 2π·(1/2)/4 = π/4 = κ_F`. In the diagonal coordinate `t` (positive reals at the
+    complex place) the norm is `t²`; normalizing with `dt/t` instead of `d|x|/|x|` would double `μ^1`
+    and give `π/2`. Without the factor `ρ_{G_m}^{−1} = κ_F^{−1}`, the Tamagawa volume would be `π/4`
+    instead of `1`.
+
+- **Groups with a unipotent radical: the Tamagawa number.** (*tamagawa-number-unipotent-radical*)
+  For `G = M ⋉ N` as in AA.2.6 *tamagawa-measure-unipotent-radical*, give `a_G = a_M` the Lebesgue
+  measure `du` normalized by `Hom(X*_F(G), ℤ) = Hom(X*_F(M), ℤ)` (the normalization of AA.2.4
+  *Tamagawa number*), and let `μ^1` be the Haar measure of `G(𝔸)^1` with
+  `∫_{G(𝔸)} f dτ_G = ∫_{a_G} ∫_{G(𝔸)^1} f(s(u)g) dμ^1(g) du`
+  for nonnegative Borel `f` and a section `s` of `H_G : G(𝔸) → a_G` (the translate is on the left:
+  `A_M(ℝ)^0` is not central in `G(𝔸)`, and `τ_G` is only a left Haar measure); equivalently
+  `μ^1 = τ^1_M ⊗ τ_N` under `(m, n) ↦ mn`, with `τ^1_M` the measure on `M(𝔸)^1` of AA.2.4
+  *Tamagawa number*. It depends neither on `s` nor on the Levi subgroup. When `det Ad|_{Lie N}` has
+  absolute value one on `M(𝔸)` (for instance when `M` has no nontrivial `F`-rational character),
+  `G(𝔸)` is unimodular, and `τ_G`, which is `τ_M ⊗ τ_N` under `(m, n) ↦ mn` (AA.2.6), is also
+  `τ_N ⊗ τ_M` under `(n, m) ↦ nm`. Define `τ(G) = μ^1(G(F)\G(𝔸)^1)`, with counting measure on
+  `G(F)`; for `N = 1` this is the Tamagawa number of AA.2.4, which it extends. It is finite by AA.3.4
+  (*Finite volume of `G(F)\G(𝔸)^1`*). Prove: `τ(N) = 1` and `τ(G) = τ(M)`; in particular
+  `τ(G_a) = 1`; and, for a finite extension `E/F` of number fields and `G = M ⋉ N` as above over
+  `E`, `τ(Res_{E/F}G) = τ(G)`.
+  ([Oesterlé], Chapter I, Definitions 5.9, p. 24, and 5.12, p. 25, for the measure on `G(𝔸)^1` and
+  the Tamagawa number of a connected linear group, and Example 5.14 (1), p. 25, for `τ(G_a) = 1`;
+  Chapter III, Theorem 5.3, p. 41, relates the Tamagawa numbers of the terms of an exact sequence,
+  which gives `τ(N) = 1` for unipotent `N` over a number field along a composition series with
+  quotients `G_a`, as its Introduction, p. 13, observes; Chapter II, Theorem 1.3, p. 27, gives the
+  invariance under restriction of scalars for every connected linear group.)
+
+  *Route.* The measure: by AA.2.6, `τ_G = ∫_{M(𝔸)}∫_{N(𝔸)} f(mn) dτ_N dτ_M`, and
+  `τ_M = τ^1_M ⊗ du` through `M(𝔸) = M(𝔸)^1 × A_M(ℝ)^0` with `A_M(ℝ)^0` central in `M(𝔸)` (AA.2.1,
+  AA.2.4); with `s(u) ∈ A_M(ℝ)^0` this is the displayed formula for `μ^1 = τ^1_M ⊗ τ_N`, a Haar
+  measure of `G(𝔸)^1` because conjugation by `M(𝔸)^1` preserves `τ_N` (its modulus `|χ(m)|_𝔸` is
+  `1` there). For another section `s′(u) = s(u)g_u`, `g_u ∈ G(𝔸)^1`, the formula is unchanged by
+  left invariance of `μ^1`, and the formula determines `μ^1`; so `μ^1` depends neither on `s` nor on
+  the Levi subgroup. `τ(N) = 1` by induction along the filtration of AA.2.6: `N(R) → (N/N_1)(R)` is
+  onto for `R = F, F_v, 𝔸` (vector groups have trivial `H^1`; for `R = F, F_v`, ReductiveGroups
+  Layer 6A, item 1), `N(F)\N(𝔸)` fibres over `(N/N_1)(F)\(N/N_1)(𝔸)` with fibre `N_1(F)\N_1(𝔸)`,
+  the quotient measures compose in stages (AnalyticNumberTheoryPartII §5.3k), and `τ(G_a) = 1` (the
+  Tamagawa measure of `G_a` is the self-dual measure, AA.2.4, for which `F\𝔸_F` has volume one,
+  AnalyticNumberTheoryPartII §5.3h). For `G`: `G(F) = M(F)N(F)`, so `G(F)\G(𝔸)^1` fibres over
+  `M(F)\M(𝔸)^1` (in the coordinates `mn`) with fibre `m^{−1}N(F)m\N(𝔸)` over the class of `m`;
+  conjugation by `m` scales `τ_N` by `|det(Ad(m)|_{Lie N})|_𝔸^{±1} = |χ(m)|_𝔸^{±1}`, which is `1` on
+  `M(𝔸)^1`, so every fibre has volume `τ(N)`; Fubini for `μ^1 = τ^1_M ⊗ τ_N` gives
+  `τ(G) = τ(M)τ(N) = τ(M)`. Restriction of scalars: the Weil restriction of `M × N ≅ G` gives
+  `Res_{E/F}(M ⋉ N) = Res_{E/F}M ⋉ Res_{E/F}N` (AA.1.4), with `Res_{E/F}N` unipotent and
+  `Res_{E/F}M` connected reductive (over an algebraic closure `F̄`,
+  `Res_{E/F}G ⊗_F F̄ ≅ ∏_σ G ⊗_{E,σ} F̄` over the embeddings `σ : E → F̄`); so
+  `τ(Res_{E/F}(M ⋉ N)) = τ(Res_{E/F}M)` by the clause just proved over `F`,
+  `τ(Res_{E/F}M) = τ(M)` by AA.2.5 *tamagawa-restriction-scalars*, and `τ(M) = τ(M ⋉ N)` by the same
+  clause over `E`.
+  *Needs:* AA.1.4; AA.2.1; AA.2.4; AA.2.5 (*tamagawa-restriction-scalars*); AA.3.4; AA.2.6
+  *tamagawa-measure-unipotent-radical*; AnalyticNumberTheoryPartII §§5.3h, 5.3k; ReductiveGroups
+  Layer 6A (item 1).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The Borel subgroup `B = G_m ⋉ G_a` of `SL_2`: `τ(B) = τ(G_m) = 1` (with
+    *tamagawa-multiplicative-group*), while `B(F)\B(𝔸)` has infinite volume and `B(𝔸)` is not
+    unimodular; `τ` is taken on `B(𝔸)^1`.
+  - The Heisenberg group `1 → G_a → N_3 → G_a² → 1`: two steps of the filtration give
+    `τ(N_3) = 1·1 = 1`.
+  - `M = 1`, `N = G_a` over `E`: an `F`-basis of `E` gives `Res_{E/F}G_a ≅ G_a^{[E:F]}`, and both
+    sides of the restriction clause are `1`.
+  - The side of the translate matters. For the affine group `{y ↦ ay + b} = G_m ⋉ G_a` of the
+    line, with `(a, b)(a′, b′) = (aa′, ab′ + b)`, the left Haar measure `da db/a²` of its real
+    points (`a > 0`) is `(da/a)·db′` in the coordinates `(a, 0)(1, b′)` but `(da/a)·(db/a)` in the
+    coordinates `(1, b)(a, 0)`: only the left translate gives a product of `da/a` with the Haar
+    measure `db′` of the normal factor.
+
 ### 3.5 Algebraic heights
 
 - **Rational-point Arakelov comparison.** Identify
@@ -3609,18 +4031,23 @@ from stability of the whole subgroup.
 ### Dependencies
 
 Layers AA.1 and AA.2; Mathlib's modular-group fundamental domain; Tau Ceti's Cholesky lemmas and
-dynamic parabolics; ReductiveGroups, layers 3, 6 and 7; ReductiveGroupsPartII, RG2.1, RG2.3 and
+dynamic parabolics; ReductiveGroups, layers 3, 6, 6A and 7; ReductiveGroupsPartII, RG2.1, RG2.3 and
 RG2.4; RepresentationTheory/LieGroups, layer 9; GlobalNumberFields, layer 6; the cusp theory of
 AA.3.6 uses the adelic Siegel property of AA.3.4 and feeds the containment theorems of AA.3.7;
 the reductive fundamental sets of AA.3.7 (*triple-fundamental-set*) use the adelic covering and
-Siegel property of AA.3.4.
+Siegel property of AA.3.4; AA.3.4a uses AA.0.4, AA.2.6, AnalyticNumberTheoryPartII §§5.3h,
+5.3j and 5.3k, Tau Ceti's Euler product and Mathlib's Dedekind zeta residue.
 
 ## Layer 4: approximation, neat levels and Hecke maps
 
 Weak and strong approximation have different hypotheses and obstructions. Develop torsors and
 arithmetic closure lemmas explicitly, then construct neat levels, actual topological level
 quotients, stabilizer-aware fibre formulas and Hecke maps. The final abelian calculations isolate
-quaternion norms and compact abelian Fourier limits.
+quaternion norms and compact abelian Fourier limits. Ono's formula relates the Tamagawa numbers
+of tori to their torsors (AA.4.1a); a simply connected absolutely almost simple group has strong
+approximation with respect to every nonempty finite set `S` of places for which
+`∏_{v∈S} G(F_v)` is noncompact (AA.4.2a); on groups compact at infinity, integration along the
+class set gives the mass (AA.4.5a).
 
 ### 4.1 Weak approximation and torsors
 
@@ -3782,6 +4209,74 @@ quaternion norms and compact abelian Fourier limits.
   realization direction). The
   `μ₂` Checks above test comparison and scalar extension only: `μ₂` is not semisimple simply
   connected and cannot satisfy the Hasse-kernel conclusion.
+
+### 4.1a Tamagawa numbers of tori
+
+- **Ono's formula.** (*tamagawa-torus-ono*) Let `T` be a torus over a number field `F`, and
+  `X*(T_{F̄})` its geometric character lattice with its continuous finite-image Galois action (Tau
+  Ceti `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+  `TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`). Let `H¹(F, X*(T_{F̄}))` be its
+  first Galois cohomology group, computed on the group `Gal(L/F)` of a finite Galois extension
+  `L/F` through which the action factors (Mathlib `groupCohomology`; inflation makes it independent
+  of `L`), and let `Ш¹(F, T)` be the set of torsor classes of `T` over `F` (AA.4.1,
+  `torsorClasses`) whose base change to `F_v` is the distinguished class at every place `v`. Prove
+  that `H¹(F, X*(T_{F̄}))` and `Ш¹(F, T)` are finite and that
+  `τ(T) = #H¹(F, X*(T_{F̄}))/#Ш¹(F, T)` for the Tamagawa number of AA.2.4 ([Ono]; [Oesterlé],
+  Chapter IV, Corollary 3.3, p. 56).
+
+  *Route* ([Oesterlé], Chapter IV, 3.2–3.3, pp. 53–56). The quotient of `τ(T)` by
+  `#H¹(F, X*(T_{F̄}))/#Ш¹(F, T)` is multiplicative in exact sequences of tori, by the
+  exact-sequence formula for Tamagawa numbers ([Oesterlé], Chapter III, Theorem 5.3, p. 41),
+  proved as part of this target, and the Tate–Nakayama duality for tori (Chapter IV, 2.5 and 2.7);
+  it is `1` for `Res_{E/F}G_m` (AA.3.4a, Shapiro's lemma and Hilbert 90); and a function of tori
+  with values in a torsion-free commutative group that is multiplicative in exact sequences and
+  trivial on the tori `Res_{E/F}G_m` is trivial ([Ono]). [Oesterlé] defines `Ш¹(F, T)` as the
+  kernel of the localization map on the first Galois cohomology of `T` (Chapter IV, 3.1, p. 53);
+  its identification with the set of torsor classes above, a comparison of the torsor classes of
+  AA.4.1 with the Galois cohomology of points, is proved as part of this target.
+  *Needs:* AA.2.4 (*convergence-factors*, *Tamagawa number*); AA.2.5
+  (*tamagawa-restriction-scalars*); AA.2.6 (*homogeneous-gauge-measure* (iii), without the
+  hypothesis on characters, for the exact-sequence formula); AA.3.4 (*Tamagawa numbers are
+  finite*); AA.3.4a (*tamagawa-multiplicative-group*); AA.4.1 (torsor classes and their base change);
+  ClassFieldTheory, layers 0 (the Tate–Nakayama theorem) and 11 (the global class formation);
+  Mathlib `groupCohomology`, `groupCohomology.coindIso`, `groupCohomology.H1ofAutOnUnitsUnique`;
+  Tau Ceti `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+  `TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`; the exact-sequence formula
+  for Tamagawa numbers and the comparison of the torsor classes of AA.4.1 with the Galois
+  cohomology of points are proved as part of this target.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `T = G_m`: the Galois action on `X*(T_{F̄}) = ℤ` is trivial, `H¹(F, ℤ) = 0` and `Ш¹` is a point,
+    so the formula gives `τ(G_m) = 1`, as in AA.3.4a *tamagawa-multiplicative-group*.
+
+- **The norm-one torus of a quadratic extension.** (*tamagawa-quadratic-norm-torus*) For a
+  quadratic extension `E/F` of number fields let
+  `R¹_{E/F}G_m = ker(N_{E/F} : Res_{E/F}G_m → G_m)`, the norm-one torus. Prove
+  `τ(R¹_{E/F}G_m) = 2` ([Ono]; [Oesterlé], Chapter IV, Corollary 3.3, p. 56: the case of
+  *tamagawa-torus-ono* whose two orders are computed in the Route).
+
+  *Route.* Over `E`, `E ⊗_F E ≅ E × E` makes `R¹_{E/F}G_m ⊗_F E = {(z_1, z_1^{−1})} ≅ G_m`, and the
+  nontrivial element of `Gal(E/F)` exchanges the two factors, hence maps the character
+  `(z_1, z_1^{−1}) ↦ z_1` to its inverse: it acts on `X*(R¹_{E/F}G_m ⊗ F̄) = ℤ` by `−1`, and
+  `H¹(F, X*)` has order `2`. The torsor classes of `R¹_{E/F}G_m` are `F^×/N(E^×)`, compatibly with
+  base change to every `F_v` (the sequence `1 → R¹_{E/F}G_m → Res_{E/F}G_m → G_m → 1` given by the
+  norm, Hilbert 90, Mathlib `groupCohomology.H1ofAutOnUnitsUnique`, and Shapiro's lemma, Mathlib
+  `groupCohomology.coindIso`, for `Res_{E/F}G_m`, through the comparison of torsor classes with
+  Galois cohomology proved as part of *tamagawa-torus-ono*), so `Ш¹(F, R¹_{E/F}G_m)` is a point by
+  the cyclic Hasse norm theorem (ClassFieldTheory, layer 13). *tamagawa-torus-ono* gives `τ = 2/1`.
+  *Needs:* *tamagawa-torus-ono*; AA.1.4; AA.4.1; ClassFieldTheory, layer 13 (cyclic Hasse norm
+  theorem); Mathlib `groupCohomology.H1ofAutOnUnitsUnique`, `groupCohomology.coindIso`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - Directly for `ℚ(i)/ℚ`, with the gauge form `ω` of `R¹G_m` for which `dx ∧ dy/(x² + y²)` on
+    `Res_{ℚ(i)/ℚ}G_m` is `(dt/t) ∧ ω` along `z ↦ z/z̄`, whose kernel is `G_m`: `R¹G_m(ℝ)` has
+    volume `π`; `R¹G_m(ℚ_2)` has volume `2` (the image of `ℤ_2[i]^×` has volume `1` and index two,
+    `i = (1 + i)/(1 − i)` not being `z/z̄` for a unit `z`); the corrected factors at odd `p` are `1`;
+    the inverse leading coefficient is `L(1, η)^{−1} = 4/π` for the quadratic character `η` of
+    `ℚ(i)/ℚ`; and `R¹G_m(ℚ)\R¹G_m(𝔸_f)/R¹G_m(ℤ̂)` is a point with stabilizer `μ_4`. So
+    `τ(R¹G_m) = (4/π)·π·2/4 = 2`.
 
 ### 4.2 Strong approximation and arithmetic closures
 
@@ -4129,6 +4624,32 @@ quaternion norms and compact abelian Fourier limits.
   - For a product of `SL₂` and that definite norm-one group, the full real point group is
     noncompact but the second quotient is compact. Noncompactness of the whole group alone
     does not imply strong approximation.
+
+### 4.2a Strong approximation for an arbitrary finite set of places
+
+- **Strong approximation away from any finite set of places.** (*strong-approximation-any-places*)
+  Let `G` be connected, absolutely almost simple and simply connected over a number field `F`, and
+  `S` a nonempty finite set of places of `F`, archimedean or not (`S` need not contain the
+  archimedean places), with `G_S = ∏_{v∈S} G(F_v)` noncompact, embedded in `G(𝔸_F)` with component
+  `1` outside `S`. Prove that `G(F)·G_S` is dense in `G(𝔸_F)`, the full adele group ([Rapinchuk],
+  Theorem 2.3, p. 12, stated for any finite set of places and attributed there to [Kneser] and
+  [Platonov] in characteristic zero). When `S` contains
+  the archimedean places this is *strong-approximation-sufficiency* (AA.4.2), and the density is
+  `Approximation.HasStrongApproximation`; for the other `S`, `G_S` lacks the factors at the
+  archimedean places outside `S`, and the density at those places is proved as part of this target.
+  *Needs:* AA.4.2 (*strong-approximation-sufficiency*, which is the case of an `S` containing the
+  archimedean places); AA.1.2; AA.0.3; for the other `S`, the density at the archimedean places
+  outside `S` is proved as part of this target ([Platonov–Rapinchuk], §7.4).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For the norm-one group `D¹` of a definite quaternion algebra `D` over `ℚ` and `S = {p}` with
+    `p` split in `D`, `D¹(ℚ_p) ≅ SL₂(ℚ_p)` is noncompact
+    (*quaternion-norm-one-strong-approximation*), so `D¹(ℚ)·D¹(ℚ_p)` is dense in `D¹(𝔸_ℚ)`,
+    although `S` contains no archimedean place and `D¹(ℝ)` is compact; for `S = {∞}` the
+    noncompactness hypothesis fails (Checks of *strong-approximation-sufficiency*).
+  - `S = ∅` is excluded: `G_∅` is trivial, hence compact, and `G(F)` is discrete in `G(𝔸_F)`
+    (AA.1.3), so it is not dense when `G` is nontrivial.
 
 ### 4.3 Neat elements and levels
 
@@ -4691,6 +5212,58 @@ quaternion norms and compact abelian Fourier limits.
   AA.4.1; AA.1.3; AA.1.5; AA.4.5.
   *Lean:* none; specified in the README only.
 
+### 4.5a Class-set integration on groups compact at infinity
+
+- **Class-set integration and the mass.** (*class-set-integration*) Let `G` be a connected
+  reductive group over `F` such that `G(F_∞)/A_G(ℝ)^0` is compact, `U ⊂ G(𝔸_{F,f})` compact open,
+  `x_1, …, x_h` representatives of `G(F)\G(𝔸_{F,f})/U` (*class-number-finite*) and
+  `Γ_i = G(F) ∩ x_iUx_i^{−1}`, finite by *rational-stabilizer-finite* (AA.4.4) with
+  `K∞ = G(F_∞)`. Take the Haar measures `dg_f`, `dg_∞`, the product measure on `G(𝔸)`, the measure
+  on `G(𝔸)^1` and the quotient measure on `G(F_∞)/A_G(ℝ)^0` of *Volume of a level quotient*, and
+  view a function on `G(F)\G(𝔸)^1` as a function on `G(F)\G(𝔸)/A_G(ℝ)^0`
+  (*quotient-norm-one-comparison*). Prove that for every integrable function `f` on
+  `G(F)\G(𝔸)^1` that is right invariant under `U`,
+
+  `∫_{G(F)\G(𝔸)^1} f = vol(U) Σ_i |Γ_i|^{−1} ∫_{G(F_∞)/A_G(ℝ)^0} f(g_∞x_i) dg_∞`,
+
+  and, if `f` is moreover right invariant under `G(F_∞)`,
+  `∫_{G(F)\G(𝔸)^1} f = vol(U)·vol(G(F_∞)/A_G(ℝ)^0)·Σ_i |Γ_i|^{−1} f(x_i)`. Define the mass
+  `mass(U) = Σ_i |Γ_i|^{−1}`. Prove that it does not depend on the representatives, that
+  `vol(G(F)\G(𝔸)^1) = vol(U)·vol(G(F_∞)/A_G(ℝ)^0)·mass(U)`, and that
+  `mass(U′) = [U : U′]·mass(U)` for compact open `U′ ⊂ U` (the finite groups `Γ_i` are those of
+  [Gross], who treats the groups whose arithmetic subgroups are finite; his Proposition 1.4 makes
+  `G(F)` discrete in `G(𝔸_{F,f})` when `G(F_∞)` is compact, as [Loeffler], Proposition 3.1.2 and
+  Remark 3.1.6, p. 15, cites both; the integration formula is this roadmap's
+  deduction from *Component decomposition of a level quotient* (AA.3.4), which [Arthur], (2.1),
+  p. 13, states for spaces of square-integrable functions under a noncompactness hypothesis).
+
+  *Route.* `G(F)\G(𝔸)/A_G(ℝ)^0` is the disjoint union over `i` of the open images of
+  `G(F_∞)x_iU` (*Component decomposition of a level quotient*, AA.3.4), and the stabilizer of
+  `G(F_∞)x_iU` in `G(F)` is `Γ_i`; `Γ_i` acts freely on `(G(F_∞)/A_G(ℝ)^0) × x_iU`
+  through its finite component. Unfolding (AnalyticNumberTheoryPartII §5.3k) writes the integral
+  over the piece of `x_i` as `|Γ_i|^{−1}` times the integral over `(G(F_∞)/A_G(ℝ)^0) × x_iU`, and
+  right `U`-invariance leaves `vol(U)` times the integral over `G(F_∞)/A_G(ℝ)^0`. The volume is
+  the case `f = 1`, which is *Volume of a level quotient*. The mass does not depend on the
+  representatives because `Γ_{γx_iu} = γΓ_iγ^{−1}` (AA.3.4, *Arithmetic subgroups attached to a
+  level*). The index statement is the sum over the classes `x` of *Fibre mass for full
+  stabilizers* (AA.4.4) with `K∞ = G(F_∞)`.
+  *Needs:* AA.4.5 (*Volume of a level quotient*); AA.4.4 (*compact-kernel-split-centre*,
+  *rational-stabilizer-finite*, *Fibre mass for full stabilizers*); AA.3.4 (*class-number-finite*,
+  *Arithmetic subgroups attached to a level*, *Component decomposition of a level quotient*);
+  AA.2.1 (*quotient-norm-one-comparison*); AA.2.2; AA.0.3; AnalyticNumberTheoryPartII §5.3k.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `GL₁/ℚ`, `A_G(ℝ)^0 = ℝ_{>0}`, `G(ℝ)/A_G(ℝ)^0 = {±1}` and `U = ℤ̂^×`: one class, `Γ = {±1}`,
+    `mass(U) = 1/2`, and `vol(ℚ^×\𝔸_ℚ^1) = vol(ℤ̂^×)·vol(ℝ^×/ℝ_{>0})/2`; integrating over
+    `ℚ^×\𝔸^×` instead would give an infinite volume. Dropping the weight `|Γ|^{−1}` would double
+    the integral of every `U`-invariant function.
+  - For `G` the norm-one torus of an imaginary quadratic field `k` over `ℚ` (compact at infinity,
+    no rational character) and `U = G(ℤ̂)`: `G` is commutative, so every stabilizer is
+    `G(ℚ) ∩ U = μ(k)`, and `mass(U) = |G(ℚ)\G(𝔸_f)/U|/|μ(k)|`.
+  - `U′ ⊂ U` of index `2`, one class for `U` with `Γ = {±1}` acting nontrivially on `U/U′`: there
+    is one class for `U′`, with trivial stabilizer, and `mass(U′) = 1 = 2·(1/2)`.
+
 ### 4.6 Compact abelian quotients and quaternion norms
 
 - **Reduced norms of a quaternion algebra over a number field.** (*quaternion-norm-images*)
@@ -4829,10 +5402,11 @@ positive scalar direction disappears in idele classes modulo squares, while a no
 Layers AA.1–AA.3; Mathlib's double cosets, action categories, properly discontinuous actions and
 covering maps; Tau Ceti's Hecke degrees, covering-map composition and quaternion norm form;
 ReductiveGroups, layers 1, 6 and 7; ReductiveGroupsPartII, RG2.3 and RG2.4; GlobalNumberFields,
-layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layers 5,
-10 and 13;
+layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layers 0,
+5, 10, 11 and 13;
 LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layers 0 and 5; the
-`p`-adic closed-subgroup development in AA.4.2.
+`p`-adic closed-subgroup development in AA.4.2; Mathlib's group cohomology (AA.4.1a);
+AnalyticNumberTheoryPartII §5.3k (AA.4.5a).
 
 ## Layer 5: worked examples
 
@@ -5285,7 +5859,9 @@ Among the downstream orthogonal applications,
 GeometryOfNumbersAndQuadraticArithmetic, §3.3
 owns the number-field Tamagawa theorem for `SO(Q)` in rank at least three, the orthogonal gauge
 forms and their comparisons, maximal integral models and their canonical local volumes, the
-adelic mass identity and the maximal-lattice mass formula. Its
+adelic mass identity (its §3.3.4: for `Q` totally positive over a totally real field, the case of
+*class-set-integration* (AA.4.5a) for `G = SO(Q)` and `U` the stabilizer of a lattice) and the
+maximal-lattice mass formula. Its
 Scope and ownership
 places strong approximation for `Spin`, Eichler's theorem, mass formulas for arbitrary genera
 and dyadic density formulas for arbitrary lattices, extending the maximal case, in
@@ -5309,25 +5885,31 @@ The roadmap owns:
 - the adelic points of an affine algebraic `F`-group (carrying Tau Ceti's point topology),
   integral models, the restricted-product comparison, the discreteness of the rational diagonal, the
   Lie group structure and the finiteness of the component group of the archimedean points, Weil
-  restriction and the concrete groups `G_a`, `G_m`, `GL_n`, unimodularity and compact open levels
-  (Layer AA.1);
+  restriction and the concrete groups `G_a`, `G_m`, `GL_n`, unimodularity, compact open levels
+  and lattice stabilizers (Layer AA.1);
 - rational characters, the Harish-Chandra map `H_G`, the split component `A_G(ℝ)^0` and the
   norm-one subgroup, right-Haar quotient integration on the quotient measures of
   AnalyticNumberTheoryPartII §5.3k, rational quotient measures,
   gauge forms and the convergence factors of the character module, consuming the finite-image
   Artin L-functions of AnalyticNumberTheoryPartI §2.18a; Tamagawa measures
-  and scalar transport with the Artin and discriminant supplier theorems of AA.2.4–2.5
-  (Layer AA.2);
+  and scalar transport with the Artin and discriminant supplier theorems of AA.2.4–2.5; the
+  measures of top forms on smooth varieties over local fields, the Tamagawa measure of a group
+  with a unipotent radical, and invariant gauge forms on homogeneous spaces, with the comparison
+  of local and Tamagawa measures for a normal stabilizer (Layer AA.2);
 - the generic adelic reduction theory: rational parabolics and Iwasawa integration, real Siegel
   coordinates for one fixed maximal compact, primitive `GL_n` and closed-orbit reduction, adelic
   Siegel sets, finiteness of class numbers, finite volume and compactness criteria, algebraic
-  heights, cusps and the Orr–Schnell containment of subgroup Siegel sets (Layer AA.3);
+  heights, cusps and the Orr–Schnell containment of subgroup Siegel sets; the Tamagawa numbers
+  of `G_m` and of groups with a unipotent radical (Layer AA.3);
 - weak and strong approximation with their torsor and arithmetic-closure bridges, the strong
   approximation predicate, Borel density for `S`-arithmetic subgroups and strong approximation
   for simply connected semisimple groups, neat elements
   and neat compact open levels, level quotients with their covering and fibre formulas, Hecke
   correspondences, volumes under level change, reductive abelianization, quaternion norms,
-  idele classes modulo squares and Fourier limits on compact abelian groups (Layer AA.4);
+  idele classes modulo squares and Fourier limits on compact abelian groups; Ono's formula for
+  the Tamagawa numbers of tori, strong approximation with respect to finite sets of places that
+  need not contain the archimedean ones, and class-set integration with the mass on groups
+  compact at infinity (Layer AA.4);
 - the analytic identification of the `GL_2` level quotients over `ℚ` with quotients of the upper
   half-plane by congruence groups, together with its behaviour under change of level, and the
   `GL_1` and definite-quaternion checks of the centre, determinant, measure and stabilizer
@@ -5370,7 +5952,9 @@ comodule/tensor dictionary (layer 1), closed subgroups and quotients with affine
 reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.3.3 from layers 1
 and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
 and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
-roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the local analytic
+roots (layer 7), orbits of algebraic actions with the smoothness of orbit maps in characteristic
+zero (layer 3A), and Levi complements with the filtration of a normal unipotent subgroup
+(layer 6A). ReductiveGroupsPartII supplies, in RG2.0, the local analytic
 chart/cotangent/Haar-Jacobian bridge specified in the supplier contracts below (the congruence
 subgroups of points and the Weil restriction of affine groups are Tau Ceti's); in RG2.1, the
 valuation map of the maximal split central torus at the finite places (the torus itself is
@@ -5395,8 +5979,9 @@ and Cartan and Iwasawa theory (layer 9); simultaneous self-adjointness of a nest
 in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory supplies the global norm-index theorem
-(layer 12), the cyclic Hasse norm theorem (layer 13), and the local Brauer group with
-the global Brauer sequence (layers 5 and 10). AnalyticNumberTheoryPartI §2.18a supplies the
+(layer 12), the cyclic Hasse norm theorem (layer 13), the local Brauer group with the global
+Brauer sequence (layers 5 and 10), and the Tate–Nakayama theorem and the global class formation
+(layers 0 and 11) for AA.4.1a. AnalyticNumberTheoryPartI §2.18a supplies the
 finite-image Artin L-functions: local factors on inertia invariants, the induction identity at
 every finite place, the one-dimensional comparison with Hecke L-functions and Brauer
 continuation with the leading coefficient at one; AA assembles the convergence factors of the
@@ -5661,6 +6246,11 @@ Double cosets, actions and quotients: `DoubleCoset.Quotient`, `DoubleCoset.eq`,
 `CongruenceSubgroup.Gamma1`, `Subgroup.IsArithmetic`, `Subgroup.IsArithmetic.conj`,
 `Subgroup.IsArithmetic.properlyDiscontinuous`, `Subgroup.IsArithmetic.discreteTopology`.
 
+Lattices, implicit functions and group cohomology: `Submodule.IsLattice` (AA.1.5a),
+`ImplicitFunctionData.implicitFunction` and `MeasureTheory.Measure.addHaarMeasure` (AA.2.6),
+`groupCohomology`, `groupCohomology.coindIso` and `groupCohomology.H1ofAutOnUnitsUnique`
+(AA.4.1a).
+
 Mathlib has no measure on a restricted product (AnalyticNumberTheoryPartII §5.3f builds it), no
 evaluation topology on the points of a Hopf algebra (Tau Ceti's `TauCeti.PointTopology` supplies
 it), no Harish-Chandra map, no Tamagawa measure, no Siegel sets and no neatness; the others are
@@ -5732,7 +6322,11 @@ Layer 1 (finite-dimensional comodules and the tensor dictionary), layer 3 (close
 quotients, affineness of `G/H` for reductive `H`), layer 4 (character lattices of groups of
 multiplicative type), layer 6 (centre, derived group, simply connected covers) and layer 7
 (rational parabolics, Levi decompositions, relative roots, maximal split tori and relative Weyl
-groups). Cartier's theorem, that every affine group in characteristic zero is smooth and
+groups); layer 3A (orbits of algebraic actions and the smoothness of orbit maps in
+characteristic zero; 3A.5d, complex charts; 3A.5f, complex orbit maps are submersions) and
+layer 6A (Levi complements in characteristic zero; item 1, the filtration of a normal
+unipotent subgroup), for AA.2.6 and AA.3.4a. Cartier's theorem, that every affine group in
+characteristic zero is smooth and
 geometrically reduced, is a standing input of that roadmap and is assumed here wherever
 `rational-characters-free` is applied.
 
@@ -5776,7 +6370,9 @@ measures `dx_v`), consumed by AA.0; §5.3k (quotient measures and the two quotie
 AA.2.2–AA.2.3 and the quotient-measure arguments of AA.3.4; §5.3h (the self-dual measure on
 `𝔸_F`, under which `𝔸_F/F` has volume one) and §5.3j (the multiplicative measure `d^×x` on
 `𝔸_F^×` built from the self-dual local measures), against which AA.0.4 compares its own
-normalizations.
+normalizations, and which AA.3.4a uses, with the local zeta integrals of §5.3j, for
+`τ(G_m) = 1`; AA.3.4a and AA.4.5a also use the unfolding and the composition in stages of
+§5.3k.
 
 ### From other roadmaps
 
@@ -5787,8 +6383,9 @@ of continuous homomorphisms, which give `𝐇(ℝ)` its Lie group structure in A
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
 obstructions only). ClassFieldTheory, layers 12–13
-(the global norm-index theorem; the cyclic Hasse norm theorem) and layers 5 and 10 (the local
-Brauer group and the global Brauer sequence). AlgebraicTopology,
+(the global norm-index theorem; the cyclic Hasse norm theorem), layers 5 and 10 (the local
+Brauer group and the global Brauer sequence) and layers 0 and 11 (the Tate–Nakayama theorem;
+the global class formation; for AA.4.1a). AlgebraicTopology,
 stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layers 0–1
 (valuations and residue units, the input for the distance of `p`-adic roots of unity from one).
 SmoothRepresentationsOfLocalGroups, SR.1.1; RG2.4 local integration. IntegralLattices, 2F–2G. FuchsianOrbifolds,
@@ -5896,3 +6493,16 @@ number-field sources named there.
 - **Stacks**: The Stacks Project, Tags [0245](https://stacks.math.columbia.edu/tag/0245),
   [04TY](https://stacks.math.columbia.edu/tag/04TY) and
   [04SK](https://stacks.math.columbia.edu/tag/04SK).
+- **Gross**: B. H. Gross, *Algebraic modular forms*. Israel Journal of Mathematics 113 (1999),
+  pp. 61–93.
+- **Kneser**: M. Kneser, *Starke Approximation in algebraischen Gruppen. I*. J. reine angew. Math.
+  218 (1965), pp. 190–203.
+- **Ono**: T. Ono, *On the Tamagawa number of algebraic tori*. Annals of Mathematics 78 (1963),
+  pp. 47–73.
+- **Oesterlé**: J. Oesterlé, *Nombres de Tamagawa et groupes unipotents en caractéristique p*.
+  Inventiones Mathematicae 78 (1984), pp. 13–88. <https://eudml.org/doc/143164>
+- **Tate**: John Tate, *Fourier analysis in number fields and Hecke's zeta-functions*. Thesis
+  (1950); in J. W. S. Cassels and A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press
+  (1967), pp. 305–347; sections are those of this printing.
+- **Weil**: André Weil, *Adeles and Algebraic Groups*. Institute for Advanced Study (1961);
+  Progress in Mathematics 23, Birkhäuser (1982).

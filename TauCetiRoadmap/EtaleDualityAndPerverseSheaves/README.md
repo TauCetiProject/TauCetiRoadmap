@@ -16,7 +16,7 @@ Layer 0 holds the duality theorem, Layers 5 to 8 the other results above. Layer 
 
 ## How to read the build
 
-Layer 0 extends finite-level duality and traces, and Layer 1 builds the higher cycle theory. Layer 2 supplies abstract hearts and the detailed perverse calculus. Layer 3 treats normalized ramified coefficients and comparison maps before Layer 4 applies them to stronger Lefschetz and blow-up statements. Layer 5 adds perverse weights and decomposition, using the imported Weil II theory. Layers 6 and 7 construct trace classes and identify local terms by contraction or normal cones. Layer 8 isolates the linear algebra exported to functional equations. In each subsection, the named API records the intended interface, and the Checks distinguish the definition from plausible incorrect alternatives. `Suggested.lean` records only signatures expressible using the pinned carriers; the geometric and enhanced constructions remain targets of this README.
+Layer 0 extends finite-level duality and traces, and Layer 1 builds the higher cycle theory. Layer 2 supplies abstract hearts and the detailed perverse calculus. Layer 3 treats normalized ramified coefficients and comparison maps before Layer 4 applies them to stronger Lefschetz and blow-up statements. Layer 5 adds perverse weights and decomposition, using the imported Weil II theory. Layers 6 and 7 construct trace classes and identify local terms by contraction or normal cones; §7.6 computes Lefschetz numbers of finite-order automorphisms on compactly supported cohomology. Layer 8 isolates the linear algebra exported to functional equations. In each subsection, the named API records the intended interface, and the Checks distinguish the definition from plausible incorrect alternatives. `Suggested.lean` records only signatures expressible using the pinned carriers; the geometric and enhanced constructions remain targets of this README.
 
 `Suggested.lean` states the theorems on coefficient duality, abelian hearts, finite-length splitting, signs of similitudes and graded Frobenius reciprocity expressible using the pinned carriers.
 
@@ -7390,13 +7390,238 @@ the geometric contracts above; §7.3; §7.4.
 
 - On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the reduced-origin cone has a fixed `x`-line. This disproves the reduced-point cone implication, but the full fixed scheme is `Spec k[x]/(x³)` and its conormal has eigenvalue `−1`. Part (b), applied to the full fixed subscheme, proves `LT_0(u)=Tr(u_0)`.
 
+### 7.6 Lefschetz numbers of finite-order automorphisms
+
+In this subsection `k` is an algebraic closure of a finite field of characteristic `p`, `ℓ ≠ p`, and `X`, `Y` are
+quasi-projective schemes over `k`; closed, open and locally closed subschemes, fixed-point schemes, finite products and
+quotients by finite groups (EtaleCohomologyFoundations §F.2.5a) of such schemes are again quasi-projective. Deligne and
+Lusztig state the integrality, the Jordan decomposition formula and the vanishing for free actions for separated
+schemes of finite type over an algebraically closed field of characteristic `p`; the restriction made here is that of
+[Dudas-Michel-2015]. Write `H^i_c(X) = H^i_c(X, ℚ̄_ℓ)` for the compactly supported cohomology of
+EtaleCohomologyFoundations §F.2.5, rationalized (§F.4.5) and extended to `ℚ̄_ℓ`; it is finite dimensional and vanishes
+outside `[0, 2 dim X]` (§F.3). A group acting on `X` by `k`-automorphisms acts on `H^i_c(X)` on the left by
+`γ ↦ (γ⁻¹)^*`. The Lefschetz number of an automorphism `g` of `X` of finite order is
+`Lef(g, X) = Σ_i (−1)^i tr(g | H^i_c(X))`. The statements below concern the groups `H^i_c(X)` as modules over the
+groups acting, and Lefschetz numbers.
+
+**Integrality and independence of `ℓ`.** For an automorphism `g` of `X` of finite order, `Lef(g, X)` is a rational
+integer, independent of `ℓ`, and `Lef(g, X) = Lef(g⁻¹, X)`. If `X` and `g` are defined over a finite subfield
+`𝔽_{q′}` of `k`, with `q′`-Frobenius endomorphism `Fr` of `X` commuting with `g`, then for every `m ≥ 1` the set
+`X^{g Fr^m}` of `k`-points fixed by `g∘Fr^m` is finite, `|X^{g Fr^m}| = Σ_i (−1)^i tr((g∘Fr^m)^* | H^i_c(X))`, and
+`Lef(g, X) = −R_g(∞)`, where `R_g(t) = Σ_{m≥1} |X^{g Fr^m}| t^m` is a rational function in `ℚ(t)`.
+
+Name the resulting statement lefschetzIntegrality.
+
+A proof proceeds as follows.
+
+Everything is defined over some finite subfield of `k`. For `m ≥ 1`, `g∘Fr^m` is the Frobenius endomorphism of a
+twisted `𝔽_{q′^m}`-form of `X`: Galois descent along the finite cyclic extension cut out by the order of `g`, effective
+for quasi-projective `X` by gluing over `⟨g⟩`-stable affine opens. The rational trace formula of
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3, applied to that form, gives the fixed-point count.
+
+The commuting operators `g^*`, of finite order and hence semisimple, and `Fr^*` can be triangularized simultaneously,
+with diagonal entries `ζ_j` and `α_j` in degrees `i_j`, so that `(g∘Fr^m)^*` has the diagonal entries `ζ_j α_j^m`;
+`Fr` is a universal homeomorphism, so `Fr^*` is invertible (EtaleCohomologyFoundations §F.0.4) and every `α_j` is
+nonzero. Hence `R_g(t) = Σ_j (−1)^{i_j} ζ_j α_j t/(1 − α_j t)` and `R_g(∞) = −Σ_j (−1)^{i_j} ζ_j`, minus the
+alternating trace of `g^*`. The series `R_g` has integer Taylor coefficients and does not involve `ℓ`, so its value at
+infinity is rational and independent of `ℓ`; it is also an algebraic integer, as a trace of a finite-order operator,
+hence an integer. The trace of `(g⁻¹)^*` is the complex conjugate of the trace of `g^*` under any embedding
+`ℚ̄_ℓ → ℂ`, and the latter is rational; this gives `Lef(g, X) = Lef(g⁻¹, X) = −R_g(∞)`.
+
+Use [Deligne-Lusztig-1976] Proposition 3.3; [Dudas-Michel-2015] Proposition 13.1 (iii) and Corollary 13.2.
+
+*Needs:* EtaleCohomologyFoundations §§F.0.4, F.2.5, F.3, F.4.5, F.10.1, F.10.2b; InverseGaloisAndArithmeticFundamentalGroups
+§IG.0.T3; SchemeAndStackFoundations §1.24 (Galois descent of affine schemes).
+
+**Checks.**
+
+- `X = 𝔾_m`, `g = 1`: `Lef = 1 − 1 = 0`, and `|𝔾_m(𝔽_{q′^m})| = q′^m − 1` gives `R_1(t) = q′t/(1 − q′t) − t/(1 − t)`,
+  with `R_1(∞) = −1 + 1 = 0`.
+- `X = 𝔾_m`, `g(x) = x⁻¹`: `g` acts on `H¹_c = ℚ̄_ℓ` by `−1` and on `H²_c` by `+1`, so `Lef = 2`, the number of fixed
+  points `±1` when `p ≠ 2`. When `p = 2`, `g` has the single fixed point `1` and still `Lef = 2`: the formula
+  `Lef(g, X) = |X^g|` is false in general.
+
+**Additivity, products, quotients and free actions.** Let `g` be an automorphism of `X` of finite order. (a) If
+`Z ⊂ X` is a `g`-stable closed subscheme with complement `V`, then `Lef(g, X) = Lef(g, Z) + Lef(g, V)`. Hence, if `X` is
+the disjoint union of finitely many `g`-stable locally closed subschemes `Z_1, …, Z_m` such that `Z_1 ∪ ⋯ ∪ Z_j` is
+closed for every `j`, then `Lef(g, X) = Σ_j Lef(g, Z_j)`. If `X` is finite, `H⁰_c(X)` is the permutation module on
+`X(k)`, the other groups vanish, and `Lef(g, X) = |X(k)^g|` ([Dudas-Michel-2015] Corollary 13.4). (b) For automorphisms
+`g` of `X` and `h` of `Y` of finite order, `Lef((g, h), X × Y) = Lef(g, X)·Lef(h, Y)`. (c) If a finite group `Π` acts
+on `X` and `g` commutes with `Π`, then `Lef(g, X/Π) = |Π|⁻¹ Σ_{γ∈Π} Lef(gγ, X)`, where `g` acts on `X/Π` by descent.
+(d) If a finite group `Π` acts freely on `X`, then `Lef(γ, X) = 0` for every `γ ∈ Π` whose order is not a power of `p`.
+
+Name the resulting statement lefschetzDevissage.
+
+A proof proceeds as follows.
+
+(a) The localization triangle `j_!j^* → id → i_*i^*` of EtaleCohomologyFoundations §F.2.5 is natural, so automorphisms
+preserving `Z` act compatibly on the long exact sequence `⋯ → H^i_c(V) → H^i_c(X) → H^i_c(Z) → H^{i+1}_c(V) → ⋯`, and
+alternating traces are additive along it. For the decomposition, `Z_m` is open in `X` with closed complement
+`Z_1 ∪ ⋯ ∪ Z_{m−1}`, decomposed by the remaining pieces in the same way; induct on `m`.
+
+(b) Künneth with compact supports (EtaleCohomologyFoundations §F.2.7), with field coefficients, gives
+`H^k_c(X × Y) ≅ ⊕_{i+j=k} H^i_c(X) ⊗ H^j_c(Y)` compatibly with automorphisms acting factorwise; take alternating traces.
+
+(c) The quotient `π : X → X/Π` is finite, and `H^i_c(X/Π) ≅ H^i_c(X)^Π` compatibly with every automorphism of `X`
+commuting with `Π` (EtaleCohomologyFoundations §F.2.5a). The trace of `g` on the invariants is the trace of `g`
+composed with the projector `|Π|⁻¹ Σ_{γ∈Π} γ`.
+
+(d) For a free action `π : X → X/Π` is a finite étale `Π`-torsor, and for every `ν ≥ 1` the complex
+`RΓ_c(X, ℤ/ℓ^ν)` is a perfect complex of `(ℤ/ℓ^ν)[Π]`-modules (EtaleCohomologyFoundations §F.10.4a). Let `γ ∈ Π` have
+order divisible by `ℓ`. The trace over `ℤ/ℓ^ν` of `γ` on a finitely generated projective `(ℤ/ℓ^ν)[Π]`-module is zero:
+restricted to `C = ⟨γ⟩ = C_ℓ × C_{ℓ′}` the module stays projective; `(ℤ/ℓ^ν)[C_{ℓ′}]` is a finite product of rings
+`𝒪_i/ℓ^ν` with `𝒪_i` unramified discrete valuation rings, so `(ℤ/ℓ^ν)[C] = ∏_i (𝒪_i/ℓ^ν)[C_ℓ]` is a product of local
+rings and the module is a sum of copies of the `(𝒪_i/ℓ^ν)[C_ℓ]`, on which `γ` acts by a scalar times a
+fixed-point-free permutation of the basis `C_ℓ`. So the trace of `γ` on the perfect complex of `ℤ/ℓ^ν`-modules
+`RΓ_c(X, ℤ/ℓ^ν)` (§F.10.3) is zero for every `ν`. It is the reduction modulo `ℓ^ν` of the trace of `γ` on the perfect
+complex `RΓ_c(X, ℤ_ℓ)` (§§F.4.4, F.4.6, F.10.3), which is `Lef(γ, X)` (§F.4.5). Hence `Lef(γ, X) = 0`. For `γ` whose
+order is not a power of `p`, take for `ℓ` a prime other than `p` dividing the order of `γ`; by lefschetzIntegrality the
+number does not depend on `ℓ`.
+
+Use [Dudas-Michel-2015] Propositions 13.3, 13.5 and 13.6 for (a)–(c); for (d), [Deligne-Lusztig-1976] §3 (the first
+step of the proof of Theorem 3.2), [Serre-1977] Corollaire 1 of Proposition 2 and [Illusie-Zheng-2013] Theorem 3.2 (b),
+(c).
+
+*Needs:* lefschetzIntegrality; EtaleCohomologyFoundations §§0.8, F.0.2, F.2.5, F.2.5a, F.2.7, F.3, F.4.4–F.4.6, F.10.3,
+F.10.4a.
+
+**Checks.**
+
+- (d) needs the condition on the order: `Π = ℤ/p` acting on `𝔸¹` by `x ↦ x + 1` is free, and `Lef(γ, 𝔸¹) = 1` for every
+  `γ`, since `H²_c` is the only nonzero group and `Π` acts trivially on it.
+- (c) with `X = 𝔾_m` and `Π = μ₂` acting by `x ↦ −x` (`p ≠ 2`): `X/Π ≅ 𝔾_m` and
+  `Lef(1, X/Π) = ½(Lef(1, X) + Lef(−1, X)) = 0`.
+
+**The Jordan decomposition formula.** Let `g` be an automorphism of `X` of finite order, and write `g = g_{p′} g_p` with
+`g_{p′}` of order prime to `p` and `g_p` of `p`-power order, both powers of `g`. Then
+`Lef(g, X) = Lef(g_p, X^{g_{p′}})`, where `X^{g_{p′}}` is the fixed-point scheme of `g_{p′}`.
+
+Name the resulting statement lefschetzJordanFormula.
+
+A proof proceeds as follows.
+
+Since `g_{p′}` acts trivially on `X^{g_{p′}}`, `Lef(g, X^{g_{p′}}) = Lef(g_p, X^{g_{p′}})`, and by lefschetzDevissage (a)
+it suffices to show `Lef(g, X ∖ X^{g_{p′}}) = 0`. Decompose `X ∖ X^{g_{p′}}` into the finitely many locally closed
+`g`-stable pieces on which the stabilizer in `⟨g⟩` is a fixed subgroup `Θ`, numbered by decreasing `|Θ|`. The union of
+the pieces with `|Θ| ≥ n` is the trace on `X ∖ X^{g_{p′}}` of the closed set `∪_{|Θ|≥n} X^Θ`, so lefschetzDevissage (a)
+applies. The group `⟨g⟩/Θ` acts freely on its piece, and the image of `g` there has order divisible by a prime other
+than `p`: no point of the piece is fixed by `g_{p′}`, so `g_{p′} ∉ Θ`. lefschetzDevissage (d) gives zero on each piece.
+
+Use [Deligne-Lusztig-1976] Theorem 3.2; [Dudas-Michel-2015] Proposition 13.10; [Serre-1977] Proposition 2.
+
+*Needs:* lefschetzIntegrality; lefschetzDevissage.
+
+**Checks.**
+
+- For `g` of order prime to `p` the formula reads `Lef(g, X) = Lef(1, X^g)`: for `x ↦ x⁻¹` on `𝔾_m` with `p ≠ 2`,
+  `X^g = {±1}` and both sides are `2`.
+- The fixed scheme of `g_{p′}` cannot be replaced by that of `g`: the translation `x ↦ x + 1` of `𝔸¹` has order `p`, so
+  `g_{p′} = 1` and the formula is a tautology; here `Lef(g, 𝔸¹) = 1`, whereas `𝔸¹` has no point fixed by `g`, so
+  `Lef(1, (𝔸¹)^g) = 0`.
+
+**Stabilizers of diagonalizable group actions.** This statement holds over any field and for any separated scheme of
+finite type. Let `F` be a field, `M` a finitely generated abelian group, `D = D(M)` the diagonalizable group over `F`
+with character group `M`, and `W` a separated `F`-scheme of finite type with an action of `D`. For `x ∈ W(F)` let
+`Stab_D(x) ⊂ D` be the closed subgroup scheme of the `d` with `dx = x`. Then `W` is the union of finitely many locally
+closed subsets on the `F`-points of each of which `Stab_D(x)` is constant; in particular the stabilizers `Stab_D(x)`,
+`x ∈ W(F)`, are finitely many.
+
+Name the resulting statement finitelyManyStabilizers.
+
+A proof proceeds as follows.
+
+Argue by Noetherian induction on the closed subsets `Z ⊂ W`, which need not be `D`-stable (a disconnected `D` can
+permute the irreducible components of `W`). Let `Z₁` be an irreducible component of `Z` with its reduced structure, an integral
+scheme with generic point `η`. The stabilizer family `S ⊂ D × Z₁`, the preimage of the diagonal of `W` under
+`(d, z) ↦ (dz, z)`, is closed because `W` is separated; it is a subgroup scheme of `D × Z₁` over `Z₁` whose fibre at
+`z ∈ Z₁(F)` is `Stab_D(z)`. The morphism `S → Z₁` is affine and of finite type, and `Z₁` is reduced and Noetherian, so
+by generic flatness (Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`) `S` is flat over a dense open
+subset of `Z₁`; as `Z₁` is irreducible, that subset contains a dense affine open `V = Spec A ⊂ Z₁`, over which `S` is
+flat. The generic fibre `S_η` is a closed subgroup of `D` over the function field
+`K = Frac(A)`, so its coordinate ring is a quotient of `K[M]`, spanned by the images of the characters `χ_m`, `m ∈ M`,
+which are group-like; distinct group-like elements are linearly independent (Mathlib `linearIndepOn_isGroupLikeElem`),
+so `S_η = D(M/N)` where `N ⊂ M` is the group of characters trivial on `S_η`. The coordinate ring of `S_V` is flat, hence
+torsion-free (Mathlib `Module.Flat.torsion_eq_bot`), over the domain `A`, so it injects into that of `S_η`; each
+`χ_m − 1`, `m ∈ N`, therefore vanishes on `S_V`, and `S_V ⊂ D(M/N) × V`. The ideal of `S_V` in the coordinate
+ring `A[M/N]` of `D(M/N) × V` becomes, after `⊗_A K`, the ideal of `S_η = D(M/N)` in `K[M/N]`, which is zero; as
+`A[M/N]` is free over `A`, the ideal is zero and `S_V = D(M/N) × V`. So `Stab_D(z) = D(M/N)` for every
+`z ∈ V(F)`. The set `V ∖ (Z₂ ∪ ⋯ ∪ Z_r)`, where `Z₂, …, Z_r` are the other irreducible components of `Z`, is a
+nonempty open subset of `Z` (`Z₁` is irreducible and not contained in `Z₂ ∪ ⋯ ∪ Z_r`), and the induction applies to
+its closed complement in `Z`.
+
+*Needs:* ReductiveGroups Layer 4 (diagonalizable groups); Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`
+(generic flatness); Mathlib `linearIndepOn_isGroupLikeElem`, `Module.Flat.torsion_eq_bot`.
+
+**Checks.**
+
+- `𝔾_m` acting on `𝔸²` by `t·(a, b) = (ta, t²b)` has exactly three stabilizers: `𝔾_m` at the origin, `μ₂` on the
+  punctured `b`-axis (`t² = 1`; in characteristic `2` the non-reduced `μ₂`, with one `F`-point) and the trivial group
+  where `a ≠ 0`.
+- The hypothesis that `D` is diagonalizable is needed: over an infinite field, `𝔾_a²` acting on `𝔸²` by
+  `(s, u)·(a, b) = (a, b + s + au)` has at `(a, b)` the stabilizer `{s + au = 0}`, a different line for each `a`.
+  Its stabilizer family `Spec F[s, u, a, b]/(s + au) ≅ Spec F[u, a, b]` is flat over `𝔸²`, so the step that makes a
+  flat family of subgroups constant is the one that fails.
+
+**Connected groups, tori and affine fibrations.** (a) A connected algebraic group `G` acting on `X` acts trivially on
+every `H^i_c(X)`. (b) If a torus `T` acts on `X` commuting with an automorphism `g` of finite order, then
+`Lef(g, X) = Lef(g, X^T)`. (c) Let `f : X → Y` be a morphism that is, Zariski-locally on `Y`, a projection
+`Y′ × 𝔸^d → Y′`, and let `g`, `g′` be automorphisms of finite order of `X`, `Y` with `f∘g = g′∘f`. Then
+`H^i_c(X) ≅ H^{i−2d}_c(Y)(−d)` compatibly with every such pair `(g, g′)`, hence with every group of such pairs, and
+`Lef(g, X) = Lef(g′, Y)`.
+
+Name the resulting statement lefschetzGroupActions.
+
+A proof proceeds as follows.
+
+(a) Let `pr : G × X → G` be the projection and `φ(h, x) = (h, hx)`, an automorphism of `G × X` over `G`. By base change
+for compactly supported direct images (EtaleCohomologyFoundations §F.2.4) along `G → Spec k`, `R^i pr_! Λ` is the
+constant sheaf on `G` with value `H^i_c(X, Λ)` (`Λ = ℤ/ℓ^r`; then pass to `ℚ̄_ℓ`, §F.4.5), and `φ` acts on it by an
+automorphism whose fibre at `h ∈ G(k)` is, again by base change, the action of `h` on `H^i_c(X)`. An endomorphism of a
+constant sheaf on a connected scheme is constant, so every `h` acts as `1` does, that is trivially. The action and
+projection maps `G × X → X` are not proper and induce no maps on `H^*_c` to compare: for `G = 𝔾_m` and `X` a point,
+`H⁰_c(X) ≠ 0` and `H⁰_c(G) = 0`.
+
+(b) Write `g = g_{p′} g_p` as in lefschetzJordanFormula. The constant group `⟨g_{p′}⟩`, cyclic of order `n` prime to
+`p`, is diagonalizable over `k` (it is `D(ℤ/n)`, as `k` contains the `n`-th roots of unity), so `D = T × ⟨g_{p′}⟩` is
+diagonalizable, and it acts on `X` because `T` commutes with `g`. By finitelyManyStabilizers the stabilizers
+`Stab_D(x)`, `x ∈ X(k)`, are finitely many. For each of them, `A` say, that does not contain `T`, the set of
+`t ∈ T(k)` with `g_{p′}t ∈ A` is empty or the set of points of a coset of the proper closed subgroup `A ∩ T`, so it
+lies in a proper closed subset of the irreducible `T`; as `T(k)` is dense in `T`, some `t ∈ T(k)` lies outside all of
+them. Every point of `T(k) ≅ (k^×)^r` has finite order prime to `p`, because `k` is an algebraic closure of a finite
+field; so `t` does. Then `X^{g_{p′}t}` and `(X^{g_{p′}})^T` have the same `k`-points (a point fixed by `g_{p′}t` has a
+stabilizer containing `g_{p′}t`, hence `T`, hence `g_{p′}`), hence the same reduced subscheme; as schemes they can
+differ. Then `Lef(g, X) = Lef(gt, X)` by (a), `= Lef(g_p, X^{g_{p′}t})` by lefschetzJordanFormula,
+`= Lef(g_p, (X^T)^{g_{p′}})` because a Lefschetz number depends only on the reduced subscheme (lefschetzDevissage (a)
+for the closed subscheme `Z_red ⊂ Z`, whose complement is empty, gives `Lef(h, Z) = Lef(h, Z_red)`),
+`= Lef(g, X^T)` by lefschetzJordanFormula on `X^T`.
+
+(c) On each chart `Y′ × 𝔸^d → Y′`, `Rf_!ℚ̄_ℓ` is concentrated in degree `2d` with `R^{2d}f_!ℚ̄_ℓ ≅ ℚ̄_ℓ(−d)` (the
+cohomology `H^*_c(𝔸^d)` and EtaleCohomologyFoundations §F.2.7). The smooth trace `Rf_!Λ(d)[2d] → Λ` of
+EtaleCohomologyFoundations §0.11 for the smooth morphism `f`, with `Λ = ℤ/ℓ^r`, is compatible with restriction to open
+subschemes and with composition, and the trace of an isomorphism is the identity. So it is defined globally, an
+automorphism of a chart over `Y′` preserves it, and it is an isomorphism because it is one on each chart. Passing to
+the `ℓ`-adic limit and rationalizing (§F.4.5) gives `Rf_!ℚ̄_ℓ ≅ ℚ̄_ℓ(−d)[−2d]`; an equivariant pair `(g, g′)` preserves
+the trace, so the resulting isomorphism `H^i_c(X) ≅ H^{i−2d}_c(Y)(−d)` is compatible with `(g, g′)`.
+
+Use [Deligne-Lusztig-1976] Proposition 6.4, stated for every connected algebraic group as recorded in [Serre-1977]
+Proposition 3, and [Dudas-Michel-2015] Proposition 13.9 (for connected linear groups) for (a); (b) is this roadmap's own
+formulation, proved by the route above; [Dudas-Michel-2015] Proposition 13.8 for (c), with Proposition 13.7 for
+`H^*_c(𝔸^d)`.
+
+*Needs:* lefschetzIntegrality; lefschetzDevissage; lefschetzJordanFormula; finitelyManyStabilizers (for (b));
+EtaleCohomologyFoundations §§0.11, F.2.4, F.2.5, F.2.7, F.4.5; ReductiveGroups Layer 4 (tori and diagonalizable groups).
+
+**Checks.**
+
+- (b): `T = 𝔾_m` acting on `ℙ¹` by scaling, `g = 1`: `Lef(1, ℙ¹) = 2 = |{0, ∞}| = Lef(1, (ℙ¹)^T)`.
+
 ### Examples
 
-Over `char(k)≠2`, on `Spec k[x,y,z]/(x³+yz)`, the involution `(x,y,z)↦(x,−y,−z)` has full fixed scheme `Spec k[x]/(x³)`. Its conormal weights are `−1` and the fixed cone is this Artin scheme. The cone at the reduced origin has a fixed `x`-line, so replacing the full fixed scheme invalidates the cone argument. For a characteristic-`p` translation on `P¹`, the unique fixed point has local term 2 and stalk trace 1: the tame/semisimple hypotheses are necessary.
+Over `char(k)≠2`, on `Spec k[x,y,z]/(x³+yz)`, the involution `(x,y,z)↦(x,−y,−z)` has full fixed scheme `Spec k[x]/(x³)`. Its conormal weights are `−1` and the fixed cone is this Artin scheme. The cone at the reduced origin has a fixed `x`-line, so replacing the full fixed scheme invalidates the cone argument. For a characteristic-`p` translation on `P¹`, the unique fixed point has local term 2 and stalk trace 1: the tame/semisimple hypotheses are necessary. Over an algebraic closure of a finite field, on `X = 𝔾_m` the identity has Lefschetz number `0` and the inversion `x ↦ x⁻¹` has Lefschetz number `2` in every characteristic, although in characteristic `2` it has one fixed point (§7.6). The group `ℤ/p` acting on `𝔸¹` in characteristic `p` by translation acts freely with Lefschetz numbers `1`, and `𝔾_m` acting on `ℙ¹` by scaling has `Lef(1, ℙ¹) = 2 = Lef(1, (ℙ¹)^{𝔾_m})`.
 
 ### Dependencies
 
-Layer 6; SchemeAndStackFoundations normal cones and deformation; ReductiveGroups Layer 4 and exact character projection on finite rational representations; ULA and nearby-cycle compatibility as specified in §7.2.
+Layer 6; SchemeAndStackFoundations normal cones and deformation; ReductiveGroups Layer 4 and exact character projection on finite rational representations; ULA and nearby-cycle compatibility as specified in §7.2. For §7.6: EtaleCohomologyFoundations §§0.8, 0.11, F.0.2, F.0.4, F.2.4, F.2.5, F.2.5a, F.2.7, F.3, F.4.4, F.4.5, F.4.6, F.10.1, F.10.2b, F.10.3 and F.10.4a; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3; SchemeAndStackFoundations §1.24; ReductiveGroups Layer 4 (tori and diagonalizable groups); Tau Ceti `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat`.
 
 ## Layer 8: Frobenius reciprocity from graded duality
 
@@ -7566,7 +7791,7 @@ Layer 0 for geometric examples; Mathlib finite-dimensional linear algebra, gener
 
 ## Downstream consumers
 
-GeometricSatakeAndFusion uses intersection complexes and decomposition, and GlobalShtukasAndFunctionFieldLanglands §1.4 uses the perverse `t`-structure, intersection complexes and small maps of Layer 2 for its sheaves on algebraic stacks. WeilConjectures uses the complete-intersection results of §§4.3 and 4.7 and the graded reciprocal-polynomial and determinant identities, and ExponentialSumsAndCircleMethodPartII uses §§4.1, 4.3 and 4.6–4.7. This roadmap owns scheme pure decomposition (pureComplexGeometricSplitting, decompositionTheorem), relative perverse Lefschetz (relativeHardLefschetzTheorem) and general cohomological-correspondence local terms (fujiwaraVarshavskyTraceFormula and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications go through the formalism of GlobalShtukasAndFunctionFieldLanglands §1.4.
+GeometricSatakeAndFusion uses intersection complexes and decomposition, and GlobalShtukasAndFunctionFieldLanglands §1.4 uses the perverse `t`-structure, intersection complexes and small maps of Layer 2 for its sheaves on algebraic stacks. WeilConjectures uses the complete-intersection results of §§4.3 and 4.7 and the graded reciprocal-polynomial and determinant identities, and ExponentialSumsAndCircleMethodPartII uses §§4.1, 4.3 and 4.6–4.7. This roadmap owns scheme pure decomposition (pureComplexGeometricSplitting, decompositionTheorem), relative perverse Lefschetz (relativeHardLefschetzTheorem) and general cohomological-correspondence local terms (fujiwaraVarshavskyTraceFormula and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications go through the formalism of GlobalShtukasAndFunctionFieldLanglands §1.4. DeligneLusztigTheory Layer 1 (Deligne–Lusztig induction) uses the Lefschetz numbers of finite-order automorphisms of §7.6.
 
 ## Provenance
 
@@ -7630,7 +7855,7 @@ The named suppliers below are the existing TauCetiRoadmap documents, with versio
 
 Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`. `CategoryTheory.Triangulated.TStructure` supplies the predicates `le`, `ge`, `heart`, `bounded`, the `Heart` inclusion class, and the functors `truncLE` and `truncGE`. `TStructure.heart` is the intersection of the two degree-zero object properties. Mathlib's [t-exactness classes](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/CategoryTheory/Triangulated/TStructure/TExact.lean) `CategoryTheory.Functor.RightTExact`, `LeftTExact` and `TExact` supply preservation in every degree, with `RightTExact.mk` and `LeftTExact.mk` as degree-zero constructors; their functors carry `CommShift ℤ` and `IsTriangulated`. `Triangulated.AbelianSubcategory.abelian` supplies the admissible-subcategory criterion used to prove the heart theorem in Layer 2. `DerivedCategory.TStructure.t` and `DerivedCategory.homologyFunctor` supply the ordinary derived-category comparison. Ordinary category theory supplies adjunctions, images, kernels, full subcategories and finite biproducts.
 
-Scheme morphisms, fibre products, ideal sheaves and locally finite algebraic cycles use the native Mathlib carriers. `AlgebraicGeometry.AlgebraicCycle` alone does not provide Chow groups or a cycle class. Likewise `Scheme.ellAdicSheaf` is an underived sheaf construction, rather than the normalized constructible category used here. Module duals, perfect bilinear pairings, kernels and ranges, determinants, characteristic polynomials and generalized eigenspaces are the linear-algebra inputs. The existing transpose/inverse characteristic-polynomial identities and dual-map determinant are used in Layer 8.
+Scheme morphisms, fibre products, ideal sheaves and locally finite algebraic cycles use the native Mathlib carriers. `AlgebraicGeometry.AlgebraicCycle` alone does not provide Chow groups or a cycle class. Likewise `Scheme.ellAdicSheaf` is an underived sheaf construction, rather than the normalized constructible category used here. Module duals, perfect bilinear pairings, kernels and ranges, determinants, characteristic polynomials and generalized eigenspaces are the linear-algebra inputs. The existing transpose/inverse characteristic-polynomial identities and dual-map determinant are used in Layer 8. Section 7.6 uses `linearIndepOn_isGroupLikeElem` (group-like elements of a torsion-free coalgebra over a domain are linearly independent) and `Module.Flat.torsion_eq_bot` (a flat module has no torsion).
 
 The following Tau Ceti declarations supply the exact algebraic interfaces. Module names below are relative to `TauCeti`.
 
@@ -7641,6 +7866,7 @@ The following Tau Ceti declarations supply the exact algebraic interfaces. Modul
 | `LinearAlgebra.Trace.Pi` | `LinearMap.trace_pi` supplies `Tr(T) = Σ_i Tr(T_ii)` for an arbitrary endomorphism `T` of a finite product `∏_(i∈I) M_i` of finite free modules over a commutative semiring, with diagonal blocks `T_ii`. For an arbitrary self-map `σ` of `I` and the operator `T(x)_i = u_i(x_(σ(i)))` on `M^I`, the block `T_ii` is `u_i` when `σ(i)=i` and `0` otherwise, so `Tr(T) = Σ_(σ(i)=i) Tr(u_i)`. Section 6.3 identifies the geometric cohomological operator and local terms with these linear data; no additional ring-coefficient trace theorem is required. |
 | `LinearAlgebra.Determinant.Basic` | `LinearMap.det_eq_of_compl₁₂_self_eq_smul` identifies the multiplier of a nonzero alternating form with the determinant for a rank-two module with a chosen basis, assuming `IsCancelMulZero R` and `Module.IsTorsionFree R N` for its value module `N`. In particular it applies to a nonzero scalar-valued form over a field. The general-rank determinant is §8.1. |
 | `LinearAlgebra.BilinearForm.Isometry` | `TauCeti.BilinForm.IsIsometry.det_sq_mul_det_toMatrix_self` supplies the Gram-matrix determinant identity for an isometry over a commutative ring, with a finite basis. |
+| `AlgebraicGeometry.Morphisms.Flat.Generic` | `AlgebraicGeometry.Scheme.Hom.exists_dense_open_flat` supplies generic flatness: a quasi-compact morphism, locally of finite type, to a reduced locally Noetherian scheme is flat over a dense open subset of its target. Section 7.6 applies it to the stabilizer family of a diagonalizable group action over an irreducible closed subset, to prove finitelyManyStabilizers. |
 | `CategoryTheory.InvolutiveDual` | `CategoryTheory.Functor.IsInvolutiveDual` and `CategoryTheory.Functor.dualityEquivalence` turn a double-dual isomorphism satisfying the triangle identity into an anti-equivalence whose inverse is the same duality. Section 0.2 constructs the geometric dual and its evaluation. |
 
 Roadmap section citations below specify mathematical interfaces with their coefficient and geometric hypotheses. They do not introduce Lean carriers: the suggested signatures use only declarations at the library pins.
@@ -7651,7 +7877,7 @@ Use EtaleCohomologyFoundations §§F.0–F.3 for constructible sheaves and stalk
 
 Sections F.4–F.6 supply normalized `ℤ_ℓ` realization, finite `E` through lattices, reduction and rationalization, `f^!` as right adjoint to `Rf_!`, Verdier duality in the constructible finite-Tor range, smooth purity, Poincaré duality, Gysin maps with projection, composition and transverse base change, self-intersection and rational étale Gauss–Bonnet. The closed-point calculation for an excellent regular one-dimensional base is supplied there in its finite-Tor range. The self-injective extension above keeps the same normalization.
 
-Section F.7 supplies the ordinary and compact global blow-up decomposition, including the actual exceptional columns and inverse signs, and constant-coefficient weak Lefschetz for smooth ample hyperplanes. Section F.8 supplies finite, integral `p/p⁺` and rational middle perversity, gluing, the abelian perverse heart, perverse cohomology, the image definition of open `j_!*`, and geometric affine vanishing, including the `p⁺` torsion boundary. Sections F.10.1–F.10.2b supply rational-point fixed loci and the comparison of scheme pullback with geometric cohomological Frobenius, including adic realization; §F.10.3 supplies perfect-complex trace, shift signs, cyclicity and coherent filtered additivity. These supplied definitions and their checks belong to those sections.
+Section F.7 supplies the ordinary and compact global blow-up decomposition, including the actual exceptional columns and inverse signs, and constant-coefficient weak Lefschetz for smooth ample hyperplanes. Section F.8 supplies finite, integral `p/p⁺` and rational middle perversity, gluing, the abelian perverse heart, perverse cohomology, the image definition of open `j_!*`, and geometric affine vanishing, including the `p⁺` torsion boundary. Sections F.10.1–F.10.2b supply rational-point fixed loci and the comparison of scheme pullback with geometric cohomological Frobenius, including adic realization; §F.10.3 supplies perfect-complex trace, shift signs, cyclicity and coherent filtered additivity; §F.2.5a supplies the invariants description of the compactly supported cohomology of a quotient by a finite group, and §F.10.4a the perfectness over the group ring of the compactly supported cohomology of a free action of a finite group, which §7.6 uses on quasi-projective schemes. These supplied definitions and their checks belong to those sections.
 
 EnhancedDerivedSheaves §§0.1–0.4 supply the ringed-site enhancement, tensor–`Hom` and coherent derived limits. Section 0.4's `ClassicalDerived.functorCoherence` supplies the enhanced inverse-image/direct-image adjunction, exact extension by zero, adjunction mates and base-change/projection transformations; `ClassicalDerived.functorCoherence.coefficientComparison` supplies their coefficient-forgetting and coefficient-change maps. For a closed/open pair, this gives `j^* ⊣ Rj_*` and `j_! ⊣ j^*`; EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` constructs `i^!` and both localization triangles for arbitrary coefficient rings. These ambient recollement data do not require self-injectivity. Section 0.2 proves bounded constructible preservation for noetherian coefficients; §2.2 records the resulting recollement.
 
@@ -7663,7 +7889,7 @@ SchemeAndStackFoundations §0.7 supplies the dimension function and its speciali
 
 LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a chosen geometric generic point, the vanishing triangle and their stated quasi-finite exchange maps; the all-finite-type and normalized-adic specialization extension is constructed in §6.4; §§3.3–3.5 supply pencil-axis geometry, Veronese re-embedding and smooth pencils; §7b.7 supplies generic restriction in its stated range. ReductiveGroups Layer 4 supplies diagonalizable groups, characters and semisimple elements. Section 7.4 constructs the diagonalizable reduced cyclic closure in semisimpleCyclicClosure_diagonalizable. Exact projection to character spaces is used only on finite-dimensional rational representations in the finite-jet argument of §7.4.
 
-FourierDeligneTransform §2.7 supplies the Euler–Poincaré formula with Swan conductors for lisse sheaves on smooth affine curves over an algebraically closed field of characteristic `p`, with free coefficients over finite local rings, finite fields, finite `E/ℚ_ℓ` and `ℚ̄_ℓ`, and with compact supports; §5.2 imports it. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 supplies the graph–diagonal formula for endomorphisms of smooth proper curves, and §IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) the Brauer-character form of Raynaud's argument in characteristic `p`; §5.2 uses both in characteristic zero.
+FourierDeligneTransform §2.7 supplies the Euler–Poincaré formula with Swan conductors for lisse sheaves on smooth affine curves over an algebraically closed field of characteristic `p`, with free coefficients over finite local rings, finite fields, finite `E/ℚ_ℓ` and `ℚ̄_ℓ`, and with compact supports; §5.2 imports it. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 supplies the graph–diagonal formula for endomorphisms of smooth proper curves, and §IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) the Brauer-character form of Raynaud's argument in characteristic `p`; §5.2 uses both in characteristic zero. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 supplies the rational trace formula for all powers of Frobenius, which §7.6 applies to twisted Frobenius endomorphisms; SchemeAndStackFoundations §1.24 supplies the Galois descent that produces the twisted forms.
 
 The following small geometric interfaces are required in addition to those headings. For a smooth centre, identify the exceptional divisor and its normal line with the conventions above. For a relatively ample line on a universally closed scheme, the complement of a section divisor is affine (Stacks Lemma 29.44.18, Tag 0EKE). Generic affine hyperplanes are smooth for a smooth source with unramified map, as in Katz, *Affine cohomological transforms*, Lemma 3.5, p.182. For fixed multidegree, the open locus of smooth complete intersections in the product of defining-form projective spaces has geometrically irreducible nonempty characteristic fibres and contains a member with a smooth ample chain. Section 4.3 proves the cohomology calculation first for that member and transports it to every smooth complete intersection by proper smooth base change; it does not require a smooth chain for each prescribed presentation. Their tangent–normal exact sequence gives `c(T_X)=(1+h)^{N+1}∏(1+d_i h)⁻¹` and `deg h^m=∏d_i`. The elementary geometric identifications and the two incidence/affineness lemmas are proved in the relevant Layer 4 subsections from the cited scheme geometry; their conclusions are not inferred from weak Lefschetz.
 
@@ -7703,11 +7929,15 @@ AdicCoefficientsAndComparisons §§L0–L3 supplies the ambient completed coeffi
 
 - **[Bhatt-Scholze-proetale-2015]** Bhargav Bhatt, Peter Scholze, [The pro-étale topology for schemes](https://arxiv.org/pdf/1309.1198v2). arXiv 1309.1198v2 (2014); published Astérisque 369 (2015).
 
+- **[Deligne-Lusztig-1976]** P. Deligne, G. Lusztig, Representations of reductive groups over finite fields. Ann. of Math. (2) 103 (1976), 103–161; DOI 10.2307/1971021; Zbl 0336.20029.
+
 - **[Deligne-WeilI-1974]** P. Deligne, [La conjecture de Weil. I](https://www.numdam.org/article/PMIHES_1974__43__273_0.pdf). Publ. Math. IHÉS 43 (1974), 273–307 (Numdam).
 
 - **[Deligne-WeilII-1980]** P. Deligne, [La conjecture de Weil. II](https://www.numdam.org/article/PMIHES_1980__52__137_0.pdf). Publ. Math. IHÉS 52 (1980), 137–252 (Numdam).
 
 - **[Dimca-2004]** Alexandru Dimca, Sheaves in Topology. Universitext, Springer, 2004.
+
+- **[Dudas-Michel-2015]** O. Dudas, J. Michel, [Lectures on finite reductive groups and their representations](https://webusers.imj-prg.fr/~jean.michel/papiers/lectures_beijing_2015.pdf). Lecture notes (2015), author's page; §13.
 
 - **[ECD-2026]** Peter Scholze, [Étale cohomology of diamonds](https://people.mpim-bonn.mpg.de/scholze/EtCohDiamonds.pdf). Author manuscript dated 14 April 2026; manuscript pagination.
 
@@ -7718,6 +7948,8 @@ AdicCoefficientsAndComparisons §§L0–L3 supplies the ambient completed coeffi
 - **[Hansen-Kaletha-Weinstein-2022]** D. Hansen, T. Kaletha, J. Weinstein, [On the Kottwitz conjecture for local shtuka spaces](https://arxiv.org/pdf/1709.06651v4). Forum Math. Pi 10 (2022); arXiv:1709.06651v4.
 
 - **[Huber-1996]** Roland Huber, [Étale Cohomology of Rigid Analytic Varieties and Adic Spaces](https://doi.org/10.1007/978-3-663-09991-8). Aspects of Mathematics E30, Vieweg (1996).
+
+- **[Illusie-Zheng-2013]** L. Illusie, W. Zheng, [Odds and ends on finite group actions and traces](https://arxiv.org/pdf/1001.1982v3). Int. Math. Res. Not. 2013, 1–62; arXiv:1001.1982v3.
 
 - **[Jantzen-2003]** J. C. Jantzen, Representations of Algebraic Groups. 2nd edition, Mathematical Surveys and Monographs 107, AMS (2003).
 
@@ -7736,6 +7968,8 @@ AdicCoefficientsAndComparisons §§L0–L3 supplies the ambient completed coeffi
 - **[Milne-LEC]** J. S. Milne, [Lectures on Étale Cohomology](https://www.jmilne.org/math/CourseNotes/LEC.pdf). Version 2.21, 22 March 2013 (202 pages; printed page = PDF page).
 
 - **[Raynaud-1965]** Michel Raynaud, [Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés abéliennes](https://www.numdam.org/item/SB_1964-1966__9__129_0/). Séminaire Bourbaki, 17e année (1964/65), exposé 286, pp. 129–147; Numdam scan.
+
+- **[Serre-1977]** J.-P. Serre, [Représentations linéaires des groupes finis « algébriques » (d'après Deligne–Lusztig)](https://www.numdam.org/item/SB_1975-1976__18__256_0.pdf). Séminaire Bourbaki 1975/76, exposé 487, Lecture Notes in Mathematics 567, Springer (1977), 256–273; Numdam.
 
 - **[Serre-AlgLoc]** Jean-Pierre Serre, Algèbre locale. Multiplicités. Lecture Notes in Mathematics 11, Springer (1965).
 

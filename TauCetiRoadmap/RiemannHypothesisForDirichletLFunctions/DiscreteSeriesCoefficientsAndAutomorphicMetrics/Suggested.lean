@@ -45,13 +45,16 @@ Chern classes.
   its stabilisers `Γ_i`, the space `S(J, M)` of algebraic modular forms, and the quotient measure on
   `G(F)A_∞\G(𝔸)`.
 * Good invariant metrics and Hirzebruch–Mumford proportionality (10.1, 10.2): for a Shimura datum
-  with a neat level and a smooth projective toroidal compactification with simple normal crossings
-  boundary, the invariant metric on an automorphic vector bundle is good relative to the canonical
-  extension, and every top-degree Chern number of canonical extensions is `κ_K` times the
-  corresponding Chern number of the homogeneous bundles on the compact dual. It lacks Shimura data
-  and Shimura varieties, toroidal compactifications, automorphic vector bundles with their
-  canonical extensions and invariant metrics, good metrics, compact duals, Chern classes and Chern
-  numbers, topological Euler characteristics of complex varieties, and flag bundles.
+  `(G, X)` with a neat level and a smooth projective toroidal compactification with simple normal
+  crossings boundary, the invariant metric on the automorphic vector bundle of a representation of
+  the parabolic subgroup stabilising a point of the compact dual, trivial on its unipotent radical
+  and unitary on the stabiliser `K_∞¹` of a point of `X` in the subgroup `G(ℝ)¹` of `G(ℝ)` on
+  which every character of `G` defined over `ℚ` has absolute value one, is good relative to the
+  canonical extension, and every top-degree Chern number of canonical extensions of such bundles is `κ_K`
+  times the corresponding Chern number of the homogeneous bundles on the compact dual. It lacks
+  Shimura data and Shimura varieties, toroidal compactifications, automorphic vector bundles with
+  their canonical extensions and invariant metrics, good metrics, compact duals, Chern classes and
+  Chern numbers, topological Euler characteristics of complex varieties, and flag bundles.
 
 The kernel bound 2.4a (a), an inequality between `Φ_λ(k⁻¹·exp(X)·k)` and `‖X‖_HS` for matrices,
 and the bound 6.8a for Poincaré series of a discrete subgroup of `U(p, q)^f` on products of the

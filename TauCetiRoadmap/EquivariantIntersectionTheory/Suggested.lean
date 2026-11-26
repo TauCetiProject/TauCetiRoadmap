@@ -24,10 +24,11 @@ Headline theorems stated here (README target, Lean name):
 Not statable at the pins, with the carrier each lacks:
 
 * 1.1–1.3 (the groupoid of `G`-linearised invertible sheaves, `Pic^G(X)`, the graded description
-  over `Spec A`, the exact sequences) and 1.4 (`Pic [X/G] ≅ Pic^G(X)`, change of group, slices):
-  they lack linearised invertible sheaves, which rest on the actions of group spaces
-  (SchemeAndStackFoundations §1.13), and the quotient stacks `actionQuotient G X` (§1.21) with
-  `Stacks.QCoh` (§1.22).
+  over `Spec A`, the exact sequences), 1.4 (`Pic [X/G] ≅ Pic^G(X)`, change of group, slices) and
+  1.5 (descent to the quotient by a finite group): they lack linearised invertible sheaves, which
+  rest on the actions of group spaces (SchemeAndStackFoundations §1.13), and the quotient stacks
+  `actionQuotient G X` (§1.21) with `Stacks.QCoh` (§1.22); 1.5 lacks in addition the quotient
+  `X/G` of a projective scheme by a finite group (§1.17).
 * 2.1–2.3 (equivariant Chow groups, their operations, classifying spaces) and 2.4
   (`Pic^G(X) ≅ A¹_G(X)`): they lack, in addition, the Chow groups `ChowGroup κ X k` of
   SchemeAndStackFoundations §5.1 with the operations of §§5.2–5.6, and so equivariant Chow groups.

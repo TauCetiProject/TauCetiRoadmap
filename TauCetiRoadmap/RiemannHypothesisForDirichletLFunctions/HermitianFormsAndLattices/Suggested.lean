@@ -20,8 +20,9 @@ completion `v.adicCompletion F` at a finite place and `v.Completion` at an infin
   every place; and Hermitian spaces over the `E ⊗_F F_v`, one at every place, almost all with norm
   determinant, are the localizations of a Hermitian space over `E` if and only if the number of
   places at which the determinant is not a norm is even (the product formula
-  `∏_v η_v(det V_v) = 1`). The Hasse principle is stated a second time for CM extensions, the
-  setting of the formal proof that the family follows.
+  `∏_v η_v(det V_v) = 1`). The Hasse principle is stated a second time for CM extensions, as a
+  corollary; the formal proof that the family follows has it for every quadratic extension of
+  number fields.
 * The Tamagawa number `τ(U(V)) = 2` (6.0, 6.0b) for every Hermitian space `V` of dimension
   `n ≥ 1`. It lacks the unitary group scheme `U(V)` as an algebraic group over `F` with its adelic
   points, and the Tamagawa measure and Tamagawa number of a connected reductive group
@@ -81,9 +82,9 @@ theorem hermitian_congr_iff_forall_place {F E : Type*} [Field F] [NumberField F]
 
 /-- **Landherr's theorem, the Hasse principle, for CM extensions** (README 3.1). The case of
 `hermitian_congr_iff_forall_place` for a CM extension of number fields (`F` totally real, `E`
-totally complex), the setting in which the formal proof that the family follows has the theorem;
-it is a corollary of the classical statement, not the form of the formal proof that README 3.1
-displays. -/
+totally complex); the formal proof that the family follows has the theorem for every quadratic
+extension of number fields. It is a corollary of the classical statement, not the form of the
+formal proof that README 3.1 displays. -/
 theorem hermitian_congr_iff_forall_place_of_cm {F E : Type*} [Field F] [NumberField F] [Field E]
     [NumberField E] [Algebra F E] [Algebra.IsQuadraticExtension F E]
     [IsTotallyReal F] [IsTotallyComplex E]

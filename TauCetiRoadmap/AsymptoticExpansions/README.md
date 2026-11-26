@@ -396,6 +396,47 @@ real case `Complex.integral_cpow_mul_exp_neg_mul_Ioi`.
 
 *Needs:* Mathlib `Complex.integral_cpow_mul_exp_neg_mul_Ioi` and the identity theorem.
 
+### 4.1a Holomorphy of the Laplace integral and its derivatives
+
+Widder (1941), Chapter II; for piecewise continuous `q` of exponential growth, DLMF 1.14.18–1.14.19
+(analyticity) and 1.14.23 (derivatives).
+Let `c ∈ ℝ` and let `q : ℝ → ℂ` be such that `t ↦ e^{−σt} q(t)` is integrable on `(0, ∞)` for
+every real `σ > c`, so that `Q(z) = ∫₀^∞ e^{−zt} q(t) dt` converges absolutely on `Re z > c`. No
+differentiability or continuity of `q` is assumed. Prove:
+- `Q` is holomorphic on `Re z > c`;
+- for every `k ∈ ℕ` and every `z` with `Re z > c`, the function `t ↦ t^k e^{−zt} q(t)` is
+  integrable on `(0, ∞)` and `Q^{(k)}(z) = (−1)^k ∫₀^∞ t^k e^{−zt} q(t) dt`.
+
+Moreover, if `q` is real-valued, then `Q(z̄) = conj Q(z)` for `Re z > c`, by conjugation under the
+integral.
+
+This extends Tau Ceti's `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` from bounded
+measurable kernels on `Re z > 0` to every kernel `q` as above. Route: induction on `k`,
+differentiating under the integral sign (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`) on
+the disc of radius `r = (Re z₀ − c)/2` about `z₀`; on it
+`|t^{k+1} e^{−zt} q(t)| ≤ C_k e^{−(c + r/2)t} |q(t)|`, which is integrable, and
+`d/dz (t^k e^{−zt}) = −t^{k+1} e^{−zt}`. The case `k = 0` is the holomorphy. Mathlib proves the
+case `q ≥ 0` in the same way: with `X t = −t` and `μ` the measure of density `q` on `(0, ∞)`, the
+hypothesis puts `(c, ∞)` in `ProbabilityTheory.integrableExpSet X μ`,
+`ProbabilityTheory.complexMGF X μ = Q` on `Re z > c`, and
+`ProbabilityTheory.differentiableOn_complexMGF`, `ProbabilityTheory.iteratedDeriv_complexMGF` and
+`ProbabilityTheory.integrable_pow_mul_cexp_of_re_mem_interior_integrableExpSet` give both claims.
+A complex `q` is `q₁ − q₂ + i(q₃ − q₄)` with `0 ≤ q_j ≤ |q|` (the positive and negative parts of
+`Re q` and `Im q`), so 4.1a also follows from them by linearity.
+
+**Checks.**
+
+- `q = 1`, `c = 0`: `Q(z) = 1/z` on `Re z > 0`, `Q^{(k)}(z) = (−1)^k k! z^{−k−1}`, and
+  `∫₀^∞ t^k e^{−zt} dt = k! z^{−k−1}`, as the formula says. Without the sign `(−1)^k` it would
+  fail for every odd `k`.
+- `q(t) = e^{it}`, `c = 0`: `Q(z) = 1/(z − i)`, and `Q(z̄) = 1/(z̄ − i)` differs from
+  `conj Q(z) = 1/(z̄ + i)`: the symmetry needs `q` real-valued.
+
+*Needs:* Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; for the reduction to `q ≥ 0`,
+Mathlib `ProbabilityTheory.differentiableOn_complexMGF`,
+`ProbabilityTheory.iteratedDeriv_complexMGF` and
+`ProbabilityTheory.integrable_pow_mul_cexp_of_re_mem_interior_integrableExpSet`.
+
 ### 4.2 Watson's lemma in a sector
 
 DLMF 2.4.1. Under the hypotheses of 3.3, for every `δ ∈ (0, π/2)`,
@@ -455,10 +496,8 @@ DLMF 2.4.2–2.4.5.
 - **2.4.2–2.4.3**: if `q` is differentiable on `(0, ∞)` and `e^{−ct} q(t)` is integrable, then
   `Q(z) = ∫₀^∞ e^{−zt} q(t) dt` is continuous on `Re z ≥ c` and holomorphic on `Re z > c`, and
   for every `t > 0` and `σ ≥ c`,
-  `q(t) = lim_{η→∞} (2πi)⁻¹ ∫_{σ−iη}^{σ+iη} e^{tz} Q(z) dz`. The holomorphy extends Tau Ceti's
-  `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` from bounded kernels to integrable
-  `e^{−ct} q(t)`, through the truncations of
-  `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul`.
+  `q(t) = lim_{η→∞} (2πi)⁻¹ ∫_{σ−iη}^{σ+iη} e^{tz} Q(z) dz`. The holomorphy is that of 4.1a,
+  which needs no differentiability of `q`.
 - **2.4.4–2.4.5** (`exists_inverseLaplace_hasExpansion`): if `c > 0` and `Q` is holomorphic on a
   neighbourhood of `Re z ≥ c` with `Q(z) ∼ ∑ Γ(α_s) c_s z^{−α_s}` and
   `Q′(z) ∼ −∑ α_s Γ(α_s) c_s z^{−α_s−1}` as `z → ∞` in `Re z ≥ c` (`α` as in 3.3), then the
@@ -466,8 +505,7 @@ DLMF 2.4.2–2.4.5.
   is independent of `σ ∈ [c, ∞)`, and `q(t) − ∑_{s<N} c_s t^{α_s−1} = O(t^{Re α_N − 1})` as
   `t → 0+`.
 
-*Needs:* 3.3, 4.1; Tau Ceti's `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul` and
-`TauCeti.differentiableOn_integral_mul_cexp_neg_mul`; Mathlib's Riemann–Lebesgue lemma
+*Needs:* 3.3, 4.1, 4.1a; Mathlib's Riemann–Lebesgue lemma
 `tendsto_integral_exp_inner_smul_cocompact` and the unbounded-rectangle Cauchy theorems.
 
 ### 4.5 Haar's method
@@ -490,8 +528,10 @@ for `j ≤ m`, then `q(t) = f(t) + o(t^{−m} e^{ct})`.
 ### Dependencies
 
 Layers 1 and 3; Mathlib `Complex.Gamma`, the identity theorem, the Riemann–Lebesgue lemma
-`tendsto_integral_exp_inner_smul_cocompact`, and the unbounded-rectangle Cauchy theorems; Tau
-Ceti's `TauCeti/Analysis/Complex/LaplaceTransform.lean` (for 4.4).
+`tendsto_integral_exp_inner_smul_cocompact`, the unbounded-rectangle Cauchy theorems, and
+differentiation under the integral sign `hasDerivAt_integral_of_dominated_loc_of_deriv_le` or the
+holomorphy of `ProbabilityTheory.complexMGF` (for 4.1a); Tau Ceti's
+`TauCeti/Analysis/Complex/LaplaceTransform.lean` (the bounded case that 4.1a extends).
 
 ## Layer 5: Laplace's method and saddle points
 
@@ -1358,6 +1398,48 @@ on `0 < |z| < r` (the comparison function).
 `TauCeti.circleLaurentCoeff_add` and `TauCeti.norm_circleLaurentCoeff_le`; Mathlib's
 Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
 
+### 13.6a The meromorphic case
+
+Flajolet and Sedgewick (2009), Theorem IV.10, p. 258.
+Let `r > 0`, let `z_1, …, z_K` be distinct points with `0 < |z_i| < r`, and let `f` be holomorphic
+on `|z| < r` except at the `z_i`, where it is meromorphic (`MeromorphicAt`) with a pole of order
+`m_i ≥ 1` and principal part `∑_{j=1}^{m_i} c_{i,j} (z − z_i)^{−j}`. Let `g` be the sum of these
+principal parts. Let `f_n = f^{(n)}(0)/n!` (`n ≥ 0`) be the Taylor coefficients of `f` at `0`;
+they are the coefficients `TauCeti.circleLaurentCoeff f 0 ρ n` of 13.6 for
+`0 < ρ < min_i |z_i|`. Prove that there are polynomials `Π_i` of degree `m_i − 1` such that for
+every `r′ ∈ (0, r)` there is `M` with
+
+```text
+| f_n − ∑_{i=1}^K Π_i(n) z_i^{−n} | ≤ M r′^{−n}    (n ≥ 0),
+```
+
+the main term `∑_{i=1}^K Π_i(n) z_i^{−n}` being the `n`-th Taylor coefficient of `g` at `0`. This
+is Darboux's method with `g` as comparison function when the singularities are poles strictly
+inside the disc on which `f − g` is holomorphic: the error is `O(r′^{−n})` for every `r′ < r`,
+whereas 13.6, applied on the circle of radius `d = min_i |z_i|` through the nearest pole, gives
+`o(d^{−n})`.
+
+Route: the principal part at each `z_i` is supplied by
+`TauCeti.Contour.exists_laurent_data_of_meromorphicAt`. By removable singularities `f − g` extends
+to a function holomorphic on `|z| < r`, and Cauchy's estimate on the circle `|z| = r′`
+(`norm_cauchyPowerSeries_le`) bounds its `n`-th Taylor coefficient by `M r′^{−n}`. The `n`-th
+Taylor coefficient of `g` at `0` is `∑_i Π_i(n) z_i^{−n}` with `Π_i` of degree `m_i − 1`, by the
+binomial series, that is by `n` differentiations of the powers `(z − z_i)^{−j}` (`deriv_zpow`).
+
+**Checks.**
+
+- `f(z) = (z − w)^{−1}` with `0 < |w| < r`: `f_n = −w^{−n−1}`, so the bound holds with `M = 0`.
+- `f(z) = (z − w)^{−2}`: `f_n = (n + 1) w^{−n−2}`, with `M = 0`; the factor of `w^{−n}` is a
+  polynomial of degree `1 = m − 1` in `n`, not a constant.
+- `f(z) = 1/(1 − z) + 1/(2 − z)`, the second check of 13.6, on `|z| < r` for any `r > 2`: the
+  poles are `1` and `2`, each simple with `c_{i,1} = −1`; `f` is the sum of its principal parts,
+  `f_n = 1 + 2^{−n−1}` and `M = 0`, while 13.6 with `r = 1` and `g(z) = 1/(1 − z)` gives
+  `f_n − 1 = o(1)`.
+
+*Needs:* Mathlib `norm_cauchyPowerSeries_le`, `deriv_zpow` and removable singularities; Tau Ceti
+`TauCeti.Contour.exists_laurent_data_of_meromorphicAt` (the finite principal part at a meromorphic
+point).
+
 ### Examples
 
 - 13.1 for `f(x) = x²`, `a = 0`, `n = 1`, `m = 1`: both sides are `1`
@@ -1370,7 +1452,9 @@ Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
 ### Dependencies
 
 Layer 1 and 5.4–5.5 (for 13.5); Tau Ceti `TauCeti.circleLaurentCoeff` and its lemmas (for
-13.6); Mathlib `bernoulli`, `bernoulliFun` and its derivative and integral lemmas
+13.6); Tau Ceti `TauCeti.Contour.exists_laurent_data_of_meromorphicAt` and Mathlib
+`norm_cauchyPowerSeries_le`, `deriv_zpow` and removable singularities (for 13.6a); Mathlib
+`bernoulli`, `bernoulliFun` and its derivative and integral lemmas
 (`hasDerivAt_bernoulliFun`, `bernoulliFun_eq_integral`), integration by parts, `riemannZeta`,
 `riemannZeta_one_sub`, `Real.tendsto_harmonic_sub_log`, `circleIntegral`, the Riemann–Lebesgue
 lemma; ZerosOfLFunctions §1.2 for 13.5.
@@ -1452,8 +1536,10 @@ The roadmap is complete when Tau Ceti proves all of the following.
 2. **Transcendental equations** (DLMF 2.2.1–2.2.8), including Lagrange's reversion formula.
 3. **Laplace and Fourier integrals of a real variable** (DLMF 2.3.1–2.3.12, with the example
    2.11.1–2.11.3).
-4. **Laplace transforms of a complex variable** (DLMF 2.4.1–2.4.9): Watson's lemma in sectors,
-   its extension by rotation of the path, inverse Laplace transforms and Haar's method.
+4. **Laplace transforms of a complex variable** (DLMF 2.4.1–2.4.9): the holomorphy of the
+   Laplace integral on its half-plane of absolute convergence, with the moment formula for its
+   derivatives (Widder, Chapter II); Watson's lemma in sectors, its extension by rotation of the
+   path, inverse Laplace transforms and Haar's method.
 5. **Laplace's method and saddle points** (DLMF 2.3.13–2.3.18 and 2.4.10–2.4.16).
 6. **Stationary phase** (DLMF 2.3.19–2.3.23).
 7. **Coalescing critical points** (DLMF 2.3.24–2.3.33 and 2.4.17–2.4.20): Bleistein's change of
@@ -1466,7 +1552,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
 11. **The Liouville–Green approximation and equations with a large parameter**
     (DLMF 2.7.20–2.7.34 and 2.8.1–2.8.13).
 12. **Difference equations** (DLMF 2.9.1–2.9.13).
-13. **Sums and sequences** (DLMF 2.10.1–2.10.32).
+13. **Sums and sequences** (DLMF 2.10.1–2.10.32), with the coefficient asymptotics of
+    meromorphic functions (Flajolet and Sedgewick, Theorem IV.10).
 
 The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 
@@ -1514,7 +1601,8 @@ consume them (see [Downstream consumers](#downstream-consumers)).
 [Excluded material](#excluded-material) lists these with their owners.
 
 **The boundary in one sentence:** this roadmap owns the general asymptotic methods of the DLMF
-subsections listed at the top (all within §§2.1–2.10), stated for arbitrary functions under
+subsections listed at the top (all within §§2.1–2.10), with the holomorphy of the Laplace integral
+(4.1a) and the meromorphic case of Darboux's method (13.6a), stated for arbitrary functions under
 explicit hypotheses; it consumes the Gamma asymptotics of ZerosOfLFunctions and the residue
 theory of ContourIntegration, and it excludes expansions of named special functions, uniform
 expansions in special functions, and the remainder and Stokes-phenomenon theory of §2.11.
@@ -1538,6 +1626,9 @@ No L-function theory is needed by this contract.
 Residues and the residue theorem, in `TauCeti/Analysis/Contour/Residue/`: `TauCeti.Contour.residue`
 is the coefficient of `(z − z₀)⁻¹` of the Laurent expansion. 5.3 and Layer 8 compute these
 residues and add the vertical-line shift with decay hypotheses; they define no new residue notion.
+13.6a takes the finite principal part at a meromorphic point from
+`TauCeti.Contour.exists_laurent_data_of_meromorphicAt`
+(`TauCeti/Analysis/Contour/MeromorphicLaurent.lean`).
 
 ### From Tau Ceti
 
@@ -1557,8 +1648,9 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
   truncated transform `z ↦ ∫ t in a..b, f t * cexp (-z * t)` is entire for interval-integrable
   `f`), `TauCeti.integrableOn_mul_cexp_neg_mul` (integrability on `[0, ∞)` for bounded measurable
   `f` and `0 < Re z`) and `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` (holomorphy of the
-  transform on `0 < Re z` for bounded measurable `f`). They cover bounded kernels; 4.4 extends them
-  to kernels `q` with `e^{−ct} q(t)` integrable.
+  transform on `0 < Re z` for bounded measurable `f`). They cover bounded kernels; 4.1a proves the
+  holomorphy for kernels `q` with `e^{−σt} q(t)` integrable for every `σ > c`, of which
+  `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` is the case of bounded `q` and `c = 0`.
 - `TauCeti/Analysis/ODE/` treats real and Banach-space equations (Carathéodory solutions, Dyson
   series, Wronskians of `f″ = q f` with `TauCeti.wronskian_eq_of_hasDerivAt`, the
   stable-manifold theorem, the local Frobenius integrability theorem
@@ -1582,6 +1674,12 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 - `PowerSeries.subst`, `PowerSeries.binomialSeries`, `PowerSeries.substInvOfIsUnit` and
   `descPochhammer`.
 - The Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
+- `ProbabilityTheory.complexMGF X μ z = ∫ e^{z X} dμ`
+  (`Mathlib/Probability/Moments/ComplexMGF.lean`), for real `X` and every measure `μ`, is
+  holomorphic where `Re z` lies in the interior of
+  `ProbabilityTheory.integrableExpSet X μ` (`ProbabilityTheory.differentiableOn_complexMGF`), with
+  `k`-th derivative `∫ X^k e^{z X} dμ` (`ProbabilityTheory.iteratedDeriv_complexMGF`). With
+  `X t = −t` and `μ = q(t) dt` on `(0, ∞)` this is 4.1a for `q ≥ 0`.
 - `circleIntegral`, the Cauchy integral formula and the unbounded-rectangle Cauchy theorems of
   `Mathlib/Analysis/Complex/CauchyIntegral.lean`.
 - `Finset.sum_range_by_parts`.
@@ -1609,6 +1707,7 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 
 - NIST *Digital Library of Mathematical Functions*, Chapter 2 (F. W. J. Olver and R. Wong),
   <https://dlmf.nist.gov/2>.
+- NIST *Digital Library of Mathematical Functions*, §1.14(iii), <https://dlmf.nist.gov/1.14>.
 - F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974; reprinted A K Peters,
   1997. Chapters 1–4 (expansions and integrals), 5–7 (differential equations), 8 (sums), 9
   (uniform methods) and 10 (equations with a large parameter).
@@ -1625,3 +1724,7 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 - R. A. Handelsman and J. S. Lew, Asymptotic expansion of Laplace transforms near the origin,
   *SIAM J. Math. Anal.* 1 (1970), 118–130.
 - N. M. Temme, *Asymptotic Methods for Integrals*, World Scientific, 2015.
+- D. V. Widder, *The Laplace Transform*, Princeton University Press, 1941. Chapter II
+  (analyticity of the Laplace integral and differentiation under the integral sign).
+- P. Flajolet and R. Sedgewick, *Analytic Combinatorics*, Cambridge University Press, 2009.
+  Theorem IV.10, p. 258 (coefficient asymptotics of meromorphic functions).

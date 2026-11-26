@@ -1728,6 +1728,24 @@ For small C with zero object and finite sums, define the summing-functor categor
 
 *Needs:* GeneralizedCohomology G2.8, §1.11, M.
 
+### 4.24a The kernel of the Hurewicz map of K-theory has bounded exponent
+
+Put L₁=1 and, for k≥2, let Lₖ be the product of the primes p for which there are non-negative integers a₁,a₂,… with a₁≡0 mod (2p−2), aᵢ≡0 or 1 mod (2p−2) for i≥2, aᵢ≥p·aᵢ₊₁ for i≥1 and Σᵢaᵢ=k; thus L₂,…,L₈ are 2, 2, 6, 6, 2, 2, 30. Put Rⱼ=1 for j≤1 and Rⱼ=L₂L₃⋯Lⱼ for j≥2; thus R₂=2, R₃=4, R₄=24, R₅=144, R₆=288, R₇=576, R₈=17280, and a prime p divides Rⱼ exactly when p≤j/2+1. For every ring R (associative and unital, as in §4.14):
+
+- for m≥2 the kernel of the Hurewicz map Kₘ(R)=πₘ(BGL(R)⁺)→Hₘ(GL(R);ℤ) is killed by Rₘ (for m=1 the map is an isomorphism);
+- for m≥3 the kernel of Kₘ(R)→Hₘ(E(R);ℤ) is killed by Rₘ₋₁;
+- for m≥4 the kernel of Kₘ(R)→Hₘ(St(R);ℤ) is killed by Rₘ₋₂.
+
+Here Hₘ(BG⁺;ℤ) is identified with Hₘ(G;ℤ) by §3.12 and §1.32, for G=GL(R), E(R) and St(R). The second and third maps are the Hurewicz maps of BE(R)⁺ and BSt(R)⁺, through which Kₘ(R) is read in those degrees by §3.31 (BE(R)⁺ is the universal cover of BGL(R)⁺) and §3.33 (the plus-construction fibration of the universal central extension St(R)→E(R) of AlgebraicKTheory 5.1).
+
+Prove first that the zeroth space Ω|BA_C(1)| of §4.24, for C the finite projective R-modules, is a group completion of the classifying space of the isomorphisms of C (GeneralizedCohomology G2.8), hence homotopy equivalent to K₀(R)×BGL(R)⁺ by the uniqueness of group completions (§4.17, applied with the countable cofinal submonoid of components formed by the classes of the free modules Rⁿ, §4.15) and §4.21; so BGL(R)⁺ is an infinite loop space.
+
+Route (Arlettaz): BGL(R)⁺ is a connected infinite loop space (the comparison above), so for every r it is the r-fold loop space of an r-connected space Y. (i) For an abelian group G and 2≤n<i<2n the integer Lᵢ₋ₙ kills Hᵢ(K(G,n);ℤ): H. Cartan's computation of the stable homology of Eilenberg–Mac Lane spaces (Séminaire H. Cartan 1954/55, exposé 11, Théorème 2), as Arlettaz quotes it. (ii) By the Serre exact sequences of the Postnikov fibrations (§3.20) in the stable range, if Y is (b−1)-connected with πᵢ(Y)=0 for i>t, then Lᵢ₋ᵦLᵢ₋ᵦ₋₁⋯Lᵢ₋ₜ kills Hᵢ(Y;ℤ) for t<i<2b. (iii) With universal coefficients this bounds the order of the k-invariants of Y in the stable range, and the iterated cohomology suspension carries them to those of BGL(R)⁺: Rₘ·kᵐ⁺¹(BGL(R)⁺)=0 for m≥2. (iv) For a connected abelian CW complex X and a positive integer ρ, ρ·kᵐ⁺¹(X)=0 exactly when there is a homomorphism θ:Hₘ(X;ℤ)→πₘ(X) with θ∘h equal to multiplication by ρ; hence Rₘ kills the kernel of h. Steps (i)–(iv) are cited from the published proof in Arlettaz's survey: (i) is its Lemma 7.12, (ii) and (iii) are its Lemma 7.4, Corollary 7.13, Theorem 7.15, Corollary 7.16 and Theorem 7.17 (a), and (iv) is its Proposition 7.10. The second and third clauses are cited from its Corollary 7.19 (b), (c), with its proof. The Hurewicz theorem modulo a Serre class (§3.36) does not apply directly, because the lower groups Kᵢ(R) need not lie in the class.
+
+(D. Arlettaz, *Algebraic K-theory of rings from a topological viewpoint*, Publ. Mat. 44 (2000), Definitions 7.11 and 7.14 and Corollary 7.19, pp. 52–55; D. Arlettaz, *The Hurewicz homomorphism in algebraic K-theory*, J. Pure Appl. Algebra 71 (1991), pp. 1–12.)
+
+*Needs:* §1.32 and §3.12 (the homology of BG⁺ is the homology of G), §3.20 (Postnikov towers of abelian spaces), §3.31 (BE(R)⁺ is the universal cover of BGL(R)⁺), §3.33 (the plus-construction fibration of a universal central extension), §4.9 (BS→B(S⁻¹S) is a group completion), §4.14 (GL(R), E(R) and the H-space BGL(R)⁺), §4.15 (projective complements), §4.17 (uniqueness of group completions), §4.21 (the group completion of iso P(R) is K₀(R)×BGL(R)⁺), §4.24 (Segal's construction and its zeroth space Ω|BA_C(1)|), GeneralizedCohomology G2.8 (the group-completion theorem for Γ-spaces), AlgebraicTopology 8.3 (the Hurewicz map), AlgebraicKTheory 5.1 (the Steinberg group St(R) as the universal central extension of E(R)).
+
 ### 4.25 The Segal E∞-monoid N(C) of a symmetric monoidal groupoid
 
 For symmetric monoidal groupoid C, define the coherent-subset Γ-space by coherent subset tensor diagrams, including empty-subset unit laws. It is special with N(C)(1)≃nerve C; strong braided functors give its Γ-maps. Consume BordismFormalGroups F6.5's symmetric coherence: structural composites with the same permutation agree, naturally. Use it to prove the subset-diagram equations and compare this concrete Γ-model with the supplied coherent commutative-monoid interface.
@@ -1846,7 +1864,7 @@ The category of all finite projective-module maps has a zero object and a contra
 
 ### Dependencies
 
-Layers 1–3, algebraic Grothendieck groups, AlgebraicKTheory's stable linear groups and projective complements, IntegralLattices and OrthogonalSpinGroups for §4.27, BordismFormalGroups F6.5's symmetric coherence, Tau Ceti's tower algebra (`TauCeti.ModuleTower`) and GeneralizedCohomology G3.10 for §4.11; §§4.28–4.30 add simplicial-space realisation and GeneralizedCohomology's Γ-machine (G2.8), topological-group classifiers and polar deformation (G2.9) and K-theory models (G5.4).
+Layers 1–3, algebraic Grothendieck groups, AlgebraicKTheory's stable linear groups and projective complements, IntegralLattices and OrthogonalSpinGroups for §4.27, BordismFormalGroups F6.5's symmetric coherence, Tau Ceti's tower algebra (`TauCeti.ModuleTower`) and GeneralizedCohomology G3.10 for §4.11; §4.24a adds GeneralizedCohomology G2.8, AlgebraicTopology 8.3 and AlgebraicKTheory 5.1 (Steinberg groups); §§4.28–4.30 add simplicial-space realisation and GeneralizedCohomology's Γ-machine (G2.8), topological-group classifiers and polar deformation (G2.9) and K-theory models (G5.4).
 
 ## Layer 5: Comparisons for the supplied symmetric spectra
 
@@ -2807,7 +2825,7 @@ Countable tower algebra is Tau Ceti's, used at R=ℤ. A tower of modules is `Tau
 
 ### From AlgebraicKTheory
 
-AlgebraicKTheory A0–A1 supplies the finite-projective splitting maps, finite block matrices, stable GL under trailing-identity stabilization, its elementary subgroup, normality, perfectness and equality with the commutator subgroup, for arbitrary associative unital rings including zero. Its projectives are right modules, with matrices acting on columns. For left R-modules use its A0 at Rᵐᵒᵖ, the canonical double-opposite scalar identification and the transpose/opposite adapter of §4.15. The underlying finite-projective category remains Tau Ceti's native category. No higher-K comparison is an input to A0–A1. The topology and plus multiplication on these supplied groups belong to §4.14.
+AlgebraicKTheory A0–A1 supplies the finite-projective splitting maps, finite block matrices, stable GL under trailing-identity stabilization, its elementary subgroup, normality, perfectness and equality with the commutator subgroup, for arbitrary associative unital rings including zero. Its projectives are right modules, with matrices acting on columns. For left R-modules use its A0 at Rᵐᵒᵖ, the canonical double-opposite scalar identification and the transpose/opposite adapter of §4.15. The underlying finite-projective category remains Tau Ceti's native category. No higher-K comparison is an input to A0–A1. The topology and plus multiplication on these supplied groups belong to §4.14. AlgebraicKTheory 5.1 supplies the Steinberg group St(R) of every ring R, with its homomorphism onto E(R), its central kernel and its universal property among central extensions of E(R); §4.24a uses it, through §3.33, as AlgebraicKTheory states it.
 
 ### From RepresentationTheory/InductionRestriction
 
@@ -2889,3 +2907,5 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 - M. G. Barratt and P. J. Eccles, Γ⁺-structures I: a free group functor for stable homotopy theory, Topology 13 (1974), pp. 25–45.
 - The Stacks project authors, [The Stacks project](https://stacks.math.columbia.edu), tags 07KW and 0598.
 - J. F. Jardine, [Lectures on Homotopy Theory, Lecture 06: Simplicial groups and simplicial modules](https://www.math.uwo.ca/faculty/jardine/courses/homth/homth-lecture006a.pdf), §§14–16, Lemmas 14.1 and 14.3, pp. 1–5.
+- D. Arlettaz, The Hurewicz homomorphism in algebraic K-theory, J. Pure Appl. Algebra 71 (1991), pp. 1–12.
+- D. Arlettaz, Algebraic K-theory of rings from a topological viewpoint, Publ. Mat. 44 (2000), pp. 3–84, Lemma 7.4, Prop. 7.10, Def. 7.11, Lemma 7.12, Cor. 7.13, Def. 7.14, Thm. 7.15, Cor. 7.16, Thm. 7.17 and Cor. 7.19.

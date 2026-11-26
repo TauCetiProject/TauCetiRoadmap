@@ -11,7 +11,9 @@ a usable theory of spaces, operators and their constructions.
 Spaces are over `𝕜 = ℝ` or `ℂ`, expressed with `RCLike` where appropriate; completeness
 is a hypothesis, not part of the meaning of normed space. In B7 the Banach–Mazur
 distance, finite representability, local reflexivity, John's theorem and the projection
-theorems are over `𝕜`; concentration of measure and Dvoretzky's theorem are over `ℝ`.
+theorems are over `𝕜`; in B7.HermitianNorms the least-volume inner-product norm bounded above by
+a given norm is over `𝕜` and the rest over `ℂ`; concentration of measure and Dvoretzky's theorem
+are over `ℝ`.
 All duals are continuous duals `StrongDual 𝕜 E`; reflexivity means
 surjectivity of `NormedSpace.inclusionInDoubleDual`, not algebraic reflexivity.
 Use `WeakSpace 𝕜 E` and `WeakDual 𝕜 E`, with explicit transport between topologies.
@@ -1316,6 +1318,32 @@ points by vectors `w_i ∈ X/M` of norm at most `1`, lift them to `x_i ∈ X` of
 than `1 + ε'`, and set `P y = ∑ c_i φ_i(π y) x_i` with the contact functionals `φ_i`;
 the lift of the quotient norm is the sole source of `ε`.
 
+**B7.HermitianNorms — Hermitian norms close to a given norm.** Let `E` be a complex vector space
+of finite dimension `n ≥ 1` with a norm `‖·‖`. Deduce from `d(E,ℓ²_n) ≤ √n` over `ℂ` that `E` has
+a Hermitian inner product whose norm `‖·‖_H` satisfies `‖x‖_H ≤ ‖x‖ ≤ √n·‖x‖_H` for every `x`.
+Prove, for every normed `𝕜`-space `V` of finite dimension `n ≥ 1`, that among the norms of
+`𝕜`-inner products on `V` (Euclidean for `𝕜 = ℝ`, Hermitian for `𝕜 = ℂ`) bounded above by its
+norm `‖·‖` there is a unique one `‖·‖_J` whose unit ball has the least volume, and that
+`‖x‖_J ≤ ‖x‖ ≤ √n·‖x‖_J` for every `x ∈ V` (Chen–Moriwaki, arXiv:1903.10798v1, §1.2.8,
+Theorem 1.2.54, p. 84). Deduce that if a conjugate-linear involution
+`τ` of `E` preserves `‖·‖`, then `‖τ(x)‖_J = ‖x‖_J`: `x ↦ ‖τ(x)‖_J` is a Hermitian norm bounded
+above by `‖·‖` whose unit ball has the same volume, and `‖·‖_J` is unique.
+
+In the position of the maximal-volume `ℂ`-ellipsoid there is a `ℂ`-linear isomorphism
+`T : ℓ²_n → E` with `‖T‖·‖T⁻¹‖ ≤ √n`. With `|·|` the Euclidean norm of `ℓ²_n`, put
+`‖x‖_H = |T⁻¹x|/‖T⁻¹‖`. The bound is the John–Löwner theorem: F. John 1948 over `ℝ`; over `ℝ`
+and `ℂ`, with the uniqueness of the extremal Hermitian norm, Chen–Moriwaki, Theorem 1.2.54
+(numbering of arXiv:1903.10798v1). Gaudron 2008 (§2, Définition–Théorème 2.4 and the complex
+case) derives Hermitian norms for a complex space from the ellipsoids of the underlying real
+space, with the constant `√(2n)`.
+*Needs:* John's theorem over `𝕜` and `d(E,ℓ²_n) ≤ √n` of this layer. The existence and uniqueness
+of `‖·‖_J`, which the deduction for `τ` uses, are proved in this item.
+
+**Checks.**
+- `ℓ^∞` on `ℂ^n`: `‖·‖_H = n^(−1/2)·ℓ²`, with `n^(−1/2)|x|_2 ≤ |x|_∞ ≤ |x|_2`.
+- `ℓ¹` on `ℂ^n`: `‖·‖_H = ℓ²`, with `|x|_2 ≤ |x|_1 ≤ √n·|x|_2`. The factor `√n` is attained at
+  `(1, …, 1)`.
+
 Prove Dvoretzky's theorem (`dvoretzky_finite`): for every `k` and `ε > 0` there is
 `N` such that every real normed space of dimension at least `N` admits an embedding
 `T:ℓ²_k→E` with `(1−ε)‖x‖≤‖Tx‖≤(1+ε)‖x‖`, so a `k`-dimensional subspace at
@@ -1381,6 +1409,18 @@ for `n≥4`, without an optimality claim.
   (Garling–Gordon); D. J. H. Garling and Y. Gordon, *Relations between some constants
   associated with finite dimensional Banach spaces*, Israel J. Math. **9** (1971),
   346–361.
+* F. John, *Extremum problems with inequalities as subsidiary conditions*, in Studies and Essays
+  Presented to R. Courant on his 60th Birthday, Interscience, New York, 1948, 187–204: the maximal
+  ellipsoid (B7.HermitianNorms).
+* É. Gaudron, *Pentes des fibrés vectoriels adéliques sur un corps global*, Rend. Sem. Mat. Univ.
+  Padova **119** (2008), 21–95, <http://www.numdam.org/item/RSMUP_2008__119__21_0/>: §2,
+  Définition–Théorème 2.4 (John and Löwner ellipsoids, constant `√n` over `ℝ`) and the complex
+  case with (12) (constant `√(2n)`); §4, Définition 4.6 (John and Löwner bundles)
+  (B7.HermitianNorms).
+* H. Chen and A. Moriwaki, *Arakelov Geometry over Adelic Curves*, Lecture Notes in Mathematics
+  **2258**, Springer, 2020, doi:10.1007/978-981-15-1728-0, cited in the numbering of
+  arXiv:1903.10798v1: §1.2.8, Theorem 1.2.54, the John–Löwner theorem over `ℝ` and `ℂ`
+  (B7.HermitianNorms).
 * Garrido–Jaramillo, [*Variations on the Banach–Stone theorem*](https://matematicas.unex.es/~extracta/Vol-17-3/17J3Mari.pdf),
   §2, Theorems 2 and 4: the real weighted-composition theorem and Arens–Kelley
   extreme points. The complex version uses the variation splitting and phase

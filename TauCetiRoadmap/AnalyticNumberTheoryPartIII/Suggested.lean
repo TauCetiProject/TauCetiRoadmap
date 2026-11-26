@@ -45,7 +45,8 @@ README (the Dirichlet-integral bounds of 7.2, the Mellin convolution of 9.1 and 
 transforms of 9.2, the comparison of smoothed and sharp sums in 10.1, complete multiplicativity in
 11.1, the `τ(n²)` series of 11.3, the waste-and-score framework of 13.1, the elementary Goldbach
 transfers and the derived ranges of 13.2) are lemmas on the way to these statements, or instances
-of them, and stay in the README.
+of them, and stay in the README. Hadamard's three-circles theorem of 8.2a is a general target of
+complex analysis, on which no statement here depends, and also stays in the README.
 -/
 
 namespace TauCetiRoadmap.AnalyticNumberTheoryPartIII

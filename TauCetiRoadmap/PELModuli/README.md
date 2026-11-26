@@ -2039,7 +2039,7 @@ maps (AlgebraicModuliForArithmeticGeometry §8.3, `FramedDeformation`, `familyVe
 For a larger geometric residue field, first make the specified coefficient base change and choose
 a `k`-rational lift on the base-changed chart; its completion is not identified with the original stalk.
 *Needs:* M1.7, M2.1; AbelianSchemesAndArithmeticModuli A4.7; AlgebraicModuliForArithmeticGeometry
-Layer 8; SchemeAndStackFoundations §§4.2, 4.4 and 4.6 (`ArtinLocalAlg`, Schlessinger's theorem, deformations of smooth schemes and line bundles); TauCetiRoadmap.ModularCurves §7D.
+Layer 8; SchemeAndStackFoundations §§4.2, 4.3, 4.4 and 4.6 (`ArtinLocalAlg`, deformation functors and their tangent spaces, Schlessinger's theorem, deformations of smooth schemes and line bundles); TauCetiRoadmap.ModularCurves §7D.
 
 **Checks.**
 

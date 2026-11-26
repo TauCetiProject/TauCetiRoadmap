@@ -58,7 +58,7 @@ open scoped TensorProduct DirectSum
 /-- **The Specht sign-transpose isomorphism** `S^λ ⊗ sgn_n ≅ S^{λᵗ}` in `FDRep ℚ (Perm (Fin n))`,
 with `sgn_n` the one-dimensional sign representation (Fulton–Harris, Lecture 4, Exercise 4.4;
 James, Chapter 4 and Theorem 8.15). -/
-theorem spechtModule_tensor_sign_iso {n : ℕ} (μ : n.Partition) :
+theorem nonempty_spechtModule_tensor_sign_iso {n : ℕ} (μ : n.Partition) :
     Nonempty (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule (R := ℚ) μ)
         (FDRep.ofLinearCharacter (TauCeti.signLinearCharacter ℚ (Fin n)))
       ≅ TauCeti.spechtModule (R := ℚ) μ.conjugate) := sorry
@@ -88,20 +88,20 @@ noncomputable def inducedSpecht {a b : ℕ} (lam : a.Partition) (mu : b.Partitio
 
 /-- Transposing the two inducing shapes and the output shape preserves the induced Specht
 multiplicity space (James, Theorem 16.4; the sign projection formula). -/
-theorem inducedSpechtTranspose {a b : ℕ} (lam : a.Partition) (mu : b.Partition)
+theorem nonempty_inducedSpecht_transpose_equiv {a b : ℕ} (lam : a.Partition) (mu : b.Partition)
     (nu : (a + b).Partition) :
     Nonempty (Representation.IntertwiningMap (TauCeti.spechtModule (R := ℚ) nu).ρ (inducedSpecht lam mu)
       ≃ₗ[ℚ] Representation.IntertwiningMap (TauCeti.spechtModule (R := ℚ) nu.conjugate).ρ
         (inducedSpecht lam.conjugate mu.conjugate)) := sorry
 
 /-- Transposing both factors of an internal Specht tensor product cancels the two sign twists. -/
-theorem kroneckerDoubleTranspose {n : ℕ} (lam mu : n.Partition) :
+theorem nonempty_kronecker_double_transpose_iso {n : ℕ} (lam mu : n.Partition) :
     Nonempty (MonoidalCategoryStruct.tensorObj
       (TauCeti.spechtModule (R := ℚ) lam.conjugate) (TauCeti.spechtModule (R := ℚ) mu.conjugate) ≅
       MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule (R := ℚ) lam) (TauCeti.spechtModule (R := ℚ) mu)) := sorry
 
 /-- Transposing one factor of an internal Specht tensor product twists the product by sign. -/
-theorem kroneckerSingleTranspose {n : ℕ} (lam mu : n.Partition) :
+theorem nonempty_kronecker_single_transpose_iso {n : ℕ} (lam mu : n.Partition) :
     Nonempty (MonoidalCategoryStruct.tensorObj
       (TauCeti.spechtModule (R := ℚ) lam.conjugate) (TauCeti.spechtModule (R := ℚ) mu) ≅
       MonoidalCategoryStruct.tensorObj

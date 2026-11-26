@@ -492,6 +492,52 @@ has mean `M − Re a₀`; then sum
 *Needs:* Mathlib power series of holomorphic functions on a disc, `circleIntegral`,
 `Complex.borelCaratheodory` (the case `k = 0` is its value form).
 
+### 8.2a Hadamard's three-circles theorem
+
+Let `0 < R₁ < R₃`, and let `f` be continuous on the closed annulus `R₁ ≤ |z − z₀| ≤ R₃` and
+holomorphic on the open annulus (Mathlib's `DiffContOnCl` on `{z | R₁ < ‖z − z₀‖ < R₃}`). For
+`R₁ ≤ R ≤ R₃` let `M_f(R)` be the supremum of `|f|` on the circle `sphere z₀ R`. Then for every
+`R₂ ∈ [R₁, R₃]`,
+`M_f(R₂) ≤ M_f(R₁)^{1 − θ} M_f(R₃)^θ` with `θ = log(R₂/R₁)/log(R₃/R₁)`. If `f` does not vanish
+identically on the closed annulus, `M_f` is positive on `[R₁, R₃]` and `log M_f(R)` is a convex
+function of `log R` there. This is Hadamard's three-circles theorem (robinson1944, the theorem of its
+title; titchmarsh1986, Chapter XIV, where it is used with Borel–Carathéodory).
+
+Route: Mathlib's three-lines theorem
+`Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'` applied to
+`F(w) = f(z₀ + exp w)` on the strip `log R₁ ≤ Re w ≤ log R₃`. `w ↦ z₀ + exp w` maps the open strip
+into the open annulus and the closed strip onto the closed annulus, so `F` is continuous on the
+closed strip and holomorphic inside; it is bounded, `f` being continuous on the compact closed
+annulus (`IsCompact.exists_bound_of_continuousOn`); and its supremum on the line `Re w = log R` is
+`M_f(R)`. At `Re w = log R₂` the interpolation exponent `(Re w − log R₁)/(log R₃ − log R₁)` is `θ`.
+For the convexity, apply the inequality on every closed sub-annulus `a ≤ |z − z₀| ≤ c`,
+`R₁ ≤ a < c ≤ R₃`, where `f` satisfies the same hypotheses. `M_f` is positive on `[R₁, R₃]` when
+`f` has a nonzero value on the closed annulus: if `M_f(R) = 0`, then for `R₁ < R < R₃` the function,
+holomorphic on the connected open annulus and zero on a circle in it, vanishes there by the
+identity theorem, and for `R = R₁` or `R = R₃` the inequality gives `M_f = 0` on every circle in
+between; in both cases `f` vanishes on the open annulus, hence by continuity on the closed one.
+Values of `f` off the annulus play no part.
+
+**Checks.**
+
+- `f z = z − z₀`: `M_f(R) = R`, and at `R₁, R₂, R₃ = 1, 2, 4` the exponent is `θ = 1/2` and the
+  inequality is the equality `2 = 1^{1/2} 4^{1/2}`.
+- `f z = (z − z₀)⁻¹`, holomorphic on the annulus and not on the disc: `M_f(R) = 1/R`, and
+  `M_f(R₁)^{1 − θ} M_f(R₃)^θ = exp(−(1 − θ) log R₁ − θ log R₃) = 1/R₂`, equality at every triple. A
+  statement for functions holomorphic on the disc would exclude it, and every `(z − z₀)^k` with
+  `k < 0`.
+- With the exponent interpolated linearly in `R`, `(R₂ − R₁)/(R₃ − R₁) = 1/3` at `1, 2, 4`, the
+  same `f z = z − z₀` would need `2 ≤ 4^{1/3} ≈ 1.587`, which is false: the convexity is in
+  `log R`.
+- For `f = 0`, `M_f = 0` and the inequality holds, while `log M_f` is not a real function: the
+  convexity clause needs `f` not identically zero on the annulus. Nonvanishing elsewhere does not
+  suffice: the function equal to `0` on the closed annulus and to `1` at `z₀` satisfies the
+  hypotheses, is not the zero function, and has `M_f = 0` on `[R₁, R₃]`.
+
+*Needs:* Mathlib `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`,
+`IsCompact.exists_bound_of_continuousOn`, `DiffContOnCl`, and the identity theorem for holomorphic
+functions on a connected open set.
+
 ### 8.3 Landau's local logarithmic-derivative lemma
 
 Fix `0 < r₁ < r₂ < 1`. There is `C = C(r₁, r₂)` such that: if `R > 0`, `f` is holomorphic on a
@@ -538,7 +584,8 @@ bound its real part above by `M + O(M)`, and apply 8.2 with `k = 1`.
 
 ### Dependencies
 
-Mathlib complex analysis (Cauchy, power series, Borel–Carathéodory, Jensen, circle integrals on
+Mathlib complex analysis (Cauchy, power series, Borel–Carathéodory, the three-lines theorem,
+Jensen, circle integrals on
 annuli, improper integrals on half-lines); Tau Ceti residues and the residue theorem for
 null-homologous curves; ZerosOfLFunctions §§4.3 and 7.1; ContourIntegration Layers 2–4.
 
@@ -1299,7 +1346,8 @@ Examples.
   analysis for every consumer that sums an arithmetic function against a compactly supported or
   sharp weight.
 - The rectangle theorems 8.1–8.1a, the L-shaped contour shift 8.1b, the derivative form of
-  Borel–Carathéodory 8.2 and Landau's lemma 8.3 are general complex analysis for any consumer.
+  Borel–Carathéodory 8.2, Hadamard's three-circles theorem 8.2a and Landau's lemma 8.3 are general
+  complex analysis for any consumer.
 - The series and abscissas of Layer 11 serve every consumer that averages the classical
   arithmetic functions by contour integration, and 12.1 every consumer that upgrades Cesàro
   convergence to convergence.
@@ -1335,7 +1383,9 @@ objects.
   identity that follows; the same edge expression as a sum of circle integrals about finitely many
   arbitrary isolated singularities; the shift of a segment `[1, 1 + iT]` onto an L-shaped contour
   running to `Re s = −∞`; Carathéodory's coefficient inequality and the derivative form of
-  Borel–Carathéodory; Landau's local logarithmic-derivative lemma for an arbitrary holomorphic
+  Borel–Carathéodory; Hadamard's three-circles theorem on an annulus, with the convexity of the
+  logarithm of the maximum modulus in `log R`; Landau's local logarithmic-derivative lemma for an
+  arbitrary holomorphic
   function on a disc. ZerosOfLFunctions §7.2 is the argument principle on its rectangle curve
   *rectBoundary*, an identity for `f′/f`; 8.1 differs in treating a general meromorphic `f` and
   in Mathlib's four-edge expression. Part I §0.30a proves the `ζ` and conductor-uniform Dirichlet
@@ -1384,7 +1434,8 @@ objects.
 
 ### Consumed, not redefined
 
-- Mathlib: the value form of Borel–Carathéodory (`Complex.borelCaratheodory`); Mellin inversion
+- Mathlib: the value form of Borel–Carathéodory (`Complex.borelCaratheodory`); the three-lines
+  theorem (`Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`); Mellin inversion
   for transforms integrable on the line (`mellinInv_mellin_eq`); `𝓜 1_(0,1] = 1/s`
   (`hasMellin_one_Ioc`); the smooth Fourier decay `(1 + u²)‖𝓕f(u)‖ ≤ ‖f‖₁ + ‖f″‖₁/(4π²)` for `C²`
   functions with integrable derivatives (`Real.one_add_sq_mul_norm_fourier_le`); the Euler products
@@ -1446,7 +1497,7 @@ objects.
 - The sine integral `Si` as an entire function, with its continuation, asymptotics and Gibbs
   phenomenon: SpecialFunctionsEiLiErfIncompleteGamma Layer 9. 7.2 here states only two uniform
   bounds on the real truncated Dirichlet integral, without defining a function.
-- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators T1.
+- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators §1.2.
 - The Laplace carrier `HasLaplace` and Delange's theorem: ArithmeticDirichletSeriesPartII §0.1 and
   §3.2. Layer 7 works with Mathlib's Fourier carrier and needs neither.
 
@@ -1481,6 +1532,12 @@ objects.
   differentiable on `‖z‖ < R` with `Re f ≤ M`, `0 < M`, the bound
   `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)`); `AnalyticOnNhd.sum_divisor_le` (Jensen,
   `Mathlib/Analysis/Complex/JensenFormula.lean`).
+- `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`
+  (`Mathlib/Analysis/Complex/Hadamard.lean`: for `l < u` and `f` with `DiffContOnCl ℂ f` on the open
+  strip `l < Re z < u`, bounded on the closed strip, with `‖f z‖ ≤ a` on `Re z = l` and `‖f z‖ ≤ b`
+  on `Re z = u`, the bound `‖f z‖ ≤ a^{1 − t} b^t`, `t = (Re z − l)/(u − l)`, on the closed strip);
+  `DiffContOnCl`; `IsCompact.exists_bound_of_continuousOn`; the identity theorem for analytic
+  functions on a preconnected open set (8.2a).
 - `riemannZeta`, `LSeries`, `LSeriesSummable`, `LSeriesHasSum`, `LSeries.term`,
   `LSeries.abscissaOfAbsConv` (an `EReal`), `ArithmeticFunction.LSeries_zeta_eq_riemannZeta`,
   `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `LSeries_convolution'`,
@@ -1651,8 +1708,8 @@ the roadmaps named in this section.
   6.12.5–6.12.8, §6.16.
 - `montgomeryvaughan2007`: H. L. Montgomery, R. C. Vaughan, *Multiplicative Number Theory I*,
   Chapters 5–6 (cited by locator).
-- `titchmarsh1986`: E. C. Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., Chapters I
-  and III (cited by locator).
+- `titchmarsh1986`: E. C. Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., Chapters I,
+  III and XIV (cited by locator).
 - `iwanieckowalski2004`: H. Iwaniec, E. Kowalski, *Analytic Number Theory*, (1.25), (1.28)–(1.33),
   (1.35), Chapter 5 (cited by locator).
 - `tenenbaum2015`: G. Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory*, 3rd ed.,
@@ -1667,6 +1724,8 @@ the roadmaps named in this section.
 - `brown1967`: J. L. Brown, Jr., *On the error in reconstructing a non-bandlimited function by
   means of the bandpass sampling theorem*, J. Math. Anal. Appl. 18 (1967), 75–84,
   doi:10.1016/0022-247X(67)90183-7, Theorem 1 (cited by locator).
+- `robinson1944`: R. M. Robinson, *Hadamard's three circles theorem*, Bull. Amer. Math. Soc. 50
+  (1944), 795–802, doi:10.1090/S0002-9904-1944-08205-0, the theorem of the title (cited by locator).
 - `ieantn-brown1967`, `ieantn-contourintegration`, `ieantn-ch2v4`, `ieantn-erdos392`,
   `ieantn-goldbach` and `ieantn-goldbach-vocabulary`: T. Tao and contributors, *IEANTN: Integrated
   Explicit Analytic Number Theory Network*, Lean formalization project (Apache-2.0),

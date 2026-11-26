@@ -47,9 +47,10 @@ isomorphism of representations and a finite biproduct (Layer 3a) and as a charac
 (Layer 3b). Layer 4 is the Hom-space decomposition, intertwining numbers and Mackey's
 irreducibility criterion, with a simple induced representation over ℝ for which the criterion's
 disjointness condition fails. Layer 5 is Clifford theory over every field; Layer 6 the
-virtual-character ring, the induction theorems of Artin and Brauer and the lattice over a field of
-characteristic zero; Layer 7 universal central extensions, projective representations, Schur
-multipliers, the scalar Clifford obstruction and division crossed systems.
+virtual-character ring, the induction theorems of Artin and Brauer, the lattice over a field of
+characteristic zero and Brauer's theorem in degree zero; Layer 7 universal central extensions,
+projective representations, Schur multipliers, the scalar Clifford obstruction and division
+crossed systems.
 
 ## Conventions
 
@@ -840,9 +841,10 @@ criterion does not enter the proofs of §§5.2–5.3.
 
 `G` is finite and `k` a field. The induction theorems are over an algebraically closed field of
 characteristic zero (`ℂ`, for instance); the description of the virtual-character lattice in §6.1
-is over any field of characteristic zero. This layer connects to the
-[character-theory roadmap](../CharacterTheory/README.md), whose virtual characters are the lattice
-built here.
+is over any field of characteristic zero, and Brauer's theorem in degree zero (§6.2) over any field
+of characteristic zero containing a primitive root of unity of order the exponent of `G`. This
+layer connects to the [character-theory roadmap](../CharacterTheory/README.md), whose virtual
+characters are the lattice built here.
 
 **The representation ring and the character map.** The representation ring `R(G)` of `FDRep k G`
 (classes of finite-dimensional representations, with sum the direct sum, product the tensor
@@ -946,6 +948,48 @@ Mathlib Maschke's theorem.
   `(1, 1, 1) + (2, 0, −1)`; the class function `(1, 0, 0)` is not in the lattice, although six times
   it, the regular character, is.
 
+### 6.2 Brauer's theorem in degree zero
+
+Let `G` be finite, `e` its exponent, and `k` a field of characteristic zero containing a primitive
+`e`-th root of unity (`ℚ(ζ_e)`, or an algebraically closed field of characteristic zero such as
+`ℂ`). Prove that for a finite-dimensional representation `ρ` of `G` over `k` the virtual character
+`tr ρ − dim ρ`, of degree zero, is an integral combination of differences `Ind_H^G χ − Ind_H^G 1`,
+with `H` an elementary subgroup of `G` (Layer 6, `TauCeti.IsElementary`) and `χ` a linear character
+of `H` with values in `kˣ`. In the notation of Layer 6: for `V : FDRep k G`, the class function
+`V.character − finrank k V` (the second term constant) lies in the `ℤ`-span of the class functions
+`indClassFun χ − indClassFun 1`, over the elementary subgroups `H ≤ G` and the homomorphisms
+`χ : H →* kˣ`. This is Deligne's form of Brauer's induction theorem (Deligne, Proposition 1.5 and
+Scholie 1.6, p. 510).
+*Route.* Over an algebraically closed `k`, Deligne's: Brauer's induction theorem for the trivial
+representation, with the projection formula (Layer 0) and transitivity of induction, reduces the
+statement to elementary groups; an irreducible representation of an elementary group is induced
+from a linear character of a subgroup, which then contains the centre; and an induction on the
+order, through the quotient by the centre, concludes. On the way prove the compatibility of
+induction with inflation along `G → G/Z` for subgroups containing the centre `Z` (the inflation is
+Mathlib's `Rep.res` along `QuotientGroup.mk' Z`). For general `k`, extend scalars to an algebraic
+closure `k̄`, where the character of `k̄ ⊗ V` is the image of that of `V`: a linear character of a
+subgroup of `G` takes its values in the `e`-th roots of unity of `k̄`, which are the images of those
+of `k`, and `k → k̄` is injective and commutes with induction of class functions, so the identity
+over `k̄` gives the one over `k`.
+*Needs:* Layer 6's Brauer induction theorem, the elementary-subgroup predicates,
+`Subgroup.indClassFun` and the virtual-character lattice; Layer 0's projection formula and
+transitivity of induction; Layer 2's induced characters; Tau Ceti `TauCeti.IsElementary.subgroup`
+(elementarity passes to subgroups), `TauCeti.IsElementary.isNilpotent`,
+`FDRep.exists_character_eq_indClassFun_of_isNilpotent` (monomiality of finite nilpotent groups)
+and `FDRep.character_baseChange` (the character of a scalar extension); Mathlib `Rep.res`,
+`QuotientGroup.mk'` and `AlgebraicClosure`.
+
+**Checks.**
+- On `S₃`, with values on the classes of `1`, the transpositions and the 3-cycles, and `ω` a linear
+  character of order 3 of `A₃`, the character `ψ = (2, 0, −1)` of the two-dimensional simple
+  representation gives `ψ − 2 = (0, −2, −3)`, which is
+  `Ind_{A₃}(ω − 1) + Ind_{⟨(1 2)⟩}(sign − 1) = (0, 0, −3) + (0, −2, 0)`.
+- The hypothesis on roots of unity cannot be dropped. Over `ℚ`, which has no primitive cube root of
+  unity, `ψ` is still the character of a representation of `S₃`, but the only linear characters
+  over `ℚ` of the elementary subgroups `1`, `⟨(1 2)⟩` and its conjugates, and `A₃` are the trivial
+  ones and the signs of the subgroups of order 2; every difference `Ind_H^G χ − Ind_H^G 1` is then
+  `0` or `(0, −2, 0)`, which vanish on the 3-cycles, where `ψ − 2` is `−3`.
+
 ### Examples
 
 - For `C₃` over `ℚ`, which does not split it, the lattice is spanned by `1` and the character
@@ -957,7 +1001,11 @@ Mathlib Maschke's theorem.
 Layer 2's induced-character formula, to define induction on `R(G)`, and Layer 0's projection
 formula, for the `R(G)`-module structure; Tau Ceti's virtual-character lattice, representation
 ring and linear independence of characters; Mathlib's Maschke theorem. The cyclotomic splitting
-field rests on character fields and Schur indices, not on Brauer induction alone.
+field rests on character fields and Schur indices, not on Brauer induction alone. §6.2 needs
+Brauer's induction theorem and the elementary-subgroup predicates above, Layer 0's projection
+formula and transitivity of induction, Layer 2's induced characters, and Tau Ceti's closure of
+elementarity under subgroups, nilpotence of elementary groups, monomiality of finite nilpotent
+groups and characters of scalar extensions.
 
 ## Layer 7: projective representations, factor sets, and the Schur multiplier
 
@@ -1416,7 +1464,8 @@ generator formulas of induction in stages (§0.1); the restriction and quotient-
 decomposition, the change of double-coset representative, the conjugate-representation form of
 disjointness and the real `Q₈` example (§§4.1–4.4); the isotypic decomposition in `FDRep`,
 Clifford's theorem over every field and the Clifford correspondence over every field (§§5.1–5.3);
-the virtual-character lattice over a field of characteristic zero (§6.1); abstract universal
+the virtual-character lattice over a field of characteristic zero (§6.1); Brauer's theorem in
+degree zero (§6.2); abstract universal
 central extensions (§7.1); the class of a homomorphism to `PGL` and coordinates on the twisted group
 algebra (§§7.2–7.3); the scalar Clifford obstruction over an arbitrary field (§7.5); and the
 operator presentation and equivalence of division crossed systems, the isotypic-category
@@ -1466,7 +1515,8 @@ minimal degree is made.
   `Subgroup.subgroupOfEquivOfLe`, `Subgroup.inclusion`, `MulAut.conj` with
   `Subgroup.Normal.conj_smul_eq_self`, `DoubleCoset.Quotient`, `DoubleCoset.mk`, `Group.IsPerfect`,
   `FreeGroup`, `FreeGroup.prod`, `commutator`, `Subgroup.center`, `QuotientGroup.lift`,
-  `QuotientGroup.ker_lift`, `GroupExtension`, `QuaternionGroup`, `DihedralGroup`, `Quaternion`.
+  `QuotientGroup.ker_lift`, `QuotientGroup.mk'`, `GroupExtension`, `QuaternionGroup`,
+  `DihedralGroup`, `Quaternion`.
 - *Cohomology and projective linear groups*: `groupCohomology.cocycles₂`,
   `groupCohomology.IsMulCocycle₂`, `groupCohomology.cocyclesOfIsMulCocycle₂`,
   `groupCohomology.H2`, `Rep.ofMulDistribMulAction`, `Matrix.ProjGenLinGroup`.
@@ -1483,7 +1533,7 @@ minimal degree is made.
   `groupCohomology.H2π`, `groupCohomology.coboundaries₂`, `groupCohomology.IsMulCoboundary₂`,
   `Matrix.ProjGenLinGroup.mk`, `Equiv.Perm.cycleType` (which omits fixed points),
   `Equiv.Perm.isConj_iff_cycleType_eq`, `LinearEquiv.charpoly_conj`, `MulAction.toPermHom`,
-  `Fintype.equivFinOfCardEq`.
+  `Fintype.equivFinOfCardEq`, `AlgebraicClosure`.
 
 ### From Tau Ceti
 
@@ -1523,7 +1573,13 @@ consume the following.
 - *Layer 6* (`RepresentationTheory/CharacterTable/`, `RepresentationTheory/RepresentationRing/`):
   `TauCeti.irreducibleCharacters`, `TauCeti.irreducibleCharacters_subset_range` and
   `TauCeti.ClassFunction.linearIndependent_character_fdRep` (algebraically closed, invertible
-  `|G|`).
+  `|G|`); for §6.2, `TauCeti.IsElementary.subgroup` and `TauCeti.IsElementary.isNilpotent`
+  (`GroupTheory/Elementary.lean`, elementarity passes to subgroups and a finite elementary group is
+  nilpotent), `FDRep.exists_character_eq_indClassFun_of_isNilpotent`
+  (`RepresentationTheory/Induction/Monomial.lean`, monomiality of finite nilpotent groups:
+  algebraically closed, characteristic zero, `W` simple) and `FDRep.character_baseChange`
+  (`RepresentationTheory/BaseChange.lean`, the character of a scalar extension is the image of the
+  character; both fields in one universe).
 - *Layer 7*: `TauCeti.trivialMulDistribMulAction`; `TauCeti.FactorSet`,
   `TauCeti.FactorSet.cohomologyClass_eq_iff`;
   `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` and
@@ -1553,6 +1609,9 @@ consume the following.
   Mackey irreducibility criterion (§7.4). Part II, §§9–12 (the ring `R(G)` and Artin's theorem
   in Ch. 9, Brauer's theorem in Ch. 10, Brauer's characterization of characters in §11.1,
   realizability over cyclotomic fields in §12.3), for Layer 6.
+- P. Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in *Modular Functions
+  of One Variable II*, Springer Lecture Notes in Math. 349 (1973), 501–597. Proposition 1.5 and
+  Scholie 1.6, p. 510 (Brauer's theorem in degree zero, with `H` elementary), for §6.2.
 - I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976), reprinted as AMS
   Chelsea Publishing vol. 359. Ch. 5 (induced characters, Frobenius reciprocity), Ch. 6 (Clifford
   theory, the inertia group, the Clifford correspondence), and Ch. 11 (projective

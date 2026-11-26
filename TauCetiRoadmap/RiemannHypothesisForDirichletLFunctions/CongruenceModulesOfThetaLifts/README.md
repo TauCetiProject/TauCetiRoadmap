@@ -31,7 +31,8 @@ chain, the levels, the twisting data and the model lifts with their good labels;
 BaseChangeAndGaloisRepresentationsForUnitaryGroups and AutomorphicGaloisRepresentationsPartII for the Galois
 representations of definite unitary groups and their local behaviour; on SelmerLengthBoundsAndLocalLifting and
 LengthBoundsInPadicFamilies for twist selection, the local lifting theorems with loss and the Ribet-type bounds with
-defects; and on UniformWildKernelBounds, whose budget bound gives the wild-kernel budget on the host fields of the chain.
+defects; on PadicHodgeRegulators, whose §1.5 states the dimension formula of Bloch and Kato, of which the dimension
+bounds of 7.7d are a corollary; and on UniformWildKernelBounds, whose budget bound gives the wild-kernel budget on the host fields of the chain.
 Its total bound and its lattice statements are used by GluedTargetAndDivisionInequality and
 ThetaChainsAndFrobeniusPrimeSums.
 
@@ -189,6 +190,21 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. Every target 7.1–7.16a carries both labels. The first
+sentence of 7.4 (8), the forms of (Row) and (TB) in 7.7b named there and the place-dependent form of 7.7b (ii), the
+bound `4R` on the places of `Q` in 7.8 (2) and their splitting in `𝒢_M`, and the bound for the positive part in 7.15 (b)
+are this roadmap's own formulations; [FormalProof] has the forms recorded with them.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 7: Congruence modules, twisting and weight elimination
 
 The lattice projected from the integral forms on a definite group `U(V_j)` onto the lifted subspace has a covolume that
@@ -253,6 +269,19 @@ invariant of the twist theorem.
 
 ### 7.1 Congruence lengths of a step
 
+*Origin:* adapted from Hida (1981, 1986): the module of congruences of a Hecke algebra, acting on itself, along the
+decomposition into the factor of a set of eigensystems and the rest (PadicFamilies §1.7a); here, for the lattices of
+forms on `U(V_j)` as modules over their Hecke algebra, the congruence length `η_j(𝔭)` between the lifted eigensystems
+and the others, with its bound through multiplicities and congruence ideals relative to the cuts by the idempotent `e₀`
+and by the label tuples at the two type primes, and its level parts.
+
+*Method of the formal proof:* `|G₀|·e₀` is written as a sum over the good label tuples of products of series idempotents
+at the type places, a central element with integral coefficients, which acts on the lattice and commutes with the Hecke
+algebra; a series idempotent is nonzero on a form only if its label is the label of the parameter of the form at that
+place, read off the eigenvalues of tame inertia, so the element acts by `|G₀|` on `V_x` for `x ∈ Z_good` and by `0` for
+`x ∈ Z ∖ Z_good`, and the endomorphism index bound gives the inequality; the cut by a label tuple is the same
+construction for the tuple of `π`.
+
 *Definition.* For a twisted place `𝔭 | ℓ` and a step `j`,
 
 `η_j(𝔭) := Σ_𝔪 η_{Z_good ∩ X_𝔪}(M_j(𝔭)_𝔪)`,
@@ -306,7 +335,7 @@ vanishing at its points there, with the same value at `π`; so the ideal formed 
 *Check.* For `𝕋 = M = {(a, b) ∈ O² : a ≡ b (mod ℓ^n)}` acting on itself and `Z_good` the first point, `η = n`; if
 `M = (M ∩ V_good) ⊕ (M ∩ V_good^c)`, then `η = 0`.
 
-*NEW* (instance), *KNOWN* in kind (Hida; Ribet). The definition and (2): [FormalProof],
+*Sources:* (Hida; Ribet). The definition and (2): [FormalProof],
 `Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.adm1`),
 `Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean` (`Formalism.MainNotions.N.KillingConditions.CommutingEndomorphismCondition`);
 in the route of (2), the series idempotent of a label vanishes on the forms of a parameter with another label at the place:
@@ -324,6 +353,16 @@ the definition as a sum over the maximal ideals, and (1): follows from [FormalPr
 AutomorphicLFunctionsAndLocalFactors AL.3.7.2; FiniteReductiveGroups §§5.7, 6.3; AutomorphicFormsOnReductiveGroups §7.5.
 
 ### 7.4 Hecke–Galois families on definite unitary groups
+
+*Origin:* adapted from Chenevier and Harris (2013), the Galois representations of regular algebraic polarised cuspidal
+representations over CM fields, with local-global compatibility by Caraiani (2012): here assembled over the weak base
+change into a `𝕋`-valued determinant on the definite groups of the chain, with the local behaviour at the type places
+(7) and at the twist places (8); the first sentence of (8) is this roadmap's own formulation.
+
+*Method of the formal proof:* the family of Galois representations is obtained from the representations attached to
+the cuspidal constituents of the weak base change, made into a determinant with values in the Hecke algebra by the
+density of Frobenius elements, with the local behaviour at the type and twist places read off depth-zero local
+components.
 
 For a step `j` and a twisted place `𝔭 | ℓ`, let `𝕋`, `X` be as in the
 notation of this layer. For every `x ∈ X` there is a continuous semisimple `r_x : G_E → GL_{r+t}(K̄_O)`, the Galois
@@ -379,9 +418,12 @@ AG2.3 *Determinant interpolation on the definite family* is the form of the dete
 7.4 is the more general statement, for the hosts, the primes and the type and parahoric levels of the chain.
 
 *Route.* The weak base change writes `Π` as an isobaric sum of Speh blocks of conjugate self-dual cuspidal
-representations; the Galois representations of definite unitary groups (BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1) attach and sum
-their Galois representations, and gives (1) at the unramified places, de Rham with the labelled weights and crystalline
-where `BC(Π)_w` is unramified. Since `𝕋` is generated by Hecke operators at split places and the Frobenius elements of
+representations; the Galois representations of definite unitary groups
+(BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1, whose setting contains the groups of the chain: `E/F` is
+unramified at every finite place and `V_j = E^{r+t}` has the standard positive form,
+ThetaChainsOnDefiniteUnitaryGroups, introduction of Layer 2, and §2.2) attach and sum their Galois representations, and
+give (1) at the split places `w ∤ ℓ` at which `Π` is unramified and, when `Π` is unramified at every place above `ℓ`,
+crystalline at every `w | ℓ` with the labelled weights. Since `𝕋` is generated by Hecke operators at split places and the Frobenius elements of
 these places are dense (Chebotarev; ArithmeticGaloisRepresentations §5.1), the characteristic coefficients are polynomials in
 those operators, which makes the family a determinant in Chenevier's sense (IntegralHeckeAndGaloisDeterminants §5.1
 *Determinant from a quantified Hecke comparison*, with `J = 0` and the Frobenius elements of the split places as the dense
@@ -392,9 +434,9 @@ the local components have depth zero, so their parameters are tame (BaseChangeAn
 parameter of an irreducible representation is trivial on wild inertia exactly when the representation has depth zero, in every rank)
 and every irreducible constituent is induced from a tame character of an unramified extension (Clifford theory); the
 matching of the weak base change at split places is EndoscopicTransferAndUnitaryTraceComparison §6.29. The explicit
-inertial type in terms of labels (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2) is not used here; 7.9 uses it. The first half of (4): `BC(Π)_w` is unramified at `w | ℓ` because `ℓ`
-is not a type prime, the auxiliary prime of `ℓ` is not `ℓ`, and `Q(ψ_𝔭)` has no place above `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.5). (5) is the weight
-symmetry (BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.2). (6) is the Jacquet–Shalika bound for unitary generic local components (AutomorphicLFunctionsAndLocalFactors
+inertial type in terms of labels (BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2) is not used here; 7.9 uses it. The first half of (4): `Π` is unramified at every place above `ℓ`, because `ℓ`
+is not a type prime, the auxiliary prime of `ℓ` is not `ℓ`, and `Q(ψ_𝔭)` has no place above `ℓ` (ThetaChainsOnDefiniteUnitaryGroups §2.5), so §16.1 gives the crystalline representation with the labelled weights. (5) is the weight
+symmetry (BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.2). (6) is the Jacquet–Shalika bound for unitary generic unramified local components (AutomorphicLFunctionsAndLocalFactors
 AL.3.3.8), which replaces every use of purity. (7) At a split type place `U(V_j)(F_v) ≅ GL_{r+t}(ℚ_{g_v})` and
 `BC(Π)_w = Π_v` (EndoscopicTransferAndUnitaryTraceComparison §6.29); `Π_v` has a vector of the level of ThetaChainsOnDefiniteUnitaryGroups §2.9a (upper left
 block `≡ 1` modulo `g_v`, the character `χ_{v,j}^{−1}(det of the t-block)`) on which the upper left block acts in the series
@@ -421,7 +463,7 @@ uniformizers to geometric Frobenius elements (Conventions), `β = BC(Π)_w(ϖ_w)
 the value `BC(Π)_w(ϖ_w)` at the geometric Frobenius of `w`, as the `ℓ`-adic characters of Hecke characters do in the
 Conventions; with uniformizers sent to arithmetic Frobenius elements the root would be `BC(Π)_w(ϖ_w)` itself.
 
-*KNOWN* (Labesse; Chenevier–Harris; Caraiani; Barnet-Lamb–Gee–Geraghty–Taylor). (1): [FormalProof],
+*Sources:* (Labesse; Chenevier–Harris; Caraiani; Barnet-Lamb–Gee–Geraghty–Taylor). (1): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.MainNotions.N.IsHeckeGalois`),
 `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.MainNotions.N.GoodR`),
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.G1`);
@@ -458,6 +500,17 @@ Chebotarev (Completed).
 
 ### 7.5 Lifted eigensystems
 
+*Origin:* adapted from Mínguez (2008): the explicit Howe correspondence for dual pairs of type II, which gives, place by
+place, the parameter of a theta lift at the split places of hyperspecial level; here the eigensystem of the lift of a
+good eigenform as that of `(Σ ⊞ μ_j(ξ_𝔭)[t]) ⊗ η̃^{−1}`, with its Galois representation, its twists, inertial types and
+Hodge–Tate weights (1), and the eigensystems of a localisation whose Galois representation contains `χ_1` (2).
+
+*Method of the formal proof:* for (1), the weak base change of the lift is taken first; at the split unramified places
+the local correspondence and the size bounds single out in it a block of length `t` with the Frobenius eigenvalues of
+`μ_j(ξ_𝔭)η̃^{−1}`, which is the block of that character by strong multiplicity one, and what remains, twisted by `η̃`,
+has rank `r` and the local parameters of `σ` at the good places: it is the parameter `Σ`. The route written here goes
+the other way, from the weak base change `Σ` of `σ` to the parameter of the lift.
+
 In the setting of 7.4 (`t > r`):
 1. The eigensystem of the lift `θ_j(ξ_𝔭)^*(σ)` of a good eigenform `σ ∈ 𝒞(W_j)` with weak base change `Σ` (rank `r`) is that
    of the parameter `(Σ ⊞ μ_j(ξ_𝔭)[t]) ⊗ η̃^{−1}` (`μ[t]` the Speh block of length `t`); it lies in `Z_good`; its Galois
@@ -488,7 +541,7 @@ have length `t` and the character to start it; the residual shape (an absolutely
 characters, all `x` in one localisation being congruent) forces the part containing `χ_1` to have rank one, and equal
 `ℓ`-adic characters come from equal algebraic Hecke characters. Neither temperedness nor the Hodge–Tate weights enter (2).
 
-*KNOWN* ingredients (Kudla–Rallis; Howe). (1): [FormalProof],
+*Sources:* ingredients (Mínguez; Howe). (1): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.Conclusion42`),
 `Formalism/SharpRestriction/LevelLetterCocycles/AdmissibleParameterJ.lean` (`Formalism.MainNotions.AdmissibleParameterJ.jcCondition`),
 and `Formalism/SharpRestriction/LevelLetterCocycles/PairedCharacterCondition.lean`
@@ -499,6 +552,21 @@ Hecke characters); BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1; En
 Chebotarev (Completed).
 
 ### 7.5a Nonvanishing of the descent
+
+*Origin:* adapted from Gan, Qiu and Takeda (2014), Theorem 7.3 (i), the first-term identity in complementary form,
+after Kudla and Rallis (1994) and Ichino (2004), and Yamana (2014), Theorem 10.1 (2), a pole of the standard
+`L`-function gives a nonzero theta lift to a space of complementary dimension; here, for an eigenform on the definite
+`U(V_j)` with the Satake string of the splitting character, the complementary residue through the doubling see-saw
+(a) (i), the archimedean nonvanishing for the compact `U(V_j)(F_v)` by Schur orthogonality with the joint vector
+(a) (ii), and the lift with the level vector of the model lift (b), with the local generation at the level places, every
+level place and every dyadic place being split.
+
+*Method of the formal proof:* if every theta lift to `U(W_j)` vanished, the doubling see-saw and the residue of the
+Siegel Eisenstein series of `W_j ⊥ ℍ^t` at `s = t/2` (a theta integral of the complementary space `W_j`) would make the
+residue of the doubling zeta integral vanish, while the zeta integral is the partial `L`-function, which has a simple
+pole there by the Satake string, times a nonzero constant coming from a test vector supported in the principal
+congruence subgroup at the level places; two generation statements, at the real and at the finite places, pass from
+some lift to the lift with the level vector.
 
 In the setting of 7.4, assume `t > r`, that every
 place of the level of ThetaChainsOnDefiniteUnitaryGroups §2.9 on `U(V_j)` splits in `E` and that every place of `F` above `2` splits in `E` (ThetaChainsOnDefiniteUnitaryGroups §2.2). Let `y ≠ 0` be
@@ -563,8 +631,8 @@ subgroups of `GL_r(𝔽_v)` fixing a hyperplane or acting trivially modulo a lin
 kill `y` because a good label has no root `χ_{v,j}^{±1}`. All level places and the dyadic places split in `E`, so no local
 theta dichotomy and no dyadic non-split Weil representation enters.
 
-*KNOWN* ingredients (Kudla–Rallis; Ichino; Gan–Qiu–Takeda, arXiv:1207.4709v3, Theorem 7.3 (i); Piatetski-Shapiro–Rallis),
-*NEW* statement (the local generation at the level places). (a) (i): follows from [FormalProof],
+*Sources:* ingredients (Kudla–Rallis; Ichino; Gan–Qiu–Takeda, arXiv:1207.4709v3, Theorem 7.3 (i); Piatetski-Shapiro–Rallis).
+(a) (i): follows from [FormalProof],
 `Development/WeilBound/RepresentationTheoryGL/RegularisedSiegelWeil/SingularNullSets/HasLevel.lean` (`PositivityTheory.Rg.Rsw.ResCore`),
 `Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/DoublingIntegralsVanishOfAllLiftsVanishStatement.lean` (`GlobalTheory.T.doubling_integrals_vanish_of_all_lifts_vanish`);
 (b): [FormalProof],
@@ -575,6 +643,14 @@ second-term range); ThetaKernelsForUnitaryDualPairs §§3.3b (a), 3.46 (iii); Ta
 AutomorphicLFunctionsAndLocalFactors AL.3.3.8.
 
 ### 7.5b The lift fills the eigenspaces
+
+*Origin:* particular to this proof: a dimension count from 7.5, 7.5a and the injectivity of the lift shows that the model
+lift maps the good forms on the smaller group isomorphically onto the lifted subspace, level by level.
+
+*Method of the formal proof:* a dimension count at each `x ∈ Z_good`: the lift is injective and maps the part of
+`𝒞(W_j)` with the parameter of `x` into `V_x`, the descent maps `V_x` into that part and is injective on it, so the two
+have the same dimension and the image is `V_x`; the statement for the good part and the equality of the multiplicities
+with `dim 𝒞(W_j)^{good}` follow from the injectivity of the lift and the independence of the eigenspaces.
 
 In the setting of 7.4 with `t > r` and the
 hypotheses of 7.5a: for `x ∈ Z_good` with rank-`r` part `Σ`,
@@ -591,13 +667,26 @@ parameter of a lift, 7.5(1), and strong multiplicity one, AutomorphicLFunctionsA
 has the string by 7.5(1) and is fixed by `e₀` by 7.1(2); so `dim V_x ≤ dim` of the part `= dim` of its image `≤ dim V_x`.
 Summing over `x ∈ Z_good` gives the rest.
 
-*NEW* (instance). Follows from [FormalProof],
+Follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.ConclusionZ`),
 `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.MainNotions.N.goodPartM`),
 `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.MainNotions.N.AtM`).
 *Needs:* 7.1, 7.5, 7.5a, RowTowerAndRallisIdentities §5.3, RowTowerAndRallisIdentities §5.7, RowTowerAndRallisIdentities §5.9; AutomorphicLFunctionsAndLocalFactors AL.3.7.2.
 
 ### 7.9 Irreducibility of the residual representations of good forms
+
+*Origin:* adapted from Khare, Larsen and Savin (2008) and Dieulefait and Wiese (2011), Proposition 6.1: irreducibility
+of the residual representations for every `ℓ` from tame types at suitably chosen primes; here at the two type primes,
+with local parameters that are sums of several induced tame characters, compared across several places, and with
+irreducibility kept on normal subgroups with solvable quotient.
+
+*Method of the formal proof:* tame inertia at a type place has `N` distinct eigenvalues, permuted by a Frobenius lift as
+raising to a power permutes the roots of the label, so an invariant subspace gives a factor of the label of its
+dimension at every type place, which the choice of the labels excludes; on a normal subgroup with solvable quotient the
+translates of an invariant subspace form a system of blocks, and a cycle of prime length `p > N/2` with Jordan's theorem
+forces irreducibility. Where the published device uses one place whose local parameter is irreducible, here no local
+parameter need be irreducible, and the conclusion comes from comparing the factorisation patterns of the labels at
+several places.
 
 *The tame labelled form fixed by a tame generator.* For a finite extension `F_v` of `ℚ_p` with residue field `𝔽_{q_v}`
 and a topological generator `ς` of its tame inertia group, the *tame labelled form fixed by `ς`* is the tame labelled form of
@@ -656,7 +745,7 @@ clause, and `H¹` by the local Euler characteristic. Residual representations wi
 same semisimplification (Chebotarev; ArithmeticGaloisRepresentations §§5.3, 1.8: recognition on a dense subset,
 Brauer–Nesbitt).
 
-*KNOWN* in kind (Bushnell–Kutzko; Henniart; Shintani; Jordan). (b): [FormalProof],
+*Sources:* (Bushnell–Kutzko; Henniart; Shintani; Jordan). (b): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/ResidualIrreducibleRankR.lean` (`Formalism.MainNotions.N.ResidualIrreducibleRankR`),
 `Formalism/SharpRestriction/LevelLetterCocycles/DataN.lean` (`Formalism.MainNotions.N.IsRhoBar`),
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.ConclusionG5`);
@@ -670,6 +759,17 @@ ClassFieldTheory §5.1 (local duality, Euler characteristic); ArithmeticGaloisRe
 
 ### 7.6 The local condition at `ℓ`
 
+*Origin:* particular to this proof: exact local conditions at `ℓ` for the lattices of the chain, whose Hodge–Tate
+weights lie far beyond `ℓ`, outside the Fontaine–Laffaille range, at primes above a threshold and outside an explicit
+exceptional set; nearest published result: Fontaine and Laffaille (1982), the exact condition for weights in an interval
+of length at most `ℓ − 2`.
+
+*Method of the formal proof:* at a prime above the threshold the weights of the chain (block, lows, cloud) are shown to
+be in position, the carries being bounded through a geometric series and the exceptional set being the primes that
+divide an integer of a window; the local theorem at `ℓ` for weights in position is then applied after an unramified
+enlargement of the coefficients, and its three conclusions descend back. It departs from the published argument, which
+needs the weights in the Fontaine–Laffaille range, by resting on that local theorem for weights in position.
+
 (a) *Position of the weights.* Let the chain weight datum satisfy the separation (W7)
 and the size conditions `SizeSep` of ThetaChainsOnDefiniteUnitaryGroups §2.3c with the threshold `ℓ*` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, put `σ⁺ := ⌊2b/ℓ*⌋`, and assume the size predicate
 `SizeThin` (defined here; the targets that use it carry it as a hypothesis): `x·r·(Sc + 2η_s + 2σ⁺ + t + x^ε + 4) ≤ m·w″` (`w″` of ThetaChainsOnDefiniteUnitaryGroups §2.1, the least base size of
@@ -681,8 +781,12 @@ from them, and the three uses here need `SizeThin` only.) For a step `j` and `τ
 Hodge–Tate weights of `χ_1^{−1}r_x` at `τ` (7.4(4), 7.5(1)) are the block `{0, …, t − 1}`, the `m` *lows*
 `(t − 1)/2 + w_j(τ) − e′_a(τ)` (`0 ≤ a < m`) and the `k − 1` *cloud weights* `(t − 1)/2 + w_j(τ) + v_a(τ)` (`0 ≤ a < k − 1`), and
 at `τ∘c` their images under `q ↦ t − 1 − q`. Let `Exc` be the set of primes `ℓ > ℓ*` dividing an integer `n` with
-`|n − W₀| ≤ Sc + 2η_s + 2σ⁺ + 4` for one of the base sizes `W₀` of ThetaChainsOnDefiniteUnitaryGroups §2.3b (`η_s` of ThetaChainsOnDefiniteUnitaryGroups §2.3c). Then
-`#Exc ≤ (|Φ_top| + 2)·(2Sc + 4η_s + 4σ⁺ + 9)`, every element of `Exc` is at most `3b`, and for every prime `ℓ > ℓ*` not in
+`W₀ − η_s − 2σ⁺ − 3 ≤ n ≤ W₀ + Sc + 2η_s + 2σ⁺ + 4` for one of the numbers `W₀ ∈ {b, w″} ∪ {a⁻_τ + ⌊b′/x⌋ : τ ∈ Φ_top}`: the
+base sizes of ThetaChainsOnDefiniteUnitaryGroups §2.3b, with the base size `a⁻_τ + b′/x` of a top place taken with the floor
+`⌊b′/x⌋`, as [FormalProof] takes it (`η_s` of ThetaChainsOnDefiniteUnitaryGroups §2.3c; assume that at a top place `τ` every
+step weight satisfies `w_j(τ) ≤ a⁻_τ + b′/x + η_s`, which the top window of ThetaChainsOnDefiniteUnitaryGroups §2.3b gives
+when `η_s := ϑ`). Then
+`#Exc ≤ (|Φ_top| + 2)·(Sc + 3η_s + t + 8b/ℓ* + 9)`, every element of `Exc` is at most `3b`, and for every prime `ℓ > ℓ*` not in
 `Exc` and not a type prime: `ℓ > t + 1`, `ℓ` is unramified in `E`, and at every place `w | ℓ` of `E` the following data are
 position data in position in the sense of WachLatticesOverTheCyclotomicTower §6.9. Index the embeddings `emb_i` of `E_w`
 by `i ∈ ℤ/n` as in WachLatticesOverTheCyclotomicTower §6.4 (in its setting: coefficients containing the images of the
@@ -697,12 +801,17 @@ character `χ_1` (cut out of a lattice in `⊕_x χ_1^{−1}r_x`), restricted to
 finite classes with torsion coefficients up to coboundaries; for the blocks `χ_cχ_1^{−1}`, `2 ≤ c ≤ t`, coboundaries; for
 the trivial block, unramified homomorphisms.
 
+*Remark.* The route gives the count `(|Φ_top| + 2)·(2Sc + 4η_s + 4σ⁺ + 9)`, which has no term in `t`, for the larger set of
+the primes `ℓ > ℓ*` dividing an integer `n` with `|n − W₀| ≤ Sc + 2η_s + 2σ⁺ + 4` for one of the same numbers `W₀`, and so for `Exc`:
+each of these windows contains at most `2Sc + 4η_s + 4σ⁺ + 9` integers. This form is this roadmap's own: [FormalProof]
+does not state it, and nothing later uses it.
+
 *Route.* (a) `ℓ > ℓ*` gives `ℓ > t + 1` (`SizeSep`: `t < ℓ*`) and `ℓ ∤ f_E` (every prime dividing `f_E` is `< ℓ*`, ThetaChainsOnDefiniteUnitaryGroups §2.3c).
 The Hodge–Tate multiset of `χ_1^{−1}r_x` is that of 7.4(4) for the coefficient weight of RowTowerAndRallisIdentities §5.7. (W7) and the bound `η_s` place every low at distance between `2b/ℓ* + t/2 + 3` and `η_s` from the centre of
-the block, which gives (P2) and (P4); the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b place the cloud within `Sc + η_s + 1` of a base size beyond the
-centre, so `h ≤ b + 2Sc + 2η_s + 3` and `σ_i ≤ h/(ℓ − 1) ≤ 2b/ℓ*` (the series `Σ_{j≥0} h/ℓ^{j+1}` sums to `h/(ℓ − 1)`) by the first size condition of ThetaChainsOnDefiniteUnitaryGroups §2.3c; (P3)
-is the second size condition; (P5) is `ℓ ∉ Exc`. The count: each window contains at most `2Sc + 4η_s + 4σ⁺ + 9` integers, all positive (`SizeThin` gives `Sc + 2η_s + 2σ⁺ + 4 < w″ ≤ W₀`) and at
-most `3b`; an integer `≤ 3b` has at most one prime factor `> ℓ*` because `ℓ*² > 8b` (ThetaChainsOnDefiniteUnitaryGroups §2.3c); there are `|Φ_top| + 2` base sizes.
+the block, which gives (P2) and (P4); the windows of ThetaChainsOnDefiniteUnitaryGroups §2.3b, and at a top place the bound `w_j(τ) ≤ a⁻_τ + b′/x + η_s`
+with `0 ≤ b′/x − ⌊b′/x⌋ < 1`, place the cloud within `Sc + η_s + 1` of a number `W₀` beyond the centre, so `h ≤ b + 2Sc + 2η_s + 3` and `σ_i ≤ h/(ℓ − 1) ≤ 2b/ℓ*` (the series `Σ_{j≥0} h/ℓ^{j+1}` sums to `h/(ℓ − 1)`) by the first size condition of ThetaChainsOnDefiniteUnitaryGroups §2.3c; (P3)
+is the second size condition; (P5) is `ℓ ∉ Exc`. The count: each window contains at most `Sc + 3η_s + 4σ⁺ + 8 ≤ Sc + 3η_s + t + 8b/ℓ* + 9` integers (`σ⁺ ≤ 2b/ℓ*`), all positive (`SizeThin` gives `Sc + 2η_s + 2σ⁺ + 4 < w″ ≤ W₀`) and at
+most `3b`; an integer `≤ 3b` has at most one prime factor `> ℓ*` because `ℓ*² > 8b` (ThetaChainsOnDefiniteUnitaryGroups §2.3c); there are at most `|Φ_top| + 2` numbers `W₀`.
 Without a positive lower end the window may contain `0`, which every prime divides: then (P5) fails at every prime. (b) The cut cocycles come from a lattice in `⊕_xχ_1^{−1}r_x` by the construction of the module `Y`
 there; every `r_x` is crystalline at `w` with the same Hodge–Tate weights and the same residual characteristic polynomial
 as `r_π` (7.4: all `x` are congruent in the localisation), so after an enlargement of the coefficients
@@ -716,11 +825,14 @@ from the enlarged coefficients.
 the Fontaine–Laffaille comparison of SelmerIwasawaCohomology §4.10. (ii) A datum with `e_i − e′_i = (t + 3)/2` satisfies
 (W1) and violates (W7): a low then lies at distance `2` from the block, (P4) fails at every `ℓ`, and (a) does not apply.
 
-*NEW* (the application beyond the Fontaine–Laffaille range). (a), the weights: [FormalProof],
+(a), the weights: [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/AdmissibleParameterJ.lean` (`Formalism.MainNotions.AdmissibleParameterJ.cloudJ`);
-(a), the set `Exc`: follows from [FormalProof],
+(a), the set `Exc`, its count and the bound `3b`: follows from [FormalProof],
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/BaseSizes.lean` (`GlobalTheory.IndefiniteRowSideFullHecke.BaseSizes.Exc`),
-`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.ExcOK`),
+`Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.ExcOK`), proved for
+`Exc` under the size conditions of [FormalProof] as
+`Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExcludedPrimesFewAndSmallAlongFamily.lean` (`GlobalTheory.NLink.ExcBound.excOK_at`),
+with the clause of defect `0` off `Exc` that 7.7c uses as
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.StarE`);
 (a), the position data off `Exc`: follows from [FormalProof],
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsLocalSlotDataOffExceptionalPrimesStatement.lean` (`GlobalTheory.T.exists_localPositionData_off_exceptional_primes`),
@@ -731,6 +843,18 @@ the Fontaine–Laffaille comparison of SelmerIwasawaCohomology §4.10. (ii) A da
 SelmerLengthBoundsAndLocalLifting §§4.9a, 4.10a; WachLatticesOverTheCyclotomicTower §§6.4, 6.9; LengthBoundsInPadicFamilies §1.8c.
 
 ### 7.7a The setting and the hypotheses of the Ribet-type bound
+
+*Origin:* adapted from Bellaïche and Chenevier (2009): the setting of a family whose distinguished point is residually
+reducible, here for the lifts `Σ ⊞ μ[t]`, with `t` Tate twists of one character, whose first line is isolated by an
+element `E` with `E² = δE` for an explicit non-unit `δ` in place of an idempotent.
+
+*Method of the formal proof:* a commutator of lifts of matrix units shows that the image of the algebra contains the
+matrix factor, and the idempotents are taken in the closure of the powers of an element of the span of the family whose
+value at the point is the prescribed projector, a compact semigroup containing an idempotent; the line of the first
+character is isolated by an element built from one inertia element above `ℓ`, corrected by a power of the uniformiser
+times an element vanishing at the point, over the splitting algebra of its characteristic polynomial. Where the
+published setting separates the character lines by idempotents, here the values of the characters at the chosen element
+may be congruent, and the loss is measured by the valuation of `δ`.
 
 *Setting for 7.7a–7.7d.* Let `𝔭 | ℓ` be a twisted place (`ℓ` any prime, the type
 primes included), `𝔪` a maximal ideal of `𝕋` containing a point `π ∈ Z_good` with `r_π ⊗ K_O ≅ ρ ⊕ χ_1 ⊕ ⋯ ⊕ χ_t` (7.5(1)),
@@ -801,7 +925,7 @@ needed: with `s = 0` two roots of `e_Br_x(g)e_B` may coincide at a point `x ≠ 
 then the extension `A′` has a double root over `x`, where the congruence ideal over `A′` no longer bounds that of `𝕋_𝔪`
 (LengthBoundsInPadicFamilies §1.8c, Check on (5)).
 
-*NEW* (the instance for the lifts `Σ ⊞ μ[t]`). The statement: follows from [FormalProof],
+The statement: follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.IdempotentChoiceProperties`),
 `Formalism/SharpRestriction/LevelLetterCocycles/SumRepresentations.lean` (`Formalism.MainNotions.SumRepresentations.At.inertia_props_of_idempotent_choice`);
 `v_δ`: [FormalProof],
@@ -810,6 +934,17 @@ then the extension `A′` has a double root over `x`, where the congruence ideal
 IntegralHeckeAndGaloisDeterminants §1.3; ArithmeticGaloisRepresentations §1.8.
 
 ### 7.7b The congruence ideal bounded by a Selmer group, with local defects
+
+*Origin:* adapted from Bellaïche and Chenevier (2009) and Urban (2001): the congruence ideal bounded by Selmer lengths
+through lattices in a family, here for the lifts `Σ ⊞ μ[t]` with `t + 1` blocks at once (a Selmer group, the class
+group and the groups `Ш¹(E, ℓ, e)`) and with explicit local defects where the condition above `ℓ` is not exact.
+
+*Method of the formal proof:* after conjugating the family so that the representation at the point is block diagonal,
+a display bounds the length of the quotient by the congruence ideal by lengths of the modules spanned by the cut
+cocycles of the blocks, and a Selmer inequality is applied whose hypotheses are local clauses at the column and row
+places (lifted finite classes with loss, colength of the dual lattice with the annihilators of Bloch and Kato, character
+blocks finite up to a power of `ℓ`). Where the published bounds assume exact local conditions above `ℓ`, here each
+inexact condition enters as an explicit defect term.
 
 In the setting of 7.7a, assume (R) and (L′), and let `E`, `δ`, `v_δ` be as
 there; let `Sel(W) ⊂ H¹(G_E, W ⊗ K_O/O)` be the classes that are Bloch–Kato finite above `ℓ`, unrestricted at
@@ -940,7 +1075,7 @@ AutomorphicCongruences §0.7 (on the lattice datum of AutomorphicCongruences §0
 characteristic ideal of the Selmer group of `ρ ⊗ χ^{−1}` is bounded below by a length cut out of the lattice and, under
 further hypotheses, by the Eisenstein ideal. It and 7.7b are two forms of one method; neither contains the other.
 
-*NEW* (the bound for the lifts `Σ ⊞ μ[t]`, with defects). (i): [FormalProof],
+(i): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean` (`Formalism.MainNotions.N.KillingConditions.localErrorBoundDecomposition`),
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/StarInequalityRowsADOfGlobalTheoremsStatement.lean` (`GlobalTheory.T.starInequality_rowsAD_of_global_theorems`);
 the inequality at a point, with its nine terms, is
@@ -957,6 +1092,17 @@ BernoulliBoundsForClassGroupEigenspaces §6.17; ClassFieldTheory §§5.1, 7.1, 8
 
 ### 7.7c Exact local conditions
 
+*Origin:* particular to this proof: the congruence bound for the `t + 1` blocks of the chain with exact local
+conditions at the large primes; nearest published result: Urban (2001), a congruence ideal bounded by a Selmer group
+with exact local conditions coming from ordinarity.
+
+*Method of the formal proof:* at a prime above the threshold and outside the exceptional set the local condition at
+every place above `ℓ` is exact, the element isolating the first character line is taken at an inertia element on which
+the cyclotomic character generates the units modulo `ℓ`, so that `δ` is a unit, and the unit case of the global
+congruence count bounds the congruence ideal by the Selmer length, the Tate–Shafarevich terms, the class number term and
+the tame term. It departs from the published unit-case bounds only through its inputs, which give exact local
+conditions for weights far beyond the Fontaine–Laffaille range.
+
 In the setting of 7.7a, under (R) and (L), if `ℓ > ℓ*` and
 `ℓ ∉ Exc` (7.6), the bound of 7.7b(i) holds with `Col = ∅`, `ν_w = 0`, `c_B = 0` and `v_δ = 0`:
 `v(c(π)) ≤ length Sel(W) + Σ_{0<e<t} length Ш¹(E, ℓ, e) + v_ℓ(h_E) + t·Σ_{v∈Q(ψ_𝔭)} v(χ_1(ς_v) − 1)`.
@@ -964,13 +1110,27 @@ In the setting of 7.7a, under (R) and (L), if `ℓ > ℓ*` and
 *Route.* 7.6(b) gives the exact conditions at every `w | ℓ`; with `v_δ = 0` (`ℓ > t + 1`, unramified in `E`, 7.6(a)) the
 coboundary terms vanish (LengthBoundsInPadicFamilies §1.8d(3): `δ(π′)` a unit).
 
-*NEW*. [FormalProof],
+[FormalProof],
 `Development/AbelianVarietyTheory/BlockTheory/NonGaloisCusps/BaseSizes.lean` (`GlobalTheory.IndefiniteRowSideFullHecke.BaseSizes.CongBound_at`),
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.StarE`),
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LocalBoundZeroAtLargePrimesOfCongruenceBoundStatement.lean` (`GlobalTheory.T.localBoundZeroAtLargePrimes_of_congruenceBound`).
 *Needs:* 7.6, 7.7a, 7.7b; LengthBoundsInPadicFamilies §1.8d(3).
 
 ### 7.7d Split primes
+
+*Origin:* adapted from Bloch and Kato (1990), Corollary 3.8.4: the dimension formula for the Bloch–Kato finite classes;
+here, at a prime split in `K`, the bounds `j_u ≤ n_u·m` and `dim H¹_f(E_ū, W^*(1)) ≤ n_u·m` for the weights of the chain,
+and the length `ν_ū` at the conjugate places from a lifting exponent `e′` and the torsion bound `h_ū`.
+
+*Method of the formal proof:* at a column place the cloud weights of `W` are positive, so the dimension formula of Bloch
+and Kato leaves only the `m` lows at each embedding and `j_u ≤ n_u·m`; at the conjugate place the same count bounds the
+rank of `H¹_f` of the lattice of `W^*(1)`; the cokernel of `H¹_f(T₁) → H¹_f(T)` then has length at most `e′` times this
+rank plus the length of the torsion, which is bounded by the invariants of `V/T`.
+
+*Corollary of:* PadicHodgeRegulators §1.5 (the dimension formula of Bloch and Kato: for a de Rham representation of the
+absolute Galois group of a finite extension of `ℚ_ℓ`, the dimension of `H¹_f` is that of `D_dR/Fil⁰` over `ℚ_ℓ` plus
+that of `H⁰`; its crystalline case is the form of SelmerIwasawaCohomology §4.9 that the route cites), for the bounds
+`j_u ≤ n_u·m` and `dim H¹_f(E_ū, W^*(1)) ≤ n_u·m`.
 
 In the setting of 7.7a under (R) and (L), let `ℓ` split in `K` and be
 unramified in `E`; take for `Col` the places above one of the two primes of `K` above `ℓ` (those whose embeddings lie in
@@ -990,12 +1150,22 @@ and every finite extension of `ℚ_ℓ`); a lifting exponent `e′` with image `
 most `e′` times the rank plus the length of the torsion. A bound `h_ū` is supplied by SelmerLengthBoundsAndLocalLifting §4.9d when `V` is
 crystalline and `0` is not one of its Hodge–Tate weights at some embedding.
 
-*NEW*. [FormalProof],
+[FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/EmbeddingTypes.lean` (`Formalism.MainNotions.EmbeddingTypes.H0ColumnLengthBound`),
 `Formalism/SharpRestriction/LevelLetterCocycles/EmbeddingTypes.lean` (`Formalism.MainNotions.EmbeddingTypes.hypDecl`).
 *Needs:* 7.6, 7.7a, 7.7b; SelmerIwasawaCohomology §4.9 and SelmerLengthBoundsAndLocalLifting §4.10c(1).
 
 ### 7.8 An anticyclotomic twist kills the Selmer group
+
+*Origin:* particular to this proof: twist selection applied to the Galois lattices of the good forms, with an auxiliary
+character whose inertial order supplies the scalar element that the selection needs at every prime `ℓ`.
+
+*Method of the formal proof:* the hypotheses of the twist theorem are checked for each `T_s`: conjugate self-duality from
+equal characteristic polynomials at the dense split Frobenius elements and the trace form of a residually absolutely
+irreducible representation over the local ring, vanishing of the local invariants from one inertia element at each bad
+place and from the Hodge–Tate weights avoiding `[−1, t]` above `ℓ`; the twist is then the general twist-selection theorem
+applied to the finitely many `T_s`, and its goodness, stated for all powers prime to `ℓ`, is carried to the other places
+by transport of the data.
 
 Let `𝔭 | ℓ` be a twisted place and `δ_ℓ` the auxiliary character of `ℓ`; assume `r ≥ 100` and `g₀, g₁ ≥ 2r` (both hold under
 `Size(x, ε)` for `x ≥ 32` and for the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7). For every step `j`,
@@ -1087,7 +1257,7 @@ lengths and valuations normalised by `length(O/ℓ) = 1` (notation of this layer
 eigenvalues), (H5) fails: no element at a type prime acts by a scalar. The scalar element exists only at the auxiliary
 place, and only because the prime-to-`ℓ` part of the inertial order of `δ_ℓ` is at least `3` (ThetaChainsOnDefiniteUnitaryGroups §2.4).
 
-*NEW* (the application to the lifts). (1), (H2) and the weights: [FormalProof],
+(1), (H2) and the weights: [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/BlochKatoPhases.lean` (`Formalism.MainNotions.BlochKatoReduction.Gen.SelfDual`);
 (1), (H1), (H5), (H6), (H3): [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/BlochKatoPhases.lean` (`Formalism.MainNotions.BlochKatoReduction.Gen.IsotypicValuationAtRing`),
@@ -1113,6 +1283,19 @@ twist good in all such powers at the places below is good:
 ArithmeticGaloisRepresentations §§1.8, 5.1, 5.10; Chebotarev (Completed).
 
 ### 7.8a The character bound at the rows
+
+*Origin:* particular to this proof: an explicit power `ℓ^c` that makes finite the class cut out by an extension of the
+trivial lattice inside a crystalline lattice of the chain, whose weights lie far outside the Fontaine–Laffaille range,
+with `c` of the order `t·[E:ℚ]·(r + t)·(1 + log_ℓ(4b))`; nearest published results: Iovita and Marmora (2015), finite
+classes modulo `p^n` without loss for weights in the classical range, and Čoupek, Gazaki and Marmora (2026), for weights
+below `p − 1`.
+
+*Method of the formal proof:* at a place above `ℓ` the extension is read as an invariant functional onto the trivial
+lattice; its kernel is crystalline with weights in a window supplied by the size conditions, and the local theorem on
+extensions of the trivial lattice inside a crystalline lattice gives the explicit exponent, which the parameters bound by
+`c_B`; the second half follows from the description of the finite classes of the twists and a bound for the torsion of
+the divisible cohomology modulo its finite part. It departs from the published argument, which is without loss only in
+the Fontaine–Laffaille range, by paying an explicit power of `ℓ`.
 
 *Notation for 7.8a–7.11.* Put `L = x^ε`, `h := b + 2Sc + 2η_s + t + 2`, `e(ℓ) := C(1 + h/ℓ + log_ℓ h)`,
 `B := C·f·|A|·t²·(r + t)·L²`, and `w_max := max_{j, τ not thick} w_j(τ)` (`≤ 2b′`, ThetaChainsOnDefiniteUnitaryGroups §2.3). For a place `w | ℓ` of `E`, `n_w` is that
@@ -1158,7 +1341,7 @@ cut cocycles of the character blocks are of this form, with `Y′ = Y` the cut m
 finite sum of the `χ_1^{−1}r_x`. SelmerLengthBoundsAndLocalLifting §4.9c does not cover the type primes: a tame type of niveau `> 1` is crystalline over no
 `K(μ_{ℓ^s})` with `K` unramified.
 
-*NEW* (instance). At the primes of rows 2–4 of 7.10a: follows from [FormalProof],
+At the primes of rows 2–4 of 7.10a: follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/LocalSituation.lean` (`Formalism.MainNotions.LocalSituation.TBat`),
 `Formalism/SharpRestriction/LevelLetterCocycles/JointConditionsZpowers/CommutingEndomorphismCondition.lean` (`Formalism.MainNotions.N.KillingConditions.InvariantsBoundsWithCoarseColumnConstant`).
 *Needs:* ThetaChainsOnDefiniteUnitaryGroups §2.1, ThetaChainsOnDefiniteUnitaryGroups §2.3, ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c, RowTowerAndRallisIdentities §5.9, 7.4, 7.6, 7.7a, 7.7b; SelmerLengthBoundsAndLocalLifting §4.9c; ClassFieldTheory §5.1
@@ -1166,14 +1349,23 @@ finite sum of the `χ_1^{−1}r_x`. SelmerLengthBoundsAndLocalLifting §4.9c doe
 
 ### 7.10a The congruence bound at one prime: the rows
 
+*Origin:* particular to this proof: the congruence bound at one prime, whose defect term is read from a table of six
+cases according to the size of the prime and its splitting in the fields of the chain.
+
+*Method of the formal proof:* an assembly at each good lifted point: the Ribet-type bound of 7.7b is applied in its form
+with columns at the primes split in `K` and in its form without columns at the inert primes, where the defect at each
+place is read from one of three lifting theorems with loss according to the word of the place (a long orbit; some letter
+not thick; all letters thick); the large primes off `Exc` have defect zero by 7.7c, the primes `2`, `3`, `ℓ | f_E`, `q`,
+`d` are bounded as wholes, and the entries of the table are then checked numerically from the size conditions.
+
 *Definition.* A twisting datum is *good* if at every twisted `𝔭 | ℓ` the character `ψ_𝔭`
 is an `ℓ^{−2}`-good twist at `𝔭` in the sense of 7.8(2) (for some finite family of polynomial conditions); 7.8(2) produces
 such twisting data.
 
 Assume that the twisting datum is good and that every `Ш¹(E, ℓ, e)` (`ℓ` prime, `0 < e < t`) is finite; chain data (ThetaChainsOnDefiniteUnitaryGroups Layers 2–3, with the good labels and model lifts of
 RowTowerAndRallisIdentities Layer 5) with `Size(x, ε)` (ThetaChainsOnDefiniteUnitaryGroups §2.1; its
-host predicate `SizeInert` makes every prime inert in `K` at least `13`), `SizeSc`, the separation (W7), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c) and
-`SizeThin` (7.6(a)), the thresholds `ℓ*`, `ℓ_A` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` and `SizeG`) and a
+host predicate `SizeInert` makes every prime inert in `K` at least `13`), `SizeSc`, the separation (W7), `SizeSep` (ThetaChainsOnDefiniteUnitaryGroups §2.3b, ThetaChainsOnDefiniteUnitaryGroups §2.3c),
+`SizeThin` and the bound `w_j(τ) ≤ a⁻_τ + b′/x + η_s` at the top places (7.6(a)), the thresholds `ℓ*`, `ℓ_A` of ThetaChainsOnDefiniteUnitaryGroups §2.3c, the type primes of ThetaChainsOnDefiniteUnitaryGroups §2.7 (with `𝔅(r, g₀) ∩ 𝔅(r, g₁) = ∅` and `SizeG`) and a
 thick set (FrobeniusRestrictedRieszSums §0.8a) whose length `L_th` satisfies the *depth hypothesis*: for every prime `ℓ ≥ 11` some
 `j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`; `x ≥ x₀`. For a twisted prime
 `ℓ ∉ {g₀, g₁}`, a twisted `𝔭 | ℓ` and `π ∈ Z_good`,
@@ -1298,7 +1490,7 @@ twisted at every place above them (ThetaChainsOnDefiniteUnitaryGroups §2.5): th
 are thick. If the thick set were empty, (4) would never be used; at a prime `ℓ` with `Frob_ℓ = c` and a thick place, (3)(i) does
 not apply (it asks for a letter that is not thick).
 
-*NEW*. Good twisting data: follows from [FormalProof],
+Good twisting data: follows from [FormalProof],
 `Formalism/SharpRestriction/LevelLetterCocycles/TwGood.lean` (`Formalism.MainNotions.TwGoodAt`),
 `Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ChosenTwistAnnihilatesSelmerGroups.lean` (`GlobalTheory.NLink.twist_kills_selmer`);
 the depth hypothesis and `j′`: [FormalProof],
@@ -1329,6 +1521,16 @@ the term `B`: [FormalProof],
 §§1.7a, 1.8e; ArithmeticGaloisDuality R02.2.3 (corestriction).
 
 ### 7.10b The congruence bound at the type primes
+
+*Origin:* particular to this proof: the congruence bound at the two type primes, where the Galois representations are
+potentially crystalline of tame type and every block is bounded through pushouts of finite classes.
+
+*Method of the formal proof:* for each good lifted point a cut `X_s(π)` is taken with a Hecke-commuting endomorphism that
+is a nonzero scalar of valuation at most `v_ℓ|G₀|` on the eigenspace of the point and zero off the cut; on the cut the
+family is potentially crystalline at each of the `2f` places above `ℓ`, the tame lifting theorem and the pushout
+statement bound the cut cocycles (the family at the places of one sign, the dual family at the others), the Ribet-type
+bound of 7.7b (ii) bounds the congruence ideal of the cut, and the endomorphism index bound in its family form, with the
+multiplicities of 7.5b, gives the sum over the places.
 
 Assume that the twisting datum is good (7.10a) and that every `Ш¹(E, ℓ, e)` is
 finite; chain data as in 7.10a. For
@@ -1367,7 +1569,7 @@ local statements cited as such: the local type statement FiniteReductiveGroups �
 `X_s(π)` outside `Z` (through 7.4(7)), and the comparison at the coefficient prime BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.1
 for their cuspidal constituents (through 7.4(4)); and on the tame lifting theorem SelmerLengthBoundsAndLocalLifting §4.10f.
 
-*NEW*. [FormalProof],
+[FormalProof],
 `Development/AbelianVarietyTheory/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean` (`GlobalTheory.NLink.StarH`),
 `Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.GeneratorPrimeEtaBound`).
 The bound at one place above a type prime, for every pair of Galois families: [FormalProof],
@@ -1380,6 +1582,15 @@ and with constants serving every record in
 LengthBoundsInPadicFamilies §§1.7a (4′), 1.8e(2); FiniteReductiveGroups §6.5; BaseChangeAndGaloisRepresentationsForUnitaryGroups §15.1.
 
 ### 7.10c The sum
+
+*Origin:* particular to this proof: the sum of the congruence bounds over all primes, with a term of size `f·m·b·L²`
+and the total `V(E, t)` of the lengths of the groups `Ш¹(E, ℓ, e)`.
+
+*Method of the formal proof:* the rows are summed over the twisted primes with the weights `log ℓ`, and each row is
+bounded by an elementary prime sum: `Σ log ℓ/ℓ` up to `ℓ*` for the main term, the decay in the depth for the long
+orbits, the tail of `Σ log ℓ/ℓ²` above `ℓ_A`, the progression `ℓ ≡ ±1` modulo a large power of two for the inert primes
+of small Frobenius order, and the bound `ℓ ≤ C·b/w″` for the resonant primes; the terms `log h_E`, `log |G₀|`,
+`log w_{tr}(E)` and the sums over the exceptional, small and type primes are absorbed in `b`.
 
 Under the hypotheses of 7.10a, among them the depth hypothesis on the thick set (for every prime `ℓ ≥ 11` some
 `j ≥ 0` has `(ℓ − 1)^j ≥ ℓ_A` and `2j + 2 ≤ L_th`; it is the condition at `ℓ = 11`), and under the *length bound*
@@ -1398,9 +1609,11 @@ host of layer `n` with `2^n ≥ 4f_ψ`, as there `2^n` divides `|A|` and `f_E �
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^P_j(𝔭) ≤ d^{Z,P}_j·( C·f·m·b·L² + V(E, t) )`. *The form of the formal proof.* At the base level this is
 `Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·f·m·b·L² + V(E, t) )`. [FormalProof] states the base-level sum with the further
 nonnegative term `(log x)²·N_c` in the bracket (`N_c` the budget of ThetaChainsOnDefiniteUnitaryGroups §2.1):
-`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ D_0·( C·(f·m·b·L² + (log x)²·N_c) + V(E, t) )`; its congruence lengths are those of the
-base-level lattice and its factor is `D_0` ([FormalProof],
-`Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.aux₃`)). The
+`Σ_𝔭 ϱ(𝔭)e_𝔭η^{P_0}_j(𝔭) ≤ d^{Z,P_0}_j·( C·(f·m·b·L² + (log x)²·N_c) + V(E, t) )`; its congruence lengths are those of the
+base-level lattice and its factor is the base-level dimension `d^{Z,P_0}_j` ([FormalProof],
+`Development/AutomorphicArithmetic/ResidueCharacters/TwistedPlaces.lean` (`Formalism.MainNotions.TwistedPlaces.aux₃`)), which
+equals `D_0` on the family by a separate statement ([FormalProof], `Formalism/SharpRestriction/GlobalTheoremInputs.lean`
+(`Formalism.MainNotions.SmallLevelRankEq`)). The
 form without that term and the form with `d^Z_j` (the whole lattice, `P = 1`) are this roadmap's, by the route below; the route
 of 7.11 compares the two forms.
 
@@ -1435,7 +1648,7 @@ ArithmeticStatisticsPartIII §2.1; `SizeThin`:
 if only the primes `≤ X″` were twisted, the main term would be `C·f·m·b·log X″ = C·f·m·b·x^{ε/3}`; row 1 is needed because a
 twisted place can lie above a prime larger than `ℓ*` (ThetaChainsOnDefiniteUnitaryGroups §2.5).
 
-*NEW*. `Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)` and the bound on `log w_{tr}(E)`: follows from [FormalProof],
+`Σ_ℓ v_ℓ(w_{tr}(E))·log ℓ = log w_{tr}(E)` and the bound on `log w_{tr}(E)`: follows from [FormalProof],
 `Development/AutomorphicArithmetic/CyclotomicBounds/CyclotomicOrders/NuHost.lean` (`UpperTheory.KStar.sum_nuL_le`, `UpperTheory.KStar.nuBudget_le`),
 `Development/AutomorphicArithmetic/CyclotomicBounds/RootsOfUnity/NuRecord.lean` (`UpperTheory.Mu.sum_nu_le`, `UpperTheory.Mu.budget_le`),
 which bound `Σ_{ℓ∈S} v_ℓ(w_{tr}(E))·log ℓ` for every finite set `S` of primes; in [FormalProof] the conditions `Q_S ≤ |A|²`
@@ -1450,6 +1663,12 @@ with its record of fifteen clauses
 AnalyticNumberTheoryPartI §0.11; ArithmeticStatisticsPartIII §2.1.
 
 ### 7.11 The total congruence bound under a wild-kernel budget
+
+*Origin:* particular to this proof: the total congruence bound of a step once the groups `Ш¹(E, ℓ, e)` are bounded in
+total, the point at which the bound for wild kernels enters, by insertion of the budget into 7.10c.
+
+*Method of the formal proof:* the bound of 7.10c is rewritten with `f·m·b·L² = x^ε·B₀` and `(log x)² ≤ x^ε`, and the
+term `V(E, t)`, whose partial sums over finite sets of primes are bounded, is inserted through `V(E, t) ≤ b ≤ B₀`.
 
 *Definition.* For a real `κ_W ≥ 0`, the host has *wild-kernel budget `κ_W`* if every
 group `Ш¹(E, ℓ, e)` of BernoulliBoundsForClassGroupEigenspaces §6.17 (`ℓ` any prime, `2` included, `0 < e < t`) is finite, and
@@ -1478,9 +1697,23 @@ last step, so 7.10c without it is proved there, and the form above follows from 
 The wild-kernel budget is the only input of this layer that bounds the groups `Ш¹(E, ℓ, e)`, which enter every row of
 7.10a, at every prime, `2` included.
 
-*NEW* (insertion). *Needs:* 7.10c; UniformWildKernelBounds §7.6.
+*Needs:* 7.10c; UniformWildKernelBounds §7.6.
 
 ### 7.15 The dual index of the projected lattice
+
+*Origin:* adapted from Horesh and Karasik (2023), Proposition B.5, for the projection of `ℤⁿ` along the span of a
+primitive sublattice, and for a lattice in a real inner-product space GeometryOfNumbersAndQuadraticArithmetic §0.2.5:
+the dual of the orthogonal projection is the dual cut by the subspace; here (a)
+for the lattices of forms over `𝒪_𝕃` with its conjugation and the class-set product; the bound (b), (c′) of the dual
+index by the congruence length, the Weyl exponent and the integer `D_j`, by an elementary argument, is particular to
+this proof, with the stabilisers bounded through Minkowski (1887) in (c). The bound for the positive part `ℐ^+_j(𝔭)` in
+(b) is this roadmap's own formulation; [FormalProof] bounds the signed index `ℐ_j(𝔭)`.
+
+*Method of the formal proof:* the bound is the general inequality for the dual of an orthogonally projected lattice (the
+dual of the projection is the dual cut by the subspace, and the signed index is at most the length of the projection
+over the cut lattice plus the dimension times the valuation of an integer that carries the cut lattice into the dual),
+applied to the forms of a level with the class-set form of weights `(|P|·|Γ_𝒸|)^{−1}`, for which the integer is
+`|P|·D_V·ℓ^𝔧` with `𝔧` the Weyl exponent.
 
 *Definitions.* Fix a step `j` and a twisted place `𝔭 | ℓ` with tuple `ξ = ξ_𝔭`. Let
 `𝒜_j` be the space of algebraic modular forms on the definite `U(V_j)` for `ξ` at the level of ThetaChainsOnDefiniteUnitaryGroups §2.9, with its
@@ -1546,8 +1779,7 @@ is `v_ℓ(N)·log ℓ`, because `Σ_{𝔭|ℓ} e_𝔭f_𝔭 = [𝕃:ℚ]` (Check
 with `𝔧 = 0`, `D = 1`. At odd `ℓ` both sides vanish. For `P_jM ⊊ (P_jM)^∨` the positive part vanishes while the signed index
 is negative: the two notions differ; a covolume comparison charges the signed one, which (b) also bounds.
 
-*NEW* form (elementary; the bound for the positive part `ℐ^+_j(𝔭)` in (b) is this roadmap's own, not a statement of
-[FormalProof], which bounds the signed index `ℐ_j(𝔭)`). The signed index `ℐ_j(𝔭)`: [FormalProof],
+The signed index `ℐ_j(𝔭)`: [FormalProof],
 `Formalism/HermitianLattices/StatementLat.lean` (`Formalism.HermitianLatticesTheory.jIdx`),
 `Formalism/QuotientMetricDivisors/Statement.lean` (`Formalism.DivisionValues.jw`);
 (a): [FormalProof],
@@ -1567,6 +1799,21 @@ is negative: the two notions differ; a covolume comparison charges the signed on
 ReductiveGroups Layer 10B (Weyl and dual Weyl lattices, the integral contravariant form).
 
 ### 7.16 Weight elimination
+
+*Origin:* particular to this proof: a bound `dp_τ(μ) ≤ i_W(ℓ, τ)` on the depth below `λ` of a linked weight `μ` when a
+crystalline representation with Hodge–Tate weights up to about `ℓ²`, outside the Fontaine–Laffaille range, has a
+reduction containing a block of `t` consecutive crystalline characters; nearest published results: Bhatt, Gee and Kisin
+(2026), the reduction modulo `p` of crystalline representations with arbitrary Hodge–Tate weights, Bartlett (2020), for
+Hodge–Tate weights differing by at most `p`, and Le, Le Hung and Levin (2019), weight elimination in generic small
+weights.
+
+*Method of the formal proof:* from the Wach lattice of a lattice in the crystalline representation, two block-triangular
+matrices are extracted on each factor of the reduction: the first-order term of the operator of `Γ`, whose eigenvalues
+are the residues of the weights, and the reduced Frobenius, whose diagonal entries and principal minors are divisible by
+explicit powers of `X`; the carries of the rank-one subquotients satisfy `(ℓ − 1)·|carry| ≤ h`, are matched with the
+residues of the weights through the linkage hypothesis, and their sum bounds the depth. The published weight elimination
+uses Fontaine–Laffaille or Breuil–Kisin modules in a bounded range of weights, and the published result for all weights
+uses Breuil–Kisin modules with `μ_p`-equivariance.
 
 *Setting for 7.16, 7.16a.* Let `E` be a CM field with maximal totally real subfield
 `F`, `ℓ` an odd prime unramified in `E`, `U(V)` a definite unitary group in `n_V` variables over `E` with `n_V + 1 < ℓ`, an open
@@ -1627,7 +1874,7 @@ block residues.) Since `|μ| = |λ|` and the weights of `μ` are at most `h`, th
 with good reduction at `19`, `r = α^{26}β^{31} ⊕ α^{19}β^{38}` and `χ_0 = β^{39}` satisfy every hypothesis except the weight
 `h − bot_τ = 57` of `χ_0` at `τ∘c` (it is `39`), and the conclusion fails.
 
-*NEW* (weight elimination beyond the Fontaine–Laffaille range). Follows from [FormalProof],
+Follows from [FormalProof],
 `Formalism/PieriBlockIdeals/Statement.lean` (`Formalism.CohomologicalDescent.mwCount`),
 `Formalism/PieriBlockIdeals/MertensReciprocalElementary.lean` (`Formalism.CohomologicalDescent.LogSmallConstantBounds.SizeData₂.depth`),
 `Formalism/PieriBlockIdeals/LatticeInclusionRealSettingAlt.lean` (`Formalism.CohomologicalDescent.ShortWeightBounds.DepthOfLink`);
@@ -1639,6 +1886,19 @@ the first half of the route, from the crystalline representation to the data of 
 multiset form, for a product over the embeddings); HermitianFormsAndLattices §5.2 (e); ReductiveGroups Layer 10B.
 
 ### 7.16a Hecke localisation and the Weyl exponent
+
+*Origin:* particular to this proof: a Hida-type inclusion with an explicit power of `ℓ` that carries the forms with
+values in the dual Weyl lattice into the forms with values in the Weyl lattice after localisation at a maximal ideal not
+assumed ordinary, with the sum of these exponents over all primes, the summation being elementary; nearest published
+result: Emerton, Gee and Herzig (2013), §7.4 and Lemma 4.5.1, the dévissage of Serre weights through the reduction of a
+coefficient lattice, after Ash and Stevens (1986).
+
+*Method of the formal proof:* the lattices are exchanged one embedding at a time, from the dual Weyl lattice to the Weyl
+lattice through the intermediate lattice `D + ℓ^c·D′`; weight projectors and a graded Pieri bound show that every simple
+step of this exchange has depth above the weight-elimination bound, so that the forms with values in it vanish after
+localisation, and the exponents are then evaluated at the parameters of the chain and summed over the primes with
+elementary forms of the theorems of Chebyshev and Mertens. Where the published dévissage only lists the weights that can
+occur at the maximal ideal, here it is turned into an inclusion of lattices with an explicit exponent.
 
 In the setting of 7.16 (with `h` an integer), for an embedding `τ` and an
 integer `i ≥ 0` let `∇(λ_τ)^{≤i}` be the sum of the weight spaces of `∇(λ_τ)` of the weights `μ_τ` with `dp_τ(μ) ≤ i`; the *graded
@@ -1656,7 +1916,9 @@ and all others lie below `x_m(τ)`; put `top_τ := bot_τ + t − 1`. For a prim
 
 1. *The bound at the block.* If `h < ℓ²`, the graded Pieri bound holds at `(τ, i)` with exponent `⌊c_W(τ, ℓ, i)⌋`, for every
    `i ≥ 0`.
-2. *Hida-type inclusion.* Let `𝔪` be a maximal ideal of the Hecke algebra acting on `Forms(∇(λ))` whose Galois representation
+2. *Hida-type inclusion.* Suppose moreover that `E/F` is unramified at every finite place and that `V` is the standard
+   Hermitian space `E^{n_V}`, definite at every infinite place (the setting of BaseChangeAndGaloisRepresentationsForUnitaryGroups
+   §16.1). Let `𝔪` be a maximal ideal of the Hecke algebra acting on `Forms(∇(λ))` whose Galois representation
    (BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1) is residually `ρ̄′ ⊕ χ̄_0 ⊕ ⋯ ⊕ χ̄_{t−1}` as in 7.16, let `Φ′ ⊂ Φ`, and
    for `τ ∈ Φ′` let `c(τ) ≥ 0` be an integer such that the graded Pieri bound with exponent `c(τ)` holds at `(τ, i_W(ℓ, τ))`.
    Then `ℓ^𝔧·Forms(∇(λ))_𝔪 ⊂ Forms(Δ(λ))_𝔪` with `𝔧 = Σ_{τ∈Φ′} min(ex(τ, ℓ), c(τ)) + Σ_{τ∉Φ′} ex(τ, ℓ)`.
@@ -1676,6 +1938,13 @@ and all others lie below `x_m(τ)`; put `top_τ := bot_τ + t − 1`. For a prim
    (b) `Σ_ℓ 𝔧_j(ℓ)·log ℓ ≤ 30·|Φ_th|·m·b·x^{2ε} + 2·m·b ≤ 16·x^ε·B₀`, the sum over all primes (`|Φ_th| = |𝒯| ≤ |A| = f/2`, FrobeniusRestrictedRieszSums §0.4,
    FrobeniusRestrictedRieszSums §0.6; `B₀` of ThetaChainsOnDefiniteUnitaryGroups §2.1);
    (c) for `ℓ > ℓ_𝔧`, `ℓ ∉ Exc_𝔧`: `mw(τ) = mw′(τ) = 0` and `i_W(ℓ, τ) = q_τ·h` at every `τ`; and `𝔧_j(ℓ) = 0` for every `ℓ > h`.
+
+*Remark.* (2) without the hypothesis on `E/F` and `V`, for every definite unitary group of the setting of 7.16, is not a
+statement of this section: its route needs the Galois representations of the
+forms on such a group, which BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1 has outside the setting of (2)
+only in its remark.
+(3) is within that setting: `E/F` is unramified at every finite place and `V_j = E^{r+t}` has the standard positive form
+(ThetaChainsOnDefiniteUnitaryGroups, introduction of Layer 2, and §2.2).
 
 *Route.* (1) IntegralWeylModulesOfGeneralLinearGroups §2.2 (c). (2) Work one embedding `a` at a time. Let `D ⊂ D′` be the tensor
 lattices with `Δ(λ_a)`, resp. `∇(λ_a)`, at `a` (and the lattices already chosen at the other embeddings), and
@@ -1724,7 +1993,7 @@ places gives (b), and (c) is (3a).
 bounds each thick place separately, by `20·m·b·x^{2ε} + 2k(Sc + 1)(x^ε + 2)` (`2mbx^{2ε}` from the primes `≤ ℓ_𝔧`,
 `18mbx^{2ε} + 2k(Sc + 1)(x^ε + 2)` from those above; statement (b) has `30` in place of `20`); no lower bound for `ex(τ, ℓ)` is asserted.
 
-*NEW* (Hida-type inclusion; the summation is elementary). (2): follows from [FormalProof],
+(2): follows from [FormalProof],
 `Formalism/PieriBlockIdeals/BlockIdealBound5Derived.lean` (`Formalism.CohomologicalDescent.DepthNonnegative.TheoremWCore`),
 `Formalism/PieriBlockIdeals/LatticeInclusionRealSettingAlt.lean` (`Formalism.CohomologicalDescent.ShortWeightBounds.InclWReal`);
 (2), the Hida-type inclusion from the simple subquotients of `∇(λ)` modulo `ℓ`: [FormalProof],
@@ -1768,7 +2037,9 @@ ThetaKernelsForUnitaryDualPairs §§3.3b, 3.21a, 3.46; DiscreteSeriesCoefficient
 IntegralWeylModulesOfGeneralLinearGroups §§2.1, 2.2; WachLatticesOverTheCyclotomicTower §§6.4–6.11;
 SelmerLengthBoundsAndLocalLifting §§3.22–4.10g; LengthBoundsInPadicFamilies §§1.7a–1.8e;
 BernoulliBoundsForClassGroupEigenspaces §6.17; HeckeIdealsAndTaylorWilesRelations §10.1; UniformWildKernelBounds §7.6;
-and on main SelmerIwasawaCohomology §§4.9, 4.10, PadicFamilies §1.7, PhiGammaModulesAndIwasawaCohomology §6.0,
+and on main SelmerIwasawaCohomology §§4.9, 4.10, PadicFamilies §1.7 (and §1.7a, named in the Origin of 7.1),
+PadicHodgeRegulators §1.5 (named in the *Corollary of:* line of 7.7d), GeometryOfNumbersAndQuadraticArithmetic §0.2.5
+(named in the Origin of 7.15), PhiGammaModulesAndIwasawaCohomology §6.0,
 IntegralHeckeAndGaloisDeterminants §§1.3, 4.1, 5.1, AutomorphicGaloisRepresentationsPartII AG2.0–AG2.6,
 EndoscopicTransferAndUnitaryTraceComparison §§6.29, 13.1, 13.4, AutomorphicLFunctionsAndLocalFactors AL.3.3.8, AL.3.7.2,
 SmoothRepresentationsOfLocalGroups SR.2.2–SR.4.3, MetaplecticAutomorphicForms §§3.14, 6.2, 6.3, 6.6, 6.10–6.12, 6.15,
@@ -1811,7 +2082,11 @@ and auxiliary primes, levels) are ThetaChainsOnDefiniteUnitaryGroups Layers 2–
 RowTowerAndRallisIdentities Layer 5; hosts, letters and thick sets are FrobeniusRestrictedRieszSums Layer 0. Congruence
 modules at one point and along an idempotent, and the Ribet-type bounds with local conditions and local defects, are
 [PadicFamilies](../../PadicFamilies/README.md) §1.7 and [LengthBoundsInPadicFamilies](../LengthBoundsInPadicFamilies/README.md)
-§§1.7a–1.8e. Selmer presentations, twist selection, the Bloch–Kato condition, the bound for classes cut out by a character
+§§1.7a–1.8e; Hida's module of congruences of a Hecke algebra along a decomposition is PadicFamilies §1.7a. The dimension
+formula of Bloch and Kato, of which the dimension bounds of 7.7d are a corollary, is
+[PadicHodgeRegulators](../../PadicHodgeRegulators/README.md) §1.5, and the dual of the orthogonal projection of a lattice
+in a real inner-product space is [GeometryOfNumbersAndQuadraticArithmetic](../../GeometryOfNumbersAndQuadraticArithmetic/README.md)
+§0.2.5. Selmer presentations, twist selection, the Bloch–Kato condition, the bound for classes cut out by a character
 and the local lifting theorems with loss are [SelmerIwasawaCohomology](../../SelmerIwasawaCohomology/README.md) §§4.9, 4.10
 and [SelmerLengthBoundsAndLocalLifting](../SelmerLengthBoundsAndLocalLifting/README.md) Layers 3–4. Wach lattices, their
 reductions and position data are [PhiGammaModulesAndIwasawaCohomology](../../PhiGammaModulesAndIwasawaCohomology/README.md)
@@ -1967,6 +2242,20 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 ### From TauCetiRoadmap.PadicFamilies
 
 - §1.7 (the congruence module of an augmentation, the one-point case of LengthBoundsInPadicFamilies §1.7a). Used in 7.1.
+- §1.7a (congruence modules along a decomposition: for `A` finite and free over a discrete valuation ring and an
+  idempotent `ξ` of `A[1/ϖ]`, Hida's module of congruences `(ξA ⊕ (1 − ξ)A)/A ≅ ξA/(A ∩ ξA[1/ϖ])`, with its split case
+  for a set of eigensystems). Named in the Origin of 7.1.
+
+### From TauCetiRoadmap.PadicHodgeRegulators
+
+- §1.5 (dimensions of the Bloch–Kato subspaces: `dim H¹_f(K, V) = dim_{ℚ_p} D_dR(V)/Fil⁰ + dim H⁰(K, V)` for a de Rham
+  representation `V` of the absolute Galois group of a finite extension `K` of `ℚ_p`). Named in the *Corollary of:* line
+  of 7.7d.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+- §0.2.5 (`dual_projection_comap`: for a `ℤ`-submodule `Δ` of a real inner-product space and the orthogonal projection
+  `π` onto `W^⊥`, `(π(Δ))^* = Δ^* ∩ W^⊥`). Named in the Origin of 7.15.
 
 ### From TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
 
@@ -1999,7 +2288,10 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 
 ### From TauCetiRoadmap.MetaplecticAutomorphicForms
 
-- §3.14 (unramified unitary theta correspondence). Used in 7.5.
+- §3.14 (type-II theta input): for the oriented split pair `GL_m × GL_n`, the small theta lift of an irreducible smooth
+  representation is zero or irreducible, and is injective on its nonzero domain; the section names the unequal-rank
+  parameter formula of Mínguez as a further input. Used in 7.5 (1) at the split places, where the relation of the
+  parameters is ThetaKernelsForUnitaryDualPairs §3.21a (iii).
 - §6.2 (the Siegel–Weil section), §6.3 (the Ikeda map), §6.6 (the regularised second-term identity), §§6.10–6.11 (doubling),
   §6.10a (the standard doubling factors and the unramified denominators), §6.12 (the factorization of theta pairings), §6.15
   (the global see-saw). Used in 7.5a.
@@ -2048,7 +2340,7 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
 
 ## References
 
-- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>; the file paths and declaration names cited here are those of its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, under its directory `src/`. This roadmap specifies its mathematics; it is the reference of every *NEW* target.
+- [FormalProof] Levent Alpöge, the Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet L-functions announced in [Announcement]; source with a public verification setup: <https://github.com/leanprover-community/riemann-hypothesis>; the file paths and declaration names cited here are those of its first commit `40e56bab026552e089d7afcfeff08d2defb9c005`, the source as published, under its directory `src/`. This roadmap specifies its mathematics; it is the reference of every target whose origin is particular to this proof.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - K. Ribet, *A modular construction of unramified p-extensions of Q(μ_p)*, Invent. Math. 34 (1976); H. Hida, *Congruences of
   cusp forms and special values of their zeta functions*, Invent. Math. 63 (1981): 7.1, 7.7a–7.7d.
@@ -2060,8 +2352,8 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   functors and unrefined minimal K-types*, Comment. Math. Helv. 71 (1996): 7.4.
 - H. Jacquet and J. Shalika, *On Euler products and the classification of automorphic representations I*, Amer. J. Math. 103
   (1981): 7.4, 7.5.
-- S. Kudla, *On the local theta-correspondence*, Invent. Math. 83 (1986); R. Howe, *Transcending classical invariant theory*,
-  J. Amer. Math. Soc. 2 (1989): 7.5.
+- R. Howe, *Transcending classical invariant theory*, J. Amer. Math. Soc. 2 (1989); A. Mínguez, *Correspondance de Howe
+  explicite: paires duales de type II*, Ann. Sci. École Norm. Sup. (4) 41 (2008), 717–741: 7.5.
 - I. Piatetski-Shapiro and S. Rallis, *L-functions for the classical groups*, LNM 1254 (1987); S. Kudla and S. Rallis, *A
   regularized Siegel–Weil formula: the first term identity*, Ann. of Math. 140 (1994); A. Ichino, *A regularized Siegel–Weil
   formula for unitary groups*, Math. Z. 247 (2004); S. Yamana, *L-functions and theta correspondence for classical groups*,
@@ -2085,3 +2377,24 @@ ThetaChainsAndFrobeniusPrimeSums use these targets (Downstream consumers above).
   split group extensions*, J. Algebra 29 (1974): 7.8.
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999); H. Minkowski, *Zur Theorie der positiven quadratischen
   Formen*, J. reine angew. Math. 101 (1887): 7.15. J. C. Jantzen, *Representations of algebraic groups*, 2nd ed. (2003), II: 7.15, 7.16, 7.16a.
+- H. Hida, *Iwasawa modules attached to congruences of cusp forms*, Ann. Sci. École Norm. Sup. (4) 19 (1986), 231–273:
+  7.1 (the module of congruences of a Hecke algebra along a decomposition, through PadicFamilies §1.7a).
+- C. Khare, M. Larsen and G. Savin, *Functoriality and the inverse Galois problem*, Compositio Math. 144 (2008), 541–564,
+  arXiv:math/0610860; L. Dieulefait and G. Wiese, *On modular forms and the inverse Galois problem*, Trans. Amer. Math.
+  Soc. (2011), arXiv:0905.1288, Proposition 6.1: 7.9 (residual irreducibility from tame types at chosen primes).
+- E. Urban, *Selmer groups and the Eisenstein–Klingen ideal*, Duke Math. J. 106 (2001), arXiv:math/9803171: 7.7b, 7.7c
+  (a congruence ideal bounded by a Selmer group).
+- A. Iovita and A. Marmora, *On the continuity of the finite Bloch–Kato cohomology*, Rend. Semin. Mat. Univ. Padova 134
+  (2015), 239–271; P. Čoupek, E. Gazaki and A. Marmora, *Exactness property of Breuil–Kisin functors and Bloch–Kato
+  Selmer groups*, arXiv:2603.26035 (2026): 7.8a (finite classes modulo `p^n` in small weights).
+- T. Horesh and Y. Karasik, *Equidistribution of primitive lattices in ℝ^n*, Quart. J. Math. 74 (2023), 1253–1294,
+  Proposition B.5: 7.15 (the dual of an orthogonal projection of `ℤⁿ`; for every lattice,
+  GeometryOfNumbersAndQuadraticArithmetic §0.2.5).
+- B. Bhatt, T. Gee and M. Kisin, *Reduction modulo p of crystalline Galois representations via μ_p-equivariance*,
+  arXiv:2607.08660 (2026); R. Bartlett, *Inertial and Hodge–Tate weights of crystalline representations*, Math. Ann.
+  (2020), arXiv:1811.10260; D. Le, B. Le Hung and B. Levin, *Weight elimination in Serre-type conjectures*, Duke Math. J.
+  (2019), arXiv:1610.04819: 7.16 (reduction of crystalline representations and weight elimination).
+- M. Emerton, T. Gee and F. Herzig, *Weight cycling and Serre-type conjectures for unitary groups*, Duke Math. J. 162
+  (2013), 1649–1722, arXiv:1106.4522, §7.4 and Lemma 4.5.1; A. Ash and G. Stevens, *Cohomology of arithmetic groups and
+  congruences between systems of Hecke eigenvalues*, J. reine angew. Math. 365 (1986), 192–220: 7.16a (the dévissage of
+  Serre weights at a localisation).

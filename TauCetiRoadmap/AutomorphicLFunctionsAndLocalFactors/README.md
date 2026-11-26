@@ -24,7 +24,7 @@ After the Fourier analysis and the representation-theoretic prerequisites, three
 | AL.R | Representation prerequisites: archimedean Whittaker comparisons and parameters, restricted tensor realizations and isobaric sums. |
 | AL.1 | Tate eigendistributions, local factors and epsilon constants, global distributions and the global epsilon comparison, and the quadratic orbital comparison. |
 | AL.2 | Godement–Jacquet standard factors, GL₂ newvectors, the global standard L-function and Maass standard functions. |
-| AL.3 | Whittaker models, Rankin–Selberg analysis, higher-rank newforms and Godement–Jacquet test vectors, multiplicity/converse theorems, finite-part rationality and periods, function-field cuspidal polynomials and reciprocity, open-disc indices, the weight-facing acceptance suite and the Maass adjoint value. |
+| AL.3 | Whittaker models, Rankin–Selberg analysis with square-integrable inputs, multiplicativity of `γ`-factors and the unitary generic exponent bound, higher-rank newforms and Godement–Jacquet test vectors, multiplicity theorems with the transpose-inverse contragredient, global and local converse theorems, finite-part rationality and periods, function-field cuspidal polynomials and reciprocity, open-disc indices, the weight-facing acceptance suite and the Maass adjoint value. |
 | AL.4 | Satake/L-group determinants, conditional Weil–Deligne comparisons and factor operations. |
 | AL.5 | Finite Euler corrections, critical-value normalization, sign vanishing and refined GL₂ factors. |
 
@@ -1352,6 +1352,23 @@ The theorems `AL3.rankinSelbergLocal` (unequal ranks) and `AL3.rankinSelbergLoca
 
 *Needs:* The local Rankin–Selberg integrals (AL.3.2.1); **SmoothRepresentationsOfLocalGroups**, SR.3; Archimedean GLₙ parameters (AL.R.2); Local uniqueness: dim S′(ω) = 1 (AL.1.2.5); Local convergence and continuity (AL.3.2.2); Local Whittaker uniqueness (AL.3.1.1).
 
+#### AL.3.2.4 Square-integrable inputs
+
+Let F be a nonarchimedean local field, ψ a nontrivial additive character, and π an irreducible representation of `GL_n(F)` that is square-integrable modulo the centre with unitary central character (SmoothRepresentationsOfLocalGroups SR.3.3 *square-integrable-tempered*). Write `Z_n` for the centre, `N_n` for the upper unitriangular subgroup and `𝒫_n` for the mirabolic subgroup of matrices with last row `(0,…,0,1)`. For every W in the Whittaker model of π for ψ and every W̃ in that of `π∨` for `ψ⁻¹`, the integral `∫_{Z_nN_n\GL_n(F)}W(g)W̃(g)dg` converges absolutely; equivalently `∫_{GL_n(O)}∫_{N_n\𝒫_n}|W(pk)W̃(pk)||det p|^(−1)dp dk<∞`, the value at `s=0` of the mirabolic integral `∫_{GL_n(O)}∫_{N_n\𝒫_n}W(pk)W̃(pk)|det p|^(s−1)dp dk`. If `π′` is an irreducible representation of `GL_m(F)`, `m≤n`, that is also square-integrable modulo the centre with unitary central character, then `L(s,π×π′)` of The Rankin–Selberg local L-factor (AL.3.2.3) is holomorphic on `Re(s)>0`.
+
+Work under the following hypotheses. π is generic, as every irreducible square-integrable representation of `GL_n(F)` is; so is π′. Whittaker models as in The Whittaker realization (AL.3.1.2), with opposite characters; invariant quotient measures, normalized so that the two forms of the integral agree. Only the point `s=0` of the mirabolic integral is asserted, not a neighbourhood of it.
+
+The restriction of a Whittaker function of π to the diagonal torus of `𝒫_n` is a finite sum of products of Schwartz functions and finite functions whose exponents are the central exponents of the derivatives of π (Jacquet, Piatetski-Shapiro and Shalika, (2.5); Cogdell–Piatetski-Shapiro, §1.4); for square-integrable π these exponents satisfy the strict inequalities of Casselman's criterion (SR.3.3 *casselman-criterion*), which give the absolute convergence at `s=0`.
+
+**Checks.**
+
+- For the Steinberg representation of `GL₂(F)`, with ψ trivial on O but not on `P⁻¹`, the newvector has `W(diag(a,1))=|a|·1_O(a)`; with `W̃=W̄` the inner integral at `k=1` and `s=0` is `Σ_{m≥0}q^(−m)`, which is finite.
+- Square-integrability cannot be weakened to temperedness: for the unitary unramified principal series of `GL₂(F)` with Satake parameters 1 and 1, the spherical W has `|W(diag(ϖ^m,1))|²=(m+1)²q^(−m)`, and the inner integral at `s=0` is `Σ_{m≥0}(m+1)²`, which diverges.
+
+(Source: Jacquet, Piatetski-Shapiro and Shalika, *Rankin–Selberg convolutions*, (8.2), formula (3), p.444, and assertion (6) in the proof of its Theorem, p.445; (2.5), p.388, and the proof of Theorem (2.7), p.393, for the expansion of Whittaker functions on the torus and the decomposition of the equal-rank integral; Cogdell–Piatetski-Shapiro, *Derivatives and L-functions for GLn*, §1.4, pp.10–15, for the exponents in terms of the derivatives, and §2.6.2, pp.30–32: the convergence of the standard pairing, p.31, and the Corollary to Theorem 2.3, p.32.)
+
+*Needs:* The Whittaker realization (AL.3.1.2); The local Rankin–Selberg integrals (AL.3.2.1); Local convergence and continuity (AL.3.2.2); The Rankin–Selberg local L-factor (AL.3.2.3); **SmoothRepresentationsOfLocalGroups**, SR.3.3 *square-integrable-tempered* and *casselman-criterion*, SR.5.1 *mirabolic-derivatives*, SR.5.2 *segment-representations* and SR.5.2a *zelevinsky-classification*, clause (v); **AdelicAlgebraicGroups**, §2.2, *quotient-measure*.
+
 ### AL.3.3 Induction, functional equations and test realization
 
 *Needs:* §AL.3.3.1 (*Nonarchimedean factors under normalized induction*), §AL.3.3.2 (*The local Rankin–Selberg functional equation*), §AL.3.3.3 (*Archimedean realization of holomorphic multiples*), §AL.3.3.5 (*Generic finite-place newforms*), §AL.3.3.6 (*The unramified Rankin–Selberg test*), §AL.3.3.7 (*A ramified Godement–Jacquet test vector*) and §AL.3.3.8 (*The Jacquet–Shalika Satake bound*).
@@ -1377,6 +1394,23 @@ Work under the following hypotheses. `W̃(g)=W(w_n t(g^(−1)))`; use the source
 (Source: Cogdell, Fields lectures, Lecture 6 §3, Theorem 6.2 and Proposition 6.5, pp.48–49, for unitary inputs; Cogdell, Columbia lectures, §1.3, fact 3, p.8, equal rank, for local components of unitary cuspidal representations; Cogdell–Piatetski-Shapiro, *Derivatives and L-functions for GLn*, §2.1, part (iii), p.17, for every generic pair; Lecture 8 §3, pp.63–64, and Jacquet, Theorem 2.1(iii), p.6, archimedean.)
 
 *Needs:* The Rankin–Selberg local L-factor (AL.3.2.3); the Fourier transform, self-dual measure and inversion on `Fⁿ` for `dotProductBilin`, from **AnalyticNumberTheoryPartII**, §5.3g, at completions of number fields and from the `Fⁿ` instance of The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions (AL.0.3.1) in positive characteristic; **SmoothRepresentationsOfLocalGroups**, SR.3.
+
+#### AL.3.3.2a Multiplicativity of `γ`-factors
+
+Let F be a nonarchimedean local field, ψ a nontrivial additive character, π an irreducible generic representation of `GL_n(F)` and τ an irreducible generic representation of `GL_m(F)`. For `n≥m` the factors of the pair are those of The Rankin–Selberg local L-factor (AL.3.2.3) and The local Rankin–Selberg functional equation (AL.3.3.2); for `n<m` they are by convention those of the pair in the other order, `L(s,π×τ)=L(s,τ×π)` and `ε(s,π×τ,ψ)=ε(s,τ×π,ψ)`, hence `γ(s,π×τ,ψ)=γ(s,τ×π,ψ)`; at equal rank these equalities hold as properties of the factors. If τ is the irreducible generic subquotient of a normalized induction `Ind_Q^GL_m(⊠_i τ_i)` from irreducible generic `τ_i` of `GL_(m_i)(F)`, `Σm_i=m`, then `γ(s,π×τ,ψ)=∏_iγ(s,π×τ_i,ψ)`; by the symmetry the same identity holds when π is the generic subquotient of an induction `Ind_P^GL_n(⊠_j π_j)` from irreducible generic `π_j`. Both identities hold over every nonarchimedean local field, of either characteristic.
+
+The proof is that of Jacquet, Piatetski-Shapiro and Shalika: realize the Whittaker functions of the induced representation, which is of Whittaker type, through the Jacquet integral of a section; substituting into the integrals of The local Rankin–Selberg integrals (AL.3.2.1) and unfolding along the open Bruhat cell writes the integral for τ as an iterated integral of those for `τ₁` and for the induction from `τ₂,…,τ_r`, and the local functional equation (AL.3.3.2) applied at each step gives the product. The generic subquotient has the same Whittaker functional as the induced representation of Whittaker type, so the same γ-factor, and induction on r gives the first identity.
+
+Work under the following hypotheses. Normalized induction is SmoothRepresentationsOfLocalGroups SR.2.2 *parabolic-induction*; the same ψ is used on both sides. The inductions need not be irreducible. They are of Whittaker type, that is, of finite length with a one-dimensional space of Whittaker functionals (the top derivative of a product, SR.5.1 *mirabolic-derivatives*), so each has exactly one irreducible generic subquotient; the integrals of AL.3.2.1, their rationality and the functional equation of AL.3.3.2 are used for representations of Whittaker type, for which the source proves them (its Theorem (2.7)), and that extension is part of this target. The L-factors are not multiplicative in this generality, and no such statement is made.
+
+**Checks.**
+
+- π the irreducible principal series of `GL₂(F)` induced from `χ₁⊠χ₂` and τ a character χ of `GL₁(F)`: `γ(s,π×χ,ψ)=γ(s,χ₁χ,ψ)γ(s,χ₂χ,ψ)`, a product of the rank-one factors of AL.1.3.1.
+- The Steinberg representation St of `GL₂(F)` is the generic subquotient of the normalized induction from `|·|^(1/2)⊠|·|^(−1/2)`. For `χ=|·|^(1/2)`, `L(s,St×χ)=L(s+1,1)`, while `L(s,|·|^(1/2)χ)L(s,|·|^(−1/2)χ)=L(s+1,1)L(s,1)`: the statement concerns γ, not L.
+
+(Source: Jacquet, Piatetski-Shapiro and Shalika, *Rankin–Selberg convolutions*, Theorem (3.1), pp.404–405, with the convention (2.12), p.403, and Remark (3.3), pp.405–406; Henniart, *Une caractérisation de la correspondance de Langlands locale pour GL(n)*, §§1.1–1.2, pp.588–589, and §2.6, p.595, for the factors over every nonarchimedean local field and the γ-factors of the representations of segments as products.)
+
+*Needs:* Local Whittaker uniqueness (AL.3.1.1); The Whittaker realization (AL.3.1.2); The local Rankin–Selberg integrals (AL.3.2.1); The Rankin–Selberg local L-factor (AL.3.2.3); The local Rankin–Selberg functional equation (AL.3.3.2); **SmoothRepresentationsOfLocalGroups**, SR.2.2 *parabolic-induction*, SR.3.1 *finite-length* and SR.5.1 *mirabolic-derivatives*.
 
 #### AL.3.3.3 Archimedean realization of holomorphic multiples
 
@@ -1427,6 +1461,25 @@ Work under the following hypotheses. Genericity is imported from the cuspidal re
 (Source: Cogdell, Fields lectures, Corollary 7.1.2 and proof, pp.58–59.)
 
 *Needs:* The unramified Rankin–Selberg test (AL.3.3.6); Local convergence and continuity (AL.3.2.2); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *Automorphic forms, constant terms and cusp forms*.
+
+#### AL.3.3.8a The exponent bound for unitary generic representations
+
+Let F be a nonarchimedean local field and π an irreducible unitary generic representation of `GL_n(F)`. Write π as an irreducible normalized induction `π≅Ind_P^GL_n(⊠_i π_i|det|^(t_i))`, `1≤i≤r`, with each `π_i` square-integrable modulo the centre with unitary central character and every `t_i` real; the multiset of the pairs `(π_i,t_i)` is determined by π. Then `|t_i|<1/2` for every i, and the pairs with `t_i≠0` come in couples `(π_k,t)`, `(π_l,−t)` with `π_k≅π_l`. For every irreducible representation `π₀` of `GL_m(F)` that is square-integrable modulo the centre with unitary central character, `L(s,π₀×π₀∨)` has a pole at `s=0`, by Jacquet, Piatetski-Shapiro and Shalika, *Rankin–Selberg convolutions*, Proposition (8.1), p.443, and Theorem (8.2), pp.444–445.
+
+Work under the following hypotheses. F of either characteristic. The decomposition and the uniqueness of its pairs are the classification of generic representations by segments: every irreducible generic representation of `GL_n(F)` is a product `L(Δ₁)×⋯×L(Δ_r)` of the representations of pairwise unlinked segments and determines their multiset (Zelevinsky, *Induced representations of reductive p-adic groups II*, Theorem 9.7 (b), p.199, over every nonarchimedean local field, §1.1, p.170). For F a finite extension of `ℚ_p` this is SmoothRepresentationsOfLocalGroups SR.5.2 *modular-generic-segments* with complex coefficients and *segment-representations*; in positive characteristic it is part of this target, by Zelevinsky's proof (9.10, p.201) from the derivatives of SR.5.1 *mirabolic-derivatives* and SR.5.2a *zelevinsky-classification*. SR.5.2a, clause (v), identifies the representations of segments with the essentially square-integrable ones.
+
+The pole: `π₀` is the representation of a segment of some length ℓ centred on a unitary supercuspidal representation ρ, and `L(s,π₀×π₀∨)=∏_{j=0}^{ℓ−1}L(s+j,ρ×ρ∨)`; the factor with `j=0` contains `(1−q^(−s))^(−1)`, and no factor has a zero. The bound follows from the pole. The invariant Hermitian form of the unitary π identifies its complex conjugate with the contragredient of SR.0.4 *smooth-dual*, so the multiset `{(π_i,t_i)}` is stable under `t↦−t`. If `t_i>0`, take j with `π_j≅π_i` and `t_j=−t_i`. By Nonarchimedean factors under normalized induction (AL.3.3.1), `L(s,π×π∨)` is the product of the factors `L(s,π_k|det|^(t_k)×(π_l|det|^(t_l))∨)`; among them is `L(s,π_i|det|^(−t_i)×π_i∨|det|^(−t_i))=L(s−2t_i,π_i×π_i∨)`, which has a pole at `s=2t_i`, and the other factors have no zeros. By Local convergence and continuity (AL.3.2.2) the local integrals of the unitary generic pair `(π,π∨)` converge absolutely on `Re(s)≥1`, and by The Rankin–Selberg local L-factor (AL.3.2.3) at each `s₀` some integral divided by `L(s,π×π∨)` is nonzero; so `L(s,π×π∨)` has no pole on `Re(s)≥1`, and `2t_i<1`.
+
+**Checks.**
+
+- For unramified π each `π_i` is a unitary unramified character, and `|det|^(t_i)` gives a Satake root of absolute value `q^(−t_i)`; the bound is `q^(−1/2)<|α|<q^(1/2)` of The Jacquet–Shalika Satake bound (AL.3.3.8).
+- The Steinberg representation of `GL₂(F)`, unitary and generic, is itself square-integrable: `r=1` and `t₁=0`, although its supercuspidal support `{|·|^(1/2),|·|^(−1/2)}` has exponents `±1/2`.
+- The trivial representation of `GL₂(F)` is unitary with exponents `±1/2` but is not generic.
+- For `n=1`, π is a unitary character, `r=1` and `t₁=0`.
+
+(Source: Bernstein, *P-invariant distributions on GL(N) and the classification of unitary representations of GL(N) (non-archimedean case)*, §8.9, Lemma and Remark, p.94, the classification of the nondegenerate irreducible unitarizable representations; Tadić, *Classification of unitary representations in irreducible representations of general linear group (non-Archimedean case)*, Theorem D, pp.338–339; Jacquet–Shalika, *On Euler products and the classification of automorphic representations I*, Proposition (1.5), p.507, and Corollary (2.5), p.515, the unramified case, whose argument the proof above follows; for the pole, Jacquet, Piatetski-Shapiro and Shalika, *Rankin–Selberg convolutions*, Proposition (8.1), p.443, and Theorem (8.2), pp.444–445.)
+
+*Needs:* The local Rankin–Selberg integrals (AL.3.2.1); Local convergence and continuity (AL.3.2.2); The Rankin–Selberg local L-factor (AL.3.2.3); Nonarchimedean factors under normalized induction (AL.3.3.1); **SmoothRepresentationsOfLocalGroups**, SR.0.4 *smooth-dual*, SR.3.3 *square-integrable-tempered*, SR.5.1 *mirabolic-derivatives*, SR.5.2 *modular-generic-segments* (for finite extensions of `ℚ_p`) and *segment-representations*, SR.5.2a *zelevinsky-classification*.
 
 ### AL.3.4 Fourier reconstruction and ordinary multiplicity one
 
@@ -1592,6 +1645,23 @@ Work under the following hypotheses. K is a number field; the function-field sta
 
 *Needs:* Continuation and the Rankin–Selberg pole criterion (AL.3.6.1); The Jacquet–Shalika Satake bound (AL.3.3.8); Ordinary global multiplicity one for GL(n) (AL.3.4.3); Local convergence and continuity (AL.3.2.2); The Rankin–Selberg local L-factor (AL.3.2.3).
 
+#### AL.3.7.1a The contragredient by transpose-inverse
+
+Let K be a number field and π a unitary cuspidal automorphic representation of `GL_n(𝔸_K)` in its cusp realization. Then the functions `g↦φ(ᵗg⁻¹)`, `φ∈π`, form the cusp realization of the contragredient `π∨`.
+
+Work under the following hypotheses. K is a number field; cusp realizations and central characters as in Ordinary global multiplicity one for GL(n) (AL.3.4.3) and The analytic proof of strong multiplicity one (AL.3.7.1). No local statement is made.
+
+The automorphism `g↦ᵗg⁻¹` of `GL_n` over K preserves the standard maximal compact subgroups and permutes the parabolic subgroups defined over K, so the functions `φ(ᵗg⁻¹)` form a cuspidal automorphic representation. At a finite place where `π_v` is unramified with Satake parameters `α_1,…,α_n` it is unramified with parameters `α_1⁻¹,…,α_n⁻¹`, since the automorphism inverts the diagonal torus, and so is `π_v∨`. `π∨` is cuspidal automorphic: its functions are complex conjugates of cusp forms. Strong multiplicity one (AL.3.7.1), with ordinary multiplicity one (AL.3.4.3), makes the two cusp realizations equal.
+
+**Checks.**
+
+- For `n=1`, π is an idele-class character χ, the automorphism is `g↦g⁻¹`, and `φ=cχ` gives `φ(g⁻¹)=cχ⁻¹(g)`: the contragredient `χ⁻¹`.
+- On the centre the automorphism is `z↦z⁻¹`, so the functions `φ(ᵗg⁻¹)` have central character `ω_π⁻¹`, that of `π∨`.
+
+(Source: Cogdell, Fields lectures, Lecture 5, the remark after Proposition 5.1, printed p.38 (PDF p.42), and Proposition 5.3 (iii), printed p.39 (PDF p.43), for unitary cuspidal π.)
+
+*Needs:* The analytic proof of strong multiplicity one (AL.3.7.1); Ordinary global multiplicity one for GL(n) (AL.3.4.3); **SmoothRepresentationsOfLocalGroups**, SR.4, spherical Satake parameters; **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *Automorphic forms, constant terms and cusp forms*.
+
 #### AL.3.7.2 Strong multiplicity one for isobaric sums
 
 Given the isobaric construction (AL.R.4) `π=⊞_iτ_i`, equality of unramified components almost everywhere determines the multiset of cuspidal constituents `τ_i`, including multiplicities and norm twists. Thus two isobaric representations with those components are isomorphic. For arbitrary automorphic constituents the conclusion is equality of cuspidal support, not an unproved assertion that every constituent is itself the same representation.
@@ -1717,6 +1787,23 @@ Work under the following hypotheses. F is a number field; `Π` is an irreducible
 (Source: Cogdell, converse theorems, §2; §3 Theorem 3.3, pp.5–6,9.)
 
 *Needs:* The Whittaker realization (AL.3.1.2); The local Rankin–Selberg functional equation (AL.3.3.2); The GL(n) cuspidal Fourier expansion (AL.3.4.1); Niceness with specified root number and conductor (AL.3.9.3); Hecke, eigensystem and Rankin–Selberg data (AL.3.9.4).
+
+#### AL.3.9.7 The local converse theorem for `GL(n)`
+
+Let F be a nonarchimedean local field, ψ a nontrivial additive character, `n≥2`, and `π₁,π₂` irreducible generic representations of `GL_n(F)`. If `γ(s,π₁×τ,ψ)=γ(s,π₂×τ,ψ)` for every irreducible generic representation τ of `GL_(n−1)(F)`, then `π₁≅π₂`; the same conclusion holds if the equality is assumed for every irreducible supercuspidal τ of `GL_r(F)` and every `1≤r≤n−1`. If `π₁` and `π₂` have the same central character and the equality holds for every irreducible generic τ of `GL_r(F)` and every `1≤r≤⌊n/2⌋`, then `π₁≅π₂`. The factors are those of The local Rankin–Selberg functional equation (AL.3.3.2).
+
+Work under the following hypotheses. F of either characteristic. The same ψ for both representations. Equal central characters are assumed only in the statement for the ranks up to `⌊n/2⌋`, where they are a hypothesis of the cited theorem.
+
+For rank `n−1` (Henniart): let 𝒮 be the space of pairs `(W₁,W₂)` of Whittaker functions of `π₁`, `π₂` with the same restriction to `GL_(n−1)(F)`, embedded in the upper left corner; it is neither zero nor everything, because the restrictions of the Whittaker functions of each `π_i` to the mirabolic subgroup contain every smooth function transforming by `ψ_N` with compact support modulo `N_n` (SR.5.1 *mirabolic-derivatives*). The equality of the γ-factors and the functional equation for `GL_n×GL_(n−1)` give, for `(W₁,W₂)` in 𝒮, equal integrals of `W̃₁` and `W̃₂` against every Whittaker function of every irreducible generic representation of `GL_(n−1)(F)`, and so, comparing the coefficients of the powers of `q^(−s)`, equal integrals over each set where `|det g|` is constant; on each such set the difference f of `W̃₁` and `W̃₂` on `GL_(n−1)(F)` has compact support modulo `N_(n−1)`. Part of this target is the completeness lemma that gives `f=0`: a smooth function on `GL_(n−1)(F)` that transforms under `N_(n−1)` by `ψ_N⁻¹`, has compact support modulo `N_(n−1)` on each set where `|det g|` is constant, and has integral zero over each such set against every W in the ψ-Whittaker model of every irreducible generic representation of `GL_(n−1)(F)`, is zero (Jacquet–Liu, proof of Lemma 2.4, the case `j=0`, pp.7–8, which refers for it to §3 of Henniart, *Caractérisation de la correspondance de Langlands locale par les facteurs ε de paires*). So `W↦W̃` carries 𝒮 into the corresponding space for the contragredients, 𝒮 is stable under right translation by the mirabolic subgroup and by its transpose, which generate `GL_n(F)`, and 𝒮 is the graph of an isomorphism of the two Whittaker models. For supercuspidal twists of ranks `1≤r≤n−1`, Multiplicativity of `γ`-factors (AL.3.3.2a) first extends the equality to every irreducible generic τ of `GL_(n−1)(F)`, such a τ being the generic subquotient of an induction from supercuspidal representations (SR.3a.1 *jacquet-subrepresentation*, with the cuspidal support of SR.3.1). For `1≤r≤⌊n/2⌋`: Jacquet–Liu, Theorem 1.3; for a finite extension of `ℚ_p`, also Chai, Theorem 1.1.
+
+**Checks.**
+
+- `n=2`: twists by characters (`r=n−1=1`) determine a generic representation of `GL₂(F)`; no hypothesis on the central character is needed.
+- `n=2`, `π₁`, `π₂` unramified principal series with Satake parameters `{a₁,b₁}`, `{a₂,b₂}`: already the unramified characters χ separate them, since `L(s,π_i×χ)=((1−a_iχ(ϖ)q^(−s))(1−b_iχ(ϖ)q^(−s)))^(−1)` and the poles of γ in `q^(−s)` locate `a_i`, `b_i`.
+
+(Source: for the form with generic twists of rank `n−1`, Henniart, *Caractérisation de la correspondance de Langlands locale par les facteurs ε de paires*, Théorème 1.1, p.340, proved in §3, pp.344–346; for the form with supercuspidal twists of ranks `1≤r≤n−1`, the Remarque after its Corollaire, p.340, proved by Lemme 3.5, pp.347–348, and recalled in Henniart, *Une caractérisation de la correspondance de Langlands locale pour GL(n)*, §1.9, Corollaire, p.592; for the form with ranks up to `⌊n/2⌋`, Jacquet–Liu, Theorem 1.3, proving their Conjecture 1.1, numbered as in arXiv:1601.03656v3, pp.1–3, and, for F a finite extension of `ℚ_p`, Chai, Theorem 1.1, numbered as in arXiv:1601.05450v2, p.2.)
+
+*Needs:* Local Whittaker uniqueness (AL.3.1.1); The Whittaker realization (AL.3.1.2); The local Rankin–Selberg integrals (AL.3.2.1); The Rankin–Selberg local L-factor (AL.3.2.3); The local Rankin–Selberg functional equation (AL.3.3.2); Multiplicativity of `γ`-factors (AL.3.3.2a); **SmoothRepresentationsOfLocalGroups**, SR.5.1 *mirabolic-derivatives*, SR.3a.1 *jacquet-subrepresentation* and SR.3.1 *cuspidal-support*.
 
 ### AL.3.10 Curve arithmetic and the unramified pure realization
 
@@ -2074,7 +2161,7 @@ For `GL₂×GL₁` the exponent is `s−1/2`; in equal rank one the product-char
 
 ### Dependencies
 
-AL.0–AL.2; Mathlib `Matrix.charpolyRev` and `Matrix.kronecker` for the function-field local determinants; SmoothRepresentationsOfLocalGroups SR.2–SR.5; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; SchemeAndStackFoundations §0.29 (scheme Frobenius); EtaleCohomologyFoundations §§F.0–F.6 and F.10.1–F.10.5; EtaleCohomologyFoundations §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7, with §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3 for the weight-facing acceptance suite; EtaleCohomologyFoundations §§F.5–F.7 for that suite's duality, cycle classes and projective-space cohomology.
+AL.0–AL.2; Mathlib `Matrix.charpolyRev` and `Matrix.kronecker` for the function-field local determinants; SmoothRepresentationsOfLocalGroups SR.0.4, SR.2–SR.5 and SR.3a.1; the representation prerequisites here and ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; AdelicAlgebraicGroups §§2.2–2.3; ArithmeticLocallySymmetricSpaces ALS.5b; AlgebraicCurves layers 0, 4, 5, 9 and 12; JacobianChallenge A and D–F; SchemeAndStackFoundations layers 0–3; AlgebraicVectorBundles L0B and L2B; AlgebraicModuliForArithmeticGeometry layers 1–5; SchemeAndStackFoundations §0.29 (scheme Frobenius); EtaleCohomologyFoundations §§F.0–F.6 and F.10.1–F.10.5; EtaleCohomologyFoundations §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity; DeligneWeightsAndPurity DWP.0–DWP.1 and DWP.5–DWP.7, with §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3 for the weight-facing acceptance suite; EtaleCohomologyFoundations §§F.5–F.7 for that suite's duality, cycle classes and projective-space cohomology.
 
 ## Layer AL.4: Parameters and local determinant comparisons
 
@@ -2307,7 +2394,7 @@ AutomorphicSpectralTheory, GL2AutomorphicRepresentationsAndTransfer, DirichletPa
 
 ## Scope and ownership
 
-The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality; §4.5 supplies the shared `NormalizedMaassEigenform(r,δ)` carrier and its Fourier, Hecke, reflection-parity and adelization comparisons. The representation prerequisites above specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and GL₂ newvectors (AL.2.2) for rank two; the compatible higher-rank newform construction is a target here. AL.2 consumes the real-parameter specialization of the shared Maass carrier for its standard and adjoint L-functions. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
+The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5, with SR.0.4 and SR.3a.1. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality; §4.5 supplies the shared `NormalizedMaassEigenform(r,δ)` carrier and its Fourier, Hecke, reflection-parity and adelization comparisons. The representation prerequisites above specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and GL₂ newvectors (AL.2.2) for rank two; the compatible higher-rank newform construction is a target here. AL.2 consumes the real-parameter specialization of the shared Maass carrier for its standard and adjoint L-functions. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
 **AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. **AnalyticNumberTheoryPartII**, §§5.3g and 5.3h, owns the standard trace character, local additive self-duality, self-dual measures, the local and adelic Schwartz–Bruhat spaces with their Fourier transforms and inversion, the diagonal self-annihilator and vector-space Poisson summation; its §5.3j owns the multiplicative measures and the local zeta integral. These sections are stated at completions of number fields. AL.0.1 states the annihilator and indicator-transform identities for an arbitrary bilinear character pairing, of which §5.3g's lattice formulas are the number-field case; The local Schwartz–Bruhat space S(F), its `F^×`-action and tempered distributions (AL.0.3.1) uses them for the lattice duality, self-dual measures and Fourier inversion on every finite-dimensional vector space with a nondegenerate bilinear pairing over a nonarchimedean local field of positive characteristic, which this roadmap owns. ArithmeticGaloisRepresentations §2.7's [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations) supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex`; [Root-number product formula](../ArithmeticGaloisRepresentations/README.md#root-number-product-formula) is a finite-sum identity identifying the Gauss-sum root number with the local constants. **AnalyticNumberTheoryPartI**, §2.3a, owns continuation and functional equations of Hecke L-functions of unitary idele-class characters. This roadmap owns the local functional equation for arbitrary Schwartz functions, eigendistribution uniqueness and the global matrix-integral continuation for every `n≥1`, with the conductor and root-number normalizations above. **ReductiveGroupsPartII**, RG2.5.2, supplies the L-group; The unramified L-group Euler factor (AL.4.1.1) forms its Frobenius coset `Ĝ ⋊ Frob_v` for an unramified group. **IntegralHeckeAndGaloisDeterminants**, §3a.1, supplies the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. AL.1 identifies its distribution scalar with `tateLocalConstant` unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
@@ -2451,7 +2538,19 @@ and the Schwartz-distribution measure comparison is an AL.1 target.
   rank; at `n=1` they specialize to AnalyticNumberTheoryPartI §2.3a.
 - **SmoothRepresentationsOfLocalGroups**, SR.1.1 supplies finite-place compactly
   supported locally constant functions; SR.2–SR.3 supplies normalized induction and
-  irreducible admissible inputs; SR.4 supplies spherical Satake classes. SR.2.3
+  irreducible admissible inputs; SR.4 supplies spherical Satake classes. SR.0.4
+  *smooth-dual* supplies contragredients; SR.3.3 *square-integrable-tempered* and
+  *casselman-criterion* supply square-integrable representations; SR.3a.1
+  *jacquet-subrepresentation* with SR.3.1 *cuspidal-support* embeds an irreducible
+  representation in an induction from supercuspidal ones, and SR.3.1 *finite-length*
+  gives inductions of finite length; SR.5.2 *modular-generic-segments* and
+  *segment-representations* classify the generic representations over finite
+  extensions of `ℚ_p`; SR.5.2a *zelevinsky-classification* is the input from which
+  AL.3.3.8a derives that classification in positive characteristic, and its clause (v)
+  identifies the essentially square-integrable representations with the
+  representations L(Δ) of segments. These are used by Square-integrable inputs (AL.3.2.4), Multiplicativity of
+  `γ`-factors (AL.3.3.2a), The exponent bound for unitary generic representations
+  (AL.3.3.8a) and The local converse theorem for `GL(n)` (AL.3.9.7). SR.2.3
   *whittaker-functionals* supplies the Whittaker functionals `Hom_U(V, ψ)` of every
   quasi-split group, of which `AL3.whittakerFunctionals` is the `GLₙ` case, and gives
   `GL₂` uniqueness; SR.5.1 *mirabolic-derivatives* and
@@ -2540,7 +2639,7 @@ The mathematical hypotheses above define the scope of each target. `Suggested.le
 
 - Hervé Jacquet and Robert P. Langlands, *Automorphic Forms on `GL(2)*`, Lecture Notes in Mathematics 114 (1970), §11 following Proposition 11.1.1, p.183.
 
-- Hervé Jacquet and Joseph A. Shalika, *On Euler products and the classification of automorphic representations I*, American Journal of Mathematics 103 (1981), 499–558. Lemma (5.2), pp.554–555, continuation of the self-pair partial product to `Re(s)>1`; Theorem (5.3), pp.555–557, absolute convergence of the partial pair product on `Re(s)>1`; Remark (5.4), p.557, the standard product.
+- Hervé Jacquet and Joseph A. Shalika, *On Euler products and the classification of automorphic representations I*, American Journal of Mathematics 103 (1981), 499–558. Proposition (1.5), p.507, and Corollary (2.5), p.515, the unramified case of the exponent bound; Lemma (5.2), pp.554–555, continuation of the self-pair partial product to `Re(s)>1`; Theorem (5.3), pp.555–557, absolute convergence of the partial pair product on `Re(s)>1`; Remark (5.4), p.557, the standard product.
 
 - [Local newforms for the general linear groups over a non-archimedean local field](https://arxiv.org/pdf/2110.09070v4), Hiraku Atobe, Satoshi Kondo and Seidai Yasuda. arXiv:2110.09070v4; Forum Math. Pi 10 (2022), e22.
 
@@ -2556,7 +2655,7 @@ The mathematical hypotheses above define the scope of each target. `Suggested.le
 
 - [Piatetski-Shapiro’s Work on Converse Theorems](https://people.math.osu.edu/cogdell.1/PSCT-www.pdf), James W. Cogdell. Contemporary Mathematics survey, author PDF.
 
-- [Derivatives and L-functions for GLn](https://people.math.osu.edu/cogdell.1/moish-www.pdf), James W. Cogdell and Ilya I. Piatetski-Shapiro. Author manuscript dated 14 September 2010, written for the volume in honour of Roger Howe; §2.1, the basic existence theorem for representations of Whittaker type, pp.16–17, in the pagination of this manuscript.
+- [Derivatives and L-functions for GLn](https://people.math.osu.edu/cogdell.1/moish-www.pdf), James W. Cogdell and Ilya I. Piatetski-Shapiro. Author manuscript dated 14 September 2010, written for the volume in honour of Roger Howe; §1.4, pp.10–15, the exponents of Whittaker functions in terms of derivatives; §2.1, the basic existence theorem for representations of Whittaker type, pp.16–17; §2.6.2, pp.30–32, the convergence of the standard pairing and the Corollary to Theorem 2.3, for square-integrable representations; in the pagination of this manuscript.
 
 - [Geometric invariants for real quadratic fields](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p08-p.pdf), William Duke, Özlem Imamoğlu and Árpád Tóth. Annals 184 (2016), 949–990; published PDF.
 
@@ -2598,7 +2697,11 @@ The mathematical hypotheses above define the scope of each target. `Suggested.le
 
 - [La conjecture de Weil. II](https://www.numdam.org/article/PMIHES_1980__52__137_0.pdf), Pierre Deligne. Publ. Math. IHÉS 52 (1980), 137–252; printed pagination.
 
+- Joseph N. Bernstein, *P-invariant distributions on GL(N) and the classification of unitary representations of GL(N) (non-archimedean case)*, in *Lie Group Representations II* (College Park, Md., 1982/1983), Lecture Notes in Mathematics 1041, Springer, 1984, 50–102. §8.9, Lemma and Remark, p.94, the classification of the nondegenerate irreducible unitarizable representations.
+
 - Joseph Bernstein and Bernhard Krötz, *Smooth Fréchet globalizations of Harish-Chandra modules*, Israel Journal of Mathematics 199 (2014), 45–111; [arXiv:0812.1684v3](https://arxiv.org/abs/0812.1684v3). §1, Theorem 1.1, and §§5, 10.
+
+- Jingsong Chai, *Bessel functions and local converse conjecture of Jacquet*, Journal of the European Mathematical Society 21 (2019), 1703–1728; [arXiv:1601.05450](https://arxiv.org/abs/1601.05450). Theorem 1.1, numbered as in arXiv:1601.05450v2, p.2.
 
 - Laurent Clozel, *Motifs et formes automorphes: applications du principe de fonctorialité*, in *Automorphic Forms, Shimura Varieties, and L-functions*, Vol. I (Ann Arbor, 1988), Perspectives in Mathematics 10, Academic Press, 1990, 77–159. §3, Théorème 3.13.
 
@@ -2608,10 +2711,22 @@ The mathematical hypotheses above define the scope of each target. `Suggested.le
 
 - Stephen Gelbart and Freydoon Shahidi, *Boundedness of automorphic L-functions in vertical strips*, Journal of the American Mathematical Society 14 (2001), 79–107, [doi:10.1090/S0894-0347-00-00351-9](https://doi.org/10.1090/S0894-0347-00-00351-9). Theorem 4.1 and its corollary.
 
+- Guy Henniart, *Caractérisation de la correspondance de Langlands locale par les facteurs ε de paires*, Inventiones Mathematicae 113 (1993), 339–350. Théorème 1.1 and the Remarque after its Corollaire, p.340; §3, pp.344–346; Lemme 3.5, pp.347–348.
+
+- Guy Henniart, *Une caractérisation de la correspondance de Langlands locale pour GL(n)*, Bulletin de la Société Mathématique de France 130 (2002), 587–602. §§1.1–1.2, pp.588–589, the factors over every nonarchimedean local field; §1.9, Corollaire, p.592; §2.6, p.595, the `γ`-factors of the representations of segments.
+
+- Hervé Jacquet and Baiying Liu, *On the local converse theorem for p-adic GL_n*, American Journal of Mathematics 140 (2018), 1399–1422; [arXiv:1601.03656](https://arxiv.org/abs/1601.03656). Theorem 1.3, proving Conjecture 1.1, numbered as in arXiv:1601.03656v3, pp.1–3; Lemma 2.4 and its proof, pp.7–8.
+
+- Hervé Jacquet, Ilya I. Piatetski-Shapiro and Joseph A. Shalika, *Rankin–Selberg convolutions*, American Journal of Mathematics 105 (1983), 367–464. (2.5), p.388, asymptotics of Whittaker functions; Theorem (2.7), pp.390–391, and its proof, p.393; (2.12), p.403, the factors of a pair whose first member has the smaller rank; Theorem (3.1), pp.404–405, and Remark (3.3), pp.405–406, multiplicativity of `γ`-factors; Proposition (8.1), p.443, and (8.2), pp.443–445, square-integrable representations.
+
 - A. Raghuram and Freydoon Shahidi, *On certain period relations for cusp forms on GL_n*, International Mathematics Research Notices 2008, rnn077; [arXiv:0707.1708v1](https://arxiv.org/abs/0707.1708v1). Definition 2.2.5, p.10; Proposition 2.3.7 and (2.3.8), pp.17–18, in the pagination of arXiv v1.
 
 - Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer, 1979. Ch. IV §2 and Ch. XV §2.
 
 - Stephen S. Shatz, *The decomposition and specialization of algebraic families of vector bundles*, Compositio Mathematica 35 (1977), 163–187. §§1–5, pp.165–184.
+
+- Marko Tadić, *Classification of unitary representations in irreducible representations of general linear group (non-Archimedean case)*, Annales scientifiques de l'École Normale Supérieure (4) 19 (1986), 335–382, [numdam](https://www.numdam.org/item/ASENS_1986_4_19_3_335_0.pdf). Theorem D, pp.338–339.
+
+- A. V. Zelevinsky, *Induced representations of reductive p-adic groups II. On irreducible representations of GL(n)*, Annales scientifiques de l'École Normale Supérieure (4) 13 (1980), 165–210, [numdam](https://www.numdam.org/item/ASENS_1980_4_13_2_165_0.pdf). §1.1, p.170; Theorem 9.7 (b), p.199, proved in 9.10, p.201.
 
 Locators refer to the editions listed. Physical thesis pages and preprint page numbers are distinguished from published pagination.

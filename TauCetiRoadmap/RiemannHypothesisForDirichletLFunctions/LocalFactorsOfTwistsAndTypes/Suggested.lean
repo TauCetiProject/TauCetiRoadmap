@@ -118,8 +118,8 @@ spherical function is bounded. If `α ∈ ℂⁿ` is its Satake parameter, chara
 eigenvalues `θ(T_r) = Q^{r(n−r)/2} e_r(α)`, `0 ≤ r ≤ n`, of the generators of
 SmoothRepresentationsOfLocalGroups §SR.4.3 *gln-generators*, then
 `Q^{−(n−1)/2} ≤ |α_i| ≤ Q^{(n−1)/2}` for every `i`.
-For `K` of characteristic zero it follows from forms that [FormalProof] has (README 3.4); in general
-it is this roadmap's statement. -/
+For `K` of characteristic zero it follows from forms that [FormalProof] has (README 3.4); for `K` of
+positive characteristic it is not a statement of [FormalProof]. -/
 theorem satake_bound_gl {K : Type*} [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] (n : ℕ)
     [IsHeckeTriple (⊤ : Submonoid (GL (Fin n) K)) (integralGL K n) (integralGL K n)]

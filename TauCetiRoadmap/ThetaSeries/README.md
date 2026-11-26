@@ -45,7 +45,8 @@ arithmetic invariants, with the comparison to rational lattices and the Kronecke
 defines the theta series and their `q`-expansions; Layer 4 proves the translation and inversion
 laws, and Layer 5 the level-one theorem; Layer 6 treats the Gauss sums, from reciprocity to the
 nebentypus; Layer 7 proves the Hecke–Schoeneberg theorem, the modularity of the coset series and the
-Fricke identities; Layer 8 identifies the classical theta series.
+Fricke identities; Layer 8 identifies the classical theta series; Layer 9 treats the theta series
+of a lattice in a complex Hermitian space in a Hermitian matrix variable, with its inversion law.
 
 ## How to read the build
 
@@ -104,7 +105,8 @@ declaration.
 
 Layers 1 and 2 are independent of each other. Layer 3 rests on both; Layer 4 on Layers 1 and 3;
 Layer 5 on Layer 4; Layer 6 on Layers 2 and 4, and not on Layer 5; Layer 7 on Layers 4 and 6;
-Layer 8 on Layer 5, and for §8.6 on Layer 7. Nothing in Layers 1–7 mentions dimension `8`, `16` or
+Layer 8 on Layer 5, and for §8.6 on Layer 7; Layer 9 on Layers 1 and 2 and §3.1, and on §4.2 only
+for its Examples. Nothing in Layers 1–7 mentions dimension `8`, `16` or
 `24`, and no lattice is constructed here: `E₈`, the rank-16 pair, the Leech lattice, `A₂` and `D₄`
 are Tau Ceti's and enter at Layer 8 and in the Examples. Each *Needs:* line lists what its statement
 and its route use, item by item, so that a target proved by another route is not blocked behind an
@@ -247,8 +249,8 @@ does not prove.
 19. **Files.** The targets belong beside Tau Ceti's existing files: lattice Poisson summation in
     `TauCeti/Analysis/Fourier/` and `TauCeti/Analysis/Distribution/SchwartzSpace/`, the real lattice
     model and lattice Gauss sums in `TauCeti/Algebra/Module/ZLattice/`, the Kronecker symbol in
-    `TauCeti/NumberTheory/LegendreSymbol/`, theta series and their modularity in
-    `TauCeti/NumberTheory/ModularForms/ThetaSeries/`.
+    `TauCeti/NumberTheory/LegendreSymbol/`, theta series, their modularity and Hermitian theta
+    series in `TauCeti/NumberTheory/ModularForms/ThetaSeries/`.
 
 ## Layer 1: Poisson summation for a lattice
 
@@ -1637,6 +1639,79 @@ the lattices; Layer 7 (§§7.3, 7.4), the Sturm bound, the weight-one Eisenstein
 and the corrected weight-two series for §8.6. No dimension formula beyond Mathlib's level-one one is
 consumed; ModularForms §0.1 for the normalised weight-one series, where it is used.
 
+## Layer 9: Hermitian theta series
+
+Theta series of a lattice in a complex space with a positive definite Hermitian form, in a Hermitian
+matrix variable of degree `s`, and their inversion law, which is Layer 1 applied to the lattice
+`L^s`. The real rank is even automatically, `2r` for a complex space of dimension `r`, so the
+automorphy factor is the integer power `det(Z/i)^r` and no branch of the determinant is chosen.
+The layer needs Layers 1 and 2 and §3.1 (for the convergence bounds of §9.1), and Layer 4 only for
+its Examples.
+
+**Setting.** `W` is a complex vector space of finite dimension `r` with a positive definite
+Hermitian form `h`, conjugate-linear in the first variable. Regard `W` as a real inner product
+space of dimension `2r` with `⟪x, y⟫_ℝ = 2 Re h(x, y)`, so that `‖x‖² = 2 h(x, x)`, and let `L` be a
+full-rank `ℤ`-lattice in it; `L^∨` and `ZLattice.covolume L` are the dual lattice and the covolume
+for this real inner product, as in the conventions. As a type, `W` is a complex inner product
+space whose inner product is `2h`, made a real inner product space by
+`InnerProductSpace.rclikeToReal ℂ W`, whose inner product is the real part `2 Re h`; with `h`
+itself as the complex inner product, that real part would be `Re h`. ⚠ The real form is `2 Re h`,
+not `Re h`: the factor is the trace from `ℂ` to `ℝ`, and it is what makes the case `s = 1` the
+theta series of Layer 3 (Examples below). For `s ≥ 1`,
+`ℋ_s = {Z ∈ M_s(ℂ) : (Z - Z^*)/2i positive definite}` is the Hermitian half-space of degree `s`
+(`ℋ_1 = ℍ`), and for `X = (x_1, …, x_s) ∈ W^s` the Gram matrix is `T_X = (h(x_i, x_j))_{i,j}`, a
+positive semidefinite Hermitian matrix. `W^s` is the orthogonal sum
+`PiLp 2 (fun _ : Fin s ↦ W)` and `L^s` the product lattice in it; prove `(L^s)^∨ = (L^∨)^s` and
+`ZLattice.covolume (L^s) = (ZLattice.covolume L)^s`. An `O_K`-lattice in a positive definite
+Hermitian space over an imaginary quadratic field `K`, embedded in `W` by a complex embedding of
+`K`, is a lattice `L` of this kind.
+
+### 9.1 Definition and convergence (9A)
+
+For `Z ∈ ℋ_s`, put `Θ_L^{(s)}(Z) = ∑' X : L^s, e(tr(T_X Z))`. Prove absolute and locally uniform
+convergence on `ℋ_s`, and holomorphy. With `Y = (Z - Z^*)/2i`,
+`|e(tr(T_X Z))| = exp(-2π tr(T_X Y))`, and `tr(T_X Y)` is a positive definite quadratic form in
+`X ∈ W^s`, so the bounds of §3.1 apply to the lattice `L^s`.
+
+*Needs:* §3.1 (its bounds, for the lattice `L^s`); the Setting.
+
+### 9.2 Inversion (9B)
+
+For `Z ∈ ℋ_s`, `Θ_L^{(s)}(-Z^{-1}) = (ZLattice.covolume L)^{-s} * det(Z/i)^r * Θ_{L^∨}^{(s)}(Z)`
+(Cohen–Resnikoff, formula (3), p. 330, in another normalisation: for a positive Hermitian matrix
+`H` in `r` variables and a lattice `𝔏` in `ℂ^{r×s}` they put
+`Θ_𝔏(Z, H) = (vol 𝔏)^{1/2} ∑_{N ∈ 𝔏} exp(π i tr(Z N^* H N))`, with `vol` the Lebesgue covolume,
+and prove `Θ_𝔏̂(-Z^{-1}, H^{-1}) = det(-iZ)^r det(H)^s Θ_𝔏(Z, H)` for the dual lattice `𝔏̂` of
+the pairing `Re tr(M^* N)`, by Poisson summation after Resnikoff, Theorem 2.2. For `𝔏 = L^s` and
+`H` twice the Gram matrix of `h` this is the displayed law: the covolume of `𝔏` for `2 Re h` is
+`det(H)^s vol 𝔏`, and `(L^∨)^s = H^{-1} 𝔏̂`.)
+
+*Route:* §1.1 at `v = 0` for the lattice `L^s` in the orthogonal sum `W^s` of the Setting, whose
+dual is `(L^∨)^s` and whose covolume is `(covolume L)^s`, applied to the Hermitian Gaussian
+`X ↦ e(tr(T_X Z))`, which is a Schwartz function and even. Its Fourier transform is
+`det(Z/i)^{-r}` times the Hermitian Gaussian of `-Z^{-1}`: for `Z = iY`, diagonalize `Y` by a
+unitary matrix, a change of variables that is an isometry of `W^s` and splits the Gaussian into
+`s` Gaussians of §1.6 on `W`; for general `Z ∈ ℋ_s`, by the identity theorem. Prove that
+`Z ↦ -Z^{-1}` maps `ℋ_s` to itself, that `det(Z/i) ≠ 0` on `ℋ_s`, and that two holomorphic
+functions on `ℋ_s` which agree on `{iY : Y positive definite}` are equal.
+
+*Needs:* §§1.1, 1.5, 1.6, 2.1, 2.3 and 9.1; the Setting (the dual and the covolume of `L^s`).
+
+### Examples
+
+- `s = 1`: `T_x = h(x, x) = ‖x‖²/2`, so `Θ_L^{(1)}(z) = ∑' x : L, exp(π i ‖x‖² z) = thetaSeries L z`
+  (§3.1) for `L` in the real inner product space `(W, 2 Re h)`, and §9.2 is §4.2 at rank `2r`, with
+  `k = r`.
+- `W = ℂ` carrying the doubled inner product `2x̄y`, so `h(x, y) = x̄y` (on Mathlib's `ℂ`, whose
+  real inner product is `Re(x̄y)`, `ℤ[i]` is its own dual with covolume `1`), `L = ℤ[i]`, `s = 1`:
+  `Θ_L(z) = (∑_{m ∈ ℤ} e(m² z))²`; `L^∨ = ½ℤ[i]` and `covolume L = 2`, so at `z = i` §9.2 reads
+  `Θ_L(i) = Θ_{L^∨}(i)/2`, the square of Jacobi's `∑_m e^{-2πm²} = 2^{-1/2} ∑_m e^{-πm²/2}`.
+
+### Dependencies
+
+Layer 1 (§§1.1, 1.5, 1.6), Layer 2 (§§2.1, 2.3), Layer 3 (§3.1) and the orthogonal sums of
+Convention 17; Layer 4 (§4.2) for the Examples only.
+
 ## Worked examples
 
 Each is the general theorem instantiated, with every hypothesis discharged from the lattice's own
@@ -1756,9 +1831,12 @@ reciprocity, Milgram's formula at positive definite signature by theta asymptoti
 at an odd modulus, the closed form of the Gauss sum, the conductor theorem and the nebentypus `χ_L`
 (Layer 6); the reductions of §7.1, the coset splitting, the Hecke–Schoeneberg theorem, the theta
 series as a modular form with character, the coset series on `Γ(N)`, the Fricke identities and their
-consequences (Layer 7); and the identifications of Layer 8: even unimodular lattices of rank `8`,
+consequences (Layer 7); the identifications of Layer 8: even unimodular lattices of rank `8`,
 `16` and `24`, `E₈`, the Leech lattice, the theta identity of the rank-16 pair with the statement
-that the theta series does not determine the lattice, and `A₂` and `D₄`. Where Tau Ceti realises an
+that the theta series does not determine the lattice, and `A₂` and `D₄`; and the Hermitian theta
+series `Θ_L^{(s)}` of degree `s` of a lattice in a finite-dimensional complex space with a positive
+definite Hermitian form, on the Hermitian half-space `ℋ_s`, with its convergence and its inversion
+law under `Z ↦ -Z^{-1}` (Layer 9). Where Tau Ceti realises an
 item, the item names the declarations. This roadmap constructs no lattice, and states no Hecke
 theory, dimension formula or newform theory of its own.
 
@@ -1811,8 +1889,9 @@ theory, dimension formula or newform theory of its own.
   inversion law of §4.3 and §7.5 are proved directly; a development of the Weil representation needs
   the Gauss-sum invariant of a finite quadratic module for its `S`-matrix and the local formulas of
   Scheithauer and Strömberg, and would consume Layer 6); theta series with spherical coefficients,
-  Siegel and Jacobi theta series, the Siegel–Weil formula, sphere packing, the classification or
-  uniqueness of any lattice, and the construction of Niemeier lattices; half-integral weight.
+  Siegel and Jacobi theta series, Hermitian theta series beyond the definition and inversion law of
+  Layer 9, the Siegel–Weil formula, sphere packing, the classification or uniqueness of any lattice,
+  and the construction of Niemeier lattices; half-integral weight.
 
 ## Exact supplier contracts
 
@@ -1934,6 +2013,13 @@ by §8.6, where Tau Ceti's `TauCeti.EisensteinSeries.charE1MF` with its coeffici
 - H. Iwaniec, *Topics in Classical Automorphic Forms*, GSM 17 (AMS, 1997),
   [DOI](https://doi.org/10.1090/gsm/017), Ch. 10 — theta functions attached to quadratic forms, the
   general transformation formula, and the Gauss sums, in the form closest to the Layer-6 computation.
+- D. M. Cohen and H. L. Resnikoff, "Hermitian quadratic forms and Hermitian modular forms",
+  *Pacific J. Math.* **76** (1978), 329–337, [msp](https://msp.org/pjm/1978/76-2/p05.xhtml).
+  Formulas (2)–(4), p. 330: the theta function of a positive Hermitian form in `r` variables and a
+  lattice in `ℂ^{r×s}`, on the Hermitian half-space of degree `s`, and its functional equation
+  under `Z ↦ -Z^{-1}`, proved by Poisson summation — Layer 9.
+- H. L. Resnikoff, "Theta functions for Jordan algebras", *Invent. Math.* **31** (1975), 87–104.
+  Theorem 2.2, the Poisson summation step that Cohen and Resnikoff cite for §9.2.
 - J. Milnor and D. Husemoller, *Symmetric Bilinear Forms*, Ergebnisse 73 (Springer, 1973),
   [DOI](https://doi.org/10.1007/978-3-642-88330-9). Appendix 4 is Gauss sums and Milgram's formula,
   `∑_γ e(q(γ)) = |A|^{1/2} e(σ/8)`, proved by the theta-asymptotic method of Layer 6.

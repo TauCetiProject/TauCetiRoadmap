@@ -2,7 +2,9 @@
 
 **Summary.** Build the general theory of reductive algebraic groups from native
 Hopf algebras, schemes and comodules: orbit geometry, structure and classification,
-pinned integral groups, rational highest weights, and regular-semisimple spectral
+pinned integral groups, the complex representations of the finite groups of rational points
+(Harish-Chandra series and Gelfand–Graev representations), rational
+highest weights, and regular-semisimple spectral
 monodromy. The library includes nonsmooth finite-type groups where appropriate and
 retains every characteristic in its integral and reductive structure theorems.
 
@@ -40,7 +42,19 @@ Galois-twisted forms (Layer 9D's forms), integral models of `GSpin` for non-unim
 these groups are not targets of §§9B.5–9B.8.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
 group over a finite field and the fixed-coset bijection `H^σ/J^σ ≃ (H/J)^σ`, built on the pinned
-fixed-lift lemma; Layer 9E owns their Steinberg-endomorphism extension. Layer 1.1 owns rational
+fixed-lift lemma; Layer 9E owns their Steinberg-endomorphism extension. Layer 7a also owns the
+rational Borel pairs and the rational Bruhat decomposition, the rational maximal tori and the Lang
+map as a finite étale torsor (§§7a.1–7a.3); FourierDeligneTransform §2.1 states the Lang torsor of a
+smooth connected commutative group of finite type over `F_q`, affine or not; for affine groups its
+torsor statement is the commutative case of §7a.3. §7.1 owns the centralizers of semisimple elements in every
+characteristic; EndoscopicTransferAndUnitaryTraceComparison §1.3 states three of its statements over
+an algebraic closure of a field of characteristic zero (the reductivity of `C_G(s)°`, the
+connectedness of `C_G(s)` for a simply connected derived group and the torus criterion for a
+commutative `C_G(s)`) and is a consumer of §7.1, not a second supplier. Layers 7h and 7i own the
+Harish-Chandra series and the Gelfand–Graev representations of `G^F` for every connected reductive
+`G`; Deligne–Lusztig induction and the characters of `GL_n(𝔽_q)` are DeligneLusztigTheory's, which
+consumes these layers. The unitary groups of Hermitian and
+skew-Hermitian spaces over a separable quadratic field extension are §9D.1's. Layer 1.1 owns rational
 cohomology over flat commutative Hopf algebras, the comparison of comodule invariants with
 point-fixed vectors, and the exactness, transitivity and points description of cotensor
 induction, whose construction and reciprocity are pinned, together with their rational
@@ -556,6 +570,12 @@ prove them equivalent** rather than committing.
     over `Spec R`. `TauCeti.DiagonalizableGroup.schemeFunctor_faithful` makes it faithful when
     `R` is nonzero, and `TauCeti.DiagonalizableGroup.fullyFaithfulSchemeFunctor` makes it fully
     faithful when `Spec R` is connected: `Hom(D_R(M), D_R(N)) = Hom(N, M)`.
+  - `DiagonalizableGroup/Centralizer/Smooth.lean` supplies
+    `BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`, over every commutative
+    ring `R`: for a homomorphism `D(X) → G` presented by a bialgebra map `O(G) → R[X]`, with `G`
+    smooth affine of finite type, the centralizer of its image, cut out by
+    `BialgHom.centralizerHopfIdeal`, is smooth. §7.1 uses it for the centralizer of a semisimple
+    element.
   - `TauCeti/Algebra/Coalgebra/Comodule/MonoidAlgebra/Basic.lean` supplies
     `TauCeti.Comodule.isInternal_weightSpace`, over every commutative semiring: a comodule over
     `R[M]` is the direct sum of its weight spaces. This is the implication from diagonalizable
@@ -1227,6 +1247,23 @@ Layers 0–1 supply the groups of points `O(Q)`, `SO(Q)` over a field of charact
 spinor norm, and the image of `Spin → SO` on points as the kernel of the spinor norm. §9B.7 uses
 them for the field points of `Spin(q)` and its comparison with `SO(q)`.
 
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+Sections F.0.1–F.0.2 supply étale module sheaves, their stalks, the étale fundamental group and its
+monodromy equivalence, used by Layer 9D.
+
+### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
+
+Layer 0 (induction in stages) is used by §7c.1 and Layer 7i; Layer 2 (induced representations and
+characters, Frobenius reciprocity) and Layers 3–4 (the Mackey decomposition and intertwining
+numbers) by Layer 7i.
+
+### From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
+
+Layers 1–2 supply Schur's lemma, isotypic components and the Artin–Wedderburn decomposition of the
+endomorphism algebra of a semisimple module, used by §7h.3 for the bijection between a
+Harish-Chandra series and the simple modules of the endomorphism algebra.
+
 ### Native quotient and isometry interfaces
 
 Use `TauCeti.CommHopfAlgCat.fppfQuotientSheaf` from
@@ -1284,6 +1321,8 @@ Layers 0–3 construct the dictionaries and geometric structure; Layers 4–7 de
 structure theory, and Layer 8 specifies split data and pinnings. Layer 9 constructs the
 integral pinned models before Layer 9D proves classification and relative extensions.
 Layer 9E then applies the explicit §9B carriers to Steinberg fixed points.
+Layers 7h and 7i, after the finite-field Layers 7a–7f, develop the Harish-Chandra series and the
+Gelfand–Graev representations of the finite groups `G^F`.
 Within representation theory the order is §9C distributions and Frobenius section →
 §10A rational integration → §10A.1 contraction; §9C does not use integration.
 Layer 11 constructs spectral monodromy.
@@ -3073,6 +3112,65 @@ the supplier contracts.
   - For the constant group `ℤ/3`, which is not connected, `B = T = 1` and the Weyl quotient
     `ℤ/3` is not generated by involutions: connectedness, part of reductivity, is needed.
 
+### 7.1 Centralizers of semisimple elements
+
+Let `G` be a connected reductive group over an algebraically closed field `k̄` of any characteristic, `s ∈ G(k̄)`
+semisimple and `T` a maximal torus containing `s`, with roots `Φ` and root subgroups `U_α`. The centralizer `C_G(s)` is
+the scheme-theoretic one, the fibre over `s` of the conjugation morphism `g ↦ gsg⁻¹`. Prove:
+
+(a) `C_G(s)` is smooth, and its identity component `C_G(s)°` is reductive, generated by `T` and the `U_α` with
+`α(s) = 1`; its root system with respect to `T` is `{α ∈ Φ : α(s) = 1}`, and its Weyl group `W(C_G(s)°, T)` is
+generated by the reflections `s_α` with `α(s) = 1`;
+(b) every maximal torus of `G` containing `s` lies in `C_G(s)°`, and `C_G(s)` is generated by `C_G(s)°` and the
+`ẇ ∈ N_G(T)` with `w(s) = s`;
+(c) if the derived group of `G` is simply connected, `C_G(s)` is connected;
+(d) `s` is regular (`dim C_G(s)` is the rank of `G`) exactly when `C_G(s)°` is a maximal torus, and exactly when
+`α(s) ≠ 1` for every root `α`; if `C_G(s)` is commutative, then `C_G(s) = C_G(s)°` is a maximal torus;
+(e) if `G` is defined over a field `k` and `s ∈ G(k)`, then `C_G(s)` and `C_G(s)°` are defined over `k`.
+
+The headlines `StructureAcceptance.reductive_identityComponent_centralizer` and
+`StructureAcceptance.geometricallyConnected_centralizer_of_simplyConnected` state the reductivity of `C_G(s)°` in (a) and
+statement (c) for the closed subgroup cut out by the functions vanishing at the points of `G(k̄)` that commute with `s`,
+which is the reduced subgroup `C_G(s)_red`; it is `C_G(s)` because (a) makes `C_G(s)` smooth, which the Lean statements
+do not assert.
+
+*Route.* `Ad(s)` acts on `𝔤 = Lie(T) ⊕ ⊕_α 𝔤_α` by `α(s)` on `𝔤_α`, so the fixed subalgebra is
+`Lie(T) ⊕ ⊕_{α(s)=1} 𝔤_α`; the subgroup `H` generated by `T` and the `U_α` with `α(s) = 1` centralizes `s` and has this
+Lie algebra, and `Lie C_G(s) ⊂ 𝔤^{Ad(s)}`, so `C_G(s)°`, which contains `H`, has dimension at most `dim H`. `C_G(s)` is
+smooth: it is the centralizer of the closed subgroup generated by `s`, a diagonalizable subgroup of `T`, and the
+centralizer of a diagonalizable subgroup of a smooth affine group of finite type is smooth (the pinned
+`BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`); hence `C_G(s)° = H`. `H` is reductive: its
+unipotent radical `R` is normalized by `T`, so `RT` is a smooth connected solvable subgroup and lies in a Borel subgroup
+`B′ ⊇ T`, and the `T`-stable `Lie R` is a sum of root lines `𝔤_β` with `β` positive for `B′` and `β(s) = 1`; for such a
+`β`, `H` contains `U_{−β}` and `n_β = x_β(1)x_{−β}(−1)x_β(1)` (Layer 7C), which normalizes `T`, acts on it as `s_β`,
+normalizes `R` and carries `𝔤_β` to `𝔤_{−β}`, so `−β` would be positive for `B′`, which is absurd; hence `R = 1`. The
+roots of `H` are the nonzero weights of `T` on `Lie H`, and its Weyl group is generated by their reflections (the root
+datum above for `(H, T)`). A maximal torus through `s` is connected and centralizes `s`. Two maximal tori of
+`C_G(s)°` are conjugate in it, so `C_G(s) = C_G(s)°·(N_G(T) ∩ C_G(s))`. (c) Write `s = zs′` with `z` in the connected
+centre `Z°` and `s′` a semisimple element of the derived group `G^der` (`G = Z°·G^der`); then
+`C_G(s) = Z°·C_{G^der}(s′)`, and `C_{G^der}(s′)` is connected because `G^der` is semisimple and simply connected. (d) The
+first statements from (a). If `C_G(s)` is commutative it centralizes the maximal torus `T ⊂ C_G(s)°`, so
+`C_G(s) ⊂ C_G(T) = T ⊂ C_G(s)°`. (e) The conjugation morphism is defined over `k`, and so is the identity component of a
+`k`-group.
+(Steinberg 1965, 2.7 (a), 2.8 and 2.11 with its proof, pp. 53–54, stated there for semisimple `G`, for the reductivity
+and generation in (a), both clauses of (b) and the regularity criterion; Steinberg 1968, Theorem 8.1†, and Humphreys
+1995, §2.11†, for (c); Humphreys 1995, §2.2†, for the root system and Weyl group in (a);
+Borel, *Linear Algebraic Groups*, §9.1†, for the Lie algebra of the centralizer, its smoothness and its field of
+definition.)
+*Needs:* Layer 3 (smoothness, identity components and Lie algebras of closed subgroups); Layer 5 (unipotent radicals and
+connected solvable groups); the Borel subgroups with their positive systems, maximal tori, root datum and root
+subgroups above; Layer 7C (the rank-one root maps and the elements `n_α`); Tau Ceti's smoothness of centralizers of
+diagonalizable subgroups, derived subgroup and simply connected semisimple predicate (supplier contracts).
+
+**Checks.**
+- `GL_n`, `s = diag(a₁, …, a_n)`: `C_G(s) = ∏_a GL_{m_a}` over the distinct eigenvalues `a`, `m_a` the multiplicity of
+  `a`; it is connected, with roots the `e_i − e_j` with `a_i = a_j`.
+- `PGL₂` in characteristic `≠ 2`, `s` the image of `diag(1, −1)`: `s` is regular and `C_G(s)°` is the diagonal torus,
+  while `C_G(s)` also contains the image of `[[0, 1], [1, 0]]`; so `C_G(s)` is disconnected and not commutative. The
+  derived group `PGL₂` is not simply connected, consistently with (c), and regularity alone does not make `C_G(s)` a
+  torus.
+- `SL₂`, `s = −1`: `s` is central and `C_G(s) = SL₂`.
+
 ### Examples
 
 **Checks.**
@@ -3172,6 +3270,41 @@ Export the parabolic projection to G/P+ with its actual minimal W/W_P representa
 *Needs:* Layers 2–5 and 5P; the pinned orbit theorems of Layer 3A; Layer 7's root subgroups and
 Borel theory; Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's covering-map lifting lemmas.
 
+**7C.6 Regular unipotent elements.** Let `G` be a connected reductive group over an algebraically closed field `k` of
+any characteristic, `B₀ = T₀ ⋉ U₀` a Borel subgroup with maximal torus `T₀` and `Δ` the set of simple roots of `B₀`.
+Let `U₀*` be the term of height at least two of the positive-height filtration above, the closed subgroup generated by
+the root subgroups of the non-simple positive roots, so that its successive additive quotients give
+`U₀/U₀* ≅ ∏_{α∈Δ} U_α`; the image of `u ∈ U₀` in the factor `U_α` is the *component* of `u` along `α`. A unipotent
+`u ∈ G(k)` is *regular* when `dim C_G(u) = dim T₀`. Prove: (a) an element `u ∈ U₀` is regular exactly when its component
+along every simple root is nontrivial; (b) a regular unipotent element lies in exactly one Borel subgroup; (c) regular
+unipotent elements exist. *Route.* For `u ∈ U₀` with every simple component nontrivial, on a Bruhat cell `U₀ẇB₀/B₀`
+the coordinates of 7C.5 and the commutator laws above show that `u` fixes a point only for `w = 1`, so `B₀` is the
+only Borel subgroup containing `u`, so `C_G(u) ⊂ N_G(B₀) = B₀`; if a simple component of `u` is trivial, `u` lies in
+infinitely many Borel subgroups (Lemma 3.2). Existence (§4): order the simple roots so that the first ones are mutually
+orthogonal and so are the others, let `x` be the product of the `x_α(1)` in that order and `w` the product of the
+simple reflections in the same order; `x` is conjugate into `B₀ẇB₀` (Lemma 4.5), and for the simply connected cover
+the fixed space of an element of that double coset on `𝔤` has dimension at most `dim 𝔷 + rank` (Lemma 4.3, from the
+cycles of `w` on the roots, Lemma 4.1), which gives `dim C_G(x) = dim T₀` (Theorem 4.6). A computation with the
+structure constants alone proves this only when the characteristic divides no coefficient of the highest root
+(Remark 4.7 d)). (a): a regular `y ∈ U₀` has every simple component nontrivial, for otherwise `y` lies in the unipotent
+radical `U_i` of a minimal parabolic subgroup `P_i ⊋ B₀` and `dim C_{P_i}(y) ≥ dim P_i − dim U_i`, which exceeds
+`dim T₀`; conversely, an element `z ∈ U₀` with nontrivial simple components can be conjugated by `T₀` so that
+`zx⁻¹ ∈ U₀*`; the set of the `uxu⁻¹x⁻¹`, `u ∈ U₀`, is closed in `U₀*` (the orbits of a unipotent group on an affine
+variety are closed) and has dimension at least `dim U₀ − |Δ| = dim U₀*`, because `dim C_{U₀}(x) ≤ dim T₀ − dim Z(G) = |Δ|`;
+so it is all of `U₀*`, and `z` is conjugate to `x` (Theorem 3.3). The product of the `x_α(1)` in any order has the same
+simple components, hence is regular. (Steinberg proves 4.3–4.6 for semisimple `G`, passing to the simply connected
+cover; the reductive case reduces to the derived group.) (Steinberg 1965, 3.1, Lemma 3.2 and Theorem 3.3, pp. 54–55,
+Lemmas 4.1, 4.3 and 4.5 and Theorem 4.6, pp. 57–59, and Remark 4.7 d), p. 60, stated there for semisimple `G`, with a
+definition that admits connected reductive `G`.) *Needs:* 7C.1–7C.5 (the positive-height filtration, the rank-two
+commutator laws and the cell coordinates); Layer 7's Borel and parabolic subgroups and their conjugacy; Layer 2's Lie
+algebra and adjoint representation; Layer 3's dimension of closed subgroups; Tau Ceti's derived subgroup and simply
+connected semisimple predicate (supplier contracts).
+
+**Checks.**
+- `GL₂`: `[[1, a], [0, 1]]` with `a ≠ 0` is regular and fixes only the line `⟨e₁⟩`, so it lies in the upper triangular
+  Borel subgroup only; `a = 0` gives `1`, whose centralizer is all of `GL₂`.
+- For `GL_n` the regular unipotent elements are those with one Jordan block: `u − 1` has rank `n − 1` exactly then.
+
 ### Examples
 
 **Checks.**
@@ -3210,7 +3343,8 @@ uniqueness lemmas.
 ## Layer 7a: finite fields, Frobenius and rational points
 
 This layer owns Lang's theorem for the `q`-Frobenius, its quotient and `H¹` consequences,
-and the fixed-coset bijection built on the pinned fixed-lift lemma; Layer 9E owns their
+and the fixed-coset bijection built on the pinned fixed-lift lemma, and the rational Borel pairs,
+rational maximal tori and Lang torsor of §§7a.1–7a.3; Layer 9E owns their
 extension to Steinberg endomorphisms. Nothing in this layer is imported from a roadmap that consumes this one.
 
 Let `q=p^f`, `k=F̄_q`, and let `G₀` be a connected reductive group scheme of finite type over
@@ -3299,6 +3433,74 @@ Identify `G₀(F_q)` with `Hom_{F_q}(O(G₀),F_q)` by the points functor. The `q
 map is `F_q`-linear on `F_q`-algebras. For a `ℤ`-model, identify the iterated prime-power
 point map with this construction.
 
+**7a.1 Rational Borel pairs and the rational Bruhat decomposition.** Let `G₀` be a connected reductive group over
+`F_q`, with `q`-Frobenius `F` on `G = G₀ ×_{F_q} k` as above. There is an `F`-stable Borel subgroup `B₀` containing an
+`F`-stable maximal torus `T₀`, and `G^F` acts transitively on the `F`-stable Borel subgroups and on the `F`-stable pairs
+`(T, B)` of a maximal torus contained in a Borel subgroup. Write `B₀ = T₀ ⋉ U₀`, `W = N_G(T₀)/T₀` with the action of
+`F`, `ℓ` the length function of `W` and `|Φ⁺|` the number of positive roots. Then `U₀^F` is a Sylow `p`-subgroup of
+`G^F` of order `q^{|Φ⁺|}`, and
+`G^F = ⊔_{w∈W^F} B₀^F ẇ B₀^F` with `|B₀^F ẇ B₀^F| = |B₀^F|·q^{ℓ(w)}`, for representatives `ẇ ∈ N_{G^F}(T₀)`; here
+`ℓ` is the length function of `W`, not that of the Coxeter group `W^F`. *Route.* Existence and transitivity from Lang's
+theorem and fixed-coset lifting above, applied to `G` acting on the variety of Borel pairs, whose stabilizers are
+connected (Layer 7's conjugacy of Borel subgroups and of maximal tori); the Bruhat decomposition of Layer 7 is
+`F`-stable, and fixed-coset lifting applied to each double coset gives the rational one;
+`|U_w^F| = q^{ℓ(w)}` for the product `U_w` of the root subgroups that `w` makes negative (Layer 7C), an `F`-stable
+connected unipotent group of dimension `ℓ(w)`. For split `G₀` the decomposition is the Tits system of Layer 7 at
+`k = F_q`, consumed and not re-proved. (Dudas–Michel 2015, Corollary 7.8 (i), the paragraph after Example 7.9, and
+Proposition 7.12 (ii)–(iv), pp. 26–27.) *Needs:*
+Lang's theorem and fixed-coset lifting above; Layer 7's Borel subgroups, maximal tori, Weyl group and Bruhat
+decomposition; Layer 7C's products of root subgroups.
+
+**Checks.**
+- `GL₂(F_q)`: `|B₀^F| = q(q − 1)²`, and the cells of `1` and `s` have `q(q − 1)²` and `q²(q − 1)²` elements, in all
+  `q(q − 1)(q² − 1)`, Mathlib's `Matrix.card_GL_field` at `n = 2`.
+- `U₃(F_q)` (the unitary group of a Hermitian form on `F_{q²}³`): `W = S₃`, `W^F = {1, w₀}` with `ℓ(w₀) = 3`, and the
+  two cells give `|G^F| = q³(q + 1)(q² − 1)·(1 + q³)`; reading `ℓ` in `W^F`, where `ℓ(w₀) = 1`, would give the wrong
+  order.
+
+**7a.2 Rational maximal tori.** Keep `(T₀, B₀)` and `W` of §7a.1. For `g ∈ G` with `g⁻¹F(g) ∈ N_G(T₀)` of image
+`w ∈ W`, the torus `T = gT₀g⁻¹` is `F`-stable; it is *of type `w`*, and `ad(g⁻¹)` identifies `T^F` with
+`T₀^{wF} = {t ∈ T₀ : ẇF(t)ẇ⁻¹ = t}`. Every `F`-stable maximal torus is of some type, and the type is a bijection from
+the `G^F`-classes of `F`-stable maximal tori to the `F`-classes of `W` (`w ∼ v⁻¹wF(v)`), with
+`N_{G^F}(T)/T^F ≅ {v ∈ W : v⁻¹wF(v) = w}` for `T` of type `w`. Write `T_w` for a torus of type `w`. *Route.* Conjugacy
+of maximal tori (Layer 7) and Lang's theorem for `G` give `g` with `g⁻¹F(g) ∈ N_G(T₀)`; Lang's theorem for `T₀` and
+fixed-coset lifting for `N_G(T₀) ⊃ T₀` show that the `F`-class of the image is well defined and that every `F`-class
+occurs. (Dudas–Michel 2015, Propositions 7.10 and 7.12 (i), pp. 26–27; Deligne–Lusztig 1976, §1†.) *Needs:* §7a.1;
+Lang's theorem and fixed-coset lifting above; Layer 7's conjugacy of maximal tori and Weyl group.
+
+**Checks.**
+- `GL₂`: two classes, `T₁^F ≅ (F_q^×)²` of order `(q − 1)²` and `T_s^F ≅ F_{q²}^×` of order `q² − 1`; they are
+  geometrically conjugate and not rationally conjugate (their orders differ).
+- The convention `g⁻¹F(g)` and the formula `ẇF(t)ẇ⁻¹ = t` on `GL₂` with `w = s`: `T₀^{sF}` consists of the
+  `diag(a, a^q)` with `a^{q²} = a`, `a ≠ 0`, a cyclic group of order `q² − 1`.
+
+**7a.3 The Lang map as a finite étale torsor.** Let `G₀` be a smooth geometrically connected affine group scheme of
+finite type over `F_q`, with `q`-Frobenius `F` on `G` as above. The Lang map `ℒ : G → G`, `ℒ(g) = g⁻¹F(g)`, is
+surjective, étale and finite, and it is a `G^F`-torsor for left multiplication: the fixed-point subgroup scheme
+`G^F = ℒ⁻¹(1)` is the constant finite group on the finite group `G^F`, and `(γ, x) ↦ (γx, x)` is an isomorphism
+`G^F × G → G ×_{ℒ,G,ℒ} G`. Consequently, for every locally closed subscheme `Y ⊂ G`, `ℒ⁻¹(Y) → Y` is a `G^F`-torsor,
+and `Y` is the quotient of `ℒ⁻¹(Y)` by `G^F`. *Route.* *Étale.* The differential of `ℒ` at `1` is `dF₁ − 1` with
+`dF₁ = 0`, the comorphism of `F` sending a function vanishing at `1` and defined over `F_q` to its `q`-th power. From
+`ℒ(hg) = g⁻¹ℒ(h)F(g)`, `ℒ∘ρ_g = λ_g∘ℒ` with `ρ_g(h) = hg` and `λ_g(x) = g⁻¹xF(g)` automorphisms of the variety `G`, so the
+differential of `ℒ` is invertible at every point, and a morphism of smooth varieties of the same dimension with this
+property is étale. *Fibres.* On points with values in a `k`-algebra, `x⁻¹F(x) = y⁻¹F(y)` exactly when
+`F(yx⁻¹) = yx⁻¹`, which gives the isomorphism; `G^F` is étale with finitely many points (the pinned finiteness of
+Frobenius-fixed points above), hence constant. *Torsor and finiteness.* `ℒ` is surjective (Lang's theorem above), so
+étale and surjective, an fppf covering, and after base change along `ℒ` itself it becomes the trivial torsor; so `ℒ`
+is a `G^F`-torsor, affine, and finite because `ℒ_*𝒪_G` becomes finite locally free of rank `|G^F|` after the faithfully
+flat base change along `ℒ`. *Quotients.* The base change to `Y` is a `G^F`-torsor; for an affine open `V ⊂ Y`, faithfully
+flat descent identifies the `G^F`-invariant functions on `ℒ⁻¹(V)` with the functions on `V`. A bijection on geometric
+points alone would not give this identification. (Dudas–Michel 2015, Theorem 7.3, p. 24;
+Deligne–Lusztig 1976, §1†; SGA 1, Exposés I–II, for the differential criterion.) *Needs:* Lang's theorem and the pinned
+finiteness of Frobenius-fixed points above; Layer 2's tangent spaces and the native smoothness interfaces (supplier
+contracts); SchemeAndStackFoundations §1.1 (fpqc descent) and §1.15 (torsors under a flat group scheme).
+
+**Checks.**
+- The Lang map of `𝔾_a` is `x ↦ x^q − x`, with differential `−1`: the Artin–Schreier `F_q`-torsor. That of `𝔾_m` is
+  `t ↦ t^{q−1}`, the Kummer `μ_{q−1}`-torsor.
+- A bijection on geometric points is not an isomorphism: the absolute Frobenius `x ↦ x^p` of `𝔾_a` is bijective on
+  `k`-points, with differential `0`.
+
 ### Examples
 
 **Checks.**
@@ -3331,7 +3533,9 @@ point map with this construction.
 ### Dependencies
 
 Layers 0 and 3 for the point comparison and subgroup hypotheses; the pinned closed orbits of §3A.4 and SchemeAndStackFoundations §0.7 for
-the proof of Lang's theorem; Layer 7 for the reductive examples.
+the proof of Lang's theorem; Layer 7 for the reductive examples and for §§7a.1–7a.2; Layer 7C for
+the products of root subgroups of §7a.1; Layer 2's tangent spaces and
+SchemeAndStackFoundations §§1.1 and 1.15 for §7a.3.
 
 ## Layer 7b: algebraic parabolics and Levi intersections
 
@@ -3382,6 +3586,16 @@ Frobenius compatibility give `P^F=L^F⋉U^F`, with unique coordinates and projec
 and compatibility proved in this layer. (Dudas–Michel, Propositions 8.7 and 8.9, pp. 31–32.)
 *Needs:* Layer 7's parabolics, Levis and Bruhat decomposition; Layer 7a's rational points;
 Tau Ceti's dynamic point subgroups.
+
+**7b.1 Parabolic subgroups contained in a parabolic subgroup.** Let `Q = M ⋉ V` be an `F`-stable parabolic subgroup
+with `F`-stable Levi complement `M`, and `P_M = L ⋉ U_M` an `F`-stable parabolic subgroup of the connected reductive
+group `M` with `F`-stable Levi complement `L`. Then `P = P_M ⋉ V` is an `F`-stable parabolic subgroup of `G` with Levi
+complement `L` and unipotent radical `U_M V`, and every `F`-stable parabolic subgroup `P` of `G` contained in `Q` arises
+in this way, with `P_M = P ∩ M`. *Route.* `P_M V` contains `B_M V` for a Borel subgroup `B_M` of `M`, which is a Borel
+subgroup of `G`, so it is parabolic (Layer 7: a smooth closed subgroup containing a parabolic is parabolic); `U_M V` is
+a normal connected unipotent subgroup with reductive quotient `L`, hence the unipotent radical, and all pieces are
+`F`-stable. (Dudas–Michel 2015, Proposition 8.10, p. 32.) *Needs:* Layer 7's parabolic subgroups, Levi complements and
+unipotent radicals; the intersection results above.
 
 ### Examples
 
@@ -3475,6 +3689,24 @@ cocycle; the coset permutation action itself carries only the trivial module.
 (Dudas–Michel, Definition 9.2, p. 35, and Proposition 9.4, p. 36.) *Needs:* Layers 7a–7b; Mathlib's
 `Rep.ind` adjunctions; Tau Ceti's `indFDRep` and `finrank_indFDRep`.
 
+**7c.1 Transitivity.** Let `Λ` be a commutative ring with `p ∈ Λˣ`, and `Q = M ⋉ V`, `P_M = L ⋉ U_M` and
+`P = P_M ⋉ V` as in §7b.1. There are natural isomorphisms
+
+    R^G_{M⊂Q} ∘ R^M_{L⊂P_M} ≅ R^G_{L⊂P},    *R^M_{L⊂P_M} ∘ *R^G_{M⊂Q} ≅ *R^G_{L⊂P}
+
+on all left `ΛL^F`-modules and all left `ΛG^F`-modules respectively. *Route.* By the induction-side adapter above,
+`R^G_{L⊂P} = Ind_{P^F}^{G^F} ∘ Inf_{L^F}^{P^F}`. Since `P^F = P_M^F V^F` with `V^F` normal in `Q^F`,
+`Inf_{M^F}^{Q^F} ∘ Ind_{P_M^F}^{M^F} ≅ Ind_{P^F}^{Q^F} ∘ Inf_{P_M^F}^{P^F}` (one double coset in the Mackey
+decomposition), and induction in stages gives the first isomorphism. The second is its adjoint under the biadjunctions
+above, or directly `(N^{V^F})^{U_M^F} = N^{(U_M V)^F}` with `(U_M V)^F = U_M^F V^F`. (Dudas–Michel 2015,
+Proposition 9.5, p. 36.) *Needs:* §7b.1; the adapter and the biadjunctions above;
+RepresentationTheory/InductionRestriction Layer 0 (induction in stages).
+
+**Checks.**
+- `GL₃(F_q)` with `Λ = ℂ`, `Q` the stabilizer of `⟨e₁, e₂⟩` with Levi subgroup `M = GL₂ × GL₁` and `P_M = B₂ × GL₁`,
+  `B₂` the upper triangular Borel subgroup of `GL₂`: `R^{GL₃}_{GL₂×GL₁}(Ind_{B₂}^{GL₂} 1 ⊠ 1) = Ind_{B₃}^{GL₃} 1`, of
+  degree `(q² + q + 1)(q + 1)`, the number of complete flags in `F_q³`.
+
 ### Examples
 
 **Checks.**
@@ -3506,7 +3738,8 @@ cocycle; the coset permutation action itself carries only the trivial module.
 
 ### Dependencies
 
-Layers 7a–7b; Mathlib's induction and coinduction adjunctions; Tau Ceti's finite-dimensional
+Layers 7a–7b; Mathlib's induction and coinduction adjunctions; RepresentationTheory/InductionRestriction
+Layer 0 (induction in stages, §7c.1); Tau Ceti's finite-dimensional
 induction.
 
 ## Layer 7d: rational transport and the specialized Mackey theorem
@@ -3767,11 +4000,13 @@ three coordinates), for `TauCeti.lineStabilizer` and `TauCeti.hyperplaneStabiliz
 the Layer 7e isomorphism, through this layer's adapter, reproduces the pinned almost-conjugacy;
 it does not replace the general theorem.
 
-#### References for Layers 7a–7f and 9E
+#### References for Layers 7a–7f, 7h, 7i and 9E
 
 - O. Dudas and J. Michel, *Lectures on finite reductive groups and their representations*
-  (2015), §§7–10, especially Proposition 7.5, Lemma 7.6, Proposition 7.7, Propositions
-  8.7 and 8.9, Lemmas 9.9–9.11, Theorem 9.6 and Theorem 10.1:
+  (2015), §§7–11, especially Theorem 7.3, Proposition 7.5, Lemma 7.6, Proposition 7.7,
+  Corollary 7.8, Propositions 7.10 and 7.12, Propositions 8.7, 8.9 and 8.10, Proposition 9.5,
+  Lemmas 9.9–9.11, Theorem 9.6, Theorem 10.1, Definition 10.2, Lemma 10.3, Propositions 10.6
+  and 10.8, Theorem 10.11, (11.7) and Lemma 11.8:
   <https://webusers.imj-prg.fr/~jean.michel/papiers/lectures_beijing_2015.pdf>.
 - R. B. Howlett and G. I. Lehrer, “On Harish-Chandra induction and restriction for modules
   of Levi subgroups,” *Journal of Algebra* 165 (1994), 172–183.
@@ -3780,9 +4015,215 @@ it does not replace the general theorem.
 - R. W. Carter, *Finite Groups of Lie Type: Conjugacy Classes and Complex Characters*,
   §1.17 (Frobenius fixed points and finite groups of Lie type).
 - S. Lang, “Algebraic groups over finite fields,” *Amer. J. Math.* 78 (1956), 555–563;
-  R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, Memoirs AMS 80 (1968).
+  R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, Memoirs AMS 80 (1968); Theorem
+  8.1† (the centralizers of semisimple elements of a simply connected semisimple group are
+  connected; §7.1 (c)).
 - J.-P. Serre, *Linear Representations of Finite Groups*, §§2.3 and 3.3; F. Gassmann,
   “Bemerkungen zur vorstehenden Arbeit von Hurwitz,” *Math. Z.* 25 (1926), 665–675.
+- P. Deligne and G. Lusztig, “Representations of reductive groups over finite fields,” *Ann.
+  of Math.* 103 (1976), 103–161: §1† (rational maximal tori).
+- F. Digne and J. Michel, *Representations of Finite Groups of Lie Type*, London Mathematical
+  Society Student Texts 21 (1991), Chapter 14†; second edition, London
+  Mathematical Society Student Texts 95, Cambridge University Press (2020)†, the exposition
+  being made for Frobenius roots.
+- F. Digne, G. I. Lehrer and J. Michel, “The characters of the group of rational points of a
+  reductive group with non-connected centre,” *J. reine angew. Math.* 425 (1992), 155–192,
+  §2† and Theorem 2.9†.
+
+## Layer 7h: Harish-Chandra series of finite reductive groups
+
+Let `G₀` be a connected reductive group over `F_q`, with `q`-Frobenius `F` on `G` (Layer 7a). Representations of `G^F`
+in this layer are finite-dimensional complex representations; a *constituent* of a representation is an irreducible
+representation with a nonzero map to it. A *rational Levi subgroup* is an `F`-stable Levi complement `L` of an
+`F`-stable parabolic subgroup `P`, and the Harish-Chandra functors are those of Layer 7c with `Λ = ℂ`; by Layer 7e,
+`R^G_{L⊂P}` and `*R^G_{L⊂P}` do not depend on `P` up to isomorphism, and are written `R_L^G` and `*R_L^G`. `B₀ = T₀ ⋉ U₀`
+is an `F`-stable Borel pair (§7a.1). Layer 9E extends this layer to Steinberg endomorphisms.
+
+### 7h.1 Cuspidal representations
+
+An irreducible representation `π` of `G^F` is **cuspidal** if `*R_L^G(π) = 0` for every proper rational Levi subgroup
+`L`, equivalently `π^{U_P^F} = 0` for the unipotent radical `U_P` of every proper `F`-stable parabolic subgroup `P`. It
+is enough to test the maximal proper `F`-stable parabolic subgroups. Cuspidality is preserved by passing to the
+contragredient and by twisting with a linear character `χ` of `G^F` that is trivial on `U₀^F`; for a linear character
+this condition is equivalent to triviality on all unipotent elements of `G^F` and to `χ` having order prime to `p`.
+Every irreducible representation of a torus is cuspidal.
+
+*Route.* The invariants description of `*R` (Layer 7c); if `P ⊂ Q` then `U_Q ⊂ U_P`, so `π^{U_P^F} ⊂ π^{U_Q^F}`, and a
+nonzero invariant for `P` gives one for every `F`-stable parabolic subgroup containing `P`. Duality commutes with taking
+`U_P^F`-invariants, and so does twisting by a linear character trivial on `U_P^F`. The condition on `χ`: the unipotent
+elements of `G^F` are its `p`-elements (Layer 4's Jordan decomposition), each conjugate into the Sylow `p`-subgroup
+`U₀^F` (§7a.1), and every `U_P^F` consists of unipotent elements; a linear character of order prime to `p` is `1` at
+every `p`-element, and conversely, writing `χ = χ_pχ_{p′}` with `χ_p`, `χ_{p′}` powers of `χ` of `p`-power and
+prime-to-`p` order, `χ_p` is trivial on the `p`-elements and on the elements of order prime to `p`, hence on every
+`g = su`, and `χ = χ_{p′}`. (Dudas–Michel 2015, Definition 10.2, p. 41, for the
+definition; the closure properties are proved in the route.)
+*Needs:* Layers 7b, 7c and 7e; §7a.1; Layer 4's Jordan decomposition.
+
+### 7h.2 Cuspidal support and Harish-Chandra series
+
+For every irreducible representation `π` of `G^F` there is a pair `(L, σ)` of a rational Levi subgroup `L` and an
+irreducible cuspidal representation `σ` of `L^F` such that `π` is a constituent of `R_L^G(σ)`; the pair is unique up to
+`G^F`-conjugacy and is the **cuspidal support** of `π`. Consequently the **Harish-Chandra series**
+`{π : π is a constituent of R_L^G(σ)}`, over the `G^F`-classes of cuspidal pairs `(L, σ)`, partition the irreducible
+representations of `G^F`.
+
+*Route.* Existence: let `L` be minimal among the rational Levi subgroups with `*R_L^G(π) ≠ 0`; every constituent `τ` of
+`*R_L^G(π)` is cuspidal, since `*R_{L′}^L τ ≠ 0` for a proper rational Levi subgroup `L′` of `L` would give
+`*R_{L′}^G π ≠ 0` by §7c.1, and adjunction makes `π` a constituent of `R_L^G τ`. Uniqueness: by adjunction and the Mackey
+theorem (Layer 7d), `Hom_{G^F}(R_L^G σ, R_M^G τ) ≅ Hom_{L^F}(σ, *R_L^G R_M^G τ)` is a sum over `L^F\S(L,M)^F/M^F` of
+spaces involving a Harish-Chandra restriction of `σ` or of `τ` to a proper rational Levi subgroup unless
+`xMx⁻¹ = L`; cuspidality kills those terms, so the space vanishes unless the pairs are conjugate. (Dudas–Michel
+2015, Lemma 10.3 and Proposition 10.6, p. 42, and Theorem 10.11, p. 45.)
+*Needs:* §§7c.1, 7h.1; Layers 7c–7e; Mathlib's semisimplicity of complex group algebras (Maschke) and Schur's lemma.
+
+### 7h.3 Endomorphism algebras
+
+For a cuspidal pair `(L, σ)` put `W_{G^F}(L, σ) = {n ∈ N_{G^F}(L) : ad_n(σ) ≅ σ}/L^F`, with `ad_n` the conjugation
+transport of Layer 7d. Then `dim End_{G^F}(R_L^G σ) = |W_{G^F}(L, σ)|`, and `π ↦ Hom_{G^F}(π, R_L^G σ)` is a bijection
+from the Harish-Chandra series of `(L, σ)` to the simple modules of `End_{G^F}(R_L^G σ)`, under which the multiplicity
+of `π` in `R_L^G σ` is the dimension of its module.
+
+*Route.* The Mackey theorem as in §7h.2: only the `x ∈ N_{G^F}(L)` contribute, each by `dim Hom_{L^F}(σ, ad_x(σ))`;
+the bijection is Schur's lemma and the isotypic decomposition of the semisimple module `R_L^G σ`. (Dudas–Michel 2015,
+(11.7) and Lemma 11.8, p. 48, and Proposition 10.8, p. 43.)
+*Needs:* §7h.2; Layer 7d; RepresentationTheory/SemisimpleAlgebras Layers 1–2 (Schur's lemma, isotypic components and the
+Artin–Wedderburn decomposition of the endomorphism algebra of a semisimple module).
+
+### Examples
+
+**Checks.**
+- (7h.1) `GL₂(F₂)` permutes the three nonzero vectors of `F₂²`, which identifies it with `S₃`, and `U^F` is generated
+  by a transposition. The sign character has no `U^F`-fixed vector, so it is cuspidal, while the trivial character is
+  not; the sign has order `2 = p`, and twisting the cuspidal sign by it gives the trivial character: the condition on
+  `χ` cannot be dropped.
+- (7h.1) Testing only the Borel subgroup is not enough: for `GL₃(F_q)`, the constituents of `R_{GL₂×GL₁}^{GL₃}(σ ⊠ α)`
+  with `σ` cuspidal have no `U^F`-fixed vector and are not cuspidal.
+- (7h.3) `GL₂(F_q)`, `L = T` and `σ = 1`: `R_T^G 1 = Ind_{B^F}^{G^F} 1` has the two constituents `1` and `St`, each
+  once, and `W_{G^F}(T, 1) = W` has order 2.
+- (7h.3) `GL₃(F_q)`, `L = T`, `σ = 1`: three constituents, with multiplicities `1, 2, 1` (the dimensions of the simple
+  modules of the six-dimensional endomorphism algebra) and degrees `1, q(q + 1), q³`;
+  `1 + 2q(q + 1) + q³ = (q² + q + 1)(q + 1)`, the number of complete flags.
+
+### Dependencies
+
+Layers 4, 7a–7e and §7c.1; Mathlib's representation theory of finite groups (Maschke, Schur);
+RepresentationTheory/SemisimpleAlgebras Layers 1–2.
+
+## Layer 7i: Gelfand–Graev representations of finite reductive groups
+
+The setting is that of Layer 7h: `G₀` connected reductive over `F_q` with `q`-Frobenius `F`, complex representations,
+`R_L^G` and `*R_L^G` the Harish-Chandra functors, `B₀ = T₀ ⋉ U₀` an `F`-stable Borel pair (§7a.1) and `Δ` the set of
+simple roots of `B₀`. Layer 9E extends this layer to Steinberg endomorphisms.
+
+### 7i.1 The simple-root quotient, rational regular unipotent elements and regular characters
+
+Let `U₀* ⊂ U₀` be the subgroup of 7C.6, generated by the root subgroups of the non-simple positive roots, so that
+`U₀/U₀* ≅ ∏_{α∈Δ} U_α`. `F` permutes the simple root subgroups `U_α`; call `α, β ∈ Δ` `F`-*conjugate* when
+`F^i(U_α) = U_β` for some `i`, and for an `F`-orbit `O` of simple roots let `U_O` be the image of `∏_{α∈O} U_α` in
+`U₀/U₀*`. Then `U₀*` is `F`-stable, connected and normal in `U₀`, and
+
+    U₀^F/U₀*^F ≅ (U₀/U₀*)^F ≅ ∏_O U_O^F.
+
+(a) An element `u ∈ U₀^F` is regular unipotent (7C.6) exactly when its image in every factor `U_O^F` is nontrivial; in
+particular `G^F` contains regular unipotent elements.
+(b) A character `ψ` of `U₀^F` is **regular** if it is trivial on `U₀*^F` and nontrivial on every `U_O^F`. The
+**Gelfand–Graev representation** of `ψ` is `Γ_ψ = Ind_{U₀^F}^{G^F} ψ`; its degree is `|G^F|_{p′}`, the prime-to-`p`
+part of `|G^F|`.
+
+*Route.* The commutator laws of Layer 7C give `[U_α, U_β] ⊂ ∏_{i,j>0} U_{iα+jβ}`, so `U₀*` is normal with commutative
+quotient; Lang's theorem for the connected `U₀*` (Layer 7a) gives `U₀^F/U₀*^F ≅ (U₀/U₀*)^F`, and `F` permutes the factors
+`U_α` along the orbits, so the components of an `F`-fixed `u` along the simple roots of one orbit are all trivial or
+all nontrivial, and (a) follows from 7C.6 (a). The degree is `|G^F|/|U₀^F| = |G^F|_{p′}` by §7a.1. (Steinberg 1965,
+Lemma 3.2.)
+*Needs:* 7C.6; §7a.1; Lang's theorem (Layer 7a); the commutator laws of Layer 7C; RepresentationTheory/InductionRestriction
+Layer 2 (induced representations).
+
+### 7i.2 Multiplicity one and generic representations
+
+For every regular character `ψ` the algebra `End_{G^F}(Γ_ψ)` is commutative; equivalently `Γ_ψ` is multiplicity free;
+equivalently, for every irreducible representation `π` of `G^F`, `Hom_{U₀^F}(π, ψ)` has dimension at most one
+(uniqueness of Whittaker functionals). `π` is **generic** for `ψ` when this space is nonzero, equivalently when `π` is a
+constituent of `Γ_ψ`. If `Z(G)` is connected, `Γ_ψ` does not depend on `ψ` up to isomorphism, and neither does
+genericity.
+
+*Route.* By Frobenius reciprocity and the Mackey decomposition, `End_{G^F}(Γ_ψ)` is the algebra `H_ψ`, under
+convolution, of the functions `f` on `G^F` with `f(ugu′) = ψ(u)f(g)ψ(u′)` for `u, u′ ∈ U₀^F`; it has a basis `f_n` indexed
+by the double cosets `U₀^F n U₀^F` that support such a function. Gelfand's trick: an anti-automorphism `ν` of `G^F` with
+`ν(U₀^F) = U₀^F`, `ψ∘ν = ψ` and `ν(n) = n` for one representative `n` of each supporting double coset makes `f ↦ f∘ν`
+the identity of `H_ψ` while reversing convolution, so `H_ψ` is commutative; that `ν` preserves `ψ` and maps each
+supporting double coset to itself is not enough. For every connected reductive `G` and every regular `ψ` the
+commutativity of `H_ψ` is Steinberg's theorem (Digne–Lehrer–Michel 1992, §2†, for every connected reductive `G`, the
+centre connected or not). Frobenius reciprocity `Hom_{G^F}(π, Γ_ψ) ≅ Hom_{U₀^F}(π, ψ)` gives the other two forms. Under
+a connected centre the regular characters form one `T₀^F`-orbit, and conjugate characters induce isomorphic
+representations. (Digne–Michel 1991, Chapter 14†; for the dependence on `ψ`, Digne–Lehrer–Michel 1992, §2†.)
+*Needs:* §7i.1; §7a.1 (the rational Bruhat decomposition, for the double cosets); RepresentationTheory/InductionRestriction
+Layers 2–4 (Frobenius reciprocity, the Mackey decomposition and intertwining numbers).
+
+### 7i.3 Degenerate Gelfand–Graev representations and Harish-Chandra restriction
+
+Let `ψ` be a regular character of `U₀^F`. For an `F`-stable subset `J ⊂ Δ` let `P_J = L_J ⋉ U_{P_J}` be the standard
+`F`-stable parabolic subgroup containing `B₀` with its standard Levi complement `L_J ⊃ T₀`, let `ψ_J` be the character
+of `U₀^F` that agrees with `ψ` on `U_O^F` for the `F`-orbits `O ⊂ J` and is trivial on `U₀*^F` and on the other
+`U_O^F`, and let `Γ_{ψ,J} = Ind_{U₀^F}^{G^F} ψ_J` be the **degenerate Gelfand–Graev representation**; so `Γ_{ψ,Δ} = Γ_ψ`
+and `Γ_{ψ,∅} = Ind_{U₀^F}^{G^F} 1`. Then:
+(a) the restriction `ψ|` of `ψ` to `U₀^F ∩ L_J` is a regular character of `L_J^F` for its Borel pair
+`(T₀, B₀ ∩ L_J)`, and `Γ_{ψ,J} ≅ R_{L_J}^G(Γ^{L_J}_{ψ|})`;
+(b) `*R_{L_J}^G(Γ_ψ)` is isomorphic to a Gelfand–Graev representation `Γ^{L_J}_{ψ′}` of `L_J^F`, for a regular
+character `ψ′` of `U₀^F ∩ L_J`.
+If `Z(G)` is connected, so is `Z(L_J)`: with `Φ_J` the roots of `L_J`, the character group `X*(T₀)/ℤΦ_J` of `Z(L_J)` is
+an extension of `X*(T₀)/ℤΦ` by the free group `ℤΦ/ℤΦ_J`, so its torsion injects into that of `X*(T₀)/ℤΦ`.
+
+*Route.* For a closed set `Ψ` of positive roots the product `U_Ψ` of the `U_β`, `β ∈ Ψ`, is a closed connected subgroup
+(ordered collection, Layer 7C); for `F`-stable `Ψ` rational points are taken after forming the product. (a) `U_{P_J}`
+is the product over the positive roots outside the root system of `L_J`; its image in `U₀/U₀*` is `∏_{α∈Δ∖J} U_α`, so
+`ψ_J` is trivial on `U_{P_J}^F`. `U₀^F = (U₀^F ∩ L_J) ⋉ U_{P_J}^F` makes `Ind_{U₀^F}^{P_J^F} ψ_J` the inflation of
+`Ind_{U₀^F∩L_J}^{L_J^F} ψ|`, and the adapter `R = Ind ∘ Inf` of Layer 7c with induction in stages gives the
+isomorphism; `ψ|` is regular by Lang's theorem for the connected subgroup of `U₀ ∩ L_J` generated by its non-simple
+root subgroups. (b) By §7a.1 the double cosets `U₀^F\G^F/P_J^F` are the `U₀^F ẇ P_J^F` with `w ∈ W^F` of minimal length
+in `wW_J`, and the Mackey decomposition of `(Γ_ψ)|_{P_J^F}` has one summand for each; the `U_{P_J}^F`-invariants of a
+summand vanish unless `ψ∘ad(ẇ)` is trivial on `U_{P_J}^F ∩ ẇ⁻¹U₀^Fẇ`, which by the regularity of `ψ` leaves only
+`w = w₀w_J` (`w₀`, `w_J` the longest elements of `W` and `W_J`), and the invariants of that summand are a Gelfand–Graev
+representation of `L_J^F`. (Digne–Lehrer–Michel 1992, Theorem 2.9†, which identifies `Γ^{L_J}_{ψ′}` through the
+parametrization of the Gelfand–Graev representations of `G^F` and of `L_J^F` by `H¹(F, Z(G))` and `H¹(F, Z(L_J))`.)
+*Needs:* §§7i.1, 7i.2, 7c.1; Layers 7a, 7b, 7c and 7C; Layer 4's character groups of diagonalizable groups (the centre
+of `L_J`); RepresentationTheory/InductionRestriction Layers 0 and 3.
+
+### Examples
+
+**Checks.**
+- (7i.1) `SU₃(F_q)`, type `²A₂`: the two simple roots `α, β` form one `F`-orbit and `α + β` is a root, so `U_αU_β` is not
+  a subgroup (`[U_α, U_β] = U_{α+β}`); `U₀^F` has order `q³`, `U₀*^F = U_{α+β}^F` has order `q` and
+  `(U₀/U₀*)^F ≅ (F_{q²}, +)`. The regular characters are the `q² − 1` nontrivial characters of `U₀^F` trivial on
+  `U₀*^F`, and the regular unipotent elements of `U₀^F` are the `q³ − q` elements with nonzero image in
+  `(U₀/U₀*)^F`. A definition "nontrivial on `(U_αU_β)^F`" cannot be read.
+- (7i.1) `GL_n`: the regular characters are the `u ↦ ψ₀(Σ_i a_i u_{i,i+1})` with every `a_i ≠ 0`, for a fixed
+  nontrivial character `ψ₀` of `(F_q, +)`; conjugation by `diag(t₁, …, t_n)` multiplies `a_i` by `t_i/t_{i+1}`, so
+  `T^F` permutes them transitively.
+- (7i.2) `SL₂(F_q)`, `q` odd (centre `μ₂`, not connected): there are two non-isomorphic Gelfand–Graev
+  representations, each of degree `q² − 1` and multiplicity free: the Steinberg representation, the `(q − 3)/2`
+  principal series of degree `q + 1`, the `(q − 1)/2` cuspidal representations of degree `q − 1`, and one of each of
+  the two pairs of degree `(q + 1)/2` and `(q − 1)/2`. Connectedness of the centre is needed for uniqueness, not for
+  multiplicity one.
+- (7i.2) `GL₂(F_q)`: `Γ_ψ` has degree `(q − 1)(q² − 1)` and contains once each of the `q − 1` twists of the Steinberg
+  representation, the `½(q − 1)(q − 2)` irreducible principal series and the `½q(q − 1)` cuspidal representations:
+  `(q − 1)q + ½(q − 1)(q − 2)(q + 1) + ½q(q − 1)(q − 1) = (q − 1)(q² − 1)`.
+- (7i.2) Gelfand's trick needs `ν` to fix the representatives. In the dihedral group of order `8` with `U = ⟨r²⟩` (its
+  centre) and `ψ(r²) = −1`, inversion is an anti-automorphism preserving `ψ` and every double coset `gU`, but
+  `r⁻¹ = r·r²`, so `f(r⁻¹) = −f(r)` for the function on `rU`; all four double cosets support, and
+  `End(Ind_U ψ) ≅ M₂(ℂ)` is not commutative.
+- (7i.3) `SU₃(F_q)`, `J = ∅`: `F` exchanges `U_α` and `U_β`, so `U_α^F = U_β^F = 1` and the product of the rational
+  points of the three positive root subgroups is `U_{α+β}^F`, of order `q`, on which `ψ` is trivial, while
+  `U₀^F ∩ ẇ⁻¹U₀^Fẇ = U₀^F` at `w = 1` carries `ψ` nontrivially; only `w = w₀` survives, and `*R_T^G(Γ_ψ)` is the regular
+  representation of `T^F ≅ F_{q²}^×`. Counting the double coset of `w = 1` as well would give dimension `2(q² − 1)`.
+- (7i.3) `GL₂`, `L = T`: `(Γ_ψ)^{U^F}` is the regular representation of `T(F_q)`, of dimension `(q − 1)²`: two lines from
+  each of the `½(q − 1)(q − 2)` irreducible principal series, one from each of the `q − 1` twisted Steinberg
+  representations, none from the cuspidal ones.
+- (7i.3) `SL₂(F_q)`, `q` odd: the Harish-Chandra restriction to `T` of each of the two Gelfand–Graev representations is
+  the regular representation of `T^F`, of dimension `q − 1`; (b) does not need a connected centre.
+
+### Dependencies
+
+Layers 4, 7a–7e and 7C, with §§7a.1, 7c.1 and 7C.6; RepresentationTheory/InductionRestriction Layers 0 and 2–4.
 
 ## Layer 8: split groups and pinnings
 
@@ -5586,6 +6027,38 @@ precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes
   defined over `k`.) *Needs:* the pinned pseudo-reductive theory
   and Weil restriction of `𝔾_m`; Layer 5's radical comparison; Layer 0's Hopf dictionary.
 
+### 9D.1 Unitary groups of Hermitian spaces
+
+Let `k` be a field, `K/k` a separable quadratic field extension with nontrivial
+automorphism `c`, and `(V, h)` a nondegenerate Hermitian or skew-Hermitian space over `K` (for `c`) of dimension
+`n ≥ 1`. The unitary group `U(V)` is the closed subgroup scheme of `GL_k(V)` whose points over a `k`-algebra `R` are
+the `K ⊗_k R`-linear automorphisms `g` of `V ⊗_k R` with `h_R(gx, gy) = h_R(x, y)`; `U(1) = U(1)_{K/k}` is the norm-one
+torus, the kernel of the norm `Res_(K/k) 𝔾_m → 𝔾_m` on the pinned Weil restriction of the supplier contracts;
+`det : U(V) → U(1)` is the `K ⊗_k R`-linear determinant; and `SU(V)` is its kernel. Prove: `U(V)` is a connected
+reductive group and a form of `GL_n` split by `K`, `U(V)_K ≅ GL_K(V)`; `SU(V)` is a simply connected semisimple form of
+`SL_n`; `det` is a smooth surjective homomorphism with kernel `SU(V)`, so that `X*(U(V)) = X*(U(1)) ≅ ℤ`; and the Galois
+action on this character module factors through `Gal(K/k)`, whose nontrivial element acts by `−1`.
+
+*Route.* Base change along `K ⊗_k K ≅ K × K` makes `V ⊗_k K` a space over the split algebra: its two idempotents cut
+out totally isotropic summands `V₁`, `V₂` on which `h` is a perfect pairing, and a `K ⊗_k K`-linear isometry is
+determined by its action on `V₁`, its action on `V₂` being the inverse transpose; so `U(V)_K ≅ GL(V₁) = GL_K(V)`, under
+which `det` becomes the determinant. Reductivity, connectedness, simple connectedness and the smoothness and
+surjectivity of `det` are geometric and are read off `GL_n` and `SL_n`. The derived group is `SU(V)`, so the characters
+of `U(V)` are those of `U(1)`; `U(1)_K = {(z₁, z₁⁻¹)} ≅ 𝔾_m` inside `K ⊗_k K ≅ K × K`, and the nontrivial element of
+`Gal(K/k)` exchanges the two factors, hence maps the character `(z₁, z₁⁻¹) ↦ z₁` to its inverse. A skew-Hermitian form
+`w` and the Hermitian form `δ⁻¹w` (`δ ∈ Kˣ` of trace zero) have the same unitary group; in characteristic two the
+two kinds of form coincide and such a `δ` lies in `kˣ`.
+(Platonov–Rapinchuk–Rapinchuk 2023, §2.3.3 and Proposition 2.35 (3).)
+*Needs:* Layer 6 and the pinned reductivity of `GLₙ` and `SLₙ` (Worked examples); Layer 4's characters and Galois
+lattices; Layer 3's closed subgroups and quotients; the pinned Weil restriction of `𝔾_m` (supplier contracts).
+
+**Checks.**
+- `n = 1`: `SU(V)` is trivial and `U(V) = U(1)`. For `n = 0`, `U(V)` is the trivial group and `det` is not onto `U(1)`,
+  which is why `n ≥ 1` is assumed.
+- A `k`-rational character of `U(V)` is trivial, although `det` is a character over `K`: the nontrivial element of
+  `Gal(K/k)` acts on `X*(U(V)) = ℤ` by `−1`.
+- For `K = ℚ(i)`, `n = 1` and the standard form, `U(V)(ℚ) = {a ∈ ℚ(i) : aā = 1}`, which contains `(3 + 4i)/5`.
+
 ### Examples
 
 **Checks.**
@@ -5664,7 +6137,7 @@ Layers 0, 3, 4, 5, 6, 7 and 8.1–8.2; §§9B and 9B.0–9B.4; Tau Ceti's Cartan
 group schemes and multiplicative-type theory, pseudo-reductive theory and Weil restriction of
 `𝔾_m` (supplier contracts).
 
-## Layer 9E: Steinberg endomorphisms and extension of Layers 7a–7f
+## Layer 9E: Steinberg endomorphisms and extension of Layers 7a–7f, 7h and 7i
 
 Let `σ:G→G` be a surjective algebraic-group endomorphism of a connected reductive group over
 an algebraic closure of a finite field. A Steinberg endomorphism here means that some positive
@@ -5685,12 +6158,26 @@ endomorphism; fixed-point, component, and orbit consequences; `P^σ=L^σ⋉U^σ`
 parabolics and Levis; `p`-invertible coefficient-ring Harish–Chandra induction/restriction and
 biadjunctions; transporter and connected-intersection results for `σ`-stable parabolics; the
 permutation-bimodule Mackey decomposition; common-Levi independence for commutative `Λ` with
-`p∈Λˣ`; and the trivial-module Gassmann target. Reprove or transport each interface with the
+`p∈Λˣ`; and the trivial-module Gassmann target; the rational Borel pairs and rational Bruhat
+decomposition, the rational maximal tori and the Lang torsor of §§7a.1–7a.3, the parabolic subgroups
+inside a parabolic subgroup of §7b.1 and the transitivity of §7c.1; the Harish-Chandra series of
+Layer 7h (cuspidal representations, cuspidal support and the endomorphism algebras); and the
+Gelfand–Graev representations of Layer 7i (the simple-root quotient and the rational regular
+unipotent elements, multiplicity one and generic representations, degenerate Gelfand–Graev
+representations and their Harish-Chandra restriction). In these extensions `q` is the positive real
+number `q′^{1/m}`, so that `σ^m` is the `q^m`-Frobenius. For §7a.3 the differential of `σ` at `1`
+need not vanish; it is nilpotent, because `σ^m` is a Frobenius, whose differential at `1` is zero, so
+the differential of the Lang map at `1` is still invertible. On `𝔾_m²` in characteristic 2,
+`σ(x, y) = (y², x)` has `σ²` the 2-Frobenius and a non-zero differential at `1`. (Dudas–Michel 2015,
+which works with an isogeny some power of which is a Frobenius, for §§7a.1–7a.3, 7c.1 and Layer 7h; the
+proof of its Proposition 7.12 (iii), p. 27, derives the cell sizes `|U_w^F| = q^{ℓ(w)}` of §7a.1 from
+the affine-space structure of `U_w` when `F` is a Frobenius and admits them in the other cases; Digne–Michel 2020†,
+whose exposition is made for Frobenius roots, for Layer 7i.) Reprove or transport each interface with the
 power-Frobenius hypothesis visible. No 7a–7f output is treated as a split-only result when its
 Steinberg extension is needed.
 
 Layer 9's pinned Chevalley–Demazure groups supply explicit inputs, but do not by themselves
-discharge the Steinberg fixed-point and representation-theory targets. *Needs:* Layers 7a–7f;
+discharge the Steinberg fixed-point and representation-theory targets. *Needs:* Layers 7a–7f, 7h and 7i;
 §9B's pinned groups, explicit carriers and special isogenies.
 
 ### Examples
@@ -5718,7 +6205,7 @@ discharge the Steinberg fixed-point and representation-theory targets. *Needs:* 
 
 ### Dependencies
 
-Layers 7a–7f and 9A–9D.
+Layers 7a–7f, 7h, 7i and 9A–9D.
 
 ## Layer 10: rational representations, highest weights and regular functions
 
@@ -6660,6 +7147,9 @@ GeometricTopology Layer 4.2.8 and InverseGaloisAndArithmeticFundamentalGroups IG
 identification.
 
 
+DeligneLusztigTheory consumes Layers 4, 7, 7C, 7a–7e, 7h, 7i and 9E for Deligne–Lusztig induction
+and the characters of `GL_n(𝔽_q)`.
+
 The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
 for IntegralHeckeAndGaloisDeterminants §0.7.
 
@@ -6729,7 +7219,8 @@ sections. OrthogonalTamagawaAndLatticeMass §0.1 sets `Spin` of rank zero to be 
   1–3, pp. 3–27, for affine group schemes as representable functors and Hopf algebras and for
   representations as comodules (Layers 0–1).
 - A. Borel, *Linear Algebraic Groups*, 2nd ed., Springer (1991), Chapter IV, *Borel subgroups;
-  reductive groups*, pp. 147–202 (Layer 7); T. A. Springer, *Linear Algebraic Groups*, 2nd ed.,
+  reductive groups*, pp. 147–202 (Layer 7), and §9.1† (the Lie algebra of the centralizer of a
+  semisimple element; §7.1); T. A. Springer, *Linear Algebraic Groups*, 2nd ed.,
   Birkhäuser (1998; reprinted 2009), Chapter 6, *Parabolic subgroups, Borel subgroups,
   solvable groups*, pp. 98–113 (Layer 7).
 - J.-P. Serre, *Géométrie algébrique et géométrie analytique* (1956), §2 no. 5, pp. 8–9 (the
@@ -6751,7 +7242,8 @@ sections. OrthogonalTamagawaAndLatticeMass §0.1 sets `Spin` of rank zero to be 
   page numbers there differ from the published editions.
 - A. Grothendieck and M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*,
   [revised edition, arXiv:math/0206203v2](https://arxiv.org/abs/math/0206203v2),
-  Exposé XII, §§1.1–1.2 and Propositions 2.1, 3.1–3.2, pp. 239–247.
+  Exposé XII, §§1.1–1.2 and Propositions 2.1, 3.1–3.2, pp. 239–247; Exposés I–II† (étale and
+  smooth morphisms, the differential criterion; §7a.3).
 - B. Conrad, [*Weil and Grothendieck approaches to adelic points*](https://math.stanford.edu/~conrad/papers/adelictop.pdf),
   Enseign. Math. 58 (2012), 61–97, Proposition 3.1 and its proof, p. 4 (page numbers of the
   author's version).
@@ -6785,6 +7277,14 @@ sections. OrthogonalTamagawaAndLatticeMass §0.1 sets `Spin` of rank zero to be 
   [arXiv:1802.02637v5](https://arxiv.org/abs/1802.02637v5), §1, pp. 6–8 (the split classical and
   general spin groups, their root data and the standard representations of their dual groups;
   arXiv numbering).
+- R. Steinberg, *Regular elements of semisimple algebraic groups*, Publ. Math. IHÉS 25 (1965),
+  49–80: 2.7 (a), 2.8 and 2.11, pp. 53–54 (§7.1); 3.1, Lemma 3.2 and Theorem 3.3, pp. 54–55,
+  Lemmas 4.1, 4.3 and 4.5 and Theorem 4.6, pp. 57–59, and Remark 4.7 d), p. 60 (7C.6, 7i.1).
+- J. E. Humphreys, *Conjugacy Classes in Semisimple Algebraic Groups*, Mathematical Surveys and
+  Monographs 43, American Mathematical Society (1995), §§2.2† and 2.11† (§7.1).
+- V. Platonov, A. Rapinchuk and I. Rapinchuk, *Algebraic Groups and Number Theory*, Volume I,
+  second edition, Cambridge Studies in Advanced Mathematics 205, Cambridge University Press (2023),
+  §2.3.3 and Proposition 2.35 (3) (§9D.1).
 
 Locators marked † have not been checked against the source.
 

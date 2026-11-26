@@ -17,11 +17,12 @@ Its headline theorems are these.
   `(n,q)`-form `g`, `q ≥ 1`, with `∫|g|² e^{−φ} < ∞` is `∂̄u` for a form `u` with
   `∫|u|²e^{−φ} ≤ (1/(qε))∫|g|²e^{−φ}`.
 - *Nadel.* The multiplier ideal of a plurisubharmonic weight is a coherent ideal sheaf, and on a compact Kähler
-  manifold `H^q(X, K_X ⊗ L ⊗ J(h)) = 0` for `q ≥ 1` whenever `iΘ_h(L) ≥ εω`.
+  manifold `H^q(X, K_X ⊗ L ⊗ J(h)) = 0` for `q ≥ 1` whenever `iΘ_h(L) ≥ εω` (ComplexComparisonPartII §§C7.9 and C7.17).
 - *Ohsawa–Takegoshi.* A holomorphic function on the hyperplane section `Ω ∩ {z_n = 0}` of a pseudoconvex domain
   `Ω ⊂ ℂ^{n−1} × D`, `D ∋ 0` a bounded planar domain, extends to `Ω` with
   `∫_Ω|F|²e^{−φ} ≤ (π/c_D(0)²)∫_{Ω∩H}|f|²e^{−φ}` for every plurisubharmonic `φ`, `c_D(0)` the logarithmic capacity of
-  `D` at `0` (the constant `π/c_D(0)²` is `πr²` for the disc of radius `r`); for `n = 1` this is the Suita inequality.
+  `D` at `0` (the constant `π/c_D(0)²` is `πr²` for the disc of radius `r`; ComplexComparisonPartII §C7.7); for `n = 1`
+  it gives the Suita inequality (HeightsRationalPointsAndObstructions §5.17c.3).
   The manifold form of Manivel and Demailly extends sections from the zero locus of a section of a vector bundle.
 - *Bergman kernels.* For a metric with `iΘ_h(L) + Ric(ω) ≥ εω` (the Ricci term cannot be dropped: on a curve of
   genus `g > d` a general line bundle of degree `d` has no sections, whatever `ε` its metric has), the Bergman density
@@ -37,13 +38,14 @@ Along the way it proves the following theorems.
   `L²` bound, every `f` with `∫|f|²|g|^{−2(a+n−½)}e^{−φ} < ∞` (a condition that forces the jets of order `< a` of `f` to
   vanish at the common zeros). The decisive pointwise estimate is Skoda's inequality for the curvature of the kernel
   bundle of `g`, with the factor `q`, which is proved here with the curvature of sub-bundles and quotient bundles.
-- *Demailly's approximation and Siu's theorem.* Every plurisubharmonic function is a limit of functions with
-  analytic singularities, built from Bergman kernels, that lose at most `2n/m` of every Lelong number; hence the
-  sets where the Lelong numbers are at least `c` are analytic.
+- *Demailly's approximation.* Every plurisubharmonic function is a limit of functions with
+  analytic singularities, built from Bergman kernels, that lose at most `2n/m` of every Lelong number
+  (ComplexComparisonPartII §§C7.13 and C7.15; the variant on relatively compact open sets is stated here); the
+  analyticity of the sets where the Lelong numbers are at least `c` (Siu's theorem) is ComplexComparisonPartII §C7.14.
 - *Good metrics (Mumford).* On a compact complex manifold `X̄` with a normal crossings divisor `D`, a metric on a
   vector bundle over `X̄ ∖ D` whose frame norms have logarithmic growth and whose connection forms and their exterior
   derivatives have Poincaré growth determines its extension `Ē` across `D`, and its Chern forms are integrable currents
-  representing the Chern classes of `Ē`.
+  representing the Chern classes of `Ē` (for a smooth projective `X̄`, ArakelovGeometryAndAbelianHeights §§5.1c–5.1d).
 
 The roadmap builds on [ComplexComparisonPartII](../../ComplexComparisonPartII/README.md), whose current calculus
 (C5.4: positive currents, local convolution, the Skoda–El Mir extension, integration over analytic cycles and
@@ -52,7 +54,12 @@ the Poincaré–Lelong formula for smooth metrics) and smooth weighted `L²` est
 Chern connections and the Kähler and Bochner–Kodaira–Nakano identities (K4, K6.0); on
 [RealAnalyticGeometry](../../RealAnalyticGeometry/README.md) for the Stein theory and complete metrics from
 exhaustions (R3.0–R3.1); and on [AlgebraicModuliForArithmeticGeometry](../../AlgebraicModuliForArithmeticGeometry/README.md)
-§9.10, whose algebraic multiplier ideals are the analytic ones of rational weights (6.3). In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds the
+§9.10, whose algebraic multiplier ideals are the analytic ones of rational weights (6.3). The published theorems of
+Layers 0–9 are stated in [PDE](../../PDE/README.md) §§3.2a and 3.4a, ComplexComparisonPartII §§C5.4a–C5.4j and Layer C7,
+ComplexKahlerGeometry §§3.5a and 4.2a, [ArakelovGeometryAndAbelianHeights](../../ArakelovGeometryAndAbelianHeights/README.md)
+§§5.1a–5.1d and [HeightsRationalPointsAndObstructions](../../HeightsRationalPointsAndObstructions/README.md)
+§§5.17c.2–5.17c.7: a section may name the general theorem of which it is a corollary in a `*Corollary of:*` line, and the
+sections that [FormalProof] has no statement of state the form used here and cite the section that states the theorem. In the family [RiemannHypothesisForDirichletLFunctions](../README.md) it feeds the
 theory of invariant metrics on automorphic bundles and Hirzebruch–Mumford proportionality in
 [DiscreteSeriesCoefficientsAndAutomorphicMetrics](../DiscreteSeriesCoefficientsAndAutomorphicMetrics/README.md), the arithmetic intersection theory of log-singular metrics in
 [HeightsForLogSingularMetrics](../HeightsForLogSingularMetrics/README.md), the semipositivity of Hodge bundles in
@@ -64,18 +71,18 @@ the generation of integral forms by theta series rests.
 Layers 0–2 are the pluripotential foundations: plurisubharmonic functions (on manifolds and on reduced complex
 spaces) with the Riesz representation, Lelong numbers with Skoda's integrability theorem, and singular metrics with
 their curvature currents. Layer 3 proves `L²` estimates for `∂̄` with plurisubharmonic weights (on pseudoconvex domains,
-with the norm of the datum measured by the curvature of the weight, with a second weight of bounded gradient for the
-solution of least norm, and on manifolds whose complement of an analytic set carries a complete Kähler metric), the
-curvature of holomorphic sub-bundles and quotient bundles with Skoda's inequality, interpolation of jets on discrete
+with the norm of the datum measured by the curvature of the weight, and with a second weight of bounded gradient for the
+solution of least norm), states the estimate on manifolds whose complement of an analytic set carries a complete Kähler
+metric, proves the curvature of holomorphic sub-bundles and quotient bundles with Skoda's inequality, interpolation of jets on discrete
 common zero sets, and Skoda's division theorem, and sets up Bergman spaces; Layer 4 states the Ohsawa–Takegoshi extension theorem
-(Błocki's form with the optimal constant and Demailly's form on manifolds, both cited) and derives the Suita inequality. Layer 5 treats Mumford's good metrics
-along a normal crossings boundary and Poincaré-type metrics. Layer 6 defines analytic multiplier ideals and proves
+(Błocki's form with the optimal constant and Demailly's form on manifolds, both cited). Layer 5 treats Mumford's good metrics
+along a normal crossings boundary and Poincaré-type metrics. Layer 6 defines analytic multiplier ideals and states
 coherence, the comparison with algebraic multiplier ideals, restriction, subadditivity and strong openness (a cited
 theorem in dimension at least two). Layer 7 approximates and regularises
 plurisubharmonic and quasi-plurisubharmonic functions, with a loss of positivity controlled by Lelong numbers at a
 scale, regularises log-log singular semipositive metrics compatibly with pull-back, and controls the mixed Monge–Ampère
 measures of such metrics and of their regularisations near the boundary (energy, boundary mass, convergence). Layer 8 globalises the `L²` estimate to singular metrics
-and proves Nadel vanishing. Layer 9 bounds Bergman kernels from below and computes their leading asymptotics.
+and states Nadel vanishing. Layer 9 bounds Bergman kernels from below and computes their leading asymptotics.
 
 ## Conventions
 
@@ -127,9 +134,42 @@ hypotheses, ranges and constants are those of the proof, including restrictions 
 visibly use. A wider or sharper form stated beside it is this roadmap's own, proved by the route written here, and is not in
 [FormalProof].
 
+**Labels.** Under each section heading, `*Origin:*` says where its statement comes from and
+`*Method of the formal proof:*` how [FormalProof] proves it. The definitions of 2.1 carry the first label only. The
+statements of 0.3a, 2.3, 2.5, 3.2, 3.3, 3.5, 4.1, 5.5, 6.1–6.6, 7.1, 7.3, 7.5, 8.2, 8.4, 9.4 and 9.6 are not statements of
+[FormalProof]: 0.3a, 3.2, 3.5, 4.1, 6.1, 6.2, 7.1, 7.5 and 8.2 state published theorems in the form used here, cited from
+the roadmap sections that state them, with the parts that those sections do not state; 2.3, 3.3, 6.3–6.6, 7.3, 8.4 and 9.4 add
+to published theorems, cited with each, forms that are this roadmap's own formulations; 5.5 applies published theorems,
+cited with it; 2.5 and 9.6 are this roadmap's own formulations. In 0.4, 0.6, 1.1, 1.2, 2.2, 2.6 and 7.4 the statement is
+the form that [FormalProof] has; in all but 7.4 the wider published form is cited in a sentence from the roadmap section
+that states it. A wider form that is this roadmap's own formulation is not a statement of [FormalProof]: in 7.4, where 7.7
+rests on it, it is a second statement block headed **Wider form**; in 0.4 and 2.6, where nothing rests on it, it is
+a *Remark*.
+
+**Corollaries of general theorems.** A section may carry, as a third line under these two labels, `*Corollary of:*`,
+which names a general theorem and the roadmap section that states it, and the clauses it covers when it does not cover
+the whole section. The general theorem is proved in the roadmap that states it, and what the line covers is deduced
+from it. The proof of the Riemann hypothesis for Dirichlet L-functions needs only that case, not the general theorem in
+full: the `*Method of the formal proof:*` label says how [FormalProof] proves it, and for which form of the statement
+when that proof has a narrower one. Where the route given with the section is not the deduction, it is a second proof,
+[FormalProof]'s unless the label says that it differs; the `*Needs:*` line lists what that route needs, and the
+deduction needs the section that the `*Corollary of:*` line names.
+
 ## Layer 0: Plurisubharmonic functions
 
 ### 0.1 Plurisubharmonic functions
+
+*Origin:* published: Demailly [CADG], chapter I, §5 (Def. 5.1, Th. 5.4, 5.6 and 5.7 with Choquet's lemma, Choquet
+(1969), the Levi-form criterion stated before Th. 5.8, and Def. 5.20): plurisubharmonic functions on complex manifolds,
+their closure properties, the `C²` criterion and strict plurisubharmonicity.
+
+*Method of the formal proof:* [FormalProof] uses plurisubharmonic functions as real-valued upper semicontinuous
+functions on open subsets of `ℂ^n` with the sub-mean-value inequality on affine discs, and, for smooth functions, as
+functions with nonnegative Levi form; it proves the `C²` criterion by writing the circle mean minus the central value as a
+weighted integral of the Laplacian over the disc, and locality by mollification.
+
+*Corollary of:* ComplexComparisonPartII §C5.4a (plurisubharmonic functions on complex manifolds: the definition by
+holomorphic discs, the closure properties, `log|f|`, the `C²` criterion and strict plurisubharmonicity).
 
 Define `u : M → EReal` to be *plurisubharmonic* on an open set `U` of a complex manifold `M` if `u` is upper
 semicontinuous on `U`, `u < ⊤`, and for every holomorphic map `g` from a neighbourhood of the closed unit disc
@@ -176,6 +216,19 @@ the several-variable calculus).
 
 ### 0.2 Local integrability and mean values
 
+*Origin:* published: Demailly [CADG], chapter I, §4 (Th.-Def. 4.12, Lemma 4.13, the maximum principle 4.14, Th. 4.17
+and 4.18) with (5.3): local integrability, monotone means and the maximum principle for subharmonic functions, read for
+plurisubharmonic functions on `ℂ^n = ℝ^{2n}`.
+
+*Method of the formal proof:* for real-valued plurisubharmonic functions on open subsets of `ℂ^n`, [FormalProof]
+averages the sub-mean-value inequality on discs over the circle action `v ↦ e^{iθ}v`, applied by Tonelli's theorem to
+`M − u ≥ 0` with `M` the maximum on a closed polydisc; this gives the integrability on the polydisc and the sub-mean-value
+inequality over it in one step.
+
+*Corollary of:* PDE §3.2a (upper semicontinuous subharmonic functions: local integrability, the null `−∞` set, monotone
+ball and sphere means tending to the value, the maximum principle), read for plurisubharmonic functions by
+ComplexComparisonPartII §C5.4a.
+
 Prove: (a) if `u` is plurisubharmonic on a connected open `U ⊂ ℂ^n` and not `≡ −∞`, then `u ∈ L¹_loc(U)`, the
 set `{u = −∞}` has Lebesgue measure zero, and `u(x) ≤` the mean of `u` over every ball and every sphere centred
 at `x` inside `U`, these means being nondecreasing in the radius and tending to `u(x)` as the radius tends to
@@ -194,6 +247,19 @@ neighbourhood; (b) from the sub-mean-value property.
   `u(0) = −∞`; `u` is integrable although `u(0) = −∞`.
 
 ### 0.3 Regularisation by convolution and the distributional characterisation
+
+*Origin:* published: Demailly [CADG], chapter I, Th. 5.5, 5.8 and 5.11, pp. 39–40: (a), (b) and (d); (c), the
+criterion with the pointwise normalisation by ball means, is this roadmap's own formulation, a restatement of Th. 5.8.
+
+*Method of the formal proof:* for real-valued plurisubharmonic functions on open subsets of `ℂ^n`, [FormalProof]
+mollifies with a kernel invariant under `w ↦ e^{iθ}w`; this invariance and the sub-mean-value inequality on discs give
+`u ≤ u_ε`, and `u_ε ≤` the maximum of `u` over the polydisc of radius `ε` gives pointwise convergence by upper
+semicontinuity; no monotonicity in `ε` is proved. The route written here differs: it takes a radial kernel and obtains
+the decrease in `ε` from the radial means of 0.2(a).
+
+*Corollary of:* ComplexComparisonPartII §C5.4a (a)–(c) (convolution of plurisubharmonic functions, decreasing to them;
+the characterisation by positive currents; composition with holomorphic maps), for (a), (b) and (d) here; (c) here is not
+stated there.
 
 Prove: (a) for `u` plurisubharmonic on an open `U ⊂ ℂ^n`, not `≡ −∞` on any component, and a smooth radial
 mollifier `ρ ≥ 0` with integral one supported in the unit ball, `u_ε = u ∗ ρ_ε` is smooth and plurisubharmonic
@@ -228,6 +294,11 @@ which is `u(x)` by the second condition. (d) Immediate from 0.1: `F` sends holom
 
 ### 0.3a The Riesz representation on balls and Hartogs' lemma
 
+*Origin:* published: Hörmander (1994), chapter III, and Hartogs (1906): the Riesz representation of subharmonic
+functions on balls and Hartogs' lemma; for `n = 1` also Ransford (1995).
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: (a) let `u` be plurisubharmonic and not `≡ −∞` on a neighbourhood of the closed ball `B̄ = B̄(a, R) ⊂ ℂ^n = ℝ^{2n}`.
 Then the distributional Laplacian `Δu` is a positive Radon measure `μ_u` (the trace of `i∂∂̄u ≥ 0`), and for every
 `x ∈ B(a, R)`, `u(x) = P_R[u](x) − ∫_{B(a,R)} G_R(x, y) dμ_u(y)`, with `P_R[u]` the Poisson integral of the restriction of
@@ -242,77 +313,68 @@ statement on the Riemann sphere: the normalised Laplacian `(2π)^{−1}Δ` of di
 Riesz distributions are Radon measures, positive in subharmonic charts and continuous, as distributions, under locally
 uniform convergence of the potentials.
 
-*Route.* (a) Let `U ⊃ B̄` be the open set on which `u` is plurisubharmonic. For `ε` smaller than the distance from `B̄`
-to the complement of `U`, the smooth `u_ε` of 0.3(a) is defined on a neighbourhood of `B̄`, so Green's representation
-formula holds for it on `B(a, R)` itself, with the Poisson kernel and the Green function `G_R` of that ball (PDE §3.4
-(C15): the Green and Poisson kernels of a ball and the Green representation in every dimension; the planar case is also
-ComplexHessianEquations §7.1); no smaller ball is needed.
-Let `ε → 0`: the left sides decrease to `u(x)` and the Poisson integrals converge by monotone convergence on the sphere,
-so the potentials `P_R[u_ε] − u_ε` converge pointwise on `B(a, R)` to the superharmonic function `P_R[u] − u`. The Green
-potentials `∫_{B(a,R)} G_R(·, y)dμ_{u_ε}(y)` converge in `L¹(B(a, R))` to `∫_{B(a,R)} G_R(·, y)dμ_u(y)`: `μ_{u_ε} = μ_u ∗ ρ_ε`
-converges weakly to `μ_u` on a neighbourhood of `B̄`, and `y ↦ 1_{B(a,R)}(y)·G_R(·, y)` is a continuous map into
-`L¹(B(a, R))`, since `G_R(·, y) → 0` in `L¹` as `y` tends to the sphere. Two superharmonic functions equal almost
-everywhere are equal, each being the limit of its means over small balls, which gives the formula at every `x`. The mass
-bound is Green's formula against a cut-off. (b) Suppose that `u_k` does not tend to `−∞` locally uniformly: there are a
-compact `K`, a constant `c` and a subsequence `u_{k_j}` with `sup_K u_{k_j} ≥ −c`. Bound the means along this subsequence from
-below: on a ball `B(w, ρ) ⋐ U` let `M` bound all `u_k` from above; if `u_{k_j}(w) ≥ −c′`, the sub-mean-value inequality for
-`u_{k_j} − M ≤ 0` on `B(w, ρ)` bounds the mean of `u_{k_j}` over every ball contained in `B(w, ρ)` (in particular over `B(y, ρ/2)`
-for `|y − w| < ρ/2`) from below, and a mean bounded below gives points where `u_{k_j}` is bounded below. So the set of points
-having a ball on which the means of the `u_{k_j}` are bounded below is open and closed in the connected `U`, and it is not
-empty (a limit point of maximising points in `K`): the `u_{k_j}` are bounded in `L¹_loc(U)`. Then (a) and the weak
-compactness of the measures `μ_{u_{k_j}}` (bounded mass by (a)) make the Poisson parts compact and the Green potentials
-converge in `L¹_loc` along a further subsequence; the `limsup` inequality comes from the sub-mean-value inequality on small
-balls and the `L¹_loc` convergence. The means themselves need neither tend to `−∞` nor be bounded (fourth Check), which is
-why the subsequence is chosen first.
+A plurisubharmonic function on an open subset of `ℂ^n` is subharmonic there as a function on `ℝ^{2n}`
+(ComplexComparisonPartII §C5.4a), so (a), with the mass bound against a cut-off in place of the bound by the sphere means,
+is PDE §3.4a (a), and (b), with the pointwise inequality `limsup_j u_{k_j}(x) ≤ u(x)` in place of the one with suprema over
+compact sets, is PDE §3.4a (b); the limit in (b) is plurisubharmonic by 0.3(b); the bound by the sphere means and the inequality with suprema are proved here.
 
-*Needs:* 0.1–0.3; ComplexHessianEquations §7.1; Tau Ceti's planar kernels; PDE §3.1 (C12) (Weyl's lemma) and §3.4
-(C15).
+*Route.* The mass bound by the sphere means is Green's formula against a cut-off. The `limsup` inequality with suprema over
+compact sets comes from the sub-mean-value inequality on small balls and the `L¹_loc` convergence.
 
-**Checks.**
-
-- `u = log|z|` on the unit disc: `μ_u = 2πδ₀`, `P_1[u] = 0`, `G_1(x, 0) = (2π)^{−1}log(1/|x|)`, and the formula gives
-  `u(x) = −(2π)^{−1}log(1/|x|)·2π = log|x|`.
-- `u_k = k·log|z|` on the unit disc: `sup_{|z|≤ρ} u_k = k·log ρ → −∞`, so `u_k → −∞` locally uniformly on the whole
-  disc (the first alternative of (b)). `u_k = (1/k)·log|z|`: uniformly bounded above, converging in `L¹_loc` to `0` (the
-  second alternative), while `u_k(0) = −∞` for every `k`.
-- `u_k(z) = (1/k)log|z₁ − 1/k|` converges in `L¹_loc(ℂ²)` to `0`, while `u_k(1/k, 0) = −∞`: convergence in
-  `L¹_loc` does not give pointwise convergence.
-- The constants `0, −1, 0, −2, 0, −3, …` on the disc: their means neither tend to `−∞` nor stay bounded, the sequence does
-  not tend to `−∞` locally uniformly, and the subsequence of zeros converges, as (b) asserts.
+*Needs:* 0.1–0.3; PDE §3.4a; ComplexComparisonPartII §C5.4a.
 
 ### 0.4 Quasi-plurisubharmonic functions
+
+*Origin:* published: Guedj and Zeriahi (2005), Propositions 1.3, 1.6 and 1.7, and Dinew and Kołodziej (2012),
+Proposition 2.1: quasi-plurisubharmonic and `γ`-plurisubharmonic functions, their closure properties and their compactness
+in `L¹`; the statement is the case of functions of class `C²`. The remark, (b) for every
+continuous `γ` with the two negative statements on decreasing limits, is this roadmap's own formulation.
+
+*Method of the formal proof:* for functions `u` of class `C²`, `γ`-plurisubharmonicity is the pointwise inequality
+`i∂∂̄(θ + u) ≥ 0` for a smooth local potential `θ` of `γ`, and the closure properties that are used (sums, regularised
+maxima, `w + C·Ω` for a smooth `w` and a positive potential `Ω` on a compact space) are computations with the Levi form:
+additivity, the second-order chain rule for a convex regularised maximum whose partial derivatives are nonnegative and sum
+to one, and a compactness bound for the quotient of two Levi forms.
+
+*Corollary of:* ComplexComparisonPartII §C5.4b (quasi-plurisubharmonic and `γ`-plurisubharmonic functions and their
+closure under sums), with §C5.4a (the `C²` criterion) for the pointwise reading and §C5.4i (regularised maxima of smooth
+plurisubharmonic functions) for the regularised maxima; the constant `C` with `w_i + C·Ω_i` plurisubharmonic is a direct
+computation on the compact closures `Ū_i`.
 
 Define `u` on a complex manifold to be *quasi-plurisubharmonic* if locally `u = v + ψ` with `v` plurisubharmonic and
 `ψ` smooth; and, for a continuous real `(1,1)`-form `γ`, `u` to be *`γ`-plurisubharmonic* if `u` is
 quasi-plurisubharmonic and `γ + i∂∂̄u ≥ 0` (the `γ`-plurisubharmonic functions, written `PSH(X, γ)`).
-Prove: (a) for a fixed `γ`, `PSH(X, γ)` is closed under convex combinations, finite maxima, limits of decreasing
-sequences (the limit is in `PSH(X, γ)` or `≡ −∞` on a connected component) and upper semicontinuous regularisations of
-suprema of locally uniformly upper-bounded families; the quasi-plurisubharmonic functions are closed under sums,
-nonnegative multiples and finite maxima, but not under decreasing limits: a decreasing limit of quasi-plurisubharmonic
-functions need not be quasi-plurisubharmonic (third Check), and lying in one `PSH(X, γ)` is a sufficient condition for
-it to be, not a necessary one (fourth Check); (b) if `X` is compact and
-connected and `γ` is continuous, then `{u ∈ PSH(X, γ) : sup_X u = 0}` is compact in `L¹(X)` and bounded in
-`L¹`, and `sup_X u` is controlled by the mean of `u`: `sup_X u ≤ ∫_X u dV_ω/∫_X dV_ω + C(X, ω, γ)` (for closed `γ` on compact Kähler `X`, Guedj and
-Zeriahi 2005, Proposition 1.7, p. 6 of arXiv:math/0401302v2).
+Prove, in the form that [FormalProof] has: let `X` be a compact complex manifold with a finite holomorphic atlas and `γ` a
+real `(1,1)`-form with a smooth potential `θ` in each chart (`γ = i∂∂̄θ`). A function `u` of class `C²` is in `PSH(X, γ)`
+if and only if `i∂∂̄(θ + u) ≥ 0` at every point of each chart; these functions are closed under sums (for the sum of the
+forms) and under regularised maxima; and for all smooth functions `w_i` and `Ω_i` on open neighbourhoods `V_i` of the
+closures `Ū_i` of the chart domains `U_i`, with `i∂∂̄Ω_i > 0` on `V_i`, there is a constant `C` with
+`i∂∂̄(w_i + C·Ω_i) ≥ 0` on every `U_i` (fifth Check: functions on the `U_i` alone do not suffice).
 
-*Route.* (a) is local. Near a point `x₀`, in a chart, let `q` be the quadratic polynomial with `i∂∂̄q = γ(x₀)`; for
-`δ > 0`, continuity of `γ` gives a ball `B_δ ∋ x₀` on which `γ(x₀) − δ·i∂∂̄|z|² ≤ γ ≤ γ(x₀) + δ·i∂∂̄|z|²`. The upper
-inequality is the one that makes `u + q + δ|z − x₀|²` plurisubharmonic on `B_δ` for EVERY `u ∈ PSH(X, γ)`:
-`i∂∂̄(u + q + δ|z − x₀|²) ≥ −γ + γ(x₀) + δ·i∂∂̄|z|² ≥ 0`. One function serves the whole class. Apply 0.1 to the shifted
-functions: the convex combination, maximum, decreasing limit or regularised supremum `w` (if not `≡ −∞` on the component)
-is quasi-plurisubharmonic, and `w + q + δ|z − x₀|²` is plurisubharmonic on `B_δ`, so by the lower inequality
-`γ + i∂∂̄w ≥ γ − γ(x₀) − δ·i∂∂̄|z|² ≥ −2δ·i∂∂̄|z|²` there. On a compact neighbourhood `K` of a point of a chart,
-`i∂∂̄|z|² ≤ C_K·ω`, and the balls `B_δ(x)`, `x ∈ K`, cover `K`; positivity of currents is local, so
-`γ + i∂∂̄w + 2δC_K·ω ≥ 0` on the interior of `K` for every `δ > 0`, hence `γ + i∂∂̄w ≥ 0`. For finite maxima of
-quasi-plurisubharmonic `u_i = v_i + ψ_i`, add `C|z|²` with `i∂∂̄(ψ_i + C|z|²) ≥ 0` for all `i`. For decreasing limits a common
+The general form, cited below as 0.4(a) and (b), is ComplexComparisonPartII §C5.4b: (a) for a fixed `γ`, `PSH(X, γ)` is
+closed under convex combinations, finite maxima, limits of decreasing sequences and upper semicontinuous regularisations
+of suprema of locally uniformly upper-bounded families, and the quasi-plurisubharmonic functions are closed under sums,
+nonnegative multiples and finite maxima; (b) on a compact connected `X`, `{u ∈ PSH(X, γ) : sup_X u = 0}` is compact in
+`L¹(X)` and `sup_X u ≤ ∫_X u dV_ω/∫_X dV_ω + C(X, ω, γ)` for closed `γ` with continuous local potentials on compact Kähler
+`X` (Guedj and Zeriahi 2005, Proposition 1.7, p. 6 of arXiv:math/0401302v2), and that set is bounded in `L¹` for the form
+`ω` of a Hermitian metric (Dinew and Kołodziej 2012, Proposition 2.1).
+
+*Remark* (this roadmap's own formulation, not a statement of [FormalProof]). The quasi-plurisubharmonic functions are not
+closed under decreasing limits: a decreasing limit of quasi-plurisubharmonic functions need not be quasi-plurisubharmonic
+(third Check), and lying in one `PSH(X, γ)` is a sufficient condition for it to be, not a necessary one (fourth Check). If
+`X` is compact and connected and `γ` is continuous, then `{u ∈ PSH(X, γ) : sup_X u = 0}` is compact in `L¹(X)` and bounded
+in `L¹`, and `sup_X u` is controlled by the mean of `u`: `sup_X u ≤ ∫_X u dV_ω/∫_X dV_ω + C(X, ω, γ)`.
+
+*Route.* For the statement, that of [FormalProof] (the method above). For the remark: for decreasing limits a common
 class is sufficient (without one the limit can fail to be quasi-plurisubharmonic, third Check), not necessary
-(fourth Check). (b) Cover `X` by finitely many coordinate balls on which `γ ≤ i∂∂̄g` for a
+(fourth Check). Cover `X` by finitely many coordinate balls on which `γ ≤ i∂∂̄g` for a
 smooth `g` (for instance `g = C|z|²`); on each, `u + g` is plurisubharmonic; Hartogs' lemma 0.3a(b) on each ball and connectedness exclude
 the alternative `u_k → −∞` under the normalisation `sup u_k = 0`, and the sub-mean-value inequality at the point
 where the supremum is attained (upper semicontinuity on compact `X`) gives the mean bound. ComplexHessianEquations
 §5.4 is the `C²` case of the `L¹` bound.
 
-*Needs:* 0.1–0.3a; ComplexHessianEquations §5.4 (for comparison).
+*Needs:* 0.1–0.3a; ComplexComparisonPartII §§C5.4a, C5.4b and C5.4i; ComplexHessianEquations §5.4 (the `C²` case of the
+`L¹` bound of the remark).
 
 **Checks.**
 
@@ -327,8 +389,28 @@ where the supremum is attained (upper semicontinuity on compact `X`) gives the m
   is not quasi-plurisubharmonic. Here `i∂∂̄(a − √(x² + a²))` has no lower bound uniform in `a`.
 - On `ℂ`, with `x = Re z`, the smooth functions `f_j = 2^{−j}(3 + cos(4^j x))` decrease (`f_j ≥ 2^{1−j} ≥ f_{j+1}`) to `0`, which
   is quasi-plurisubharmonic, while `∂²f_j/∂x²(0) = −2^{3j}`: no continuous `γ` has `γ + i∂∂̄f_j ≥ 0` for all `j` near `0`.
+- In the last clause of the statement the neighbourhoods `V_i` of the closures cannot be replaced by the chart domains.
+  Cover `ℙ¹` by the charts `ℂ` (coordinate `z`), whose closure is `ℙ¹`, and `ℙ¹ ∖ {0}`. On `ℂ` take
+  `Ω = ∫_0^{|z|²}(1 − e^{−s})ds/s`, so that `i∂∂̄Ω = e^{−|z|²}·i dz ∧ dz̄ > 0`, and let `w` be smooth on `ℙ¹` with
+  `w = −1/|z|²` for `|z| ≥ 1` (near `∞` it is `−|1/z|²`). For `|z| > 1`,
+  `i∂∂̄(w + C·Ω) = (C·e^{−|z|²} − |z|^{−4})·i dz ∧ dz̄`, negative for `|z|` large whatever `C` is.
 
 ### 0.5 Pluripolar sets and removable singularities
+
+*Origin:* published: Grauert and Remmert (1956), and Demailly [CADG], chapter I, Def. 5.22 with the remark after it and
+Th. 5.23–5.24, and chapter III, §2: pluripolar sets, their measure, nowhere dense analytic sets as complete pluripolar
+sets, and the extension across closed pluripolar sets; the clause on countable unions over a common open set is this
+roadmap's own formulation.
+
+*Method of the formal proof:* [FormalProof] has the extension only across unions of coordinate hyperplanes, for
+continuous plurisubharmonic functions of log-log growth truncated from below: an induction on the coordinates gives the
+local upper bound, and the sub-mean-value inequality of the upper-limit extension is checked disc by disc with a
+one-variable removable-singularity lemma (comparison with the Poisson integral plus `ε·log|ζ − a| + δ|ζ|²` and the
+maximum principle). The route written here differs: it adds `εv` for a witness `v`, lets `ε ↓ 0` and regularises.
+
+*Corollary of:* ComplexComparisonPartII §C5.4c (pluripolar sets have measure zero, nowhere dense closed analytic subsets
+are complete pluripolar, and the Grauert–Remmert extension across closed pluripolar sets), for all of the section except
+the clause on countable unions.
 
 Define `E` to be *pluripolar* if every point `x ∈ E` has a CONNECTED open neighbourhood `W` carrying a plurisubharmonic `v` with
 `v ≢ −∞` on `W` and `E ∩ W ⊂ {v = −∞}`; and *complete pluripolar* if the same holds with `E ∩ W = {v = −∞}`. By 0.2(a) on the
@@ -375,22 +457,42 @@ theorem and is not used here.
 
 ### 0.6 Plurisubharmonic functions on complex spaces
 
+*Origin:* published: Grauert and Remmert (1956), and Fornæss and Narasimhan (1980): plurisubharmonic functions on
+reduced complex spaces by the disc condition, their restrictions under local embeddings and their composites with
+holomorphic maps; the statement is the form that [FormalProof] has, for smooth metrics with semipositivity tested on the
+tangent vectors of a local embedding, and for continuous plurisubharmonic functions on open subsets of `ℂ^n`.
+
+*Method of the formal proof:* for a smooth metric, semipositivity along an embedded variety is the nonnegativity of the
+Levi form of the local weight on the vectors annihilated by the differentials of the equations, and the pull-back to a
+resolution is semipositive by the chain rule for the Levi form under a holomorphic map `g`, since `dg` takes values in such
+vectors (differentiate `f∘g = 0` for each local equation `f`); for a continuous plurisubharmonic `u` on an open set of `ℂ^n` the composite `u∘F` with a
+holomorphic `F` is plurisubharmonic by mollifying `u` and applying the same chain rule.
+
+*Corollary of:* ComplexComparisonPartII §C5.4d (plurisubharmonic functions on reduced complex spaces by the disc
+condition, and their composites with holomorphic maps), clause (b), with the `C²` criterion of §C5.4a.
+
 Define `u : Y → [−∞, ∞)` to be *plurisubharmonic* on an open set `U` of a reduced complex space `Y`
 (ComplexComparisonPartII C-1.1) by the condition of 0.1: `u` is upper semicontinuous and, for every holomorphic map `g`
 from a neighbourhood of the closed unit disc into `U`, `u(g(0))` is at most the mean of `u ∘ g` on the unit circle.
-Prove: (a) for a local closed embedding `V ↪ W` of an open `V ⊂ Y` into an open `W ⊂ ℂ^N`, the restriction to `V` of a
-plurisubharmonic function on `W` is plurisubharmonic on `V`, and on a complex manifold the definition is 0.1's;
-(b) the composite of a plurisubharmonic function with a holomorphic map of reduced complex spaces is plurisubharmonic;
-in particular, for a resolution `π : Ỹ → Y`, `u ∘ π` is plurisubharmonic on the manifold `Ỹ`, and a continuous metric on a
-line bundle over `Y` whose local weights are restrictions of plurisubharmonic functions under local embeddings
-(the semipositivity of ArakelovGeometryAndAbelianHeightsPartII §0.1, tested through local
-embeddings) pulls back to a semipositive metric on `Ỹ`. The converse of (a), that every plurisubharmonic function in this sense is locally such a
-restriction, is the theorem of Fornæss and Narasimhan and is not needed here.
+Prove, in the form that [FormalProof] has: (i) let `h` be a smooth metric on a line bundle over a reduced complex space
+`Y` whose local weights, under local closed embeddings of open subsets of `Y` into open subsets of `ℂ^N`, have nonnegative
+Levi form on the tangent vectors annihilated by the differentials of the local equations; then its pull-back to a
+resolution `π : Ỹ → Y` is semipositive; (ii) for a continuous plurisubharmonic `u` on an open subset of `ℂ^n` and a
+holomorphic map `F` from an open subset of `ℂ^m` into it, `u ∘ F` is plurisubharmonic.
 
-*Route.* (a), (b): a holomorphic disc in `V` is a holomorphic disc in `W`, and composites of holomorphic maps with
-holomorphic discs are holomorphic discs; upper semicontinuity is preserved.
+The general form, cited below as 0.6(a) and (b), is ComplexComparisonPartII §C5.4d: (a) for a local closed embedding
+`V ↪ W` of an open `V ⊂ Y` into an open `W ⊂ ℂ^N`, the restriction to `V` of a plurisubharmonic function on `W` is
+plurisubharmonic on `V`, and on a complex manifold the definition is 0.1's; (b) the composite of a plurisubharmonic
+function with a holomorphic map of reduced complex spaces is plurisubharmonic; in particular `u ∘ π` is plurisubharmonic
+on a resolution `Ỹ`, and a continuous metric on a line bundle over `Y` whose local weights are restrictions of
+plurisubharmonic functions under local embeddings (the semipositivity of ArakelovGeometryAndAbelianHeightsPartII §0.1,
+tested through local embeddings) pulls back to a semipositive metric on `Ỹ`. The converse of (a), that every
+plurisubharmonic function in this sense is locally such a restriction, is the theorem of Fornæss and Narasimhan and is not
+needed here.
 
-*Needs:* 0.1; ComplexComparisonPartII C-1.1 (reduced complex spaces, local embeddings).
+*Route.* That of [FormalProof] (the method above).
+
+*Needs:* 0.1, 0.3; ComplexComparisonPartII C-1.1 (reduced complex spaces, local embeddings), §C5.4d.
 
 **Checks.**
 
@@ -404,41 +506,45 @@ holomorphic discs are holomorphic discs; upper semicontinuity is preserved.
 
 ### Dependencies
 
-ComplexKahlerGeometry K3 and K3.0; ComplexComparisonPartII C-1.1 and C5.4; ComplexHessianEquations §§5.4 and 7.1; PDE §§3.1 and 3.4; Tau Ceti's Levi form, subharmonic functions and sub-mean-value lemmas; Mathlib's upper semicontinuity, `EReal`, `Real.circleAverage`, Lebesgue measure, `Lp` spaces, distributions and convolution.
+ComplexKahlerGeometry K3 and K3.0; ComplexComparisonPartII C-1.1, C5.4, §§C5.4a–C5.4d and §C5.4i; ComplexHessianEquations §5.4; PDE §§3.2a and 3.4a; Tau Ceti's Levi form, subharmonic functions and sub-mean-value lemmas; Mathlib's upper semicontinuity, `EReal`, `Real.circleAverage`, Lebesgue measure, `Lp` spaces, distributions and convolution.
 
 ## Layer 1: Lelong numbers and integrability
 
 ### 1.1 Lelong numbers
 
+*Origin:* published: Lelong (1957), Thie (1967) and Siu (1974), with Demailly [CADG], chapter III, and [AMAG], §2:
+Lelong numbers and their properties (a)–(f) below; the statement is the clause of (b) on the convexity of maxima, for
+real-valued plurisubharmonic functions and polydiscs.
+
+*Method of the formal proof:* for the maximum `M(r)` of a real-valued plurisubharmonic function over the closed polydisc of
+radius `r`, convexity of `M(e^s)` is Hadamard's three-circles argument on the complex line through the centre and a point
+where the maximum is attained: a majorant `α + βs` valid at two radii is carried to the radii between them by the
+sub-mean-value inequality on a small disc centred at that point, after the term `δ·e^{2s}` is added to make the comparison
+strict.
+
+*Corollary of:* ComplexComparisonPartII §C5.4e (Lelong numbers; in its clause (b), applied on the complex lines through
+`x`, the maxima of a plurisubharmonic function over the spheres `|z − x| = r` are convex and nondecreasing in `log r`).
+
 Let `X` have dimension `n ≥ 1` (Conventions). Define the Lelong number `ν(u, x)` for `u` plurisubharmonic near `x`
 as in the Conventions, in a holomorphic chart centred at `x`; the same formula serves for `u` quasi-plurisubharmonic near `x` (0.4), and for `u = v + ψ`
-with `v` plurisubharmonic and `ψ` smooth it gives `ν(u, x) = ν(v, x)` (`ψ` is bounded near `x`). Prove: (a) independence of the chart; (b)
-`ν(u, x) = lim_{r→0} (sup_{|z−x|=r} u)/log r = sup{c ≥ 0 : u(z) ≤ c·log|z − x| + O(1) near x}`, and for `u` plurisubharmonic
-near `x` the function `r ↦ sup_{|z−x|=r} u` is convex and nondecreasing in `log r`; (c) if `u` is not
-`≡ −∞` near `x` (for `u ≡ −∞` near `x`, `ν(u, x) = +∞` and `∂∂̄u` is not a current),
-`ν(u, x)` is the limit as `r → 0` of `σ_T(B(x, r))/(r^{2n−2}π^{n−1}/(n−1)!)` for the closed real current `T = (i/π)∂∂̄u`,
-with `σ_T = T ∧ (½ i∂∂̄|z|²)^{n−1}/(n−1)!` its trace measure (ComplexComparisonPartII C5.4; a signed measure in general): for
-`u` plurisubharmonic, `T` is positive and the limit is its Lelong number; for `u = v + ψ` as above, `T` need not be positive
-(`u = −|z|²`, first Check), and the limit is the Lelong number of the positive current `(i/π)∂∂̄v`; (d) `ν(u + v) = ν(u) + ν(v)`, `ν(max(u, v)) = min(ν(u), ν(v))`,
-`ν(cu) = cν(u)`, `ν(log|f|², x) = 2·ord_x f`; (e) `x ↦ ν(u, x)` is upper semicontinuous; (f) restriction to a
-complex submanifold `S ∋ x` of positive dimension with `u|_S ≢ −∞` does not decrease the Lelong number: `ν(u|_S, x) ≥ ν(u, x)`.
+with `v` plurisubharmonic and `ψ` smooth it gives `ν(u, x) = ν(v, x)` (`ψ` is bounded near `x`). Prove, in the form that
+[FormalProof] has: for a real-valued plurisubharmonic `u` on a neighbourhood of the closed polydisc `P̄(x, R) ⊂ ℂ^n`, the
+maximum `M(e^s)` of `u` over the closed polydisc `P̄(x, e^s)` is attained, and `s ↦ M(e^s)` is convex and nondecreasing on
+`(−∞, log R]` and tends to `u(x)` as `s → −∞`.
 
-*Route.* First for `u` plurisubharmonic. (b) The function `r ↦ sup_{|z−x|=r} u` is a convex nondecreasing function of
-`log r` (Hadamard's three-circles argument on complex lines and the maximum principle); (c) with the Riesz measure of 0.3a,
-Lelong's monotonicity of the normalised mass, by Stokes' theorem with the form `i∂∂̄ log|z − x|²` (Thie's theorem in the
-chart-independent form); (a) follows from (c) after comparing two charts by `C⁻¹|z − x| ≤ |z′ − x| ≤ C|z − x|` in (b). Then for
-`u` quasi-plurisubharmonic: write `u = v + ψ` on a ball `B(x, r₀)` with `v` plurisubharmonic and `ψ` smooth (0.4). If `v ≡ −∞` on
-`B(x, r₀)` (by 0.2(a) on the connected ball, this is the case as soon as `v ≡ −∞` near `x`), then `u ≡ −∞` there, both expressions
-in (b) are `+∞` (the sphere suprema are `−∞` and `log r < 0`), (c) is excluded, and (d)–(f) are read with `ν(u, x) = +∞`; this
-case is set aside. Otherwise `sup_{|z−x|=r}v` is finite for `0 < r < r₀` (were it `−∞`, the maximum principle would give
-`v ≡ −∞` on `B(x, r)`), so the difference below is defined. Neither the
-convexity in (b) nor the positivity in (c) passes from `v` to `u`, so every step goes through `v`:
-`|sup_{|z−x|=r}u − sup_{|z−x|=r}v − ψ(x)| ≤ sup_{|z−x|=r}|ψ − ψ(x)| = O(r)`, so the limit in (b) exists for `u` and equals that for
-`v`; the condition `u ≤ c·log|z − x| + O(1)` is the same for `u` and `v`, `ψ` being bounded; and in (c) the trace measure of the
-smooth form `(i/π)∂∂̄ψ` has a bounded density, so its mass on `B(x, r)` is `O(r^{2n})`, which is `O(r²)` after division by
-`r^{2n−2}`. (a), (d)–(f) likewise reduce to `v`.
+The properties of the Lelong number, cited below as 1.1(a)–(f), are ComplexComparisonPartII §C5.4e (a)–(f), with
+`ν(log|f|², x) = 2·ord_x f`: (a)
+independence of the chart; (b) `ν(u, x) = lim_{r→0} (sup_{|z−x|=r} u)/log r = sup{c ≥ 0 : u(z) ≤ c·log|z − x| + O(1) near x}`,
+with the convexity in `log r` of the sphere maxima of a plurisubharmonic `u`; (c) for `u ≢ −∞` near `x` (for `u ≡ −∞` near
+`x`, `ν(u, x) = +∞`), `ν(u, x)` is the
+limit of the normalised mass `σ_T(B(x, r))/(r^{2n−2}π^{n−1}/(n−1)!)` of the trace measure of `T = (i/π)∂∂̄u`, a signed
+measure for quasi-plurisubharmonic `u = v + ψ`, the limit being that for `(i/π)∂∂̄v`; (d) `ν(u + v) = ν(u) + ν(v)`,
+`ν(max(u, v)) = min(ν(u), ν(v))`, `ν(cu) = cν(u)`; (e) `x ↦ ν(u, x)` is upper semicontinuous;
+(f) `ν(u|_S, x) ≥ ν(u, x)` for a complex submanifold `S ∋ x` of positive dimension with `u|_S ≢ −∞`.
 
-*Needs:* 0.1–0.3a; ComplexComparisonPartII C5.4 (`CurrentCalculus`, trace measures).
+*Route.* That of [FormalProof] (the method above).
+
+*Needs:* 0.1–0.2; ComplexComparisonPartII §C5.4e.
 
 **Checks.**
 
@@ -456,37 +562,34 @@ smooth form `(i/π)∂∂̄ψ` has a bounded density, so its mass on `B(x, r)` i
 
 ### 1.2 Skoda's integrability theorem
 
-Prove: for `n ≥ 1` and `u` plurisubharmonic near `x ∈ ℂ^n` (or in a chart on a manifold), (a) if `ν(u, x) < 2` then
-`e^{−u}` is integrable on a neighbourhood of `x`; (b) if `ν(u, x) ≥ 2n` then `e^{−u}` is not integrable on any
-neighbourhood of `x`; (c) if `ν(u, x) ≥ 2(n + s)` for an integer `s ≥ 0`, then every holomorphic germ `f` with
-`|f|²e^{−u}` integrable near `x` vanishes to order at least `s + 1` at `x`. Uniformly: for `A > 0` there are
-`α = α(n, A) > 0` and `C` with `∫_{B(0,1)} e^{−αu} ≤ C` for every plurisubharmonic `u ≤ 0` on `B(0,2)` with
-`∫_{B(0,2)}(−u) ≤ A`.
+*Origin:* published: Skoda (1972, Bull. SMF), Proposition 7.1, and Demailly [AMAG], Lemma 5.6 (a)–(c), with a weight half
+of ours; the uniform bound: Hörmander, *An Introduction to Complex Analysis in Several Variables*, chapter IV. The
+statement is the case of the weights `c·log|z|²`.
 
-*Route.* The uniform statement is ComplexHessianEquations Layer 7's local estimate for `C²` functions,
-extended to all plurisubharmonic functions by 0.3(a) and Fatou's lemma. (a) For `n = 1` a proof: let `μ` be the Riesz
-measure of `u` (0.3a(a), normalised so that `log|z|` has the measure `2πδ₀`); its point mass at `x` is `2π·ν(u, x)` (split it
-off as in 6.6's route), so `ν(u, x) < 2` gives a disc `B ∋ x` with `μ(B) = 2πm`, `m < 2` (the masses of shrinking discs
-decrease to the point mass). Then `u = h + (1/2π)∫_B log|z − w| dμ(w)` near `x` with `h` harmonic, hence bounded. If `m = 0`,
-`u = h` near `x` and `e^{−u}` is bounded there; if `m > 0`, Jensen's inequality for the probability measure `μ/(2πm)` gives `e^{−u} ≤ C·∫_B |z − w|^{−m} dμ(w)/(2πm)`; integrating in
-`z` over a neighbourhood gives a finite bound, uniform in `w`, because `m < 2`. For `n ≥ 2`
-this is Skoda's integrability theorem (Skoda, *Sous-ensembles analytiques…*, 1972, Proposition 7.1, p. 389, for the potential
-of a closed positive current; in the form (a)–(c), with Demailly's weight, half of ours, [AMAG] Lemma 5.6, pp. 35–36), proof
-not given here. The argument above does not carry over to the Newtonian kernel: in real dimension `2n > 2` the kernel
-behaves like `|z − w|^{2−2n}` at the pole, and `exp(a|z − w|^{2−2n})` is not integrable near `w` for any `a > 0`. The threshold
-comes from the complex structure. An alternative route to Skoda's, through Layer 4: on a complex line `ℓ` through `x` along
-which the Lelong number of `u` is `ν(u, x)` (a classical fact: the directions in which the restriction has a larger Lelong
-number form a pluripolar, in particular Lebesgue-null, subset of the projective space of lines), the case `n = 1` gives integrability of `e^{−u}` on `ℓ`
-near `x`; extending the constant `1` from `ℓ` to a plane, then to a three-space, and so on along a flag of linear subspaces,
-each time by the Ohsawa–Takegoshi theorem 4.1 on a small polydisc with the weight `u`, gives a holomorphic `F` with
-`F(x) = 1` and `∫|F|²e^{−u} < ∞` near `x`, hence integrability of `e^{−u}` there. (b) `u ≤ ν·log|z − x| + C` near
-`x` and `|z|^{−2n}` is not integrable. (c) Near `x`, `e^{−u} ≥ c|z − x|^{−2(n+s)}` by (b)'s inequality; if
-`f` has order `k ≤ s` at `x`, its leading homogeneous form `f_k` is nonzero on an open cone `Γ` of directions, so
-`|f|² ≥ c|z − x|^{2k}` on `Γ` near `x`, and `∫_Γ |z − x|^{2k−2(n+s)}dλ` diverges (`2k − 2(n + s) + 2n − 1 ≤ −1` in the
-radial integral).
+*Method of the formal proof:* for the weights `c·log|z|²` the integral of `|z|^{−2c}` over the unit ball of `ℂ^n` is
+reduced in polar coordinates to that of `r^{2n−1−2c}` on `(0, 1)`, finite exactly for `c < n`; and a holomorphic `f` with
+`|f|²·|z|^{−2n}` integrable near `0` vanishes at `0`, because otherwise `|f| ≥ |f(0)|/2` near `0` and the integral of
+`|z|^{−2n}` diverges.
 
-*Needs:* 0.3a, 1.1; ComplexHessianEquations Layer 7 (§7.1, the local estimate); for the alternative route for `n ≥ 2`
-only, 4.1 (which does not use 1.2).
+*Corollary of:* ComplexComparisonPartII §C5.4e (h), (i) (Skoda's integrability theorem: `e^{−u}` is integrable near no
+point where the Lelong number of `u` is at least `2n`, and a germ `f` with `|f|²e^{−u}` integrable vanishes there), for the
+non-integrability when the exponent is at least `n` and for the vanishing of `f`; the integrability for exponents below
+`n` is the computation in polar coordinates, which §C5.4e (g) gives only for exponents below `1`.
+
+Prove, in the form that [FormalProof] has: for `n ≥ 1` and real `c`, `|z|^{−2c} = e^{−c·log|z|²}` is integrable on the unit
+ball of `ℂ^n` if and only if `c < n`; and a holomorphic `f` on a ball centred at `0` with `|f|²|z|^{−2n}` integrable near `0`
+vanishes at `0`.
+
+The general form, cited below as 1.2(a)–(c) and the uniform bound, is ComplexComparisonPartII §C5.4e (g)–(j): for `n ≥ 1`
+and `u` plurisubharmonic near `x ∈ ℂ^n` (or in a chart on a manifold), (a) if `ν(u, x) < 2` then `e^{−u}` is integrable on a
+neighbourhood of `x`; (b) if `ν(u, x) ≥ 2n` then `e^{−u}` is not integrable on any neighbourhood of `x`; (c) if
+`ν(u, x) ≥ 2(n + s)` for an integer `s ≥ 0`, then every holomorphic germ `f` with `|f|²e^{−u}` integrable near `x` vanishes
+to order at least `s + 1` at `x`; uniformly, for `A > 0` there are `α = α(n, A) > 0` and `C` with `∫_{B(0,1)} e^{−αu} ≤ C`
+for every plurisubharmonic `u ≤ 0` on `B(0,2)` with `∫_{B(0,2)}(−u) ≤ A`.
+
+*Route.* That of [FormalProof] (the method above): polar coordinates (first Check), and the comparison with `|z|^{−2n}`.
+
+*Needs:* 1.1; ComplexComparisonPartII §C5.4e.
 
 **Checks.**
 
@@ -494,32 +597,19 @@ only, 4.1 (which does not use 1.2).
   `ν < 2n`: (b) is sharp.
 - `u = c·log|z₁|²` on `ℂ^n`: `ν = 2c`, integrable iff `c < 1`, i.e. iff `ν < 2`: (a) is sharp.
 
-### 1.3 The complex singularity exponent
-
-Define the complex singularity exponent `c(u, x) = sup{t ≥ 0 : e^{−tu} is integrable near x}` (`+∞` allowed). Prove, for `n ≥ 1`,
-`2/ν(u, x) ≤ c(u, x) ≤ 2n/ν(u, x)` when `ν(u, x) > 0`, and that it is `+∞` iff `ν(u, x) = 0`.
-(Its rationality for `u = log Σ|g_j|²` with all `g_j(x) = 0` is 6.3(d).)
-
-*Route.* The inequalities are 1.2(a)–(b) applied to `cu`; for `ν = 0`, 1.2(a) for every `c`.
-
-*Needs:* 1.2.
-
-**Checks.**
-
-- For `g = z₁^a z₂^b` on `ℂ²`, `a, b ≥ 1`, the exponent of `log|g|²` at `0` is `1/max(a, b)`; `ν = 2(a + b)`
-  and the bounds read `1/(a + b) ≤ 1/max(a, b) ≤ 2/(a + b)`.
-
 ### Examples
 
-`ν(log|z₁|, 0) = 1` on `ℂ²`, `ν(log(|z₁|² + |z₂|⁴), 0) = 2`, and `u = −√(−log|z|)` is unbounded below with `ν(u, 0) = 0` (1.1). For `u = c·log|z|²` on `ℂ^n`, `ν = 2c` and `e^{−u}` is integrable near `0` iff `ν < 2n`; for `u = c·log|z₁|²`, iff `ν < 2` (1.2). For `g = z₁^a z₂^b` with `a, b ≥ 1`, the complex singularity exponent of `log|g|²` at `0` is `1/max(a, b)` (1.3).
+`ν(log|z₁|, 0) = 1` on `ℂ²`, `ν(log(|z₁|² + |z₂|⁴), 0) = 2`, and `u = −√(−log|z|)` is unbounded below with `ν(u, 0) = 0` (1.1). For `u = c·log|z|²` on `ℂ^n`, `ν = 2c` and `e^{−u}` is integrable near `0` iff `ν < 2n`; for `u = c·log|z₁|²`, iff `ν < 2` (1.2).
 
 ### Dependencies
 
-Layer 0; ComplexComparisonPartII C5.4 (trace measures); ComplexHessianEquations Layer 7 (§7.1); 4.1 for the alternative route of 1.2 only.
+Layer 0; ComplexComparisonPartII §C5.4e.
 
 ## Layer 2: Singular hermitian metrics and their curvature currents
 
 ### 2.1 Singular metrics
+
+*Origin:* definitions and conventions.
 
 Define a *singular hermitian metric* on a holomorphic line bundle `L` over a complex manifold `X`: an assignment
 to each local holomorphic frame `e` on an open `U` of a weight `φ_e ∈ L¹_loc(U)`, compatible with change of
@@ -559,24 +649,37 @@ component, with weight `log Σ_j|f_j|²` and `iΘ ≥ 0`; comparison of singular
 
 ### 2.2 Analytic singularities
 
+*Origin:* published: Demailly [AMAG], Definition 1.10, p. 8, with §§2 and 5: metrics with analytic singularities, their
+polar sets, their smoothness off `V(g_j)` and their Lelong numbers; the statement is the form that [FormalProof] has, for
+one explicit weight of this kind.
+
+*Method of the formal proof:* for the explicit weight `φ = φ₀ + ½·log Σ|v_k|² + (m − ½)·log Σ|s_k|²` with holomorphic
+sections `v_k` without common zero and `s_k`, smoothness off the common zeros of the `s_k` is that of the logarithm of a
+positive smooth function, and the bound `i∂∂̄φ ≥ i∂∂̄φ₀` there comes from the formula
+`i∂∂̄ log Σ|g_j|² (ξ) = |P(dg·ξ)|²/|g|²`, with `P` the projection orthogonal to `g`.
+
+*Corollary of:* ComplexComparisonPartII §C5.4f (c) (a metric with analytic singularities is smooth off `V(g_j)` when the
+remainder is smooth), for the smoothness off the common zeros; the bound `i∂∂̄φ ≥ i∂∂̄φ₀` there is the
+plurisubharmonicity of `log Σ_j|g_j|²` of ComplexComparisonPartII §C5.4a.
+
 Say that a singular metric `h` whose local weights are quasi-plurisubharmonic (2.1;
 `φ` below is the canonical representative) has *analytic singularities* with coefficient `c` if locally `φ = c·log Σ_j|g_j|² + w` with holomorphic `g_j`, not all identically
 zero on any component, a real `c ≥ 0` and `w` bounded on the complement of `V(g_j)` ([AMAG] Def. 1.10, p. 8); it is *neat* when `w` extends
 smoothly.
-Prove that for `c > 0` the polar set `{φ = −∞}` of such a weight
-is the analytic set `V(g_j)` (for `c = 0` the weight is bounded and its polar set is empty), that `h` is smooth on
-`X ∖ V(g_j)` when `w` is smooth, and that the Lelong number (1.1) at `x` is `2c·min_j ord_x g_j`, which is `2c` times the order
+Prove, in the form that [FormalProof] has: for a smooth weight `φ₀`, holomorphic `v_1, …, v_N` without common zero,
+holomorphic `s_1, …, s_M` and an integer `m ≥ 1`, the weight `φ = φ₀ + ½·log Σ_k|v_k|² + (m − ½)·log Σ_k|s_k|²` is smooth off
+the common zero set of the `s_k`, and there `i∂∂̄φ ≥ i∂∂̄φ₀`.
+
+The general form, ComplexComparisonPartII §C5.4f (c): for `c > 0` the polar set `{φ = −∞}` of a weight with analytic
+singularities is the analytic set `V(g_j)` (for `c = 0` the weight is bounded and its polar set is empty), `h` is smooth on
+`X ∖ V(g_j)` when `w` is smooth, and the Lelong number (1.1) at `x` is `2c·min_j ord_x g_j`, which is `2c` times the order
 at `x` of the ideal `(g_j)`. The polar set and the Lelong numbers are those of the canonical representative; a weight with
 a bounded remainder that is not quasi-plurisubharmonic has neither (second Check), which is why the definition asks for
 quasi-plurisubharmonic weights.
 
-*Route.* Off `V(g_j)`, `φ ≥ c·log Σ_j|g_j|² − sup|w| > −∞` near each point, and the canonical representative is the limit
-of its means over small balls (0.2(a), applied to `φ` plus a local smooth function making it plurisubharmonic); at
-`x ∈ V(g_j)` these means are at most `c·log sup_{B(x,r)} Σ_j|g_j|² + sup|w| + o(1) → −∞`, so `φ(x) = −∞` when `c > 0`. Lelong
-numbers: the bounded `w` does not change the `liminf` that defines `ν(φ, x)`, `log Σ_j|g_j|² = log max_j|g_j|² + O(1)`, and
-1.1(d) gives `ν(log max_j|g_j|², x) = min_j 2·ord_x g_j`.
+*Route.* That of [FormalProof] (the method above).
 
-*Needs:* 2.1; 0.2, 0.4, 1.1; ComplexKahlerGeometry K3 (analytic sets).
+*Needs:* 2.1; ComplexComparisonPartII §§C5.4a and C5.4f.
 
 **Checks.**
 
@@ -589,21 +692,32 @@ numbers: the bounded `w` does not change the `liminf` that defines `ν(φ, x)`, 
 
 ### 2.3 The Poincaré–Lelong formula for singular metrics
 
+*Origin:* adapted from Lelong (1957) and Demailly [AMAG], (3.11), p. 26: the Poincaré–Lelong formula for smooth metrics,
+read with the curvature current of a singular metric of [AMAG] Definition 3.12.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: if `s ∈ H⁰(X, L)` vanishes identically on no component of `X` and `h` is a singular metric on `L` whose
 local weights are quasi-plurisubharmonic, then `log|s|²_h ∈ L¹_loc(X)` and, as currents,
-`(i/2π)∂∂̄ log|s|²_h = [div s] − c₁(L, h)` ([AMAG] (3.11), p. 26).
+`(i/2π)∂∂̄ log|s|²_h = [div s] − c₁(L, h)`. This is ComplexComparisonPartII §C5.4f (b), whose
+`(i/π)∂∂̄ log ‖s‖_h` is the left side.
 
-*Route.* Write `h = e^{−ψ}h₀` with `h₀` smooth and `ψ` a global quasi-plurisubharmonic function; then
-`log|s|²_h = log|s|²_{h₀} − ψ`, ComplexComparisonPartII C5.4's `lelongPoincareSection` gives the formula for
-`h₀`, and `c₁(L, h) = c₁(L, h₀) + (i/2π)∂∂̄ψ`.
-
-*Needs:* 2.1; ComplexComparisonPartII C5.4 (`lelongPoincareSection`, `AnalyticCycleIntegration`).
-
-**Checks.**
-
-- For `h = 1/|s|²` itself, `log|s|²_h = 0` and the formula reads `c₁(L, h) = [div s]`.
+*Needs:* 2.1; ComplexComparisonPartII §C5.4f.
 
 ### 2.4 The Chern current computes the first Chern class
+
+*Origin:* published: Demailly [AMAG], §3, Definition 3.12 and the lines after it: the curvature current of a singular
+metric represents the first Chern class; the degree formula on the normalisation of a curve is this roadmap's own
+formulation, an immediate consequence.
+
+*Method of the formal proof:* [FormalProof] has the statement for smooth metrics on a compact manifold: the integral of a
+product of curvature forms is unchanged when a smooth function is added to a potential, because, for smooth functions
+`v`, `w` and a product `T` of curvature forms, the pairing `∫ v·dd^c w ∧ T` is symmetric in `v` and `w` (integration by
+parts in charts) and `dd^c 1 = 0`.
+
+*Corollary of:* ComplexComparisonPartII §C5.4f (a) (the Chern current of a singular metric agrees on closed forms with a
+smooth Chern form, so it represents the real first Chern class), for the first statement; the degree formula on the
+normalisation follows from it with §C5.4a (c).
 
 Prove: for every singular metric `h` on `L` over `X` and every closed compactly supported smooth `(2n−2)`-form
 `η`, `c₁(L, h)(η) = ∫_X c₁(L, h₀) ∧ η` for any smooth metric `h₀`; hence on compact `X`, the pairing of
@@ -623,6 +737,17 @@ locally integrable (0.2(a)); apply the first statement on the compact Riemann su
 *Needs:* 2.1, 2.3; ComplexComparisonPartII C5.4 (`integralLineBundleChernClass`, `chernFubiniStudyIntersection`).
 
 ### 2.5 Degrees on curves from metrics of logarithmic growth
+
+*Origin:* this roadmap's own formulation: the degree formula under (i) and (ii) alone; nearest published results: Mumford
+(1977), Theorem 1.4, in dimension and rank one, for good metrics, and Kawamata (1981), Lemma 21, after Fujita (1978), for
+norms of the order of a power of the logarithm at the missing points.
+
+*Method of the formal proof:* [FormalProof] has the equality in two cases, in any dimension, stated where their notions are
+defined: for metrics good in Mumford's sense it is the case of a curve of 5.4, proved by a transgression formula on
+patches with Poincaré-type bounds and a partition of unity; for semipositive log-log weights with a `C²` family of
+regularisations it is the case `n = 1` of 7.8 (c), the limit of the masses of the regularised measures with a tail bound
+uniform in the parameter. The statement under (i) and (ii) alone is not in [FormalProof]; the route written here shows
+that the distribution `Δφ − f`, supported at a point of `S`, has no derivative terms and no point mass.
 
 Prove: let `C` be a compact Riemann surface, `S ⊂ C` finite, `L` a holomorphic line bundle on `C`, and `h` a
 smooth hermitian metric on `L|_{C∖S}` such that (i) `c₁(L, h)` is integrable on `C ∖ S` and (ii) near each
@@ -660,23 +785,40 @@ convex function of `log r` which by (ii) is `o(|log r|)` as `r → 0`, hence non
 
 ### 2.6 Positivity notions
 
+*Origin:* published: Demailly [AMAG], Definition 6.2, Proposition 6.10 and the proof of Theorem 6.17, Demailly (1992),
+*Singular Hermitian metrics on positive line bundles*, and Lazarsfeld (2004), §2.2 (Kodaira's lemma): pseudoeffective and analytically nef line bundles, their degrees on curves,
+and singular metrics on big line bundles; the statement is the first clause of (a), in the form that [FormalProof] has;
+the remark on reducible curves is this roadmap's own formulation.
+
+*Method of the formal proof:* for a potential `θ` with smooth functions `φ_t` such that `θ + φ_t + ε(t)·Ω` is
+plurisubharmonic, `Ω` a positive potential and `ε(t) → 0`, the degree on a curve is the mass of the pulled-back
+potential; a smooth function does not change the mass, so `deg = mass(θ + φ_t + ε(t)·Ω) − ε(t)·mass(Ω) ≥ −ε(t)·mass(Ω)`,
+and `t → 0` gives `deg ≥ 0`.
+
+*Corollary of:* ComplexComparisonPartII §C5.4f (d) (analytically nef and pseudoeffective line bundles have nonnegative
+degrees on compact curves, through the normalisation; a big line bundle on a projective manifold carries a singular metric
+with analytic singularities and `iΘ_h ≥ εω`).
+
 Define, for `X` compact: `L` is *pseudoeffective* if it carries a singular metric with `iΘ_h ≥ 0`; *analytically
-nef* if for every `ε > 0` it carries a smooth metric with `iΘ ≥ −εω`. Prove: (a) an analytically nef line bundle
-has `deg(L|_C) ≥ 0` on every compact curve `C ⊂ X`, and a pseudoeffective one has `deg(L|_C) ≥ 0` on every compact
-curve `C` no irreducible component of which is contained in the polar set of the metric (the canonical representatives,
-2.1); for a reducible `C` it does not suffice that `C` itself is not contained in the polar set (second Check); (b) if `X` is projective and `L` is big
-(AlgebraicModuliForArithmeticGeometry §1.6, `bigLineBundle`), then `L` carries a singular metric with analytic
-singularities and `iΘ_h ≥ εω` for some `ε > 0`. The converse of (b) is 9.5.
+nef* if for every `ε > 0` it carries a smooth metric with `iΘ ≥ −εω`. Prove, in the form that [FormalProof] has: if `L`
+carries smooth metrics `h_t` with `iΘ_{h_t} ≥ −ε(t)ω` and `ε(t) → 0` (in particular, if `L` is analytically nef), then
+`deg(L|_C) ≥ 0` on every compact curve `C ⊂ X`.
 
-*Route.* (a) `deg(L|_C)` is the sum of the degrees on the irreducible components; on each, 2.4 on its normalisation, where
+The general form is ComplexComparisonPartII §C5.4f (d): (a) an analytically nef line bundle has nonnegative degree on every
+compact curve, and a pseudoeffective one on every irreducible compact curve not contained in the polar set of the metric
+(the canonical representatives, 2.1), both through the normalisation; (b) if `X` is projective and `L` is big, then `L`
+carries a singular metric with analytic singularities and `iΘ_h ≥ εω` for some `ε > 0`.
+
+*Remark* (this roadmap's own formulation, not a statement of [FormalProof]). For a reducible compact curve `C`, `deg(L|_C)`
+is the sum of the degrees on its irreducible components, so a pseudoeffective `L` has `deg(L|_C) ≥ 0` when no irreducible
+component of `C` is contained in the polar set; for a reducible `C` it does not suffice that `C` itself is not contained
+in the polar set (second Check).
+
+*Route.* `deg(L|_C)` is the sum of the degrees on the irreducible components; on each, 2.4 on its normalisation, where
 the restricted weight is quasi-plurisubharmonic and not `≡ −∞` (the component is not in the polar set), gives the integral
-of a positive current. For analytically nef `L`, the smooth metrics give `deg(L|_C) ≥ −(ε/2π)∫_Cω` for every `ε > 0`.
-(b) Kodaira's lemma: for a very ample `A` and a smooth member `D ∈ |A|`, `h⁰(mL) ≥ c·m^n` while
-`h⁰((mL)|_D) = O(m^{n−1})`, so `h⁰(mL − A) > 0` for large `m`; with `mL = A + E`, `E` effective, take
-`h = (h_A ⊗ |s_E|^{−2})^{1/m}`, `h_A` the pullback of a Fubini–Study metric (ComplexKahlerGeometry §7.2 (K7.2)).
+of a positive current. For the statement, the smooth metrics give `deg(L|_C) ≥ −(ε/2π)∫_Cω` for every `ε > 0`.
 
-*Needs:* 2.1, 2.2, 2.4; AlgebraicModuliForArithmeticGeometry §1.6; ComplexKahlerGeometry §7.2 (K7.2);
-ComplexComparisonPartII C0 (analytification of line bundles) and C2.2 (GAGA for sections).
+*Needs:* 2.1, 2.4; ComplexComparisonPartII §C5.4f.
 
 **Checks.**
 
@@ -696,11 +838,25 @@ On `O(1)` over `ℙ¹`, the metric `1/|z₀|²` has Chern current `[z₀ = 0]` a
 
 ### Dependencies
 
-Layers 0–1; ComplexKahlerGeometry K3, K4 and K7.2; ComplexComparisonPartII C0, C2.2 and C5.4; AlgebraicModuliForArithmeticGeometry §1.6.
+Layers 0–1; ComplexKahlerGeometry K4; ComplexComparisonPartII C5.4, §C5.4a and §C5.4f.
 
 ## Layer 3: L² estimates for ∂̄ with plurisubharmonic weights
 
 ### 3.1 Hörmander's theorem on pseudoconvex domains
+
+*Origin:* published: Hörmander (1965) and Hörmander, *An Introduction to Complex Analysis in Several Variables*,
+chapter IV, for (a); Demailly [CADG], chapter VIII, Th. 6.5 with (6.4), for (b) and for `(p,q)`-forms.
+
+*Method of the formal proof:* [FormalProof] has the estimate in the form of 3.8, for smooth weights and a datum `∂̄F₀`,
+on a space spread over `ℂ^n` with a smooth plurisubharmonic exhaustion, and proves it by Hörmander's method: the weighted
+identity for `‖T*f‖² + ‖Sf‖²` with the flat metric, three weights with cut-off functions of the exhaustion for the
+density of compactly supported forms, the Riesz representation on the range of `T*`, and a regularity lemma for weakly
+holomorphic `L²` functions. The route written here differs: it derives the estimate from the smooth estimate on complete
+Kähler manifolds (ComplexComparisonPartII C1.4) on exhausting domains, with a limit in the metric, and treats arbitrary
+plurisubharmonic weights by regularisation.
+
+*Corollary of:* ComplexComparisonPartII §C7.1 (Hörmander's theorem on pseudoconvex open subsets of `ℂ^n` with
+plurisubharmonic weights, with the factor `(1 + |z|²)^{−2}` and with the constant `1/(qc)` under `i∂∂̄φ ≥ c·i∂∂̄|z|²`).
 
 Prove: let `Ω ⊂ ℂ^n` be pseudoconvex (it has a continuous plurisubharmonic exhaustion) and `φ`
 plurisubharmonic on `Ω`. (a) For every `(0,1)`-form `g` with `∂̄g = 0` and `∫_Ω|g|²e^{−φ}dλ < ∞` there is `u`
@@ -727,6 +883,12 @@ complete metric from an exhaustion); RealAnalyticGeometry R3.1.
 
 ### 3.2 The twisted Bochner–Kodaira–Nakano inequality
 
+*Origin:* published: Demailly (2015), Lemma 3.6 (attributed there to Ohsawa), (3.10) and Proposition 3.11, with the
+twisting of Ohsawa and Takegoshi (1987): the inequality, (a) and the first clause of (b); the clause of (b) for
+arbitrary `η, λ` on a weakly pseudoconvex `X` is this roadmap's own formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: let `(X, ω)` be Kähler, `E` a hermitian holomorphic bundle, `η > 0` and `λ > 0` smooth functions. For
 every compactly supported smooth `E`-valued `(n,q)`-form `u`,
 `‖(η + λ)^{1/2}∂̄*u‖² + ‖η^{1/2}∂̄u‖² ≥ ⟨⟨[η·iΘ(E) − i∂∂̄η − iλ^{−1}∂η ∧ ∂̄η, Λ]u, u⟩⟩`. Consequently, with
@@ -741,28 +903,17 @@ for some `u ∈ L²` with `∫ (η + λ)^{−1}|u|² dV_ω ≤ ∫⟨B^{−1}g, 
 Without the bound on `η + λ`, the twisted graph norm is in general not approximated by compactly supported forms, and the
 compactly supported inequality does not give the existence statement (second Check).
 
-*Route.* Apply the Bochner–Kodaira–Nakano identity of ComplexKahlerGeometry §6.1 (K6.0) to `η^{1/2}u`, integrate by parts the
-cross terms in `∂η`, and absorb them by the Cauchy–Schwarz inequality with weight `λ`. (a) *The inequality on the whole
-domain.* For `v ∈ Dom ∂̄ ∩ Dom ∂̄*` there are compactly supported smooth `v_k → v` with `∂̄v_k → ∂̄v` and `∂̄*v_k → ∂̄*v` in `L²`
-(density in the graph norm for the complete `ω`, RealAnalyticGeometry R3.1); as `η ≤ η + λ ≤ M`, the left sides converge,
-and Fatou's lemma along an almost everywhere convergent subsequence (`B ≥ 0` pointwise) gives the inequality for `v`.
-*Existence.* For `v ∈ Dom ∂̄*` write `v = v₁ + v₂` with `v₁ ∈ ker ∂̄` and `v₂ ∈ (ker ∂̄)^⊥ ⊆ ker ∂̄*`; then `v₁ ∈ Dom ∂̄ ∩ Dom ∂̄*`,
-`∂̄*v₁ = ∂̄*v`, `⟨⟨v, g⟩⟩ = ⟨⟨v₁, g⟩⟩`, and pointwise and integral Cauchy–Schwarz with the inequality for `v₁` give
-`|⟨⟨v, g⟩⟩|² ≤ ∫⟨B^{−1}g, g⟩·‖(η + λ)^{1/2}∂̄*v‖²`. So `(η + λ)^{1/2}∂̄*v ↦ ⟨⟨v, g⟩⟩` is a well-defined functional of norm
-`≤ (∫⟨B^{−1}g, g⟩)^{1/2}`; the Riesz theorem gives `f ∈ L²` with `‖f‖² ≤ ∫⟨B^{−1}g, g⟩` and
-`⟨⟨v, g⟩⟩ = ⟨⟨∂̄*v, (η + λ)^{1/2}f⟩⟩` for all `v ∈ Dom ∂̄*`. Since `η + λ` is bounded, `u = (η + λ)^{1/2}f ∈ L²`, so `u ∈ Dom ∂̄** = Dom ∂̄`,
-`∂̄u = g` and `∫(η + λ)^{−1}|u|² = ‖f‖²`. (b) For `q = 1`, `B` positive definite on `(n,1)`-forms means that the twisted
-curvature form is Nakano positive, which does not involve the metric; and for a second Kähler metric `ω̂ ≥ ω`
-(simultaneously diagonal at a point, `ω̂ = Σγ_j i dz_j ∧ dz̄_j`, `γ_j ≥ 1`) the quantities `⟨B^{−1}g, g⟩dV` on `(n,1)`-forms and
-`|u|²dV` on `(n,0)`-forms are the same for `ω` and `ω̂`, while `|g|²dV` does not increase. So (a) for the complete metric
-`ω + ω̂` gives the statement for `ω`. On a weakly pseudoconvex `X` with exhaustion `ψ`, the sublevel sets `X_c = {ψ < c}` are
+With `λ` for the `ϑ` of ComplexComparisonPartII §C7.3, the inequality, (a) and the first clause of (b) are ComplexComparisonPartII §C7.3, whose (c),
+the estimate with an error term when only `B + δ` is positive definite, is the form that 4.2's route uses; the clause of (b)
+for arbitrary `η, λ` on a weakly pseudoconvex `X` is proved here.
+
+*Route* (of the clause of (b) for weakly pseudoconvex `X`). On a weakly pseudoconvex `X` with exhaustion `ψ`, the sublevel sets `X_c = {ψ < c}` are
 weakly pseudoconvex (exhaustion `ψ − log(c − ψ)`) and carry complete Kähler metrics (RealAnalyticGeometry R3.1's
 construction, as in 3.1), and `η + λ` is bounded on `X_c`; this gives `u_c` on `X_c` with
 `∫_{X_c}(η + λ)^{−1}|u_c|² ≤ ∫_X⟨B^{−1}g, g⟩`. On each compact `K`, `(η + λ)^{−1}` is bounded below, so the `u_c` are bounded in
 `L²(K)`; a diagonal weak limit `u` satisfies `∂̄u = g` and, by weak lower semicontinuity on each `K`, the bound.
 
-*Needs:* ComplexKahlerGeometry §6.1 (K6.0) (Bochner–Kodaira–Nakano, the Nakano bound); RealAnalyticGeometry R3.1;
-ComplexComparisonPartII C1.3–C1.4.
+*Needs:* ComplexComparisonPartII §C7.3; RealAnalyticGeometry R3.1.
 
 **Checks.**
 
@@ -777,6 +928,24 @@ ComplexComparisonPartII C1.3–C1.4.
   in the twisted graph norm.
 
 ### 3.2a Curvature of sub-bundles and quotient bundles; Skoda's inequality
+
+*Origin:* published: (a) Griffiths (1969, 1970), §4, and Demailly [CADG], chapter V, Th. 14.3 and 14.5; (b) Griffiths
+(1970), Lemma 4.13 and Theorem 5.2, for the curvature formula, read as Griffiths and Nakano semipositivity with the forms
+of [CADG], chapter VII; (c) Skoda (1972, Ann. Sci. ÉNS), §2, Lemme 1 with `q = inf(n, p − 1)`, and Proposition 2, in bundle form
+[CADG], chapter VIII, §9. The last sentence of (c), on the optimality of `q` and the equality for `n = 1`, `p = 2`, is this
+roadmap's own remark.
+
+*Method of the formal proof:* [FormalProof] has of this section the case `q = p − 1` of (c), in scalar form: for `g ≠ 0` in
+`ℂ^p` and `P` the orthogonal projection onto the orthogonal of `g`,
+`|(Pa)_i|² ≤ (1 − |g_i|²/|g|²)·|Pa|²` by orthogonality and the Cauchy–Schwarz inequality over the other coordinates, the
+constants adding up to `p − 1`; this is Skoda's Lemme 1 in the case `q = p − 1`, and it is used component by component
+with the scalar `L²` estimate in 3.10. The route written here differs: it proves (c) through the curvature of the kernel
+bundle of `g`, with the factor `q = min(n, p − 1)` from a rank bound.
+
+*Corollary of:* ComplexKahlerGeometry §4.2a (the curvature of holomorphic sub-bundles and quotient bundles,
+`Θ(S) = Θ(E)|_S + β* ∧ β` and `Θ(Q) = Θ(E)|_Q + β ∧ β*`, and `Θ(S) = −σ* ∧ σ` for a sub-bundle of a flat bundle with a
+parallel indefinite form), for (a), except its last sentence, and (b), except its reading for variations of Hodge
+structure.
 
 *Notation.* For a hermitian holomorphic vector bundle `E` with Chern connection `D_E = D′_E + ∂̄` and curvature
 `Θ_E = D_E² = Σ_{j,k}Θ_{jk̄}dz_j ∧ dz̄_k` (`Θ_{jk̄}` sections of `End E`, in local coordinates), the *Griffiths form* is
@@ -854,13 +1023,21 @@ curvature operator `[iΘ, Λ]` on `(n,1)`-forms).
 
 ### 3.3 Complete Kähler metrics off analytic sets
 
+*Origin:* published: Demailly (1982), Théorème 0.1 = 1.3, Théorème 1.5 with Remarque 1.6, Proposition 1.6 and Théorème
+0.2, for the cases `X` itself, the relatively compact sublevel sets of the exhaustion and their complements of `Z`, and
+`X ∖ Z` when the exhaustion is strictly plurisubharmonic outside a compact set; (a) in general is stated in Demailly
+[AMAG], Remark 5.17; (b) is this roadmap's own formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: (a) if `(X, ω)` is a weakly pseudoconvex Kähler manifold and `Z ⊂ X` a closed analytic subset, then `X ∖ Z`
 carries a complete Kähler metric `ω̂ ≥ ω`; `X` itself carries a complete Kähler metric `≥ ω`; (b) if `X` carries a
 complete Kähler metric, `ω` is any Kähler form on `X` and `Z ⊂ X` is a compact analytic subset, then `X ∖ Z` carries a
 complete Kähler metric `≥ ω`. (b) is what applies to complements `X̄ ∖ D` of divisors with their Poincaré-type metrics
 (5.5), which need not be weakly pseudoconvex (second Check). Demailly 1982 proves (a) on the relatively compact sublevel
 sets of the exhaustion, and on `X` when the exhaustion is strictly plurisubharmonic outside a compact set, in particular for
-`X` compact or Stein (Théorème 1.5, Remarque 1.6 and Proposition 1.6, pp. 464–465); [AMAG] Remark 5.17 (pp. 40–41) states
+`X` compact or Stein (Théorème 1.5, Remarque 1.6 and Proposition 1.6, pp. 464–465); these cases, with the second claim of
+(a), are ComplexComparisonPartII §C7.4. [AMAG] Remark 5.17 (pp. 40–41) states
 that `X ∖ Z` is complete Kähler in general, and the route below proves (a).
 
 *Route.* (a) Let `ψ ≥ 0` be a smooth plurisubharmonic exhaustion. For a convex increasing `χ₂` of fast growth,
@@ -887,7 +1064,7 @@ derivatives of `χ` live on a compact subset of `W ∖ Z`, where they are bounde
 compact subset of `X ∖ Z` cannot leave every compact subset of `X` (`ω̂` is complete), and cannot accumulate at `Z`,
 since `log ℓ → ∞` at `Z` while its variation along the path is bounded by a multiple of the length.
 
-*Needs:* 2.2; RealAnalyticGeometry R3.1; ComplexComparisonPartII C1.5; ComplexKahlerGeometry K3.
+*Needs:* 2.2; RealAnalyticGeometry R3.1; ComplexComparisonPartII C1.5 and §C7.4 (the published cases); ComplexKahlerGeometry K3.
 
 **Checks.**
 
@@ -901,6 +1078,20 @@ since `log ℓ → ∞` at `Z` while its variation along the path is bounded by 
   Kähler metrics on `X ∖ {x}` for every point `x`.
 
 ### 3.4 Extension of ∂̄-equations across analytic sets
+
+*Origin:* published: Demailly (1982), Lemme 6.9, and Demailly [CADG], chapter VIII, Lemma 7.3, for analytic sets, and
+Skoda (1972, Ann. Sci. ÉNS), Lemme 2, for hypersurfaces; the proof by logarithmic cut-off functions, without the local structure of the
+exceptional set, is published by Chen, Wu and Wang (2015).
+
+*Method of the formal proof:* [FormalProof] has the statement for a square-integrable function holomorphic off the zero
+set of one holomorphic function `F`: it is weakly holomorphic across that set, tested against cut-offs `ρ(−log|F|²/k)`
+whose error lives on the band `k ≤ −log|F|² ≤ 2k`, where the gradient of `log|F|²` has `L²` norm `O(k)` on compact sets by
+Green's identity applied to `½·log²((|F|² + ε)/ε)`, so that the error tends to zero through the tail of `∫|u|²`; Weyl's
+lemma, proved by radial mollification, concludes. The route written here differs: its cut-offs
+`ρ(k^{−1}·log log(1/|g|²))` have `‖∂̄θ_k‖_{L²} → 0`, and it treats `L²_loc` forms.
+
+*Corollary of:* ComplexKahlerGeometry §3.5a (an equation `∂̄u = v` with `u` in `L²_loc` and `v` in `L¹_loc` holding off a
+nowhere dense closed analytic subset holds across it, and an `L²_loc` function holomorphic off it is holomorphic).
 
 Prove: if `Z` is a closed analytic subset of a complex manifold `X`, nowhere dense, and `u`, `g` are forms with
 `L²_loc` coefficients on `X` with `∂̄u = g` on `X ∖ Z` in the sense of distributions, then `∂̄u = g` on `X`. In
@@ -917,33 +1108,37 @@ Test `∂̄u = g` against `θ_kη`; the error `∫ u ∧ ∂̄θ_k ∧ η` tends
 
 ### 3.5 Estimates for weights smooth off an analytic set
 
+*Origin:* published: Demailly (1982), Théorème 4.1 with Remarque 4.2, applied to `X ∖ Z`, with Lemme 6.9.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: let `(X, ω)` be Kähler, `Z ⊂ X` a nowhere dense closed analytic subset such that `X ∖ Z` carries a complete
 Kähler metric (by 3.3, for instance: `X` weakly pseudoconvex and `Z` arbitrary, or `X` carrying a complete Kähler metric
 and `Z` compact), and `h` a singular metric on `L` that is smooth on `X ∖ Z`, with quasi-plurisubharmonic weights and
 `iΘ_h(L) ≥ εω` on `X ∖ Z` (`ε > 0` constant). Then the conclusion of the first headline holds: for `q ≥ 1`,
 every `∂̄`-closed `L`-valued `(n,q)`-form `g` on `X` with `∫|g|²_{h,ω}dV_ω < ∞` is `∂̄u` with
-`∫|u|²_{h,ω}dV_ω ≤ (1/(qε))∫|g|²_{h,ω}dV_ω`. More generally, if `ε > 0` is a continuous function on `X`, the same holds with
-`ε^{−1}` inside both integrals: `∫ε^{−1}|g|²_{h,ω}dV_ω < ∞` gives `u` with `∫|u|²_{h,ω}dV_ω ≤ (1/q)∫ε^{−1}|g|²_{h,ω}dV_ω`.
+`∫|u|²_{h,ω}dV_ω ≤ (1/(qε))∫|g|²_{h,ω}dV_ω`. More generally, if `ε > 0` is a continuous function on `X` with
+`iΘ_h(L) ≥ εω` on `X ∖ Z`, every such `g` (so `∫|g|²_{h,ω}dV_ω < ∞`) with `∫ε^{−1}|g|²_{h,ω}dV_ω < ∞` is `∂̄u` with
+`∫|u|²_{h,ω}dV_ω ≤ (1/q)∫ε^{−1}|g|²_{h,ω}dV_ω`.
 This is the form of the estimate due to Demailly in which the existence of a complete Kähler metric off `Z`, not the weak
-pseudoconvexity of `X`, is what is used.
+pseudoconvexity of `X`, is what is used. Both forms are ComplexComparisonPartII §C7.5.
 
-*Route.* Let `ω̂` be a complete Kähler metric on `X ∖ Z`. Use the complete Kähler metrics `ω̂_δ = ω + δω̂` (`δ > 0`), to which
-ComplexComparisonPartII C1.4 applies. For `L`-valued `(n,q)`-forms, `|g|²_{ω̂_δ}dV_{ω̂_δ} ≤ |g|²_ω dV_ω` and the
-curvature term `⟨[iΘ_h, Λ_{ω̂_δ}]^{−1}g, g⟩dV_{ω̂_δ}` is bounded by `(1/(qε))|g|²_ω dV_ω` because `iΘ_h ≥ εω`
-(the monotonicity in the metric used in 3.1; the bound is pointwise, so `ε` may be a function); the solutions are bounded
-uniformly in `δ`, and a weak limit as
-`δ → 0` solves the equation on `X ∖ Z` with the bound for `ω`. 3.4 extends `∂̄u = g` across `Z`: the weights are
-bounded above, so finite weighted `L²` norm implies `L²_loc`.
-
-*Needs:* 2.1–2.2, 3.1, 3.3, 3.4; ComplexComparisonPartII C1.4.
-
-**Checks.**
-
-- `X = ℙ² ∖ {pt}` (3.3's second Check) with the complete Kähler metric of 3.3(b), `Z = ∅`: the hypothesis holds although
-  `X` is not weakly pseudoconvex. A statement with "weakly pseudoconvex" in its hypothesis would not apply to
-  complements of divisors with Poincaré-type metrics in general.
+*Needs:* 2.1, 3.3; ComplexComparisonPartII §C7.5.
 
 ### 3.6 Bergman spaces and Bergman kernels
+
+*Origin:* published: Aronszajn (1950), reproducing kernels, and Kobayashi (1959), the Bergman kernel of square-integrable
+holomorphic forms on a complex manifold; for plurisubharmonic weights, Demailly [CADG], chapter VIII, proof of Cor. 7.7,
+and [AMAG], Th. 14.2. The packaging for weights locally bounded above, with an arbitrary smooth volume form, is this
+roadmap's own formulation; the cases of a smooth metric, of quasi-plurisubharmonic weights on a compact manifold and of a
+plurisubharmonic weight on a bounded pseudoconvex open subset of `ℂ^n` with Lebesgue measure are stated in HeightsRationalPointsAndObstructions
+§5.17c.2.
+
+*Method of the formal proof:* [FormalProof] uses Bergman spaces in two forms: for a smooth weight on a space spread over
+`ℂ^n`, the closedness of the holomorphic functions in the weighted `L²` space is obtained from the weak `∂̄`-equation and a
+regularity lemma for weakly holomorphic `L²` functions; on a compact manifold, for finite-dimensional spaces of sections,
+the Bergman function is identified with `Σ|e_i(x)|²` and its integral with the dimension by linear algebra. The route
+written here differs: it obtains completeness from the sub-mean-value inequality and locally uniform limits.
 
 Define, for a complex manifold `X`, a line bundle `L` with a singular metric `h` whose local weights are locally
 essentially bounded above (for instance quasi-plurisubharmonic weights), and a smooth positive volume form
@@ -974,6 +1169,17 @@ completeness (locally uniform limits of holomorphic sections are holomorphic). T
   `k ≤ −2`).
 
 ### 3.7 The sub-mean-value inequality and the comparison of sup and L² norms
+
+*Origin:* this roadmap's own formulation: the sub-mean-value inequality for holomorphic sections in the forms used here,
+from the sub-mean-value property of plurisubharmonic functions (0.2); (c) is the bound of sup norms by `L²` norms known as
+Gromov's lemma (Gillet and Soulé (1992)).
+
+*Method of the formal proof:* [FormalProof] proves the weighted mean-value inequality by averaging `|f|²` over the circle
+action `z ↦ e^{iθ}z` about the centre, for weights invariant under it, and bounds sections of `L^k` pointwise by their
+`L²` norm as follows: near each point the weight is at most its value plus a real linear form plus `K|z|²`, a holomorphic
+factor removes the linear form, and the Gaussian mean-value inequality on a polydisc of radius `r/√k` gives the factor
+`k^n`. The route written here applies, for (a), the sub-mean-value inequality on a ball to the plurisubharmonic function
+`|f|²e^{−φ+A|z−a|²}`, and, for (d), averages over the torus action.
 
 Prove: (a) let `f` be holomorphic on the ball `B(a, r) ⊂ ℂ^n`, `A ≥ 0`, and `φ` a function on `B(a, r)` such that
 `A|z − a|² − φ` is plurisubharmonic (for instance `φ` of class `C²` with `i∂∂̄φ ≤ A·i∂∂̄|z|²`); then
@@ -1014,6 +1220,21 @@ against the weight over the ball.
   `(g!/(π^g r^{2g}))e^{r²}` times the `L²` norm over a fundamental domain.
 
 ### 3.8 Hörmander's estimate with the norm measured by the curvature
+
+*Origin:* published: Hörmander (1965), and Demailly (1982) with [CADG], chapter VIII, Th. 6.1 (here its case of the trivial
+bundle with weight `φ`) and Th. 6.5; the weights of class `C²` and the Stein Riemann domains, in the form of [FormalProof],
+are cases of that manifold theorem; the case of smooth weights on pseudoconvex open subsets of `ℂ^n` is stated in
+ComplexComparisonPartII §C7.2.
+
+*Method of the formal proof:* [FormalProof] has the estimate for a smooth weight and a datum `∂̄F₀` with `F₀` smooth, on a
+domain spread over `ℂ^n` with a smooth plurisubharmonic exhaustion, and proves it by Hörmander's weighted `L²` method for
+`(0,1)`-forms with the flat metric: the integration by parts identity for `‖T*f‖² + ‖Sf‖²` on test
+forms, three weights `φ′ − 2ψ`, `φ′ − ψ`, `φ′` chosen equal to `φ` near the support of a given test form, density of test
+forms in the graph norm by cut-offs and mollification in charts, and the splitting of a test form along the kernel of `S`
+give `|(v, f)_φ|² ≤ (∫|v|²_{i∂∂̄φ}e^{−φ})·‖T*_φ f‖²_φ` for every test form `f`. The Riesz
+representation theorem then gives the solution with the bound, and Weyl's lemma its regularity. The route written here
+differs: it deduces the estimate from the `L²` theorem on complete Kähler manifolds (ComplexComparisonPartII C1.4), with
+convolutions of the weight and the metrics `ω_δ`.
 
 For a real `(1,1)`-form `θ = Σ_{j,k} θ_{jk̄} i dz_j ∧ dz̄_k ≥ 0` at a point of an open set of `ℂ^n` and a `(0,1)`-covector
 `v = Σ_k v_k dz̄_k` there, put `|v|²_θ = sup_{ξ≠0} |Σ_k v_kξ̄_k|²/Σ_{j,k}θ_{jk̄}ξ_jξ̄_k ∈ [0, ∞]` (with `0/0 = 0` and
@@ -1057,6 +1278,16 @@ decreases when the form increases), and `e^{−φ_ε} → e^{−φ−ε|z|²} �
   the right side of 3.8 is finite.
 
 ### 3.8a The solution of least norm against a second weight of bounded gradient
+
+*Origin:* adapted from Berndtsson (1996), Theorem 3.1 (bounded pseudoconvex domains, a second weight whose gradient is
+bounded by its own Levi form, the constant `4/(δ(1 − δ)²)`), after Donnelly and Fefferman (1983): the unified statement (a),
+with the gradient measured by the Levi form of `Ψ + sρ` and the constant `(1 − s√κ_s)^{−2}`, case (ii) with the constant
+`1/(s(1 − √s)²)`, unbounded domains and weights of class `C²`, and the dual form (b) are this roadmap's own formulation.
+
+*Method of the formal proof:* for a bounded second weight `sρ`, [FormalProof] observes that `u₀e^{sρ}` is orthogonal to the
+holomorphic functions for the weight `Ψ + sρ`, applies Hörmander's estimate 3.8 for that weight to
+`∂̄(u₀e^{sρ}) = e^{sρ}(v + s·u₀∂̄ρ)` and concludes by Pythagoras, the bound left in pointwise form; the dual form (b) is
+used in the application as a bound for the distance from `f·e^{−bρ}` to the holomorphic functions.
 
 Prove: let `Ω ⊂ ℂ^n` be pseudoconvex (an open set with a continuous plurisubharmonic exhaustion, as in 3.1) and `Ψ`, `ρ`
 plurisubharmonic of class `C²` on `Ω`. For a `(0,1)`-form `v` with `L²_loc` coefficients and `∂̄v = 0` such that `∂̄u = v` has a
@@ -1123,6 +1354,16 @@ holomorphically to `Ω` (3.4); hence the orthogonality on `Ω` is the orthogonal
 
 ### 3.9 Interpolation of jets on a discrete common zero set
 
+*Origin:* this roadmap's own formulation: jets of order `s` prescribed at finitely many points of a discrete, possibly
+non-reduced, common zero set and zero at the others, with the exponent `n + s` and the bound of `F − F₀` by the datum
+measured by the Levi form of `φ + (n + s)·log|g|²`; nearest published result: Demailly (1982) and [CADG], chapter VIII,
+Th. 7.1, Cor. 7.5 and Th. 7.6 (the Hörmander–Bombieri–Skoda theorem), and Berenstein and Taylor (1980).
+
+*Method of the formal proof:* [FormalProof] proves the case of values (jets of order `0`) at an isolated common zero of
+`n` functions, one point at a time, by this route: it removes the zero set of one of the functions, applies Hörmander's
+estimate 3.8 on the complement with the weight `φ + n·log Σ_k|g_k|²` to `∂̄` of a cut-off function, extends the solution
+across the removed hypersurface by 3.4, and uses the non-integrability of `|g|^{−2n}` at the zero.
+
 Prove: let `Ω ⊂ ℂ^n` be pseudoconvex, `φ` plurisubharmonic of class `C²` on `Ω`, `g_1, …, g_N` holomorphic on `Ω` with
 discrete common zero set `Z`, `|g|² = Σ_j|g_j|²`, and `s ≥ 0` an integer. Let `Z₀ ⊂ Z` be finite and, for `z ∈ Z₀`, let
 `P_z` be a polynomial and `χ_z` a smooth function with compact support, equal to `1` near `z`, the supports pairwise
@@ -1149,8 +1390,8 @@ class `C²` and plurisubharmonic on `Ω′`, with `i∂∂̄Φ ≥ i∂∂̄φ` 
 the weight `Φ` (`e^{−Φ} = e^{−φ}|g|^{−2(n+s)}`) gives `u` with `∂̄u = ∂̄F₀` and the first bound, hence the second. `F = F₀ − u` is holomorphic on `Ω′` and locally square integrable
 near `{g_k = 0}` (`e^{−φ}|g|^{−2(n+s)}` is bounded below on compact sets), so it extends holomorphically to `Ω` (3.4), and
 `u = F₀ − F` there. Near `z ∈ Z`, `F₀` equals `P_z` or `0`, so `u` is holomorphic there, and `|g(w)| ≤ C|w − z|` gives
-`∫|u|²|w − z|^{−2(n+s)}dλ < ∞` near `z`, which forces `u` to vanish to order `≥ s + 1` at `z` by the leading-form argument
-of 1.2(c).
+`∫|u|²|w − z|^{−2(n+s)}dλ < ∞` near `z`, which forces `u` to vanish to order `≥ s + 1` at `z` by 1.2(c), applied to the
+weight `(n + s)·log|w − z|²`.
 
 *Needs:* 1.2; 3.4, 3.8.
 
@@ -1163,6 +1404,20 @@ of 1.2(c).
   the jets of order `s`.
 
 ### 3.10 Skoda's division theorem
+
+*Origin:* published: Skoda (1972, Ann. Sci. ÉNS), Théorème 1, and Demailly [CADG], chapter VIII, Th. 9.10, for (a); (b), the `a`-fold
+iteration with the product of the constants, and (c), division with jets at a discrete transverse zero set, are this
+roadmap's own formulation (the iteration for germs, without the estimate, is [AMAG] Th. 12.17).
+
+*Method of the formal proof:* by duality between weighted Bergman spaces: the adjoint of multiplication by `g` is bounded
+below because the distance from `ḡf/|g|²` to the holomorphic tuples is estimated componentwise by Hörmander's estimate 3.8
+with the weight `φ + t·log|g|²`, the constants summing to `p − 1`; [FormalProof] has `t > p − 1` in place of `αq`, no common
+zeros of `g`, `p ≥ 2` and a smooth weight. This is Skoda's own proof in the case `q = p − 1` of his Lemme 1. The route
+written here differs: it goes through the kernel bundle `S` of `g`, its curvature and Skoda's inequality 3.2a(c) with the
+factor `q = min(n, p − 1)`, on the complement of a hypersurface with complete Kähler metrics.
+
+*Corollary of:* ComplexComparisonPartII §C7.6 (Skoda's division theorem on pseudoconvex open subsets of `ℂ^n`, clause (a)
+here).
 
 Prove: let `Ω ⊂ ℂ^n` be pseudoconvex, `φ` plurisubharmonic on `Ω` and not `≡ −∞` on any component, `g = (g_1, …, g_p)`
 holomorphic on `Ω` and not all identically zero on any component, `|g|² = Σ_j|g_j|²`, and `q = min(n, p − 1)`.
@@ -1239,11 +1494,16 @@ On `ℂ` with `φ = |z|²` and `g = dz̄`, the minimal solution of `∂̄u = g` 
 
 ### Dependencies
 
-Layers 0–2; ComplexComparisonPartII C1.3, C1.4, C1.5 and C5.4; ComplexKahlerGeometry K3, K3.0, K4, K5a and K6.0; RealAnalyticGeometry R3.1; Mathlib's Hilbert bases and `Lp` spaces.
+Layers 0–2; ComplexComparisonPartII C1.4, C1.5, C5.4 and §§C7.1–C7.6; ComplexKahlerGeometry K3, K3.0, K4, K5a, K6.0, §3.5a and §4.2a; HeightsRationalPointsAndObstructions §5.17c.2; RealAnalyticGeometry R3.1; Mathlib's Hilbert bases and `Lp` spaces.
 
 ## Layer 4: The Ohsawa–Takegoshi extension theorem
 
 ### 4.1 Extension from a hyperplane
+
+*Origin:* published: Błocki (2013), Theorem 1, and Guan and Zhou (2015), with the constant `π/c_D(0)²`; with an
+unspecified constant, Ohsawa and Takegoshi (1987).
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: let `D ⊂ ℂ` be a bounded domain containing `0`, `G_D(·, 0)` its (negative) Green function with pole `0`, and
 `c_D(0) = exp lim_{w→0}(G_D(w, 0) − log|w|)` its logarithmic capacity at `0`. Let `Ω ⊂ ℂ^{n−1} × D` be a pseudoconvex
@@ -1251,36 +1511,27 @@ domain, `H = {z_n = 0}`, `φ` plurisubharmonic on `Ω`, and `f` holomorphic on `
 `∫_{Ω∩H}|f|²e^{−φ}dλ_{n−1} < ∞`. Then there is `F` holomorphic on `Ω` with `F|_{Ω∩H} = f` and
 `∫_Ω|F|²e^{−φ}dλ_n ≤ (π/c_D(0)²)·∫_{Ω∩H}|f|²e^{−φ}dλ_{n−1}`. For `n = 1` (`Ω = D`, `Ω ∩ H = {0}`, `f` a value at `0`)
 the right side is `(π/c_D(0)²)·|f(0)|²e^{−φ(0)}`. For the disc `D = {|z| < r}`, `c_D(0) = 1/r` and the constant is
-`πr²`; the same with an unspecified absolute constant is the original theorem, and `π` is optimal.
+`πr²`; the same with an unspecified absolute constant is the original theorem, and `π` is optimal. This is
+ComplexComparisonPartII §C7.7, which defines the Green function and the logarithmic capacity used here.
 
-*Route.* A known theorem: Z. Błocki, *Suita conjecture and the Ohsawa–Takegoshi extension theorem* (2013), Theorem 1, with
-these hypotheses and this constant; proof not given here. What is checked here is the reduction to smooth data: if the statement holds for the smooth strongly
-pseudoconvex sublevel sets `Ω_j ⋐ Ω` of a smooth strictly plurisubharmonic exhaustion and the smooth strictly
-plurisubharmonic weights `φ_δ = φ ∗ ρ_δ + δ|z|²`, which decrease to `φ` (0.3(a)), then it holds for `(Ω, φ)`: each `Ω_j` lies
-in `ℂ^{n−1} × D` with the same `D`, so the right sides `(π/c_D(0)²)·∫_{Ω_j∩H}|f|²e^{−φ_δ}` are at most
-`(π/c_D(0)²)·∫_{Ω∩H}|f|²e^{−φ}` because `φ_δ ≥ φ`, and the factor `π/c_D(0)²` is carried through every limit below; the extensions are bounded in `L²` on each `Ω_j` because
-`e^{−φ_δ} ≥ e^{−sup_{Ω_j}φ_{δ₀}}` for `δ ≤ δ₀`; a locally uniform limit as `δ → 0`, then `j → ∞` (diagonally), still restricts
-to `f` on `H`, and Fatou's lemma for the fixed weight `φ_{δ₀}`, then monotone convergence as `δ₀ → 0`, give the bound. What a
-proof of the smooth case must supply beyond the twisted estimate 3.2 (solved, with the weight `φ + 2G_D(z_n, 0)` and twists
-`η`, `λ` that are functions of `G_D(z_n, 0)`, for the `∂̄` of a cut-off extension `θ(G_D(z_n, 0) − log ε)·f(z′)`): a bound near
-the pole, for the particular twists and at a fixed cut-off parameter `ε`, showing that the solution vanishes on `H`, and
-then the energy estimate with the constant `π/c_D(0)²` as `ε → 0`. The singular weight alone does not give the vanishing:
-the norm of 3.2 carries the factor `(η + λ)^{−1}`, which for twists growing like `log²(1/|z_n|)` makes the constant function
-square integrable against `e^{−2G_D(z_n,0)}` (third Check).
-
-*Needs:* 0.1–0.3; 3.1, 3.2.
-
-**Checks.**
-
-- `Ω` the unit polydisc (`D` the unit disc, `c_D(0) = 1`), `φ = 0`, `f = 1`: every extension `F` satisfies
-  `∫_Ω|F|² ≥ π·vol(Δ_1^{n−1})` (the mean value of `|F(z′, ·)|²` on the disc is at least `|F(z′,0)|² = 1`), with
-  equality for `F = 1`; the constant `π` cannot be lowered.
-- `D = {|z| < r}`: `G_D(w, 0) = log(|w|/r)`, so `c_D(0) = 1/r` and the constant is `πr²`.
-- A weight with a logarithmic pole does not by itself force vanishing in a twisted norm: on `{|w| < 1/2}`, the constant
-  function `1` has `∫|w|^{−2}(1 + log(1/|w|))^{−2}dλ = 2π∫_0^{1/2}dr/(r(1 + log(1/r))²) = 2π/(1 + log 2) < ∞`, so a twisted
-  norm `∫(η + λ)^{−1}|u|²e^{−log|w|²}` with `η + λ ≍ (1 + log(1/|w|))²` is finite for a solution that is `1` on `{w = 0}`.
+*Needs:* ComplexComparisonPartII §C7.7.
 
 ### 4.2 The Ohsawa–Takegoshi–Manivel theorem on manifolds
+
+*Origin:* published: Ohsawa and Takegoshi (1987), Manivel (1993) and Demailly (2000), in this form Demailly [AMAG],
+Th. 13.6, for the first form; Demailly (2015), Theorem 2.8, for the second form, its case of a finite transverse zero set.
+
+*Method of the formal proof:* [FormalProof] proves the second form: a section `τ` of a positive line bundle with
+`|τ|² ≤ C·Σ_k|s_k|²` is chosen so that `{τ ≠ 0}` is étale over `ℂ^n` and has a plurisubharmonic exhaustion; there a local
+holomorphic extension of `f`, cut off by `θ(δψ)` at one large level, is corrected by the solution of least norm of `∂̄` for
+the weight `e^{−ψ}`, which is bounded by a twisted estimate deduced from 3.8: that solution times `e^{κ(δψ)}`, with `κ`
+bounded, convex and `κ′² ≤ κ″`, is the solution of least norm for the weight with `κ(δψ)` added, whose Levi form contains
+`(1 + δκ′)·i∂∂̄ψ`. The result extends across `{τ = 0}` by 3.4, and the non-integrability of `e^{−ψ}` at `Z` forces the
+prescribed values. The route written here differs: for the second form it solves on `X ∖ Z`, with complete Kähler
+metrics, by a twisted Bochner–Kodaira–Nakano estimate as in 3.2, and lets the truncation level tend to `−∞`.
+
+*Corollary of:* ComplexComparisonPartII §C7.8 (a) (the Ohsawa–Takegoshi–Manivel extension theorem from the zero set of a
+section of a vector bundle on a weakly pseudoconvex Kähler manifold), for the first form.
 
 Prove: let `X` be a weakly pseudoconvex complex manifold of dimension `n` with a Kähler metric `ω`, `L` a
 hermitian holomorphic line bundle, `E` a hermitian holomorphic vector bundle of rank `r`, and `s ∈ H⁰(X, E)`
@@ -1337,36 +1588,31 @@ constant `C_r` depends only on `r`.
   curvature term built from functions of `log(|s|² + ε²)` is a multiple of `i dz₁ ∧ dz̄₁` off `{z₁ = 0}`, so on `(2,1)`-forms
   `⟨Bu, u⟩` is a multiple of `|u₁|²` and `u = dz₁ ∧ dz₂ ∧ dz̄₂` lies in the kernel of `B` for every `ε`.
 
-### 4.3 The Suita inequality
-
-Prove: for a bounded domain `D ⊂ ℂ` and `z ∈ D`, `c_D(z)² ≤ π·K_D(z)`, where `K_D(z)` is the Bergman density of
-`D` (3.6 with `h = 1` and Lebesgue measure) and `c_D(z) = exp lim_{w→z}(G_D(w, z) − log|w − z|)` with `G_D` the
-negative Green function with pole `z`; equality holds when `D` is simply connected.
-
-*Route.* The case `n = 1` of 4.1 for `D − z` and `φ = 0`: there is `F ∈ O(D)` with `F(z) = 1` and
-`∫_D|F|² ≤ π/c_D(z)²`, so `K_D(z) ≥ |F(z)|²/‖F‖² ≥ c_D(z)²/π`. For simply connected `D` both sides transform under a
-Riemann map (the Riemann map `ψ` normalised at `z` of ClassicalArithmeticCompletion §6.20, so that
-`c_D(z) = |ψ′(z)| = 1/cr(D, z)`) as densities of weight `|ψ′|²`, and they are equal at the centre of the disc.
-
-*Needs:* 4.1; 3.6; ClassicalArithmeticCompletion §6.20.
-
-**Checks.**
-
-- The unit disc at `0`: `c = 1`, `K = 1/π`, equality.
-
 ### Examples
 
-For the unit polydisc, `φ = 0` and `f = 1`, every extension satisfies `∫|F|² ≥ π·vol(Δ_1^{n−1})`, with equality for `F = 1`, so the constant `π` cannot be lowered; for `D = {|z| < r}`, `c_D(0) = 1/r` and the constant is `πr²` (4.1). On the unit disc with `s(z) = z/e` and `Y = {0}`, the extension of `c·dz` gives `C_1 ≥ 4π` (4.2). For the unit disc at `0`, `c = 1` and `K = 1/π`: the Suita inequality is an equality (4.3).
+For the unit polydisc, `φ = 0` and `f = 1`, every extension satisfies `∫|F|² ≥ π·vol(Δ_1^{n−1})`, with equality for `F = 1`, so the constant `π` cannot be lowered; for `D = {|z| < r}`, `c_D(0) = 1/r` and the constant is `πr²` (4.1). On the unit disc with `s(z) = z/e` and `Y = {0}`, the extension of `c·dz` gives `C_1 ≥ 4π` (4.2).
 
 ### Dependencies
 
-Layers 0 and 3; ComplexKahlerGeometry K4; ClassicalArithmeticCompletion §6.20.
+Layers 0 and 3; ComplexComparisonPartII §§C7.7–C7.8; ComplexKahlerGeometry K4.
 
 ## Layer 5: Good metrics along a normal crossings boundary
 
 Fix a complex manifold `X̄`, a normal crossings divisor `D`, and `X = X̄ ∖ D`.
 
 ### 5.1 Poincaré growth
+
+*Origin:* published: Mumford (1977), §1, pp. 240–241, and Proposition 1.1, for a smooth projective `X̄`; the form for a
+normal crossings divisor in an arbitrary complex manifold is this roadmap's own formulation.
+
+*Method of the formal proof:* [FormalProof] uses Poincaré growth through the weights `|z_a|·|log|z_a||` in a chart,
+inside its definition of a good metric, and proves the integrability of `∏_a (|z_a|·log|z_a|)^{−2}` on compact parts of the
+polydisc by polar coordinates in each variable and a product of one-variable integrals. Of the statement it has the
+integrability in top degree.
+
+*Corollary of:* ArakelovGeometryAndAbelianHeights §5.1a (forms of Poincaré growth along a normal crossings divisor of a
+smooth projective variety: chart independence, the algebra structure, integrability in top degree and the currents `[η]`),
+for `X̄` smooth projective.
 
 Define the Poincaré form on the Poincaré polydisc,
 `ω_P = Σ_{i≤k} i dz_i ∧ dz̄_i/(|z_i|²(log|z_i|)²) + Σ_{i>k} i dz_i ∧ dz̄_i`, and say that a smooth `p`-form `η`
@@ -1385,6 +1631,18 @@ which `log|z_i|` changes by a bounded amount, so `ω_P` changes to a quasi-isome
 
 ### 5.2 Good forms
 
+*Origin:* published: Mumford (1977), §1, the definition of a good form and Proposition 1.2, pp. 241–242, for a smooth
+projective `X̄`; the form in an arbitrary complex manifold is this roadmap's own formulation.
+
+*Method of the formal proof:* in the top-degree case that it needs, [FormalProof] multiplies by cut-off functions of
+`log|z_a|/(j + 1)` that vanish near the divisor and whose `∂̄` is bounded for the Poincaré metric uniformly in `j`, uses the
+vanishing of the integral for compact support, and passes to the limit by dominated convergence against the Poincaré
+volume. The route written here differs: it applies Stokes' theorem on the complement of tubes and lets the boundary
+integrals tend to zero.
+
+*Corollary of:* ArakelovGeometryAndAbelianHeights §5.1b (good forms along a normal crossings divisor of a smooth
+projective variety: `d[η] = [dη]` on `X̄`, and closure under wedge products), for `X̄` smooth projective.
+
 Call a smooth form `η` on `X` *good* if `η` and `dη` both have Poincaré growth along `D`. Prove: for a good form, the currents
 satisfy `d[η] = [dη]` on `X̄` (no residue along `D`); good forms are closed under products.
 
@@ -1394,6 +1652,20 @@ with Poincaré growth restricted to `{|z_i| = ε}` is `O(1/|log ε|)` in the ang
 *Needs:* 5.1.
 
 ### 5.3 Good metrics and the uniqueness of the extension
+
+*Origin:* published: Mumford (1977), §1, p. 242, the definition of a good metric and Proposition 1.3, with the uniqueness
+of the extension, for a smooth projective `X̄`; clauses (c) and (d), the Checks on the frame convention and the form on
+an arbitrary complex manifold are this roadmap's own formulation.
+
+*Method of the formal proof:* the bounds defining a good metric are propagated entrywise through the transformation
+`θ′ = A^{−1}(θ·A + ∂A)` of the connection matrix under a holomorphic change of frame `A`, and through polynomial
+representations by the derived representation; the uniqueness of the extension is proved for line bundles by extending a
+unit of logarithmic growth and its inverse across the divisor.
+
+*Corollary of:* ArakelovGeometryAndAbelianHeights §5.1c (good metrics relative to an extension: frame independence, the
+sections of the extension as the sections of logarithmic growth, and the uniqueness of the extension), for (a) and (b)
+with `X̄` smooth projective; stated there with `h` conjugate-linear in the first argument, its matrix `H^{−1}∂H` being the
+transpose of `(∂H)H^{−1}` here.
 
 Let `Ē` be a holomorphic vector bundle on `X̄` of rank `r` and `h` a smooth hermitian metric
 on `E = Ē|_X`. Call `h` *good relative to `Ē`* if at every point of `D`, for a local frame `e₁, …, e_r` of `Ē` on a Poincaré polydisc with Gram
@@ -1440,6 +1712,22 @@ not a connection matrix, and its goodness depends on the frame (third Check). (d
 
 ### 5.4 Chern–Weil theory for good metrics
 
+*Origin:* published: Mumford (1977), Theorem 1.4, pp. 242–243, for the Chern forms on a smooth projective `X̄`; the form for
+every invariant polynomial, paired with closed forms on a compact complex manifold, is this roadmap's own formulation.
+
+*Method of the formal proof:* for a smooth metric the integral of a Chern polynomial is computed on the full flag bundle
+from first Chern forms, by published push-forward formulas (Darondeau and Pragacz (2015); Diverio and Fagioli (2022));
+for a good metric the top Chern form is compared with that of a
+smooth metric, patch by patch, through a transgression formula whose boundary terms vanish by the growth of the metric;
+every top-degree Chern polynomial is a real combination of top Chern forms of associated bundles, whose induced metrics
+are again good. [FormalProof] has the statement for Chern numbers. The route written here differs: it applies Mumford's
+transgression to every invariant polynomial, as an identity of currents on `X̄`, and takes smooth Chern–Weil theory from
+CharacteristicClasses §§4.1–4.2.
+
+*Corollary of:* ArakelovGeometryAndAbelianHeights §5.1d (each Chern form `c_k` of a good metric is a good form, and its
+current represents `c_k` of the extension, `X̄` smooth projective), for `P = c_k` with `X̄` smooth projective; products of
+Chern forms, and the Chern numbers of monomials with more than one factor, are not covered.
+
 Prove: let `X̄` be compact, `Ē` a holomorphic vector bundle on `X̄`, `h` good relative to `Ē`. Then for every
 invariant polynomial `P` the Chern–Weil form `P(Θ_h)` on `X` is a good form, the current `[P(Θ_h)]` on `X̄` is
 closed, and it represents `P(Ē)` in `H*(X̄, ℝ)`: for every closed smooth form `β` on `X̄` of complementary degree,
@@ -1463,6 +1751,12 @@ then `P(Θ_h) − P(Θ_{h₀}) = dT` holds as currents on `X̄` by 5.2, and Char
   Chern–Weil statement that did not fix the extension would be false.
 
 ### 5.5 Poincaré-type metrics
+
+*Origin:* published: Cornalba and Griffiths (1975), the metric, its completeness and its finite volume; Cheng and Yau
+(1980) and Kobayashi (1984), quasi-coordinates and bounded geometry; the good forms of the last clause are those of
+Mumford (1977).
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: if `X̄` is compact Kähler with Kähler form `ω` and `D = Σ D_j` a simple normal crossings divisor with
 hermitian metrics on `O(D_j)` and sections `s_j` scaled so that `|s_j| < e^{−1}`, then for small `δ > 0`,
@@ -1491,11 +1785,16 @@ On the punctured disc, the trivial bundle with `|e|² = −log|z|` is good relat
 
 ### Dependencies
 
-Layers 2 and 3 (2.5, 3.3); ComplexKahlerGeometry K3 and K4; ComplexComparisonPartII C5.4; CharacteristicClasses §§4.1–4.2 (C4.1–C4.2).
+Layers 2 and 3 (2.5, 3.3); ComplexKahlerGeometry K3 and K4; ComplexComparisonPartII C5.4; CharacteristicClasses §§4.1–4.2 (C4.1–C4.2); ArakelovGeometryAndAbelianHeights §§5.1a–5.1d.
 
 ## Layer 6: Analytic multiplier ideals
 
 ### 6.1 The multiplier ideal of a weight
+
+*Origin:* published: Nadel (1990) and Demailly [AMAG], §5, the definition of the multiplier ideal sheaf and Lemma 5.6
+(a)–(c), after Skoda (1972, Bull. SMF), with a weight half of ours; the case `n = 0` is this roadmap's own remark.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Define the analytic multiplier ideal `J(φ)` for a quasi-plurisubharmonic `φ` on a complex manifold: the
 ideal subsheaf of `O_X` of germs `f` at `x` with `|f|²e^{−φ}` integrable on a neighbourhood of `x`; for a
@@ -1504,9 +1803,10 @@ singular metric `h` with quasi-plurisubharmonic weights, `J(h)` is the ideal of 
 `J(φ + ψ) = J(φ)` for bounded `ψ`; `J(cφ) ⊇ J(c′φ)` for `c ≤ c′`; `J(φ)_x = O_x` iff `e^{−φ}` is integrable near
 `x`; and, for `n ≥ 1` (Lelong numbers, Conventions), the cosupport of `J(φ)` contains `{ν(φ, ·) ≥ 2n}` and is contained in
 `{ν(φ, ·) ≥ 2}`, and `ν(φ, x) ≥ 2(n + s)` implies `J(φ)_x ⊆ m_x^{s+1}`. (For `n = 0`, `J(φ)_x` is `O_x` if `φ(x) > −∞` and `0`
-otherwise; 1.1's last Check.)
+otherwise; 1.1's last Check.) For `n ≥ 1` this is ComplexComparisonPartII §C5.4g (a)–(d); the case `n = 0` is this
+roadmap's remark.
 
-*Needs:* 1.1–1.2; 2.1; 0.4.
+*Needs:* 0.4, 2.1; ComplexComparisonPartII §C5.4g.
 
 **Checks.**
 
@@ -1517,27 +1817,24 @@ otherwise; 1.1's last Check.)
 
 ### 6.2 Coherence (Nadel)
 
+*Origin:* published: Nadel (1990) and Demailly [AMAG], Prop. 5.7, p. 37.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove that `J(φ)` is a coherent ideal sheaf for every quasi-plurisubharmonic `φ` (for plurisubharmonic `φ`, [AMAG]
-Prop. 5.7, p. 37).
+Prop. 5.7, p. 37). This is ComplexComparisonPartII §C7.9, which states it for quasi-plurisubharmonic `φ`.
 
-*Route.* The question is local. On a small ball `B` around a point, write `φ = v + ψ` with `v` plurisubharmonic and `ψ`
-smooth on a neighbourhood of `B̄`, and fix `C` with `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` there: `φ̃ = φ + C|z|²` is plurisubharmonic on `B`
-and differs from `φ` by a bounded smooth function, so it has the same multiplier ideal and the same weighted `L²` spaces on
-`B` (6.1). The logarithmic pole added below is plurisubharmonic but does not compensate a negative Levi form of `ψ` (its Levi
-form vanishes in the radial direction), which is why `C|z|²` is added first. The Hilbert space `H(B, φ)` of holomorphic `f`
-with `∫_B|f|²e^{−φ} < ∞` generates a coherent ideal `I` (strong Noetherian property of coherent sheaves, ComplexKahlerGeometry
-K3), and `I ⊆ J(φ)` on `B`. Let `x ∈ B`, `f ∈ J(φ)_x` with `∫_V|f|²e^{−φ} < ∞` on a neighbourhood `V ⊂ B` of `x`, `k ≥ 0`, and `θ` a
-cut-off equal to `1` near `x` with support in `V`. Hörmander's estimate 3.1(a) on the pseudoconvex `B` with the
-plurisubharmonic weight `φ̃ + 2(n + k)log|z − x|` gives `u` with `∂̄u = f∂̄θ`: the datum is supported where `|z − x| ≥ δ > 0`,
-so its weighted norm is at most a constant times `∫_V|f|²e^{−φ}`. Then `F = θf − u` is holomorphic on `B`; since
-`φ̃ + 2(n + k)log|z − x| ≤ φ + C′` on `B`, `∫_B|u|²e^{−φ} < ∞` and `F ∈ H(B, φ)`; near `x`, `u = f − F` is holomorphic with
-`∫|u|²|z − x|^{−2(n+k)} < ∞` (`φ` is bounded above near `x`), so `u` vanishes to order `≥ k + 1` at `x` (1.2(c)'s computation:
-`∫_{|z|<ρ}|z|^{2j−2(n+k)}dλ = ∞` for `j ≤ k`). So `f ∈ I_x + m_x^{k+1}` for every `k`, and Krull's intersection theorem gives
-`J(φ)_x ⊆ I_x`.
-
-*Needs:* 6.1; 0.4, 1.2; 3.1; ComplexKahlerGeometry K3 (coherence, Noetherianity of the local rings).
+*Needs:* 6.1; ComplexComparisonPartII §C7.9.
 
 ### 6.3 Comparison with algebraic multiplier ideals
+
+*Origin:* published: Lazarsfeld (2004), *Positivity in Algebraic Geometry II*, chapter 9, and Demailly [AMAG], Proposition
+5.8 and Remark 5.9, with the principalisation of Hironaka (1964) for analytic germs as used there: (a), (b), (c) with a
+proper modification by a complex manifold, and (d); the form of (c) with `V′ ⊂ V × ℙ^m(ℂ)` is this roadmap's own
+formulation. (b) is stated and proved here, for the multiplier ideal of a pair of MultiplierIdealsOfPairsAndPointSeparation
+§9.10b.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: (a) let `X` be a smooth complex algebraic variety, `a ⊂ O_X` a nonzero coherent ideal with local generators
 `g_1, …, g_N`, and `c ≥ 0` rational; then `J(c·log Σ_j|g_j|²) = (algebraicMultiplierIdeal a c)^{an}`; (b) for an
@@ -1548,9 +1845,11 @@ not all zero has a neighbourhood `V` and a proper modification `π : V′ → V`
 submanifold, `π` the projection, biholomorphic over `V ∖ V(g_j)`, and `(g_j)·O_{V′}` invertible, locally a monomial in
 holomorphic coordinates, with strict normal crossings support together with the exceptional set (analytic
 principalisation), and the formula of (a) holds on `V` for `c·log Σ_j|g_j|² + O(1)`; (d) consequently, if all `g_j`
-vanish at `x`, the complex singularity exponent (1.3) of `log Σ_j|g_j|²` at `x` is a positive rational number, the log
-canonical threshold of the ideal `(g_j)` at `x`; if some `g_j(x) ≠ 0` (the unit ideal at `x`), it is `+∞` (1.3: the
-Lelong number is `0`).
+vanish at `x`, the complex singularity exponent (ComplexComparisonPartII §C5.4e (k)) of `log Σ_j|g_j|²` at `x` is a
+positive rational number, the log canonical threshold of the ideal `(g_j)` at `x`; if some `g_j(x) ≠ 0` (the unit ideal at
+`x`), it is `+∞` (the Lelong number is `0`, §C5.4e (k)). (a) is ComplexComparisonPartII §C5.4h (a); (c), with a proper
+modification `π : V′ → V` by a complex manifold in place of `V′ ⊂ V × ℙ^m(ℂ)` with `π` the projection, together with the
+formula on `V`, is §C5.4h (b); (d) is §C5.4h (c); (b) and the form of (c) stated here are proved here.
 
 *Route.* On a principalisation (log resolution) `π : Y → X` (ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2,
 analytified), `a·O_Y = O(−F)` with `F` simple normal crossings; the change of variables
@@ -1577,7 +1876,8 @@ Then the monomial computation of (a) applies verbatim.
 
 *Needs:* 6.1–6.2; AlgebraicModuliForArithmeticGeometry §9.10 (`algebraicMultiplierIdeal`);
 MultiplierIdealsOfPairsAndPointSeparation §9.10b (the multiplier ideal `J(X, Δ)` of a pair);
-ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2, 7.7; ComplexComparisonPartII C-1.1, C0 (analytification), C2.2.
+ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2, 7.7; ComplexComparisonPartII C-1.1, C0 (analytification), C2.2,
+§§C5.4e and C5.4h.
 
 **Checks.**
 
@@ -1588,9 +1888,14 @@ ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2, 7.7; ComplexCompariso
 
 ### 6.4 The restriction theorem
 
+*Origin:* adapted from Demailly, Ein and Lazarsfeld (2000) and Demailly [AMAG], (15.1): the restriction theorem for
+plurisubharmonic weights and any submanifold, here for quasi-plurisubharmonic weights and a smooth hypersurface.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: if `H ⊂ X` is a smooth hypersurface and `φ` is quasi-plurisubharmonic with `φ|_H ≢ −∞` on each component
 of `H`, then `J(φ|_H) ⊆ J(φ)·O_H` (the image of `J(φ)` in `O_H`; for plurisubharmonic `φ` and any submanifold,
-[AMAG] (15.1), p. 158).
+[AMAG] (15.1), p. 158, which is ComplexComparisonPartII §C7.10).
 
 *Route.* At `x ∈ H` take coordinates with `H = {z_n = 0}` and a polydisc `P = P′ × Δ_r` around `x` on which `φ = v + ψ` with `v`
 plurisubharmonic and `ψ` smooth on a neighbourhood of `P̄`; with `C` such that `i∂∂̄ψ ≥ −C·i∂∂̄|z|²` there, `φ̃ = φ + C|z|²` is
@@ -1599,7 +1904,7 @@ bounded smooth correction changes neither multiplier ideal). For a germ `f ∈ J
 holomorphic on `P ∩ H` with `∫_{P∩H}|f|²e^{−φ} < ∞`; 4.1 on the pseudoconvex `P ⊂ ℂ^{n−1} × Δ_r` with the weight `φ̃` gives `F`
 holomorphic on `P` with `F|_{P∩H} = f` and `∫_P|F|²e^{−φ} ≤ e^{C′}∫_P|F|²e^{−φ̃} ≤ e^{C′}πr²∫_{P∩H}|f|²e^{−φ} < ∞`, so `F ∈ J(φ)_x`.
 
-*Needs:* 6.1; 0.4; 4.1.
+*Needs:* 6.1; 0.4; 4.1; ComplexComparisonPartII §C7.10 (the plurisubharmonic case).
 
 **Checks.**
 
@@ -1608,12 +1913,18 @@ holomorphic on `P` with `F|_{P∩H} = f` and `∫_P|F|²e^{−φ} ≤ e^{C′}�
 
 ### 6.5 Subadditivity
 
-Prove `J(φ + ψ) ⊆ J(φ)·J(ψ)` for quasi-plurisubharmonic `φ, ψ` (for plurisubharmonic `φ, ψ`, [AMAG] Th. 15.2(b), p. 159).
+*Origin:* adapted from Demailly, Ein and Lazarsfeld (2000) and Demailly [AMAG], Th. 15.2 (b): subadditivity for
+plurisubharmonic weights, here for quasi-plurisubharmonic weights.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
+Prove `J(φ + ψ) ⊆ J(φ)·J(ψ)` for quasi-plurisubharmonic `φ, ψ` (for plurisubharmonic `φ, ψ`, [AMAG] Th. 15.2(b), p. 159,
+which is ComplexComparisonPartII §C7.11).
 
 *Route.* On `X × X`, `J(φ ⊠ ψ) = J(φ) ⊠ J(ψ)` (Fubini and coherence); restrict to the diagonal by 6.4, applied
 `n` times along hypersurfaces cutting out the diagonal.
 
-*Needs:* 6.1–6.2, 6.4.
+*Needs:* 6.1–6.2, 6.4; ComplexComparisonPartII §C7.11 (the plurisubharmonic case).
 
 **Checks.**
 
@@ -1621,13 +1932,20 @@ Prove `J(φ + ψ) ⊆ J(φ)·J(ψ)` for quasi-plurisubharmonic `φ, ψ` (for plu
 
 ### 6.6 Strong openness
 
+*Origin:* published: Guan and Zhou (2015), Theorem 1.1, for plurisubharmonic functions (another proof: Hiep (2014)); the
+reduction of the quasi-plurisubharmonic statement to the local one, the components where `φ ≡ −∞`, and the proof for
+`n = 1` are this roadmap's own.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove `J(φ) = ⋃_{ε>0} J((1 + ε)φ)` for every quasi-plurisubharmonic `φ`. For `n ≥ 2` this target is a known theorem, cited:
 the strong openness theorem of Guan and Zhou, for a plurisubharmonic function on a polydisc of `ℂ^n`. For `n = 1` it is proved
 here.
 
 *Route.* What is cited is the local statement for a negative plurisubharmonic `φ` on the unit polydisc of `ℂ^n`: Q. Guan and
 X. Zhou, *A proof of Demailly's strong openness conjecture*, Ann. of Math. 182 (2015) (Theorem 1.1, pp. 1–2 of
-arXiv:1311.3781v1); another proof is P. H. Hiep's (2014). The target
+arXiv:1311.3781v1), the case of the unit polydisc of ComplexComparisonPartII §C7.12; another proof is P. H. Hiep's
+(2014). The target
 follows from it because `J` is local and changing `φ` by a smooth (hence locally bounded) function changes neither side
 (6.1). The inclusion `⊇` is 6.1 (`J(cφ) ⊇ J(c′φ)` for `c ≤ c′`). The increasing union `⋃_{ε>0} J((1 + ε)φ)` of coherent
 ideals (6.2) is stationary near each point (Noetherian property of coherent sheaves), hence equal to `J((1 + ε₀)φ)` near `x`
@@ -1642,7 +1960,7 @@ since `φ₁` is bounded above, `|f|²e^{−φ}` is integrable near `x` iff `|z 
 `ν − 2·ord_x f < 2`, and this condition is open under `φ ↦ (1 + ε)φ`. Membership in `J(φ)` does not pass to hyperplanes
 through `x` (Check), so an induction on `n` cannot simply restrict `f` to such hyperplanes.
 
-*Needs:* 6.1–6.2; 0.2, 0.3, 0.3a; 1.2.
+*Needs:* 6.1–6.2; 0.2, 0.3, 0.3a; 1.2; ComplexComparisonPartII §C7.12.
 
 **Checks.**
 
@@ -1655,11 +1973,17 @@ through `x` (Check), so an induction on `n` cannot simply restrict `f` to such h
 
 ### Dependencies
 
-Layers 0–4; ComplexKahlerGeometry K3; ComplexComparisonPartII C-1.1, C0 and C2.2; AlgebraicModuliForArithmeticGeometry §9.10; MultiplierIdealsOfPairsAndPointSeparation §9.10b; ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2 and 7.7.
+Layers 0–2 and 4; ComplexComparisonPartII C-1.1, C0, C2.2, §§C5.4e, C5.4g, C5.4h and C7.9–C7.12; AlgebraicModuliForArithmeticGeometry §9.10; MultiplierIdealsOfPairsAndPointSeparation §9.10b; ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2 and 7.7.
 
 ## Layer 7: Approximation and regularisation
 
 ### 7.1 Demailly's Bergman-kernel approximation
+
+*Origin:* published: Demailly (1992) and Demailly [AMAG], Th. 14.2, pp. 136–137, for (a)–(c), and Prop. 5.7 for the
+generation of `J(mφ)` in (d); the analytic singularities of `φ_m` in (d) are this roadmap's own write-up of the standard
+Noetherian argument.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: let `Ω ⊂ ℂ^n` be a bounded pseudoconvex domain, `φ` plurisubharmonic on `Ω` and not `≡ −∞` (for `φ ≡ −∞` the
 space below is `0`), and for `m ≥ 1` let `(σ_{m,k})_k` be an orthonormal basis of
@@ -1670,16 +1994,10 @@ with (a) `φ(z) − C₁/m ≤ φ_m(z) ≤ sup_{|ζ−z|<r} φ(ζ) + (1/m)log(C�
 `σ_{m,k}`, and `φ_m` has analytic singularities in the sense of 2.2 with `c = 1/m`: every relatively compact open subset
 of `Ω` has a finite set of the `σ_{m,k}`, say `k ≤ N`, with `φ_m = (1/m)log Σ_{k≤N}|σ_{m,k}|² + O(1)` there. In general
 `φ_m` is not `(1/m)log` of a finite sum of squares of holomorphic functions (Check). ((a)–(c) are [AMAG] Th. 14.2, pp. 136–137,
-whose weight is half of ours.)
+whose weight is half of ours.) (a)–(c), and the generation of `J(mφ)` by the `σ_{m,k}` in (d), are ComplexComparisonPartII
+§C7.13; the analytic singularities of `φ_m` in (d) are proved here.
 
-*Route.* `Σ_k|σ_{m,k}(z)|² = sup{|f(z)|² : f ∈ H(Ω, mφ), ‖f‖ ≤ 1}`; in terms of the density of 3.6 (whose norm `|s|²_h` includes
-the weight), `φ_m = φ + (1/m)log B_{Ω,mφ}` where `φ` is finite (adding a constant to `φ` shifts `φ_m` by that constant and leaves
-`B_{Ω,mφ}` unchanged). Upper bound: 3.7(a) with `A = 0` and the constant weight `m·sup_{B(z,r)}φ`, which dominates `mφ` on `B(z, r)`:
-`|f(z)|²e^{−m sup_{B(z,r)}φ} ≤ (n!/(π^n r^{2n}))∫_{B(z,r)}|f|²e^{−mφ}`, so `C₂ = n!/π^n`. Lower bound: 4.1 applied to the
-zero-dimensional "hyperplane" `{z}` (iterate the hyperplane case `n` times) gives `f ∈ H(Ω, mφ)` with `f(z) = 1` and
-`‖f‖² ≤ C·e^{−mφ(z)}` at points where `φ(z) > −∞`, so `Σ_k|σ_{m,k}(z)|² ≥ e^{mφ(z)}/C`. (b) from (a): the upper bound of (a) gives
-`ν(φ_m) ≥ ν(φ) − 2n/m`, the lower bound gives `ν(φ_m) ≤ ν(φ)`. (d) The generation of `J(mφ)` is 6.2's argument on `Ω`.
-For the singularities fix `x₀ ∈ Ω` and `N` with `σ_{m,1}, …, σ_{m,N}` generating, at `x₀`, the ideal of all `σ_{m,k}`
+*Route* (of the analytic singularities in (d)). Fix `x₀ ∈ Ω` and `N` with `σ_{m,1}, …, σ_{m,N}` generating, at `x₀`, the ideal of all `σ_{m,k}`
 (an increasing chain of ideals of the Noetherian ring `O_{x₀}`). Let `σ*(ζ) = conj(σ(ζ̄))` and `𝔞` the ideal of
 `O_{ℂ^{2n}, (x₀, x̄₀)}` generated by the `σ_{m,i}(z)σ*_{m,j}(ζ)`, `i, j ≤ N`. The partial sums of
 `K(z, ζ) = Σ_kσ_{m,k}(z)σ*_{m,k}(ζ)` lie in `𝔞` and converge uniformly near `(x₀, x̄₀)` (Cauchy–Schwarz and Dini's theorem for
@@ -1689,7 +2007,7 @@ with `a_{ij}` holomorphic near `(x₀, x̄₀)`, and at `ζ = z̄`, by Cauchy–
 `Σ_{k≤N}|σ_{m,k}|² ≤ Σ_k|σ_{m,k}|² ≤ (sup‖(a_{ij})‖)·Σ_{k≤N}|σ_{m,k}|²` near `x₀`; finitely many `x₀` cover a relatively
 compact set.
 
-*Needs:* 3.6, 3.7, 4.1; 1.1; 6.1–6.2; ComplexKahlerGeometry K3 (holomorphic germs, Noetherianity of the local rings).
+*Needs:* 2.2; ComplexComparisonPartII §C7.13; ComplexKahlerGeometry K3 (holomorphic germs, Noetherianity of the local rings).
 
 **Checks.**
 
@@ -1703,31 +2021,24 @@ compact set.
   the density of 3.6 for the weight `c` is `1/(π(1 − |z|²)²)` for every `c`. So `φ_m = φ + (1/m)log B_{Ω,mφ}`; the formula
   `φ_m = (1/m)log B_{Ω,mφ}` would not move with `c`.
 
-### 7.2 Siu's analyticity theorem
-
-Prove: for a closed positive `(1,1)`-current of the form `T = (i/2π)∂∂̄φ` locally (in particular the Chern current
-of a semipositive singular metric) and every `c > 0`, the set `E_c = {x : ν(T, x) ≥ c}` (`ν(T, x) = ν(φ, x)/2`)
-is a closed analytic subset of `X` (Siu 1974; [AMAG] Cor. 14.3, p. 138).
-
-*Route.* Locally `E_c(φ) = ⋂_{m≥m₀} {x : ν(φ_m, x) ≥ 2c − 2n/m}` by 7.1(b); for `φ_m = (1/m)log Σ|σ_{m,k}|²`,
-`{ν(φ_m, x) ≥ a}` is the common zero set of the derivatives of order `< ma/2` of all `σ_{m,k}`, an analytic set;
-a decreasing intersection of analytic sets is analytic (Noetherianity of the local rings, ComplexKahlerGeometry K3).
-
-*Needs:* 7.1; 1.1; ComplexKahlerGeometry K3.
-
-**Checks.**
-
-- `T = [D]` for a divisor `D` with multiplicities: `E_c` is the union of the components of multiplicity `≥ c`
-  together with the points of `D` where the multiplicity of the local equation is `≥ c`.
-
 ### 7.3 Global approximation by analytic singularities
+
+*Origin:* published: Demailly (1992), Proposition 3.7, and Demailly [AMAG], Th. 14.12, pp. 142–143, for compact `X`, with a
+weight half of ours; the variant on a relatively compact `X′ ⋐ X`, the smoothness off `V(J(mφ))` and the bound
+`φ_m ≥ φ − C/m` in the form stated are this roadmap's own formulation.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: let `X` be a complex manifold with a hermitian metric `ω`, `X′ ⋐ X` relatively compact open (or `X′ = X`
 if `X` is compact), `α` a smooth closed real `(1,1)`-form, `γ` a continuous real `(1,1)`-form and `φ`
 quasi-plurisubharmonic with `α + i∂∂̄φ ≥ γ`. Then there are quasi-plurisubharmonic `φ_m` on `X′` with analytic
 singularities (2.2, with `c = 1/m`), smooth on `X′ ∖ V(J(mφ))`, such that `φ_m → φ` pointwise and in `L¹_loc`, `φ_m ≥ φ − C/m`,
 `α + i∂∂̄φ_m ≥ γ − ε_m ω` with `ε_m → 0`, and `ν(φ, x) − 2n/m ≤ ν(φ_m, x) ≤ ν(φ, x)`. No monotonicity in `m` is asserted
-(8.1 does not use any).
+(8.1 does not use any). For compact `X` and `X′ = X`, functions `φ_m` with analytic singularities of coefficient `1/m`,
+with `φ ≤ φ_m ≤ sup_{|ζ−x|<r}φ(ζ) + C(|log r|/m + r + ε_m)` in the coordinate balls of a finite cover and `φ < φ_m` where
+`φ > −∞` (both are `−∞` at a point `x` with `ν(φ, x) > 2n/m`), the convergence, the
+loss `ε_m` and the bounds of Lelong numbers above, are ComplexComparisonPartII §C7.15; the variant on `X′ ⋐ X` and the
+smoothness off `V(J(mφ))` stay here.
 
 *Route.* The approximation is Demailly's global approximation theorem (J.-P. Demailly, *Regularization of closed positive
 currents and intersection theory*, 1992, Proposition 3.7, and [AMAG] Th. 14.12, pp. 142–143, both for compact `X`, with
@@ -1751,11 +2062,44 @@ Ohsawa–Takegoshi theorem 4.1 on `B_j × B_j`, extending from the diagonal); si
 this does not give a monotone subsequence of the glued functions (for `φ = 0`, the centre values at levels `m` and `2m` on
 discs of radii `a` and `a³` differ by `(log(1/a) + ½log π)/m`), and none is asserted.
 
-*Needs:* 7.1, 4.1; 0.1, 0.4.
+*Needs:* 7.1, 4.1; 0.1, 0.4; ComplexComparisonPartII §C7.15.
 
 ### 7.4 Smooth regularisation with a loss controlled by Lelong numbers at a scale
 
-Prove: let `X` be compact with hermitian metric `ω`, and `α, γ, φ` as in 7.3. Fix a finite atlas of coordinate balls;
+*Origin:* particular to this proof: smooth approximants with loss of positivity `C·log log(1/t)/log(1/t)` for weights with
+log-log growth along a simple normal crossings divisor under a gradient bound, and `C/log(1/t) + C·t` for bounded weights,
+with a closeness bound and approximate monotonicity; nearest published result: Błocki and Kołodziej (2007), the same
+regularisation for weights with vanishing Lelong numbers, without a rate. The general theorem with a loss controlled by
+Lelong numbers is Demailly (1992, 1994); the wider form, with the loss controlled by the chart secant `λ_r`, is this
+roadmap's own formulation.
+
+*Method of the formal proof:* in each chart the potential is cut off from below at `−C·log log(1/t)`, extended across the
+divisor and mollified at scale `t`; the mollification is compared with the maximum over polydiscs, whose convexity in
+`log r` bounds the oscillation by `C·log log(1/t)/log(1/t)`, and the charts are glued by a regularised maximum, with
+approximate monotonicity only; for bounded weights the charts are compared and glued in the same way. This is the scheme
+of Błocki and Kołodziej for vanishing Lelong numbers, with the cut-off, the extension across the divisor and an explicit
+rate added. The route written for the wider form is Demailly's regularisation by the modified exponential map of the
+Chern connection.
+
+Prove, in the form that [FormalProof] has: (i) let `X̄` be compact Kähler with Kähler form `ω`, `D = Σ_j D_j` a nonempty
+simple normal crossings divisor with metrised canonical sections `s_j`, `|s_j| < 1/2`, `|s|² = ∏_j|s_j|²`,
+`R_s = e + log(1/|s|²)`, `γ` a smooth closed real `(1,1)`-form on `X̄`, and `φ` a smooth function on `X̄ ∖ D` with
+`−C·log log(1/|s|²) ≤ φ ≤ C` and `γ + i∂∂̄φ ≥ 0` on `X̄ ∖ D` and with `|dφ|_ω ≤ C·(log(1/|s|²))^C/|s|` on a neighbourhood of
+`D` (the weights of 7.7 with the gradient bound of 7.7 (c)). There are a constant `C`, with
+`ε(t) = C·log log(1/t)/log(1/t)`, and smooth functions `φ_t` on `X̄`, `0 < t < t₀`, with `φ ≤ φ_t ≤ C`,
+`φ_t ≥ −C·log log(1/t)`, `γ + i∂∂̄φ_t ≥ −ε(t)ω`, `φ_t ≤ φ + t^{1/3} + ε(t)` where `R_s ≤ log(1/t)`,
+`φ_t ≤ φ + t^{1/3} + ε(t)·R_s` on `X̄ ∖ D`, `φ_t ≤ φ_{t′} + C·ε(t′)` for `t ≤ t′`, and `φ_t → φ` in `C²` on compact subsets
+of `X̄ ∖ D` ([FormalProof], `ReciprocityTheory/AnalyticForms/LeviForms/IsRegFamilyInhabitStatement.lean`,
+`ReciprocityTheory.AnForm.P.RegGlobalStatement`). (ii) Let `X` be a compact complex manifold with a hermitian metric `ω`
+and a finite holomorphic atlas, `γ` a smooth closed real `(1,1)`-form and `φ` bounded and `γ`-plurisubharmonic (0.4). There
+are smooth functions `φ_t ≥ φ`, bounded uniformly in `t` and converging to `φ` as `t → 0`, with
+`γ + i∂∂̄φ_t ≥ −(C/log(1/t) + C·t)ω` for small `t`; this is what the following statements of [FormalProof] give
+together: `GroundTheory.Heights₂.Heights.Regular.BoundedChartComparison.Statement`,
+`GroundTheory.Heights₂.Heights.Regular.BoundedGlue.Statement`,
+`GroundTheory.Heights₂.Heights.LowerBoundFree.BoundedRegularisationSetting.eventually_chartLevi`, `.tendsto_bregWeight`,
+`.bregWeight_bounds` and `GroundTheory.Heights₂.Heights.LowerBoundFree.boundedPsh_le_regularised`.
+
+**Wider form** (this roadmap's own formulation; not a statement of [FormalProof]). Let `X` be compact with hermitian metric `ω`, and `α, γ, φ` as in 7.3. Fix a finite atlas of coordinate balls;
 for `x ∈ X` and `0 < r < r₀` let `λ_r(x) = (sup_{B(x,r₀)}φ − sup_{B(x,r)}φ)/log(r₀/r)`, the *Lelong number of `φ` at
 scale `r`* (balls in a chart at `x`). It tends to `ν(φ, x)` as `r ↓ 0` (1.1(b)) but need not be monotone (fourth Check);
 the same secant for the local plurisubharmonic potential `φ + c|z − x|²` (with `c` depending on `α`, the atlas and the lower
@@ -1773,11 +2117,11 @@ positivity tends to zero. If `γ` is Lipschitz with constant `L_γ` (with respec
 class `C¹`), then `m_γ(t) ≤ L_γ·t` and `ε_r ≤ C(1 + L_γ)/log(r₀/r)`; for the means of the route the dependence on `L_γ` cannot be
 replaced by one on a lower bound of `γ` (fifth Check). For `γ = 0`, `ε_r ≤ C(r + r₀²/log(r₀/r))`.
 
-*Route.* The regularisation is Demailly's (J.-P. Demailly, *Regularization of closed positive currents of type (1,1) by the
+*Route.* For (i) and (ii), that of [FormalProof] (the method above). For the wider form: the regularisation is Demailly's (J.-P. Demailly, *Regularization of closed positive currents of type (1,1) by the
 flow of a Chern connection*, 1994, Theorem 4.1, for compact `X`, with the modified exponential map of its Proposition 2.9).
 His estimate bounds the loss of positivity of `φ_r = Φ(·, r) + Kr²` (below) by a constant times the
 logarithmic scale derivative of the corrected mean `Φ(x, t) + Kt²` at `t = r`, plus an error tending to `0` with `r`, which
-in its proof collects terms `O(r)` and the modulus of continuity of `γ` at scale `Cr`. The statement above, with the chart secant `λ_r(x)` in place of that scale derivative and
+in its proof collects terms `O(r)` and the modulus of continuity of `γ` at scale `Cr`. The wider form, with the chart secant `λ_r(x)` in place of that scale derivative and
 with the stated dependence of `C` and range of `r`, is derived from that estimate by the convexity in `log t` of the
 corrected mean and a comparison of the `exph`-balls with the chart balls (radii scaled by `A`); for it the proof is not
 given here. The method: `Φ(x, t)` is
@@ -1796,7 +2140,7 @@ converges in `C²` on compact subsets. No infimum over scales is taken: an infim
 `−∞` at points where `ν(φ, x) > c`, and may be finite where `ν(φ, x) = c` (for `φ = c·log|z − x|` near `x` it does not depend
 on `t`).
 
-*Needs:* 0.1–0.4; 1.1; ComplexKahlerGeometry K4 (Chern connection of `TX`).
+*Needs:* 0.1–0.5; 1.1; ComplexKahlerGeometry K4 (Chern connection of `TX`, for the wider form).
 
 **Checks.**
 
@@ -1822,9 +2166,16 @@ on `t`).
 
 ### 7.5 Regularisation in Kähler classes and on Stein manifolds
 
+*Origin:* published: Błocki and Kołodziej (2007), Theorem 1, for (a); Fornæss and Narasimhan (1980), Theorem 5.5, for (b);
+the proofs written here, with the comparison of two charts for bounded weights and the embedding route, are this roadmap's
+own.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: (a) if `(X, ω)` is compact Kähler, every `ω`-plurisubharmonic function is the limit of a decreasing sequence
 of smooth `ω`-plurisubharmonic functions; (b) on a Stein manifold every plurisubharmonic function is the limit of a
-decreasing sequence of smooth strictly plurisubharmonic functions.
+decreasing sequence of smooth strictly plurisubharmonic functions. These are ComplexComparisonPartII §C5.4j (a), there for
+a positive continuous `ω` on a compact complex manifold, and (c); the proofs below are this roadmap's.
 
 *Route.* (a) A known theorem (Błocki and Kołodziej); the following route proves it. Normalise `u ≤ −1`. *Two charts.*
 Let `Ψ` be plurisubharmonic near `B̄(x, R) ⊂ ℂ^n`, `S(t) = sup_{B(x,t)}Ψ`, `4r ≤ R`, and `μ` a probability measure on
@@ -1875,7 +2226,7 @@ decreases: on `{ψ ≤ k + ½}` by (ii), `χ_{k+1} ≤ χ_k` and the monotonicit
 `χ_k(ψ(x)) → −∞`. Alternatively, embed `X` as a closed submanifold of `ℂ^N` with a holomorphic retraction of a neighbourhood
 and convolve there.
 
-*Needs:* 0.1–0.4, 1.1; RealAnalyticGeometry R3.0–R3.1.
+*Needs:* 0.1–0.4, 1.1; RealAnalyticGeometry R3.0–R3.1; ComplexComparisonPartII §C5.4j.
 
 **Checks.**
 
@@ -1887,17 +2238,21 @@ and convolve there.
 `log 4` for every `ε` (in the route, `S(4r) − S(r)`
   is `log 16` there); for the bounded `max(log|z|², −k)` both are `−k` once `ε ≤ e^{−k/2}`.
 
-### 7.6 Richberg's approximation
-
-Prove: a continuous strictly plurisubharmonic function `u` on a complex manifold (0.1) is, for every continuous
-`δ > 0`, uniformly `δ`-close to a smooth strictly plurisubharmonic function `v ≥ u`.
-
-*Route.* Local convolutions plus a small multiple of a local strictly plurisubharmonic function, glued by
-regularised maxima on a locally finite cover.
-
-*Needs:* 0.1, 0.3.
-
 ### 7.7 Regularisation of log-log singular semipositive metrics
+
+*Origin:* adapted from Demailly (1992, 1994) and Błocki and Kołodziej (2007), the smooth regularisation of
+quasi-plurisubharmonic functions with zero Lelong numbers, with a loss tending to `0` and no rate
+(ComplexComparisonPartII §C5.4j (b)): here explicit rates for weights of log-log growth along a simple normal crossings
+divisor, the boundary rate, closeness under a gradient bound and compatibility with pull-back; the extension across `D` in
+(a) is that of Grauert and Remmert (1956).
+
+*Method of the formal proof:* in charts adapted to `D` the weight plus a local potential is truncated from below at
+`−C·log log(1/t)`, extended across `D` and convolved at scale `t`; the supremum over a polydisc of radius `r` is convex in
+`log r`, which bounds the oscillation between comparable radii by `C·log log(1/t)/log(1/t)`, so the local functions agree
+up to that amount on overlaps and are glued by a regularised maximum. This is the second route written below, under the
+gradient hypothesis of (c), and gives almost monotone families; the first route, through 7.4 (the wider form), gives
+decreasing ones. Of (d), [FormalProof] has the pull-back of weights and families, at the same parameter, along maps `h`
+for which the divisor of `h^*s` has simple normal crossings support, with the boundary function `|s∘h|²`.
 
 Prove: let `X̄` be compact Kähler with Kähler form `ω`, `D = Σ_j D_j` a nonempty simple normal crossings divisor (for
 `D = ∅` a smooth function `φ` with `γ + i∂∂̄φ ≥ 0` is its own regularisation, `φ_t = φ`) with metrised
@@ -1945,20 +2300,20 @@ reparametrisation is used: `h(X̄′)` is a compact subset of `X̄ ∖ D`, conta
 *Route.* (a) `γ + i∂∂̄φ ≥ 0` off `D` and `φ ≤ C` give the extension across the pluripolar set `D` (0.5; on a connected adapted
 polydisc `log|z₁⋯z_k|²` is a witness, not `≡ −∞` there); the Lelong
 numbers vanish because `φ ≥ −C·log log(1/|s|²)` is `o(log|s|)` (1.1(b)); the current has no mass on `D` by 2.5's argument
-on discs transverse to `D` and Skoda–El Mir (ComplexComparisonPartII C5.4). (b) Apply 7.4 to `φ` with the smooth closed
+on discs transverse to `D` and Skoda–El Mir (ComplexComparisonPartII C5.4). (b) Apply 7.4 (the wider form) to `φ` with the smooth closed
 form `γ` of 7.7 in the role of 7.4's `α` and the lower bound `0`, and put `φ_t = φ_r` for `r = t`. The Lelong number at scale `r` is uniformly small: `sup_{B(x,R)}φ ≤ C`, and `B(x, r)` contains
 a ball of radius `r/C₀` of an adapted polydisc chart (`D = {z₁⋯z_k = 0}`, `k ≤ n`; finitely many such charts, by compactness),
 in which the point `y` obtained from `x` by moving each `z_j`, `j ≤ k`, by `r/(2√n·C₀)` in the direction of `z_j(x)` (any
 direction if `z_j(x) = 0`) has `|z_j(y)| ≥ r/(2√n·C₀)` for `j ≤ k`, hence `|s(y)|² ≥ c·r^{2k}`. (A point at distance `≥ r/2`
 from every component through `x` need not exist: at a crossing of five coordinate hyperplanes it would have
 `|z|² ≥ 5r²/4 > r²`.) So `sup_{B(x,r)}φ ≥ −C·log log(1/r) − C`; hence `λ_r(x) ≤ C·log log(1/r)/log(1/r)`, and since the lower bound `0` of 7.4's
-`γ` has modulus of continuity `0`, 7.4 gives `ε_r ≤ C(r + r₀²/log(r₀/r)) ≤ C/log(1/r)`, so the loss `C·λ_r + ε_r` is at
-most `C·log log(1/r)/log(1/r)`. The upper bound comes from `φ_r ≤ sup_{B(x,ar)}φ + Cr ≤ C`; the lower bound from the construction of 7.4 (`φ_r ≥ Φ(x, r)`, the mean of
+`γ` has modulus of continuity `0`, 7.4 (the wider form) gives `ε_r ≤ C(r + r₀²/log(r₀/r)) ≤ C/log(1/r)`, so the loss `C·λ_r + ε_r` is at
+most `C·log log(1/r)/log(1/r)`. The upper bound comes from `φ_r ≤ sup_{B(x,ar)}φ + Cr ≤ C`; the lower bound from the construction of the wider form of 7.4 (`φ_r ≥ Φ(x, r)`, the mean of
 `φ` at scale `r`, and the mean of `−C·log log(1/|s|²)` over a ball of radius `r` is `≥ −C·log log(1/r) − C`); `C²`
-convergence off `D` is the last clause of 7.4. For the boundary rate: on
+convergence off `D` is the last clause of 7.4 (the wider form). For the boundary rate: on
 `{|s|² < τ}`, `0 ≤ φ_t − φ ≤ C + C·log log(1/|s|²)`, so the ratio is at most `C·log log(1/τ)/log(1/τ)`; on the compact
 `{|s|² ≥ τ}` it tends to `0`. (c) `|s|` is Lipschitz, so for `x` with `|s(x)|² ≥ t` and `t` small every `y ∈ B(x, at)` has
-`|s(y)| ≥ |s(x)|/2` (`a` the constant of 7.4), and the gradient bound gives
+`|s(y)| ≥ |s(x)|/2` (`a` the constant of 7.4, the wider form), and the gradient bound gives
 `sup_{B(x,at)}φ − φ(x) ≤ at·C(log(4/|s(x)|²))^C·2/|s(x)| ≤ C·t^{1/2}(log(1/t))^C ≤ C·t^{1/3}`; with
 `φ_t ≤ sup_{B(x,at)}φ + Ct` this is the closeness, and the ratio of `δ(t)` there is `O(t^{1/3})`; for `|s(x)|² < t` the bound
 of (b) gives `C·log log(1/t)/log(1/t)`. The Poincaré bound implies the hypothesis: near a point where
@@ -2005,7 +2360,7 @@ of (c), `S(z, 2t) ≤ u(z) + C·t^{1/3}` on `{|s|² ≥ t}` as in the first rout
 `φ_t ≤ φ + C·t^{1/3} + C·ε(t)` on `{|s|² ≥ t}`; the clause of (c) with `t^{1/3}` alone comes from the first route. Exact
 monotonicity, which limits of intersection numbers along monotone regularisations use, comes from the first route.
 
-*Needs:* 0.1–0.5, 1.1, 2.5, 5.1, 5.3, 5.5, 7.3, 7.4, 7.5; ComplexComparisonPartII C5.4.
+*Needs:* 0.1–0.5, 1.1, 2.5, 5.1, 5.3, 5.5, 7.3, 7.4 (the wider form), 7.5; ComplexComparisonPartII C5.4.
 
 **Checks.**
 
@@ -2021,7 +2376,7 @@ monotonicity, which limits of intersection numbers along monotone regularisation
   `φ = |z₁|^{1/2} + Re z₂` is log-log singular and semipositive (`Δ|z₁|^{1/2} = |z₁|^{−3/2}/4 > 0` off `D`), and for every
   constant `c` a regularised maximum of `φ` and `c` equals `φ` near the points of `D` with `Re z₂` larger than `c` plus the
   parameter of the maximum, where `φ` is not differentiable. The uniform estimates (b)–(d) for all log-log weights come
-  from the convolution of 7.4.
+  from the convolution of 7.4 (the wider form).
 - The lower bound in (d) is inherited, not produced. On `ℙ¹` with `D` one point, a Fubini–Study metric on `O(D) = O(1)` with
   curvature form `γ > 0`, its canonical section scaled so that `u = |s|² < 1/4`, and `φ = −log(e + log(1/u))`, take the smooth
   functions `φ_t = −log(e + L_t)`, `L_t = log(1/(u + η_t)) > 0`, `η_t = exp(−exp(1/t))`. Locally `u = |σ|²e^{−a}` with `σ` an
@@ -2032,6 +2387,18 @@ monotonicity, which limits of intersection numbers along monotone regularisation
   (`m = 1`, `c₀ = 1`), (d) returns this family unchanged.
 
 ### 7.8 Mixed Monge–Ampère measures of log-log singular weights: energy, boundary mass, convergence
+
+*Origin:* adapted from the inequalities of Chern, Levine and Nirenberg (1969) and the Monge–Ampère measures of full mass
+(Guedj and Zeriahi (2007); Boucksom, Eyssidieux, Guedj and Zeriahi (2010)): uniform bounds for the mass near the boundary
+of the mixed measures of log-log singular weights and of their regularisations, with the convergence they give.
+
+*Method of the formal proof:* the energy `∫log(1/|s|²)·∏_i(ω_i + (i/2π)∂∂̄v_i)` is bounded one factor at a time by the
+Poincaré–Lelong formula, the integral of `v_i` over the components of the divisor being bounded by `sup|v_i|` times their
+masses; the boundary mass follows by cutting the potentials off at level `−C₁·log R − 2` with a regularised maximum,
+comparing total masses and applying Markov's inequality, and the convergence statements by uniform convergence on compact
+sets, the uniform tails and, for `log|v|`, an induction on the number of regularised factors. The route written for (a)
+differs: it shifts the potentials to `w_j = v_j − inf v_j ≥ 0` and uses the positivity of the current `(i/2π)∂∂̄ψ + Aω`
+against `w_jΦ_j`, so that nothing is integrated over the divisor.
 
 *Setting.* `X̄` is compact Kähler of dimension `n` with Kähler form `ω`, `D = Σ_j D_j` a simple normal crossings divisor with
 metrised canonical sections `s_j`, `|s_j| < 1`, `|s|² = ∏_j|s_j|²`, and `R_s = e + log(1/|s|²) ≥ e`. Forms are normalised as
@@ -2155,15 +2522,34 @@ component of `Δ`), bounds the tails; so the two integrals are at most `C·η(N,
 
 ### Examples
 
-For `φ = 0` on the unit disc and `m = 1`, the Bergman approximant is `log(1/(π(1 − |z|²)²))`, and `Σ_k|σ_k|²` is not a finite sum `Σ_{l≤N}|f_l|²` of holomorphic `f_l` near `0` (7.1). For `T = [D]`, the set `E_c` is the union of the components of multiplicity `≥ c` and the points where the local equation has multiplicity `≥ c` (7.2). On `ℙ¹`, `log(|z₀|²/(|z₀|² + |z₁|²))` is the decreasing limit of the `2πω_FS`-plurisubharmonic functions `log((|z₀|² + ε|z₁|²)/(|z₀|² + |z₁|²))` (7.5). On the punctured disc, `φ = −log log(1/|z|²)` is log-log singular with Lelong number `0` and `|∂φ|_{ω_P}` bounded, so 7.7 (c) applies, and the mass of `(i/2π)∂∂̄φ` on `{|z|² < ρ}` is exactly `1/log(1/ρ)` (7.7, 7.8).
+For `φ = 0` on the unit disc and `m = 1`, the Bergman approximant is `log(1/(π(1 − |z|²)²))`, and `Σ_k|σ_k|²` is not a finite sum `Σ_{l≤N}|f_l|²` of holomorphic `f_l` near `0` (7.1). On `ℙ¹`, `log(|z₀|²/(|z₀|² + |z₁|²))` is the decreasing limit of the `2πω_FS`-plurisubharmonic functions `log((|z₀|² + ε|z₁|²)/(|z₀|² + |z₁|²))` (7.5). On the punctured disc, `φ = −log log(1/|z|²)` is log-log singular with Lelong number `0` and `|∂φ|_{ω_P}` bounded, so 7.7 (c) applies, and the mass of `(i/2π)∂∂̄φ` on `{|z|² < ρ}` is exactly `1/log(1/ρ)` (7.7, 7.8).
 
 ### Dependencies
 
-Layers 0–6; ComplexKahlerGeometry K3 and K4; RealAnalyticGeometry R3.0–R3.1; ComplexComparisonPartII C5.4.
+Layers 0–6; ComplexKahlerGeometry K3 and K4; RealAnalyticGeometry R3.0–R3.1; ComplexComparisonPartII C5.4, §§C5.4j, C7.13 and C7.15.
 
 ## Layer 8: Singular L² estimates on Kähler manifolds and Nadel vanishing
 
 ### 8.1 Demailly's estimate for singular metrics
+
+*Origin:* published: Demailly (1982), Théorème 5.1, and Demailly [AMAG], Th. 5.2 with the remark after it and Cor. 5.3;
+the case of a pseudoconvex open subset of `ℂ^n` with an arbitrary plurisubharmonic weight, which contains the form of
+[FormalProof], is Błocki (2014), Theorem 2.1, after Błocki (2005), Theorem 3.2.
+
+*Method of the formal proof:* [FormalProof] has the case of an open subset of `ℂ^n` with a smooth plurisubharmonic
+exhaustion, the trivial bundle, `q = 1` and data `∂̄F₀` measured by the Levi forms, for a weight that is the limit of a
+decreasing sequence of smooth plurisubharmonic `φ_k`: for each `φ_k` the smooth estimate gives a holomorphic `F_k`; the `F_k`
+are locally bounded because the weights decrease, a subsequence converges locally uniformly by a normal-families argument,
+and Fatou's lemma for each fixed `φ_m`, with monotone convergence in `m`, gives the estimate for the limit weight; this
+passage to the limit is published for neighbouring lemmas (Guan and Yuan (2022), Lemma 2.4). With the datum measured by
+the Levi forms this is the form of 3.8 for a limit weight; the deduction from ComplexComparisonPartII §C7.16 gives it with
+`ε^{−1}|∂̄F₀|²` in place of the norm of `∂̄F₀` measured by the Levi forms, when `i∂∂̄φ_k ≥ εω`. The route written here
+differs: on a weakly pseudoconvex Kähler manifold, for a line bundle and `(n,q)`-forms, it approximates the
+weight by functions with analytic singularities (7.3), solves with complete Kähler metrics off their singular sets (3.3,
+3.5), and obtains the bound by a duality argument that uses no monotonicity.
+
+*Corollary of:* ComplexComparisonPartII §C7.16 (Demailly's estimate for singular metrics with quasi-plurisubharmonic
+weights on weakly pseudoconvex Kähler manifolds, with a constant or a continuous `ε`).
 
 Prove the first headline: let `(X, ω)` be weakly pseudoconvex Kähler of dimension `n`, `L` a holomorphic line bundle
 with a singular metric `h` whose local weights are quasi-plurisubharmonic, and `iΘ_h(L) ≥ εω` as currents for a
@@ -2173,7 +2559,7 @@ constant `ε > 0`. For every `q ≥ 1` and every `L`-valued `(n,q)`-form `g` wit
 function `ε > 0` on `X`, the same holds with `ε^{−1}` inside both integrals: every such `g` with `∫_Xε^{−1}|g|²_{h,ω}dV_ω < ∞` is
 `∂̄u` with `∫_X|u|²_{h,ω}dV_ω ≤ (1/q)∫_Xε^{−1}|g|²_{h,ω}dV_ω` (the pointwise form of [AMAG] Th. 5.2, p. 34, and the remark after it).
 
-*Route.* Write `h = e^{−φ}h₀` with `h₀` smooth and `φ` a global quasi-plurisubharmonic function (as in 2.3), so that
+*Route.* Write `h = e^{−φ}h₀` with `h₀` smooth and `φ` a global quasi-plurisubharmonic function (2.1's `h′ = e^{−ψ}h`), so that
 `α + i∂∂̄φ ≥ εω` with `α = iΘ_{h₀}(L)`. On each sublevel set `X_c = {ψ < c}` of a smooth plurisubharmonic exhaustion `ψ`,
 7.3 (with `X′ = X_c` and `γ = εω`) gives quasi-plurisubharmonic `φ_m` with analytic singularities, smooth off `V(J(mφ))`,
 `φ_m ≥ φ − C/m`, `φ_m → φ` in `L¹_loc(X_c)`, and `α + i∂∂̄φ_m ≥ (ε − ε_m)ω`. `X_c` is weakly pseudoconvex (with the exhaustion
@@ -2205,17 +2591,17 @@ uniformly on `X_c`, and 3.5 is applied in its form with a function.
 
 ### 8.2 Nadel vanishing
 
+*Origin:* published: Nadel (1990) and Demailly [AMAG], Th. 5.11, p. 39; the comparisons with the algebraic vanishing
+theorems in the Checks are this roadmap's own.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: let `(X, ω)` be weakly pseudoconvex Kähler (for instance compact Kähler) and `h` a singular metric on `L`
 with quasi-plurisubharmonic weights and `iΘ_h(L) ≥ εω` for a continuous function `ε > 0` on `X` (for instance a constant).
-Then `H^q(X, K_X ⊗ L ⊗ J(h)) = 0` for every `q ≥ 1` (Nadel; [AMAG] Th. 5.11, p. 39).
+Then `H^q(X, K_X ⊗ L ⊗ J(h)) = 0` for every `q ≥ 1` (Nadel; [AMAG] Th. 5.11, p. 39). This is ComplexComparisonPartII
+§C7.17.
 
-*Route.* The sheaves `L^{(n,q)}` of `L`-valued `(n,q)`-forms `u` with `|u|²_h` and `|∂̄u|²_h` locally integrable
-form a fine resolution of `K_X ⊗ L ⊗ J(h)` (exactness in positive degree by 8.1 on small balls, where any weight
-is plurisubharmonic up to a smooth term with curvature `≥ εω`); a `∂̄`-closed global section of
-`L^{(n,q)}` can be taken with `∫_Xε^{−1}|g|²_{h,ω}dV_ω < ∞` after multiplying the weight by `e^{−χ(ψ)}` for a convex
-increasing `χ` (which only increases the curvature), and 8.1, in its form with a continuous `ε`, solves it globally.
-
-*Needs:* 8.1; 6.1–6.2; ComplexKahlerGeometry K2 (Dolbeault theorem and fine resolutions).
+*Needs:* 6.1; ComplexComparisonPartII §C7.17.
 
 **Checks.**
 
@@ -2231,6 +2617,21 @@ increasing `χ` (which only increases the curvature), and 8.1, in its form with 
   multiplier-ideal vanishing of AlgebraicModuliForArithmeticGeometry §9.10 (stated there for `L − cM` nef and big).
 
 ### 8.3 Separation of points and jets by multiplier ideals
+
+*Origin:* published: Demailly [AMAG], Cor. 5.12, p. 40; the application to `H⁰(X, L^m)` for a smooth positive `L` is this
+roadmap's own formulation.
+
+*Method of the formal proof:* [FormalProof] has the case of the metric `h_E·(Σ_k|s_k|²)^{−n}` with `n` sections whose
+common zeros are finitely many and transverse, on a compact manifold with a positive line bundle, where `J(h)` is the
+maximal ideal at each zero, with an `L²` bound (`GlobalTheory.Published.L2ExtensionLogCanonical`, 4.2's second form): a
+section of `K_X ⊗ E` with prescribed values at the zeros is produced by `L²` extension, a local holomorphic extension being
+cut off at a level of `ψ = n·log Σ_k|s_k|²` and corrected by a twisted `∂̄`-estimate with the weight `e^{−ψ}`, whose
+non-integrability at the zeros forces the correction to vanish there; the algebraic counterpart for pairs follows the
+vanishing route of the section. The route written here differs: it deduces the surjectivity from Nadel vanishing (8.2) and
+the exact sequence, for every singular metric with `iΘ_h ≥ εω`.
+
+*Corollary of:* ComplexComparisonPartII §C7.18 (in the setting of Nadel vanishing, surjectivity of
+`H⁰(X, K_X ⊗ L)` onto the stalks of `K_X ⊗ L ⊗ O_X/J(h)` at distinct isolated points of `V(J(h))`).
 
 Prove: in the setting of 8.2, if `Z = V(J(h))` and `x₁, …, x_r` are pairwise distinct isolated points of `Z`,
 then the restriction map `H⁰(X, K_X ⊗ L) → ⊕_i (K_X ⊗ L ⊗ O_X/J(h))_{x_i}` is surjective. (With a repeated point the target
@@ -2259,20 +2660,26 @@ for the Kodaira embedding.
 
 ### 8.4 Ohsawa–Takegoshi with singular weights on Stein manifolds
 
+*Origin:* this roadmap's own formulation: the theorem of 4.2 with a plurisubharmonic weight on a Stein manifold, by
+decreasing regularisation; on bounded pseudoconvex domains of `ℂ^n` the printed corollary is Demailly [AMAG], Cor. 13.9.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: in 4.2 let `X` be Stein and let the metric of `L` be `h₀e^{−φ}` with `h₀` smooth satisfying the two curvature
 hypotheses of 4.2 and `φ` plurisubharmonic on `X`, `φ|_Y ≢ −∞` on every component of `Y`. Then every holomorphic section
 `f` of `K_X ⊗ L` over `Y` with `∫_Y |f|²_{h₀}e^{−φ}/|Λ^r(ds)|² dV_{Y,ω} < ∞` extends to `F` on `X` with
 `∫_X |F|²_{h₀}e^{−φ}/(|s|^{2r}(−log|s|)²) dV_{X,ω} ≤ C_r ∫_Y |f|²_{h₀}e^{−φ}/|Λ^r(ds)|² dV_{Y,ω}`. (A form of it on bounded
-pseudoconvex domains of `ℂ^n`, with `L` trivial, is [AMAG] Cor. 13.9, p. 132.)
+pseudoconvex domains of `ℂ^n`, with `L` trivial, is [AMAG] Cor. 13.9, p. 132, stated as printed in ComplexComparisonPartII
+§C7.8 (b).)
 
 *Route.* By 7.5(b), `φ` is the limit of a decreasing sequence of smooth plurisubharmonic `φ_k`; the metrics `h₀e^{−φ_k}`
 satisfy the hypotheses of 4.2 (adding `i∂∂̄φ_k ≥ 0` keeps both inequalities), and `e^{−φ_k} ≤ e^{−φ}`, so 4.2 gives
 extensions `F_k` with norms bounded by the right side for `φ`. For fixed `k₀` and `k ≥ k₀`, `e^{−φ_{k₀}} ≤ e^{−φ_k}`: the
 `F_k` are bounded in the space weighted by `e^{−φ_{k₀}}`, a weak limit `F` extends `f` and satisfies the bound with
-`φ_{k₀}`; let `k₀ → ∞` by monotone convergence. On a weakly pseudoconvex Kähler manifold the regularisation of 7.3–7.4
-loses positivity, which the semipositivity hypotheses of 4.2 cannot absorb; the Stein hypothesis avoids the loss.
+`φ_{k₀}`; let `k₀ → ∞` by monotone convergence. On a weakly pseudoconvex Kähler manifold the regularisation of 7.3 and
+7.4 (the wider form) loses positivity, which the semipositivity hypotheses of 4.2 cannot absorb; the Stein hypothesis avoids the loss.
 
-*Needs:* 4.2, 7.5.
+*Needs:* 4.2, 7.5; ComplexComparisonPartII §C7.8 (b) (the printed form on bounded domains).
 
 ### Examples
 
@@ -2280,11 +2687,23 @@ On `ℂ` with `φ = |z|² + log|z|²`, `i∂∂̄φ = ω + 2π[0] ≥ ω`, and a
 
 ### Dependencies
 
-Layers 0, 2–4, 6 and 7; ComplexKahlerGeometry K2; MultiplierIdealsOfPairsAndPointSeparation §9.10c (the comparison in the second Check of 8.2).
+Layers 0, 2–4, 6 and 7; ComplexComparisonPartII §§C7.8 and C7.16–C7.18; MultiplierIdealsOfPairsAndPointSeparation §9.10c (the comparison in the second Check of 8.2).
 
 ## Layer 9: Bergman kernels: lower bounds and asymptotics
 
 ### 9.1 Peak sections
+
+*Origin:* adapted from Tian (1990), peak sections for a smooth positive metric on a compact polarised manifold, and the
+Hörmander–Bombieri–Skoda theorem (Demailly [CADG], chapter VIII, Th. 7.6): the uniform lower bound in terms of the
+oscillation of the weight, for singular metrics with `iΘ_h(L) + Ric(ω) ≥ εω` and `εr² ≥ C_n`, on weakly pseudoconvex
+manifolds or on manifolds complete Kähler off an analytic set, is this roadmap's own formulation.
+
+*Method of the formal proof:* [FormalProof] has the peak section on a Stein chart, with an `L²` bound, and not the lower
+bound in terms of `osc_U φ` and `εr² ≥ C_n`: a cut-off of the frame is corrected by solving
+`∂̄` for a decreasing sequence of smooth plurisubharmonic weights whose limit has a pole of order `2n` at the point, and the
+limit of the solutions vanishes at the point because `|z|^{−2n}` is not integrable; the estimate is used with the datum
+measured by the Levi form of the weight (3.8). The route written here solves one `∂̄` equation with the singular weight,
+through 8.1 or 3.5.
 
 Prove: there are constants `c_n > 0` and `C_n` depending only on `n` with the following property. Let `(X, ω)` be
 Kähler, `L` a line bundle with a singular metric `h` (quasi-plurisubharmonic weights) such
@@ -2313,6 +2732,18 @@ finite `h`-norm. Then `s = χe − u` is holomorphic, `|s(x)|²_h = e^{−φ(x)}
 
 ### 9.2 Leading-order asymptotics for smooth positive metrics
 
+*Origin:* published: Tian (1990), Bouche (1990), Théorème principal with Theorems 1–2, Zelditch (1998) and Catlin (1999),
+with Berman (2004) for the upper bound.
+
+*Method of the formal proof:* [FormalProof] establishes the weak form `k^{−n}∫f·B_k dV → ∫f·c₁(L, h)^n/n!` for continuous
+`f`, also for semipositive metrics, which the line does not cover, from the pointwise upper bound of the local holomorphic Morse inequality (9.3) and the
+identity `∫B_k dV = h⁰(X, L^k)`, whose growth is given by asymptotic Riemann–Roch; it has no pointwise lower bound. The
+route written here differs: it proves the uniform convergence, with Tian's peak sections (9.1) for the lower bound.
+
+*Corollary of:* HeightsRationalPointsAndObstructions §5.17c.5 (`k^{−n}·B_{h^k,dV} → (c₁(L, h)^n/n!)/dV` uniformly, for a
+smooth positive metric and an arbitrary smooth positive volume form on a compact manifold; there with `n` for the power
+and `d` for the dimension).
+
 Prove: let `X` be compact, `L` a line bundle with a smooth metric `h` such that `c₁(L, h)` is positive definite
 everywhere, `dV` a smooth positive volume form and `B_k = B_{h^k,dV}` the Bergman density of `H⁰(X, L^k)`. Then
 `k^{−n}B_k(x) → (c₁(L, h)^n/n!)/dV` uniformly on `X`.
@@ -2336,6 +2767,19 @@ Gaussian section `e^{−kΣλ_j|z_j|²}`-normalised frame, whose error is `o(1)`
 
 ### 9.3 The local upper bound
 
+*Origin:* published: Berman (2004), Theorem 1.1 with `q = 0`, for a smooth metric; the form for a metric that is only `C²`
+near `x` is this roadmap's own formulation, through the monotonicity of 3.6 in the domain.
+
+*Method of the formal proof:* after the pluriharmonic part of the Taylor expansion of the weight is removed by a
+holomorphic change of frame, the mean-value inequality for a weight invariant under `w ↦ e^{iθ}w` is applied on a ball of
+fixed radius, and the truncated Gaussian integral of the rescaled quadratic part of the weight, plus a small multiple of
+`|w|²`, is bounded below uniformly; this is the argument of the local holomorphic Morse inequality, for plurisubharmonic weights of class
+`C²`, with a bound uniform on compact sets.
+
+*Corollary of:* HeightsRationalPointsAndObstructions §5.17c.4 (Berman's local holomorphic Morse inequality for a smooth
+metric on a hermitian manifold), for a metric smooth near `x`, applied on a neighbourhood of `x` through the monotonicity
+of 3.6 in the domain; the form for a metric of class `C²` near `x` is not covered.
+
 Prove (Berman's local holomorphic Morse inequality): if `h` is a singular metric on `L` over a complex manifold,
 `C²` near `x`, then `limsup_k k^{−n}B_{h^k,dV}(x) ≤ (c₁(L, h)_x^n/n!)/dV_x` when `c₁(L, h)_x` is positive definite,
 and `k^{−n}B_{h^k,dV}(x) → 0` when it is not (Berman, Theorem 1.1 with `q = 0`, p. 3 of arXiv:math/0211235v1).
@@ -2350,27 +2794,30 @@ weight `Σλ_j|w_j|²` through the weighted mean-value inequality 3.7(d), which 
 
 ### 9.4 Asymptotics for singular metrics on the smooth locus
 
+*Origin:* this roadmap's own formulation: the leading asymptotics on an arbitrary open set where the metric is smooth;
+published for metrics smooth off a proper analytic subset: Hsiao and Marinescu (2014), Theorem 1.8, and Ma and Marinescu
+(2007), chapter 6.
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
+
 Prove: let `X` be compact Kähler and `h` a singular metric on `L` with `iΘ_h(L) ≥ δω` (`δ > 0`) as currents, smooth on
 an open `U`. Then `k^{−n}B_{h^k,dV}(x) → (c₁(L, h)_x^n/n!)/dV_x` locally uniformly on `U`, where `B_{h^k}` is the
-Bergman density of `H⁰(X, L^k)` with the norm of `h^k` (the sections of `L^k ⊗ J(h^k)` of finite norm).
+Bergman density of `H⁰(X, L^k)` with the norm of `h^k` (the sections of `L^k ⊗ J(h^k)` of finite norm). For `h` smooth off
+a proper analytic subset `S`, `U = X ∖ S` and `dV = ω^n/n!`, this, with an asymptotic expansion, is
+HeightsRationalPointsAndObstructions §5.17c.6.
 
 *Route.* Upper bound 9.3; lower bound the peak-section construction of 9.2 with the global estimate 8.1 for the
 singular metric `h^k ⊗ (K_X^{−1}, ω)`, whose curvature is `≥ (kδ − C)ω`.
 
-*Needs:* 9.2, 9.3, 8.1.
-
-### 9.5 Big line bundles
-
-Prove: on a projective manifold `X`, `L` is big iff it carries a singular metric with `iΘ_h ≥ εω` for some
-`ε > 0` ([AMAG] Def. 6.16(d) and Th. 6.17(b), pp. 46–47).
-
-*Route.* ⇒ is 2.6(b). ⇐: by 7.3 the metric may be taken with analytic singularities, hence smooth on a nonempty
-Zariski-open `U`; by 9.4, `h⁰(X, L^k) ≥ ∫_U B_k dV ≥ c·k^n` for large `k`, which is bigness
-(AlgebraicModuliForArithmeticGeometry §1.6, `bigLineBundle`).
-
-*Needs:* 2.6, 7.3, 9.4; AlgebraicModuliForArithmeticGeometry §1.6.
+*Needs:* 9.2, 9.3, 8.1; HeightsRationalPointsAndObstructions §5.17c.6 (the published case).
 
 ### 9.6 Bergman densities for Poincaré-type metrics
+
+*Origin:* this roadmap's own formulation: bounds for the Bergman densities of a good metric for a Poincaré-type metric,
+uniform up to the boundary, with the multiplicity of the quasi-coordinate chart in (a) and injectivity of the chart of
+radius `Ck^{−1/2}` in (b).
+
+*Method of the formal proof:* none; the statement is not in [FormalProof].
 
 Prove: in the setting of 5.5, let `L̄` be a line bundle on `X̄` with a metric `h` on `L̄|_X` that is good relative to
 `L̄` (5.3) with `|iΘ_h|_{ω_P} ≤ A`. (a) For every `k ≥ 1`, `x ∈ X` and `s ∈ H⁰_{(2)}(X, L^k; h^k, ω_P^n)`,
@@ -2425,7 +2872,7 @@ On `ℂ` with `φ = k|z|²`, the Fock space has Bergman density `k/π`, and the 
 
 ### Dependencies
 
-Layers 1–5, 7 and 8; AlgebraicModuliForArithmeticGeometry §1.6.
+Layers 1–5 and 8; HeightsRationalPointsAndObstructions §§5.17c.4–5.17c.6.
 
 ## Downstream consumers
 
@@ -2457,17 +2904,19 @@ Layers 1–5, 7 and 8; AlgebraicModuliForArithmeticGeometry §1.6.
 
 This sub-roadmap of [RiemannHypothesisForDirichletLFunctions](../README.md) is independently definitive.
 
-This roadmap owns, by layer:
+This roadmap states, by layer (the general theorems of which its sections are corollaries, and the published theorems that
+its sections cite, belong to the roadmaps named in the next list):
 
 - **Layer 0:** plurisubharmonic functions with values in `[−∞, ∞)` on complex manifolds and on reduced complex
   spaces, their local integrability, mean values, local regularisation by convolution and the distributional
   characterisation, the Riesz representation on balls and Hartogs' lemma, quasi-plurisubharmonic and
-  `γ`-plurisubharmonic functions with `L¹`-compactness, pluripolar sets and the extension across them.
-- **Layer 1:** Lelong numbers of plurisubharmonic functions, Skoda's integrability theorem, the complex singularity
-  exponent.
+  `γ`-plurisubharmonic functions (0.4, and 0.6 on complex spaces, in the forms of [FormalProof]), pluripolar sets and the
+  extension across them.
+- **Layer 1:** Lelong numbers of plurisubharmonic functions and Skoda's integrability theorem, in the forms of
+  [FormalProof].
 - **Layer 2:** singular hermitian metrics on line bundles, their curvature and Chern currents, analytic
-  singularities, the Poincaré–Lelong formula for singular metrics, degrees from metrics of logarithmic growth,
-  pseudoeffective and analytically nef line bundles.
+  singularities and positivity (2.2, 2.6 in the forms of [FormalProof]), the Poincaré–Lelong formula for singular metrics,
+  degrees from metrics of logarithmic growth.
 - **Layer 3:** Hörmander's estimate on pseudoconvex domains (also with the datum measured by the Levi form of the
   weight, and for the solution of least norm against a second weight of bounded gradient), the twisted
   Bochner–Kodaira–Nakano inequality, the curvature of holomorphic sub-bundles and quotient bundles (also for flat
@@ -2478,8 +2927,8 @@ This roadmap owns, by layer:
   norms, interpolation of jets on discrete common zero sets, Skoda's division theorem with its iteration for powers of
   an ideal and its form with jets.
 - **Layer 4:** the Ohsawa–Takegoshi theorem (hyperplane form over a planar domain with the optimal constant
-  `π/c_D(0)²`, manifold form of Manivel and Demailly; both as cited theorems, with the reduction of the first to smooth
-  data) and the Suita inequality.
+  `π/c_D(0)²`, manifold form of Manivel and Demailly, both as cited theorems; the form for a finite transverse zero set
+  with weights of log canonical singularities, which is the form of [FormalProof]).
 - **Layer 5:** Poincaré growth, good forms and good metrics in Mumford's sense, uniqueness of the extension,
   Chern–Weil theory for good metrics, Poincaré-type Kähler metrics. In rank one, condition (i) of a good metric is the
   logarithmic growth of ArakelovGeometryAndAbelianHeights §5.1, which owns that predicate on arbitrary complex analytic
@@ -2487,44 +2936,62 @@ This roadmap owns, by layer:
 - **Layer 6:** analytic multiplier ideals, Nadel's coherence, the comparison with algebraic multiplier ideals,
   restriction, subadditivity, strong openness (in dimension at least two as a cited theorem, with its reduction to the
   local statement; in dimension one with a proof).
-- **Layer 7:** Demailly's Bergman approximation, Siu's analyticity theorem, global approximation by analytic
+- **Layer 7:** Demailly's Bergman approximation, global approximation by analytic
   singularities, smooth regularisation with a loss controlled by Lelong numbers at a scale, regularisation in Kähler
-  classes and on Stein manifolds, Richberg's theorem, regularisation of log-log singular semipositive metrics and its
+  classes and on Stein manifolds, regularisation of log-log singular semipositive metrics and its
   pull-back, the energy,
   boundary mass and convergence of mixed Monge–Ampère measures of log-log singular weights and of their regularisations.
 - **Layer 8:** Demailly's `L²` estimate for singular metrics, Nadel vanishing, separation of points and jets by
   multiplier ideals, the Ohsawa–Takegoshi theorem for singular weights on Stein manifolds.
 - **Layer 9:** peak sections, Bergman-density asymptotics at leading order (smooth positive metrics, the local
-  upper bound, singular metrics on their smooth positive locus), the characterisation of big line bundles by
-  singular metrics, Bergman densities for Poincaré-type metrics.
+  upper bound, singular metrics on their smooth positive locus), Bergman densities for Poincaré-type metrics.
 
 It leaves to named roadmaps:
 
 - ComplexComparisonPartII: the current calculus (positive currents, trace measures, local convolution, the
   Skoda–El Mir extension, integration over analytic cycles, the Poincaré–Lelong formula for smooth metrics,
   integral Chern classes) and the smooth weighted `L²` estimate on complete Kähler manifolds; Stein manifolds and
-  strongly 1-complete spaces with their complete metrics. RealAnalyticGeometry R3: the Stein criterion and the
+  strongly 1-complete spaces with their complete metrics. Its §§C5.4a–C5.4j: plurisubharmonic and
+  quasi-plurisubharmonic functions, pluripolar sets, plurisubharmonic functions on reduced complex spaces, Lelong numbers
+  with Skoda's integrability theorem and the complex singularity exponent (§C5.4e (k)), singular Hermitian metrics (Chern class,
+  Poincaré–Lelong formula, analytic singularities, positivity), multiplier ideals and their comparison with algebraic
+  multiplier ideals, Richberg's theorem (§C5.4i) and smooth regularisation. Its Layer C7: Hörmander's theorem with
+  plurisubharmonic weights, the estimate with the datum measured by the Levi form, the twisted Bochner–Kodaira–Nakano
+  estimate, complete Kähler metrics off analytic subsets, the estimate for metrics smooth off them, Skoda's division
+  theorem, the Ohsawa–Takegoshi theorems, Nadel's coherence, restriction, subadditivity, strong openness, Demailly's
+  approximations, Siu's theorem (§C7.14), Demailly's estimate for singular metrics, Nadel vanishing and the separation of points
+  and jets. RealAnalyticGeometry R3: the Stein criterion and the
   weighted theorem it rests on.
+- PDE §§3.2a and 3.4a: upper semicontinuous subharmonic functions (local integrability, means, the maximum principle),
+  the Riesz representation on balls and Hartogs' lemma.
 - ComplexKahlerGeometry: holomorphic bundles, Chern connections, the Kähler, Bochner–Kodaira–Nakano and
-  Akizuki–Nakano identities, analytic sets and coherence, the Dolbeault theorem.
-- ComplexHessianEquations: the uniform exponential integrability of `C²` plurisubharmonic functions (Layer 7) and
-  the `L¹` bound for quasi-plurisubharmonic functions of class `C²` (§5.4), which 0.4 and 1.2 extend.
+  Akizuki–Nakano identities, analytic sets and coherence, the Dolbeault theorem; its §3.5a (extension of `L²_loc`
+  `∂̄`-equations across analytic sets) and §4.2a (curvature of sub-bundles and quotient bundles, also for flat bundles
+  with a parallel indefinite form).
+- ArakelovGeometryAndAbelianHeights §§5.1a–5.1d: Poincaré growth, good forms, good metrics with the uniqueness of the
+  extension, and the Chern forms of good metrics, on a smooth projective compactification.
+- ComplexHessianEquations: the `L¹` bound for quasi-plurisubharmonic functions of class `C²` (§5.4), the `C²` case of the
+  bound in 0.4's remark.
 - CharacteristicClasses C4: smooth Chern–Weil theory.
 - AlgebraicModuliForArithmeticGeometry §9.10: algebraic multiplier ideals and the algebraic Kawamata–Viehweg
   vanishing theorem. [MultiplierIdealsOfPairsAndPointSeparation](../MultiplierIdealsOfPairsAndPointSeparation/README.md)
   §§9.10b–9.10c: multiplier ideals of pairs and Nadel vanishing for pairs; its §§9.12, 9.12b and 9.12c: isolated
-  non-klt centres and Angehrn–Siu point separation. This roadmap proves the analytic counterparts and the comparison
-  6.3, and nothing here is consumed by those sections.
-- AlgebraicModuliForArithmeticGeometry §1.6 (bigness), ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2
+  non-klt centres, global generation of adjoint bundles and the separation of two points, with the separation of `ℓ` points of
+  Angehrn and Siu in the wider form of 9.12c. The analytic counterparts are ComplexComparisonPartII §§C5.4h and
+  C7.17, cited in 6.3 and 8.2; the comparison 6.3(b) for pairs is this roadmap's, and nothing here is consumed by those
+  sections.
+- ResolutionOfSingularitiesCharacteristicZero §§5.1–5.2
   (principalisation) and §7.7 (principalisation of quasi-excellent schemes, for the analytic principalisation of 6.3).
 - HeightsRationalPointsAndObstructions §5.17c: the Bergman density of a positive hermitian line bundle on a compact
   projective manifold for the curvature probability volume, its uniform asymptotic `bergmanDensity_uniform`
   (`B_n/h⁰(L^n) → 1`), and the uniform restriction to smooth members of `|L^a|` (`positiveBundle_uniformRestriction`), each
-  proved there by its own route. 9.2 is kept as the variant for an arbitrary smooth positive volume form `dV` (for the
-  curvature probability volume its limit `∫_X c₁(L, h)^n/n!` is `lim_k k^{−n}h⁰(L^k)`, which is §5.17c's statement), proved by
-  its own peak-section route without §5.17c; 3.6, 9.3–9.4 and 9.6 treat singular metrics and noncompact manifolds, which
-  §5.17c does not; and 4.2 is the general extension theorem, of which that restriction is the case `E = L^a` applied to
-  `L^n ⊗ K_X^{−1}` for large `n`.
+  proved there by its own route; its §§5.17c.2–5.17c.7: weighted Bergman spaces in three printed cases (cases of 3.6), the
+  Suita inequality (§5.17c.3), Berman's local upper bound (of which 9.3, for a metric smooth near the point, is a corollary), the
+  leading asymptotics for an
+  arbitrary smooth positive volume form (of which 9.2 is a corollary), the asymptotics for metrics smooth off a proper
+  analytic subset (the published case of 9.4), and Demailly's characterisation of big line bundles by singular metrics (§5.17c.7).
+  9.6 treats Poincaré-type metrics on noncompact manifolds, which those sections do not; and 4.2 is the general extension
+  theorem, of which that restriction is the case `E = L^a` applied to `L^n ⊗ K_X^{−1}` for large `n`.
 - Not in this roadmap: Monge–Ampère operators on singular weights and pluripotential capacities (Bedford–Taylor
   theory), the full Tian–Yau–Zelditch–Catlin expansion beyond the leading term, invariance of plurigenera,
   extension of sections from non-reduced subspaces, Josefson's theorem, Poincaré series on quotients of bounded
@@ -2551,7 +3018,7 @@ semicontinuous functions with value `−∞`.
 
 - C-1.1: complex analytic spaces by local models (closed subspaces `V(I)` of open sets of `ℂ^N`), open gluing and local
   embeddings, reduced complex spaces, and the completed analytic stalks `ℂ[[z₁, …, z_N]]` modulo the ideal (0.6, 6.3(c)).
-- C0 and C2.2: analytification of schemes, coherent sheaves and line bundles; GAGA for sections (6.3, 2.6).
+- C0 and C2.2: analytification of schemes, coherent sheaves and line bundles; GAGA for sections (6.3).
 - C1.3: the Chern connection and curvature conventions (`e^{−φ}` has `Θ = ∂∂̄φ`, Chern form `(i/2π)Θ`).
 - C1.4: `weightedDolbeaultEstimate`, the smooth-weight `L²` estimate for `(n,k)`-forms on complete Kähler manifolds,
   with minimal solutions and the canonical twist.
@@ -2560,15 +3027,24 @@ semicontinuous functions with value `−∞`.
   measures, local convolution of currents and of locally integrable plurisubharmonic functions),
   `closedCurrentExtension` (Skoda–El Mir), `AnalyticCycleIntegration`, `lelongPoincareSection`,
   `integralLineBundleChernClass`, `chernFubiniStudyIntersection`.
+- §§C5.4a–C5.4j: plurisubharmonic and quasi-plurisubharmonic functions, pluripolar sets, plurisubharmonic functions on
+  reduced spaces, Lelong numbers, Skoda's integrability theorem and the complex singularity exponent, singular Hermitian
+  metrics, multiplier ideals and their comparison with algebraic ones, smooth regularisation (0.1–0.6, 1.1, 1.2,
+  2.2–2.4, 2.6, 6.1, 6.3, 7.5, 7.7).
+- §§C7.1–C7.18: the `L²` estimates with plurisubharmonic weights and singular metrics, the twisted estimate, complete
+  Kähler metrics off analytic subsets, Skoda's division theorem, the Ohsawa–Takegoshi theorems, coherence, restriction,
+  subadditivity and strong openness of multiplier ideals, Demailly's approximations, Nadel vanishing and the separation of
+  jets (3.1–3.3, 3.5, 3.8, 3.10, 4.1, 4.2, 6.2, 6.4–6.6, 7.1, 7.3, 8.1–8.4).
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
-K2 (Dolbeault cohomology, the Dolbeault theorem and fine resolutions), K3 and K3.0 (several-variable calculus,
+K3 and K3.0 (several-variable calculus,
 holomorphic germs, analytic subsets, coherence, Noetherianity, the Riemann extension theorem), K4 (holomorphic
-bundles, frames, smooth hermitian metrics, Chern connections and their curvature; sub-bundles, quotients and second
-fundamental forms are this roadmap's 3.2a), K5a (local `L²` distributions and elliptic regularity), K6.0 (Kähler
+bundles, frames, smooth hermitian metrics, Chern connections and their curvature), §4.2a (holomorphic sub-bundles,
+quotients and second fundamental forms, and their curvature; 3.2a (a), (b)), §3.5a (extension of `L²_loc` `∂̄`-equations
+across analytic sets; 3.4), K5a (local `L²` distributions and elliptic regularity), K6.0 (Kähler
 identities, the Bochner–Kodaira–Nakano and Akizuki–Nakano identities, the Nakano curvature bound on `(n,k)`-forms, the
-curvature operator `[iΘ, Λ]`), K7.2 (the Fubini–Study form).
+curvature operator `[iΘ, Λ]`).
 
 ### From TauCetiRoadmap.RealAnalyticGeometry
 
@@ -2577,19 +3053,27 @@ complete Kähler metric from an exhaustion, the weighted `∂̄` theorem with gr
 
 ### From TauCetiRoadmap.ComplexHessianEquations
 
-§5.4 (the `L¹` bound for `C²` quasi-plurisubharmonic functions normalised by their supremum) and Layer 7, §7.1 (the
-local uniform exponential integrability estimate for `C²` plurisubharmonic functions, and the Green representation of
-a `C²` function on a planar disc, which 0.3a extends).
+§5.4 (the `L¹` bound for `C²` quasi-plurisubharmonic functions normalised by their supremum), in 0.4's remark.
 
 ### From TauCetiRoadmap.PDE
 
-§3.1 (C12) (Weyl's lemma) and §3.4 (C15) (the Green and Poisson kernels of a ball and the Green representation, in every
-dimension), used in 0.3a.
+§3.2a (upper semicontinuous subharmonic functions: local integrability, monotone means, the maximum principle), used in
+0.2, and §3.4a (the Riesz representation on balls and Hartogs' lemma), used in 0.3a.
 
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
-§6.20 (the conformal radius `cr(Ω, p) = 1/|φ′(p)|` of the normalised Riemann map), used in 4.3; §§6.18 and 6.40 (the
-transfinite diameter, `|b − a|/4` for a segment), in 0.5's first Check.
+§§6.18 and 6.40 (the transfinite diameter, `|b − a|/4` for a segment), in 0.5's first Check.
+
+### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights
+
+§§5.1a–5.1d (Poincaré growth, good forms, good metrics and the uniqueness of the extension, Chern forms of good metrics,
+on a smooth projective compactification), for 5.1–5.4.
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+§5.17c.2 (weighted Bergman spaces), §5.17c.4 (the local upper bound), §5.17c.5 (leading-order asymptotics for a smooth
+positive metric) and §5.17c.6 (singular metrics smooth off an analytic set), for 3.6, 9.3, 9.2 and 9.4; §5.17c.3 (the
+Suita inequality), named in the Summary.
 
 ### From TauCetiRoadmap.CharacteristicClasses
 
@@ -2598,7 +3082,7 @@ represent the real Chern classes).
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
-§1.6 (`bigLineBundle`); §9.10 (`algebraicMultiplierIdeal` with its API), used in 6.3 and 9.5.
+§9.10 (`algebraicMultiplierIdeal` with its API), used in 6.3 and in 8.2's third Check.
 
 ### From MultiplierIdealsOfPairsAndPointSeparation, a sub-roadmap of this family
 
@@ -2616,19 +3100,19 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   regularisation), III (currents, Lelong numbers, Thie's and Siu's theorems), V (hermitian vector bundles, exact
   sequences and second fundamental forms), VIII (`L²` estimates on weakly pseudoconvex and complete Kähler manifolds,
   complete metrics on complements of analytic sets, Skoda's division theorem): 0.1–0.3, 0.5, Layers 1–3 (in particular
-  3.2a, 3.5 and 3.10), 7.2.
+  3.2a, 3.5 and 3.10), 9.1.
 - P. A. Griffiths, *Hermitian differential geometry, Chern classes, and positive vector bundles*, in Global Analysis
   (papers in honour of K. Kodaira, 1969), and *Periods of integrals on algebraic manifolds III*, Publ. Math. IHÉS 38
   (1970): 3.2a(a), (b).
 - [AMAG] J.-P. Demailly, *Analytic Methods in Algebraic Geometry* (2012): Skoda's integrability lemma, singular metrics,
-  multiplier ideals, Nadel vanishing, approximation and regularisation, the Ohsawa–Takegoshi theorem, big classes (1.2,
-  3.3(a), Layers 2, 4 and 6–8, 9.5).
+  multiplier ideals, Nadel vanishing, approximation and regularisation, the Ohsawa–Takegoshi theorem, big classes (1.1,
+  1.2, 3.3(a), 3.6, 3.10, Layers 2, 4 and 6–8).
 - J.-P. Demailly, *Estimations L² pour l'opérateur ∂̄ d'un fibré vectoriel holomorphe semi-positif au-dessus
   d'une variété kählérienne complète*, Ann. Sci. ÉNS 15 (1982): complete metrics on `X ∖ Z`, extension across
-  analytic sets, estimates on complete Kähler manifolds and singular-weight estimates (3.3–3.5, 3.8, 8.1).
+  analytic sets, estimates on complete Kähler manifolds and singular-weight estimates (3.3–3.5, 3.8, 3.9, 8.1).
 - L. Hörmander, *L² estimates and existence theorems for the ∂̄ operator*, Acta Math. 113 (1965): 3.1, 3.8.
 - H. Skoda, *Application des techniques L² à la théorie des idéaux d'une algèbre de fonctions holomorphes avec
-  poids*, Ann. Sci. ÉNS 5 (1972): 3.2a(c), 3.10.
+  poids*, Ann. Sci. ÉNS 5 (1972): 3.2a(c), 3.4, 3.10.
 - H. Donnelly and C. Fefferman, *L²-cohomology and index theorem for the Bergman metric*, Ann. of Math. 118 (1983);
   B. Berndtsson, *The extension theorem of Ohsawa–Takegoshi and the theorem of Donnelly–Fefferman*, Ann. Inst. Fourier
   46 (1996): 3.8a.
@@ -2653,33 +3137,44 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   The statements of 7.7 and 7.8 beyond this case rest on the routes given there.
 - [Announcement] Levent Alpöge, the announcement of that proof, 20 November 2026: <https://alpo.ge/remark.pdf>.
 - J.-P. Demailly, *Regularization of closed positive currents and intersection theory*, J. Algebraic Geom. 1
-  (1992), Proposition 3.7 (located in the author's manuscript): 7.3, 7.7.
+  (1992), Proposition 3.7 (located in the author's manuscript): 7.1, 7.3, 7.4, 7.7.
 - J.-P. Demailly, *Regularization of closed positive currents of type (1,1) by the flow of a Chern connection*, in
   the proceedings of the colloquium in honour of P. Dolbeault, Aspects of Math. E26 (1994), Theorem 4.1 (located in the
   author's manuscript): 7.4, 7.7.
 - J.-P. Demailly, *On the Ohsawa–Takegoshi–Manivel L² extension theorem*, Proceedings of the conference in honour
-  of P. Lelong (2000): 3.2, 4.2.
+  of P. Lelong (2000): 4.2.
 - J.-P. Demailly, *Extension of holomorphic functions defined on non reduced analytic subvarieties*, arXiv:1510.05230
-  (2015), Theorem 2.8 (located in arXiv v1): 4.2.
-- L. Hörmander, *An Introduction to Complex Analysis in Several Variables*, chapter IV: 3.1.
-- H. Skoda, *Sous-ensembles analytiques d'ordre fini ou infini dans ℂⁿ*, Bull. SMF 100 (1972): 1.2.
+  (2015), Lemma 3.6, (3.10) and Proposition 3.11, and Theorem 2.8 (located in arXiv v1): 3.2, 4.2.
+- L. Hörmander, *An Introduction to Complex Analysis in Several Variables*, chapter IV: 1.2, 3.1.
+- H. Skoda, *Sous-ensembles analytiques d'ordre fini ou infini dans ℂⁿ*, Bull. SMF 100 (1972): 1.2, 6.1.
 - Y.-T. Siu, *Analyticity of sets associated to Lelong numbers and the extension of closed positive currents*,
-  Invent. Math. 27 (1974): 7.2.
+  Invent. Math. 27 (1974): 1.1.
 - A. M. Nadel, *Multiplier ideal sheaves and Kähler–Einstein metrics of positive scalar curvature*, Ann. of Math.
-  132 (1990): 6.2, 8.2.
+  132 (1990): 6.1, 6.2, 8.2.
 - T. Ohsawa and K. Takegoshi, *On the extension of L² holomorphic functions*, Math. Z. 195 (1987); L. Manivel,
-  *Un théorème de prolongement L² de sections holomorphes d'un fibré hermitien*, Math. Z. 212 (1993): Layer 4.
-- Z. Błocki, *Suita conjecture and the Ohsawa–Takegoshi extension theorem*, Invent. Math. 193 (2013): 4.1, 4.3.
+  *Un théorème de prolongement L² de sections holomorphes d'un fibré hermitien*, Math. Z. 212 (1993): 3.2, Layer 4.
+- Z. Błocki, *Suita conjecture and the Ohsawa–Takegoshi extension theorem*, Invent. Math. 193 (2013): 4.1.
+- Z. Błocki, *Cauchy–Riemann meet Monge–Ampère*, Bull. Math. Sci. 4 (2014): 8.1.
+- Z. Błocki, *The Bergman metric and the pluricomplex Green function*, Trans. Amer. Math. Soc. 357 (2005), 2613–2625,
+  Theorems 3.1 and 3.2: 8.1.
 - Q. Guan and X. Zhou, *A solution of an L² extension problem with an optimal estimate and applications*, Ann. of
   Math. 181 (2015), and *A proof of Demailly's strong openness conjecture*, Ann. of Math. 182 (2015), arXiv:1311.3781
   (located in arXiv v1): 4.1, 6.6.
+- Q. Guan and Z. Yuan, *Concavity property of minimal L² integrals with Lebesgue measurable gain*, arXiv:2209.03637
+  (2022), Lemma 2.4: 8.1.
 - J.-P. Demailly, L. Ein and R. Lazarsfeld, *A subadditivity property of multiplier ideals*, Michigan Math. J. 48
   (2000): 6.4, 6.5.
-- R. Lazarsfeld, *Positivity in Algebraic Geometry II*, chapter 9: multiplier ideals and their analytic
-  description (6.3).
+- R. Lazarsfeld, *Positivity in Algebraic Geometry II*, Ergebnisse der Mathematik (3) 49, Springer, 2004, chapter 9:
+  multiplier ideals and their analytic description (6.3).
+- H. Hironaka, *Resolution of singularities of an algebraic variety over a field of characteristic zero I, II*, Ann.
+  of Math. (2) 79 (1964), from p. 109 and from p. 205: principalisation for analytic germs, as cited in [AMAG],
+  Remark 5.9 (6.3).
 - Z. Błocki and S. Kołodziej, *On regularization of plurisubharmonic functions on manifolds*, Proc. AMS 135 (2007):
-  7.5. R. Richberg, *Stetige streng pseudokonvexe Funktionen*, Math. Ann. 175 (1968): 7.6.
-- D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977): Layer 5.
+  7.4, 7.5, 7.7.
+- D. Mumford, *Hirzebruch's proportionality theorem in the non-compact case*, Invent. Math. 42 (1977): 2.5, Layer 5.
+- L. Darondeau and P. Pragacz, *Universal Gysin formulas for flag bundles*, arXiv:1510.07852 (2015): 5.4.
+- S. Diverio and F. Fagioli, *Pointwise universal Gysin formulae and applications towards Griffiths' conjecture*, Ann.
+  Sc. Norm. Super. Pisa (5) 23 (2022), 1597–1624, arXiv:2009.14587: 5.4.
 - R. Kobayashi, *Kähler–Einstein metric on an open algebraic manifold*, Osaka J. Math. 21 (1984); S.-Y. Cheng and
   S.-T. Yau, *On the existence of a complete Kähler metric on non-compact complex manifolds*, CPAM 33 (1980):
   quasi-coordinates (5.5).
@@ -2687,25 +3182,39 @@ quasi-excellent schemes, applied to the local rings `O_{X,x}`), in 6.3(c).
   Bouche, *Convergence de la métrique de Fubini–Study d'un fibré linéaire positif*, Ann. Inst. Fourier 40 (1990);
   S. Zelditch, *Szegő kernels and a theorem of Tian*, IMRN (1998); D. Catlin, *The Bergman kernel and a theorem of
   Tian* (1999): 9.1, 9.2.
-- R. Berman, *Bergman kernels and local holomorphic Morse inequalities*, Math. Z. 248 (2004), arXiv:math/0211235: 9.3
-  (located in arXiv v1).
+- R. Berman, *Bergman kernels and local holomorphic Morse inequalities*, Math. Z. 248 (2004), arXiv:math/0211235: 9.2,
+  9.3 (located in arXiv v1).
 - X. Ma and G. Marinescu, *Holomorphic Morse Inequalities and Bergman Kernels*, Progress in Math. 254 (2007),
   chapter 6: 9.4, 9.6.
+- C.-Y. Hsiao and G. Marinescu, *Asymptotics of spectral function of lower energy forms and Bergman kernel of
+  semi-positive and big line bundles*, Comm. Anal. Geom. 22 (2014), Theorem 1.8: 9.4.
 - F. Hartogs, *Zur Theorie der analytischen Funktionen mehrerer unabhängiger Veränderlichen*, Math. Ann. 62 (1906);
   L. Hörmander, *Notions of Convexity* (1994), chapter III (Hartogs' lemma, Riesz measures): 0.3a.
 - G. Choquet, *Lectures on Analysis* (1969) (Choquet's lemma on upper envelopes): 0.1.
 - V. Guedj and A. Zeriahi, *Intrinsic capacities on compact Kähler manifolds*, J. Geom. Anal. 15 (2005),
   arXiv:math/0401302 (located in arXiv v2): 0.4.
-- H. Grauert and R. Remmert, *Plurisubharmonische Funktionen in komplexen Räumen*, Math. Z. 65 (1956): 0.5;
+- S. Dinew and S. Kołodziej, *Pluripotential estimates on compact Hermitian manifolds*, Advanced Lectures in Mathematics
+  21 (2012), arXiv:0910.3937, Proposition 2.1: 0.4.
+- H. Grauert and R. Remmert, *Plurisubharmonische Funktionen in komplexen Räumen*, Math. Z. 65 (1956): 0.5, 0.6, 7.7;
   B. Josefson, *On the equivalence between locally polar and globally polar sets for plurisubharmonic functions on
   ℂⁿ*, Ark. Mat. 16 (1978): 0.5 (the global form, not used).
 - J. E. Fornæss and R. Narasimhan, *The Levi problem on complex spaces with singularities*, Math. Ann. 248 (1980): 0.6,
   7.5(b).
 - P. Lelong, *Intégration sur un ensemble analytique complexe*, Bull. SMF 85 (1957); Y.-T. Siu's paper above and
-  P. Thie, *The Lelong number of a point of a complex analytic set*, Math. Ann. 172 (1967): 1.1.
+  P. Thie, *The Lelong number of a point of a complex analytic set*, Math. Ann. 172 (1967): 1.1, 2.3.
 - T. Ransford, *Potential Theory in the Complex Plane* (1995) (Riesz decomposition, removable singularities): 0.3a, 2.5.
 - R. Lazarsfeld, *Positivity in Algebraic Geometry I* (2004), §2.2 (Kodaira's lemma): 2.6.
-- N. Suita, *Capacities and kernels on Riemann surfaces*, Arch. Rational Mech. Anal. 46 (1972): 4.3.
 - M. Cornalba and P. Griffiths, *Analytic cycles and vector bundles on non-compact algebraic varieties*, Invent. Math. 28
   (1975): 5.5.
 - P. H. Hiep, *The weighted log canonical threshold*, C. R. Math. Acad. Sci. Paris 352 (2014): 6.6.
+- Y. Kawamata, *Characterization of abelian varieties*, Compositio Math. 43 (1981), Lemma 21, p. 268; T. Fujita, *On
+  Kähler fiber spaces over curves*, J. Math. Soc. Japan 30 (1978): 2.5.
+- J.-P. Demailly, *Singular Hermitian metrics on positive line bundles*, in Complex Algebraic Varieties, Lecture Notes in
+  Math. 1507 (1992), 87–104: 2.6.
+- B.-Y. Chen, J. Wu and X. Wang, *Ohsawa–Takegoshi type theorem and extension of plurisubharmonic functions*, Math.
+  Ann. 362 (2015), §2, Lemma 2.2, Theorem 2.3, Corollary 2.4 (located in arXiv:1407.2339v1): 3.4.
+- N. Aronszajn, *Theory of reproducing kernels*, Trans. AMS 68 (1950); S. Kobayashi, *Geometry of bounded domains*,
+  Trans. AMS 92 (1959): 3.6.
+- H. Gillet and C. Soulé, *An arithmetic Riemann–Roch theorem*, Invent. Math. 110 (1992): 3.7.
+- C. A. Berenstein and B. A. Taylor, *Interpolation problems in ℂⁿ with applications to harmonic analysis*, J. Analyse
+  Math. 38 (1980): 3.9.

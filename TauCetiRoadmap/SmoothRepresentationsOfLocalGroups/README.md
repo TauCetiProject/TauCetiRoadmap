@@ -54,8 +54,10 @@ with its Hecke algebras, its derived category, and the induction and Jacquet fun
 layers over ℂ prove uniform admissibility, the Bernstein decomposition and centre (with a
 Langlands classification conditional on Harish-Chandra's description of tempered
 representations), and second adjointness, which uses both. The Satake layer adds explicit GL_n,
-unitary and GSp_4 formulas; the integral layer adds Weil–Deligne parameters; the last treats
-parameters as crossed cocycles of a finite-wild discrete Weil group.
+unitary and GSp_4 formulas; the integral layer adds Weil–Deligne parameters; the next treats
+parameters as crossed cocycles of a finite-wild discrete Weil group; and the last, over ℂ,
+compares the depth-zero part of Jacquet modules with Harish-Chandra restriction on the reductive
+quotients of parahoric subgroups and constructs the depth-zero supercuspidal representations of GL_n.
 
 ## How to read the build
 
@@ -63,7 +65,7 @@ parameters as crossed cocycles of a finite-wild discrete Weil group.
 headline targets that can be stated against the pins, with proof placeholders, and each such
 target carries a *Lean:* line below; the other targets are specified here only. The layers depend
 on one another in the order
-SR.0 → SR.1 → SR.0d → SR.2 → SR.3a → SR.3 → SR.2a → SR.4 → SR.5 → SR.6, and they are presented
+SR.0 → SR.1 → SR.0d → SR.2 → SR.3a → SR.3 → SR.2a → SR.4 → SR.5 → SR.6 → SR.7, and they are presented
 below in that order. SR.0d follows SR.1 because the derived Hecke algebra extends the
 permutation-module Hecke algebra, and precedes SR.2 because the Jacquet module of a regular
 principal series splits by the vanishing of Ext between distinct central characters. SR.2a follows
@@ -71,7 +73,8 @@ SR.3a and SR.3 because Bernstein's stabilisation theorem uses uniform admissibil
 decomposition, noetherianity and generic irreducibility; SR.3 itself uses nothing from SR.2a, since
 the centre is proved by the Bernstein–Deligne route. SR.4 uses SR.1 and SR.2; SR.5 uses SR.3, with the algebraic *stable-operator* prerequisite
 in SR.5.2 preceding *integral-second-adjointness*; SR.6
-uses SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator* and is used by nothing earlier. Within a target, *Needs* names the
+uses SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator* and is used by nothing earlier; SR.7 uses
+SR.0–SR.3 and SR.2a and is used by nothing earlier. Within a target, *Needs* names the
 earlier targets by their short names and the supplier layers by roadmap and layer; the references
 in parentheses are to the editions listed under *References*, by printed page.
 
@@ -92,7 +95,7 @@ groups are stated for GL_n(ℚ_p), realised as the units of the matrix ring.
 family of compact open subgroups of pro-order invertible in A; for a locally pro-p group this means
 p ∈ Aˣ. Statements that do not need it hold over every A, including F_p for a p-adic group.
 Normalised induction and Jacquet functors need a chosen square root `q^{1/2} ∈ Aˣ`; the unnormalised
-versions exist always and are kept separate. Layers SR.3a, SR.3 and SR.2a are over ℂ. The
+versions exist always and are kept separate. Layers SR.3a, SR.3, SR.2a and SR.7 are over ℂ. The
 coefficient residue characteristic is ℓ ≠ p in SR.1's Λ-linear centre, in SR.5 and in SR.6; a
 noetherian, flat, reduced or ℓ-torsion-free hypothesis is written on the theorem that needs it and
 nowhere else. Admissibility means finite generation over A of every compact-open invariant module,
@@ -3011,7 +3014,8 @@ is again 0, whereas the universal P₀ specializes to 1. These are negative cont
 using a rational evaluation at a pole.
 
 **Macdonald formula for GL_n** (*macdonald-formula*). For GL_n(E), with E/F unramified quadratic
-and q = #k_F, prove `S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²)`. Hall–Littlewood branching separates
+and q = #k_F, prove `S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²)`. This is *macdonald-formula-general* for the
+field E, whose residue cardinality is q². Hall–Littlewood branching separates
 n = a + b variables into bidegrees with |α| + |β| = |λ| ([Les] proof of Lemma 3.2, pp. 24–25). *Needs:*
 *hall-littlewood*, *gln-generators*.
 
@@ -3053,6 +3057,31 @@ Checks: the conjugation average fixes conjugation-invariant functions for probab
 of S₂ and is 1 on (01). The normalizer of the empty weight is 1, the normalizer of (0,0) is
 1 + t, and that of (0,1) is 1. All six computations are tests; in particular the
 normalizer can vanish at t = −1.
+
+### SR.4.3a Macdonald's formula for every residue cardinality
+
+**Macdonald's formula for GL_n over every nonarchimedean local field** (*macdonald-formula-general*). Let F be any
+nonarchimedean local field, with residue cardinality q, G = GL_n(F) and K = GL_n(O). For a dominant integral tuple λ of
+length n let 1_λ be the characteristic function of `K diag(ϖ^{λ₁}, …, ϖ^{λ_n}) K`. Prove
+
+```text
+S(1_λ) = q^{⟨λ, ρ⟩} P_λ(X; q⁻¹),
+```
+
+where S is the normalised Satake transform of *satake-transform*, with its chosen square root of q, ρ is the half-sum of
+the positive roots, as in *macdonald-formula*, and P_λ is the Hall–Littlewood polynomial of *hall-littlewood* ([Mac]
+Chapter V; for split groups over a p-adic field, [HKP] Theorem 5.6.1, of which this is the case of GL_n, the stabiliser
+polynomial `W_λ(q⁻¹)` being `v_λ(q⁻¹)`). For GL_n(E), E/F unramified quadratic, whose residue cardinality is q², this is
+*macdonald-formula*; for λ = (1, …, 1, 0, …, 0) it is *gln-generators*. The route of [HKP] §5 is Casselman's: the
+spherical vector of the universal unramified principal series is written in the basis of the images of the
+Iwahori-fixed vector under the normalised intertwiners (Lemma 5.3.1), which gives the spherical function at `ϖ^λ`
+(Theorem 5.5.1), and the measure of `K ϖ^λ K` turns it into the Satake transform (Theorem 5.6.1). *Needs:*
+*satake-transform*, *hall-littlewood*, *gln-generators*.
+
+**Checks.**
+
+- For n = 2 and λ = (1, 0), `S(1_λ) = q^{1/2}(X₁ + X₂)`, which is *gln-generators* for r = 1.
+- For n = 1, `S(1_{(m)}) = X^m`.
 
 ### SR.4.4 Unramified unitary groups
 
@@ -4468,6 +4497,59 @@ with residue field k. The rank-one normalized fibre gives the trivial complex li
 case; its other Checks are the two-duals and centre-coordinate Checks above.
 A = W(k) satisfies the ring hypotheses; nonzero ℓ-torsion is excluded.
 
+### SR.5.2a The Zelevinsky classification
+
+**The Zelevinsky classification** (*zelevinsky-classification*). Work over ℂ, with F any nonarchimedean local field,
+ν = |det|, × normalised parabolic induction, and the segments, multisegments, linking relation and representations
+Z(Δ), L(Δ), Z(m), L(m) of *segment-representations*. Read the cuspidal support of an irreducible representation π of
+GL_n(F) as the multiset {σ₁, …, σ_r} with `scs(π) = [GL_{n₁} × ⋯ × GL_{n_r}, σ₁ ⊗ ⋯ ⊗ σ_r]` (*cuspidal-support*). Prove:
+
+- (i) every irreducible smooth representation π of GL_n(F) is Z(m) for a unique multisegment m, and L(m′) for a unique
+  multisegment m′; and for any multisegments m₁, m₂, L(m₁ + m₂) is a subquotient of L(m₁) × L(m₂);
+- (ii) `Z(Δ₁) × ⋯ × Z(Δ_r)` and `L(Δ₁) × ⋯ × L(Δ_r)` are irreducible iff the Δ_i are pairwise unlinked;
+- (iii) for a segment Δ = [x, y]_ρ, ρ a representation of GL_d(F), the normalised Jacquet module of Z(Δ) along the
+  standard parabolic subgroup of type (d, …, d) is `ρν^x ⊗ ρν^{x+1} ⊗ ⋯ ⊗ ρν^y`;
+- (iv) the graded group `R = ⊕_{n ≥ 0} R_n`, R_n the Grothendieck group of finite-length smooth representations of
+  GL_n(F), with the product induced by ×, is the polynomial ring ℤ[X_Δ] on the classes X_Δ = [Z(Δ)] of the segments;
+- (v) an irreducible π is essentially square-integrable (some twist of π by χ ∘ det, χ a character of F^×, is
+  square-integrable modulo the centre in the sense of *square-integrable-tempered*) iff π ≅ L(Δ) for a segment Δ;
+- (vi) if m₁ and m₂ are multisegments and no segment of m₁ is linked to a segment of m₂, then Z(m₁) × Z(m₂) is
+  irreducible and equal to Z(m₁ + m₂); in particular π₁ × π₂ is irreducible whenever no member of the cuspidal support
+  of π₁ is σ′ν or σ′ν⁻¹ for a member σ′ of the cuspidal support of π₂.
+
+([Zel80] Theorem 6.1, p. 188, for the form Z(m) in (i), Theorems 4.2, p. 184, and 9.7 (a), pp. 198–199, for (ii),
+3.1, pp. 180–181, for (iii) (Proposition 3.4, p. 181, gives the Jacquet modules along the parabolic subgroups with two
+blocks), Corollary 7.5, p. 193, for (iv), Theorem 9.3, p. 198, for (v), Proposition 8.5, p. 196, with Theorem 6.1 (c),
+p. 188, for (vi); [Hen02] §2.8, p. 596, with §2.6, p. 595, for the form L(m′) in (i); [Tad86] Proposition A.4, p. 372,
+for the subquotient clause of (i).) Theorem 9.3 of [Zel80] is Bernstein's: Zelevinsky derives from Casselman's criterion
+that L(Δ) is essentially square-integrable and states the converse without proof; the converse in (v) is an owned input
+theorem here. The route for (ii)–(iv), (vi) and the form Z(m) of (i) is Zelevinsky's, with Bernstein–Zelevinsky
+derivatives (*mirabolic-derivatives*) and the geometric lemma. The form L(m′) of (i) is the classification by Langlands
+quotients as [Hen02] recalls it, and uses (v). The subquotient clause is [Tad86]'s: for small α > 0 the product
+L(m₁) × ν^α L(m₂) is irreducible and equal to L(m₁ + ν^α m₂), and a limit of characters as α → 0 gives a quotient of the
+standard module π(m₁ + m₂) with the character of L(m₁) × L(m₂). *Needs:* *segment-representations*, *geometric-lemma*,
+*cuspidal-support*, *square-integrable-tempered*, *casselman-criterion*, *mirabolic-derivatives*.
+
+**Checks.**
+
+- For n = 1 every irreducible representation is a character ρν^x with ρ unitary, and the multisegment of (i) is the
+  single segment [x, x]_ρ.
+- For Δ = [−1/2, 1/2]_1 in GL_2, L(Δ) is the Steinberg representation, square-integrable, while Z(Δ), the trivial
+  character, is not essentially square-integrable, as (v) requires.
+- The segments [0, 0]_1 and [1, 1]_1 are linked, and the product 1 × ν of their representations Z = L is reducible, as
+  (ii) requires.
+
+**Irreducibility of unitary products** (*unitary-product-irreducibility*). Over ℂ and for every nonarchimedean local
+field F, prove that if π₁ and π₂ are irreducible unitarisable smooth representations of `GL_{n₁}(F)` and `GL_{n₂}(F)`, then
+π₁ × π₂ is irreducible and unitarisable ([Ber84] 0.2, Corollary, p. 51, and 8.2, Corollary (a), p. 89; quoted in
+[Tad86] 2.5 Theorem (i), p. 346). The route is Bernstein's: an irreducible unitarisable representation of GL_n(F)
+remains irreducible on the mirabolic subgroup ([Ber84] Theorem A, 5.1, and 5.4), and the criterion of 8.2 then gives the
+irreducibility of a product by induction on the highest shifted derivative. *Needs:* *parabolic-induction*,
+*mirabolic-derivatives*.
+
+**Check.** For unitary characters χ₁, χ₂ of F^× the product χ₁ × χ₂ is irreducible; unitarisability is needed, since
+1 × ν is reducible.
+
 ### SR.5.3 Coefficient change, Ext and local blocks
 
 **Endomorphisms after arbitrary coefficient tensoring** (*tensor-endomorphisms*). For a
@@ -4555,8 +4637,9 @@ SR.0 (the smooth category, admissibility and the centre), SR.1 (Hecke corners, f
 distinct-eigenvalue block and the descent of characteristic-zero simple modules, and Iwahori
 decompositions, for the stability in *integral-second-adjointness*), SR.2 (induction, Jacquet
 functors, first adjointness and coinvariants), SR.3a (cuspidality, for the distinguished cuspidal
-types and segments), SR.3 (finite length, cuspidal support, the Bernstein centre and the
-finiteness of Hecke corners over it) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
+types and segments), SR.3 (finite length, cuspidal support, square-integrability with Casselman's
+criterion, the Bernstein centre and the finiteness of Hecke corners over it) and SR.4
+(*spherical-parameter*); from ReductiveGroupsPartII,
 RG2.2.4 (the lattice chains that define the hereditary orders of the types); ClassFieldTheory
 layer 9 for the Weil groups, embeddings and degree maps used throughout SR.5.2;
 RepresentationTheory/InductionRestriction layers 0 and 2 on main for the restriction,
@@ -4899,6 +4982,162 @@ SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator*; Tau Ceti's `TauCeti.Affin
 ClassFieldTheory layer 9; LocalFieldsRamification layer 4 through the Tau Ceti Iwasawa
 presentation. The layer is used by nothing earlier.
 
+## Layer SR.7: depth zero
+
+Complex representations of depth zero of G = 𝐆(F), 𝐆 connected reductive over a nonarchimedean local field F of any
+characteristic. For a parabolic subgroup P = MN and a point x of the building of M, the vectors fixed by
+`J = G_{x,0+}(N ∩ G_{x,0})` map isomorphically onto the `M_{x,0+}`-invariants of the Jacquet module, so that
+Harish-Chandra restriction on the finite reductive quotient `G_{x,0}/G_{x,0+}` computes the depth-zero part of the
+Jacquet module. Depth zero is then read on the cuspidal support. For GL_n the depth-zero supercuspidal representations are
+the compact inductions from `F^× GL_n(O)` of inflated cuspidal representations of `GL_n(k_F)` extended to the centre.
+
+### SR.7.1 Depth zero and Jacquet modules
+
+**The depth-zero Jacquet comparison** (*depth-zero-jacquet*). Let G be connected reductive over F, S a maximal F-split
+torus, x a point of the apartment of S, and `G_{x,0} ⊇ G_{x,0+}` the parahoric subgroup at x and its pro-unipotent
+radical (ReductiveGroupsPartII RG2.3 *moy-prasad-filtration*). Let P = MN be a parabolic subgroup with Levi factor M ⊇ S,
+so that x lies in the building of M, and write `M_{x,0} ⊇ M_{x,0+}` for the corresponding subgroups of M. Put
+`J = G_{x,0+}(N ∩ G_{x,0})`: a compact open subgroup normalised by `M_{x,0}`, with Iwahori decomposition
+`J = (N̄ ∩ G_{x,0+})·M_{x,0+}·(N ∩ G_{x,0})` (ReductiveGroupsPartII RG2.4 *iwahori-factorization*, for `G_{x,0+}`).
+Here `M ∩ G_{x,0} = M_{x,0}` and `M ∩ G_{x,0+} = M_{x,0+}` ([MP96] Theorem 4.2 and 4.3, pp. 106–107), the image of
+`P ∩ G_{x,0}` in the reductive quotient is a parabolic subgroup with unipotent radical the image of `N ∩ G_{x,0}` and
+Levi quotient `M_{x,0}/M_{x,0+}`, and every proper parabolic subgroup of the reductive quotient is conjugate to one that
+arises in this way from a proper P: one that contains the image of the bounded subgroup of S is the parabolic subgroup of
+a cocharacter of S, and P is the parabolic subgroup of G of that cocharacter (ReductiveGroupsPartII RG2.3
+*pro-unipotent-radical-and-nested-facets* (3); [Dat09] 2.11, for the map from the parabolic subgroups of G containing M
+to those of the special fibre). Prove that for every smooth complex representation π of G the projection π → π_N induces
+an isomorphism
+
+```text
+(π^{G_{x,0+}})^{N ∩ G_{x,0}} = π^J ≅ (π_N)^{M_{x,0+}}
+```
+
+of representations of `M_{x,0}/M_{x,0+}`. With `G_{x,0}/G_{x,0+}` and `M_{x,0}/M_{x,0+}` the rational points of the
+reductive quotients (ReductiveGroupsPartII RG2.3 *moy-prasad-isomorphism* (b)), this says that Harish-Chandra restriction
+(ReductiveGroups Layer 7c) of the representation `π^{G_{x,0+}}` of `G_{x,0}/G_{x,0+}` to its Levi quotient
+`M_{x,0}/M_{x,0+}` is the depth-zero part `(π_N)^{M_{x,0+}}` of the Jacquet module. In particular, if π is
+supercuspidal, `π^{G_{x,0+}}` is a cuspidal representation of `G_{x,0}/G_{x,0+}`: its Harish-Chandra restrictions to
+proper Levi subgroups vanish. The comparison holds for every point x of the building of M and every smooth representation
+over a coefficient ring in which p is invertible ([Dat09] Proposition 3.1 with Proposition 6.2 (i)); for admissible π, a
+point x whose parahoric subgroup is not maximal and the Levi subgroup M attached to x (the centraliser of a lift to S of
+the maximal split central torus of the reductive quotient, so that `M_{x,0}/M_{x,0+} = G_{x,0}/G_{x,0+}` and
+`J = G_{x,0+}`) it is [MP96] Proposition 6.7, p. 116, with 6.3 and Proposition 6.4, pp. 113–114. *Needs:*
+*jacquet-module*, *jacquet-lemma*, *jacquet-invariants*, *jacquet-lemma-smooth*, *iwahori-decomposition*,
+*cuspidal-representations*; ReductiveGroupsPartII RG2.3 (*moy-prasad-filtration*, *moy-prasad-isomorphism*,
+*pro-unipotent-radical-and-nested-facets*), RG2.4 (*iwahori-factorization*); ReductiveGroups Layers 7c and 7e.
+
+Surjectivity is Jacquet's lemma for the Iwahori-decomposed group J (*jacquet-lemma-smooth*; *jacquet-invariants* (1) for
+admissible π), and the map is equivariant because `M_{x,0}` normalises J and N. Injectivity is [Dat09]'s (Théorème 5.8,
+a parahoric form of the independence of Harish-Chandra restriction from the parabolic subgroup, ReductiveGroups
+Layer 7e); for the Levi subgroup attached to x it is the argument of [MP96] Proposition 6.7 along a ray of the apartment.
+For supercuspidal π, π_N = 0 for every proper P, so all Harish-Chandra restrictions of `π^{G_{x,0+}}` vanish.
+
+**Checks.**
+
+- For GL_2, an unramified principal series π, x the vertex fixed by GL_2(O) and P = B: J is the pro-p Iwahori subgroup,
+  `π^{K¹} = Ind_{B(k_F)}^{GL_2(k_F)} 1` with `K¹ = 1 + ϖM_2(O)`, whose `U(k_F)`-invariants are two-dimensional, as is
+  `(π_N)^{T ∩ K¹} = π_N`.
+- For G = GL_1, J = 1 + ϖO and N = 1, and the comparison is the identity.
+- The factor `N ∩ G_{x,0}` of J is needed: for GL_n, n ≥ 2, x the vertex fixed by GL_n(O) and π a depth-zero
+  supercuspidal representation, `π^{G_{x,0+}} ≠ 0` while π_N = 0 for every proper P.
+- For x in an alcove and P minimal, J is the pro-unipotent radical of the Iwahori subgroup `G_{x,0}`, and the comparison,
+  with its invariants under `M_{x,0}`, contains the isomorphism `V^B ≅ (V_N)^{M₀}` of *borel-casselman-invariants*.
+
+**Depth zero and the cuspidal support** (*depth-zero-support*). Keep complex coefficients. An irreducible smooth
+representation π of G has depth zero if `π^{G_{y,0+}} ≠ 0` for some point y of the building of G. Prove that an
+irreducible π has depth zero iff the irreducible cuspidal representation σ of its cuspidal support scs(π) = [M, σ]
+(*cuspidal-support*) has depth zero as a representation of M; for G = GL_n, where `M = GL_{n₁} × ⋯ × GL_{n_r}` and
+`σ = σ₁ ⊗ ⋯ ⊗ σ_r`, iff every σ_i has depth zero ([MP96] Theorem 5.2 (1), p. 110; [Dat09] Proposition 6.3 (ii):
+parabolic functors preserve level zero). *Needs:* *depth-zero-jacquet*, *jacquet-subrepresentation*, *cuspidal-support*,
+*first-adjointness*, *parabolic-induction*, *invariants-exact*; ReductiveGroupsPartII RG2.3 (*moy-prasad-filtration*),
+RG2.4 (*iwasawa-decomposition*, *parahoric-double-cosets*, *iwahori-factorization*).
+
+Only if: embed π in i_P σ with σ supercuspidal (*jacquet-subrepresentation*), and take x with `π^{G_{x,0+}} ≠ 0` in the
+apartment of a maximal split torus S ⊆ M. The Iwasawa decomposition and the Bruhat decomposition of a special maximal
+parahoric subgroup over an Iwahori subgroup give `G = P·N_G(S)·G_{x,0}`. A `G_{x,0+}`-invariant vector of i_P σ is
+determined by its values at representatives g = nk (n ∈ N_G(S), `k ∈ G_{x,0}`) of `P\G/G_{x,0+}`, and its value at g is
+fixed by the image in M of `P ∩ G_{nx,0+}`, which is `M_{nx,0+}` by the Iwahori decomposition of `G_{nx,0+}`; so
+`σ^{M_{nx,0+}} ≠ 0` for some n. If: conjugate within M so that `σ^{M_{y,0+}} ≠ 0` with y in the apartment of S, and
+choose P with π_N ↠ σ (first adjointness); invariants under a compact open subgroup are exact, so `(π_N)^{M_{y,0+}} ≠ 0`,
+and the surjectivity in *depth-zero-jacquet* at y gives `π^{G_{y,0+}} ⊇ π^J ≠ 0`.
+
+**Checks.**
+
+- Every irreducible subquotient of an unramified principal series `π = i_B(χ₁ ⊗ ⋯ ⊗ χ_n)` of GL_n(F), χ_i unramified,
+  has depth zero: `π^{K¹} ≅ Ind_{B(k_F)}^{GL_n(k_F)} 1` for `K¹ = 1 + ϖM_n(O)`, and its cuspidal support consists of
+  unramified characters.
+- The Steinberg representation of GL_2(F) has `St^{K¹}` the Steinberg representation of GL_2(k_F), and no GL_2(O)-fixed
+  vector; its cuspidal support `[T, |·|^{−1/2} ⊗ |·|^{1/2}]` has depth zero.
+
+### SR.7.2 Depth-zero supercuspidal representations of GL_n
+
+**Depth-zero supercuspidal representations of GL_n** (*depth-zero-supercuspidals*). Let F be any nonarchimedean local
+field, with ring of integers O, uniformiser ϖ and residue field k_F, n ≥ 1, G = GL_n(F), K = GL_n(O) and
+`K¹ = 1 + ϖM_n(O)` the kernel of reduction K → GL_n(k_F); complex coefficients. An irreducible smooth π of G has depth
+zero (*depth-zero-support*) iff `π^{K¹} ≠ 0`: `G_{x,0+}` contains `G_{v,0+}` for every vertex v in the closure of the
+facet of x, and every vertex is conjugate to the one fixed by K. An irreducible representation σ of GL_n(k_F) is cuspidal
+if `σ^{U(k_F)} = 0` for the unipotent radical U of every proper parabolic subgroup of GL_n over k_F. For an irreducible
+cuspidal σ, with central character ω_σ, and a character ω : F^× → ℂ^× with `ω|_{O^×} = ω_σ ∘ (O^× → k_F^×)`, let σ̂_ω be
+the representation of F^×K equal to the inflation of σ on K and to ω on F^×. Prove that
+`π(σ, ω) = c-Ind_{F^×K}^G σ̂_ω` is an irreducible supercuspidal representation of depth zero, with central character ω;
+that π(σ, ω) ≅ π(σ′, ω′) iff σ ≅ σ′ and ω = ω′; and that every irreducible supercuspidal representation of G of depth
+zero is isomorphic to some π(σ, ω) ([MP96] Proposition 6.6, pp. 114–115, and Proposition 6.8, p. 117, for a connected
+reductive group over any nonarchimedean local field, the inducing subgroup being the normaliser of a maximal parahoric
+subgroup; [BK93] (5.5.10) for the maximal simple types of level zero, (6.1.2), §6.2 and §8.4 for the bijection between
+extended maximal simple types and irreducible cuspidal representations, as recalled in [BH-eff] §§3.4–3.5 and 4.1; for
+n = 2, [BH06] §11, with 11.4 Theorem, pp. 80–81, and 11.5 Lemma, p. 82, for irreducibility and cuspidality). Two
+consequences are derived here, and no cited source states them in this form: `π(σ, ω)^{K¹} ≅ σ` as GL_n(k_F)-modules,
+and the contragredient of π(σ, ω) is π(σ̃, ω⁻¹). *Needs:* *compact-induction*, *frobenius-reciprocity*,
+*induced-invariants*, *mackey-filtration*, *induced-contragredient*, *cuspidal-representations*,
+*harish-chandra-compactness*, *admissibility-of-irreducibles*, *compact-induction-criterion*, *depth-zero-jacquet*,
+*depth-zero-support*; ReductiveGroupsPartII RG2.2.4 (*gl-building-lattice-chains*), RG2.3 (*moy-prasad-filtration*,
+*pro-unipotent-radical-and-nested-facets*), RG2.4 (*cartan-decomposition*).
+
+Intertwining: by the Cartan decomposition every g ∉ F^×K lies in F^×K t K for some `t = diag(ϖ^{a₁}, …, ϖ^{a_n})` with
+a₁ ≥ ⋯ ≥ a_n not all equal, and a `(K ∩ tKt⁻¹)`-map from σ̂_ω to its t-conjugate factors through the coinvariants of σ
+under the unipotent radical of a proper parabolic subgroup of GL_n(k_F), which vanish by cuspidality. So the
+G-intertwining of σ̂_ω is F^×K, and *compact-induction-criterion* gives irreducibility and matrix coefficients compactly
+supported modulo the centre, hence supercuspidality (*harish-chandra-compactness*). The isomorphism criterion is Mackey's
+formula for compact induction with that intertwining. The K¹-invariants: in *induced-invariants* only the trivial double
+coset contributes, by the same cuspidality argument, so `π(σ, ω)^{K¹} ≅ σ ≠ 0` and π(σ, ω) has depth zero. The
+contragredient: *induced-contragredient*, F^×K being open and compact modulo the centre, embeds π(σ̃, ω⁻¹) in the
+irreducible representation π(σ, ω)~. Exhaustion: a depth-zero supercuspidal π has `π^{K¹} ≠ 0`, a cuspidal
+GL_n(k_F)-module by *depth-zero-jacquet* at the vertex fixed by K, so it contains an irreducible cuspidal σ; Frobenius
+reciprocity gives a nonzero map π(σ, ω_π) → π, an isomorphism since both are irreducible.
+
+**Checks.**
+
+- For n = 1 the depth-zero characters are the tamely ramified characters ω of F^× (trivial on 1 + ϖO), and π(σ, ω) = ω
+  for σ the character of k_F^× through which `ω|_{O^×}` factors.
+- σ must be cuspidal, as in the Checks of *compact-induction-criterion*, where the trivial representation of GL_2(k_F)
+  gives a reducible compact induction.
+- For n ≥ 2, π(σ, ω) has no vector fixed by the pro-p Iwahori subgroup Iw₁ ⊇ K¹, since
+  `(π(σ, ω)^{K¹})^{U(k_F)} = σ^{U(k_F)} = 0`: depth zero is detected by K¹, not by Iw₁. For n = 1, Iw₁ = K¹ = 1 + ϖO,
+  and every depth-zero character is fixed by it.
+- For F/ℚ_p finite, (K, σ̂_ω|_K) is the depth-zero case of *distinguished-cuspidal-types* (β = 0, 𝔄 a maximal order,
+  κ trivial, K¹ as above), and π(σ, ω) is the representation that target attaches to the extension σ̂_ω.
+
+### Examples
+
+For GL_2, an unramified principal series π, the vertex fixed by GL_2(O) and P = B, `π^{K¹} = Ind_{B(k_F)}^{GL_2(k_F)} 1`
+has two-dimensional `U(k_F)`-invariants, as has `(π_N)^{T ∩ K¹} = π_N`; for GL_1 the comparison of SR.7.1 is the
+identity. For n = 1 the depth-zero supercuspidal representations are the tamely ramified characters of F^×; and for
+n ≥ 2 a depth-zero supercuspidal representation of GL_n(F) has K¹-fixed vectors but no vector fixed by the pro-p Iwahori
+subgroup.
+
+### Dependencies
+
+SR.0 (invariants and their exactness), SR.1 (Iwahori decompositions), SR.2 (compact induction, Frobenius reciprocity,
+invariants of induced representations, the Mackey filtration, Jacquet functors, parabolic induction, first adjointness,
+contragredients of induced representations, Jacquet's lemma on invariants), SR.3a (cuspidal representations,
+Harish-Chandra's compactness theorem, Jacquet's subrepresentation theorem, admissibility of irreducibles, the
+compact-induction criterion), SR.3 (cuspidal support) and SR.2a (Jacquet's lemma for all smooth representations); SR.5.2
+only for a comparison in a Check of SR.7.2; ReductiveGroupsPartII RG2.2.4 (the building of GL_n, whose vertices are the
+homothety classes of lattices), RG2.3 (the Moy–Prasad filtration, the reductive quotient `G_{x,0}/G_{x,0+}` and the
+parabolic subgroups of the reductive quotient attached to nested facets) and RG2.4 (Iwahori factorisations, the Iwasawa
+and Cartan decompositions, double cosets of parahoric subgroups); ReductiveGroups Layer 7c (Harish-Chandra restriction)
+and Layer 7e (its independence of the parabolic subgroup). The layer is used by nothing earlier.
+
 ## Downstream consumers
 
 The v-stack and enhanced-sheaf roadmaps build the ∞-categorical enhancement of the derived smooth
@@ -4934,9 +5173,11 @@ cuspidal representations, Harish-Chandra's compactness theorem and uniform admis
 cuspidal support, the Bernstein decomposition and centre, noetherianity, the Langlands
 classification conditional on Harish–Chandra tempered support and the Iwahori categories (SR.3); Bernstein's stabilisation theorem and second
 adjointness over ℂ (SR.2a); the Satake transform and isomorphism with their explicit GL_n, unitary
-and GSp_4 normalisations (SR.4); the integral local families of GL_n (SR.5); and the integral
-algebra of finite-wild parameters, excursion coefficients, center images and contracting Hecke
-operators (SR.6). The generic stable-operator algebra is a prerequisite in SR.5.2.
+and GSp_4 normalisations (SR.4); the integral local families of GL_n, with the Zelevinsky
+classification over ℂ (SR.5); the integral algebra of finite-wild parameters, excursion
+coefficients, center images and contracting Hecke operators (SR.6); and the depth-zero comparison
+of Jacquet modules, depth zero of the cuspidal support and the depth-zero supercuspidal
+representations of GL_n (SR.7). The generic stable-operator algebra is a prerequisite in SR.5.2.
 
 It uses the carriers of the neighbouring roadmaps as they exist and adds the smooth category, its
 functors and its theorems on top of them. From
@@ -4945,10 +5186,11 @@ profinite topology on 𝐆(F) and its closed subgroups P(F), M(F), N(F), on whic
 representations of these groups; from RG2.1, the maximal split central torus and the valued root
 datum (the relative roots are ReductiveGroups layer 7), on which it builds unramified characters
 and Satake twisting; from RG2.2.4, the periodic lattice chains of GL(V), on which it builds the
-hereditary orders of the distinguished cuspidal types of GL_n; from RG2.3, the parahoric, Iwahori
+hereditary orders of the distinguished cuspidal types of GL_n and reads depth zero at the vertices
+of the building of GL_n (SR.7.2); from RG2.3, the parahoric, Iwahori
 and pro-p Iwahori subgroups and the
 Moy–Prasad filtration (congruence subgroups are RG2.0 and Iwahori factorisations RG2.4), on which
-it builds positive Hecke algebras, the Iwahori block and uniform admissibility; from RG2.4, the
+it builds positive Hecke algebras, the Iwahori block, uniform admissibility and the depth-zero layer; from RG2.4, the
 Iwasawa, Cartan and Iwahori–Bruhat decompositions, compactness of P\G (hence finiteness of
 P\G/K), unimodularity and the modulus δ_P of the minimal parabolic, on which it builds the
 geometric lemma, the modulus character over A, the Satake transform and the Iwahori–Matsumoto
@@ -4989,7 +5231,8 @@ roadmap cites no section of it. From
 [layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
 takes root data, parabolic and Levi subgroups, Weyl groups, the Bruhat decomposition, central
 quotients and pinned split group schemes, and adds the representation theory of the rational
-points. ReductiveGroups Layer 5P owns the characteristic-zero matrix exp/log construction
+points. From Layer 7c (and 7e) it takes Harish-Chandra restriction for finite reductive groups,
+on which SR.7.1 reads the depth-zero part of Jacquet modules. ReductiveGroups Layer 5P owns the characteristic-zero matrix exp/log construction
 and its restrictions to unipotent algebraic groups and their Lie algebras. SR.5.2
 *nilpotent-exp-log* adds finite evaluation in arbitrary, possibly noncommutative ℚ-algebras,
 with comparison to those matrix maps, and the continuous ℤ_ℓ interpolation needed for monodromy.
@@ -5028,11 +5271,13 @@ here: the Langlands classification is proved from Casselman's criterion and take
 hypothesis the Harish–Chandra tempered-support statement (*harish-chandra-tempered-support*), owned by SR.3.3, giving Harish-Chandra's description of tempered representations as summands of unitary
 inductions of discrete series. The Whittaker-functionals target constructs the functionals and
 twisted quotient, and includes multiplicity one for irreducible complex representations of GL_2(F). Bushnell–Kutzko types beyond
-the Iwahori case are not here, with one exception that Helm's integral block route needs: for GL_n
-over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their ℓ-modular
-coverage (*distinguished-cuspidal-types*), the projectives compactly and parabolically induced
-from them (*type-projective-construction*), and the integral Bernstein decomposition and second
-adjointness that these projectives give (*integral-second-adjointness*).
+the Iwahori case are not here, with two exceptions. The first is what Helm's integral block route
+needs: for GL_n over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their
+ℓ-modular coverage (*distinguished-cuspidal-types*), the projectives compactly and parabolically
+induced from them (*type-projective-construction*), and the integral Bernstein decomposition and
+second adjointness that these projectives give (*integral-second-adjointness*). The second is depth
+zero: for GL_n over every nonarchimedean local field, SR.7.2 owns the depth-zero supercuspidal
+representations compactly induced from F^×GL_n(O) (*depth-zero-supercuspidals*).
 
 The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
 [U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
@@ -5271,8 +5516,12 @@ SR.6's `CrossedCocycle` instead has an arbitrary, possibly noncommutative, targe
 RG2.0: the locally profinite topology on 𝐆(F) and on P(F), M(F), N(F), and congruence subgroups.
 RG2.1: the maximal split central torus and the valued root datum. RG2.2.4: the periodic lattice
 chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endomorphism orders
-are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
-pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
+are the hereditary orders of the types of SR.5.2; SR.7.2 uses its vertices, the homothety classes
+of lattices. RG2.3: parahoric, Iwahori and
+pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position, and,
+used in SR.7, the identification of `G_{x,0}/G_{x,0+}` with the rational points of the reductive
+quotient (*moy-prasad-isomorphism* (b)) and the parabolic subgroups of the reductive quotient
+attached to nested facets (*pro-unipotent-radical-and-nested-facets*).
 RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
 products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
 compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
@@ -5331,6 +5580,10 @@ another multiplication.
 Layer 3: subgroups, quotients and components, for the c-group formulation. Layer 7: structure
 theory, with the relative roots, parabolic and Levi subgroups, Weyl groups and the Bruhat
 decomposition that the parabolic pairs, the geometric lemma and the dual-group arguments use.
+Layer 7c: Harish-Chandra induction and restriction for finite reductive groups, in which SR.7.1
+states the depth-zero comparison of Jacquet modules. Layer 7e: the independence of the
+Harish-Chandra functors from the parabolic subgroup with a given Levi complement, which SR.7.1
+uses for the injectivity of that comparison.
 Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric restrictions;
 SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
 Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
@@ -5382,7 +5635,14 @@ Locators use the printed page numbers of the following editions.
 - [IM65] N. Iwahori and H. Matsumoto, *On some Bruhat decomposition and the structure of the Hecke rings of p-adic Chevalley groups*, Publ. IHÉS 25 (1965), 5–48, [Numdam](http://archive.numdam.org/article/PMIHES_1965__25__5_0.pdf).
 - [HKP] T. Haines, R. Kottwitz and A. Prasad, *Iwahori–Hecke algebras*, [arXiv:math/0309168](https://arxiv.org/pdf/math/0309168).
 - [Lus89] G. Lusztig, *Affine Hecke algebras and their graded version*, J. AMS 2 (1989), 599–635, [AMS](https://www.ams.org/journals/jams/1989-02-03/S0894-0347-1989-0991016-9/S0894-0347-1989-0991016-9.pdf).
-- [Dat09] J.-F. Dat, *Finitude pour les représentations lisses de groupes p-adiques*, [arXiv:math/0607405](https://arxiv.org/pdf/math/0607405).
+- [Dat09] J.-F. Dat, *Finitude pour les représentations lisses de groupes p-adiques*, J. Inst. Math. Jussieu 8 (2009), 261–333, [arXiv:math/0607405](https://arxiv.org/pdf/math/0607405); the propositions cited in SR.7.1 (3.1, 6.2, 6.3) are numbered as in arXiv:math/0607405v1 and in the author's preprint of 2 September 2007, [author copy](https://webusers.imj-prg.fr/~jean-francois.dat/recherche/publis/finitude.pdf); 2.11 and Théorème 5.8 are numbered as in the latter (Théorème 5.8 is 5.4 in the arXiv version).
+- [MP96] A. Moy and G. Prasad, *Jacquet functors and unrefined minimal K-types*, Comment. Math. Helv. 71 (1996), 98–121, [GDZ](https://gdz.sub.uni-goettingen.de/download/pdf/PPN358147735_0071/LOG_0009.pdf).
+- [BK93] C. J. Bushnell and P. C. Kutzko, *The admissible dual of GL(N) via compact open subgroups*, Annals of Mathematics Studies 129, Princeton University Press, 1993.
+- [BH-eff] C. J. Bushnell and G. Henniart, *To an effective local Langlands correspondence*, [arXiv:1103.5316v2](https://arxiv.org/pdf/1103.5316v2).
+- [Zel80] A. V. Zelevinsky, *Induced representations of reductive p-adic groups II: on irreducible representations of GL(n)*, Ann. Sci. École Norm. Sup. (4) 13 (1980), 165–210, [Numdam](https://www.numdam.org/item/ASENS_1980_4_13_2_165_0.pdf).
+- [Hen02] G. Henniart, *Une caractérisation de la correspondance de Langlands locale pour GL(n)*, Bull. Soc. Math. France 130 (2002), 587–602, [Numdam](https://www.numdam.org/item/BSMF_2002__130_4_587_0.pdf).
+- [Tad86] M. Tadić, *Classification of unitary representations in irreducible representations of general linear group (non-Archimedean case)*, Ann. Sci. École Norm. Sup. 19 (1986), 335–382, [Numdam](https://www.numdam.org/item/ASENS_1986_4_19_3_335_0.pdf).
+- [Ber84] J. Bernstein, *P-invariant distributions on GL(N) and the classification of unitary representations of GL(N) (non-archimedean case)*, in *Lie Group Representations II*, Lecture Notes in Math. 1041, Springer, 1984, 50–102, [author copy](https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/Bernstein-P-invar-SLN.pdf).
 - [Kon03] T. Konno, *A note on the Langlands classification and irreducibility of induced representations of p-adic groups*, Kyushu J. Math. 57 (2003), 383–409, [J-STAGE](https://www.jstage.jst.go.jp/article/kyushujm/57/2/57_2_383/_pdf).
 - [FS] L. Fargues and P. Scholze, *Geometrization of the local Langlands correspondence*, [arXiv:2102.13459v4](https://arxiv.org/pdf/2102.13459v4).
 - [TV] D. Treumann and A. Venkatesh, *Functoriality, Smith theory, and the Brauer homomorphism*, Ann. of Math. 183 (2016), [published](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p04-p.pdf); [TVpre] [arXiv:1407.2346v1](https://arxiv.org/pdf/1407.2346v1), whose §§7.8–7.9 are not in the published version.
@@ -5396,7 +5656,7 @@ Locators use the printed page numbers of the following editions.
 - [CT] L. Clozel and J. Thorne, *Level-raising and symmetric power functoriality III*, Duke Mathematical Journal 166 (2017), [author manuscript](https://www.dpmms.cam.ac.uk/~jat58/lrspiii.pdf).
 - [Stacks] *The Stacks project*, [stacks.math.columbia.edu](https://stacks.math.columbia.edu).
 - [Les] S. Leslie, *The endoscopic fundamental lemma for unitary Friedberg–Jacquet periods*, [arXiv:1911.07907v3](https://arxiv.org/pdf/1911.07907v3).
-- [Mac] I. G. Macdonald, *Symmetric functions and Hall polynomials*, second edition, Oxford University Press, 1995 (Chapter III, (2.1) for the Hall–Littlewood normaliser `v_λ(t)`).
+- [Mac] I. G. Macdonald, *Symmetric functions and Hall polynomials*, second edition, Oxford University Press, 1995 (Chapter III, (2.1) for the Hall–Littlewood normaliser `v_λ(t)`; Chapter V for the Hecke ring of GL_n over a local field).
 - [LTXZZ] Y. Liu, Y. Tian, L. Xiao, W. Zhang and X. Zhu, *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228 (2022), 107–375, [published](https://par.nsf.gov/servlets/purl/10323568).
 - [MS] A. Mínguez and V. Sécherre, *Représentations lisses modulo ℓ de GL(m,D)*,
   [arXiv:1110.1467v1](https://arxiv.org/pdf/1110.1467v1). The locators here use this edition.
