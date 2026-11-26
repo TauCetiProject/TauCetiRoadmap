@@ -8,9 +8,10 @@ chain of `m` theta lifts at the trivial twist and at a twist `ξ_ι` chosen for 
 the Gram determinants `Z_j` of the single lifts `Θ_{j,ϑ} : 𝒢(W_j) → 𝒜(V_j)`, from the good forms on a hermitian space
 `W_j`
 of rank `r` to the algebraic forms on a definite space `V_j` of rank `r + t`. This roadmap treats one such lift. Its
-headline theorem is the cost of one lift: along a regular family of twists `θ`, the family `ι ↦ Z_j(1)/Z_j(θ_ι^j)` has
+headline theorem is the cost of one lift: along a regular family of twists `θ`, the family `ι ↦ Z_j(1)/Z_j(θ_ι)` has
 height at most `d·k·(log b·β_tot − h_dir)`, where `d` is the dimension of the target, `β_tot` the budget for
-denominators and `h_dir = Σ_σ (s_∞(κ(σ)) − s_fin(κ(σ), σ))` the cost of one direction. Summed over the `m` lifts this
+denominators and `h_dir = Σ_σ (s_∞(κ(σ)) − s_fin(κ(σ), σ))` the cost of one direction; `Z_j(ϑ)` is the Gram
+determinant of lift `j` twisted by `ϑ^j` (DeterminantsOfThetaLiftChains, Conventions). Summed over the `m` lifts this
 gives back the main amount `h_main = m·k·h_dir`; it is the only place where `h_dir` enters Theorem C.
 
 The proof compares the twisted lift with the untwisted one through an operator on `𝒜(V_j)`. Three applications of the
@@ -22,8 +23,8 @@ The
 glued forms are integral away from the twist, short at the trivial twist, and orthogonal to the false lifts, the forms
 that look like lifts at one Hecke operator and are orthogonal to the lifts (Layers 1, 5). The projection to the lifts
 of a form orthogonal to the false lifts has a denominator at each prime, which the congruences of
-[CongruencesOfTwistedThetaLifts](../CongruencesOfTwistedThetaLifts/README.md) bound. So `Z_j(ϑ)` times a determinant of
-controlled size and denominator is a constant times `Γ_j(ϑ)^d`. The height of `Γ_j` comes from rank-one lifts: a
+[CongruencesOfTwistedThetaLifts](../CongruencesOfTwistedThetaLifts/README.md) bound. So the Gram determinant
+`vol(Θ_{j,ϑ}|𝒢(W_j))` times a determinant of controlled size and denominator is a constant times `Γ_j(ϑ)^d`. The height of `Γ_j` comes from rank-one lifts: a
 critical
 value `L(z, μ⁻¹)` of a Hecke character is the squared norm of the theta lift of `μ` from `U(1)` to a definite `U(2z)`
 (Layer 2), and a test form whose pairing with that lift has exactly the divisibility forced on derivatives of theta
@@ -178,9 +179,10 @@ matrix of the rows `e` of `X_w`.
 
 ### 1.2 The adjoint of the Hecke polynomial for the conjugated pairings
 
-*Origin:* adapted from the published theory of Hecke operators on algebraic modular forms (the adjoint of the operator
-of a double coset is the operator of the inverse double coset): here for the Hecke polynomial at a split place and
-for the pairing conjugated by an automorphism of `ℂ`.
+*Origin:* adapted from the theory of Hecke operators on algebraic modular forms (Gross (1999): the adjoint of the
+operator of a double coset is the operator of the inverse double coset; in the library,
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a, Hecke adjoints): here for the Hecke polynomial at a split
+place and for the pairing conjugated by an automorphism of `ℂ`.
 
 *Method of the formal proof:* the adjoint of `T_{w,i}` for the class-sum pairing is `T_{w̄,i}`, because the inverse of
 the double coset of `diag(ϖ, …, ϖ, 1, …, 1)` at `w` is that double coset at `w̄`; the Hecke operators have rational
@@ -333,9 +335,9 @@ the polynomial `1`, and the block datum modulo `(∏_{w ∈ 𝒞_X} w)²·∏_{w
 
 ### 2.2 The lift and the descent are adjoint; the Hecke polynomials of the lift
 
-*Origin:* adapted from the published theory of theta lifts as adjoints of theta descents, and of the Hecke
-eigenvalues of a theta lift (Rallis (1984a), the Howe duality conjecture and Satake parameters of lifts): here for the
-lift of the constant function from `U(1)`.
+*Origin:* adapted from the adjointness of theta lifts and theta descents and from the Hecke eigenvalues of a theta
+lift (Rallis (1984a), the Howe duality conjecture and Satake parameters of lifts): here for the lift of the constant
+function from `U(1)`.
 
 *Method of the formal proof:* the pairing of the kernel with a vector of the weight is a theta value of a Fock vector,
 so the descent of a form is its inner product with the kernel, and summing over the classes of `U(1)` gives (b). The
@@ -367,9 +369,9 @@ In particular `φ_X` is orthogonal to the kernel of the normalised descent, and 
 lift that lies in a space `Z` and in the image of `e` is a false lift for `(e, Z)` at every split place off the level
 (1.3).
 
-*Needs:* 1.2, 1.3, 2.1; ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; ShortGRH background (the inner product of
-algebraic forms as a Petersson product: for forms of one level `J` and weight on a definite standard space it is
-`[K° : J]·dim ρ` times the Petersson product of the attached automorphic functions; [ShortProof]
+*Needs:* 1.2, 1.3, 2.1; ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (the comparison of the class-set inner product of algebraic
+forms with the Petersson product of the attached automorphic functions: for forms of one level `J` and weight on a
+definite standard space the first is `[K° : J]·dim ρ` times the second, in the normalisation of [ShortProof]
 `New/OneLift/HeckeValues/CharacterLift.lean` (`New.LevelPlaces.LevelForm.inner_eq_petersson`)).
 
 [ShortProof], `New/OneLift/HeckeValues/CharacterLift.lean` (`New.LValueData.toPoly_eq_rename_fockPoly`,
@@ -1017,7 +1019,9 @@ and
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.3; ShortGRH background (holomorphic functions of a weight on a real
 unitary group, their reproducing integral against the basic function, and the Haar measure in Cartan coordinates;
-[ShortProof] `Lib/Weil/DualPair/ThetaLiftConvergence.lean`, `Lib/Adelic/Reduction/FiniteVolume.lean`).
+[ShortProof] `Lib/DiscreteSeries/Holomorphic/ModelFunction.lean` (`New.isHolOfWeight_holMinorsPi`,
+`New.IsHolOfWeight.integral_mul_conj_holMinorsPi`), `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+(`New.Rows.IsPeak`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ThetaKernelEstimates.lean`
 (`New.Data.integral_norm_holMinorsPi_mul_pow_le`, `New.Data.norm_apply_one_le_of_forall_isPeak`)
@@ -1057,9 +1061,12 @@ with
 `i` and
 every `ζ`, then `y = 0`.
 
-*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; ShortGRH background (decay of cusp forms
-near the cusp in terms of the first minimum, so that the peaks of a form are not deep in a cusp; [ShortProof]
-`Lib/Adelic/Reduction/FiniteVolume.lean`).
+*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; ShortGRH background (a bounded nonzero form has a
+peak, a point where its absolute value exceeds half its supremum; at every peak of a bounded form that is holomorphic
+of a weight with gap `1` and entries in `[−A, A]`, `A ≥ 2`, and of a level `p = −p̄` with imaginary parts in
+`(0, A′]`, `A′ ≥ 1`, the first minimum of the lattice is at least `(A·A′)^{−1/2}`, so the peaks are not deep in a
+cusp; [ShortProof] `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+(`New.Rows.exists_isPeak_of_mem_rapidOfLevel`, `New.Rows.IsPeak.le_firstMinimum`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ProductsSpan.lean` (`New.Data.exists_isPeak_carrierForm`,
 `New.Data.exists_sum_choiceFn_eq_integral`, `New.Data.integral_mul_sum_choiceFn_eq_zero`,
@@ -1147,9 +1154,12 @@ off
 spherical at a split place `w` and killed by the Hecke polynomial at `w` at a point `X` with `q_w^{n′+1}·|X| ≤ 1` is
 zero.
 
-*Needs:* 5.1; ShortGRH background (Fourier–Jacobi and constant terms of theta kernels along the Siegel parabolic of a
-sum with hyperbolic planes, and the Hecke eigenvalues of a theta lift; [ShortProof]
-`Lib/Weil/Periods/DescentVanishing.lean`).
+*Needs:* 5.1; ShortGRH background (the zero term of the Weil representation along a Lagrangian of a sum with
+hyperbolic planes, the bound for the theta functional minus its zero term, the vanishing of theta descents as a
+predicate on a function on the definite group, and the transfer of the Hecke polynomial through a theta lift at a
+split unramified place; [ShortProof] `Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean`
+(`New.SiegelWeil.Lagrangian.zeroTerm`), `Lib/Weil/Periods/DescentVanishing.lean` (`New.SiegelWeil.DescentsVanish`),
+`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hasHeckePolynomial_formLift`)).
 
 [ShortProof], `New/OneLift/FalseLifts/HyperbolicPlaneStep.lean` (`New.SiegelWeil.descentsVanish_add_planes`,
 `New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero`, `New.SiegelWeil.DescentsVanish.integral_homSlice_eq_zero`,
@@ -1235,7 +1245,7 @@ Layer 4 is a product of such ratios.
 
 ### 6.1 Denominators of the lift, and one group-ring element for all twists
 
-*Origin:* adapted from the published theory of integral group-ring elements that interpolate twisted Hecke L-values
+*Origin:* adapted from the integral group-ring elements that interpolate twisted Hecke L-values
 (Katz (1978); as theta elements, Bertolini and Darmon (1996), Chida and Hsieh (2018)): here only the side of the squared
 norms of theta lifts from `U(1)`.
 
@@ -1451,7 +1461,8 @@ most `10m·x₁ + k·(6β_tot − h_dir)`.
 The first factors are glued to tuples of forms on `V°`. The adjoint of the gluing map, applied to the lift `Θ_{j,ϑ}`, is
 a twist-free injective map `Θ°` divided by the number `c′_ϑ` of Layer 4 (a seesaw identity), and the glued forms are
 orthogonal to the false lifts. The comparison operator `U_ϑ`, an integer multiple of `glue_ϑ·glue_ϑ*`, then compares
-`Z_j` at a twist with `Z_j` at the trivial twist: `Z_j(ϑ)·det(pr U_ϑ)` depends on `ϑ` only through `Γ_j(ϑ)`. Bounds for
+the Gram determinant of the lift at a twist with that at the trivial twist: `vol(Θ_{j,ϑ}|𝒢(W_j))·det(pr U_ϑ)`
+depends on `ϑ` only through `Γ_j(ϑ)`. Bounds for
 `det(pr U_ϑ)` at `ι`, from the denominator bound of a regular family, and for the conjugates of `det(pr U_1)`, with the
 height of `Γ_j` from Layer 6, give the cost of one lift.
 
@@ -1614,7 +1625,8 @@ integer coordinates, and `‖f_a‖²_σ ≤ hk²` for every `σ`.
 *Origin:* particular to this proof: along a regular family of twists, the ratio of the untwisted to the twisted Gram
 determinant of one lift has height at most `d·k·(log b·β_tot − h_dir)`.
 
-*Method of the formal proof:* by (a), `Z_j(1)/Z_j(ϑ) = (Γ_j(ϑ)/Γ_j(1))^{−d}·det(pr U_ϑ)/det(pr U_1)`. The first factor
+*Method of the formal proof:* write `vol_j(ϑ) = vol(Θ_{j,ϑ}|𝒢(W_j))`, so that `Z_j(θ) = vol_j(θ^j)`. By (a),
+`vol_j(1)/vol_j(ϑ) = (Γ_j(ϑ)/Γ_j(1))^{−d}·det(pr U_ϑ)/det(pr U_1)`, used at `ϑ = θ_ι^j`. The first factor
 has
 height at most `d·(10m·x₁ + k(6β_tot − h_dir))` by 6.6 (b). For the second, take `H = det(pr U_1)⁻¹`: its inverse has
 conjugates bounded by (c), and `det(pr U_ϑ)` has `ι`-adic absolute value at most `exp(d·r·γ(ℓ))` by (b) and the
@@ -1636,7 +1648,9 @@ and
 the projection to the lifts of a form orthogonal to the false lifts has `‖pr y‖²_σ ≤ ‖y‖²_σ` at every `σ`.
 
 (d) (the cost of one lift) Prove: for a regular family `θ` of `m`-fold twists (DeterminantsOfThetaLiftChains §1.3) and
-`1 ≤ j ≤ m`, the family `ι ↦ Z_j(1)/Z_j(θ_ι^j)` has height at most `d·k·(log b·β_tot − h_dir)`.
+`1 ≤ j ≤ m`, the family `ι ↦ Z_j(1)/Z_j(θ_ι)` has height at most `d·k·(log b·β_tot − h_dir)`. Here
+`Z_j(θ_ι) = vol(Θ_{j,θ_ι^j}|𝒢(W_j))`: the `j`-th power of the twist is part of the definition of `Z_j`
+(DeterminantsOfThetaLiftChains, Conventions), and `Z_j(1)/Z_j(θ_ι)` is the ratio of (a) at `ϑ = θ_ι^j`.
 
 Since `β_tot = f·a·(log b)³/(m·k)`, the bound in (d) is `d·(f·a·(log b)⁴/m − k·h_dir)`, the form in which
 DeterminantsOfThetaLiftChains §6.2 uses it. This is the only place where `h_dir` enters Theorem C.
@@ -1663,7 +1677,7 @@ OneSidedPrimeSumBoundsAndAdmissibleData §1.2, §3.3, §4.1, §4.2; SecondMoment
   on the line of a lift to the inner products of projected test forms (6.3 (b)).
 - SelmerBoundsForAnticyclotomicTwists §5.2 uses the integral algebraic part as an L-value and as an integral measure
   (2.5, 6.1) and the period of the determinant kernel with its Euler factors (2.7).
-- OneSidedPrimeSumBoundsAndAdmissibleData §5.5 (Theorem C) uses 7.5 (d) through DeterminantsOfThetaLiftChains §6.2.
+- Theorem C (DeterminantsOfThetaLiftChains §6.3) uses 7.5 (d) through DeterminantsOfThetaLiftChains §6.2.
 
 ## Scope and ownership
 
@@ -1720,7 +1734,8 @@ with determinant data).
 
 CompositeThetaLiftsAndShortForms §2.1, §2.2 (local prime sums);
 SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`); FiniteReductiveGroups §5.7
-(idempotents of labels).
+(idempotents of labels); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set inner products and the
+Petersson product).
 
 ## References
 
