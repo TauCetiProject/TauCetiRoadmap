@@ -29,22 +29,25 @@ integral twisted lifts. Layer 6 assembles the auxiliary forms and proves Theorem
 ## Conventions and notation
 
 **Roadmaps and sources.** A roadmap name of the family `ShortGRH` refers to that roadmap; every other roadmap name refers
-to the roadmap of that name in the family `RiemannHypothesisForDirichletLFunctions`, unless an area is named. A citation
-`Name (result in words)` points to a result of a roadmap of `ShortGRH` whose section is named there. `ShortGRH
-background (…)` names a standard result that the family uses and does not state as a target of its own roadmaps.
+to the roadmap of that name in the family `RiemannHypothesisForDirichletLFunctions`, unless an area is named. A roadmap
+of `ShortGRH` is cited by section number: `Name §k.n (what is taken)` points to section `k.n` of the roadmap `Name`,
+and the words in the parenthesis say what is taken from it. `ShortGRH background (…)` names a standard result that the
+family uses and does not state as a target of its own roadmaps.
 `[ShortProof]` is the formal proof of the Riemann hypothesis for Dirichlet L-functions that the family follows; the pointer line of a
 section names the file under its directory `src/` and the declaration that proves the statement. The labels follow the
 family `RiemannHypothesisForDirichletLFunctions`: `*Origin:*` says where a statement comes from (published, adapted,
 particular to this proof, this roadmap's own formulation, or definitions and conventions), and `*Method of the formal
 proof:*` says how [ShortProof] proves it.
 
-**The data.** Throughout, `D` denotes admissible data in the sense of `OneSidedPrimeSumBoundsAndAdmissibleData (the
-data)`, which fixes the following, written with the letters of that roadmap. `E` is a CM field, `K = ℚ(√−d)` its
+**The data.** Throughout, `D` denotes admissible data in the sense of OneSidedPrimeSumBoundsAndAdmissibleData §3.2,
+which, with §2.1 and §2.2 (the parameters and the field), §4.1 (the amounts `h_dir`, `h_main` and the error unit) and
+DivisibilityOfThetaDerivatives §1.5 (the chosen places), fixes the following, written with the letters of that
+roadmap. `E` is a CM field, `K = ℚ(√−d)` its
 imaginary quadratic subfield, `Φ_E` the set of its `f` infinite places, `τ` an infinite place. The chosen places are the
 finite places of `E` dividing an integer `π_M` of `E` with `π_M π̄_M = M = p₀p₁`; their residue fields are `k_w`, and
 `G₀ = ∏_w GL_r(k_w)` over the chosen places. `N` is the level. The ranks are `m` (the number of lifts), `r`,
 `k = r + 1 − m` and `t = 5r`; `Δ` is the gap and `κ_j(τ)` the weight of lift `j` at `τ`. The scales are `x`, `x₁`, `b`
-(integers, with the inequalities of the data roadmap between them) and `a = x·b`. `h_dir` is the cost of one direction,
+(integers, with the inequalities of OneSidedPrimeSumBoundsAndAdmissibleData §3.2 between them) and `a = x·b`. `h_dir` is the cost of one direction,
 `h_main = m·k·h_dir` the main amount, `f·a·(log b)³` the error unit and `β_tot = f·a·(log b)³/(m·k)` the denominator
 budget. Inequalities between these numbers that follow from the inequalities of the data are used without comment.
 
@@ -84,8 +87,10 @@ splitting of an index set. For `k ∈ GL_n(R)` let `y_k` be the columns of `k` i
 indexed by `a`. Functions `Φ` on `a × n` matrices and `Ψ` on `n × b` matrices are matched (over a subring `O` of `R`) if
 `Φ` vanishes off the `x_k`, `Ψ` vanishes off the `y_k`, `k ∈ GL_n(O)`, and `Φ(x_k) = χ(det k)·Ψ(y_k)` for all such `k`.
 
-**Forms, lifts and twists.** These objects are those of `ThetaLiftChainsAndTheSeesawIdentity` and of the data roadmap;
-they are restated here. `Y_j` is the hermitian space of rank `r + j·t` (`0 ≤ j ≤ m`), `Y_m` is definite, and `Y₀` has a
+**Forms, lifts and twists.** These objects are those of ThetaLiftChainsAndTheSeesawIdentity §2.1 (the spaces `Y_j`,
+`W_j`, `V_j`), §2.4 (the target parameter), §2.5 (the group `G₀` and the idempotent `e₀`), §2.7 (the forms of level
+`J_M`, the good forms and the target forms) and of OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters,
+twists and the characters `μ_j⁰`); they are restated here. `Y_j` is the hermitian space of rank `r + j·t` (`0 ≤ j ≤ m`), `Y_m` is definite, and `Y₀` has a
 fixed parameter `λ^Y` (the target parameter) at the infinite places. `W_j` (`1 ≤ j ≤ m`) has rank `r` and differs from
 `Y₀` only in its signs at the infinite places (`m − j` signs `−1`); `V_j` is the positive definite space of rank `r + t`.
 `J_M` is the level that is principal at the chosen places and maximal elsewhere, and `𝒜(Y)` is the space of forms of
@@ -98,19 +103,21 @@ nontrivial `n`-th power at every place of `Q(ϑ)` for `1 ≤ n ≤ m`; `1` is th
 lift `j` at the trivial twist (weight `−κ_j`, tame part `ω^j` for a fixed family `ω` of residue characters, trivial off the
 chosen places and of order above `8m` at them); lift `j` of the chain at the twist `ϑ` carries `μ_j⁰·ϑ^j`. The single lift
 `Θ_{j,ϑ} : 𝒜(W_j) → 𝒜(V_j)` is the theta lift of the descent pair `(W_j, V_j)` of lift `j` with the twist `ϑ`
-(`ThetaLiftChainsAndTheSeesawIdentity (descent pairs and the single lifts W_j → V_j)`), where `𝒜(V_j)` denotes the
+(ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.18 (the descent pairs `(W_j, V_j)` of the chain); the
+lift of a descent pair is that of 2.1), where `𝒜(V_j)` denotes the
 algebraic forms on `U(V_j)` of the weight and level of the pair, with the class-sum product. The chain
 `Θ_ϑ : 𝒜(Y₀) → (forms on Y_m)` is the composite of the `m` lifts `Y_{j−1} → Y_j`, lift `j` twisted by `ϑ^j`, with values
 in the algebraic forms of the last level `J_ϑ(Y_m)` (block upper triangular modulo `Q(ϑ)`) and its character
-(`ThetaLiftChainsAndTheSeesawIdentity (the chain of lifts Y₀ → Y_m and its levels)`). On `𝒯` it is written `Θ_ϑ` as well.
+(ThetaLiftChainsAndTheSeesawIdentity §2.6 (the levels of the lifts), §2.15 (the chain of lifts `Y₀ → Y_m`)). On `𝒯` it is written `Θ_ϑ` as well.
 
 **Integrality, sizes and heights.** `ι` runs over the pairs of a prime `ℓ` and an isomorphism `ι : ℂ ≃ ℚ̄_ℓ`. An
 algebraic form on a definite group is integral at `ι` if its values, in the integral coordinates of the weight
 representation, have `ι`-adic absolute value at most `1`; for a form `Ξ` and an automorphism `σ` of `ℂ`, `‖Ξ‖²_σ` is the
-squared norm of the `σ`-conjugate of `Ξ` (data roadmap). A family `(y_ι)` of complex numbers has height at most `c` in
-the sense of `OneSidedPrimeSumBoundsAndAdmissibleData (heights of families indexed by the ι)`. The target forms with the
-maps `Θ_ξ`, `ξ` an `m`-fold twist, form the twisted lattice of the data roadmap, with its notions of index at most `δ`
-and covolume at most `c` (`OneSidedPrimeSumBoundsAndAdmissibleData (twisted lattices, index and covolume)`).
+squared norm of the `σ`-conjugate of `Ξ` (OneSidedPrimeSumBoundsAndAdmissibleData §1.3, §5.1). A family `(y_ι)` of
+complex numbers has height at most `c` in the sense of OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of
+families indexed by the `ι`). The target forms with the maps `Θ_ξ`, `ξ` an `m`-fold twist, form the twisted lattice of
+OneSidedPrimeSumBoundsAndAdmissibleData §5.1 (the target lattice), with its notions of index at most `δ` and covolume
+at most `c` (OneSidedPrimeSumBoundsAndAdmissibleData §1.3 (twisted lattices, index and covolume)).
 
 **Determinants.** For a linear map `u` between finite-dimensional Hilbert spaces, `vol(u) = det(u*u)`. For an `m`-fold
 twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(Θ_{j,ϑ^j}|𝒢(W_j))`.
@@ -119,17 +126,17 @@ twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(�
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `D, E, K, Φ_E, f, τ` | the data, its CM field, `ℚ(√−d)`, the infinite places of `E`, their number, an infinite place | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `π_M, M, k_w, G₀, N` | generator of the product of the chosen places, `π_Mπ̄_M = M`, residue fields, `∏ GL_r(k_w)`, the level | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `m, r, k, t, Δ, κ_j` | number of lifts, rank, `r + 1 − m`, `5r`, gap, weight of lift `j` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `x, x₁, b, a, h_dir, h_main, β_tot` | scales, `a = xb`, cost of a direction, main amount `m k h_dir`, budget `f a (log b)³/(m k)` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
+| `D, E, K, Φ_E, f, τ` | the data, its CM field, `ℚ(√−d)`, the infinite places of `E`, their number, an infinite place | OneSidedPrimeSumBoundsAndAdmissibleData §2.1, §2.2, §3.2 |
+| `π_M, M, k_w, G₀, N` | generator of the product of the chosen places, `π_Mπ̄_M = M`, residue fields, `∏ GL_r(k_w)`, the level | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; DivisibilityOfThetaDerivatives §1.5; ThetaLiftChainsAndTheSeesawIdentity §2.5 |
+| `m, r, k, t, Δ, κ_j` | number of lifts, rank, `r + 1 − m`, `5r`, gap, weight of lift `j` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| `x, x₁, b, a, h_dir, h_main, β_tot` | scales, `a = xb`, cost of a direction, main amount `m k h_dir`, budget `f a (log b)³/(m k)` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §4.1; Conventions |
 | `[U(1)], ν̃, L^S(z, ν), L_*(S, ν, e)` | norm-one idele class group, base change, partial L-value, `(∏_S q_v)^{e²}∏_{z≤e}|L^S(z,ν)|²` | Conventions |
 | `υ, υ₁, j` | splitting character, its restriction to `[U(1)]`, skew element | Conventions; ShortGRH background |
-| `Y_j, W_j, V_j` | spaces of the chain, of the single lifts, definite targets | ThetaLiftChainsAndTheSeesawIdentity |
-| `J_M, 𝒜, 𝒢, e₀, 𝒯, d` | level, forms of level `J_M`, good forms, good idempotent, target forms, `dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity; Conventions |
-| `ϑ, ξ, Q(ϑ), Nm Q(ϑ)` | tame character or twist, a twist of a family, its places, their norm | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `μ_j⁰, ω` | character of lift `j`, residue characters at the chosen places | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `Θ_{j,ϑ}, Θ_ϑ` | single lift `W_j → V_j`, chain `Y₀ → Y_m` | ThetaLiftChainsAndTheSeesawIdentity |
+| `Y_j, W_j, V_j` | spaces of the chain, of the single lifts, definite targets | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
+| `J_M, 𝒜, 𝒢, e₀, 𝒯, d` | level, forms of level `J_M`, good forms, good idempotent, target forms, `dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.7; Conventions |
+| `ϑ, ξ, Q(ϑ), Nm Q(ϑ)` | tame character or twist, a twist of a family, its places, their norm | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
+| `μ_j⁰, ω` | character of lift `j`, residue characters at the chosen places | OneSidedPrimeSumBoundsAndAdmissibleData §3.4; DivisibilityOfThetaDerivatives §1.5 |
+| `Θ_{j,ϑ}, Θ_ϑ` | single lift `W_j → V_j`, chain `Y₀ → Y_m` | ThetaLiftChainsAndTheSeesawIdentity §2.18, §2.15; 2.1 |
 | `Z(ϑ), Z_j(ϑ)` | the two determinants | Conventions; 4.4 |
 | `c_Q(ϑ), Ral_{j,ϑ}` | twist factor, Rallis series operator | 2.2 |
 | `Λ(ν, s; ϑ), R^quo_{ij}, R^turn_{ij}` | ratio products of Hecke values | 1.1 |
@@ -171,8 +178,9 @@ the pairs `((υ₁^{−Δ}χ_M)^{j−i}, t)` of weight `−(j−i)Δ` and `(μ_{
 `χ_M` is the character of weight `0` and tame part `ω` with `μ_j⁰ = μ_0⁰(υ₁^{−Δ}χ_M)^j`; a ramified ratio is `≥ 0` and
 equals `1` at the trivial twist.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData (the data: chosen places, the characters `μ_j⁰`, `ω`, twists);
-DivisibilityOfThetaDerivatives (critical pairs, defined with the chosen places).
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data: `t`, `b`, the weights `κ_j`, the gap `Δ`),
+§3.4 (twists and the characters `μ_j⁰`); DivisibilityOfThetaDerivatives §1.5 (the chosen places and the residue
+characters `ω`), §1.6 (critical pairs, defined with the chosen places, and the character `χ_M`).
 
 [ShortProof], `New/Determinant/Twist/FitTwists.lean` (`New.Data.CriticalPair.ratio`, `New.Data.CriticalPair.IsMainPair`,
 `New.Data.CriticalPair.IsMainPair.isRamified`); `New/Determinant/Chain/Moduli.lean` (`New.Data.lRatioProd`,
@@ -235,7 +243,7 @@ primes and `θ_ι^j` has denominators at most `γ(ℓ)` at every `ι` above `ℓ
 Numbers `e(ℓ) ≥ 0` are negligible with exponent `C` if `∑_{ℓ∈T} e(ℓ) log ℓ ≤ x^C` for every finite set of primes `T`.
 
 *Needs:* 1.1; 2.2; NormsOfThetaLiftsAndExchangeIdentities (false lifts, test forms and the rank-one lifts of the main
-pairs); OneSidedPrimeSumBoundsAndAdmissibleData (heights of families indexed by the ι).
+pairs); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families indexed by the `ι`).
 
 [ShortProof], `New/Determinant/Twist/FitTwists.lean` (`New.Data.HasSmallRatios`, `New.Data.ClearsProjection`,
 `New.Data.HasDenominatorsLe`, `New.Data.IsDenominatorBound`, `New.Data.IsRegularFamily`, `New.Data.IsNegligible`)
@@ -254,8 +262,8 @@ Let `θ` have small ratios, `e` an integer, and `F_a` (`a` in a finite set `A`) 
 `ι ↦ (Nm Q(θ_ι)^{e/2}·∏_{1≤i<j≤m} R^quo_{ij}(θ_ι))⁻¹` and `ι ↦ (Nm Q(θ_ι)^{e/2}·∏_{0≤i,j<m} R^turn_{ij}(θ_ι))⁻¹` have
 height at most `m²·t·x₁`.
 
-*Needs:* 1.1, 1.3; OneSidedPrimeSumBoundsAndAdmissibleData (heights: products, monotonicity, powers of integers prime to
-the prime of `ι`).
+*Needs:* 1.1, 1.3; OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights: products, monotonicity, powers of integers
+prime to the prime of `ι`).
 
 [ShortProof], `New/Determinant/Chain/Moduli.lean` (`New.Data.HasSmallRatios.heightLe_inv_rpow_mul_prod`);
 `New/Determinant/Chain/NormOfChain.lean` (`New.Data.HasSmallRatios.heightLe_inv_rpow_mul_prod_quotientRatio`);
@@ -274,7 +282,7 @@ pairing of `ζ̄` with one vector-valued kernel; the lift is the integral of a f
 the class sum of the conjugate kernel against a form, and their adjointness is the adjointness of a lift and its
 transposed lift, read through the passage between algebraic forms and functions on the adelic group.
 
-Let `O` be a descent pair (`ThetaLiftChainsAndTheSeesawIdentity (descent pairs)`): a hermitian space `W` of rank `r′`, the
+Let `O` be a descent pair (ThetaLiftChainsAndTheSeesawIdentity §2.16): a hermitian space `W` of rank `r′`, the
 positive definite space `V` of rank `r′ + t′ > 2r′`, characters of `[U(1)]` for `W` and `V`, the chosen places and the
 places of a tame character with their tame parts, and the datum `v_P ⊗ Ψ_bl ⊗ vac`: at the infinite places the Fock
 vector of a joint harmonic polynomial attached to a weight vector of `V`, at the chosen places and the twist places the
@@ -293,14 +301,21 @@ the weight and level of the pair;
 `θΞ(gk) = θ(ρ(s)Ξ)(g)`, where `ρ(s)Ξ = ∏_w ψ_w(det s_w)·Ξ(··diag(s, 1))` (`ψ` the tame part of the pair); `Θ_W` commutes
 with the actions of `G₀`;
 
-(d) if `y` lies in a joint eigenspace of the Hecke operators at the split places off the level, then at every split
-place `w` with `w, w̄` off the places of the pair, `Θ_W y` is spherical with Hecke polynomial the `q`-Pochhammer polynomial
-of rank `t′` times the rank-`r′` polynomial of the eigenvalues of `y`, at rescaled variables.
+(d) let `w` be a split place with `w, w̄` off the places of the pair, of norm `q`, and let `H_w(X) = Σ_i (−X)^i
+q^{i(i−1)/2} T_{w,i}` be the Hecke polynomial operator at `X ∈ ℂ` (the sum over `i` up to the rank). If `y` is spherical
+at `w` and `H_w(X) y = p(X)·y` for every `X`, then `Θ_W y` is spherical at `w` and
+`H_w(X)(Θ_W y) = ∏_{0 ≤ i < t′}(1 − q^i·α·X) · p(q^{t′}·α·β⁻¹·X) · Θ_W y` for every `X`: the `q`-Pochhammer polynomial of
+rank `t′` at `αX` times the polynomial of `y` at `q^{t′}αβ⁻¹X`. Here `α = χ_W(ϖ_w)·q^{r′/2}` and
+`β = χ_V(ϖ_w)·q^{(r′+t′)/2}`, with `χ_W(x) = a_W(x/x̄)·υ(x)^{−r′}` and `χ_V(x) = a_V(x/x̄)·υ(x)^{−(r′+t′)}` the Hecke
+characters of `E` made from the characters `a_W`, `a_V` of `[U(1)]` of the pair and the splitting character `υ`, and
+`ϖ_w` a uniformiser at `w`. In particular this holds when `y` lies in a joint eigenspace of the Hecke operators at the
+split places off the level.
 
 *Needs:* ShortGRH background (theta kernels of unitary dual pairs: moderate growth, convergence of lifts of rapidly
 decreasing forms, adjointness of the lift and the transposed lift); ShortGRH background (class sums for definite groups:
 the Petersson product of algebraic forms as a sum over classes); ShortGRH background (Hecke polynomials of theta lifts at
-split unramified places); ThetaLiftChainsAndTheSeesawIdentity (descent pairs, their weights, levels and block data).
+split unramified places); ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs, their weights, levels and block
+data), §2.17 (the edge of a parameter that fits the pair).
 
 [ShortProof], `New/Determinant/Norms/VectorKernel.lean` (`New.DescentPair.vectorKernel`,
 `New.DescentPair.vectorKernelForm`, `New.DescentPair.normalizedDescent_eq_inner_vectorKernelForm`);
@@ -347,8 +362,8 @@ is the norm of `w` and `α` the Frobenius value at `w` of the character of `W_j`
 
 *Needs:* 2.1; ShortGRH background (the Rallis inner product formula for sharp finite data in the range `rank V > 2 rank
 W`, as a convergent series of translates weighted by vacuum coefficients, with a nonzero constant depending only on the
-real data); SecondMomentsOfPoincareSeries (Hecke eigenforms span the forms of level `J_M`);
-ThetaLiftChainsAndTheSeesawIdentity (the descent pair of lift `j` and its parameters).
+real data); SecondMomentsOfPoincareSeries §2.1a (Hecke eigenforms span the forms of level `J_M`);
+ThetaLiftChainsAndTheSeesawIdentity §2.18 (the descent pair of lift `j` and its parameters).
 
 [ShortProof], `New/Determinant/Norms/AdjointThetaLift.lean` (`New.Data.singleLift_injective`,
 `New.Data.exists_adjoint_singleLift_comp_eq`, `New.Data.hasSum_inner_rallisOperator`,
@@ -746,9 +761,13 @@ Gram form of the first arrow finishes; the moduli multiply.
 
 (b) A triangle of size `m` consists of inner product spaces `F(i, n)`, a parameter set `I`, linear maps
 `a_t(i, n) : F(i, n) → F(i, n + 1)` and `d_t(i, n) : F(i, n + 1) → F(i + 1, n)` for `t ∈ I`, nonzero integer weights
-`w_t(n)`, and isometries `j_i : V → F(i, 0)`, such that: each square with `i + n + 2 ≤ m` commutes up to some `β`,
-`w_t(n)·a∘d = (w_t(n + 2)/β̄_t)·d∘a` on `F(i, n + 1)`; `⟨z, a(j_i y)⟩ = ⟨d z, j_{i+1} y⟩`; `d∘a` maps `j_i(V)` into
-`j_{i+1}(V)` with trivial kernel. Then the weighted chain `∏_{k<n} w_t(k)·a_t(i, k)` of row `i` is injective on `j_i(V)`.
+`w_t(n)`, and isometries `j_i : V → F(i, 0)`, such that: for all `i, n` with `i + n + 2 ≤ m` the square at `(i, n)`
+commutes up to some function `β` on `I`, `w_t(n)·a_t(i + 1, n)∘d_t(i, n) = (w_t(n + 2)/β̄_t)·d_t(i, n + 1)∘a_t(i, n + 1)`
+on `F(i, n + 1)`; and for every `i < m`, with `a = a_t(i, 0)` and `d = d_t(i, 0)`: `⟨z, a(j_i y)⟩ = ⟨d z, j_{i+1} y⟩`
+for `y ∈ V` and `z ∈ F(i, 1)`, and `d∘a` maps `j_i(V)` into `j_{i+1}(V)` with trivial kernel on `j_i(V)`. Then for all
+`i, n` with `i + n ≤ m` and every `t ∈ I`, the weighted chain `(w_t(n − 1)·a_t(i, n − 1))∘⋯∘(w_t(0)·a_t(i, 0))` of
+length `n` of row `i`, a map `F(i, 0) → F(i, n)`, is injective on `j_i(V)`. The range `i + n ≤ m` is needed: beyond it
+nothing is assumed of the arrows.
 
 (c) Let `M(c, F)`, read "`c` has modulus `F`", be a unital multiplicative relation between functions on `I`; assume the
 square constants `β` at `(i, n)` have modulus `L(i + 1, i + n + 2)` and every square obeys the adjoint law (every `z` has
@@ -775,8 +794,8 @@ adjoint after the datum is replaced by its conjugate transpose, and the opposite
 
 For the data and a flag `z ∈ {Y, Ỹ}`, the triangle `z` has nodes `(i, n)`, `i + n ≤ m`: the node `(i, n)` is the space of
 the interval `[i + 1, i + n]`, the stem (of rank `r` for `Y`, `r + 1` for `Ỹ`) plus the blocks `i + 1, …, i + n` (of length
-`t` for `Y`, `t − 1` for `Ỹ`), with the signs and parameters of `ThetaLiftChainsAndTheSeesawIdentity (index sets, signs
-and parameters of the grids)`, and `(i, 0)` is the space at `(0, 0)` negated `i` times. For an `m`-fold twist `ϑ`, the
+`t` for `Y`, `t − 1` for `Ỹ`), with the signs and parameters of ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets,
+signs and parameters of the grids), and `(i, 0)` is the space at `(0, 0)` negated `i` times. For an `m`-fold twist `ϑ`, the
 lift from `(i, n)` to `(i, n + 1)` is the theta lift along the right pair that adds the last block, with the point
 datum modulo `𝔪_z(ϑ)` (`π_M Q(ϑ)` for `Y`, `π_M^b` for `Ỹ`); its weight in the chains is
 `N_n(ϑ) = #GL_{rank (0,n)}(O_E/𝔪_z(ϑ))`, the index that makes the measure give the principal level of `𝔪_z(ϑ)` volume
@@ -792,8 +811,9 @@ integral away from `𝔪_z(ϑ)` and its conjugate;
 reversed pair edges, and for an edge lift and transposed lift with a datum `Ψ` there is a datum `Ψ′` making the
 transposed lift adjoint to the lift.
 
-*Needs:* 2.1, 3.1; ShortGRH background (the Rallis inner product formula for sharp finite data); ThetaLiftChainsAndTheSeesawIdentity
-(index sets, signs and parameters of the grids; the parameters of every step correspond).
+*Needs:* 2.1, 3.1; ShortGRH background (the Rallis inner product formula for sharp finite data);
+ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and parameters of the grids; the parameters of every step
+correspond).
 
 [ShortProof], `New/Determinant/Chain/TriangleLifts.lean` (`New.Data.triangleLift`,
 `New.Data.exists_hasSum_inner_triangleFirstLift`, `New.Exchange.IsEdgeFamily.exists_inner_modLift_eq_inner_modTransposedLift`,
@@ -824,8 +844,8 @@ being "modulus up to a norm power" (1.1 (e)).
 (d) For `x, y ∈ 𝒜(Y₀)`, `⟨Θ_ϑ x, Θ_ϑ y⟩ = [K₀ : J_ϑ(Y_m)]·dim(weight of Y_m)·⟨u x, u y⟩`, `u` the weighted chain of the
 triangle `Y` from `Y₀`; and `Θ_ϑ` is injective on `𝒜(Y₀)` for every `m`-fold twist `ϑ`.
 
-*Needs:* 1.1, 1.2, 3.11, 3.12, 4.1, 4.2; ThetaLiftChainsAndTheSeesawIdentity (the chain of lifts `Y₀ → Y_m`, its last
-level and character).
+*Needs:* 1.1, 1.2, 3.11, 3.12, 4.1, 4.2; ThetaLiftChainsAndTheSeesawIdentity §2.6 (the last level and its character),
+§2.15 (the chain of lifts `Y₀ → Y_m`, which has that level and character).
 
 [ShortProof], `New/Determinant/Chain/ChainNorms.lean` (`New.Data.exists_triangleLift_triangleTransposedLift_comm`,
 `New.Data.exists_triangleTransposedLift_adjoint_comm`, `New.Data.exists_isTriangle`, `New.Data.inner_lowerChainAtLevel`,
@@ -860,8 +880,9 @@ of 2.2 on the forms on `Y₀`, which preserves `𝒯`. Prove:
 (d) the range of `Θ_{j,ϑ}` on `𝒢(W_j)` is spanned by the lifts of good Hecke eigenforms whose lifts lie in the range of
 the idempotent of a good family of labels.
 
-*Needs:* 1.1, 1.2, 2.2, 4.1, 4.2, 4.3; SecondMomentsOfPoincareSeries (equality of multiplicities: the Rallis series
-preserves the good forms and has the same determinant on `𝒢(Y₀)` and on `𝒢(W_j)`, and `dim 𝒢(W_j) = d`).
+*Needs:* 1.1, 1.2, 2.2, 4.1, 4.2, 4.3; SecondMomentsOfPoincareSeries §2.3 (equality of multiplicities: the
+good forms on every `W_j` have dimension `d`), §2.4 (the Rallis series preserves the good forms and has the same
+determinant on `𝒢(Y₀)` and on `𝒢(W_j)`).
 
 [ShortProof], `New/Determinant/Chain/NormOfChain.lean` (`New.Data.exists_adjoint_chain_comp_eq_smul_rallisProduct`,
 `New.Data.exists_normDet_goodLift_sq_eq`, `New.Data.exists_chainDeterminant_pos_and_div_chainDeterminant_one_eq`,
@@ -906,8 +927,10 @@ sorted parameter.
 
 A weight `(κ, e)` at the infinite places gives the number `κ_τ(h)` of columns of height `h` and the power `e(τ)` of the
 determinant; its doubled Harish-Chandra parameter is a vector `l_τ`. Prove: (a) if every `l_τ` is a parameter with gap
-(distinct entries of the parity of `n − 1`), then `l` is the doubled parameter of some weight, with control of `e` from
-below; (b) if `l` is the doubled parameter of `(κ, e)` and `|l_τ(i)| ≤ β` for all `τ` and `i`, then `κ` has at most
+(distinct entries of the parity of `n − 1`), then `l` is the doubled parameter of some weight; more precisely, for all
+integers `e₀(τ)` with `e₀(τ) ≤ ⌊l_τ(i)/2⌋ + ⌊n/2⌋` for every `τ` and `i`, and all prescribed numbers `κ⁰_τ(h)` of columns
+of the heights `h > n`, there is a weight `(κ, e)` with doubled parameter `l`, with `κ_τ(h) = κ⁰_τ(h)` for `h > n`, and
+with `e(τ) = e₀(τ) + κ_τ(n)` (the parameter sees only the columns of height below `n` and the determinant power); (b) if `l` is the doubled parameter of `(κ, e)` and `|l_τ(i)| ≤ β` for all `τ` and `i`, then `κ` has at most
 `f·n·β` boxes in the columns of height below `n`, and, for `n ≥ 1`, `|e(τ)| ≤ β`.
 
 *Needs:* none.
@@ -925,7 +948,8 @@ below; (b) if `l` is the doubled parameter of `(κ, e)` and `|l_τ(i)| ≤ β` f
 (a) Put `𝔟 = π_M^b` (the scale `b` as an integer), `𝔪₀(ϑ) = π_M·Q(ϑ)` and `𝔪(ϑ) = 𝔟·Q(ϑ)` for an `m`-fold twist `ϑ`. The
 grid `Y` has nodes `Y^a_b` (`a, b ≤ m`): the stem of rank `r` with `a` blocks and then `b` blocks of length `t`; the grid
 `Ỹ` has nodes `Ỹ^b_a`: the stem plus a line (rank `r + 1`) with `a` blocks of length `t + 1` and `b` of length `t − 1`;
-signs and parameters are those of `ThetaLiftChainsAndTheSeesawIdentity (index sets, signs and parameters of the grids)`.
+signs and parameters are those of ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and parameters of the
+grids).
 `Y^0_j = Y_j`, `Ỹ^0_0 = Y₀ ⊕ ⟨1⟩`, and `Ỹ^j_j` is `Y^j_j` plus one vector of sign `(−1)^j`. Forms in grid `Y` are conjugate
 forms (of the negative parameter), forms in grid `Ỹ` are forms. The level at a node is a subgroup of `GL` over
 `O_E/𝔪(ϑ)`: trivial at the nodes `Y_b = Y^0_b`, and the kernel of reduction modulo `𝔟` elsewhere;
@@ -951,7 +975,8 @@ that at each real point the period is a multiple of `Ξ` by a number independent
 `(Γ′, Γ)` transfers periods with factor `k` and constants `c(ϑ)` if every path data `Ψ′` on `Γ′` (bound `N`) give path
 data `Ψ` on `Γ` (bound `k·N`) with: `Ψ ∝ Ξ` implies `Ψ′ ∝ Ξ/c`.
 
-*Needs:* ThetaLiftChainsAndTheSeesawIdentity (index sets, signs and parameters of the grids; the spaces `Y_j`); 3.1.
+*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.1 (the spaces `Y_j`), §2.4 (index sets, signs and parameters of the
+grids); 3.1.
 
 [ShortProof], `New/Determinant/AuxiliaryForms/PathData.lean` (`New.Data.gridModulus`, `New.Data.gridSpace`,
 `New.Data.gridChar`, `New.Data.liftMove`, `New.Data.transposedMove`, `New.Data.IsPathDatum`,
@@ -979,7 +1004,12 @@ function of level the principal level of `a ≠ 0` bounded by `S`, `l` parameter
 `500(n + 1)³ + 2A`, `|a|_τ ≥ R ≥ 0` at every `τ`, `d² ≤ R·λ(x)` with `λ(x)` the first minimum of the lattice at `x` (cut at
 `1`), `d ≥ max(10, f)`, `A ≥ 2f(n + 1) + 2` and `A > 8(n + 1)²`. Then the period at `x` against `F` of the Poincaré series
 of level `a` of the translated product of discrete series coefficients differs from `vol(principal level of a)` times
-the real convolution of `F` at `x` with the restricted coefficient by at most `vol·C(A, α, ω)·S·10/d`.
+the real convolution of `F` at `x` with the restricted coefficient by at most `vol·C(A, α, ω)·S·10/d`. Here `α, ω` are
+points of the real group `∏_τ U(V_τ ⊕ ⟨1⟩)`; the translated product is
+`g ↦ ∏_τ conj(c_{l_τ}(α_τ⁻¹ g_τ ω_τ))`, `c_{l_τ}` the discrete series coefficient of the doubled parameter `l_τ`; its
+restriction is `r ↦` its value at `r ⊕ 1` on `∏_τ U(V_τ)`, which is integrable; and
+`C(A, α, ω) = ∏_τ (2(‖α_τ‖·‖ω_τ‖)²)^A·16^A·vol{r ∈ U(V_τ) : ‖r − 1‖ ≤ 1}`, with operator norms of matrices and the Haar
+measure of `U(V_τ)` normalised as in SecondMomentsOfPoincareSeries (Conventions, **Normalisations**).
 
 *Needs:* NormsOfThetaLiftsAndExchangeIdentities (steep parameters and discrete series coefficients); ShortGRH background
 (Poincaré series on adelic unitary groups; the first minimum of a hermitian lattice).
@@ -1061,7 +1091,7 @@ every form `y` on `Y₀` of level `𝔪₀(ϑ)` (any `m`-fold twist `ϑ`) has th
 every `ϑ`, conjugate form `y′` on `Y_m` and `φ ∈ gridLevelForms(m)`, the pairing of `y′` with the chain of twisted lifts of
 `res^♭ φ` from `Y₀` to `Y_m` is `α` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`.
 
-*Needs:* 4.1, 4.2, 4.3, 5.3, 5.5, 5.6; ThetaLiftChainsAndTheSeesawIdentity (the chain of lifts `Y₀ → Y_j`).
+*Needs:* 4.1, 4.2, 4.3, 5.3, 5.5, 5.6; ThetaLiftChainsAndTheSeesawIdentity §2.15 (the chain of lifts `Y₀ → Y_j`).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/FirstPath.lean` (`New.Data.gridLevelForms_eq_map_transposedChain`,
 `New.Data.exists_isFlatRestriction_range_eq_top`, `New.Data.exists_isPathDatum_first`)
@@ -1166,8 +1196,8 @@ fixed by the outer levels, and prime `p ∤ Nm Q(ϑ)`: if both forms, read as al
 automorphism `σ` of `ℂ` and every finite point, the squared norm of the `σ`-conjugate of the value of the untwisted chain
 `Θ_1 y` is at most `exp(x^202 b²)`.
 
-*Needs:* 5.3, 5.7, 5.9, 5.10; CompositeThetaLiftsAndShortForms (algebraic forms of a principal level are spanned by
-forms integral at every prime with conjugates of bounded squared norm); ShortGRH background (integral structure and
+*Needs:* 5.3, 5.7, 5.9, 5.10; CompositeThetaLiftsAndShortForms §5.6 (algebraic forms of a principal level are spanned
+by forms integral at every prime with conjugates of bounded squared norm); ShortGRH background (integral structure and
 gauges of Weyl modules; delta forms).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/SpanningForms.lean` (`New.Data.exists_mul_lastPathPeriod_mem_embValRing`,
@@ -1191,9 +1221,10 @@ whose prime does not divide `Nm Q(ϑ)`, for every `ϑ`, and `‖Θ_1 y‖²_σ �
 Prove: there are an integer `e` and numbers `γ(ϑ) ≠ 0` with `γ(1) = 1` and
 `|γ(ϑ)| = Nm Q(ϑ)^{e/2}·∏_{0≤i,j<m} R^turn_{ij}(ϑ)` such that `𝒯` is spanned by the auxiliary forms for `γ`.
 
-*Needs:* 1.1, 1.2, 5.11; CompositeThetaLiftsAndShortForms (the multiple of the projection to the target forms preserves
-integrality of the twisted chains and bounds the conjugates of the untwisted chain); SecondMomentsOfPoincareSeries (the
-translates of the projected Poincaré map; the multiple of `e₀` onto `𝒯`).
+*Needs:* 1.1, 1.2, 5.11; CompositeThetaLiftsAndShortForms §5.5 (the multiple of the projection to the target forms
+preserves integrality of the twisted chains and bounds the conjugates of the untwisted chain);
+ThetaLiftChainsAndTheSeesawIdentity §2.5 (the idempotent `e₀`), §2.7 (the target forms `𝒯 = e₀𝒜(Y₀)`: the multiple of
+`e₀` is onto `𝒯`).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.IsAuxiliaryForm`,
 `New.Data.exists_span_isAuxiliaryForm_eq_top`)
@@ -1215,9 +1246,9 @@ single-lift ratios, each of height at most `d·(f·a·(log b)⁴/m − k·h_dir)
 (c) If `θ` has small ratios and the families `ι ↦ Z_j(1)/Z_j(θ_ι^j)` have height at most
 `d·(f·a·(log b)⁴/m − k·h_dir)` for `1 ≤ j ≤ m`, then `ι ↦ Z(1)/Z(θ_ι)` has height at most `d·(b + f·a·(log b)⁴ − h_main)`.
 
-*Needs:* 1.3, 1.4, 4.4; CongruencesOfTwistedThetaLifts (every data has a regular family of `m`-fold twists);
+*Needs:* 1.3, 1.4, 4.4; CongruencesOfTwistedThetaLifts §7.3 (every data has a regular family of `m`-fold twists);
 NormsOfThetaLiftsAndExchangeIdentities (the cost of one lift: along a regular family, `Z_j(1)/Z_j(ξ_ι^j)` has height at
-most `d·k·(log b·β_tot − h_dir)`); OneSidedPrimeSumBoundsAndAdmissibleData (heights: products and powers).
+most `d·k·(log b·β_tot − h_dir)`); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights: products and powers).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.exists_hasSmallRatios_heightLe_liftDeterminant_div`,
 `New.Data.exists_chainDeterminant_one_div_eq`, `New.Data.heightLe_chainDeterminant_one_div`)
@@ -1234,11 +1265,12 @@ scalar `|γ(θ_ι)|^{−2}` costing at most `2m²t·x₁ ≤ b` by 1.4; the comp
 
 Let `y₁, …, y_n` be linearly independent target forms with `n ≥ (1 − 4/b²)·d`. Suppose that the family `y` has index at
 most `δ` and covolume at most `c` in the twisted lattice of the target forms. Then
-`d·(h_main − 3·f·a·(log b)⁴) ≤ c + 2δ`.
+`d·(h_main − 3·f·a·(log b)⁴) ≤ c + 2δ`. This is the statement of OneSidedPrimeSumBoundsAndAdmissibleData §5.5, proved
+here.
 
-*Needs:* 1.4, 4.3, 6.1, 6.2; OneSidedPrimeSumBoundsAndAdmissibleData (a twist for each prime: the product formula
-`covolume + 2·index + completion cost + height of the volume ratio ≥ 0` for a twisted lattice with injective maps);
-OneSidedPrimeSumBoundsAndAdmissibleData (the target forms as a twisted lattice, whose maps `Θ_ξ` are injective and whose
-volumes are the determinants `Z(ξ)`).
+*Needs:* 1.4, 4.3, 6.1, 6.2; OneSidedPrimeSumBoundsAndAdmissibleData §1.4 (a twist for each prime: the product formula
+`covolume + 2·index + completion cost + height of the volume ratio ≥ 0` for a twisted lattice with injective maps),
+§5.1 (the target forms as a twisted lattice, whose maps `Θ_ξ` are injective and whose volumes are the determinants
+`Z(ξ)`).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.integral_forms_long`, `New.Data.mul_completion_cost_le`)
