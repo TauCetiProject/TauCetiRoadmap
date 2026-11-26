@@ -82,7 +82,12 @@ quotient by the rational points with its invariant measure, and a form of type `
 Harish-Chandra parameter `l`). For a pair `(S, T)` the Weil representation of `U(S) × U(T)` acts on the Schwartz space of
 `Hom(S, T)(𝔸)`; its archimedean part is read in the Fock model, and a real vector is Schwartz if all its moments are
 finite. The theta kernel `θ^{S,T}_{α,β}(φ)(g, h)` of a datum `φ` is formed with `S` carrying the character `α` and `T`
-the character `β` of `[U(1)]`; the theta integral over `[U(T)]` is a function on `U(S)(𝔸)`. For a modulus `𝔪`, a
+the character `β` of `[U(1)]`, that is, `θ^{S,T}_{α,β}(φ)(g, h) = α(det h)·β(det g)⁻¹·θ(ω(g, h)φ)` for `g ∈ U(S)(𝔸)`,
+`h ∈ U(T)(𝔸)`, with `ω` the Weil representation and `θ` the theta functional of `Hom(S, T)`: the character written in
+the position of `S` is evaluated at the variable of `T`, and every later "the character `α` for (or on) `S`" means this
+kernel;
+the theta integral over `[U(T)]` is a function on `U(S)(𝔸)`. `H` is the hyperbolic plane (rank `2`, spanned by two
+isotropic vectors with inner product `1`, one sign `+1` and one `−1`) and `H^p` the sum of `p` copies. For a modulus `𝔪`, a
 function `Φ` on matrices over `O_E/𝔪`, and a real vector `v`, the datum `(v, Φ)` is `v` at the infinite places, `Φ` (read
 through the frames) at the primes dividing `𝔪`, and the characteristic function of the standard lattice elsewhere. An
 edge from a type `e` to a type `e′` is a real datum whose theta lift carries forms of type `e` to forms of type `e′` and
@@ -150,6 +155,7 @@ twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(�
 | `𝔟, 𝔪₀(ϑ), 𝔪(ϑ)` | `π_M^b`, `π_M Q(ϑ)`, `π_M^b Q(ϑ)` | 5.3 |
 | `n_m` | the rank `k + m(t + 1)`; `2n_m` bounds the ranks of the nodes of the two grids | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; 5.3 |
 | `K₀` | on a space with a standard basis, the group of finite points of the unitary group that stabilise the standard lattice | 4.3 (d), 5.10 (a) |
+| `H, H^p` | the hyperbolic plane, the sum of `p` copies | Conventions |
 | `Y^a_b, Ỹ^b_a, Θ^♭, res^♭` | the two grids, the transposed chain of `Ỹ`, the flat restriction | 5.3, 5.7 |
 
 ## Layer 1: Ratios of Hecke values and families of twists
@@ -236,7 +242,8 @@ A family of `m`-fold twists `θ = (θ_ι)`, one for each `ι`, is said to have:
 (a) small ratios if `Nm Q(θ_ι)` is prime to the prime `ℓ` of `ι`, and for every `1 ≤ j ≤ m`, every ramified pair `p` and
 `s = ±1` the family `ι ↦ ratio(p, θ_ι^j, s)⁻¹` has height at most `x₁`;
 
-(b) denominators at most `β` at `ι` for a twist `ϑ` and `1 ≤ j ≤ m` if two things hold. Let `Z ⊂ 𝒜(V_j)` be the range of
+(b) (a property of one twist, not of a family) a twist `ϑ` has denominators at most `β` at `ι` for `1 ≤ j ≤ m` if two
+things hold. Let `Z ⊂ 𝒜(V_j)` be the range of
 `Θ_{j,ϑ}` on `𝒢(W_j)` and `pr` the orthogonal projection onto `Z`. First, some endomorphism `A` of `Z` with
 `|ι(det A)| ≥ exp(−dim Z·r·β)` makes `A(pr y)` integral at `ι` for every form `y` integral at `ι` and orthogonal to the
 false lifts (forms orthogonal to `Z`, in the image of `e₀`, killed by the Hecke polynomial operator at its test value at
@@ -296,7 +303,7 @@ pairing of `ζ̄` with one vector-valued kernel; the lift is the integral of a f
 the class sum of the conjugate kernel against a form, and their adjointness is the adjointness of a lift and its
 transposed lift, read through the passage between algebraic forms and functions on the adelic group.
 
-Let `O` be a descent pair (ThetaLiftChainsAndTheSeesawIdentity §2.16): a hermitian space `W` of rank `r′`, the
+Let `O` be a descent pair (ThetaLiftChainsAndTheSeesawIdentity §2.16): a hermitian space `W` of rank `r′ ≥ 1`, the
 positive definite space `V` of rank `r′ + t′ > 2r′`, characters of `[U(1)]` for `W` and `V`, the chosen places and the
 places of a tame character with their tame parts, and the datum `v_P ⊗ Ψ_bl ⊗ vac`: at the infinite places the Fock
 vector of a joint harmonic polynomial attached to a weight vector of `V`, at the chosen places and the twist places the
@@ -386,9 +393,9 @@ For `1 ≤ j ≤ m` and a tame character `ϑ`, let `Θ_{j,ϑ} : 𝒜(W_j) → �
 `c_Q(ϑ) = Nm Q(ϑ)^{r t}·∏_{v∈Q(ϑ)} ∏_{i=t+1}^{t+r} (1 − q_v^{−i})`. For a space `W` of rank `r` with signs `s`, let
 `Ral_{j,ϑ}` be the endomorphism of the forms of level `J_M` on `W` that sends `y` to the series
 `∑_γ mc_j(γ)·y(·γ)` over the finite points `γ` of `U(W)` modulo those integral away from the places of `π_M Q(ϑ)` and their
-conjugates (representatives supported at those places), where `mc_j(γ)` is the vacuum coefficient of the Weil
-representation of rank `r + t` with the character of `V_j` (the value at `γ` of the matrix coefficient of the unramified
-vector). Prove:
+conjugates (representatives supported away from those places and their conjugates), where `mc_j(γ)` is the vacuum
+coefficient of the Weil representation of rank `r + t` with the character of `V_j` (the value at `γ` of the matrix
+coefficient of the unramified vector). Prove:
 
 (a) the series converges, `Ral_{j,ϑ}` preserves the forms of level `J_M` on `W`, and `⟨x, Ral_{j,ϑ} y⟩` is the sum of the
 terms `mc_j(γ)⟨x, y(·γ)⟩`;
@@ -447,7 +454,7 @@ tamely ramified exactly at a nonempty finite set `S` of finite places with `S �
 
 (c) For `σ : b ⊔ r ≃ n` and an integral `b × n` matrix `z` over `∏_S O_v`, the standard row datum `x ↦ χ_𝔠⁻¹(det(z; x))`
 (the square matrix with the rows of `z` and of `x`, ordered by `σ`, where it is integral with unit determinant; `0`
-elsewhere) and the standard column datum `x ↦ χ_𝔠⁻¹(det(z x))` (same convention) are matched.
+elsewhere) and the standard column datum `x ↦ χ_𝔠⁻¹(det(z x))` (same convention) are matched for `χ_𝔠` over `∏_S O_v`.
 
 (d) The exchange identity on standard data for `(W, V, U)`, the real vectors `v`, `y`, and a function `ℓ` of the split
 tame characters of weight `μ`, holds if `v` and `y` are Schwartz and there is a real `C` such that every `𝔠` has a
@@ -474,7 +481,7 @@ the previous entry, is tame for a modulus `𝔪` if the prime divisors of `𝔪`
 
 [ShortProof], `New/Determinant/Exchange/LargeTriple.lean` (`New.Exchange.RowColExchangeIdentity`,
 `New.Exchange.equalRankThetaRatio`); `New/Determinant/Exchange/EquivariantDifference.lean` (`New.Exchange.thetaSmall`);
-`New/Determinant/Exchange/MatchingPartners.lean` (`New.Rows.areMatched_block`)
+`Lib/SiegelWeil/Tower/LineGaussSums.lean` (`New.areMatched_stdRowDatum_stdColDatum`)
 
 ### 3.2 Fourier coefficients of theta integrals vanish off negative forms
 
@@ -534,8 +541,11 @@ supported where `x^T` has a left inverse and `Ψ` supported on left invertible m
 (c) if `χ` is tame (trivial on `1 + ϖO` and primitive on `O/ϖO`) and `Ψ` is locally constant, then matched functions
 `(Φ, Ψ)` over `O` form a same-section pair;
 
-(d) the block determinant functions (`χ` of the determinant of the block of `k⁻¹`, respectively of `k`, completed to a
-square matrix) are matched.
+(d) for any commutative ring `R`, multiplicative character `χ` of `R` and function `f` on `a × b` matrices over `R`, the
+block functions `Φ(x₁ x₂) = χ⁻¹(det x₂)·f(x₂⁻¹x₁)` on `a × n` matrices (`x₂` the square block of the columns `a`,
+`x₁` the block of the columns `b`; `0` unless `x₂` is invertible) and `Ψ(y₁; y₂) = χ⁻¹(det y₁)·f(−y₂y₁⁻¹)` on `n × b`
+matrices (`y₁` the square block of the rows `b`, `y₂` the block of the rows `a`; `0` unless `y₁` is invertible) are
+matched for `χ` over `R` itself.
 
 *Needs:* 3.1.
 
@@ -564,7 +574,8 @@ matched `Φ` lies in `M` and `𝒟Ψ = I_large(W, V; 𝔠, v, Φ) − c·I_small
 
 (b) (vanishing criterion) let `X` split over `W₁` along `b` lines and `W₁` over a space along one line, by adapted
 splittings (orthonormal frames at infinity, integral at the finite places), let `𝒟` be an equivariant lift as in (a) on
-`X`, and let `V′` be a hermitian space with basis indexed by `b`. If the Fourier coefficients of `𝒟` applied to the
+`X`, defined on a space `M` that contains the standard column datum of the frame, and let `V′` be a hermitian space with
+basis indexed by `b`. If the Fourier coefficients of `𝒟` applied to the
 standard column datum of the frame vanish at the points of the parabolic tested by `V′` (index `j·V′.J` at frames whose
 columns span a lattice self-dual for `V′`, and every invertible index not represented by the signs of `V′`), then `𝒟`
 kills every locally constant datum with a matched function;
@@ -659,7 +670,10 @@ formula.
 (a) Let `W′ = W ⊕ H` and `V′ = V ⊕ H` with adapted splittings, `rank W` even. There is a positive real-analytic function
 `B` on `ℝ` such that every Schwartz `v` for `(W, V)` has a Schwartz `v′` for `(W′, V′)` whose cone integral at `z > 0`
 has, for every split tame `𝔠` of weight `μ`, every standard row datum and every point, the theta integral `B(z)` times
-that of `v`.
+that of `v`. Here the cone integral of `v′` at `z` (for the weight `μ`) is the vector for `(W, V)` given by the integral,
+over `k` in the maximal compact subgroup of `U(V′)` at the infinite places and over the archimedean ideles
+`a ∈ (E ⊗ ℝ)^×`, of `∏_τ (a_τ/|a_τ|)^{2μ(τ)}·|a|^z` times the term at `a` of `k·v′` along the isotropic line of the
+splitting of `V′` (the real Tate integral of `v′` over the cone of the isotropic vectors `k⁻¹xa`, `x` spanning that line).
 
 (b) Let `A` split `W′` as `W` plus `p ≥ 1` hyperbolic planes (adapted), `rank W` even, `V′` with `p` more negative signs
 than `V`, and `rank U + rank V = rank W`, `rank U + rank V′ = rank W′`. If the exchange identity on standard data holds
@@ -709,9 +723,10 @@ below.
 
 Say that `(W, V)` vanishes for `𝔠` (and a splitting `σ : b ⊔ r ≃ n` of the index set of `W`, which fixes the standard
 row data) if `I_large(W, V; 𝔠, v, row datum of y)` is `0` at every point for every Schwartz `v` and every integral
-`y`. Let `W′` have the rank and the negative signs of `W ⊕ H^j`, `V′` the negative signs of `V ⊕ H^j`, `j ≥ 1`,
+`y`. Let `W′` have the rank and the negative signs of `W ⊕ H^j`, `V′` the negative signs of `V ⊕ H^j`, `j ≥ 1`, with
+splittings `σ : b ⊔ r ≃ n` of `W` and `σ′ : b ⊔ r′ ≃ n′` of `W′` for the same `b` (so `rank V′ = rank V + 2j`),
 `rank W` even, and let `k₀ ≥ 0` be an integer with `k₀ ≤ μ(τ)` for all `τ` and `−k₀ ≤ rank V − rank W/2`. If `(W′, V′)`
-vanishes for `𝔠`, then `(W, V)` vanishes for `𝔠`.
+vanishes for `𝔠` and `σ′`, then `(W, V)` vanishes for `𝔠` and `σ`.
 
 *Needs:* 3.1, 3.6.
 
@@ -810,23 +825,27 @@ functionals on the two Fock spaces, which holds for one polynomial and its trans
 determinants, which transform by the same law under the real Weil representation; this costs a factor `c′`.
 
 Let `W` (rank `n`) and `V′` (rank `b`) both have `l` negative signs, `I_a` the positive definite space of rank `a`, with
-`n = b + a`, `a = b + 2d` and `n = 2l + 2s₀`, `s₀ ≥ 1`; at each infinite place `τ` let `ι(τ)` index a finite family of
-`p × m` complex matrices `η_{τ,κ}` (`m` the positive part of `W`, `p` that of `V′`). There are `C > 0` and `c′ ∈ ℂ`
-(possibly `0`) such that for every modulus `𝔪` and every character `α` of `[U(1)]` of weight `−#ι(τ)`, tame for `(𝔪, χ)`,
-there is `c` with `|c|² = C·L_*(places of 𝔪, (α/υ₁^{s₀})⁻¹, d) ≠ 0` and, for all `η`, `g` and all matched `Φ`, `Ψ` modulo
-`𝔪` for `χ⁻¹`: `c′` times the class sum over `U(I_a)` of `α(det h)` times the kernel of `(W, I_a)`, with the characters
-`υ₁^l` on `W` and `1` on `I_a`, with data `Φ` and the
-product of the determinants of `η_{τ,κ}` stacked over the variable matrix, equals `c·α(det g)` times the integral over
-`x ∈ [U(V′)]` of `α(det x)⁻¹` times the kernel of `(V′, W)`, with the character `υ₁^l` on each of `V′` and `W`, with data
-`Ψ` and the matched product of determinants (the
-`det(η_{τ,κ} y_τ)` of the positive block times powers of the determinants of the negative blocks). In the normalised form
-used later: there is `C` such that for every `α` of weight `l − #ι(τ)` tame for `(𝔪, χ)` some `c` with
-`|c|² = C/L_*(places of 𝔪, α⁻¹υ₁^{b+d}, d)` makes `c` times the class sum equal to the integral, with characters `α, β`
-on `(W, I_a)` and `α/β, α` on `(V′, W)`.
+`n = b + a`, `a = b + 2d` and `n = 2l + 2s₀`, `s₀ ≥ 1`; let `n₊ = n − l` and `b₊ = b − l` be the numbers of positive
+signs of `W` and `V′` (so `n₊ = b₊ + a`), and at each infinite place `τ` let `ℐ(τ)` index a finite family of `b₊ × n₊`
+complex matrices `η_{τ,i}`. There are `C > 0` and `c′ ∈ ℂ` (possibly `0`) such that for every modulus `𝔪` and every
+character `α` of `[U(1)]` of weight `−#ℐ(τ)`, tame for `(𝔪, χ)`, there is `c` with
+`|c|² = C·L_*(places of 𝔪, (α/υ₁^{s₀})⁻¹, d) ≠ 0` and, for all `η`, all `g ∈ U(W)(𝔸)` and all matched `Φ`, `Ψ` modulo `𝔪`
+for `χ⁻¹`: `c′` times the class sum, at the level `K₀` of `I_a`, over the finite points `h` of `U(I_a)` of `α(det h)` times
+the kernel of `(W, I_a)` at `(g, h)`, with the characters `υ₁^l` on `W` and `1` on `I_a`, with data `Φ` and the product
+over `τ, i` of the determinants of `η_{τ,i}` stacked over the `a × n₊` matrix of the variables of the positive part of
+`W`, equals `c·α(det g)` times the integral over `x ∈ [U(V′)]` of `α(det x)⁻¹` times the kernel of `(V′, W)` at `(x, g)`,
+with the character `υ₁^l` on each of `V′` and `W`, with data `Ψ` and the matched product of determinants
+`∏_τ det(y⁻_τ)^{#ℐ(τ) + n − 2l}·∏_{τ,i} det(η_{τ,i} y_τ)`, where `y_τ` is the `n₊ × b₊` block of the variables at `τ`
+with both signs positive and `y⁻_τ` the `l × l` block with both signs negative. In the normalised form used later, under
+the same hypotheses with `n = 2l + 2s₀`, `s₀ ≥ 1` replaced by `2l + 2 ≤ n`: there is a real `C` (possibly `0`) such that
+for every `α` of weight `l − #ℐ(τ)` tame for `(𝔪, χ)` some `c` with `|c|² = C/L_*(places of 𝔪, α⁻¹υ₁^{b+d}, d)` makes `c`
+times the class sum equal to the integral, now with the characters `α, β` on `(W, I_a)` and `α/β, α` on `(V′, W)` and
+without the factors `α(det h)`, `α(det g)`, `α(det x)⁻¹`, for every character `β` of `[U(1)]`, with the same polynomials
+and level and all matched `Φ`, `Ψ` modulo `𝔪` for `χ⁻¹`.
 
-*Needs:* 3.9; IntegralRepresentationsOfGeneralLinearGroups §2.4 (polarisation: for `p < n` and complex `p × n` matrices `η_{τ,κ}`, the product of
-the `det(η_{τ,κ}·Y_τ)` is a finite combination, with coefficients free of the `Y_τ`, of the products
-`∏_τ det(η₀·u_τ^T·Y_τ)^{#ι(τ)}` with `u_τ` unitary and `η₀` a matrix of `p` standard basis rows); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+*Needs:* 3.9; IntegralRepresentationsOfGeneralLinearGroups §2.4 (polarisation: for `p < n` and complex `p × n` matrices `η_{τ,i}`, the product of
+the `det(η_{τ,i}·Y_τ)` is a finite combination, with coefficients free of the `Y_τ`, of the products
+`∏_τ det(η₀·u_τ^T·Y_τ)^{#ℐ(τ)}` with `u_τ` unitary and `η₀` a matrix of `p` standard basis rows); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
 integration on a definite group).
 
 [ShortProof], `New/Determinant/Exchange/ExplicitMatching.lean` (`New.Rows.exists_stdClassSum_eq_mul_integral_modKernel`,
@@ -847,18 +866,27 @@ function `p` on `n × a` matrices let `next(p)` be the function on `(n ⊔ b) ×
 `p(−η)/#M_{n×b}(R)` at `(η s; 0 1)` and `0` elsewhere. Prove:
 
 (a) under the square law for the splitting `a ⊔ (n ⊔ b) ≃ n ⊔ a ⊔ b`,
-`#GL_a(R)·∑_y p(y)L′(y; 1 0) = c·#GL_{n⊔b}(R)·∑_x next(p)(x)L((1 0), x)`;
+`#GL_a(R)·∑_y p(y)·L′(y stacked over (1; 0)) = c·#GL_{n⊔b}(R)·∑_x next(p)(x)·L((1; 0) placed left of x)`, the sums over
+the `n × a` matrices `y` and the `(n ⊔ b) × (a ⊔ b)` matrices `x`, where `(1; 0)` is the matrix of the inclusion of the
+first summand (of `a` in `a ⊔ b`, resp. of `n` in `n ⊔ b`);
 
-(b) if the additive character `ψ` and `χ` are primitive, for the shapes `n = N`, `a = N ⊔ T`, `b = T` there is `γ` with
-`|γ|²·#R^{#T(#T + 2#N)} = 1` such that the square law gives the same identity with `p` and `next(p)` replaced by the
-Fourier transforms of their conjugates and `c` by `γc`;
+(b) let the additive character `ψ` of `R` be primitive (`x ↦ ψ(ex)` is nontrivial for every `e ≠ 0`) and `χ` be
+primitive (for every `e ≠ 0` some `χ(1 + c₀e)` is neither `0` nor `1`), and write `F(f)(ρ) = ∑_v f(v)ψ(tr(ρv))` for the
+Fourier transform of a function `f` of matrices. For the shapes `n = u`, `a = u ⊔ v`, `b = v` (`u`, `v` finite index
+sets) there is `γ` with `|γ|²·#R^{#v(#v + 2#u)} = 1` such that, whenever `L`, `L′` satisfy the square law with constant
+`c` for the splitting of (a), for every function `p` on `a × n` matrices (`next(p)` formed with `n` and `a` exchanged):
+`∑_y F(p̄)(y)·L′(y stacked over (1; 0)) = γc·∑_x F(conj next(p))(x)·L((1; 0) placed left of x)`, where `p̄` and
+`conj next(p)` are the complex conjugate functions;
 
-(c) matched partners are unique and translate equivariantly, and every `Ψ` supported on column blocks has a match.
+(c) matched partners are unique; if `(Φ, Ψ)` are matched and `g ∈ GL_n(R)`, so are `x ↦ χ(det g)Φ(xg)` and
+`y ↦ Ψ(g⁻¹y)`; and every `Ψ` that vanishes off the blocks of the columns `b` of invertible matrices and satisfies
+`χ(det h)·Ψ(yh) = Ψ(y)` for all `h ∈ GL_b(R)` has a match.
 
 *Needs:* 3.1.
 
 [ShortProof], `New/Determinant/Chain/SquareLaw.lean` (`New.Exchange.SquareLaw`, `New.Exchange.SquareLaw.sum_eq_nextDatum`,
-`New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum`, `New.Exchange.areMatched_matchOf`)
+`New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum`, `New.Exchange.areMatched_matchOf`,
+`New.AreMatched.unique`, `New.AreMatched.translate`)
 
 ### 3.12 One square: up then down against down then up
 
@@ -872,8 +900,8 @@ to be nonzero.
 followed by a transposed lift, summed over matched point data. The archimedean data of the two sides are polynomial
 vectors of the four edges; comparing them costs the factor `κ`, which may be `0`.
 
-Let `U₁`, `U₂`, `A`, `A′` be hermitian spaces with `W = U₁ ⊕ U₂`, `rank A = rank A′ + 2t`, `neg(W) = neg(A) + neg(A′) = N`,
-`2N + 2 ≤ rank W ≤ 2μ(τ) + 2N` for all `τ`, and `σ : A′ ⊔ A ≃ U₁ ⊔ U₂` (index sets). Let `I` be a set and, for `i ∈ I`,
+Let `U₁`, `U₂`, `A`, `A′` be hermitian spaces with `W = U₁ ⊕ U₂`, `rank A = rank A′ + 2t`, `neg(W) = neg(A) + neg(A′) = q`,
+`2q + 2 ≤ rank W ≤ 2μ(τ) + 2q` for all `τ`, and `σ : A′ ⊔ A ≃ U₁ ⊔ U₂` (index sets). Let `I` be a set and, for `i ∈ I`,
 `ν_i` tame of weight `μ` for `(𝔪_i, χ_i)`; let the four pairs `(U₁, A)`, `(U₂, A)`, `(A′, U₁)`, `(A′, U₂)` be edges
 `e₁ → e`, `ē₂ → ē`, `ē′ → ē₁`, `e′ → e₂` for families of characters of `[U(1)]` of fixed weights, with polynomial real
 data, such that on each side of the square the two splitting characters multiply to `ν̃_i⁻¹`. For a matrix `x` modulo
@@ -882,8 +910,10 @@ the point data of the two blocks of `x`; for `y` with columns indexed by `A′`,
 `U₁` to `A′` followed by the lift to `U₂`. Then there are `C > 0` and `κ ∈ ℂ` (possibly `0`) such that for each `i` some
 `c_i` has `|c_i|² = C·L_*(places of 𝔪_i, ν_i, t) ≠ 0` and
 `∑_y Ψ′(y)·Θ′_i(y) = (κ/c_i)·∑_x Ψ(x)·Θ_i(x)` as maps from forms of type `e₁` on `U₁` to forms of type `e₂` on `U₂`, for all
-matched `Ψ`, `Ψ′` modulo `𝔪_i`. For families indexed by finite sets this is the square law of 3.11, for every form on
-`U₁` and every functional on the forms on `U₂`.
+matched `Ψ`, `Ψ′` modulo `𝔪_i`. Moreover, for every form `f` of type `e₁` on `U₁` and every linear functional `l` on the
+forms of type `e₂` on `U₂`, the functions `L(x) = l(Θ_i(x)f)` and `L′(y) = l(Θ′_i(y)f)` satisfy the square law of 3.11
+for `χ_i` and `σ` with constant `κ/c_i`; in particular `Θ_i(kx) = χ_i(det k)·Θ_i(x)` and `Θ′_i(yk′) = χ_i(det k′)·Θ′_i(y)`
+for invertible matrices `k`, `k′` modulo `𝔪_i` indexed by `A`, resp. `A′`.
 
 *Needs:* 3.9, 3.11; WeilRepresentationsOnBanachSpacesOfData §§6.4, 7.4 (a family of characters over a real edge is a family of pairs of characters of
 `[U(1)]`, all of one pair of weights and, in each pair, of one tame part, together with two pairs of conjugate cuspidal
@@ -898,7 +928,7 @@ decay and any theta kernel and datum, `∫_{[T]} y′·(lift of y) = ∫_{[S]} y
 
 [ShortProof], `New/Determinant/Exchange/OneSquare.lean`
 (`New.Exchange.exists_sum_pairLift_comp_pairTransposedLift_eq_smul`, `New.Exchange.IsSquare`,
-`New.Exchange.one_square_identity_of_isEdgeFamily`)
+`New.Exchange.equivariant_and_exists_sum_eq_of_areMatched`, `New.Exchange.one_square_identity_of_isEdgeFamily`)
 
 ## Layer 4: The norm of a chain of lifts and its two determinants
 
@@ -916,7 +946,7 @@ Gram form of the first arrow finishes; the moduli multiply.
 `N` and `j` copies of `T` has order `#GL_N(R)·#GL_T(R)^j·#R^{e}`, `e` independent of `R`.
 
 (b) A triangle of size `m` consists of inner product spaces `F(i, n)`, a parameter set `I`, linear maps
-`a_t(i, n) : F(i, n) → F(i, n + 1)` and `d_t(i, n) : F(i, n + 1) → F(i + 1, n)` for `t ∈ I`, nonzero integer weights
+`a_t(i, n) : F(i, n) → F(i, n + 1)` and `d_t(i, n) : F(i, n + 1) → F(i + 1, n)` for `t ∈ I`, positive integer weights
 `w_t(n)`, and isometries `j_i : V → F(i, 0)`, such that: for all `i, n` with `i + n + 2 ≤ m` the square at `(i, n)`
 commutes up to some function `β` on `I`, `w_t(n)·a_t(i + 1, n)∘d_t(i, n) = (w_t(n + 2)/β̄_t)·d_t(i, n + 1)∘a_t(i, n + 1)`
 on `F(i, n + 1)`, where the scalar `w_t(n + 2)/β̄_t` is read as `0` if `β_t = 0`; and for every `i < m`, with `a = a_t(i, 0)` and `d = d_t(i, 0)`: `⟨z, a(j_i y)⟩ = ⟨d z, j_{i+1} y⟩`
@@ -925,11 +955,12 @@ for `y ∈ V` and `z ∈ F(i, 1)`, and `d∘a` maps `j_i(V)` into `j_{i+1}(V)` w
 length `n` of row `i`, a map `F(i, 0) → F(i, n)`, is injective on `j_i(V)`. The range `i + n ≤ m` is needed: beyond it
 nothing is assumed of the arrows.
 
-(c) Let `M` be a relation between functions `c : I → ℂ` and `F : I → ℝ`, read "`c` has modulus `F`", such that the
+(c) Let `Mod` be a relation between functions `c : I → ℂ` and `F : I → ℝ`, read "`c` has modulus `F`", such that the
 constant `1` has modulus `1` and, if `c` has modulus `F` and `c′` has modulus `F′`, then `cc′` has modulus `FF′`; assume the
-square constants `β` at `(i, n)` have modulus `L(i + 1, i + n + 2)` and every square obeys the adjoint law (every `z` has
-an `a`-adjoint vector `x` with `⟨d x, y⟩ = κ_t⟨d z, a y⟩`) with `κ` of modulus `1`. Let `s : U → V` and endomorphisms
-`S_t(i)` of `U` satisfy `w_t(0)⟨a(j_i x), a(j_i s y)⟩ = C_i(t)⟨x, s(S_t(i) y)⟩` with `C_i` of modulus `1`. Then for
+square constants `β` at `(i, n)`, `i + n + 2 ≤ m`, have modulus `L(i + 1, i + n + 2)` and every such square obeys the
+adjoint law (every `z` has an `a`-adjoint vector `x` with `⟨d x, y⟩ = ε_t⟨d z, a y⟩`) with `ε` of modulus `1`. Let
+`s : U → V` and endomorphisms `S_t(i)` of `U` satisfy, for every `i < m`,
+`w_t(0)⟨a(j_i x), a(j_i s y)⟩ = C_i(t)⟨x, s(S_t(i) y)⟩` with `C_i` of modulus `1`. Then for
 `i + n = m` there is `κ` of modulus `∏_{i<ρ<k≤m} L(ρ, k)` with
 `⟨u x, u s(y)⟩ = κ_t·(w_t(0)w_t(1)^n/w_t(n))·⟨x, s(S_t(i)⋯S_t(m − 1) y)⟩` for the weighted chain `u` of row `i`.
 
@@ -950,25 +981,36 @@ sharp data gives the Gram form as a series of translates and the injectivity; li
 adjoint after the datum is replaced by its conjugate transpose, and the opposite space carries the forms negated.
 
 For the data and a flag `z ∈ {Y, Ỹ}`, the triangle `z` has nodes `(i, n)`, `i + n ≤ m`: the node `(i, n)` is the space of
-the interval `[i + 1, i + n]`, the stem (of rank `r` for `Y`, `r + 1` for `Ỹ`) plus the blocks `i + 1, …, i + n` (of length
+the interval `[i + 1, i + n]`, the stem (the `r` basis indices of `Y₀` for `Y`; these and one more index, rank `r + 1`,
+for `Ỹ`) plus the blocks `i + 1, …, i + n` (of length
 `t` for `Y`, `t − 1` for `Ỹ`), with the signs and parameters of ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets,
 signs and parameters of the grids), and `(i, 0)` is the space at `(0, 0)` negated `i` times. For an `m`-fold twist `ϑ`, the
 lift from `(i, n)` to `(i, n + 1)` is the theta lift along the right pair that adds the last block, with the point
-datum modulo `𝔪_z(ϑ)` (`π_M Q(ϑ)` for `Y`, `π_M^b` for `Ỹ`); its weight in the chains is
-`N_n(ϑ) = #GL_{rank (0,n)}(O_E/𝔪_z(ϑ))`, the index that makes the measure give the principal level of `𝔪_z(ϑ)` volume
-`1`; the base forms are the forms at `(0, 0)` fixed by the base level. Prove: for `i < m` there is a constant `C` such that for
-every `ϑ` and every base form `y`, the first lift `a` of row `i` (applied to the copy of `y` at `(i, 0)`) satisfies
+datum modulo `𝔪_z(ϑ)` (`π_M Q(ϑ)` for `Y`, `π_M^b` for `Ỹ`) and the character `μ_{i+n+1}⁰·ϑ^{i+n+1}·υ₁^{⌊n′/2⌋}` for
+`Y`, `μ_{i+n+1}⁰·υ₁^{⌈n′/2⌉}` (no twist) for `Ỹ`, on each of its two spaces with `n′` the rank of that space; its weight
+in the chains is `N_n(ϑ) = #GL_{rank (0,n)}(O_E/𝔪_z(ϑ))`, the index that makes the measure give the principal level of
+`𝔪_z(ϑ)` volume `1`. The base level is `J_M` for `Y` and the principal level of `π_M^b` for `Ỹ`; the base forms are the
+forms at `(0, 0)` fixed by the base level. Prove: for `i < m` there is a constant `C` such that for every `ϑ` and every
+base form `y`, the first lift `a` of row `i` (applied to the copy at `(i, 0)` of a form at `(0, 0)`) satisfies
 
 (a) if `⟨v, x⟩ = ⟨a y, a x⟩` for all `x`, then `v` is a base form, and `v = 0` implies `y = 0`;
 
-(b) `N_0(ϑ)·⟨a x, a y⟩ = ∑_γ C·(Rallis term of x, y at γ)`, the sum over the cosets of the finite points modulo those
-integral away from `𝔪_z(ϑ)` and its conjugate;
+(b) for every form `x` at `(0, 0)`, the series `∑_γ C·mc(γ)·⟨x, y(·γ)⟩ / #M_{n₁×n₀}(O_E/𝔪_z(ϑ))` converges to
+`N_0(ϑ)·⟨a x, a y⟩`, where `n₀`, `n₁` are the ranks of the nodes `(0, 0)` and `(0, 1)`, `mc` is the vacuum coefficient
+(as in 2.2) for the rank `n₁` and the character of the first lift of row `i` on its space of rank `n₁`, and `γ` runs over
+the cosets of the finite points modulo those integral away from the places of `𝔪_z(ϑ)` and their conjugates
+(representatives supported away from those places and their conjugates);
 
 (c) for `i + n < m` there are polynomial real data making the left pair at `(i, n)` (removing the first block) and the
-reversed pair edges, and for an edge lift and transposed lift with a datum `Ψ` there is a datum `Ψ′` making the
-transposed lift adjoint to the lift.
+reversed pair edges. Moreover, for hermitian spaces `S`, `T`, let `S⁻` be `S` with its hermitian form negated; if
+polynomial real data `Φ` make `(S, T)` an edge from the type of a parameter `l` on `S` to a type `e` on `T` for a family
+of characters `α` (one for each rank), and `Φ′` make `(S⁻, T)` an edge from the type of `−l` to `ē` for the characters
+`α⁻¹·υ₁^{rank}` (on a space of rank `n′`, the character `α_{n′}⁻¹·υ₁^{n′}`), then for every function `Ψ` of matrices modulo
+a modulus there is a function `Ψ′` with `⟨x, Θ_{Φ,Ψ} y⟩ = ⟨Θ^T_{Φ′,Ψ′} x, y⁻⟩` for all forms `y` of the type of `l` on `S`
+and `x` of type `e` on `T`, where `Θ_{Φ,Ψ}` is the lift from `S` to `T`, `Θ^T_{Φ′,Ψ′}` the transposed lift from `T` to `S⁻`,
+and `y⁻` is `y` read on `S⁻`.
 
-*Needs:* 2.1, 3.1; SiegelWeilAndRallisFormulasOnUnitaryGroups §§4.4, 4.5 (the Rallis inner product formula for sharp finite data in the range
+*Needs:* 2.1, 2.2, 3.1; SiegelWeilAndRallisFormulasOnUnitaryGroups §§4.4, 4.5 (the Rallis inner product formula for sharp finite data in the range
 `rank V > 2 rank W`, in the form stated in the *Needs:* line of 2.2); WeilRepresentationsOnBanachSpacesOfData §§6.7, 7.4 (the background entry of 3.12 on families of
 characters over a real edge: for such a family with polynomial `P` and an arbitrary polynomial `Q` there is one complex
 `κ`, free of the member of the family, of the spaces, of the modulus, of the datum `x` and of the forms, such that the
@@ -999,17 +1041,20 @@ descents are defined by recursion on `n` from the adjoint datum at `n = 0` by `n
 (a) For `i + n + 1 < m` and left pairs at `(i, n)` and `(i, n + 1)` there is `β(ϑ)` such that for every `m`-fold twist `ϑ`
 and every datum `Ψ`, `N_n(ϑ)·a∘d_Ψ = (β̄(ϑ))⁻¹·N_{n+2}(ϑ)·d_{next(Ψ)}∘a` on the node `(i, n + 1)` (in inner products), with `(β̄(ϑ))⁻¹` read
 as `0` where `β(ϑ) = 0`, as in 4.1 (b); for
-`Y`, `β` has modulus `R^quo_{i+1, i+n+2}` up to a norm power.
+`Y`, `β` has modulus `R^quo_{i+1, i+n+2}` up to a norm power. Here `d_Ψ` is the transposed lift along the left pair at
+`(i, n)`, from `(i, n + 1)` to `(i + 1, n)`, with the real datum that makes that pair an edge (4.2 (c)) and the finite
+datum `Ψ`, a function of matrices modulo `𝔪_z(ϑ)`; `d_{next(Ψ)}` is the same along the left pair at `(i, n + 1)`.
 
 (b) In the triangle `Y`, for the same `i, n`, there is `κ(ϑ)` of modulus `1` up to a norm power such that, if `x′` is the
 image of `x` under the adjoint of the lift from `(i, n + 1)` to `(i, n + 2)`, then `⟨d_Ψ x′, y⟩ = κ(ϑ)⟨d_{next(Ψ)} x, a y⟩`.
 
 (c) There are descents making the triangle `z` a triangle of size `m` in the sense of 4.1 (b), with the weights `N_n` and
-the copies of the base forms at `(i, 0)`; for `Y` it has square moduli `R^quo` in the sense of 4.1 (c), the relation `M`
+the copies of the base forms at `(i, 0)`; for `Y` it has square moduli `R^quo` in the sense of 4.1 (c), the relation `Mod`
 being "modulus up to a norm power" (1.1 (e)).
 
-(d) For `x, y ∈ 𝒜(Y₀)`, `⟨Θ_ϑ x, Θ_ϑ y⟩ = [K₀ : J_ϑ(Y_m)]·dim(weight of Y_m)·⟨u x, u y⟩`, `u` the weighted chain of the
-triangle `Y` from `Y₀`; and `Θ_ϑ` is injective on `𝒜(Y₀)` for every `m`-fold twist `ϑ`.
+(d) For `x, y ∈ 𝒜(Y₀)`, `⟨Θ_ϑ x, Θ_ϑ y⟩ = [K₀ : J_ϑ(Y_m)]·dim(weight of Y_m)·⟨u x, u y⟩` (`K₀` the stabiliser of the
+standard lattice of `Y_m(𝔸_f)`), `u` the weighted chain of the triangle `Y` from `Y₀`; and `Θ_ϑ` is injective on
+`𝒜(Y₀)` for every `m`-fold twist `ϑ`.
 
 *Needs:* 1.1, 1.2, 3.11, 3.12, 4.1, 4.2; ThetaLiftChainsAndTheSeesawIdentity §2.6 (the last level and its character),
 §2.15 (the chain of lifts `Y₀ → Y_m`, which has that level and character).
@@ -1022,9 +1067,9 @@ triangle `Y` from `Y₀`; and `Θ_ϑ` is injective on `𝒜(Y₀)` for every `m`
 
 *Origin:* adapted from the Rallis inner product formula (Rallis (1984b), Proposition 1.1, for orthogonal–symplectic
 pairs, and J.-S. Li (1992), in the range `dim Y_1 > 2 dim Y_0` of the step `i = 0`; Gan, Qiu and Takeda (2014),
-Propositions 11.1 (ii) and 11.2, in the range `n_i < n_{i+1} ≤ 2n_i` of the steps `i ≥ 1`), composed along the `m` steps of
-the chain: here lift `j` is twisted by `ϑ^j`, the chain is compared with the single lifts through the squares of a
-triangle, and the identity is one of operators and of determinants with Rallis series, with a twist-dependent factor
+Propositions 11.1 (ii) and 11.2, in the range `n_i < n_{i+1} ≤ 2n_i`, `n_i = rank Y_i`, of the steps `i ≥ 1`), composed
+along the `m` steps of the chain: here lift `j` is twisted by `ϑ^j`, the chain is compared with the single lifts through
+the squares of a triangle, and the identity is one of operators and of determinants with Rallis series, with a twist-dependent factor
 whose modulus is a product of ratios of Hecke values.
 
 *Method of the formal proof:* the first lift of each row has the Gram form of its Rallis series (4.2), and 4.1 (c) with
@@ -1072,16 +1117,21 @@ A grid path from `(a₀, b₀)` to `(a, b)` is a sequence of steps down (`b` dec
 `1`). A two-grid path for `m` is a diagonal index `l ≤ m` and two grid paths from `(0, m)` to `(l, l)` (its halves in the
 grids `Y` and `Ỹ`). The first path has `l = 0` and both halves the column `(0, m) → (0, 0)`; the last has `l = m` and both
 halves the row `(0, m) → (m, m)`. A turn at `(i, j)` replaces, in one half, two steps down-then-right through a corner by
-right-then-down through `(i + 1, j + 1)` (off the diagonal), or replaces two halves ending with a step down at `(j, j + 1)`
-by halves ending with a step right (on the diagonal, `l = j → j + 1`). Prove: every two-grid path other than the last
-admits a turn; the squares between the first path and a path change by one under a turn; and a property that holds at
+right-then-down through `(i + 1, j + 1)` (off the diagonal; in the half of the grid `Ỹ`, whose nodes are recorded with the
+two indices exchanged, the turn at the corner `(a, b)` of the half is the turn at `(b, a)`), or replaces two halves ending
+with a step down at `(j, j + 1)` by halves ending with a step right (on the diagonal, `l = j → j + 1`). The squares between
+the first path and a two-grid path with diagonal index `l` are the `(i, j)` with `i, j < l`, the `(i, b)` with `i < a` for
+each step down `(a, b + 1) → (a, b)` of the half in `Y`, and the `(b, i)` with `i < a` for each such step of the half in
+`Ỹ`. Prove: every two-grid path other than the last admits a turn; under a turn at `(i, j)` the square `(i, j)`, not
+among the squares of the old path, is added to them; and a property that holds at
 the last path with the empty set of squares and passes backwards along a turn at a new square holds at the first path
 with all `m²` squares `(i, j)`, `i, j < m`.
 
 *Needs:* none.
 
 [ShortProof], `New/Determinant/AuxiliaryForms/GridPaths.lean` (`New.TwoGridPath`, `New.TwoGridPath.Turn`,
-`New.TwoGridPath.exists_turn`, `New.TwoGridPath.turn_induction`)
+`New.TwoGridPath.squares`, `New.TwoGridPath.exists_turn`, `New.TwoGridPath.Turn.squares_eq`,
+`New.TwoGridPath.turn_induction`)
 
 ### 5.2 Weights of regular parameters
 
@@ -1117,15 +1167,16 @@ grid `Y` has nodes `Y^a_b` (`a, b ≤ m`): the stem of rank `r` with `a` blocks 
 `Ỹ` has nodes `Ỹ^b_a`: the stem plus a line (rank `r + 1`) with `a` blocks of length `t + 1` and `b` of length `t − 1`;
 signs and parameters are those of ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and parameters of the
 grids).
-`Y^0_j = Y_j`, `Ỹ^0_0 = Y₀ ⊕ ⟨1⟩`, and `Ỹ^j_j` is `Y^j_j` plus one vector of sign `(−1)^j`. Forms in grid `Y` are conjugate
-forms (of the negative parameter), forms in grid `Ỹ` are forms. The level at a node is a subgroup of `GL` over
+`Y^0_j = Y_j`, `Ỹ^0_0 = Y₀ ⊕ ⟨1⟩`, and `Ỹ^j_j` is `Y^j_j` plus one vector of sign `(−1)^j`; every node of the two grids
+has rank at most `2n_m`, `n_m = k + m(t + 1)`. Forms in grid `Y` are conjugate forms (of the negative parameter), forms in grid `Ỹ` are forms. The level at a node is a subgroup of `GL` over
 `O_E/𝔪(ϑ)`: trivial at the nodes `Y_b = Y^0_b`, and the kernel of reduction modulo `𝔟` elsewhere;
 `gridLevelForms(i)` are the forms on `Ỹ^i_0` of the principal level of `𝔟`.
 
 (b) A vertical edge (one along which the lower index grows: from `Y^a_b` to `Y^a_{b+1}`, or from `Ỹ^a_b` to
 `Ỹ^a_{b+1}`) carries the character `μ_{l+1}⁰·ϑ^{l+1}·υ₁^{⌊n/2⌋}` of its edge index `l`, a horizontal edge the character
-`μ_{l+1}⁰·υ₁^{⌈n/2⌉}` (`n` the rank at the end of the edge). A move along an edge is the theta lift (or the transposed
-lift) with a single matrix modulo `𝔪(ϑ)` as finite datum.
+`μ_{l+1}⁰·υ₁^{⌈n/2⌉}` (the character is used on both spaces of the edge, on each with `n` the rank of that space). The
+edge index `l` is the value, at the start of the edge, of the index that grows along it. A move along an edge is the
+theta lift (or the transposed lift) with a single matrix modulo `𝔪(ϑ)` as finite datum.
 
 (c) An edge tuple is a matrix modulo `𝔪(ϑ)` for each edge; a family `g` of invertible matrices at the nodes acts on it by
 `S_e ↦ g_q⁻¹ S_e g_p` on `e = (p, q)`, and is admissible if it lies in the level at the two ends `Y_m` and `Ỹ^m_0` and is
@@ -1139,8 +1190,9 @@ finite idele `ū/u` (`u` a fixed multiple of the idele generating `𝔪(ϑ)`). T
 two-grid path `Γ` at `g` is the function of triples `(ϑ, y′, φ)` (a twist, a conjugate form on `Y_m`, a form on `Ỹ^m_0`)
 `∑_S Ψ_ϑ(S)·(diagonal period of the images of y′ and φ along the two halves of Γ with the matrices of S)`. `Ψ ∝ Ξ` means
 that at each real point the period is a multiple of `Ξ` by a number independent of the triple. A pair of paths
-`(Γ′, Γ)` transfers periods with factor `k` and constants `c(ϑ)` if every path data `Ψ′` on `Γ′` (bound `N`) give path
-data `Ψ` on `Γ` (bound `k·N`) with: `Ψ ∝ Ξ` implies `Ψ′ ∝ Ξ/c`.
+`(Γ′, Γ)` transfers periods with factor `k` and constants `c(ϑ)` (numbers `c(ϑ) ≠ 0`; the factor `k = k(ϑ)` may depend
+on `ϑ`) if every family of path data `Ψ′_ϑ` on `Γ′` (bounds `N(ϑ)`) gives path data `Ψ_ϑ` on `Γ` (bounds `k(ϑ)·N(ϑ)`)
+with: `Ψ ∝ Ξ` implies `Ψ′ ∝ Ξ/c`, that is `Ψ′ ∝ ((ϑ, y′, φ) ↦ Ξ(ϑ, y′, φ)/c(ϑ))`.
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.1 (the spaces `Y_j`), §2.4 (index sets, signs and parameters of the
 grids); 3.1.
@@ -1162,11 +1214,14 @@ column.
 
 (a) For one numbering of the indices, the parameter of `Y₀` and minus the parameter of `Ỹ^0_0` are steep at every
 infinite place in the sense of PairsOfFramesAtOnePlace §8.1 (a): the lowest `K`-type vanishes
-on a block of positive indices (the basis indices of `X₀` other than the last), and on the other `2ϱ + 2` indices (one
+on a block of `k − 1` indices of sign `+1` (the basis indices of the space `X₀` of rank `k` of
+ThetaLiftChainsAndTheSeesawIdentity §2.1 other than the last), and on the other `2ϱ + 2` indices (one
 more for `Ỹ^0_0`; `ϱ` the number of hyperbolic planes of `Y₀`) the signs alternate and the weight of the lowest `K`-type
-decreases strictly within `[−3B, −B]`, where `B = κ_0(τ)` is the weight of lift `0`.
+decreases strictly within `[−3B, −B]`, where `B = κ_0(τ)` is the weight `κ_j(τ)` of the data
+(OneSidedPrimeSumBoundsAndAdmissibleData §3.2) at `j = 0`.
 
-(b) Let `V` be a hermitian space of rank `n` over a CM field with a root of unity of order `5040`, `F` an automorphic
+(b) Let `V` be a hermitian space of rank `n` over a CM field with a root of unity of order `5040` and `f` infinite
+places, `F` an automorphic
 function of level the principal level of `a ≠ 0` bounded by `S`, `l` parameters on `V ⊕ ⟨1⟩` with gap at least
 `500(n + 1)³ + 2A`, `|a|_τ ≥ R ≥ 0` at every `τ`, `d² ≤ R·λ(x)` with `λ(x)` the first minimum of the lattice at `x` (cut at
 `1`), `d ≥ max(10, f)`, `A ≥ 2f(n + 1) + 2` and `A > 8(n + 1)²`. Then the period at `x` against `F` of the Poincaré series
@@ -1199,14 +1254,15 @@ vector, cuspidality and slow variation give the halving; elsewhere orthogonality
 5.4 make the smoothing of `y` by the translated coefficient small, and the lower bound for the pairing of the two
 coefficients undoes the smoothing.
 
-(a) (criterion) Let `V` be a space of rank `n` over `E` and `l`, `l′` parameters on `V` and `V ⊕ ⟨1⟩` with gaps at least
-`500n³ + 4A`, `500(n+1)³ + 2A`, entries of `l` bounded by `L`, and let `A, L, N, β, ρ` satisfy: `8(n + 1)² < A`,
-`N < A`, `2f(n + 1) + 2 ≤ A`, `M·C_cusp² ≤ β` (`C_cusp` the cusp constant of the background entry below, for the rank
+(a) (criterion) Let `V` be a space of rank `n ≥ 1` over `E` and `l`, `l′` parameters on `V` and `V ⊕ ⟨1⟩` with gaps at
+least `500n³ + 4A`, `500(n+1)³ + 2A`, entries of `l` bounded by `L`, and let `A, L, γ, β, ρ` satisfy: `8(n + 1)² < A`,
+`γ < A`, `2f(n + 1) + 2 ≤ A`, `M·C_cusp² ≤ β` (`C_cusp` the cusp constant of the background entry below, for the rank
 `n`, with the order of the cyclotomic field of the data that contains `E` as the natural number in the different),
-`2000(n + L + 1)⁶ ≤ β`, `f ≤ β`, `β^{20A(f+1)} ≤ ρ` and `ρ^{3n+2} ≤ |𝔟|_τ` at every `τ`. Let `ω` be a real point with
-`‖ω_τ‖² ≤ β` and `vol{r : ‖r − 1‖ ≤ 1} ≤ β^N·|∫ c_l(r)·c̄_{l′}(ω⁻¹ r ω) dr|` at every `τ` (`c` the discrete series
-coefficients). Then a form `y` of type `l` and level `J_M` on `V` is `0` if it is Petersson-orthogonal to
-`x ↦ φ((x ⊕ 1)ω)` for every form `φ` of type `l′` and principal level of `𝔟` on `V ⊕ ⟨1⟩`.
+`2000(n + L + 1)⁶ ≤ β`, `f ≤ β`, `β^{20A(f+1)} ≤ ρ` and `ρ^{3n+2} ≤ |𝔟|_τ` at every `τ`. Let `ω` be a real point of
+`U(V ⊕ ⟨1⟩)` with `‖ω_τ‖² ≤ β` and `vol{r : ‖r − 1‖ ≤ 1} ≤ β^γ·|∫ c_l(r)·c̄_{l′}(ω⁻¹(r ⊕ 1)ω) dr|` at every `τ` (the
+integral over the real points `r` of `U(V)` at `τ`; `c` the discrete series coefficients). Then a form `y` of type `l`
+and level `J_M` on `V` is `0` if it is Petersson-orthogonal to `x ↦ φ((x ⊕ 1)ω)` for every form `φ` of type `l′` and
+principal level of `𝔟` on `V ⊕ ⟨1⟩`.
 
 (b) For the data, there is a real point `g` of the unitary group of `Ỹ^0_0` such that every `y ∈ 𝒜(Y₀)` that is
 orthogonal to `x ↦ φ((x ⊕ 1)g)` for all `φ ∈ gridLevelForms(0)` is `0`.
@@ -1236,11 +1292,12 @@ period has the same invariance, so the sum multiplies it by the number of transl
 
 Let `y′` be a conjugate form on `Y_m`, `φ` a form on `Ỹ^m_0` and `g` a real point of `U(Ỹ^0_0)`; move `y′` down the first
 column of `Y` by the transposed lifts at the twist `ϑ` and `φ` down that of `Ỹ` at the trivial twist (each weighted by the
-order of `GL` of its smaller space modulo the triangle modulus). There are a constant `C` and, for each `ϑ`, a path datum
-`Ψ_ϑ` on the first path with bound `(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}` such that the diagonal period at `g` of the two images
-is `C` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`. Moreover, at each real point `g` there is a linear map
-`R` from `gridLevelForms(0)` to the forms of level `J_M` on `Y₀` such that, for every `ϑ` and every form `y` of level
-`𝔪₀(ϑ)` on `Y₀`, the diagonal period at `(0, 0)` and `g` of the conjugate of `y` and `φ` is `⟨y, R φ⟩`.
+order of `GL` of its smaller space modulo `𝔪₀(ϑ)` in `Y`, modulo `𝔟` in `Ỹ`). There are a constant `C` and, for each
+`ϑ`, a path datum `Ψ_ϑ` on the first path with bound `(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}` such that the diagonal period at `g`
+of the two images is `C` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`. Moreover, at each real point `g` there is a linear map
+`R` from `gridLevelForms(0)` to the forms of level `J_M` on `Y₀` such that, for every `ϑ`, every form `y` of level
+`𝔪₀(ϑ)` on `Y₀` and every `φ ∈ gridLevelForms(0)`, the diagonal period at `(0, 0)` and `g` of the conjugate of `y` and `φ`
+is `⟨y, R φ⟩`.
 
 *Needs:* 5.3.
 
@@ -1267,8 +1324,10 @@ every form `y` on `Y₀` of level `𝔪₀(ϑ)` (any `m`-fold twist `ϑ`) has th
 `h ↦ (Θ^♭φ)((h ⊕ 1)g)`;
 
 (c) there are path data `Ψ_ϑ` on the first path (bound as in 5.6), `g`, a constant `α` and `res^♭` as in (b) such that for
-every `ϑ`, conjugate form `y′` on `Y_m` and `φ ∈ gridLevelForms(m)`, the pairing of `y′` with the chain of twisted lifts of
-`res^♭ φ` from `Y₀` to `Y_m` is `α` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`.
+every `ϑ`, conjugate form `y′` on `Y_m` and `φ ∈ gridLevelForms(m)`, the integral over `[U(Y_m)]` of `y′` times the chain
+of twisted lifts of `res^♭ φ` from `Y₀` to `Y_m` (the chain `Θ_ϑ` of the Conventions, each lift weighted by the index
+`[K₀ : J]` of its level `J`, read as a function on `U(Y_m)(𝔸)`) is `α` times the period of `Ψ` on the first path at
+`(ϑ, y′, φ)`.
 
 *Needs:* 4.1, 4.2, 4.3, 5.3, 5.5, 5.6; ThetaLiftChainsAndTheSeesawIdentity §2.15 (the chain of lifts `Y₀ → Y_j`).
 
@@ -1356,19 +1415,32 @@ period over the smaller definite group of two algebraic forms is a class integra
 the last path every lift is a finite sum over points, so the period of a path datum is a controlled sum of such
 pairings.
 
-(a) Let `(κ, e)` be a weight of `GL_{n+1}` with doubled parameter `l′` and `(κ′, e′)` a weight of `GL_n` with doubled
-parameter `−l`, where `l` and `l′` interlace (for every `x`, the number of entries of `l′` above `x` minus that of `l` is
-`0` or `1`), all signs `+1`. There is an integer matrix `B` between the coordinate vectors of the two Weyl modules such
-that: `v′ ↦ v′·B·v` is invariant under `g` on the left and `diag(g, u)` on the right up to `∏_τ det(u_τ)^{N_τ}` with
-`|N_τ| ≤ boxes + |e(τ)|`; `|v′·B·v| ≤ (M^M)³·‖v′‖·‖v‖` when `M` bounds the boxes; and for each real point there is `c` with
-`∫_{[U(V)]} η(x)φ(diag(x, u)g) dx = c/[K₀ : K]·∑_{classes} ⟨η(h), B φ(diag(h, u))⟩` for algebraic forms `η`, `φ` of level `K`.
+(a) Let `n ≥ 1`, let `(κ, e)` be a weight of `GL_{n+1}` with doubled parameter `l′` and `(κ′, e′)` a weight of `GL_n` with
+doubled parameter `−l`, where `l` and `l′` interlace (for every `x`, the number of entries of `l′` above `x` minus that of
+`l` is `0` or `1`), all signs `+1`, and let `V` be the standard definite space of rank `n`. Write
+`boxes(κ) = ∑_τ ∑_{h≤n} h·κ_τ(h)` for the number of boxes of `κ` in its columns of height at most `n`. There is an
+integer matrix `B` between the coordinate vectors of the two Weyl modules such that: the pairing `(v′, v) ↦ v′·B·v` is
+invariant under `g` acting on `v′` and `diag(g, u)` acting on `v` up to `∏_τ det(u_τ)^{N_τ}`, with
+`|N_τ| ≤ boxes(κ) + |e(τ)|`; `|v′·B·v| ≤ (M^M)³·‖v′‖·‖v‖` (norms of the Weyl modules) whenever `boxes(κ) ≤ M`; and for
+each real point `g` there is `c` with `∫_{[U(V)]} η(x)φ(diag(x, u)g) dx = c/[K₀ : K]·∫ η(h)·B·φ(diag(h, u)) dh` for all
+algebraic forms `η`, `φ` (of the weights `(κ′, e′)`, `(κ, e)`, read as functions on the adelic groups), every finite point
+`u` of `U(1)` and every level `K` of `U(V)`, where `[K₀ : K]` is the index of `K ∩ K₀` in `K₀` and the integral on the
+right is over the finite points `h` of `U(V)` modulo the rational points for the measure that gives `K` volume `1` (the
+class integral).
 
 (b) On the last path, for every family `Ψ` of functions of edge tuples there is, at each real point, `β` such that the
-period of `Ψ` is `β` times `Ξ(ϑ, y′, φ)/#GL_{n_m}(O_E/𝔪₀(ϑ))`, where `Ξ` is the sum over the edge tuples of `Ψ_ϑ(S)` times
-the class integral of the branching pairing of the lifts of `y′` and `φ` along the two halves of the last path.
+period of `Ψ` is `β` times `Ξ(ϑ, y′, φ)/#GL_{r+m·t}(O_E/𝔪₀(ϑ))`, where `Ξ(ϑ, y′, φ)` is the sum over the edge tuples `S`
+of `Ψ_ϑ(S)` times the class integral, over the finite points `h` of `U(Y^m_m)` at the level of the last path there, of the
+branching pairing of the lifts of `y′` at `h` and of `φ` at `diag(h, (ū/u)^m)` along the two halves of the last path
+(`ū/u` the finite idele of 5.3 (d)).
 
-(c) For a path datum `Ψ` with bound `N` and forms fixed by the outer levels, `Ξ` is a sum of at most
-`N·(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}·∏(class numbers of the 2m + 1 levels)` pairings of vectors reached by the lifts.
+(c) Let `Ψ` be a path datum on the last path with bound `N`, and let `y′` and `φ` be fixed by the outer levels (the levels
+of 5.3 (a) at the two ends `Y_m` and `Ỹ^m_0`: the integral points congruent to `1` modulo `𝔪(ϑ)`, resp. modulo `𝔟`).
+Let `σ` be a ring homomorphism from `ℂ` to a normed field, `C₁ ∈ ℂ` and `R` real, and suppose that `|σ(C₁·a)| ≤ R` for
+every branching pairing `a` of two vectors reached by the lifts at corresponding points `h` and `diag(h, (ū/u)^m)` (the
+vectors obtained from the values of `y′` and `φ` by the kernels of the lifts along the two halves of the last path).
+Then for some `L ≤ N·(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}`, `Ξ` is a sum of `L·∏(class numbers of the 2m + 1 levels of the last
+path)` numbers `a` with `|σ(C₁·a)| ≤ R`.
 
 *Needs:* 5.2, 5.3; IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching between the Weyl modules of
 two interlacing weights); IntegralRepresentationsOfGeneralLinearGroups §§3.1, 3.4 (the form of that branching used here: for families of weights indexed
@@ -1402,10 +1474,10 @@ the `m²` turns (5.9) to the first path (5.7) gives the pairing of the chain of 
 forms of level `𝔟` on `Ỹ^m_0`, and `res^♭` is onto.
 
 (a) There is an integer `0 < N_den ≤ exp(x^99 b²)` such that for every `ϑ`, path datum `Ψ` on the last path, pair of forms
-fixed by the outer levels, and prime `p ∤ Nm Q(ϑ)`: if both forms, read as algebraic forms, have `p`-adic gauge at most
-`1`, then `N_den·Ξ` is `p`-integral. At the trivial twist, for a path datum on the last path with bound
-`#(O_E/𝔟)^{2n_m·m²}·(#(O_E/𝔟)^{(2n_m)²})^{2m}` (the bound that 5.6 and 5.9 (b) give there): if the `σ`-conjugates of the
-values of the two forms have squared norms at most
+fixed by the outer levels (5.10 (c)), and prime `p ∤ Nm Q(ϑ)`: if both forms, read as algebraic forms, have `p`-adic gauge
+at most `1`, then `N_den·Ξ` is `p`-integral. At the trivial twist, for a path datum on the last path with bound
+`#(O_E/𝔟)^{2n_m·m²}·(#(O_E/𝔟)^{(2n_m)²})^{2m}` (the bound that 5.6 and 5.9 (b) give there): if, for an automorphism `σ`
+of `ℂ`, the `σ`-conjugates of the values of a pair of forms fixed by the outer levels have squared norms at most
 `B_Y` and `B_Ỹ`, then `|σ(Ξ)| ≤ exp(x^200 b²)·√B_Y·√B_Ỹ`. The bound on the datum is needed: `Ξ` is linear in `Ψ`, and
 an integer multiple of a path datum is a path datum with a larger bound.
 

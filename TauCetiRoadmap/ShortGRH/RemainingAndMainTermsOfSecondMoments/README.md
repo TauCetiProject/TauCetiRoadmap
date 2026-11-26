@@ -46,27 +46,28 @@ section states more than [ShortProof] proves, its last sentence says which case 
 
 **Fields.** `E` is a CM field with complex conjugation `x ↦ x̄`, `f` the number of its infinite places, `Φ_v` the chosen
 complex embedding at the infinite place `v`, `rd_E` its root discriminant, `𝔸_f` its finite adeles and `Ô` their
-integral elements. `E` *has Weil data* if it carries the element `ȷ`, the finite idele `α` and the splitting character
-`υ` of DivisibilityOfThetaDerivatives §1.4 (c); the field of admissible data has them. Layers 7 and 8 assume them; their
-statements do not depend on the choice. *Stably unramified* means that `E` contains a primitive root of unity of order `5040`; then `E/E⁺` is
+integral elements. `E` *has Weil data* if it is stably unramified (below) and carries the element `ȷ`, the finite idele
+`α` and the splitting character `υ` of DivisibilityOfThetaDerivatives §1.4 (c); the field of admissible data has them.
+Layers 7 and 8 assume them; their statements do not depend on the choice. *Stably unramified* means that `E` contains a primitive root of unity of order `5040`; then `E/E⁺` is
 unramified at the finite places. For an adele `a`, `[a]` is the generalised index: the inverse of the factor by which
 multiplication by `a` scales Haar measure on `𝔸_f`, and `0` if `a` is not a unit. For `a ∈ E^×`, `[a] = |N_{E/ℚ} a|`.
 `vol(Ô)` is the number `2^{r₂}/√|disc E|`, `r₂` the number of complex places of `E`; for a CM field, `r₂ = f` and
 `vol(Ô) = (2/rd_E)^f`. It is the measure of `Ô` for the Haar measure on `𝔸_f` for which `𝔸_E/E` has mass `1` when each
 `E_v = ℂ` carries Lebesgue measure, and it is the normalisation of SecondMomentsOfPoincareSeries (Conventions,
-**Normalisations**); the constants of 6.3 and 6.4 hold with this value.
+**Normalisations**); the constants of 6.3 and 6.4 hold with this value. `ψ_f` is the standard character of `𝔸_f`: it is
+trivial on `Ô` and `ψ_f(a) = exp(2πi·Tr_{E/ℚ} a)` for `a ∈ E` (AdelicUnitaryGroupsAndAlgebraicModularForms §2.1).
 
 **The filling data.** The data `S` are those of SecondMomentsOfPoincareSeries §4.1 (the filling data and its standing
 hypotheses). A *shape* gives `ϱ` and a finite set `κ` with `k = #κ`; `n = ϱ + 1`. The space is
 `V = H^ϱ ⊕ X₀ ⊕ E z` over `E`: `ϱ` hyperbolic planes with bases `e_a, e*_a` (`1 ≤ a ≤ ϱ`), a positive definite `X₀`
-with orthonormal basis indexed by `κ`, and `z` with `h(z, z) = −N`. The data give a prime `N = ππ̄` (with `π` a finite
+with orthonormal basis `x_i` (`i ∈ κ`), and `z` with `h(z, z) = −N`. The data give a prime `N = ππ̄` (with `π` a finite
 idele), two primes `p₀, p₁` with `M = p₀p₁`, sets of *chosen places* above `p₀` and above `p₁` (above each `p_i` as many as
 `E` has infinite places; no place is chosen together with its conjugate), a purely imaginary generator `ϖ` of the different, a free level in
-`U(X₀)(𝔸_f)`, a size parameter `b`, and a Bessel system at each infinite place. *Admissible* means that the standing
-hypotheses of that roadmap hold. The ones used most here are `1000 ≤ b`, `b^10 ≤ p_i ≤ b^11`, `b^19 ≤ M ≤ b^23`,
-`5 ≤ N ≤ b^(60n)`, `10⁵ ≤ ϱ`, `1000(2ϱ + 2)⁹ ≤ k ≤ f`, `(200fk·rd_E)^1000 ≤ b`, and `1 ≤ |κ_v| ≤ b^23` for
-`κ_v = MΦ_v(ϖ)/(2πi)`. They also include `b^(11kf)𝒟_id ≤ 𝒟_main ≤ (M/b⁶)^(kf)𝒟_id`, at most `b^(2kf)` Bessel
-coordinates, that the level is the preimage of `K(M)`, and that reduction `K → Ḡ` is onto.
+`U(X₀)(𝔸_f)`, a size parameter `b`, and a Bessel system at each infinite place. Filling data include the size
+conditions `1000 ≤ b`, `b^10 ≤ p_i ≤ b^11`, `b^19 ≤ M ≤ b^23`, `5 ≤ N`, `10⁵ ≤ ϱ`, `1000(2ϱ + 2)⁹ ≤ k ≤ f` and
+`(200fk·rd_E)^1000 ≤ b`. *Admissible* means that the standing hypotheses of that roadmap hold in addition. The ones
+used most here are `N ≤ b^(60n)` and `1 ≤ |κ_v| ≤ b^23` for `κ_v = MΦ_v(ϖ)/(2πi)`. They also include
+`b^(11kf)𝒟_id ≤ 𝒟_main ≤ (M/b⁶)^(kf)𝒟_id`, at most `b^(2kf)` Bessel coordinates, that the level is the preimage of `K(M)`, and that reduction `K → Ḡ` is onto.
 
 | Symbol | Meaning | Defined |
 |---|---|---|
@@ -80,13 +81,14 @@ coordinates, that the level is the preimage of `K(M)`, and that reduction `K →
 | `A_T(c, s, c')`, `A♭_T` | the block: the sum of `a_{c,c'}(γ)` over `γ ∈ T` with `h_c⁻¹γh_{c'} ∈ K` of reduction `s` (the terms over `(c, s, c')`); with `W♭` | SecondMomentsOfPoincareSeries §4.2 |
 | `Z(γ)`, `D_l(γ)`, `𝗀(γ)`, `Nm𝗀(γ)` | the matrix `(h(f_a, γf_b))` of frame products; its leading minors; `𝗀 = \|D_n\|² − N²\|D_ϱ\|² ∈ E`; `∏_v \|Φ_v 𝗀\|` | SecondMomentsOfPoincareSeries §3.1 (leading minors, `𝗀_N`), §4.1 (frame products, `𝗀(γ)`) |
 | `ν`, `𝒟_main`, `𝒟_id`, `τ`, `n_p` | the covolume of the unipotent groups, `(n_X d)²/(deg·mass_r)`, `#R̄₀·n_X d`, `b^(kf/4)`, `#R̄₀ n_X N^(−kf)` | SecondMomentsOfPoincareSeries §4.2 (`ν`, `𝒟_main`, `𝒟_id`); 2.4 |
+| `mass_r` | the mass `Σ 1/#Aut` of the genus of the standard hermitian lattice `𝒪_E^r` | SecondMomentsOfPoincareSeries (Conventions, `mass_l`) |
 | `c_S`, `a_*` | `((2π)^k rd_E^(1/2−k)/((k−1)! N^k))^f`; `#R̄₀·M^(fϱ(2k+2ϱ+1))·n_X·c_S` | SecondMomentsOfPoincareSeries §4.1 |
 | `link(γ)`, `Υ_γ`, `z⁺` | the pairs (class of `t`, class of `γ⁻¹t`) in `(A^⊥/A)²` for `t ⊥ A + γA`; the isometry of `X₀ ⊥ Ez⁺` it defines; `z⁺` of norm `N` | SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry) |
 | cell rank `j` | `0 ≤ j ≤ ϱ + 1`: norm-one pairs occur from `j`, `D_j ≠ 0`, and `j = ϱ + 1` exactly when `𝗀 ≠ 0` | SecondMomentsOfPoincareSeries §4.4 (cell ranks and near terms); 2.4 |
 | `Γ*`, agrees, stable | the remaining terms; `s` agrees with the unipotent character; a set of terms invariant under `𝖴(E)` on both sides | SecondMomentsOfPoincareSeries §4.12 (the remaining terms), §4.2 (agrees, stable) |
 | meets, `meet(s)` | `s` meets at a place above `M` if there the spans of `f` and `sf` share a nonzero vector; the product of the norms of these places | SecondMomentsOfPoincareSeries §4.10 (c) |
 | residue domain, reduced, boxed, near | SecondMomentsOfPoincareSeries §4.2 (residue domains, reduced and boxed points), §4.4 (near terms) | 2.2 (existence and bounds) |
-| `L_γ`, `L₁₂`, `d₁₂`, `c⁺`, `𝗀♯`, `𝗀*`, `D_j`, `σ_j(x)`, `size(γ)` | the data of a term and of a pair | 2.4 |
+| `L_γ`, `L₁₂`, `d₁₂`, `c⁺`, `𝗀♯`, `𝗀*`, `𝒟_j`, `σ_j(x)`, `size(γ)` | the data of a term and of a pair | 2.4 |
 | `𝖤(A, Ω)`, `𝖤_link(T, Ω)` | second moments of blocks | 2.1 |
 | `E_T`, `O_T` | the product of the completions of `E` at a finite conjugation-stable set `T` of finite places, and its integers | 7.2 |
 
@@ -94,6 +96,10 @@ coordinates, that the level is the preimage of `K(M)`, and that reduction `K →
 agree with those of OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (`E`, `f`) and §3.2 (`b`, `M = p₀p₁`, `N`, `m`, `k`,
 `r`), and the chosen places are those of DivisibilityOfThetaDerivatives §1.5: `E`, `f`, `b`, `M = p₀p₁`, `N`, the chosen
 places, `ϱ` (with `m = 2ϱ + 2` lifts), `k` (the rank of `X₀`) and `r = 2ϱ + k + 1` (the rank of `Y₀ = V`).
+
+**Two letters with two meanings.** `f` is the number of infinite places in exponents, products and counts, and the
+frame in `f_a`, `γf`, `sf` and the like. `r` is `2ϱ + k + 1` except where a section gives it another meaning: the rank
+of a lattice in 1.1, 5.2 and 5.3, a real number or a tuple of scales in 6.2, 6.3 and 7.5, and any rank in 8.2.
 
 ## Layer 1: Lattices over a CM field
 
@@ -219,7 +225,8 @@ frame vector `y_v⁻¹f_a` has length at most `b^(37n)`.
 points), §4.4 (near terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Box.lean` (`New.Filling.exists_isResidueDomain`, `New.Filling.boxedPoints`,
-`New.Filling.mul_mem_boxedPoints_iff`, `New.Filling.mem_frameBox_of_mem_boxedPoints`)
+`New.Filling.mul_mem_boxedPoints_iff`, `New.Filling.mem_frameBox_of_mem_boxedPoints`),
+`New/Spanning/Unfolding/Terms.lean` (`New.Filling.IsNear.mul_of_mem_besselU0`)
 
 ### 2.3 The lattice of a class and the lattice of columns
 
@@ -233,8 +240,8 @@ lattice and the covolume is at least `1`.
 Let `S` be admissible and `c` a class with chosen representative `g_c ∈ U(X₀)(𝔸_f)`.
 
 (a) `Λ_c ∩ X₀` is the set of `v ∈ 𝔸_f^κ` such that `g_c⁻¹v` is integral and its entry at the distinguished index `k₀`
-is divisible by the idele that the data fix above `N` (in the lattice basis of SecondMomentsOfPoincareSeries §4.1, where
-`e_{k₀}` is replaced by `e_{k₀}/π̄ + z/N`). Any two vectors of `Λ_c ∩ X₀` have an integral product.
+is divisible by `π` (in the lattice basis of SecondMomentsOfPoincareSeries §4.1, where `x_{k₀}` is replaced by
+`x_{k₀}/π̄ + z/N`). Any two vectors of `Λ_c ∩ X₀` have an integral product.
 
 (b) For a finite set `ι`, the image of `(Λ_c ∩ X₀ ∩ E^κ)^ι` in `∏_v (ℂ^κ)^ι` under the conjugates of the embeddings
 `Φ_v` is a discrete subgroup. It has a measurable fundamental domain of finite Lebesgue measure at least `1`.
@@ -270,13 +277,13 @@ Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻
   `f` and `z`. `minor_j(γ) = |N_{E/ℚ} D_j(γ)|` for `j ≤ ϱ`, and `minor_{ϱ+1}(γ) = |N_{E/ℚ} D_{ϱ+1}(γ)|/N^(2f)`.
 - *Gauges.* `𝗀♯_j(γ) = |N_{E/ℚ} δ_*^j(γ)|/(i_j(k_γ)·i_j(k_γ⁻¹)·N^f)`, `𝗀_max = max(𝗀♯_j, Nm𝗀)` and
   `𝗀*_j(γ) = M^(2j'f)·𝗀_max`. The *discriminant bound* is `b^(n³f)`.
-- *Sizes.* `D_j = 𝒟_main` for `j = ϱ + 1` and `D_j = τ^(−16)𝒟_id` for `j ≤ ϱ`. The *orbit bound* is
-  `σ_j(x) = τ²·(D_j/(n_p(M^(2j'f)x)^k))^(1/2)`. The *size* of a term of cell rank `j` is `size(γ) = σ_j(𝗀_max(γ))`.
+- *Sizes.* `𝒟_j = 𝒟_main` for `j = ϱ + 1` and `𝒟_j = τ^(−16)𝒟_id` for `j ≤ ϱ`. The *orbit bound* is
+  `σ_j(x) = τ²·(𝒟_j/(n_p(M^(2j'f)x)^k))^(1/2)`. The *size* of a term of cell rank `j` is `size(γ) = σ_j(𝗀_max(γ))`.
 - *Representatives.* Fix one element of each double coset `U⁰_c γ U⁰_{c'}`. A *near representative of `T` over
   `(c, s, c')`* is a fixed element `γ ∈ T` over `(c, s, c')` that is near, has a cell rank, and for which `s` agrees. A
   *near pair over an agreeing block* is a pair of near representatives that have cell ranks and lie over one block
   `(c, s, c')` whose `s` agrees. Fix a representative of each coset of `R̄₀` in `Ḡ`. The *label* of a term over
-  `(c, s, c')` is the element `t ∈ R̄₀` with `s = r·t`, where `r` is the fixed representative of the coset `sR̄₀`.
+  `(c, s, c')` is the element `t ∈ R̄₀` with `s = s₀·t`, where `s₀` is the fixed representative of the coset `sR̄₀`.
 
 *Needs:* 1.1, 2.2, 2.3, SecondMomentsOfPoincareSeries §4.2 (links, agreeing reductions), §4.4 (cell ranks and near
 terms), §4.5 (the link isometry), §4.12 (the remaining terms).
@@ -339,9 +346,9 @@ put `w_{c',γ,i}(y) = β^□_{c'}(γ⁻¹y)·∏_v ν_{γ_v}(y_v)^(−(k+i))` (3
 
 (a) `|a|♭_{c,c'}(γ)² ≤ I(c, c', γ, i)·I(c', c, γ⁻¹, i)`.
 
-(b) Let `F ≥ 0` be measurable and invariant under `U⁰_c` on the left, let `x ↦ s(x)` be a measurable map into
-`∏_v 𝖴⁰(ℝ)`, and let `B` have finite positive measure. If `∫_B F(u·s(x)·y) dx ≤ |B|·C` for all `u ∈ ∏_v 𝖴⁰(ℝ)` and all
-boxed `y`, then `∫ β^□_c ‖W♭‖² F ≤ C·ν·d`.
+(b) Let `F ≥ 0` be measurable and invariant under `U⁰_c` on the left, let `x ↦ s(x)` be a measurable map from a
+measure space with an s-finite measure into `∏_v 𝖴⁰(ℝ)`, and let `B` have finite positive measure. If
+`∫_B F(u·s(x)·y) dx ≤ |B|·C` for all `u ∈ ∏_v 𝖴⁰(ℝ)` and all boxed `y`, then `∫ β^□_c ‖W♭‖² F ≤ C·ν·d`.
 
 *Needs:* 2.2, 3.1, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes and blocks; the cutoffs `β_c`).
 
@@ -384,7 +391,8 @@ Let `S` be admissible and `γ ∈ G(E)`.
 
 (b) If `γ` is near and `Nm𝗀(γ) ≥ 1`, then `σ_{ϱ+1}(Nm𝗀(γ)) ≥ b^(−k³f)`.
 
-(c) If `Nm𝗀(γ) ≥ 1`, the product over the infinite places of the open-cell bounds at the images of `γ` is at most
+(c) If `Nm𝗀(γ) ≥ 1`, the product over the infinite places of the open-cell bounds at the images of `γ` (with radius
+`b^(37n)`, the degree and the number of coordinates of the Bessel system at `v`) is at most
 `(ν·σ_{ϱ+1}(Nm𝗀(γ))/2)²`.
 
 *Needs:* 2.2, 2.4, SecondMomentsOfPoincareSeries §3.12 (b) (the open-cell bound at one place).
@@ -448,7 +456,7 @@ minor `δ_*` that pairs them.
 *Method of the formal proof:* the shared vectors of the flags lie in `I_γ = A ∩ γA` from the cell rank on, and a
 vector of `I_γ` with zero products with the subframe is `0` because `D_j ≠ 0`. This gives the basis of `γA⁺/I_γ`. The
 basis of `A⁺/I_γ` is the same statement for `γ⁻¹`, moved by `γ`; here the formal proof uses that `γ⁻¹` has the same cell
-rank, which it proves for stably unramified `E`. The two bases pair perfectly, so `δ_* ≠ 0`.
+rank. The two bases pair perfectly, so `δ_* ≠ 0`.
 
 Let `S` be filling data and `γ ∈ G(E)` of cell rank `j`, `I_γ = A ∩ γA`.
 
@@ -477,7 +485,8 @@ is `|δ_*|²` (4.1). Jacobi's identity gives (a), and the divisibility by `M` co
 
 Let `S` be filling data over a stably unramified `E`, `γ` a term over `(c, s, c')` of cell rank `j`, `i = min(ϱ, j)`,
 `k = k_γ`, and let the columns of a rational matrix `v` be a basis of `link(γ)`. The *link discriminant* `d_link` of a
-lattice in `link(γ)` is the discriminant (1.1) of its image in `X₀ ⊥ Ez⁺` under `(y₀ + λ'z, y₀' + λz) ↦ y₀ + λz⁺`. A
+lattice in `link(γ)` is the discriminant (1.1) of its image in `X₀ ⊥ Ez⁺` (taken for the form of `X₀ ⊥ Ez⁺`, in
+which `z⁺` has norm `N`) under `(y₀ + λ'z, y₀' + λz) ↦ y₀ + λz⁺`. A
 column has an *integral lift* if it is the image under `t ↦ (class of t, class of γ⁻¹t)` of a vector of `Λ_c` that is
 an adelic combination of rational vectors orthogonal to `A` and `γA`. It has a *level lift* if moreover the part of
 that vector in `A` is divisible by `M`; such columns span `L⁺_γ`.
@@ -512,11 +521,12 @@ determinant is a direct computation from the leading minors: it equals `N²𝗀/
 
 Let `S` be filling data and `γ ∈ G(E)`.
 
-(a) If `γ` is a term over `(c, s, c')`, the products of `z⁺` and `Υ_γ⁻¹z⁺` with the image in `X₀ ⊥ Ez⁺` of every vector
-of `Λ_c` orthogonal to `A` and `γA` are integral.
+(a) If `γ` is a term over `(c, s, c')`, the products of `z⁺` and `Υ_γ⁻¹z⁺` with the image in `X₀ ⊥ Ez⁺` of every
+rational vector of `Λ_c` orthogonal to `A` and `γA` are integral.
 
-(b) The vectors of `X₀ ⊥ Ez⁺` orthogonal to both are exactly `X₀ ∩ Υ_γ⁻¹X₀`. A vector `v ∈ X₀` lies in `L⁺_γ` and in
-`X₀ ∩ Υ_γ⁻¹X₀` if and only if `v ∈ Λ_c` and some vector of `v + M(Λ_c ∩ A)` is orthogonal to `γf`.
+(b) The vectors of `X₀ ⊥ Ez⁺` orthogonal to both are exactly `X₀ ∩ Υ_γ⁻¹X₀`. A vector `v ∈ X₀` is the image of a
+rational vector of `Λ_c` orthogonal to `A` and `γA` whose part in `A` is divisible by `M` (so `v ∈ L⁺_γ`), and lies in
+`X₀ ∩ Υ_γ⁻¹X₀`, if and only if `v ∈ Λ_c` and some rational vector of `v + M(Λ_c ∩ A)` is orthogonal to `γf`.
 
 (c) If `γ` has cell rank `j` and `𝗀(γ) = 0`, the two vectors are proportional. If `𝗀(γ) ≠ 0`, they are independent and,
 for `E` stably unramified, `∏_v |Φ_v det Gram(z⁺, Υ_γ⁻¹z⁺)| = N^f·Nm𝗀(γ)/𝗀♯_{ϱ+1}(γ)`.
@@ -637,13 +647,14 @@ round is counted by a colouring argument.
 Let `S` be admissible and `E` stably unramified, `c` a class, `r + l = k`, and `L ⊂ Λ_c ∩ X₀` a lattice of rank `r` with
 `d_r(L) ≤ b^(n³f)`.
 
-(a) Let `B` be a set of near terms `(c', γ)` over blocks `(c, s, c')` (any `s`), each with a cell rank and pairwise
-inequivalent under moves, with `L ⊂ L_γ` for all of them. Then `#B ≤ b^(2000n⁶(l+1)f)`.
+(a) Let `B` be a set of near terms `(c', γ)` over blocks `(c, s, c')` (any `s`), each with a cell rank, whose frames are
+pairwise inequivalent under moves: if `uγf = u'γ'f` for moves `u, u'` and `(c', γ), (c'', γ') ∈ B`, then
+`(c', γ) = (c'', γ')`. Let `L ⊂ L_γ` for all of them. Then `#B ≤ b^(2000n⁶(l+1)f)`.
 
 (b) For every label `t`, at most `b^(2000n⁶(l+1)f)` near representatives `(c', γ)` with a cell rank and label `t` have
 `L ⊂ L_γ`.
 
-*Needs:* 2.4, 5.1.
+*Needs:* 2.2, 2.4, 5.1.
 
 [ShortProof], `New/Spanning/RemainingTerms/FramesOverLattice.lean` (`New.Filling.IsFrameSet.encard_le`,
 `New.Filling.encard_setOf_isNearTermAt_and_le_termLattice_le`)
@@ -706,13 +717,13 @@ their links are equal.
 (a) `Σ_{c,c'} Σ size(γ)·size(γ') ≤ b^(−kf)𝒟_id`, the inner sum over the near pairs `(γ, γ')` over agreeing blocks
 `(c, ·, c')` that are not in the same link class.
 
-(b) Let `z ≥ 1`. `Σ_{c,c'} Σ size(γ)·size(γ') ≤ (b^(2f)/z)^k·𝒟_main`, the inner sum over the near pairs over agreeing
+(b) Let `z ≥ 1` be a natural number. `Σ_{c,c'} Σ size(γ)·size(γ') ≤ (b^(2f)/z)^k·𝒟_main`, the inner sum over the near pairs over agreeing
 blocks `(c, s, c')` in the same link class with `meet(s) ≥ z`.
 
 (c) *Reduction to one link.* Let `Ω ⊂ Ḡ` and `w ≥ 0`. If `𝖤_link({𝗀 ≠ 0}, Ω) ≤ wν²`, then
 `𝖤(A♭_{Γ*}, Ω) ≤ w + b^(−kf)𝒟_id`.
 
-(d) *One link at a time.* Let `z ≥ 1` with `meet(s) ≥ z` for all `s ∈ Ω`. Then
+(d) *One link at a time.* Let `z ≥ 1` be a natural number with `meet(s) ≥ z` for all `s ∈ Ω`. Then
 `𝖤_link({𝗀 ≠ 0}, Ω) ≤ (b^(2f)/z)^k·𝒟_main·ν²`.
 
 *Needs:* 2.1, 2.4, 3.5, 4.5, 5.4, SecondMomentsOfPoincareSeries §4.10 (c) (meeting places), §4.12 (the remaining terms).
@@ -729,8 +740,9 @@ blocks `(c, s, c')` in the same link class with `meet(s) ≥ z`.
 pairs of sequences, each form the integral of the next over a common entry, and its stability under finite products.
 
 *Method of the formal proof:* the product is checked factor by factor: Fubini for the recursion and the twisted integrals,
-Schur's product theorem for positivity, and products of the local bounds. Lower semicontinuity of the sum of the top
-forms comes from continuity of the top form and positivity at the common entry.
+Schur's product theorem for positivity, and products of the local bounds. Positivity and lower semicontinuity of the
+sums in (b) descend from the top form, which is positive semidefinite and continuous, by integration over the common
+entry, with Fatou's lemma for the semicontinuity.
 
 Let `C` be a commutative ring with a measure, `U` a topological space, `u : C → U`, `ι : U → C`, `ψ : C → ℂ`, `n ∈ ℕ`,
 `E_n ∈ ℝ`, weights `Λ_i(p) ∈ ℝ` and a decay `β : C → ℝ`. A family of forms `J_i(p, q) ∈ ℂ`, `0 ≤ i ≤ n + 1`, on pairs of
@@ -747,17 +759,22 @@ sequences `p, q : ℕ → U` (*heads*) is a *sieve system* if:
 (a) *Products.* Let `J` be a sieve system on `C` (with an s-finite measure) and, for each `v` in a finite set, `J^v` a
 sieve system on `ℂ` with entry map `c ↦ c` on units and `1` at `0`, twist `c ↦ exp(c − c̄)` and the same `n`. The map
 back `ι'` and the weights `Λ'` are the same for all `v`; the forms, mass bounds and decays may depend on `v`. Then the
-products `∏_v J^v_i(p_v, q_v)·J_i(p_C, q_C)` form a sieve system on `ℂ^v × C`. Its map back is `ι'` at each `v` and `ι`
-on `C`, and its twists, mass bounds, weights and decays are the products of those of the factors.
+products `∏_v J^v_i(p_v, q_v)·J_i(p_C, q_C)` form a sieve system on `ℂ^v × C`. Its entry map is `c ↦ c` on units and
+`1` at `0` at each `v`, and `u` on `C`; its map back is `ι'` at each `v` and `ι` on `C`; and its twists, mass bounds,
+weights and decays are the products of those of the factors.
 
 (b) For `i ≤ n` and a finite family `P` of heads, `c ↦ Σ_{p,q∈P} J_{i+1}(p with u(c) at i, q with u(c) at i)` is
-integrable, with integral `Σ_{p,q} J_i(p, q)` and twisted integrals bounded by `β(ξ)(Σ_p Λ_i(p))²`. For `i = n` this sum
-is nonnegative, and its real part is lower semicontinuous at every point where every head is continuous.
+integrable, with integral `Σ_{p,q} J_i(p, q)` and twisted integrals, for every unit `ξ`, bounded by
+`β(ξ)(Σ_p Λ_i(p))²`. For every `i ≤ n` and every finite family of heads with a common entry at position `i`, the sum
+`Σ_{p,q} J_{i+1}(p, q)` is real and nonnegative. If moreover `C` carries a first-countable topology and the heads
+depend on a parameter `x ∈ C`, with a common entry at position `i` for each `x`, the real part of this sum is lower
+semicontinuous at every `x` where every head is continuous.
 
 *Needs:* none.
 
 [ShortProof], `New/Spanning/MainTerm/SieveSystem.lean` (`New.SieveSystem`, `New.SieveSystem.pi`,
-`New.SieveSystem.integrable_and_integral_sum_update`, `New.SieveSystem.sum_nonneg_and_lowerSemicontinuousAt`)
+`New.SieveSystem.integrable_and_integral_sum_update`, `New.SieveSystem.sum_nonneg`,
+`New.SieveSystem.sum_nonneg_and_lowerSemicontinuousAt`)
 
 ### 6.2 Sums over frequencies
 
@@ -795,13 +812,13 @@ transform of `F` at the corresponding frequency. One-sided Poisson summation on 
 then applies.
 
 Let `S` be filling data, `T` a finite set of finite places, `E_T = ∏_{w∈T} E_w` with integers `O_T` and the Haar
-measure in which `O_T` has volume `1`, and `ψ_T` the
-character `x ↦ ψ_f(−x/ϖ)` read at `T`; let `χ(x) = ∏_v exp(x_v − x̄_v)·ψ_T(x_T)` on `ℂ^{places} × E_T`. For
+measure in which `O_T` has volume `1` (integrals on `ℂ^{places} × E_T` are for Lebesgue measure on each `ℂ` times this
+measure), and `ψ_T` the character `x ↦ ψ_f(−x/ϖ)` read at `T`; let `χ(x) = ∏_v exp(x_v − x̄_v)·ψ_T(x_T)` on `ℂ^{places} × E_T`. For
 `r ∈ (0, ∞)^{places}` and `t ∈ E` let `P_r(t) = ((r_vΦ_v t)_v, t ∈ E_T)`. Let `V ⊂ E^×` be finite with all `t ∈ V`
-integral off `T`. Let `F ≥ 0` be integrable and lower semicontinuous at the points `P_r(t)`, `t ∈ V`. Let `M ≥ 0` and
-`β` satisfy `|∫ χ(ξx)F(x) dx| ≤ β(ξ)·M` for every unit `ξ`, and let `ε` bound every finite sum of
+integral off `T`. Let `F ≥ 0` be integrable and lower semicontinuous at the points `P_r(t)`, `t ∈ V`. Let `B₀ ≥ 0` and
+`β` satisfy `|∫ χ(ξx)F(x) dx| ≤ β(ξ)·B₀` for every unit `ξ`, and let `ε` bound every finite sum of
 `β(P_{r'}(y))` over nonzero `T`-integers `y`, where `r'_v = 2πi/(Φ_v(ϖ)r_v)`. Then
-`Σ_{t∈V} F(P_r(t)) ≤ (vol(Ô)/∏_v r_v²)·(εM + ∫F)`.
+`Σ_{t∈V} F(P_r(t)) ≤ (vol(Ô)/∏_v r_v²)·(εB₀ + ∫F)`.
 
 *Needs:* AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure), ShortGRH background
 (one-sided Poisson summation on the adeles of a totally complex field `E`, for the measure in which `𝔸_E/E` has mass
@@ -826,7 +843,8 @@ mass bound plus `2nΓε`.
 
 Let `S` be admissible, `T` a finite set of finite places, `A ⊃ U` finite subsets of `E^×` with `t` and `t⁻¹` integral
 off `T` for `t ∈ A`, and `M⁻¹` integral off `T`. Put `κ_v = MΦ_v(ϖ)/(2πi)`, `λ_{v,i} = κ_v^(2(ϱ−i))/N`, `P_i = vol(Ô)/∏_v λ_{v,i}²`, and
-`C_decay = ∏_v c_𝔰·(|κ_v|^(2ϱ+1)/(MN))^(k−n⁷)`, `c_𝔰` the constant of the shape in the Bessel systems. Let `J_T` be a
+`C_decay = ∏_v c_𝔰·(|κ_v|^(2ϱ+1)/(MN))^(k−n⁷)`, where `c_𝔰 = π^((2ϱ+1)k)·vol U(k)/vol U(r)` is the constant `Θ_𝔰` of
+the local bounds of the Bessel systems (SecondMomentsOfPoincareSeries §3.3). Let `J_T` be a
 sieve system on `E_T` in length `ϱ`. Its entry map is `x ↦ x` on units and `1` otherwise, and `ι(w) = M⁻¹w⁻¹`. Its
 twist is `ψ_T` and its mass bound `mass_T`. Its weights are `Λ_i(p) = ∏_{l<i} [δ_l]^(n⁶/2)` when the partial products
 `δ_l = p_0⋯p_l` are integral, and `0` otherwise. Its decay is `ξ ↦ [ξ]^((k−n⁷)/2)/[O_T : O_T ∩ ξ⁻¹O_T]³·b^(n⁹f)`. For
@@ -857,8 +875,8 @@ the integral points at a finite place.
 Let `F` be a place datum at a finite place in the sense of PairsOfFramesAtOnePlace §2.2 (place data at a finite place),
 coming from the lattice of integral vectors (*large lattice data*: unimodular form, integral basis and level, large rank,
 character trivial on traces, unimodular group), with principal congruence subgroup `K(M)` and Haar measure `μ`. Let `χ`
-be the finite Bessel function, `ψ_𝖴(u)` on `uK(M)` for `u ∈ 𝖴` and `0` off `𝖴K(M)`. For `x, s ∈ G` the *Kloosterman sum*
-is `Kl(x, s) = Σ ψ_𝖴(u)·conj ψ_𝖴(u')` over the pairs of cosets `u, u' ∈ 𝖴/(𝖴 ∩ K(M))` with `u⁻¹xu' ∈ sK(M)`. Let `Z` be
+be the finite Bessel function, `ψ_𝖴(u)` on `uK(M)` for `u ∈ 𝖴` and `0` off `𝖴K(M)`. For `x ∈ G` and an integral point `s`
+the *Kloosterman sum* is `Kl(x, s) = Σ ψ_𝖴(u)·conj ψ_𝖴(u')` over the pairs of cosets `u, u' ∈ 𝖴/(𝖴 ∩ K(M))` with `u⁻¹xu' ∈ sK(M)`. Let `Z` be
 a group between `K(M)` and the integral points, and `W_a(y) = χ(ya⁻¹)` for the cosets `a` of `K(M)` in `Z`. If
 `s⁻¹ab⁻¹ ∈ K(M)`, then `∫ W_a(y)·conj W_b(x⁻¹y) dμ(y) = μ(K(M))·Kl(x, s)`.
 
@@ -899,7 +917,7 @@ There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an o
 *Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
 AdelicUnitaryGroupsAndAlgebraicModularForms §2.3 (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
 finite places, the sums of an element of `E` and an adele that vanishes at infinity and at the finite places outside
-`S` are dense in the adeles).
+`S` are dense in the adeles); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/FillingLevel.lean` (`New.Filling.exists_places_integralOff`,
 `New.Filling.exists_isIntegralOff_toPlaces_eq`, `New.Filling.mem_unitaryLevel_iff`, `New.Filling.exists_integralPlace`,
@@ -928,17 +946,22 @@ the hyperbolic pairs; `t = h(z, σz)` with `|Φ_vt|² > N²` at every `v`; `Λ =
 `T`; `k̄ = s`. Moreover the block equals `Σ_{p∈𝒯^ϱ} O(w_{(p,t)}σ)`.
 
 (b) Let `F` be a filling datum at `T` with `M⁻¹` integral off `T`, `B` a subgroup of `G(𝔸_f)`, and `μ` an s-finite measure
-on `G(E_T)`. Suppose `μ` is carried by the projections of elements of `B` integral off `T` and invariant under right
-translation by them. Then the order of the image of `B ∩ K` in `Ḡ` times `μ(K(M)_T)` is `μ(G(O_T))`.
+on `G(E_T)`. Suppose `μ` is carried by the projections of elements of `B` integral off `T`, and is invariant under right
+translation by the projection of every element of `B`. Then the order of the image of `B ∩ K` in `Ḡ` times
+`μ(K(M)_T)` is `μ(G(O_T))`.
 
-(c) For `γ = w_pσ` with `p_a⁻¹` integral off `T` (`a < ϱ`) and `h_c⁻¹γh_{c'}` integral off `T`, and `k ∈ K`, the orbit
-sum of `γ` over `(c, k̄, c')` is `Kl(x, s)` (7.1, at `T`) times the orbital integral at infinity
-`∫ W(y) ⊗ W(γ⁻¹y)^* dy`, for `W` or `W♭`. Here `x` and `s` are the projections to `T` of `h_c⁻¹γh_{c'}` and of `k`.
-Hence the entry `(a, b)` of the scaled orbital integral at `T` (PairsOfFramesAtOnePlace §6.2) times this orbital integral at
-infinity is the head density times `μ(K(M))` times the orbit sum, whenever `k⁻¹ab⁻¹ ∈ K(M)`.
+(c) Let `F`, `T` be as in (b). For `γ = w_pσ` with `p_a⁻¹` integral off `T` (`a < ϱ`) and `h_c⁻¹γh_{c'}` integral off
+`T`, and `k ∈ K`, the orbit sum of `γ` over `(c, k̄, c')` is `Kl(x, s)` (7.1, at `T`) times the orbital integral at
+infinity `∫ W(y) ⊗ W(γ⁻¹y)^* dy`, for `W` or `W♭`. Here `x` and `s` are the projections to `T` of `h_c⁻¹γh_{c'}` and of
+`k`. Hence, for a group `Z` between `K(M)_T` and the integral points at `T` and cosets `a, b` of `K(M)_T` in `Z` with
+`k⁻¹ab⁻¹ ∈ K(M)_T` (`k` read at `T`): the entry `(a, b)` of the scaled orbital integral `𝒪_Z(q, l⁻¹)` at `T`
+(PairsOfFramesAtOnePlace §6.2), with `q` the image of `p` at `T` and `l` the projection to `T` of `h_c⁻¹σh_{c'}`, times
+this orbital integral at infinity, is the head density `κ_ϱ(q, 1)` times the measure of `K(M)_T` for the Haar measure
+of `F` (7.1) times the orbit sum.
 
 *Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks and links), §4.5 (the link isometry),
-PairsOfFramesAtOnePlace §6.2 (the scaled orbital integral), §3.2 (the head density).
+PairsOfFramesAtOnePlace §6.2 (the scaled orbital integral), §3.2 (the head density); DivisibilityOfThetaDerivatives
+§1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalToLocal.lean` (`New.Filling.exists_amplitudeSum_eq_sum_cosetAmplitude`,
 `New.Filling.IsFillingData.card_reducedImage_mul_measure_congruenceSubgroup_eq`,
@@ -968,7 +991,7 @@ with `π_T` and the image of `t`. The integral is over the sphere `h(y, y) = (tt
 measure `μ_t` of PairsOfFramesAtOnePlace §6.1.
 
 *Needs:* 7.2, HermitianFormsAndLattices §6.5 (Siegel's main theorem), PairsOfFramesAtOnePlace §6.1 (fiber measures of the
-standard form on spheres).
+standard form on spheres); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/SiegelTopBound.lean` (`New.Filling.IsFillingData.siegel_sum_le_lintegral_sphere`,
 `New.Filling.IsFillingData.enorm_normDensity_le_mul_lintegral_normFiberMeasure`)
@@ -987,7 +1010,7 @@ Let `S`, `T`, `F` be as in 7.4, the lattice basis integral off `T`, and `Z` a gr
 points at `T`. Let `(c_i, c'_i, k̄_i, σ_i)`, `i ∈ I`, be distinct, `I` finite and nonempty. Suppose `σ_i` fixes the
 hyperbolic pairs,
 `h(z, σ_iz) = t` with `|Φ_vt| > N` at every `v`, `h_{c_i}⁻¹σ_ih_{c'_i}` is integral off `T`, and the projection of `k_i`
-lies in `Z`. Let `a_p`, `p ∈ J`, be heads with entry `t` at `ϱ` and earlier entries units off `T`. Let `R` be the Gram
+lies in `Z`. Let `J` be finite and `a_p`, `p ∈ J`, heads with entry `t` at `ϱ` and earlier entries units off `T`. Let `R` be the Gram
 matrix of the vectors `ρ_p·∫ W(y) ⊗ W((w_{a_p}σ_i)⁻¹y)^* dy` (the same for every `i`), with `W` or `W♭`, and let
 `ρ_p·(head density of a_p at T) = r·(∏_v (|Φ_vt|² − N²))^((k−1)/2)`. Then
 
@@ -995,7 +1018,8 @@ matrix of the vectors `ρ_p·∫ W(y) ⊗ W((w_{a_p}σ_i)⁻¹y)^* dy` (the same
 
 where `J^Z_top` is the density at the last entry at `T` and `m(Z)` the mass ratio of `Z` (PairsOfFramesAtOnePlace §6.3, §5.2 (b)).
 
-*Needs:* 7.3, 7.4; PairsOfFramesAtOnePlace §3.2 (floor forms), §6.3 (the density at the last entry), §5.2 (mass ratios).
+*Needs:* 7.3, 7.4; PairsOfFramesAtOnePlace §3.2 (floor forms), §6.3 (the density at the last entry), §5.2 (mass ratios);
+DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/SiegelTopBound.lean`
 (`New.Filling.IsFillingData.sum_mul_norm_sum_cosetAmplitude_sq_le_lastEntryDensity`,
@@ -1014,19 +1038,22 @@ bound, come from the local theory.
 
 Let `S` be admissible over a CM field that has Weil data, `F` a filling datum at `T` with
 `M⁻¹` integral off `T`, `𝔖g` a set of chosen places above `p₀`, and for each such place `w` a nonzero vector `D_w` of
-the span of the frame modulo `w` or its conjugate. There is a group `Z` between `K(M)_T` and the integral points at `T`
-with the following properties.
+the span of the frame modulo `w` or its conjugate. For a group `Z` between `K(M)_T` and the integral points at `T`,
+consider the properties (a), (b) and (c) below. There is such a group `Z` with (a) and (b), and there is such a group
+`Z` with (a) and (c).
 
 (a) `Z` contains the projection to `T` of every `k ∈ K` whose reduction fixes `D_w` for all `w ∈ 𝔖g`.
 
 (b) The forms `J_j = (floor form j of the Bessel vector of Z)/m(Z)` for `j ≤ ϱ` and
 `J_{ϱ+1} = (density at the last entry at the prime above N)/m(Z)` form a sieve system (6.1) on `E_T` in length `ϱ`. Its
 entry map is units, `ι(w) = M⁻¹w⁻¹`, its twist is `ψ_T` and its weights and decay are those of 6.4. Its mass bound is
-`(1 + b^(−6))/b^(6k·#𝔖g)`, and `0 ≤ J_0`.
+`(1 + b^(−6))/b^(6k·#𝔖g)`.
+
+(c) `0 ≤ J_0(p, q) ≤ (1 + b^(−6))/b^(6k·#𝔖g)` for all heads `p, q`, with `J_0` the form of order `0` of (b).
 
 *Needs:* 6.1, 7.2; PairsOfFramesAtOnePlace §3.2 (floor forms), §6.3 (the density at the last entry), §5.2 (mass ratios),
 §5.4 (shells, decay and the mass at the finite places), §7.2 (groups fixing given vectors at chosen places have a small
-mass integral).
+mass integral); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/FiniteSieveSystem.lean` (`New.Filling.IsFillingData.exists_intermediateGroup_sieveSystem`,
 `New.Filling.IsFillingData.exists_intermediateGroup_norm_floorForm_div_le`)
@@ -1054,7 +1081,8 @@ for every `w ∈ 𝔖g`. Then
 `𝖤_link({γ : 𝗀(γ) ≠ 0}, Ω) ≤ (1 + b^(−4))·b^(−6k·#𝔖g)·𝒟_main·ν²`.
 
 *Needs:* 2.1, 6.4, 7.2, 7.3, 7.5, 7.6, SecondMomentsOfPoincareSeries §4.1 (the group `Ḡ` and reduction at the chosen
-places), §4.10 (d) (the fixers of frame vectors at the chosen places).
+places), §4.10 (d) (the fixers of frame vectors at the chosen places); DivisibilityOfThetaDerivatives §1.4 (c) (Weil
+data).
 
 [ShortProof], `New/Spanning/MainTerm/EnergyEstimate.lean` (`New.Filling.linkSecondMoment_isOpenElement_le`,
 `New.Filling.sum_norm_sum_cosetAmplitude_sq_le`)
@@ -1072,10 +1100,11 @@ the degree bound for the characters of labels. Allowed tuples weigh at least `(1
 at most `exp(−u)^f`.
 
 Let `k_w`, `w` in a set of `f` elements, be fields with `q` elements, `n` a set of `r` elements, and `M ≥ 1`. A *label*
-of degree `r` over `k_w` is a monic squarefree polynomial of degree `r` with nonzero constant term. It is *allowed* if
-it has no root `x ∈ k_w` with `x^M = 1`, and *primitive* if it is irreducible with a root of order `q^r − 1`. A tuple of
+of degree `r` over `k_w` (in this section only; not the label of a term of 2.4) is a monic squarefree polynomial of
+degree `r` with nonzero constant term. It is *allowed* if it has no root `x ∈ k_w` with `x^M = 1`, and *primitive* if it is irreducible with a root of order `q^r − 1`. A tuple of
 labels is *good* if every label is allowed and some label is primitive. For a label `c` let `e_c = Σ_g (Ξ_c(1)/|G|)·conj Ξ_c(g)·g`
-in `ℂ[GL_n(k_w)]`, with `Ξ_c` the character attached to `c` by Green's theory. For a tuple, `e_{(c_w)} = ⊗_w e_{c_w}` in
+in `ℂ[GL_n(k_w)]`, with `Ξ_c` the character attached to `c` by Green's theory, for a fixed injective character of the
+multiplicative group of an algebraic closure of `k_w`. For a tuple, `e_{(c_w)} = ⊗_w e_{c_w}` in
 `ℂ[∏_w GL_n(k_w)]`.
 
 (a) At most `(1 + M + r)q^(r−1)` monic polynomials of degree `r` over `k_w` are not allowed. For `1 < r < q` and

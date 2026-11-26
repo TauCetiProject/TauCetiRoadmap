@@ -25,7 +25,8 @@ cup products vanish does not depend on the rank in the essential cases. The proo
 The data of the argument are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the field and
 its infinite places), §3.2 (admissible data: ranks, weights, places, level), §3.3 (sizes) and §3.4 (tame characters and
 twists); the letters below follow it, except where the table says otherwise. Layers 1–3 do not use the data: they hold for
-any CM field and any prime. Sections 4.1, 4.2, 4.6, 4.8 (b) and Layer 5 are stated on the data; 4.3–4.5, 4.7 and
+any CM field and any prime, and there letters such as `M`, `N`, `m`, `r`, `b`, `d`, `K` have the meaning given in the
+section that uses them. Sections 4.1, 4.2, 4.6, 4.8 (b) and Layer 5 are stated on the data; 4.3–4.5, 4.7 and
 4.8 (a) are general statements about lattices over a local Galois group, placed in Layer 4 because the local loss is
 their use.
 
@@ -33,7 +34,7 @@ their use.
 field `E`, `G_E = Gal(Ω/E)`, `c` is a fixed complex conjugation, `g^c = cgc`, and `g^{−c} = (g^c)^{−1}`. For a finite place
 `v` of `E`, `D_v` and `I_v` are the decomposition and inertia groups of a chosen place of `Ω` above `v`. A *Frobenius
 element* at a place `A` of `Ω` above `v` stabilises `A` and acts on residues as `x ↦ x^{Nv}`. A *tame generator* is a
-chosen element of `I_v` that multiplies an `n`-th root of a uniformiser by a fixed primitive `n`-th root of unity, for
+chosen element of `I_v` that multiplies some `n`-th root of some uniformiser by a primitive `n`-th root of unity, for
 every `n` prime to `v`. `[g, h] = g h g^{−1} h^{−1}`. A matrix representation `ρ : G_E → M_n(O)` acts on `B^n` for every
 `O`-module `B`. A *cocycle* is a function `z : G_E → B^n` with `z(gh) = z(g) + ρ(g)z(h)`; it is *unramified outside* a set
 `S` of finite places if it vanishes on the inertia groups above all finite places not in `S`. A *relation* is a finitely
@@ -56,9 +57,11 @@ the finite ideles that is trivial on `E^×` and on the ideles that are units off
 extension of `ℚ_ℓ` inside `ℚ̄_ℓ`, with residue field `k_O`. "For all large `O`" means for all coefficient rings containing a
 given one. `len_O` is the length over `O`, possibly infinite. `len_ℓ = len_O / len_O(O/ℓ)` is the normalised length, so
 that `O/ℓ` has length `1`. `len(X/Y)` for submodules `X, Y` means `len(X/(X ∩ Y))`. `v_O` is the normalised valuation of
-`O`. `v` on `ℚ̄_ℓ` is `max(−log_ℓ |x|, 0)`, so `v(ℓ) = 1`, `v(0) = ∞`, and `v` is cut off at `0`. `ℤ̄_ℓ` is the ring of
-integral elements of `ℚ̄_ℓ`. `ι : ℂ ≅ ℚ̄_ℓ` is a fixed isomorphism when `ℓ`-adic avatars or `ℓ`-adic sizes of complex
-numbers occur.
+`O`. For a prime `p`, `ℚ̄_p` is an algebraic closure of `ℚ_p`, `ℂ_p` its completion and `G_{ℚ_p} = Gal(ℚ̄_p/ℚ_p)`;
+`G_ℓ = G_{ℚ_ℓ}`. `|·|` on `ℚ̄_ℓ` is the absolute value that extends that of `ℚ_ℓ`, with `|ℓ| = 1/ℓ` (on `ℂ`, `|·|` is the
+usual absolute value). `v` on `ℚ̄_ℓ` is `max(−log_ℓ |x|, 0)`, so `v(ℓ) = 1`, `v(0) = ∞`, and `v` is cut off at `0`.
+`ℤ̄_ℓ` is the ring of integral elements of `ℚ̄_ℓ`. `ι : ℂ ≅ ℚ̄_ℓ` is a fixed isomorphism when `ℓ`-adic avatars or `ℓ`-adic
+sizes of complex numbers occur.
 
 | Symbol | Meaning |
 |---|---|
@@ -90,9 +93,9 @@ numbers occur.
 | `e'_ℓ` | `(4f_D + 3) r v_ℓ(n_GL) + 2^{−ℓ}` (CongruencesOfTwistedThetaLifts §1.5, the twist allowance) |
 | `ε(σ)` | `+1` if the complex embedding `σ` of `E` lies in the CM type, `−1` otherwise (4.1) |
 
-A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c` and an integer `1 ≤ z ≤ t` with `z ≤ c ≤ 4b`
-(DivisibilityOfThetaDerivatives §1.6 (b)); it is *ramified* if its tame part is nontrivial exactly at the chosen places
-(DeterminantsOfThetaLiftChains §1.1 (a)). Its *ratio* at a tame character `ϑ` and a sign `s` is
+A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c`, with tame part trivial off the chosen places, and an
+integer `1 ≤ z ≤ t` with `z ≤ c(v) ≤ 4b` at every infinite place `v` (DivisibilityOfThetaDerivatives §1.6 (b)); it is
+*ramified* if its tame part is nontrivial exactly at the chosen places (DeterminantsOfThetaLiftChains §1.1 (a)). Its *ratio* at a tame character `ϑ` and a sign `s` is
 `|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, the Euler factors at the chosen places, in the numerator also at the modulus of
 `ϑ`, and at their conjugates being omitted (DeterminantsOfThetaLiftChains §1.1 (b)). Tame characters of `U(1)`, twists and
 `m`-fold twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
@@ -145,7 +148,8 @@ places of `E` and `g₀ ∈ G_E`.
 - For a character `ψ : G_E → O′^×` with `O′ ⊇ O`, the *twisted Selmer group* `Sel_Q(Tψ; B)` is
   `Sel(ψ·ρ, S_T ∪ Q ∪ Q̄, L′; B)`, where `L′` consists of the local relations and `z(γ_*) = 0`. Write
   `len_ℓ Sel_Q(Tψ) ≤ b` if, for all large coefficient rings `O′`, `ψ` takes values in `O′` and
-  `len_ℓ Sel_Q(Tψ; Frac(O′)/O′) ≤ b`.
+  `len_ℓ Sel_Q(Tψ; Frac(O′)/O′) ≤ b` (here `O` is a coefficient ring, `ψ` has values in `ℚ̄_ℓ`, and large `O′` contain
+  `O`).
 - Given tied primes `(J, P₀)` and an index `i`, a *new auxiliary prime* for `i` is a prime `P` of prime norm with auxiliary
   prime data `(φ, γ, λ)` for `ℓ^N`. It satisfies: `P, P̄ ∉ J ∪ S₀`; `P ∤ NP₀`; the data are auxiliary prime data at `P`
   relative to every set contained in `(J ∖ {P₀}) ∪ {w | ℓ}`; `λ(φ) = 0`; `λ_v(φ) = 1` for `v = P₀` and `0` for the other
@@ -167,7 +171,8 @@ values in `B^n` that vanish on the inertia groups above the places outside a set
 [ShortProof], `New/Congruences/Selmer/SelmerData.lean` (`New.Selmer.SelmerDatum`, `New.Selmer.SelmerDatum.tiedSelmer`,
 `New.Selmer.IsNewAuxiliaryPrime`, `New.Selmer.SelmerDatum.sahGroup`), `New/Congruences/Selmer/AuxiliaryPrimes.lean`
 (`New.IsAuxPrimeDataAt`, `New.IsAuxiliary`, `New.Selmer.IsTiedPrimes`, `New.Selmer.tieRelations`),
-`New/Congruences/Selmer/Line.lean` (`New.Selmer.SelmerDatum.twistedSelmer`, `New.Selmer.SelmerDatum.TwistedLengthLe`)
+`New/Congruences/Selmer/Line.lean` (`New.Selmer.SelmerDatum.twistedSelmer`, `New.Selmer.SelmerDatum.divisibleSelmer`,
+`New.Selmer.SelmerDatum.TwistedLengthLe`)
 
 ### 1.2 Auxiliary primes with a prescribed Frobenius element
 
@@ -220,7 +225,8 @@ Let `T` be a Selmer datum and `B` an `O`-module. Prove:
 *Needs:* 1.1.
 
 [ShortProof], `New/Congruences/Selmer/SelmerData.lean` (`New.Selmer.SelmerDatum.cocycle_commutator_γ`,
-`New.Selmer.SelmerDatum.cocycle_eq_zero_of_sahGroup`, `New.Selmer.SelmerDatum.span_image_sahGroup_eq_top`,
+`New.Selmer.SelmerDatum.cocycle_eq_zero_of_sahGroup`, `New.Selmer.SelmerDatum.ρ_eq_one_of_mem_sahGroup`,
+`New.Selmer.SelmerDatum.span_image_sahGroup_eq_top`,
 `New.Selmer.SelmerDatum.sahGroup_le_normalClosure`)
 
 ### 1.4 Adding auxiliary primes
@@ -323,14 +329,15 @@ discrete valuation ring, the length of the kernel of a matrix on a power of `O�
 polynomials built from its maximal minors and `ℓ^M`, which gives (c); a member of that family that attains the least value
 at `x₀` gives (d).
 
-Let `σ` be a finite set, `h_j : G_E → ℤ/q` (`j ∈ σ`) locally constant homomorphisms, `ρ : G_E → M_n(O)` a homomorphism that
-is locally constant modulo `ℓ^M`, `S` a finite set of finite places and `L` any set of relations. Put
+Let `σ` be a finite set, `q ≥ 1`, `h_j : G_E → ℤ/q` (`j ∈ σ`) locally constant homomorphisms, `ρ : G_E → M_n(O)` a
+homomorphism that is locally constant modulo `ℓ^M`, `S` a finite set of finite places and `L` any set of relations. Put
 `ψ_X(g) = ∏_j(1 + X_j)^{h_j(g)} ∈ O[X_σ]`, the exponents read in `[0, q)`. For a ring map `e : O → O′` and `x ∈ O′^σ` put
 `ρ_x(g) = ψ_x(g)·e(ρ(g))`, which need not be multiplicative. Let `Sel(x)` be the module of locally constant
 `z : G_E → (O′/ℓ^M)^n` with `z(gh) = z(g) + ρ_x(g)z(h)`, unramified outside `S` and obeying `e(L)`. Prove:
 
-1. (a) for `q`-th roots of unity `ζ_j`, `ψ_{ζ−1}(g) = ∏_j ζ_j^{h_j(g)}`; and for a set of tied primes `J` with characters
-   `h_v = λ_v`, `ψ_X(φ_v) = ψ_X(φ_v^{−c}) = 1 + X_{P₀}` for `v ≠ P₀` and `ψ_X(γ_v) = ψ_X(γ_v^{−c}) = 1 + X_v`;
+1. (a) for `q`-th roots of unity `ζ_j`, `ψ_{ζ−1}(g) = ∏_j ζ_j^{h_j(g)}`; and for a set of tied primes `J` at a level
+   `N ≥ 1`, with characters `h_v = λ_v` (so `σ = J` and `q = ℓ^N`), `ψ_X(φ_v) = ψ_X(φ_v^{−c}) = 1 + X_{P₀}` for `v ≠ P₀`
+   and `ψ_X(γ_v) = ψ_X(γ_v^{−c}) = 1 + X_v`;
 2. (b) for `a | ℓ^M` with `O/a` finite, `Sel(ρ, S, L; O/a)` is finite;
 3. (c) there is a matrix `A` over `O[X_σ]` with finitely many columns `k` such that `Sel(x) ≅ ker(A(x) : (O′/ℓ^M)^k → ⋯)`
    for every `e : O → O′` and every `x ∈ O′^σ`; and there is a set `𝓜 ⊆ O[X_σ]` such that, for every discrete valuation
@@ -366,7 +373,7 @@ Let `ρ : G_E → M_n(O)` be trivial modulo `ℓ^M` on the inertia groups above 
    `Σ_{0≤j<ℓ^N} α^j` for every `α ≡ 1 (mod y)`. At the point `x_{P₀} = y`, `x_v = e(s_v)y` (`v ≠ P₀`), adding to `L` the ties
    of index `i` on `J ∖ {P₀}` lowers `len_{O′} Sel(x)` (2.1, for the characters `λ_v`) by at most `v_{O′}(e(P¹)(y))`, where
    `P¹(Y) = ∏_{v ∈ J∖{P₀}} ∏_{g ∈ {φ_v, φ_v^{−c}}} det((1 + Y)ρ(g) − 1)`;
-2. (b) if `M ≤ N` and `ρ(φ_{P₀}) ≡ ρ(g₀)`, `ρ(φ_{P₀}^{−c}) ≡ ρ(g₀^{−c}) (mod ℓ^M)`, then adding the relations
+2. (b) let `g₀ ∈ G_E`. If `M ≤ N` and `ρ(φ_{P₀}) ≡ ρ(g₀)`, `ρ(φ_{P₀}^{−c}) ≡ ρ(g₀^{−c}) (mod ℓ^M)`, then adding the relations
    `z(γ_{P₀}) = 0 = z(γ_{P₀}^{−c})` lowers `len_O Sel(ρ, S, L; O/ℓ^M)` by at most
    `v_O(det(ρ(g₀) − 1)) + v_O(det(ρ(g₀^{−c}) − 1))`.
 
@@ -462,9 +469,13 @@ Let `E`, `ℓ`, `S₀`, `g₀` be as in 1.5, `O` a coefficient ring, `T_i` (`i` 
 such that, for all `ℓ^N`-th roots of unity `ζ_𝔮`, with `ψ = ∏_𝔮 ζ_𝔮^{λ_𝔮}` and `x = (ζ_𝔮 − 1)_𝔮`: `ψ(Θ_Q) = P(x)` for each
 system, and `len_ℓ Sel_Q(T_iψ) ≤ v(P(x))` for each datum with `v(P(x)) < len_ℓ β_{T_i} + 1`.
 
-The formal proof states, as a step, the case of one datum on a given set of tied primes. If the Selmer group modulo `ℓ^M`
-tied at `J ∖ {P₀}` has length at most `β_T`, and `2n·#J ≤ s₀`, `r ≤ 1`, `M ≤ Nr`, then some `P` bounds all `Sel(x)` (2.1) and
-has `v(P(x⁰)) ≤ len_ℓ β_T + s₀r` at a point of radius `r`.
+The formal proof states, as a step, the case of one datum `T` of rank `n` and index `i` on a given set of tied primes
+`(J, P₀)` at a level `N ≥ 1`, whose condition `U_i(g)` implies `ρ(g) ≡ 1 (mod ℓ^M)`. If `len_O Sel_{J, J∖{P₀}}(T, i; ℓ^M) ≤ β_T`
+(ramification allowed at `J ∪ J̄`, ties at the primes of `J ∖ {P₀}`), and `2n·#J ≤ s₀`, `r ≤ 1`, `M ≤ Nr`, then there are
+`P ∈ O[X_v : v ∈ J]` and a point `x⁰ ∈ ℤ̄_ℓ^J` with `v(x⁰_v) ≥ r` and `v(P(x⁰)) ≤ len_ℓ β_T + s₀r`, such that
+`len_{O′} Sel(x) ≤ v_{O′}(e(P)(x))` at every point `x` over every discrete valuation ring `O′` of characteristic `0` with
+`e : O → O′`. Here `Sel(x)` is as in 2.1 for the characters `λ_v`, the places `S_T ∪ J ∪ J̄`, and the local relations of `T`
+together with `z(γ_*) = 0`.
 
 *Needs:* 1.1, 1.5, 2.1, 2.2, 2.4.
 
@@ -486,7 +497,7 @@ moved at a time, each time with loss `δ = min(ε, 1)/(s₀ + 2)`.
 
 Let `ρ_h = 1/φ(ℓ^h)` and `v_ρ` the Gauss valuation. Prove:
 
-1. (a) let `δ < 1`, `B ≥ 0`, `h₀ ≥ 0` and `ρ > 0` with `B < δ·Σ 1/(h + 1)`, the sum over `1 ≤ h ≤ h₀` with `ρ_h ≤ ρ`. If
+1. (a) let `δ < 1`, `B ≥ 0`, `h₀ ≥ 0` and rational `ρ > 0` with `B < δ·Σ 1/(h + 1)`, the sum over `1 ≤ h ≤ h₀` with `ρ_h ≤ ρ`. If
    `g ∈ ℤ̄_ℓ[Y]` has `v_ρ(g) ≤ B`, then for one such `h` and some primitive `ℓ^h`-th root of unity `ζ`,
    `v(g(ζ − 1)) ≤ v_{ρ_h}(g) + δ`;
 2. (b) given `s₀ ≥ 0`, rational `ρ > 0`, `β ≥ 0` and `ε > 0`, there is `h₀` with the following property. For any finite
@@ -562,17 +573,18 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   whose jumps at every `γ` lie in `U(γ)`, and on which `Q` kills `s` whenever `K(s, Q)` holds and `j(s)` is inertial.
   `𝒞(⊤, ⊥, U)` is the class of lattices crystalline over `Γ` (`F`-almost all means all) with jumps in `U`, with no condition
   on inertia.
-- A relation `K` is a *tame type* for `(p, r, N)` if `K(X^e − 1)` holds for `e = lcm_{1≤i≤r}(p^i − 1)` and `K(q)` holds for
-  the image of some monic `q ∈ ℤ_p[X]` of degree at most `N`.
+- A property `K` of polynomials over `O` is a *tame type* for `(p, r, N)` if `K(X^e − 1)` holds for
+  `e = lcm_{1≤i≤r}(p^i − 1)` and `K(q)` holds for the image in `O[X]` of some monic `q ∈ ℤ_p[X]` of degree at most `N`.
 - `L^∨(1) = Hom_O(L, O(1))` is the Tate dual, and `Y ⊗ L = Y ⊗_O L` with the diagonal action.
 - A *pairing* `P` of `Y` and `L` modulo `p^m` is the following: an exponent `m`, an element `ψ ∈ (Y ⊗ L)^∨(1)`, a
   `ℤ_p`-linear `f : O → ℤ_p`, and a crystalline cocycle `c` of `(Y ⊗ L)^∨(1)` with `gψ − ψ = p^m c(g)` for all `g`. Its
   bilinear form is `b_P(y, x) = f(ψ(y ⊗ x)) mod p^m`.
 - For `a : Γ → Y` and `c : Γ → L`, the *cup product of `a` and `c` under `P` is a coboundary* if the 2-cochain
   `(g, h) ↦ ε_m(b_P(a(g), g·c(h)))` with values in `ℚ̄_p^×` is the coboundary of a continuous 1-cochain `Γ → ℚ̄_p^×`, `Γ`
-  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, and continuity refers to a topology
-  on `Γ`, on which this notion and the three that follow depend. When `j` is an open embedding, as in every statement
-  of Layers 3 and 4 that bounds a cup exponent, the topology is that of the open subgroup `j(Γ)` of `G_{ℚ_p}`. The
+  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, and continuity refers to the discrete
+  topology on `ℚ̄_p^×` and to a topology on `Γ`, on which this notion and the three that follow depend. When `j` is an
+  open embedding, as in every statement of Layers 3 and 4 that bounds a cup exponent, the topology is that of the open
+  subgroup `j(Γ)` of `G_{ℚ_p}`. The
   statements that do not assume this (4.4 (b)) hold for every topology on `Γ`, and the scaled condition of 3.2 is
   imposed only for topologies that make `j` an open embedding.
 - For a class `𝒬`, the *cup-orthogonal module* `L^{⊥𝒬}` consists of the maps `c : Γ → L` (not necessarily cocycles) such
@@ -608,9 +620,10 @@ on `L` if `L` is potentially crystalline and `Q(β_{s,m}) = 0`; this section use
 *Origin:* definitions and conventions.
 
 Let `Γ`, `j` be as in 3.1, `K` the fixed field of `j(Γ)`, `A_inf = W(O_{ℂ_p}^♭)`, `θ : A_inf → O_{ℂ_p}` Fontaine's map, and
-`Λ = W(𝔽_{p^f})` inside `A_inf`.
+`Λ = W(𝔽_{p^f})` inside `A_inf`. `[ε]` is the Teichmüller lift of the element `ε` of `O_{ℂ_p}^♭` given by a fixed
+compatible system of primitive `p^n`-th roots of unity, `n ≥ 0`.
 
-- A *Kummer chart* `k` of `Γ` is a subring `S = Λ[[z]] ⊂ A_inf`, where `z` is a non-unit Teichmüller lift, together with an
+- A *Kummer chart* `k` of `Γ` is a subring `Λ[[z]] ⊂ A_inf`, where `z` is a non-unit Teichmüller lift, together with an
   element `E = z^e A + p` (`A` a unit) that generates `ker θ` and a subgroup `Γ′ ⊆ Γ` of index prime to `p`. The subgroup
   `j(Γ′)` fixes `Λ` and `θ(z)` and contains every element of `G_{ℚ_p}` that does; `Γ′` contains all `g` near `1`; and for
   every `l ≥ 0` some `g ∈ Γ′` has `g(z) = [ε]^l z`. Here `e` is the *ramification index*, `f` the *residue degree*, and
@@ -943,8 +956,9 @@ root in `O`, `U`, `U′` finite sets of integers for the embeddings of `O`, and 
 2. (b) let `k` be unramified, `p ≥ 7`, `η ≥ 1`, `V + 4η ≤ M`, `0 < G ≤ b`, `b < Kp²`, `2G < Kp`, `M ≤ K`, and let `U_k(i)` and
    `U′_k(i)` fit opposite windows `(η, ∓ε(i), β(i), V)`, with `β = b` on a set `T` of letters and `G` off it. Then `L` has cup
    exponent `10⁴(K + ⌊log_p(2(b + M))⌋)` for `𝒞(⊤, ⊥, U)`;
-3. (c) under the window hypotheses of 3.3 for `U_k`, `U′_k`, the sparseness of `T`, and the alternative and size conditions
-   of 3.3 (with `M` in place of `X`), `L` has cup exponent `10³(δ + (J + 1)M)` for `𝒞(⊤, ⊥, U)`.
+3. (c) let `η ≥ 1`, `J ≥ 1` and `G + V ≤ η`, and let `U_k(i)` fit `(η, −ε(i), β(i), V)` and `U′_k(i)` fit
+   `(η, ε(i), β(i), V)`, with `β = b` on a set `T` of letters and `G` off it. Under the sparseness of `T` and the alternative
+   and size conditions of 3.3 (with `M` in place of `X`), `L` has cup exponent `10³(δ + (J + 1)M)` for `𝒞(⊤, ⊥, U)`.
 
 *Needs:* 3.1, 3.2, 3.3, 3.3a (d), (i), 3.4, 3.5.
 
@@ -965,9 +979,9 @@ subgroup, every lattice of the class is crystalline, since `X^e − 1` kills ine
 most `N` that kills `s` on the periods makes `p^κ`, `κ = r²(N + 1)²`, kill the cokernels (3.3a) of the two sides and of
 the Tate dual side at every letter. Then 3.3a (i) applies with `a = 0`, and `d ≤ 1` on a tame chart.
 
-Let `j` be a surjective open embedding (so `K = ℚ_p`), `F` a filter on `Γ`, and `K` a relation such that `K(s, ·)` is a tame
-type for `(p, r, N)` for every `s` with `j(s)` inertial. Let `L ∈ 𝒞(F, K′, U′)` with `K′(s, Q) = K(s^{−1}, Q)`, and let every
-`U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
+Let `j` be a surjective open embedding (so the fixed field of `j(Γ)` is `ℚ_p`), `F` a filter on `Γ`, and `K` a relation
+such that `K(s, ·)` is a tame type for `(p, r, N)` for every `s` with `j(s)` inertial. Let `L ∈ 𝒞(F, K′, U′)` with
+`K′(s, Q) = K(s^{−1}, Q)`, and let every `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
 *Needs:* 3.1, 3.2, 3.3a (i); CrystallineRepresentationsAndKisinModules §5.9 (the membership criterion for the Kisin module of a lattice `L`
@@ -1013,9 +1027,10 @@ Let `D` be the data, `ℓ` a prime and `ι : ℂ ≅ ℚ̄_ℓ`.
   power of the inverse cyclotomic character.
 - For a matrix representation `u` of `G_E` over `O` and a place `v | ℓ`, `Z_f(u)_v` is the module of crystalline cocycles
   (3.1) of the decomposition group at the chosen place above `v`. That group is identified with an open subgroup of
-  `G_{ℚ_ℓ}` through a chosen embedding `Ω → ℚ̄_ℓ` that induces the place. The *crystalline relations* of `u` are the
+  `G_{ℚ_ℓ}` through a chosen embedding `Ω → ℚ̄_ℓ` that induces the place; its restriction to `E` is `e_v : E → ℚ̄_ℓ`. The
+  *crystalline relations* of `u` are the
   relations supported on some decomposition group above `ℓ` that hold on `Z_f(u)_v`.
-- For a finite family of representations `u_x : G → GL_σ(O)` and `ρ : G → GL_d(O)`, `Rib(u, ρ; a)` is the module of
+- For a finite family of representations `u_x : G → GL_n(O)` and `ρ : G → GL_d(O)`, `Rib(u, ρ; a)` is the module of
   Ribet cocycles of `ρ` with values in `O/a`, in the sense of CongruencesOfTwistedThetaLifts §3.1 (2).
 
 *Needs:* 3.1; CongruencesOfTwistedThetaLifts §3.1 (Ribet cocycles);
@@ -1040,14 +1055,14 @@ their sum is `1`. If `ℓ = d`, a similar argument applies.
 
 Let `e : E → ℚ̄_ℓ`, `ζ` the root of unity of order `q₁` of the data, and `g, g′, g₁ ∈ G_{ℚ_ℓ}`. Prove:
 
-1. (a) if `ℓ ≤ k_D t`, `0 < i < n < l₀(s)`, `g′g^{−1}` raises `e(ζ)^{ℓ^a}` to the power `ℓ^n` and `g′g₁^{−1}` raises it to
-   the power `ℓ^i`, and the places of `σ_e(g)` and `σ_e(g′)` are b-places, then the place of `σ_e(g₁)` is not;
+1. (a) if `ℓ ≤ k_D t`, `0 < i < n < l₀(s)` and, for some `a ≥ 0`, `g′g^{−1}` raises `e(ζ)^{ℓ^a}` to the power `ℓ^n` and
+   `g′g₁^{−1}` raises it to the power `ℓ^i`, and the places of `σ_e(g)` and `σ_e(g′)` are b-places, then the place of `σ_e(g₁)` is not;
 2. (b) if `ℓ | q₁d` and the places of `σ_e(g)` and `σ_e(g′)` are b-places, then `ε(σ_e(g)) = ε(σ_e(g′))`.
 
 *Needs:* 4.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters `q₀`, `d`, and the numbers `q₁`, `l₀`),
 §2.2 (the root of unity `ζ`, and the infinite places of `E` as the group of units modulo `q₁`),
-§3.1 (sparse sets of places), §3.2 (the b-places, their class `−1` modulo `q₀` and their sparseness for the primes up to
-`k_D t`).
+§3.1 (sparse sets of places), §3.2 (the exponent `s` of the data, the b-places, their class `−1` modulo `q₀` and their
+sparseness for the primes up to `k_D t`).
 
 [ShortProof], `New/Congruences/LocalLoss/Basic.lean` (`New.Selmer.notMem_bPlaces_of_short_arc`,
 `New.Selmer.cmSign_eq_of_mem_bPlaces`, `New.Selmer.placeClass_eq_cmSign_mul_pow`)
@@ -1063,8 +1078,9 @@ subrepresentation.
 lie in `a` times the span, where the map vanishes because `a` kills its values; so the first projection is injective on
 `Y`.
 
-Let `O` be a noetherian ring, `a ∈ O`, `X` a finite set, `u_x : G → GL_σ(O)` and `ρ : G → GL_d(O)` representations of a group
-`G`, and `c ∈ Rib(u, ρ; a)`. Prove that there are `k ≥ 0` and a `G`-stable `O`-submodule `Y` of `(∏_x M_σ(O)) × (O/a)^d`,
+Let `O` be a commutative noetherian ring, `a ∈ O`, `X` a finite set, `u_x : G → GL_n(O)` and `ρ : G → GL_d(O)`
+representations of a group `G`, and `c ∈ Rib(u, ρ; a)`. Prove that there are `k ≥ 0` and a `G`-stable `O`-submodule `Y` of
+`(∏_x M_n(O)) × (O/a)^d`,
 with `G` acting by left multiplication by `(u_x(g))_x` on the first factor and through `ρ` on the second, such that the
 first projection is injective on `Y` and `((u_x(g) − 1)_x + a^k v, c(g)) ∈ Y` for every `g ∈ G` and every `v`.
 
@@ -1111,7 +1127,7 @@ by 4.4 (b).
 
 Let `j : Γ → G_{ℚ_ℓ}` be an open embedding, `O` a coefficient ring, `L` a lattice, and for each embedding `g` of `O` a
 sign `ε(g)` and finite sets `U(g)`, `U′(g)`, and let some of the embeddings be called *thick*. Let `Q, m, h, μ, G, b, δ, η, W ≥ 0` satisfy
-the size conditions: `Q > 0`, `99(Q² + (W + 1)Q + Q + W + m) ≤ h`, `99h³ ≤ G`, `99(Gh³ + G) ≤ b`, `2 log(4b) < m`, `δ < η` and
+the size conditions: `Q > 0`, `99(Q² + (W + 1)Q + Q + W + m) ≤ h`, `99h³ ≤ G`, `99(Gh³ + G) ≤ b`, `2 log(4b) < m` (natural logarithm), `δ < η` and
 `99((η + W)Q + η + h) ≤ h³`. Put `a(g) = b + δ` if `g` is thick and `G + δ` otherwise. Assume:
 
 - `U(g)` fits `(η, −ε(g), a(g), W)`, `U′(g)` fits `(η, ε(g), a(g), W)`, and `L ∈ 𝒞(⊤, ⊥, U′)`;
@@ -1135,7 +1151,7 @@ Prove that `len_ℓ δ_{𝒞(⊤,⊥,U)}(L) ≤ [G_{ℚ_ℓ} : j(Γ)]·y`.
 
 *Origin:* particular to this proof: at a place above `ℓ`, for lattices of a crystalline class, or of a tame class at the
 level primes, adapted to the summands of a lift, the normalised dual defect of the Tate dual of each summand is at most
-`[G_ℓ : Γ]·rank·B_ℓ/x`, with `x = 1` for the main summand and `x = t` for the characters.
+`[G_ℓ : j(Γ)]·rank·B_ℓ/x`, with `x = 1` for the main summand and `x = t` for the characters.
 
 *Method of the formal proof:* the jumps of the main summand lie, at each embedding, in `[−η, η]` with `η = h₂² + 1` or in
 the far window `∓ε(σ)·[S_i(σ), S_i(σ) + 4t]`, and those of the dual are `−u − 1`. The data satisfy the size conditions of
@@ -1211,8 +1227,9 @@ Prove:
    `(ℓ, r, Nr)`;
 2. (b) let `R` be a conjugate self-dual representation of level `S` with jumps `τ`, in a class `𝓡` of such representations,
    `u` a lattice in `R` over `O`, and `w | ℓ` a place of `E`. Then `u`, restricted to the decomposition group at `w`, has
-   at `γ_g` the jumps `τ(ι^{−1} ∘ g^{−1} ∘ e_w)`. It lies in the class `𝒞(F_w, K_w, U_w)`, where `F_w` is `⊤` if `w ∤ p₀p₁` and
-   `⊥` otherwise, `U_w` are the corresponding members of `τ`, and `K_w(s, Q)` says that `w | p₀p₁` and that `Q` kills `s` on
+   at `γ_g` the jumps `τ(ι^{−1} ∘ g^{−1} ∘ e_w)`, with `e_w` as in 4.1. It lies in the class `𝒞(F_w, K_w, U_w)`, where `F_w`
+   is `⊤` if `w ∤ p₀p₁` and `⊥` otherwise, `U_w(γ)` is the set of members of `τ(ι^{−1} ∘ g^{−1} ∘ e_w)` for a `g` with
+   `γ_g = γ`, and `K_w(s, Q)` says that `w | p₀p₁` and that `Q` kills `s` on
    every member of `𝓡`, restricted to the decomposition group at `w`.
 
 *Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts §1.1 (the local conditions: finite type, jumps and killing polynomials
@@ -1236,9 +1253,10 @@ is a Selmer datum with the crystalline relations above `ℓ`, whose number is at
 *Method of the formal proof:* the span condition and the scalar `γ_*` are hypotheses on main summands. Conjugate
 self-duality on traces makes `γ_*^{−c}` act by the same scalar. The rank condition on the `Z_w` follows from the rank
 formula (4.4 (a)) and the bound on negative jumps. The global term is bounded through an element with cyclotomic
-character `p_l^{rank}` acting by a scalar `α`: `α − χ(g^c)α′ = (1 − p_l^{rank})α` kills `Hom_G(W_a, W_a^{*c})`, and
-`p_l^{rank} − 1` divides `n_GL`. The local terms at the places above `p₀p₁` are bounded by local duality and the
-determinant bounds of the hypotheses.
+character `p_l^{rank}` acting by a scalar `α`: `α − χ(g^c)α′ = (1 − p_l^d)α` with `d = rank·max(t′, 1) ≤ rt` kills
+`Hom_G(W_a, W_a^{*c})`, and `v_ℓ(p_l^d − 1) ≤ v_ℓ(n_GL)`. The local terms at the places above `p₀p₁` are bounded by the
+length of the kernel of `ρ(γ) − 1` for an inertial `γ` (evaluation at a tame generator and a Frobenius element), hence by
+the determinant bounds of the hypotheses.
 
 Let `D` be the data, `ι : ℂ ≅ ℚ̄_ℓ`, and `R` a representation of main-summand type of rank `n` for some `(t′, J)`. Let `w` be
 a chosen place not above `ℓ` and `g₀` its tame generator. Prove that for all large coefficient rings `O` there is a Selmer
@@ -1264,19 +1282,20 @@ the ratio of twisted to untwisted partial `L`-values.
 *Method of the formal proof:* for `z ≥ 2` the function is an integral multiple of the algebraic part of the `L`-value, the
 squared norm of a theta lift from `U(1)`. For `z = 1` it is a determinant theta period on `U(2)` times its conjugate, which
 gives the square of the ratio. Adding a place to the modulus multiplies the element by Euler factors. For the avatars, a
-character for `I` comes from an idele class character `η`. Restricted to `U(1)(𝔸)`, `η` factors through the class group of
-tame level `I`, so it comes from a tame character `μ`, and the Galois character is the avatar of `μ^{−1}`.
+character for `Q` comes from an idele class character `η`. Restricted to `U(1)(𝔸)`, `η` factors through the class group of
+tame level `Q`, so it comes from a tame character `μ`, and the Galois character is the avatar of `μ^{−1}`.
 
 Let `D` be the data and `(ν, z)` a ramified pair. Prove:
 
 1. (a) there is a function `F` on the tame characters of `U(1)` with: `F(1) ≠ 0`; at each modulus `Q`, finitely many points
-   `u_a ∈ U(1)(𝔸)` and coefficients `c_a ∈ ℂ`, integral at every prime not dividing the norm of `Q` under every embedding
-   `ℂ → ℂ_l`, with `F(ϑ′) = Σ_a c_a ϑ′(u_a)` for all `ϑ′` of modulus `Q`; for `v ∉ Q(ϑ)` and `ϑ′` equal to `ϑ` with `v` added to
-   the modulus, `F(ϑ′) = F(ϑ)·∏_{l∈I} ∏_{δ=±1}(1 − (νϑ)_v(ϖ_v)^δ/Nv^l)`, the base change of `νϑ` read at a uniformiser at `v`;
-   and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·r(ϑ)^{m₀+1}` at every twist `ϑ`, with `r` the ratio of the pair. Here `(I, m₀) = ({z}, 0)`
-   for `z ≥ 2` and `({0, 1}, 1)` for `z = 1`;
-2. (b) for an auxiliary set `I` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `I` is, for some tame
-   character `τ` of modulus `I`, the `ℓ`-adic avatar of the base change of `τ^{−1}` to `E`.
+   `u_a ∈ U(1)(𝔸)` and coefficients `c_a ∈ ℂ`, integral at every prime `l` not dividing the norm of `Q` under every
+   embedding `ℂ → ℂ_l`, with `F(ϑ′) = Σ_a c_a ϑ′(u_a)` for all `ϑ′` of modulus `Q`; for `v` not in the modulus `Q_ϑ` of `ϑ`
+   and `ϑ′` equal to `ϑ` with `v` added to the modulus, `F(ϑ′) = F(ϑ)·∏_{k∈I} ∏_{δ=±1}(1 − (νϑ)_v(ϖ_v)^δ/Nv^k)`, the base
+   change of `νϑ` read at a uniformiser at `v`; and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·r(ϑ)^{m₀+1}` at every twist `ϑ`, with
+   `N(Q_ϑ) = ∏_{w∈Q_ϑ} Nw` and `r` the ratio of the pair. Here `(I, m₀) = ({z}, 0)` for `z ≥ 2` and `({0, 1}, 1)` for
+   `z = 1`;
+2. (b) for an auxiliary set `Q` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `Q` is, for some tame
+   character `τ` of modulus `Q`, the `ℓ`-adic avatar of the base change of `τ^{−1}` to `E`.
 
 *Needs:* NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (Hecke `L`-values as squared norms: from §2.5 the
 integral algebraic part, from §2.7 the determinant theta period at `z = 1`, from §6.1 integral measures);
@@ -1339,9 +1358,9 @@ Let `D` be the data, `ℓ` a prime, `ι : ℂ ≅ ℚ̄_ℓ`, and `R_i` (`i` in 
 1. (a) the modulus `Q` of `ξ` is auxiliary for the bad places, the inverse avatar `ψ` of `ξ` (5.3 (b)) is a character for `Q`, and
    `Σ_{w∈Q} v(ψ(γ_w) − 1) ≤ e'_ℓ` for some family of tame generators `γ_w`;
 2. (b) for every `i` there are `γ` inertial at a place not above `ℓ` and `ζ ∈ ℤ̄_ℓ` such that, for all large `O`, `R_i` has a
-   lattice over `O` on whose twist by `ψ` the element `γ` acts by the scalar `ζ`, with `ζ − 1` a unit. On that lattice, the
-   module of cocycles with values in `Frac(O)/O` that are unramified outside `ℓ p₀ p₁`, `Q`, `Q̄`, obey the crystalline
-   relations above `ℓ` and vanish at `γ` has `len_ℓ ≤ e'_ℓ`;
+   lattice over `O` on whose twist by `ψ` the element `γ` acts by the scalar `ζ`, with `ζ − 1` a unit. For the twisted
+   lattice, the module of locally constant cocycles with values in `Frac(O)/O` that are unramified outside `ℓ p₀ p₁`, `Q`,
+   `Q̄`, obey the crystalline relations of the twisted lattice above `ℓ` and vanish at `γ` has `len_ℓ ≤ e'_ℓ`;
 3. (c) for every ramified pair `(ν, z)` and every sign `s`, `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`, the Euler
    factors at the chosen places, in the numerator also at `Q`, and at their conjugates being omitted.
 

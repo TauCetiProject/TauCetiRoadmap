@@ -40,7 +40,7 @@ inner product space.
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `E, E⁺, f, Φ` | the CM field of the data, its totally real subfield, the number of infinite places of `E`, the set of these places | OneSidedPrimeSumBoundsAndAdmissibleData §2.2, §3.2 (the field of the data) |
+| `E, E⁺, f, Φ` | the CM field of the data, its totally real subfield, the number of infinite places of `E`, the set of these places, with a complex embedding of `E` chosen at each (a CM type); `v(x)` is the image of `x ∈ E` under the embedding chosen at `v` | OneSidedPrimeSumBoundsAndAdmissibleData §2.2, §3.2 (the field of the data) |
 | `rd_E, ϖ` | the root discriminant of `E`; a generator of the different of `E` with `ϖ̄ = −ϖ` | OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (`rd_E`); DivisibilityOfThetaDerivatives §1.1 (b) (`ϖ`, there `δ_E`); 4.1 |
 | `r, k, m, ϱ, n` | the rank of `Y₀`, the rank of `X₀`, the number of lifts, the number of hyperbolic planes of `Y₀` (`m = 2ϱ + 2`), `n = ϱ + 1`; `r = k + 2ϱ + 1` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (`r`, `k`, `m`), §3.3 (b) (`r + 1 = k + m`); ThetaLiftChainsAndTheSeesawIdentity §2.1 (`ϱ`) |
 | `x, b, a` | the scale, the weight at the b-places, the order `a = x·b` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
@@ -49,7 +49,7 @@ inner product space.
 | chosen places | for `i = 0, 1`, a set of `f` places of `E` above `p_i`, no place chosen twice and no conjugate of a chosen place chosen | DivisibilityOfThetaDerivatives §1.5; ThetaLiftChainsAndTheSeesawIdentity §2.10 (c) (`f` above each `p_i`) |
 | `Ḡ` | the finite group `∏_w GL_r(𝔽_w)` over the chosen places `w`, `𝔽_w` the residue field | ThetaLiftChainsAndTheSeesawIdentity §2.5 (there `𝖦`) |
 | `X₀, Y₀, W_j` | the definite space of rank `k`; `Y₀ = X₀ ⊕ ϱ` hyperbolic planes `⊕` a line of norm `−N`; for `1 ≤ j ≤ m` the space of rank `r` that differs from `Y₀` only in its signs at the real places and has `m − j` minus signs | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
-| `V` | below, any hermitian space of rank `r` over `E` with the adelic frame of `Y₀` at the finite places, and arbitrary signs `s` at the infinite places | 2.1 |
+| `V` | below, any hermitian space of rank `r` over `E` with an adelic frame in which the form is the unit form at every finite place and has arbitrary signs `s` at the infinite places | 2.1 |
 | `J_M` | the principal level: integral finite adelic points of `U(V)` that reduce to `1` at every chosen place | ThetaLiftChainsAndTheSeesawIdentity (Conventions: the chosen level), used in §2.7 |
 | `λ_v, l_v, Δ` | the target parameter at `v ∈ Φ`, its double `l_v = 2λ_v`, and the gap `Δ = 2r⁸` | ThetaLiftChainsAndTheSeesawIdentity §2.4 (the target parameter, there `ς`); OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (`Δ`) |
 | principal forms | forms on `U(V)` whose archimedean type is the discrete series of parameter `λ_v` (for the signs of `V`) at each `v`, fixed by `J_M`; `Ḡ` acts on them | ThetaLiftChainsAndTheSeesawIdentity §2.7 (there `𝒜(V)`) |
@@ -57,6 +57,7 @@ inner product space.
 | `d_T` | the dimension of the target forms | ThetaLiftChainsAndTheSeesawIdentity §2.7 |
 | source forms, `D_X` | algebraic modular forms on `U(X₀)` of the weight of the data and level `K_X` (principal at the chosen places, with last row `≡ (0, …, 0, 1)` modulo `π_N`); `D_X` their dimension | ThetaLiftChainsAndTheSeesawIdentity §2.8 (source forms), §2.6 (the level, there `K_0`) |
 | `𝒫` | the Poincaré map: source forms to principal forms on `Y₀`, the Riesz representative of a Bessel period | ThetaLiftChainsAndTheSeesawIdentity §2.19 |
+| `[G], R, [R], ψ_U`, Weyl module, `ρ̌` | the quotient of `U(V)(𝔸)` by its rational points; the Bessel subgroup of a graded space, its quotient by its rational points, and its generic character, built from the constant `c_Y` of the grading; the Weyl module of a weight and the action `ρ̌` on it of the entrywise complex conjugates of the real points (there `ρ_λ(g_∞)`) | ThetaLiftChainsAndTheSeesawIdentity (Conventions: hermitian spaces, groups and levels; forms; graded spaces) |
 | `mass_l` | the mass `∑ 1/#Aut` of the genus of the standard hermitian lattice `𝒪_E^l` | HermitianFormsAndLattices §5.5 (the mass of a genus) |
 | `G₁, J₁, f, 𝖴, 𝖴⁰, H, R` | the real group at one place, its form, its frame, its Bessel subgroups | 3.1 |
 | `ψ, σ` | the character of `𝖴` and the sum of the simple root entries | 3.1 |
@@ -71,8 +72,9 @@ inner product space.
 | `𝒟_main, 𝒟_id` | `D_X²/(deg·mass_r)` and `#R̄₀·D_X` | 4.2 |
 | `𝔼(A, Ω)` | the second moment of a family of blocks over a set `Ω ⊂ Ḡ` | 4.2 |
 
-Sizes are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.3; the only consequences used here are listed in
-4.1 (the standing hypotheses of filling data) and proved for the data in 5.5.
+Sizes are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.3; the consequences used in Layer 4 are listed in
+4.1 (the standing hypotheses of filling data) and proved for the data in 5.5. Layer 2, 3.14 and Layer 5 also use some
+size inequalities of the data directly (for example `500r³ + 10r⁵ ≤ Δ` and `r ≥ 2` in 2.2).
 
 **Normalisations.** The constants of Layers 3–5 depend on three normalisations, fixed here.
 
@@ -92,7 +94,13 @@ Sizes are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.3; the only conse
 
 Some letters have two meanings, kept apart by context: `f` is the number of infinite places of `E` and, with an index
 (`f_a`) or next to a group element (`γf`), the frame of 3.1; `k` is the rank of `X₀` and, in 4.10 and 5.1, an element of an
-integral group; `R` is the Bessel subgroup of 3.1, and `R₀`, `R₁` are real numbers.
+integral group; `r` is the rank of `Y₀` and, in 4.3 (a), a ring element; `R` is the Bessel subgroup of 3.1, and `R₀`,
+`R₁` are real numbers; `ν` is the unipotent covolume of 4.2 and, as `ν(Z)`, the number of 3.1; `Λ` is the product of
+frame scales of 4.2, as `Λ_i` the weights of 3.3, and in 4.13 a link; `κ` is the index set of 3.1 and, as `κ_v`, the
+numbers of 4.1; `β` is a cutoff `β_c` (4.2), the decay of 3.3, the number of 3.9, the mass bound `β_v` of 3.13 and the
+positive-type function of 4.14 (b); `ρ` is a representation and, in 3.1, 3.4, 3.12, 3.13 and 4.7, a radius; `W` is a
+Bessel function, as `W_j` a definite space, and in Layer 1 a vector space; `B` is the frame box `B(ρ)` and elsewhere a
+number or, in 2.4 (b), a sesquilinear form; `M` is the level `p₀p₁` and, in 3.12 (a), a number.
 
 **Origin and method.** Every section that states something carries `*Origin:*` (`published:`, `adapted from`,
 `particular to this proof:`, `this roadmap's own formulation:`, or `definitions and conventions`) and
@@ -198,8 +206,10 @@ Suppose that for every nonzero `v ∈ 𝔽^e` both `∑_{s : π(s)A₀v = A₀v}
 *Origin:* definitions and conventions.
 
 Let `G_f = U(V)(𝔸_f)`, the same group for all `V` of the Conventions, and `G^M ⊂ G_f` the subgroup of the elements whose
-component at every chosen place is `1`. The spaces of principal forms of `V` are finite-dimensional (the background
-result of the *Needs:* line).
+component at every chosen place is `1`. The parameter `λ_v` has *gap `Δ`* for signs `s` if the entries of `l_v` are
+distinct and of the parity of `r − 1`, and entries of `λ_v` at coordinates of different sign are at least `Δ` apart. If
+at every `v ∈ Φ` the parameter `λ_v` has gap `Δ` for the signs of `V`, the space of principal forms of `V` is
+finite-dimensional (the background result of the *Needs:* line).
 
 - A *spherical element away from `M`* is an element `a` of the group algebra `ℂ[G^M]` (finitely supported) whose image
   in `ℂ[G_f]` maps the vectors fixed by `J_M` to vectors fixed by `J_M` in every representation of `G_f`.
@@ -236,7 +246,8 @@ polynomials gives (d).
 (b) Every `T ∈ 𝓗^M` commutes with the action of `ℂ[Ḡ]` on principal forms, so it preserves the good forms; write
 `T|_good` for its restriction.
 
-(c) The eigenparts `V_p` are independent, only finitely many are nonzero, and they span the principal forms of `V`.
+(c) The eigenparts `V_p` are independent. If `λ_v` has gap `Δ` for the signs of `V` at every `v ∈ Φ` (2.1), only
+finitely many of them are nonzero and they span the principal forms of `V`.
 
 (d) For an eigensystem `q` and a finite set `F` of eigensystems there is `T ∈ 𝓗^M` that, on every `V`, is the identity
 on `V_q` and zero on `V_d` for `d ∈ F`, `d ≠ q`.
@@ -313,14 +324,15 @@ the same determinant on the good forms of `V` and `V′`.
 
 *Method of the formal proof:* for `γ ∈ G^M` the mean of the translates by `kγ` over the cosets of `K ∩ γKγ⁻¹` in the
 part `K` of the maximal compact subgroup in `G^M` is spherical and has the same matrix coefficients as `γ` on vectors
-fixed by `J_M`. The pairs of matrix-coefficient functions given by one element of `𝓗^M` on `V` and on `V′` form a
-finite-dimensional, hence closed, space that contains all terms of the two series, hence their sums.
+fixed by `J_M`. Under the gap the principal forms of `V` and `V′` are finite-dimensional (2.1), so the pairs of
+matrix-coefficient functions given by one element of `𝓗^M` on `V` and on `V′` form a finite-dimensional, hence closed,
+space that contains all terms of the two series, hence their sums.
 
 (a) For `γ ∈ G^M` there is `p ∈ 𝓗^M` with `⟨z, p y⟩ = ⟨z, γ y⟩` for every `V` and all principal forms `z`, `y` on `V`.
 
-(b) Let `(p_i)_{i ∈ I}` be a countable family in `𝓗^M`, `a, a′ ∈ ℂ`, and let `B`, `B′` be sesquilinear forms on the
-principal forms of `V`, `V′` with `∑_i a⟨z, p_i y⟩ = B(z, y)` on `V` and `∑_i a′⟨z, p_i y⟩ = B′(z, y)` on `V′`, the series
-converging unconditionally for all `z`, `y`. Then one `p ∈ 𝓗^M` has `B(z, y) = a⟨z, p y⟩` on `V` and
+(b) Under the hypotheses of 2.2, let `(p_i)_{i ∈ I}` be a countable family in `𝓗^M`, `a, a′ ∈ ℂ`, and let `B`, `B′` be
+sesquilinear forms on the principal forms of `V`, `V′` with `∑_i a⟨z, p_i y⟩ = B(z, y)` on `V` and
+`∑_i a′⟨z, p_i y⟩ = B′(z, y)` on `V′`, the series converging unconditionally for all `z`, `y`. Then one `p ∈ 𝓗^M` has `B(z, y) = a⟨z, p y⟩` on `V` and
 `B′(z, y) = a′⟨z, p y⟩` on `V′`.
 
 (c) Under the hypotheses of 2.2, for every twist `ϑ` and every `j`, the operator `R_{ϑ,j}` on principal forms given by
@@ -349,7 +361,8 @@ A *shape* is a number `ϱ ≥ 0`, a finite set `κ` with `k = #κ` elements and 
 is `J₁`. `G₁ = U(h)`, of signature `(k + ϱ, ϱ + 1)`, is written in this basis; `‖g‖` is the operator norm for the
 Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
 
-- The *frame* is `f = (f₀, …, f_ϱ) = (e₁, …, e_ϱ, z)`; the *frame vectors* of `y ∈ G₁` are the `y⁻¹f_a`. For `ρ > 0` the
+- The *frame* is `f = (f₀, …, f_ϱ) = (e₁, …, e_ϱ, z)`, and the *frame block* of a matrix is its square block on the rows
+  and columns of `f₀, …, f_ϱ`; the *frame vectors* of `y ∈ G₁` are the `y⁻¹f_a`. For `ρ > 0` the
   *frame box* `B(ρ)` is the set of `y` with `‖y⁻¹f_a‖ ≤ ρ` for all `a`.
 - `𝖴` is the unipotent radical of the stabiliser of the isotropic flag `⟨e₁⟩ ⊂ ⋯ ⊂ ⟨e₁, …, e_ϱ⟩`, `𝖴⁰ ⊂ 𝖴` the subgroup
   fixing every frame vector, `H ≅ U(k)` the subgroup acting on `X₀` and fixing the other basis vectors, and `R = 𝖴H` the
@@ -369,9 +382,9 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
 - `c_G = vol U(k)/vol U(r) · 2π^k/(k − 1)!`, with `vol U(j) = ∏_{i=1}^{j} 2π^i/(i − 1)!` as in the Conventions
   (**Normalisations**).
 - Discrete series: for signs `ε` with `pᴴ J₁ p = diag(ε)` for a fixed unitary matrix `p`, and a doubled Harish-Chandra
-  parameter `l = 2λ` for `ε`, `c_λ` is the function on `U(diag ε)`, and on `G₁` through `p`, that Flensted-Jensen's
-  integral for the lowest `K`-type of `λ` defines (the second background result of the *Needs:* line gives the
-  formula). It is the matrix coefficient of the discrete series of parameter `λ` at one unit vector, a highest
+  parameter `l = 2λ` for `ε`, `c_λ` (also written `c_l`) is the function on `U(diag ε)`, and on `G₁` through `p`, that
+  Flensted-Jensen's integral for the lowest `K`-type of `λ` defines (the second background result of the *Needs:* line
+  gives the formula). It is the matrix coefficient of the discrete series of parameter `λ` at one unit vector, a highest
   weight vector of the lowest `K`-type, and not the trace over that `K`-type; `deg(λ) = (∫|c_λ|²)⁻¹` is the formal
   degree. `l` has *large gap `A`* if its entries are distinct, of the parity of `r − 1`,
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
@@ -459,7 +472,8 @@ Fix a shape, `b ≥ 1`, an integer `f ≥ 1`, a finite nonempty set `I` and a un
   the decay is `β(ξ) = Θ_𝔰·b^{2000n⁹}·ℓ_{max(k−n⁷, 0)}(1/|ξ|)` with `Θ_𝔰 = π^{(2ϱ+1)k}·vol U(k)/vol U(r)` and
   `ℓ_j(t) = t^j·min(1, t)⁶`; and, for `σ` fixing the hyperbolic basis vectors
   and `p_ϱ = q_ϱ = h(z, σz)`, `J_n(p, q)` is the inner product of the normalised orbital integrals of `W♭` at the Weyl
-  elements of `p` and `q` (the tensor `∫W♭(y) ⊗ W♭(γ⁻¹y)^* dy` at `γ = w_p σ`, times
+  elements of `p` and `q` (`w_p` sends `e_{a+1} ↦ p_a e*_{a+1}` and `e*_{a+1} ↦ e_{a+1}/p̄_a` for `0 ≤ a < ϱ` and fixes
+  `X₀` and `z`; the tensor `∫W♭(y) ⊗ W♭(γ⁻¹y)^* dy` at `γ = w_p σ`, times
   `c_G^{1/2}(|p_ϱ|² − 1)^{(k−1)/2}·#I⁻¹·∏_{a<ϱ}|p_a|^{k+1+2(ϱ−a−1)}`).
 - A *Bessel system* with parameters `(b, f)`: a finite nonempty `I`, continuous `W`, `W♭ : G₁ → ℂ^I`, a number `deg > 0`
   and an irreducible type `ρ` (every matrix commuting with `ρ` is scalar), such that `(W, W♭)` is a cut pair, `W` has a
@@ -785,17 +799,17 @@ of `λ_i − λ_j` over the pairs with `λ_j < λ_i`, divided by `∏_{i<r} i!`;
 - `ϖ ∈ 𝒪_E` with `ϖ̄ = −ϖ` generating the different of `E`;
 - a real `b` with `1000 ≤ b`, `f ≤ b/1000`, `k ≤ b`, `rd_E ≤ b`, `ϱ + 1 ≤ b`, `(200fk·rd_E)¹⁰⁰⁰ ≤ b`, and
   `10⁵ ≤ ϱ`, `2^{−ϱ} ≤ b⁻⁶`, `(ϱ + 1)[E : ℚ] ≤ 2^{2ϱ}`, `1000(2ϱ + 2)⁹ ≤ k ≤ f`, `10¹⁰n⁴ ≤ n⁶`, `3n⁶ + 12 ≤ n⁷ ≤ k`;
-- an open compact subgroup `K_X` of `U(X₀)(𝔸_f)`, `X₀ = 𝒪_E^κ` standard, that is free: it meets every conjugate of the
-  rational points trivially;
+- an open subgroup `K_X` of the stabiliser of the standard lattice `𝒪_E^κ` in `U(X₀)(𝔸_f)`, `X₀ = 𝒪_E^κ` standard, that
+  is free: it meets every conjugate of the rational points trivially;
 - a Bessel system `𝔅_v` with parameters `(b, f)` at each infinite place `v` (3.3).
 
 The group `G` is the unitary group of `ϱ` hyperbolic planes `⊕ X₀ ⊕ Ez`, `h(z, z) = −N`, over any ring with involution;
 over `𝔸_f` it is written in the *lattice basis*, in which `x_{k₀}` is replaced by `x_{k₀}/π̄ + z/N`. `K ⊂ G(𝔸_f)` is the
 subgroup of integral invertible matrices, `red : K → Ḡ = ∏_{i, w} GL_r(𝔽_w)` reduction at the chosen places,
 `K(M) = ker red`, and for a subgroup `A`, `Ā` is the image of `A ∩ K`; `R̄₀`, `Ū`, `H̄` are those of `R`, `𝖴`, `H`.
-`ι : U(X₀)(𝔸_f) → G(𝔸_f)` is the inclusion. `κ_v = M·v(ϖ)/(2πi)` (real), and at `v` the basis is rescaled by
-`κ_v^{ϱ−a+1}/√N` on `e_a` for `a = 1, …, ϱ`, `1` on `X₀`, `1/√N` on `z` and the inverse of the scale of `e_a` on
-`e*_a`, which carries `G(E_v)` to `G₁`; in the numbering `f₀, …, f_ϱ` of the frame (3.1), where `f_i = e_{i+1}` for
+`ι : U(X₀)(𝔸_f) → G(𝔸_f)` is the inclusion. `κ_v = M·v(ϖ)/(2πi)` (real; `v(ϖ)` the image of `ϖ` under the
+embedding chosen at `v`), and at `v` the basis is rescaled by `κ_v^{ϱ−a+1}/√N` on `e_a` for `a = 1, …, ϱ`, `1` on `X₀`,
+`1/√N` on `z` and the inverse of the scale of `e_a` on `e*_a`, which carries `G(E_v)` to `G₁`; in the numbering `f₀, …, f_ϱ` of the frame (3.1), where `f_i = e_{i+1}` for
 `i < ϱ` and `f_ϱ = z`, the scale of `f_i` is `κ_v^{ϱ−i}/√N`, as in the factor `Λ` of 4.2; `γ ↦ γ_∞`
 is the resulting map from `G(E)` to `G_∞ = ∏_v G₁`. The *frame products* of `γ ∈ G(E)` are `Z(γ) = (h(f_a, γf_b))`, and
 `𝗀(γ) = 𝗀_N(Z(γ))`.
@@ -903,7 +917,7 @@ minor `D_j(Z(γ))` is nonzero, and `j = ϱ + 1` exactly when `𝗀(γ) ≠ 0`. `
 (b) If `𝔉` is admissible and `γ` is near, then `|v(Z(γ)_{ab})| ≤ b^{134n}` and `|v(D_l(Z(γ)))|² ≤ b^{270n²}` for all `v`, `a`,
 `b`, `l`.
 
-(c) If `γ` is a term over some `(c, s, c′)`, the entries of `Z(γ)` are algebraic integers.
+(c) If `𝔉` is admissible and `γ` is a term over some `(c, s, c′)`, the entries of `Z(γ)` are algebraic integers.
 
 *Needs:* 4.1, 4.2
 
@@ -950,8 +964,9 @@ lattice of `c`, and `s ∈ 𝒪_E` with `s̄ = −s`, some `γ ∈ 𝖴_c(M)` ha
 `Ml` at `e_a` and zero rows at the other `e_b`; if `l = 0` the only possibly nonzero entry of these rows is `Ms` at
 `(e_a, e*_a)`.
 
-(b) If `A` is coloured with at most `N₀` colours so that elements of one colour are related, and every set of pairwise
-related elements has weight at most `t`, then `A` has weight at most `N₀t`; with residue classes modulo a subgroup of
+(b) Let `w ≥ 0` be a weight on a set `A` and let a relation on `A` be given. If `A` is coloured with at most `N₀` colours
+so that elements of one colour are related, and every set of pairwise related elements has weight at most `t`, then `A`
+has weight at most `N₀t`; with residue classes modulo a subgroup of
 index `j` of vectors with `#ι` entries as colours, the bound is `j^{#ι}·t`.
 
 (c) For a residue domain, every class `c` and every `y ∈ G_∞`, the `u ∈ 𝖴_c(M)` with `u_∞y` reduced form exactly one
@@ -990,7 +1005,7 @@ real subspace `V`. Then the images `γf`, `γ ∈ A`, take at most `(b^{6n²}R�
 (with `p ↦ (k_p, γ_p)` injective) satisfy the hypotheses of (b) on their support and `w_p ≤ t·β_{k_p}(γ_{p,∞}⁻¹y)`,
 then `∑_p w_p ≤ (b^{6n²}R₀²)^{dim V}·t`.
 
-*Needs:* 3.2, 4.1, 4.2, 4.4
+*Needs:* 3.2, 4.1, 4.2, 4.4, 4.6
 
 [ShortProof], `New/Spanning/Unfolding/Packing.lean` (`New.Filling.frameImage_eq_frameImage_one_of_close`,
 `New.Filling.encard_image_frameImage_le`, `New.Filling.tsum_le_of_le_classCutoff_mul`)
@@ -1147,7 +1162,7 @@ above one level prime, of the terms outside the Bessel subgroup.
 *Method of the formal proof:* a term off `R` over a block avoiding the scalar cosets `ζR̄₀` (`ζ` a root of unity of `E`,
 `ζ ≠ 1`) has no norm-one pair from index `0`; the blocks then split into those of degenerate terms, which vanish or are
 bounded through the cell ranks, and those of terms with `𝗀 ≠ 0`, sorted by links; the triangle inequality in `ℓ²` gives the
-expansion. Above `p_{i+1}` the element coincides with `R̄₀`, which forces meeting places of norm at least about `M/b`, and
+expansion. Above `p_i` the element coincides with `R̄₀`, which forces meeting places of norm at least about `M/b`, and
 the bound of the remaining terms over meeting places applies.
 
 Let `E` contain a primitive root of unity of order `5040` and `𝔉` be admissible.
@@ -1175,11 +1190,13 @@ at most `(1 + 9b⁻⁴)𝒟_main`.
 
 *Method of the formal proof:* the scalar cosets of `R̄₀` contribute at most `2M^f𝒟_id`, small by the standing hypotheses.
 For the other elements, fix nonzero frame vectors at the chosen places above `p₀`; the elements that fix them and are open
-(some chosen place where no leading minor of order less than `n` of the frame products vanishes) are bounded by the main
-term, and the elements that are not open carry at most a share `b⁻⁴`, by 1.4 applied to the positive-type function and the
+(some chosen place above `p₀` where no leading minor of order less than `n` of the frame products vanishes) are bounded by
+the main term, and the elements that are not open carry at most a share `b⁻⁴`, by 1.4 applied to the positive-type function and the
 leading minors; elements meeting at many places are bounded through the remaining terms.
 
-Let `𝔉` be admissible and let `E` contain a primitive root of unity of order `5040`.
+Let `𝔉` be admissible and let `E` contain a primitive root of unity of order `5040`. For `s ∈ Ḡ` and a chosen place `w`,
+`Z(s_w)` is the matrix of the products `h(f_a, s_w f_b)` over the residue field at `w`, the form written in the lattice
+basis; `s` is *open* if at some chosen place `w` above `p₀` no leading minor `D_l(Z(s_w))` with `l < n` vanishes.
 
 (a) If `𝔼(A, {s}) ≤ 2D_X` for all `s`, the sum of `𝔼(A, {s})` over the `s` in scalar cosets `ζR̄₀` (`ζ` integral) is at
 most `2M^f𝒟_id`.
@@ -1208,8 +1225,9 @@ meeting at places of large norm)
 `P* s P` have the amplitude sums as blocks, the second moment of these operators over `Ḡ` is at most `(1 + 9b⁻⁴)𝒟_main`,
 `P*P` is close to `1`, and `e₀P` is a near isometry for any product of central idempotents with small bad share.
 
-*Method of the formal proof:* `‖P* s P‖² = 𝔼(A, {s})` by the blocks; this has positive type (1.2), and at `s = 1` the
-terms in `R` give the identity (4.9 (d)) and the others are small (4.13), so 4.14 applies. For `e₀`, the coefficient of
+*Method of the formal proof:* `‖P* s P‖² = 𝔼(A, {s})` by the blocks; this has positive type (Conventions), with the
+vectors `u_a = ρ(a)PP*ρ(a)⁻¹` in the Hilbert–Schmidt inner product (as in the method of 1.2), and at `s = 1` the terms in
+`R` give the identity (4.9 (d)) and the others are small (4.13), so 4.14 applies. For `e₀`, the coefficient of
 `1 − g_i` at `1` is small, and the mean of the unipotent character over conjugacy classes has `ℓ²`-norm at most `2`, so
 `‖(1 − e₀)P‖²` is small and 1.2 (b) concludes.
 
@@ -1251,15 +1269,18 @@ and over `G(E)` gives the amplitude sums.
 
 Let `𝔉` be admissible over `E` with a primitive root of unity of order `5040`, and let `V` be a hermitian space of rank `r`
 over `E` that *fits* `𝔉` with parameters `(l_v)`, weights `(kw_v)` and a central `η ∈ U(X₀)(𝔸_f)`: its Gram matrix is that
-of `G`; the Bessel system at `v` has type `(l_v, kw_v)` (3.14 (a)–(c)); the kernel of the archimedean type is idempotent;
+of `G` (it comes with a grading in the standard indexing, whose constant `c_Y` is part of the fit and not determined by
+`V`); the Bessel system at `v` has type `(l_v, kw_v)` (3.14 (a)–(c)); the kernel of the archimedean type is idempotent;
 and the finite part of the frame of `V` is a finite idele times `ι(η)` times the lattice basis times an integral matrix
-that reduces to `1` at the chosen places. Let `J` be the principal level at the chosen places. For `a = (c, i)` let
-`𝒲_a(g) = β_c(y)W_i(y)` (`y` the image of `g_∞` in `G_∞`) if the finite part of `g` lies in `h_c J` (after the
-identification), and `0` otherwise; for `φ ∈ ℂ^{Classes × Coord}` put `𝒫φ(g) = ∑_a φ_a ∑_{γ ∈ G(E)} 𝒲_a(γg)`.
+that reduces to `1` at the chosen places. Let `J` be the principal level at the chosen places. Write the elements `g` of
+`U(V)(𝔸)` in the frame `x` of `V`; `g′ = x_f g_f x_f⁻¹` is the finite part of `g` in rational coordinates, written in
+the lattice basis of 4.1, and `y`, the image of `g_∞` in `G_∞`, has the components `d_v⁻¹x_v g_v p⁻¹`, with `d_v` the
+rescaling of 4.1 at `v` and `p` the unitary matrix of 3.1. For `a = (c, i)` let `𝒲_a(g) = β_c(y)W_i(y)` if
+`g′·ι(η) ∈ h_c·K(M)`, and `0` otherwise; for `φ ∈ ℂ^{Classes × Coord}` put `𝒫φ(g) = ∑_a φ_a ∑_{γ ∈ G(E)} 𝒲_a(γg)`.
 
 (a) `𝒫φ` is a form on `U(V)` of the type `(l_v)` and of level `J`, and `φ ↦ 𝒫φ` is linear.
 
-(b) For `k` in the maximal compact subgroup with reduction `s` at the chosen places,
+(b) For `k` in the stabiliser of the standard lattice (in the frame of `V`) with reduction `s` at the chosen places,
 `⟨k·𝒫e_{c′,i′}, 𝒫e_{c,i}⟩ = vol(J)·A(c, s, c′)_{(i,i′)}`.
 
 (c) The algebraic forms on `U(X₀)` of weight `kw` and level `K_X` have dimension `D_X = #Classes·dim(weight kw) > 0`, and
@@ -1285,9 +1306,11 @@ If `V` fits `𝔉`, there are `g ∈ ∏_v U(diag ε)` and a linear form `t` on 
 
 `∫_{R(E⁺_∞)} c̄(g⁻¹sy)·ψ(s)⁻¹·t(ρ̌(a_s)ζ) ds`,
 
-where `c` is the kernel of the archimedean type, `s = u a_s` with `a_s` in the real points of `U(X₀)`, `ρ̌` the action on
-the Weyl module by which the source forms transform at infinity, `ψ` the character of the real points of the global Bessel
-group given by the entries at the simple roots, and `ds` a Haar measure (its normalisation is absorbed in `t`).
+where `R(E⁺_∞)` is the group of real points of the Bessel subgroup `R` of `V` (for the grading of the fit), `c` is the
+kernel of the archimedean type, `s = u a_s` with `a_s` in the real points of `U(X₀)`, `ρ̌` the action on the Weyl module by
+which the source forms transform at infinity, `ψ(s) = ∏_v exp(σ(s̃_v) − σ̄(s̃_v))` with `s̃_v = d_v⁻¹x_v s_v x_v⁻¹d_v ∈ G₁`
+the component `s_v` of `s` at `v` written in the rescaled basis (`x`, `d_v` as in 5.1) and `σ` as in 3.1, and `ds` a Haar
+measure (its normalisation is absorbed in `t`).
 
 *Needs:* 3.8, 3.14, 5.1
 
@@ -1304,10 +1327,11 @@ the Bessel group, the type kernel acts on `y` as the identity, and what is left 
 `𝖴_c(M)\R(E⁺_∞)`. The Bessel period decomposes in the same way, since the quotient of `[R]` by `R(𝔸_f) ∩ J` is the
 disjoint union of these spaces, so the two agree up to a nonzero constant, which is absorbed in `t`.
 
-(a) Let `E` have Weil data (DivisibilityOfThetaDerivatives §1.4 (c)). If `V` fits `𝔉` and the constant `c_Y` of the
-generic character of the Bessel unipotent group of `V` satisfies `ȷ·c_Y = −(Mϖ)⁻¹`, `ȷ` the element of the Weil data (so
-that the character of `𝔉` is that of the Bessel period), there are `g₀` and `t` such that for every source form `φ` and every form `y` of the conjugate
-type and level `J`, `∫_{[G]} y·𝒫(φ_{c,i}) = ∫_{[R]} 𝒲_φ(r)·y(rg₀) dr`, with `𝒲_φ(uh) = ψ_U(u)·t(h_∞⁻¹·φ(h_f))` built from
+(a) Let `E` have Weil data (DivisibilityOfThetaDerivatives §1.4 (c)). If `𝔉` is admissible, `V` fits `𝔉`, and the
+constant `c_Y` of the generic character of the Bessel unipotent group of `V` (the constant of the grading of `V` that
+comes with the fit, 5.1) satisfies `ȷ·c_Y = −(Mϖ)⁻¹`, `ȷ` the element of the Weil data (so that the character of `𝔉`
+is that of the Bessel period), there are `g₀` and `t` such that for every source form `φ` and every form `y` of the
+conjugate type and level `J`, `∫_{[G]} y·𝒫(φ_{c,i}) = ∫_{[R]} 𝒲_φ(r)·y(rg₀) dr`, with `𝒲_φ(uh) = ψ_U(u)·t(h_∞⁻¹·φ(h_f))` built from
 the translate of `φ` by `η`.
 
 (b) For the data: there are a real point `g` and a linear form `t` with `𝒫_{g,t} = 𝒫^{fill} ∘ coords`, where `𝒫_{g,t}` is the
@@ -1418,7 +1442,7 @@ degrees `deg(λ_v)` on the compact groups is the dimension of the representation
 *Origin:* particular to this proof: the scaled Poincaré map of the data has the amplitude blocks, so its second moment over
 `Ḡ` and the near isometry of `e₀P` hold, and for every space of target forms some translate `#Ḡ·e₀ s 𝒫` has a small preimage.
 
-*Method of the formal proof:* 5.3 and 5.1 (b) give the amplitude blocks after scaling; `e₀` is the tensor product of the
+*Method of the formal proof:* 5.3 and 5.1 (b) give the amplitude blocks after scaling; `e₀` acts as the tensor product of the
 two central idempotents of the good families above each level prime, whose bad shares are bounded by the count of
 non-allowed and non-primitive labels; 4.15 gives the two hypotheses of 1.2 (c), with 5.6 for the dimension of the target.
 
@@ -1426,8 +1450,8 @@ Let `P = (vol(J_M)·ν)^{−1/2}·𝒫 ∘ coords⁻¹`, for the filling data of
 
 (a) `P` has the amplitude blocks of 4.15 for the action of `Ḡ` on the principal forms of `Y₀`.
 
-(b) `e₀ = g₀ ⊗ g₁` with `g_i` the sum of the label idempotents of the good tuples above `p_i`; each `g_i` is a central
-idempotent with `Re (1 − g_i)(1) ≤ b⁻⁸/2`.
+(b) With `g_i` the sum of the label idempotents of the good tuples above `p_i`, each `g_i` is a central idempotent with
+`Re (1 − g_i)(1) ≤ b⁻⁸/2`, and `g₀ ⊗ g₁` acts on the principal forms of `Y₀` as `e₀`.
 
 (c) `e₀P` is a near isometry with error `5b⁻⁴`; `∑_{s ∈ Ḡ}‖P* s P‖² ≤ (1 + 9b⁻⁴)·D_X²/(deg·mass_r)`; and
 `d_T·∑_{s ∈ Ḡ}‖P* s P‖² ≤ #Ḡ·(1 + 9b⁻⁴)·D_X²`. In particular `d_T > 0`.

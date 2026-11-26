@@ -62,11 +62,13 @@ inequalities" use only these.
 complex numbers `z` with `|ι(z)|_p ≤ 1`. An algebraic form `φ` on the finite adelic points `G_f` of a definite
 unitary group takes values in a Weyl module with its standard integral basis. The *gauge* of a value `v` at a
 point `g` is the largest `p`-adic absolute value of a coordinate of `g⁻¹·ι(v)`, where `g⁻¹` acts on the Weyl
-module through the embeddings `ι∘τ` at the infinite places `τ`. A form has *gauge at most `c` at the base
-point `d`* if `φ(g)` has gauge at most `c` at `g·d` for every `g`; it is *integral* at `ι` if its gauge is at
-most `1` at the base point `1`, and has *valuation at least `v`* if its gauge is at most `p^{−v}` at the base
-point `1`. A datum of a theta kernel *raises gauges from `d` to `d′` by at most `C`* if the lifted vector has
-gauge at most `C·c` at `g′d′` whenever the vector lifted has gauge at most `c` at `gd`
+module, at the infinite place `τ`, through the `p`-adic embedding `x ↦ ι(τ(x̄))` (so through the component of
+`g` at the conjugate `w̄_τ` of the prime `w_τ` induced by `ι∘τ`, 2.4 (a)). A form has *gauge at most `c` at
+the base point `d`* if `φ(g)` has gauge at most `c` at `g·d` for every `g`; it is *integral* at `ι` if its
+gauge is at most `1` at the base point `1`, and has *valuation at least `v`* if its gauge is at most `p^{−v}`
+at the base point `1`. A datum `Φ` of a theta kernel *raises gauges from `d` to `d′` by at most `C`* if, for
+all finite points `g`, `g′` and every vector `ξ`, the image of `ξ` under the value of the kernel at the
+translated datum `ω(g, g′)Φ` has gauge at `g′d′` at most `max(C, 0)` times the gauge of `ξ` at `gd`
 (ThetaLiftChainsAndTheSeesawIdentity §1.1 (d), gauges and the bound "raises"). The *squared norm* of a
 vector of a Weyl module is its value under the invariant integral Gram form of the module; for `σ ∈ Aut(ℂ)`,
 `σ∘v` is the conjugate vector. A form is *`B`-short* if it is integral at every `ι` for every prime `p` and
@@ -76,7 +78,7 @@ all conjugates `σ∘φ(g)` have squared norm at most `B`.
 divides `z`" means: every finite family `(φ_1, …, φ_n)` of elements of `M` is carried into `M′` by an
 `n × n` matrix over `O` whose determinant divides `z` (no inclusion `M′ ⊆ M` is asked). An endomorphism `y`
 is *onto `M` modulo `pⁿ` up to colength `c`* if `y(M) ⊆ M` and the colength of `y(M) + pⁿM` in `M` divides
-`p^l` for some integer `l ≤ c`. These notions, and their behaviour under images, preimages, chains and
+`p^l` for some natural number `l ≤ c`. These notions, and their behaviour under images, preimages, chains and
 products of endomorphisms (the bounds add), are those of OneSidedPrimeSumBoundsAndAdmissibleData §1.1
 (colength of modules).
 
@@ -91,6 +93,7 @@ over it has a Smith normal form.
 | `E, q₁, Φ, f` | the CM field `K(ζ_{q₁})`; the group of its infinite places, identified with `(ℤ/q₁)ˣ` and read as embeddings `E → ℂ` through a CM type; `f = #Φ` | OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (`q₁`), §2.2 |
 | `u(ν), (−ν)σ` | the infinite place named by the class of an integer `ν` prime to `q₁` (the identity otherwise); the product `u(−ν)·σ` | OneSidedPrimeSumBoundsAndAdmissibleData §2.2 |
 | `Φ_a, Φ_b, κ(τ)` | the a-places (class `1` mod `q₀`), the b-places (class `−1` mod `q₀`); the weight, `b` on `Φ_b` and `a/x₁` elsewhere | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| `Δ, κ_j` | the gap `Δ = 2r⁸` between the weights of consecutive lifts, with `r = k + m − 1`; `κ_j(σ) = κ(σ) + (j + 1/2)Δ`, the weight of the character of lift `j` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `x, x₁, b, a` | the scales, `a = x·b` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `m, ϱ, k, t, n_j, s, l₀` | number of lifts (a power of `2`, `m = 2ϱ + 2`); rank of `X₀`; `n_j = k + j(t + 1)`; `2^s = m^{22}`; `l₀` the least power of `3` above `27s` | OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (`l₀`), §3.2 |
 | `M = p₀p₁, π̄_M` | the two level primes and an integer of `K` of norm `M` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
@@ -99,6 +102,7 @@ over it has a Smith normal form.
 | `ϑ, Q(ϑ), q(ϑ)` | a twist; its set of ramified places; `q(ϑ) = Π_{w∈Q(ϑ)} Nw` | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
 | `s_fin(y, σ)` | the prime sum `Σ_{1≤ν≤a} Λ(ν)(1 − χ_K(ν))(y/ν − κ((−ν)σ))₊` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
 | `s_∞(j), s_main, h_main, rem` | the jet size `log j! + j log(M/Ω)`; the expected value of `s_fin(a, τ)`; the main amount; the total remainder `Σ_{τ∈Φ_a}(s_fin(a, τ) − s_main)` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
+| `rd_E, Ω` | the root discriminant of `E`; `Ω = exp(γ − Re (L′/L)(1, χ_K))·2π/rd_E` | OneSidedPrimeSumBoundsAndAdmissibleData §2.2 |
 | `X_j, K_j, Y_m` | the definite hermitian spaces of rank `n_j` (standard form on a basis), their levels, and `Y_m ⊂ X_m` | ThetaLiftChainsAndTheSeesawIdentity §2.1 (the spaces), §2.6 (the levels `K_j`) |
 | `𝒮, D_X` | source forms (there `𝒮_X`): algebraic forms on `U(X₀)` of the source weight and level `K₀`; `D_X = dim_ℂ 𝒮` | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
 | `K°` | the stabiliser of the standard lattice in the finite adelic points of a standard definite space; `K₀ ⊂ K°` | ThetaLiftChainsAndTheSeesawIdentity, Conventions |
@@ -118,6 +122,8 @@ over it has a Smith normal form.
 | `Σ_N, δ_j, Up, 𝒜′` | the set-up at the level prime | 4.4 |
 | `T, P, q, w, ρ_n, depth, defect` | a Frobenius cycle and its invariants | 1.1 |
 | `c_div, c₀, c*` | the divisor constant, the multinomial exponent, the defect threshold | 1.4, 1.7, 1.10 |
+
+In 5.1 and 5.6, `N` is an integer in the different of `E`, not the level prime.
 
 ## Layer 1: Elementary divisors of an edge Hecke operator
 
@@ -279,7 +285,8 @@ monomials orthogonal.
 homomorphism (here `O` may be any commutative ring), and `g` a polynomial over `W` in variables `σ`,
 homogeneous of degree `e`, with a unit value at some point. Then the vectors `(ι(y^γ))_γ`, `γ` running over
 the monomials of degree `n`, at the points `y` where `g(y)` is a unit, span `O^{Mon_n(σ)}`.
-(c) Let `τ` be a labelling of `{0, …, k − 1}` and `d + k ≤ #(residue field of W)`. Let `Sch_d` send a linear
+(c) Let `τ` be a labelling of `{0, …, k − 1}`, and let the residue field of `W` be finite with at least `d + k`
+elements. Let `Sch_d` send a linear
 form on the polynomials of degree `d` in the `k²` entries of a matrix to the matrix on `(O^k)^{⊗d}` obtained
 by applying it to the entries of the `d`-th tensor power of the generic block matrix of `τ`. Then the
 tensor powers `ι(g)^{⊗d}`, `g ∈ L_τ(W)`, span the image of `Sch_d`; precisely, a submodule of the forms that
@@ -307,8 +314,8 @@ tensors of large weight. By 1.5 (c) that submodule is spanned by images of such 
 `ι(g)^{⊗d}`, which gives invariance, vanishing on the monomials of large row weight, and the congruence
 modulo `J`.
 
-Let `W` be a local ring, `O` a valuation domain of characteristic `0` in which the prime `p` is not a unit,
-`ι : W → O`, `τ` a labelling of `{0, …, k − 1}`, `ρ ∈ ℤ^k`, `t ∈ ℤ`, and `f, D ∈ ℕ` with `D < p^f` and
+Let `W` be a local ring with finite residue field, `O` a valuation domain of characteristic `0` in which the
+prime `p` is not a unit, `ι : W → O`, `τ` a labelling of `{0, …, k − 1}`, `ρ ∈ ℤ^k`, `t ∈ ℤ`, and `f, D ∈ ℕ` with `D < p^f` and
 `D + k` at most the size of the residue field of `W`. The group `L_τ(W)` acts on polynomials `ψ` in the
 entries of a `k × k` matrix `X` over `O` by `ψ(X) ↦ ψ(ι(g)⁻¹Xι(g))`. Call a monomial `α` in the entries
 *bad* if its row weight `Σ_{i,j} α(i, j)ρ(i)` exceeds `t`. Then there is an `O`-linear form `I` on `O[X]`
@@ -330,9 +337,10 @@ such that:
 *Method of the formal proof:* none: these are definitions.
 
 Let `T` be a Frobenius cycle over `W` and a domain `O` of characteristic `0`, and `r ≤ k`.
-(a) *Edges.* `ParahoricCosets(k, r) := GL_k(W)/P_{τ_r}(W)`. Its elements index the lattices `L′` with
-`𝔪L ⊆ L′ ⊆ L = W^k` and `dim(L/L′) = r` (`𝔪` the maximal ideal); as matrices act transposed, they index the
-edges from a lattice.
+(a) *Edges.* `ParahoricCosets(k, r) := GL_k(W)/P_{τ_r}(W)`, the set of left cosets `g·P_{τ_r}(W)`. (As
+`P_{τ_r}(W)` is the stabiliser of `{v ∈ W^k : v_b ∈ 𝔪 for b < r}`, `𝔪` the maximal ideal, these cosets
+correspond to the lattices `L′` with `𝔪W^k ⊆ L′ ⊆ W^k` and `W^k/L′` of dimension `r` over the residue field;
+read through the transpose, they label the edges leaving a lattice.)
 (b) *Halfway lattices.* `Δ_r` is the diagonal matrix that multiplies the coefficient at `β` by
 `w^{depth_r(β)}`. The module `ℋ_r` of *forms in all halfway lattices* consists of the `v ∈ O^{Exp(N,k,n)}`
 for which there are `m ∈ ℕ` and `h ∈ O^{Exp}` with `w^m v = Δ_r h` and `w^m` dividing every coefficient of
@@ -346,11 +354,12 @@ change of basis `g(e) ∈ GL_k(W)` for each edge, the *edge restriction* sends `
 of the edge restriction for some `m`.
 (e) *Edge coordinates* with blocks `(r, k − r)`, for a finite set `X` of representatives and a finite set `H`,
 consist of: for each edge `(x, b)`, `b ∈ ParahoricCosets(k, r)`, a representative `origin(x, b) ∈ X`, a change
-of basis `g_o(x, b) ∈ GL_k(W)` at the origin and a matrix `θ(x, b) ∈ GL_H(O)`; for each `b` a change of
-basis `g_t(b)` whose inverse represents `b`; such that two edges with the same origin whose transposed
-changes of basis at the origin lie in the same coset of `P_{τ_r}(W)` are equal.
+of basis `g_o(x, b) ∈ GL_k(W)` at the origin and a matrix `μ(x, b) ∈ GL_H(O)`; for each `b` a change of
+basis `g_t(b)` whose inverse represents `b`; such that two edges `e`, `e′` with `origin(e) = origin(e′)` and
+`g_o(e)ᵀ·(g_o(e′)ᵀ)⁻¹ ∈ P_{τ_r}(W)` are equal (equivalently, `e ↦ (origin(e), class of (g_o(e)ᵀ)⁻¹ in
+ParahoricCosets(k, r))` is injective).
 (f) *The edge Hecke operator.* For a bijection `J : I ≅ Exp(N, k, n) × H`, the operator `A` on functions
-`F : X → O^I` is `(AF)(x) := Σ_b ((ρ_n(g_o(x, b))·diag(p^{depth_r(β)})·ρ_n(g_t(b)))ᵀ ⊗ θ(x, b))
+`F : X → O^I` is `(AF)(x) := Σ_b ((ρ_n(g_o(x, b))·diag(p^{depth_r(β)})·ρ_n(g_t(b)))ᵀ ⊗ μ(x, b))
 F(origin(x, b))`, read through `J`.
 
 *Needs:* 1.1.
@@ -456,7 +465,7 @@ pairing and `c ∈ ℕ`, `c* = 3kc`. Then there is a matrix `Av` on `O^{Exp(N,k,
 of `ρ_n(g)·Av·h` at every exponent whose defect along `(a, a′)` exceeds `3c*` at some letter;
 (b) for every `h` and every `h′ ∈ ℋ_{a′}`, `⟨Av·h, h′⟩ ≡ p^{N c₀}⟨h, h′⟩ (mod w^c)`.
 
-*Needs:* 1.6, 1.8, 1.9.
+*Needs:* 1.6, 1.7, 1.8, 1.9.
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/AveragingMap.lean`
 (`New.FrobeniusCycle.exists_average_mem_defectConditions_and_dvd_sub`)
@@ -497,8 +506,8 @@ by 1.3 (d) and occurs in the translate by a representative of a coset of the low
 shift, its exponent divided by `m` lies in the cone of Pieri's inequalities cut by a slab, and as `m` grows
 the count becomes a volume (1.11), whose share is the inverse of the number of flags.
 
-Let `T` be a Frobenius cycle over a field `K` of characteristic `p`, `a′ = a + 1 ≤ k − 1`, `t ≥ 2(k + 1)`,
-and `S := DC(a, a′; 0; 3t)` over `K`.
+Let `T` be a Frobenius cycle over a field `K` of characteristic `p`, `a′ = a + 1 ≤ k − 1`, `t ≥ 2(k + 1)` an
+integer, and `S := DC(a, a′; 0; 3t)` over `K`.
 (a) There are degrees `D(s) ∈ [1, n + 4tP^{2a′}]` with `dim_K S ≤ [L_{τ_{a′}}(W) : L_{τ_{a′}}(W) ∩ B⁻(W)]·
 vol(C ∩ Slab(D))`, where `B⁻(W)` is the lower Iwahori subgroup (matrices lower triangular modulo the maximal
 ideal) and `C` the set of real vectors of defect at most `0` along every simple root `(b, b + 1)` at every
@@ -535,7 +544,7 @@ and `O`, and say that `(k, n, r, θ)` is *of large degree* if `0 < r`, `2r ≤ k
 (b) In the situation of 1.8 (c), the matrices `Q`, `R`, `d` can be taken with `Q` of image exactly the origin
 functions and `det d` dividing `w^{|X|·⌊c_div(k,n,r)·#Exp(N,k,n)⌋}`.
 
-*Needs:* 1.4, 1.8, 1.10, 1.12.
+*Needs:* 1.4, 1.7, 1.8, 1.10, 1.12.
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/ElementaryDivisorTheorem.lean` (`New.FrobeniusCycle.IsLargeDegree`,
 `New.FrobeniusCycle.exists_isEdgeCondition`, `New.FrobeniusCycle.IsLargeDegree.exists_basis_det_dvd`)
@@ -629,15 +638,18 @@ every weight is at least `a/x₁`; grouping it by primes and using `Λ(p^e) = lo
 *Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData §4.1 (the prime sums).
 
 [ShortProof], `New/UpperBound/Size/Estimates.lean` (`New.Data.localPrimeSum_eq_tsum`, `New.Data.localPrimeSum_eq_zero`,
-`New.Data.gain_eq_zero`, `New.Data.primeSum_eq_sum_localPrimeSum`, `New.Data.sum_localPrimeSumTotal_mul_log_le`)
+`New.Data.gain_eq_zero`, `New.Data.primeSum_eq_sum_localPrimeSum`, `New.Data.sum_localPrimeSumTotal_mul_log_le`,
+`New.Data.localPrimeSumTotal_nonneg`)
 
 ### 2.3 The sum of the allowed losses
 
 *Origin:* particular to this proof: the allowed losses, weighted by `log p`, add up to at most the error unit.
 
-*Method of the formal proof:* each term is at most `T/c` for an integer `1 ≤ c ≤ x₁`, with `c = p`, or `c`
-with `p = mc ± 1` when `p ≡ ±1 (mod m)` (then `m ≤ 2p/c`), or `c = 1` for `p = N`; each `c` serves at most four
-numbers, so the sum is at most `4T` times a harmonic sum up to `x₁`, and the size inequalities finish.
+*Method of the formal proof:* a non-zero term `err₀(p)·log p` is at most `4fa(log b)²·log x₁/c` for some
+integer `1 ≤ c ≤ x₁`: for `p = N` take `c = 1`; for a small non-split `p` take `c = p`, unless `p ≡ ±1 (mod m)`,
+in which case `p = mc ± 1` and `m ≤ 2p/c` for a suitable `c`. A given `c` is used only for
+`p ∈ {N, c, mc − 1, mc + 1}`, so the sum is at most `16fa(log b)²·log x₁·Σ_{c≤x₁} 1/c`, which the size
+inequalities bound by `u_E`.
 
 For every finite set `U` of natural numbers, `Σ_{p∈U} err₀(p)·log p ≤ u_E = f·a·(log b)³`.
 
@@ -662,7 +674,7 @@ moreover, for every `τ ∈ Φ_a`, `w_τ ∈ Λ` or `w̄_τ ∈ Λ`.
 (d) The *integral source forms* `𝓜_ι` are the source forms of gauge at most `1` at the base point `1`; they
 form an `𝒪_ι`-module.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the infinite places as embeddings of `E`), §3.2 (the
+*Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the infinite places as embeddings of `E`), §3.2 (the
 a-places and the scale `a`); ThetaLiftChainsAndTheSeesawIdentity §2.8 (source forms).
 
 [ShortProof], `New/UpperBound/Divisibility/MarkedPrimes.lean` (`New.Data.inducedPlace`, `New.Data.IsMarked`,
@@ -699,7 +711,8 @@ data), §3.3 (the size inequalities).
 [ShortProof], `New/UpperBound/Divisibility/MarkedPrimes.lean` (`New.Data.IsExceptional.hasExceptionalOrbits`,
 `New.Data.IsExceptional.m_dvd_orderOf`, `New.Data.exists_isFullMark`, `New.Data.IsFullMark.collisionSum_placesInducing_eq_zero`,
 `New.Data.IsMarked.card_le`, `New.Data.IsMarked.cast_weight_eq`, `New.Data.IsMarked.sum_placesInducing_eq_sum_placesInducingConj`,
-`New.Data.IsMarked.valuation_natCast_eq_exp_neg_one`, `New.Data.IsMarked.isSplit`, `New.Data.IsMarked.maxCompactAt_le_levelX`)
+`New.Data.IsMarked.valuation_natCast_eq_exp_neg_one`, `New.Data.IsMarked.isSplit`, `New.Data.IsMarked.maxCompactAt_le_levelX`,
+`New.Data.IsMarked.not_dvd_M_mul_N`, `New.Data.IsMarked.notMem_bPlaces`, `New.Data.IsMarked.natCast_mem_asIdeal`)
 
 ### 2.6 Definition: the scaled Hecke operators of a marked set
 
@@ -707,10 +720,14 @@ data), §3.3 (the size inequalities).
 
 *Method of the formal proof:* none: this is a definition.
 
-Let `Λ` be marked and `𝔩 ∈ Λ`. For a split prime `𝔩` and `0 ≤ i`, `T_{𝔩,i}` is the Hecke operator of the
-double coset of `diag(ϖ·1_i, 1_{n−i})` at `𝔩` (and its conjugate at `𝔩̄`) on forms spherical at `𝔩`. By
-2.5 (e) source forms are spherical at `𝔩`, and `T_{𝔩,i}` preserves `𝒮`. The *scaled Hecke operator* is
-`Y_𝔩 := p^{A_𝔩}·T_{𝔩,𝔯(p)}`, an `𝒪_ι`-linear endomorphism of `𝒮`; `Y_Λ := Π_{𝔩∈Λ} Y_𝔩`.
+Let `Λ` be marked and `𝔩 ∈ Λ`. For a split prime `𝔩` and `0 ≤ i ≤ n` (`n` the rank of the space, `ϖ` a
+uniformiser at `𝔩`), `T_{𝔩,i}` is the Hecke operator of the double coset
+`GL_n(𝒪_𝔩)·diag(ϖ·1_i, 1_{n−i})·GL_n(𝒪_𝔩)` on forms spherical at `𝔩` (fixed by the elements of the standard
+maximal compact subgroup that are `1` away from `𝔩` and `𝔩̄`): `T_{𝔩,i}φ` is the sum of the right translates
+of `φ` by representatives `h` of the cosets `h·GL_n(𝒪_𝔩)` in the double coset, where `h ∈ GL_n(E_𝔩)` is
+read in `G_f` with component `h` at `𝔩`, the inverse of the conjugate transpose of `h` at `𝔩̄`, and `1`
+elsewhere. By 2.5 (e) source forms are spherical at `𝔩`, and `T_{𝔩,i}` preserves `𝒮`. The *scaled Hecke
+operator* is `Y_𝔩 := p^{A_𝔩}·T_{𝔩,𝔯(p)}`, an `𝒪_ι`-linear endomorphism of `𝒮`; `Y_Λ := Π_{𝔩∈Λ} Y_𝔩`.
 
 *Needs:* 2.4, 2.5; AutomorphicFormsOnReductiveGroups §7.4 (the operator `T_η` of a double coset `JηJ` on the
 algebraic forms of level `J`, here for `η = diag(ϖ·1_i, 1_{n−i})` at a split place and `J` containing the
@@ -764,7 +781,7 @@ Let `Λ` be marked.
 (a) For `j < m`, `#Λ·ν_p + 𝔯(p)·Σ_{σ∈Φ(Λ)} lc_j(σ) ≤ loss(p)/m + #(Φ_a ∩ Φ(Λ))·a/x₁`.
 (b) `m·Σ_{𝔩∈Λ} (12A_𝔩/(mp) + j_p/(m²f)) ≤ loss(p)`.
 
-*Needs:* 2.4, 2.5, 2.7; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (admissible data), §3.3 (the size
+*Needs:* 2.1, 2.4, 2.5, 2.7; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (admissible data), §3.3 (the size
 inequalities).
 
 [ShortProof], `New/UpperBound/Divisibility/MarkedPrimes.lean`
@@ -785,8 +802,9 @@ Let `w` be a prime of `E` dividing `π_N`. Scalings at `w`, the scaling `z_w` an
 `zz̄ = 1` whose components are `1` away from `w` and `w̄`, and `z_w` is a fixed scaling whose component at `w`
 generates the units of the residue field.
 (a) For the component `z_{w,w}` of `z_w` at `w`: `z_{w,w}^i ≡ 1 (mod w)` if and only if `(N − 1) | i`.
-(b) The scalar matrix of `z_w` lies in the standard maximal compact subgroup at `w` and in the principal
-congruence subgroup at the chosen places, and its `i`-th power lies in `K_j` if and only if `(N − 1) | i`.
+(b) The scalar matrix of `z_w` lies in the standard maximal compact subgroup at `w` and in the subgroup of the
+standard maximal compact subgroup of the elements that are `1` modulo every prime of `E` dividing `π_M` (the
+conjugate of `π̄_M`), and its `i`-th power lies in `K_j` if and only if `(N − 1) | i`.
 (c) Right translation by the scalar matrix of `z_w` is an operator of order dividing `N − 1` on the forms of
 level `K_j` on `X_j`.
 
@@ -795,7 +813,8 @@ ThetaLiftChainsAndTheSeesawIdentity §2.1 (the definite spaces `X_j`), §2.6 (th
 the existence of the scaling `z_w`, and the ramified source forms).
 
 [ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.exists_isScalingAt_valuation_pow_iff`,
-`New.Data.scalingGenerator`, `New.Data.scalarFin_scalingGenerator_mem_chosenLevel`,
+`New.Data.scalingGenerator`, `New.Data.scalarFin_scalingGenerator_mem_maxCompactAt`,
+`New.Data.scalarFin_scalingGenerator_mem_chosenLevel`,
 `New.Data.scalarFin_scalingGenerator_pow_mem_levelX_iff`, `New.Data.algFormCentralRep_scalingGenerator_pow`)
 
 The ramified source forms `𝒮^ram = {φ ∈ 𝒮 : Σ_{i=0}^{N−2} z_w^i·φ = 0 for every prime w | π_N}` are defined in
@@ -842,21 +861,22 @@ the single lifts multiply.
 
 *Method of the formal proof:* the levels `K_j`, `j < m`, are free, so the integrals over the definite groups
 are sums over classes; joint invariance lets the sum over tuples of classes be taken with the kernels at
-class points, and the gauge is ultrametric.
+fixed representatives of the classes, and the gauge is ultrametric.
 
 Let `Φ(x, j)` be data of the lifts `X_j → X_{j+1}`, one for each tuple `x` in the support of a finitely
 supported `Ψ`, such that `Σ_x Ψ(x)·⊗_j Φ(x, j)` is invariant under the joint action of `K_0 × ⋯ × K_{m−1}`.
-(a) For a source form `φ` and points `g_j ∈ G_f(X_j)`, the value at `g_m` of `Σ_x Ψ(x)·(chain of m lifts with
+(a) For a source form `φ` and a point `g ∈ G_f(X_m)`, the value at `g` of `Σ_x Ψ(x)·(chain of m lifts with
 data Φ(x, ·))(φ)` is the sum, over tuples of classes `c_j ∈ Γ\G_f(X_j)/K_j` (`j < m`) and over `x`, of
-`Ψ(x)` times the product of the kernels `Θ_j^ϑ` with data `Φ(x, j)` at class points, applied to the value of
-`φ` at the first point.
+`Ψ(x)` times the composite, for `j = 0, …, m − 1` in turn, of the kernels `Θ_j^ϑ` at the data
+`ω(h_j, h_{j+1})Φ(x, j)`, applied to `φ(h_0)`; here `h_j` is a fixed representative of `c_j` for `j < m`, and
+`h_m = g`.
 (b) If moreover `|ι(Ψ(x))| ≤ 1`, every `Φ(x, j)` raises gauges from `d_j` to `d_{j+1}` by at most `p^{r_j}`,
 and `φ` has gauge at most `1` at `d_0`, then the combination has gauge at most `p^{Σ_{j<m} r_j}` at `d_m`.
 (c) Let `Ψ` be a weak chain datum for `ϑ` and `p ∤ q(ϑ)`, and let `t_j` be linear maps on the data of step `j`
 that commute with the action of `K_j × K_{j+1}` on the data `t_x(j)`. Then (b) holds for the data
 `t_j(t_x(j))`; in particular the combination is again jointly invariant.
-(d) If `Ψ` is a weak chain datum for `ϑ`, `p ≠ N` and `p ∤ q(ϑ)`, then each `t_x(j)` is a standard datum at `p`
-for `δ = π̄_M`, and for every `δ` if `p ∤ M` (DivisibilityOfThetaDerivatives §4.8, standard data at `p`).
+(d) If `Ψ` is a weak chain datum for `ϑ`, `p ≠ N` and `p ∤ q(ϑ)`, then each `t_x(j)`, `x` in the support of `Ψ`,
+is a standard datum at `p` for `δ = π̄_M`, and for every `δ` if `p ∤ M` (DivisibilityOfThetaDerivatives §4.8, standard data at `p`).
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §1.1 (d) (gauges and the bound "raises"), §2.8 (the theta kernels
 of the lifts), §2.12 (chain data, weak chain data and the composite lift);
@@ -881,8 +901,8 @@ branching matrix multiplies squared norms by at most `exp(x^{70})`.
 Let `res : forms on X_m → forms on Y_m` be the restriction of ThetaLiftChainsAndTheSeesawIdentity §2.12
 (restriction from `X_m` to `Y_m`), with the exponents `n_τ` of ThetaLiftChainsAndTheSeesawIdentity §2.2.
 (a) If `p ≠ N` and `φ` has gauge at most `c` at the base point `1`, so has `res(φ)`.
-(b) Let `p = N` and let `d ∈ G_f(X_m)` be such that, read through `ι∘τ` at the conjugate `w̄_τ` of the induced
-prime, `d` is `diag(1, …, 1, N)` if `w̄_τ | π_N` and `1` otherwise, for every `τ`. If `φ` has gauge at most `c`
+(b) Let `p = N` and let `d ∈ G_f(X_m)` be such that, read through the embedding `x ↦ ι(τ(x̄))`, that is, at the
+conjugate `w̄_τ` of the induced prime, `d` is `diag(1, …, 1, N)` if `w̄_τ | π_N` and `1` otherwise, for every `τ`. If `φ` has gauge at most `c`
 at the base point `d`, then `res(φ)` has gauge at most `c` at the base point `1`.
 (c) For every `σ`, `h ∈ G_f(Y_m)`: `‖σ∘res(φ)(h)‖² ≤ exp(x^{70})·N^{−Σ_τ n_τ}·‖σ∘φ(diag(h, 1))‖²`.
 
@@ -930,7 +950,8 @@ weighted by its entries are bounded with charges on the boxes whose indices are 
 (DivisibilityOfThetaDerivatives §4.11 (d), divisibility of Schur entries of jets with charges), the determinant
 factors cancel by the balance 2.5 (d), and the charges are counted by long rows and low columns.
 
-Let `p` be non-split in `K`, `0 ≤ j < m`, and `φ` a standard datum at `p` of level one for `Θ_j^ϑ`.
+Let `p` be non-split in `K`, `0 ≤ j < m`, and `φ` a datum of `Θ_j^ϑ` that is standard at `p` for `δ = 1`
+(DivisibilityOfThetaDerivatives §4.8, standard data at `p`; compare 3.1 (d)).
 (a) `φ` raises gauges from `1` to `1` by at most `p^{−D_p(j, ∅)}`.
 (b) Let `Λ` be marked and `g ∈ G_f(X_{j+1})` the element with components `g_𝔩` at `𝔩 ∈ Λ` (and the
 corresponding components at `𝔩̄`) and `1` elsewhere, where each `g_𝔩` lies in the double coset of
@@ -938,8 +959,8 @@ corresponding components at `𝔩̄`) and `1` elsewhere, where each `g_𝔩` lie
 `p^{Σ_{𝔩∈Λ} A_𝔩 + λ_j(Λ)}`, where `λ_j(Λ) := 𝔯(p)·Σ_{σ∈Φ(Λ)} lc_j(σ) − D_p(j, Φ(Λ))`.
 
 *Needs:* 2.5, 2.7; ThetaLiftChainsAndTheSeesawIdentity §1.5 (d) (the gauge bound for one lift at a non-split prime
-by the predicted divisibility); DivisibilityOfThetaDerivatives §4.11 (d) (divisibility of Schur entries of jets
-with charges).
+by the predicted divisibility); DivisibilityOfThetaDerivatives §4.8 (standard data at `p`), §4.11 (d) (divisibility
+of Schur entries of jets with charges).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtNonSplitPrimes.lean` (`New.Data.mem_raises_neg_divisibilityBound`,
 `New.Data.liftLoss`, `New.Data.IsMarked.ω_ofSplitPlaces_mem_raises`, `New.Data.IsMarked.sum_neighborExponent_add_neighborCharge_le`)
@@ -957,11 +978,11 @@ the Hecke polynomial of the source at a rescaled variable; comparing coefficient
 chain.
 
 Let `Ψ` be a weak chain datum for `ϑ`, `p ∤ q(ϑ)`, `Λ` marked, `𝔩 ∈ Λ` with `N𝔩 = z²` (`z = p^h`, `2h ≤ f`), and
-`C_e` the chain of the first `e` lifts with data `t_x(·)`, `x` in the support of `Ψ`. Forms spherical at `𝔩`
-are sent to forms spherical at `𝔩`, and:
+`C_e` the chain of the first `e` lifts with data `t_x(·)`, `x` in the support of `Ψ`; write `Θ_e^ϑ` for the
+lift `X_e → X_{e+1}` with datum `t_x(e)`. Forms spherical at `𝔩` are sent to forms spherical at `𝔩`, and:
 (a) there is `R ∈ 𝒪_ι[U]` with `R(0) = 1`, independent of `x`, such that
 `H_𝔩(U)(Θ_e^ϑ φ) = R(U)·Θ_e^ϑ(H_𝔩(z^{t+1}U)φ)` for every `φ` spherical at `𝔩` and every `U ∈ ℂ`, where
-`H_𝔩(U) := Σ_i (−U)^i·N𝔩^{binom(i,2)}·T_{𝔩,i}`;
+`H_𝔩(U) := Σ_{i=0}^{n} (−U)^i·N𝔩^{binom(i,2)}·T_{𝔩,i}` on forms on a space of rank `n`;
 (b) for `i ≤ n_e` there are `c_{i,i′} ∈ 𝒪_ι`, independent of `x`, with
 `z^{(t+1)i}·N𝔩^{binom(i,2)}·Θ_e^ϑ(T_{𝔩,i}φ) = Σ_{i′≤i} c_{i,i′}·T_{𝔩,i′}(Θ_e^ϑ φ)`;
 (c) for `i ≤ 𝔯(p)` the same holds with `p^{f𝔯(p)t}` in place of `z^{(t+1)i}N𝔩^{binom(i,2)}`;
@@ -998,9 +1019,10 @@ Let `Ψ` be a weak chain datum for `ϑ`, `p ∤ q(ϑ)` and `Λ` marked.
 (a) For each `j` and each list `L` of distinct primes of `Λ` there is a linear map `t` on the data of step
 `j` such that, for every `x` in the support of `Ψ`: `t` commutes at `t_x(j)` with `ω(a, b)` for `b` in the
 standard maximal compact subgroup; `Θ_j^ϑ(t(t_x(j)))(C_j y) = C_{j+1}(Π_{𝔩∈L} Y_𝔩 y)` for every source form
-`y`; and for `j < m` and every `g` that is `1` at the primes of `L` and in the double coset of some
-`diag(ϖ·1_i, 1)`, `i ≤ 𝔯(p)`, at the other primes of `Λ`, `ω(1, g)t(t_x(j))` raises gauges from `1` to `1` by at
-most `p^{Σ_{𝔩∈L}(ν_p − A_𝔩) + Σ_{𝔩∈Λ}A_𝔩 + λ_j(Λ)}`.
+`y`; and for `j < m` and every `g ∈ G_f(X_{j+1})` of the form of 3.4 (b) (components `g_𝔩` at the primes
+`𝔩 ∈ Λ`, the corresponding components at `𝔩̄`, and `1` at all other places) with `g_𝔩 = 1` for `𝔩 ∈ L` and
+`g_𝔩` in the double coset of some `diag(ϖ·1_i, 1)`, `i ≤ 𝔯(p)`, for the other `𝔩 ∈ Λ`, `ω(1, g)t(t_x(j))` raises
+gauges from `1` to `1` by at most `p^{Σ_{𝔩∈L}(ν_p − A_𝔩) + Σ_{𝔩∈Λ}A_𝔩 + λ_j(Λ)}`.
 (b) For every `v ∈ 𝓜_ι`, `R_ϑ^Ψ(Y_Λ^m v)` has gauge at most `p^{Σ_{j<m}(#Λ·ν_p + λ_j(Λ))}` at the base point `1`.
 
 *Needs:* 2.6, 3.1, 3.2, 3.4, 3.5.
@@ -1027,7 +1049,7 @@ Let `Ψ` be a weak chain datum for `ϑ`, `p ∤ q(ϑ)`, and `v ∈ 𝓜_ι`.
 (e) If `Ψ` is a chain datum for `ϑ` and `Λ` a full mark, then `B_ϑ^Ψ(φ)` has valuation at least
 `gain(p) − 2·loss(p)` for every `φ ∈ Y_Λ^m(𝓜_ι) + p^{j_p}𝓜_ι`.
 
-*Needs:* 2.5, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.6.
+*Needs:* 2.1, 2.5, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.6.
 
 [ShortProof], `New/UpperBound/Divisibility/LocalDivisibility.lean` (`New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_one`,
 `New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_collisionSum`, `New.Data.IsWeakChainDatum.gaugeLe_pow_collisionExponent_smul`,
@@ -1050,14 +1072,19 @@ integral source forms are families of integral vectors indexed by the classes.
 Let `Λ` be marked, `𝔩 ∈ Λ`, `W` the valuation ring of `E` at `𝔩`, and `T` a Frobenius cycle over `W` and `𝒪_ι`
 with prime `p`, letters `ℤ/N_T` in bijection `i ↦ σ_i` with the a-places that induce `𝔩` or `𝔩̄`, letter maps
 `ι_i = σ_i` if `i` is even and `ι_i = (complex conjugation)∘σ_i` if `i` is odd, and `A_𝔩 = a·#{even letters}`.
-(a) For `r < k`, `p` a uniformiser at `𝔩` and a level containing the maximal compact subgroup at `𝔩`, the
-value of `T_{𝔩,r}φ` at the representative of a class is the sum over the cosets of the parahoric subgroup of
-the blocks `(r, k − r)` of a rational element applied to the value of `φ` at the representative of the origin
-of the edge.
+(a) Let `p` be a uniformiser at `𝔩`, `r < k`, and `J` a level of the standard space of rank `k` that contains
+the maximal compact subgroup at `𝔩` (the elements of the standard maximal compact subgroup that are `1` away
+from `𝔩` and `𝔩̄`). Number the basis, and choose for each class `x ∈ Γ\G_f/J` a representative `ρ(x)` that is
+integral at the places above `p`. For `b ∈ ParahoricCosets(k, r)` (1.7 (a)) with a fixed representative `β`,
+the point obtained from `ρ(x)` by replacing its component at `𝔩` by `β·diag(p·1_r, 1_{k−r})` (and its
+component at `𝔩̄` accordingly) is `γ_{x,b}·ρ(y)·η` with `γ_{x,b}` a rational point, `η ∈ J` and `y` a class,
+written `origin(x, b)`. Then for every form `φ` of level `J` and any weight,
+`(T_{𝔩,r}φ)(ρ(x)) = Σ_b γ_{x,b}·φ(ρ(origin(x, b)))`, the sum over `b ∈ ParahoricCosets(k, r)`, with `γ_{x,b}`
+acting in the weight.
 (b) If `(k, a, 𝔯(p), θ)` is of large degree (1.13), then for every `j₀ ∈ ℕ`, `Y_𝔩` is onto `𝓜_ι` modulo `p^{j₀}`
 up to colength `(3c_div(k, a, 𝔯(p)) + θj₀)·D_X`.
 
-*Needs:* 1.13, 1.14, 2.5, 2.6; AutomorphicFormsOnReductiveGroups §7.4 (the operator of a double coset as a sum
+*Needs:* 1.7, 1.13, 1.14, 2.5, 2.6; AutomorphicFormsOnReductiveGroups §7.4 (the operator of a double coset as a sum
 over its right cosets), §7.5 (at a level with trivial stabilisers a form is the family of its values at
 representatives of the classes; [ShortProof] `Lib/Adelic/Hecke/Basic.lean` (`New.heckeFun_eq_sum_pullback`),
 `Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.freeLevelEquiv`)).
@@ -1081,9 +1108,9 @@ that induce `w_τ` or `w̄_τ`.
 `(complex conjugation)∘σ` otherwise, and `σ′ = (−p^e)σ` with `e` odd also inducing `𝔩` or `𝔩̄`:
 `ι_{σ′}(y) ≡ ι_σ(y)^{p^e} (mod p𝒪_ι)` for every `y` in the valuation ring of `𝔩`.
 (c) If `p` is exceptional, the residue field at a prime above `p` has `p^o` elements, `o` the order of `u(−p)`.
-(d) If `Λ` is marked, `𝔩 ∈ Λ` and `o = o₀·N′`, then the maps `ι_{t(i)}` form a Frobenius cycle over the
-valuation ring of `𝔩` and `𝒪_ι` with prime `p`, `P = p^{o₀}`, `N′` letters, and `i` even exactly when `t(i)`
-induces `𝔩`.
+(d) If `Λ` is marked, `𝔩 ∈ Λ` and `o = o₀·N′`, then for every `t : ℤ/N′ → Φ` with `t(i + 1) = u(−p^{o₀})·t(i)`
+and every `t(i)` inducing `𝔩` or `𝔩̄`, the maps `ι_{t(i)}` of (b) form a Frobenius cycle over the valuation ring
+of `𝔩` and `𝒪_ι` with prime `p`, `P = p^{o₀}`, `N′` letters, and `i` even exactly when `t(i)` induces `𝔩`.
 (e) For a Frobenius cycle with prime `13 ≤ p < x₁`, `0 < e ≤ 𝔯(p)`, at most `f` letters and `m ≤ e·#letters`,
 `(k, a, 𝔯(p), 1/(m²f))` is of large degree.
 (f) For a Frobenius cycle with `2ℓ` letters and `0 < e ≤ 𝔯(p)`, `3c_div(k, a, 𝔯(p)) ≤ 12aℓ/(mp)`.
@@ -1124,9 +1151,10 @@ Let `Λ` be marked.
 Let `ι : ℂ → ℂ_N`.
 (a) `Σ_N := {w̄_τ : τ ∈ Φ}`, the conjugates of the primes above `N` induced through `ι`.
 (b) `δ_j ∈ G_f(X_j)` is supported above `N`, equal to `diag(1, …, 1, N)` at the places of `Σ_N` that divide
-`π_N` and to `1` at the other places of `Σ_N`; it carries the standard lattice at `Σ_N` to `L_j`, the lattice
-of integral vectors whose last coordinate is divisible by `π_N`. `δ_j^∨` carries it to the dual lattice of
-`L_j`.
+`π_N` and to `1` at the other places of `Σ_N`. Applied to the standard lattice at `Σ_N` it gives `L_j`: the
+integral vectors with last coordinate divisible by `π_N`. Likewise `δ_j^∨ ∈ G_f(X_j)` is supported above `N`,
+equal to `1` at the places of `Σ_N` that divide `π_N` and to `diag(1, …, 1, N⁻¹)` at the other places of `Σ_N`;
+applied to the standard lattice at `Σ_N` it gives the dual lattice of `L_j` there.
 (c) `Up` is the operator of ThetaLiftChainsAndTheSeesawIdentity §2.11 (the operator `Up` and the lift laws
 modulo `N`) for the forms on `X₀`, with `GL` at `Σ_N` acting in a basis of `L₀`.
 (d) `𝒜′` is the `𝒪_ι`-module of the forms `φ` on `X₀` such that `Up^{m/2}φ` is a source form of gauge at most
@@ -1171,13 +1199,13 @@ Each direct lift on a translate of the vacuum raises `N`-adic gauges from `δ_j`
 and commutes with the levels; 3.1 (c) and 3.2 (b) finish.
 
 Let `ι : ℂ → ℂ_N`.
-(a) There is `c ∈ ℂ` with `|ι(c)| ≤ N^{mfb}` such that for all data `v_j` of the lifts and all `φ ∈ 𝒮^ram`, the
-chain of the `m/2` double lifts with data glued from the projections of the `v_j` on the vacuum above `N`,
-applied to `φ`, equals `c` times the chain of the `m` direct lifts (data `v_j` multiplied at `Σ_N` by the
-indicator of the integral matrices whose last column is the last basis vector modulo `N`, in bases of `L_j`,
-`L_{j+1}`) applied to `Up^{m/2}φ`.
-(b) For `j < m` the direct datum on `t_x(j)` raises `N`-adic gauges from `δ_j` to `δ_{j+1}` by at most `N^{fb}`,
-and commutes with `ω(a, b)` for `a ∈ K_j`, `b ∈ K_{j+1}`.
+(a) For every twist `ϑ` there is `c ∈ ℂ` (depending on `ϑ`) with `|ι(c)| ≤ N^{mfb}` such that for all data
+`v_j` of the lifts and all `φ ∈ 𝒮^ram`, the chain of the `m/2` double lifts for `ϑ` with data glued from the
+projections of the `v_j` on the vacuum above `N`, applied to `φ`, equals `c` times the chain of the `m` direct
+lifts for `ϑ` (data `v_j` multiplied at `Σ_N` by the indicator of the integral matrices whose last column is
+the last basis vector modulo `N`, in bases of `L_j`, `L_{j+1}`) applied to `Up^{m/2}φ`.
+(b) For every twist `ϑ` and `j < m`, the direct datum on `t_x(j)` of the lift `Θ_j^ϑ` raises `N`-adic gauges
+from `δ_j` to `δ_{j+1}` by at most `N^{fb}`, and commutes with `ω(a, b)` for `a ∈ K_j`, `b ∈ K_{j+1}`.
 (c) For every twist `ϑ`, every chain datum `Ψ` for `ϑ` and every `φ ∈ 𝒮^ram` with `φ ∈ 𝒜′`, `B_ϑ^Ψ(φ)` has
 gauge at most `N^{2mfb}` at the base point `1`.
 
@@ -1228,11 +1256,12 @@ integral source forms, by 3.7 (b) and 2.7 (b). For an exceptional `p < x₁`, `Y
 mark `Λ` (2.5 (b)), by 3.7 (e) and 4.3 (b). For `p = N`, the source forms in `𝒜′`, by 4.6 (c) and 4.7 (c), the
 gain being `0` because `N ≥ x₁`.
 
-For every prime `p` and `ι : ℂ → ℂ_p` there are an integer `l ≤ err₀(p)·D_X` and an `𝒪_ι`-submodule `S` of `𝒮`
-such that the colength of `S` in `𝓜_ι` divides `p^l` and, for every twist `ϑ` with `p ∤ q(ϑ)`, every chain datum
-`Ψ` for `ϑ` and every `φ ∈ S ∩ 𝒮^ram`, `B_ϑ^Ψ(φ)` has valuation at least `gain(p) − err₀(p)`.
+For every prime `p` and `ι : ℂ → ℂ_p` there are a natural number `l ≤ err₀(p)·D_X` and an `𝒪_ι`-submodule
+`S` of `𝒮` such that the colength of `S` in `𝓜_ι` divides `p^l` and, for every twist `ϑ` with `p ∤ q(ϑ)`, every
+chain datum `Ψ` for `ϑ` and every `φ ∈ S ∩ 𝒮^ram`, `B_ϑ^Ψ(φ)` has valuation at least `gain(p) − err₀(p)`.
 
-*Needs:* 2.2, 2.5, 2.7, 3.3, 3.7, 4.3, 4.6, 4.7; OneSidedPrimeSumBoundsAndAdmissibleData §1.1 (colength of modules).
+*Needs:* 2.1, 2.2, 2.4, 2.5, 2.7, 3.3, 3.7, 4.3, 4.6, 4.7; OneSidedPrimeSumBoundsAndAdmissibleData §1.1 (colength
+of modules); ThetaLiftChainsAndTheSeesawIdentity §2.8 (the ramified source forms).
 
 [ShortProof], `New/UpperBound/Divisibility/LocalDivisibility.lean` (`New.Data.exists_colengthDvd_gaugeLe_compositeLift`)
 
@@ -1248,9 +1277,10 @@ There are real numbers `err(p)`, one for each natural number `p`, such that:
 (a) `err(p) ≥ 0` for all `p`;
 (b) `err(p) = 0` if `p ≠ N` and either `χ_K(p) = 1` or `p ≥ x₁`;
 (c) `Σ_{p∈U} err(p)·log p ≤ f·a·(log b)³` for every finite set `U` of natural numbers;
-(d) for every prime `p` and every `ι : ℂ → ℂ_p` there are an integer `l ≤ err(p)·D_X` and an `𝒪_ι`-submodule
-`S ⊆ 𝓜_ι ∩ 𝒮^ram` whose colength in `𝓜_ι ∩ 𝒮^ram` divides `p^l`, such that for every twist `ϑ` with
-`p ∤ q(ϑ)`, every chain datum `Ψ` for `ϑ` and every `φ ∈ S`, `B_ϑ^Ψ(φ)` has valuation at least `gain(p) − err(p)`.
+(d) for every prime `p` and every `ι : ℂ → ℂ_p` there are a natural number `l ≤ err(p)·D_X` and an
+`𝒪_ι`-submodule `S ⊆ 𝓜_ι ∩ 𝒮^ram` whose colength in `𝓜_ι ∩ 𝒮^ram` divides `p^l`, such that for every twist `ϑ`
+with `p ∤ q(ϑ)`, every chain datum `Ψ` for `ϑ` and every `φ ∈ S`, `B_ϑ^Ψ(φ)` has valuation at least
+`gain(p) − err(p)`.
 
 *Needs:* 2.3, 4.8; OneSidedPrimeSumBoundsAndAdmissibleData §1.1 (colength of modules).
 
@@ -1351,8 +1381,8 @@ growth rate `a + 1`, whose terms other than the row sizes add up to `x^{50}`; th
 gains `N^{−#Φ_a·a}` up to `N^{f m Δ/2}` (3.2 (c)); 5.3 (d) assembles the exponent.
 
 Let `1` denote the trivial twist and `σ ∈ Aut(ℂ)`.
-(a) For `j < m`, every tuple `x` of translations and all `g, g′`, the value of the kernel `Θ_j^1` with datum
-`ω(g, g′)t_x(j)`, a linear map between the Weyl modules of `X_j` and `X_{j+1}`, multiplies the norm of
+(a) For `j < m`, every tuple `v` of translations and all `g, g′`, the value of the kernel `Θ_j^1` with datum
+`ω(g, g′)t_v(j)`, a linear map between the Weyl modules of `X_j` and `X_{j+1}`, multiplies the norm of
 `σ`-conjugates by at most `exp(x^{50} + rs_j/2)`.
 (b) Let `Ψ` be a weak chain datum for `1` and `φ ∈ 𝒮` with `‖σ∘φ(g)‖² ≤ exp(B)` for all `g`. Then for all
 `y ∈ G_f(Y_m)`, `‖σ∘R_1^Ψ(φ)(y)‖² ≤ exp(B + β)`, with
@@ -1384,7 +1414,8 @@ level and the action of `𝖦` on them) and §2.15 (the lower chain), `s ∈ �
 (a) For every prime `l`, every `ι : ℂ → ℂ_l` and every `c ∈ ℂ`: if `c·Θ_ϑ(z)` is integral at `ι`, so is
 `c·Θ_ϑ(#𝖦·e₀ s z)`; and `Θ_ϑ(#𝖦 e₀ s z)(g) = Σ_{t∈𝖦} #𝖦·e₀(t)·Θ_ϑ(z)(g·γ_ϑ(ts))` for an integral lift `γ_ϑ` of
 `𝖦` to `G_f(Y_m)`.
-(b) For `σ ∈ Aut(ℂ)`: if `‖σ∘Θ_1(z)(g)‖² ≤ exp(B)` for all `g`, then the class sum of the squared norms of the
+(b) For `σ ∈ Aut(ℂ)`: if `‖σ∘Θ_1(z)(g)‖² ≤ exp(B)` for all `g`, then the class sum (the sum over the classes
+`ΓgJ` of the level `J` of the lifted form, each weighted by `1/#(Γ ∩ gJg⁻¹)`) of the squared norms of the
 `σ`-conjugates of the values of `Θ_1(#𝖦·e₀ s z)` is at most `exp(x^{99} + B)`.
 
 *Needs:* 5.2; ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `𝖦` and the idempotent `e₀`), §2.7 (the forms
@@ -1437,7 +1468,7 @@ values at representatives; [ShortProof] `Lib/Adelic/AutomorphicForms/HeckeEigenf
 forms whose size is bounded by the error unit.
 
 *Method of the formal proof:* 5.6 (c) for the level `K₀` of the source forms (free, and contained in `K°`) and
-`N = q₁d`, which lies in the different of `E`; the
+the integer `q₁d` in place of the `N` of 5.6 (c), which lies in the different of `E`; the
 source weight has at most `fa` boxes, and the size inequalities give the bound. For the ramified forms, apply
 `Π_w(1 − z_w)` (2.11 (a)), which keeps integrality and multiplies the bound by `4` for each of the `f` primes
 `w | π_N` (5.6 (a), applied to the scalar matrix of `z_w`, which lies in `K°` by 2.9 (b) though not in `K₀`).

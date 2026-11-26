@@ -73,8 +73,8 @@ For a Dirichlet character `ψ`, `L(s, ψ)` is Mathlib's `DirichletCharacter.LFun
 | Symbol | Meaning | Defined |
 |---|---|---|
 | `q₀, d, K, χ_K` | the modulus (a multiple of `18480`), the prime `d ≡ q₀/2 − 1 (mod q₀)`, `K = ℚ(√−d)`, `χ_K = (·/d)` | 2.1 |
-| `λ_q, G_q, c_q, R_q` | the weight `Λ(n)(1 − χ_K(n))` on `n ≡ 1 (mod q)`, a mean of logarithmic derivatives, its real value at `1`, the remainder; `c₁` is the case `q = 1` | 0.1 |
-| `s, l₀, T, q₁, q₂` | the exponent of the tower, the least power of `3` above `27s`, `T = 3l₀2^s`, `q₁ = q₀T`, `q₂ = (q₀d)^{s+6}` | 2.2 |
+| `E_ψ, λ_q, G_q, c_q, R_q` | `L(s, ψ)`, times `s − 1` if `ψ` is principal; the weight `Λ(n)(1 − χ_K(n))` on `n ≡ 1 (mod q)`, a mean of logarithmic derivatives, its real value at `1`, the remainder; `c₁` is the case `q = 1` | 0.1 |
+| `s, l₀, T, q₁, q₂` | the exponent of the tower, the least power of `3` above `27s`, `T = 3l₀2^s`, `q₁ = q₀T`, `q₂ = (q₀d)^{s+6}` | 2.1 |
 | `E, ζ, Φ, Φ_v, f` | `E = K(ζ)`, `ζ` of order `q₁`; the group of infinite places of `E`, isomorphic to `(ℤ/q₁)^×`; the embedding chosen at `v`; `f = #Φ` | 2.2 |
 | `[ν], ν·σ, −νσ` | the place named by an integer `ν` (the identity place if `ν` is not prime to `q₁`); products in `Φ` | 2.2 |
 | `rd_E, Ω` | the root discriminant of `E`; `Ω = exp(γ − Re (L′/L)(1, χ_K))·2π/rd_E` | 2.2 |
@@ -82,9 +82,10 @@ For a Dirichlet character `ψ`, `L(s, ψ)` is Mathlib's `DirichletCharacter.LFun
 | `x, x₁, b, a` | the length of the prime sum, the second cut-off, the weight at the `b`-places (integers), `a = xb` | 3.2 |
 | `m, r, k, t, n_j` | the number of lifts (a power of `2`), the rank of the target (a power of `3`), `k = r + 1 − m`, `t = 5r`, `n_j = k + j(t + 1)` | 3.2 |
 | `Φ_a, Φ_b` | the `a`-places (class `1` modulo `q₀`) and the `b`-places (a sparse set of places of class `−1`) | 3.2 |
-| `κ, Δ, κ_j` | the weight (`b` on `Φ_b`, `a/x₁` elsewhere), the gap `Δ = 2r⁸`, `κ_j = κ + (j + 1/2)Δ` | 3.2 |
+| `κ, Δ, κ_j, κ_{(i)}` | the weight (`b` on `Φ_b`, `a/x₁` elsewhere), the gap `Δ = 2r⁸`, `κ_j = κ + (j + 1/2)Δ`, `κ_{(i)} = κ + (i + 1)Δ/2` | 3.2 |
 | `p₀, p₁, M, N, π_M, π_N` | the primes of the principal level, `M = p₀p₁`, the level `N`, `π_M ∈ 𝒪_K` with `π_M π̄_M = M`, `π_N ∈ 𝒪_E` with `π_N π̄_N = N` | 3.2 |
 | `N₋` | the lower end of the range of the level | 3.1 |
+| `δ_E` | the generator of the different of `E` of DivisibilityOfThetaDerivatives §1.1 (b), whose absolute value at an infinite place `v` is that of `Φ_v(δ_E)` | DivisibilityOfThetaDerivatives §1.1; 3.3 |
 | chosen places | the finite places of `E` dividing `π_M` | DivisibilityOfThetaDerivatives §1.5 |
 | `ξ, Q(ξ), Nm Q(ξ)` | a twist (written `ϑ` in [ShortProof]), its modulus, the product of the norms of the places of the modulus | 3.4 |
 | `μ_j⁰, μ♭, χ, ω, υ` | the character of lift `j`; the characters of weight `−κ₀` and of weight `0` with tame part `ω`; the residue characters at the chosen places; the splitting character on `U(1)` | 3.4; `ω`: DivisibilityOfThetaDerivatives §1.5; `μ♭, χ` (there `χ₀, χ_M`): §1.6 (a); `υ`: §1.4 (c) |
@@ -95,7 +96,8 @@ For a Dirichlet character `ψ`, `L(s, ψ)` is Mathlib's `DirichletCharacter.LFun
 | `𝒮, 𝒮_ram, 𝒯, d_T` | the source forms on `X₀` (there `𝒮_X`), the ramified ones, the target forms on `Y₀`, `d_T = dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity §2.8 (`𝒮`, `𝒮_ram`), §2.7 (`𝒯`) |
 | `Ḡ, ρ, e₀, 𝒫` | the finite group `∏ GL_r(𝔽_w)` over the chosen places (there `𝖦`), its action on forms of principal level on `Y₀`, the central idempotent of the good forms, the Poincaré map | ThetaLiftChainsAndTheSeesawIdentity §2.5 (`Ḡ`, `e₀`), §2.7 (`ρ`), §2.19 (`𝒫`); 5.2 |
 | `Θ_ξ, Z(ξ)` | the chain of `m` lifts with twist `ξ` on the target forms, `Z(ξ) = det(Θ_ξ^*Θ_ξ)` | ThetaLiftChainsAndTheSeesawIdentity §2.15; 5.1 |
-| `gain_ℓ, err_ℓ, g_ℓ, c_B, c_ss, s𝔭` | the divisibility asked at `ℓ`, the allowed error, `⌊gain_ℓ − err_ℓ⌋`, `∏ ℓ^{−g_ℓ}`, the seesaw constant, the normalised Poincaré map translated by `s ∈ Ḡ` | 5.2 |
+| `J_m(ξ), ι_ξ, B_ξ(Ψ)` | the level of the forms on `Y_m` for the twist `ξ`; the chain of lifts from `Y₀` to `Y_m` (`ι_ξ = Θ_ξ`); the composite lift with chain datum `Ψ` | ThetaLiftChainsAndTheSeesawIdentity §§2.6, 2.12, 2.15; 5.1, 5.2 |
+| `gain_ℓ, err_ℓ, g_ℓ, c_B, c_ss, s𝔭, 𝒮_int` | the divisibility asked at `ℓ`, the allowed error, `⌊gain_ℓ − err_ℓ⌋`, `∏ ℓ^{−g_ℓ}`, the seesaw constant, the normalised Poincaré map translated by `s ∈ Ḡ`, the ramified source forms integral at every pair | 5.2 |
 | `‖·‖²_σ` | the squared norm of the conjugate by `σ ∈ Aut(ℂ)` | 1.3, 5.1 |
 
 ## Layer 0: the remainders `R_q` and the one-sided criterion
@@ -132,7 +134,7 @@ For odd `d` prime to `q`, `G_q(s)` continues `Σ λ_q(n)n^{−s} − s/(φ(q)(s 
 `c_q` is the constant that makes `R_q` tend to `0` (see 0.2 and 6.2 for where these are used). Write `𝒢_1` and
 `𝒢_{χ_K}` for the Riesz remainders of the trivial character and of `χ_K` in
 RiemannHypothesisStatementsAndConsequences §8.4a (b) (written `G` there; they are functions of `y`, not the function
-`G_q(s)` above). Then `y·R₁(y) = 𝒢_1(y) − 𝒢_{χ_K}(y)` for odd `d`, since `c₁ = −1 − γ + (L′/L)(1, χ_K)`.
+`G_q(s)` above). Then `y·R₁(y) = 𝒢_1(y) − 𝒢_{χ_K}(y)` for odd `d`, since `c₁ = −1 − γ + Re (L′/L)(1, χ_K)`.
 
 *Needs:* Mathlib `ArithmeticFunction.vonMangoldt`, `DirichletCharacter.LFunction`, `Chebyshev.psi_le_const_mul_self`.
 
@@ -143,7 +145,7 @@ RiemannHypothesisStatementsAndConsequences §8.4a (b) (written `G` there; they a
 ### 0.2 The one-sided criterion
 
 *Origin:* adapted from Landau (1905): Landau's theorem for Laplace integrals of functions of one sign
-(ArithmeticDirichletSeriesPartII §0.1b), here applied to the remainder `R_{q₀}^{(d)}`, whose characters carry weights of
+(PositivityOfDirichletSeriesWithKernels §6.4), here applied to the remainder `R_{q₀}^{(d)}`, whose characters carry weights of
 both signs, under an upper bound asked for every prime `d` of a residue class.
 
 *Method of the formal proof:* by orthogonality modulo `q`, `λ_q` is `φ(q)^{−1}Σ_ψ (ψΛ − ψχ_KΛ)`; for odd `d` prime to `q`
@@ -296,7 +298,7 @@ orthonormal basis. Facts:
 - (b) If `y` and `y′` have index at most `δ` and `δ′`, the union has index at most `δ + δ′`.
 - (c) Let `e_ℓ ≥ 0` with `Σ_{ℓ∈S} e_ℓ log ℓ ≤ δ` for every finite set `S` of primes. If for every pair `ι` some
   `𝒪_ι`-module `M ⊂ V` contains the family and the colength of the vectors integral at `ι` in `M` divides `ℓ(ι)^j`
-  (1.1) for an integer `j ≤ e_{ℓ(ι)}`, then the family has index at most `δ`.
+  (1.1) for an integer `0 ≤ j ≤ e_{ℓ(ι)}`, then the family has index at most `δ`.
 - (d) Let `t` be a finite set and `A_s ⊂ V` (`s ∈ t`) sets such that every finite family in `A_s` has index at most
   `δ`. Then every finite family with members in `⋃_{s∈t} A_s` has index at most `#t·δ`.
 - (e) If `‖z_i‖²_σ ≤ e^h` for `i = 1, …, n` and every `σ`, then `(z_i)` has covolume at most `nh`.
@@ -327,12 +329,12 @@ height of `Z(1)/Z(ξ_ι)` and the sizes and denominators of vectors completing i
 trivial twist and valuations for a twist allowed at each prime.
 
 *Method of the formal proof:* write `Gram(ξ)` for the Gram determinant of the images under `Θ_ξ` of the basis
-`y ∪ z`; then `Gram(ξ) = Z(ξ)·det⟨y_i, z_k⟩`, so `Gram(1) = |γ(ξ_ι)|^{2n′}Gram(ξ_ι)·|γ(ξ_ι)|^{−2n′}·Z(1)/Z(ξ_ι)` for each
-pair. At `ι` and at `ῑ`, the matrices of the index together with the scalar `γ(ξ_ι)` carry the images under `Θ_{ξ_ι}`
-into the integral vectors, so the integrality of inner products bounds `|ι(|γ(ξ_ι)|^{2n′}Gram(ξ_ι))|` by
-`ℓ^{2δ_ℓ}`: that family has height at most `2δ`. Adding the heights of the three factors (1.2 (d)) bounds the height of
-the constant family `Gram(1)`, and its conjugates are at most `e^{c + n′b_short}` by 1.3 (f), (g); the product formula
-(1.2 (f)) gives the inequality.
+`y ∪ z`; then `Gram(ξ) = Z(ξ)·Gram_V`, with `Gram_V` the Gram determinant of the basis `y ∪ z` in `V`, so
+`Gram(1) = |γ(ξ_ι)|^{2n′}Gram(ξ_ι)·|γ(ξ_ι)|^{−2n′}·Z(1)/Z(ξ_ι)` for each pair. At `ι` and at `ῑ`, the matrices of the
+index together with the scalar `γ(ξ_ι)` carry the images under `Θ_{ξ_ι}` into the integral vectors, so the
+integrality of inner products bounds `|ι(|γ(ξ_ι)|^{2n′}Gram(ξ_ι))|` by `ℓ^{2δ_ℓ}`: that family has height at most `2δ`.
+Adding the heights of the three factors (1.2 (d)) bounds the height of the constant family `Gram(1)`, and its
+conjugates are at most `e^{c + n′b_short}` by 1.3 (f), (g); the product formula (1.2 (f)) gives the inequality.
 
 Let `V` be a finite-dimensional complex inner product space with a twisted lattice whose maps `Θ_ξ` are all injective.
 Let `y_1, …, y_n, z_1, …, z_{n′}` be a basis of `V`, and choose for each pair `ι` a twist `ξ_ι` allowed at `ℓ(ι)`.
@@ -361,9 +363,9 @@ read through the action on `ζ`; the `a`-places, the `b`-places and the weights 
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the congruence is stored as the two divisibilities; the facts are elementary congruences:
-every prime of `q₁` divides `q₀`, hence `2(d + 1)`, and `d ≡ −1` modulo `4p` gives `(p/d) = 1` by reciprocity for the
-Jacobi symbol; `d² ≡ 1 (mod q₀)` gives the last fact.
+*Method of the formal proof:* the congruence is used in the form of the two divisibilities; the facts are elementary
+congruences: every prime of `q₁` divides `q₀`, hence `2(d + 1)`, and `d ≡ −1` modulo `4p` gives `(p/d) = 1` by
+reciprocity for the Jacobi symbol; `d² ≡ 1 (mod q₀)` gives the last fact.
 
 *Parameters* `P = (q₀, d)` consist of an integer `q₀` divisible by `18480 = 16·3·5·7·11` and a prime `d` with
 `q₀ | 2(d + 1)` and `q₀ ∤ d + 1`, that is `d ≡ q₀/2 − 1 (mod q₀)`. Put `K = ℚ(√−d) ⊂ ℂ` and `χ_K = (·/d)`. For `s ≥ 0`
@@ -377,13 +379,15 @@ let `l₀(s) = 3^{⌊log₃ s⌋+4}`, `T(s) = 3^{⌊log₃ s⌋+5}·2^s = 3 l₀
 - (d) `q₁(s)` is prime to `d`, and `q₁(s)d | q₂(s)`.
 - (e) No power of `d` is `≡ −1 (mod q₀)`.
 
-So `χ_K` is the quadratic character of `K`, the primes dividing `q₁` split in `K`, and `d` is the only prime ramified
-in `K`.
+So, by the splitting dictionary of ImaginaryQuadraticClassNumber §2.1, `χ_K` is the quadratic character of `K`, the
+primes dividing `q₁` split in `K`, and `d` is the only prime ramified in `K`.
 
 **Checks.** `q₀ = 18480` and `d = 9239 = q₀/2 − 1` are parameters: `9239` has no prime factor below `97` and
 `97² > 9239`, and `9239 ≡ 7 (mod 8)`.
 
-*Needs:* Mathlib `jacobiSym`, `legendreSym`.
+*Needs:* ImaginaryQuadraticClassNumber §2.1 (the splitting dictionary, for `K` of discriminant `D = −d`: `χ_D` is the
+quadratic character of conductor `d`, that is `(·/d)`, and a prime `p` ramifies, splits or is inert in `K` as
+`χ_D(p) = 0, 1, −1`); Mathlib `jacobiSym`, `legendreSym`.
 
 [ShortProof], `New/Reduction/Data/FieldsAndPlaces` (`New.Parameters`, `New.Parameters.instPrimeSevenModEight`,
 `New.Parameters.sixty_four_lt_d`, `New.l₀`, `New.towerDeg`, `New.Parameters.q₁`, `New.Parameters.q₂`,
@@ -395,25 +399,33 @@ in `K`.
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the group law on the infinite places is transported from `Gal(E/K)` along the bijection
-that sends `g` to the place of a fixed `K`-embedding composed with `g` (a bijection by 2.3 (b)); the other objects are
-defined from it.
+*Method of the formal proof:* the cyclotomic polynomial of order `q₁` stays irreducible over `K` because `K` embeds in
+`ℚ(ζ_d)` by a Gauss sum and `[ℚ(ζ_d, ζ_{q₁}) : ℚ] ≥ φ(d)φ(q₁)`, `q₁` being prime to `d`; `E` is totally complex because
+`K` is; two `K`-embeddings with the same place are equal or complex conjugate, and conjugate ones would make the
+embedding of `K` real. The group law on the infinite places is transported from `Gal(E/K)` along the bijection that
+sends `g` to the place of a fixed `K`-embedding composed with `g` (a bijection because `K`-embeddings with the same place
+are equal and all infinite places of `E` lie over the one of `K`); the other objects are defined from it.
 
 Fix parameters `P` and `s ≥ 0`, and write `q₁ = q₁(s)`.
 
 - `E = E_s = K(ζ)`, the cyclotomic extension of `K` of order `q₁`, with a chosen primitive `q₁`-th root of unity `ζ`.
+  The cyclotomic polynomial of order `q₁` is irreducible over `K`, so `g ↦ a` with `g(ζ) = ζ^a` is an isomorphism
+  `Gal(E/K) ≅ (ℤ/q₁)^×`; `E` is totally complex; and two `K`-embeddings of `E` into `ℂ` inducing the same infinite
+  place are equal.
 - `Φ = Φ_s`, the set of infinite places of `E`, `f = #Φ`. Fix a `K`-embedding `ι₀ : E → ℂ`. The map
-  `Gal(E/K) → Φ`, `g ↦ (place of ι₀∘g)`, is a bijection (2.3 (b)); `Φ` carries the group law that makes it an
-  isomorphism, and `Φ ≅ Gal(E/K) ≅ (ℤ/q₁)^×`, the second map sending `g` to the class `a` with `g(ζ) = ζ^a`. The
-  embedding chosen at `v ∈ Φ` is `Φ_v = ι₀ ∘ g_v`, `g_v` the automorphism of `v`; these form a CM type of `E`.
+  `Gal(E/K) → Φ`, `g ↦ (place of ι₀∘g)`, is a bijection, by the last fact and because all infinite places of `E` lie
+  over the one of `K`; `Φ` carries the group law that makes it an isomorphism, and `Φ ≅ Gal(E/K) ≅ (ℤ/q₁)^×`, the
+  second map sending `g` to the class `a` with `g(ζ) = ζ^a`. The embedding chosen at `v ∈ Φ` is `Φ_v = ι₀ ∘ g_v`, `g_v`
+  the automorphism of `v`; these form a CM type of `E`.
 - For an integer `ν`, `[ν] ∈ Φ` is the place of the class of `ν` if `ν` is prime to `q₁`, and the identity place
   otherwise; for `ν ∈ ℤ` and `σ ∈ Φ`, `νσ` means `[ν]·σ`. For `m | q₁`, the *class modulo `m`* of a place is its image in
   `(ℤ/m)^×`.
 - `rd_E` is the root discriminant of `E`, and `Ω = Ω_s = exp(γ − Re (L′/L)(1, χ_K))·2π/rd_E`.
 
-*Needs:* 2.1.
+*Needs:* 2.1; Mathlib `IsCyclotomicExtension`, `Polynomial.cyclotomic`, `NumberField.InfinitePlace`.
 
-[ShortProof], `New/Reduction/Data/FieldsAndPlaces` (`New.Parameters.E`, `New.Parameters.ζ`, `New.Parameters.galOfPlace`,
+[ShortProof], `New/Reduction/Data/FieldsAndPlaces` (`New.Parameters.E`, `New.Parameters.ζ`,
+`New.Parameters.irreducible_cyclotomic`, `New.Parameters.algHom_eq_of_mk_eq`, `New.Parameters.galOfPlace`,
 `New.Parameters.placeMulEquiv`, `New.Parameters.placeOfInt`, `New.Parameters.placeClass`, `New.Parameters.bigOmega`)
 
 ### 2.3 Arithmetic of `E`
@@ -421,27 +433,24 @@ Fix parameters `P` and `s ≥ 0`, and write `q₁ = q₁(s)`.
 *Origin:* adapted from the classical theory of cyclotomic fields (Washington (1997), Chapter 2): here the extension of
 `K = ℚ(√−d)` by the roots of unity of an order prime to `d`, with its infinite places read as its Galois group.
 
-*Method of the formal proof:* (a) embeds `K` in `ℚ(ζ_d)` by a Gauss sum and compares degrees, `[ℚ(ζ_d, ζ_{q₁}) : ℚ] ≥
-φ(d)φ(q₁)`; (c) compares degrees of cyclotomic polynomials, `Φ_{q₁}(X) = Φ_{q₀}(X^{T})` since the primes of `T` divide
-`q₀`; (e) uses that a root of unity of order not dividing `q₁` would give a primitive `d`-th root of unity in `E`,
-against `φ(d)φ(q₁) > [E : ℚ]`.
+*Method of the formal proof:* (a) sends `K` into `ℚ(ζ_d) ⊂ ℚ(ζ_{q₁d})` by a Gauss sum, and the cyclotomic polynomial of
+order `q₁` splits in `ℚ(ζ_{q₁d})`; (b) compares degrees of cyclotomic polynomials, the one of order `q₁` being the one
+of order `q₀` evaluated at `X^T`, since the primes of `T` divide `q₀`; (d) uses that a root of unity of order not
+dividing `q₁` would give a primitive `d`-th root of unity in `E`, against `φ(d)φ(q₁) > [E : ℚ]`.
 
 Let `P` be parameters and `s ≥ 0`, `q₁ = q₁(s)`, `T = T(s)`.
 
-- (a) The cyclotomic polynomial of order `q₁` is irreducible over `K`; `E` embeds in `ℚ(ζ_{q₁d})`, so `E` is abelian over
-  `ℚ` and over `K`, and totally complex.
-- (b) Two `K`-embeddings of `E` into `ℂ` inducing the same infinite place are equal.
-- (c) `f = Tφ(q₀)`, and exactly `T` places have class `1` modulo `q₀`.
-- (d) `g_v(ζ) = ζ^{a}` with `a` the class of `v`; for `ν` prime to `q₀`, `g_{[ν]}(ζ) = ζ^ν` and the class of `[ν]` modulo
+- (a) `E` embeds in `ℚ(ζ_{q₁d})`, so `E` is abelian over `ℚ` and over `K`.
+- (b) `f = Tφ(q₀)`, and exactly `T` places have class `1` modulo `q₀`.
+- (c) `g_v(ζ) = ζ^{a}` with `a` the class of `v`; for `ν` prime to `q₀`, `g_{[ν]}(ζ) = ζ^ν` and the class of `[ν]` modulo
   every `m | q₁` is `ν`; `[ν]^i = [ν^i]`; `Φ_{vv′} = Φ_v ∘ g_{v′}`; the class of `[ν]` modulo `q₀` is `−1` exactly when
   `ν ≡ −1 (mod q₀)`.
-- (e) Every root of unity of `E` is a power of `ζ`; `ζ̄ = ζ^{−1}`; `N_{E/K}(ζ) = 1`.
-- (f) `∏_{v∈Φ} Φ_v(y) = N_{E/K}(y)` for `y ∈ E`.
+- (d) Every root of unity of `E` is a power of `ζ`; `ζ̄ = ζ^{−1}`; `N_{E/K}(ζ) = 1`.
+- (e) `∏_{v∈Φ} Φ_v(y) = N_{E/K}(y)` for `y ∈ E`.
 
 *Needs:* 2.1, 2.2; Mathlib `IsCyclotomicExtension`, `Polynomial.cyclotomic`, `NumberField.InfinitePlace`.
 
-[ShortProof], `New/Reduction/Data/FieldsAndPlaces` (`New.Parameters.irreducible_cyclotomic`,
-`New.Parameters.toCycloField`, `New.Parameters.algHom_eq_of_mk_eq`, `New.Parameters.numInfPlaces_E`,
+[ShortProof], `New/Reduction/Data/FieldsAndPlaces` (`New.Parameters.toCycloField`, `New.Parameters.numInfPlaces_E`,
 `New.Parameters.card_placeClass_eq_one_eq_towerDeg`, `New.Parameters.galOfPlace_placeOfInt_zeta`,
 `New.Parameters.placeClass_placeOfInt`, `New.Parameters.placeOfInt_pow`,
 `New.Parameters.placeClass_placeOfInt_eq_neg_one_iff`, `New.Parameters.exists_zeta_pow_eq`,
@@ -486,8 +495,7 @@ Fact: if `m ≥ 2`, `L ≥ 7`, `1 ≤ κ(τ) ≤ e^L` for every `τ`, `e^{20L} �
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the data are a structure whose fields are listed below; the scales are stored as
-integers together with their logarithms.
+*Method of the formal proof:* the definitions are those of [ShortProof].
 
 Let `P` be parameters. *Admissible data* `D` for `P` consist of:
 
@@ -522,10 +530,10 @@ use.
 
 *Method of the formal proof:* every quantity gets an upper and a lower exponent, `|F| ≤ e^l` and `e^{l′} ≤ F`, computed
 from its shape (products add exponents, sums take the larger one plus one); an inequality `F ≤ G` is proved by comparing
-an upper exponent of `F` with a lower exponent of `G`, a linear problem in `log x`, `log x₁`, `log b`, `log log b`,
-`log log x₁` and `C_P`, decided with the five inequalities between the scales. The root discriminant is the geometric
-mean of `|δ_E|_v` over the infinite places, for a generator `δ_E` of the different with `|δ_E|_v = A_v·T·√d`,
-`|log A_v| ≤ C_P`.
+an upper exponent of `F` with a lower exponent of `G`, which reduces it to a linear inequality between `log x`, `log x₁`,
+`log b`, `log log x₁`, `log log b` and `C_P`, settled by the five inequalities between the scales. The root
+discriminant is the geometric mean of `|δ_E|_v` over the infinite places, for a generator `δ_E` of the different with
+`|δ_E|_v = A_v·T·√d`, `|log A_v| ≤ C_P`.
 
 For admissible data:
 
@@ -536,7 +544,8 @@ For admissible data:
   `x^{40} ≤ Δ/2 ≤ Δ ≤ e^{27}x^{40}`; `1 ≤ s ≤ log x₁`, `m^{594} ≤ 2^{l₀}`.
 - (c) Field: `x^{11} ≤ m^{22} ≤ f ≤ q₁ ≤ x^{12}`; `f` is even and `f = φ(q₀)T = φ(q₀)·#Φ_a`;
   `x^{11} ≤ T ≤ x^{11}(log b)^{1/5}`; `q₂ ≤ x^{33q₀d}`; `log h_E ≤ x^{30}` for the class number `h_E` of `E`;
-  `x^{10} ≤ rd_E ≤ x^{12}`, and `x^{10} ≤ |δ_E|_v ≤ x^{12}` at every infinite place `v`; `x^{−13} ≤ Ω ≤ 1`.
+  `x^{10} ≤ rd_E ≤ x^{12}`, and `x^{10} ≤ |δ_E|_v ≤ x^{12}` at every infinite place `v`, for the generator `δ_E` of the
+  different of `E` of DivisibilityOfThetaDerivatives §1.1 (b) and `|y|_v = |Φ_v(y)|`; `x^{−13} ≤ Ω ≤ 1`.
 - (d) Weights: `q₁ | κ(σ)`; `a/x₁ ≤ κ(σ) ≤ a/x = b`; `κ(σ) + x^{42} ≤ 2b`; `κ(σ) ≤ κ_j(σ) − Δ/2` and
   `κ_j = κ + jΔ + Δ/2`; for `i ≤ 4m`, `κ(σ) ≤ κ_{(i)}(σ) ≤ κ(σ) + x^{42}` and `log κ_{(i)}(σ) ≤ log κ(σ) + 1/x`; for
   `j ≤ 2m`, `κ_j(σ) ≤ 2b`.
@@ -544,8 +553,9 @@ For admissible data:
   `m log b ≤ log N₋ ≤ 24m log b` and `m log b ≤ log N ≤ 30m log b`, so `N ≥ b^{101}`; `N ≡ 1 (mod q₁d)`;
   `20 log b ≤ log(M/Ω) ≤ 23 log b` and `|log(M·rd_E/2π)| ≤ 23 log b`.
 
-*Needs:* 2.1, 2.3, 3.1, 3.2; DivisibilityOfThetaDerivatives §1.7 (a) (a generator `δ_E` of the different of `E`
-with `|δ_E|_v = A_v·T·√d` and `|log A_v| ≤ C_P` at every infinite place `v`), §1.1 (c) (`∏_v |δ_E|_v = rd_E^f`);
+*Needs:* 2.1, 2.3, 3.1, 3.2; DivisibilityOfThetaDerivatives §1.7 (a) (the generator `δ_E` of the different of `E`
+has `|δ_E|_v = A_v·T·√d` and `|log A_v| ≤ C_P` at every infinite place `v`), §1.1 (b), (c) (the generator `δ_E`;
+`∏_v |δ_E|_v = rd_E^f`);
 ExplicitNumberFields §5.3 (the third form, which uses no computational hypothesis: a number field of degree `n` and
 discriminant of absolute value `d_E` has `h_E ≤ (2^{n−1}/(n − 1)!)·√d_E·(log d_E)^{n−1}`; as `log d_E ≤ d_E`, this
 gives `h_E ≤ (2^n·d_E)^{n+1}`, the form used; [ShortProof] `Lib/General/NumberTheory/SUnitsAndClassNumber.lean`
@@ -571,23 +581,24 @@ gives `h_E ≤ (2^n·d_E)^{n+1}`, the form used; [ShortProof] `Lib/General/Numbe
 *Method of the formal proof:* the definitions are those of [ShortProof]; the weight of `μ_j⁰` adds the weights of its
 factors and multiplies their tame parts; the row parameter is rewritten with `κ_j`.
 
-Let `D` be admissible data, `E` its field. `U(1)` is the norm-one torus of `E/E⁺`, a group over `E⁺`:
-`U(1)(R) = {u ∈ (E ⊗_{E⁺} R)^× : uū = 1}` for an `E⁺`-algebra `R`. Its adelic points `U(1)(𝔸_{E⁺})` are the ideles `u` of
-`E` with `uū = 1` (written `U(1)(𝔸_E)` in the other roadmaps of the family), and its rational points `U(1)(E⁺)` the
-`u ∈ E^×` with `uū = 1`. An *automorphic character* of `U(1)` is a continuous homomorphism `U(1)(𝔸_{E⁺}) → S¹` trivial on
-`U(1)(E⁺)`. For a finite
-place `w` of `E` let `𝔽_w` be its residue field and `Nm w = #𝔽_w`. An automorphic character `μ` has *weight*
+Let `D` be admissible data, `E` its field and `E⁺` its maximal real subfield. `U(1)` is the norm-one torus of `E/E⁺`, a
+group over `E⁺`: `U(1)(R) = {u ∈ (E ⊗_{E⁺} R)^× : uū = 1}` for an `E⁺`-algebra `R`. Its adelic points `U(1)(𝔸_{E⁺})`
+are the ideles `u` of `E` with `uū = 1` (written `U(1)(𝔸_E)` in the other roadmaps of the family), and its rational
+points `U(1)(E⁺)` the `u ∈ E^×` with `uū = 1`. An *automorphic character* of `U(1)` is a continuous homomorphism
+`U(1)(𝔸_{E⁺}) → S¹` trivial on `U(1)(E⁺)`. For a finite place `w` of `E` let `𝔽_w` be its residue field and
+`Nm w = #𝔽_w`. An automorphic character `μ` has *weight*
 `e : Φ → ℤ` and *tame part* `ψ = (ψ_w)_w`, `ψ_w` a character of `𝔽_w^×`, if `ψ_w = 1` for almost all `w` and
 `μ(u) = ∏_{v∈Φ} Φ_v(u_v)^{e(v)}·∏_w ψ_w(u_w mod w)` for every `u` whose finite components are integral.
 
 - *The row parameter* at `v ∈ Φ` is the integer sequence `(λ_i(v))_{i≥0}` with `λ_i(v) = k/2 − 1 − i` for `i < k − 1`
   and `λ_i(v) = Δ/2 − κ_j(v) = −(κ(v) + jΔ)` with `j = i + 2 − k` for `i ≥ k − 1` (`k` is even).
-- A *tame character* is an automorphic character `ξ` of weight `0` with tame part `ψ` such that `ψ_w = 1` outside a
-  finite set `Q = Q(ξ)` of finite places, `Q` is disjoint from its complex conjugate, and `Nm Q(ξ) = ∏_{w∈Q} Nm w` is
-  prime to `MN`. Its powers `ξ^n` are tame characters with the same `Q` and tame part `ψ^n`.
+- A *tame character* is a triple `(ξ, ψ, Q)`, written `ξ`: an automorphic character `ξ` of weight `0`, a tame part `ψ`
+  of `ξ`, and a finite set `Q = Q(ξ)` of finite places of `E`, its *modulus*, such that `ψ_w = 1` for `w ∉ Q`, `Q` is
+  disjoint from its complex conjugate, and `Nm Q(ξ) = ∏_{w∈Q} Nm w` is prime to `MN`. The tame part and the modulus
+  belong to the datum: the character does not determine `Q`. The power `ξ^n` is `(ξ^n, ψ^n, Q)`.
 - A *twist* is a tame character with `ψ_w ≠ 1` for every `w ∈ Q`; an *`m`-fold twist* is one with `ψ_w^n ≠ 1` for every
-  `w ∈ Q` and `1 ≤ n ≤ m`, so that `ξ^n` is a twist for `1 ≤ n ≤ m`. The trivial character, with `Q = ∅`, is the trivial
-  twist `1`, an `m`-fold twist.
+  `w ∈ Q` and `1 ≤ n ≤ m`, so that `ξ^n` is a twist for `1 ≤ n ≤ m`. The trivial character, with trivial tame part and
+  `Q = ∅`, is the trivial twist `1`, an `m`-fold twist.
 - *The characters of the lifts.* `μ_j⁰ = μ♭·(υ^{−Δ}χ)^j`, where `μ♭` has weight `−κ₀` and trivial tame part, `χ` has
   weight `0` and tame part `ω`, and `υ` is the splitting character of the Weil data of `E` restricted to `U(1)`, of
   weight `1` and trivial tame part (DivisibilityOfThetaDerivatives §1.6 (a) for `μ♭` and `χ`, there `χ₀` and `χ_M`;
@@ -597,12 +608,10 @@ place `w` of `E` let `𝔽_w` be its residue field and `Nm w = #𝔽_w`. An auto
 Fact: `μ_j⁰` has weight `−κ_j` and tame part `ω^j`; `μ_j⁰ξ` has weight `−κ_j` and tame part `ω^jψ`.
 
 *Needs:* 3.2, 3.3; DivisibilityOfThetaDerivatives §1.5 (the chosen places and the residue characters `ω` of order `q₂`
-at them), §1.6 (the characters `μ♭` and `χ`), §1.4 (the splitting character `υ` of the Weil data of `E`); ShortGRH background
-(automorphic characters of `U(1)` of a CM field with a weight and a tame part in the sense above: weights add and tame
-parts multiply under products and powers, and the restriction to `U(1)` of the splitting character of Weil data has
-weight `1` and trivial tame part; [ShortProof] `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`),
-`Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.WeilData.hasWeight_upsilonU1_zpow`),
-`Lib/Weil/DualPair/Defs.lean` (`New.WeilData.upsilonU1`)).
+at them), §1.6 (the characters `μ♭` and `χ`), §1.4 (the splitting character `υ` of the Weil data of `E`);
+IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (automorphic characters of `U(1)` of a CM field with a weight and a
+tame part in the sense above; weights add and tame parts multiply under products and powers), §7.6 (b) (the restriction
+to `U(1)` of the splitting character of Weil data has weight `1` and trivial tame part).
 
 [ShortProof], `New/Reduction/Data/LevelAndTwists` (`New.Data.targetParameter`, `New.Data.targetParameter_eq`,
 `New.Data.TameChar`, `New.Data.TameChar.pow`, `New.Data.Twist`, `New.Data.MFoldTwist`, `New.Data.MFoldTwist.powTwist`,
@@ -661,13 +670,14 @@ Let `P` be parameters and `s ≥ 0`, `l₀ = l₀(s)`.
 
 *Method of the formal proof:* put `W = x^{ε/6}`. Then `m` is the least power of `2` with `m ≥ √x`, `r` the least power
 of `3` with `r ≥ x⁵`, `2^s = m^{22}`, `x₁ = ⌊e^W⌋` and `b` the least multiple of `q₁x₁` above `e^{W⁶}`. The `b`-places
-come from 3.6 (b) with `L = kt`, so that `T ≤ #Φ_b·W⁶ ≤ #Φ_b log b`. The primes come from windows: for large `W` every
-window `[U, U + W]` with `W ≤ U ≤ W^{n+7}` contains `log p` for a prime `p ≡ 1` modulo `(q₀d)^k`, for each `k > 1`
-with `(q₀d)^k ≤ W^{n+7}`. Taking `h_K + 1` primes `p ≡ 1 (mod q₂²)` in disjoint windows of `[10 log b, 11 log b]`, each
-splits in `K` as `𝔭𝔭′` with both factors of norm `p` (as `p ≡ 1 (mod d)`), and by the pigeonhole principle some
-product `𝔭_i𝔭′_j` with `i ≠ j` is principal, which gives `π̄_M` with norm `p_ip_j`. The level `N` is a prime `≡ 1 (mod q₂²)` with `log N` in the window of length `W ≤ √(log b)` at `log N₋`, and
-`N ≡ 1 (mod 4)` is a sum of two squares `u² + v²`, so `π_N = u + vi` with `i ∈ E`. The inequalities between the scales
-hold for large `x` because `ε < 1/100`.
+come from 3.6 (b) with `L = kt`, so that `T ≤ #Φ_b·W⁶ ≤ #Φ_b log b`. The primes come from windows: fix an integer
+`n₀ ≥ 1` with `99q₀d < n₀ε/6`; for large `W` every window `[U, U + W]` with `W ≤ U ≤ W^{n₀+7}` contains `log p` for a
+prime `p ≡ 1` modulo `(q₀d)^j`, for each `j > 1` with `(q₀d)^j ≤ W^{n₀+7}`. Taking `h_K + 1` primes
+`p ≡ 1 (mod q₂²)` in disjoint windows of `[10 log b, 11 log b]`, each splits in `K` as `𝔭𝔭′` with both factors of
+norm `p` (as `p ≡ 1 (mod d)`), and by the pigeonhole principle some product `𝔭_i𝔭′_j` with `i ≠ j` is principal, which
+gives `π̄_M` with norm `p_ip_j`. The level `N` is a prime `≡ 1 (mod q₂²)` with `log N` in the window of length
+`W ≤ √(log b)` at `log N₋`, and `N ≡ 1 (mod 4)` is a sum of two squares `u² + v²`, so `π_N = u + vi` with `i ∈ E`. The
+inequalities between the scales hold for large `x` because `ε < 1/100`.
 
 Let `P` be parameters and `0 < ε < 1/100`. For every large integer `x` there are admissible data `D` with this `x`,
 `x₁ = ⌊exp(x^{ε/6})⌋`, `b` the least multiple of `q₁x₁` exceeding `exp(x^ε)`, `m` the least power of `2` with
@@ -716,9 +726,9 @@ Let `D` be admissible data and `d` its prime; `λ₁(ν) = Λ(ν)(1 − χ_K(ν)
   splits). Its *total* is `S_p = Σ_{σ∈Φ} s_p(κ(σ), σ)`. So `2 log p·s_p(y, σ)` is the sum of the terms of `s_fin(y, σ)`
   at the powers of `p`, without the bound `ν ≤ a`.
 
-Here `c₁ = −1 − γ + (L′/L)(1, χ_K)`, so `s_main = a(log a − 1 − γ + (L′/L)(1, χ_K) − mean log κ)`, the main term `𝔐(a, κ)`
-of FrobeniusRestrictedRieszSums §1.1; and `s_fin(a, σ)` has the form (iv) of the sum `ℛ(a, σ, κ)` of that section, the
-place `−νσ` playing the part of `par_σ(Frob_ν)`. No section here uses these identifications.
+Here `c₁ = −1 − γ + Re (L′/L)(1, χ_K)`, so `s_main = a(log a − 1 − γ + Re (L′/L)(1, χ_K) − mean log κ)`, the main term
+`𝔐(a, κ)` of FrobeniusRestrictedRieszSums §1.1; and `s_fin(a, σ)` has the form (iv) of the sum `ℛ(a, σ, κ)` of that
+section, the place `−νσ` playing the part of `par_σ(Frob_ν)`. No section here uses these identifications.
 
 *Needs:* 0.1, 2.1, 3.2; DivisibilityOfThetaDerivatives §2.1 (the set `I_p` and the number `v(π_p)` at a prime).
 
@@ -785,9 +795,13 @@ Petersson inner product, whose twists are the `m`-fold twists (3.4), with:
 
 - `S_ξ` the space of algebraic forms on `Y_m` of the weight of the chains, of level `J_m(ξ)` (trivial at the chosen
   places, block upper triangular at the places of `Q(ξ)`) and of the character formed by the tame characters of the
-  lifts, and `Θ_ξ` the chain of `m` lifts with twist `ξ`;
+  lifts, with the class-sum inner product of AdelicUnitaryGroupsAndAlgebraicModularForms §6.6 (f),
+  `⟨φ, φ′⟩ = Σ_c ⟨φ(g_c), φ′(g_c)⟩`, the sum over representatives `g_c` of the classes `c ∈ Γ\G_f/J_m(ξ)` of the Gram
+  pairings of the values in the Weyl module, `G_f` the finite adelic points of `U(Y_m)` and `Γ` its rational points (the
+  stabilisers `Γ ∩ g_cJ_m(ξ)g_c^{−1}` are trivial); for `ξ = 1` this is the form `coord(φ)^* G coord(φ′)` below; and
+  `Θ_ξ` the chain of `m` lifts with twist `ξ`;
 - `ξ` allowed at `ℓ` when `ℓ` is prime to `Nm Q(ξ)`;
-- `Λ_{ξ,ι}` the forms integral at the embedding `ℂ → ℂ_ℓ` given by `ι`;
+- `Λ_{ξ,ι}` the forms integral at the embedding `ℂ → ℂ_ℓ` given by `ι`, `ℂ_ℓ` the completion of `ℚ̄_ℓ`;
 - `coord` the values of a form of `S_1` at representatives of the classes, in the coordinates of the Weyl module dual
   to the basis of products of minors of [ShortProof] (which differs from the semistandard basis by an invertible
   integer matrix), and
@@ -806,8 +820,8 @@ DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the targe
 forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
 classes in the coordinates of the Weyl module dual to a basis of products of minors; the matrix `G` with one copy, for each class, of the Gram matrix of
 the invariant Hermitian form in that basis is rational and positive definite; if every stabiliser of a class is
-trivial, the Petersson product of `φ`, `φ′` is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
-`(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the Petersson product of a form
+trivial, the class-sum product `⟨φ, φ′⟩` of §6.6 (f) is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
+`(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the class-sum product of a form
 integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the orders of the stabilisers
 of the classes).
 
@@ -879,8 +893,8 @@ Let `D` be admissible data.
 - (b) For a finite set `t ⊂ Ḡ`, every finite family `y_1, …, y_n` of target forms with `y_i ∈ s𝔭(𝒮_int)` for some
   `s ∈ t` has index at most `#t·dim 𝒮_ram·2u_E` in the target lattice.
 
-*Needs:* 1.3, 4.1, 4.2, 5.1, 5.2; CompositeThetaLiftsAndShortForms §§2.11, 4.9, 5.4, 5.5, 5.7 (from §5.7 the short
-source forms span `𝒮_ram`; from §5.4 the size of the composite lift on short forms; from §5.5 the size and
+*Needs:* 1.1, 1.3, 3.3, 4.1, 4.2, 5.1, 5.2; CompositeThetaLiftsAndShortForms §§2.11, 4.9, 5.4, 5.5, 5.7 (from §5.7
+the short source forms span `𝒮_ram`; from §5.4 the size of the composite lift on short forms; from §5.5 the size and
 integrality of `#Ḡ·e₀ρ(s)` applied to a form; from §4.9 the local divisibility of the composite lift; from §2.11
 `dim 𝒮_ram ≥ (1 − f/(N − 1)) dim 𝒮`); ThetaLiftChainsAndTheSeesawIdentity §3.20 (the seesaw identity).
 
@@ -903,7 +917,7 @@ set `t` with `#t·dim 𝒮 ≤ (5/2)(1 + log(1/(16ε)))d_T ≤ 5d_T log(1 + 2b²
 Let `D` be admissible data. Then `d_T > 0`, and there is a finite set `t ⊂ Ḡ` with
 `#t·dim 𝒮_ram ≤ 5d_T log(1 + 2b²)` and `dim Σ_{s∈t} s𝔭(𝒮_ram) ≥ (1 − 4/b²)d_T`.
 
-*Needs:* 5.2; SecondMomentsOfPoincareSeries §§1.3, 5.7 (from §5.7: the maps `#Ḡ·e₀ρ(s)𝒫` from the source forms to the
+*Needs:* 3.3, 5.2; SecondMomentsOfPoincareSeries §§1.3, 5.7 (from §5.7: the maps `#Ḡ·e₀ρ(s)𝒫` from the source forms to the
 target forms spread with error `3/(16b²)`, and `d_T > 0`; from §1.3: for `0 < ε < 1/16` and a family that spreads
 with error `3ε/2`, a set `t` with `#t·dim V ≤ (5/2)(1 + log(1/(16ε)))·dim W` whose images span at least
 `(1 − 16ε)·dim W`, and the loss on a subspace);
@@ -947,7 +961,7 @@ to at most `(64φ(q₀) + 3)x^{−1/2+6ε}`. [ShortProof] proves that prime numb
 transform of `v ↦ R_q(e^v)` with the zero-free regions of the finitely many L-functions; it follows from the
 Siegel–Walfisz theorem at the moduli `q` and `qd` by orthogonality and partial summation, the constant being `c_q` by the
 Dirichlet series of `λ_q` (0.2). (c) passes from integers to real `y` by 0.1 (c), `R(y) − R(⌊y⌋) ≤ 26/y` for `y ≥ 2`,
-and `⌊y⌋^u ≤ 2y^u` for `−1 ≤ u ≤ 0`, applying (b) with `ε/7` in place of `ε`.
+and `⌊y⌋^u ≤ 2y^u` for `−1 ≤ u ≤ 0`, applying (b) with `min(1/200, ε/7)` in place of `ε`.
 
 Let `P = (q₀, d)` be parameters and `R_q = R_q^{(d)}`.
 
@@ -1086,8 +1100,7 @@ statements are in `Statements`
   states: the folder `grh` of github.com/lsernau/grh-lean at commit `72fead1`; paths are relative to its directory
   `src/`. It is the reference of every target whose origin is particular to this proof.
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905), 527–550: Landau's theorem on Laplace and Mellin
-  transforms of functions bounded on one side (0.2, through ArithmeticDirichletSeriesPartII §0.1b and
-  PositivityOfDirichletSeriesWithKernels §6.4).
+  transforms of functions bounded on one side (0.2, through PositivityOfDirichletSeriesWithKernels §6.4).
 - F. A. Behrend, *On sets of integers which contain no three terms in arithmetical progression*, Proc. Nat. Acad. Sci.
   USA 32 (1946), 331–332; I. Z. Ruzsa, *Solving a linear equation in a set of integers I*, Acta Arith. 65 (1993),
   259–282: 3.5.

@@ -36,8 +36,8 @@ does not split in `K` and for `δ = 1` these theta functions have the normal for
 jets along products of minors, and along the entries of Schur matrices, have the divisibility `D_p(κ)`.
 
 (3) *Sharpness* (5.6). For admissible data and degrees `l` with `κ(τ) ≤ l(τ) ≤ κ(τ) + x^{42}` there is one number
-`t ≠ 0`, with all conjugates at most `exp(f·m·b/k)` in absolute value, such that at every prime `p` some Taylor
-coefficient of degree `l` of the theta function of an indicator datum on `12 × 1` matrices, times `∏_τ l(τ)!` and a
+`t ≠ 0`, with all conjugates at most `exp(f·m·b/k)` in absolute value, such that at every prime `p` some coefficient
+of degree `l` of the jet series `J_{π_M𝔱_E}` of an indicator datum on `12 × 1` matrices, times `∏_τ l(τ)!` and a
 fixed scalar, has valuation at most `S_p + v_p(t)`, where `S_p` is the divisibility forced at the weights.
 
 There are five layers. Layer 1 is the field `E` and its characters. Layer 2 is the formal group of the CM curve at a
@@ -57,8 +57,8 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
   of `ι_p`. `v` is the valuation of `ℂ_p` with `v(p) = 1`, written also `v_p`, `‖x‖ = p^{−v(x)}`, and `𝒪` is the
   valuation ring of `ℂ_p`. A series over `ℂ_p` is *integral* if its coefficients lie in `𝒪`; a complex number `c` is
   *`p`-integral* if `ι_p(c) ∈ 𝒪`; complex numbers and complex power series are read in `ℂ_p` through `ι_p`
-  (coefficient by coefficient). An element `y` of a number field is *integral above `p`* if `v_w(y) ≥ 0` at every
-  finite place `w` above `p`.
+  (coefficient by coefficient). An element `y` of a number field, or a finite adele of it, is *integral above `p`* if
+  `v_w(y) ≥ 0` at every finite place `w` above `p`; a vector is integral above `p` if its coordinates are.
 - *Jets.* For a polynomial `Q` and a power series `F` in the same variables, `jet_Q(F) := (Q(∂)F)(0) = Σ_k k!·Q_k·F_k`,
   with `k! := ∏_i k_i!` for a multi-index `k`.
 - *The parameters and the data* are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the
@@ -87,12 +87,12 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
 | `π_p, v(π_p), q_p, ρ_p, γ_p` | `√−d` if `p = d` and `p` otherwise; `1/2` or `1`; `p²` if `p` is inert and `p` otherwise; `v(π_p)/(q_p − 1)`; `1/(p − 1) − ρ_p` | 2.1 |
 | `I_p°, I_p` | the odd `e ≥ 0` if `p` is inert, all `e ≥ 0` if `p = d`, none if `p` splits; the positive elements | 2.1 |
 | `C, Λ, t, a₁, σ, θ, x, y, g, T` | a CM lattice, its point of order two, the sigma function normalised as a theta function for `H`, `θ = ` normalised translate of `σ`, `x = ℘(z+t) − ℘(t)`, `y`, `g = −log θ`, the formal parameter | 2.1 |
-| `𝒪[[y]], 𝒪[[y(μz)]]` | integral series in `y`; integral series in the `y(μ_i z)` | 2.1, 2.5 |
+| `𝒪[[y]], 𝒪[[y(μz)]], θ^m(μz)` | integral series in `y`; integral series in the `y(μ_i z)`; `∏_jθ(μ_jz)^{m_j}` | 2.1, 2.5 |
 | `c_ϖ, Γ_e, Ξ_λ` | `ϖ^{p+1}/p`, the couplings, the coupling series | 2.4 |
 | `u†z`, resolution | `Σ conj(τ(u_c))·z_{τ,c}`; families with `z = Σ m_j(u_j†z)u_j` | 2.5 |
 | `κ, P_y, a_τ, a′_τ, l_τ, B, D_p(κ)` | diagrams, products of minors, column and box counts, the predicted divisibility | 3.1 |
 | `𝓔, Ω₀, A_K, 𝔣_E, 𝔱_E, Ω` | the CM curve `ℂ/Ω₀𝒪_K`, its period, `√(2π/√d)`, the period factor, the scale of Taylor series, `exp(γ − Re L′/L(1, χ_K))·2π/rd_E` | 4.2 |
-| `𝒮(V), vac, θ_V, ϱ, 𝒮_f, Θ_f, f(y), J_c(f)` | the Weil model of `V`, the vacuum, the theta functional, Heisenberg translation, the finite part, the theta function of `f`, its values, its jet series at scale `c` | 4.1 |
+| `𝒮(V), vac, θ_V, ϱ, semi, 𝒮_f, Θ_f, f(y), J_c(f)` | the Weil model of `V`, the vacuum, the theta functional, Heisenberg translation, the semicharacter, the finite part, the theta function of `f`, its values, its jet series at scale `c` | 4.1 |
 | `θ°, c_vac` | the integral vacuum, the vacuum scale | 4.6 |
 | `𝒟_p(V, δ)` | standard data of level `δ` at `p` | 4.8 |
 | `val_n(ν)` | least valuation of a coefficient of degree `ν` on `n` copies | 5.1 |
@@ -135,7 +135,8 @@ primitive root of unity of order `5040`.
 Mathlib (`differentIdeal`, `Polynomial.cyclotomic`, `IsPrimitiveRoot`).
 
 [ShortProof], `New/Derivatives/Field/PrimeDecomposition` (`New.Parameters.relDifferent_spec`,
-`New.Parameters.adjoin_betaKInE_zetaInt_eq_top`, `New.Parameters.deltaE`, `New.Parameters.star_deltaE`,
+`New.Parameters.adjoin_betaKInE_zetaInt_eq_top`, `New.Parameters.star_betaKInE`, `New.Parameters.betaKInE_mul_one_sub`,
+`New.Parameters.exists_unit_mul_relDifferentGen_real`, `New.Parameters.deltaE`, `New.Parameters.star_deltaE`,
 `New.Parameters.differentIdeal_eq_span_deltaE`, `New.Parameters.infinitePlace_apply_deltaE`,
 `New.Parameters.prod_deltaE_eq_rootDiscr_pow`)
 
@@ -192,8 +193,8 @@ if `a ∈ w`, then `v_w(a) = 1`; and the places above `p` that contain `a` are i
 
 *Needs:* 1.2.
 
-[ShortProof], `New/Derivatives/Field/PrimeDecomposition` (`New.Parameters.frobElem_eq_one`,
-`New.Parameters.smul_ne_star`), `New/Derivatives/Field/WeilData` (`New.Parameters.smul_eq_self_iff_eq_one`,
+[ShortProof], `New/Derivatives/Field/PrimeDecomposition` (`New.Parameters.chiK_eq_one_of_modEq_one`,
+`New.Parameters.frobElem_eq_one`, `New.Parameters.smul_ne_star`), `New/Derivatives/Field/WeilData` (`New.Parameters.smul_eq_self_iff_eq_one`,
 `New.Parameters.q_eq_of_modEq_one`, `New.Parameters.star_mem_iff_notMem`, `New.Parameters.intValuation_eq_of_mul_star`,
 `New.Parameters.eq_of_smul_eq_or_smul_eq_star`, `New.Parameters.nonempty_infinitePlace_equiv_finPlace`)
 
@@ -240,6 +241,7 @@ idele `x`: there are `n > 0` and `y ∈ E^×` with the valuations of `x^n` at ev
 [ShortProof], `New/Derivatives/Field/WeilData` (`New.Parameters.α`, `New.Parameters.inv_alpha_mem`,
 `New.Parameters.q₁_mul_alpha_mem`, `New.Parameters.v_alpha_mul_star_mul_relDifferentGen`,
 `New.Parameters.v_weilData_j_mul_alpha_mul_star`, `New.Parameters.exists_unit_prod_phi_eq_one_and_mul_star_eq`,
+`New.Parameters.twelve_dvd_q₁`, `New.Parameters.norm_zeta_pow_eq_one`, `New.Parameters.norm_zeta_sub_one_eq_one`,
 `New.Parameters.instWeilDataE`, `New.Parameters.phi_weilData_j`, `New.Parameters.traceOne_eq_betaKInE`,
 `New.Parameters.vacuumRoot`, `New.Parameters.exists_vacuumRoot_pow_mem`, `New.Parameters.ideleAbs_alpha_eq_prod`,
 `New.Parameters.norm_gal_vacuumRoot`)
@@ -262,8 +264,8 @@ residue field and let `ω_w` be its `q₂`-th power, of order `q₂`; at the oth
 *Needs:* 1.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the level primes `p₀, p₁`, the level `M`, `π̄_M`),
 §3.3 (e) (`p_i ≡ 1 (mod q₁d)` and `q₂² | p_i − 1`).
 
-[ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Data.piM`, `New.Data.IsChosen`,
-`New.Data.exists_levelPrime_mem_of_isChosen`, `New.Data.q_eq_levelPrime`, `New.Data.finite_isChosen`,
+[ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Data.piM`, `New.Data.IsChosen`, `New.Data.piM_mul_star`,
+`New.Data.exists_piM_mul_star_eq_levelPrime_mul_coprime`, `New.Data.exists_levelPrime_mem_of_isChosen`, `New.Data.q_eq_levelPrime`, `New.Data.finite_isChosen`,
 `New.Data.chiMLocal`, `New.Data.orderOf_chiMLocal`, `New.Data.chiMLocal_apply_eq_one_of_pow_q₁_eq_one`,
 `New.Data.chiMLocal_zpow_mul_pow_eq_one`)
 
@@ -345,7 +347,9 @@ geometric series.
 `2t ∈ Λ`, `t ∉ Λ`, such that `β_Kt, β̄_Kt ∉ Λ` for `β_K = (1 + √−d)/2`, scaled so that `g₂(Λ) = 12℘(t)² − 4` (that is,
 `℘″(t) = 2`), together with `a₁ ∈ ℂ` with `a₁² = 12℘(t)`. With `A` the area of `ℂ/Λ`, the hermitian form
 `H(l, z) = (π/A)·l̄z` and its translations `T^m_l g(z) := exp(−mπ(z·l̄ + |l|²/2)/A)·g(z + l)` (degree `m`), the *sigma
-function* `σ` of `Λ` is the odd entire function with `σ′(0) = 1` and
+function* `σ` of `Λ` is defined by its transformation law, not by the Weierstrass product
+(ThetaFunctionsAndUnitsOfCMLattices §1.2): it is the odd theta function for `H` with derivative `1` at `0`, that is
+the odd entire function with `σ′(0) = 1` and
 `σ(z + l) = ε(l)·exp(H(l, z) + H(l, l)/2)·σ(z)` for `l ∈ Λ`, where `ε(l) = 1` if `l ∈ 2Λ` and `ε(l) = −1` otherwise. It is
 the classical Weierstrass sigma function `σ_W` of `Λ` times a Gaussian: `σ(z) = σ_W(z)·exp(−s₂z²/2)`, where `s₂` is the
 constant with `η(l) = s₂l + (π/A)l̄` for the quasi-periods `η` of `σ_W`. The classical `σ_W` is not used: its second
@@ -355,8 +359,8 @@ logarithmic derivative is `−℘`, not `−℘ − s₂`. Put:
 `g″ = g″(0) + x`. Read in `ℂ_p` through `ι_p`, these are power series in `z`.
 `𝒪[[y]]` is the ring of series `G(y)` with `G` integral; at a prime `p` it equals `𝒪[[T]]`, where the formal parameter
 `T` is the part of `y` in the degrees `≡ 1 (mod q_p − 1)`. For linear forms `μ_1, …, μ_k` over
-`ℂ_p` in variables `z`, `𝒪[[y(μz)]]` is the ring of series `G(y(μ_1z), …, y(μ_kz))` with `G` integral, and
-`thetaProd(μ, m) := ∏_j θ(μ_jz)^{m_j}`.
+`ℂ_p` in variables `z`, `𝒪[[y(μz)]]` is the ring of series `G(y(μ_1z), …, y(μ_kz))` with `G` integral, and, for
+exponents `m_j ∈ ℕ`, `θ^m(μz) := ∏_j θ(μ_jz)^{m_j}`.
 
 *Numbers at a prime.* For a prime `p`: `π_p := √−d` if `p = d` and `π_p := p` otherwise, of valuation `v(π_p) = 1/2`
 if `p = d` and `1` otherwise; `q_p := p²` if `p` is inert in `K` and `q_p := p` otherwise; `ρ_p := v(π_p)/(q_p − 1)`,
@@ -370,7 +374,7 @@ the same formula gives a function with logarithmic derivative `ζ(t) − πt̄/A
 `Ω₀𝒪_K`; then `θ(pz)/θ(z)^{p²}` is not even at an inert `p`, and 2.2 (a) fails. For `p` inert,
 `γ_p = Σ_{e odd} p^{−e} = p/(p² − 1)`; for `p = d`, `γ_p = ½·Σ_{e≥1} p^{−e} = 1/(2p − 2)`.
 
-*Needs:* ThetaFunctionsAndUnitsOfCMLattices §§1.3, 1.4, 3.5, 3.6, 4.1, 4.3 (for a lattice `Λ` with a point `t` with `2t ∈ Λ`, `t ∉ Λ`, scaled so that
+*Needs:* ThetaFunctionsAndUnitsOfCMLattices §§1.2, 1.3, 1.4, 3.5, 3.6, 4.1, 4.3 (for a lattice `Λ` with a point `t` with `2t ∈ Λ`, `t ∉ Λ`, scaled so that
 `g₂(Λ) = 12℘(t)² − 4`, and `a₁` with `a₁² = 12℘(t)`: the odd entire function `σ` with `σ′(0) = 1` and
 `σ(z + l) = ε(l)·exp(H(l, z) + H(l, l)/2)·σ(z)` for `l ∈ Λ` exists; `θ` is even with `θ(0) = 1`;
 `θ² = (℘ − ℘(t))σ²` off `Λ` and `σ² = xθ²` off `t + Λ`; `x′² = x(4x² + a₁²x + 4)` and `y² + a₁xy = x³ + x` off
@@ -510,7 +514,7 @@ type). Facts:
 images of `τ(u_{j,c})` for a fixed `x = (τ, c)`, then `Σ_j m_jν_j·(u_j†z) = z_x` with the forms read in `ℂ_p`.
 (b) An element `y ∈ E` integral above `p` is `α/N` with `α ∈ 𝒪_E` and `N ∈ ℕ` prime to `p`; it is integral under every
 embedding `E → ℂ_p`, and so are the complex conjugates of its complex embeddings read through `ι_p`.
-(c) For a CM lattice `C` and forms `μ_j`: `thetaProd(μ, m)(az) = thetaProd(aμ, m)(z)`; `G ∈ 𝒪[[y(μz)]]` gives
+(c) For a CM lattice `C` and forms `μ_j`: `θ^m(μ(az)) = θ^m((aμ)z)`; `G ∈ 𝒪[[y(μz)]]` gives
 `G(az) ∈ 𝒪[[y(aμz)]]`; and if the `μ_j` have integral coefficients, `𝒪[[y(μz)]]` is stable under the partial
 derivatives.
 
@@ -543,7 +547,7 @@ of `τ ∈ Φ`.
 `z_{(τ,c)}`, `(τ, c) ∈ Φ × n`, and the partner rule `(e, τ) ↦ −p^eτ`.
 (d) Let `C` be a CM lattice. There are `ϖ ∈ ℂ_p` with `v(ϖ) = ρ_p` and `λ_{ej} ∈ 𝒪`, with `λ_{e0}` a unit for odd `e`
 if `p` is inert, such that for every resolution `(u_j, m_j)` of `E^n` by vectors integral above `p` and every
-`H ∈ 𝒪[[y(u†z)]]`, the series `thetaProd(u†, m)·H = ∏_j θ(u_j†z)^{m_j}·H` has the normal form `(I_p°, −p^e·, ϖ, λ)`.
+`H ∈ 𝒪[[y(u†z)]]`, the series `θ^m(u†z)·H = ∏_j θ(u_j†z)^{m_j}·H` has the normal form `(I_p°, −p^e·, ϖ, λ)`.
 The formal proof proves the case of the CM curve `𝓔` of 4.2; its argument uses only 2.3 for `C`.
 
 *Needs:* 1.1, 1.2, 2.3, 2.4, 2.5.
@@ -606,7 +610,8 @@ sign in the partner is part of the statement.
 
 [ShortProof], `New/Derivatives/Divisibility/Count` (`New.minorProd`, `New.heightOneColumns`, `New.lowColumnCount`,
 `New.lowBoxCount`, `New.eraseHeightOne`, `New.predictedDivisibility`, `New.IsChargeExponent`, `New.fillingCharge`,
-`New.deductionTerm_eraseHeightOne`, `New.mul_sum_deductionTerm_le`), `New/Derivatives/Divisibility/NullFrames`
+`New.deductionTerm_eraseHeightOne`, `New.summable_deductionAt`, `New.mul_tsum_deductionAt`,
+`New.mul_sum_deductionTerm_le`), `New/Derivatives/Divisibility/NullFrames`
 (`New.deductionTerm`, `New.IsExemptPair`)
 
 ### 3.2 The change of directions
@@ -731,8 +736,9 @@ automorphisms of `ℂ` over `K` on the jets of translates (4.7).
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* definitions; the model is built in `src/Lib` from the Heisenberg group, and the theta
-function of a vector is its theta value at a real translate times a Gaussian.
+*Method of the formal proof:* definitions; the model is built in `src/Lib` from the Heisenberg group, the theta
+function of a vector is its theta value at a real translate times a Gaussian, and the jet series is defined
+coefficient by coefficient through the Fock vectors of monomials.
 
 Let `E` be a CM field with a CM type and Weil data `(ȷ, α, υ)`, `Ô` the integral finite adeles, `𝔞₀ := E ∩ αÔ`, and
 `n` a finite set. The *finite image* of `γ ∈ E^n` is `α^{−1}γ ∈ 𝔸_{E,f}^n`; `γ ∈ 𝔞₀^n` exactly when it is integral.
@@ -742,25 +748,33 @@ For `x ∈ 𝔸_{E,f}^n`, `finVec(x)` is the adelic vector with finite part `αx
 point, `𝒮(V)` is the space of the adelic Weil representation of `V` built from the Weil data (the model of
 [ShortProof] named on the *Needs:* line), with the vacuum `vac_V` (the
 Gaussian at the infinite places times the twisted indicator of the standard lattice), the Heisenberg translations
-`ϱ(y)`, the operators `ϱ_f(x) := (semicharacter of x)·ϱ(finVec(x))` of finite adelic vectors, the Weil operators
+`ϱ(y)`, the operators `ϱ_f(x) := semi(x)·ϱ(finVec(x))` of finite adelic vectors, with `semi(x)` the *semicharacter*
+of `x` (WeilRepresentationsOnBanachSpacesOfData §3.1), the Weil operators
 `ω(g)`, the theta functional `θ_V`, and the inner product `⟨f, f′⟩` (the mean of `conj(f)f′` over `𝔸_E^n/E^n`). The
 *value* of `f ∈ 𝒮(V)` at an adelic vector `y` is `f(y) := θ_V(ϱ(y)f)`. `V` is *standard* if all its signs are `+1` and its
 point is the identity: `V = E^n` with the form `Σ_i x_iȳ_i`; `Hom(E^n, E^{n′})` is standard with the form of the
 coordinates. The *finite part* `𝒮_f(V)` is the span of the `ϱ_f(x)vac_V`, `x ∈ 𝔸_{E,f}^n`.
 
-*Theta functions.* For `f ∈ 𝒮_f(V)` with all signs `+1`, `Θ_f(z) := θ_V(ϱ(z)f)·exp(|z|²/2)`, for `z ∈ ℂ^{Φ×n}` read as
-a real adelic vector in Fock coordinates, is an entire function; for `c ∈ ℂ`, the *jet series* `J_c(f)` is the Taylor
-series at `0` of `z ↦ Θ_f(cz)`, in the variables `z_{τ,i}`. A function `G` on `ℂ^{Φ×n}` is a *theta function for* a
-subgroup `Y ⊂ E^n` if it is entire and fixed by the signed translations by the `γ ∈ Y`: the normalised translation (with
-its Gaussian factor) by the real image of `γ`, times the value of the semicharacter at the finite image of `γ`.
+*Theta functions.* A vector `z ∈ ℂ^{Φ×n}` is read as the adelic vector with finite part `0` and archimedean part
+`(2π·Im τ(ȷ))^{−1/2}·z_{τ,i}` at `(τ, i)` (*Fock coordinates*; for `E = K(ζ)` with the Weil data of 1.4 this is
+`z_{τ,i}/A_K`, `A_K = √(2π/√d)`). For `f ∈ 𝒮(V)`, `Θ_f(z) := θ_V(ϱ(z)f)·exp(|z|²/2)`; it is an entire function when all
+signs of `V` are `+1` and `f ∈ 𝒮_f(V)`. For `f ∈ 𝒮(V)` and `c ∈ ℂ`, the *jet series* `J_c(f)` is the series in the
+variables `z_{τ,i}` whose coefficient of `z^k` is `c^{|k|}/k!·θ_V(v_{z^k} ⊗ f)`, where `v_Q ⊗ f` integrates the real
+Heisenberg action on `f` against the Fock vector of the polynomial `Q`; when all signs are `+1` and `f ∈ 𝒮_f(V)`, it
+is the Taylor series at `0` of `z ↦ Θ_f(cz)`, as 4.4 (b) states on every line through `0`. The *real image* of
+`γ ∈ E^n` is `u ∈ ℂ^{Φ×n}`, `u_{τ,i} := (2π·Im τ(ȷ))^{1/2}·τ(γ_i)`. A function `G` on `ℂ^{Φ×n}` is a *theta function
+for* a subgroup `Y ⊂ E^n` if it is entire and fixed by the *signed translations* by the `γ ∈ Y`: for every `γ ∈ Y`
+with real image `u` and every `z`, `semi(α^{−1}γ)·exp(−(Σ_x conj(u_x)z_x + Σ_x |u_x|²/2))·G(z + u) = G(z)`.
 
 *Tight frames.* A finite family `w_i ∈ 𝔞₀` with multiplicities `m_i ∈ ℕ` is a *tight frame of length `M`* if
 `Σ_i m_i·σ(w_i)·conj(τ(w_i)) = M·δ_{στ}` for all infinite places `σ, τ`. Taking each vector `k` times as often gives a
 tight frame of length `kM`; the union of two tight frames is one of the sum of the lengths.
 
-*Needs:* 1.4; WeilRepresentationsOnBanachSpacesOfData §§3.1, 3.4, 3.6, 3.7, 4.1, 4.2, 4.3 (the adelic Weil representation of a hermitian space `V` over a CM field with Weil
+*Needs:* 1.4; WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 3.7, 4.1, 4.2, 4.3 (the adelic Weil representation of a hermitian space `V` over a CM field with Weil
 data `(ȷ, α, υ)`, in the model generated by the vacuum under the adelic Heisenberg group with the cocycle
-`ψ(½ȷ·y*Sx)`: the space `𝒮(V)`, the vacuum, the Heisenberg operators `ϱ` and `ϱ_f`, the Weil operators `ω(g)` of the
+`ψ(½ȷ·y*Sx)`: the space `𝒮(V)`, the vacuum, the semicharacter `semi` of finite adelic vectors, the Heisenberg
+operators `ϱ` and `ϱ_f`, the Fock vectors `v_Q` of polynomials `Q` and the integrated action `v ⊗ f` of a Fock vector
+on `f ∈ 𝒮(V)`, the Weil operators `ω(g)` of the
 adelic unitary points, and the theta functional `θ_V`, a continuous linear form whose values
 `f(y) := θ_V(ϱ(y)f)` determine `f` and satisfy `β(γ′, x)·f(γ′ + x) = f(x)` for the adelic image `γ′` of a rational
 vector `γ` and every adelic `x`, with `β(x, y) = ψ(½ȷ·h(y, x))`; the finite part, every vector of which is fixed by the
@@ -773,7 +787,8 @@ scaled by `α`, or the entire function `Θ_f`, so the background entry stands.
 
 [ShortProof], `New/Derivatives/Vacuum/TightFrames` (`New.IsTightFrame.mul_left`), `New/Derivatives/Vacuum/ShortVectors`
 (`New.IsTightFrame.sumElim`, `New.IsTightFrame.join_family`, `New.IsTightFrame.replace_pairs`); the model, `finVec`,
-`finiteImage`, `IsTightFrame`, `IsThetaFunction`, `entireTheta` and `jetSeries` are definitions in `src/Lib`
+`finiteImage`, `semichar`, `realImage`, `signedShift`, `IsTightFrame`, `IsThetaFunction`, `entireTheta` and
+`jetSeries` are definitions in `src/Lib`
 (`Lib/Weil/Construction`, `Lib/Weil/MixedModel/RealTheta`, `Lib/General/LinearAlgebra/PolarDecomposition`)
 
 ### 4.2 The CM curve and the scale of Taylor series
@@ -833,7 +848,10 @@ tight frame; replacing the pairs
 
 (a) For a primitive `q₁`-th root of unity `z ∈ E`, the `z^i`, `0 ≤ i < q₁`, each taken once, are a tight frame of length
 `q₁`; each taken `k` times, one of length `kq₁`.
-(b) There is a tight frame in `𝔞₀`, with multiplicities `1`, of a length `h` prime to `q₁`, equal to
+(b) Let `j` be the least integer with `2^j ≥ q₁`, `c_i` (`i < φ(q₁)`) the coefficients of `P(X)/(X − ζ)` (`P` the
+cyclotomic polynomial of order `q₁`, 1.1), and `e_i := β̄_K^j·c_i/P'(ζ)`, which is `β̄_K^j` times the basis of `E/K`
+dual to `1, ζ, …, ζ^{φ(q₁)−1}` under the trace. There is a tight frame in `𝔞₀`, with multiplicities `1`, of a length
+`h` prime to `q₁`, equal to
 `q₁(1 + Σ_i Σ_τ |τ(e_i)|²) + β_K^j + β̄_K^j`, that contains `ζ·e_{φ(q₁)−1}`. For every prime `p` and every `ι_p`, one of
 `y = 1` and `y = ζ·e_{φ(q₁)−1}` has `|ι_p(𝔣_E·conj(τ(y)))| = 1` for all `τ ∈ Φ`.
 (c) If `v` is a tight frame with multiplicities `1` of a length `h` prime to `q₁`, then for every `m ≥ q₁h + R(q₁ + h)`
@@ -888,9 +906,8 @@ Fock vectors; a vector of the finite part whose theta function vanishes on every
 determined by its values at real vectors.
 
 Let `V` have all signs `+1`, `f ∈ 𝒮_f(V)` and `c ∈ ℂ`.
-(a) The coefficient of `z^k` in `J_c(f)` is `c^{|k|}/k!·θ_V(v_{z^k} ⊗ f)`, where `v_Q ⊗ f` integrates the real
-Heisenberg action on `f` against the Fock vector of the polynomial `Q`; hence `jet_Q(J_c(f)) = c^l·θ_V(v_Q ⊗ f)` for `Q`
-homogeneous of degree `l`, and `jet_Q(F(az)) = a^l·jet_Q(F)` for every series `F`.
+(a) For `Q` homogeneous of degree `l`, `jet_Q(J_c(f)) = c^l·θ_V(v_Q ⊗ f)`; by the definition of `J_c` (4.1) this
+holds for every `V` and every `f ∈ 𝒮(V)`. And `jet_Q(F(az)) = a^l·jet_Q(F)` for every series `F`.
 (b) For every `v ∈ ℂ^{Φ×n}`, the Taylor series at `0` of `t ↦ Θ_f(ct·v)` is `J_c(f)` with `z = t·v` substituted.
 (c) If `c ≠ 0` and `J_c(f) = 0`, then `f = 0`.
 (d) `Θ_f(0) = θ_V(f)`; if `Θ_f(cz) = ∏_i G_i(L_i(z))` for entire functions `G_i` and linear forms `L_i`, then `θ_V(f)` is
@@ -986,11 +1003,11 @@ sum of `(q₁²)^{f·n}` vectors `ϱ_f(a_j)ϱ(finVec(b))F`, with one `b` and poi
 `|σ(c_vac·vac₁(finVec(x)))| ≤ exp(C·q₁²)` for every automorphism `σ` of `ℂ` over `K` (`vac₁` the vacuum of the
 standard space of rank one). Fix such a `C`, which depends on the parameters `q₀` and `d` only and not on the level,
 and for it such `c_vac` at every level.
-(c) *The integral vacuum.* For standard `V` of rank `n` put `θ° := c_vac^n·vac_V`. Then
+(c) *The integral vacuum.* For a space `V` of rank `n` over `E` put `θ° := c_vac^n·vac_V`. For standard `V`:
 `θ°(finVec(x)) = ∏_i c_vac·vac₁(finVec(x_i))`; these values are integral at every prime; their conjugates under every
 automorphism of `ℂ` are at most `exp(C·q₁²)^n`; and `θ°(finVec(x)) ≠ 0` for some `x`.
-(d) If `|f(finVec(x))| ≤ M` for all `x ∈ 𝔸_{E,f}^n`, then `|⟨f, f⟩| ≤ M²`. Every automorphism of `ℂ` has the absolute
-values of some automorphism over `K`.
+(d) For standard `V` and `f ∈ 𝒮(V)`: if `|f(finVec(x))| ≤ M` for all `x ∈ 𝔸_{E,f}^n`, then `|⟨f, f⟩| ≤ M²`. Every
+automorphism of `ℂ` has the absolute values of some automorphism over `K`.
 
 *Needs:* 1.4, 2.1, 4.1, 4.2, 4.3 (a), 4.5; ThetaFunctionsAndUnitsOfCMLattices §2.3 (for `d` a prime `≡ 7 (mod 8)` there is a bound,
 depending only on `d`, for `|(T^1_uθ)(0)|` over all CM lattices for `d` and all `u ∈ ℂ`); ThetaFunctionsAndUnitsOfCMLattices §5.3 (complex
@@ -1094,8 +1111,8 @@ placed in each coordinate of `E^n`, with multiplicities `k²`, are a resolution 
 (c) For standard `V` and every prime `p` there are `b′` prime to `p`, a tight frame `w` with multiplicities `1` of length
 `b′²`, `F ∈ 𝒮_f(V)`, points `y_j` with `b′y_j ∈ Ô^n`, and `p`-integral numbers `a_j` with `θ° = Σ_j a_j·ϱ(finVec(y_j))F`,
 such that for `γ ∈ E^n` and `c ∈ ℂ`, `J_{cA_K/Ω₀}(ϱ(finVec(α^{−1}γ))F)` is the product over `(i, k)` of the Taylor series
-of `T^1_{ℓ}θ`, `ℓ = −(Ω₀/b′)·Σ_τ τ(γ_k)conj(τ(w_i))`, at the form `c·u_{(i,k)}†z`, with `u_{(i,k)} = w_i/b′` in the
-coordinate `k`.
+of `T^1_{ℓ}θ` (`θ` of the CM curve `𝓔`), `ℓ = −(Ω₀/b′)·Σ_τ τ(γ_k)conj(τ(w_i))`, at the form `c·u_{(i,k)}†z`, with
+`u_{(i,k)} = w_i/b′` in the coordinate `k`.
 (d) Let `V` be standard, `δ ∈ 𝒪_K` nonzero with `δδ̄ = N`, and `f ∈ 𝒟_p(V, δ)`. There is a resolution of the identity
 `(u_j, m_j)` of `E^n` with `α^{−1}u_j` integral above `p` for all `j`, and `H ∈ 𝒪[[y(u†z)]]` for the CM curve `𝓔`, with
 `ι_p J_{δ̄A_K/Ω₀}(f) = (∏_jθ(u_j†z)^{m_j})^N·H`.
@@ -1166,11 +1183,11 @@ in the variables `z_{τ,i}`.
 (c) Let `V = Hom(E^n, E^{n′})` with its standard form, so that the variables are the entries `z_{τ,r,a}` of matrices
 `z_τ` of size `n′ × n`, `N = |n′|`. For every diagram `κ`, chosen standard filling `i′` (3.3) and integral `y_τ`:
 `v(jet_{P_y}(F)) ≥ D_p(κ) − f·N³·(1 + log_p max(B, 1))`.
-(d) In (c), let `κ` have no column of height strictly between `|n|` and `|n′|`, and let `w` be charges for `ev ⊂ Φ` at
-every `e ∈ I_p°`. Then for all chosen standard fillings `i′`, `i`:
+(d) In (c), let `|n| ≤ |n′|`, let `κ` have no column of height strictly between `|n|` and `|n′|`, and let `w` be
+charges for `ev ⊂ Φ` at every `e ∈ I_p°`. Then for all chosen standard fillings `i′`, `i`:
 `v(J_κ(F)_{i′,i}) + W(i′) ≥ D_p(κ^{ev}) + γ_p·(B − B^{ev}) − f·N³·(1 + log_p max(B, 1))`.
 
-*Needs:* 1.1, 1.4, 2.4, 2.6, 3.3, 3.4, 4.2, 4.9.
+*Needs:* 1.1, 1.4, 2.4, 2.6, 3.3, 3.4, 4.2, 4.8, 4.9.
 
 [ShortProof], `New/Derivatives/Vacuum/Divisibility` (`New.Parameters.isIntegralAbove_of_finiteImage_mem`,
 `New.Parameters.exists_hasNormalForm_jetSeries`, `New.Parameters.norm_jet_minorProd_jetSeries_le`,
@@ -1311,7 +1328,8 @@ same exponent, two with the same end are equal, and the end of a near pair is no
 [ShortProof], `New/Derivatives/Sharpness/NearPairs` (`New.Data.notMem_bPlaces_of_two_partners`, `New.Data.IsNearPair`,
 `New.Data.IsNearPair.inert_and_odd`, `New.Data.IsNearPair.exponent_unique`, `New.Data.IsNearPair.eq_and_eq_of_partner_eq`,
 `New.Data.IsNearPair.end_ne_start`, `New.Data.lossFactorCount`, `New.Data.lossProduct`,
-`New.Data.padicValNat_factorial_le_add_lossProduct`, `New.Data.x_pow_le_lossFactorCount`, `New.Data.partnerMinSum`,
+`New.Data.padicValNat_factorial_lossFactorCount_le`, `New.Data.padicValNat_factorial_le_add_lossProduct`,
+`New.Data.x_pow_le_lossFactorCount`, `New.Data.padicValNat_factorial_add_add_le`, `New.Data.partnerMinSum`,
 `New.Data.mul_sum_weight_sub_localPrimeSumTotal`, `New.Data.partnerMinSum_le`, `New.Data.error_le_padicValNat_lossProduct`)
 
 ### 5.5 The valuation bound for every prime
@@ -1349,31 +1367,35 @@ that does not split in `K`; `ι_p(𝔣_Eπ_M)` is a unit at every such prime; `|
 
 ### 5.6 Sharpness of the valuation bound
 
-*Origin:* particular to this proof: for degrees near the weights, some Taylor coefficient of the theta function of an
-indicator datum on `12 × 1` matrices has valuation at most `S_p + v_p(t)` at every prime `p`, for one number `t ≠ 0`
+*Origin:* particular to this proof: for degrees near the weights, some coefficient of the jet series of an indicator
+datum on `12 × 1` matrices has valuation at most `S_p + v_p(t)` at every prime `p`, for one number `t ≠ 0`
 whose conjugates are bounded.
 
-*Method of the formal proof:* the twelve series `∏_iy(μ_iz)^{e_{b,i}}·Θ` of 5.1 (c) are, together, the Taylor series of
+*Method of the formal proof:* the twelve series `∏_iy(μ_iz)^{e_{b,i}}·Θ` of 5.1 (c) are, together, the jet series of
 a vector `F` on `Hom(E, E^{12})` with integral values whose theta function is a theta function for `π_M𝔞₀^{12}` (4.5, with
 the monomial sections `θ^{c_i−3e}(yθ³)^{e}` and `δ = π̄_M`); Fourier inversion writes `M^{12f}F` as a combination of
 translates of the vacuum with coefficients that are integral after multiplication by a value of the vacuum, and each
 translate is a sum of indicator data times roots of unity; an ultrametric choice selects one indicator datum. Then
 `t := M^{12f}·θ°(finVec(y))·∏_τB_τ(l_τ)²` for a point with `θ°(finVec(y)) ≠ 0` (4.6 (c)), and 5.5 bounds `val₁₂`.
 
-Let `D` be admissible data, `V₁₂ := Hom(E, E^{12})` with its standard form, `𝔪` a modulus of `E` with ideal `(π_M)`,
+Let `D` be admissible data, `V₁₂ := Hom(E, E^{12})` with its standard form, `𝔪` a modulus of `E` (a nonzero ideal of
+`𝒪_E` that no prime divides together with its complex conjugate) with ideal `(π_M)`,
 and for `y₀ ∈ M_{12×1}(𝒪_E/𝔪)` let `Ψ_{𝔪,y₀} ∈ 𝒮(V₁₂)` be the *indicator datum*: the Gaussian at the infinite places,
 the indicator of the class `y₀` at the places dividing `𝔪`, and the vacuum at the other finite places. Write
-`J(f) := J_{π_M𝔱_E}(f)`, a series in the variables `z_{τ,b}` (`τ ∈ Φ`, `b < 12`).
+`J(f) := J_{π_M𝔱_E}(f)` for `f ∈ 𝒮(V₁₂)`, the jet series of 4.1, a series in the variables `z_{τ,b}` (`τ ∈ Φ`,
+`b < 12`). In (a)–(c), `p` is a prime and `ι_p` is fixed.
 (a) *Lifting.* For a tight frame `w` of length `M` with multiplicities `c_i`, its forms `μ_i` (5.5), and exponents
-`e_{b,i}` with `3e_{b,i} ≤ c_i`, there is `F ∈ 𝒮(V₁₂)` with integral values at all finite points, whose theta function is
-a theta function for `π_M𝔞₀^{12}`, and with `ι_p J(F) = ∏_{b<12} (∏_iy(μ_iz_b)^{e_{b,i}}·Θ(z_b))`.
+`e_{b,i}` with `3e_{b,i} ≤ c_i`, there is `F ∈ 𝒮(V₁₂)` with `p`-integral values `F(finVec(x))` at all
+`x ∈ 𝔸_{E,f}^{12}`, whose theta function is a theta function for `π_M𝔞₀^{12}`, and with
+`ι_p J(F) = ∏_{b<12} (∏_iy(μ_iz_b)^{e_{b,i}}·Θ(z_b))`.
 (b) *Expansion.* For such `F`, every linear form `L` on `𝒮(V₁₂)` and every `y ∈ 𝔸_{E,f}^{12}`, there is `y₀` with
 `v(ι_p L(Ψ_{𝔪,y₀})) ≤ v(ι_p(M^{12f}·L(F)·vac(finVec(y))))`.
 (c) *Reduction to the curve.* If `c_i ≥ 3|l|` for all `i` and `val₁₂(l) ≤ r`, then for every `y` there are an exponent
 `γ` on `Φ × 12` with `Σ_bγ_{τ,b} = l_τ` and a class `y₀` with
 `v(ι_p(c_vac^{12}·coeff_γ J(Ψ_{𝔪,y₀}))) ≤ r + v(ι_p(M^{12f}·θ°(finVec(y))))`.
 (d) *Size.* If `l_τ ≤ κ(τ) + x^{42}` for all `τ`, then
-`|σ(M^{12f}·∏_τB_τ(l_τ)²·θ°(finVec(y)))| ≤ exp(f·m·b/k)` for every automorphism `σ` of `ℂ`.
+`|σ(M^{12f}·∏_τB_τ(l_τ)²·θ°(finVec(y)))| ≤ exp(f·m·b/k)` for every automorphism `σ` of `ℂ` and every
+`y ∈ 𝔸_{E,f}^{12}`.
 (e) *Sharpness.* For `l` with `κ(τ) ≤ l_τ ≤ κ(τ) + x^{42}` at every `τ` there is `t ∈ ℂ`, `t ≠ 0`, with
 `|σ(t)| ≤ exp(f·m·b/k)` for every automorphism `σ` of `ℂ`, such that for every modulus `𝔪` with ideal `(π_M)`, every
 prime `p` and every `ι_p` there are `γ` with `Σ_bγ_{τ,b} = l_τ` and `y₀` with

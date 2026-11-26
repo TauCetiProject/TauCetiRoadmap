@@ -5,10 +5,10 @@ L-functions. The argument has this shape. A one-sided bound for a sum over prime
 bound comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts, the lattice of the
 images of the target forms on a unitary group `U(Y_0)` under the chains `Θ_ϑ` of `m` theta lifts `Y_0 → Y_1 → ⋯ → Y_m`,
 one chain for each twist `ϑ` (OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.4 (the twists)). For the upper
-bound the target forms are spanned by normalised Poincaré series of short integral source forms on the definite group
-`U(X_0)` (CompositeThetaLiftsAndShortForms, SecondMomentsOfPoincareSeries), and the image of a Poincaré series under
-`Θ_ϑ` is computed by the seesaw identity of this roadmap: it is a constant, the same for all twists, times a composite
-lift of the source form, a finite combination of chains of `m` theta lifts between definite spaces `X_0 → X_1 → ⋯ → X_m`
+bound the target forms are spanned by the normalised images under the Poincaré map `𝒫` (2.19) of short integral source
+forms on the definite group `U(X_0)` (CompositeThetaLiftsAndShortForms, SecondMomentsOfPoincareSeries), and the image
+under `Θ_ϑ` of such an image is computed by the seesaw identity of this roadmap: it is a constant, the same for all
+twists, times a composite lift of the source form, a finite combination of chains of `m` theta lifts between definite spaces `X_0 → X_1 → ⋯ → X_m`
 restricted to the definite space `Y_m ⊂ X_m`, whose data have controlled support, denominators and size. The
 divisibility and the size of the composite lift (CompositeThetaLiftsAndShortForms) then bound the index of the lattice.
 
@@ -24,8 +24,9 @@ the finite data place by place through lattices of graded spaces, and summing th
 
 **The seesaw identity (3.20).** For the data of OneSidedPrimeSumBoundsAndAdmissibleData §3.2, a linear form `t` on
 the values of the forms on `X_0` and an archimedean point `g` of `U(Y_0)` there is `c ∈ ℂ^×` such that every twist `ϑ`
-has a chain datum `Ψ` (support at the places dividing `M q_ϑ`, values integral away from `q_ϑ`, bounded by
-`M^{3 f m n_m²}` when `ϑ` is trivial, glued tensor invariant under the levels) with `Θ_ϑ(𝒫_{g,t}φ) = c·comp_ϑ(Ψ)(φ)`
+has a chain datum `Ψ` (translations in its support vanish at the places not dividing `M q_ϑ` and have `π̄_M x_j`
+integral at the places not dividing `q_ϑ`; values integral away from `q_ϑ`; `Σ_x |σ(Ψ(x))| ≤ M^{3 f m n_m²}` for every
+automorphism `σ` of `ℂ` when `Q(ϑ) = ∅`; glued tensor invariant under the levels) with `Θ_ϑ(𝒫_{g,t}φ) = c·comp_ϑ(Ψ)(φ)`
 for every ramified source form `φ`. Neither side is asserted to be nonzero.
 
 ## Conventions and notation
@@ -49,7 +50,8 @@ unramified at every finite place. `Φ` is the set of infinite places of `E`, ide
 `r = k + m − 1`. `κ : Φ → ℕ` is the weight, `Δ = 2r⁸` the gap, `κ_j(τ) = κ(τ) + (j + ½)Δ` the weight of lift `j`, and
 `a = x·b` the order of the derivative at the `a`-places, with the scales `x`, `x₁`, `b`. `q₂` is the integer of the data
 of which the residue characters below are taken. The primes `p₀`, `p₁` and `N` (the level) are `≡ 1 (mod q₂²)`,
-`M = p₀p₁`. `π_M ∈ 𝒪_E` has `π_M π̄_M = M`; its prime divisors are the *chosen places*, one of each conjugate pair of
+`M = p₀p₁`. `π_M` is the conjugate of the integer `π̄_M` of `K` of norm `M` fixed by the data, viewed in `𝒪_E`, so
+`π_M ∈ 𝒪_K` and `π_M π̄_M = M`; its prime divisors in `E` are the *chosen places*, one of each conjugate pair of
 places of `E` above `p₀` and above `p₁` (`f` above each); `𝔽_w` is the residue field at `w`. `π_N ∈ 𝒪_E` has
 `π_N π̄_N = N`; the set `P_N` of its prime divisors has `f` elements, all split of degree one over `N`, one of each
 conjugate pair of places above `N`. `ϖ_M` is a finite idele that generates `(π_M)` and is `1` away from the chosen
@@ -67,7 +69,8 @@ is the character attached to a space of rank `|n|` (the rank twist).
 **Twists.** A *tame character* `ϑ` is a character of `U(1)(𝔸)/U(1)(F)` of weight `0` with a finite set `Q(ϑ)` of finite
 places (its modulus), disjoint from its conjugate, of norms prime to `MN`, outside which its tame part is trivial; a
 *twist* is a tame character whose tame part is nontrivial at every place of `Q(ϑ)`. `q_ϑ = ∏_{w ∈ Q(ϑ)} N(w)`.
-`ϑ = 1` is the twist with `Q = ∅`. The character of lift `j` for `ϑ` is `ν_j^ϑ := μ_j⁰·ϑ^j`, with `μ_j⁰` the untwisted
+`ϑ = 1` is the trivial character, a twist with `Q = ∅`; the conditions "if `Q(ϑ) = ∅`" below are conditions on `Q`
+alone. The character of lift `j` for `ϑ` is `ν_j^ϑ := μ_j⁰·ϑ^j`, with `μ_j⁰` the untwisted
 character of lift `j` of OneSidedPrimeSumBoundsAndAdmissibleData §3.4; it has weight `−κ_j` and tame part
 `ω^j ψ_ϑ^j`, where `ω` is the residue character of the data at the chosen places.
 
@@ -93,23 +96,37 @@ power `e(τ)` of the determinant), an *algebraic form* of weight `λ` is a smoot
 module `V_λ` with `φ(γg) = ρ_λ(γ)φ(g)` for `γ ∈ Γ`; algebraic forms of weight `λ` and automorphic forms of the type of
 the parameter `λ + ρ` are identified by `φ ↦ (g ↦ ⟨v_λ, ρ_λ(g_∞)^{−1}φ(g_f)⟩)` with a highest vector `v_λ`
 (ThetaLiftsForDefiniteUnitaryGroups §1.2). For a linear form `t` on `V_λ`, `t(φ)(g) := t(ρ_λ(g_∞)^{−1}φ(g_f))` is the
-coefficient of `φ` at `t`.
+coefficient of `φ` at `t`; here `ρ_λ(g_∞)` is the action in weight `λ` of the entrywise complex conjugates of the
+matrices `g_τ`. A function `F` on `U(V)(𝔸)` is *automorphic* if it is continuous, left invariant under `Γ_V` and right
+invariant under an open subgroup of `G_f`, and *rapidly decreasing* if `|F(g)|·ht(g)^B` is bounded for every `B`, `ht`
+the height (AdelicUnitaryGroupsAndAlgebraicModularForms §§4.2, 5.1). The type *conjugate* to `e` is its complex
+conjugate `ē`; complex conjugation carries forms of type `e` to forms of type `ē`. Each Weyl module carries its integral
+basis and the *Gram norm* `‖ξ‖² = Re(ξ* G ξ)`, `G` the positive definite integer Gram matrix of that basis
+(IntegralRepresentationsOfGeneralLinearGroups §§1.1, 2.1). A *lift weight* from rank `|n|` to rank `|n′|` for a
+character of weight `e_b` is a weight `(c, e)` with `|n| < |n′|`, no column of height strictly between `|n|` and `|n′|`,
+and `e(τ) = e_b(τ) + c(τ, |n|)` (a weight that goes up, WeilRepresentationsOnBanachSpacesOfData §7.5).
 
 **Weil representation and theta lifts.** For spaces `V`, `V′` the space `Hom(V, V′)` with the symplectic form built
 from the two Hermitian forms and `ψ` carries the Weil representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` twisted by
 characters `a`, `b` of `U(1)(𝔸)`, on a space `𝒮(Hom(V, V′))` of integrable functions of adelic matrices with the
 Heisenberg action `ϱ`; `θ` is the theta functional, invariant under rational points; `vac` is the vacuum; the
-*finite Heisenberg translate* of a datum by a finite adelic matrix `x` is `ϱ_f(x) := ϱ(α x)` times a root of unity; the
-*finite part* is the span of the finite translates of `vac`; a datum `v_P ⊗ Φ` is the Fock vector of a polynomial `P` at
+*finite Heisenberg translate* of a datum by a finite adelic matrix `x` is `ϱ_f(x) := ψ(−¼·tr((αx)*(αx)))·ϱ(α x)`, `ψ`
+the standard additive character of `𝔸_{E,f}` (`ψ(y) = exp(2πi·Tr_{E/ℚ}(b))` for `b ∈ E` with `y − b ∈ Ô`), so the
+scalar is a root of unity; the *finite part* is the span of the finite translates of `vac`; a datum `v_P ⊗ Φ` is the Fock vector of a polynomial `P` at
 the infinite places tensored with a finite part `Φ` (WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the Weil representation in the realisation used: for Weil data of `E`, which include a primitive root of unity of order `5040` in `E`, and spaces `V`, `V′`, the representation `ω_{a,b}(g, h) = a(det h)·b(det g)⁻¹·ω(x ↦ hxg⁻¹)` of `U(V)(𝔸) × U(V′)(𝔸)` by continuous operators on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action `ϱ`, the vacuum, the finite part, which is the span of the finite Heisenberg translates of the vacuum, the Fock vector `v_P` of a polynomial `P` at the real places and the datum `v_P ⊗ f = ∫ v_P(y)·ϱ(y)f dy`; the theta functional `θ` is a continuous functional on the data space that is invariant under the Heisenberg operators of the rational vectors and under the rational points of the unitary group, with the mean of `|θ(ϱ(x)vac)|²` over the adelic vectors modulo the rational vectors equal to `1`; the theta kernel of a datum `f` is `(g, h) ↦ θ(ω_{a,b}(g, h)f)`)). The *theta lift* of a form `z` on `U(V)` with datum `Φ` is
 `h ↦ ∫_{[U(V)]} θ(ω(g, h)Φ) z(g) dg`; the *transposed lift* integrates over the other group. A Fock vector `Φ` is an *edge* from
 type `e` to type `e′` if `e` is a cusp kernel of order `0`, the zeta integral of `Φ` against `e` is not zero, the lifts with the data `Φ ⊗ f` carry forms of type `e` to forms of type `e′` once they have a level, the lift with any polynomial Fock vector is a real convolution of the lift with `Φ`, and the same holds with the two groups exchanged, from the conjugate of `e′` to the conjugate of `e`; a product of joint harmonic polynomials is
-an edge when the two parameters satisfy the block rule below (HolomorphicDiscreteSeriesOfUnitaryGroups §8.2, WeilRepresentationsOnBanachSpacesOfData §§7.2, 7.3 (theta lifts between discrete-series types: an edge from a type `e` to a type `e′`, for the real Weil representation `Ω` of weights `γ`, `γ′`, is a Fock vector `Φ` such that `e` is a cusp kernel of order `0`, the zeta integral `∫⟨Φ, Ω(x, 1)Φ⟩·conj(e(x))/e(1) dx` is not zero, the lift with a datum `Φ ⊗ f` of a form of type `e` is a form of type `e′` as soon as it has a level, and the lift with the Fock vector of any polynomial is the convolution of the lift with `Φ` with one continuous function of compact support on the real group, and such that the same four properties hold with the two groups exchanged, from the conjugate of `e′` to the conjugate of `e`; if two families of parameters satisfy the block rule at every infinite place, a chosen product over the infinite places of joint harmonic polynomials is an edge between their types; for an edge `Φ`, characters `a`, `b` of weights `γ`, `γ′` and a datum `f` in the finite part, the lift with `Φ ⊗ f` carries forms of type `e` to forms of type `e′`, the transposed lift carries forms of the conjugate type of `e′` to forms of the conjugate type of `e`, and the descent, the conjugate of the transposed lift of the conjugate, carries forms of type `e′` to forms of type `e`; the block rule is kept by exchanging the two spaces, by negating both parameters and the signs of the first space with `(γ, γ′)` replaced by `(n − γ, n′ − γ′)`, by reversing all signs on both spaces, and by raising `γ`, `γ′` by integers `u`, `u′` while adding `u′` to the first parameter and `u` to the second)). The *jets* of a datum `F` at scale `s` are the Taylor coefficients `P(∂)Th_s(F)(0)` of its theta function in
+an edge when the two parameters satisfy the block rule below (HolomorphicDiscreteSeriesOfUnitaryGroups §8.2, WeilRepresentationsOnBanachSpacesOfData §§7.2, 7.3 (theta lifts between discrete-series types: an edge from a type `e` to a type `e′`, for the real Weil representation `Ω` of weights `γ`, `γ′`, is a Fock vector `Φ` such that `e` is a cusp kernel of order `0`, the zeta integral `∫⟨Φ, Ω(x, 1)Φ⟩·conj(e(x))/e(1) dx` is not zero, the lift with a datum `Φ ⊗ f` of a form of type `e` is a form of type `e′` as soon as it has a level, and the lift with the Fock vector of any polynomial is the convolution of the lift with `Φ` with one continuous function of compact support on the real group, and such that the same four properties hold with the two groups exchanged, from the conjugate of `e′` to the conjugate of `e`; if two families of parameters satisfy the block rule at every infinite place, a chosen product over the infinite places of joint harmonic polynomials is an edge between their types; for an edge `Φ`, characters `a`, `b` of weights `γ`, `γ′` and a datum `f` in the finite part, the lift with `Φ ⊗ f` carries forms of type `e` to forms of type `e′`, the transposed lift carries forms of the conjugate type of `e′` to forms of the conjugate type of `e`, and the descent, the conjugate of the transposed lift of the conjugate, carries forms of type `e′` to forms of type `e`; the block rule is kept by exchanging the two spaces, by negating both parameters and the signs of the first space with `(γ, γ′)` replaced by `(n − γ, n′ − γ′)`, by reversing all signs on both spaces, and by raising `γ`, `γ′` by integers `u`, `u′` while adding `u′` to the first parameter and `u` to the second)). A datum `φ` is an *arrow* from type `e` to type `e′` if the forms of type `e` are rapidly decreasing and
+the lifts with `φ` carry them to forms of type `e′` (WeilRepresentationsOnBanachSpacesOfData §7.3); for an edge `Φ` for
+the weights `γ`, `γ′`, characters `a`, `b` of these weights and `f` in the finite part, `Φ ⊗ f` is an arrow from `e` to
+`e′`, and for the transposed lifts an arrow from the type conjugate to `e′` to the type conjugate to `e`
+(WeilRepresentationsOnBanachSpacesOfData §7.3 (a)). The *jets* of a datum `F` at scale `s` are the Taylor coefficients `P(∂)Th_s(F)(0)` of its theta function in
 Fock coordinates scaled by `s`; the *jet matrix* of a datum for a lift weight is the matrix of its jets along the Schur
 polynomials of the weight, which is the kernel of the class-sum lift between definite spaces (ThetaLiftsForDefiniteUnitaryGroups
 §§1.2, 1.7).
 
-**Data modulo an ideal.** A *modulus* `𝔪` is a nonzero ideal of `𝒪_E` not contained in its conjugate. For a function
+**Data modulo an ideal.** A *modulus* `𝔪` is a nonzero ideal of `𝒪_E` prime to its conjugate: no prime `w` divides `𝔪`
+together with `w̄`. For a function
 `Ψ` on matrices modulo `𝔪`, `Ψ ⊗ vac` is the finite datum equal to `Ψ` of the reduction on integral matrices at the
 places dividing `𝔪` (zero on nonintegral ones) and the vacuum elsewhere, and
 `θ^{a,b}[Ψ, Q](g, h) := θ(ω_{a,b}((1, g), (1, h))(v_Q ⊗ Ψ ⊗ vac))` is the definite theta kernel of `I_L`, `I_N` with
@@ -125,16 +142,29 @@ except that the middle vector (for odd `s`) has norm `−N`, with `N = N̄ ≠ 0
 `c = c̄`. The *grade* is `0` on `X` and `s − 1 − 2i` on `e_i`. The *Bessel subgroup* `R ⊂ U(V)(𝔸)` consists of the `g`
 whose matrix in rational coordinates sends each string vector of grade `≥ 0` to itself plus vectors of higher grade;
 `R_f` is its finite part, `R(F) = R ∩ Γ_V`, and `[R] = R(F)\R(𝔸)` is compact. `inc_X` is the embedding of `U(I_X)` acting
-on `X` and fixing the string. The *shift* `𝔢` and the *generic character* `ψ_U(u) = ψ(½ ȷ tr(𝔢 u))` of the unipotent
-radical are those of the grading. For a second graded space `V′` with a string of length `s − 1`, the *string map*
-`sh : V → V′` kills `X` and sends each string vector to a fixed multiple of the string vector of `V′` with the same
-number. For a finite point `x`, `Λ_x⁻` is the intersection of the lattice of `x` with `X^⊥` and `Λ_x⁺` its projection to
+on `X` and fixing the string. The *shift* `𝔢` is the rational endomorphism of `V` that kills `X` and the last string
+vector and sends `e_b` to `c·𝔰_b·e_{b+1}`, with `𝔰_b = −N` if `e_b` has grade `0`, `𝔰_b = −N c` if `e_b` has grade `1`,
+and `𝔰_b = 1` otherwise. The *string powers* are `𝔢^i := c^{i−⌊s/2⌋}e_i` for `2i < s`, `𝔢^i := −N c^{i−⌊(s−1)/2⌋}e_i`
+for `s ≤ 2i` and `i < s`, and `𝔢^i := 0` for `i ≥ s`. The *generic character* is `ψ_U(u) := ψ(½ ȷ tr(𝔢 u))` (`u` in
+rational coordinates); it is multiplicative on the `u` for which `u − 1` raises grades by at least `2`. A function `W` on
+`R(𝔸)` is *equivariant* if it is continuous, left invariant under `R(F)`, and `W(ur) = ψ_U(u)W(r)` for every `u ∈ R(𝔸)`
+such that `u − 1` raises grades by at least `2`. For a second graded space `V′` with the same `N` and a string of length
+`s − 1`, the *string map* `sh : V → V′` kills `X` and sends `e_a` to `t_a` times the string vector of `V′` with the same
+number (to `0` if there is none), where for odd `s`, `t_a = 1, −N c, c` according as the grade of `e_a` is positive,
+zero, negative, and for even `s`, `t_a = c` in positive and `t_a = 1` in negative grade. For a datum
+`F ∈ 𝒮(Hom(V, V′))` and an adelic matrix `w`, the *constant term* of `F` at `w` is the mean, over adelic matrices `v`
+modulo rational ones, of `(ϱ(w)F)(v⁺)`, where `v⁺` keeps the entries `(b, a)` of `v` (in the coordinates of the points)
+with `grade′(b) > grade(a)` and is `0` elsewhere; for the Weil action `ω` with given characters, the constant term
+`CT(F)(g, h)` of `ω(g, h)F` at `sh` is the *constant term at the string map* (WeilRepresentationsOnBanachSpacesOfData
+§8.7). For a finite point `x`, `Λ_x⁻` is the intersection of the lattice of `x` with `X^⊥` and `Λ_x⁺` its projection to
 `X^⊥`; a lattice is *graded* if it contains the part in each grade of each of its vectors (WeilRepresentationsOnBanachSpacesOfData §§8.1, 8.2, 8.5, 8.6 (graded spaces `X ⊕ string` and their Bessel subgroups: a grading of `V` presents its basis as `X` and a string of `s` vectors such that the Gram matrix is `1` on `X` and pairs the string vector `i` only with the string vector `s − 1 − i`, to `1`, or to `−N` for the middle vector, with `N = N̄ ≠ 0`, together with a constant `c = c̄ ≠ 0`; the Bessel subgroup `R` consists of the `g` whose matrix in rational coordinates sends each string vector of grade at least `0` to itself plus string vectors of higher grade; the rational points are cocompact in `R(𝔸)`, so that the Haar measure of `R(𝔸)` is right invariant and gives `[R]` a finite measure; the lattice of a finite point `x` consists of the vectors whose coordinates in the frame of `x` are integral, `Λ_x⁻` is its intersection with `X^⊥` and `Λ_x⁺` its projection to `X^⊥`; `ψ_U(u) = ψ(½ȷ tr(𝔢u))` for the shift `𝔢` of the grading; and the function `𝒲_φ` on `R(𝔸)` of an algebraic form `φ` on `U(I_X)` and a linear form `t` on its values satisfies `𝒲_φ(u·inc_X(a)) = ψ_U(u)·t(ρ(a_∞⁻¹)φ(a_f))` for `u` in the unipotent subgroup and `a ∈ U(I_X)(𝔸)`)).
 
-**The block rule.** For signs `ε` on `n` and `ε′` on `n′`, doubled parameters `l = 2λ`, `l′ = 2λ′` and integers `γ`,
+**The block rule.** A doubled parameter `l` on a space of rank `n` with signs `ε` *has the gap* `h` if its entries are
+distinct, congruent to `n − 1` modulo `2`, and `|l_i − l_j| ≥ 2h` whenever `ε_i ≠ ε_j`. For signs `ε` on `n` and `ε′`
+on `n′`, doubled parameters `l = 2λ`, `l′ = 2λ′` and integers `γ`,
 `γ′`, the *shifted entries* are `l_i − 2γ′ + |n′|` and `l′_j − 2γ + |n|`. The pair *satisfies the block rule* for
-`(γ, γ′)` if: both have distinct entries of the parity of the rank less one, with entries of opposite signs at least
-`2·500(|n| + |n′|)³` apart; the shifted entries of the larger space are those of the smaller together with the doubled
+`(γ, γ′)` if: both have the gap `500(|n| + |n′|)³` (distinct entries of the parity of the rank less one, with entries of
+opposite signs at least `2·500(|n| + |n′|)³` apart); the shifted entries of the larger space are those of the smaller together with the doubled
 block `2[|n′| − |n|]` (resp. `2[|n| − |n′|]`), where `[d] = ((d − 1)/2, (d − 3)/2, …, (1 − d)/2)` is the block of
 length `d` and `2[d] = (d − 1, d − 3, …, 1 − d)` the same block with its entries doubled; and a positive common
 shifted entry has the same sign on both sides, a negative one opposite signs. Two families of parameters *correspond*
@@ -150,12 +180,15 @@ if they satisfy the block rule at every `τ ∈ Φ`.
 | `p₀, p₁, M, π_M, ϖ_M, J_M` | level primes, `M = p₀p₁`, `π_Mπ̄_M = M`, its idele, the chosen level | Conventions |
 | `N, π_N, P_N, ψ_N` | the level prime, `π_Nπ̄_N = N`, its prime divisors, `ψ_N(c) = ψ(−c/N)` | Conventions, 2.11 |
 | `υ, ȷ, α, ψ, ν_n` | Weil data, rank twist `ν·υ^{⌊|n|/2⌋}` | Conventions |
+| `ϱ_f` | finite Heisenberg translate | Conventions |
+| `[d], 2[d]` | block and doubled block; "has the gap `h`" | Conventions (the block rule) |
+| `𝔢, 𝔢^i, ψ_U, CT` | shift, string powers, generic character, constant term at the string map | Conventions |
 | `ϑ, Q(ϑ), q_ϑ, ν_j^ϑ` | twist, modulus, norm of the modulus, character `μ_j⁰ϑ^j` of lift `j` | Conventions |
 | `t₀, Ω` | jet scale, `exp(γ − Re L′/L(1, χ_K))·2π/rd_E` | DivisibilityOfThetaDerivatives §4.2 (the jet scale); Conventions |
 | `vac°, 𝒮_δ` | integral vacuum, standard data | 1.1; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum), §4.8 (standard data) |
 | `X_j, Y_j, W_j, V_j` | the spaces of the chain | 2.1 |
 | `c_τ, e_j, μ(X_j), μ(Y_m), n_τ, br` | columns and last entry of the weights, the weights, the branching exponent and map | 2.2 |
-| `ς, l_Y(j)` | target parameter (the row parameter `λ_i(v)` of OneSidedPrimeSumBoundsAndAdmissibleData §3.4), doubled parameter of `Y_j` | 2.4 |
+| `ς, l_Y(j), g(i, j), g̃(i, j)` | target parameter (the row parameter `λ_i(v)` of OneSidedPrimeSumBoundsAndAdmissibleData §3.4), doubled parameter of `Y_j`, vectors of the grid nodes | 2.4 |
 | `𝖦, e₀` | `∏_w GL_r(𝔽_w)` over the chosen places, the good idempotent | 2.5 |
 | `K_j, J_ϑ(Y_j)` | level of `X_j`, level of `Y_j` for `ϑ` | 2.6 |
 | `𝒜(Y_0), 𝒯` | forms of principal level on `U(Y_0)`, target forms | 2.7 |
@@ -166,6 +199,10 @@ if they satisfy the block rule at every `τ ∈ Φ`.
 | `O = (W, V, …)` | descent pair | 2.16 |
 | `𝒫 = 𝒫_{g,t}, 𝒲_φ` | Poincaré map, Bessel function of a source form | 2.19 |
 | `Λ_x⁻, Λ_x⁺, sh` | lattice pieces of a point of a graded space, string map | Conventions, 3.2 |
+| `c_Y, δ_E` | constant of the gradings of the `Y_k`, generator of the different of `E` | 3.7 |
+| `V⁻, f ⋆ f′, Z_f` | space with negated form, join, finite zero term | 3.8 |
+| `γ, T_y, η, I_•` | neighbour matrix, residue translations, unit of norm `−1`, rows of `(X ⊔ {e})⁻ ⊕ (X″ ⊔ {e″})` | 3.9 |
+| `W_k, 𝒲_{k+1}` | functions of the unfolding | 3.14 |
 | `Ω_j, mult_j` | cuts and multiplicities of the outer variables | 3.16 |
 
 ## Layer 1: Theta kernels between definite spaces
@@ -201,9 +238,11 @@ the translates `ϱ_f(x) vac°` by the vectors `x` that `δ` makes integral at th
 (d) *Gauges.* For a weight `λ = (c, e)` of rank `n`, a finite point `g` of `U(I_n)` and `ξ ∈ V_λ`, the *gauge*
 `‖ξ‖_g` is the largest `p`-adic absolute value of a coordinate of `g^{−1}·ι_p(ξ)`, where `g` acts in weight `λ` at each
 `τ` through the `p`-adic embedding `x ↦ ι_p(τ(x̄))`. For a theta kernel `k` between `I_n` and `I_{n′}` (a
-representation `ω` of the finite points on data and a map `Φ ↦ J(Φ)` from data to linear maps `V_λ → V_{λ′}`, the jet
-matrix), finite points `d`, `d′` and a real `c ≥ 0`, a datum `Φ` *raises gauges by at most `c` from `d` to `d′`* if
-`‖J(ω(g, h)Φ)ξ‖_{hd′} ≤ c·‖ξ‖_{gd}` for all finite `g`, `h` and all `ξ`. These data form an additive monoid.
+representation `ω` of the finite points on data and a map `Φ ↦ J(Φ)`, the jet matrix, from data to linear maps
+`V_{(c,e)} → V_{(c,e′)}` from the Weyl module of the source weight `λ = (c, e)` to that of the target weight `(c, e′)`,
+with the same columns), finite points `d`, `d′` and a real `C ≥ 0`, a datum `Φ` *raises gauges by at most `C` from `d`
+to `d′`* if `‖J(ω(g, h)Φ)ξ‖_{hd′} ≤ C·‖ξ‖_{gd}` for all finite `g`, `h` and all `ξ` (the gauge on the left in weight
+`(c, e′)`, on the right in weight `(c, e)`). These data form an additive monoid.
 
 [ShortProof], `New/UpperBound/Seesaw/AdmissibleCombinations.lean` (`New.Seesaw.IsAdmissibleCombination`,
 `New.Seesaw.IsAdmissibleCoeffs`, `New.Seesaw.integralAway`), `New/UpperBound/Kernels/JetConjugatesAndBounds.lean`
@@ -220,16 +259,16 @@ that every integrality statement of the upper bound uses.
 of a finite point is computed on a vacuum translate through the finite multiplier, and for (f) the Schrödinger operator
 of a function modulo `𝔪` is expanded over the vectors modulo `𝔪`, whose number divides a power of `q` times `N(g)^n`.
 
-Let `q ∈ ℕ` and let `𝖯` be a condition.
+Let `V` be a space of rank `n` over `E`, `q ∈ ℕ` and let `𝖯` be a condition.
 
 (a) *Substitution.* If `z` is an admissible combination of `(v_x)_{x ∈ A}` with denominator `d` and size `B`, and each
 `v_x`, `x ∈ A`, is an admissible combination of `(v′_y)_{y ∈ A′}` with denominator `d′` and size `B′`, then `z` is one of
 the `v′_y` with any denominator `e` divisible by `dd′` and any size `C ≥ B|B′|` (under `𝖯`).
 (b) *Bilinear maps and tensor products.* If `z`, `z′` are admissible combinations of `(v_x)_{x∈A}`, `(v′_y)_{y∈A′}` with
 denominators `d`, `d′` and sizes `B`, `B′`, then for every bilinear map `b`, `b(z, z′)` is an admissible combination of
-`b(v_x, v′_y)`, `(x, y) ∈ A × A′`, with denominator `dd′` and size `B|B′|`; and a pure tensor `f_{m−1} ⊗ ⋯ ⊗ f_0` of
+`b(v_x, v′_y)`, `(x, y) ∈ A × A′`, with denominator `dd′` and size `B|B′|`; and a pure tensor `f_{s−1} ⊗ ⋯ ⊗ f_0` of
 admissible combinations with denominator `d` and size `B` over product index sets is an admissible combination of the
-corresponding pure tensors with denominator `d^m` and size `|B|^m`. Linear maps carry admissible combinations to
+corresponding pure tensors with denominator `d^s` and size `|B|^s`. Linear maps carry admissible combinations to
 admissible combinations of the images.
 (c) *Scalars.* Admissible combinations are stable under multiplication by a scalar integral away from `q` whose
 conjugates (under `𝖯`) have absolute value at most `1`, in particular by `0` and by roots of unity; and if each `v_x` is a
@@ -250,7 +289,9 @@ with denominator `N(g)^n` away from `q` and size `B` under `𝖯`.
 
 [ShortProof], `New/UpperBound/Seesaw/AdmissibleCombinations.lean` (`New.Seesaw.IsAdmissibleCombination.bind`,
 `New.Seesaw.IsAdmissibleCombination.map_bilinear`, `New.Seesaw.IsAdmissibleCombination.pure`,
-`New.Seesaw.IsAdmissibleCombination.smul_mem`, `New.Seesaw.isAdmissibleCombination_weil_vacElem`,
+`New.Seesaw.IsAdmissibleCombination.map`, `New.Seesaw.IsAdmissibleCombination.smul`,
+`New.Seesaw.IsAdmissibleCombination.smul_of_eq_zero_or_isOfFinOrder`,
+`New.Seesaw.IsAdmissibleCombination.of_eq_isOfFinOrder_smul`, `New.Seesaw.IsAdmissibleCombination.smul_mem`, `New.Seesaw.isAdmissibleCombination_weil_vacElem`,
 `New.Seesaw.isAdmissibleCombination_schrodingerOp_of_reduction`).
 
 *Needs:* 1.1; WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the Weil representation in the realisation used: for Weil data of `E`, which include a primitive root of unity of order `5040` in `E`, and spaces `V`, `V′`, the representation `ω_{a,b}(g, h) = a(det h)·b(det g)⁻¹·ω(x ↦ hxg⁻¹)` of `U(V)(𝔸) × U(V′)(𝔸)` by continuous operators on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action `ϱ`, the vacuum, the finite part, which is the span of the finite Heisenberg translates of the vacuum, the Fock vector `v_P` of a polynomial `P` at the real places and the datum `v_P ⊗ f = ∫ v_P(y)·ϱ(y)f dy`; the theta functional `θ` is a continuous functional on the data space that is invariant under the Heisenberg operators of the rational vectors and under the rational points of the unitary group, with the mean of `|θ(ϱ(x)vac)|²` over the adelic vectors modulo the rational vectors equal to `1`; the theta kernel of a datum `f` is `(g, h) ↦ θ(ω_{a,b}(g, h)f)`).
@@ -305,10 +346,12 @@ on `q₀` and `d` only. For an automorphism `σ` of `ℂ`, a polynomial `Q` *has
 (b) Let `F ∈ 𝒮` be a vacuum combination of size `B`, `g`, `h` finite points, `c ∈ ℂ`, `A ≥ 0`, `|σ(c)|²/Ω ≤ T`, and
 let `Q` have conjugate growth `(T, L, w, A)` for `σ`. Then the `σ`-conjugate of the jet along `Q` of
 `ω_{a,b}((1, g), (1, h))F` at scale `c·t₀` has absolute value at most `J(B, L, w)·A`.
-(c) Let moreover `λ` be a lift weight from rank `|n|` to `|n′|` and `L ≥ 1`. Let `S` be the matrix of jets along the
-Schur polynomials of `λ` of the same translated datum at scale `c·t₀`. Then `‖σ(Sξ)‖ ≤ J(B, L, w)·‖σ(ξ)‖` for every vector
-`ξ` of the Weyl module (Gram norms, `σ` applied to coordinates), with `2w = Σ_l (l/L + log l! + l·log(|σ(c)|²/Ω))`, the
-sum over the row lengths `l` of `λ`.
+(c) Let moreover `λ` be a lift weight from rank `|n|` to `|n′|` for the weight of `b`, and `L ≥ 1` an integer. Let `S` be
+the matrix of jets along the Schur polynomials of `λ` of the same translated datum at scale `c·t₀`. Then
+`‖σ(Sξ)‖ ≤ J(B, L, w)·‖σ(ξ)‖` for every vector `ξ` of the Weyl module (Gram norms, `σ` applied to coordinates), with
+`2w = Σ_l (l/L + log l! + l·log(|σ(c)|²/Ω))` (`log 0 := 0`), the sum over `τ ∈ Φ` and over the lengths `l` of the first
+`|n|` rows at `τ` of the diagram formed by the columns of `λ` of height below `|n′|` (the columns of height `|n|`
+included).
 (d) An admissible combination of the `ϱ_f(x)vac°` of size `B` under a condition that holds is a vacuum combination of size
 `B`.
 
@@ -335,13 +378,13 @@ of weights `e_a`, `e_b` and a lift weight `λ = (κ, e)`, at any level; let `L` 
 height below `|n′|`, and `δ ∈ 𝒪_K ∖ {0}`.
 
 (a) If `Φ ∈ 𝒮_δ`, then `Φ` raises gauges from `1` to `1` by at most `(|ι_p(c)|/|ι_p(δ̄ d)|)^L`.
-(b) Let `Φ ∈ 𝒮_δ`, let `x`, `y` be finite points of `U(I_{n′})` integral above `p`, and let `d` be a finite point
+(b) Let `Φ ∈ 𝒮_δ`, let `x`, `y` be finite points of `U(I_{n′})` integral above `p`, and let `d₁` be a finite point
 whose image at each `τ` under `z ↦ ι_p(τ(z̄))` is a diagonal matrix `u_τ`. If for every standard datum and every entry
 `(i′, i)` of its jet matrix, `|ι_p(entry)|` times the diagonal weight of the row `i′` (the product over `τ` of
-`|det u_τ|^{e_a(τ)}` and of the `|u_τ(b)|` over the boxes of `i′`) is at most `B`, then `ω(1, xdy)Φ` raises gauges from
-`1` to `1` by at most `B`.
-(c) If `e′·f` is standard for `δ = N ≠ 0` (`e′, N ∈ ℕ`), `|ι_p(c)| ≤ 1`, and `e′(N·d)^L` divides `M′ ∈ ℕ` (`d` the prime
-with `K = ℚ(√−d)`), then `M′·f` raises gauges by at most `1`.
+`|det u_τ|^{e_a(τ)}` and of the `|u_τ(b)|` over the boxes of `i′`) is at most `B`, then `ω(1, x d₁ y)Φ` raises gauges
+from `1` to `1` by at most `B`.
+(c) If `e₁·f` is standard for `δ = N₁ ≠ 0` (`e₁, N₁ ∈ ℕ`), `|ι_p(c)| ≤ 1`, and `e₁(N₁·d)^L` divides `M₁ ∈ ℕ` (`d` the
+prime with `K = ℚ(√−d)`), then `M₁·f` raises gauges by at most `1`.
 (d) If `p` is not split in `K`, `c` is integral at `p` and `Φ ∈ 𝒮_1`, then `Φ` raises gauges by at most
 `p^{−(D − f|n′|³(1 + log_p max(L, 1)))}`, with `D` the predicted divisibility of
 DivisibilityOfThetaDerivatives §3.1.
@@ -365,9 +408,9 @@ translates of the vacuum over a coset of a lattice; the number of matrices modul
 
 Let `𝔪` be a modulus of `E`, `Ψ` a function on `n′ × n` matrices modulo `𝔪`, and `F_Ψ := c₀^{|n′||n|}·(Ψ ⊗ vac)`.
 
-(a) If `qN ∈ 𝔪` and the values of `Ψ` are integral away from `q`, then for every prime `ℓ ∤ q`,
-`N^{2f|n′||n|}·F_Ψ` is a standard datum for `N` at `ℓ`.
-(b) If `|σ(Ψ(x))| ≤ M′` for all `σ` and `x`, then `F_Ψ` is a vacuum combination of size `M′` times the number of matrices
+(a) If `q, N₁ ∈ ℕ`, `qN₁ ∈ 𝔪` and the values of `Ψ` are integral away from `q`, then for every prime `ℓ ∤ q`,
+`N₁^{2f|n′||n|}·F_Ψ` is a standard datum for `N₁` at `ℓ`.
+(b) If `|σ(Ψ(x))| ≤ M₁` for all `σ` and `x`, then `F_Ψ` is a vacuum combination of size `M₁` times the number of matrices
 modulo `𝔪`; and if `Ψ` is the indicator of one matrix, `F_Ψ` is a vacuum combination of size `1`.
 
 [ShortProof], `New/UpperBound/Kernels/ThetaLiftGauge.lean` (`New.Parameters.smul_vacuumDatum_mem_standardData`,
@@ -385,16 +428,19 @@ integral at the primes where their input is, and bounds all their conjugates.
 the polynomial by a two-sided substitution; integrality follows from 1.5 and 1.6 at the primes prime to `q`, and the
 size bound from 1.4 with the growth of a homogeneous polynomial on polydiscs.
 
-Let `L`, `N′` be finite sets, `a`, `b` characters of `U(1)(𝔸)` with weights `e`, `e′` and tame parts.
+Let `L`, `N′` be finite sets, `a`, `b` characters of `U(1)(𝔸)` with weights `e`, `e′` and tame parts, `𝔪` a modulus,
+`Ψ` a function on `N′ × L` matrices modulo `𝔪`, and `Q` a polynomial in the Fock variables `x_τ` (`N′ × L` matrices,
+`τ ∈ Φ`).
 
 (a) For rational points `γ ∈ U(I_L)(E)`, `γ′ ∈ U(I_{N′})(E)` and finite `g`, `h`:
-`θ^{a,b}[Ψ, Q]((1, γg), γ′h) = ∏_τ τ(det γ′)^{−e(τ)}·τ(det γ)^{e′(τ)}·θ^{a,b}[Ψ, Q^{γ,γ′}]((1, g), h)`, where `Q^{γ,γ′}` is
+`θ^{a,b}[Ψ, Q](γg, γ′h) = ∏_τ τ(det γ′)^{−e(τ)}·τ(det γ)^{e′(τ)}·θ^{a,b}[Ψ, Q^{γ,γ′}](g, h)`, where `Q^{γ,γ′}` is
 `Q` with the variables `x_τ` replaced by `τ(γ′^{−1})ᵀ x_τ τ(γ)ᵀ`.
 (b) For every `d ∈ ℕ` there is `c ≠ 0`, depending only on `L`, `N′`, the data and `d`, such that for every `Q`
-homogeneous of degree `d` and every `Ψ`: (i) if `qM² ∈ 𝔪`, the values of `Ψ` are integral away from `q`, `p ∤ q` is
-prime, `g`, `h` are integral above `p` and the coefficients of `Q` lie in `𝒪_{ι_p}`, then
-`|ι_p(c·θ^{a,b}[Ψ, Q]((1, g), h))| ≤ 1`; (ii) if `|L|, |N′| ≤ Δ`, `d ≤ M`, `M² ∈ 𝔪`, `|σ(Ψ(x))| ≤ A` for all `σ`, `x`, and
-`|σ(Q(z))| ≤ B` whenever all `|σ(z_i)| ≤ M⁴`, then `|σ(c·θ^{a,b}[Ψ, Q]((1, g), h))| ≤ exp(x₁)·A·B` for all `g`, `h`.
+homogeneous of degree `d` and every `Ψ`: (i) if `q ∈ ℕ`, `qM² ∈ 𝔪`, the values of `Ψ` are integral away from `q`,
+`p ∤ q` is prime, `g`, `h` are integral above `p` and the coefficients of `Q` lie in `𝒪_{ι_p}`, then
+`|ι_p(c·θ^{a,b}[Ψ, Q](g, h))| ≤ 1`; (ii) if `|L|, |N′| ≤ Δ`, `d ≤ M`, `M² ∈ 𝔪`, `A ∈ ℕ` with `|σ′(Ψ(x))| ≤ A` for all
+automorphisms `σ′` of `ℂ` and all `x`, and `σ` is an automorphism of `ℂ` with `|σ(Q(z))| ≤ B` whenever all
+`|σ(z_i)| ≤ M⁴`, then `|σ(c·θ^{a,b}[Ψ, Q](g, h))| ≤ exp(x₁)·A·B` for all finite `g`, `h`.
 
 [ShortProof], `New/UpperBound/Kernels/DefiniteKernelSize.lean` (`New.Rows.modKernelStdSpace_embFin_mul`,
 `New.Rows.exists_ne_zero_isModKernelScale`).
@@ -429,9 +475,9 @@ lattice is the glued lattice of 3.2; the frames at the infinite places come from
   string `e_1, …, z, …, e*_1` for `j = 0`) under which the Gram matrix of `Y_j` is `1` on `X_j` and pairs `e_i`,
   `e_{m−2−j−i}` to `1`, the middle vector (for even `j`) to itself to `−N`. For `j ≥ m` all signs are `+1` and `Y_j` is
   standard.
-- The point of `Y_j` (`j < m`) is chosen so that its lattice is the glued lattice of 3.2 for the ideles
-  `a := α/ϖ̄_M`, `π_N` and the scale `u_j := (a/ā)^{⌈(m − j)/2⌉}`, up to an integral matrix that reduces to `1` at every
-  chosen place.
+- The point of `Y_j` (`j < m`) is chosen so that its finite part is the glued basis of 3.2 for the ideles
+  `a := α/ϖ̄_M`, `π_N` and the scale `u_j := (a/ā)^{⌈(m − j)/2⌉}`, multiplied on the right by a matrix of `GL(Ô)` that
+  reduces to `1` at every chosen place; so its lattice is the glued lattice.
 - `W_j` (`1 ≤ j ≤ m`) is the diagonal space on the basis of `Y_0` with sign `+1` on the vectors whose number (in a fixed
   numbering `0, …, r − 1`) is below `k + j − 1` and `−1` on the others; `V_j := I_{r+t}`, on the basis of `Y_0` followed by
   `t` vectors.
@@ -442,8 +488,10 @@ is definite of rank `n_m − 1`. (b) `W_j` has `m − j` signs `−1`, and `W_m`
 
 [ShortProof], `New/UpperBound/Objects/LabelsAndIndexTypes.lean` (`New.Data.X`, `New.Data.Y`, `New.Data.RowIndex`,
 `New.Data.signsW`), `New/UpperBound/Objects/Rows.lean` (`New.Data.spaceY`, `New.Data.spaceW`,
-`New.Data.spaceY_gram_eq`, `New.Data.exists_spaceY_xFin_eq`, `New.Data.isStd_spaceY_of_le`, `New.Data.card_Y_le`),
-`New/UpperBound/Objects/Columns.lean` (`New.Data.lastIndexEquiv`).
+`New.Data.indexEquivY`, `New.Data.ideleA`, `New.Data.latticeScale`, `New.Data.spaceY_gram_eq`,
+`New.Data.exists_spaceY_xFin_eq`, `New.Data.isStd_spaceY_of_le`, `New.Data.card_Y_le`, `New.Data.negCount_signsW`),
+`New/UpperBound/Objects/Parameters.lean` (`New.Data.negCount_gridSigns`), `New/UpperBound/Objects/Columns.lean`
+(`New.Data.lastIndexEquiv`, `New.Data.card_Y_m`).
 
 *Needs:* 3.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks `m`, `r`, `k`, `t`, `n_j`, the prime `N` and `π_N`),
 §3.3 (b) (the parities and `r + 1 = k + m`).
@@ -470,21 +518,27 @@ diagram with the `n_j` rows `μ(X_j)_τ + κ_{j+1}(τ) − n_{j+1}/2`; by (a) be
 
 *Lemma.* (a) `μ(X_j) + ρ` has the doubled Harish-Chandra parameter `2[k] + (2a_τ, 0, …, 0)` followed by the blocks
 `−2κ_i + 2[t + 1]`, `1 ≤ i ≤ j`, where `a_τ = a` on `Φ_a` and `0` elsewhere; `μ(X_{j+1})` is `(μ(X_j) + κ_{j+1} − n_{j+1}/2,
-0, …, 0) + n_j/2 − κ_{j+1}`, and `(c, e_j)` is a lift weight from `X_j` to `X_{j+1}`: no column has height strictly between
-`n_j` and `n_{j+1}`, and `e_j = n_{j+1}/2 − κ_{j+1} + c_τ(n_j)`. (b) The doubled parameter of `μ(Y_m) + ρ` is `2[k − 1]`
+0, …, 0) + n_j/2 − κ_{j+1}`, and `(c, e_j)` is a lift weight from `X_j` to `X_{j+1}` for the weight `n_{j+1}/2 − κ_{j+1}`
+(Conventions), that is: no column has height strictly between `n_j` and `n_{j+1}`, and
+`e_j = n_{j+1}/2 − κ_{j+1} + c_τ(n_j)`. (b) The doubled parameter of `μ(Y_m) + ρ` is `2[k − 1]`
 followed, for `i = 1, …, m`, by `−2κ_i + Δ` and the block `−2κ_i + 2[t]`; the parameters of `X_m` and `Y_m` interlace.
-(c) `n_τ = a_τ − mΔ/2`. (d) There is an integer matrix `br : V_{μ(X_m)} → V_{μ(Y_m)}` with
-`br∘ρ_{μ(X_m)}(diag(g, z)) = ∏_τ z_τ^{n_τ}·ρ_{μ(Y_m)}(g)∘br` over every field of characteristic `0`, whose squared operator
-norm is at most `exp(x^{70})`, and whose complex multiples are all the maps equivariant for the `diag(g, 1)`, `g` unitary.
+At each `τ` the entries of `l_Y(m)` (2.4) are distinct and are, in some order, those of `2(μ(Y_m) + ρ)`; this is what
+identifies forms of type `l_Y(m)` on the definite `U(Y_m)` with algebraic forms of weight `μ(Y_m)`
+(ThetaLiftsForDefiniteUnitaryGroups §1.2). (c) `n_τ = a_τ − mΔ/2`. (d) There is an integer matrix
+`br : V_{μ(X_m)} → V_{μ(Y_m)}` with `br∘ρ_{μ(X_m)}(diag(g, z)) = ∏_τ z_τ^{n_τ}·ρ_{μ(Y_m)}(g)∘br` over every field of
+characteristic `0`, whose squared operator norm for the Gram norms of the two Weyl modules is at most `exp(x^{70})`, and
+whose complex multiples are all the maps equivariant for the `diag(g, 1)`, `g` unitary.
 A fixed such `br` is the *branching map*.
 
 [ShortProof], `New/UpperBound/Objects/Weights.lean` (`New.Data.columnCount`, `New.Data.lastEntry`,
-`New.Data.columnsY`, `New.Data.paramX`, `New.Data.weightX_eq`, `New.Data.weightY_eq`, `New.Data.liftDiagram`,
-`New.Data.branchExponent_eq`), `New/UpperBound/Objects/Columns.lean` (`New.Data.IsBranchingMap`,
-`New.Data.exists_isBranchingMap`, `New.Data.isLiftWeight_columnCount`), `New/UpperBound/Objects/Rows.lean`
+`New.Data.keptColumns`, `New.Data.columnsY`, `New.Data.paramX`, `New.Data.weightX_eq`, `New.Data.weightX_succ`,
+`New.Data.lastEntry_eq`, `New.Data.sortedParamY`, `New.Data.weightY_eq`, `New.Data.weightY_eq_weightX_add`,
+`New.Data.keptColumns_le_columnCount`, `New.Data.liftDiagram`, `New.Data.branchExponent_eq`),
+`New/UpperBound/Objects/Columns.lean` (`New.Data.IsBranchingMap`, `New.Data.exists_isBranchingMap`,
+`New.Data.branching`, `New.Data.isLiftWeight_columnCount`), `New/UpperBound/Objects/Rows.lean`
 (`New.Data.isHCParam_paramY`).
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j`, the gap `Δ` and the order `a`),
+*Needs:* 2.1, 2.4; ThetaLiftsForDefiniteUnitaryGroups §1.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j`, the gap `Δ` and the order `a`),
 §3.3 (their parities and sizes); IntegralWeylModulesOfGeneralLinearGroups §1.1 (an equivariant branching map from
 `GL_N` to `GL_{N−1}` for an interlacing pair that preserves the integral structures, its weight for the last coordinate
 and its norm); IntegralRepresentationsOfGeneralLinearGroups §3.4 (the form used: for an interlacing pair of weights at every place of `Φ`, an integer matrix between the Weyl modules in the coordinates dual to the bases of products of minors of [ShortProof] (such a basis differs from the semistandard basis by an invertible integer matrix), equivariant for `diag(g, z)` with the character `∏_τ z_τ^{n_τ}` over every field of characteristic `0`, with an explicit bound for its squared norm, whose complex multiples are all the maps equivariant for the unitary block group).
@@ -529,34 +583,41 @@ block rule for each step; the interlacing at `(m, m)` is a count of entries abov
 *Definitions.* The *target parameter* `ς(τ) ∈ ℤ^r` is the row parameter of OneSidedPrimeSumBoundsAndAdmissibleData §3.4
 at the place `τ`, read on its first `r` entries: `ς(τ) = (λ_0(τ), …, λ_{r−1}(τ))`, which is `k/2 − 1, k/2 − 2, …, 1 − k/2`
 (`k − 1` entries) followed by `Δ/2 − κ_1(τ), …, Δ/2 − κ_m(τ)`; the next entry of the row parameter,
-`λ_r(τ) = Δ/2 − κ_{m+1}(τ)`, continues it. For `i, j ≥ 0` and an offset `o ≥ 0`:
+`λ_r(τ) = Δ/2 − κ_{m+1}(τ)`, continues it. Write `ς_n(τ) := λ_n(τ)` for every `n ≥ 0`, so that
+`ς(τ) = (ς_0(τ), …, ς_{r−1}(τ))`. For `i, j ≥ 0` and an offset `o ≥ 0`:
 - *grid `Y`, node `(i, j)`*: index set the basis of `Y_0`, then `i` blocks of `t`, then `j` blocks of `t` (rank
   `r + (i + j)t`); the base index with number `n` has sign `(−1)^{o + a + min(max(a − o, 0), j)}` with
-  `a = max(n + 1 − k, 0)` and the added indices sign `+1`; the doubled parameter is `2ς(τ)` on the base, the block
-  `2κ_l(τ) + 2[t]` for the `l`-th block of the first kind (`1 ≤ l ≤ i`) and `−2κ_{l+o}(τ) + 2[t]` for the `l`-th
-  block of the second kind (`1 ≤ l ≤ j`), all lowered by `1` if `i + j` is odd;
+  `a = max(n + 1 − k, 0)` and the added indices sign `+1`; the doubled parameter `g(i, j)` (the offset understood) is
+  `2ς(τ)` on the base, the block `2κ_l(τ) + 2[t]` for the `l`-th block of the first kind (`1 ≤ l ≤ i`) and
+  `−2κ_{l+o}(τ) + 2[t]` for the `l`-th block of the second kind (`1 ≤ l ≤ j`), all lowered by `1` if `i + j` is odd;
 - *grid `Ỹ`, node `(i, j)`*: index set the basis of `Y_0` and one more index, then `i` blocks of `t + 1`, then `j` blocks of
-  `t − 1` (rank `r + 1 + i(t + 1) + j(t − 1)`); signs as before on the base (with `r + 1` numbers); the doubled parameter of
-  the space `Ỹ^j_i` is minus the vector with `2ς(τ) + 1` on the base, the blocks `2κ_l(τ) + 2[t + 1]` (first
-  kind) and `−2κ_{l+o}(τ) + 2[t − 1]` (second kind), with no lowering.
+  `t − 1` (rank `r + 1 + i(t + 1) + j(t − 1)`); signs as before on the base (with `r + 1` numbers); write `g̃(i, j)` for
+  the vector with `2ς_n(τ) + 1`, `0 ≤ n ≤ r`, on the base, the blocks `2κ_l(τ) + 2[t + 1]` (first kind) and
+  `−2κ_{l+o}(τ) + 2[t − 1]` (second kind), with no lowering; the doubled parameter of the space `Ỹ^j_i` is `−g̃(i, j)`.
 The signs and doubled parameter of `Y_j` (2.1) are those of the node `(0, j)` of grid `Y` with offset `0`; write
-`l_Y(j)`. For a step with centre `±κ_{l+1}` and a node of `N` indices, the weights are `⌊N/2⌋ − κ_{l+1}(τ)` and
+`l_Y(j) = g(0, j)`. For a step with centre `±κ_{l+1}` and a node of `N` indices, the weights are `⌊N/2⌋ − κ_{l+1}(τ)` and
 `⌈N/2⌉ − κ_{l+1}(τ)`.
 
 *Lemma.* For `i, j ≤ m`: (a) with offset `o = 0`: at `(j, j)`, `Ỹ^j_j` is `Y^j_j` plus one vector of sign `(−1)^j`; at
 `(m, m)` the entries of the parameters of `Ỹ^m_m` and `Y^m_m` interlace (for every integer the number of entries of
 `Ỹ^m_m` above it minus that of `Y^m_m` is `0` or `1`); and for `j ≥ m` all signs are `+1`. (b) Every node (of every
-offset) has the gap `Δ` at every `τ`, and, for `o + j ≤ m` and `o = 0` or `i = 0`, its parameter is `λ_B` (2.3), with sign `(−1)^o`, of a separated centre system whose stem comes from `ς` and
-whose centres are the `κ_l` (up) and the `−κ_l` (down), `B` being the centres of its blocks. (c) For `i + 1 ≤ m`, `j ≤ m` and `o = 0`, the negated parameters of `(i, j)` and `(i + 1, j)` correspond for the
-weights `⌈N/2⌉ − κ_{i+1}` (grid `Y`) or `⌊N/2⌋ − κ_{i+1}` (grid `Ỹ`); for `j + 1 + o ≤ m` and `o = 0` or `i = 0`, the
-parameters of `(i, j)` and `(i, j + 1)` correspond for the weights `⌊N/2⌋ − κ_{j+o+1}` (grid `Y`) or
-`⌈N/2⌉ − κ_{j+o+1}` (grid `Ỹ`); in particular `l_Y(j)` and `l_Y(j + 1)` correspond for `j < m`.
+offset) has the gap `Δ` at every `τ`. If `o + j ≤ m` and `o = 0` or `i = 0`, then `g(i, j)` (grid `Y`), resp. `g̃(i, j)`
+(grid `Ỹ`), is `λ_B` (2.3) with sign `(−1)^o` for the centre system with centres `κ_l` (up) and `−κ_l` (down),
+`1 ≤ l ≤ m`, of lengths `t` (grid `Y`), resp. `t + 1` (up) and `t − 1` (down) (grid `Ỹ`), stem `{2ς_n(τ) : 0 ≤ n < r}`,
+resp. `{2ς_n(τ) + 1 : 0 ≤ n ≤ r}`, and `B` the up centres `κ_l`, `l ≤ i`, with the down centres `−κ_l`, `o < l ≤ o + j`;
+this system is separated with bound `Δ − t − 2`. (c) With `o = 0`, `i + 1 ≤ m` and `j ≤ m`: `−g(i, j)` and
+`−g(i + 1, j)` correspond for the weights `⌈N/2⌉ − κ_{i+1}`, and `−g̃(i, j)` and `−g̃(i + 1, j)` (the parameters of the
+spaces `Ỹ^j_i`, `Ỹ^j_{i+1}`) for the weights `⌊N/2⌋ − κ_{i+1}`. With `j + 1 + o ≤ m` and `o = 0` or `i = 0`: `g(i, j)`
+and `g(i, j + 1)` correspond for the weights `⌊N/2⌋ − κ_{j+o+1}`, and `g̃(i, j)` and `g̃(i, j + 1)` (the negated
+parameters of the spaces) for the weights `⌈N/2⌉ − κ_{j+o+1}`. Here `N` is the rank of each node, the signs are those of
+the nodes, and in grid `Ỹ` the ranks are even. In particular `l_Y(j)` and `l_Y(j + 1)` correspond for `j < m`, for the
+weights `⌊N/2⌋ − κ_{j+1}`.
 
 [ShortProof], `New/UpperBound/Objects/Parameters.lean` (`New.Data.GridIndex`, `New.Data.gridSigns`,
 `New.Data.gridParam`, `New.Data.signsY`, `New.Data.paramY`, `New.Data.gridWeight`, `New.Data.gridDiagEquiv`,
 `New.Data.sumElim_gridSigns_comp_gridDiagEquiv_symm`, `New.Data.gridSigns_eq_one`,
-`New.Data.gridParam_interlace`, `New.Data.hasGap_gridParam`, `New.Data.isParam_gridParam`,
-`New.Data.paramsCorrespond_grid_succ_left`, `New.Data.paramsCorrespond_grid_succ_right`), `New/UpperBound/Objects/RowChain.lean`
+`New.Data.gridParam_interlace`, `New.Data.gridCentres`, `New.Data.isSeparated_gridCentres`,
+`New.Data.hasGap_gridParam`, `New.Data.isParam_gridParam`, `New.Data.paramsCorrespond_grid_succ_left`, `New.Data.paramsCorrespond_grid_succ_right`), `New/UpperBound/Objects/RowChain.lean`
 (`New.Data.paramsCorrespond_paramY`).
 
 *Needs:* 2.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j` and the gap `Δ`), §3.3 (their
@@ -574,12 +635,15 @@ name is not a root of the label is killed by the character formula.
 *Definitions.* A *label* of degree `r` over a finite field `k` is a monic squarefree `c ∈ k[X]` of degree `r` with
 `c(0) ≠ 0`; it is *allowed* for `q₂` if no root of `c` in `k` is a `q₂`-th root of unity, and *primitive* if it is
 irreducible with a root that generates the units of the extension of degree `r`. `e_c ∈ ℂ[GL_r(k)]` is the central
-idempotent of the irreducible character of label `c` (FiniteReductiveGroups §5.7). `𝖦 := ∏_w GL_r(𝔽_w)` over the chosen
+idempotent of the irreducible character of label `c` (FiniteReductiveGroups §5.7; a squarefree label has exactly one
+character), labels being taken in the labelled form attached to one fixed injective character `k̄^× → ℂ^×`.
+`𝖦 := ∏_w GL_r(𝔽_w)` over the chosen
 places, on the basis of `Y_0`. A family `(c_w)` of labels of degree `r` over the `𝔽_w` is *good* if, for `i = 0, 1`, every
 `c_w` with `w` above `p_i` is allowed and at least one of them is primitive. `e₀ := Σ_{(c_w) good} ⊗_w e_{c_w} ∈ ℂ[𝖦]`.
 
 *Lemma.* (a) `e₀` is a central idempotent. (b) If at one chosen place `w` the factor of a pure tensor `⊗_w x_w` is the
-hyperplane sum `Σ_h χ(det h)^{−1}h` over the invertible `h = 1 + u lᵀ` (`l ≠ 0`, `χ^{q₂} = 1`), then `(⊗_w x_w)·e₀ = 0`.
+hyperplane sum `Σ_h χ(det h)^{−1}h` over the invertible `h = 1 + u lᵀ` (`l ≠ 0`, `χ` a character of `𝔽_w^×` with
+`χ^{q₂} = 1`), then `(⊗_w x_w)·e₀ = 0`.
 
 [ShortProof], `New/UpperBound/Objects/LabelsAndIndexTypes.lean` (`New.IsPrimitivePolynomial`, `New.goodTuples`,
 `New.Data.chosenGL`, `New.Data.goodTupleFamilies`, `New.Data.e₀`, `New.Data.isCentralProj_e₀`,
@@ -595,7 +659,7 @@ hyperplane sum `Σ_h χ(det h)^{−1}h` over the invertible `h = 1 + u lᵀ` (`l
 
 Let `ϑ` be a tame character.
 - The *level places* of `ϑ` are the chosen places and the places of `Q(ϑ)`; they are pairwise distinct and none is
-  conjugate to another.
+  conjugate to another or to itself.
 - `K_j := {k ∈ J_M on X_j : the last row of k is ≡ (0, …, 0, 1) (mod π_N)}`, the level of `X_j`; it is a level and
   contains the principal level `(π_Mπ_N)`.
 - `J_ϑ(Y_j) := K(level places, 1)` on `Y_j`, the integral points of `U(Y_j)` that reduce to `1` at all level places;
@@ -603,9 +667,9 @@ Let `ϑ` be a tame character.
 - The character of lift `j + 1` on a space of rank `n` is `(ν_{j+1}^ϑ)_n`, and its tame part
   `ψ_{j+1}^ϑ = ω^{j+1}ψ_ϑ^{j+1}` is trivial outside the level places.
 - `J_m^ϑ ⊂ K°(Y_m)`: the `k` whose reductions are `1` at the chosen places and block upper triangular at the places of
-  `Q(ϑ)` for the blocks of `Y_m` (the basis of `Y_0`, then the `m` blocks of `t`); `χ_m^ϑ(k) := ∏_w ∏_{l<m}
-  ψ_{l+1}^ϑ(det k_w^{(l+1)})`, over the level places `w`, where `k_w^{(l+1)}` is the diagonal block `l + 1` of the
-  reduction of `k` at `w`.
+  `Q(ϑ)` for the blocks of `Y_m`, numbered `0` (the basis of `Y_0`) and `1, …, m` (the `m` blocks of `t`);
+  `χ_m^ϑ(k) := ∏_w ∏_{l<m} ψ_{l+1}^ϑ(det k_w^{(l+1)})`, over the level places `w`, where `k_w^{(l+1)}` is the diagonal
+  block number `l + 1` of the reduction of `k` at `w`.
 
 [ShortProof], `New/UpperBound/Objects/Rows.lean` (`New.Data.levelPlaces`, `New.Data.levelY`,
 `New.Data.levelY_le_chosenLevel`, `New.Data.chainTamePart`), `New/UpperBound/Objects/Columns.lean`
@@ -645,17 +709,21 @@ jet matrix of the theta function of the translated datum.
 
 - The *source forms* `𝒮_X` are the algebraic forms on `U(X_0)` of weight `μ(X_0)` (weight `(a, 0, …, 0)` at the
   `a`-places and `0` elsewhere) fixed by `K_0`. `𝒜_j` denotes the algebraic forms on `U(X_j)` of weight `μ(X_j)`.
-- For `w ∈ P_N` fix a *scaling* `z_w`: an integral norm-one idele, `1` away from `w` and `w̄`, whose component at `w`
-  generates `𝔽_w^×`. One exists: take a unit at `w` whose reduction generates the cyclic group `𝔽_w^×` and divide its
-  idele by its conjugate; as `w` is split, the component at `w` of the quotient is that unit. The *ramified source forms* are
+- For `w ∈ P_N` a *scaling* at `w` is an integral norm-one finite idele that is `1` away from `w` and `w̄`; fix a scaling
+  `z_w` whose component at `w` generates `𝔽_w^×` (it has order `N − 1` modulo `w`). One exists: take a unit at `w` whose
+  reduction generates the cyclic group `𝔽_w^×` and divide its idele by its conjugate; as `w` is split, the component at
+  `w` of the quotient is that unit. The *ramified source forms* are
   `𝒮_X^{ram} := {φ ∈ 𝒮_X : Σ_{0 ≤ i < N−1} z_w^i·φ = 0 for every w ∈ P_N}`, `z_w` acting by right translation by the
   scalar `z_w`.
 - For a tame character `ϑ` and `j ≥ 0`, the *lift* `L_j^ϑ(Φ) : 𝒜_j → 𝒜_{j+1}` with finite datum `Φ` in the finite part of
   `𝒮(Hom(X_j, X_{j+1}))` is the theta lift of the definite pair `(X_j, X_{j+1})` with characters `(ν_{j+1}^ϑ)_{X_j}`,
   `(ν_{j+1}^ϑ)_{X_{j+1}}`, level `K_j`, the lift weight of 2.2 (a), and derivatives scaled by `π_M·t₀`, where `π_M` is
   the element of `𝒪_K` with `π_M π̄_M = M` fixed by the data (the conjugate of the `π̄_M` chosen there, not any other
-  element of norm `M`): the class sum over `[U(X_j)]` against the jet matrix of `ω(g, h)Φ` (ThetaLiftsForDefiniteUnitaryGroups
-  §1.2). The finite groups act on its data by `ω`.
+  element of norm `M`): `L_j^ϑ(Φ)(ψ)(h) := ∫_{Γ\U(X_j)(𝔸_f)} J(ω(g, h)Φ)ψ(g) dg` (`Γ = U(X_j)(F)`, `h` finite), with `J`
+  the jet matrix and the measure that gives `K_j` volume `1`: if `U_0 ⊂ K_j` is an open subgroup fixing the integrand, it
+  is `[K_j : U_0]^{−1}·Σ_c |Γ ∩ g_cU_0g_c^{−1}|^{−1}·J(ω(g_c, h)Φ)ψ(g_c)` over representatives `g_c` of
+  `Γ\U(X_j)(𝔸_f)/U_0` (for `ψ` and `Φ` fixed by `K_j` this is the class sum of ThetaLiftsForDefiniteUnitaryGroups §1.2).
+  The finite groups act on its data by `ω`.
 
 [ShortProof], `New/UpperBound/Objects/Columns.lean` (`New.Data.SourceForm`, `New.Data.FormX`, `New.Data.liftKernel`,
 `New.Data.homX`), `New/UpperBound/Size/ShortColumns.lean` (`New.Data.IsScalingAt`, `New.Data.exists_isScalingAt_valuation_pow_iff`,
@@ -674,8 +742,9 @@ chain at a point is a sum over the classes at each stage of products of kernels,
 the classes be taken once for all members of the combination.
 
 Let `(K_j)` be levels of standard definite spaces `I_{n_j}` over `E`, and `k_j` theta kernels from algebraic forms of
-weight `(κ, e_j)` on `U(I_{n_j})` of level `K_j` to forms on `U(I_{n_{j+1}})`, with data spaces `S_j`, actions `ω_j` and
-lifts `L_j(Φ)`. The *chain* with data `Φ_0, Φ_1, …` is `C_j(Φ) := L_{j−1}(Φ_{j−1}) ∘ ⋯ ∘ L_0(Φ_0)`, extended linearly to
+weight `(κ, e_j)` on `U(I_{n_j})` of level `K_j` to forms on `U(I_{n_{j+1}})`, with data spaces `S_j`, actions `ω_j`, jet
+matrices `J_j` and lifts `L_j(Φ)φ(h) := ∫_{Γ\G_f} J_j(ω_j(g, h)Φ)φ(g) dg` for the measure that gives `K_j` volume `1`
+(as in 2.8). The *chain* with data `Φ_0, Φ_1, …` is `C_j(Φ) := L_{j−1}(Φ_{j−1}) ∘ ⋯ ∘ L_0(Φ_0)`, extended linearly to
 tensors in `S_{j−1} ⊗ ⋯ ⊗ S_0`; the *double-lift chain* takes data in `S_{2i} ⊗ S_{2i+1}`.
 
 (a) *Equivariance.* Let `a_j` be points of the finite groups. Move the factor `j` of the tensor by `ω_j(a_j, a_{j+1})`
@@ -685,9 +754,10 @@ the chain takes the same value at `φ` and at its translate by `z_0`.
 (b) *Joint invariance.* A family `(L_x, Φ_x)_{x ∈ s}` (linear maps `L_x` from the Weyl module of stage `m`) is *jointly
 invariant* if `Σ_x L_x(β(⊗_j ω_j(a_j, a_{j+1})Φ_{x,j})) = Σ_x L_x(β(⊗_j Φ_{x,j}))` for every linear `β` from the tensors to
 the Weyl module and every `(a_j)` with `a_j ∈ K_j` and `a_j = 1` for `j ≥ m`. Suppose the levels are free
-(`Γ ∩ gK_jg^{−1} = 1` for all `g` and `j < m`), `φ` has level `K_0`, a property `𝒫_j` of pairs (point, vector) holds for the
-values of `φ` and is carried by each jet map of each `Φ_x`, and a set `A` contains `Σ_x L_x(β(⊗Φ_x))` whenever all
-`β(⊗Φ_x)` satisfy `𝒫_m` at `p`. Then `Σ_x L_x(C_m(Φ_x)φ(p))` is a sum of `∏_{j<m} |Γ\G_f/K_j|` elements of `A`.
+(`Γ ∩ gK_jg^{−1} = 1` for all `g` and `j < m`), `φ` has level `K_0`, properties `𝒬_j` of pairs (point, vector) are such
+that `𝒬_0` holds at `g` for `φ(g)` for every `g`, and, for every `x`, `j < m` and finite points `g`, `g′`, the jet map of
+`ω_j(g, g′)Φ_{x,j}` carries vectors with `𝒬_j` at `g` to vectors with `𝒬_{j+1}` at `g′`, and a set `A` contains
+`Σ_x L_x(β(⊗Φ_x))` for every linear `β` such that all `β(⊗Φ_x)` satisfy `𝒬_m` at `p`. Then `Σ_x L_x(C_m(Φ_x)φ(p))` is a sum of `∏_{j<m} |Γ\G_f/K_j|` elements of `A`.
 
 [ShortProof], `New/UpperBound/Objects/LiftChains.lean` (`New.chain`, `New.doubleLiftChain`,
 `New.TensorChain.lift_kernelLift_map_omega`, `New.TensorChain.lift_algFormRep_of_map_eq`, `New.chain_equivariant`,
@@ -703,18 +773,18 @@ the integral levels of rank at most `2n_m`.
 
 *Method of the formal proof:* a nontrivial element of `Γ ∩ gKg^{−1}` would be a matrix of finite order whose
 characteristic polynomial has bounded coefficients, of size below the product of the norms of the chosen places above
-one level prime, yet `≡ 1` there; for an integral level the stabiliser injects into `𝖦_{rt}` by reduction at the chosen
+one level prime, yet `≡ 1` there; for an integral level the stabiliser injects into `∏_w GL_{r·t}(𝔽_w)` by reduction at the chosen
 places.
 
-Let `n` be a finite set and `Γ = U(I_n)(E)`. (a) If `|n| ≤ 4n_m` and `K` is a subgroup of the integral points that reduce
+Let `n` be a finite set and `Γ = U(I_n)(F)`. (a) If `|n| ≤ 4n_m` and `K` is a subgroup of the integral points that reduce
 to `1` at the chosen places above one of `p₀`, `p₁`, then `Γ ∩ gKg^{−1} = 1` for every finite `g`; in particular this
 holds for every `K ⊂ J_M` when `|n| ≤ 2n_m`, and for `K_0`. (b) If `|n| ≤ 2n_m` and `K ⊂ K°(I_n)`, the order of
-`Γ ∩ gKg^{−1}` divides `∏_w |GL_{rt}(𝔽_w)|` (over the chosen places), which is at most `exp(x^{32})`. (c) The chosen
+`Γ ∩ gKg^{−1}` divides `∏_w |GL_{r·t}(𝔽_w)|` (over the chosen places), which is at most `exp(x^{32})`. (c) The chosen
 places above `p_i` are `f` in number and the product of the norms of all chosen places is `M^f`.
 
 [ShortProof], `New/UpperBound/Objects/LiftChains.lean` (`New.Data.classAut_eq_bot_of_le_levelOf_chosenPlace`,
 `New.Data.classAut_eq_bot_of_le_chosenLevel`, `New.Data.card_classAut_dvd_chosenGroupOrder`,
-`New.Data.log_chosenGroupOrder_le`, `New.Data.prod_q_chosenPlace`), `New/UpperBound/Objects/Columns.lean`
+`New.Data.log_chosenGroupOrder_le`, `New.Data.card_chosenPlace`, `New.Data.prod_q_chosenPlace`), `New/UpperBound/Objects/Columns.lean`
 (`New.Data.classAut_levelX_zero_eq_bot`).
 
 *Needs:* HermitianFormsAndLattices §5.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (the sizes).
@@ -729,7 +799,7 @@ by an integral matrix with that last row, and the terms whose last entry is not 
 glued datum is sorted by the last column of the first matrix and gives the number of primitive vectors times a mirror
 lift after a direct lift; induction on the number of pairs.
 
-Let `P` hold one place of each conjugate pair above a prime `N` of `E` that splits completely, `F_P = ∏_{w∈P} E_w`,
+Let `P` hold one place of each conjugate pair above a rational prime `N` that splits completely in `E`, `F_P = ∏_{w∈P} E_w`,
 `𝒪_P` its integers, and reduction `𝒪_P → (ℤ/N)^P`. For index sets `n ⊔ {last}` let `D := diag(1, …, 1, N^{−1})` at `P`,
 `ψ_N(c) := ψ(−c/N)` for `c ∈ (ℤ/N)^P` (`c/N` the adele `c_w/N` at `w ∈ P`, `0` elsewhere), and for a vector `y` modulo
 `N` with unit last entry let `g_y` be an integral matrix whose last column and last row are `y` modulo `N`. On matrices over
@@ -739,8 +809,9 @@ indicator of integral matrices with last column `y` and `ψ_N(last row·y)` on i
 pair is `Σ_y lastCol_y ⊗ char_y`. For a representation `π` of `GL_{n⊔{last}}(F_P)`, `Up := π(D)·Σ_y ψ_N(y_last)π(g_y)` over
 the `y` with unit last entry. A vector `φ` is *ramified* if for each `w ∈ P` there are a vector `ψ` and an integral unit scalar `x`, with
 `x ≡ 1 (mod N)` at every place of `P` other than `w`, such that `φ = ψ − π(x)ψ`. A lift `L(Ψ) : π → π′`, linear in the
-datum `Ψ`, *obeys the lift law with factor `γ`* if integral invertible matrices move freely between the datum and the two
-representations, and `π′(D)L(Ψ_row)φ = γ·L(direct)(π(D)φ)` with `Ψ_row` the indicator of integral matrices whose last
+datum `Ψ`, *obeys the lift law with factor `γ`* if `π′(b)·L(Ψ^{a,b})(π(a)φ) = L(Ψ)φ` for all integral invertible `a`,
+`b`, all `φ` and every datum `Ψ` that is a function of the reduction modulo `N` of an integral matrix (zero on
+nonintegral ones), where `Ψ^{a,b}(T) := Ψ(bTa)` (`a`, `b` reduced modulo `N`), and `π′(D)L(Ψ_row)φ = γ·L(direct)(π(D)φ)` with `Ψ_row` the indicator of integral matrices whose last
 row is `(0, …, 0, 1)`.
 
 For lifts obeying the lift law and ramified `φ`: (a) `π′(D)L(mirror)φ = Up(L(direct)φ) = γ·L(direct)(Up φ)`, so `Up`
@@ -763,7 +834,7 @@ takes `φ` to `∏_{i<p}(d_i·#prim_i·∏_{l<2i+2}γ_l)` times the composite of
 *Method of the formal proof:* definitions; the restriction is the branching map composed with restriction to
 `diag(h, 1)`, which lands in the algebraic forms of weight `μ(Y_m)` by 2.2 (d).
 
-*Definitions.* Let `ϑ` be a twist.
+*Definitions.* Let `ϑ` be a tame character (a twist in the definitions of chain datum and weak chain datum).
 - `𝔗` is the set of *translations* `x = (x_j)_{j≥0}`, `x_j` an `X_{j+1} × X_j` matrix of finite adeles;
   `v_j(x) := ϱ_f(x_j)vac°` on `Hom(X_j, X_{j+1})`. `x` is *admissible for* `q` if every `π̄_M x_j` is integral at the
   places not dividing `q`; it is *supported at* `q′` if every `x_j` vanishes at the places not dividing `q′`.
@@ -777,8 +848,10 @@ takes `φ` to `∏_{i<p}(d_i·#prim_i·∏_{l<2i+2}γ_l)` times the composite of
 - `Ψ` is a *chain datum for* `ϑ` if its support consists of translations admissible for `q_ϑ` and supported at `Mq_ϑ`,
   its values are integral away from `q_ϑ`, `Σ_x |σ(Ψ(x))| ≤ M^{3fmn_m²}` for every automorphism `σ` of `ℂ` if
   `Q(ϑ) = ∅`, and `Glue(Ψ)` is jointly invariant for `ϑ`. `Ψ` is a *weak chain datum* if its support consists of
-  translations admissible for `q_ϑ N`, its values are integral away from `q_ϑ`, it has size at most `exp(x^{60})` if
-  `Q(ϑ) = ∅`, and its plain tensor is jointly invariant.
+  translations admissible for `q_ϑ N`, its values are integral away from `q_ϑ`, the sum of the `|σ(Ψ(y))|` over the
+  translations `y` is at most `exp(x^{60})` (`x` the scale of the data) for every automorphism `σ` of `ℂ` if
+  `Q(ϑ) = ∅`, and the family `(Ψ(y)·id, (v_j(y))_j)`, `y` in the support, is jointly invariant in the sense of 2.9 (b)
+  for the lifts `L_j^ϑ`, the levels `K_j` and `m` lifts.
 - The *restriction* `res : 𝒜_m → (algebraic forms on U(Y_m) of weight μ(Y_m))` is
   `res(ψ)(h) := ∏_τ τ(π̄_N)^{−n_τ}·br(ψ(diag(h, 1)))`.
 - The *composite lift* is `comp_ϑ(Ψ)(φ) := res(C_m(Glue(Ψ))φ)` for `φ ∈ 𝒮_X`, the double-lift chain of the `L_j^ϑ` with the
@@ -803,17 +876,19 @@ above `N`, is the glued datum of 2.11 with no constant.
 are multiplied and summed over the residues; exactly one residue class makes both translates integral, and the product
 is `ψ_N` of the corner entry.
 
-Let `P`, `S` each hold one place of every conjugate pair above `N`, all split of degree one. Let `v`, `v′` be finite data
-of `Hom(I_{n⊔{last}}, I_{n′})` and `Hom(I_{n′}, I_{m′⊔{last}})`, averaged over the Heisenberg operators of the integral
-vectors supported above `N`. Then `Glue(v ⊗ v′)` (the gluing of 2.12 with residues at `S`) is, in the Schrödinger model
-at `P`, the sum over `z ∈ ((ℤ/N)^P)^{n′}` of `lastCol_z ⊗ char_z` evaluated at `T·diag(1, …, 1, N)_{P∩S}` and
-`diag(1, …, 1, N)_{P∖S}·R`, applied to `v ⊗ v′`. Equivalently, the product of the translates of the indicators of the
+Let `N` be a rational prime and `P`, `S` each hold one place of every conjugate pair above `N`, all split of degree one.
+Let `v`, `v′` be finite data of `Hom(I_{n⊔{last}}, I_{n′})` and `Hom(I_{n′}, I_{m′⊔{last}})`, and `v̄`, `v̄′` their
+averages over the Heisenberg operators of the integral vectors supported above `N`. Then `Glue(v̄ ⊗ v̄′)` (the gluing of
+2.12 with residues at `S`) is, in the Schrödinger model at `P`,
+`Σ_z (lastCol_z(T·diag(1, …, 1, N)_{P∩S}) ⊗ v) ⊗ (char_z(diag(1, …, 1, N)_{P∖S}·R) ⊗ v′)`, the sum over
+`z ∈ ((ℤ/N)^P)^{n′}` (`T`, `R` the matrix variables of the two Schrödinger models; `Ψ ⊗ v` the Schrödinger operator of
+the function `Ψ` at `P` applied to `v`). Equivalently, the product of the translates of the indicators of the
 matrices integral at `P` by the pole column and the pole row, summed over the residues, is `ψ_N` of the residue of the
 corner entry of `R′T′` (`T′ = T·diag(1, …, 1, N)_{P∩S}`, `R′ = diag(1, …, 1, N)_{P∖S}·R`) when `T′`, `R′` are integral at
 `P`, and `0` otherwise.
 
 [ShortProof], `New/UpperBound/Objects/Columns.lean` (`New.IsSplitLevel.sum_translate_eq_gluedDatum`,
-`New.IsSplitLevel.doubleLiftGluing_eq_sum_schrodingerOpAt`, `New.IsSplitLevel.pairWeilFinite_schrodingerOpAt`).
+`New.IsSplitLevel.doubleLiftGluing_eq_sum_schrodingerOpAt`).
 
 *Needs:* 2.11, 2.12; WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the Weil representation in the realisation used: for Weil data of `E`, which include a primitive root of unity of order `5040` in `E`, and spaces `V`, `V′`, the representation `ω_{a,b}(g, h) = a(det h)·b(det g)⁻¹·ω(x ↦ hxg⁻¹)` of `U(V)(𝔸) × U(V′)(𝔸)` by continuous operators on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action `ϱ`, the vacuum, the finite part, which is the span of the finite Heisenberg translates of the vacuum, the Fock vector `v_P` of a polynomial `P` at the real places and the datum `v_P ⊗ f = ∫ v_P(y)·ϱ(y)f dy`; the theta functional `θ` is a continuous functional on the data space that is invariant under the Heisenberg operators of the rational vectors and under the rational points of the unitary group, with the mean of `|θ(ϱ(x)vac)|²` over the adelic vectors modulo the rational vectors equal to `1`; the theta kernel of a datum `f` is `(g, h) ↦ θ(ω_{a,b}(g, h)f)`).
 
@@ -826,9 +901,10 @@ corner entry of `R′T′` (`T′ = T·diag(1, …, 1, N)_{P∩S}`, `R′ = diag
 `N`; the pair of scalings `(z, z)` acts trivially on the data through the determinant characters; a ramified form is a
 difference `ψ − z_wψ` because `z_w` has order dividing `N − 1` on source forms.
 
-Let `ϑ` be a tame character, `j ≥ 0` and `w ∈ P_N`. (a) The base change of `(ν_j^ϑ)_n` is unramified at every place above
-`N`, and for `|n| = n_j` (even) the character attached by the Weil data to a space of rank `n_j` and `(ν_i^ϑ)_n` is the base
-change `x ↦ ν_i^ϑ(x/x̄)`. (b) For a scaling `z` at `w` (2.8), `ω(z, z) = 1` on the data of `L_j^ϑ`, so
+Let `ϑ` be a tame character, `j ≥ 0` and `w ∈ P_N`. (a) For every finite set `n`, the base change `x ↦ (ν_j^ϑ)_n(x/x̄)`
+of `(ν_j^ϑ)_n` is unramified (its finite part is trivial on the local units) at every place above `N`; and for
+`|n| = n_j` (even) and every `i`, the Hecke character `x ↦ (ν_i^ϑ)_n(x/x̄)·υ(x)^{−n_j}` of `𝔸_E^×` is the base change
+`x ↦ ν_i^ϑ(x/x̄)`. (b) For a scaling `z` at `w` (2.8), `ω(z, z) = 1` on the data of `L_j^ϑ`, so
 `L_j^ϑ(Φ)(zψ) = z·L_j^ϑ(Φ)ψ`; if `Φ` is fixed by `ω(1, z)`, then `L_j^ϑ(Φ)(ψ − zψ) = 0`. (c) If a tensor of data of the
 first `m` lifts is fixed, on one factor `j < m`, by `ω(1, z_w)`, then the chain with these data vanishes on `𝒮_X^{ram}`.
 
@@ -850,15 +926,18 @@ character by induction on `j`; an element of `𝖦` acts on the first block only
 
 *Definitions.* Let `ϑ` be a tame character and `j < m`. `𝒜_Y(j)` is the space of forms on `U(Y_j)` of type `l_Y(j)` (2.4)
 for the signs of `Y_j`. The datum of lift `j + 1` is `Φ_j^ϑ := v_{H_j} ⊗ Υ_{j+1}`, where `v_{H_j}` is the Fock vector of the
-product over `τ` of the joint harmonic polynomials for `l_Y(j)`, `l_Y(j + 1)` and the weights of 2.4, and `Υ_{j+1}` is, at
+product over `τ` of a fixed joint harmonic polynomial at `τ` for `l_Y(j)`, `l_Y(j + 1)` and the weights
+`⌊|Y_j|/2⌋ − κ_{j+1}(τ)`, `⌊|Y_{j+1}|/2⌋ − κ_{j+1}(τ)` (chosen independently of `ϑ`), and `Υ_{j+1}` is, at
 the level places, the indicator of the inclusion matrix `Y_j ↪ Y_{j+1}` modulo the product of the level places and, at the
 other finite places, the vacuum. The lift `ι_{j+1}^ϑ : 𝒜_Y(j) → 𝒜_Y(j + 1)` is `[K° : J_ϑ(Y_j)]` times the theta lift with
 datum `Φ_j^ϑ` for the characters `(ν_{j+1}^ϑ)_{Y_j}`, `(ν_{j+1}^ϑ)_{Y_{j+1}}`:
 `ι_{j+1}^ϑ(f)(h) = [K° : J_ϑ(Y_j)]·∫_{[U(Y_j)]} θ(ω(g, h)Φ_j^ϑ)f(g) dg`. The *lower chain* `Θ_ϑ : 𝒜(Y_0) → (algebraic forms
 on U(Y_m) of weight μ(Y_m))` is `ι_m^ϑ ∘ ⋯ ∘ ι_1^ϑ` read as algebraic forms (2.2 (b)).
 
-*Lemma.* (a) For `j < m`, `Φ_j^ϑ` is an edge: `ι_{j+1}^ϑ` maps forms of type `l_Y(j)` to forms of type `l_Y(j + 1)`, and the
-transposed lift maps forms of the conjugate type back. (b) If `k ∈ K°(U(Y_j))`, `k′ ∈ K°(U(Y_{j+1}))` have reductions
+*Lemma.* (a) For `j < m`, `Φ_j^ϑ` is an arrow (Conventions) both ways for the characters above: the forms of type
+`l_Y(j)` on `U(Y_j)` are rapidly decreasing and `ι_{j+1}^ϑ` maps them to forms of type `l_Y(j + 1)`, and the forms of the
+type conjugate to `l_Y(j + 1)` on `U(Y_{j+1})` are rapidly decreasing and the transposed lift with `Φ_j^ϑ` maps them to
+forms of the type conjugate to `l_Y(j)` on `U(Y_j)`. (b) If `k ∈ K°(U(Y_j))`, `k′ ∈ K°(U(Y_{j+1}))` have reductions
 `g`, `g′` at the level places with `g′ι = ιg` (`ι` the inclusion matrix), then `ω((1, k), (1, k′))Υ_{j+1} =
 ∏_w ψ_{j+1}^ϑ(det g′_w)/ψ_{j+1}^ϑ(det g_w)·Υ_{j+1}`; in particular `J_ϑ(Y_j)` fixes the datum. (c) For `y ∈ 𝒜(Y_0)`,
 `Θ_ϑ(y)` has level `J_m^ϑ` with character `χ_m^ϑ`; more generally, for `k ∈ K°(Y_m)` with block upper triangular
@@ -882,33 +961,49 @@ WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the We
 *Method of the formal proof:* definitions.
 
 A *descent pair* consists of: level places, namely finitely many chosen places and twist places of `E`, pairwise
-distinct and none conjugate to another; a space `W` of rank `r` (finite set `r`) with signs `ε` and a numbering of its basis; an
-embedding `r ↪ n` into the basis of `V := I_n` with `|r| < |n|`; column counts `k^+(τ, i)`, `k^-(τ, i)`; and a character `μ`
-of `U(1)(𝔸)/U(1)(F)` with weight `e_μ` and tame part `(ψ_w)` trivial off the level places. Attached to it:
-- the *level* `K_O ⊂ K°(V)`: elements whose reductions fix the basis vectors of `r` at the chosen places and preserve the
-  span of the other basis vectors at the twist places, with the character `k ↦ ∏_{w twist} ψ_w^{−1}(det k_{w,00})` (block
-  `00` on the basis vectors of `r`);
-- the forms on `V`: algebraic forms of weight `(c_O, e_O)`, `c_O(τ, i) = k^+(τ, i) + k^-(τ, n − i)`,
+distinct, none equal to its own conjugate or conjugate to another; a space `W` of rank `r` (finite set `r`) with signs `ε`
+and a numbering of its basis; an embedding `r ↪ n` into the basis of `V := I_n` with `|r| < |n|`; column counts
+`k^+(τ, i)`, `k^-(τ, i)`; and a character `μ` of `U(1)(𝔸)/U(1)(F)` with weight `e_μ` and tame part `(ψ_w)` trivial off the
+level places. Attached to it:
+- the *residue level*: the families `(j_w)` of elements of the `GL_n(𝔽_w)` over the level places such that `j_w` fixes
+  the basis vectors of `r` at the chosen places and preserves the span of the other basis vectors at the twist places,
+  with its character `χ_O(j) := ∏_{w twist} ψ_w^{−1}(det j_{w,00})` (block `00` on the basis vectors of `r`); the *level*
+  `K_O ⊂ K°(V)` of the elements whose reductions at the level places lie in the residue level, with the character
+  `k ↦ χ_O(reductions of k)`;
+- the forms on `V`: algebraic forms of weight `(c_O, e_O)`, `c_O(τ, i) = k^+(τ, i) + k^-(τ, |n| − i)`,
   `e_O(τ) = −Σ_{1≤i<|n|} k^-(τ, i)`, of level `K_O` with this character; the doubled parameter `l_O` of this weight;
 - the characters `ν_W := υ^{r_-}` (`r_-` the number of signs `−1` of `W`) and `ν_V := μ_n`, and the theta kernel of
   `(W, V)` with these characters;
 - the *block datum* `Ψ_bl ⊗ vac` on `Hom(W, V)`: at the level places, the function of the reductions equal to
   `∏_{w twist} ψ_w(det of the rows of r)` if the reductions at the chosen places are the inclusion matrix, else `0`; the
   vacuum elsewhere;
+- the *Fock polynomial* `P_ξ` of a vector `ξ` of the Weyl module of weight `(c_O, e_O)`, a polynomial in the Fock
+  variables `x_{τ,i,a}` (`i` in the basis of `V`, `a` in that of `W`): `ξ` is carried into the tensor product of the Weyl
+  modules with columns `k^+` and `k^-` by a fixed integral embedding, and `α ⊗ β` goes to the product of the polynomial
+  of `α` in the polynomial model of Weyl modules, each variable `y_{τ,i,h}` replaced by the sum of the `x_{τ,i,a}` over
+  the basis vectors `a` of `W` of sign `+1` and number `h`, and the polynomial of `β`, with the same substitution over the
+  basis vectors of sign `−1` (IntegralRepresentationsOfGeneralLinearGroups §§1.1, 3.2);
 - the *normalised descent* of a form `Ξ` on `V`: `g ↦ Σ_h (class sum over K_O) conj θ(ω(g, (1, h))(v_{P_ξ̄} ⊗ Ψ_bl ⊗ vac))`
-  applied to `Ξ(h)`, where `P_ξ` is the Fock polynomial of the vector `ξ` of the Weyl module;
-- the Hecke polynomial of a lift at split `w` off the level places:
-  `∏_{l<|n|−|r|}(1 − q^l ν T)·H_{z(w)}(q^{|n|−|r|}νT/ν′)`, with `H_{z(w)}` the Hecke polynomial of rank `|r|` of the
-  eigenvalues `z(w)` and `ν`, `ν′` the Frobenius values of `ν_W`, `ν_V`.
+  applied to `Ξ(h)`;
+- the *lift Hecke polynomial*: a form `y` on `V` has the lift Hecke polynomial of a family `z(w) = (z_i(w))_{i≥0}` of
+  complex numbers if at every place `w ≠ w̄` such that neither `w` nor `w̄` is a level place, `y` is spherical at `w` and
+  `Σ_{0≤i≤|n|}(−T)^i q^{i(i−1)/2} T_{w,i}` (`q = N(w)`, `T_{w,i}` the Hecke operators of the split place `w`,
+  WeilRepresentationsOnBanachSpacesOfData §9.2) acts on `y` by `∏_{0≤l<|n|−|r|}(1 − q^l ν T)·H_{z(w)}(q^{|n|−|r|}νT/ν′)`
+  for every `T ∈ ℂ`, where `H_{z(w)}(X) := Σ_{0≤i≤|r|}(−X)^i q^{i(i−1)/2} z_i(w)`, `ν := χ_W(ϖ_w)·q^{|r|/2}`,
+  `ν′ := χ_V(ϖ_w)·q^{|n|/2}`, `χ_W(x) := ν_W(x/x̄)υ(x)^{−|r|}`, `χ_V(x) := ν_V(x/x̄)υ(x)^{−|n|}`, and `ϖ_w` a fixed
+  uniformiser at `w`.
 A doubled parameter `l` on `W` *fits* the pair if `l` and `l_O` correspond for the weights `r_-` and `⌊|n|/2⌋ + e_μ`, the
 numbering lists the basis vectors of each sign by decreasing `±l`, and `k^±(τ, i) = 0` for `i` above the number of signs
 `±1` of `W`.
 
 [ShortProof], `New/UpperBound/Objects/AuxiliaryPair.lean` (`New.DescentPair`, `New.DescentPair.levelGroup`,
-`New.DescentPair.FormV`, `New.DescentPair.blockDatum`, `New.DescentPair.normalizedDescent`,
-`New.DescentPair.HasLiftHeckePolynomial`, `New.DescentPair.paramV`, `New.DescentPair.FitsParams`).
+`New.DescentPair.residueLevelChar`, `New.DescentPair.FormV`, `New.DescentPair.blockDatum`,
+`New.DescentPair.fockPoly`, `New.DescentPair.normalizedDescent`, `New.DescentPair.HasLiftHeckePolynomial`,
+`New.DescentPair.paramV`, `New.DescentPair.FitsParams`).
 
-*Needs:* AdelicUnitaryGroupsAndAlgebraicModularForms §3.9 (the subgroups `K(w, H)` of the stabiliser of the lattice defined by reductions at finitely many places, no two equal or conjugate and none conjugate to itself, and the principal levels: `K(w, H)` is open and its index in the stabiliser is the index of `H` in `∏_i GL_n(𝔽_{w_i})`; the principal level of an integer `a ≠ 0` of `E` is open, of index at most `N(a)^{n²}`); WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the Weil representation in the realisation used: for Weil data of `E`, which include a primitive root of unity of order `5040` in `E`, and spaces `V`, `V′`, the representation `ω_{a,b}(g, h) = a(det h)·b(det g)⁻¹·ω(x ↦ hxg⁻¹)` of `U(V)(𝔸) × U(V′)(𝔸)` by continuous operators on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action `ϱ`, the vacuum, the finite part, which is the span of the finite Heisenberg translates of the vacuum, the Fock vector `v_P` of a polynomial `P` at the real places and the datum `v_P ⊗ f = ∫ v_P(y)·ϱ(y)f dy`; the theta functional `θ` is a continuous functional on the data space that is invariant under the Heisenberg operators of the rational vectors and under the rational points of the unitary group, with the mean of `|θ(ϱ(x)vac)|²` over the adelic vectors modulo the rational vectors equal to `1`; the theta kernel of a datum `f` is `(g, h) ↦ θ(ω_{a,b}(g, h)f)`).
+*Needs:* AdelicUnitaryGroupsAndAlgebraicModularForms §3.9 (the subgroups `K(w, H)` of the stabiliser of the lattice defined by reductions at finitely many places, no two equal or conjugate and none conjugate to itself, and the principal levels: `K(w, H)` is open and its index in the stabiliser is the index of `H` in `∏_i GL_n(𝔽_{w_i})`; the principal level of an integer `a ≠ 0` of `E` is open, of index at most `N(a)^{n²}`); WeilRepresentationsOnBanachSpacesOfData §§2.1, 3.1, 3.4, 3.6, 5.6, 6.1 (the Weil representation in the realisation used: for Weil data of `E`, which include a primitive root of unity of order `5040` in `E`, and spaces `V`, `V′`, the representation `ω_{a,b}(g, h) = a(det h)·b(det g)⁻¹·ω(x ↦ hxg⁻¹)` of `U(V)(𝔸) × U(V′)(𝔸)` by continuous operators on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action `ϱ`, the vacuum, the finite part, which is the span of the finite Heisenberg translates of the vacuum, the Fock vector `v_P` of a polynomial `P` at the real places and the datum `v_P ⊗ f = ∫ v_P(y)·ϱ(y)f dy`; the theta functional `θ` is a continuous functional on the data space that is invariant under the Heisenberg operators of the rational vectors and under the rational points of the unitary group, with the mean of `|θ(ϱ(x)vac)|²` over the adelic vectors modulo the rational vectors equal to `1`; the theta kernel of a datum `f` is `(g, h) ↦ θ(ω_{a,b}(g, h)f)`);
+IntegralRepresentationsOfGeneralLinearGroups §§1.1, 3.2 (the polynomial model of Weyl modules and the integral embedding
+of a mixed weight into a tensor product); WeilRepresentationsOnBanachSpacesOfData §9.2 (Hecke operators at split places).
 
 ### 2.17 The block datum, the edge and the descent of a descent pair
 
@@ -920,13 +1015,15 @@ an edge; with Gross (1999) for the descent as a class sum.
 the highest vector is a staircase of minors, which is jointly highest and harmonic; the class sum is rewritten as an
 integral over `[U(V)]` against the conjugate kernel.
 
-Let `O` be a descent pair. (a) `Ψ_bl ⊗ vac = Σ_A ω((1, a_A), 1)(Ψ¹ ⊗ vac)`, the sum over `A ∈ ∏_{w twist} GL_r(𝔽_w)`, with
-`a_A ∈ K°(W)` a lift of `A^{−1}` and `Ψ¹` the indicator of the matrices that reduce to the inclusion matrix at the chosen
-places and whose rows in `r` reduce to `1` at the twist places. (b) If `k ∈ K°(W)`, `k′ ∈ K°(V)` and the reductions of `k′`
-are `diag(reductions of k at the chosen places, 1)` times an element `j` of the residue level, then
-`ω(k, k′)(Ψ_bl ⊗ vac) = (∏_{w chosen} ψ_w(det k_w))^{−1}·χ_O(j)·(Ψ_bl ⊗ vac)`. (c) If `W` has positive rank and `l` fits `O`,
-the Fock vector of the polynomial of the highest vector of `l_O` is an edge from the type of `l` (signs `ε`) to the type of
-`l_O` on the definite `V`. (d) The normalised descent of `Ξ` is `dim V_{(c_O,e_O)}·[K° : K_O]` times the complex conjugate of
+Let `O` be a descent pair. (a) `Ψ_bl ⊗ vac = Σ_A ω((1, a_A), 1)(Ψ¹ ⊗ vac)`, the sum over `A ∈ ∏_{w twist} GL_r(𝔽_w)`, for
+suitable elements `a_A ∈ K°(W)` that are `1` away from the level places and their conjugates and reduce to `A^{−1}` at the
+twist places and to `1` at the chosen places, with `Ψ¹` the indicator of the matrices that reduce to the inclusion matrix
+at the chosen places and whose rows in `r` reduce to `1` at the twist places. (b) If `k ∈ K°(W)`, `k′ ∈ K°(V)` and the
+reductions of `k′` are `diag(k_w, 1)·j_w` at the chosen places and `j_w` at the twist places, for an element `j` of the
+residue level (2.16), then `ω(k, k′)(Ψ_bl ⊗ vac) = (∏_{w chosen} ψ_w(det k_w))^{−1}·χ_O(j)·(Ψ_bl ⊗ vac)`. (c) If `W` has
+positive rank and `l` fits `O`, the Fock vector of the polynomial `P_{v⁺}` of the highest vector `v⁺` of `l_O` is an edge
+from the type of `l` (signs `ε`) to the type of `l_O` on the definite `V`, for the real Weil action with the weights
+`r_-` and `⌊|n|/2⌋ + e_μ`. (d) The normalised descent of `Ξ` is `dim V_{(c_O,e_O)}·[K° : K_O]` times the complex conjugate of
 the transposed lift, from `V` to `W`, of the conjugate of the automorphic form of `Ξ`, with the datum
 `v_{P_{v⁺}} ⊗ Ψ_bl ⊗ vac` of the highest vector `v⁺`.
 
@@ -946,8 +1043,10 @@ column counts are read off the staircase.
 
 For a tame character `ϑ` and `1 ≤ j ≤ m`, the *`j`-th descent pair* has the level places of `ϑ` (2.6), `W = W_j`,
 `V = V_j = I_{r+t}` with `W_j` on the first summand, the numbering by the fixed numbering of the basis of `Y_0` on the signs
-`+1` and the reverse numbering on the signs `−1`, `k^+(τ, i) = max(0, ς_{i−1}(τ) − max(ς_i(τ), (t − 1)/2 − κ_j(τ)) − 1)`,
-`k^-(τ, i) = max(0, min(ς_{r−i−1}(τ), −κ_j(τ) − (t − 1)/2) − ς_{r−i}(τ) − 1)`, and the character `μ_j⁰ϑ` of weight `−κ_j`.
+`+1` and the reverse numbering on the signs `−1`, `k^+(τ, i) = max(0, ς_{i−1}(τ) − max(ς_i(τ), (t − 1)/2 − κ_j(τ)) − 1)`
+for `i ≥ 1`, `k^-(τ, i) = max(0, min(ς_{r−i−1}(τ), −κ_j(τ) − (t − 1)/2) − ς_{r−i}(τ) − 1)` for `0 ≤ i < r`, with `ς_i(τ)`
+continued to all `i ≥ 0` as in 2.4, `k^+(τ, 0) := 0` and `k^-(τ, i) := 0` for `i ≥ r`, and the character `μ_j⁰ϑ` of
+weight `−κ_j`.
 Then `2ς` fits this pair: `2ς` (signs of `W_j`) and `l_O` correspond for the weights `m − j` and `⌊(r + t)/2⌋ − κ_j`.
 
 [ShortProof], `New/UpperBound/Objects/Rows.lean` (`New.Data.descentPair`, `New.Data.paramsCorrespond_descentPair`,
@@ -966,7 +1065,8 @@ finite-dimensional space of forms of principal level, and the defining identity 
 
 Let `Y_0` carry the grading of 3.7 (`X_0` and a string of `m − 1` vectors) with Bessel subgroup `R_0`. For a source form
 `φ`, a linear form `t` on `V_{μ(X_0)}` and `u h ∈ R_0(𝔸)` (`u` unipotent, `h ∈ inc_X(U(X_0)(𝔸))`), let
-`𝒲_φ(uh) := ψ_U(u)·t(ρ_{μ(X_0)}(h_∞)^{−1}φ(h_f))`; it is continuous, left invariant under `R_0(F)` and transforms by `ψ_U`.
+`𝒲_φ(uh) := ψ_U(u)·t(ρ_{μ(X_0)}(h_∞)^{−1}φ(h_f))`; it is equivariant (Conventions, graded spaces): continuous, left
+invariant under `R_0(F)`, and transforming by `ψ_U` under the `u` for which `u − 1` raises grades by at least `2`.
 For an archimedean point `g` of `U(Y_0)`, the *Poincaré map* `𝒫 = 𝒫_{g,t} : 𝒮_X → 𝒜(Y_0)` is the linear map with
 
 `⟨y, 𝒫φ⟩ = ∫_{[R_0]} 𝒲_φ(r)·conj y(r g) dr` for all `y ∈ 𝒜(Y_0)`
@@ -1031,13 +1131,14 @@ and a norm-one `u` (finite adeles), the *glued basis* is: the vectors of `X` unc
 times `u` and the last vector `y` replaced by `y/π̄ + uz/(ππ̄)`, `z` the middle string vector; for even `s`, the first half
 of the string times `ua^{−1}` and the second half times `uā`. The *glued lattice* is its `Ô`-span, and `V` *spans the glued
 lattice* if its lattice is this one. `N` is *split squarefree* along a finite set `P` of places containing no conjugate
-pair if `N = ππ̄` with `π` a uniformiser at `P` and a unit elsewhere. The *string frame* has column `b` equal to
-`(σ_b e_b + e_{s−1−b})/√2`, or `e_b/√N` at the middle, with `σ_b = −1` for the first `⌊(s + 1)/2⌋` indices.
+pair if `N = ππ̄` with `π` a uniformiser at each place of `P` and a unit at the other places. The *string frame* has
+column `b` equal to `(σ_b e_b + e_{s−1−b})/√2`, or `e_b/√N` at the middle, with `σ_b = −1` for the first `⌊(s + 1)/2⌋`
+indices.
 
-*Lemma.* (a) The Gram matrix of the glued basis is the graded Gram matrix with the last vector of norm `0` paired to `−1`
-with the middle vector (for odd `s`); it is unimodular over every subring of the finite adeles. (b) If exactly
-`⌊(s + 1)/2⌋` signs are `−1`, the graded Gram matrix (with `N > 0`) is carried to `diag(ε)` by a complex matrix, unitary if
-`N = 1`.
+*Lemma.* Let `N` be a positive integer. (a) The Gram matrix of the glued basis is the graded Gram matrix with the last
+vector of norm `0` paired to `−1` with the middle vector (for odd `s`); it is Hermitian and invertible over every subring
+of the finite adeles (`N` lies in each of them). (b) If exactly `⌊(s + 1)/2⌋` signs are `−1`, the graded Gram matrix is
+carried to `diag(ε)` by a complex matrix, unitary if `N = 1`.
 
 [ShortProof], `New/UpperBound/Seesaw/AdmissibleCombinations.lean` (`New.gradedLatticeBasis`,
 `New.Grading.SpansLattice`, `New.Seesaw.IsSplitSquarefree`, `New.Seesaw.gram_gradedLatticeBasis_eq_gluedGram`,
@@ -1059,9 +1160,9 @@ by the fractional ideal of the `b`-th diagonal entry of the glued basis; `Λ⁺`
 middle vector. For odd `s`, `Λ ∩ (span of X ⊔ {last})` consists of the vectors with integral coordinates on `X` and last
 coordinate in `πÔ`. (c) If `u = (a/ā)^{⌊(s+2)/2⌋}` and the constant of the grading has the valuations of `aā`, then
 `Σ_i t_i𝔢^i ∈ Λ⁻` iff each `t_i ∈ 𝔩_i` in grade `≥ 0` and `∈ N^{−1}𝔩_i` in negative grade, and `∈ Λ⁺` iff `t_i ∈ 𝔩_i` in positive
-grade and `∈ N^{−1}𝔩_i` in grade `≤ 0`, where `𝔢^i` are the string powers of the grading. (d) Under (c), for a second graded
-space with a string of length `s − 1`, the same constant, spanning its glued lattice `Λ′` for the scale
-`(a/ā)^{⌊(s+1)/2⌋}`: `sh(Λ⁺) = aΛ′⁻`. (e) A vector of `Λ⁺` outside `Λ⁻` exists only for odd `s`, and such a vector
+grade and `∈ N^{−1}𝔩_i` in grade `≤ 0`, where `𝔢^i` are the string powers of the grading (Conventions). (d) Under (c),
+for a second graded space with the same `N`, a string of length `s − 1` (`s ≥ 1`) and the same constant, spanning its
+glued lattice `Λ′` for the same `a`, `π` and the scale `(a/ā)^{⌊(s+1)/2⌋}`: `sh(Λ⁺) = aΛ′⁻`. (e) A vector of `Λ⁺` outside `Λ⁻` exists only for odd `s`, and such a vector
 generates `Λ⁺` over `Λ⁻` at some place above `N`.
 
 [ShortProof], `New/UpperBound/Seesaw/StandardLines.lean` (`New.Grading.SpansLattice.isGraded`,
@@ -1101,12 +1202,13 @@ the glued lattice turns a lower bound into an upper bound unless the lattice spl
 
 For a finite idele `q` and `k ≥ 0`, a point `x` *has lattice bounds* `(q, k)` if `q̄^kΛ⁻ ⊂ Λ_x⁻` and `q^kΛ_x⁻ ⊂ Λ⁻`, and *has a
 bounded orbit* if some `rx`, `r ∈ R_f`, has a graded lattice with these bounds. The lattice of `x` *splits at* `w` if at `w`
-the projection `Λ_x⁺` lies in `Λ_x⁻`. (a) If `sh(Λ⁺) = aM⁻` on the next space `V′`, `q^kΛ_x⁻ ⊂ Λ⁻` and
-`(q̄/a)·sh(Λ_x⁺) ⊂ M_{x′}⁻`, then `q̄^{k+1}M⁻ ⊂ M_{x′}⁻`. (b) If `V` spans the glued lattice, `N` is split squarefree along `P`,
+the projection `Λ_x⁺` lies in `Λ_x⁻`. (a) Let `V′` be a graded space with the same `N` and a string of length `s − 1`,
+with lattices `Λ′⁻`, `Λ′_{x′}⁻` for a finite point `x′` of it, and `a` a finite idele. If `sh(Λ⁺) = aΛ′⁻`,
+`q^kΛ_x⁻ ⊂ Λ⁻` and `(q̄/a)·sh(Λ_x⁺) ⊂ Λ′_{x′}⁻`, then `q̄^{k+1}Λ′⁻ ⊂ Λ′_{x′}⁻`. (b) If `V` spans the glued lattice, `N` is split squarefree along `P`,
 `q` is a unit above `N` and `q̄^kΛ⁻ ⊂ Λ_x⁻`, then `x` has lattice bounds `(q, k)`, or `s` is odd and the lattice of `x` splits
 at some `w ∈ P`. (c) If the lattice of `x` splits at `w ≠ w̄`, the conjugate by `x` of the scaling of `X` by an integral
-norm-one idele that is `1` off `w`, `w̄` is integral and trivial off `w`, `w̄`. (d) If `rx ∈ K°` for some `r ∈ R_f`, then `x`
-has a bounded orbit for `k = 0`.
+norm-one idele that is `1` off `w`, `w̄` is integral and trivial off `w`, `w̄`. (d) If `V` spans the glued lattice (for
+some `a`, `π`, `u`) and `rx ∈ K°` for some `r ∈ R_f`, then `x` has a bounded orbit for `k = 0` and every `q`.
 
 [ShortProof], `New/UpperBound/Seesaw/Sandwich.lean` (`New.Grading.LatticeSplitsAt`,
 `New.Grading.smul_latticeMinus_le_of_map_latticePlus`, `New.Grading.SpansLattice.hasLatticeBounds_or_latticeSplitsAt`,
@@ -1123,7 +1225,7 @@ multiple of the string map carries the lattice of the first point into that of t
 under a lattice of Heisenberg translations forces the homogeneous part of degree `−1` of the point to map lattices into
 lattices.
 
-Let `V`, `V′` be graded with strings of lengths `s`, `s − 1`, `sh` the string map. Let `t ⊗ f` be a datum of
+Let `V`, `V′` be graded with the same `N` and strings of lengths `s`, `s − 1`, `sh` the string map. Let `t ⊗ f` be a datum of
 `𝒮(Hom(V, V′))` with `f` fixed by the finite Heisenberg operators of `bÔ^{n′×n}` for a finite idele `b`, and let the constant
 term at `sh` of its Weil translate by `(x, x′)` (twisted by characters of `U(1)`) be nonzero. If `r ∈ R_f`, `r′ ∈ R′_f` make
 the lattices of `rx_f`, `r′x′_f` graded, then `(b̄/α)·sh` maps `Λ_{rx}⁺` into `Λ′_{r′x′}⁻`.
@@ -1140,11 +1242,14 @@ the lattices of `rx_f`, `r′x′_f` graded, then `(b̄/α)·sh` maps `Λ_{rx}�
 *Method of the formal proof:* the valuations of the chosen idele are those of `π_M`; the lattice of `Y_k` is the glued
 lattice by the choice of its point in 2.1; 3.4 gives the levels.
 
-For `k ≤ m − 1` the *grading* of `Y_k` is the presentation of 2.1 (`X_k` and a string of `m − 1 − k` vectors) with one
-constant `c_Y ∈ E^×`, `c_Y = c̄_Y`, independent of `k`; `Y_m` is graded by its whole basis with an empty string. (a) `ϖ_M` has
-the valuations of `π_M`; `c_Y` has the valuations of `aā` (`a = α/ϖ̄_M`); `N(π_M) = M^f`. (b) `Y_k` spans the glued lattice
-for `a`, `π_N` and `u_k = (a/ā)^{⌈(m−k)/2⌉}`. (c) `inc_X` maps `K_k` into `J_M` on `Y_k`; an element of `J_M` that is `1` at the
-places of `Q(ϑ)` lies in `J_ϑ`. (d) The Bessel subgroup of the grading of `Y_m` is `U(Y_m)`.
+For `k ≤ m − 1` the *grading* of `Y_k` is the presentation of 2.1 (`X_k` and a string of `m − 1 − k` vectors, middle
+norm `−N` with `N` the level) with the constant `c_Y := −(ȷ M δ_E)^{−1}`, the same for all `k`, where `δ_E` is the
+purely imaginary generator of the different of `E` of DivisibilityOfThetaDerivatives §1.1 (b), so `c_Y = c̄_Y`; `Y_m` is
+graded by its whole basis with an empty string and the constant `1`. (a) `ϖ_M` has the valuations of `π_M`; `c_Y` has
+the valuations of `aā` (`a = α/ϖ̄_M`); `N(π_M) = M^f`. (b) For `k ≤ m − 1`, `Y_k` spans the glued lattice for `a`, `π_N`
+and `u_k = (a/ā)^{⌈(m−k)/2⌉}`. (c) For `k ≤ m − 1`, `inc_X` maps `K_k` into `J_M` on `Y_k`; an element of `J_M` that is
+`1` at the places of `Q(ϑ)` lies in `J_ϑ`. (d) The grading of `Y_m` has an empty string, so by definition its Bessel
+subgroup is `U(Y_m)(𝔸)` and `R(F) = Γ_{Y_m}` (no separate statement in the formal proof).
 
 [ShortProof], `New/UpperBound/Seesaw/EdgePairEvaluation.lean` (`New.Data.gradingY`, `New.Data.lastGrading`),
 `New/UpperBound/Seesaw/LevelIdeles.lean` (`New.Data.v_chosenIdele`, `New.Data.absNorm_piM`,
@@ -1152,7 +1257,7 @@ places of `Q(ϑ)` lies in `J_ϑ`. (d) The Bessel subgroup of the grading of `Y_m
 `New.Data.chosenLevel_inf_trivialOn_le`), `New/UpperBound/Seesaw/UnfoldingStages.lean`
 (`New.Data.inclXFin_mem_chosenLevel`).
 
-*Needs:* 2.1, 2.6, 3.2, 3.4.
+*Needs:* 2.1, 2.6, 3.2, 3.4; DivisibilityOfThetaDerivatives §1.1 (b) (the generator `δ_E` of the different).
 
 ### 3.8 Finite zero terms and pairs of edges
 
@@ -1166,48 +1271,78 @@ whose isotropic part is spanned by the string vectors, and the zero term intertw
 
 (a) For a splitting `V = (isotropic frame ⊕ dual frame) ⊥ V_0`, the *finite zero term* `Z_f : 𝒮(V) → 𝒮(V_0)` is
 `f ↦ zero term of v ⊗ f` with `v` the Fock vacuum moved by an adapted real point. The zero term of `ϱ(y)(v ⊗ f)` is
-`v_0 ⊗ Z_f(ϱ_f(α^{−1}y_f)f)` for a real Fock vector `v_0` independent of `f`; `Z_f(vac) ≠ 0`, and `Z_f` obeys the law of the
-zero term for finite points of the parabolic subgroup.
-(b) A *pair of edges* `Y → Y′ → Y″` is three graded spaces with strings of lengths `s` (odd), `s − 1`, `s − 2` (or `s = 1`
-and empty strings) and data identifying the part of grade zero of `V⁻ ⊕ V″` with `X⁻ ⊕ X″` plus hyperbolic planes,
-compatibly with the stacked string map `(sh*, sh′) : V′ → V⁻ ⊕ V″`; the *middle* pair removes the plane of the two middle
-vectors (`s ≠ 1`), the *last* pair (`s = 1`, `N = pp̄`) adjoins `z/p` to `X_0` as last vector of `X″`. Its *finite evaluation*
-sends data on `Hom(V′, V⁻ ⊕ V″)` (the join of data on `Hom(V, V′)` and `Hom(V′, V″)`) to tensors of finite data on
-`Hom(X, X′)` and `Hom(X′, X″)`: translate by the stacked string map, take the finite zero term along the splitting, and
-split.
-(c) *Equivariance.* The zero term carries the joint Weil operator of `(inc_X g, inc_{X′} g′, inc_{X_0} k)` to that of
-`(g, g′, k′)` with `k′` the image of `k`; and the finite evaluation of the join of the translates of `Φ`, `Φ′` by
-`(inc g, inc g′)` and `(inc g′, inc k)` is the translate of the finite evaluation by `(g, g′)` and `(g′, k′)`.
+`v_0 ⊗ Z_f(ϱ_f(α^{−1}y_f)f)` for a real Fock vector `v_0` independent of `f`; `Z_f(vac) ≠ 0`; and if a finite point `g` of
+`U(V)` acts on the isotropic frame through a matrix of determinant `d` and on `V_0` as `g_0`, then
+`Z_f(ω(1, g)f) = (υ(d)|d|^{−1/2})^{−1}·ω(g_0)Z_f(f)`.
+(b) Write `V⁻` for `V` with its form negated. A *pair of edges* `Y → Y′ → Y″` is three graded spaces `V`, `V′`, `V″` with
+the same `N`, definite parts `X`, `X′`, `X_0` and strings of lengths `s` (odd), `s − 1` and `max(s − 2, 0)`, such that the
+gradings of `V` and `V′` have the same constant and `rank V + rank V″` is even, together with: a finite set `q` and a
+rational isometry `i` of the sum of `|q|` hyperbolic planes and `I_X⁻ ⊕ I_{X″}` onto the span of the basis vectors of
+grade zero of `V⁻ ⊕ V″`; a homomorphism `k ↦ k′` from `U(X_0)(𝔸)` to `U(X″)(𝔸)` that preserves determinants, such that
+`inc_X(g) ⊕ inc_{X_0}(k)` acts through `i` as `1` on the planes, `g` on `X` and `k′` on `X″`; and an injection of `q` into
+the basis vectors of grade one of `V′` such that the component of grade zero of the image under the stacked string map
+`(sh*, sh′) : V′ → V⁻ ⊕ V″` (`sh*` the adjoint of the string map `V → V′`, `sh′` the string map `V′ → V″`) of the basis
+vector attached to a plane is the constant of `Y′` times the image under `i` of the second basis vector of that plane,
+and that of every other basis vector of `V′` is `0`. For the *middle* pair (`s ≠ 1`) `X″ = X_0`, `k′ = k`, and there is
+one plane, with basis `(z − z′)/(2N)`, `z + z′`, where `z`, `z′` are the middle string vectors of `V`, `V″`; for the *last*
+pair (`s = 1`, `N = pp̄` with `p ∈ E`) there is no plane, `X″ = X_0 ⊔ {last}` with last vector `z/p`, `z` the string
+vector of `V`, and `k′ = diag(k, 1)`. The *join* `f ⋆ f′` of data `f` on `Hom(V, V′)` and `f′` on `Hom(V′, V″)` is the
+datum `f ⊛ f′` on `Hom(V′, V⁻ ⊕ V″)` of WeilRepresentationsOnBanachSpacesOfData §6.15 (`f′` times the scaled adjoint of
+`f`). Its *finite evaluation* sends data on `Hom(V′, V⁻ ⊕ V″)` to tensors of finite data on `Hom(X, X′)` and
+`Hom(X′, X″)`: translate by the stacked string map, take the finite zero term along the splitting, and split by a fixed
+left inverse of the join of finite data.
+(c) *Equivariance.* For characters `a`, `b` of `U(1)(𝔸)`, the *joint Weil operator* `ω_{a,b}(g, g′, k)` on
+`Hom(V′, V⁻ ⊕ V″)` is the representation `ω₃` of WeilRepresentationsOnBanachSpacesOfData §6.15 (c) for `a`, `b` (the Weil
+operator of `(g′, g ⊕ k)` times characters of the three determinants). For all `a`, `b` and adelic `g`, `g′`, `k`, the zero
+term along the splitting carries `ω_{a,b}(inc_X g, inc_{X′} g′, inc_{X_0} k)` to `ω_{a,b}(g, g′, k′)`; and for finite
+points `g`, `g′`, `k` with `k′` finite and finite data `Φ`, `Φ′`, the finite evaluation of the join of the translate of
+`Φ` by `(inc g, inc g′)`, taken with `a`, and that of `Φ′` by `(inc g′, inc k)`, taken with `b`, is the translate of the
+finite evaluation of `Φ ⋆ Φ′` by `(g, g′)` (with `a`) and `(g′, k′)` (with `b`).
 (d) For the spaces `Y_{2i} → Y_{2i+1} → Y_{2i+2}` (graded as in 3.7) the evaluation is the middle pair for `i < ϱ` and the last
-pair for `i = ϱ`. For finite points `y_k` of `U(Y_k)` the *evaluated datum* of pair `i` is the finite evaluation of the data
-`Υ_{2i+1}`, `Υ_{2i+2}` of 2.15 moved by `(y_{2i}, y_{2i+1})` and `(y_{2i+1}, y_{2i+2})`. `B_M := M^{f n_m²}`.
+pair for `i = ϱ` (with `p = π_N`). For finite points `y_k` of `U(Y_k)` the *evaluated datum* of pair `i` is the finite
+evaluation of the join of the data `Υ_{2i+1}`, `Υ_{2i+2}` of 2.15 moved by `(y_{2i}, y_{2i+1})` and `(y_{2i+1}, y_{2i+2})`
+(with the characters of lifts `2i + 1` and `2i + 2`). `B_M := M^{f n_m²}`.
 
 [ShortProof], `New/UpperBound/Seesaw/EdgePairEvaluation.lean` (`New.Seesaw.zeroTermFin`,
-`New.Seesaw.exists_zeroTerm_rho_integrated_eq`, `New.Seesaw.DoubleLiftData`, `New.Seesaw.DoubleLiftData.finEval`,
+`New.Seesaw.exists_zeroTerm_rho_integrated_eq`, `New.Seesaw.zeroTermFin_vacElem_ne_zero`, `New.Seesaw.zeroTermFin_omega`,
+`New.Seesaw.HasConsecutiveStrings`, `New.Seesaw.DoubleLiftData`, `New.Seesaw.DoubleLiftData.finEval`,
 `New.Seesaw.DoubleLiftData.zeroTerm_splitting_tripleWeil`, `New.Seesaw.DoubleLiftData.finEval_arrowProduct_equivariant`,
 `New.Seesaw.middleDoubleLift`, `New.Seesaw.lastDoubleLift`, `New.Data.doubleLiftEvalY`, `New.Data.evaluatedDatum`,
 `New.Data.translatedPointDatumY`, `New.Data.residueMatrixCount`).
 
-*Needs:* 2.15, 3.7; WeilRepresentationsOnBanachSpacesOfData §§5.5, 6.9 (the mixed model of the Weil representation along an isotropic splitting: the zero term `𝒮(V) → 𝒮(V₀)`, the theta functional as a sum of slices, and the zero terms of a pair under the Levi part and the radical).
+*Needs:* 2.15, 3.7; WeilRepresentationsOnBanachSpacesOfData §§5.5, 6.9 (the mixed model of the Weil representation along an isotropic splitting: the zero term `𝒮(V) → 𝒮(V₀)`, the theta functional as a sum of slices, and the zero terms of a pair under the Levi part and the radical);
+WeilRepresentationsOnBanachSpacesOfData §6.15 (two edges joined into one datum, and the joint Weil operator).
 
 ### 3.9 The neighbour lattice of a pair of edges
 
-*Origin:* particular to this proof: the image in `I^⊥/I` of the vacuum lattice of a pair of edges is a neighbour of the
-standard lattice above `N`, with explicit representatives modulo its integral points.
+*Origin:* particular to this proof: a neighbour of the standard lattice above `N`, with rows scaled elsewhere, and
+explicit representatives modulo its integral points (under the hypotheses of 3.11 it is the image in `I^⊥/I` of the
+vacuum lattice of a pair of edges).
 
-*Method of the formal proof:* an explicit unitary carries the standard lattice of `Hom(X′, X⁻ ⊕ X″)` to the neighbour
+*Method of the formal proof:* an explicit unitary carries the standard lattice of `Hom(X′, (X ⊔ {e})⁻ ⊕ (X″ ⊔ {e″}))` to the neighbour
 lattice; away from `N` it scales rows, above `N` the translations by the matrices built from residues represent it.
 
-Take definite spaces on `X ⊔ {e}`, `X′`, `X″ ⊔ {e″}`, `N = ππ̄` split squarefree along `P`, row factors `κ` equal to `1` or a
-norm-one `δ` that is `1` above `N`, with denominators bounded by an integral `β` (a unit above `N`) and `β̄`. For residues
-`y` modulo `N` at `P` let `T_y` have `ηȳ/N` in the row of `e` and `−ȳ/N` in the row of `e″` (`η` of norm `−1`), supported at
-the conjugates of `P`. The *neighbour lattice* is the image of the standard lattice of `Hom(X′, X⁻ ⊕ X″)` under the explicit
-unitary `(γκ) ⊗ 1` (a neighbour of the standard lattice above `N`, rows scaled by `κ` elsewhere); its elements that
-vanish above `N` form finitely many classes modulo the integral matrices, whose number divides the number of matrices
-with entries in `Ô/(β)`; every element is congruent modulo integral matrices to exactly one `T_y + t` with `t` a chosen
-representative of such a class. For a pair of edges, the neighbour lattice is the image of the vacuum lattice of 3.11.
+Let `N` be a rational prime and `P` a set of finite places of `E` holding one place of each conjugate pair above `N`,
+such that the places above `N` are those of `P` and their conjugates, each place of `P` has residue degree one and `N`
+is a uniformiser there; let `N = ππ̄` be split squarefree along `P` (3.2). Take standard definite spaces on `X ⊔ {e}`,
+`X′`, `X″ ⊔ {e″}`, and write `I_• := (X ⊔ {e}) ⊔ (X″ ⊔ {e″})` for the basis of `(X ⊔ {e})⁻ ⊕ (X″ ⊔ {e″})`. Let `δ` be a
+finite adele with `δδ̄ = 1` that is `1` at the places above `N`, `β ∈ Ô` an integral finite idele that is a unit at the
+places above `N`, and `κ` row factors on `I_•`, each equal to `1` or `δ`, such that `β̄κ_b` is integral for every `b ∈ I_•`
+and `βκ_b` is integral for `b ∈ X ⊔ {e}`. Fix a unit `η` of `Ô` with `ηη̄ = −1`. Let `j` be the idempotent adele of `P`
+(`1` at the places of `P`, `0` elsewhere), `ρ := e + η̄ j̄ e″`, `A := j(π − 1) + j̄(π̄^{−1} − 1)` and `γ := 1 + A·ρρ*`, a
+matrix of finite adeles with `γ*γ = 1` that is `1` away from the places above `N`. For residues `y ∈ ((ℤ/N)^P)^{X′}` let
+`T_y` be the `I_• × X′` matrix with row `ηȳ/N` at `e`, row `−ȳ/N` at `e″` and zero elsewhere (`y/N` the adele `y_w/N` at
+`w ∈ P` and `0` elsewhere, so `T_y` is supported at the conjugates of `P`). The *neighbour lattice* is the image of the
+integral `I_• × X′` matrices under left multiplication by `γ·diag(κ)` (a neighbour of the standard lattice above `N`,
+rows scaled by `κ` elsewhere). Its elements that vanish at the places above `N` form finitely many classes modulo the
+integral matrices, whose number divides the number of `I_• × X′` matrices with entries in `Ô/(β)`; and every element
+of the neighbour lattice differs by an integral matrix from exactly one `T_y + t`, `t` a fixed representative of such a
+class. A pair `(c, x)`, `c` a finite adele and `x` a vector of finite adeles on `I_•`, is a *neighbour vector* if
+`δc = c`, `x_b` is integral for `b ≠ e, e″`, `π̄x_b` is integral for all `b`, and `c − π^{−1}x_e` and `η̄c − π^{−1}x_{e″}`
+are integral.
 
 [ShortProof], `New/UpperBound/Seesaw/NeighbourLattice.lean` (`New.Seesaw.neighbourLattice`,
+`New.Seesaw.neighbourAxis`, `New.Seesaw.neighbourScale`, `New.Seesaw.neighbourMatrix`, `New.Seesaw.latticeUnitary`,
 `New.Seesaw.neighbourTranslation`, `New.Seesaw.IsNeighbourVector`, `New.Seesaw.IsScalingAtM`,
 `New.Seesaw.AwayLatticeQuotient`, `New.Seesaw.card_awayLatticeQuotient_dvd`, `New.Seesaw.neighbourCosetRep`,
 `New.Seesaw.existsUnique_sub_neighbourCosetRep_mem`).
@@ -1223,20 +1358,23 @@ lattice, read on the two edges, is a combination of glued translates.
 translations that vanish above `N`; each class of the latter contributes a root of unity times one glued translate.
 
 In the setting of 3.9, the *glued translate* of `t = (t_1, t_2)` is `Glue(ϱ_f(t_1)vac ⊗ ϱ_f(t_2)vac)` on the two edges
-`Hom(X ⊔ {e}, X′)`, `Hom(X′, X″ ⊔ {e″})`. Let `x` vanish above `N` and have rows of denominator at most `β` (first block) and
-`β̄` (second block) away from `n`. Then the translate by `x` of `Σ_{(y, c)} ϱ_f(T_y + t_c)vac`, read on the two edges, is an
-admissible combination of the `K·(glued translate of t)`, `K` the number of classes, over the `t` with `β̄t_1`, `β̄t_2`
-integral away from `n`, with denominator the number of matrices modulo `β` and size `1` under any condition.
+`Hom(X ⊔ {e}, X′)`, `Hom(X′, X″ ⊔ {e″})` (the gluing of 2.12 with residues at `P`). Let `n ∈ ℕ` and let `x`, an
+`I_• × X′` matrix of finite adeles, vanish above `N` and have rows of denominator at most `β` (rows in `X ⊔ {e}`) and
+`β̄` (rows in `X″ ⊔ {e″}`) away from `n`. Then the translate by `x` of `Σ_{(y, Ω)} ϱ_f(T_y + t_Ω)vac`, the sum over the
+residues `y` and the classes `Ω` of 3.9 with their fixed representatives `t_Ω`, read on the two edges (by the fixed left
+inverse of the join of finite data, 3.8 (b)), is an admissible combination of the `K·(glued translate of t)`, `K` the
+number of classes, over the `t` with `β̄t_1`, `β̄t_2` integral away from `n`, with denominator away from `n` the number of
+`I_• × X′` matrices with entries in `Ô/(β)`, and size `1` under any condition.
 
 [ShortProof], `New/UpperBound/Seesaw/NeighbourVacuum.lean` (`New.Seesaw.gluedTranslate`, `New.Seesaw.IsAdmissibleEval`,
 `New.Seesaw.isAdmissibleCombination_finHeisenbergOp_sum_neighbourCosetRep`).
 
-*Needs:* 1.1, 1.2, 3.9.
+*Needs:* 1.1, 1.2, 3.8, 3.9.
 
 ### 3.11 Finite evaluation of a pair of edges
 
 *Origin:* particular to this proof: what the finite evaluation of 3.8 does to a translate of the vacuum, expressed
-through the glued translates of 3.3.
+through the glued translates of 3.10.
 
 *Method of the formal proof:* the vacuum's lattice meets `I^⊥`, `I` the isotropic part, in a lattice whose image modulo
 `I` is the neighbour lattice of 3.9. Hence the finite evaluation sends a translate of the vacuum to `0` or to a root of
@@ -1244,19 +1382,40 @@ unity times a translate of the vacuum's zero term, and 3.10 expands that zero te
 representatives of the neighbour lattice. The two hypotheses, on lifting neighbour vectors and on matching
 denominators, are verified separately for the middle pair and for the last pair.
 
-Let `P` hold one place of each pair above `N` with `N = ππ̄` split squarefree along `P`, `κ`, `δ`, `β` as in 3.9, and a pair of
-edges whose middle space spans the glued lattice for `a`, `π`, `u′`, such that the solutions of the neighbour congruences lift
-to the lattice of `V⁻ ⊕ V″` and the denominators match through `κ`. Then there is `C` such that for every `n` prime to `N` the
-finite evaluation sends each translate of the vacuum by `y`, with rows of denominator `β` on `V⁻` and `β̄` on `V″` away from
-`n`, to an admissible combination of the `C·(glued translate of (t_1, t_2))` with `β̄t_1`, `β̄t_2` integral away from `n`, of
-denominator depending only on `β` and the index sets and of size `1`. The two hypotheses hold for the middle pair and for the
-last pair of the spaces `Y_k` (3.8 (d)).
+Let `N`, `P`, `π`, `δ`, `β`, `κ`, `η` be as in 3.9, and put `s := η̄·ᾱ/α` (`α` the idele of the Weil data). Let
+`Y → Y′ → Y″` be a pair of edges (3.8 (b)) whose spaces `X`, `X′`, `X″` of 3.8 (b) are `X ⊔ {e}`, `X′ ⊔ {e′}`,
+`X″ ⊔ {e″}`, with `i` its rational isometry onto the part of grade zero of `V⁻ ⊕ V″`, such that the middle space `V′`
+spans the glued lattice for `a`, `π`, `u′`, and let `u` be a norm-one finite adele. Suppose:
+(i) *neighbour vectors lift*: for every neighbour vector `(c, x)` (3.9), the image under `i` of the vector with coordinate
+`0` at the first and `s·u·c` at the second basis vector of each plane, `s·κ_b x_b` at `b ∈ X ⊔ {e}` and `κ_b x_b` at
+`b ∈ X″ ⊔ {e″}` lies in the lattice of `V⁻ ⊕ V″`;
+(ii) *denominators match*: whenever the entry of `i` at a basis vector `b′` of `V⁻ ⊕ V″` and at `b ∈ I_•` is nonzero, `d_{b′}`
+and `d_b κ_b` have the same valuation at every finite place, where `d` is `β` on the basis of `V` and on `X ⊔ {e}`, and
+`β̄` on the basis of `V″` and on `X″ ⊔ {e″}`.
+Then there is `C ∈ ℂ` such that for every `n ∈ ℕ` prime to `N` and every condition `𝖯`, the finite evaluation (3.8 (b))
+sends each translate `ϱ_f(y)vac` of the vacuum of `Hom(V′, V⁻ ⊕ V″)` such that, away from `n`, the rows of `y` at the
+basis vectors of `V` have denominator at most `β` and those at the basis vectors of `V″` at most `β̄`, to an admissible
+combination of the `C·(glued translate of (t_1, t_2))` (3.10) over the `(t_1, t_2)` with `β̄t_1`, `β̄t_2` integral away from
+`n`, with denominator away from `n` the number of `I_• × (X′ ⊔ {e′})` matrices with entries in `Ô/(β)`, and of size `1`
+under `𝖯`. Moreover, under (i), the image of `L ∩ I^⊥` in `I^⊥/I` (`L` the standard lattice of `Hom(V′, V⁻ ⊕ V″)` in the
+coordinates of its point, `I` the isotropic part of the splitting of the pair) is the neighbour lattice of 3.9 (with
+columns indexed by `X′ ⊔ {e′}`).
+(i) and (ii) hold with `κ = 1` (any `β`) for a middle pair whose outer spaces span the glued lattices for `a`, `π` and
+scales `u`, `u″` with `s·u = η̄δu″`; and with `κ = δ` at `e″` and `1` elsewhere for a last pair with `V″` standard,
+`N = pp̄`, `π` the principal idele of `p`, the first space spanning the glued lattice for `a`, `π`, `u` with `s·u = η̄δ`,
+when `β̄δ` and `β` have the same valuation at every finite place. For the pairs of the spaces `Y_k` (3.8 (d)) the
+conclusion holds with `P = P_N`, `π` the principal idele of `π_N`, `β = π_M` and denominators `π_M` on `V⁻`, `π̄_M` on
+`V″` (from (i), (ii) with `δ = ϖ_M/ϖ̄_M`, `u = u_{2i}`, `u″ = u_{2i+2}`).
 
-[ShortProof], `New/UpperBound/Seesaw/AdmissibleEvaluation.lean` (`New.Seesaw.isAdmissibleEval_finEval`,
-`New.Seesaw.liftsNeighbours_middleDoubleLift`, `New.Seesaw.matchesDenominators_middleDoubleLift`,
-`New.Seesaw.liftsNeighbours_lastDoubleLift`, `New.Seesaw.matchesDenominators_lastDoubleLift`).
+[ShortProof], `New/UpperBound/Seesaw/AdmissibleEvaluation.lean` (`New.Seesaw.flipScale`,
+`New.Seesaw.DoubleLiftData.liftVector`, `New.Seesaw.DoubleLiftData.LiftsNeighbours`,
+`New.Seesaw.DoubleLiftData.MatchesDenominators`, `New.Seesaw.DoubleLiftData.zeroTermLattice_splitting_eq`,
+`New.Seesaw.isAdmissibleEval_finEval`, `New.Seesaw.liftsNeighbours_middleDoubleLift`,
+`New.Seesaw.matchesDenominators_middleDoubleLift`, `New.Seesaw.liftsNeighbours_lastDoubleLift`,
+`New.Seesaw.matchesDenominators_lastDoubleLift`), `New/UpperBound/Seesaw/GoodDatum.lean`
+(`New.Data.isAdmissibleEval_doubleLiftEvalY`).
 
-*Needs:* 3.3, 3.8, 3.9, 3.10.
+*Needs:* 3.2, 3.3, 3.7, 3.8, 3.9, 3.10.
 
 ### 3.12 Evaluated data as admissible combinations of glued translates
 
@@ -1285,14 +1444,16 @@ the equivariant function, and the mean over the second unipotent group turns one
 splitting of the pair; the double theta integral is a coefficient of a composite of two lifts.
 
 Let `Y → Y′ → Y″` be a pair of edges (3.8) with definite parts `X`, `X′`, `X_0`. There is `z ∈ ℂ` such that for all
-characters `a`, `b` of `U(1)(𝔸)`, data `f`, `f′` on `Hom(V, V′)`, `Hom(V′, V″)`, `k ∈ U(X_0)(𝔸)` and every continuous
-`W` on `R(𝔸)` left invariant under `R(F)` and transforming by `ψ_U`:
+characters `a`, `b` of `U(1)(𝔸)`, data `f`, `f′` on `Hom(V, V′)`, `Hom(V′, V″)`, `k ∈ U(X_0)(𝔸)` and every equivariant
+`W` on `R(𝔸)` (Conventions; as `s` is odd, all grades are even and `W` transforms by `ψ_U` under the whole unipotent
+radical):
 
 `∫_{[R′]}∫_{[R]} W(g)·CT(f)(g, r)·CT(f′)(r, inc k) dg dr = ∫_{[U(X)]} W(inc g)·(z·∫_{[U(X′)]} θ(ω_{a,b}(g, r, k′)Z(sh·(f ⋆ f′))) dr) dg`,
 
-where `CT` are the constant terms at the string maps of the Weil translates, `f ⋆ f′` the join, `sh` the translation by the
-stacked string map, `Z` the zero term along the splitting of the pair, `k′` the image of `k` and `ω_{a,b}` the joint Weil
-action on `Hom(X′, X⁻ ⊕ X″)`.
+where `CT` are the constant terms at the string maps (Conventions) of `f` under the Weil action of `(g, r)` with the rank
+twists of `a`, and of `f′` under that of `(r, inc k)` with the rank twists of `b`, `f ⋆ f′` the join (3.8 (b)), `sh` the
+translation by the stacked string map, `Z` the zero term along the splitting of the pair, `k′` the image of `k` and
+`ω_{a,b}` the joint Weil operator (3.8 (c)) on `Hom(X′, X⁻ ⊕ X″)`.
 
 [ShortProof], `New/UpperBound/Seesaw/UnfoldingStages.lean` (`New.Seesaw.DoubleLiftData.exists_integral_constTermAtStringMap_mul_eq`).
 
@@ -1308,21 +1469,30 @@ Bessel function of a source form, and their value after each pair of lifts as a 
 compactness of `[R_k]`; after a pair, 3.13 and the class-sum lift of ThetaLiftsForDefiniteUnitaryGroups §1.2 identify the
 double theta integral with a coefficient of the double-lift chain.
 
-Fix `ϑ`, `t`, a source form `φ` and outer variables `g_k = (ξ_k, y_k) ∈ U(Y_k)(𝔸)`. Let `R_k` be the Bessel subgroup of the
-grading of `Y_k`. Define `𝒲_0 := 𝒲_φ` on `R_0` and, for `k ≥ 0` and a grading `Y′` of `Y_{k+1}` with a string of `m − 2 − k` vectors, `𝒲_{k+1}` on `U(Y_{k+1})(𝔸)` by
-one unfolding step of `𝒲_k(·g_k)` against the Weil translates of `Φ_k^ϑ`; it depends only on `g_0, …, g_k`, is continuous and
-left invariant under the rational points of the Bessel subgroup of `Y′`, and its restriction to `R_{k+1}` is equivariant.
-(a) For `z` automorphic and rapidly decreasing on `U(Y_{k+1})` (every form of the conjugate type is, for `k + 1 ≤ m`),
-`𝒲_{k+1}·z` is integrable on `R′(F)\U(Y_{k+1})(𝔸)` and
-`∫_{[R_k]} 𝒲_k(r)·∫_{[U(Y_{k+1})]} θ(ω(r g_k, h)Φ_k^ϑ)z(h) dh dr = ∫_{R′(F)\U(Y_{k+1})(𝔸)} 𝒲_{k+1}·z`.
-(b) For `2i + 1 ≤ m − 1` and a pair of edges `R` for `Y_{2i} → Y_{2i+1} → Y_{2i+2}` whose evaluation is that of 3.8 (d), and an
-archimedean `x`, there is a linear form `l` on `V_{μ(X_{2i+2})}`, independent of `ϑ`, `φ` and the `y_k`, with
-`𝒲_{2i+2}(inc g·(x, y_{2i+2})) = l(C_{i+1}(evaluated data)φ)(R.emb g)` for `g ∈ U(X)(𝔸)`, `C_{i+1}` the chain of the first
-`i + 1` double lifts `L_j^ϑ`.
+Fix a tame character `ϑ`, `t`, a source form `φ` and outer variables `g_k = (ξ_k, y_k) ∈ U(Y_k)(𝔸)`. Let `R_k` be the
+Bessel subgroup of the grading of `Y_k` (3.7, `k ≤ m − 1`), and let `ω` on `Hom(Y_k, Y_{k+1})` be the Weil action with the
+characters `(ν_{k+1}^ϑ)_{Y_k}`, `(ν_{k+1}^ϑ)_{Y_{k+1}}` (2.15). Put `W_0 := 𝒲_φ` on `R_0(𝔸)`. For `0 ≤ k ≤ m − 1` and a
+grading `Y′` of `Y_{k+1}` with a string of `m − 2 − k` vectors (none for `k = m − 1`), define `𝒲_{k+1}` on
+`U(Y_{k+1})(𝔸)` by `𝒲_{k+1}(h) := ∫_{[R_k]} W_k(r)·CT(Φ_k^ϑ)(r g_k, h) dr`, where `CT(Φ_k^ϑ)(g, h)` is the constant term at
+the string map `Y_k → Y′` of `ω(g, h)Φ_k^ϑ` (Conventions), and, for `k + 1 ≤ m − 1`, `W_{k+1}(r) := 𝒲_{k+1}(r g_{k+1})` on
+`R_{k+1}(𝔸)`, `𝒲_{k+1}` being formed with the grading of `Y_{k+1}` of 3.7. Then `𝒲_{k+1}` depends only on `g_0, …, g_k`,
+is continuous and left invariant under the rational points of the Bessel subgroup of `Y′`; and each `W_k`,
+`0 ≤ k ≤ m − 1`, is equivariant on `R_k(𝔸)` (Conventions, graded spaces).
+(a) For `0 ≤ k ≤ m − 1`, `Y′` as above and `z` automorphic and rapidly decreasing on `U(Y_{k+1})` (every form of the
+conjugate type on `U(Y_{k+1})` is rapidly decreasing, for `k + 1 ≤ m`), `𝒲_{k+1}·z` is integrable on
+`R′(F)\U(Y_{k+1})(𝔸)`, `R′` the Bessel subgroup of `Y′`, and
+`∫_{[R_k]} W_k(r)·∫_{[U(Y_{k+1})]} θ(ω(r g_k, h)Φ_k^ϑ)z(h) dh dr = ∫_{R′(F)\U(Y_{k+1})(𝔸)} 𝒲_{k+1}·z`.
+(b) For `2i + 1 ≤ m − 1` and a pair of edges `R` for `Y_{2i} → Y_{2i+1} → Y_{2i+2}` (the first two graded as in 3.7, the
+third by a grading `Y` with definite part `X`) whose finite evaluation is that of 3.8 (d), and an archimedean `x`, there
+is a linear form `l` on `V_{μ(X_{2i+2})}`, independent of `ϑ`, `φ` and the `y_k`, with
+`𝒲_{2i+2}(inc g·(x, y_{2i+2})) = l(C_{i+1}(evaluated data)φ)(R.emb g)` for `g ∈ U(X)(𝔸)`, where `𝒲_{2i+2}` is formed with
+`Y`, `R.emb` is the homomorphism `k ↦ k′` of `R`, and `C_{i+1}` is the chain of the first `i + 1` double lifts `L_j^ϑ`.
 
-[ShortProof], `New/UpperBound/Seesaw/UnfoldingStages.lean` (`New.Data.unfoldStageOn`, `New.Data.unfoldStage`,
-`New.Data.unfoldStage_update`, `New.Data.continuous_unfoldStage`, `New.Data.fixesLeft_ratBessel_unfoldStage`,
-`New.Data.integral_unfoldStageOn`, `New.Data.exists_unfoldStage_eq_algFormCoeff`).
+[ShortProof], `New/UpperBound/Seesaw/UnfoldingStages.lean` (`New.Data.movedDatum`, `New.Data.unfoldStageOn`,
+`New.Data.unfoldStage`, `New.Data.unfoldStage_update`, `New.Data.isEquivariant_unfoldStageOn`,
+`New.Data.continuous_unfoldStage`, `New.Data.fixesLeft_ratBessel_unfoldStage`, `New.Data.integral_unfoldStageOn`,
+`New.Data.exists_unfoldStage_eq_algFormCoeff`), `New/UpperBound/Seesaw/SeesawIdentity.lean`
+(`New.Data.isRapid_conjFormY`).
 
 *Needs:* 2.8, 2.15, 2.19, 3.7, 3.8, 3.13; ThetaLiftsForDefiniteUnitaryGroups §1.2.
 
@@ -1356,18 +1526,20 @@ levels `K_j` by 3.4 and 3.7 (c); the coefficients are inverses of multiplicities
 Let `ϑ` be a tame character. For `j ≤ m − 1`, a *cut* of stage `j` is a finite set `T` of classes of `U(Y_j)(𝔸_f)` modulo
 `J_ϑ(Y_j)` that is stable under `R_{j,f} ∩ K°`, whose points are integral at the places not dividing `q_ϑ`, on which the cover
 multiplicity (for `R_{j,f}` and `K°`) divides a power of `q_ϑ`, and whose multiplicity is nonzero at every point with a bounded
-orbit for `(q_Q, j)`. (a) Cuts exist; `Ω_0` is the set of classes of the elements of `J_M`, and `Ω_j` a fixed cut for
-`j ≥ 1`; `mult_0 := 1`, `mult_j` the cover multiplicity. (b) For `S` on tuples of classes, `Σ_k(S)` is the sum of `S` over
-`Ω_0 × ⋯ × Ω_{k−1}` (the other coordinates the class of `1`), each term divided by the multiplicities of its coordinates;
-it is linear in `S`, and invariant under translating `S` by a tuple `h` with `h_i ∈ inc_X(K_i)` for `i < k` and `h_i = 1` for
-`i ≥ k`. (c) `Σ_k(S)` is an admissible combination of the values of `S` at tuples of points integral at the places not
-dividing `q_ϑ`, with denominator `1` away from `q_ϑ` and size `B_M^k` if `Q(ϑ) = ∅`.
+orbit for `(q_Q, j)` (`q_Q` as in 3.15). (a) Cuts exist; `Ω_0` is the set of classes of the elements of `J_M`, and
+`Ω_j` a fixed cut for `j ≥ 1`; `mult_0 := 1`, `mult_j` the cover multiplicity. (b) For `k ≤ m` and `S` on tuples of
+classes with values in a complex vector space, `Σ_k(S)` is the sum of `S` over `Ω_0 × ⋯ × Ω_{k−1}` (the other
+coordinates the class of `1`), each term divided by the multiplicities of its coordinates; it commutes with every linear
+map applied to the values of `S` (`L(Σ_k(S)) = Σ_k(L∘S)`), and it is invariant under translating `S` by a tuple `h` with
+`h_i ∈ inc_X(K_i)` for `i < k` and `h_i = 1` for `i ≥ k`. (c) For `k ≤ m`, `Σ_k(S)` is an admissible combination of the
+values of `S` at tuples of points integral at the places not dividing `q_ϑ`, with denominator `1` away from `q_ϑ` and
+size `B_M^k` (`B_M` of 3.8 (d)) if `Q(ϑ) = ∅`.
 
 [ShortProof], `New/UpperBound/Seesaw/Cut.lean` (`New.Data.IsStageCut`, `New.Data.exists_isStageCut`, `New.Data.cutPoints`,
 `New.Data.cutMultiplicity`, `New.Data.cutSum`, `New.Data.map_cutSum`, `New.Data.cutSum_comp_smul`,
 `New.Data.isAdmissibleCombination_cutSum`).
 
-*Needs:* 1.1, 3.1, 3.4, 3.5, 3.7.
+*Needs:* 1.1, 3.1, 3.4, 3.5, 3.7, 3.8, 3.15.
 
 ### 3.17 The top of the chain
 
@@ -1381,8 +1553,8 @@ spans the equivariant maps (2.2 (d)).
 
 For every linear form `t` on `V_{μ(X_m)}` there is `C ∈ ℂ` such that for every form `x` on `U(Y_m)` of type `l_Y(m)`, every
 `ψ ∈ 𝒜_m` and every function `F` on `U(Y_m)(𝔸)` with `F(k) = t(ψ)(diag(k, 1))` for all `k ∈ U(Y_m)(𝔸)`:
-`∫_{[U(Y_m)]} F·x̄ = C·⟨x, res(ψ)⟩`. Consequently, if `ι_m^ϑ ∘ ⋯ ∘ ι_1^ϑ(f) = res(ψ)` as automorphic forms, then
-`Θ_ϑ(f) = res(ψ)` as algebraic forms.
+`∫_{[U(Y_m)]} F·x̄ = C·⟨x, res(ψ)⟩`. Consequently, for a tame character `ϑ`, `f ∈ 𝒜(Y_0)` and `ψ ∈ 𝒜_m`, if
+`ι_m^ϑ ∘ ⋯ ∘ ι_1^ϑ(f) = res(ψ)` as automorphic forms, then `Θ_ϑ(f) = res(ψ)` as algebraic forms.
 
 [ShortProof], `New/UpperBound/Seesaw/SeesawIdentity.lean` (`New.Data.exists_integral_eq_mul_inner_restrictToFormY`,
 `New.Data.lowerChain_eq_of_lowerChainUpTo_eq`).
@@ -1398,14 +1570,16 @@ on `Y_{k+1}` is a constant, independent of the twist and the source form, times 
 over `J_M/J_ϑ(Y_0)` being the cut `Ω_0`; each further step unfolds by 3.14 (a) and turns the outer integral into a cut sum
 by 3.1 (c), whose hypotheses on the support come from 3.15 and 3.16.
 
-Let `ϑ` be a tame character and `j < m`. (a) For a form `z` of the conjugate type on `Y_{j+1}` and `f` on `Y_j`,
+Let `ϑ` be a tame character and `j < m`. (a) For a form `z` of the conjugate type on `U(Y_{j+1})` and a form `f` of type
+`l_Y(j)` on `U(Y_j)`,
 `∫_{[U(Y_{j+1})]} z·ι_{j+1}^ϑ(f) = ∫_{[U(Y_j)]} ι_{j+1}^{ϑ,*}(z)·f`, where the descent `ι_{j+1}^{ϑ,*}(z)(g) =
 [K° : J_ϑ(Y_j)]·∫_{[U(Y_{j+1})]} θ(ω(g, h)Φ_j^ϑ)z(h) dh` is right invariant under `J_ϑ(Y_j)`. (b) For `t`, an archimedean
 point `g` of `U(Y_0)`, `k ≤ m − 1`, a grading `Y′` of `Y_{k+1}` with a string of `m − 2 − k` vectors (none for
 `k = m − 1`) and a function `a` of the
 archimedean outer variables, there is `c ∈ ℂ` such that for every `ϑ`, every `φ ∈ 𝒮_X^{ram}`, every form `z` of the conjugate
 type on `Y_{k+1}` and every `S` on tuples of classes with
-`∫_{R′(F)\U(Y_{k+1})(𝔸)} 𝒲_{k+1}·z = a(ξ)·S(classes of y)` whenever `y_0 ∈ J_M` and `y_m = 1`:
+`∫_{R′(F)\U(Y_{k+1})(𝔸)} 𝒲_{k+1}·z = a(ξ)·S(classes of y)` (`𝒲_{k+1}` of 3.14 formed with `Y′`, `R′` the Bessel subgroup
+of `Y′`) for all outer variables `(ξ, y)` with `y_0 ∈ J_M` and `y_m = 1`:
 `∫_{[U(Y_{k+1})]} z·(ι_{k+1}^ϑ ∘ ⋯ ∘ ι_1^ϑ)(𝒫_{g,t}φ) = c·Σ_{k+1}(S)`.
 
 [ShortProof], `New/UpperBound/Seesaw/SeesawIdentity.lean` (`New.Data.integral_mul_liftY`, `New.Data.transposedLiftY_apply`,
@@ -1425,8 +1599,8 @@ evaluation (3.8 (c)) and of the cut sum (3.16 (b)); admissibility by 3.12 and 3.
 
 Let `ϑ` be a tame character. The *seesaw tensor* is `φ_ϑ := Σ_m(c ↦ ⊗_{i≤ϱ} evaluated datum of pair i at representatives of
 c)`, a tensor of data for the `ϱ + 1` double lifts `X_{2i} → X_{2i+1} → X_{2i+2}`. (a) `φ_ϑ` is jointly invariant for `ϑ`.
-(b) For `t` and an archimedean point `g` of `U(Y_0)` there is `c₀ ∈ ℂ` with
-`ι_m^ϑ ∘ ⋯ ∘ ι_1^ϑ(𝒫_{g,t}φ) = c₀·res(C_m(φ_ϑ)φ)` for every tame character `ϑ` and every `φ ∈ 𝒮_X^{ram}`. (c) There is
+(b) For `t` and an archimedean point `g` of `U(Y_0)` there is `c_{g,t} ∈ ℂ` with
+`ι_m^ϑ ∘ ⋯ ∘ ι_1^ϑ(𝒫_{g,t}φ) = c_{g,t}·res(C_m(φ_ϑ)φ)` for every tame character `ϑ` and every `φ ∈ 𝒮_X^{ram}`. (c) There is
 `C ∈ ℂ` such that for every `ϑ`, `φ_ϑ` is an admissible combination of the `C·(glued vacuum of x)`, `x` admissible for
 `q_ϑ`, with denominator `B_M^{2m}` away from `q_ϑ` and size `B_M^{2ϱ+2}` if `Q(ϑ) = ∅`.
 
@@ -1437,11 +1611,11 @@ c)`, a tensor of data for the `ϱ + 1` double lifts `X_{2i} → X_{2i+1} → X_{
 
 ### 3.20 The seesaw identity
 
-*Origin:* particular to this proof: the `m`-fold lower chain of the Poincaré series of a ramified source form is a nonzero
-constant, the same for all twists, times a composite lift of the source form with a chain datum of the twist; that either
-side is nonzero is not asserted.
+*Origin:* particular to this proof: the `m`-fold lower chain of the image under the Poincaré map of a ramified source form
+is a nonzero constant, the same for all twists, times a composite lift of the source form with a chain datum of the
+twist; that either side is nonzero is not asserted.
 
-*Method of the formal proof:* 3.19 (b) with the constant `c₀`; 3.19 (c) after rescaling by a unit that clears the
+*Method of the formal proof:* 3.19 (b) with the constant `c_{g,t}`; 3.19 (c) after rescaling by a unit that clears the
 denominator `B_M^{2m}` gives a combination of glued vacua with denominator `1`; the glued vacua whose translations do not
 vanish off `Mq_ϑ` are replaced, up to roots of unity, by glued vacua of supported translations, and the size bound becomes
 `B_M^{2m}·B_M^{2ϱ+2} = M^{3fmn_m²}`; invariance is that of 3.19 (a).
@@ -1512,7 +1686,7 @@ twist `ϑ` there is a chain datum `Ψ` for `ϑ` (2.12) with
 
 ### From DivisibilityOfThetaDerivatives
 
-§1.4 (Weil data and the splitting character `υ`); §3.1 (the predicted divisibility of a family of Young diagrams);
+§1.1 (b) (the generator `δ_E` of the different); §1.4 (Weil data and the splitting character `υ`); §3.1 (the predicted divisibility of a family of Young diagrams);
 §4.2 (the jet scale `t₀`); §4.6 (the integral vacuum and its scale `c₀`); §4.8 (standard data); §§4.10–4.11 (integrality
 and divisibility of jets).
 
