@@ -445,7 +445,7 @@ Fix a shape, `b ≥ 1`, an integer `f ≥ 1`, a finite nonempty set `I` and a un
   `u(c) = c` for `c ≠ 0` and `u(0) = 1`; the map back is `ι(z) = z⁻¹`; the twist is `ψ(c) = exp(c − c̄)`; the bound of
   the bottom form is `E = (1 + b⁻¹⁰)/deg`; the weights are
   `Λ_i(p) = ∏_{l<i} w(p₀p₁⋯p_l)`, with `w(δ) = max(1, |δ|⁻¹)^{n⁶}` if `|δ| ≤ b^{60n²}` and `w(δ) = 0` otherwise; and
-  the decay is `β(ξ) = Θ_𝔰·b^{2000n⁹}·ℓ_{k−n⁷}(1/|ξ|)` with `Θ_𝔰 = π^{(2ϱ+1)k}·vol U(k)/vol U(r)` and
+  the decay is `β(ξ) = Θ_𝔰·b^{2000n⁹}·ℓ_{max(k−n⁷, 0)}(1/|ξ|)` with `Θ_𝔰 = π^{(2ϱ+1)k}·vol U(k)/vol U(r)` and
   `ℓ_j(t) = t^j·min(1, t)⁶`; and, for `σ` fixing the hyperbolic basis vectors
   and `p_ϱ = q_ϱ = h(z, σz)`, `J_n(p, q)` is the inner product of the normalised orbital integrals of `W♭` at the Weyl
   elements of `p` and `q` (the tensor `∫W♭(y) ⊗ W♭(γ⁻¹y)^* dy` at `γ = w_p σ`, times
@@ -500,11 +500,16 @@ For every measurable `F ≥ 0` on `G₁`,
 
 with `dZ` Lebesgue measure on complex `n × n` matrices and `ds` the measure `du dh` on `R⁰ = 𝖴⁰H`.
 
-*Needs:* 3.1, 3.4; ShortGRH background (for a tuple `E` of vectors, a measure on `U(J)` is below the fibre measure of the Gram map at `E`
-if its image under `g ↦ gE` is at most the fibre measure, over the Gram matrix of `E`, of Lebesgue measure on tuples;
-Haar measure is below the fibre measure of the empty tuple, the property passes to a tuple with one more vector, and
-for the frame the convolution with the Haar measure of the fixer `𝖴⁰H` is below the fibre measure; [ShortProof]
-`Lib/DiscreteSeries/Haar/GramFibre.lean` (`New.LeGramFibre`, `New.leGramFibre_haar`),
+*Needs:* 3.1, 3.4; ShortGRH background (a measure `l` on a space `X` is at most the fibre measure `dμ/dν` of a map
+`π : X → B` over `b` if, for every lower semicontinuous `K ≥ 0` and every `C`, the bounds `∫_{π⁻¹S} K dμ ≤ C·ν(S)` for
+all sufficiently small open `S ∋ b` give `∫ K dl ≤ C`; for a tuple `E` of vectors, a measure `m` on `U(J)` is below
+the fibre measure of the Gram map at `E` if its image under `g ↦ gE` is at most the fibre measure, over the Gram matrix
+of `E`, of Lebesgue measure on tuples with respect to Lebesgue measure on Gram matrices; for a basis with Gram matrix
+`J`, `J` of size `r`, the measure `vol U(r)/2^r` times the Haar measure of the Conventions is below the fibre measure;
+and if an s-finite measure `m` on `G₁` is below the fibre measure at the frame `(e₁, …, e_ϱ, z)`, then the convolution
+`m ∗ ds`, with `ds = du dh` the measure of the fixer `R⁰ = 𝖴⁰H` of the frame, is at most
+`vol U(r)/(2^{ϱ+1}·vol U(k))` times the Haar measure of `G₁`; [ShortProof] `Lib/General/Measure/FibreMeasure.lean`
+(`New.LeFibreMeasure`), `Lib/DiscreteSeries/Haar/GramFibre.lean` (`New.LeGramFibre`, `New.leGramFibre_haar`),
 `Lib/DiscreteSeries/Bessel/FrameFibre.lean` (`New.LeGramFibre.mconv_fixerHaar_le`))
 
 [ShortProof], `New/Spanning/Bessel/MeanValue.lean` (`New.RealPlace.lintegral_gramSection_le`,
@@ -645,11 +650,13 @@ For `R > 0` let `χ_R(t) = max(0, min(1, 2 − 2t/R))` and `W♭(y) = χ_{b^{6n+
 and that `b ≥ 2000`, `r ≥ 100`, `f ≥ 1`, `m + 99r² ≤ 400r²`, `r + L + 1 ≤ b⁴` and `3r³f ≤ A`. Then for some real `c` the
 function `F = c·W` satisfies `F ∗ (deg·c_λ) = F`, and `(F, F♭)` is a cut pair of type `ρ` with parameters `(b, f)`.
 
-*Needs:* 3.1, 3.3, 3.8; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`, `|c_λ(g)|` is at most a constant times
-`(2/‖g‖)^c` for each `c ≤ 500r³ + A`, and the integral over `G₁` of such a majorant outside a ball is bounded through
-the covering bound for norm balls; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean`
-(`New.HCParam.HasLargeGap.exists_decay_bound`), `Lib/DiscreteSeries/Haar/TotalMass.lean`
-(`New.DiscreteSeries.lintegral_decay_le`))
+*Needs:* 3.1, 3.3, 3.8; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A` and a natural number
+`c ≤ 500r³ + A`, `|c_λ(g)| ≤ (2/‖g‖)^c` for all `g`, with `‖g‖` the operator norm; and for `J` of size `n ≥ 1`, a
+proper continuous homomorphism `j : S → U(J)` from a group `S` with a right invariant measure `ν` that is finite on
+compact sets, a natural number `c > 8n²` and `y ∈ U(J)`,
+`∫_S (2/‖j(s)y‖)^c dν(s) ≤ 16^c·ν{s : ‖j(s) − 1‖ ≤ 1}`; [ShortProof]
+`Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean` (`New.DiscreteSeries.norm_dsCoeff_le_pow`),
+`Lib/DiscreteSeries/Haar/TotalMass.lean` (`New.DiscreteSeries.lintegral_decay_le`))
 
 [ShortProof], `New/Spanning/Bessel/CutTailBound.lean` (`New.IsDecayMajorant.lintegral_sq_besselCut_sub_le`,
 `New.exists_isDecayMajorant_besselAverage`, `New.exists_isCutPair_besselAverage`)
@@ -748,9 +755,10 @@ DeterminantsOfThetaLiftChains §5.4 (a) (the parameters are steep); ThetaLiftCha
 target parameter and its gap), §2.8 (the weight of the source forms); OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the
 sizes); DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3 (the formal degree of a discrete series, for the measure that
 corresponds to mass one on the compact dual, is the value of Weyl's dimension polynomial at its parameter); ShortGRH
-background (the same for `deg(λ) = (∫|c_λ|²)⁻¹` with the measure `μ_{G₁}` of the Conventions, for a parameter of gap
-at least `500r³ + 10r⁵`; [ShortProof] `Lib/DiscreteSeries/Character/FormalDegree.lean`
-(`New.Orbital.formalDegree_eq_weylDimensionPoly`))
+background (for a parameter `l = 2λ` of gap at least `500r³ + 10r⁵`, the formal degree `deg(λ) = (∫|c_λ|²)⁻¹`,
+taken with the measure `μ_{G₁}` of the Conventions, is the value at `l` of Weyl's dimension polynomial: the product
+of `λ_i − λ_j` over the pairs with `λ_j < λ_i`, divided by `∏_{i<r} i!`; [ShortProof]
+`Lib/DiscreteSeries/Character/FormalDegree.lean` (`New.Orbital.formalDegree_eq_weylDimensionPoly`))
 
 [ShortProof], `New/Spanning/Bessel/FillingData.lean` (`New.Data.exists_besselSystem`);
 `New/Spanning/Bessel/LargeFunction.lean` (`New.Filling.IsDiscreteSeriesBessel`)
@@ -1318,7 +1326,11 @@ on `R × G` measurable, invariant under the diagonal action of `Λ` and integrab
 genera of standard lattices in ranks `k` and `r`.
 
 *Method of the formal proof:* the approximate formula for the ratio of masses in consecutive ranks, multiplied from `k` to
-`r`, and an identity between the explicit constants.
+`r`, and an identity between the explicit constants. The approximate formula is
+`|log(mass_{j+1}/mass_j) − f·log(rd_E^{j+1/2}·j!/(2π)^{j+1})| ≤ 2/2^u` for `j ≥ 4u + 12` and `8f ≤ 2^u`. It follows from
+the ratio of HermitianFormsAndLattices §6.4 (b): the Euler product over the places of `E⁺` gives
+`|log L(s, η^s)| ≤ f·log ζ(s) ≤ 2f/2^s` for `s ≥ 3`, and `2f/2^{j+1} ≤ 2/2^u` under the two conditions. [ShortProof]
+proves the approximate formula directly, from the density of the standard lattice.
 
 For `v ∈ Φ` let `sph_l(v) = (2π)^l/(|v(ϖ)|^{l−1/2}(l − 1)!)` and `fr_v = N^k·sph_{k+1}(v)⋯sph_r(v)`. Then
 
@@ -1330,13 +1342,12 @@ For `v ∈ Φ` let `sph_l(v) = (2π)^l/(|v(ϖ)|^{l−1/2}(l − 1)!)` and `fr_v 
 DivisibilityOfThetaDerivatives §1.1 (b) (the generator `ϖ` of the different, there `δ_E`);
 HermitianFormsAndLattices §5.5 (the mass of the genus of the standard lattice `𝒪_E^l`), §6.4 (b) (the ratio of the
 masses in consecutive ranks for unimodular lattices, `E/E⁺` unramified at the finite places:
-`mass_{j+1}/mass_j = (rd_E^{j+1/2}·j!/(2π)^{j+1})^f·L(j + 1, η^{j+1})`); ShortGRH background (the form used, which
-follows from that ratio on bounding `log L(j + 1, η^{j+1})`: for a CM field `E` with Weil data,
-`|log(mass_{j+1}/mass_j) − f·log(rd_E^{j+1/2}·j!/(2π)^{j+1})| ≤ 2/2^u` for `j ≥ 4u + 12` and `8f ≤ 2^u`; [ShortProof]
-`Lib/SiegelWeil/OneVector/SiegelClassSum.lean` (`New.abs_log_mass_ratio_sub_le`))
+`mass_{j+1}/mass_j = (rd_E^{j+1/2}·j!/(2π)^{j+1})^f·L(j + 1, η^{j+1})`, in the notation there
+`|d_F|^{(2n−1)/2}·((n − 1)!/(2π)^n)^d·L(n, η^n)` with `n = j + 1`, `d = f` and `|d_F| = rd_E^f`)
 
 [ShortProof], `New/Spanning/Unfolding/FrameMass.lean` (`New.Data.unitSphereMass`, `New.Data.frameMass`,
-`New.Data.prod_frameMass_mul_le`, `New.Data.prod_frameMass_mul_openCellConst_eq`)
+`New.Data.prod_frameMass_mul_le`, `New.Data.prod_frameMass_mul_openCellConst_eq`);
+`Lib/SiegelWeil/OneVector/SiegelClassSum.lean` (`New.abs_log_mass_ratio_sub_le`, the approximate formula)
 
 ### 5.5 Filling data of the data
 
@@ -1386,9 +1397,15 @@ of the representation of the compact group with that parameter.
 *Needs:* 2.3, 5.5; 3.14 (a) (the degrees `deg_v` are the values of Weyl's dimension polynomial); AutomorphicFormsOnReductiveGroups §7.5
 (forms of a level with trivial stabilisers: `S(J, M) ≅ M^h`); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a
 (`mass J′ = [J : J′]·mass J`, so that the principal level, whose stabilisers are trivial, has `#Ḡ·mass_r` classes);
-HermitianFormsAndLattices §5.5 (the mass of the genus of `𝒪_E^r`); ShortGRH background (Weyl's dimension formula for
-`U(n)`: the dimension of the representation of parameter `λ` is the value of the dimension polynomial; [ShortProof]
-`Lib/DiscreteSeries/Character/WeylCharacterFormula.lean` (`New.weyl_dimension_formula`))
+HermitianFormsAndLattices §5.5 (the mass of the genus of `𝒪_E^r`); ShortGRH background (for the compact group `U(n)`
+and a parameter `l = 2λ` with distinct entries of the parity of `n − 1`, with `Λ = λ − ρ`: the integral over `U(n)`,
+for the Haar measure of mass one, of the squared modulus of the coefficient of a highest vector of weight `Λ` is the
+inverse of the value at `l` of Weyl's dimension polynomial, and it is the inverse of the formal degree `deg(λ)`; and
+for a weight whose doubled Harish-Chandra parameter at the place `v` is `l_v`, the product over `v` of the formal
+degrees `deg(λ_v)` on the compact groups is the dimension of the representation of that weight; [ShortProof]
+`Lib/DiscreteSeries/Character/WeylCharacterFormula.lean` (`New.weyl_dimension_formula`),
+`Lib/DiscreteSeries/Character/FormalDegree.lean` (`New.Orbital.formalDegree_eq_weylDimensionPoly`),
+`Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.IsHCParam.prod_formalDegree`))
 
 [ShortProof], `New/Spanning/SecondMoment/SpanningTheorem.lean` (`New.Data.finrank_principalForms_spaceW`,
 `New.Data.targetDim_le_card_mul_besselDegree_mul_mass`)
