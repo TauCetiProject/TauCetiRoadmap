@@ -392,6 +392,7 @@ body:
         - NoncommutativeIntegration
         - NoncompactQuantumSymmetry
         - NoncongruenceModularForms
+        - NonlinearProgrammingOptimality
         - NonordinaryCMSpecialValues
         - NumberFieldEnumeration
         - OcneanuRigidity
