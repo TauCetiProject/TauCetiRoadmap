@@ -861,8 +861,8 @@ Let `D` be admissible data. Then `d_T > 0`, and there is a finite set `t ⊂ Ḡ
 *Needs:* 5.2; SecondMomentsOfPoincareSeries §§1.3, 5.7 (from §5.7: the maps `#Ḡ·e₀ρ(s)𝒫` from the source forms to the
 target forms spread with error `3/(16b²)`, and `d_T > 0`; from §1.3: for `0 < ε < 1/16` and a family that spreads
 with error `3ε/2`, a set `t` with `#t·dim V ≤ (5/2)(1 + log(1/(16ε)))·dim W` whose images span at least
-`(1 − 16ε)·dim W`, and the loss on a subspace); CompositeThetaLiftsAndShortForms §2.11
-(`dim 𝒮_ram ≥ (1 − f/(N − 1)) dim 𝒮` and `f/(N − 1) ≤ b^{−8}`).
+`(1 − 16ε)·dim W`, and the loss on a subspace);
+CompositeThetaLiftsAndShortForms §2.11 (`dim 𝒮_ram ≥ (1 − f/(N − 1)) dim 𝒮` and `f/(N − 1) ≤ b^{−8}`).
 
 [ShortProof], `New/Reduction/ShortAndEnough` (`New.Data.enough_forms`,
 `New.Data.exists_le_finrank_iSup_range_normalizedPoincare`, `New.Data.five_halves_mul_one_add_log_le`)

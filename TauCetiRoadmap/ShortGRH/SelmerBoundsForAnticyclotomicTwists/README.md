@@ -22,9 +22,10 @@ Its proof uses Kisin modules over Kummer charts.
 
 ## Conventions and notation
 
-The data of the argument (parameters, fields, places, sizes, level, twists) are those of
-OneSidedPrimeSumBoundsAndAdmissibleData (the data); the letters below follow it. Layers 1–3 do not use the data: they hold
-for any CM field and any prime. Layers 4 and 5 are stated on the data.
+The data of the argument are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the field and
+its infinite places), §3.2 (admissible data: ranks, weights, places, level), §3.3 (sizes) and §3.4 (tame characters and
+twists); the letters below follow it, except where the table says otherwise. Layers 1–3 do not use the data: they hold for
+any CM field and any prime. Layers 4 and 5 are stated on the data.
 
 **Galois groups and cocycles.** `Ω` is an algebraic closure of `ℚ`, and every number field is a subfield of `Ω`. For a CM
 field `E`, `G_E = Gal(Ω/E)`, `c` is a fixed complex conjugation, `g^c = cgc`, and `g^{−c} = (g^c)^{−1}`. For a finite place
@@ -35,6 +36,13 @@ every `n` prime to `v`. `[g, h] = g h g^{−1} h^{−1}`. A matrix representatio
 `O`-module `B`. A *cocycle* is a function `z : G_E → B^n` with `z(gh) = z(g) + ρ(g)z(h)`; it is *unramified outside* a set
 `S` of finite places if it vanishes on the inertia groups above all finite places not in `S`. A *relation* is a finitely
 supported function `f : G_E → M_n(O)`, and `z` *obeys* `f` if `Σ_g f(g)z(g) = 0`.
+
+**Frobenius elements, the cyclotomic character and Hodge–Tate jumps.** Frobenius elements in this roadmap are
+arithmetic, as just defined; CongruencesOfTwistedThetaLifts uses the inverse, the geometric Frobenius element, and says
+so where it matters. The `ℓ`-adic cyclotomic character is written `χ` here (1.1); CongruencesOfTwistedThetaLifts writes
+`cyc` for it and `χ` for its inverse. The sign of Hodge–Tate jumps is the one of 3.1: the jump `u` is counted by the
+semilinear maps `f` with `f(gx) = χ(g)^{−u}·g(f(x))`, so the cyclotomic character has the jump `−1` and its inverse the
+jump `1`. Both roadmaps use this sign.
 
 **Characters for a modulus.** For sets `S`, `Q` of finite places of `E`, a homomorphism `χ` from `G_E` to a commutative
 monoid is a *character for `Q` relative to `S`* if it is locally constant and `χ(Art x) = η(x/x̄)` for a character `η` of
@@ -68,24 +76,24 @@ numbers occur.
 | `𝒞(F, K, U)` | a class of lattices: admissibility, allowed jumps, polynomials killing inertia (3.1) |
 | `L^{⊥𝒬}`, `δ_𝒬(L)` | the cup-orthogonal module and the dual defect (3.1) |
 | `k`, `e`, `f`, `d` | a Kummer chart, its ramification index, residue degree and `d = 0` if `e = 1`, `v_p(e) + 1` otherwise (3.2) |
-| `m`, `r`, `k_D`, `t` | the number of lifts, the rank, `k_D = r + 1 − m`, `t = 5r` (the data) |
-| `b`, `G_off` | the weight at the b-places, and the weight `a/x₁` at the other places (the data) |
-| `h₂`, `Δ` | half the gap, `h₂ = r^8`, and the gap `Δ = 2h₂` (the data) |
-| `w_j(σ)` | the weight of the `j`-th lift at the infinite place of `σ` (the data) |
-| `p₀`, `p₁`, `M`, `N` | the two level primes, `M = p₀p₁`, and the level (the data) |
-| `f_D` | the number of infinite places of `E` (the data) |
-| chosen places | the places dividing the fixed element `π_M` of `E` (the data) |
-| bad places | the places dividing `ℓ p₀ p₁ N` (CongruencesOfTwistedThetaLifts) |
-| `n_GL` | the order of `∏ GL_{rt}` over the residue fields of the chosen places (ThetaLiftChainsAndTheSeesawIdentity) |
-| `e'_ℓ` | `(4f_D + 3) r v_ℓ(n_GL) + 2^{−ℓ}` (CongruencesOfTwistedThetaLifts) |
+| `m`, `r`, `k_D`, `t` | the number of lifts, the rank, `k_D = r + 1 − m`, `t = 5r` (OneSidedPrimeSumBoundsAndAdmissibleData §3.2, there `k` for `k_D`) |
+| `b`, `G_off` | the weight at the b-places, and the weight `a/x₁` at the other places (OneSidedPrimeSumBoundsAndAdmissibleData §3.2, the weight `κ`) |
+| `h₂`, `Δ` | half the gap, `h₂ = r^8`, and the gap `Δ = 2h₂` (OneSidedPrimeSumBoundsAndAdmissibleData §3.2, there `Δ/2` for `h₂`) |
+| `w_j(σ)` | the weight of the `j`-th lift at the infinite place of `σ` (OneSidedPrimeSumBoundsAndAdmissibleData §3.2, there `κ_j`) |
+| `p₀`, `p₁`, `M`, `N` | the two level primes, `M = p₀p₁`, and the level (OneSidedPrimeSumBoundsAndAdmissibleData §3.2) |
+| `f_D` | the number of infinite places of `E` (OneSidedPrimeSumBoundsAndAdmissibleData §2.2, there `f`) |
+| chosen places | the places dividing the fixed element `π_M` of `E` (DivisibilityOfThetaDerivatives §1.5) |
+| bad places | the places dividing `ℓ p₀ p₁ N` (CongruencesOfTwistedThetaLifts §1.1, which fixes the notion of its Conventions) |
+| `n_GL` | the order of `∏ GL_{rt}` over the residue fields of the chosen places (so named in the Conventions of CongruencesOfTwistedThetaLifts; the product occurs in ThetaLiftChainsAndTheSeesawIdentity §2.10 (b)) |
+| `e'_ℓ` | `(4f_D + 3) r v_ℓ(n_GL) + 2^{−ℓ}` (CongruencesOfTwistedThetaLifts §1.5, the twist allowance) |
 | `ε(σ)` | `+1` if the complex embedding `σ` of `E` lies in the CM type, `−1` otherwise (4.1) |
 
-A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c` and an integer `1 ≤ z ≤ t` with `z ≤ c ≤ 4b`; it is
-*ramified* if its tame part is nontrivial exactly at the chosen places (DivisibilityOfThetaDerivatives (the field and its
-characters: pairs)). Its *ratio* at a tame character `ϑ` and a sign `s` is `|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, the Euler
-factors at the chosen places, in the numerator also at the modulus of `ϑ`, and at their conjugates being omitted
-(DeterminantsOfThetaLiftChains (the ratio of a pair)). Tame characters of `U(1)`, twists and `m`-fold twists are those of
-OneSidedPrimeSumBoundsAndAdmissibleData (the data).
+A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c` and an integer `1 ≤ z ≤ t` with `z ≤ c ≤ 4b`
+(DivisibilityOfThetaDerivatives §1.6 (b)); it is *ramified* if its tame part is nontrivial exactly at the chosen places
+(DeterminantsOfThetaLiftChains §1.1 (a)). Its *ratio* at a tame character `ϑ` and a sign `s` is
+`|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, the Euler factors at the chosen places, in the numerator also at the modulus of
+`ϑ`, and at their conjugates being omitted (DeterminantsOfThetaLiftChains §1.1 (b)). Tame characters of `U(1)`, twists and
+`m`-fold twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
 
 ## Layer 1: Selmer data and the descent
 
@@ -576,14 +584,11 @@ Let `Γ`, `j` be as in 3.1, `K` the fixed field of `j(Γ)`, `A_inf = W(O_{ℂ_p}
 closely under Frobenius, an explicit power of `p`, independent of the rank, makes the cup products of the cocycles of two
 paired sides coboundaries.
 
-*Method of the formal proof:* the cocycles of a side define an extension of the trivial lattice `C` by `Y`, and the proof
-works in its Kisin module over the chart, letter by letter. At a *cut*, a letter followed by `J` letters that are not
-b-letters, a power `p^κE^s` kills the cokernel of the Kisin module of the Tate dual side. *Standard points* over `p^e c` in
-the localised Kisin modules exist at each cut. The depth lemma, an operator `p^c + υΣ(t_l − 1)/δ`, raises their depth at
-cost `c_a(n) = v_p(n) + d + 3a`, and the points are carried along Frobenius orbits. At each cut one side moves to a *stop*
-while the other side moves *safely*: `p^κ` times the pairing of the move with the point at rest lies in the image of
-`W(𝔪^♭)`. The rule derives this from orders that add up to enough. The pairing lemma turns a path of four safe moves into
-a scaled cup coboundary. The two constants come from the choice of cuts `1` to `2J + 1` letters back from each letter.
+*Method of the formal proof:* the scheme of cuts, 3.3a (h), with all shifts `0`. The cuts are the letters followed by `J`
+letters that are not b-letters. The sizes are `W = 5η`, `n = G = 10η`, `b + 5η` in place of `b`,
+`s₀ = ⌊(b + 10η)/(p − 3)⌋ + 1`, `ω = η` and `κ = 12((J + 1)X + δ) + 1`, so that `51κ ≤ 10³(δ + (J + 1)X)`. Sparseness
+gives a cut `1` to `2J + 1` letters back from each letter, and shows that a b-letter after the nearest cut is the letter
+itself or lies `J + 1` letters after the cut. So each gap is plain, or, on an unramified chart with `10p^Jη ≤ b`, long.
 
 Let `k` be a Kummer chart of `Γ`, `S`, `S′` sides of `k` over `(O, ζ)` with a pairing, `T` a set of letters (the
 b-letters), `ε` a sign for each letter, and `η, V, X, δ, b, J, G ≥ 0` with `η ≥ 1`, `J ≥ 1` and `G + V ≤ η`. Let `U_S(i)` fit
@@ -596,8 +601,7 @@ otherwise. Assume:
 
 Prove that for all `c ∈ C`, `c′ ∈ C′` the pairing gives a scaled cup coboundary of exponent `10³(δ + (J + 1)X)`.
 
-*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of crystalline lattices over a Kummer chart: the frame theorem, and
-the bounds for `B_dR`-valued forms by jump multiplicities).
+*Needs:* 3.1, 3.2, 3.3a (h).
 
 [ShortProof], `New/Congruences/Lifting/CutExponentBounds.lean`
 (`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_sparse_thick`,
@@ -607,26 +611,208 @@ the bounds for `B_dR`-valued forms by jump multiplicities).
 `New/Congruences/Lifting/ExponentLattices.lean`
 (`New.Lift.KummerChart.JumpLattice.exists_valueAt_sub_mem_hodgeFil_succ`)
 
+### 3.3a The walk: cuts, standard points, stops and safe moves
+
+*Origin:* particular to this proof: the cup product of the cocycles of two paired sides becomes a coboundary, after an
+explicit power of `p`, once points of the Kisin modules of the two extensions are chosen at a set of letters (the cuts)
+and joined along Frobenius orbits by moves whose pairings are small. This section states the objects and the lemmas of
+that method which 3.3, 3.4, 3.5, 3.6 and 3.7 use.
+
+*Method of the formal proof:* (a) solves `(φ − 1)y = B(w, φx′ − w′) + B(x, w′ − x′)` in `𝕎 ⊗ ℤ/p^m(1)` and corrects
+the natural cochain by `y`; the safe moves make the corrected cochain fixed by `φ` up to small terms, hence constant.
+(b) pairs the move and the point at rest with `φ^l` of a point of the Tate dual side, whose first component acts as the
+projector to a letter. (c) (ii) uses an operator `p^c + υ·Σ_l (t_l − 1)/(zτ)` with `t_l ∈ Γ′` and `υ ∈ A_inf`. (d)
+shows that a power of `z` lifts constants modulo a power of `p` and removes the modulus by Nakayama's lemma. (e) applies
+(a) to the sums over the letters of the points, each carried by Frobenius from the last cut. (g) expands in powers of
+`E`, multiplies by a monic `f(E)` and takes a Taylor coefficient. (h) takes the points of (c) at the cuts, the stops of
+(f) at plain gaps and those of (g) at long gaps, and applies (e). (i) is (e) with a cut at every letter.
+
+Let `k` be a Kummer chart of `Γ` with ring `Λ[[z]]`, and `(O, ζ)`, `e`, `f`, `d` as in 3.2. Write `𝕎 = W(ℂ_p^♭)`, `φ`
+for its Frobenius, `τ = [ε^{1/p}] − 1`, `Fil^n = Fil^n B_dR` for `n ∈ ℤ`, and `[P] = 1` if `P` holds, `0` otherwise.
+
+**Kisin modules, orders and depth.** Let `L` be a lattice over `O` that is crystalline over `Γ′`, with a finite set
+`U_L(i) ⊂ ℤ` for each letter `i` that contains the jumps of `L` at the embeddings over `i`.
+
+- `M(L) = 𝕎 ⊗_{ℤ_p} L`, on which `φ` acts through `𝕎` and `Γ` diagonally. `M(L)_i`, the *part at the letter* `i`, is
+  the submodule on which `1 ⊗ ζ` acts as the Teichmüller lift `[i]`; `M(L)` is the direct sum of the `M(L)_i`, and
+  `x ↦ x_i` is the projection.
+- A *form* on `L` is an `A_inf`-linear map `μ : M(L) → B_dR` with `μ(1 ⊗ gx) = g·μ(1 ⊗ x)` for `g ∈ Γ′`, `x ∈ L`. It has
+  *type* `u` at `i` if `μ((1 ⊗ x)_i) ∈ Fil^{−u}` for all `x ∈ L`.
+- `𝒩_A(L)` is the `A_inf`-module of the `x ∈ M(L)` such that, for some product `r` of elements `φ^a(E)`, `a ≥ 0`, some
+  power of `τ` multiplies `rx` into `A_inf ⊗ L`, and `μ(φ^n(rx)) ∈ B_dR^+` for all `n ≥ 1` and all forms `μ`. The
+  *localised Kisin module* `𝒩(L)` is the `Λ[[z]]`-module of the `x ∈ 𝒩_A(L)` with `μ(x) ∈ 𝒦₀` for all forms `μ`. Here
+  `𝒦₀` is the subfield of `B_dR` generated, over the subfield of `ℚ̄_p` fixed by `j(Γ′)`, by `Λ[[z]]` and by the ring of
+  the elements of `B^+ = A_max[1/p]` whose multiplication commutes with every `Λ[[z]]`-linear endomorphism of `B^+` that
+  preserves the image of `A_max`.
+- *Orders* are a function `o(a, u) ∈ ℤ` of a *level* `a ≥ 0` (it stands for the prime `φ^a(E)`) and of `u ∈ ℤ`. An
+  `x ∈ M(L)` *has orders* `o` at `i` if `x ∈ 𝒩_A(L) ∩ M(L)_i` and `μ(φ^{−a}x) ∈ Fil^{o(a,u)}` for all `a`, all
+  `u ∈ U_L(i.stepBack(a))` and all forms `μ` of type `u` at `i.stepBack(a)`. It *has depth* `o` at `i` if `gx − x` has
+  orders `o` at `i` for every `g ∈ Γ′`.
+- Particular orders: `r_s(a, u) = s·[a = 0] − u` for `s ∈ ℤ`; the *standard orders of level* `l`, `σ_l(a, u) = 0` for
+  `a < l` and `−u` for `a ≥ l`; the *standard depth* `D_{s,η,l}(a, u) = −u + s·[a = 0] + η·[a < l]`; the *stop orders*
+  `q_{η,l}(a, u) = max(0, −u − η)` for `a < l` and `−u` for `a ≥ l`; the *rule bound* `R_{l,s}(a, w) = 1` for `a < l`,
+  `s − w` for `a = l`, `−w` for `a > l`. For orders `o`, `l ≥ 0` and `n ∈ ℤ`, the *shift* `o[l, n]` is `n` at the levels
+  `a < l` and `o(a − l, u)` at the levels `a ≥ l`.
+- The *cost* of the step `n ∈ ℤ` at the level `a` is `c_a(n) = v_p(n) + d + 3a`, with `v_p(0) = 0`.
+
+**Points of a side.** Let `S` be a side of `k` over `(O, ζ)`, with lattice `Y`, sets `U_S(i)`, parameters `C` and
+`α_S` (3.2).
+
+- The *extension* `X_S` is `Y × C` with `g(y, c) = (gy + α_S(c)(g), c)` and the sets `U_S(i)`. `C` is taken with the
+  trivial action and the sets `{0}`. `pr : M(X_S) → M(C)` is the projection and `w ↦ w_Y` the projection to `M(Y)`. The
+  *constant* of `c ∈ C` at `i` is `(1 ⊗ c)_i`.
+- A *point of `S` over `p^e c` at `i` with orders `o` and depth `o′`* is an `x ∈ 𝒩(X_S)` with `pr(x) = p^e(1 ⊗ c)_i`
+  that has orders `o` and depth `o′` at `i`. A *standard point* for `(e, s, η, l)` is one with orders `r_{−η}` and depth
+  `D_{s,η,l}`. A *stop* for `(e, η, l)` is one with orders `q_{η,l}` and depth `q_{η,l}`. A vector `w ∈ M(X_S)` *lies
+  over `0` with orders `o` at `i`* if `pr(w) = 0` and `w` has orders `o` at `i`.
+- `p^κE^s` *kills the cokernel of `S` at `i`* if, for every `c ∈ C`, `p^κE^s(1 ⊗ c)_i = pr(x)` for some `x ∈ M(X_S)`
+  with orders `σ_0` at `i`.
+- An additive map `A : 𝒩(X_S) → 𝒩(X_S)` is an *operator of cost* `e` if, for every letter `i`, all orders `o` and every
+  `x ∈ 𝒩(X_S)` of depth `o` at `i` whose image `pr(x)` is a constant at `i`, the vector `Ax − p^e x` lies over `0` with
+  orders `o` at `i`.
+
+**Pairings.** Let `P` be a pairing of sides `S`, `S′` (3.2), with exponent `m`, form `ψ`, map `f` and cocycle `c_P`.
+
+- The *Tate dual side* of `P` has the lattice `(Y ⊗ Y′)^∨(1)`, the parameters `O` with `α(1) = c_P`, and the sets
+  `{0} ∪ {−u − u′ − 1 : u ∈ U_S(i), u′ ∈ U_{S′}(i)}`.
+- `B_P : M(Y) × M(Y′) → 𝕎 ⊗ ℤ/p^m(1)` is the `𝕎`-bilinear extension of `(y, y′) ↦ f(ψ(y ⊗ y′)) mod p^m`. A pair
+  `(w, w′)` in `M(X_S) × M(X_{S′})` is *safe for* `κ` if `p^κ·B_P(w_Y, w′_{Y′})` lies in `W(𝔪^♭)·(1 ⊗ 1)`, where `𝔪^♭`
+  is the maximal ideal of `O_{ℂ_p}^♭`.
+- The *move of the first side by `v` with `q′` at rest* is safe for `κ` if the pairs `(v, gq′ − q′)`, `g ∈ Γ′`, are.
+  The *move of the second side by `v′` with `q` at rest* is safe for `κ` if the pairs `(gq − q, gv′)`, `g ∈ Γ′`, are.
+- A *safe path for `κ` from `(y, y′)` by `(w, w′)` to `(x, x′)`* consists of four safe moves: of the first side by
+  `y − w` with `y′` at rest, of the second by `y′ − w′` with `w` at rest, of the first by `w − x` with `w′` at rest, and
+  of the second by `w′ − x′` with `x` at rest.
+
+Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`, `c′ ∈ C′`. Prove:
+
+1. (a) (the pairing lemma) let `x, w ∈ M(X_S)` have `pr(x) = pr(w) = p^{e₁}(1 ⊗ c)` and `x′, w′ ∈ M(X_{S′})` have
+   `pr(x′) = pr(w′) = p^{e₂}(1 ⊗ c′)`. If the moves of the second side by `hx′ − x′`, `h ∈ Γ′`, with `x` at rest are
+   safe for `e₃`, and there is a safe path for `e₃` from `(φx, φx′)` by `(w, w′)` to `(x, x′)`, then the pairing gives a
+   scaled cup coboundary of exponent `N` at `(c, c′)` for every `N ≥ e₁ + e₂ + e₃`;
+2. (b) (the rule) let `l ≥ 0`, and let `ν` be a point of the Tate dual side over `p^κ·1` at `i.stepBack(l)` with orders
+   `o_ν` that do not increase in `u` at any level, and any depth. Let `w` lie over `0` with orders `o` at `i` in
+   `M(X_S)`, and let `x′` be a point of `S′` over `p^{e′}c′` at `i` with any orders and depth `o′`. If
+   `o_ν[l, 0](a, −u − u′ − 1) + o(a, u) + o′(a, u′) > 0` for all `a ≥ 0`, `u ∈ U_S(i.stepBack(a))` and
+   `u′ ∈ U_{S′}(i.stepBack(a))`, then the move of the first side by `w` with `x′` at rest is safe for `κ`. In
+   particular this holds if `p^κE^t` kills the cokernel of the Tate dual side at `i.stepBack(l)` and
+   `o(a, u) + o′(a, u′) ≥ R_{l,t}(a, u + u′)` for all such `a`, `u`, `u′`. The same holds with the sides exchanged: for
+   a point `x` of `S` of depth `o` and a `w′ ∈ M(X_{S′})` over `0` with orders `o′`, the move of the second side by
+   `w′` with `x` at rest is safe for `κ`;
+3. (c) (points and depth) (i) if `p^κE^s` kills the cokernel of `S` at `i`, then `S` has a point over `p^κc` at `i`
+   with orders `r_{−s}` and depth `r_{−s}`. (ii) (The depth lemma.) For `a ≥ 0` and `n ∈ ℤ` there is an operator `B` of
+   cost `c_a(n)` such that, for every `x ∈ 𝒩(X_S)` and every form `μ` on `X_S`, if `μ(φ^{−a}(gx − x)) ∈ Fil^n` for all
+   `g ∈ Γ′`, then `μ(φ^{−a}(gBx − Bx)) ∈ Fil^{n+1}` for all `g ∈ Γ′`. Operators of costs `e`, `e′` compose to one of
+   cost `e + e′`. For a finite set `I` of steps `(a, n)` there is an operator of cost `Σ_{(a,n) ∈ I} c_a(n)` that sends
+   every `x` of depth `o` at a letter `i`, over a constant at `i`, to an element of depth `o′` at `i`, whenever `I`
+   contains all `(a, n)` with `o(a, u) ≤ n < o′(a, u)` for some `u ∈ U_S(i.stepBack(a))`. (iii) If `S` has a point
+   over `p^e c` at `i` with orders `o₁` and depth `o`, `I` is as in (ii) and `e′ ≥ e + Σ_{(a,n) ∈ I} c_a(n)`, then `S`
+   has a point over `p^{e′}c` at `i` with depth `o′` and with orders `o′(a, u)` where `o₁(a, u) > 0` and
+   `min(o′(a, u), 0)` elsewhere. (iv) If `x` is a point over `p^e c` at `i.stepBack(l)` with orders `o` and depth `o′`,
+   then `φ^l x` is a point over `p^e c` at `i` with orders `o[l, 0]` and depth `o′[l, 1]`. (v) (The gap rule.) Let `x`
+   be a point at `i` whose orders are at least `r_{−t}` and whose depth is at least `r_0` on the sets
+   `U_S(i.stepBack(a))`, for an integer `t`. If `h ≥ 0` and no element of `U_S(i)` lies in `[−t, −h)`, then `x` has
+   orders `r_{−h}`, with the same depth;
+4. (d) (killers on an unramified chart) if `k` is unramified, `p ≥ 5` and every element of every `U_S(j)` is at most
+   `(p − 3)(s + t)`, then `p^sE^t` kills the cokernel of `S` at every letter;
+5. (e) (the walk) let some letters be *cuts*, and for every letter `i` let `l(i) ≥ 1` be least such that
+   `i.stepBack(l(i))` is a cut. Let `κ, e, e′, η ≥ 0` and `t(i) ≥ 0`, and at each cut `i` let: `p^κE^{t(i)}` kill the
+   cokernel of the Tate dual side at `i`; `x(i)` and `x′(i)` be standard points of `S` and `S′` for
+   `(e, t(i), η, l(i))` and `(e′, t(i), η, l(i))` over `p^e c` and `p^{e′}c′` at `i`; and either `S` have a stop `q`
+   for `(e, η, l(i))` over `p^e c` at `i` such that the move of the second side by
+   `φ^{l(i)}x′(i.stepBack(l(i))) − x′(i)` with `q` at rest is safe for `κ`, or `S′` have a stop `q′` for
+   `(e′, η, l(i))` over `p^{e′}c′` at `i` such that the move of the first side by `φ^{l(i)}x(i.stepBack(l(i))) − x(i)`
+   with `q′` at rest is safe for `κ`. Then the pairing gives a scaled cup coboundary of exponent `N` at `(c, c′)` for
+   every `N ≥ e + e′ + κ`;
+6. (f) (stops at plain cuts) let `l ≥ 1`, let `p^κE^t` kill the cokernel of the Tate dual side at `i`, and for `a < l`
+   let every element of `U_S(i.stepBack(a))` be at most `η` and every element of `U_{S′}(i.stepBack(a))` at least `−η`.
+   Let `x` be a point of `S` over `p^e c` at `i` with orders `r_{−η}` and depth `D_{t,η,l}(a, u) + η₀·[a = l]`, and let
+   `x′` and `x₀′` be points of `S′` over `p^{e′}c′`, at `i` with orders `r_{−η}` and at `i.stepBack(l)` with orders
+   `r_{−η₀}`, of any depths. Then `x` is a stop for `(e, η, l)` and a standard point for `(e, t, η, l)`, and the move
+   of the second side by `φ^l x₀′ − x′` with `x` at rest is safe for `κ`. The same holds with the sides exchanged;
+7. (g) (the long gap lemma) let `k` be unramified, `l, A, κ, s, g, δ ≥ 0` with `3 ≤ p^l` and `A ≤ p^l δ`, let `p^κ`
+   kill the cokernel of `S` at `i.stepBack(l)` and `E^s` kill it at `i`, and for `a < l` let every element of
+   `U_S(i.stepBack(a))` be at most `g`. If `N = s + g·Σ_{a<l} p^a < A`, then `S` has a point over `p^{κ+4δ}c` at `i`
+   with orders `σ_l(a, u) + A·[a = 0 and u < −N]` and depth `σ_l(a, u) + A·[a = 0]`;
+8. (h) (the scheme of cuts) let some letters be cuts, and let a sign `ε(i)`, a *shift* `s(i) ≥ 0` and `β(i) ≥ 0` be
+   given at each letter, and `η, V, W, X, δ, κ, b, n, J, s₀, G, ω ≥ 0` with `η ≥ 1` and `V + 4η ≤ W`. Let `U_S(i)` fit
+   the windows `(η, −ε(i), β(i), V)` and `U_{S′}(i)` fit `(η, ε(i), β(i), V)`. Assume the size conditions:
+   `n + ⌊log_p(2b)⌋ + (J + 1 + d)W + dG ≤ X`; `12((J + 1)X + δ) < κ`; `2eb ≤ p^{J+1}δ`; `8e ≤ p^{J+1}`; `G ≤ (p − 1)n`;
+   and, for every letter `i`, `β(i) + s(i) + W ≤ 2b`, `s(i) + W ≤ pn`, and `β(i) + W ≤ (p − 3)s₀` if `p ≥ 5`. Let every
+   cut `i` be a *killing cut*: either `s(i) = 0` and `β(i^{p^t}) + W ≤ G` for `1 ≤ t ≤ J`, or `k` is unramified,
+   `p ≥ 5`, `s(i) < β(i)` and `s₀ ≤ κ + s(i)`. Then at every cut `i`, `p^κE^{s(i)}` kills the cokernels of `S`, of `S′`
+   and of the Tate dual side at `i`, and for `l ≤ 2J + 1` each of `S`, `S′` has a point over `p^{25κ}` times any
+   parameter at `i` with orders `r_{−η}` and depth `D_{s(i),η,l+1}` (so a standard point for `(25κ, s(i), η, l)`).
+   Assume moreover that every letter `i` has a cut `i.stepBack(l)` with `1 ≤ l ≤ 2J + 1`, and that, whenever
+   `i.stepBack(l)` with `l ≥ 1` is a cut and no `i.stepBack(a)` with `0 < a < l` is one, there is `t ≥ 0` such that one
+   of the following holds. A *plain gap*: for every `a < l`, `ε(i.stepBack(a)) = ε(i.stepBack(t))` or
+   `β(i.stepBack(a)) + V ≤ η`. A *long gap* with pivot `i.stepBack(t)`: `k` is unramified, `p ≥ 5`,
+   `s(i.stepBack(l)) = 0`, `t + J + 1 = l`, `s₀ + ω·Σ_{a≤J} p^a < β(i.stepBack(t))`, `η ≤ ω`,
+   `β(i.stepBack(a)) + V ≤ ω` for `t < a < l`, and for every `a < l` with `a ≠ t`,
+   `ε(i.stepBack(a)) ≠ ε(i.stepBack(t))` or `β(i.stepBack(a)) + V ≤ η`. Then the pairing gives a scaled cup coboundary
+   of exponent `N` at `(c, c′)` for every `N ≥ 51κ`;
+9. (i) (killers at every letter) let `a, κ, η, W ≥ 0`, and at each letter let `b(i) ≥ 0` and a sign `ε(i)` be given.
+   At every letter `i` let `p^κE^a` kill the cokernels of `S`, of `S′` and of the Tate dual side, let
+   `NoMult(p, 6(a + η + W), b(i))` hold, and let `U_S(i)` fit `(η, −ε(i), b(i), W)` and `U_{S′}(i)` fit
+   `(η, ε(i), b(i), W)`. Assume that no element of any `U_S(i)` or `U_{S′}(i)` lies in `[−a, 0)`, or that `k` is
+   unramified and every `U_{S′}(i)` lies in `[−η, 0]`. Then the pairing gives a scaled cup coboundary of exponent `H` at
+   `(c, c′)` for every `H ≥ 3(κ + (48(a + η + W) + 4)d)`.
+
+*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of crystalline lattices over a Kummer chart: the frame theorem, and
+the bounds for `B_dR`-valued forms by jump multiplicities).
+
+[ShortProof], `New/Congruences/Lifting/SidePoints.lean` (`New.Lift.KummerChart.PairingSide.pointsOver`,
+`New.Lift.KummerChart.PairingSide.standardPoints`, `New.Lift.KummerChart.PairingSide.stopPoints`,
+`New.Lift.KummerChart.PairingSide.IsOperatorOfCost`,
+`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_killsCokernel`,
+`New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_mem_hodgeFil_succ`,
+`New.Lift.KummerChart.PairingSide.IsOperatorOfCost.comp`,
+`New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_and_mem_deepElements`,
+`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_costs`,
+`New.Lift.KummerChart.PairingSide.phi_pow_smul_mem_pointsOver`), `New/Congruences/Lifting/SafeMoves.lean`
+(`New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveFst_of_orders`,
+`New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_of_orders`,
+`New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveFst_of_killsCokernel`,
+`New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_of_killsCokernel`,
+`New.Lift.KummerChart.PairingSide.mem_pointsOver_raisedOrdersAtZero_of_gap`,
+`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_stops`,
+`New.Lift.KummerChart.PairingSide.SidePairing.exists_mem_stopPoints_isSafeMoveSnd`,
+`New.Lift.KummerChart.PairingSide.SidePairing.exists_mem_stopPoints_isSafeMoveFst`),
+`New/Congruences/Lifting/CupProductBound.lean` (`New.Lift.KummerChart.PairingSide.extensionLattice`,
+`New.Lift.Pairing.tateDualSide`, `New.Lift.Pairing.IsSafe`, `New.Lift.Pairing.IsSafePath`,
+`New.Lift.KummerChart.PairingSide.KillsCokernel`, `New.Lift.Pairing.IsScaledCupCoboundary.of_isSafePath`,
+`New.Lift.KummerChart.PairingSide.killsCokernel_of_isUnramified`), `New/Congruences/Lifting/ExponentLattices.lean`
+(`New.Lift.KummerChart.cost`, `New.Lift.KummerChart.JumpLattice.withOrders`,
+`New.Lift.KummerChart.JumpLattice.invariantsMod`), `Lib/PadicHodge/Kisin/Modules.lean`
+(`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.kisinLoc`),
+`New/Congruences/Lifting/LongGap.lean` (`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_long_gap`),
+`New/Congruences/Lifting/CutExponentBounds.lean` (`New.Lift.KummerChart.CutSizes`,
+`New.Lift.KummerChart.Letter.IsKillingCut`, `New.Lift.KummerChart.Letter.IsLongGap`,
+`New.Lift.KummerChart.PairingSide.killsCokernel_of_isKillingCut`,
+`New.Lift.KummerChart.PairingSide.pointsOver_cutOrders_nonempty`,
+`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_cut_windows`),
+`New/Congruences/Lifting/DeepPoints.lean`
+(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_killsCokernel`)
+
 ### 3.4 Exponent bounds by cuts for paired sides: any pattern of b-letters
 
 *Origin:* particular to this proof: over an unramified chart with `p ≥ 7`, for any placement of the far windows of two
 sizes `b ≥ G` among the letters, the cup products of the cocycles of two paired sides become coboundaries after
 `p^{10⁴(K + ⌊log_p 2(b + W)⌋)}`, with `b < Kp²`.
 
-*Method of the formal proof:* the scheme of 3.3 with `J = 1`. A letter whose successor is a b-letter gets the shift
-`⌊b/p⌋ − 7K`, the others `0`, and the cuts are the letters whose shift is below their window start. At a cut with two
-opposite signs before a b-letter, the long gap lemma supplies the stop. The long gap lemma: on an unramified chart, if
-`E^s` kills the cokernel at `i`, `p^κ` kills it at `i.stepBack(l)`, the jumps at the `l` letters up to `i` are at most `g`,
-and `s + g·Σ_{a<l} p^a < A ≤ p^l δ`, then a constant lifts, up to a power of `p`, to a point with a large order at `E` on the
-very negative jumps. It is proved by expanding in powers of `E`, multiplying by a monic `f(E)` and taking a Taylor
-coefficient.
+*Method of the formal proof:* the scheme of cuts, 3.3a (h), with `J = 1`. A letter whose successor is a b-letter gets the
+shift `max(⌊b/p⌋ − 7K, 0)`, the others `0`, and the cuts are the letters whose shift is below their window start: the
+b-letters and the letters whose successor is not a b-letter are cuts, so one of the two letters before each letter is a
+cut. The sizes are `X = 3K + ⌊log_p(2(b + W))⌋`, `δ = 4K`, `κ = 12(2X + 4K) + 1`, `n = K`, `s₀ = ⌊b/p⌋ + 12K`,
+`ω = G + W`, with `b + W` and `G + W` in place of `b` and `G`. A gap is plain, or it is long with the letter itself as
+pivot: a b-letter, preceded by a letter of the opposite sign that is not a b-letter, two letters after a cut of shift `0`.
 
 Let `k` be an unramified Kummer chart, `p ≥ 7`, `S`, `S′` paired sides over `(O, ζ)`, `T` a set of letters, `ε` signs, and
 `η, V, W, b, G, K` with `η ≥ 1`, `V + 4η ≤ W`, `0 < G ≤ b`, `b < Kp²`, `2G < Kp` and `W ≤ K`. Let the letter jumps of `S` fit
 `(η, −ε(i), β(i), V)` and those of `S′` fit `(η, ε(i), β(i), V)`, with `β = b` on `T` and `G` off `T`. Prove that for all
 `c, c′` the pairing gives a scaled cup coboundary of exponent `10⁴(K + ⌊log_p(2(b + W))⌋)`.
 
-*Needs:* 3.1, 3.2, 3.3 (its method: cuts, stops, safe moves and the pairing lemma).
+*Needs:* 3.1, 3.2, 3.3a (h).
 
 [ShortProof], `New/Congruences/Lifting/CutExponentBounds.lean`
 (`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_any_pattern`), `New/Congruences/Lifting/LongGap.lean`
@@ -638,12 +824,13 @@ Let `k` be an unramified Kummer chart, `p ≥ 7`, `S`, `S′` paired sides over 
 large weights, the parameters of a side whose cocycles cup to zero with every opposite side, without any power of `p`,
 have colength `O(Σ_i (n_i(a + 1) + r_i(W + 1)))`, where `n_i` counts the low jumps and `r_i` all jumps at the letter `i`.
 
-*Method of the formal proof:* raise the depth of points of the extension when all steps occur at the level of `E`, at a
-cost bounded by the cost function and the gap condition, and bound the length of parameters lost to depth at each
-letter by the number of low jumps there. Over the parameters whose constants have deep points at every letter, the
-points of the other side exist by the window condition, the cokernel of the Tate dual side is killed by `E^a` (unramified
-case: jumps at most `(p − 3)a`), and at each letter a stop is found according to the sign. The walk of 3.3 then closes with
-exponent `0`. The cases with no jump in `[−a, 0)`, or with all jumps of one side in `[−η, 0]`, give vanishing directly.
+*Method of the formal proof:* raise the depth of points of the extension when all steps occur at the level of `E`, by the
+operators of 3.3a (c), at a cost bounded by the cost function and the gap condition (on an unramified chart a step `n` at
+the level `0` with `p ∤ n` or `n = 0` costs `0`), and bound the length of parameters lost to depth at each letter by the
+number of low jumps there. Over the parameters whose constants have deep points at every letter, the points of the other
+side exist by the window condition and 3.3a (c), the cokernel of the Tate dual side is killed by `E^a` (3.3a (d): its
+jumps are at most `(p − 3)a`), and at each letter a stop is found according to the sign, by 3.3a (f) or by the rule
+3.3a (b). The walk 3.3a (e), with a cut at every letter, then closes with exponent `0`.
 
 Let `k` be an unramified Kummer chart, `p ≥ 5`, `η ≥ 1`, `a, W ≥ 0`, and for each letter `i` let `b(i) ≥ 0`, a sign `ε(i)` and
 `n(i), r(i) ≥ 0`. Let `S` be a side over `(O, ζ)` with, at each letter: `b(i) + W + η ≤ (p − 3)a`; `6(a + η + W) < b(i)`;
@@ -653,7 +840,7 @@ Let `k` be an unramified Kummer chart, `p ≥ 5`, `η ≥ 1`, `a, W ≥ 0`, and 
 `(η, −ε(i), b(i), W)` and every pairing of `S″` and `S`, the pairing gives a scaled cup coboundary of exponent `0` for all
 `c ∈ C″` and `d ∈ V`.
 
-*Needs:* 3.1, 3.2, 3.3 (its method).
+*Needs:* 3.1, 3.2, 3.3a (b), (c), (d), (e), (f).
 
 [ShortProof], `New/Congruences/Lifting/FewLowJumps.lean`
 (`New.Lift.KummerChart.PairingSide.exists_relLength_le_and_isScaledCupCoboundary`), `New/Congruences/Lifting/DeepPoints.lean`
@@ -670,8 +857,9 @@ exponents hold for sparse and for arbitrary patterns of large weights.
 *Method of the formal proof:* the *universal side* of `L` has parameters `C = Z_f(L)` with the trivial action, `α` the
 identity, and letter jumps `U_k(i)`. Every lattice of the class `𝒞(⊤, ⊥, U)`, restricted to `Γ′`, is a side with letter
 jumps from `U`, and every pairing with `L` is a pairing of sides. A crystalline cocycle `x` is cup-orthogonal as soon as
-all such pairings give scaled cup coboundaries at `(c, x)`. Then 3.5 gives (a) (the `ℤ_p`-colength, times `f`, bounds the
-`O`-length), and 3.3 and 3.4 give (b) and (c).
+all such pairings give scaled cup coboundaries at `(c, x)`. The vanishing in (a) is 3.3a (i) with `κ = 0`, as `E^a` kills
+the three cokernels by 3.3a (d) and `d = 0`. Then 3.5 gives the bound in (a) (the `ℤ_p`-colength, times `f`, bounds the
+`O`-length), and 3.4 and 3.3 give (b) and (c).
 
 Let `j` be an open embedding, `O` the ring of integers of a finite extension of `ℚ_p`, `k` a Kummer chart of `Γ`, `ζ` a letter
 root in `O`, `U`, `U′` finite sets of integers for the embeddings of `O`, and `L ∈ 𝒞(⊤, ⊥, U′)`. Prove:
@@ -686,7 +874,7 @@ root in `O`, `U`, `U′` finite sets of integers for the embeddings of `O`, and 
 3. (c) under the window hypotheses of 3.3 for `U_k`, `U′_k`, the sparseness of `T`, and the alternative and size conditions
    of 3.3 (with `M` in place of `X`), `L` has cup exponent `10³(δ + (J + 1)M)` for `𝒞(⊤, ⊥, U)`.
 
-*Needs:* 3.1, 3.2, 3.3, 3.4, 3.5.
+*Needs:* 3.1, 3.2, 3.3, 3.3a (d), (i), 3.4, 3.5.
 
 [ShortProof], `New/Congruences/Lifting/CupOrthogonalityBounds.lean`
 (`New.Lift.KummerChart.dualDefect_eq_zero_and_dualDefect_le`, `New.Lift.KummerChart.hasCupExponent_any_pattern`,
@@ -702,15 +890,15 @@ Caraiani, Emerton, Gee and Savitt (2022), §3.1, extensions of Breuil–Kisin mo
 *Method of the formal proof:* take a tame chart, a Kummer chart with an inertia element `s` acting on `z` by a primitive
 `e`-th root of unity modulo `p`, with `e = lcm_{i≤r}(p^i − 1)`. Tame charts exist when `j` is onto and `r < p`. Over its
 subgroup, every lattice of the class is crystalline, since `X^e − 1` kills inertia on the periods. A monic `q` of degree at
-most `N` that kills `s` on the periods makes `p^κ`, `κ = r²(N + 1)²`, kill the cokernels of the Kisin modules of the
-extensions. The scheme of 3.3 then applies with `a = 0`.
+most `N` that kills `s` on the periods makes `p^κ`, `κ = r²(N + 1)²`, kill the cokernels (3.3a) of the two sides and of
+the Tate dual side at every letter. Then 3.3a (i) applies with `a = 0`, and `d ≤ 1` on a tame chart.
 
 Let `j` be a surjective open embedding (so `K = ℚ_p`), `F` a filter on `Γ`, and `K` a relation such that `K(s, ·)` is a tame
 type for `(p, r, N)` for every `s` with `j(s)` inertial. Let `L ∈ 𝒞(F, K′, U′)` with `K′(s, Q) = K(s^{−1}, Q)`, and let every
 `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
-*Needs:* 3.1, 3.2, 3.3 (its method); ShortGRH background (Kisin modules over a Kummer chart; the linear Frobenius of an
+*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (Kisin modules over a Kummer chart; the linear Frobenius of an
 inertia element on potentially crystalline periods).
 
 [ShortProof], `New/Congruences/Lifting/CupOrthogonalityBounds.lean` (`New.Lift.hasCupExponent_of_isTameType`),
@@ -750,8 +938,8 @@ Let `D` be the data, `ℓ` a prime and `ι : ℂ ≅ ℚ̄_ℓ`.
   cocycles `c : G → (O/a)^d` for `ρ` such that `Σ_g θ_g c(g) = 0` whenever `Σ_g θ_g(u_x(g) − 1) = 0` for all `x`
   (`θ` finitely supported in `O`).
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData (the data: `m`, `r`, `k_D`, `t`, `b`, `G_off`, `h₂`, `Δ`, the lift weights
-`w_j`, the b-places, `M`); 3.1.
+*Needs:* 3.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the field `E`, its infinite places and its CM type),
+§3.2 (the data: `m`, `r`, `k_D`, `t`, `b`, `G_off`, `h₂`, `Δ`, the lift weights `w_j`, the b-places, `M`).
 
 [ShortProof], `New/Congruences/LocalLoss/Basic.lean` (`New.Selmer.IsMainSummandWeights`, `New.Selmer.crystallineLoss`,
 `New.Selmer.defectBound`, `New.Selmer.cmSign`, `New.Selmer.summandRep`, `New.Selmer.crysCocyclesAt`,
@@ -775,8 +963,10 @@ Let `e : E → ℚ̄_ℓ`, `ζ` the root of unity of order `q₁` of the data, a
    the power `ℓ^i`, and the places of `σ_e(g)` and `σ_e(g′)` are b-places, then the place of `σ_e(g₁)` is not;
 2. (b) if `ℓ | q₁d` and the places of `σ_e(g)` and `σ_e(g′)` are b-places, then `ε(σ_e(g)) = ε(σ_e(g′))`.
 
-*Needs:* 4.1; OneSidedPrimeSumBoundsAndAdmissibleData (the data: the b-places, their class `−1` modulo `q₀` and their
-sparseness).
+*Needs:* 4.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters `q₀`, `d`, and the numbers `q₁`, `l₀`),
+§2.2 (the root of unity `ζ`, and the infinite places of `E` as the group of units modulo `q₁`),
+§3.1 (sparse sets of places), §3.2 (the b-places, their class `−1` modulo `q₀` and their sparseness for the primes up to
+`k_D t`).
 
 [ShortProof], `New/Congruences/LocalLoss/Basic.lean` (`New.Selmer.notMem_bPlaces_of_short_arc`,
 `New.Selmer.cmSign_eq_of_mem_bPlaces`, `New.Selmer.placeClass_eq_cmSign_mul_pow`)
@@ -932,8 +1122,9 @@ Prove:
    `⊥` otherwise, `U_w` are the corresponding members of `τ`, and `K_w(s, Q)` says that `w | p₀p₁` and that `Q` kills `s` on
    every member of `𝓡`, restricted to the decomposition group at `w`.
 
-*Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts (conjugate self-dual representations of given level and their local
-conditions); ShortGRH background (Teichmüller lifts and unramified extensions of `ℚ_ℓ`).
+*Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts §1.1 (the local conditions: finite type, jumps and killing polynomials
+at a place), §1.2 (conjugate self-dual representations of given level); ShortGRH background (Teichmüller lifts and
+unramified extensions of `ℚ_ℓ`).
 
 [ShortProof], `New/Congruences/LocalLoss/LocalLattices.lean` (`New.Selmer.isTameType_of_roots`,
 `New.Selmer.hasJumps_and_inClass_localLattice`, `New.Selmer.IsConjSelfDualOfLevel.inClass_localLattice`)
@@ -961,8 +1152,9 @@ a chosen place not above `ℓ` and `g₀` its tame generator. Prove that for all
 datum `T` for (the bad places, `g₀`) over `O` such that `ρ_T` is a lattice in `R`, `S_T` is the set of places above `ℓ p₀ p₁`,
 the local relations of `T` are the crystalline relations of `ρ_T`, and `len_ℓ β_T ≤ (4f_D + 3)·n·v_ℓ(n_GL)`.
 
-*Needs:* 1.1, 4.1, 4.4, 4.8; CongruencesOfTwistedThetaLifts (main summands: the hypotheses on an `ℓ`-adic representation of
-`G_E` under which its Selmer groups are estimated; bad places); ThetaLiftChainsAndTheSeesawIdentity (the integer `n_GL`).
+*Needs:* 1.1, 4.1, 4.4, 4.8; CongruencesOfTwistedThetaLifts §1.3 (main summands: the hypotheses on an `ℓ`-adic
+representation of `G_E` under which its Selmer groups are estimated), §1.1 (bad places);
+DivisibilityOfThetaDerivatives §1.5 (the chosen places, over whose residue fields `n_GL` is the order of `∏ GL_{rt}`).
 
 [ShortProof], `New/Congruences/Selmer/MainSummands.lean` (`New.Selmer.IsMainSummandLike.eventually_exists_selmerDatum`,
 `New.Selmer.IsMainSummandLike.normLength_congruenceTerm_le`)
@@ -993,8 +1185,9 @@ Let `D` be the data and `(ν, z)` a ramified pair. Prove:
    character `τ` of modulus `I`, the `ℓ`-adic avatar of `τ^{−1}`.
 
 *Needs:* NormsOfThetaLiftsAndExchangeIdentities (Hecke `L`-values as squared norms: the integral algebraic part, the
-determinant theta period at `z = 1`, integral measures); DivisibilityOfThetaDerivatives (the field and its characters: pairs); DeterminantsOfThetaLiftChains (the ratio of a pair);
-OneSidedPrimeSumBoundsAndAdmissibleData (the data: tame characters and twists); ShortGRH background (`ℓ`-adic avatars of
+determinant theta period at `z = 1`, integral measures); DivisibilityOfThetaDerivatives §1.6 (pairs);
+DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a pair);
+OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); ShortGRH background (`ℓ`-adic avatars of
 algebraic Hecke characters; class field theory).
 
 [ShortProof], `New/Congruences/Selmer/ClassSums.lean` (`New.Data.CriticalPair.exists_isTwistMeasure`,
@@ -1020,8 +1213,10 @@ generator. Prove that there is a Stickelberger system `Y` for (the bad places, `
    at `ξ^δ`, and `i = 2` if `z = 1`, `i = 1` otherwise;
 3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies `v(ι(r)) ≤ 4v(Nw − 1) + c`.
 
-*Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives (the field and its characters: pairs); DeterminantsOfThetaLiftChains (the ratio of a pair); ShortGRH background (`ℓ`-adic avatars of
-algebraic Hecke characters).
+*Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs);
+DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a pair);
+OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists); ShortGRH background (`ℓ`-adic avatars of algebraic Hecke
+characters).
 
 [ShortProof], `New/Congruences/Selmer/LValueSystems.lean` (`New.Selmer.exists_stickelbergerSystem_β_le_and_norm_eq`,
 `New.Selmer.exists_stickelbergerSystem_ellVal_ratio_le`, `New.Data.CriticalPair.stickelbergerChar`)
@@ -1052,8 +1247,9 @@ Let `D` be the data, `ℓ` a prime, `ι : ℂ ≅ ℚ̄_ℓ`, and `R_i` (`i` in 
 3. (c) for every ramified pair `(ν, z)` and every sign `s`, `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`, the Euler
    factors at the chosen places, in the numerator also at `Q`, and at their conjugates being omitted.
 
-*Needs:* 2.7, 5.1, 5.2, 5.3; CongruencesOfTwistedThetaLifts (main summands; the crystalline Selmer length with divisible
-coefficients; auxiliary twists; the number `e'_ℓ`); OneSidedPrimeSumBoundsAndAdmissibleData (the data: `m`-fold twists).
+*Needs:* 2.7, 5.1, 5.2, 5.3; CongruencesOfTwistedThetaLifts §1.3 (main summands), §1.5 (the crystalline Selmer length with
+divisible coefficients; the number `e'_ℓ`), §4.1 (auxiliary twists);
+OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 
 [ShortProof], `New/Congruences/Selmer/TwistingTheorem.lean` (`New.Selmer.exists_mFoldTwist_hasDivisibleSelmerLengthLe`,
 `New.Selmer.SelmerDatum.TwistedLengthLe.hasDivisibleSelmerLengthLe`)
