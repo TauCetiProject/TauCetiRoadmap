@@ -1428,8 +1428,8 @@ these points being dense in `S`; for each `(f, b)` a model (6.2) of the object a
 Let `R` be the localisation of `𝓞_E` at a submonoid of non-zero-divisors, and `D` good over `R` (3.2). Then a universal
 family for `D` over `R` exists.
 
-*Needs:* 3.4, 3.6, 5.5, 6.5, 6.7, 7.3, 7.5 (a) (by its proof, which holds for the points of any theta family given by
-modelled objects), 7.6 (a) (the first assertion), 7.6 (b).
+*Needs:* 3.4, 3.6, 5.5, 6.5, 6.7, 7.3, 7.5 (a) (for the theta family on the closure of two points), 7.6 (a) (the first
+assertion), 7.6 (b).
 
 Relation to PELModuli §§M2.8–M2.9: for the unitary data of §M5.5 and a neat level, those sections give a smooth separated
 algebraic space of finite type with a universal object, which represents the moduli problem `M_H` of §M1.7, over the
@@ -1463,7 +1463,12 @@ Let `𝒰` be a universal family for `D` over `R` in the sense of 7.4, with abel
 `𝔪 ∈ 𝓞_E` and `ν ∈ ℕ`, a moduli point `a = (x, J, P)` with `ν` marked vectors determines a complex point `[a]_𝔪` of the
 fibre power of `𝒜` over `S` indexed by the nonzero `𝔪`-torsion classes and `{1, …, ν}`: the object modelled on
 `(x, J)`, its nonzero `𝔪`-torsion points and the images of the `P_i`.
-(a) `[a]_𝔪 = [b]_𝔪` if and only if `a ≅ b` at level `K(𝔑) ∩ K(𝔪)` (3.1).
+(a) Let `𝒳` be any theta family for `D` (6.1), over any scheme over `𝓞_E`, and `b = (x′, J′, P′)` a second moduli point
+with `ν` marked vectors. Let `s` and `t` be complex points of the fibre power of the abelian scheme of `𝒳`, indexed as
+above, given by an object over `ℂ` modelled (6.2) on `(x, J)` with its nonzero `𝔪`-torsion points and the images of the
+`P_i`, and by an object over `ℂ` modelled on `(x′, J′)` with its nonzero `𝔪`-torsion points and the images of the
+`P′_i`. Then `s = t` if and only if `a ≅ b` at level `K(𝔑) ∩ K(𝔪)` (3.1). In particular `[a]_𝔪 = [b]_𝔪` if and only
+if `a ≅ b` at that level.
 (b) At `𝔪 = 1` the fibre power `Z_ν` (with `ν` factors) is smooth over `R` of relative dimension `n − 1 + ν·n·f`, the
 points `[a]_1` are dense in it, and for each `α ∈ 𝓞_E^ν` an endomorphism `m_α` of `Z_ν` sends `[a·(g, 1)]_1` to
 `[a·(g, α)]_1` for all `g ∈ GU⁺`.

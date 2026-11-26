@@ -35,10 +35,11 @@ character (`TauCeti.LFunctions.heckeLFunctionC`). What each headline needs beyon
   finite order, through their ray class characters.
 * The `ℓ`-adic avatar (9.1): the avatar `r_θ`, built from the Artin map of 2.2 and the existence
   theorem 2.3 (c). Tau Ceti has algebraic Hecke characters
-  (`TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic`) but not their `ℓ`-adic characters. Its
-  local behaviour (finite type, Hodge–Tate jumps, polynomials killing Frobenius on the periods of
-  CrystallineRepresentationsAndKisinModules §3.1, for which neither library has the period ring
-  `B_max`) is GaloisRepresentationsOfUnitaryEigenforms §6.4 (e).
+  (`TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic`) but not their `ℓ`-adic characters. The
+  local behaviour of `r_θ` (finite type, Hodge–Tate jumps, polynomials killing Frobenius on the
+  periods of CrystallineRepresentationsAndKisinModules §3.1, for which neither library has the
+  period ring `B_max`) is GaloisRepresentationsOfUnitaryEigenforms §6.4 (e), which states it for CM
+  fields containing a primitive `5040`-th root of unity.
 * The odd classes (10.7): the module `Sha_e(O, ν)` of 10.1, cocycles of the absolute Galois group of
   a CM field with values in `(O/ℓ^ν)(−e)`, unramified outside `ℓ`, with conditions on the inertia
   and decomposition groups above `ℓ` and odd under complex conjugation. It is a definition that

@@ -26,12 +26,12 @@ character with integral angular exponents, the partial Euler product, as a funct
 with a function analytic at `1`, its values at the primes of degree one have mean `−m`, `m ∈ ℕ`, and it has no zero on
 `[1, ∞)` if `ψ² ≠ 1`. (4) *The `ℓ`-adic avatar* (9.1): over a totally complex field, the `ℓ`-adic character of an
 algebraic Hecke character, given on Artin symbols by the character and its infinity type, and compatible with
-restriction to CM extensions; its local behaviour at every finite place, those above `ℓ` included, is
-GaloisRepresentationsOfUnitaryEigenforms §6.4 (e). (5) *Odd classes* (10.7): for a
-CM field `E ⊂ ℚ(μ_N)` and `t ≥ 0` there is an integer `0 < X ≤ 2^{4(N+t+3)^{27}}·h_E` whose valuation bounds, at every
-prime `ℓ` (`2` included), the length of the module of odd cocycles of `G_E` in `O/ℓ^ν(−e)` unramified outside `ℓ` and
-trivial on the elements of the decomposition groups above `ℓ` with trivial cyclotomic character, for all `e < t` and
-all `ν`.
+restriction to CM extensions; its local behaviour at every finite place, those above `ℓ` included, is stated for CM
+fields containing a primitive `5040`-th root of unity in GaloisRepresentationsOfUnitaryEigenforms §6.4 (e). (5) *Odd
+classes* (10.7): for a CM field `E ⊂ ℚ(μ_N)` and `t ≥ 0` there is an integer `0 < X ≤ 2^{4(N+t+3)^{27}}·h_E` whose
+valuation bounds, at every prime `ℓ` (`2` included), the length of the module of odd cocycles of `G_E` in `O/ℓ^ν(−e)`
+unramified outside `ℓ` and trivial on the elements of the decomposition groups above `ℓ` with trivial cyclotomic
+character, for all `e < t` and all `ν`.
 
 The roadmap is used by the roadmaps of the lower bound: CongruencesOfTwistedThetaLifts (odd classes, relations modulo
 `ℓ`, Selmer modules, avatars) and SelmerBoundsForAnticyclotomicTwists (relations, Selmer cocycles, crystalline local
@@ -1503,8 +1503,10 @@ Let `K` be a totally complex number field, `ℓ` a prime and `ι : ℂ ≅ ℚ̄
 
 (a) *Existence.* There is a homomorphism `θ ↦ r_θ` from the algebraic Hecke characters of `K` (7.5) to the continuous
 characters `G_K → ℚ̄_ℓ^×` with `r_θ(g) = ι(θ(x))·∏_τ (ι∘τ)_𝔸(x)^{n_τ}` whenever the class of `g` is `Art_K(x)`, where `(ι∘τ)_𝔸`
-is the extension of `ι∘τ` to finite adeles (1.2 (e)). For a CM field `L ⊃ K`, the avatar of `θ∘N_{L/K}` is the restriction of
-`r_θ` to `G_L`.
+is the extension of `ι∘τ` to finite adeles (1.2 (e)). For every number field `L ⊃ K`, the base change `θ∘N_{L/K}`
+(`N_{L/K}` the norm from the finite ideles of `L` to those of `K`), with the exponent `n_{τ|K}` at each embedding
+`τ : L → ℂ`, is an algebraic Hecke character of `L`; this holds for every number field `K`, totally complex or not.
+For a CM field `L ⊃ K`, the avatar of `θ∘N_{L/K}` is the restriction of `r_θ` to `G_L`.
 
 (b) For `E` a CM field containing a primitive `5040`-th root of unity, every split place `w` of `E` and every weight,
 there is an eigenform of that weight on the definite unitary group of rank one, spherical at `w`.
@@ -1881,9 +1883,10 @@ the norm of idele classes from an intermediate field; for 2.2 (c)).
 
 - `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
   `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/ClassField` (except
-  `GaloisCohomology/ShapiroCorestriction`, `Local/InvariantMap` and `Global/Chebotarev`) and `src/Lib/Cyclotomic`, with
-  declarations of `src/Lib/PadicHodge/Characters`, `src/Lib/GaloisRep/Main/SelmerModules`,
-  `src/Lib/General/Algebra/CartanMap` and `src/Lib/Weil/Construction/WeilData`.
+  `GaloisCohomology/ShapiroCorestriction`, `Local/InvariantMap` and `Global/Chebotarev`, and the two theorems on the
+  local behaviour of avatars in `Avatar/LocalGlobalCompatibility`, which GaloisRepresentationsOfUnitaryEigenforms
+  §6.4 (e) states) and `src/Lib/Cyclotomic`, with declarations of `src/Lib/PadicHodge/Characters`,
+  `src/Lib/GaloisRep/Main/SelmerModules`, `src/Lib/General/Algebra/CartanMap` and `src/Lib/Weil/Construction/WeilData`.
 - Artin and Tate, *Class Field Theory* (1968), ch. X.
 - Atiyah and Wall, in Cassels–Fröhlich (1967), IV §8.
 - G. Banaszak, W. Gajda, *Euler systems for higher K-theory of number fields*, J. Number Theory 58 (1996).

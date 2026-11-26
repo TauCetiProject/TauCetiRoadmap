@@ -1026,7 +1026,7 @@ data `(w, A, s)`, and (b) if `w′, w̄′ ∉ S`, `r` spherical above `w′` wi
 *Needs:* 1.1, 1.3, 4.3, 4.5, 6.1; AbelianSchemesWithThetaStructuresAndTheirCohomology §§3.7, 7.4, 8.1, 8.4, 9.2, 9.3,
 9.6, 9.8 (existence of the universal theta family, PEL models, definite forms, eigensystem representations);
 IdelicReciprocityCountsAndCyclotomicClassGroups §§7.5, 9.1, 9.2
-(algebraic Hecke characters; their base change `θ∘N` along the norm, from 9.1 (a); twists by avatars).
+(algebraic Hecke characters; their base change `θ∘N` along the norm, from §9.1 (a) there; twists by avatars).
 
 [ShortProof], `Lib/GaloisRep/Main/SeedRepresentation` (`New.GaloisRep.exists_frame_extension`, `New.GaloisRep.exists_central_eigenform`, `New.GaloisRep.isSplitPrimeToDisc_below_of_prime_norm`, `New.GaloisRep.centralChar_mem_algHeckeChars_and_charUnramifiedAt`, `New.GaloisRep.exists_rep_of_cuspidal_type`)
 
@@ -1528,7 +1528,9 @@ On Tau Ceti's main branch, later than the revision pinned here:
 ## References
 
 - `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
-  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/GaloisRep`.
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/GaloisRep`, with the local behaviour of
+  avatars in `src/Lib/ClassField/Avatar/LocalGlobalCompatibility` and `New.GaloisRep.AvatarCompatAt` of
+  `src/Lib/PadicHodge/Characters` (§6.4 (e)).
 - J. Arthur, L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Ann. of Math.
   Studies 120 (1989).
 - T. Barnet-Lamb, T. Gee, D. Geraghty, R. Taylor, *Local-global compatibility for l = p, II* (2014).

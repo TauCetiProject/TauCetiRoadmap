@@ -1462,8 +1462,8 @@ On Tau Ceti's main branch, later than the revision pinned here:
 
 - `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
   `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/Lib/PadicHodge`, apart from the `ℓ`-adic
-  avatars of algebraic Hecke characters in `Lib/PadicHodge/Characters.lean`, which
-  IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 states.
+  avatars of algebraic Hecke characters in `Lib/PadicHodge/Characters.lean` and their local behaviour, which
+  IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 and GaloisRepresentationsOfUnitaryEigenforms §6.4 (e) state.
 - L. Berger, *Limites de représentations cristallines*, Compositio Math. 140 (2004), 1473–1498.
 - B. Bhatt, M. Morrow, P. Scholze, *Integral p-adic Hodge theory*, Publ. Math. IHÉS 128 (2018).
 - B. Bhatt, P. Scholze, *Prismatic F-crystals and crystalline Galois representations* (2023).
