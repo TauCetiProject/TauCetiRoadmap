@@ -112,6 +112,8 @@ Let `S`, `T` be finite-dimensional complex inner product spaces and `A : S → T
   if for every subspace `F ⊆ W`, with `α = dim F / dim W` (`α = 0` when `W = 0`), some `s ∈ Θ` has
   `dim B_s⁻¹(F) ≤ ((1 + α)/2 + η)·dim V`.
 
+*Needs:* none.
+
 [ShortProof], `New/Spanning/SecondMoment/FewTranslates.lean` (`New.hilbertSchmidtNorm`, `New.IsNearIsometry`,
 `New.IsSpread`)
 
@@ -206,6 +208,9 @@ component at every chosen place is `1`. The spaces of principal forms of `V` are
   at `w` and `w̄`; at the other `(w, i)` put `T_{w,i} = 0`.
 - An *eigensystem* is a function `p` on pairs `(w, i)`; the eigenpart `V_p` is the space of principal forms `y` on `V`
   with `T_{w,i} y = p(w, i)·y` for all `(w, i)`.
+
+*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `Ḡ` over the chosen places, there `𝖦`), §2.7 (the forms of
+principal level and the level `J_M`); ShortGRH background (finiteness of spaces of forms of a level).
 
 [ShortProof], `New/Spanning/Multiplicities/HeckeEigensystems.lean` (`New.Data.sphericalAlgebra`,
 `New.Data.heckeAlgebra`, `New.Data.IsSplitOffLevel`, `New.Data.heckeOperator`, `New.Data.eigenPart`)
@@ -354,6 +359,8 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
   `(F ∗ φ)(y) = ∫ φ(a⁻¹)F(ya) da`.
 
+*Needs:* no section; the background results are named in the statement.
+
 [ShortProof], `New/Spanning/Bessel/Basic.lean` (`New.besselLength`, `New.frameBox`, `New.frameDisc`,
 `New.RealPlace.gramDiscReal`, `New.Shape.openCellConst`, `New.scaledBesselLength`); `New/Spanning/Bessel/Average.lean`
 (`New.Shape.besselGraph`, `New.Shape.besselGraphMeasure`)
@@ -421,6 +428,8 @@ Fix a shape, `b ≥ 1`, an integer `f ≥ 1`, a finite nonempty set `I` and a un
 - A *Bessel system* with parameters `(b, f)`: a finite nonempty `I`, continuous `W`, `W♭ : G₁ → ℂ^I`, a number `deg > 0`
   and an irreducible type `ρ` (every matrix commuting with `ρ` is scalar), such that `(W, W♭)` is a cut pair, `W` has a
   Schur bound `(P, #I/deg)` for every `P ≥ b⁵`, `b ≥ 8r`, and `W♭` has local bounds with degree `deg`.
+
+*Needs:* 3.1; RemainingAndMainTermsOfSecondMoments §6.1 (sieve systems).
 
 [ShortProof], `New/Spanning/Bessel/Basic.lean` (`New.IsDecayMajorant`, `New.IsCutPair`, `New.RealPlace.HasSchurBound`,
 `New.HasLocalBounds`, `New.normalizedOrbitalIntegral`, `New.BesselSystem`)
@@ -737,6 +746,8 @@ coordinates; the index of `ι⁻¹(K)` in the stabiliser of the standard lattice
 with `#Ū = M^{fϱ(2k+2ϱ+1)}`, `c_S = (π^k/((k − 1)!N^k))^f·|disc E|^{1/4}·vol(Ô)^k`, and `ν`, `Λ`, `𝒟_main`, `𝒟_id`, `deg`,
 `#Coord` as in 4.2.
 
+*Needs:* 3.1, 3.3.
+
 [ShortProof], `New/Spanning/Unfolding/Setup.lean` (`New.Filling`, `New.Filling.IsAdmissible`, `New.Filling.G`,
 `New.Filling.GFin`, `New.Filling.latticeStabilizer`, `New.Filling.reduction`, `New.Filling.principalLevel`,
 `New.Filling.reducedImage`, `New.Filling.realM`, `New.Filling.basisScale`, `New.Filling.ratToInf`,
@@ -771,6 +782,8 @@ Let `𝔉` be filling data.
   rational `u ∈ 𝖴 ∩ γ𝖴γ⁻¹`. A set `T` is *stable* if `u⁻¹γu′ ∈ T ⟺ γ ∈ T` for all rational `u, u′ ∈ 𝖴`.
 - The *link* of `γ` is the space of pairs (class of `t`, class of `γ⁻¹t`) in `(X₀ ⊕ Ez)²` for `t` orthogonal to
   `⟨e₁, …, e_ϱ⟩` and its image under `γ`.
+
+*Needs:* 3.1, 3.2, 3.3, 4.1.
 
 [ShortProof], `New/Spanning/Unfolding/Setup.lean` (`New.Filling.Classes`, `New.Filling.termsOver`,
 `New.Filling.classUnipotent`, `New.Filling.classUnipotent₀`, `New.Filling.IsResidueDomain`, `New.Filling.classCutoff`,
