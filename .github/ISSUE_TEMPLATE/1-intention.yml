@@ -80,6 +80,7 @@ body:
         - ArtinRepresentations
         - AssociationSchemes
         - AsymptoticExpansions
+        - AsymptoticSpectra
         - AutomorphicBundles
         - AutomorphicBundlesPartII
         - AutomorphicCongruences
@@ -638,6 +639,7 @@ body:
         - TorsionCohomologyInfrastructure
         - TracesOnCStarAlgebras
         - TropicalAndBerkovichArithmetic
+        - TuttePolynomialAndArrangements
         - TwistedAutomorphicDescents
         - TypeAHeckeAlgebras
         - UniversalApproximation
