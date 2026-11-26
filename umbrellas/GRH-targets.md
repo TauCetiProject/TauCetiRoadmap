@@ -651,7 +651,7 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 ## BanachSpaceTheory
 - [ ] `BanachSpaceTheory.B1` — §B1 Duality and weak topologies (needs: none)
 - [ ] `BanachSpaceTheory.B2` — §B2 Weak compactness and reflexivity (needs: none)
-- [ ] `BanachSpaceTheory.B5` — §B5 Function spaces and weak compactness (needs: BanachSpaceTheory.B2, SelfAdjointSpectralTheory.SA-B81)
+- [ ] `BanachSpaceTheory.B5` — §B5 Function spaces and weak compactness (needs: none)
 
 ## BelyiMaps
 - [ ] `BelyiMaps.0.1` — §0.1 The carrier (needs: none)
@@ -1905,9 +1905,6 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 
 ## NewtonPolygons
 - [ ] `NewtonPolygons.1.1` — §1.1 From multiplicative to additive values (needs: none)
-
-## OperatorTheory
-- [ ] `SelfAdjointSpectralTheory.SA-B81` — §SA-B81 Scalar vector-integral linearity (needs: none)
 
 ## PDE
 - [ ] `PDE.1.3` — §1.3 [A3] Agreement with the Bessel-potential scale (needs: PDE.2.3)

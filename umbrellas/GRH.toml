@@ -2129,12 +2129,6 @@ sections = [
 ]
 
 [[area]]
-name = "OperatorTheory"
-sections = [
-  "SelfAdjointSpectralTheory §SA-B81",
-]
-
-[[area]]
 name = "PDE"
 sections = [
   "§1.3",
