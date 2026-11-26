@@ -45,17 +45,20 @@ online; the targets below state the corrected forms and say where they differ.
 
 Layer 1 fixes the consumed core and adds what it lacks: the phase shift as a function with a
 product formula, the normalising constant `C_ℓ(η)`, the Whittaker forms that connect the
-definitions to SpecialFunctionsConfluent, and the cross-product of consecutive orders. Layer 2 is
-the three-term recurrence in `ℓ` and the ladder relations, and from Pincherle's theorem the
-continued fraction for `F′_ℓ/F_ℓ`. Layer 3 is the origin: the power series of `F_ℓ`, the
-logarithmic series of `H^±_ℓ`, the leading behaviour of `G_ℓ`, and `η = 0`. Layer 4 is the
-integral representations, read off from the Euler and Laplace integrals of the Kummer functions,
-and the expansions in spherical Bessel functions and in `I_k`, `J_k` of `2(2|η|ρ)^{1/2}`. Layer 5
-is the full asymptotic expansion for large `ρ` and the limiting forms for large `|η|`. Layer 6
-defines `f`, `h`, `s`, `c`, proves their Wronskians, connects them with `F_ℓ`, `G_ℓ` and with the
-Whittaker functions, and gives their recurrences, power series and the limit `ε → 0`. Layer 7
-identifies the bound states. The `**Checks.**` and `### Examples` of each layer are statements to
-prove; they test the conventions on explicit values.
+definitions to [SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md), and the
+cross-product of consecutive orders. Layer 2 is the three-term recurrence in `ℓ` and the ladder
+relations, and from Pincherle's theorem the continued fraction for `F′_ℓ/F_ℓ`. Layer 3 is the
+origin: the power series of `F_ℓ`, the logarithmic series of `H^±_ℓ`, the leading behaviour of
+`G_ℓ`, and `η = 0`. Layer 4 is the integral representations, read off from the Euler and Laplace
+integrals of the Kummer functions, and the expansions in spherical Bessel functions and in `I_k`,
+`J_k` of `2(2|η|ρ)^{1/2}`. Layer 5 is the full asymptotic expansion for large `ρ` and the limiting
+forms for large `|η|`. Layer 6 defines `f`, `h`, `s`, `c`, proves their Wronskians, connects them
+with `F_ℓ`, `G_ℓ` and with the Whittaker functions, and gives their recurrences, power series and
+the limit `ε → 0`. Layer 7 identifies the bound states. Two targets need a later layer, so the
+layers are not in build order there: the cross-product of 1.4 is proved after 2.1, and the
+large-`|η|` forms of 5.2 after 6.1, 6.3 and 6.4; neither of those uses 1.4 or Layer 5. The
+`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions on
+explicit values.
 
 ## Conventions
 
@@ -102,8 +105,11 @@ h(ε, ℓ; r) = Γ(ℓ + 1 − κ)/(πκ^ℓ) · (W_{κ,ℓ+½}(2r/κ)
 
   (DLMF 33.14.7). `h` is real; `coulombEnergyH` takes the real part of the complex expression, so
   that it is real valued by definition. Its junk values are at `ε = 0` and at the poles
-  `ε = −1/n²`, `n > ℓ`, of `Γ(ℓ + 1 − κ)` for `r > 0`; theorems about `h` exclude them. With
-  `B(ε, ℓ) = A(ε, ℓ)/(1 − e^{−2π/ε^{1/2}})` for `ε > 0` and `B = A` for `ε < 0`,
+  `ε = −1/n²`, `n > ℓ`, of `Γ(ℓ + 1 − κ)` for `r > 0`; theorems about `h` exclude them. For
+  `ε < 0`, `r < 0` the term with `M_{κ,ℓ+½}` is absent (`S = 0`), also where `Γ(ℓ + 1 + κ)` has
+  a pole (`κ = −n`, `n > ℓ`); there `h` is the first term alone, a genuine value admitted by the
+  Wronskian of 6.2 and the series of 6.4. The Lean definition agrees, since Mathlib's `Γ` is `0`
+  at its poles. With `B(ε, ℓ) = A(ε, ℓ)/(1 − e^{−2π/ε^{1/2}})` for `ε > 0` and `B = A` for `ε < 0`,
   `s = (B/2)^{1/2} f` and `c = (2B)^{−1/2} h` (DLMF 33.14.9–33.14.10), where `B > 0`.
 - **Whittaker functions** are SpecialFunctionsConfluent's `M_{κ,μ}`, `W_{κ,μ}` on the principal
   branch, with `W_{κ,μ}(e^{iπ}x)` for `x > 0` read on the logarithmic plane
@@ -351,13 +357,13 @@ H^±_ℓ = e^{±iθ_ℓ}/((2ℓ + 1)! Γ(−ℓ ± iη)) · ( ∑_{k≥0} (a)_k/
   Mathlib does, the right side is `0`, while `H⁺_0(0, ρ) = e^{iρ}`.
 - At `η = 0`, `ℓ = 0`: `G_0 = cos ρ → 1 = 1/C_0(0)`.
 
-*Suggested proof:* the logarithmic case of `U` with integer `b = 2ℓ + 2`
-(SpecialFunctionsConfluent 1.4) in the definition of `H^±_ℓ`, with `a = ℓ + 1 ± iη` and
-`z = ∓2iρ`; for `η ≠ 0`, `a` is not an integer, so `Γ(a − b + 1) = Γ(−ℓ ± iη)` and the
-`(1 − a)_k` are nonzero.
+*Suggested proof:* the logarithmic series of `U` with integer `b = 2ℓ + 2` (DLMF 13.2.9,
+QuantumFoundations §9.4, consumed for `kummerU` through SpecialFunctionsConfluent 1.4 and 2.1)
+in the definition of `H^±_ℓ`, with `a = ℓ + 1 ± iη` and `z = ∓2iρ`; for `η ≠ 0`, `a` is not an
+integer, so `Γ(a − b + 1) = Γ(−ℓ ± iη)` and the `(1 − a)_k` are nonzero.
 
-*Needs:* 1.1–1.3, 3.1; SpecialFunctionsConfluent 1.4; Mathlib `Complex.digamma`,
-`ascPochhammer`.
+*Needs:* 1.1–1.3, 3.1; SpecialFunctionsConfluent 1.4, 2.1; QuantumFoundations §9.4 (DLMF
+13.2.9); Mathlib `Complex.digamma`, `ascPochhammer`.
 
 ### 3.3 The case `η = 0` and small `η`
 
@@ -661,7 +667,7 @@ other forms follow by substitution into the definitions of `s` and `c`.
   `−0.261191977826202`, and at `(1, 0.8, 2.1)` give `0.503700805561556` and `1.44673925810598`.
 - At `ε = 0.3`, `ℓ = 1`, `r = −2.5`: `s = 8.88670595989257` and `c = −0.0196166796892146`;
   negative control: the printed 33.16.15 gives `0.0286907427107813` and `6.07609451120757`.
-- At `ε = −0.13`, `ℓ = 1`, `r = 3`: `s = 0.747984640574983` and `c = −0.0544224046489822`;
+- At `ε = −0.13`, `ℓ = 1`, `r = 3`: `s = 0.747984640574983` and `c = −0.0544224046489816`;
   negative control: the printed 33.16.17 gives `s = 0.528905011573953`.
 - At `ε = −0.13`, `ℓ = 1`, `r = −3`: `s = 16.3461015328751`, `c = −0.00949656898516835`; negative
   control: the printed 33.16.18 gives `1994.68443306155` and `−7.78004177279628·10⁻⁵`.
@@ -725,13 +731,14 @@ the integer `2ℓ + 1`: substituting the right side into the equation of 6.1 giv
 of the `γ_k`, `β_k`, `δ_k` for `k ≥ 2`, so the right side `u` solves the equation for `r ≠ 0`.
 Its leading term `(2ℓ)!(2r)^{−ℓ}/π` against `α₀ r^{ℓ+1}` gives `𝒲{u, f} = 2/π`, so by 6.2
 `u − h = c f` for a constant `c` on each side of `r = 0`. The coefficient of `r^{ℓ+1}` in the
-logarithmic expansion of `W_{κ,ℓ+½}(2r/κ)` (the logarithmic case of `U` with `b = 2ℓ + 2`,
-SpecialFunctionsConfluent 1.4) and of `M_{κ,ℓ+½}(2r/κ)` in the definition of `h` is `δ₀`, which
-gives `c = 0`. For the limit `ε → 0`, the series: `A` and the `γ_k`, `δ_k` are polynomials in
-`ε`, and the digamma term tends to `2 ln|2r|`. It is not analytic at `0`: at `ℓ = 0`, `ε > 0`,
-the digamma term minus `2 ln|2r|` is `ln ε + Re ψ(1 + iy) + Re ψ(iy)` with `y = ε^{−1/2}`, whose
-asymptotic series `∑_k (−1)^{k+1} B_{2k} ε^k/k` has radius `0`; a function analytic at `0` would
-have its Taylor series as asymptotic expansion.
+logarithmic expansion of `W_{κ,ℓ+½}(2r/κ)` (the logarithmic series of `U` with `b = 2ℓ + 2`,
+DLMF 13.2.9, QuantumFoundations §9.4, through SpecialFunctionsConfluent 1.4 and 2.1) and of
+`M_{κ,ℓ+½}(2r/κ)` in the definition of `h` is `δ₀`, which gives `c = 0`. For the limit `ε → 0`,
+the series: `A` and the `γ_k`, `δ_k` are polynomials in `ε`, and the digamma term tends to
+`2 ln|2r|`. It is not analytic at `0`: at `ℓ = 0`, `ε > 0`, the digamma term minus `2 ln|2r|` is
+`ln ε + Re ψ(1 + iy) + Re ψ(iy)` with `y = ε^{−1/2}`, whose asymptotic series
+`∑_k (−1)^{k+1} B_{2k} ε^k/k` has radius `0`; a function analytic at `0` would have its Taylor
+series as asymptotic expansion.
 
 **Checks.**
 - At `ε = 0.3`, `ℓ = 1`, `r = 1.7` the residual of the recurrence is below `10⁻¹⁵`; negative
@@ -769,8 +776,8 @@ have its Taylor series as asymptotic expansion.
   value and move away.
 
 *Needs:* 2.1, 6.1–6.3 (6.2, the Wronskian, only for the series of `h`);
-SpecialFunctionsConfluent 1.4; SpecialFunctionsBessel, its Conventions; Mathlib
-`Complex.besselJ`, `Complex.digamma`.
+SpecialFunctionsConfluent 1.4, 2.1; QuantumFoundations §9.4 (DLMF 13.2.9); SpecialFunctionsBessel,
+its Conventions; Mathlib `Complex.besselJ`, `Complex.digamma`.
 
 ## Layer 7: bound states
 
@@ -854,7 +861,7 @@ Contributors should not attempt it under this roadmap.
 - **The transition region and uniform expansions for large `|η|`** (DLMF 33.12, p. 747, and
   33.20(iv), p. 753), the `G_ℓ` parts of 33.10.3–33.10.9, and the expansions of 33.9.6–33.9.7.
 - **The continued fraction CF2** for `H^±′_ℓ/H^±_ℓ` (DLMF 33.8.2, p. 745), which holds
-  numerically but whose convergence proof is not in the sources read.
+  numerically but whose convergence this roadmap does not prove.
 - **Complex `ℓ` and `η`** (DLMF 33.13, p. 748), and the asymptotics of `f`, `h` for small `|ε|`
   (DLMF 33.20.3–33.20.5) and for large `r` (DLMF 33.21, p. 753).
 - **Physical applications** (DLMF 33.22): the Schrödinger equation in other variables and the
@@ -886,7 +893,8 @@ theory, the radial Laguerre normalisation and the Coulomb transform. `Suggested.
 definitions out as local copies of §9.5's formulas, since §9.5 gives them no Lean names. §9.5
 cites "DLMF 33.10–33.11" for its unit-amplitude asymptotics; this roadmap reads that as the
 leading terms (33.10.1–33.10.2) and owns the full expansion of 5.1 and the large-`|η|` forms of
-5.2. QuantumFoundations §9.4 owns Tricomi's `U`; SpecialFunctionsConfluent owns its form
+5.2. QuantumFoundations §9.4 owns Tricomi's `U`, with its logarithmic series at integer `b`
+(DLMF 13.2.9); [SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md) owns its form
 `kummerU` on the logarithmic plane, whose agreement with §9.4's `U` is its 2.1, and the Whittaker
 functions; SpecialFunctionsParabolicCylinder 1.4 owns Kummer's transformation of `𝐌`;
 LaguerreJacobi owns the Laguerre polynomials; SpecialFunctionsBessel owns the Bessel functions.
@@ -907,8 +915,10 @@ LaguerreJacobi owns the Laguerre polynomials; SpecialFunctionsBessel owns the Be
   `F_ℓ = sin θ_ℓ + o(1)`, `G_ℓ = cos θ_ℓ + o(1)` as `ρ → ∞`. For 1.1 and every later layer.
 - §9.5: the radial normalisation
   `∫₀^∞ x^{α+1} e^{−x} (L^{(α)}_k(x))² dx = (2k + α + 1)Γ(k + α + 1)/k!`. For 7.2.
+- §9.4: the logarithmic series of Tricomi's `U` at integer `b` (DLMF 13.2.9), carried to
+  `kummerU` by SpecialFunctionsConfluent 2.1. For 3.2 and 6.4.
 
-### From SpecialFunctionsConfluent
+### From [SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md)
 
 - Its Conventions and 1.4, 1.6: `kummerUBracket`, `kummerULog`, `kummerU`,
   `regularizedWhittakerM`, `whittakerM`, `whittakerW`, `whittakerWLog`, copied verbatim into
