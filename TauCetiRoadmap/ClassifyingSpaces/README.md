@@ -489,7 +489,11 @@ an isomorphism, B is fully faithful.
 
 *Needs:* (1.1), (1.2); Tau Ceti `TauCeti.PointedHomotopyCat`,
 `TauCeti.PointedHomotopyCat.fundamentalGroupFunctor`, `TauCeti.classifyingSpaceHomotopyFunctor`,
-`TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso`; Mathlib
+`TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso`,
+`TauCeti.classifyingSpaceFundamentalGroupMulEquiv`,
+`TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`,
+`TauCeti.instPathConnectedSpaceClassifyingSpace`, `TauCeti.instCWComplexClassifyingSpace`,
+`TauCeti.instT2SpaceClassifyingSpace`; Mathlib
 `CategoryTheory.Adjunction`, `CategoryTheory.ObjectProperty.FullSubcategory`.
 
 **Checks.**
@@ -510,9 +514,9 @@ the base point can be corrected without changing the induced map.
 
 ### Dependencies
 
-Only the pins: the pinned classifying-space directory, the killing tower, the homotopy
-extension property of skeleta, the basepoint-change lemmas and Whitehead's theorem, all named
-above. No other roadmap.
+Only the pins: the pinned classifying-space directory, the pointed homotopy category, the
+killing tower, the homotopy extension property of skeleta, the basepoint-change lemmas and
+Whitehead's theorem, all named above. No other roadmap.
 
 ## Layer 2: group homology and cohomology of a CW `K(G, 1)`
 
@@ -1076,6 +1080,10 @@ and by the heading of Stage 2, the cellular model. Each cited number resolves as
 - `HomologicalComplex.HomologySequence.δ_naturality`
   (`Mathlib/Algebra/Homology/HomologySequenceLemmas.lean`): a morphism of short exact sequences
   of complexes commutes with their connecting maps in homology. Used in the route of item 2.3.
+- `CategoryTheory.Adjunction` (`Mathlib/CategoryTheory/Adjunction/Basic.lean`) and
+  `CategoryTheory.ObjectProperty.FullSubcategory`
+  (`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`): the adjunction of item 1.4 and
+  the full subcategory on which it is stated.
 
 ### From Tau Ceti
 
@@ -1120,6 +1128,12 @@ file:
   `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace` (pointed homotopy
   classes of maps into a space without higher homotopy are the homomorphisms of fundamental
   groups) and `TauCeti.quotient_map_eq_quotient_map_comp_cellularClassifyingSpace`.
+- **The pointed homotopy category** (`TauCeti/AlgebraicTopology/Homotopy/PointedHomotopyCat.lean`):
+  `TauCeti.PointedHomotopyCat`, whose objects are the based spaces and whose morphisms are the
+  classes of based maps up to homotopy relative to the base point of the source, and
+  `TauCeti.PointedHomotopyCat.fundamentalGroupFunctor`, the fundamental group at the base point,
+  sending the class of a based map to the `FundamentalGroup.mapOfEq` it induces along its
+  base-point equation. Used in item 1.4.
 - **CW structures** (`CWComplex.lean`): `TauCeti.instCWComplexUniversalGSpace` (cells the
   simplices, enumerated by `TauCeti.universalGSpaceVertexOrder`), the free cellular action
   `TauCeti.instMulActionCellUniversalGSpace` with `TauCeti.instIsCancelSMulCellUniversalGSpace`
