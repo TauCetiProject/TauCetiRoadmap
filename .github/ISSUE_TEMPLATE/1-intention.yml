@@ -40,6 +40,7 @@ body:
         - AlgebraicCurves
         - AlgebraicKTheory
         - AlgebraicModularFormsAndSerreWeights
+        - AlgebraicModularFormsAndSerreWeightsPartII
         - AlgebraicModuliForArithmeticGeometry
         - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
@@ -79,6 +80,8 @@ body:
         - AssociationSchemes
         - AsymptoticExpansions
         - AutomorphicBundles
+        - AutomorphicBundlesPartII
+        - AutomorphicCongruences
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentations
         - AutomorphicGaloisRepresentationsPartII
@@ -298,6 +301,7 @@ body:
         - HeckeStacksAndLocalShtukas
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
+        - HeightsRationalPointsAndObstructionsPartII
         - HermitianKTheoryOfPoincareCategories
         - HiddenMarkovModels
         - HilbertModularForms
@@ -543,9 +547,11 @@ body:
         - SequentCalculusAndCutElimination
         - SerreModularityByCompatibleSystems
         - SerreWeightAndLevelOptimisation
+        - SheafConvolutionOnAbelianVarieties
         - ShimuraCompactifications
         - ShimuraData
         - ShimuraVarieties
+        - ShortGRH
         - SieveMethodsAndPrimePatterns
         - SmallRamificationAndAbelianVarietyBaseCases
         - SmallRamificationAndAbelianVarietyBaseCasesPartII
